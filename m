@@ -2,33 +2,35 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A93DC5DF88
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8FE81C5DF8B
 	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 06:31:44 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3142.1787034698732242466
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3326.1787034698953510541
  for <openembedded-core@lists.openembedded.org>;
  Mon, 17 Aug 2026 23:31:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=hWMuJKjV;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-2026081806313564396c782a00020764-cravcl@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2026081806313564396c782a00020764
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=ae58XCrI;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202608180631360b7346dd7700020755-oufiyo@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202608180631360b7346dd7700020755
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 18 Aug 2026 08:31:35 +0200
+        Tue, 18 Aug 2026 08:31:36 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=SM9s9Cox0kwTl1OuWt3EwU+trwHbErf3i93xeAhRHH8=;
- b=hWMuJKjVTK1tu9N4ENk7lTD2A8oOsKseyhkgO7PCBbOF+ogPNgUa7pa+aOf6WUrYjkly3G
- hXp2gBTFggSVa+kTk3leV0i1O4EIIgbu1HpfkQliX762v0wrgnY2dtnYWXX2p2mB0681D+g/
- UbE4RNyupEgRKCjrvGd3ATLM1dSNfx+W1R39nHB9D98msXQ8KPt4cpNBU8jQqr//59jDO14H
- J0Wt1OMkOlCBXdxZR/xdRDHgg1bPREq973oWvIcPD62fVPYXOXjBK1BB1gn+aG6g7KpHJmrm
- 7rA/wK1GHGbdPAAU7kxzMPLbutotR0/5brRIiWD6Vu6AcEeu1nL02udw==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=5VQ2D8P3tTzFlOGYHLE+KG4twPBVxqhSmR48g+AKgM4=;
+ b=ae58XCrIaW4R9h7gevvprImsTw6cErRoCrZkTd9Wct2WuhqQ+x9P0klY9OSketVJAuf6ty
+ qN871z3N60APD9xskWnZlR6n6eo6vAy+E/gDFjpXi1ELWb/qK0XkDJ6A0iSTiM1w8fx172a0
+ OTU/puuYMKp0D0OKiDaFByGPPInCxqT7BOuGZvC1YN1AGD63rsu8b4hH4eUFFGHnc5AUxM3I
+ 6JAMoXNJZi2fFyqnSr3NsmtqgagK8CnO6L9UHZYotR/TpYU+b3a6J797kj3olblT96mmirqM
+ vd9cBjKZMYLZoGidAZokHD7pOlykDg/gfFmjTFPWN/bFaPyDf3bKheIQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 00/14] devtool: ide-sdk: robust attach-mode debugging and test cleanup
-Date: Tue, 18 Aug 2026 08:30:39 +0200
-Message-ID: <20260818063120.73042-1-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 02/14] devtool: deploy-target: pass tar -m to avoid future timestamp warnings
+Date: Tue, 18 Aug 2026 08:30:41 +0200
+Message-ID: <20260818063120.73042-3-adrian.freihofer@siemens.com>
+In-Reply-To: <20260818063120.73042-1-adrian.freihofer@siemens.com>
+References: <20260818063120.73042-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,58 +39,42 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 06:31:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243656
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243654
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Changes from v1 to v2:
+devtool deploy-target tars up the build output and pipes it through
+ssh to the target, where it's extracted with "tar xv". If the
+target's clock is behind the host, tar prints a "time stamp ... is
+... in the future" warning per file, since the archived mtimes come
+from the host.
 
-On autobuilder the the test_devtool_ide_sdk_code_cmake and
-test_devtool_ide_sdk_code_meson tests failed with:
+Add -m (--touch) so tar sets mtimes to the current time on extraction
+instead of restoring them from the archive, avoiding the warning.
+Supported identically by GNU tar and BusyBox tar.
 
-File "/srv/pokybuild/yocto-worker/oe-selftest-armhost/build/layers/openembedded-core/meta/lib/oeqa/selftest/cases/devtool.py", line 3695, in _verify_launch_config
-    self.assertTrue(
-  File "/usr/lib/python3.12/unittest/case.py", line 727, in assertTrue
-    raise self.failureException(msg)
-AssertionError: False is not true : gdbserver did not report readiness on port 1234
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ scripts/lib/devtool/deploy.py | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-Probably this could happen when the attach tests start a gdbserver and then
-the once mode tests reuses the same port for gdbserver --once before the first
-gdbserver --multi released the port and terminated. This is fixed by using
-different ports for different debugging modes which can theoretically also be
-used concurently.
-
-Adrian Freihofer (13):
-  devtool: deploy-target: pass tar -m to avoid future timestamp warnings
-  oe-selftest: devtool deploy: use QEMU target commands
-  oe-selftest: devtool ide-sdk: Add new test classes for ide-sdk tests
-  devtool: ide-sdk: fix meson IntelliSense for gcc toolchain
-  ccp-example: fix PID file handling
-  devtool: ide-sdk: default to all modified recipes
-  devtool: ide-sdk: let gdbserver reuse the shared debug server wait
-    helper
-  oe-selftest: devtool ide-sdk: support $ in gdbserver task command
-  devtool: ide-sdk: attach via extended-remote
-  oe-selftest: devtool ide-sdk: wait for gdbserver readiness
-  oe-selftest: devtool ide-sdk: verify debugger shutdown
-  oe-selftest: devtool ide-sdk: use qemu.run for target checks
-  oe-selftest: devtool ide-sdk: verify attach debug workflow
-
-Alex Kiernan (1):
-  wpa-supplicant: Use wpa_supplicant.conf from ${S}
-
- .../recipes-test/cpp/files/cpp-example.init   |   5 +
- meta/lib/oeqa/selftest/cases/devtool.py       | 519 ++++++++-----
- .../wpa-supplicant/wpa_supplicant.conf        | 690 ------------------
- .../wpa-supplicant/wpa-supplicant_2.12.bb     |   3 +-
- scripts/lib/devtool/deploy.py                 |   5 +-
- scripts/lib/devtool/ide_plugins/__init__.py   | 111 ++-
- scripts/lib/devtool/ide_plugins/ide_code.py   | 160 ++--
- scripts/lib/devtool/ide_plugins/ide_none.py   |  44 +-
- scripts/lib/devtool/ide_sdk.py                |  18 +-
- 9 files changed, 522 insertions(+), 1033 deletions(-)
- delete mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/wpa_supplicant.conf
-
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index 8228d9914f..35ec0b1b4d 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -108,9 +108,10 @@ def _prepare_remote_script(deploy, destdir='/', verbose=False, dryrun=False, und
+         lines.append('mkdir -p `dirname $manifest`')
+         lines.append('mkdir -p $2')
+         if verbose:
+-            lines.append('    tar xv -C $2 -f - | tee $manifest')
++            # -m avoids "time stamp is in the future" warnings if the target's clock is behind
++            lines.append('    tar xvm -C $2 -f - | tee $manifest')
+         else:
+-            lines.append('    tar xv -C $2 -f - > $manifest')
++            lines.append('    tar xvm -C $2 -f - > $manifest')
+         lines.append('sed -i "s!^./!$2!" $manifest')
+     elif not dryrun:
+         # Put any preserved files back
 -- 
 2.55.0
 
