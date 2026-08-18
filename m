@@ -1,307 +1,770 @@
-Return-Path: <jaeyoon.jung@lge.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9ECAC5DF7D
-	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 09:54:50 +0000 (UTC)
-Received: from lgeamrelo12.lge.com (lgeamrelo12.lge.com [156.147.23.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5458.1787046882671119102
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84D32C5DF7D
+	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 12:00:31 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5733.1787048012743207593
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2026 02:54:44 -0700
+ Tue, 18 Aug 2026 03:13:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: lge.com, ip: 156.147.23.52, mailfrom: jaeyoon.jung@lge.com)
-Received: from unknown (HELO lgemrelse7q.lge.com) (156.147.1.151)
-	by 156.147.23.52 with ESMTP; 18 Aug 2026 18:54:40 +0900
-X-Original-SENDERIP: 156.147.1.151
-X-Original-MAILFROM: jaeyoon.jung@lge.com
-Received: from unknown (HELO sniperexo4.lge.com) (165.244.147.14)
-	by 156.147.1.151 with ESMTP; 18 Aug 2026 18:54:40 +0900
-X-Original-SENDERIP: 165.244.147.14
-X-Original-MAILFROM: jaeyoon.jung@lge.com
-Received: from unknown (HELO SE2P216CU007.outbound.protection.outlook.com) (40.93.138.29)
-	by 165.244.147.14 with ESMTP; 18 Aug 2026 18:54:40 +0900
-X-Original-SENDERIP: 40.93.138.29
-X-Original-SENDERCOUNTRY: unknown
-X-Original-MAILFROM: jaeyoon.jung@lge.com
-X-Original-RCPTTO: alex.kanavin@gmail.com,
-	openembedded-core@lists.openembedded.org
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=ddQZrIHp;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: wenwfu@qti.qualcomm.com)
+Received: from pps.filterd (m0279871.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67I8BV4Y1061914;
+	Tue, 18 Aug 2026 10:01:54 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=7HXKjREdcsB6ALhvSYFIHo1e
+	V3JsDB+BQF2YTklh7Sg=; b=ddQZrIHpJscR8CV60XW5JVdfgv0Nz35b1QYkeRLr
+	CAZiTRMO7WQV+jL5mF0pFYyO1jkvrh4RDw5ltvvjG/y6QG/7NiJ0yRVxl5fNipUv
+	8h8pDCEzEgYzOk2STSGvxbwVU3/BRvJDDjmL2r7L5WRBT2hulu4enJzCqnlsqx5C
+	xjtS/ud755GTEskgh2ayznp6Bj7NNK2Bbnsm6KQ6C3+Ryqp0y9nniLJFoejX7o14
+	p9+0A1FJagrwa1LFeIJc06FCkbNn3i7YvtlLwt3Cp2ibElQ0i6NOUmQCw+YoC4U4
+	Csxxl4Ha7mPzXY+scIKd+qHHoKkXMeIRzB0Ph9v0ckUffQ==
+Received: from ph0pr07cu006.outbound.protection.outlook.com (mail-ph0pr07cu00601.outbound.protection.outlook.com [40.93.23.89])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4fvp1eyj-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Tue, 18 Aug 2026 10:01:54 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rVE7EZDitqv6rgobRJfakUcAicjtOV5WkYF52iuHE8Dl7lZzcE56TNeCMlYbwYdCsDWdiXcOKpO1LQ20KlWpug7XYujf9jOZWwV/7yyyRriiDCqHWx2HQGozY0ZK9l51Vmb9AdMDqIG0Y4OVUk91ecDPxN8dGFrXNGGQmwPYDeNK+S7GxUQjBVrQ5LpyMJVn3PswP6PPYnJyYMsJweaEuV0GHTHX93Tw6ngHVfeKedIRh4cTqhWkUP8hij+OfxZCnMYEgPlAcUYPXdTmAGAiY9wyYGKm5G76vhUNHamf49XV+Uy0Y49B5tDHCBpMaqnqeNHydn0kswWRyBcId+eO4Q==
+ b=vQBDBt/w8ejnkr7O4DL+hEhGAzXDMMOYsHYQvBlLiDNKU3j7N6O0p4z4KsBNxvFrSQagxbXKeZ1r9ey5v0qR7xuBuzUICJ6TYd5AvEVEE4UYD7TtFLE7jQDFmveNphVLQyTatFGplDfhP9hhON5G0e6WRfd7AyPhi4h8C/PUo8khRdUuUvhV2isfq5+qOWfM8cmEazNnh9XCVeZjjWFp+3Z+2xeUFqJgdAd+7qLwOzrNTzauRsghxpxMZpYvUqnSsSxfnxTddV2gLM3rprrhbNe6BSWOEXL21StGNH2Qp9qsN+pXNpNHfE8beEL5JOdO0xPnXGr2pPV+Z06CEK5iMQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kkkstRmL4Ic4Xlx+Wmpw2LOi7KVB+V4ZZosZMQhhouE=;
- b=gsvNRweiNpaSl2VGjAUakyMWc8bnF+mAJK/3CBOStRQn8fZG4fCZe88aQT8mRmw7U4kNfT6yWwDp+IIJsWkSFYUL+914P2eAfz7fFG0oMYlKVPjz8XpC4Zs3kAVRIE0cK5dlJ+ezT2FhjT1Hg9VhCGmU9POxvkKBR1H//YP0gAbva1WUa9fhEtUmLI3RnDA/xhnpOY40bEyghSxQRk+GOZ1zHjl0dcYt4B1QidmLRsS6uDNR8pQAZsCmUnikKlDtW2IZ3AkIG9GjLZRd9LXlUEf5mQTzcEiBnuVMAivpJb1qf+cWsFg2266RpCvms5v06qQXCdLUoLCIcv43yYQuEQ==
+ bh=7HXKjREdcsB6ALhvSYFIHo1eV3JsDB+BQF2YTklh7Sg=;
+ b=BHoDYBdDqPuXoJ9qXPKfJfAPrio7YhctxTM/kAbBfh7yCzCZmorPQXOd80ubKzq1RVE5qKcdSAuiXKwPf8rBo2wIpDKh8Y0d+kC1pwfbVnuiULezHF3IAqXd+8Nza+8OmFyWAV5/XYKmB/nuyAt8Zy3Zgy1AJL5Q5MD8e/8y3iHQw3LhrwWIctwx4yIHY76JHvLXlstsCt3hDCxBeffK+/JkDCCZVlw5z560H7eXKwPuqx702h2NUBowK/WXV9XfI4IyZtB4DfZETfbojUo9bC+MG8D4TgpBbHRBzJ8BsYYkrky6ocOHdLG8ELNALNtyyP6WSDky3EDf29Jm/Zfe7g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=lge.com; dmarc=pass action=none header.from=lge.com; dkim=pass
- header.d=lge.com; arc=none
-Received: from PU4P216MB1133.KORP216.PROD.OUTLOOK.COM (2603:1096:301:72::13)
- by SEWP216MB889795.KORP216.PROD.OUTLOOK.COM (2603:1096:101:34d::13) with
+ smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
+ header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
+Received: from DS0PR02MB9197.namprd02.prod.outlook.com (2603:10b6:8:13e::9) by
+ LV5PR02MB10803.namprd02.prod.outlook.com (2603:10b6:408:305::18) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.17; Tue, 18 Aug
- 2026 09:54:39 +0000
-Received: from PU4P216MB1133.KORP216.PROD.OUTLOOK.COM
- ([fe80::b838:75f7:a447:d66e]) by PU4P216MB1133.KORP216.PROD.OUTLOOK.COM
- ([fe80::b838:75f7:a447:d66e%5]) with mapi id 15.21.0315.016; Tue, 18 Aug 2026
- 09:54:39 +0000
-From: =?utf-8?B?7KCV7J6s7JykL1Rhc2sgTGVhZGVyL1NXIFBsYXRmb3JtKOyXsCnshKDtlolQ?=
- =?utf-8?B?bGF0Zm9ybeqwnOuwnOyLpCBMaWdodHdlaWdodCBTeXN0ZW0gVGFzaw==?=
-	<jaeyoon.jung@lge.com>
-To: Alexander Kanavin <alex.kanavin@gmail.com>
-CC: "openembedded-core@lists.openembedded.org"
+ 2026 10:01:51 +0000
+Received: from DS0PR02MB9197.namprd02.prod.outlook.com
+ ([fe80::d5b6:c39c:5293:54f8]) by DS0PR02MB9197.namprd02.prod.outlook.com
+ ([fe80::d5b6:c39c:5293:54f8%4]) with mapi id 15.21.0339.007; Tue, 18 Aug 2026
+ 10:01:51 +0000
+From: Wenwen Fu <wenwfu@qti.qualcomm.com>
+To: Paul Barker <paul@pbarker.dev>,
+        "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] openssl: use nonarch_libdir for openssldir
-Thread-Topic: [OE-core] [PATCH] openssl: use nonarch_libdir for openssldir
-Thread-Index: AQHdK7/3HpXnx0T5SU2aYaGjewokULadZfsAgAYijeg=
-Date: Tue, 18 Aug 2026 09:54:39 +0000
+Subject: Re: [PATCH] initramfs-framework: add opt-in root-only udev trigger
+Thread-Topic: [PATCH] initramfs-framework: add opt-in root-only udev trigger
+Thread-Index: AQHdKj0P4kg1Ev2phEeVhCxHA2UrMbajh8uAgAAN8Og=
+Date: Tue, 18 Aug 2026 10:01:51 +0000
 Message-ID: 
- <PU4P216MB1133DD8A69E4310750E5EDA29AA62@PU4P216MB1133.KORP216.PROD.OUTLOOK.COM>
-References: <20260814073851.3797172-1-jaeyoon.jung@lge.com>
- <CANNYZj_4x7HQHqDbqtSHVvxEfFLEjFz3dwFo-5cSPsxBCPY5Dw@mail.gmail.com>
-In-Reply-To: 
- <CANNYZj_4x7HQHqDbqtSHVvxEfFLEjFz3dwFo-5cSPsxBCPY5Dw@mail.gmail.com>
-Accept-Language: en-US, ko-KR
-Content-Language: en-US
+ <DS0PR02MB919703469B88DE489E8BFC81EAA62@DS0PR02MB9197.namprd02.prod.outlook.com>
+References: <20260812092842.2060157-1-wenwfu@qti.qualcomm.com>
+ <501364c2da036830fd46896e7f8997e16d2848d2.camel@pbarker.dev>
+In-Reply-To: <501364c2da036830fd46896e7f8997e16d2848d2.camel@pbarker.dev>
+Accept-Language: en-US, zh-CN
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=lge.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: PU4P216MB1133:EE_|SEWP216MB889795:EE_
-x-ms-office365-filtering-correlation-id: 8e2eb4a9-120c-4e0e-e664-08defd0eb80d
+x-ms-traffictypediagnostic: DS0PR02MB9197:EE_|LV5PR02MB10803:EE_
+x-ms-office365-filtering-correlation-id: d8cabb5a-0c61-4872-b9a3-08defd0fb989
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|4022899009|366016|1800799024|23010399003|18002099003|22082099003|56012099006|38070700021|6133799003|11063799006|4143699003|10067099003;
+ BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|22082099003|18002099003|56012099006|8096899003|3023799007|38070700021|6133799003|11063799006|5023799004|4143699003|10067099003;
 x-microsoft-antispam-message-info: 
- L6+7mx4sFoQraq6NVz7+hrUmAy+IsqOiquInzfMkLpqSI+SC1njd0+kQjVaylv5y4mSzN4r60UQfFuegYZ5CTwxF66BF6zMx1wO/aR5UUgAq8YE5U9txjxwQI8UxXe8EDTZrS73NnfCTqtnLBjr0Wx9xeYuZco/qdeAvqEP/w0Vydt8i75gBvHpPSE6GLw+p9vORKXFLRMPbfFfklt3raYnxDs1Wkn2OvDF9wwEBMd4f/SfaV+/9b38sf3ZFQBIEULzopDwr2bIP4A/SEhJXC+vEevJw6sJGFfUoioslGTdxi4dXIK8bzK4aL87ob8YeeUUBa27BkFvs2trf6n8sP8bagwr4yD26dq/04EVsiEcyTrhzxKHCDVDHOQnXxh6PuNSc6oynw3ARi1D7rSjrfUwg8c7Xm8zrES2eeu7zQhZLnNocpaJRlRCFD7FA6OM/FNpD3pwW15v+PCtC2SsrnboeZRZnx/RDU2eiDZlPoml3P+3ryaGv4et9SVP+UjZ2mRpByYTJ3BhgZBgtSByEVvc9YDt+6mHQIbbJANeFpLRymC9ssi6+KXi/XA0WMo+XmhK0oPimbRqFPKlWA6pOXSfVgpmIrAOOnu5GE/JtHq4fzIQNx0MAuTDicJV7jtM27+aphO0Aflo+TZdL45CuhNU6FjqJPL78h46gshPeGxs=
+ YJ0zH9vzwz8sgKJd8/mSbI1vUdtWFz/KV6sCSLZynrgbXeQKj1IEkRe2TGxzidwGNuht5jA6jPB1jYmRWOBhD00bmO55+5cTz6nIaCS7DIcFmWmS/d5Og6rrV5IFxln6JNdcOXPHfcW4gXG3rrm/MYkD9gkTp/hA6TH7XLwLU8lQBiBsNddHgNTtBvqf0ij++Vs6uoAwGL16m0Y+U/M0NQaYwPMIWCKC66W6A+k8QWfzXtMBJiDU+w61HYXWiOc8fbnBBZS1X7zAkQmHTMKDIW6U3pTjgD5q8q9zmm9+8JxFTLfRUZfCrKnbGr+mr0gSIxPLAWQA9MCw4wraordK7dYxNjiMRaZpJnADm0/HyFQH4mbsaqdZ+zLuUGpyr1zR4VAzZDMjt/zzGCZU+zH5AkDuAZlK49jJkoGg6Nb2+A3KLuUUknvbrpdf+aVgCfu11VW9kTfR7X0fhzR/DfyLw8g+71+NGcfMLx6Ut+wvdXpOJowks2kLp1gjxe7twI6859TZiIhkeo2MO5PsOWSCeKN4k3pco5M/A8Yuk4L8YFYDYf09azPYF27tth5k2UWKLorzYLELdTQWGmpI4nnvWjxYHc5TwxJO9ayAGPQlEQCnED2FZ6hp2kBphfRGJxZA/LKfDhq+djBpW/nq6I7tFVm1fj9BOSSwYHX//iTMyruOzdnlqDSaEucdUfyTc3/jFU0/sLBXw3QBQF2rA0PhRYcjdQ3oNp/zDYSnq05PJE4=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:ja;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PU4P216MB1133.KORP216.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(4022899009)(366016)(1800799024)(23010399003)(18002099003)(22082099003)(56012099006)(38070700021)(6133799003)(11063799006)(4143699003)(10067099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR02MB9197.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(22082099003)(18002099003)(56012099006)(8096899003)(3023799007)(38070700021)(6133799003)(11063799006)(5023799004)(4143699003)(10067099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?dXpjRHhncHVoZ1N2NlNZWWlQd0xYeWMyUnJRMHp2aXVFWGgzOStLS3pKcGx3?=
- =?utf-8?B?R2E1WWkrN2pXWTJhNmZIU3pJYzd5anVtaGZrRXZrRVRTdG5QcTRFMnB1YmQy?=
- =?utf-8?B?WFRwOW05WlNOY0ZjSkpZeXZKbW9HaDRxUVcvdi9UMlNrYWw2OHp1M1VNd0lI?=
- =?utf-8?B?cng3K01YNE5GSldRQ01zUGt3bVdjOTdZOXhFRXp5UkptZWJVYVdjVWxGNDRa?=
- =?utf-8?B?SDMzVlBpR1o5bTNRMG9DempGQ09RN2I2Z0VidXgzNHN0TDJTa1QzbTVqSkUv?=
- =?utf-8?B?Z3pVQVBsNDgxRXp5RDkyemVhTDI0dm5nb09oNDRYbitkenBjQVFJay9ETUN0?=
- =?utf-8?B?N0JjNG5LTWU3ZllXdUUrNTVoWm5KTUlEc2xvNGFubG5mdm16TFZDOFFudXg4?=
- =?utf-8?B?WDU4MFRLbHduYUNLMzhSQU04eVl4ekZVdTNvaDZRbURRQXJsYnpRN0JONm4w?=
- =?utf-8?B?SXE3V0pkQXpIK3pXUGFBY21QQ0VRaDlVVGJETSttbGMzd3lEaHJ5N2lSVFFk?=
- =?utf-8?B?OWFvNENGY281Ui9JdHlITUxDeS9hdUI3c01Ub3RPUlFzWHRCNWhsWTIxeFdP?=
- =?utf-8?B?WTF6S1dTSFBEZXZCaThsZ0ZKQXprUkpIMDRUSU5sb2RpYkRtbUtwQXlBTk5E?=
- =?utf-8?B?bWNCMXVVWDBmZE1HTmkycFpjYTBUQmoyMk56YlNpWmpoTGpkdE8xcGpjT3dy?=
- =?utf-8?B?aTJSbms2Wkxub2NlMDhLaFNEM0lJNjhGUkJCR0JTVmpDM1B1MTMyOWpub0do?=
- =?utf-8?B?dkVpb3VhOTBjeGhLRTVlcGtWc3RTS091clJpVnlMczB0ZDZOZEIrdkdHb2NY?=
- =?utf-8?B?dEM5cFBjN21LazRCMTU1UitEVXJIbG5JRmJwamR3VXdwKzM5TWh6UlRHeUxz?=
- =?utf-8?B?STZzWUlPV25xeHZ0cDQ2ZnJuZ0tPVnhVcHA1WlEvelI2Y3gxSG1SSklhbFA3?=
- =?utf-8?B?RkRYaU55d0dBbndVOVhQN3VReDZRb0pmdkt2OUo1dlhQS3dGZnRtSmFZWVVH?=
- =?utf-8?B?RXdBTExOb1dRSXY2dittY0gxSXk5QW5LSkNIWU0zbzdVdGpiVGhaZDB0RVFq?=
- =?utf-8?B?UXNEL1c2ZTZjRjVDOU12Sit3dnJSNFV5dVFkYm1NaEdaYzZZOEdDNHpnWHRU?=
- =?utf-8?B?TWFUZEJIZDVPODJlU2UwQlFsbzFROUVXdGYwcGZSWklQSVFMc1dKeUdZU1dW?=
- =?utf-8?B?bG80aDZPUHhOdkJJY1R6MzVhOTNIZG9ZVkpKVUM4LzluT25Mem9Oc2dLaUd1?=
- =?utf-8?B?Wk4wajdKZUt3dDF4aUEvTVdSNjU5R2l0VkMzb0JjZUc2RWpmU1JUc3BwN0Nl?=
- =?utf-8?B?UUlLcGtnZWM3L1lOeWRaY01rSGROdGwvVkJaOXRNaEVlSGVvc1RKMDRxQ0NC?=
- =?utf-8?B?c0lZeUFRNkJRTDdTdmV2aEd1NU1LYWtzOWdjcmNjc0JTSGY3ZzN4U2ptOWpI?=
- =?utf-8?B?MmlxbVVoeG5MTDd6cisvN1dCNkNiNDNKUnJqR21jclBYTmVrWFQzcVFWYjBW?=
- =?utf-8?B?ZE1sZVJNVm9RRmdPajcvcFZwTCs3NUFUVEVIRXlFTTEwQWE3Q1B6NDJzWjlz?=
- =?utf-8?B?elBCYmlCVVl0aGM5OXVvazlCMHRSTlhwcFVCL3FaSG9kK0hiQ2lma1JwK0pG?=
- =?utf-8?B?MWpjeUdueXh4TVZrQzF1clhRRzBjcDQrc2pEbGp4Zk9OZUcwRVhUTzB2SXhC?=
- =?utf-8?B?b1ZrQ0RVZjluUGZXUENrUXAxMGtqODFiZWpzVnBKQk16ZmRqSHhzc2RCRFFz?=
- =?utf-8?B?aWtGaU5PVnc3T1pHQkp5QTJHTlFjcWZnUC9KMXBEcnRDMC9NeEc1emlCQVBL?=
- =?utf-8?B?U2ppWEZZeWk2VlkwQnVLbHhqSWZ5dEtxRFV5ek1ybFU3SmVicnNDMGs0VVBF?=
- =?utf-8?B?b1JvSVB6U1FJYzdBT21ReTR4QlJheW5XTy9ENWNqY2kxcTRxNGVkZGhMOU9F?=
- =?utf-8?B?Q29OTnJWS3l4dFBHcmdOM29LR0thZnplRkJTOTNNelhnSHBJL2liSk5XTVZ1?=
- =?utf-8?B?cUJ0UTZlQVlnN1QydkwvaDByRzhGTzVvcTV3bTF3eDVCQ2VSK1pkTmVPTnZm?=
- =?utf-8?B?UzA5VXkvanJYelhnZHJacmhRM0VoL0gxZmtsSldUYUhGWWc0R1RIZHBsbE8r?=
- =?utf-8?B?d1A2b3BCeXREa25oNlpOdmtHNXowdHZtSTdsRGRSK2t2TDVBWVJaamQwelRD?=
- =?utf-8?B?SUN4N2hiRy8vaGVtaUx4cit1Q3ZXbVZ3c0lJSXMvSXI2OGczRUxrSi9PQlVN?=
- =?utf-8?B?S3RjVGxlaWJpYUdyRFRHRldOVk1wRGtQaDJkdzFpMWF5Z0FaRTNJeDJQRDU0?=
- =?utf-8?B?RTNXdVMrOFByUmV4MUtreTdQTUJIb1l4bGdtOFJWRFlRVTJKMTR5QT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ =?iso-8859-1?Q?5J5cBizZTvllr1Mu+35ZOZ7q3scwl31Mxf3TrhkFShbl8crqmbOeejbQEL?=
+ =?iso-8859-1?Q?9Zx8Q9IS4Vcow/BI9aVGbpAUSGsqO1mpl5ToUQE3wunipm6JCIgk5DZFTn?=
+ =?iso-8859-1?Q?e6TiCgxcoCY5Fdm9DnV9RE1cZ8Lo8nuJFHH8rB/zL7WhWXQ0IwBbNRWbrH?=
+ =?iso-8859-1?Q?N9O2d/5vsNUZLADZicFuXNuynvXlJ7lLIYhdqJ6xpPEYQVA/iBouQaHWEN?=
+ =?iso-8859-1?Q?pnNtQkmxpzDTUpEZu5gjnYZk0vFXNwdgfzumSP0bTSi5OWYv64TdUrxnJb?=
+ =?iso-8859-1?Q?4+9wqto6ntGMp5wNqetfeZBTuxmWl3hEqqJM4rXoWpUMv/M+o0/dtE8mTH?=
+ =?iso-8859-1?Q?pMCAcCoR2myE7Bia1kMtK05sm3i4h19vZLsDJ5NSECNNTquNwp5NA7khDn?=
+ =?iso-8859-1?Q?8BqAoozcKkMy7KAnMT2JWE+vK1+ABNWE2g/D6QT5xYh0hkIYj7KTbMDMJP?=
+ =?iso-8859-1?Q?9PngTuAmVulmom8qgsrfSazKqnmJeXecoaMWoNnTMMBSCiea5B6fMkMQRi?=
+ =?iso-8859-1?Q?j7ES1pc3nyQXUc3wPISOUwldjZTRI3DBKvwoia/4dP/vgvJPxlPlGfffOe?=
+ =?iso-8859-1?Q?N5budWI+EPbIQTdSFwM0ZFkEX391KV1O670zBbK/roBgFQZ2ikoHXn2PIC?=
+ =?iso-8859-1?Q?rp6aQa1BfPNvcbAnLpNWW+D8RjHnThDhi81yZ5FRXdNWx66k1t0uvfEVX6?=
+ =?iso-8859-1?Q?ayNiRbc4juLdeIOtqSdyUM+K4qnI+zr42fw0Y7+uBetnxBaWFCwIwxgIH8?=
+ =?iso-8859-1?Q?T6uiU+uJDIXyQNlRjHgSxFailtoA8/gDktCg115V1yKlK0Ayff6MKGCu4p?=
+ =?iso-8859-1?Q?e702NscH1tpFhqrkBWfT6y3LTu9f3foXFGa2969goKyA/EJO2fqemwfOFH?=
+ =?iso-8859-1?Q?qCIj2JrcAKBnpo51+cVXr6yzgRxb3FoY7M5S8iYctWsXStEJSbBmkLEVin?=
+ =?iso-8859-1?Q?Lv0MuhHgUmZ3rWk3nv4NKTjYMVGJQAQuAQm8eEEpLhim9uozkBdP/i048c?=
+ =?iso-8859-1?Q?Mo5wkpKSNlqgMoydYTMhhDXUr7SPH3LBAJjr7fxGG8Je5WBNwJ9vY7YwPL?=
+ =?iso-8859-1?Q?j/Pp33u4HToKNFkYkz7W5/xADon08bfvocWDFFFbgsuBlk1o1H2faL3oBt?=
+ =?iso-8859-1?Q?rqS76TKCSJBr7drmNx8Pz0yqEEZzwmerhfCE+V8qLuYq10m4Gpk7u1lb8x?=
+ =?iso-8859-1?Q?WdWo9YtbHyw4re1aBghBCR9XqBym7S0pedAadwe41HU5TGQ78HBPSp3h25?=
+ =?iso-8859-1?Q?E6Rj5dcqQmJuFRz3ZhR1u12N3xhkM8wOz+okTvgXX6yNvpzzObJpwJtnb1?=
+ =?iso-8859-1?Q?IhC5UE6y/5a6pLLJHmOomVYJAnp5hxNrh7bjF0s6XrSGC7Jq/wTnGbV1s2?=
+ =?iso-8859-1?Q?WrDpjCfmtRVwSQxV9MMqwk/BcwR1ZKHJRXc3vC7cbo30dTDeXHKN4BE1nG?=
+ =?iso-8859-1?Q?3PvwEDHnpaQ894/L8uWxkzL7flVC99j323rNno0LPGtQOYgCD7c2d6wwt0?=
+ =?iso-8859-1?Q?8r3Ydmf8ZBzSGXtyR/TKCj6FRMIMA2CoCsL2XNgCMrfFqew9JuTQImF6FG?=
+ =?iso-8859-1?Q?sVf0b++ahon0S7cYD8SjEp3MfRsc9I8CLWXl0Yo+fjVqJncdMo+ZSQsna7?=
+ =?iso-8859-1?Q?65rFqAkEeZu0JQpF34VelL2XSJ+ILXEDz1GcaUkTPd5+k9I/dc07w0GdCv?=
+ =?iso-8859-1?Q?c+pWbSbeDtTiFC7mi9EKYiXA0i2/t0+zDKtJX5TbCsN8RVDWot1syrijR7?=
+ =?iso-8859-1?Q?qJwoRXM09ONo1ctqMP7LPBuPUqJxj/Mr0NTl+DHm1VGTjyKctIRygo5AyU?=
+ =?iso-8859-1?Q?GeBZFpkN6g=3D=3D?=
 MIME-Version: 1.0
 X-Exchange-RoutingPolicyChecked: 
-	bCs3svJMwh4TYU4ysEb9g9qk7D3tQaD0ycW8ezaxuhy+ytep6hQqWTPKomNZrh+2obJmDN/kHNbRKl8qNrgJnSlrljL7aVJr60z1zNdEAixAwYz9obVP1pxgZJqZdvIpokhSTpwvICoH2UWwMs3DYwnaZ3kQ9uLWRfqC1bpXe2VqM7wsDZZIBfXkLsBPpxrAEtItSyOzErNRRRSN2LwBcwWX/7yOmUSJVeAllI1+z4uxgmz+YsYQkUrWpddoV1Nu32L7JXf8cdOO/2AAwwPoG8bt4wueaMu7MJ/opwBm1tRBhPwoDXwzpTjUkV//F7Mxg026UN7pn0YolJq5KQFs1A==
-X-OriginatorOrg: lge.com
+	DF1Vl9mUioWYQJfX6wGvAUf573G3t2IIoCeZBVAle1RPP68PVm/itZftUYFtWsaLCYY7uD+ZRI69HMmgzFj6Cqlg01JprR/Ux2lKG/F9b5ZAgOflJym4RqaVdg7MPh3e1fU6/beu+p/G7prFqD1JY70a0rM2l7ebtufz1j8RDeBS/n9VvhukLxhxSCms4kSVi/PEowuK/TK4QSm5igg6ZONzkeaYZVs8yFuF6kiyQMvuWPLw8l+/zTN4inzisiesz57V6n/wkDlKXGkxYeGZbClbxrATbg3e6AvnGXQDq5WWH5jvG3URmFdCa0KyxXu7xQpl5SyArHWFuSmojVbrWA==
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
+	6Xa8FDSHobe+tjKYnnPR8J71tkH6hEk+xhuhHO1b8SBPRpDwiB2moYehvyY5qCYws2yreZGuiyBaPEeTrkDtF0lIWI7MnXZWhN9n21GFI6QPxjtt4f3oZ15Lf+AIYzXDi5qKyGrmKgRkA2AJsqGqA1BBfAtYa5nUlVQVpqdR0zopoKQh2J8EXT5Yi1ql31BGCpaCWvcp8901hqQguvEiLLiG4X1lVQSv9UAwtPMWWmqIJC0Vob7T+U51NocBXdBA5F/6HU7M6LWLQcV7QfDh1lRbOoLVNUH3XftAcy1eMpmeSWeaSJJwcatUCCU2TitoDDmUR0fJB60A1QPJqvU+gm5grYCro7wqs+SJ3D/X/MekNBy6nCruY2zGpiamj/JSK0KkojWF4SXCyX0x3bHN6OFXcSvlvxMbuGZxb6c+c2VK/dbf6mL+xsscr5vscaH1kP2YO2ZQ5DEcEspMxZG1/NCWveyRMzu1GBiCSZGJQktVAybbMBLoDV2LFLtClsQZq8YtdjnkSOGtq3TlcU435tBVE4VoknW9M09ZLGVZNS6EPqTed6F7uCYQ4mTB2XeGOuRg9CTrnhltRz/m1PLvakXtKgdQUu+dAa8ejdffthjLRfUN1S/OuBzCdg7/EaWd
+X-OriginatorOrg: qti.qualcomm.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: PU4P216MB1133.KORP216.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 8e2eb4a9-120c-4e0e-e664-08defd0eb80d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2026 09:54:39.2090
+X-MS-Exchange-CrossTenant-AuthSource: DS0PR02MB9197.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d8cabb5a-0c61-4872-b9a3-08defd0fb989
+X-MS-Exchange-CrossTenant-originalarrivaltime: 18 Aug 2026 10:01:51.1773
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5069cde4-642a-45c0-8094-d0c2dec10be3
+X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: wUvE3+K4mHyl88mqVfSXUDKd6BopujgQBmummnEBpvBkukqOcJChdI5ENtZpeqwCQtAQThTAiJB3dwOemXXf0g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SEWP216MB889795
+X-MS-Exchange-CrossTenant-userprincipalname: Hp9jPyGU2xWGx09tp5JYalFVSwnAbceAW+upOImZxHPqMBNB2f2lE96B/KxdIPZjePASctCVLsBh7MVsaXnw+w==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV5PR02MB10803
+X-Proofpoint-ORIG-GUID: cArDKNiNwtsUlppwgnhO0ReEAVjCiK35
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA3MyBTYWx0ZWRfXyvzFPdaH6zR0
+ oS9m1MovpeXN8Aw+2Ksqz/yZVQzJ9jwYX9tgU0hNRKOv7NsqCckIHLXGDoPmTXfeD6XjevraZR/
+ JY3B4kgRB8Pkqq9wExApFDf2jyLDNeqqdXSz4OZVXwYHMAf0hWBxvC5FsSHKkBWX9woGEMqJ6Gz
+ pGRfIdAc9EljbiMVX9R09HZEE8DmwKp6nbD7eXw0NEE2ofo3L+TbC5gh8mMxTZUTDtV0FK3lS0U
+ uD7wXmlFJOED29BT9C5vhctuRkYgi5EwXyqd33Z5HdD7sYhPOoNqKwV5ZKD+MkGx4ZA/YhH1dxg
+ OPz6qRPHqyV8/1+XU4jxr1qhAknHYp7pDUMKiZvHRTmUsKDN5iYBEzTkjnCl06HVf/fWuJk1AtK
+ zTdRP0LpSvpqnbUkYosdFNNV4pIPwbxF5temp9gPQUSeTMIDQCcWhHrjZPz588NDp4gwBymFuOA
+ Hj7JyW1I6oMt4mgK4PA==
+X-Authority-Analysis: v=2.4 cv=K/IS2SWI c=1 sm=1 tr=0 ts=6a842d92 cx=c_pps
+ a=qlSCZljh6UFQzBmsf39Opw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
+ a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=Sv0fKeRqtYgA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=3WHJM1ZQz_JShphwDgj5:22
+ a=EUspDBNiAAAA:8 a=Q4-j1AaZAAAA:8 a=R0lqXup8jhvVlckgF4IA:9 a=wPNLvfGTeEIA:10
+ a=RgeG8QG1x03kdad9:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10
+ a=9H3Qd4_ONW2Ztcrla5EB:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA3MyBTYWx0ZWRfXxhGhwLFnCzCK
+ LkRc2anQHvEfBCYsUO/lZ7/sVVIUwjeM4NsLT58xfqCVpgK9FXTjXpE5GLqAgGh2c7JwhOaAZWX
+ 9dfR0TIkBbygJ5XErcipkkQN+gbKH90=
+X-Proofpoint-GUID: cArDKNiNwtsUlppwgnhO0ReEAVjCiK35
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-17_04,2026-08-12_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 suspectscore=0 clxscore=1011 impostorscore=0
+ lowpriorityscore=0 bulkscore=0 spamscore=0 priorityscore=1501 adultscore=0
+ phishscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2608180073
+Content-Language: en-US
+Content-Type: multipart/alternative;
+	boundary="_000_DS0PR02MB919703469B88DE489E8BFC81EAA62DS0PR02MB9197namp_"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 09:54:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243672
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 12:00:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243673
 
-PiBDYW4geW91IHNldCB1cCBtdWx0aWxpYiBhbmQgY29uZmlybSB0aGF0IGJvdGggbGliMzIgYW5k
-IGxpYjY0IGZpbGVzCmFyZSBpZGVudGljYWw/CgpJIGNvbmZpcm1lZCB0aGF0IHRoZSByZWd1bGFy
-IGZpbGVzIHVuZGVyIHNzbC0zIGFyZSBpZGVudGljYWwgYmV0d2VlbiBsaWIzMiBhbmQgbGliNjQg
-YnVpbGRzOgoKJCBmaW5kICQoYml0YmFrZS1nZXR2YXIgLXIgbGliMzItb3BlbnNzbCBEIC0tdmFs
-dWUpL3Vzci8qL3NzbC0zICQoYml0YmFrZS1nZXR2YXIgLXIgb3BlbnNzbCBEIC0tdmFsdWUpL3Vz
-ci8qL3NzbC0zIC10eXBlIGYgLWV4ZWMgbWQ1c3VtIHt9IFw7CjM0MjY3MWFhYzBkYmMzNDllZTVi
-NWU2NGIzMjIwZjc3ICB0bXAvd29yay94ODYtb2VtbGxpYjMyLWxpbnV4L2xpYjMyLW9wZW5zc2wv
-My41LjcvaW1hZ2UvdXNyL2xpYi9zc2wtMy9taXNjL0NBLnBsCmYxZjg0MDhjNjViMGRjYzViNTlh
-NGQ0NmRjNTc5MzhlICB0bXAvd29yay94ODYtb2VtbGxpYjMyLWxpbnV4L2xpYjMyLW9wZW5zc2wv
-My41LjcvaW1hZ2UvdXNyL2xpYi9zc2wtMy9taXNjL3RzZ2V0LnBsCmJmZGMzMGJkMjA1YjZjYTJj
-MTVhNDZiMTc3MjFjNmYyICB0bXAvd29yay94ODYtb2VtbGxpYjMyLWxpbnV4L2xpYjMyLW9wZW5z
-c2wvMy41LjcvaW1hZ2UvdXNyL2xpYi9zc2wtMy9vcGVuc3NsLmNuZi5kaXN0CjViNTYxYTkwMzYy
-YjhlYjkxMjdjNzkyYzNmNTkwMmUwICB0bXAvd29yay94ODYtb2VtbGxpYjMyLWxpbnV4L2xpYjMy
-LW9wZW5zc2wvMy41LjcvaW1hZ2UvdXNyL2xpYi9zc2wtMy9jdF9sb2dfbGlzdC5jbmYuZGlzdAo1
-YjU2MWE5MDM2MmI4ZWI5MTI3Yzc5MmMzZjU5MDJlMCAgdG1wL3dvcmsveDg2LW9lbWxsaWIzMi1s
-aW51eC9saWIzMi1vcGVuc3NsLzMuNS43L2ltYWdlL3Vzci9saWIvc3NsLTMvY3RfbG9nX2xpc3Qu
-Y25mCjM0MjY3MWFhYzBkYmMzNDllZTViNWU2NGIzMjIwZjc3ICB0bXAvd29yay94ODYtNjQtdjMt
-b2UtbGludXgvb3BlbnNzbC8zLjUuNy9pbWFnZS91c3IvbGliL3NzbC0zL21pc2MvQ0EucGwKZjFm
-ODQwOGM2NWIwZGNjNWI1OWE0ZDQ2ZGM1NzkzOGUgIHRtcC93b3JrL3g4Ni02NC12My1vZS1saW51
-eC9vcGVuc3NsLzMuNS43L2ltYWdlL3Vzci9saWIvc3NsLTMvbWlzYy90c2dldC5wbApiZmRjMzBi
-ZDIwNWI2Y2EyYzE1YTQ2YjE3NzIxYzZmMiAgdG1wL3dvcmsveDg2LTY0LXYzLW9lLWxpbnV4L29w
-ZW5zc2wvMy41LjcvaW1hZ2UvdXNyL2xpYi9zc2wtMy9vcGVuc3NsLmNuZi5kaXN0CjViNTYxYTkw
-MzYyYjhlYjkxMjdjNzkyYzNmNTkwMmUwICB0bXAvd29yay94ODYtNjQtdjMtb2UtbGludXgvb3Bl
-bnNzbC8zLjUuNy9pbWFnZS91c3IvbGliL3NzbC0zL2N0X2xvZ19saXN0LmNuZi5kaXN0CjViNTYx
-YTkwMzYyYjhlYjkxMjdjNzkyYzNmNTkwMmUwICB0bXAvd29yay94ODYtNjQtdjMtb2UtbGludXgv
-b3BlbnNzbC8zLjUuNy9pbWFnZS91c3IvbGliL3NzbC0zL2N0X2xvZ19saXN0LmNuZgoKVGhlIHJl
-bWFpbmluZyBlbnRyaWVzIHVuZGVyIHNzbC0zIGFyZSBhbHJlYWR5IHN5bWxpbmtzIHRvIGZpbGVz
-IGluICR7c3lzY29uZmRpcn0vc3NsIGJ5IHRoZSBleGlzdGluZyBkb19pbnN0YWxsKCk6CgogICAg
-IyBDcmVhdGUgU1NMIHN0cnVjdHVyZSBmb3IgcGFja2FnZXMgc3VjaCBhcyBjYS1jZXJ0aWZpY2F0
-ZXMgd2hpY2gKICAgICMgY29udGFpbiBoYXJkLWNvZGVkIHBhdGhzIHRvIC9ldGMvc3NsLiBEZWJp
-YW4gZG9lcyB0aGUgc2FtZS4KICAgIGluc3RhbGwgLWQgJHtEfSR7c3lzY29uZmRpcn0vc3NsCiAg
-ICBtdiAke0R9JHtsaWJkaXJ9L3NzbC0zL2NlcnRzIFwKICAgICAgICR7RH0ke2xpYmRpcn0vc3Ns
-LTMvcHJpdmF0ZSBcCiAgICAgICAke0R9JHtsaWJkaXJ9L3NzbC0zL29wZW5zc2wuY25mIFwKICAg
-ICAgICR7RH0ke3N5c2NvbmZkaXJ9L3NzbC8KCiAgICAjIEFsdGhvdWdoIGFic29sdXRlIHN5bWxp
-bmtzIHdvdWxkIGJlIE9LIGZvciB0aGUgdGFyZ2V0LCB0aGV5IGJlY29tZQogICAgIyBpbnZhbGlk
-IGlmIG5hdGl2ZSBvciBuYXRpdmVzZGsgYXJlIHJlbG9jYXRlZCBmcm9tIHNzdGF0ZS4KICAgIGxu
-IC1zZiAke0BvZS5wYXRoLnJlbGF0aXZlKCcke2xpYmRpcn0vc3NsLTMnLCAnJHtzeXNjb25mZGly
-fS9zc2wvY2VydHMnKX0gJHtEfSR7bGliZGlyfS9zc2wtMy9jZXJ0cwogICAgbG4gLXNmICR7QG9l
-LnBhdGgucmVsYXRpdmUoJyR7bGliZGlyfS9zc2wtMycsICcke3N5c2NvbmZkaXJ9L3NzbC9wcml2
-YXRlJyl9ICR7RH0ke2xpYmRpcn0vc3NsLTMvcHJpdmF0ZQogICAgbG4gLXNmICR7QG9lLnBhdGgu
-cmVsYXRpdmUoJyR7bGliZGlyfS9zc2wtMycsICcke3N5c2NvbmZkaXJ9L3NzbC9vcGVuc3NsLmNu
-ZicpfSAke0R9JHtsaWJkaXJ9L3NzbC0zL29wZW5zc2wuY25mCgoKQmVzdCByZWdhcmRzLAotLS0K
-SmFleW9vbiBKdW5nClNvZnR3YXJlIFBsYXRmb3JtIExhYi4gLyBDb3Jwb3JhdGUgUiZEIC8gTEcg
-RWxlY3Ryb25pY3MgSW5jLgoKCl9fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19fX19f
-X18KRnJvbTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+ClNlbnQ6
-IEZyaWRheSwgQXVndXN0IDE0LCAyMDI2IDIwOjE5ClRvOiDsoJXsnqzsnKQvVGFzayBMZWFkZXIv
-U1cgUGxhdGZvcm0o7JewKeyEoO2WiVBsYXRmb3Jt6rCc67Cc7IukIExpZ2h0d2VpZ2h0IFN5c3Rl
-bSBUYXNrIDxqYWV5b29uLmp1bmdAbGdlLmNvbT4KQ2M6IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3Rz
-Lm9wZW5lbWJlZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5v
-cmc+ClN1YmplY3Q6IFJlOiBbT0UtY29yZV0gW1BBVENIXSBvcGVuc3NsOiB1c2Ugbm9uYXJjaF9s
-aWJkaXIgZm9yIG9wZW5zc2xkaXIKwqAKSSdtIG5vdCBzdXJlLiBUaGV5IGFyZSBub3QgYmluYXJp
-ZXMsIGJ1dCB0aGF0IGRvZXMgbm90IG1lYW4gdGhleSBhcmUKYXJjaGl0ZWN0dXJlIGluZGVwZW5k
-ZW50LCBhcyB0aGV5IG1heSBjb250YWluIHNldHRpbmdzIGZvciB0aGUKcGFydGljdWxhciBidWls
-ZCBvZiBvcGVuc3NsLCBhbmQgaW4gbXVsdGlsaWIgc2V0dXAgdGhvc2UgZG8gbmVlZCB0byBnbwp0
-byBhIGFyY2hpdGVjdHVyZS1zcGVjaWZpYyBkaXJlY3RvcnkgdG8gYXZvaWQgaW5zdGFsbGF0aW9u
-IGNvbmZsaWN0cy4KQ2FuIHlvdSBzZXQgdXAgbXVsdGlsaWIgYW5kIGNvbmZpcm0gdGhhdCBib3Ro
-IGxpYjMyIGFuZCBsaWI2NCBmaWxlcwphcmUgaWRlbnRpY2FsPwoKQWxleAoKT24gRnJpLCAxNCBB
-dWcgMjAyNiBhdCAwOTozOSwgSmFleW9vbiBKdW5nIChMR0UpIHZpYQpsaXN0cy5vcGVuZW1iZWRk
-ZWQub3JnIDxqYWV5b29uLmp1bmc9bGdlLmNvbUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPgp3cm90
-ZToKPgo+IEZyb206IEphZXlvb24gSnVuZyA8amFleW9vbi5qdW5nQGxnZS5jb20+Cj4KPiBTZXQg
-b3BlbnNzbGRpciB0byAke25vbmFyY2hfbGliZGlyfS9zc2wtMyBpbnN0ZWFkIG9mICR7bGliZGly
-fS9zc2wtMwo+IHNpbmNlIGZpbGVzIGluIHRoaXMgZGlyZWN0b3J5IGFyZSBhcmNoaXRlY3R1cmUt
-aW5kZXBlbmRlbnQuCj4KPiBTaWduZWQtb2ZmLWJ5OiBKYWV5b29uIEp1bmcgPGphZXlvb24uanVu
-Z0BsZ2UuY29tPgo+IC0tLQo+wqAgLi4uL29wZW5zc2wvb3BlbnNzbF8zLjUuNy5iYsKgwqDCoMKg
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgfCAyOCArKysrKysrKystLS0tLS0tLS0tCj7CoCAx
-IGZpbGUgY2hhbmdlZCwgMTQgaW5zZXJ0aW9ucygrKSwgMTQgZGVsZXRpb25zKC0pCj4KPiBkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2xfMy41Ljcu
-YmIgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbF8zLjUuNy5iYgo+
-IGluZGV4IGI5NWM3MzRmMWQuLjJkZDIzYzlkYTAgMTAwNjQ0Cj4gLS0tIGEvbWV0YS9yZWNpcGVz
-LWNvbm5lY3Rpdml0eS9vcGVuc3NsL29wZW5zc2xfMy41LjcuYmIKPiArKysgYi9tZXRhL3JlY2lw
-ZXMtY29ubmVjdGl2aXR5L29wZW5zc2wvb3BlbnNzbF8zLjUuNy5iYgo+IEBAIC0xNTMsNyArMTUz
-LDcgQEAgZG9fY29uZmlndXJlICgpIHsKPsKgwqDCoMKgwqDCoMKgwqAgUEVSTEVYVEVSTkFMPSIk
-KHJlYWxwYXRoICR7U30vZXh0ZXJuYWwvcGVybC9UZXh0LVRlbXBsYXRlLSovbGliKSIKPsKgwqDC
-oMKgwqDCoMKgwqAgdGVzdCAtZCAiJFBFUkxFWFRFUk5BTCIgfHwgYmJlcnJvciAiUEVSTEVYVEVS
-TkFMICckUEVSTEVYVEVSTkFMJyBub3QgZm91bmQhIgo+wqDCoMKgwqDCoMKgwqDCoCBIQVNIQkFO
-R1BFUkw9Ii91c3IvYmluL2VudiBwZXJsIiBQRVJMPXBlcmwgUEVSTDVMSUI9IiRQRVJMRVhURVJO
-QUwiIFwKPiAtwqDCoMKgwqDCoMKgIHBlcmwgJHtTfS9Db25maWd1cmUgJHtFWFRSQV9PRUNPTkZ9
-ICR7UEFDS0FHRUNPTkZJR19DT05GQVJHU30gJHtERVBSRUNBVEVEX0NSWVBUT19GTEFHU30gLS1w
-cmVmaXg9JHtwcmVmaXh9IC0tb3BlbnNzbGRpcj0ke2xpYmRpcn0vc3NsLTMgLS1saWJkaXI9JHti
-YXNlbGlifSAkdGFyZ2V0Cj4gK8KgwqDCoMKgwqDCoCBwZXJsICR7U30vQ29uZmlndXJlICR7RVhU
-UkFfT0VDT05GfSAke1BBQ0tBR0VDT05GSUdfQ09ORkFSR1N9ICR7REVQUkVDQVRFRF9DUllQVE9f
-RkxBR1N9IC0tcHJlZml4PSR7cHJlZml4fSAtLW9wZW5zc2xkaXI9JHtub25hcmNoX2xpYmRpcn0v
-c3NsLTMgLS1saWJkaXI9JHtiYXNlbGlifSAkdGFyZ2V0Cj7CoMKgwqDCoMKgwqDCoMKgIHBlcmwg
-JHtCfS9jb25maWdkYXRhLnBtIC0tZHVtcAo+wqAgfQo+Cj4gQEAgLTE3NSwyMCArMTc1LDIwIEBA
-IGRvX2luc3RhbGwgKCkgewo+wqDCoMKgwqDCoMKgwqDCoCAjIENyZWF0ZSBTU0wgc3RydWN0dXJl
-IGZvciBwYWNrYWdlcyBzdWNoIGFzIGNhLWNlcnRpZmljYXRlcyB3aGljaAo+wqDCoMKgwqDCoMKg
-wqDCoCAjIGNvbnRhaW4gaGFyZC1jb2RlZCBwYXRocyB0byAvZXRjL3NzbC4gRGViaWFuIGRvZXMg
-dGhlIHNhbWUuCj7CoMKgwqDCoMKgwqDCoMKgIGluc3RhbGwgLWQgJHtEfSR7c3lzY29uZmRpcn0v
-c3NsCj4gLcKgwqDCoMKgwqDCoCBtdiAke0R9JHtsaWJkaXJ9L3NzbC0zL2NlcnRzIFwKPiAtwqDC
-oMKgwqDCoMKgwqDCoMKgICR7RH0ke2xpYmRpcn0vc3NsLTMvcHJpdmF0ZSBcCj4gLcKgwqDCoMKg
-wqDCoMKgwqDCoCAke0R9JHtsaWJkaXJ9L3NzbC0zL29wZW5zc2wuY25mIFwKPiArwqDCoMKgwqDC
-oMKgIG12ICR7RH0ke25vbmFyY2hfbGliZGlyfS9zc2wtMy9jZXJ0cyBcCj4gK8KgwqDCoMKgwqDC
-oMKgwqDCoCAke0R9JHtub25hcmNoX2xpYmRpcn0vc3NsLTMvcHJpdmF0ZSBcCj4gK8KgwqDCoMKg
-wqDCoMKgwqDCoCAke0R9JHtub25hcmNoX2xpYmRpcn0vc3NsLTMvb3BlbnNzbC5jbmYgXAo+wqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoCAke0R9JHtzeXNjb25mZGlyfS9zc2wvCj4KPsKgwqDCoMKgwqDC
-oMKgwqAgIyBBbHRob3VnaCBhYnNvbHV0ZSBzeW1saW5rcyB3b3VsZCBiZSBPSyBmb3IgdGhlIHRh
-cmdldCwgdGhleSBiZWNvbWUKPsKgwqDCoMKgwqDCoMKgwqAgIyBpbnZhbGlkIGlmIG5hdGl2ZSBv
-ciBuYXRpdmVzZGsgYXJlIHJlbG9jYXRlZCBmcm9tIHNzdGF0ZS4KPiAtwqDCoMKgwqDCoMKgIGxu
-IC1zZiAke0BvZS5wYXRoLnJlbGF0aXZlKCcke2xpYmRpcn0vc3NsLTMnLCAnJHtzeXNjb25mZGly
-fS9zc2wvY2VydHMnKX0gJHtEfSR7bGliZGlyfS9zc2wtMy9jZXJ0cwo+IC3CoMKgwqDCoMKgwqAg
-bG4gLXNmICR7QG9lLnBhdGgucmVsYXRpdmUoJyR7bGliZGlyfS9zc2wtMycsICcke3N5c2NvbmZk
-aXJ9L3NzbC9wcml2YXRlJyl9ICR7RH0ke2xpYmRpcn0vc3NsLTMvcHJpdmF0ZQo+IC3CoMKgwqDC
-oMKgwqAgbG4gLXNmICR7QG9lLnBhdGgucmVsYXRpdmUoJyR7bGliZGlyfS9zc2wtMycsICcke3N5
-c2NvbmZkaXJ9L3NzbC9vcGVuc3NsLmNuZicpfSAke0R9JHtsaWJkaXJ9L3NzbC0zL29wZW5zc2wu
-Y25mCj4gK8KgwqDCoMKgwqDCoCBsbiAtc2YgJHtAb2UucGF0aC5yZWxhdGl2ZSgnJHtub25hcmNo
-X2xpYmRpcn0vc3NsLTMnLCAnJHtzeXNjb25mZGlyfS9zc2wvY2VydHMnKX0gJHtEfSR7bm9uYXJj
-aF9saWJkaXJ9L3NzbC0zL2NlcnRzCj4gK8KgwqDCoMKgwqDCoCBsbiAtc2YgJHtAb2UucGF0aC5y
-ZWxhdGl2ZSgnJHtub25hcmNoX2xpYmRpcn0vc3NsLTMnLCAnJHtzeXNjb25mZGlyfS9zc2wvcHJp
-dmF0ZScpfSAke0R9JHtub25hcmNoX2xpYmRpcn0vc3NsLTMvcHJpdmF0ZQo+ICvCoMKgwqDCoMKg
-wqAgbG4gLXNmICR7QG9lLnBhdGgucmVsYXRpdmUoJyR7bm9uYXJjaF9saWJkaXJ9L3NzbC0zJywg
-JyR7c3lzY29uZmRpcn0vc3NsL29wZW5zc2wuY25mJyl9ICR7RH0ke25vbmFyY2hfbGliZGlyfS9z
-c2wtMy9vcGVuc3NsLmNuZgo+Cj7CoMKgwqDCoMKgwqDCoMKgICMgR2VuZXJhdGUgZmlwc21vZHVs
-ZS5jbmYgaW4gcGtnX3Bvc3RpbnN0X29udGFyZ2V0Cj7CoMKgwqDCoMKgwqDCoMKgIGlmICR7QGJi
-LnV0aWxzLmNvbnRhaW5zKCdQQUNLQUdFQ09ORklHJywgJ2ZpcHMnLCAndHJ1ZScsICdmYWxzZScs
-IGQpfTsgdGhlbgo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIHJtIC1mICR7RH0ke2xp
-YmRpcn0vc3NsLTMvZmlwc21vZHVsZS5jbmYKPiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oCBybSAtZiAke0R9JHtub25hcmNoX2xpYmRpcn0vc3NsLTMvZmlwc21vZHVsZS5jbmYKPsKgwqDC
-oMKgwqDCoMKgwqAgZmkKPsKgIH0KPgo+IEBAIC0yMDEsOSArMjAxLDkgQEAgZG9faW5zdGFsbDph
-cHBlbmQ6Y2xhc3MtdGFyZ2V0ICgpIHsKPgo+wqAgZG9faW5zdGFsbDphcHBlbmQ6Y2xhc3MtbmF0
-aXZlICgpIHsKPsKgwqDCoMKgwqDCoMKgwqAgY3JlYXRlX3dyYXBwZXIgJHtEfSR7YmluZGlyfS9v
-cGVuc3NsIFwKPiAtwqDCoMKgwqDCoMKgwqDCoMKgwqAgT1BFTlNTTF9DT05GPVwke09QRU5TU0xf
-Q09ORjotJHtsaWJkaXJ9L3NzbC0zL29wZW5zc2wuY25mfSBcCj4gLcKgwqDCoMKgwqDCoMKgwqDC
-oMKgIFNTTF9DRVJUX0RJUj1cJHtTU0xfQ0VSVF9ESVI6LSR7bGliZGlyfS9zc2wtMy9jZXJ0c30g
-XAo+IC3CoMKgwqDCoMKgwqDCoMKgwqDCoCBTU0xfQ0VSVF9GSUxFPVwke1NTTF9DRVJUX0ZJTEU6
-LSR7bGliZGlyfS9zc2wtMy9jZXJ0LnBlbX0gXAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBPUEVO
-U1NMX0NPTkY9XCR7T1BFTlNTTF9DT05GOi0ke25vbmFyY2hfbGliZGlyfS9zc2wtMy9vcGVuc3Ns
-LmNuZn0gXAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoCBTU0xfQ0VSVF9ESVI9XCR7U1NMX0NFUlRf
-RElSOi0ke25vbmFyY2hfbGliZGlyfS9zc2wtMy9jZXJ0c30gXAo+ICvCoMKgwqDCoMKgwqDCoMKg
-wqDCoCBTU0xfQ0VSVF9GSUxFPVwke1NTTF9DRVJUX0ZJTEU6LSR7bm9uYXJjaF9saWJkaXJ9L3Nz
-bC0zL2NlcnQucGVtfSBcCj7CoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgT1BFTlNTTF9FTkdJTkVT
-PVwke09QRU5TU0xfRU5HSU5FUzotJHtsaWJkaXJ9L2VuZ2luZXMtM30gXAo+wqDCoMKgwqDCoMKg
-wqDCoMKgwqDCoMKgIE9QRU5TU0xfTU9EVUxFUz1cJHtPUEVOU1NMX01PRFVMRVM6LSR7bGliZGly
-fS9vc3NsLW1vZHVsZXN9Cj4KPiBAQCAtMjc1LDE1ICsyNzUsMTUgQEAgUEFDS0FHRVMgPSsgImxp
-YmNyeXB0byBsaWJzc2wgb3BlbnNzbC1jb25mICR7UE59LWVuZ2luZXMgJHtQTn0tbWlzYyAke1BO
-fS1vc3NsLW0KPsKgIEZJTEVTOmxpYmNyeXB0byA9ICIke2xpYmRpcn0vbGliY3J5cHRvJHtTT0xJ
-QlN9Igo+wqAgRklMRVM6bGlic3NsID0gIiR7bGliZGlyfS9saWJzc2wke1NPTElCU30iCj7CoCBG
-SUxFUzpvcGVuc3NsLWNvbmYgPSAiJHtzeXNjb25mZGlyfS9zc2wvb3BlbnNzbC5jbmYqIFwKPiAt
-wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgICR7bGliZGlyfS9zc2wt
-My9vcGVuc3NsLmNuZiogXAo+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
-oMKgwqAgJHtub25hcmNoX2xpYmRpcn0vc3NsLTMvb3BlbnNzbC5jbmYqIFwKPsKgwqDCoMKgwqDC
-oMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgIgo+wqAgRklMRVM6JHtQTn0tZW5n
-aW5lcyA9ICIke2xpYmRpcn0vZW5naW5lcy0zIgo+wqAgIyAke3ByZWZpeH0gY29tZXMgZnJvbSB3
-aGF0IHdlIHBhc3MgaW50byAtLXByZWZpeCBhdCBjb25maWd1cmUgdGltZSAod2hpY2ggaXMgdXNl
-ZCBmb3IgSU5TVEFMTFRPUCkKPsKgIEZJTEVTOiR7UE59LWVuZ2luZXM6YXBwZW5kOm1pbmd3MzI6
-Y2xhc3MtbmF0aXZlc2RrID0gIiAke3ByZWZpeH0ke2xpYmRpcn0vZW5naW5lcy0zIgo+IC1GSUxF
-Uzoke1BOfS1taXNjID0gIiR7bGliZGlyfS9zc2wtMy9taXNjICR7YmluZGlyfS9jX3JlaGFzaCIK
-PiArRklMRVM6JHtQTn0tbWlzYyA9ICIke25vbmFyY2hfbGliZGlyfS9zc2wtMy9taXNjICR7Ymlu
-ZGlyfS9jX3JlaGFzaCIKPsKgIEZJTEVTOiR7UE59LW9zc2wtbW9kdWxlLWxlZ2FjeSA9ICIke2xp
-YmRpcn0vb3NzbC1tb2R1bGVzL2xlZ2FjeS5zbyIKPsKgIEZJTEVTOiR7UE59LW9zc2wtbW9kdWxl
-LWZpcHMgPSAiJHtsaWJkaXJ9L29zc2wtbW9kdWxlcy9maXBzLnNvIgo+IC1GSUxFUzoke1BOfSA9
-KyAiJHtsaWJkaXJ9L3NzbC0zLyogJHtsaWJkaXJ9L29zc2wtbW9kdWxlcy8iCj4gK0ZJTEVTOiR7
-UE59ID0rICIke25vbmFyY2hfbGliZGlyfS9zc2wtMy8qICR7bGliZGlyfS9vc3NsLW1vZHVsZXMv
-Igo+wqAgRklMRVM6JHtQTn06YXBwZW5kOmNsYXNzLW5hdGl2ZXNkayA9ICIgJHtTREtQQVRITkFU
-SVZFfS9lbnZpcm9ubWVudC1zZXR1cC5kL29wZW5zc2wuc2giCj4KPsKgIENPTkZGSUxFUzpvcGVu
-c3NsLWNvbmYgPSAiJHtzeXNjb25mZGlyfS9zc2wvb3BlbnNzbC5jbmYiCj4KPiAtPS09LT0tPS09
-LT0tPS09LT0tPS09LQo+IExpbmtzOiBZb3UgcmVjZWl2ZSBhbGwgbWVzc2FnZXMgc2VudCB0byB0
-aGlzIGdyb3VwLgo+IFZpZXcvUmVwbHkgT25saW5lICgjMjQzNDI2KTogaHR0cHM6Ly9saXN0cy5v
-cGVuZW1iZWRkZWQub3JnL2cvb3BlbmVtYmVkZGVkLWNvcmUvbWVzc2FnZS8yNDM0MjYKPiBNdXRl
-IFRoaXMgVG9waWM6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9tdC8xMjA3NDU4Mzgv
-MTY4NjQ4OQo+IEdyb3VwIE93bmVyOiBvcGVuZW1iZWRkZWQtY29yZStvd25lckBsaXN0cy5vcGVu
-ZW1iZWRkZWQub3JnCj4gVW5zdWJzY3JpYmU6IGh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zy9nL29wZW5lbWJlZGRlZC1jb3JlL3Vuc3ViIFthbGV4LmthbmF2aW5AZ21haWwuY29tXQo+IC09
-LT0tPS09LT0tPS09LT0tPS09LT0tCj4=
+--_000_DS0PR02MB919703469B88DE489E8BFC81EAA62DS0PR02MB9197namp_
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+Hi Paul,
+
+Thanks for the review.
+
+The motivation is to reduce initramfs boot latency. On the Qualcomm RB3
+Gen 2 Core Kit, the full coldplug initializes unrelated devices, and
+udevadm settle waits for their events although only the root partition
+is needed.
+
+I measured the following average boot times with this configuration:
+
+Device: Qualcomm RB3 Gen 2 Core Kit
+MACHINE: rb3gen2-core-kit
+Kernel: Linux 6.18
+KAS configuration:
+       ci/rb3gen2-core-kit.yml:ci/qcom-distro.yml:ci/performance.yml
+Image: initramfs-rootfs-image
+Root: PARTLABEL=3Drootfs
+
+
+Default
+full coldplug
+With path
+root-only enabled
+Improvement
+udev trigger + settle
+981.6 ms
+109.8 ms
+871.8 ms (88.8%)
+/init to rootfs EXT4 mount
+1340.2 ms
+441.1 ms
+899.1 ms (67.1%)
+
+
+This reduces the udev trigger and settle time by 871.8 ms and the time
+to mount the root filesystem by 899.1 ms, corresponding to improvements
+of 88.8% and 67.1%, respectively. The measurements cover three boots
+with the full trigger and two boots with the root-only trigger.
+
+For the targeted trigger, udev_trigger_root_device() returns the status
+of its final udevadm command, so failure already makes the condition
+false and executes the full trigger. However, I agree this is not
+obvious, so I will make the error handling explicit in v2.
+
+I will also clarify that the optimization is enabled with:
+
+    initramfs.udev-root-only=3D1
+
+I will address these points in v2.
+
+Best regards,
+Wenwen
+
+________________________________
+From: Paul Barker <paul@pbarker.dev>
+Sent: Tuesday, August 18, 2026 16:47
+To: Wenwen Fu <wenwfu@qti.qualcomm.com>; openembedded-core@lists.openembedd=
+ed.org <openembedded-core@lists.openembedded.org>
+Subject: Re: [PATCH] initramfs-framework: add opt-in root-only udev trigger
+
+WARNING: This email originated from outside of Qualcomm. Please be wary of =
+any links or attachments, and do not enable macros.
+
+Hi,
+
+Thanks for the patch, I have a couple of feedback comments.
+
+On Wed, 2026-08-12 at 17:28 +0800, Wenwen Fu wrote:
+> The initramfs udev module replays add events for the complete device tree
+> and waits for every resulting event. An initramfs that only mounts a root
+> partition does not need to coldplug unrelated devices.
+>
+> Add an opt-in initramfs.udev-root-only kernel parameter. When root uses
+> PARTLABEL or PARTUUID, trigger only the matching block device. For
+> PARTLABEL roots, match the PARTNAME property exposed by udev. Keep the
+> existing full trigger as the default so current users and other initramfs
+> modules retain their existing behaviour.
+>
+> If the requested root cannot be matched safely, or a targeted trigger
+> fails, fall back to the original full coldplug.
+
+This explains the mechanism, but not why we would want the option to
+avoid the current behaviour. Does the current behaviour cause problems,
+is it too slow, etc?
+
+>
+> Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
+> ---
+>  .../initrdscripts/initramfs-framework/udev    | 30 ++++++++++++++++++-
+>  1 file changed, 29 insertions(+), 1 deletion(-)
+>
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/m=
+eta/recipes-core/initrdscripts/initramfs-framework/udev
+> index 4898b89246..7fa26ef807 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> @@ -35,6 +35,29 @@ udev_enabled() {
+>       return 0
+>  }
+>
+> +udev_trigger_root_device() {
+> +     case "${bootparam_root:-}" in
+> +             PARTLABEL=3D?*)
+> +                     root_match=3D"PARTNAME=3D${bootparam_root#PARTLABEL=
+=3D}"
+> +                     ;;
+> +             PARTUUID=3D?*)
+> +                     root_match=3D"PARTUUID=3D${bootparam_root#PARTUUID=
+=3D}"
+> +                     ;;
+> +             *)
+> +                     return 1
+> +                     ;;
+> +     esac
+> +
+> +     root_devices=3D$(udevadm trigger --dry-run --verbose \
+> +             --subsystem-match=3Dblock "--property-match=3D$root_match")=
+ || return 1
+> +
+> +     # udevadm succeeds even when no devices match, so check its dry-run=
+ output.
+> +     [ -n "$root_devices" ] || return 1
+> +
+> +     udevadm trigger --subsystem-match=3Dblock \
+> +             "--property-match=3D$root_match" --action=3Dadd
+
+The commit message says that there is a fallback to the original full
+coldplug if the targeted trigger fails, but the return status of this
+command is ignored.
+
+> +}
+> +
+>  udev_run() {
+>       add_module_pre_hook "udev_shutdown_hook_handler"
+>
+> @@ -45,6 +68,11 @@ udev_run() {
+>       sh -c "exec 4< /dev/console" || { exec 0> /dev/null; exec 1> /dev/n=
+ull; exec 2> /dev/null; }
+>
+>       $_UDEV_DAEMON --daemon
+> -     udevadm trigger --action=3Dadd
+> +     if [ "${bootparam_initramfs_udev_root_only:-}" =3D "1" ] &&
+
+I don't think this enabling condition isn't explained clearly in the
+commit message.
+
+> +        udev_trigger_root_device; then
+> +             debug "Triggered udev for root partition only"
+> +     else
+> +             udevadm trigger --action=3Dadd
+> +     fi
+>       udevadm settle
+>  }
+
+Best regards,
+
+--
+Paul Barker
+
+
+--_000_DS0PR02MB919703469B88DE489E8BFC81EAA62DS0PR02MB9197namp_
+Content-Type: text/html; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Hi Paul,</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Thanks for the review.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+The motivation is to reduce initramfs boot latency. On the Qualcomm RB3</di=
+v>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Gen 2 Core Kit, the full coldplug initializes unrelated devices, and</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+udevadm settle waits for their events although only the root partition</div=
+>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+is needed.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+I measured the following average boot times with this configuration:</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Device: Qualcomm RB3 Gen 2 Core Kit</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+MACHINE: rb3gen2-core-kit</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Kernel: Linux 6.18</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+KAS configuration:<br>
+&nbsp; &nbsp; &nbsp; &nbsp;ci/rb3gen2-core-kit.yml:ci/qcom-distro.yml:ci/pe=
+rformance.yml</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Image: initramfs-rootfs-image</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Root: PARTLABEL=3Drootfs</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<table id=3D"table_0" data-editing-info=3D"{&quot;topBorderColor&quot;:&quo=
+t;#000000&quot;,&quot;bottomBorderColor&quot;:&quot;#000000&quot;,&quot;ver=
+ticalBorderColor&quot;:&quot;#000000&quot;,&quot;hasHeaderRow&quot;:false,&=
+quot;hasFirstColumn&quot;:false,&quot;hasBandedRows&quot;:false,&quot;hasBa=
+ndedColumns&quot;:false,&quot;bgColorEven&quot;:null,&quot;bgColorOdd&quot;=
+:&quot;#EEEEEE&quot;,&quot;headerRowColor&quot;:&quot;#ABABAB&quot;,&quot;t=
+ableBorderFormat&quot;:0,&quot;verticalAlign&quot;:null}" style=3D"margin-b=
+ottom: 1px; box-sizing: border-box; border-collapse: collapse; border-spaci=
+ng: 0px;">
+<tbody>
+<tr>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 196.797px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt;">
+<br>
+</div>
+</td>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 161.566px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;">
+Default</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+full coldplug</div>
+</td>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 157.575px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt;">
+With path</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+root-only enabled</div>
+</td>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 177.594px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Improvement</div>
+</td>
+</tr>
+<tr>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 196.797px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+udev trigger + settle</div>
+</td>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 161.566px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+981.6 ms</div>
+</td>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 157.575px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+109.8 ms</div>
+</td>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 177.594px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+871.8 ms (88.8%)</div>
+</td>
+</tr>
+<tr>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 196.797px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+/init to rootfs EXT4 mount</div>
+</td>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 161.566px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+1340.2 ms</div>
+</td>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 157.575px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+441.1 ms</div>
+</td>
+<td style=3D"border-width: 1px; border-style: solid; border-color: rgb(0, 0=
+, 0); width: 177.594px; height: 22px; min-width: 15px; box-sizing: border-b=
+ox;">
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+899.1 ms (67.1%)</div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+This reduces the udev trigger and settle time by 871.8 ms and the time</div=
+>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+to mount the root filesystem by 899.1 ms, corresponding to improvements</di=
+v>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+of 88.8% and 67.1%, respectively. The measurements cover three boots</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+with the full trigger and two boots with the root-only trigger.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+For the targeted trigger, udev_trigger_root_device() returns the status</di=
+v>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+of its final udevadm command, so failure already makes the condition</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+false and executes the full trigger. However, I agree this is not</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+obvious, so I will make the error handling explicit in v2.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+I will also clarify that the optimization is enabled with:</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+&nbsp; &nbsp; initramfs.udev-root-only=3D1</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+I will address these points in v2.</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+<br>
+</div>
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
+olor: rgb(0, 0, 0);">
+Best regards,</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Wenwen</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<hr style=3D"display: inline-block; width: 98%;">
+<div id=3D"divRplyFwdMsg">
+<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
+11pt; color: rgb(0, 0, 0);">
+<b>From:</b> Paul Barker &lt;paul@pbarker.dev&gt;<br>
+<b>Sent:</b> Tuesday, August 18, 2026 16:47<br>
+<b>To:</b> Wenwen Fu &lt;wenwfu@qti.qualcomm.com&gt;; openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
+<b>Subject:</b> Re: [PATCH] initramfs-framework: add opt-in root-only udev =
+trigger</div>
+<div style=3D"direction: ltr;">&nbsp;</div>
+</div>
+<div style=3D"font-size: 11pt;">WARNING: This email originated from outside=
+ of Qualcomm. Please be wary of any links or attachments, and do not enable=
+ macros.<br>
+<br>
+Hi,<br>
+<br>
+Thanks for the patch, I have a couple of feedback comments.<br>
+<br>
+On Wed, 2026-08-12 at 17:28 +0800, Wenwen Fu wrote:<br>
+&gt; The initramfs udev module replays add events for the complete device t=
+ree<br>
+&gt; and waits for every resulting event. An initramfs that only mounts a r=
+oot<br>
+&gt; partition does not need to coldplug unrelated devices.<br>
+&gt;<br>
+&gt; Add an opt-in initramfs.udev-root-only kernel parameter. When root use=
+s<br>
+&gt; PARTLABEL or PARTUUID, trigger only the matching block device. For<br>
+&gt; PARTLABEL roots, match the PARTNAME property exposed by udev. Keep the=
+<br>
+&gt; existing full trigger as the default so current users and other initra=
+mfs<br>
+&gt; modules retain their existing behaviour.<br>
+&gt;<br>
+&gt; If the requested root cannot be matched safely, or a targeted trigger<=
+br>
+&gt; fails, fall back to the original full coldplug.<br>
+<br>
+This explains the mechanism, but not why we would want the option to<br>
+avoid the current behaviour. Does the current behaviour cause problems,<br>
+is it too slow, etc?<br>
+<br>
+&gt;<br>
+&gt; Signed-off-by: Wenwen Fu &lt;wenwfu@qti.qualcomm.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp; .../initrdscripts/initramfs-framework/udev&nbsp;&nbsp;&nbsp; | 3=
+0 ++++++++++++++++++-<br>
+&gt;&nbsp; 1 file changed, 29 insertions(+), 1 deletion(-)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev =
+b/meta/recipes-core/initrdscripts/initramfs-framework/udev<br>
+&gt; index 4898b89246..7fa26ef807 100644<br>
+&gt; --- a/meta/recipes-core/initrdscripts/initramfs-framework/udev<br>
+&gt; +++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev<br>
+&gt; @@ -35,6 +35,29 @@ udev_enabled() {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 0<br>
+&gt;&nbsp; }<br>
+&gt;<br>
+&gt; +udev_trigger_root_device() {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; case &quot;${bootparam_root:-}&quot; in<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; PARTLABEL=3D?*)<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root_match=3D&quot;PART=
+NAME=3D${bootparam_root#PARTLABEL=3D}&quot;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; PARTUUID=3D?*)<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; root_match=3D&quot;PART=
+UUID=3D${bootparam_root#PARTUUID=3D}&quot;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; *)<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return 1<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ;;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; esac<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; root_devices=3D$(udevadm trigger --dry-run -=
+-verbose \<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; --subsystem-match=3Dblock &quot;--property-match=3D$root_match&quot;) |=
+| return 1<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; # udevadm succeeds even when no devices matc=
+h, so check its dry-run output.<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; [ -n &quot;$root_devices&quot; ] || return 1=
+<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; udevadm trigger --subsystem-match=3Dblock \<=
+br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; &quot;--property-match=3D$root_match&quot; --action=3Dadd<br>
+<br>
+The commit message says that there is a fallback to the original full<br>
+coldplug if the targeted trigger fails, but the return status of this<br>
+command is ignored.<br>
+<br>
+&gt; +}<br>
+&gt; +<br>
+&gt;&nbsp; udev_run() {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; add_module_pre_hook &quot;udev_shu=
+tdown_hook_handler&quot;<br>
+&gt;<br>
+&gt; @@ -45,6 +68,11 @@ udev_run() {<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; sh -c &quot;exec 4&lt; /dev/consol=
+e&quot; || { exec 0&gt; /dev/null; exec 1&gt; /dev/null; exec 2&gt; /dev/nu=
+ll; }<br>
+&gt;<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; $_UDEV_DAEMON --daemon<br>
+&gt; -&nbsp;&nbsp;&nbsp;&nbsp; udevadm trigger --action=3Dadd<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; if [ &quot;${bootparam_initramfs_udev_root_o=
+nly:-}&quot; =3D &quot;1&quot; ] &amp;&amp;<br>
+<br>
+I don't think this enabling condition isn't explained clearly in the<br>
+commit message.<br>
+<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; udev_trigger_root_device; =
+then<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; debug &quot;Triggered udev for root partition only&quot;<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; else<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp; udevadm trigger --action=3Dadd<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; fi<br>
+&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; udevadm settle<br>
+&gt;&nbsp; }<br>
+<br>
+Best regards,<br>
+<br>
+--<br>
+Paul Barker<br>
+<br>
+</div>
+</body>
+</html>
+
+--_000_DS0PR02MB919703469B88DE489E8BFC81EAA62DS0PR02MB9197namp_--
 
