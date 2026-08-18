@@ -1,123 +1,175 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C901FC5DF7D
-	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 18:10:35 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15181.1787076625594259554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9736C5DF81
+	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 19:31:40 +0000 (UTC)
+Received: from mail-qt1-f182.google.com (mail-qt1-f182.google.com [209.85.160.182])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16969.1787081490593049920
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2026 11:10:26 -0700
+ Tue, 18 Aug 2026 12:31:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=yHfMTQSc;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 6995F1A1704
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 18:10:23 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3931560355;
-	Tue, 18 Aug 2026 18:10:23 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 98C4811C74DFD;
-	Tue, 18 Aug 2026 20:10:17 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1787076618; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=5MkdzfgmpXh2hAGItbhokcHgx4Ix49aYJmDp8ki8/Mo=;
-	b=yHfMTQScNYaV1th3dmrwIydyGYTYR4yTZbJoKfWvCTzzI5YM54wyNxsZ2xgXsgEQPDRt0x
-	peBQbpUdlsUSu4a2WiNo3MaI91GgauPZNEljKqzM0Zxpz9cr14PQPP+QJCz4B4qbU9SgE8
-	vhxnmEAz7VpVFjWr1QPkDKbN3EQ9GdXeFGiwFRvednwg9vaGPuomc3wOqlHpWzCEq7Qfj5
-	jvQJzKxryBU2TeCdFZgVtPf/AWoSuAXdbKhBmYUcYWfvcvIPMGQ3W7T+PF2Hy7PYS0RJP2
-	VmZe3MA/pw4uGES71rbdy6DJPNY2Y+jLhRWK8wXF9gsQ2jsAAHeVUIbBTyyKNQ==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Tue, 18 Aug 2026 20:09:54 +0200
-Subject: [PATCH] libclc: remove recipe
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260818-mathieu-libclc-removal-v1-1-692426d0d0ce@bootlin.com>
-X-B4-Tracking: v=1; b=H4sIAPGfhGoC/x3MTQqAIBBA4avErBvQMomuEi1MpxqwH7QkiO6et
- PwW7z0QKTBF6IoHAiWOvG8ZsizALmabCdllQyUqLVrZ4mrOhelCz6P1FgOtezIeZa2Fco12Sjn
- I8RFo4vsf98P7fglNNzBoAAAA
-X-Change-ID: 20260818-mathieu-libclc-removal-13604d56d44d
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=IxShtKSo;
+ spf=pass (domain: gmail.com, ip: 209.85.160.182, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f182.google.com with SMTP id d75a77b69052e-52d7ef16f91so1028711cf.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 12:31:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787081489; x=1787686289; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5qo3mDXTvFABph4022PI65b6n1YxyigNjUaD+fUWgxQ=;
+        b=IxShtKSorwg71uDg0lPSBW8XYvsEzzlbg566Kpvq2ayHn5TlZBwHKpn4ug3p4Q32GL
+         sNWvcPTvI4T7x3f7ZkxnIVvGi6S767zdeyVoIk4jsHnJJ48V7q50h87jwvmDFmzZQ4dS
+         8psVZbx5C+AuxZvlSjkp9vLf87+XzYF617Byc0X7Zv/8QOAEzPuX9TzGZsl1Zlhr+0yo
+         7NDVYpyJf340pwftpuxyYOVrZFj2el3TePPdTaELPolZXpcrBrZEKH1ZCAW/F5+CZX0x
+         fzduYMbNfRfxFSX+I095SmBXsCV+L78rMG4VcTkaSqSfFUL1AaLTbsM/doDzfS8PkWhD
+         VYuw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787081489; x=1787686289;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=5qo3mDXTvFABph4022PI65b6n1YxyigNjUaD+fUWgxQ=;
+        b=jUOpiB0prUy2YxWHJi32uhxCj3xP50+jNCjFElFddKKE/NKjaIzrGcrkzrlyZvhRJ2
+         w6JP7L+NPFixjcJVeKIUnJ7knq5H3AbH7hr5h9H0qdiMSP79r+a5uvuKsAq/uFsfztRz
+         R3yU8MoE5ZgKTEhAbT0PAhVIAZp8I5n35X7lPsDmgN3FAOrgYMwY+ycRmbpkezWInHsb
+         Ao/hefWJlSG8q7M00mReDFatYm+Wd1pUzEt1RWpgizvNT3ffxdd54VOBynHtpCW+VMkx
+         ia3wzZz2xCBkTKqsWkGEdwKmdw3Tl6pBwCw2Tm/xXym8tZyias1BtRenDd9J80bjhGO+
+         WNbg==
+X-Gm-Message-State: AOJu0YzbZSM1QjqAAQLdXvfXXEA8VHw7biITqg6vnOQFuwJ+Egr8j+P7
+	OdwMsxf68jJPgN0cskrFRtEoLwvMKcEcXJJy6FA73fEEM3Ex5T1pDSPDdndX7ibl
+X-Gm-Gg: AR+sD11f6snvWXlWPbr2KMiR8+J+chuSq/tPNUky803SEAB85ZEQ+2P1a6uukhXoQZK
+	uiVBqFa8M3ZnkDd27peE3X6eIVW4emlwd8Uufa8NYyGu/+0/LNAJSG4ErP87wTqrXxJePiTk9/T
+	BGyYY5iRy2BL3ShL+KIcptPgSXOqQNAR2zqlpbWwDDq+seZaHCW96OwKrQKsWFbNVR1TOj6AvuI
+	bqpyUQ7fmQbT4J25q2GyZwQq+V9LG+322PQMbK/ONK5X8zMQzofKvLVyAiUveCiA6CGLwxWYfiY
+	O11D4u3lXUH6A0o+O4dgf4CiH3c/G5NpOqxNBxJiwHGma1+KKi7khhxGiuIq57PMxv6zRezli69
+	7N0VnhgvMBueoTFpHJ02HXDb57j4R2ZNv6DkfMnjE3y8rKaECcCT14elEYE2bAKcXANA3WVsGoN
+	c/QFfpgSXdrvn2bnPNOjX3Hv7BNmAEKva4avP63NfxhG2KHj6AjzW0kZOd4IwBoFY4lPtm5ntjF
+	FZY98qjNeV/4OOZTovQ60mT2dOXDSenyqSFM+V0cBiJZjtG8pzqKGxKO/KJkhYN9chjnQn44xj8
+	IUzJsZEZBJGN31Z56k2A5bJoO84vqYO8JkwFCQvOrLjeqWRLdKxltV+Q5kim+/uQsbpQu0bcWMT
+	u+25wRA==
+X-Received: by 2002:ac8:7f11:0:b0:51b:f857:cf82 with SMTP id d75a77b69052e-52dd30a1ab0mr4475321cf.8.1787081489047;
+        Tue, 18 Aug 2026 12:31:29 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-52db62396eesm46454941cf.20.2026.08.18.12.31.27
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2026 12:31:27 -0700 (PDT)
+From: bruce.ashfield@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- =?utf-8?q?Zolt=C3=A1n_B=C3=B6sz=C3=B6rm=C3=A9nyi?= <zboszor@gmail.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787076617; l=2612;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=47KZqBAY7hSYHlZ0aeS60+D1uw6jRit1H7z0QwqOUps=;
- b=DjtUE88oottNkJWFEjtm9AwGrF0V9Ti4V4yRS5miN3wzUrVlvG/wVNS+YMsSKzCSMe0akSzX2
- DLPgC7nRObWBk6OB8kcR9+EWdgwuDWozb8jUQkVq5RhnCKbZJ0JkVyE
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
+Subject: [PATCH][scarthgap] linux-yocto/6.6: fix tiny build
+Date: Tue, 18 Aug 2026 15:31:25 -0400
+Message-ID: <20260818193126.299021-1-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 18:10:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243689
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 19:31:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243690
 
-Mesa and mesa-tools are now depending on mesa-libclc. The libclc recipe
-is not used anymore in openembedded-core.
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Integrating the following commit(s) to linux-yocto/6.6:
+
+1/1 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: pinctrl: core: include gpio/driver.h for struct gpio_chip
+    Date: Tue, 18 Aug 2026 14:34:22 -0400
+
+    Stable commit f53dd26462b8e ("pinctrl: remove pinctrl_gpio_direction_output()")
+    [ upstream 45d2055b0067 ] changed pinctrl_gpio_direction_input/output() to take
+    a struct gpio_chip * and dereference gc->base. Those functions are compiled
+    unconditionally, but in 6.6 core.c the struct gpio_chip definition is only
+    pulled in via "../gpio/gpiolib.h" under #ifdef CONFIG_GPIOLIB. Configurations
+    with CONFIG_PINCTRL=y and CONFIG_GPIOLIB=n (e.g. linux-yocto-tiny on x86, built
+    with --allnoconfig) therefore fail to build:
+
+      drivers/pinctrl/core.c: error: invalid use of undefined type 'struct gpio_chip'
+
+    Include <linux/gpio/driver.h> directly so struct gpio_chip is always a complete
+    type, matching how mainline core.c has included it since commit ec963d04ca865
+    ("pinctrl: provide new GPIO-to-pinctrl glue helpers"), present in 6.12/6.18 but
+    not 6.6.
+
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
+
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta/conf/distro/include/maintainers.inc  |  1 -
- meta/recipes-devtools/clang/libclc_git.bb | 27 ---------------------------
- 2 files changed, 28 deletions(-)
+ .../linux/linux-yocto-rt_6.6.bb               |  4 ++--
+ .../linux/linux-yocto-tiny_6.6.bb             |  4 ++--
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  | 24 +++++++++----------
+ 3 files changed, 16 insertions(+), 16 deletions(-)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index ecba7d0db116..0ee4e6d50989 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -327,7 +327,6 @@ RECIPE_MAINTAINER:pn-libcap-ng = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-libcap-ng-python = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-libcgroup = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libcheck = "Yi Zhao <yi.zhao@windriver.com>"
--RECIPE_MAINTAINER:pn-libclc = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-libcomps = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libconfig = "Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>"
- RECIPE_MAINTAINER:pn-libconvert-asn1-perl = "Tim Orling <tim.orling@konsulko.com>"
-diff --git a/meta/recipes-devtools/clang/libclc_git.bb b/meta/recipes-devtools/clang/libclc_git.bb
-deleted file mode 100644
-index 1a73c9eb2a14..000000000000
---- a/meta/recipes-devtools/clang/libclc_git.bb
-+++ /dev/null
-@@ -1,27 +0,0 @@
--SUMMARY = "Implementation of the library requirements of the OpenCL C programming language."
--HOMEPAGE = "https://libclc.llvm.org"
--SECTION = "devel"
--
--require common-clang.inc
--require common-source.inc
--
--LIC_FILES_CHKSUM = "file://libclc/LICENSE.TXT;md5=7cc795f6cbb2d801d84336b83c8017db"
--
--inherit cmake pkgconfig
--
--# Depend explicitly on clang-native instead of using TOOLCHAIN as the build
--# objects from this recipe are build explicitly using clang for GPU targets.
--# We could INHIBIT_DEFAULT_DEPS to avoid any other toolchain but then we need
--# to wrestle CMake to configure without a toolchain.
--DEPENDS += "clang-native spirv-llvm-translator-native"
--
--OECMAKE_SOURCEPATH = "${S}/libclc"
--
--# Semicolon-separated list of targets to build
--LIBCLC_TARGETS ?= "all"
--
--EXTRA_OECMAKE += "-DLIBCLC_TARGETS_TO_BUILD='${LIBCLC_TARGETS}'"
--
--FILES:${PN} += "${datadir}/clc"
--
--BBCLASSEXTEND = "native nativesdk"
-
----
-base-commit: 6f7a806ece411ab32e4b1c08a0299400bdf3b588
-change-id: 20260818-mathieu-libclc-removal-13604d56d44d
-
-Best regards,
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+index 39fa0a56c2..1d4f95e42c 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.6.bb
+@@ -14,8 +14,8 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
+ 
+-SRCREV_machine ?= "c0f2d7109571c01223cbd3738db96b5ea20ddc68"
+-SRCREV_meta ?= "b768be4d32d53a825349353e988ca5930e83f99c"
++SRCREV_machine ?= "eaa4bfd4f99ab0f3cf46ec5a207b73e22fb1c3f9"
++SRCREV_meta ?= "dd201eb6ec53179f45836d41610ca68c725d28e2"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.6;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+index 7675e32542..f2d6e5eef5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.6.bb
+@@ -17,8 +17,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "20c2ecb592178ed51039ae1a75a523c66c1eee5d"
+-SRCREV_meta ?= "b768be4d32d53a825349353e988ca5930e83f99c"
++SRCREV_machine ?= "c51e01ecff210644b5d199a4edb30cb1a94a746f"
++SRCREV_meta ?= "dd201eb6ec53179f45836d41610ca68c725d28e2"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.6.bb b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+index 7a273f9cc6..c1ac8e0a08 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.6.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.6.bb
+@@ -18,18 +18,18 @@ KBRANCH:qemux86-64 ?= "v6.6/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.6/standard/base"
+ KBRANCH:qemumips64 ?= "v6.6/standard/mti-malta64"
+ 
+-SRCREV_machine:qemuarm ?= "06b8a8a900edeb9770128b2e25e7814ff0638c72"
+-SRCREV_machine:qemuarm64 ?= "bcdc0007d72899e94de35713c4c18e0ad581f41b"
+-SRCREV_machine:qemuloongarch64 ?= "491a3d5683a61ca2a7911f748661cfad50b8d05c"
+-SRCREV_machine:qemumips ?= "9023f83c1acc4010d43c5891c641a671a12d264e"
+-SRCREV_machine:qemuppc ?= "a76593fcb6c3b2183877d531562237a9def7acc5"
+-SRCREV_machine:qemuriscv64 ?= "491a3d5683a61ca2a7911f748661cfad50b8d05c"
+-SRCREV_machine:qemuriscv32 ?= "491a3d5683a61ca2a7911f748661cfad50b8d05c"
+-SRCREV_machine:qemux86 ?= "491a3d5683a61ca2a7911f748661cfad50b8d05c"
+-SRCREV_machine:qemux86-64 ?= "491a3d5683a61ca2a7911f748661cfad50b8d05c"
+-SRCREV_machine:qemumips64 ?= "50376ca9492c97cc4d6d291d06e52db021aeb1f1"
+-SRCREV_machine ?= "491a3d5683a61ca2a7911f748661cfad50b8d05c"
+-SRCREV_meta ?= "b768be4d32d53a825349353e988ca5930e83f99c"
++SRCREV_machine:qemuarm ?= "ed7cf749dcade8ded9fda05be53c235a446dcbff"
++SRCREV_machine:qemuarm64 ?= "b96d2d770cab02b84c46606fa538ce027bee6b08"
++SRCREV_machine:qemuloongarch64 ?= "5ae544e1312ed5b4ed130d22ff1f44333494c4c3"
++SRCREV_machine:qemumips ?= "fcfa6f13ad7894cedda5f59124e7a6f6f0100a67"
++SRCREV_machine:qemuppc ?= "89811e5148d2a4c925940684ad9126bd08de9799"
++SRCREV_machine:qemuriscv64 ?= "5ae544e1312ed5b4ed130d22ff1f44333494c4c3"
++SRCREV_machine:qemuriscv32 ?= "5ae544e1312ed5b4ed130d22ff1f44333494c4c3"
++SRCREV_machine:qemux86 ?= "5ae544e1312ed5b4ed130d22ff1f44333494c4c3"
++SRCREV_machine:qemux86-64 ?= "5ae544e1312ed5b4ed130d22ff1f44333494c4c3"
++SRCREV_machine:qemumips64 ?= "b6dc41bac21f990565fffb211d470fdc97533291"
++SRCREV_machine ?= "5ae544e1312ed5b4ed130d22ff1f44333494c4c3"
++SRCREV_meta ?= "dd201eb6ec53179f45836d41610ca68c725d28e2"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
-Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+2.43.0
 
 
