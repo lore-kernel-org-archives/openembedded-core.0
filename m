@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93BCBC5DF80
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 845F4C5DF7E
 	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 06:31:42 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3144.1787034701094931138
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3329.1787034699924261415
  for <openembedded-core@lists.openembedded.org>;
- Mon, 17 Aug 2026 23:31:41 -0700
+ Mon, 17 Aug 2026 23:31:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=Gl/9ws09;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-20260818063139b9747118130002077f-ukvzi3@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260818063139b9747118130002077f
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=g1vFPgkr;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-202608180631383cf0bccf8c000207be-onk5di@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202608180631383cf0bccf8c000207be
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 18 Aug 2026 08:31:39 +0200
+        Tue, 18 Aug 2026 08:31:38 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=UB7eVCqupIConBytoa/cucXR0nlNYoUrSRPxeIrccyk=;
- b=Gl/9ws09CENsh9apVNO/dtGrc9mvfj/551pM4Y9oPfqGBHF783lIYUhoo0IOAzczf8y9Zg
- qw7kl8VDPqgTf7FrlddI+eObqBVSxP3QYHq+H+KZx3D+lsKKoVHnWCdFOfU3eziqdtRW1kzo
- u68GPpUe7qKSe8UMh6ngVLzo2WVnyPpdmBvRsaPu4XbxexqnKuSx10uPFrMgi/CJ451kOgG5
- JmP4NHdllNzZ2Euo1V7jrM1SSU2jn2q+U6owVNo5am4fsqQB5TsSk3PJyhaEXzMBy6mG6m37
- FG1nZ1zHhxJJv4Kn0KJs5iFsHRg9jGc/y6E+/9skvGtVx49H8k+74KGw==;
+ bh=G7LVVwYWMZiWTFPbGoHBnWd++oOlopoo8Yx8tzuzJps=;
+ b=g1vFPgkrhBHB7sv7Afj3qkYBJAIZbzeFEtaWIviTt0XbQoBZHIYk3F+dk84xVmHOaPfHd5
+ 9rLvjBSh18JP2UWFCzveAkvaiGEwHGx6RTUoXwoNaZkDbnLVh7kN6iCquO9p4aFKErXqeV4I
+ e6ATmoZAkyqWNzxyECGKvvFlJWgctzePlEfZwEdwi9Ft3yw6SgnxcvQ7aqIt1iKKDbg/oK7t
+ fdKU5PyHt3EWOrpdwYzxk/kPZqSr35RQgplho4OztzaHem2QGdME0H08NL0uE8EFcTD34qsg
+ ayH3Jprxgq7u8ROo9s8ge+kvA8XWGAmwr2+VQNiFgmOwViMfvCYqCxpw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 08/14] devtool: ide-sdk: let gdbserver reuse the shared debug server wait helper
-Date: Tue, 18 Aug 2026 08:30:47 +0200
-Message-ID: <20260818063120.73042-9-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 05/14] devtool: ide-sdk: fix meson IntelliSense for gcc toolchain
+Date: Tue, 18 Aug 2026 08:30:44 +0200
+Message-ID: <20260818063120.73042-6-adrian.freihofer@siemens.com>
 In-Reply-To: <20260818063120.73042-1-adrian.freihofer@siemens.com>
 References: <20260818063120.73042-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,61 +39,134 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 06:31:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243661
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243652
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-GdbCrossConfig open coded its own copy of the loop which waits for the
-debug server to listen on its port, while LldbServerConfig already used
-the _target_wait_for_tcp_port_cmd() helper of the common base class.
+The configurationProvider = "mesonbuild.mesonbuild" approach in
+c_cpp_properties.json worked for meson recipes built with clang (the
+__gen_meson_absolute_cross_file workaround absolutized the clang
+binary path in an extra cross-file so the mesonbuild extension could
+find it), but failed for the gcc toolchain: the extension could not
+resolve the bare compiler name in the meson.cross file and silently
+fell back to the host compiler for IntelliSense. The sysroot was also
+absent, so built-in headers were resolved against the host system.
 
-Use the helper for gdbserver too, which requires capturing the gdbserver
-pid in a shell variable so the helper can refer to it, and defining
-DEBUG_SERVER_NAME for GdbCrossConfig.
+Replace the extension-based approach with explicit settings that work
+for both gcc and clang toolchains:
+  - compilerPath: absolute path to the cross CXX binary in
+    staging_bindir_toolchain, so cpptools finds the right compiler
+  - compilerArgs: ["--sysroot=<recipe_sysroot>"], so built-in
+    includes are resolved against the target sysroot headers
+  - compileCommands: path to compile_commands.json in the meson build
+    directory B, which meson/ninja generates automatically with the
+    exact per-file flags (include paths, defines, -march= etc.)
+  - intelliSenseMode: derived from TARGET_ARCH and TOOLCHAIN
+    (linux-gcc-arm64 / linux-clang-x64, etc.)
 
-Beside removing the duplication this also gives gdbserver the two things
-the helper already did for lldb-server: the server is killed instead of
-left behind when it never starts listening, and the reason is printed
-rather than exiting silently.
+With compileCommands pointing at the real compilation database, the
+mesonbuild extension is no longer needed for IntelliSense, so the
+__gen_meson_absolute_cross_file workaround is also removed.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_plugins/__init__.py | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ scripts/lib/devtool/ide_plugins/ide_code.py | 66 +++++++--------------
+ 1 file changed, 23 insertions(+), 43 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
-index 63e9682e73..5211df5806 100644
---- a/scripts/lib/devtool/ide_plugins/__init__.py
-+++ b/scripts/lib/devtool/ide_plugins/__init__.py
-@@ -139,6 +139,7 @@ class GdbCrossConfig(DebuggerCrossConfig):
-     gdbinit / gdb wrapper scripts used by ide=none as well as the
-     target-side tmp/pid/log paths consumed by the gdbserver start command.
-     """
-+    DEBUG_SERVER_NAME = "gdbserver"
+diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
+index 9faba3f2d1..d190858d44 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_code.py
++++ b/scripts/lib/devtool/ide_plugins/ide_code.py
+@@ -147,45 +147,6 @@ class IdeVSCode(IdeBase):
+     def dot_code_dir(self, modified_recipe):
+         return os.path.join(modified_recipe.srctree, '.vscode')
  
-     def __init__(self, image_recipe, modified_recipe, binary,
-                  default_mode=DebuggerServerModes.MULTI):
-@@ -193,14 +194,13 @@ class GdbCrossConfig(DebuggerCrossConfig):
-             else:
-                 raise DevtoolError("Cannot use gdbserver attach mode for binary %s. No PID found." % self.binary.binary_path)
-         elif server_mode == DebuggerServerModes.MULTI:
--            hex_port = "%04X" % self.debug_server_port
--            gdbserver_cmd_start = "grep -q :%s /proc/net/tcp /proc/net/tcp6 2>/dev/null && exit 0; " % hex_port
-+            gdbserver_cmd_start = self._target_tcp_port_check_cmd() + " && exit 0; "
-             gdbserver_cmd_start += "mkdir -p %s; " % self._gdbserver_tmp_dir(server_mode)
--            gdbserver_cmd_start += "%s --multi :%s > %s 2>&1 & " % (
--                self.debugger_cross.debug_server_path, self.debug_server_port, self._gdbserver_log_file(server_mode))
--            gdbserver_cmd_start += "echo \\$! > %s; " % self._gdbserver_pid_file(server_mode)
--            gdbserver_cmd_start += "_w=0; while ! grep -q :%s /proc/net/tcp /proc/net/tcp6 2>/dev/null; " % hex_port
--            gdbserver_cmd_start += "do _w=\\$((_w+1)); [ \\$_w -lt 100 ] || exit 1; sleep 0.1; done;"
-+            gdbserver_cmd_start += "%s --multi :%s > %s 2>&1 & _gdbserver_pid=\\$!; " % (
-+                self.debugger_cross.debug_server_path, self.debug_server_port,
-+                self._gdbserver_log_file(server_mode))
-+            gdbserver_cmd_start += "echo \\$_gdbserver_pid > %s; " % self._gdbserver_pid_file(server_mode)
-+            gdbserver_cmd_start += self._target_wait_for_tcp_port_cmd("gdbserver_pid")
-         else:
-             raise DevtoolError("Unsupported gdbserver mode: %s" % server_mode)
-         return "\"/bin/sh -c '" + gdbserver_cmd_start + "'\""
+-    def __gen_meson_absolute_cross_file(self, modified_recipe):
+-        """Generate an extra cross file overriding c/cpp binaries with absolute paths.
+-
+-        The recipe's generated meson.cross references the toolchain binaries
+-        (e.g. "aarch64-poky-linux-clang++") by bare name, relying on PATH
+-        being set up by the meson wrapper script at build time. Meson stores
+-        that command exactly as configured (it never resolves it to an
+-        absolute path itself), so it ends up unresolved in
+-        compile_commands.json and meson-info/intro-compilers.json. cpptools
+-        (via the mesonbuild extension) resolves compilerPath using its own
+-        process PATH, which does not include the toolchain directory, and
+-        silently falls back to a host compiler for IntelliSense.
+-
+-        Real builds are unaffected since the wrapper script sets up PATH, so
+-        the recipe's meson.cross is left untouched. Instead, an extra
+-        --cross-file is layered on top with only the c/cpp [binaries]
+-        entries absolutized, reusing the exact same flags as CC/CXX to avoid
+-        any behavior drift. Meson merges multiple machine files, with later
+-        files overriding matching keys from earlier ones.
+-        """
+-        def absolutize(cmd):
+-            args = cmd.split()
+-            args[0] = os.path.join(
+-                modified_recipe.staging_bindir_toolchain, args[0])
+-            return repr(args)
+-
+-        lines = ["[binaries]"]
+-        if modified_recipe.cc:
+-            lines.append("c = %s" % absolutize(modified_recipe.cc))
+-        if modified_recipe.cxx:
+-            lines.append("cpp = %s" % absolutize(modified_recipe.cxx))
+-
+-        os.makedirs(modified_recipe.ide_sdk_dir, exist_ok=True)
+-        cross_file = os.path.join(
+-            modified_recipe.ide_sdk_dir, 'meson-absolute-toolchain.cross')
+-        with open(cross_file, 'w') as f:
+-            f.write(os.linesep.join(lines) + os.linesep)
+-        return ['--cross-file', cross_file]
+-
+     def __vscode_settings_meson(self, settings_dict, modified_recipe):
+         if modified_recipe.build_tool is not BuildTool.MESON:
+             return
+@@ -193,11 +154,16 @@ class IdeVSCode(IdeBase):
+ 
+         confopts = modified_recipe.mesonopts.split()
+         confopts += modified_recipe.meson_cross_file.split()
+-        if modified_recipe.meson_cross_file:
+-            confopts += self.__gen_meson_absolute_cross_file(modified_recipe)
+         confopts += modified_recipe.extra_oemeson.split()
+         settings_dict["mesonbuild.configureOptions"] = confopts
+         settings_dict["mesonbuild.buildFolder"] = modified_recipe.b
++        # Prevent the extension from writing C_Cpp.default.configurationProvider
++        # for itself once meson-info.json appears, which would take precedence
++        # over the compileCommands set in c_cpp_properties.json.
++        settings_dict["mesonbuild.modifySettings"] = False
++        # Clear any such value a previous run (or extension version without
++        # modifySettings support) already wrote to this workspace's settings.
++        settings_dict["C_Cpp.default.configurationProvider"] = ""
+ 
+     def __vscode_settings_cmake(self, settings_dict, modified_recipe):
+         """Add cmake specific settings to settings.json.
+@@ -328,8 +294,22 @@ class IdeVSCode(IdeBase):
+         if modified_recipe.build_tool is BuildTool.CMAKE:
+             properties_dict["configurationProvider"] = "ms-vscode.cmake-tools"
+         elif modified_recipe.build_tool is BuildTool.MESON:
+-            properties_dict["configurationProvider"] = "mesonbuild.mesonbuild"
+-            properties_dict["compilerPath"] = os.path.join(modified_recipe.staging_bindir_toolchain, modified_recipe.cxx.split()[0])
++            # configurationProvider = "mesonbuild.mesonbuild" does not work because
++            # the cross-compiler is not in PATH and omits the sysroot by default.
++            compiler_type = 'clang' if modified_recipe.toolchain == 'clang' else 'gcc'
++            arch_map = {
++                'aarch64': 'arm64', 'x86_64': 'x64', 'arm': 'arm',
++                'i686': 'x86', 'i586': 'x86', 'riscv64': 'x64', 'riscv32': 'x86',
++            }
++            intelli_arch = arch_map.get(modified_recipe.target_arch, 'x64')
++            properties_dict["compilerPath"] = os.path.join(
++                modified_recipe.staging_bindir_toolchain,
++                modified_recipe.cxx.split()[0])
++            properties_dict["compilerArgs"] = [
++                "--sysroot=" + modified_recipe.recipe_sysroot]
++            properties_dict["compileCommands"] = os.path.join(
++                modified_recipe.b, 'compile_commands.json')
++            properties_dict["intelliSenseMode"] = "linux-%s-%s" % (compiler_type, intelli_arch)
+         elif modified_recipe.build_tool is BuildTool.KERNEL_MODULE:
+             # Using e.g. configurationProvider = "ms-vscode.makefile-tools" was not successful
+             properties_dict["compilerPath"] = os.path.join(modified_recipe.staging_bindir_toolchain, modified_recipe.kernel_cc.split()[0])
 -- 
 2.55.0
 
