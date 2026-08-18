@@ -1,178 +1,148 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <rsangam@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 55E36C5DF7E
-	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 12:00:41 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6244.1787050231026219772
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F267C5DF7E
+	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 12:04:21 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7364.1787054652518379879
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2026 03:50:31 -0700
+ Tue, 18 Aug 2026 05:04:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=VzaBVn1o;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: wenwfu@qualcomm.com)
-Received: from pps.filterd (m0279868.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67IABg0L820164
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 10:17:42 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=aZUGv4ZQNZV
-	s19PD6UHJ96Jyr2nrylnaxtsqQh175MU=; b=VzaBVn1o3HrR5MwExcdlwTH+tMG
-	qaP92lih0nXp/yevx4ht09x88HWMMUPJyG6m0Dk2yNgifPCmtr5bieA+EUbpiqzS
-	vTa1Xaaj54VxUZzSE4nzywTm8G1pvtFY/TQjc9kJkqQ2qbB3RQt6VAuDnla5tvtj
-	G9ttizHWOA5oHoi3XJRj7bOcBXTVCxoNPM5O88R/4/axMVmOYJc14qKGQXKcEX8B
-	UUCWS8LoRrRZNxlIsD9BIxVI8EpVkxvSL1atCvY0ERnyWKxLmjF+Y0JL9bXhWwGd
-	zzv0j9q1AxyToODxAP0KdQCAxz0Z9kNu1thE8sXMIfP7f+NUwykaLKYaErQ==
-Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4g4g2p1g0r-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 10:17:41 +0000 (GMT)
-Received: from pps.filterd (APTAIPPMTA01.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA01.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 67IAHd2d004633;
-	Tue, 18 Aug 2026 10:17:39 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 4g2h6jwny3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 10:17:39 +0000 (GMT)
-Received: from APTAIPPMTA01.qualcomm.com (APTAIPPMTA01.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 67IAHcjx004627
-	for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 10:17:38 GMT
-Received: from perf-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
-	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 67IAHcmV004624
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Tue, 18 Aug 2026 10:17:38 +0000 (GMT)
-Received: by perf-sh02-lnx.ap.qualcomm.com (Postfix, from userid 3975139)
-	id AF8B6AA7; Tue, 18 Aug 2026 18:17:37 +0800 (CST)
-From: Wenwen Fu <wenwfu@qti.qualcomm.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=JDTpbMJf;
+ spf=pass (domain: mvista.com, ip: 209.85.216.48, mailfrom: rsangam@mvista.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38ea87caafeso3525099a91.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 05:04:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1787054652; x=1787659452; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=UPZuMEb5F0apebtJifNwpRMM01pbO+qjKzH8kMGcF58=;
+        b=JDTpbMJfGxY6oX5D55LJJcYQfCjPaISpo8sZEKcHub+cyUJFASqB4EhCQXu9OVyqsT
+         dH0xTGep27pG7j+p+vqT76bzO3dSoxnhbLk63nBqaH10q6IcgUfY2ncSOU+Fu05P2OdX
+         ByH+aHbfVlAT6fPLfOBHKsrNyv58cnf9ZVl/0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787054652; x=1787659452;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=UPZuMEb5F0apebtJifNwpRMM01pbO+qjKzH8kMGcF58=;
+        b=ErCkRp5SCILdtCi8RTnnTBSDWV5mcQVH1EN6zFXgU9al7dQZ+UCsT5J1Bv5fS57/Pd
+         ZRSkZu5b9VD+tjhNkeWmEWEBxgLoRliUYdMftrVxwqXhI8WSSt7qja2U4rFabAUOZyrf
+         PuxAF01fxDuLOGjPBcQXHDPzV5FFjU331rZQ/7DyVeBAGo8x+1nlA3rxl1RHQTe9oQaD
+         cp5oBekaFHXTSr+asN8VP1Odpa2pp2aTSjr4Oy7zBGtG/cC0n8zbBNM9BnoH57PPx8p1
+         mHwRWYkLx7E3MLgo38F3+777Q+w/jSuusQNNugFel6EmmebCKcVo+MNYU0rxfoFZAlAS
+         taBQ==
+X-Gm-Message-State: AOJu0YxtBDysizJy47N7QHqH5RbFQ077lBFtmL973Rl8rUdg4XUlH3HT
+	1HA4IbUL2PrJ5kseWnA/bM+dopDHtRZA/SfryZrC83UO4vAy60MQhKf+90yMacEZnVrrOR/qR+c
+	BrO1L
+X-Gm-Gg: AR+sD12XMkznJCTe23fP9jcd9Fq/Ugf+PXKZSLotbRd8o4eg/Eg7W9qvFD++CVaw0sF
+	28d/InPvpIkcwdOxzZT9oIdO9chNt/A+qmy66xvu8bDPwKmGR+P3TmKLE5h0d/0Ehf80f4eROLM
+	3tTJ5IzVSN7bQbgM1A6lNUvOSe2oCxzqG9YViuyT7lY542jTaa0e8dTTf/HkIY/yFIAFqCX5pyl
+	Bp85rJvgFcQR/RBzIvgqfo1QQ3+Yo3O15Tt2XQXsdhQ6WqXdg4PE6NuSqYwljo5kM6F1bv2PbKo
+	xu4SmIa5ZsZ3MD5yhk9lHQE6vQDfQ/pNIqqmPEXw4sGyxLOMzQ7pmyk6B4MFtiWYmpepXmFiPPe
+	S7kcewilhAiEVnBTWkoas2mGjO3+F6WPPKevay25LmCmdHyQbzggC1OrOWmsEM2F2XatRWenKJL
+	Djooz8efFPA7b2ewwtsoe4YrL4LwAGO9P47xdls/EOHUNYPkR7qpp92qpDm0PS9hJ4Ct1d
+X-Received: by 2002:a17:90a:dfd0:b0:38f:23d6:b4ad with SMTP id 98e67ed59e1d1-3933b792985mr34216590a91.8.1787054651616;
+        Tue, 18 Aug 2026 05:04:11 -0700 (PDT)
+Received: from MVIN00040.mvista.com ([49.207.228.61])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1415315a206sm15164809c88.10.2026.08.18.05.04.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 18 Aug 2026 05:04:11 -0700 (PDT)
+From: Rohini Sangam <rsangam@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Wenwen Fu <wenwfu@qti.qualcomm.com>
-Subject: [PATCH v2] initramfs-framework: add opt-in root-only udev trigger
-Date: Tue, 18 Aug 2026 18:17:37 +0800
-Message-ID: <20260818101737.4010605-1-wenwfu@qti.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260812092842.2060157-1-wenwfu@qti.qualcomm.com>
-References: <20260812092842.2060157-1-wenwfu@qti.qualcomm.com>
+Cc: Rohini Sangam <rsangam@mvista.com>
+Subject: [scarthgap][PATCH] libsndfile: Security fix for CVE-2026-37555
+Date: Tue, 18 Aug 2026 17:34:04 +0530
+Message-Id: <20260818120404.43393-1-rsangam@mvista.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-GUID: oAbsbXbRRiLHAZwis4QR_mVLBhif-qhC
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODE4MDA3NCBTYWx0ZWRfX0NmievBKaVVS
- 5JxswyxgW2UnbUfg5uY/9Ljka/SsJVjTcEwJBJuR7s2XAjB3Zc1GyywxAqmzy93FOxV5F6rddo1
- 7oQzonQfiUhoRUiHcKXZgBC74gI7RbQ=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODE4MDA3NCBTYWx0ZWRfX2MacDHIe7fM4
- aURpDmnkF+FhQaPoM47QjC/vFW7sZQki/t7GfXvIVcwzkv1U8oOsF7Rc6zNosYdTqgT88B/OGpm
- QbHIFIwpGRCS+J9ltvLQt7xDb2wOnZwmbsawczmyKIiyu0Y0R6cI2f0ZOhw3Z5o2YarfJvK20jf
- tbhPqxeQiaEBBATNEGCNEhwe4SFdRYOD9xhYl+gwxuGMmMyHRpJU9ASxX0TK5v2Kl4rj0wEa63l
- hWgebyeBB4sVStdf/F3awAcSwHY7G/ml9kQyfj0/xGRd8ieVgz0XnsyxvNjE3xEEZgQhb7CezX5
- 4qmFlXdEJHUSp9+Zl/PdVckL+6D/YMg1kPZ7vShlPeZoX1QdMyok/f5kkzoJdM3+ddNWvZevn+e
- 5cpDhj8hSqJ3q9g1+NKkqmm+GWxeOvpCQEEWSxbU9uUlHMfqZ/8zShlKdc3asRuGajW2wtKGq2j
- 1KF8f4oorDqC36nAtkw==
-X-Proofpoint-ORIG-GUID: oAbsbXbRRiLHAZwis4QR_mVLBhif-qhC
-X-Authority-Analysis: v=2.4 cv=bfRbluPB c=1 sm=1 tr=0 ts=6a843146 cx=c_pps
- a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=ZpdpYltYx_vBUK5n70dp:22 a=EUspDBNiAAAA:8 a=iqAYPJ_ooOm7jgwe6rsA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-18_01,2026-08-12_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 priorityscore=1501 malwarescore=0 lowpriorityscore=0
- phishscore=0 impostorscore=0 bulkscore=0 spamscore=0 adultscore=0
- suspectscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2608180074
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 12:00:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243674
+ <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 12:04:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243675
 
-The initramfs udev module replays add events for the complete device
-tree and waits for every resulting event. This can significantly delay
-mounting the root filesystem when unrelated devices take time to
-initialize.
+Pick patch from [1] also mentioned at debian in [2]
 
-On a Qualcomm RB3 Gen 2 Core Kit (MACHINE=rb3gen2-core-kit) running
-Linux 6.18, using initramfs-rootfs-image with root=PARTLABEL=rootfs,
-the following average times were measured:
+[1] https://github.com/libsndfile/libsndfile/commit/c32c090ff9bb45e1dae637957c9c9b47b3967623
+[2] https://security-tracker.debian.org/tracker/CVE-2026-37555
 
-                              Full coldplug    Root-only
-udev trigger + settle           981.6 ms        109.8 ms
-/init to rootfs EXT4 mount     1340.2 ms        441.1 ms
-
-The root-only trigger reduced these times by 88.8% and 67.1%,
-respectively. The values are averages of three full-coldplug boots and
-two root-only boots.
-
-Add the opt-in initramfs.udev-root-only=1 kernel parameter. When root
-uses PARTLABEL or PARTUUID, trigger only the matching block device. For
-PARTLABEL roots, match the PARTNAME property exposed by udev.
-
-Keep the existing full trigger as the default so current users and
-other initramfs modules retain their existing behaviour. If the root
-device cannot be matched safely or the targeted trigger fails, fall
-back to the original full coldplug.
-
-Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
+Signed-off-by: Rohini Sangam <rsangam@mvista.com>
 ---
-Changes in v2:
-- Explain the boot-time motivation and include performance measurements.
-- Clarify that initramfs.udev-root-only=1 enables the optimization.
-- Make targeted-trigger error handling explicit.
----
- .../initrdscripts/initramfs-framework/udev    | 32 ++++++++++++++++++-
- 1 file changed, 31 insertions(+), 1 deletion(-)
+ .../libsndfile1/CVE-2026-37555.patch          | 48 +++++++++++++++++++
+ .../libsndfile/libsndfile1_1.2.2.bb           |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-37555.patch
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-index 4898b89246..8f67e78a7c 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-@@ -35,6 +35,31 @@ udev_enabled() {
- 	return 0
- }
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-37555.patch b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-37555.patch
+new file mode 100644
+index 0000000000..b2e671f2b3
+--- /dev/null
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-37555.patch
+@@ -0,0 +1,48 @@
++From c32c090ff9bb45e1dae637957c9c9b47b3967623 Mon Sep 17 00:00:00 2001
++From: Alb3e3 <74142887+Alb3e3@users.noreply.github.com>
++Date: Sat, 27 Jun 2026 14:34:16 +0200
++Subject: [PATCH] sds: avoid divide-by-zero in sds_byterate for zero-frame
++ files
++
++sds_read_header() sets psf->sf.frames directly from the file's 3-byte
++data-length field without a lower bound, so a crafted .sds file can
++leave psf->sf.frames == 0. SDS never sets psf->bytewidth, so
++sf_current_byterate() falls through to psf->byterate (sds_byterate),
++which computes
++
++    (psf->datalength * psf->sf.samplerate) / psf->sf.frames
++
++dividing by zero -> SIGFPE crash (denial of service) when an
++application calls the public sf_current_byterate() on such a file.
++
++Guard the division with psf->sf.frames > 0, returning -1 (the same
++'unknown' value already used for the write path) otherwise.
++
++Reproduced with a 21-byte crafted .sds (data-length field = 0) under
++AddressSanitizer: 'FPE ... in sds_byterate src/sds.c:761' before the
++fix; returns -1 cleanly after.
++
++CVE: CVE-2026-37555
++Upstream-Status: Backport [https://github.com/libsndfile/libsndfile/commit/c32c090ff9bb45e1dae637957c9c9b47b3967623]
++
++Signed-off-by: Rohini Sangam <rsangam@mvista.com>
++---
++ src/sds.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/src/sds.c b/src/sds.c
++index 6bc7617..0dc082d 100644
++--- a/src/sds.c
+++++ b/src/sds.c
++@@ -757,7 +757,7 @@ sds_seek (SF_PRIVATE *psf, int mode, sf_count_t seek_from_start)
++ static int
++ sds_byterate (SF_PRIVATE * psf)
++ {
++-	if (psf->file.mode == SFM_READ)
+++	if (psf->file.mode == SFM_READ && psf->sf.frames > 0)
++ 		return (psf->datalength * psf->sf.samplerate) / psf->sf.frames ;
++ 
++ 	return -1 ;
++-- 
++2.44.4
++
+diff --git a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+index 4cf4237573..5d2a2c256b 100644
+--- a/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
++++ b/meta/recipes-multimedia/libsndfile/libsndfile1_1.2.2.bb
+@@ -13,6 +13,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/libsndfile-${PV}.tar.xz \
+            file://CVE-2024-50612.patch \
+            file://CVE-2025-56226-01.patch \
+            file://CVE-2025-56226-02.patch \
++           file://CVE-2026-37555.patch \
+           "
+ GITHUB_BASE_URI = "https://github.com/libsndfile/libsndfile/releases/"
  
-+udev_trigger_root_device() {
-+	case "${bootparam_root:-}" in
-+		PARTLABEL=?*)
-+			root_match="PARTNAME=${bootparam_root#PARTLABEL=}"
-+			;;
-+		PARTUUID=?*)
-+			root_match="PARTUUID=${bootparam_root#PARTUUID=}"
-+			;;
-+		*)
-+			return 1
-+			;;
-+	esac
-+
-+	root_devices=$(udevadm trigger --dry-run --verbose \
-+		--subsystem-match=block "--property-match=$root_match") || return 1
-+
-+	# udevadm succeeds even when no devices match, so check its dry-run output.
-+	[ -n "$root_devices" ] || return 1
-+
-+	udevadm trigger --subsystem-match=block \
-+		"--property-match=$root_match" --action=add || return 1
-+
-+	return 0
-+}
-+
- udev_run() {
- 	add_module_pre_hook "udev_shutdown_hook_handler"
- 
-@@ -45,6 +70,11 @@ udev_run() {
- 	sh -c "exec 4< /dev/console" || { exec 0> /dev/null; exec 1> /dev/null; exec 2> /dev/null; }
- 
- 	$_UDEV_DAEMON --daemon
--	udevadm trigger --action=add
-+	if [ "${bootparam_initramfs_udev_root_only:-}" = "1" ] &&
-+	   udev_trigger_root_device; then
-+		debug "Triggered udev for root partition only"
-+	else
-+		udevadm trigger --action=add
-+	fi
- 	udevadm settle
- }
 -- 
-2.43.0
+2.34.1
+
 
