@@ -2,111 +2,243 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 18B06C5DF8A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C7D1C5DF85
 	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 15:57:41 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10315.1787155059110225752
+Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10400.1787155057460548016
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2026 08:57:39 -0700
+ Wed, 19 Aug 2026 08:57:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GfkP1V7K;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47fe377a217so720011f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 08:57:38 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=UjkbhaKe;
+ spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47fde295992so39901f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 08:57:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787155057; x=1787759857; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=a38oYNfAvgQasLLBAn/Q70M2hMSHxIKLPvr4j4NNWpk=;
-        b=GfkP1V7KGsOm6h3NL3h+tTzw4vTgrv3DctMrmfJ9UEQSo3J3w1QRy7mWiTx1/dUG5p
-         0f9Y/DOsIgGaJiq8wdOU/+DIrT/GHRLFUQKHAwJojaz301CJWI335ZU1Dp6h6WsKTzHW
-         Y0RiR3YljIdItnu6gpM5y8dCUZlbSpQCA9zZw=
+        d=smile.fr; s=google; t=1787155056; x=1787759856; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SN8rlhmU2tcwoAN3DvNjctgfr+XIpQqfZ/q4AQlNGrs=;
+        b=UjkbhaKe91qzqxN0JgJjESIind3tPGXGzYPUVKIfpngr9p0qia03O5CC46eFpRV1lC
+         hY2LOvO+ocft6kC8Yu+VZfLr9WVGA9loScHWurLikbZ+CEsHB/ufSgAdnRoqowVm91xL
+         uA4fYATBUZkWcFFaLjfm0VaSSR9Zu8muE90ec=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787155057; x=1787759857;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=a38oYNfAvgQasLLBAn/Q70M2hMSHxIKLPvr4j4NNWpk=;
-        b=iFNy9mS+atTBS2pb38jHbAbIgV04pZaM2SQ5VVWkbawsphUejvsYm8QmFMsqBcepAo
-         sC1Ybs8G3IfnzXbRQm3e7wYKlfSIy2GW61YA1MFKyCDVvcWuYrcThyDvBvYh8/weYCrs
-         UZcZgK1/l5kLUhaBH8gLFlxk5oj9vn/1rMWdXBuhx38wuMXdHuSGUfL8okOnCJj3HIFP
-         g9+iQYazHdJ+RTUiUDegLihZ7FkGYgknlq2un2zKY3UQr8jsKZR13iZ1Uaj7swC3zWwU
-         dJDzCBiNSh73JDAzuC1dxcnglkE4egU5NKCdS7yDawcV0UdznW9WXwt+yM9QH2/J9zDI
-         y2sQ==
-X-Gm-Message-State: AFuF++kVpJ/8VUMDISd/HGl3YQM3cBZhKolk8HHyzhp3LipPO5xEEPRQ
-	vt3QLpzAby/ASXvIhm6/yU6nscpcXMIBIuYVXWNpC/Ol2yjdY3znqN9cv7jS14RYR8LHyB4bCfI
-	j8C3qmWQ=
-X-Gm-Gg: AR+sD12AsYv9t/gRq2yZtKAx5HSIgHGr9Gh+iQ+zZVZAmcZeCCYb2YA2FvIzHtuZImJ
-	LJ9j5Quau8PsuVY23lFCY7sNlKIvx4HfsrzIkw4z6Dy9c09CtuhJhCA29JDbsqOtrGYoLRQLURc
-	lp32B5nbWVibBX7WBi22NRqfuvlLtoRawlQudBVsMdW4GFp9+UToOA5T1mXi8RGNOjI4nDysiWh
-	y6slaCgP5dpG4PMBl31rvm/XzleeoFQEIu2OY8mbHaEQqg/tiEuldR0Mz0u+rZqjX8+EDLigXHT
-	AAAm5FoOAtj46mosqPoV09EL0mlscg1UrVtf9TvHJDQhTBFiHJYOU01WqKF6mTbTHJlV6drYsUW
-	LdHNVEbh+ytiAFceCy65z31VWS9HGoEQjOSflcRfQKaTdRfAmpVSRL0NVyKU5VitoEHXA6sGWSP
-	DMy75hSY+S5tIKoNT8EZ2UtfjRgSnUrhn+JwVRBYRrQ/iLHbP2NGOj///04tzBAKHns+1HZGY8o
-	Itj39M7rf6KD1Bq0+3ZgwBsTOyKD2DTGxNn0Ytz2Bbn7zRd8DDczE3fOw6e70k32mzCYpDH3/wf
-	zX3Fj4+e/u9uJIXhJLYqBax9bVIZLdpM92Ulu7i0
-X-Received: by 2002:a05:6000:4029:b0:481:5003:c654 with SMTP id ffacd0b85a97d-482b1e95911mr9632390f8f.7.1787155057329;
-        Wed, 19 Aug 2026 08:57:37 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787155056; x=1787759856;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=SN8rlhmU2tcwoAN3DvNjctgfr+XIpQqfZ/q4AQlNGrs=;
+        b=N5U02GulWIV+Jadcgn9BXOpyNplkTeCoVD9P7Bh3pb6u7CvBbX2YBqpOChcyRx6hmR
+         Aiw5cRu4q9fWWb946ZJBaOfTlYcsswbF4uwdEqxBVCcdv9spwwEKf0NqFnTLcwXooe/P
+         3Cfv8EZWvNolxYIjkD8kxBJDEJO6KLaY5BF8tqZGwDzx+hw5w259Ia4WSTjRQ2hqHHsx
+         QzyktMrrWds9Gerzw5nCbtHN7OHJzvB5DntYF23zaAd/UkvE83gXkTCZghRo6NU/rnfF
+         cAfi4go3ofZl19F0NFvCGxpZA9y1j3R1908zoRkSvyH+9IWZ9+rTethF0GvHm1UAg7Xv
+         1A+Q==
+X-Gm-Message-State: AFuF++lnGFauFPeyqe5DG0aGwDoKUPxd7DYakPgyLcVCUaLJTHwbGM4C
+	kyobW3aG6975XRCpQWsTdV8QS/yyaLXDmWTr0VjEF37m++AlO0qvVZFVsFoy3gGtYDyPKfv2CMr
+	MYKjm9Ro=
+X-Gm-Gg: AR+sD13AsTjieH0e96BNYlkWVlA/vLxbpoUSIWPYRgL0NUhrT0D79NTKwQsRLjGlPK4
+	VImkH+oCbAPR8EfUT1ob+ClgIYvEYFkn0vmM0hD/N8nDHkdZuas0fMxbL3KxytXgAnRPPS76R2/
+	ssStEtKAevAoOyLpmVYBlWtKL6nEbsR7TfIJZFhQGRzdfliLyT+Bde9l2Ctiq2NioZwQk1P0VQF
+	2kJKnhq/T8DnNoZEWCO+2jovUjqvjvGV01r6n7oq7ZxQBNTp3+hZjwVHkIofNJAq80xMDJSG6Dc
+	PLTiky45Axv5vzQvLssp1A6DrkbgFDovzfnsYecRX6S9r+d3Fi+5D6CQvJDPaqZ8fkOt0oUDA5g
+	4SlaLEp7JorwkbYDEwCh3BLISYfCLpbPiTu0ssLJHjCBD1G3Ji4W0KJ+8Sp2hlcfDkOcidKnpxz
+	GtQNu+SlLf3mn63FMYENmwCo8m82lN6XlMH3NWqCfReTZ03n+DorzHQ//fDv9+gz6pxDXFmA4AB
+	UOfmFrdjZ3hJyFHW34Dk3mgq8DYoQmJxn5lrp+om3m0fW3FvCsGMrHTwEgcWGjpTxu0yChpYaEz
+	6dwtGcfpd4+kNl8xQ0k/e4cFqboQneDif5+rJIWo
+X-Received: by 2002:a05:6000:230f:b0:481:562d:6fb1 with SMTP id ffacd0b85a97d-482b782c84fmr264067f8f.6.1787155055515;
+        Wed, 19 Aug 2026 08:57:35 -0700 (PDT)
 Received: from FRSMI25-GIGUE (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm7215698f8f.35.2026.08.19.08.57.36
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm7215698f8f.35.2026.08.19.08.57.34
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2026 08:57:37 -0700 (PDT)
+        Wed, 19 Aug 2026 08:57:34 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/37] python3-certifi: set CVE_PRODUCT
-Date: Wed, 19 Aug 2026 17:56:34 +0200
-Message-ID: <7fde1db72b213e6828f2e30ae8304ee506cdb649.1787154074.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 00/37] Patch review
+Date: Wed, 19 Aug 2026 17:56:31 +0200
+Message-ID: <cover.1787154074.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <cover.1787154074.git.fabien.thomas@smile.fr>
-References: <cover.1787154074.git.fabien.thomas@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 15:57:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243739
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243736
 
-From: "mark.yang" <mark.yang@lge.com>
+Please review this set of changes for scarthgap and have comments back by
+end of day Friday, August 21.
 
-NVD tracks certifi as certifi:certifi, so the default python:certifi
-vendor prefix never matches and its CVEs are not evaluated at all.
-Use the exact vendor:product pair.
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4516
+* The 2 warnings about ptest-curl are under investigation
 
-For scarthgap, python3-certifi is 2024.2.2. CVE-2024-39689 affects
-certifi versions before 2024.7.4, but this recipe already carries
-CVE-2024-39689.patch. With this mapping, cve-check can evaluate that
-existing backport against the correct NVD product instead of missing
-the CVE mapping.
+The following changes since commit 1ba3cd7c884dc6c3d78c6bedc15e081f5000c8c9:
 
-Note: Original commit was for python3-certifi_2026.2.25.bb. This is
-adjusted for scarthgap where recipe version is
-python3-certifi_2024.2.2.bb.
+  ref-manual/variables.rst: document the QB_DEFAULT_BIOS variable (2026-08-13 12:33:22 +0100)
 
-(From OE-Core rev: e6773f4c819544eae93f3efa7d2101b448db4ebb)
+are available in the Git repository at:
 
-Signed-off-by: mark.yang <mark.yang@lge.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 26c49743ec431a3cc39803664eec8851be75756e)
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
-Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
----
- meta/recipes-devtools/python/python3-certifi_2024.2.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+  https://git.yoctoproject.org/poky-contrib stable/scarthgap-nut
+  https://git.yoctoproject.org/poky-contrib/log/?h=stable/scarthgap-nut
 
-diff --git a/meta/recipes-devtools/python/python3-certifi_2024.2.2.bb b/meta/recipes-devtools/python/python3-certifi_2024.2.2.bb
-index 116add2079d..b3d6cf080cc 100644
---- a/meta/recipes-devtools/python/python3-certifi_2024.2.2.bb
-+++ b/meta/recipes-devtools/python/python3-certifi_2024.2.2.bb
-@@ -12,6 +12,8 @@ SRC_URI += "file://CVE-2024-39689.patch \
- 
- SRC_URI[sha256sum] = "0569859f95fc761b18b45ef421b1290a0f65f147e92a1e5eb3e635f9a5e4e66f"
- 
-+CVE_PRODUCT = "certifi:certifi"
-+
- inherit pypi setuptools3
- 
- BBCLASSEXTEND = "native nativesdk"
+for you to fetch changes up to 7bc6442a1f83593427a502bbb924a3f91b4a0456:
+
+  linux-yocto/6.6: update to v6.6.147 (2026-08-19 13:48:46 +0200)
+
+----------------------------------------------------------------
+
+Adarsh Jagadish Kamini (1):
+  gnutls: fix CVE-2026-3833
+
+Alexander Kanavin (1):
+  perf: drop newt from tui build requirements
+
+Amaury Couderc (1):
+  python3: fix CVE-2026-7210
+
+Bruce Ashfield (1):
+  linux-yocto/6.6: update to v6.6.147
+
+David Nyström (1):
+  libssh2: Fix CVE-2025-15661
+
+Deepak Rathore (15):
+  expat: fix CVE-2026-56403
+  expat: fix CVE-2026-56408
+  expat: fix CVE-2026-56404
+  expat: fix CVE-2026-56405
+  expat: fix CVE-2026-56410
+  expat: fix CVE-2026-56406
+  expat: fix CVE-2026-56409
+  expat: fix CVE-2026-56411
+  expat: fix CVE-2026-56407
+  expat: fix CVE-2026-56132
+  curl: fix CVE-2026-5545
+  curl: fix CVE-2026-6253
+  curl: fix CVE-2026-6429
+  curl: fix CVE-2026-7168
+  curl: fix CVE-2026-4873
+
+Himanshu Jadon (1):
+  python3-pip: set CVE_PRODUCT
+
+Jaipaul Cheernam (4):
+  libssh2: fix CVE-2026-66032
+  libssh2: fix CVE-2026-66033
+  libssh2: fix CVE-2026-66034
+  libssh2: fix CVE-2026-66035
+
+Maik Otto (1):
+  u-boot: Set CVE_PRODUCT
+
+Marta Rybczynska (1):
+  flex: update CVE_PRODUCT
+
+Peter Marko (5):
+  xserver-org: update CVE_PRODUCT
+  shadow: set CVE_PRODUCT
+  sudo: set CVE_PRODUCT
+  busybox: patch CVE-2026-38754
+  libsndfile1: patch CVE-2026-37555
+
+mark.yang (5):
+  python3-pyopenssl: set CVE_PRODUCT
+  python3-idna: set CVE_PRODUCT
+  python3-certifi: set CVE_PRODUCT
+  python3-xmltodict: set CVE_PRODUCT
+  python3-pyyaml: set CVE_PRODUCT
+
+ meta/recipes-bsp/u-boot/u-boot.inc            |   2 +
+ .../busybox/busybox/CVE-2026-38754.patch      | 155 +++++++
+ meta/recipes-core/busybox/busybox_1.36.1.bb   |   1 +
+ .../expat/expat/CVE-2026-56132_p1.patch       |  80 ++++
+ .../expat/expat/CVE-2026-56132_p2.patch       |  60 +++
+ .../expat/expat/CVE-2026-56132_p3.patch       |  74 +++
+ .../expat/expat/CVE-2026-56132_p4.patch       |  60 +++
+ .../expat/expat/CVE-2026-56132_p5.patch       |  56 +++
+ .../expat/expat/CVE-2026-56403_p1.patch       |  81 ++++
+ .../expat/expat/CVE-2026-56403_p2.patch       |  52 +++
+ .../expat/expat/CVE-2026-56404.patch          |  45 ++
+ .../expat/expat/CVE-2026-56405.patch          |  30 ++
+ .../expat/CVE-2026-56406-dependent.patch      |  59 +++
+ .../expat/expat/CVE-2026-56406.patch          |  34 ++
+ .../expat/expat/CVE-2026-56407.patch          |  41 ++
+ .../expat/expat/CVE-2026-56408.patch          |  29 ++
+ .../expat/expat/CVE-2026-56409.patch          |  51 +++
+ .../expat/expat/CVE-2026-56410_p1.patch       |  46 ++
+ .../expat/expat/CVE-2026-56410_p2.patch       |  39 ++
+ .../expat/expat/CVE-2026-56411.patch          |  50 +++
+ meta/recipes-core/expat/expat_2.6.4.bb        |  17 +
+ meta/recipes-devtools/flex/flex_2.6.4.bb      |   2 +-
+ .../python/python3-certifi_2024.2.2.bb        |   2 +
+ .../python/python3-idna_3.7.bb                |   2 +
+ .../python/python3-pip_24.0.bb                |   2 +
+ .../python/python3-pyopenssl_24.0.0.bb        |   1 +
+ .../python/python3-pyyaml_6.0.1.bb            |   2 +
+ .../python/python3-xmltodict_0.13.0.bb        |   2 +
+ .../python/python3/CVE-2026-7210.patch        | 148 ++++++
+ .../python/python3_3.12.13.bb                 |   1 +
+ meta/recipes-extended/shadow/shadow.inc       |   2 +
+ meta/recipes-extended/sudo/sudo_1.9.17p2.bb   |   2 +
+ .../xorg-xserver/xserver-xorg.inc             |   2 +-
+ .../linux/linux-yocto-rt_6.6.bb               |   6 +-
+ .../linux/linux-yocto-tiny_6.6.bb             |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  |  28 +-
+ meta/recipes-kernel/perf/perf.bb              |   5 +-
+ .../libsndfile1/CVE-2026-37555.patch          |  44 ++
+ .../libsndfile/libsndfile1_1.2.2.bb           |   1 +
+ .../curl/curl/CVE-2026-4873.patch             |  58 +++
+ .../curl/curl/CVE-2026-5545.patch             |  42 ++
+ .../curl/curl/CVE-2026-6253.patch             | 392 ++++++++++++++++
+ .../curl/curl/CVE-2026-6429.patch             | 367 +++++++++++++++
+ .../curl/curl/CVE-2026-7168.patch             | 425 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |   5 +
+ .../gnutls/gnutls/CVE-2026-3833.patch         |  90 ++++
+ meta/recipes-support/gnutls/gnutls_3.8.4.bb   |   1 +
+ .../libssh2/libssh2/CVE-2025-15661-1.patch    |  45 ++
+ .../libssh2/libssh2/CVE-2025-15661-2.patch    | 131 ++++++
+ .../libssh2/libssh2/CVE-2025-15661-3.patch    |  57 +++
+ .../libssh2/libssh2/CVE-2026-66032.patch      |  36 ++
+ .../libssh2/libssh2/CVE-2026-66033.patch      |  45 ++
+ .../libssh2/libssh2/CVE-2026-66034.patch      |  40 ++
+ .../libssh2/libssh2/CVE-2026-66035.patch      |  56 +++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |   7 +
+ 55 files changed, 3091 insertions(+), 26 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-38754.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p3.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p4.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56132_p5.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56403_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56404.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56405.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56407.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56408.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56409.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p1.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56410_p2.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56411.patch
+ create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-7210.patch
+ create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-37555.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-4873.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-5545.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6253.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-7168.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3833.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2025-15661-1.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2025-15661-2.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2025-15661-3.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66033.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66034.patch
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch
+
 
