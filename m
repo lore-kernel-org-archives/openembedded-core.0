@@ -1,615 +1,221 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BABA1C5DF7D
-	for <webhook@archiver.kernel.org>; Tue, 18 Aug 2026 22:17:31 +0000 (UTC)
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com [209.85.161.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20508.1787091446547152266
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 09B94C5DF6D
+	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 05:05:00 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.557.1787115890871420386
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2026 15:17:26 -0700
+ Tue, 18 Aug 2026 22:04:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=MoHqFpnd;
- spf=pass (domain: gmail.com, ip: 209.85.161.41, mailfrom: jpewhacker@gmail.com)
-Received: by mail-oo1-f41.google.com with SMTP id 006d021491bc7-6acc15016f1so297046eaf.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 15:17:26 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787091446; x=1787696246; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=6raJIPmTG7VtAMhwKES+Kg/EVkmCJyE0MVpZfRAWt4U=;
-        b=MoHqFpnd65FC/JLfAm0nyGHGlNDrRdkUdw0g++X7cELunb8DNFA3P8rlQ+Q0i/kw1z
-         h/cuUxe7J16agPzLXmhT5xW+cBze9ZZSeA9vhVPu0fdBoB2k1oDJv2c1ZnfQtVRDDWgx
-         TE1ecaTH4WW0dE+6b6ikuT6rYkvgpurVTXyNPE/pyDta87Sc7nCTFsSsrhv2ZuWTOgVW
-         D7J2M7fqdVIHSCTvs86r41z5MrqY57CAh3EnjDyQOYMvq7qTcKKqzyDXE1/T/DInPNj5
-         2yhmBTIEHvlHxG0Qcd+K0Kw4FLysvTadBoJGE1ht4n/KSRgfSmfCtp1k6AKAP3bU2tFr
-         wLEQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787091446; x=1787696246;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=6raJIPmTG7VtAMhwKES+Kg/EVkmCJyE0MVpZfRAWt4U=;
-        b=n+1rPHmpittpcDe+pHErHHEHNsma1Wzll+5XmcXGgT37tIfZkB/y9YeRfSdhbEX7cQ
-         ktR9p+j61+xEpKRDL6jrd+YK2aLGbThS5xspxfTlWtDMz8StK5rjqoEAzWdpgfludBcC
-         qtngTQ7TE1PXmsa7RYiri8fvX87K+PWP7yVlyQqFF3KA2kV6/G9YCOgLgYItL9pgmROQ
-         L7jFlRk94ZGYj7FGFl9/tkeCUZMzU3VSvUgFnQEC4F1ZE2QCNlKgmNBNRc/TPC9KfuML
-         HoJN6YQp/T4rVH9XZPUXs12O2UtX9Jzew5g1OesLNiC1O2Qaidsx6tEIzOy2HSqRSvyj
-         sytw==
-X-Gm-Message-State: AOJu0Yzr69rQoe7u1jBG1Vyj52t/bHND++dbpF113SD2bRsxcRHOtJf0
-	nQzUex1jx2MrijCM7UuK3iunfgOrm9FZV9mW50UsJG9JWl1SMST+jNQvBZF6Ww==
-X-Gm-Gg: AR+sD12gjsWwzsj4GWNV50uRCRS2t/rIB1GdDu035UVD2fBmFvNufoq5bBHS8IApurO
-	VURWudZGhSEIQGP1UUWARruvldwjuwemk8Ip044MGLnnxte0zO/8QBjqCg5Rm6/V6FXhbhwwW9F
-	Xm/MmwpuSfHjzLg3q3Jf+0aU1Q+UDJDC95YmHfl8/RTeudXCmjNDkkUClhr92U6FdFcj/uL7KXw
-	vOi9U0zoioyssWeDWURhFvyq0UyLGcOKbHsT75q5aGulg2WPLEbHt5LAHP/OVR7nerh/40O2a/7
-	nLeBZizYXAwtcg0B4WYNAer9hMbGX9Mp5oRo+g9zoNu0S2TZ1fDff+aaMqnMaJC/+bLKO5/hV6B
-	MoyK5x08wz9wTZr2n01/ZfUiWqBNvC22PIBcV88cUu+IJWviWpL5ZkOxbjOLHqgteF9EeWfcyDV
-	sMg9dQqsj2rdCLKRVf8mr/P6PZalKxLamtekuKyfM31c19RrWeUd97eG41OQ==
-X-Received: by 2002:a05:6820:80c5:b0:6b1:3417:548b with SMTP id 006d021491bc7-6b13c5e4751mr465296eaf.24.1787091445274;
-        Tue, 18 Aug 2026 15:17:25 -0700 (PDT)
-Received: from localhost.localdomain ([2601:283:4b01:ba50::17e2])
-        by smtp.gmail.com with ESMTPSA id 006d021491bc7-6b13cebeb1fsm76345eaf.11.2026.08.18.15.17.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2026 15:17:24 -0700 (PDT)
-From: Joshua Watt <jpewhacker@gmail.com>
-X-Google-Original-From: Joshua Watt <JPEWhacker@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Joshua Watt <JPEWhacker@gmail.com>
-Subject: [OE-core][PATCH] licences: Move exceptions to subdirectory
-Date: Tue, 18 Aug 2026 16:17:21 -0600
-Message-ID: <20260818221721.3820389-1-JPEWhacker@gmail.com>
-X-Mailer: git-send-email 2.55.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=WcNjYoec;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 80B664E412C0
+	for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 05:04:48 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 451EF604AA;
+	Wed, 19 Aug 2026 05:04:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id D685111C75279;
+	Wed, 19 Aug 2026 07:04:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1787115883; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=5DxGtLYgOHKMrwVUqLEPC5ufg6U4VjmejNiQFLUzlus=;
+	b=WcNjYoecc6AuzQ1jZguqdCNSels/XT7rYTww+GCULwMPSr38Sj8vO00NtZg90JuauXaiqW
+	tbG5765TdQg2TpsvC2SbHtXemoLwFBIxJD7w9JrBCWr23ajimLhpxYaQxE66C9U6Zx/MS5
+	4f+x9MoH8VF/i1g2t7jMG2MYALfeIXS8RRlq7e2XUREwMD0cqt0SdZSlCcikokrLwArlZO
+	ezyi8aOgKe95PDx/XxTAQRMU3wXSjhnjEHwYdtZX09TFoZ0LlCGCMlH+6exC09RUy7CpQa
+	J1HMKrDb3c3WhJwGNiE+SicgI0GCxY88kXX3Xi0Tdji6mos1jpQQweR2Zo0hKA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 19 Aug 2026 07:04:41 +0200
+Message-Id: <DKSNPIA0U8TJ.2BL1NWUZH4PRP@bootlin.com>
+To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH] elfutils: upgrade 0.195 -> 0.196
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260818140212.55083-1-jaipaul.cheernam@est.tech>
+In-Reply-To: <20260818140212.55083-1-jaipaul.cheernam@est.tech>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 22:17:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243695
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 05:04:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243696
 
-Moves the SPDX license exceptions to a subdirectory to make the easier
-to identify as license exceptions vs. actual licenses
+On Tue Aug 18, 2026 at 4:02 PM CEST, Jaipaul Cheernam wrote:
+> Source: NEWS
+>
+> Version 0.196 "Split Personality"
+>
+> debuginfod: The $DEBUGINFOD_TIMEOUT environment variable is now enforced
+>             when establishing a connection to a server.
+>
+> libdw: New functions dwarf_begin_type, dwarf_begin_elf_type and
+>        dwarf_get_type plus new enum Dwarf_Type.  Used to select between
+>        plain DWARF, split DWARF (.dwo/.dwp) and GNU LTO when opening a
+>        file.
+>
+>        Added support for DWARF5 supplementary files (.debug_sup) and
+>        associated DW_FORM_ref_sup4/8 and DW_FORM_strp_sup forms.
+>
+>        Added support for split DWARF debug data when contained in the
+>        same file as the skeleton.
+>
+> libdwelf: New functions dwelf_dwarf_debug_sup and dwelf_dwarf_debug_dwp
+>           for querying .debug_sup and .debug_dwp section data.
+>
+> libdwfl: Now correctly handles Linux kernel module sections that are
+>          not present in sysfs.
+>
+> libdwfl_stacktrace: New functions dwflst_arch_from_uname,
+>                     dwflst_arch_expected_frame_nregs,
+>                     dwflst_arch_sp_dwarf_reg and dwflst_arch_sp_perf_reg
+>                     providing per-architecture constants.  The
+>                     libdwfl_stacktrace interface is experimental and may
+>                     be subject to API/ABI changes.
+>
+> stackprof: New profiling tool for collecting systemwide stacktrace
+>            profiles.  Replaces the eu-stacktrace tool.  Requires
+>            a C++20 capable compiler.
+>
+> stacktrace: This experimental tool has been removed and replaced with
+>             eu-stackprof.
+>
+> srcfiles: Now handles CU names and files from split DWARF.
+>
+> strip: Fixed bug where a section's sh_link or sh_info reference could
+>        be missing from the debug file.
+>
+> version.h: New macro _ELFUTILS_THREAD_SAFE added to <elfutils/version.h>.
+>            Defined to 1 when the elfutils libraries are built with thread
+>            safety support enabled.  Otherwise it is left undefined.
+>            Thread safety support is experimental and is not yet officiall=
+y
+>            supported.
+>
+> Dropped patches:
+> 0001-libelf-Add-libeu-objects-to-libelf.a-static-archive.patch
+>   Backported in b4bd2a2bf6 for 0.192 from upstream commit [1].
+>   A later upstream commit [2] replaced the $(AR) t approach with a
+>   libeu.manifest file. Both [1] and [2] landed in upstream 0.193,
+>   making the backport redundant since 0.193. Verified libelf.a
+>   contains eu-search.o after build without the patch.
+>
+> [1] https://sourceware.org/git/?p=3Delfutils.git;a=3Dcommit;h=3Df5d6e088f=
+84dd05278c4698a21cbf1ff4569978d
+> [2] https://sourceware.org/git/?p=3Delfutils.git;a=3Dcommit;h=3D4eff110a6=
+0cb9c7b77884c61f5925fe844c52acb
+>
+> Refreshed patches:
+> 0003-musl-utils.patch
+>
+> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> ---
 
-This should have no effect on other layers since SPDX doesn't allow
-custom Exceptions like it does for Licenses (via LicenseRef-); since we
-have already enumerated all known exceptions, its unlikely any other
-layer have added their own
+Hi Jaipaul,
 
-Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
----
- meta/files/common-licenses/{ => exceptions}/389-exception   | 0
- .../common-licenses/{ => exceptions}/Asterisk-exception     | 0
- .../{ => exceptions}/Asterisk-linking-protocols-exception   | 0
- .../common-licenses/{ => exceptions}/Autoconf-exception-2.0 | 0
- .../common-licenses/{ => exceptions}/Autoconf-exception-3.0 | 0
- .../{ => exceptions}/Autoconf-exception-generic             | 0
- .../{ => exceptions}/Autoconf-exception-generic-3.0         | 0
- .../{ => exceptions}/Autoconf-exception-macro               | 0
- .../common-licenses/{ => exceptions}/Bison-exception-1.24   | 0
- .../common-licenses/{ => exceptions}/Bison-exception-2.2    | 0
- .../common-licenses/{ => exceptions}/Bootloader-exception   | 0
- .../common-licenses/{ => exceptions}/CGAL-linking-exception | 0
- .../common-licenses/{ => exceptions}/CLISP-exception-2.0    | 0
- .../{ => exceptions}/Classpath-exception-2.0                | 0
- .../{ => exceptions}/Classpath-exception-2.0-short          | 0
- .../{ => exceptions}/DigiRule-FOSS-exception                | 0
- .../{ => exceptions}/Digia-Qt-LGPL-exception-1.1            | 0
- meta/files/common-licenses/{ => exceptions}/FLTK-exception  | 0
- .../{ => exceptions}/Fawkes-Runtime-exception               | 0
- .../common-licenses/{ => exceptions}/Font-exception-2.0     | 0
- .../common-licenses/{ => exceptions}/GCC-exception-2.0      | 0
- .../common-licenses/{ => exceptions}/GCC-exception-2.0-note | 0
- .../common-licenses/{ => exceptions}/GCC-exception-3.1      | 0
- meta/files/common-licenses/{ => exceptions}/GNAT-exception  | 0
- .../{ => exceptions}/GNOME-examples-exception               | 0
- .../common-licenses/{ => exceptions}/GNU-compiler-exception | 0
- .../{ => exceptions}/GPL-3.0-389-ds-base-exception          | 0
- .../{ => exceptions}/GPL-3.0-interface-exception            | 0
- .../{ => exceptions}/GPL-3.0-linking-exception              | 0
- .../{ => exceptions}/GPL-3.0-linking-source-exception       | 0
- meta/files/common-licenses/{ => exceptions}/GPL-CC-1.0      | 0
- .../{ => exceptions}/GStreamer-exception-2005               | 0
- .../{ => exceptions}/GStreamer-exception-2008               | 0
- meta/files/common-licenses/{ => exceptions}/Gmsh-exception  | 0
- .../{ => exceptions}/Independent-modules-exception          | 0
- .../{ => exceptions}/KiCad-libraries-exception              | 0
- .../{ => exceptions}/LGPL-3.0-linking-exception             | 0
- meta/files/common-licenses/{ => exceptions}/LLGPL           | 0
- meta/files/common-licenses/{ => exceptions}/LLVM-exception  | 0
- meta/files/common-licenses/{ => exceptions}/LZMA-exception  | 0
- .../common-licenses/{ => exceptions}/Libtool-exception      | 0
- .../common-licenses/{ => exceptions}/Linux-syscall-note     | 0
- .../common-licenses/{ => exceptions}/OCCT-exception-1.0     | 0
- .../{ => exceptions}/OCaml-LGPL-linking-exception           | 0
- .../{ => exceptions}/OpenJDK-assembly-exception-1.0         | 0
- meta/files/common-licenses/{ => exceptions}/PCRE2-exception | 0
- .../{ => exceptions}/PS-or-PDF-font-exception-20170817      | 0
- .../{ => exceptions}/QPL-1.0-INRIA-2004-exception           | 0
- .../common-licenses/{ => exceptions}/Qt-GPL-exception-1.0   | 0
- .../common-licenses/{ => exceptions}/Qt-LGPL-exception-1.1  | 0
- .../common-licenses/{ => exceptions}/Qwt-exception-1.0      | 0
- .../{ => exceptions}/RRDtool-FLOSS-exception-2.0            | 0
- meta/files/common-licenses/{ => exceptions}/SANE-exception  | 0
- meta/files/common-licenses/{ => exceptions}/SHL-2.0         | 0
- meta/files/common-licenses/{ => exceptions}/SHL-2.1         | 0
- meta/files/common-licenses/{ => exceptions}/SWI-exception   | 0
- .../{ => exceptions}/Simple-Library-Usage-exception         | 0
- meta/files/common-licenses/{ => exceptions}/Swift-exception | 0
- .../common-licenses/{ => exceptions}/Texinfo-exception      | 0
- meta/files/common-licenses/{ => exceptions}/UBDL-exception  | 0
- .../{ => exceptions}/Universal-FOSS-exception-1.0           | 0
- .../{ => exceptions}/WxWindows-exception-3.1                | 0
- .../{ => exceptions}/cryptsetup-OpenSSL-exception           | 0
- .../common-licenses/{ => exceptions}/eCos-exception-2.0     | 0
- .../{ => exceptions}/erlang-otp-linking-exception           | 0
- meta/files/common-licenses/{ => exceptions}/fmt-exception   | 0
- .../common-licenses/{ => exceptions}/freertos-exception-2.0 | 0
- .../common-licenses/{ => exceptions}/gnu-javamail-exception | 0
- .../common-licenses/{ => exceptions}/harbour-exception      | 0
- .../common-licenses/{ => exceptions}/i2p-gpl-java-exception | 0
- .../{ => exceptions}/kvirc-openssl-exception                | 0
- .../{ => exceptions}/libpri-OpenH323-exception              | 0
- meta/files/common-licenses/{ => exceptions}/mif-exception   | 0
- meta/files/common-licenses/{ => exceptions}/mxml-exception  | 0
- .../{ => exceptions}/openvpn-openssl-exception              | 0
- .../common-licenses/{ => exceptions}/polyparse-exception    | 0
- meta/files/common-licenses/{ => exceptions}/romic-exception | 0
- .../{ => exceptions}/rsync-linking-exception                | 0
- .../{ => exceptions}/sqlitestudio-OpenSSL-exception         | 0
- .../common-licenses/{ => exceptions}/stunnel-exception      | 0
- .../common-licenses/{ => exceptions}/u-boot-exception-2.0   | 0
- .../{ => exceptions}/vsftpd-openssl-exception               | 0
- .../{ => exceptions}/x11vnc-openssl-exception               | 0
- meta/lib/oe/license.py                                      | 6 ++++++
- scripts/pull-spdx-licenses.py                               | 2 +-
- 85 files changed, 7 insertions(+), 1 deletion(-)
- rename meta/files/common-licenses/{ => exceptions}/389-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Asterisk-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Asterisk-linking-protocols-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Autoconf-exception-2.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/Autoconf-exception-3.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/Autoconf-exception-generic (100%)
- rename meta/files/common-licenses/{ => exceptions}/Autoconf-exception-generic-3.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/Autoconf-exception-macro (100%)
- rename meta/files/common-licenses/{ => exceptions}/Bison-exception-1.24 (100%)
- rename meta/files/common-licenses/{ => exceptions}/Bison-exception-2.2 (100%)
- rename meta/files/common-licenses/{ => exceptions}/Bootloader-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/CGAL-linking-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/CLISP-exception-2.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/Classpath-exception-2.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/Classpath-exception-2.0-short (100%)
- rename meta/files/common-licenses/{ => exceptions}/DigiRule-FOSS-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Digia-Qt-LGPL-exception-1.1 (100%)
- rename meta/files/common-licenses/{ => exceptions}/FLTK-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Fawkes-Runtime-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Font-exception-2.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/GCC-exception-2.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/GCC-exception-2.0-note (100%)
- rename meta/files/common-licenses/{ => exceptions}/GCC-exception-3.1 (100%)
- rename meta/files/common-licenses/{ => exceptions}/GNAT-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/GNOME-examples-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/GNU-compiler-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/GPL-3.0-389-ds-base-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/GPL-3.0-interface-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/GPL-3.0-linking-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/GPL-3.0-linking-source-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/GPL-CC-1.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/GStreamer-exception-2005 (100%)
- rename meta/files/common-licenses/{ => exceptions}/GStreamer-exception-2008 (100%)
- rename meta/files/common-licenses/{ => exceptions}/Gmsh-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Independent-modules-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/KiCad-libraries-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/LGPL-3.0-linking-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/LLGPL (100%)
- rename meta/files/common-licenses/{ => exceptions}/LLVM-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/LZMA-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Libtool-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Linux-syscall-note (100%)
- rename meta/files/common-licenses/{ => exceptions}/OCCT-exception-1.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/OCaml-LGPL-linking-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/OpenJDK-assembly-exception-1.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/PCRE2-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/PS-or-PDF-font-exception-20170817 (100%)
- rename meta/files/common-licenses/{ => exceptions}/QPL-1.0-INRIA-2004-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Qt-GPL-exception-1.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/Qt-LGPL-exception-1.1 (100%)
- rename meta/files/common-licenses/{ => exceptions}/Qwt-exception-1.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/RRDtool-FLOSS-exception-2.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/SANE-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/SHL-2.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/SHL-2.1 (100%)
- rename meta/files/common-licenses/{ => exceptions}/SWI-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Simple-Library-Usage-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Swift-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Texinfo-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/UBDL-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/Universal-FOSS-exception-1.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/WxWindows-exception-3.1 (100%)
- rename meta/files/common-licenses/{ => exceptions}/cryptsetup-OpenSSL-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/eCos-exception-2.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/erlang-otp-linking-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/fmt-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/freertos-exception-2.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/gnu-javamail-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/harbour-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/i2p-gpl-java-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/kvirc-openssl-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/libpri-OpenH323-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/mif-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/mxml-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/openvpn-openssl-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/polyparse-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/romic-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/rsync-linking-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/sqlitestudio-OpenSSL-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/stunnel-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/u-boot-exception-2.0 (100%)
- rename meta/files/common-licenses/{ => exceptions}/vsftpd-openssl-exception (100%)
- rename meta/files/common-licenses/{ => exceptions}/x11vnc-openssl-exception (100%)
+Thanks for your patch.
 
-diff --git a/meta/files/common-licenses/389-exception b/meta/files/common-licenses/exceptions/389-exception
-similarity index 100%
-rename from meta/files/common-licenses/389-exception
-rename to meta/files/common-licenses/exceptions/389-exception
-diff --git a/meta/files/common-licenses/Asterisk-exception b/meta/files/common-licenses/exceptions/Asterisk-exception
-similarity index 100%
-rename from meta/files/common-licenses/Asterisk-exception
-rename to meta/files/common-licenses/exceptions/Asterisk-exception
-diff --git a/meta/files/common-licenses/Asterisk-linking-protocols-exception b/meta/files/common-licenses/exceptions/Asterisk-linking-protocols-exception
-similarity index 100%
-rename from meta/files/common-licenses/Asterisk-linking-protocols-exception
-rename to meta/files/common-licenses/exceptions/Asterisk-linking-protocols-exception
-diff --git a/meta/files/common-licenses/Autoconf-exception-2.0 b/meta/files/common-licenses/exceptions/Autoconf-exception-2.0
-similarity index 100%
-rename from meta/files/common-licenses/Autoconf-exception-2.0
-rename to meta/files/common-licenses/exceptions/Autoconf-exception-2.0
-diff --git a/meta/files/common-licenses/Autoconf-exception-3.0 b/meta/files/common-licenses/exceptions/Autoconf-exception-3.0
-similarity index 100%
-rename from meta/files/common-licenses/Autoconf-exception-3.0
-rename to meta/files/common-licenses/exceptions/Autoconf-exception-3.0
-diff --git a/meta/files/common-licenses/Autoconf-exception-generic b/meta/files/common-licenses/exceptions/Autoconf-exception-generic
-similarity index 100%
-rename from meta/files/common-licenses/Autoconf-exception-generic
-rename to meta/files/common-licenses/exceptions/Autoconf-exception-generic
-diff --git a/meta/files/common-licenses/Autoconf-exception-generic-3.0 b/meta/files/common-licenses/exceptions/Autoconf-exception-generic-3.0
-similarity index 100%
-rename from meta/files/common-licenses/Autoconf-exception-generic-3.0
-rename to meta/files/common-licenses/exceptions/Autoconf-exception-generic-3.0
-diff --git a/meta/files/common-licenses/Autoconf-exception-macro b/meta/files/common-licenses/exceptions/Autoconf-exception-macro
-similarity index 100%
-rename from meta/files/common-licenses/Autoconf-exception-macro
-rename to meta/files/common-licenses/exceptions/Autoconf-exception-macro
-diff --git a/meta/files/common-licenses/Bison-exception-1.24 b/meta/files/common-licenses/exceptions/Bison-exception-1.24
-similarity index 100%
-rename from meta/files/common-licenses/Bison-exception-1.24
-rename to meta/files/common-licenses/exceptions/Bison-exception-1.24
-diff --git a/meta/files/common-licenses/Bison-exception-2.2 b/meta/files/common-licenses/exceptions/Bison-exception-2.2
-similarity index 100%
-rename from meta/files/common-licenses/Bison-exception-2.2
-rename to meta/files/common-licenses/exceptions/Bison-exception-2.2
-diff --git a/meta/files/common-licenses/Bootloader-exception b/meta/files/common-licenses/exceptions/Bootloader-exception
-similarity index 100%
-rename from meta/files/common-licenses/Bootloader-exception
-rename to meta/files/common-licenses/exceptions/Bootloader-exception
-diff --git a/meta/files/common-licenses/CGAL-linking-exception b/meta/files/common-licenses/exceptions/CGAL-linking-exception
-similarity index 100%
-rename from meta/files/common-licenses/CGAL-linking-exception
-rename to meta/files/common-licenses/exceptions/CGAL-linking-exception
-diff --git a/meta/files/common-licenses/CLISP-exception-2.0 b/meta/files/common-licenses/exceptions/CLISP-exception-2.0
-similarity index 100%
-rename from meta/files/common-licenses/CLISP-exception-2.0
-rename to meta/files/common-licenses/exceptions/CLISP-exception-2.0
-diff --git a/meta/files/common-licenses/Classpath-exception-2.0 b/meta/files/common-licenses/exceptions/Classpath-exception-2.0
-similarity index 100%
-rename from meta/files/common-licenses/Classpath-exception-2.0
-rename to meta/files/common-licenses/exceptions/Classpath-exception-2.0
-diff --git a/meta/files/common-licenses/Classpath-exception-2.0-short b/meta/files/common-licenses/exceptions/Classpath-exception-2.0-short
-similarity index 100%
-rename from meta/files/common-licenses/Classpath-exception-2.0-short
-rename to meta/files/common-licenses/exceptions/Classpath-exception-2.0-short
-diff --git a/meta/files/common-licenses/DigiRule-FOSS-exception b/meta/files/common-licenses/exceptions/DigiRule-FOSS-exception
-similarity index 100%
-rename from meta/files/common-licenses/DigiRule-FOSS-exception
-rename to meta/files/common-licenses/exceptions/DigiRule-FOSS-exception
-diff --git a/meta/files/common-licenses/Digia-Qt-LGPL-exception-1.1 b/meta/files/common-licenses/exceptions/Digia-Qt-LGPL-exception-1.1
-similarity index 100%
-rename from meta/files/common-licenses/Digia-Qt-LGPL-exception-1.1
-rename to meta/files/common-licenses/exceptions/Digia-Qt-LGPL-exception-1.1
-diff --git a/meta/files/common-licenses/FLTK-exception b/meta/files/common-licenses/exceptions/FLTK-exception
-similarity index 100%
-rename from meta/files/common-licenses/FLTK-exception
-rename to meta/files/common-licenses/exceptions/FLTK-exception
-diff --git a/meta/files/common-licenses/Fawkes-Runtime-exception b/meta/files/common-licenses/exceptions/Fawkes-Runtime-exception
-similarity index 100%
-rename from meta/files/common-licenses/Fawkes-Runtime-exception
-rename to meta/files/common-licenses/exceptions/Fawkes-Runtime-exception
-diff --git a/meta/files/common-licenses/Font-exception-2.0 b/meta/files/common-licenses/exceptions/Font-exception-2.0
-similarity index 100%
-rename from meta/files/common-licenses/Font-exception-2.0
-rename to meta/files/common-licenses/exceptions/Font-exception-2.0
-diff --git a/meta/files/common-licenses/GCC-exception-2.0 b/meta/files/common-licenses/exceptions/GCC-exception-2.0
-similarity index 100%
-rename from meta/files/common-licenses/GCC-exception-2.0
-rename to meta/files/common-licenses/exceptions/GCC-exception-2.0
-diff --git a/meta/files/common-licenses/GCC-exception-2.0-note b/meta/files/common-licenses/exceptions/GCC-exception-2.0-note
-similarity index 100%
-rename from meta/files/common-licenses/GCC-exception-2.0-note
-rename to meta/files/common-licenses/exceptions/GCC-exception-2.0-note
-diff --git a/meta/files/common-licenses/GCC-exception-3.1 b/meta/files/common-licenses/exceptions/GCC-exception-3.1
-similarity index 100%
-rename from meta/files/common-licenses/GCC-exception-3.1
-rename to meta/files/common-licenses/exceptions/GCC-exception-3.1
-diff --git a/meta/files/common-licenses/GNAT-exception b/meta/files/common-licenses/exceptions/GNAT-exception
-similarity index 100%
-rename from meta/files/common-licenses/GNAT-exception
-rename to meta/files/common-licenses/exceptions/GNAT-exception
-diff --git a/meta/files/common-licenses/GNOME-examples-exception b/meta/files/common-licenses/exceptions/GNOME-examples-exception
-similarity index 100%
-rename from meta/files/common-licenses/GNOME-examples-exception
-rename to meta/files/common-licenses/exceptions/GNOME-examples-exception
-diff --git a/meta/files/common-licenses/GNU-compiler-exception b/meta/files/common-licenses/exceptions/GNU-compiler-exception
-similarity index 100%
-rename from meta/files/common-licenses/GNU-compiler-exception
-rename to meta/files/common-licenses/exceptions/GNU-compiler-exception
-diff --git a/meta/files/common-licenses/GPL-3.0-389-ds-base-exception b/meta/files/common-licenses/exceptions/GPL-3.0-389-ds-base-exception
-similarity index 100%
-rename from meta/files/common-licenses/GPL-3.0-389-ds-base-exception
-rename to meta/files/common-licenses/exceptions/GPL-3.0-389-ds-base-exception
-diff --git a/meta/files/common-licenses/GPL-3.0-interface-exception b/meta/files/common-licenses/exceptions/GPL-3.0-interface-exception
-similarity index 100%
-rename from meta/files/common-licenses/GPL-3.0-interface-exception
-rename to meta/files/common-licenses/exceptions/GPL-3.0-interface-exception
-diff --git a/meta/files/common-licenses/GPL-3.0-linking-exception b/meta/files/common-licenses/exceptions/GPL-3.0-linking-exception
-similarity index 100%
-rename from meta/files/common-licenses/GPL-3.0-linking-exception
-rename to meta/files/common-licenses/exceptions/GPL-3.0-linking-exception
-diff --git a/meta/files/common-licenses/GPL-3.0-linking-source-exception b/meta/files/common-licenses/exceptions/GPL-3.0-linking-source-exception
-similarity index 100%
-rename from meta/files/common-licenses/GPL-3.0-linking-source-exception
-rename to meta/files/common-licenses/exceptions/GPL-3.0-linking-source-exception
-diff --git a/meta/files/common-licenses/GPL-CC-1.0 b/meta/files/common-licenses/exceptions/GPL-CC-1.0
-similarity index 100%
-rename from meta/files/common-licenses/GPL-CC-1.0
-rename to meta/files/common-licenses/exceptions/GPL-CC-1.0
-diff --git a/meta/files/common-licenses/GStreamer-exception-2005 b/meta/files/common-licenses/exceptions/GStreamer-exception-2005
-similarity index 100%
-rename from meta/files/common-licenses/GStreamer-exception-2005
-rename to meta/files/common-licenses/exceptions/GStreamer-exception-2005
-diff --git a/meta/files/common-licenses/GStreamer-exception-2008 b/meta/files/common-licenses/exceptions/GStreamer-exception-2008
-similarity index 100%
-rename from meta/files/common-licenses/GStreamer-exception-2008
-rename to meta/files/common-licenses/exceptions/GStreamer-exception-2008
-diff --git a/meta/files/common-licenses/Gmsh-exception b/meta/files/common-licenses/exceptions/Gmsh-exception
-similarity index 100%
-rename from meta/files/common-licenses/Gmsh-exception
-rename to meta/files/common-licenses/exceptions/Gmsh-exception
-diff --git a/meta/files/common-licenses/Independent-modules-exception b/meta/files/common-licenses/exceptions/Independent-modules-exception
-similarity index 100%
-rename from meta/files/common-licenses/Independent-modules-exception
-rename to meta/files/common-licenses/exceptions/Independent-modules-exception
-diff --git a/meta/files/common-licenses/KiCad-libraries-exception b/meta/files/common-licenses/exceptions/KiCad-libraries-exception
-similarity index 100%
-rename from meta/files/common-licenses/KiCad-libraries-exception
-rename to meta/files/common-licenses/exceptions/KiCad-libraries-exception
-diff --git a/meta/files/common-licenses/LGPL-3.0-linking-exception b/meta/files/common-licenses/exceptions/LGPL-3.0-linking-exception
-similarity index 100%
-rename from meta/files/common-licenses/LGPL-3.0-linking-exception
-rename to meta/files/common-licenses/exceptions/LGPL-3.0-linking-exception
-diff --git a/meta/files/common-licenses/LLGPL b/meta/files/common-licenses/exceptions/LLGPL
-similarity index 100%
-rename from meta/files/common-licenses/LLGPL
-rename to meta/files/common-licenses/exceptions/LLGPL
-diff --git a/meta/files/common-licenses/LLVM-exception b/meta/files/common-licenses/exceptions/LLVM-exception
-similarity index 100%
-rename from meta/files/common-licenses/LLVM-exception
-rename to meta/files/common-licenses/exceptions/LLVM-exception
-diff --git a/meta/files/common-licenses/LZMA-exception b/meta/files/common-licenses/exceptions/LZMA-exception
-similarity index 100%
-rename from meta/files/common-licenses/LZMA-exception
-rename to meta/files/common-licenses/exceptions/LZMA-exception
-diff --git a/meta/files/common-licenses/Libtool-exception b/meta/files/common-licenses/exceptions/Libtool-exception
-similarity index 100%
-rename from meta/files/common-licenses/Libtool-exception
-rename to meta/files/common-licenses/exceptions/Libtool-exception
-diff --git a/meta/files/common-licenses/Linux-syscall-note b/meta/files/common-licenses/exceptions/Linux-syscall-note
-similarity index 100%
-rename from meta/files/common-licenses/Linux-syscall-note
-rename to meta/files/common-licenses/exceptions/Linux-syscall-note
-diff --git a/meta/files/common-licenses/OCCT-exception-1.0 b/meta/files/common-licenses/exceptions/OCCT-exception-1.0
-similarity index 100%
-rename from meta/files/common-licenses/OCCT-exception-1.0
-rename to meta/files/common-licenses/exceptions/OCCT-exception-1.0
-diff --git a/meta/files/common-licenses/OCaml-LGPL-linking-exception b/meta/files/common-licenses/exceptions/OCaml-LGPL-linking-exception
-similarity index 100%
-rename from meta/files/common-licenses/OCaml-LGPL-linking-exception
-rename to meta/files/common-licenses/exceptions/OCaml-LGPL-linking-exception
-diff --git a/meta/files/common-licenses/OpenJDK-assembly-exception-1.0 b/meta/files/common-licenses/exceptions/OpenJDK-assembly-exception-1.0
-similarity index 100%
-rename from meta/files/common-licenses/OpenJDK-assembly-exception-1.0
-rename to meta/files/common-licenses/exceptions/OpenJDK-assembly-exception-1.0
-diff --git a/meta/files/common-licenses/PCRE2-exception b/meta/files/common-licenses/exceptions/PCRE2-exception
-similarity index 100%
-rename from meta/files/common-licenses/PCRE2-exception
-rename to meta/files/common-licenses/exceptions/PCRE2-exception
-diff --git a/meta/files/common-licenses/PS-or-PDF-font-exception-20170817 b/meta/files/common-licenses/exceptions/PS-or-PDF-font-exception-20170817
-similarity index 100%
-rename from meta/files/common-licenses/PS-or-PDF-font-exception-20170817
-rename to meta/files/common-licenses/exceptions/PS-or-PDF-font-exception-20170817
-diff --git a/meta/files/common-licenses/QPL-1.0-INRIA-2004-exception b/meta/files/common-licenses/exceptions/QPL-1.0-INRIA-2004-exception
-similarity index 100%
-rename from meta/files/common-licenses/QPL-1.0-INRIA-2004-exception
-rename to meta/files/common-licenses/exceptions/QPL-1.0-INRIA-2004-exception
-diff --git a/meta/files/common-licenses/Qt-GPL-exception-1.0 b/meta/files/common-licenses/exceptions/Qt-GPL-exception-1.0
-similarity index 100%
-rename from meta/files/common-licenses/Qt-GPL-exception-1.0
-rename to meta/files/common-licenses/exceptions/Qt-GPL-exception-1.0
-diff --git a/meta/files/common-licenses/Qt-LGPL-exception-1.1 b/meta/files/common-licenses/exceptions/Qt-LGPL-exception-1.1
-similarity index 100%
-rename from meta/files/common-licenses/Qt-LGPL-exception-1.1
-rename to meta/files/common-licenses/exceptions/Qt-LGPL-exception-1.1
-diff --git a/meta/files/common-licenses/Qwt-exception-1.0 b/meta/files/common-licenses/exceptions/Qwt-exception-1.0
-similarity index 100%
-rename from meta/files/common-licenses/Qwt-exception-1.0
-rename to meta/files/common-licenses/exceptions/Qwt-exception-1.0
-diff --git a/meta/files/common-licenses/RRDtool-FLOSS-exception-2.0 b/meta/files/common-licenses/exceptions/RRDtool-FLOSS-exception-2.0
-similarity index 100%
-rename from meta/files/common-licenses/RRDtool-FLOSS-exception-2.0
-rename to meta/files/common-licenses/exceptions/RRDtool-FLOSS-exception-2.0
-diff --git a/meta/files/common-licenses/SANE-exception b/meta/files/common-licenses/exceptions/SANE-exception
-similarity index 100%
-rename from meta/files/common-licenses/SANE-exception
-rename to meta/files/common-licenses/exceptions/SANE-exception
-diff --git a/meta/files/common-licenses/SHL-2.0 b/meta/files/common-licenses/exceptions/SHL-2.0
-similarity index 100%
-rename from meta/files/common-licenses/SHL-2.0
-rename to meta/files/common-licenses/exceptions/SHL-2.0
-diff --git a/meta/files/common-licenses/SHL-2.1 b/meta/files/common-licenses/exceptions/SHL-2.1
-similarity index 100%
-rename from meta/files/common-licenses/SHL-2.1
-rename to meta/files/common-licenses/exceptions/SHL-2.1
-diff --git a/meta/files/common-licenses/SWI-exception b/meta/files/common-licenses/exceptions/SWI-exception
-similarity index 100%
-rename from meta/files/common-licenses/SWI-exception
-rename to meta/files/common-licenses/exceptions/SWI-exception
-diff --git a/meta/files/common-licenses/Simple-Library-Usage-exception b/meta/files/common-licenses/exceptions/Simple-Library-Usage-exception
-similarity index 100%
-rename from meta/files/common-licenses/Simple-Library-Usage-exception
-rename to meta/files/common-licenses/exceptions/Simple-Library-Usage-exception
-diff --git a/meta/files/common-licenses/Swift-exception b/meta/files/common-licenses/exceptions/Swift-exception
-similarity index 100%
-rename from meta/files/common-licenses/Swift-exception
-rename to meta/files/common-licenses/exceptions/Swift-exception
-diff --git a/meta/files/common-licenses/Texinfo-exception b/meta/files/common-licenses/exceptions/Texinfo-exception
-similarity index 100%
-rename from meta/files/common-licenses/Texinfo-exception
-rename to meta/files/common-licenses/exceptions/Texinfo-exception
-diff --git a/meta/files/common-licenses/UBDL-exception b/meta/files/common-licenses/exceptions/UBDL-exception
-similarity index 100%
-rename from meta/files/common-licenses/UBDL-exception
-rename to meta/files/common-licenses/exceptions/UBDL-exception
-diff --git a/meta/files/common-licenses/Universal-FOSS-exception-1.0 b/meta/files/common-licenses/exceptions/Universal-FOSS-exception-1.0
-similarity index 100%
-rename from meta/files/common-licenses/Universal-FOSS-exception-1.0
-rename to meta/files/common-licenses/exceptions/Universal-FOSS-exception-1.0
-diff --git a/meta/files/common-licenses/WxWindows-exception-3.1 b/meta/files/common-licenses/exceptions/WxWindows-exception-3.1
-similarity index 100%
-rename from meta/files/common-licenses/WxWindows-exception-3.1
-rename to meta/files/common-licenses/exceptions/WxWindows-exception-3.1
-diff --git a/meta/files/common-licenses/cryptsetup-OpenSSL-exception b/meta/files/common-licenses/exceptions/cryptsetup-OpenSSL-exception
-similarity index 100%
-rename from meta/files/common-licenses/cryptsetup-OpenSSL-exception
-rename to meta/files/common-licenses/exceptions/cryptsetup-OpenSSL-exception
-diff --git a/meta/files/common-licenses/eCos-exception-2.0 b/meta/files/common-licenses/exceptions/eCos-exception-2.0
-similarity index 100%
-rename from meta/files/common-licenses/eCos-exception-2.0
-rename to meta/files/common-licenses/exceptions/eCos-exception-2.0
-diff --git a/meta/files/common-licenses/erlang-otp-linking-exception b/meta/files/common-licenses/exceptions/erlang-otp-linking-exception
-similarity index 100%
-rename from meta/files/common-licenses/erlang-otp-linking-exception
-rename to meta/files/common-licenses/exceptions/erlang-otp-linking-exception
-diff --git a/meta/files/common-licenses/fmt-exception b/meta/files/common-licenses/exceptions/fmt-exception
-similarity index 100%
-rename from meta/files/common-licenses/fmt-exception
-rename to meta/files/common-licenses/exceptions/fmt-exception
-diff --git a/meta/files/common-licenses/freertos-exception-2.0 b/meta/files/common-licenses/exceptions/freertos-exception-2.0
-similarity index 100%
-rename from meta/files/common-licenses/freertos-exception-2.0
-rename to meta/files/common-licenses/exceptions/freertos-exception-2.0
-diff --git a/meta/files/common-licenses/gnu-javamail-exception b/meta/files/common-licenses/exceptions/gnu-javamail-exception
-similarity index 100%
-rename from meta/files/common-licenses/gnu-javamail-exception
-rename to meta/files/common-licenses/exceptions/gnu-javamail-exception
-diff --git a/meta/files/common-licenses/harbour-exception b/meta/files/common-licenses/exceptions/harbour-exception
-similarity index 100%
-rename from meta/files/common-licenses/harbour-exception
-rename to meta/files/common-licenses/exceptions/harbour-exception
-diff --git a/meta/files/common-licenses/i2p-gpl-java-exception b/meta/files/common-licenses/exceptions/i2p-gpl-java-exception
-similarity index 100%
-rename from meta/files/common-licenses/i2p-gpl-java-exception
-rename to meta/files/common-licenses/exceptions/i2p-gpl-java-exception
-diff --git a/meta/files/common-licenses/kvirc-openssl-exception b/meta/files/common-licenses/exceptions/kvirc-openssl-exception
-similarity index 100%
-rename from meta/files/common-licenses/kvirc-openssl-exception
-rename to meta/files/common-licenses/exceptions/kvirc-openssl-exception
-diff --git a/meta/files/common-licenses/libpri-OpenH323-exception b/meta/files/common-licenses/exceptions/libpri-OpenH323-exception
-similarity index 100%
-rename from meta/files/common-licenses/libpri-OpenH323-exception
-rename to meta/files/common-licenses/exceptions/libpri-OpenH323-exception
-diff --git a/meta/files/common-licenses/mif-exception b/meta/files/common-licenses/exceptions/mif-exception
-similarity index 100%
-rename from meta/files/common-licenses/mif-exception
-rename to meta/files/common-licenses/exceptions/mif-exception
-diff --git a/meta/files/common-licenses/mxml-exception b/meta/files/common-licenses/exceptions/mxml-exception
-similarity index 100%
-rename from meta/files/common-licenses/mxml-exception
-rename to meta/files/common-licenses/exceptions/mxml-exception
-diff --git a/meta/files/common-licenses/openvpn-openssl-exception b/meta/files/common-licenses/exceptions/openvpn-openssl-exception
-similarity index 100%
-rename from meta/files/common-licenses/openvpn-openssl-exception
-rename to meta/files/common-licenses/exceptions/openvpn-openssl-exception
-diff --git a/meta/files/common-licenses/polyparse-exception b/meta/files/common-licenses/exceptions/polyparse-exception
-similarity index 100%
-rename from meta/files/common-licenses/polyparse-exception
-rename to meta/files/common-licenses/exceptions/polyparse-exception
-diff --git a/meta/files/common-licenses/romic-exception b/meta/files/common-licenses/exceptions/romic-exception
-similarity index 100%
-rename from meta/files/common-licenses/romic-exception
-rename to meta/files/common-licenses/exceptions/romic-exception
-diff --git a/meta/files/common-licenses/rsync-linking-exception b/meta/files/common-licenses/exceptions/rsync-linking-exception
-similarity index 100%
-rename from meta/files/common-licenses/rsync-linking-exception
-rename to meta/files/common-licenses/exceptions/rsync-linking-exception
-diff --git a/meta/files/common-licenses/sqlitestudio-OpenSSL-exception b/meta/files/common-licenses/exceptions/sqlitestudio-OpenSSL-exception
-similarity index 100%
-rename from meta/files/common-licenses/sqlitestudio-OpenSSL-exception
-rename to meta/files/common-licenses/exceptions/sqlitestudio-OpenSSL-exception
-diff --git a/meta/files/common-licenses/stunnel-exception b/meta/files/common-licenses/exceptions/stunnel-exception
-similarity index 100%
-rename from meta/files/common-licenses/stunnel-exception
-rename to meta/files/common-licenses/exceptions/stunnel-exception
-diff --git a/meta/files/common-licenses/u-boot-exception-2.0 b/meta/files/common-licenses/exceptions/u-boot-exception-2.0
-similarity index 100%
-rename from meta/files/common-licenses/u-boot-exception-2.0
-rename to meta/files/common-licenses/exceptions/u-boot-exception-2.0
-diff --git a/meta/files/common-licenses/vsftpd-openssl-exception b/meta/files/common-licenses/exceptions/vsftpd-openssl-exception
-similarity index 100%
-rename from meta/files/common-licenses/vsftpd-openssl-exception
-rename to meta/files/common-licenses/exceptions/vsftpd-openssl-exception
-diff --git a/meta/files/common-licenses/x11vnc-openssl-exception b/meta/files/common-licenses/exceptions/x11vnc-openssl-exception
-similarity index 100%
-rename from meta/files/common-licenses/x11vnc-openssl-exception
-rename to meta/files/common-licenses/exceptions/x11vnc-openssl-exception
-diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
-index adcfc827cf..d38206a8d6 100644
---- a/meta/lib/oe/license.py
-+++ b/meta/lib/oe/license.py
-@@ -454,6 +454,12 @@ def get_license_path(d, node):
-             return d.expand("${S}/" + filename), filename
- 
-     for lic_dir in [d.getVar("COMMON_LICENSE_DIR")] + (d.getVar("LICENSE_PATH") or "").split():
-+        if isinstance(node, oe.spdx_license.ExceptionId):
-+            p = os.path.join(lic_dir, "exceptions", node.name)
-+            if os.path.isfile(p):
-+                return p, None
-+            return None, None
-+
-         p = os.path.join(lic_dir, node.name)
-         if os.path.isfile(p):
-             return p, None
-diff --git a/scripts/pull-spdx-licenses.py b/scripts/pull-spdx-licenses.py
-index 7d1715ff24..c8e2cfaf5f 100755
---- a/scripts/pull-spdx-licenses.py
-+++ b/scripts/pull-spdx-licenses.py
-@@ -72,7 +72,7 @@ def update_exceptions(dest, version, overwrite, deprecated):
- 
-         print(f"[{idx + 1} of {total_count}] ", end="")
- 
--        dest_license_file = dest / lic_id
-+        dest_license_file = dest / "exceptions" / lic_id
-         if dest_license_file.is_file() and not overwrite:
-             print(f"Skipping {lic_id} since it already exists")
-             continue
--- 
-2.55.0
+It looks like this is breaking ptests:
+
+Failed ptests:
+{'elfutils': 'START: ptest-runner\n'
+             '2026-08-18T20:10\n'
+             'make  \\\n'
+             '\tTESTS_ENVIRONMENT=3D"libdir=3D\'/usr/lib\'; bindir=3D\'/usr=
+/bin\'; '
+             "LC_ALL=3DC; LANG=3DC; VALGRIND_CMD=3D''; "
+             "abs_srcdir=3D'/usr/lib/elfutils/ptest/tests'; "
+             "abs_builddir=3D'/usr/lib/elfutils/ptest/tests'; "
+             "abs_top_builddir=3D'/usr/lib/elfutils/ptest/tests/../'; expor=
+t "
+             'abs_srcdir; export abs_builddir; export abs_top_builddir; exp=
+ort '
+             'libdir; export bindir; export LC_ALL; export LANG; export '
+             'VALGRIND_CMD; unset DEBUGINFOD_URLS; '
+             "NM=3D'riscv64-poky-linux-gcc-nm'; export NM; CC=3D'gcc'; expo=
+rt "
+             'CC;" \\\n'
+             '\tLOG_COMPILER=3D"/usr/lib/elfutils/ptest/tests/test-wrapper.=
+sh '
+             'installed no \'s,^,eu-,\'" check-TESTS\n'
+             "make[1]: Entering directory '/usr/lib/elfutils/ptest/tests'\n=
+"
+             "make[1]: *** No rule to make target '../libdw/libdw.a', neede=
+d "
+             "by 'elf-from-memory'.\n"
+             "make[1]: Target 'check-TESTS' not remade because of errors.\n=
+"
+             "make[1]: Leaving directory '/usr/lib/elfutils/ptest/tests'\n"
+             'make: *** [Makefile:3473: installcheck-local] Error 2\n'
+             '\n'
+             'ERROR: Exit status is 2\n'
+             'DURATION: 1\n'}
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2197
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/73/builds/4329
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/1002
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/983
+
+Also, I've seen a build failure of elfutils itself, on qemuarm64
+platform. A rebuild is in progress to see if it happens again:
+
+ERROR: elfutils-native-0.196-r0 do_compile: Execution of '/srv/pokybuild/yo=
+cto-worker/qemuarm64-ptest/build/build/tmp/work/aarch64-linux/elfutils-nati=
+ve/0.196/temp/run.do_compile.861918' failed with exit code 1
+...
+| gcc  -D_GNU_SOURCE -DHAVE_CONFIG_H -DLOCALEDIR=3D'"/srv/pokybuild/yocto-w=
+orker/qemuarm64-ptest/build/build/tmp/work/aarch64-linux/elfutils-native/0.=
+196/recipe-sysroot-native/usr/share/locale"' -I. -I../../sources/elfutils-0=
+.196/backends -I..  -iquote. -iquote../../sources/elfutils-0.196/backends -=
+I../../sources/elfutils-0.196/lib -I/srv/pokybuild/yocto-worker/qemuarm64-p=
+test/build/build/tmp/work/aarch64-linux/elfutils-native/0.196/build -I../..=
+/sources/elfutils-0.196/libebl -I../../sources/elfutils-0.196/libasm -I../.=
+./sources/elfutils-0.196/libelf -I../../sources/elfutils-0.196/libdw -isyst=
+em/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/build/tmp/work/aarch64-=
+linux/elfutils-native/0.196/recipe-sysroot-native/usr/include -Wall -Wshado=
+w -Wformat=3D2 -Wold-style-definition -Wstrict-prototypes -Wtrampolines -Wl=
+ogical-op -Wduplicated-cond -Wnull-dereference -Wimplicit-fallthrough=3D5 -=
+Wuse-after-free=3D3    -Wunused -Wextra -Wstack-usage=3D262144    -D_FORTIF=
+Y_SOURCE=3D3 -isystem/srv/pokybuild/yocto-worker/qemuarm64-ptest/build/buil=
+d/tmp/work/aarch64-linux/elfutils-native/0.196/recipe-sysroot-native/usr/in=
+clude -O2 -pipe -c -o sparc_initreg.o ../../sources/elfutils-0.196/backends=
+/sparc_initreg.c
+| In file included from ../../sources/elfutils-0.196/backends/aarch64_initr=
+eg.c:36:
+| /usr/include/linux/uio.h:17:8: error: redefinition of =E2=80=98struct iov=
+ec=E2=80=99
+|    17 | struct iovec
+|       |        ^~~~~
+| In file included from /usr/include/aarch64-linux-gnu/bits/fcntl-linux.h:3=
+8,
+|                  from /usr/include/aarch64-linux-gnu/bits/fcntl.h:61,
+|                  from /usr/include/fcntl.h:35,
+|                  from ../../sources/elfutils-0.196/lib/system.h:42,
+|                  from ../../sources/elfutils-0.196/backends/aarch64_initr=
+eg.c:33:
+| /usr/include/aarch64-linux-gnu/bits/types/struct_iovec.h:26:8: note: orig=
+inally defined here
+|    26 | struct iovec
+|       |        ^~~~~
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds/4312
+rebuild: https://autobuilder.yoctoproject.org/valkyrie/#/builders/61/builds=
+/4314
+
+Can you have a look at the issue?
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
