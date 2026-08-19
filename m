@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 92524C5DF89
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27504C5DF88
 	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 22:01:53 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1135.1787176907030647504
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1140.1787176907892610623
  for <openembedded-core@lists.openembedded.org>;
  Wed, 19 Aug 2026 15:01:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=G30CVyxo;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-20260819220144190cce97710002077a-yfn2qk@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260819220144190cce97710002077a
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=Uqsel3px;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-202608192201457169d16be10002075f-fvhlr3@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202608192201457169d16be10002075f
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 20 Aug 2026 00:01:44 +0200
+        Thu, 20 Aug 2026 00:01:45 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=QW3KRaFj9rp9zsOiIYwZFBHMfJ+1Fz1xy7506IUrunI=;
- b=G30CVyxoFRfXUWn0k96Frs86ZjyhMui2oAdUIHsxNR1Fm+PZs8FFp4y6I859ZHdpMtXc0/
- TKbYfgc11LYOEpTiH4ut079NVtHvygFgg+tK+x6W5YUrLtbpUXhTXVabrP/zQVfDazapMztw
- UGmEfNTmMFh0Jea273QNscYiwRuxizbR7pf3hch5K9Z0zZgwsFUAZc+JPnt0l3Kab9XKaipl
- zvNCzCyij8ReuXnT3u7s+DIn1dM77pFQgutrRvtXxPTenQI4sCp3Sye4xnTO+2ZBX8f8qQN+
- gBN8G4RR+2WByXF4XGaHiWKyB18RyhG5g0F84DCaaZX7pR4QaU1sW6Mw==;
+ bh=BDNeyYrv9EtFt+na4JeHqhGoDB/P5niHbykJa9n1mYE=;
+ b=Uqsel3pxcjD0vKMqkyxu3Nk/NdMzmWmHUyVjweSIvce4Zp3UZboNfRctls64XeCCHW9uE0
+ Mn31Sr48LppPcERnqmPqXY8vEfAbq5mWY5BwmxY+pgPf/ueTj6Qvn8F3cJCMgibWYVyq4HWt
+ +L9w6bVSv7S3NnVvEG+bw84TBl7reSlShqGL78Mao0B4W97Z02Qa6NSj+xhh2+8XAI9IYtSg
+ upqKqFAPp/ir3ADScxnYMei8UM9NP49Xf+1xerhA3/TfI/rxS2bjJELujZjRNJAC13kV7dUw
+ nZt7yTnxCEBF52SfukElfFvMmRjwULFQR2knt5O+aTzJXh6xViLGb4wA==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v3 08/14] oe-selftest: devtool ide-sdk: support $ in gdbserver task command
-Date: Thu, 20 Aug 2026 00:00:15 +0200
-Message-ID: <20260819220138.4095398-9-adrian.freihofer@siemens.com>
+Subject: [PATCH v3 13/14] oe-selftest: devtool ide-sdk: verify attach debug workflow
+Date: Thu, 20 Aug 2026 00:00:20 +0200
+Message-ID: <20260819220138.4095398-14-adrian.freihofer@siemens.com>
 In-Reply-To: <20260819220138.4095398-1-adrian.freihofer@siemens.com>
 References: <20260819220138.4095398-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,37 +39,222 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 22:01:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243791
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243795
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-This is a preparation commit for the next commit that will add a new a
-variable to the tasks.json file to support gdbserver commands.
+Add attach-mode debug verification in ide=code selftests and document
+the intended execution flow:
+
+- Verify attach postDebugTask labels against tasks.json.
+- Run attach checks before once checks to avoid Build-ID mismatch from
+  once/deploy side effects on the still-running service process.
+- In attach mode, set a temporary breakpoint on sleep(), continue once
+  to hit it, then detach immediately.
+
+This verifies debugger control flow against the already-running loop
+without fragile inferior expression evaluation.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 7 ++++---
- 1 file changed, 4 insertions(+), 3 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 152 +++++++++++++++++++-----
+ 1 file changed, 119 insertions(+), 33 deletions(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 051be713b0..0791422461 100644
+index 53ddf28e57..7c989f9dc2 100644
 --- a/meta/lib/oeqa/selftest/cases/devtool.py
 +++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -3576,10 +3576,11 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+@@ -3446,10 +3446,19 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+     def _verify_launch_json(self, tempdir):
+         """Verify the launch.json file created is valid and contains proper debug configurations"""
+         launch_json_path = os.path.join(tempdir, '.vscode', 'launch.json')
++        tasks_json_path = os.path.join(tempdir, '.vscode', 'tasks.json')
+         self.assertTrue(os.path.exists(launch_json_path), "launch.json file should exist")
++        self.assertTrue(os.path.exists(tasks_json_path), "tasks.json file should exist")
  
-         # Start gdbserver on target using the task command (keep the ssh connection open while debugging)
-         ssh_gdbserver_cmd = [task_command] + task_args
--        # Fix shell command escaping - remove extra quotes from the last argument
--        # The task_args likely contains a quoted shell command that needs to be unquoted
-+        # The tasks.json argument is formatted for an intermediate shell. Strip
-+        # its quotes and restore dollar expansions before passing it directly to
-+        # SSH via subprocess.
-         if len(ssh_gdbserver_cmd) > 0 and ssh_gdbserver_cmd[-1].startswith('"') and ssh_gdbserver_cmd[-1].endswith('"'):
--            ssh_gdbserver_cmd[-1] = ssh_gdbserver_cmd[-1][1:-1]  # Remove surrounding quotes
-+            ssh_gdbserver_cmd[-1] = ssh_gdbserver_cmd[-1][1:-1].replace('\\$', '$')  # Remove surrounding quotes
-         self.logger.debug(f"Starting gdbserver with command: {' '.join(ssh_gdbserver_cmd)}")
-         with RunCmdBackground(ssh_gdbserver_cmd, output_log=self._cmd_logger):
-             # Give gdbserver a moment to start
+         with open(launch_json_path) as launch_j:
+             launch_d = json.load(launch_j)
++        with open(tasks_json_path) as tasks_j:
++            tasks_d = json.load(tasks_j)
++        task_labels = {
++            task.get("label")
++            for task in tasks_d.get("tasks", [])
++            if task.get("label")
++        }
+ 
+         self.assertIn("configurations", launch_d)
+         configurations = launch_d["configurations"]
+@@ -3527,6 +3536,8 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+                 self.assertIn("_attach", task, f"attach configuration '{config_name}' should have attach preLaunchTask")
+                 # Verify postDebugTask exists for attach configurations (kill gdbserver)
+                 self.assertIn("postDebugTask", config, f"attach configuration '{config_name}' should have postDebugTask")
++                self.assertIn(config["postDebugTask"], task_labels,
++                              f"attach configuration '{config_name}' postDebugTask should exist in tasks.json")
+ 
+             # Categorize configurations
+             config_name = config["name"]
+@@ -3542,34 +3553,11 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+                  "Each debug configuration should use a distinct server address")
+ 
+     def _verify_launch_json_debugging(self, tempdir, qemu, example_exe):
+-        """Verify remote debugging and deployment works using launch.json configurations
++        """Verify launch.json debugging configs for one target executable.
+ 
+-        This method tests the VSCode debug configurations by:
+-        1. Starting gdbserver on target using tasks.json commands
+-        2. Running gdb debugging session with batch commands
+-            $BUILDDIR/tmp/work/x86_64-linux/gdb-cross-x86_64/16.3/recipe-sysroot-native/usr/bin/x86_64-poky-linux/x86_64-poky-linux-gdb --batch  \
+-            -ex 'set sysroot $BUILDDIR/tmp/work/x86-64-v3-poky-linux/cmake-example/1.0/image'  \
+-            -ex 'set substitute-path /usr/include $BUILDDIR/tmp/work/x86-64-v3-poky-linux/cmake-example/1.0/recipe-sysroot/usr/include'  \
+-            -ex 'set substitute-path /usr/src/debug/cmake-example/1.0 $BUILDDIR/workspace/sources/cmake-example'  \
+-            -ex 'set substitute-path /usr/src/debug $BUILDDIR/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0/rootfs-dbg/usr/src/debug'  \
+-            -ex 'set solib-search-path $BUILDDIR/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0/rootfs-dbg/lib/.debug:\
+-                $BUILDDIR/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0/rootfs-dbg/usr/lib/.debug:\
+-                $BUILDDIR/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0/rootfs-dbg/usr/lib/debug:\
+-                $BUILDDIR/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0/rootfs-dbg/lib:\
+-                $BUILDDIR/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0/rootfs-dbg/usr/lib:\
+-                $BUILDDIR/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0/rootfs/lib:\
+-                $BUILDDIR/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0/rootfs/usr/lib'  \
+-            -ex 'file $BUILDDIR/tmp/work/x86-64-v3-poky-linux/cmake-example/1.0/image/usr/bin/cmake-example'  \
+-            -ex 'target remote 192.168.7.2:1234'  \
+-            -ex 'break main'  \
+-            -ex 'continue'  \
+-            -ex 'break CppExample::print_json()'  \
+-            -ex 'continue'  \
+-            -ex 'print CppExample::test_string.compare("cpp-example-lib Magic: 123456789")'  \
+-            -ex 'print CppExample::test_string.compare("cpp-example-lib Magic: 123456789aaa")'  \
+-            -ex 'list cpp-example-lib.hpp:15,15'  \
+-            -ex 'continue'
+-        3. Verifying debug output and stopping gdbserver
++        Runs attach-mode first against the already-running service process,
++        then validates the once configuration. This ordering avoids Build-ID
++        mismatch from once/deploy side effects before attach is tested.
+         """
+         with open(os.path.join(tempdir, '.vscode', 'launch.json')) as launch_j:
+             launch_d = json.load(launch_j)
+@@ -3585,18 +3573,116 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+         # as the recipe name (e.g. meson-example installs a binary named
+         # "mesonex").
+         once_config_count = 0
++        attach_config_count = 0
++
++        # Run attach first. The attach test targets the already-running
++        # service process in the image; running a once configuration first can
++        # deploy/update binaries and trigger Build-ID mismatch warnings against
++        # that still-running process.
++        for config in configurations:
++            if f"usr-bin-{example_exe}_attach" in config["name"]:
++                attach_config_count += 1
++                self._verify_launch_config_attach(tempdir, config, qemu, example_exe)
++
+         for config in configurations:
+             if f"usr-bin-{example_exe}_once" in config["name"]:
+                 once_config_count += 1
+                 self._verify_launch_config(tempdir, config, tasks, qemu, example_exe,
+                                            self._gdb_debug_cpp_example, self._gdb_debug_cpp_example_check)
+-            # It works but is not 100% reliable in VSCode
+-            # This one: https://github.com/microsoft/vscode-cpptools/issues/4243 ?
+-            # elif f"usr-bin-{example_exe}_attach" in config["name"]
+-            #     self._verify_launch_config(tempdir, config, tasks, qemu, example_exe)
+-            else:
+-                continue
+         self.assertEqual(once_config_count, 1, f"Should have one once configuration, found: {once_config_count}")
++        self.assertEqual(attach_config_count, 1, f"Should have one attach configuration, found: {attach_config_count}")
++
++    def _verify_launch_config_attach(self, tempdir, launch_config, qemu, example_exe):
++        """Verify attach-mode debugging by exercising debugger control flow.
++
++        The attached service runs an endless loop, and each loop iteration
++        executes sleep(). We break on sleep() to prove that attach-mode gdb is
++        controlling the already-running process at a point that is expected to
++        be reached repeatedly during normal service execution, then detach.
++        """
++        self.assertEqual(launch_config.get("request"), "attach")
++
++        tasks_path = os.path.join(tempdir, '.vscode', 'tasks.json')
++        self.assertExists(tasks_path, 'tasks.json not found at %s' % tasks_path)
++        with open(tasks_path) as tasks_j:
++            tasks_d = json.load(tasks_j)
++        task_by_label = {
++            task.get('label'): task
++            for task in tasks_d.get('tasks', [])
++            if task.get('label')
++        }
++
++        debugger_path = launch_config["miDebuggerPath"]
++        server_addr = launch_config["miDebuggerServerAddress"]
++        prelaunch_task_name = launch_config["preLaunchTask"]
++        post_debug_task_name = launch_config.get("postDebugTask")
++        program = launch_config["program"]
++        additional_so_lib_search_path = launch_config["additionalSOLibSearchPath"]
++        source_file_map = launch_config["sourceFileMap"]
++        setup_commands = launch_config["setupCommands"]
++
++        self.assertTrue(post_debug_task_name,
++                        "attach configuration should define postDebugTask")
++        self.assertIn(prelaunch_task_name, task_by_label)
++        self.assertIn(post_debug_task_name, task_by_label)
++
++        status, _ = qemu.run('test -x /usr/bin/gdbserver')
++        self.assertEqual(status, 0, "gdbserver should be installed on target")
++        status, _ = qemu.run('test -x ' + os.path.join('/usr/bin', example_exe))
++        self.assertEqual(status, 0, "Example binary should be installed on target")
++
++        # The attach preLaunchTask has no dependsOn (it attaches to an already
++        # running service instead of building/deploying), so it can be run
++        # directly without a dependency chain runner.
++        prelaunch_task = task_by_label[prelaunch_task_name]
++        prelaunch_cmd = [prelaunch_task["command"]] + [str(arg)
++                                                         for arg in prelaunch_task.get("args", [])]
++        # The tasks.json command is shell-quoted and escapes '$' for an
++        # intermediate shell, so undo that before passing argv to subprocess.
++        if prelaunch_cmd[-1].startswith('"') and prelaunch_cmd[-1].endswith('"'):
++            prelaunch_cmd[-1] = prelaunch_cmd[-1][1:-1].replace('\\$', '$')
++        runCmd(prelaunch_cmd, output_log=self._cmd_logger)
++
++        # Attach to the service process currently running on the target.
++        status, output = qemu.run("pgrep '^%s$'" % example_exe)
++        self.assertEqual(status, 0, msg="%s service not running: %s" %
++                         (example_exe, output))
++        service_pid = output.strip()
++        self.assertRegex(service_pid, r'^\d+$')
++
++        gdb_batch_cmd = debugger_path + " --batch"
++        for setup_command in setup_commands:
++            setup_cmd = setup_command["text"].strip()
++            if setup_cmd.startswith("-"):
++                continue
++            gdb_batch_cmd += ' -ex ' + shlex.quote(setup_cmd)
++        for k, v in source_file_map.items():
++            gdb_batch_cmd += " -ex 'set substitute-path %s %s'" % (k, v.replace("${workspaceFolder}", tempdir))
++        gdb_batch_cmd += " -ex 'set solib-search-path %s'" % additional_so_lib_search_path
++        gdb_batch_cmd += " -ex 'file %s'" % program
++        gdb_batch_cmd += " -ex 'target extended-remote %s'" % server_addr
++        gdb_batch_cmd += " -ex 'attach %s'" % service_pid
++        gdb_batch_cmd += " -ex 'set breakpoint pending on'"
++        gdb_batch_cmd += " -ex 'tbreak sleep'"
++        gdb_batch_cmd += " -ex 'continue'"
++        gdb_batch_cmd += " -ex 'detach'"
++        self.logger.debug(f"Starting attach gdb session with command: {gdb_batch_cmd}")
++
++        r = runCmd(gdb_batch_cmd, output_log=self._cmd_logger)
++        self.assertEqual(r.status, 0)
++        self.assertIn("sleep", r.output)
++
++        # Stop the persistent attach server and verify the service survives.
++        post_debug_task = task_by_label[post_debug_task_name]
++        post_debug_cmd = [post_debug_task["command"]] + [str(arg)
++                                                          for arg in post_debug_task.get("args", [])]
++        if post_debug_cmd[-1].startswith('"') and post_debug_cmd[-1].endswith('"'):
++            post_debug_cmd[-1] = post_debug_cmd[-1][1:-1].replace('\\$', '$')
++        runCmd(post_debug_cmd, output_log=self._cmd_logger)
++
++        status, output = qemu.run("pgrep '^%s$'" % example_exe)
++        self.assertEqual(status, 0, msg="%s service should still be running after attach stop: %s" %
++                         (example_exe, output))
+ 
+     def _verify_launch_config(self, tempdir, launch_config, tasks, qemu, example_exe, debug_func=None, debug_check_func=None):
+         self.assertIsNotNone(launch_config, "Should have at least one launch debug configuration")
 -- 
 2.55.0
 
