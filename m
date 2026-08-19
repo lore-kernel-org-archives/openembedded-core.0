@@ -2,63 +2,63 @@ Return-Path: <roosesweb@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B4D8C5DF6D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 831A9C5DF81
 	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 06:22:22 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1268.1787120533413556587
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1342.1787120532894348106
  for <openembedded-core@lists.openembedded.org>;
  Tue, 18 Aug 2026 23:22:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Xed00zJm;
- spf=pass (domain: gmail.com, ip: 209.85.128.53, mailfrom: roosesweb@gmail.com)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4980dc26022so5954685e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 23:22:13 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=NROGn1BT;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: roosesweb@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4980dc26022so5954585e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 18 Aug 2026 23:22:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787120532; x=1787725332; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1787120531; x=1787725331; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wkkuF4+1MJbj0YRuqIgtKwiyH5+3bVLjnnL2p+Q1UwQ=;
-        b=Xed00zJmIMSy8oVt9nhxxiSe6PQQYNP4qh5RmCwz1y2A8iWn/OfBNCiYZoNZFci3hF
-         jk0a8EtO6YKv+xY7YSmXDc8SBTH1Qnm53AWJ+AIaEjYTsRx/UwAkybS11sivb8Ql1KM2
-         F3ATvaRWUtuvpZjjJkXoylasKn4IUrG4t9HhIKInluQwPssUoFPm6D130CMk4xP+kz8L
-         bwGrMX4M5WWycWnecdLGX14M4pNwdBtTigM1bjECR0U2YdfHfFvIfclmltUJltgJ6rZs
-         SXIIVzk+GbCY12tR8Lzgp8XM+C7XhFORqv8yJ7/0dsYllw9YsUtGnyRLS9B6f3teCUHe
-         JAAg==
+        bh=XypcZpqZTQoYdAEiStawSEcKJ9+ynuf3MXKTsyim2wk=;
+        b=NROGn1BTCBVREPO0xd+rdkwYrqdp77ZVK+GM/jsa3DzyrTcxsJKVAnEDMPAU3CmmoA
+         RJJazT7+uBvQXQoqiw5KKxDvGXj52q9DqnHTW2Wn/+piX1LBNgZmUg+zeGFsdwx3zGsI
+         f+CsOwBiqJieYJhKXLaA82CZ39ZAURcQaNwFlmCQxOR6YBV1hC56YhbiZzNSokBjt9+X
+         Uhl25YxPFEf+ccZBZ09TAK+J/zZulSq1p7JQNKzmUE7FHyODE5POWTpyJ0Nd7+5GsVNd
+         jTJrrcKqEk0JsQpF4JeiQDNPnX+0vE8/Z/Xha5Ehkd/h9NQy3hvmvFWbsFkzfsJM9whj
+         citg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787120532; x=1787725332;
+        d=1e100.net; s=20251104; t=1787120531; x=1787725331;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wkkuF4+1MJbj0YRuqIgtKwiyH5+3bVLjnnL2p+Q1UwQ=;
-        b=SgFcUx/OmA1sBU7TI0ewkRqFSkUf1wKbIgrBsFnK70CQ1CE+RXHYZIYZg48di60Dyi
-         7PLur0LtojDL0JSsrGnuwlDlqXsZwA7SpfzvlK2G8+yFCFHOtEm38ZkJU+6Rmq43qxhL
-         P3yMyMRBQVqDmXXyO0/3NTBRNFaF+GD/NdNLq20Q0tUFrNzKT8IAqJaTQEWMHaahDx0g
-         4nD3hUMnn3fsVVeTchmWiPEg8UxSr28+FxHIcFpwX9NGqCbKqLDEVxTh6OlJ4UROsfbV
-         A57aQPb652FkytAYvBdufhZt1PVQWDls/EAiWj5q8f2irnG1ZRVeKvHQl9QzBZ/jt56x
-         +R7A==
-X-Gm-Message-State: AOJu0YxMzqBUT2MDa5cX3pwOpEadQGUEB5RxXqpSKZJiSSbKiYk8YvYk
-	KWvYyhS1Z5800+T902GQev7aBjg0QXuzEGFyfGml3KZl/pxJfnN6/hyyAmv1cPPl
-X-Gm-Gg: AR+sD12GF+PnDDccbbOOn8axm7T9fiBQDurOgtwXuNa94oLlLEQOFVvwl8dv5u56QtQ
-	68hIxWQ9hLw0xBA7sFw+uMoirZGmIsO1ivnM8rTYNjcaLjD6LwGV8B6Y1eg03bJP0gFDgIgg17s
-	4gsn6iCZiOIWraA0/vaCZx5DjnRiBCJR8qlxmeX2Jf5CnGSc/OJ8PBNeU+YsiUUnzOsUOO8Mare
-	BQw/CpFXWQYZCHKXz+9HbmRmQtp+lpsPkZsezNiKnRrKn0MsCRxYJs4yfNs798PAFhjkXrhGakX
-	faoKwjbETfhkkqCCyrzcv+ZOdKUgw/RBA93OoqRLvf6gOPkv78aadIiDq7lgaVyBUpJOySMOw70
-	JzULRqVSDnV/pprmXeswmOx2pWoBFZboKxBMce/CNtzwCJ+Ksh7sn7FVYrqkJdXnLqosvnht5cn
-	cSWRqRkeYexq6T04KPu8nUA0H3LYuseMhKbp21TbJzm4Z/YOXaMpSt0vDHj0v/bufkvmYgX+5Gv
-	fq5zE3embSgVoYdNVNp7UFryjGey0+xgOA=
-X-Received: by 2002:a05:600c:6091:b0:499:8aff:59b6 with SMTP id 5b1f17b1804b1-499aa1ead50mr44556055e9.14.1787120531621;
+        bh=XypcZpqZTQoYdAEiStawSEcKJ9+ynuf3MXKTsyim2wk=;
+        b=NhJd4k8uZ5MNuQwnHts63g/N5rsnz9C+pyl9oP5qLUwoiPC+5wyW0mf+Xs6VV9c2My
+         zKn49109n7ZRDKr8PrUoR3tpnzA7SrHjpbnkXpQJoORpJzu08+PpQiIMYx0fu+sX+heF
+         3NFI6WST0h1C8pKR6lo2nc1xF8OuPHOapAPkIR0UPnoIuvhyLLNTG809O+HIiOKlbz3y
+         klIhSVFD98QdLmots/LJNrS/XjOYxCxviiz4CIzWmcF0P79hlNoROhog51LMWpU0hJAN
+         ECIZVRjM/fvV1mokhC3uJkeiwu68B169SKyc3sj3ncDtlhUDUcjiA2WOJcLGNjsWnqgR
+         XwnA==
+X-Gm-Message-State: AOJu0YyT3weWN3FfpQj+v6JKjYf8pBtuBf5DVEy5Eo5ohgO3yHwehIiK
+	Hf0rYjmpbMHaJ2vcWUg+9dBDpz3nFq7VjqNamnE6+yRt9VPg8bR0V749GCzuNCt6
+X-Gm-Gg: AR+sD1355RxSjslfay8eiS5LssEqrxfRaq2wHr/G8Ao6gpk136Pkoi5S+4QtuRKnCLs
+	LfvFzam0Wprs7d4GpwsSiAl+kleCC+Q6ZPVvIc2ZnlG4Eez02DGVzLrvWwP+0uDJj42oS6iwxRS
+	4mDlTOX5iQaS8612iWfB3wyORkLAoXzsAQ0H+LQHPcv1lfsaGxaEYolC+/oGs1vjUr5C0Qhzbg/
+	avgpTZZ9KTCyFpI/75p0PLD6AJbIxZiJrBm4ZVDmq8UiAFPWCVWqh3VDq03+2WxPGM7WaICDqiC
+	cc/5YFZcLDXZzLRA+kX0/VX1LolsgLBbhfDeP9XPFiGecZd9CrqssJcGqsiP/NGwDe5deFtmKin
+	BuvlkjYhtadS2oGJTKpjNv5U4khrUYqnfey6a3F9uJP8kkLSkNWlZacqTbE9be5XRw8lWNg91Zt
+	nVjq9yeJIJE0xrcdQHQH2ckZs3AfmVdFTu/0exoscZHCDRBUQJyQkuUmI+O1M5DFW8vp38Z1lTJ
+	AMmYbq22eQJ1xWGUbM9fCwGlv38HfAYvQ==
+X-Received: by 2002:a05:600c:1908:b0:499:5210:c537 with SMTP id 5b1f17b1804b1-499aa17d6d8mr31981895e9.1.1787120531091;
         Tue, 18 Aug 2026 23:22:11 -0700 (PDT)
 Received: from thinkpad.fritz.box ([2a02:810d:ae08:d00:a23e:1b00:ebf4:5b37])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499aa17f202sm32900085e9.13.2026.08.18.23.22.11
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499aa17f202sm32900085e9.13.2026.08.18.23.22.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 18 Aug 2026 23:22:11 -0700 (PDT)
+        Tue, 18 Aug 2026 23:22:10 -0700 (PDT)
 From: Thomas Roos <roosesweb@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Paul Barker <paul@pbarker.dev>
-Subject: [PATCH v2 4/5] image_types: skip multiubi symlinks when IMAGE_LINK_NAME is empty
-Date: Wed, 19 Aug 2026 08:22:07 +0200
-Message-ID: <20260819062208.680468-5-roosesweb@gmail.com>
+Subject: [PATCH v2 3/5] testexport: fall back to IMAGE_NAME when IMAGE_LINK_NAME is empty
+Date: Wed, 19 Aug 2026 08:22:06 +0200
+Message-ID: <20260819062208.680468-4-roosesweb@gmail.com>
 In-Reply-To: <20260819062208.680468-1-roosesweb@gmail.com>
 References: <483e1f11846c0941d287a3a9228bd759a1310bdd.camel@pbarker.dev>
  <20260819062208.680468-1-roosesweb@gmail.com>
@@ -68,30 +68,31 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 06:22:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243710
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243709
 
-An empty IMAGE_LINK_NAME made multiubi_mkfs link the named volumes from the
-suffix alone, e.g. "_volume.ubifs". Guard the block.
+copy_needed_files() built the manifest and testdata paths from
+IMAGE_LINK_NAME alone, so an empty value made it copy ".manifest" and fail.
+testexport_main() in the same file already falls back to IMAGE_NAME.
 
 AI-Generated: Uses Claude Opus 5
 Signed-off-by: Thomas Roos <roosesweb@gmail.com>
 ---
- meta/classes-recipe/image_types.bbclass | 2 +-
+ meta/classes-recipe/testexport.bbclass | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/image_types.bbclass b/meta/classes-recipe/image_types.bbclass
-index ca13729..6c620a5 100644
---- a/meta/classes-recipe/image_types.bbclass
-+++ b/meta/classes-recipe/image_types.bbclass
-@@ -217,7 +217,7 @@ multiubi_mkfs() {
- 	mv ubinize${vname}-${IMAGE_NAME}.cfg ${IMGDEPLOYDIR}/
+diff --git a/meta/classes-recipe/testexport.bbclass b/meta/classes-recipe/testexport.bbclass
+index 12b7e17..a0be7cd 100644
+--- a/meta/classes-recipe/testexport.bbclass
++++ b/meta/classes-recipe/testexport.bbclass
+@@ -134,7 +134,7 @@ def copy_needed_files(d, tc):
  
- 	# Create own symlinks for 'named' volumes
--	if [ -n "$vname" ]; then
-+	if [ -n "$vname" ] && [ -n "${IMAGE_LINK_NAME}" ]; then
- 		cd ${IMGDEPLOYDIR}
- 		if [ -e ${IMAGE_NAME}${vname}.ubifs ]; then
- 			ln -sf ${IMAGE_NAME}${vname}.ubifs \
+     # Copy test data
+     image_name = ("%s/%s" % (d.getVar('DEPLOY_DIR_IMAGE'),
+-                            d.getVar('IMAGE_LINK_NAME')))
++                            d.getVar('IMAGE_LINK_NAME') or d.getVar('IMAGE_NAME')))
+     image_manifest = "%s.manifest" % image_name
+     tdname = "%s.testdata.json" % image_name
+     test_data_path = os.path.join(export_path, 'data')
 -- 
 2.55.0
 
