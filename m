@@ -1,280 +1,280 @@
-Return-Path: <dkelaiya@cisco.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 723D5C5DF89
-	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 05:08:20 +0000 (UTC)
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.656.1787116092318433195
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93E8BC5DF6D
+	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 05:22:40 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.692.1787116959464326202
  for <openembedded-core@lists.openembedded.org>;
- Tue, 18 Aug 2026 22:08:12 -0700
+ Tue, 18 Aug 2026 22:22:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Y0U2vW9t;
- spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: dkelaiya@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=8248; q=dns/txt;
-  s=iport01; t=1787116092; x=1788325692;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=yO1A+oqUICGiNu9tNL+rdv8o1nrg5V1G4z5/CsY0wGI=;
-  b=Y0U2vW9tSlcIkLl1CZEGPO6wmBODBt+LAc9kcfQe6+BcnyU8wLXKHV90
-   hax74G42tSqFi30w5cpCDOnYFI3fqCokTt3xsLNB/GZxxRulNm6vl4l0u
-   vAU1xBpZ176x7wv9x9X07Wq9SHYZte1HN6iwnblbefkBYPJlI9HuJE+cR
-   II3ysFq1sflr2UWq3HvKzRv3oA05bfeNJjPwoBSxQdBJSVOiAngiDZzO8
-   srY0pj0Vnu3f0TW4DpelozH59t+j8Vx7GnYUuPL2pHtxjx/OtXYiE3z11
-   hi9TH+cR99oTR+jNV3EfyAG17QsqH+0nz8U43PAu7oq1O4N6c1kmH3wtm
-   g==;
-X-CSE-ConnectionGUID: /Mqq41plQB66jftGcgkN/A==
-X-CSE-MsgGUID: zeTDyazER8qgwJN2yNCP4A==
-X-IPAS-Result: =?us-ascii?q?A0BIAgD/OYVq/4wQJK1aHgEBCxIMggULgld0XkNJA5ZHA?=
- =?us-ascii?q?54bgX4PAQEBD0QNBAEBhD9GAo1rAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBA?=
- =?us-ascii?q?QUBAQECAQcFgQ4Thk8NhloBAgEDJwsBGAEtEBwDAQIvKyMIGYMCAYJ0AxHDF?=
- =?us-ascii?q?oF5M4EBgygBgVTbMAELFAEFgTOFP4giXRgBRIQ4JxsbgXKBFYNpgQWBXAKBT?=
- =?us-ascii?q?IZZBIIiehKBWoEtkDhIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQ0bB?=
- =?us-ascii?q?gWBHYEohDcjGTZ6gQlegSsqYQESF4EJggoCgnOCBgIBSUURCgsLGA1IESw3F?=
- =?us-ascii?q?BkEPm4HjkkggicgAYENAQohgU1fo1WCIaEPCiiDdowhlToaM6psC5h9jgqVO?=
- =?us-ascii?q?4EVhGmBaDyBWXAVO4JnCUoZD444g2uFZMZVJzICBgMDLwEBBwIHDgMLgWiRf?=
- =?us-ascii?q?gEB?=
-IronPort-Data: A9a23:IrciIqiPHL1TvkYKibu8TcxQX161NhEKZh0ujC45NGQN5FlHY01je
- htvCmGEbvuJZWX8ethwad+1oEtUvsSDx4UyGVRsqC9jFCxjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FH1dOOn9SUgvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeCULOZ82QsaDxMu/vS8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqVf3/9uXThW8
- cUydm4PYAysjO215vWSH7wEasQLdKEHPasWvnVmiDWcBvE8TNWbGOPB5MRT23E7gcUm8fT2P
- pVCL2ExKk2eJUQTYj/7C7pm9AusrnX8fjlRqUOcjaE2+GPUigd21dABNfKFIo3XGpUExxfwS
- mTu7WnFLgATJvGlmSOK7VCK3P7pthuncddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
- mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUz7AWLj66R6AGDCy1cFXhKaccts4k9QjlCO
- kK1ou4FzAdH6NW9IU9xPJ/Jxd9uEUD59VM/WBI=
-IronPort-HdrOrdr: A9a23:2qg35KrZlyeMcYTeNELe4dEaV5rzeYIsimQD101hICG9vPb2qy
- nIpoV96faaslcssR0b9OxofZPwI080lqQFhbX5Q43DYOCOggLBR+tfBMnZsljd8kbFmNK1u5
- 0NT0FWMqyXMbEDt7eY3CCIV/A93dKA7Kekwc3az3trUEVWTpsI1XYBNu5eeXcGPzWvwvECZe
- Kh2vY=
-X-Talos-CUID: 9a23:ZvXCE2PBL2Z7Iu5DHwx+7RJNAsQcWCODznnMDES3CkAuYejA
-X-Talos-MUID: 9a23:BOjirQiN8Q3PNpRqOZNcnMMpJspUz7WnGm03wYwJpOuibz1WEA/BpWHi
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,231,1779148800"; 
-   d="scan'208";a="809578919"
-Received: from alln-l-core-03.cisco.com ([173.36.16.140])
-  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Aug 2026 05:08:11 +0000
-Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-03.cisco.com (Postfix) with ESMTPS id 56689180001CF;
-	Wed, 19 Aug 2026 05:08:11 +0000 (GMT)
-Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id E6F48CCD9B2; Tue, 18 Aug 2026 22:08:10 -0700 (PDT)
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 2/4] python3-git: fix CVE-2026-42215
-Date: Tue, 18 Aug 2026 22:08:06 -0700
-Message-Id: <20260819050808.3986732-2-dkelaiya@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260819050808.3986732-1-dkelaiya@cisco.com>
-References: <20260819050808.3986732-1-dkelaiya@cisco.com>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OahDd3rS;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4rJxwe5K;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a01878b33d-41ebe42f-1186-449d-9d28-a3e2959f4417-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1787116958;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=rHSvdy9I35z+7Vpl0RxH/KKchzZTSaVRtRoIQRGG5r0=;
+	b=OahDd3rSDQMVk5EfoAZY1sLNnoHQmRq3oQwqFM3PUYNP3Ba4K7BWKaTN2PFUIgxR
+	OSG6/74FBOevlq/AEB+ObbbeoH5022HRZgtfmeW6WVN6QUjC4xnj5mvkxiApJJWZR4g
+	R/QQ7wj8hkW0vfaOp+d0aI9qAuPtsSwRNP3D6OtQ=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787116958;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=rHSvdy9I35z+7Vpl0RxH/KKchzZTSaVRtRoIQRGG5r0=;
+	b=4rJxwe5KQrxYWQ0ne0EPwyqgpj0P1AwgC9wUUzJP2hgweGQA/FN/LnxjHlPcjV2E
+	Mi1nqpFMpgpwiRXAH212T8Z2XBCCalj/MoM8PqxgUiE7nsm1o5mwrYpqFPosaCf/WaD
+	T8pcO44giExsqYLHpWNeL7jQxlLzYPMSSs38XxVc=
+Content-Type: multipart/mixed; boundary="===============7891514888060421032=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: alln-l-core-03.cisco.com
+From: auh@yoctoproject.org
+To: Bruce Ashfield <bruce.ashfield@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-idna: upgrading to 3.19 SUCCEEDED
+Message-ID: <010101a01878b33d-41ebe42f-1186-449d-9d28-a3e2959f4417-000000@us-west-2.amazonses.com>
+Date: Wed, 19 Aug 2026 05:22:38 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.19-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 05:08:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243698
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 05:22:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243701
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+--===============7891514888060421032==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-This patch applies the upstream fix as referenced in [4], using all the
-backported commits shown in [1], [2], and [3].
+Hello,
 
-[1] https://github.com/gitpython-developers/GitPython/commit/142195888e713542189533a52cdfc333f05c3af6
-[2] https://github.com/gitpython-developers/GitPython/commit/9aed7cf8c20f69effcfcf7ebef09f312f73ab826
-[3] https://github.com/gitpython-developers/GitPython/commit/43d92dec4683568d11495956dd556161f17c3ea8
-[4] https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-rpm5-65cw-6hj4
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-idna* to *3.19* has Succeeded.
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+Next steps:
+    - apply the patch: git am 0001-python3-idna-upgrade-3.18-3.19.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From ba0909596b79a38db6a3ae54bbce8d57d44a895a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 19 Aug 2026 05:07:56 +0000
+Subject: [PATCH] python3-idna: upgrade 3.18 -> 3.19
+
+Source: HISTORY.md
+
+## 3.19 (2026-08-XX)
+
+- Restore the `std3_rules` option, which had no effect since changes
+  to UTS #46 processing in Unicode 16. Note that `uts46_remap()`
+  defaults to enabling STD3 rules, so direct callers will see input
+  containing non-LDH ASCII characters rejected again.
+- Performance improvements to UTS #46 mapping, particularly for
+  ASCII-only domains.
+- Test on free-threaded CPython with the GIL disabled and document
+  thread safety.
+- Expose the Unicode version of the generated tables as
+  `idna.unicode_version`, and show it in `idna --version`.
+- Add `code`, `text`, `codepoint` and `position` attributes to
+  `IDNAError` so that the failed rule and the offending character can
+  be identified without parsing the exception message.
+- The deprecated `transitional` argument to `encode()` and
+  `uts46_remap()` is now completely ignored, and gives a deprecation warning
+  for the latter.
+- Reject A-labels that are not the canonical Punycode encoding of
+  their U-label.
+- Fix CONTEXTJ violations raising `IDNAError` instead of
+  `InvalidCodepointContext`.
+- Consistently raise `IDNAError` for empty labels and non-ASCII bytes
+  passed to label helper functions and the incremental codec.
+- Add property-based tests, extended fuzzing targets, coverage
+  measurement, and CI checks that the data tables match the generator
+  output.
+- Various code quality and tooling improvements.
+
+Thanks to stefan6419846, LouieLuNZ, and Salvatore Corvaglia for
+contributions to this release.
 ---
- .../python3-git/CVE-2026-42215_p1.patch       | 60 +++++++++++++++++++
- .../python3-git/CVE-2026-42215_p2.patch       | 29 +++++++++
- .../python3-git/CVE-2026-42215_p3.patch       | 45 ++++++++++++++
- .../python/python3-git_3.1.43.bb              |  3 +
- 4 files changed, 137 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p3.patch
+ .../python/{python3-idna_3.18.bb => python3-idna_3.19.bb}       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-idna_3.18.bb => python3-idna_3.19.bb} (84%)
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
-new file mode 100644
-index 0000000000..0129250fdf
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
-@@ -0,0 +1,60 @@
-+From dd5d1c4ddcc5d44faf4e71bcfa338f09db2022d6 Mon Sep 17 00:00:00 2001
-+From: w <w@mac.lan>
-+Date: Mon, 20 Apr 2026 23:29:50 -0400
-+Subject: [PATCH] Block unsafe underscored git kwargs / Fix for
-+ GHSA-rpm5-65cw-6hj4
-+
-+CVE: CVE-2026-42215
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/142195888e713542189533a52cdfc333f05c3af6]
-+
-+Backport Changes:
-+- Omitted test/test_clone.py, test/test_git.py, and
-+  test/test_remote.py because the PyPI 3.1.43 source used by the
-+  recipe does not ship the upstream test tree.
-+
-+(cherry picked from commit 142195888e713542189533a52cdfc333f05c3af6)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ git/cmd.py | 21 +++++++++++++--------
-+ 1 file changed, 13 insertions(+), 8 deletions(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index 90fc39cd..2ecb8e66 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -711,6 +711,12 @@ class Git(metaclass=_GitMeta):
-+                 f"The `{protocol}::` protocol looks suspicious, use `allow_unsafe_protocols=True` to allow it."
-+             )
-+ 
-++    @classmethod
-++    def _canonicalize_option_name(cls, option: str) -> str:
-++        """Normalize an option or kwarg name for unsafe-option checks."""
-++        option_name = option.lstrip("-").split("=", 1)[0].split(None, 1)[0]
-++        return dashify(option_name)
-++
-+     @classmethod
-+     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
-+         """Check for unsafe options.
-+@@ -718,15 +724,14 @@ class Git(metaclass=_GitMeta):
-+         Some options that are passed to ``git <command>`` can be used to execute
-+         arbitrary commands. These are blocked by default.
-+         """
-+-        # Options can be of the form `foo`, `--foo bar`, or `--foo=bar`, so we need to
-+-        # check if they start with "--foo" or if they are equal to "foo".
-+-        bare_unsafe_options = [option.lstrip("-") for option in unsafe_options]
-++        # Options can be of the form `foo`, `--foo`, `--foo bar`, or `--foo=bar`.
-++        canonical_unsafe_options = {cls._canonicalize_option_name(option): option for option in unsafe_options}
-+         for option in options:
-+-            for unsafe_option, bare_option in zip(unsafe_options, bare_unsafe_options):
-+-                if option.startswith(unsafe_option) or option == bare_option:
-+-                    raise UnsafeOptionError(
-+-                        f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-+-                    )
-++            unsafe_option = canonical_unsafe_options.get(cls._canonicalize_option_name(option))
-++            if unsafe_option is not None:
-++                raise UnsafeOptionError(
-++                    f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-++                )
-+ 
-+     class AutoInterrupt:
-+         """Process wrapper that terminates the wrapped process on finalization.
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
-new file mode 100644
-index 0000000000..4326bede07
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
-@@ -0,0 +1,29 @@
-+From e77461e6953a67f17ecd1808c352e6613a17345b Mon Sep 17 00:00:00 2001
-+From: w <w@mac.lan>
-+Date: Mon, 20 Apr 2026 23:43:59 -0400
-+Subject: [PATCH] linter fix
-+
-+CVE: CVE-2026-42215
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/9aed7cf8c20f69effcfcf7ebef09f312f73ab826]
-+
-+(cherry picked from commit 9aed7cf8c20f69effcfcf7ebef09f312f73ab826)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ git/cmd.py | 4 +---
-+ 1 file changed, 1 insertion(+), 3 deletions(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index 2ecb8e66..372eac28 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -729,9 +729,7 @@ class Git(metaclass=_GitMeta):
-+         for option in options:
-+             unsafe_option = canonical_unsafe_options.get(cls._canonicalize_option_name(option))
-+             if unsafe_option is not None:
-+-                raise UnsafeOptionError(
-+-                    f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-+-                )
-++                raise UnsafeOptionError(f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it.")
-+ 
-+     class AutoInterrupt:
-+         """Process wrapper that terminates the wrapped process on finalization.
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p3.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p3.patch
-new file mode 100644
-index 0000000000..a23fba8d81
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p3.patch
-@@ -0,0 +1,45 @@
-+From 3ee4db90229dbb1fbdc8572dc8219990d70db368 Mon Sep 17 00:00:00 2001
-+From: w <w@mac.lan>
-+Date: Tue, 21 Apr 2026 12:03:20 -0400
-+Subject: [PATCH] git.cmd: harden unsafe option canonicalization and isolate
-+ push test cases
-+
-+CVE: CVE-2026-42215
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/43d92dec4683568d11495956dd556161f17c3ea8]
-+
-+Backport Changes:
-+- Omitted test/test_remote.py because the PyPI 3.1.43 source used
-+  by the recipe does not ship the upstream test tree.
-+
-+(cherry picked from commit 43d92dec4683568d11495956dd556161f17c3ea8)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ git/cmd.py | 15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index 372eac28..a1e77bdb 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -713,9 +713,18 @@ class Git(metaclass=_GitMeta):
-+ 
-+     @classmethod
-+     def _canonicalize_option_name(cls, option: str) -> str:
-+-        """Normalize an option or kwarg name for unsafe-option checks."""
-+-        option_name = option.lstrip("-").split("=", 1)[0].split(None, 1)[0]
-+-        return dashify(option_name)
-++        """Return the option name used for unsafe-option checks.
-++
-++        Examples:
-++            ``"--upload-pack=/tmp/helper"`` -> ``"upload-pack"``
-++            ``"upload_pack"`` -> ``"upload-pack"``
-++            ``"--config core.filemode=false"`` -> ``"config"``
-++        """
-++        option_name = option.lstrip("-").split("=", 1)[0]
-++        option_tokens = option_name.split(None, 1)
-++        if not option_tokens:
-++            return ""
-++        return dashify(option_tokens[0])
-+ 
-+     @classmethod
-+     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index bfbdd80289..f7388e2bbb 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -13,6 +13,9 @@ PYPI_PACKAGE = "GitPython"
- inherit pypi python_setuptools_build_meta
+diff --git a/meta/recipes-devtools/python/python3-idna_3.18.bb b/meta/recipes-devtools/python/python3-idna_3.19.bb
+similarity index 84%
+rename from meta/recipes-devtools/python/python3-idna_3.18.bb
+rename to meta/recipes-devtools/python/python3-idna_3.19.bb
+index 70405819e7..b5a9716093 100644
+--- a/meta/recipes-devtools/python/python3-idna_3.18.bb
++++ b/meta/recipes-devtools/python/python3-idna_3.19.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/kjd/idna"
+ LICENSE = "BSD-3-Clause AND Python-2.0 AND Unicode-TOU"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=9a6c29079fc90c29d80332f44d2625f2"
  
- SRC_URI += "file://CVE-2026-42284.patch \
-+           file://CVE-2026-42215_p1.patch \
-+           file://CVE-2026-42215_p2.patch \
-+           file://CVE-2026-42215_p3.patch \
-            "
- SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
+-SRC_URI[sha256sum] = "ffb385a7e039654cef1ab9ef32c6fafe283c0c0467bba1d9029738ce4a14a848"
++SRC_URI[sha256sum] = "5e0811a4383b21dc5838069f801c4fb62113b7447663d2530d2bd6e77b49bf15"
+ 
+ inherit pypi python_flit_core ptest-python-pytest
  
 -- 
-2.35.6
+2.47.1
 
+
+--===============7891514888060421032==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-idna: PV changed from "3.18" to "3.19"
+packages/x86-64-v3-poky-linux/python3-idna: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/idna/idna-3.18.tar.gz;downloadfilename=idna-3.18.tar.gz" to "https://files.pythonhosted.org/packages/source/i/idna/idna-3.19.tar.gz;downloadfilename=idna-3.19.tar.gz"
+packages/x86-64-v3-poky-linux/python3-idna: PKGV changed from 3.18 [default] to 3.19 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dbg: PV changed from "3.18" to "3.19"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dbg: PKGV changed from 3.18 [default] to 3.19 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dev: PV changed from "3.18" to "3.19"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dev: PKGV changed from 3.18 [default] to 3.19 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-doc: PV changed from "3.18" to "3.19"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-doc: PKGV changed from 3.18 [default] to 3.19 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-locale: PV changed from "3.18" to "3.19"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-locale: PKGV changed from 3.18 [default] to 3.19 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: PV changed from "3.18" to "3.19"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: FILELIST: added "/usr/lib/python3-idna/ptest/tests/test_idna_fuzz_targets.py /usr/lib/python3-idna/ptest/tests/test_idna_errors.py /usr/lib/python3-idna/ptest/tests/fuzz_idna_api.py /usr/lib/python3-idna/ptest/tests/test_idna_concurrency.py /usr/lib/python3-idna/ptest/tests/test_idna_properties.py /usr/lib/python3-idna/ptest/tests/fuzz_idna_codec.py"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: PKGV changed from 3.18 [default] to 3.19 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: PKGSIZE changed from 1499519 to 1545330 (+3%)
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-src: PV changed from "3.18" to "3.19"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-src: PKGV changed from 3.18 [default] to 3.19 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-staticdev: PV changed from "3.18" to "3.19"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-staticdev: PKGV changed from 3.18 [default] to 3.19 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: PV changed from "3.18" to "3.19"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: FILELIST: directory renamed /usr/lib/python3.14/site-packages/idna-3.18.dist-info/licenses -> /usr/lib/python3.14/site-packages/idna-3.19.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/idna-3.18.dist-info -> /usr/lib/python3.14/site-packages/idna-3.19.dist-info
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: PKGV changed from 3.18 [default] to 3.19 [default]
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: PKGSIZE changed from 497478 to 513794 (+3%)
+Changes to packages/x86-64-v3-poky-linux/python3-idna (sysroot):
+  /usr/lib/python3.14/site-packages/idna-3.18.dist-info moved to /usr/lib/python3.14/site-packages/idna-3.19.dist-info
+
+--===============7891514888060421032==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: FILELIST: added "/usr/lib/python3-idna/ptest/tests/fuzz_idna_codec.py /usr/lib/python3-idna/ptest/tests/test_idna_errors.py /usr/lib/python3-idna/ptest/tests/fuzz_idna_api.py /usr/lib/python3-idna/ptest/tests/test_idna_concurrency.py /usr/lib/python3-idna/ptest/tests/test_idna_properties.py /usr/lib/python3-idna/ptest/tests/test_idna_fuzz_targets.py"
+packages/x86-64-v3-poky-linux/python3-idna/python3-idna: FILELIST: directory renamed /usr/lib/python3.14/site-packages/idna-3.18.dist-info/licenses -> /usr/lib/python3.14/site-packages/idna-3.19.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/idna-3.18.dist-info -> /usr/lib/python3.14/site-packages/idna-3.19.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-idna (sysroot):
+  /usr/lib/python3.14/site-packages/idna-3.18.dist-info moved to /usr/lib/python3.14/site-packages/idna-3.19.dist-info
+
+--===============7891514888060421032==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-idna-upgrade-3.18-3.19.patch"
+
+RnJvbSBiYTA5MDk1OTZiNzlhMzhkYjZhM2FlNTRiYmNlOGQ1N2Q0NGE4OTVhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTkgQXVnIDIwMjYgMDU6MDc6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWlkbmE6IHVwZ3JhZGUgMy4xOCAtPiAzLjE5CgpTb3VyY2U6IEhJU1RPUlkubWQKCiMj
+IDMuMTkgKDIwMjYtMDgtWFgpCgotIFJlc3RvcmUgdGhlIGBzdGQzX3J1bGVzYCBvcHRpb24sIHdo
+aWNoIGhhZCBubyBlZmZlY3Qgc2luY2UgY2hhbmdlcwogIHRvIFVUUyAjNDYgcHJvY2Vzc2luZyBp
+biBVbmljb2RlIDE2LiBOb3RlIHRoYXQgYHV0czQ2X3JlbWFwKClgCiAgZGVmYXVsdHMgdG8gZW5h
+YmxpbmcgU1REMyBydWxlcywgc28gZGlyZWN0IGNhbGxlcnMgd2lsbCBzZWUgaW5wdXQKICBjb250
+YWluaW5nIG5vbi1MREggQVNDSUkgY2hhcmFjdGVycyByZWplY3RlZCBhZ2Fpbi4KLSBQZXJmb3Jt
+YW5jZSBpbXByb3ZlbWVudHMgdG8gVVRTICM0NiBtYXBwaW5nLCBwYXJ0aWN1bGFybHkgZm9yCiAg
+QVNDSUktb25seSBkb21haW5zLgotIFRlc3Qgb24gZnJlZS10aHJlYWRlZCBDUHl0aG9uIHdpdGgg
+dGhlIEdJTCBkaXNhYmxlZCBhbmQgZG9jdW1lbnQKICB0aHJlYWQgc2FmZXR5LgotIEV4cG9zZSB0
+aGUgVW5pY29kZSB2ZXJzaW9uIG9mIHRoZSBnZW5lcmF0ZWQgdGFibGVzIGFzCiAgYGlkbmEudW5p
+Y29kZV92ZXJzaW9uYCwgYW5kIHNob3cgaXQgaW4gYGlkbmEgLS12ZXJzaW9uYC4KLSBBZGQgYGNv
+ZGVgLCBgdGV4dGAsIGBjb2RlcG9pbnRgIGFuZCBgcG9zaXRpb25gIGF0dHJpYnV0ZXMgdG8KICBg
+SUROQUVycm9yYCBzbyB0aGF0IHRoZSBmYWlsZWQgcnVsZSBhbmQgdGhlIG9mZmVuZGluZyBjaGFy
+YWN0ZXIgY2FuCiAgYmUgaWRlbnRpZmllZCB3aXRob3V0IHBhcnNpbmcgdGhlIGV4Y2VwdGlvbiBt
+ZXNzYWdlLgotIFRoZSBkZXByZWNhdGVkIGB0cmFuc2l0aW9uYWxgIGFyZ3VtZW50IHRvIGBlbmNv
+ZGUoKWAgYW5kCiAgYHV0czQ2X3JlbWFwKClgIGlzIG5vdyBjb21wbGV0ZWx5IGlnbm9yZWQsIGFu
+ZCBnaXZlcyBhIGRlcHJlY2F0aW9uIHdhcm5pbmcKICBmb3IgdGhlIGxhdHRlci4KLSBSZWplY3Qg
+QS1sYWJlbHMgdGhhdCBhcmUgbm90IHRoZSBjYW5vbmljYWwgUHVueWNvZGUgZW5jb2Rpbmcgb2YK
+ICB0aGVpciBVLWxhYmVsLgotIEZpeCBDT05URVhUSiB2aW9sYXRpb25zIHJhaXNpbmcgYElETkFF
+cnJvcmAgaW5zdGVhZCBvZgogIGBJbnZhbGlkQ29kZXBvaW50Q29udGV4dGAuCi0gQ29uc2lzdGVu
+dGx5IHJhaXNlIGBJRE5BRXJyb3JgIGZvciBlbXB0eSBsYWJlbHMgYW5kIG5vbi1BU0NJSSBieXRl
+cwogIHBhc3NlZCB0byBsYWJlbCBoZWxwZXIgZnVuY3Rpb25zIGFuZCB0aGUgaW5jcmVtZW50YWwg
+Y29kZWMuCi0gQWRkIHByb3BlcnR5LWJhc2VkIHRlc3RzLCBleHRlbmRlZCBmdXp6aW5nIHRhcmdl
+dHMsIGNvdmVyYWdlCiAgbWVhc3VyZW1lbnQsIGFuZCBDSSBjaGVja3MgdGhhdCB0aGUgZGF0YSB0
+YWJsZXMgbWF0Y2ggdGhlIGdlbmVyYXRvcgogIG91dHB1dC4KLSBWYXJpb3VzIGNvZGUgcXVhbGl0
+eSBhbmQgdG9vbGluZyBpbXByb3ZlbWVudHMuCgpUaGFua3MgdG8gc3RlZmFuNjQxOTg0NiwgTG91
+aWVMdU5aLCBhbmQgU2FsdmF0b3JlIENvcnZhZ2xpYSBmb3IKY29udHJpYnV0aW9ucyB0byB0aGlz
+IHJlbGVhc2UuCi0tLQogLi4uL3B5dGhvbi97cHl0aG9uMy1pZG5hXzMuMTguYmIgPT4gcHl0aG9u
+My1pZG5hXzMuMTkuYmJ9ICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
+KCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97
+cHl0aG9uMy1pZG5hXzMuMTguYmIgPT4gcHl0aG9uMy1pZG5hXzMuMTkuYmJ9ICg4NCUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWlkbmFfMy4xOC5i
+YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1pZG5hXzMuMTkuYmIKc2lt
+aWxhcml0eSBpbmRleCA4NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLWlkbmFfMy4xOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
+dGhvbi9weXRob24zLWlkbmFfMy4xOS5iYgppbmRleCA3MDQwNTgxOWU3Li5iNWE5NzE2MDkzIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaWRuYV8zLjE4
+LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1pZG5hXzMuMTku
+YmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9ramQvaWRu
+YSIKIExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlIEFORCBQeXRob24tMi4wIEFORCBVbmljb2RlLVRP
+VSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UubWQ7bWQ1PTlhNmMyOTA3OWZj
+OTBjMjlkODAzMzJmNDRkMjYyNWYyIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmZiMzg1YTdl
+MDM5NjU0Y2VmMWFiOWVmMzJjNmZhZmUyODNjMGMwNDY3YmJhMWQ5MDI5NzM4Y2U0YTE0YTg0OCIK
+K1NSQ19VUklbc2hhMjU2c3VtXSA9ICI1ZTA4MTFhNDM4M2IyMWRjNTgzODA2OWY4MDFjNGZiNjIx
+MTNiNzQ0NzY2M2QyNTMwZDJiZDZlNzdiNDliZjE1IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2Zs
+aXRfY29yZSBwdGVzdC1weXRob24tcHl0ZXN0CiAKLS0gCjIuNDcuMQoK
+
+--===============7891514888060421032==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="python3-idna-changelog.txt"
+
+Changelog for python3-idna: 3.18 -> 3.19
+Source: HISTORY.md
+
+## 3.19 (2026-08-XX)
+
+- Restore the `std3_rules` option, which had no effect since changes
+  to UTS #46 processing in Unicode 16. Note that `uts46_remap()`
+  defaults to enabling STD3 rules, so direct callers will see input
+  containing non-LDH ASCII characters rejected again.
+- Performance improvements to UTS #46 mapping, particularly for
+  ASCII-only domains.
+- Test on free-threaded CPython with the GIL disabled and document
+  thread safety.
+- Expose the Unicode version of the generated tables as
+  `idna.unicode_version`, and show it in `idna --version`.
+- Add `code`, `text`, `codepoint` and `position` attributes to
+  `IDNAError` so that the failed rule and the offending character can
+  be identified without parsing the exception message.
+- The deprecated `transitional` argument to `encode()` and
+  `uts46_remap()` is now completely ignored, and gives a deprecation warning
+  for the latter.
+- Reject A-labels that are not the canonical Punycode encoding of
+  their U-label.
+- Fix CONTEXTJ violations raising `IDNAError` instead of
+  `InvalidCodepointContext`.
+- Consistently raise `IDNAError` for empty labels and non-ASCII bytes
+  passed to label helper functions and the incremental codec.
+- Add property-based tests, extended fuzzing targets, coverage
+  measurement, and CI checks that the data tables match the generator
+  output.
+- Various code quality and tooling improvements.
+
+Thanks to stefan6419846, LouieLuNZ, and Salvatore Corvaglia for
+contributions to this release.
+
+--===============7891514888060421032==--
 
