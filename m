@@ -1,286 +1,162 @@
-Return-Path: <dkelaiya@cisco.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8E34C5DF88
-	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 17:10:43 +0000 (UTC)
-Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1401.1787159433159982433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A856C5DF85
+	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 17:25:14 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1682.1787160305976962392
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2026 10:10:33 -0700
+ Wed, 19 Aug 2026 10:25:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=k1UC7W1r;
- spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: dkelaiya@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=8370; q=dns/txt;
-  s=iport01; t=1787159433; x=1788369033;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=uUnlJE8srBk0VgUm7JxfsiVRWs1FFcZx/Xi3JalLWNM=;
-  b=k1UC7W1ryy5ZwszdbWfg5c8kQ6ftvpdOgjyifUMAcrhgZXK8adTum2ZD
-   kRO7nNBXpQkn9LnFZO8bkLf3qdsCIcwl6uOzazypm1cEn05QfB1eKvUNB
-   9eaXe0vZoEkrfAqk0QOTB8ymgxiu9iQFx9B/FZwtQol3hs2bDlhlkvOPl
-   qfiRHcXQ1xkEzngwDHiXElrIsg6HhjpbWvpT6NrQR3bZfPLxlPvZh4TJA
-   uS/vuJ0CEN+fvVfY6N9MQJIk5VTzXmWFwkD+QLseyiz0z+Ld3CkQcxRBv
-   /aGHM74Z63FbdMpjaZsxy4OdUovMoNo6SUsowDBk+LwrQ+E9wRTMfSd96
-   Q==;
-X-CSE-ConnectionGUID: /JOGz9UfR/irLNfbusQhrg==
-X-CSE-MsgGUID: njhUEpR5SrKTP5XfhTgwcQ==
-X-IPAS-Result: =?us-ascii?q?A0BIAgD84oVq/5AQJK1aglmCV3ReQ0kDlkcDnhuBfg8BA?=
- =?us-ascii?q?QEPRA0EAQGEP0YCjWsCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBB?=
- =?us-ascii?q?wWBDhOGTw2GWgECAQMnCwEYAS0QHAMBAi8rIwgZgwIBgnQDEcQagXkzgQGDK?=
- =?us-ascii?q?AE/AkNQ2zABCxQBgTiFP4giXRgBRIQ4JxsbgXKBFYNpgQWBXAEBgUyGWQSCI?=
- =?us-ascii?q?noSgVqBLZA8SIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4ENGwYFgR2BK?=
- =?us-ascii?q?IQ3Ixk2fIEJXoErKmEBEheBCYIKAoJwggYCAUlFDgkMCxgNSBEsNxQZBD5uB?=
- =?us-ascii?q?45KIIF+LSABgQ0BCiGBTaQ0giGhDwoog3aMIZU6GjOqbAuYfY4KlTuBFYRpg?=
- =?us-ascii?q?Wg8gUcLB3AVO4JnCUoZD444g2uBf4NlxlUnMgIGAzIBAQcCBw4DC4FokX4BA?=
- =?us-ascii?q?Q?=
-IronPort-Data: A9a23:tl4/6a6iOul2ctFu9evmbQxRtG7GchMFZxGqfqrLsTDasY5as4F+v
- jFKWj3SMvaCYGrwfIokPovk/UgPv8KHmtcxT1c5/i83Zn8b8sCt6fZ1gavT04J+CuWZESqLO
- u1HMoGowPgcFyGa/lH2dOC98RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
- 5Wo/qUzBHf/g2QqajJNuvrawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
- +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
- jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eeq8/1fQmPG90s
- v0CDBYDZA2YvuKsz+fuIgVsrpxLwMjDNYcbvDRkiDreF/tjGc+FSKTR7tge1zA17ixMNa+BP
- IxCN3w2MlKZP0En1lQ/UPrSmM+khXT7ejxJoXqepLE85C7YywkZPL3FYIOJIoDVHZ0J9qqej
- mTE/1nUGitHD8a89QLYwnysuuDQlhquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
- 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4Guk+7kSJj6HT+QvcXjdCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1qt94cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:qmmqXaN7XtvvW8BcTuOjsMiBIKoaSvp037Dk7S9MoHtuA6ulfq
- +V/cjzuSWYtN9VYgBDpTniAtjlfZq/z/5ICOAqVN/INjUO+lHYSb2KhrGN/9SPIUHDH5ZmpM
- RdWpk7LsHsBl5nisu/ygy5H9E8hOSjysmT9IHjJ7MHd3ATV0mmhD0JczqmLg==
-X-Talos-CUID: 9a23:RWuJbmHMdzCM78EaqmIg1mk7CJEYfEeazW30BUGyFH1QSKeaHAo=
-X-Talos-MUID: =?us-ascii?q?9a23=3AFrDPZA8tqUWPca4O54V9hleQf8Fq45mDEHpQqo8?=
- =?us-ascii?q?lh/HZBSJwBziChw3iFw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,231,1779148800"; 
-   d="scan'208";a="814047004"
-Received: from alln-l-core-07.cisco.com ([173.36.16.144])
-  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Aug 2026 17:10:32 +0000
-Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-07.cisco.com (Postfix) with ESMTPS id 106C1180001E6;
-	Wed, 19 Aug 2026 17:10:32 +0000 (GMT)
-Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id A2D6ACCD9B2; Wed, 19 Aug 2026 10:10:31 -0700 (PDT)
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][scarthgap][PATCH 2/4] python3-git: fix CVE-2026-42215
-Date: Wed, 19 Aug 2026 10:10:23 -0700
-Message-ID: <20260819171026.750280-2-dkelaiya@cisco.com>
-X-Mailer: git-send-email 2.44.4
-In-Reply-To: <20260819171026.750280-1-dkelaiya@cisco.com>
-References: <20260819171026.750280-1-dkelaiya@cisco.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=VxO8hMt5;
+ spf=pass (domain: axis.com, ip: 52.101.84.4, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Y60H93iej8hwGRt8F2/+sXkicUxxYsSjUfiOP7mtPP73QBZSast+BqNCHxqqkNDjFJLSFtB/GgJ+1kdzsksY/LLoB00tbPLyDWvectzV+35qkBSGQtQmWL+hqwdVpDSiCZ+HUVDuIi66bvoXl23c4O+VCRFf5URaymQ8MSHrg2JFav53t6WP69nlVODnSiNWI4sQlwHTUOiRAAsQqvCyq16TGPuk7OJeDcDh+EBhqSIDboYmFKwmRJuUagcfVwEEZJ1PfJtYpHoxH7sHldXs9qDkW1fBskQSTlLulvEQ/wbEvEGLaZlWiyEpTaHPnexBRM70KIBqVjZGoL6VmS4hXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=/o/2wHqR1hJD5iZ3dGTxcGef7LwZ/yZWe9U/+OLESPI=;
+ b=fiR9PKqfuIc/BsB5p9dlrCksgSSiIS3t9/hlRNhTX5EkgCKDRzSke9WqXSzA+PQ3MH1J6wALD2s5gWRUU9XtdzxDeAZdspFBEy8/78c1jvXRXxSNbb0TL9BrMMWsgkjxVP0xIQVLMNzEV1aGzFCngg6baKLwRS10kYZ/Cfao3i429KUmM2aAxBzauFJGMN23ik8k3hye4AzVuUA843vyktOWFy8Wg91dDeHjDRDbRwXZ9AdWYc2ZAwxblbuWN65samxB8Gv5ZBlDdSbUZEfjsnTA0/WIqeKTrITAdEIp1IBMS3m+Trw7kZ0GNRxa9BlMENzpuGYRufrjbOfsfIx4Xw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
+ header.from=axis.com; dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=/o/2wHqR1hJD5iZ3dGTxcGef7LwZ/yZWe9U/+OLESPI=;
+ b=VxO8hMt5uB/0B16kH6XF2t4hnAXiXvWVCjQ64cTamJquuY1OjbcsiQ2c5drZtQrx8SWkrsdcJX8gjDAvRZNcnDTk/GknXEuWOr4W6X2kAJ6A718O+WZ2CyfGc+xY/UZRUE7JrEngyqhVskRg6OI6XvUSLTOmNm9EEksBJquJ/UQ=
+Received: from AS4P190CA0026.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:5d0::13)
+ by DB3PR0202MB9036.eurprd02.prod.outlook.com (2603:10a6:10:438::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Wed, 19 Aug
+ 2026 17:25:00 +0000
+Received: from DB1PEPF000509F9.eurprd02.prod.outlook.com
+ (2603:10a6:20b:5d0:cafe::13) by AS4P190CA0026.outlook.office365.com
+ (2603:10a6:20b:5d0::13) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.339.8 via Frontend Transport; Wed, 19
+ Aug 2026 17:25:00 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
+ smtp.mailfrom=axis.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=axis.com;
+Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
+ 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
+ client-ip=195.60.68.100; helo=mail.axis.com; pr=C
+Received: from mail.axis.com (195.60.68.100) by
+ DB1PEPF000509F9.mail.protection.outlook.com (10.167.242.155) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.339.3 via Frontend Transport; Wed, 19 Aug 2026 17:24:59 +0000
+Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail11w.axis.com
+ (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Wed, 19 Aug
+ 2026 19:24:59 +0200
+Received: from se-mail10w.axis.com (10.20.40.10) by SE-MAILARCH01W.axis.com
+ (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Wed, 19 Aug
+ 2026 19:24:59 +0200
+Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
+ (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
+ Transport; Wed, 19 Aug 2026 19:24:59 +0200
+Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
+	by se-intmail02x.se.axis.com (Postfix) with ESMTP id 3D04C617
+	for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 19:24:59 +0200 (CEST)
+Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
+	id 373EC129F1B; Wed, 19 Aug 2026 19:24:59 +0200 (CEST)
+From: Peter Kjellerstedt <pkj@axis.com>
+To: <openembedded-core@lists.openembedded.org>
+Subject: [PATCH 2/2] useradd.bbclass: Look for usermod when using GROUPMEMS_PARAM
+Date: Wed, 19 Aug 2026 19:24:56 +0200
+Message-ID: <20260819172456.2843283-2-pkj@axis.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260819172456.2843283-1-pkj@axis.com>
+References: <20260819172456.2843283-1-pkj@axis.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: alln-l-core-07.cisco.com
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509F9:EE_|DB3PR0202MB9036:EE_
+X-MS-Office365-Filtering-Correlation-Id: e1365faf-40a1-4d53-6014-08defe16cbf7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|36860700016|23010399003|10067099003|56012099006|6133799003|22082099003|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	zxsHZOL1rroHI8UrLoQs4rlqeDyRF/gjTVpUmPazwUfM/LLI2mYlZoA3qcAqHHwjYHkBV/kjaK1cRi5gaQ7yvlvej/i40Yj+ER7qwp6gzll2+APxrAuk4G/Pi3Zw1oT60/+umhjIKaj/rmISqWt7RLLfyoT9b4VD+x8OjmHPc0k22MCjfZRocPDlMIUguJ5gYob6hsR+ryuhipk3Juv22psdtDfBju9VWio4ekAm5wailSSw/g56k1FTZUp9YeTzbNm2WOZx1e5RA08v9cLU9kXv0bUVM2sXNsRlVIIkF+0KQkHQDTEDmgquXkr7krnnSgZbR/qJ/YX+HJTWYdv8wtxF0kY+rnun6YV1lpkTvIqLP87jZp/YLtHIGq3pjyt+CaCCQpNdiI8T9iWfQ6qqqkCn/qRnBdb/PN6aVdVSFFZI2ih2vKnL/rcRj2UpVY0sF4CkUNAMko/HSC5C36GINcAi9txUZWIAhWFQFNn6nIpsEQSyq9lGgnwKOfKM1L19JmxwE0gYwDedelFuVBVqtsSLnjM9QzHuDaMoh119OYsAPn4BajEHohOSh4Zd395OtnnF3DhkMA/rCj6X9jHOrryd6hb0/K9VmgIsd0eMy2A1V+0Ro8cF28AjHWyMg3nZ9PS6HEpnKjLjHH0E/mXJkKiLrbt+Pxb0S4bTFJRsxLRrLwjPxSHmS7Ypa4me7ZjWLL+aa7uUoxkiF04/uEmjYA==
+X-Forefront-Antispam-Report: 
+	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(36860700016)(23010399003)(10067099003)(56012099006)(6133799003)(22082099003)(18002099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	5ONT3ziGLUEQfFMzp+e8VguIgwOtkFhEjtGlD4SYXWPsv+xQYD5mfPzIfvfv1a2UXWZdONJkxYclc1PPLhA9//foxpumcBfCIkZd7irL5syTyZdNjOP12xQ0swLbQ1dNn5YqS12d1+7AKK8vsibcta+g+gUQmpqv7sNPMdy7JFvasPhxwMScvcFqG7qgtMZucaA6RPjKDYxWmeNMXnH4G8WAiTYgxJI9RymuqdjhkSJT0bYoAMeIwMjYvu7NnRo7Qd1V7xewDmaey97JGSft2phhyfNs/4d0zxegJan1dCZNiweKPAszqdBtG/j0Vb9Nxe71mQ8Mbb4OCJmUl76ufKE2cwjwc7KIGFwjcEGlTODyjL9vN3xcviR/0EkQ53E4I1xZZ/HSOrA9TfoTJbfLeQK2R3qsnWJ4qTbsWb+BJNyEuXocbx2yzlZeDiXi669K
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Aug 2026 17:24:59.7391
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: e1365faf-40a1-4d53-6014-08defe16cbf7
+X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB1PEPF000509F9.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0202MB9036
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 17:10:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243777
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 17:25:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243778
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+Since support for GROUPMEMS_PARAM is implemented using the usermod
+command, look for it rather than groupmems when verifying that the
+command exists.
 
-This patch applies the upstream 3.1.47 backport for
-CVE-2026-42215. The upstream fix merge is referenced in [1],
-and the public CVE advisory is referenced in [2]. The individual
-backported commits are referenced in [3], [4], and [5].
-
-[1] https://github.com/gitpython-developers/GitPython/commit/0f68db0710f9125762fca5dbc2328593537ae923
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-42215
-[3] https://github.com/gitpython-developers/GitPython/commit/142195888e713542189533a52cdfc333f05c3af6
-[4] https://github.com/gitpython-developers/GitPython/commit/9aed7cf8c20f69effcfcf7ebef09f312f73ab826
-[5] https://github.com/gitpython-developers/GitPython/commit/43d92dec4683568d11495956dd556161f17c3ea8
-
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
 ---
- .../python3-git/CVE-2026-42215_p1.patch       | 61 +++++++++++++++++++
- .../python3-git/CVE-2026-42215_p2.patch       | 31 ++++++++++
- .../python3-git/CVE-2026-42215_p3.patch       | 47 ++++++++++++++
- .../python/python3-git_3.1.42.bb              |  3 +
- 4 files changed, 142 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p3.patch
+ meta/classes/useradd.bbclass | 22 ++++++++++++++--------
+ 1 file changed, 14 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
-new file mode 100644
-index 0000000000..9d5f10c694
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
-@@ -0,0 +1,61 @@
-+From 341a49149a37762e12b10eb70605b54f4abfb54d Mon Sep 17 00:00:00 2001
-+From: w <w@mac.lan>
-+Date: Mon, 20 Apr 2026 23:29:50 -0400
-+Subject: [PATCH] Block unsafe underscored git kwargs / Fix for
-+ GHSA-rpm5-65cw-6hj4
+diff --git a/meta/classes/useradd.bbclass b/meta/classes/useradd.bbclass
+index c9f24bf7f3..4a07394a56 100644
+--- a/meta/classes/useradd.bbclass
++++ b/meta/classes/useradd.bbclass
+@@ -155,22 +155,28 @@ common_useradd_sysroot() {
+ 		exit 0
+ 	fi
+=20
+-	# It is also possible we may be in a recipe which doesn't have useradd de=
+pendencies and hence the
+-	# useradd/groupadd tools are unavailable. If there is no dependency, we a=
+ssume we don't want to
+-	# create users in the sysroot
+-	if ! command -v "$1"; then
+-		bbwarn "The $1 command could not be found!"
+-		exit 0
+-	fi
++	cmd=3D$1
+=20
+ 	# Add groups and users defined for all recipe packages
+ 	case "$1" in
+ 		groupadd) GROUPADD_PARAM=3D"${@get_all_cmd_params(d, 'groupadd')}";;
+ 		useradd) USERADD_PARAM=3D"${@get_all_cmd_params(d, 'useradd')}";;
+ 		usermod) USERMOD_PARAM=3D"${@get_all_cmd_params(d, 'usermod')}";;
+-		groupmems) GROUPMEMS_PARAM=3D"${@get_all_cmd_params(d, 'groupmems')}";;
++		groupmems)
++			GROUPMEMS_PARAM=3D"${@get_all_cmd_params(d, 'groupmems')}"
++			# groupmems is emulated using usermod
++			cmd=3Dusermod
++			;;
+ 	esac
+=20
++	# It is also possible we may be in a recipe which doesn't have useradd de=
+pendencies and hence the
++	# useradd/groupadd tools are unavailable. If there is no dependency, we a=
+ssume we don't want to
++	# create users in the sysroot
++	if ! command -v "$cmd"; then
++		bbwarn "The $cmd command could not be found!"
++		exit 0
++	fi
 +
-+CVE: CVE-2026-42215
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/142195888e713542189533a52cdfc333f05c3af6]
-+
-+Backport Changes:
-+- Omit regression tests because the Scarthgap PyPI source
-+  archive does not include the upstream test suite.
-+
-+(cherry picked from commit 142195888e713542189533a52cdfc333f05c3af6)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ git/cmd.py | 21 +++++++++++++--------
-+ 1 file changed, 13 insertions(+), 8 deletions(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index f58e6df5..874acb43 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -540,6 +540,12 @@ class Git(LazyMixin):
-+                 f"The `{protocol}::` protocol looks suspicious, use `allow_unsafe_protocols=True` to allow it."
-+             )
-+ 
-++    @classmethod
-++    def _canonicalize_option_name(cls, option: str) -> str:
-++        """Normalize an option or kwarg name for unsafe-option checks."""
-++        option_name = option.lstrip("-").split("=", 1)[0].split(None, 1)[0]
-++        return dashify(option_name)
-++
-+     @classmethod
-+     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
-+         """Check for unsafe options.
-+@@ -547,15 +553,14 @@ class Git(LazyMixin):
-+         Some options that are passed to `git <command>` can be used to execute
-+         arbitrary commands, this are blocked by default.
-+         """
-+-        # Options can be of the form `foo` or `--foo bar` `--foo=bar`,
-+-        # so we need to check if they start with "--foo" or if they are equal to "foo".
-+-        bare_unsafe_options = [option.lstrip("-") for option in unsafe_options]
-++        # Options can be of the form `foo`, `--foo`, `--foo bar`, or `--foo=bar`.
-++        canonical_unsafe_options = {cls._canonicalize_option_name(option): option for option in unsafe_options}
-+         for option in options:
-+-            for unsafe_option, bare_option in zip(unsafe_options, bare_unsafe_options):
-+-                if option.startswith(unsafe_option) or option == bare_option:
-+-                    raise UnsafeOptionError(
-+-                        f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-+-                    )
-++            unsafe_option = canonical_unsafe_options.get(cls._canonicalize_option_name(option))
-++            if unsafe_option is not None:
-++                raise UnsafeOptionError(
-++                    f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-++                )
-+ 
-+     class AutoInterrupt:
-+         """Process wrapper that terminates the wrapped process on finalization.
-+-- 
-+2.35.6
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
-new file mode 100644
-index 0000000000..93a5964221
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
-@@ -0,0 +1,31 @@
-+From aff283771565fc5f5fb41d4f06fb9ad5a9926c18 Mon Sep 17 00:00:00 2001
-+From: w <w@mac.lan>
-+Date: Mon, 20 Apr 2026 23:43:59 -0400
-+Subject: [PATCH] linter fix
-+
-+CVE: CVE-2026-42215
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/9aed7cf8c20f69effcfcf7ebef09f312f73ab826]
-+
-+(cherry picked from commit 9aed7cf8c20f69effcfcf7ebef09f312f73ab826)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ git/cmd.py | 4 +---
-+ 1 file changed, 1 insertion(+), 3 deletions(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index 874acb43..69756216 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -558,9 +558,7 @@ class Git(LazyMixin):
-+         for option in options:
-+             unsafe_option = canonical_unsafe_options.get(cls._canonicalize_option_name(option))
-+             if unsafe_option is not None:
-+-                raise UnsafeOptionError(
-+-                    f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-+-                )
-++                raise UnsafeOptionError(f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it.")
-+ 
-+     class AutoInterrupt:
-+         """Process wrapper that terminates the wrapped process on finalization.
-+-- 
-+2.35.6
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p3.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p3.patch
-new file mode 100644
-index 0000000000..cef3fe6b01
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p3.patch
-@@ -0,0 +1,47 @@
-+From 3385ff27397b58288d922838e8d2eae87d7534fd Mon Sep 17 00:00:00 2001
-+From: w <w@mac.lan>
-+Date: Tue, 21 Apr 2026 12:03:20 -0400
-+Subject: [PATCH] git.cmd: harden unsafe option canonicalization and isolate
-+ push test cases
-+
-+CVE: CVE-2026-42215
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/43d92dec4683568d11495956dd556161f17c3ea8]
-+
-+Backport Changes:
-+- Omit regression test updates because the Scarthgap PyPI
-+  source archive does not include the upstream test suite.
-+
-+(cherry picked from commit 43d92dec4683568d11495956dd556161f17c3ea8)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ git/cmd.py | 15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index 69756216..73b4c052 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -542,9 +542,18 @@ class Git(LazyMixin):
-+ 
-+     @classmethod
-+     def _canonicalize_option_name(cls, option: str) -> str:
-+-        """Normalize an option or kwarg name for unsafe-option checks."""
-+-        option_name = option.lstrip("-").split("=", 1)[0].split(None, 1)[0]
-+-        return dashify(option_name)
-++        """Return the option name used for unsafe-option checks.
-++
-++        Examples:
-++            ``"--upload-pack=/tmp/helper"`` -> ``"upload-pack"``
-++            ``"upload_pack"`` -> ``"upload-pack"``
-++            ``"--config core.filemode=false"`` -> ``"config"``
-++        """
-++        option_name = option.lstrip("-").split("=", 1)[0]
-++        option_tokens = option_name.split(None, 1)
-++        if not option_tokens:
-++            return ""
-++        return dashify(option_tokens[0])
-+ 
-+     @classmethod
-+     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
-+-- 
-+2.35.6
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.42.bb b/meta/recipes-devtools/python/python3-git_3.1.42.bb
-index c294b23112..4102a2273a 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.42.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.42.bb
-@@ -13,6 +13,9 @@ PYPI_PACKAGE = "GitPython"
- inherit pypi python_setuptools_build_meta
- 
- SRC_URI += "file://CVE-2026-42284.patch \
-+           file://CVE-2026-42215_p1.patch \
-+           file://CVE-2026-42215_p2.patch \
-+           file://CVE-2026-42215_p3.patch \
-            "
- SRC_URI[sha256sum] = "2d99869e0fef71a73cbd242528105af1d6c1b108c60dfabd994bf292f76c3ceb"
- 
--- 
-2.44.4
-
+ 	# Tell the system to use the environment vars
+ 	UA_SYSROOT=3D1
+=20
 
