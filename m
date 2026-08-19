@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93E8BC5DF6D
-	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 05:22:40 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.692.1787116959464326202
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 899D0C5DF6D
+	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 05:22:50 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.781.1787116959569681275
  for <openembedded-core@lists.openembedded.org>;
  Tue, 18 Aug 2026 22:22:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=OahDd3rS;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=4rJxwe5K;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a01878b33d-41ebe42f-1186-449d-9d28-a3e2959f4417-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SNXzo+lT;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Q/HLxtws;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a01878b3bf-eced3564-a8a2-4b71-9a93-bbe139dc401a-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1787116958;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=rHSvdy9I35z+7Vpl0RxH/KKchzZTSaVRtRoIQRGG5r0=;
-	b=OahDd3rSDQMVk5EfoAZY1sLNnoHQmRq3oQwqFM3PUYNP3Ba4K7BWKaTN2PFUIgxR
-	OSG6/74FBOevlq/AEB+ObbbeoH5022HRZgtfmeW6WVN6QUjC4xnj5mvkxiApJJWZR4g
-	R/QQ7wj8hkW0vfaOp+d0aI9qAuPtsSwRNP3D6OtQ=
+	bh=N1ZCHUn83FAtkdELCcWPfDgLyvdeHtrlVLMi195R3U4=;
+	b=SNXzo+lTZplQZsVkehkOMZ/BP2ko/nxUPEY5q7mWzNYpJkPMH9XYmbaZA3igOdtr
+	YvKdkuEFJ92YYzqv2CsPnBSp1Lxfzr4iA3ONjTl2U1lJEas66N0j4pLBKFceoi54/hG
+	zQWpZKjMl+fasgXKGClsXOZQjomu0nkCfi2LH8q8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787116958;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=rHSvdy9I35z+7Vpl0RxH/KKchzZTSaVRtRoIQRGG5r0=;
-	b=4rJxwe5KQrxYWQ0ne0EPwyqgpj0P1AwgC9wUUzJP2hgweGQA/FN/LnxjHlPcjV2E
-	Mi1nqpFMpgpwiRXAH212T8Z2XBCCalj/MoM8PqxgUiE7nsm1o5mwrYpqFPosaCf/WaD
-	T8pcO44giExsqYLHpWNeL7jQxlLzYPMSSs38XxVc=
-Content-Type: multipart/mixed; boundary="===============7891514888060421032=="
+	bh=N1ZCHUn83FAtkdELCcWPfDgLyvdeHtrlVLMi195R3U4=;
+	b=Q/HLxtws6O7nqvFhLpz7WI6jPrIR8VPhERVJ6T617996zoMEHm2seuwj88VTHX6Q
+	9isgS4U9VdC5H+JVX9gqXT17t9+nLeLDIaf9drzNY8YEE1zxCs2h9+HrT3Rdf15pmbO
+	hqHAyEiyMi8mkbDI667PMf10qK2oYwrak/Y6Ru2I=
+Content-Type: multipart/mixed; boundary="===============1411763477144637804=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-idna: upgrading to 3.19 SUCCEEDED
-Message-ID: <010101a01878b33d-41ebe42f-1186-449d-9d28-a3e2959f4417-000000@us-west-2.amazonses.com>
+Subject: [AUH] python3-vcs-versioning: upgrading to 2.3.0 SUCCEEDED
+Message-ID: <010101a01878b3bf-eced3564-a8a2-4b71-9a93-bbe139dc401a-000000@us-west-2.amazonses.com>
 Date: Wed, 19 Aug 2026 05:22:38 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.19-54.240.27.193
+X-SES-Outgoing: 2026.08.19-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 05:22:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243701
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 05:22:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243702
 
---===============7891514888060421032==
+--===============1411763477144637804==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-idna* to *3.19* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-vcs-versioning* to *2.3.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-idna-upgrade-3.18-3.19.patch
+    - apply the patch: git am 0001-python3-vcs-versioning-upgrade-2.2.4-2.3.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,209 +72,242 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ba0909596b79a38db6a3ae54bbce8d57d44a895a Mon Sep 17 00:00:00 2001
+From fd59b0b48bc3e55e54362be15de80be57c32272f Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 19 Aug 2026 05:07:56 +0000
-Subject: [PATCH] python3-idna: upgrade 3.18 -> 3.19
+Date: Wed, 19 Aug 2026 05:15:58 +0000
+Subject: [PATCH] python3-vcs-versioning: upgrade 2.2.4 -> 2.3.0
 
-Source: HISTORY.md
+Source: CHANGELOG.md
 
-## 3.19 (2026-08-XX)
+## 2.3.0 (2026-08-13)
 
-- Restore the `std3_rules` option, which had no effect since changes
-  to UTS #46 processing in Unicode 16. Note that `uts46_remap()`
-  defaults to enabling STD3 rules, so direct callers will see input
-  containing non-LDH ASCII characters rejected again.
-- Performance improvements to UTS #46 mapping, particularly for
-  ASCII-only domains.
-- Test on free-threaded CPython with the GIL disabled and document
-  thread safety.
-- Expose the Unicode version of the generated tables as
-  `idna.unicode_version`, and show it in `idna --version`.
-- Add `code`, `text`, `codepoint` and `position` attributes to
-  `IDNAError` so that the failed rule and the offending character can
-  be identified without parsing the exception message.
-- The deprecated `transitional` argument to `encode()` and
-  `uts46_remap()` is now completely ignored, and gives a deprecation warning
-  for the latter.
-- Reject A-labels that are not the canonical Punycode encoding of
-  their U-label.
-- Fix CONTEXTJ violations raising `IDNAError` instead of
-  `InvalidCodepointContext`.
-- Consistently raise `IDNAError` for empty labels and non-ASCII bytes
-  passed to label helper functions and the incremental codec.
-- Add property-based tests, extended fuzzing targets, coverage
-  measurement, and CI checks that the data tables match the generator
-  output.
-- Various code quality and tooling improvements.
+### Added
 
-Thanks to stefan6419846, LouieLuNZ, and Salvatore Corvaglia for
-contributions to this release.
+- Add a ``vcs_versioning.dynamic_metadata`` provider for the [dynamic-metadata](https://github.com/scikit-build/dynamic-metadata) system. ([#1465](https://github.com/pypa/setuptools-scm/issues/1465))
+
+### Fixed
+
+- Make the `tag.strict` and `scm.git.describe_command` diagnostics actionable and non-conflicting.
+
+  The `tag.strict` future-default notice is now reported by the git backend rather than at configuration time, and only when the future default would actually select a different tag for the repository -- the message names both the current and the future version string. Projects the change cannot affect are silent, and setting an explicit `describe_command` no longer triggers it at all, so the two warnings can no longer contradict each other.
+
+  The `describe_command` notice is likewise limited to the case where it and an explicit `tag.strict` really disagree, and no longer claims that `tag.prefix` has no effect -- prefix stripping applies regardless of how the tag was selected.
+
+  Both are logged at warning level instead of raised as warnings, so `SETUPTOOLS_SCM_DEBUG=ERROR` silences them. ([#1429](https://github.com/pypa/setuptools-scm/issues/1429))
+- Honour `export-ignore` on directories and submodules again in the git file finder.
+
+  The switch from `git archive` to `git ls-files --recurse-submodules` lost two parts of the archive semantics: `--recurse-submodules` listed every submodule regardless of `export-ignore`, and the `:(exclude,attr:export-ignore)` pathspec only matches files, so an `export-ignore` on a directory no longer excluded the files below it. Projects that kept vendored submodules in an `export-ignore`d directory suddenly shipped them in their sdists.
+
+  The finder now lists a repository without recursion, checks `export-ignore` for directories via `git check-attr` (which is what `git archive` effectively does when it skips a tree), and only then descends into the submodules that survived. Submodule contents are still listed - with their own `.gitattributes` applied - so `export-ignore` in the parent repository now controls exactly which submodules get packaged. Submodules that are not checked out are skipped instead of failing the listing. ([#1469](https://github.com/pypa/setuptools-scm/issues/1469))
+- Honour `tag.strict` on Mercurial changesets that carry tags of their own, and report the coming strict default for Mercurial repositories.
+
+  `tag.strict` was only applied when looking for the latest tag, so a checked-out changeset tagged `event-2024` still produced version `2024` even with `tag.strict = true`, while git rejected the same tag. Strict matching now applies to the tags on the changeset too: a changeset carrying only event-style tags is treated as untagged and versioning continues from the last real version tag, matching `git describe --match`. When several tags sit on one changeset, the version-shaped one is now selected instead of whichever Mercurial h
+
+[Changelog truncated as it exceeds 3000 characters;
+the full changelog can be found in an attachment to the AUH email]
 ---
- .../python/{python3-idna_3.18.bb => python3-idna_3.19.bb}       | 2 +-
+ ...-vcs-versioning_2.2.4.bb => python3-vcs-versioning_2.3.0.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-idna_3.18.bb => python3-idna_3.19.bb} (84%)
+ rename meta/recipes-devtools/python/{python3-vcs-versioning_2.2.4.bb => python3-vcs-versioning_2.3.0.bb} (91%)
 
-diff --git a/meta/recipes-devtools/python/python3-idna_3.18.bb b/meta/recipes-devtools/python/python3-idna_3.19.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-idna_3.18.bb
-rename to meta/recipes-devtools/python/python3-idna_3.19.bb
-index 70405819e7..b5a9716093 100644
---- a/meta/recipes-devtools/python/python3-idna_3.18.bb
-+++ b/meta/recipes-devtools/python/python3-idna_3.19.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/kjd/idna"
- LICENSE = "BSD-3-Clause AND Python-2.0 AND Unicode-TOU"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=9a6c29079fc90c29d80332f44d2625f2"
+diff --git a/meta/recipes-devtools/python/python3-vcs-versioning_2.2.4.bb b/meta/recipes-devtools/python/python3-vcs-versioning_2.3.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-vcs-versioning_2.2.4.bb
+rename to meta/recipes-devtools/python/python3-vcs-versioning_2.3.0.bb
+index c8665d90c9..aae305d144 100644
+--- a/meta/recipes-devtools/python/python3-vcs-versioning_2.2.4.bb
++++ b/meta/recipes-devtools/python/python3-vcs-versioning_2.3.0.bb
+@@ -5,7 +5,7 @@ library that can be used independently of setuptools."
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c9b06ad2ebd7e2e82d34b3caf353e7d5"
  
--SRC_URI[sha256sum] = "ffb385a7e039654cef1ab9ef32c6fafe283c0c0467bba1d9029738ce4a14a848"
-+SRC_URI[sha256sum] = "5e0811a4383b21dc5838069f801c4fb62113b7447663d2530d2bd6e77b49bf15"
+-SRC_URI[sha256sum] = "ed718fdee42170e128a8add6f23f53aa64dc7d9ab2de87d3083a691df881a809"
++SRC_URI[sha256sum] = "eb7f5aa2ff5d0c9f8c108ec0bb9476e2ddbe708f08a5e41df4c7977062484cf7"
  
- inherit pypi python_flit_core ptest-python-pytest
- 
+ SRC_URI += "\
+     file://run-ptest \
 -- 
 2.47.1
 
 
---===============7891514888060421032==
+--===============1411763477144637804==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-idna: PV changed from "3.18" to "3.19"
-packages/x86-64-v3-poky-linux/python3-idna: SRC_URI changed from "https://files.pythonhosted.org/packages/source/i/idna/idna-3.18.tar.gz;downloadfilename=idna-3.18.tar.gz" to "https://files.pythonhosted.org/packages/source/i/idna/idna-3.19.tar.gz;downloadfilename=idna-3.19.tar.gz"
-packages/x86-64-v3-poky-linux/python3-idna: PKGV changed from 3.18 [default] to 3.19 [default]
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dbg: PV changed from "3.18" to "3.19"
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dbg: PKGV changed from 3.18 [default] to 3.19 [default]
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dev: PV changed from "3.18" to "3.19"
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-dev: PKGV changed from 3.18 [default] to 3.19 [default]
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-doc: PV changed from "3.18" to "3.19"
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-doc: PKGV changed from 3.18 [default] to 3.19 [default]
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-locale: PV changed from "3.18" to "3.19"
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-locale: PKGV changed from 3.18 [default] to 3.19 [default]
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: PV changed from "3.18" to "3.19"
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: FILELIST: added "/usr/lib/python3-idna/ptest/tests/test_idna_fuzz_targets.py /usr/lib/python3-idna/ptest/tests/test_idna_errors.py /usr/lib/python3-idna/ptest/tests/fuzz_idna_api.py /usr/lib/python3-idna/ptest/tests/test_idna_concurrency.py /usr/lib/python3-idna/ptest/tests/test_idna_properties.py /usr/lib/python3-idna/ptest/tests/fuzz_idna_codec.py"
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: PKGV changed from 3.18 [default] to 3.19 [default]
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: PKGSIZE changed from 1499519 to 1545330 (+3%)
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-src: PV changed from "3.18" to "3.19"
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-src: PKGV changed from 3.18 [default] to 3.19 [default]
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-staticdev: PV changed from "3.18" to "3.19"
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-staticdev: PKGV changed from 3.18 [default] to 3.19 [default]
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna: PV changed from "3.18" to "3.19"
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna: FILELIST: directory renamed /usr/lib/python3.14/site-packages/idna-3.18.dist-info/licenses -> /usr/lib/python3.14/site-packages/idna-3.19.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/idna-3.18.dist-info -> /usr/lib/python3.14/site-packages/idna-3.19.dist-info
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna: PKGV changed from 3.18 [default] to 3.19 [default]
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna: PKGSIZE changed from 497478 to 513794 (+3%)
-Changes to packages/x86-64-v3-poky-linux/python3-idna (sysroot):
-  /usr/lib/python3.14/site-packages/idna-3.18.dist-info moved to /usr/lib/python3.14/site-packages/idna-3.19.dist-info
+packages/x86-64-v3-poky-linux/python3-vcs-versioning: PV changed from "2.2.4" to "2.3.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning: PKGV changed from 2.2.4 [default] to 2.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning: SRC_URI changed from "https://files.pythonhosted.org/packages/source/v/vcs_versioning/vcs_versioning-2.2.4.tar.gz;downloadfilename=vcs_versioning-2.2.4.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/v/vcs_versioning/vcs_versioning-2.3.0.tar.gz;downloadfilename=vcs_versioning-2.3.0.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-dbg: PV changed from "2.2.4" to "2.3.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-dbg: PKGV changed from 2.2.4 [default] to 2.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-dev: PV changed from "2.2.4" to "2.3.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-dev: PKGV changed from 2.2.4 [default] to 2.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-doc: PV changed from "2.2.4" to "2.3.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-doc: PKGV changed from 2.2.4 [default] to 2.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-locale: PV changed from "2.2.4" to "2.3.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-locale: PKGV changed from 2.2.4 [default] to 2.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-ptest: FILELIST: added "/usr/lib/python3-vcs-versioning/ptest/testing_vcs/test_tag_strict_diagnostics.py /usr/lib/python3-vcs-versioning/ptest/testing_vcs/test_hg_tag_strict.py /usr/lib/python3-vcs-versioning/ptest/testing_vcs/test_dynamic_metadata.py"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-ptest: PV changed from "2.2.4" to "2.3.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-ptest: PKGV changed from 2.2.4 [default] to 2.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-ptest: PKGSIZE changed from 248397 to 271248 (+9%)
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-src: PV changed from "2.2.4" to "2.3.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-src: PKGV changed from 2.2.4 [default] to 2.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-staticdev: PV changed from "2.2.4" to "2.3.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-staticdev: PKGV changed from 2.2.4 [default] to 2.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning: FILELIST: directory renamed /usr/lib/python3.14/site-packages/vcs_versioning-2.2.4.dist-info -> /usr/lib/python3.14/site-packages/vcs_versioning-2.3.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/vcs_versioning-2.2.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/vcs_versioning-2.3.0.dist-info/licenses, added "/usr/lib/python3.14/site-packages/vcs_versioning/_dynamic_metadata.py /usr/lib/python3.14/site-packages/vcs_versioning/__pycache__/_dynamic_metadata.cpython-314.pyc"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning: PV changed from "2.2.4" to "2.3.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning: PKGV changed from 2.2.4 [default] to 2.3.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning: PKGSIZE changed from 735834 to 773736 (+5%)
+Changes to packages/x86-64-v3-poky-linux/python3-vcs-versioning (sysroot):
+  /usr/lib/python3.14/site-packages/vcs_versioning-2.2.4.dist-info moved to /usr/lib/python3.14/site-packages/vcs_versioning-2.3.0.dist-info
+  /usr/lib/python3.14/site-packages/vcs_versioning/_dynamic_metadata.py was added
+  /usr/lib/python3.14/site-packages/vcs_versioning/__pycache__/_dynamic_metadata.cpython-314.pyc was added
+Changes to packages/x86_64-linux/python3-vcs-versioning-native (sysroot):
+  /usr/lib/python3.14/site-packages/vcs_versioning-2.2.4.dist-info moved to /usr/lib/python3.14/site-packages/vcs_versioning-2.3.0.dist-info
+  /usr/lib/python3.14/site-packages/vcs_versioning/_dynamic_metadata.py was added
+  /usr/lib/python3.14/site-packages/vcs_versioning/__pycache__/_dynamic_metadata.cpython-314.pyc was added
 
---===============7891514888060421032==
+--===============1411763477144637804==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna-ptest: FILELIST: added "/usr/lib/python3-idna/ptest/tests/fuzz_idna_codec.py /usr/lib/python3-idna/ptest/tests/test_idna_errors.py /usr/lib/python3-idna/ptest/tests/fuzz_idna_api.py /usr/lib/python3-idna/ptest/tests/test_idna_concurrency.py /usr/lib/python3-idna/ptest/tests/test_idna_properties.py /usr/lib/python3-idna/ptest/tests/test_idna_fuzz_targets.py"
-packages/x86-64-v3-poky-linux/python3-idna/python3-idna: FILELIST: directory renamed /usr/lib/python3.14/site-packages/idna-3.18.dist-info/licenses -> /usr/lib/python3.14/site-packages/idna-3.19.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/idna-3.18.dist-info -> /usr/lib/python3.14/site-packages/idna-3.19.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-idna (sysroot):
-  /usr/lib/python3.14/site-packages/idna-3.18.dist-info moved to /usr/lib/python3.14/site-packages/idna-3.19.dist-info
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-ptest: FILELIST: added "/usr/lib/python3-vcs-versioning/ptest/testing_vcs/test_hg_tag_strict.py /usr/lib/python3-vcs-versioning/ptest/testing_vcs/test_dynamic_metadata.py /usr/lib/python3-vcs-versioning/ptest/testing_vcs/test_tag_strict_diagnostics.py"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning: FILELIST: directory renamed /usr/lib/python3.14/site-packages/vcs_versioning-2.2.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/vcs_versioning-2.3.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/vcs_versioning-2.2.4.dist-info -> /usr/lib/python3.14/site-packages/vcs_versioning-2.3.0.dist-info, added "/usr/lib/python3.14/site-packages/vcs_versioning/_dynamic_metadata.py /usr/lib/python3.14/site-packages/vcs_versioning/__pycache__/_dynamic_metadata.cpython-314.pyc"
+Changes to packages/x86-64-v3-poky-linux/python3-vcs-versioning (sysroot):
+  /usr/lib/python3.14/site-packages/vcs_versioning-2.2.4.dist-info moved to /usr/lib/python3.14/site-packages/vcs_versioning-2.3.0.dist-info
+  /usr/lib/python3.14/site-packages/vcs_versioning/_dynamic_metadata.py was added
+  /usr/lib/python3.14/site-packages/vcs_versioning/__pycache__/_dynamic_metadata.cpython-314.pyc was added
+Changes to packages/x86_64-linux/python3-vcs-versioning-native (sysroot):
+  /usr/lib/python3.14/site-packages/vcs_versioning-2.2.4.dist-info moved to /usr/lib/python3.14/site-packages/vcs_versioning-2.3.0.dist-info
+  /usr/lib/python3.14/site-packages/vcs_versioning/_dynamic_metadata.py was added
+  /usr/lib/python3.14/site-packages/vcs_versioning/__pycache__/_dynamic_metadata.cpython-314.pyc was added
 
---===============7891514888060421032==
+--===============1411763477144637804==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="python3-vcs-versioning-changelog.txt"
+
+Changelog for python3-vcs-versioning: 2.2.4 -> 2.3.0
+Source: CHANGELOG.md
+
+## 2.3.0 (2026-08-13)
+
+### Added
+
+- Add a ``vcs_versioning.dynamic_metadata`` provider for the [dynamic-metadata](https://github.com/scikit-build/dynamic-metadata) system. ([#1465](https://github.com/pypa/setuptools-scm/issues/1465))
+
+### Fixed
+
+- Make the `tag.strict` and `scm.git.describe_command` diagnostics actionable and non-conflicting.
+
+  The `tag.strict` future-default notice is now reported by the git backend rather than at configuration time, and only when the future default would actually select a different tag for the repository -- the message names both the current and the future version string. Projects the change cannot affect are silent, and setting an explicit `describe_command` no longer triggers it at all, so the two warnings can no longer contradict each other.
+
+  The `describe_command` notice is likewise limited to the case where it and an explicit `tag.strict` really disagree, and no longer claims that `tag.prefix` has no effect -- prefix stripping applies regardless of how the tag was selected.
+
+  Both are logged at warning level instead of raised as warnings, so `SETUPTOOLS_SCM_DEBUG=ERROR` silences them. ([#1429](https://github.com/pypa/setuptools-scm/issues/1429))
+- Honour `export-ignore` on directories and submodules again in the git file finder.
+
+  The switch from `git archive` to `git ls-files --recurse-submodules` lost two parts of the archive semantics: `--recurse-submodules` listed every submodule regardless of `export-ignore`, and the `:(exclude,attr:export-ignore)` pathspec only matches files, so an `export-ignore` on a directory no longer excluded the files below it. Projects that kept vendored submodules in an `export-ignore`d directory suddenly shipped them in their sdists.
+
+  The finder now lists a repository without recursion, checks `export-ignore` for directories via `git check-attr` (which is what `git archive` effectively does when it skips a tree), and only then descends into the submodules that survived. Submodule contents are still listed - with their own `.gitattributes` applied - so `export-ignore` in the parent repository now controls exactly which submodules get packaged. Submodules that are not checked out are skipped instead of failing the listing. ([#1469](https://github.com/pypa/setuptools-scm/issues/1469))
+- Honour `tag.strict` on Mercurial changesets that carry tags of their own, and report the coming strict default for Mercurial repositories.
+
+  `tag.strict` was only applied when looking for the latest tag, so a checked-out changeset tagged `event-2024` still produced version `2024` even with `tag.strict = true`, while git rejected the same tag. Strict matching now applies to the tags on the changeset too: a changeset carrying only event-style tags is treated as untagged and versioning continues from the last real version tag, matching `git describe --match`. When several tags sit on one changeset, the version-shaped one is now selected instead of whichever Mercurial happened to list first.
+
+  The `tag.strict` divergence diagnostic added in #1429 now covers Mercurial as well, naming the current and future version whenever the coming default would change them. Both backends share the message, and the git-only helpers moved to `_backends/_scm_workdir.py`.
+
+  Note that the Mercurial backend required a dot in version tags before setuptools-scm 9, so for Mercurial projects the coming strict default restores the historical behavior. ([#1495](https://github.com/pypa/setuptools-scm/issues/1495))
+
+--===============1411763477144637804==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-idna-upgrade-3.18-3.19.patch"
+ filename="0001-python3-vcs-versioning-upgrade-2.2.4-2.3.0.patch"
 
-RnJvbSBiYTA5MDk1OTZiNzlhMzhkYjZhM2FlNTRiYmNlOGQ1N2Q0NGE4OTVhIE1vbiBTZXAgMTcg
+RnJvbSBmZDU5YjBiNDhiYzNlNTVlNTQzNjJiZTE1ZGU4MGJlNTdjMzIyNzJmIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTkgQXVnIDIwMjYgMDU6MDc6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWlkbmE6IHVwZ3JhZGUgMy4xOCAtPiAzLjE5CgpTb3VyY2U6IEhJU1RPUlkubWQKCiMj
-IDMuMTkgKDIwMjYtMDgtWFgpCgotIFJlc3RvcmUgdGhlIGBzdGQzX3J1bGVzYCBvcHRpb24sIHdo
-aWNoIGhhZCBubyBlZmZlY3Qgc2luY2UgY2hhbmdlcwogIHRvIFVUUyAjNDYgcHJvY2Vzc2luZyBp
-biBVbmljb2RlIDE2LiBOb3RlIHRoYXQgYHV0czQ2X3JlbWFwKClgCiAgZGVmYXVsdHMgdG8gZW5h
-YmxpbmcgU1REMyBydWxlcywgc28gZGlyZWN0IGNhbGxlcnMgd2lsbCBzZWUgaW5wdXQKICBjb250
-YWluaW5nIG5vbi1MREggQVNDSUkgY2hhcmFjdGVycyByZWplY3RlZCBhZ2Fpbi4KLSBQZXJmb3Jt
-YW5jZSBpbXByb3ZlbWVudHMgdG8gVVRTICM0NiBtYXBwaW5nLCBwYXJ0aWN1bGFybHkgZm9yCiAg
-QVNDSUktb25seSBkb21haW5zLgotIFRlc3Qgb24gZnJlZS10aHJlYWRlZCBDUHl0aG9uIHdpdGgg
-dGhlIEdJTCBkaXNhYmxlZCBhbmQgZG9jdW1lbnQKICB0aHJlYWQgc2FmZXR5LgotIEV4cG9zZSB0
-aGUgVW5pY29kZSB2ZXJzaW9uIG9mIHRoZSBnZW5lcmF0ZWQgdGFibGVzIGFzCiAgYGlkbmEudW5p
-Y29kZV92ZXJzaW9uYCwgYW5kIHNob3cgaXQgaW4gYGlkbmEgLS12ZXJzaW9uYC4KLSBBZGQgYGNv
-ZGVgLCBgdGV4dGAsIGBjb2RlcG9pbnRgIGFuZCBgcG9zaXRpb25gIGF0dHJpYnV0ZXMgdG8KICBg
-SUROQUVycm9yYCBzbyB0aGF0IHRoZSBmYWlsZWQgcnVsZSBhbmQgdGhlIG9mZmVuZGluZyBjaGFy
-YWN0ZXIgY2FuCiAgYmUgaWRlbnRpZmllZCB3aXRob3V0IHBhcnNpbmcgdGhlIGV4Y2VwdGlvbiBt
-ZXNzYWdlLgotIFRoZSBkZXByZWNhdGVkIGB0cmFuc2l0aW9uYWxgIGFyZ3VtZW50IHRvIGBlbmNv
-ZGUoKWAgYW5kCiAgYHV0czQ2X3JlbWFwKClgIGlzIG5vdyBjb21wbGV0ZWx5IGlnbm9yZWQsIGFu
-ZCBnaXZlcyBhIGRlcHJlY2F0aW9uIHdhcm5pbmcKICBmb3IgdGhlIGxhdHRlci4KLSBSZWplY3Qg
-QS1sYWJlbHMgdGhhdCBhcmUgbm90IHRoZSBjYW5vbmljYWwgUHVueWNvZGUgZW5jb2Rpbmcgb2YK
-ICB0aGVpciBVLWxhYmVsLgotIEZpeCBDT05URVhUSiB2aW9sYXRpb25zIHJhaXNpbmcgYElETkFF
-cnJvcmAgaW5zdGVhZCBvZgogIGBJbnZhbGlkQ29kZXBvaW50Q29udGV4dGAuCi0gQ29uc2lzdGVu
-dGx5IHJhaXNlIGBJRE5BRXJyb3JgIGZvciBlbXB0eSBsYWJlbHMgYW5kIG5vbi1BU0NJSSBieXRl
-cwogIHBhc3NlZCB0byBsYWJlbCBoZWxwZXIgZnVuY3Rpb25zIGFuZCB0aGUgaW5jcmVtZW50YWwg
-Y29kZWMuCi0gQWRkIHByb3BlcnR5LWJhc2VkIHRlc3RzLCBleHRlbmRlZCBmdXp6aW5nIHRhcmdl
-dHMsIGNvdmVyYWdlCiAgbWVhc3VyZW1lbnQsIGFuZCBDSSBjaGVja3MgdGhhdCB0aGUgZGF0YSB0
-YWJsZXMgbWF0Y2ggdGhlIGdlbmVyYXRvcgogIG91dHB1dC4KLSBWYXJpb3VzIGNvZGUgcXVhbGl0
-eSBhbmQgdG9vbGluZyBpbXByb3ZlbWVudHMuCgpUaGFua3MgdG8gc3RlZmFuNjQxOTg0NiwgTG91
-aWVMdU5aLCBhbmQgU2FsdmF0b3JlIENvcnZhZ2xpYSBmb3IKY29udHJpYnV0aW9ucyB0byB0aGlz
-IHJlbGVhc2UuCi0tLQogLi4uL3B5dGhvbi97cHl0aG9uMy1pZG5hXzMuMTguYmIgPT4gcHl0aG9u
-My1pZG5hXzMuMTkuYmJ9ICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9u
-KCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97
-cHl0aG9uMy1pZG5hXzMuMTguYmIgPT4gcHl0aG9uMy1pZG5hXzMuMTkuYmJ9ICg4NCUpCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWlkbmFfMy4xOC5i
-YiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1pZG5hXzMuMTkuYmIKc2lt
-aWxhcml0eSBpbmRleCA4NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWlkbmFfMy4xOC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLWlkbmFfMy4xOS5iYgppbmRleCA3MDQwNTgxOWU3Li5iNWE5NzE2MDkzIDEw
-MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaWRuYV8zLjE4
-LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1pZG5hXzMuMTku
-YmIKQEAgLTMsNyArMyw3IEBAIEhPTUVQQUdFID0gImh0dHBzOi8vZ2l0aHViLmNvbS9ramQvaWRu
-YSIKIExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlIEFORCBQeXRob24tMi4wIEFORCBVbmljb2RlLVRP
-VSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0UubWQ7bWQ1PTlhNmMyOTA3OWZj
-OTBjMjlkODAzMzJmNDRkMjYyNWYyIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZmZiMzg1YTdl
-MDM5NjU0Y2VmMWFiOWVmMzJjNmZhZmUyODNjMGMwNDY3YmJhMWQ5MDI5NzM4Y2U0YTE0YTg0OCIK
-K1NSQ19VUklbc2hhMjU2c3VtXSA9ICI1ZTA4MTFhNDM4M2IyMWRjNTgzODA2OWY4MDFjNGZiNjIx
-MTNiNzQ0NzY2M2QyNTMwZDJiZDZlNzdiNDliZjE1IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2Zs
-aXRfY29yZSBwdGVzdC1weXRob24tcHl0ZXN0CiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMTkgQXVnIDIwMjYgMDU6MTU6NTggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXZjcy12ZXJzaW9uaW5nOiB1cGdyYWRlIDIuMi40IC0+IDIuMy4wCgpTb3VyY2U6IENI
+QU5HRUxPRy5tZAoKIyMgMi4zLjAgKDIwMjYtMDgtMTMpCgojIyMgQWRkZWQKCi0gQWRkIGEgYGB2
+Y3NfdmVyc2lvbmluZy5keW5hbWljX21ldGFkYXRhYGAgcHJvdmlkZXIgZm9yIHRoZSBbZHluYW1p
+Yy1tZXRhZGF0YV0oaHR0cHM6Ly9naXRodWIuY29tL3NjaWtpdC1idWlsZC9keW5hbWljLW1ldGFk
+YXRhKSBzeXN0ZW0uIChbIzE0NjVdKGh0dHBzOi8vZ2l0aHViLmNvbS9weXBhL3NldHVwdG9vbHMt
+c2NtL2lzc3Vlcy8xNDY1KSkKCiMjIyBGaXhlZAoKLSBNYWtlIHRoZSBgdGFnLnN0cmljdGAgYW5k
+IGBzY20uZ2l0LmRlc2NyaWJlX2NvbW1hbmRgIGRpYWdub3N0aWNzIGFjdGlvbmFibGUgYW5kIG5v
+bi1jb25mbGljdGluZy4KCiAgVGhlIGB0YWcuc3RyaWN0YCBmdXR1cmUtZGVmYXVsdCBub3RpY2Ug
+aXMgbm93IHJlcG9ydGVkIGJ5IHRoZSBnaXQgYmFja2VuZCByYXRoZXIgdGhhbiBhdCBjb25maWd1
+cmF0aW9uIHRpbWUsIGFuZCBvbmx5IHdoZW4gdGhlIGZ1dHVyZSBkZWZhdWx0IHdvdWxkIGFjdHVh
+bGx5IHNlbGVjdCBhIGRpZmZlcmVudCB0YWcgZm9yIHRoZSByZXBvc2l0b3J5IC0tIHRoZSBtZXNz
+YWdlIG5hbWVzIGJvdGggdGhlIGN1cnJlbnQgYW5kIHRoZSBmdXR1cmUgdmVyc2lvbiBzdHJpbmcu
+IFByb2plY3RzIHRoZSBjaGFuZ2UgY2Fubm90IGFmZmVjdCBhcmUgc2lsZW50LCBhbmQgc2V0dGlu
+ZyBhbiBleHBsaWNpdCBgZGVzY3JpYmVfY29tbWFuZGAgbm8gbG9uZ2VyIHRyaWdnZXJzIGl0IGF0
+IGFsbCwgc28gdGhlIHR3byB3YXJuaW5ncyBjYW4gbm8gbG9uZ2VyIGNvbnRyYWRpY3QgZWFjaCBv
+dGhlci4KCiAgVGhlIGBkZXNjcmliZV9jb21tYW5kYCBub3RpY2UgaXMgbGlrZXdpc2UgbGltaXRl
+ZCB0byB0aGUgY2FzZSB3aGVyZSBpdCBhbmQgYW4gZXhwbGljaXQgYHRhZy5zdHJpY3RgIHJlYWxs
+eSBkaXNhZ3JlZSwgYW5kIG5vIGxvbmdlciBjbGFpbXMgdGhhdCBgdGFnLnByZWZpeGAgaGFzIG5v
+IGVmZmVjdCAtLSBwcmVmaXggc3RyaXBwaW5nIGFwcGxpZXMgcmVnYXJkbGVzcyBvZiBob3cgdGhl
+IHRhZyB3YXMgc2VsZWN0ZWQuCgogIEJvdGggYXJlIGxvZ2dlZCBhdCB3YXJuaW5nIGxldmVsIGlu
+c3RlYWQgb2YgcmFpc2VkIGFzIHdhcm5pbmdzLCBzbyBgU0VUVVBUT09MU19TQ01fREVCVUc9RVJS
+T1JgIHNpbGVuY2VzIHRoZW0uIChbIzE0MjldKGh0dHBzOi8vZ2l0aHViLmNvbS9weXBhL3NldHVw
+dG9vbHMtc2NtL2lzc3Vlcy8xNDI5KSkKLSBIb25vdXIgYGV4cG9ydC1pZ25vcmVgIG9uIGRpcmVj
+dG9yaWVzIGFuZCBzdWJtb2R1bGVzIGFnYWluIGluIHRoZSBnaXQgZmlsZSBmaW5kZXIuCgogIFRo
+ZSBzd2l0Y2ggZnJvbSBgZ2l0IGFyY2hpdmVgIHRvIGBnaXQgbHMtZmlsZXMgLS1yZWN1cnNlLXN1
+Ym1vZHVsZXNgIGxvc3QgdHdvIHBhcnRzIG9mIHRoZSBhcmNoaXZlIHNlbWFudGljczogYC0tcmVj
+dXJzZS1zdWJtb2R1bGVzYCBsaXN0ZWQgZXZlcnkgc3VibW9kdWxlIHJlZ2FyZGxlc3Mgb2YgYGV4
+cG9ydC1pZ25vcmVgLCBhbmQgdGhlIGA6KGV4Y2x1ZGUsYXR0cjpleHBvcnQtaWdub3JlKWAgcGF0
+aHNwZWMgb25seSBtYXRjaGVzIGZpbGVzLCBzbyBhbiBgZXhwb3J0LWlnbm9yZWAgb24gYSBkaXJl
+Y3Rvcnkgbm8gbG9uZ2VyIGV4Y2x1ZGVkIHRoZSBmaWxlcyBiZWxvdyBpdC4gUHJvamVjdHMgdGhh
+dCBrZXB0IHZlbmRvcmVkIHN1Ym1vZHVsZXMgaW4gYW4gYGV4cG9ydC1pZ25vcmVgZCBkaXJlY3Rv
+cnkgc3VkZGVubHkgc2hpcHBlZCB0aGVtIGluIHRoZWlyIHNkaXN0cy4KCiAgVGhlIGZpbmRlciBu
+b3cgbGlzdHMgYSByZXBvc2l0b3J5IHdpdGhvdXQgcmVjdXJzaW9uLCBjaGVja3MgYGV4cG9ydC1p
+Z25vcmVgIGZvciBkaXJlY3RvcmllcyB2aWEgYGdpdCBjaGVjay1hdHRyYCAod2hpY2ggaXMgd2hh
+dCBgZ2l0IGFyY2hpdmVgIGVmZmVjdGl2ZWx5IGRvZXMgd2hlbiBpdCBza2lwcyBhIHRyZWUpLCBh
+bmQgb25seSB0aGVuIGRlc2NlbmRzIGludG8gdGhlIHN1Ym1vZHVsZXMgdGhhdCBzdXJ2aXZlZC4g
+U3VibW9kdWxlIGNvbnRlbnRzIGFyZSBzdGlsbCBsaXN0ZWQgLSB3aXRoIHRoZWlyIG93biBgLmdp
+dGF0dHJpYnV0ZXNgIGFwcGxpZWQgLSBzbyBgZXhwb3J0LWlnbm9yZWAgaW4gdGhlIHBhcmVudCBy
+ZXBvc2l0b3J5IG5vdyBjb250cm9scyBleGFjdGx5IHdoaWNoIHN1Ym1vZHVsZXMgZ2V0IHBhY2th
+Z2VkLiBTdWJtb2R1bGVzIHRoYXQgYXJlIG5vdCBjaGVja2VkIG91dCBhcmUgc2tpcHBlZCBpbnN0
+ZWFkIG9mIGZhaWxpbmcgdGhlIGxpc3RpbmcuIChbIzE0NjldKGh0dHBzOi8vZ2l0aHViLmNvbS9w
+eXBhL3NldHVwdG9vbHMtc2NtL2lzc3Vlcy8xNDY5KSkKLSBIb25vdXIgYHRhZy5zdHJpY3RgIG9u
+IE1lcmN1cmlhbCBjaGFuZ2VzZXRzIHRoYXQgY2FycnkgdGFncyBvZiB0aGVpciBvd24sIGFuZCBy
+ZXBvcnQgdGhlIGNvbWluZyBzdHJpY3QgZGVmYXVsdCBmb3IgTWVyY3VyaWFsIHJlcG9zaXRvcmll
+cy4KCiAgYHRhZy5zdHJpY3RgIHdhcyBvbmx5IGFwcGxpZWQgd2hlbiBsb29raW5nIGZvciB0aGUg
+bGF0ZXN0IHRhZywgc28gYSBjaGVja2VkLW91dCBjaGFuZ2VzZXQgdGFnZ2VkIGBldmVudC0yMDI0
+YCBzdGlsbCBwcm9kdWNlZCB2ZXJzaW9uIGAyMDI0YCBldmVuIHdpdGggYHRhZy5zdHJpY3QgPSB0
+cnVlYCwgd2hpbGUgZ2l0IHJlamVjdGVkIHRoZSBzYW1lIHRhZy4gU3RyaWN0IG1hdGNoaW5nIG5v
+dyBhcHBsaWVzIHRvIHRoZSB0YWdzIG9uIHRoZSBjaGFuZ2VzZXQgdG9vOiBhIGNoYW5nZXNldCBj
+YXJyeWluZyBvbmx5IGV2ZW50LXN0eWxlIHRhZ3MgaXMgdHJlYXRlZCBhcyB1bnRhZ2dlZCBhbmQg
+dmVyc2lvbmluZyBjb250aW51ZXMgZnJvbSB0aGUgbGFzdCByZWFsIHZlcnNpb24gdGFnLCBtYXRj
+aGluZyBgZ2l0IGRlc2NyaWJlIC0tbWF0Y2hgLiBXaGVuIHNldmVyYWwgdGFncyBzaXQgb24gb25l
+IGNoYW5nZXNldCwgdGhlIHZlcnNpb24tc2hhcGVkIG9uZSBpcyBub3cgc2VsZWN0ZWQgaW5zdGVh
+ZCBvZiB3aGljaGV2ZXIgTWVyY3VyaWFsIGgKCltDaGFuZ2Vsb2cgdHJ1bmNhdGVkIGFzIGl0IGV4
+Y2VlZHMgMzAwMCBjaGFyYWN0ZXJzOwp0aGUgZnVsbCBjaGFuZ2Vsb2cgY2FuIGJlIGZvdW5kIGlu
+IGFuIGF0dGFjaG1lbnQgdG8gdGhlIEFVSCBlbWFpbF0KLS0tCiAuLi4tdmNzLXZlcnNpb25pbmdf
+Mi4yLjQuYmIgPT4gcHl0aG9uMy12Y3MtdmVyc2lvbmluZ18yLjMuMC5iYn0gfCAyICstCiAxIGZp
+bGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXZjcy12ZXJzaW9uaW5nXzIuMi40LmJiID0+
+IHB5dGhvbjMtdmNzLXZlcnNpb25pbmdfMi4zLjAuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXZjcy12ZXJzaW9uaW5nXzIuMi40LmJi
+IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXZjcy12ZXJzaW9uaW5nXzIu
+My4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy12Y3MtdmVyc2lvbmluZ18yLjIuNC5iYgpyZW5hbWUgdG8gbWV0
+YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXZjcy12ZXJzaW9uaW5nXzIuMy4wLmJi
+CmluZGV4IGM4NjY1ZDkwYzkuLmFhZTMwNWQxNDQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9weXRob24vcHl0aG9uMy12Y3MtdmVyc2lvbmluZ18yLjIuNC5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdmNzLXZlcnNpb25pbmdfMi4zLjAuYmIK
+QEAgLTUsNyArNSw3IEBAIGxpYnJhcnkgdGhhdCBjYW4gYmUgdXNlZCBpbmRlcGVuZGVudGx5IG9m
+IHNldHVwdG9vbHMuIgogTElDRU5TRSA9ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
+Ly9MSUNFTlNFLnR4dDttZDU9YzliMDZhZDJlYmQ3ZTJlODJkMzRiM2NhZjM1M2U3ZDUiCiAKLVNS
+Q19VUklbc2hhMjU2c3VtXSA9ICJlZDcxOGZkZWU0MjE3MGUxMjhhOGFkZDZmMjNmNTNhYTY0ZGM3
+ZDlhYjJkZTg3ZDMwODNhNjkxZGY4ODFhODA5IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImViN2Y1
+YWEyZmY1ZDBjOWY4YzEwOGVjMGJiOTQ3NmUyZGRiZTcwOGYwOGE1ZTQxZGY0Yzc5NzcwNjI0ODRj
+ZjciCiAKIFNSQ19VUkkgKz0gIlwKICAgICBmaWxlOi8vcnVuLXB0ZXN0IFwKLS0gCjIuNDcuMQoK
 
---===============7891514888060421032==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-idna-changelog.txt"
-
-Changelog for python3-idna: 3.18 -> 3.19
-Source: HISTORY.md
-
-## 3.19 (2026-08-XX)
-
-- Restore the `std3_rules` option, which had no effect since changes
-  to UTS #46 processing in Unicode 16. Note that `uts46_remap()`
-  defaults to enabling STD3 rules, so direct callers will see input
-  containing non-LDH ASCII characters rejected again.
-- Performance improvements to UTS #46 mapping, particularly for
-  ASCII-only domains.
-- Test on free-threaded CPython with the GIL disabled and document
-  thread safety.
-- Expose the Unicode version of the generated tables as
-  `idna.unicode_version`, and show it in `idna --version`.
-- Add `code`, `text`, `codepoint` and `position` attributes to
-  `IDNAError` so that the failed rule and the offending character can
-  be identified without parsing the exception message.
-- The deprecated `transitional` argument to `encode()` and
-  `uts46_remap()` is now completely ignored, and gives a deprecation warning
-  for the latter.
-- Reject A-labels that are not the canonical Punycode encoding of
-  their U-label.
-- Fix CONTEXTJ violations raising `IDNAError` instead of
-  `InvalidCodepointContext`.
-- Consistently raise `IDNAError` for empty labels and non-ASCII bytes
-  passed to label helper functions and the incremental codec.
-- Add property-based tests, extended fuzzing targets, coverage
-  measurement, and CI checks that the data tables match the generator
-  output.
-- Various code quality and tooling improvements.
-
-Thanks to stefan6419846, LouieLuNZ, and Salvatore Corvaglia for
-contributions to this release.
-
---===============7891514888060421032==--
+--===============1411763477144637804==--
 
