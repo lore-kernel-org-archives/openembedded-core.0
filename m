@@ -2,62 +2,62 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A28D2C5DF8D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A507C5DF8C
 	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 15:57:51 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10408.1787155066628572521
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10407.1787155066030289076
  for <openembedded-core@lists.openembedded.org>;
  Wed, 19 Aug 2026 08:57:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ugp5ptdL;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4995b0343c1so11266075e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 08:57:46 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=obTlDLv/;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-4954df200ddso9664085e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 08:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787155065; x=1787759865; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787155064; x=1787759864; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Jyuors+EzkXc4Ti3jROEpx9MSQS8rLv9s0flzjz7mJk=;
-        b=ugp5ptdLbYHuwQKLzCN6dcYS5GDeVZrt9Ns+2WLTiYUGEBY6j5/daunRpuu8hvfOF5
-         vyJ9XO9/kOTpjt/bVJoi7sDFc6iGKA4U5/n6VlFDEyz4tFsdHbdogg8IcQ8JVgbmAtvI
-         4kMUtCoiaHi45sqhT7w247O6lQcIKAQMF99w8=
+        bh=W2hZe/lWTcUUSYydLVyYADD2RkSUQAu7YUJeK8l0RcI=;
+        b=obTlDLv/DXNlFhI1coNjYcF5wjFZ/VLhp7ziwiZ07UulSUyaoNbtmzLHKoLDkFxbgP
+         SCgzEEFLYhyGTDZmQO/nyPOipoxQGvuiFrB6iD+GmllZGXAZ3S8Ir7fJzCGv0hs2FbO9
+         /eYdPlrnQInhL/yynokUFvWR7IMtDF7TcWFKY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787155065; x=1787759865;
+        d=1e100.net; s=20251104; t=1787155064; x=1787759864;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Jyuors+EzkXc4Ti3jROEpx9MSQS8rLv9s0flzjz7mJk=;
-        b=Y+1Yq/EroG5ps3LuGgGk1xHMypZJjTYb5tNcuZuJ2WrIOj1xYve2tZrOiPg9Xkt89d
-         ecn9kRrjYuipO/kurEm7Fva5JjyB4NHKqlbRz400iPGGPcHeYK2DtzqBP7Su9qAsA6rq
-         lqVZ3O+slYBLdEttlpKk39emB5/o0Fb1nF8VGQC9gAlnN/FPWvxo2v46rFnuol9X2ac5
-         MIhmr9D96dlNn0jvob1ziT4E2mbWjKuv+mTlm39C7HNSSX8lMdjXarh+YkHzmQcU693c
-         CEXrn9xqPxOE53TotymtFJueJktpNM+XIEuWcU9SsCmwr0i+sbU9ehFBt9NlT0AnySc5
-         8Dow==
-X-Gm-Message-State: AOJu0YxXrT7BnI2NEhdh4BVbJhZH1TrQ6EJwy3cImpRUWULa7RkkhEB6
-	8HjKUmMumZkCZR2o4ldmwzKLeapCHDL+2T3kClZvMlsazZfGAkInleD/F2gckqFeDRUOUdJGfj4
-	3L14n/3Y=
-X-Gm-Gg: AR+sD10g0yJRiyvDj2BpNKLGctRgQdRyW1O+ixmkaGepJ477v72DflUbLmB5zRti+B1
-	qFtcLQZzeKiwq9C8ksdirYMfgSWjxqmjXzKtoTnb7C8Qu3S/8s0aklOwTrdR5BIREog8oBLkF+B
-	OKnXSxUtlfcwG4C9zHBemXpafhQWsy340BzV72OYCO2vWyhsZJUlRbe73yDLqwReC19KEpYGNdv
-	2DWZPfjL7gmmczaXH4i0otbC25RK381MXk37kkH8yebmjPxbHbcdbXOGXXpAeEVdLP+9KdVmC/5
-	8YZvrOWUFYwIachvISUxgRyDFJIwNk1sKVABEjSqwWrtExKuQVYR3JrkzqWMRS63buZWdjDa2mq
-	fNAYwWVGfhXc7a1eN9uNXk5xuGzvhB9s8Ad7Yg7s0ToxoKsmOrNbHHTOynHb8bYjwjnWnPwjAof
-	iOg6e0mhh/7RSNh58QOPKvm3fFCzrifZFESzfjkG/81nlK841GavPcHubNE4YV+tu2QN15v1mt7
-	RnSLB42StwG2r4FgH8abVvJonaFHqvZL403IP0B+o2E3/douBe6BxihDX5jWnCDHkQoGP6uvi6p
-	kd1TZEUp1tow+AgThZxqhXaZ5Wx2cn7CLcrjZLcN
-X-Received: by 2002:a05:600c:5294:b0:492:4e09:9fc1 with SMTP id 5b1f17b1804b1-499aa1f5413mr115937355e9.15.1787155064895;
+        bh=W2hZe/lWTcUUSYydLVyYADD2RkSUQAu7YUJeK8l0RcI=;
+        b=CClUXmzh5+iDpPMr5YhX3WIRPUiKtqMsjAfR3KzaZrLsKhRb2hC0opAPsCCNks3QDJ
+         QN4Gy5cpmMPXGR2s/G8io/fp6aCyghrYoKPKHHFzXQDn6WmGvImVMRJsMnTQQpDadUoa
+         Q9Chao4jL6+doZcJ9g74HqDp9TaFfpRS5zvhdFN6W94uM7yvHsw0L1vLyJKUHGIHb2MI
+         65rJ/aWGiSVBi7te9KmrggsJeYnYKNMpAdxuRBLQJO7bhMKrD5MBth5gCLaYRAjVRgws
+         QDcy+x7LYdwnqKVnBx9+ytM0Pg68tFm6eFvM/oa2MtjV1OXDk0iIlRD/swqimf3LOURh
+         zoWA==
+X-Gm-Message-State: AOJu0YxXXz1bq7bVK96NqdhLsEqgaL4c5F40ZIfz11JjDpNqxynse6pi
+	5uj16/H9zTIE85TYTQbIUT03f1mTYKoJ/AJcwLrlAlJnE0kdLvPJYUJdNvqCXt+k39DZn4EUET3
+	oU8Mk4eg=
+X-Gm-Gg: AR+sD11zJDmkRzA2Ud1anYi02obaMKLKRq6byksNyhXY98N2EzgiyIhJhOpiBW+3G2s
+	PxPGhr9tbr1vx6DAKYgX0e/leynGySOEWJP6DLNmvEs2yGAw1X1l/X3x8wdr2Ucf1xO0Moc89mS
+	oaEU4zwh3Rbi6zuCUgnKe805GswMSVi1gjH1A7ugbhVR8lewAu8Dqemx7Ny2R5JUWCj55emRRTf
+	qoOf6CuDMO+0fJnGRuICZuO2G1oRX6vq1NYnxZmmfiPxa6ZEMApmg7S8ONN1iMrxlIfDKjKE77P
+	omRaLAfytcZ7H5LjoZJoRZwI7/QuaoCQ5yCKz0I0f08ry6RbEyAJKrBC7OFB/NvxnflrTpNzHfh
+	xAOXkdF9U85eg4CN00aTQpakEzv8IlQtveKjFybug/WNV7oisSD+Ez/om/MAtE+tZPPdsKztJBS
+	oprg3vd+rut4XkqkTpcphFsC1CmRXD8/gwlgR1DPI4Xit2RT8unKgVlKk2RcgbJkhu0n9PPgYjV
+	neYX6VKy9lendLpsgw3d4Xvp1yy2p9Y2Bmj4/JPgyiN9422wdraJJVwswIO4SD1xo1Yi8hwKeB2
+	zx6OtW9v4OXAYFpxfGw3mnxUylicPTci/3m02tdo5zFHNfQIKOg=
+X-Received: by 2002:a05:600c:3f18:b0:498:1595:be7b with SMTP id 5b1f17b1804b1-499aa194df0mr118087535e9.4.1787155064245;
         Wed, 19 Aug 2026 08:57:44 -0700 (PDT)
 Received: from FRSMI25-GIGUE (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm7215698f8f.35.2026.08.19.08.57.44
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm7215698f8f.35.2026.08.19.08.57.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2026 08:57:44 -0700 (PDT)
+        Wed, 19 Aug 2026 08:57:43 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 13/37] expat: fix CVE-2026-56409
-Date: Wed, 19 Aug 2026 17:56:44 +0200
-Message-ID: <ad98f0dc5352eb47b0c5a3ce29ef1089a2119cc6.1787154074.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 12/37] expat: fix CVE-2026-56406
+Date: Wed, 19 Aug 2026 17:56:43 +0200
+Message-ID: <6c5b6659d16f0109fea8c1d6b31a8c3ea63bfa08.1787154074.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1787154074.git.fabien.thomas@smile.fr>
 References: <cover.1787154074.git.fabien.thomas@smile.fr>
@@ -67,91 +67,145 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 15:57:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243749
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243748
 
 From: Deepak Rathore <deeratho@cisco.com>
 
-This patch applies the upstream fix shown in [1] as referenced by [2].
+This patch applies the upstream fix shown in [1] as referenced by [3].
+The prerequisite in [2] provides XML_INDEX_MAX for the Scarthgap Expat
+2.6.4 backport.
 
-[1] https://github.com/libexpat/libexpat/commit/61f7cdda22546c4bee38dd2d3fa3d6e4aa64d33e
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56409
+[1] https://github.com/libexpat/libexpat/commit/99d8454fdf900a6d00c2a52748e6c0eeb507574d
+[2] https://github.com/libexpat/libexpat/commit/252ff1a307b1490ce0f430632791e7e52d7e43fd
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-56406
 
-(From OE-Core rev: 6e0669fdbf661569083b7fe479bf829e6e476f72)
+(From OE-Core rev: 6cbc3b17313df01c48e738a87f8d12bc8834fd59)
 
 Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- .../expat/expat/CVE-2026-56409.patch          | 51 +++++++++++++++++++
- meta/recipes-core/expat/expat_2.6.4.bb        |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56409.patch
+ .../expat/CVE-2026-56406-dependent.patch      | 59 +++++++++++++++++++
+ .../expat/expat/CVE-2026-56406.patch          | 34 +++++++++++
+ meta/recipes-core/expat/expat_2.6.4.bb        |  2 +
+ 3 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
+ create mode 100644 meta/recipes-core/expat/expat/CVE-2026-56406.patch
 
-diff --git a/meta/recipes-core/expat/expat/CVE-2026-56409.patch b/meta/recipes-core/expat/expat/CVE-2026-56409.patch
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch b/meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
 new file mode 100644
-index 00000000000..b0aac260739
+index 00000000000..d749ef06089
 --- /dev/null
-+++ b/meta/recipes-core/expat/expat/CVE-2026-56409.patch
-@@ -0,0 +1,51 @@
-+From 174ce18f2a283be634d830a5259bd07142635fe8 Mon Sep 17 00:00:00 2001
-+From: netliomax25-code <netliomax25@gmail.com>
-+Date: Mon, 1 Jun 2026 11:53:19 +0530
-+Subject: [PATCH 10/17] xmlwf: protect output path join from integer overflow
++++ b/meta/recipes-core/expat/expat/CVE-2026-56406-dependent.patch
+@@ -0,0 +1,59 @@
++From 9aafa47798332618f08af046c3471de1f3a9e031 Mon Sep 17 00:00:00 2001
++From: Matthew Fernandez <matthew.fernandez@gmail.com>
++Date: Wed, 27 May 2026 17:01:44 -0700
++Subject: [PATCH 08/17] lib: Make `XML_Index` overflow check more intuitive
 +
-+CVE: CVE-2026-56409
-+Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/61f7cdda22546c4bee38dd2d3fa3d6e4aa64d33e]
++In fixing a bug, 7e5b71b748491b6e459e5c9a1d090820f94544d8 introduced a magic number `2` in this code that made it difficult to understand the rationale for this overflow check without reading the commit log. This change introduces some more readable constants to use in these situations.
++
++CVE: CVE-2026-56406
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/252ff1a307b1490ce0f430632791e7e52d7e43fd]
 +
 +Backport Changes:
-+- Adapt the allocation hunk to the explicit XML_Char cast used by
-+  Scarthgap 2.6.4; overflow checks are unchanged.
++- Adapt include context for Scarthgap 2.6.4 and expose SIZE_MAX in
++  the existing stdint.h comment.
 +
-+(cherry picked from commit 61f7cdda22546c4bee38dd2d3fa3d6e4aa64d33e)
++(cherry picked from commit 252ff1a307b1490ce0f430632791e7e52d7e43fd)
 +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ expat/xmlwf/xmlwf.c | 22 ++++++++++++++++++++--
-+ 1 file changed, 20 insertions(+), 2 deletions(-)
++ expat/lib/xmlparse.c | 12 +++++++++---
++ 1 file changed, 9 insertions(+), 3 deletions(-)
 +
-+diff --git a/expat/xmlwf/xmlwf.c b/expat/xmlwf/xmlwf.c
-+index 7bbdb303..bd5f68a4 100644
-+--- a/expat/xmlwf/xmlwf.c
-++++ b/expat/xmlwf/xmlwf.c
-+@@ -1240,8 +1240,26 @@ tmain(int argc, XML_Char **argv) {
-+         }
++diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
++index 80ad0811..5bf706b0 100644
++--- a/expat/lib/xmlparse.c
+++++ b/expat/lib/xmlparse.c
++@@ -97,10 +97,10 @@
++ #include <stddef.h>
++ #include <string.h> /* memset(), memcpy() */
++ #include <assert.h>
++-#include <limits.h> /* UINT_MAX */
+++#include <limits.h> /* INT_MAX, LLONG_MAX, LONG_MAX, UINT_MAX */
++ #include <stdio.h>  /* fprintf */
++ #include <stdlib.h> /* getenv, rand_s */
++-#include <stdint.h> /* uintptr_t */
+++#include <stdint.h> /* SIZE_MAX, uintptr_t */
++ #include <math.h>   /* isnan */
++ 
++ #ifdef _WIN32
++@@ -211,6 +211,12 @@ typedef char ICHAR;
++ 
 + #endif
-+       }
-+-      outName = (XML_Char *)malloc((tcslen(outputDir) + tcslen(file) + 2)
-+-                                   * sizeof(XML_Char));
-++      const size_t outputDirLen = tcslen(outputDir);
-++      const size_t fileLen = tcslen(file);
++ 
+++#ifdef XML_LARGE_SIZE
+++#  define XML_INDEX_MAX LLONG_MAX
+++#else
+++#  define XML_INDEX_MAX LONG_MAX
+++#endif
 ++
-++      /* Detect and prevent integer overflow in the addition (without
-++         risking underflow) and the multiplication, mirroring the guards
-++         in xcsdup() and resolveSystemId() */
-++      if (outputDirLen > SIZE_MAX - fileLen
-++          || outputDirLen > SIZE_MAX - fileLen - 2) {
-++        tperror(T("Could not allocate memory"));
-++        exit(XMLWF_EXIT_INTERNAL_ERROR);
-++      }
++ /* Round up n to be a multiple of sz, where sz is a power of 2. */
++ #define ROUND_UP(n, sz) (((n) + ((sz) - 1)) & ~((sz) - 1))
++ 
++@@ -2360,7 +2366,7 @@ XML_Parse(XML_Parser parser, const char *s, int len, int isFinal) {
++     int nLeftOver;
++     enum XML_Status result;
++     /* Detect overflow (a+b > MAX <==> b > MAX-a) */
++-    if ((XML_Size)len > ((XML_Size)-1) / 2 - parser->m_parseEndByteIndex) {
+++    if (len > XML_INDEX_MAX - parser->m_parseEndByteIndex) {
++       parser->m_errorCode = XML_ERROR_NO_MEMORY;
++       parser->m_eventPtr = parser->m_eventEndPtr = NULL;
++       parser->m_processor = errorProcessor;
+diff --git a/meta/recipes-core/expat/expat/CVE-2026-56406.patch b/meta/recipes-core/expat/expat/CVE-2026-56406.patch
+new file mode 100644
+index 00000000000..56de9e41249
+--- /dev/null
++++ b/meta/recipes-core/expat/expat/CVE-2026-56406.patch
+@@ -0,0 +1,34 @@
++From 5db699faa6af1c66e96abec5dbd1908efd64ef70 Mon Sep 17 00:00:00 2001
++From: Sebastian Pipping <sebastian@pipping.org>
++Date: Sun, 31 May 2026 15:18:58 +0200
++Subject: [PATCH 09/17] lib: Copy overflow check from `XML_Parse` to
++ `XML_ParseBuffer`
++
++CVE: CVE-2026-56406
++Upstream-Status: Backport [https://github.com/libexpat/libexpat/commit/99d8454fdf900a6d00c2a52748e6c0eeb507574d]
++
++(cherry picked from commit 99d8454fdf900a6d00c2a52748e6c0eeb507574d)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++---
++ expat/lib/xmlparse.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/expat/lib/xmlparse.c b/expat/lib/xmlparse.c
++index 5bf706b0..9f07b860 100644
++--- a/expat/lib/xmlparse.c
+++++ b/expat/lib/xmlparse.c
++@@ -2483,6 +2483,14 @@ XML_ParseBuffer(XML_Parser parser, int len, int isFinal) {
++     parser->m_parsingStatus.parsing = XML_PARSING;
++   }
++ 
+++  // Detect and avoid integer overflow
+++  if (len > XML_INDEX_MAX - parser->m_parseEndByteIndex) {
+++    parser->m_errorCode = XML_ERROR_NO_MEMORY;
+++    parser->m_eventPtr = parser->m_eventEndPtr = NULL;
+++    parser->m_processor = errorProcessor;
+++    return XML_STATUS_ERROR;
+++  }
 ++
-++      const size_t charsRequired = outputDirLen + fileLen + 2;
-++
-++      if (charsRequired > SIZE_MAX / sizeof(XML_Char)) {
-++        tperror(T("Could not allocate memory"));
-++        exit(XMLWF_EXIT_INTERNAL_ERROR);
-++      }
-++
-++      outName = malloc(charsRequired * sizeof(XML_Char));
-+       if (! outName) {
-+         tperror(T("Could not allocate memory"));
-+         exit(XMLWF_EXIT_INTERNAL_ERROR);
++   start = parser->m_bufferPtr;
++   parser->m_positionPtr = start;
++   parser->m_bufferEnd += len;
 diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
-index aa2a4f89669..0f996f882ba 100644
+index 39e40befc44..aa2a4f89669 100644
 --- a/meta/recipes-core/expat/expat_2.6.4.bb
 +++ b/meta/recipes-core/expat/expat_2.6.4.bb
-@@ -70,6 +70,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+@@ -68,6 +68,8 @@ SRC_URI = "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}/expat-${PV}.tar.bz2  \
+            file://CVE-2026-56405.patch;striplevel=2 \
+            file://CVE-2026-56410_p1.patch;striplevel=2 \
             file://CVE-2026-56410_p2.patch;striplevel=2 \
-            file://CVE-2026-56406-dependent.patch;striplevel=2 \
-            file://CVE-2026-56406.patch;striplevel=2 \
-+           file://CVE-2026-56409.patch;striplevel=2 \
++           file://CVE-2026-56406-dependent.patch;striplevel=2 \
++           file://CVE-2026-56406.patch;striplevel=2 \
             "
  
  GITHUB_BASE_URI = "https://github.com/libexpat/libexpat/releases/"
