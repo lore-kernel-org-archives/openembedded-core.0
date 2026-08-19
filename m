@@ -1,224 +1,152 @@
-Return-Path: <fabien.thomas@smile.fr>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54AD2C5B572
-	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 13:55:38 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7618.1787147730362321109
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 68669C5B572
+	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 14:33:10 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8493.1787149985491053481
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2026 06:55:30 -0700
+ Wed, 19 Aug 2026 07:33:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=2LQT8xjd;
- spf=pass (domain: smile.fr, ip: 209.85.128.49, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4994c49f588so10859575e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 06:55:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787147729; x=1787752529; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=aeMdPyjdXtB3RtaPa+NDjt3f8OAspfBU6HsNAhKv1vM=;
-        b=2LQT8xjdtNityh41F681GM3UKqe50HfHr2jLk/Ibvuk7FFUdynfXNHT9Lh6Uy6/uuT
-         M6LtKxo8ow3sxWhN9xWPEGM/8ssahRwiX1psa426Q6hIYD0giJN+t3sMq5nn2QgdK99A
-         KMWB4v27idDOyUzzQRloIG4dyYYpb5zELNWg0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787147729; x=1787752529;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aeMdPyjdXtB3RtaPa+NDjt3f8OAspfBU6HsNAhKv1vM=;
-        b=VlaKfnDKoo32Hj8W5xi+1VmO3G1vK5WJc16HfKUDoJJtoHMYVU1rvXUQSL0PahfJrr
-         UhvRTnclOPM3WIxLj0uCwrG8wWcIK9mVAy+kvGYjozWGQTx/lProuxz61OF7cpuKza0U
-         YibBNgd5c8lftYpqoBDvru290cMPghO5psWH1GNc+rxid4EUmPw6nJ98H23pXUxs9EnK
-         IMXZk2m6XVecFaZ5g8l2UmCKqW/kHrxOv0amLSQiphR89gAAPGERKNpQgCzm55x2xegp
-         zHNpnvWNBoi0Qc4QcByyEwT2MOkUZUbNlmWpDV3XyVOZoUzsXVqkrsVb28YU2hUffkKG
-         7OQA==
-X-Forwarded-Encrypted: i=1; AHgh+RqdtvwTHlDIw2bBz0b5Ng+xW+7W//rPFjb9FhwOOXCZUvEgtzLi3gwcj1QNeyMRdKN/8h8f0M6Ky7ORjwgPjexMyQ==@lists.openembedded.org
-X-Gm-Message-State: AOJu0YxRFsMVPrRLSOqPO+pHGOqZynY5hFaXIYA+i0nsWxTTLKTx3l7i
-	7gUJyBEDzWRzm3YM6KMeRhpDh2Fc8FaHe56gtM2hMKoar3Q6lgRZJYQrDNFBEsyVd8k=
-X-Gm-Gg: AR+sD13RTAKBe1XEhIkfB53VQiuectzF4AFW0Vu2OZGxIoEthZx9Qvb7QbDbH934vY3
-	tDN1leAMWj2WWoJW9BGHmcyWrrQAVUZeBzZzD/YS0nkLHfd15nxvKKGLtNGHCVOSHt/EYBoxX6e
-	n4ItM+z6RAvXpEXZ4zpk4mAENR+3JUk+gdN0pFEpzSKKqTcudNU+3zwbJf0g/dUA6Oy0xYu5ne/
-	x1wvXvaqW1Ltdns8LE/H/p8JN6puQCCGic/gkyXm/riFCqEVIraAJWlzpLosc6ZMncwz34Uwxpb
-	ywzQ5PJxZ5w/TAHAU1kn6Yr75aYKQbt4sQapziCtPIqav1zD+euzJz2LZMBd0xnjsR8jnfh0MiJ
-	sIFjtoEaNiTI2YBILkVFiIBbgqYkGE5BeL8QpY8IQUFhQydXoj7qoYSLYIIRFZ1nvHO9SRgi6m7
-	hVKmOwS+/PyHtXR09yjcBrMj9dkOPNG9VGljv6SofN534gN7OTRxFGps8K92DbgrhBbjG5oVSYy
-	fKfTINu0PKqywgxZbeDhfkTvodMPGFrLdonmAwjrMxg0j0/pvWE6v0Up1HsHzWEUWzzaluMY128
-	rY9w38qTbYluGEdYFIp9AQD2sw1WEUpMHis=
-X-Received: by 2002:a05:600c:4e88:b0:495:648c:a1 with SMTP id 5b1f17b1804b1-499aa0b7b16mr81443545e9.3.1787147728638;
-        Wed, 19 Aug 2026 06:55:28 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499a9e805a4sm69671575e9.4.2026.08.19.06.55.28
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 19 Aug 2026 06:55:28 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=Qrm1Fdpb;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 5D41A4E412D9;
+	Wed, 19 Aug 2026 14:33:03 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 314CF5FF42;
+	Wed, 19 Aug 2026 14:33:03 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id DD32111C7579C;
+	Wed, 19 Aug 2026 16:32:57 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1787149978; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=eZzMhMIoKJYAlztCpmWf8dqExmsQQdrZFFb/YrFSitw=;
+	b=Qrm1Fdpb9x/IdxYNQ2fBjpG/dt36OYV5hCGlmhD/MyWfvCmSBzp13XzrxDV3Wx8InkaSzY
+	ceC5SnZ5LRBGlm7t/xNSza5ZY+CoXzm+E96dSmsyn9HLfzugPqJTri973h8C6pRcsFcamV
+	r2HLxILCM1zLEti4ejeH9EbgZ6p1GSRaUGS9ytSgW9tXAA46yIndpcFIv430TcdWEyISn5
+	GPeIp+WsaT0vhI3A2V6qmgj5XiaE6CE9p4b3ATdUCY5FSebooQaS3eG+Or5hStco9HCDAU
+	qmnhrvtKjDDtOOxLq2ZEcjs4fDBg8r0rqNlokgGDpJTgBQ3XBntd6djZhDJy7w==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 19 Aug 2026 15:55:27 +0200
-Message-Id: <DKSYZW23CEN0.39QRZPNJI0ZQY@smile.fr>
-Cc: "Viral Chavda (vchavda)" <vchavda@cisco.com>
-Subject: Re: [OE-core][wrynose][PATCH] nghttp2: set status for
- CVE-2026-58055
-From: "Fabien Thomas" <fabien.thomas@smile.fr>
-To: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)"
- <deeratho@cisco.com>, "Fabien Thomas" <fabien.thomas@smile.fr>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.22.0
-References: <20260805080334.2604235-1-deeratho@cisco.com>
- <DKN2SEC32827.35IBSQC8DBN5H@smile.fr>
- <DM4PR11MB618958FDF26AD3CD29C84EE6C4DB2@DM4PR11MB6189.namprd11.prod.outlook.com> <DM4PR11MB61890AA22D68992DB6912558C4A52@DM4PR11MB6189.namprd11.prod.outlook.com>
-In-Reply-To: <DM4PR11MB61890AA22D68992DB6912558C4A52@DM4PR11MB6189.namprd11.prod.outlook.com>
+Date: Wed, 19 Aug 2026 16:32:57 +0200
+Message-Id: <DKSZSLHAIC87.T4Z052L890U2@bootlin.com>
+Subject: Re: [OE-core][PATCH] licences: Move exceptions to subdirectory
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <JPEWhacker@gmail.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260818221721.3820389-1-JPEWhacker@gmail.com>
+In-Reply-To: <20260818221721.3820389-1-JPEWhacker@gmail.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 13:55:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243730
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 14:33:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243731
 
-On Wed Aug 19, 2026 at 1:45 PM CEST, Deepak Rathore -X (deeratho - E INFOCH=
-IPS PRIVATE LIMITED at Cisco) wrote:
-> Hello Fabien Thomas,
-> I hope you are doing well.
-> Just a gentle follow-up on my previous email regarding CVE-2026-58055. Wh=
-en you have a chance, could you please share your thoughts on the validatio=
-n approach for a backport in this case?
-> I would appreciate any guidance you can provide.
-> Thank you for your time.
-> Best regards,
-> Deepak
-> ________________________________
-> From: Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)=
- <deeratho@cisco.com>
-> Sent: Thursday, August 13, 2026 11:34 AM
-> To: Fabien Thomas <fabien.thomas@smile.fr>; openembedded-core@lists.opene=
-mbedded.org <openembedded-core@lists.openembedded.org>
-> Cc: Viral Chavda (vchavda) <vchavda@cisco.com>
-> Subject: Re: [OE-core][wrynose][PATCH] nghttp2: set status for CVE-2026-5=
-8055
+On Wed Aug 19, 2026 at 12:17 AM CEST, Joshua Watt via lists.openembedded.or=
+g wrote:
+> Moves the SPDX license exceptions to a subdirectory to make the easier
+> to identify as license exceptions vs. actual licenses
 >
-> Hello Fabien,
+> This should have no effect on other layers since SPDX doesn't allow
+> custom Exceptions like it does for Licenses (via LicenseRef-); since we
+> have already enumerated all known exceptions, its unlikely any other
+> layer have added their own
 >
-> Thank you for highlighting the risk of checking EXTRA_OECMAKE directly. I=
- agree that a user could modify the CMake options through a .bbappend while=
- the original -DENABLE_LIB_ONLY=3DON option remains present. In that case, =
-the conditional CVE_STATUS could produce a misleading result.
->
-> I tested the complete upstream fix against nghttp2 1.68.1 with patch fuzz=
- disabled:
-> https://github.com/nghttp2/nghttp2/commit/ab28105c4a0197da24f8bfc414bc116=
-055249e1e
->
-> Unfortunately, it is not a clean or straightforward backport. Thirteen hu=
-nks fail across six nghttpx source files because the fix was developed afte=
-r substantial nghttpx refactoring that was included in the 1.70.0 release.
->
-> The current OE-Core recipe intentionally builds only libnghttp2 using -DE=
-NABLE_LIB_ONLY=3DON. Consequently, nghttpx and the affected shrpx sources a=
-re not compiled by the default recipe. This behavior was introduced when th=
-e recipe was converted to a library-only recipe.
->
-> To validate a manual backport, I would need to use a temporary local .bba=
-ppend that:
->
-> - adds the nghttpx build dependencies;
-> - disables ENABLE_LIB_ONLY;
-> - enables ENABLE_APP;
-> - builds nghttpx with the backported patch.
->
-> I also have a question regarding validation: since nghttpx is not enabled=
- by the recipe=E2=80=99s default configuration, how would the community nor=
-mally validate changes to this disabled component?
->
-> Thank you for your guidance.
->
-> Best regards,
-> Deepak
-> ________________________________
-> From: Fabien Thomas <fabien.thomas@smile.fr>
-> Sent: Wednesday, August 12, 2026 9:07 PM
-> To: Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco) <=
-deeratho@cisco.com>; openembedded-core@lists.openembedded.org <openembedded=
--core@lists.openembedded.org>
-> Subject: Re: [OE-core][wrynose][PATCH] nghttp2: set status for CVE-2026-5=
-8055
->
-> On Wed Aug 5, 2026 at 10:03 AM CEST, Deepak Rathore via lists.openembedde=
-d.org wrote:
->> From: Deepak Rathore <deeratho@cisco.com>
->>
->> CVE-2026-58055 affects the nghttpx proxy when forwarding HTTP/1.1
->> Upgrade requests with a Content-Length header and body.
->>
->> The default recipe does not build nghttpx. Add a conditional
->> CVE_STATUS entry so the CVE remains unpatched if app support is
->> enabled, while default builds are marked not-applicable-config.
->>
->> References:
->> https://nvd.nist.gov/vuln/detail/CVE-2026-58055
->>
->> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
->> ---
->>  meta/recipes-support/nghttp2/nghttp2_1.68.1.bb | 2 ++
->>  1 file changed, 2 insertions(+)
->>
->> diff --git a/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb b/meta/recip=
-es-support/nghttp2/nghttp2_1.68.1.bb
->> index 71d5eef8d6..29a7d26819 100644
->> --- a/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
->> +++ b/meta/recipes-support/nghttp2/nghttp2_1.68.1.bb
->> @@ -17,4 +17,6 @@ PACKAGECONFIG[manpages] =3D "-DENABLE_DOC=3DON,-DENABL=
-E_DOC=3DOFF"
->>
->>  EXTRA_OECMAKE =3D "-DENABLE_LIB_ONLY=3DON -DENABLE_PYTHON_BINDINGS=3DOF=
-F"
->>
->> +CVE_STATUS[CVE-2026-58055] =3D "${@bb.utils.contains('EXTRA_OECMAKE', '=
--DENABLE_LIB_ONLY=3DON', 'not-applicable-config: nghttpx proxy is not built=
- in the default nghttp2 configuration', 'unpatched', d)}"
->> +
->>  BBCLASSEXTEND =3D "native nativesdk"
->
-> Hello Deepak,
->
-> I'm filling in for Yoann while he's on leave.
->
-> We would prefer to avoid conditional CVE_STATUS entries whenever possible=
-.
-> The risk is that users who enable this feature through other means think =
-they
-> are protected but actually no.
->
-> Conditional CVE_STATUS should really be a last resort. Could you please c=
-heck
-> if the actual fix for CVE-2026-58055 can be easily backported instead?
->
-> Best regards
->
-> --
-> Fabien Thomas
-> Smile ECS
+> Signed-off-by: Joshua Watt <JPEWhacker@gmail.com>
+> ---
 
-Hi Deepak,
+Hi Joshua,
 
-Sorry for my late reply.
+Thanks for your patch.
 
-Thank you for analysis and testing the backport.
+It looks like this is breaking devtool/recipetool:
 
-I agree, backporting a complex patch that isn't built in default
-configuration is not what we want.
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/qemux86/build/layers/openembedded-core/=
+meta/lib/oeqa/sdkext/cases/devtool.py", line 59, in test_devtool_add_reset
+    self._run('devtool add myapp %s' % self.myapp_dst)
+  File "/srv/pokybuild/yocto-worker/qemux86/build/layers/openembedded-core/=
+meta/lib/oeqa/sdkext/case.py", line 22, in _run
+    return subprocess.check_output(". %s > /dev/null;"\
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.12/subprocess.py", line 466, in check_output
+    return run(*popenargs, stdout=3DPIPE, timeout=3Dtimeout, check=3DTrue,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib64/python3.12/subprocess.py", line 571, in run
+    raise CalledProcessError(retcode, process.args,
+oeqa.utils.subprocesstweak.OETestCalledProcessError: Command '. /srv/pokybu=
+ild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux/core-image=
+-minimal/1.0/testsdkext/environment-setup-core2-32-poky-linux > /dev/null; =
+devtool add myapp /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/=
+qemux86-poky-linux/core-image-minimal/1.0/testsdkext/myapp;' returned non-z=
+ero exit status 1.
+Standard Output: NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-po=
+ky-linux/core-image-minimal/1.0/testsdkext/layers/openembedded-core/scripts=
+/recipetool", line 111, in <module>
+    ret =3D main()
+  File "/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-po=
+ky-linux/core-image-minimal/1.0/testsdkext/layers/openembedded-core/scripts=
+/recipetool", line 100, in main
+    ret =3D args.func(args)
+  File "/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-po=
+ky-linux/core-image-minimal/1.0/testsdkext/layers/openembedded-core/scripts=
+/lib/recipetool/create.py", line 798, in create_recipe
+    handle_license_vars(srctree_use, lines_before, handled, extravalues, ti=
+nfoil.config_data)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^=
+^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-po=
+ky-linux/core-image-minimal/1.0/testsdkext/layers/openembedded-core/scripts=
+/lib/recipetool/create.py", line 965, in handle_license_vars
+    for node, licfile, md5 in find_licenses(srctree, d):
+                              ~~~~~~~~~~~~~^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-po=
+ky-linux/core-image-minimal/1.0/testsdkext/layers/openembedded-core/meta/li=
+b/oe/license_finder.py", line 201, in find_licenses
+    licenses =3D match_licenses(licfiles, srctree, d, extra_hashes)
+  File "/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-po=
+ky-linux/core-image-minimal/1.0/testsdkext/layers/openembedded-core/meta/li=
+b/oe/license_finder.py", line 173, in match_licenses
+    md5sums.update(_crunch_known_licenses(d))
+                   ~~~~~~~~~~~~~~~~~~~~~~^^^
+  File "/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-po=
+ky-linux/core-image-minimal/1.0/testsdkext/layers/openembedded-core/meta/li=
+b/oe/license_finder.py", line 52, in _crunch_known_licenses
+    md5value =3D bb.utils.md5_file(path)
+  File "/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-po=
+ky-linux/core-image-minimal/1.0/testsdkext/layers/openembedded-core/bitbake=
+/lib/bb/utils.py", line 648, in md5_file
+    return _hasher(sig, filename)
+  File "/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-po=
+ky-linux/core-image-minimal/1.0/testsdkext/layers/openembedded-core/bitbake=
+/lib/bb/utils.py", line 623, in _hasher
+    with open(filename, "rb") as f:
+         ~~~~^^^^^^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/srv/pokybuild/yocto-worker/=
+qemux86/build/build/tmp/work/qemux86-poky-linux/core-image-minimal/1.0/test=
+sdkext/layers/openembedded-core/meta/files/common-licenses/exceptions'
 
-To answer your question, recipes are maintained and validated based on=20
-their default configuration. We do not maintain heavy backports=20
-for disabled components.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/4408
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/16/builds/4463
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/36/builds/4420
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/45/builds/2154
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/68/builds/4537
 
-So, even if conditionnal CVE_STATUS is usually not the preferred approach,
-we'll take your patch as is (but probably in the next round of review).
+Everything else looks fine here. Can you have a look at that?
 
-Regards,
+Thanks,
+Mathieu
+
 --=20
-Fabien Thomas
-Smile ECS
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
