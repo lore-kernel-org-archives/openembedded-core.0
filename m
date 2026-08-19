@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78E79C5DF93
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 547A1C5DF91
 	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 22:01:54 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1137.1787176907030942877
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1138.1787176907031018028
  for <openembedded-core@lists.openembedded.org>;
  Wed, 19 Aug 2026 15:01:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=hjnkT9NG;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-20260819220144a612fc68540002076b-ioyol4@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260819220144a612fc68540002076b
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=FGCI1rZE;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-20260819220143cb3a1ee85d00020758-olpryo@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260819220143cb3a1ee85d00020758
         for <openembedded-core@lists.openembedded.org>;
         Thu, 20 Aug 2026 00:01:44 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=tF9kmAJxWcRoTEXgu2vR8LvSN5T/1sdatjBT61iZ390=;
- b=hjnkT9NG7I39BG7Cp8wc7T6qHa36BnC3J1z7hGsbrphx8Nx4hXj1JVu4YZVmwEiZxvTsh1
- MVl1Igs6a3qV5h+pGXauu6i+ZfsmMCbFuDolh93YGvsI6Ho8xkwcE09XMsPADk9NdQTbt6Fl
- LuqC/IqaTUhUFFSL2e17huQwGbhoQOhJM71O83t7ZKFBppbiKssFtU6YgvqJyUQ9ol1SsaoH
- T7U2KAQqx4g4minuXrIrjC9hCEZWiLLGbd9LFzQeAWM7fND8R7hP39MeJuykXJDe6Ma6FJBl
- W6qazpBTeipVrnpfr1Wk2xrTz7tJ8z0Cwif3ChaC4pepP+pQYxHZfmag==;
+ bh=G7LVVwYWMZiWTFPbGoHBnWd++oOlopoo8Yx8tzuzJps=;
+ b=FGCI1rZENrQWFNhPg+xCmmQUjEM+FWs+xmB71BCuW/yb8pxQD8tSkN26wb63S2VXjTs+TX
+ ZeQsDEnqoEOzVzg2y4GNcDYHQXGLYD3RspDoXwkJRM/Ie3Rjo4nzENJCpSCpsM5kwXw3TN8J
+ tWDLS91n5pxVTUR2qRyozmRaEJVWFSn7ZysJyLJl4UDc1NBiqdnt8Pj3UJAe4hZVgF8i369s
+ DRUysCCjR9l+6j6GDU325TPtj0+fPYOPtFrX/PGdukWN+N2rHiQtj2EQ6UrZJaF7m771BsUV
+ AyhHr1N0yL2lbvyoyF0iY8yKRPw6V4v+nxSVFz56+m2FG03NgRpBGcTA==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v3 06/14] devtool: ide-sdk: default to all modified recipes
-Date: Thu, 20 Aug 2026 00:00:13 +0200
-Message-ID: <20260819220138.4095398-7-adrian.freihofer@siemens.com>
+Subject: [PATCH v3 04/14] devtool: ide-sdk: fix meson IntelliSense for gcc toolchain
+Date: Thu, 20 Aug 2026 00:00:11 +0200
+Message-ID: <20260819220138.4095398-5-adrian.freihofer@siemens.com>
 In-Reply-To: <20260819220138.4095398-1-adrian.freihofer@siemens.com>
 References: <20260819220138.4095398-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,62 +39,134 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 22:01:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243788
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243794
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Simplify ide-sdk usage in modified mode: keep the image recipe explicit,
-but when no modified recipe is passed, take all modified recipes from
-<workspace>/appends/*.bbappend.
+The configurationProvider = "mesonbuild.mesonbuild" approach in
+c_cpp_properties.json worked for meson recipes built with clang (the
+__gen_meson_absolute_cross_file workaround absolutized the clang
+binary path in an extra cross-file so the mesonbuild extension could
+find it), but failed for the gcc toolchain: the extension could not
+resolve the bare compiler name in the meson.cross file and silently
+fell back to the host compiler for IntelliSense. The sysroot was also
+absent, so built-in headers were resolved against the host system.
+
+Replace the extension-based approach with explicit settings that work
+for both gcc and clang toolchains:
+  - compilerPath: absolute path to the cross CXX binary in
+    staging_bindir_toolchain, so cpptools finds the right compiler
+  - compilerArgs: ["--sysroot=<recipe_sysroot>"], so built-in
+    includes are resolved against the target sysroot headers
+  - compileCommands: path to compile_commands.json in the meson build
+    directory B, which meson/ninja generates automatically with the
+    exact per-file flags (include paths, defines, -march= etc.)
+  - intelliSenseMode: derived from TARGET_ARCH and TOOLCHAIN
+    (linux-gcc-arm64 / linux-clang-x64, etc.)
+
+With compileCommands pointing at the real compilation database, the
+mesonbuild extension is no longer needed for IntelliSense, so the
+__gen_meson_absolute_cross_file workaround is also removed.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_sdk.py | 18 +++++++++++++++++-
- 1 file changed, 17 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/ide_plugins/ide_code.py | 66 +++++++--------------
+ 1 file changed, 23 insertions(+), 43 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 42b6e381c5..ab2bba5d39 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -1258,6 +1258,15 @@ def ide_setup(args, config, basepath, workspace):
-                     recipes_modified_names))
-                 invalid_params = True
-         if args.mode == DevtoolIdeMode.modified:
-+            if not recipes_modified_names:
-+                appends_dir = os.path.join(config.workspace_path, 'appends')
-+                recipes_modified_names = sorted(
-+                    os.path.splitext(os.path.basename(path))[0]
-+                    for path in glob.glob(os.path.join(appends_dir, '*.bbappend')))
-+                if recipes_modified_names:
-+                    logger.info(
-+                        "No modified recipes specified, using workspace bbappends from %s: %s",
-+                        appends_dir, ', '.join(recipes_modified_names))
-             if len(recipes_other_names):
-                 logger.error("Only in shared sysroots mode not modified recipes %s can be handled." % str(
-                     recipes_other_names))
-@@ -1266,6 +1275,11 @@ def ide_setup(args, config, basepath, workspace):
-                 logger.error(
-                     "One image recipe is required as the rootfs for the remote development.")
-                 invalid_params = True
-+            if not recipes_modified_names:
-+                logger.error(
-+                    "At least one modified recipe is required or must be guessable from %s." %
-+                    os.path.join(config.workspace_path, 'appends'))
-+                invalid_params = True
-             for modified_recipe_name in recipes_modified_names:
-                 if modified_recipe_name.startswith('nativesdk-') or modified_recipe_name.endswith('-native'):
-                     logger.error(
-@@ -1422,7 +1436,9 @@ def register_commands(subparsers, context):
-                                            help='Setup the SDK and configure the IDE')
-     parser_ide_sdk.add_argument(
-         'recipenames', nargs='+', help='Generate an IDE configuration suitable to work on the given recipes.\n'
--        'Depending on the --mode parameter different types of SDKs and IDE configurations are generated.')
-+        'Depending on the --mode parameter different types of SDKs and IDE configurations are generated.\n'
-+        'In modified mode at least the image recipe is required; if no modified recipe is passed, '
-+        'all modified recipes are taken from <workspace>/appends/*.bbappend.')
-     parser_ide_sdk.add_argument(
-         '-m', '--mode', type=DevtoolIdeMode, default=DevtoolIdeMode.modified,
-         help='Different SDK types are supported:\n'
+diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
+index 9faba3f2d1..d190858d44 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_code.py
++++ b/scripts/lib/devtool/ide_plugins/ide_code.py
+@@ -147,45 +147,6 @@ class IdeVSCode(IdeBase):
+     def dot_code_dir(self, modified_recipe):
+         return os.path.join(modified_recipe.srctree, '.vscode')
+ 
+-    def __gen_meson_absolute_cross_file(self, modified_recipe):
+-        """Generate an extra cross file overriding c/cpp binaries with absolute paths.
+-
+-        The recipe's generated meson.cross references the toolchain binaries
+-        (e.g. "aarch64-poky-linux-clang++") by bare name, relying on PATH
+-        being set up by the meson wrapper script at build time. Meson stores
+-        that command exactly as configured (it never resolves it to an
+-        absolute path itself), so it ends up unresolved in
+-        compile_commands.json and meson-info/intro-compilers.json. cpptools
+-        (via the mesonbuild extension) resolves compilerPath using its own
+-        process PATH, which does not include the toolchain directory, and
+-        silently falls back to a host compiler for IntelliSense.
+-
+-        Real builds are unaffected since the wrapper script sets up PATH, so
+-        the recipe's meson.cross is left untouched. Instead, an extra
+-        --cross-file is layered on top with only the c/cpp [binaries]
+-        entries absolutized, reusing the exact same flags as CC/CXX to avoid
+-        any behavior drift. Meson merges multiple machine files, with later
+-        files overriding matching keys from earlier ones.
+-        """
+-        def absolutize(cmd):
+-            args = cmd.split()
+-            args[0] = os.path.join(
+-                modified_recipe.staging_bindir_toolchain, args[0])
+-            return repr(args)
+-
+-        lines = ["[binaries]"]
+-        if modified_recipe.cc:
+-            lines.append("c = %s" % absolutize(modified_recipe.cc))
+-        if modified_recipe.cxx:
+-            lines.append("cpp = %s" % absolutize(modified_recipe.cxx))
+-
+-        os.makedirs(modified_recipe.ide_sdk_dir, exist_ok=True)
+-        cross_file = os.path.join(
+-            modified_recipe.ide_sdk_dir, 'meson-absolute-toolchain.cross')
+-        with open(cross_file, 'w') as f:
+-            f.write(os.linesep.join(lines) + os.linesep)
+-        return ['--cross-file', cross_file]
+-
+     def __vscode_settings_meson(self, settings_dict, modified_recipe):
+         if modified_recipe.build_tool is not BuildTool.MESON:
+             return
+@@ -193,11 +154,16 @@ class IdeVSCode(IdeBase):
+ 
+         confopts = modified_recipe.mesonopts.split()
+         confopts += modified_recipe.meson_cross_file.split()
+-        if modified_recipe.meson_cross_file:
+-            confopts += self.__gen_meson_absolute_cross_file(modified_recipe)
+         confopts += modified_recipe.extra_oemeson.split()
+         settings_dict["mesonbuild.configureOptions"] = confopts
+         settings_dict["mesonbuild.buildFolder"] = modified_recipe.b
++        # Prevent the extension from writing C_Cpp.default.configurationProvider
++        # for itself once meson-info.json appears, which would take precedence
++        # over the compileCommands set in c_cpp_properties.json.
++        settings_dict["mesonbuild.modifySettings"] = False
++        # Clear any such value a previous run (or extension version without
++        # modifySettings support) already wrote to this workspace's settings.
++        settings_dict["C_Cpp.default.configurationProvider"] = ""
+ 
+     def __vscode_settings_cmake(self, settings_dict, modified_recipe):
+         """Add cmake specific settings to settings.json.
+@@ -328,8 +294,22 @@ class IdeVSCode(IdeBase):
+         if modified_recipe.build_tool is BuildTool.CMAKE:
+             properties_dict["configurationProvider"] = "ms-vscode.cmake-tools"
+         elif modified_recipe.build_tool is BuildTool.MESON:
+-            properties_dict["configurationProvider"] = "mesonbuild.mesonbuild"
+-            properties_dict["compilerPath"] = os.path.join(modified_recipe.staging_bindir_toolchain, modified_recipe.cxx.split()[0])
++            # configurationProvider = "mesonbuild.mesonbuild" does not work because
++            # the cross-compiler is not in PATH and omits the sysroot by default.
++            compiler_type = 'clang' if modified_recipe.toolchain == 'clang' else 'gcc'
++            arch_map = {
++                'aarch64': 'arm64', 'x86_64': 'x64', 'arm': 'arm',
++                'i686': 'x86', 'i586': 'x86', 'riscv64': 'x64', 'riscv32': 'x86',
++            }
++            intelli_arch = arch_map.get(modified_recipe.target_arch, 'x64')
++            properties_dict["compilerPath"] = os.path.join(
++                modified_recipe.staging_bindir_toolchain,
++                modified_recipe.cxx.split()[0])
++            properties_dict["compilerArgs"] = [
++                "--sysroot=" + modified_recipe.recipe_sysroot]
++            properties_dict["compileCommands"] = os.path.join(
++                modified_recipe.b, 'compile_commands.json')
++            properties_dict["intelliSenseMode"] = "linux-%s-%s" % (compiler_type, intelli_arch)
+         elif modified_recipe.build_tool is BuildTool.KERNEL_MODULE:
+             # Using e.g. configurationProvider = "ms-vscode.makefile-tools" was not successful
+             properties_dict["compilerPath"] = os.path.join(modified_recipe.staging_bindir_toolchain, modified_recipe.kernel_cc.split()[0])
 -- 
 2.55.0
 
