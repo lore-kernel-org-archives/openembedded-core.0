@@ -2,62 +2,62 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C54ACC5DF8D
-	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 15:58:02 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10419.1787155077556251588
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 019ACC5DF90
+	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 15:58:03 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10414.1787155074812124912
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2026 08:57:57 -0700
+ Wed, 19 Aug 2026 08:57:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=hznhUBMj;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so775705f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 08:57:57 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=tpv6oaBP;
+ spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-499ae1c6471so5167815e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 08:57:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787155076; x=1787759876; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787155073; x=1787759873; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=FQBSjT3UfPZYzd9GSETT8WOCf9LYB8xINzjQypcO3z0=;
-        b=hznhUBMjfLqayPcwJrR60jIDl3azU6YnkpVS9GyE/MhP7TF491Gd5W4thpI8u849yB
-         kueaTNW1Nn/LTGHO5D8G9uN/HLV5NASf3A8yPTTMDYwhVEhHlXeU2OvAsJT9PNlmlviZ
-         NbX1Sn6Y1aN8zdKikn+Eg6roOXqECQ3dVuuiU=
+        bh=JjvnlLkpdzifuFz4eyiRIp3KKbY0/lVsSzU2WWXZUV0=;
+        b=tpv6oaBP/q8MaZWso9hCjqBPZ6oY79TxHB/1x59Zgxg3AcWDURG83u2LnSei1TUTET
+         3nVAX+dXA4ZIokcI+BdkDFamV1Az7xB5Ye4e0M3Q9OoASV2Ti0ZUNoK6iPORdRVbG4qs
+         ZaJCzWEFwAVj7RfXLJInDIxenp8bGOYXmK//E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787155076; x=1787759876;
+        d=1e100.net; s=20251104; t=1787155073; x=1787759873;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=FQBSjT3UfPZYzd9GSETT8WOCf9LYB8xINzjQypcO3z0=;
-        b=K18YRQmN/plO540xXWzx/vt22woNClCuLvpqwPuBO2PGry0yPipjvUM4TFsnFCYwoM
-         A12bbV0oZByuSkH5Qe3FvRt+laQRlFUIYjophGrXiApdpS6ORAYhZ6OZBAlItvcvLCyf
-         4DoZXZJ+2RngAqdWihxqKtYD4wXOax6l8OqzzPbgkWzI0ti5EJCdTLgDuCxQ5WRjOUrT
-         ddHlDlQLNOpWNrKNDsMr3CHzMG9H2e2r/TvPVp38JQtow/f3wrnB4CbCCf800EXMEROS
-         YnUO8CpKcnNsHbVGpDFpp40GfO9DGLb3jbbChRkfvdj8jqonbg/ljWt+aoTE1IeJimye
-         QTLA==
-X-Gm-Message-State: AFuF++nKA9Z3/SqKj0vG6DxAjSKpyCFAhV0LicPdb0uYbeqch/PHdgyb
-	glqYyzYoef5ShLSLY6fgXHifdq41GVyn9xz6bh0EUGpgmBwZlrAU1ihCgS7hh3hdqceOpAIcnuh
-	fy/A+VIE=
-X-Gm-Gg: AR+sD12b62z0gs8Kb4GvnJZ58Q1yKxHlRIrw7UhKCJlUQns/uUuV9be21/x4c1Phfb+
-	liNfBSePAH16KthmHdGmJuGQmgCcaQXUtsmqK6n9DSoAYAlGJc3xosL4nSzFb5OWQTUKnrBYoLo
-	ZrhbtI+znCLdguP/WV85gisxeBsXOG7nHnDeVUFUCuNE1MfVAFFRyw6OYwTeY2rVXjZ3etQk8ca
-	wOOR0NYQeZ+BgePYFBss1Ft0yT2uh1+R1lKWMpPXHpScP5PuME+Zz6xI9XPDvIb1YmHsmitOHSD
-	LzKFKDzSPuozOw1p820K7D6P4nkrBxZFMjwcO51Qil46bnQtm5zsAKqOKxlht3exnCCldPYXrJD
-	bFDs0wEsUr7ZNmnG47ehs2a4laBIn8kMT7vXSE6BsVCTe/AOs20judxByDd/CsDsi+N7nwmOpZu
-	SBmD5f/Do9NrskPSnD5FAYM9/xUCPaZDtzjslC3cctXE5SZoUUX4b8vLsC4ZlMUWM15ZP+geOKr
-	COY/O6lHkebHEkk8Xjx8cbc9GD4raNsCalnxUHKFUseVbOubGUWqs3td3P5PWu0Ek29MNJRmMjo
-	6uIXVx2JgMe5FX2A8SZmvdnnUULjP+0g7wFUS97W
-X-Received: by 2002:adf:e19c:0:b0:47f:eb4b:75f4 with SMTP id ffacd0b85a97d-482b1fed35amr10588722f8f.21.1787155075639;
-        Wed, 19 Aug 2026 08:57:55 -0700 (PDT)
+        bh=JjvnlLkpdzifuFz4eyiRIp3KKbY0/lVsSzU2WWXZUV0=;
+        b=G+IFSz5KFo24T0thgv7PC0RggjQYYmDKEAjFi63hEvyR2a2LcD2sJTkVScW62FT/ts
+         51oE+AYfuKC/25EcLUNjgEIOcRjZoPIYfP66Z3S+irkh+gT2wLK5qcpbhJd+xL6WTQS7
+         Ri9A0ohLgxgAMw+b0mBNRl8rkqF6e8rqSUzUQZ1WASS0RfYBuaDYwmAtyVwfrqRCh78k
+         xecHsLkLq3kkKA06cotlBd/x+J9aWtrBz0S+m7cT9hVaTxGQcZM8vtaN4Bq5zEWzavFT
+         mZWz4l5VPE9gOuSWUu9ekRlnNpuJCT/cRXGAcTi7ZUKX7/ARptNr2cWJxoHI6Mx5Ip74
+         4Rxw==
+X-Gm-Message-State: AOJu0YwWQxazEtUVVYT3IrESc2INCeJZWTeqfFdGDi8oct91rqIIjSYU
+	oh0Iy1CpNyHvWo+lX3RBCV3u051NdX6sv6e4XdRmcAZW1jzB72HUMqfSP667KppmCrn/Z9pgAdv
+	LHsqqls0=
+X-Gm-Gg: AR+sD10O9ukDoJuyJ9ZSP6Epzt4lIzpzpOgyfSgxLcXb0v8DNp2dypDZw6Ac8RCbdKM
+	bPt5gvzaQIXkvSqXukYfRidIYqZdLRhEPeWrdEpPKpyvnQUB2TkVsuls8nR8P3fpWW4wXKyn9XN
+	JXT7NcMPLB5dj6gOEYUtQ3ALHbH9GxDukVjCTwrIkkaQDwm4Gj3CQRJ0SCYfMFoOPpqit1AJCBU
+	tRxZGurm270E+zW/RB/EdR3C5xabdtFDE1BBKwzlNXGqov1hy5Ny0KW28rUBaaQL9Kpz25CRYB5
+	nQh0GI96FA5+vLtCzRviBom3wYB6f2xbJ51R79cZrVKu9nf3+2N+nZuqD6fZxZ78x/IM14va0GT
+	CrpnePMq7w5ZIjDdTV8XUcxJ/hhGNQqJDCnnUCB3hxiNghye6bkheNElmJkxTrNpGJ4/fjd0fzH
+	u2njEeTGAWv4pmKz6hYpI+yDLOj13UiXXdF9lSJ86R660QOX+D4LpAIFNmsLcFm3eeHfo8WUE8J
+	1uDrijoXPmod/Q6pTkUp6Ldb7C5p+sVBV594dmsqEmtIP+PifPEXT3EvcLvr9+Ukas9vazl5CR+
+	5Tp6LlSFiNvGXp32fnpzRKvJBqPX0+qzMoZ7UVwOiq5/EchzD9U=
+X-Received: by 2002:a05:600c:1f94:b0:499:8807:345f with SMTP id 5b1f17b1804b1-499aa1b6994mr93856195e9.13.1787155072960;
+        Wed, 19 Aug 2026 08:57:52 -0700 (PDT)
 Received: from FRSMI25-GIGUE (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm7215698f8f.35.2026.08.19.08.57.55
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm7215698f8f.35.2026.08.19.08.57.52
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2026 08:57:55 -0700 (PDT)
+        Wed, 19 Aug 2026 08:57:52 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 29/37] perf: drop newt from tui build requirements
-Date: Wed, 19 Aug 2026 17:57:00 +0200
-Message-ID: <f8b756a847ea20ff29306385cae78b4dda03c9ce.1787154074.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 25/37] xserver-org: update CVE_PRODUCT
+Date: Wed, 19 Aug 2026 17:56:56 +0200
+Message-ID: <1847e619f756eb0bba2bf7597a21b964cf626427.1787154074.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1787154074.git.fabien.thomas@smile.fr>
 References: <cover.1787154074.git.fabien.thomas@smile.fr>
@@ -66,41 +66,38 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 15:58:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243765
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 15:58:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243761
 
-From: Alexander Kanavin <alex@linutronix.de>
+From: Peter Marko <peter.marko@siemens.com>
 
-As the comment says this was used by very old kernels
-(pre 3.10), and slang has been the only option for a
-long time. Also, correct the option to disable slang TUI.
+In cvelistV5, CVE-2024-21886 uses CPE xorg:xserver ([1]).
+Detected because this CVE is shown for xwayland recipe.
 
-(From OE-Core rev: 9a9d894ddcb619a86d63b25cf7d3f4cb2cf3a5a8)
+[1] https://github.com/CVEProject/cvelistV5/blob/cve_2026-04-12_1800Z/cves/2024/21xxx/CVE-2024-21886.json#L646
 
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-Signed-off-by: Alexandre Belloni <alexandre.belloni@bootlin.com>
+(From OE-Core rev: c3cbb4003424f8b1e1faa06857096f4b1e609fea)
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit a36a84490b943e6f0638c0430ad1eac7740e9be3)
-Signed-off-by: Shinu Chandran <shinucha@cisco.com>
+(cherry picked from commit 5311f2a08842612b74472c843be2ae0d47cff6f5)
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- meta/recipes-kernel/perf/perf.bb | 5 +----
- 1 file changed, 1 insertion(+), 4 deletions(-)
+ meta/recipes-graphics/xorg-xserver/xserver-xorg.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/perf/perf.bb b/meta/recipes-kernel/perf/perf.bb
-index 2d432f3f40f..a4bc3c1319f 100644
---- a/meta/recipes-kernel/perf/perf.bb
-+++ b/meta/recipes-kernel/perf/perf.bb
-@@ -14,10 +14,7 @@ PACKAGECONFIG ??= "python tui libunwind libtraceevent"
- PACKAGECONFIG[dwarf] = ",NO_DWARF=1"
- PACKAGECONFIG[perl] = ",NO_LIBPERL=1,perl"
- PACKAGECONFIG[python] = ",NO_LIBPYTHON=1,python3 python3-setuptools-native"
--# gui support was added with kernel 3.6.35
--# since 3.10 libnewt was replaced by slang
--# to cover a wide range of kernel we add both dependencies
--PACKAGECONFIG[tui] = ",NO_NEWT=1,libnewt slang"
-+PACKAGECONFIG[tui] = ",NO_SLANG=1,slang"
- PACKAGECONFIG[libunwind] = ",NO_LIBUNWIND=1 NO_LIBDW_DWARF_UNWIND=1,libunwind"
- PACKAGECONFIG[libnuma] = ",NO_LIBNUMA=1"
- PACKAGECONFIG[bfd] = ",NO_LIBBFD=1"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+index 815be6a4986..9bf5137de1e 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg.inc
+@@ -19,7 +19,7 @@ SRC_URI = "${XORG_MIRROR}/individual/xserver/${XORG_PN}-${PV}.tar.xz"
+ 
+ UPSTREAM_CHECK_REGEX = "xorg-server-(?P<pver>\d+(\.(?!99)\d+)+)\.tar"
+ 
+-CVE_PRODUCT = "xorg-server x_server"
++CVE_PRODUCT = "xorg-server x_server xorg:xserver"
+ 
+ CVE_STATUS[CVE-2011-4613] = "not-applicable-platform: This is specific to Debian's xserver-wrapper.c"
+ CVE_STATUS[CVE-2020-25697] = "upstream-wontfix: \
 
