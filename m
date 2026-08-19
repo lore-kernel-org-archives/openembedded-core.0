@@ -1,237 +1,185 @@
-Return-Path: <hthakar@cisco.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 42BADC5DF6D
-	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 11:15:17 +0000 (UTC)
-Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4770.1787138116577085690
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47574C5DF6D
+	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 11:18:27 +0000 (UTC)
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4804.1787138303260544718
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2026 04:15:16 -0700
+ Wed, 19 Aug 2026 04:18:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=hZ2acLmB;
- spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: hthakar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=DB1rCtYV;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5695; q=dns/txt;
-  s=iport01; t=1787138116; x=1788347716;
-  h=from:to:cc:subject:date:message-id:mime-version:
+  d=cisco.com; i=@cisco.com; l=4154; q=dns/txt;
+  s=iport01; t=1787138303; x=1788347903;
+  h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=Pau2Gz7p/N+pCZNHPxTP7oE4dOwNaH+2UKxx9Ayi4Wc=;
-  b=hZ2acLmBNWIXGY+Cak2Ir5dLCMAhzp0uDSGOSmbaRquB0vduAcO41w+C
-   Jjx3vYn1GeHOZAW5jEG98qPmbJIViqkHVDv0YwKfSIiyXVwCpkAG1gDU7
-   6VRkzLUfjOpIYbRHvNqHAlIeZGlW601Byw/4N7XNxEG9LdljbdQCdgYU5
-   GdGePNPEPu+bnskabqUjJJTl2c2iQbWx+9w0uOj4xrg6XK4x0Aqy2sViJ
-   Ck5xH8YMLHMcMD8ulpnNQk+yDqXVk/x51ork3AqDwl99WqkUlYuCUyuo/
-   81c9T7/zC3WTdL2bx11BrV8/AdV248lBMEe3uI3M+NqzmuzNk0MAbV1KK
-   w==;
-X-CSE-ConnectionGUID: rAlS/KmTQ8m/2YbF/7TO9g==
-X-CSE-MsgGUID: PihQq3g8Rbu2sKamISxUXQ==
-X-IPAS-Result: =?us-ascii?q?A0BEAgDEjoVq/44QJK1aglmCV3ReQ0mWSp4egX4PAQEBD?=
- =?us-ascii?q?0QNBAEBhQWNbQImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE?=
- =?us-ascii?q?4ZPDYZaAQIBNQEYAS0sAwECWiMhgwIBgnQDEcN5giyBAYMoAYFU2zABCxQBB?=
- =?us-ascii?q?YEzhT+DA4EQhA9dGAGEfCcbG4FygRWDaYEFgVwCgU6GVwSCIoEMgVoekUdIg?=
- =?us-ascii?q?R4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQ0bBgWBHYEohDcjGTZ6gQleg?=
- =?us-ascii?q?SsqYQESF4EJggoCgnOCBgIBSUURCgsLGA1IESw3FBkEPm4HjkkggkYBAYENA?=
- =?us-ascii?q?SkCIHFngQKSZ5JBoQ8KKIN2jCGVOhozhVulEQuYfY4KlTslJkqEaYFoPIFZc?=
- =?us-ascii?q?BWDIglKGQ+OOINrhWTGVScyAgkyAQEHAgcOAwuBaJAABCiBUgEB?=
-IronPort-Data: A9a23:FPVVYKLO2G1QSjhEFE+RhpQlxSXFcZb7ZxGr2PjKsXjdYENS12QDz
- WAdXj+Aa6reZWr3fd5zaI219htVsceByoI2HQMd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnQ0
- T/Oi5eHYgH9i2clajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN10JUUNeq4dxt8nBCYUx
- PY2b28xSUGM0rfeLLKTEoGAh+wqKM3teYdasXZ6wHSBULAtQIvIROPB4towMDUY358VW62AI
- ZNHL2MzNnwsYDUXUrsTIJIinO6rj2PXeDxDo1XTrq0yi4TW5Fwoiua8YIGEI7RmQ+1tn0ahv
- znJr17zH0sBF9Wa6AGVz0KV07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflhcYX9wVF6gx7xuAj/KJpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOf9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:b0mdYKuYky9li5L9ZCfGvZ017skDWtV00zEX/kB9WHVpmwKj+P
- xG+85rsCMc5wxxZJhNo7290cq7MBHhHOBOgbX5VI3KNGKNhILCFu9fBOXZrwEIMheOktK1rZ
- 0QEJRWOZnXEUVwi9r87U2TFtYtx8TCzYWT7N2uqEuEiWpRGthdB8ATMHf8LnFL
-X-Talos-CUID: 9a23:ZsTRTG5a1f6X7F6xUdss7mcQIYcGd0HknHKXeX6yJyE2dJrERgrF
-X-Talos-MUID: 9a23:JkQK1AWBSnSK+6Xq/AfthAh7b8g42a6zUlsumJAngNm5BRUlbg==
+  bh=ns+iCz8Lwk3/gbtvawnr4hWJB7X24ijSoQcnfl8GYwU=;
+  b=DB1rCtYVj139DFATwUu9KuqZ1koWm+raZmpkFB9NBQaT219p/xWFdEMr
+   4qquPN+mM4JKP4aCtnsDMLwVKNjmtdBlFSTmIbIrMDiegh2wWb0jk5DJR
+   6qNYfd8NFmToxBCTceP//dnDS+kxgmPuVopXXBuHqg4olsAiScx5vKk2A
+   7nBmrB/vhUQyI2zL5u+ELL3rhzhNXbzQuumcrM743sxvjDYV7PDbKuX/m
+   z1M90wZYIPoMSdJaWv4g/IdnawTWNjXSWxZunJsHgUy2LvkcBVZoghhMC
+   5OZrZdkl/iuj2nkVjg0d/tIXz5ZM5RmfQKBvHzlHCXmcVgQJht3Ahtr4a
+   Q==;
+X-CSE-ConnectionGUID: RceWnil1SUmc/c06kzhSsA==
+X-CSE-MsgGUID: Kw74N3D6TmKVaCLT/TzPFg==
+X-IPAS-Result: =?us-ascii?q?A0BGAgA0kIVq/47/Ja1SCB4BAQsSDIIFC4JXdF9CSYRXj?=
+ =?us-ascii?q?1KCIZ4egX4PAQEBD0QNBAEBhD+OMwImNAkOAQIEAwIDAQEBAQEBAQEBAQELA?=
+ =?us-ascii?q?QEFAQEBAgEHBYEOE4ZPDYZaASkPAXIDAQIDAiYCLSMYAQiDAgGCdAMRw256g?=
+ =?us-ascii?q?TKBAYNiAYEa2zABCxQBgQouhT+DHwGFAl0ZhHwnGxuBcoEVg2mCYQKBOYQCg?=
+ =?us-ascii?q?kgiBIIigQyBWh6RR0iBAhwDWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XNVgbB?=
+ =?us-ascii?q?gWBHYEohDcjGTZ6gQlegSsqYhIXgQmCCgKCc4IGAgFJRREKCwsYDUgRLDcUG?=
+ =?us-ascii?q?QQ9AW4HjkkggXpNATwcCC0BKwVPgSkGo36CHqESCiiDdowhlToaM6psmQiOC?=
+ =?us-ascii?q?pZQhGmBaDyBWXAVgyIJShkPji0WgjuBJYUTUcY9PDULMgIHAgcBAQsBAwuTZ?=
+ =?us-ascii?q?gEB?=
+IronPort-Data: A9a23:j7vKEqNEUtl/uc7vrR30lsFynXyQoLVcMsEvi/4bfWQNrUoi3jEDn
+ zNMWD+BOKuNYGT9KdAnatm/9U4O6JXXx9A1HnM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
+ ykmQoCeaphyFTmE+kvF3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WV7lV
+ e/a+ZWFZgf1gm8sawr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
+ 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
+ I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj689lAX4wPIlBwdtyCiZFr
+ aIbOjA2dTnW0opawJrjIgVtrt4oIM+uOMYUvWttiGmES/0nWpvEBa7N4Le03h9p2ZsIRqmYP
+ ZdEL2MzNnwsYDUXUrsTIJ4zkf2hmnn4WzZZs1mS46Ew5gA/ySQsiuC2a4eEJ4fiqcN9vVnH+
+ kSd0zrFBzIkPfe79X254EqCibqa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
+ AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++MvkCSB3MPSXhKb9lOWNIKeAHGH
+ 2Shx7vBbQGDepXMIZ5B3t94dQ+PBBU=
+IronPort-HdrOrdr: A9a23:sJwe+K5bqxzUmE8YwwPXwP7XdLJyesId70hD6qkXc20xTiX4rb
+ HNoB1173HJYVoqNU3I+urwW5VoP0m8yXcd2+B4Vt2ftWLd11dAQrsP0WKb+V3dMhy70PJB3q
+ F9dKU7ItjxAV9myfve2mCDYrIdKB3tytHPuQ8YpE0dKj1XVw==
+X-Talos-CUID: =?us-ascii?q?9a23=3AuKMm42rM921H72Xe/KP5zMHmUfouf0LbzXOJGHK?=
+ =?us-ascii?q?9AiFiEOOWW1+r44oxxg=3D=3D?=
+X-Talos-MUID: 9a23:BF3XXgZ4WUgdyuBTlCCz2Bc5GJlU5oeQAWsprdI6qfGqOnkl
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,231,1779148800"; 
-   d="scan'208";a="812698391"
-Received: from alln-l-core-05.cisco.com ([173.36.16.142])
-  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Aug 2026 11:15:15 +0000
-Received: from sjc-ads-5471.cisco.com (sjc-ads-5471.cisco.com [10.28.23.235])
+   d="scan'208";a="520335953"
+Received: from rcdn-l-core-05.cisco.com ([173.37.255.142])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Aug 2026 11:18:22 +0000
+Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-05.cisco.com (Postfix) with ESMTPS id 8C96018000172;
-	Wed, 19 Aug 2026 11:15:15 +0000 (GMT)
-Received: by sjc-ads-5471.cisco.com (Postfix, from userid 1887505)
-	id 259A3CC12A6; Wed, 19 Aug 2026 04:15:15 -0700 (PDT)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+	by rcdn-l-core-05.cisco.com (Postfix) with ESMTPS id EF42618000346
+	for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 11:18:21 +0000 (GMT)
+Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
+	id 1C3FDCC037D; Wed, 19 Aug 2026 16:48:20 +0530 (IST)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	Hetvi Thakar <hthakar@cisco.com>
-Subject: [OE-core][scarthgap][PATCH] python3-mako: Fix CVE-2026-41205
-Date: Wed, 19 Aug 2026 04:15:09 -0700
-Message-Id: <20260819111509.53180-1-hthakar@cisco.com>
+Subject: [OE-core][wrynose][PATCH] python3-cryptography: backport stray file install fix
+Date: Wed, 19 Aug 2026 16:47:55 +0530
+Message-Id: <20260819111755.4060280-1-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-5471.cisco.com [10.28.23.235];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 10.28.23.235, sjc-ads-5471.cisco.com
-X-Outbound-Node: alln-l-core-05.cisco.com
+X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
+X-Outbound-Node: rcdn-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 11:15:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243724
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 11:18:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243725
 
-From: Hetvi Thakar <hthakar@cisco.com>
+From: Himanshu Jadon <hjadon@cisco.com>
 
-This patch applies the upstream fix as referenced in [2], using
-the commit shown in [1].
+Maturin 1.12 changed the handling of include entries from
+pyproject.toml. With the current cryptography metadata, files like
+CHANGELOG.rst, CONTRIBUTING.rst, docs and tests can be installed under
+site-packages instead of being kept only in the source archive.
 
-The backport makes Template URI normalization strip all leading
-slashes, preventing a double-slash URI from bypassing the path
-traversal check while keeping Mako at version 1.3.2.
+That can cause image install conflicts when packages such as
+python3-pyrad and python3-pyexpect are installed with
+python3-cryptography, because those packages also install top-level docs
+or tests directories under site-packages.
 
-[1] https://github.com/sqlalchemy/mako/commit/e05ac61989a7fb9dd7dcde6cfd72dc48328719a3
-[2] https://github.com/advisories/GHSA-v92g-xgxw-vvmm
+Backport the upstream cryptography fix which marks these entries as
+sdist-only. The files remain available from the source tree, so the
+existing ptest install path which copies tests from ${S} is not changed.
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 ---
- .../python/python3-mako/CVE-2026-41205.patch  | 110 ++++++++++++++++++
- .../python/python3-mako_1.3.2.bb              |   2 +
- 2 files changed, 112 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-mako/CVE-2026-41205.patch
+ .../python/python3-cryptography.bb            |  1 +
+ ...lling-stray-files-into-site-packages.patch | 55 +++++++++++++++++++
+ 2 files changed, 56 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/0002-Fix-installing-stray-files-into-site-packages.patch
 
-diff --git a/meta/recipes-devtools/python/python3-mako/CVE-2026-41205.patch b/meta/recipes-devtools/python/python3-mako/CVE-2026-41205.patch
+diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
+index 42e8c5ff19..b73123d361 100644
+--- a/meta/recipes-devtools/python/python3-cryptography.bb
++++ b/meta/recipes-devtools/python/python3-cryptography.bb
+@@ -14,6 +14,7 @@ require python3-cryptography-common.inc
+ SRC_URI[sha256sum] = "abace499247268e3757271b2f1e244b36b06f8515cf27c4d49468fc9eb16e93d"
+ 
+ SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
++            file://0002-Fix-installing-stray-files-into-site-packages.patch \
+             file://check-memfree.py \
+             file://run-ptest \
+            "
+diff --git a/meta/recipes-devtools/python/python3-cryptography/0002-Fix-installing-stray-files-into-site-packages.patch b/meta/recipes-devtools/python/python3-cryptography/0002-Fix-installing-stray-files-into-site-packages.patch
 new file mode 100644
-index 0000000000..0699654b53
+index 0000000000..6212c1a43e
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-mako/CVE-2026-41205.patch
-@@ -0,0 +1,110 @@
-+From e05ac61989a7fb9dd7dcde6cfd72dc48328719a3 Mon Sep 17 00:00:00 2001
-+From: Mike Bayer <mike_mp@zzzcomputing.com>
-+Date: Tue, 14 Apr 2026 15:45:19 -0400
-+Subject: [PATCH] Fix path traversal via double-slash URI prefix in
-+ TemplateLookup
++++ b/meta/recipes-devtools/python/python3-cryptography/0002-Fix-installing-stray-files-into-site-packages.patch
+@@ -0,0 +1,55 @@
++From af53f00da0538e7d64625eea9f4ec850a2b7dd2e Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Micha=C5=82=20G=C3=B3rny?= <mgorny@gentoo.org>
++Date: Sun, 15 Feb 2026 18:01:37 +0100
++Subject: [PATCH] Fix installing stray files into site-packages (#14319)
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+The URI normalization in Template.__init__ stripped only a single
-+leading slash, while TemplateLookup.get_template() stripped all
-+leading slashes. A URI such as "//../../secret.txt" could bypass
-+the directory traversal check.  Changed to use lstrip("/") so
-+both code paths handle leading slashes consistently.
++Fix the `include` pattern in `pyproject.toml` not to install stray files
++such as `CHANGELOG.rst`, `CONTRIBUTING.rst`, `docs` and `tests` straight
++into site-packages.  Apparently Maturin did not install them before due
++to a bug, but it was fixed in maturin 1.12.0, leading to the files being
++suddenly installed.
 +
-+Fixes: #434
-+Change-Id: I400b9a40aed956cc2b5826a9c8736f104e84f1a4
++Originally reported as https://bugs.gentoo.org/970090.
 +
-+CVE: CVE-2026-41205
-+Upstream-Status: Backport [https://github.com/sqlalchemy/mako/commit/e05ac61989a7fb9dd7dcde6cfd72dc48328719a3]
++Upstream-Status: Backport [https://github.com/pyca/cryptography/commit/43eb178ee3aae8d0060221118437b03c23570a41]
 +
-+(cherry picked from commit e05ac61989a7fb9dd7dcde6cfd72dc48328719a3)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++Signed-off-by: Michał Górny <mgorny@gentoo.org>
++(cherry picked from commit 43eb178ee3aae8d0060221118437b03c23570a41)
++Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 +---
-+ doc/build/unreleased/434.rst | 10 +++++++++
-+ mako/template.py             |  4 +---
-+ test/test_lookup.py          | 41 ++++++++++++++++++++++++++++++++++++
-+ 3 files changed, 52 insertions(+), 3 deletions(-)
-+ create mode 100644 doc/build/unreleased/434.rst
++ pyproject.toml | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+diff --git a/doc/build/unreleased/434.rst b/doc/build/unreleased/434.rst
-+new file mode 100644
-+index 00000000..452265ad
-+--- /dev/null
-++++ b/doc/build/unreleased/434.rst
-+@@ -0,0 +1,10 @@
-++.. change::
-++    :tags: bug, template
-++    :tickets: 434
-++
-++    Fixed issue in :class:`.TemplateLookup` where a URI with a double-slash
-++    prefix (e.g. ``//../../``) could bypass the directory traversal check in
-++    :class:`.Template`, allowing reads of arbitrary files outside of the
-++    template directory. The issue was caused by an inconsistency in how leading
-++    slashes were stripped between :meth:`.TemplateLookup.get_template` and
-++    :class:`.Template` initialization.
-+diff --git a/mako/template.py b/mako/template.py
-+index 82c7cba8..d8ebc949 100644
-+--- a/mako/template.py
-++++ b/mako/template.py
-+@@ -259,9 +259,7 @@ def __init__(
-+             self.module_id = "memory:" + hex(id(self))
-+             self.uri = self.module_id
++diff --git a/pyproject.toml b/pyproject.toml
++index 75bfcbb94..8ee43d17a 100644
++--- a/pyproject.toml
+++++ b/pyproject.toml
++@@ -106,10 +106,10 @@ module-name = "cryptography.hazmat.bindings._rust"
++ locked = true
++ sdist-generator = "git"
++ include = [
++-    "CHANGELOG.rst",
++-    "CONTRIBUTING.rst",
+++    { path = "CHANGELOG.rst", format = "sdist" },
+++    { path = "CONTRIBUTING.rst", format = "sdist" },
 + 
-+-        u_norm = self.uri
-+-        if u_norm.startswith("/"):
-+-            u_norm = u_norm[1:]
-++        u_norm = self.uri.lstrip("/")
-+         u_norm = os.path.normpath(u_norm)
-+         if u_norm.startswith(".."):
-+             raise exceptions.TemplateLookupException(
-+diff --git a/test/test_lookup.py b/test/test_lookup.py
-+index 6a797d7a..2f7cdf0b 100644
-+--- a/test/test_lookup.py
-++++ b/test/test_lookup.py
-+@@ -127,6 +127,47 @@ def test_dont_accept_relative_outside_of_root(self):
-+         # this is OK since the .. cancels out
-+         runtime._lookup_template(ctx, "foo/../index.html", index.uri)
++-    "docs/**/*",
+++    { path = "docs/**/*", format = "sdist" },
 + 
-++    def test_dont_accept_relative_outside_of_root_via_double_slash(self):
-++        """test that double-slash URI prefix can't bypass the
-++        path traversal check"""
-++        with tempfile.TemporaryDirectory() as base:
-++            tmpl_dir = os.path.join(base, "app", "templates")
-++            os.makedirs(tmpl_dir)
-++            with open(os.path.join(tmpl_dir, "index.html"), "w") as f:
-++                f.write("Hello")
-++
-++            secret = os.path.join(base, "secrets", "creds.txt")
-++            os.makedirs(os.path.dirname(secret))
-++            with open(secret, "w") as f:
-++                f.write("SECRET_KEY=supersecret123")
-++
-++            tl = lookup.TemplateLookup(directories=[tmpl_dir])
-++            rel = os.path.relpath(secret, tmpl_dir)
-++
-++            # single-slash prefix should also be blocked
-++            assert_raises_message(
-++                exceptions.TemplateLookupException,
-++                "cannot be relative outside of the root path",
-++                tl.get_template,
-++                "/" + rel,
-++            )
-++
-++            # double-slash prefix must not bypass the check
-++            assert_raises_message(
-++                exceptions.TemplateLookupException,
-++                "cannot be relative outside of the root path",
-++                tl.get_template,
-++                "//" + rel,
-++            )
-++
-++            # triple-slash prefix must not bypass the check
-++            assert_raises_message(
-++                exceptions.TemplateLookupException,
-++                "cannot be relative outside of the root path",
-++                tl.get_template,
-++                "///" + rel,
-++            )
-++
-+     def test_checking_against_bad_filetype(self):
-+         with tempfile.TemporaryDirectory() as tempdir:
-+             tl = lookup.TemplateLookup(directories=[tempdir])
-diff --git a/meta/recipes-devtools/python/python3-mako_1.3.2.bb b/meta/recipes-devtools/python/python3-mako_1.3.2.bb
-index f9a8f60ff0..a328985a07 100644
---- a/meta/recipes-devtools/python/python3-mako_1.3.2.bb
-+++ b/meta/recipes-devtools/python/python3-mako_1.3.2.bb
-@@ -10,6 +10,8 @@ PYPI_PACKAGE = "Mako"
- 
- inherit pypi python_setuptools_build_meta
- 
-+SRC_URI += "file://CVE-2026-41205.patch \
-+            "
- SRC_URI[sha256sum] = "2a0c8ad7f6274271b3bb7467dd37cf9cc6dab4bc19cb69a4ef10669402de698e"
- 
- RDEPENDS:${PN} = "python3-html \
++     { path = "src/_cffi_src/**/*.py", format = "sdist" },
++     { path = "src/_cffi_src/**/*.c", format = "sdist" },
++@@ -121,7 +121,7 @@ include = [
++     { path = "src/rust/**/Cargo.lock", format = "sdist" },
++     { path = "src/rust/**/*.rs", format = "sdist" },
++ 
++-    "tests/**/*.py",
+++    { path = "tests/**/*.py", format = "sdist" },
++ ]
++ exclude = [
++     "vectors/**/*",
++-- 
++2.35.6
++
 -- 
 2.35.6
 
