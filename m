@@ -1,68 +1,105 @@
-Return-Path: <junjie.cao@linux.dev>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D9FD3C5DF6D
-	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 08:45:03 +0000 (UTC)
-Received: from mta0.migadu.com (mta0.migadu.com [91.218.175.87])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2665.1787129102584066548
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1ED3CC5DF6D
+	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 09:03:44 +0000 (UTC)
+Received: from tor.source.kernel.org (tor.source.kernel.org [172.105.4.254])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2411.1787127706704681446
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2026 01:45:03 -0700
+ Wed, 19 Aug 2026 01:21:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linux.dev header.s=key1 header.b=bURNlRHQ;
- spf=pass (domain: linux.dev, ip: 91.218.175.87, mailfrom: junjie.cao@linux.dev)
-X-Envelope-To: openembedded-core@lists.openembedded.org
-DKIM-Signature: a=rsa-sha256; bh=HqRPyODAfrbxoxJd3+Tti8xCYzej63GDQb9n+RQzEQs=;
- c=simple/simple; d=linux.dev;
- h=from:to:subject:date:message-id:mime-version:content-type; s=key1;
- t=1787129100; v=1; x=1787733900;
- b=bURNlRHQG6d9ORxmaoxG667+4AaxisnZFlM7vPucpPCtYn8/Kduj7D1oTpmhjXvVDeXA1GF/
- Pk3FGqRRe43/6KYW6ISZ+fNTuoKMYHEgzxvXh8Cw+rAS3B9GGYL6cKWbyVPtdNj+Ju3ciD9xhbn
- UTSrVWEqenK9rIJXy3N9qBag=
-X-Envelope-To: openembedded-core@lists.openembedded.org
-Received: from localhost (2408:84e1:427:6962:81e3:968b:f0b:7219)
-	by smtp.migadu.com with ESMTPS id dbb15b9d93312f80;
-	Wed, 19 Aug 2026 08:45:00 +0000
-X-Migadu-Flow: FLOW_OUT
-From: Junjie Cao <junjie.cao@linux.dev>
-To: Paul Barker <paul@pbarker.dev>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [OE-core][PATCH v3 0/9] cve-exclusions: triage nine kernel CVEs lacking upstream fix data
-Date: Wed, 19 Aug 2026 05:43:51 -0500
-Message-ID: <20260819104351.726529-1-junjie.cao@linux.dev>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <7b18fd3a5e6b660b9c605671da2b188b5abbf4ba.camel@pbarker.dev>
-References: <7b18fd3a5e6b660b9c605671da2b188b5abbf4ba.camel@pbarker.dev>
+ dkim=pass header.i=@kernel.org header.s=k20201202 header.b=P+e83fmO;
+ spf=pass (domain: kernel.org, ip: 172.105.4.254, mailfrom: devnull+jonas.juffinger.liebherr.com@kernel.org)
+Received: from smtp.kernel.org (transwarp.subspace.kernel.org [100.75.92.58])
+	by tor.source.kernel.org (Postfix) with ESMTP id 1F0EE60A59;
+	Wed, 19 Aug 2026 08:21:45 +0000 (UTC)
+Received: by smtp.kernel.org (Postfix) with ESMTPS id C98E0C2BCB3;
+	Wed, 19 Aug 2026 08:21:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+	s=k20201202; t=1787127704;
+	bh=3TH1L9KWRSbhNKdTil4qEOF3xpni0XKrQyRF/LPTgak=;
+	h=From:Date:Subject:To:Cc:Reply-To:From;
+	b=P+e83fmOKXeIrTD6uouTSaiTG0YOpZA7qFDm0LgBpYNZw9xccJzK4YYkwlcDBy7iE
+	 zaqhhsndMpYIKL+Xzsn5lXwCZkZDU1wewHpNq144HsK5Yds1F9FDgZ7RwOJ00ExbEe
+	 jSROonuhB6oLnUg8LirsP47cY1qSdkSBbaCskj8rVc+ghxMfP3u4iRRC29iyfCOmMy
+	 kWc9g3JuPuF8QKXVou4FMmY30dHn0vJ8LfiSnHPhHiLgEVIlE5fJtuSLv7GNiehm2g
+	 ZYusqDXMqyAfsBIVr0aUndLEBcQBuyBStDdszNQYK2UGMGAh7U3pdJQODvfOqESt/b
+	 HDR15LCB4EIdQ==
+Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B5343C5DF85;
+	Wed, 19 Aug 2026 08:21:44 +0000 (UTC)
+From: jonas.juffinger@liebherr.com
+Date: Wed, 19 Aug 2026 10:21:37 +0200
+Subject: [PATCH] kernel-fit-image: Don't add hash node when signing is enabled
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Message-Id: <20260819-bugfix-dont-add-hash-node-to-signed-fit-images-v1-1-c0ffc1a0fc17@liebherr.com>
+X-B4-Tracking: v=1; b=H4sIAJBnhWoC/x2NsQ7CMAwFf6XyzJOSDED5FcSQxm7igQTFBSFV/
+ XcixhvubieTrmJ0m3bq8lHTVgf400SpxJoFyoMpuHB2Vz9jeedVv+BWN0RmlGgFtbFgazDNVRi
+ rbtBnzGLwIS4uzeHik9CIvroM/T+8P47jB6lowVmAAAAA
+To: openembedded-core@lists.openembedded.org
+Cc: Jonas Juffinger <jonas.juffinger@liebherr.com>
+X-Mailer: b4 0.13.0
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787127703; l=1359;
+ i=jonas.juffinger@liebherr.com; s=20260615; h=from:subject:message-id;
+ bh=dtNhGWXLaF9vg94YLb4ySsWG4N9Rg6SxtwNTftjmrlU=;
+ b=A5p/LCa7sXh/hlb7HsIH3pCpPLkaL8j0mC8eWHaPXzZYxvkuGlsD0/Le6/va6Dx4MxUFCf+xK
+ tgWByAHxK+3AnKb+WAo4ruS7QmHnkryZzLpZIUfLHgRnn9twpPIcMW9
+X-Developer-Key: i=jonas.juffinger@liebherr.com; a=ed25519;
+ pk=57Vzs2aKTP3E7TDrBuZMQibGR+Koattc4oIhiMOs3FI=
+X-Endpoint-Received: by B4 Relay for jonas.juffinger@liebherr.com/20260615
+ with auth_id=821
+X-Original-From: Jonas Juffinger <jonas.juffinger@liebherr.com>
+Reply-To: jonas.juffinger@liebherr.com
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 08:45:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243718
+ <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 09:03:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243719
 
-> I have spent some time validating the status of all the issues and I
-> think we're nearly there. I've suggested changes to the commit
-> messages, comments and CVE_STATUS wordings, with those addressed I
-> think 8/9 of these will be ready to merge.
+From: Jonas Juffinger <jonas.juffinger@liebherr.com>
 
-Will send v4 with those eight using your wordings, with one deviation:
-for CVE-2023-6238 the fix was backed out by the nvme maintainer rather
-than withdrawn by its author, so the status reads "Proposed fix was not
-merged" to match the comment above it.
+When configuration signing is enabled, mkimage does not fill
+the hash node even if it present. This causes the verification
+to fail with a "Bad Data Hash' error because the hash exists
+but it empty.
 
-> CVE-2022-0400 still bothers me. There was clearly something reported,
-> there's a non-public Red Hat bugzilla entry referenced by Debian [1].
-> It looks like it was closed by Red Hat, SUSE and Debian as they don't
-> build the affected code, not because it was an invalid report. We
-> should ask Red Hat to release more details.
+This patch adds a check to only add the hash node if signing
+is not enabled.
 
-Agreed - dropped from v4; with no CVE_STATUS entry it stays visible as
-Unpatched in cve-check reports. I've asked on the public bug 2044575
-and via secalert@redhat.com for bug 2040604 to be opened or the
-affected files named, and will follow up here when Red Hat responds.
+The example FIT from the official documentation also shows
+the configuration field with only the signature, without the
+hash field:
+https://docs.u-boot.org/en/latest/usage/fit/signature.html#signed-configurations
 
-All other comments will be addressed in v4 as suggested.
+Signed-off-by: Jonas Juffinger <jonas.juffinger@liebherr.com>
+---
+ meta/lib/oe/fitimage.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Thanks a lot for your time and help.
+diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+index d4dacdd508..142a5d60f7 100644
+--- a/meta/lib/oe/fitimage.py
++++ b/meta/lib/oe/fitimage.py
+@@ -485,7 +485,7 @@ class ItsNodeRootKernel(ItsNode):
+             f"{default_flag} {', '.join(conf_desc)}",
+             opt_props=opt_props
+         )
+-        if self._hash_algo:
++        if self._hash_algo and not self._sign_enable:
+             ItsNodeHash(
+                 "hash-1",
+                 conf_node,
+
+---
+base-commit: 6f7a806ece411ab32e4b1c08a0299400bdf3b588
+change-id: 20260819-bugfix-dont-add-hash-node-to-signed-fit-images-12ab0c9271ce
+
+Best regards,
+-- 
+Jonas Juffinger <jonas.juffinger@liebherr.com>
+
+
 
