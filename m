@@ -2,62 +2,62 @@ Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 29E55C5DF91
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E169C5DF92
 	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 15:58:03 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10413.1787155074245744888
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10422.1787155079558586557
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2026 08:57:54 -0700
+ Wed, 19 Aug 2026 08:57:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=wXVuS83p;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47f71156e1aso546669f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 08:57:54 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=j6UuMMmT;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-472326ca506so815973f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 08:57:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787155072; x=1787759872; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787155078; x=1787759878; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=RD+mraslbg4Ke6XBizr0gN8MmPUjpQIFoDbagKW9BQM=;
-        b=wXVuS83pPJuWcj7bvX0QkVGe2JBILNcebh09heFG/XWkOq7FbExOytkvdr76crufLz
-         rn1W03eog+VtLftsZyZhhMDasKsnsNiZCZIw2GTJMPbPJKtGtLk0XZZsvGMo9pzbAKYk
-         gYpR7mnsnLmAKbncUepeJCYl91cZkS/0GGD3c=
+        bh=j7l81iDrTnHNiIUXaQdYKKwnMpu7rJdAzdWQtq4wp+s=;
+        b=j6UuMMmTZnmAVIvql+a2g/SE66J8VKnQMgVQxk6yb8ulA4KQ3QbCgzOT47O1qbZNJR
+         I/O827vIIJ1gMLXhMXkbEH2O2tGFlBWVYlY2sAszyd/P/p5Xr+rq8YOg6oyK36XEfHYz
+         V1qZ3dyBkJCnYJ1mSUGr0fU15rnQGw/ClQwK4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787155072; x=1787759872;
+        d=1e100.net; s=20251104; t=1787155078; x=1787759878;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=RD+mraslbg4Ke6XBizr0gN8MmPUjpQIFoDbagKW9BQM=;
-        b=r4qyqGFBxsI1jN252jWmY7WwvmkJuCSX03X6nFgV6owSyHhJp4wbuY21ZdqVC52IwT
-         dpKriB6e1SYRapZZ3xrnRpyluj3xC1AJVeCqIVS0QOuopogUZe/3KKyf0tarlVUFr0Yv
-         QGjfBmOhjLa+wl0SismRMaLOzuJpCTX/0+lvZDh9eGBkDngJt3sDU5rmw1BcjwZ4CCAU
-         WYQSv56YEkDTIyDSy/8CJE2tsS9a0THz3UwBhlBQRhVXT54wELvzpXY9D2K/mWEvu9g4
-         7cKXJOG+64Txyau4+JHqLCVEgA7C+TTdaEklwJtWWAn5vXxICleiIl4rByDVCRWgd1VQ
-         Dz6g==
-X-Gm-Message-State: AFuF++nbuxbz9GxwA5FUDZ9k2kIBRDFdUgCvj2SCXYziZN1H6ceYbnG3
-	CYBH+obD+ns5FFqUDDN99iVVk4B6GdpLlQuTJCcQmi7s2zohrLGa59miKcck/MZnz7mjAyKt7GC
-	i2FBFLVQ=
-X-Gm-Gg: AR+sD12n2M0UE2BmNSveios5wcrpVrqLxxK2KpXKWtRfIlfSc5AxhHo9pknD4YryOLh
-	Zz7xZIkNviO9+CcBJXyFMGJV09Y5TwQR8NV1buHrnhZgse+2Sh4VMUczpk07nP9da0HkkeUOAuu
-	aOze76PqdNP8TVue5pjRXoGacrRdCc9A1DtF77SOGZOAGpWc74ynkwc6ZELGbNKDax7ujPQAMFG
-	YMr5RwZ46RhdUs6fXix1TiQQvXaJ6LXVCJFDFcmzuWgRBO2yKt2PVT2VsyZFUJ7KSrWVhD3946X
-	lqgrSHJUB8NHSb1XHlpvrOAy0cdHNIYj+Fgw2LNOCK03dWddO0lvAVIFyj4G6snskuWQzSGZTAa
-	l1n4eTk+wKYxcONN59Oc9VKkXm+u7Hgwl7k36osNDD+1HI79FCnRS7D+cWHNaP5U3/9TuCvDpr2
-	zpM1ZOmPH1nClIHyJBVp4dfdK7aQiHHD4oUmbyLo2mgPTVGTwD/RMV0Q5dPy+xdwtUr6eU0VKLY
-	hlm6PkGrqdfIj1zndwSpyiUzy7D621VblycSt7EiFSUVZDm3XGnLCDRr3FRKc/EIh90OgwWNKK5
-	uABrX/Qz1s5HPa1xQG0SUOekwQfsFBlgApgMviYyA4b0aMfEBwM=
-X-Received: by 2002:a05:6000:3c1:b0:47f:83ee:e56f with SMTP id ffacd0b85a97d-482b1fe2924mr11604755f8f.18.1787155072431;
-        Wed, 19 Aug 2026 08:57:52 -0700 (PDT)
+        bh=j7l81iDrTnHNiIUXaQdYKKwnMpu7rJdAzdWQtq4wp+s=;
+        b=HW60auk558VU2UwnU+XvDxro//YNXItSOeqxEzrxq8jRS6uDyoM40uBMA1l6nG/Rkh
+         YUTX8pdkANtCSOFuYpOnIsl8JvivykF1cWYwOiQlRovQcyOqOHLpFycZvDy419Bq5yrG
+         V3GqlGXDrhITkHRIfbJHtGDtNk8GlShCl4uQP/jGax0t1dm4eyNcXX+8VYL5pEdK2t/F
+         fQe5R46vFLThd7WduSjyT+qvyext5eHBSmscAxDCiYtk8X4i95D60ARUPMVXI3ztW2W5
+         H6Dw9YYKvEXWv2lf5Y6wxiggCglxUdOikhTYCBlr9FbFf/Ouxa3qVhR1wcxz25plGPso
+         2jdw==
+X-Gm-Message-State: AFuF++kMJPut4ajH7NPGrYUD/QmLcCN4+2IuR4/CM3KHvrCHOnlXocd7
+	3spVvWPxTpVxW/hF8rk9vI0mYrKg0MrdL8+ucMUJCm1fkR6dFNEKFNrmyi/EmJHs6Q7/mh6CUHR
+	QVqNQTlE=
+X-Gm-Gg: AR+sD12uhu1IPV2BiSRCDAYhR1jXDKOUJIwahKkP7x7YcDM7PH8o1t11yqSx+WfkcMm
+	KsOESIGZDdts217fU5iqkMxzfcHM8UhpIK2BEAGkOEEpfPMzJDTw/ePgVB2vWxvZ1sMFyAUPJUu
+	LUWQ0++8CUHAHkmSqbKuSwzH7s4SI9Kql0zx3qWQVUw+Wdyabf3IYqRG1D4Z/LemKAqormBx7SF
+	E1sEs/A9/scSaJcefX346zFpBDZFbOUlS6+0w+xIUbzcpxkWtptiFVYXnIRmasoSHGY/NgOTyhE
+	JXlj28NKqQtuR04aBgcXnThF/EG8Orp2LKna53VYmrVi9ATQrX2Rh7mmDkITYASO7ZEKM+XXeMk
+	KRzFmQAq99uzKhLZmQffi7n442CcD+SESnfY9Fu7YiN3exr7XB3B91r4e0wxDhqpJSWF4NmF/+s
+	qBhxhKG0Ly1xlaRZp8wAJuibwrudWOJNRSXkwhWDlJTXkPqYFl1rQHjqqpXLKEnWGCe2SfWbMqv
+	LciAWFPlpVdY7YydflvA0lfAmpbYLdSsjqpXF/mkhW9sMgduJxzGF7UhUj1Wchp+iOXST3Wl4we
+	JM+FcK/XaJ0nBLiIqt+gcTSb3EwUtYabogBLzZwk
+X-Received: by 2002:a05:6000:715:b0:47f:86d5:d1d7 with SMTP id ffacd0b85a97d-482b1e957b9mr11787851f8f.6.1787155077700;
+        Wed, 19 Aug 2026 08:57:57 -0700 (PDT)
 Received: from FRSMI25-GIGUE (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm7215698f8f.35.2026.08.19.08.57.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d05a6sm7215698f8f.35.2026.08.19.08.57.57
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 19 Aug 2026 08:57:52 -0700 (PDT)
+        Wed, 19 Aug 2026 08:57:57 -0700 (PDT)
 From: Fabien Thomas <fabien.thomas@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 24/37] u-boot: Set CVE_PRODUCT
-Date: Wed, 19 Aug 2026 17:56:55 +0200
-Message-ID: <aab60913362c1c76676565da628dfc8fb53267a5.1787154074.git.fabien.thomas@smile.fr>
+Subject: [OE-core][scarthgap 32/37] libssh2: fix CVE-2026-66032
+Date: Wed, 19 Aug 2026 17:57:03 +0200
+Message-ID: <ff0d15e746e245a2762cf18a52caa7d76c384463.1787154074.git.fabien.thomas@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1787154074.git.fabien.thomas@smile.fr>
 References: <cover.1787154074.git.fabien.thomas@smile.fr>
@@ -67,36 +67,80 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 15:58:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243760
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243768
 
-From: Maik Otto <m.otto@phytec.de>
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-The CPE vendor is "denx" and the CPE product is "u-boot".
-Set CVE_PRODUCT for properly matching in the NVD database.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-66032
+https://github.com/libssh2/libssh2/commit/5e4776146552d898b9c0e1b313cd093fa8dc92d0
 
-(From OE-Core rev: f4c9c7930bda530f60248a5db8e45c89f2c66f50)
+libssh2 ptest results (qemux86-64):
+  before: PASSED: 1 FAILED: 0 SKIPPED: 0
+  after:  PASSED: 1 FAILED: 0 SKIPPED: 0
 
-Signed-off-by: Maik Otto <m.otto@phytec.de>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d2e5d427de13b33694a1d802f5ac833b2c04ced6)
-Signed-off-by: Devansh Patel <devanshp@cisco.com>
+(From OE-Core rev: 19f03bde8988ecff900d2c6f12fb93db84a6d48c)
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- meta/recipes-bsp/u-boot/u-boot.inc | 2 ++
- 1 file changed, 2 insertions(+)
+ .../libssh2/libssh2/CVE-2026-66032.patch      | 36 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index 7935f2b4aa4..00dda93b4ac 100644
---- a/meta/recipes-bsp/u-boot/u-boot.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -19,6 +19,8 @@ PACKAGECONFIG ??= "openssl"
- # a host build dependency.
- PACKAGECONFIG[openssl] = ",,openssl-native"
- 
-+CVE_PRODUCT = "denx:u-boot"
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
+new file mode 100644
+index 00000000000..15a52664853
+--- /dev/null
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
+@@ -0,0 +1,36 @@
++From 352341aaebcf91ab16e7fcff158fef4a3b8c32f6 Mon Sep 17 00:00:00 2001
++From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++Date: Tue, 4 Aug 2026 12:32:31 +0000
++Subject: [PATCH] Prevent dangling pointer by nullifying data (#2180)
 +
- # Allow setting an additional version string that will be picked up by the
- # u-boot build system and appended to the u-boot version.  If the .scmversion
- # file already exists it will not be overwritten.
++Set data to NULL after freeing it to avoid dangling pointer. fixes
++GHSA-px3w-7g75-hg7w.
++
++Credit: VladimirEliTokarev
++
++CVE: CVE-2026-66032
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/5e4776146552d898b9c0e1b313cd093fa8dc92d0]
++
++Backport adaptations:
++- The upstream fix uses SSH2_FREE() which was renamed from
++  LIBSSH2_FREE() in newer libssh2. Context adjusted to match
++  the 1.11.1 codebase (different line numbers and surrounding
++  function/macro names).
++
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ src/sftp.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/sftp.c b/src/sftp.c
++index 6ede3111..793f267c 100644
++--- a/src/sftp.c
+++++ b/src/sftp.c
++@@ -1279,6 +1279,7 @@ sftp_open(LIBSSH2_SFTP *sftp, const char *filename,
++                                "got HANDLE FXOK"));
++ 
++                 LIBSSH2_FREE(session, data);
+++                data = NULL;
++ 
++                 /* silly situation, but check for a HANDLE */
++                 rc = sftp_packet_require(sftp, SSH_FXP_HANDLE,
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+index 1b281e62966..260f06204df 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -16,6 +16,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://CVE-2025-15661-1.patch \
+            file://CVE-2025-15661-2.patch \
+            file://CVE-2025-15661-3.patch \
++           file://CVE-2026-66032.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
 
