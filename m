@@ -2,75 +2,77 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0329DC5DF85
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 510AFC5DF88
 	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 05:08:20 +0000 (UTC)
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.656.1787116092318433195
+Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.658.1787116092682779983
  for <openembedded-core@lists.openembedded.org>;
  Tue, 18 Aug 2026 22:08:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=GufYFLI4;
- spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=WGUu+jLr;
+ spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=10470; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=7218; q=dns/txt;
   s=iport01; t=1787116092; x=1788325692;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=1sdVvxYhYcu/2PWqUKGHb14J+7xvZbh4hy5RsEqYfp8=;
-  b=GufYFLI48BPKxAXg1oQPrcf8hoQd8HRQgkIA0Wbt4WjnBigylrrB1nY7
-   gTF48MMgsZTWx5NDMQ8RiNUeYC+La7YdU4SZxrHPVsGPFG1hSKof1HB5Y
-   kDToWdgLChwVpcfK80kDFMgL35RAPD+VYVmQpNV8Fsgtc6gYNstxZQLgV
-   FqEfv38QSBSRzkU81f2+Pp8kPOUrEVBieKicH0FSh0Dc1polM2fm65FsD
-   mNP9euHlsGjIZeUSSdf9UWmL/33SYfNQm8Zal2t7qmi5lK8t9tvEM06Dm
-   OU9d8fC67qIjYEkisx6Sg53jwyC5zxl92GLpT8vE3NamTyUWa0gErL8Gq
+  bh=s57LtJcrPGjTyzZxiu2YUvLn34hypo4plgBmNFO/z/4=;
+  b=WGUu+jLripLNkq7gjImhQhgp8se8WoWl5WkqCYN0iYS5WccIHUpALL8V
+   ELgQeyQFxoEjcN6XF9tBjSUp3FXPRBTZKr2Rjk/Hwq+S23s99nN7mznXN
+   qNY8n/3OfIrXYdvngXkPuIe5EfoLkOUZ/oBEAUza5xr3Ul1iOUMarzWAO
+   aQe1GHWJtBW1U2XHNyx3glG4ae4dRh+H3b32daf8VBqo/HgiKYQ4D7BLD
+   w9J/uHtXKw9ONSs/ukEa6d31cDgBKtSO5I54Ynn3p/Yd++4X18LMsxwAI
+   ArOPJ/l+m/BqfuwVj2aRIvmdmNZ2dZfvbMQCSA6ERmSJMHXN94CaIibeJ
    w==;
-X-CSE-ConnectionGUID: WVNltORETqS6tyrfwDnUmg==
-X-CSE-MsgGUID: ezSR/c8nQDOl7c3Vm8LNTA==
-X-IPAS-Result: =?us-ascii?q?A0BJAgD/OYVq/48QJK1aglmCV3ReQ0kDlkcDgROdCIF+D?=
- =?us-ascii?q?wEBAQ9EDQQBAYQ/RgKNawImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBA?=
- =?us-ascii?q?gEHBYEOE4ZPDYZaAQIBAycLARgBLRAcAwECLysjCBmDAgGCOgM3AxHDFoF5M?=
- =?us-ascii?q?4EBgygBgVTYSxCCVQELFAEFgTOFP4giXRgBRIJVgWMnGxuBcoEVgnN2gQWBM?=
- =?us-ascii?q?ioCgSeGfgSCInoSgVqBLZA4SIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F?=
- =?us-ascii?q?4ENGwYFgR2BKIQ3Ixk2eoEJXoErKmEBEheBCYIKAoJzggYCAUlFEQoLCxgNS?=
- =?us-ascii?q?BEsNxQZBD5uB45JIIFVcnQHEwEHJAQTC2oUIwI4EgQZJZMQApI/oQ8KKIN2j?=
- =?us-ascii?q?CGVOhozhVulEQuYfY4KlTQpc4RpgWg8gVlwFTuCZwlKGQ+OOINrhWTGVScyA?=
- =?us-ascii?q?gkDLwEBBwIHDgMLgWiQAAImBANvYAEB?=
-IronPort-Data: A9a23:9Bw8e6NNH4JcglTvrR3zlsFynXyQoLVcMsEvi/4bfWQNrUor1DIEy
- DEWW2qHOfqLMzDzet4nPYjloUgD6sLTyoNgG3M5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
- ykmQoCeaphyFTmE+kvF3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WV7lV
- e/a+ZWFZgf1gm8sawr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
- 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
- I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj68pQKkUqGrc1xv9MX31f7
- /IHBDYwax/W0opawJrjIgVtrs0nKM+uOMYUvWttiGmHS/0nWpvEBa7N4Le03h9p2ZsIRqiYP
- pRfMGY0BPjDS0Un1lM/BJEzmO6pl3DXeDxDo1XTrq0yi4TW5FwpgeWyYIuPI7RmQ+1YjH2i4
- WmW+V3VJRVFP4ehzGqh1E6F07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflhcYX9wVF6gx7xuAj/KKpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOH9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:ZnDqbaOl9PKkBcBcThmjsMiBIKoaSvp037Dk7S9MoHtuA6ulfq
- +V/cjzuSWYtN9VYgBDpTniAtjlfZqjz/5ICOAqVN/INjUO+lHYSb2KhrGN/9SPIUHDH8dmpM
- FdmtBFeb7NJGk/q9rm6w+lFNtl6tyG/Ke0wdr69R5WPHhXg2UK1XYDNu5deXcGPDV7OQ==
-X-Talos-CUID: 9a23:jnrJ9WMHJEJ7Ke5DZxdB8FIzIO0Za0aD0GbKLVCUD1tsR+jA
-X-Talos-MUID: 9a23:LSQ4HAp9T0g21K8t/aAezzxwD/0v6PSoMWwqlcoN4PeBZQhWBx7I2Q==
+X-CSE-ConnectionGUID: T/bSBI+aS7aGaQ04bEpnIg==
+X-CSE-MsgGUID: NjyXoe3bQcOAAZO2e3xd7Q==
+X-IPAS-Result: =?us-ascii?q?A0BIAgAdOYVq/44QJK1aglmCV3ReQ0kDlkcDnhuBfg8BA?=
+ =?us-ascii?q?QEPRA0EAQGEP0YCjWsCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBB?=
+ =?us-ascii?q?wWBDhOGTw2GWgECAQMnCwEYAS0QHAMBAi8rIwgZgwIBgjoDNwMRwxeBeTOBA?=
+ =?us-ascii?q?YMoAYFU2EsQglUBCxQBBYEzhT+IIl0YAYR8JxsbgXKBFYNpgQWBXAKBJ4Z+B?=
+ =?us-ascii?q?IIiehKBWm6Qd0iBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBDRsGBYEdg?=
+ =?us-ascii?q?SiENyMZNnqBCV6BKyphARIXgQmCCgKCc4IGAgFJRREKCwsYDUgRLDcUGQQ+b?=
+ =?us-ascii?q?geOSSCCNRIOgQABCiGCLJMRJgGSPqEPCiiDdowhlToaM4QEgVeSQJJRC5h9j?=
+ =?us-ascii?q?gqWUIRpgWg8gVlwFYMiCUoZD44qDguDYIVkxlUnMgIJAy8BAQcCBw4DC4Fok?=
+ =?us-ascii?q?AACJgeBTwEB?=
+IronPort-Data: A9a23:v9CReKuxP71jZpgWi0vMvlXaRefnVABfMUV32f8akzHdYApBsoF/q
+ tZmKW+BOKvfZzameoh3aovj9ktT7JPUn9RnTwtvrisyRCxAgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZTdJ5xYuajhKs/La+Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwxqF9Oktvt
+ vUjdzkiZynb2+ib2LSaRbw57igjBJGD0II3s3Vky3TdSP0hW52GG/iM7t5D1zB2jcdLdRrcT
+ 5NGMnw0MlKZPVsWZg1/5JEWxI9EglHzcDBcoVOErII84nPYy0p6172F3N/9KoXQHpkNxhjIz
+ o7A10L7EyEdOYeV8DGi21ueobXCxjP3B7tHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS4QWJzO/Qpg2eHGVBFmMHY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:rODbNqmXyLGuVUEsmUrhh00l7AHpDfL03DAbv31ZSRFFG/FwWf
+ rAoB19726StN9/YhAdcLy7VZVoBEmsl6KdgrNhWYtKIjOHhILAFugLhuHfKn/bakjDH4Vmu5
+ uIHZITNDTYNykdsS+D2njaL/8QhP+a7auvmeDSi11pTQ1sduVcyj0RMHfjLqWzLzM2fqbQ0/
+ Gnl7J6mwY=
+X-Talos-CUID: 9a23:Sx7VEG1p4OqTD4fd/pLYYLxfJocvSVf8j37rfEaXAF8xFLe4UVmx9/Yx
+X-Talos-MUID: =?us-ascii?q?9a23=3ABCqBAQwO+2C8+H/2sguuYzUMv26aqIKsGXAKnM4?=
+ =?us-ascii?q?MgsKjHAVCHG2Q1yS7HbZyfw=3D=3D?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,231,1779148800"; 
-   d="scan'208";a="809578921"
-Received: from alln-l-core-06.cisco.com ([173.36.16.143])
-  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Aug 2026 05:08:11 +0000
+   d="scan'208";a="812340068"
+Received: from alln-l-core-05.cisco.com ([173.36.16.142])
+  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 19 Aug 2026 05:08:11 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by alln-l-core-06.cisco.com (Postfix) with ESMTPS id 5B11B18000252;
+	by alln-l-core-05.cisco.com (Postfix) with ESMTPS id 979D818000239;
 	Wed, 19 Aug 2026 05:08:11 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id EB0F5CD02B9; Tue, 18 Aug 2026 22:08:10 -0700 (PDT)
+	id F214CCD02BA; Tue, 18 Aug 2026 22:08:10 -0700 (PDT)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 3/4] python3-git: fix CVE-2026-44243
-Date: Tue, 18 Aug 2026 22:08:07 -0700
-Message-Id: <20260819050808.3986732-3-dkelaiya@cisco.com>
+Subject: [OE-core][wrynose][PATCH 4/4] python3-git: fix CVE-2026-44244
+Date: Tue, 18 Aug 2026 22:08:08 -0700
+Message-Id: <20260819050808.3986732-4-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260819050808.3986732-1-dkelaiya@cisco.com>
 References: <20260819050808.3986732-1-dkelaiya@cisco.com>
@@ -79,270 +81,183 @@ Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: alln-l-core-06.cisco.com
+X-Outbound-Node: alln-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 05:08:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243699
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243700
 
 From: Darsh Kelaiya <dkelaiya@cisco.com>
 
 This patch applies the upstream fix as referenced in [3], using all the
 backported commits shown in [1] and [2].
 
-[1] https://github.com/gitpython-developers/GitPython/commit/25ba54dd3fb374b8fade7de4be1ac2ac84722190
-[2] https://github.com/gitpython-developers/GitPython/commit/4af8463cca31c2369312fcaa5309dfc30756c7b6
-[3] https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-7545-fcxq-7j24
+[1] https://github.com/gitpython-developers/GitPython/commit/c417af469f9aa3da8dfef78f996c0fb8c5d1f4c2
+[2] https://github.com/gitpython-developers/GitPython/commit/8e24503b42c1d63dd98e8b2e6a2f655bdd0821e3
+[3] https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-v87r-6q3f-2j67
 
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- .../python3-git/CVE-2026-44243_p1.patch       | 134 ++++++++++++++++++
- .../python3-git/CVE-2026-44243_p2.patch       |  83 +++++++++++
+ .../python3-git/CVE-2026-44244_p1.patch       | 102 ++++++++++++++++++
+ .../python3-git/CVE-2026-44244_p2.patch       |  28 +++++
  .../python/python3-git_3.1.43.bb              |   2 +
- 3 files changed, 219 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-44243_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-44243_p2.patch
+ 3 files changed, 132 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-44244_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-44244_p2.patch
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-44243_p1.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-44243_p1.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p1.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p1.patch
 new file mode 100644
-index 0000000000..7eaaf703db
+index 0000000000..66ba5e9697
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-44243_p1.patch
-@@ -0,0 +1,134 @@
-+From 84b84e90d1ce0b35d627bee6c65f3218c72a53f5 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p1.patch
+@@ -0,0 +1,102 @@
++From 4ac5a1c848582f606655d03bfbc1243fe1754dc8 Mon Sep 17 00:00:00 2001
 +From: "GPT 5.5" <codex@openai.com>
-+Date: Tue, 28 Apr 2026 09:17:31 +0800
-+Subject: [PATCH] prevent out-of-repo access when manipulating references.
++Date: Wed, 29 Apr 2026 05:47:57 +0800
++Subject: [PATCH] reject control chars in written values in configuration
 +
-+This previously made it possible to create, modify and delete files outside outside
-+of the repository, which is a problem if inputs aren't trusted.
++Reject CR, LF, and NUL in GitConfigParser values before writing them
++to git config files (which also is a deviation from Git which escapes them).
 +
-+CVE: CVE-2026-44243
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/25ba54dd3fb374b8fade7de4be1ac2ac84722190]
++GitConfigParser._write() serializes embedded newlines as indented
++continuation lines by replacing "\n" with "\n\t". Git itself skips
++leading whitespace before parsing config tokens, so an injected value
++such as:
++
++    foo
++    [core]
++    hooksPath=/tmp/hooks
++
++is written in a form where the indented "[core]" line is still parsed by
++Git as a real section header. This lets attacker-controlled input passed
++to config_writer().set_value() poison repository config, including
++core.hooksPath, and redirect hook execution for later Git operations.
++
++Fail closed instead of stripping or normalizing these characters. Silent
++normalization can hide unsanitized caller input, and GitPython does not
++currently round-trip Git-style escaped values such as "\n" as embedded
++newlines.
++
++Apply the validation to set_value(), add_value(), and the public set()
++path so callers cannot bypass the safer helper API. Add regression tests
++for the advisory payload and for CR, LF, NUL, and bytes values.
++
++This preserves existing read behavior for config files that already
++contain multiline values while preventing GitPython from writing new
++unsafe values.
++
++CVE: CVE-2026-44244
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/c417af469f9aa3da8dfef78f996c0fb8c5d1f4c2]
 +
 +Backport Changes:
-+- Omitted test/test_refs.py because the PyPI 3.1.43 source used by
-+  the recipe does not ship the upstream test tree.
++- Omitted test/test_config.py because the PyPI 3.1.43 source used
++  by the recipe does not ship the upstream test tree.
 +
 +Co-authored-by: Sebastian Thiel <sebastian.thiel@icloud.com>
-+(cherry picked from commit 25ba54dd3fb374b8fade7de4be1ac2ac84722190)
++(cherry picked from commit c417af469f9aa3da8dfef78f996c0fb8c5d1f4c2)
 +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ git/refs/log.py      |  2 +-
-+ git/refs/remote.py   |  5 +++--
-+ git/refs/symbolic.py | 37 +++++++++++++++++++++++++++++++------
-+ 3 files changed, 35 insertions(+), 9 deletions(-)
++ git/config.py | 24 ++++++++++++++++++++++--
++ 1 file changed, 22 insertions(+), 2 deletions(-)
 +
-+diff --git a/git/refs/log.py b/git/refs/log.py
-+index 17e3a94b..88906758 100644
-+--- a/git/refs/log.py
-++++ b/git/refs/log.py
-+@@ -213,7 +213,7 @@ class RefLog(List[RefLogEntry], Serializable):
-+         :param ref:
-+             :class:`~git.refs.symbolic.SymbolicReference` instance
-+         """
-+-        return osp.join(ref.repo.git_dir, "logs", to_native_path(ref.path))
-++        return to_native_path(ref._get_validated_reflog_path(ref.repo, ref.path))
++diff --git a/git/config.py b/git/config.py
++index 3ce9b123..d45cc31b 100644
++--- a/git/config.py
+++++ b/git/config.py
++@@ -863,6 +863,24 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++             return str(value)
++         return force_text(value)
 + 
-+     @classmethod
-+     def iter_entries(cls, stream: Union[str, "BytesIO", mmap]) -> Iterator[RefLogEntry]:
-+diff --git a/git/refs/remote.py b/git/refs/remote.py
-+index b4f4f7b3..8244470b 100644
-+--- a/git/refs/remote.py
-++++ b/git/refs/remote.py
-+@@ -63,12 +63,13 @@ class RemoteReference(Head):
-+         # generally ignored in the refs/ folder. We don't though and delete remainders
-+         # manually.
-+         for ref in refs:
-++            cls._check_ref_name_valid(ref.path)
-+             try:
-+-                os.remove(os.path.join(repo.common_dir, ref.path))
-++                os.remove(cls._get_validated_path(repo.common_dir, ref.path))
-+             except OSError:
-+                 pass
-+             try:
-+-                os.remove(os.path.join(repo.git_dir, ref.path))
-++                os.remove(cls._get_validated_path(repo.git_dir, ref.path))
-+             except OSError:
-+                 pass
-+         # END for each ref
-+diff --git a/git/refs/symbolic.py b/git/refs/symbolic.py
-+index 510850b2..ba24f2c2 100644
-+--- a/git/refs/symbolic.py
-++++ b/git/refs/symbolic.py
-+@@ -109,6 +109,32 @@ class SymbolicReference:
-+     def abspath(self) -> PathLike:
-+         return join_path_native(_git_dir(self.repo, self.path), self.path)
-+ 
-++    @staticmethod
-++    def _get_validated_path(base: PathLike, path: PathLike) -> str:
-++        path = os.fspath(path)
-++        base_path = os.path.realpath(os.fspath(base))
-++        abs_path = os.path.realpath(os.path.join(base_path, path))
-++        try:
-++            common_path = os.path.commonpath([base_path, abs_path])
-++        except ValueError as e:
-++            raise ValueError("Reference path %r escapes the repository" % path) from e
-++        if os.path.normcase(common_path) != os.path.normcase(base_path):
-++            raise ValueError("Reference path %r escapes the repository" % path)
-++        return abs_path
+++    def _value_to_string_safe(self, value: Union[str, bytes, int, float, bool]) -> str:
+++        value_str = self._value_to_string(value)
+++        if re.search(r"[\r\n\x00]", value_str):
+++            raise ValueError("Git config values must not contain CR, LF, or NUL")
+++        return value_str
 ++
-++    @classmethod
-++    def _get_validated_ref_path(cls, repo: "Repo", path: PathLike) -> str:
-++        """Return the absolute filesystem path for a ref after validating it."""
-++        cls._check_ref_name_valid(path)
-++        ref_path = os.fspath(path)
-++        return cls._get_validated_path(_git_dir(repo, ref_path), ref_path)
+++    @needs_values
+++    @set_dirty_and_flush_changes
+++    def set(
+++        self,
+++        section: str,
+++        option: str,
+++        value: Union[str, bytes, int, float, bool, None] = None,
+++    ) -> None:
+++        if value is not None:
+++            value = self._value_to_string_safe(value)
+++        return super().set(section, option, value)
 ++
-++    @classmethod
-++    def _get_validated_reflog_path(cls, repo: "Repo", path: PathLike) -> str:
-++        """Return the absolute filesystem path for a reflog after validating it."""
-++        cls._check_ref_name_valid(path)
-++        return cls._get_validated_path(os.path.join(repo.git_dir, "logs"), path)
-++
-+     @classmethod
-+     def _get_packed_refs_path(cls, repo: "Repo") -> str:
-+         return os.path.join(repo.common_dir, "packed-refs")
-+@@ -478,7 +504,7 @@ class SymbolicReference:
-+             # END handle non-existing
-+         # END retrieve old hexsha
-+ 
-+-        fpath = self.abspath
-++        fpath = self._get_validated_ref_path(self.repo, self.path)
-+         assure_directory_exists(fpath, is_file=True)
-+ 
-+         lfd = LockedFD(fpath)
-+@@ -623,7 +649,7 @@ class SymbolicReference:
-+             Alternatively the symbolic reference to be deleted.
++     @needs_values
++     @set_dirty_and_flush_changes
++     def set_value(self, section: str, option: str, value: Union[str, bytes, int, float, bool]) -> "GitConfigParser":
++@@ -883,9 +901,10 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++         :return:
++             This instance
 +         """
-+         full_ref_path = cls.to_full_path(path)
-+-        abs_path = os.path.join(repo.common_dir, full_ref_path)
-++        abs_path = cls._get_validated_ref_path(repo, full_ref_path)
-+         if os.path.exists(abs_path):
-+             os.remove(abs_path)
-+         else:
-+@@ -686,9 +712,8 @@ class SymbolicReference:
-+         symbolic reference. Otherwise it will be resolved to the corresponding object
-+         and a detached symbolic reference will be created instead.
+++        value_str = self._value_to_string_safe(value)
++         if not self.has_section(section):
++             self.add_section(section)
++-        self.set(section, option, self._value_to_string(value))
+++        self.set(section, option, value_str)
++         return self
++ 
++     @needs_values
++@@ -910,9 +929,10 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++         :return:
++             This instance
 +         """
-+-        git_dir = _git_dir(repo, path)
-+         full_ref_path = cls.to_full_path(path)
-+-        abs_ref_path = os.path.join(git_dir, full_ref_path)
-++        abs_ref_path = cls._get_validated_ref_path(repo, full_ref_path)
+++        value_str = self._value_to_string_safe(value)
++         if not self.has_section(section):
++             self.add_section(section)
++-        self._sections[section].add(option, self._value_to_string(value))
+++        self._sections[section].add(option, value_str)
++         return self
 + 
-+         # Figure out target data.
-+         target = reference
-+@@ -780,8 +805,8 @@ class SymbolicReference:
-+         if self.path == new_path:
-+             return self
-+ 
-+-        new_abs_path = os.path.join(_git_dir(self.repo, new_path), new_path)
-+-        cur_abs_path = os.path.join(_git_dir(self.repo, self.path), self.path)
-++        new_abs_path = self._get_validated_ref_path(self.repo, new_path)
-++        cur_abs_path = self._get_validated_ref_path(self.repo, self.path)
-+         if os.path.isfile(new_abs_path):
-+             if not force:
-+                 # If they point to the same file, it's not an error.
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-44243_p2.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-44243_p2.patch
++     def rename_section(self, section: str, new_name: str) -> "GitConfigParser":
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p2.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p2.patch
 new file mode 100644
-index 0000000000..04e83d3657
+index 0000000000..43aea2fd56
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-44243_p2.patch
-@@ -0,0 +1,83 @@
-+From 4ab42809cb34222b1c574c07e083a4008e97d8de Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p2.patch
+@@ -0,0 +1,28 @@
++From cfa5a26453544e93be3689101e710b6b07a6e2b0 Mon Sep 17 00:00:00 2001
 +From: "GPT 5.5" <codex@openai.com>
-+Date: Tue, 28 Apr 2026 09:30:41 +0800
-+Subject: [PATCH] address review feedback and CI failures
++Date: Wed, 29 Apr 2026 06:39:02 +0800
++Subject: [PATCH] avoid duplicate validation in set_value
 +
-+Consolidate follow-up fixes from review and CI:
-+
-+- fix lint and mypy issues in reference log path handling
-+- validate remote reference paths before invoking git branch deletion
-+- add symlink escape coverage where realpath resolves symlinks
-+- ensure temporary test repositories release git resources during cleanup
-+
-+CVE: CVE-2026-44243
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/4af8463cca31c2369312fcaa5309dfc30756c7b6]
-+
-+Backport Changes:
-+- Omitted test/test_refs.py because the PyPI 3.1.43 source used by
-+  the recipe does not ship the upstream test tree.
++CVE: CVE-2026-44244
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/8e24503b42c1d63dd98e8b2e6a2f655bdd0821e3]
 +
 +Co-authored-by: Sebastian Thiel <sebastian.thiel@icloud.com>
-+(cherry picked from commit 4af8463cca31c2369312fcaa5309dfc30756c7b6)
++(cherry picked from commit 8e24503b42c1d63dd98e8b2e6a2f655bdd0821e3)
 +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ git/refs/log.py    | 4 +++-
-+ git/refs/remote.py | 4 +++-
-+ git/util.py        | 2 +-
-+ 3 files changed, 7 insertions(+), 3 deletions(-)
++ git/config.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/git/refs/log.py b/git/refs/log.py
-+index 88906758..642b1825 100644
-+--- a/git/refs/log.py
-++++ b/git/refs/log.py
-+@@ -4,7 +4,6 @@
-+ __all__ = ["RefLog", "RefLogEntry"]
++diff --git a/git/config.py b/git/config.py
++index d45cc31b..1595d51f 100644
++--- a/git/config.py
+++++ b/git/config.py
++@@ -904,7 +904,7 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++         value_str = self._value_to_string_safe(value)
++         if not self.has_section(section):
++             self.add_section(section)
++-        self.set(section, option, value_str)
+++        super().set(section, option, value_str)
++         return self
 + 
-+ from mmap import mmap
-+-import os.path as osp
-+ import re
-+ import time as _time
-+ 
-+@@ -212,6 +211,9 @@ class RefLog(List[RefLogEntry], Serializable):
-+ 
-+         :param ref:
-+             :class:`~git.refs.symbolic.SymbolicReference` instance
-++
-++        :raise ValueError:
-++            If `ref.path` is invalid or escapes the repository's reflog directory.
-+         """
-+         return to_native_path(ref._get_validated_reflog_path(ref.repo, ref.path))
-+ 
-+diff --git a/git/refs/remote.py b/git/refs/remote.py
-+index 8244470b..e16ae70f 100644
-+--- a/git/refs/remote.py
-++++ b/git/refs/remote.py
-+@@ -58,12 +58,14 @@ class RemoteReference(Head):
-+             `kwargs` are given for comparability with the base class method as we
-+             should not narrow the signature.
-+         """
-++        for ref in refs:
-++            cls._check_ref_name_valid(ref.path)
-++
-+         repo.git.branch("-d", "-r", *refs)
-+         # The official deletion method will ignore remote symbolic refs - these are
-+         # generally ignored in the refs/ folder. We don't though and delete remainders
-+         # manually.
-+         for ref in refs:
-+-            cls._check_ref_name_valid(ref.path)
-+             try:
-+                 os.remove(cls._get_validated_path(repo.common_dir, ref.path))
-+             except OSError:
-+diff --git a/git/util.py b/git/util.py
-+index 8c1c2601..27b239ab 100644
-+--- a/git/util.py
-++++ b/git/util.py
-+@@ -289,7 +289,7 @@ def join_path(a: PathLike, *p: PathLike) -> PathLike:
-+ 
-+ if sys.platform == "win32":
-+ 
-+-    def to_native_path_windows(path: PathLike) -> PathLike:
-++    def to_native_path_windows(path: PathLike) -> str:
-+         path = str(path)
-+         return path.replace("/", "\\")
-+ 
++     @needs_values
 diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index f7388e2bbb..bd2b113489 100644
+index bd2b113489..d572857747 100644
 --- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
 +++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -16,6 +16,8 @@ SRC_URI += "file://CVE-2026-42284.patch \
-            file://CVE-2026-42215_p1.patch \
-            file://CVE-2026-42215_p2.patch \
+@@ -18,6 +18,8 @@ SRC_URI += "file://CVE-2026-42284.patch \
             file://CVE-2026-42215_p3.patch \
-+           file://CVE-2026-44243_p1.patch \
-+           file://CVE-2026-44243_p2.patch \
+            file://CVE-2026-44243_p1.patch \
+            file://CVE-2026-44243_p2.patch \
++           file://CVE-2026-44244_p1.patch \
++           file://CVE-2026-44244_p2.patch \
             "
  SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
  
