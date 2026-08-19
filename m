@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60548C5DF92
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E1D1C5DF8C
 	for <webhook@archiver.kernel.org>; Wed, 19 Aug 2026 22:01:54 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1131.1787176907685326352
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1134.1787176907030572053
  for <openembedded-core@lists.openembedded.org>;
  Wed, 19 Aug 2026 15:01:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=BZFpZPBd;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-20260819220145a72556402d00020782-jtnbrp@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20260819220145a72556402d00020782
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=MCsX/7/U;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-202608192201431b485499c100020739-txpve2@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202608192201431b485499c100020739
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 20 Aug 2026 00:01:45 +0200
+        Thu, 20 Aug 2026 00:01:43 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=p/ec2LtNGNrvKSCOsSFcbQRrt4bd//u1SHWVrgoM9ww=;
- b=BZFpZPBdWrKl5lgY/t87+zJYRjwBWb4av3vSbmlsVEOAPORa19L6WVvrnD4mZSPgPx0Z04
- UbNRUvhPbcnuDaCXu1mKJ7CTh3adxgny5RFuaDRaIajo3vaJJwu3B13si5CneFtsY2dEtb35
- EYSLyDIh83AnwQoob81eGGfH9Kuq+7BfrLlxZAcwYL7hRNu7oQ4tJeB1fYrb2YKaPPourBEy
- TiWo+UmbwMAe5K37IE9yD5N9UExVRko8sJlzhVVHSLknBYUp2ZXmm5+t5qPU93TzJ1XcKvcF
- gUALaiUBoeY5+5gGQm73Ub5dcMiV6NDJk+5iUo7p5HobBqjQyFgi/vYg==;
+ bh=UNgIJ1oVQJ0La/+N24u6MB56rijVPnMWsiNDrcz02BY=;
+ b=MCsX/7/UcO9XavcjFmG5RsniYSXkeD27QqhVSnYKEnO6aRwY0CGnx+CqdZj34yVfV2q+9w
+ ZjmeptDpC2aSxPjk0PG/6a5OzAhYiCN34moNbYWrnj1CumgYvU4MO94qGIW4nTYhxk5r99e/
+ u8S1wju3LodZ9P3dGkqjitT3L2KyZ2w8iqpb5KGd1XmiKgEiPgZGHB56O175Tvsu9SO/A4mX
+ X6PGgCVVZixhgg3oUiCBNEnZ0squklJY7Npbp+Mi9OUfOZZRSDsfCptZz+YcmKVOQZ5P6K4g
+ wd2fKpbZ8GCTCkcVq8W5uAVbE4cZhcrlIo/otG6tUYbmHePVdYMXNN3w==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v3 14/14] devtool: ide-sdk: detect stale gcc python helpers in the recipe sysroot
-Date: Thu, 20 Aug 2026 00:00:21 +0200
-Message-ID: <20260819220138.4095398-15-adrian.freihofer@siemens.com>
+Subject: [PATCH v3 03/14] oe-selftest: devtool ide-sdk: Add new test classes for ide-sdk tests
+Date: Thu, 20 Aug 2026 00:00:10 +0200
+Message-ID: <20260819220138.4095398-4-adrian.freihofer@siemens.com>
 In-Reply-To: <20260819220138.4095398-1-adrian.freihofer@siemens.com>
 References: <20260819220138.4095398-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,42 +39,303 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 19 Aug 2026 22:01:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243787
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243789
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-RECIPE_SYSROOT can retain a gcc-<old-version>/python directory left
-over from before a gcc version bump, since sysroot cleanup does not
-always remove it. gdb_pretty_print_scripts globbed usr/share/gcc-*/python
-and silently picked the first match, which could be the stale, no
-longer matching version, breaking libstdc++ pretty-printing in gdb
-(register_libstdcxx_printers) without an obvious cause.
-
-Raise a DevtoolError when the glob matches more than one directory
-instead of guessing, and tell the user to remove tmp/work and rebuild
-the recipe.
+This allows to run the ide-sdk tests with different toolchains
+(gcc, clang) and build systems (cmake, meson) in parallel.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_sdk.py | 5 +++++
- 1 file changed, 5 insertions(+)
+ meta/lib/oeqa/selftest/cases/devtool.py | 211 +++++++++++++-----------
+ 1 file changed, 111 insertions(+), 100 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index ab2bba5d39..4fdeeec24d 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -817,6 +817,11 @@ class RecipeModified:
-             if self.toolchain == "gcc":
-                 gcc_python_helpers_pattern = os.path.join(self.recipe_sysroot, "usr", "share", "gcc-*", "python")
-                 gcc_python_helpers_dirs = glob.glob(gcc_python_helpers_pattern)
-+                if len(gcc_python_helpers_dirs) > 1:
-+                    raise DevtoolError(
-+                        "Found multiple gcc python helpers directories matching %s: %s. "
-+                        "The recipe sysroot likely has stale files from a previous gcc version, "
-+                        "remove tmp/work and rebuild the recipe." % (gcc_python_helpers_pattern, gcc_python_helpers_dirs))
-                 if gcc_python_helpers_dirs:
-                     gcc_python_helpers = gcc_python_helpers_dirs[0]
-                 else:
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index b0c7835134..051be713b0 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -3063,6 +3063,105 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             exe_break_line=63 + LINE_SHIFT, exe_list_line=55 + LINE_SHIFT,
+             hpp_break_line=21 + LINE_SHIFT, lib_break_line=31 + LINE_SHIFT)
+ 
++    def _verify_cmake_preset(self, tempdir):
++        """Verify the generated cmake preset works as expected
++
++        Check if compiling works
++        Check if unit tests can be executed in qemu (not qemu-system)
++        """
++        with open(os.path.join(tempdir, 'CMakeUserPresets.json')) as cmake_preset_j:
++            cmake_preset_d = json.load(cmake_preset_j)
++        config_presets = cmake_preset_d["configurePresets"]
++        self.assertEqual(len(config_presets), 1)
++        cmake_exe = config_presets[0]["cmakeExecutable"]
++        preset_name = config_presets[0]["name"]
++        compile_cmd = '%s --build --preset %s' % (cmake_exe, preset_name)
++
++        # Verify the wrapper for cmake native is available
++        self.assertExists(cmake_exe)
++
++        # Verify the cmake preset generated by devtool ide-sdk is available
++        result = runCmd('%s --list-presets' % cmake_exe, cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn(preset_name, result.output)
++
++        # Verify cmake re-uses the o files compiled by bitbake
++        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("ninja: no work to do.", result.output)
++
++        # Verify the unit tests work (in Qemu user mode)
++        result = runCmd('%s --target test' % compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("100% tests passed", result.output)
++
++        # Verify re-building and testing works again
++        result = runCmd('%s --target clean' % compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("Cleaning", result.output)
++        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("Building", result.output)
++        self.assertIn("Linking", result.output)
++        result = runCmd('%s --target test' % compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("Running tests...", result.output)
++        self.assertIn("100% tests passed", result.output)
++
++        return compile_cmd
++
++    def _verify_meson_build(self, tempdir, recipe_name):
++        """Verify meson works as expected
++
++        Check if compiling works
++        Check if unit tests can be executed in qemu (not qemu-system)
++        """
++        meson_exe = os.path.join(self._workspace_scripts_dir(recipe_name), "meson")
++        self.assertExists(meson_exe)
++        build_dir = os.path.join(self._sources_workdir_dir(tempdir), recipe_name + "-1.0")
++        compile_cmd = '%s compile -C %s' % (meson_exe, build_dir)
++
++        # Verify meson re-uses the o files compiled by bitbake
++        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("ninja: no work to do.", result.output)
++
++        # Verify the unit tests work (in Qemu user mode)
++        result = runCmd('%s test -C %s' % (meson_exe, build_dir),
++                        cwd=tempdir, output_log=self._cmd_logger)
++        self.assertEqual(result.status, 0)
++        self.assertRegex(result.output, r"Fail:\s+0")
++
++        # Verify re-building and testing works again
++        result = runCmd('%s compile -C %s --clean' % (meson_exe, build_dir),
++                        cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("Cleaning...", result.output)
++        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
++        self.assertIn("Linking target", result.output)
++        result = runCmd('%s test -C %s' % (meson_exe, build_dir),
++                        cwd=tempdir, output_log=self._cmd_logger)
++        self.assertEqual(result.status, 0)
++        self.assertRegex(result.output, r"Fail:\s+0")
++
++        return compile_cmd
++
++    def _verify_service_running(self, qemu, service_name):
++        """Helper to verify a service is running in Qemu"""
++        # Use anchored regex (^name$) instead of pgrep -x because the target
++        # may have busybox pgrep which does not support the -x flag.
++        status, output = qemu.run("pgrep '^%s$'" % service_name)
++        self.assertEqual(status, 0, msg="%s service not running: %s" %
++                         (service_name, output))
++        self.assertTrue(output.strip().isdigit(),
++                        f"pgrep output should be a PID integer, got: {output.strip()}")
++
++    def _verify_conf_file(self, qemu, conf_file, owner, group):
++        """Helper to verify a configuration file is owned by the proper user and group"""
++        stat_cmd = "stat -c '%%U %%G' %s" % conf_file
++        status, output = qemu.run(stat_cmd)
++        self.assertEqual(status, 0, msg="Failed to stat %s: %s" % (conf_file, output))
++        actual_owner, actual_group = output.strip().split()
++        self.assertEqual(actual_owner, owner,
++                         msg="%s not owned by user %s: got %s" % (conf_file, owner, actual_owner))
++        self.assertEqual(actual_group, group,
++                         msg="%s not owned by group %s: got %s" % (conf_file, group, actual_group))
++
++
++class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
++
+     def _gdb_cross(self):
+         """Verify gdb-cross is provided by devtool ide-sdk"""
+         target_arch = self.td["TARGET_ARCH"]
+@@ -3207,102 +3306,6 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertEqual(r.status, 0)
+         self.assertNotIn("gdbserver ", r.output)
+ 
+-    def _verify_cmake_preset(self, tempdir):
+-        """Verify the generated cmake preset works as expected
+-
+-        Check if compiling works
+-        Check if unit tests can be executed in qemu (not qemu-system)
+-        """
+-        with open(os.path.join(tempdir, 'CMakeUserPresets.json')) as cmake_preset_j:
+-            cmake_preset_d = json.load(cmake_preset_j)
+-        config_presets = cmake_preset_d["configurePresets"]
+-        self.assertEqual(len(config_presets), 1)
+-        cmake_exe = config_presets[0]["cmakeExecutable"]
+-        preset_name = config_presets[0]["name"]
+-        compile_cmd = '%s --build --preset %s' % (cmake_exe, preset_name)
+-
+-        # Verify the wrapper for cmake native is available
+-        self.assertExists(cmake_exe)
+-
+-        # Verify the cmake preset generated by devtool ide-sdk is available
+-        result = runCmd('%s --list-presets' % cmake_exe, cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn(preset_name, result.output)
+-
+-        # Verify cmake re-uses the o files compiled by bitbake
+-        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("ninja: no work to do.", result.output)
+-
+-        # Verify the unit tests work (in Qemu user mode)
+-        result = runCmd('%s --target test' % compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("100% tests passed", result.output)
+-
+-        # Verify re-building and testing works again
+-        result = runCmd('%s --target clean' % compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("Cleaning", result.output)
+-        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("Building", result.output)
+-        self.assertIn("Linking", result.output)
+-        result = runCmd('%s --target test' % compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("Running tests...", result.output)
+-        self.assertIn("100% tests passed", result.output)
+-
+-        return compile_cmd
+-
+-    def _verify_meson_build(self, tempdir, recipe_name):
+-        """Verify meson works as expected
+-
+-        Check if compiling works
+-        Check if unit tests can be executed in qemu (not qemu-system)
+-        """
+-        meson_exe = os.path.join(self._workspace_scripts_dir(recipe_name), "meson")
+-        self.assertExists(meson_exe)
+-        build_dir = os.path.join(self._sources_workdir_dir(tempdir), recipe_name + "-1.0")
+-        compile_cmd = '%s compile -C %s' % (meson_exe, build_dir)
+-
+-        # Verify meson re-uses the o files compiled by bitbake
+-        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("ninja: no work to do.", result.output)
+-
+-        # Verify the unit tests work (in Qemu user mode)
+-        result = runCmd('%s test -C %s' % (meson_exe, build_dir),
+-                        cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertEqual(result.status, 0)
+-        self.assertRegex(result.output, r"Fail:\s+0")
+-
+-        # Verify re-building and testing works again
+-        result = runCmd('%s compile -C %s --clean' % (meson_exe, build_dir),
+-                        cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("Cleaning...", result.output)
+-        result = runCmd(compile_cmd, cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertIn("Linking target", result.output)
+-        result = runCmd('%s test -C %s' % (meson_exe, build_dir),
+-                        cwd=tempdir, output_log=self._cmd_logger)
+-        self.assertEqual(result.status, 0)
+-        self.assertRegex(result.output, r"Fail:\s+0")
+-
+-        return compile_cmd
+-
+-    def _verify_service_running(self, qemu, service_name):
+-        """Helper to verify a service is running in Qemu"""
+-        # Use anchored regex (^name$) instead of pgrep -x because the target
+-        # may have busybox pgrep which does not support the -x flag.
+-        status, output = qemu.run("pgrep '^%s$'" % service_name)
+-        self.assertEqual(status, 0, msg="%s service not running: %s" %
+-                         (service_name, output))
+-        self.assertTrue(output.strip().isdigit(),
+-                        f"pgrep output should be a PID integer, got: {output.strip()}")
+-
+-    def _verify_conf_file(self, qemu, conf_file, owner, group):
+-        """Helper to verify a configuration file is owned by the proper user and group"""
+-        stat_cmd = "stat -c '%%U %%G' %s" % conf_file
+-        status, output = qemu.run(stat_cmd)
+-        self.assertEqual(status, 0, msg="Failed to stat %s: %s" % (conf_file, output))
+-        actual_owner, actual_group = output.strip().split()
+-        self.assertEqual(actual_owner, owner,
+-                         msg="%s not owned by user %s: got %s" % (conf_file, owner, actual_owner))
+-        self.assertEqual(actual_group, group,
+-                         msg="%s not owned by group %s: got %s" % (conf_file, group, actual_group))
+-
+     @OETestTag("runqemu")
+     def test_devtool_ide_sdk_none_qemu(self):
+         """Start qemu-system and run tests for multiple recipes. ide=none is used."""
+@@ -3701,6 +3704,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             # Verify deployment and remote debugging works
+             self._verify_launch_json_debugging(tempdir, qemu, example_exe)
+ 
++class DevtoolIdeSdkKernelTests(DevtoolIdeSdkTests):
++
+     @OETestTag("runqemu")
+     def test_devtool_ide_sdk_code_kernel_module(self):
+         """Verify a kernel module recipe works with ide=code mode
+@@ -3916,6 +3921,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             self.assertIn(MAGIC_STRING_NEW, output,
+                           'New magic string not found in sysfs after rebuild: %s' % output)
+ 
++class DevtoolIdeSdkSharedTests(DevtoolIdeSdkTests):
++
+     def test_devtool_ide_sdk_shared_sysroots(self):
+         """Verify the shared sysroot SDK"""
+ 
+@@ -3977,6 +3984,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         runCmdEnv('meson setup %s' % tempdir_meson, cwd=cpp_example_src, output_log=self._cmd_logger)
+         runCmdEnv('meson compile', cwd=tempdir_meson, output_log=self._cmd_logger)
+ 
++class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
++
+     def _verify_launch_json_lldb(self, tempdir):
+         """Verify the launch.json file contains valid CodeLLDB (type: lldb) configurations."""
+         launch_json_path = os.path.join(tempdir, '.vscode', 'launch.json')
+@@ -4320,7 +4329,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self._lldb_debug_cpp_example_check(r.output, magic_string)
+ 
+     @OETestTag("runqemu")
+-    def test_devtool_ide_sdk_code_cmake_clang(self):
++    def test_devtool_ide_sdk_code_cmake(self):
+         """Verify a cmake recipe built with clang works with ide=code (CodeLLDB debugging).
+ 
+         This test uses the cmake-example-clang recipe which is a cmake-example variant
+@@ -4375,7 +4384,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+                     tempdir, qemu, magic_string))
+ 
+     @OETestTag("runqemu")
+-    def test_devtool_ide_sdk_code_meson_clang(self):
++    def test_devtool_ide_sdk_code_meson(self):
+         """Verify a meson recipe built with clang works with ide=code (CodeLLDB debugging).
+ 
+         This is the meson/ninja counterpart of test_devtool_ide_sdk_code_cmake_clang.
+@@ -4498,7 +4507,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertNotIn('lldb-server', r.output)
+ 
+     @OETestTag("runqemu")
+-    def test_devtool_ide_sdk_none_cmake_clang(self):
++    def test_devtool_ide_sdk_none_cmake(self):
+         """Verify ide=none generates correct LLDB scripts for a clang cmake recipe.
+ 
+         Uses cmake-example-clang (TOOLCHAIN = "clang") which is built with the
+@@ -4561,7 +4570,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
+                     tempdir, qemu, recipe_name, example_exe, magic_string))
+ 
+     @OETestTag("runqemu")
+-    def test_devtool_ide_sdk_none_meson_clang(self):
++    def test_devtool_ide_sdk_none_meson(self):
+         """Verify ide=none generates correct LLDB scripts for a clang meson recipe.
+ 
+         This is the meson/ninja counterpart of test_devtool_ide_sdk_none_cmake_clang.
+@@ -4629,6 +4638,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+                 lambda magic_string: self._lldb_none_debugging_multi(
+                     tempdir, qemu, recipe_name, example_exe, magic_string))
+ 
++class DevtoolIdeSdkMiscTests(DevtoolIdeSdkTests):
++
+     def test_devtool_ide_sdk_plugins(self):
+         """Test that devtool ide-sdk can use plugins from other layers."""
+ 
 -- 
 2.55.0
 
