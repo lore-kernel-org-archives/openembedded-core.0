@@ -2,189 +2,214 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 289EDC5DF8A
-	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 18:10:40 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.25])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.165.1787249429774855731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 70E42C5DF82
+	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 18:10:50 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.157.1787249440652542094
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2026 11:10:32 -0700
+ Thu, 20 Aug 2026 11:10:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=NkhVWfn9;
- spf=pass (domain: est.tech, ip: 40.107.159.25, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=GVErQ49A;
+ spf=pass (domain: est.tech, ip: 40.107.159.51, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=urh1y5pu9p52ayDpx+WZHqDKvSYMMLsE0pW0e5TXInshy3xEmqfIRbRDeSl5i82iLlRCnoFkusvU80SmyHo/cn3m7OyerjGt2iHdj5WGIQ/529gIe3eRA+a5O2be+ZBEupydMmxyzcaVjTlvRazLH7fXb6m8/QMyWb2oMxixG0Z7O5AlugG8t6M1OIlISDYblbKE8m5ZET3/E6rk4h71KM+20wIZSgASKLujVFwPVS/OO+K5TGrii51is81d/vELiA227CkU7p+oXt7acTcpCcl6xzH7uCoXJ1jJ6lZ9SjzVMGqtdGueAHfk6glZRckfq5hBoCWNk/TUvk9hpxMDjw==
+ b=fkGODHM52G4UfWlMaRaAtaVmc95LJKoeZo6fMKG6gucsXY/ZJNI2vtk+F8jfDkSEx5gaaV3orB9NzzWMVLzMn6rndkO/g2IGtTS1ZD7sUbnjZ0jSxmp8qqyGdebBlH/9KnWxjpt0BYm+CZsZjeeW0hIAIQbpPdGQJHHdSzSkyxZTPg0vIlucXKUvhxlIAbCP9ikQP3VaFWNquI5IMbWcLpkN5PBORNSgRqt64bH/k6MX8zslguaXx9VCfbBSLHp9BZXrWoYbeMQWFcYo1HRC/Z8YOaeTczRIzfHQtFn71C2QUilhebUGS8v3GiKmImcaFTRKst/aU6MhPvFMEu+egw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Onvm+2HAwGnVCooubyR2xkNHb2NYahWb0ZNHGt/iZuo=;
- b=Ln9428jnF+NI+dGUYAhNnuoj7/B3Wd851YFbJnmzjE+dRDv0kKpgrgqxTPHo5j2mqJnctLkbiYioMDO+DbUzMc6785h1YP669xWSWC1eZ90akY1Yo63lTmmQC53DO6Fmt2RHKuY4v7PK4F5uyW4deHsewldlBeKtMtRybDu10sU8e+i9i6Bh1Bae7uBkQmv9Tvaji4O8Qu4fK4bDWk8Dz4Ac3kr6cNWn+NCGoNjEO9Dk7TMS2/xEQ+0TlaYXtkK8KZxez5aPzGpB+sS+/VhEu1yEcfXMeWmfqPgGSafzdIZNjsbNytcJaUOOpGBs9paO1nChPDemIloe7G0VjvbngA==
+ bh=uKeBELKop9QPKbjypOidbbhKzX2NYmHn2pK1xcdt5eI=;
+ b=dSIY44OSiS6UlF57H1yHa9C8wH4t0LaA9sPsNcv7XmvvPO/iE/yi/qGKQKr5Ho8haPRkzKL+SsP01xdq7Xb3JhgRX3ApYuBBH6XoZu66oRZPMIiAHp/AcbV0SSW4gUNzUNRPrzpUB8+B32Hib9jaYZsD2nJVXGbxNd/mMa2FePZuZoFJ/nZrmBjdXhtYhOhRUXauFpyTLgXX0NQzQA8UB7jf4YlmgOS9cxdBEc457vW+dBIu3w12YFPinUtZddL3on5UpEInUBi+zrOT0M6zJDIZR1gBTnMHchg3uHLAnbv7XB4SD4abrLVKgs8CgotTPB0qU/0uP1P21W1C7uKidg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Onvm+2HAwGnVCooubyR2xkNHb2NYahWb0ZNHGt/iZuo=;
- b=NkhVWfn9wWJ3K4rthAaT0pS7V0MjtFNk+TG/8a5BzZbZaGGW5hM9R6FuIqFxhGbl7YWl5yBXOKHk44ebcVVHbK+0DMEr4pjb1C1O7ZKgvHzaOgnUdyPqLbdmGIhAzeUWo/S68Jup+5cCMpUfIpbdC/UE8gj7VGa7PZvOi8Vn8DdtrmrnQUefvRMOqtz92q2TP+z1Zu7FCX6ooRtE+LMroZ3e2gYvRspK86Y1MMa8vZO+dxt16Zp2kR5loc7qoJmAdZlUZQWVe71RVizaMD/pZRdGk2KQa9XVDosgvhWU6sulExjdg4PHqEyqxnE2jYoW1Uv36wj9joZGHLEWWZ262A==
+ bh=uKeBELKop9QPKbjypOidbbhKzX2NYmHn2pK1xcdt5eI=;
+ b=GVErQ49AEFQ/vXHJ9KyTWFGz/OK9LMeLvFDuZsDs/NDr+wW+EPD6s80BxrrENfdQEDZQUqrDBqU+rWXGl9ec+gCJ/frlyEGVyUZTyDkaP7dgVALYQ7jzXYvF1Aav0Kld5arnjFuuEQ7Rb5h1Q9Be8d3OiySFJko7AoqcqNfZV8RUVm74ZwyfY/dfwghCCp4wHxMZjUkWm3nri9v7zWOAEfFSuhkKla4Lwn63tPz7Sab57gB2bYXsVPtI9Q/RGd13r5j3C4ecufXr/Bi1dG2Xbe6QNFKrEPxvSw6Y5K38lxxEiDkNFRtF21JqO/j//IPhXVZMZNPUE6HRVaidnd5iQQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from GV1P189MB2954.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:263::18)
  by PA1P189MB2702.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:452::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Thu, 20 Aug
- 2026 18:10:31 +0000
+ 2026 18:10:40 +0000
 Received: from GV1P189MB2954.EURP189.PROD.OUTLOOK.COM
  ([fe80::a7e4:7d5b:ab4a:4b96]) by GV1P189MB2954.EURP189.PROD.OUTLOOK.COM
  ([fe80::a7e4:7d5b:ab4a:4b96%4]) with mapi id 15.21.0360.003; Thu, 20 Aug 2026
- 18:10:31 +0000
+ 18:10:40 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC v2 3/6] socat: fix build with OpenSSL 4.0
-Date: Thu, 20 Aug 2026 20:10:19 +0200
-Message-ID: <20260820181022.44434-4-jaipaul.cheernam@est.tech>
+Subject: [RFC v2 6/6] kea: fix build with OpenSSL 4.0
+Date: Thu, 20 Aug 2026 20:10:22 +0200
+Message-ID: <20260820181022.44434-7-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260820181022.44434-1-jaipaul.cheernam@est.tech>
 References: <20260814051829.35088-1-jaipaul.cheernam@est.tech>
  <20260820181022.44434-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DU7P189CA0005.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:10:552::8) To GV1P189MB2954.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU2PR04CA0354.eurprd04.prod.outlook.com
+ (2603:10a6:10:2b4::7) To GV1P189MB2954.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:150:263::18)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: GV1P189MB2954:EE_|PA1P189MB2702:EE_
-X-MS-Office365-Filtering-Correlation-Id: ef2415b9-10f2-494f-0840-08defee65243
+X-MS-Office365-Filtering-Correlation-Id: f36f2c0f-a3f2-4081-46fc-08defee657b4
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|10070799003|23010399003|1800799024|376014|10067099003|56012099006|6133799003|12006099003|11063799006|22082099003|18002099003|4143699003;
+	BCL:0;ARA:13230040|366016|10070799003|23010399003|1800799024|376014|10067099003|56012099006|6133799003|12006099003|11063799006|22082099003|18002099003|13003099007|4143699003;
 X-Microsoft-Antispam-Message-Info: 
-	s0uDpbBdcJZd8iz1pD4t9OMZMIPYAggDOYBfycmmkO/NMkvl4XiTfA7DkS/9C1imeR+Vm7Ys2rJkPVlg//NtmJhlLo49LS0DMpAYKsgqLwuHCYtemxLvnwulbfNuOWVtQKgaTXusOibLF6ebBwVLMyCuwAStXwLNE2EAx1efBIqg4cWhFt3p0sPtNpWRpPeWCZbQfg9RyCFTueLj5113JYdzzEEVZNqoPPsWjwKlcKCWngARqMIZsxOjrtPliJOIgEwNolbMCQGnSJiekjGj+WbS/zmaM5ivddvzCkFQOil+u4qz+ny60byrY1yG7Yzi4sqSeYiN/m0RVRgtG8B6EbuhcCwcymQvKG11LSZehiky8r5HcVXCJD0dN/frqxL3jyFQnUE8sLuCXQtCdeib0qpblYibCm3dhVQ6/VTWawhvWbSWmAb0jFCkbnCOyqiZpXPNvhiEnNJOVsMYdsX+m6xqbjFi0CnaxWwxZxXurG9BLIlHeNVIqPuS7oqTnYWjUO8uowYn84uvf3vnQH+LlnUD5Pb/+iSVnnvovFM21ukNOz6EKlaGh8dIPwDJiJdqWUt55RAjTwC73k/VhzRr9Pr7nqSVsDRzMvEpGQhc1s3WYCCJsAJux7eHb0chVWP+3VR61Vm+3X2arMSGPTtyJzNGBh5ib3CEicjugl6f41g=
+	emgnAuUF7OkJMsjxs5WX5U9ibWsvqF+RzWyKnhh6m+XNejBSnihRZLE2mUxqnhjGNBw510hMDikLYUuZsNvp8p0bCjyIrUT9KT2AsvZY1lWYMBqW+uW1Gxb17ONpZCLGwpaFiVXxV1xcd23nBaz8ytrocoMLiqqZPiI5fDHgkooP39kcVFBZu3vUvZzrmz5JjzHYvj7ZbCviD+oKfMLMnnU5FB5k6y/2BN8qNpGp5HRWy0DuBnBnJiXEqPyDkuVBK9vqHaPbzvwUBmPxAFMXyC2Vp52rQQxKdqpQ0kjsmc6K1VKAW+31vCO64r15FHioqZAG92FrYhL3UkusX4s0tHUt2OJCYWv5FVRBdBOZULu3oHgsLq2LoSmsHn3giQpTlOl3abh1BbNINxAzx3irvyBkA+RjMXoraQYwWcnsdmPwOLUYrHGsEyxKZnRS5tcYbGhFPaTdGj0RqtAem/NvFJ5TkK0x3+feLJALTv59nFoogZ5uY0TVHGBXJSpika0sBKeQ9ICnHPJWDvrJ+q2AaZAvD2f69NwwKuyYMqKXv+TQkzKXNnDzMZ12/VJdyEtKwldIB9wjJpRaLRQ2Z8xmgaHFOs2wPtiSy2MzDptFMJcs+/ImSV8Dv8k781DiVY44
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1P189MB2954.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(23010399003)(1800799024)(376014)(10067099003)(56012099006)(6133799003)(12006099003)(11063799006)(22082099003)(18002099003)(4143699003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV1P189MB2954.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(23010399003)(1800799024)(376014)(10067099003)(56012099006)(6133799003)(12006099003)(11063799006)(22082099003)(18002099003)(13003099007)(4143699003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?qrLplwprlvYErnSuVUjFVF/OqPFV/ye6icRHqoS83ZpdVi5hI2Ndj8iab1GZ?=
- =?us-ascii?Q?mLcs5XHWs/NWmfgSLLCpj0MnMPq/nQb+ybML03sn5CTJA+V3o1n4A3y4Uakf?=
- =?us-ascii?Q?rBBw1vJIV4W21iwzrkJc6H7vXkp1R3oyF3qlO+9/b0Kbou4eCMh0haE3Apup?=
- =?us-ascii?Q?/QKOwjwifbIXJ1N3LaHhH/RWUfSOVgRk+ZJX0aUFXVxv63X1HxnLysQ742vB?=
- =?us-ascii?Q?MgUlSBYWylGwlgW5PToRTUrsbLRv8oONhF33e9LjRX6TW7WJgCXJKpFu8Tl1?=
- =?us-ascii?Q?+LdnALp+dQdf0Xbe0b+srSdmurMkt3l38uU/zB5ALN2Fo8vZ6oBexeHBNhgX?=
- =?us-ascii?Q?QY7A1pmC6aonYNRzAcmDZcrTodS6D+PmNwPsTsFpoEWc1IEjL1HVoonQwvKX?=
- =?us-ascii?Q?dR7soD/IZabavGOHWrUVeFYUDOL8faj9pNjZKZporuuYmpwWq/A3yzn7T5gm?=
- =?us-ascii?Q?PWO7GsMHo0fQk54vk4T5YFEHMrXhWIV59UNRceVYgkB5zeqlC/Gy8+S8E6bl?=
- =?us-ascii?Q?UVvC1W6sPJQeszPY+9YTg6WtHxefAjbQ+w1c6xvzKBtlXm47+D7Wqef8+LE6?=
- =?us-ascii?Q?jR/gQRH/7/sYcsIxSxRpRCibwHjD1zKGmC+ZffPY7dJqSAQC/hyFDhStJueq?=
- =?us-ascii?Q?LCv6AlpTFtoIk4Lqn3XwG5hTDPjVxsbkyhwge892Wn89GNwwEwJohgn48fbV?=
- =?us-ascii?Q?oYLP/oIfaGwKYD+Qb62dvL3tvSKXHE8O6PLjJghAFtuPRj+qZJnZSfIi/IvE?=
- =?us-ascii?Q?8p/cY4Mrup6jkWDOhyF/955XpySFW6N8/9eZ2lQK6EjGi9IJDUxvA78fFOCh?=
- =?us-ascii?Q?KmK+LGoJ46+jgUCVapLWlR5Y911Ja+mXQbJk5qocD4zVd6vixM1ejxxFQjs2?=
- =?us-ascii?Q?XA/KahAfcFc3+hjD/SMjidhGRNDaZvfKRZ3/cuda1F2mhAOx9CXicflvRMrT?=
- =?us-ascii?Q?JZc4p4b4ORQMpWRTdNcCVpHRRdvxM6Z+tlRhFlrhanOVWsPI/FBE3j4Tc27x?=
- =?us-ascii?Q?sJkbcHu5JXhjkQQFF5D0uDerlkC7Wfl4VMPTs0U1hNkh1AVwOrBv+AnX3Xif?=
- =?us-ascii?Q?srY2kJFlouA9FK4I2hGzbcpa/KeLfVa56CERaGCcdSNFIX/Z4UYTeklXC0Qs?=
- =?us-ascii?Q?in7ssDSee9AOyEeCjBLuaCumkF/CK269C8R59Rok5eoTDc6JnQIKGVBmGpUm?=
- =?us-ascii?Q?IUbjNNPFMBqEXUsb4TiaW7cCUFevart6Q8kCuvnOaOKypGmy38XuXZYZMYAe?=
- =?us-ascii?Q?2m0I0m0RG6b4+FtTlFymwpg3wG3zXhxNVcrNgGcmOOH5SmPyxw3OoxuLy3QF?=
- =?us-ascii?Q?DcY3d4tb90EK7YFXNrf1sirLqEhPyHNjPH/8Apm3SwMD7/LTWsoCi1y6O00L?=
- =?us-ascii?Q?gMvvl89PiUzvRzsRDVZZpG4Ze7NS72ssbFduJAKwUgerARv9GjQtLSjAODpa?=
- =?us-ascii?Q?w4ljH4MmoIOT7W7ntPQ9EWxf3yFYDHfngb9handPiO81ealqG9Yf8q8yVQGE?=
- =?us-ascii?Q?ceezuK/EBZjhtiDzYElfKnLHnYdn0oR1x/A2ouNuTpPQisO5nieGl5ykeuFw?=
- =?us-ascii?Q?PDqKV1AgeW+xYq5/1LcWq/k0V6mFmeoY4Wn1ANEbPoNyy42HxkN/huIRnaat?=
- =?us-ascii?Q?4mRWaCK14NI/8IXBDfNbJb9iph3fI9+Lr8mg3IcsPL52PsKBf9rFoWiQFB5f?=
- =?us-ascii?Q?k463mDFscYgEG3YyZYxim+hy/ebKkG0+UBWyn+xjQgdT/rZsjOZmsl+HOgIa?=
- =?us-ascii?Q?+eym40JwHP0AZrl6Fue9km0qf9fbQqoNndXKwmAdDelYm54nsKWhvfX+u5ak?=
-X-MS-Exchange-AntiSpam-MessageData-1: 1+7Bmz1AFPpe5gXclxqtK27lz+xPD8Ig3sc=
+	=?us-ascii?Q?zSecG2dvsE9t8aiBMAMsgUjbr/1mQZtuzm25V6wbGhgnH7XkgY10axJK/lNG?=
+ =?us-ascii?Q?MOyPx3VdPN1e8Yh0hwDWTXm2uDEfV1tdO7haeVW9NpfhFGpLrnGbex+gVxqa?=
+ =?us-ascii?Q?tuM5eO27xxl6k7/n9DE5ouIxAg9kQQVxrEy/ZYQtR/LkoUVav9lO89bkzvlT?=
+ =?us-ascii?Q?ibEJ7SeNxZ1e60kssUbWogEnlLgEsHR5lqEMkwuecY0vKGjPmZxs+oVZkNWG?=
+ =?us-ascii?Q?dHCyJW/drsPfedb+FzdOw49wYZY63jU4Smt+WXWS9jl+h754U9iE4y84gjza?=
+ =?us-ascii?Q?lKWmyTLlk3hw6RrKoQH3AOaVsvj8K+WXxGcSsTu9ka+5ssWLEy4iXaCrBqth?=
+ =?us-ascii?Q?9vJs7iCR98Rq82+2mkW3ksvbmKiqQ7tJm0vAo1t0ywrgG+DL3Nw5NSpJktq6?=
+ =?us-ascii?Q?6uRxGPFeUpja58X52oy74eq1PhfSsr8+gaAsrH6tTPet+ekZcYkEwqXgx+ph?=
+ =?us-ascii?Q?8Z4wmzLdZRlsVmBQzJGyRDg3aBCE+OM6F9ZJgb46Ozc2pqyY1wfuVG5R0w08?=
+ =?us-ascii?Q?LUOKH2nGxrbY7kChJX1ouT/BaxOI8x42hqr5rZzydLxpYZ6flh9HWGgbZRk4?=
+ =?us-ascii?Q?UlGQkWBBjq+bqHbzw11RR9A5DLtYCLoy+GgJfry19eB77tXgOh4heECQ/vZr?=
+ =?us-ascii?Q?q8uYBVPxlL0oJRVogLMCpx0sgV0PN9Tcnb3v1HfcVbUrHYmDwhjMdV7M1pQv?=
+ =?us-ascii?Q?/iCIxl8sUHzpnZAmQoAMlhMq+r52YcMiIhahu0oHy0IRfLvTEuBvCN7xNlSv?=
+ =?us-ascii?Q?VdLXvmEFTdPAXY5ccrlC615Y+Nl7rPdBQ1LtCq5jNMFwASd2Q8kSxSk41VN1?=
+ =?us-ascii?Q?R0YteUAeYktq3Is9TnJy1CzTbDgSJKHcA7wtkbY9f+Gp1KAKms/FDsxFnvwK?=
+ =?us-ascii?Q?QqV1aHEF3k00UsT7da3O8+vxC6nlLvU5W+BhrQZMPB8LHq/S6avjqLAYGmpi?=
+ =?us-ascii?Q?d7G3m9WF4Cj3a6bXQoG9GPUx0lwNIQB65YYrVk5axpkq+clDduQDWyQ20IFN?=
+ =?us-ascii?Q?kxMbn3YlyWqFKzz1iRnBIcQfSzy1cN5IgCe9lBWbWH1gFQ0JRazbJIeBg5tR?=
+ =?us-ascii?Q?+L3wNIvd47TZ2VfJgjFB/buFvVRJtD0xsSisYhNPqTlwY7NetXEG2ialQlf8?=
+ =?us-ascii?Q?HcbIXHPM6khYXAcVRhh1C0UPOH1pFPz9brTwabUPaUiPt9QcwaIOVjwfxR05?=
+ =?us-ascii?Q?zt3SiSaz2ZhIQWbehzGfxgdAhv90yWedXsGGyBJsbJonpuUC3woGR3Y0oFAp?=
+ =?us-ascii?Q?ytJMcwDiJ5ZEyxEnSnzmqi3TjBiXT8yY3BP8KSY9Ydtv72jPylmzuChsBz1J?=
+ =?us-ascii?Q?L7pYd7jHqkvwlieIvRU07PWjLtCrbD19gVL4HUF7/hUUB2k7nOMRIQOjCm4W?=
+ =?us-ascii?Q?qH2unMDk40Xr/dDtst6W1PhnEOfZINjAtDp1MYcOEV+xi4dpf+VFgFyVlSoF?=
+ =?us-ascii?Q?Y88MBgGrjSWeysto9HpQpDvW6V0tWs3kBzhkd2uUQYXNPUWFC4MLpefmDsmX?=
+ =?us-ascii?Q?bcgE/YeNmO7t9YISIwMHBNBwu8MOs4174ri4vkYNsNoZrt14EWw8H9kZqPw6?=
+ =?us-ascii?Q?bg6aL5nlbWLHP8yCfmo0obavRStSif6m5HaCYcHlY9/t75WGs6i4+hnQn568?=
+ =?us-ascii?Q?vof3gFgzTiCpK+WE6JxFIwv3x5mtffAVx0GQIDiwue263IYZ5N0hakBuOzbp?=
+ =?us-ascii?Q?soBSpD7Ba6MiIMkGUH6s2PbU/8MeGzb8qxmUa5sx+jyATNSBLOkGTUsKCbAl?=
+ =?us-ascii?Q?K5BePEGifaYOIDt06b2E17a5De7skPnQBYiA0BBYbYj/udamIqeqecnmLIo4?=
+X-MS-Exchange-AntiSpam-MessageData-1: cJmkz2gwHXpuG6YJFGjl7K/Q2Np2Ua5sWxU=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: ef2415b9-10f2-494f-0840-08defee65243
+X-MS-Exchange-CrossTenant-Network-Message-Id: f36f2c0f-a3f2-4081-46fc-08defee657b4
 X-MS-Exchange-CrossTenant-AuthSource: GV1P189MB2954.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2026 18:10:31.0473
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2026 18:10:40.1751
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: z5VWHVDgYsxPa3kiu6wXZp+XrTWkjbtpyr3FW82RImEo5kqEJziiYvrSa8egxAuBZKRwH6LFDO7r3Va9pDUczsWDcMHPs6hDl3YPsqNbbQE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: Rz4jIYj7VvWkTLeSAITTLvUe6TIDd373LIgMs11TPB4jACan5y+OO3nKL4aTwOOX2XTX0U1mUWLefMa94VZKSmdOEXm557EGduG/5iYYHbA=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P189MB2702
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 18:10:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243877
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 18:10:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243880
 
-OpenSSL 4.0 made ASN1_STRING opaque. socat directly accesses
-pName->d.iPAddress->data and pName->d.iPAddress->length which
-is no longer allowed.
+OpenSSL 4.0 added const qualifiers to X509_get_subject_name() and
+X509_get_issuer_name() return types. kea assigns these to non-const
+pointers causing compilation errors with -fpermissive.
 
-Use ASN1_STRING_get0_data() and ASN1_STRING_length() accessor
-functions instead. These have been available since OpenSSL 1.1.0
-so this is backward compatible.
+Add const qualifiers to X509_NAME and X509_NAME_ENTRY pointer
+declarations in openssl_tls.h.
 
-Upstream-Status: Submitted [socat@dest-unreach.org]
+Tracked upstream: https://gitlab.isc.org/isc-projects/kea/-/issues/4673
+(milestone: kea3.3.2, labeled: backport-candidate)
+
+Upstream-Status: Submitted [https://gitlab.isc.org/isc-projects/kea/-/issue=
+s/4673]
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...penSSL-4.0-use-ASN1_STRING-accessors.patch | 31 +++++++++++++++++++
- .../socat/socat_1.8.1.3.bb                    |  1 +
- 2 files changed, 32 insertions(+)
- create mode 100644 meta/recipes-connectivity/socat/files/0001-Fix-build-wi=
-th-OpenSSL-4.0-use-ASN1_STRING-accessors.patch
+ ...-qualifiers-to-OpenSSL-X509-pointers.patch | 49 +++++++++++++++++++
+ meta/recipes-connectivity/kea/kea_3.2.0.bb    |  1 +
+ 2 files changed, 50 insertions(+)
+ create mode 100644 meta/recipes-connectivity/kea/files/0001-Add-const-qual=
+ifiers-to-OpenSSL-X509-pointers.patch
 
-diff --git a/meta/recipes-connectivity/socat/files/0001-Fix-build-with-Open=
-SSL-4.0-use-ASN1_STRING-accessors.patch b/meta/recipes-connectivity/socat/f=
-iles/0001-Fix-build-with-OpenSSL-4.0-use-ASN1_STRING-accessors.patch
+diff --git a/meta/recipes-connectivity/kea/files/0001-Add-const-qualifiers-=
+to-OpenSSL-X509-pointers.patch b/meta/recipes-connectivity/kea/files/0001-A=
+dd-const-qualifiers-to-OpenSSL-X509-pointers.patch
 new file mode 100644
-index 0000000000..5e021d66c5
+index 0000000000..987890f4ff
 --- /dev/null
-+++ b/meta/recipes-connectivity/socat/files/0001-Fix-build-with-OpenSSL-4.0=
--use-ASN1_STRING-accessors.patch
-@@ -0,0 +1,31 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+Date: Thu, 13 Aug 2026 07:00:00 +0000
-+Subject: [PATCH] Fix build with OpenSSL 4.0: use ASN1_STRING accessors
++++ b/meta/recipes-connectivity/kea/files/0001-Add-const-qualifiers-to-Open=
+SSL-X509-pointers.patch
+@@ -0,0 +1,49 @@
++From 82d28b1be73bbc00e73e59d0c59c51a1e76519a5 Mon Sep 17 00:00:00 2001
++From: Simo Sorce <simo@redhat.com>
++Date: Mon, 27 Apr 2026 17:49:56 -0400
++Subject: [PATCH] Add const qualifiers to OpenSSL X509 pointers
 +
-+OpenSSL 4.0 made ASN1_STRING opaque. Direct access to struct members
-+(->data, ->length) is no longer possible. Use the accessor functions
-+ASN1_STRING_get0_data() and ASN1_STRING_length() instead.
++Added const qualifiers to the X509_NAME and X509_NAME_ENTRY pointers when
++retrieving subject and issuer names from TLS certificates. This ensures co=
+nst-
++correctness and maintains compatibility with newer OpenSSL versions, which
++return const pointers from these getter functions.
 +
-+These accessors have been available since OpenSSL 1.1.0, so this change
-+is backward compatible.
++Signed-off-by: Simo Sorce <simo@redhat.com>
 +
-+Upstream-Status: Submitted [socat@dest-unreach.org]
++Upstream-Status: Submitted [https://gitlab.isc.org/isc-projects/kea/-/issu=
+es/4673]
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ xio-openssl.c | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ src/lib/asiolink/openssl_tls.h | 8 ++++----
++ 1 file changed, 4 insertions(+), 4 deletions(-)
 +
-+--- a/xio-openssl.c
-++++ b/xio-openssl.c
-+@@ -1898,8 +1898,8 @@
-+ 		  case GEN_IPADD:
-+ 		     {
-+ 			/* binary address format */
-+-			const unsigned char *data =3D pName->d.iPAddress->data;
-+-			size_t len =3D pName->d.iPAddress->length;
-++			const unsigned char *data =3D ASN1_STRING_get0_data(pName->d.iPAddress=
++diff --git a/src/lib/asiolink/openssl_tls.h b/src/lib/asiolink/openssl_tls=
+.h
++index 57c3323..52a969b 100644
++--- a/src/lib/asiolink/openssl_tls.h
+++++ b/src/lib/asiolink/openssl_tls.h
++@@ -175,9 +175,9 @@ public:
++         if (!cert) {
++             return ("");
++         }
++-        ::X509_NAME *name =3D ::X509_get_subject_name(cert);
+++        const ::X509_NAME *name =3D ::X509_get_subject_name(cert);
++         int loc =3D ::X509_NAME_get_index_by_NID(name, NID_commonName, -1=
 );
-++			size_t len =3D ASN1_STRING_length(pName->d.iPAddress);
-+ 			char aBuffer[INET6_ADDRSTRLEN]; 	/* canonical peername */
-+ 			struct in6_addr ip6bin;
-+=20
-diff --git a/meta/recipes-connectivity/socat/socat_1.8.1.3.bb b/meta/recipe=
-s-connectivity/socat/socat_1.8.1.3.bb
-index e485c7d28d..025b478392 100644
---- a/meta/recipes-connectivity/socat/socat_1.8.1.3.bb
-+++ b/meta/recipes-connectivity/socat/socat_1.8.1.3.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fc=
-e4486a80fdaf4a4263 \
++-        ::X509_NAME_ENTRY* ne =3D ::X509_NAME_get_entry(name, loc);
+++        const ::X509_NAME_ENTRY* ne =3D ::X509_NAME_get_entry(name, loc);
++         if (!ne) {
++             ::X509_free(cert);
++             return ("");
++@@ -209,9 +209,9 @@ public:
++         if (!cert) {
++             return ("");
++         }
++-        ::X509_NAME *name =3D ::X509_get_issuer_name(cert);
+++        const ::X509_NAME *name =3D ::X509_get_issuer_name(cert);
++         int loc =3D ::X509_NAME_get_index_by_NID(name, NID_commonName, -1=
+);
++-        ::X509_NAME_ENTRY* ne =3D ::X509_NAME_get_entry(name, loc);
+++        const ::X509_NAME_ENTRY* ne =3D ::X509_NAME_get_entry(name, loc);
++         if (!ne) {
++             ::X509_free(cert);
++             return ("");
++--=20
++2.53.0
++
+diff --git a/meta/recipes-connectivity/kea/kea_3.2.0.bb b/meta/recipes-conn=
+ectivity/kea/kea_3.2.0.bb
+index feeacc8883..38b24eed1f 100644
+--- a/meta/recipes-connectivity/kea/kea_3.2.0.bb
++++ b/meta/recipes-connectivity/kea/kea_3.2.0.bb
+@@ -19,6 +19,7 @@ SRC_URI =3D "http://ftp.isc.org/isc/kea/${PV}/${BP}.tar.x=
+z \
+            file://0001-src-lib-log-logger_unittest_support.cc-do-not-write=
+-.patch \
+            file://0001-meson-use-a-runtime-safe-interpreter-string.patch \
+            file://0001-mk_cfgrpt.sh-strip-prefixes.patch \
++           file://0001-Add-const-qualifiers-to-OpenSSL-X509-pointers.patch=
+ \
+            "
+ SRC_URI[sha256sum] =3D "14bf695d37b65b9b1bf550fea5d0adaf9806c50e5419ef2a17=
+6a4b8e9aade3df"
 =20
- SRC_URI =3D "http://www.dest-unreach.org/socat/download/socat-${PV}.tar.bz=
-2 \
-            file://0001-fix-compile-procan.c-failed.patch \
-+           file://0001-Fix-build-with-OpenSSL-4.0-use-ASN1_STRING-accessor=
-s.patch \
- "
-=20
- SRC_URI[sha256sum] =3D "25bc6476292b2e614220989c77b0b6fca87bb2525d9747b31a=
-6639b1fb602418"
 
