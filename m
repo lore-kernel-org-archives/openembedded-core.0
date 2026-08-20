@@ -1,101 +1,167 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C415C5DF81
-	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 14:01:12 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7820.1787234467179714676
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D950C5DF85
+	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 14:07:52 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.64])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7985.1787234870004385295
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2026 07:01:07 -0700
+ Thu, 20 Aug 2026 07:07:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Couu817a;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Nmpe04dp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a01f79b9ba-0d0ebdcf-9730-45ab-a514-aba1121fa9ca-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1787234466; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=1fM4Liau2ckAKWaeOeiSj3NeRQRN3nV4yhRdR0ytlhA=;
-	b=Couu817aNec7kCWwC7Kbbb0RHDPN2D0h5LUJoSEvXDyJg36VMiun499DO0G61rsY
-	B3p19hMXImXJ7AXR5pgyumK74q/1ksla3rLQ8l50ig0abX0JpzPdXQhIJIvsXqsPcFf
-	9NH5WyG/w/qR+LiWr9ljlYJqLwqnvpIU0rm9yxY0=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787234466;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=1fM4Liau2ckAKWaeOeiSj3NeRQRN3nV4yhRdR0ytlhA=;
-	b=Nmpe04dpBqI7GgD8qKINySLZVTl+RB83rFwXyLKYXIrvS35D4DAf0cnRW2ofAkKf
-	3oXSb6P8vk5rGAZTz0nX/R6C+RKQR1gsGn2Sx9B/Y+eYIH632CNdALxKzx8vGhvYUXl
-	UBzm+0QAGVXrUzq/YIpbTGbJ0kFLyfg03zVr3z34=
-From: patchtest@automation.yoctoproject.org
-To: Pratik Farkase <pratik.farkase@est.tech>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH v1] lua: upgrade 5.5.0 -> 5.5.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Cx9sGjWq;
+ spf=pass (domain: est.tech, ip: 52.101.83.64, mailfrom: pratik.farkase@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dHJZJnJetWlXgrjjWJd+aKGtfEYBYZEIpx1e5sUlxx3f7pANHv6iXUCV0lyz6kx3I+veTC2AygV7ZuR8hBl3O8BYhP9dm4uCffhZ5mKEasuiSZyDsgW7lcpGDFfLZlwshHRCZfMlOZ6eSfFQWAYhZga0y2HtmC9mBcb2v9lMBJ6OG97yK9SYup9wCtHarzPvElrg8d909x/Av4QT9ol92WfJXFbCYN6I2BL6liyobXpzy9jU0jSCm9QB7TjR60Lic1RpY682vsROASk6RnDgAUmOUpQDeBLb5ZDHyoZlPTJEF0wVBuZV+JaCHVFjaWj3VSrW6Ix/xsgH6wCm6112lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=a72gJ6E3fw930ieaNXwdfnWvQxJX8By1u1bBxRzBL8A=;
+ b=mi5pDDdBmJ0V0IxAj1xl24NyXltMrtWck+NPbyXRRCuMW+8XDLRXRs4Y7FPpCam4OUcoSQn5vXkqnIKpCt1StH4N1SmoXICbFIPkuJ5iltRAUqYlQrYM5POGCBYCnyHg1ufFVy/i4hKMxvaNeffDHPq/6ttw4jTv/0ALjJU1lJcZVIlku9M+oL1F4IFvnWYBNzXgZbfWzwI5V/eM5iw3K7hozMP3CnIYyqCklhXS7H5POy+WfkQHRVSNEq4SOaZfJM2OGdG9McGogS3h1fTr1tbu4r7I/shZUDnPWSc4qLNNClvyrxWCFzN5CtcqHkfYQQXjbOpnVnA1lO4bAM/MiA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=a72gJ6E3fw930ieaNXwdfnWvQxJX8By1u1bBxRzBL8A=;
+ b=Cx9sGjWqvo8rcy3Pt0cNloNEdk/HZ2AiEAMKS/MENs3EIvDgd7bLo01jo3Wz/pd23Myapu8gSp4kx6CxpPVqGEyweLbErCR9exe9VTyP6ZQ+ZwDrWDFknfdbxxV1nz+ieXC7G3utW/ZbLt2GvjAlYqmgAGpM8u5yO87CGk++Q/zhmIJSMJrEU4+z1QtV6SoSlOvyeKamUgkpT19MnS7o7swQh4j/VjwfJx0ciAapO24jepnpjgodDpA7TlN2XG9TtNLBzJpv8yYvr8lpN6HAaqYCGzD6DPe07+5RXNLo9HdjOcSOXVpRFFXSgrxQUB08w8i6S+yg9a11G5fBrdS4fw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
+ by GV2P189MB2405.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:d0::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.3; Thu, 20 Aug
+ 2026 14:07:43 +0000
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0360.000; Thu, 20 Aug 2026
+ 14:07:43 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
+To: openembedded-core@lists.openembedded.org
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v2 1/2] lua: upgrade 5.5.0 -> 5.5.1
+Date: Thu, 20 Aug 2026 16:07:38 +0200
+Message-ID: <20260820140738.34575-1-pratik.farkase@est.tech>
+X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260820134950.32831-1-pratik.farkase@est.tech>
 References: <20260820134950.32831-1-pratik.farkase@est.tech>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a01f79b9ba-0d0ebdcf-9730-45ab-a514-aba1121fa9ca-000000@us-west-2.amazonses.com>
-Date: Thu, 20 Aug 2026 14:01:06 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.20-54.240.27.33
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DU7PR01CA0036.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:50e::25) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:4d4::5)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|GV2P189MB2405:EE_
+X-MS-Office365-Filtering-Correlation-Id: f818b97a-f3d4-447f-3a23-08defec46780
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|13003099007|56012099006|10067099003|6133799003|11063799006|22082099003|18002099003|12006099003;
+X-Microsoft-Antispam-Message-Info: 
+	9ssUockZ0VTcUALP+1JGH9LsItSfvJ0b3PMKN8jXmJy6MFzagLkF/znQmxMnOhCRcOo6f9/fpW7M3/HBhHvIxlkMtN64SM4jV19OT/OTCfG+Wjg4zxun0htO8bi/BaaXeqWTq3EettBei4ZbDdrq3ugLNxc3U4RT+m8vphlWshkhVyiL3XnCwbJLQeojJxaKuibqGx7DAyR2iPztPcu+sAJQjttM2FxtjYx4AKiQk2W9D5Lvxyl+UsgcE2i/NjpLGapPeS+Kgz2l+N4TESi1c8K5IhpHnjp+JZ9+unQBe4M6dConrn/NhdFmq/8RHw0SE5KmmNKE4DkGbfsMG8MFGbc5pKzyMgYfFKnZm1/gPhI70N1I6OFqVFLoKzmEICJBUpbX/tsyNkVJM+zOjIMvyiiOb1mT5HpAsVrug1Qy02/WGip4PiXm5ORJm0lE5WK3D6K5HYfvp+FOnrCavJluZTpaCmGjkGN+0taoZzQgoST5sjcnHcHeYW9VKiPjtuI00eY0g0RkYpnDkaIB1QpiXvcRaWCM9m6c51NgGIQhKeVKFA48BQxFvMsfK/P85o7iCGBwdufjpzmFh2+HovEGLCsWZQCVMVeD6uIy+2sIDW4=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(13003099007)(56012099006)(10067099003)(6133799003)(11063799006)(22082099003)(18002099003)(12006099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?oTgZmq4bMvHEL3CAhpM5HBFRXchWWm81wZQEFAqNhgHj3JyufkWff18E130w?=
+ =?us-ascii?Q?oISe08nGY6ul8LVHixtpuOmm18fyoSXzuCBcfOPIsqCyYQWP/helEVSEjX6N?=
+ =?us-ascii?Q?RyH+e4taDnhJgSARrfnm3gKT0/Kfbeb7s/ltsCFsdj05h4jmpLvxo7B4TY8z?=
+ =?us-ascii?Q?Em5uAThychtG7Nxday0A21mH8wvw82eRhv/NR3ovMdyhIHn8yqhT4ae+auDZ?=
+ =?us-ascii?Q?oHqTKinQHiP0dO531i6N2/SAJLQegw6D5MjvVVZ8yXFsCT4C5CvfRWIGwKk2?=
+ =?us-ascii?Q?o4yzp8XiybrC+bjvtvYv4q4NrdSEX1qXMcubv0KVXelvYyFSxVDGfMz6BmE2?=
+ =?us-ascii?Q?V43m6d+HAO1A512A83Jov9vTZ4nZHBZ0vX53Ez0ZFFT+Yi7R6BK227VzU0x/?=
+ =?us-ascii?Q?LvLREwqhaDPKogwmfHB9aKB/avj8U7WF+GqE20qsSYfZh7kBpXSoiUvxnlUL?=
+ =?us-ascii?Q?aE7vdSRN6LpZI+hFnglLJvkxaOzHHygtci3WRB03W7HtEruWkmcZp2kBsY76?=
+ =?us-ascii?Q?quqHS1313Tt6ZcVDyKkM927q7KM6qTsq14VLLlq4ew8suTG1q/ngRmfyCdRp?=
+ =?us-ascii?Q?lTuaLkmdoX+LmCgqRhBjiH7t5R0hie5WFgLpuzxn7Q1HDLiHqbsCXRvLtjGM?=
+ =?us-ascii?Q?oq3rVi21GitNZm0nf827ixbDkuaDQKh02KPf3dbeMH9D6/KHUHixXrSRTPmT?=
+ =?us-ascii?Q?DvatXeBPSrluSL4NGwPBnmt5xon5/RrfA7KIopMw6wRHdeL9XKIsG1GV4MKX?=
+ =?us-ascii?Q?0xFElitiIAsbNkw2AvahYwyFEiuCHSvqvNe5gQUi3QqvtnQbcchuFVXpMOPo?=
+ =?us-ascii?Q?6OEjnmjykg2VgvNRA41e4BSl8n1A/N3+E8R4EBhd7kXMnQmFaco2izHCCmM5?=
+ =?us-ascii?Q?gU6oQ4/vZAeka1FbLkcdt2ByCHslTw5rMo1U4vL9VcDw5QzxzMpAxsr8q7LY?=
+ =?us-ascii?Q?Tn4lNEFrv6kBiBtrwndMjYDLR8moA2LaLoF4LuI/nPnpL05ZMiPZWCOzLa8h?=
+ =?us-ascii?Q?I4xaP0E+6xnjRqPzWoJwZAtaKxsJGQa8Rnh/a6gtx888VMqLWO5Vr12RqrWY?=
+ =?us-ascii?Q?6v831BvCJztEB69zp2xcBb2lxBwWSi0TdxnViGvdBkrF/bfHJXpTTOHVTTLZ?=
+ =?us-ascii?Q?iu7EcUnwmR6N6HfRsqPTEFVulIPW7lw1FB7sCYDaZOQu+2ufhvYkxF72Wo4U?=
+ =?us-ascii?Q?bX6g/KlORtx7Iebrvmvh1TO4nXrazT3Cb9SdWQvJZPfcfJcdNRdxmEJ7554g?=
+ =?us-ascii?Q?aGo1yJVp66lcP+qkO/qgkUONrAIfUhaidbsfx5k1aCFay/aYV3GcT3hYdOv8?=
+ =?us-ascii?Q?MpWqPJifNICoDc07ycmRjSDgA8JYyk0EN2XX+0tqsmmT8ihyBVIS34SaaEB/?=
+ =?us-ascii?Q?GRmpjY2fpM9hFIfitnBMv51OD50buD4YD12LRnKXB7KDDH3zfLG9/W97NlTw?=
+ =?us-ascii?Q?jw/Uo34khUTJbMsQr3h8Aphvx1IuU3Dj1wLrwjcfXyaJrxLernowDaLH10/U?=
+ =?us-ascii?Q?KehsHiI16V25hIhDI7TNGqcOUFRWN0apLrRRzVjHT+h2Vgntt/n0j9N7177+?=
+ =?us-ascii?Q?SOlxAi1o7XMYDak1bHVRHXjCzEqJETGiOU3wI2I7z6MCiYrNWN7yd0syxrhT?=
+ =?us-ascii?Q?JhGoyGobfaU7zkrdZNreJyNbBVaq6Vf5BvRvYwjbDdmGA72aym0/r9inI97G?=
+ =?us-ascii?Q?rG3YwLe+CuU6VEJD5QCw5eWKocJMpUMAQMHmdmon+w9b6P5JkbCaIAQy+qPp?=
+ =?us-ascii?Q?CyqLNHfo8g=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: f818b97a-f3d4-447f-3a23-08defec46780
+X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 20 Aug 2026 14:07:43.7214
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: DyuLL9VVjaxlgvtRP82MR3q6zyJHlwYYtBBNwbHPug/3kP/C2I/pgcJVVZrxGa4bXYbauIarbRn+O6Alpbe4aw==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV2P189MB2405
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 14:01:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243863
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 14:07:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243864
 
---NextPart
-Content-Type: text/plain
+Release: http://www.lua.org/ftp/
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
-
+License-Update: Copyright year changed from 2025 to 2026
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
 ---
-Testing patch /home/patchtest/share/mboxes/v1-lua-upgrade-5.5.0---5.5.1.patch
+Changes in v2:
+- Added License-Update tag for copyright year change (2025 -> 2026)
 
-FAIL: test lic files chksum modified not mentioned: LIC_FILES_CHKSUM changed without "License-Update:" tag and description in commit message (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+ meta/recipes-devtools/lua/{lua_5.5.0.bb =3D> lua_5.5.1.bb} | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/lua/{lua_5.5.0.bb =3D> lua_5.5.1.bb} (91%)
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+diff --git a/meta/recipes-devtools/lua/lua_5.5.0.bb b/meta/recipes-devtools=
+/lua/lua_5.5.1.bb
+similarity index 91%
+rename from meta/recipes-devtools/lua/lua_5.5.0.bb
+rename to meta/recipes-devtools/lua/lua_5.5.1.bb
+index 905dd01001..acf62fc855 100644
+--- a/meta/recipes-devtools/lua/lua_5.5.0.bb
++++ b/meta/recipes-devtools/lua/lua_5.5.1.bb
+@@ -1,7 +1,7 @@
+ SUMMARY =3D "Lua is a powerful light-weight programming language designed =
+\
+ for extending applications."
+ LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://doc/readme.html;beginline=3D299;endline=3D320=
+;md5=3D0e573c143cb6491b41cf02cfbcb8c267"
++LIC_FILES_CHKSUM =3D "file://doc/readme.html;beginline=3D299;endline=3D320=
+;md5=3Dc3c162d21db328baa0fc31baece7c9d5"
+ HOMEPAGE =3D "http://www.lua.org/"
+=20
+ SRC_URI =3D "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=3Dtarballsrc \
+@@ -12,8 +12,8 @@ SRC_URI =3D "http://www.lua.org/ftp/lua-${PV}.tar.gz;name=
+=3Dtarballsrc \
+ # if no test suite matches PV release of Lua exactly, download the suite f=
+or the closest Lua release.
+ PV_testsuites =3D "${PV}"
+=20
+-SRC_URI[tarballsrc.sha256sum] =3D "57ccc32bbbd005cab75bcc52444052535af6917=
+89dba2b9016d5c50640d68b3d"
+-SRC_URI[tarballtest.sha256sum] =3D "5e47bbfad7db2965d69580e918ee64edeb8d8d=
+32de404b8dae9ce5c6d76a1472"
++SRC_URI[tarballsrc.sha256sum] =3D "1c4b4068d67061f2a2231ad2b5422e77acea148=
+7ea9890f6320af614f4373dce"
++SRC_URI[tarballtest.sha256sum] =3D "da07b543872dc0bb2ff12aabd0c248578d78df=
+3eb6b67efdc537a46d455c7f31"
+=20
+ inherit pkgconfig binconfig ptest
+=20
+--=20
+2.43.0
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
