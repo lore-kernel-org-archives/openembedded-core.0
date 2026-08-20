@@ -1,193 +1,124 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ECA2C5DF81
-	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 20:30:53 +0000 (UTC)
-Received: from mail-qv1-f47.google.com (mail-qv1-f47.google.com [209.85.219.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3046.1787257844562820841
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4887EC5DF87
+	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 22:51:58 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1651.1787266311449733520
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2026 13:30:44 -0700
+ Thu, 20 Aug 2026 15:51:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Qm6oKula;
- spf=pass (domain: gmail.com, ip: 209.85.219.47, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f47.google.com with SMTP id 6a1803df08f44-907ae240ac3so1862616d6.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 13:30:44 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787257843; cv=none;
-        d=google.com; s=arc-20260327;
-        b=gTRMSSzodVa3xsNwrN+KK5Ox1m9KhN0RhTjAMLeZhKSUWz5Piu2OFTso+hmGgy8mGE
-         exCEB0uJROLsqh6m9HX/QppuO8Fi1t2eDFXwD3eIScdjhsuzaRU4EVTGw/827MKJxJ9T
-         GyWsiLNkOJ+J1qzMB3ySNj7KxZLWdcToSbhoPvb2u1w8apdSNzvjFh3EFa9rLXhwMn0y
-         OpJI8PkmbfEaCT11t7Tbvyirhd4q3A9HZkxuOc/RSodCmnh1axAfxygei95a8SIZ0Ay+
-         n2ozCAZox5LHmJFoeHnMhOK1/r2G6ICiXayG6i/6HKdVw8k4ojJrodvc6DDrdqhtoDqp
-         MHTA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kxMaIg5vn4jrew7b+ZAf+sj0IUm9wwEYY2P1YM2UCBo=;
-        fh=6Z4xUuTqkcxNv6cvnn0HdSGcZYvnhz2BRm++iEwx924=;
-        b=CeLzNFQwS2kdzsmEV2Sc9tnc44P24QRJ1UmRTZ0SnRsIMyw5S9KumKZY15+FmDTFLi
-         lEh8mlJtn+FyVqRrh6CVyPS5G6jjfNtBarGV1g+SKLruHUPHyoYhQIF/b8VI6dkRNW11
-         8DOqIoKzJV8qAkGmqMc89kj0+i0uLYKyuCw3lYCzVIdI7AnJg6xbhZEkHEgkiGG/xLUV
-         GGb/xRfkQvEquJZ9VhRHKbh3bBdBXmFiyD1jzgq334Fz/fBv4nqCcLGiclcC/3XNlLIO
-         oLNlvGKrvph5A6UpJTbn0KIWIfah+pl1T27AAlI4E0Pvu5dT60CEYZKxUBKv07zBgAbX
-         4jqw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GXWbEp6Q;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-47db714766aso1127321f8f.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 15:51:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787257843; x=1787862643; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kxMaIg5vn4jrew7b+ZAf+sj0IUm9wwEYY2P1YM2UCBo=;
-        b=Qm6oKulaP2hAUP9MvC9LOBTrWD7kvfqbqlfTUQHTEPt5ZjoM/iDX6Lw5NHGHo269qR
-         cbkF8Q2O/EHepBpZpiZFQBWqCAeTs3tNb8/peJGP746yIkD8vJVT1DyabJ2rD9y74oP+
-         yCFDLLQbWoVrh8lETx87CSsFwTDB2zbE0A3iEqL1VvRAj/QNU+eUOjWccUpax3mwZGzJ
-         nAZO5Ff0Ck+BodnDseAFdHjCaM74hEv2iOin5x/9RpzN62plC4IiGyYrT6WAxdcmW3E5
-         tGcOuyMapAjxbN1vujS6/rO6X8IfubE1Oh2SAi1uYXdrvirOYFaGYvw/tn3urRUFEIgy
-         f1oA==
+        d=linuxfoundation.org; s=google; t=1787266310; x=1787871110; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gdcqR2AewgZi9pII9pJEacVNO6iTkwd9YVu7t5QvJ2k=;
+        b=GXWbEp6Q5SBgElwNjSZV8n1AJnQKc25m3O/aJ1fYX473oqulGyEnP1Uup1j3bqWUIp
+         DDH9Qb+3OkkPXeyQ1meo8taXhnED2DtANR4ukxZ5VmMlQHqBa2jeO45sXLiD4MjZPCmo
+         koiyH2Rto6ttLCh7oE7yfNnwZvMr4OXzgcGwQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787257843; x=1787862643;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=kxMaIg5vn4jrew7b+ZAf+sj0IUm9wwEYY2P1YM2UCBo=;
-        b=nZmVkrIGgNKyuuVe1Oc2fhhYwTE9A6Ijm2qEmS7LwwUjJEiE6xnQU+aZM0W0J9KCZu
-         k3tnAk2nlfJBtQszT64IUm35GS6ULGfjEEhQqI6biTyISqS0d7XSDQUgADYcKFAXUqAt
-         rpfa1nF384hVbsE6KGPSbBxTb6ymPjrJdYA3Eg9Z8SXnIjQ08lDL0x1fLKrfk1au0bU+
-         qalD411Ep4ZawCzLthgKge2QFlfDKfcDjvekizBdThA83garw7QYrVXQurf4fcx9U3Ry
-         v2J9lcid10jcnPleJ/w0whCMkwmZeVUxoHj0S+siVSmO34uyoB14/DxtUVl1FhTV3e0g
-         YW9Q==
-X-Gm-Message-State: AFuF++nVOBV1YHcVnzibQSlDGA3zk2wiJ7+BAkRTnlTuGtSqG5gfjGIN
-	0vhLI+Fwv0xDyBH610bFPUUAiMFXb0ZRilxD5OQlcSQRTG1sKQB5nERFihfBROPWsrxciRFwiMM
-	puCEEyVZ2QGZIltE4q2BJ++FanY8Q/WM=
-X-Gm-Gg: AR+sD12QaG0a+EIBn2kICFcroKMXxjuD7jLHQqVWfmfFYZQtwDorIWVcMVaYSzCu5t6
-	4bWT44yul+X31cddYzCbtD0tdRkLw+/HtqcGzxtpahxmwnx0JTwvDWQJPshcIC8byDnNu1i9MPp
-	7LHUPQk9Z9iLJjF+4f0Qc5tmDe5cG8+gNE2CMoXX2skpaPHpK19C8zHbpCUBhH8JifhGUhqujCp
-	IQe+oo/6DhJxK0iJI+/7bVeZKBDVE9o/6kFSgCGPSHB8+KLkD9plAwyvkvaZ3GskIfrSOj7sleE
-	KXnfOI3JuNpPaX/4vlKFHiQvSXnrJMhizoKU2tLks3Sf2iS4G2cCE3wCa+WTILsJ9vuurHvxCVX
-	U4HQ=
-X-Received: by 2002:a05:6214:5d87:b0:904:4275:e165 with SMTP id
- 6a1803df08f44-90c80fb9877mr9007266d6.19.1787257843368; Thu, 20 Aug 2026
- 13:30:43 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787266310; x=1787871110;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=gdcqR2AewgZi9pII9pJEacVNO6iTkwd9YVu7t5QvJ2k=;
+        b=Da+/8H+UHRHysqLvZX4RIwoEVGIfQ6Lfg7zPSBNfI9AfZj8ri4vZOJ/UShFNF1cwKd
+         JKr4G5KJSXRCLCTAUa91vx/Epl8OdlXqcsBLunkmH4OTCo8Q721sWFbmhcxq01CNy4e0
+         w8kNp8mrfBQsB2XDdVL4gtOq7YQ0nBPxk/7TVshRhr/d5yUVUc7PIqjTTvIX9EN9x3du
+         JdvVVITQPy4taDRl85/mNboZZvMXkb7611zTRKsgj7gXgY75/JJ3+sUVFCWN4PIUPfi1
+         /Bo/tfQT9lOSNcwkjSLRpKLofm233M6HoyYfk8flHlsN+LackTfHjENFWZK5dEu1ERBb
+         eEDQ==
+X-Gm-Message-State: AFuF++lTJupl4qwpA/1iJA0WPfbpG1PqhPYBolwAW0a3jc9kQsOoElgc
+	uRdXzPbMTbmspl4zXPlOHDI8ZBv/uPvox3IgjIYBpxH6cJ6uTt7yoeEFgJGyw79OzVku1j+BId7
+	T/ZCJKcU=
+X-Gm-Gg: AR+sD12UKZa/+2FMwQbrL5fhVEK6TZB2bOY01I0K/lH+mqD2zdfbf9O75cdBXHn7QTp
+	Xpe1xFkzQ8kzzwwtjJ5YVle0BYfY0g7luZB+AIn+4zROfbe3OFgR12z4/vts/7uGf04nxMKfqE+
+	X6CBqpuBt5T7OrWy6wVLahVF/f1zTS3/nipL3XiFc4HCdn2f87dIAkKe1bhUwzgjOftshfJioyR
+	ED7wbwEZcetjos+nLESON4ur6SGoKmnodYbZRrkhEYi51pqDf4kSrx8qbbyb1X0J2p7b9qD7E4X
+	oJVD+YV5B3G4heJrHntQmCALlAB+SKvCPnzAdcKt5pL0gFUOupedDk70KB1PfJVYXpvscC5ywKn
+	WtleZyzi1DQVcWa5QtuzUB3Z/WxJOm3kVVmrO9+ZU7wy8jC+2jL+7vDksYXXoPLjxbw/CzLJjZx
+	x2y6oICtvcSgB1ajG+ajXQ7vn7rq3R6Vuzpu7yR4KmvaPyHOAYAD1/ka35//l7ev/wgdsMGfm0f
+	cVY+xyAp62OzrvJIv7bM6QUMDXV
+X-Received: by 2002:a05:6000:4a13:b0:481:562d:6fb1 with SMTP id ffacd0b85a97d-482c1163f13mr1368452f8f.6.1787266309508;
+        Thu, 20 Aug 2026 15:51:49 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9334:47ad:4624:539c])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b1441c78sm14998996f8f.2.2026.08.20.15.51.46
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 20 Aug 2026 15:51:47 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] recipe_sanity: Drop rename overwrite detection
+Date: Thu, 20 Aug 2026 23:51:45 +0100
+Message-ID: <20260820225145.3460875-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-References: <20260820120646.21045-1-jaipaul.cheernam@est.tech>
-In-Reply-To: <20260820120646.21045-1-jaipaul.cheernam@est.tech>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Thu, 20 Aug 2026 22:30:30 +0200
-X-Gm-Features: AcwNN1VGDBVUNXVtQkhdKEXWOPsWRLuzNXfqeSCtlqZEUKC1Ns4NQFVvtB5QV30
-Message-ID: <CANNYZj_599us=HxbW+BcLm_m7O1RXsufNnX7topuR7rO+FqXtg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] libtracefs: use meson to build
-To: jaipaul.cheernam@est.tech
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 20:30:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243885
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 22:51:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243886
 
-Thanks, this looks good.
+Bitbake itself checks for probelmatic renames now during key expansion so this
+check shouldn't be needed anymore (it dates from pre 2011).
 
-Alex
+(https://git.openembedded.org/bitbake/tree/lib/bb/data.py#n96 in expandKeys())
 
-On Thu, 20 Aug 2026 at 14:06, Jaipaul Cheernam via
-lists.openembedded.org
-<jaipaul.cheernam=est.tech@lists.openembedded.org> wrote:
->
-> Since 1.8.3 libtracefs supports meson
->
-> - cleanup copyright and stale license comment from recipe
-> - drop the makefile patch for preserving ownership in cp
-> - remove do_compile:prepend for sqlhist.tab.c and custom do_installs
->   as the meson class handles
-> - Add PACKAGECONFIG entries for doc, samples and utest.
->   Meson defaults these to true,  disable them to match the previous make-based build
->
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> ---
->  ...not-preserve-ownership-in-cp-command.patch | 28 -------------------
->  .../libtracefs/libtracefs_1.8.3.bb            | 21 ++++++--------
->  2 files changed, 8 insertions(+), 41 deletions(-)
->  delete mode 100644 meta/recipes-kernel/libtracefs/libtracefs/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch
->
-> diff --git a/meta/recipes-kernel/libtracefs/libtracefs/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch b/meta/recipes-kernel/libtracefs/libtracefs/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch
-> deleted file mode 100644
-> index 7eaf29e4c4..0000000000
-> --- a/meta/recipes-kernel/libtracefs/libtracefs/0001-makefile-Do-not-preserve-ownership-in-cp-command.patch
-> +++ /dev/null
-> @@ -1,28 +0,0 @@
-> -From ab6f78bfd6811c648ee71663cfc4dc8be151a519 Mon Sep 17 00:00:00 2001
-> -From: Khem Raj <raj.khem@gmail.com>
-> -Date: Wed, 21 Dec 2022 22:50:56 -0800
-> -Subject: [PATCH] makefile: Do not preserve ownership in cp command
-> -
-> -Fixes
-> -ERROR: libtracefs-1.6.3-r0 do_package_qa: QA Issue: libtracefs: /usr/lib/libtracefs.so is owned by uid 1000, which is the same as the user running bitbake. This may be due to host contamination [host-user-contaminated]
-> -
-> -Upstream-Status: Pending
-> -
-> -Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> ----
-> - Makefile | 2 +-
-> - 1 file changed, 1 insertion(+), 1 deletion(-)
-> -
-> -diff --git a/Makefile b/Makefile
-> -index 7f4f5c3..1ba7b9d 100644
-> ---- a/Makefile
-> -+++ b/Makefile
-> -@@ -296,7 +296,7 @@ endif # DESTDIR = ""
-> -
-> - install_libs: libs install_pkgconfig
-> -       $(Q)$(call do_install,$(LIBTRACEFS_SHARED),$(libdir_SQ)); \
-> --              cp -fpR $(LIB_INSTALL) $(DESTDIR)$(libdir_SQ)
-> -+              cp --no-preserve=ownership --recursive $(LIB_INSTALL) $(DESTDIR)$(libdir_SQ)
-> -       $(Q)$(call do_install,$(src)/include/tracefs.h,$(includedir_SQ),644)
-> -       $(Q)$(call install_ld_config)
-> -
-> diff --git a/meta/recipes-kernel/libtracefs/libtracefs_1.8.3.bb b/meta/recipes-kernel/libtracefs/libtracefs_1.8.3.bb
-> index c010555b1f..0f3d0ebe2c 100644
-> --- a/meta/recipes-kernel/libtracefs/libtracefs_1.8.3.bb
-> +++ b/meta/recipes-kernel/libtracefs/libtracefs_1.8.3.bb
-> @@ -1,6 +1,3 @@
-> -# Copyright (C) 2022 Khem Raj <raj.khem@gmail.com>
-> -# Released under the MIT license (see COPYING.MIT for the terms)
-> -
->  SUMMARY = "Library to access the kernel tracefs directory"
->  HOMEPAGE = "https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git/"
->  LICENSE = "GPL-2.0-or-later AND LGPL-2.1-or-later"
-> @@ -10,16 +7,14 @@ SECTION = "libs"
->  DEPENDS = "libtraceevent bison-native flex-native"
->
->  SRCREV = "6fad6a14ba0d4c4b437d9e4eed7098d4bb07b4fc"
-> -SRC_URI = "git://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git;branch=${BPN};protocol=https \
-> -           file://0001-makefile-Do-not-preserve-ownership-in-cp-command.patch \
-> -           "
-> +SRC_URI = "git://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git;branch=${BPN};protocol=https"
-> +
-> +PACKAGECONFIG ??= ""
-> +PACKAGECONFIG[doc] = ",-Ddoc=false,asciidoc-native xmlto-native"
-> +PACKAGECONFIG[samples] = ",-Dsamples=false"
-> +PACKAGECONFIG[utest] = ",-Dutest=false,cunit"
->
-> -inherit pkgconfig bash-completion
-> +EXTRA_OEMESON = "--bindir=${sbindir}"
->
-> -do_compile:prepend() {
-> -    touch ${S}/src/sqlhist.tab.c
-> -}
-> +inherit meson pkgconfig bash-completion
->
-> -do_install() {
-> -    oe_runmake install DESTDIR=${D} pkgconfig_dir=${libdir}/pkgconfig
-> -}
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#243855): https://lists.openembedded.org/g/openembedded-core/message/243855
-> Mute This Topic: https://lists.openembedded.org/mt/120844481/1686489
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [alex.kanavin@gmail.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
->
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/classes/recipe_sanity.bbclass | 21 ---------------------
+ 1 file changed, 21 deletions(-)
+
+diff --git a/meta/classes/recipe_sanity.bbclass b/meta/classes/recipe_sanity.bbclass
+index a5cc4315fb8..3c763de1f20 100644
+--- a/meta/classes/recipe_sanity.bbclass
++++ b/meta/classes/recipe_sanity.bbclass
+@@ -34,13 +34,6 @@ def req_vars(cfgdata, d):
+         elif val == cfgval:
+             __note("%s should be defined to something other than default (%s)" % (var, cfgval), d)
+ 
+-def var_renames_overwrite(cfgdata, d):
+-    renames = d.getVar("__recipe_sanity_renames", False)
+-    if renames:
+-        for (key, newkey, oldvalue, newvalue) in renames:
+-            if oldvalue != newvalue and oldvalue != cfgdata.get(newkey):
+-                __note("rename of variable '%s' to '%s' overwrote existing value '%s' with '%s'." % (key, newkey, oldvalue, newvalue), d)
+-
+ def incorrect_nonempty_PACKAGES(cfgdata, d):
+     if bb.data.inherits_class("native", d) or \
+             bb.data.inherits_class("cross", d):
+@@ -113,7 +106,6 @@ python do_recipe_sanity () {
+             __note(msg, d)
+ 
+     can_delete_others(p, cfgdata, d)
+-    var_renames_overwrite(cfgdata, d)
+     req_vars(cfgdata, d)
+     bad_runtime_vars(cfgdata, d)
+ }
+@@ -137,19 +129,6 @@ python recipe_sanity_eh () {
+ 
+     d.setVar("__recipe_sanity_cfgdata", cfgdata)
+     #d.setVar("__recipe_sanity_cfgdata", d)
+-
+-    # Sick, very sick..
+-    from bb.data_smart import DataSmart
+-    old = DataSmart.renameVar
+-    def myrename(self, key, newkey):
+-        oldvalue = self.getVar(newkey, 0)
+-        old(self, key, newkey)
+-        newvalue = self.getVar(newkey, 0)
+-        if oldvalue:
+-            renames = self.getVar("__recipe_sanity_renames", 0) or set()
+-            renames.add((key, newkey, oldvalue, newvalue))
+-            self.setVar("__recipe_sanity_renames", renames)
+-    DataSmart.renameVar = myrename
+ }
+ addhandler recipe_sanity_eh
+ recipe_sanity_eh[eventmask] = "bb.event.ConfigParsed"
 
