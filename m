@@ -2,127 +2,119 @@ Return-Path: <devanshp@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0247C5DF87
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3BCBC5DF86
 	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 09:07:29 +0000 (UTC)
 Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.3032.1787216847044408415
  for <openembedded-core@lists.openembedded.org>;
  Thu, 20 Aug 2026 02:07:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=V7MFSASM;
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=jTxXqrN7;
  spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: devanshp@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1499; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=1353; q=dns/txt;
   s=iport01; t=1787216847; x=1788426447;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=CREOiVQfT3kmlMyDWLQ9Y9Y99eLwAMvHFLHsXjeQjRI=;
-  b=V7MFSASMfUQU98JVkI1wEVNf+e1vQBBiECUsXxBJiXlWWUA3dLLRfgtS
-   KFnEnEZz251e8yx+VfhHffIRpUemSvKWwxECA99dH+MDXxhvMklw8o/JR
-   OGV2s/dQniXpq5EUet+WHC0BmNCV/fh7mhP9om/hGzHjsDjWieK7YGnIe
-   4P39CbS0VyKLZsTzLsBtw6r653gH6fCzjA4TqnUaHeCZ3I22aIdXG4jUC
-   6dvYm8hyKBMlp79pihjXpdWu/p3dKiWyv4BlMfoRXpSdqmH6gSREeGqjh
-   5dVn+eu5cXWhlrirqHfH23o5y88QOiBUJB44ZYA2VwwmK4y2QDqzJB/PW
+  bh=2ptD80ZxyQvnafiMwoGTXuQeYk0dBUv2SywrSo0eylk=;
+  b=jTxXqrN7KzobEQvq/rLrRpFq8/Nmf7I3fxYcPq+SZg316V4mYG4HCH/4
+   27ce/hC9Po+o65e+8WY+id2bJ4zvPuUMCIg89fFImo1wak0mnphGn9qnI
+   f4hqFUvMrNodQcVS9T7dpBZ+eUR0KkRlg1rwe2JOaNDg8l2PCa8hppBxA
+   d9a0DNJjYutWJfQbKfj5i1VkEQd1r0Q0K9Y22oPNfYQkNfu1gzZpDUmeS
+   cSZxskntgncGK1havfaYIg0d9C4BcjeHVrbmdpRxibp9L8Z3InAl+wfO6
+   PFuT9UDAe9DdXGbvHBIs3353SFoliZ95sbuASSOiXT95mH8Mg39wpXHzF
    A==;
-X-CSE-ConnectionGUID: nJem9Y8RR/GxglCwgWT0Cg==
-X-CSE-MsgGUID: S0PoogaVQdix/nIMCeSUxA==
-X-IPAS-Result: =?us-ascii?q?A0BEAgBrwoZq/5MQJK1aglmCV3ReQ0mEV48CAaEOgX4PA?=
- =?us-ascii?q?QEBDzcaBAEBhQWNbQImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4Zchl0nBAsBGAEtMAUCJgItRIMCAYJ0A8JCen8zgQGDKAGBVNswAQsUA?=
- =?us-ascii?q?QWBBS6FP4MfAYUCdoR8JxsbgXKEfoUQgw6CagSCIoEMk0pIgQIcA1ksAVUTD?=
- =?us-ascii?q?QoLBwWBZgM1EioVbjIdgSM+FzVYGwYFgR2BKIQ3Ixk2fIEJXoErKmEBEheBC?=
- =?us-ascii?q?YIKAoJwggYCAUlFDgkXCxgNSBEsNxQZBD0BbgeOUSCCS4EOAYFDpwqhDwoog?=
- =?us-ascii?q?3aMIZU6GjOqbC6YWqRahGmBaDyBWXAVgyIJShkP3lwnMgI7AgcCBw4DC5NmA?=
- =?us-ascii?q?QE?=
-IronPort-Data: A9a23:Ez2kMaCPAY9n4xVW/3/iw5YqxClBgxIJ4kV8jS/XYbTApGkrhD1Sm
- 2UWX2iDOK2IZjH2e98jPd+w90lQuJ/VzoVkOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
+X-CSE-ConnectionGUID: xi3Zlu84TUeOqN2b/7Vksw==
+X-CSE-MsgGUID: J3CaaSz3R2KOn4z/cOWjxg==
+X-IPAS-Result: =?us-ascii?q?A0BCAgBrwoZq/5EQJK1aglmCV3ReQ0mTWQGhDoF+DwEBA?=
+ =?us-ascii?q?Q83GgQBAYUFjW0CJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBD?=
+ =?us-ascii?q?hOGXIZdKwsBGAEtMFxEgwIBgnQDEcIxgXkzgQGDKAGBVNswAQsUAQWBM4U/i?=
+ =?us-ascii?q?CJ2hHwnGxuBcoR+hRCFeASCIoEMgXiRUkiBHgNZLAFVEw0KCwcFgWYDNRIqF?=
+ =?us-ascii?q?W4yHYEjPheBDRsGBYEdgSiENyMZNnyBCV6BKyphARIXgQmCCgKCcIIGAgFJR?=
+ =?us-ascii?q?Q4JFwsYDUgRLDcUGQQ+bgeOUSCCS4EOgUSnCqEPCiiDdowhlToaM6psLphap?=
+ =?us-ascii?q?FqEaYFoPIFZcBWDIglKGQ/eXCcyAjsCBwIHDgMLk2YBAQ?=
+IronPort-Data: A9a23:bTni5aAix4sWdBVW/3/iw5YqxClBgxIJ4kV8jS/XYbTApD0rgTIAz
+ mQWXGuPP6mDYGGmKdl1Pdng9hgC7cODzdZiOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
  /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXmthh
  fuo+5eBYA/8imYuWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
  P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TExddjCRAHbbcivclnDmVl6
- vMnFGgmYUXW7w626OrTpuhEj8AnKozveYgYoHwllGmfBvc9SpeFSKLPjTNa9G5v3YYVQ7CHO
- YxANWUHgBfoO3WjPn8bBYw3mvyonlH0ciZTrxSeoq9fD237nFUrgOmzaoWFEjCMbf4NpkGfq
- Wv4xmj4ElYcFfm0xAG44lv504cjmgu+Aur+DoaQ8eZnhlCWzGEfBBAaEFC8u/SRjk+lR8kZL
- FQZ/Ccrp6U++EGnCN7nUHWFTGWstxoYXZ9UVuY98gzIk/KS6AeCDW9CRTlEADA7iPILqfUR/
- gfht7vU6fZH6dV5lVr1Gm+okA6P
-IronPort-HdrOrdr: A9a23:kjgziKoq7oPKqDM8vL9FOJoaV5oJeYIsimQD101hICG9vPb2qy
- nIpoV+6faUskd1ZJhOo7G90cW7LE80lqQFg7X5Q43DYOCOggLBR+tfBODZrQEIdReTygd179
- YGT0EHMqySMXFKyeDn/QK/D9EshPOD8KyumKPi6k0Fd3ANV0mlhD0Jcjpy1SZNNXB7OaY=
-X-Talos-CUID: =?us-ascii?q?9a23=3AS8oBKWjYY9nVzn5EF0ucq0QxCjJudF/QySbhc3W?=
- =?us-ascii?q?CTkl5R7m+VlCvxPtPnJ87?=
-X-Talos-MUID: 9a23:+P028gWgv2a7cyHq/AS0vDZlO85W2qivGAcLsLAttvK5JQUlbg==
+ 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE0/Q1PkUrbdEkx+tQGEcU/
+ 7tHFjMWcUXW7w626OrTpuhEj8AnKozveYgYoHwllWGfBvc9SpeFSKLPjTNa9G5v3YYVQ7CHO
+ YxANWcHgBfoO3WjPn8bBYw3mvyonlH0ciZTrxSeoq9fD237nFUrgOmzaoWMEjCMbecOtU+Rn
+ XCdxT7aJRdGJpuU7gWH4n3504cjmgu+Aur+DoaQ8eZnhlCWzGEfBBAaEFC8u/SRjk+lR8kZL
+ FQZ/Ccrp6U++EGnCN7nUHWFTGWstxoYXZ9UVuY98gzIkvqS6AeCDW9CRTlEADA7iPILqfUR/
+ gfht7vU6fZH6tV5lVr1Gm+okA6P
+IronPort-HdrOrdr: A9a23:I8bJfK4Ooba4kEsT8APXwOTXdLJyesId70hD6qm+c3Nom6uj5q
+ WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBKLZslnd8lXFh41g/J
+ YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
+X-Talos-CUID: =?us-ascii?q?9a23=3AW6PMp2jSAtJbHN21HQyfV7jPMjJuYnyG/nPNcxO?=
+ =?us-ascii?q?ENGtOUZvPQxjPxqB/jJ87?=
+X-Talos-MUID: 9a23:eeeS6gbBmYUsH+BTlWTHjThZJpxSuYeJDhwf1p4hhMuUOnkl
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,232,1779148800"; 
-   d="scan'208";a="812896278"
-Received: from alln-l-core-10.cisco.com ([173.36.16.147])
+   d="scan'208";a="812896271"
+Received: from alln-l-core-08.cisco.com ([173.36.16.145])
   by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Aug 2026 09:07:26 +0000
 Received: from sjc-ads-5197.cisco.com (sjc-ads-5197.cisco.com [10.28.35.211])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-10.cisco.com (Postfix) with ESMTPS id 9796618000141;
+	by alln-l-core-08.cisco.com (Postfix) with ESMTPS id 62F0B18000203;
 	Thu, 20 Aug 2026 09:07:26 +0000 (GMT)
 Received: by sjc-ads-5197.cisco.com (Postfix, from userid 1887503)
-	id 35F70CC124A; Thu, 20 Aug 2026 02:07:26 -0700 (PDT)
+	id 030AFCC12A8; Thu, 20 Aug 2026 02:07:26 -0700 (PDT)
 From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com
-Subject: [OE-core][scarthgap][PATCH] python3-wheel: fix CVE_PRODUCT
-Date: Thu, 20 Aug 2026 02:07:26 -0700
-Message-Id: <20260820090726.60903-1-devanshp@cisco.com>
+Subject: [OE-core][scarthgap][PATCH] python3-dbusmock: fix CVE_PRODUCT
+Date: Thu, 20 Aug 2026 02:07:25 -0700
+Message-Id: <20260820090725.60771-1-devanshp@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-5197.cisco.com [10.28.35.211];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 10.28.35.211, sjc-ads-5197.cisco.com
-X-Outbound-Node: alln-l-core-10.cisco.com
+X-Outbound-Node: alln-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 09:07:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243829
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243826
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-The proper CVE_PRODUCT is "wheel_project:wheel".
+Recipe (PV): python3-dbusmock (0.31.1)
+Before -> After: python:python-dbusmock -> python-dbusmock_project:python-dbusmock
+Newly caught CVEs: CVE-2015-1326 (.pyc code exec via AddTemplate)
+Status: patched (fixed 0.15.1)
 
-BEFORE: python:wheel -> 1 CVE
-AFTER: wheel_project:wheel -> 2 CVEs
-
-* Both are patched at 0.42.0.
-  - CVE-2022-40898 — DoS in wheel CLI via malicious input. Affects <0.38.1.
-  - CVE-2026-24049 — malicious wheel file can modify permissions of arbitrary
-    files. Affects 0.40.0–<0.46.2; covered by the existing
-    CVE-2026-24049.patch.
-
-Note: The original commit targeted python3-wheel_0.47.0.bb. This is
-adjusted for Scarthgap, where the recipe version is 0.42.0.
+Note: The original commit targeted python3-dbusmock_0.38.1.bb. This is
+adjusted for Scarthgap, where the recipe version is 0.31.1.
 
 AI-Generated: Claude Sonnet 5
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit fe55278e01bbe434452191109278b436bf008ebc)
+(cherry picked from commit 0405d7d4e476964239e1c27c987ec9c12372e95f)
 Signed-off-by: Devansh Patel <devanshp@cisco.com>
 ---
- meta/recipes-devtools/python/python3-wheel_0.42.0.bb | 2 ++
+ meta/recipes-devtools/python/python3-dbusmock_0.31.1.bb | 2 ++
  1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-wheel_0.42.0.bb b/meta/recipes-devtools/python/python3-wheel_0.42.0.bb
-index 934f258a93..b3e4a08d85 100644
---- a/meta/recipes-devtools/python/python3-wheel_0.42.0.bb
-+++ b/meta/recipes-devtools/python/python3-wheel_0.42.0.bb
-@@ -8,6 +8,8 @@ SRC_URI[sha256sum] = "c45be39f7882c9d34243236f2d63cbd58039e360f85d0913425fbd7cee
+diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.31.1.bb b/meta/recipes-devtools/python/python3-dbusmock_0.31.1.bb
+index fc32c6bbb6..4145ee8ea7 100644
+--- a/meta/recipes-devtools/python/python3-dbusmock_0.31.1.bb
++++ b/meta/recipes-devtools/python/python3-dbusmock_0.31.1.bb
+@@ -11,6 +11,8 @@ PYPI_PACKAGE = "python-dbusmock"
+ inherit pypi python_setuptools_build_meta
+ DEPENDS += "python3-setuptools-scm-native"
  
- inherit python_flit_core pypi
- 
-+CVE_PRODUCT = "wheel_project:wheel"
++CVE_PRODUCT = "python-dbusmock_project:python-dbusmock"
 +
- SRC_URI += "file://CVE-2026-24049.patch"
- 
- BBCLASSEXTEND = "native nativesdk"
+ RDEPENDS:${PN} += "\
+     python3-dbus \
+     python3-unittest \
 -- 
 2.35.6
 
