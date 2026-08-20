@@ -2,118 +2,114 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A78FC5DF82
-	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 08:23:18 +0000 (UTC)
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2530.1787214192983327054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 349ADC5DF81
+	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 08:24:08 +0000 (UTC)
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2542.1787214237984936455
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2026 01:23:13 -0700
+ Thu, 20 Aug 2026 01:23:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=d5eMjUh5;
- spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=lbsiwPEP;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=13776; q=dns/txt;
-  s=iport01; t=1787214192; x=1788423792;
+  d=cisco.com; i=@cisco.com; l=12660; q=dns/txt;
+  s=iport01; t=1787214238; x=1788423838;
   h=from:to:subject:date:message-id:references:in-reply-to:
    mime-version;
-  bh=fZg+l5rX7xmYjBgJj6W9LLbiZ4lIC9dS9/73nGdaWo8=;
-  b=d5eMjUh5ADD0oVok+p8X4sL3IqAGziLGYP+cguaA7gAUZEBmHH/bhNQ3
-   hsmsd2J9W6y+ifVZViLgwQlvgxcCkFTf5XxpIUO0gbxgbEOx6+Cnwx9q0
-   srOUZ2wfeIbk1Ib5guk7TO0eOhkbU4XqURPaw20F6ZFcal8XvDpV3wN/g
-   KnGQMNcmkPbUtpTfHf9desUGIej4Rx5PnaXaCpwQsDUkTa3+ZAw9VmlbG
-   vFV4Lfxw+tJz3HgN3aq1w6jxaizaC2kygxmiudTUXR+yZz0AECmdGOFnX
-   OL2mPBLKEbQDoJq5fhu/JvG5R1oM4UPtX5QxKzb4H2y9DtcZRb96eMtaQ
-   w==;
-X-CSE-ConnectionGUID: UmQbqTa3QDy87SP4FJK8Xg==
-X-CSE-MsgGUID: FgbRRqzKT0CPheYvPMk//A==
-X-IPAS-Result: =?us-ascii?q?A0BQAgC5t4Zq/4oQJK1SCB4BAQsSDGWBIAuBPTFTFnICg?=
- =?us-ascii?q?SEaL4gjA4UrhliCIQOeG4F+DwEBAQ4BLgEVDQQBAYQ/RgKNawImNAkOAQIEA?=
- =?us-ascii?q?wIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQEBAQMBgQgCAQgRA?=
- =?us-ascii?q?wEBAS8nCh0IAgQKCQiCe4IdFkEDAQIOuCwCihx4gTSBAYNiAdxKAQsUAYE4h?=
- =?us-ascii?q?T+DHgEBKoE1gl2BIxmEfCcbG4FygRVCgmk+gmECAgGBNikeg3WCDiIEgiJ6E?=
- =?us-ascii?q?huBPx6BD5BDUnIiAyYzLAFVExcLBwWBI0MDKi8tI0sFLR2BIyEdFxceWBsGB?=
- =?us-ascii?q?RIgKkFEIwM+OIEIQQKBdT8jGTZ8gQlegSsqYgIQF0YuFYIKAoJwgSheAgFJR?=
- =?us-ascii?q?Q4JFwttPTcUGQMEgTUFjWUHWyCBfk0BPBwILQErBAErJCx9BhMckx9SjxdHo?=
- =?us-ascii?q?zAKKIN2jCGNPogyF4VbpRGZCCONZ5VnhScCBAIEBQIQAQEGgWg8gVlwFYMiC?=
- =?us-ascii?q?UoZD44tFhyCH4ElhRNRxjV5AgkyAgcCBw4DC5NmAQE?=
-IronPort-PHdr: A9a23:JP7h+xeUAMIA7SqA+mlf7d0jlGM/gIqcDmcuAtIPgrZKdOGk55v9e
- RCZ7vR2h1iPVoLeuLpIiOvT5rjpQndIoY2Av3YLbIFWWlcbhN8XkQ0tDI/NCUDyIPPwKS1vN
- M9DT1RiuXq8NCBo
-IronPort-Data: A9a23:bunwTqK1qwFfMTYTFE+RiZQlxSXFcZb7ZxGr2PjKsXjdYENSgWNWz
- TZNWTuObqqCYTP8eot+a4ripEMH6pCDxtVmTAcd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnQ0
- T/Oi5eHYgH9i2clajh8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1TCXg8JLERod9bEDERz
- sREBhIuPiCM0rfeLLKTEoGAh+wqKM3teYdasXZ6wHSBVLAtQIvIROPB4towMDUY358VW62AI
- ZNHL2M0PHwsYDUXUrsTIJ4zkf2hmnn4WzZZs1mS46Ew5gA/ySQhieW0b4aJK4PiqcN9sEmSn
- Fjf7UfFWjoiNNGu1wKg8TXrr7qa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYVX95WVul/4waXx++MukCSB3MPSXhKb9lOWNIKeAHGH
- 2ShxrvBLTduq7aSD3ma89+pQfmaYED58Udqifc4cDY4
-IronPort-HdrOrdr: A9a23:7UcBOKC+O+OIC0nlHeilsseALOsnbusQ8zAXPh9KOH9om52j9/
- xGws576fatskdvZJhBo7y90dq7MA3hHP9OkMUs1NiZLXLbUQeTXeVfBM7ZskHd8k7Fh6FgPM
- VbAtJD4bTLZDAQ47eZkWyF+pQbsaS6GcuT9IHjJgJWPHlXgtZbnn5E42igYypLbTgDL6AUUL
- Cb4c1KrSehf3M4UuSXb0NuY8Hz4/fwuNbDexApOz4LgTPisRqYrJLqGRmR2RkTFwhI3aoj9m
- b9lQn47LWIsv2wyBPQvlWjoai+nuGP9vJzQOi3zuQFIDTljQilIK57XaeZgTwzqOazrH43jd
- jluX4bToROwkKUWlvwjQrm2gHm3jprwWTl00WkjXzqptG8bC4mCvBGmZlSfnLimgkdVZBHoe
- B2NlCixt5q5CD77WPADh/zJldXf3+P0D8feCgo/iViuMUlGedsRMckjTJo+d87bVLHAcYcYa
- hTJfCZwupKelWHaH2clGxuzNuwGkkXJH69MxM/Ugj/6UkKoJi/pHFonvD2kho7heEAYogB6O
- LePqtykrZSCscQcKJmHe8EBdC6E2rXXHv3QSmvyHncZeg60kj22tbKyaRw4PvvdI0DzZM0lp
- iEWFREtXQqc0arDcGVxpVE/h3EXW34BF3Wu4xjzok8vqe5SKvgMCWFRlxrm8y8o+8HCsmeX/
- qoIppZD/LqMGOrE4dU2A/1XYVUNBAlIYcok8d+X0jLrtPAK4XsuOCeePHPJKD1GTJhQW/7Cm
- trZkmEGCyB1DHdZpbVummkZ5q2QD2MwXtZKtmuw9Qu
-X-Talos-CUID: 9a23:xY+E8WPH4ADWou5DZSxe/lcoE5scXmyNk0zof2GaKjZZR+jA
-X-Talos-MUID: =?us-ascii?q?9a23=3AyVMCNQzWA1XF0G+CLqMZ6kIoldiaqIqhAno3iIc?=
- =?us-ascii?q?lh5GvDSx9CimlqTfwBaZyfw=3D=3D?=
+  bh=cvN535sZY3ZcozbGTaMPeVBGOyoehUP6eFH3L1nJurM=;
+  b=lbsiwPEPmgPMLJSOS/5TO/7HPS8RG/3xBO9bIPpod1ahMldkI2naW6pm
+   E66x7fYWHxbRFFApCWgSJdzNyOHdMbg1yrglkLc1TDAJbulYiJ+hZUd4L
+   c8Wb0hVqhXZ7S0/3TaVZgyLM3YF/qz4/ffkpYjr/trML7E7s4dmtynXgf
+   nsFDYvdKFhpfOwtcB7MnKPp3yehWZPP+kcbFiuYBabtHLVkWF6Ynd+czs
+   Oce82qrXDpBfGH8PBXuGRTluI3FTC+a0znSx0xu6ZX6R07xqQ6lj85317
+   5/0qpDudCZEN3HJK4iHtB5cTq3rdyAfxCDStae1JFmMrBkPhoEchQSK8K
+   Q==;
+X-CSE-ConnectionGUID: V8qvQSvcTpqs2NKGPsP6Zw==
+X-CSE-MsgGUID: kwPP2Dz3SuiFEcrX7a3NVw==
+X-IPAS-Result: =?us-ascii?q?A0DvAgC5t4Zq/4v/Ja1agS6BK4E9MVMWcgKBIUmIIwOFK?=
+ =?us-ascii?q?4ZYgiEDnhuBfg8BAQEOAS4BFQ0EAQGFBQKNawImNQgOAQIEAwIDAQEBAQEBA?=
+ =?us-ascii?q?QEBAQELAQEFAQEBAgEHBYEOE4ZPAQyGWgEBAQEDAYEIAgEIEQMBAQEvJwodC?=
+ =?us-ascii?q?AIEEwiCe4IdFgcDNwMBAg64LAKJSxo3eIE0gQGDaAJD3AABCxQBgTiFP4MeA?=
+ =?us-ascii?q?QEqgTWCXYEjhRUnGxuBcoEVQoJpPoIfQgQBgV8eg3WCMASCInoSG4E/HoEPg?=
+ =?us-ascii?q?VSBF41YUnIiAyYzLAFVExcLBwWBI0MDKi8tI0sFLR2BIyEdFxceWBsGBRIgK?=
+ =?us-ascii?q?kFEIwM+OIEIQQKBdT8jGTZ8gQlegSsqYgIQF0YuFYIKAoJwgSheAgFJRQ4JF?=
+ =?us-ascii?q?wttPTcUGQMEgTUFjWUHWyCCRAYBAXoTASsEHg5QgRQCHBaTCVKPF0eBNaF7C?=
+ =?us-ascii?q?iiDdowhjT6IMheFW6URLphaI41nlWeFJwIEAgQFAhABAQaBagM3gVlwFYMiC?=
+ =?us-ascii?q?UoZD5IjhRPHBnkCCTICBwIHDgMLk2YBAQ?=
+IronPort-PHdr: A9a23:glw8zhNDD21+Q3J2LBUl6nc2WUAX0o4cdiYP4ZYhzrVWfbvmotLpP
+ VfU4rNmi1qaFYnY6vcRk+PNqOigQm0P55+drWoPOIJBTR4LiMga3kQgDceJBFe9LavCZC0hF
+ 8MEX1hgl0w=
+IronPort-Data: A9a23:hhCAka8T5S2rvk2W3LjdDrUD23+TJUtcMsCJ2f8bNWPcYEJGY0x3z
+ WUWWD3SPauPYzGnf4wjbtzlphtV6sDWz9ZjHAtt/npEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mvyyHjEAX9gWAsYjtFs/jrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kIbZQGw91pCl1W7
+ OdCDhMiVgu72dCplefTpulE3qzPLeHxN48Z/3UlxjbDALN+G9bIQr7B4plT2zJYasJmRKmFI
+ ZFGL2AyMVKZOEwn1lQ/UPrSmM+ki3TleiFYr3qepLE85C7YywkZPL3FbYOEKoDSHJ8F9qqej
+ mHZx1yjLgNBD8Ge5xeO6ELzj7TpozyuDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4CeY27kSJj6HT+QvcXjJCRT9aY9tgv8gzLdA36
+ mK0cxrSLWUHmJWeSGmW8fGfqjbaBMTfBTZqifMsJefd3+TenQ==
+IronPort-HdrOrdr: A9a23:ikgf2KEgVVsxx/xypLqF4ZLXdLJyesId70hD6qkvc203TiXIra
+ CTdaogtCMc0AxhJ03I+ertBEDyewKjyXcV2/hcAV7MZnichILFFvAH0WKm+UydJ8SczJ8T6U
+ 4DSdkFNDSYNzET5qiKgnjcLz9j+qj7zEnCv5a5854Zd3ATV0gW1XYBNu/0KDwQeCB2QbACON
+ 634M1BqzC8eXIRQPiaKxA+NdTrlpngrr6jRQQJKSIGxWC14A+A2frXAhKY1hARX3d1x6s+8W
+ /Kqgr95q+ymfC2wB3R2gbontprcd3apedrNYipsIw4Oz/sggGnaMBKQLuZpg04p+mp9RIDjM
+ TMiw1IBbUy11rhOkWO5Tf90Qjp1zgjr1X4z0WDvHflqcvlABonFst6g55DeBex0TtigDg86t
+ MI44uqjesSMfryplW72zEObWAtqqOAmwtmrQfUtQ0HbWJRUs4IkWVVxjIlLH5JJlOL1GlgKp
+ guMOjsoNBLbFidc3fV+kNrwNCqQzAPOy3ueDlYhiRQuAImwUyQCCAjtZYidntszuNPd7BUo+
+ vDKahmj7dIU4sfar98Hv4IRY+tBnXKWg+kChPYHb3LLtBPB5v2ke++3JwloOWxPJAYxpo7n5
+ rMFFteqG4pYkrrTcmDxodC/BzBSHi0GW2F8LAS27Fp/rnnALb7OyyKT14j18OmvvUEG8XeH/
+ K+IohfDfPvJXbnXYxJwwr9UZ9PLmR2arxehv8rH1aV5s7bIIzjseLWNP7VObr2CD4hHnjyB3
+ MSNQKDUvmoLnrbLUMQrCKhL08FIHaPj66YOJKqitQu9A==
+X-Talos-CUID: 9a23:ec+Npm3BdKItEkoLF6HxzrxfJJA8bETm0nzsO1ajU0BKZ4WOcQGi5/Yx
+X-Talos-MUID: 9a23:KE6F4AbkakS0MeBTtCDUvGtOJpxT/qWAJUsXocoP4O+6Knkl
 X-IronPort-Anti-Spam-Filtered: true
-Received: from alln-l-core-01.cisco.com ([173.36.16.138])
-  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Aug 2026 08:23:11 +0000
-Received: from alln-opgw-4.cisco.com (alln-opgw-4.cisco.com [173.37.147.252])
+Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Aug 2026 08:23:56 +0000
+Received: from rcdn-opgw-5.cisco.com (rcdn-opgw-5.cisco.com [72.163.7.169])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by alln-l-core-01.cisco.com (Postfix) with ESMTPS id D962A180008E4
-	for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 08:23:11 +0000 (GMT)
-X-CSE-ConnectionGUID: TQaeZgJVSBaGRtsT0OeRcw==
-X-CSE-MsgGUID: iXSUBiwFSFyS8bzxI7EUsg==
-Authentication-Results: alln-opgw-4.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id C2AF51800023A
+	for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 08:23:56 +0000 (GMT)
+X-CSE-ConnectionGUID: q1Ri1bTgRfKYTy9B2Q+ZEw==
+X-CSE-MsgGUID: RWR/KZDcSyafa16ozivcrQ==
+Authentication-Results: rcdn-opgw-5.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
 X-IronPort-AV: E=Sophos;i="6.25,232,1779148800"; 
-   d="scan'208,217";a="84145615"
-Received: from mail-westcentralusazon11013007.outbound.protection.outlook.com (HELO CY3PR05CU001.outbound.protection.outlook.com) ([40.93.201.7])
-  by alln-opgw-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Aug 2026 08:23:11 +0000
+   d="scan'208,217";a="66691677"
+Received: from mail-eastus2azon11011061.outbound.protection.outlook.com (HELO BN8PR05CU002.outbound.protection.outlook.com) ([52.101.57.61])
+  by rcdn-opgw-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Aug 2026 08:23:56 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=D13KOTcTOimxyXj5rClHQ5wOVA4jDrAlOksWsc5GcQ7FT5u5Py1KUROPl1CFuGW89VzdXvx0pjRjQSNOK1+l3AWb4vO4fU20DPiDzidKUwZNxWHm3HMD6v5jr04QPlwm0KBbHlA/Bug21jUI9U9kkucqsceCDKnxyNHLXFfdaRhwoIuEu+TqJhbjtdl+tB1hRDwTshS5YG+1BytTenm5nzWxIZz20Z7fTPmC6SBcA6L8CUrCgEpTArkLKispiM+DtdJmMlzoLpBpHqvmuUlv3qlHZUgu0wvE3uz4tE5T1u3vBmAz/BHDIECoOh7KMWwxZRgtWJ5Y86aF6W5o8oAZkg==
+ b=Z1sRPebXEt6GEZLYfWeyAs3AO2YN71Xj4ywGC9oDGMhPddDrHaTNP+upaO6sY7IQNUQRZCN8+scdyTEpiKu1yqxdG1wL1BgZ2i0XNfJCv+i2VWQxUFZ8DzWzlM7tXY0pnOmVPkMflAHSR1C3o2ahRzawr+LA+yjOm5f4VmklxrKdC6wLFgjKECkbktKg8F42dyysUrUhZ+xmAGTCOoo75cNWThCymHQ7UZBDTJWsVgDvfvdCBKQhObaGqh/GxgY5EL51/uESLOp+YFPs1Dj7ALkYGm7jGmZrTCB8JY1uioA9bkM5lP7qtBpoYmKgtBZXsbBT1/mtY8XHxvRc5aDlQQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fZg+l5rX7xmYjBgJj6W9LLbiZ4lIC9dS9/73nGdaWo8=;
- b=HyFeseCSTUKhE+iDf94ZmqDQdl4ZRz/+dX+UXjN5YGoa9j8aO8HAmnDHDJFz56TiAOMchRBxTa0IAVmdJVGyYNhH5JZ4pc010ZDeXjNPBhdxpdHuxYsEAZBQt/0GEkO3BG6JgOV1xBmsQ1Bb5yKEjbR1DalcWW09Flbk7XNIQGEndC10KyJ4AEK14CTa5d7aTVhVDjOViKmo80WvwCI43dqL5NEczfA9NjTIuiJI5rnDl7iyl6yXzriiim9Kwgn1oBQJQHwlZDgLRSrqpTqnbeLRZMRxDpAk9I+ztaThL0uwZzJj1QrdH4RsHogy7VLeXIkT/vgPhhaqH+43b84c3A==
+ bh=cvN535sZY3ZcozbGTaMPeVBGOyoehUP6eFH3L1nJurM=;
+ b=eLR68/dt7StdB5XlNkPwQh3JVERAN30byQLVCOOOkgnOWuuQJ/XLcwDUPz81oRXDT0pNFtqEJnc1T/sSLgQ0c+Tcwj4tFiWLKPln0P7//gF/VqLog0d0QslT9UZxuZHL/gc1NKqryTybNNiY52m7F958YOMbmkP4i5F3G8flg0OZhFoGJfXww0RR/aw8E1FWz0MHrxFlSyKXlM7BmXCoOxL4wSQAM9yrJBLbYevOeI/vSmxKw/V8KonOhBWZzhQdmjUwOoms6wi4iS5NPcwdJR9TjRjnwLRjFkuLteyRpysxyZcN9hD++ZEjBqIUNleu2ynpYxMoT8rBgMonkpNCCw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
  dkim=pass header.d=cisco.com; arc=none
 Received: from DM4PR11MB6189.namprd11.prod.outlook.com (2603:10b6:8:ae::18) by
  CH3PR11MB7323.namprd11.prod.outlook.com (2603:10b6:610:152::6) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.339.8; Thu, 20 Aug 2026 08:23:09 +0000
+ 15.21.339.8; Thu, 20 Aug 2026 08:23:54 +0000
 Received: from DM4PR11MB6189.namprd11.prod.outlook.com
  ([fe80::ecd9:17f7:f13f:5543]) by DM4PR11MB6189.namprd11.prod.outlook.com
  ([fe80::ecd9:17f7:f13f:5543%2]) with mapi id 15.21.0339.007; Thu, 20 Aug 2026
- 08:23:09 +0000
+ 08:23:54 +0000
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)"
 	<deeratho@cisco.com>
 To: "openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>, "Deepak Rathore -X (deeratho - E
- INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
-Subject: Re: [OE-core][wrynose][PATCH] python3-cryptography: backport stray
- file install fix
-Thread-Topic: [OE-core][wrynose][PATCH] python3-cryptography: backport stray
- file install fix
-Thread-Index: AQHdL8x4V9hVxe6IuEKeGI3Gf8qmrLammjeC
-Date: Thu, 20 Aug 2026 08:23:09 +0000
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose][PATCH] qemu: guard RESOLVE_CACHED strace flag
+Thread-Topic: [OE-core][wrynose][PATCH] qemu: guard RESOLVE_CACHED strace flag
+Thread-Index: AQHdL8yJj1QcDJxnbk+GIK3HjzoxvLammruc
+Date: Thu, 20 Aug 2026 08:23:54 +0000
 Message-ID: 
- <DM4PR11MB6189E436A02CB0B253545E03C4A42@DM4PR11MB6189.namprd11.prod.outlook.com>
-References: <18CD30D17D38E60D.2965692@lists.openembedded.org>
-In-Reply-To: <18CD30D17D38E60D.2965692@lists.openembedded.org>
+ <DM4PR11MB618951C5E61E4EA0F2D3C8F2C4A42@DM4PR11MB6189.namprd11.prod.outlook.com>
+References: <18CD30D6FAFE69CC.2965692@lists.openembedded.org>
+In-Reply-To: <18CD30D6FAFE69CC.2965692@lists.openembedded.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -121,74 +117,74 @@ X-MS-TNEF-Correlator:
 msip_labels: 
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: DM4PR11MB6189:EE_|CH3PR11MB7323:EE_
-x-ms-office365-filtering-correlation-id: 0f5804a1-a836-421e-bbd6-08defe9444be
+x-ms-office365-filtering-correlation-id: ed429f98-a531-43f5-ee58-08defe945fba
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|56012099006|10067099003|6133799003|22082099003|18002099003|11063799006|8096899003|13003099007|38070700021;
+ BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|56012099006|10067099003|16056099006|6133799003|22082099003|18002099003|12006099003|11063799006|8096899003|13003099007|38070700021;
 x-microsoft-antispam-message-info: 
- nIM//gCDBbbhZFqjzqaOPr7/IHeaJguQTApgddayjnBbNUF2O06/ekcXxfMzW/8wBTXXLM4uCN0tCkHBBxScrxtVLv7zRBlFEbL3GyZZ66GthlVZzI0gHh6zHCOwO4K9JGHPJ3/a+8cS/dcrymMJxhBa5iLpI+ifmXZrHal9qYw2TVLupwhpfDva+UKnoPjrpiQt7hBxYEH0q++u9KD85viSBT3Rcd0iOYkqr3pOdvb3U8Z7P7gcsn7wOb3OmXsKCaVxpiBMikTX0RqIbSP5ZzzL+YO4oOyeLdjin/nwgGz7rPJuqda1Y11w8lmPRrg3HioSOL1D6u6LVfojnpYGquimPpn8HWqWLVq5Eikwe5cWBFo92/+7zEdTfpk6HoPMdzqKEdrI+eZN+QlKHK/jkeEO8j446WqOkajRwcHbwj7V57MZ4NR5ubDtt/dClrlqQPcMmFa1Z8gumAQIa9hZFcZtKafrTAAokkly/e5WhGIRPXwjl4U7PQI4O4M+KB0FJVcz/ZjoB07oxyVQRx4XxqE1QLyVCNiynhrXUSYMNr7aHWlpmgAd27kHYt9kmzdHoq4VbF+nOaSo+ZJ4bU2i5USqb9s4S0BHZHSYE/7Y7WyWfAFVCkNzv3DEvywq1N86aKZH2KkDGTgs3Co4Fz/Or8HkduE6AMKercQB1RHQ5aY=
+ TXK9vB7AZVc6IXHbjRA0c1hZSmIiqGXSAzFEMObhdhxbmgg/3VGCz10qAFwmUv2o+ge8NZhcM3uUkzqwqy1eldWnVqsqPy8z8narxRVfXCKbaKm9aCoTUPpFi5Hr39tpUmUb1lL2n9MXXb3W4pf/KUg2tkiPYgolu+64TiBfowSqkBTYtctq1dSPHTbU1hS06HVII8fx1RwGtLtC7cXKHAG5b3d8Hmd+YWxDEEW7PQffGS9AW4O9du6yQPCHhd6j6iIW3mAJ7zpz2sdf1OUVdHNBkW1dB9KGDhjolRseilxRZkeTLSGtkcwczD6A8NiCCtrKJGn0noKXjyj7Yy5bWVjdiw0HG5P3vBnQVHJ/66yAeBxWTKyRe9JsZ0BlUBdIObnpds1YHhFqvNazmHTGMGHiTrFJXYY7imyqbi3WbRNeM8swLZKiMMmQddX5vVuB9aptN7mAnvRJvpv4dtt9Z/b5CJTvdEQmZsiIFnlE/SeQQUnzKT4t4NcDCS+if7UMkH6uGCxTGoykWnRwJXv8NOPMdOx1u5NQWMiO6Iai2YzbdkqnrSGNNMmpo/95rTE4Ph/1rXg/N/sv6mCQ+lkUaYiLb3CUlYOyKXdE5G5BTvfoiS2B9dXAY4008tW4bhLaqpJuxMYg0n7jAzxKoZ9OdiB9aTOvk0UiKnU9BNg3JMw=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(56012099006)(10067099003)(6133799003)(22082099003)(18002099003)(11063799006)(8096899003)(13003099007)(38070700021);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB6189.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(56012099006)(10067099003)(16056099006)(6133799003)(22082099003)(18002099003)(12006099003)(11063799006)(8096899003)(13003099007)(38070700021);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?iso-8859-2?Q?/nYN5SSY0FZL9D1hEmBpa1Y7T89qvg0kvzvBzFZj1Djofoud1Vl6dC6TYP?=
- =?iso-8859-2?Q?aQmoiaBB1BU5MV6DI9mL3CgP7FzFKHVHZQ4rVinphBdFde4RVQCt5ys0RJ?=
- =?iso-8859-2?Q?hzIKmnGi9xM/wWOBqZ/bLmKCUOQuKLhMtpa8x7hGJ7CZfCtbwNmoMaDBaE?=
- =?iso-8859-2?Q?nPAITcohnGvaShAT7f7XY2S0e8xMQOpEVaH7gwmAiK2iWtDk25DOphAxGZ?=
- =?iso-8859-2?Q?ueBq0gX2ZrJsYcKorXejxRWqGx5AenoMtXpUmXMB6P0DtZ2+kD+kp3V2rX?=
- =?iso-8859-2?Q?jeMWO29Xf1x46vxt2piKBy03n1eamC3znno8c7Rxd0AbKzdMHbjNR6SZus?=
- =?iso-8859-2?Q?DhZlxjHKEErem3r2eFN1TVfRUXQfTxCK0GKJbqMpBw61nWsSxULIRoze9b?=
- =?iso-8859-2?Q?/vC3qHW7MNae80Awn2FMC/M5oR7wnbnrkdvhtjDqEC8cqdhDsKAY51GWAo?=
- =?iso-8859-2?Q?q2sOFmowMJ+1vSl+2akpE0gK35lunOKMtwP8EwksW4TZMb9mLrjWkWvZsE?=
- =?iso-8859-2?Q?QjYzYdRZuvj1rW8IKuSdVrIUztv/JcO5nu2DUWPL73lpbDocuQH4T14khS?=
- =?iso-8859-2?Q?JiCFWiXY3NmZgN//WaHRbyLKfR6H0L6wThB8NRjgOCAD7VB1X0Mu7fq2VU?=
- =?iso-8859-2?Q?xmjKbs/Enbd7nQ80ShDhtc5aXEEAaUQfphCZNGIrQbq5m6Qs2yz88UrLlg?=
- =?iso-8859-2?Q?eFN1JmQ+zHoipwElzIr7RvI2DJc3NfwQp8nc8heAnyT5V3dQOaSWS/gmCz?=
- =?iso-8859-2?Q?kjKsEYPJef1WPAEtOa/U4tbRBSfHFhiZdld9c6OC8khdyP8cpeBplMtYuP?=
- =?iso-8859-2?Q?soGgxXTAjHk8jXDlH9NJOOvlGCn9PnpBW9GHs7uoTaRaF9blS8pZumG/zB?=
- =?iso-8859-2?Q?UZPPZk+erYhjJP2PW3/E4AEiS7kbTcGrWj2k2dEdP2i9r7NL67v1hi2836?=
- =?iso-8859-2?Q?KQqj1jRkA4RVebGU7J8X4aiC7yspfTiPQ5MHXePVBZM/elv6ukVbrQhhe5?=
- =?iso-8859-2?Q?xBs86lqAudZN8ztDs40LOk3ceWCggChTA7/meT6gzalp8Grfgw6vth45mk?=
- =?iso-8859-2?Q?iYk6QVvitt7EmjnItDjkh52ZiaokIKTpHXumrU1f/gZusTGR3zdSFL/unb?=
- =?iso-8859-2?Q?r0cZBeydF68JQl+NI9rOD17hxVg7PfWL2nZzjUcFfbVYymvYz0QKCsvTsy?=
- =?iso-8859-2?Q?hhMc/ezVOP8R8UefdX3TGF+KmR1vYbBcQGV+MA7MonC4BGQMolwqddFHG1?=
- =?iso-8859-2?Q?Tq01JxHHZsqQqDfZi08GYMx8MRM7UpUx4GI0o0RCEoeBas/9/CyNZjSxDv?=
- =?iso-8859-2?Q?b6sX5Uh4i6sDgIP/dCyhlrDlQY98ZjBqcdD3UnvJ04bT3XfY56o9CseIwN?=
- =?iso-8859-2?Q?/nQg29SoQJ7HD4J1Oi4W+6R9m9CGTz6qZMuiMan+4UQS3KfIB/QqO11yCK?=
- =?iso-8859-2?Q?mdOXHwQdEPgUZfZ/UupQgUDmZFHx1yexUlmz5Dh5hdnM6rUc3qprsy4LPf?=
- =?iso-8859-2?Q?uOQeonlBtSwRmKoAtJ8HtXwcUzM5Q2M22uxVVu0KmeV6YXyrtQWgTTiYoA?=
- =?iso-8859-2?Q?UzYJTMT9MjmYOGrFqoiLp7RiAgkkmk/uhCJihT6Mfci2f/dM3azaULNwf+?=
- =?iso-8859-2?Q?+3Nuwfba6wUx3EoJxHYOPywDebt5R2/0KbPa1Zs0/VvMtVZAHFRL9hj2xF?=
- =?iso-8859-2?Q?JTDZzBXF10nvltc0xHT6yHJh5EalJB9PYi+c2Qgmq3eZ8obCoGjWyVd/B/?=
- =?iso-8859-2?Q?orlusB4N+bKOylaTPNstR9C6Mq8lz7mknxu6gJT+/loSyP?=
+ =?iso-8859-1?Q?1iHN3iGeZX4Rw7/ZvZ2+X+YLjrIvZoG6ZpZqRW6c0XQWAI4QGFnSDuySqx?=
+ =?iso-8859-1?Q?bP7qTrH/A7f0XEPYX/hvAGnBX0iZd6Wnl6BJM1JJTi325Sv07oPBWsvGMd?=
+ =?iso-8859-1?Q?0nKnuAUDB42Eyv3xPSpeKfkaTSL7fVnRBFExxC3QIYTvZtVLwT9I8WNQru?=
+ =?iso-8859-1?Q?rUm/bHm8n+3Lpw8UbTsUAkkgZ/Bgrub/nUzE0IfB2GQ/EJRwvsmSwXk2TV?=
+ =?iso-8859-1?Q?X0JcCqHFHtJgV7zdpVSXIN3sy4spvFWekECiEd9IZwePzVv/Mkl2QHxRMs?=
+ =?iso-8859-1?Q?qf9EDn/wbJWqY0CI/LhjWRQZVFZEgD4PskSl1HNv+7B1OSmQKZPB4TE+2u?=
+ =?iso-8859-1?Q?EFQNLbFWVmJm86pWBjqEYyxu2+zSzmVGmuwJxTqAD7IQbw3bHrAN4ukL5w?=
+ =?iso-8859-1?Q?sbfU/FOzV8h3W3aYqrxJPuB0y/XSfAkhapL4s5hWKu3XWj3CsUEPtZfZhO?=
+ =?iso-8859-1?Q?RvVTDjl1Ae785nyGtJVRvinHtYrk8ulq4KXMw1IEGTXl8vsa9I2o/WWlIb?=
+ =?iso-8859-1?Q?JCdDoq8U/F5aKJfqS0LirrVsgO7d7AmY5zttL97yPNzkJz2SkDBZsNchD6?=
+ =?iso-8859-1?Q?PIIbd4RWnVfzL4azvFmKHSLgNX3b8nWZqjs9CcxRvp9knWgKimF8DrEhTr?=
+ =?iso-8859-1?Q?GLJokZlnbk6x3Qc2q25v1qiRoOyF39Ao8xLA8cB8UJeXkH80LJISguXnzF?=
+ =?iso-8859-1?Q?+Hl4UZc507mC+DRmQURqYpSUCHYaIQoiMKija1oSL9+JS0ETv10y3LrvCJ?=
+ =?iso-8859-1?Q?by1eTySLnAssX8GRHCD+UXHJr/W+MTg/sYaPYA1KLEsjA7ijEulxqNHMXU?=
+ =?iso-8859-1?Q?aCxghaexGIQP/NGVPOV9amx+FipOwvuvbj+yKrK030zwomrrFp4+FjagLL?=
+ =?iso-8859-1?Q?8Q/OcsVo574gepkdHYsEOVRBk0WN/UtqUDEsDa23OAyYeconeddViNSQnQ?=
+ =?iso-8859-1?Q?/t0yDVtvpLxyU+p5fH9DwWjcGoN/w1aN7CUGLTUH3lpxN/apl+olDSCLgZ?=
+ =?iso-8859-1?Q?FK+dXuGdNZzkSkwDhSEa/ioJAOPLrNH8PjhNTnhNdOnEsyJjjvZ89uhfZ1?=
+ =?iso-8859-1?Q?YEVvZYr8Hzflmof7Ip+RuM+Fog10eJpNehB045zaG1XjrwO9PVIUz8+W2V?=
+ =?iso-8859-1?Q?QZbIdpRDsipTm0/pu2y8lBeF8ZP8x5nzJmwfdQCoYtoTES6pcVQu82SDWB?=
+ =?iso-8859-1?Q?JdJ8u7nEMNejxzU2s7LyEleCIE3DSqGAIWbsxzR0PYmIN9PdU+RR29H2wy?=
+ =?iso-8859-1?Q?RbY5OZgREq6t8Jm58T+4SV/U+gOwYAeqtm1KXetr4JkFFfFWOBLOE3g9MY?=
+ =?iso-8859-1?Q?HIjaCCHD3f+mfqEYGQ8hi7/Y/OzOjWfp9y1Hi+oVQVk8pOxYCxgV4u5TTF?=
+ =?iso-8859-1?Q?QxVd32tTP4IrpptCQAfeGH3mMIabasp1jU8wuuRBWUVnQiSjNAXXN0CSEn?=
+ =?iso-8859-1?Q?Px/h2hlet5of+9JzvZRPYC9VPxq3UgzfY/ofaB12tUVhm5QetPX/xrPGay?=
+ =?iso-8859-1?Q?/fXsZkdorKxCPbr8HjqL7CtNKOybmxrCGQJauD8Z2rSpzU5ye4ma/Nonf+?=
+ =?iso-8859-1?Q?H8jL/lp+GuWXvd2pTAUTmR12rir9rcgBaKMn/F/79D3ZWCYZJ7y1yt/sPw?=
+ =?iso-8859-1?Q?Kud1IjLHcU0hPYe/SFKLZWjnGGM8VfwNnCuieVbrvbPqvnA//8Xnz+me5f?=
+ =?iso-8859-1?Q?JXPYZgTnCMIVrThbtKufODcLA4zbz4OqrYxXPdiHClFz+VCHbt/yUzNUWY?=
+ =?iso-8859-1?Q?7lHKEXwny8wHYXjtewY23ID/cGQL/5atz1GhUyKMHHlpI1?=
 Content-Type: multipart/alternative;
-	boundary="_000_DM4PR11MB6189E436A02CB0B253545E03C4A42DM4PR11MB6189namp_"
+	boundary="_000_DM4PR11MB618951C5E61E4EA0F2D3C8F2C4A42DM4PR11MB6189namp_"
 MIME-Version: 1.0
 X-Exchange-RoutingPolicyChecked: 
-	sPJjdAEruk9VVqsQXYFM5w7QDt0hD+O5THP1BsCAoXi+N4YH7nH1Jb5OzhyjlAfV6wQ72WkGYKcmOAgq+nhBQZLJxC3vTC31cWj8iJpPJ8TItbg4hoeG1vqZR4eB02rnDyO6jOnVbLSLxa8DXYdqQcG6nzCg8sdsglegwqA3Hcj7HhI7JAhl7l6CdbmQHpciIXTyaijHDFV+LYeveLRvpr02qAAaSV3vEHM5XvIvgQ7d82Eey4yAeKkvlBi9qvqgwBO8iJYiPvA8aAXExwFYBvnfL0mP1SVvRuWf3Yir+XyKw5AB5yq3jhOvXWxQPlW6pEniZaHN0to7WUFt4k0fzg==
+	oXLaU1BMpYY3AuSi87VBPf3iAgjCP/6wxFzPn83u9aS9VaPR7SRcMg0quXlMtKhrXAZiYvBj9fJHL/wcQsYE/8vJAbwGRIt8soA1BKZc2l3m0r50b3PjZ9CKRKmmmI7yWZ3UULNt66Rb/Y1yF+QQS7ApDFyD5Qqwvp37yjRahC7BiiPU+WXDWFNaV5dt8fES7b2Rr+Z3Crrzyt4L4YFyawAUULcxtK82/j4k1cqY0XGAlbuMbKu1IzViqTrOuTgry+nAVwjcR+jxFdrnU92rQmNyJwfPk2XnnijnjCmG7LZ95mVe0C5Ra/VzdXkLGL2e4K+KILl/y7nwY0FRskzTUg==
 X-OriginatorOrg: cisco.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB6189.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0f5804a1-a836-421e-bbd6-08defe9444be
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2026 08:23:09.5003
+X-MS-Exchange-CrossTenant-Network-Message-Id: ed429f98-a531-43f5-ee58-08defe945fba
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2026 08:23:54.7513
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: RUSIeKdZof3Wgt30ExT1xXPYGJ+isJmDd049maBDO2rpGEErins/P4xfX8l13dMbo/xmOjgElxIs3U0iw8bQXg==
+X-MS-Exchange-CrossTenant-userprincipalname: YF8tS+e1RP2Hlf3wRMyzotcK2i6R+CfMF3mKaAV5LNwHiriztrj41+Z7C0MkCKppeSys6RuMjNBlBbZvbxkD1w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB7323
-X-Outbound-Client-TLS: ANONYMOUS;alln-opgw-4.cisco.com [173.37.147.252];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 173.37.147.252, alln-opgw-4.cisco.com
-X-Outbound-Node: alln-l-core-01.cisco.com
+X-Outbound-Client-TLS: ANONYMOUS;rcdn-opgw-5.cisco.com [72.163.7.169];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 72.163.7.169, rcdn-opgw-5.cisco.com
+X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 08:23:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243819
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 08:24:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243820
 
---_000_DM4PR11MB6189E436A02CB0B253545E03C4A42DM4PR11MB6189namp_
-Content-Type: text/plain; charset="iso-8859-2"
+--_000_DM4PR11MB618951C5E61E4EA0F2D3C8F2C4A42DM4PR11MB6189namp_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Team,
@@ -197,120 +193,109 @@ thor details/sign-off. I will send a revised version with the correct autho=
 r's name and Signed-off-by information.
 Regards,
 Deepak
+
 ________________________________
 From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
 nembedded.org> on behalf of Deepak Rathore via lists.openembedded.org <deer=
 atho=3Dcisco.com@lists.openembedded.org>
-Sent: Wednesday, August 19, 2026 4:47 PM
+Sent: Wednesday, August 19, 2026 4:48 PM
 To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
 mbedded.org>
-Subject: [OE-core][wrynose][PATCH] python3-cryptography: backport stray fil=
-e install fix
+Subject: [OE-core][wrynose][PATCH] qemu: guard RESOLVE_CACHED strace flag
 
 From: Himanshu Jadon <hjadon@cisco.com>
 
-Maturin 1.12 changed the handling of include entries from
-pyproject.toml. With the current cryptography metadata, files like
-CHANGELOG.rst, CONTRIBUTING.rst, docs and tests can be installed under
-site-packages instead of being kept only in the source archive.
+qemu-native build can fail on build hosts which have an older
+linux/openat2.h header. The header is new enough to enable
+HAVE_OPENAT2_H, but it does not have RESOLVE_CACHED because that flag
+was added later in kernel 5.12.
 
-That can cause image install conflicts when packages such as
-python3-pyrad and python3-pyexpect are installed with
-python3-cryptography, because those packages also install top-level docs
-or tests directories under site-packages.
+In that case linux-user/strace.c tries to use RESOLVE_CACHED and build
+fails with:
 
-Backport the upstream cryptography fix which marks these entries as
-sdist-only. The files remain available from the source tree, so the
-existing ptest install path which copies tests from ${S} is not changed.
+    error: 'RESOLVE_CACHED' undeclared here
+
+This is mainly seen with qemu-native because it is built for the host
+and can pick the host kernel UAPI header. The buildtools header may have
+RESOLVE_CACHED, but native build still has to be safe with older host
+headers also.
+
+Add the upstream QEMU fix which checks RESOLVE_CACHED before using it.
+This does not change anything on newer hosts. On older hosts QEMU just
+does not print this one strace flag because the local header does not
+know about it.
 
 Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 ---
- .../python/python3-cryptography.bb            |  1 +
- ...lling-stray-files-into-site-packages.patch | 55 +++++++++++++++++++
- 2 files changed, 56 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-cryptography/0002-=
-Fix-installing-stray-files-into-site-packages.patch
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ ...-if-RESOLVE_CACHED-flag-is-defined-b.patch | 38 +++++++++++++++++++
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/0012-linux-user-Check-i=
+f-RESOLVE_CACHED-flag-is-defined-b.patch
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/re=
-cipes-devtools/python/python3-cryptography.bb
-index 42e8c5ff19..b73123d361 100644
---- a/meta/recipes-devtools/python/python3-cryptography.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography.bb
-@@ -14,6 +14,7 @@ require python3-cryptography-common.inc
- SRC_URI[sha256sum] =3D "abace499247268e3757271b2f1e244b36b06f8515cf27c4d49=
-468fc9eb16e93d"
-
- SRC_URI +=3D "file://0001-pyproject.toml-remove-benchmark-disable-option.p=
-atch \
-+            file://0002-Fix-installing-stray-files-into-site-packages.patc=
-h \
-             file://check-memfree.py \
-             file://run-ptest \
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qe=
+mu/qemu.inc
+index 60a5c62fe9..cc8f2ecdfa 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -41,6 +41,7 @@ SRC_URI =3D "https://download.qemu.org/${BPN}-${PV}.tar.x=
+z \
+            file://CVE-2026-0665.patch \
+            file://CVE-2025-14876_p1.patch \
+            file://CVE-2025-14876_p2.patch \
++           file://0012-linux-user-Check-if-RESOLVE_CACHED-flag-is-defined-=
+b.patch \
             "
-diff --git a/meta/recipes-devtools/python/python3-cryptography/0002-Fix-ins=
-talling-stray-files-into-site-packages.patch b/meta/recipes-devtools/python=
-/python3-cryptography/0002-Fix-installing-stray-files-into-site-packages.pa=
-tch
+ # file index at download.qemu.org isn't reliable: https://gitlab.com/qemu-=
+project/qemu-web/-/issues/9
+ UPSTREAM_CHECK_URI =3D "https://www.qemu.org"
+diff --git a/meta/recipes-devtools/qemu/qemu/0012-linux-user-Check-if-RESOL=
+VE_CACHED-flag-is-defined-b.patch b/meta/recipes-devtools/qemu/qemu/0012-li=
+nux-user-Check-if-RESOLVE_CACHED-flag-is-defined-b.patch
 new file mode 100644
-index 0000000000..6212c1a43e
+index 0000000000..fc86d68e7d
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-cryptography/0002-Fix-installing=
--stray-files-into-site-packages.patch
-@@ -0,0 +1,55 @@
-+From af53f00da0538e7d64625eea9f4ec850a2b7dd2e Mon Sep 17 00:00:00 2001
-+From: =3D?UTF-8?q?Micha=3DC5=3D82=3D20G=3DC3=3DB3rny?=3D <mgorny@gentoo.or=
-g>
-+Date: Sun, 15 Feb 2026 18:01:37 +0100
-+Subject: [PATCH] Fix installing stray files into site-packages (#14319)
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=3DUTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/qemu/qemu/0012-linux-user-Check-if-RESOLVE_CACH=
+ED-flag-is-defined-b.patch
+@@ -0,0 +1,38 @@
++From 09e077b87eed754cc0aac0f54d193d49f978c93f Mon Sep 17 00:00:00 2001
++From: Frank Chang <frank.chang@sifive.com>
++Date: Thu, 12 Feb 2026 17:54:49 +0800
++Subject: [PATCH] linux-user: Check if RESOLVE_CACHED flag is defined befor=
+e
++ using it
 +
-+Fix the `include` pattern in `pyproject.toml` not to install stray files
-+such as `CHANGELOG.rst`, `CONTRIBUTING.rst`, `docs` and `tests` straight
-+into site-packages.  Apparently Maturin did not install them before due
-+to a bug, but it was fixed in maturin 1.12.0, leading to the files being
-+suddenly installed.
++Upstream-Status: Backport [https://gitlab.com/qemu-project/qemu/-/commit/7=
+ac4bded6af90a15a9562515743a789236b062d1]
 +
-+Originally reported as https://bugs.gentoo.org/970090.
++openat2.h was introduced in Linux kernel 5.6. However, RESOLVE_CACHED
++flag was only added in kernel 5.12 and later. Therefore, we need to check
++if RESOLVE_CACHED flag is defined before using it.
 +
-+Upstream-Status: Backport [https://github.com/pyca/cryptography/commit/43e=
-b178ee3aae8d0060221118437b03c23570a41]
-+
-+Signed-off-by: Micha=B3 G=F3rny <mgorny@gentoo.org>
-+(cherry picked from commit 43eb178ee3aae8d0060221118437b03c23570a41)
++Signed-off-by: Frank Chang <frank.chang@sifive.com>
++Reviewed-by: Helge Deller <deller@gmx.de>
++Signed-off-by: Helge Deller <deller@gmx.de>
++(cherry picked from commit 7ac4bded6af90a15a9562515743a789236b062d1)
 +Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
 +---
-+ pyproject.toml | 8 ++++----
-+ 1 file changed, 4 insertions(+), 4 deletions(-)
++ linux-user/strace.c | 2 ++
++ 1 file changed, 2 insertions(+)
 +
-+diff --git a/pyproject.toml b/pyproject.toml
-+index 75bfcbb94..8ee43d17a 100644
-+--- a/pyproject.toml
-++++ b/pyproject.toml
-+@@ -106,10 +106,10 @@ module-name =3D "cryptography.hazmat.bindings._rust"
-+ locked =3D true
-+ sdist-generator =3D "git"
-+ include =3D [
-+-    "CHANGELOG.rst",
-+-    "CONTRIBUTING.rst",
-++    { path =3D "CHANGELOG.rst", format =3D "sdist" },
-++    { path =3D "CONTRIBUTING.rst", format =3D "sdist" },
-+
-+-    "docs/**/*",
-++    { path =3D "docs/**/*", format =3D "sdist" },
-+
-+     { path =3D "src/_cffi_src/**/*.py", format =3D "sdist" },
-+     { path =3D "src/_cffi_src/**/*.c", format =3D "sdist" },
-+@@ -121,7 +121,7 @@ include =3D [
-+     { path =3D "src/rust/**/Cargo.lock", format =3D "sdist" },
-+     { path =3D "src/rust/**/*.rs", format =3D "sdist" },
-+
-+-    "tests/**/*.py",
-++    { path =3D "tests/**/*.py", format =3D "sdist" },
-+ ]
-+ exclude =3D [
-+     "vectors/**/*",
++diff --git a/linux-user/strace.c b/linux-user/strace.c
++index 758c5d32b6..a903b414fd 100644
++--- a/linux-user/strace.c
+++++ b/linux-user/strace.c
++@@ -1125,7 +1125,9 @@ UNUSED static const struct flags openat2_resolve_fla=
+gs[] =3D {
++     FLAG_GENERIC(RESOLVE_NO_SYMLINKS),
++     FLAG_GENERIC(RESOLVE_BENEATH),
++     FLAG_GENERIC(RESOLVE_IN_ROOT),
+++#ifdef RESOLVE_CACHED
++     FLAG_GENERIC(RESOLVE_CACHED),
+++#endif
++ #endif
++     FLAG_END,
++ };
 +--
 +2.35.6
 +
@@ -318,36 +303,39 @@ b178ee3aae8d0060221118437b03c23570a41]
 2.35.6
 
 
---_000_DM4PR11MB6189E436A02CB0B253545E03C4A42DM4PR11MB6189namp_
-Content-Type: text/html; charset="iso-8859-2"
+--_000_DM4PR11MB618951C5E61E4EA0F2D3C8F2C4A42DM4PR11MB6189namp_
+Content-Type: text/html; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
 <html>
 <head>
 <meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
-2">
+1">
 <style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
 ttom:0;} </style>
 </head>
 <body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"line-height: 20px; margin-top: 1em; =
-margin-bottom: 1em; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontSer=
-vice, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);=
-">
+<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
+nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
+olor: rgb(0, 0, 0);">
 Hi Team,</div>
-<div class=3D"elementToProof" style=3D"line-height: 20px; margin-top: 1em; =
-margin-bottom: 1em; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontSer=
-vice, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);=
-">
+<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
+line-height: 20px; background-color: rgb(255, 255, 255); margin: 1em 0px; f=
+ont-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvet=
+ica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 Kindly ignore the patch below. I noticed that it was sent with incorrect au=
 thor details/sign-off. I will send a revised version with the correct autho=
 r's name and Signed-off-by information.</div>
-<div class=3D"elementToProof" style=3D"line-height: 20px; margin-top: 1em; =
-margin-bottom: 1em; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontSer=
-vice, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);=
-">
+<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
+line-height: 20px; background-color: rgb(255, 255, 255); margin: 1em 0px; f=
+ont-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvet=
+ica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
 Regards,<br>
 Deepak</div>
+<div style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, =
+Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<br>
+</div>
 <hr style=3D"display: inline-block; width: 98%;">
 <div id=3D"divRplyFwdMsg">
 <div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
@@ -355,152 +343,132 @@ Deepak</div>
 <b>From:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core=
 @lists.openembedded.org&gt; on behalf of Deepak Rathore via lists.openembed=
 ded.org &lt;deeratho=3Dcisco.com@lists.openembedded.org&gt;<br>
-<b>Sent:</b> Wednesday, August 19, 2026 4:47 PM<br>
+<b>Sent:</b> Wednesday, August 19, 2026 4:48 PM<br>
 <b>To:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
 ists.openembedded.org&gt;<br>
-<b>Subject:</b> [OE-core][wrynose][PATCH] python3-cryptography: backport st=
-ray file install fix</div>
+<b>Subject:</b> [OE-core][wrynose][PATCH] qemu: guard RESOLVE_CACHED strace=
+ flag</div>
 <div style=3D"direction: ltr;">&nbsp;</div>
 </div>
 <div style=3D"font-size: 11pt;">From: Himanshu Jadon &lt;hjadon@cisco.com&g=
 t;<br>
 <br>
-Maturin 1.12 changed the handling of include entries from<br>
-pyproject.toml. With the current cryptography metadata, files like<br>
-CHANGELOG.rst, CONTRIBUTING.rst, docs and tests can be installed under<br>
-site-packages instead of being kept only in the source archive.<br>
+qemu-native build can fail on build hosts which have an older<br>
+linux/openat2.h header. The header is new enough to enable<br>
+HAVE_OPENAT2_H, but it does not have RESOLVE_CACHED because that flag<br>
+was added later in kernel 5.12.<br>
 <br>
-That can cause image install conflicts when packages such as<br>
-python3-pyrad and python3-pyexpect are installed with<br>
-python3-cryptography, because those packages also install top-level docs<br=
->
-or tests directories under site-packages.<br>
+In that case linux-user/strace.c tries to use RESOLVE_CACHED and build<br>
+fails with:<br>
 <br>
-Backport the upstream cryptography fix which marks these entries as<br>
-sdist-only. The files remain available from the source tree, so the<br>
-existing ptest install path which copies tests from ${S} is not changed.<br=
+&nbsp;&nbsp;&nbsp; error: 'RESOLVE_CACHED' undeclared here<br>
+<br>
+This is mainly seen with qemu-native because it is built for the host<br>
+and can pick the host kernel UAPI header. The buildtools header may have<br=
 >
+RESOLVE_CACHED, but native build still has to be safe with older host<br>
+headers also.<br>
+<br>
+Add the upstream QEMU fix which checks RESOLVE_CACHED before using it.<br>
+This does not change anything on newer hosts. On older hosts QEMU just<br>
+does not print this one strace flag because the local header does not<br>
+know about it.<br>
 <br>
 Signed-off-by: Himanshu Jadon &lt;hjadon@cisco.com&gt;<br>
 ---<br>
-&nbsp;.../python/python3-cryptography.bb&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 1 +<br>
-&nbsp;...lling-stray-files-into-site-packages.patch | 55 ++++++++++++++++++=
+&nbsp;meta/recipes-devtools/qemu/qemu.inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 1 +<br>
+&nbsp;...-if-RESOLVE_CACHED-flag-is-defined-b.patch | 38 ++++++++++++++++++=
 +<br>
-&nbsp;2 files changed, 56 insertions(+)<br>
-&nbsp;create mode 100644 meta/recipes-devtools/python/python3-cryptography/=
-0002-Fix-installing-stray-files-into-site-packages.patch<br>
+&nbsp;2 files changed, 39 insertions(+)<br>
+&nbsp;create mode 100644 meta/recipes-devtools/qemu/qemu/0012-linux-user-Ch=
+eck-if-RESOLVE_CACHED-flag-is-defined-b.patch<br>
 <br>
-diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/re=
-cipes-devtools/python/python3-cryptography.bb<br>
-index 42e8c5ff19..b73123d361 100644<br>
---- a/meta/recipes-devtools/python/python3-cryptography.bb<br>
-+++ b/meta/recipes-devtools/python/python3-cryptography.bb<br>
-@@ -14,6 +14,7 @@ require python3-cryptography-common.inc<br>
-&nbsp;SRC_URI[sha256sum] =3D &quot;abace499247268e3757271b2f1e244b36b06f851=
-5cf27c4d49468fc9eb16e93d&quot;<br>
-&nbsp;<br>
-&nbsp;SRC_URI +=3D &quot;file://0001-pyproject.toml-remove-benchmark-disabl=
-e-option.patch \<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://0002-Fix-installing-stray-files-into-site-packages.patch" id=3D"=
-OWA11a92503-a55f-5af3-614d-f55c9ceb1629" class=3D"OWAAutoLink" data-auth=3D=
-"NotApplicable">
-file://0002-Fix-installing-stray-files-into-site-packages.patch</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a=
- href=3D"file://check-memfree.py" id=3D"OWA64890766-86c4-a932-2f9b-07613725=
-543a" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">
-file://check-memfree.py</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a=
- href=3D"file://run-ptest" id=3D"OWAe38e95e6-0754-9ec7-070e-0259155bc3f5" c=
-lass=3D"OWAAutoLink" data-auth=3D"NotApplicable">
-file://run-ptest</a> \<br>
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qe=
+mu/qemu.inc<br>
+index 60a5c62fe9..cc8f2ecdfa 100644<br>
+--- a/meta/recipes-devtools/qemu/qemu.inc<br>
++++ b/meta/recipes-devtools/qemu/qemu.inc<br>
+@@ -41,6 +41,7 @@ SRC_URI =3D &quot;https://download.qemu.org/${BPN}-${PV}.=
+tar.xz \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://CVE-2026-0665.patch" id=3D"OWA73f99037-38f0-f754-c685-dcb5b12a1b=
+c3" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">
+file://CVE-2026-0665.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://CVE-2025-14876_p1.patch" id=3D"OWA63e51c36-d0a2-3dee-7f11-bb47ed=
+0f340f" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">
+file://CVE-2025-14876_p1.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://CVE-2025-14876_p2.patch" id=3D"OWAe8fa4c0f-72a3-4580-94f0-cbf02a=
+1e8116" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">
+file://CVE-2025-14876_p2.patch</a> \<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://0012-linux-user-Check-if-RESOLVE_CACHED-flag-is-defined-b.patch" id=3D=
+"OWA6b99f025-4655-dd30-7d75-2b860d664c11" class=3D"OWAAutoLink" data-auth=
+=3D"NotApplicable">
+file://0012-linux-user-Check-if-RESOLVE_CACHED-flag-is-defined-b.patch</a> =
+\<br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<b=
 r>
-diff --git a/meta/recipes-devtools/python/python3-cryptography/0002-Fix-ins=
-talling-stray-files-into-site-packages.patch b/meta/recipes-devtools/python=
-/python3-cryptography/0002-Fix-installing-stray-files-into-site-packages.pa=
-tch<br>
+&nbsp;# file index at download.qemu.org isn't reliable: <a href=3D"https://=
+gitlab.com/qemu-project/qemu-web/-/issues/9" id=3D"OWAd01a1fb9-bbfb-756c-e1=
+ae-3dee38f53ec4" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">
+https://gitlab.com/qemu-project/qemu-web/-/issues/9</a><br>
+&nbsp;UPSTREAM_CHECK_URI =3D &quot;<a href=3D"https://www.qemu.org" id=3D"O=
+WA440fda2c-79ad-4c54-d4d7-58ac15d11fee" class=3D"OWAAutoLink" data-auth=3D"=
+NotApplicable">https://www.qemu.org</a>&quot;<br>
+diff --git a/meta/recipes-devtools/qemu/qemu/0012-linux-user-Check-if-RESOL=
+VE_CACHED-flag-is-defined-b.patch b/meta/recipes-devtools/qemu/qemu/0012-li=
+nux-user-Check-if-RESOLVE_CACHED-flag-is-defined-b.patch<br>
 new file mode 100644<br>
-index 0000000000..6212c1a43e<br>
+index 0000000000..fc86d68e7d<br>
 --- /dev/null<br>
-+++ b/meta/recipes-devtools/python/python3-cryptography/0002-Fix-installing=
--stray-files-into-site-packages.patch<br>
-@@ -0,0 +1,55 @@<br>
-+From af53f00da0538e7d64625eea9f4ec850a2b7dd2e Mon Sep 17 00:00:00 2001<br>
-+From: =3D?UTF-8?q?Micha=3DC5=3D82=3D20G=3DC3=3DB3rny?=3D &lt;mgorny@gentoo=
-.org&gt;<br>
-+Date: Sun, 15 Feb 2026 18:01:37 +0100<br>
-+Subject: [PATCH] Fix installing stray files into site-packages (#14319)<br=
->
-+MIME-Version: 1.0<br>
-+Content-Type: text/plain; charset=3DUTF-8<br>
-+Content-Transfer-Encoding: 8bit<br>
++++ b/meta/recipes-devtools/qemu/qemu/0012-linux-user-Check-if-RESOLVE_CACH=
+ED-flag-is-defined-b.patch<br>
+@@ -0,0 +1,38 @@<br>
++From 09e077b87eed754cc0aac0f54d193d49f978c93f Mon Sep 17 00:00:00 2001<br>
++From: Frank Chang &lt;frank.chang@sifive.com&gt;<br>
++Date: Thu, 12 Feb 2026 17:54:49 +0800<br>
++Subject: [PATCH] linux-user: Check if RESOLVE_CACHED flag is defined befor=
+e<br>
++ using it<br>
 +<br>
-+Fix the `include` pattern in `pyproject.toml` not to install stray files<b=
-r>
-+such as `CHANGELOG.rst`, `CONTRIBUTING.rst`, `docs` and `tests` straight<b=
-r>
-+into site-packages.&nbsp; Apparently Maturin did not install them before d=
-ue<br>
-+to a bug, but it was fixed in maturin 1.12.0, leading to the files being<b=
-r>
-+suddenly installed.<br>
++Upstream-Status: Backport [<a href=3D"https://gitlab.com/qemu-project/qemu=
+/-/commit/7ac4bded6af90a15a9562515743a789236b062d1" id=3D"OWA383768c7-86dc-=
+dca8-f2b4-086c994c1f5e" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">h=
+ttps://gitlab.com/qemu-project/qemu/-/commit/7ac4bded6af90a15a9562515743a78=
+9236b062d1</a>]<br>
 +<br>
-+Originally reported as <a href=3D"https://bugs.gentoo.org/970090" id=3D"OW=
-Ae41523ff-ec66-4d72-0bcb-279765585b9c" class=3D"OWAAutoLink" data-auth=3D"N=
-otApplicable">
-https://bugs.gentoo.org/970090</a>.<br>
++openat2.h was introduced in Linux kernel 5.6. However, RESOLVE_CACHED<br>
++flag was only added in kernel 5.12 and later. Therefore, we need to check<=
+br>
++if RESOLVE_CACHED flag is defined before using it.<br>
 +<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/pyca/cryptography=
-/commit/43eb178ee3aae8d0060221118437b03c23570a41" id=3D"OWA3edec6e5-0b88-4b=
-d5-980e-b313536f7f63" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">htt=
-ps://github.com/pyca/cryptography/commit/43eb178ee3aae8d0060221118437b03c23=
-570a41</a>]<br>
-+<br>
-+Signed-off-by: Micha=B3 G=F3rny &lt;mgorny@gentoo.org&gt;<br>
-+(cherry picked from commit 43eb178ee3aae8d0060221118437b03c23570a41)<br>
++Signed-off-by: Frank Chang &lt;frank.chang@sifive.com&gt;<br>
++Reviewed-by: Helge Deller &lt;deller@gmx.de&gt;<br>
++Signed-off-by: Helge Deller &lt;deller@gmx.de&gt;<br>
++(cherry picked from commit 7ac4bded6af90a15a9562515743a789236b062d1)<br>
 +Signed-off-by: Himanshu Jadon &lt;hjadon@cisco.com&gt;<br>
 +---<br>
-+ pyproject.toml | 8 ++++----<br>
-+ 1 file changed, 4 insertions(+), 4 deletions(-)<br>
++ linux-user/strace.c | 2 ++<br>
++ 1 file changed, 2 insertions(+)<br>
 +<br>
-+diff --git a/pyproject.toml b/pyproject.toml<br>
-+index 75bfcbb94..8ee43d17a 100644<br>
-+--- a/pyproject.toml<br>
-++++ b/pyproject.toml<br>
-+@@ -106,10 +106,10 @@ module-name =3D &quot;cryptography.hazmat.bindings._=
-rust&quot;<br>
-+ locked =3D true<br>
-+ sdist-generator =3D &quot;git&quot;<br>
-+ include =3D [<br>
-+-&nbsp;&nbsp;&nbsp; &quot;CHANGELOG.rst&quot;,<br>
-+-&nbsp;&nbsp;&nbsp; &quot;CONTRIBUTING.rst&quot;,<br>
-++&nbsp;&nbsp;&nbsp; { path =3D &quot;CHANGELOG.rst&quot;, format =3D &quot=
-;sdist&quot; },<br>
-++&nbsp;&nbsp;&nbsp; { path =3D &quot;CONTRIBUTING.rst&quot;, format =3D &q=
-uot;sdist&quot; },<br>
-+<br>
-+-&nbsp;&nbsp;&nbsp; &quot;docs/**/*&quot;,<br>
-++&nbsp;&nbsp;&nbsp; { path =3D &quot;docs/**/*&quot;, format =3D &quot;sdi=
-st&quot; },<br>
-+<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; { path =3D &quot;src/_cffi_src/**/*.py&quot;, for=
-mat =3D &quot;sdist&quot; },<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; { path =3D &quot;src/_cffi_src/**/*.c&quot;, form=
-at =3D &quot;sdist&quot; },<br>
-+@@ -121,7 +121,7 @@ include =3D [<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; { path =3D &quot;src/rust/**/Cargo.lock&quot;, fo=
-rmat =3D &quot;sdist&quot; },<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; { path =3D &quot;src/rust/**/*.rs&quot;, format =
-=3D &quot;sdist&quot; },<br>
-+<br>
-+-&nbsp;&nbsp;&nbsp; &quot;tests/**/*.py&quot;,<br>
-++&nbsp;&nbsp;&nbsp; { path =3D &quot;tests/**/*.py&quot;, format =3D &quot=
-;sdist&quot; },<br>
-+ ]<br>
-+ exclude =3D [<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; &quot;vectors/**/*&quot;,<br>
++diff --git a/linux-user/strace.c b/linux-user/strace.c<br>
++index 758c5d32b6..a903b414fd 100644<br>
++--- a/linux-user/strace.c<br>
+++++ b/linux-user/strace.c<br>
++@@ -1125,7 +1125,9 @@ UNUSED static const struct flags openat2_resolve_fla=
+gs[] =3D {<br>
++&nbsp;&nbsp;&nbsp;&nbsp; FLAG_GENERIC(RESOLVE_NO_SYMLINKS),<br>
++&nbsp;&nbsp;&nbsp;&nbsp; FLAG_GENERIC(RESOLVE_BENEATH),<br>
++&nbsp;&nbsp;&nbsp;&nbsp; FLAG_GENERIC(RESOLVE_IN_ROOT),<br>
+++#ifdef RESOLVE_CACHED<br>
++&nbsp;&nbsp;&nbsp;&nbsp; FLAG_GENERIC(RESOLVE_CACHED),<br>
+++#endif<br>
++ #endif<br>
++&nbsp;&nbsp;&nbsp;&nbsp; FLAG_END,<br>
++ };<br>
 +--<br>
 +2.35.6<br>
 +<br>
@@ -511,5 +479,5 @@ rmat =3D &quot;sdist&quot; },<br>
 </body>
 </html>
 
---_000_DM4PR11MB6189E436A02CB0B253545E03C4A42DM4PR11MB6189namp_--
+--_000_DM4PR11MB618951C5E61E4EA0F2D3C8F2C4A42DM4PR11MB6189namp_--
 
