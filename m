@@ -1,161 +1,205 @@
-Return-Path: <hthakar@cisco.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D68D1C5DF81
-	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 05:59:45 +0000 (UTC)
-Received: from alln-iport-4.cisco.com (alln-iport-4.cisco.com [173.37.142.91])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.964.1787205578549817650
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 51958C5DF85
+	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 07:23:06 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1809.1787210578852687036
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2026 22:59:38 -0700
+ Thu, 20 Aug 2026 00:22:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=VmH9fCbm;
- spf=pass (domain: cisco.com, ip: 173.37.142.91, mailfrom: hthakar@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2688; q=dns/txt;
-  s=iport01; t=1787205578; x=1788415178;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=ROhbzzEbieIF/jB0TRqlrLcqixkq2vQrn+OAkmcMul0=;
-  b=VmH9fCbm6J+llApbGtduZ5xzxDASIxracCEtKhXRBuTs/lNZM93KzsNR
-   VW/Pd6/2lTQSfWftl+gGxFes6XCU2Fq6ntaZVGOkF+8ra6Fvh8c5IGtMx
-   T0VTN1eWNXK24XZtpNj/Y7k6fQhFZih+yKS3huvZUmqrEA3x+/qSXA/5h
-   BQ5W32HfIqq85m3uQGwa4IjmLmDoW4P43HTe57V73w3E9KxPcv1xP1JSD
-   wUFfz2KtKfgnpgAKUeLe7jklV1ESSFb1wxEc6nGskIrbsQuNdosC4cjFd
-   4LJ/ABhkV2zAOrRXlwrHwj8oNpqgOEEX/D284fXNFakO5+aliwgakjhQn
-   g==;
-X-CSE-ConnectionGUID: Qf6+WGUfQiKCTOPIXCqpQw==
-X-CSE-MsgGUID: tpdEVRdbTVSzqJ17CcYQ3Q==
-X-IPAS-Result: =?us-ascii?q?A0BFAgBWl4Zq/44QJK1aglmCV3ReQ0mWSp4egX4PAQEBD?=
- =?us-ascii?q?0QNBAEBhD9GjW0CJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBD?=
- =?us-ascii?q?hOGTw2GWgECASoLARgBLSwDAQJaIyGDAgGCdAMRwWIaN4F5M4EBgygBPwJDU?=
- =?us-ascii?q?NswAQsUAQWBM4U/iCJdGAGEfCcbG4FyhH6BBYFcAQGCLYV4BIIigQyBWh6BD?=
- =?us-ascii?q?4JrjVhIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQ0bBgWBHYEohDcjG?=
- =?us-ascii?q?TZ8gQlegSsqYQESF4EJggoCgnCCBgIBSUUOCRcLGA1IESw3FBkEPm4HjlEgg?=
- =?us-ascii?q?kuBDgEHDBcBIF+BPg2TGpI+oQ8KKIN2jCGVOhozqmwLmH2JHIRullCEaYFoP?=
- =?us-ascii?q?IFHCwdwFTuCZwlKGQ+OOINrgX+DFMcmJzICCTIBAQcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:ldw0q6DFJEG5+xVW/37iw5YqxClBgxIJ4kV8jS/XYbTApDkm1jAOn
- WsYDT2POPnfMWbxctxzPdm3/BwHsJDTzIViOVdlrnsFo1CmBibm6XV1Cm+qYkt+++WaFBoPA
- /02M4eGdIZvCCeA+n9BC5C5xVFkz6aEW7HgP+DNPyF1VGdMRTwo4f5Zs7ZRbrVA357jXmthh
- fuo+5eBYA/8imYuWo4pw/vrRC1H7ayaVAww5jTSVdgT1HfCmn8cCo4oJK3ZBxPQXolOE+emc
- P3Ixbe/83mx109F5gSNy+uTnuUiG9Y+DCDW4pZkc/HKbitq+kTe5p0G2M80Mi+7vdkmc+dZk
- 72hvbToIesg0zaldO41C3G0GAkmVUFKFSOuzXWX6aSuI0P6n3TE+vswT34ZAIMh+8VcPUZ21
- MwzMSg0cUXW7w626OrTpuhEj8AnKozveYgYoHwllWyfBvc9SpeFSKLPjTNa9G5v3YYVQ7CHO
- YxANWAHgBfoO3WjPn8XFJI3n+6yrnL+aDZf7lmSoMLb5kCDlVcvgeewaIC9ltqiWd1Zs3iiq
- mj6wV/rGzNDa/eU+APeyyf57gPItWahMG4IL5W/7vNsjViZy2AfBRFTXlyhrNG9i1WiQJRYM
- 0ES9y8koKQ++UDtScPyNyBUu1aNuhoaHt4VGOog5UTVl+zf4h2SAS4PSTsphMEaifLajAcCj
- jeh9+4FzxQz2FFJYRpxLoupkA4=
-IronPort-HdrOrdr: A9a23:rpEP+qj5DuA0ySb5v5+sPG58OHBQXvYji2hC6mlwRA09TyVXra
- +TdZMgpHrJYVkqOU3I9ersBEDiewK/yXcK2+ks1N6ZNWGM0ldAR7sN0WKN+VHd8gTFh4pgPN
- 9bAstDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhBQpcUAUdAY0++/YTzrdHFLeA==
-X-Talos-CUID: =?us-ascii?q?9a23=3AqBDnwmhhjXL4NAAC4JiFwmSfHDJuS3ODj0j/HkG?=
- =?us-ascii?q?BCEVCdJqtaG+74btdjJ87?=
-X-Talos-MUID: 9a23:xQaH5Qrk0wGwerJAYpQezy16OOpW2aikNH42g4wk4pavPh1JYA7I2Q==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,232,1779148800"; 
-   d="scan'208";a="813697502"
-Received: from alln-l-core-05.cisco.com ([173.36.16.142])
-  by alln-iport-4.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Aug 2026 05:59:37 +0000
-Received: from sjc-ads-5471.cisco.com (sjc-ads-5471.cisco.com [10.28.23.235])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-05.cisco.com (Postfix) with ESMTPS id 7465D1800017F;
-	Thu, 20 Aug 2026 05:59:37 +0000 (GMT)
-Received: by sjc-ads-5471.cisco.com (Postfix, from userid 1887505)
-	id 0BA27CC12A6; Wed, 19 Aug 2026 22:59:37 -0700 (PDT)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	Hetvi Thakar <hthakar@cisco.com>
-Subject: [OE-core][scarthgap][PATCH] libssh2: Fix CVE-2026-58051
-Date: Wed, 19 Aug 2026 22:59:32 -0700
-Message-Id: <20260820055932.40619-1-hthakar@cisco.com>
-X-Mailer: git-send-email 2.35.6
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=jVvg2zDr;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gn6i1noQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a01e0d3782-fdaedf5e-b933-4322-af0f-8b86d0620e6b-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1787210578;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=6VcP5A0GUYva3FABw34siB9vej9ha1vWx2IoJqkLnZ0=;
+	b=jVvg2zDrftO73u6yT+E8bOxPZfCIiuXMeT+DsJK0lYdAhmHSFbZglvSHC2RIK347
+	0VcfVUZsN7EO8L2fDrNiaZ+3TskUKT9Td8zXH1WDp9fCaZffO/7LYk4MrzPX2/mC8Ki
+	UdLbfmM033ZOi4XAAeSOUHbxIq5lI7B8R+doNn14=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787210578;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=6VcP5A0GUYva3FABw34siB9vej9ha1vWx2IoJqkLnZ0=;
+	b=gn6i1noQN6AuerxG/+oQUNau04YnjWpEg7CkLO+yBcH047sH7AW3+2mHVCOThzgm
+	CrpcVUwyUVVvjAVeJ3Ny4fZ41JTC9egT1JZmS8fQqUxqIfIakXmGHySR0rhoKV0nfFY
+	De6eocJ7VBd/OVOdBuUp8kNJyDMcGu/56cKQwTX8=
+Content-Type: multipart/mixed; boundary="===============5219983942070688333=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-5471.cisco.com [10.28.23.235];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 10.28.23.235, sjc-ads-5471.cisco.com
-X-Outbound-Node: alln-l-core-05.cisco.com
+From: auh@yoctoproject.org
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] erofs-utils: upgrading to 1.9.4 SUCCEEDED
+Message-ID: <010101a01e0d3782-fdaedf5e-b933-4322-af0f-8b86d0620e6b-000000@us-west-2.amazonses.com>
+Date: Thu, 20 Aug 2026 07:22:57 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.20-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 05:59:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243807
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 07:23:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243809
 
-From: Hetvi Thakar <hthakar@cisco.com>
+--===============5219983942070688333==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Backport the upstream fix for CVE-2026-58051 using the
-commit in [1].
-The CVE advisory [2] describes an uninitialized
-publickey-list entry cleanup issue affecting libssh2
-through 1.11.1.
+Hello,
 
-[1] https://github.com/libssh2/libssh2/commit/a9758da45a52bc8c630ec9493804d0c6ea30b24a
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58051
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *erofs-utils* to *1.9.4* has Succeeded.
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+Next steps:
+    - apply the patch: git am 0001-erofs-utils-upgrade-1.9.3-1.9.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From bbfc6890473098ba6b0382734f8ea7f84b69fd9a Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 20 Aug 2026 05:12:56 +0000
+Subject: [PATCH] erofs-utils: upgrade 1.9.3 -> 1.9.4
+
+Source: ChangeLog
+
+erofs-utils 1.9.4
+
+* A quick maintenance release includes the following fixes:
+
+ - (fsck.erofs, dump.erofs) Fix image extraction when `-Efragments` is
+                            enabled (Seula Lee);
+ - (mkfs.erofs) Fix multi-threaded compression crashes on macOS
+                (Isaiah DeRose-Wilson).
+
+ -- Gao Xiang <xiang@kernel.org>  Wed, 19 Aug 2026 19:30:00 +0800
 ---
- .../libssh2/libssh2/CVE-2026-58051.patch      | 34 +++++++++++++++++++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
- 2 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch
+ .../erofs-utils/{erofs-utils_1.9.3.bb => erofs-utils_1.9.4.bb}  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/erofs-utils/{erofs-utils_1.9.3.bb => erofs-utils_1.9.4.bb} (93%)
 
-diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch
-new file mode 100644
-index 0000000000..6be1e81d63
---- /dev/null
-+++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch
-@@ -0,0 +1,34 @@
-+From 39ea6e1783afcbd72838eaf649999baa2c41ab12 Mon Sep 17 00:00:00 2001
-+From: Viktor Szakats <vszakats@users.noreply.github.com>
-+Date: Mon, 29 Jun 2026 19:12:21 +0200
-+Subject: [PATCH] publickey: fix potential arbitrary free in
-+ `libssh2_publickey_list_fetch()` (#2127)
-+
-+Due to uninitialized list entry.
-+
-+Reported-and-patch-by: Behzod Abdullayev
-+Reported-by: Sharique Raza
-+
-+Follow-up to e15f5d97a04cc676ce117dd324fef85b046207a9
-+
-+CVE: CVE-2026-58051
-+Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/a9758da45a52bc8c630ec9493804d0c6ea30b24a]
-+
-+(cherry picked from commit a9758da45a52bc8c630ec9493804d0c6ea30b24a)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ src/publickey.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/src/publickey.c b/src/publickey.c
-+index 9ff2e5cf..5af3b50a 100644
-+--- a/src/publickey.c
-++++ b/src/publickey.c
-+@@ -972,6 +972,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
-+                     goto err_exit;
-+                 }
-+                 list = newlist;
-++                memset(&list[keys], 0, sizeof(list[keys]));
-+             }
-+             if(pkey->version == 1) {
-+                 unsigned long comment_len;
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-index 960ff71df2..f29454cd84 100644
---- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-@@ -13,6 +13,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
-            file://CVE-2026-7598.patch \
-            file://CVE-2026-55200.patch \
-            file://CVE-2026-55199.patch \
-+           file://CVE-2026-58051.patch \
-            "
+diff --git a/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.3.bb b/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.4.bb
+similarity index 93%
+rename from meta/recipes-devtools/erofs-utils/erofs-utils_1.9.3.bb
+rename to meta/recipes-devtools/erofs-utils/erofs-utils_1.9.4.bb
+index 2b849f2a4e..45339656b5 100644
+--- a/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.3.bb
++++ b/meta/recipes-devtools/erofs-utils/erofs-utils_1.9.4.bb
+@@ -4,7 +4,7 @@ SECTION = "base"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=63afa010baddc7d0905f9c31ac759f51"
+ HOMEPAGE = "https://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git/tree/README"
  
- SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
+-SRCREV = "7db78788b000999e2de88decd2ba90654f26171c"
++SRCREV = "f36cadb5c563995ab3aa8572a60ed6b721b9557d"
+ SRC_URI = "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master;protocol=https;tag=v${PV}"
+ 
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>(\d+(\.\d+)+))"
 -- 
-2.35.6
+2.47.1
 
+
+--===============5219983942070688333==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-erofs-utils-upgrade-1.9.3-1.9.4.patch"
+
+RnJvbSBiYmZjNjg5MDQ3MzA5OGJhNmIwMzgyNzM0ZjhlYTdmODRiNjlmZDlhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMjAgQXVnIDIwMjYgMDU6MTI6NTYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+cm9mcy11dGlsczogdXBncmFkZSAxLjkuMyAtPiAxLjkuNAoKU291cmNlOiBDaGFuZ2VMb2cKCmVy
+b2ZzLXV0aWxzIDEuOS40CgoqIEEgcXVpY2sgbWFpbnRlbmFuY2UgcmVsZWFzZSBpbmNsdWRlcyB0
+aGUgZm9sbG93aW5nIGZpeGVzOgoKIC0gKGZzY2suZXJvZnMsIGR1bXAuZXJvZnMpIEZpeCBpbWFn
+ZSBleHRyYWN0aW9uIHdoZW4gYC1FZnJhZ21lbnRzYCBpcwogICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgZW5hYmxlZCAoU2V1bGEgTGVlKTsKIC0gKG1rZnMuZXJvZnMpIEZpeCBtdWx0aS10aHJl
+YWRlZCBjb21wcmVzc2lvbiBjcmFzaGVzIG9uIG1hY09TCiAgICAgICAgICAgICAgICAoSXNhaWFo
+IERlUm9zZS1XaWxzb24pLgoKIC0tIEdhbyBYaWFuZyA8eGlhbmdAa2VybmVsLm9yZz4gIFdlZCwg
+MTkgQXVnIDIwMjYgMTk6MzA6MDAgKzA4MDAKLS0tCiAuLi4vZXJvZnMtdXRpbHMve2Vyb2ZzLXV0
+aWxzXzEuOS4zLmJiID0+IGVyb2ZzLXV0aWxzXzEuOS40LmJifSAgfCAyICstCiAxIGZpbGUgY2hh
+bmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMt
+ZGV2dG9vbHMvZXJvZnMtdXRpbHMve2Vyb2ZzLXV0aWxzXzEuOS4zLmJiID0+IGVyb2ZzLXV0aWxz
+XzEuOS40LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lcm9m
+cy11dGlscy9lcm9mcy11dGlsc18xLjkuMy5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9lcm9m
+cy11dGlscy9lcm9mcy11dGlsc18xLjkuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDkzJQpyZW5hbWUg
+ZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvZXJvZnMtdXRpbHMvZXJvZnMtdXRpbHNfMS45LjMu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9lcm9mcy11dGlscy9lcm9mcy11dGls
+c18xLjkuNC5iYgppbmRleCAyYjg0OWYyYTRlLi40NTMzOTY1NmI1IDEwMDY0NAotLS0gYS9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvZXJvZnMtdXRpbHMvZXJvZnMtdXRpbHNfMS45LjMuYmIKKysrIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL2Vyb2ZzLXV0aWxzL2Vyb2ZzLXV0aWxzXzEuOS40LmJiCkBA
+IC00LDcgKzQsNyBAQCBTRUNUSU9OID0gImJhc2UiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6
+Ly9DT1BZSU5HO21kNT02M2FmYTAxMGJhZGRjN2QwOTA1ZjljMzFhYzc1OWY1MSIKIEhPTUVQQUdF
+ID0gImh0dHBzOi8vZ2l0Lmtlcm5lbC5vcmcvcHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3hpYW5n
+L2Vyb2ZzLXV0aWxzLmdpdC90cmVlL1JFQURNRSIKIAotU1JDUkVWID0gIjdkYjc4Nzg4YjAwMDk5
+OWUyZGU4OGRlY2QyYmE5MDY1NGYyNjE3MWMiCitTUkNSRVYgPSAiZjM2Y2FkYjVjNTYzOTk1YWIz
+YWE4NTcyYTYwZWQ2YjcyMWI5NTU3ZCIKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0Lmtlcm5lbC5vcmcv
+cHViL3NjbS9saW51eC9rZXJuZWwvZ2l0L3hpYW5nL2Vyb2ZzLXV0aWxzLmdpdDticmFuY2g9bWFz
+dGVyO3Byb3RvY29sPWh0dHBzO3RhZz12JHtQVn0iCiAKIFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JF
+R0VYID0gInYoP1A8cHZlcj4oXGQrKFwuXGQrKSspKSIKLS0gCjIuNDcuMQoK
+
+--===============5219983942070688333==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="erofs-utils-changelog.txt"
+
+Changelog for erofs-utils: 1.9.3 -> 1.9.4
+Source: ChangeLog
+
+erofs-utils 1.9.4
+
+* A quick maintenance release includes the following fixes:
+
+ - (fsck.erofs, dump.erofs) Fix image extraction when `-Efragments` is
+                            enabled (Seula Lee);
+ - (mkfs.erofs) Fix multi-threaded compression crashes on macOS
+                (Isaiah DeRose-Wilson).
+
+ -- Gao Xiang <xiang@kernel.org>  Wed, 19 Aug 2026 19:30:00 +0800
+
+--===============5219983942070688333==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-dbg: PV changed from "1.9.3" to "1.9.4"
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-dbg: PKGV changed from 1.9.3 [default] to 1.9.4 [default]
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-dbg: PKGSIZE changed from 2748304 to 2749240 (+0%)
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-dev: PV changed from "1.9.3" to "1.9.4"
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-dev: PKGV changed from 1.9.3 [default] to 1.9.4 [default]
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-doc: PV changed from "1.9.3" to "1.9.4"
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-doc: PKGV changed from 1.9.3 [default] to 1.9.4 [default]
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-locale: PV changed from "1.9.3" to "1.9.4"
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-locale: PKGV changed from 1.9.3 [default] to 1.9.4 [default]
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-src: PV changed from "1.9.3" to "1.9.4"
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-src: PKGV changed from 1.9.3 [default] to 1.9.4 [default]
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-src: PKGSIZE changed from 806689 to 806862 (+0%)
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-src: FILELIST: directory renamed /usr/src/debug/erofs-utils/1.9.3/lib/remotes -> /usr/src/debug/erofs-utils/1.9.4/lib/remotes, directory renamed /usr/src/debug/erofs-utils/1.9.3/mkfs -> /usr/src/debug/erofs-utils/1.9.4/mkfs, directory renamed /usr/src/debug/erofs-utils/1.9.3/fsck -> /usr/src/debug/erofs-utils/1.9.4/fsck, directory renamed /usr/src/debug/erofs-utils/1.9.3/mount -> /usr/src/debug/erofs-utils/1.9.4/mount, directory renamed /usr/src/debug/erofs-utils/1.9.3/include/erofs -> /usr/src/debug/erofs-utils/1.9.4/include/erofs, directory renamed /usr/src/debug/erofs-utils/1.9.3/lib/backends -> /usr/src/debug/erofs-utils/1.9.4/lib/backends, directory renamed /usr/src/debug/erofs-utils/1.9.3/dump -> /usr/src/debug/erofs-utils/1.9.4/dump, directory renamed /usr/src/debug/erofs-utils/1.9.3/include -> /usr/src/debug/erofs-utils/1.9.4/include, directory renamed /usr/src/debug/erofs-utils/1.9.3/lib -> /usr/src/debug/erofs-utils/1.9.
+ 4/lib
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-staticdev: PV changed from "1.9.3" to "1.9.4"
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils-staticdev: PKGV changed from 1.9.3 [default] to 1.9.4 [default]
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils: PV changed from "1.9.3" to "1.9.4"
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils: PKGV changed from 1.9.3 [default] to 1.9.4 [default]
+packages/x86-64-v3-poky-linux/erofs-utils/erofs-utils: PKGSIZE changed from 764832 to 768928 (+1%)
+packages/x86-64-v3-poky-linux/erofs-utils: SRC_URI changed from "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master;protocol=https;tag=v1.9.3" to "git://git.kernel.org/pub/scm/linux/kernel/git/xiang/erofs-utils.git;branch=master;protocol=https;tag=v1.9.4"
+packages/x86-64-v3-poky-linux/erofs-utils: PV changed from "1.9.3" to "1.9.4"
+packages/x86-64-v3-poky-linux/erofs-utils: PKGV changed from 1.9.3 [default] to 1.9.4 [default]
+
+--===============5219983942070688333==--
 
