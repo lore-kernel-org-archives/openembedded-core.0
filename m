@@ -1,144 +1,135 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <shinucha@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74899C5DF81
-	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 08:54:18 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2902.1787216053581324510
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C33FC5DF86
+	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 09:00:08 +0000 (UTC)
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3180.1787216400907803490
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2026 01:54:14 -0700
+ Thu, 20 Aug 2026 02:00:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Db3lbV/6;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.46, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-499acf0fb55so11156035e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 01:54:13 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=fP7CWyAW;
+ spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: shinucha@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1787216052; x=1787820852; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=ApnIcMXowaVCE0O3MJUjw+3vGZwdXtviL2t8FPTu1+k=;
-        b=Db3lbV/6rYODdDcBOnlaBMvlvc1WLR8G2uvroiNzrguCbcGpc+PTd1qgk3gOUsbi7p
-         kWeHA1FG5PjkENTOxxW8+rwiqDmjihuBn1o/JGCNxVFIIbkELqG9hXuDhdWr53m5cxyt
-         aI15K2LTCDCnoVEXpdZNp9/Px/IE83edA2mcE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787216052; x=1787820852;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=ApnIcMXowaVCE0O3MJUjw+3vGZwdXtviL2t8FPTu1+k=;
-        b=UBtWiAF6SCg6PtwkfjOPQ/70zogddN26TDb1TqxuQk9+pzIwHi972xrgtGTXLXbyji
-         NNbg/qdRSRKK6QfLNvrNmoYINmdwY+3E3YFjTqcCkzojX+W05O50Lp7UbB3yFEUl3E09
-         anQ11udCfc/9Adj8yWId/q6hRYZOHz96ZPhMJCrmDe4LsjxA1Rxv5sdf9Usxxc/ByVso
-         MCiidfHAsAYNqox0Q3dcPRSrnkcH281FV/gP617TIETzQea/Av7WSmrdC70pmIcXB1gF
-         UL1xF925tPtljPWgbFQcWT079oRMt77A5NyDy/wVMwtlgJx/fTrxkGrY5RXwFb0ih19k
-         9ZTw==
-X-Forwarded-Encrypted: i=1; AHgh+RoIXopJoLzM9CoyECXJUpuYgEMJTU6MQoE09FhfOI+fkdtUxaTCd7tEWXRtZvWgWYLFF8QElj/OBL65d3eVpIH7Gg==@lists.openembedded.org
-X-Gm-Message-State: AOJu0Yw0OXB+j6ZjDmuPyAb5zBJYpdRpU6HbpDhCuUyioVGPp8cmDQxy
-	OOftQapvwirLRPpskPDv9j92XjPYMOHdbZIjUCMfTPNdqyBf235//SorCD9qYWUZ9V7Ti7SpAAs
-	eoRVD+2U=
-X-Gm-Gg: AR+sD12sD4+W7F0BnilKZ5eqQfrSbJJMh2fZAFSg4Zpv+vg9J4zt+J7jO7I2fkRQn6S
-	+Fh/arkADRr+Fi5dPIFGzhIPR8eEubOAwqFd/JgDLNPc+t1qlABRvoxTjWzyfMDm3k+tnFpcqKB
-	Og7uEjgXe1pTnjETLzn+JZr0ATMM1AOaeDqM+HIb7ZTaYuEEWUDiAC7oVrP80j8BJQ0LPrjFxs9
-	A22z49SEmsbPmpMLZO+fnAzIWKmO5iCVTQdLrPsnJHRAXjsRD2I4ayOESWm51KV0VtDs6pMJOm9
-	zyd4NmkVz9qfJa7ZY5ou3pcL3cHoLiCwBFJoc2DlF4gsffl8gkKHbJJKT3W9MYOV1VqNWJfaoQU
-	FjZy5ohUle6y0M56QAHZHJ3Z2PIb4tr6fPZtaRVyZqbZCbVJQo8XifkylBuP5EvQb+Id6blyq23
-	0uIKitq22cvnXA3ekz9sD9ikwI6dlr1FXv1kCqijEBFIcTEDGptM/RoEFU9EhgtaAPOUp7kispK
-	KdYYtroWlEMBDXFC1hjQtGhk6tnf6I90xEJd44IoDq+VadmOMJn6g==
-X-Received: by 2002:a05:600c:34d1:b0:499:49f3:77b1 with SMTP id 5b1f17b1804b1-499aa14a6a6mr191747025e9.3.1787216051760;
-        Thu, 20 Aug 2026 01:54:11 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9334:47ad:4624:539c? ([2001:8b0:aba:5f3c:9334:47ad:4624:539c])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499aa09b199sm112558555e9.0.2026.08.20.01.54.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2026 01:54:10 -0700 (PDT)
-Message-ID: <d489c96976fb770d0499ef325cedf7e085dcc775.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 1/3] rust-cross-canadian: install
- target-specific env scripts and fix rustlib lookup
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-Date: Thu, 20 Aug 2026 09:54:09 +0100
-In-Reply-To: <20260807093116.3680514-1-Harish.Sadineni@windriver.com>
-References: <20260807093116.3680514-1-Harish.Sadineni@windriver.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+  d=cisco.com; i=@cisco.com; l=2092; q=dns/txt;
+  s=iport01; t=1787216400; x=1788426000;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=oZi2QaNtOuaz41Xh16CbqRUp6cpqOdwASjuMOPv2GT4=;
+  b=fP7CWyAWd01KNX5qRKBoLlRt0b75RS6l0TdN3pbUdxbVqTV/foESmbm+
+   BMAFlqX8hSE2Z9mpmyVSbL0Dcbs/6zybsdEiN2NUi8ulUr/FbWzSM0aSy
+   60S5ckmSMBiU89DXh1TyfEBcyzSA3v38E94OLSjpKSCIcofpM5pxhYaKX
+   WoT6rludDaNBqWtwgZfS2Gv4tUqGOE3T5vHA1Hv0pfmqian9Hh23ZrE5/
+   weS2zaucvNptBLeMaeAHQuoujtZ28K4Uw01jOLiYKOpFlxDe0xrk5Mece
+   0kiylwhBFkKILZCOMQPG78XP5fAWw/6VMTOjrY0GjbWgSWg9DCjVg1Z8A
+   g==;
+X-CSE-ConnectionGUID: 9Sedt0hdSNGVP+6GMUq4wg==
+X-CSE-MsgGUID: Z+CjKpO/TzKJXDpP7rjOHQ==
+X-IPAS-Result: =?us-ascii?q?A0BAAgAkwYZq/4wQJK1aglmCV3RfQkmWSp4egX4PAQEBD?=
+ =?us-ascii?q?zcaBAEBhQWNbQImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE?=
+ =?us-ascii?q?4ZPDYZdNgFGgQxEgwIBgnQCAcJUgiyBAYR92UqBZgELFAEFgTOFcYdwhXInG?=
+ =?us-ascii?q?4FJRIR+hRCFeASDLoF4UIExj1FIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BI?=
+ =?us-ascii?q?z4XgQ0bBgWBHYEohDcjGTZ8gQlegSsqYQESF4EJggoCgnCCBgIBSUUOCRcLG?=
+ =?us-ascii?q?A1IESw3FBkEPm4HjlEggksBgQ6CAgMQHJM3OJItoQ+EKIFmijuVOhozhASBV?=
+ =?us-ascii?q?6URmQiCWaIBhGmBaDyBWU0jFYMiCUoZD5hzxWkkNT0CBwIHDgMLk2YBAQ?=
+IronPort-Data: A9a23:xmM2ja8GN+Ne4nHb/mAEDrUD1n+TJUtcMsCJ2f8bNWPcYEJGY0x3z
+ 2BOXjzUOfrfYTP8f9p0b42y9BxQscWHn98wGgBs/n9EQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mvyyHjEAX9gWAsYjtFs/jrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2lnBoAU5r53DVpo2
+ sIga24iSy2a2/25lefTpulE3qzPLeHiOIcZ/3UlxjbDALN+GtbIQr7B4plT2zJYasJmRKmFI
+ ZFHL2MxKk2cO3WjOX9PYH46tPyoh3/ieD1RgFmUvqEwpWPUyWSd1ZC9aYCFKoLXHJQ9ckCwl
+ CHt/UfhJVYmJv+9+Radyi22hMjvpHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJZF+k8rQXIwa3O7kPBXS4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:k09QIaxmf/JKgy/y1Q3zKrPwAL1zdoMgy1knxilNoNJuHfBw8P
+ re+cjzuiWUtN98YhwdcLO7Scu9qA3nlaKdiLN5VdzJYOCMggWVxe9ZgbcK6geQfxEWjtQttp
+ tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
+X-Talos-CUID: 9a23:izKHZ2870ov6O3p/2NaVvx8vF8w5Kn3R91H/HXf7V0lMdaTJVlDFrQ==
+X-Talos-MUID: =?us-ascii?q?9a23=3AsMX1Hw0meLf2lbRa25rBg/2/gjUj0eeFCmMVttI?=
+ =?us-ascii?q?6qeqmBQBoA2iHjhOXe9py?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,232,1779148800"; 
+   d="scan'208";a="812886519"
+Received: from alln-l-core-03.cisco.com ([173.36.16.140])
+  by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Aug 2026 09:00:00 +0000
+Received: from sjc-ads-8046.cisco.com (sjc-ads-8046.cisco.com [171.68.208.84])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by alln-l-core-03.cisco.com (Postfix) with ESMTPS id CF613180001FD;
+	Thu, 20 Aug 2026 08:59:59 +0000 (GMT)
+Received: by sjc-ads-8046.cisco.com (Postfix, from userid 1784405)
+	id 669DFCCD9AB; Thu, 20 Aug 2026 01:59:59 -0700 (PDT)
+From: Shinu Chandran <shinucha@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com, to@cisco.com,
+	Shinu Chandran <shinucha@cisco.com>
+Subject: [OE-core] [master] [PATCH] initscripts: avoid service dependency in mountnfs.sh
+Date: Thu, 20 Aug 2026 01:59:56 -0700
+Message-Id: <20260820085956.3366518-1-shinucha@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-8046.cisco.com [171.68.208.84];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.68.208.84, sjc-ads-8046.cisco.com
+X-Outbound-Node: alln-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 08:54:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243823
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 09:00:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243824
 
-On Fri, 2026-08-07 at 02:31 -0700, Sadineni, Harish via lists.openembedded.=
-org wrote:
-> From: Harish Sadineni <Harish.Sadineni@windriver.com>
->=20
-> YOCTO [#15061]
->=20
-> Fixes 32-bit Cargo build failures when using multilib-enabled SDKs.
->=20
-> Store the generated environment setup script in a target-specific
-> subdirectory so that sourcing the SDK environment always loads the
-> matching script for the selected target, avoiding accidental reuse of
-> the 64-bit configuration when building for a 32-bit target.
->=20
-> Also update `CARGO_TARGET_<TRIPLE>_RUSTFLAGS` to add an explicit
-> `-L` search path to the target `rustlib` directory inside the sysroot.
-> This ensures Cargo can locate the correct target-specific Rust libraries
-> during cross-compilation with the cross-canadian toolchain.
->=20
-> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
-> ---
-> =C2=A0meta/recipes-devtools/rust/rust-cross-canadian.inc | 10 ++++++----
-> =C2=A01 file changed, 6 insertions(+), 4 deletions(-)
->=20
-> diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/re=
-cipes-devtools/rust/rust-cross-canadian.inc
-> index f083bcda82..bdc63e221f 100644
-> --- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-> +++ b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-> @@ -51,15 +51,17 @@ do_install () {
-> =C2=A0=C2=A0=C2=A0=C2=A0 chmod +x "$outfile"
-> =C2=A0=C2=A0=C2=A0=C2=A0 create_sdk_wrapper "${SYS_BINDIR}/target-rust-cc=
-ld-wrapper" "CC"
-> =C2=A0
-> -=C2=A0=C2=A0=C2=A0 ENV_SETUP_DIR=3D${D}${base_prefix}/environment-setup.=
-d
-> -=C2=A0=C2=A0=C2=A0 mkdir "${ENV_SETUP_DIR}"
-> +=C2=A0=C2=A0=C2=A0 ENV_SETUP_DIR=3D${D}${base_prefix}/environment-setup.=
-d/${TARGET_SYS}
-> +=C2=A0=C2=A0=C2=A0 mkdir -p "${ENV_SETUP_DIR}"
-> =C2=A0=C2=A0=C2=A0=C2=A0 RUST_ENV_SETUP_SH=3D"${ENV_SETUP_DIR}/${RUST_TAR=
-GET_SYS}_rust.sh"
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 RUST_TARGET_TRIPLE=3D`echo ${RUST_TARGET_SYS} | =
-tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
-> =C2=A0
-> =C2=A0=C2=A0=C2=A0=C2=A0 cat <<- EOF > "${RUST_ENV_SETUP_SH}"
-> -	export CARGO_TARGET_${RUST_TARGET_TRIPLE}_RUSTFLAGS=3D"--sysroot=3D\$OE=
-CORE_TARGET_SYSROOT/usr -C link-arg=3D--sysroot=3D\$OECORE_TARGET_SYSROOT"
-> -	export CARGO_BUILD_TARGET=3D"${RUST_TARGET_SYS}"
-> +	export RUST_TARGET_SYS_VALUE=3D"${RUST_TARGET_SYS}"
-> +	LIB_PATH=3D"\$OECORE_TARGET_SYSROOT/usr/${baselib}/rustlib/${RUST_TARGE=
-T_SYS}/lib"
-> +	export CARGO_TARGET_${RUST_TARGET_TRIPLE}_RUSTFLAGS=3D"--sysroot=3D\$OE=
-CORE_TARGET_SYSROOT/usr -C link-arg=3D--sysroot=3D\$OECORE_TARGET_SYSROOT -=
-L \$LIB_PATH"
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 export CARGO_BUILD_TARGET=3D"=
-${RUST_TARGET_SYS}"
-> =C2=A0	export RUST_TARGET_PATH=3D"\$OECORE_NATIVE_SYSROOT/usr/lib/${TARGE=
-T_SYS}/rustlib"
-> =C2=A0	EOF
+mountnfs.sh uses "service rpcbind status" only to avoid
+starting rpcbind twice before mounting remote filesystems. That
+pulls init-system-helpers-service into images solely to provide
+/usr/sbin/service.
 
-I'm a bit confused here. The script in question already has
-${RUST_TARGET_SYS} in its name, so it is already target specific. Why
-do we need to move it to a target specific directory?
+Use start-stop-daemon test mode for the rpcbind status check
+instead. The script already uses start-stop-daemon to start rpcbind,
+so this keeps the duplicate-start protection without requiring the
+Debian service wrapper.
 
-Cheers,
+With mountnfs.sh no longer invoking service, drop
+init-system-helpers-service from the initscripts runtime dependencies.
 
-Richard
+Signed-off-by: Shinu Chandran <shinucha@cisco.com>
+---
+ meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh | 3 +--
+ meta/recipes-core/initscripts/initscripts_1.0.bb          | 1 -
+ 2 files changed, 1 insertion(+), 3 deletions(-)
+
+diff --git a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+index c08597e725..53c6cfd457 100755
+--- a/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
++++ b/meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh
+@@ -71,8 +71,7 @@ if test "$rpcbind" = yes
+ then
+ 	if test -x /usr/sbin/rpcbind
+ 	then
+-		service rpcbind status > /dev/null
+-		if [ $? != 0 ]; then
++		if ! start-stop-daemon --stop --test --quiet --exec /usr/sbin/rpcbind; then
+ 			echo -n "Starting rpcbind..."
+ 			start-stop-daemon --start --quiet --exec /usr/sbin/rpcbind
+ 			sleep 2
+diff --git a/meta/recipes-core/initscripts/initscripts_1.0.bb b/meta/recipes-core/initscripts/initscripts_1.0.bb
+index ae386a6281..5e154c0a9b 100644
+--- a/meta/recipes-core/initscripts/initscripts_1.0.bb
++++ b/meta/recipes-core/initscripts/initscripts_1.0.bb
+@@ -45,7 +45,6 @@ DEPENDS:append = " update-rc.d-native"
+ PACKAGES =+ "${PN}-functions ${PN}-sushell"
+ RDEPENDS:${PN} = "initd-functions \
+                   ${@bb.utils.contains('DISTRO_FEATURES','selinux','${PN}-sushell','',d)} \
+-                  init-system-helpers-service \
+ 		 "
+ # Recommend pn-functions so that it will be a preferred default provider for initd-functions
+ RRECOMMENDS:${PN} = "${PN}-functions"
+-- 
+2.35.6
 
 
