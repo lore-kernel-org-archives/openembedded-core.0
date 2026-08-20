@@ -1,106 +1,134 @@
-Return-Path: <emailaddress.ashish@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24811C5DF81
-	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 16:34:36 +0000 (UTC)
-Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2213.1787243668782822097
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29B48C5DF85
+	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 16:41:36 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2443.1787244090043901065
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2026 09:34:28 -0700
+ Thu, 20 Aug 2026 09:41:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=LnuMJ0kq;
- spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: emailaddress.ashish@gmail.com)
-Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-381c51fde6bso2871100a91.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 09:34:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787243668; x=1787848468; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=b/DE7R8GgmP/Vvl7IaKxkfeG+vuWQbUX6CyNSINDiq8=;
-        b=LnuMJ0kqMP+D+jhIP6O47PduueFpIwJLs7VNlb8MoIVrtPAEQARZeqYC8W0J1KSQNr
-         5IBQ5M3I67xG8XZ1iTeiMwDc119vxaq6T/03Wndyp51wd0DNomdcu31VROHwqeT7OBWW
-         b4VFAshXjl10XfERkTpKiOhTrA1p632I8Apf1pFhZwfR6AeNWhhmx6+XFtkND8jeicu/
-         G0wXsLZ2DaMUjdjhhEcXO+s7Q1z97FER0+fD+IomRprjcpdxHHStGYBplll6QcsLIqmX
-         tFrHY3xNAiCPO8656Dd00rXPp1QlWf7+yLa/NESb1uwdlcMI+4wXOmFLXO2aJ+EAX0bO
-         YPjQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787243668; x=1787848468;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=b/DE7R8GgmP/Vvl7IaKxkfeG+vuWQbUX6CyNSINDiq8=;
-        b=dkT4rUSJ6PyBaQpZw0B1V0bYOimPvn55JJph4MEzLTmdNSeAxn95UytIh0/VrITv9+
-         nJAGe9uHGu2lyP9aOVVzYdInz+Jk1BcW39Bhrpb8kUK5RFfuiAmE+K0163sonfKAxjh1
-         2pdnI9ZBbEb2vvCDx0iJWZe8wlPgLgadcajebO1uZZ48uQ+CmCW9lVgGYtD9AfqP+dMb
-         +1vddkz8EsJdf23WwTlF+zqHFeMcTGJ4psrm4N3sVrhCiWYb/rN9rfwhTIxtpSbyOiDn
-         HLK4I7OhXz2vvfSorKNql1YXX2i60FfKVtIblu9XbPlpHd5oQmB/UwblYAKOQDQE1Kx5
-         R7Bw==
-X-Gm-Message-State: AFuF++mAUhy0TJYtrfdRa9aINFk7LIQ3MA73jTmHVrJCi59k/v9ttyM9
-	wm1TDDT+Nfjmff1XYH8lKIeNtD6C8NDHEHiX9lI8eGIHHvdRNLwxz91ravGZNg==
-X-Gm-Gg: AR+sD12xQk402sleYVlKVH2r294og/jXPfpoMSVNZqgIvAA6nT+OX+fDipkzHfK6UrG
-	mfFJl4/bwKqLPcO1A5XMIRwVZ1lct6ujpXmgeS9OhnvoU0/x/RT9ELw45Y0dPg+EnS/pe/PCQAf
-	a6ZtmDg35c8RKUvNmfuLMmd+7HHL2vBc4XXZJz3dNAx94JiVa2JvAnWAKwZ85CLFn13zLkEB5vO
-	Qe/vo9DrhOUYBfmklroyBse8AGJzd8Pr00HrzWpJ9AfwilrPPVSm3X7zbMPy94pxlp0RwRtasWq
-	Bo0VFwSwtp62mhn7jttbv35ZDJ62QTCfbkfitc1kIr8aF2cg55ieIOlSTNfJ2AASWvVh5ZIHp4H
-	QsVYOQC76ZM+PgW1bdx46BinTPGjsxTXAo20Nfn0oN9kHE0JKBM5yLmREFSX597SGE6Q5acQL5u
-	I9Rpi+LZHbyX12YUkmozvgjmhkKkoTtDvZt0kc0o7PsKWOMw6l2naqmc4/sSqJgSmZXts1MPVue
-	42yvQ==
-X-Received: by 2002:a17:90b:2241:b0:380:105f:8ffd with SMTP id 98e67ed59e1d1-39581228dbdmr24608637a91.16.1787243668040;
-        Thu, 20 Aug 2026 09:34:28 -0700 (PDT)
-Received: from ashishkumar.. ([2406:7400:12b:e084:22e6:6458:e81c:b916])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1416ad699c9sm18125719c88.8.2026.08.20.09.34.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 20 Aug 2026 09:34:27 -0700 (PDT)
-From: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=H75bB98g;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202608201641267766a60703000207f5-jhstfa@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202608201641267766a60703000207f5
+        for <openembedded-core@lists.openembedded.org>;
+        Thu, 20 Aug 2026 18:41:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=qLiOL+dXongnm8yrvBd1Ub5qIo6RqW97mvQuoWkQ9x8=;
+ b=H75bB98gF5tTx9lDZLhxNWS3rQZHpAgXletoZI1KwlCYsKGF3bEf2pzh6WMt+mqILdLXYm
+ 1CySJZGZ/Zzt+6PMGrGTLPw8Ro8VMOBCyJiDaaUgUTuDHKp5zJjwrredKe0Sv1rR6qr5CHXa
+ I0t21X8q3vlvx80+GqNPrOF+iD/KKpEAQBjZpX+0lItgf45GCync8b2yovbprcsHltiZ6/1C
+ Biq/U2u1sM9aMhKaSxPSBx9VTLbWpQt/InYbU/PTWKyj6uZH9/EmZ50OSVZgaOgzFyWfFJLG
+ /8JnyAsnGxAZbUbvzMwbar2pdpHXevg7eAJ4LEU/pYXtwWsXLiwyrGWA==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Cc: AshishKumar Mishra <emailaddress.ashish@gmail.com>
-Subject: [wrynose][PATCH] mesa: align x86 mesa config with LLVM graphics
-Date: Thu, 20 Aug 2026 22:03:42 +0530
-Message-ID: <20260820163342.12213-1-emailaddress.ashish@gmail.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Peter Marko <peter.marko@siemens.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [PATCH] go: upgrade 1.26.6 -> 1.26.7
+Date: Thu, 20 Aug 2026 18:41:14 +0200
+Message-ID: <20260820164114.2720049-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 16:34:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243871
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 16:41:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243872
 
-This change makes the x86 and native mesa PACKAGECONFIG appends conditional
-on the same DISTRO_FEATURES check used by LLVM.
+From: Peter Marko <peter.marko@siemens.com>
 
-As a result, graphics-related Mesa and LLVM options are only added when the
-distro explicitly enables a graphics stack, while leaving non-graphics
-minimal images unchanged.
+Upgrade to latest 1.26.x release [1]:
 
-(cherry picked from commit 2cf81caa69474c5ec2397ca37622c86519791d44)
+$ git --no-pager log --oneline go1.26.6..go1.26.7
+e3336a22ad (tag: go1.26.7) [release-branch.go1.26] go1.26.7
+50e5b59e9c [release-branch.go1.26] net/http: clear ReadHeaderTimeout after accepting an unencrypted h2 conn
+98e6631a5a [release-branch.go1.26] cmd/internal/moddeps: restore tests
 
-Signed-off-by: AshishKumar Mishra <emailaddress.ashish@gmail.com>
+This minor release includes a fix to address a breakage affecting
+unencrypted HTTP/2 (h2c) connections caused by a security patch
+included in last week’s release. See go.dev/issue/80876 for details.
+
+Release information: [2]
+
+[1] https://github.com/golang/go/compare/go1.26.6...go1.26.7
+[2] https://groups.google.com/g/golang-announce/c/qA6Vpj2UA-4
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-graphics/mesa/mesa.bb | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ meta/recipes-devtools/go/{go-1.26.6.inc => go-1.26.7.inc}   | 2 +-
+ ...o-binary-native_1.26.6.bb => go-binary-native_1.26.7.bb} | 6 +++---
+ ...cross-canadian_1.26.6.bb => go-cross-canadian_1.26.7.bb} | 0
+ .../go/{go-cross_1.26.6.bb => go-cross_1.26.7.bb}           | 0
+ .../go/{go-crosssdk_1.26.6.bb => go-crosssdk_1.26.7.bb}     | 0
+ .../go/{go-runtime_1.26.6.bb => go-runtime_1.26.7.bb}       | 0
+ meta/recipes-devtools/go/{go_1.26.6.bb => go_1.26.7.bb}     | 0
+ 7 files changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-devtools/go/{go-1.26.6.inc => go-1.26.7.inc} (90%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.26.6.bb => go-binary-native_1.26.7.bb} (80%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.26.6.bb => go-cross-canadian_1.26.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.26.6.bb => go-cross_1.26.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.26.6.bb => go-crosssdk_1.26.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.26.6.bb => go-runtime_1.26.7.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.26.6.bb => go_1.26.7.bb} (100%)
 
-diff --git a/meta/recipes-graphics/mesa/mesa.bb b/meta/recipes-graphics/mesa/mesa.bb
-index 66c8f9c372..a646c16af7 100644
---- a/meta/recipes-graphics/mesa/mesa.bb
-+++ b/meta/recipes-graphics/mesa/mesa.bb
-@@ -13,10 +13,10 @@ PACKAGECONFIG = " \
- 	zlib \
+diff --git a/meta/recipes-devtools/go/go-1.26.6.inc b/meta/recipes-devtools/go/go-1.26.7.inc
+similarity index 90%
+rename from meta/recipes-devtools/go/go-1.26.6.inc
+rename to meta/recipes-devtools/go/go-1.26.7.inc
+index fa6b0a50a1..fed87015b2 100644
+--- a/meta/recipes-devtools/go/go-1.26.6.inc
++++ b/meta/recipes-devtools/go/go-1.26.7.inc
+@@ -16,4 +16,4 @@ SRC_URI += "\
+     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
+     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
  "
+-SRC_URI[main.sha256sum] = "a0721c54c688901448d77ad9b3ec7ea7c474730755ff891382e92ecb93ff2cb1"
++SRC_URI[main.sha256sum] = "0ed24eac755105085b89fe9cabc2742b91a0ad7b94b59d3ad364918ebc8956ad"
+diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.6.bb b/meta/recipes-devtools/go/go-binary-native_1.26.7.bb
+similarity index 80%
+rename from meta/recipes-devtools/go/go-binary-native_1.26.6.bb
+rename to meta/recipes-devtools/go/go-binary-native_1.26.7.bb
+index 2913fb6515..753f1b13bb 100644
+--- a/meta/recipes-devtools/go/go-binary-native_1.26.6.bb
++++ b/meta/recipes-devtools/go/go-binary-native_1.26.7.bb
+@@ -9,9 +9,9 @@ PROVIDES = "go-native"
  
--PACKAGECONFIG:append:x86 = " libclc gallium-llvm intel amd nouveau svga"
--PACKAGECONFIG:append:x86-64 = " libclc gallium-llvm intel amd nouveau svga"
--PACKAGECONFIG:append:i686 = " libclc gallium-llvm intel amd nouveau svga"
--PACKAGECONFIG:append:class-native = " libclc gallium-llvm amd nouveau svga"
-+PACKAGECONFIG:append:x86 = "${@bb.utils.contains_any('DISTRO_FEATURES', 'opengl opencl vulkan', ' libclc gallium-llvm intel amd nouveau svga', '', d)}"
-+PACKAGECONFIG:append:x86-64 = "${@bb.utils.contains_any('DISTRO_FEATURES', 'opengl opencl vulkan', ' libclc gallium-llvm intel amd nouveau svga', '', d)}"
-+PACKAGECONFIG:append:i686 = "${@bb.utils.contains_any('DISTRO_FEATURES', 'opengl opencl vulkan', ' libclc gallium-llvm intel amd nouveau svga', '', d)}"
-+PACKAGECONFIG:append:class-native = "${@bb.utils.contains_any('DISTRO_FEATURES', 'opengl opencl vulkan', ' libclc gallium-llvm amd nouveau svga', '', d)}"
+ # Checksums available at https://go.dev/dl/
+ SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
+-SRC_URI[go_linux_amd64.sha256sum] = "708effb774be8237570d0add163225abbdfaf4fca28b2611df167beba4feef89"
+-SRC_URI[go_linux_arm64.sha256sum] = "d0507e9e9d7fe012aae570108cbd76c15de879e17130ab8cb90d4d7445cb1f2e"
+-SRC_URI[go_linux_ppc64le.sha256sum] = "232b65543a42eda95df6a63f76235c1795bb535eba5c74e509faec71bc648388"
++SRC_URI[go_linux_amd64.sha256sum] = "ffb5f8de10c62550dfddab66b36b57030721e0a44a3218e9e1181d7b59f121ca"
++SRC_URI[go_linux_arm64.sha256sum] = "5a4ec883379d51ee9ce1040d5e87f8d35e20387574dd8c947feb01eabc3c1b37"
++SRC_URI[go_linux_ppc64le.sha256sum] = "22d3b362d557175fd16b79651cab0cad64f8aaaedca745f66d16f44d56bc5de1"
  
- GLPROVIDES = " \
-     ${@bb.utils.contains('PACKAGECONFIG', 'opengl', 'virtual/libgl', '', d)} \
--- 
-2.43.0
-
+ UPSTREAM_CHECK_URI = "https://golang.org/dl/"
+ UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
+diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.6.bb b/meta/recipes-devtools/go/go-cross-canadian_1.26.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross-canadian_1.26.6.bb
+rename to meta/recipes-devtools/go/go-cross-canadian_1.26.7.bb
+diff --git a/meta/recipes-devtools/go/go-cross_1.26.6.bb b/meta/recipes-devtools/go/go-cross_1.26.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-cross_1.26.6.bb
+rename to meta/recipes-devtools/go/go-cross_1.26.7.bb
+diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.6.bb b/meta/recipes-devtools/go/go-crosssdk_1.26.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-crosssdk_1.26.6.bb
+rename to meta/recipes-devtools/go/go-crosssdk_1.26.7.bb
+diff --git a/meta/recipes-devtools/go/go-runtime_1.26.6.bb b/meta/recipes-devtools/go/go-runtime_1.26.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go-runtime_1.26.6.bb
+rename to meta/recipes-devtools/go/go-runtime_1.26.7.bb
+diff --git a/meta/recipes-devtools/go/go_1.26.6.bb b/meta/recipes-devtools/go/go_1.26.7.bb
+similarity index 100%
+rename from meta/recipes-devtools/go/go_1.26.6.bb
+rename to meta/recipes-devtools/go/go_1.26.7.bb
 
