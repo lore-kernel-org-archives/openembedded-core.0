@@ -1,177 +1,192 @@
-Return-Path: <jakub.szczudlo@nokia.com>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59B79C5DF85
-	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 14:47:42 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.38])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.367.1787237259882501533
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF0CAC5DF81
+	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 15:11:55 +0000 (UTC)
+Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.15])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.333.1787238706778952121
  for <openembedded-core@lists.openembedded.org>;
- Thu, 20 Aug 2026 07:47:40 -0700
+ Thu, 20 Aug 2026 08:11:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nokia.com header.s=selector1 header.b=ZZuDVpGP;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: nokia.com, ip: 40.107.130.38, mailfrom: jakub.szczudlo@nokia.com)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=T2FOvtMh;
+ spf=pass (domain: axis.com, ip: 40.107.162.15, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=cjQ6ObqKTUpTYxM9rXO91nfnoLFVtpfI8MRHCyjXq78qQ5BmExepP+GHM2yDtBL+NTbYTpB8bjFSMvkn3SAgn+vHR/HHt4Zik90UpvFBIolJYajrXzE44hL5EdO/tLbrEuY4ucHJkiN6hzCbBEKPcad/LZjzB3HFDbL0YIa5p0iuCsv4vsAKfyLloV363bAliJptucn8feziEA8ZELIIfGp6UlQgb5WM/oCd0iOz+NeSNqPDlIhF9Cd4q9tjZ0v2Yv0VuLd/v6jLgA3ByWS9DNvaA848sGCBoYT96HsQTYAXYJhAioUMn+wxOljCKgDos4MIGr05YsbmppoutS+OpQ==
+ b=msYUmk+K0Ng7bMzgnB2nOXiQ1ZtHyhwC317DuAes0COAv9pV+l6zdDvjXZBSTZUu877ShJ8ERcWgOdJSSuS7SH+ml9oVW7n3UuFx4G6lvuhC1SICnRUedhrM6xxzJFqOhroXbZUypU8bHwy0J7ZWK2MyTR3JPjsSjHpUP+P7ktJpbOtDeSBJpt7n7MaoxvirIebJEvCpsVBDJvyEWeosklkTOcS1IiMTNV7CeNDCZBJOIkmgf4oVMf6r0KMd0k43BcVrxIbNgcswuvTlfbjnwWAQjBSYw+Uob8d8OsiEyB5x7FysgDYrjN0HMhjqWUcZr7eux80a1Rfvpv/xEeJM0Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V/PwfANed5nruknWORT588keftiNRNEpyRC9LN0Z6aQ=;
- b=wc2aTM93VdDJ/0wNCnFs8lVRwTHYww1yQ0mySXo2fO3CRsnBHhF/FCs25Zjm91Nbr6i/KL2eZfXlnP40hWgiczFUSrRSaYP3tkkFS6ohoQZWEycA5w4iwDoMVf2Idh/zRZahzdjVMmsw+Vt89bH4FiupNPt8b/+Oo6xYNgPo80dqmakM/VdmsSDykR8RWmVsbXkzisQgE7Q68wC6twAxjq/t85hjqVSfy3v3d3gvbt/QU+CWwkdchfaWxMvFINBrgbqBAw3JjWzX5+Ss+q1U0u22llYwz/K4HuqUdXX975J/2IxdKR8N8SkFyyNoQBnoDQ2fPC0unB4yitP5h7CSKw==
+ bh=wT0FNjcDaHBJ8PJ2P0ZHtaqHI0/fzv0/lePvB0z3flQ=;
+ b=MM8fisKS+0P1auR9uVUG2px1flA//qsjdXnapTYCl20hocL2WcquG7cGQ8KlH9WxJakwju5S54LooH4rY28QmfOTxhOvuJXHdWmiUSRTOVH8UNkylqvJ70r6XXk5x53WjRn+8ZyEf7M4VImQf0vxr/wFndcbw1BrF+X+9Hfe/gWGQUCBhzmYQeCwesdV9cdWWkhWraNczsFJomje5PQvvN8u5j8sJZDqmr0CMlZHrCjbVRe77dJ64+Et/cTYyHuqVF3BOCHoXA6GTOrRwoyZEl9xn4OxoQ/ycdzZfXMCW4qqmXpAAMowqiKSH3en7yYnHBrpJDIY2ApI77RGDuWBdQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
- dkim=pass header.d=nokia.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com;
- s=selector1;
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V/PwfANed5nruknWORT588keftiNRNEpyRC9LN0Z6aQ=;
- b=ZZuDVpGPb73cj29bGQc7oD6jfPQ6bz66jUvye2oXXBO0DUHQb0jN+Z8+oHMbblqv30OyWmYBtyNDlwaWzl4ofcc1gvYwkfvq3seeU3QgAKkIatzYvNqyUnXKoYpvFE+TVbAleqCoJZSBPUCxK+QmlcrMOA6XVtXX1llr+kA1z0Uvr6K5Yd1TQegY/oH16m5dG4Jf8wHuGKZM0QyJ0xNrXj1Sq7PV9DqTGDQNCdupL6dft7bnOJ96PcPm2NQboCkjT6Dj89ujPx1P5P1au8HHb/I5R/cmyJ7ZCoFOp1GjYXClmvYq0DFC/OCYwMAZpW44d35J9zE1kplF+qYPE8Hhww==
-Received: from FRWPR07MB10660.eurprd07.prod.outlook.com (2603:10a6:d10:183::9)
- by DB5PR07MB9584.eurprd07.prod.outlook.com (2603:10a6:10:4a9::22) with
+ bh=wT0FNjcDaHBJ8PJ2P0ZHtaqHI0/fzv0/lePvB0z3flQ=;
+ b=T2FOvtMhTI1qTPtar1MW8HURsieIqToYf+w7EEz5MAIwxFCtEB1uzJg/huD89qjWtDciw/pN1HSxMklHpsME+OejF4rAsjJJCt+oxkHul5TM05kxYeUnsu4zj7SZX+VdAt7vYCGAxWBgouo6mmE97sCzQnw6X0qE2LP+jK7ksOA=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by DUYPR02MB12519.eurprd02.prod.outlook.com (2603:10a6:10:65e::6) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.3; Thu, 20 Aug
- 2026 14:47:34 +0000
-Received: from FRWPR07MB10660.eurprd07.prod.outlook.com
- ([fe80::9105:401:e0a2:a997]) by FRWPR07MB10660.eurprd07.prod.outlook.com
- ([fe80::9105:401:e0a2:a997%4]) with mapi id 15.21.0360.003; Thu, 20 Aug 2026
- 14:47:34 +0000
-From: "Jakub Szczudlo (Nokia)" <jakub.szczudlo@nokia.com>
-To: "openembedded-core@lists.openembedded.org"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.8; Thu, 20 Aug
+ 2026 15:11:42 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd%4]) with mapi id 15.21.0339.007; Thu, 20 Aug 2026
+ 15:11:42 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "ross.burton@arm.com" <ross.burton@arm.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-CC: "Jakub Szczudlo (Nokia)" <jakub.szczudlo@nokia.com>
-Subject: [wrynose][PATCH] gnutls: fix CVE-2026-42010
-Thread-Topic: [wrynose][PATCH] gnutls: fix CVE-2026-42010
-Thread-Index: AQHdMLLWwIRaU+Qj8kOnJBUi0XB5FA==
-Date: Thu, 20 Aug 2026 14:47:34 +0000
-Message-ID: <20260820144727.4893-1-jakub.szczudlo@nokia.com>
-Accept-Language: en-US, en-150
+Subject: RE: [OE-core] [PATCH 2/2] libjpeg-turbo: use system zlib instead of
+ bundled copy
+Thread-Topic: [OE-core] [PATCH 2/2] libjpeg-turbo: use system zlib instead of
+ bundled copy
+Thread-Index: AQHdJChMizFwHDfK+0OH+FJpe8xZ87anIfYg
+Date: Thu, 20 Aug 2026 15:11:42 +0000
+Message-ID: 
+ <DB5PR02MB1021341229922FE37EE715F01EFA42@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20260804154451.2506951-1-ross.burton@arm.com>
+ <20260804154451.2506951-2-ross.burton@arm.com>
+In-Reply-To: <20260804154451.2506951-2-ross.burton@arm.com>
+Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=nokia.com;
+ header.d=none;dmarc=none action=none header.from=axis.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: FRWPR07MB10660:EE_|DB5PR07MB9584:EE_
-x-ms-office365-filtering-correlation-id: ece0c15d-7aff-4f2d-6cf7-08defec9f8c2
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DUYPR02MB12519:EE_
+x-ms-office365-filtering-correlation-id: 35e1b3b8-af4a-40cc-3a98-08defecd57c5
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|366016|23010399003|1800799024|10067099003|56012099006|29003799003|12006099003|25016099003|11063799006|18002099003|38070700021|13003099007;
+ BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|56012099006|10067099003|18002099003|22082099003|11063799006|4143699003|38070700021;
 x-microsoft-antispam-message-info: 
- 45nQFvZWAzhDvjpkuBARyMOrvVsCcBQDNbakwdD6IPQwHbpzka/9oBtbQZ5wlfuy53HdlbN7Q0bKe7VSNFkMhwhh8Lkm7ReBXCDpqTjjGb7wnJ798IDd2eGsDMFdlzccGKRb5abpW9soTTslJXXsr3AaHgJUosbO/w76k3UzTYtK1kjQY7aF5aI/1SUY/4xc6DVbZ4uMu01vsWj9XoMpe3INa9GCAxyrGuMWecrttbmoof2cDstl5wRVxwkFQmNqj1ntGPOYEbFOleVHIMQfhqfYLt0V4WzmRlQZ24tdZM7HyUHKFiuYMWULFtSNiQqXsts6rGKZgfdubm2c4mNW3H1Ol3/WI8TOAPms+BUiZi18WOrbtXtAPO5/0qW2alHhSDDPDed31TaPcDH7Psjm61Ltrffkhb3Cm6jwSlZZ0sfeYioU8avkeI9OKWDFUf86JDEyoZ93vEfAFfQwULiY5758PBvxqMRLwjK7/cajmihWfwst7DndcSTTnX/AIfywTAROdPxdz7sh39LURFohDymkc925o262d3H+D2gr9BIuUwVFcBZw93RlkACIhk5PkTFcdVQapoMQ7rggl77cyKSRoxKDmv4sTRkx1qeYksNHdE5xcu3au/SgOBnK/ns5nR/LKgi2v1Pwovu/F3/wnJZygL4C4C3lSjQm66cF8iO6cZglW0QpeACCRk/7rZvWWcfKk9CO5T+p3LXWe/8IC3dadViBRbVetwATsiX/AEc=
+ lrVyrLOmWg9QkYV6QQbYKNQzKMEfVKCEQeYmmUUFeTQ3ANTJP6bhXzGSIGAi9QhqD818OeCboSsHPWEkYZa3Nhn+oOcgvbFNBtDvd2qrEj9wKB/0HGGTFA4xkMmtZnNlqKZyM8a04EOoPLDkybaYGirZW5vRa14iIuOMgRN0qnOI7cYnI2Ieqad1echcBWg12SBNYsj0iSVc/Jz2D3t9whxUMySm3kHxu7FdotB7GnAoRhq6ENoadnv/Uir/IJ0UL07JTqHXX1LyDWv+jisNsKifDLUJIwSI/TOAveXF44a/G+IoA7flZo0Et3nP0VuuJ0F12xesLG8H/Zis1S3xVsVJi+wHtcHhSrpA9e6SLPAkCDhjCht7k5Un/VDgKKENCRWDjO6yBD3OAPscF9kRrgAcJRyIkX7mNYPtNX6ZoOHFxBwfasX/nfu0+LQcmJiSTVQoFTs1rIn1DMfgC7w7qJTvqaT2n6uIzEEIyluE/AFNJ8/vRX6D59OY7nzJ1LVN4jsqKKt2NqW2Vn9XLmMMbum6ojiqCCrhINsYOufzeV1oSwdutn2V9ymoTuCXPmP0sIUY2YsqVJTHkMAGkDWBB2OWysAlGvoPBMzWvX3De8gg9nqp3PtLzKRxxGUxGzSO/MfdJG5ykIu1Sie9barCYykcBN72Q8O7yQzqY6Y5CeM=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:FRWPR07MB10660.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(23010399003)(1800799024)(10067099003)(56012099006)(29003799003)(12006099003)(25016099003)(11063799006)(18002099003)(38070700021)(13003099007);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(56012099006)(10067099003)(18002099003)(22082099003)(11063799006)(4143699003)(38070700021);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?ZjJZakUzSE5zSnlUTHEwLzhBT1lTMTR6aUt0TFZsVjRsZ3dVc0Z3KzVsbHox?=
- =?utf-8?B?ZVc0UW1iQlRWTFFzQ0hLbHV2RHk5L2hQdzZzQ0kzOXRZRDhXbkhsUC8vWFFl?=
- =?utf-8?B?WStoQzFRb1JDUi9qV29PSkxabDVWRWNrTXNLSjBKc2NwQnlpdk1Nbi9hODYr?=
- =?utf-8?B?NjNHTm5Ec1FMRjNEc1hybjlKaGVKV256UTMxVEJPTG9hS1hNT0d1UWFaTVcw?=
- =?utf-8?B?Q3ljQnhsTUdydWltaVVwVXZOL3NGU0ZUc0RKd2U1TnE3cTEzM1pNWUJBYU5L?=
- =?utf-8?B?dDY2TGNDVGFtSGh6Uml2S2pOd2pRcnpkbFZidkdneGdwT25COG9OaGlRR3E2?=
- =?utf-8?B?NlRyNCtkRWJ0aXp0S1Q3YTFXVDJ0eWtna2VaVDJLZlZ6MmplT09DQ1dpcWJ6?=
- =?utf-8?B?aThWSC9uQ3cyaVBPTWZDTlJMdEsrWkU5Z3l1SEVld1Z3R1d1QnhObWdGeW5P?=
- =?utf-8?B?cnBnVk9qMTA2T09LdEExL21rSFdSSnRGUXAxWXI5TzBkK1lwM05mYjRuL1A0?=
- =?utf-8?B?d3VtTDJvc2FQdDBlWU15SExlOHloOVVNVkhwdmc4NUt3cE1jZk9FWWkzWmJX?=
- =?utf-8?B?M21qZU5oWkpCcmNXV2dQcFl4UlRaR1Z5NzVYcTN3cnJBbHRZM1JlQkFlam45?=
- =?utf-8?B?Zi8vL2UwWmdsZEFrbEZaRG5ZUW1YMlJqSC9jRXZqMXl0bGdaSzEyNVVpY082?=
- =?utf-8?B?U1FjZHpJS1dLOVVtSVFmWTB3elNJekFzbDJXZHVSVmVZQng1aW5uWHdVUGho?=
- =?utf-8?B?SjNLbVNGNFN0S1VIUm5oL2tOeE9Ia1FlOGlmMnh1SzlFbVVxQ2wwT0duOHFS?=
- =?utf-8?B?bVhXb1ZWUlZTTk9WYW9Ic3lLUWZ0UlpXMDVMbHRnOGE4QzI5RDU2d0tMaVcw?=
- =?utf-8?B?Z1VnTHIzZTRDbEhwRjk1ak54TG5yMGFtZFQ1cXhDczhnSWZNaFBQbHAvaHFK?=
- =?utf-8?B?Z0x3eGh2RjNUZ1RsTTZwZTgybis0dTZPZjhhQ1g5MlZZYTN3YlVJYTludWFF?=
- =?utf-8?B?dEd0Q2pLbndyTi83WUxEVUloZVB1Q2Y2R0VFNnlKaEhTU1NCbG1leG5PWXRM?=
- =?utf-8?B?OXQ3eEhTYzUyWCs0MkhMcGNxejZkKzlJQlUvUG1YVlNXTStETGVlRm95VHpY?=
- =?utf-8?B?YVVzZGJHczdpYmtwQ25mN0dyU0E5NWRkdjFOMENaeVBSTy81UlEwUEtHQnYx?=
- =?utf-8?B?ZUtBcWRaalI5OTl0Y20vMGNTcGhQam9Ub2QvNC9xMWRGRXlGa2FIcWNZTERo?=
- =?utf-8?B?L25yaWpGdW9VSVhEdTc2OU9sN2RRRndBMVFxSEJwT3dsQXdRSnRwVTQ4TXVO?=
- =?utf-8?B?Z3FocTZibEkzZ1dTZjVManBmcUs0aWIzaEhnMWJ4SVhJMkV0UHhkNytZcHNZ?=
- =?utf-8?B?OWtJVGh0WTBuc211MEQwc1FNbTcyaTl4YlJ4OE5ybGNEdTA2U0pGYTJGSVhO?=
- =?utf-8?B?YlR5bG1ENnlMdktuTG5vMmVXVW50M1JLSko2bEQwNFdybmhWN2hqb0ZVMnFl?=
- =?utf-8?B?WFVXNjNSMkM1cnFHWXRKNXJlcHdYY0cxSzBYaUFuZkxKTEhuQzBBczVIb0Mv?=
- =?utf-8?B?dFdCMFNyREwzemhLQWoyQ0FlN1MxQ09YUlRZbWtFcUFyeDJRUmRFcXZVV1VB?=
- =?utf-8?B?N0c5VGhGQ0pscm80bVNsMnM2aWgzUzA4bmVNbHR4ZityS0RFbkpHSzd3Z1Ni?=
- =?utf-8?B?Vmo1Z3E0VlY4aS8zS2poV1h5aUhDWTJyUi9HZkhobHc1d2hTamVuOTV1N1k1?=
- =?utf-8?B?b09RWVcybDNIdkNCN2g3RVVuK3FsV1pLSURPQkowRy9mbkZOamczY2w0Sll0?=
- =?utf-8?B?dGxwd1doNVZ5dm5wRFV4c1hob3cxb2cyaEFGWkhGamgvT3Uxa0x4TjhVVWhF?=
- =?utf-8?B?bVA0UWNDV25YTWJqRGlVbHBrV0MxWitLUHBxR3M3WVA3cFkyUGthZ0psb244?=
- =?utf-8?B?YnhqaDJvbm91aVdkRnRZNXBHZjhXSjVhTUxYVlpzMGk1TUoxUWlFbDQyYTh4?=
- =?utf-8?B?MUNGODhzWUhTZExiTlVhWS9KcXdsL2RxMnVmc0lOSUVYWUN3ckloSE9TU1di?=
- =?utf-8?B?eENtSjBOK09qRTlKMVAxSjBhTUdrRWNGUnBxdjBFcCt5Qk5PK29VbTJOTVl1?=
- =?utf-8?B?VmhjeFFYTHV5K2o5Wm5ubFBqM1YvQzZmUkYyOUZHd3E4NWVaVE9GdW5BbGxu?=
- =?utf-8?B?aHpzTGg4U0VKU0dWYjB0WWUxTHNWTStKNDJwN2kyU2FVajQvWS9OSTdJbWo0?=
- =?utf-8?B?dmVleTdOR2d1aGZFQjJ5c05LNTZSdWN2VVluUlV4NExkbW5xeUpaSmdES3RL?=
- =?utf-8?B?Q1pDTit2MHJMdVA1RFljZzN2enA1N1VnOVlFb1EvNE8xQ0pUT0Y5UT09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ =?us-ascii?Q?+Fhk0cn9AQx9mp3Jb+xtn9FB4pvi6gD5j88Lsb48c+4nr9tyEav5ILJ6xM4R?=
+ =?us-ascii?Q?NBVLeTevGOD2JmDwShYUvhm6BMDMqenVsYGbjmE9P2M9N985C4vuyuvHfa5e?=
+ =?us-ascii?Q?lfMXBstxq4qu6gyJ5pxMRmphMCRT8bYUo8bs4ZX/nTAcQ0/hHNDbUenRV3so?=
+ =?us-ascii?Q?7KJOehB/o3YIJ0EUjMG/G2qSVFvcpGZeGMSvObPWX4LGBOLZLcHkTiE/iGMs?=
+ =?us-ascii?Q?yZFc3Bk0fCoxuzBkvI/AqjrOxGdkcT5b+Db7k6bvO5FMzzTRRkq10BR8vNpo?=
+ =?us-ascii?Q?p/Mi3zLn3FoSjaPlDG11fRX7mOvzF7wFJy+pdj1wIs65W5GW7ancyOEd2uwj?=
+ =?us-ascii?Q?/A7DxsNwQYAEfeumvZnY+rGZ3wFlJiPrXnnAwNBD7R/2Fdklfod0XkImIK3z?=
+ =?us-ascii?Q?tnlVgPJ6yScBN226X44FrB6KrXo54U/nY1tdkR98TTGPns+y91UvZub4NF5W?=
+ =?us-ascii?Q?k/IYyA5SCduHx001QnU7RNGaEfk4lTBm/edb0j8jkBL7zNoOL6s5ng3wuFDL?=
+ =?us-ascii?Q?jezehVsiRfdOsHsgIu09l2pLiPUhOlvqL7aKHdvZm7p1/zD499ygTVM8XJiK?=
+ =?us-ascii?Q?Z53TBlKbNxhXxZBmc1lQVcpJcPyH3Hvh+0P0eAUeHZk7j/n2+S6WjtIdRMtl?=
+ =?us-ascii?Q?fUvTwPHyEHbkmym4e5a2zSkedwPZd4pNPbLcoc0HBbxLVEVEriibkCbcZpRT?=
+ =?us-ascii?Q?AN75kNECBju0rSpewI0XRdltt28reg95RHrXTKVDJD7UomnmIAm+T4N8uKqg?=
+ =?us-ascii?Q?ELNQbAIopGKUxQIMlD3UwIHoDzalEN/lxPstu3fmm8QLIqZNtvVHTQZ+y5Xo?=
+ =?us-ascii?Q?UY0EeKP7DoIsuW6if83xOJ4V3b/dOjzS0sNGgFVZFdID+oySZ8ohQUNzBeOn?=
+ =?us-ascii?Q?ixz3gEcMKm+yePPAh7YQIuYXjnXQUzzKZYmNlVOLav0KiLZNn/EIIYpqnUwQ?=
+ =?us-ascii?Q?YHujWNMgfurCZ1+a3XlRwLGzaFN/pbet/OLfwfDwbBNkW1KDbIMxyWjfnVm8?=
+ =?us-ascii?Q?Ei5UQWcbedIK8sB4l4BzAfNFOKpyvTS+rCgk33VKyOoeujdTKTXZGanAIvD9?=
+ =?us-ascii?Q?K0vD0ChU28GF5LrTDJmCmydnj8Mf29UgOqrAzbIEuzNuGmxiHT0exm4rf4DJ?=
+ =?us-ascii?Q?aUoDUE8dvlrYk6mU5LaeE/aKZ0H3dUw673/YxJmYiRolVkzQt7gpeuwFUlQj?=
+ =?us-ascii?Q?FWHcA7tnL1tGJ55T/NnSX98esW2GmvQ+aMaDM8rge80SNPgR67aEveXRsCdh?=
+ =?us-ascii?Q?0QK+jiGho/mEqRTwSEwo4urq0Sq6qKzKNvqOkA1djv4cGDeIYRcrDF81XDAv?=
+ =?us-ascii?Q?xEEKEc8QKqAz6dzZDja5oK3QQyv+C3sypFKdmiftst7u05f7wRHGimld/CIl?=
+ =?us-ascii?Q?Z+Ut1F9cfffUm2+4Y6HNtf2qX4MmIpw7f67wi/G2XDVfdIFn+OgCXirT8A8J?=
+ =?us-ascii?Q?2NlLEdJQ1VxogG083f/MPoU5BNrUfnZ6U6vZWegzRdZHVpEn1ko+dfblaBTn?=
+ =?us-ascii?Q?rKKoXZWp2u8q3nAFJNv6BFzQUIoEU5FiMzdVqinWkKvVBixB7Z70c7+FpSUd?=
+ =?us-ascii?Q?8lEwYGJZ70J27flpcAx04kFKHogzxakiLczuhS8pvuqjEprHQtZj3RxNoZEd?=
+ =?us-ascii?Q?aSEU4Jvl6U+aOycH2tvogNwplnFwA4ULnLRJrwk0YVXZcHpXAHj19wjEW3Yl?=
+ =?us-ascii?Q?y8Vary5fZHeKVcAYMI7Mnara318=3D?=
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-X-OriginatorOrg: nokia.com
+X-OriginatorOrg: axis.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: FRWPR07MB10660.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: ece0c15d-7aff-4f2d-6cf7-08defec9f8c2
-X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2026 14:47:34.8095
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 35e1b3b8-af4a-40cc-3a98-08defecd57c5
+X-MS-Exchange-CrossTenant-originalarrivaltime: 20 Aug 2026 15:11:42.7153
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: MGriGoqSh5zVdcG2wYSQgXRwITfWScxlJdWagPNVCSo4eiy5Miz+xeNZivz3JKp1KSaR3GQJDegqALd009j4KCyOC9P2UD/oZ95XhgMggJs=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB5PR07MB9584
+X-MS-Exchange-CrossTenant-userprincipalname: 4cU5a8LR1wNm7gul+Rl4JV1BP97GKMkP4yeBiuJXk8MSsTzThnUJ1wzpQJD06zuo
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DUYPR02MB12519
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 14:47:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243869
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 15:11:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243870
 
-QmFja3BvcnQgcGF0Y2ggdG8gZml4IENWRS0yMDI2LTQyMDEwLgoKUmVmZXJlbmNlczoKICBodHRw
-czovL252ZC5uaXN0Lmdvdi92dWxuL2RldGFpbC9DVkUtMjAyNi00MjAxMAoKVXBzdHJlYW0gZml4
-OgogIGh0dHBzOi8vZ2l0bGFiLmNvbS9nbnV0bHMvZ251dGxzLy0vY29tbWl0L2NiMTgzM2FmZDli
-NjMwOTU2MzIxMWIxYzBhN2MyOTFmNTJjYTk4ZDUKClRlc3RlZCB3aXRoIHB0ZXN0CgpTaWduZWQt
-b2ZmLWJ5OiBKYWt1YiBTemN6dWRsbyA8amFrdWIuc3pjenVkbG9Abm9raWEuY29tPgotLS0KIC4u
-Li9nbnV0bHMvZ251dGxzL0NWRS0yMDI2LTQyMDEwLnBhdGNoICAgICAgICB8IDQxICsrKysrKysr
-KysrKysrKysrKysKIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHNfMy44LjEyLmJi
-ICB8ICAxICsKIDIgZmlsZXMgY2hhbmdlZCwgNDIgaW5zZXJ0aW9ucygrKQogY3JlYXRlIG1vZGUg
-MTAwNjQ0IG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHMvQ1ZFLTIwMjYtNDIwMTAu
-cGF0Y2gKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnV0bHMvZ251dGxzL0NW
-RS0yMDI2LTQyMDEwLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251dGxzL2dudXRscy9D
-VkUtMjAyNi00MjAxMC5wYXRjaApuZXcgZmlsZSBtb2RlIDEwMDY0NAppbmRleCAwMDAwMDAwMDAw
-Li5iOTRhMzJhZmZmCi0tLSAvZGV2L251bGwKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251
-dGxzL2dudXRscy9DVkUtMjAyNi00MjAxMC5wYXRjaApAQCAtMCwwICsxLDQxIEBACitGcm9tIGNi
-MTgzM2FmZDliNjMwOTU2MzIxMWIxYzBhN2MyOTFmNTJjYTk4ZDUgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCitGcm9tOiBBbGV4YW5kZXIgU29zZWRraW4gPGFzb3NlZGtpbkByZWRoYXQuY29tPgor
-RGF0ZTogVHVlLCAyMSBBcHIgMjAyNiAxOToyNjoxMCArMDIwMAorU3ViamVjdDogW1BBVENIXSBs
-aWIvYXV0aC9yc2FfcHNrOiBmaXggYmluYXJ5IFBTSyBpZGVudGl0eSBsb29rdXAKKworQSBzZXJ2
-ZXIgbG9va2luZyB1cCBQU0sgdXNlcm5hbWUgd2l0aCBhIE5VTC1jaGFyYWN0ZXIgaW4gaXQKK3dh
-cyB3cm9uZ2Z1bGx5IG1hdGNoaW5nIHVzZXJuYW1lIHRydW5jYXRlZCBhdCBhIE5VTC1jaGFyYWN0
-ZXIuCitGaXggdGhlIGNoZWNrIHRvIGNvbXBhcmUgdXAgdG8gdGhlIGZ1bGwgdXNlcm5hbWUgbGVu
-Z3RoLgorCitDVkU6IENWRS0yMDI2LTQyMDEwCitVcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFto
-dHRwczovL2dpdGxhYi5jb20vZ251dGxzL2dudXRscy8tL2NvbW1pdC9jYjE4MzNhZmQ5YjYzMDk1
-NjMyMTFiMWMwYTdjMjkxZjUyY2E5OGQ1XQorCitSZXBvcnRlZC1ieTogSm9zaHVhIFJvZ2VycyBv
-ZiBBSVNMRSBSZXNlYXJjaCBUZWFtIDxqb3NodWFAam9zaHVhLmh1PgorRml4ZXM6ICMxODUwCitG
-aXhlczogQ1ZFLTIwMjYtNDIwMTAKK0ZpeGVzOiBHTlVUTFMtU0EtMjAyNi0wNC0yOS00CitDVlNT
-OiA3LjEgSGlnaCBDVlNTOjMuMS9BVjpOL0FDOkwvUFI6TC9VSTpOL1M6VS9DOkgvSTpML0E6Tgor
-U2lnbmVkLW9mZi1ieTogQWxleGFuZGVyIFNvc2Vka2luIDxhc29zZWRraW5AcmVkaGF0LmNvbT4K
-K1NpZ25lZC1vZmYtYnk6IFBldGVyIE1hcmtvIDxwZXRlci5tYXJrb0BzaWVtZW5zLmNvbT4KK1Np
-Z25lZC1vZmYtYnk6IEpha3ViIFN6Y3p1ZGxvIDxqYWt1Yi5zemN6dWRsb0Bub2tpYS5jb20+Cist
-LS0KKyBsaWIvYXV0aC9yc2FfcHNrLmMgfCAzICstLQorIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMiBkZWxldGlvbnMoLSkKKworZGlmZiAtLWdpdCBhL2xpYi9hdXRoL3JzYV9wc2su
-YyBiL2xpYi9hdXRoL3JzYV9wc2suYworaW5kZXggY2M5MmI0YWE5Ni4uMjdjYWYxODc2OSAxMDA2
-NDQKKy0tLSBhL2xpYi9hdXRoL3JzYV9wc2suYworKysrIGIvbGliL2F1dGgvcnNhX3Bzay5jCitA
-QCAtMzIxLDggKzMyMSw3IEBAIHN0YXRpYyBpbnQgX2dudXRsc19wcm9jX3JzYV9wc2tfY2xpZW50
-X2t4KGdudXRsc19zZXNzaW9uX3Qgc2Vzc2lvbiwKKyAJICogZmlsbGVkIGluIGlmIHRoZSBrZXkg
-aXMgbm90IGZvdW5kLgorIAkgKi8KKyAJcmV0ID0gX2dudXRsc19wc2tfcHdkX2ZpbmRfZW50cnko
-c2Vzc2lvbiwgaW5mby0+dXNlcm5hbWUsCistCQkJCQkgc3RybGVuKGluZm8tPnVzZXJuYW1lKSwg
-JnB3ZF9wc2ssCistCQkJCQkgTlVMTCk7CisrCQkJCQkgaW5mby0+dXNlcm5hbWVfbGVuLCAmcHdk
-X3BzaywgTlVMTCk7CisgCWlmIChyZXQgPCAwKQorIAkJcmV0dXJuIGdudXRsc19hc3NlcnRfdmFs
-KHJldCk7CisgCistLSAKK0dpdExhYgorCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9y
-dC9nbnV0bHMvZ251dGxzXzMuOC4xMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9n
-bnV0bHNfMy44LjEyLmJiCmluZGV4IDNhZDAxMTc0MmUuLmIzOGE3YmJlODIgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHNfMy44LjEyLmJiCisrKyBiL21ldGEv
-cmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHNfMy44LjEyLmJiCkBAIC0zNyw2ICszNyw3IEBA
-IFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cuZ251cGcub3JnL2Z0cC9nY3J5cHQvZ251dGxzL3Yke1NI
-UlRfVkVSfS9nbnV0bHMtJHtQVn0udGFyCiAgICAgICAgICAgIGZpbGU6Ly9DVkUtMjAyNi00MjAw
-OV9wMS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly9DVkUtMjAyNi00MjAwOV9wMi5wYXRjaCBc
-CiAgICAgICAgICAgIGZpbGU6Ly9DVkUtMjAyNi0zODMzLnBhdGNoIFwKKyAgICAgICAgICAgZmls
-ZTovL0NWRS0yMDI2LTQyMDEwLnBhdGNoIFwKICAgICAgICAgICAgIgogCiBTUkNfVVJJW3NoYTI1
-NnN1bV0gPSAiYTdiMzQxNDIxYmZkNDU5YWNmN2EzNzRjYTRhZjNiOWUwNjYwOGRjZDdiZDc5MmIy
-YmY0NzBiZWEwMTJiOGU1MSIKLS0gCjIuMzQuMQoK
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Ross Burton via lists.openembedded.org
+> Sent: den 4 augusti 2026 17:45
+> To: openembedded-core@lists.openembedded.org
+> Subject: [OE-core] [PATCH 2/2] libjpeg-turbo: use system zlib instead of =
+bundled copy
+>=20
+> The libjpegturbo library bundles a copy of libspng which in turn bundles
+> a copy of zlib.  We don't currently have a libspng recipe but we can
+> stop it bundling zlib.
+>=20
+> Signed-off-by: Ross Burton <ross.burton@arm.com>
+> ---
+>  meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb | 3 +++
+>  1 file changed, 3 insertions(+)
+>=20
+> diff --git a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb b/meta/rec=
+ipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb
+> index 89504419762..7a548d4e9c6 100644
+> --- a/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb
+> +++ b/meta/recipes-graphics/jpeg/libjpeg-turbo_3.2.0.bb
+> @@ -5,6 +5,7 @@ HOMEPAGE =3D "http://libjpeg-turbo.org/"
+>  LICENSE =3D "BSD-3-Clause AND IJG AND Zlib"
+>  LIC_FILES_CHKSUM =3D "file://LICENSE.md;md5=3Dd21daef3b4b318f77062055059=
+c72934"
+>=20
+> +DEPENDS =3D "zlib"
+>  DEPENDS:append:x86-64:class-target =3D " nasm-native"
+>  DEPENDS:append:x86:class-target =3D " nasm-native"
+>=20
+> @@ -28,6 +29,8 @@ export NASMENV =3D "--reproducible --debug-prefix-map=
+=3D${WORKDIR}=3D${TARGET_DBGSRC_D
+>  EXTRA_OECMAKE +=3D "-DCMAKE_SKIP_INSTALL_RPATH=3DON"
+>  # Ensure the -fPIC options are used to avoid -native compile failures, e=
+.g. on opensuse160
+>  EXTRA_OECMAKE +=3D "-DCMAKE_POSITION_INDEPENDENT_CODE=3DON"
+> +# Use system zlib instead of the bundled copy
+> +EXTRA_OECMAKE +=3D "-DWITH_SYSTEM_ZLIB=3DON"
+>=20
+>  # Add nasm-native dependency consistently for all build arches is hard
+>  EXTRA_OECMAKE:append:class-native =3D " -DWITH_SIMD=3DFalse"
+> --
+> 2.43.0
+
+After the above change, one of our applications that uses libjpeg-turbo=20
+fails to build. It fails with:
+
+| CMake Error at .../recipe-sysroot/usr/lib/cmake/libjpeg-turbo/libjpeg-tur=
+boTargets.cmake:77 (set_target_properties):
+|   The link interface of target "libjpeg-turbo::turbojpeg" contains:
+|
+|     ZLIB::ZLIB
+|
+|   but the target was not found.  Possible reasons include:
+|
+|     * There is a typo in the target name.
+|     * A find_package call is missing for an IMPORTED target.
+|     * An ALIAS target is missing.
+|
+| Call Stack (most recent call first):
+|   .../recipe-sysroot/usr/lib/cmake/libjpeg-turbo/libjpeg-turboConfig.cmak=
+e:37 (include)
+|   code/CMakeLists.txt:20 (find_package)
+
+I can solve it by adding find_package(ZLIB REQUIRED) to the=20
+code/CMakeLists.txt file, but is that really expected? I would have=20
+assumed that whatever CMake files libjpeg-turbo installs should take=20
+care of that automatically.
+
+//Peter
+
 
