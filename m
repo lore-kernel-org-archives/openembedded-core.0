@@ -2,133 +2,132 @@ Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA96AC5DF82
-	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 05:51:55 +0000 (UTC)
-Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.894.1787205110431540222
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7BCEC5DF82
+	for <webhook@archiver.kernel.org>; Thu, 20 Aug 2026 05:56:25 +0000 (UTC)
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.945.1787205380058675897
  for <openembedded-core@lists.openembedded.org>;
- Wed, 19 Aug 2026 22:51:51 -0700
+ Wed, 19 Aug 2026 22:56:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=MQVtNidJ;
- spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: hthakar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=W+pnlaI4;
+ spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: hthakar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=10649; q=dns/txt;
-  s=iport01; t=1787205110; x=1788414710;
+  d=cisco.com; i=@cisco.com; l=10976; q=dns/txt;
+  s=iport01; t=1787205380; x=1788414980;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=6bBhrkItmm/pcmyQKJIEnKitSWEsxlysO4HaRkZ4WbQ=;
-  b=MQVtNidJBhHc422tgrG6XAFrIFDNmrFAlk62QwawHzFOkE44dcVMkxVZ
-   ADzKZZVw7JVvfYu3CIlTn+SShET0Ao7m0XTlv9V7ZSV4qDrfOKyriU4YT
-   JolA7pie/gwgr2aXXhunwQUhYHL3o/kxJ4EXcpgfOfTOvsG2+u1ehr9u4
-   gmWQogFTwJN64IoCYr6LDiyA1wDkjoNU2ZrIbMGCdVOFZhrFw/ZQDZdsm
-   8PPVSgjfnwvFR6Vmzb4FGQnAWXceoKcLG9b87xOF3Ei1ii5qWpIkdv5NF
-   tcKPFQGC1LwsVZVXxuDi6OxbzRzbILEs6IXhuj+/m6N0BiG6357LaPnah
-   w==;
-X-CSE-ConnectionGUID: wHQdp7tUTRukCqwcS+bSfw==
-X-CSE-MsgGUID: xNQjrYU8SaqwcEIXM2t/Vg==
-X-IPAS-Result: =?us-ascii?q?A0DLAgBXlYZq/40QJK1aglmCV3ReQ0mEV5EHbItnkjeBe?=
- =?us-ascii?q?gQPAQEBD0QNBAEBhQWNbQImNQgOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBA?=
- =?us-ascii?q?gEHBYEOE4ZPDYZaAQIBJgQLAUYsAwECAwImAiILIyGDAgGCOgM3AxEGwip6f?=
- =?us-ascii?q?zOBAYR92EsNglgBCxQBBYEFLoU/gn8gAYUCXRgBgwGBeycbG4FygRMCg2mBB?=
- =?us-ascii?q?YEaQgKBOIQDgmoEgiKBDIFaboITjm9IgQIcA1ksAVUTDQoLBwWBZgM1EioVb?=
- =?us-ascii?q?jIdgSM+FzVYGwYFgR2BKIQ3Ixk2fIEJXoErKmEBEheBCYIKAoJwggYCAUlFD?=
- =?us-ascii?q?gkXCxgNSBEsNxQZBD0BbgeOUSCCSwFXNgEKIRcvWmQoIpJvLpI3oB5xCiiDd?=
- =?us-ascii?q?owhjz6FfBozhVulEQuYfYpeSYJjhAmSR4RpgWoCOIFZcBWDIglKGQ9WjVQEC?=
- =?us-ascii?q?guDYIVkxlUnMgsyAQEHAgcOAwuBaJABASYHgU8BAQ?=
-IronPort-Data: A9a23:3fI176KIPF7LUjQ7FE+RhpQlxSXFcZb7ZxGr2PjKsXjdYENSgTRVn
- 2caWm3Ta62MNzD8L9wiPIm1p0MD7cSHm9NgGlEd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZsCCSa/kvxWlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnQ0
- T/Oi5eHYgH9i2clajh8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN1xLHg6JdIEx9pNHGJl7
- OMTE3MHVR6c0rfeLLKTEoGAh+wqKM3teYdasXZ6wHSBUbAtQIvIROPB4towMDUY358VW62AI
- ZNHL2MzNXwsYDUXUrsTIJIinO6rj2PXeDxDo1XTrq0yi4TW5FwojOaybYaII7RmQ+1FuH+av
- FP7r1/wGw4RGf2v7GCZtUyj07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflhcYX9wVF6gx7xuAj/KIpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOT9pa61nltMkQ6PBA==
-IronPort-HdrOrdr: A9a23:aluiqq2YwrklAYmf+wI5OAqjBJAkLtp133Aq2lEZdPWaSKOlfq
- eV7ZAmPH7P+VMssR4b+OxoVJPsfZq+z+8W3WBuB9eftWDd0QPCRr2KhrGN/9SPIUHDH8dmpM
- BdmtBFeb7NJGk/q9rm6w+lFNtl6tyG/Ke0wdr69R5WPGdXg2UK1XYANu5deXcGPTV7OQ==
-X-Talos-CUID: =?us-ascii?q?9a23=3AMNZXIGh4V2ByZaFXAjdHbCEB0jJubV3kwG+PP3K?=
- =?us-ascii?q?EM3tqY6SKQmTT8phqjJ87?=
-X-Talos-MUID: 9a23:21+YVwTP0hzl5IT+RXT8oghgLvZVs5+nEV8GvLQ2npOYchJ/bmI=
+  bh=jRVbYRgLHzmynIyuA8oRzJoCI79/PwnhmSK2fUsKZnM=;
+  b=W+pnlaI4b8M3rZ1hW5CNN9jxuAMbqVHnyB+XZ5xy86Z3phm67pxqOf6R
+   uD/j7tIhwbM9ZfmZlZy8+aXSiNZQ3aYmLhIjbQI5+vYQWtWvUUhtXnC51
+   yRvX3mUYuPJ6Bulcv5rM7awbHccrG0XbU1wIZkYXiYIgIgK3fruI/7MvF
+   YIjRzxcZgEz9lttTPJoMIgM9HGpFLDy7+RcodX9lMqvuzU85wGmqhtvYC
+   SejkEAtYZDO8W5Wiy7nAb0UnKAz+IOHzfw+RdHk0xcm7eAsxfB/95q0OT
+   toahmUj8cyNACqkXEZOvSXKax4sq4CTKAGXXVgUkmW58bV++YfVbNBLCX
+   A==;
+X-CSE-ConnectionGUID: xEwtMyrdRsOi5hOFA4q2Eg==
+X-CSE-MsgGUID: nnNZjUT7SGaoS+5qPsNlLA==
+X-IPAS-Result: =?us-ascii?q?A0DLAgBHloZq/40QJK1aglmCV3ReQ0kDhFSRB2yLZ5I3g?=
+ =?us-ascii?q?X4PAQEBD0QNBAEBhQWNbQImNQgOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBA?=
+ =?us-ascii?q?gEHBYEOE4ZPDYZaAQIBJgQLAUYsAwECAwImAiILIyGDAgGCOgM3AxHCMnp/M?=
+ =?us-ascii?q?4EBg2gCQ1DYSw2CWAELFAEFgQUuhT+CfyABhQJdGAGEfCcbG4FygRWDaYEFg?=
+ =?us-ascii?q?RpCAoE4hAOCagSCIoEMgVpughOOb0iBAhwDWSwBVRMNCgsHBYFmAzUSKhVuM?=
+ =?us-ascii?q?h2BIz4XNVgbBgWBHYEohDcjGTZ8gQlegSsqYQESF4EJggoCgnCCBgIBSUUOC?=
+ =?us-ascii?q?RcLGA1IESw3FBkEPQFuB45RIIJLARVCDCoBCiEXL1o3LSgREZJvLpI3oB5xC?=
+ =?us-ascii?q?iiDdowhjz6FfBozhVulEQuYfYpeSYJjhAmSR4RpgWoBOYFZcBWDIglKGQ+OK?=
+ =?us-ascii?q?gQKC4NghRNRxlUnMgsDLwEBBwIHDgMLgWiQAQEmB4FPAQE?=
+IronPort-Data: A9a23:7oe7yKnxW9LLUjlrstM6HJ7o5gzWJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJLD2CEafmIM2ene49xPIu0oEgB65OBnYJmTgtkr3gxHltH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZC31GONgWYubDpEsvPb8nuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FZ015fpSEHtCz
+ +c/KW0NST6q2/vs7b3uH4GAhux7RCXqFIobvnclyXTSCuwrBMifBa7L/tRfmjw3g6iiH96HO
+ JFfMmQpNUqGOkEWUrsUIMpWcOOAhmX/ej5RsnqepLE85C7YywkZPL3FYIOPK4DXG58F9qqej
+ mTA2Vb7Py1FD/OWzgHGr2uUncnLuQquDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
+ 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4Guk+7kSJj6HT+QvcXjRCRT9aY9tgv8gzLdA36
+ mK0cxrSLWQHmNWopbi1rN94cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:Aa4qhqC32K6BFO3lHemO55DYdb4zR+YMi2TDGXofdfUzSL39qy
+ nOpoV/6faaslcssR0b9OxoW5PwI080i6QU3WB5B97LN2PbUQCTQr2Kg7GP/9TIIVyYygck79
+ YCT4FOTPvtEFN9kcH2pCO8E9om3Z271ZrAv5a585+oJjsaE52JKGxCe3+mLnE=
+X-Talos-CUID: 9a23:KQ4ysGwPkrDUrTWvA/VQBgUEN985V2zHwE3LBE7lCUFHYeGME3KfrfY=
+X-Talos-MUID: 9a23:Gi110Apg0zFXnGGNqd4ezzdkEvVq3pjxM28Elq5F5tC8Lgp0Hx7I2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,232,1779148800"; 
-   d="scan'208";a="814675451"
+   d="scan'208";a="812945628"
 Received: from alln-l-core-04.cisco.com ([173.36.16.141])
-  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Aug 2026 05:51:49 +0000
-Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
+  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 20 Aug 2026 05:56:17 +0000
+Received: from sjc-ads-5471.cisco.com (sjc-ads-5471.cisco.com [10.28.23.235])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-04.cisco.com (Postfix) with ESMTPS id 3A6C618000193;
-	Thu, 20 Aug 2026 05:51:49 +0000 (GMT)
-Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
-	id CEB7DCCA79B; Wed, 19 Aug 2026 22:51:48 -0700 (PDT)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by alln-l-core-04.cisco.com (Postfix) with ESMTPS id 0F4CC18000193;
+	Thu, 20 Aug 2026 05:56:17 +0000 (GMT)
+Received: by sjc-ads-5471.cisco.com (Postfix, from userid 1887505)
+	id 9BC1BCC12A6; Wed, 19 Aug 2026 22:56:16 -0700 (PDT)
 From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Hetvi Thakar <hthakar@cisco.com>
-Subject: [OE-core][wrynose][PATCH] python3-idna: Fix CVE-2026-45409
-Date: Wed, 19 Aug 2026 22:51:41 -0700
-Message-Id: <20260820055141.1372175-1-hthakar@cisco.com>
+Subject: [OE-core][scarthgap][PATCH] python3-idna: Fix CVE-2026-45409
+Date: Wed, 19 Aug 2026 22:56:04 -0700
+Message-Id: <20260820055604.37426-1-hthakar@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-5471.cisco.com [10.28.23.235];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.28.23.235, sjc-ads-5471.cisco.com
 X-Outbound-Node: alln-l-core-04.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 05:51:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243804
+ <openembedded-core@lists.openembedded.org>; Thu, 20 Aug 2026 05:56:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243805
 
 From: Hetvi Thakar <hthakar@cisco.com>
 
-This patch applies the upstream 3.15 backport for
-CVE-2026-45409. The upstream fix commit series is referenced
-in [1], and the public CVE advisory is referenced in [2]. The
-individual backported commit links are recorded in the embedded
-patch headers.
+This patch applies the complete upstream fix chain for
+CVE-2026-45409. Commit [1] introduces early domain-length rejection
+required by [2]. Commit [2] is the v3.14 fix identified by [5], and
+commit [3] extends the protection to per-label conversions and codec
+support to complete the v3.15 fix described in [4].
 
-Backport Changes:
-- Omitted the first commit's HISTORY.rst release entry because it
-  conflicts with the 3.11 history and is not required for the fix.
-
-[1] https://github.com/kjd/idna/compare/v3.13...v3.15
-[2] https://github.com/advisories/GHSA-65pc-fj4g-8rjx
+[1] https://github.com/kjd/idna/commit/c0dda4501df5
+[2] https://github.com/kjd/idna/commit/628fef84d3ed
+[3] https://github.com/kjd/idna/commit/e1cb465b6376
+[4] https://github.com/kjd/idna/security/advisories/GHSA-65pc-fj4g-8rjx
+[5] https://security-tracker.debian.org/tracker/CVE-2026-45409
 
 Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
  .../python3-idna/CVE-2026-45409_p1.patch      | 75 +++++++++++++++++++
  .../python3-idna/CVE-2026-45409_p2.patch      | 48 ++++++++++++
  .../python3-idna/CVE-2026-45409_p3.patch      | 72 ++++++++++++++++++
- .../python/python3-idna_3.11.bb               |  4 +
- 4 files changed, 199 insertions(+)
+ .../python/python3-idna_3.7.bb                |  5 ++
+ 4 files changed, 200 insertions(+)
  create mode 100644 meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p1.patch
  create mode 100644 meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p2.patch
  create mode 100644 meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p3.patch
 
 diff --git a/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p1.patch b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p1.patch
 new file mode 100644
-index 0000000000..8c103635cf
+index 0000000000..02a8090b84
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p1.patch
 @@ -0,0 +1,75 @@
-+From 6c647e3d5d9daca452ae74fc10d50f20e998e444 Mon Sep 17 00:00:00 2001
++From b34cd8399981324b361ae4f2b8e0eb77444ae0e3 Mon Sep 17 00:00:00 2001
 +From: Kim Davies <kim@cynosure.com.au>
 +Date: Sun, 10 May 2026 08:47:22 -0700
-+Subject: [PATCH] Merge commit from fork
++Subject: [PATCH 1/3] Merge commit from fork
 +
 +CVE: CVE-2026-45409
 +Upstream-Status: Backport [https://github.com/kjd/idna/commit/c0dda4501df5d91c3181ce6f962dc5de74e82cc1]
 +
 +Backport Changes:
-+- Omitted HISTORY.rst because its 3.14 release entry conflicts with the 3.11
-+  history and is not required for the security fix.
++- Omit the HISTORY.rst hunk because it documents the upstream 3.14
++  release and is not applicable to the Scarthgap 3.7 source.
 +
 +(cherry picked from commit c0dda4501df5d91c3181ce6f962dc5de74e82cc1)
 +Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
@@ -138,11 +137,11 @@ index 0000000000..8c103635cf
 + 2 files changed, 27 insertions(+)
 +
 +diff --git a/idna/core.py b/idna/core.py
-+index 8177bf7..ce995c9 100644
++index 0dae61a..a549326 100644
 +--- a/idna/core.py
 ++++ b/idna/core.py
-+@@ -377,6 +377,15 @@ def encode(
-+             raise IDNAError("should pass a unicode string to the function rather than a byte string.")
++@@ -340,6 +340,15 @@ def encode(s: Union[str, bytes, bytearray], strict: bool = False, uts46: bool =
++             raise IDNAError('should pass a unicode string to the function rather than a byte string.')
 +     if uts46:
 +         s = uts46_remap(s, std3_rules, transitional)
 ++
@@ -157,8 +156,8 @@ index 0000000000..8c103635cf
 +     trailing_dot = False
 +     result = []
 +     if strict:
-+@@ -415,6 +424,11 @@ def decode(
-+         raise IDNAError("Invalid ASCII in A-label")
++@@ -373,6 +382,11 @@ def decode(s: Union[str, bytes, bytearray], strict: bool = False, uts46: bool =
++         raise IDNAError('Invalid ASCII in A-label')
 +     if uts46:
 +         s = uts46_remap(s, std3_rules, False)
 ++    # See encode() for rationale; the same bound applies because every
@@ -170,12 +169,12 @@ index 0000000000..8c103635cf
 +     result = []
 +     if not strict:
 +diff --git a/tests/test_idna.py b/tests/test_idna.py
-+index b59f5e5..ff24ebf 100755
++index 81afb32..5001b48 100755
 +--- a/tests/test_idna.py
 ++++ b/tests/test_idna.py
-+@@ -80,6 +80,19 @@ class IDNATests(unittest.TestCase):
-+         self.assertFalse(idna.valid_label_length("a" * 64))
-+         self.assertRaises(idna.IDNAError, idna.encode, "a" * 64)
++@@ -78,6 +78,19 @@ class IDNATests(unittest.TestCase):
++         self.assertFalse(idna.valid_label_length('a' * 64))
++         self.assertRaises(idna.IDNAError, idna.encode, 'a' * 64)
 + 
 ++    def test_oversized_input_rejected_promptly(self):
 ++        # GHSA-65pc-fj4g-8rjx: encode/decode must reject inputs that
@@ -191,18 +190,18 @@ index 0000000000..8c103635cf
 ++            self.assertLess(time.perf_counter() - start, 1.0)
 ++
 +     def test_check_bidi(self):
-+         la = "\u0061"
-+         r = "\u05d0"
++ 
++         l = '\u0061'
 diff --git a/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p2.patch b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p2.patch
 new file mode 100644
-index 0000000000..07b5b148f5
+index 0000000000..a79e1e9c20
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p2.patch
 @@ -0,0 +1,48 @@
-+From 44713e1252442331fd49dfca00cd42bc27859198 Mon Sep 17 00:00:00 2001
++From fabb538f1885a135e48a60de2e3c656d965e861d Mon Sep 17 00:00:00 2001
 +From: Kim Davies <kim@cynosure.com.au>
 +Date: Sun, 10 May 2026 12:44:47 -0700
-+Subject: [PATCH] Use valid_string_length() for early oversized-input check
++Subject: [PATCH 2/3] Use valid_string_length() for early oversized-input check
 +
 +CVE: CVE-2026-45409
 +Upstream-Status: Backport [https://github.com/kjd/idna/commit/628fef84d3eda59321c21127e73dcd873db23ead]
@@ -214,10 +213,10 @@ index 0000000000..07b5b148f5
 + 1 file changed, 6 insertions(+), 10 deletions(-)
 +
 +diff --git a/idna/core.py b/idna/core.py
-+index ce995c9..db19bda 100644
++index a549326..4a9fc75 100644
 +--- a/idna/core.py
 ++++ b/idna/core.py
-+@@ -378,12 +378,9 @@ def encode(
++@@ -341,12 +341,9 @@ def encode(s: Union[str, bytes, bytearray], strict: bool = False, uts46: bool =
 +     if uts46:
 +         s = uts46_remap(s, std3_rules, transitional)
 + 
@@ -233,8 +232,8 @@ index 0000000000..07b5b148f5
 +         raise IDNAError("Domain too long")
 + 
 +     trailing_dot = False
-+@@ -424,10 +421,9 @@ def decode(
-+         raise IDNAError("Invalid ASCII in A-label")
++@@ -382,10 +379,9 @@ def decode(s: Union[str, bytes, bytearray], strict: bool = False, uts46: bool =
++         raise IDNAError('Invalid ASCII in A-label')
 +     if uts46:
 +         s = uts46_remap(s, std3_rules, False)
 +-    # See encode() for rationale; the same bound applies because every
@@ -249,14 +248,14 @@ index 0000000000..07b5b148f5
 +     result = []
 diff --git a/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p3.patch b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p3.patch
 new file mode 100644
-index 0000000000..f7302a9417
+index 0000000000..2ebbd5c13d
 --- /dev/null
 +++ b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p3.patch
 @@ -0,0 +1,72 @@
-+From bd119cd4055324ece8a9bb1ef5413e3ad581b0ed Mon Sep 17 00:00:00 2001
++From 22acbaae97c3698005e69555eb4ebccc168b2fff Mon Sep 17 00:00:00 2001
 +From: metsw24-max <metsw24@gmail.com>
 +Date: Mon, 11 May 2026 20:59:30 +0530
-+Subject: [PATCH] Enforce early length limits in check_label
++Subject: [PATCH 3/3] Enforce early length limits in check_label
 +
 +CVE: CVE-2026-45409
 +Upstream-Status: Backport [https://github.com/kjd/idna/commit/e1cb465b6376f33306a26f467d197edbcd01c4b9]
@@ -269,13 +268,13 @@ index 0000000000..f7302a9417
 + 2 files changed, 35 insertions(+)
 +
 +diff --git a/idna/core.py b/idna/core.py
-+index db19bda..254f090 100644
++index 4a9fc75..26bb9fa 100644
 +--- a/idna/core.py
 ++++ b/idna/core.py
-+@@ -247,6 +247,17 @@ def check_label(label: Union[str, bytes, bytearray]) -> None:
-+         label = label.decode("utf-8")
++@@ -230,6 +230,17 @@ def check_label(label: Union[str, bytes, bytearray]) -> None:
++         label = label.decode('utf-8')
 +     if len(label) == 0:
-+         raise IDNAError("Empty Label")
++         raise IDNAError('Empty Label')
 ++    # Reject oversized labels before per-codepoint validation runs.
 ++    # CONTEXTJ/CONTEXTO checks scan the whole label per codepoint, so an
 ++    # uncapped label drives validation into quadratic time
@@ -291,10 +290,10 @@ index 0000000000..f7302a9417
 +     check_nfc(label)
 +     check_hyphen_ok(label)
 +diff --git a/tests/test_idna.py b/tests/test_idna.py
-+index ff24ebf..9832c39 100755
++index 5001b48..2dc0892 100755
 +--- a/tests/test_idna.py
 ++++ b/tests/test_idna.py
-+@@ -93,6 +93,30 @@ class IDNATests(unittest.TestCase):
++@@ -91,6 +91,30 @@ class IDNATests(unittest.TestCase):
 +             self.assertRaises(idna.IDNAError, idna.decode, payload)
 +             self.assertLess(time.perf_counter() - start, 1.0)
 + 
@@ -323,23 +322,24 @@ index 0000000000..f7302a9417
 ++        self.assertLess(time.perf_counter() - start, 1.0)
 ++
 +     def test_check_bidi(self):
-+         la = "\u0061"
-+         r = "\u05d0"
-diff --git a/meta/recipes-devtools/python/python3-idna_3.11.bb b/meta/recipes-devtools/python/python3-idna_3.11.bb
-index de4595c1d4..143be2039e 100644
---- a/meta/recipes-devtools/python/python3-idna_3.11.bb
-+++ b/meta/recipes-devtools/python/python3-idna_3.11.bb
-@@ -3,6 +3,10 @@ HOMEPAGE = "https://github.com/kjd/idna"
++ 
++         l = '\u0061'
+diff --git a/meta/recipes-devtools/python/python3-idna_3.7.bb b/meta/recipes-devtools/python/python3-idna_3.7.bb
+index 729aff1c46..5322984a24 100644
+--- a/meta/recipes-devtools/python/python3-idna_3.7.bb
++++ b/meta/recipes-devtools/python/python3-idna_3.7.bb
+@@ -3,6 +3,11 @@ HOMEPAGE = "https://github.com/kjd/idna"
  LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-TOU"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=18a4795c19833413a7e2f1cb3cd3b143"
+ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=204c0612e40a4dd46012a78d02c80fb1"
  
-+SRC_URI += "file://CVE-2026-45409_p1.patch \
-+           file://CVE-2026-45409_p2.patch \
-+           file://CVE-2026-45409_p3.patch \
-+           "
- SRC_URI[sha256sum] = "795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902"
++SRC_URI += " \
++    file://CVE-2026-45409_p1.patch \
++    file://CVE-2026-45409_p2.patch \
++    file://CVE-2026-45409_p3.patch \
++"
+ SRC_URI[sha256sum] = "028ff3aadf0609c1fd278d8ea3089299412a7a8b9bd005dd08b9f8285bcb5cfc"
  
- inherit pypi python_flit_core ptest-python-pytest
+ inherit pypi python_flit_core
 -- 
 2.35.6
 
