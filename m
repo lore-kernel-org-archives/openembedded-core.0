@@ -1,368 +1,115 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <devanshp@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 62404C5DF89
-	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 12:33:01 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6313.1787315572360350933
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 76F87C5DF87
+	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 12:59:51 +0000 (UTC)
+Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6763.1787317186441417436
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Aug 2026 05:32:52 -0700
+ Fri, 21 Aug 2026 05:59:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=HbIOGcf+;
- spf=pass (domain: mvista.com, ip: 209.85.218.44, mailfrom: vanusuri@mvista.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c16794450aeso141125166b.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 05:32:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787315570; cv=none;
-        d=google.com; s=arc-20260327;
-        b=XzH8h9NGPMYpt58xD+1glAOgLzw54zaeEJDF2Py7C0uGkcpihWWm1QXpKy7iYQUG8f
-         pDkW3lVsSko9tNI+4Z0J/P/fA1iKXi/1iPFGfSy3RqSCYE6bLkVkDhKp9Cmj12Dh4oCA
-         iAVUDTNEX577be/6KmdPDT9xoFZ2FJzz+AvGyjiWNmS+0QQC5QriqZsI6ciQ4ceR72uY
-         h9g4eP0QgXIfNpSRMoWCkT349Wzb0/1G1vWYWgTPiQjRRhNNpu0fd0jOIh8hEkmAHfqi
-         N85Nl9dVLATQo9Y2Ucpm6lb3A7+Q8TyHy9bcX872OM39tVMJCPXo5k9n2Qq8sv3W/UQ5
-         amXQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=bfO8KMkcgCezzJXB5I4fUDIBWFihvcQPoSfxavdDM0s=;
-        fh=naxir2af8lNW8n/3QABqYbi08yCXtb6kzmxI+9wcufY=;
-        b=O1B0jQCyngzL9coE1t7TYAtGCkZBpYR1oqrLawvCWXEZf9C7kYbO1NuqxLVY+xoeZf
-         LZ7PDr2Ur7LBgyPBWBQiCGMaPBLgYR83XqpZk3vPEhUdi4FAcKythtz8mEt9TAacIKyd
-         L4FXiIQcwp58pOk3o/kUVVpzNEZ9VQHarPeFWKCXyn4VN305WGEsxnOKz9J2LUp4Xnlc
-         MyBvmcH1/L6J+bvcB4StPhZBbCiToKpwaDT0rBtDkis1yQTichnxmjfXmUwi3J5or8bJ
-         q1YlnnI7mH5tjaa5tmGIEbkAS3wNOICA24XY9Yh6nfjvEIeMVJCJaKlEInQ1eGwOe/VS
-         lPaw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Y/35mtNO;
+ spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: devanshp@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1787315570; x=1787920370; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=bfO8KMkcgCezzJXB5I4fUDIBWFihvcQPoSfxavdDM0s=;
-        b=HbIOGcf+5KpTQSk+g5KAwDipKtEcmLee1OPj2Cc28zgkuDCmo+DxjNhdDJNQEd8lcC
-         Xq3tMdD2/d8a3DQDe1k67rlX5UeH0iWhdv2jH2i6uVlehjD03DgPBAJYl7S1MyDqUanE
-         j0FJWILTWpNUeZeKlDdSJioT/d9Mv0fFF4XlY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787315570; x=1787920370;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=bfO8KMkcgCezzJXB5I4fUDIBWFihvcQPoSfxavdDM0s=;
-        b=V8AW4U67pNEpHq6bKK6hlmLxysTFWzQ2AJXlDuEyxW81yKx0vdrNpBXll4t6tEjPkZ
-         jUwCUAf2l72AFbH3NSunfT04P5gi+A0GsUY6OpTupVnz3mBbT/cqHVl/fCPOdXzM+IlU
-         ABXUPPcr+IjFUc9swFBnlKGPKeTt59bhMbK3tH5/8BBEw++dSY9jpmtDAUHPLWtFFbZ7
-         hej1/HvbP2OdDItmCGQZOkHI/WOPb5Qp/IiZs8QD+/8Yb14SebcLxs6AKN6QWnmzVWnZ
-         5Ri+CA4jb23qJMAYpSjAR0fMywGn/wpJ/ublqMP7+GsYpOR2b6bOxacKmrIdwB4jU+bW
-         CKfw==
-X-Gm-Message-State: AFuF++mXmuYpMW+aC8qaPG6VJyEQ/zWW3lrfN2cvTBPRtAk3SPK9dMMf
-	Kmtj0O4tMP0gZiuhoG/iWMnqz+kMnjczm+L2F/zkANyhOo1SaQgPs9ggJ4xOv19s8Xnl9unnhri
-	CnuaMufdUaRSEm3xEvyCRAulv8vSRNsMZLmHdnzQR7Q==
-X-Gm-Gg: AR+sD12eKGRNthHg9gDUPc+ALI8pU0WMllZPjfHdEqtEdl4Cs4w/D+5RLAFrS204yd9
-	3aRL8RyHuXTPKfrIL8hpKGqO/osLjbKtii6JsdASHwBnfBhsQBZQZTNG4wHpunrZhUBiumVly3a
-	p1IYtHTdTZ1aLMgOgDZeJO4l0XsyKyLKcsKueoGmbfXfHolNCfUfxYKZrio7M3VHWNVNmFJi6ah
-	jRkfYHchZOdrPn2WHamJ3ADEhLzplCWBxtYyfZ/WJ3S30UqWLQ+0EyX2KhDVVYbSeRY7FoSErbT
-	R2H2FFPmIACwvYLusMlGRa8QHR6uH7tRUW9O9YqM1DIS6WRk/LzcUatiLQZsfhL+RBxbJrZiwcp
-	YJAPweEvMOSW7v0TOSH0=
-X-Received: by 2002:a17:907:1c8d:b0:c15:ee0d:9a32 with SMTP id
- a640c23a62f3a-c246a6aba8fmr647221066b.21.1787315570472; Fri, 21 Aug 2026
- 05:32:50 -0700 (PDT)
+  d=cisco.com; i=@cisco.com; l=1061; q=dns/txt;
+  s=iport01; t=1787317186; x=1788526786;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=m52RJFKdTZf0SWeBeAh6KplRJKg+AINd8JeefpNULdQ=;
+  b=Y/35mtNO404Xd4FU6gKLOL1xwzr/CW2SFMxGLbsLz7kL0Ki+WhYEKEZZ
+   Bv7wdVSX5mpTq1a55GhE7T6CCH6GaEpSMg4LMeRKIc6zbIJfre0EaNjPc
+   WfHGFa305wtjXHeisDHUIPJ721YovF/sKgEx6vuCJGNEHybdai8hvMg6W
+   PxfTrR9eJsc5Mi7LZjspmgKl455x/LQr7V8G1+1/fsVCFZJkECYLzYJBa
+   BX4yIgagabKhyHGcqVyJqxaNHrZZN5UwrtsfCD49ocK66J/G5img656Bs
+   eFGtdBL3lZSuOrn4vvijnhh8EiPepJ5q0+nQUZ/3yNbzbZ9kRWfROTdHs
+   Q==;
+X-CSE-ConnectionGUID: 2HzmuNX3Qverpf9fj+jadw==
+X-CSE-MsgGUID: 3D/3UPQCRm2sjudM35GHZg==
+X-IPAS-Result: =?us-ascii?q?A0AxAwBhSohq/4wQJK1RCYJZgld0XkNJk1kBgnCgHA8BA?=
+ =?us-ascii?q?QEPNxoEAQGFBY1uAiY3Bg4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
+ =?us-ascii?q?Q4ThlyGXTYBGAEtMFxEgwIBgnQDwS+CLIEBgygBgVTbLwELFAEFgTOFP4gid?=
+ =?us-ascii?q?oR8JxsbgXKEfoQKDXmFeASCInoSgXiCY457SIEeA1ksAVUTDQoLBwWBZgM1E?=
+ =?us-ascii?q?ioVbjIdgSM+F4ENGwYFgR2BKIQ3Ixk2fIEJXoErKmEBEheBCYIKAoJfggUCA?=
+ =?us-ascii?q?UlDDgc6CxgNSBEsNxQZBD5uB45aIIJGATxRllSReqEPCiiDdowhlToaM6prA?=
+ =?us-ascii?q?S6YWqRahGmBfiaBWXAVgyIJShkP3lwnMgI9BwIHDwKRc4F+AQE?=
+IronPort-Data: A9a23:p9vr0qu4Lp5+FgZZedt41GlR/+fnVABfMUV32f8akzHdYApBsoF/q
+ tZmKTrQPaqDZDD0e4sgPYW+90oDvMLQxtBkTwFlrXo9RXgbgMeUXt7xwmUckM+xwmwvaGo9s
+ q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
+ eja/YuFZTdJ5xYuajhKs/LZ8Us21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
+ 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
+ 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIwoMZlBHxox
+ achNj0Xdh7SieD1wru3Vbw57igjBJGD0II3s3Vky3TdSP0hW52GG/6M7t5D1zB2jcdLdRrcT
+ 5NGMnw0MlKZPVsWZg9/5JEWxI9EglHzfiNRrkmVvYI84nPYy0p6172F3N/9KoXQFZoNxh7Ez
+ o7A1z/VRUonDOW08z/f6XCxisqUwAzbao1HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
+ UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS4QWJzO/Qpg2eHGVBFmUHY909v8hwTjsvv
+ rOUo+7U6fVUmOX9YRqgGn289lte5QB9wbc+WBI5
+IronPort-HdrOrdr: A9a23:WsAT6q5D51nyHvETiwPXwOTXdLJyesId70hD6qm+c3Nom6uj5q
+ WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBKLZslnd8lXFh41g/J
+ YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
+X-Talos-CUID: 9a23:I1dMz2xned2tP4D39acwBgVOOtIgb1vtl07OLlWgBzdnSv6XQFOPrfY=
+X-Talos-MUID: =?us-ascii?q?9a23=3Ajkg3XQ6XRdyYmdT+4i03Gyb4xowzz+P1NXg0uq8?=
+ =?us-ascii?q?D4dKGKCBVYGqyrAa4F9o=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,235,1779148800"; 
+   d="scan'208";a="812870004"
+Received: from alln-l-core-03.cisco.com ([173.36.16.140])
+  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Aug 2026 12:59:45 +0000
+Received: from sjc-ads-5197.cisco.com (sjc-ads-5197.cisco.com [10.28.35.211])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by alln-l-core-03.cisco.com (Postfix) with ESMTPS id 8611D180001ED;
+	Fri, 21 Aug 2026 12:59:45 +0000 (GMT)
+Received: by sjc-ads-5197.cisco.com (Postfix, from userid 1887503)
+	id 28C28CC12A7; Fri, 21 Aug 2026 05:59:45 -0700 (PDT)
+From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com
+Subject: [PATCH] python3-lxml: correct CVE_PRODUCT mapping
+Date: Fri, 21 Aug 2026 05:59:45 -0700
+Message-Id: <20260821125945.59739-1-devanshp@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-References: <20260814113323.1033135-1-vanusuri@mvista.com> <DKUKLAGINTTR.1W5IKJ5PRG8R7@smile.fr>
-In-Reply-To: <DKUKLAGINTTR.1W5IKJ5PRG8R7@smile.fr>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Fri, 21 Aug 2026 18:02:38 +0530
-X-Gm-Features: AcwNN1Ur9ox3fFcpJY73B9Q-yxhsN0hAhK7OKUiBDsLW9n6mWSKIltFia4QDeQ4
-Message-ID: <CANQUz192EZKJPWknMq_HYW5AXPAv_Rc3_20yLQ7Bi+4d59Gong@mail.gmail.com>
-Subject: Re: [OE-core][scarthgap][patch] rpcbind: Fix CVE-2026-16277
-To: fabien.thomas@smile.fr
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000ae0bc506598dd5c7"
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-5197.cisco.com [10.28.35.211];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.28.35.211, sjc-ads-5197.cisco.com
+X-Outbound-Node: alln-l-core-03.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 12:33:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243938
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 12:59:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243939
 
---000000000000ae0bc506598dd5c7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Devansh Patel <devanshp@cisco.com>
 
-Hi Fabien,
+The current product-only "lxml" mapping generates a wildcard-vendor
+product identity instead of the vendor assigned to the packaged project.
 
-Thanks for the reminder.
+Use "lxml:lxml" for its exact NVD dictionary CPE, NVD configuration,
+and CNA affected-data identity. This changes the generated CPE, but the
+current CVE report is unchanged with sbom-cve-check 1.3.3 and the pinned
+NVD snapshot.
 
-I've already submitted patches for the wrynose branch.
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
+---
+ meta/recipes-devtools/python/python3-lxml_6.1.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-https://patchwork.yoctoproject.org/project/oe-core/patch/20260814095356.775=
-418-1-vanusuri@mvista.com/
-https://patchwork.yoctoproject.org/project/oe-core/patch/20260814095356.775=
-418-2-vanusuri@mvista.com/
-
-Thanks & Regards,
-Vijay
-
-On Fri, Aug 21, 2026 at 4:33=E2=80=AFPM Fabien Thomas via lists.openembedde=
-d.org
-<fabien.thomas=3Dsmile.fr@lists.openembedded.org> wrote:
-
-> On Fri Aug 14, 2026 at 1:33 PM CEST, Vijay Anusuri via
-> lists.openembedded.org wrote:
-> > Pick patch according to [2]
-> >
-> > [1] https://nvd.nist.gov/vuln/detail/CVE-2026-16277
-> > [2] https://security-tracker.debian.org/tracker/CVE-2026-16277
-> >
-> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > ---
-> >  .../rpcbind/rpcbind/CVE-2026-16277.patch      | 34 +++++++++++++++++++
-> >  .../recipes-extended/rpcbind/rpcbind_1.2.6.bb |  1 +
-> >  2 files changed, 35 insertions(+)
-> >  create mode 100644
-> meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patch
-> >
-> > diff --git a/meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patch
-> b/meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patch
-> > new file mode 100644
-> > index 0000000000..868e5c3f01
-> > --- /dev/null
-> > +++ b/meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patch
-> > @@ -0,0 +1,34 @@
-> > +From bb9bb7286a4c345442946dc2ce3c9e7f67e96d4d Mon Sep 17 00:00:00 2001
-> > +From: Steve Dickson <steved@redhat.com>
-> > +Date: Wed, 27 May 2026 11:42:11 -0400
-> > +Subject: [PATCH] rpcinfo: stack buffer overflow in rpcinfo
-> rpcbaddrlist()
-> > +
-> > +rpcinfo's rpcbaddrlist() formats two server-controlled, unbounded XDR
-> strings into a fixed 128-byte stack buffer with sprintf(). A malicious or
-> on-path rpcbind server overflows it when a user runs:
-> > +rpcinfo -l <host> <prognum> <versnum>
-> > +
-> > +Reported-by: Michalis Vasileiadis <vmihalis.tmd@gmail.com>
-> > +Signed-off-by: Steve Dickson <steved@redhat.com>
-> > +
-> > +Upstream-Status: Backport [
-> https://git.linux-nfs.org/?p=3Dsteved/rpcbind.git;a=3Dcommitdiff;h=3Dbb9b=
-b7286a4c345442946dc2ce3c9e7f67e96d4d
-> ]
-> > +CVE: CVE-2026-16277
-> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > +---
-> > + src/rpcinfo.c | 2 +-
-> > + 1 file changed, 1 insertion(+), 1 deletion(-)
-> > +
-> > +diff --git a/src/rpcinfo.c b/src/rpcinfo.c
-> > +index 0e14f78..43e8115 100644
-> > +--- a/src/rpcinfo.c
-> > ++++ b/src/rpcinfo.c
-> > +@@ -1120,7 +1120,7 @@ rpcbaddrlist (netid, argc, argv)
-> > +
-> > +       re =3D &head->rpcb_entry_map;
-> > +       printf ("%10u%3u    ", parms.r_prog, parms.r_vers);
-> > +-      sprintf (buf, "%s/%s/%s ",
-> > ++      snprintf (buf, sizeof(buf), "%s/%s/%s ",
-> > +                re->r_nc_protofmly, re->r_nc_proto,
-> > +                re->r_nc_semantics =3D=3D NC_TPI_CLTS ? "clts" :
-> > +                re->r_nc_semantics =3D=3D NC_TPI_COTS ? "cots" :
-> "cots_ord");
-> > +--
-> > +2.43.0
-> > +
-> > diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-> b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-> > index dbd4d32e0a..07e2f10c98 100644
-> > --- a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-> > +++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
-> > @@ -15,6 +15,7 @@ SRC_URI =3D
-> "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV}.tar.bz2 \
-> >             file://rpcbind.conf \
-> >             file://rpcbind_add_option_to_fix_port_number.patch \
-> >             file://0001-systemd-use-EnvironmentFile.patch \
-> > +           file://CVE-2026-16277.patch \
-> >            "
-> >  SRC_URI[sha256sum] =3D
-> "5613746489cae5ae23a443bb85c05a11741a5f12c8f55d2bb5e83b9defeee8de"
-> >
-> Hello Vijay,
->
-> Thanks for this patch, but the issue affects wrynose (1.2.8) as well.
-> This fix was merged upstream from 1.2.9 (yocto's master version).
->
-> Could you please submit a patch for the wrynose branch first?
->
-> Regards,
-> --
-> Fabien Thomas
-> Smile ECS
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#243922):
-> https://lists.openembedded.org/g/openembedded-core/message/243922
-> Mute This Topic: https://lists.openembedded.org/mt/120747221/7301997
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> vanusuri@mvista.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000ae0bc506598dd5c7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div><div><div>Hi Fabien,<br><br>Thanks for the reminder.<=
-br><br></div>I&#39;ve already submitted patches for the wrynose branch.<br>=
-<br><a href=3D"https://patchwork.yoctoproject.org/project/oe-core/patch/202=
-60814095356.775418-1-vanusuri@mvista.com/">https://patchwork.yoctoproject.o=
-rg/project/oe-core/patch/20260814095356.775418-1-vanusuri@mvista.com/</a><b=
-r><a href=3D"https://patchwork.yoctoproject.org/project/oe-core/patch/20260=
-814095356.775418-2-vanusuri@mvista.com/">https://patchwork.yoctoproject.org=
-/project/oe-core/patch/20260814095356.775418-2-vanusuri@mvista.com/</a><br>=
-<br></div>Thanks &amp;=C2=A0Regards,<br></div>Vijay</div><br><div class=3D"=
-gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On=
- Fri, Aug 21, 2026 at 4:33=E2=80=AFPM Fabien Thomas via <a href=3D"http://l=
-ists.openembedded.org">lists.openembedded.org</a> &lt;fabien.thomas=3D<a hr=
-ef=3D"mailto:smile.fr@lists.openembedded.org">smile.fr@lists.openembedded.o=
-rg</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margi=
-n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
-">On Fri Aug 14, 2026 at 1:33 PM CEST, Vijay Anusuri via <a href=3D"http://=
-lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembe=
-dded.org</a> wrote:<br>
-&gt; Pick patch according to [2]<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-16277" rel=3D=
-"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2026-16=
-277</a><br>
-&gt; [2] <a href=3D"https://security-tracker.debian.org/tracker/CVE-2026-16=
-277" rel=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.o=
-rg/tracker/CVE-2026-16277</a><br>
-&gt;<br>
-&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
-" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../rpcbind/rpcbind/CVE-2026-16277.patch=C2=A0 =C2=A0 =C2=A0 | 3=
-4 +++++++++++++++++++<br>
-&gt;=C2=A0 .../recipes-extended/rpcbind/<a href=3D"http://rpcbind_1.2.6.bb"=
- rel=3D"noreferrer" target=3D"_blank">rpcbind_1.2.6.bb</a> |=C2=A0 1 +<br>
-&gt;=C2=A0 2 files changed, 35 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-extended/rpcbind/rpcbind/CVE-202=
-6-16277.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patc=
-h b/meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..868e5c3f01<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patch<br>
-&gt; @@ -0,0 +1,34 @@<br>
-&gt; +From bb9bb7286a4c345442946dc2ce3c9e7f67e96d4d Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Steve Dickson &lt;<a href=3D"mailto:steved@redhat.com" target=
-=3D"_blank">steved@redhat.com</a>&gt;<br>
-&gt; +Date: Wed, 27 May 2026 11:42:11 -0400<br>
-&gt; +Subject: [PATCH] rpcinfo: stack buffer overflow in rpcinfo rpcbaddrli=
-st()<br>
-&gt; +<br>
-&gt; +rpcinfo&#39;s rpcbaddrlist() formats two server-controlled, unbounded=
- XDR strings into a fixed 128-byte stack buffer with sprintf(). A malicious=
- or on-path rpcbind server overflows it when a user runs:<br>
-&gt; +rpcinfo -l &lt;host&gt; &lt;prognum&gt; &lt;versnum&gt;<br>
-&gt; +<br>
-&gt; +Reported-by: Michalis Vasileiadis &lt;<a href=3D"mailto:vmihalis.tmd@=
-gmail.com" target=3D"_blank">vmihalis.tmd@gmail.com</a>&gt;<br>
-&gt; +Signed-off-by: Steve Dickson &lt;<a href=3D"mailto:steved@redhat.com"=
- target=3D"_blank">steved@redhat.com</a>&gt;<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://git.linux-nfs.org/?p=3D=
-steved/rpcbind.git;a=3Dcommitdiff;h=3Dbb9bb7286a4c345442946dc2ce3c9e7f67e96=
-d4d" rel=3D"noreferrer" target=3D"_blank">https://git.linux-nfs.org/?p=3Dst=
-eved/rpcbind.git;a=3Dcommitdiff;h=3Dbb9bb7286a4c345442946dc2ce3c9e7f67e96d4=
-d</a>]<br>
-&gt; +CVE: CVE-2026-16277<br>
-&gt; +Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.co=
-m" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + src/rpcinfo.c | 2 +-<br>
-&gt; + 1 file changed, 1 insertion(+), 1 deletion(-)<br>
-&gt; +<br>
-&gt; +diff --git a/src/rpcinfo.c b/src/rpcinfo.c<br>
-&gt; +index 0e14f78..43e8115 100644<br>
-&gt; +--- a/src/rpcinfo.c<br>
-&gt; ++++ b/src/rpcinfo.c<br>
-&gt; +@@ -1120,7 +1120,7 @@ rpcbaddrlist (netid, argc, argv)<br>
-&gt; + <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0re =3D &amp;head-&gt;rpcb_entry_map;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0printf (&quot;%10u%3u=C2=A0 =C2=A0 &quot;,=
- parms.r_prog, parms.r_vers);<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 sprintf (buf, &quot;%s/%s/%s &quot;,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 snprintf (buf, sizeof(buf), &quot;%s/%s/%s &quo=
-t;,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 re-&gt;r_nc_p=
-rotofmly, re-&gt;r_nc_proto,<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 re-&gt;r_nc_s=
-emantics =3D=3D NC_TPI_CLTS ? &quot;clts&quot; :<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 re-&gt;r_nc_s=
-emantics =3D=3D NC_TPI_COTS ? &quot;cots&quot; : &quot;cots_ord&quot;);<br>
-&gt; +-- <br>
-&gt; +2.43.0<br>
-&gt; +<br>
-&gt; diff --git a/meta/recipes-extended/rpcbind/<a href=3D"http://rpcbind_1=
-.2.6.bb" rel=3D"noreferrer" target=3D"_blank">rpcbind_1.2.6.bb</a> b/meta/r=
-ecipes-extended/rpcbind/<a href=3D"http://rpcbind_1.2.6.bb" rel=3D"noreferr=
-er" target=3D"_blank">rpcbind_1.2.6.bb</a><br>
-&gt; index dbd4d32e0a..07e2f10c98 100644<br>
-&gt; --- a/meta/recipes-extended/rpcbind/<a href=3D"http://rpcbind_1.2.6.bb=
-" rel=3D"noreferrer" target=3D"_blank">rpcbind_1.2.6.bb</a><br>
-&gt; +++ b/meta/recipes-extended/rpcbind/<a href=3D"http://rpcbind_1.2.6.bb=
-" rel=3D"noreferrer" target=3D"_blank">rpcbind_1.2.6.bb</a><br>
-&gt; @@ -15,6 +15,7 @@ SRC_URI =3D &quot;${SOURCEFORGE_MIRROR}/rpcbind/rpcb=
-ind-${PV}.tar.bz2 \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://rpcbind.conf \<b=
-r>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://rpcbind_add_opti=
-on_to_fix_port_number.patch \<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://0001-systemd-use=
--EnvironmentFile.patch \<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0file://CVE-2026-16277.patch =
-\<br>
-&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 &quot;<br>
-&gt;=C2=A0 SRC_URI[sha256sum] =3D &quot;5613746489cae5ae23a443bb85c05a11741=
-a5f12c8f55d2bb5e83b9defeee8de&quot;<br>
-&gt;=C2=A0 <br>
-Hello Vijay,<br>
-<br>
-Thanks for this patch, but the issue affects wrynose (1.2.8) as well.<br>
-This fix was merged upstream from 1.2.9 (yocto&#39;s master version).<br>
-<br>
-Could you please submit a patch for the wrynose branch first?<br>
-<br>
-Regards,<br>
--- <br>
-Fabien Thomas<br>
-Smile ECS<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#243922): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/243922" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/243922</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120747221/730=
-1997" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/120747221/7301997</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:vanusuri@mvista.com" targe=
-t=3D"_blank">vanusuri@mvista.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---000000000000ae0bc506598dd5c7--
+diff --git a/meta/recipes-devtools/python/python3-lxml_6.1.1.bb b/meta/recipes-devtools/python/python3-lxml_6.1.1.bb
+index 4ca7f08b39..da19905f89 100644
+--- a/meta/recipes-devtools/python/python3-lxml_6.1.1.bb
++++ b/meta/recipes-devtools/python/python3-lxml_6.1.1.bb
+@@ -39,6 +39,6 @@ BBCLASSEXTEND = "native nativesdk"
+ 
+ RDEPENDS:${PN} += "libxml2 libxslt python3-compression"
+ 
+-CVE_PRODUCT = "lxml"
++CVE_PRODUCT = "lxml:lxml"
+ 
+ CLEANBROKEN = "1"
+-- 
+2.35.6
 
