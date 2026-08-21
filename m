@@ -1,380 +1,173 @@
-Return-Path: <evekariy@cisco.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 887FDC5DF7D
-	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 18:26:36 +0000 (UTC)
-Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1153.1787336795269688189
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBF9FC5DF97
+	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 18:49:26 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.24])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1622.1787338161099507084
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Aug 2026 11:26:35 -0700
+ Fri, 21 Aug 2026 11:49:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=TJAcHxQ8;
- spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: evekariy@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=10440; q=dns/txt;
-  s=iport01; t=1787336795; x=1788546395;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=0eMigvbBH76J3PrSnSGSEc6TjwVi+OJogThnvDmUHjQ=;
-  b=TJAcHxQ8qdlD+9TwZwoOKPletzSpA09LjykPV4dpclxHfcnQ1zWTmozv
-   IAZQHxyO6N645KKJg2jccTF0O4Vl9nEQz7tVZy1mZDZSBdfdbjDX65huh
-   DfDeuF0gUcbzn2dncIOSt3bWWVsSV2/PJzXxhoyStIPXTX1KGjlfcPumd
-   rkqP9SytG4ob/idcNHOCHATA9sNeaEScoxkHwA0RUzKTcAy3mqVexVc6x
-   jM4lRYM1TKzwZEydFJcp6uljRgD/T20yl68e5O25YGVlK1+9QdKLBylAa
-   Ya4eJmIsjZn+vQnfssUd2xCkaquPbSb1ovqS2kFNQPAOq2MhZBkhiVPdy
-   A==;
-X-CSE-ConnectionGUID: uREuyY/hQoO8SXyXvNOVqg==
-X-CSE-MsgGUID: 6de64mPESgiBZlPjFfJj1A==
-X-IPAS-Result: =?us-ascii?q?A0BeAgAil4hq/5EQJK1aHgEBCxIMggULgld0X0JJlkoDi?=
- =?us-ascii?q?2QQkieBfg8BAQEPRA0EAQGEP0YCjWwCJjQJDgECBAMCAwEBAQEBAQEBAQEBC?=
- =?us-ascii?q?wEBBQEBAQIBBwWBDhOGTw2GWgECAQMyAUYQHAMBAi8gCyMIGYMCAYI6AzcCA?=
- =?us-ascii?q?RHCA4IsgQGDaAJD2RsNcoFmAQsUAYE4hT8fgmCFI10YAYR8JxuBSUSBFYNpg?=
- =?us-ascii?q?QWBGkIBAYE3AYZtBIINgSGBWh6GEotESIEeA1ksAVUTDQoLBwWBZgM1EioVb?=
- =?us-ascii?q?jIdgSM+F4ENGwYFgR2BKIQQIxk2eoEJXoErKWABEheBCYIHAoJaggUCAUlDD?=
- =?us-ascii?q?gdIFQsYDUgRLDcUGQQ+bgeOVB+CTXsTAQohIC82G4Ebk2OSBKAecYQojCKPP?=
- =?us-ascii?q?oV8GjOFW6URC5h9jgqECZJHhGmBaDyBRwsHTSMVgyIJShkPjiwBCwuDYIF/g?=
- =?us-ascii?q?2XGVSQ1CzIBAQcCBw4DC4FokAABJ4FWAQE?=
-IronPort-Data: A9a23:V3xiDaoaTop9UlcVdqznMm+6TupeBmJOZBIvgKrLsJaIsI4StFCzt
- garIBnSaayCYjakft1zaI619x8AuZbTyII1TAo5qC9gF38S9ePIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYgLNNwJcaDpOtfrT8ko35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0vtNLHxfx
- LsYETcqPiuzltKo5pWFU+Y506zPLOGzVG8eknhkyTecCbMtRorOBv2ao9RZxzw3wMtJGJ4yZ
- eJANmEpN0qGOkMJYwtKYH49tL/Aan3XfiNVq1uPpLsf6GnIxws327/oWDbQUozQHJwJwx/I9
- goq+UynDhxEaNmn5AGK81iegtfNsy3ZWts7QejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
- FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwAiJzqyR50OSAXIJC2YRLtcnr8QxAzct0
- zdlgu/UONCmi5XNIVr1y1tehWja1fQ9RYPaWRI5cA==
-IronPort-HdrOrdr: A9a23:ty0J1q+IvINkhaL8V/Fuk+D6I+orL9Y04lQ7vn2ZhyY7TiX+rb
- HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdn7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
- 4ZSdkcNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYKcemvAJsQlzuQzW2gYzRLeDU=
-X-Talos-CUID: 9a23:zhMfnG8MT96ZhSrym1OVv1MuN900Qzrd9XD3c3SIGFZ3bpqrUFDFrQ==
-X-Talos-MUID: 9a23:KIEbWAoHrNKUymsuTnMez29uOZk05pyDM08Mu6cCg8uqOw5yYh7I2Q==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,235,1779148800"; 
-   d="scan'208";a="821145188"
-Received: from alln-l-core-08.cisco.com ([173.36.16.145])
-  by alln-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Aug 2026 18:26:34 +0000
-Received: from sjc-ads-4126.cisco.com (sjc-ads-4126.cisco.com [171.70.54.147])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-08.cisco.com (Postfix) with ESMTPS id 3C4E218000453;
-	Fri, 21 Aug 2026 18:26:34 +0000 (GMT)
-Received: by sjc-ads-4126.cisco.com (Postfix, from userid 1834987)
-	id CF18BCC12A6; Fri, 21 Aug 2026 11:26:33 -0700 (PDT)
-From: Emily Vekariya <evekariy@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: sankpare@cisco.com,
-	ipasha@cisco.com,
-	ranjirat@cisco.com,
-	vchavda@cisco.com,
-	Emily Vekariya <evekariy@cisco.com>
-Subject: [OE-core][scarthgap][PATCH 2/2] python3-pyasn1: Fix CVE-2026-59884
-Date: Fri, 21 Aug 2026 11:25:50 -0700
-Message-Id: <20260821182550.23177-2-evekariy@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260821182550.23177-1-evekariy@cisco.com>
-References: <20260821182550.23177-1-evekariy@cisco.com>
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=Fo2zgXzH;
+ spf=pass (domain: cherry.de, ip: 52.101.70.24, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=v6cLVcU2a7aKnoQ5oojO537pQXYmX+VVOVoBc9pCrayAWp48dWqwhX5O9TAi0+rNAOx5kzzAEDmFBmsL3Zhc2T42pYRkwS19J81WGuqLm8PvXH5ppSiAfEPQhnCosurLcLOla6s2cpvXDcFoZQsivUSbzJBrcs1vr+kjvtBDtZtRyaiHuHOxveVTKzO6KHACJulvoiivNSUSJ4XWz62LcCTa40F7NCWwnfXa0QdKp6qtpCWLJDyPtrG6JdFEAJjXYDVVaTpVQsYXMu0MrBfJ2oiSjmgA2C5oP+LsXHGeA6QMWrnyeMAYcl4a2x0PwWdggIayDU3ozdEX51lZfCbQOQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=6xEvaOPw3ydR+a9chSlYoLFVoPCvoFVvya5QZLDwSM8=;
+ b=kHirNhn6QROCKVJ8vc56WVavm/f4TiAx2OKSWrzseiiGgSgwTOfAF4e2otY1ExD3+xwQU63u47dpCgV0H4vKSQ2BT2zGz5i9Z8T2nNaA0IslJOS8TFSljWJRMtMZalEc3rkI6h2TGRBlLJ6+P9xukALNpenzd/Fs1J7oUpGymvvCgz9HUBjlWOUiMSM4NPjVacxQBz+sjziAq9NRter6OZZ2S90gWAiNKnZ8Er8irxgF4NNRza4GBO4/O1ee2eug+KBAmQaxL9A7AN+1w4ETks2LgcAjjQFBH4TFkqCNAbOuDF9qQxkxa8bee73QAfHVPSRs0zo7L1sGda7NtwNaBg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=6xEvaOPw3ydR+a9chSlYoLFVoPCvoFVvya5QZLDwSM8=;
+ b=Fo2zgXzHUpv9gl17luTXmD2nWlE++R8b5DuqeTlB0UChNcvpPQ+u4RVvf0hYAN3RvyyuoJP/SNunCHChydHv2MjiI8SXlwLJke3bLPBNHEc0SW9xROGt9O4Q2b3QmHwbpEE+7tduxAelui6VMb6dBtF0q/nkfb8vTabslqZ1jSY=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from VI2PR04MB11147.eurprd04.prod.outlook.com
+ (2603:10a6:800:293::14) by PA4PR04MB8062.eurprd04.prod.outlook.com
+ (2603:10a6:102:b8::10) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Fri, 21 Aug
+ 2026 18:49:18 +0000
+Received: from VI2PR04MB11147.eurprd04.prod.outlook.com
+ ([fe80::c859:7e6d:9345:afe1]) by VI2PR04MB11147.eurprd04.prod.outlook.com
+ ([fe80::c859:7e6d:9345:afe1%6]) with mapi id 15.21.0339.008; Fri, 21 Aug 2026
+ 18:49:18 +0000
+Message-ID: <74179451-6660-4fe2-8962-fc55a36132c4@cherry.de>
+Date: Fri, 21 Aug 2026 16:06:39 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH 2/3] lib/bbconfigbuild/configfragments.py: match
+ Available and Enabled built-in fragment lists
+To: antonin.godard@bootlin.com, openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+References: <20260821-sbom-cve-check-fragment-desc-v1-0-e06feb747b07@bootlin.com>
+ <20260821-sbom-cve-check-fragment-desc-v1-2-e06feb747b07@bootlin.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20260821-sbom-cve-check-fragment-desc-v1-2-e06feb747b07@bootlin.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR0102CA0058.eurprd01.prod.exchangelabs.com
+ (2603:10a6:803::35) To VI2PR04MB11147.eurprd04.prod.outlook.com
+ (2603:10a6:800:293::14)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-4126.cisco.com [171.70.54.147];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.54.147, sjc-ads-4126.cisco.com
-X-Outbound-Node: alln-l-core-08.cisco.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: VI2PR04MB11147:EE_|PA4PR04MB8062:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2a376ad9-7da5-47f8-e983-08deffb4e80d
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|1800799024|10070799003|366016|376014|23010399003|22082099003|18002099003|56012099006|4143699003|3023799007|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info: 
+	VUk5noyz4opSPoTtFjdNNd25h6x1TRwTvYlK7Wrynt4GvfUj4eXYp8UYRDDbS5IUAWz5xDQv2wYOvuZc1Nxk4ljZYCRu2ZDSwfyHAp05r2Bn+G/oA5BrrVPpnxvmAtQGlQDfxTfLucjiX+BjtIsWZcVrxK95cBmJNJtYXdqT4MThWIEiAqzcYkq3EehBGQYQLdd52xS494QlM5H9O2C601Ozq+c8mD1AMXsw3wTBHH4QZ5I5RCipTrt0BwlG4PYvTEJBls36I+J1trHgC8VIF7GhPIzJyUmKrYXV9jJcR/SNyKXG3S/3u9cUpYM9Sly6NBzOr3pAvdL5cRvX4WysOGiAYTV026kT1lMF5qsspPbXlWnGxgXXXaVlmZ0GB00BrFK32cADMmb1fDdZszu26Tpj3jhd2L+khfN8HW1AjGM3/4mknFaQLCLl7522wHdkzAJuCvuko5bDeRdsJ9/liC0h/o6p+ROdn6OsooY0XJfee/tBTQOH+3JuGyWrm+OL0Vbeqs4UZ4YGQfetVdSy9IbggsSXXdW/3B6hLIrWnvsKAow7FQF0G0I/NQJ+yEuy9U/UdDwWCh2HR7pJzNHrMuy5P0MuMJu4jmJ3Y7uwA0ciKAoL+pBq24ME5bkV5eW9XmcxMRbBjhAc4uHaMDfjJPy7srXLWOb/XpbgQs46gck=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI2PR04MB11147.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(366016)(376014)(23010399003)(22082099003)(18002099003)(56012099006)(4143699003)(3023799007)(11063799006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?V2JuUkRYT3NMWjAwYUxWajFqUDFDTFFSZ0czM1lLSnFveFZBL2d4SFhpdlVY?=
+ =?utf-8?B?NUpubnpFQXV4dlNzY2RyNUMvVWEwMmRPek02MTNXN2dYS29oTW9Ka0s3WFpE?=
+ =?utf-8?B?cXNEckI5Sk4yQ1lpcWJ2RnV1OEh5K0lNYVFVSXdxd050VytBTURONi9pbkRB?=
+ =?utf-8?B?TmlNSlExYUQ0M1crdFRtQXVVTnBEMXJwNm8zZ0VUaDR3bXhRd21DNDNXTEMw?=
+ =?utf-8?B?bk5ub3ZkSGU4U21IRlAxdld5dlNaN0xYdFpIQjdCQkJZMjRHRlZld0tkOTI4?=
+ =?utf-8?B?NDI0MThMaHkrTTBOdzdFUnFGSlBDZzdORUFTbnp5WGxEVWdpcGNVVnl2cVkx?=
+ =?utf-8?B?QXBSZ3VWRjJHY1hLa09YL01veDVvaXNPY2RuRGJyZnRqSkFIZWlzYkw0MVA4?=
+ =?utf-8?B?TytJNU1GRlpTZ3hkYWVIUFRJMmwwMUVSY25MS0xHaWxML1QxWGpKeTJIRzZT?=
+ =?utf-8?B?bEQxSFN1dElDQnRFUlpwS2wrS01aUGc1VFdzcXJkMHAyUy81dFdRR2U0djI0?=
+ =?utf-8?B?RDV5eGpMcTVVTEk5SVNydUdweG9lbnRhUzNmdStJTGRUdzBLdzRZWVY1RjFt?=
+ =?utf-8?B?ZkhuVElFQS9pRG5ERHprQ25hRTRKb2k4ZjQrT3dzN1hudzhoZEI0SUVmdWZY?=
+ =?utf-8?B?UzlvNkNob09UVjUrOWtYSmdRMnV4NTI5RUYzSFcwSFdRREJoMXhBMGxsTUE0?=
+ =?utf-8?B?WVVnd0NJWTdOcjhZK0xtNElsbHJWNXUwU1dkUWIyYTl2Y00wM2R3NWd1N2FS?=
+ =?utf-8?B?SjdoUENWTkJ6NEFCRkRIQkdFdS9qMVJpUjg5K2JZYStPeUpBSEd1YmhtMGw3?=
+ =?utf-8?B?UWxEOUZ5YkNjN1ZQVGNxckVPem82RTR0Tk5oMkRvVzI1OE9RQ0pSVi8wV1VG?=
+ =?utf-8?B?THpPem5pazcxclMvdFQwK2tNWmJmUTNFQWIyZ0drRTRsbDd5Q0Nkd1lBcXZl?=
+ =?utf-8?B?L0hwczVNbEY4TEcwS2hRcWJYZnhQWnlUR0VFb3JBMmdoZGlBaXh0RFJzakdB?=
+ =?utf-8?B?UWtSV1VFT3BjYjJiZmgrb3M3SUlCYnpybDVwcU5YN2QxTU01TEJVSjJtNk5I?=
+ =?utf-8?B?b205WkY1clJTZDArQ2FqTUpjMWhpQjVBMWRzT3IwaTZUcGhDU3d5a2tRb2da?=
+ =?utf-8?B?TWVvYUExdk42Qlg1aUpzTFlaU3VaZ1AzWkw0eEhzVWNuZTNtZm1WalM4TUpy?=
+ =?utf-8?B?aFZ6TWhkSGdVaGdwMzJSTHhnalc1SlkyVFFWK0wycTlEb283OUNFelZiUUpH?=
+ =?utf-8?B?RUEwaFRaSi9CUm52MjYrRXVMYWtlalVnZStwTEJYVDllOUFObWZNakovMGcw?=
+ =?utf-8?B?SHU1bVZ3VzRSMW1DUTIzUk1WUDNoanVuTWxJRC9BOUgxOERlZXZUYmZyZ0Qy?=
+ =?utf-8?B?TmJzUmxXN0FObnBSL0FTbS9lMCtrZkVNeStTbndJZG5DZHc0RHB0TUx2QmYy?=
+ =?utf-8?B?K1VGdDRSTEZCdGo4S3VLOWs3M256TDY0UVRleXorcmQxVTdBZUhNaHIwN2tU?=
+ =?utf-8?B?N2tyUGN6anN2d2srSEJzd2dNSnJNUE52eC9VRkRLWXIzbTIwVTdhRXJUVjc1?=
+ =?utf-8?B?Z1doeENBN09UOXA3bk5pMmJ2cUt3djdqSjRQVlZ0S2kwMk01M29sRG9Oc0po?=
+ =?utf-8?B?aW9IK24waHJaem1hNC9BNGtVMmhTMVQ3dGtjQTFTZndja2lZc0g5ZXJEN040?=
+ =?utf-8?B?eWtqZExtY0ZRSUN4ZGhDOVhHN213TzFXdXZoYTJPWlJWN2RGeU9qZFg0dXdY?=
+ =?utf-8?B?d2lFcFRNY0NzU04vYXZaWGhlcm9xNzhhTzJCUjJTcXY2L3BJd0J3bDl0NTk3?=
+ =?utf-8?B?ZnE5SlpuOVFHaWZjUGVzQXB0b0xrdm9temZvaFZFbi9rSTBKZUFjb3FvUzQ1?=
+ =?utf-8?B?WVphYXpDc1RaNUtoVWdQZVRWM1dJdTc5VHFSd0drbnVTbG9XcEJJMHdXU0lT?=
+ =?utf-8?B?Z0s0eU5zSmtEdXQ5dWRLK00yK3ZnaG51cU44ZVhQbnZKRkQzNkNlTzBmcFln?=
+ =?utf-8?B?YUhNL3FSQ2piVjNLMUdPVmFOTXlvUUdRcHpjRU5abkNHRGlaNU5IYXB3QWMx?=
+ =?utf-8?B?MW4xUExLWU1mRGFURVBPNlYzQTFFZ0FQQTlFSDlVbVZ6NC82dTNnY3lscFp1?=
+ =?utf-8?B?SnFqL3ljY0tRSWp3bUQvemRRclBPbFVkWStyQTYxUHM0TjBWcnErOGVMOFV0?=
+ =?utf-8?B?cmEvQWtSbnFBWm1HZXFpbXFKUG84U1JHbzZQZ3pMRGVpUUNDaW9hM0tjaW5i?=
+ =?utf-8?B?SHI5N3ZYZ3BzSlpYNkZqU2RQbVZ3VjJmeHhNdlpoMDF4TmhCbmNuMnJVbGFH?=
+ =?utf-8?B?Sm9RbVFvZ1BDQ2lOcEVENmQ0R2ptTVJUeDY1YjMyei9POWlCOGNoT256TVlw?=
+ =?utf-8?Q?mPSiPNv1QG5gckgwvXswNg2361edRzIBPj7xAY0fajGtH?=
+X-MS-Exchange-AntiSpam-MessageData-1: u6QQczkGFKknet7xXnEdrx7+Q6Tv58NJ3W4=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2a376ad9-7da5-47f8-e983-08deffb4e80d
+X-MS-Exchange-CrossTenant-AuthSource: VI2PR04MB11147.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 18:49:18.6409
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: KwtGm6SiH8D/CNqETyxq0OgqU3k+OKbZXFe4q+C3XxLsrw0GLa8ePAnyob28y0od3N2wi0AdibiJku9F+danG0trfxstUuGJTW713vJbhh8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR04MB8062
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 18:26:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243951
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 18:49:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243953
 
-The BER decoder shared by the CER and DER codecs parses long-form tags by
-accumulating continuation octets without an upper bound on the tag ID size.
-A crafted input can force construction of an arbitrarily large integer with
-CPU cost growing quadratically, and can trigger unhandled ValueError
-exceptions in the Python 3.11+ error formatting paths. Any application
-decoding untrusted BER, CER, or DER input is affected.
+Hi Antonin,
 
-scarthgap ships pyasn1 0.5.1, which is affected as the issue is present in
-all versions before 0.6.4.
+On 8/21/26 2:26 PM, Antonin Godard via lists.openembedded.org wrote:
+> Make the output of "Available built-in fragments" and "Enabled built-in
+> fragments" use the same output format:
+> 
+>    Available built-in fragments:
+>    machine/...     Sets MACHINE = "..."
+> 
+>    Enabled built-in fragments:
+>    machine/qemuarm64       Sets MACHINE = "qemuarm64"
+> 
+> Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+> ---
+>   meta/lib/bbconfigbuild/configfragments.py | 2 +-
+>   1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/meta/lib/bbconfigbuild/configfragments.py b/meta/lib/bbconfigbuild/configfragments.py
+> index 47605f3ddb..ccc1d8b610 100644
+> --- a/meta/lib/bbconfigbuild/configfragments.py
+> +++ b/meta/lib/bbconfigbuild/configfragments.py
+> @@ -66,7 +66,7 @@ class ConfigFragmentsPlugin(LayerPlugin):
+>               print('Available built-in fragments:')
+>               builtin_dict = {i[0]:i[1] for i in [f.split(':') for f in builtin]}
+>               for prefix,var in builtin_dict.items():
+> -                print('{}/...\tSets {} = ...'.format(prefix, var))
+> +                print('{}/...\tSets {} = "..."'.format(prefix, var))
 
-Pick the upstream patch [1] as mentioned in [2].
+Wondering if we shouldn't simply store the string before .format() in a 
+variable and reuse it?
 
-[1] https://github.com/pyasn1/pyasn1/commit/628e36ecbb5277a3f01572ce418ef54271b165a5
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-59884
+print_frag = '{}\tSets {} = "{}"'
 
-Signed-off-by: Emily Vekariya <evekariy@cisco.com>
----
- .../recipes-devtools/python/python-pyasn1.inc |   1 +
- .../python3-pyasn1/CVE-2026-59884.patch       | 245 ++++++++++++++++++
- 2 files changed, 246 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59884.patch
+[...]
+print(print_frag.format(prefix + '/...', var, '...'))
+[...]
+print(print_frag.format(f, builtin_dict[prefix], value))
 
-diff --git a/meta/recipes-devtools/python/python-pyasn1.inc b/meta/recipes-devtools/python/python-pyasn1.inc
-index 1780ee1d88..ae96f09fb1 100644
---- a/meta/recipes-devtools/python/python-pyasn1.inc
-+++ b/meta/recipes-devtools/python/python-pyasn1.inc
-@@ -20,6 +20,7 @@ SRC_URI += " \
-        file://run-ptest \
-        file://CVE-2026-23490.patch \
-        file://CVE-2026-59886.patch \
-+       file://CVE-2026-59884.patch \
- "
- 
- RDEPENDS:${PN}-ptest += " \
-diff --git a/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59884.patch b/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59884.patch
-new file mode 100644
-index 0000000000..dd897e2d75
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59884.patch
-@@ -0,0 +1,245 @@
-+From 38e8ae286160eb27620e7cb42108b3b28d1f299f Mon Sep 17 00:00:00 2001
-+From: Simon Pichugin <simon.pichugin@gmail.com>
-+Date: Wed, 8 Jul 2026 17:36:30 -0700
-+Subject: [PATCH] Merge commit from fork
-+
-+CVE: CVE-2026-59884
-+Upstream-Status: Backport [https://github.com/pyasn1/pyasn1/commit/628e36ecbb5277a3f01572ce418ef54271b165a5]
-+
-+(cherry picked from commit 628e36ecbb5277a3f01572ce418ef54271b165a5)
-+Signed-off-by: Emily Vekariya <evekariy@cisco.com>
-+---
-+ pyasn1/codec/ber/decoder.py     | 13 +++++++++++--
-+ pyasn1/type/tag.py              | 20 ++++++++++++++++----
-+ tests/codec/ber/test_decoder.py | 25 +++++++++++++++++++++++++
-+ tests/codec/cer/test_decoder.py | 15 +++++++++++++++
-+ tests/codec/der/test_decoder.py | 15 +++++++++++++++
-+ tests/type/test_tag.py          | 20 ++++++++++++++++++++
-+ 6 files changed, 102 insertions(+), 6 deletions(-)
-+
-+diff --git a/pyasn1/codec/ber/decoder.py b/pyasn1/codec/ber/decoder.py
-+index be8ba65..18865c2 100644
-+--- a/pyasn1/codec/ber/decoder.py
-++++ b/pyasn1/codec/ber/decoder.py
-+@@ -39,6 +39,10 @@ SubstrateUnderrunError = error.SubstrateUnderrunError
-+ # 20 octets allows up to 140-bit integers, supporting UUID-based OIDs
-+ MAX_OID_ARC_CONTINUATION_OCTETS = 20
-+ 
-++# Maximum number of octets in a long-form tag ID (20 octets = up to
-++# 140-bit tag IDs, matching the OID arc limit)
-++MAX_TAG_OCTETS = 20
-++
-+ 
-+ class AbstractPayloadDecoder(object):
-+     protoComponent = None
-+@@ -1570,7 +1574,7 @@ class SingleItemDecoder(object):
-+ 
-+                     if tagId == 0x1F:
-+                         isShortTag = False
-+-                        lengthOctetIdx = 0
-++                        tagOctetCount = 0
-+                         tagId = 0
-+ 
-+                         while True:
-+@@ -1584,7 +1588,12 @@ class SingleItemDecoder(object):
-+                                 )
-+ 
-+                             integerTag = ord(integerByte)
-+-                            lengthOctetIdx += 1
-++                            tagOctetCount += 1
-++                            if tagOctetCount > MAX_TAG_OCTETS:
-++                                raise error.PyAsn1Error(
-++                                    'Tag ID octet count exceeds limit (%d)' % (
-++                                        MAX_TAG_OCTETS,)
-++                                )
-+                             tagId <<= 7
-+                             tagId |= (integerTag & 0x7F)
-+ 
-+diff --git a/pyasn1/type/tag.py b/pyasn1/type/tag.py
-+index a21a405..bbbdd85 100644
-+--- a/pyasn1/type/tag.py
-++++ b/pyasn1/type/tag.py
-+@@ -34,6 +34,16 @@ tagCategoryExplicit = 0x02
-+ tagCategoryUntagged = 0x04
-+ 
-+ 
-++def _tagIdToStr(tagId):
-++    # Decimal rendering of a huge tag ID can exceed the interpreter's
-++    # integer-to-string conversion limit (sys.get_int_max_str_digits(),
-++    # Python 3.11+) and raise ValueError; hexadecimal is not limited
-++    try:
-++        return str(tagId)
-++    except ValueError:
-++        return hex(tagId)
-++
-++
-+ class Tag(object):
-+     """Create ASN.1 tag
-+ 
-+@@ -56,7 +66,8 @@ class Tag(object):
-+     """
-+     def __init__(self, tagClass, tagFormat, tagId):
-+         if tagId < 0:
-+-            raise error.PyAsn1Error('Negative tag ID (%s) not allowed' % tagId)
-++            raise error.PyAsn1Error(
-++                'Negative tag ID (%s) not allowed' % _tagIdToStr(tagId))
-+         self.__tagClass = tagClass
-+         self.__tagFormat = tagFormat
-+         self.__tagId = tagId
-+@@ -65,7 +76,7 @@ class Tag(object):
-+ 
-+     def __repr__(self):
-+         representation = '[%s:%s:%s]' % (
-+-            self.__tagClass, self.__tagFormat, self.__tagId)
-++            self.__tagClass, self.__tagFormat, _tagIdToStr(self.__tagId))
-+         return '<%s object, tag %s>' % (
-+             self.__class__.__name__, representation)
-+ 
-+@@ -194,8 +205,9 @@ class TagSet(object):
-+         self.__hash = hash(self.__superTagsClassId)
-+ 
-+     def __repr__(self):
-+-        representation = '-'.join(['%s:%s:%s' % (x.tagClass, x.tagFormat, x.tagId)
-+-                                   for x in self.__superTags])
-++        representation = '-'.join(
-++            ['%s:%s:%s' % (x.tagClass, x.tagFormat, _tagIdToStr(x.tagId))
-++             for x in self.__superTags])
-+         if representation:
-+             representation = 'tags ' + representation
-+         else:
-+diff --git a/tests/codec/ber/test_decoder.py b/tests/codec/ber/test_decoder.py
-+index f6ff7b0..0152027 100644
-+--- a/tests/codec/ber/test_decoder.py
-++++ b/tests/codec/ber/test_decoder.py
-+@@ -34,6 +34,31 @@ class LargeTagDecoderTestCase(BaseTestCase):
-+     def testLongTag(self):
-+         assert decoder.decode(ints2octs((0x1f, 2, 1, 0)))[0].tagSet == univ.Integer.tagSet
-+ 
-++    def testVeryLongTagRoundTrip(self):
-++        # (1 << 140) - 1 is the largest tag ID fitting the 20 octet limit
-++        for tagId in (1 << 77, (1 << 140) - 1):
-++            largeTag = tag.Tag(tag.tagClassContext, tag.tagFormatSimple, tagId)
-++            asn1Spec = univ.Integer().subtype(implicitTag=largeTag)
-++            value = univ.Integer(1).subtype(implicitTag=largeTag)
-++
-++            decoded, rest = decoder.decode(encoder.encode(value), asn1Spec=asn1Spec)
-++
-++            assert rest == b''
-++            assert decoded == 1
-++
-++    def testExcessiveLongTag(self):
-++        # 1 << 140 is the smallest tag ID needing 21 octets, one over the limit
-++        excessiveTag = tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1 << 140)
-++        asn1Spec = univ.Integer().subtype(implicitTag=excessiveTag)
-++        substrate = encoder.encode(univ.Integer(1).subtype(implicitTag=excessiveTag))
-++
-++        try:
-++            decoder.decode(substrate, asn1Spec=asn1Spec)
-++        except error.PyAsn1Error:
-++            pass
-++        else:
-++            assert 0, 'excessive long tag tolerated'
-++
-+     def testTagsEquivalence(self):
-+         integer = univ.Integer(2).subtype(implicitTag=tag.Tag(tag.tagClassContext, 0, 0))
-+         assert decoder.decode(ints2octs((0x9f, 0x80, 0x00, 0x02, 0x01, 0x02)), asn1Spec=integer) == decoder.decode(
-+diff --git a/tests/codec/cer/test_decoder.py b/tests/codec/cer/test_decoder.py
-+index 3d27194..d759f76 100644
-+--- a/tests/codec/cer/test_decoder.py
-++++ b/tests/codec/cer/test_decoder.py
-+@@ -67,6 +67,21 @@ class OctetStringDecoderTestCase(BaseTestCase):
-+     # TODO: test failures on short chunked and long unchunked substrate samples
-+ 
-+ 
-++class LargeTagDecoderTestCase(BaseTestCase):
-++    def testExcessiveLongTag(self):
-++        # 1 << 140 is the smallest tag ID needing 21 octets, one over the limit
-++        excessiveTag = tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1 << 140)
-++        asn1Spec = univ.Integer().subtype(implicitTag=excessiveTag)
-++        substrate = encoder.encode(univ.Integer(1).subtype(implicitTag=excessiveTag))
-++
-++        try:
-++            decoder.decode(substrate, asn1Spec=asn1Spec)
-++        except PyAsn1Error:
-++            pass
-++        else:
-++            assert 0, 'excessive long tag tolerated'
-++
-++
-+ class RealDecoderTestCase(BaseTestCase):
-+     def testLargeBinaryRoundTrip(self):
-+         substrate = encoder.encode(univ.Real((-1, 2, 76354972)))
-+diff --git a/tests/codec/der/test_decoder.py b/tests/codec/der/test_decoder.py
-+index 553563c..726c999 100644
-+--- a/tests/codec/der/test_decoder.py
-++++ b/tests/codec/der/test_decoder.py
-+@@ -73,6 +73,21 @@ class OctetStringDecoderTestCase(BaseTestCase):
-+             assert 0, 'chunked encoding tolerated'
-+ 
-+ 
-++class LargeTagDecoderTestCase(BaseTestCase):
-++    def testExcessiveLongTag(self):
-++        # 1 << 140 is the smallest tag ID needing 21 octets, one over the limit
-++        excessiveTag = tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1 << 140)
-++        asn1Spec = univ.Integer().subtype(implicitTag=excessiveTag)
-++        substrate = encoder.encode(univ.Integer(1).subtype(implicitTag=excessiveTag))
-++
-++        try:
-++            decoder.decode(substrate, asn1Spec=asn1Spec)
-++        except PyAsn1Error:
-++            pass
-++        else:
-++            assert 0, 'excessive long tag tolerated'
-++
-++
-+ class RealDecoderTestCase(BaseTestCase):
-+     def testCanonicalLargeBinaryReal(self):
-+         substrate = encoder.encode(univ.Real((1, 2, 1000000)))
-+diff --git a/tests/type/test_tag.py b/tests/type/test_tag.py
-+index d0ffa07..ab9b8b1 100644
-+--- a/tests/type/test_tag.py
-++++ b/tests/type/test_tag.py
-+@@ -9,6 +9,7 @@ import unittest
-+ 
-+ from tests.base import BaseTestCase
-+ 
-++from pyasn1 import error
-+ from pyasn1.type import tag
-+ 
-+ 
-+@@ -23,6 +24,19 @@ class TagReprTestCase(TagTestCaseBase):
-+     def testRepr(self):
-+         assert 'Tag' in repr(self.t1)
-+ 
-++    def testReprHugeTagId(self):
-++        # must not hit the interpreter's int-to-str conversion limit
-++        hugeTag = tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1 << 100000)
-++        assert 'Tag' in repr(hugeTag)
-++
-++    def testNegativeHugeTagId(self):
-++        try:
-++            tag.Tag(tag.tagClassContext, tag.tagFormatSimple, -(1 << 100000))
-++        except error.PyAsn1Error:
-++            pass
-++        else:
-++            assert 0, 'negative tag ID tolerated'
-++
-+ 
-+ class TagCmpTestCase(TagTestCaseBase):
-+     def testCmp(self):
-+@@ -54,6 +68,12 @@ class TagSetReprTestCase(TagSetTestCaseBase):
-+     def testRepr(self):
-+         assert 'TagSet' in repr(self.ts1)
-+ 
-++    def testReprHugeTagId(self):
-++        # must not hit the interpreter's int-to-str conversion limit
-++        hugeTagSet = self.ts1.tagImplicitly(
-++            tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1 << 100000))
-++        assert 'TagSet' in repr(hugeTagSet)
-++
-+ 
-+ class TagSetCmpTestCase(TagSetTestCaseBase):
-+     def testCmp(self):
-+-- 
-+2.34.1
-+
--- 
-2.35.6
+In any case:
 
+Reviewed-by: Quentin Schulz <quentin.schulz@cherry.de>
+
+Thanks!
+Quentin
 
