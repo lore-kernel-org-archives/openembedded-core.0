@@ -1,133 +1,219 @@
-Return-Path: <roland.kovacs@est.tech>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43B68C5DF87
-	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 08:18:32 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2904.1787300305699901350
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B17FC5DF7D
+	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 08:23:02 +0000 (UTC)
+Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.22])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2951.1787300572009066037
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Aug 2026 01:18:26 -0700
+ Fri, 21 Aug 2026 01:22:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=xDRFReBo;
- spf=pass (domain: est.tech, ip: 52.101.72.52, mailfrom: roland.kovacs@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=uyISukcc;
+ spf=pass (domain: est.tech, ip: 52.101.70.22, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=b9LawhqRwCN/hHb+R4kN1pdNpj1oCUfY4pcixSf1t0oQFzHzFt0oGySzFlZMlUN6Dq625W2YLjW4IHMseCTxwy0aEY2zugBPxMCtAxpvySwuKKrUuxDIAy2+eg+8iMWq9m18Q5bS+ZuzHcWG3nv5zDu+xr0NTnj0EX2FSxnkhEfSZpWbutAAe6wkEBbUA0aW+I04SpFDioo+uANEWfbtzmnCd4SC/apcj0O+/uU2hobI69xVGsvLYipLUFaDeHinulHLgOhBC5cFdlqDwvhJuc7vo7Dt43B/NvnBbE0EsPVtCaT0Tez+BGBqaacOTz9UaVVz2y+5MFG4mTiaQYtROQ==
+ b=ZpIi/C7qtKPctY2r3Z+qCWPryNNkwC3CqYlt2cdXlwZbCvl/40wO3EvQoaHvNeQvEFp0x6DaSNrTVRbbY65TbkbvH6gWVK9tG1ILUCS2oyk99CpBnDERUk3Kgh3w3r1kxQ4O6OU4+g4ShBkGy1lLGrniU2K06KOPsmdA74P31OcuBQZu+G6okKROEgcE133dUFMTBAX9vDgIzKidAay5cmD5DKO6bzD5yC2MTePPU6lLyrDWbjwZvO/IAaXXsSOC1aSz9IUOC1PB7JG8gihIASrJ/VCNciR5a7BoRTFwaplVHMmQf5BeDYYF5U/SCIg4fJtsS9kM4RbyNDZTX7kTJg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=oG9v45NhanT6CYue2LVYY5JfUPy/ErQ83shHSvr+3p4=;
- b=xleftARQAxc9PR8BGZXagxzd2DOjfDF+24n3MsUZ02SYtY+PQ55XWI0lTXrMqPiwqZz5Xnh0dj/C+xvgeKkb2KoYZLUWufXTkkcc7C6F1bhbsGNvMf/f8S0YbTZxQtt3KDipu8icNJ3SNbMS5bP9GReqEA7hWDSyfH9IlNv7+yK7aJMs5XrVyv0Nx92YkEExTjZXSXUFvXm6UQfOY6s/BMploGMdPN3XKuzB57KVQvTURiuM2I0tbFzdXeYSMk6YJCVvqeAd10745scwV2il/XAYR91FhMZ+7KzjDSpUzJmk97lrNZoRhnxzHlAg1ghxxWfXgy5E2xTJPAsagL+5Nw==
+ bh=TuIjaOSH62HW4PYPQNR/mw5hSp575jRLK02UCaumW/E=;
+ b=n+6fYPPJLlGxyKj9aG4IczHne6TJzXWlJ71RtgeDbP/Z2ZzGTJq7qqfF28Zc6FZXg+MMe678BRYRdFdUe78tKKokDDIeEnZQrBDpBhWVaNOvx2J8zIs0Krz7TNRzjIEfaSasjjWbaaq9CtN08cBiLJpoEG6ysRtxLLrL/ZjQkTpzwQUBxLsBQGskBjNjTiHm5lUMaD+oswLZpl+Zmd7rZZKaJeeVgV/XFsOzBUim8lvupmY+cFVpd5dZIRKvJDX2tN2QJbkcLKcc4iD6ok5VqpVXbiE+9UAliCvXdAau8+Ae+GmLS54rrnJFzpVP6bTTidDd24uB7qsZ5fXyZIaYqw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=oG9v45NhanT6CYue2LVYY5JfUPy/ErQ83shHSvr+3p4=;
- b=xDRFReBoJ4Zkn44pgioNyl56lWX2m+aDr2jG0w9zwHlAkzXhi8LvWHkA6S5tcfM9etivyLOttbGGS+WbHVA4ZD6VwTnliJyYZt1ZvGpaq4GpZyaWpZkMKuUyJmpp7teMBuO8WC9XHKf1FVH3F2rYQKIk3qAE9ftIdgM8w6VDuklY/efvvpPZeX4hiLRDVloH/bBoVIZAudEAC5jeV0qLkFmNQyRexc9NXmzqJLV5b/IuJGaJG8dhJ+kSKD/2YAeWe3oIExW+ZZ0cRvKc/kYwESobbt/st7IvLRTGsKRV9NUpVztQ1bGr2G26VhCK9rz6sDLUInZ1qMwGUqDMUYHOxQ==
+ bh=TuIjaOSH62HW4PYPQNR/mw5hSp575jRLK02UCaumW/E=;
+ b=uyISukccwA9Lm1NbmqOzoLOg+53TYSJ0916stARrw3xEr0JL38oLc0P0pmd98/VHhrvlY16/kjzdzeqdoyzV9cw5wqyrw4Tb03CriADttfadEcWkihgBgek1xPhASwdqzC0BvYxJgLlPuzkUgr/rnFdJ+BDoLeRQl0H/A9Nghn7a6J9hC3AsiDffXzd4OE0fOr2XRuzsZLPOdPzL7tYOnbDPkzw3bctJnuQQXAiwAohDAjvlShc1SpRudPLoP+yz86l8bJrgNGtwGwXG+mkb3S2fA5LQVnmdpjh7yOZ0N8VKIEW65jQcb35peag8PI7369jMsf/5c9SeW2JtRMuXEA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM7P189MB0725.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:111::20)
- by PRAP189MB1828.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:27a::9) with
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by AS8P189MB1303.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:2a7::17) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.3; Fri, 21 Aug
- 2026 08:18:18 +0000
-Received: from AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- ([fe80::ab4f:3151:4330:625d]) by AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- ([fe80::ab4f:3151:4330:625d%5]) with mapi id 15.21.0360.003; Fri, 21 Aug 2026
- 08:18:18 +0000
-From: Roland Kovacs <roland.kovacs@est.tech>
+ 2026 08:22:48 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0360.003; Fri, 21 Aug 2026
+ 08:22:48 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [scarthgap][PATCH] gnupg: Mark CVE-2025-68972 as upstream-wontfix
-Date: Fri, 21 Aug 2026 10:18:15 +0200
-Message-ID: <20260821081815.1039423-1-roland.kovacs@est.tech>
-X-Mailer: git-send-email 2.55.0
+Subject: [scarthgap][PATCH] busybox: patch CVE-2024-58251
+Date: Fri, 21 Aug 2026 10:22:46 +0200
+Message-ID: <20260821082246.73535-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: LO4P123CA0014.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:150::19) To AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:111::20)
+X-ClientProxiedBy: LO4P265CA0126.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2c6::17) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM7P189MB0725:EE_|PRAP189MB1828:EE_
-X-MS-Office365-Filtering-Correlation-Id: b73e74b3-37bc-47f6-4e91-08deff5cc149
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AS8P189MB1303:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6a58d086-b339-42a6-fdb5-08deff5d6248
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|56012099006|11063799006|10067099003|18002099003;
+	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|56012099006|12006099003|11063799006|10067099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	vFgqZIQkk783To6anHaYJOkPJPrrlT9FJHpWDDNGnsNR3+lhEThUYikg/dO2avHvykWV3hjryShtegrv8XAasPkRaYdbf2DpfSd5tgmJCtsiWc+dh2YawGxbDpJp8lHUxh5X9iMD7XAwcVCT0vpbBwovGRBQdU+X8Jwgo8K4OCb+DjbrZz7Lgo8jtDUySXq39nxtGttupRvNEY+WmukHe1EtMisPXi558CbofZXcl1v9V2AzPCb4qDC7ezlOHDbd1xgnaSYp+S7Cwk/8B3Q2QE8z3UYaoOz7snRuwmOv5jT993bJDxpL4Da4s0Ow2bKuAqzm4DPA5o928yN1PIIcJ/WaKJodQ/73HgfCOMUKY3rtZU29J82uAcVtYS1bOAXkK7eblNpcZc/NGbkN//ZhxbkPvk+NvE8ZIM9jKTifrM/i5kw/sGTwAZn07qeYKXIXdps5uVSoAK5Sy4kHa/kwfu/3Kc8/FBtZTJF6+a3/nqoeGo46bxxGnROA+HFlKnZvKLtRxQDuCdQU04ZXNOD22hphgpE8KgckIRjkCdaspsxQWqoYsziZ7BrG5Oe8N7hzdoYiGsOFKEIjPEn2CBOCy7QVPF/pNi48i3JyOMjynqWgh+3h+Rsn+wkRkNn6l3CH
+	eeiLcL2/EgwLscVXiPjaSfJlWot9DjN8iyc83sOSPDnktHa/jWcdQJ8sS9AVaQYQSjplyZTsC11/sfCp8sKSv1ZgYdHen9wCv2PJCSa8CyEnwNuoUapDh0ECLolSNKs1W9negVW9gWvt9SRrkwNPJgdJRnQpjur47Mhcmxqtm57dK3LyBwZC/2DEG1/rR7WWWzW/rGKzLznFjrS+ft6NISnarkveDgdx2M91v/zBvZsMirLdRn127nTF5eW4HxOqzw97wjrNZITMtOdsz9eMcImevwC04nDrVMZQcRfdronflh35u81aTx9A1V/DCK3+Tv7p8wJVIkQ5RmkTmK7cSk1N6Mksl48vJcIKVLquc3TNdoUHAPztlD+8F4DeZ1ePLedBypqSqdJYJqpyANNkZVIAQpegkRfFiK3SomrFoMwFgf4tQia5hiMiC4YVon3tU1O0iBftCPRKvXeM27vRC9SdMuPy8Bo0yGQBa3/NpxGlj1dKoRNC0TBp79DBtv6jLQ0VMJuiZ8k/7UX6Eg0j3snQusuBFO/ACp/KdsIxpwLRnILUzjABM61ZgQoHm5cfSxDWgZ2S/6iw8ZQ+W6Uuvag2HGeDlfAwPukUIi3RwFFUTutDe7yqYYJPEbcPAvDN
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7P189MB0725.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(56012099006)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(56012099006)(12006099003)(11063799006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?RGTimpQZLmcMc51HOuxaWWy0TdNLirw7VAghghFCp3ULBfxwH39wR89HoRTd?=
- =?us-ascii?Q?5zs8OJTBb8C9jD4YfEx8pPltLWop2zf4lWCJZPs3IlZ+t2AgleLztr3tR5Mm?=
- =?us-ascii?Q?mOMJhdVrHrhJf4OEh/1C74oz8cLN3g6c52uUBY3oHZ6wwELAVbdBvwFXEGI0?=
- =?us-ascii?Q?MKv5vNzDT+LPEaCiVyPLqYnW6i3brOekSyj3qranm2RcJ3BgEPIJwrBGMcfC?=
- =?us-ascii?Q?gytc8dLc5UddJCtGp83WM15sZgr7YPZjZdDpmbr7e86fDHXAheiZESUiAVdQ?=
- =?us-ascii?Q?6HFshG7u+0NZSpF2PwNPk0d3+tdNr9uVDyi0rxyfsDFUPy3/OXuxZxDmh2Lx?=
- =?us-ascii?Q?D9pyW0jxny3FsYZWHZb+smWdFtnV2PNi2MdJi0qJbq1JBRuMqrGnKlZugiZl?=
- =?us-ascii?Q?qy+bnfeLXtVn6sjfjKPE9LnQrkK5XQJG8I6ZAazrcps3KvwGPpsz5mRFThpL?=
- =?us-ascii?Q?SvHk+cWylrU+isDTZen2RAfaRk8coxsWfiKkSKT2i4h4t2Td63/Mk+KgNQ+K?=
- =?us-ascii?Q?Hzj5GeUsAdviW2BRLQ0T8W1Oi+pdmmmgS/ilU5Oyiaw6HIUXIIzUzIU7cCCm?=
- =?us-ascii?Q?/fZtYjz1XYb23sYFEtpw5KhVqwxjxVigA/6AN2IS1sNImQhRysZto+h9tnYb?=
- =?us-ascii?Q?H/lPSrIfj2gEBnAXk3ILMz5+/P2KvtRbgndpair5cE2F4YsBLEjwqD+ifsse?=
- =?us-ascii?Q?cAmUvCzsFQagAbIcHhqPI6qpYeO8bwiv6Vj3JmAUv57FYfBwUdrIaRhqeRYI?=
- =?us-ascii?Q?wZEcmZYw4Dd1EvIb1jiz+6FhCiqq5akWLl6hW49SeMOBO7k/xtzw/1uqqNca?=
- =?us-ascii?Q?orjizEzV0WRntpfTmh06PKndMnu9Jv0wo6uVTy3oeEJtGa+/QbXfZRAQ35NV?=
- =?us-ascii?Q?FENqzwNj1WMPU63qYisjG2SzIRpeq8T1GRe4GftYb3VbtlUI/OsmwBOeRPAl?=
- =?us-ascii?Q?dH/WJm2Ulo1L0hozYACJ49WqhSk/c0uF5kDRw4pnopir+XFu2NhwPrNCJqvK?=
- =?us-ascii?Q?SnBawaPdhagIW/OAeXxS6saaxTOI8Agq1kxsG9KiOtiAzECBdyUWHL2jeoab?=
- =?us-ascii?Q?0i5703zOsupF3pYDdk9WYia2/qyBOwbGaP47p9EwZ7AAWC66AdSwZRfWUDOr?=
- =?us-ascii?Q?GX/Ie7pzHuHd7knt/cxSAOl3x4tvjwker3sh1/rFeJX6g2K6Nj3MfOIUb5Jw?=
- =?us-ascii?Q?Z+lzQY8uvudQ4GctNCf6sTCc64m8acY3g59wMLRsFAK0LXUXb3JMIs2pI8EO?=
- =?us-ascii?Q?cMxv7kIy0WAY0Lp9rvAtyksrGpQXuDFt4EaJx5aSz1rHct4wWFYf3iqL+FvE?=
- =?us-ascii?Q?iuAacark+1W4/fY2b4kZXmIUw1QJG73EmPII63CFixnTeZli6w/U57qKuhit?=
- =?us-ascii?Q?mph2ZGXUc/gTIJ6q9m7K6XQL0tpEEuhLiQfflT5HR+h/t/5YdHvYjTDCBS+e?=
- =?us-ascii?Q?2ZONv/IhIhlSDlypBvl7BEBpaDVIp/BAk4SYV1WnmA2ezf/8ZIuP/NHFGuYP?=
- =?us-ascii?Q?na8LYL5kE2cTzBr1xnae7PragLvXMLgk5t/q3DftK576KE7bcFXJ95uUFSB2?=
- =?us-ascii?Q?zcS90am01U5kPo0Vybp3OkA4R4tCyqJwJaHiQai15z1OF+i+b6LEB6QdXjXX?=
- =?us-ascii?Q?Qr28CpJcijMPr7VGccRb2SWfxZKLWzYizWx/B8r0rBEGPIh2o0IYzj8FOZo1?=
- =?us-ascii?Q?3JFOX13KfDUQ8a6AzJh0ceqCd1eFfNzz7UFbfH6Ulsg09RssUrN8M1sOyM7H?=
- =?us-ascii?Q?DmGpA2DuRw=3D=3D?=
+	=?us-ascii?Q?LbNacikPW/eXteeDDVdsahCv0h8Kir5unHho0EowOz7S5Sn+WJYQjJrFAGYq?=
+ =?us-ascii?Q?ilWOLxzRJ08sHIPTDTlzLh/UiXfIc7hyRjulRprgI+OkiqCEVwF5Z3tttdAF?=
+ =?us-ascii?Q?gUmi/hh0XqYqLOEMVsDXX6+bd1/ahq9vnLNNjPyPXLLpJytO5YSBuF+Rd/6H?=
+ =?us-ascii?Q?Xgf2XFqpnhi8LLO8LQrXXgVw6XoVxttOCgDs21sV/5wSzM4b41MQEaIiY/2s?=
+ =?us-ascii?Q?+8bbCbKFhPjOF2wjZC4qT26Fy8EmQ8VChAhBg9/hGXAf3mRugRBZ7mbX35WU?=
+ =?us-ascii?Q?5nPBZBWWaAIF5RlqXf1OpKvV9Q4GF63CgYy6UF9U0f9lik9FXWT/Mqc1LlO5?=
+ =?us-ascii?Q?Af0cWzKwIHeHrcF2xYPeY67xp/oMpWkMqmUk1YfBd99bMWu8dof6m3xcScMQ?=
+ =?us-ascii?Q?YzW++2QwGd5cncWufbmSFqP3LCuYMa3GthLo76rroBuNHmjjlEp6pLr5OVy8?=
+ =?us-ascii?Q?ogZnveKNW3nJIwpH521WHUdC4mpyG+C524IUQfzIsoow9/7MkbF5bv6em5g0?=
+ =?us-ascii?Q?1Pi9HJlC2YYkZkQ7fNxRgORa2qL+LDkzEH9DnU/DTIfeiSTOKn4hhzTlbzqR?=
+ =?us-ascii?Q?nP2X4jYgauUJwLM232FWwvtmXkl6SZi1AuoG1oNd6Yw9womFX5idklSCepQ6?=
+ =?us-ascii?Q?D045cO6P/TUAeX1f9wSfOLjwXygB7YxDO17qgadBbJBML5v4Bv5CA8eS4X6v?=
+ =?us-ascii?Q?6ZCA003lHiBv/2i04MkcYfe/ebtEM8B513YrGfG9NSFnbjQufq0jI86hGXLj?=
+ =?us-ascii?Q?YfKnS60P0lE2+7OEzEYCpSdl2U+ltDpn2lmpRvi+O84/gR7UrUZgaQoISzoF?=
+ =?us-ascii?Q?2k6IpxliXQllpKZrp6DyIiElT9oTqdHxYCt4o5S8W/bYAuye3ErO7bfe350a?=
+ =?us-ascii?Q?UH4ly5FOYueO37Tn/leRr9DhZesdPhLzj7d7vbg+wb3Hv5BcA0UGTvtzYFjK?=
+ =?us-ascii?Q?8dbiS2X1QmULkUtF6JtSHEXbqdr9bAH3H9MySK/RvwafrMmbiTCWhIgA3L0g?=
+ =?us-ascii?Q?WNi1jXHYKOHY0h0pvvKw/utS1blsxPP0dFguzLHX89gB5THZFqlxCW5WdTyQ?=
+ =?us-ascii?Q?UsvfJVzUG+pUq5VWaV+a5evPu+x4VER9udGMgYdE02tNTimNQgj5IYfPh2Vl?=
+ =?us-ascii?Q?bEABQNxvzX5RAeI1siz2cAqt3zsFByWqxURlnTEpaUT6jgCL7dPL2UtgHMbh?=
+ =?us-ascii?Q?BNzY5ZNWD+uGQPo4Q5c6/oFDRJKwsodix10jKVc4vM1FaHNCDJFwsAh6Rjgl?=
+ =?us-ascii?Q?f0Tds3rKAfy/Wu0eiEshvcwh+zotICz4ITEWA9XRe/FIf/LJnmaemptqmD+s?=
+ =?us-ascii?Q?PV1oilwqTpHdFi1+JRwRBdAfVl6Xy3CQtiRyI/j49GLPQ0SHAM4uwjfdosZU?=
+ =?us-ascii?Q?6+f7018bYL9LHpON94iXmQGGve12O7X8/zLBEsquf9kcL8X8k4MsAtklXyNn?=
+ =?us-ascii?Q?4dtx38D9CwC3+g5TPtuoA4JzVjpdnTwTxg910U7cfEjB4afUcLkrAtX2qd0K?=
+ =?us-ascii?Q?iCkkd/GtURkO6StLkj/9rjcq47B31BcUS2KAAEQpBgnOumScziS9YaTbwuQH?=
+ =?us-ascii?Q?+zh4eaxJOE7tYtfdrsqGGpo21clLwmbKZZDBB+Zfa4u2fukMitrWT7EYnkXM?=
+ =?us-ascii?Q?W0mCTRL24qOXYCsKe7bGv3E9ZMJcbQp+qZ3ERUlqt5+DCVuhfeOjr+7HRrWy?=
+ =?us-ascii?Q?tahlEV6tZWYUDWn/3VLi/gDtg6rXOCXiY+SHYISToP6ZfrZRFL1pnsE0vJyn?=
+ =?us-ascii?Q?pX9Jd1xiAAKBtrGe9eiGz1BdIh7NhWo=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: b73e74b3-37bc-47f6-4e91-08deff5cc149
-X-MS-Exchange-CrossTenant-AuthSource: AM7P189MB0725.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6a58d086-b339-42a6-fdb5-08deff5d6248
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 08:18:17.9762
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 08:22:48.0150
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: kleMj6ryEQTAD7GBHalSblTRP/b45I3D04MR/DWFTy6IqLlfSa8knxLozyf31DdPEnca1QI7BWkyC6WUWBa3MQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PRAP189MB1828
+X-MS-Exchange-CrossTenant-UserPrincipalName: tBpEg9EbF1/B3YmqJ9YvsakjnhBisdIfjmDV9CBxmzOuFweceEimvyrr1EjFgUagkfW5Rttfykg1i07THmdoFVdG0jKUh0P34NZpwUyXmtA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB1303
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 08:18:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243897
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 08:23:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243898
 
-Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
+From: Peter Marko <peter.marko@siemens.com>
+
+Pick patch applied by Debian [1].
+
+I did not find any reference on busybox mailing list that this patch was
+submitted. Submitting patch for someone else would be inappropriate,
+and busybox is currently known to be very inactive, hence the unwanted
+Pending Upstream-Status status.
+Also note that the related busybox bugreport [2] is currently not
+public, so it is possible that it was submitted there.
+
+[1] https://sources.debian.org/patches/busybox/1:1.37.0-10.1/netstat-saniti=
+ze-argv0-for-p-CVE-2024-58251.patch/
+[2] https://bugs.busybox.net/show_bug.cgi?id=3D15922
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+(cherry picked from commit 7261144785aa508377c995e52d7e2410a814f00b)
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+(cherry picked from commit 8f344d46b96fb16632501749dc39b97aa3e11836)
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- meta/recipes-support/gnupg/gnupg_2.4.9.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../busybox/busybox/CVE-2024-58251.patch      | 51 +++++++++++++++++++
+ meta/recipes-core/busybox/busybox_1.36.1.bb   |  1 +
+ 2 files changed, 52 insertions(+)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2024-58251.patch
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.4.9.bb b/meta/recipes-suppo=
-rt/gnupg/gnupg_2.4.9.bb
-index c85de6047f..3ebea399d7 100644
---- a/meta/recipes-support/gnupg/gnupg_2.4.9.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.4.9.bb
-@@ -85,3 +85,4 @@ lcl_maybe_fortify:mipsarch =3D ""
-=20
- CVE_STATUS[CVE-2022-3219] =3D "upstream-wontfix: Upstream doesn't seem to =
-be keen on merging the proposed commit - https://dev.gnupg.org/T5993"
- CVE_STATUS[CVE-2025-30258] =3D "cpe-stable-backport: fir for this CVE was =
-backported to version 2.4.8"
-+CVE_STATUS[CVE-2025-68972] =3D "upstream-wontfix: Upstream considers this =
-CVE invalid - https://lists.gnupg.org/pipermail/gnupg-devel/2026-January/03=
-6154.html"
---=20
-2.43.0
-
+diff --git a/meta/recipes-core/busybox/busybox/CVE-2024-58251.patch b/meta/=
+recipes-core/busybox/busybox/CVE-2024-58251.patch
+new file mode 100644
+index 0000000000..713d345ca8
+--- /dev/null
++++ b/meta/recipes-core/busybox/busybox/CVE-2024-58251.patch
+@@ -0,0 +1,51 @@
++From: Valery Ushakov <valery.ushakov@bell-sw.com>
++Date: Thu, 21 Aug 2025 12:31:53 +0000
++Subject: netstat: CVE-2024-58251 - sanitize argv0 for -p
++Bug-Debian: https://bugs.debian.org/1104009
++
++Signed-off-by: Valery Ushakov <valery.ushakov@bell-sw.com>
++
++CVE: CVE-2024-58251
++Upstream-Status: Pending
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ networking/netstat.c | 7 ++++++-
++ 1 file changed, 6 insertions(+), 1 deletion(-)
++
++diff --git a/networking/netstat.c b/networking/netstat.c
++index 807800a62..d979f6079 100644
++--- a/networking/netstat.c
+++++ b/networking/netstat.c
++@@ -41,6 +41,7 @@
++=20
++ #include "libbb.h"
++ #include "inet_common.h"
+++#include "unicode.h"
++=20
++ //usage:#define netstat_trivial_usage
++ //usage:       "[-"IF_ROUTE("r")"al] [-tuwx] [-en"IF_FEATURE_NETSTAT_WIDE=
+("W")IF_FEATURE_NETSTAT_PRG("p")"]"
++@@ -314,9 +315,12 @@ static int FAST_FUNC dir_act(struct recursive_state *=
+state,
++ 		return FALSE;
++ 	cmdline_buf[n] =3D '\0';
++=20
+++	/* don't write process-controlled argv[0] to the user's terminal as-is *=
+/
+++	const char *argv0base =3D printable_string(bb_basename(cmdline_buf));
+++
++ 	/* go through all files in /proc/PID/fd and check whether they are socke=
+ts */
++ 	strcpy(proc_pid_fname + len - (sizeof("cmdline")-1), "fd");
++-	pid_slash_progname =3D concat_path_file(pid, bb_basename(cmdline_buf)); =
+/* "PID/argv0" */
+++	pid_slash_progname =3D concat_path_file(pid, argv0base); /* "PID/argv0" =
+*/
++ 	n =3D recursive_action(proc_pid_fname,
++ 			ACTION_RECURSE | ACTION_QUIET,
++ 			add_to_prg_cache_if_socket,
++@@ -686,6 +690,7 @@ int netstat_main(int argc UNUSED_PARAM, char **argv)
++ 	unsigned opt;
++=20
++ 	INIT_G();
+++	init_unicode();
++=20
++ 	/* Option string must match NETSTAT_xxx constants */
++ 	opt =3D getopt32(argv, NETSTAT_OPTS);
++--=20
++2.34.1
++
+diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-cor=
+e/busybox/busybox_1.36.1.bb
+index 7929d396c8..698d835888 100644
+--- a/meta/recipes-core/busybox/busybox_1.36.1.bb
++++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
+@@ -66,6 +66,7 @@ SRC_URI =3D "https://busybox.net/downloads/busybox-${PV}.=
+tar.bz2;name=3Dtarball \
+            file://CVE-2026-26157-CVE-2026-26158-02.patch \
+            file://CVE-2026-29004-01.patch \
+            file://CVE-2026-29004-02.patch \
++           file://CVE-2024-58251.patch \
+            "
+ SRC_URI:append:libc-musl =3D " file://musl.cfg "
+ # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
 
