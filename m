@@ -1,89 +1,161 @@
-Return-Path: <fabien.thomas@smile.fr>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 005E5C5DF87
-	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 13:03:01 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6844.1787317375219472220
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8DA2C5DF87
+	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 13:36:13 +0000 (UTC)
+Received: from mail-ej1-f46.google.com (mail-ej1-f46.google.com [209.85.218.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7554.1787319364864856828
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Aug 2026 06:02:55 -0700
+ Fri, 21 Aug 2026 06:36:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=o5dmxs71;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: fabien.thomas@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-4954df200ddso6073795e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 06:02:54 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=T6pu1EwR;
+ spf=pass (domain: mvista.com, ip: 209.85.218.46, mailfrom: vanusuri@mvista.com)
+Received: by mail-ej1-f46.google.com with SMTP id a640c23a62f3a-c2020421077so177959066b.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 06:36:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787319363; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QcNkeGXhdFB4hSiCjeRtb4emJK/LAm+mlbagw/HPYGL/FgZi1WlU8/+XiFK38FccUF
+         xk5P1rLkz3aZray/Usf4e6CLkmSx35Uja565tr6mp6sVcG7kiFNP3t4Lis2PXXOYbxFB
+         SQZ2NVHzq5Hgj+uOx5yqUfUZQ4Utjlgc/kmIgS43t8Ool4V8B3qaTO+hnB332YfuddUk
+         gwCkxEYba20udQUGy3rx/Sml0AnfO1w3Jda4Dg+6id6XJcAMU84BQCqxQjxGeiEZ+TWl
+         mzSeL1ZmqXIVzbUguL7Dl9048Y0gdp2usCaQDB9CQeyQkwWHGW/QlVuJ08ozdyNrQ6wV
+         fK0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=KeQaC9n5HITO+V1w2HkbsQtUYrGps7hUyacZ5wvwss4=;
+        fh=pPCZLadEnHSSNqpbdMoTRaQ3O6r9Sm3FEzXJm+M1zj8=;
+        b=ZAgXgpqUGqZ00+bw1sY/9F09zcjobEgH86/Favu7Dvb61a/xdYHtnKbqNf1ZuhCpZ1
+         p1v5MOl9qmLplQOWrD7ECtTGoc+cdJHBhcPPnolBTVhpEBikXLH6Cc3OrJgH69bioI2e
+         vu3KmRKL4J0xz9Ovdon97eJpLQTjb2ECKGO6TjNTjgmKDWnVk+/FR+aNZlG9nXEV4Jcb
+         mjPa4l/eVF4qLqyGv1zIZmBg5GxA5jn8zWydLwtEbi6TUiERQ6jfZUNPIBHl04/H/4NS
+         AF/ewud7gIpdeb5wNgLAvXmOZWbSjUg4h1HU7Qa5Rmpzg2T6+IFY9Y2HetWRk6L1Sdsp
+         abjg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787317373; x=1787922173; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=9KWsR2npolX/bOeNxVlaUy1Qk8Desqodym2UkpncT3o=;
-        b=o5dmxs714f+YPrk2Cq72LGQws16Us2dNs3oDqnLI7ZlWaZumDWgZTI/URTHj6oPpNw
-         LH/bAk++J5sUQciu1ZpmHupBOrJUgBNGMnZLX3xcgQQCcHitLjK6Svcsv63gr0+4gtzb
-         I+M6aQgN7ibvgFPmTUouilFMW8IMUxAA3NX60=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787317373; x=1787922173;
-        h=in-reply-to:references:to:from:subject:cc:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=mvista.com; s=google; t=1787319363; x=1787924163; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=9KWsR2npolX/bOeNxVlaUy1Qk8Desqodym2UkpncT3o=;
-        b=eXI55pZjdFCgc9tvvVWmFo96EPlsNtZye36t3aRzUe8DAskxFPiJv3QZPRn6KR0P/0
-         6r+FylYEGQDmMPdbv2vjW1cjk2XVEOgKfj/ZsUG8ZmZijOtTCPABIZ8oOjUbYTfUorUL
-         6ieZpqbuGiA4xtuuDzwLMIpP/W+xjCcqkWD0nOrCXZKnBo6Do9r1b9EGHWETzzV+6sp0
-         yuGpXvHtNg92bDtrc5UfYR2R4jMliAFto2At/KMUlOQh09ERbYlfet97TQT+XJrSW5T8
-         PONnckz238/KpaBzQH/lbUfDs68bM5y5IfbmYCtaQbaKKkVFPI7B2HEJINjhZLEbPC7v
-         dKQg==
-X-Gm-Message-State: AOJu0YypulS9YNXFRknYJq4z9scBSxTX3HG/ULHpf3XlFivoRWFNG6mD
-	/5IHqshbQi8DkBUZLRjujTZCPPQdixM3sFdcl7JERM7lYhW4/gbmlezIwygNcsWp3P8=
-X-Gm-Gg: AR+sD11GVhixEQRFMcFqdts9X/eY3rbtMwRYokexF1E1djMZnJUH2DSQ28KBrtD7qfU
-	2sEyRkf5gmiuBXhzGX+18HCFhYVtNnc4WaNBYsJT/6pUJqxnQ08TW1sSGU23Uq2357If80hgsvs
-	UoW3POkwC+yUjs7aUcAlAUPS4eiO5O3MJMWWAP5v9OKhDiKbcWP+Co5mSa8oJXwUaOiQeN3zrHI
-	BUH32LjVwlgaBBh6O9Uy4V45T7jUUyYR2JczrRATNPGZ8goTZ5ZPNrDW2RynpOmaqskKeo7QZ1O
-	DSq1480tw7YAQDAzqn7tpK+244T1rD6xUPA8viJzXUWGG6Nvvt/Ck1hoUma325c60TjrfYAxfcw
-	EHV2nM+LArFWSW19M8RGuCverKIUxMhH1vRHjy/OW5Hh4nvIkBAoRAXSK8x4rqbXlVLjpmho9nU
-	x50wpAzHbdN+4b/qxbtIJ6dNPUbySPQesq+mPBPOoI8LDW6JWhnqzJhX98fxyGBeOPs97PE0IRp
-	5qYEWG9VXGVvACXff4EAasIxsfJossoW9AhPPYcHuVkyfmCDCQ=
-X-Received: by 2002:a05:600c:1d22:b0:499:516b:83d5 with SMTP id 5b1f17b1804b1-499b82e8512mr91588625e9.11.1787317373111;
-        Fri, 21 Aug 2026 06:02:53 -0700 (PDT)
-Received: from localhost ([2a01:e0a:8cc:5b00:2270:efa7:7aaf:bcdc])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499bea71eb4sm6035865e9.2.2026.08.21.06.02.52
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 21 Aug 2026 06:02:52 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 21 Aug 2026 15:02:52 +0200
-Message-Id: <DKUN4PPICY1M.2A25LSZNWZOI0@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>
+        bh=KeQaC9n5HITO+V1w2HkbsQtUYrGps7hUyacZ5wvwss4=;
+        b=T6pu1EwRUFu41uwDFEqeFjs0IVjvOWItzk6DmgzNuQYUO5cNN0ziRARDooKSEg+blP
+         OEVpJeH8wY9bfHp4ftzGtO05pQKsG0yBSf7i/Gr5kgvz9H499THQz3qe91l/IgxcQPzF
+         w2XTvF3gCXgBaiPTGDjYnPvpbDQLn4zMPdFFM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787319363; x=1787924163;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=KeQaC9n5HITO+V1w2HkbsQtUYrGps7hUyacZ5wvwss4=;
+        b=EKMKK5vsjf9l0t0akTdYoeorMcjpM9SEQsR10GOUY9h7BxVlnTo4Ax70iL2xkEQepd
+         lfloa53N+O5Cdk9UPzAlZY4IJVFrb/TTmiOKmuGqQZgVQ+gGYvMoyc3V784olD2jHahf
+         hhaCjLyxwxx2YaWLoXLQIQRR5PYVpU2D4xfgmZkHrvdzACs0OsQrUTS3LBQX9QQtwxaM
+         rYn2lNd5Srf21QtXQ4txOfdImQG2EdqB6e9L2q5vDtRccDDngQrdumVGcewssDrr/XT8
+         do2pfLyNL81UzOVimZNAnbdYPz0+gmmaECpK5/GOu8PQeQzUZzJazESJVxx36dp7N1b3
+         qx8g==
+X-Gm-Message-State: AFuF++lmLRRCjGtBgXsnrtcpHE/tW29jdWZ0xlmeBYznGQKC4oDzxq+Z
+	LiejUkotAGn9YoIkRqT41VN4oFlqMCvkRumRStaRHYbFe97nfG8yvwKEwCAM8VFwFKC5PlXp4Kg
+	Rrlfu2tkQXF7rKuRx6lN5y8ab184OTUnsDhgab+d68Q==
+X-Gm-Gg: AR+sD12isjTxzcKh4jLz+Z6M9R9SBU/qUQcUvwZySkM2WWCIgxOPiT1o17t+1dR308F
+	o0/sdP6/oKLJgPWp3Z3ve+gG4YoA9spvEsUXh7twLKGhPFDnoTsQp9WAHy53bme9dP04+lHK5uL
+	te5sImdOG/zD1T137wkUGeTQqAwxdqw+A46XabYrWbJWrADi6SbXiBY6dqUShWs2bGeU/3yuhg7
+	JSwiSqh8YCWEOVKYVZfHeSMW+8dHfRjJUjLZ0j3YO3EwdGUSyt8sJO1BXxXQHfcXR3r/raYTqRB
+	u6S61f9oFDlbf6Su+l94IABg0k2fFflpVhyFPccI8nvQQfyh8thYQ3t2jAylrSZ/H5KefP+BxsT
+	7S8E=
+X-Received: by 2002:a17:906:9fc1:b0:c24:42b1:3092 with SMTP id
+ a640c23a62f3a-c246a6c5e89mr594905966b.15.1787319363022; Fri, 21 Aug 2026
+ 06:36:03 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260814113323.1033135-1-vanusuri@mvista.com> <DKUKLAGINTTR.1W5IKJ5PRG8R7@smile.fr>
+ <CANQUz192EZKJPWknMq_HYW5AXPAv_Rc3_20yLQ7Bi+4d59Gong@mail.gmail.com> <DKUN4PPICY1M.2A25LSZNWZOI0@smile.fr>
+In-Reply-To: <DKUN4PPICY1M.2A25LSZNWZOI0@smile.fr>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Fri, 21 Aug 2026 19:05:51 +0530
+X-Gm-Features: AcwNN1Wly6Ydp4z4Gm2nuacp9VKmIIEUbumtu93FjsEDjnkRZdZh7u-ClJIxjTc
+Message-ID: <CANQUz1_paBgTNSv4VPhbppVFizue8SQU634HtpSf6JtavQpncg@mail.gmail.com>
 Subject: Re: [OE-core][scarthgap][patch] rpcbind: Fix CVE-2026-16277
-From: "Fabien Thomas" <fabien.thomas@smile.fr>
-To: "Vijay Anusuri" <vanusuri@mvista.com>, <fabien.thomas@smile.fr>
-X-Mailer: aerc 0.22.0
-References: <20260814113323.1033135-1-vanusuri@mvista.com>
- <DKUKLAGINTTR.1W5IKJ5PRG8R7@smile.fr>
- <CANQUz192EZKJPWknMq_HYW5AXPAv_Rc3_20yLQ7Bi+4d59Gong@mail.gmail.com>
-In-Reply-To: <CANQUz192EZKJPWknMq_HYW5AXPAv_Rc3_20yLQ7Bi+4d59Gong@mail.gmail.com>
+To: Fabien Thomas <fabien.thomas@smile.fr>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000bbc1e906598eb7b0"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 13:03:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243940
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 13:36:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243941
 
-Vijay,
+--000000000000bbc1e906598eb7b0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Thank you for this contribution !=20
-Sorry, I had missed that version bump...
+Hi Fabien,
 
-I took a quick look at the upstream project.
-There is only few "fix memory leak" between 1.28 and 1.29 so LGTM for
-upgrading on wrynose stable. Next time but don't hesitate to explain=20
-what motivates you to choose a bump over a backport.
+Thank you for reviewing the patch and for your feedback.
 
-Thanks.
---=20
-Fabien Thomas
-Smile ECS
+Understood. I'll make sure to include the reason for choosing a version
+bump over a backport in the submission comments in the future.
 
+
+Thanks & Regards,
+
+Vijay
+
+
+On Fri, Aug 21, 2026 at 6:32=E2=80=AFPM Fabien Thomas <fabien.thomas@smile.=
+fr>
+wrote:
+
+> Vijay,
+>
+> Thank you for this contribution !
+> Sorry, I had missed that version bump...
+>
+> I took a quick look at the upstream project.
+> There is only few "fix memory leak" between 1.28 and 1.29 so LGTM for
+> upgrading on wrynose stable. Next time but don't hesitate to explain
+> what motivates you to choose a bump over a backport.
+>
+> Thanks.
+> --
+> Fabien Thomas
+> Smile ECS
+>
+>
+
+--000000000000bbc1e906598eb7b0
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p class=3D"gmail-PDq2pG_selectionAnchorContainer">Hi Fabi=
+en,<span aria-hidden=3D"true" class=3D"gmail-PDq2pG_selectionAnchor"></span=
+></p>
+<p>Thank you for reviewing the patch and for your feedback.<br><br>Understo=
+od. I&#39;ll make sure to include the reason for choosing a version bump ov=
+er a backport in the submission comments in the future.<br><br><br></p><p>T=
+hanks &amp;=C2=A0Regards,<br></p><p>Vijay</p><br></div><br><div class=3D"gm=
+ail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On F=
+ri, Aug 21, 2026 at 6:32=E2=80=AFPM Fabien Thomas &lt;<a href=3D"mailto:fab=
+ien.thomas@smile.fr">fabien.thomas@smile.fr</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">Vijay,<br>
+<br>
+Thank you for this contribution ! <br>
+Sorry, I had missed that version bump...<br>
+<br>
+I took a quick look at the upstream project.<br>
+There is only few &quot;fix memory leak&quot; between 1.28 and 1.29 so LGTM=
+ for<br>
+upgrading on wrynose stable. Next time but don&#39;t hesitate to explain <b=
+r>
+what motivates you to choose a bump over a backport.<br>
+<br>
+Thanks.<br>
+-- <br>
+Fabien Thomas<br>
+Smile ECS<br>
+<br>
+</blockquote></div>
+
+--000000000000bbc1e906598eb7b0--
 
