@@ -1,165 +1,159 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <fabien.thomas@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 163B6C5DF87
-	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 10:52:39 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4873.1787309550919454792
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 27BA5C5DF87
+	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 11:03:49 +0000 (UTC)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4977.1787310223568393934
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Aug 2026 03:52:31 -0700
+ Fri, 21 Aug 2026 04:03:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=lVhOESVG;
- spf=pass (domain: cherry.de, ip: 52.101.66.54, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=dE6hQiOeUoAXbGpilsa8FZfw+A3TuJMmprOpWBSkCRArAIe0/RtELzPtEdOcNi3tx91DCvVQ1IkmW5bRV1MNBG8rtByQkhFtJqbG5fknAxIVT7WEh3S2YVr1JfUkW2IDttplTosCwjfUXpaNqsbwxVbak7VB6UnpvnoOjeqGPjENEw1BTjROrzL31co4U2A9IOrOGozmQQjDCpHsoDOB6deV+Sns9LkmPUDgVxHLvT7cVXQ5uIIKMjbRUs0xeO8Cbj2DaAt36OJe/ROkj7MAiOZ91+/526eIenRY/kh5qdjtbnjgNjntS8zeQSvZfVDCmw5j4Eyt6C8Wz89beQs9eA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fqo4hkChIapXfLqcNUPLJhY0KqQNd7gae4BO+lCgeO0=;
- b=P1WCy5PyJ0A0Ql4R3JFJbKa4y43JXmqkIWc+7pRMyrOWOvq14AdHZEQdwNjakvdGARq+ZDVgqoXRwh8Q71R8Ej+kmXsNrvF0C8t/4LNpK2tZKgOwFhSRwWuZ+/TFy/GZ+OUhqwzJQV1DaKGXCMUWTTPTzhe7ybuyyE332SQSp59S+3TitQYof+0YGJaz/8FwKf2d30X7GFtljhIe0egIQdyiS2zl8HP476mmghMnwunWwLZdrAJGfyEcP5S6qSNqEZHrkknsLO/PqFIj7wwEbwm8NwFFl2punf7ZPljzOhN5C1275ez3+jC/lWWNazz369Vg5ZwaGHVPes1tRVsT+A==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fqo4hkChIapXfLqcNUPLJhY0KqQNd7gae4BO+lCgeO0=;
- b=lVhOESVGF6O1369nnFSstE/lZcJR4gckap0muM6rDHWPOysDl+Vzz09bOxVxNmDX/WzEhYv7pmz46pvsHzDCRAhyAF8epcblqt8DXmO2i8Vpiz7vXJ6aovjImndb883nBmXYIb5B+EQpixAoPxQ+dX/yvuCehc/obJ8QBkpJgY8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from PA3PR04MB11153.eurprd04.prod.outlook.com (2603:10a6:102:4ab::7)
- by AS8PR04MB8468.eurprd04.prod.outlook.com (2603:10a6:20b:34b::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.11; Fri, 21 Aug
- 2026 10:52:27 +0000
-Received: from PA3PR04MB11153.eurprd04.prod.outlook.com
- ([fe80::6b02:c0eb:95a4:3c3d]) by PA3PR04MB11153.eurprd04.prod.outlook.com
- ([fe80::6b02:c0eb:95a4:3c3d%4]) with mapi id 15.21.0339.008; Fri, 21 Aug 2026
- 10:52:26 +0000
-Message-ID: <b7072aaa-877b-4648-90a3-29bc85f187bf@cherry.de>
-Date: Fri, 21 Aug 2026 12:52:25 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [RFC v2 5/6] u-boot: fix build with OpenSSL 4.0
-To: jaipaul.cheernam@est.tech, openembedded-core@lists.openembedded.org
-References: <20260814051829.35088-1-jaipaul.cheernam@est.tech>
- <20260820181022.44434-1-jaipaul.cheernam@est.tech>
- <20260820181022.44434-6-jaipaul.cheernam@est.tech>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260820181022.44434-6-jaipaul.cheernam@est.tech>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR07CA0134.eurprd07.prod.outlook.com
- (2603:10a6:802:16::21) To PA3PR04MB11153.eurprd04.prod.outlook.com
- (2603:10a6:102:4ab::7)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3PR04MB11153:EE_|AS8PR04MB8468:EE_
-X-MS-Office365-Filtering-Correlation-Id: d677428a-d492-43a3-72b9-08deff7249db
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|10070799003|10067099003|4143699003|11063799006|56012099006|6133799003|18002099003|22082099003;
-X-Microsoft-Antispam-Message-Info: 
-	PMGFpSqxx6FyUuQ+UFQ6elKh7/vK6E0IxEbp9ZBDzhgiiFV77THhSXxggabZGD6yvkoUa4uOlbixa6mv5Lz9h9kKuYXuUsA7YO/5KoznSHKE+6qglfvEOaLWgQmZr2fTD0GL+/4QMxbNYRocvltblpHOQzA1Fxm3Y3BxjlavJ21qqfD8MqlW7elVj8IPpJaslknUP3gSuYX4KxLWROYfE2x6atvemJbY4Xoaporrmt+pg9cCx1UvOflHcwERZ3K4dLL7sqZ7PkSj48M9vO7mdouoVTIA82RQX9KCGxx0ogsBv04UhiyIGUm/28qQmZQ2QE7cOSmW1HQPa13xIe+GebLzquO8yQ2NlduYME54z3qrSgFEqbGm6cTptL9Kxg0jHuqp7aqtxR73eEW34YdDOHhBaSrnXlYCOIRIpjIICiO3MhEIJcVg/cDfvO8DGzToF5bqi8gOwZSlgebL+JLlWcdbCFXZe9kF7yEneAv+IfSjOJFj6pQE3EPJFuOKujh+uQnynyhCizmp7E6oK1j0UWrZc09sxoW0kPfocoEA3Rc6PW+nrpoIPIhjZDIoyV5q3K9zfJUEWwcytBmWv4OS3fiVOvsWMQ9iYaoriumC4nHEWgphfKc0sI8111swki09mkDKzuQvoie21kML7F6WVMTHcvdS3tU6wHCcOebxyz8=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR04MB11153.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(10070799003)(10067099003)(4143699003)(11063799006)(56012099006)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?UGNPRFFUVkxFVFd3dytILzdGSTBPUXhBaTE2bm1kbzhBb1lORkxBS1lCUjYy?=
- =?utf-8?B?amhFdEp0RkpBK3BxYlNwc0cveG1qcjhWazRyVWJLVjVmRkcyYnl6WmlySUVB?=
- =?utf-8?B?TEtNc3NJNWpmaXJMT0txVlM2ZXkvVVZPa25rWDFRN1N0RUt5VDhOQ3d6aDJY?=
- =?utf-8?B?cHpYbUh3QVZrOHk1L1dSZjRWUFhRcGFwMkk0NkNZMXF6QVdXTHU5WklSaFk5?=
- =?utf-8?B?WXo3eWxDcnpKbUZ2eW9SVFRpZ2VQSTJaKzJvS2tUN2ljRjMxOFljaHRINkx4?=
- =?utf-8?B?MkdMdVcwMGh6Q1pCQU5KR0hZeS9nbkQrR2txbG10cnJLNEJuOWhnZlRUV1RZ?=
- =?utf-8?B?ZGJ4V2J1U1BIaUZObkpWR29ZNTVibC9RMmp6ZVdyVE5QSm1TVVliVTlGYWNK?=
- =?utf-8?B?eFBrUDNqVW5ibkxaSnM4SkprdTYrdE9OTGpCeW1GeFZUd3BmcFl0RkN5bVg4?=
- =?utf-8?B?cGU1M05lbnNMUkc5Mng2S0ZVRDE2bFpUcWFWOGZGOVl0MVRxcGc5MFFiTmpF?=
- =?utf-8?B?QStXL3BFdy9iOGZIUjQxK2Y0anVhUEhVUkFpeEoyNmw0b2RaNllJU2VLaUpF?=
- =?utf-8?B?YVpjc1Z2NUpwTWgwVTc1U3BIcDhCcTRVRUlPeG5hSnVFZlNRUVFzbnM1U29K?=
- =?utf-8?B?OFRmNkJZdTZaYU5NVTd0QTdpK1F6WmhnQnphREhIZHJpNHpKNkR3ZVhJaE9U?=
- =?utf-8?B?TDF4dWlYd05HWEhCTjFWMUJDWWFBM1NVeW5GMFE3VEl3bkwrUHBzM2dvRWVq?=
- =?utf-8?B?eHJvUk1vVmZQWldvd3paTVIzOW13VE5ndXFGQy9XU0h4akszd21VTllWNER6?=
- =?utf-8?B?WFFIOXdRYVh4NFdWNjA3bGYzK3ZwQ09ocVd6Mk1aMkVTa2NZOTJxVjhiNlJF?=
- =?utf-8?B?bWtwdUgzcWhnSERYei9RQ2RSMWhiMlUzMWVjZC9UQVp4SlNQTUt2TXRsU294?=
- =?utf-8?B?ck9Kb0hsbG1IbGdFait1YmpMV2YyYTVoSHI4bDlDbHA2TGM2V3FXTGVzTzRS?=
- =?utf-8?B?dmpsVmRZS21GYUdjRWU2UlBjdktaZUhwOU12dW9MeDY2UWxINEd6MjBTTUx4?=
- =?utf-8?B?eXZTNHRra3RIeXpwdkVrVmtwNWhEMi8zV2tHOW1mYVZzT3dSRGV3OWowWjVp?=
- =?utf-8?B?Q3ozUSswSnBJMGJMTUlPUVhubENQdTY3eEpYSGlRTVZnY3kwWnBNM1RMSW5z?=
- =?utf-8?B?MVlUZHliYmZCNDZZQnVTUnFBMllxQnYwN0xlb0FCNitJTmRWOHVnTFkwQ0hF?=
- =?utf-8?B?NFE5ZkZlK05YTXVON0Z6enpVU2lFeU9xcVp2cENNK3B0ajBjVVBISWdDNnFu?=
- =?utf-8?B?ajQ3VS84dHpQWStqenNXRFBMaC93Q1FlcVJQUU1PZjJRYzB4S2dFQzhCbHFm?=
- =?utf-8?B?ZTV1N3hLWTBkL1ZPcWhFUG54YVRZdGMybWdtWnZjd1c4NEpmZkZ4NzFuNVJu?=
- =?utf-8?B?ZDJCaS80bFh6V3JOdFRoMk5LVUpNUldIU1ZNNDFPS0xmZmdPNVdieDVQUldR?=
- =?utf-8?B?N2xld2RmT28zemd2bmU1bjk0eHlqc256eXJpNFVBRTdtV0dTSDNmN1QwQnpI?=
- =?utf-8?B?bjlSNjVhZzQ2ODZjcmNpMFlqYXZRWmFOUjl1MEYwbmkxSUNqc213bTBxSm5E?=
- =?utf-8?B?QXZqOHlHU1NHY2tOeHBuZUlIR1ZSdytOUFhGWmhZblRLcVlZaE0yQzVQOWtL?=
- =?utf-8?B?K1JPWHZaVEhBR2hUQnVNQnBQcm5nWHNnWFZ3UjZVUm10TmJTRDRzTmV6ZDZE?=
- =?utf-8?B?VkJZRTRONGljTWFLVTF5K0FwaXRPZU5ybnhCNkFhQzd1KzFpcktCakdkOFlI?=
- =?utf-8?B?THd2Zk12bjllei9GVTNIa0RDNFhUeXptTG5iYjlXcXYvYjFLMlJjSWJ5em92?=
- =?utf-8?B?MFJVSmFxVzVYaDh6QWcyTXh6NFFuREUrZk9NNk5sa3BpRmc0eXlzRGJxY2Nt?=
- =?utf-8?B?dUFsTjVaVWlDc2JyVkVJQklCMm5kMEdmNGswYW5yd0NhNGpSSkRPb3prYnJo?=
- =?utf-8?B?UE5QdEtTSXFKWmxvWEIyOFA0K1JnaHBESVJKR1E0N3dWelFuQnRaWWgvVitR?=
- =?utf-8?B?ZHZ5a0kwemF1TnNOYlAxdXNKZ2NxRjg0YnY5eDBzTkd3b1BWTjlXWE0wNU9h?=
- =?utf-8?B?SVg0SVl2aG11d2hnMUVQYTl2eTBZSE8vYVVvTlhscmY3S2x1YUZ2YTlwblF1?=
- =?utf-8?B?dDVNK1dmTmhNRW4yRE92UjdJZUFrMjR2em50Nk5NV01ZUEpKQ05aR1NQUlN0?=
- =?utf-8?B?Rk5raVg2QTF6Rm1PcGJvbHRrSjBSSCtvVlFuaFNtSnpLTzJwTmxBQjlLekRn?=
- =?utf-8?B?eFJlTDVDL3doOXA4LzhxZ0h5dExlM0REbHFZRkJBTFdrVjNpUXF1U1ZMbzMv?=
- =?utf-8?Q?5eqMutd3RyQmWVJJp+PK7+dPwaw2HndfVNKU9OOJ1z5go?=
-X-MS-Exchange-AntiSpam-MessageData-1: NelA3JD9JHBmnsKiyonrBkduKa9N7kPKqi8=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: d677428a-d492-43a3-72b9-08deff7249db
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR04MB11153.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Aug 2026 10:52:26.5353
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: NA2wAmxKl0QfhGpYz68atUR2C7yrdRM751O7vKO12oH/unDpUKKgYQELwSwJs3/jpZ2zFTB1QtFfCJ3vf6GfI4mta8wLAByki2WgOHlPPtc=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR04MB8468
+ dkim=pass header.i=@smile.fr header.s=google header.b=enLCorzh;
+ spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: fabien.thomas@smile.fr)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47f633e6058so765585f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 04:03:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1787310222; x=1787915022; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1IkN2qANSW5QtH6KuqBpSQuZJ5j0GIp65O5GgjkjpRE=;
+        b=enLCorzh4stic5d0wWke1Gz/taqqBq4mTFE65OZZhlmHluA3fqpPfUxNPoNP5K5aO9
+         r1y9wK7iz77kd80lAot3QLBp1qQgwo6bRvaofGhRxaGmqG/BFwIMSQTn62+hJjjCmlZ9
+         DBZn1UQRr54kvJCuD4o8zizVdAFcVLENA/P0U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787310222; x=1787915022;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1IkN2qANSW5QtH6KuqBpSQuZJ5j0GIp65O5GgjkjpRE=;
+        b=ZTDUIH035a5mGEisbQ6iwR1dr4y2zjOGTVlc575RLstQZ2z/GZoliTdAstb8dZ2LaE
+         BH1spe7osZlBCY4uqpAE2AW4kMwfG89MoSTUI7XF0AlgTJtKSyPBqNFAkoPbS9DAY8IW
+         B5sYXWyDZRFc4cGXqj7d1V/riRmCmFXh7IyAWEmI8K4GHTkcQxTzknHuNrMW6uqDLucC
+         EhP6Gns8HSM6Evg9carr6syLtvO0VlxENS1Q8BNJi8UPP60KzoQYF/DgU6PkgQqFlKlK
+         umnwhvuWe5yt5zetE602KgNity94x/1fcrsfeAEK8V+6pxtycU+9l6zweeb3AgDpvl7s
+         UpGA==
+X-Forwarded-Encrypted: i=1; AHgh+RrqAkF/7i/2zk1hV1vnZRJsJfvWYviwFVxF+3naLp69urPgHwk+yCdsKiCTMrfYVxckg3MFTUNtKKMQf3/7Spw+gg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++lSusr8jOXPP9qbP/4G/AwOg9SEGCqMxOkBel5u8+port6NSirj
+	qZxZeu+0yIPP5xRK6oNWLsAZQqS5xP2NCxCfBnaZ83eNaVSF0j67B/bgXvnNFXnj9jBVJCfxEcq
+	46b4snVk=
+X-Gm-Gg: AR+sD11w0danl09jko1NrN4WLOxAdL5Z/9K54ZvnxA9UvnUuHeCgYWgRd8lWMutRg/3
+	OF83ccGJPWAcbpRWw61khSf4YB4yllBS1a+nqWUjhhGAp4JLaCw5++K16HDspmdtMezQAxNJNP2
+	2dM490jvbHbzdNwGaBu3SQMXbXvCTq2IvMl/QyDN9IQ9D51rZ0L+UCY1jll6G1trQ7DfTpAbIy8
+	mPoNZtth80Y1yw1IBlkmzb+COUoQHEPcpFnWfwcMtes9XCBTdbZ9dse3C+t7/CYwCHZoUxNLlXM
+	XTN6Jy6vE2LviPNFEZnPhKIpT2UroAFKos6xVuYPdvNgYN7C7/XYcSM+06K3JODUQ+E27wsEDGJ
+	T7vfjHvBxX2dXbo4Ihg1nY93xJrwdpnnvhT6+qAXQF9iklFbbxzAKy0fP8MIYfUPBotocpG1fgt
+	NFw/gbW5/HeBR6yTysmHAPc8w+dOQazzGQNqX+suITDTTw+zyoM6TZJJ728TubDT0vukn0xnCO1
+	leMGrnRbCi9QVFQfLWgQ0CiFFJdSSIffjQCN0QRlu/l0x4ugZM=
+X-Received: by 2002:a05:6000:70a:b0:47d:eedb:ee62 with SMTP id ffacd0b85a97d-482c0b94af7mr8307520f8f.14.1787310208993;
+        Fri, 21 Aug 2026 04:03:28 -0700 (PDT)
+Received: from localhost ([2a01:e0a:8cc:5b00:2270:efa7:7aaf:bcdc])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14d055dsm16778574f8f.34.2026.08.21.04.03.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 21 Aug 2026 04:03:28 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 21 Aug 2026 13:03:28 +0200
+Message-Id: <DKUKLAGINTTR.1W5IKJ5PRG8R7@smile.fr>
+Subject: Re: [OE-core][scarthgap][patch] rpcbind: Fix CVE-2026-16277
+From: "Fabien Thomas" <fabien.thomas@smile.fr>
+To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.22.0
+References: <20260814113323.1033135-1-vanusuri@mvista.com>
+In-Reply-To: <20260814113323.1033135-1-vanusuri@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 10:52:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243921
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 11:03:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243922
 
+On Fri Aug 14, 2026 at 1:33 PM CEST, Vijay Anusuri via lists.openembedded.o=
+rg wrote:
+> Pick patch according to [2]
+>
+> [1] https://nvd.nist.gov/vuln/detail/CVE-2026-16277
+> [2] https://security-tracker.debian.org/tracker/CVE-2026-16277
+>
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> ---
+>  .../rpcbind/rpcbind/CVE-2026-16277.patch      | 34 +++++++++++++++++++
+>  .../recipes-extended/rpcbind/rpcbind_1.2.6.bb |  1 +
+>  2 files changed, 35 insertions(+)
+>  create mode 100644 meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.=
+patch
+>
+> diff --git a/meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patch b=
+/meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patch
+> new file mode 100644
+> index 0000000000..868e5c3f01
+> --- /dev/null
+> +++ b/meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patch
+> @@ -0,0 +1,34 @@
+> +From bb9bb7286a4c345442946dc2ce3c9e7f67e96d4d Mon Sep 17 00:00:00 2001
+> +From: Steve Dickson <steved@redhat.com>
+> +Date: Wed, 27 May 2026 11:42:11 -0400
+> +Subject: [PATCH] rpcinfo: stack buffer overflow in rpcinfo rpcbaddrlist(=
+)
+> +
+> +rpcinfo's rpcbaddrlist() formats two server-controlled, unbounded XDR st=
+rings into a fixed 128-byte stack buffer with sprintf(). A malicious or on-=
+path rpcbind server overflows it when a user runs:
+> +rpcinfo -l <host> <prognum> <versnum>
+> +
+> +Reported-by: Michalis Vasileiadis <vmihalis.tmd@gmail.com>
+> +Signed-off-by: Steve Dickson <steved@redhat.com>
+> +
+> +Upstream-Status: Backport [https://git.linux-nfs.org/?p=3Dsteved/rpcbind=
+.git;a=3Dcommitdiff;h=3Dbb9bb7286a4c345442946dc2ce3c9e7f67e96d4d]
+> +CVE: CVE-2026-16277
+> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> +---
+> + src/rpcinfo.c | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/src/rpcinfo.c b/src/rpcinfo.c
+> +index 0e14f78..43e8115 100644
+> +--- a/src/rpcinfo.c
+> ++++ b/src/rpcinfo.c
+> +@@ -1120,7 +1120,7 @@ rpcbaddrlist (netid, argc, argv)
+> +=20
+> + 	  re =3D &head->rpcb_entry_map;
+> + 	  printf ("%10u%3u    ", parms.r_prog, parms.r_vers);
+> +-	  sprintf (buf, "%s/%s/%s ",
+> ++	  snprintf (buf, sizeof(buf), "%s/%s/%s ",
+> + 		   re->r_nc_protofmly, re->r_nc_proto,
+> + 		   re->r_nc_semantics =3D=3D NC_TPI_CLTS ? "clts" :
+> + 		   re->r_nc_semantics =3D=3D NC_TPI_COTS ? "cots" : "cots_ord");
+> +--=20
+> +2.43.0
+> +
+> diff --git a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb b/meta/recipe=
+s-extended/rpcbind/rpcbind_1.2.6.bb
+> index dbd4d32e0a..07e2f10c98 100644
+> --- a/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
+> +++ b/meta/recipes-extended/rpcbind/rpcbind_1.2.6.bb
+> @@ -15,6 +15,7 @@ SRC_URI =3D "${SOURCEFORGE_MIRROR}/rpcbind/rpcbind-${PV=
+}.tar.bz2 \
+>             file://rpcbind.conf \
+>             file://rpcbind_add_option_to_fix_port_number.patch \
+>             file://0001-systemd-use-EnvironmentFile.patch \
+> +           file://CVE-2026-16277.patch \
+>            "
+>  SRC_URI[sha256sum] =3D "5613746489cae5ae23a443bb85c05a11741a5f12c8f55d2b=
+b5e83b9defeee8de"
+> =20
+Hello Vijay,
 
+Thanks for this patch, but the issue affects wrynose (1.2.8) as well.
+This fix was merged upstream from 1.2.9 (yocto's master version).
 
-On 8/20/26 8:10 PM, Jaipaul Cheernam via lists.openembedded.org wrote:
-> OpenSSL 4.0 removed the ENGINE API entirely. u-boot uses
-> ENGINE_get_id, ENGINE_load_public_key, ENGINE_finish, ENGINE_free
-> in lib/rsa/rsa-sign.c which causes link failures on all platforms
-> that build u-boot (including riscv64).
-> 
-> Backport the Provider API support patch from upstream u-boot which
-> adds OpenSSL Provider support while maintaining backward compatibility
-> with older OpenSSL versions that still have ENGINE.
-> 
-> Add the patch to u-boot-common.inc so it applies to both u-boot
-> and u-boot-tools recipes.
-> 
-> Upstream-Status: Submitted [https://github.com/u-boot/u-boot/pull/918]
+Could you please submit a patch for the wrynose branch first?
 
-https://lore.kernel.org/u-boot/20260429180247.83091-1-ekovsky@redhat.com/ 
-is the proper link (please update the one in the patch as well).
+Regards,
+--=20
+Fabien Thomas
+Smile ECS
 
- From vague recollection, the backward-compatibility shortcomings of the 
-patch should not impact OE-Core as we know for sure it's OpenSSL 4.0 
-that will be used (which we don't in U-Boot). I think it's still hit by 
-the inablity to use pkcs11 (or other providers) due to trying to find 
-the URI in the local filesystem first.
-
-Fedora 45 will also ship OpenSSL 4.0 as far as I know (hence why we've 
-got a patch from someone at Red Hat).
-
-Feel free to comment on the thread there that this is becoming an issue 
-for OE-Core as well, so that it adds pressure on us fixing it. I was 
-planning on restarting efforts on OpenSSL providers (3.x+) next week 
-though I'm unsure whether I'll manage to send something to the ML in 
-time before I'm out of office the two weeks after.
-
-Cheers,
-Quentin
 
