@@ -2,113 +2,114 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDF48C5DF8E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4662C5DF92
 	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 09:10:12 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3647.1787303409878915025
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3659.1787303404511841589
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Aug 2026 02:10:10 -0700
+ Fri, 21 Aug 2026 02:10:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=K+Kmkl+h;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.42, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-476a130c138so888287f8f.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 02:10:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=aVZRR34t;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47f93b2fe4cso382785f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 02:10:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1787303408; x=1787908208; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=NL1aOhblz4aZJZOL+XUl/XBDOWueFdtf2zQ0SfA9wSE=;
-        b=K+Kmkl+h2xFPZqNWVCW2q1RAVS+cEQ+C1XVjx3BIIVLfRyUHmg6VatKmcKyL6e+Hor
-         iupmS3Web4kEmP7uayokppAhV7YBokVVWVdrAh2lDRIFZZnvt8rPNxE/iPdp0S3ZrxMp
-         GTohEgj8yfMR8zZnzVQLlE5bkEiqtvr6pFJGA=
+        d=linuxfoundation.org; s=google; t=1787303403; x=1787908203; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=IT+WtEIX+93cRi5NZoPuegpW8NqsGTwj2xbJVFThbCA=;
+        b=aVZRR34tyRhvxH4szQvrZCja5SGKwFVT8b/+TEfsRl3Npj72SczFoN0OUZmEjdgBeV
+         GgXfzWpF0Vaktk18YAln56xRZkApYrWEkzOl2jCYpX6FZzb8nKH67REChY21fn2Yzeiz
+         u70KTl0nsxBlCHt+MDmNI5lRMClaTQBgbCLeU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787303408; x=1787908208;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=NL1aOhblz4aZJZOL+XUl/XBDOWueFdtf2zQ0SfA9wSE=;
-        b=sDlJysESHZ3vN4nHU7HKC/YFZ5ctMqH3ZqbltnmJ5ulWJRTEBtrRVPDh19rG6Vpvkp
-         SEQs99hl5/xPZnzSb+lpZe4ioR/or22+rVn57um3lkYQNGKKQwIJYMPb1ImM+gMaBquW
-         ufFFzKyEkwXBajA48uyb6DWIy75z4yYenlgHts08SW0GlDRjzOP/cSgzmK4qzDfl7nLT
-         Oq/SR442Vb2D45OW4RyH0txshfAbbBZum5FGvzG1gFMvi0J7KIocCapKDY01a24SIey6
-         OovdAjnJLTCbLLezLr9JvgVhw1JSZb/Alhp/He9wRQgPO7vYp6w0wgpWmgj1qWizWvRI
-         u4fA==
-X-Gm-Message-State: AFuF++nGsRki9sXhVAMdcrPz+jRsx9rwR3SIj83NV4ClGHaNzemLClBT
-	pQRhljhy9hLpSpn/F0Sjhnb7VkpP7K1RjPwjRhENmpzIUsG1GU2pcXFK8ZVKcWsg/aY8CNIOtsA
-	E6UfQk2A=
-X-Gm-Gg: AR+sD13M9YlBJ6ddI7qsTogUI7C9gr8NGDt1kItPn3xBWW+5mlPC4W+fNIUuD7NUkF+
-	mqZWug0ilG9aoJiw25uNDom6pdHFv5e6INaw1YAdYfOFm4B618PmOYrjDkNFPi6HCH7ASQbpgrD
-	e9GF29mBiGNZJzHqbRAQCL95j9lBNMxQyRbEtPshSui1T4HiIuJqMdeu0W3caYRnETSUITMf2g5
-	69z2S6Z0QBbPUTdDItXvvL1oRjfL83l411gWd3LpHsoX3645EgaK3FTBOywkb7tQCPj54KnmmeY
-	nDSRB3lJ2dRtqmyoXEmskFLzWrcYHuBC0/sV32vhKi80PSA+K8Vze0rx283Rhz4uzjyuvCafC1o
-	MTrEu5DBHItNr7u/+NxzGI7etBUzt84X+jEVlJH9ENY9Wg3LxkS626Dvcfn0jMWAKkDXebPQaQE
-	PT/4rvKGwC9cT4fkYctcQuP2lGPkvYeNxusg4Fcg+UyAVdHZK4LgeeF078v8HFzuQ3qYff9YD9w
-	is0ZYT0o6M5CiVkGw==
-X-Received: by 2002:a05:6000:2f84:b0:482:bf78:300a with SMTP id ffacd0b85a97d-482c0ba4732mr6801216f8f.17.1787303408029;
-        Fri, 21 Aug 2026 02:10:08 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787303403; x=1787908203;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=IT+WtEIX+93cRi5NZoPuegpW8NqsGTwj2xbJVFThbCA=;
+        b=TzMPdL/XpVLIr/sfulwM5C0ZfxHTWPe7g8du+QpAseGd5pOuefhsevBcvWgK/1zCTw
+         0LYb9G1WyU9oXrVCIlv1MlHuwJdojWy11c37bpsyF6WJirNj6XQDN37k/qiZcYeqX0SV
+         ZV8SJcJGkjgIr33RLYsWELhNuwEugmMpXYo0oSVveMAq1U82lxmA93Vkzfa55Kf8ezry
+         PMWG8qXQja2TzFEbq85Y8xz7jEZIxRKY1RvOfjh+2qt01jK0AO0+KO9/7ZqA+o5OkQzT
+         grgiPlDFvLrYGOfZw4IXn1UG1mJBNPHFHNLDUEoaX4nUForcGppgXfYJ6igtGx5V6zbF
+         OwSg==
+X-Gm-Message-State: AFuF++mNX24ZSj56CH3KTHKOkbziRaWHKvrigjFdxT3ANsHgydR8dGiE
+	rEy7na1/OGOCaa7dQs1ZQt45iZ2G16XuW0iiu8y35nQNAUZuTFWKPGV1wIhIOQ08BQCDp93P1pB
+	3u9HfAao=
+X-Gm-Gg: AR+sD13WDKi5H97t786qhFoqwug1J9SR08XXddS2CQX35Fz8CCKlcd7Sq0qe1nYZVk3
+	LVOWUjhX+cf9tcyQHTLNXdlFT/RCo7jrf96LPz7G0rP07Q6PPevKAnER9XEmHLeSxk/c6gisHR2
+	yYrD51yCeNLQy7myZTVbssV2RGXRql62PAoF4OWauJ9zdlMiWB/8K/wxIMROByGMtT3OyBUI1uG
+	od2epN/CA8qiEDxZX1HwgYbjs8D2QN5NT0Uf/KWtCoqrxAHbZT76343Bfy7m/tB+l1KrX+UZzrI
+	3oLogmAr+1R09VT6brXjYqcf993YRCEaHWBHGGyM9tgutgDhmLaZnd/zOi3FHXW+B7FmeCApFyp
+	h20s0M66471nKo8abe7ssKQ8MSwOvN23fYoKB8hhOx19+3g4VyXjFX5ES0w2r0XnRhLc4mprJSZ
+	QsZ6pPYz60EEQ/xTzRPF/DcOK8N0Tj4yqHEFedu5EV/C06RVcGOrnp/QBvaci8LEITk/uC22DAx
+	dZL6Q24Zg0AUuvWrg==
+X-Received: by 2002:a5d:64cd:0:b0:47f:83ee:e56f with SMTP id ffacd0b85a97d-482c0b909b5mr7562763f8f.18.1787303402504;
+        Fri, 21 Aug 2026 02:10:02 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:e5fd:eed9:eff8:d030])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14b7d23sm17049620f8f.22.2026.08.21.02.10.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482b14b7d23sm17049620f8f.22.2026.08.21.02.10.00
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 21 Aug 2026 02:10:07 -0700 (PDT)
+        Fri, 21 Aug 2026 02:10:00 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/7] python3-lxml: upgrade 6.1.1 -> 6.1.2
-Date: Fri, 21 Aug 2026 10:09:57 +0100
-Message-ID: <20260821090959.3859632-5-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 1/7] libcap-ng: upgrade 0.9.3 -> 0.9.5
+Date: Fri, 21 Aug 2026 10:09:53 +0100
+Message-ID: <20260821090959.3859632-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260821090959.3859632-1-richard.purdie@linuxfoundation.org>
-References: <20260821090959.3859632-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 09:10:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243913
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243909
 
-Bugs fixed
+0.9.5
+- Fix broken utility_logic_test when run as a 32 bit app
+- Install the cap-audit man page conditionally
+- Fix V3 file capability usage
+- Preserve existing securebits in capng_lock
+- Make python configuration a little more strict
 
-    GH#526: Some build files were missing in the sdist. Patch by Nicola Soranzo.
-    Some minor corrections for error handling cases.
-
-Other changes
-
-    Built with Cython 3.2.9.
-
-License-Update: New code using PSF-2.0 is documented but the license is already listed. Also
-binary wheel related licenses are documented which we don't use.
+0.9.4
+- Add bluetooth collection to netcap --advanced
+- Don't drop netcap --advanced if only VSOCK kernel headers are missing
+- In cap-audit, verify executable is being passed
+- Add a systemd simulator to cap-audit: use --service to test a service file
+- Improve cap-audit recommendations by correlating syscall outcomes
+- Allow supplying vmlinux.h for reproducible cap-audit builds
+- Restore --with-python/--without-python as generic Python configure options
+- Fix on-demand bash completion loading for the utilities
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../python/{python3-lxml_6.1.1.bb => python3-lxml_6.1.2.bb}   | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/python/{python3-lxml_6.1.1.bb => python3-lxml_6.1.2.bb} (92%)
+ .../{libcap-ng-python_0.9.3.bb => libcap-ng-python_0.9.5.bb}    | 0
+ meta/recipes-support/libcap-ng/libcap-ng.inc                    | 2 +-
+ .../libcap-ng/{libcap-ng_0.9.3.bb => libcap-ng_0.9.5.bb}        | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/libcap-ng/{libcap-ng-python_0.9.3.bb => libcap-ng-python_0.9.5.bb} (100%)
+ rename meta/recipes-support/libcap-ng/{libcap-ng_0.9.3.bb => libcap-ng_0.9.5.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-lxml_6.1.1.bb b/meta/recipes-devtools/python/python3-lxml_6.1.2.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-lxml_6.1.1.bb
-rename to meta/recipes-devtools/python/python3-lxml_6.1.2.bb
-index 4ca7f08b39c..13e33d14fc1 100644
---- a/meta/recipes-devtools/python/python3-lxml_6.1.1.bb
-+++ b/meta/recipes-devtools/python/python3-lxml_6.1.2.bb
-@@ -7,7 +7,7 @@ C14N and much more."
- HOMEPAGE = "https://lxml.de/"
- SECTION = "devel/python"
- LICENSE = "BSD-3-Clause AND GPL-2.0-only AND MIT AND PSF-2.0"
--LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
-+LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=d1118b9913749904166e8726c5331c11 \
-                     file://doc/licenses/elementtree.txt;md5=eb34d036a6e3d56314ee49a6852ac891 \
-                     file://doc/licenses/BSD.txt;md5=700a1fc17f4797d4f2d34970c8ee694b \
-                     file://doc/licenses/GPL.txt;md5=94d55d512a9ba36caa9b7df079bae19f \
-@@ -18,7 +18,7 @@ LIC_FILES_CHKSUM = "file://LICENSES.txt;md5=e4c045ebad958ead4b48008f70838403 \
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb b/meta/recipes-support/libcap-ng/libcap-ng-python_0.9.5.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng-python_0.9.3.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng-python_0.9.5.bb
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng.inc b/meta/recipes-support/libcap-ng/libcap-ng.inc
+index 5c1a7fdfeaf..2a31be6f4dd 100644
+--- a/meta/recipes-support/libcap-ng/libcap-ng.inc
++++ b/meta/recipes-support/libcap-ng/libcap-ng.inc
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=94d55d512a9ba36caa9b7df079bae19f \
+ 		    file://COPYING.LIB;md5=e3eda01d9815f8d24aae2dbd89b68b06"
  
- DEPENDS += "libxml2 libxslt"
+ SRC_URI = "git://github.com/stevegrubb/libcap-ng.git;protocol=https;branch=master;tag=v${PV}"
+-SRCREV = "0ab44af5a23e8edb69a39c0dc803ce4395ff2086"
++SRCREV = "9ae44402f4c405f08b9dd5ec070127d0d92afee4"
  
--SRC_URI[sha256sum] = "ba96ae44888e0185281e937633a743ea90d5a196c6000f82565ebb0580012d40"
-+SRC_URI[sha256sum] = "1055241852f2b02068af4a625a5d32c087db193c12251928af2562ecd2239f18"
+ inherit lib_package autotools pkgconfig bash-completion
  
- SRC_URI += "${PYPI_SRC_URI}"
- inherit pkgconfig pypi setuptools3
+diff --git a/meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb b/meta/recipes-support/libcap-ng/libcap-ng_0.9.5.bb
+similarity index 100%
+rename from meta/recipes-support/libcap-ng/libcap-ng_0.9.3.bb
+rename to meta/recipes-support/libcap-ng/libcap-ng_0.9.5.bb
 
