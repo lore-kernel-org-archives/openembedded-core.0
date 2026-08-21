@@ -1,349 +1,275 @@
-Return-Path: <anis.bougrine10@gmail.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3DE72C5DF87
-	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 11:21:09 +0000 (UTC)
-Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5215.1787311262273480193
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3B377C5DF7D
+	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 11:25:19 +0000 (UTC)
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5279.1787311517617546226
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Aug 2026 04:21:02 -0700
+ Fri, 21 Aug 2026 04:25:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=kZZ/QBZF;
- spf=pass (domain: gmail.com, ip: 209.85.208.42, mailfrom: anis.bougrine10@gmail.com)
-Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-6a18e24ad25so1324991a12.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 04:21:02 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787311260; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Zg1oPJ4THIe9Vw4/D8Pf5Z2pKemEdbebBV99M2R4LO2p4dkfa4jsUQcV11Rov5qmAv
-         yxHuygTLlnvgElJqG+e8AT6ghitEG2m276PAutN81G8dl99eIyKmHKJeX5l9Z4desgql
-         tuEFUcE+yfcgl2JIpN0c1hgd3/g/LeOmd1oh3tSWQTG0cOyS9jRqNAstUDQs/ERJa/jF
-         YS28/x4o3w/Ji3UtC9lokVswwah5dRdsY5urk7Km9Fzf76H2v3fEgQfS7ORP4kCFVlvB
-         7uFmxyTke0iJTndR2cyPk+NhbdM43bfVp/rr/SUN4otiuLIPoBLCqJEOxvv2GZefP+JN
-         Epjg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=JWSVFzOGXvFQ2lOAOKK+RYdY2pbz/5Q5EftHtRQFmIw=;
-        fh=cE/BMIzazMRKtT9ayufiPurBUVd6cVKpZAYSGS7U6Vo=;
-        b=b4qWAUQ0ck4qI8pBLbj1V66LjzxMwwapnJ+yDCgo9Bzwx/V8UV5A6/ScIXVnYVP/5+
-         LoqxzYBL+lSkcGIPR00od0z8z1unF/qSMxDbPUvA1IxvY8rEvrBDsmcUsEO+NrSzKQC3
-         muYuU/ajt033ZAYoe4e96rlmpVQ4n8C7W2RL5bYkTtS8Goz36F0tvnZiSUvgvydKvMvN
-         J5kf+1TZ2qJlmMpBKrDxmqB0kcmQK09RnxnbBNWV7OAl/XbHplyJVt0LZ0L3TSj+AqfH
-         XTgpQu8IbLlcRxQxXDELVE8fmFqiWNRXW7vh1ehYsXkzdQLe5IFvz7xfGVek4tyopBUF
-         Mzlg==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=D/41atAL;
+ spf=pass (domain: gmail.com, ip: 209.85.210.48, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-ot1-f48.google.com with SMTP id 46e09a7af769-7f3faf2b081so835630a34.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 04:25:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787311260; x=1787916060; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=JWSVFzOGXvFQ2lOAOKK+RYdY2pbz/5Q5EftHtRQFmIw=;
-        b=kZZ/QBZFeSvuaFlrI3cfp417sdx43xykHnXAr8VtxsvWSeyGiDv7AK/UCS92t7xMMV
-         UgwfCf2qx53TwHq1Uw7wVOoB44aheTK4+xPvWYJ/qo3i1DpjVmStaw96CWLjnWcvuZOv
-         6GQDuStTTLiDrkm9BrwsxokQLykRgRC9TezOkQgd0TkJRtDYfcqJizfTVApj38qzeSuP
-         b5LMsX5uiKbktChUvh69s8M/hT+M506OqQ/d1P9ATa+sAEGWmyVgv7/k3CkMivFvAso9
-         waX8l24GanVfwpH+yvhwaUtXDtc3gLqjXwX3bBnMIA0Z6RmrO0poKiYrAhoEutJANZ1M
-         ZNSQ==
+        d=gmail.com; s=20251104; t=1787311517; x=1787916317; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=kwnfUrt0J3rfGGu2uPye5LQe/ptQvmWlZXFGYd1ZnSw=;
+        b=D/41atALPfV2S+W4ydcyIJuAf09HxKDOt3w+5ySMt/Pn8yV4f/wz7JB9BRiaXXVtoE
+         QJ939HR50k4g0pB6vlUWUDwGpzjuZccbR7CKzxqtFP35P5/3rxbdVUhxC8my5n8e5gnr
+         n7m0W6k66MMx2kKcfmqLFyKhhRGmJne+VaEh1AVTUFWT//czvvLW3V8LpmCObWWEFLEX
+         C/z14iez17PMcLBmaHAdSepAl3B7yOp8103V2uvG2vb4YzXWH2A41AQGq4Qs4rcTuVzU
+         FTspHhDqjJUTha91xkx7umE3ML+GnBQsr3Vjh3PGAB37MAnW7S3iG60y+iAS+2WrwhQq
+         FwNQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787311260; x=1787916060;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=JWSVFzOGXvFQ2lOAOKK+RYdY2pbz/5Q5EftHtRQFmIw=;
-        b=O0PSaRppT4NOhnz+26mttqNXMvd37WziV9IEl6UG5URfH8MSL+KxE63q7vQRuAoMe1
-         934VOPzEhqyCbQc+C0XM64pcEaohSSWhiWGk6PruJxB8emdX86gNyrNI4PF6uvwu9em2
-         7/IRy65+cQEn+23NcDC4cOBpyqIZfHERdU4FhfjyLBjruvo+ybWFssfXSXR6v8CYjpLc
-         7cQxmUqvbOpdsrpfCxCsjVpfZh3ibzg4Hx9++IIisshzEWpcEMRL3RlUVulCELINKxLa
-         SGUhJlaK0iM2T0/haZhvQHM5B5wZdyipqi8GVZqVnAHMMSizH1aOAKQ51Xv+iNJvFf/O
-         rH1g==
-X-Gm-Message-State: AFuF++mLOQu2642e6LPlCwDcd/0eGPJnugHpizEBAtIsr1KJbHohhYyX
-	6V1tBeo47eKT/j0Lbugg6dTjO+XrG8ZvHr7gX90JfLG4XQXxZ4XbDo+3sHjliop8fCvrf7jP6cQ
-	z3Pg2VKgBfSUf012b+0KFOoLdhZFK/EA=
-X-Gm-Gg: AR+sD12x+9dcD4tiQBFqOjmpxDO3t9yHlZ+P5QpggPeXB1kfM5TZAW2NqmefpY3iIL3
-	5/cUBwBMAkf4UpxZdH5jH7c7kVdRkIefuH5iT3gRfdwzIG+wYmOIm7Lmalb8Fci9vSOY7qTLDtt
-	PZq4EkL8q6a/CZowGoIbv+6QQtaMNk74YXvvoy9IanY9BGfZc5WQM5Npzp8BWeJGHnlL7M4o4rP
-	0qEf+5xJLkqhZ8hyNaAhrUo9yLFdyhe+C8Ih38tb+glqjdkZisag5jaCB8Vqp/vs8fXGcx+2x/r
-	nAz7+Mb6PKsNKuHU9hGtLotREIlTZIEn6qJX4EBBlhil6kd3JKN2UonlPf7IOTCpB+llLkzEE+q
-	KzOwCH7zM7TZTjuBb+7qmGfhrnY3I2XDldBBPakvf8AE98Uajcho0Mms81GQ/Piky
-X-Received: by 2002:a17:906:fe4b:b0:c20:3402:bd35 with SMTP id
- a640c23a62f3a-c246a605e78mr605062466b.12.1787311259976; Fri, 21 Aug 2026
- 04:20:59 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787311517; x=1787916317;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=kwnfUrt0J3rfGGu2uPye5LQe/ptQvmWlZXFGYd1ZnSw=;
+        b=igzd1epPJ24FC27dr1JzFM3cRkOaZh0JbRbzkQCnw/95KGeMuHnHiQM0BGubKexsq5
+         9PlJ5Um/Uz91eXXhPdIAnLySs4+I5Si8ySxzU6xmJDvZ1WELHZQfUsq9kqURQzN9knfu
+         UPSUdksO2q9PILwsmzDyiPWTKa57WzK/yzm6o4fAU4mPKgk/4HFZzhOMmNfsryIn5PFm
+         tiIaMIC/+ewzcMblImbxGOH6DpwwKBDQAUac5p9uTTZ6vwWcV2p01qgy/XbJhDFe1rSq
+         ijpxtsgynDJil+o14BGvHg+bI+HzHYrsN8X9IIsVEsm2tG6qKuR34jRQW8lZz1mQ6UVD
+         ecEg==
+X-Gm-Message-State: AOJu0YzjH694puyA+ObPvZVgVe2iF/7Kj8nr5iDO4u4uHRKOEAHlOR/V
+	pg5YYMimJsb9v7Q1F3PIPOe80qEwmMnRg9JjeOPf+KAXBGKiezuDZEBnJwf3pwi5
+X-Gm-Gg: AR+sD11cNJBGo3x2ZNbT7BrrOPvGmHHrAA8bkXAeYx8aQ2Cp2uLugtT5+I2KaXokvfj
+	880E0XZ9A7EsEqoLQjpaf9ugCYo09A0vVoI9LiREFJ7niPJYGoqO2SD7quxDLDeqNUw2QrsIMQN
+	WXqeOkPClDUxur8Zntii1LB8HR7XphUgnlM10M3KUJzLFPLVyTs7Q3bqxlVT33iw6DHLlhbX9Wt
+	Z6lGcacdpKxKBg0Uvstllx4/eOtfC9DMtgvbT1u1vwEV9c5whG2ReAsoEHPX0GRWmbJUJIJMmDM
+	Wy6TaxCSbiziirBMRxr4CycNwcXNS0r+whDXJmFIkg493r6zEP7nk+Sx5E9y4/Irztuetsb4kx9
+	BHw1iWvIQyWCoGt5pB3yBdHxM9iki/Af+0TqZNd/amxsme3ZBrC/WY1DqmyM8jOWsVuFZDuaL2E
+	2MUysdQbrna/OXP9lYQh2hRvBdXtNOg/bBiao80y8J9vxI8xjNoYMWKre/PJBzwXWzWWJo8LNpw
+	pKIg264d4Syem6wscrewuSPXsoSXoBB3yXB8otCyf1yoJsvA2nf2bgEvodSeQal72+y1oJrEGOc
+	VqzpOibKJl/tdnVh3OHw6C9icW9ua+ZtuMtDwqCjZv0rmWEmHBwaKfapj9fDCSipzC7+rwwiMAg
+	Rl0aV
+X-Received: by 2002:a05:6830:8383:b0:7e9:e85d:2f7f with SMTP id 46e09a7af769-7f4619202c3mr6048112a34.14.1787311516630;
+        Fri, 21 Aug 2026 04:25:16 -0700 (PDT)
+Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
+        by smtp.gmail.com with ESMTPSA id 46e09a7af769-7f43fe70792sm7398018a34.5.2026.08.21.04.25.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 21 Aug 2026 04:25:15 -0700 (PDT)
+From: bruce.ashfield@gmail.com
+To: richard.purdie@linuxfoundation.org
+Cc: openembedded-core@lists.openembedded.org
+Subject: [meta][PATCH 03/06] linux-yocto/7.2: introduce reference kernel recipes
+Date: Fri, 21 Aug 2026 07:25:05 -0400
+Message-ID: <20260821112509.861559-4-bruce.ashfield@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260821112509.861559-1-bruce.ashfield@gmail.com>
+References: <20260821112509.861559-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
-References: <20260813191749.48691-1-anis.bougrine10@gmail.com> <4c2bf3afcf60e78107f7d952fe90fd2b0d9521da.camel@linuxfoundation.org>
-In-Reply-To: <4c2bf3afcf60e78107f7d952fe90fd2b0d9521da.camel@linuxfoundation.org>
-From: Bougrine Anis <anis.bougrine10@gmail.com>
-Date: Fri, 21 Aug 2026 13:20:48 +0200
-X-Gm-Features: AcwNN1XPJFMHdCec9EXxuadp7oj1zdF8uBut9tw-lX4Sh8UPP6mZ6nS8KiVoATI
-Message-ID: <CAGgtUzY_GxbwVPapeFpWLArqLWR-80XL6jZHwLmshyHo9Ahwzg@mail.gmail.com>
-Subject: Re: [OE-core][PATCH v3] kernel.bbclass: add strip process for signed
- kernel modules
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org, ross.burton@arm.com, 
-	Antonin Godard <antonin.godard@bootlin.com>, Bruce Ashfield <bruce.ashfield@gmail.com>, 
-	Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-Content-Type: multipart/alternative; boundary="000000000000c1095706598cd494"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 11:21:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243923
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 11:25:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243927
 
---000000000000c1095706598cd494
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Hello Richard,
+7.2 is our next versioned reference kernel. The standard, preempt-rt
+(v7.2-rc4-rt3) and tiny variants are all generated and available.
 
-Thank you, I appreciate your feedback.
+Signed SRCREVs point at the freshly generated v7.2 branches; the kmeta
+tracks the yocto-7.2 branch.
 
-However, I still cannot see the connection between the .debug files and
-SPDX generation. Perhaps there is something I am missing.
-In any case, you are right. I believe the best approach is to sign the
-modules without impacting the existing build workflow, although the module
-packaging workflow is already affected because signed modules skip
-process_split_and_strip_files in the do_package task (see 4c47e5f).
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ .../linux/linux-yocto-rt_7.2.bb               | 49 ++++++++++++
+ .../linux/linux-yocto-tiny_7.2.bb             | 34 ++++++++
+ meta/recipes-kernel/linux/linux-yocto_7.2.bb  | 78 +++++++++++++++++++
+ 3 files changed, 161 insertions(+)
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb
+ create mode 100644 meta/recipes-kernel/linux/linux-yocto_7.2.bb
 
-I have looked for a better way to do this and found a window in the
-packaging workflow where we can re-sign the modules after the stripping
-process and before the package split.
-The window I am referring to is between process_split_and_strip_files and
-split_kernel_module_packages. This can be achieved by prepending a
-re-signing function to PACKAGESPLITFUNCS.
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb
+new file mode 100644
+index 0000000000..64b1c0affe
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb
+@@ -0,0 +1,49 @@
++KBRANCH ?= "v7.2/standard/preempt-rt/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# CVE exclusions
++include recipes-kernel/linux/cve-exclusion.inc
++include recipes-kernel/linux/cve-exclusion_7.2.inc
++
++# Skip processing of this recipe if it is not explicitly specified as the
++# PREFERRED_PROVIDER for virtual/kernel. This avoids errors when trying
++# to build multiple virtual/kernel providers, e.g. as dependency of
++# core-image-rt-sdk, core-image-rt.
++python () {
++    if d.getVar("KERNEL_PACKAGE_NAME") == "kernel" and d.getVar("PREFERRED_PROVIDER_virtual/kernel") != "linux-yocto-rt":
++        raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
++}
++
++SRCREV_machine ?= "1177250341f415eb484ad60cbef9107d4fca08c8"
++SRCREV_meta ?= "a594a8179dfd8d677083ab6389616f3d1223c396"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-7.2;destsuffix=${KMETA};protocol=https"
++
++LINUX_VERSION ?= "7.2"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++PV = "${LINUX_VERSION}+git"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "1"
++
++LINUX_KERNEL_TYPE = "preempt-rt"
++
++COMPATIBLE_MACHINE = "^(qemux86|qemux86-64|qemuarm|qemuarmv5|qemuarm64|qemuppc|qemumips)$"
++
++KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc features/taskstats/taskstats.scc"
++KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES:append:qemuall = " cfg/virtio.scc features/drm-bochs/drm-bochs.scc"
++KERNEL_FEATURES:append:qemux86 = " cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES:append:qemux86-64 = " cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES:append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc", "", d)}"
++KERNEL_FEATURES:append = "${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb
+new file mode 100644
+index 0000000000..e494b22e4f
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb
+@@ -0,0 +1,34 @@
++KBRANCH ?= "v7.2/standard/tiny/base"
++
++LINUX_KERNEL_TYPE = "tiny"
++KCONFIG_MODE = "--allnoconfig"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# CVE exclusions
++include recipes-kernel/linux/cve-exclusion.inc
++include recipes-kernel/linux/cve-exclusion_7.2.inc
++
++LINUX_VERSION ?= "7.2"
++LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
++
++DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
++DEPENDS += "openssl-native util-linux-native"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "2"
++
++SRCREV_machine ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
++SRCREV_meta ?= "a594a8179dfd8d677083ab6389616f3d1223c396"
++
++PV = "${LINUX_VERSION}+git"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-7.2;destsuffix=${KMETA};protocol=https"
++
++COMPATIBLE_MACHINE = "^(qemux86|qemux86-64|qemuarm64|qemuarm|qemuarmv5)$"
++
++# Functionality flags
++KERNEL_FEATURES:append:qemuall = " cfg/virtio.scc cfg/fs/ext4.scc"
++
++KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
+diff --git a/meta/recipes-kernel/linux/linux-yocto_7.2.bb b/meta/recipes-kernel/linux/linux-yocto_7.2.bb
+new file mode 100644
+index 0000000000..b684c0590e
+--- /dev/null
++++ b/meta/recipes-kernel/linux/linux-yocto_7.2.bb
+@@ -0,0 +1,78 @@
++KBRANCH ?= "v7.2/standard/base"
++
++require recipes-kernel/linux/linux-yocto.inc
++
++# CVE exclusions
++include recipes-kernel/linux/cve-exclusion.inc
++
++# board specific branches
++KBRANCH:qemuarm  ?= "v7.2/standard/arm-versatile-926ejs"
++KBRANCH:qemuarm64 ?= "v7.2/standard/base"
++KBRANCH:qemumips ?= "v7.2/standard/mti-malta"
++KBRANCH:qemuppc  ?= "v7.2/standard/qemuppc"
++KBRANCH:qemuriscv64  ?= "v7.2/standard/base"
++KBRANCH:qemuriscv32  ?= "v7.2/standard/base"
++KBRANCH:qemux86  ?= "v7.2/standard/base"
++KBRANCH:qemux86-64 ?= "v7.2/standard/base"
++KBRANCH:qemuloongarch64  ?= "v7.2/standard/base"
++KBRANCH:qemumips64 ?= "v7.2/standard/mti-malta"
++
++SRCREV_machine:qemuarm ?= "6d22d24315883bd227182ee7af003f563820821c"
++SRCREV_machine:qemuarm64 ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
++SRCREV_machine:qemuloongarch64 ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
++SRCREV_machine:qemumips ?= "ab0e33fefa2a3d0366b2b8deb7cfb3be2d8dc436"
++SRCREV_machine:qemuppc ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
++SRCREV_machine:qemuriscv64 ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
++SRCREV_machine:qemuriscv32 ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
++SRCREV_machine:qemux86 ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
++SRCREV_machine:qemux86-64 ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
++SRCREV_machine:qemumips64 ?= "ab0e33fefa2a3d0366b2b8deb7cfb3be2d8dc436"
++SRCREV_machine ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
++SRCREV_meta ?= "a594a8179dfd8d677083ab6389616f3d1223c396"
++
++# set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
++# get the <version>/base branch, which is pure upstream -stable, and the same
++# meta SRCREV as the linux-yocto-standard builds. Select your version using the
++# normal PREFERRED_VERSION settings.
++BBCLASSEXTEND = "devupstream:target"
++SRCREV_machine:class-devupstream ?= "8d3ae59288f1e7d58d76558a6ee96d533bc5019f"
++PN:class-devupstream = "linux-yocto-upstream"
++KBRANCH:class-devupstream = "v7.2/base"
++
++SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRANCH};protocol=https \
++           git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-7.2;destsuffix=${KMETA};protocol=https"
++
++LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
++LINUX_VERSION ?= "7.2"
++
++PV = "${LINUX_VERSION}+git"
++
++KMETA = "kernel-meta"
++KCONF_BSP_AUDIT_LEVEL = "1"
++
++KERNEL_DEVICETREE:qemuarmv5 = "arm/versatile-pb.dtb"
++
++COMPATIBLE_MACHINE = "^(qemuarm|qemuarmv5|qemuarm64|qemux86|qemuppc|qemuppc64|qemumips|qemumips64|qemux86-64|qemuriscv64|qemuriscv32|qemuloongarch64)$"
++
++# Functionality flags
++KERNEL_EXTRA_FEATURES ?= "features/netfilter/netfilter.scc"
++KERNEL_FEATURES:append = " ${KERNEL_EXTRA_FEATURES}"
++KERNEL_FEATURES:append:qemuall = " cfg/virtio.scc features/drm-bochs/drm-bochs.scc cfg/net/mdio.scc"
++KERNEL_FEATURES:append:qemux86 = " cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES:append:qemux86-64 = " cfg/sound.scc cfg/paravirt_kvm.scc"
++KERNEL_FEATURES:append = " ${@bb.utils.contains("TUNE_FEATURES", "mx32", " cfg/x32.scc", "", d)}"
++KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/scsi/scsi-debug.scc features/nf_tables/nft_test.scc", "", d)}"
++KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/gpio/mockup.scc features/gpio/sim.scc", "", d)}"
++KERNEL_FEATURES:append = " ${@bb.utils.contains("KERNEL_DEBUG", "True", " features/reproducibility/reproducibility.scc features/debug/debug-btf.scc", "", d)}"
++# libteam ptests from meta-oe needs it
++KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " features/net/team/team.scc", "", d)}"
++# openl2tp tests from meta-networking needs it
++KERNEL_FEATURES:append = " ${@bb.utils.contains("DISTRO_FEATURES", "ptest", " cgl/cfg/net/l2tp.scc", "", d)}"
++KERNEL_FEATURES:append:powerpc = " arch/powerpc/powerpc-debug.scc"
++KERNEL_FEATURES:append:powerpc64 = " arch/powerpc/powerpc-debug.scc"
++KERNEL_FEATURES:append:powerpc64le = " arch/powerpc/powerpc-debug.scc"
++# Do not add debug info for riscv32, it fails during depmod
++# ERROR: modpost: __ex_table+0x17a4 references non-executable section '.debug_loclists'
++# Check again during next major version upgrade
++KERNEL_FEATURES:remove:riscv32 = "features/debug/debug-kernel.scc"
++INSANE_SKIP:kernel-vmlinux:qemuppc64 = "textrel"
+-- 
+2.43.0
 
-At this point, the modules are located under ${PKGD}, with the same
-directory structure they had under ${D}, where they were initially signed.
-Therefore, re-signing them is straightforward.
-I tested something like the following after removing the skip of the
-splitting and stripping steps for signed modules in package.py:
-
-In kernel-module-split.bbclass:
-...
-
-PACKAGESPLITFUNCS =3D+ "do_resign_modules"
-do_resign_modules(){
-    oe_runmake -C ${B} \
-        MODVERDIR=3D${B}/.tmp_versions \
-        MODLIB=3D${PKGD}/lib/modules/${KERNEL_VERSION} \
-        modules_sign
-}
-
-...
-
-This successfully strips and then signs the kernel modules.
-If you are OK with this approach, I can submit a v4 patch.
-
-BR,
-Anis
-
-On Thu, Aug 20, 2026 at 10:51=E2=80=AFAM Richard Purdie <
-richard.purdie@linuxfoundation.org> wrote:
-
-> On Thu, 2026-08-13 at 21:17 +0200, Anis Bougrine via
-> lists.openembedded.org wrote:
-> > Currently, signed kernel modules skip the stripping process in order
-> > to preserve the file contents after signing. See commit:
-> > 4c47e5f171fa2603355e2f9183065ce8137a18c7
-> >
-> > However, the kernel install Makefile supports stripping modules before
-> > signing them. This allows signed modules to be stripped while preservin=
-g
-> > a valid signature.
-> >
-> > Make non-signed kernel modules follow the standard Yocto stripping flow=
-,
-> > while signed kernel modules use the kernel Makefile stripping flow.
-> >
-> > Fixes [YOCTO #12927]
-> >
-> > Reported-by: ross.burton@arm.com
-> > Signed-off-by: Anis Bougrine <anis.bougrine10@gmail.com>
-> > Cc: Antonin Godard <antonin.godard@bootlin.com>
-> > Cc: Bruce Ashfield <bruce.ashfield@gmail.com>
-> > Cc: Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-> > ---
-> > changes in v3:
-> >
-> > - Fixing rebase issue.
-> >
-> > changes in v2:
-> >
-> > - Use the conditional INSTALL_MOD_STRIP environment variable to avoid
-> >   duplicating the oe_runmake call.
-> > - Use `scripts/config` script instead of grepping .config file.
-> > ---
-> >  meta/classes-recipe/kernel.bbclass | 6 +++++-
-> >  1 file changed, 5 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/meta/classes-recipe/kernel.bbclass
-> b/meta/classes-recipe/kernel.bbclass
-> > index a82bdf7ecb..0998de1548 100644
-> > --- a/meta/classes-recipe/kernel.bbclass
-> > +++ b/meta/classes-recipe/kernel.bbclass
-> > @@ -451,8 +451,12 @@ kernel_do_install() {
-> >       #
-> >       # First install the modules
-> >       #
-> > -     unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE
-> > +     unset CFLAGS CPPFLAGS CXXFLAGS INSTALL_MOD_STRIP LDFLAGS MACHINE
-> >       if (grep -q -i -e '^CONFIG_MODULES=3Dy$' .config); then
-> > +             # If the module will be auto-signed, perform stripping
-> before signing.
-> > +             if [ "$(${S}/scripts/config --state MODULE_SIG)" =3D "y" =
-]
-> && [ "$(${S}/scripts/config --state MODULE_SIG_ALL)" =3D "y" ]; then
-> > +                     export INSTALL_MOD_STRIP=3D"--strip-debug
-> --remove-section=3D.comment --remove-section=3D.note --preserve-dates"
-> > +             fi
-> >               oe_runmake DEPMOD=3Decho
-> MODLIB=3D${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}
-> INSTALL_FW_PATH=3D${D}${firmwaredir} modules_install
-> >               rm -f
-> "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build"
-> >               rm -f
-> "${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source"
->
-> There is another issue. If you strip the modules here, we lose all the
-> debug symbol information later in the build. That doesn't sound so
-> important until you realise we use the debug information to feed into
-> the SPDX and it is then used for checking for CVE issues. I'm not sure
-> we can afford to do that...
->
-> Cheers,
->
-> Richard
->
->
->
->
-
---000000000000c1095706598cd494
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">Hello Richard,<br><br>Thank you, I appreciate your feedbac=
-k.<br><br>However, I still cannot see the connection between the .debug fil=
-es and SPDX generation. Perhaps there is something I am missing.<br>In any =
-case, you are right. I believe the best approach is to sign the modules wit=
-hout impacting the existing build workflow, although the module packaging w=
-orkflow is already affected because signed modules skip process_split_and_s=
-trip_files in the do_package task (see 4c47e5f).<br><br>I have looked for a=
- better way to do this and found a window in the packaging workflow where w=
-e can re-sign the modules after the stripping process and before the packag=
-e split.<br>The window I am referring to is between process_split_and_strip=
-_files and split_kernel_module_packages. This can be achieved by prepending=
- a re-signing function to PACKAGESPLITFUNCS.<br><br>At this point, the modu=
-les are located under ${PKGD}, with the same directory structure they had u=
-nder ${D}, where they were initially signed. Therefore, re-signing them is =
-straightforward.<br>I tested something like the following after removing th=
-e skip of the splitting and stripping steps for signed modules in package.p=
-y:<br><br>In kernel-module-split.bbclass:<br><div>...</div><div><blockquote=
- style=3D"margin:0 0 0 40px;border:none;padding:0px"><div>PACKAGESPLITFUNCS=
- =3D+ &quot;do_resign_modules&quot;<br>do_resign_modules(){<br>=C2=A0 =C2=
-=A0 oe_runmake -C ${B} \<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 MODVERDIR=3D${B}/.t=
-mp_versions \<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 MODLIB=3D${PKGD}/lib/modules/$=
-{KERNEL_VERSION} \<br>=C2=A0 =C2=A0 =C2=A0 =C2=A0 modules_sign<br>}</div></=
-blockquote>...</div><div><br>This successfully strips and then signs the ke=
-rnel modules.<br>If you are OK with this approach, I can submit a v4 patch.=
-<br><br>BR,<br>Anis</div></div><br><div class=3D"gmail_quote gmail_quote_co=
-ntainer"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 20, 2026 at 10:5=
-1=E2=80=AFAM Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfound=
-ation.org">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">On Thu, 2026-08-13 at 21:17 +0=
-200, Anis Bougrine via <a href=3D"http://lists.openembedded.org" rel=3D"nor=
-eferrer" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; Currently, signed kernel modules skip the stripping process in order<b=
-r>
-&gt; to preserve the file contents after signing. See commit:<br>
-&gt; 4c47e5f171fa2603355e2f9183065ce8137a18c7<br>
-&gt; <br>
-&gt; However, the kernel install Makefile supports stripping modules before=
-<br>
-&gt; signing them. This allows signed modules to be stripped while preservi=
-ng<br>
-&gt; a valid signature.<br>
-&gt; <br>
-&gt; Make non-signed kernel modules follow the standard Yocto stripping flo=
-w,<br>
-&gt; while signed kernel modules use the kernel Makefile stripping flow.<br=
->
-&gt; <br>
-&gt; Fixes [YOCTO #12927]<br>
-&gt; <br>
-&gt; Reported-by: <a href=3D"mailto:ross.burton@arm.com" target=3D"_blank">=
-ross.burton@arm.com</a><br>
-&gt; Signed-off-by: Anis Bougrine &lt;<a href=3D"mailto:anis.bougrine10@gma=
-il.com" target=3D"_blank">anis.bougrine10@gmail.com</a>&gt;<br>
-&gt; Cc: Antonin Godard &lt;<a href=3D"mailto:antonin.godard@bootlin.com" t=
-arget=3D"_blank">antonin.godard@bootlin.com</a>&gt;<br>
-&gt; Cc: Bruce Ashfield &lt;<a href=3D"mailto:bruce.ashfield@gmail.com" tar=
-get=3D"_blank">bruce.ashfield@gmail.com</a>&gt;<br>
-&gt; Cc: Jose Quaresma &lt;<a href=3D"mailto:jose.quaresma@oss.qualcomm.com=
-" target=3D"_blank">jose.quaresma@oss.qualcomm.com</a>&gt;<br>
-&gt; ---<br>
-&gt; changes in v3:<br>
-&gt; <br>
-&gt; - Fixing rebase issue.<br>
-&gt; <br>
-&gt; changes in v2:<br>
-&gt; <br>
-&gt; - Use the conditional INSTALL_MOD_STRIP environment variable to avoid<=
-br>
-&gt; =C2=A0 duplicating the oe_runmake call.<br>
-&gt; - Use `scripts/config` script instead of grepping .config file.<br>
-&gt; ---<br>
-&gt; =C2=A0meta/classes-recipe/kernel.bbclass | 6 +++++-<br>
-&gt; =C2=A01 file changed, 5 insertions(+), 1 deletion(-)<br>
-&gt; <br>
-&gt; diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/=
-kernel.bbclass<br>
-&gt; index a82bdf7ecb..0998de1548 100644<br>
-&gt; --- a/meta/classes-recipe/kernel.bbclass<br>
-&gt; +++ b/meta/classes-recipe/kernel.bbclass<br>
-&gt; @@ -451,8 +451,12 @@ kernel_do_install() {<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0#<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0# First install the modules<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0#<br>
-&gt; -=C2=A0 =C2=A0 =C2=A0unset CFLAGS CPPFLAGS CXXFLAGS LDFLAGS MACHINE<br=
->
-&gt; +=C2=A0 =C2=A0 =C2=A0unset CFLAGS CPPFLAGS CXXFLAGS INSTALL_MOD_STRIP =
-LDFLAGS MACHINE<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0if (grep -q -i -e &#39;^CONFIG_MODULES=3Dy$&=
-#39; .config); then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0# If the module will =
-be auto-signed, perform stripping before signing.<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0if [ &quot;$(${S}/scr=
-ipts/config --state MODULE_SIG)&quot; =3D &quot;y&quot; ] &amp;&amp; [ &quo=
-t;$(${S}/scripts/config --state MODULE_SIG_ALL)&quot; =3D &quot;y&quot; ]; =
-then<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0export INSTALL_MOD_STRIP=3D&quot;--strip-debug --remove-section=3D.c=
-omment --remove-section=3D.note --preserve-dates&quot;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0fi<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0oe_runmake DEPMO=
-D=3Decho MODLIB=3D${D}${nonarch_base_libdir}/modules/${KERNEL_VERSION} INST=
-ALL_FW_PATH=3D${D}${firmwaredir} modules_install<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f &quot;${D}=
-${nonarch_base_libdir}/modules/${KERNEL_VERSION}/build&quot;<br>
-&gt; =C2=A0=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0rm -f &quot;${D}=
-${nonarch_base_libdir}/modules/${KERNEL_VERSION}/source&quot;<br>
-<br>
-There is another issue. If you strip the modules here, we lose all the<br>
-debug symbol information later in the build. That doesn&#39;t sound so<br>
-important until you realise we use the debug information to feed into<br>
-the SPDX and it is then used for checking for CVE issues. I&#39;m not sure<=
-br>
-we can afford to do that...<br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
-<br>
-<br>
-</blockquote></div>
-
---000000000000c1095706598cd494--
 
