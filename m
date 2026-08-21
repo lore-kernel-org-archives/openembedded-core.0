@@ -1,149 +1,212 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27B36C5DF94
-	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 07:57:45 +0000 (UTC)
-Received: from fout-b8-smtp.messagingengine.com (fout-b8-smtp.messagingengine.com [202.12.124.151])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11785.1787558260841928851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2492AC5DF81
+	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 07:58:55 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.14])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11850.1787558329093332254
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 00:57:41 -0700
+ Mon, 24 Aug 2026 00:58:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=q2kacqgi;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=W4XzgmBw;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.151, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-03.internal (phl-compute-03.internal [10.202.2.43])
-	by mailfout.stl.internal (Postfix) with ESMTP id D8F221D0008D;
-	Mon, 24 Aug 2026 03:57:39 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-03.internal (MEProxy); Mon, 24 Aug 2026 03:57:39 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1787558259;
-	 x=1787644659; bh=iB6+RyiHLe+IYgdwyJQk8XZhsSn7MRc0gW+5OJeS2nw=; b=
-	q2kacqgiQEFxtm8LQDsgSQRZeHfBngFq5HzzZhm7fOzcPggId06A/2/gQSDeBAMo
-	ie2dVsaERTKAzAj/0+UJo8zsAATAiRG3LC76RUd9ZUnm5RhMbe2jiipkE+TAGlVt
-	FjmwoPQvONqDAy27LqPSmOr60T3M9UUeWhyEPNfeIaU55veOzIYIuEX78h+AFKdf
-	rcEF1NQqoeqgR9HmbojfxWaC7KW6CC4nXTEFKcQ6q9hQ6Olusmto3DeyY0p5jokq
-	rl+aOw4pAQ2v5L1YG3mmth+WNxnnwRojRVXhg91CqWRRzjZz8p+MnT626tZcdYq+
-	M+kdsfv/gHH2h5VLU/mvGg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1787558259; x=1787644659; bh=i
-	B6+RyiHLe+IYgdwyJQk8XZhsSn7MRc0gW+5OJeS2nw=; b=W4XzgmBwkbtnfTici
-	Gz5Ke8iHvH9CRyGmfTgCg5OBYhCKes3ThgcPKTAQQmIWbnmMoI+bJqgG1D1Zy7mF
-	34jn+l33tNUyzj4kUymuF24LDVXIiDDzu7Eu16EVPExbP5QFveQDxoLTzWmc8mRS
-	QLNnPG4IYcr6dqKo5ZjVZ10yC1zUz8WwVACEpNhtWn9Qf+tw+m3wn68knyvpFrKa
-	Y73rVC5fZtEaY2XcyGmH23STWheHJq5yLNMCRe2E/sIYIjkCFCUOpT9t4cQEhePC
-	xTPeqT2Zjoaxczf3AzWCiHRCH5rf9wkR84Cw9N4fbPKO7/tZ926mLQVl6+aMbp3X
-	peyEQ==
-X-ME-Sender: <xms:c_mLap--_HCjiycM2ZqPKgmsZo0ByrWYZEPcebpw7sU7PbiRf47luA>
-    <xme:c_mLajujB6SbSVwr-Gte3w6Ue8Fs1bW9Jkspg6mgHEzj8JiMQ4MCXBuFKtMn8RTZ8
-    atoKZwyZQ-xt8HqGndSkQzf2sIoZ8Jd9nSqqE6pGcUOPfttGkjAUko>
-X-ME-Received: <xmr:c_mLakp4lIxdssO88oAoHWsRwssi7OYUQ089s19wuGebzVBrhQ3ZxvMAzokrEMTjsFb8nRB9JxZS96eUxRC3P793P4QK1rLhrRYw1Q>
-X-ME-Proxy-Cause: dmFkZTGN7zrsnH3qCAE7qVJq+5DM8C4qitPf44nD1S5HlHGt6mD/2V/0BqK4HbIWpcvXd5
-    HrRM/imHe0hs6SXo8BPeO34RfLQweHj5i8LBrhNrXWl8bsTYdGX+Fa/FbpTVsMKfQrggKw
-    2dZ24X5KvCjsBlQHd+Cma6sheutmsZ4OoAne2qRCbOfojTMPWtwkCKrCS+SlrdNFvVmRxa
-    GFGLdNOwvToAL5d3g1UcaS1adgQL38TBblhewpSCxZ6CCaSEAYQDMgwn1BY5bxJqBkkeS2
-    l6fX5UMKyCDya6owLwU1lM+3SypqVaxyU9iQ0joqYqR5G5bAFdws6JnnUZ01aODXmR4lnv
-    8tngetPgRWkNxPgW9ZtJn+CcsiWGQSeFTjfBTziVk3qyigHUYZRTN88MKD4xsnozkc44g4
-    FFtNRaIj1Dpn66j1uXvrmwIw3NLTaPzp8UM6fU3yJ1lSYHQ+K1Xk+e/OQj9RMowdDydNAD
-    i1A8PZqtFMD7q+KM6qpwvnGZ7eizwky7tK/1Xc01VYZLXFtuxS/dVu1bJurVNn3p40lo0M
-    htgjKMWIpBILk4/ryuh3yZXIWPct8lVT6h2XYO2Wu04O27AdhM2mGWU94lbkkJ9niWip9x
-    HnFuo36NNPDfXe26mxZOsDLL3WSNbT078Zs6fXQKPkOJXzhEyp06ax+9DPZQ
-X-ME-Proxy: <xmx:c_mLaon8W3caPCHcsnKKulvWK3Bx0VI30830azLABQ3lf8EwA2NOSg>
-    <xmx:c_mLagwaIP1JCLXMkLjSgnYS2CZY3fVfAQ8F784Og7z38jFrFQZO8Q>
-    <xmx:c_mLaonKuabr5ES4S6gKWLHulEeA8I1_Cp13vbaItN8CqS0xIyIlXg>
-    <xmx:c_mLahcF80hU2IuneBjxm1eRKl-ddLaTOFXRnRj2aCBcshyvVXRWEw>
-    <xmx:c_mLalhYaMUJOWlU7vr3aW4DoE0blkf2XUTfQwswp6auUxX63OEm-Ff3>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 24 Aug 2026 03:57:39 -0400 (EDT)
-Message-ID: <49cc2c17fff4ee8eb6f8494891edc3c04895176b.camel@pbarker.dev>
-Subject: Re: [OE-core][PATCH v4 0/8] cve-exclusions: triage eight kernel
- CVEs lacking upstream fix data
-From: Paul Barker <paul@pbarker.dev>
-To: Junjie Cao <junjie.cao@linux.dev>, 
-	openembedded-core@lists.openembedded.org
-Date: Mon, 24 Aug 2026 08:57:37 +0100
-In-Reply-To: <20260824042123.1456876-1-junjie.cao@linux.dev>
-References: <20260824042123.1456876-1-junjie.cao@linux.dev>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=Lpb/DyRB;
+ spf=pass (domain: cherry.de, ip: 52.101.72.14, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ShUN61RbenOCxRB+8MY1ZB729ZLgffoQk8sJZPGFk0AZwTkwFgl45UbnU7VOvaFDArjC+NSJBrUWoschTEPxohUm0HvFa/tO018Mmt++RMRBiNGyHYrau3CcWPdkMPizCedXmbjvNDL+Y6I0N+6HC0tNpCtFLTrHHInZDpswN6/73x1R6Vq8rRqLWsuPGlYORHDxmV5dSCwDilBvdoGJZ9zrucml086F/iFAR+G7sSfz0n6a/1hLxd8ziRPXw7LjBpYG9FwByj2TEdiPT5ZvZ5oMxZqlRVkQPsrewfaVS+ZaLOgyCKcjnpyggleQmmhRQdzG5Ho5BgWdxQcVLlTjpw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=gPGmZGEb8TUrCthMSvVAfLmOGVPImiFWDPwB8b+r3Nc=;
+ b=Pd2GpbAO5Pbx85WmmIKTs3bYa19fDRG9n4sbg8dmxGnl22mEre8JXW+chBTyYa2ziaxxJEhcOCHCPQcZtzPfFFDWQ+I82HL4+nl9rcSDDI/F1R8VfwtyZTuYIdM7DnsilYD4kvCefvwC1pJZfya1zKkAygWxFoHBnXMMfzmU/rxFTtCvb9+xTJQJfWyTt3piThI1Kn0VsmpWhpTkzOhS7mxNRyU7INlgUKM+Nx5VrPZBngwY9bxpJgFi3oGDZt36shF/0VG+xLw2f3HM0uaVlDeFuZFWn5t+xTrGcbrSAUzVBi4iWpSXbboiFyyDPRBoS+XmriCjldsK32uXiI/gAg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=gPGmZGEb8TUrCthMSvVAfLmOGVPImiFWDPwB8b+r3Nc=;
+ b=Lpb/DyRBPb+wdSq1ESTV1kdKA9sHTv4hbrjg0GzQ/Ji5HSh44WrpJQrmGmaG5hbUTqx4NqiKhlNg0xPFcFCE3BlMYNR0UaRlUaQWQnXimNYGsR/7R7idmS+PpNSRmUmV8N5NZSqNqmmQH4S0EORcRqrYyej/VVoxJeWZoLM8Too=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from PA3PR04MB11153.eurprd04.prod.outlook.com (2603:10a6:102:4ab::7)
+ by PAXPR04MB9121.eurprd04.prod.outlook.com (2603:10a6:102:22b::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Mon, 24 Aug
+ 2026 07:58:41 +0000
+Received: from PA3PR04MB11153.eurprd04.prod.outlook.com
+ ([fe80::6b02:c0eb:95a4:3c3d]) by PA3PR04MB11153.eurprd04.prod.outlook.com
+ ([fe80::6b02:c0eb:95a4:3c3d%4]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
+ 07:58:41 +0000
+Message-ID: <45dbe3e7-2ae2-44bd-b39f-014ab79fc001@cherry.de>
+Date: Fri, 21 Aug 2026 20:05:45 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH v4 2/3] mesa-libclc: New recipe for forking libclc for
+ Rusticl purposes in Mesa
+To: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>,
+ openembedded-core@lists.openembedded.org
+CC: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+ Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
+ Jose Quaresma <jose.quaresma@oss.qualcomm.com>
+References: <20260807054448.1301957-1-zboszor@gmail.com>
+ <20260807054448.1301957-2-zboszor@gmail.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20260807054448.1301957-2-zboszor@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+X-ClientProxiedBy: VI4PEPF0000015B.AUTP296.PROD.OUTLOOK.COM
+ (2603:10a6:808:1::87a) To PA3PR04MB11153.eurprd04.prod.outlook.com
+ (2603:10a6:102:4ab::7)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA3PR04MB11153:EE_|PAXPR04MB9121:EE_
+X-MS-Office365-Filtering-Correlation-Id: 1fcd9f96-b476-45ba-dc1b-08df01b582d8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|10070799003|1800799024|23010399003|376014|6133799003|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003|3023799007|4133799003;
+X-Microsoft-Antispam-Message-Info: 
+	R6/W8HaVmPPaRa4GlQ1WD9MN1SkQ3ZI8RlNKskoCsxMmwJTGWKAvbLnXzCATBWC32vMvISkXDktsWWdnBLVPZx76vjbYoqA2C1oxSlnmoqv9daV1DrtrvyilEubEuunRadxI8p5KDUkFLM1mfc8AjncbQWfYo02N5QcG6P3TPMQ5/fR+bjODDAzDPgZqkKOjjE0PjJUwlnQgo1RFiaWAWPoRylboTywS4CeroJc6Z6BAhB5l2x7l14d4GGWRxUfO8wXfwYd1Cy6YFODbyi6Hf9qlPZDEVH/W1v5LjXQ3lCu5GSnsoPW6bikPBEwMzjXBTKMSIwHwJrCCwxzdtV8HxOSAUkDluTR6qucCeZsLcAPI91jOS2v1TqQxF3vOO+a6ImlUglwTVPaeRWwH67uTxs5yFX4V6PT7XdIuFDElqGOV8Cr00Fdf7KeNve7LIlIx7APrCC3bxhUC7dKbkiPATiOiesnRH1upMm9Zwl9IUZhR+XOBaE6tsdP0JWgVbP4lhCnFdGrfmbEGwIH4QEl8Z747zUeHa3Wz1a0pR6dwF6BF+vEgCA4U2hIYIPh3iWxxRVt3+AQB9XRD/xLw5K2ldFkqbfaY4+w1L9C9aptqv4A=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR04MB11153.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(23010399003)(376014)(6133799003)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003)(3023799007)(4133799003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?DJhCXVwAWcfK8AXukqpmbRTjSDGd0bdMGnyzIIy41XkqbBXqsW5trQBu1ScN?=
+ =?us-ascii?Q?kLw7bnOCH2hizRXxqYCyUoz2Ya4kGtRCwDqklfiC6ERJXZrSzi4m1IEYqUGS?=
+ =?us-ascii?Q?Zwhky/IjugxobGm4OMKEalz9B7RKy5ZGTe0m+pcOkf6Vrwkwoq2hshsavGlw?=
+ =?us-ascii?Q?szo6HnYmqlQpFuMhXR3GEQMjMo5ycYMt0KAJ1+Yh/kzDtMiAWcRBYHOcwiWf?=
+ =?us-ascii?Q?AvGY8JihWzcMv8mH/ThpqOPvZ4RE4X6UJG61Tqfl1Si427VHfZN1mw0pRlQP?=
+ =?us-ascii?Q?jfIa2WTZ6ZA/bY/zto2daf9Iyp5sxPPlkPh9wfuG5Tep30L0AnWzECy52YCM?=
+ =?us-ascii?Q?a9DjSNAZQAy92TTGmMlgC6/VXwxrkF4EQislvXPq/yB8/9rsRK76tttBAQHx?=
+ =?us-ascii?Q?MVrJzGwX3vQ39eJsFeC0ZppyL9Js2jg+nR7l5QdVfvElmPA0JW7ui3gFzfVb?=
+ =?us-ascii?Q?025TVMvX+DDQYHv4YtLywXK4F55Jq1HooPrAqHQut936MWSV0MlwLJjxqGQ5?=
+ =?us-ascii?Q?uHWTf0Z/ek6GnNzoxU0owtQmU4NQZGkDi8N6N/aIaGZet5EzOg5AFM9HOYjo?=
+ =?us-ascii?Q?6YpvtkX4/J3f/bPW1Xj6APArIsCe8+FeUMxWmtmHazmuIJhT1WmGPsNqUMzH?=
+ =?us-ascii?Q?EoxWSjA4Mutm1vReaoStw/yC8yIwZrGxQZj6tSCwg9dMGkjvefHXKEC5BVcf?=
+ =?us-ascii?Q?uCE9cD7BtLiXf3Jph6eqfrydeNHbc/YKeSIC/Mmx3K/MnullmQ6nhUsvirl1?=
+ =?us-ascii?Q?f3043nCd3MdFW1GDlmDNfJ7c6JuexuCun7lXOobxtWAXDL6QpskCblxtcC1X?=
+ =?us-ascii?Q?9ywTZ4pnrDiEUBUiEMt89UBjrX3TpMcpQ7BSyIaFKfDXsD/vjSttVj7IXRA/?=
+ =?us-ascii?Q?JVYejIoDk3hDfm0158m8UIf2gx66FQ8nd8N4uF+7wxs+lo1e+jeYgwjVLo6s?=
+ =?us-ascii?Q?hVuyc4V25JpvB/5xuFlCxX+5ImESfdeblJchp7fdPsxDDWIf+fgzRkv6XVRc?=
+ =?us-ascii?Q?W/0F8gbYZdBc4hYcIGaZRJbxKdVEvcbUeWI5xDBdrC9lYSlrG2ilpLa9Tlt1?=
+ =?us-ascii?Q?++6baXi2y2uXCwfTJryXkd0cBhMuS8c3NWPt1T1ffynf8TcQWf3s46MWvW/f?=
+ =?us-ascii?Q?Ac/uLtFKl5eQf+2a/rXL8O0tGCt7Up3uCA9kquu/4545AY5RiVLO3W3pFM/2?=
+ =?us-ascii?Q?evlZP4oPTafs7ppOfp1kBZ30Coy3nVsnC+g0ck7lvXM7gsEj3W/PR5dCkZAN?=
+ =?us-ascii?Q?U7+4lxL8wnqw/Hpo067SHHwFC/a0/5cf3ikJuAXtaPEVF9qgKgH4HX0bR95s?=
+ =?us-ascii?Q?ghptnPb1LgSiOk3aXMtp4E7lOVRHzfVwMp3I1XLXS3ZclSwJ9uUDzbA5rBgZ?=
+ =?us-ascii?Q?dyC2GE0wCLFOBo9KnlTgpqQCT9B2cLP7nfJwMm4n7HxLTvy9Gxt1GtTy5Dy7?=
+ =?us-ascii?Q?nUVvf6qXJnBH5PEuWR5F5kr9J9ZUROBcOn5PtvH9BrxxC66x+Kjrnuddx6YL?=
+ =?us-ascii?Q?kNptXntP2xGYFBJJtBtNkdgj+/j3/8J/wGk/vl/I4gpU6RP9pzAiO5NQfMPs?=
+ =?us-ascii?Q?IXFzdx2O4gOyAq0aHClYOchp1hUMQ/xWtgtpbIW96lL6LOawgsR6MpN/k7mA?=
+ =?us-ascii?Q?Pu8SruuXaHYEUox+2T8RPkmnhMZIBAYcQKkyA1axtHEig2sPLvjEfTGT+HrV?=
+ =?us-ascii?Q?Du9de6wm/3+4aSpFi/bIJJ7xJJaxoLIZ+q3ATB5oldzTg6OxTu9oAPrhTEjM?=
+ =?us-ascii?Q?LmjC2E++e479LhnlLr/WlSnWP2HLY1LF3DSvuBSp/93pzZlBQl3WrMmD7ZzI?=
+X-MS-Exchange-AntiSpam-MessageData-1: +o28v3ori888fFOsJ6hxWXPB6tUUy8WaKCg=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1fcd9f96-b476-45ba-dc1b-08df01b582d8
+X-MS-Exchange-CrossTenant-AuthSource: PA3PR04MB11153.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 07:58:41.1431
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: dJ/oh3coM6aKZjj4KtVKByATwUgY2U/GIRfkwVE74g0nn5svVNjlQ+PE6dZ+ay6QzwB/S9ndimdljpNGz+Eq9XgVrKZAbHMPCaRrVP9sNSg=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9121
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 07:57:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244070
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 07:58:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244071
 
-On Sun, 2026-08-23 at 23:21 -0500, Junjie Cao wrote:
-> This is v4 of the kernel CVE triage from Paul Barker's "linux-yocto
-> CVEs in need of triage" request, reworked according to his review of
-> v3 [1].
->=20
-> Changes since v3:
->=20
-> - Seven entries adopt the comment and CVE_STATUS wordings suggested in
->   [1], including triage dates and distribution tracker links in the
->   .inc comments; the CVE-2022-1247 entry was approved as-is and is
->   unchanged. Commit message detail flagged as unnecessary or
->   time-consuming to validate is dropped. One deviation: the
->   CVE-2023-6238 status reads "Proposed fix was not merged" rather than
->   "withdrawn" - the fix was backed out by the nvme maintainer, not
->   withdrawn by its author - matching the comment above the entry.
->=20
-> - CVE-2022-0400 stays out of this series as agreed. Red Hat PSIRT has
->   since answered the request for details (ticket PSIRTSUPT-22046) and
->   named the affected code; it is the issue fixed in v6.13 that
->   upstream tracks as CVE-2024-49568, with the details recorded on the
->   public bug [2]. A separate patch records the fixed-version status.
->=20
-> Summary of the eight verdicts:
->=20
->   fixed-version   CVE-2022-1247   6.17, rose_neigh refcount conversion
->   unpatched       CVE-2019-14899  weak host model, no upstream fix
->                   CVE-2021-3714   inherent to KSM deduplication
->                   CVE-2021-3864   proposed fixes not merged
->                   CVE-2022-4543   EntryBleed, no fix proposed
->                   CVE-2023-3397   JFS UAF, proposed fix withdrawn
->                   CVE-2023-6238   NVMe passthrough, fix not merged
->                   CVE-2023-6240   Marvin oracle, fixed only in RHEL
->=20
-> AI assistance is disclosed with the AI-Generated trailer on each patch.
->=20
-> Once these are settled I can prepare the wrynose and scarthgap
-> backports.
->=20
-> [1] https://lore.kernel.org/openembedded-core/7b18fd3a5e6b660b9c605671da2=
-b188b5abbf4ba.camel@pbarker.dev/
-> [2] https://bugzilla.redhat.com/show_bug.cgi?id=3D2044575
->=20
-> v3: https://lore.kernel.org/openembedded-core/20260812072842.1176341-1-ju=
-njie.cao@linux.dev/
-> v2: https://lore.kernel.org/openembedded-core/20260803084827.1348810-1-ju=
-njie.cao@linux.dev/
->=20
-> Junjie Cao (8):
->   cve-exclusions: set status for CVE-2019-14899
->   cve-exclusions: set status for CVE-2021-3714
->   cve-exclusions: set status for CVE-2021-3864
->   cve-exclusions: set status for CVE-2022-1247
->   cve-exclusions: set status for CVE-2022-4543
->   cve-exclusions: set status for CVE-2023-3397
->   cve-exclusions: set status for CVE-2023-6238
->   cve-exclusions: set status for CVE-2023-6240
+Hi Zolt=C3=A1n,
 
-These all look good to me now, thanks for working through them!
+On 8/7/26 7:44 AM, Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi wrote:
+> See the reasoning and discussion at
+> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/43020
+> which was merged and backported to 26.2.0.
+>=20
+> TL;DR: LLVM constantly introduces breaking changes that cause
+> regressions for running OpenCL CTS with Rusticl and finally
+> Karol Herbst had enough.
+>=20
+> This fork is from the LLVM 22 version of libclc and contains the
+> necessary fixes to make Rusticl pass OpenCL CTS.
+>=20
+> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
+> ---
+>   meta/conf/distro/include/maintainers.inc      |  1 +
+>   .../mesa/mesa-libclc_22.1.8.3.bb              | 26 +++++++++++++++++++
+>   2 files changed, 27 insertions(+)
+>   create mode 100644 meta/recipes-graphics/mesa/mesa-libclc_22.1.8.3.bb
+>=20
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+> index c5b701c244..feccf29ce4 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -524,6 +524,7 @@ RECIPE_MAINTAINER:pn-menu-cache =3D "Ross Burton <ros=
+s.burton@arm.com>"
+>   RECIPE_MAINTAINER:pn-mesa =3D "Unassigned <unassigned@yoctoproject.org>=
+"
+>   RECIPE_MAINTAINER:pn-mesa-demos =3D "Unassigned <unassigned@yoctoprojec=
+t.org>"
+>   RECIPE_MAINTAINER:pn-mesa-gl =3D "Unassigned <unassigned@yoctoproject.o=
+rg>"
+> +RECIPE_MAINTAINER:pn-mesa-libclc =3D "Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=
+=A9nyi <zboszor@gmail.com>"
+>   RECIPE_MAINTAINER:pn-mesa-tools-native =3D "Unassigned <unassigned@yoct=
+oproject.org>"
+>   RECIPE_MAINTAINER:pn-meson =3D "Trevor Gamblin <tgamblin@baylibre.com>"
+>   RECIPE_MAINTAINER:pn-meta-environment-${MACHINE} =3D "Richard Purdie <r=
+ichard.purdie@linuxfoundation.org>"
+> diff --git a/meta/recipes-graphics/mesa/mesa-libclc_22.1.8.3.bb b/meta/re=
+cipes-graphics/mesa/mesa-libclc_22.1.8.3.bb
+> new file mode 100644
+> index 0000000000..c93b5b9d9d
+> --- /dev/null
+> +++ b/meta/recipes-graphics/mesa/mesa-libclc_22.1.8.3.bb
+> @@ -0,0 +1,26 @@
+> +SUMMARY =3D "Mesa fork of libclc: Implementation of the library requirem=
+ents of the OpenCL C programming language."
+> +HOMEPAGE =3D "https://gitlab.freedesktop.org/karolherbst/mesa-libclc/"
 
-Best regards,
+Sorry for the mangled link. Sad that they still keep this in Karol's=20
+namespace. It however matches what they use in their CI (via the GitLab=20
+Project ID), see .gitlab-ci/container/build-libclc.sh.
 
---=20
-Paul Barker
+> +SECTION =3D "devel"
+> +LICENSE =3D "Apache-2.0-with-LLVM-exception"
+> +LIC_FILES_CHKSUM =3D "file://LICENSE.TXT;md5=3D7cc795f6cbb2d801d84336b83=
+c8017db"
+> +
+> +SRC_URI =3D "git://gitlab.freedesktop.org/karolherbst/mesa-libclc.git;pr=
+otocol=3Dhttps;branch=3Dllvm_22"
+> +
+> +SRCREV =3D "87f66007242ff10e9e84bf32be84f9057f6abc75"
 
+How do we make sure we use the mesa-libclc blessed by mesa for a given=20
+release?
+
+It seems like we should use the tag as specified in=20
+MESA_LIBCLC_VERSION=3D22.1.8.3 in .gitlab-ci/container/build-libclc.sh.=20
+Can you add a comment in mesa-libclc and mesa.inc that mesa-libclc=20
+should only be bumped with mesa.inc, and that a bump in mesa.inc should=20
+REEEEEEALLLLLLY check we use the expected mesa-libclc version (put it=20
+next to SRCREV so it appears in the git context when someone sends a patch)=
+.
+
+I've only barely looked at the changes made between 26.1.0 and 26.2.0=20
+but we should be able to drastically relax the libclc requirement for=20
+anything but opencl (rusticl). c.f. 20b40644b7ae ("clc: make libclc=20
+optional for configs not needing it")
+
+Someone will need to start looking into what they're doing with=20
+panfrost, c.f. the new panfrost-rust option. There's a bunch of=20
+additional dependencies in src/panfrost/compiler/kraid/meson.build we'll=20
+need. Oh well, something for later (but probably very soon, like next=20
+release).
+
+Cheers,
+Quentin
 
