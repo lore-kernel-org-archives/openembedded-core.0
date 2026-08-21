@@ -2,69 +2,69 @@ Return-Path: <evekariy@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AA787C5DF8C
-	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 18:26:26 +0000 (UTC)
-Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1149.1787336785440482826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 887FDC5DF7D
+	for <webhook@archiver.kernel.org>; Fri, 21 Aug 2026 18:26:36 +0000 (UTC)
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1153.1787336795269688189
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Aug 2026 11:26:25 -0700
+ Fri, 21 Aug 2026 11:26:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=ae7AsEbq;
- spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: evekariy@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=TJAcHxQ8;
+ spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: evekariy@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=10135; q=dns/txt;
-  s=iport01; t=1787336785; x=1788546385;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=I3BFnP84FzrggciQFTiJiDaUJcWTJLUO/QAuhW8oUgQ=;
-  b=ae7AsEbqo0kk00Dod3GhaCHMmB8VHYGNZw3FQVQFVbWTRCEBsFQqsWlw
-   PsxWQqiNLvSlECO7owVWfMwLZqlVHvzQKVubk8mb8kj/6BP4G7k3uV434
-   XsKe0rvnsn2dX4mjrVK6gpsNq1JoGMUR5a/4UM+2ymZUSTbHJc3lDW3Sz
-   RGDdNR2C75L+8UOOpxevXV4Mo/Bg9iOohOYRlFNVdKHwwbiVYfBSavyiz
-   CvB0vsp306q38uRWds6LoidtwYfhWeAhOTqLt6/Hu1uV3V+arbM30JbeZ
-   KPhY9WZn57oikiFiifrFa27FP+fgBmOk7X5XL8EkquhQx98q7VwgE/nFQ
-   w==;
-X-CSE-ConnectionGUID: IiWzMCdlT5u8ZMURz8jcIg==
-X-CSE-MsgGUID: e10ixrskRiGpiuZq/bNtGg==
-X-IPAS-Result: =?us-ascii?q?A0AbAAAil4hq/5AQJK1aHAEBAQEBAQcBARIBAQQEAQGBf?=
- =?us-ascii?q?AcBAQsBglZ0X0JJjHKJWItnEJIngX4PAQEBD0QNBAEBhD9GjW4CJjQJDgECB?=
- =?us-ascii?q?AMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBDhOGTw2GWgECATUBRiwDAQJPC?=
- =?us-ascii?q?yMhgwIBgjoDNwIBEcIDgiyBAYNoAkPZGw1ygWYBCxQBgTgBhT4fgmCFI10YA?=
- =?us-ascii?q?YR8JxuBSUSBFYNpgQWBGkIBAYglBIMugVoekVZIgR4DWSwBVRMNCgsHBYFmA?=
- =?us-ascii?q?zUSKhVuMh2BIz4XgQ0bBgWBHYEohBAjGTZ6gQlegSspYAESF4EJggcCglqCB?=
- =?us-ascii?q?QIBSUMOB0gVCxgNSBEsNxQZBD5uB45UH4JNexMBCiEggQBlk1VEkgSBNZ5pc?=
- =?us-ascii?q?YQojCKPPoV8GjOFW6URC5h9jgqECZJHhGmBaDyBRwsHTSMVgyIJShkPjioOC?=
- =?us-ascii?q?4NggX+DZcZVJDULMgEBBwIHDgMLgWiRfgEB?=
-IronPort-Data: A9a23:moIOE6q4b0tlPDm012qK4ermSLBeBmJOZBIvgKrLsJaIsI4StFCzt
- garIBmBbviMNmvyc9pzb43k9RhX78KDxoA2SwBupHtkRnkT+ePIVI+TRqvS04x+DSFioGZPt
+  d=cisco.com; i=@cisco.com; l=10440; q=dns/txt;
+  s=iport01; t=1787336795; x=1788546395;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=0eMigvbBH76J3PrSnSGSEc6TjwVi+OJogThnvDmUHjQ=;
+  b=TJAcHxQ8qdlD+9TwZwoOKPletzSpA09LjykPV4dpclxHfcnQ1zWTmozv
+   IAZQHxyO6N645KKJg2jccTF0O4Vl9nEQz7tVZy1mZDZSBdfdbjDX65huh
+   DfDeuF0gUcbzn2dncIOSt3bWWVsSV2/PJzXxhoyStIPXTX1KGjlfcPumd
+   rkqP9SytG4ob/idcNHOCHATA9sNeaEScoxkHwA0RUzKTcAy3mqVexVc6x
+   jM4lRYM1TKzwZEydFJcp6uljRgD/T20yl68e5O25YGVlK1+9QdKLBylAa
+   Ya4eJmIsjZn+vQnfssUd2xCkaquPbSb1ovqS2kFNQPAOq2MhZBkhiVPdy
+   A==;
+X-CSE-ConnectionGUID: uREuyY/hQoO8SXyXvNOVqg==
+X-CSE-MsgGUID: 6de64mPESgiBZlPjFfJj1A==
+X-IPAS-Result: =?us-ascii?q?A0BeAgAil4hq/5EQJK1aHgEBCxIMggULgld0X0JJlkoDi?=
+ =?us-ascii?q?2QQkieBfg8BAQEPRA0EAQGEP0YCjWwCJjQJDgECBAMCAwEBAQEBAQEBAQEBC?=
+ =?us-ascii?q?wEBBQEBAQIBBwWBDhOGTw2GWgECAQMyAUYQHAMBAi8gCyMIGYMCAYI6AzcCA?=
+ =?us-ascii?q?RHCA4IsgQGDaAJD2RsNcoFmAQsUAYE4hT8fgmCFI10YAYR8JxuBSUSBFYNpg?=
+ =?us-ascii?q?QWBGkIBAYE3AYZtBIINgSGBWh6GEotESIEeA1ksAVUTDQoLBwWBZgM1EioVb?=
+ =?us-ascii?q?jIdgSM+F4ENGwYFgR2BKIQQIxk2eoEJXoErKWABEheBCYIHAoJaggUCAUlDD?=
+ =?us-ascii?q?gdIFQsYDUgRLDcUGQQ+bgeOVB+CTXsTAQohIC82G4Ebk2OSBKAecYQojCKPP?=
+ =?us-ascii?q?oV8GjOFW6URC5h9jgqECZJHhGmBaDyBRwsHTSMVgyIJShkPjiwBCwuDYIF/g?=
+ =?us-ascii?q?2XGVSQ1CzIBAQcCBw4DC4FokAABJ4FWAQE?=
+IronPort-Data: A9a23:V3xiDaoaTop9UlcVdqznMm+6TupeBmJOZBIvgKrLsJaIsI4StFCzt
+ garIBnSaayCYjakft1zaI619x8AuZbTyII1TAo5qC9gF38S9ePIVI+TRqvS04x+DSFioGZPt
  Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
  T/Ji5OZYgLNNwJcaDpOtfrT8ko35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
  86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0sd2PnNr3
- vAcFG0QPiKmutikkLCwa+Y506zPLOGzVG8eknhkyTecCbMtRorOBv2Vo9RZxzw3wMtJGJ4yZ
- eJANmEpN0qGOkMJYwtLYH49tL/Aan3XfiNVq1uPpLsf6GnIxws327/oWDbQUozTGZUExhfB+
- woq+Uz0W0kbJMaEygCE3Wqtm93W2indRK0dQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
- FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwAiJzqyR50OSAXIJC2YeLtcnr8QxAzct0
- zdlgu/UONCmi5XNIVr1y1tehWna1fQ9RYPaWRI5cA==
-IronPort-HdrOrdr: A9a23:578eFqDD3Bb5nEXlHema55DYdb4zR+YMi2TDGXofdfUzSL38qy
- nAppUmPHPP5Qr5O0tQ++xoRpPhfZq0z/cciuMs1NyZMjUO1lHFEGgb1/qA/xTQXwvj6+Vaya
- BsN4J6CNH2EBxGqPyS2njdLz7lq+P3lpxBQozlvhBQcT0=
-X-Talos-CUID: 9a23:O2ngu24f2Txs9gQ9hdss1U8rCOUOfnnhkWqAEWqFM3Q5Sra0RgrF
-X-Talos-MUID: 9a23:i9+cDAor75HbKce+sLoezzw7bMZ4+b+tMkEiiZQbidDDPwpsFDjI2Q==
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0vtNLHxfx
+ LsYETcqPiuzltKo5pWFU+Y506zPLOGzVG8eknhkyTecCbMtRorOBv2ao9RZxzw3wMtJGJ4yZ
+ eJANmEpN0qGOkMJYwtKYH49tL/Aan3XfiNVq1uPpLsf6GnIxws327/oWDbQUozQHJwJwx/I9
+ goq+UynDhxEaNmn5AGK81iegtfNsy3ZWts7QejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwAiJzqyR50OSAXIJC2YRLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWja1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:ty0J1q+IvINkhaL8V/Fuk+D6I+orL9Y04lQ7vn2ZhyY7TiX+rb
+ HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdn7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
+ 4ZSdkcNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYKcemvAJsQlzuQzW2gYzRLeDU=
+X-Talos-CUID: 9a23:zhMfnG8MT96ZhSrym1OVv1MuN900Qzrd9XD3c3SIGFZ3bpqrUFDFrQ==
+X-Talos-MUID: 9a23:KIEbWAoHrNKUymsuTnMez29uOZk05pyDM08Mu6cCg8uqOw5yYh7I2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,235,1779148800"; 
-   d="scan'208";a="814890915"
-Received: from alln-l-core-07.cisco.com ([173.36.16.144])
-  by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Aug 2026 18:26:24 +0000
+   d="scan'208";a="821145188"
+Received: from alln-l-core-08.cisco.com ([173.36.16.145])
+  by alln-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 21 Aug 2026 18:26:34 +0000
 Received: from sjc-ads-4126.cisco.com (sjc-ads-4126.cisco.com [171.70.54.147])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-07.cisco.com (Postfix) with ESMTPS id 4C79B180001D1;
-	Fri, 21 Aug 2026 18:26:24 +0000 (GMT)
+	by alln-l-core-08.cisco.com (Postfix) with ESMTPS id 3C4E218000453;
+	Fri, 21 Aug 2026 18:26:34 +0000 (GMT)
 Received: by sjc-ads-4126.cisco.com (Postfix, from userid 1834987)
-	id E22A4CC12A6; Fri, 21 Aug 2026 11:26:23 -0700 (PDT)
+	id CF18BCC12A6; Fri, 21 Aug 2026 11:26:33 -0700 (PDT)
 From: Emily Vekariya <evekariy@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: sankpare@cisco.com,
@@ -72,311 +72,305 @@ Cc: sankpare@cisco.com,
 	ranjirat@cisco.com,
 	vchavda@cisco.com,
 	Emily Vekariya <evekariy@cisco.com>
-Subject: [OE-core][scarthgap][PATCH 1/2] python3-pyasn1: Fix CVE-2026-59886
-Date: Fri, 21 Aug 2026 11:25:49 -0700
-Message-Id: <20260821182550.23177-1-evekariy@cisco.com>
+Subject: [OE-core][scarthgap][PATCH 2/2] python3-pyasn1: Fix CVE-2026-59884
+Date: Fri, 21 Aug 2026 11:25:50 -0700
+Message-Id: <20260821182550.23177-2-evekariy@cisco.com>
 X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260821182550.23177-1-evekariy@cisco.com>
+References: <20260821182550.23177-1-evekariy@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-4126.cisco.com [171.70.54.147];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.54.147, sjc-ads-4126.cisco.com
-X-Outbound-Node: alln-l-core-07.cisco.com
+X-Outbound-Node: alln-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 18:26:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243950
+ <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 18:26:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243951
 
-The univ.Real type converts its mantissa, base, and exponent to a Python
-float using exact big-integer exponentiation. A BER, CER, or DER encoded
-REAL value only a few bytes long can carry a very large exponent, causing
-float conversion through prettyPrint(), str(), comparison, arithmetic,
-int(), or an explicit float() call to consume excessive CPU and memory and
-hang applications that decode untrusted ASN.1 data and then print, log, or
-compare the decoded objects.
+The BER decoder shared by the CER and DER codecs parses long-form tags by
+accumulating continuation octets without an upper bound on the tag ID size.
+A crafted input can force construction of an arbitrarily large integer with
+CPU cost growing quadratically, and can trigger unhandled ValueError
+exceptions in the Python 3.11+ error formatting paths. Any application
+decoding untrusted BER, CER, or DER input is affected.
 
 scarthgap ships pyasn1 0.5.1, which is affected as the issue is present in
 all versions before 0.6.4.
 
 Pick the upstream patch [1] as mentioned in [2].
 
-[1] https://github.com/pyasn1/pyasn1/commit/e60c691cb91addb8fcefa2f537e85ede6fb1e886
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-59886
+[1] https://github.com/pyasn1/pyasn1/commit/628e36ecbb5277a3f01572ce418ef54271b165a5
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-59884
 
 Signed-off-by: Emily Vekariya <evekariy@cisco.com>
 ---
  .../recipes-devtools/python/python-pyasn1.inc |   1 +
- .../python3-pyasn1/CVE-2026-59886.patch       | 252 ++++++++++++++++++
- 2 files changed, 253 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59886.patch
+ .../python3-pyasn1/CVE-2026-59884.patch       | 245 ++++++++++++++++++
+ 2 files changed, 246 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59884.patch
 
 diff --git a/meta/recipes-devtools/python/python-pyasn1.inc b/meta/recipes-devtools/python/python-pyasn1.inc
-index 96b4a3b52a..1780ee1d88 100644
+index 1780ee1d88..ae96f09fb1 100644
 --- a/meta/recipes-devtools/python/python-pyasn1.inc
 +++ b/meta/recipes-devtools/python/python-pyasn1.inc
-@@ -19,6 +19,7 @@ inherit ptest
- SRC_URI += " \
+@@ -20,6 +20,7 @@ SRC_URI += " \
         file://run-ptest \
         file://CVE-2026-23490.patch \
-+       file://CVE-2026-59886.patch \
+        file://CVE-2026-59886.patch \
++       file://CVE-2026-59884.patch \
  "
  
  RDEPENDS:${PN}-ptest += " \
-diff --git a/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59886.patch b/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59886.patch
+diff --git a/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59884.patch b/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59884.patch
 new file mode 100644
-index 0000000000..80468c6a5e
+index 0000000000..dd897e2d75
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59886.patch
-@@ -0,0 +1,252 @@
-+From 9b89b511a7284f17ef3a2de6d05fbf6030133abb Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-59884.patch
+@@ -0,0 +1,245 @@
++From 38e8ae286160eb27620e7cb42108b3b28d1f299f Mon Sep 17 00:00:00 2001
 +From: Simon Pichugin <simon.pichugin@gmail.com>
-+Date: Wed, 8 Jul 2026 17:32:09 -0700
++Date: Wed, 8 Jul 2026 17:36:30 -0700
 +Subject: [PATCH] Merge commit from fork
 +
-+CVE: CVE-2026-59886
-+Upstream-Status: Backport [https://github.com/pyasn1/pyasn1/commit/e60c691cb91addb8fcefa2f537e85ede6fb1e886]
++CVE: CVE-2026-59884
++Upstream-Status: Backport [https://github.com/pyasn1/pyasn1/commit/628e36ecbb5277a3f01572ce418ef54271b165a5]
 +
-+(cherry picked from commit e60c691cb91addb8fcefa2f537e85ede6fb1e886)
++(cherry picked from commit 628e36ecbb5277a3f01572ce418ef54271b165a5)
 +Signed-off-by: Emily Vekariya <evekariy@cisco.com>
 +---
-+ pyasn1/type/univ.py             | 21 +++++++++----
-+ tests/codec/ber/test_decoder.py | 53 +++++++++++++++++++++++++++------
-+ tests/codec/cer/test_decoder.py | 10 +++++++
-+ tests/codec/der/test_decoder.py | 19 ++++++++++++
-+ tests/type/test_univ.py         | 40 +++++++++++++++++++++++++
-+ 5 files changed, 129 insertions(+), 14 deletions(-)
++ pyasn1/codec/ber/decoder.py     | 13 +++++++++++--
++ pyasn1/type/tag.py              | 20 ++++++++++++++++----
++ tests/codec/ber/test_decoder.py | 25 +++++++++++++++++++++++++
++ tests/codec/cer/test_decoder.py | 15 +++++++++++++++
++ tests/codec/der/test_decoder.py | 15 +++++++++++++++
++ tests/type/test_tag.py          | 20 ++++++++++++++++++++
++ 6 files changed, 102 insertions(+), 6 deletions(-)
 +
-+diff --git a/pyasn1/type/univ.py b/pyasn1/type/univ.py
-+index c5d0778..adff2df 100644
-+--- a/pyasn1/type/univ.py
-++++ b/pyasn1/type/univ.py
-+@@ -1318,7 +1318,7 @@ class Real(base.SimpleAsn1Type):
-+     def __normalizeBase10(value):
-+         m, b, e = value
-+         while m and m % 10 == 0:
-+-            m /= 10
-++            m //= 10
-+             e += 1
-+         return m, b, e
++diff --git a/pyasn1/codec/ber/decoder.py b/pyasn1/codec/ber/decoder.py
++index be8ba65..18865c2 100644
++--- a/pyasn1/codec/ber/decoder.py
+++++ b/pyasn1/codec/ber/decoder.py
++@@ -39,6 +39,10 @@ SubstrateUnderrunError = error.SubstrateUnderrunError
++ # 20 octets allows up to 140-bit integers, supporting UUID-based OIDs
++ MAX_OID_ARC_CONTINUATION_OCTETS = 20
 + 
-+@@ -1457,10 +1457,21 @@ class Real(base.SimpleAsn1Type):
-+     def __float__(self):
-+         if self._value in self._inf:
-+             return self._value
-+-        else:
-+-            return float(
-+-                self._value[0] * pow(self._value[1], self._value[2])
-+-            )
+++# Maximum number of octets in a long-form tag ID (20 octets = up to
+++# 140-bit tag IDs, matching the OID arc limit)
+++MAX_TAG_OCTETS = 20
 ++
-++        mantissa, base, exponent = self._value
-++
-++        if not mantissa:
-++            return 0.0
-++
-++        if base == 2:
-++            return math.ldexp(float(mantissa), exponent)
-++
-++        # base is 10 (prettyIn() rejects everything else); refuse to
-++        # materialize astronomically large integers via pow()
-++        if exponent > sys.float_info.max_10_exp:
-++            raise OverflowError('Real value too large to convert to float')
-++
-++        return float(mantissa * pow(base, exponent))
 + 
-+     def __abs__(self):
-+         return self.clone(abs(float(self)))
++ class AbstractPayloadDecoder(object):
++     protoComponent = None
++@@ -1570,7 +1574,7 @@ class SingleItemDecoder(object):
++ 
++                     if tagId == 0x1F:
++                         isShortTag = False
++-                        lengthOctetIdx = 0
+++                        tagOctetCount = 0
++                         tagId = 0
++ 
++                         while True:
++@@ -1584,7 +1588,12 @@ class SingleItemDecoder(object):
++                                 )
++ 
++                             integerTag = ord(integerByte)
++-                            lengthOctetIdx += 1
+++                            tagOctetCount += 1
+++                            if tagOctetCount > MAX_TAG_OCTETS:
+++                                raise error.PyAsn1Error(
+++                                    'Tag ID octet count exceeds limit (%d)' % (
+++                                        MAX_TAG_OCTETS,)
+++                                )
++                             tagId <<= 7
++                             tagId |= (integerTag & 0x7F)
++ 
++diff --git a/pyasn1/type/tag.py b/pyasn1/type/tag.py
++index a21a405..bbbdd85 100644
++--- a/pyasn1/type/tag.py
+++++ b/pyasn1/type/tag.py
++@@ -34,6 +34,16 @@ tagCategoryExplicit = 0x02
++ tagCategoryUntagged = 0x04
++ 
++ 
+++def _tagIdToStr(tagId):
+++    # Decimal rendering of a huge tag ID can exceed the interpreter's
+++    # integer-to-string conversion limit (sys.get_int_max_str_digits(),
+++    # Python 3.11+) and raise ValueError; hexadecimal is not limited
+++    try:
+++        return str(tagId)
+++    except ValueError:
+++        return hex(tagId)
+++
+++
++ class Tag(object):
++     """Create ASN.1 tag
++ 
++@@ -56,7 +66,8 @@ class Tag(object):
++     """
++     def __init__(self, tagClass, tagFormat, tagId):
++         if tagId < 0:
++-            raise error.PyAsn1Error('Negative tag ID (%s) not allowed' % tagId)
+++            raise error.PyAsn1Error(
+++                'Negative tag ID (%s) not allowed' % _tagIdToStr(tagId))
++         self.__tagClass = tagClass
++         self.__tagFormat = tagFormat
++         self.__tagId = tagId
++@@ -65,7 +76,7 @@ class Tag(object):
++ 
++     def __repr__(self):
++         representation = '[%s:%s:%s]' % (
++-            self.__tagClass, self.__tagFormat, self.__tagId)
+++            self.__tagClass, self.__tagFormat, _tagIdToStr(self.__tagId))
++         return '<%s object, tag %s>' % (
++             self.__class__.__name__, representation)
++ 
++@@ -194,8 +205,9 @@ class TagSet(object):
++         self.__hash = hash(self.__superTagsClassId)
++ 
++     def __repr__(self):
++-        representation = '-'.join(['%s:%s:%s' % (x.tagClass, x.tagFormat, x.tagId)
++-                                   for x in self.__superTags])
+++        representation = '-'.join(
+++            ['%s:%s:%s' % (x.tagClass, x.tagFormat, _tagIdToStr(x.tagId))
+++             for x in self.__superTags])
++         if representation:
++             representation = 'tags ' + representation
++         else:
 +diff --git a/tests/codec/ber/test_decoder.py b/tests/codec/ber/test_decoder.py
-+index f033dfd..f6ff7b0 100644
++index f6ff7b0..0152027 100644
 +--- a/tests/codec/ber/test_decoder.py
 ++++ b/tests/codec/ber/test_decoder.py
-+@@ -21,6 +21,7 @@ from pyasn1.type import univ
-+ from pyasn1.type import char
-+ from pyasn1.codec import streaming
-+ from pyasn1.codec.ber import decoder
-++from pyasn1.codec.ber import encoder
-+ from pyasn1.codec.ber import eoo
-+ from pyasn1.compat.octets import ints2octs, str2octs, null
-+ from pyasn1 import error
-+@@ -547,17 +548,51 @@ class RealDecoderTestCase(BaseTestCase):
-+             ints2octs((9, 4, 161, 255, 1, 3))
-+         ) == (univ.Real((3, 2, -1020)), null)
++@@ -34,6 +34,31 @@ class LargeTagDecoderTestCase(BaseTestCase):
++     def testLongTag(self):
++         assert decoder.decode(ints2octs((0x1f, 2, 1, 0)))[0].tagSet == univ.Integer.tagSet
 + 
-+-# TODO: this requires Real type comparison fix
-++    def testBin6(self):  # large exponent, base = 16
-++        value, rest = decoder.decode(
-++            bytes((9, 5, 162, 0, 255, 255, 1))
-++        )
+++    def testVeryLongTagRoundTrip(self):
+++        # (1 << 140) - 1 is the largest tag ID fitting the 20 octet limit
+++        for tagId in (1 << 77, (1 << 140) - 1):
+++            largeTag = tag.Tag(tag.tagClassContext, tag.tagFormatSimple, tagId)
+++            asn1Spec = univ.Integer().subtype(implicitTag=largeTag)
+++            value = univ.Integer(1).subtype(implicitTag=largeTag)
 ++
-++        assert tuple(value) == (1, 2, 262140)
-++        assert rest == b''
+++            decoded, rest = decoder.decode(encoder.encode(value), asn1Spec=asn1Spec)
 ++
-++    def testBin7(self):  # large exponent in 4-octet form, base = 16
-++        value, rest = decoder.decode(
-++            bytes((9, 7, 227, 4, 1, 35, 69, 103, 1))
-++        )
-+ 
-+-#    def testBin6(self):
-+-#        assert decoder.decode(
-+-#            ints2octs((9, 5, 162, 0, 255, 255, 1))
-+-#        ) == (univ.Real((1, 2, 262140)), null)
-++        assert tuple(value) == (-1, 2, 76354972)
-++        assert rest == b''
+++            assert rest == b''
+++            assert decoded == 1
 ++
-++    def testLargeBinaryRoundTrip(self):
-++        substrate = encoder.encode(univ.Real((-1, 2, 76354972)))
-++        value, rest = decoder.decode(substrate)
-++
-++        assert tuple(value) == (-1, 2, 76354972)
-++        assert rest == b''
-++
-++    def testLongFormBinaryRealExponentLength(self):
-++        value, rest = decoder.decode(
-++            bytes((9, 6, 0x83, 3, 0x0f, 0x42, 0x40, 1))
-++        )
-+ 
-+-#    def testBin7(self):
-+-#        assert decoder.decode(
-+-#            ints2octs((9, 7, 227, 4, 1, 35, 69, 103, 1))
-+-#        ) == (univ.Real((-1, 2, 76354972)), null)
-++        assert tuple(value) == (1, 2, 1000000)
-++        assert rest == b''
-++
-++    def testLargeBinaryPrettyPrintOverflow(self):
-++        value, rest = decoder.decode(
-++            b'\t\t\xeb\x060662.666\xd0B\x00\x00\x00\x00\x00\x00\x00'
-++        )
-++
-++        assert value.prettyPrint() == '<overflow>'
-++        assert rest == b'6\xd0B\x00\x00\x00\x00\x00\x00\x00'
+++    def testExcessiveLongTag(self):
+++        # 1 << 140 is the smallest tag ID needing 21 octets, one over the limit
+++        excessiveTag = tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1 << 140)
+++        asn1Spec = univ.Integer().subtype(implicitTag=excessiveTag)
+++        substrate = encoder.encode(univ.Integer(1).subtype(implicitTag=excessiveTag))
 ++
 ++        try:
-++            float(value)
-++        except OverflowError:
+++            decoder.decode(substrate, asn1Spec=asn1Spec)
+++        except error.PyAsn1Error:
 ++            pass
 ++        else:
-++            assert 0, '__float__() tolerated overflow'
-+ 
-+     def testPlusInf(self):
-+         assert decoder.decode(
+++            assert 0, 'excessive long tag tolerated'
+++
++     def testTagsEquivalence(self):
++         integer = univ.Integer(2).subtype(implicitTag=tag.Tag(tag.tagClassContext, 0, 0))
++         assert decoder.decode(ints2octs((0x9f, 0x80, 0x00, 0x02, 0x01, 0x02)), asn1Spec=integer) == decoder.decode(
 +diff --git a/tests/codec/cer/test_decoder.py b/tests/codec/cer/test_decoder.py
-+index 133affd..3d27194 100644
++index 3d27194..d759f76 100644
 +--- a/tests/codec/cer/test_decoder.py
 ++++ b/tests/codec/cer/test_decoder.py
-+@@ -15,6 +15,7 @@ from pyasn1.type import opentype
-+ from pyasn1.type import univ
-+ from pyasn1.codec.cer import decoder
-+ from pyasn1.compat.octets import ints2octs, str2octs, null
-++from pyasn1.codec.cer import encoder
-+ from pyasn1.error import PyAsn1Error
-+ 
-+ 
-+@@ -66,6 +67,15 @@ class OctetStringDecoderTestCase(BaseTestCase):
++@@ -67,6 +67,21 @@ class OctetStringDecoderTestCase(BaseTestCase):
 +     # TODO: test failures on short chunked and long unchunked substrate samples
 + 
 + 
-++class RealDecoderTestCase(BaseTestCase):
-++    def testLargeBinaryRoundTrip(self):
-++        substrate = encoder.encode(univ.Real((-1, 2, 76354972)))
-++        value, rest = decoder.decode(substrate)
+++class LargeTagDecoderTestCase(BaseTestCase):
+++    def testExcessiveLongTag(self):
+++        # 1 << 140 is the smallest tag ID needing 21 octets, one over the limit
+++        excessiveTag = tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1 << 140)
+++        asn1Spec = univ.Integer().subtype(implicitTag=excessiveTag)
+++        substrate = encoder.encode(univ.Integer(1).subtype(implicitTag=excessiveTag))
 ++
-++        assert tuple(value) == (-1, 2, 76354972)
-++        assert rest == b''
+++        try:
+++            decoder.decode(substrate, asn1Spec=asn1Spec)
+++        except PyAsn1Error:
+++            pass
+++        else:
+++            assert 0, 'excessive long tag tolerated'
 ++
 ++
-+ class SequenceDecoderWithUntaggedOpenTypesTestCase(BaseTestCase):
-+     def setUp(self):
-+         openType = opentype.OpenType(
++ class RealDecoderTestCase(BaseTestCase):
++     def testLargeBinaryRoundTrip(self):
++         substrate = encoder.encode(univ.Real((-1, 2, 76354972)))
 +diff --git a/tests/codec/der/test_decoder.py b/tests/codec/der/test_decoder.py
-+index 5bc9deb..553563c 100644
++index 553563c..726c999 100644
 +--- a/tests/codec/der/test_decoder.py
 ++++ b/tests/codec/der/test_decoder.py
-+@@ -15,6 +15,7 @@ from pyasn1.type import opentype
-+ from pyasn1.type import univ
-+ from pyasn1.codec.der import decoder
-+ from pyasn1.compat.octets import ints2octs, null
-++from pyasn1.codec.der import encoder
-+ from pyasn1.error import PyAsn1Error
-+ 
-+ 
-+@@ -72,6 +73,24 @@ class OctetStringDecoderTestCase(BaseTestCase):
++@@ -73,6 +73,21 @@ class OctetStringDecoderTestCase(BaseTestCase):
 +             assert 0, 'chunked encoding tolerated'
 + 
 + 
-++class RealDecoderTestCase(BaseTestCase):
-++    def testCanonicalLargeBinaryReal(self):
-++        substrate = encoder.encode(univ.Real((1, 2, 1000000)))
-++        assert substrate == bytes((9, 5, 0x82, 0x0f, 0x42, 0x40, 1))
+++class LargeTagDecoderTestCase(BaseTestCase):
+++    def testExcessiveLongTag(self):
+++        # 1 << 140 is the smallest tag ID needing 21 octets, one over the limit
+++        excessiveTag = tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1 << 140)
+++        asn1Spec = univ.Integer().subtype(implicitTag=excessiveTag)
+++        substrate = encoder.encode(univ.Integer(1).subtype(implicitTag=excessiveTag))
 ++
-++        value, rest = decoder.decode(substrate)
-++
-++        assert tuple(value) == (1, 2, 1000000)
-++        assert rest == b''
-++
-++    def testLargeBinaryRoundTrip(self):
-++        substrate = encoder.encode(univ.Real((-1, 2, 76354972)))
-++        value, rest = decoder.decode(substrate)
-++
-++        assert tuple(value) == (-1, 2, 76354972)
-++        assert rest == b''
+++        try:
+++            decoder.decode(substrate, asn1Spec=asn1Spec)
+++        except PyAsn1Error:
+++            pass
+++        else:
+++            assert 0, 'excessive long tag tolerated'
 ++
 ++
-+ class SequenceDecoderWithUntaggedOpenTypesTestCase(BaseTestCase):
-+     def setUp(self):
-+         openType = opentype.OpenType(
-+diff --git a/tests/type/test_univ.py b/tests/type/test_univ.py
-+index 8aec183..bc21c37 100644
-+--- a/tests/type/test_univ.py
-++++ b/tests/type/test_univ.py
-+@@ -780,9 +780,49 @@ class RealTestCase(BaseTestCase):
-+     def testFloat(self):
-+         assert float(univ.Real(4.0)) == 4.0, '__float__() fails'
++ class RealDecoderTestCase(BaseTestCase):
++     def testCanonicalLargeBinaryReal(self):
++         substrate = encoder.encode(univ.Real((1, 2, 1000000)))
++diff --git a/tests/type/test_tag.py b/tests/type/test_tag.py
++index d0ffa07..ab9b8b1 100644
++--- a/tests/type/test_tag.py
+++++ b/tests/type/test_tag.py
++@@ -9,6 +9,7 @@ import unittest
 + 
-++    def testFloatBase10Precision(self):
-++        assert float(univ.Real((3, 10, 23))) == 3e23, '__float__() lost base-10 behavior'
-++
-++    def testFloatOverflow(self):
-++        try:
-++            float(univ.Real((1, 2, 1000000)))
-++        except OverflowError:
-++            pass
-++        else:
-++            assert 0, '__float__() tolerated overflow'
-++
-++        assert univ.Real((1, 2, 1000000)).prettyPrint() == '<overflow>'
-++
-++    def testFloatUnderflow(self):
-++        assert float(univ.Real((1, 2, -1000000))) == 0.0, '__float__() failed underflow'
-++
-++    def testFloatZeroMantissa(self):
-++        assert float(univ.Real((0, 10, 1000000000))) == 0.0, '__float__() failed zero mantissa'
-++        assert float(univ.Real((0, 2, 1000000000))) == 0.0, '__float__() failed zero mantissa'
-++
-++    def testFloatBase10Overflow(self):
-++        try:
-++            float(univ.Real((1, 10, sys.float_info.max_10_exp + 1)))
-++        except OverflowError:
-++            pass
-++        else:
-++            assert 0, '__float__() tolerated base-10 overflow'
-++
-++    def testFloatBase10NormalizedOverflow(self):
-++        try:
-++            float(univ.Real((10, 10, sys.float_info.max_10_exp)))
-++        except OverflowError:
-++            pass
-++        else:
-++            assert 0, '__float__() tolerated normalized base-10 overflow'
-++
-+     def testPrettyIn(self):
-+         assert univ.Real((3, 10, 0)) == 3, 'prettyIn() fails'
++ from tests.base import BaseTestCase
 + 
-++    def testPrettyInBigBase10Mantissa(self):
-++        assert tuple(univ.Real((10 ** 400, 10, 0))) == (1, 10, 400), \
-++            'prettyIn() big mantissa normalization fails'
+++from pyasn1 import error
++ from pyasn1.type import tag
++ 
++ 
++@@ -23,6 +24,19 @@ class TagReprTestCase(TagTestCaseBase):
++     def testRepr(self):
++         assert 'Tag' in repr(self.t1)
++ 
+++    def testReprHugeTagId(self):
+++        # must not hit the interpreter's int-to-str conversion limit
+++        hugeTag = tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1 << 100000)
+++        assert 'Tag' in repr(hugeTag)
 ++
-+     # infinite float values
-+     def testStrInf(self):
-+         assert str(univ.Real('inf')) == 'inf', 'str() fails'
+++    def testNegativeHugeTagId(self):
+++        try:
+++            tag.Tag(tag.tagClassContext, tag.tagFormatSimple, -(1 << 100000))
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert 0, 'negative tag ID tolerated'
+++
++ 
++ class TagCmpTestCase(TagTestCaseBase):
++     def testCmp(self):
++@@ -54,6 +68,12 @@ class TagSetReprTestCase(TagSetTestCaseBase):
++     def testRepr(self):
++         assert 'TagSet' in repr(self.ts1)
++ 
+++    def testReprHugeTagId(self):
+++        # must not hit the interpreter's int-to-str conversion limit
+++        hugeTagSet = self.ts1.tagImplicitly(
+++            tag.Tag(tag.tagClassContext, tag.tagFormatSimple, 1 << 100000))
+++        assert 'TagSet' in repr(hugeTagSet)
+++
++ 
++ class TagSetCmpTestCase(TagSetTestCaseBase):
++     def testCmp(self):
 +-- 
 +2.34.1
 +
