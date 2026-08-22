@@ -2,58 +2,58 @@ Return-Path: <anis.bougrine10@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60BCEC5DF8C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B77CC5DF94
 	for <webhook@archiver.kernel.org>; Sat, 22 Aug 2026 00:29:40 +0000 (UTC)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2166.1787358570200400324
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2173.1787358578218113623
  for <openembedded-core@lists.openembedded.org>;
- Fri, 21 Aug 2026 17:29:30 -0700
+ Fri, 21 Aug 2026 17:29:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=S4Tb1f/x;
- spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: anis.bougrine10@gmail.com)
-Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4954df200ddso10058275e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 17:29:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=sbwR7Y3P;
+ spf=pass (domain: gmail.com, ip: 209.85.221.48, mailfrom: anis.bougrine10@gmail.com)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47f3b39f2a1so1236505f8f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 21 Aug 2026 17:29:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787358568; x=1787963368; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1787358576; x=1787963376; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=OZP2N/U3W9HzIo5h+Fna/rLatIFCgYY0DoUOZEAHqsQ=;
-        b=S4Tb1f/xgefLzA4RGBsdtg6LmX+pz4NcTi0ihzenE2qa9GteS4OoM/J3PjikXNvbqI
-         jWcYZo1vp3e+FE+vTpQNlinkvxzGfJGiyj9+foBlkr4UtcD4d+Jct/BCvO6vx5xNgpc+
-         YwST3k1bwP4LGIe29BzF9RTOtt7XPqOGG2/rJFrY639SHdBwD3FaekNygTaRLt0gY0JU
-         jS6qhbjgLkZsOesdZqqXZGPW688+qRX09TDIiru+KUSRJSpK9y556AKu7gugZFDri0rw
-         k5rEkrkiY8yCw38SFI3jh55PGvA1rchx9d+8bKCgdfurYt6topI9uJOo3muZlQduZEPO
-         JKSg==
+        bh=mDc2acH1zkc6kwz1r6XyNwdt5zTHMtDHW+V8K7epIN0=;
+        b=sbwR7Y3PVmC0rsnLgtOlSFyFVepFT3PuGCTDp6u/5O+ALPZStjme9pogUbA06pPYBI
+         hnYhm0DnE9mIp945m6WqtSG0jQXf5l6QkG1L5RvdjAH0/w3sDcsSazHmtThF5ObT9jgZ
+         E+C4ovYC5KbWeNhuRDZDCqtoT2c9bw3ZheomG0u9AenX5Ew/mP0JXEHX/8+j538eeLcB
+         BZQ+JMEBZuGZ5JIncEApeBIr6fJrfKZZCtK2EuFzazZTG8w8yhW6N89vphzIsWC4Umt0
+         +WtZFVA9VDs/PAoytbgBe/bpqd+8SLURX+b3+6FSWz9DqcHWuFlR77f6Npn++6nLiBFD
+         p5ow==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787358568; x=1787963368;
+        d=1e100.net; s=20251104; t=1787358576; x=1787963376;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=OZP2N/U3W9HzIo5h+Fna/rLatIFCgYY0DoUOZEAHqsQ=;
-        b=fgPJKD25DD8NpXor99jHYoRS2+kLl1vcn9xPTtDmdI/X8VxozmEq4mHhcc10L0uHty
-         TCJUxfuLJDtTuMlCKUzZRtkongXXLUw1YVxOr77CNPN9AV0RShdB95vgXiPp2vEjHHaq
-         8NrF7uCyDcQ1FYE+olOp3+gfqZLKFfM8TOUBapdw/m4bA8Szon9qsQVRL78QMf47wguf
-         3pWMJ1tWi462jC+iixOzHnJRPnadLsjnccsPIlJSrd+KtKzp24Z28cuTTk2M94RxvLQw
-         778eKyEJowHV6/1mVnTI6NLzzLpJRm3xWjI3u9W6PbPc0EBwdO+zVasl22J5Foh8O6o7
-         3r1A==
-X-Gm-Message-State: AFuF++mjxnDNXuTpmH3kNq2Yl24T6sPcLcsiw4t3LObT68obF20kqZ/w
-	CFAUAPnEKKPF/8lg9rGV6cSjIRNK/1Y73QXdzHIfwyesabS8qMZKh0OR15zlDNwxSzE=
-X-Gm-Gg: AR+sD10YwP2jh8MOvuuuAMiI55uy3lQhg20A+mV+xi17PbNtSaRQGYQvHwW4dT3iUvH
-	bWnYd+lgAliIWuxcBA5DDoCFVbxOK3R2SF7Ct3hnLzjSvDghb5Cvn2W6kdre9khsBLMFTpL5uyd
-	0/99XnzGbDKH1zOnRg5dG5caTjMuS2eKDghaFqIynuWmo3PDnhi5f9dM+uCWU/TrUE/aMYKb4Wk
-	B+7OD7bRnbMhCqaAYAEEYJ61B1j9O9CnUNxcBuKTO0YxhIS6/6dpIz88mVMTkmo7+SCEpTYcrxn
-	CXFtku++gOxqBEJEHu/R1o3EABlJ5w4iWxTqzO1ZWprJNyP4s0pPWE+2U7dUgr6KKnZjs4/NAOW
-	Ym6L7zo8OkrP8CL8B3fQjwTqRxnfgcGjDT/VPfEazXQLiJB1dMeUQ4XHaVDDirPZOXGfcxjvVhq
-	YQaaxQZvy52fuh/wsdtXlu6tvxm1fB30ZLZljRnd6cXM1NVSyDQJOgaZ7dXtK7fg0IizOWQ7PZm
-	hzeiEZ68gbFilmjNpVijwDr8AH1sZysV2jeGch6LyeGffzWiU/gGRlrLI1XkXVws7TU75jipBOT
-	1X7/kLHzaJfU2KB5IVjD3xo=
-X-Received: by 2002:a05:600c:a01:b0:499:bdf1:7578 with SMTP id 5b1f17b1804b1-499c19bfd2dmr18034165e9.3.1787358568239;
-        Fri, 21 Aug 2026 17:29:28 -0700 (PDT)
+        bh=mDc2acH1zkc6kwz1r6XyNwdt5zTHMtDHW+V8K7epIN0=;
+        b=MQq6+NWBxNtSMrvSj1qSWRJkdpmoZue4j10GF1ewIzwaM4pb1op7kNCse4nKw1hZLi
+         cWhaNejdx3Y2gAxO4Yxg4vCBYK71LjMF0tR3gGySGDun3yMM7cLWCGjyvDa0IA6QakyP
+         mqrE+jdgj+3QliBFZ74Cm7XWhCYvrij+5Mcjq8+Zs8fVlFVylFDQiEfvrJgTFQztpby1
+         7Nj89642+McCP074YF+P2LPjdczNrOkm40xIXB5Z5DQL/W+Dm5C45wz3CAXyHnHcLSpW
+         g8OEZ5PkxP4Tc7UAgOxEPvvxbKJ+duSEfZSgmC0FpZg5xWHa68wtZQ79ibGT9G1rE2IR
+         Ikew==
+X-Gm-Message-State: AFuF++mr1VK2BKs0gN3Wo0uytievBDMyJMUTaBo46BrnZjAtgFT+eJ10
+	IjGtvs7uUkMVOinuEU5o47J9VxgKgSPyra+xOdHmn0OJJ8nEEoy8GnJfrzeXy0nLfnY=
+X-Gm-Gg: AR+sD10G+9eAN1cLZl5skJ7hmevw6NoMQBeVvxXtyEXCFG1dQp7NfA0S8YBXkrDWB3Z
+	mKOLuDliMBq0hrsjCW0pLXXGOGJ0A4Y0K6PIisgp8Brv8ljNKPgoUcROdOF8e9UzR+FLq7HkzCl
+	4WdaJbP7ZfQcmKWdSiTrMgm1r/oOC/ITj3pTudMo2I5ouzlS40mykJ0GxqSYEAnqGeDbaExz1Fp
+	SFTgpnu+0LQbozKQeWpoSpIoIxMR/73yJXUOKmXh1L7SxG3XImYlK/yINqkNdnQZBBIVaUhnZPr
+	Ue88wvSSQ1KCuY9vrGsFAnI0fdoE61etTLkuq0gk/U6QCnA7pMpuXHK1I8ROpdVfiEkVY2nze84
+	yJ21rwdvf8MFtHb5xVMeXWV+B5ChMPtlgpllip6YxNSctHo/Ve3hzBHZobgM8n5YCZhZrgJWgIS
+	SIKOggS08nrkn+TRvgW9DSHZey+GdgCz5ojoCcGvIXlWYoYtDgm4MIoUmZ9bm7bqIUBHq1I/S3u
+	/wWeT3dAMIkhKHFXNuf8e7s7oDza079lHmgvHHttsb5tmcVQSUP1Ppimrv5KEOiewiqdmwrc6yB
+	huRWAVaDfFhM
+X-Received: by 2002:a05:600c:6211:b0:495:4d88:e630 with SMTP id 5b1f17b1804b1-499b8465f7dmr151368135e9.10.1787358576161;
+        Fri, 21 Aug 2026 17:29:36 -0700 (PDT)
 Received: from device-137.home ([2a01:cb15:80cf:2100:7910:2866:fbeb:d177])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499b914bfcbsm44728335e9.9.2026.08.21.17.29.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499b914bfcbsm44728335e9.9.2026.08.21.17.29.35
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Fri, 21 Aug 2026 17:29:27 -0700 (PDT)
+        Fri, 21 Aug 2026 17:29:35 -0700 (PDT)
 From: Anis Bougrine <anis.bougrine10@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: antonin.godard@bootlin.com,
@@ -62,9 +62,9 @@ Cc: antonin.godard@bootlin.com,
 	richard.purdie@linuxfoundation.org,
 	Anis Bougrine <anis.bougrine10@gmail.com>,
 	Ross Burton <ross.burton@arm.com>
-Subject: [OE-core][PATCH v4 1/4] kernel.bbclass: re-sign kernel modules after package stripping process
-Date: Sat, 22 Aug 2026 02:25:58 +0200
-Message-ID: <20260822002601.90667-2-anis.bougrine10@gmail.com>
+Subject: [OE-core][PATCH v4 2/4] package.py: remove stripping and splitting skip for signed kernel modules
+Date: Sat, 22 Aug 2026 02:25:59 +0200
+Message-ID: <20260822002601.90667-3-anis.bougrine10@gmail.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260822002601.90667-1-anis.bougrine10@gmail.com>
 References: <20260822002601.90667-1-anis.bougrine10@gmail.com>
@@ -74,23 +74,12 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 00:29:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243960
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243961
 
 Fixes [YOCTO #12927]
 
-Currently, signed kernel modules are not stripped in order to preserve
-their valid signatures. See commit 4c47e5f.
-
-Therefore, this commit makes kernel modules stripped and correctly
-signed. Two options are possible:
-
-    - Strip the kernel modules after installation and before signing.
-    - Re-sign the kernel modules after stripping and before package splitting.
-
-The first option was rejected because debug symbols would be dropped early
-in the build workflow, which may impact the SPDX process.
-
-The second option is adopted because it does not impact the build flow.
+Now kernel modules are re-signed after package stripping process.
+Therefore, they can be stripped and splitted securely.
 
 Reported-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Anis Bougrine <anis.bougrine10@gmail.com>
@@ -111,48 +100,68 @@ Signed-off-by: Anis Bougrine <anis.bougrine10@gmail.com>
       duplicating the oe_runmake call.
     - Use `scripts/config` script instead of grepping .config file.
 ---
- .../kernel-module-split.bbclass               | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
+ meta/lib/oe/package.py | 26 +++-----------------------
+ 1 file changed, 3 insertions(+), 23 deletions(-)
 
-diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
-index ab2f0d1c37..253a723b95 100644
---- a/meta/classes-recipe/kernel-module-split.bbclass
-+++ b/meta/classes-recipe/kernel-module-split.bbclass
-@@ -35,6 +35,11 @@ modprobedir ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${nonarch_b
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index 4a244ec980..1657eaad93 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -36,16 +36,9 @@ def runstrip(file, elftype, strip, extra_strip_sections=''):
+         os.chmod(file, newmode)
  
- KERNEL_SPLIT_MODULES ?= "1"
- PACKAGESPLITFUNCS =+ "split_kernel_module_packages"
-+# Order matters:
-+# 1. Strip the modules
-+# 2. Re-sign the modules (if enabled)
-+# 3. Split the packages
-+PACKAGESPLITFUNCS =+ "post_strip_kernel_modules_signing"
+     stripcmd = [strip]
+-    skip_strip = False
+-    # kernel module: use --strip-debug and --preserve-dates (required for
+-    # module signing to remain valid after stripping)
++    # kernel module
+     if elftype & 16:
+-        if is_kernel_module_signed(file):
+-            bb.debug(1, "Skip strip on signed module %s" % file)
+-            skip_strip = True
+-        else:
+-            stripcmd.extend(["--strip-debug", "--remove-section=.comment",
+-                "--remove-section=.note", "--preserve-dates"])
++        stripcmd.extend(["--strip-debug", "--remove-section=.comment", "--remove-section=.note"])
+     # .so and shared library
+     elif ".so" in file and elftype & 8:
+         stripcmd.extend(["--remove-section=.comment", "--remove-section=.note", "--strip-unneeded"])
+@@ -59,8 +52,7 @@ def runstrip(file, elftype, strip, extra_strip_sections=''):
+     stripcmd.append(file)
+     bb.debug(1, "runstrip: %s" % stripcmd)
  
- KERNEL_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-modules"
+-    if not skip_strip:
+-        output = subprocess.check_output(stripcmd, stderr=subprocess.STDOUT)
++    output = subprocess.check_output(stripcmd, stderr=subprocess.STDOUT)
  
-@@ -42,6 +47,22 @@ KERNEL_MODULE_PACKAGE_PREFIX ?= ""
- KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
- KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
+     if newmode:
+         os.chmod(file, origmode)
+@@ -70,13 +62,6 @@ def is_kernel_module(path):
+     with open(path) as f:
+         return mmap.mmap(f.fileno(), 0, prot=mmap.PROT_READ).find(b"vermagic=") >= 0
  
-+# Sign kernel modules if auto-signing is enabled in the kernel config
-+post_strip_kernel_modules_signing(){
-+    # Read .config values
-+    is_modules="$(${S}/scripts/config --file ${B}/.config --state MODULES)"
-+    is_module_sig="$(${S}/scripts/config --file ${B}/.config --state MODULE_SIG)"
-+    is_module_sig_all="$(${S}/scripts/config --file ${B}/.config --state MODULE_SIG_ALL)"
-+
-+    if [ "$is_modules" = "y" ] && [ "$is_module_sig" = "y" ] && [ "$is_module_sig_all" = "y" ]; then
-+        # Sign modules under ${PKGD}
-+        oe_runmake \
-+            -C ${B} \
-+            MODLIB=${PKGD}${nonarch_base_libdir}/modules/${KERNEL_VERSION} \
-+            modules_sign
-+    fi
-+}
-+
- python split_kernel_module_packages () {
-     import re
+-# Detect if .ko module is signed
+-def is_kernel_module_signed(path):
+-    with open(path, "rb") as f:
+-        f.seek(-28, 2)
+-        module_tail = f.read()
+-        return "Module signature appended" in "".join(chr(c) for c in bytearray(module_tail))
+-
+ # Return type (bits):
+ # 0 - not elf
+ # 1 - ELF
+@@ -810,11 +795,6 @@ def splitdebuginfo(file, dvar, dv, d):
+     debugfile = dvar + dest
+     sources = []
  
+-    if file.endswith(".ko") and file.find("/lib/modules/") != -1:
+-        if oe.package.is_kernel_module_signed(file):
+-            bb.debug(1, "Skip strip on signed module %s" % file)
+-            return (file, sources)
+-
+     # Split the file...
+     bb.utils.mkdirhier(os.path.dirname(debugfile))
+     #bb.note("Split %s -> %s" % (file, debugfile))
 -- 
 2.50.1 (Apple Git-155)
 
