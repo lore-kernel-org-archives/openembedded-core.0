@@ -2,768 +2,797 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 879F6C5DF8C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7621AC5DF97
 	for <webhook@archiver.kernel.org>; Sat, 22 Aug 2026 17:52:09 +0000 (UTC)
 Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.1])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.1192.1787421126431531265
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Aug 2026 10:52:08 -0700
+ Sat, 22 Aug 2026 10:52:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Zcr/Z+CS;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=yMKqeuvr;
  spf=pass (domain: est.tech, ip: 52.101.84.1, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=PyoGzAxk85Ii8GqprTHFw3PWZGZF0s2B5iXJGLq4d1N6MHjY/aX28ztD7fduo175Lktj8FO2zGKs/GY3hbhwzrnSI3XduKaN5rXSR4DHu2y+gPlHa0/ZMvHkR1GksOBYxCwIhxHsVjp3kvCxBzajqUyTQ8ovo6RR7DKYqgLjNz6u3J/sg6hcyr05LOz5MERz/MwEOs6RzEe4JIvlEta4mkKhEE7bGioBBFXHzlp/LJ6RDvSijpKj3grbeUnHnE0iEZle5doP0OuSB4T20EauJa+ysIqMrgW0nuQWJ/ZhcfwTTM9A+JjZxbjtiwfNtHuKtow3hpF70XGrR68cKiUsFQ==
+ b=msd16nwq8Y48tvmEJE/1IyFGl2qZnc2GUWPNhPHzODjYK8BrXoGI0CQesMQ8r/NPadA4rUYr6wlV94Cbe/0+i8k2GCs7KIB+5f6UJFb3hvHSHpcb5ApoAXfW+QsUu9sq4GyvBZ9rU9pic8JOLfQK7AgEkOiqBoGDTZHft76mkeSuDzyPR5nevUsbZ1dw4dT92LN3TYDgZ+m/NhjH+j9oKxbnZoNBsLH8Oa7v5LuO2bsx6IzYBjtF/9e3WGYqxCJK0vnR3YZXjbr4jy17bT4EjvbtJc46ngcVS8PbyrLyVa5ryWxw7ZdvCE0LsueDmjiwRP2wpVdMXTaHyvPwOnDDTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=x8obRpt5bZC0XGtiklXI2aRsfhAiDJp+JXpX2O9ZL50=;
- b=vRmVVByAYeaDMNxYqPyibJwb9iXXTzhijgTQij4T/2Mm3oplisU4TElxFB3OTC8m8nzrNjG1TER6S58M+OZ9Afj3cP9fOt+ph/fR/u75ymadAr8bY0mXzNz5iwlBvehmyA7tuvOGc2FxZwbiBxeT6wyU9wYHwTgD5fVp9UHqWb0V3hUb/s8xja8IWojKC+kPOMc6hlGWjcV7YWllGr/Lg7JuRtDMIanPmI72gDpXVjXVkNAP8QNaC1/p5jD/mmRmiQfsAfsu+ALGslaE38pYO/FccZdOXbMJ5C448TmQ2vWlYfVAWWOjxSbvj7Ykkkz2PE0JDg10rTQ29Rtdv9bb3A==
+ bh=8r/viJchj+gBiw/qkJZgftMO2i2OWyRzuRFxE5OHB6I=;
+ b=f8SGz0X9n2pQ1dp8Lx+rGj9dpIQSXxpBWDPnqhMcbsUMuAdoblZ4EBgtBuZbBoa/QMuxQ8B6g1k/pLL9XGVeZSghF/n8tPZQpTzwAb6yla5Ep9C1DBIg8wbPljoE9A3afmLKs9C+Lb/5jxy6FPxyzzGICRVzivAKpGONljD4uKnIlLx7IuXuYAsDI5jRnQXVEGQohZeSJ8yUzwuoBvm+itGNnKNkjeub4xpyMvXkZdacMY4PCWW0vKGoy5N0ISK/QHmzSaXmHKXPoyCLxLNjqhVuS8gY/V4jsk5x/L+8ipNoI6wtuIcJnu5cPNhFWijM7vy4O4sBXDcGL+9ct8mkhA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=x8obRpt5bZC0XGtiklXI2aRsfhAiDJp+JXpX2O9ZL50=;
- b=Zcr/Z+CSDOTrk4oOdAWh44a0ZXXIvZ9Aq4CUhjxwcNEm2SfeQcbPVnL5H5GlfLcjPHhU2GnRxyOCsE1CDSrcxFo6CWaGl9Y3Mp1xNuHzLyPIaJKv4us7Nsa0zHWY7D41HeeXf83g7cy9fAkHwJ8KYz9RfBg75H2kJlkaUxBh6c3h6E/MRac5feLU1IMEK6eHvK898lAbsoj0LHtZA7/OkTCeLbG/Nip9R1hpIJy38ItVmkqhFvt9Arqm4ExPDaoSSU0zPsboqa9UkYnKwUZ9wgGG4EgBP4Bmi1COXrzQFQAKzhCi4Uy/wReA4ocubv87x1/xzwgPpYQcQelVBnPg5g==
+ bh=8r/viJchj+gBiw/qkJZgftMO2i2OWyRzuRFxE5OHB6I=;
+ b=yMKqeuvrdR9Q3lNq/WKGqK1O7h+y6mvDSYqgSZVOgF+PvpUZgmZ0/KOu/7k2HfkqssZGyuJqCFaQHoF+p2jUQaoaAfRp+4HLRgs5vaFbvF5i23XUt6f4FfS56WzCiZKxuL5AUDoRHa2U6+n4YiyyVpiGwcm9gx8MYqVIwzz2HGbM5xy3E4A0zQ5khxj+i+XbRb5SbFGaI6ZwyyQg69J3DeO4p7OPmTm7/ukhAiP6VVUwtW6ntF5FpNxYOBRQVp4WT2eoDRNxundmM1JwicvqUhdtfR/wXHtSncOBFn3GgTYH/rPQJbDf1eudtkXyjTsFI8XEV+iIkUYspKyS4HBlCQ==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by AM0P189MB0641.EURP189.PROD.OUTLOOK.COM (2603:10a6:208:1a2::20) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.5; Sat, 22 Aug
- 2026 17:52:04 +0000
+ 2026 17:52:02 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0360.003; Sat, 22 Aug 2026
- 17:52:04 +0000
+ 17:52:02 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [RFC v4 2/6] python3: backport OpenSSL 4.0 support from upstream
-Date: Sat, 22 Aug 2026 19:51:56 +0200
-Message-ID: <20260822175200.57534-3-jaipaul.cheernam@est.tech>
+Subject: [RFC v4 1/6] openssl: upgrade 3.5.7 -> 4.0.1
+Date: Sat, 22 Aug 2026 19:51:55 +0200
+Message-ID: <20260822175200.57534-2-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260822175200.57534-1-jaipaul.cheernam@est.tech>
 References: <20260814051829.35088-1-jaipaul.cheernam@est.tech>
  <20260822175200.57534-1-jaipaul.cheernam@est.tech>
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P123CA0217.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:1a6::6) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+Content-Type: text/plain
+X-ClientProxiedBy: LO6P123CA0030.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:313::10) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AM0P189MB0641:EE_
-X-MS-Office365-Filtering-Correlation-Id: d64b71c6-bac0-4ac2-cc5b-08df0076133b
+X-MS-Office365-Filtering-Correlation-Id: 0570f98c-11ab-4cfc-3ee9-08df00761284
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|10070799003|23010399003|1800799024|376014|366016|13003099007|6133799003|3023799007|56012099006|10067099003|11063799006|4143699003|12006099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|10070799003|23010399003|1800799024|376014|366016|29003799003|6133799003|3023799007|56012099006|10067099003|11063799006|4143699003|25016099003|12006099003|17002099007|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	saxgXzXFp7yuJor6We+zfxOAYJwurTofZnlBeFWxCcP+bNRkDv0Jz6kV58NBo7iE8n6XcHy0NGfOxaLF/orR25TYQyNQtWRZ8XDPKRDn3U3naFfrd2fKv8h22XQBpBNLRPF37W+mX/259wI6FKooYlvdbyzguE39NPqXSVEsV3o5U9GF3MDbZQNovu+Q+kSqQ9wls8O0V4Sz6VB4YWyDdes6a8Oh0mPFUXtd7ruMm0E/E+eS+OLAspdU/CqoGIa/nTki8oqBUposSwGF1Hq/9JeACTGxz2+kErx/yFgRqEMLjzYjDS8GjpJE+74ehixXCjrGUHBmCsnCJboD4WkdJFwjuQf4iYKejCvXixWVZB6+mMDyx2//ZrGHpjjp9vCf2QN87JR93aHfR7vqettjFThcNu+KpKenbdVcGOHC+NSQ7avDNwLREmKuPfvPwMTp1ddGQkbWRTkJh07d/gblXiYyeq2BC81HQ1CFr9eKn9YIQh+l/bZOFYGT+7X8LBlD9epy/jpolWu6ouujLnOtDzazpydBnRxziLnql+SBkX5X+K8s2k1RmesQzRDf5fohtaCAvFq2ZeLVtUAw1LUWpMZ5miGWiyDgIfe1PuxkaHY2E/eXHdyiC2a7Dh7h0XB8vXWnrdfg9ylQgi4uy25OcF7MBJOF+stQoGEY7Y01he0=
+	B8oRdPc9sUHWMcKrtNGWZBgjdxFn/L9EEPjeIkpmcpJoEdnlVOpq32JL/r5SyDVSE9mVHX730h2OnTsbcPIrfciCAp8MQKftAapd19w4pSr1HblxpmIx/pCwT+hu6veLhpk0Si/SLVRoCFRRoprRDI6JBbCe7lwWxvRsRhZ9rvuiPEzMhsa9rEPK1YLIa1NFSq3TxvmuDjTEjGKxDR1vvjso3IC+dzo07lSrVKU5KYQodK/AOxr63D9XqRhjn+Oq9n1Crw4oK02nX2dLHrXp410D/DmdJ8tZ+xv2xAk4mhlok79jVINnjd3bs92Kex4KOSIGZYrjvQSDGfaaz7Fc64g+U18VlmqqnjExX09k2X1uDnl6yOAVzl49dcTu3P8eA/tOb3DrsWc/gXOSW7cTF2HNCwxYC7P/yGbWxUjy7nfBIRzME4AOpFbRdNWuwx6Q3ij6HRQ388LWcLvAqrCkm48TqsytIcUP2ygLOL8buXjXJnTtJJ1vkJ1MVT+n7zDYx0iaRXg5ZygFGqwWfB1LnDlD1G630ofc7iEFzN5ZnIaizfiVov1qmvDC77YFQdEML6x8apFbnDntAxNBIhQxijwENcBIiWYF9N4sbtw7UsPNvR9DKEyzXXkFXWf3kyEL
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(1800799024)(376014)(366016)(13003099007)(6133799003)(3023799007)(56012099006)(10067099003)(11063799006)(4143699003)(12006099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(23010399003)(1800799024)(376014)(366016)(29003799003)(6133799003)(3023799007)(56012099006)(10067099003)(11063799006)(4143699003)(25016099003)(12006099003)(17002099007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?e9dmrnYW3C9U4kb8TGhM1qBt+0uWk3I2Zh/C9YPfGC9cbmx1K4F82t2TsMzA?=
- =?us-ascii?Q?XqJ6UYGYIZ4BBTRwwNTiMHB7fgP72I3SDonsvh1WA6S2qHSv0MSTB4xJyYgH?=
- =?us-ascii?Q?fm4YReiT91NnZtdyHBKyksnnEmmrTs/eey4Atno56vf56LTN3bZ/mAKg1nr1?=
- =?us-ascii?Q?1Z0H9JaZmF8gjMu9e52yGE8gLYxR/wPjk3mxARB65cGrj6WHawYMY0ztdsnU?=
- =?us-ascii?Q?8qj4ObUyKO+Y14VZTxWXio7ecsZ6POIyPppLmbRdj3TqHAtoc4DR9Vx6gSb0?=
- =?us-ascii?Q?Oon/G3fdvgzplSWw5vLPd9tAGmmdhXhEf7FlNwu6XZr6sCIVHn289wND2rW4?=
- =?us-ascii?Q?z1VXZEC3++1mh+2CTrELOgyDZMqcIUMXVm7DD1+1TKbiG853Y23+1IwHdVnU?=
- =?us-ascii?Q?JwcOX98+nOQTJ1f1cdj1TavG2xepNAV3yBo+oUFFhSq59eBnxouKSPyK7ow/?=
- =?us-ascii?Q?hU2+uX/YY4drSK1Tovr67peGlGz9FaAGyH00uiBavit9dFlU3HbTv7ZoGpyt?=
- =?us-ascii?Q?Iq8Gla4l5GvAtJQrhlsF/78QmCzl4nqFvopCxBu+90c2prZZK/OWDozUK64Y?=
- =?us-ascii?Q?NXRfqVVhQdDZWdkiA340RnVmuu93aymaZNKnno/n0ks/h2CStLt8qrjY8gVJ?=
- =?us-ascii?Q?rPKQpnytHn6lj9fp7Ui3zi2gJMR/eCjvmXVrVnGJds0qlzYAESW7G1DKElRs?=
- =?us-ascii?Q?GoREGCRvkPJVZKdokl5NVx2tH2AARaXtHGaRIRN7csBAFvPQGMCG5rAWMjHq?=
- =?us-ascii?Q?RS+WRJ8cWeoD8Cx1KWmIV62rE78sZdnXFSDHiwW/f1Gr84GF652xzE9uYLKi?=
- =?us-ascii?Q?VGaD0FgCW8abZfdKVtbjouGL2ouZlrMTImzYE+iGbfjdOs8aWyp6XvXzui43?=
- =?us-ascii?Q?NB4Y40n5EEcrVkr/2LdQ21uh8ZTV4ZTX1jJ6i4CuigqJgmmXRR9tHZpionye?=
- =?us-ascii?Q?yZSTb0DNs0q6Ce/Vs/UfZb7tvBwrWZQtLvYEMCQusV7M0pnL2ijTWoinUBoB?=
- =?us-ascii?Q?q9e6pyk+p31cxAP2XVdqQ1YzlZDZkf+q7G59c5tMjQE/1L2hCHsS2CSzfkWe?=
- =?us-ascii?Q?c/hA/tIIzkCnvU6P6AeSaOJ3SoxjeBIrLULFt7LLiFoObh1dSBX+OG6acvoK?=
- =?us-ascii?Q?JYv8gVYpgSRnd4S1axVTt/TuT5+LUytAXOGzeGrPJ2culkwOIBsvpaFEdLhC?=
- =?us-ascii?Q?ACFbyIBsTu7G27z0KIujCYn+ibwi8TYwr9KgOKaS03MTos/6YGGuHDemCuCd?=
- =?us-ascii?Q?p41dh40ouAT05EmL/XuZiDOKk19OqvrRcOhlGWjIK6Gdr+/kI9SAUV9sU9fQ?=
- =?us-ascii?Q?dg54a5sh9oD4XdzsYVD5/LxiiumVtU9qPSdC54zGV/VpcTbFKW1TwKjcLulz?=
- =?us-ascii?Q?w188Vve6jxxywSMW+fZkmOHynQXmFosWz/FEgBXDmq23doCZamLdH1mIxwMh?=
- =?us-ascii?Q?38UNwBGJqFBBuS5hmi8Ce4031AEb9c58/Z4XUyN8frZPvUijeOiEyjOcOBGu?=
- =?us-ascii?Q?p0TQ3SNR5vQ7tMuxI8GXd1DD9wZMGlhTwa+dYDLBwF1hjbcsIfhSxMjsi8bf?=
- =?us-ascii?Q?S8VEbpWeqtAdls2t0zn3nmidt31OfF0HyCdlEO+c93yLgXzKCnSjxe1HRSHv?=
- =?us-ascii?Q?+P5A/MWzTAU3TBy87TKV+9Rk1996gSA9khz/JUNUraxWxcye1WRqDqVIuGUl?=
- =?us-ascii?Q?XwVrHVkaPc+p8sh7FAxpmUw0TEpOHasx92LCQWIrWxoicZDtAMhIGoqLqWgN?=
- =?us-ascii?Q?Fc/O/X71PgjS8IHI8At702p74U6J6DKPIgDtj5rrZZbZY+Gm6gMviQoELSn8?=
-X-MS-Exchange-AntiSpam-MessageData-1: uDDIiSKzplwpY2OmIo7Ay7ZSt6dvcIhoqLw=
+	=?us-ascii?Q?ITxyqpdDGnSlfdkjcl2vIK3FEt5oyvoj/2u8d+mwA75KN4Nhq2Eu+6exHvZ+?=
+ =?us-ascii?Q?VfjXucBIAn2vzrC7EOcrB5eFsBsfJvTtANtc2UZHTeMn3mBoab2ZfhCm9M3P?=
+ =?us-ascii?Q?b1N5Gz1aYiqmKeIHKezRXrviN3vjhelXyxpgpUfOWJDDzEIdYifKA6NASwO+?=
+ =?us-ascii?Q?HrRoZRtkZy8ekMvXulqjhYHX/27o6uzuZaAlnMSTFH8mQ1KUTtFMmiOGeVYp?=
+ =?us-ascii?Q?EC1zgBXwGXOxElpxx4yisnWRj7LTM1kXsKHL4j9LwFttRLRSayne+XzF9HPU?=
+ =?us-ascii?Q?h2XIn+qnnH0gCRS0hTEdPT3NdGEIJU4ir/5p9fR7trQvUUexVTynUPbqZrA6?=
+ =?us-ascii?Q?iOhd2VpjOAKLLKYaXbSUkv7rC8NRA2xwAQyZoNAoKPY9eROEC9AhdfN685BQ?=
+ =?us-ascii?Q?lPiQKpoC7AJ5f1LkV0vjw9WaUR1h3lNacd16e3Wr204BWPBdetUix5z2Qg5q?=
+ =?us-ascii?Q?v5wtb8ograYIbN2ZJvD4TqA7zcv0mx44ag/xP/vRfxL6XRixayONYzi0Wtuk?=
+ =?us-ascii?Q?qxuMyRSiuvlyr0DBO9OeoM5NVNp5jK/+z7oj3Q1r52dhweVTYDX3Jx7uZJA5?=
+ =?us-ascii?Q?rKZsRqgOKFvHIiV1DgdOsS4xxh1tL+5gmPtndKhVJLg2Pc39pNQldxovzsLW?=
+ =?us-ascii?Q?nVKSvHq4/NCWcJGtmLstGhyV1ebrVxTpvmm0Xy5sgeOktQ1nmTgyLpSiOkiV?=
+ =?us-ascii?Q?mzb0Zs96RYr6+CpxcvmKpWfZ8ccsz7jlfFXRow15KUigrQXRzSALR8cweBqZ?=
+ =?us-ascii?Q?cLCEjcZZnWD/L1RRBibVnKJjcXuqIOvpOy6pO0EgdK+XQFDXUj15Sw8y3NyW?=
+ =?us-ascii?Q?aI+GSJJ2Em9fg8auKIWO7iRJaI83WuCkvWpLns2ITolcMmfh4+lCNW2f674B?=
+ =?us-ascii?Q?q7bmC1u/x0l6EIrzvOYKByYHIu4LJdLdgofnHLO113tc2Yjn9OUo6DWzGR6w?=
+ =?us-ascii?Q?zRgrwTs1PlvXdp+AhGmnjzLo0uyZUfLzANRheRNVsGCrIGVMyJ+HMCdsTnfF?=
+ =?us-ascii?Q?HeqddqXoIsUt+eyL3Gs3dfAa5eMYlfyItxOvSebZDXDj5QPMDOhbAidveabz?=
+ =?us-ascii?Q?XDizyj+CM06KeKkBnDVD7pedFl7peL72ACC/zgl44Reh0Y8z8PRIxj4jOkkz?=
+ =?us-ascii?Q?2dUEtf4UrQhWYifYxH/53dLlxCDm7QaiW6I5MRFda6mxlxWWXXORJR1iZD4/?=
+ =?us-ascii?Q?hLAiRdGivPZPZspKe7+ZdWhTBz4ZGGj9D1zTVslKGuvgu3d6xOX2kB9/AtYm?=
+ =?us-ascii?Q?ek81NITqSBrW7rQvsGUv23zw2cczradO0POmZ6/bSVsHJ+8WvirtVqDft4Za?=
+ =?us-ascii?Q?g1gC8y/erBE8IPk6UCUApRbwF76dMBwpAVW2b823prVfGKnnOle0W2wDiNuU?=
+ =?us-ascii?Q?dqM3CoSBXB/DzbgF/D93f4vb3huoHjgll84xTXfYzTB3JxjUmaYMbl0tAhGE?=
+ =?us-ascii?Q?i959cRcoyH5i3epc1r5efLEF0v1ncQU9Xo4mMNY/ZXAm9YhkKcvMZBmhhAfL?=
+ =?us-ascii?Q?0NUCU3wmQQ0mCNfK0LnswsgEEdIjg2706uqnR90SDta2+GGds30su1113VTz?=
+ =?us-ascii?Q?Ze4xD3rqDEKVJYj9OWDTYr2CTgyL4WLrBufTOGb9p0Kyt0ER2muRq6t4DjKs?=
+ =?us-ascii?Q?pAgrOM1dv6qGUB9ST1mluUXyISJifJpiDqY5CUVQBvcAVwRLsHavT+9uG6mU?=
+ =?us-ascii?Q?aUDDzb5sHxYm8X6hxrRhC5LBarx29QiNnO9wxAV/mIsJR0LkbGuzDW8Icb2n?=
+ =?us-ascii?Q?M2IwHFhemoDjLr0Z1zHa3JqdphkTuHYG6y2bIF9nx3i4D4yTXcZZjsPZEWqO?=
+X-MS-Exchange-AntiSpam-MessageData-1: P/xXfjhU3gqVAVI5aC1zFroRwAWTTAVhi3Q=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: d64b71c6-bac0-4ac2-cc5b-08df0076133b
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0570f98c-11ab-4cfc-3ee9-08df00761284
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2026 17:52:03.9801
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Aug 2026 17:52:02.7927
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bEhBqDFd/mNVw1gnjLJJzmS1I09PjLyGIEt695Ff0SjcQTscjVdJdzZvNVsIYbSIVuKNScWM6f551RNnoXurs8UDLPhx8aIbC4+E4BxVRvY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: QUmYdY6gqWx4h5wYulVLKKMAyeC7z39XUA7CDaL0C8AOVEehK9BhpOHNDVl+hSnVGXMzq14KEjvMn69YwlVwKzuo7ZSJsaka2q0Os7HkqkQ=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0P189MB0641
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 17:52:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243994
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243993
 
-Backport CPython commit 3364e7e62fa24d0e19133fb0f90b1c24ef1110c5:
+Upgrade OpenSSL from 3.5.7 to 4.0.1. This is a major version upgrade.
 
-    gh-146207: Add support for OpenSSL 4.0.0 alpha1 (#146217)
+Changelog: https://github.com/openssl/openssl/blob/openssl-4.0.1/CHANGES.md
 
-    OpenSSL 4.0.0 alpha1 removed these functions:
+New CVE fixes not already in 3.5.7:
+  * CVE-2026-28386: Fixed OOB read in AES-CFB-128 on x86-64 with AVX-512
+  * CVE-2026-35188: Fixed double-free when checking OCSP stapled response
+  * CVE-2026-42765: Fixed NULL deref in cert verification with OCSP
+  * CVE-2026-42771: Fixed OOB read in X509_VERIFY_PARAM_set1_email()
 
-    * SSLv3_method()
-    * TLSv1_method()
-    * TLSv1_1_method()
-    * TLSv1_2_method()
+Major breaking changes in 4.0.0:
+  * Removed support for engines. The ENGINE API is fully removed.
+  * Removed support for SSLv3. SSLv3 has been deprecated since 2015.
+  * Removed support for the SSLv2 Client Hello.
+  * Removed per-version TLS method functions (SSLv3_method(),
+    TLSv1_method(), TLSv1_1_method(), TLSv1_2_method()).
+  * Removed c_rehash script tool. Use 'openssl rehash' instead.
+  * ASN1_STRING has been made opaque.
+  * Numerous API function signatures changed to include const qualifiers.
+  * libcrypto no longer cleans up globally allocated data via atexit().
+  * Added AKID verification checks when X509_V_FLAG_X509_STRICT is set.
+  * Support of deprecated elliptic curves in TLS disabled at compile-time
+    by default.
 
-    Other changes:
+Recipe changes:
+  * Drop 0001-Added-handshake-history-reporting-when-test-fails.patch
+    (merged upstream via PR #22481).
+  * Refresh remaining patches against the new version.
+  * Remove ENGINE API artifacts: engines package, dasync.so/ossltest.so
+    ptest installation, ENGINESDIR references, OPENSSL_ENGINES wrapper
+    variable, and cryptodev-linux PACKAGECONFIG.
 
-    * Update test_openssl_version().
-    * Update multissltests.py for OpenSSL 4.
-    * Add const qualifier to fix compiler warnings.
+Tested: ptest on qemux86-64:
+  Files=3D362, Tests=3D4310, Result: PASS
+  Passed: 338, Skipped: 24 (fips, lms, rc5, tfo, compression,
+  sslversions, sslkeylogfile, external tests - all expected)
+  Failed: 0
 
-    Co-authored-by: B=C3=A9n=C3=A9dikt Tran <10796600+picnixz@users.noreply=
-.github.com>
-
-Upstream-Status: Backport [https://github.com/python/cpython/commit/3364e7e=
-62fa24d0e19133fb0f90b1c24ef1110c5]
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...146207-Add-support-for-OpenSSL-4.0.0.patch | 257 ++++++++++++++++++
- ...Update-_ssl._SSLSocket-for-OpenSSL-4.patch | 234 ++++++++++++++++
- ...utdown-test-in-test_ssl.test_got_eof.patch |  41 +++
- .../recipes-devtools/python/python3_3.14.7.bb |   3 +
- 4 files changed, 535 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/0001-gh-146207-Add=
--support-for-OpenSSL-4.0.0.patch
- create mode 100644 meta/recipes-devtools/python/python3/0002-gh-148292-Upd=
-ate-_ssl._SSLSocket-for-OpenSSL-4.patch
- create mode 100644 meta/recipes-devtools/python/python3/0003-gh-148292-Rem=
-ove-shutdown-test-in-test_ssl.test_got_eof.patch
+ ...ke-history-reporting-when-test-fails.patch | 366 ------------------
+ ...1-Configure-do-not-tweak-mips-cflags.patch |   6 +-
+ ...sysroot-and-debug-prefix-map-from-co.patch |  11 +-
+ .../0001-extend-check_cwm-test-timeout.patch  |   4 +-
+ .../{openssl_3.5.7.bb =3D> openssl_4.0.1.bb}    |  28 +-
+ 5 files changed, 18 insertions(+), 397 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/openssl/openssl/0001-Added-ha=
+ndshake-history-reporting-when-test-fails.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.5.7.bb =3D> openssl_4.=
+0.1.bb} (87%)
 
-diff --git a/meta/recipes-devtools/python/python3/0001-gh-146207-Add-suppor=
-t-for-OpenSSL-4.0.0.patch b/meta/recipes-devtools/python/python3/0001-gh-14=
-6207-Add-support-for-OpenSSL-4.0.0.patch
-new file mode 100644
-index 0000000000..bef6044358
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0001-gh-146207-Add-support-for-O=
-penSSL-4.0.0.patch
-@@ -0,0 +1,257 @@
-+From 3364e7e62fa24d0e19133fb0f90b1c24ef1110c5 Mon Sep 17 00:00:00 2001
-+From: Victor Stinner <vstinner@python.org>
-+Date: Wed, 25 Mar 2026 07:44:47 +0100
-+Subject: [PATCH] gh-146207: Add support for OpenSSL 4.0.0 alpha1 (#146217)
-+
-+OpenSSL 4.0.0 alpha1 removed these functions:
-+
-+* SSLv3_method()
-+* TLSv1_method()
-+* TLSv1_1_method()
-+* TLSv1_2_method()
-+
-+Other changes:
-+
-+* Update test_openssl_version().
-+* Update multissltests.py for OpenSSL 4.
-+* Add const qualifier to fix compiler warnings.
-+
-+Co-authored-by: B=C3=A9n=C3=A9dikt Tran <10796600+picnixz@users.noreply.gi=
-thub.com>
-+Signed-off-by: Victor Stinner <vstinner@python.org>
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/3364e7=
-e62fa24d0e19133fb0f90b1c24ef1110c5]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ Lib/test/test_ssl.py       | 52 ++++++++++++++++++++------------------
-+ Modules/_ssl.c             | 27 ++++++++++++++++----
-+ Modules/_ssl/cert.c        |  3 ++-
-+ Tools/ssl/multissltests.py |  7 ++++-
-+ 4 files changed, 58 insertions(+), 31 deletions(-)
-+
-+diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
-+index dc795c6bd8a..61355927296 100644
-+--- a/Lib/test/test_ssl.py
-++++ b/Lib/test/test_ssl.py
-+@@ -395,7 +395,7 @@ def test_constants(self):
-+         ssl.OP_NO_COMPRESSION
-+         self.assertEqual(ssl.HAS_SNI, True)
-+         self.assertEqual(ssl.HAS_ECDH, True)
-+-        self.assertEqual(ssl.HAS_TLSv1_2, True)
-++        self.assertIsInstance(ssl.HAS_TLSv1_2, bool)
-+         self.assertEqual(ssl.HAS_TLSv1_3, True)
-+         ssl.OP_NO_SSLv2
-+         ssl.OP_NO_SSLv3
-+@@ -586,11 +586,11 @@ def test_openssl_version(self):
-+         # Some sanity checks follow
-+         # >=3D 1.1.1
-+         self.assertGreaterEqual(n, 0x10101000)
-+-        # < 4.0
-+-        self.assertLess(n, 0x40000000)
-++        # < 5.0
-++        self.assertLess(n, 0x50000000)
-+         major, minor, fix, patch, status =3D t
-+         self.assertGreaterEqual(major, 1)
-+-        self.assertLess(major, 4)
-++        self.assertLess(major, 5)
-+         self.assertGreaterEqual(minor, 0)
-+         self.assertLess(minor, 256)
-+         self.assertGreaterEqual(fix, 0)
-+@@ -656,12 +656,14 @@ def test_openssl111_deprecations(self):
-+             ssl.OP_NO_TLSv1_2,
-+             ssl.OP_NO_TLSv1_3
-+         ]
-+-        protocols =3D [
-+-            ssl.PROTOCOL_TLSv1,
-+-            ssl.PROTOCOL_TLSv1_1,
-+-            ssl.PROTOCOL_TLSv1_2,
-+-            ssl.PROTOCOL_TLS
-+-        ]
-++        protocols =3D []
-++        if hasattr(ssl, 'PROTOCOL_TLSv1'):
-++            protocols.append(ssl.PROTOCOL_TLSv1)
-++        if hasattr(ssl, 'PROTOCOL_TLSv1_1'):
-++            protocols.append(ssl.PROTOCOL_TLSv1_1)
-++        if hasattr(ssl, 'PROTOCOL_TLSv1_2'):
-++            protocols.append(ssl.PROTOCOL_TLSv1_2)
-++        protocols.append(ssl.PROTOCOL_TLS)
-+         versions =3D [
-+             ssl.TLSVersion.SSLv3,
-+             ssl.TLSVersion.TLSv1,
-+@@ -1205,6 +1207,7 @@ def test_min_max_version(self):
-+                 ssl.TLSVersion.TLSv1,
-+                 ssl.TLSVersion.TLSv1_1,
-+                 ssl.TLSVersion.TLSv1_2,
-++                ssl.TLSVersion.TLSv1_3,
-+                 ssl.TLSVersion.SSLv3,
-+             }
-+         )
-+@@ -1218,7 +1221,7 @@ def test_min_max_version(self):
-+         with self.assertRaises(ValueError):
-+             ctx.minimum_version =3D 42
-+=20
-+-        if has_tls_protocol(ssl.PROTOCOL_TLSv1_1):
-++        if has_tls_protocol('PROTOCOL_TLSv1_1'):
-+             ctx =3D ssl.SSLContext(ssl.PROTOCOL_TLSv1_1)
-+=20
-+             self.assertIn(
-+@@ -1675,23 +1678,24 @@ def test__create_stdlib_context(self):
-+         self.assertFalse(ctx.check_hostname)
-+         self._assert_context_options(ctx)
-+=20
-+-        if has_tls_protocol(ssl.PROTOCOL_TLSv1):
-++        if has_tls_protocol('PROTOCOL_TLSv1'):
-+             with warnings_helper.check_warnings():
-+                 ctx =3D ssl._create_stdlib_context(ssl.PROTOCOL_TLSv1)
-+             self.assertEqual(ctx.protocol, ssl.PROTOCOL_TLSv1)
-+             self.assertEqual(ctx.verify_mode, ssl.CERT_NONE)
-+             self._assert_context_options(ctx)
-+=20
-+-        with warnings_helper.check_warnings():
-+-            ctx =3D ssl._create_stdlib_context(
-+-                ssl.PROTOCOL_TLSv1_2,
-+-                cert_reqs=3Dssl.CERT_REQUIRED,
-+-                check_hostname=3DTrue
-+-            )
-+-        self.assertEqual(ctx.protocol, ssl.PROTOCOL_TLSv1_2)
-+-        self.assertEqual(ctx.verify_mode, ssl.CERT_REQUIRED)
-+-        self.assertTrue(ctx.check_hostname)
-+-        self._assert_context_options(ctx)
-++        if has_tls_protocol('PROTOCOL_TLSv1_2'):
-++            with warnings_helper.check_warnings():
-++                ctx =3D ssl._create_stdlib_context(
-++                    ssl.PROTOCOL_TLSv1_2,
-++                    cert_reqs=3Dssl.CERT_REQUIRED,
-++                    check_hostname=3DTrue
-++                )
-++            self.assertEqual(ctx.protocol, ssl.PROTOCOL_TLSv1_2)
-++            self.assertEqual(ctx.verify_mode, ssl.CERT_REQUIRED)
-++            self.assertTrue(ctx.check_hostname)
-++            self._assert_context_options(ctx)
-+=20
-+         ctx =3D ssl._create_stdlib_context(purpose=3Dssl.Purpose.CLIENT_A=
-UTH)
-+         self.assertEqual(ctx.protocol, ssl.PROTOCOL_TLS_SERVER)
-+@@ -3654,10 +3658,10 @@ def test_protocol_tlsv1_2(self):
-+                            client_options=3Dssl.OP_NO_TLSv1_2)
-+=20
-+         try_protocol_combo(ssl.PROTOCOL_TLS, ssl.PROTOCOL_TLSv1_2, 'TLSv1=
-.2')
-+-        if has_tls_protocol(ssl.PROTOCOL_TLSv1):
-++        if has_tls_protocol('PROTOCOL_TLSv1'):
-+             try_protocol_combo(ssl.PROTOCOL_TLSv1_2, ssl.PROTOCOL_TLSv1, =
-False)
-+             try_protocol_combo(ssl.PROTOCOL_TLSv1, ssl.PROTOCOL_TLSv1_2, =
-False)
-+-        if has_tls_protocol(ssl.PROTOCOL_TLSv1_1):
-++        if has_tls_protocol('PROTOCOL_TLSv1_1'):
-+             try_protocol_combo(ssl.PROTOCOL_TLSv1_2, ssl.PROTOCOL_TLSv1_1=
-, False)
-+             try_protocol_combo(ssl.PROTOCOL_TLSv1_1, ssl.PROTOCOL_TLSv1_2=
-, False)
-+=20
-+diff --git a/Modules/_ssl.c b/Modules/_ssl.c
-+index b45295b4c0c..6f75af86113 100644
-+--- a/Modules/_ssl.c
-++++ b/Modules/_ssl.c
-+@@ -164,6 +164,17 @@ static void _PySSLFixErrno(void) {
-+ #error Unsupported OpenSSL version
-+ #endif
-+=20
-++#if (OPENSSL_VERSION_NUMBER >=3D 0x40000000L)
-++#  define OPENSSL_NO_SSL3
-++#  define OPENSSL_NO_TLS1
-++#  define OPENSSL_NO_TLS1_1
-++#  define OPENSSL_NO_TLS1_2
-++#  define OPENSSL_NO_SSL3_METHOD
-++#  define OPENSSL_NO_TLS1_METHOD
-++#  define OPENSSL_NO_TLS1_1_METHOD
-++#  define OPENSSL_NO_TLS1_2_METHOD
-++#endif
-++
-+ /* OpenSSL API 1.1.0+ does not include version methods */
-+ #ifndef OPENSSL_NO_SSL3_METHOD
-+ extern const SSL_METHOD *SSLv3_method(void);
-+@@ -1151,7 +1162,7 @@ _asn1obj2py(_sslmodulestate *state, const ASN1_OBJEC=
-T *name, int no_name)
-+=20
-+ static PyObject *
-+ _create_tuple_for_attribute(_sslmodulestate *state,
-+-                            ASN1_OBJECT *name, ASN1_STRING *value)
-++                            const ASN1_OBJECT *name, const ASN1_STRING *v=
-alue)
-+ {
-+     Py_ssize_t buflen;
-+     PyObject *pyattr;
-+@@ -1180,16 +1191,16 @@ _create_tuple_for_attribute(_sslmodulestate *state=
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake=
+-history-reporting-when-test-fails.patch b/meta/recipes-connectivity/openss=
+l/openssl/0001-Added-handshake-history-reporting-when-test-fails.patch
+deleted file mode 100644
+index a74c79303f..0000000000
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-histor=
+y-reporting-when-test-fails.patch
++++ /dev/null
+@@ -1,366 +0,0 @@
+-From 5ba65051fea0513db0d997f0ab7cafb9826ed74a Mon Sep 17 00:00:00 2001
+-From: William Lyu <William.Lyu@windriver.com>
+-Date: Fri, 20 Oct 2023 16:22:37 -0400
+-Subject: [PATCH] Added handshake history reporting when test fails
+-
+-Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/22481]
+-
+-Signed-off-by: William Lyu <William.Lyu@windriver.com>
+----
+- test/helpers/handshake.c | 136 ++++++++++++++++++++++++++++++---------
+- test/helpers/handshake.h |  70 +++++++++++++++++++-
+- test/ssl_test.c          |  44 +++++++++++++
+- 3 files changed, 217 insertions(+), 33 deletions(-)
+-
+-diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
+-index f611b3a..5703b48 100644
+---- a/test/helpers/handshake.c
+-+++ b/test/helpers/handshake.c
+-@@ -25,6 +25,102 @@
+- #include <netinet/sctp.h>
+- #endif
+-=20
+-+/* Shamelessly copied from test/helpers/ssl_test_ctx.c */
+-+/* Maps string names to various enumeration type */
+-+typedef struct {
+-+    const char *name;
+-+    int value;
+-+} enum_name_map;
+-+
+-+static const enum_name_map connect_phase_names[] =3D {
+-+    {"Handshake", HANDSHAKE},
+-+    {"RenegAppData", RENEG_APPLICATION_DATA},
+-+    {"RenegSetup", RENEG_SETUP},
+-+    {"RenegHandshake", RENEG_HANDSHAKE},
+-+    {"AppData", APPLICATION_DATA},
+-+    {"Shutdown", SHUTDOWN},
+-+    {"ConnectionDone", CONNECTION_DONE}
+-+};
+-+
+-+static const enum_name_map peer_status_names[] =3D {
+-+    {"PeerSuccess", PEER_SUCCESS},
+-+    {"PeerRetry", PEER_RETRY},
+-+    {"PeerError", PEER_ERROR},
+-+    {"PeerWaiting", PEER_WAITING},
+-+    {"PeerTestFail", PEER_TEST_FAILURE}
+-+};
+-+
+-+static const enum_name_map handshake_status_names[] =3D {
+-+    {"HandshakeSuccess", HANDSHAKE_SUCCESS},
+-+    {"ClientError", CLIENT_ERROR},
+-+    {"ServerError", SERVER_ERROR},
+-+    {"InternalError", INTERNAL_ERROR},
+-+    {"HandshakeRetry", HANDSHAKE_RETRY}
+-+};
+-+
+-+/* Shamelessly copied from test/helpers/ssl_test_ctx.c */
+-+static const char *enum_name(const enum_name_map *enums, size_t num_enums=
 ,
-+ }
-+=20
-+ static PyObject *
-+-_create_tuple_for_X509_NAME (_sslmodulestate *state, X509_NAME *xname)
-++_create_tuple_for_X509_NAME(_sslmodulestate *state, const X509_NAME *xnam=
-e)
-+ {
-+     PyObject *dn =3D NULL;    /* tuple which represents the "distinguishe=
-d name" */
-+     PyObject *rdn =3D NULL;   /* tuple to hold a "relative distinguished =
-name" */
-+     PyObject *rdnt;
-+     PyObject *attr =3D NULL;   /* tuple to hold an attribute */
-+     int entry_count =3D X509_NAME_entry_count(xname);
-+-    X509_NAME_ENTRY *entry;
-+-    ASN1_OBJECT *name;
-+-    ASN1_STRING *value;
-++    const X509_NAME_ENTRY *entry;
-++    const ASN1_OBJECT *name;
-++    const ASN1_STRING *value;
-+     int index_counter;
-+     int rdn_level =3D -1;
-+     int retcode;
-+@@ -6967,9 +6978,15 @@ sslmodule_init_constants(PyObject *m)
-+     ADD_INT_CONST("PROTOCOL_TLS", PY_SSL_VERSION_TLS);
-+     ADD_INT_CONST("PROTOCOL_TLS_CLIENT", PY_SSL_VERSION_TLS_CLIENT);
-+     ADD_INT_CONST("PROTOCOL_TLS_SERVER", PY_SSL_VERSION_TLS_SERVER);
-++#ifndef OPENSSL_NO_TLS1
-+     ADD_INT_CONST("PROTOCOL_TLSv1", PY_SSL_VERSION_TLS1);
-++#endif
-++#ifndef OPENSSL_NO_TLS1_1
-+     ADD_INT_CONST("PROTOCOL_TLSv1_1", PY_SSL_VERSION_TLS1_1);
-++#endif
-++#ifndef OPENSSL_NO_TLS1_2
-+     ADD_INT_CONST("PROTOCOL_TLSv1_2", PY_SSL_VERSION_TLS1_2);
-++#endif
-+=20
-+ #define ADD_OPTION(NAME, VALUE) if (sslmodule_add_option(m, NAME, (VALUE)=
-) < 0) return -1
-+=20
-+diff --git a/Modules/_ssl/cert.c b/Modules/_ssl/cert.c
-+index f2e7be89668..061b0fb3171 100644
-+--- a/Modules/_ssl/cert.c
-++++ b/Modules/_ssl/cert.c
-+@@ -128,7 +128,8 @@ _ssl_Certificate_get_info_impl(PySSLCertificate *self)
-+ }
-+=20
-+ static PyObject*
-+-_x509name_print(_sslmodulestate *state, X509_NAME *name, int indent, unsi=
-gned long flags)
-++_x509name_print(_sslmodulestate *state, const X509_NAME *name,
-++                int indent, unsigned long flags)
-+ {
-+     PyObject *res;
-+     BIO *biobuf;
-+diff --git a/Tools/ssl/multissltests.py b/Tools/ssl/multissltests.py
-+index 3b4507c6771..48207e5330f 100755
-+--- a/Tools/ssl/multissltests.py
-++++ b/Tools/ssl/multissltests.py
-+@@ -429,9 +429,11 @@ def _post_install(self):
-+     def _post_install(self):
-+         if self.version.startswith("3."):
-+             self._post_install_3xx()
-++        elif self.version.startswith("4."):
-++            self._post_install_4xx()
-+=20
-+     def _build_src(self, config_args=3D()):
-+-        if self.version.startswith("3."):
-++        if self.version.startswith(("3.", "4.")):
-+             config_args +=3D ("enable-fips",)
-+         super()._build_src(config_args)
-+=20
-+@@ -447,6 +449,9 @@ def _post_install_3xx(self):
-+             lib64 =3D self.lib_dir + "64"
-+             os.symlink(lib64, self.lib_dir)
-+=20
-++    def _post_install_4xx(self):
-++        self._post_install_3xx()
-++
-+     @property
-+     def short_version(self):
-+         """Short version for OpenSSL download URL"""
-+--=20
-+2.25.1
-+
-diff --git a/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_ss=
-l._SSLSocket-for-OpenSSL-4.patch b/meta/recipes-devtools/python/python3/000=
-2-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patch
-new file mode 100644
-index 0000000000..587f141dd4
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0002-gh-148292-Update-_ssl._SSLS=
-ocket-for-OpenSSL-4.patch
-@@ -0,0 +1,234 @@
-+From 3c2a3014af7d73cc34f2498f60fdf863d9bc7c6c Mon Sep 17 00:00:00 2001
-+From: Victor Stinner <vstinner@python.org>
-+Date: Mon, 4 May 2026 13:52:57 +0200
-+Subject: [PATCH] gh-148292: Update _ssl._SSLSocket for OpenSSL 4 (#149102)
-+
-+The _SSLSocket object now remembers if it gets an EOF error. In this
-+case, read(), sendfile(), write() and do_handshake method calls fail
-+with SSLEOFError without calling the underlying OpenSSL function.
-+
-+Co-authored-by: Gregory P. Smith <greg@krypto.org>
-+(cherry picked from commit 7b7fa3f9bf3d7cdf3eb669d02b386e05b39c402a)
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/3c2a30=
-14af7d]
-+
-+Note: This is from the unmerged CPython PR #149783 which backports
-+OpenSSL 4.0 support to the 3.14 branch. Upstream deferred merging
-+until after Python 3.15.1 is released.
-+
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ Lib/test/test_ssl.py                          | 82 +++++++++++++++++++
-+ ...-04-28-17-47-55.gh-issue-148292.oIq3ml.rst |  7 ++
-+ Modules/_ssl.c                                | 42 ++++++++++
-+ 3 files changed, 131 insertions(+)
-+ create mode 100644 Misc/NEWS.d/next/Library/2026-04-28-17-47-55.gh-issue-=
-148292.oIq3ml.rst
-+
-+diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
-+index 965dbc36f096499..03d9e3f9e5e96b5 100644
-+--- a/Lib/test/test_ssl.py
-++++ b/Lib/test/test_ssl.py
-+@@ -2711,6 +2711,36 @@ def close(self):
-+     def stop(self):
-+         self.active =3D False
-+=20
-++class TestEOFServer(threading.Thread):
-++    def __init__(self):
-++        super().__init__()
-++        self.listening =3D threading.Event()
-++        self.address =3D None
-++
-++    def run(self):
-++        context =3D ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-++        context.load_cert_chain(CERTFILE)
-++        server_sock =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-++        with server_sock:
-++            server_sock.settimeout(support.SHORT_TIMEOUT)
-++            server_sock.bind((HOST, 0))
-++            server_sock.listen(5)
-++
-++            self.address =3D server_sock.getsockname()
-++            self.listening.set()
-++
-++            sock, addr =3D server_sock.accept()
-++            sslconn =3D context.wrap_socket(sock, server_side=3DTrue)
-++            with sslconn:
-++                request =3D b''
-++                while chunk :=3D sslconn.recv(1024):
-++                    request +=3D chunk
-++                    if b'\n' in chunk:
-++                        break
-++
-++                sslconn.sendall(b'server\n')
-++                sslconn.shutdown(socket.SHUT_WR)
-++
-+ class AsyncoreEchoServer(threading.Thread):
-+=20
-+     # this one's based on asyncore.dispatcher
-+@@ -4747,6 +4777,58 @@ def background(sock):
-+                     if cm.exc_value is not None:
-+                         raise cm.exc_value
-+=20
-++    def test_got_eof(self):
-++        # gh-148292: Test that _ssl._SSLSocket behaves the same on all Op=
-enSSL
-++        # versions on calling methods after EOF (after the first SSLEOFEr=
-ror).
-++
-++        server =3D TestEOFServer()
-++        server.start()
-++        if not server.listening.wait(support.SHORT_TIMEOUT):
-++            raise RuntimeError("server took too long")
-++        self.addCleanup(server.join)
-++
-++        context =3D ssl.create_default_context(cafile=3DCERTFILE)
-++        sock =3D socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-++        sock.settimeout(support.SHORT_TIMEOUT)
-++        sock.connect(server.address)
-++        sslsock =3D context.wrap_socket(sock, server_hostname=3D'localhos=
-t')
-++        with sslsock:
-++            sslsock.sendall(b'client\n')
-++            # test the _ssl._SSLSocket object, not ssl.SSLSocket
-++            sslobj =3D sslsock._sslobj
-++
-++            data =3D sslobj.read(1024)
-++            self.assertEqual(data, b'server\n')
-++
-++            # The second read gets EOF error and sets got_eof_error to 1
-++            with self.assertRaises(ssl.SSLEOFError):
-++                sslobj.read(1024)
-++
-++            # Following read(), sendfile(), write() and do_handshake() ca=
-lls
-++            # must raise SSLEOFError
-++            with self.assertRaises(ssl.SSLEOFError):
-++                # The _SSLSocket remembers the previous EOF error
-++                # and raises again SSLEOFError
-++                sslobj.read(1024)
-++            if hasattr(sslobj, 'sendfile'):
-++                with open(__file__, "rb") as fp:
-++                    with self.assertRaises(ssl.SSLEOFError):
-++                        sslobj.sendfile(fp.fileno(), 0, 1)
-++            with self.assertRaises(ssl.SSLEOFError):
-++                sslobj.write(b'client2\n')
-++            with self.assertRaises(ssl.SSLEOFError):
-++                sslsock.do_handshake()
-++
-++            self.assertEqual(sslsock.pending(), 0)
-++            try:
-++                sslsock.shutdown(socket.SHUT_WR)
-++            except OSError as exc:
-++                self.assertEqual(exc.errno, errno.ENOTCONN)
-++            else:
-++                # On Windows and on OpenSSL 1.1.1, shutdown() doesn't
-++                # raise an error
-++                pass
-++
-+=20
-+ @unittest.skipUnless(has_tls_version('TLSv1_3') and ssl.HAS_PHA,
-+                      "Test needs TLS 1.3 PHA")
-+diff --git a/Misc/NEWS.d/next/Library/2026-04-28-17-47-55.gh-issue-148292.=
-oIq3ml.rst b/Misc/NEWS.d/next/Library/2026-04-28-17-47-55.gh-issue-148292.o=
-Iq3ml.rst
-+new file mode 100644
-+index 000000000000000..e1f308df5a678e6
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Library/2026-04-28-17-47-55.gh-issue-148292.oIq3ml.=
-rst
-+@@ -0,0 +1,7 @@
-++:mod:`ssl`: Update :class:`ssl.SSLSocket` and :class:`ssl.SSLObject` for
-++OpenSSL 4. The classes now remember if they get a :exc:`ssl.SSLEOFError`.=
- In this
-++case, following :meth:`~ssl.SSLSocket.read`, :meth:`!sendfile`,
-++:meth:`~ssl.SSLSocket.write`, and :meth:`~ssl.SSLSocket.do_handshake` cal=
-ls
-++raise :exc:`ssl.SSLEOFError` without calling the underlying OpenSSL funct=
-ion.
-++Thanks to that, :class:`ssl.SSLSocket` behaves the same on all OpenSSL ve=
-rsions
-++on EOF.  Patch by Victor Stinner.
-+diff --git a/Modules/_ssl.c b/Modules/_ssl.c
-+index 1603d0ffd559559..376df32b7cb4bd6 100644
-+--- a/Modules/_ssl.c
-++++ b/Modules/_ssl.c
-+@@ -352,6 +352,16 @@ typedef struct {
-+      * and shutdown methods check for chained exceptions.
-+      */
-+     PyObject *exc;
-++    // gh-148292: If non-zero, read(), sendfile(), write() and do_handsha=
-ke()
-++    // methods raise SSLEOFError without calling the underlying OpenSSL
-++    // function. Set to 1 on PY_SSL_ERROR_EOF error.
-++    //
-++    // On OpenSSL 4, if SSL_read_ex() fails with
-++    // SSL_R_UNEXPECTED_EOF_WHILE_READING, the following SSL_read_ex() ca=
-ll
-++    // fails with a generic protocol error (ERR_peek_last_error() returns=
- 0).
-++    // Use got_eof_error to have the same behavior on OpenSSL 4 and newer=
- and
-++    // on OpenSSL 3 and older.
-++    int got_eof_error;
-+ } PySSLSocket;
-+=20
-+ #define PySSLSocket_CAST(op)    ((PySSLSocket *)(op))
-+@@ -499,6 +509,10 @@ fill_and_set_sslerror(_sslmodulestate *state,
-+     PyObject *init_value, *msg, *key;
-+     PyUnicodeWriter *writer =3D NULL;
-+=20
-++    if (ssl_errno =3D=3D PY_SSL_ERROR_EOF && sslsock !=3D NULL) {
-++        sslsock->got_eof_error =3D 1;
-++    }
-++
-+     if (errcode !=3D 0) {
-+         int lib, reason;
-+=20
-+@@ -654,6 +668,18 @@ PySSL_ChainExceptions(PySSLSocket *sslsock) {
-+     return -1;
-+ }
-+=20
-++
-++static void
-++set_eof_error(PySSLSocket *sslsock)
-++{
-++    _sslmodulestate *state =3D get_state_sock(sslsock);
-++    fill_and_set_sslerror(state, sslsock, state->PySSLEOFErrorObject,
-++                          PY_SSL_ERROR_EOF,
-++                          "EOF occurred in violation of protocol",
-++                          __LINE__, 0);
-++}
-++
-++
-+ static PyObject *
-+ PySSL_SetError(PySSLSocket *sslsock, const char *filename, int lineno)
-+ {
-+@@ -901,6 +927,7 @@ newPySSLSocket(PySSLContext *sslctx, PySocketSockObjec=
-t *sock,
-+     self->server_hostname =3D NULL;
-+     self->err =3D err;
-+     self->exc =3D NULL;
-++    self->got_eof_error =3D 0;
-+=20
-+     /* Make sure the SSL error state is initialized */
-+     ERR_clear_error();
-+@@ -1041,6 +1068,11 @@ _ssl__SSLSocket_do_handshake_impl(PySSLSocket *self=
+-+                             int value)
+-+{
+-+    size_t i;
+-+    for (i =3D 0; i < num_enums; i++) {
+-+        if (enums[i].value =3D=3D value) {
+-+            return enums[i].name;
+-+        }
+-+    }
+-+    return "InvalidValue";
+-+}
+-+
+-+const char *handshake_connect_phase_name(connect_phase_t phase)
+-+{
+-+    return enum_name(connect_phase_names, OSSL_NELEM(connect_phase_names)=
+,
+-+                     (int)phase);
+-+}
+-+
+-+const char *handshake_status_name(handshake_status_t handshake_status)
+-+{
+-+    return enum_name(handshake_status_names, OSSL_NELEM(handshake_status_=
+names),
+-+                     (int)handshake_status);
+-+}
+-+
+-+const char *handshake_peer_status_name(peer_status_t peer_status)
+-+{
+-+    return enum_name(peer_status_names, OSSL_NELEM(peer_status_names),
+-+                     (int)peer_status);
+-+}
+-+
+-+static void save_loop_history(HANDSHAKE_HISTORY *history,
+-+                              connect_phase_t phase,
+-+                              handshake_status_t handshake_status,
+-+                              peer_status_t server_status,
+-+                              peer_status_t client_status,
+-+                              int client_turn_count,
+-+                              int is_client_turn)
+-+{
+-+    HANDSHAKE_HISTORY_ENTRY *new_entry =3D NULL;
+-+
+-+    /*
+-+     * Create a new history entry for a handshake loop with statuses give=
+n in
+-+     * the arguments. Potentially evicting the oldest entry when the
+-+     * ring buffer is full.
+-+     */
+-+    ++(history->last_idx);
+-+    history->last_idx &=3D MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK;
+-+
+-+    new_entry =3D &((history->entries)[history->last_idx]);
+-+    new_entry->phase =3D phase;
+-+    new_entry->handshake_status =3D handshake_status;
+-+    new_entry->server_status =3D server_status;
+-+    new_entry->client_status =3D client_status;
+-+    new_entry->client_turn_count =3D client_turn_count;
+-+    new_entry->is_client_turn =3D is_client_turn;
+-+
+-+    /* Evict the oldest handshake loop entry when the ring buffer is full=
+. */
+-+    if (history->entry_count < MAX_HANDSHAKE_HISTORY_ENTRY) {
+-+        ++(history->entry_count);
+-+    }
+-+}
+-+
+- HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void)
+- {
+-     HANDSHAKE_RESULT *ret;
+-@@ -724,15 +820,6 @@ static void configure_handshake_ssl(SSL *server, SSL =
+*client,
+-         SSL_set_post_handshake_auth(client, 1);
+- }
+-=20
+--/* The status for each connection phase. */
+--typedef enum {
+--    PEER_SUCCESS,
+--    PEER_RETRY,
+--    PEER_ERROR,
+--    PEER_WAITING,
+--    PEER_TEST_FAILURE
+--} peer_status_t;
+--
+- /* An SSL object and associated read-write buffers. */
+- typedef struct peer_st {
+-     SSL *ssl;
+-@@ -1077,16 +1164,6 @@ static void do_shutdown_step(PEER *peer)
+-     }
+- }
+-=20
+--typedef enum {
+--    HANDSHAKE,
+--    RENEG_APPLICATION_DATA,
+--    RENEG_SETUP,
+--    RENEG_HANDSHAKE,
+--    APPLICATION_DATA,
+--    SHUTDOWN,
+--    CONNECTION_DONE
+--} connect_phase_t;
+--
+- static int renegotiate_op(const SSL_TEST_CTX *test_ctx)
+- {
+-     switch (test_ctx->handshake_mode) {
+-@@ -1164,19 +1241,6 @@ static void do_connect_step(const SSL_TEST_CTX *tes=
+t_ctx, PEER *peer,
+-     }
+- }
+-=20
+--typedef enum {
+--    /* Both parties succeeded. */
+--    HANDSHAKE_SUCCESS,
+--    /* Client errored. */
+--    CLIENT_ERROR,
+--    /* Server errored. */
+--    SERVER_ERROR,
+--    /* Peers are in inconsistent state. */
+--    INTERNAL_ERROR,
+--    /* One or both peers not done. */
+--    HANDSHAKE_RETRY
+--} handshake_status_t;
+--
+- /*
+-  * Determine the handshake outcome.
+-  * last_status: the status of the peer to have acted last.
+-@@ -1541,6 +1605,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+-=20
+-     start =3D time(NULL);
+-=20
+-+    save_loop_history(&(ret->history),
+-+                      phase, status, server.status, client.status,
+-+                      client_turn_count, client_turn);
+-+
+-     /*
+-      * Half-duplex handshake loop.
+-      * Client and server speak to each other synchronously in the same pr=
+ocess.
+-@@ -1562,6 +1630,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+-                 0 /* server went last */);
+-         }
+-=20
+-+        save_loop_history(&(ret->history),
+-+                          phase, status, server.status, client.status,
+-+                          client_turn_count, client_turn);
+-+
+-         switch (status) {
+-         case HANDSHAKE_SUCCESS:
+-             client_turn_count =3D 0;
+-diff --git a/test/helpers/handshake.h b/test/helpers/handshake.h
+-index 78b03f9..b9967c2 100644
+---- a/test/helpers/handshake.h
+-+++ b/test/helpers/handshake.h
+-@@ -1,5 +1,5 @@
+- /*
+-- * Copyright 2016-2021 The OpenSSL Project Authors. All Rights Reserved.
+-+ * Copyright 2016-2023 The OpenSSL Project Authors. All Rights Reserved.
+-  *
+-  * Licensed under the Apache License 2.0 (the "License").  You may not us=
+e
+-  * this file except in compliance with the License.  You can obtain a cop=
+y
+-@@ -12,6 +12,11 @@
+-=20
+- #include "ssl_test_ctx.h"
+-=20
+-+#define MAX_HANDSHAKE_HISTORY_ENTRY_BIT 4
+-+#define MAX_HANDSHAKE_HISTORY_ENTRY (1 << MAX_HANDSHAKE_HISTORY_ENTRY_BIT=
 )
-+         BIO_set_nbio(SSL_get_wbio(self->ssl), nonblocking);
-+     }
-+=20
-++    if (self->got_eof_error) {
-++        set_eof_error(self);
-++        goto error;
-++    }
-++
-+     timeout =3D GET_SOCKET_TIMEOUT(sock);
-+     has_timeout =3D (timeout > 0);
-+     if (has_timeout) {
-+@@ -2504,6 +2536,11 @@ _ssl__SSLSocket_write_impl(PySSLSocket *self, Py_bu=
-ffer *b)
-+         BIO_set_nbio(SSL_get_wbio(self->ssl), nonblocking);
-+     }
-+=20
-++    if (self->got_eof_error) {
-++        set_eof_error(self);
-++        goto error;
-++    }
-++
-+     timeout =3D GET_SOCKET_TIMEOUT(sock);
-+     has_timeout =3D (timeout > 0);
-+     if (has_timeout) {
-+@@ -2644,6 +2681,11 @@ _ssl__SSLSocket_read_impl(PySSLSocket *self, Py_ssi=
-ze_t len,
-+         Py_INCREF(sock);
-+     }
-+=20
-++    if (self->got_eof_error) {
-++        set_eof_error(self);
-++        goto error;
-++    }
-++
-+     if (!group_right_1) {
-+         dest =3D PyBytes_FromStringAndSize(NULL, len);
-+         if (dest =3D=3D NULL)
-diff --git a/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-shu=
-tdown-test-in-test_ssl.test_got_eof.patch b/meta/recipes-devtools/python/py=
-thon3/0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got_eof.patch
-new file mode 100644
-index 0000000000..af067f549c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/0003-gh-148292-Remove-shutdown-t=
-est-in-test_ssl.test_got_eof.patch
-@@ -0,0 +1,41 @@
-+From 81911909bc439d6de8ce6a173b0691b3c58e9e1a Mon Sep 17 00:00:00 2001
-+From: Victor Stinner <vstinner@python.org>
-+Date: Mon, 4 May 2026 16:20:25 +0200
-+Subject: [PATCH] gh-148292: Remove shutdown() test in test_ssl.test_got_eo=
-f()
-+ (#149366)
-+
-+The shutdown() behavior depends too much on the operating system and
-+it's unrelated to the got_eof_error change.
-+
-+(cherry picked from commit 1e21cf6fee3830012e458c0fe5dbc6fcd45ace92)
-+
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/819119=
-09bc43]
-+
-+Note: This is from the unmerged CPython PR #149783 which backports
-+OpenSSL 4.0 support to the 3.14 branch. Upstream deferred merging
-+until after Python 3.15.1 is released.
-+
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ Lib/test/test_ssl.py | 8 --------
-+ 1 file changed, 8 deletions(-)
-+
-+diff --git a/Lib/test/test_ssl.py b/Lib/test/test_ssl.py
-+index 03d9e3f9e5e96b5..6445f122b4272be 100644
-+--- a/Lib/test/test_ssl.py
-++++ b/Lib/test/test_ssl.py
-+@@ -4820,14 +4820,6 @@ def test_got_eof(self):
-+                 sslsock.do_handshake()
-+=20
-+             self.assertEqual(sslsock.pending(), 0)
-+-            try:
-+-                sslsock.shutdown(socket.SHUT_WR)
-+-            except OSError as exc:
-+-                self.assertEqual(exc.errno, errno.ENOTCONN)
-+-            else:
-+-                # On Windows and on OpenSSL 1.1.1, shutdown() doesn't
-+-                # raise an error
-+-                pass
-+=20
-+=20
-+ @unittest.skipUnless(has_tls_version('TLSv1_3') and ssl.HAS_PHA,
-diff --git a/meta/recipes-devtools/python/python3_3.14.7.bb b/meta/recipes-=
-devtools/python/python3_3.14.7.bb
-index 568e632278..18373e5b5e 100644
---- a/meta/recipes-devtools/python/python3_3.14.7.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.7.bb
-@@ -22,6 +22,9 @@ SRC_URI =3D "http://www.python.org/ftp/python/${PV}/Pytho=
-n-${PV}.tar.xz \
-            file://0001-Avoid-shebang-overflow-on-python-config.py.patch \
-            file://0001-Update-test_sysconfig-for-posix_user-purelib.patch =
-\
-            file://0001-prefer-valid-entrypoints.patch \
-+           file://0001-gh-146207-Add-support-for-OpenSSL-4.0.0.patch \
-+           file://0002-gh-148292-Update-_ssl._SSLSocket-for-OpenSSL-4.patc=
-h \
-+           file://0003-gh-148292-Remove-shutdown-test-in-test_ssl.test_got=
-_eof.patch \
+-+#define MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK \
+-+    ((1 << MAX_HANDSHAKE_HISTORY_ENTRY_BIT) - 1)
+-+
+- typedef struct ctx_data_st {
+-     unsigned char *npn_protocols;
+-     size_t npn_protocols_len;
+-@@ -22,6 +27,63 @@ typedef struct ctx_data_st {
+-     char *session_ticket_app_data;
+- } CTX_DATA;
+-=20
+-+typedef enum {
+-+    HANDSHAKE,
+-+    RENEG_APPLICATION_DATA,
+-+    RENEG_SETUP,
+-+    RENEG_HANDSHAKE,
+-+    APPLICATION_DATA,
+-+    SHUTDOWN,
+-+    CONNECTION_DONE
+-+} connect_phase_t;
+-+
+-+/* The status for each connection phase. */
+-+typedef enum {
+-+    PEER_SUCCESS,
+-+    PEER_RETRY,
+-+    PEER_ERROR,
+-+    PEER_WAITING,
+-+    PEER_TEST_FAILURE
+-+} peer_status_t;
+-+
+-+typedef enum {
+-+    /* Both parties succeeded. */
+-+    HANDSHAKE_SUCCESS,
+-+    /* Client errored. */
+-+    CLIENT_ERROR,
+-+    /* Server errored. */
+-+    SERVER_ERROR,
+-+    /* Peers are in inconsistent state. */
+-+    INTERNAL_ERROR,
+-+    /* One or both peers not done. */
+-+    HANDSHAKE_RETRY
+-+} handshake_status_t;
+-+
+-+/* Stores the various status information in a handshake loop. */
+-+typedef struct handshake_history_entry_st {
+-+    connect_phase_t phase;
+-+    handshake_status_t handshake_status;
+-+    peer_status_t server_status;
+-+    peer_status_t client_status;
+-+    int client_turn_count;
+-+    int is_client_turn;
+-+} HANDSHAKE_HISTORY_ENTRY;
+-+
+-+typedef struct handshake_history_st {
+-+    /* Implemented using ring buffer. */
+-+    /*
+-+     * The valid entries are |entries[last_idx]|, |entries[last_idx-1]|,
+-+     * ..., etc., going up to |entry_count| number of entries. Note that =
+when
+-+     * the index into the array |entries| becomes < 0, we wrap around to
+-+     * the end of |entries|.
+-+     */
+-+    HANDSHAKE_HISTORY_ENTRY entries[MAX_HANDSHAKE_HISTORY_ENTRY];
+-+    /* The number of valid entries in |entries| array. */
+-+    size_t entry_count;
+-+    /* The index of the last valid entry in the |entries| array. */
+-+    size_t last_idx;
+-+} HANDSHAKE_HISTORY;
+-+
+- typedef struct handshake_result {
+-     ssl_test_result_t result;
+-     /* These alerts are in the 2-byte format returned by the info_callbac=
+k. */
+-@@ -77,6 +139,8 @@ typedef struct handshake_result {
+-     char *cipher;
+-     /* session ticket application data */
+-     char *result_session_ticket_app_data;
+-+    /* handshake loop history */
+-+    HANDSHAKE_HISTORY history;
+- } HANDSHAKE_RESULT;
+-=20
+- HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void);
+-@@ -95,4 +159,8 @@ int configure_handshake_ctx_for_srp(SSL_CTX *server_ctx=
+, SSL_CTX *server2_ctx,
+-     CTX_DATA *server2_ctx_data,
+-     CTX_DATA *client_ctx_data);
+-=20
+-+const char *handshake_connect_phase_name(connect_phase_t phase);
+-+const char *handshake_status_name(handshake_status_t handshake_status);
+-+const char *handshake_peer_status_name(peer_status_t peer_status);
+-+
+- #endif /* OSSL_TEST_HANDSHAKE_HELPER_H */
+-diff --git a/test/ssl_test.c b/test/ssl_test.c
+-index ea60851..9d6b093 100644
+---- a/test/ssl_test.c
+-+++ b/test/ssl_test.c
+-@@ -26,6 +26,44 @@ static OSSL_LIB_CTX *libctx =3D NULL;
+- /* Currently the section names are of the form test-<number>, e.g. test-1=
+5. */
+- #define MAX_TESTCASE_NAME_LENGTH 100
+-=20
+-+static void print_handshake_history(const HANDSHAKE_HISTORY *history)
+-+{
+-+    size_t first_idx;
+-+    size_t i;
+-+    size_t cur_idx;
+-+    const HANDSHAKE_HISTORY_ENTRY *cur_entry;
+-+    const char header_template[] =3D "|%14s|%16s|%16s|%16s|%17s|%14s|";
+-+    const char body_template[]   =3D "|%14s|%16s|%16s|%16s|%17d|%14s|";
+-+
+-+    TEST_info("The following is the server/client state "
+-+              "in the most recent %d handshake loops.",
+-+              MAX_HANDSHAKE_HISTORY_ENTRY);
+-+
+-+    TEST_note("=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D"
+-+              "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D");
+-+    TEST_note(header_template,
+-+              "phase", "handshake status", "server status",
+-+              "client status", "client turn count", "is client turn");
+-+    TEST_note("+--------------+----------------+----------------"
+-+              "+----------------+-----------------+--------------+");
+-+
+-+    first_idx =3D (history->last_idx - history->entry_count + 1) &
+-+                MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK;
+-+    for (i =3D 0; i < history->entry_count; ++i) {
+-+        cur_idx =3D (first_idx + i) & MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MAS=
+K;
+-+        cur_entry =3D &(history->entries)[cur_idx];
+-+        TEST_note(body_template,
+-+                  handshake_connect_phase_name(cur_entry->phase),
+-+                  handshake_status_name(cur_entry->handshake_status),
+-+                  handshake_peer_status_name(cur_entry->server_status),
+-+                  handshake_peer_status_name(cur_entry->client_status),
+-+                  cur_entry->client_turn_count,
+-+                  cur_entry->is_client_turn ? "true" : "false");
+-+    }
+-+    TEST_note("=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D"
+-+              "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D");
+-+}
+-+
+- static const char *print_alert(int alert)
+- {
+-     return alert ? SSL_alert_desc_string_long(alert) : "no alert";
+-@@ -388,6 +426,12 @@ static int check_test(HANDSHAKE_RESULT *result, SSL_T=
+EST_CTX *test_ctx)
+-         ret &=3D check_client_sign_type(result, test_ctx);
+-         ret &=3D check_client_ca_names(result, test_ctx);
+-     }
+-+
+-+    /* Print handshake loop history if any check fails. */
+-+    if (!ret) {
+-+        print_handshake_history(&(result->history));
+-+    }
+-+
+-     return ret;
+- }
+-
+---
+-2.25.1
+-
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-no=
+t-tweak-mips-cflags.patch b/meta/recipes-connectivity/openssl/openssl/0001-=
+Configure-do-not-tweak-mips-cflags.patch
+index cd8906df67..77bfe4e4e5 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak=
+-mips-cflags.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak=
+-mips-cflags.patch
+@@ -1,4 +1,4 @@
+-From 0377f0d5b5c1079e3b9a80881f4dcc891cbe9f9a Mon Sep 17 00:00:00 2001
++From b5cee0cb0f14a78056ef7722a34b361491f1fdda Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Tue, 30 May 2023 09:11:27 -0700
+ Subject: [PATCH] Configure: do not tweak mips cflags
+@@ -17,10 +17,10 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+  1 file changed, 10 deletions(-)
+=20
+ diff --git a/Configure b/Configure
+-index fff97bd..5ee54c1 100755
++index c05a30b..db8adee 100755
+ --- a/Configure
+ +++ b/Configure
+-@@ -1557,16 +1557,6 @@ if ($target =3D~ /^mingw/ && `$config{CC} --target-=
+help 2>&1` =3D~ m/-mno-cygwin/m)
++@@ -1575,16 +1575,6 @@ if ($target =3D~ /^mingw/ && `$config{CC} --target-=
+help 2>&1` =3D~ m/-mno-cygwin/m)
+          push @{$config{shared_ldflag}}, "-mno-cygwin";
+          }
+ =20
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip=
+-sysroot-and-debug-prefix-map-from-co.patch b/meta/recipes-connectivity/ope=
+nssl/openssl/0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patc=
+h
+index bfbfedbd67..1d9e7539f6 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroo=
+t-and-debug-prefix-map-from-co.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroo=
+t-and-debug-prefix-map-from-co.patch
+@@ -1,4 +1,4 @@
+-From 5985253f2c9025d7c127443a3a9938946f80c2a1 Mon Sep 17 00:00:00 2001
++From 6df53bfebcf8ca65910a18220a6576fb110918a5 Mon Sep 17 00:00:00 2001
+ From: =3D?UTF-8?q?Martin=3D20Hundeb=3DC3=3DB8ll?=3D <martin@geanix.com>
+ Date: Tue, 6 Nov 2018 14:50:47 +0100
+ Subject: [PATCH] buildinfo: strip sysroot and debug-prefix-map from compil=
+er
+@@ -28,17 +28,16 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+ Update to fix buildpaths qa issue for '-ffile-prefix-map'.
+=20
+ Signed-off-by: Khem Raj <raj.khem@gmail.com>
+-
+ ---
+  Configurations/unix-Makefile.tmpl | 16 +++++++++++++++-
+  crypto/build.info                 |  2 +-
+  2 files changed, 16 insertions(+), 2 deletions(-)
+=20
+ diff --git a/Configurations/unix-Makefile.tmpl b/Configurations/unix-Makef=
+ile.tmpl
+-index 09303c4..011bda1 100644
++index eff66e5..bc48f51 100644
+ --- a/Configurations/unix-Makefile.tmpl
+ +++ b/Configurations/unix-Makefile.tmpl
+-@@ -514,13 +514,27 @@ BIN_LDFLAGS=3D{- join(' ', $target{bin_lflags} || ()=
+,
++@@ -503,13 +503,27 @@ BIN_LDFLAGS=3D{- join(' ', $target{bin_lflags} || ()=
+,
+                           '$(CNF_LDFLAGS)', '$(LDFLAGS)') -}
+  BIN_EX_LIBS=3D$(CNF_EX_LIBS) $(EX_LIBS)
+ =20
+@@ -68,10 +67,10 @@ index 09303c4..011bda1 100644
+ =20
+  # For x86 assembler: Set PROCESSOR to 386 if you want to support
+ diff --git a/crypto/build.info b/crypto/build.info
+-index aee5c46..95c9577 100644
++index 8e4a885..95b0902 100644
+ --- a/crypto/build.info
+ +++ b/crypto/build.info
+-@@ -115,7 +115,7 @@ DEFINE[../libcrypto]=3D$UPLINKDEF
++@@ -114,7 +114,7 @@ DEFINE[../libcrypto]=3D$UPLINKDEF
+ =20
+  DEPEND[info.o]=3Dbuildinf.h
+  DEPEND[cversion.o]=3Dbuildinf.h
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cw=
+m-test-timeout.patch b/meta/recipes-connectivity/openssl/openssl/0001-exten=
+d-check_cwm-test-timeout.patch
+index f6eb28069a..76bc05d5f9 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-=
+timeout.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-=
+timeout.patch
+@@ -1,4 +1,4 @@
+-From c7000672296f4c367341aa3415f26c4d9f5e4749 Mon Sep 17 00:00:00 2001
++From 14856dbd767621ce6f162680c00557b54af0effb Mon Sep 17 00:00:00 2001
+ From: Gyorgy Sarvari <skandigraun@gmail.com>
+ Date: Thu, 23 Oct 2025 11:24:36 +0200
+ Subject: [PATCH] extend check_cwm test timeout
+@@ -15,7 +15,7 @@ Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+  1 file changed, 5 insertions(+)
+=20
+ diff --git a/test/radix/main.c b/test/radix/main.c
+-index 4a1e886a71..39f8c61ef9 100644
++index 0f3dc11..d925639 100644
+ --- a/test/radix/main.c
+ +++ b/test/radix/main.c
+ @@ -25,6 +25,11 @@ static int test_script(int idx)
+diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.7.bb b/meta/reci=
+pes-connectivity/openssl/openssl_4.0.1.bb
+similarity index 87%
+rename from meta/recipes-connectivity/openssl/openssl_3.5.7.bb
+rename to meta/recipes-connectivity/openssl/openssl_4.0.1.bb
+index b95c734f1d..a669de1b22 100644
+--- a/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
++++ b/meta/recipes-connectivity/openssl/openssl_4.0.1.bb
+@@ -11,7 +11,6 @@ SRC_URI =3D "http://www.openssl.org/source/openssl-${PV}.=
+tar.gz \
+            file://run-ptest \
+            file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-c=
+o.patch \
+            file://0001-Configure-do-not-tweak-mips-cflags.patch \
+-           file://0001-Added-handshake-history-reporting-when-test-fails.p=
+atch \
+            file://0001-extend-check_cwm-test-timeout.patch \
             "
- SRC_URI:append:class-native =3D " \
-            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-config=
-u.patch \
+=20
+@@ -19,10 +18,9 @@ SRC_URI:append:class-nativesdk =3D " \
+            file://environment.d-openssl.sh \
+            "
+=20
+-SRC_URI[sha256sum] =3D "a8c0d28a529ca480f9f36cf5792e2cd21984552a3c8e4aa11a=
+24aa31aeac98e8"
++SRC_URI[sha256sum] =3D "2db3f3a0d6ea4b59e1f094ace2c8cd536dffb87cdc39084c5a=
+fa1e6f7f37dd09"
+=20
+-inherit lib_package multilib_header multilib_script ptest perlnative manpa=
+ges
+-MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
++inherit lib_package multilib_header ptest perlnative manpages
+=20
+ # OpenSSL publishes bugfix/security-only releases on its per-minor branche=
+s.
+ # When the tracked series reaches EOL, bump the regex manually to the next
+@@ -33,7 +31,6 @@ PACKAGECONFIG ?=3D ""
+ PACKAGECONFIG:class-native =3D ""
+ PACKAGECONFIG:class-nativesdk =3D ""
+=20
+-PACKAGECONFIG[cryptodev-linux] =3D "enable-devcryptoeng,disable-devcryptoe=
+ng,cryptodev-linux,,cryptodev-module"
+ PACKAGECONFIG[legacy] =3D ",no-legacy"
+ PACKAGECONFIG[tls1] =3D ",no-tls1"
+ PACKAGECONFIG[tls1_1] =3D ",no-tls1_1"
+@@ -57,8 +54,8 @@ EXTRA_OECONF:append:class-native =3D " --with-rand-seed=
+=3Dos,devrandom"
+ EXTRA_OECONF:append:class-nativesdk =3D " --with-rand-seed=3Dos,devrandom"
+=20
+ # Relying on hardcoded built-in paths causes openssl-native to not be relo=
+cateable from sstate.
+-EXTRA_OEMAKE:append:task-compile:class-native =3D ' OPENSSLDIR=3D"/not/bui=
+ltin" ENGINESDIR=3D"/not/builtin" MODULESDIR=3D"/not/builtin"'
+-EXTRA_OEMAKE:append:task-compile:class-nativesdk =3D ' OPENSSLDIR=3D"/not/=
+builtin" ENGINESDIR=3D"/not/builtin" MODULESDIR=3D"/not/builtin"'
++EXTRA_OEMAKE:append:task-compile:class-native =3D ' OPENSSLDIR=3D"/not/bui=
+ltin" MODULESDIR=3D"/not/builtin"'
++EXTRA_OEMAKE:append:task-compile:class-nativesdk =3D ' OPENSSLDIR=3D"/not/=
+builtin" MODULESDIR=3D"/not/builtin"'
+=20
+ #| threads_pthread.c:(.text+0x372): undefined reference to `__atomic_is_lo=
+ck_free'
+ EXTRA_OECONF:append:toolchain-clang:x86 =3D " -latomic"
+@@ -204,12 +201,10 @@ do_install:append:class-native () {
+ 	    OPENSSL_CONF=3D\${OPENSSL_CONF:-${libdir}/ssl-3/openssl.cnf} \
+ 	    SSL_CERT_DIR=3D\${SSL_CERT_DIR:-${libdir}/ssl-3/certs} \
+ 	    SSL_CERT_FILE=3D\${SSL_CERT_FILE:-${libdir}/ssl-3/cert.pem} \
+-	    OPENSSL_ENGINES=3D\${OPENSSL_ENGINES:-${libdir}/engines-3} \
+ 	    OPENSSL_MODULES=3D\${OPENSSL_MODULES:-${libdir}/ossl-modules}
+=20
+-	# Setting ENGINESDIR and MODULESDIR to invalid paths prevents host contam=
+ination,
++	# Setting MODULESDIR to invalid paths prevents host contamination,
+ 	# but also breaks the generated libcrypto.pc file. Post-Fix it manually h=
+ere.
+-	sed -i 's|^enginesdir=3D\($.libdir.\)/.*|enginesdir=3D\1/engines-3|' ${D}=
+${libdir}/pkgconfig/libcrypto.pc
+ 	sed -i 's|^modulesdir=3D\($.libdir.\)/.*|modulesdir=3D\1/ossl-modules|' $=
+{D}${libdir}/pkgconfig/libcrypto.pc
+ }
+=20
+@@ -252,10 +247,6 @@ do_install_ptest() {
+=20
+ 	sed 's|${S}|${PTEST_PATH}|g' -i ${D}${PTEST_PATH}/configdata.pm ${D}${PTE=
+ST_PATH}/util/wrap.pl
+=20
+-	install -d ${D}${PTEST_PATH}/engines
+-	install -m755 ${B}/engines/dasync.so ${D}${PTEST_PATH}/engines/
+-	install -m755 ${B}/engines/ossltest.so ${D}${PTEST_PATH}/engines/
+-	ln -s ${libdir}/engines-3/loader_attic.so ${D}${PTEST_PATH}/engines/
+ 	ln -s ${libdir}/ossl-modules/ ${D}${PTEST_PATH}/providers
+ }
+=20
+@@ -270,17 +261,14 @@ pkg_postinst_ontarget:${PN}-ossl-module-fips () {
+ # file to be installed for both the openssl-bin package and the libcrypto
+ # package since the openssl-bin package depends on the libcrypto package.
+=20
+-PACKAGES =3D+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc ${PN=
+}-ossl-module-legacy ${PN}-ossl-module-fips"
++PACKAGES =3D+ "libcrypto libssl openssl-conf ${PN}-misc ${PN}-ossl-module-=
+legacy ${PN}-ossl-module-fips"
+=20
+ FILES:libcrypto =3D "${libdir}/libcrypto${SOLIBS}"
+ FILES:libssl =3D "${libdir}/libssl${SOLIBS}"
+ FILES:openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf* \
+                       ${libdir}/ssl-3/openssl.cnf* \
+                       "
+-FILES:${PN}-engines =3D "${libdir}/engines-3"
+-# ${prefix} comes from what we pass into --prefix at configure time (which=
+ is used for INSTALLTOP)
+-FILES:${PN}-engines:append:mingw32:class-nativesdk =3D " ${prefix}${libdir=
+}/engines-3"
+-FILES:${PN}-misc =3D "${libdir}/ssl-3/misc ${bindir}/c_rehash"
++FILES:${PN}-misc =3D "${libdir}/ssl-3/misc"
+ FILES:${PN}-ossl-module-legacy =3D "${libdir}/ossl-modules/legacy.so"
+ FILES:${PN}-ossl-module-fips =3D "${libdir}/ossl-modules/fips.so"
+ FILES:${PN} =3D+ "${libdir}/ssl-3/* ${libdir}/ossl-modules/"
+@@ -290,7 +278,7 @@ CONFFILES:openssl-conf =3D "${sysconfdir}/ssl/openssl.c=
+nf"
+=20
+ RRECOMMENDS:libcrypto +=3D "openssl-conf ${PN}-ossl-module-legacy"
+ RDEPENDS:${PN}-misc =3D "perl"
+-RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules bash sed openssl-=
+engines"
++RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules bash sed"
+ RRECOMMENDS:${PN}-ptest +=3D "${PN}-ossl-module-legacy"
+=20
+ RDEPENDS:${PN}-bin +=3D "openssl-conf"
 
