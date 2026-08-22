@@ -1,117 +1,120 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <iwanicki92@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8605FC5DF97
-	for <webhook@archiver.kernel.org>; Sat, 22 Aug 2026 16:12:45 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9157.1787415159419193815
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29BE8C5DF97
+	for <webhook@archiver.kernel.org>; Sat, 22 Aug 2026 16:36:49 +0000 (UTC)
+Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19.1787416599567827442
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Aug 2026 09:12:40 -0700
+ Sat, 22 Aug 2026 09:36:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=DERUkeN0;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 27F834E41342;
-	Sat, 22 Aug 2026 16:12:37 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D96D8604C4;
-	Sat, 22 Aug 2026 16:12:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 18E4511C77B14;
-	Sat, 22 Aug 2026 18:12:29 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1787415152; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=xAFggRXWlriYYXdU07OUpMQwseHWgnZFZsQeF/nP/SQ=;
-	b=DERUkeN0uFKN11BHin4gnAhVUZpixf+sNgnMLGYY+zLlyjZx177nZsu3tMmEvxyzVkDkKC
-	KLzz5qs9ePH4FNZ+C+cZNnJkX3CQFDySTqDrFg84CgxSqVwphkplnoC5BsMra5V7bO4pgQ
-	d0EvQeZUmqNcKg4IuRLWFmAV5zAWUDr5ebIUM4sNtBhE2Ms/MZ+YuIsHjGQBNKrvzIS4fO
-	fda4fQ1j1+N+a/o2w/t3ORynIWC7tzMQolYht3jNOv9vrBKQ6iN5AumzeHVocPQ3xaA7bJ
-	tarw9CZo+4VWi00pwoS+2hwwJLZI4Q3kF1D1Ulq6qs0BaR+q9iBtKP/41yfXUA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 22 Aug 2026 18:12:27 +0200
-Message-Id: <DKVLSEW6L0T7.2PCFL9327XYCG@bootlin.com>
-Subject: Re: [OE-core][PATCH v4 0/4] Make signed kernel modules stripped
-Cc: <antonin.godard@bootlin.com>, <bruce.ashfield@gmail.com>,
- <jose.quaresma@oss.qualcomm.com>, <richard.purdie@linuxfoundation.org>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <anis.bougrine10@gmail.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260822002601.90667-1-anis.bougrine10@gmail.com>
-In-Reply-To: <20260822002601.90667-1-anis.bougrine10@gmail.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=ZZxt5dKD;
+ spf=pass (domain: gmail.com, ip: 209.85.208.52, mailfrom: iwanicki92@gmail.com)
+Received: by mail-ed1-f52.google.com with SMTP id 4fb4d7f45d1cf-69c108fee7fso3578131a12.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 09:36:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787416597; x=1788021397; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JbT+FCtzRJcOqUbtPahJ2zw5XEIjKhdoKYowTW07roo=;
+        b=ZZxt5dKDEjfrLCxNBDCmnGC00Lfrqwy4gC56r3ONaVAczYzm0UPjeaTrvK3nIgIqB3
+         2yKfziv3dKAwPNGRFh/Fll7Z0sX+OrZ8wHpEOZBDXJyKQSPszDXxbK01O3XVRbZMOz/y
+         1QnulkqUfsduuV6WFf7GQD7V31vGGMPv+J36X+KKwfa7aEMsm4n0zVdBAH7f3Se0Lwb6
+         JMSoAlCFUOkrSh5WXFCZP/x8VLnzRS2BKz1ROtykMaJHisXmBeUQ6dJP6OvcIMOkdsMI
+         Q18zqoQvxaALzLK04MBPmUp3jXVA/vIS/7vESBl/6RdxYIt1BpB5lO+1honsOEd3Yz65
+         l8uQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787416597; x=1788021397;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=JbT+FCtzRJcOqUbtPahJ2zw5XEIjKhdoKYowTW07roo=;
+        b=lN1FV2H6I5RHmdPZHZqBV87VmF71RHWgku8jt2WOicir2rIGwnGqUga8wW+FE/Di9b
+         JYWyP188tSI0PWpQL308vYiQWxRUFLZZH1ERGvX6rWA8lu1rgYvU1aM/UMgPPArVw0RJ
+         uodQXdIiIKebgPre0uph+0V1koUqqow5JvJDcKA09XQLS7OnGghK57jphMJ0Z7V0NYcS
+         7O45IUW7EgxIRXJCIDftaxc8dxCkOG5nQRN56ugPuKS6j3qb72t8NK2K3sa453pimbRE
+         5VX5JqXFKHaYmig2V81ug1ngEzHjZQHhReFmgs9BdpfdMP+e9rVqpnDf8TiRH81jRblT
+         UvUA==
+X-Gm-Message-State: AFuF++mBJC2NA0xGRJkohTZXRm24VHxtykKGpN7yiQ8L53p4oasZlKYI
+	BJYvihKGzuzYSWKElDXTxCBKyGcKQHfg8LcCj4wnLNPWo5oyJB1z9oodILKK4zlo
+X-Gm-Gg: AR+sD11eUwzHkXUfKNk0jJV5nZ3nktDa8Worktoydh7tcBBTac0ODhW4bSrThhFORdt
+	qvIIqXMB/Wc3eDId5fI3tDk3VKOGf4k2yvHAVk1w5eryYxhHRsqawFW3h9criGgYRMjXEtz0IQD
+	m2bQl73/A0AczucSYnb7qB5121ejUgq8yBnVVk4FpSMhZcb4tQEmx0GseFWJoQatCDeBzgJvw/o
+	OFBqo/0zcOWbYy1aLxSpSP5l/BZEmp2OeGTz7dqLwTmw/CZPgg3Z1I768hIndMjViL97srcMNip
+	tZw1OU//VIP6DT9RRBUfJrnZIVOG/sRbIZuy1rtGCa+Rhg8MklTHe78RUtQuNGKgsekyEpVs2Fl
+	3PeP9UwWluUcPzeqNA3OarbpcZHZrfsQZw9wKh/1jUlCPMZ5VAhrHrEy9QvcZkIqs6NPwyqlx9Y
+	fvVfvgbyGJqDYBnaKEkuxt/+VVLZCma3pDWYzcKxHDJQOg3MLee+v4V7Qi6oiJ//DMI/w=
+X-Received: by 2002:a05:6402:1f0d:b0:69f:b1d3:3903 with SMTP id 4fb4d7f45d1cf-6a582b2667cmr7618316a12.8.1787416597277;
+        Sat, 22 Aug 2026 09:36:37 -0700 (PDT)
+Received: from iwans-fedora ([2a02:a312:c8bf:9d80:69ba:755e:25b5:838e])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6a3feec9f4asm12896298a12.3.2026.08.22.09.36.36
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 22 Aug 2026 09:36:36 -0700 (PDT)
+From: iwanicki92 <iwanicki92@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] classes: spdx-3.0: add missing vardeps
+Date: Sat, 22 Aug 2026 18:36:22 +0200
+Message-ID: <20260822163622.285515-1-iwanicki92@gmail.com>
+X-Mailer: git-send-email 2.55.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 16:12:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243989
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 16:36:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243990
 
-On Sat Aug 22, 2026 at 2:25 AM CEST, Anis Bougrine via lists.openembedded.o=
-rg wrote:
-> - Re-sign modules after the package stripping process.
-> - Remove the package-stripping skip for signed modules from package.py.
-> - Add MOD_INSTALL_PREFIX variable
->
-> Note that this v4 patch drops v3 patch and its relative which have been m=
-erged to master-next:
-> 3e34657 kernel.bbclass: add strip process for signed kernel modules
-> ffc6d51 package: extract debug sources from signed kernel modules
->
-> Anis Bougrine (4):
->   kernel.bbclass: re-sign kernel modules after package stripping process
->   package.py: remove stripping and splitting skip for signed kernel
->     modules
->   kernel: centralize kernel module installation path in one variable
->   documentation.conf: add documentation for MOD_INSTALL_PREFIX variable
->
->  .../kernel-module-split.bbclass               | 23 ++++++++++++++++
->  meta/classes-recipe/kernel.bbclass            | 13 +++++-----
->  meta/conf/documentation.conf                  |  1 +
->  meta/lib/oe/package.py                        | 26 +++----------------
->  4 files changed, 34 insertions(+), 29 deletions(-)
+Add "${SPDX_IMAGE_SUPPLIER}_name", "${SPDX_IMAGE_SUPPLIER}_type",
+"${SPDX_PACKAGE_SUPPLIER}_name", and "${SPDX_PACKAGE_SUPPLIER}_type" to
+respective task vardeps to make sure SPDX is regenerated if those
+change.
 
-Hi Anis,
+Signed-off-by: iwanicki92 <iwanicki92@gmail.com>
+---
+ meta/classes-recipe/create-spdx-image-3.0.bbclass | 4 +++-
+ meta/classes/create-spdx-3.0.bbclass              | 7 +++++--
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
-Thanks for your patch.
-
-I suspect this is related with this failure:
-
-ERROR: lttng-modules-2.15.3-r0 do_package: Execution of '/srv/pokybuild/yoc=
-to-worker/genericx86/build/build/tmp/work/genericx86-poky-linux/lttng-modul=
-es/2.15.3/temp/run.post_strip_kernel_modules_signing.1005048' failed with e=
-xit code 127
-...
-| DEBUG: runstrip: ['i686-poky-linux-strip', '--strip-debug', '--remove-sec=
-tion=3D.comment', '--remove-section=3D.note', '/srv/pokybuild/yocto-worker/=
-genericx86/build/build/tmp/work/genericx86-poky-linux/lttng-modules/2.15.3/=
-package/lib/modules/6.18.43-yocto-standard/kernel/lttng-modules/tests/lttng=
--test.ko']
-| DEBUG: runstrip: ['i686-poky-linux-strip', '--strip-debug', '--remove-sec=
-tion=3D.comment', '--remove-section=3D.note', '/srv/pokybuild/yocto-worker/=
-genericx86/build/build/tmp/work/genericx86-poky-linux/lttng-modules/2.15.3/=
-package/lib/modules/6.18.43-yocto-standard/kernel/lttng-modules/tests/lttng=
--clock-plugin-test.ko']
-| DEBUG: runstrip: ['i686-poky-linux-strip', '--strip-debug', '--remove-sec=
-tion=3D.comment', '--remove-section=3D.note', '/srv/pokybuild/yocto-worker/=
-genericx86/build/build/tmp/work/genericx86-poky-linux/lttng-modules/2.15.3/=
-package/lib/modules/6.18.43-yocto-standard/kernel/lttng-modules/probes/lttn=
-g-probe-x86-irq-vectors.ko']
-...
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/4453
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/4424
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/4481
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+diff --git a/meta/classes-recipe/create-spdx-image-3.0.bbclass b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+index cf79ef5b013a..faf4eef8a9a3 100644
+--- a/meta/classes-recipe/create-spdx-image-3.0.bbclass
++++ b/meta/classes-recipe/create-spdx-image-3.0.bbclass
+@@ -57,7 +57,9 @@ do_create_image_spdx[dirs] = "${SPDXIMAGEWORK}"
+ do_create_image_spdx[file-checksums] += "${SPDX3_DEP_FILES}"
+ do_create_image_spdx[vardeps] += "\
+     SPDX_IMAGE_PURPOSE \
+-    "
++    ${@'${SPDX_IMAGE_SUPPLIER}_name' if d.getVar('SPDX_IMAGE_SUPPLIER') else ''} \
++    ${@'${SPDX_IMAGE_SUPPLIER}_type' if d.getVar('SPDX_IMAGE_SUPPLIER') else ''} \
++"
+ 
+ python do_create_image_spdx_setscene() {
+     sstate_setscene(d)
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spdx-3.0.bbclass
+index 56fd01fd533b..6c5f84db1ef3 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -253,7 +253,11 @@ do_create_package_spdx[dirs] = "${SPDXRUNTIMEDEPLOY}"
+ do_create_package_spdx[cleandirs] = "${SPDXRUNTIMEDEPLOY}"
+ do_create_package_spdx[deptask] = "do_create_spdx"
+ do_create_package_spdx[rdeptask] = "do_create_spdx"
+-do_create_package_spdx[vardeps] += "${SPDX3_VAR_DEPS}"
++do_create_package_spdx[vardeps] += " \
++    ${SPDX3_VAR_DEPS} \
++    ${@'${SPDX_PACKAGE_SUPPLIER}_name' if d.getVar('SPDX_PACKAGE_SUPPLIER') else ''} \
++    ${@'${SPDX_PACKAGE_SUPPLIER}_type' if d.getVar('SPDX_PACKAGE_SUPPLIER') else ''} \
++"
+ 
+ python do_create_package_spdx_setscene () {
+     sstate_setscene(d)
+@@ -290,4 +294,3 @@ python spdx30_build_started_handler () {
+ 
+ addhandler spdx30_build_started_handler
+ spdx30_build_started_handler[eventmask] = "bb.event.BuildStarted"
+-
+-- 
+2.55.0
 
 
