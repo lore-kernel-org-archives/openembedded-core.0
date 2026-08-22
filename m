@@ -2,192 +2,139 @@ Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 20089C5B572
-	for <webhook@archiver.kernel.org>; Sat, 22 Aug 2026 14:52:55 +0000 (UTC)
-Received: from mail-qk1-f172.google.com (mail-qk1-f172.google.com [209.85.222.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7865.1787410373791227067
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26073C5B572
+	for <webhook@archiver.kernel.org>; Sat, 22 Aug 2026 15:01:05 +0000 (UTC)
+Received: from mail-qk1-f181.google.com (mail-qk1-f181.google.com [209.85.222.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8018.1787410854997498414
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Aug 2026 07:52:53 -0700
+ Sat, 22 Aug 2026 08:00:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ZZjI41jz;
- spf=pass (domain: gmail.com, ip: 209.85.222.172, mailfrom: twoerner@gmail.com)
-Received: by mail-qk1-f172.google.com with SMTP id af79cd13be357-936dfd009d1so226477485a.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 07:52:53 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=BP3c+7Bd;
+ spf=pass (domain: gmail.com, ip: 209.85.222.181, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f181.google.com with SMTP id af79cd13be357-92e65e18969so141537785a.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 08:00:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787410373; x=1788015173; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1787410854; x=1788015654; darn=lists.openembedded.org;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:from:to:cc:subject
          :date:message-id:reply-to:content-type;
-        bh=dxUgz7d62f/DZi9lob6MHHPvXj6j8LGGAA0Kkibl6BE=;
-        b=ZZjI41jz+4LR5DiH7wwdfLh0rFJy9crXXzMwx3BaVq0KN2x6480pBm6Au666dvVUYw
-         XMyXLhpcS87pPCMy8byADTYShveABq0Awx560mdg2GnwO8JQGsoUdF1oVK2da8SFm8QS
-         dk+t424FrcGGIMN4C5f7lVN1h2RXOyn+bqBumVGW23/HO4EbWArlOL7F7iZU2tvs2dhS
-         PQwaLvuCjQrqUdSNDALAjBo1T51lk8+Cju6W42Hl3RNg4dbxaFtCWUULDdl9CSgJzZgT
-         7nWzznhzhEVBjI/Lr1OMMWgYb8Ds5Y3Vpaj5TEQxgzUeSHosSycEmal13yctgeETQO5h
-         ftKw==
+        bh=50FPVkwRcqPxEOcaxWQ7SJ3gwEe/T3s4nfJwM2QpXw8=;
+        b=BP3c+7Bd4Y2lqaV83oX0F840OovsittYfMAwMC4Tq/pMF6HFR6uocZcVrEm83HMI5y
+         F4mIZT5K1KggYKxq7rkMMdro8VWC2q5nPfqJWbB1W4MqYrx/JHQIqHKu8oi/5VHjevo5
+         zLoPd8WQ8viwxJG93vB9NfrayACUKG8/SPY+CQ5yMMFLHSZ6y3yfb+lUS16RVP4i1SFw
+         KcRLeWmtw+WDrwo5zqn6P4RV/RpgVx1IeS8LAdFdsmqXkfHL49M8+YPypFisS6mfDTUw
+         kV6SPZMas1LPzCG1sMqNOsKnMJgSycy7G0UYAvdzzjYKKPiFLhzKZwrJfX+n4qsuugXv
+         dOvg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787410373; x=1788015173;
+        d=1e100.net; s=20251104; t=1787410854; x=1788015654;
         h=in-reply-to:content-disposition:content-type:mime-version
          :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=dxUgz7d62f/DZi9lob6MHHPvXj6j8LGGAA0Kkibl6BE=;
-        b=XfcKgo/K0YLIBiotVlJCxDcxZcbZY+mA1Jn6WkjHzoqNrA2nFdLMYxeoEvCCtAdpD2
-         OTETg4Km8U3iZO0/+N1uI2M+kWqVowTDkkcdVWiLZrIqLYdyOrfo9Okci1ZCuOdhmdG9
-         uquFM14MHMqGdAdy0W3SnlcYksaiS/8yrZaXkJL0PRr4nDZXYjGQuYsb+8E7mZuAUaQ7
-         93Trh3v2QYbJxpfG9lL1VCWwkcx/3sr9C2xAQrCjmo6AJ8jx639ouQmpKfCcd7qa0OOa
-         XnklSfeyCOXhJ7N/TX9sl/0jovlXcbMF+BZ3AW5PO61aH/TeyjxLU9GJNiTJRO/RIVkQ
-         RJVQ==
-X-Gm-Message-State: AFuF++lgLLF6I+tSPUxNg28NtsujRxYq2e/TlXeGYUfhqIaj5u2A+uzh
-	u63Gp9croHeqNkJeBJ9OkMZUx+RVWNq3JcN/98tRdVU5jROFE1clAreC
-X-Gm-Gg: AR+sD13OjUlwLOiVWuv7E6FB41POR474rImSFVPGXTaPT4FNefN2kmjqxxrmmmeOJ0W
-	6sp+ELEHIWqbYXDjGLVvvP86PhajIiNaUAJBvqVgW9NWZYntpq8Kkl1xlG5IFR62o/8JgsN7Tay
-	mTPJZcA5QHdo4VUP0VDoyM87vzcHwoBPuzE4swICuWpXR0695cnxrh8rfESyiUq5q1aKmT2AFIB
-	6wVh4zPYoYvQnRI0q08nNYgi0v3pjwhhtVTWNxlt9lxzsL51VWjaI1zx+2v8f2M3NDS3CkehGrP
-	oFcxYWk7jfEMqFih1IyTH62pabA2DJvd0O4VJ0hOllEly2FNVO4O2ZKZ05iXHB6NOC1TPfnXlno
-	ahtWZlUnr9uL/dhUUrFEqRvOt6aoYWGkHeC3mxhs5wJ72bSA5DO+nAsll8bKXdbhb66urpzk4qg
-	Oi607hUR8XDFbibE3YoK9olI6EYKqclJh9+u4alYgOFIXTbbzBW/MBMU/c4wbgLk/7sUtwMv9u9
-	YIMKgygLVFsmIGuqis7Z6MQy/d9/SB00RgoMv7FhA==
-X-Received: by 2002:a05:620a:7116:b0:936:d00a:4947 with SMTP id af79cd13be357-93739702343mr952315085a.2.1787410372588;
-        Sat, 22 Aug 2026 07:52:52 -0700 (PDT)
+        bh=50FPVkwRcqPxEOcaxWQ7SJ3gwEe/T3s4nfJwM2QpXw8=;
+        b=bpQF6RY31id9t4GgTZxaoUpBBuN1IcvtzeVnWRLntpXy9SsBumBbJBkR4CPKTPUc9K
+         3Qx6UkIgP+TlrFE4uEHTGl67HHKi6OLvPwLaLcbTNGsabIb4GALHvLIy0DjB3fAVtB2d
+         lNySnRkcLj3Sg8jngWRvyX8dyxL0G+I3krK38kKdLEcIGET/W/jKcoGAl+HV/5ncCfzs
+         0mXHGUPcrXwJJ5UfqgzSp2c4gqTlr88zh+xbRq5RVv3pi/IyTAb0T2i7w0PPXDeGTmNr
+         PZRTLSWi2ITUBDEaK09CWdvAINgxkY6C1WWXzqG6rhatgsM9w+abNkRLbheFrMfNSD7Y
+         R7/w==
+X-Forwarded-Encrypted: i=1; AHgh+Rokll/IudeaNK1ZfVY7xcfRn9eRl3jDnVSSqeR5u8UXkyK0Z+4Va5tyej5DxL1L6JbrHvBunKvLAQ71rUjP8evVkw==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kbJFkAtE9UTxbRFTc/gkUnVXup9AilmKZ/aWIh5dRW1wyButEL
+	mQc1q2FWL3VoiwUjpwjXQjrrVPbaEmKToE+esfRneRYMs5OwQDuFJTA/KaSpP937
+X-Gm-Gg: AR+sD10sHuXSkdnmbrGjvlfCN7mrCCgsnVRCRtJ1BwkVocIHW+yRvl80GIf3FH/fA6k
+	BjIjbIu6ks2VsdpZiwtoecDhVQUu0tYbOq+obfKf+xlSWJvzYz7mN9f+TMjWoB/n/okpTN3cCRM
+	zVgXimLOerdR+cRhu6DcKBWd98t9zMZ68fgLvO97ydMhUS6m2ckYed+q3J1UWqEFyfLFJjC7k4Q
+	STKKgVdOrvihyDk5f8pEasZorli2KRJaC2sEDV2CwimLxC/rwvIWGF/1QMggM7zcnATR02Us9fG
+	G3yvzkZMheReEUvLSCHxlP9L8l0cn8PHTZab93yiaKsHIcgwit9B3EnFLtrp8CaijgTqe0gjX+B
+	FAH4/sLEIlNpAKB7+ULoNgEPkSD+3g9qTx80lRplki2qkdpNJaanUp7rq2BGEtzrHMEhes3J15X
+	jcIUjjNISvf9mXQoAbCKRS4uAoUgfXt1W2KBlunnlwJz/XWiKz1pk73dcorPLyVLhhzMqsfRsnB
+	kqMUPOZyyIzr2Z+eTYfABGed1oZUtE=
+X-Received: by 2002:a05:620a:6083:b0:930:9533:5e32 with SMTP id af79cd13be357-937283bae62mr2047108485a.7.1787410853682;
+        Sat, 22 Aug 2026 08:00:53 -0700 (PDT)
 Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
-        by smtp.gmail.com with ESMTPSA id af79cd13be357-93749e9f94bsm132948885a.37.2026.08.22.07.52.51
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90c93a5e82asm15592776d6.40.2026.08.22.08.00.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Aug 2026 07:52:51 -0700 (PDT)
-Date: Sat, 22 Aug 2026 10:52:49 -0400
+        Sat, 22 Aug 2026 08:00:52 -0700 (PDT)
+Date: Sat, 22 Aug 2026 11:00:50 -0400
 From: Trevor Woerner <twoerner@gmail.com>
-To: Paul Barker <paul@pbarker.dev>
-Cc: openembedded-core@lists.openembedded.org
-Subject: Re: [PATCH v2 1/2] oeqa/sdk: update cryptodev to a revision that
- builds on kernel 6.18
-Message-ID: <aom3waDKgP4b5_g1@localhost.localdomain>
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: alex.kanavin@gmail.com, paul@pbarker.dev,
+	openembedded-core@lists.openembedded.org
+Subject: Re: [OE-core] [PATCH v2 1/2] oeqa/sdk: update cryptodev to a
+ revision that builds on kernel 6.18
+Message-ID: <aom5olXslkDa44p8@localhost.localdomain>
 References: <20260813030515.1028627-1-twoerner@gmail.com>
  <20260813030515.1028627-2-twoerner@gmail.com>
  <7fc0bf78c8046ad9c23e49f80d8ed93103db3317.camel@pbarker.dev>
+ <CANNYZj9SqJ8CdKO6MruFqJ1mx3=NMEyx9wovrTe_QOYyRNFQpw@mail.gmail.com>
+ <597b689f434fa7eb1b763db08652e393f2f71d18.camel@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7fc0bf78c8046ad9c23e49f80d8ed93103db3317.camel@pbarker.dev>
+In-Reply-To: <597b689f434fa7eb1b763db08652e393f2f71d18.camel@linuxfoundation.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 14:52:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243987
+ <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 15:01:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/243988
 
-On Sun 2026-08-16 @ 12:12:49 PM, Paul Barker wrote:
-> On Wed, 2026-08-12 at 23:05 -0400, Trevor Woerner wrote:
-> > The out-of-tree kernel module test pins a cryptodev-linux revision from
-> > before the 1.14 release, which predates the removal of
-> > crypto_ahash_alignmask() from the kernel and so no longer compiles:
+On Mon 2026-08-17 @ 01:48:55 PM, Richard Purdie wrote:
+> On Mon, 2026-08-17 at 12:51 +0200, Alexander Kanavin via lists.openembedded.org wrote:
+> > On Sun, 16 Aug 2026 at 13:12, Paul Barker via lists.openembedded.org
+> > <paul=pbarker.dev@lists.openembedded.org> wrote:
 > > 
-> >   cryptlib.c:384:28: error: implicit declaration of function
-> >   'crypto_ahash_alignmask' [-Wimplicit-function-declaration]
+> > > I'm wondering why we haven't spotted this issue previously, we've been
+> > > using Linux 6.18 for months now. Are we missing a test case?
 > > 
-> > Move to upstream's "Fix build for Linux 6.18-rc1", which is the revision
-> > that restores compatibility.
-> > 
-> > AI-Generated: codex/claude-opus 5 (xhigh)
-> > Signed-off-by: Trevor Woerner <twoerner@gmail.com>
-> > ---
-> > changes in v2:
-> > - none
-> > ---
-> >  meta/lib/oeqa/sdk/cases/kmod.py | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/meta/lib/oeqa/sdk/cases/kmod.py b/meta/lib/oeqa/sdk/cases/kmod.py
-> > index 0c4d8ddb543f..1be23e994fd2 100644
-> > --- a/meta/lib/oeqa/sdk/cases/kmod.py
-> > +++ b/meta/lib/oeqa/sdk/cases/kmod.py
-> > @@ -31,8 +31,8 @@ class KernelModuleTest(OESDKTestCase):
-> >  
-> >          with tempfile.TemporaryDirectory(prefix="cryptodev", dir=self.tc.sdk_dir) as testdir:
-> >              git_url = "https://github.com/cryptodev-linux/cryptodev-linux"
-> > -            # This is a knnown-good commit post-1.13 that builds with kernel 6.7+
-> > -            git_sha = "bb8bc7cf60d2c0b097c8b3b0e807f805b577a53f"
-> > +            # This is a known-good commit post-1.14 that builds with kernel 6.18+
-> > +            git_sha = "08644db02d43478f802755903212f5ee506af73b"
-> >  
-> >              sourcedir = os.path.join(testdir, "cryptodev-linux")
-> >              subprocess.check_output(["git", "clone", git_url, sourcedir], stderr=subprocess.STDOUT)
+> > I suspect it's because the execution of useful cases for sdk and image
+> > runtimes tends to regress due to 'soft-skip', e.g. if a needed package
+> > isn't present, the test isn't run. I don't think this is quite right,
+> > and each particular image and sdk should check that particular tests
+> > do run, and if they aren't, that's a fail in itself. I'm not yet sure
+> > how to technically implement this.
 > 
-> Hi Trevor,
+> I've worried about this for a while too.
 > 
-> I'm wondering why we haven't spotted this issue previously, we've been
-> using Linux 6.18 for months now. Are we missing a test case?
+> We really need to mark up the images with the lists of tests we expect
+> to pass. It is tricky as that list can vary depending on distro
+> features and package classes but should be possible.
 
-No, the test case is there. It has been skipping, and a skip and a pass
-look the same from the summary line.
+Agreed on the goal. Having gone through what the cases actually do, I
+want to be careful about how much of it one mechanism can cover, because
+the skips are not all the same shape.
 
-kmod.KernelModuleTest guards on
+Some are a stated requirement. cmake, gtk3, kmod, maturin, meson, perl
+and python each name a package and skip when the SDK's manifest does not 
+list it. Those are already machine-readable, and one narrow check on
+them looks worth having by itself: if a case names a requirement, the 
+manifest satisfies it, and the case skips anyway, that is a bug rather
+than a configuration. That is exactly what the twelve above were, and 
+catching it needs no per-image expected list.
 
-    self.ensure_target_package("kernel-devsrc")
+The rest are not declarations at all. autotools, cmake, gcc, makefile
+and meson skip on "SDK doesn't contain a supported C library"; gcc, go
+and rust skip on not finding a cross-canadian toolchain; go also skips
+when the command raises. Those are runtime probes of the SDK that was 
+installed, and marking up an image cannot say in advance what they will
+decide. The go and rust cases are among the ones that skip on a default
+SDK, so this is not a rare shape.
 
-and a standard SDK does not contain kernel-devsrc, so that test has 
-never run on the SDK the autobuilder actually builds. It only ran here
-because I was building an SDK that carries the kernel source, which is
-also why the cryptodev breakage surfaced now rather than in March.
+So I do not think declarations on their own produce the expected-test
+list, and I would rather say that now than discover it half way through.
+The configuration-dependence you name looks like the hard part, and I do
+not have a design for it. 
 
-It is not an isolated case. Here is a second one, entirely in current
-master:
+What I am willing to commit to is the narrow check above, since the 
+oeqa/sdk change it builds on is already written. If that seems useful I
+will send it as its own patch and we can see whether it earns its keep
+before anyone builds anything larger on top.
 
-    meta/lib/oeqa/sdk/cases/meson.py:28
-        self.ensure_host_package("pkgconfig")
-
-ensure_host_package() prefixes the name and looks the result up in the 
-SDK's host manifest by exact package name. The manifest has 
-nativesdk-pkgconf. It has had nativesdk-pkgconf since e32bf38fab8b
-"pkgconfig: remove" on 2026-03-23, so meson.MesonTest.test_iputils has 
-been skipping on every SDK for five months. RPROVIDES does not help,
-because the manifest records the names of the packages that were
-installed rather than what they provide.
-
-The two have different causes and the same symptom, and neither is
-visible: one test is gated on content a standard SDK does not have, and 
-the other on a package name that was renamed underneath it. 
-
-The shape of the exposure is that 7 of the 13 oeqa/sdk modules on master
-carry an ensure_host_package() or ensure_target_package() guard: cmake,
-gtk3, kmod, maturin, meson, perl and python. Each of those can stop
-running without anything turning red.
-
-There is a second failure mode that is worse than a skip, and I only
-found it by looking for the first. An eSDK's host manifest is written by
-write_host_sdk_ext_manifest(), which walks the sstate cache the eSDK
-ships and prints every object built for BUILD_SYS. So it lists what the
-eSDK could install, not what it has. A guard checking that manifest
-therefore passes, the test runs the command anyway, and it gets the
-build machine's copy: perl.PerlTest reports on the build host's
-interpreter rather than the SDK's. That is a green result for something
-the SDK never provided, and no amount of counting skips will catch it.
-
-I have been down a deep rabbit hole finding and fixing many of these
-things while working on my SDK_FEATURES patchset:
-
-- a fix for the pkgconf name above, so the meson case runs again
-- an oeqa/sdk change letting a case name the command it needs and
-  resolve it inside the SDK's own install directory, so "the SDK does
-  not have this" and "I silently used the host's copy" stop being the
-  same outcome. That is what turns the eSDK false pass into either a
-  real pass or an honest skip.
-
-That mistake is an easy one to make, and here is one measurement. In a
-branch here that adds more SDK feature tests, applying that command
-check turned twelve cases from skipping to running, and every one of the
-packages involved was already installed in the SDK. They were skipping
-because the check asserted a command named after the package, and
-bindgen-cli provides bindgen, shaderc provides glslc, spirv-tools-bin
-provides spirv-val, python3-spdx-tools provides pyspdxtools, and
-mesa-libclc provides no command at all. That is twelve tests, no missing
-packages, and nothing red. I am not claiming those twelve are yours,
-because they are not upstream yet. I am claiming that the failure mode
-is easy to write and impossible to see, which is the part that
-generalises.
-
-
-> Best regards,
+> The other option is to have resulttool have more checks where it
+> compares to a list of tests we should see running. The regression
+> report is supposed to partly handle that but if you miss a regression,
+> the difference will no longer show it...
 > 
-> -- 
-> Paul Barker
+> Cheers,
 > 
+> Richard
 
