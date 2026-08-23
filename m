@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32C6DC5DF9A
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30C91C5DF81
 	for <webhook@archiver.kernel.org>; Sun, 23 Aug 2026 07:49:40 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10588.1787471371728328083
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10731.1787471375341965117
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2026 00:49:32 -0700
+ Sun, 23 Aug 2026 00:49:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RMC5jYK3;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-4957eefd361so15130665e9.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 00:49:31 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=dteFLXqr;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.49, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-4998590d392so6091355e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 00:49:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1787471370; x=1788076170; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1787471373; x=1788076173; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=2JBpUKFPPaPCxXf/tuP0PjSSXOXU57DvDIXS/FBBB6E=;
-        b=RMC5jYK34fE4ZdHIq7IMVw+DAKGwhrYHyusD+AzKFRwhThd2llQiS+fkUXeBoqnFrR
-         nvf+2k6tDolNLPLvXj9gQD7HxsdA7/WDC1qG1TVy7ZDC5cmGkScWznKNIdzAHe+OtJfW
-         6YTqNlxdasvseRDLrma2oDByiTaKuIbrSlbKE=
+        bh=azBUNqQLNfXwJ/CUvficO39C358KPYUfqp2gZKRpk0w=;
+        b=dteFLXqrV6Boqr4gQG7pC0l+MWwD8y7qqNy3p7QjsLK/v4RyWHmWSWpi3sGr9UCDFN
+         MiuUzNakWx908xZrElitBkismDHFpgGkL6WTGYUCM/tcwUHiSAgWdX1RzLUG67yohPXm
+         PQzttE/42+nZHc/mmTcVDl36uXqkS+FVvE4Vc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787471370; x=1788076170;
+        d=1e100.net; s=20251104; t=1787471373; x=1788076173;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=2JBpUKFPPaPCxXf/tuP0PjSSXOXU57DvDIXS/FBBB6E=;
-        b=GxsSsYIfzBuupLSLWHrQs++E0lp1S+bp9HIU8Z/D70CYNddZWJuE1uaN0s7byBbI+Z
-         yDAKHWTqGlokzJWTWKfoWcl2QOv1PPP/kG6XhlsyzvBDZTCoz4bh0oGOeW9M0YXISrUN
-         TuUZgeIoyv813PIlxyP4YHn2afEONUel5kiLdOfO3+N2KJP/uPjqxaGiYrvLi8M/dcoA
-         EmKPo/JB231UfvleMJJDGDLuD4wKYEjGpGpwn3Q4rffLNaNS4AZWVNSURMgMAOD4Sl++
-         H4WBOT19DWNLSOqpGXrXMwukR/Y+zG15VDM5BbscKfDNTrCk1JCdS21hs9+r8NlhV5/i
-         Y7yg==
-X-Gm-Message-State: AFuF++l/0zlHM8/6uCSfvDYbdY6RRtfNSpJBsZEsts80FawZypWjXMFD
-	r0hiZ8BkNX+r5li3V0bl19Orb4HqaXGyNFQ826T06HEi/ltz2uj6VmPqlwcdHtM9uztgxihcgUR
-	2OJ1AP0k=
-X-Gm-Gg: AR+sD12fMni2I6jVnuShlHVoYL4NB0JDvp2t95zQo9JeMMvfNsyEG2zKItmn0Mf900b
-	hyNQPGs72ez44bdFh40EusAlYExqVtMB82skTVS5CcaIZh50ZucsqWmbvZloujnm9CKeYY9pF+l
-	QI5RPPFj5mKWOAubeaX7BI48XDlu3A2tZQUOfJBRUmCDrKRwkpBdwXp5qgLRHb/wwV2kRo6Wdo1
-	SUuw+ggQTZb1gdkunMO8UC+Kiwj77x/Ugyto1YDyjJNVTIc+uNZtUkNFSKlk9K5MXCGbbCTQo9r
-	2JHdbJ3vYn/yduKXR3aDNJDzMtLt/F8bnJZdgaLK4xOwOhiV/KqWPtcLT12cRMCWjvjA0Yr7VI9
-	vzmolLGm6XsO3fhA3HDZekASeEESHwlBThcYERm3XyK83oJ6qjSNLEjvs7SplDxju+SzlWHoYzu
-	zalbJt6wT028OrYQspvG6qOzN9ivDEgOkgg/mZHyiVAY5Uw6mNG95VY2PFOLshlAO6YTJpr4A1i
-	sQLHO3VhUjBYvNe46qwhss=
-X-Received: by 2002:a05:600c:4f87:b0:499:5a50:b022 with SMTP id 5b1f17b1804b1-499b830d220mr193338795e9.3.1787471369966;
-        Sun, 23 Aug 2026 00:49:29 -0700 (PDT)
+        bh=azBUNqQLNfXwJ/CUvficO39C358KPYUfqp2gZKRpk0w=;
+        b=SIecH5Od3jB41LeaCtNoixo8Xp/jo/UeJO5uzjkosQ5ijQ/lonZLx+s/jtQmWFwyYm
+         xFnA+UqhqjK99/VIU4dzGwebBbwOJcCcaYRrdPFSgXpMbGY2AtO4K29d+9TJ8cc4hkJN
+         6GqssMCaq4Ej+sEqy0zsK/833skCipudczmFYtiAMPVQDpX2hOI2+OruelCVAvwjnJXF
+         LlCIldsuyiQvxM1So+ZrB5XBRymyLk+EWJ96HQRP9C9UGW4OjL5YyVEbj01nErEaqfY3
+         RDl02FU00QN9437gYfvrgYRxJ3+tctchAyrnzJm4mOJbEpQrUj+fiDXLPIMk/LtSWEv1
+         Y8Gw==
+X-Gm-Message-State: AFuF++k5L6KxMXR9kmM3w1KDEPGRFC00xUM+CenAb8kJ3sqHtcSF9mtM
+	pCuFIh62UIRGJOHKyLxht3iWK64o5MF3AXv3g1bxT11Ly6J6S4La8TJm0GEvQhkGwqTggEDIrTi
+	3BSSNcbU=
+X-Gm-Gg: AR+sD11iBZu1ukGVPP5tDUu5tqFHWOPh3sipx3suo0scnkCXWOgfSA8Sddk+z+CLKLr
+	jWtBEdPKvtsGqB2D9ajuyx1XNVZj0fjnj2qCuul35n2CQ/8FVzsTa+GwlE/hcBQiqEJPYtQ61OZ
+	EKUJqBkRt9c+PcNuPrcfKYXoyVV9uy8Ot7I5DC7DxD7BOeP3Gl7RfayOpOyaydzexmPDPvlGGgg
+	ugS6dekekKg3WJtv4cwoSY2A12plZnVyKFw/TyYJhCwIFWg4F95ME1T5N7cNkBlyosdugUPe8rf
+	HKRCtEyOnwFebno6n8yas79C3nG+9JODWc5+0yLLscJpdEejx/QpwU9FQhiyTdvMHX1utBSKsPA
+	1oxFuDHK/BUc9fiBUEQ28OzK/prw7jpAqfSQTBSXjfFcANW28gjBGWb+wRmcRbKoNq570jC1gYx
+	S6tCUqO6/iitkffQIYATNkb3Mgzys2dpPvZAw1Q1e9sj+P1I4h2DsgUWMd5wiFwdh6shzorY570
+	+bb/ZK4CNbhJXvmOfpK0zHY0Omh
+X-Received: by 2002:a05:600c:c493:b0:499:7aa7:eaa7 with SMTP id 5b1f17b1804b1-499b845c184mr210967965e9.15.1787471373524;
+        Sun, 23 Aug 2026 00:49:33 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8601:39db:494d:605c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9bfcc31sm4279602f8f.17.2026.08.23.00.49.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9bfcc31sm4279602f8f.17.2026.08.23.00.49.30
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 00:49:27 -0700 (PDT)
+        Sun, 23 Aug 2026 00:49:31 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 6/7] libxmlb: upgrade 0.3.28 -> 0.3.29
-Date: Sun, 23 Aug 2026 08:49:10 +0100
-Message-ID: <20260823074911.1711858-6-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 7/7] python3-pip: upgrade 26.2 -> 26.2.1
+Date: Sun, 23 Aug 2026 08:49:11 +0100
+Message-ID: <20260823074911.1711858-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260823074911.1711858-1-richard.purdie@linuxfoundation.org>
 References: <20260823074911.1711858-1-richard.purdie@linuxfoundation.org>
@@ -66,49 +66,37 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 07:49:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244017
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244018
 
-Version 0.3.29
-~~~~~~~~~~~~~~
+26.2.1 (2026-08-04)
+===================
 
-New Features:
-Bugfixes:
- - Avoid stale query indexes when reloading the silo (Richard Hughes)
- - Clear the query cache when reloading the silo (Richard Hughes)
- - Correctly mark the silo as invalid when re-loading malformed data (Richard Hughes)
- - Fix building the silo when shared-mime-info is installed (Richard Hughes)
+Bug Fixes
+---------
+
+- Reallow keyring installed in a (non-activated) virtual environment to be be used
+  via the ``import`` provider method while installing build dependencies. (`#14227 <https://github.com/pypa/pip/issues/14227>`_)
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch     | 2 +-
- .../libxmlb/{libxmlb_0.3.28.bb => libxmlb_0.3.29.bb}            | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-gnome/libxmlb/{libxmlb_0.3.28.bb => libxmlb_0.3.29.bb} (93%)
+ .../python/{python3-pip_26.2.bb => python3-pip_26.2.1.bb}       | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pip_26.2.bb => python3-pip_26.2.1.bb} (97%)
 
-diff --git a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-index 39e85b319ab..f0db37031e9 100644
---- a/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-+++ b/meta/recipes-gnome/libxmlb/libxmlb/0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch
-@@ -1,4 +1,4 @@
--From da7a7acacde7771ce4c0fd3ae7e55d0c151ee063 Mon Sep 17 00:00:00 2001
-+From d4aa8d857e1b18dff8bc23cc810c56b4dba3aa95 Mon Sep 17 00:00:00 2001
- From: Markus Volk <f_l_k@t-online.de>
- Date: Sat, 16 Sep 2023 14:02:57 +0200
- Subject: [PATCH] xb-self-test.c: hardcode G_TEST_SRCDIR
-diff --git a/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb b/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb
-similarity index 93%
-rename from meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb
-rename to meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb
-index 47c07d0c296..b070cbf99cd 100644
---- a/meta/recipes-gnome/libxmlb/libxmlb_0.3.28.bb
-+++ b/meta/recipes-gnome/libxmlb/libxmlb_0.3.29.bb
-@@ -8,7 +8,7 @@ SRC_URI = " \
- 	file://0001-xb-selftest.c-hardcode-G_TEST_SRCDIR.patch \
- 	file://run-ptest \
- "
--SRCREV = "7a1b31db70bca83345de26219eb7e858cb85d321"
-+SRCREV = "d942cd68a7d78e35b312b9299e69f68f9cd2e503"
+diff --git a/meta/recipes-devtools/python/python3-pip_26.2.bb b/meta/recipes-devtools/python/python3-pip_26.2.1.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python3-pip_26.2.bb
+rename to meta/recipes-devtools/python/python3-pip_26.2.1.bb
+index 4e5a777931c..7f041f822e3 100644
+--- a/meta/recipes-devtools/python/python3-pip_26.2.bb
++++ b/meta/recipes-devtools/python/python3-pip_26.2.1.bb
+@@ -26,7 +26,7 @@ inherit pypi python_flit_core
  
- DEPENDS = "glib-2.0 xz zstd"
+ SRC_URI += "file://no_shebang_mangling.patch"
+ 
+-SRC_URI[sha256sum] = "2d8542afcc84cdd8e846c2b36b2861fad1da376dd98f8e7113e9108a3c331690"
++SRC_URI[sha256sum] = "f6ad667e89a1fe78046c8f13232b247200f5258d7828f3f7883d660878e0813f"
+ 
+ CVE_PRODUCT = "pypa:pip"
  
 
