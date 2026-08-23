@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CE22C5DF9C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C5EFC5DF8C
 	for <webhook@archiver.kernel.org>; Sun, 23 Aug 2026 07:49:30 +0000 (UTC)
-Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10587.1787471368254406756
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10586.1787471362593621301
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2026 00:49:28 -0700
+ Sun, 23 Aug 2026 00:49:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=QBSDGrVI;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-480033bdcf4so1132032f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 00:49:28 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LOgiE+s4;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47362928f65so858193f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 00:49:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1787471366; x=1788076166; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1787471361; x=1788076161; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=iZ+m953RRz6//F80NGmMMxAQwXgG+irBWa3i2SWtL+o=;
-        b=QBSDGrVIWfbd9re5YC9LFiNU7OkHcN0WiYcMNuY6A/awI2JoZVk8i2c19oV73/4ciE
-         EFQiHfiba/6pmc0CujyhJtQmYTU3r9keF+X4t4rUK90y1KDmeapit5i9PSNKfNXA3gPW
-         vLDEkpCNsRCIyyU67W92IoBy4NhqsMeX0Cuto=
+        bh=b5VR55+X4fRKxPZCe4t9/x+Xj0r18x+gK2w3ubOYUCw=;
+        b=LOgiE+s45bpJe/PaYJBb2wS5hhiJCaEdcV+glu2uLK7bB+DUEcPEEhmzfZLOTQQzDZ
+         NgPV17wPhWRv04TF9w7MhyxSVjcahw2LrmAQQIkhSZ8Zi0ztFP+McChRNu6Mm2M04Yap
+         lOVYdm2DgRXi5Vj+JRhhaiXQ+wyI2notTOdX0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787471366; x=1788076166;
+        d=1e100.net; s=20251104; t=1787471361; x=1788076161;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=iZ+m953RRz6//F80NGmMMxAQwXgG+irBWa3i2SWtL+o=;
-        b=TGRnen5Z++lZp14n+uCFTtxz6qtvlgooNkNOhBH/YrsdRWVc9selpWwedOaOBzgsWs
-         8U0pndEQDts3LG+rOUdCue9tdcj7fRYM7zNMgqZSr+MFBvsMip+8iiPe26J02YYTGzR5
-         Tluk0Ctm/3MotTNlE+yghaVWOqK2/UehjsXKXOqJIv/u4KK+DCYgRNvNWw1qra9Kkn3k
-         JURTAf4M8o8LdYWaBr2F80S/lqirUCN9WB/R1WgNlu+Q92pEr+VAJgdOG+ZKEbRfsHPk
-         X3PGyD8Whd83yG8UeAuqY/pDoz6yiA1oVInN4Dk9WMqa1Ni7ECP4+u465cX3jjEycxVe
-         5bjw==
-X-Gm-Message-State: AFuF++knbp4ROtA1fMY4sj6NTqJkJIIJ+b3iszaixoSaYE9Ef2jlK82d
-	jlyHh6GJe4BTL5MjStl2U8CDRc94kVf/jYErJBJ0wGLdfzz8sggZWXBjUxM7ZGH30T8NEM1eKij
-	pKHVfAPs=
-X-Gm-Gg: AR+sD12Q7oNHK2m/z9bYl0XyRN/hy0Ds+XWWTmYlEjAFe4CM4SGspbrGrkUJBBZt2TT
-	UCXh4v7FOxIYHAu+07CgD12IxcNyv/vH8mGAKepfbWLSFndTZHHHT+1ri6G4ozIvE/T54FtQb3t
-	36jSvJY4zGCXt2+L+edmbiu+YeUD/nNWt4A3lTIOEH5bLJAV3hnp02tGL4suQ8DB8ZyfyUoEhKt
-	hv1iIToYvgZ3tqiS5WHggjhcbp+B7UWpo/Wx0K53c4pP4vM0zijMpfmUNPoUY6VFH5L8UcCPXbJ
-	O7Zd29eGiDzS20fhmhudcl9SeiJPNzLo7+1sEtHUOLJQlcS+ZytHYzChUCUV4FpnzoCo+gP7WaW
-	twojvkvOYPkIImr35OKiq/MjNbDe0EUvRLTQ8/8EIED62goiQk2Gr76vts1avcG1kwgSXNyV3Um
-	epkf5i/pNa+9IJBAkKsT5rcODy3fBjoGxv1HTw1Ta0BGKWEceSNpg3SdDRGcrbeIXpvkKwNaVyD
-	fc16EG+pT/CucydUuA=
-X-Received: by 2002:a5d:5e02:0:b0:481:3db1:a62f with SMTP id ffacd0b85a97d-482c814fe89mr9514643f8f.17.1787471366498;
-        Sun, 23 Aug 2026 00:49:26 -0700 (PDT)
+        bh=b5VR55+X4fRKxPZCe4t9/x+Xj0r18x+gK2w3ubOYUCw=;
+        b=As3qI5tRBPq9Pvnwhx58CbYXBoTLDvH5XuqwkKwOw/MGj6Yk57ga3Vd8+wwkMWN89X
+         D/gamaF5Hi0XmbywrtKymAgKlE73dCvJV8xO6lYLbQAg99R3WI6aucaA2FweroAgfPUF
+         DYjTm2vvYnjQXqcpMfW2iNYngeEiWT26SifeZLc/9egNMd3QZVWy6mnBHXAlm2XpwYV/
+         mUoy3dnlvkX+g8oj5rBxrnPDh+FzQJ3rsJrdvkATlCfjpmFyiXFSYg7T8XVYbosNH0et
+         3V9IK23FeHmv7wwa7zetIDBiGtfhDOpi4pJQua72uRD+3S1vkUzmM0oSz2TSnI1kveQP
+         HMCw==
+X-Gm-Message-State: AFuF++lfi01vFUJ8q2dl7BAKtgTbF3z7IrmgLCXKzyYKWbGCVtIrNigm
+	YyflvG/HxSefPn698gomkTNQmKTD0ZrBdGhyMLS32Mhv+DrcneYX2WCsQlosrSHo5tIwi0XmKFd
+	D00eLdCY=
+X-Gm-Gg: AR+sD13LLpXBdi6nU0GIt+PwrrwuQ5VkPFahrLaysU3nY8RypqAJcz1bzZw0rkuj+bW
+	Pxw+PUofxdu3h5PsLLjIUrXi7IdLwwP3Fm4cOqGXbCjKhI02mzWvfJCxt7abx2OgDbL8vtkOG9C
+	kQ9HBpbnH26N/Wsr50RpZBZ8VOX+ooVJbsVz2GmyoVTVtiOKk5+dGaDOnbg/IECgkvzy6EhYiuh
+	j00MSqV9kFe5qefCGS7bS6P19nyqZvGcCCeKc0RrwTGTMFeIrJlTh9ublPUmjD5cpiVsTZBSQfb
+	9h5jQhn/CNPR+4LB2/E4UxHTlT+tnb6CAafh/bt/TxG6As9HBwh+CsR/ut+2IECQIuTfnhOzdjo
+	09MSml3/FFSxe1QzS8zxIQW1/rTiBmZI/5/uGHAW8te2DlILoAY0pIxJ4CFu1NPgzKyG0KBtDRP
+	/7ggXWUlLHcz0r8PV2CVOBr+oQ0zplP1bcl1sGayJvCHH+4hwRDjj+76yicXmVn1EZIHfKipjO+
+	WuCvViizg7ixxwlFg==
+X-Received: by 2002:a05:6000:2589:b0:482:bf17:e685 with SMTP id ffacd0b85a97d-482c0b88f19mr23864132f8f.11.1787471360838;
+        Sun, 23 Aug 2026 00:49:20 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:8601:39db:494d:605c])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9bfcc31sm4279602f8f.17.2026.08.23.00.49.24
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9bfcc31sm4279602f8f.17.2026.08.23.00.49.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 23 Aug 2026 00:49:25 -0700 (PDT)
+        Sun, 23 Aug 2026 00:49:20 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/7] python3-hypothesis: Upgrade 6.165.9 to 6.165.10
-Date: Sun, 23 Aug 2026 08:49:09 +0100
-Message-ID: <20260823074911.1711858-5-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/7] makedepend: upgrade 1.0.9 -> 1.0.10
+Date: Sun, 23 Aug 2026 08:49:07 +0100
+Message-ID: <20260823074911.1711858-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260823074911.1711858-1-richard.purdie@linuxfoundation.org>
 References: <20260823074911.1711858-1-richard.purdie@linuxfoundation.org>
@@ -66,28 +66,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 07:49:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244016
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244014
+
+Changes:
+
+- makedepend 1.0.10
+- meson: include headers when checking for functions
+- meson: Add option to build with meson
+- gitlab CI: drop the ci-fairy check-mr job
+- Improve man page formatting
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...on3-hypothesis_6.165.9.bb => python3-hypothesis_6.165.10.bb} | 2 +-
+ .../xorg-util/{makedepend_1.0.9.bb => makedepend_1.0.10.bb}     | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.165.9.bb => python3-hypothesis_6.165.10.bb} (92%)
+ rename meta/recipes-graphics/xorg-util/{makedepend_1.0.9.bb => makedepend_1.0.10.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.165.9.bb b/meta/recipes-devtools/python/python3-hypothesis_6.165.10.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.165.9.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.165.10.bb
-index 197989521e2..ccb6c6cf8f7 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.165.9.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.165.10.bb
-@@ -17,7 +17,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-graphics/xorg-util/makedepend_1.0.9.bb b/meta/recipes-graphics/xorg-util/makedepend_1.0.10.bb
+similarity index 88%
+rename from meta/recipes-graphics/xorg-util/makedepend_1.0.9.bb
+rename to meta/recipes-graphics/xorg-util/makedepend_1.0.10.bb
+index 6db7d040790..643624485cd 100644
+--- a/meta/recipes-graphics/xorg-util/makedepend_1.0.9.bb
++++ b/meta/recipes-graphics/xorg-util/makedepend_1.0.10.bb
+@@ -17,4 +17,4 @@ BBCLASSEXTEND = "native"
  
--SRC_URI[sha256sum] = "a5d1fa312020b499c517e1217ef4440c56a9b52e20b47b420b48a583a81c412b"
-+SRC_URI[sha256sum] = "68b45e09834cd80523cb1eb274463073c7a9af4e4ef7cff34d9615f355572d32"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=43a6eda34b48ee821b3b66f4f753ce4f"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+-SRC_URI[sha256sum] = "bc94ffda6cd4671603a69c39dbe8f96b317707b9185b2aaa3b54b5d134b41884"
++SRC_URI[sha256sum] = "baf742fb6c76c15febf5181e5cd814066205d8be9aef4abfdc2c54b235e14917"
 
