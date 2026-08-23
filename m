@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 98584C5DF8C
-	for <webhook@archiver.kernel.org>; Sun, 23 Aug 2026 13:50:39 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14772.1787493035803342071
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9C8F7C5DF97
+	for <webhook@archiver.kernel.org>; Sun, 23 Aug 2026 13:52:39 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14568.1787493157469545791
  for <openembedded-core@lists.openembedded.org>;
- Sun, 23 Aug 2026 06:50:36 -0700
+ Sun, 23 Aug 2026 06:52:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=hLmYRPPH;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-202608231350320d2332c01000020796-ybwq8g@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202608231350320d2332c01000020796
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=aBQKTmLe;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-256628-20260823135234f40e2ed50e000207e6-g48wub@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260823135234f40e2ed50e000207e6
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 23 Aug 2026 15:50:33 +0200
+        Sun, 23 Aug 2026 15:52:34 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=6fPBa2GH3CP1dWEplum3tXYMD8KS0gLlmDw6F1eOHZU=;
- b=hLmYRPPH4+5aUrRb2f1ETFHIn333Pa23CkEwiRnX5kVyOhzV0poJB2Y9fTrVXHBJIrPGPd
- YXxntyPBy6exScuVd8QMq8EA5KDBrsEZnGR0K9uHVXzTMxpDiIzL3NNMSwxaUZ6JgZDBxO4V
- ck4leadb0AWliowaOAi9Q+18OyQxMBCiBn61llrLy57Zfuw2/CWNda4CSZfweIUga/MQV4km
- EahT7SkS7glIjfMIVIG14Ts/D66viAXCAR+gJqj3DYTD4CElEpebJl/Ox2rpatuCFE4vBBd1
- K58ZtGMktTe41Nt2KByZ8/uXWbYKLOmtRDh6REFYQlJHsEsUCAIUkX9w==;
+ bh=tY2bXqWLcorV+n/R1LCfdWz3l6QauiCTxwHFbavXZSg=;
+ b=aBQKTmLeg0SfRoJP+FDyU4lqd/ORDVGXEmHT9aU7vkjs1LI5VWK1gk3DAkguigEWa6oXJP
+ qd0e2h1gIBOUCwdJLkPDhldrCXUe5Juq+gcorz4GWvqzzVe34q1kPUuLnkKusnTLONDrkE0a
+ mNnNfOXDbSIUfKNbYc/7lLJHE1egMNn3oaso+XWbOi8tgVXHtRNjVnuGBfG4roq8JHbuSMLC
+ 6YXYlZwxhzg5NR1hparUBLcilAWQI+BzfisTdFDNUFnmFl+KZTmA/A7O7ZvDv2dNpOLQq/ZP
+ WB0oLrLUgiIo3UqrXx70D6Pd83yRLq56Rtt88BKetT7LmtV/Vz2xzJhQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: peter.marko@siemens.com
-Subject: [wrynose][PATCH v2 1/2] libevent: upgrade 2.1.12 -> 2.1.13
-Date: Sun, 23 Aug 2026 15:50:28 +0200
-Message-ID: <20260823135028.2032497-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH v2 3/4] libevent: upgrade 2.1.12 -> 2.1.13
+Date: Sun, 23 Aug 2026 15:50:07 +0200
+Message-ID: <20260823135007.2032450-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,8 +36,8 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 13:50:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244037
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 13:52:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244038
 
 From: Ross Burton <ross.burton@arm.com>
 
@@ -90,7 +90,6 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 (From OE-Core rev: 9ae7030db6f5c415de94b6d85eaac418ae1e0f7b)
 Full release notes:
 * https://github.com/libevent/libevent/releases/tag/release-2.1.13-stable
-Unpatched CVE statuses will get fixed with backport of latest cve-tooling.
 Removed github style user references.
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
@@ -107,7 +106,7 @@ v2: remove github style user references
  rename meta/recipes-support/libevent/{libevent_2.1.12.bb => libevent_2.1.13.bb} (95%)
 
 diff --git a/meta/recipes-support/libevent/libevent/0001-test-regress_dns.c-patch-out-tests-that-require-a-wo.patch b/meta/recipes-support/libevent/libevent/0001-test-regress_dns.c-patch-out-tests-that-require-a-wo.patch
-index 505153d285..bab94a17ec 100644
+index 505153d285e..bab94a17ecd 100644
 --- a/meta/recipes-support/libevent/libevent/0001-test-regress_dns.c-patch-out-tests-that-require-a-wo.patch
 +++ b/meta/recipes-support/libevent/libevent/0001-test-regress_dns.c-patch-out-tests-that-require-a-wo.patch
 @@ -1,4 +1,4 @@
@@ -139,7 +138,7 @@ index 505153d285..bab94a17ec 100644
   	  TT_FORK|TT_NEED_BASE|TT_NO_LOGS, &basic_setup, NULL },
   
 diff --git a/meta/recipes-support/libevent/libevent/0002-test-regress.h-Increase-default-timeval-tolerance-50.patch b/meta/recipes-support/libevent/libevent/0002-test-regress.h-Increase-default-timeval-tolerance-50.patch
-index 0b20eda3c0..effb825f31 100644
+index 0b20eda3c08..effb825f315 100644
 --- a/meta/recipes-support/libevent/libevent/0002-test-regress.h-Increase-default-timeval-tolerance-50.patch
 +++ b/meta/recipes-support/libevent/libevent/0002-test-regress.h-Increase-default-timeval-tolerance-50.patch
 @@ -1,4 +1,4 @@
@@ -177,7 +176,7 @@ index 0b20eda3c0..effb825f31 100644
 -
 + 
 diff --git a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
-index ddc19c495f..aa0d4f9ef1 100644
+index ddc19c495f1..aa0d4f9ef1b 100644
 --- a/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
 +++ b/meta/recipes-support/libevent/libevent/0003-test-mark-util-monotonic_prc_fallback-as-retriable.patch
 @@ -1,20 +1,20 @@
@@ -213,7 +212,7 @@ index ddc19c495f..aa0d4f9ef1 100644
 -2.31.1
 -
 diff --git a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
-index 26b707ad31..4cb2a6d7bc 100644
+index 26b707ad316..4cb2a6d7bc0 100644
 --- a/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
 +++ b/meta/recipes-support/libevent/libevent/0004-test-retriable-tests-are-marked-failed-only-when-all-a.patch
 @@ -1,4 +1,4 @@
@@ -248,7 +247,7 @@ index 26b707ad31..4cb2a6d7bc 100644
 -2.31.1
 -
 diff --git a/meta/recipes-support/libevent/libevent/Makefile-missing-test-dir.patch b/meta/recipes-support/libevent/libevent/Makefile-missing-test-dir.patch
-index 8880bd0407..c54a2b7bb0 100644
+index 8880bd04075..c54a2b7bb0f 100644
 --- a/meta/recipes-support/libevent/libevent/Makefile-missing-test-dir.patch
 +++ b/meta/recipes-support/libevent/libevent/Makefile-missing-test-dir.patch
 @@ -1,4 +1,7 @@
@@ -283,7 +282,7 @@ diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/recipes-sup
 similarity index 95%
 rename from meta/recipes-support/libevent/libevent_2.1.12.bb
 rename to meta/recipes-support/libevent/libevent_2.1.13.bb
-index 8bb6d90d70..431018f0f3 100644
+index 32c61768d93..b0de8637390 100644
 --- a/meta/recipes-support/libevent/libevent_2.1.12.bb
 +++ b/meta/recipes-support/libevent/libevent_2.1.13.bb
 @@ -20,7 +20,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/release-${PV}-stable/${BP}-stable.tar.gz
@@ -294,5 +293,5 @@ index 8bb6d90d70..431018f0f3 100644
 +SRC_URI[sha256sum] = "f7e9383b8c0baa81b687e5b5eecc01beefaf1b19b64151d95ed61647fe7a315c"
  UPSTREAM_CHECK_REGEX = "releases/tag/release-(?P<pver>.+)-stable"
  
- S = "${UNPACKDIR}/${BPN}-${PV}-stable"
+ S = "${WORKDIR}/${BPN}-${PV}-stable"
 
