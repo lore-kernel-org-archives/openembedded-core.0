@@ -2,849 +2,872 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB467C5DF8C
-	for <webhook@archiver.kernel.org>; Sun, 23 Aug 2026 06:57:28 +0000 (UTC)
-Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10307.1787468243360400179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B29AC5DF81
+	for <webhook@archiver.kernel.org>; Sun, 23 Aug 2026 06:57:38 +0000 (UTC)
+Received: from mail-yx1-f53.google.com (mail-yx1-f53.google.com [74.125.224.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10308.1787468249602715773
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Aug 2026 23:57:23 -0700
+ Sat, 22 Aug 2026 23:57:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=IjYM55SA;
- spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8111c0c7561so38253797b3.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 23:57:23 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787468242; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=fOhdBbdz;
+ spf=pass (domain: gmail.com, ip: 74.125.224.53, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx1-f53.google.com with SMTP id 956f58d0204a3-66cec6843baso2303835d50.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 23:57:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787468248; cv=none;
         d=google.com; s=arc-20260327;
-        b=pj+VaYiodZJjMjjNIhdG17LNrVER3X6pBG9WLi2IoVnk8dcsX1sflebBHuagPpL9I7
-         Wq3wuaGcTOGr7Fi4JNB1r6W/naV/uaiE5+4LkCHWaWn7K+izP6Hqe4CtL+3PYTyFFdLL
-         yzA80xj2Sz3pj3iCFU2FlhrzBWdQd026xaSuFEbeuj1FbdEz24gKR4QIjIzZEYbHkbei
-         7MVk/VmMJNmQkA/YeR9ZX73SKbbd5xJKBm4cSHORas9QKA78wnGQnG08vFYMJW9sMY68
-         wqD7JOlex4sB8Vs5IT8eV8bzJpVgBNkDDVEZXX0X1cPDXzNnLkH4rSBJnO9Y2xHDZ6Pp
-         /48g==
+        b=C+/ZZb2w+rCEoW4fGgPXtdLV6aMdNUQC7RiCtnniv/U2u5OFQXMU0FU3HUol+cOwlA
+         ivJSNiuysC5pYhgUMzvu84cx0l1yh6ZAvhFhVPb6A65FXRMTpZhwn1UVVslZfQI7huWl
+         7+PxqELqGrudRjFR6eEWD7JcKBnL6Rvm8EXfxdm/vlRc6Hf+Afk2SYsvr+yCcfRqHPqi
+         /QeDG9iL5LYrAwKmiHhWDumQ/r1M8WOSg2PiT0ORlBdiKnpRy4l8VrN2PDdg34GG1aq6
+         m0mTSkKnmJOW3iS5FPtkvlFgKpt1mlbKW3yx//4EGRD7LV9N1B/5W/alvLTc4686xPE/
+         cFbw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=eTU4MMjJSZHWzPjvCana1axd7vJDsvzOjzdbrsmWchs=;
+        bh=p0ihg2xRGE8rTPdHAhkjPIpmzC5QUKdZn8g6DmyWPGU=;
         fh=6Z4xUuTqkcxNv6cvnn0HdSGcZYvnhz2BRm++iEwx924=;
-        b=pIXGoQsvo+7PQJZ+oIXKHeKqpwz6ZBCdZ5kmNHvAu4ATlWpNDknukutivLN8F9x03X
-         +3SN7A+11UHQRVFv1XkIElZKUPLfMvqOcPt+z5zN5cUYUetAhR1Rm9mZWvd/foe9wcWN
-         1VjrjwlZuO3useicvOK+tA+2N3lOysg075ogoMxIlW1d01E5LoMuWJjbWzhwKmc14LNn
-         YWxW5JXqWT819B60qNrrTkSeIjVM4WEOXW33UcpnVece9pAK2smWuP0n6T929Hha+iIJ
-         keSVBo2uTiQA/xXi2b+e13HM5g1RKHw/pIQQgbl58eNgDA3n58uM+IFiKVuzlJxbm4OS
-         PWnw==;
+        b=mWH+gxCNViyi1KZQXGAaJ+Ywndls2SyG/xPhI6u9QNpclCndljbIx/minyals3bGkY
+         mjB99NXUNqQXdkNS8CRhG8/meO1yfs19B7k0Cjhssb/Y7WXjYdYFnUELYnZdfUcW2VY8
+         7I5s7nEeo2OJW71tm5977gVhYaaMx3BcGNY8SR0VBJJ2gb+Bu1Vxse6omgcJaLvaK6/O
+         vgxINoeMNjuZJCUnXMp111z/K56IFb8a62c2mqUnEl2evPR6tPsFv0nZ9lQ/xL45hQKd
+         khFooA4aS2TU3IAf0rkMR5xv6vRuTOg6uPKwqiPXhuO7hrW1gGgjACY5SnT8BP3KcRwp
+         jeZw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787468242; x=1788073042; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1787468248; x=1788073048; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=eTU4MMjJSZHWzPjvCana1axd7vJDsvzOjzdbrsmWchs=;
-        b=IjYM55SABj5QUCl/zsbq1YvYvWwEcl/CX7q/CQR1WBhiRuXud+cTru8/285YQuNjNk
-         1sWlk0EFUUbQoXBmKN2HxZX33cK6Em/uA0KAqGjoR+da83L4VxcyjiR37zI6gCcASrAx
-         5/K55Uv9fdR+0V9W4mtQsM0xfc6d2wqDaLxZlIQTFsih5K1wjWJEuYjRZF6ezXhZXNNb
-         WPVu6daoW26MTjFv5B5qunFLOrPvEU2ExvwHUk22Bun7/kIwVozzph+e8qZoKMlNv3/X
-         pIYVnsTNK5NlNYNQX651X48R+4cCYL4w2+gjTo4wpe/6Lp2nobVSq77VHDffAZGXTL/U
-         r52w==
+        bh=p0ihg2xRGE8rTPdHAhkjPIpmzC5QUKdZn8g6DmyWPGU=;
+        b=fOhdBbdzSotNP7D1TuR41LszY2la6IIaTDEhiVv37hty1QAllPIQ0qHk3lHuUEnczs
+         +T6emAzyuZtOCH2UABn8QCeAQJ8mZ1ss6eQjbvQs634JYETdYAO4brCisMW4RPckjRu/
+         YZQq8HURULa1EqN1J5K7paIu7FR0VowEqf5jmlHDrCxNCU1M2n0ooq2jcoG+s4E49gfD
+         0eY7J4Jtqt70SPwrLa4ktfa48W5Id3elJu0JpsJl4ip8wCqBwRY97h9SpsxhDQSDKK1O
+         Ll55hLC9+manxutotYNb8rAl4xdUPa8lyfLTM5cx8pLU+atSaTu3CTE0qPb+7QbH5Go6
+         TDDw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787468242; x=1788073042;
+        d=1e100.net; s=20251104; t=1787468248; x=1788073048;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=eTU4MMjJSZHWzPjvCana1axd7vJDsvzOjzdbrsmWchs=;
-        b=j371+zSZ2ovmshuTrHPZoMMr7k1TkOxNSNy4yQqFfGtjT1PfmbGPGZMPv0BO2/Nv8x
-         O1dubK/cWTWt4o8Di3/JmUGcDrRjwdQovsVZHZ7nr7raetben4ttIO1EJkE3ei0HbSWw
-         ZiRLfZYnt+c88H2XtkyzPzsuPGa9Bt8Ej47QFuaOrG70xS78+RUsapg1zkeL40rv8ZUn
-         ouizYWapP76DcRkF38VDj8/SPjO56yuQiiTg7jR9rw1Y8rVHFWiK66Pxee1pvHQlNWbD
-         gOIg+byieVcuO6lxBwZNxxj2hexDegHwO14vGGnuApdFuKtNDeK7Am/jpKqO8WGpEksj
-         +W/A==
-X-Gm-Message-State: AFuF++nJC+skT0ZWBjwIp7HajMq96wvAAIIyBIt9Ll3LWWS1kOSqktBv
-	MUY1Vsyb/r5mj4jQDyJw1KLw4trj6yxR4qxj4ZG8z03zpdenBw6w54y+HlaavYGnAgJslsNJo7e
-	iYaY4N9oFChFVHSSyv1wrY3q9+WIbpBz0wlgS
-X-Gm-Gg: AR+sD11VM2xPJ+A6r79U2gShizhUE19wFWc+/LFt0cpECFeSmk0oO+3d3DSGLzTlXEH
-	J13MR11rt23LRahizqECjqGmzsDxAOg8FYp1XKypg/P6oY3NNVnaxS0ODDbuGtGrAQ1LAWwrCl1
-	x/jOgr1dmbClZ+xdwmnpkwHiN9YHzoD2ocInqb6mVRMx2xydTDWZrdD2RoctMzUbltdYH6wsqDh
-	mYmL3rDcfGBtf130XuVzLUsgGl2H7BDAbIjF391j95am5lwEbLhEf0ZVgtqbepmt+tNfoYVuWar
-	nkkxRgIjQ+gIDYDUAxLzyJNyo4YVOyQv7je8PiEc0o0r6TrGxhY5kYOF482siOdfCPjysvtGabR
-	yOsNzMN8YOoQSejRbd5RIYCJYLQa8+atQco9nhjFa/BCgxd40nTfP7LMEdcVETwR8Yf4VhAoONg
-	JtCA8vehLHK8npVDvOesXmIs2Crpj3DbRtoDwnZIYrTU2DKYWl0sGdfUGw/r6Yhxf92JPWJ702j
-	e+lPn2fqsL08w==
-X-Received: by 2002:a53:edc1:0:b0:66c:c1a7:b6 with SMTP id 956f58d0204a3-66ce4a079fbmr5067820d50.23.1787468241982;
- Sat, 22 Aug 2026 23:57:21 -0700 (PDT)
+        bh=p0ihg2xRGE8rTPdHAhkjPIpmzC5QUKdZn8g6DmyWPGU=;
+        b=FtU1VKYZ/wP1annTER1tiTx4hVRMcIoGChnAUTKZbDgqY+TO88WmoPQpJk2JtQs2Q5
+         db2mFLzcJpxFNuzDCEkBF0T6K2oLfRdl8iaAWftsVKyXhNI/Qs11DHXOikqJhVo7CN05
+         PSaXBG61vdkKIfmCGtVTYrXNKJy/kfQOhcGP737FlAz0DRQ2jdlLnundJs5RcxevFSlm
+         sEBSnlPOm2HIDmXZmnws8Qj8k1B8JmlM/c409HFEG3/Ucq//Y9UEuzXZhCVpVDLITvJt
+         O3CrvqRSsmihbXTks7XQAUedD5v2xT9WKE/tv9TqhE1gwhv2HvyfiElKHoeKIiFnDVF2
+         eWvw==
+X-Gm-Message-State: AFuF++lN36IyflXKE2jtWzvybxQld1uAsMXioE4fEZpb70J7UZQ0EB7K
+	lseaVTV5oEvv5HWtopRXboxir1NrVQeIDm9Fxg15mv3h+KSI9SLvm7Bimcy9exF0qdobDmWfPm1
+	rtZRK6mOITdQo+wXpLjEk8QENa5NgCnI=
+X-Gm-Gg: AR+sD13ZeM+YW+wcxIGwG29P2zdPh5jPVLBchrDaeAmWPIQ+moWSBeefW60+AL8QZdZ
+	ObBxFIjAbjzIJkGKLZFgRIZ21i8o5iPRRK2Ac9YseXkVbfY+g8NESTspaV5VK0V2dltR3gTNKpP
+	jOYxHMBBkyH/qGSUrBpuYLcPCNurQ0EMo6pO2tKx5XRegVkYqwFqb0XQ3m4ROB0LL3cKTKGBv5i
+	dIKKnSsqCSa5tfPdRhROuq8aH/6AmsGF9AxSxKpWFIMPayjLSBjQHhsogjCx4VBffbM5TvOZNTu
+	q3cbSAj3AHSI40YpcYPBlhzbcDxaqgVrqUy/hbowFpGO9YHdNT0sgCd9jh6YkCmDz2eCzbpY40l
+	caMUT5M+upQ9rFcPvgrZPWTToOByvGlqxce1/UZdRGgjTBXjgLUYUXsuMotoFXz7PUma5veGbHp
+	1EQJqqOzJbbyrk7CimHlGK9XWtqIhyFpDbZzEoXOAtLEQUOZgSzWTElWFXFzfdEecYOjMBFioyG
+	q8/sW4M+gmVsjd9BUc/ldhV
+X-Received: by 2002:a53:dc85:0:b0:668:a57:2b0f with SMTP id
+ 956f58d0204a3-66ce4b4a749mr4541353d50.45.1787468248332; Sat, 22 Aug 2026
+ 23:57:28 -0700 (PDT)
 MIME-Version: 1.0
 References: <20260814051829.35088-1-jaipaul.cheernam@est.tech>
  <20260822175200.57534-1-jaipaul.cheernam@est.tech> <20260822175200.57534-2-jaipaul.cheernam@est.tech>
-In-Reply-To: <20260822175200.57534-2-jaipaul.cheernam@est.tech>
+ <CAMKF1srbmfWVAsLs0VFn00e9enhEhYjZQwWj21JQ8w3qiuV9eA@mail.gmail.com>
+In-Reply-To: <CAMKF1srbmfWVAsLs0VFn00e9enhEhYjZQwWj21JQ8w3qiuV9eA@mail.gmail.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sat, 22 Aug 2026 23:56:54 -0700
-X-Gm-Features: AcwNN1W84JjEIeguOT-PF103Ch8l9gAsw0ag04FBDf0oi78ZyhIDnHe3yuTblbE
-Message-ID: <CAMKF1srbmfWVAsLs0VFn00e9enhEhYjZQwWj21JQ8w3qiuV9eA@mail.gmail.com>
+Date: Sat, 22 Aug 2026 23:57:01 -0700
+X-Gm-Features: AcwNN1XBZ43ZwTf1V6rHrPK_VszfVS4Di2Yr6rSwZczz2whC8isJYLOXt_QU59Q
+Message-ID: <CAMKF1soam_e0bWKgqVUde_nG7iMjVwC9fue+5q2h=DJ=FSVMXQ@mail.gmail.com>
 Subject: Re: [OE-core] [RFC v4 1/6] openssl: upgrade 3.5.7 -> 4.0.1
 To: jaipaul.cheernam@est.tech
 Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000009c5cfd0659b1613c"
+Content-Type: multipart/alternative; boundary="000000000000fd3c920659b16143"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 06:57:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244009
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 06:57:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244010
 
---0000000000009c5cfd0659b1613c
+--000000000000fd3c920659b16143
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-here are meta-openembedded failures
+https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/8474313/raw_inlin=
+e
 
-On Sat, Aug 22, 2026 at 10:52=E2=80=AFAM Jaipaul Cheernam via lists.openemb=
-edded.org
-<jaipaul.cheernam=3Dest.tech@lists.openembedded.org> wrote:
+On Sat, Aug 22, 2026 at 11:56=E2=80=AFPM Khem Raj <raj.khem@gmail.com> wrot=
+e:
 
-> Upgrade OpenSSL from 3.5.7 to 4.0.1. This is a major version upgrade.
+> here are meta-openembedded failures
 >
-> Changelog:
-> https://github.com/openssl/openssl/blob/openssl-4.0.1/CHANGES.md
+> On Sat, Aug 22, 2026 at 10:52=E2=80=AFAM Jaipaul Cheernam via
+> lists.openembedded.org <jaipaul.cheernam=3Dest.tech@lists.openembedded.or=
+g>
+> wrote:
 >
-> New CVE fixes not already in 3.5.7:
->   * CVE-2026-28386: Fixed OOB read in AES-CFB-128 on x86-64 with AVX-512
->   * CVE-2026-35188: Fixed double-free when checking OCSP stapled response
->   * CVE-2026-42765: Fixed NULL deref in cert verification with OCSP
->   * CVE-2026-42771: Fixed OOB read in X509_VERIFY_PARAM_set1_email()
->
-> Major breaking changes in 4.0.0:
->   * Removed support for engines. The ENGINE API is fully removed.
->   * Removed support for SSLv3. SSLv3 has been deprecated since 2015.
->   * Removed support for the SSLv2 Client Hello.
->   * Removed per-version TLS method functions (SSLv3_method(),
->     TLSv1_method(), TLSv1_1_method(), TLSv1_2_method()).
->   * Removed c_rehash script tool. Use 'openssl rehash' instead.
->   * ASN1_STRING has been made opaque.
->   * Numerous API function signatures changed to include const qualifiers.
->   * libcrypto no longer cleans up globally allocated data via atexit().
->   * Added AKID verification checks when X509_V_FLAG_X509_STRICT is set.
->   * Support of deprecated elliptic curves in TLS disabled at compile-time
->     by default.
->
-> Recipe changes:
->   * Drop 0001-Added-handshake-history-reporting-when-test-fails.patch
->     (merged upstream via PR #22481).
->   * Refresh remaining patches against the new version.
->   * Remove ENGINE API artifacts: engines package, dasync.so/ossltest.so
->     ptest installation, ENGINESDIR references, OPENSSL_ENGINES wrapper
->     variable, and cryptodev-linux PACKAGECONFIG.
->
-> Tested: ptest on qemux86-64:
->   Files=3D362, Tests=3D4310, Result: PASS
->   Passed: 338, Skipped: 24 (fips, lms, rc5, tfo, compression,
->   sslversions, sslkeylogfile, external tests - all expected)
->   Failed: 0
->
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> ---
->  ...ke-history-reporting-when-test-fails.patch | 366 ------------------
->  ...1-Configure-do-not-tweak-mips-cflags.patch |   6 +-
->  ...sysroot-and-debug-prefix-map-from-co.patch |  11 +-
->  .../0001-extend-check_cwm-test-timeout.patch  |   4 +-
->  .../{openssl_3.5.7.bb =3D> openssl_4.0.1.bb}    |  28 +-
->  5 files changed, 18 insertions(+), 397 deletions(-)
->  delete mode 100644
-> meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-re=
-porting-when-test-fails.patch
->  rename meta/recipes-connectivity/openssl/{openssl_3.5.7.bb =3D>
-> openssl_4.0.1.bb} (87%)
->
-> diff --git
-> a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-=
-reporting-when-test-fails.patch
-> b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-=
-reporting-when-test-fails.patch
-> deleted file mode 100644
-> index a74c79303f..0000000000
-> ---
-> a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-=
-reporting-when-test-fails.patch
-> +++ /dev/null
-> @@ -1,366 +0,0 @@
-> -From 5ba65051fea0513db0d997f0ab7cafb9826ed74a Mon Sep 17 00:00:00 2001
-> -From: William Lyu <William.Lyu@windriver.com>
-> -Date: Fri, 20 Oct 2023 16:22:37 -0400
-> -Subject: [PATCH] Added handshake history reporting when test fails
-> -
-> -Upstream-Status: Submitted [https://github.com/openssl/openssl/pull/2248=
-1
-> ]
-> -
-> -Signed-off-by: William Lyu <William.Lyu@windriver.com>
-> ----
-> - test/helpers/handshake.c | 136 ++++++++++++++++++++++++++++++---------
-> - test/helpers/handshake.h |  70 +++++++++++++++++++-
-> - test/ssl_test.c          |  44 +++++++++++++
-> - 3 files changed, 217 insertions(+), 33 deletions(-)
-> -
-> -diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
-> -index f611b3a..5703b48 100644
-> ---- a/test/helpers/handshake.c
-> -+++ b/test/helpers/handshake.c
-> -@@ -25,6 +25,102 @@
-> - #include <netinet/sctp.h>
-> - #endif
-> -
-> -+/* Shamelessly copied from test/helpers/ssl_test_ctx.c */
-> -+/* Maps string names to various enumeration type */
-> -+typedef struct {
-> -+    const char *name;
-> -+    int value;
-> -+} enum_name_map;
-> -+
-> -+static const enum_name_map connect_phase_names[] =3D {
-> -+    {"Handshake", HANDSHAKE},
-> -+    {"RenegAppData", RENEG_APPLICATION_DATA},
-> -+    {"RenegSetup", RENEG_SETUP},
-> -+    {"RenegHandshake", RENEG_HANDSHAKE},
-> -+    {"AppData", APPLICATION_DATA},
-> -+    {"Shutdown", SHUTDOWN},
-> -+    {"ConnectionDone", CONNECTION_DONE}
-> -+};
-> -+
-> -+static const enum_name_map peer_status_names[] =3D {
-> -+    {"PeerSuccess", PEER_SUCCESS},
-> -+    {"PeerRetry", PEER_RETRY},
-> -+    {"PeerError", PEER_ERROR},
-> -+    {"PeerWaiting", PEER_WAITING},
-> -+    {"PeerTestFail", PEER_TEST_FAILURE}
-> -+};
-> -+
-> -+static const enum_name_map handshake_status_names[] =3D {
-> -+    {"HandshakeSuccess", HANDSHAKE_SUCCESS},
-> -+    {"ClientError", CLIENT_ERROR},
-> -+    {"ServerError", SERVER_ERROR},
-> -+    {"InternalError", INTERNAL_ERROR},
-> -+    {"HandshakeRetry", HANDSHAKE_RETRY}
-> -+};
-> -+
-> -+/* Shamelessly copied from test/helpers/ssl_test_ctx.c */
-> -+static const char *enum_name(const enum_name_map *enums, size_t
-> num_enums,
-> -+                             int value)
-> -+{
-> -+    size_t i;
-> -+    for (i =3D 0; i < num_enums; i++) {
-> -+        if (enums[i].value =3D=3D value) {
-> -+            return enums[i].name;
-> -+        }
-> -+    }
-> -+    return "InvalidValue";
-> -+}
-> -+
-> -+const char *handshake_connect_phase_name(connect_phase_t phase)
-> -+{
-> -+    return enum_name(connect_phase_names,
-> OSSL_NELEM(connect_phase_names),
-> -+                     (int)phase);
-> -+}
-> -+
-> -+const char *handshake_status_name(handshake_status_t handshake_status)
-> -+{
-> -+    return enum_name(handshake_status_names,
-> OSSL_NELEM(handshake_status_names),
-> -+                     (int)handshake_status);
-> -+}
-> -+
-> -+const char *handshake_peer_status_name(peer_status_t peer_status)
-> -+{
-> -+    return enum_name(peer_status_names, OSSL_NELEM(peer_status_names),
-> -+                     (int)peer_status);
-> -+}
-> -+
-> -+static void save_loop_history(HANDSHAKE_HISTORY *history,
-> -+                              connect_phase_t phase,
-> -+                              handshake_status_t handshake_status,
-> -+                              peer_status_t server_status,
-> -+                              peer_status_t client_status,
-> -+                              int client_turn_count,
-> -+                              int is_client_turn)
-> -+{
-> -+    HANDSHAKE_HISTORY_ENTRY *new_entry =3D NULL;
-> -+
-> -+    /*
-> -+     * Create a new history entry for a handshake loop with statuses
-> given in
-> -+     * the arguments. Potentially evicting the oldest entry when the
-> -+     * ring buffer is full.
-> -+     */
-> -+    ++(history->last_idx);
-> -+    history->last_idx &=3D MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK;
-> -+
-> -+    new_entry =3D &((history->entries)[history->last_idx]);
-> -+    new_entry->phase =3D phase;
-> -+    new_entry->handshake_status =3D handshake_status;
-> -+    new_entry->server_status =3D server_status;
-> -+    new_entry->client_status =3D client_status;
-> -+    new_entry->client_turn_count =3D client_turn_count;
-> -+    new_entry->is_client_turn =3D is_client_turn;
-> -+
-> -+    /* Evict the oldest handshake loop entry when the ring buffer is
-> full. */
-> -+    if (history->entry_count < MAX_HANDSHAKE_HISTORY_ENTRY) {
-> -+        ++(history->entry_count);
-> -+    }
-> -+}
-> -+
-> - HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void)
-> - {
-> -     HANDSHAKE_RESULT *ret;
-> -@@ -724,15 +820,6 @@ static void configure_handshake_ssl(SSL *server, SS=
-L
-> *client,
-> -         SSL_set_post_handshake_auth(client, 1);
-> - }
-> -
-> --/* The status for each connection phase. */
-> --typedef enum {
-> --    PEER_SUCCESS,
-> --    PEER_RETRY,
-> --    PEER_ERROR,
-> --    PEER_WAITING,
-> --    PEER_TEST_FAILURE
-> --} peer_status_t;
-> --
-> - /* An SSL object and associated read-write buffers. */
-> - typedef struct peer_st {
-> -     SSL *ssl;
-> -@@ -1077,16 +1164,6 @@ static void do_shutdown_step(PEER *peer)
-> -     }
-> - }
-> -
-> --typedef enum {
-> --    HANDSHAKE,
-> --    RENEG_APPLICATION_DATA,
-> --    RENEG_SETUP,
-> --    RENEG_HANDSHAKE,
-> --    APPLICATION_DATA,
-> --    SHUTDOWN,
-> --    CONNECTION_DONE
-> --} connect_phase_t;
-> --
-> - static int renegotiate_op(const SSL_TEST_CTX *test_ctx)
-> - {
-> -     switch (test_ctx->handshake_mode) {
-> -@@ -1164,19 +1241,6 @@ static void do_connect_step(const SSL_TEST_CTX
-> *test_ctx, PEER *peer,
-> -     }
-> - }
-> -
-> --typedef enum {
-> --    /* Both parties succeeded. */
-> --    HANDSHAKE_SUCCESS,
-> --    /* Client errored. */
-> --    CLIENT_ERROR,
-> --    /* Server errored. */
-> --    SERVER_ERROR,
-> --    /* Peers are in inconsistent state. */
-> --    INTERNAL_ERROR,
-> --    /* One or both peers not done. */
-> --    HANDSHAKE_RETRY
-> --} handshake_status_t;
-> --
-> - /*
-> -  * Determine the handshake outcome.
-> -  * last_status: the status of the peer to have acted last.
-> -@@ -1541,6 +1605,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
-> -
-> -     start =3D time(NULL);
-> -
-> -+    save_loop_history(&(ret->history),
-> -+                      phase, status, server.status, client.status,
-> -+                      client_turn_count, client_turn);
-> -+
-> -     /*
-> -      * Half-duplex handshake loop.
-> -      * Client and server speak to each other synchronously in the same
-> process.
-> -@@ -1562,6 +1630,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
-> -                 0 /* server went last */);
-> -         }
-> -
-> -+        save_loop_history(&(ret->history),
-> -+                          phase, status, server.status, client.status,
-> -+                          client_turn_count, client_turn);
-> -+
-> -         switch (status) {
-> -         case HANDSHAKE_SUCCESS:
-> -             client_turn_count =3D 0;
-> -diff --git a/test/helpers/handshake.h b/test/helpers/handshake.h
-> -index 78b03f9..b9967c2 100644
-> ---- a/test/helpers/handshake.h
-> -+++ b/test/helpers/handshake.h
-> -@@ -1,5 +1,5 @@
-> - /*
-> -- * Copyright 2016-2021 The OpenSSL Project Authors. All Rights Reserved=
+>> Upgrade OpenSSL from 3.5.7 to 4.0.1. This is a major version upgrade.
+>>
+>> Changelog:
+>> https://github.com/openssl/openssl/blob/openssl-4.0.1/CHANGES.md
+>>
+>> New CVE fixes not already in 3.5.7:
+>>   * CVE-2026-28386: Fixed OOB read in AES-CFB-128 on x86-64 with AVX-512
+>>   * CVE-2026-35188: Fixed double-free when checking OCSP stapled respons=
+e
+>>   * CVE-2026-42765: Fixed NULL deref in cert verification with OCSP
+>>   * CVE-2026-42771: Fixed OOB read in X509_VERIFY_PARAM_set1_email()
+>>
+>> Major breaking changes in 4.0.0:
+>>   * Removed support for engines. The ENGINE API is fully removed.
+>>   * Removed support for SSLv3. SSLv3 has been deprecated since 2015.
+>>   * Removed support for the SSLv2 Client Hello.
+>>   * Removed per-version TLS method functions (SSLv3_method(),
+>>     TLSv1_method(), TLSv1_1_method(), TLSv1_2_method()).
+>>   * Removed c_rehash script tool. Use 'openssl rehash' instead.
+>>   * ASN1_STRING has been made opaque.
+>>   * Numerous API function signatures changed to include const qualifiers=
 .
-> -+ * Copyright 2016-2023 The OpenSSL Project Authors. All Rights Reserved=
-.
-> -  *
-> -  * Licensed under the Apache License 2.0 (the "License").  You may not
-> use
-> -  * this file except in compliance with the License.  You can obtain a
-> copy
-> -@@ -12,6 +12,11 @@
-> -
-> - #include "ssl_test_ctx.h"
-> -
-> -+#define MAX_HANDSHAKE_HISTORY_ENTRY_BIT 4
-> -+#define MAX_HANDSHAKE_HISTORY_ENTRY (1 <<
-> MAX_HANDSHAKE_HISTORY_ENTRY_BIT)
-> -+#define MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK \
-> -+    ((1 << MAX_HANDSHAKE_HISTORY_ENTRY_BIT) - 1)
-> -+
-> - typedef struct ctx_data_st {
-> -     unsigned char *npn_protocols;
-> -     size_t npn_protocols_len;
-> -@@ -22,6 +27,63 @@ typedef struct ctx_data_st {
-> -     char *session_ticket_app_data;
-> - } CTX_DATA;
-> -
-> -+typedef enum {
-> -+    HANDSHAKE,
-> -+    RENEG_APPLICATION_DATA,
-> -+    RENEG_SETUP,
-> -+    RENEG_HANDSHAKE,
-> -+    APPLICATION_DATA,
-> -+    SHUTDOWN,
-> -+    CONNECTION_DONE
-> -+} connect_phase_t;
-> -+
-> -+/* The status for each connection phase. */
-> -+typedef enum {
-> -+    PEER_SUCCESS,
-> -+    PEER_RETRY,
-> -+    PEER_ERROR,
-> -+    PEER_WAITING,
-> -+    PEER_TEST_FAILURE
-> -+} peer_status_t;
-> -+
-> -+typedef enum {
-> -+    /* Both parties succeeded. */
-> -+    HANDSHAKE_SUCCESS,
-> -+    /* Client errored. */
-> -+    CLIENT_ERROR,
-> -+    /* Server errored. */
-> -+    SERVER_ERROR,
-> -+    /* Peers are in inconsistent state. */
-> -+    INTERNAL_ERROR,
-> -+    /* One or both peers not done. */
-> -+    HANDSHAKE_RETRY
-> -+} handshake_status_t;
-> -+
-> -+/* Stores the various status information in a handshake loop. */
-> -+typedef struct handshake_history_entry_st {
-> -+    connect_phase_t phase;
-> -+    handshake_status_t handshake_status;
-> -+    peer_status_t server_status;
-> -+    peer_status_t client_status;
-> -+    int client_turn_count;
-> -+    int is_client_turn;
-> -+} HANDSHAKE_HISTORY_ENTRY;
-> -+
-> -+typedef struct handshake_history_st {
-> -+    /* Implemented using ring buffer. */
-> -+    /*
-> -+     * The valid entries are |entries[last_idx]|, |entries[last_idx-1]|=
+>>   * libcrypto no longer cleans up globally allocated data via atexit().
+>>   * Added AKID verification checks when X509_V_FLAG_X509_STRICT is set.
+>>   * Support of deprecated elliptic curves in TLS disabled at compile-tim=
+e
+>>     by default.
+>>
+>> Recipe changes:
+>>   * Drop 0001-Added-handshake-history-reporting-when-test-fails.patch
+>>     (merged upstream via PR #22481).
+>>   * Refresh remaining patches against the new version.
+>>   * Remove ENGINE API artifacts: engines package, dasync.so/ossltest.so
+>>     ptest installation, ENGINESDIR references, OPENSSL_ENGINES wrapper
+>>     variable, and cryptodev-linux PACKAGECONFIG.
+>>
+>> Tested: ptest on qemux86-64:
+>>   Files=3D362, Tests=3D4310, Result: PASS
+>>   Passed: 338, Skipped: 24 (fips, lms, rc5, tfo, compression,
+>>   sslversions, sslkeylogfile, external tests - all expected)
+>>   Failed: 0
+>>
+>> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+>> ---
+>>  ...ke-history-reporting-when-test-fails.patch | 366 ------------------
+>>  ...1-Configure-do-not-tweak-mips-cflags.patch |   6 +-
+>>  ...sysroot-and-debug-prefix-map-from-co.patch |  11 +-
+>>  .../0001-extend-check_cwm-test-timeout.patch  |   4 +-
+>>  .../{openssl_3.5.7.bb =3D> openssl_4.0.1.bb}    |  28 +-
+>>  5 files changed, 18 insertions(+), 397 deletions(-)
+>>  delete mode 100644
+>> meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history-r=
+eporting-when-test-fails.patch
+>>  rename meta/recipes-connectivity/openssl/{openssl_3.5.7.bb =3D>
+>> openssl_4.0.1.bb} (87%)
+>>
+>> diff --git
+>> a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history=
+-reporting-when-test-fails.patch
+>> b/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history=
+-reporting-when-test-fails.patch
+>> deleted file mode 100644
+>> index a74c79303f..0000000000
+>> ---
+>> a/meta/recipes-connectivity/openssl/openssl/0001-Added-handshake-history=
+-reporting-when-test-fails.patch
+>> +++ /dev/null
+>> @@ -1,366 +0,0 @@
+>> -From 5ba65051fea0513db0d997f0ab7cafb9826ed74a Mon Sep 17 00:00:00 2001
+>> -From: William Lyu <William.Lyu@windriver.com>
+>> -Date: Fri, 20 Oct 2023 16:22:37 -0400
+>> -Subject: [PATCH] Added handshake history reporting when test fails
+>> -
+>> -Upstream-Status: Submitted [
+>> https://github.com/openssl/openssl/pull/22481]
+>> -
+>> -Signed-off-by: William Lyu <William.Lyu@windriver.com>
+>> ----
+>> - test/helpers/handshake.c | 136 ++++++++++++++++++++++++++++++---------
+>> - test/helpers/handshake.h |  70 +++++++++++++++++++-
+>> - test/ssl_test.c          |  44 +++++++++++++
+>> - 3 files changed, 217 insertions(+), 33 deletions(-)
+>> -
+>> -diff --git a/test/helpers/handshake.c b/test/helpers/handshake.c
+>> -index f611b3a..5703b48 100644
+>> ---- a/test/helpers/handshake.c
+>> -+++ b/test/helpers/handshake.c
+>> -@@ -25,6 +25,102 @@
+>> - #include <netinet/sctp.h>
+>> - #endif
+>> -
+>> -+/* Shamelessly copied from test/helpers/ssl_test_ctx.c */
+>> -+/* Maps string names to various enumeration type */
+>> -+typedef struct {
+>> -+    const char *name;
+>> -+    int value;
+>> -+} enum_name_map;
+>> -+
+>> -+static const enum_name_map connect_phase_names[] =3D {
+>> -+    {"Handshake", HANDSHAKE},
+>> -+    {"RenegAppData", RENEG_APPLICATION_DATA},
+>> -+    {"RenegSetup", RENEG_SETUP},
+>> -+    {"RenegHandshake", RENEG_HANDSHAKE},
+>> -+    {"AppData", APPLICATION_DATA},
+>> -+    {"Shutdown", SHUTDOWN},
+>> -+    {"ConnectionDone", CONNECTION_DONE}
+>> -+};
+>> -+
+>> -+static const enum_name_map peer_status_names[] =3D {
+>> -+    {"PeerSuccess", PEER_SUCCESS},
+>> -+    {"PeerRetry", PEER_RETRY},
+>> -+    {"PeerError", PEER_ERROR},
+>> -+    {"PeerWaiting", PEER_WAITING},
+>> -+    {"PeerTestFail", PEER_TEST_FAILURE}
+>> -+};
+>> -+
+>> -+static const enum_name_map handshake_status_names[] =3D {
+>> -+    {"HandshakeSuccess", HANDSHAKE_SUCCESS},
+>> -+    {"ClientError", CLIENT_ERROR},
+>> -+    {"ServerError", SERVER_ERROR},
+>> -+    {"InternalError", INTERNAL_ERROR},
+>> -+    {"HandshakeRetry", HANDSHAKE_RETRY}
+>> -+};
+>> -+
+>> -+/* Shamelessly copied from test/helpers/ssl_test_ctx.c */
+>> -+static const char *enum_name(const enum_name_map *enums, size_t
+>> num_enums,
+>> -+                             int value)
+>> -+{
+>> -+    size_t i;
+>> -+    for (i =3D 0; i < num_enums; i++) {
+>> -+        if (enums[i].value =3D=3D value) {
+>> -+            return enums[i].name;
+>> -+        }
+>> -+    }
+>> -+    return "InvalidValue";
+>> -+}
+>> -+
+>> -+const char *handshake_connect_phase_name(connect_phase_t phase)
+>> -+{
+>> -+    return enum_name(connect_phase_names,
+>> OSSL_NELEM(connect_phase_names),
+>> -+                     (int)phase);
+>> -+}
+>> -+
+>> -+const char *handshake_status_name(handshake_status_t handshake_status)
+>> -+{
+>> -+    return enum_name(handshake_status_names,
+>> OSSL_NELEM(handshake_status_names),
+>> -+                     (int)handshake_status);
+>> -+}
+>> -+
+>> -+const char *handshake_peer_status_name(peer_status_t peer_status)
+>> -+{
+>> -+    return enum_name(peer_status_names, OSSL_NELEM(peer_status_names),
+>> -+                     (int)peer_status);
+>> -+}
+>> -+
+>> -+static void save_loop_history(HANDSHAKE_HISTORY *history,
+>> -+                              connect_phase_t phase,
+>> -+                              handshake_status_t handshake_status,
+>> -+                              peer_status_t server_status,
+>> -+                              peer_status_t client_status,
+>> -+                              int client_turn_count,
+>> -+                              int is_client_turn)
+>> -+{
+>> -+    HANDSHAKE_HISTORY_ENTRY *new_entry =3D NULL;
+>> -+
+>> -+    /*
+>> -+     * Create a new history entry for a handshake loop with statuses
+>> given in
+>> -+     * the arguments. Potentially evicting the oldest entry when the
+>> -+     * ring buffer is full.
+>> -+     */
+>> -+    ++(history->last_idx);
+>> -+    history->last_idx &=3D MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK;
+>> -+
+>> -+    new_entry =3D &((history->entries)[history->last_idx]);
+>> -+    new_entry->phase =3D phase;
+>> -+    new_entry->handshake_status =3D handshake_status;
+>> -+    new_entry->server_status =3D server_status;
+>> -+    new_entry->client_status =3D client_status;
+>> -+    new_entry->client_turn_count =3D client_turn_count;
+>> -+    new_entry->is_client_turn =3D is_client_turn;
+>> -+
+>> -+    /* Evict the oldest handshake loop entry when the ring buffer is
+>> full. */
+>> -+    if (history->entry_count < MAX_HANDSHAKE_HISTORY_ENTRY) {
+>> -+        ++(history->entry_count);
+>> -+    }
+>> -+}
+>> -+
+>> - HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void)
+>> - {
+>> -     HANDSHAKE_RESULT *ret;
+>> -@@ -724,15 +820,6 @@ static void configure_handshake_ssl(SSL *server,
+>> SSL *client,
+>> -         SSL_set_post_handshake_auth(client, 1);
+>> - }
+>> -
+>> --/* The status for each connection phase. */
+>> --typedef enum {
+>> --    PEER_SUCCESS,
+>> --    PEER_RETRY,
+>> --    PEER_ERROR,
+>> --    PEER_WAITING,
+>> --    PEER_TEST_FAILURE
+>> --} peer_status_t;
+>> --
+>> - /* An SSL object and associated read-write buffers. */
+>> - typedef struct peer_st {
+>> -     SSL *ssl;
+>> -@@ -1077,16 +1164,6 @@ static void do_shutdown_step(PEER *peer)
+>> -     }
+>> - }
+>> -
+>> --typedef enum {
+>> --    HANDSHAKE,
+>> --    RENEG_APPLICATION_DATA,
+>> --    RENEG_SETUP,
+>> --    RENEG_HANDSHAKE,
+>> --    APPLICATION_DATA,
+>> --    SHUTDOWN,
+>> --    CONNECTION_DONE
+>> --} connect_phase_t;
+>> --
+>> - static int renegotiate_op(const SSL_TEST_CTX *test_ctx)
+>> - {
+>> -     switch (test_ctx->handshake_mode) {
+>> -@@ -1164,19 +1241,6 @@ static void do_connect_step(const SSL_TEST_CTX
+>> *test_ctx, PEER *peer,
+>> -     }
+>> - }
+>> -
+>> --typedef enum {
+>> --    /* Both parties succeeded. */
+>> --    HANDSHAKE_SUCCESS,
+>> --    /* Client errored. */
+>> --    CLIENT_ERROR,
+>> --    /* Server errored. */
+>> --    SERVER_ERROR,
+>> --    /* Peers are in inconsistent state. */
+>> --    INTERNAL_ERROR,
+>> --    /* One or both peers not done. */
+>> --    HANDSHAKE_RETRY
+>> --} handshake_status_t;
+>> --
+>> - /*
+>> -  * Determine the handshake outcome.
+>> -  * last_status: the status of the peer to have acted last.
+>> -@@ -1541,6 +1605,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+>> -
+>> -     start =3D time(NULL);
+>> -
+>> -+    save_loop_history(&(ret->history),
+>> -+                      phase, status, server.status, client.status,
+>> -+                      client_turn_count, client_turn);
+>> -+
+>> -     /*
+>> -      * Half-duplex handshake loop.
+>> -      * Client and server speak to each other synchronously in the same
+>> process.
+>> -@@ -1562,6 +1630,10 @@ static HANDSHAKE_RESULT *do_handshake_internal(
+>> -                 0 /* server went last */);
+>> -         }
+>> -
+>> -+        save_loop_history(&(ret->history),
+>> -+                          phase, status, server.status, client.status,
+>> -+                          client_turn_count, client_turn);
+>> -+
+>> -         switch (status) {
+>> -         case HANDSHAKE_SUCCESS:
+>> -             client_turn_count =3D 0;
+>> -diff --git a/test/helpers/handshake.h b/test/helpers/handshake.h
+>> -index 78b03f9..b9967c2 100644
+>> ---- a/test/helpers/handshake.h
+>> -+++ b/test/helpers/handshake.h
+>> -@@ -1,5 +1,5 @@
+>> - /*
+>> -- * Copyright 2016-2021 The OpenSSL Project Authors. All Rights Reserve=
+d.
+>> -+ * Copyright 2016-2023 The OpenSSL Project Authors. All Rights Reserve=
+d.
+>> -  *
+>> -  * Licensed under the Apache License 2.0 (the "License").  You may not
+>> use
+>> -  * this file except in compliance with the License.  You can obtain a
+>> copy
+>> -@@ -12,6 +12,11 @@
+>> -
+>> - #include "ssl_test_ctx.h"
+>> -
+>> -+#define MAX_HANDSHAKE_HISTORY_ENTRY_BIT 4
+>> -+#define MAX_HANDSHAKE_HISTORY_ENTRY (1 <<
+>> MAX_HANDSHAKE_HISTORY_ENTRY_BIT)
+>> -+#define MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK \
+>> -+    ((1 << MAX_HANDSHAKE_HISTORY_ENTRY_BIT) - 1)
+>> -+
+>> - typedef struct ctx_data_st {
+>> -     unsigned char *npn_protocols;
+>> -     size_t npn_protocols_len;
+>> -@@ -22,6 +27,63 @@ typedef struct ctx_data_st {
+>> -     char *session_ticket_app_data;
+>> - } CTX_DATA;
+>> -
+>> -+typedef enum {
+>> -+    HANDSHAKE,
+>> -+    RENEG_APPLICATION_DATA,
+>> -+    RENEG_SETUP,
+>> -+    RENEG_HANDSHAKE,
+>> -+    APPLICATION_DATA,
+>> -+    SHUTDOWN,
+>> -+    CONNECTION_DONE
+>> -+} connect_phase_t;
+>> -+
+>> -+/* The status for each connection phase. */
+>> -+typedef enum {
+>> -+    PEER_SUCCESS,
+>> -+    PEER_RETRY,
+>> -+    PEER_ERROR,
+>> -+    PEER_WAITING,
+>> -+    PEER_TEST_FAILURE
+>> -+} peer_status_t;
+>> -+
+>> -+typedef enum {
+>> -+    /* Both parties succeeded. */
+>> -+    HANDSHAKE_SUCCESS,
+>> -+    /* Client errored. */
+>> -+    CLIENT_ERROR,
+>> -+    /* Server errored. */
+>> -+    SERVER_ERROR,
+>> -+    /* Peers are in inconsistent state. */
+>> -+    INTERNAL_ERROR,
+>> -+    /* One or both peers not done. */
+>> -+    HANDSHAKE_RETRY
+>> -+} handshake_status_t;
+>> -+
+>> -+/* Stores the various status information in a handshake loop. */
+>> -+typedef struct handshake_history_entry_st {
+>> -+    connect_phase_t phase;
+>> -+    handshake_status_t handshake_status;
+>> -+    peer_status_t server_status;
+>> -+    peer_status_t client_status;
+>> -+    int client_turn_count;
+>> -+    int is_client_turn;
+>> -+} HANDSHAKE_HISTORY_ENTRY;
+>> -+
+>> -+typedef struct handshake_history_st {
+>> -+    /* Implemented using ring buffer. */
+>> -+    /*
+>> -+     * The valid entries are |entries[last_idx]|, |entries[last_idx-1]=
+|,
+>> -+     * ..., etc., going up to |entry_count| number of entries. Note
+>> that when
+>> -+     * the index into the array |entries| becomes < 0, we wrap around =
+to
+>> -+     * the end of |entries|.
+>> -+     */
+>> -+    HANDSHAKE_HISTORY_ENTRY entries[MAX_HANDSHAKE_HISTORY_ENTRY];
+>> -+    /* The number of valid entries in |entries| array. */
+>> -+    size_t entry_count;
+>> -+    /* The index of the last valid entry in the |entries| array. */
+>> -+    size_t last_idx;
+>> -+} HANDSHAKE_HISTORY;
+>> -+
+>> - typedef struct handshake_result {
+>> -     ssl_test_result_t result;
+>> -     /* These alerts are in the 2-byte format returned by the
+>> info_callback. */
+>> -@@ -77,6 +139,8 @@ typedef struct handshake_result {
+>> -     char *cipher;
+>> -     /* session ticket application data */
+>> -     char *result_session_ticket_app_data;
+>> -+    /* handshake loop history */
+>> -+    HANDSHAKE_HISTORY history;
+>> - } HANDSHAKE_RESULT;
+>> -
+>> - HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void);
+>> -@@ -95,4 +159,8 @@ int configure_handshake_ctx_for_srp(SSL_CTX
+>> *server_ctx, SSL_CTX *server2_ctx,
+>> -     CTX_DATA *server2_ctx_data,
+>> -     CTX_DATA *client_ctx_data);
+>> -
+>> -+const char *handshake_connect_phase_name(connect_phase_t phase);
+>> -+const char *handshake_status_name(handshake_status_t handshake_status)=
+;
+>> -+const char *handshake_peer_status_name(peer_status_t peer_status);
+>> -+
+>> - #endif /* OSSL_TEST_HANDSHAKE_HELPER_H */
+>> -diff --git a/test/ssl_test.c b/test/ssl_test.c
+>> -index ea60851..9d6b093 100644
+>> ---- a/test/ssl_test.c
+>> -+++ b/test/ssl_test.c
+>> -@@ -26,6 +26,44 @@ static OSSL_LIB_CTX *libctx =3D NULL;
+>> - /* Currently the section names are of the form test-<number>, e.g.
+>> test-15. */
+>> - #define MAX_TESTCASE_NAME_LENGTH 100
+>> -
+>> -+static void print_handshake_history(const HANDSHAKE_HISTORY *history)
+>> -+{
+>> -+    size_t first_idx;
+>> -+    size_t i;
+>> -+    size_t cur_idx;
+>> -+    const HANDSHAKE_HISTORY_ENTRY *cur_entry;
+>> -+    const char header_template[] =3D "|%14s|%16s|%16s|%16s|%17s|%14s|"=
+;
+>> -+    const char body_template[]   =3D "|%14s|%16s|%16s|%16s|%17d|%14s|"=
+;
+>> -+
+>> -+    TEST_info("The following is the server/client state "
+>> -+              "in the most recent %d handshake loops.",
+>> -+              MAX_HANDSHAKE_HISTORY_ENTRY);
+>> -+
+>> -+    TEST_note("=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D"
+>> -+              "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D");
+>> -+    TEST_note(header_template,
+>> -+              "phase", "handshake status", "server status",
+>> -+              "client status", "client turn count", "is client turn");
+>> -+    TEST_note("+--------------+----------------+----------------"
+>> -+              "+----------------+-----------------+--------------+");
+>> -+
+>> -+    first_idx =3D (history->last_idx - history->entry_count + 1) &
+>> -+                MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK;
+>> -+    for (i =3D 0; i < history->entry_count; ++i) {
+>> -+        cur_idx =3D (first_idx + i) &
+>> MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK;
+>> -+        cur_entry =3D &(history->entries)[cur_idx];
+>> -+        TEST_note(body_template,
+>> -+                  handshake_connect_phase_name(cur_entry->phase),
+>> -+                  handshake_status_name(cur_entry->handshake_status),
+>> -+                  handshake_peer_status_name(cur_entry->server_status)=
 ,
-> -+     * ..., etc., going up to |entry_count| number of entries. Note tha=
-t
-> when
-> -+     * the index into the array |entries| becomes < 0, we wrap around t=
-o
-> -+     * the end of |entries|.
-> -+     */
-> -+    HANDSHAKE_HISTORY_ENTRY entries[MAX_HANDSHAKE_HISTORY_ENTRY];
-> -+    /* The number of valid entries in |entries| array. */
-> -+    size_t entry_count;
-> -+    /* The index of the last valid entry in the |entries| array. */
-> -+    size_t last_idx;
-> -+} HANDSHAKE_HISTORY;
-> -+
-> - typedef struct handshake_result {
-> -     ssl_test_result_t result;
-> -     /* These alerts are in the 2-byte format returned by the
-> info_callback. */
-> -@@ -77,6 +139,8 @@ typedef struct handshake_result {
-> -     char *cipher;
-> -     /* session ticket application data */
-> -     char *result_session_ticket_app_data;
-> -+    /* handshake loop history */
-> -+    HANDSHAKE_HISTORY history;
-> - } HANDSHAKE_RESULT;
-> -
-> - HANDSHAKE_RESULT *HANDSHAKE_RESULT_new(void);
-> -@@ -95,4 +159,8 @@ int configure_handshake_ctx_for_srp(SSL_CTX
-> *server_ctx, SSL_CTX *server2_ctx,
-> -     CTX_DATA *server2_ctx_data,
-> -     CTX_DATA *client_ctx_data);
-> -
-> -+const char *handshake_connect_phase_name(connect_phase_t phase);
-> -+const char *handshake_status_name(handshake_status_t handshake_status);
-> -+const char *handshake_peer_status_name(peer_status_t peer_status);
-> -+
-> - #endif /* OSSL_TEST_HANDSHAKE_HELPER_H */
-> -diff --git a/test/ssl_test.c b/test/ssl_test.c
-> -index ea60851..9d6b093 100644
-> ---- a/test/ssl_test.c
-> -+++ b/test/ssl_test.c
-> -@@ -26,6 +26,44 @@ static OSSL_LIB_CTX *libctx =3D NULL;
-> - /* Currently the section names are of the form test-<number>, e.g.
-> test-15. */
-> - #define MAX_TESTCASE_NAME_LENGTH 100
-> -
-> -+static void print_handshake_history(const HANDSHAKE_HISTORY *history)
-> -+{
-> -+    size_t first_idx;
-> -+    size_t i;
-> -+    size_t cur_idx;
-> -+    const HANDSHAKE_HISTORY_ENTRY *cur_entry;
-> -+    const char header_template[] =3D "|%14s|%16s|%16s|%16s|%17s|%14s|";
-> -+    const char body_template[]   =3D "|%14s|%16s|%16s|%16s|%17d|%14s|";
-> -+
-> -+    TEST_info("The following is the server/client state "
-> -+              "in the most recent %d handshake loops.",
-> -+              MAX_HANDSHAKE_HISTORY_ENTRY);
-> -+
-> -+    TEST_note("=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+>> -+                  handshake_peer_status_name(cur_entry->client_status)=
+,
+>> -+                  cur_entry->client_turn_count,
+>> -+                  cur_entry->is_client_turn ? "true" : "false");
+>> -+    }
+>> -+    TEST_note("=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D"
-> -+              "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+>> -+              "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
 =3D=3D=3D=3D=3D=3D=3D");
-> -+    TEST_note(header_template,
-> -+              "phase", "handshake status", "server status",
-> -+              "client status", "client turn count", "is client turn");
-> -+    TEST_note("+--------------+----------------+----------------"
-> -+              "+----------------+-----------------+--------------+");
-> -+
-> -+    first_idx =3D (history->last_idx - history->entry_count + 1) &
-> -+                MAX_HANDSHAKE_HISTORY_ENTRY_IDX_MASK;
-> -+    for (i =3D 0; i < history->entry_count; ++i) {
-> -+        cur_idx =3D (first_idx + i) & MAX_HANDSHAKE_HISTORY_ENTRY_IDX_M=
-ASK;
-> -+        cur_entry =3D &(history->entries)[cur_idx];
-> -+        TEST_note(body_template,
-> -+                  handshake_connect_phase_name(cur_entry->phase),
-> -+                  handshake_status_name(cur_entry->handshake_status),
-> -+                  handshake_peer_status_name(cur_entry->server_status),
-> -+                  handshake_peer_status_name(cur_entry->client_status),
-> -+                  cur_entry->client_turn_count,
-> -+                  cur_entry->is_client_turn ? "true" : "false");
-> -+    }
-> -+    TEST_note("=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D"
-> -+              "=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D");
-> -+}
-> -+
-> - static const char *print_alert(int alert)
-> - {
-> -     return alert ? SSL_alert_desc_string_long(alert) : "no alert";
-> -@@ -388,6 +426,12 @@ static int check_test(HANDSHAKE_RESULT *result,
-> SSL_TEST_CTX *test_ctx)
-> -         ret &=3D check_client_sign_type(result, test_ctx);
-> -         ret &=3D check_client_ca_names(result, test_ctx);
-> -     }
-> -+
-> -+    /* Print handshake loop history if any check fails. */
-> -+    if (!ret) {
-> -+        print_handshake_history(&(result->history));
-> -+    }
-> -+
-> -     return ret;
-> - }
-> -
-> ---
-> -2.25.1
-> -
-> diff --git
-> a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-m=
-ips-cflags.patch
-> b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-m=
-ips-cflags.patch
-> index cd8906df67..77bfe4e4e5 100644
-> ---
-> a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-m=
-ips-cflags.patch
-> +++
-> b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-m=
-ips-cflags.patch
-> @@ -1,4 +1,4 @@
-> -From 0377f0d5b5c1079e3b9a80881f4dcc891cbe9f9a Mon Sep 17 00:00:00 2001
-> +From b5cee0cb0f14a78056ef7722a34b361491f1fdda Mon Sep 17 00:00:00 2001
->  From: Alexander Kanavin <alex@linutronix.de>
->  Date: Tue, 30 May 2023 09:11:27 -0700
->  Subject: [PATCH] Configure: do not tweak mips cflags
-> @@ -17,10 +17,10 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
->   1 file changed, 10 deletions(-)
->
->  diff --git a/Configure b/Configure
-> -index fff97bd..5ee54c1 100755
-> +index c05a30b..db8adee 100755
->  --- a/Configure
->  +++ b/Configure
-> -@@ -1557,16 +1557,6 @@ if ($target =3D~ /^mingw/ && `$config{CC}
-> --target-help 2>&1` =3D~ m/-mno-cygwin/m)
-> +@@ -1575,16 +1575,6 @@ if ($target =3D~ /^mingw/ && `$config{CC}
-> --target-help 2>&1` =3D~ m/-mno-cygwin/m)
->           push @{$config{shared_ldflag}}, "-mno-cygwin";
->           }
->
-> diff --git
-> a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-=
-and-debug-prefix-map-from-co.patch
-> b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-=
-and-debug-prefix-map-from-co.patch
-> index bfbfedbd67..1d9e7539f6 100644
-> ---
-> a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-=
-and-debug-prefix-map-from-co.patch
-> +++
-> b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot-=
-and-debug-prefix-map-from-co.patch
-> @@ -1,4 +1,4 @@
-> -From 5985253f2c9025d7c127443a3a9938946f80c2a1 Mon Sep 17 00:00:00 2001
-> +From 6df53bfebcf8ca65910a18220a6576fb110918a5 Mon Sep 17 00:00:00 2001
->  From: =3D?UTF-8?q?Martin=3D20Hundeb=3DC3=3DB8ll?=3D <martin@geanix.com>
->  Date: Tue, 6 Nov 2018 14:50:47 +0100
->  Subject: [PATCH] buildinfo: strip sysroot and debug-prefix-map from
-> compiler
-> @@ -28,17 +28,16 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
->  Update to fix buildpaths qa issue for '-ffile-prefix-map'.
->
->  Signed-off-by: Khem Raj <raj.khem@gmail.com>
-> -
->  ---
->   Configurations/unix-Makefile.tmpl | 16 +++++++++++++++-
->   crypto/build.info                 |  2 +-
->   2 files changed, 16 insertions(+), 2 deletions(-)
->
->  diff --git a/Configurations/unix-Makefile.tmpl
-> b/Configurations/unix-Makefile.tmpl
-> -index 09303c4..011bda1 100644
-> +index eff66e5..bc48f51 100644
->  --- a/Configurations/unix-Makefile.tmpl
->  +++ b/Configurations/unix-Makefile.tmpl
-> -@@ -514,13 +514,27 @@ BIN_LDFLAGS=3D{- join(' ', $target{bin_lflags} || =
-(),
-> +@@ -503,13 +503,27 @@ BIN_LDFLAGS=3D{- join(' ', $target{bin_lflags} || =
-(),
->                            '$(CNF_LDFLAGS)', '$(LDFLAGS)') -}
->   BIN_EX_LIBS=3D$(CNF_EX_LIBS) $(EX_LIBS)
->
-> @@ -68,10 +67,10 @@ index 09303c4..011bda1 100644
->
->   # For x86 assembler: Set PROCESSOR to 386 if you want to support
->  diff --git a/crypto/build.info b/crypto/build.info
-> -index aee5c46..95c9577 100644
-> +index 8e4a885..95b0902 100644
->  --- a/crypto/build.info
->  +++ b/crypto/build.info
-> -@@ -115,7 +115,7 @@ DEFINE[../libcrypto]=3D$UPLINKDEF
-> +@@ -114,7 +114,7 @@ DEFINE[../libcrypto]=3D$UPLINKDEF
->
->   DEPEND[info.o]=3Dbuildinf.h
->   DEPEND[cversion.o]=3Dbuildinf.h
-> diff --git
-> a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-ti=
-meout.patch
-> b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-ti=
-meout.patch
-> index f6eb28069a..76bc05d5f9 100644
-> ---
-> a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-ti=
-meout.patch
-> +++
-> b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-ti=
-meout.patch
-> @@ -1,4 +1,4 @@
-> -From c7000672296f4c367341aa3415f26c4d9f5e4749 Mon Sep 17 00:00:00 2001
-> +From 14856dbd767621ce6f162680c00557b54af0effb Mon Sep 17 00:00:00 2001
->  From: Gyorgy Sarvari <skandigraun@gmail.com>
->  Date: Thu, 23 Oct 2025 11:24:36 +0200
->  Subject: [PATCH] extend check_cwm test timeout
-> @@ -15,7 +15,7 @@ Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
->   1 file changed, 5 insertions(+)
->
->  diff --git a/test/radix/main.c b/test/radix/main.c
-> -index 4a1e886a71..39f8c61ef9 100644
-> +index 0f3dc11..d925639 100644
->  --- a/test/radix/main.c
->  +++ b/test/radix/main.c
->  @@ -25,6 +25,11 @@ static int test_script(int idx)
-> diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-> b/meta/recipes-connectivity/openssl/openssl_4.0.1.bb
-> similarity index 87%
-> rename from meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-> rename to meta/recipes-connectivity/openssl/openssl_4.0.1.bb
-> index b95c734f1d..a669de1b22 100644
-> --- a/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-> +++ b/meta/recipes-connectivity/openssl/openssl_4.0.1.bb
-> @@ -11,7 +11,6 @@ SRC_URI =3D "
-> http://www.openssl.org/source/openssl-${PV}.tar.gz \
->             file://run-ptest \
->
-> file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
->             file://0001-Configure-do-not-tweak-mips-cflags.patch \
-> -
->  file://0001-Added-handshake-history-reporting-when-test-fails.patch \
->             file://0001-extend-check_cwm-test-timeout.patch \
->             "
->
-> @@ -19,10 +18,9 @@ SRC_URI:append:class-nativesdk =3D " \
->             file://environment.d-openssl.sh \
->             "
->
-> -SRC_URI[sha256sum] =3D
-> "a8c0d28a529ca480f9f36cf5792e2cd21984552a3c8e4aa11a24aa31aeac98e8"
-> +SRC_URI[sha256sum] =3D
-> "2db3f3a0d6ea4b59e1f094ace2c8cd536dffb87cdc39084c5afa1e6f7f37dd09"
->
-> -inherit lib_package multilib_header multilib_script ptest perlnative
-> manpages
-> -MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
-> +inherit lib_package multilib_header ptest perlnative manpages
->
->  # OpenSSL publishes bugfix/security-only releases on its per-minor
-> branches.
->  # When the tracked series reaches EOL, bump the regex manually to the ne=
-xt
-> @@ -33,7 +31,6 @@ PACKAGECONFIG ?=3D ""
->  PACKAGECONFIG:class-native =3D ""
->  PACKAGECONFIG:class-nativesdk =3D ""
->
-> -PACKAGECONFIG[cryptodev-linux] =3D
-> "enable-devcryptoeng,disable-devcryptoeng,cryptodev-linux,,cryptodev-modu=
-le"
->  PACKAGECONFIG[legacy] =3D ",no-legacy"
->  PACKAGECONFIG[tls1] =3D ",no-tls1"
->  PACKAGECONFIG[tls1_1] =3D ",no-tls1_1"
-> @@ -57,8 +54,8 @@ EXTRA_OECONF:append:class-native =3D "
-> --with-rand-seed=3Dos,devrandom"
->  EXTRA_OECONF:append:class-nativesdk =3D " --with-rand-seed=3Dos,devrando=
-m"
->
->  # Relying on hardcoded built-in paths causes openssl-native to not be
-> relocateable from sstate.
-> -EXTRA_OEMAKE:append:task-compile:class-native =3D '
-> OPENSSLDIR=3D"/not/builtin" ENGINESDIR=3D"/not/builtin"
-> MODULESDIR=3D"/not/builtin"'
-> -EXTRA_OEMAKE:append:task-compile:class-nativesdk =3D '
-> OPENSSLDIR=3D"/not/builtin" ENGINESDIR=3D"/not/builtin"
-> MODULESDIR=3D"/not/builtin"'
-> +EXTRA_OEMAKE:append:task-compile:class-native =3D '
-> OPENSSLDIR=3D"/not/builtin" MODULESDIR=3D"/not/builtin"'
-> +EXTRA_OEMAKE:append:task-compile:class-nativesdk =3D '
-> OPENSSLDIR=3D"/not/builtin" MODULESDIR=3D"/not/builtin"'
->
->  #| threads_pthread.c:(.text+0x372): undefined reference to
-> `__atomic_is_lock_free'
->  EXTRA_OECONF:append:toolchain-clang:x86 =3D " -latomic"
-> @@ -204,12 +201,10 @@ do_install:append:class-native () {
->             OPENSSL_CONF=3D\${OPENSSL_CONF:-${libdir}/ssl-3/openssl.cnf} =
+>> -+}
+>> -+
+>> - static const char *print_alert(int alert)
+>> - {
+>> -     return alert ? SSL_alert_desc_string_long(alert) : "no alert";
+>> -@@ -388,6 +426,12 @@ static int check_test(HANDSHAKE_RESULT *result,
+>> SSL_TEST_CTX *test_ctx)
+>> -         ret &=3D check_client_sign_type(result, test_ctx);
+>> -         ret &=3D check_client_ca_names(result, test_ctx);
+>> -     }
+>> -+
+>> -+    /* Print handshake loop history if any check fails. */
+>> -+    if (!ret) {
+>> -+        print_handshake_history(&(result->history));
+>> -+    }
+>> -+
+>> -     return ret;
+>> - }
+>> -
+>> ---
+>> -2.25.1
+>> -
+>> diff --git
+>> a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-=
+mips-cflags.patch
+>> b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-=
+mips-cflags.patch
+>> index cd8906df67..77bfe4e4e5 100644
+>> ---
+>> a/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-=
+mips-cflags.patch
+>> +++
+>> b/meta/recipes-connectivity/openssl/openssl/0001-Configure-do-not-tweak-=
+mips-cflags.patch
+>> @@ -1,4 +1,4 @@
+>> -From 0377f0d5b5c1079e3b9a80881f4dcc891cbe9f9a Mon Sep 17 00:00:00 2001
+>> +From b5cee0cb0f14a78056ef7722a34b361491f1fdda Mon Sep 17 00:00:00 2001
+>>  From: Alexander Kanavin <alex@linutronix.de>
+>>  Date: Tue, 30 May 2023 09:11:27 -0700
+>>  Subject: [PATCH] Configure: do not tweak mips cflags
+>> @@ -17,10 +17,10 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+>>   1 file changed, 10 deletions(-)
+>>
+>>  diff --git a/Configure b/Configure
+>> -index fff97bd..5ee54c1 100755
+>> +index c05a30b..db8adee 100755
+>>  --- a/Configure
+>>  +++ b/Configure
+>> -@@ -1557,16 +1557,6 @@ if ($target =3D~ /^mingw/ && `$config{CC}
+>> --target-help 2>&1` =3D~ m/-mno-cygwin/m)
+>> +@@ -1575,16 +1575,6 @@ if ($target =3D~ /^mingw/ && `$config{CC}
+>> --target-help 2>&1` =3D~ m/-mno-cygwin/m)
+>>           push @{$config{shared_ldflag}}, "-mno-cygwin";
+>>           }
+>>
+>> diff --git
+>> a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot=
+-and-debug-prefix-map-from-co.patch
+>> b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot=
+-and-debug-prefix-map-from-co.patch
+>> index bfbfedbd67..1d9e7539f6 100644
+>> ---
+>> a/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot=
+-and-debug-prefix-map-from-co.patch
+>> +++
+>> b/meta/recipes-connectivity/openssl/openssl/0001-buildinfo-strip-sysroot=
+-and-debug-prefix-map-from-co.patch
+>> @@ -1,4 +1,4 @@
+>> -From 5985253f2c9025d7c127443a3a9938946f80c2a1 Mon Sep 17 00:00:00 2001
+>> +From 6df53bfebcf8ca65910a18220a6576fb110918a5 Mon Sep 17 00:00:00 2001
+>>  From: =3D?UTF-8?q?Martin=3D20Hundeb=3DC3=3DB8ll?=3D <martin@geanix.com>
+>>  Date: Tue, 6 Nov 2018 14:50:47 +0100
+>>  Subject: [PATCH] buildinfo: strip sysroot and debug-prefix-map from
+>> compiler
+>> @@ -28,17 +28,16 @@ Signed-off-by: Kai Kang <kai.kang@windriver.com>
+>>  Update to fix buildpaths qa issue for '-ffile-prefix-map'.
+>>
+>>  Signed-off-by: Khem Raj <raj.khem@gmail.com>
+>> -
+>>  ---
+>>   Configurations/unix-Makefile.tmpl | 16 +++++++++++++++-
+>>   crypto/build.info                 |  2 +-
+>>   2 files changed, 16 insertions(+), 2 deletions(-)
+>>
+>>  diff --git a/Configurations/unix-Makefile.tmpl
+>> b/Configurations/unix-Makefile.tmpl
+>> -index 09303c4..011bda1 100644
+>> +index eff66e5..bc48f51 100644
+>>  --- a/Configurations/unix-Makefile.tmpl
+>>  +++ b/Configurations/unix-Makefile.tmpl
+>> -@@ -514,13 +514,27 @@ BIN_LDFLAGS=3D{- join(' ', $target{bin_lflags} ||=
+ (),
+>> +@@ -503,13 +503,27 @@ BIN_LDFLAGS=3D{- join(' ', $target{bin_lflags} ||=
+ (),
+>>                            '$(CNF_LDFLAGS)', '$(LDFLAGS)') -}
+>>   BIN_EX_LIBS=3D$(CNF_EX_LIBS) $(EX_LIBS)
+>>
+>> @@ -68,10 +67,10 @@ index 09303c4..011bda1 100644
+>>
+>>   # For x86 assembler: Set PROCESSOR to 386 if you want to support
+>>  diff --git a/crypto/build.info b/crypto/build.info
+>> -index aee5c46..95c9577 100644
+>> +index 8e4a885..95b0902 100644
+>>  --- a/crypto/build.info
+>>  +++ b/crypto/build.info
+>> -@@ -115,7 +115,7 @@ DEFINE[../libcrypto]=3D$UPLINKDEF
+>> +@@ -114,7 +114,7 @@ DEFINE[../libcrypto]=3D$UPLINKDEF
+>>
+>>   DEPEND[info.o]=3Dbuildinf.h
+>>   DEPEND[cversion.o]=3Dbuildinf.h
+>> diff --git
+>> a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-t=
+imeout.patch
+>> b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-t=
+imeout.patch
+>> index f6eb28069a..76bc05d5f9 100644
+>> ---
+>> a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-t=
+imeout.patch
+>> +++
+>> b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-t=
+imeout.patch
+>> @@ -1,4 +1,4 @@
+>> -From c7000672296f4c367341aa3415f26c4d9f5e4749 Mon Sep 17 00:00:00 2001
+>> +From 14856dbd767621ce6f162680c00557b54af0effb Mon Sep 17 00:00:00 2001
+>>  From: Gyorgy Sarvari <skandigraun@gmail.com>
+>>  Date: Thu, 23 Oct 2025 11:24:36 +0200
+>>  Subject: [PATCH] extend check_cwm test timeout
+>> @@ -15,7 +15,7 @@ Signed-off-by: Gyorgy Sarvari <skandigraun@gmail.com>
+>>   1 file changed, 5 insertions(+)
+>>
+>>  diff --git a/test/radix/main.c b/test/radix/main.c
+>> -index 4a1e886a71..39f8c61ef9 100644
+>> +index 0f3dc11..d925639 100644
+>>  --- a/test/radix/main.c
+>>  +++ b/test/radix/main.c
+>>  @@ -25,6 +25,11 @@ static int test_script(int idx)
+>> diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
+>> b/meta/recipes-connectivity/openssl/openssl_4.0.1.bb
+>> similarity index 87%
+>> rename from meta/recipes-connectivity/openssl/openssl_3.5.7.bb
+>> rename to meta/recipes-connectivity/openssl/openssl_4.0.1.bb
+>> index b95c734f1d..a669de1b22 100644
+>> --- a/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
+>> +++ b/meta/recipes-connectivity/openssl/openssl_4.0.1.bb
+>> @@ -11,7 +11,6 @@ SRC_URI =3D "
+>> http://www.openssl.org/source/openssl-${PV}.tar.gz \
+>>             file://run-ptest \
+>>
+>> file://0001-buildinfo-strip-sysroot-and-debug-prefix-map-from-co.patch \
+>>             file://0001-Configure-do-not-tweak-mips-cflags.patch \
+>> -
+>>  file://0001-Added-handshake-history-reporting-when-test-fails.patch \
+>>             file://0001-extend-check_cwm-test-timeout.patch \
+>>             "
+>>
+>> @@ -19,10 +18,9 @@ SRC_URI:append:class-nativesdk =3D " \
+>>             file://environment.d-openssl.sh \
+>>             "
+>>
+>> -SRC_URI[sha256sum] =3D
+>> "a8c0d28a529ca480f9f36cf5792e2cd21984552a3c8e4aa11a24aa31aeac98e8"
+>> +SRC_URI[sha256sum] =3D
+>> "2db3f3a0d6ea4b59e1f094ace2c8cd536dffb87cdc39084c5afa1e6f7f37dd09"
+>>
+>> -inherit lib_package multilib_header multilib_script ptest perlnative
+>> manpages
+>> -MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
+>> +inherit lib_package multilib_header ptest perlnative manpages
+>>
+>>  # OpenSSL publishes bugfix/security-only releases on its per-minor
+>> branches.
+>>  # When the tracked series reaches EOL, bump the regex manually to the
+>> next
+>> @@ -33,7 +31,6 @@ PACKAGECONFIG ?=3D ""
+>>  PACKAGECONFIG:class-native =3D ""
+>>  PACKAGECONFIG:class-nativesdk =3D ""
+>>
+>> -PACKAGECONFIG[cryptodev-linux] =3D
+>> "enable-devcryptoeng,disable-devcryptoeng,cryptodev-linux,,cryptodev-mod=
+ule"
+>>  PACKAGECONFIG[legacy] =3D ",no-legacy"
+>>  PACKAGECONFIG[tls1] =3D ",no-tls1"
+>>  PACKAGECONFIG[tls1_1] =3D ",no-tls1_1"
+>> @@ -57,8 +54,8 @@ EXTRA_OECONF:append:class-native =3D "
+>> --with-rand-seed=3Dos,devrandom"
+>>  EXTRA_OECONF:append:class-nativesdk =3D " --with-rand-seed=3Dos,devrand=
+om"
+>>
+>>  # Relying on hardcoded built-in paths causes openssl-native to not be
+>> relocateable from sstate.
+>> -EXTRA_OEMAKE:append:task-compile:class-native =3D '
+>> OPENSSLDIR=3D"/not/builtin" ENGINESDIR=3D"/not/builtin"
+>> MODULESDIR=3D"/not/builtin"'
+>> -EXTRA_OEMAKE:append:task-compile:class-nativesdk =3D '
+>> OPENSSLDIR=3D"/not/builtin" ENGINESDIR=3D"/not/builtin"
+>> MODULESDIR=3D"/not/builtin"'
+>> +EXTRA_OEMAKE:append:task-compile:class-native =3D '
+>> OPENSSLDIR=3D"/not/builtin" MODULESDIR=3D"/not/builtin"'
+>> +EXTRA_OEMAKE:append:task-compile:class-nativesdk =3D '
+>> OPENSSLDIR=3D"/not/builtin" MODULESDIR=3D"/not/builtin"'
+>>
+>>  #| threads_pthread.c:(.text+0x372): undefined reference to
+>> `__atomic_is_lock_free'
+>>  EXTRA_OECONF:append:toolchain-clang:x86 =3D " -latomic"
+>> @@ -204,12 +201,10 @@ do_install:append:class-native () {
+>>             OPENSSL_CONF=3D\${OPENSSL_CONF:-${libdir}/ssl-3/openssl.cnf}=
+ \
+>>             SSL_CERT_DIR=3D\${SSL_CERT_DIR:-${libdir}/ssl-3/certs} \
+>>             SSL_CERT_FILE=3D\${SSL_CERT_FILE:-${libdir}/ssl-3/cert.pem} =
 \
->             SSL_CERT_DIR=3D\${SSL_CERT_DIR:-${libdir}/ssl-3/certs} \
->             SSL_CERT_FILE=3D\${SSL_CERT_FILE:-${libdir}/ssl-3/cert.pem} \
-> -           OPENSSL_ENGINES=3D\${OPENSSL_ENGINES:-${libdir}/engines-3} \
->             OPENSSL_MODULES=3D\${OPENSSL_MODULES:-${libdir}/ossl-modules}
->
-> -       # Setting ENGINESDIR and MODULESDIR to invalid paths prevents hos=
-t
-> contamination,
-> +       # Setting MODULESDIR to invalid paths prevents host contamination=
-,
->         # but also breaks the generated libcrypto.pc file. Post-Fix it
-> manually here.
-> -       sed -i 's|^enginesdir=3D\($.libdir.\)/.*|enginesdir=3D\1/engines-=
-3|'
-> ${D}${libdir}/pkgconfig/libcrypto.pc
->         sed -i
-> 's|^modulesdir=3D\($.libdir.\)/.*|modulesdir=3D\1/ossl-modules|'
-> ${D}${libdir}/pkgconfig/libcrypto.pc
->  }
->
-> @@ -252,10 +247,6 @@ do_install_ptest() {
->
->         sed 's|${S}|${PTEST_PATH}|g' -i ${D}${PTEST_PATH}/configdata.pm
-> ${D}${PTEST_PATH}/util/wrap.pl
->
-> -       install -d ${D}${PTEST_PATH}/engines
-> -       install -m755 ${B}/engines/dasync.so ${D}${PTEST_PATH}/engines/
-> -       install -m755 ${B}/engines/ossltest.so ${D}${PTEST_PATH}/engines/
-> -       ln -s ${libdir}/engines-3/loader_attic.so
-> ${D}${PTEST_PATH}/engines/
->         ln -s ${libdir}/ossl-modules/ ${D}${PTEST_PATH}/providers
->  }
->
-> @@ -270,17 +261,14 @@ pkg_postinst_ontarget:${PN}-ossl-module-fips () {
->  # file to be installed for both the openssl-bin package and the libcrypt=
-o
->  # package since the openssl-bin package depends on the libcrypto package=
-.
->
-> -PACKAGES =3D+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc
-> ${PN}-ossl-module-legacy ${PN}-ossl-module-fips"
-> +PACKAGES =3D+ "libcrypto libssl openssl-conf ${PN}-misc
-> ${PN}-ossl-module-legacy ${PN}-ossl-module-fips"
->
->  FILES:libcrypto =3D "${libdir}/libcrypto${SOLIBS}"
->  FILES:libssl =3D "${libdir}/libssl${SOLIBS}"
->  FILES:openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf* \
->                        ${libdir}/ssl-3/openssl.cnf* \
->                        "
-> -FILES:${PN}-engines =3D "${libdir}/engines-3"
-> -# ${prefix} comes from what we pass into --prefix at configure time
-> (which is used for INSTALLTOP)
-> -FILES:${PN}-engines:append:mingw32:class-nativesdk =3D "
-> ${prefix}${libdir}/engines-3"
-> -FILES:${PN}-misc =3D "${libdir}/ssl-3/misc ${bindir}/c_rehash"
-> +FILES:${PN}-misc =3D "${libdir}/ssl-3/misc"
->  FILES:${PN}-ossl-module-legacy =3D "${libdir}/ossl-modules/legacy.so"
->  FILES:${PN}-ossl-module-fips =3D "${libdir}/ossl-modules/fips.so"
->  FILES:${PN} =3D+ "${libdir}/ssl-3/* ${libdir}/ossl-modules/"
-> @@ -290,7 +278,7 @@ CONFFILES:openssl-conf =3D
-> "${sysconfdir}/ssl/openssl.cnf"
->
->  RRECOMMENDS:libcrypto +=3D "openssl-conf ${PN}-ossl-module-legacy"
->  RDEPENDS:${PN}-misc =3D "perl"
-> -RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules bash sed
-> openssl-engines"
-> +RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules bash sed"
->  RRECOMMENDS:${PN}-ptest +=3D "${PN}-ossl-module-legacy"
->
->  RDEPENDS:${PN}-bin +=3D "openssl-conf"
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#243993):
-> https://lists.openembedded.org/g/openembedded-core/message/243993
-> Mute This Topic: https://lists.openembedded.org/mt/120878892/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
+>> -           OPENSSL_ENGINES=3D\${OPENSSL_ENGINES:-${libdir}/engines-3} \
+>>             OPENSSL_MODULES=3D\${OPENSSL_MODULES:-${libdir}/ossl-modules=
+}
+>>
+>> -       # Setting ENGINESDIR and MODULESDIR to invalid paths prevents
+>> host contamination,
+>> +       # Setting MODULESDIR to invalid paths prevents host contaminatio=
+n,
+>>         # but also breaks the generated libcrypto.pc file. Post-Fix it
+>> manually here.
+>> -       sed -i 's|^enginesdir=3D\($.libdir.\)/.*|enginesdir=3D\1/engines=
+-3|'
+>> ${D}${libdir}/pkgconfig/libcrypto.pc
+>>         sed -i
+>> 's|^modulesdir=3D\($.libdir.\)/.*|modulesdir=3D\1/ossl-modules|'
+>> ${D}${libdir}/pkgconfig/libcrypto.pc
+>>  }
+>>
+>> @@ -252,10 +247,6 @@ do_install_ptest() {
+>>
+>>         sed 's|${S}|${PTEST_PATH}|g' -i ${D}${PTEST_PATH}/configdata.pm
+>> ${D}${PTEST_PATH}/util/wrap.pl
+>>
+>> -       install -d ${D}${PTEST_PATH}/engines
+>> -       install -m755 ${B}/engines/dasync.so ${D}${PTEST_PATH}/engines/
+>> -       install -m755 ${B}/engines/ossltest.so ${D}${PTEST_PATH}/engines=
+/
+>> -       ln -s ${libdir}/engines-3/loader_attic.so
+>> ${D}${PTEST_PATH}/engines/
+>>         ln -s ${libdir}/ossl-modules/ ${D}${PTEST_PATH}/providers
+>>  }
+>>
+>> @@ -270,17 +261,14 @@ pkg_postinst_ontarget:${PN}-ossl-module-fips () {
+>>  # file to be installed for both the openssl-bin package and the libcryp=
+to
+>>  # package since the openssl-bin package depends on the libcrypto packag=
+e.
+>>
+>> -PACKAGES =3D+ "libcrypto libssl openssl-conf ${PN}-engines ${PN}-misc
+>> ${PN}-ossl-module-legacy ${PN}-ossl-module-fips"
+>> +PACKAGES =3D+ "libcrypto libssl openssl-conf ${PN}-misc
+>> ${PN}-ossl-module-legacy ${PN}-ossl-module-fips"
+>>
+>>  FILES:libcrypto =3D "${libdir}/libcrypto${SOLIBS}"
+>>  FILES:libssl =3D "${libdir}/libssl${SOLIBS}"
+>>  FILES:openssl-conf =3D "${sysconfdir}/ssl/openssl.cnf* \
+>>                        ${libdir}/ssl-3/openssl.cnf* \
+>>                        "
+>> -FILES:${PN}-engines =3D "${libdir}/engines-3"
+>> -# ${prefix} comes from what we pass into --prefix at configure time
+>> (which is used for INSTALLTOP)
+>> -FILES:${PN}-engines:append:mingw32:class-nativesdk =3D "
+>> ${prefix}${libdir}/engines-3"
+>> -FILES:${PN}-misc =3D "${libdir}/ssl-3/misc ${bindir}/c_rehash"
+>> +FILES:${PN}-misc =3D "${libdir}/ssl-3/misc"
+>>  FILES:${PN}-ossl-module-legacy =3D "${libdir}/ossl-modules/legacy.so"
+>>  FILES:${PN}-ossl-module-fips =3D "${libdir}/ossl-modules/fips.so"
+>>  FILES:${PN} =3D+ "${libdir}/ssl-3/* ${libdir}/ossl-modules/"
+>> @@ -290,7 +278,7 @@ CONFFILES:openssl-conf =3D
+>> "${sysconfdir}/ssl/openssl.cnf"
+>>
+>>  RRECOMMENDS:libcrypto +=3D "openssl-conf ${PN}-ossl-module-legacy"
+>>  RDEPENDS:${PN}-misc =3D "perl"
+>> -RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules bash sed
+>> openssl-engines"
+>> +RDEPENDS:${PN}-ptest +=3D "openssl-bin perl perl-modules bash sed"
+>>  RRECOMMENDS:${PN}-ptest +=3D "${PN}-ossl-module-legacy"
+>>
+>>  RDEPENDS:${PN}-bin +=3D "openssl-conf"
+>>
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>> Links: You receive all messages sent to this group.
+>> View/Reply Online (#243993):
+>> https://lists.openembedded.org/g/openembedded-core/message/243993
+>> Mute This Topic: https://lists.openembedded.org/mt/120878892/1997914
+>> Group Owner: openembedded-core+owner@lists.openembedded.org
+>> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+>> raj.khem@gmail.com]
+>> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>>
+>>
 
---0000000000009c5cfd0659b1613c
+--000000000000fd3c920659b16143
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">here are meta-openembedded failures</div><br><div class=3D=
-"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">O=
-n Sat, Aug 22, 2026 at 10:52=E2=80=AFAM Jaipaul Cheernam via <a href=3D"htt=
-p://lists.openembedded.org">lists.openembedded.org</a> &lt;jaipaul.cheernam=
-=3D<a href=3D"mailto:est.tech@lists.openembedded.org">est.tech@lists.openem=
-bedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=
-=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
--left:1ex">Upgrade OpenSSL from 3.5.7 to 4.0.1. This is a major version upg=
-rade.<br>
+<div dir=3D"ltr"><a href=3D"https://autobuilder.yoctoproject.org/valkyrie/a=
+pi/v2/logs/8474313/raw_inline">https://autobuilder.yoctoproject.org/valkyri=
+e/api/v2/logs/8474313/raw_inline</a></div><br><div class=3D"gmail_quote gma=
+il_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sat, Aug 22, 2=
+026 at 11:56=E2=80=AFPM Khem Raj &lt;<a href=3D"mailto:raj.khem@gmail.com">=
+raj.khem@gmail.com</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote=
+" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);=
+padding-left:1ex"><div dir=3D"ltr">here are meta-openembedded failures</div=
+><br><div class=3D"gmail_quote"><div dir=3D"ltr" class=3D"gmail_attr">On Sa=
+t, Aug 22, 2026 at 10:52=E2=80=AFAM Jaipaul Cheernam via <a href=3D"http://=
+lists.openembedded.org" target=3D"_blank">lists.openembedded.org</a> &lt;ja=
+ipaul.cheernam=3D<a href=3D"mailto:est.tech@lists.openembedded.org" target=
+=3D"_blank">est.tech@lists.openembedded.org</a>&gt; wrote:<br></div><blockq=
+uote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1p=
+x solid rgb(204,204,204);padding-left:1ex">Upgrade OpenSSL from 3.5.7 to 4.=
+0.1. This is a major version upgrade.<br>
 <br>
 Changelog: <a href=3D"https://github.com/openssl/openssl/blob/openssl-4.0.1=
 /CHANGES.md" rel=3D"noreferrer" target=3D"_blank">https://github.com/openss=
@@ -1681,6 +1704,7 @@ g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
 -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
 <br>
 </blockquote></div>
+</blockquote></div>
 
---0000000000009c5cfd0659b1613c--
+--000000000000fd3c920659b16143--
 
