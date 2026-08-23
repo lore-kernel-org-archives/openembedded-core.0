@@ -1,161 +1,137 @@
-Return-Path: <iwanicki92@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E8FEC5B572
-	for <webhook@archiver.kernel.org>; Sat, 22 Aug 2026 21:17:45 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4356.1787433460946155030
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BCA7BC5DF8C
+	for <webhook@archiver.kernel.org>; Sun, 23 Aug 2026 05:17:57 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9506.1787462275265945579
  for <openembedded-core@lists.openembedded.org>;
- Sat, 22 Aug 2026 14:17:41 -0700
+ Sat, 22 Aug 2026 22:17:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=WZZ1tK/T;
- spf=pass (domain: gmail.com, ip: 209.85.218.44, mailfrom: iwanicki92@gmail.com)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c1c50c1e29bso349067366b.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 14:17:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787433459; x=1788038259; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=edWceRFli2OkWppAW7y2xTLqkKPHdpeR5v3/Tw9JuBo=;
-        b=WZZ1tK/TdUioIFtKcUiX2+B502uNDsomISvtvH5QXc9Z9X2ptEG9/zUXZUXbSVujA5
-         TD9znMOeLzKkedNOX+sKZIlSLb9RCLBOcLroS17i4slz74gkyx7NaFkC1IjhBjDVfw3o
-         gM5FviQWQi9xFW1p4xd5YVpACybSpslQR1GT7eQ6um3GLLLUBPlfyvFa7L4iy3hoPdsI
-         DuKP3MD3mHuUsQgnMsNbfOHpy4J1cYeqy148gY1QEiwUpXVtFFpFGec4DboVqoUZTJys
-         eexPnyuk7oqb3bCdropFkQXnPx2rpwDkKSrxoFpdr2R26HPhBLNsz9jSnODuptgwkhzI
-         I9rw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787433459; x=1788038259;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=edWceRFli2OkWppAW7y2xTLqkKPHdpeR5v3/Tw9JuBo=;
-        b=YGw4TXM0BfNS4jU/zncd9KUsmAEge9Mfu2WLtbm4UJrIcXfseNHufEkMknpmM0xo5q
-         9Mq3HgessWmJj+8vi9mVdfLKRcx6uYlQi9LtNKaqPjzJ4mYGpc4DJbD3q+JwtvFRP45A
-         XoNrArRMVJzmwmLACN1f/IDccjakebGEc8WtRnigfe6KvvuMLvfAdG0avb95D3DQslCf
-         zk6AsaeaXQISLF5nHQV8F1Qswh/8tExvw7KVByt3bKdhTYKpGiKDkmSPcUMXOLRXimuH
-         b58CVsxyUFg/9gcDtzEVdOKK3K8nnRKV1SATldkiHX4KK47ltBFF7vD7FgDFh+aZRvfu
-         ZAKA==
-X-Gm-Message-State: AFuF++nTGU5tK8JpNGTfyHSdPyfk9+mB4MUUPNzS56NclDqErRDfNmlb
-	9OpJAp/+moVewVFJ8XW18MmIo5gQCAhAT9ntqJ5H3iuP6AkRrx8FZo+EVbOslR8c
-X-Gm-Gg: AR+sD12X0n74NVKZpSi0GFgHNXro0mAkWC391f19epqTuholBwPwOnh0wN3R+AYTx9z
-	Y88FriDTkJ8sp7AM/5x4VZOl5fY6EyDrzHfRkpe0jscpGEI4/gafRNRYQejQmTbKySHdL0CKAZq
-	AmB5Kj9xERAD4Ouvi1+AukRDSvFGIK9b4s36oosCx5jcFaIFhP4Kk3WDxjB5j9D5RGTT/O5DuYC
-	Qh97pKZTuptwOVPy7fxdTa0fPkWwqrqjeG2HJlZM+t8QEf4ayi8hXZOWSHaQYaSzWwkMCHDtlQV
-	WVI2s0W58DiEDM1jao5tr8SWXRCoE4pJGwTBiDlPhRTfigocCoMGoYYdxnusGbv2rCLWm3CCXo7
-	FURvTkixcY9xPofDoVOFWjMU2glGfRHzuk8h6oEib50ypKNVcKXBbOl+og5W/hh768fQ0k2NUGo
-	+fOEJnlRnQ4D80E6LUlIHVyhmkbJ/zuFAMeI06BgWg41NHw9XLU7kPv91mj3r9l2cPQ9DKV+zvk
-	WVMOg==
-X-Received: by 2002:a17:907:7b83:b0:c20:fe93:a86 with SMTP id a640c23a62f3a-c246a62b495mr1952531466b.18.1787433458837;
-        Sat, 22 Aug 2026 14:17:38 -0700 (PDT)
-Received: from iwans-fedora ([2a02:a312:c8bf:9d80:69ba:755e:25b5:838e])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c24967383e5sm465928666b.45.2026.08.22.14.17.37
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 22 Aug 2026 14:17:38 -0700 (PDT)
-From: iwanicki92 <iwanicki92@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] sbom30.py/spdx30_tasks.py: fix SPDX_* prefix lookup
-Date: Sat, 22 Aug 2026 23:17:34 +0200
-Message-ID: <20260822211734.3596359-1-iwanicki92@gmail.com>
-X-Mailer: git-send-email 2.55.0
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DoQzfcgM;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KLjP0peu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a02d0dcc90-a1925486-7b0e-4288-8573-6a896e6e2684-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1787462274;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=BORjJZEulav7gZm1lSpWrLfl/iJaftem4gV+QPfjOTE=;
+	b=DoQzfcgM2bxUrtg54of36LgAHA9P/19PKcYNx00ndz13zZMkM16Lj416AMtTqMPd
+	QGkOvlhHsqqYA3PjRSkxgDhNLw0NRQQF5c5UHDSb3YCe4AGoskEXLztKO3dBtA/Hixc
+	JpGcZ28Cf9+xGPGFB4y/tVNhzJPhE2lUkYSJgYFo=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787462274;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=BORjJZEulav7gZm1lSpWrLfl/iJaftem4gV+QPfjOTE=;
+	b=KLjP0peuBoal4nTAUCRFaCVmVUj0wLEwKFLzJkdwfHFznQ25YcPYsxeKb70sLEBJ
+	/VOl5eSAVgohBAplp5gPB6czR8LOe6DJRkr0ciuE+8ZIkvmdoJhpHMkASeYp62h0sH/
+	in8CGYNEHS7nCql59eL19GFl3CIQbYAd4r62oLqE=
+Content-Type: multipart/mixed; boundary="===============0997789038007063963=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gpgme: upgrading to 2.2.0 FAILED
+Message-ID: <010101a02d0dcc90-a1925486-7b0e-4288-8573-6a896e6e2684-000000@us-west-2.amazonses.com>
+Date: Sun, 23 Aug 2026 05:17:54 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.23-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 22 Aug 2026 21:17:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244005
+ <openembedded-core@lists.openembedded.org>; Sun, 23 Aug 2026 05:17:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244006
 
-Sub-variables (_name, _type, _comment, _id_email) were being looked
-up using the literal string "SPDX_IMAGE_SUPPLIER", "SPDX_SDK_SUPPLIER"
-"SPDX_PACKAGE_SUPPLIER", "SPDX_INVOKED_BY", "SPDX_ON_BEHALF_OF",
-instead of the value of those variables, breaking the documented
-ability to use a custom prefix (e.g. MY_COMPANY).
+--===============0997789038007063963==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-Tested by setting in local.conf:
+Hello,
 
-```
-MY_COMPANY_name = "CCCC"
-MY_COMPANY_type = "organization"
-SPDX_IMAGE_SUPPLIER = "MY_COMPANY"
-SPDX_IMAGE_SUPPLIER_name = "AAAA"
-SPDX_IMAGE_SUPPLIER_type = "organization"
-SPDX_PACKAGE_SUPPLIER = "MY_COMPANY"
-SPDX_PACKAGE_SUPPLIER_name = "BBBB"
-SPDX_PACKAGE_SUPPLIER_type = "organization"
-```
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *gpgme* to *2.2.0* has Failed (devtool error).
 
-And then comparing `core-image-minimal-qemux86-64.rootfs.spdx.json`
-SBOMs. Before this change SBOM contained only AAAA and BBBB but no CCCC,
-after there was only CCCC.
+Detailed error information:
 
-Signed-off-by: iwanicki92 <iwanicki92@gmail.com>
----
- meta/lib/oe/sbom30.py       |  6 +++++-
- meta/lib/oe/spdx30_tasks.py | 10 +++++-----
- 2 files changed, 10 insertions(+), 6 deletions(-)
+The following devtool command failed:  upgrade gpgme -V 2.2.0
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 956 .bb files complete (0 cached, 956 parsed). 1986 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
-index e02382c3cc78..5af2e4ff1c0c 100644
---- a/meta/lib/oe/sbom30.py
-+++ b/meta/lib/oe/sbom30.py
-@@ -397,7 +397,11 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
-         self.doc.import_.append(m)
-         return spdxid
- 
--    def new_agent(self, varname, *, creation_info=None, add=True):
-+    def new_agent(self, varname, *, creation_info=None, add=True, expand=False):
-+        if expand:
-+            varname = self.d.getVar(f"{varname}")
-+            if not varname:
-+                return None
-         ref_varname = self.d.getVar(f"{varname}_ref")
-         if ref_varname:
-             if ref_varname == varname:
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index dac02e378429..88c707476a65 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -905,7 +905,7 @@ def create_spdx(d):
-                 force_purposes=["install"],
-             )
- 
--            supplier = build_objset.new_agent("SPDX_PACKAGE_SUPPLIER")
-+            supplier = build_objset.new_agent("SPDX_PACKAGE_SUPPLIER", expand=True)
-             if supplier is not None:
-                 spdx_package.suppliedBy = (
-                     supplier if isinstance(supplier, str) else supplier._id
-@@ -1213,8 +1213,8 @@ def write_bitbake_spdx(d):
-     objset = oe.sbom30.ObjectSet.new_objset(d, "bitbake", False)
- 
-     host_import_key = d.getVar("SPDX_BUILD_HOST")
--    invoked_by = objset.new_agent("SPDX_INVOKED_BY", add=False)
--    on_behalf_of = objset.new_agent("SPDX_ON_BEHALF_OF", add=False)
-+    invoked_by = objset.new_agent("SPDX_INVOKED_BY", add=False, expand=True)
-+    on_behalf_of = objset.new_agent("SPDX_ON_BEHALF_OF", add=False, expand=True)
- 
-     if d.getVar("SPDX_INCLUDE_BITBAKE_PARENT_BUILD") == "1":
-         # Since the Build objects are unique, we may as well set the creation
-@@ -1536,7 +1536,7 @@ def create_image_sbom_spdx(d):
-     objset, sbom = oe.sbom30.create_sbom(d, image_name, root_elements)
- 
-     # Set supplier on root elements if SPDX_IMAGE_SUPPLIER is defined
--    supplier = objset.new_agent("SPDX_IMAGE_SUPPLIER", add=False)
-+    supplier = objset.new_agent("SPDX_IMAGE_SUPPLIER", add=False, expand=True)
-     if supplier is not None:
-         supplier_id = supplier if isinstance(supplier, str) else supplier._id
-         if not isinstance(supplier, str):
-@@ -1657,7 +1657,7 @@ def create_sdk_sbom(d, sdk_deploydir, spdx_work_dir, toolchain_outputname):
-     )
- 
-     # Set supplier on root elements if SPDX_SDK_SUPPLIER is defined
--    supplier = objset.new_agent("SPDX_SDK_SUPPLIER", add=False)
-+    supplier = objset.new_agent("SPDX_SDK_SUPPLIER", add=False, expand=True)
-     if supplier is not None:
-         supplier_id = supplier if isinstance(supplier, str) else supplier._id
-         if not isinstance(supplier, str):
--- 
-2.55.0
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-10cd99f148f534ba1bd0458a2070be7bb9964ab4"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:10cd99f148f534ba1bd0458a2070be7bb9964ab4"
+meta-yocto-bsp       
+meta-poky            = "master:6ce984c0a3a68c2fdc3c32bc185b6729d09e7829"
+workspace            = "<unknown>:<unknown>"
 
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 957 .bb files complete (0 cached, 957 parsed). 1987 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-10cd99f148f534ba1bd0458a2070be7bb9964ab4"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:10cd99f148f534ba1bd0458a2070be7bb9964ab4"
+meta-yocto-bsp       
+meta-poky            = "master:6ce984c0a3a68c2fdc3c32bc185b6729d09e7829"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+WARNING: Failed to fetch URL https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-2.2.0.tar.bz2, attempting MIRRORS if available
+NOTE: Tasks Summary: Attempted 2 tasks of which 0 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260823051739.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260823051739.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-2.2.0.tar.bz2...
+ERROR: Fetcher failure: Fetch command ['wget', '--tries=2', '--timeout=100', '--output-document=/srv/pokybuild/yocto-worker/auh/build/build/downloads/gpgme-2.2.0.tar.bz2.tmp', '--continue', '--directory-prefix=/srv/pokybuild/yocto-worker/auh/build/build/downloads', 'https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-2.2.0.tar.bz2', '--progress=dot', '--verbose'] failed with exit code 8, see logfile for output
+ERROR: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-2.2.0.tar.bz2')
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/recipetool-mhc09phq/work/temp/log.do_fetch.2318668
+ERROR: Failed to fetch URL https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-2.2.0.tar.bz2
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============0997789038007063963==--
 
