@@ -2,62 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B78DBC5DF9C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ABF61C5DF81
 	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 13:00:55 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15952.1787576445612819860
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15958.1787576454071137566
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 06:00:45 -0700
+ Mon, 24 Aug 2026 06:00:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Ft2HwgQl;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49954b88fffso27397565e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 06:00:45 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Agoakfed;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-47c2b362ee2so2601592f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 06:00:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787576444; x=1788181244; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787576452; x=1788181252; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Qb3z6o1JageTw2oNk+bklxaTKI6WQ2zPyas4dnkrCpI=;
-        b=Ft2HwgQluVthqX8ncFtJ8E4DAsyRORBQ1ILOVyPl/hrSsYJ07PiOajRoDIkQAc3qSa
-         pR3Cbk4WfYUKBjwOg4tdpJE23XcVp59jO+atZXGf3cz0Cdt86n55yxVQE6j91fBCh7rX
-         tIh3yKfwpNY/ErMx47gmkR3drkBbIdID6xf+M=
+        bh=1+QoMQY8dS2Guu7esTW3ac55ogiGCgfDkOZK/uRzmtI=;
+        b=AgoakfedQRmcNZnnoAqP9701k6vgodRVK7O/LSMa9PB8bZ/AFnKMRGyx7gqUI2qw4T
+         pk1B0w7E+YnwNj5bE5cXdDVA/JiGFgv62oleLpU2bUTT0w76MD9eOETP1YBBJ8Ryh/gb
+         N5IzCS9za5l/2wWtjRV8XOWWHNUH7NHywPF40=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787576444; x=1788181244;
+        d=1e100.net; s=20251104; t=1787576452; x=1788181252;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Qb3z6o1JageTw2oNk+bklxaTKI6WQ2zPyas4dnkrCpI=;
-        b=FfoNmZqkz1G1T1xjMzMQLmMHkAcrvv0QNtegFR+6zV1MNq0urgMenv841Bs8jRlnLr
-         KpWkzyj7g9FBCpR+s3a0T+arhaxZDPCraT9M4d1ieqleJKqo9dusYvS/AaC3WxgqCaOJ
-         OcLmILHxel1DjGj10e0M/fkaUE/RTrzAh1nA/Di3zzQiCPkjKv8e6fseuku3+mTWhex8
-         zRJMxq6hkeoBLlNfWgD8pTAt3VYxo06EAyHHsrDrokzKeRpsbsb2pj3RKPB2SJLTqEat
-         VFG9AtoC2OSZ1X5KGictxamPH1Fo2dDbYsdQqpVQ3JI+I2gZhlWrhhWTPse7BoIfmg7q
-         fJag==
-X-Gm-Message-State: AFuF++n32LTXFlubuPcnAKyZBqYfUnEqdewuLfo97TdYoqChegKhA0PJ
-	tO/0wtJE9akeMd9oJuc8ydRXAEHqR2PDD3nyIG0sNGZbt3EW5UttdijMg5CjLUbdUxW7SJVHWej
-	ug1td77A=
-X-Gm-Gg: AR+sD13Sb0YcpCUkh9Yd+bf+5JFJSinVkQales/e2pDvSJ06rz1YbIf4VICPdR7vQOK
-	fAfE9t81BrMS5X9XteONdTzkQPXSzJH/MrMD2Z1CT2XVwoAAteveauQZKE2u9UCSWiSxV4nF6T9
-	RnX/+jtsrL00GC8JhjzUk9HCVeod7r3UjL1EAd3ojIG8dxEDoRMLQpETbbNeMvbOY0xVlCr9MhA
-	mc1ytqBACi6blkPP/mzBV9TNYuMdmnim4+CFk3h4zhjkCDa/QHsk5V6I9kXpiS0d33AI03b3R2Z
-	1MpQiotpnZZnwHm4UPoFVW/0qRNsaEVx6QUzwSCRaEarpsEACNSzwSbVCB/509qH5BOCFgojrCH
-	VaiJSpXe5CU/2Fnk/nVMfqI24h5hLBMtv7+PS7ezQUWGeWiBMaKQV7x8/GGYRGnJRkaVorCndnR
-	Gk1xPQVlj/+GHIA7z9d8Mhb2M02Ar7jbwoQx5CLGPVlLpNa3kGddStQvvAJ84XL+O0Wun1mOcmW
-	vH/NEPellXcISBCt7yKKdCKi8L4xQpYjCgIujb2RDXl91M/Ze0638kpTFs1OB7TbqulRy5eYX64
-	YV5Zqg==
-X-Received: by 2002:a05:600c:628d:b0:499:4892:d022 with SMTP id 5b1f17b1804b1-499c19bd51emr191879515e9.8.1787576443740;
-        Mon, 24 Aug 2026 06:00:43 -0700 (PDT)
+        bh=1+QoMQY8dS2Guu7esTW3ac55ogiGCgfDkOZK/uRzmtI=;
+        b=WPcV1q+hG0eGiUCLzw1vITOS6ZZcKAerOSDCwanwtKBCAozOqsZQ1bYFXYBHYteAX7
+         47GhTahg5w9DiaPoSZX3SvHvzYqq98bKUuAo9b7xEf/WpFZAh1jBvg9QvETvPeuWDs3f
+         57rX0Jcjdqw7DwvlcZy0QcQJTRx3/jZY5TxsHFm6djDML56r8IIA6dudi7Kn+elh/rRc
+         G0WHvmCzbR/kbDkPoo0jnb97lAeFD+hQxFVnEzdfXv3KI7357g+OszurYAmrPIO0mmWs
+         gPHs+os8q4nNY2RQV46RKFhO1qbe8M6bJ02TGp+m/S/XFg9BTvOU0dKkjNKUi5EACVY1
+         515w==
+X-Gm-Message-State: AFuF++mO+wLnjqNjLrLWpYwu0+5vkcUrqpNsLVjBDyxhfXyUMcDO+PXp
+	MCaEPA1eihI04DnrR1dUNRDa3Yb2dmA8ZRfou1fnAKHDUTu+JM+K2kaW4SsDRLz9XI7iCU4eL+c
+	gG7RidsY=
+X-Gm-Gg: AR+sD12YOrQw/qPG2rNMdPUZySJLZ3RWmUW4fUsdlQ1y/g1WKqPmxTJ/SJU7rNO6+M4
+	xyQRprVTVCOVaPWV38jHChsVwq0WO99dvhbv4VKJjlhzwS7s4H++3cdjcsIeiIzD8+pw1v9butp
+	aa8gZsnSeQqHyzNa8F4jiYodGmpG4JhTnBaP50qNywU0yCPHqQ1tpjlxXoUTT54ihQvCqpS3LMS
+	axDsIJ5uoGTPZ2rxjToq1a+EVjy9vF28LVgZKfv8t7Sj++eFOMRFM6iBsjZHXLyYdATf6J6OwQx
+	7oypMmd9SpcLOvv3FwKUjpP6zR1KLlkdFUthGLP7wVsRF3c67H3nj9TapFMQghYzCigzcZWFyma
+	Y0Sgwi9Xl4lu+LgvQvK+nIJC5qdRy+znKq9LbszNCEcZAOY0SyKQIMK6pI2jZZbuh9sX5HveHTp
+	Virkx/2xEKVZmMrGo8b2snOFd64xTxEfK4eHF4xnYGm7W5XsGQ2wCKnb/7sP/ybtXJFooglg/Eu
+	+561waLY0EjrANgBd8nCi+zmUfnZfmhHZlsj7MjceVbMDxtpfqetGUC3LdHvdXhiSJO0zI=
+X-Received: by 2002:a05:600c:4f12:b0:499:af7d:b759 with SMTP id 5b1f17b1804b1-499c19cc660mr242746075e9.13.1787576450581;
+        Mon, 24 Aug 2026 06:00:50 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499c35935f5sm61379865e9.2.2026.08.24.06.00.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499c35935f5sm61379865e9.2.2026.08.24.06.00.49
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 06:00:42 -0700 (PDT)
+        Mon, 24 Aug 2026 06:00:49 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 06/19] libssh2: fix CVE-2026-66035
-Date: Mon, 24 Aug 2026 14:59:48 +0200
-Message-ID: <5f5c4afa331cf0f4df845092071f712e9ba50fc7.1787576160.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 15/19] cpio: patch CVE-2026-66486
+Date: Mon, 24 Aug 2026 14:59:57 +0200
+Message-ID: <bb71cff784d9a8552d285a126f603462e9fc8c34.1787576160.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1787576160.git.yoann.congal@smile.fr>
 References: <cover.1787576160.git.yoann.congal@smile.fr>
@@ -67,98 +66,537 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 13:00:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244102
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244109
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Peter Marko <peter.marko@siemens.com>
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-66035
-https://github.com/libssh2/libssh2/commit/42e33d81577ed4b95d4b4f6f845e5ee8efe5eeb4
+Pick patch mentioned in NVD CVE description.
+Resolve trivial conflicts.
 
-libssh2 ptest results (qemux86-64):
-  before: PASSED: 1 FAILED: 0 SKIPPED: 0
-  after:  PASSED: 1 FAILED: 0 SKIPPED: 0
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(From OE-Core rev: e70183674aacaef32e4fd34277ce2482a89a44a7)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- .../libssh2/libssh2/CVE-2026-66035.patch      | 56 +++++++++++++++++++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
- 2 files changed, 57 insertions(+)
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch
+ meta/recipes-extended/cpio/cpio_2.15.bb       |   1 +
+ .../cpio/files/CVE-2026-66486.patch           | 497 ++++++++++++++++++
+ 2 files changed, 498 insertions(+)
+ create mode 100644 meta/recipes-extended/cpio/files/CVE-2026-66486.patch
 
-diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch
-new file mode 100644
-index 00000000000..7c15f92fb6d
---- /dev/null
-+++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch
-@@ -0,0 +1,56 @@
-+From 6671019836476649792eea12868a370133be1abe Mon Sep 17 00:00:00 2001
-+From: Viktor Szakats <commit@vsz.me>
-+Date: Fri, 3 Jul 2026 18:22:55 +0200
-+Subject: [PATCH] transport: fix potential heap overflow on ETM decrypt
-+
-+Reported-by: Vladimir Eli Tokarev
-+Fixes GHSA-6c79-444r-wx26
-+
-+Closes #2198
-+
-+Backport adaptations:
-+- The upstream fix uses SSH2_SAFEFREE() to safely release allocated
-+  memory and reset the pointer. Since SSH2_SAFEFREE() is not available
-+  in libssh2 1.11.1, replace its usage with the equivalent NULL check,
-+  LIBSSH2_FREE(), and pointer reset sequence.
-+- The upstream fix renames decrypt() to transport_decrypt(). Since this
-+  rename is not present in libssh2 1.11.1, retain the original
-+  decrypt() function name.
-+
-+CVE: CVE-2026-66035
-+Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/42e33d81577ed4b95d4b4f6f845e5ee8efe5eeb4]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ src/transport.c | 12 +++++++++++-
-+ 1 file changed, 11 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/transport.c b/src/transport.c
-+index d147505b..9f386e75 100644
-+--- a/src/transport.c
-++++ b/src/transport.c
-+@@ -242,6 +242,17 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /* 1 or 0 */ )
-+                 unsigned char *decrypt_buffer;
-+                 int blocksize = session->remote.crypt->blocksize;
-+ 
-++                if(p->total_num < mac_len + 4 + (size_t)blocksize) {
-++                    if(p->payload) {
-++                        LIBSSH2_FREE(session, p->payload);
-++                        p->payload = NULL;
-++                    }
-++                    return LIBSSH2_ERROR_DECRYPT;
-++                }
-++                decrypt_size = (ssize_t)(p->total_num - mac_len - 4);
-++
-++                first_block[0] = 0;
-++
-+                 rc = decrypt(session, p->payload + 4,
-+                              first_block, blocksize, FIRST_BLOCK);
-+                 if(rc) {
-+@@ -249,7 +260,6 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /* 1 or 0 */ )
-+                 }
-+ 
-+                 /* we need buffer for decrypt */
-+-                decrypt_size = p->total_num - mac_len - 4;
-+                 decrypt_buffer = LIBSSH2_ALLOC(session, decrypt_size);
-+                 if(!decrypt_buffer) {
-+                     return LIBSSH2_ERROR_ALLOC;
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-index 7d3063d9304..faa34ba3eb6 100644
---- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-@@ -19,6 +19,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
-            file://CVE-2026-66032.patch \
-            file://CVE-2026-66033.patch \
-            file://CVE-2026-66034.patch \
-+           file://CVE-2026-66035.patch \
+diff --git a/meta/recipes-extended/cpio/cpio_2.15.bb b/meta/recipes-extended/cpio/cpio_2.15.bb
+index 5ae6dc9ef9f..09fe123a30c 100644
+--- a/meta/recipes-extended/cpio/cpio_2.15.bb
++++ b/meta/recipes-extended/cpio/cpio_2.15.bb
+@@ -11,6 +11,7 @@ SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
+            file://test.sh \
+            file://CVE-2026-66485.patch \
+            file://CVE-2026-66484.patch \
++           file://CVE-2026-66486.patch \
             "
  
- SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
+ SRC_URI[sha256sum] = "efa50ef983137eefc0a02fdb51509d624b5e3295c980aa127ceee4183455499e"
+diff --git a/meta/recipes-extended/cpio/files/CVE-2026-66486.patch b/meta/recipes-extended/cpio/files/CVE-2026-66486.patch
+new file mode 100644
+index 00000000000..93199a337ef
+--- /dev/null
++++ b/meta/recipes-extended/cpio/files/CVE-2026-66486.patch
+@@ -0,0 +1,497 @@
++From 2ff9600c9ef32e88759843cdbde74c8db5ae9b30 Mon Sep 17 00:00:00 2001
++From: Sergey Poznyakoff <gray@gnu.org>
++Date: Thu, 23 Jul 2026 17:26:05 +0300
++Subject: [PATCH] Quote file names in error messages and in listings.
++
++* NEWS: Document changes.
++* doc/cpio.texi: Likewise.
++* src/copyin.c: Quote file and member names.
++* src/copyout.c: Likewise.
++* src/copypass.c: Likewise.
++* src/main.c: New options: --quoting-style and --quote-chars.
++(process_args): Set default quoting style.
++* tests/CVE-2019-14866.at: Fix expected output.
++
++CVE: CVE-2026-66485
++Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/cpio.git/commit/?id=2ff9600c9ef32e88759843cdbde74c8db5ae9b30]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ NEWS                    | 16 ++++++++++++-
++ doc/cpio.texi           | 13 ++++++++++
++ src/copyin.c            | 39 +++++++++++++++++-------------
++ src/copyout.c           | 26 ++++++++++----------
++ src/copypass.c          | 11 +++++----
++ src/main.c              | 53 +++++++++++++++++++++++++++++++++++++++--
++ tests/CVE-2019-14866.at |  2 +-
++ 7 files changed, 123 insertions(+), 37 deletions(-)
++
++diff --git a/NEWS b/NEWS
++index d036665..24d85b5 100644
++--- a/NEWS
+++++ b/NEWS
++@@ -1,8 +1,22 @@
++-GNU cpio NEWS -- history of user-visible changes. 2024-01-14
+++GNU cpio NEWS -- history of user-visible changes. 2026-07-23
++ Copyright (C) 2003-2024 Free Software Foundation, Inc.
++ See the end of file for copying conditions.
++ 
++ Please send cpio bug reports to <bug-cpio@gnu.org>.
+++
+++Version 2.15.? (git)
+++
+++* New options
+++
+++  --quoting-style=STYLE
+++    Set name quoting style used when printing file names. Valid styles
+++    are: c, c-maybe, clocale, escape, help (displays available styles
+++    and exits), literal (default), locale, shell, shell-always,
+++    shell-escape, and shell-escape-always.
+++
+++  --quote-chars=STRING
+++    Additionally quote characters from STRING when printing file names.
+++
++ 
++ Version 2.15 - Sergey Poznyakoff, 2024-01-14
++ 
++diff --git a/doc/cpio.texi b/doc/cpio.texi
++index 8d596fb..dc69a4d 100644
++--- a/doc/cpio.texi
+++++ b/doc/cpio.texi
++@@ -814,6 +814,19 @@ Run in copy-pass mode.
++ [@ref{copy-in},@ref{copy-out},@ref{copy-pass}]
++ @*Do not print the number of blocks copied.
++ 
+++@item --quote-chars=@var{string}
+++Always quote characters from @var{string}, even if the selected
+++quoting style would not quote them (@pxref{quoting styles,,,tar,GNU
+++tar}).
+++
+++@item --quoting-style=@var{style}
+++Set quoting style to use when printing member and file names
+++(@pxref{quoting styles,,,tar,GNU tar}). Valid @var{style} values are:
+++@code{literal}, @code{shell}, @code{shell-always}, @code{c},
+++@code{escape}, @code{locale}, and @code{clocale}. Default quoting
+++style is @code{literal}, unless overridden while configuring the
+++package.
+++
++ @item -r
++ @itemx --rename
++ [@ref{copy-in}]
++diff --git a/src/copyin.c b/src/copyin.c
++index 59ce98b..2afc9d4 100644
++--- a/src/copyin.c
+++++ b/src/copyin.c
++@@ -114,7 +114,7 @@ get_link_name (struct cpio_file_stat *file_hdr, int in_file_des)
++   if (file_hdr->c_filesize < 0 || file_hdr->c_filesize > SIZE_MAX-1)
++     {
++       error (0, 0, _("%s: stored filename length is out of range"),
++-	     file_hdr->c_name);
+++	     quote (file_hdr->c_name));
++       link_name = NULL;
++     }
++   else
++@@ -150,7 +150,11 @@ list_file (struct cpio_file_stat* file_hdr, int in_file_des)
++ 	}
++       else
++ #endif
++-	long_format (file_hdr, (char *) 0);
+++	long_format (file_hdr, NULL);
+++    }
+++  else if (name_end == '\n' && isatty (fileno (stdout)))
+++    {
+++      printf ("%s%c", quotearg (file_hdr->c_name), name_end);
++     }
++   else
++     {
++@@ -173,7 +177,7 @@ list_file (struct cpio_file_stat* file_hdr, int in_file_des)
++       if (crc != file_hdr->c_chksum)
++ 	{
++ 	  error (0, 0, _("%s: checksum error (0x%x, should be 0x%x)"),
++-		 file_hdr->c_name, crc, file_hdr->c_chksum);
+++		 quote (file_hdr->c_name), crc, file_hdr->c_chksum);
++ 	}
++     }
++ }
++@@ -200,7 +204,7 @@ try_existing_file (struct cpio_file_stat* file_hdr, int in_file_des,
++ 	       && file_hdr->c_mtime <= file_stat.st_mtime)
++ 	{
++ 	  error (0, 0, _("%s not created: newer or same age version exists"),
++-		 file_hdr->c_name);
+++		 quote (file_hdr->c_name));
++ 	  tape_toss_input (in_file_des, file_hdr->c_filesize);
++ 	  tape_skip_padding (in_file_des, file_hdr->c_filesize);
++ 	  return -1;	/* Go to the next file.  */
++@@ -210,7 +214,7 @@ try_existing_file (struct cpio_file_stat* file_hdr, int in_file_des,
++ 		: unlink (file_hdr->c_name))
++ 	{
++ 	  error (0, errno, _("cannot remove current %s"),
++-		 file_hdr->c_name);
+++		 quote (file_hdr->c_name));
++ 	  tape_toss_input (in_file_des, file_hdr->c_filesize);
++ 	  tape_skip_padding (in_file_des, file_hdr->c_filesize);
++ 	  return -1;	/* Go to the next file.  */
++@@ -271,7 +275,8 @@ create_defered_links (struct cpio_file_stat *file_hdr)
++ 	  if (link_res < 0)
++ 	    {
++ 	      error (0, errno, _("cannot link %s to %s"),
++-		     d->header.c_name, file_hdr->c_name);
+++		     quote_n (0, d->header.c_name),
+++		     quote_n (1, file_hdr->c_name));
++ 	    }
++ 	  if (d_prev != NULL)
++ 	    d_prev->next = d->next;
++@@ -467,7 +472,8 @@ copyin_regular_file (struct cpio_file_stat* file_hdr, int in_file_des)
++ 	  if (link_res < 0)
++ 	    {
++ 	      error (0, errno, _("cannot link %s to %s"),
++-		     file_hdr->c_tar_linkname, file_hdr->c_name);
+++		     quote_n (0, file_hdr->c_tar_linkname),
+++		     quote_n (1, file_hdr->c_name));
++ 	    }
++ 	  return;
++ 	}
++@@ -500,7 +506,7 @@ copyin_regular_file (struct cpio_file_stat* file_hdr, int in_file_des)
++ 	swapping_halfwords = true;
++       else
++ 	error (0, 0, _("cannot swap halfwords of %s: odd number of halfwords"),
++-	       file_hdr->c_name);
+++	       quote (file_hdr->c_name));
++     }
++   if (swap_bytes_flag)
++     {
++@@ -508,7 +514,7 @@ copyin_regular_file (struct cpio_file_stat* file_hdr, int in_file_des)
++ 	swapping_bytes = true;
++       else
++ 	error (0, 0, _("cannot swap bytes of %s: odd number of bytes"),
++-	       file_hdr->c_name);
+++	       quote (file_hdr->c_name));
++     }
++   copy_files_tape_to_disk (in_file_des, out_file_des, file_hdr->c_filesize);
++   disk_empty_output_buffer (out_file_des, true);
++@@ -519,7 +525,7 @@ copyin_regular_file (struct cpio_file_stat* file_hdr, int in_file_des)
++ 	{
++ 	  if (crc != file_hdr->c_chksum)
++ 	    error (0, 0, _("%s: checksum error (0x%x, should be 0x%x)"),
++-		   file_hdr->c_name, crc, file_hdr->c_chksum);
+++		   quote (file_hdr->c_name), crc, file_hdr->c_chksum);
++ 	}
++       tape_skip_padding (in_file_des, file_hdr->c_filesize);
++       return;
++@@ -534,7 +540,7 @@ copyin_regular_file (struct cpio_file_stat* file_hdr, int in_file_des)
++     {
++       if (crc != file_hdr->c_chksum)
++ 	error (0, 0, _("%s: checksum error (0x%x, should be 0x%x)"),
++-	       file_hdr->c_name, crc, file_hdr->c_chksum);
+++	       quote (file_hdr->c_name), crc, file_hdr->c_chksum);
++     }
++ 
++   tape_skip_padding (in_file_des, file_hdr->c_filesize);
++@@ -582,7 +588,8 @@ copyin_device (struct cpio_file_stat* file_hdr)
++       if (link_res < 0)
++ 	{
++ 	  error (0, errno, _("cannot link %s to %s"),
++-		 file_hdr->c_tar_linkname, file_hdr->c_name);
+++		 quote_n (0, file_hdr->c_tar_linkname),
+++		 quote_n (1, file_hdr->c_name));
++ 	  /* Something must be wrong, because we couldn't
++ 	     find the file to link to.  But can we assume
++ 	     that the device maj/min numbers are correct
++@@ -855,7 +862,7 @@ copyin_file (struct cpio_file_stat *file_hdr, int in_file_des)
++ #endif
++ 
++     default:
++-      error (0, 0, _("%s: unknown file type"), file_hdr->c_name);
+++      error (0, 0, _("%s: unknown file type"), quote (file_hdr->c_name));
++       tape_toss_input (in_file_des, file_hdr->c_filesize);
++       tape_skip_padding (in_file_des, file_hdr->c_filesize);
++     }
++@@ -1550,13 +1557,13 @@ process_copy_in (void)
++ 	    if (crc != file_hdr.c_chksum)
++ 	      {
++ 		error (0, 0, _("%s: checksum error (0x%x, should be 0x%x)"),
++-		       file_hdr.c_name, crc, file_hdr.c_chksum);
+++		       quote (file_hdr.c_name), crc, file_hdr.c_chksum);
++ 	      }
++ 	 /* Debian hack: -v and -V now work with --only-verify-crc.
++ 	    (99/11/10) -BEM */
++ 	    if (verbose_flag)
++ 	      {
++-		fprintf (stderr, "%s\n", file_hdr.c_name);
+++		fprintf (stderr, "%s\n", quotearg (file_hdr.c_name));
++ 	      }
++ 	    if (dot_flag)
++ 	      {
++@@ -1581,7 +1588,7 @@ process_copy_in (void)
++ 	  copyin_file(&file_hdr, in_file_des);
++ 
++ 	  if (verbose_flag)
++-	    fprintf (stderr, "%s\n", file_hdr.c_name);
+++	    fprintf (stderr, "%s\n", quotearg (file_hdr.c_name));
++ 	  if (dot_flag)
++ 	    fputc ('.', stderr);
++ 	}
++diff --git a/src/copyout.c b/src/copyout.c
++index fd88080..b9fb676 100644
++--- a/src/copyout.c
+++++ b/src/copyout.c
++@@ -46,7 +46,8 @@ read_for_checksum (int in_file_des, off_t file_size, char *file_name)
++     {
++       bytes_read = read (in_file_des, buf, BUFSIZ);
++       if (bytes_read < 0)
++-	error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"), file_name);
+++	error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"),
+++	       quote (file_name));
++       if (bytes_read == 0)
++ 	break;
++       for (i = 0; i < bytes_read; i++)
++@@ -54,7 +55,8 @@ read_for_checksum (int in_file_des, off_t file_size, char *file_name)
++       file_size -= bytes_read;
++     }
++   if (lseek (in_file_des, 0L, SEEK_SET))
++-    error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"), file_name);
+++    error (PAXEXIT_FAILURE, errno, _("cannot read checksum for %s"),
+++	   quote (file_name));
++ 
++   return crc;
++ }
++@@ -288,7 +290,7 @@ field_width_error (const char *filename, const char *fieldname,
++   char valbuf[UINTMAX_STRSIZE_BOUND + 1];
++   char maxbuf[UINTMAX_STRSIZE_BOUND + 1];
++   error (0, 0, _("%s: value %s %s out of allowed range 0..%s"),
++-	 filename, fieldname,
+++	 quote (filename), fieldname,
++ 	 STRINGIFY_BIGINT (value, valbuf),
++ 	 STRINGIFY_BIGINT (MAX_VAL_WITH_DIGITS (width - nul, LG_8),
++ 			   maxbuf));
++@@ -298,7 +300,7 @@ static void
++ field_width_warning (const char *filename, const char *fieldname)
++ {
++   if (warn_option & CPIO_WARN_TRUNCATE)
++-    error (0, 0, _("%s: truncating %s"), filename, fieldname);
+++	  error (0, 0, _("%s: truncating %s"), quote (filename), fieldname);
++ }
++ 
++ void
++@@ -466,7 +468,7 @@ write_out_binary_header (dev_t rdev,
++   short_hdr.c_dev = makedev (file_hdr->c_dev_maj, file_hdr->c_dev_min);
++ 
++   if ((warn_option & CPIO_WARN_TRUNCATE) && (file_hdr->c_ino >> 16) != 0)
++-    error (0, 0, _("%s: truncating inode number"), file_hdr->c_name);
+++    error (0, 0, _("%s: truncating inode number"), quote (file_hdr->c_name));
++ 
++   short_hdr.c_ino = file_hdr->c_ino & 0xFFFF;
++   if (short_hdr.c_ino != file_hdr->c_ino)
++@@ -497,7 +499,7 @@ write_out_binary_header (dev_t rdev,
++     {
++       char maxbuf[UINTMAX_STRSIZE_BOUND + 1];
++       error (0, 0, _("%s: value %s %s out of allowed range 0..%u"),
++-	     file_hdr->c_name, _("name size"),
+++	     quote (file_hdr->c_name), _("name size"),
++ 	     STRINGIFY_BIGINT (file_hdr->c_namesize, maxbuf), 0xFFFFu);
++       return 1;
++     }
++@@ -510,7 +512,7 @@ write_out_binary_header (dev_t rdev,
++     {
++       char maxbuf[UINTMAX_STRSIZE_BOUND + 1];
++       error (0, 0, _("%s: value %s %s out of allowed range 0..%lu"),
++-	     file_hdr->c_name, _("file size"),
+++	     quote (file_hdr->c_name), _("file size"),
++ 	     STRINGIFY_BIGINT (file_hdr->c_namesize, maxbuf), 0xFFFFFFFFlu);
++       return 1;
++     }
++@@ -558,7 +560,7 @@ write_out_header (struct cpio_file_stat *file_hdr, int out_des)
++     case arf_ustar:
++       if (is_tar_filename_too_long (file_hdr->c_name))
++ 	{
++-	  error (0, 0, _("%s: file name too long"), file_hdr->c_name);
+++	  error (0, 0, _("%s: file name too long"), quote (file_hdr->c_name));
++ 	  return 1;
++ 	}
++       return write_out_tar_header (file_hdr, out_des);
++@@ -749,7 +751,7 @@ process_copy_out (void)
++ 	      if (archive_format == arf_tar)
++ 		{
++ 		  error (0, 0, _("%s not dumped: not a regular file"),
++-			 orig_file_name);
+++			 quote (orig_file_name));
++ 		  continue;
++ 		}
++ 	      else if (archive_format == arf_ustar)
++@@ -800,7 +802,7 @@ process_copy_out (void)
++ 		    if (link_size + 1 > 100)
++ 		      {
++ 			error (0, 0, _("%s: symbolic link too long"),
++-			       file_hdr.c_name);
+++			       quote (file_hdr.c_name));
++ 		      }
++ 		    else
++ 		      {
++@@ -823,11 +825,11 @@ process_copy_out (void)
++ #endif
++ 
++ 	    default:
++-	      error (0, 0, _("%s: unknown file type"), orig_file_name);
+++	      error (0, 0, _("%s: unknown file type"), quote (orig_file_name));
++ 	    }
++ 
++ 	  if (verbose_flag)
++-	    fprintf (stderr, "%s\n", orig_file_name);
+++	    fprintf (stderr, "%s\n", quote (orig_file_name));
++ 	  if (dot_flag)
++ 	    fputc ('.', stderr);
++ 	}
++diff --git a/src/copypass.c b/src/copypass.c
++index 7d7e970..928990f 100644
++--- a/src/copypass.c
+++++ b/src/copypass.c
++@@ -127,7 +127,7 @@ process_copy_pass (void)
++ 		   && in_file_stat.st_mtime <= out_file_stat.st_mtime)
++ 	    {
++ 	      error (0, 0, _("%s not created: newer or same age version exists"),
++-		     output_name.ds_string);
+++		     quote (output_name.ds_string));
++ 	      continue;		/* Go to the next file.  */
++ 	    }
++ 	  else if (S_ISDIR (out_file_stat.st_mode)
++@@ -135,7 +135,7 @@ process_copy_pass (void)
++ 			: unlink (output_name.ds_string))
++ 	    {
++ 	      error (0, errno, _("cannot remove current %s"),
++-		     output_name.ds_string);
+++		     quote (output_name.ds_string));
++ 	      continue;		/* Go to the next file.  */
++ 	    }
++ 	}
++@@ -312,7 +312,8 @@ process_copy_pass (void)
++ #endif
++       else
++ 	{
++-	  error (0, 0, _("%s: unknown file type"), input_name.ds_string);
+++	  error (0, 0, _("%s: unknown file type"),
+++		 quote (input_name.ds_string));
++ 	}
++ 
++       if (verbose_flag)
++@@ -388,12 +389,12 @@ link_to_name (char const *link_name, char const *link_target)
++     {
++       if (verbose_flag)
++ 	error (0, 0, _("%s linked to %s"),
++-	       link_target, link_name);
+++	       quote_n (0, link_target), quote_n (1, link_name));
++     }
++   else if (link_flag)
++     {
++       error (0, errno, _("cannot link %s to %s"),
++-	     link_target, link_name);
+++	     quote_n (0, link_target), quote_n (1, link_name));
++     }
++   return res;
++ }
++diff --git a/src/main.c b/src/main.c
++index 978dfff..dcd40b8 100644
++--- a/src/main.c
+++++ b/src/main.c
++@@ -61,7 +61,9 @@ enum cpio_options {
++   RENUMBER_INODES_OPTION,
++   IGNORE_DEVNO_OPTION,
++   IGNORE_DIRNLINK_OPTION,
++-  DEVICE_INDEPENDENT_OPTION
+++  DEVICE_INDEPENDENT_OPTION,
+++  QUOTING_STYLE_OPTION,
+++  QUOTE_CHARS_OPTION
++ };
++ 
++ const char *program_authors[] =
++@@ -141,6 +143,12 @@ static struct argp_option options[] = {
++    N_("Control warning display. Currently FLAG is one of 'none', 'truncate', 'all'. Multiple options accumulate."), GRID+1 },
++   {"owner", 'R', N_("[USER][:.][GROUP]"), 0,
++    N_("Set the ownership of all files created to the specified USER and/or GROUP"), GRID+1 },
+++  {"quoting-style", QUOTING_STYLE_OPTION, N_("STYLE"), 0,
+++   N_("set name quoting style; use --quoting-style=help for a list of valid STYLE values"),
+++   GRID+1 },
+++  {"quote-chars", QUOTE_CHARS_OPTION, N_("STRING"), 0,
+++   N_("additionally quote characters from STRING"),
+++   GRID+1 },
++ #undef GRID
++ 
++ #define GRID 110
++@@ -295,6 +303,36 @@ warn_control (char *arg)
++   return 1;
++ }
++ 
+++static void
+++cpio_list_quoting_styles (int indent)
+++{
+++  int i;
+++
+++  for (i = 0; quoting_style_args[i]; i++)
+++    printf ("%*.*s%s\n", indent, indent, "", quoting_style_args[i]);
+++}
+++
+++static void
+++cpio_set_quoting_style (char *arg)
+++{
+++  if (strcmp (arg, "help") == 0)
+++    {
+++      cpio_list_quoting_styles (0);
+++      exit (EXIT_SUCCESS);
+++    }
+++
+++  for (idx_t i = 0; quoting_style_args[i]; i++)
+++    if (strcmp (arg, quoting_style_args[i]) == 0)
+++      {
+++	set_quoting_style (NULL, i);
+++	return;
+++      }
+++  USAGE_ERROR ((0, 0,
+++		_("Unknown quoting style '%s'."
+++		  " Try '%s --quoting-style=help' to get a list."),
+++		arg, program_name));
+++}
+++
++ static error_t
++ parse_opt (int key, char *arg, struct argp_state *state)
++ {
++@@ -454,10 +492,19 @@ crc newc odc bin ustar tar (all-caps also recognized)"), arg));
++       copy_function = process_copy_pass;
++       break;
++ 
+++    case QUOTE_CHARS_OPTION:
+++      for (;*arg; arg++)
+++	set_char_quoting (NULL, *arg, 1);
+++      break;
+++
+++    case QUOTING_STYLE_OPTION:
+++      cpio_set_quoting_style (arg);
+++      break;
+++
++     case IGNORE_DEVNO_OPTION:
++       ignore_devno_option = 1;
++       break;
++-
+++ 
++     case RENUMBER_INODES_OPTION:
++       renumber_inodes_option = 1;
++       break;
++@@ -593,6 +640,8 @@ process_args (int argc, char *argv[])
++ 
++   xstat = lstat;
++ 
+++  set_quoting_style (NULL, DEFAULT_QUOTING_STYLE);
+++
++   if (argp_parse (&argp, argc, argv, ARGP_IN_ORDER, &index, NULL))
++     exit (PAXEXIT_FAILURE);
++ 
++diff --git a/tests/CVE-2019-14866.at b/tests/CVE-2019-14866.at
++index 2bfdabc..bdf6a04 100644
++--- a/tests/CVE-2019-14866.at
+++++ b/tests/CVE-2019-14866.at
++@@ -29,7 +29,7 @@ fi
++ ],
++ [0],
++ [],
++-[cpio: file: value size 17179869184 out of allowed range 0..8589934591
+++[cpio: 'file': value size 17179869184 out of allowed range 0..8589934591
++ 2 blocks
++ ])
++ AT_CLEANUP
 
