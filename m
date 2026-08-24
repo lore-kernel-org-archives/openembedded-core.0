@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 891EFC5DF94
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95FDDC5DF81
 	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 13:00:45 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15946.1787576441583175784
+Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16149.1787576440668814926
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 06:00:41 -0700
+ Mon, 24 Aug 2026 06:00:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=w47yGrdJ;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4956869750eso19626155e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 06:00:41 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=It3eeDbP;
+ spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-4956869750eso19626045e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 06:00:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787576440; x=1788181240; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787576439; x=1788181239; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=cSN6PIj4MghZZpurqTWU93YGYgIx6i9wc9iCra0BGC8=;
-        b=w47yGrdJI4vkbxq0p8rbEu0xmsoy34Go4Tz4zOBHVKy0yTfDCJkLMqJvsM5mRzyrWS
-         dPpVS+hn9zSza8LHAdZA7nVSFpJ2mg6m09N1vvjyjMN5a3XH4PJ31UwfrMtR5ZBdRDqc
-         IVKD4PRYiioLjUrU2Bal0KQEyll+IrrDyVOZk=
+        bh=vb3I4Ohhr0SmaHeYlyvoWVduqUmt5y0yK4UDMz7eKm4=;
+        b=It3eeDbPvqaENSvBSR3Oh45r+6846+hxcTvmCG5VGaIqiTaWcfp7f9PO7VatxoKU/G
+         INlX9sPQZBiBJWPruzUQq7D3azmd0jNyuAUHPvd0wF3MNmWebFHTglB4LDMbyoJjYH7W
+         fCBfl+DDz8kqjTKz/GoAkJZMbzDV6S0qhIJWU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787576440; x=1788181240;
+        d=1e100.net; s=20251104; t=1787576439; x=1788181239;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=cSN6PIj4MghZZpurqTWU93YGYgIx6i9wc9iCra0BGC8=;
-        b=kNS1qIwvYQoFCH0G890LyiIcyltfGQm59Qs3hNfie54dmq/m99vfjPceycTqEm46Oz
-         9u2Ms5QBqvfG3Nca37YDKD2jFTRTjfRStGkfjiCuZw5G/PB82rgYJ107jw0j+rLmJ1ms
-         LZloOP918t4na8UKqr5d6qZGRmtHTNld9nXhvuiRhIijq/NTTXKmyom5wcupCeyfSJuS
-         djje0Kl9XBKhTep1wWtTSzzRatTJfMIrlShFG+Trk3kvMu55wC9n8FWehUM8mHd2SXiX
-         z85B5Mo8Xu5D4hhY1L7NqQ99KeTi/GJavwRvqOqbMj7M+2/TtDyrzYlds+T9edr4SsXp
-         nwtw==
-X-Gm-Message-State: AFuF++m2dTlHjDl6w0OShUKUQB3MEw3ejPz0qzCnsEuyGsCS3kMvtGgo
-	slfl7gM5QuCQp4kpPKvW+Ier8OSe5FUxef+/FP90mbCPTPwGSlTLc9uWPsE3x3wIg69T0U//gcX
-	f4+tJ3D0=
-X-Gm-Gg: AR+sD12PuwHBm6uBFd2UMRUTpNSKZZyXI0kffFeTfgdfEc0TfObDxd9FpfW5ehHbw4i
-	z7jW4M8rD08ogc/ve/+yzwDR6lOMyky1rnBnKUTVbNnts1io6iHefHrEvOndDGRK/O1KrFM1aVg
-	3RB2pZ8i9mN5jW6AMKmNLBMfY56K/yuR0FOFGgg9041Gt+1VvOxltkldrdo2owEw1SJJQjaWOsf
-	IXp8+1QGGbisfxRHWkfYcZstG5f8ZxW9mLZPSLzW7M0L1RKpjTITVA4FFy2fkVK1HZu3hJM4Nv9
-	OcoCr2qOoil1yTN3u7jzgwy/a1BVQsLLxstJBj+rFjOUa5OFQ1y4+/DaeFkFhpiuPBe83hH4NAr
-	PCgmEeLjeJUc3r5FktJMkiWq6NVln6AlqnmCWn88cThZdQ4M75+q9z+MpZNlSsQaeSFFvB44n4O
-	cva3wgquJT2HR0YstwbsxP45mMYp+GX4tZc3bZMPw2TCVhZq0KrjnwySnoBdyJnxTWS/3XJwNkG
-	EnU9czdLNvWJR1BUJ71rExxT1Z2VwSqEySEktJqd30AGmCh3DkC7DL5PjXpLsVuw2E4kIE=
-X-Received: by 2002:a05:600c:5309:b0:493:f5bf:4dc6 with SMTP id 5b1f17b1804b1-499c19d020cmr203893185e9.7.1787576439609;
-        Mon, 24 Aug 2026 06:00:39 -0700 (PDT)
+        bh=vb3I4Ohhr0SmaHeYlyvoWVduqUmt5y0yK4UDMz7eKm4=;
+        b=mY9n2ty2O0++Ah6gYdzG6dp0D2pHgKNR+hPlqmqS8jNKyYwqXaXjbyY6DE3cr7EAjU
+         KSAx6JVC3qi5imgX5TGKwwUPlvU/fVtXKts3lnLIv+txRBs22DtyT3lpGb954rFcmBZ0
+         ICm9MqDEY/+/Amc7meiJFo5zLhlk3lTYnII6dsHg36rhcSs55olszJWLAKrxarqztxCH
+         P3YYayaNeum8EbAkSyyjnKmtsO3bZSiKfF8zhToKujLLxpeJZSF4ozI1Bg1BQSZt9NtB
+         cNHfXgWaupMNCvPDkC/jtQag3dOK5gNCvlneJJOlbnIR9ZP3/DPDVhI8n1/0Hw4IR8HY
+         uSPg==
+X-Gm-Message-State: AFuF++kBozNHDKlZ+8BC88H4fdRKFfqBG8L8dy7Qa+fZm7E+Y2W6C1hH
+	YS0SUL12OPmJDYlEKHj3GBCUUCoFA5H5C4MQu1YL4acPReigZxwmg9a/dGVw0ZT1e9AWr1eGF+7
+	ubPkHiIc=
+X-Gm-Gg: AR+sD13zu7OGPTZoIkG3WfnAcb5CAMJ6AOIyjZSwmcThNW0J1c1Y8hLoUSUPxVKR82Y
+	c8n/JblrtALBYfslwpgWGGIiKAMEraa1bXUpq4VNTLVArK+vUOgZcL8MDT0jqaNi5deRgQ/kzH1
+	251ncjpucDnHV/bDZUKbjjgPAnM+N8F7J4J0lY7V/QgSYe78dBVpO3/W/EPs6mPmDtZtkCkqvhg
+	O/T7F/qHTPvasyPhAlGyc2nGfLps6lx2ehY9DGze8x9Aa8OFewktelsyd4ctNQwa1W16T5oc3pv
+	4/1GEe1FjCozw+el2HmrSyRm/2zPIIu1hLqke9WIQhGfAsO+k7Oik6zKxu4pLye2silfr5f+pmO
+	WPSECeLyZ1lOBFIVcZsXmkYVAEZ/9rGOIJKMJkXnobqzuIc+njcd9PGnORzZVgFT9v2XBjwhH28
+	fLyKcZXTV8mwy/ahRG0QA9jIgJaA6wMgRPHP8pe8+TqoWiadfEJ+L0TsvtpDnC+OgYdEhhgehK3
+	gDEfWA2C2rMnbE3WNf6nKKs6Exq1S4q5Nf1GewcEAhh+28Yj7iCLOsaTFY7NIVNeXMHsa4=
+X-Received: by 2002:a05:600c:a01:b0:499:bdf1:7578 with SMTP id 5b1f17b1804b1-499c19bfd2dmr173562375e9.3.1787576438716;
+        Mon, 24 Aug 2026 06:00:38 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499c35935f5sm61379865e9.2.2026.08.24.06.00.38
         for <openembedded-core@lists.openembedded.org>
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouygu
         Mon, 24 Aug 2026 06:00:38 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 03/19] libssh2: fix CVE-2026-66032
-Date: Mon, 24 Aug 2026 14:59:45 +0200
-Message-ID: <4eee848e3817b6f3ffd11bf5758087643c89128f.1787576160.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 02/19] curl: fix CVE-2026-4873
+Date: Mon, 24 Aug 2026 14:59:44 +0200
+Message-ID: <7e44b94a57a1b7d9ec043554fb7f1f4c3fbfbbaf.1787576160.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1787576160.git.yoann.congal@smile.fr>
 References: <cover.1787576160.git.yoann.congal@smile.fr>
@@ -66,78 +66,93 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 13:00:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244101
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244100
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Deepak Rathore <deeratho@cisco.com>
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-66032
-https://github.com/libssh2/libssh2/commit/5e4776146552d898b9c0e1b313cd093fa8dc92d0
+This patch applies the upstream backport for CVE-2026-4873.
+The upstream fix commit is referenced in [1], and the public
+CVE advisory is referenced in [2].
 
-libssh2 ptest results (qemux86-64):
-  before: PASSED: 1 FAILED: 0 SKIPPED: 0
-  after:  PASSED: 1 FAILED: 0 SKIPPED: 0
+[1] https://github.com/curl/curl/commit/507e7be573b0a76fca597b75ff7cb27a66e7d865
+[2] https://curl.se/docs/CVE-2026-4873.html
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- .../libssh2/libssh2/CVE-2026-66032.patch      | 36 +++++++++++++++++++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
- 2 files changed, 37 insertions(+)
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
+ .../curl/curl/CVE-2026-4873.patch             | 52 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+ 2 files changed, 53 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-4873.patch
 
-diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-4873.patch b/meta/recipes-support/curl/curl/CVE-2026-4873.patch
 new file mode 100644
-index 00000000000..15a52664853
+index 00000000000..b288de93066
 --- /dev/null
-+++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
-@@ -0,0 +1,36 @@
-+From 352341aaebcf91ab16e7fcff158fef4a3b8c32f6 Mon Sep 17 00:00:00 2001
-+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+Date: Tue, 4 Aug 2026 12:32:31 +0000
-+Subject: [PATCH] Prevent dangling pointer by nullifying data (#2180)
++++ b/meta/recipes-support/curl/curl/CVE-2026-4873.patch
+@@ -0,0 +1,52 @@
++From 4d13e431d26c3097e6dff49ba069061b588461af Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Tue, 24 Mar 2026 08:35:08 +0100
++Subject: [PATCH] url: do not reuse a non-tls starttls connection if new
++ requires TLS
 +
-+Set data to NULL after freeing it to avoid dangling pointer. fixes
-+GHSA-px3w-7g75-hg7w.
++Reported-by: Arkadi Vainbrand
 +
-+Credit: VladimirEliTokarev
++Closes #21082
 +
-+CVE: CVE-2026-66032
-+Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/5e4776146552d898b9c0e1b313cd093fa8dc92d0]
++CVE: CVE-2026-4873
++Upstream-Status: Backport [https://github.com/curl/curl/commit/507e7be573b0a76fca597b75ff7cb27a66e7d865]
 +
-+Backport adaptations:
-+- The upstream fix uses SSH2_FREE() which was renamed from
-+  LIBSSH2_FREE() in newer libssh2. Context adjusted to match
-+  the 1.11.1 codebase (different line numbers and surrounding
-+  function/macro names).
-+
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++(cherry picked from commit 507e7be573b0a76fca597b75ff7cb27a66e7d865)
++Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 +---
-+ src/sftp.c | 1 +
-+ 1 file changed, 1 insertion(+)
++ lib/url.c | 6 +++++-
++ 1 file changed, 5 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/sftp.c b/src/sftp.c
-+index 6ede3111..793f267c 100644
-+--- a/src/sftp.c
-++++ b/src/sftp.c
-+@@ -1279,6 +1279,7 @@ sftp_open(LIBSSH2_SFTP *sftp, const char *filename,
-+                                "got HANDLE FXOK"));
++diff --git a/lib/url.c b/lib/url.c
++index 7c24f1a002..4ebff50ef1 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -745,7 +745,7 @@ struct url_conn_match {
++   BIT(want_proxy_ntlm_http);
++   BIT(want_nego_http);
++   BIT(want_proxy_nego_http);
++-
+++  BIT(req_tls); /* require TLS use from a clear-text start */
++   BIT(wait_pipe);
++   BIT(force_reuse);
++   BIT(seen_pending_conn);
++@@ -897,6 +897,9 @@ static bool url_match_ssl_use(struct connectdata *conn,
++        (get_protocol_family(conn->scheme) != m->needle->scheme->protocol))
++       return FALSE;
++   }
+++  else if(m->req_tls)
+++    /* a clear-text STARTTLS protocol with required TLS */
+++    return FALSE;
++   return TRUE;
++ }
 + 
-+                 LIBSSH2_FREE(session, data);
-++                data = NULL;
++@@ -1361,6 +1364,7 @@ static bool url_attach_existing(struct Curl_easy *data,
++     (needle->scheme->protocol & PROTO_FAMILY_HTTP);
++ #endif
++ #endif
+++  match.req_tls = data->set.use_ssl >= CURLUSESSL_CONTROL;
 + 
-+                 /* silly situation, but check for a HANDLE */
-+                 rc = sftp_packet_require(sftp, SSH_FXP_HANDLE,
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-index 32e1ad6c16c..bd7d1f7b1d1 100644
---- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-@@ -16,6 +16,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
-            file://CVE-2025-15661-1.patch \
-            file://CVE-2025-15661-2.patch \
-            file://CVE-2025-15661-3.patch \
-+           file://CVE-2026-66032.patch \
-            "
++   /* Find a connection in the pool that matches what "data + needle"
++    * requires. If a suitable candidate is found, it is attached to "data". */
++-- 
++2.35.6
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index 097b3056d8e..5ba881bd762 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -22,6 +22,7 @@ SRC_URI = " \
+     file://CVE-2026-6429-dependent.patch \
+     file://CVE-2026-6429.patch \
+     file://CVE-2026-7168.patch \
++    file://CVE-2026-4873.patch \
+ "
  
- SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
+ SRC_URI:append:class-nativesdk = " \
 
