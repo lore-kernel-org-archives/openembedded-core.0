@@ -1,147 +1,83 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8603C61CE3
-	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 13:01:16 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15970.1787576470179857985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB57DC5DF81
+	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 13:10:46 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16138.1787577040939981843
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 06:01:10 -0700
+ Mon, 24 Aug 2026 06:10:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=OcREYWcx;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47f904e80eeso1260115f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 06:01:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787576468; x=1788181268; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=/oblsceWK6Qa0SInWhYxX5f/Y7oK0JOd+fAZlRk8W3E=;
-        b=OcREYWcxaf1SWANS3nKjvRkCBljLP7JQMh4Hf83Te9y53U6TNhJfoYMiLSEQr7ZnO8
-         rUpAlsRhLhvSde1UMX1C2Q+WqKZHxM7NEscZrtEipkdOACMGkgVynzUJ0aAlRGfH3k3M
-         DmVW1z0jcKBgRUdrfYN8Xe4zrdOHGgApQ3Dmo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787576468; x=1788181268;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=/oblsceWK6Qa0SInWhYxX5f/Y7oK0JOd+fAZlRk8W3E=;
-        b=hm7fqInug0Yc+CDBoB2RrUA51NGo+qORqryVs/UKkO+5AYtur1R70NnHfB5fdYwDdv
-         78CV8ggkq+Q1tcv8bFx3zrBUDLyu9lpcerKfCTg1pHcrfUh93Kit0QuDIAZeCB1FeUFZ
-         B9Qay9K8L+I+1Pmf19XPw/reJ8cYlzJboVJrwF5/rrQyHb20YeeBSCPgLCrvymTX3PIl
-         pJBvH/PyUOn87pRYQOjV/maoFveR9bMZsJlfkSogRxZ6Tq0CApX7Dip24tAlEqc1u4vZ
-         oUbtFCvmLNDU7fR09kqmZk05iN7k6zvpeu+SVXKi81qki9PAp3n3fKIBDCffV77K057b
-         Klaw==
-X-Gm-Message-State: AFuF++m5qUkmGLPoOstp7HHmJ6IqJYUPK3gXlrbrNRIRbE4n3GGzvvRm
-	xDRH+PnCIVbM2zYiqLssOP97z3IK+lSbjwuhx1KafKqw2LN6lc4dnoqyfn3RdOdAeqtEIz5ZwWG
-	a5L5FEKs=
-X-Gm-Gg: AR+sD10j+QPdHNawpsFNkAyyM/RlwsO8MlIZlKERQ8lylhQWsRWLZMLeN2PNQKce50O
-	fHDsaYq7/g0M6arVWfi2HTB07tREryQkrRxP/pnXIvF+w4N1dYFXIU02yVmxzVlnlM4W3IokFTk
-	X3v/zSq33SYRXD0PYJUy6xOMy85TGNxbzP5vGGqVDT5Ef3NgoIps/ZMu4oLIr+iM2fWjX7C/a2N
-	Xa+00EKNEClRfVwwHawwANkezfGSq14fFjweJxmFsFeaZ2OFXiC+2jJ1ytNJNp/0r8JawnUFJoq
-	LeQdUHcN/uG2DHdG5CdfEZBgulltyPaC2Wu2XHXdoT4OaPUblkE7BFKaB8EBxAlRpDSWPnW2Xmw
-	mGZu34tHLsQQit1CIu9On+8l9pOGywMF0TTe8aY4m1weZ3quQ6F3kbDWczCnA+ETCN/GzcYKlMr
-	b4v3AFZEkqGBfE9EBf67jqYaW35DrrOvZWhtVQZxSyhpCpTrh8K49vG67gVmoHWj+kr+uauXnrZ
-	Yet4lPMlQ1JGTBJ1fYwlSeI48Z8q7zSyLMm40eYkbycBRbrNUUDGpyo5fqOJUB7ufyj9ak=
-X-Received: by 2002:a05:600c:b86:b0:499:8156:cd3f with SMTP id 5b1f17b1804b1-499b8301913mr259095755e9.8.1787576441875;
-        Mon, 24 Aug 2026 06:00:41 -0700 (PDT)
-Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499c35935f5sm61379865e9.2.2026.08.24.06.00.40
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 06:00:40 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 05/19] libssh2: fix CVE-2026-66034
-Date: Mon, 24 Aug 2026 14:59:47 +0200
-Message-ID: <5a34f96f86229734521fe6f90038090d9d8630a7.1787576160.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1787576160.git.yoann.congal@smile.fr>
-References: <cover.1787576160.git.yoann.congal@smile.fr>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=RMWOQCj3;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id A43C61A17FE;
+	Mon, 24 Aug 2026 13:10:38 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 7896F5FFC1;
+	Mon, 24 Aug 2026 13:10:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8A95C11C794BF;
+	Mon, 24 Aug 2026 15:10:31 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1787577034; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=tgE5dXuoGrM1VlJ83eDqwd6GZyIWS1oybxxADhDfqfg=;
+	b=RMWOQCj3SVxHkDAxTtZyEGeZ0+wqwLs3rz9lNSZQhhm0TVVsnp2TYb5T25MW8KVmJ7eG2r
+	TCzWUAl3V4VN8z3pbEOzVxstP1oMItcJNH/4bQM8CnG0vI0gK7YJIKD4RJOIXa45b0endd
+	vuu3eah8dwwGIUD2xQ7njzzBEG1C7j6RuY7rwIKVLZm9pEmjQI/n55jrBgPX4X/2nG+XvL
+	strPvOJmW1vnsAr1TqJGlSfAgS+yEmssnREUxnAbpmBgb7+z2IHzLjQMU5bDSARrDtA8lv
+	Yf6ycPD01TD4uqjOLE3ahgt4nAPFrO9YTaII2WSfUgUKIiVlWlGpFMo5aMKh7g==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 24 Aug 2026 15:10:31 +0200
+Message-Id: <DKX7678REYJC.X179JUNYAL4K@bootlin.com>
+Cc: <openembedded-core@lists.openembedded.org>,
+ <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>, <rs@ti.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: =?utf-8?q?J=C3=B6rg_Sommer?= <joerg.sommer@navimatix.de>
+Subject: Re: [PATCH v2] bitbake.conf: Extend distro feature usrmerge to
+ merge bin+sbin
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <ada29b3926f0497ef35618685c298cad840f45e0.1784883539.git.joerg.sommer@navimatix.de> <aolV39x9UzHwcTrZ@navimatix.de> <DKVGRWKPI3K2.1PBICS35XGJYK@bootlin.com> <aoms3iLkFaLTp8E7@navimatix.de> <DKWYNZVX7C32.11QQ5O5ZO8J68@bootlin.com> <aowSZF6aysT2amaR@navimatix.de> <DKX36LKP5G7W.3D3MAFXU05Z5X@bootlin.com> <aow7fs_7Zb0KTAPf@navimatix.de>
+In-Reply-To: <aow7fs_7Zb0KTAPf@navimatix.de>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 13:01:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244116
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 13:10:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244119
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+On Mon Aug 24, 2026 at 2:43 PM CEST, J=C3=B6rg Sommer wrote:
+> Mathieu Dubois-Briand schrieb am Mo 24. Aug, 12:02 (+0200):
+>> You can find a tag in there:
+>>=20
+>> https://git.yoctoproject.org/poky-ci-archive/tag/?h=3Doecore/autobuilder=
+.yoctoproject.org/valkyrie/a-full-4555
+>
+> This really helped to track down the issue. In your commit [1] this block=
+ is
+> missing:
+>
+> ```
+> --- meta/recipes-core/systemd/systemd_261.2.bb
+> +++ meta/recipes-core/systemd/systemd_261.2.bb
+> @@ -196,7 +196,6 @@ def build_epoch(d):
+>  PACKAGECONFIG[set-time-epoch] =3D "${@build_epoch(d)},-Dtime-epoch=3D0"
+>  PACKAGECONFIG[timedated] =3D "-Dtimedated=3Dtrue,-Dtimedated=3Dfalse"
+>  PACKAGECONFIG[timesyncd] =3D "-Dtimesyncd=3Dtrue,-Dtimesyncd=3Dfalse"
+> -PACKAGECONFIG[sbinmerge] =3D "-Dsplit-bin=3Dfalse,-Dsplit-bin=3Dtrue"
+>  PACKAGECONFIG[userdb] =3D "-Duserdb=3Dtrue,-Duserdb=3Dfalse"
+>  PACKAGECONFIG[utmp] =3D "-Dutmp=3Dtrue,-Dutmp=3Dfalse"
+>  PACKAGECONFIG[valgrind] =3D "-DVALGRIND=3D1,,valgrind"
+> ```
+>
+> [1] https://git.yoctoproject.org/poky-ci-archive/commit/?h=3Doecore/autob=
+uilder.yoctoproject.org/valkyrie/a-full-4555&id=3D9da89593957c05809e58e85f2=
+d521ab80ce7f807
+>
+> I'll send a v3 based on 261.2
 
-Reference:
-https://nvd.nist.gov/vuln/detail/CVE-2026-66034
-https://github.com/libssh2/libssh2/commit/a13bb6c773f0d55ad1628cede57e99804cd898d9
-
-libssh2 ptest results (qemux86-64):
-  before: PASSED: 1 FAILED: 0 SKIPPED: 0
-  after:  PASSED: 1 FAILED: 0 SKIPPED: 0
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
----
- .../libssh2/libssh2/CVE-2026-66034.patch      | 40 +++++++++++++++++++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
- 2 files changed, 41 insertions(+)
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66034.patch
-
-diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-66034.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-66034.patch
-new file mode 100644
-index 00000000000..906356baf28
---- /dev/null
-+++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-66034.patch
-@@ -0,0 +1,40 @@
-+From 16720054e0b3f02e36f31dd04add534d73d4a18d Mon Sep 17 00:00:00 2001
-+From: Viktor Szakats <commit@vsz.me>
-+Date: Sat, 4 Jul 2026 11:19:49 +0200
-+Subject: [PATCH] publickey: fix potential OOB read in
-+ `libssh2_publickey_list_fetch()`
-+
-+Reported-by: Vladimir Eli Tokarev
-+Fixes GHSA-w6g9-cpfp-22gc
-+
-+Closes #2202
-+
-+Backport adaptations:
-+- The upstream fix uses ssh2_err() which is not available in libssh2
-+  1.11.1. Replace with the equivalent _libssh2_error() call.
-+
-+CVE: CVE-2026-66034
-+Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/a13bb6c773f0d55ad1628cede57e99804cd898d9]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ src/publickey.c | 7 +++++++
-+ 1 file changed, 7 insertions(+)
-+
-+diff --git a/src/publickey.c b/src/publickey.c
-+index 9c9fa618..f3776d2d 100644
-+--- a/src/publickey.c
-++++ b/src/publickey.c
-+@@ -988,6 +988,13 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
-+                 }
-+ 
-+                 if(comment_len) {
-++                    if(pkey->listFetch_s + comment_len >
-++                       pkey->listFetch_data + pkey->listFetch_data_len) {
-++                        _libssh2_error(session, LIBSSH2_ERROR_BUFFER_TOO_SMALL,
-++                                       "ListFetch data too short");
-++                        goto err_exit;
-++                    }
-++
-+                     list[keys].num_attrs = 1;
-+                     list[keys].attrs =
-+                         LIBSSH2_ALLOC(session,
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-index de435a836db..7d3063d9304 100644
---- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-@@ -18,6 +18,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
-            file://CVE-2025-15661-3.patch \
-            file://CVE-2026-66032.patch \
-            file://CVE-2026-66033.patch \
-+           file://CVE-2026-66034.patch \
-            "
- 
- SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
+Looks like I missed it while resolving conflicts. Thanks for the v3.
 
