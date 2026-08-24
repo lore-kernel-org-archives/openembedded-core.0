@@ -1,152 +1,136 @@
-Return-Path: <Yash.Shinde.oss.dev@gmail.com>
+Return-Path: <devanshp@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43379C5DF9C
-	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 16:46:06 +0000 (UTC)
-Received: from mail-pj1-f49.google.com (mail-pj1-f49.google.com [209.85.216.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2071.1787589961045248404
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 74BD5C5DF81
+	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 17:07:26 +0000 (UTC)
+Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2556.1787591238301296386
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 09:46:01 -0700
+ Mon, 24 Aug 2026 10:07:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=TXfOkarj;
- spf=pass (domain: gmail.com, ip: 209.85.216.49, mailfrom: yash.shinde.oss.dev@gmail.com)
-Received: by mail-pj1-f49.google.com with SMTP id 98e67ed59e1d1-38deea72eebso4285357a91.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 09:46:00 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=iyGSk/wv;
+ spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: devanshp@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787589960; x=1788194760; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LOVjqoF8/fK0Bdwd/Whp8+Q2D8DSnLCkPAMtbk4hEeA=;
-        b=TXfOkarjSs15mjmejU5vATbpCgWrfGBQSaBc2Yg3jfy9bkmYaPisUULyj6I8ySH5G3
-         C3DyQT06v6dpiyYq79f0DwBuul5aJ2cIf3Uqu0PjTPP7NR2ao9W5lBqlqQ2rVyOycT7I
-         FrEXWpNwafPcptjPQz/Ll3/TQXUygRrsRT0HSAcVO77mcS9rOqdi8ZQeU/nszWGnCy++
-         QkpgqO9hGvn+OtUpGG+zTJb3HR6bSsEchy4Y5bBSwNptAgXa520WEdhHjKe9/grpIKRd
-         RO2beZzJ7bbwF6+fOIkeRN7wWY/NGujpOQJDNx684vmxqU9E9CECts+cE2JaTNRM6xIW
-         H3oA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787589960; x=1788194760;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LOVjqoF8/fK0Bdwd/Whp8+Q2D8DSnLCkPAMtbk4hEeA=;
-        b=HgzIokiSwUiuwM3FtmmSjZObI5HYPYIOajG409Pz9/7Va3eAUciQ9esUpABnmVB6/Y
-         wFMtRYvKi+AJxaCy3cKT/ab2s5FbCRaKcpYJf0nCcUd/x4TPYdq44alidm97PgN+RahX
-         O4bnH0qBFiSdKr0sYGgmmykinSM2JlO/QJ4MfmSDvnYS5SxnqBi1blnNzhu82BlFvZuM
-         bTxr23rzKkmCOiEf6U55KNVbNq5HZVnSpJZR9OAs2JHnlPecmKSnqtMx3uuRETX8OKAV
-         qxj6bcK9mgYPcOyk14e5sM2XZSaxMvndEI666n8B939qCm2YOLN6n2ZXFK/su0uCDS2k
-         U1Vw==
-X-Gm-Message-State: AFuF++k4omiigEkszssfSJX9D+AAHGosnZCc3u0sVCgYTYAM3jfpyT39
-	J1eA8grVjYD4L7G33ZXfm4i05ahJcewIDpAvOtYQ5rwURJG31Due3zHmtY/rFw==
-X-Gm-Gg: AR+sD13lAHFYBdL2wgH2rvL4EY6287slPqPd1Nc4XTUdupTfE5XLNeMceU/R+CGjg6e
-	v7gsSBEQ54zgaU4+Dup/Yo2UfgX0oX9CYacENNsaHbf1DZ797tQ/kCq3H+O2tilTEf6U7Es8z6E
-	mYYD+qMKWT3d9lqVgkNJVnCpkQjR3IAQHuccUvBX/gniQObI2zJUv6XCAnL9R7SVSVNTyRWzvjr
-	3isHjXnVSfq4G1lJDHPFgJ2Dx7qyzWJEUcZUUE/Ibtp0LM+2x51CjvwMGO4qtNPNROnMs3aUFpN
-	HuxnyAV15LYGpazJdXwRbnxQ4KmJSBswqEYDqp4kjhWsBDxYbT0p8aqVlHc4WfzX18S6yg1r9A+
-	CvhF0ycPAkQjBA0DY3wR5dUvBc1zbuE2sMlyZIqzjqZ7xRBEKfeY0sssTVfC7bYnKjqQngbJCZD
-	E5Q3G0WwgZphZMTnGTEpKamjnumVX0zP01mCC269nsNyD3CKAWNbhm6fwkt9Lq8TB5FQmu4XRiH
-	QsnXqD+xIRq4K//qQgXoNQj4YlQkgrAOA==
-X-Received: by 2002:a17:90b:5790:b0:38e:9045:babe with SMTP id 98e67ed59e1d1-395deecf08fmr38677618a91.7.1787589955573;
-        Mon, 24 Aug 2026 09:45:55 -0700 (PDT)
-Received: from QCOM-V9bhWph2GA.qualcomm.com ([103.172.209.30])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-327f923f2c0sm41861615eec.30.2026.08.24.09.45.54
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 09:45:55 -0700 (PDT)
-From: yash.shinde.oss.dev@gmail.com
-X-Google-Original-From: Yash.Shinde.oss.dev@gmail.com
+  d=cisco.com; i=@cisco.com; l=1954; q=dns/txt;
+  s=iport01; t=1787591238; x=1788800838;
+  h=from:to:cc:subject:date:message-id:in-reply-to:
+   references:mime-version:content-transfer-encoding;
+  bh=Fua1B0xC9gQNKfNApfxaL1UxbwcliAINVf0pyUDFV+A=;
+  b=iyGSk/wv9bVJOWqfKl3cidQuNthmaWzd3dlNW//yTKg7UIMD58yRwCpN
+   81EEBPK1UO/LIJoQHnGRECfDvx4DuC88api13tDTojAD1u5kI8s0vJ69P
+   NZ7h3MGXjB8Ba0U0QsBarH0JCR6NjY08/obBSqTjC84dBl84PpBycQQ8b
+   qTdZnQD0zFSbLLZMlzrrYrosZf071AAOHCV3rBHRUic0Qe/Z8Cw+L8g1A
+   tG3KVNVDr+CqrfP3HL5n3kerfOtkE4Pdxm7sYT+zNpzSHL6sHQhTVsD4B
+   oBo7y4mrwhwtzcD/FmBiOUe1sC5gJP2M1ueY1Tn9lPOF4cClbD9lQH64W
+   Q==;
+X-CSE-ConnectionGUID: VnG9SZ2xSPG1/5Pet/Bn1Q==
+X-CSE-MsgGUID: nOqARnfRQOCssyizdUar/A==
+X-IPAS-Result: =?us-ascii?q?A0BDAgD3eYxq/44QJK1RCYJZgleBUkNJlV5sA54bgX4PA?=
+ =?us-ascii?q?QEBD1EEAQGFBQKNbAImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
+ =?us-ascii?q?YEOE4ZchlsCAQMyAUYQIDErKxmDAoJ1A75AgiyBAYR92zABCxQBBYEzhT+II?=
+ =?us-ascii?q?naEfCcbG4FyhH6EF3mFeASCIoEMgX1LKIhEiCFIgR4DWSwBVRMNCgsHBYFmA?=
+ =?us-ascii?q?zUSKhVuMh2BIz4XgQ0bBgWBHYEohBAjGTZ8gQlegSspYAESF4EJggcCglqCB?=
+ =?us-ascii?q?QIBSUMOB0ciCxgNSBEsNxQZBD5uB45dH4FZc1g2AYIYk1Boj1yCIaEPCiiDd?=
+ =?us-ascii?q?qFcGjOqbC6YWqRahGmBaDyBWXAVO4JnUxkPji4V0BknMj8HAgcPApNxAQE?=
+IronPort-Data: A9a23:b/Cgu69y0wOGpO0iO9CEDrUD0X+TJUtcMsCJ2f8bNWPcYEJGY0x3y
+ mMaDW3XOqyONzCgKNAga4Xio0JTuZ/Xx9NlQAtsrn1EQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mvyyHjEAX9gWAsYjhIs/jrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kIO6JJwdQtEVp22
+ qVfdQgAclepgbuPlefTpulE3qzPLeHiOIcZ/3UlxjbDALN+HNbIQr7B4plT2zJYasJmRKmFI
+ ZFHL2MxKk2cOXWjOX9PYH46tOulmHD5aD1AgFmUvqEwpWPUyWSd1ZC9aYWMJ4LUHZg9ckCwo
+ EXf1l7/DCsjE/eE0iuE4H6Rj/WItHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
+ lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJZF+k8rQXIwa3O7kPBWy4PTyVKb5ots8peqSEW6
+ 2JlVujBXVRH2IB5g1rNq994cRva1fApEFI/
+IronPort-HdrOrdr: A9a23:GIV/Q6g79MbhKvbgnerJEF/qgXBQXgIji2hC6mlwRA09TyVXra
+ +TdZMgpHjJYVkqOU3I9ersBEDEewK/yXcX2/h0AV7dZmnbUQKTRekIh7cKgQeQfhEWndQy6U
+ 4PScRD4fTLfD5HZL7BkWqFOudl5sWb+6a1guqb5XJsQQZ2L5xE1W5Ce3+m+okcfng8OXL/f6
+ DsnvZ6mw==
+X-Talos-CUID: 9a23:0hPPNWEXZzYjEy+9qmJZ8mFFIfJ/Ykbl4y6Xfne1FSFDTuSsHAo=
+X-Talos-MUID: =?us-ascii?q?9a23=3A+w4ytw2YjxSi4725abEiNvzwqDUj5YO3IXoLn68?=
+ =?us-ascii?q?/nOKfLj1xKTughS7wa9py?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,241,1779148800"; 
+   d="scan'208";a="817156605"
+Received: from alln-l-core-05.cisco.com ([173.36.16.142])
+  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Aug 2026 17:07:12 +0000
+Received: from sjc-ads-5197.cisco.com (sjc-ads-5197.cisco.com [10.28.35.211])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by alln-l-core-05.cisco.com (Postfix) with ESMTPS id 95AA518000221;
+	Mon, 24 Aug 2026 17:07:12 +0000 (GMT)
+Received: by sjc-ads-5197.cisco.com (Postfix, from userid 1887503)
+	id 33DB8CC12A6; Mon, 24 Aug 2026 10:07:12 -0700 (PDT)
+From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
-Subject: [PATCH 4/4] go: upgrade 1.26.7 -> 1.27.0
-Date: Mon, 24 Aug 2026 22:15:27 +0530
-Message-ID: <20260824164527.296576-4-Yash.Shinde.oss.dev@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260824164527.296576-1-Yash.Shinde.oss.dev@gmail.com>
-References: <20260824164527.296576-1-Yash.Shinde.oss.dev@gmail.com>
+Cc: xe-linux-external@cisco.com
+Subject: [OE-core][PATCH v2] u-boot: share CVE_PRODUCT with u-boot-tools
+Date: Mon, 24 Aug 2026 10:07:12 -0700
+Message-Id: <20260824170712.64140-1-devanshp@cisco.com>
+X-Mailer: git-send-email 2.35.6
+In-Reply-To: <20260824110158.26007-1-devanshp@cisco.com>
+References: <20260824110158.26007-1-devanshp@cisco.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-5197.cisco.com [10.28.35.211];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.28.35.211, sjc-ads-5197.cisco.com
+X-Outbound-Node: alln-l-core-05.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 16:46:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244142
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 17:07:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244143
 
-From: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
+From: Devansh Patel <devanshp@cisco.com>
 
-Release information:
+u-boot-tools builds host utilities from the same source as u-boot, but it
+does not inherit the existing CVE_PRODUCT assignment and falls back to its
+unrecognized recipe-name identity.  Move the mapping to u-boot-common.inc
+so both recipes inherit it.
 
-https://groups.google.com/g/golang-announce/c/8gcPInd8SQE
-https://go.dev/doc/go1.27
+Use "u-boot:u-boot" for the CNA/CVE List V5 affected-data identity and
+"denx:u-boot" for the NVD dictionary CPE and configuration identity.  The
+CNA records are also covered by NVD today, but retaining both authoritative
+identities permits direct matching independently of NVD enrichment.
 
-Signed-off-by: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
 ---
- meta/recipes-devtools/go/{go-1.26.7.inc => go-1.27.0.inc}   | 2 +-
- ...o-binary-native_1.26.7.bb => go-binary-native_1.27.0.bb} | 6 +++---
- ...cross-canadian_1.26.7.bb => go-cross-canadian_1.27.0.bb} | 0
- .../go/{go-cross_1.26.7.bb => go-cross_1.27.0.bb}           | 0
- .../go/{go-crosssdk_1.26.7.bb => go-crosssdk_1.27.0.bb}     | 0
- .../go/{go-runtime_1.26.7.bb => go-runtime_1.27.0.bb}       | 0
- meta/recipes-devtools/go/{go_1.26.7.bb => go_1.27.0.bb}     | 0
- 7 files changed, 4 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/go/{go-1.26.7.inc => go-1.27.0.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.26.7.bb => go-binary-native_1.27.0.bb} (80%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.26.7.bb => go-cross-canadian_1.27.0.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.26.7.bb => go-cross_1.27.0.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.26.7.bb => go-crosssdk_1.27.0.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.26.7.bb => go-runtime_1.27.0.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.26.7.bb => go_1.27.0.bb} (100%)
+ meta/recipes-bsp/u-boot/u-boot-common.inc | 2 ++
+ meta/recipes-bsp/u-boot/u-boot.inc        | 2 --
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/go/go-1.26.7.inc b/meta/recipes-devtools/go/go-1.27.0.inc
-similarity index 90%
-rename from meta/recipes-devtools/go/go-1.26.7.inc
-rename to meta/recipes-devtools/go/go-1.27.0.inc
-index fed87015b2..4162a2b225 100644
---- a/meta/recipes-devtools/go/go-1.26.7.inc
-+++ b/meta/recipes-devtools/go/go-1.27.0.inc
-@@ -16,4 +16,4 @@ SRC_URI += "\
-     file://0009-go-Filter-build-paths-on-staticly-linked-arches.patch \
-     file://0010-cmd-go-clear-GOROOT-for-func-ldShared-when-trimpath-.patch \
- "
--SRC_URI[main.sha256sum] = "0ed24eac755105085b89fe9cabc2742b91a0ad7b94b59d3ad364918ebc8956ad"
-+SRC_URI[main.sha256sum] = "7002403d7cc44529ef6d26f69a44818263395ead7c16c05a5808ae047ebeb0e5"
-diff --git a/meta/recipes-devtools/go/go-binary-native_1.26.7.bb b/meta/recipes-devtools/go/go-binary-native_1.27.0.bb
-similarity index 80%
-rename from meta/recipes-devtools/go/go-binary-native_1.26.7.bb
-rename to meta/recipes-devtools/go/go-binary-native_1.27.0.bb
-index 753f1b13bb..a3750653c8 100644
---- a/meta/recipes-devtools/go/go-binary-native_1.26.7.bb
-+++ b/meta/recipes-devtools/go/go-binary-native_1.27.0.bb
-@@ -9,9 +9,9 @@ PROVIDES = "go-native"
+diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
+index d82d42cbce..86c4fed2bc 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-common.inc
++++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
+@@ -10,6 +10,8 @@ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://Licenses/README;md5=2ca5f2c35c8cc335f0a19756634782f1"
+ PE = "1"
  
- # Checksums available at https://go.dev/dl/
- SRC_URI = "https://dl.google.com/go/go${PV}.${BUILD_GOOS}-${BUILD_GOARCH}.tar.gz;name=go_${BUILD_GOTUPLE}"
--SRC_URI[go_linux_amd64.sha256sum] = "ffb5f8de10c62550dfddab66b36b57030721e0a44a3218e9e1181d7b59f121ca"
--SRC_URI[go_linux_arm64.sha256sum] = "5a4ec883379d51ee9ce1040d5e87f8d35e20387574dd8c947feb01eabc3c1b37"
--SRC_URI[go_linux_ppc64le.sha256sum] = "22d3b362d557175fd16b79651cab0cad64f8aaaedca745f66d16f44d56bc5de1"
-+SRC_URI[go_linux_amd64.sha256sum] = "675c26c449cbb18fc24b74650de1eabbae6e16f64326fd85a283fb3b58280685"
-+SRC_URI[go_linux_arm64.sha256sum] = "51798d2c42d0e1c6ed7fd9f48728b4193abac9e8aad6dbac2fe96a81f5909bda"
-+SRC_URI[go_linux_ppc64le.sha256sum] = "068085e257a6014c036c723ca62943edbf48fd168b8d00a6d39527d10b656255"
++CVE_PRODUCT = "u-boot:u-boot denx:u-boot"
++
+ # We use the revision in order to avoid having to fetch it from the
+ # repo during parse
+ SRCREV = "ece349ade2973e220f524ce59e59711cc919263f"
+diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
+index 2197039dbc..b9f61a185c 100644
+--- a/meta/recipes-bsp/u-boot/u-boot.inc
++++ b/meta/recipes-bsp/u-boot/u-boot.inc
+@@ -21,8 +21,6 @@ PACKAGECONFIG ??= "openssl"
+ # a host build dependency.
+ PACKAGECONFIG[openssl] = ",,openssl-native"
  
- UPSTREAM_CHECK_URI = "https://golang.org/dl/"
- UPSTREAM_CHECK_REGEX = "go(?P<pver>\d+(\.\d+)+)\.linux"
-diff --git a/meta/recipes-devtools/go/go-cross-canadian_1.26.7.bb b/meta/recipes-devtools/go/go-cross-canadian_1.27.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross-canadian_1.26.7.bb
-rename to meta/recipes-devtools/go/go-cross-canadian_1.27.0.bb
-diff --git a/meta/recipes-devtools/go/go-cross_1.26.7.bb b/meta/recipes-devtools/go/go-cross_1.27.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-cross_1.26.7.bb
-rename to meta/recipes-devtools/go/go-cross_1.27.0.bb
-diff --git a/meta/recipes-devtools/go/go-crosssdk_1.26.7.bb b/meta/recipes-devtools/go/go-crosssdk_1.27.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-crosssdk_1.26.7.bb
-rename to meta/recipes-devtools/go/go-crosssdk_1.27.0.bb
-diff --git a/meta/recipes-devtools/go/go-runtime_1.26.7.bb b/meta/recipes-devtools/go/go-runtime_1.27.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go-runtime_1.26.7.bb
-rename to meta/recipes-devtools/go/go-runtime_1.27.0.bb
-diff --git a/meta/recipes-devtools/go/go_1.26.7.bb b/meta/recipes-devtools/go/go_1.27.0.bb
-similarity index 100%
-rename from meta/recipes-devtools/go/go_1.26.7.bb
-rename to meta/recipes-devtools/go/go_1.27.0.bb
+-CVE_PRODUCT = "denx:u-boot"
+-
+ # Allow setting an additional version string that will be picked up by the
+ # u-boot build system and appended to the u-boot version.  If the .scmversion
+ # file already exists it will not be overwritten.
+-- 
+2.35.6
+
 
