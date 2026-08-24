@@ -1,242 +1,143 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A817C5DF94
-	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 12:57:15 +0000 (UTC)
-Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15871.1787576228538579732
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 891EFC5DF94
+	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 13:00:45 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15946.1787576441583175784
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 05:57:08 -0700
+ Mon, 24 Aug 2026 06:00:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=TtbkN+O6;
- spf=pass (domain: mvista.com, ip: 209.85.216.48, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-38e07ebd263so2283100a91.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 05:57:08 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=w47yGrdJ;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-4956869750eso19626155e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 06:00:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1787576228; x=1788181028; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787576440; x=1788181240; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=9yIpwZ/z4RHs3mpV7iu33nvCcpJgxJSTtwnHxAine+o=;
-        b=TtbkN+O65IZoDfUGBkr0RXT5Et+PIID+R2zwAuA8+K40GJ/WwF0Y5DZsfvEObmk+ta
-         qwooU0S9AbTS+91zgcxZzAI2ODjcDHwcsxH7ErpnfWbzy6AqvLTWYk2gUQ2Ju15khne8
-         4g1MS0tcDxWFW9i63jrrT2gKM34tItFkw4yHo=
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=cSN6PIj4MghZZpurqTWU93YGYgIx6i9wc9iCra0BGC8=;
+        b=w47yGrdJI4vkbxq0p8rbEu0xmsoy34Go4Tz4zOBHVKy0yTfDCJkLMqJvsM5mRzyrWS
+         dPpVS+hn9zSza8LHAdZA7nVSFpJ2mg6m09N1vvjyjMN5a3XH4PJ31UwfrMtR5ZBdRDqc
+         IVKD4PRYiioLjUrU2Bal0KQEyll+IrrDyVOZk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787576228; x=1788181028;
+        d=1e100.net; s=20251104; t=1787576440; x=1788181240;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=9yIpwZ/z4RHs3mpV7iu33nvCcpJgxJSTtwnHxAine+o=;
-        b=mT2qsVOkfJrWhihOAMwNFw7guyQ9y1gzLCGxrEhG1b+vtNFavGSTEETbQONQUZQCwh
-         okJwh88r2kcRu/f7IPUY+3qiRtPuR8MjO943/vuKnHMZN+qJsvjb+T9Ejyo2l6umFZX3
-         S9VB4cbIlNf1N8WPpnPqx4i5/lfkuccVm4L6Wz4zDcIVpL1lshnyoIfUcfT31IYb6nEH
-         AH5IawR6Gn3QJ+SiPrpGxjKHhOYEIMyOZmKnrNNTsdPge0Z3p3Ck/+6xrrWOa1tCWVjg
-         wHlUL8Z4A04C1flUTACEBYskLWQRNbjGdgaBwhK3/y07Kcaiqj42gYD37315FAlFAI61
-         7w9Q==
-X-Gm-Message-State: AFuF++mszCbNehcJ1ZezELYV2YiCLviH34RlLf+rXCcmd4iStnTGQL84
-	hdGnXdNN+3hU3gQuBMx25emMdKUYw6CayaCYbAaGihbh3SwI0WeyOXPNCnrS3hP7LXgwPzZlRQC
-	JdDtk
-X-Gm-Gg: AR+sD11glbynldFry9DOjWGdameTe7NjQYQ5MliYDP6S1CdM6wPDMOT7SEfz1CP2K65
-	jWGXSETvFTj8jJ+d4Y8pyT1+1btiMKmq/U0v9QPBCyMxrkshsiAqGtg2Q/E2MPixUiO0M6SnuX4
-	nCnXOvlgo7stDDKWGBS/9U6KHzyD59S6w3TgUpglbTcI1nQD3y5Wpgtf+pqOShOYnL26DH2ZFZh
-	Ay5+uGPgM3oh3RU2K4L4XoPUOyR5yK2OgaFLPhNsaLXOgrnMd6yHiQRV//Mu5+3Gng4XJQCiCHF
-	pzIAT9z3CAjHPKi3xDyCIAOUWZQYn7RMj+TuV6/HZdm0CU11AwFEdtwjGr+cNeIs/8sk+Zc4TVy
-	GawR9QnWGYfRYa943WUNTvrrLl/teX6R4btN+OP9F4GG9EdXUzZzdRM6MAeqIZyrnGALYJhGfq0
-	fhQ8pBKY1Pw1rcU2E7BwiQ+BgKKh7kH/FS9e4I/mkPkwYwAqlq+CK/DH6IR8EEfaLGHuatPtRti
-	Agg/fPhLI4hvHY=
-X-Received: by 2002:a17:90b:4a0d:b0:38e:5b59:c2ff with SMTP id 98e67ed59e1d1-395c3376963mr43212462a91.3.1787576227663;
-        Mon, 24 Aug 2026 05:57:07 -0700 (PDT)
-Received: from MVIN00352.local ([182.74.28.237])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-141860df1dcsm22623583c88.4.2026.08.24.05.57.05
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=cSN6PIj4MghZZpurqTWU93YGYgIx6i9wc9iCra0BGC8=;
+        b=kNS1qIwvYQoFCH0G890LyiIcyltfGQm59Qs3hNfie54dmq/m99vfjPceycTqEm46Oz
+         9u2Ms5QBqvfG3Nca37YDKD2jFTRTjfRStGkfjiCuZw5G/PB82rgYJ107jw0j+rLmJ1ms
+         LZloOP918t4na8UKqr5d6qZGRmtHTNld9nXhvuiRhIijq/NTTXKmyom5wcupCeyfSJuS
+         djje0Kl9XBKhTep1wWtTSzzRatTJfMIrlShFG+Trk3kvMu55wC9n8FWehUM8mHd2SXiX
+         z85B5Mo8Xu5D4hhY1L7NqQ99KeTi/GJavwRvqOqbMj7M+2/TtDyrzYlds+T9edr4SsXp
+         nwtw==
+X-Gm-Message-State: AFuF++m2dTlHjDl6w0OShUKUQB3MEw3ejPz0qzCnsEuyGsCS3kMvtGgo
+	slfl7gM5QuCQp4kpPKvW+Ier8OSe5FUxef+/FP90mbCPTPwGSlTLc9uWPsE3x3wIg69T0U//gcX
+	f4+tJ3D0=
+X-Gm-Gg: AR+sD12PuwHBm6uBFd2UMRUTpNSKZZyXI0kffFeTfgdfEc0TfObDxd9FpfW5ehHbw4i
+	z7jW4M8rD08ogc/ve/+yzwDR6lOMyky1rnBnKUTVbNnts1io6iHefHrEvOndDGRK/O1KrFM1aVg
+	3RB2pZ8i9mN5jW6AMKmNLBMfY56K/yuR0FOFGgg9041Gt+1VvOxltkldrdo2owEw1SJJQjaWOsf
+	IXp8+1QGGbisfxRHWkfYcZstG5f8ZxW9mLZPSLzW7M0L1RKpjTITVA4FFy2fkVK1HZu3hJM4Nv9
+	OcoCr2qOoil1yTN3u7jzgwy/a1BVQsLLxstJBj+rFjOUa5OFQ1y4+/DaeFkFhpiuPBe83hH4NAr
+	PCgmEeLjeJUc3r5FktJMkiWq6NVln6AlqnmCWn88cThZdQ4M75+q9z+MpZNlSsQaeSFFvB44n4O
+	cva3wgquJT2HR0YstwbsxP45mMYp+GX4tZc3bZMPw2TCVhZq0KrjnwySnoBdyJnxTWS/3XJwNkG
+	EnU9czdLNvWJR1BUJ71rExxT1Z2VwSqEySEktJqd30AGmCh3DkC7DL5PjXpLsVuw2E4kIE=
+X-Received: by 2002:a05:600c:5309:b0:493:f5bf:4dc6 with SMTP id 5b1f17b1804b1-499c19d020cmr203893185e9.7.1787576439609;
+        Mon, 24 Aug 2026 06:00:39 -0700 (PDT)
+Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499c35935f5sm61379865e9.2.2026.08.24.06.00.38
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 05:57:06 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
+        Mon, 24 Aug 2026 06:00:38 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch 2/3] libxfont2: Fix CVE-2026-56002
-Date: Mon, 24 Aug 2026 18:26:52 +0530
-Message-ID: <20260824125653.97525-2-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260824125653.97525-1-vanusuri@mvista.com>
-References: <20260824125653.97525-1-vanusuri@mvista.com>
+Subject: [OE-core][wrynose 03/19] libssh2: fix CVE-2026-66032
+Date: Mon, 24 Aug 2026 14:59:45 +0200
+Message-ID: <4eee848e3817b6f3ffd11bf5758087643c89128f.1787576160.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1787576160.git.yoann.congal@smile.fr>
+References: <cover.1787576160.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 12:57:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244097
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 13:00:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244101
 
-Pick patch according to [2]
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-56002
-[2] https://security-tracker.debian.org/tracker/CVE-2026-56002
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-66032
+https://github.com/libssh2/libssh2/commit/5e4776146552d898b9c0e1b313cd093fa8dc92d0
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+libssh2 ptest results (qemux86-64):
+  before: PASSED: 1 FAILED: 0 SKIPPED: 0
+  after:  PASSED: 1 FAILED: 0 SKIPPED: 0
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- .../xorg-lib/libxfont2/CVE-2026-56002.patch   | 138 ++++++++++++++++++
- .../xorg-lib/libxfont2_2.0.6.bb               |   1 +
- 2 files changed, 139 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-56002.patch
+ .../libssh2/libssh2/CVE-2026-66032.patch      | 36 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
+ 2 files changed, 37 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-56002.patch b/meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-56002.patch
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
 new file mode 100644
-index 0000000000..c0fbb00862
+index 00000000000..15a52664853
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-56002.patch
-@@ -0,0 +1,138 @@
-+From b4389e0b1d84a690b819bb27b1439968811a3674f Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Mon, 1 Jun 2026 16:48:40 +1000
-+Subject: [PATCH] pcfread: validate bitmap sizes and offsets against per-glyph
-+ metrics
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
+@@ -0,0 +1,36 @@
++From 352341aaebcf91ab16e7fcff158fef4a3b8c32f6 Mon Sep 17 00:00:00 2001
++From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++Date: Tue, 4 Aug 2026 12:32:31 +0000
++Subject: [PATCH] Prevent dangling pointer by nullifying data (#2180)
 +
-+pcfReadFont() uses bitmapSizes[] read directly from the PCF file to
-+allocate the repadded bitmap buffer. However, per-glyph metrics (also
-+from the file) control how much data RepadBitmap() writes. A malicious
-+PCF font can declare a small bitmapSizes[] value while having per-glyph
-+metrics that require more space, causing a heap buffer overflow.
++Set data to NULL after freeing it to avoid dangling pointer. fixes
++GHSA-px3w-7g75-hg7w.
 +
-+A similar issue happens with the encoding offsets: pcfReadFont reads
-+encoding offsets from the PCF file and uses them to index into the
-+metrics array without bounds checking.  A crafted font can set an
-+encoding offset larger than nmetrics, causing an out-of-bounds pointer
-+that is later dereferenced when glyphs are accessed through the encoding
-+table.
++Credit: VladimirEliTokarev
 +
-+And the no-repad bitmap path (when PCF_GLYPH_PAD matches the requested
-+glyph pad) only validated that each glyph's offset was within the bitmap
-+buffer, but did not check that the full glyph extent (offset +
-+BYTES_PER_ROW * height) fits within the buffer.  A crafted font with a
-+glyph offset near the end of a small bitmap buffer but large glyph
-+metrics causes a heap buffer over-read when the glyph is later rendered.
++CVE: CVE-2026-66032
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/5e4776146552d898b9c0e1b313cd093fa8dc92d0]
 +
-+This vulnerability was discovered by:
-+  Anonymous working with TrendAI Zero Day Initiative
++Backport adaptations:
++- The upstream fix uses SSH2_FREE() which was renamed from
++  LIBSSH2_FREE() in newer libssh2. Context adjusted to match
++  the 1.11.1 codebase (different line numbers and surrounding
++  function/macro names).
 +
-+CVE-2026-56002/ZDI-CAN-30559
-+
-+Assisted-by: Claude:claude-opus-4-6
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Part-of: <https://gitlab.freedesktop.org/xorg/lib/libxfont/-/merge_requests/34>
-+
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/b4389e0b1d84a690b819bb27b1439968811a3674]
-+CVE: CVE-2026-56002
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ src/bitmap/pcfread.c | 59 +++++++++++++++++++++++++++++++++++++++++---
-+ 1 file changed, 56 insertions(+), 3 deletions(-)
++ src/sftp.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/src/bitmap/pcfread.c b/src/bitmap/pcfread.c
-+index 882318b..bcb82b8 100644
-+--- a/src/bitmap/pcfread.c
-++++ b/src/bitmap/pcfread.c
-+@@ -531,25 +531,74 @@ pcfReadFont(FontPtr pFont, FontFilePtr file,
-+ 	int         old,
-+ 	            new;
-+ 	xCharInfo  *metric;
-++	int         srcPad = PCF_GLYPH_PAD(format);
++diff --git a/src/sftp.c b/src/sftp.c
++index 6ede3111..793f267c 100644
++--- a/src/sftp.c
+++++ b/src/sftp.c
++@@ -1279,6 +1279,7 @@ sftp_open(LIBSSH2_SFTP *sftp, const char *filename,
++                                "got HANDLE FXOK"));
 + 
-+-	sizepadbitmaps = bitmapSizes[PCF_SIZE_TO_INDEX(glyph)];
-+-	padbitmaps = malloc(sizepadbitmaps);
-++	/* Compute the actual required size from per-glyph metrics instead
-++	 * of trusting the file's bitmapSizes[] value, which may be smaller
-++	 * than the actual data written by RepadBitmap. */
-++	sizepadbitmaps = 0;
-++	for (i = 0; i < nbitmaps; i++) {
-++	    int w, h, glyphBytes;
-++	    metric = &metrics[i].metrics;
-++	    w = metric->rightSideBearing - metric->leftSideBearing;
-++	    h = metric->ascent + metric->descent;
-++	    glyphBytes = BYTES_PER_ROW(w, glyph) * h;
-++	    if (glyphBytes < 0 || (glyphBytes > 0 && sizepadbitmaps > INT_MAX - glyphBytes)) {
-++		pcfError("pcfReadFont(): bitmap size overflow\n");
-++		goto Bail;
-++	    }
-++	    sizepadbitmaps += glyphBytes;
-++	}
-++	padbitmaps = malloc(sizepadbitmaps ? sizepadbitmaps : 1);
-+ 	if (!padbitmaps) {
-+           pcfError("pcfReadFont(): Couldn't allocate padbitmaps (%d)\n", sizepadbitmaps);
-+ 	    goto Bail;
-+ 	}
-+ 	new = 0;
-+ 	for (i = 0; i < nbitmaps; i++) {
-++	    int srcGlyphBytes;
-++
-+ 	    old = offsets[i];
-+ 	    metric = &metrics[i].metrics;
-++
-++	    /* Validate source offset and source glyph size against the
-++	     * source bitmap buffer to prevent out-of-bounds reads. */
-++	    srcGlyphBytes = BYTES_PER_ROW(
-++		metric->rightSideBearing - metric->leftSideBearing,
-++		srcPad) * (metric->ascent + metric->descent);
-++	    if (old < 0 || old > sizebitmaps ||
-++		srcGlyphBytes < 0 || srcGlyphBytes > sizebitmaps - old) {
-++		pcfError("pcfReadFont(): bitmap offset/size out of bounds\n");
-++		free(padbitmaps);
-++		goto Bail;
-++	    }
-++
-+ 	    offsets[i] = new;
-+ 	    new += RepadBitmap(bitmaps + old, padbitmaps + new,
-+-			       PCF_GLYPH_PAD(format), glyph,
-++			       srcPad, glyph,
-+ 			  metric->rightSideBearing - metric->leftSideBearing,
-+ 			       metric->ascent + metric->descent);
-+ 	}
-+ 	free(bitmaps);
-+ 	bitmaps = padbitmaps;
-++    } else {
-++	/* Validate offsets and full glyph extents against bitmap buffer */
-++	for (i = 0; i < nbitmaps; i++) {
-++	    int glyphBytes;
-++	    xCharInfo *metric = &metrics[i].metrics;
-++
-++	    glyphBytes = BYTES_PER_ROW(
-++		metric->rightSideBearing - metric->leftSideBearing,
-++		glyph) * (metric->ascent + metric->descent);
-++	    if (offsets[i] >= (CARD32)sizebitmaps ||
-++		glyphBytes < 0 ||
-++		glyphBytes > sizebitmaps - (int)offsets[i]) {
-++		pcfError("pcfReadFont(): bitmap offset/size out of bounds "
-++			 "(offset %u, size %d, total %d)\n",
-++			 offsets[i], glyphBytes, sizebitmaps);
-++		goto Bail;
-++	    }
-++	}
-+     }
-+     for (i = 0; i < nbitmaps; i++)
-+ 	metrics[i].bits = bitmaps + offsets[i];
-+@@ -624,6 +673,10 @@ pcfReadFont(FontPtr pFont, FontFilePtr file,
-+ 	if (IS_EOF(file)) goto Bail;
-+ 	if (encodingOffset == 0xFFFF) {
-+ 	    pFont->info.allExist = FALSE;
-++	} else if (encodingOffset >= nmetrics) {
-++	    pcfError("pcfReadFont(): encoding offset %d out of range (nmetrics=%d)\n",
-++		     encodingOffset, nmetrics);
-++	    goto Bail;
-+ 	} else {
-+             if(!encoding[SEGMENT_MAJOR(i)]) {
-+                 encoding[SEGMENT_MAJOR(i)]=
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb
-index 1a0eb42681..29e4d3298f 100644
---- a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.6.bb
-@@ -16,6 +16,7 @@ XORG_PN = "libXfont2"
- BBCLASSEXTEND = "native"
- 
- SRC_URI += "file://CVE-2026-56001.patch \
-+            file://CVE-2026-56002.patch \
++                 LIBSSH2_FREE(session, data);
+++                data = NULL;
++ 
++                 /* silly situation, but check for a HANDLE */
++                 rc = sftp_packet_require(sftp, SSH_FXP_HANDLE,
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+index 32e1ad6c16c..bd7d1f7b1d1 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -16,6 +16,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://CVE-2025-15661-1.patch \
+            file://CVE-2025-15661-2.patch \
+            file://CVE-2025-15661-3.patch \
++           file://CVE-2026-66032.patch \
             "
  
- SRC_URI[sha256sum] = "74ca20017eb0fb3f56d8d5e60685f560fc85e5ff3d84c61c4cb891e40c27aef4"
--- 
-2.43.0
-
+ SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
 
