@@ -1,100 +1,121 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D91E4C5DF81
-	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 20:54:47 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7654.1787604882879058739
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87F3DC5DF81
+	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 22:21:18 +0000 (UTC)
+Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9391.1787610068323933410
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 13:54:43 -0700
+ Mon, 24 Aug 2026 15:21:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CMT00Vzn;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.49, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-4799b3f7c83so2685563f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 13:54:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1787604881; x=1788209681; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=EL2k+og8iXmnkcA8Oc/k/c8+DxjxwEaK/+gldJi2TBg=;
-        b=CMT00Vzn+AUPdaHRwwHzo0Db7FnzxU219tYklB0sAFLTneT47CTC7ARP+MKVUcbNqj
-         vJobcLmoZEwAlhWt48Qw2mE/Val+RDYqGv0+YfjYF83P1jJL8vWQB4vSqUFK5UMFnHJ1
-         +4PF9x6FQ5cDDDlOlxzieG4JmsNh4Dw2CV3Ho=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787604881; x=1788209681;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=EL2k+og8iXmnkcA8Oc/k/c8+DxjxwEaK/+gldJi2TBg=;
-        b=lWeWCQIshBnVLU6rn60qFP++gSrgn4HAgPBIiyfkhM89yVG5LwwT1A9rY72xxcvNy+
-         pmO8kIqZzPgDgkB83ktv7o/NofoR/udJ6MoYjW3vZ/KdvDjgZ11dYnzgXylkWajsgLKc
-         /0jknAoOLF7zqHvT8kGz9YqtRli+YNL5u6VRxldP3VRiN+jen9RVP0Pcr9DizOJSS6Wz
-         rmbqLGEPPIVHyftHVKeujNhiYmWhsXcTtB4KOZ0c8kTdh7GoTWhNMh2MQ0k9hy5fvvbn
-         HaWNiEXtB5MHUageg8Y/J4/mDcqVsEjXUtWHIXF6T8u3VCMw701CftkB1/CS7nYNPUe0
-         gUrQ==
-X-Forwarded-Encrypted: i=1; AHgh+RqxID/B1UuLY9n+KcVxfO+44U04TJaSZVP0uHtVmrXdV5Pv9Kn5sUjPhhLaDZVmkDUY+EGRTqMMLLyh+U0oB0FQnQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++miyrX+UtdKkWIdS6vH5apNuGVLlfOD+JPXVvw+eb7WvseVDDub
-	R/7BM5hCiI1oJq6kx6K3ksc+wixKQzw6stCeI0lk6bMjNuEcXbH7MAh0ZOGCBMyGwZA=
-X-Gm-Gg: AR+sD11V2jCww9N81c86C7Ubm7czxxlpwPBxg5ksdLv+PiMZQgiTdBkNoaFeJGd65b6
-	sJmDJZABOqBiaKHtqz5MUuTRCJt5FjHh+sSiDcByjFsCqtOT3JfT05iEePQjT1kNb6resUoCjtc
-	V75INY7S+xUXW0PyYF7a8fAwb37LIh8CMa4SzHh37AyO/pxFR/4y6d7KeFUE5EENFEOaYFTe4CY
-	iYoyRXQn17VP1Ox6EjhxoPzcLoMCZxLj/e5bqmuIH9XpE8+muDIZbnzWBea+XiF0P5kyJe44/I3
-	ua93ciHmT6+6WIc4QC2FqRZKr8zKXXjzyady3/ACyEY5l4/xcV/M9iVD3FfnywWt8NyqbYXw5lr
-	hUb0v/SNBnH8gQEWID9SXndXmQRHN2EHhDIfyLfTJkug7Fw3n8RM/kYvLg8B+lzOhxS0Z8J7ofX
-	GCCiWPTqq9E3TAgwEEWKDlZKL76NPONMx2EtmCPhDEQyGRYD+e7Gk9Gc9uWRuyzq1MGhvB79prF
-	Wjt8FjnCcYy0YKBhoN0Z1rCQOfX+UDJU7XkklakeRO16AbZAD1eCSQ=
-X-Received: by 2002:a05:6000:230a:b0:482:aa2a:52f7 with SMTP id ffacd0b85a97d-482c817acd3mr23219658f8f.6.1787604881068;
-        Mon, 24 Aug 2026 13:54:41 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:5c5b:7a15:ab97:8d7f? ([2001:8b0:aba:5f3c:5c5b:7a15:ab97:8d7f])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9bfd2aesm9361829f8f.21.2026.08.24.13.54.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 13:54:40 -0700 (PDT)
-Message-ID: <a675f066372e55c60a68c661f3f72913ba67be53.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [RFC v4 0/6] openssl: upgrade 3.5.7 -> 4.0.1
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Ahmad Fatoum <a.fatoum@pengutronix.de>, jaipaul.cheernam@est.tech, 
-	openembedded-core@lists.openembedded.org
-Cc: "yocto@pengutronix.de" <yocto@pengutronix.de>
-Date: Mon, 24 Aug 2026 21:54:39 +0100
-In-Reply-To: <1ab3fd79-62c2-4697-abdd-5691fa8b9e7b@pengutronix.de>
-References: <20260814051829.35088-1-jaipaul.cheernam@est.tech>
-	 <20260822175200.57534-1-jaipaul.cheernam@est.tech>
-	 <7a100e486f8bcc7f48ec0073ccaa95fabeb8b59f.camel@linuxfoundation.org>
-	 <1ab3fd79-62c2-4697-abdd-5691fa8b9e7b@pengutronix.de>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=PLdUAgXq;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-2026082422210179e7825cd200020732-eqfovd@rts-flowmailer.siemens.com)
+Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 2026082422210179e7825cd200020732
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 25 Aug 2026 00:21:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=1TEwrfa1kSdS7iq85q7QuIKVZ9LkVmwcF6ITydCDD7A=;
+ b=PLdUAgXqgV2ORhxVpGn/DHWRKQRKO5voQvFeLajC8a1Cj3gYrzPw3JY89UunyCN3dlNI6d
+ Op21bbW9glCP3etGBegsVGg5m3K3uawQF6RX/14nKCdfCnGItT5txrsxppt1hoUT0hmy7fRn
+ u5ZaF9SuJpKtNnIdGCv32dVWaKfuzeTSjXFpv4o7wKMCZT/k/P9N+X63m0PTSnKzJKgC3xAj
+ 1aIYRHCELYX2H7x8Rw0Lgwl6CHvYKNW9ooi3ZCQ/t5Jh4YOf4PK2vNv8r80Pi5vjW+kjT2TP
+ vKc3WOVsc24ZeWGgcAswM5O1JuVmTIwrr39n0/fwoIStzAHPtTobWkPA==;
+From: Peter Marko <peter.marko@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [wrynose][PATCH 1/2] curl: patch CVE-2026-11352
+Date: Tue, 25 Aug 2026 00:20:49 +0200
+Message-ID: <20260824222050.1754160-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 20:54:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244152
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 22:21:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244153
 
-On Mon, 2026-08-24 at 16:16 +0200, Ahmad Fatoum wrote:
-> On 8/23/26 9:02 AM, Richard Purdie via lists.openembedded.org wrote:
-> > On Sat, 2026-08-22 at 19:51 +0200, Jaipaul Cheernam via
-> > lists.openembedded.org wrote:
-> >=20
-> > There was one failure in core I spotted in barebox:
-> >=20
-> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4689
-> >=20
-> > I think that is openssl related but it is hard to be 100% sure.
->=20
-> barebox v2026.08.0 was released today and it includes following fix,
-> which should make barebox compile against OpenSSL v4.x:
->=20
-> https://github.com/barebox/barebox/commit/7152488b95484e8fc4a427471dab0aa=
-4fa5e0aad
+From: Peter Marko <peter.marko@siemens.com>
 
-Thanks, I'll queue/test an upgrade and see if we can get things
-merged...
+Pick patch per [1].
 
-Cheers,
+[1] https://curl.se/docs/CVE-2026-11352.html
 
-Richard
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../curl/curl/CVE-2026-11352.patch            | 48 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+ 2 files changed, 49 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-11352.patch
+
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-11352.patch b/meta/recipes-support/curl/curl/CVE-2026-11352.patch
+new file mode 100644
+index 0000000000..df414b9112
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-11352.patch
+@@ -0,0 +1,48 @@
++From 56eca2afb4806f1032872fa97d1834b3c1385276 Mon Sep 17 00:00:00 2001
++From: Stefan Eissing <stefan@eissing.org>
++Date: Fri, 5 Jun 2026 08:34:46 +0200
++Subject: [PATCH] quic: count zero length packets against max
++
++With a flood of zero lenght UDP packets to curl, the receive loop might
++run longer than intended to. Count such packets against the max to
++terminate the loop as intended.
++
++URL: https://hackerone.com/reports/3783438
++Reported-by: vectorqueue on hackerone
++Closes #21869
++
++CVE: CVE-2026-11352
++Upstream-Status: Backport [https://github.com/curl/curl/commit/56eca2afb4806f1032872fa97d1834b3c1385276]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/vquic/vquic.c | 8 ++++++--
++ 1 file changed, 6 insertions(+), 2 deletions(-)
++
++diff --git a/lib/vquic/vquic.c b/lib/vquic/vquic.c
++index 2f0e072951..475f18e04a 100644
++--- a/lib/vquic/vquic.c
+++++ b/lib/vquic/vquic.c
++@@ -454,8 +454,10 @@ static CURLcode recvmmsg_packets(struct Curl_cfilter *cf,
++     VERBOSE(++calls);
++     for(i = 0; i < mcount; ++i) {
++       /* A zero-length UDP packet is no QUIC packet. Ignore. */
++-      if(!mmsg[i].msg_len)
+++      if(!mmsg[i].msg_len) {
+++        ++pkts;
++         continue;
+++      }
++       total_nread += mmsg[i].msg_len;
++ 
++       gso_size = vquic_msghdr_get_udp_gro(&mmsg[i].msg_hdr);
++@@ -538,8 +540,10 @@ static CURLcode recvmsg_packets(struct Curl_cfilter *cf,
++     ++calls;
++ 
++     /* A 0-length UDP packet is no QUIC packet */
++-    if(!nread)
+++    if(!nread) {
+++      ++pkts;
++       continue;
+++    }
++ 
++     gso_size = vquic_msghdr_get_udp_gro(&msg);
++     if(gso_size == 0)
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index 5ba881bd76..cf1d65c3a3 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -23,6 +23,7 @@ SRC_URI = " \
+     file://CVE-2026-6429.patch \
+     file://CVE-2026-7168.patch \
+     file://CVE-2026-4873.patch \
++    file://CVE-2026-11352.patch \
+ "
+ 
+ SRC_URI:append:class-nativesdk = " \
 
