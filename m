@@ -1,212 +1,235 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <debal.ghosh@intel.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2492AC5DF81
-	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 07:58:55 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.14])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11850.1787558329093332254
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 456F7C5DF94
+	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 08:02:25 +0000 (UTC)
+Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.20])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11932.1787558543834247155
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 00:58:50 -0700
+ Mon, 24 Aug 2026 01:02:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@cherry.de header.s=selector1 header.b=Lpb/DyRB;
- spf=pass (domain: cherry.de, ip: 52.101.72.14, mailfrom: quentin.schulz@cherry.de)
+ dkim=pass header.i=@intel.com header.s=Intel header.b=Ympfp7qz;
+ spf=pass (domain: intel.com, ip: 198.175.65.20, mailfrom: debal.ghosh@intel.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
+  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
+  t=1787558544; x=1819094544;
+  h=from:to:subject:date:message-id:references:in-reply-to:
+   content-transfer-encoding:mime-version;
+  bh=qGc4KCkAI4j2nA2+goUOdU+MOeoLRySBlx3kOZC9wys=;
+  b=Ympfp7qz2/WweFXwPHyFZ+8NrmfqryxgZatcYCE6Q2S+s1DnUDh08PZQ
+   AsEmTLjY4iKMfm6Rh666x8prtacTCZDdFC3ZPy7XRrkRnN1Gnm3/0KR1o
+   qvlO3y0F46pl+qqq4NiYSitR5Z2FkdUNQUA2SrYGtu1seft5jy1cKM3Uu
+   ggyTWyjOTmgRDLWK5olOdLc1rArwM15OjfElGs+B2uKnKRtoR8ni8SMwy
+   ICKBxzS42UbazTExsvdIW644JTR8FlK2KjFjySsVA9xLlbbFK+Im/Gs1V
+   736J+/GrhF9AfD1I7hjGzp03ayr5dURX+3jrE+Aq4Po0kx3yUhObv/2sk
+   g==;
+X-CSE-ConnectionGUID: Gh+22BkeTCmljIxZ26005Q==
+X-CSE-MsgGUID: lozTNB4cQ6iJ/SeAI8MI8A==
+X-IronPort-AV: E=McAfee;i="6800,10657,11884"; a="87767901"
+X-IronPort-AV: E=Sophos;i="6.25,240,1779174000"; 
+   d="scan'208";a="87767901"
+Received: from fmviesa003.fm.intel.com ([10.60.135.143])
+  by orvoesa112.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 01:02:24 -0700
+X-CSE-ConnectionGUID: qryD/AwcTCejDU1Xq0sQWg==
+X-CSE-MsgGUID: GGkDXcKMTrGegp9kDCYmMQ==
+X-ExtLoop1: 1
+Received: from orsmsx902.amr.corp.intel.com ([10.22.229.24])
+  by fmviesa003.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Aug 2026 01:02:22 -0700
+Received: from ORSMSX903.amr.corp.intel.com (10.22.229.25) by
+ ORSMSX902.amr.corp.intel.com (10.22.229.24) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Mon, 24 Aug 2026 01:02:22 -0700
+Received: from ORSEDG903.ED.cps.intel.com (10.7.248.13) by
+ ORSMSX903.amr.corp.intel.com (10.22.229.25) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45 via Frontend Transport; Mon, 24 Aug 2026 01:02:22 -0700
+Received: from PH0PR06CU001.outbound.protection.outlook.com (40.107.208.33) by
+ edgegateway.intel.com (134.134.137.113) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.45; Mon, 24 Aug 2026 01:02:22 -0700
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ShUN61RbenOCxRB+8MY1ZB729ZLgffoQk8sJZPGFk0AZwTkwFgl45UbnU7VOvaFDArjC+NSJBrUWoschTEPxohUm0HvFa/tO018Mmt++RMRBiNGyHYrau3CcWPdkMPizCedXmbjvNDL+Y6I0N+6HC0tNpCtFLTrHHInZDpswN6/73x1R6Vq8rRqLWsuPGlYORHDxmV5dSCwDilBvdoGJZ9zrucml086F/iFAR+G7sSfz0n6a/1hLxd8ziRPXw7LjBpYG9FwByj2TEdiPT5ZvZ5oMxZqlRVkQPsrewfaVS+ZaLOgyCKcjnpyggleQmmhRQdzG5Ho5BgWdxQcVLlTjpw==
+ b=Pbp5Gozvdhc4d1e5nAMUaxMYT+ojSiIOKS15yoqs5zz4WKDk6qI5fwHkikoz9ENQlH1OQLjnl8znm7OEOjWDkn1t5zjIHTEOB7Qf23hk6B8qOyAQ1b4+VJ2A3u8kHTDAu4BNISt4ZCc5zrxnjoZyXFcAhwdNaeoSSyxLwf0fXG+gx+MGcxFVCDaswukdeiviqrJsvqNPtXIrjw8e+vImASEqQfT2DjJwweAf6p0oNeaEN7gwV8l9psN84vsn/wYwIjpecU1Uez+gsJxh5CD7KJtEKMI7Ff5HI9XRlCHsnE+bztQlJEZRqSVoAexrsuVL23Km9OMQ/4moSqmR4b31lQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=gPGmZGEb8TUrCthMSvVAfLmOGVPImiFWDPwB8b+r3Nc=;
- b=Pd2GpbAO5Pbx85WmmIKTs3bYa19fDRG9n4sbg8dmxGnl22mEre8JXW+chBTyYa2ziaxxJEhcOCHCPQcZtzPfFFDWQ+I82HL4+nl9rcSDDI/F1R8VfwtyZTuYIdM7DnsilYD4kvCefvwC1pJZfya1zKkAygWxFoHBnXMMfzmU/rxFTtCvb9+xTJQJfWyTt3piThI1Kn0VsmpWhpTkzOhS7mxNRyU7INlgUKM+Nx5VrPZBngwY9bxpJgFi3oGDZt36shF/0VG+xLw2f3HM0uaVlDeFuZFWn5t+xTrGcbrSAUzVBi4iWpSXbboiFyyDPRBoS+XmriCjldsK32uXiI/gAg==
+ bh=0JmVohbt9eMOqNznzmCN0Bo56O7bQqC92L0KpYQ/63k=;
+ b=nDfrvGp2akhcxJsdh58sfeEZ4NMQ4u6tc5AtwA+rpsR7nOIzhpw+uu7N+QTanPNlmDZuxmU5LkoGSKyV+l0aritfiivoYKHcTZ5BHG6mLZn5Hi1+f8zPphdcgIhLRnOS6wiYLG/OCdnAmCTRiERZ2skvjnW4wA8p4QEKY9atLlcSWyiPb2I9BrkYNn6Ws5Y8/pjHB3bMDTtwuierjRQAdDPI1yGNe728HjSWyqCQPbhirC5fbQLSY56R4K1wenYNWswe2LhyuxQziMh+5iwN6vVFEy/fkyeYBd8LysShG2mJynkQk+zDX+2iSTVloosD9pUuNT/ruEP8XuUxzFYP4w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=gPGmZGEb8TUrCthMSvVAfLmOGVPImiFWDPwB8b+r3Nc=;
- b=Lpb/DyRBPb+wdSq1ESTV1kdKA9sHTv4hbrjg0GzQ/Ji5HSh44WrpJQrmGmaG5hbUTqx4NqiKhlNg0xPFcFCE3BlMYNR0UaRlUaQWQnXimNYGsR/7R7idmS+PpNSRmUmV8N5NZSqNqmmQH4S0EORcRqrYyej/VVoxJeWZoLM8Too=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from PA3PR04MB11153.eurprd04.prod.outlook.com (2603:10a6:102:4ab::7)
- by PAXPR04MB9121.eurprd04.prod.outlook.com (2603:10a6:102:22b::5) with
+ smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
+ dkim=pass header.d=intel.com; arc=none
+Received: from SN7PR11MB7018.namprd11.prod.outlook.com (2603:10b6:806:2ad::14)
+ by LV1PR11MB8817.namprd11.prod.outlook.com (2603:10b6:408:2b4::22) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Mon, 24 Aug
- 2026 07:58:41 +0000
-Received: from PA3PR04MB11153.eurprd04.prod.outlook.com
- ([fe80::6b02:c0eb:95a4:3c3d]) by PA3PR04MB11153.eurprd04.prod.outlook.com
- ([fe80::6b02:c0eb:95a4:3c3d%4]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
- 07:58:41 +0000
-Message-ID: <45dbe3e7-2ae2-44bd-b39f-014ab79fc001@cherry.de>
-Date: Fri, 21 Aug 2026 20:05:45 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [PATCH v4 2/3] mesa-libclc: New recipe for forking libclc for
- Rusticl purposes in Mesa
-To: =?UTF-8?B?Wm9sdMOhbiBCw7ZzesO2cm3DqW55aQ==?= <zboszor@gmail.com>,
- openembedded-core@lists.openembedded.org
-CC: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
- Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>,
- Jose Quaresma <jose.quaresma@oss.qualcomm.com>
-References: <20260807054448.1301957-1-zboszor@gmail.com>
- <20260807054448.1301957-2-zboszor@gmail.com>
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.315.16; Mon, 24 Aug
+ 2026 08:02:19 +0000
+Received: from SN7PR11MB7018.namprd11.prod.outlook.com
+ ([fe80::bc48:bc16:39d:b43]) by SN7PR11MB7018.namprd11.prod.outlook.com
+ ([fe80::bc48:bc16:39d:b43%2]) with mapi id 15.21.0339.012; Mon, 24 Aug 2026
+ 08:02:19 +0000
+From: "Ghosh, Debal" <debal.ghosh@intel.com>
+To: "qa-build-notification@lists.yoctoproject.org"
+	<qa-build-notification@lists.yoctoproject.org>,
+	"yocto@lists.yoctoproject.org" <yocto@lists.yoctoproject.org>,
+	openembedded-core <openembedded-core@lists.openembedded.org>, Pokybuild User
+	<pokybuild@yoctoproject.org>
+Subject: RE: [qa-build-notification] QA notification for completed autobuilder
+ build (yocto-6.0.3.rc5)
+Thread-Topic: [qa-build-notification] QA notification for completed
+ autobuilder build (yocto-6.0.3.rc5)
+Thread-Index: AQHdL+iQyugWHAjY8k+5RMGSZut/Pbas3P7w
+Date: Mon, 24 Aug 2026 08:02:17 +0000
+Message-ID: <SN7PR11MB70188AC8C5DB2097EAB04D4FF4A02@SN7PR11MB7018.namprd11.prod.outlook.com>
+References: <010101a01a76718d-b9001e6c-d0ae-4cfa-b512-6be5ae427a5b-000000@us-west-2.amazonses.com>
+In-Reply-To: <010101a01a76718d-b9001e6c-d0ae-4cfa-b512-6be5ae427a5b-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
 Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260807054448.1301957-2-zboszor@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=intel.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN7PR11MB7018:EE_|LV1PR11MB8817:EE_
+x-ms-office365-filtering-correlation-id: 32059886-d8af-430d-fd87-08df01b604b1
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: BCL:0;ARA:13230040|4022899009|376014|23010399003|1800799024|366016|38070700021|6133799003|56012099006|10067099003|11063799006|18002099003|22082099003;
+x-microsoft-antispam-message-info: urZkCdHWZfUDlkAj7GyeWdiKXdAbmHNZo0eQUb4g8u3eHlyVTpB1rz6RsSZozQy7XDq+eOGkVv+XPigq5o2hnrAV+AGVMk7UxFzV/Hb/zgHK/fQ7cqRudwhpvNhkL7AYiT5IFGsaO+1pvrCl3e+BqqFPWWQX53LA2GckLm514sp40Gw3TmlB8J+mQGpBD+EjYk7lo9bVs7qgWC118skK0bURpQpQT5zxZDrP/7jTVDr5sp3BIOfv7El9GIOQvPmekdxjhCyRkKDsUOKapMx/hW3Qr92CpoLdNMVFqLSapLF1PY2zfAZR+t73WLZAcIy+WyIs028923JA0zcYHizK/6iUnJTjK6jT4FyD1sRc2aBXKebhBU68fgrcbY2Svyh09/OOU3jZIGzSwfsy+1fDXca3hywI/KYH25eGU5nkd9Jp5Oom7tCi/xoYWZOvqiguf3gJh7/cQ4nOHW+mUq39FRUY8XmFAu7RV1JY49DgtI67Ia/ynWAOzvKCHIm3K5ekZkTSNfLm/og47nE21D0SF7Yi46NgJ91boEHE1PCVa4by6eX9S4E3cbP/ndS7puYVNrDpS7aP6SLZmGxTOHrWR2LXFbjc3KWgI2Tsma223foCo2fIINbftmBSAeFEvBPnlFnyGxhfhvi2CYchEGuBKnuhdR8/wEJKqIJz7rrcOv0=
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7018.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(4022899009)(376014)(23010399003)(1800799024)(366016)(38070700021)(6133799003)(56012099006)(10067099003)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?etEdk1BUe44ev5ES9n2FR6sSUfH5eSsqv1O3yjOrheXPMjMjBL1JMO1o9v/V?=
+ =?us-ascii?Q?0G7DaWVkfKR0jvZrDAva2Aiu0j5/ARarmo23RRdjonR8LVOQe44V68WuXoRF?=
+ =?us-ascii?Q?+5Y9/65lN0x5SAWPZ25nhwxD8ujiKdHWV5W5sGkRN1KI0Cda0RsY/JiOinFb?=
+ =?us-ascii?Q?gvSJBj+RtJy7XJEJIho8B0bhbWhAO+mGO+OVo3FgDG9E264qUg9z8UzdFb5Y?=
+ =?us-ascii?Q?bwQ7RredU+KsilefFmyStVFJ12xO7PtqZh2vw7L+VGXauvmhadsYfqjGJMKe?=
+ =?us-ascii?Q?gQlKdvVsSvJZIHZGfttXaO2iH100uX2A7MyvghxThQFP/onixd5NeJbHYHu5?=
+ =?us-ascii?Q?IQB21NnCTzTac7vOWMoaaLNnTu5cUSBQW7I82bCF7CNQx9po3YKpWCIuNWET?=
+ =?us-ascii?Q?c8UYLxJOwUz5iNoTnbjrNv6tjhRKr8jKczhg0F/OEDA4POAK2tf96CSReaXp?=
+ =?us-ascii?Q?fo49xs4l8o9m8E2wBdwk+VdKo+GwTxQgbELCrXL5fm2o+2MomcYPXY8TdrTN?=
+ =?us-ascii?Q?UkFYvD1wypPfW3bkrKsi/agEX73laGstLJBbSqyRBoN6J86ux27slI6tTJ3u?=
+ =?us-ascii?Q?t66gKqWSFjFSxkXUL9D7TXId1wNu5qpJ9MaEk807YUMRVrpKM5RZO1ai7OQM?=
+ =?us-ascii?Q?IZpPYrLMyW7CBNv1P5iLCaun433HahE1tWfffWLJVdL083HqAn/TuTK39icA?=
+ =?us-ascii?Q?t+ytKE+F/g91LRitfHYPOLVU0QPXCQZO70Q8omtU3icTPhBZuzkhW8juDJix?=
+ =?us-ascii?Q?GdjGSi47EnYWZWAFTqHCunzOMZKQ89WffgBSqA1C5VjiFzSATYMjPdDLSYLu?=
+ =?us-ascii?Q?CxDsgKHdAw5e8XD0aN68HGqBTLw2BS6ni9ImWyriGRpE1IRsGuf55Q/YTarY?=
+ =?us-ascii?Q?HrSO4/ifgaPaTTGQe1KGH9kha3roKkPTg9ajU3Y/4YvlwYtWEs6iRJvWs8ZB?=
+ =?us-ascii?Q?zIgWRhCYWBFo35EFa8EOXZdDuM5sI4aFgBMugkxXOjH9+kdoq43Z9/Qw28/z?=
+ =?us-ascii?Q?XfNwsGGdlCecWpExVzmZG4AGNhyF0scYupLE8/4s3Qkl5qVrso5da3VuZBYj?=
+ =?us-ascii?Q?n+C6bx+76wga3239vynVbmz9kJNkyNIlxTor1AKae4b211J4csmp+ouFH/iH?=
+ =?us-ascii?Q?1aqtFadKZtkYTrdB2mRjSWDK3HO9nBanC68OlS7p6eM6WQQ7lpYMQrKJ8zcx?=
+ =?us-ascii?Q?vFqn3bW9Fv0vFQxnr2X5A6SYfWSXJ/DYsVkW6DTTOIuViZCkK3dzjWsWpWe/?=
+ =?us-ascii?Q?7G0xyeAZiBk/KUlfSaIt5Ebbnv4qPI2arkqS9JYwgqEfEj/qe4ls+a2RlmDk?=
+ =?us-ascii?Q?RPkK6qLg/h9gopquz/MfHeuxV4s5bme7nf3z8GFUE+/RtpsGzgal7STEEvb+?=
+ =?us-ascii?Q?5ZkkMaiKcs7ZraZRXYoOvmMCNi+EY2RXarZggteFaX2Mywx9McwrJYsfXlqR?=
+ =?us-ascii?Q?vYkcAaYC3e4Y9qYl8w7HKAtLz3BYn8H3VMPS4KdItKUmLUIL39DBEmkOvORs?=
+ =?us-ascii?Q?KyVK3lyVWHKmgW9mQsOWsAv1EYZTaoIEb1MM9WFJosBqaajCT5j4M4KKYLeu?=
+ =?us-ascii?Q?MBERGYLNh7/Z3Tvuvf/BjIG8g3xpqet6x1k9vQQb00OgiUjoG6sGXmOjE5GH?=
+ =?us-ascii?Q?kb8a/JMEqjs8RGSF++dgbF3RqkkewisDa/oAi6kMg8nj9QKMjvvFr2luqYQ0?=
+ =?us-ascii?Q?F34OueM9uW6xYqSXp+WpqGWe5x/Li5zDg/8hPo5VhJpT+xF+7hTvbjpkIbwh?=
+ =?us-ascii?Q?8OC14+/uJg=3D=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: VI4PEPF0000015B.AUTP296.PROD.OUTLOOK.COM
- (2603:10a6:808:1::87a) To PA3PR04MB11153.eurprd04.prod.outlook.com
- (2603:10a6:102:4ab::7)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3PR04MB11153:EE_|PAXPR04MB9121:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1fcd9f96-b476-45ba-dc1b-08df01b582d8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|10070799003|1800799024|23010399003|376014|6133799003|10067099003|56012099006|11063799006|4143699003|18002099003|22082099003|3023799007|4133799003;
-X-Microsoft-Antispam-Message-Info: 
-	R6/W8HaVmPPaRa4GlQ1WD9MN1SkQ3ZI8RlNKskoCsxMmwJTGWKAvbLnXzCATBWC32vMvISkXDktsWWdnBLVPZx76vjbYoqA2C1oxSlnmoqv9daV1DrtrvyilEubEuunRadxI8p5KDUkFLM1mfc8AjncbQWfYo02N5QcG6P3TPMQ5/fR+bjODDAzDPgZqkKOjjE0PjJUwlnQgo1RFiaWAWPoRylboTywS4CeroJc6Z6BAhB5l2x7l14d4GGWRxUfO8wXfwYd1Cy6YFODbyi6Hf9qlPZDEVH/W1v5LjXQ3lCu5GSnsoPW6bikPBEwMzjXBTKMSIwHwJrCCwxzdtV8HxOSAUkDluTR6qucCeZsLcAPI91jOS2v1TqQxF3vOO+a6ImlUglwTVPaeRWwH67uTxs5yFX4V6PT7XdIuFDElqGOV8Cr00Fdf7KeNve7LIlIx7APrCC3bxhUC7dKbkiPATiOiesnRH1upMm9Zwl9IUZhR+XOBaE6tsdP0JWgVbP4lhCnFdGrfmbEGwIH4QEl8Z747zUeHa3Wz1a0pR6dwF6BF+vEgCA4U2hIYIPh3iWxxRVt3+AQB9XRD/xLw5K2ldFkqbfaY4+w1L9C9aptqv4A=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR04MB11153.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(23010399003)(376014)(6133799003)(10067099003)(56012099006)(11063799006)(4143699003)(18002099003)(22082099003)(3023799007)(4133799003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?DJhCXVwAWcfK8AXukqpmbRTjSDGd0bdMGnyzIIy41XkqbBXqsW5trQBu1ScN?=
- =?us-ascii?Q?kLw7bnOCH2hizRXxqYCyUoz2Ya4kGtRCwDqklfiC6ERJXZrSzi4m1IEYqUGS?=
- =?us-ascii?Q?Zwhky/IjugxobGm4OMKEalz9B7RKy5ZGTe0m+pcOkf6Vrwkwoq2hshsavGlw?=
- =?us-ascii?Q?szo6HnYmqlQpFuMhXR3GEQMjMo5ycYMt0KAJ1+Yh/kzDtMiAWcRBYHOcwiWf?=
- =?us-ascii?Q?AvGY8JihWzcMv8mH/ThpqOPvZ4RE4X6UJG61Tqfl1Si427VHfZN1mw0pRlQP?=
- =?us-ascii?Q?jfIa2WTZ6ZA/bY/zto2daf9Iyp5sxPPlkPh9wfuG5Tep30L0AnWzECy52YCM?=
- =?us-ascii?Q?a9DjSNAZQAy92TTGmMlgC6/VXwxrkF4EQislvXPq/yB8/9rsRK76tttBAQHx?=
- =?us-ascii?Q?MVrJzGwX3vQ39eJsFeC0ZppyL9Js2jg+nR7l5QdVfvElmPA0JW7ui3gFzfVb?=
- =?us-ascii?Q?025TVMvX+DDQYHv4YtLywXK4F55Jq1HooPrAqHQut936MWSV0MlwLJjxqGQ5?=
- =?us-ascii?Q?uHWTf0Z/ek6GnNzoxU0owtQmU4NQZGkDi8N6N/aIaGZet5EzOg5AFM9HOYjo?=
- =?us-ascii?Q?6YpvtkX4/J3f/bPW1Xj6APArIsCe8+FeUMxWmtmHazmuIJhT1WmGPsNqUMzH?=
- =?us-ascii?Q?EoxWSjA4Mutm1vReaoStw/yC8yIwZrGxQZj6tSCwg9dMGkjvefHXKEC5BVcf?=
- =?us-ascii?Q?uCE9cD7BtLiXf3Jph6eqfrydeNHbc/YKeSIC/Mmx3K/MnullmQ6nhUsvirl1?=
- =?us-ascii?Q?f3043nCd3MdFW1GDlmDNfJ7c6JuexuCun7lXOobxtWAXDL6QpskCblxtcC1X?=
- =?us-ascii?Q?9ywTZ4pnrDiEUBUiEMt89UBjrX3TpMcpQ7BSyIaFKfDXsD/vjSttVj7IXRA/?=
- =?us-ascii?Q?JVYejIoDk3hDfm0158m8UIf2gx66FQ8nd8N4uF+7wxs+lo1e+jeYgwjVLo6s?=
- =?us-ascii?Q?hVuyc4V25JpvB/5xuFlCxX+5ImESfdeblJchp7fdPsxDDWIf+fgzRkv6XVRc?=
- =?us-ascii?Q?W/0F8gbYZdBc4hYcIGaZRJbxKdVEvcbUeWI5xDBdrC9lYSlrG2ilpLa9Tlt1?=
- =?us-ascii?Q?++6baXi2y2uXCwfTJryXkd0cBhMuS8c3NWPt1T1ffynf8TcQWf3s46MWvW/f?=
- =?us-ascii?Q?Ac/uLtFKl5eQf+2a/rXL8O0tGCt7Up3uCA9kquu/4545AY5RiVLO3W3pFM/2?=
- =?us-ascii?Q?evlZP4oPTafs7ppOfp1kBZ30Coy3nVsnC+g0ck7lvXM7gsEj3W/PR5dCkZAN?=
- =?us-ascii?Q?U7+4lxL8wnqw/Hpo067SHHwFC/a0/5cf3ikJuAXtaPEVF9qgKgH4HX0bR95s?=
- =?us-ascii?Q?ghptnPb1LgSiOk3aXMtp4E7lOVRHzfVwMp3I1XLXS3ZclSwJ9uUDzbA5rBgZ?=
- =?us-ascii?Q?dyC2GE0wCLFOBo9KnlTgpqQCT9B2cLP7nfJwMm4n7HxLTvy9Gxt1GtTy5Dy7?=
- =?us-ascii?Q?nUVvf6qXJnBH5PEuWR5F5kr9J9ZUROBcOn5PtvH9BrxxC66x+Kjrnuddx6YL?=
- =?us-ascii?Q?kNptXntP2xGYFBJJtBtNkdgj+/j3/8J/wGk/vl/I4gpU6RP9pzAiO5NQfMPs?=
- =?us-ascii?Q?IXFzdx2O4gOyAq0aHClYOchp1hUMQ/xWtgtpbIW96lL6LOawgsR6MpN/k7mA?=
- =?us-ascii?Q?Pu8SruuXaHYEUox+2T8RPkmnhMZIBAYcQKkyA1axtHEig2sPLvjEfTGT+HrV?=
- =?us-ascii?Q?Du9de6wm/3+4aSpFi/bIJJ7xJJaxoLIZ+q3ATB5oldzTg6OxTu9oAPrhTEjM?=
- =?us-ascii?Q?LmjC2E++e479LhnlLr/WlSnWP2HLY1LF3DSvuBSp/93pzZlBQl3WrMmD7ZzI?=
-X-MS-Exchange-AntiSpam-MessageData-1: +o28v3ori888fFOsJ6hxWXPB6tUUy8WaKCg=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1fcd9f96-b476-45ba-dc1b-08df01b582d8
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR04MB11153.eurprd04.prod.outlook.com
+X-Exchange-RoutingPolicyChecked: hVwllwyf7OsfA1SF//RnmuDR4g0DbvFMEYBaI4sm5rQ5OUB5OZFlsFeCDB+ye9DE0Q453eSnzi/KGAWKxZBuP0QXQii5ySwqnwwzo2UIriqhtIKOB/Y/RNDHoHZc4E/5qGtt1bgbNUx3Xsc1qR8krAdn4rQLV4zmHAKq3S1of8mBBwn6fvwlP9qR9ZxXJ30nxBgWmRBPuAWcqAZhhRcvzyPCHL9PPv8e1vKQkAuWn/oUKGSM0JXVekrN1RFpcEclvlyD+e5mGhV2qTV2xYj8KiVTEC+A9Z2FgqzUHApTYAOiArkl2vEAz+R9SQl1p2xJWFMOyZqTRj+oKOlIOv6BMw==
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 07:58:41.1431
+X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7018.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 32059886-d8af-430d-fd87-08df01b604b1
+X-MS-Exchange-CrossTenant-originalarrivaltime: 24 Aug 2026 08:02:18.3247
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: dJ/oh3coM6aKZjj4KtVKByATwUgY2U/GIRfkwVE74g0nn5svVNjlQ+PE6dZ+ay6QzwB/S9ndimdljpNGz+Eq9XgVrKZAbHMPCaRrVP9sNSg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXPR04MB9121
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: FPH1Yt4rNCbdholsrgrcYVvPLRofk8TRwoa+r/hTdcK8k8/720D00/aBsh9ZGRkWXMqNLaHIFo4yQkZlNCwL3A==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV1PR11MB8817
+X-OriginatorOrg: intel.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 07:58:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244071
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 08:02:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244072
 
-Hi Zolt=C3=A1n,
+Hi all,
 
-On 8/7/26 7:44 AM, Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi wrote:
-> See the reasoning and discussion at
-> https://gitlab.freedesktop.org/mesa/mesa/-/merge_requests/43020
-> which was merged and backported to 26.2.0.
->=20
-> TL;DR: LLVM constantly introduces breaking changes that cause
-> regressions for running OpenCL CTS with Rusticl and finally
-> Karol Herbst had enough.
->=20
-> This fork is from the LLVM 22 version of libclc and contains the
-> necessary fixes to make Rusticl pass OpenCL CTS.
->=20
-> Signed-off-by: Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=A9nyi <zboszor@gmail.com>
-> ---
->   meta/conf/distro/include/maintainers.inc      |  1 +
->   .../mesa/mesa-libclc_22.1.8.3.bb              | 26 +++++++++++++++++++
->   2 files changed, 27 insertions(+)
->   create mode 100644 meta/recipes-graphics/mesa/mesa-libclc_22.1.8.3.bb
->=20
-> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
-include/maintainers.inc
-> index c5b701c244..feccf29ce4 100644
-> --- a/meta/conf/distro/include/maintainers.inc
-> +++ b/meta/conf/distro/include/maintainers.inc
-> @@ -524,6 +524,7 @@ RECIPE_MAINTAINER:pn-menu-cache =3D "Ross Burton <ros=
-s.burton@arm.com>"
->   RECIPE_MAINTAINER:pn-mesa =3D "Unassigned <unassigned@yoctoproject.org>=
-"
->   RECIPE_MAINTAINER:pn-mesa-demos =3D "Unassigned <unassigned@yoctoprojec=
-t.org>"
->   RECIPE_MAINTAINER:pn-mesa-gl =3D "Unassigned <unassigned@yoctoproject.o=
-rg>"
-> +RECIPE_MAINTAINER:pn-mesa-libclc =3D "Zolt=C3=A1n B=C3=B6sz=C3=B6rm=C3=
-=A9nyi <zboszor@gmail.com>"
->   RECIPE_MAINTAINER:pn-mesa-tools-native =3D "Unassigned <unassigned@yoct=
-oproject.org>"
->   RECIPE_MAINTAINER:pn-meson =3D "Trevor Gamblin <tgamblin@baylibre.com>"
->   RECIPE_MAINTAINER:pn-meta-environment-${MACHINE} =3D "Richard Purdie <r=
-ichard.purdie@linuxfoundation.org>"
-> diff --git a/meta/recipes-graphics/mesa/mesa-libclc_22.1.8.3.bb b/meta/re=
-cipes-graphics/mesa/mesa-libclc_22.1.8.3.bb
-> new file mode 100644
-> index 0000000000..c93b5b9d9d
-> --- /dev/null
-> +++ b/meta/recipes-graphics/mesa/mesa-libclc_22.1.8.3.bb
-> @@ -0,0 +1,26 @@
-> +SUMMARY =3D "Mesa fork of libclc: Implementation of the library requirem=
-ents of the OpenCL C programming language."
-> +HOMEPAGE =3D "https://gitlab.freedesktop.org/karolherbst/mesa-libclc/"
+Intel YP QA is planning for QA execution for YP build yocto-6.0.3.rc5. We a=
+re planning to execute the following tests for this cycle:
 
-Sorry for the mangled link. Sad that they still keep this in Karol's=20
-namespace. It however matches what they use in their CI (via the GitLab=20
-Project ID), see .gitlab-ci/container/build-libclc.sh.
+OEQA-manual tests for following module:
 
-> +SECTION =3D "devel"
-> +LICENSE =3D "Apache-2.0-with-LLVM-exception"
-> +LIC_FILES_CHKSUM =3D "file://LICENSE.TXT;md5=3D7cc795f6cbb2d801d84336b83=
-c8017db"
-> +
-> +SRC_URI =3D "git://gitlab.freedesktop.org/karolherbst/mesa-libclc.git;pr=
-otocol=3Dhttps;branch=3Dllvm_22"
-> +
-> +SRCREV =3D "87f66007242ff10e9e84bf32be84f9057f6abc75"
+OE-Core
+BSP-hw
 
-How do we make sure we use the mesa-libclc blessed by mesa for a given=20
-release?
 
-It seems like we should use the tag as specified in=20
-MESA_LIBCLC_VERSION=3D22.1.8.3 in .gitlab-ci/container/build-libclc.sh.=20
-Can you add a comment in mesa-libclc and mesa.inc that mesa-libclc=20
-should only be bumped with mesa.inc, and that a bump in mesa.inc should=20
-REEEEEEALLLLLLY check we use the expected mesa-libclc version (put it=20
-next to SRCREV so it appears in the git context when someone sends a patch)=
-.
+Runtime auto test for following platforms:
 
-I've only barely looked at the changes made between 26.1.0 and 26.2.0=20
-but we should be able to drastically relax the libclc requirement for=20
-anything but opencl (rusticl). c.f. 20b40644b7ae ("clc: make libclc=20
-optional for configs not needing it")
+Alder Lake
+Panther Lake
+Arrow lake
+Bartlett lake-S
+Amston lake
+Twin lake
 
-Someone will need to start looking into what they're doing with=20
-panfrost, c.f. the new panfrost-rust option. There's a bunch of=20
-additional dependencies in src/panfrost/compiler/kraid/meson.build we'll=20
-need. Oh well, something for later (but probably very soon, like next=20
-release).
+ETA for completion: 26/08/2026.
 
-Cheers,
-Quentin
+
+Best regards,
+Debal Ghosh
+
+-----Original Message-----
+From: qa-build-notification@lists.yoctoproject.org <qa-build-notification@l=
+ists.yoctoproject.org> On Behalf Of Pokybuild User via lists.yoctoproject.o=
+rg
+Sent: 19 August 2026 20:09
+To: yocto@lists.yoctoproject.org
+Cc: qa-build-notification@lists.yoctoproject.org
+Subject: [qa-build-notification] QA notification for completed autobuilder =
+build (yocto-6.0.3.rc5)
+
+
+    A build flagged for QA (yocto-6.0.3.rc5) was completed on the autobuild=
+er and is available at:
+
+
+        https://valkyrie.yocto.io/pub/releases/yocto-6.0.3.rc5
+
+
+    Build URL: https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/=
+builds/4513
+
+    Build hash information:=20
+
+    bitbake: fae9db3168dbff1b8c76fe9c6726a9687ff97514
+meta-agl: 3c55b45bf920bec93938af02f2452cd698d3bacc
+meta-arm: 0979b80429099f1a42dc0026c8c466cee780bc74
+meta-aws: 5e7cc95f7d55a0ba0ae6a7e6e43e6323811a140a
+meta-clang: ef0d22f21910a0c30c967eeb17d8f209806e2d81
+meta-intel: 79a9681ce83f6bf36aede3aeb8c1707d29bca329
+meta-mingw: 5876c193da3ad86b5e23012374b5350e49b0c755
+meta-openembedded: 6bf0d8ad57b33950bab4c7f6c037e1ccb6f6e2eb
+meta-qcom: bfa25fcfda87cb483aeb8259494b0a7ba65f7422
+meta-virtualization: 30f1a9d7e5ef1b41c64ff4c3c40951133d548ed8
+meta-yocto: 1b132647002eea43a2c7a7f857f63f42dacbc26c
+oecore: ef022bf82d79015802309d14c28b13373ebe53f5
+yocto-docs: 5b1ff88511d90634bb3077b878176de577464e12
+
+
+   =20
+This is an automated message from the Yocto Project Autobuilder
+Git: git://git.yoctoproject.org/yocto-autobuilder2
+Email: richard.purdie@linuxfoundation.org
+
+
+    =20
+
+
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+Links: You receive all messages sent to this group.
+View/Reply Online (#737): https://lists.yoctoproject.org/g/qa-build-notific=
+ation/message/737
+Mute This Topic: https://lists.yoctoproject.org/mt/120830443/9976127
+Group Owner: qa-build-notification+owner@lists.yoctoproject.org
+Unsubscribe: https://lists.yoctoproject.org/g/qa-build-notification/leave/1=
+4426999/9976127/44033455/xyzzy [debal.ghosh@intel.com]
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+
+
 
