@@ -2,62 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED9C7C61DB4
-	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 13:00:55 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15955.1787576451029370820
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16FD9C61DB6
+	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 13:00:56 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16157.1787576448508675333
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 06:00:51 -0700
+ Mon, 24 Aug 2026 06:00:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Vtyi1azY;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4980fe6b3beso29204155e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 06:00:50 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=hj88WEcY;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4953e04ef16so31729315e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 06:00:48 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787576449; x=1788181249; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787576447; x=1788181247; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=GFtmF3/Vf6hS61P8VzDdWnF9ZNwo35/dfFC5rCL6fJY=;
-        b=Vtyi1azY3Gn7rXQ/nS5KlowwEvOQjc09D8PB68tOeRCsRqgaXXBH2eig5EQVjBPjG1
-         OKEjHHB2czUuUTjYDOiDzSSYMtX8Qzktm7ereT6v18Wsu6oW1Hb5Oqpu13Vr7NhzNnt3
-         ayJNuUNJKK313pNAYAmkMRVXOgnfMnmCBH/0k=
+        bh=/lGyfyePXPpNcntmQnLriUuLFv974ZDyD47uzIlKg8A=;
+        b=hj88WEcYaxgpYBx2n9YRv6dzcluyV0+vpB6yU1JWeL2IRMHIBV5bTlVDBaktqfznzJ
+         E45guXOAEZ7ZKnay46TdzEH7rimyR9CEQXUrAMVOw1ihm+GcmDD79L2H3+nAJk3dFIsB
+         XdCYH1kQLRwnGveKiLEk0YAXI5B6j08LwW7tI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787576449; x=1788181249;
+        d=1e100.net; s=20251104; t=1787576447; x=1788181247;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=GFtmF3/Vf6hS61P8VzDdWnF9ZNwo35/dfFC5rCL6fJY=;
-        b=ZUMOtXcoHRmkkhwaqgUCnkS0ZGbcjQIZtPE+ARHaJHppZnxTlYT5UyuljEQcz7745s
-         s/YaYj2W/QMus3qAmaGKfhemfS8YUWKcEmoBWKd8egtVZvj8/KnhzCmW8UwlRB2Mru7G
-         gkz3AqjsQIXDcB6fUL1h21j+fSHbhRoNdVeStQV5Vp2iHc+zQCBnrR3r+X8aqT/bwL0W
-         aEPwb5DxJ1JOPGTUNKibeLnxshGtNAr+cuoA9s2OhkztraZIZPQUxgJdvlEcqaDC9CsJ
-         xbW8mRBsDIBNTNyrFscUnjkAlfRUUuWGVEn04Sey6kZKyBbhKoEJ4ntLFKNcESF3NBrS
-         ZziA==
-X-Gm-Message-State: AFuF++l9zibE/jBud8ieqT7DHGI2FdTwZfQN9ukG9Y4RgT6RQA/YHRfn
-	60q8FzsOjVuNTAqRihuW4EMCWv0j2q6BKN0mBtejmyKRYZLL9rU/laE64FPhznchVxuopdprXac
-	hBNAMrj4=
-X-Gm-Gg: AR+sD10f0cuymZZqW8RQY6yvKYrJX+eCvUTuRcoorptfwadWFcHBleBLSWFW+l7Wfp7
-	icfxhy5+1XaA7V+HrVmg2RTIw32+DHS53kVG+gRKLfw27hjygNDoL8y28J7RMSiUTQvEEW87pV6
-	fhUxqCkMq8YHx/JLC6702HV8a4eRapDOLicP2+V+oqxqqPdK3+phYsG8USWt5rQ9BSMQ2ActSMo
-	3U/VAOFs96hKO+pDbH3f/M/ZrV4+KUnjMhMCeSevIFXF6wr2xtZjCjve3eyAeGaud5hhUCP2+rg
-	00GYXjoCjD1p1QFGN48jlYZYpESVUga3x20STgBZe4OUT8yHBUDpM2ci24KruQzSNjAd25XcRyF
-	7cbnrWhng7qkQPoFp++6gxl1wLnwqzhQOHpb17arwstGH6wD3DHymCzG23KTCaaTBkEcsHtpH3i
-	ATmUycFhPO9Lk2Lib7k+yQEPeTl0mS+Q3KcE8csra1azXwFYRKJXrCYfq6xjeR9Rh2477qDiAXo
-	e4OLCEPIDBI0cd5BWfF17Z0b4Xop2li/TWaDWw8zLJfev4AIZThaRlNA4khZ4EP5FxBrL4q3vpf
-	zrGcqOubC6bq7fz2/w==
-X-Received: by 2002:a05:600c:4e94:b0:493:f783:c46a with SMTP id 5b1f17b1804b1-499b9198005mr220445305e9.6.1787576448844;
-        Mon, 24 Aug 2026 06:00:48 -0700 (PDT)
+        bh=/lGyfyePXPpNcntmQnLriUuLFv974ZDyD47uzIlKg8A=;
+        b=eXGCVv+zFvYIEIccWXXJ49fPVfjoHBgsUeU/iZ1Pl23c4lUxRo5xHy8CcAcqNaZn7v
+         iGQafFvGetLqeYAvs3AaXqSqLDKPdTHjOR33xv0AwHGe1EwWtJ2MKvyOcJteJ5/2Z4J3
+         0zIuMj0JjBiD+Ato2WdWL5HbjYWHMqPzQSuIK/OncjJllQ7n0M5Yr+U7QTX1THSfBiKd
+         iads1pQulC4rt258dfY9R/hlu2JnDAE1pReDDd1+pzIcM+6NORDJ89ceP9LN5EMKIlED
+         kWtFLfPhdw3kn7HCESPagHdIHuTXC4oT/M1zFuvNFPydpQ1Ri7O+hAyVxRCG0k+t4jQc
+         ONmw==
+X-Gm-Message-State: AFuF++kzZGV1RSdNoWNvgUMUWz+Og4ZMBUFJqWMScrLgoDVBpMuNS3oh
+	I5hdq1RlLzXBWayrC0sgefth8Vr101s1FAqaHKI2W0+xgB45Wn8SFjid8Tkr940j5jzHjgGpEod
+	0Iy7/nHk=
+X-Gm-Gg: AR+sD12jxgq+tUB+o47Gol8mUUR5Wq5WOOGEIAaXHKpBylWoJIMnJYcpN8PLW8pRWxz
+	ArncJWUdCsxlPNVbXeDt4QlJOVW5yLuztlBz3s+NoAD05c+d8+nQVdahnE8CcXMOgUomQjLEOfq
+	khI1cy3R1KbHIT5INKLta/jRbXLDXCKNzWI0YvARmXAUwl1Fq3sMSBmc8imuz2JrskKOkWRVWvF
+	pry4zLhE9It53C0riOo0ceRdsTf76syLQuYVubSTKzfdKxjZW0Ga0Yms8fGpL1YTwS4UU4rdzCw
+	0W7ZZ0e1V4VP0s27L6ArXXQMgcQkvZb6z4Ewwli7n6PlIWkv5Re9ln/ug5n71ZThvecK10rdChm
+	dVUn6NAZ9VN/lE6KiQPzRlerCBQx2OFIP8ldHshRZQnjwOh2m0+tGncebvT4mtkhmRetSQ25AYX
+	Se2cx4Oc3qkH0wFCJ7We/ngaqxnfBY4C3Ghd9LT/8az2aE4bNUpeSIxcOWCHkx/L7wpqAr7mOfy
+	bpmPainFincszULcbGXNmdhem4PK2ZAwDasnfjhUEp2I7T9PeAyec31dNPSa6ydii7tm04=
+X-Received: by 2002:a05:600c:4f81:b0:499:726b:7375 with SMTP id 5b1f17b1804b1-499b8466bf5mr280477195e9.14.1787576446599;
+        Mon, 24 Aug 2026 06:00:46 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499c35935f5sm61379865e9.2.2026.08.24.06.00.48
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499c35935f5sm61379865e9.2.2026.08.24.06.00.45
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 06:00:48 -0700 (PDT)
+        Mon, 24 Aug 2026 06:00:46 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 13/19] cpio: patch CVE-2026-66485
-Date: Mon, 24 Aug 2026 14:59:55 +0200
-Message-ID: <d3f3e250e83c2353b2cfa1ecd327262df76f69d2.1787576160.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 10/19] binutils: fix CVE-2026-18220
+Date: Mon, 24 Aug 2026 14:59:52 +0200
+Message-ID: <189e4711da216e970e4fb73cc7ba825e015371ba.1787576160.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1787576160.git.yoann.congal@smile.fr>
 References: <cover.1787576160.git.yoann.congal@smile.fr>
@@ -66,250 +65,111 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 13:00:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244106
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 13:00:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244104
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-Pick patch mentioned in NVD CVE description.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-18220
+https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=114e3aae2b7e34057c8909301eaf78c15687e8e5
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: c105fbf82e2f50b05dc680e0601bf0ea3198e58c)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=114e3aae2b7e34057c8909301eaf78c15687e8e5]
+
+Test results:
+  binutils-testsuite 2.46.1 (x86_64-oe-linux) - All tests PASSED
+
+  binutils: 327 passed, 5 untested, 9 unsupported
+  gas:      2091 passed, 4 unsupported
+  ld:       1899 passed, 7 expected failures, 20 untested, 109 unsupported
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- meta/recipes-extended/cpio/cpio_2.15.bb       |   1 +
- .../cpio/files/CVE-2026-66485.patch           | 210 ++++++++++++++++++
- 2 files changed, 211 insertions(+)
- create mode 100644 meta/recipes-extended/cpio/files/CVE-2026-66485.patch
+ .../binutils/binutils-2.46.inc                |  1 +
+ .../binutils/binutils/CVE-2026-18220.patch    | 65 +++++++++++++++++++
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch
 
-diff --git a/meta/recipes-extended/cpio/cpio_2.15.bb b/meta/recipes-extended/cpio/cpio_2.15.bb
-index fa011251e27..808a1222102 100644
---- a/meta/recipes-extended/cpio/cpio_2.15.bb
-+++ b/meta/recipes-extended/cpio/cpio_2.15.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=f27defe1e96c2e1ecd4e0c9be8967949"
- SRC_URI = "${GNU_MIRROR}/cpio/cpio-${PV}.tar.gz \
-            file://run-ptest \
-            file://test.sh \
-+           file://CVE-2026-66485.patch \
-            "
- 
- SRC_URI[sha256sum] = "efa50ef983137eefc0a02fdb51509d624b5e3295c980aa127ceee4183455499e"
-diff --git a/meta/recipes-extended/cpio/files/CVE-2026-66485.patch b/meta/recipes-extended/cpio/files/CVE-2026-66485.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.46.inc b/meta/recipes-devtools/binutils/binutils-2.46.inc
+index 177ae04ee3f..f8d926b22e2 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.46.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.46.inc
+@@ -41,4 +41,5 @@ SRC_URI = "\
+      file://CVE-2026-4647.patch \
+      file://CVE-2026-6846.patch \
+      file://CVE-2026-15003.patch \
++     file://CVE-2026-18220.patch \
+ "
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch b/meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch
 new file mode 100644
-index 00000000000..f9c0f48281f
+index 00000000000..e915fb223a1
 --- /dev/null
-+++ b/meta/recipes-extended/cpio/files/CVE-2026-66485.patch
-@@ -0,0 +1,210 @@
-+From 3cd514031371d8aeeaf2048aa10103e02831aaa9 Mon Sep 17 00:00:00 2001
-+From: Sergey Poznyakoff <gray@gnu.org>
-+Date: Fri, 1 May 2026 08:19:41 +0300
-+Subject: [PATCH] Minor fixes
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch
+@@ -0,0 +1,65 @@
++From 114e3aae2b7e34057c8909301eaf78c15687e8e5 Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Sun, 28 Jun 2026 09:11:46 +0930
++Subject: [PATCH] asan: buffer overflow in elf32_dlx_relocate26
 +
-+* src/makepath.c: Don't use alloca.
-+* src/userspec.c: Likewise.
++	* elf32-dlx.c (elf32_dlx_relocate26): Sanity check reloc offset.
++	(elf32_dlx_relocate16): Likewise.
++	(_bfd_dlx_elf_hi16_reloc): Likewise, and remove ineffective
++	existing check.
 +
-+CVE: CVE-2026-66485
-+Upstream-Status: Backport [https://git.savannah.gnu.org/cgit/cpio.git/commit/?id=3cd514031371d8aeeaf2048aa10103e02831aaa9]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++CVE: CVE-2026-18220
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=114e3aae2b7e34057c8909301eaf78c15687e8e5]
++
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ src/makepath.c | 31 ++++++++++++++---------
-+ src/userspec.c | 67 +++++++++++++++++++++++++-------------------------
-+ 2 files changed, 53 insertions(+), 45 deletions(-)
++ bfd/elf32-dlx.c | 15 ++++++++++++---
++ 1 file changed, 12 insertions(+), 3 deletions(-)
 +
-+diff --git a/src/makepath.c b/src/makepath.c
-+index 35dbc73..c6329bf 100644
-+--- a/src/makepath.c
-++++ b/src/makepath.c
-+@@ -47,24 +47,19 @@
-+    Return 0 if ARGPATH exists as a directory with the proper
-+    ownership and permissions when done, otherwise 1.  */
-+ 
-+-int
-+-make_path (char const *argpath,
-+-	   uid_t owner,
-+-	   gid_t group,
-+-	   const char *verbose_fmt_string)
-++static int
-++make_path0 (char *dirpath,
-++	    uid_t owner,
-++	    gid_t group,
-++	    const char *verbose_fmt_string)
-+ {
-+-  char *dirpath;		/* A copy we can scribble NULs on.  */
-+   struct stat stats;
-+-  int retval = 0;
-+   mode_t tmpmode;
-+   mode_t invert_permissions;
-+   int we_are_root = getuid () == 0;
-+-  dirpath = alloca (strlen (argpath) + 1);
-+-
-+-  strcpy (dirpath, argpath);
-+ 
-+   if (stat (dirpath, &stats))
-+-    {
-++  {
-+       tmpmode = MODE_RWX & ~ newdir_umask;
-+       invert_permissions = we_are_root ? 0 : MODE_WXUSR & ~ tmpmode;
-+ 
-+@@ -157,5 +152,19 @@ make_path (char const *argpath,
-+ 
++diff --git a/bfd/elf32-dlx.c b/bfd/elf32-dlx.c
++index 2dfeb4d7390..0f9a49695d7 100644
++--- a/bfd/elf32-dlx.c
+++++ b/bfd/elf32-dlx.c
++@@ -77,6 +77,10 @@ _bfd_dlx_elf_hi16_reloc (bfd *abfd,
++       return bfd_reloc_ok;
 +     }
 + 
-++  return 0;
-++}
+++  if (!bfd_reloc_offset_in_range (reloc_entry->howto, abfd,
+++				  input_section, reloc_entry->address))
+++    return bfd_reloc_outofrange;
 ++
-++int
-++make_path (char const *argpath,
-++	   uid_t owner,
-++	   gid_t group,
-++	   const char *verbose_fmt_string)
-++{
-++  char *dirpath = xstrdup (argpath);
-++  int retval = make_path0 (dirpath, owner, group, verbose_fmt_string);
-++  free (dirpath);
-+   return retval;
-+ }
-++
-++
-+diff --git a/src/userspec.c b/src/userspec.c
-+index 2a2b324..1a2bfa0 100644
-+--- a/src/userspec.c
-++++ b/src/userspec.c
-+@@ -19,7 +19,6 @@
-+ /* Written by David MacKenzie <djm@gnu.ai.mit.edu>.  */
-+ 
-+ #include <system.h>
-+-#include <alloca.h>
-+ #include <stdio.h>
-+ #include <ctype.h>
-+ #include <sys/types.h>
-+@@ -33,18 +32,6 @@
-+ # define endgrent()
-+ #endif
++   ret = bfd_reloc_ok;
 + 
-+-/* Perform the equivalent of the statement `dest = strdup (src);',
-+-   but obtaining storage via alloca instead of from the heap.  */
++   if (bfd_is_und_section (symbol->section)
++@@ -89,9 +93,6 @@ _bfd_dlx_elf_hi16_reloc (bfd *abfd,
++   relocation += reloc_entry->addend;
++   relocation += bfd_get_16 (abfd, (bfd_byte *)data + reloc_entry->address);
++ 
++-  if (reloc_entry->address > bfd_get_section_limit (abfd, input_section))
++-    return bfd_reloc_outofrange;
 +-
-+-#define V_STRDUP(dest, src)						\
-+-  do									\
-+-    {									\
-+-      int _len = strlen ((src));					\
-+-      (dest) = (char *) alloca (_len + 1);				\
-+-      strcpy (dest, src);						\
-+-    }									\
-+-  while (0)
-+-
-+ /* Return nonzero if STR represents an unsigned decimal integer,
-+    otherwise return 0. */
++   bfd_put_16 (abfd, (short)((relocation >> 16) & 0xFFFF),
++ 	      (bfd_byte *)data + reloc_entry->address);
 + 
-+@@ -57,6 +44,18 @@ isnumber_p (const char *str)
-+   return 1;
-+ }
-+ 
-++static void
-++store_string (char **bufptr, size_t *buflen, char *str)
-++{
-++  size_t len = strlen (str) + 1;
-++  if (len > *buflen)
-++    {
-++      *bufptr = xrealloc (*bufptr, len);
-++      *buflen = len;
-++    }
-++  strcpy (*bufptr, str);
-++}
-++
-+ /* Extract from NAME, which has the form "[user][:.][group]",
-+    a USERNAME, UID U, GROUPNAME, and GID G.
-+    Either user or group, or both, must be present.
-+@@ -70,23 +69,21 @@ isnumber_p (const char *str)
-+    Return NULL if successful, a static error message string if not.  */
-+ 
-+ const char *
-+-parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
-+-		 char **username_arg, char **groupname_arg)
-++parse_user_spec0 (char *spec, uid_t *uid, gid_t *gid,
-++		  char **username_arg, char **groupname_arg)
-+ {
-+   static const char *tired = "virtual memory exhausted";
-+   const char *error_msg;
-+-  char *spec;			/* A copy we can write on.  */
-+   struct passwd *pwd;
-+   struct group *grp;
-+   char *g, *u, *separator;
-+-  char *groupname;
-++  char *groupname = NULL;
-++  size_t grouplen = 0;
-+ 
-+   error_msg = NULL;
-+   *username_arg = *groupname_arg = NULL;
-+   groupname = NULL;
-+ 
-+-  V_STRDUP (spec, spec_arg);
-+-
-+   /* Find the separator if there is one.  */
-+   separator = strchr (spec, ':');
-+   if (separator == NULL)
-+@@ -143,11 +140,12 @@ parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
-+ 	      if (grp == NULL)
-+ 		{
-+ 		  char nbuf[UINTMAX_STRSIZE_BOUND];
-+-		  V_STRDUP (groupname, umaxtostr (pwd->pw_gid, nbuf));
-++		  store_string (&groupname, &grouplen,
-++				umaxtostr (pwd->pw_gid, nbuf));
-+ 		}
-+ 	      else
-+ 		{
-+-		  V_STRDUP (groupname, grp->gr_name);
-++		  store_string (&groupname, &grouplen, grp->gr_name);
-+ 		}
-+ 	      endgrent ();
-+ 	    }
-+@@ -178,7 +176,7 @@ parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
-+       endgrent ();		/* Save a file descriptor.  */
-+ 
-+       if (error_msg == NULL)
-+-	V_STRDUP (groupname, g);
-++	store_string (&groupname, &grouplen, g);
++@@ -143,6 +144,10 @@ elf32_dlx_relocate16 (bfd *abfd,
++       return bfd_reloc_undefined;
 +     }
 + 
-+   if (error_msg == NULL)
-+@@ -191,23 +189,24 @@ parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
-+ 	}
-+ 
-+       if (groupname != NULL && error_msg == NULL)
-+-	{
-+-	  *groupname_arg = strdup (groupname);
-+-	  if (*groupname_arg == NULL)
-+-	    {
-+-	      if (*username_arg != NULL)
-+-		{
-+-		  free (*username_arg);
-+-		  *username_arg = NULL;
-+-		}
-+-	      error_msg = tired;
-+-	    }
-+-	}
-++	*groupname_arg = groupname;
-+     }
-++  else
-++    free (groupname);
-+ 
-+   return error_msg;
-+ }
-+ 
-++const char *
-++parse_user_spec (const char *spec_arg, uid_t *uid, gid_t *gid,
-++		 char **username, char **groupname)
-++{
-++  char *spec = xstrdup (spec_arg);
-++  const char *retval = parse_user_spec0 (spec, uid, gid, username, groupname);
-++  free (spec);
-++  return retval;
-++}
+++  if (!bfd_reloc_offset_in_range (reloc_entry->howto, abfd,
+++				  input_section, reloc_entry->address))
+++    return bfd_reloc_outofrange;
 ++
-+ #ifdef TEST
++   insn  = bfd_get_32 (abfd, (bfd_byte *)data + reloc_entry->address);
++   allignment = 1 << (input_section->output_section->alignment_power - 1);
++   vallo = insn & 0x0000FFFF;
++@@ -206,6 +211,10 @@ elf32_dlx_relocate26 (bfd *abfd,
++       return bfd_reloc_undefined;
++     }
 + 
-+ #define NULL_CHECK(s) ((s) == NULL ? "(null)" : (s))
+++  if (!bfd_reloc_offset_in_range (reloc_entry->howto, abfd,
+++				  input_section, reloc_entry->address))
+++    return bfd_reloc_outofrange;
+++
++   insn  = bfd_get_32 (abfd, (bfd_byte *)data + reloc_entry->address);
++   allignment = 1 << (input_section->output_section->alignment_power - 1);
++   vallo = insn & 0x03FFFFFF;
 
