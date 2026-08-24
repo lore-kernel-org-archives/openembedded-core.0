@@ -2,170 +2,163 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89226C5DF9C
-	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 13:00:45 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16146.1787576439287269731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B78DBC5DF9C
+	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 13:00:55 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15952.1787576445612819860
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 06:00:39 -0700
+ Mon, 24 Aug 2026 06:00:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=SzK9nlUv;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-4998590d392so12368095e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 06:00:39 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Ft2HwgQl;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49954b88fffso27397565e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 06:00:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787576437; x=1788181237; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=233awZRUtSvzG4du3jjVFKud4Fe2RcfR+/gypsvv+CU=;
-        b=SzK9nlUvBN2hGFBn3AaglO0z17t/7Rwf++/RKvf38rVLcCEKa0n47d0s6gT/gXVrPX
-         oETITuwF6AX8JU9zKe9P0aPtMlh9ye+2wurdzaoxUMhAlkPeAo6MkAB+iVgSy/mPh+22
-         LyLZ9iPD6ekyQX8xaYPJPz1LYjDx2SM4sEY50=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787576437; x=1788181237;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=smile.fr; s=google; t=1787576444; x=1788181244; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=233awZRUtSvzG4du3jjVFKud4Fe2RcfR+/gypsvv+CU=;
-        b=R0CahnhaAM4zAwqZnGvCjEwhEG+ipb0AAlrhkJDbFxYH2HTO+IWbJmFBqHbGEn0qF4
-         p/SDrudBsmaUjVFi4TWDEyjWantsbGsCOHupRdSLZV/CBYntlDOT6ltOKN75GzzEQMaT
-         cPdXv7vXjmI5m08T7MRlZVm9y1HsRFpl/gM6/31TemiytOfHXMyjvzyeEMaj5q/8ebvZ
-         TLyhh3k45i2hqBmIww5S/36v7t+s4Log7rmOmQXN79JsrJgeT9LZDUWIRLtL4m3cqorw
-         GPWgiyzT0ABRh2ei9gl/6AbNQlnXD8ex9Q+H0lRFm0vPekyleAc7BouLMnn10dXdsGh7
-         Ring==
-X-Gm-Message-State: AFuF++m5ZsMrU2Ml4YF6kJZUTHMR/FVLZTgdQPiud5iKALsCtT3ErrTh
-	e5EWEyEOsU5Vuyx8DKwlK4mGLdy70ZV8g+kE0DYJ42TDuhtjRQzGqpe4GQJsZdQtWDpWAltcuxi
-	PTTjG/Ok=
-X-Gm-Gg: AR+sD12sPr6CiJu4STuiiqPG11FU0mIwajlAZVqE9ZQAeLXwGlJjZYS3ah/ES3+A5T3
-	zjyQUdRZhSN5r5hzfQN0PJEex7kQaZITqlzil0II4VPM3zGvAkIGS/DcK0q2/gnFcCXFev6G4Yo
-	NHpXN4MX/HnjNJHSuCiOYBNFJwHGOq0U+x2yggH4kj+3+afrw/XqoNx2PFLl8wKPfyrPa2CaXtQ
-	r3eLsdVBI+u5HldRb3lch2T7lw5mo9X7igTmrQZCg5UDoVifLHaQb4uqe2XvwpEfu6lNwbMP215
-	WGNd5pYtxQqDt0AtcgERXvXUuCJA6Cd4704ndJi46cknCYoENzkoMLgEHub86OC25nMMEHU4DsC
-	gptvrUQhhTa+CPwFiJHT19AW7nSF7wF7TQ7TMYfm5ndwe6J8WILlZxl18hCht27nkH2gwmq002R
-	I5sJ3/6bW0N7EFH17y3IyU8ZbxE5i3V37MydkkC6gCOfs1fIk1LX6vleNKY+MnBjB+tlrDWvy7V
-	1OZ8d8OxzPciWxcYmAe6UHU/MHwBgFPhDoDzKY4GSBuoftp+DzJsWJN782alg3YDCAokLSe/ZUw
-	yqWhEw==
-X-Received: by 2002:a05:600c:8b16:b0:495:52a5:8829 with SMTP id 5b1f17b1804b1-499b8343dd3mr284729855e9.11.1787576437243;
-        Mon, 24 Aug 2026 06:00:37 -0700 (PDT)
+        bh=Qb3z6o1JageTw2oNk+bklxaTKI6WQ2zPyas4dnkrCpI=;
+        b=Ft2HwgQluVthqX8ncFtJ8E4DAsyRORBQ1ILOVyPl/hrSsYJ07PiOajRoDIkQAc3qSa
+         pR3Cbk4WfYUKBjwOg4tdpJE23XcVp59jO+atZXGf3cz0Cdt86n55yxVQE6j91fBCh7rX
+         tIh3yKfwpNY/ErMx47gmkR3drkBbIdID6xf+M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787576444; x=1788181244;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Qb3z6o1JageTw2oNk+bklxaTKI6WQ2zPyas4dnkrCpI=;
+        b=FfoNmZqkz1G1T1xjMzMQLmMHkAcrvv0QNtegFR+6zV1MNq0urgMenv841Bs8jRlnLr
+         KpWkzyj7g9FBCpR+s3a0T+arhaxZDPCraT9M4d1ieqleJKqo9dusYvS/AaC3WxgqCaOJ
+         OcLmILHxel1DjGj10e0M/fkaUE/RTrzAh1nA/Di3zzQiCPkjKv8e6fseuku3+mTWhex8
+         zRJMxq6hkeoBLlNfWgD8pTAt3VYxo06EAyHHsrDrokzKeRpsbsb2pj3RKPB2SJLTqEat
+         VFG9AtoC2OSZ1X5KGictxamPH1Fo2dDbYsdQqpVQ3JI+I2gZhlWrhhWTPse7BoIfmg7q
+         fJag==
+X-Gm-Message-State: AFuF++n32LTXFlubuPcnAKyZBqYfUnEqdewuLfo97TdYoqChegKhA0PJ
+	tO/0wtJE9akeMd9oJuc8ydRXAEHqR2PDD3nyIG0sNGZbt3EW5UttdijMg5CjLUbdUxW7SJVHWej
+	ug1td77A=
+X-Gm-Gg: AR+sD13Sb0YcpCUkh9Yd+bf+5JFJSinVkQales/e2pDvSJ06rz1YbIf4VICPdR7vQOK
+	fAfE9t81BrMS5X9XteONdTzkQPXSzJH/MrMD2Z1CT2XVwoAAteveauQZKE2u9UCSWiSxV4nF6T9
+	RnX/+jtsrL00GC8JhjzUk9HCVeod7r3UjL1EAd3ojIG8dxEDoRMLQpETbbNeMvbOY0xVlCr9MhA
+	mc1ytqBACi6blkPP/mzBV9TNYuMdmnim4+CFk3h4zhjkCDa/QHsk5V6I9kXpiS0d33AI03b3R2Z
+	1MpQiotpnZZnwHm4UPoFVW/0qRNsaEVx6QUzwSCRaEarpsEACNSzwSbVCB/509qH5BOCFgojrCH
+	VaiJSpXe5CU/2Fnk/nVMfqI24h5hLBMtv7+PS7ezQUWGeWiBMaKQV7x8/GGYRGnJRkaVorCndnR
+	Gk1xPQVlj/+GHIA7z9d8Mhb2M02Ar7jbwoQx5CLGPVlLpNa3kGddStQvvAJ84XL+O0Wun1mOcmW
+	vH/NEPellXcISBCt7yKKdCKi8L4xQpYjCgIujb2RDXl91M/Ze0638kpTFs1OB7TbqulRy5eYX64
+	YV5Zqg==
+X-Received: by 2002:a05:600c:628d:b0:499:4892:d022 with SMTP id 5b1f17b1804b1-499c19bd51emr191879515e9.8.1787576443740;
+        Mon, 24 Aug 2026 06:00:43 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499c35935f5sm61379865e9.2.2026.08.24.06.00.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499c35935f5sm61379865e9.2.2026.08.24.06.00.42
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 24 Aug 2026 06:00:36 -0700 (PDT)
+        Mon, 24 Aug 2026 06:00:42 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 00/19] Patch review
-Date: Mon, 24 Aug 2026 14:59:42 +0200
-Message-ID: <cover.1787576160.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 06/19] libssh2: fix CVE-2026-66035
+Date: Mon, 24 Aug 2026 14:59:48 +0200
+Message-ID: <5f5c4afa331cf0f4df845092071f712e9ba50fc7.1787576160.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1787576160.git.yoann.congal@smile.fr>
+References: <cover.1787576160.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 13:00:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244099
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 13:00:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244102
 
-Hello,
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-(I'm back from holidays. This is a series prepared by Fabien. Thanks to
-him for handling things while I was away :) )
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-66035
+https://github.com/libssh2/libssh2/commit/42e33d81577ed4b95d4b4f6f845e5ee8efe5eeb4
 
-Please review this set of changes for wrynose and have comments back by
-end of day Wednesday, August 26.
+libssh2 ptest results (qemux86-64):
+  before: PASSED: 1 FAILED: 0 SKIPPED: 0
+  after:  PASSED: 1 FAILED: 0 SKIPPED: 0
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4542
-
-The following changes since commit ef022bf82d79015802309d14c28b13373ebe53f5:
-
-  build-appliance-image: Update to wrynose head revisions (2026-08-18 08:40:33 +0100)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-nut
-
-for you to fetch changes up to f7397af248e1e338929d70a910b0fbc2341528ec:
-
-  mirrors: Disable YP mirrors on autobuilder (2026-08-21 18:06:46 +0200)
-
-----------------------------------------------------------------
-
-Adarsh Jagadish Kamini (1):
-  libssh2: fix CVE-2026-58050
-
-Deepak Rathore (2):
-  curl: fix CVE-2026-4873
-  nghttp2: set status for CVE-2026-58055
-
-Jaipaul Cheernam (6):
-  libssh2: fix CVE-2026-66032
-  libssh2: fix CVE-2026-66033
-  libssh2: fix CVE-2026-66034
-  libssh2: fix CVE-2026-66035
-  binutils: Patch for CVE-2026-15003
-  binutils: fix CVE-2026-18220
-
-Michal Sieron (1):
-  rpcbind: Drop dependency on quota
-
-Peter Marko (6):
-  busybox: patch CVE-2026-38754
-  libsndfile1: patch CVE-2026-37555
-  bison: patch CVE-2026-56389
-  cpio: patch CVE-2026-66485
-  cpio: patch CVE-2026-66484
-  cpio: patch CVE-2026-66486
-
-Richard Purdie (3):
-  rpcbind: upgrade 1.2.8 -> 1.2.9
-  oeqa/maturin: Update dependency version
-  mirrors: Disable YP mirrors on autobuilder
-
- meta/classes-global/mirrors.bbclass           |  19 +-
- .../yocto-autobuilder/autobuilder.conf        |   1 +
- .../files/maturin/guessing-game/Cargo.toml    |   2 +-
- .../busybox/busybox/CVE-2026-38754.patch      | 155 ++++++
- meta/recipes-core/busybox/busybox_1.37.0.bb   |   1 +
- .../binutils/binutils-2.46.inc                |   2 +
- .../binutils/binutils/CVE-2026-15003.patch    | 402 ++++++++++++++
- .../binutils/binutils/CVE-2026-18220.patch    |  65 +++
- .../bison/bison/CVE-2026-56389.patch          |  56 ++
- meta/recipes-devtools/bison/bison_3.8.2.bb    |   1 +
- meta/recipes-extended/cpio/cpio_2.15.bb       |   3 +
- .../cpio/files/CVE-2026-66484.patch           |  28 +
- .../cpio/files/CVE-2026-66485.patch           | 210 ++++++++
- .../cpio/files/CVE-2026-66486.patch           | 497 ++++++++++++++++++
- .../0001-systemd-use-EnvironmentFile.patch    |   7 +-
- ...pcbind_add_option_to_fix_port_number.patch |  25 +-
- .../{rpcbind_1.2.8.bb => rpcbind_1.2.9.bb}    |   4 +-
- .../libsndfile1/CVE-2026-37555.patch          |  44 ++
- .../libsndfile/libsndfile1_1.2.2.bb           |   1 +
- .../curl/curl/CVE-2026-4873.patch             |  52 ++
- meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
- .../libssh2/libssh2/CVE-2026-58050.patch      |  45 ++
- .../libssh2/libssh2/CVE-2026-66032.patch      |  36 ++
- .../libssh2/libssh2/CVE-2026-66033.patch      |  45 ++
- .../libssh2/libssh2/CVE-2026-66034.patch      |  40 ++
- .../libssh2/libssh2/CVE-2026-66035.patch      |  56 ++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |   5 +
- .../recipes-support/nghttp2/nghttp2_1.68.1.bb |   2 +
- 28 files changed, 1776 insertions(+), 29 deletions(-)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2026-38754.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch
- create mode 100644 meta/recipes-devtools/bison/bison/CVE-2026-56389.patch
- create mode 100644 meta/recipes-extended/cpio/files/CVE-2026-66484.patch
- create mode 100644 meta/recipes-extended/cpio/files/CVE-2026-66485.patch
- create mode 100644 meta/recipes-extended/cpio/files/CVE-2026-66486.patch
- rename meta/recipes-extended/rpcbind/{rpcbind_1.2.8.bb => rpcbind_1.2.9.bb} (95%)
- create mode 100644 meta/recipes-multimedia/libsndfile/libsndfile1/CVE-2026-37555.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-4873.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-58050.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66032.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66033.patch
- create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66034.patch
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
+---
+ .../libssh2/libssh2/CVE-2026-66035.patch      | 56 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
+ 2 files changed, 57 insertions(+)
  create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch
 
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch
+new file mode 100644
+index 00000000000..7c15f92fb6d
+--- /dev/null
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-66035.patch
+@@ -0,0 +1,56 @@
++From 6671019836476649792eea12868a370133be1abe Mon Sep 17 00:00:00 2001
++From: Viktor Szakats <commit@vsz.me>
++Date: Fri, 3 Jul 2026 18:22:55 +0200
++Subject: [PATCH] transport: fix potential heap overflow on ETM decrypt
++
++Reported-by: Vladimir Eli Tokarev
++Fixes GHSA-6c79-444r-wx26
++
++Closes #2198
++
++Backport adaptations:
++- The upstream fix uses SSH2_SAFEFREE() to safely release allocated
++  memory and reset the pointer. Since SSH2_SAFEFREE() is not available
++  in libssh2 1.11.1, replace its usage with the equivalent NULL check,
++  LIBSSH2_FREE(), and pointer reset sequence.
++- The upstream fix renames decrypt() to transport_decrypt(). Since this
++  rename is not present in libssh2 1.11.1, retain the original
++  decrypt() function name.
++
++CVE: CVE-2026-66035
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/42e33d81577ed4b95d4b4f6f845e5ee8efe5eeb4]
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ src/transport.c | 12 +++++++++++-
++ 1 file changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/src/transport.c b/src/transport.c
++index d147505b..9f386e75 100644
++--- a/src/transport.c
+++++ b/src/transport.c
++@@ -242,6 +242,17 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /* 1 or 0 */ )
++                 unsigned char *decrypt_buffer;
++                 int blocksize = session->remote.crypt->blocksize;
++ 
+++                if(p->total_num < mac_len + 4 + (size_t)blocksize) {
+++                    if(p->payload) {
+++                        LIBSSH2_FREE(session, p->payload);
+++                        p->payload = NULL;
+++                    }
+++                    return LIBSSH2_ERROR_DECRYPT;
+++                }
+++                decrypt_size = (ssize_t)(p->total_num - mac_len - 4);
+++
+++                first_block[0] = 0;
+++
++                 rc = decrypt(session, p->payload + 4,
++                              first_block, blocksize, FIRST_BLOCK);
++                 if(rc) {
++@@ -249,7 +260,6 @@ fullpacket(LIBSSH2_SESSION * session, int encrypted /* 1 or 0 */ )
++                 }
++ 
++                 /* we need buffer for decrypt */
++-                decrypt_size = p->total_num - mac_len - 4;
++                 decrypt_buffer = LIBSSH2_ALLOC(session, decrypt_size);
++                 if(!decrypt_buffer) {
++                     return LIBSSH2_ERROR_ALLOC;
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+index 7d3063d9304..faa34ba3eb6 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -19,6 +19,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://CVE-2026-66032.patch \
+            file://CVE-2026-66033.patch \
+            file://CVE-2026-66034.patch \
++           file://CVE-2026-66035.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
 
