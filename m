@@ -1,124 +1,101 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 359FFC5DF94
-	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 10:03:12 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13311.1787565783477250816
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 25075C5DF94
+	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 10:17:32 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13592.1787566648600181264
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 03:03:04 -0700
+ Mon, 24 Aug 2026 03:17:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=aY+zUrI0;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 24AD11A17F1;
-	Mon, 24 Aug 2026 10:03:01 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E25395FFC1;
-	Mon, 24 Aug 2026 10:03:00 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 53DCE11C78C66;
-	Mon, 24 Aug 2026 12:02:58 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1787565780; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=MVQyVy3HZqtarm6A5mYY+oCeIDww0DlKFNqWrw70n0U=;
-	b=aY+zUrI0JqOW8hutKIz1FynU91I7K+/Pu/aiFAfBEA8O4BQ1o+8YlVyQk39/nmp2MMQoaN
-	8iV2eLeb+It8nd1SAKcZTXSbHeuR0KDmdhEsCTLxaYvou87v4TU52TYpYRIDgTRR4s3sZK
-	Jt1ElOWx10wCZuybJozRTwIVmeuoTj7jCgTBTfPtygoGHq5Z9QyoaRGg3VWDljbwG8SQth
-	ZdZNmKAh6IEAPozvK8fO83kwqsQTdk743CjTir1VPjIXl7mJzEyRWdnqRmRbh+zt8h1Lbn
-	IUaCGmGhqPsuRZQgVRwR+VPVzV+U2ELkvov+Qm5xOdvhR8Vrs3tPDVZaRDaPuA==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 24 Aug 2026 12:02:57 +0200
-Message-Id: <DKX36LKP5G7W.3D3MAFXU05Z5X@bootlin.com>
-To: =?utf-8?q?J=C3=B6rg_Sommer?= <joerg.sommer@navimatix.de>
-Subject: Re: [PATCH v2] bitbake.conf: Extend distro feature usrmerge to
- merge bin+sbin
-Cc: <openembedded-core@lists.openembedded.org>,
- <richard.purdie@linuxfoundation.org>, <ross.burton@arm.com>, <rs@ti.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <ada29b3926f0497ef35618685c298cad840f45e0.1784883539.git.joerg.sommer@navimatix.de> <aolV39x9UzHwcTrZ@navimatix.de> <DKVGRWKPI3K2.1PBICS35XGJYK@bootlin.com> <aoms3iLkFaLTp8E7@navimatix.de> <DKWYNZVX7C32.11QQ5O5ZO8J68@bootlin.com> <aowSZF6aysT2amaR@navimatix.de>
-In-Reply-To: <aowSZF6aysT2amaR@navimatix.de>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Bqk4i5gH;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=z96rvc1y;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a0334669aa-ba559b3c-6e93-4f77-9470-4c40c6a1e337-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1787566647; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=sPskbkyPgXdFWJiEM7o4L5ZOBMG0uvRebH1kvKvNEOI=;
+	b=Bqk4i5gHUa4F6JGtZb+H7YYsBpBfjQA8PkSpdoKkvYpCkMGRt+5IHN4jtk1bYWmA
+	3O9QSnjCKbf1nnw3kD6KfaQIIodZEWAdgH4SUqrp3l1r78Wz41t/yw1WlwVzy8Pnl1B
+	G5EY6llSAYwYzlaiPzoLRsuwPN1oSzNFRNC0zUUs=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787566647;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=sPskbkyPgXdFWJiEM7o4L5ZOBMG0uvRebH1kvKvNEOI=;
+	b=z96rvc1y2oUpR8nb1TiFC5XmaSJGcKsBXa0d15kpWx2xs+woRaXKBzroStfephsS
+	mHtmP18RLSPlbL+4fy2MiMfLZoSNqJoubIphdG+RYMRsVgdIw1MGhMZ59aoTXUXVym9
+	RmUJ1imIDKGAmDt47LzcbT8vDa2UIuEfqPOA/PIk=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/3] ccache: upgrade 4.13.6 -> 4.14
+In-Reply-To: <20260824095933.2906404-1-richard.purdie@linuxfoundation.org>
+References: <20260824095933.2906404-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a0334669aa-ba559b3c-6e93-4f77-9470-4c40c6a1e337-000000@us-west-2.amazonses.com>
+Date: Mon, 24 Aug 2026 10:17:27 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.24-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 10:03:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244082
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 10:17:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244083
 
-On Mon Aug 24, 2026 at 11:53 AM CEST, J=C3=B6rg Sommer wrote:
-> Mathieu Dubois-Briand schrieb am Mo 24. Aug, 08:30 (+0200):
->> On Sat Aug 22, 2026 at 4:09 PM CEST, J=C3=B6rg Sommer wrote:
->> > Mathieu Dubois-Briand schrieb am Sa 22. Aug, 14:16 (+0200):
->> >> On Sat Aug 22, 2026 at 9:56 AM CEST, J=C3=B6rg Sommer wrote:
->> >> > J=C3=B6rg Sommer schrieb am Fr 24. Jul, 11:00 (+0200):
->> >> >> From: Randolph Sapp <rs@ti.com>
->> >> >>=20
->> >> >> The split of bin and sbin became more artificial over time, and it=
- is no
->> >> >> longer clear why programmes goes into the one or the other directo=
-ry; e.g.
->> >> >> forever normal users have used sendmail in /usr/sbin, and fdisk an=
-d mkfs
->> >> >> learned to operate on files to create images long ago.
->> >> >
->> >> > Gentle ping. What's the state of this?
->> >> >
->> >>=20
->> >> Hi J=C3=B6rg,
->> >>=20
->> >> Previous builds showed some errors. Should it have evolve since that?
->> >
->> > Yes, I think so. The bootchart2 errors were addressed by 2bf18f9908, a=
-nd the
->> > tcf-agent by 443f8c62ad.
->>=20
->> Hi J=C3=B6rg,
->>=20
->> It looks like this is still failing, at least with alt distro:
->>=20
->> ERROR: systemd-1_261.2-r0 do_package: QA Issue: systemd: Files/directori=
-es were installed but not shipped in any package:
->>   /usr/sbin
->>   /usr/sbin/poweroff
->>   /usr/sbin/mount.ddi
->>   /usr/sbin/init
->>   /usr/sbin/resolvconf
->>   /usr/sbin/mount.storage
->>   /usr/sbin/halt
->>   /usr/sbin/mount.mstack
->>   /usr/sbin/reboot
->>   /usr/sbin/shutdown
->> Please set FILES such that these items are packaged. Alternatively if th=
-ey are unneeded, avoid installing them or delete them within do_install.
->> systemd: 10 installed and not shipped files. [installed-vs-shipped]
->>=20
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/4407
->> https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/4430
->>=20
->> Can you have a look at the issue?
->
-> Thank you Mathieu for your testing. I built systemd 261.2 with poky-altcf=
-g
-> and had no errors. Can I find your branch mathieu/master-next somewhere?
->
->
-> Regards, J=C3=B6rg
+--NextPart
+Content-Type: text/plain
 
-You can find a tag in there:
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-https://git.yoctoproject.org/poky-ci-archive/tag/?h=3Doecore/autobuilder.yo=
-ctoproject.org/valkyrie/a-full-4555
+---
+Testing patch /home/patchtest/share/mboxes/1-3-ccache-upgrade-4.13.6---4.14.patch
 
-Thanks,
-Mathieu
+FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
