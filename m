@@ -2,205 +2,226 @@ Return-Path: <joerg.sommer@navimatix.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1A97C5DF94
-	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 12:44:04 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.138])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15631.1787575436688759047
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0B1FC5DF94
+	for <webhook@archiver.kernel.org>; Mon, 24 Aug 2026 12:48:34 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.112])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15703.1787575711088794152
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 05:43:57 -0700
+ Mon, 24 Aug 2026 05:48:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@navimatix.de header.s=selector1 header.b=CTTWnfxp;
- spf=pass (domain: navimatix.de, ip: 52.101.65.138, mailfrom: joerg.sommer@navimatix.de)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@navimatix.de header.s=selector1 header.b=x0dsresl;
+ spf=pass (domain: navimatix.de, ip: 52.101.69.112, mailfrom: joerg.sommer@navimatix.de)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=VQqPoClGQXWic8d62Yx7YQL2OOIvNB9vHK4qnz60ESkagRFm/udvFQEIiN3UhMNDbjNi7ul9GMYN4aSR9WN+QI6xgyBfp3M1FRNj0KPmTkWIfXJqAk1j3vF5+TskJlKMtXY3p1CNc1szOYcm68Xf6a8YMTlZBnyr33Vk8cPGIjSAr2m9cFRyD9G32kPPUc2AYDTc4x6xuyzDejvii0bLOWRWrN6GLX57q1HDSdIV6+IX5XTkGOFf/Af7gxvi+V49y/NH/rAQdPF0Z1/AVx7QVXmF03xO6r/UHS7BOBOvfZuwZULHrNqQXDyY0A9a0+NEpHizyE6aC+GZbs4kQDkD3Q==
+ b=vc/yYiwe8/pznO8N08Vb02mhifAFzFKcYH+bJoRmDQNqcCsdy6YLK+mPLkjNFXVUXz4unwYpc97sZJlyQv+M0jt3Z76l0mTtHeYJNLFjWqJi4mD8TnPyUieNvTDRRGhhcijtOB47wgoGUopaSOvPdMpPd6W9Rr0jdN4ABsCB0PgEP7GZ5XB/BcQEvek42qEOWl34+g8BspYHypCZHIhrLH5EBg868HitqOY+9gPnHmgJCmAPlUqZl2Hn9lh8c+t9p2dQ3F+WiQyL+VDvzJlkT7AkrH2H17OpyKkoMwZjDFJK/V+8fq4oH9KLC10BH/Q+z/4SMCpyOEwD80azoVRLwA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=RFYHHxpZ3lbCSx59VNRxlFTOCmxvyVucYWMdXtASyR0=;
- b=CCB7054cQfYXHCQKvt7ZFOjN/ElngKCg65hLYMZEQ8kCPOFob2o7w0F0uo0lsXo67goLC2QdQC/Ey9bBRkMHUqJ+sDZyl1k1taqnhpkliJ4/hJoJR0Wnu3f6G7svbeqcpjIc1hRXeOm6w2YlbG/fthSvGKGWfjNjeFHR+o8/yLD4sNVTF+9mzaCD3v9rrPDM89/QNOOJwAJD3SX+1MEVMvBqUr+O3b2Ry68Yy2JJ4zxErEPJjVZUQuDLewB3uLVXD01wsJs2KnRWNjRnXVsYii4+SaLtoLAN3wXUK+oLN3wCa8UWuLeaknJSMqGi0DGaSS76wu4j+7r2C82OBZYCwA==
+ bh=ebxZjeKG++InFPYMBnUrLB6mFKpn5fR3E0ALmGbFnns=;
+ b=PtuAbhkRv390th55DsULP8ey+hnoZZTxXyLnv2Z2UMM5iIFKMzevob1xtNSTd0xmMg7AxIJlyyn834dBZ7qy5uFecHr8UmRi/HQQR3UD5DHVrXItCASomLxy3eehXrc6Y4HWJ6eGglAUvfWLudqej3tzxwTEUdY9uynrUUdArwuJGB178FULZrt0QHQgexFo95Y5Ehxxxwn9oRZVfovySaj+qNl6kYZUMhpcbuqvPZsv7bO9duc9t5SL7Le+/ulQ7s5qWQt3tC+SWgbBIPUhms+S8umJt3+o2GKlc0cPZsNIMqtHcJWhThbSHig8uiyT5B9LptEu23VRzJ5GWJ8SvA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=navimatix.de; dmarc=pass action=none header.from=navimatix.de;
  dkim=pass header.d=navimatix.de; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=navimatix.de;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=RFYHHxpZ3lbCSx59VNRxlFTOCmxvyVucYWMdXtASyR0=;
- b=CTTWnfxpup82eNetaKAxYWlnCQ8guPtKm9i/6zuBK2nFyTN/3VdOLAR/oYt60InjucPLMBRQYjPKWehPBzA2aKEdRlM7zl0/qKPG2S6PyUEhDRRWVZ5YJix9SN3gT0ylYQyed61IG+AOId/ySced1l9OLo2Z/FEo9ItT+fhB6bY=
+ bh=ebxZjeKG++InFPYMBnUrLB6mFKpn5fR3E0ALmGbFnns=;
+ b=x0dsreslkXMy5bGnWDFnSfa3OsEuue9TawFFoCUqJxMnJtCDzKX3MqY/rVtrg6eSe+RM09ENnwfejpsALKv+85dGRfAq7A10tS3fqv59KvP08b3CNHmCGuMexDx6XzqVYzz01Ti5WqHBHz+xzeKqM4FNV757eXctleKUaLw6jtg=
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=navimatix.de;
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
- (2603:10a6:150:2cb::8) by AS8PR01MB7541.eurprd01.prod.exchangelabs.com
- (2603:10a6:20b:2a4::16) with Microsoft SMTP Server (version=TLS1_2,
+ (2603:10a6:150:2cb::8) by AM8PR01MB7569.eurprd01.prod.exchangelabs.com
+ (2603:10a6:20b:241::18) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Mon, 24 Aug
- 2026 12:43:52 +0000
+ 2026 12:48:25 +0000
 Received: from GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  ([fe80::d5c3:2dea:3d98:25fd]) by
  GV2PR01MB11835.eurprd01.prod.exchangelabs.com ([fe80::d5c3:2dea:3d98:25fd%6])
- with mapi id 15.21.0339.012; Mon, 24 Aug 2026 12:43:51 +0000
-Date: Mon, 24 Aug 2026 14:43:49 +0200
+ with mapi id 15.21.0339.012; Mon, 24 Aug 2026 12:48:25 +0000
+Date: Mon, 24 Aug 2026 14:48:23 +0200
 From: =?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, 
-	richard.purdie@linuxfoundation.org, ross.burton@arm.com, rs@ti.com
-Subject: Re: [PATCH v2] bitbake.conf: Extend distro feature usrmerge to merge
+To: openembedded-core@lists.openembedded.org, 
+	mathieu.dubois-briand@bootlin.com, rs@ti.com, joerg.sommer@navimatix.de
+CC: mathieu.dubois-briand@bootlin.com, Randolph Sapp <rs@ti.com>, 
+	=?utf-8?B?SsO2cmc=?= Sommer <joerg.sommer@navimatix.de>
+Subject: [PATCH v3] bitbake.conf: Extend distro feature usrmerge to merge
  bin+sbin
-Message-ID: <aow7fs_7Zb0KTAPf@navimatix.de>
+Message-ID: <5fff22004037096d27276023cf29c473c8c8ce85.1787575546.git.joerg.sommer@navimatix.de>
+X-Mailer: git-send-email 2.53.0
 References: <ada29b3926f0497ef35618685c298cad840f45e0.1784883539.git.joerg.sommer@navimatix.de>
- <aolV39x9UzHwcTrZ@navimatix.de>
- <DKVGRWKPI3K2.1PBICS35XGJYK@bootlin.com>
- <aoms3iLkFaLTp8E7@navimatix.de>
- <DKWYNZVX7C32.11QQ5O5ZO8J68@bootlin.com>
- <aowSZF6aysT2amaR@navimatix.de>
- <DKX36LKP5G7W.3D3MAFXU05Z5X@bootlin.com>
-Content-Type: multipart/signed; micalg=sha256;
-	protocol="application/pkcs7-signature"; boundary="fcksp2h3mlsf6z5m"
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <DKX36LKP5G7W.3D3MAFXU05Z5X@bootlin.com>
-X-ClientProxiedBy: BE1P281CA0378.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:b10:82::11) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <ada29b3926f0497ef35618685c298cad840f45e0.1784883539.git.joerg.sommer@navimatix.de>
+X-ClientProxiedBy: BE1P281CA0173.DEUP281.PROD.OUTLOOK.COM
+ (2603:10a6:b10:66::18) To GV2PR01MB11835.eurprd01.prod.exchangelabs.com
  (2603:10a6:150:2cb::8)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|AS8PR01MB7541:EE_
-X-MS-Office365-Filtering-Correlation-Id: 60d4124b-da25-43e5-6790-08df01dd59e5
+X-MS-TrafficTypeDiagnostic: GV2PR01MB11835:EE_|AM8PR01MB7569:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4df0abff-9f39-4f09-5915-08df01ddfca5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|18002099003|22082099003|56012099006|4143699003|10067099003;
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|10067099003|56012099006|3023799007|18002099003|22082099003;
 X-Microsoft-Antispam-Message-Info: 
-	8DGRhfjgHIMiiyTt/f8+G/Ok37luJMJLBNWLoBk19HGmHp64wmCQ5sTXsbP7JpIASWmzwg4H595bobyS2oabjOLSMuwExiwCcCIdLFNwilfiFeokpM2if4we5Y95keD4bUgg5xKWbquQuI3C2NDtchHQCyuaam6hLu6tFdNmINUnEVSAoQABksTR2vyO+JBxjcd985OZedrx7nnbuvN3a94vAzpp7OED0vKiL/95qj4MtFOOst9l+jbPNM/G3ls9eDTLQkBkYj+gaF11IXBC/2nlBIlbQ8znJehNge4mmO2FkOomBfGQCW0hqi/bubHReiEou+dHBrJr1+SpTp8NvyYyO27VSvhj40ixGH2ffwUrBXjQUtqhTmjYyHFhEtmGUfATKGxkgFN8sPne5NLepPNvKYeJynIUN/fQfiKejIkpZ6NoatyRuO/GF3IFlDB1YU//E8aS3L63+WC2QPnY5QCFO5nVX+ggUPHYqlz6Qg2IpDaN+t4ZwIsOqUZbSudfShyZSfkbnX0ohFZS9mKcwhYPBChvKM/keoBfYT+Fr9NjJNTDzRqBFG5OZyFvAFEHNVTmvEQKdsP2CIM4MtNUstegcmpbPT9uiFUgG7AmqlQ=
+	iLNs7Tqm+65AIoGQcCJq8xHt4X/zF8JFIGOG9xirh0RQ2YTWC3b3VIlKHwn8n1/lgAoKD8eqhvz0w3rTD1Fc9vu/KZ40VpH3w3QDaDaXDOFXZFUAkngTuFoDeUgO3wqmYHGRhjxeqVdhkBoJzyD3B7y1F2YOrsn+29dv3hXt64XizPAQ3KkNeIXXUm1CT2oZJtmo3DgHcsQtAT9WAuzMLZQgxYSXiKR/I1Pgw8K682TkwQ5pdDKYvq223g8My3dc5YQW1TFXktHO3QbvCRgPowbst5yjKRxghSwkTkce6ssX3s+Ia5CL8HvRtSnlV+iBNgoeJnc63kc9+Xi0b8Xh8em2nCAV6tojtvVgzGJmLcDlaWtDYgXfJNVLyPkHfnj5mX2yqQyHYiUby3cmY0sPsgArBfmdl3zyP7qAPspFfT5Ee2bF0WF4tyWyLg/UqCbscxLUzEh9rWBk6hChAgYwv1Sv4mIQRCazimmsazxPd1cfCqKUxDtL4qeQLnX7k4VfJRcRXczfI7AjgXYyCRack9P+PptMXtLluU/xOC5pMktHz8tmgUA+3zOSyPri47kSj/v7gFAmGOQqemPhfz4/uwvq9mXbVRWnFimFA5/Pb20=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(18002099003)(22082099003)(56012099006)(4143699003)(10067099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR01MB11835.eurprd01.prod.exchangelabs.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(10067099003)(56012099006)(3023799007)(18002099003)(22082099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?iso-8859-1?Q?KnDIohz2nndmKlaD78II/zXlqmz2yf9QeGMz/qqQg9uCSiJJp6edi/C+4/?=
- =?iso-8859-1?Q?M0B2YKL9FJ5VkvZRXe20oehGx9YCY5Ami9HDsYoH9BIbv/5MvowjL2P+jz?=
- =?iso-8859-1?Q?XPcw6knE/xt5H7/t3DoeNXbhvW1akfT4EzlxlMR1Mht5Oqw7d8liblxpCL?=
- =?iso-8859-1?Q?6M1RAF3Y5mPyCEjtinoV+doBgbDIS99sQ3yBT28gircTAM55BJuJrAoPct?=
- =?iso-8859-1?Q?q73vWScD5+MZKuhahrYttbC7ARM6TQ61EdhwTgp3K8TxXV019YG8c1CnY9?=
- =?iso-8859-1?Q?4cQ0FlzEGlh05sa6FnBbUG3VUZiyuBqmdeJd9XSIJ0uNPfsuTPL11i2Hb5?=
- =?iso-8859-1?Q?1U3r98xQ8A/7qO77Rw2CkZOOV2F+QtF4dT0P+qwy72cDme7r2YqZgWyA+M?=
- =?iso-8859-1?Q?cJr634rYsUlEsGGn2DRUq/GO5N2ChNMEfKOvYZa45HwJnVjgUz0zTPG58n?=
- =?iso-8859-1?Q?B57lR1cb0YQp4dS8M12/zusDKA5mfipxZ+yTUtF2U7gz3RSDtk+jFARpnV?=
- =?iso-8859-1?Q?S3Ll6WaagaMnntmoYwc6jiaDzniGCOwx65PprO6VofOwmHIPZN1EP1T5uA?=
- =?iso-8859-1?Q?Hlnf6ji7FseAw7pAh7CoArBZbUm4oRljIDsIRWrEkV5b262wBeRFVjiQLt?=
- =?iso-8859-1?Q?dPim+068bgU5K37VTaExXtkR03XqWnhBg49Sp3yjSB4zqKPkqD7Er4EjWg?=
- =?iso-8859-1?Q?4eXsnHfDbzor35N7iuuIxQwJlylwomPcBXkQqE1ZOARZ3zbwV71Uy2r1ev?=
- =?iso-8859-1?Q?74k6Q4V8YTBb/BnayKDG84stvY1UYoKG1ycXztGEgZ5KRrf4X+kohytiHq?=
- =?iso-8859-1?Q?h7/3xLtq46HDXNei5UFGYD0LqmcB6vPS93WFu/fkDL6BVj3yumEqTWG0s2?=
- =?iso-8859-1?Q?h+7bTzSLKm+ozNdT7pa3KVT/SFLU1FEKH1e1NN84a8nSclgS9jDHYMTcuM?=
- =?iso-8859-1?Q?St1GSEwqjAYIUj6+MWRbBaSwI36E05MTo++7ldJE7pGFYq6G6z1LV86FOy?=
- =?iso-8859-1?Q?1fDdyPi4tVmiZ1NnJr//A9CJm4/nMSnsCLRDLkOBPpWW6qShA2S85trq+w?=
- =?iso-8859-1?Q?7LerL8UYBUcRAIcajnqryAjDPsaKI9qEXPnjMFKDDMSHHai0kxXQxLiezE?=
- =?iso-8859-1?Q?KeS624Ygy/pCG0mmTh19tn2XbIGZ5L+fwljGRN7MjNQpOTUu6YCxi/HAtp?=
- =?iso-8859-1?Q?QERJSh7qX07DdsHe1zBdVnC8ZcPKj3IiGbC0sNKPePrz7RMHYtPaLgobxq?=
- =?iso-8859-1?Q?4UPyAez+0Fz9kAfSBB+8uRmi6s+J6J2zkiIon5t5kw2v3ghlJQAnbxzjvA?=
- =?iso-8859-1?Q?87EJZ/D7XDzKdWd0uYkknFY5wW6OevhAKsqqWPMMQ1+6/cHZ0b7xrcxkne?=
- =?iso-8859-1?Q?f7EdLM7GNqa/rc4QxsLEPs7vM/PX42kgnyGds9AL7twGgi00sDFSKe8I2E?=
- =?iso-8859-1?Q?kE6pE0d/wZJPNX2/0tLaQMMsD6dfxUtiKc++/XRgQUwehT3d5+Z6DYPl0r?=
- =?iso-8859-1?Q?++nhJF/ictyWBctsuw3Oci1QOQOjdy3dFQGOkZ0GRRFajBcEkidxBJVc+1?=
- =?iso-8859-1?Q?5ohOColz8uUnBgaKxVfD1aAB69+FD0RrKPubXrB/+1fwZrChrA/nMYSYDp?=
- =?iso-8859-1?Q?WiN+ISYpbV+4eyYnphba+gE7HFRcivWkMPgVWn9kl9yY8S71JnoEl3FnaJ?=
- =?iso-8859-1?Q?o5mTFBTdZpnljtpIM4iOE0fLhzSusy8HpW+i0b8IEHyopCtr81MRco+pMt?=
- =?iso-8859-1?Q?f/98O1OPXqB8IrJOsxNfyoy9fwousbcyMeTyVWFS7OcWUaRdx9JoUGUqMV?=
- =?iso-8859-1?Q?zMeDHcGrNfmLWqBKu461UchnxY4A1xE=3D?=
+	=?us-ascii?Q?u4Wkx5Nk3LCmhjqdCUEdKjpb68MboHBgfG/jvKg+2BviZeBRAjk0Z4Ztvjnu?=
+ =?us-ascii?Q?tfUM3RkTArBgYN39pTtfxu+vkwLf9fy+XTmQ4BWvzX+hg2mwzwu6uAB2yP4h?=
+ =?us-ascii?Q?BmUU2aHjwDVKg18w0FiwZe8HmqHB//INLdoolGgkqQd5xmH4Q7UVBR5+wzwg?=
+ =?us-ascii?Q?ZoaOrhr5WYwZ65Tra/gOaY55ahGTOjUvquBR9Axn4qUUAN3ewBuWL5DwnKXI?=
+ =?us-ascii?Q?S24+oKmZd2R2NyhQ21PJBpZ1atEioturuMuSOdThL3vyh+j8JprB5ytmKs32?=
+ =?us-ascii?Q?j2jT6xwcZ3tJ2y+2cstYIUQXj15AuEpaJOiBymp/Rj9sSxNy1DCxkioYEQxg?=
+ =?us-ascii?Q?JspfSWAxJY8jhnho2lVVzuA00A2rQ6YZ6Tls84hwRMbNm8tcTZ2YtUDmsxgh?=
+ =?us-ascii?Q?j9QDUl99OSHYG3KA094IPc8dp+EsRzUBFkREXSPghBHzIR0k8crwcCQLI2+8?=
+ =?us-ascii?Q?pNYf7QJh9yqxE4vWwIKFCaX8ikfg1DuZcwEcAAlbqDy1SK4u8hlbn1Nf3Zkt?=
+ =?us-ascii?Q?6bIIZY5VlhfjwFITJ4wM9fp2MtetZJZUjVIkliUVS1j/eEjT6GMxSHfuOHHj?=
+ =?us-ascii?Q?FvWWaYzW0m3mV1/42PF01SLF4PbFQ6Zf8fLec7GjzgUD0CjISpnWvVMg2aP7?=
+ =?us-ascii?Q?DqyimhzNeC1JFAdIKRoHTiD/xz3k0BUCLyDxbriLU08Woz2lUlseRXYy4291?=
+ =?us-ascii?Q?yUcWcKaRVtiwj03lI5YV6kDA6ajb4TjTwabr1T+L73TCsY8UgExQQmZj4Ute?=
+ =?us-ascii?Q?CWf/yf7ELI7lZ/1p0TFvOiRs4xoSKiCQzTfitNjukVnHduUcypGRIRReF663?=
+ =?us-ascii?Q?VLPvvRebWOP/LM5T23Tl343z4k4xjcX5eRuiNFN6RZ0VI72mS+29YVB5vz35?=
+ =?us-ascii?Q?7D8lXJ1o6q6HMey9JRdeFhAKvAcdvowO9tJhXI1k14uN2gcRPAeQP3ZZQAz4?=
+ =?us-ascii?Q?qAVDS+87SwYz5vWOIAGW5FrDKNEmJFUMG+mgpujXKMVT5TB9Y8tWmzcBMh+N?=
+ =?us-ascii?Q?Q6CCvll/XhrB0C65W01fVZczTqm3eefG39IZS1cZ3o3k8oXMI7Mgmpozn63X?=
+ =?us-ascii?Q?TOFee1YX8ak5/gXDyaGqQd3vTfFMiNUq6CLcYcUNGWgW8Tdeauz1wMv3vsmh?=
+ =?us-ascii?Q?m0ULArsDDJlehkCwoDDF/PO4JTP+0X2g9KpORgjgwhRxEYRWgskyBwiC6PiL?=
+ =?us-ascii?Q?0TT7QTFn26Ei+WOev/IndWqoTx2svQZx/xgS5OnFsV0zd34MYQ/tRSQMwsGy?=
+ =?us-ascii?Q?UyvomPGz7j1LkMN2KffvpghvcEnjHiBGDgWMSparLxECpEigFAFIoruHkLv6?=
+ =?us-ascii?Q?0M4q9jABOqkEF9FQITuLiFz/k4l7ImDV4F8+kxIobnrQ5I9Vpa+kdaEZ+sKq?=
+ =?us-ascii?Q?ql/Qhl71x9t31bjRpIzdRwPk9HZ9OzRnpd6IUoxbOwt8z32KJwaVtQiydRM0?=
+ =?us-ascii?Q?D3BzKEX89H6Lj9H5+wQ4keUanv6mUmE2UpPQGT1hjKMlR/CqeEwCAJeHhCMM?=
+ =?us-ascii?Q?h4dEicj1e2PMhEUKojhIy1eT+37r6nOposWnbopf/VB+aI1DX0v5wSe8Dg+a?=
+ =?us-ascii?Q?cyf/JxAijGXdAaWbtYOOHIXQjvaWWYFzrOJ65LWuThmZLgUFkxZE/fxmv1Hd?=
+ =?us-ascii?Q?tOFtxHZMCZSIu7DQLBev7gyRrr+gKtZbxkPjYDuGG9DJ1GJ2VWkirHLn5TSA?=
+ =?us-ascii?Q?6RbckNxLgCV+ukQr9RYqWW14Q0ErdI21b5j4Sx0bUdZkWadCpAuZhoWZRJjt?=
+ =?us-ascii?Q?px4NCWkvlLU/ycQ6E1gDloqx0TsHtQw=3D?=
 X-OriginatorOrg: navimatix.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 60d4124b-da25-43e5-6790-08df01dd59e5
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4df0abff-9f39-4f09-5915-08df01ddfca5
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR01MB11835.eurprd01.prod.exchangelabs.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 12:43:51.9166
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Aug 2026 12:48:25.2788
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: c87b4f54-b992-4813-8f3f-4a876324197f
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 17M77nOHgHJQ3iV7tpcI8fT52tmYGu7nu/wL5dzidw+VnFo+mCtCYXnnCaPSW/g5r3cm25YZTBVBxJtZl+tsCh4TfjCSD9fGmOBHVu2v6HE=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR01MB7541
+X-MS-Exchange-CrossTenant-UserPrincipalName: pMjJO9mpjRxfhQFJc/xc+UFg7kr0SgqnrT6Ad1ElknxUrlcn0bMhCGLe2ENnatbpzOTGSqaMBd71nad9A9co6M4wlqNKyZAk/q9hLHWBGMU=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM8PR01MB7569
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 12:44:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244094
+ <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 12:48:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244095
 
---fcksp2h3mlsf6z5m
-Content-Type: text/plain; protected-headers=v1; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
-Subject: Re: [PATCH v2] bitbake.conf: Extend distro feature usrmerge to merge
- bin+sbin
-MIME-Version: 1.0
+From: Randolph Sapp <rs@ti.com>
 
-Mathieu Dubois-Briand schrieb am Mo 24. Aug, 12:02 (+0200):
-> On Mon Aug 24, 2026 at 11:53 AM CEST, J=F6rg Sommer wrote:
-> > Mathieu Dubois-Briand schrieb am Mo 24. Aug, 08:30 (+0200):
-> >> On Sat Aug 22, 2026 at 4:09 PM CEST, J=F6rg Sommer wrote:
-> >> > Mathieu Dubois-Briand schrieb am Sa 22. Aug, 14:16 (+0200):
-> >> >> On Sat Aug 22, 2026 at 9:56 AM CEST, J=F6rg Sommer wrote:
-> >> >> > J=F6rg Sommer schrieb am Fr 24. Jul, 11:00 (+0200):
-> >> >> >> From: Randolph Sapp <rs@ti.com>
-> >> >> >>=20
-> >> >> >> The split of bin and sbin became more artificial over time, and =
-it is no
-> >> >> >> longer clear why programmes goes into the one or the other direc=
-tory; e.g.
-> >> >> >> forever normal users have used sendmail in /usr/sbin, and fdisk =
-and mkfs
-> >> >> >> learned to operate on files to create images long ago.
-> >> >> >
-> >> >> > Gentle ping. What's the state of this?
-> >> >> >
-> >> >>=20
-> >> >> Hi J=F6rg,
-> >> >>=20
-> >> >> Previous builds showed some errors. Should it have evolve since tha=
-t?
-> >> >
-> >> > Yes, I think so. The bootchart2 errors were addressed by 2bf18f9908,=
- and the
-> >> > tcf-agent by 443f8c62ad.
-> >>=20
-> >> Hi J=F6rg,
-> >>=20
-> >> It looks like this is still failing, at least with alt distro:
-> >>=20
-> >> ERROR: systemd-1_261.2-r0 do_package: QA Issue: systemd: Files/directo=
-ries were installed but not shipped in any package:
-> >>   /usr/sbin
-> >>   /usr/sbin/poweroff
-> >>   /usr/sbin/mount.ddi
-> >>   /usr/sbin/init
-> >>   /usr/sbin/resolvconf
-> >>   /usr/sbin/mount.storage
-> >>   /usr/sbin/halt
-> >>   /usr/sbin/mount.mstack
-> >>   /usr/sbin/reboot
-> >>   /usr/sbin/shutdown
-> >> Please set FILES such that these items are packaged. Alternatively if =
-they are unneeded, avoid installing them or delete them within do_install.
-> >> systemd: 10 installed and not shipped files. [installed-vs-shipped]
-> >>=20
-> >> https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/4407
-> >> https://autobuilder.yoctoproject.org/valkyrie/#/builders/9/builds/4430
-> >>=20
-> >> Can you have a look at the issue?
-> >
-> > Thank you Mathieu for your testing. I built systemd 261.2 with poky-alt=
-cfg
-> > and had no errors. Can I find your branch mathieu/master-next somewhere?
-> >
-> >
-> > Regards, J=F6rg
->=20
-> You can find a tag in there:
->=20
-> https://git.yoctoproject.org/poky-ci-archive/tag/?h=3Doecore/autobuilder.=
-yoctoproject.org/valkyrie/a-full-4555
+The split of bin and sbin became more artificial over time, and it is no
+longer clear why programmes goes into the one or the other directory; e.g.
+forever normal users have used sendmail in /usr/sbin, and fdisk and mkfs
+learned to operate on files to create images long ago.
 
-This really helped to track down the issue. In your commit [1] this block is
-missing:
+Because systemd drives this movement to have only /usr/bin and symlink /bin=
+,
+/sbin and /usr/sbin to there, the usrmerge feature (started by systemd too)
+should be extended to include the binmerge. For a system with split bin/sbi=
+n
+`systemctl status` reports the system as tainted for *unmerged-bin.*
 
-```
---- meta/recipes-core/systemd/systemd_261.2.bb
-+++ meta/recipes-core/systemd/systemd_261.2.bb
+Override most sbin variables to point to their bin equivalent when
+usermerge is enabled, with the exception being base_sbindir_native and
+sbindir_native. There is no guarantee the host machine is using this
+filesystem scheme.
+
+This check was added to systemd back in 2024 [2].
+
+[1] https://gitlab.archlinux.org/archlinux/packaging/packages/filesystem/-/=
+blob/main/PKGBUILD
+[2] https://github.com/systemd/systemd/commit/844863c61e7b501097da84a1e4d1e=
+4a6aa6d9f0d
+
+Signed-off-by: Randolph Sapp <rs@ti.com>
+Signed-off-by: J=F6rg Sommer <joerg.sommer@navimatix.de>
+---
+Changes in v3:
+
+* rebase on systemd 261.2
+
+Changes in v2:
+
+* I took Randolph's version and reworked it a bit. But the idea stays the s=
+ame.
+
+Reference to v1:
+
+* https://lists.openembedded.org/g/openembedded-core/message/234858
+
+ meta/classes-recipe/populate_sdk_base.bbclass | 2 ++
+ meta/conf/bitbake.conf                        | 8 ++++----
+ meta/recipes-core/systemd/systemd_261.2.bb    | 6 +++---
+ 3 files changed, 9 insertions(+), 7 deletions(-)
+
+diff --git a/meta/classes-recipe/populate_sdk_base.bbclass b/meta/classes-r=
+ecipe/populate_sdk_base.bbclass
+index f32e9add01..f9367d0d17 100644
+--- a/meta/classes-recipe/populate_sdk_base.bbclass
++++ b/meta/classes-recipe/populate_sdk_base.bbclass
+@@ -188,6 +188,8 @@ create_merged_usr_symlinks() {
+     install -d $root${base_bindir} $root${base_sbindir} $root${base_libdir=
+}
+     ln -rs $root${base_bindir} $root/bin
+     ln -rs $root${base_sbindir} $root/sbin
++    # if base_sbindir =3D=3D base_bindir, aka binmerge
++    test -e $root/usr/sbin || ln -rs $root${base_bindir} $root/usr/sbin
+     ln -rs $root${base_libdir} $root/${baselib}
+=20
+     if [ "${nonarch_base_libdir}" !=3D "${base_libdir}" ]; then
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 41e98ce629..a6833f98de 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -22,7 +22,7 @@ root_prefix =3D "${@bb.utils.contains('DISTRO_FEATURES', =
+'usrmerge', '${exec_prefi
+=20
+ # Base paths
+ export base_bindir =3D "${root_prefix}/bin"
+-export base_sbindir =3D "${root_prefix}/sbin"
++export base_sbindir =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge=
+', '${base_bindir}', '${root_prefix}/sbin', d)}"
+ export base_libdir =3D "${root_prefix}/${baselib}"
+ export nonarch_base_libdir =3D "${root_prefix}/lib"
+=20
+@@ -44,7 +44,7 @@ firmwaredir =3D "${nonarch_base_libdir}/firmware"
+=20
+ # Architecture dependent paths
+ export bindir =3D "${exec_prefix}/bin"
+-export sbindir =3D "${exec_prefix}/sbin"
++export sbindir =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge', '$=
+{bindir}', '${exec_prefix}/sbin', d)}"
+ export libdir =3D "${exec_prefix}/${baselib}"
+ export libexecdir =3D "${exec_prefix}/libexec"
+ export includedir =3D "${exec_prefix}/include"
+@@ -66,9 +66,9 @@ bindir_cross =3D "/bin"
+ bindir_crossscripts =3D "${bindir}/crossscripts"
+ prefix_nativesdk =3D "/usr"
+ bindir_nativesdk =3D "${prefix_nativesdk}/bin"
+-sbindir_nativesdk =3D "${prefix_nativesdk}/sbin"
++sbindir_nativesdk =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrmerge',=
+ '${bindir_nativesdk}', '${prefix_nativesdk}/sbin', d)}"
+ base_bindir_nativesdk =3D "/bin"
+-base_sbindir_nativesdk =3D "/sbin"
++base_sbindir_nativesdk =3D "${@bb.utils.contains('DISTRO_FEATURES', 'usrme=
+rge', '${base_bindir_nativesdk}', '/sbin', d)}"
+ includedir_nativesdk =3D "${prefix_nativesdk}/include"
+ libdir_nativesdk =3D "${prefix_nativesdk}/lib"
+ base_libdir_nativesdk =3D "/lib"
+diff --git a/meta/recipes-core/systemd/systemd_261.2.bb b/meta/recipes-core=
+/systemd/systemd_261.2.bb
+index 8237b040a5..4475fb2514 100644
+--- a/meta/recipes-core/systemd/systemd_261.2.bb
++++ b/meta/recipes-core/systemd/systemd_261.2.bb
 @@ -196,7 +196,6 @@ def build_epoch(d):
  PACKAGECONFIG[set-time-epoch] =3D "${@build_epoch(d)},-Dtime-epoch=3D0"
  PACKAGECONFIG[timedated] =3D "-Dtimedated=3Dtrue,-Dtimedated=3Dfalse"
@@ -209,151 +230,31 @@ missing:
  PACKAGECONFIG[userdb] =3D "-Duserdb=3Dtrue,-Duserdb=3Dfalse"
  PACKAGECONFIG[utmp] =3D "-Dutmp=3Dtrue,-Dutmp=3Dfalse"
  PACKAGECONFIG[valgrind] =3D "-DVALGRIND=3D1,,valgrind"
-```
-
-[1] https://git.yoctoproject.org/poky-ci-archive/commit/?h=3Doecore/autobui=
-lder.yoctoproject.org/valkyrie/a-full-4555&id=3D9da89593957c05809e58e85f2d5=
-21ab80ce7f807
-
-I'll send a v3 based on 261.2
-
+@@ -227,6 +226,7 @@ EXTRA_OEMESON +=3D "-Dnobody-user=3Dnobody \
+                   -Dtranslations=3D${@'false' if d.getVar('USE_NLS') =3D=
+=3D 'no' else 'true'} \
+                   ${@bb.utils.contains('DISTRO_FEATURES', 'zeroconf', '-Dd=
+efault-mdns=3Dno -Ddefault-llmnr=3Dno', '', d)} \
+                   -Ddbus=3Ddisabled \
++                  -Dsplit-bin=3D${@'false' if '${bindir}' =3D=3D '${sbindi=
+r}' else 'true'} \
+                   -Dtests=3Dfalse \
+                   -Dlibc=3D${TCLIBC} \
+                   "
+@@ -343,8 +343,8 @@ do_install() {
+ 		install -m 0644 ${UNPACKDIR}/org.freedesktop.hostname1_no_polkit.conf ${=
+D}${datadir}/dbus-1/system.d/
+ 	fi
+=20
+-	# create link for existing udev rules
+-	ln -s ${base_bindir}/udevadm ${D}${base_sbindir}/udevadm
++	# create link for old udev rules
++	test -e ${D}${base_sbindir}/udevadm || ln -s ${base_bindir}/udevadm ${D}$=
+{base_sbindir}/udevadm
+=20
+ 	# install default policy for presets
+ 	# https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
 --=20
-Navimatix GmbH           T: 03641 - 327 99 0
-Tatzendpromenade 2       F: 03641 - 526 306
-07745 Jena               www.navimatix.de
+2.53.0
 
-Gesch=E4ftsf=FChrer: Steffen Sp=E4the, Jan Rommeley
-Registergericht: Amtsgericht Jena, HRB 501480
-
---fcksp2h3mlsf6z5m
-Content-Type: application/pkcs7-signature; name="smime.p7s"
-Content-Disposition: attachment; filename="smime.p7s"
-Content-Transfer-Encoding: base64
-
-MIIaGAYJKoZIhvcNAQcCoIIaCTCCGgUCAQExDzANBglghkgBZQMEAgEFADALBgkqhkiG9w0B
-BwGgghehMIIFgTCCBGmgAwIBAgIQOXJEOvkit1HX02wQ3TE1lTANBgkqhkiG9w0BAQwFADB7
-MQswCQYDVQQGEwJHQjEbMBkGA1UECAwSR3JlYXRlciBNYW5jaGVzdGVyMRAwDgYDVQQHDAdT
-YWxmb3JkMRowGAYDVQQKDBFDb21vZG8gQ0EgTGltaXRlZDEhMB8GA1UEAwwYQUFBIENlcnRp
-ZmljYXRlIFNlcnZpY2VzMB4XDTE5MDMxMjAwMDAwMFoXDTI4MTIzMTIzNTk1OVowgYgxCzAJ
-BgNVBAYTAlVTMRMwEQYDVQQIEwpOZXcgSmVyc2V5MRQwEgYDVQQHEwtKZXJzZXkgQ2l0eTEe
-MBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMS4wLAYDVQQDEyVVU0VSVHJ1c3QgUlNB
-IENlcnRpZmljYXRpb24gQXV0aG9yaXR5MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKC
-AgEAgBJlFzYOw9sIs9CsVw127c0n00ytUINh4qogTQktZAnczomfzD2p7PbPwdzx07HWezco
-EStH2jnGvDoZtF+mvX2do2NCtnbyqTsrkfjib9DsFiCQCT7i6HTJGLSR1GJk23+jBvGIGGqQ
-Ijy8/hPwhxR79uQfjtTkUcYRZ0YIUcuGFFQ/vDP+fmyc/xadGL1RjjWmp2bIcmfbIWax1Jt4
-A8BQOujM8Ny8nkz+rwWWNR9XWrf/zvk9tyy29lTdyOcSOk2uTIq3XJq0tyA9yn8iNK5+O2hm
-AUTnAU5GU5szYPeUvlM3kHND8zLDU+/bqv50TmnHa4xgk97Exwzf4TKuzJM7UXiVZ4vuPVb+
-DNBpDxsP8yUmazNt925H+nND5X4OpWaxKXwyhGNVicQNwZNUMBkTrNN9N6frXTpsNVzbQdcS
-2qlJC9/YgIoJk2KOtWbPJYjNhLixP6Q5D9kCnusSTJV882sFqV4Wg8y4Z+LoE53MW4LTTLPt
-W//e5XOsIzstAL81VXQJSdhJWBp/kjbmUZIO8yZ9HE0XvMnsQybQv0FfQKlERPSZ51eHnlAf
-V1SoPv10Yy+xUGUJ5lhCLkMaTLTwJUdZ+gQek9QmRkpQgbLevni3/GcV4clXhB4PY9bpYrrW
-X1Uu6lzGKAgEJTm4Diup8kyXHAc/DVL17e8vgg8CAwEAAaOB8jCB7zAfBgNVHSMEGDAWgBSg
-EQojPpbxB+zirynvgqV/0DCktDAdBgNVHQ4EFgQUU3m/WqorSs9UgOHYm8Cd8rIDZsswDgYD
-VR0PAQH/BAQDAgGGMA8GA1UdEwEB/wQFMAMBAf8wEQYDVR0gBAowCDAGBgRVHSAAMEMGA1Ud
-HwQ8MDowOKA2oDSGMmh0dHA6Ly9jcmwuY29tb2RvY2EuY29tL0FBQUNlcnRpZmljYXRlU2Vy
-dmljZXMuY3JsMDQGCCsGAQUFBwEBBCgwJjAkBggrBgEFBQcwAYYYaHR0cDovL29jc3AuY29t
-b2RvY2EuY29tMA0GCSqGSIb3DQEBDAUAA4IBAQAYh1HcdCE9nIrgJ7cz0C7M7PDmy14R3iJv
-m3WOnnL+5Nb+qh+cli3vA0p+rvSNb3I8QzvAP+u431yqqcau8vzY7qN7Q/aGNnwU4M309z/+
-3ri0ivCRlv79Q2R+/czSAaF9ffgZGclCKxO/WIu6pKJmBHaIkU4MiRTOok3JMrO66BQavHHx
-W/BBC5gACiIDEOUMsfnNkjcZ7Tvx5Dq2+UUTJnWvu6rvP3t3O9LEApE9GQDTF1w52z97GA1F
-zZOFli9d31kWTz9RvdVFGD/tSo7oBmF0Ixa1DVBzJ0RHfxBdiSprhTEUxOipakyAvGp4z7h/
-jnZymQyd/teRCBaho1+VMIIGkDCCBHigAwIBAgIRAJNhG7GFaX1Mm3w/sd+ASzYwDQYJKoZI
-hvcNAQEMBQAwgYgxCzAJBgNVBAYTAlVTMRMwEQYDVQQIEwpOZXcgSmVyc2V5MRQwEgYDVQQH
-EwtKZXJzZXkgQ2l0eTEeMBwGA1UEChMVVGhlIFVTRVJUUlVTVCBOZXR3b3JrMS4wLAYDVQQD
-EyVVU0VSVHJ1c3QgUlNBIENlcnRpZmljYXRpb24gQXV0aG9yaXR5MB4XDTIxMDMyMjAwMDAw
-MFoXDTM4MDExODIzNTk1OVowWjELMAkGA1UEBhMCR0IxGDAWBgNVBAoTD1NlY3RpZ28gTGlt
-aXRlZDExMC8GA1UEAxMoU2VjdGlnbyBQdWJsaWMgRW1haWwgUHJvdGVjdGlvbiBSb290IFI0
-NjCCAiIwDQYJKoZIhvcNAQEBBQADggIPADCCAgoCggIBAJHlG/qqbTcrdccuXxSl2yyXtixG
-j2nZ7JYt8x1avtMdI+ZoCf9KEXMarmefdprS5+y42V8r+SZWUa92nan8F+8yCtAjPLosT0eD
-7J0FaEJeBuDV6CtoSJey+vOkcTV9NJsXi39NDdvcTwVMlGK/NfovyKccZtlxX+XmWlXKq/S4
-dxlFUEVOSqvbnmbBGbc3QshWpUAS+TPoOEU6xoSjAo4vJLDDQYUHSZzP3NHyJm/tMxwzZypF
-N9mFZSIasbUQUglrA8YfcD2RxH2QPe1m+JD/JeDtkqKLMSmtnBJmeGOdV+z7C96O3IvLOql3
-9Lrl7DiMi+YTZqdpWMOCGhrN8Z/YU5JOSX2pRefxQyFatz5AzWOJz9m/x1AL4bzniJatntQX
-2l3P4JH9phDUuQOBm2ms+4SogTXrG+tobHxgPsPfybSudB1Ird1uEYbhKmo2Fq7IzrzbWPxA
-k0DYjlOXwqwiOOWIMbMuoe/s4EIN6v+TVkoGpJtMAmhkj1ZQwYEF/cvbxdcV8mu1dsOj+TLO
-yrVKqRt9Gdx/x2p+ley2uI39lUqcoytti/Fw5UcrAFzkuZ7U+NlYKdDL4ChibK6cYuLMvDaT
-QfXv/kZilbBXSnQsR1Ipnd2ioU9CwpLOLVBSXowKoffYncX4/TaHTlf9aKFfmYMc8LXd6JLT
-ZUBVypaFAgMBAAGjggEgMIIBHDAfBgNVHSMEGDAWgBRTeb9aqitKz1SA4dibwJ3ysgNmyzAd
-BgNVHQ4EFgQUp9eVd+tKwyfNk743TCaEIRR9XZgwDgYDVR0PAQH/BAQDAgGGMA8GA1UdEwEB
-/wQFMAMBAf8wHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMCMBEGA1UdIAQKMAgwBgYE
-VR0gADBQBgNVHR8ESTBHMEWgQ6BBhj9odHRwOi8vY3JsLnVzZXJ0cnVzdC5jb20vVVNFUlRy
-dXN0UlNBQ2VydGlmaWNhdGlvbkF1dGhvcml0eS5jcmwwNQYIKwYBBQUHAQEEKTAnMCUGCCsG
-AQUFBzABhhlodHRwOi8vb2NzcC51c2VydHJ1c3QuY29tMA0GCSqGSIb3DQEBDAUAA4ICAQBw
-pquT4ow8LyRHG6NgR4oUsFncHl+eWLMtEBwv90EpGCGGDDDjoO23j4Zw6tS+THzwgz4SyP0M
-FQaMzHj40enm+z1Y29QIQCnJTeDOHWHKMRxeiFD8MBso+XgVM6z6MMDbbJ95btM/4eE3LyaB
-uBbheiINaAVieIdxLq6+dVkm00kmvMdlARsTkEvr5a9nYhGAs8T5RBD1DozAv9r89WJcn+QY
-X1M2l5vv0ws3Me1ziVSjC2cRhcae4seOFFjkRdJItzfk6H/Wm2FNv2XG8nE1nbgN8UCdhORO
-lQGGQ9DN152RmSJ1A6KAJIldo3YrJNiO8J4JLAE5/Tl9CNUHtbdYTOZLCAZ95G1g2GELQ2DQ
-1Xxo55iNojqUA4w1feORe86Dq2P08xzolHKepP1LGEw1gDGCkUYR0gVXLJExGd3dfEZDm0mm
-U7vWb6vRyLso/GUawFD2MZS4kK8/igkPO2Pkjfd5HD7hknpPVhcuBaWxWj8Q7bjwVlxGwts6
-sNZ+UJ5HC4c+11vVoV9cdbb93qpbWn/d+azhit6kRYdUmAUl8Bt5VRBMKCUnSaAAspxb9kFK
-+cvm/MjErxN63YNEcMs2QKs3N862V8MQaoKqD+KsKnaLxF6pxRpOotenpfUTNE9GqxP9nI6i
-9rSHf16VFwW4NnJ6yUgzHUMdIqtTge98VjCCBiowggQSoAMCAQICEHb3t/4teUvaYKSSf0s+
-XMIwDQYJKoZIhvcNAQEMBQAwWjELMAkGA1UEBhMCR0IxGDAWBgNVBAoTD1NlY3RpZ28gTGlt
-aXRlZDExMC8GA1UEAxMoU2VjdGlnbyBQdWJsaWMgRW1haWwgUHJvdGVjdGlvbiBSb290IFI0
-NjAeFw0yMTAzMjIwMDAwMDBaFw0zNjAzMjEyMzU5NTlaMFgxCzAJBgNVBAYTAkdCMRgwFgYD
-VQQKEw9TZWN0aWdvIExpbWl0ZWQxLzAtBgNVBAMTJlNlY3RpZ28gUHVibGljIEVtYWlsIFBy
-b3RlY3Rpb24gQ0EgUjM2MIIBojANBgkqhkiG9w0BAQEFAAOCAY8AMIIBigKCAYEAk7qaEDRX
-E35PMot8PAmiNaWYblItPHGyt1+H+DUs2GAYHofsdeURmjngaB0C3GcUcrVav1HsGjJuoh77
-nRif3O0gxUJGnIzj4ppKxxTsMNau8qvL+FnEkK6VrnqqnKIL3myjhJRdghUlK8Lgetl/3Pdz
-KQ7JO2xPZFklrLRm8EQSuUdyccvb+auvRdSnwrxsOvV+9n18ZdeahL/RBxM7R31DhVkMPO19
-EiQMj4PBl99wuWzXWL7yLgYh2/TJvIpSOf7waFcHkVYvfAPivV/ulUVaN2ncpSvlE4/TjA8d
-5NXKOY+C7RcyD3UZIi6XVg7T81gOfnvE/eEGsyHmgjzLFDYpgBwVOd7jLQ9jhLX4hdRbm959
-FrXQQrozzfTbyxRIwMwDqgUoPxIQVU9A7qXKu3yRXsn7OvnjYkYve6X0ZifTbjZaf4Hi/KXW
-fNn67zqCt0eNONM2QB5bNqg14qLooRQcgRpSNAEB4UsSyhwsJqEhXz4QwPFWn/wwvEJ0FgYD
-AgMBAAGjggFsMIIBaDAfBgNVHSMEGDAWgBSn15V360rDJ82TvjdMJoQhFH1dmDAdBgNVHQ4E
-FgQUHwSkfkz2MrEJ4pF84WzfUr/PLv0wDgYDVR0PAQH/BAQDAgGGMBIGA1UdEwEB/wQIMAYB
-Af8CAQAwHQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMBEGA1UdIAQKMAgwBgYEVR0g
-ADBPBgNVHR8ESDBGMESgQqBAhj5odHRwOi8vY3JsLnNlY3RpZ28uY29tL1NlY3RpZ29QdWJs
-aWNFbWFpbFByb3RlY3Rpb25Sb290UjQ2LmNybDB/BggrBgEFBQcBAQRzMHEwSgYIKwYBBQUH
-MAKGPmh0dHA6Ly9jcnQuc2VjdGlnby5jb20vU2VjdGlnb1B1YmxpY0VtYWlsUHJvdGVjdGlv
-blJvb3RSNDYucDdjMCMGCCsGAQUFBzABhhdodHRwOi8vb2NzcC5zZWN0aWdvLmNvbTANBgkq
-hkiG9w0BAQwFAAOCAgEAWooWgE/1j6esLJfOKB48VUcFaafH6wZcbEln7ls6BP7IvAP2GDRF
-33LtQhuVpt7qIqm/RXxWQLaC0yA14LE/pZZdm6CkkoWlTRgzZln6rM9dm2JvqyX2TLS0Z7P1
-E6o9EmPx53bRNrnauUu2lYYfpODYq/5LzDPWBjGNK5QW4+oKCykPzzfSveoF5KTuW1xxy+da
-EmtXm3hgYwYvTrB/7jHZU2hVbj/8DUAf/JCa/+AdQCtUE5XzKl6o5gGtWahY1yh9smQ3b48/
-cto1QW+ZwGCHk5CLr5bDhe2uh2ifn8BXxBOf33D6YHjnrOUyNxi43QD2wZRwyL8arpu/Ljl4
-H9zwIM0Q4vfbZuDghYLDnRVC1fGYBArWxw+uvoEMvO7lcc9MTezGkonPmanHYAcGffaIXpIQ
-rQWtWS9Pb22jEy6YZCUiqH4YcqkelJHqJD1HBLVMOPaCn2wXgBbv9jvZQsP9yFrD6tKX//ue
-D1V12I+L8qjUj17/ZRuxLcPDCF6vb/Svnu38Ejni16jHUO9G/YWFBZOuRbutUEgEp8hMXEzJ
-XO43NzBthf80VV86GaC83nNy3TETFF2yav+ioLIK7Qd5NRnI4DXNQYPq6j8qkEnODayXA1bR
-7V/qy4BrdrLHJf9NHMiANvCNiDn02MuniTPmb+rp4syaXK409MSG4PYwggVWMIIDvqADAgEC
-AhEAsFHj29zvfVPWA2FcnDeJlzANBgkqhkiG9w0BAQsFADBYMQswCQYDVQQGEwJHQjEYMBYG
-A1UEChMPU2VjdGlnbyBMaW1pdGVkMS8wLQYDVQQDEyZTZWN0aWdvIFB1YmxpYyBFbWFpbCBQ
-cm90ZWN0aW9uIENBIFIzNjAeFw0yNjA3MDIwMDAwMDBaFw0yODA3MDEyMzU5NTlaMCoxKDAm
-BgkqhkiG9w0BCQEWGWpvZXJnLnNvbW1lckBuYXZpbWF0aXguZGUwggEiMA0GCSqGSIb3DQEB
-AQUAA4IBDwAwggEKAoIBAQDNxFyhl/UuZdUpuQiuqZBMSU/pN5SMIj4lkvTlrtp2jl4Q77wb
-v4vXdXIFWqKd3qtut55G0ptK4nXs1ARrh3AHQAYwB0vW+PHVNPLs9yombnTeMgnEv/RQDFkH
-+DxoKdY5+DRUmcVO/tYl6ExMEBj6oh6b/63whIkC61WRETH3FpRCRbyNBD73OWt0KzxoKzW9
-xmdqfhNtylLcIFMzuv9C1WAqJ3mLbFHYaW4NEMMckPZJWWYzvA2nwCCryerE3J9z4ZbSK0OK
-6DDRN9gW/H7+/4pHSIhdooGfQEdgLj+Z4ZPhvLMF5DncBD8k5DOK8mlDxCKp4GsrLLuBfLQd
-xilvAgMBAAGjggHHMIIBwzAfBgNVHSMEGDAWgBQfBKR+TPYysQnikXzhbN9Sv88u/TAdBgNV
-HQ4EFgQU3lTOaS6cJRsIzzEjdtC4j6GPtWIwDgYDVR0PAQH/BAQDAgWgMAwGA1UdEwEB/wQC
-MAAwHQYDVR0lBBYwFAYIKwYBBQUHAwQGCCsGAQUFBwMCMFAGA1UdIARJMEcwOgYMKwYBBAGy
-MQECAQoBMCowKAYIKwYBBQUHAgEWHGh0dHBzOi8vc2VjdGlnby5jb20vU01JTUVDUFMwCQYH
-Z4EMAQUBAjBNBgNVHR8ERjBEMEKgQKA+hjxodHRwOi8vY3JsLnNlY3RpZ28uY29tL1NlY3Rp
-Z29QdWJsaWNFbWFpbFByb3RlY3Rpb25DQVIzNi5jcmwwfQYIKwYBBQUHAQEEcTBvMEgGCCsG
-AQUFBzAChjxodHRwOi8vY3J0LnNlY3RpZ28uY29tL1NlY3RpZ29QdWJsaWNFbWFpbFByb3Rl
-Y3Rpb25DQVIzNi5jcnQwIwYIKwYBBQUHMAGGF2h0dHA6Ly9vY3NwLnNlY3RpZ28uY29tMCQG
-A1UdEQQdMBuBGWpvZXJnLnNvbW1lckBuYXZpbWF0aXguZGUwDQYJKoZIhvcNAQELBQADggGB
-AD6hnou447615g2A0y87bR6mtVI+C+wAFCqRqfrCgHu0dB29VPiVXIVYbPN7H6meSMNr2lFo
-e81aZfbE7LMQj98hVKA/ljqWKJe6R5W1Tssv1568G9GJ0fvL1iGT74LuqcuYPt0LVH99Q1rH
-MfCBKpsyFo7P3JwoqEkuIpbAhaQMYdTcOgeHMYOLrIdx/9wQ1BXjTa/Cajvc3QxJEb308wgJ
-PBxhl8FWWm5MNOynBmRZPKeOeMF5113u6b03KTmXhBqSVeN2nZXEZ+B+wNcJv1dr4Sa0/k6p
-tbjZcr9ZkK7QtCarYgLDbsSbcLRJMuXUSHf1yaLwihZWJ1asynbFEmv1SrRSQ+3Hv4megEeY
-kYmW9Jiu9qh5z6S98F7JhsP4n6tGs24Xz7l2I/T+BmJMRglTeQnzBihH0kFPUanlApSKC99A
-clKs/tfOX8HKHs79Bw3PjRjJDog4D4Pbkom8UwQ/m5sCuOf7v632pjK2jm3OErS3XZxIjnFV
-4Gl+5jZ1zzGCAjswggI3AgEBMG0wWDELMAkGA1UEBhMCR0IxGDAWBgNVBAoTD1NlY3RpZ28g
-TGltaXRlZDEvMC0GA1UEAxMmU2VjdGlnbyBQdWJsaWMgRW1haWwgUHJvdGVjdGlvbiBDQSBS
-MzYCEQCwUePb3O99U9YDYVycN4mXMA0GCWCGSAFlAwQCAQUAoIGgMBgGCSqGSIb3DQEJAzEL
-BgkqhkiG9w0BBwEwHAYJKoZIhvcNAQkFMQ8XDTI2MDgyNDEyNDM0OFowLwYJKoZIhvcNAQkE
-MSIEIKy8pPk0yCZ5EmmRkkRV2IdBw1N2+0k87YXC1TY0PnakMDUGCSqGSIb3DQEJDzEoMCYw
-CwYJYIZIAWUDBAEqMAsGCWCGSAFlAwQBAjAKBggqhkiG9w0DBzANBgkqhkiG9w0BAQEFAASC
-AQCu3GmPEzF3T3ypMkeiMZzErlnYhIZKLLe0yN/Xx99UIOtpnJaLWmoYSYBSbSYvzd41faqJ
-zBOqCdt4c/6JHGwSCsaMwvefJmNUVYIz+tefh1ozeIa78sWNyv/9Z470L7I6EOeXqLuWvIGN
-aEYmyJD5eONYoIhOHCh+Durv4vyt2bOyk3gEOdmAhTJaVhP6m1Kch2qCBxpkCU6BU575Kljx
-cIPpyvSvUFdndz75b6UtxjXhgWPdVLEjZNFDAsxm+NWLM0Yr+Kg/1tN2mNiv25mWC8BC7bE+
-1xM9yrnvZyyLkD9FXsVZXW+gfwa8k+T5l43DErg5SrtKGHiAXVqfSf+o
-
---fcksp2h3mlsf6z5m--
 
