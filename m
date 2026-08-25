@@ -1,145 +1,164 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44784C61DB9
-	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 18:09:13 +0000 (UTC)
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28345.1787681348049921837
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD5F7C61DBD
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 18:33:23 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.58])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28932.1787682796787293302
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 11:09:08 -0700
+ Tue, 25 Aug 2026 11:33:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=WevMvdzP;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Jzel3gRp;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 3028E7A0179;
-	Tue, 25 Aug 2026 14:09:07 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-05.internal (MEProxy); Tue, 25 Aug 2026 14:09:07 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1787681347;
-	 x=1787767747; bh=nn6UadLeMV7D/XkCt0fuM2otQ+YIg6ZG4zD5seJysnw=; b=
-	WevMvdzPb4pZG9fMkZyXVVHv52IIJagvP++hGHFxZFi7z2g/cUHSzKgyG7gUkOqt
-	wZIPCuilAipsglTQHp//GGAGpQjM8jkWYZfE80VasBW9cgQlF5iiNkVJAcmry+XQ
-	opdK4l5OpV+RcLK8iuJ5gvHiQUQT1wNNxtuoeitv2FPVcAkdsdK59OK5OaVpHB+4
-	kvrgZQskpEZfJsfoy9/MfxC3J8gA66OJ5SoWAADe7TzBV/wrek3/FFCUm25n41+4
-	gghhamqepFWl6ccBYoWwIwEeCBd4/+9/wlWGsrI2Kul/vOId6OXT6z3rYh2tkwJX
-	+roQzWkS9l0/diGlNGBMuA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787681347; x=
-	1787767747; bh=nn6UadLeMV7D/XkCt0fuM2otQ+YIg6ZG4zD5seJysnw=; b=J
-	zel3gRpbhPuUh89PkzAxAB6jxzRDWYO+iIiwWRxP3DovkihHVAlULiKEnoiMV7Rp
-	yt0nS+xsQtunh4H8aWcPPLUHYNpHfXoryfhoo+oISYeVphTt9onMS3tIEmy+GYaa
-	qzjopqgxxr1eqccqxmCtQyRIL70cTcHHwbKjA1h7rM/+LERzdvVCYyYLHd/73Bit
-	xPLPyXATXCou9qtzflIYViRazhgnKYiGS6N0Y5yqVCPaLPfkzu2KLq9XYENv7TsT
-	7BmhRvY5NOyZLreRv6e0hWRrvVde/HU7kS2lV4/sdDxNRL5CW5XAVfdYd56Bw+BF
-	Cat0So3u6wpn/TNlLHTbQ==
-X-ME-Sender: <xms:QtqNavqPPXgs2l3woG7LmPVQuu2ymLBZ-FUvZl8x8vXgm7lD2mfbgg>
-    <xme:QtqNahHh2rm6xPK6snJnr3_CnPtKJ3RylyAoHsvaeKGIi74Nv90Hk_69HJTAfoStG
-    dMDSwkhIsRi3AUqvHgyQMvNobsXv3znF0xwg5tP3gk3oK6HodZmBScq>
-X-ME-Received: <xmr:QtqNapkikTZ7MoqZOmhztfvY-9pf5Dcpsyz0TY9k7ksIhi_7F6ywOS62woqIdzoON2HnzmQf4OsH7IUL_JvCUAZGEvDhWkcgitLzMhI>
-X-ME-Proxy-Cause: dmFkZTGq/nVTU8Htuj51/1wKlQI7LLPfILoFaLAUQPExR+upnL5bJRnvgrBf7kmwLKlcpT
-    64IuYdVjcfzYdGy9Afu2JKwqlEJzHeZoATPmVSxxfWwMa2q6N1Uf3Bvt3rc21qral4TwL2
-    NRyZKo9WAJkVqckaNCAwux0euFqxx/XzDxYDqYysCw9AXyHTBfycq/UL0qKJgHtC9KdpPQ
-    UnYXvScMIUuG/76GOQFnD4T1kYaz1nSRqD1G9D8auAknzsbv2gqtvRztYzqA+o5XCEHo+r
-    X+k8Ufdh0Ue07eC46Ygt0Dn716HIuGCfvxddXW8azRAaImQN90nD274mVdYSvCgpvRqyik
-    jiHW6Q3jCD0SGQoUxef9y7YD9PRj1SqsupE2+9Xb+JskEN2d6+zYy1IPOZJzFzrZJ5DNpq
-    TndPS1dS0iaLr31rKziaCSB6vLJV9jbrXUPYK8pa6GyOjUumNvR/82eGNAjQERa5s3rVEb
-    Yqg42X6ck1i9v96vyJShLE29tlpMb2K/ZuPv/2fK1LHX8jKmXTJUuB/iGKjJaGSYR5SvFU
-    h4HNptrPx9e5fgXcvhgg2BFFZFZdoTd5aou0upLkwIFar7PsGpqcT8oehnIXVhJ4EOxwNn
-    /EwT+cjkyLARj2PtFaKUZprxqATbeuCvgOKBDkx33iz2fTzlo3PsqeYlOw9g
-X-ME-Proxy: <xmx:QtqNasm0txz3eFoNZiHWcdswhdoo326Iu6UTGHaxawaHua3ok0mSug>
-    <xmx:QtqNaisLUqhpfmZEOIc6-sF8_2kBXnIB5D0ziJDPcEe1ziC4JcXrVw>
-    <xmx:QtqNannkLAES7e8D-4hDXzZMyJfTmG7ppeU6iT1q-rxyuUPj4R9khw>
-    <xmx:QtqNalsHwdBhmsqxbVX9duX2jPunHV5yoLdW6GLlqofD0E5T4jJyLA>
-    <xmx:Q9qNaimJV1LftQBHn_-jXYFUKraaxp9f9lOW_WxMgytDdMf8272O3dcv>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Tue,
- 25 Aug 2026 14:09:06 -0400 (EDT)
-Message-ID: <3c09a2a02c36ae3934b533c2cd727d7d4faa44e2.camel@pbarker.dev>
-Subject: Re: [wrynose][PATCH] kern-tools: bump SRCREV for conditional
- 'depends on X if Y' support
-From: Paul Barker <paul@pbarker.dev>
-To: yoann.congal@smile.fr, openembedded-core@lists.openembedded.org
-Cc: Wadim Egorov <w.egorov@phytec.de>
-Date: Tue, 25 Aug 2026 19:09:04 +0100
-In-Reply-To: <20260825132319.3151755-1-w.egorov@phytec.de>
-References: <20260825132319.3151755-1-w.egorov@phytec.de>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=Q2KDAbnk;
+ spf=pass (domain: axis.com, ip: 52.101.72.58, mailfrom: peter.kjellerstedt@axis.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xmZypCk0FYpiiA81DWR57y0dKydBpZ8ax0NNhIcICvOuEv91rXAfbmckynGBnMtHELFDP+RCJ2irCMkLZFTBqeCHX1xasckMzSBLP6DC4JJQFrmJ6bsYT5W6OUzUZg0IQ0DlTY6DSG+H202gi8WH6iaa3o9bnS+jMskp4uLnUx5WqVWhZPJTCLMazsxWR1tW19hPpGs6Zkc8drNRPXzI7n49oUqtynGxsxbsd7kJ2FkhzqFHz7rO0o3y7mSwG2rEDUPy9bhSrg1/DwD6U+F/R83OLvKLRVtzZmYY5D1gmOsRdH7uRcIazaqiWzgQO45q32aVPf+f/GrA3w5Z+834YQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Spx7BYdSfmLYbFySUTh+7JH7AFLk96+Jbfn/8q5OtJQ=;
+ b=HrXkbjD+/nQEus4c1e3zwznXzrKPFnis7EIobyuw93N2jL+z/LdQizFnN9Lyei/TUMlH3X+cqTSwtgMGM1prUV4cpQKofI8cO6BfCnY47jjbcOkHlrExl5oH0fP2d0CxJFISiKGzMXpFAr/NL/u2QjDTo4rTnTtMYE04A+py9mXJFYpFoXB3kwQ4bnZ74s8NR/eKYZaq0aRxeDqRzSYWDacAN24D7aqOTE1PkMg4JwRR2UqwC2ZkUSh07T9iE8vzRgf0v6k/utXLUk/D6n1Aif/fw1Imuushyaa0n+/mz3gpl5/kVlKoZofY+ot5WCjmOzhgzyEyduOIJt6BN8Xkzw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
+ dkim=pass header.d=axis.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=Spx7BYdSfmLYbFySUTh+7JH7AFLk96+Jbfn/8q5OtJQ=;
+ b=Q2KDAbnk5dOTZ6lzOb1ikrYxGimXhCBDyn+t+V5JEcPLAiia8mHDaOG47EFv3D7GYoTCVTZel9BXe2T3iBSpBz/cpifpK4tlZPnLPPXanofkMesPfuRTNGLeFeZW0MERf0APJYq+PDka5PnWNn4rM15jvcyEXt3OGwQz+tioKWY=
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
+ by DU4PR02MB11213.eurprd02.prod.outlook.com (2603:10a6:10:5ef::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.6; Tue, 25 Aug
+ 2026 18:33:13 +0000
+Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
+ ([fe80::e5b6:b9a8:2a5d:e0cd%4]) with mapi id 15.21.0360.006; Tue, 25 Aug 2026
+ 18:33:12 +0000
+From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+To: "anis.bougrine10@gmail.com" <anis.bougrine10@gmail.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "antonin.godard@bootlin.com" <antonin.godard@bootlin.com>,
+	"bruce.ashfield@gmail.com" <bruce.ashfield@gmail.com>,
+	"jose.quaresma@oss.qualcomm.com" <jose.quaresma@oss.qualcomm.com>,
+	"richard.purdie@linuxfoundation.org" <richard.purdie@linuxfoundation.org>
+Subject: RE: [OE-core][PATCH v4 0/4] Make signed kernel modules stripped
+Thread-Topic: [OE-core][PATCH v4 0/4] Make signed kernel modules stripped
+Thread-Index: AQHdMc0QM12w7FGHXEKjMUZ3lBvuibavGcUA
+Date: Tue, 25 Aug 2026 18:33:12 +0000
+Message-ID: 
+ <DB5PR02MB10213BB4092FEDCA3EC3093FAEFAF2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+References: <20260822002601.90667-1-anis.bougrine10@gmail.com>
+In-Reply-To: <20260822002601.90667-1-anis.bougrine10@gmail.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=axis.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DU4PR02MB11213:EE_
+x-ms-office365-filtering-correlation-id: 86285786-d246-4915-eb28-08df02d75221
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|10067099003|22082099003|18002099003|11063799006|56012099006|38070700021;
+x-microsoft-antispam-message-info: 
+ Cntnsd3RU7Vat8Bu1UhP724WtAOSzqOHyzNCPnGqtTwLujdzykQjmMeRiJT/GGeoLJ0Pfy11BYjFXhR12sJEC9vaFNIMp2uQTiF53XNfy2yE7XTnhtonCH8nI3WjCZqnHVG7riEpnNxXwmfsgBj3Hx53HUHSYZOMSEa3OhSthu1k/SETGoOpG8kR/KhP0UnmHh9tF0wBt1AVAVZKgybzxWioXYqkhQPIqiHSiM3BCWSnhvdgguucb5Hgj3FIsizHPtXa+aKS6ibGdTiNZ4dH5S0khXZRbUkMsFHw3fDsmuYtsjebbASxAakKAHzC9Nhsn//2bopGoX6n6vMLoujdG4TBWluQ8dE9cNFx33eN8WOdCy9wG47p1kyksYcrL+moc6ONBv691HcL3dEYKM2XVHkFftTtBsdUCHGjyVfu56o6/k2XKvJPBk9Wu5jA+rDiN0xgxLxWTvwd3wyXsSWnh8QJNTWe6Ib5zxAiJjVTjqCTlUtC2dr4qGBUO2PprUw9fEfw2hVGIFkUmpfNoSvpeJvCIZxBNA186hWFkF0Etq2om/qO8n3LoY+rc+PiqQWopxBh/bMhuQw26I0BHV2tT08KyqgIGqfpe6qXqoos6PJeV71F8+gwsOVnT9X2RnuETdek1vUGUrRMAl3DmUeTcNzA9bn2OciLgfuCPM/9PaQHOOQNV1sNTuzEtzy+wz7t3gPKHeBmFNLIKdOzhZ78TLtz9xSR5CSMtWG4CltzuYE=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(10067099003)(22082099003)(18002099003)(11063799006)(56012099006)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?T5Sn6xQ4q1TIz+l/VjS2geKV92vsmztGw64t1Hz19ASn0vK6q7O0n12NLxPT?=
+ =?us-ascii?Q?WZL+TCKbsnGZRU7ct4qHDWX+RAIyUaxMwExHprf8ESh6Wg1VFHfzWRWUFMeS?=
+ =?us-ascii?Q?6qS9hnjNU43wAJwfW8AHVzD07/BbAjGwzFRX+kkrFR8iH9VHD9ISucMsm29X?=
+ =?us-ascii?Q?EeLeOZX3tMT97JEwt0NjoQ1lRK3AknvRIzaWAJPz/m1NAQ1TEMf7/FEJw6Gp?=
+ =?us-ascii?Q?AscCdmpi7sB08wj9qWeVfU/CQ/X2kzbwob/BGE/BxAyOoDu0Lruls406BlTX?=
+ =?us-ascii?Q?a7TD37/1+aT3IWM31iuNNECyGAlzisp0OStB0jpUWxg9fUaDhrVUDMD+eh5e?=
+ =?us-ascii?Q?GxRp2mdIZmYJSzD9S5MKh+J+M+1VraRlJyWpa39T9kafvl0yCciJuJJ0yXOh?=
+ =?us-ascii?Q?SPia6v4HPrm8D2xspCsIJUEThUo+dRVF6zcJw87IPn7UYBv6NFuhYx7TCW8/?=
+ =?us-ascii?Q?P2jBkzICWLyObT+rVv2KVM8WwUkup0cj+ghYRX4iM+K23OFhbRZvYwJTO8Nb?=
+ =?us-ascii?Q?PykR0dnUBO5U7g1ONAuHJdCOBW8G8WXSAkU+xk7uzLrivyXG4+hw1wbOt3P0?=
+ =?us-ascii?Q?+Wi+okuojsHKc501XsiuJcCC7hgoO4OiSsK8CaTgaCj2tc5eC24ypZw5FUfC?=
+ =?us-ascii?Q?H2JScbE+iasDvGZbJhu8FG6Zz2KU+E3OOV74FfoVh3o2YXSO6X9zme4+56YS?=
+ =?us-ascii?Q?vZjtSP/M6g47oFZIk6cVh2N8HtsDLVFcchCeqDoHAQAWtmWBX+3f6qLk5ZDM?=
+ =?us-ascii?Q?5tR4vKfeM6l/NVZYOeaMZvUTmoczA5y6C9VVJp1dn51MlnFHCu2wHXPM/lhx?=
+ =?us-ascii?Q?BhYNnpuCXsW+aml61HvhOoD3aenhkXgczRE08GNkT467oMIvWQLQBqzCXs6u?=
+ =?us-ascii?Q?oYyK+d/VjDWJ1i6oBGWV8hWmh8aXedsqozuYsd45bwIsuOysuGiw9A8AjB7t?=
+ =?us-ascii?Q?Z8Am5uaGJxqnTULGwAXGku8SrZTI/tRa9GJyHykW25kESPbAvISZ1xhqD6Vy?=
+ =?us-ascii?Q?U3l6GFKr1VYb4waq/3/qdEcGGjdy0TP/kGMUUUVfl1EnYfFvR5UJymv/UvSM?=
+ =?us-ascii?Q?AmeoLKTbUqwBza/jFcSS5Nw0jlrVNH6MrvjJjaxjX2f+YdkrcyS9fHBwkITV?=
+ =?us-ascii?Q?uUCK7z8w3GTLj8d3JqOgWeZ4wsq5yCz9aAct1HTgzU/TQfM/4jQ8GCe4nZ1S?=
+ =?us-ascii?Q?2fh35neyZJQOBR2M2k7xdBrTzG+iA1/2wWkMo1MixoWZgEBVsrh3+qTXdg7i?=
+ =?us-ascii?Q?Vi1Gs0BQj0shbta3mAe9vvw7ysAjhJQHVgiD1A0VqOV3W5aFWuJBbemJfhDq?=
+ =?us-ascii?Q?3ghRPleDSIbuAgMbvv9c3OsCkM2Ht20xi8KwU1aRh9JZf7lALvSN0IqHDOMA?=
+ =?us-ascii?Q?Fav0mAq7UAcfE9ZuA0St0mC9CnLCpD38cq9fGeQNfVRD1NnQWU9eUaDa3VpE?=
+ =?us-ascii?Q?3FQDnWmblK8mO2U4GfSGysCnSYImAPBBDhVL7qLJwIo5CZ4gHQ6dGK9/1Fxt?=
+ =?us-ascii?Q?ulpZ0mrhJbeX9AaE0pgDRWCKM+1towo+Q44tkxeZka4hcmsD42GzOqT+TIOz?=
+ =?us-ascii?Q?O+L+USj1Y2Bb7fH1sRtsJeEB1znOXAYBSltaH32kHXV7WuWuurlElNbbXJXL?=
+ =?us-ascii?Q?MIe6fxu36RoVlNkJ0z8P5DCdp9QpRmbXpDyNKpzBUpjUQsrTD4vQHXm1KQf1?=
+ =?us-ascii?Q?bC/eB4GmLm3QZMbaCu+yFhgthYE=3D?=
+Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
 MIME-Version: 1.0
+X-OriginatorOrg: axis.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 86285786-d246-4915-eb28-08df02d75221
+X-MS-Exchange-CrossTenant-originalarrivaltime: 25 Aug 2026 18:33:12.7894
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qMkGL83sVPqNjnc7dKXDQPjhIamCNYi+4haBQw8Zq3s+2StvcBdkUIh2mqmH4BZD
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU4PR02MB11213
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 18:09:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244254
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 18:33:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244255
 
-On Tue, 2026-08-25 at 15:23 +0200, Wadim Egorov wrote:
-> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+> -----Original Message-----
+> From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
+penembedded.org> On Behalf Of Anis Bougrine via lists.openembedded.org
+> Sent: den 22 augusti 2026 02:26
+> To: openembedded-core@lists.openembedded.org
+> Cc: antonin.godard@bootlin.com; bruce.ashfield@gmail.com; jose.quaresma@o=
+ss.qualcomm.com; richard.purdie@linuxfoundation.org; Anis Bougrine <anis.bo=
+ugrine10@gmail.com>
+> Subject: [OE-core][PATCH v4 0/4] Make signed kernel modules stripped
 >=20
-> Pull in the yocto-kernel-tools fix for the kernel's conditional Kconfig
-> dependency syntax (kernel commit 76df6815dab7, first in v7.0). Without it=
-,
-> do_kernel_configcheck fails on v7.0+ trees once a config uses the syntax
-> (drivers/hv MSHV_ROOT):
+> - Re-sign modules after the package stripping process.
+> - Remove the package-stripping skip for signed modules from package.py.
+> - Add MOD_INSTALL_PREFIX variable
+
+Other module related variables in kernel-module-split.bbclass=20
+are prefixed with KERNEL_MODULE_ so I think it would be more=20
+consistent to name the variable KERNEL_MODULE_INSTALL_PREFIX.
+
 >=20
->     drivers/hv/Kconfig:77: error: couldn't parse
->     'depends on HYPERV_VMBUS if HYPERV_VMBUS': extra tokens at end of lin=
-e
+> Note that this v4 patch drops v3 patch and its relative which have been m=
+erged to master-next:
+> 3e34657 kernel.bbclass: add strip process for signed kernel modules
+> ffc6d51 package: extract debug sources from signed kernel modules
 >=20
-> This SRCREV also carries the symbol_why.py/kconf_check audit hardening
-> (surface parse failures instead of swallowing them) and the new hermetic
-> Kconfiglib self-test.
+> Anis Bougrine (4):
+>   kernel.bbclass: re-sign kernel modules after package stripping process
+>   package.py: remove stripping and splitting skip for signed kernel
+>     modules
+>   kernel: centralize kernel module installation path in one variable
+>   documentation.conf: add documentation for MOD_INSTALL_PREFIX variable
 >=20
-> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 4f592ee59e90e536af33648112658dafe00f5d0e)
-> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
-> ---
->  meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  .../kernel-module-split.bbclass               | 23 ++++++++++++++++
+>  meta/classes-recipe/kernel.bbclass            | 13 +++++-----
+>  meta/conf/documentation.conf                  |  1 +
+>  meta/lib/oe/package.py                        | 26 +++----------------
+>  4 files changed, 34 insertions(+), 29 deletions(-)
 >=20
-> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/me=
-ta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> index bd90316050..2e13e4ca31 100644
-> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "\
-> =20
->  DEPENDS +=3D "git-replacement-native"
-> =20
-> -SRCREV =3D "a4a362d9f4f0abc8ab145a8673166b9bd875731a"
-> +SRCREV =3D "96a8d58bcd260f104c193a81b727818424d7b263"
+> --
+> 2.50.1 (Apple Git-155)
 
-Hi Yoann,
+//Peter
 
-I think this is worth taking on wrynose as it allows BSPs to use more
-recent kernels if they need to. The delta in yocto-kernel-tools is
-relatively small:
-
-    96a8d58bcd26 kern-tools: add Kconfiglib self-test
-    e31601535ff9 symbol_why, kconf_check: surface parse failures and add a =
-parse self-test
-    b5f008535c85 Kconfiglib: support conditional 'depends on X if Y' depend=
-encies
-    d30ab1a7626b kgit-create-buckets: update classification for 6.19 kernel
-
-The self-test suite won't be used, surfacing parse failures is a bugfix
-and the last two are the ones needed to support Linux v7.0+.
-
-Best regards,
-
---=20
-Paul Barker
 
 
