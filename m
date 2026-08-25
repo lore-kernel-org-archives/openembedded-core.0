@@ -2,120 +2,127 @@ Return-Path: <anis.bougrine10@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F25C61DBD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55A7BC61DC2
 	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 20:50:08 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32356.1787691000516914880
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32362.1787691005108999087
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 13:50:00 -0700
+ Tue, 25 Aug 2026 13:50:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=YtFeLpMa;
- spf=pass (domain: gmail.com, ip: 209.85.128.51, mailfrom: anis.bougrine10@gmail.com)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4998e0916faso592705e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 13:50:00 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=VH6e0kSH;
+ spf=pass (domain: gmail.com, ip: 209.85.128.52, mailfrom: anis.bougrine10@gmail.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so1462855e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 13:50:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787690999; x=1788295799; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/X7R6StMj7+V6+wRmGTvPPntpAJUw4h5kDGIE74bZ/8=;
-        b=YtFeLpMapGvfcbv3ZUa6GgZ/CTCH01eezKwb7Riby35Jfmyh5iPoxCzla8+gm+G+Fu
-         w/bhCYfeZKCuDWOhSPzQgOVepx3znS3I1LLzCmslas2rQe6ZgVEtHQMFo8NdO66wcoEb
-         fRCUueryUEyTPjbIJe0oARrIxccYIzjHPZv3aOIFkmLtLLRNzT0Wo/1eVtGNySlClyqO
-         nN57KFrWEVkKNNKBsPnbu9OxZGHGr+bEFgOBP9/TBI5xOtfLna1pw8m71H+jhbIUruU6
-         N9hvGKIF6GHb0xvQj7aJibAn7CyViSnAUuUN17Jy2L2kK2f1v2XPQZYu7gYu2zZ6zFBx
-         6PxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787690999; x=1788295799;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1787691003; x=1788295803; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=/X7R6StMj7+V6+wRmGTvPPntpAJUw4h5kDGIE74bZ/8=;
-        b=qMhPdH8fTsusSA3UZUVtPbnteS67sDZoLVDlF/rGtzj4S29O59Dd34v0GMRJxRTgUw
-         /lwl33sSY5PCxjtKN4t3bYrnQE+W/THbJJR1g2DBEv0d1QnZUjDgbeAqHazLRsOvPXUq
-         Ix5L+d1D5pcyxs/QRGsbfx1Bmj7psd05KJjYyGNLS1FKpWPrCmfnSLBM3Xi9EyQXEadT
-         x+Gbc75646cAJT6b566N9AfP5kLAnDc+Bv7q96+COHAU9xHWi4qVHyWQt9xQ8BYoZtf7
-         8QtwpgP2D4LZ4zS4WgDBprz/K17vXXLwpIn4oCtGc0JHJ5YOfA9lIgDYUgyXuXYQlYj+
-         Diiw==
-X-Gm-Message-State: AFuF++kzGbItULBXjxNPk+RDAHyqlMXBbOz+ZGkWiBd5HJKtSr99/rYZ
-	4dxTK3k1CTU0JSmAVhuX5yoQ29JnNtJhoOhUpYTsJlkQbH30omEPOjr+7rpMEd/ZTII=
-X-Gm-Gg: AR+sD10UuontL6AdVfhRBniTz/RJ9/7jBDOdEyvUKTtv1miSfJ99aSLW8NP8UQR2LQ5
-	WetWouj9ypfQC6yqPotZnEz/0ulM0RlIWSfQ6plNXzI2KjGbLQ7heBlB4fgfJqx8vvOUnXwJoQB
-	DMyMcnMi9EDbMLXm5ometJWtkRBJWmDGaqCSbK3tSdLE1nmBkKjvamxdHEtzWynxM5mxicVn8kg
-	hhoRXnOhalXL9PjfYg03AC5Zn8uPTMBq/nBsQRKGenAMGNNZZ2sFEf0inbspR7zfICPTAW4HPyK
-	n41meQGjrz4UrB2idWdJKA2ad9mi211adg3zfugV7XuPgmG8ipv7/CCMH98rICoyyVt3d+ZyBA0
-	5FJGjy2fKP+AxhHJ2HgI1ShAb3P0kd4bVFs7kIOAtRiOEWye9Iv98oG14zyOg3anCUmHw+5FIhJ
-	h0Q87FKMJYgiSFZCEPC0h3KeYuWffRhtfAU590BUkuLJoAZituQy5EmLBvJmw1m22U0QrS3l40m
-	lJMaa7QYmGRy5UAh0xmfuhIYkhA0+Sofv39mAs7ZzWIsp/TBfwkXHc8p/nLKzn7Fh1rxAON1mrU
-	RIGOLnp64Gtz
-X-Received: by 2002:a05:600c:138a:b0:499:d63b:a6da with SMTP id 5b1f17b1804b1-499dc6e002emr12605685e9.2.1787690998519;
-        Tue, 25 Aug 2026 13:49:58 -0700 (PDT)
+        bh=vQe+XyYeIqynn3tmbu4xipYLPKPeG9Nn9qDbJtasgM0=;
+        b=VH6e0kSHj5cuFJz59kX75SJ9WGoi4rP5rnY+pSrooeIohpb8jeTCMBE1RhuzLyPV3k
+         rxPGfjzy6DG8csLyLY0cfqyTkjunp3FwLXiSZRKX2dres8o5jXGDN+MXCl9Qf4sL9UJg
+         wavk3C7dpnP3wcaB+domcoEphAuKf5hdwYGpWvyW8GTgLzq4Es85hy/iqvIJiA6YXDIT
+         FbAhwvuyfTPLLxAxCLSMD676DwurIAUGxiRyNcpjRciwHTpolUg2ZPmxK4yWcVJtuyJY
+         r2wxo5iGamgFmTpglyWCdRSJ5EI7JSnl/RqKA+Ujfas2W+1GlAxfB6vRTR4QheXZaIkR
+         FY4g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787691003; x=1788295803;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vQe+XyYeIqynn3tmbu4xipYLPKPeG9Nn9qDbJtasgM0=;
+        b=Do9VwBXMwGY113QVbFUdFfcVEbNt0K0L0hRatPu3nxL/ExyYNH1g/KKpSyaRYzuOgU
+         G83G0bLZS4wW0l697B/h1R0uZR43uAop1SCRrt73qLDWniGCmwEjKhXvcLSHIWZ3bDF8
+         OnfBYdd7ekc6OIMhlOmdIPQb0IjYYzzn+FOX98qjz/Lh3CFFxyDOUkqhFwVXB2hJwHOv
+         Py1HkR8Sk0odu+0wzVRy0IeRTqxLDjum8xDy31iR0R+lXvnTs54K0638iP4KmZJi7NUg
+         F9HNWiQGydNCzn76xSzPDVIR3HMSQdzt4jsMH2Nno74IKnVlqFx7SWyc1nKldeZJXish
+         VV1w==
+X-Gm-Message-State: AFuF++mMFfpQ+P7quehY8/H+JIJcKDY30QEP5czLwFbHnzKySWvX34bf
+	SfIrTSMKRK3N9ny6o/QGp7G5Sn7qYUlZ3BgD6bPdUnR3b1J1pPDy3Txmxqkk6pe4dhQ=
+X-Gm-Gg: AR+sD12ncqRgwLP7uyHVp2codCtEOoYoM9zlEkmieujmRUPQtjl0wSn9Q7CJYl6RspH
+	TLd+pcZQDtyWzMK1uazDt/Dpk4s8espzrJKKnQwNqU4pJHBzUPz6yoeTIk7dJPuclPa/XLuyNUd
+	GD/v0XdOaE3yynDtABXELWYwnukk1HpYsmXo2EklZaUeremvMWFnU1CHB5oXj/tJPVSik5bgNCQ
+	H2foOSUDs2w16pm9I04NcU3mG5AEBTB5O/1cvcMlymWfTnW8Jn1lJtd78Hz4hT2hJuOxZ0lmFIp
+	aq1dRnH/ypcakRpX8Vf/Fi8EVgEh2IcB/6QLr3e2ZkO2HocAqq3mbIhsxcMyoxJ9iv3Mk8t7Ifl
+	SfyXstIqFJLCDqEO5HGgvmLn/nOOn5bCye8n4qlxTbnsyE6eMqIsKUiJ8O9ODq5FITMkHqD1z8Y
+	s2gErenrIK5Y2IVFWl+dhjzWZkBODsPvpB0OLlHOftdIcgcCpzL1ncX3pvueijW/F38vuKjx5iS
+	gV8o6OcdsjEodMPEa7HSlhQd7H603qYiXbPO15tw7yOJ4XiMIZ+liw+iX3b3MBWDXofowWTSYcE
+	JII9IGdifdGM
+X-Received: by 2002:a05:600c:3b13:b0:499:a760:722f with SMTP id 5b1f17b1804b1-499dc72515fmr13713355e9.13.1787691003277;
+        Tue, 25 Aug 2026 13:50:03 -0700 (PDT)
 Received: from device-137.home ([2a01:cb15:80cf:2100:f9af:e499:eded:1124])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dca98095sm4507845e9.5.2026.08.25.13.49.57
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dca98095sm4507845e9.5.2026.08.25.13.50.02
         (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
-        Tue, 25 Aug 2026 13:49:58 -0700 (PDT)
+        Tue, 25 Aug 2026 13:50:02 -0700 (PDT)
 From: Anis Bougrine <anis.bougrine10@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: mathieu.dubois-briand@bootlin.com,
 	richard.purdie@linuxfoundation.org,
 	peter.kjellerstedt@axis.com,
-	Anis Bougrine <anis.bougrine10@gmail.com>
-Subject: [OE-core][PATCH v5 0/5] Make signed kernel modules stripped
-Date: Tue, 25 Aug 2026 22:49:25 +0200
-Message-ID: <20260825204931.17628-1-anis.bougrine10@gmail.com>
+	Anis Bougrine <anis.bougrine10@gmail.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [OE-core][PATCH v5 1/5] kernel-module-split.bbclass: add get_ext_mod function for module signing
+Date: Tue, 25 Aug 2026 22:49:26 +0200
+Message-ID: <20260825204931.17628-2-anis.bougrine10@gmail.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260825204931.17628-1-anis.bougrine10@gmail.com>
+References: <20260825204931.17628-1-anis.bougrine10@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 20:50:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244274
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244275
 
-- Re-sign kernel modules after the package stripping process.
-- Remove the package-stripping skip for signed kernel modules from package.py.
-- Add KERNEL_MODULE_INSTALL_PREFIX variable
+Fixes [YOCTO #12927]
 
-Note that tests have been made on core-minimal-image for in-tree modules
-and on crypto-dev and lttng-modules for out-of-tree modules.
+Out-of-tree module Makefiles invoke the kernel Makefile by appending
+the M= (the module directory) variable to the MAKEFLAGS.
+However, they usually do not provide a modules_sign target. Therefore,
+the kernel modules_sign target has to be invoked manually after retrieving
+M= variable from package source code Makefile.
 
-changes in V5:
+This function retrieves the M= variable from an external module Makefile.
 
-    - Adapt signing function for out-of-tree modules.
+Reported-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Anis Bougrine <anis.bougrine10@gmail.com>
+---
+ .../kernel-module-split.bbclass               | 21 +++++++++++++++++++
+ 1 file changed, 21 insertions(+)
 
-changes in v4:
-
-    - Re-sign kernel modules after package stripping process
-    - Remove package-stripping skip in package.py
-    - Add MOD_INSTALL_PREFIX variable
-
-changes in v3:
-
-    - Fixing rebase issue.
-
-changes in v2:
-
-    - Use the conditional INSTALL_MOD_STRIP environment variable to avoid
-      duplicating the oe_runmake call.
-    - Use `scripts/config` script instead of grepping .config file.# Please edit the description for the branch
-
-Anis Bougrine (5):
-  kernel-module-split.bbclass: add get_ext_mod function for module
-    signing
-  kernel: re-sign kernel modules after package stripping process
-  package.py: remove stripping and splitting skip for signed kernel
-    modules
-  kernel: centralize kernel module installation path in one variable
-  documentation.conf: add documentation for KERNEL_MODULE_INSTALL_PREFIX
-    variable
-
- meta/classes-recipe/kernel-arch.bbclass       |  1 +
- .../kernel-module-split.bbclass               | 46 +++++++++++++++++++
- meta/classes-recipe/kernel.bbclass            | 12 ++---
- meta/classes-recipe/module.bbclass            |  2 +-
- meta/conf/documentation.conf                  |  1 +
- meta/lib/oe/package.py                        | 26 ++---------
- 6 files changed, 58 insertions(+), 30 deletions(-)
-
+diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
+index ab2f0d1c37..bde7cd02dd 100644
+--- a/meta/classes-recipe/kernel-module-split.bbclass
++++ b/meta/classes-recipe/kernel-module-split.bbclass
+@@ -42,6 +42,27 @@ KERNEL_MODULE_PACKAGE_PREFIX ?= ""
+ KERNEL_MODULE_PACKAGE_SUFFIX ?= "-${KERNEL_VERSION}"
+ KERNEL_MODULE_PROVIDE_VIRTUAL ?= "1"
+ 
++def get_ext_mod(d):
++    """
++    Extract the resolved Kbuild M= variable from an out of tree module Makefile variable database.
++    """
++    import re
++    import bb.process
++
++    try:
++        output = bb.process.run(
++            "make -C %s --dry-run --print-data-base" % d.getVar("B")
++        )[0]
++    except bb.process.ExecutionError:
++        return d.getVar("S")
++
++    for line in output.splitlines():
++        m = re.match(r'^M\s*=\s*(.*)$', line)
++        if m:
++            return m.group(1).strip()
++
++    return d.getVar("S")
++
+ python split_kernel_module_packages () {
+     import re
+ 
 -- 
 2.50.1 (Apple Git-155)
 
