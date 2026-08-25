@@ -1,323 +1,154 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 53883C61DBE
-	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 12:31:45 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.25])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19362.1787657047128184455
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 57FF3C61DBD
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 12:36:25 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.6])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20444.1787661383826136487
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 04:24:07 -0700
+ Tue, 25 Aug 2026 05:36:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=fU1UG/9C;
- spf=pass (domain: est.tech, ip: 52.101.65.25, mailfrom: adarsh.jagadish.kamini@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=BAXxr25D;
+ spf=pass (domain: est.tech, ip: 52.101.66.6, mailfrom: pratik.farkase@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=nJDIvZF12BnftlvT3LyEtIqSH3tgAq744jtf/Bc71jNsPA0sk6iiJCVoI5N3wvkFsWSHpGqSVholzuwKdseDcLg8DtweFA4CPPunjP8GgCcWtpdAPBjtWFAnIkt8e3S5XlOflxqr2imO/96IWaw49BMRErwSzPCpVIql4SWD2A/gwWbzBgwTMRAg2PFArWoA0/J8zXtDHUJ7dC4EVOl6sdTedN//hvr8NFtFQPYshT7jBYTFxL8/ZK4SYTJdA6gYmB2FEbJ32pq9eGvLaYkAZ9Cd9w3eYdbHDvSML8kBeXHsd1jPLegdNs1XjAFtqsaTjP8pnGavd5PR/nK0mUhN0Q==
+ b=qsy+hTkk5LqYut0HkaGGBzZmG8QTK6iAlFGI1cD6YR4c1SY+lpqxbwHZzuVe0SzcREDTSlv9H9Turmixx9bJ958QpHJ5qhQUAm5/q27iiEdTl0+QYEPjUG5DxrcSmO6N49nWC89iqOo4H0XiamwGqljhwsXf35y6AyYg0n9QKhoro/Q7vFsRonHrjc88C5KyJbfX+Zu4VeAx3OQy2iB6TNyi/aeDK4BqHGDSVBc0PA1Cl/5+CNcPhcJ1/XNUYECrUkxMe9SCcwvj1mhVHnAKPAo7Dm19Df5TAXSyM2AX2fnv8VsCHf5ntGYRncP8MGoYDpYinY43ifNFeo7T85VXUg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OHjlaHGMcdTYiJDV4h/z67PzpRixjQdwGCiIa2rdIPc=;
- b=K5HT9wyBQfP07999KMSoSdXwDGXx949XuwELchpOar0+rwzDspTsfMgbKuPFTSszCVHc4VPZOk6nSyzKGwq6hofIGnIM0gNWGkGhtgYZZuoDzF8S8W54IQCO2G3FUp4drXFBW89ytvohlux2721BH5mkBI3h2Wo/lpavOU4Q6z75Z2NqpOKP7lT83MPjK2sea0PmcpWQIOUjqrJGWQfVbYxaLqlrxYgmKMKP6bKjdkhGNKahqlQklnHuNYRTng7yl8KIEqKYVMH6XLY8rOq4cTlPYLE6y5Z49itmqMMINLwSB/whNILHxBUwsCpf7kVhzUpy0d0Fe3Ta/67DJA+9iA==
+ bh=WCySUU9NQ5NdYbv7JWdpYydPKD8RahbdBGuCn5O35mo=;
+ b=xpIwRY4GAERG+sb+kEW2yb7RoXNj5+akQQGOyS3WaTUo9evi4XLU1n2+wYC955mCu9N5eNaZnHYXLKN/fpTWZWBOy8IlFniD3aJlbpD5aKKQcyj+M7LfStaxGwlaQ9Ko8s6RqBb5OP6rKxiVxpmNVs0+9uGK1k6duF3SrrCYw1RwWt3upAsI3H9GHWvP5+viyZFkUWMldRcjNTIJkMnh4x8G3GcO3nWtbCzhxRGxSwV52sA1cZLDkV55Oi5+PkgfjAIiE8VJPqUrgTa2uYRDBTI8iE916DKcWQe1KvV3NRVS8ZmENJk0cvfFLWb5c0ko3XVpRf8SSAcYQ9wZoCuv5A==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OHjlaHGMcdTYiJDV4h/z67PzpRixjQdwGCiIa2rdIPc=;
- b=fU1UG/9CUaxT6VFwydh635k/rDksjIEzJEkfUx96Yi7LEOOgAhL+lqs/8Ua7Hfndl97lzjkzrsuYJhA9BQJU7jxNgV3+A7bFlubtdJo9HlmL0Rj8ZIyTD7G2FOJ95sC/NO+/tyXjlaq73TlYoB3P7LzFpnqJI1krtQYbdhet4B7H9O7T6+fIYGMkwyn9RDvG14dlhMCe9mmxTEDiSTIGb896XeexqcLS6IJyMZk5mZQv/wnOMpqL58e6+X8B2cmApLALsRG+tQRYPusxxpalChqyUl8cWBy3HT5yZ+XsylGZ4k6x+ViSeQw4n7agZ+oOk7/3CXsKQqZOHt4slmIsYg==
+ bh=WCySUU9NQ5NdYbv7JWdpYydPKD8RahbdBGuCn5O35mo=;
+ b=BAXxr25DB6bKzFy2SCGPr/X793ceMfg3jw0DPPhvKsJIZ71UQFD0TO/dNb2BNPLI1Y0fU3UMuI3yXSX/l5jfHMX3xtzxu/iS0Kg3qyiHPsel7OPcd0QOVyYBJENnlsxrvrtIb0bbREy2QpH3AdKNmQ+3Y+RoU6xMNQpUQK15vf4kXyJorc+C+j9Tl29dPlVIzNH//Ih1b6R7qhWiQ1+RAcp8NjST8CdMOBg9sPxVEZqTZlLsHA4YhqoFXR6BrwZonAsO5kG/9/Kg3xmJjdvSKYa0tagzJlJKPNLjIkQal2cRKYQZf6UWS9okw1WEUBV74wU38SFFuhb9b8E2rk9fcw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:396::9)
- by AM7P189MB0727.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:11d::23) with
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
+ by GV1P189MB2083.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:56::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.6; Tue, 25 Aug
- 2026 11:24:03 +0000
-Received: from AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff]) by AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- ([fe80::f147:85e5:34de:eeff%4]) with mapi id 15.21.0360.005; Tue, 25 Aug 2026
- 11:24:03 +0000
-From: "Adarsh Jagadish Kamini" <adarsh.jagadish.kamini@est.tech>
+ 2026 12:36:16 +0000
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0360.003; Tue, 25 Aug 2026
+ 12:36:16 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [wrynose][PATCH v2] gnutls: fix CVE-2026-33845
-Date: Tue, 25 Aug 2026 13:23:53 +0200
-Message-ID: <20260825112357.189078-1-adarsh.jagadish.kamini@est.tech>
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v1] ptest-perl: fix overly greedy SKIP detection in run-ptest
+Date: Tue, 25 Aug 2026 14:36:09 +0200
+Message-ID: <20260825123609.31426-1-pratik.farkase@est.tech>
 X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: DU2PR04CA0254.eurprd04.prod.outlook.com
- (2603:10a6:10:28e::19) To AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:396::9)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO0P123CA0010.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:354::19) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:4d4::5)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AS8P189MB1672:EE_|AM7P189MB0727:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3b37a0ea-a2d8-4958-4c43-08df029b5de6
+X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|GV1P189MB2083:EE_
+X-MS-Office365-Filtering-Correlation-Id: 03c12773-8a76-4b19-2e0b-08df02a57504
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|13003099007|6133799003|10067099003|56012099006|11063799006|18002099003|12006099003;
+	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|10067099003|56012099006|11063799006|5023799004|18002099003|3023799007;
 X-Microsoft-Antispam-Message-Info: 
-	91plPeWzMQzxEW7RGzRYUWHJq5RLBtHBFgoAuxoLPkrKqmMfFwNr/19eHs1rAHDaJi+lEZmsz8eCZXmj8GrvewvHD8YpIpfMHdq9pUKTNsa5e4zsspAn867tz2yTdsY9xr3ihtN3OyWLBhr+NB8/nQtCiP+BwU4DdEW2EDYoh57G+RWxYaWJxU+lgSRgWhbfHv96nWiKZkg9o7GB31x3oVidvgksgkDN/2a0HzbGVfqUK1cA1eY1BoJ4KYdR846sQSsUt15qEpfPu+BXG/RFoYmbYE+IRQhr3N3XTNk/awgcmFcHbn7htM8mUolPbIz/UZAC/G9B186E71Hj1XIsDyeqgWBkCAxoq8sfB9gO7i0MFizb6QSTj/YZ8tNGgKHhrWvP4H3EDkOuhspJl0p8PNRkK1kPUr2WjFBMnsyZPG1IOIpcaIyFRTEMg+DP1u3iPO9ZH8a3PuBmK5wzLxkQiYsHLRZbzSrEKkXHoz1Y11g7Oig9jT4rAaFoVQQhQLUBrgz+3AOFVtRGhZXvoO2He4Lnn+ZiZW4sXOUHPoBd7DQ//FX0mrNFbpav4ee4U8ye7kHldHoWWfpw8l5AMAzB84EZUw2Tk9zaZZIHxsbXFLt0k43/hs/oVJCg90qhQ3ra9fC/E3MaRjTwV9FSc/qICVaz9Uob8q+AB7+oU5SDyy0=
+	837gLHRWa20muJEUOHvp6dPbPJbCvCRgwsCnrYnN/2RpR5zQd1mct94OCCgCWzntWaKrTNfax3rB6VUONtlpZXQjVxYgns5Lv0hg8SZKs09FwuiPlL3+flg0mHtma6CsrMPATPvP3td9eAuYYP4d+0LFFh7UztoOdVcBByaZvRpRJleTqhaHaq6DUfbd3HNUuRlkflzFplIzRjq78efYkMOa82LoJprNb+RWm18KpIPt7gE4bkfesS2XtIh5ztIea7iO8MJLMW5TAvKtjv66pvkyEORRfWCO7esyEiCElw4BOnnhG4PD3h1EAVytDM7FdJiL7FCw0uAJXsFKEW8cD4r3kVnOJNClOkBy8kWu5xLYNl+ddrjhhLgZrxcBGxLUatsJH47A/Nh+igJusStHq6eec7qXbJR5HfF7kpR+VlTRqWVyxVd0SmeW9VjsNFBnkJzrTWxqzf4Zn2ZGNyNkh2tBdd0HC14RJCnbzmBLSthFz6kiPqXL1kLQ5hz1rDj3V5ysAO5dphim2783QYnAGdLOlZepGrL1h5W8V7WoPa+GQX7Bs8j3Xy2zMrCkab5EpqxmfBajN8XiFLIavkyXPJh0hSSW+VYEl9H+e0j2njM2amWvaiMVr5/CZsiwdJF+mcPcihzmOWnVaJRAMCky1ekSk9dwwnTGhyGasfDgKJs=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8P189MB1672.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(13003099007)(6133799003)(10067099003)(56012099006)(11063799006)(18002099003)(12006099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(10067099003)(56012099006)(11063799006)(5023799004)(18002099003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?VbPtXtXI/UeAjAsqEAeqrqt9ANnY1zb5HV6zXU+c6DM6FDdcMcNP+E/pNE9G?=
- =?us-ascii?Q?EBi1YjOoqQx9AujIoSAkI513WP+XZM0lmSfv7Qqny1XwcGhXKsPJsJc52Oy7?=
- =?us-ascii?Q?1vFSbZbLA/J5G1VOlvzDDQILamvh4ZuldH1hjR5jkiThFuUwcKFb6PpJ9KTO?=
- =?us-ascii?Q?Fxsu2328nZx9L1s6GdPRN64FZ0UEy4N1os/LiQRME1IzRGL6QQ9Q5kFcjAPR?=
- =?us-ascii?Q?U0yyiv1HP6a6427+GjekUtMVUNPBMvT7r35LJqtegrYkMCTCRzdyWdOVNC5D?=
- =?us-ascii?Q?419VMgUcPwrBWyu7W6iZA0XzNy+APj+NhpY7qu6r6jNrHnfwkDer9hHwFeec?=
- =?us-ascii?Q?UmtAP6WReu8EiGCjVZtvoP5euULan3PfZiwUM98Qg3RCRKM2tPQJArSqM+Ii?=
- =?us-ascii?Q?QJ98Pp4KqB7BP6h1NwHGhbYM9JA5CCYF1KFyztQu0BpOmWgPoYun8D5ryL6t?=
- =?us-ascii?Q?O+SNlPzwLzE0VTN0IZljfa+YxDWOdV7FBB7zoXN/K58ouzdlkyOh+kMpzwCr?=
- =?us-ascii?Q?jmWg4PkgtnmWHnDg1BACeQMaiVj2zgQT5ApybWw8dHescZtUcNWnIwpKKpjt?=
- =?us-ascii?Q?MDeWSwr3I20B8NSdmiokQJHIeLObpUGHqnB3PfvpBo7GsHcM9CfU+GgnBBch?=
- =?us-ascii?Q?hOFj480TsgmpJq9bo/bTtEOq0pteuEnnZHoDNdls5oB7rHUowcyxPm/C6+YC?=
- =?us-ascii?Q?iHtot219Utd+1r532fxweT6KUMDNrHsXICC+w+VrFwWw5kzCcEy0mhtSsznM?=
- =?us-ascii?Q?x2lKZQ5xiTWGuCKl2T1GIjGyrW8VaXwpDDbtYNG8bnNZYp7anL8E1G0qCt0M?=
- =?us-ascii?Q?nC7njkkTiLKXZLaG5jMF1aSlg/MFEo9oEnBD5XK0zW0cdJdkDLEt+f5THIeN?=
- =?us-ascii?Q?zIOjGHwxeEMLXvi0A41i6NxYH+QgZAIKxSQL4JftYNzzqK5AHfaOLu8MbqLz?=
- =?us-ascii?Q?5WsWoODBcgmUfQatMwP11K5+F1gM3XKYw+Y6AGVCht8pV06zGe4t3mWAb6dC?=
- =?us-ascii?Q?fJCoqQUngPiYIqWRIhvCRN7Jw3TliidAwlPzJoPcSSi6tG8f8URb4uqLjErA?=
- =?us-ascii?Q?19vETvle9/x/ifwWAOIIs0PTfkPUiOGO4hSRoDlTvaVf/J/b4ANyxuU9avlD?=
- =?us-ascii?Q?JjBXKpPbjNuwT7/DnHKb0giKEQs+KXvII4eH8okkrLfFm8NBoh7M0eylOYHA?=
- =?us-ascii?Q?6vjQLcoiRHVQzxaBz3aJeO2bcBmFN9cQaR9LjZjzYil8MSnhm0fARZeLe8kR?=
- =?us-ascii?Q?fXGU+RuDgSrQuPvFaTkCjzN+FiqQU/UDIvzhZU8wBoQ8aAiQC/YCeHGCbLcu?=
- =?us-ascii?Q?IKnKfaAFVmN2r+Labm3/I8pLMEcNL+lpRPw4Q8wm0mzUQXRhEVzqj+G5fV2y?=
- =?us-ascii?Q?6HJhjRYe/rcCugo2wrrmbysSuysIlIX+GY8rTxJJhL7AB+xX4u8Y7/tBVbd7?=
- =?us-ascii?Q?XMZDLri2Rf3kDc3SV8tPFYgJBcvCwkgB9ishnopsPsxQZolXa51ZfsksqXdi?=
- =?us-ascii?Q?8D7LytdAciT2umlfAw9DT7alqDFVWCtqZP9N1m3hqOs7BLXyMESsV18NkCIQ?=
- =?us-ascii?Q?oVeohMUlz4+2tSUBaOedt86uQQi1vGV728Z+iefCs04dMEAKxTZ7Uw0g1zNj?=
- =?us-ascii?Q?5drzHZ6ZuwLpqqpVIWzdGhjXmUuAvHiYhxLt00+ygJf1pRbOOliLLXq4zmMR?=
- =?us-ascii?Q?V/SGaLzgQIX0FNGhwcwUvM53heJrFfjxBHeeY2JDLthXA+UlC+dpOSCOMKIC?=
- =?us-ascii?Q?RNuLrhoTALwKgl4oaTSwdSm7Wv3F50Y=3D?=
+	=?us-ascii?Q?2pXBlqiXmMsL2eFOAemNNTnBIGG8GeNOu1HCl62ePuLgEzjLPbYDu2LasWSt?=
+ =?us-ascii?Q?bElk1I/GC1MG6qOQc1Le1mYyxhhBV+D+IW0pD/iwCIxk7QCkpWVpMlCH1l18?=
+ =?us-ascii?Q?OFO+hSfZZUzj+K3TKYv5DJYaqDLhxORjLXV1OzuBrEblq72RJ0ngNpCzzngi?=
+ =?us-ascii?Q?h03SbdttnmVgVj3jd0tM0cJwOCC7tJ7xh4o3j2rtD2Gl7oo3ISMLsbG02uZD?=
+ =?us-ascii?Q?4QGQvVVjwDv5mtZvcOPsR6QlQ+T1NLeTIMdNUwGWDRdn6BBW87+ZNy9uQpPT?=
+ =?us-ascii?Q?k6dwIXF25fyiwDy3Io2s8LEFs5P5ENGK8iiOL+pOmI1I2BtsHSQZ8fv3kXlo?=
+ =?us-ascii?Q?35ylw7HMSEwmXTcNvZwKduow5ILdki737TK+xfLEc2rhgJqdek7P1ZqAqIKZ?=
+ =?us-ascii?Q?jBZI3O/MEmJzl3HuCXpSvRe5/WTc0Ce1RD9UbMSlg3LP9gmM8FDhKi2mxTJv?=
+ =?us-ascii?Q?LlttqCZ+GCq4+0aCV1VSLpoBimKc8PoWKarx+Zvq0xKkWzHnYuJk+JchxGe0?=
+ =?us-ascii?Q?qoP86CbshD8zKV5TwgUv/D6l5Wc7ppbPepEOAWmJMo3cEL9H4Yfvm8GCswgy?=
+ =?us-ascii?Q?l5PPB9vtB6DEr1V4l7MOIE6RPNGNuwL8K2w907Op157Je7ENKcb6w7vJlcbZ?=
+ =?us-ascii?Q?6G0kmu71vgDQhYY19EN3ZwkU20XpRfbrp63M23mrLF5Yp+x3U/VOq+4haDMD?=
+ =?us-ascii?Q?7BYSDXNxo3wPKC4ohmekRcGeEMiHpjJg246UoLvch8y9iMoWEjqCX55ha69x?=
+ =?us-ascii?Q?3ghZmi3AW+RiVdd3YEeMhlQubOIEua97zKRwVwJdidI2yYcUEbdNsy5+m2XV?=
+ =?us-ascii?Q?LnVrbsS9tSZpolUjjTfb6AZ0sfwmz8aa7WHaLgZH0ZxR40EqzjONC2p3ZJ1x?=
+ =?us-ascii?Q?F4VWhvel+Ni6R2cPMwKGXqrpNFDMsQMe/JCpEh4ZlEo+YbOQsiZoUfcXC3PL?=
+ =?us-ascii?Q?XKE0exhAV30MYWkAoXR/G4kL0jo8F9kb8Y8U3l6hl2HJ4fyOrpc/SH8Cj5wq?=
+ =?us-ascii?Q?6tWe5EtUlt33YT3bEmKWejTSdXT/2jDXMQ3m0dizet7GYELxnF4vhGkqZ4t9?=
+ =?us-ascii?Q?wad6Ko4c5oHeJmi5iFc4M5cPRYVFRNAcux2jDwpgfsroCAii3vZDWXobe5W1?=
+ =?us-ascii?Q?2VvhOd9mV8ldDOZevmlvEJKZN9WGBedyjLe08UeKF916pyTYVcQYKWRElYVs?=
+ =?us-ascii?Q?+BVrD6zov0BDiMBBeYoLfk7rHMyrDCV1V5uxZ//Joc+/oUBCEVDsOzCAiMhk?=
+ =?us-ascii?Q?h2nH4tCQcWQch5Zh4NqRR9blYXMuSL+/SAI+93U2EMvYu7ev62Ew0SJ8tMHb?=
+ =?us-ascii?Q?ra/jxqhrX5A5O1KTNOgvIgwMKzmWtj7QEGpDdjPwl98M6WWq7E9HjeOGoFSO?=
+ =?us-ascii?Q?31icvUNW9Pvq+4N5x+51xrIsa/jvmVT5XgpD7SK2aNhRDWLarfCdZDj6pwwk?=
+ =?us-ascii?Q?9FoOQ2z3xaNnwUYnOOvKU35mwUwIDwuTRmZTwQkC7nRJHXTVHG70VQHUuyoA?=
+ =?us-ascii?Q?E4OiI2pq9WUzehWAfCC4soZZsRbeCtmwgzZLSPnghM5nGt35n+pKMw9aU8R+?=
+ =?us-ascii?Q?iHmiTucvx9NE6+GpwB9ToT3XyiI0wnT2w6cv4F4yLfITIJS4MnX1CdO5gS0G?=
+ =?us-ascii?Q?GRtiHU40JF9Xdg70ot1pLTynLiW54vglpqBsTIfujvdUgtjhQjQ5vYCaQlas?=
+ =?us-ascii?Q?zpzA01dz7miRT+FZkbzPptFkBk6XOnvfwtlb9r+0UXSrxKv4nboMSOIVIAJ1?=
+ =?us-ascii?Q?T0bEgLU4iA=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3b37a0ea-a2d8-4958-4c43-08df029b5de6
-X-MS-Exchange-CrossTenant-AuthSource: AS8P189MB1672.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 03c12773-8a76-4b19-2e0b-08df02a57504
+X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 11:24:02.9617
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 12:36:16.6662
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: DScHYK/Bbd+C8X2Shx2nLfgmfM+o0ZdP/fbnQ/Jo/ksked5ksV+ewDrhKFvvu+NUPYKPGZCUVNaAlRbV7ZGZT7LuyZwA2U6Tp/3t3f99o7s=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7P189MB0727
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+X-MS-Exchange-CrossTenant-UserPrincipalName: qUTYaIbu01RP6rXMf9kjt2Urqp1YmwZI7nx6rFxQ2ASJRkqd7s2p9Ie46aFD43lJQbIXJmyCrB+InOEL+D7Mmg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2083
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 12:31:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244232
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 12:36:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244233
 
-Backport patch to fix CVE-2026-33845.
+The run-ptest script uses 'grep -i SKIP' to detect skipped tests, which
+incorrectly marks entire test files as SKIP when they merely contain the
+word 'skip' in their output. This happens with:
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-33845
+- TAP subtest skip directives: 'ok 3 # skip PadWalker required'
+- Test descriptions containing 'skip': 'ok 84 - attributes successfully ski=
+pped'
 
-Upstream fix:
-  https://gitlab.com/gnutls/gnutls/-/commit/e5b72c53c7d789d19d1d1cd10b275e8=
-7d0415413
+Per the TAP specification, a test file is fully skipped only when its
+plan line reads '1..0' (zero tests planned). Change the detection to
+match only this pattern.
 
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Tested across all 12 recipes that use the default ptest-perl run-ptest.
+The fix corrects 19 false SKIPs to PASS across 5 recipes.
+
+[YOCTO #13411]
+
+AI-Generated: Assisted by Claude Sonnet 4
+
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
 ---
- .../gnutls/gnutls/CVE-2026-33845.patch        | 166 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   1 +
- 2 files changed, 167 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33845.patch
+ meta/files/ptest-perl/run-ptest | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-33845.patch b/meta=
-/recipes-support/gnutls/gnutls/CVE-2026-33845.patch
-new file mode 100644
-index 0000000000..004d3082c5
---- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-33845.patch
-@@ -0,0 +1,166 @@
-+From 490bfb28002fc0253010243ac387c756014c06e5 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Mon, 23 Mar 2026 15:09:43 +0100
-+Subject: [PATCH] buffers: switch from end_offset over to frag_length
-+
-+Instead of maintaining an inclusive [start_offset, end_offset] range
-+when reassembling DTLS handshake,
-+track start_offset and a relative frag_length instead.
-+
-+You'd think it'd be a no-op, but it fixes:
-+
-+* 0-length fragments triggering completion if message was 1 byte long
-+* a remotely triggerable underflow and an ensuing heap overrun
-+
-+Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
-+Fixes: #1811
-+Fixes: CVE-2026-33845
-+Fixes: GNUTLS-SA-2026-04-29-3
-+CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
-+
-+CVE: CVE-2026-33845
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/e5b72=
-c53c7d789d19d1d1cd10b275e87d0415413]
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-+---
-+ lib/buffers.c    | 50 +++++++++++++++++++++++++-----------------------
-+ lib/gnutls_int.h |  4 ++--
-+ 2 files changed, 28 insertions(+), 26 deletions(-)
-+
-+diff --git a/lib/buffers.c b/lib/buffers.c
-+index 09779a8f3..02cc222c4 100644
-+--- a/lib/buffers.c
-++++ b/lib/buffers.c
-+@@ -919,10 +919,7 @@ static int parse_handshake_header(gnutls_session_t se=
-ssion, mbuffer_st *bufel,
-+ 	}
-+ 	data_size =3D _mbuffer_get_udata_size(bufel) - handshake_header_size;
-+=20
-+-	if (frag_size > 0)
-+-		hsk->end_offset =3D hsk->start_offset + frag_size - 1;
-+-	else
-+-		hsk->end_offset =3D 0;
-++	hsk->frag_length =3D frag_size;
-+=20
-+ 	_gnutls_handshake_log(
-+ 		"HSK[%p]: %s (%u) was received. Length %d[%d], frag offset %d, frag len=
-gth: %d, sequence: %d\n",
-+@@ -936,9 +933,10 @@ static int parse_handshake_header(gnutls_session_t se=
-ssion, mbuffer_st *bufel,
-+=20
-+ 	if (hsk->length > 0 &&
-+ 	    (frag_size > data_size ||
-+-	     (frag_size > 0 && hsk->end_offset >=3D hsk->length))) {
-++	     (frag_size > 0 && hsk->start_offset + frag_size > hsk->length))) {
-+ 		return gnutls_assert_val(GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
-+-	} else if (hsk->length =3D=3D 0 && hsk->end_offset !=3D 0 &&
-++	} else if (hsk->length =3D=3D 0 &&
-++		   hsk->start_offset + frag_size !=3D hsk->start_offset &&
-+ 		   hsk->start_offset !=3D 0)
-+ 		return gnutls_assert_val(GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
-+=20
-+@@ -1002,11 +1000,10 @@ static int merge_handshake_packet(gnutls_session_t=
- session,
-+ 			hsk->data.length =3D hsk->length;
-+ 		}
-+=20
-+-		if (hsk->length > 0 && hsk->end_offset > 0 &&
-+-		    hsk->end_offset - hsk->start_offset + 1 !=3D hsk->length) {
-++		if (hsk->length > 0 && hsk->frag_length > 0 &&
-++		    hsk->frag_length !=3D hsk->length) {
-+ 			memmove(&hsk->data.data[hsk->start_offset],
-+-				hsk->data.data,
-+-				hsk->end_offset - hsk->start_offset + 1);
-++				hsk->data.data, hsk->frag_length);
-+ 		}
-+=20
-+ 		session->internals.handshake_recv_buffer_size++;
-+@@ -1040,20 +1037,27 @@ static int merge_handshake_packet(gnutls_session_t=
- session,
-+ 		}
-+=20
-+ 		if (hsk->start_offset < recv_buf[pos].start_offset &&
-+-		    hsk->end_offset + 1 >=3D recv_buf[pos].start_offset) {
-++		    hsk->start_offset + hsk->frag_length >=3D
-++			    recv_buf[pos].start_offset) {
-+ 			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
-+ 			       hsk->data.data, hsk->data.length);
-+ 			recv_buf[pos].start_offset =3D hsk->start_offset;
-+-			recv_buf[pos].end_offset =3D
-+-				MIN(hsk->end_offset, recv_buf[pos].end_offset);
-+-		} else if (hsk->end_offset > recv_buf[pos].end_offset &&
-+-			   hsk->start_offset <=3D recv_buf[pos].end_offset + 1) {
-++			recv_buf[pos].frag_length =3D MIN(
-++				hsk->frag_length, recv_buf[pos].frag_length);
-++		} else if (hsk->start_offset + hsk->frag_length >
-++				   recv_buf[pos].start_offset +
-++					   recv_buf[pos].frag_length &&
-++			   hsk->start_offset <=3D
-++				   recv_buf[pos].start_offset +
-++					   recv_buf[pos].frag_length) {
-+ 			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
-+ 			       hsk->data.data, hsk->data.length);
-+=20
-+-			recv_buf[pos].end_offset =3D hsk->end_offset;
-+ 			recv_buf[pos].start_offset =3D MIN(
-+ 				hsk->start_offset, recv_buf[pos].start_offset);
-++			recv_buf[pos].frag_length =3D hsk->start_offset +
-++						    hsk->frag_length -
-++						    recv_buf[pos].start_offset;
-+ 		}
-+ 		_gnutls_handshake_buffer_clear(hsk);
-+ 	}
-+@@ -1113,8 +1117,8 @@ static int get_last_packet(gnutls_session_t session,
-+ 		}
-+=20
-+ 		else if ((recv_buf[LAST_ELEMENT].start_offset =3D=3D 0 &&
-+-			  recv_buf[LAST_ELEMENT].end_offset =3D=3D
-+-				  recv_buf[LAST_ELEMENT].length - 1) ||
-++			  recv_buf[LAST_ELEMENT].frag_length =3D=3D
-++				  recv_buf[LAST_ELEMENT].length) ||
-+ 			 recv_buf[LAST_ELEMENT].length =3D=3D 0) {
-+ 			session->internals.dtls.hsk_read_seq++;
-+ 			_gnutls_handshake_buffer_move(hsk,
-+@@ -1125,8 +1129,9 @@ static int get_last_packet(gnutls_session_t session,
-+ 			/* if we don't have a complete handshake message, but we
-+ 			 * have queued data waiting, try again to reconstruct the
-+ 			 * handshake packet, using the queued */
-+-			if (recv_buf[LAST_ELEMENT].end_offset !=3D
-+-				    recv_buf[LAST_ELEMENT].length - 1 &&
-++			if ((recv_buf[LAST_ELEMENT].start_offset +
-++			     recv_buf[LAST_ELEMENT].frag_length) !=3D
-++				    recv_buf[LAST_ELEMENT].length &&
-+ 			    record_check_unprocessed(session) > 0)
-+ 				return gnutls_assert_val(
-+ 					GNUTLS_E_INT_CHECK_AGAIN);
-+@@ -1313,9 +1318,7 @@ int _gnutls_parse_record_buffered_msgs(gnutls_sessio=
-n_t session)
-+ 					&session->internals.record_buffer,
-+ 					bufel, ret);
-+=20
-+-				data_size =3D MIN(tmp.length,
-+-						tmp.end_offset -
-+-							tmp.start_offset + 1);
-++				data_size =3D MIN(tmp.length, tmp.frag_length);
-+=20
-+ 				ret =3D _gnutls_buffer_append_data(
-+ 					&tmp.data,
-+@@ -1331,7 +1334,6 @@ int _gnutls_parse_record_buffered_msgs(gnutls_sessio=
-n_t session)
-+ 				ret =3D merge_handshake_packet(session, &tmp);
-+ 				if (ret < 0)
-+ 					return gnutls_assert_val(ret);
-+-
-+ 			} while (_mbuffer_get_udata_size(bufel) > 0);
-+=20
-+ 			prev =3D bufel;
-+diff --git a/lib/gnutls_int.h b/lib/gnutls_int.h
-+index 54d3c9f67..283f25c07 100644
-+--- a/lib/gnutls_int.h
-++++ b/lib/gnutls_int.h
-+@@ -479,10 +479,10 @@ typedef struct {
-+ 	uint16_t sequence;
-+=20
-+ 	/* indicate whether that message is complete.
-+-	 * complete means start_offset =3D=3D 0 and end_offset =3D=3D length
-++	 * complete means start_offset =3D=3D 0 and frag_length =3D=3D length
-+ 	 */
-+ 	uint32_t start_offset;
-+-	uint32_t end_offset;
-++	uint32_t frag_length; /* used exclusively in DTLS reassembly */
-+=20
-+ 	uint8_t header[MAX_HANDSHAKE_HEADER_SIZE];
-+ 	int header_size;
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-su=
-pport/gnutls/gnutls_3.8.12.bb
-index 3ad011742e..81c00eca3d 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-@@ -37,6 +37,7 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v${S=
-HRT_VER}/gnutls-${PV}.tar
-            file://CVE-2026-42009_p1.patch \
-            file://CVE-2026-42009_p2.patch \
-            file://CVE-2026-3833.patch \
-+           file://CVE-2026-33845.patch \
-            "
-=20
- SRC_URI[sha256sum] =3D "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf=
-470bea012b8e51"
+diff --git a/meta/files/ptest-perl/run-ptest b/meta/files/ptest-perl/run-pt=
+est
+index 51e467abe7..814d50ae63 100644
+--- a/meta/files/ptest-perl/run-ptest
++++ b/meta/files/ptest-perl/run-ptest
+@@ -8,7 +8,7 @@ for case in `find t -type f -name '*.t'`; do
+     if [ $ret -ne 0 ]; then
+         result=3D1
+         echo "FAIL: ${case%.t}"
+-    elif grep -i 'SKIP' $case.output; then
++    elif grep -q '^1\.\.0' $case.output; then
+         echo "SKIP: ${case%.t}"
+     else
+         echo "PASS: ${case%.t}"
+--=20
+2.43.0
+
 
