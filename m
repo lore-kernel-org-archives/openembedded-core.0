@@ -1,234 +1,185 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE4ADC61DB6
-	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 08:49:38 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17459.1787647769110626774
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4517C5DF94
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 08:50:48 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17240.1787647842986041621
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 01:49:29 -0700
+ Tue, 25 Aug 2026 01:50:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=I0Iw9FrS;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-499b0eefa61so24467675e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 01:49:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787647767; x=1788252567; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=3upxA0uJoO8mXy0xH4FXBcA9dCtsU3/xFoi4+9lhnmI=;
-        b=I0Iw9FrSKVJ615V4ZexQ8dctPWhs4o08TpEokxXN71PYQZENpKbur944aT1n/XbsHu
-         aShxe0mGVqyzYxcU4W/avt/4VCE7cmo+q4sGW/D12XIMNTJX51C3QZ9uTvVeyftdS1Yn
-         FUJk+BYF7C24r3VLBCkunmSa7XCG/YyQKf+TM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787647767; x=1788252567;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=3upxA0uJoO8mXy0xH4FXBcA9dCtsU3/xFoi4+9lhnmI=;
-        b=eDLQfroDlA1saX34mO6VeuxvFikOaOhEwZ51gUGMN/l4rJa0MECjbfZQd0ojcfng89
-         4YFwPC/1wsWw33AxzFO7IrB/f4R7HAGRajdb6D7/t0quvknKWitSIRRdTlrxh6JinVNd
-         o9TR27AXGbb43131Y2PpfDnE8Hd1QFtgEkTQ8t/yqaRlPgRSmc8RM+SnJGlPyRIuMcbS
-         7tsGjOZQOH62TL5XruwDdCkOU7qP7UDPXJkzeA1FLymHyIH9Z3M9Slfv2UCMtpVtXVXL
-         i0w4VeiB7FF3vK9Rvg+korYBnYKXpH0nxYEHdek0YS/Q3/ZFSjKmIgweCyONLub9T9AA
-         22VQ==
-X-Forwarded-Encrypted: i=1; AHgh+Rp6SEOhqJtIAT6eMoSdo4oMOphClvFf5TbUMjAT7lNKdWmJrIENwE3KXxtSEBJ8nD2mdc4/Y7Qerv8GfLp/ltQbTw==@lists.openembedded.org
-X-Gm-Message-State: AFuF++kLzndlDMfH91sOgtVetzkfF7NM9TSPfVhcLv+y40ZWoFL8n7OJ
-	O55OawlVGgu1L7VL2GvycQRSaX71bpnAHMIwdX7cFSVWtRRXjbjCFHmWeZ8zAmEh010=
-X-Gm-Gg: AR+sD13MynN5ciha6rqe6fAsD8ERijp3fdN+pvNhc0J3OmxZfi+aqXHDBZ8+nGXD5Ob
-	MEejdUdHUasR9pX+T3j0e02YwjKdMhbLXzWobyqCGhlEFHVtM0lQu5kOB1ygav4AqmUDslcBlIr
-	98ULnFiukTqSxZJQ8UE4FGXnMTWWvSSPIbdqW4eFo6s3CMuCsrdl+UaNfKbrCGm/pSsG/DUwbas
-	gkf69TJWQDKjuc+HGdwzH1ohPYEzrxm4aMM9AbaqhHLSO35xEWKUrOf62wDFhTZBqodhuY66UgR
-	Y+H6gHr/1FSHBuBL6KofU+3MLoShObpNHrlfV3cnHtl4sJupYtutF1Vjs2tczFfpjjEbtJoeJMr
-	zIhR05JvmzEp0Xaim7fpyjKNF+TrFdEL2ISMiqn5z6Im6BMHhErzMqiFVd/tSI1grAdl3KY0cFu
-	NXzxMlITjoB34ncgcvU9fyLiUFyg88fHSlYfx+lkBltFFTiMb0TpL/UmcOTp8GGDIqNh23gRiDO
-	Zp0eOoICiZLLdmMCYX1YB0c/tvGYV5EssI5J5KiT84di4Ad
-X-Received: by 2002:a05:600c:34c6:b0:499:5f7a:7ea2 with SMTP id 5b1f17b1804b1-499c19cbbd7mr290304935e9.12.1787647767249;
-        Tue, 25 Aug 2026 01:49:27 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499d6350331sm22013365e9.6.2026.08.25.01.49.26
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2026 01:49:26 -0700 (PDT)
-Mime-Version: 1.0
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=E18QEiO+;
+ spf=pass (domain: est.tech, ip: 52.101.72.45, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=gTXNm9RwbByEeZ0L1d/l2QHTSIuGNfJ63ML86SjeduDoBWZ63c9uarob/RFCPNlfD2wl/7aieY8fGrc9QAcdFIFn14ChKq/9gaPuRj14/dHBVcPi5CVSClYrVthW7tqpncta2lTq4bb3i0SVidzMlUi30OLdVIHqdWhlt0Tx3Z786m356Xfz+4o1u43kffLM27CxakTPgTeagisY/cSjVvZFj84QVFCKaU2YNWpc7kO3JHAWbBjcey3fdDhzkW/12dKnhw7H05LyWDb1sY8f1W2P0o3dop3hFhrpXVDkZPz0Ojhyl1XP5krtUfl+VkBXWbXBreouA+HrOwxT1DHprQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m8RXGRGTwy6LD/VsY+WKzVmU3YNAgM41F3J/idqwbHY=;
+ b=IG5LxJVzHJRUmB4Pqipz96vPqEOyf3LJI97goEkxQKecPv3OD7ztn34FeoM3ki821FE6i5SADINrv3ol7Eib761lQcjtrUnLg/PfSAroe2iLxk0ytPi8VxZxdxrvkWIIXAcNbrgWZ2LlsdL2CvHA7USZxw9ZzlzrBJs7JPElRc6WXkbH/w4Fb7ZHvL0Md3SsJdhsK1KU7iGtFRYCIIFnbe2i20BDo97XdwtzIew3KSXD6/VRP5XYgS7fpp4QxNlLB3sFOKxdKMHCtisVga8EbyS1DCCVJM4teLQ5dBQRwZ2DRFk/o80Ih3d6d6pB04Py/WOC0nvruB33wzH3Dhyf9Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m8RXGRGTwy6LD/VsY+WKzVmU3YNAgM41F3J/idqwbHY=;
+ b=E18QEiO+/UqsWn0ppZYfkvlqIxACTQ8vxNNkemcZbuCk9tkg8E7K627qp6sj3QtC8cTC44UpZG1Ha0etcAsSEVxMX8qFHdrcH8nUeNW+LyP9RIlUHwofJIChb3NfUNz13KluXFt8vx/sayx6MkaXqcF3W+N8bd78Abq+dREbGSvMDhBoEK4bDpKrVO7vWj80kYoLvC5hlByakGBgMqFvkzDH7oSvGCrfpg2uvTx8fB9/Zux2PWXZHic/wwn52K1XJzrJSS9O7ZS6KND4a6zjGki2ppqiYfVlebHh/d8GDDubZvdw6132+03Yp/9G/EwKGuf0yNydhM433aoOpEMleA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by DB8P189MB0934.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:160::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.6; Tue, 25 Aug
+ 2026 08:50:37 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0360.005; Tue, 25 Aug 2026
+ 08:50:37 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] netbase: upgrade 6.5 -> 6.6
+Date: Tue, 25 Aug 2026 10:50:36 +0200
+Message-ID: <20260825085036.25882-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 25 Aug 2026 10:49:26 +0200
-Message-Id: <DKXW8UOQZO4F.2HWCHAX1B3QG5@smile.fr>
-Subject: Re: [OE-core][wrynose][PATCH v3 1/6] rsync: Fix CVE-2026-29518
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "xe-linux-external (Internal Group)" <xe-linux-external@cisco.com>
-To: "Yoann Congal" <yoann.congal@smile.fr>, <asparmar@cisco.com>,
- "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260724043914.4061351-1-asparmar@cisco.com>
- <DKA8MSUA8QRC.3P1RM7SCLTGG4@smile.fr>
- <PH0PR11MB59020D843247D3B789DCE7E7CFCA2@PH0PR11MB5902.namprd11.prod.outlook.com> <DKAZFDFRUHBF.2SVVF2X00US95@smile.fr>
-In-Reply-To: <DKAZFDFRUHBF.2SVVF2X00US95@smile.fr>
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0323.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:197::22) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|DB8P189MB0934:EE_
+X-MS-Office365-Filtering-Correlation-Id: 7d31c65d-bb79-4531-289d-08df0285ef23
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|10067099003|56012099006|18002099003|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	h5rYqI8lla3emySbAlMGGKddy5r1ak6FLkkUkiUpcnpjyv3FbBPRYlzN1wvaeH0+Sjd5XbQLVdsVibILU7jCKmOK/0fT4IE8HYvnLWCzoxZsqjB8pDCmv+/hsECgR21M9XoOJ6BmhgrX6Bf+Bj4hv6dML16V/q5vx6+qsCcTpx6ew9Frq1WQ/Vlum/+f9DmjC7ABbNVTLMmpEpVw5BBFEyAd/boAuDWDDr+dPJcuD3j+AjH/LTGY43AOuHpx+dyWu6S+omflKhBu8BW8EyeJJBXdq+DkV/KGIbkWpeVwICOClYKOk19nKZ9h26OFR/LKRdxmq0Z76HVUOKBW3DWxGbkoQz/JUVwY1f7L+U5kQ6NCFxryjN6v0eFOx5PT7yyN8C9RGPYNesKhtIDVPcOzxpbuMoTCMMT3tu6k+jzqeflGHUjvyL0LBpkCnhy5Kz7Kj1IoXWFRSX2v9awYVbvjohu1wMLYvRsKMv/y7/PmwsOMnlDoxTP61ptcw6sO+mZ2WQNmHeJEuxSGIB3ofkO3QVRVSxLzon0d3aS55F/GMNsdXNH2Zj5AjJAWbrX9b8v4alGpYg8hBZceta+NauNenU9EoXAKNEUps8JCoRm32Pj+ooETQyzdX+Yu61Taj5SiXRt2len/oCX32Gm2pizy4wat1nMyAatI2eiRcc1Guzg=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(10067099003)(56012099006)(18002099003)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?VdJOT3AMTW5EgdtlQHHjoeDN0j0klbQzSHntFLe47J8BQ4CMeUzIGcXcMF7i?=
+ =?us-ascii?Q?ZixA4TmiPFGdfdZ9wXpINuQc7/FS/Ey8ciCwlA14+XbGiT9V8UQ4w05PyqZt?=
+ =?us-ascii?Q?V1aCLtVm/vrjeYJyV+bRQf82+ix4SU6kPC+0JlldKcblTfuSc4jwKsfYH0tF?=
+ =?us-ascii?Q?7TJYT+tW+MGW5u1XGzLcuxD+ojKwQWIwzr1dFxPlv+Vpwh7ZJjsFAhbG9uDE?=
+ =?us-ascii?Q?kb97bwaEmiu09OYMRUtI+lXvUsGsjxl5wds42fRxpYuRRjVIQ8znMcw17UBl?=
+ =?us-ascii?Q?vxYf00c+HBQ8U2s8Sl8xh5qwYTcl70Mc+XETUuseJJmYxSCmMyAZ93kLzUC2?=
+ =?us-ascii?Q?DjXOpwrorqO717OM/nBIXF47qojn6EmIWcCUqVUFE2pNyzUbP50oM30JHsYn?=
+ =?us-ascii?Q?qeF3Wc8w4I884eVTFXYnxMQqfLXeo/lBixDPHD/dtvSaREp6YQPJ92B6Nroc?=
+ =?us-ascii?Q?NDboSapOgYgud0VCtc19lI/dwJYnC5rbvLggvTpMoWFU70iU5gd+0XJPXKLY?=
+ =?us-ascii?Q?abefoItyDI1TT6B1YGvGN63YLUO+ewRee7Kw0mQqFX3SUPhYiMCZrL8PL84c?=
+ =?us-ascii?Q?mPnjPefbjRZXxf9HsWmDFrXvEQh62ymlkE3HUeXvUnI7ke6YjvgfiVAP/vST?=
+ =?us-ascii?Q?avsck/+yZXwoZjnCLCOW5L2p44RxNte/IJncRcmYgbC23C1T1UHiFUzTgGC+?=
+ =?us-ascii?Q?YKiHsba6KE87n7zaauDtOhMiHz3KTIyECL3a+eH0E37IaPsmuPBInD2tZjjb?=
+ =?us-ascii?Q?oGvKC/m5jLZcTbsYqJyOArBKHzgQUjfnQvnmwjaVAUUrXV0DdCEv4UKBf39H?=
+ =?us-ascii?Q?VX4O88WU+c9na93ys+UNCoVeKTfJcu66SzTz04eAA1Ogy0J2dBM5bE9ALd+1?=
+ =?us-ascii?Q?Kv17bOwrTvtIqa1ux0TO6M7UguapxNpIEt7dMadNN5vaLjBuddKCa/S/cI2e?=
+ =?us-ascii?Q?ow2Ef5z3tR8BMpGpIdG4QDBzPX3BPCWX+XJ7LwgKourS92Y7tlc1PkVa0GeU?=
+ =?us-ascii?Q?AsQMarWEZAV4vgBBXxGRWEXZIqfv6UYaA2dA/KG36vyhftWjuy1xCauq0Nfe?=
+ =?us-ascii?Q?MbbIs8hE4b5mXyuwEXlCxD/+1NNUH/Bh7SKl/aFUfbBvPJ6X594lqil5XPKr?=
+ =?us-ascii?Q?CiN8adPKFzx4UJXcbiwWath23PpI0jXiWz0rDv/BxB0vixlac5REuDAUngtA?=
+ =?us-ascii?Q?frVI1lQPrI8ELgW6hPxSYjUf3SNmZVDz6azmoL6TkZzpdamjmQAS6PNp7on7?=
+ =?us-ascii?Q?L6KRKxH9U4mV1auG2gSBbdjKK137vSUfqW8t/HtD/VlHsjBHPRV3eg9MTCo0?=
+ =?us-ascii?Q?7B39LkJDWY17Kh8Qr1jdHokd+fr4F9E8GMCNwcEsDr5H7SD1TitElW+s+dnT?=
+ =?us-ascii?Q?hboOjN/LMEml5IkyPE58nJFM+ejdctsY29W7DPMN3N1OINlBAYo++09EDLw1?=
+ =?us-ascii?Q?eIc5gr0CWc1YublhF4/MRRtxCK0mujBEQnzSsEeQBcC2m4AZ3Wi4/Yz+lgWv?=
+ =?us-ascii?Q?yYUA30nRSVlyrnfYtgbouQWfW3Ob2eawXB0hON5IKhVAP5ssaxWmdOXGnkDi?=
+ =?us-ascii?Q?7Wjsd+tT9QBKEApY345uDVgXxCuXNaHXaHFIPIgViCjhpf6ThA1IxBhAbAmE?=
+ =?us-ascii?Q?xRjxzN/ZYKpR2/d6xOemULPBuRSes8Hr7m85UhEi0/ulpWlDV4MpQKIhNTG8?=
+ =?us-ascii?Q?AOH20XGSkUW5q9RhU6tfPGrNnsX+g0PrK4uAvlMZ996pXows6oq0/R+5O+4g?=
+ =?us-ascii?Q?jj9/W/0FXmCNt6OonBg/3V8PnCVzWCg=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 7d31c65d-bb79-4531-289d-08df0285ef23
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 08:50:37.7204
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cRzqCkMx5RTHoUQfPvnzvy1vV5xH8aay5NjUW/MvGYKpI/MRqjS7K9vrHaKT1zoqHXR5pZFZ/cTPkwVnTFoyTzf9PYkFUUt4xuAGerDbCD8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB8P189MB0934
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 08:49:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244211
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 08:50:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244212
 
-On Wed Jul 29, 2026 at 12:27 PM CEST, Yoann Congal wrote:
-> On Wed Jul 29, 2026 at 8:33 AM CEST, Ashishkumar Parmar X (asparmar - E I=
-NFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
->> Hello Yoann,
->>
->> Thanks for reporting this.
->>
->> I tested the complete rsync series in a clean Debian 11 environment. The
->> rsync-native build passed all 157 tasks without sstate reuse.
->>
->> This differs from the Scarthgap issue. Wrynose already includes the upst=
-ream
->> openat2 portability fix as CVE-2026-43619_p6.patch, including the
->> configure-time checks for <linux/openat2.h> and SYS_openat2.
->>
->> The reported Wrynose failure instead occurs during the compiler sanity c=
-heck,
->> where the linker rejects the unsupported --no-rosegment option:
->>
->> /usr/bin/ld: unrecognized option '--no-rosegment'
->>
->> This appears to come from stale or mismatched hosttools/ld state rather =
-than
->> the rsync patches.
->>
->> Could you retry after regenerating hosttools/ld?
->
-> You are right, it does build, sorry (my hosttools/ld was not
-> up-to-date).
->
-> FYI, even if the patch build and passes tests, there are questions in
-> the Yocto community on how to handle these large CVE patches that AI
-> tend to generate. This was discussed at yesterday's "weekly engineering
-> sync" meeting:
-> https://www.yoctoproject.org/community/get-involved/#virtual-meetings
->
-> The main points that were raised:
-> * The patches size prevent us from reviewing it realistically: A usual
->   (for us) CVE patch is a few lines long. Those are a few thousand!
->   We (as in the Yocto community) might have to decide if we'd rather
->   have a CVE fixed at the risk of stability or ensure stability at the
->   cost of having a few CVEs unfixed.
-> * The patches size force to backport a lot of dependant changes to
->   handle backport conflicts until a point where we backport most of the
->   development branch. And then, what is a point of the stable policy?
->
-> So, I'll put these patches (wrynose&scarthgap) on hold for now.until we
-> reach a consensus/decision.
+Source: debian/changelog [1]
 
-Hello,
+netbase (6.6) unstable; urgency=3Dmedium
 
-I'm sorry but we ultimately decided to reject this series. See the
-updated doc[0][1] for rational:
-> Patches submitted for a stable branch need to be isolated changes that
-> are human readable and understandable. Fixes for CVEs or other issues
-> which have a high complexity, consist of a large number of commits
-> and/or a large numbers of changed lines are unlikely to be accepted due
-> to the difficulty they cause with maintainability and scalability.
+  * services: renamed datametrics (1645) to sightline, which is the
+    official name.
+  * services: renamed z3950 (143/tcp) to z39-50, which is the
+    official name. The old name is kept as an alias.
+  * services: renamed snmp-trap (162) to snmptrap, which is the
+    official name. The old name is kept as an alias.
+  * services: renamed imap2 (143/tcp) to imap, which is the official name.
+    The old name is kept as an alias.
+  * services: renamed sip-tls (5061) to sips, which is the official name.
+    The old name is kept as an alias.
+  * services: removed some historical or not actually used ports:
+    rmtcfg (1236/tcp), rtcm-sc104 (2101/udp), sgi-cmsd (17001/udp),
+    sgi-crsd (17002/udp), sgi-gcd (17003/udp), sgi-cad (17004/tcp),
+    asp (27374).
 
-[0]: 4 Contributing Changes to a Component =E2=80=94 The Yocto Project =C2=
-=AE dev documentation
-     https://docs.yoctoproject.org/dev/contributor-guide/submit-changes.htm=
-l#submitting-changes-to-stable-release-branches
-[1]: contributor-guide: Note patch complexity requirements for stable branc=
-hes - yocto-docs - Versioned project documentation
-     https://git.yoctoproject.org/yocto-docs/commit/?id=3D33bf0ff80df6be2aa=
-d8eb081752648d3c408a54b
+ -- Marco d'Itri <md@linux.it>  Mon, 24 Aug 2026 00:53:38 +0200
 
-Regards,
->
-> Regards,
->
->>
->> Regards,
->> Ashish
->> ________________________________
->> From: Yoann Congal <yoann.congal@smile.fr>
->> Sent: 28 July 2026 18:57
->> To: Ashishkumar Parmar -X (asparmar - E INFOCHIPS PRIVATE LIMITED at Cis=
-co) <asparmar@cisco.com>; openembedded-core@lists.openembedded.org <openemb=
-edded-core@lists.openembedded.org>
->> Cc: xe-linux-external (Internal Group) <xe-linux-external@cisco.com>
->> Subject: Re: [OE-core][wrynose][PATCH v3 1/6] rsync: Fix CVE-2026-29518
->>
->> On Fri Jul 24, 2026 at 6:39 AM CEST, Ashishkumar Parmar X (asparmar - E =
-INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
->>> From: Ashishkumar Parmar <asparmar@cisco.com>
->>>
->>> This patch backports the upstream rsync v3.4.3 security fix train for
->>> CVE-2026-29518. The direct CVE fixes are [3] and [4]:
->>>
->>> - [3] enables secure_relative_open() for daemon modules running with
->>>   "use chroot =3D no", closing the receiver-side basis-file TOCTOU.
->>> - [4] routes the sender read path through secure_relative_open() from
->>>   the trusted module root, closing the matching sender-side TOCTOU.
->>>
->>> This patch also carries [1] and [2] from the same upstream v3.4.3
->>> security/update train. These are supporting secure_relative_open()
->>> changes, not standalone direct CVE fixes: [1] uses Linux
->>> openat2(RESOLVE_BENEATH) to preserve the same confinement while allowin=
-g
->>> legitimate in-tree symlinks, fixing upstream issue #715; [2] adds the
->>> equivalent FreeBSD/macOS O_RESOLVE_BENEATH path. Debian's
->>> rsync 3.4.1+ds1-5+deb13u3 security update also carries these commits
->>> before the direct CVE-2026-29518 commits.
->>>
->>> The upstream fixed release is referenced in [5], and the public CVE
->>> record is referenced in [6]. Individual backported commit links are
->>> also recorded in the embedded patch headers.
->>>
->>> [1] https://github.com/RsyncProject/rsync/commit/4fa7156ccdb2ad34b034d1=
-8fe2fd6cd79adef8a1
->>> [2] https://github.com/RsyncProject/rsync/commit/7f60ec001a0be63b770707=
-ec8b829524c3809a43
->>> [3] https://github.com/RsyncProject/rsync/commit/f1c24ab03bc85cb2638a56=
-9faa60216582fb6c5d
->>> [4] https://github.com/RsyncProject/rsync/commit/859d44fa4f1420775e4ba0=
-50337ef32092f2894c
->>> [5] https://github.com/RsyncProject/rsync/releases/tag/v3.4.3
->>> [6] https://www.cve.org/CVERecord?id=3DCVE-2026-29518
->>>
->>> Signed-off-by: Ashishkumar Parmar <asparmar@cisco.com>
->>> ---
->>> Changes in v2:
->>> - No changes made; rebase only.
->>>
->>>  .../rsync/files/CVE-2026-29518_p1.patch       | 392 ++++++++++++++++++
->>>  .../rsync/files/CVE-2026-29518_p2.patch       |  98 +++++
->>>  .../rsync/files/CVE-2026-29518_p3.patch       | 328 +++++++++++++++
->>>  .../rsync/files/CVE-2026-29518_p4.patch       |  71 ++++
->>>  meta/recipes-devtools/rsync/rsync_3.4.1.bb    |   4 +
->>>  5 files changed, 893 insertions(+)
->>>  create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p1=
-.patch
->>>  create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p2=
-.patch
->>>  create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p3=
-.patch
->>>  create mode 100644 meta/recipes-devtools/rsync/files/CVE-2026-29518_p4=
-.patch
->>
->> Hello,
->>
->> This series caused a build issue.
->> See: https://lore.kernel.org/openembedded-core/cover.1785190123.git.yoan=
-n.congal@smile.fr/T/#mac8cd24d85cb37cd8fa468a51921ac376e238c7f
->>
->> Regards,
->> --
->> Yoann Congal
->> Smile ECS
+Update S to ${UNPACKDIR}/work to match the new tarball structure
 
+License-Update:  copyright content, see [2]
 
---=20
-Yoann Congal
-Smile ECS
+[1] https://salsa.debian.org/md/netbase/-/blob/debian/6.6/debian/changelog
+[2] https://salsa.debian.org/md/netbase/-/commit/392d1b45a2e3d41e6a791dbc81=
+7e83953cd9cb8d
 
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ .../netbase/{netbase_6.5.bb =3D> netbase_6.6.bb}            | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+ rename meta/recipes-core/netbase/{netbase_6.5.bb =3D> netbase_6.6.bb} (77%=
+)
+
+diff --git a/meta/recipes-core/netbase/netbase_6.5.bb b/meta/recipes-core/n=
+etbase/netbase_6.6.bb
+similarity index 77%
+rename from meta/recipes-core/netbase/netbase_6.5.bb
+rename to meta/recipes-core/netbase/netbase_6.6.bb
+index c6cf798421..cab95a8603 100644
+--- a/meta/recipes-core/netbase/netbase_6.5.bb
++++ b/meta/recipes-core/netbase/netbase_6.6.bb
+@@ -3,14 +3,16 @@ DESCRIPTION =3D "This package provides the necessary infr=
+astructure for basic TCP/
+ HOMEPAGE =3D "http://packages.debian.org/netbase"
+ SECTION =3D "base"
+ LICENSE =3D "GPL-2.0-only"
+-LIC_FILES_CHKSUM =3D "file://debian/copyright;md5=3D78dd2c7c6f487348e4a009=
+2c17a19d42"
++LIC_FILES_CHKSUM =3D "file://debian/copyright;md5=3D03a03b9cf1aa619e30b1c9=
+d53141163e"
+ PE =3D "1"
+=20
+ SRC_URI =3D "${DEBIAN_MIRROR}/main/n/${BPN}/${BPN}_${PV}.tar.xz"
+=20
++S =3D "${UNPACKDIR}/work"
++
+ inherit allarch
+=20
+-SRC_URI[sha256sum] =3D "9116047aebbaa1698934052d01c6e09b4c3aed643e93df63d2=
+ddcbec243c26d1"
++SRC_URI[sha256sum] =3D "31f7e8a37f3f07010e484f74bcbee503923b38d1a36c6a1132=
+6b804acc07224e"
+=20
+ UPSTREAM_CHECK_URI =3D "${DEBIAN_MIRROR}/main/n/netbase/"
+=20
+@@ -21,5 +23,3 @@ do_install () {
+ 	install -m 0644 ${S}/etc/services ${D}${sysconfdir}/services
+ 	install -m 0644 ${S}/etc/ethertypes ${D}${sysconfdir}/ethertypes
+ }
+-
+-S =3D "${UNPACKDIR}/netbase"
 
