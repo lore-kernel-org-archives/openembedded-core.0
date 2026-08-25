@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CA83C61DC2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C020C61DB9
 	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 18:50:46 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29683.1787683840056014881
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.29685.1787683841542538592
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 11:50:40 -0700
+ Tue, 25 Aug 2026 11:50:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=VN+iMRjX;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-256628-202608251850388e90f841e40002070f-v_7hk2@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202608251850388e90f841e40002070f
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=aE5UzbPo;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20260825185039c8c3dfedc800020704-i4_aol@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260825185039c8c3dfedc800020704
         for <openembedded-core@lists.openembedded.org>;
-        Tue, 25 Aug 2026 20:50:38 +0200
+        Tue, 25 Aug 2026 20:50:39 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=wgb4hwgy0eZn5Sgw/OcDpPNmEy2sQhCIWNXWahzWT14=;
- b=VN+iMRjXQURgPSBAjiF0USqeGdFFfgY/Hz9yp5J/asEp2pCGffP0nYKHCC8i91a9zrISqQ
- sk4xMrDsfqM3tv6rTLyKgxy1AX2Igl/02HiTxZeU4OGfARidk0KgetWZExJF+ryf548MbUbG
- 5Lf0ZJaR05aeVTXlkNL3aobHcGx31bScmLI/TpkaYfuCCTS5D+fVzvgENX6KizijlWzVgQqF
- RdJp4KxSSuUfBYKpRKDqdBWKBNWK56ZVTfQZsFhDDMnfxlADZy1eJxiFjB5rzeLF1s24NPsK
- YS74AcsyIYwIdnrwjvHCK5p8nqGDVh7AU/riduQGb8ujn+f6Lnr87btw==;
+ bh=5hDsqwAHHRrs9xy2dP9F+vnoTXVAtReA7Is4vTcif5A=;
+ b=aE5UzbPor1t5KQG6yt37+T8Ea10cQ25UqoJOg/VkRMoEGJCik0ovDrDMVb8F6aGFOxP1J4
+ oyMV7QTFkqqaDg6WpNuQLEYb/1oYE+eCk55Cp3Z4wjd4FJMC3tk1LIGt22CMgfx+f34zfP1U
+ Q+xk1lRvULh5zFKg8IwJ4Wi4nPOzQvw4tJk8XM3kEapBuvAW0b5uW/KF8gGG2bnCxYo4kLhr
+ RzgmkslJFY2+iHEXB7mmiUJkh+g0eC7ou3d0GbhSlA1L1+Z1FvaMnKqqdnixryJAW/k7zGbG
+ Rs+bcuyHTgkQCWYhbJHPyVKUPvQdJ3P/Qprfo3G0efYxcn2JqvDeQ+FQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH v2 3/5] curl: patch CVE-2026-9080
-Date: Tue, 25 Aug 2026 20:50:20 +0200
-Message-ID: <20260825185022.1020129-3-peter.marko@siemens.com>
+Subject: [wrynose][PATCH v2 4/5] curl: patch CVE-2026-9545
+Date: Tue, 25 Aug 2026 20:50:21 +0200
+Message-ID: <20260825185022.1020129-4-peter.marko@siemens.com>
 In-Reply-To: <20260825185022.1020129-1-peter.marko@siemens.com>
 References: <20260825185022.1020129-1-peter.marko@siemens.com>
 MIME-Version: 1.0
@@ -39,131 +39,270 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 18:50:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244264
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244265
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick patch per [1].
+Also pick additional patch for a clean cherry-pick.
 
-[1] https://curl.se/docs/CVE-2026-9080.html
+[1] https://curl.se/docs/CVE-2026-9545.html
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../curl/curl/CVE-2026-9080.patch             | 95 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
- 2 files changed, 96 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-9080.patch
+ .../curl/curl/CVE-2026-9545-01.patch          | 157 ++++++++++++++++++
+ .../curl/curl/CVE-2026-9545-02.patch          |  67 ++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |   2 +
+ 3 files changed, 226 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-9545-01.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-9545-02.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-9080.patch b/meta/recipes-support/curl/curl/CVE-2026-9080.patch
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-9545-01.patch b/meta/recipes-support/curl/curl/CVE-2026-9545-01.patch
 new file mode 100644
-index 0000000000..b1cf613f8a
+index 0000000000..5325c51e5e
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-9080.patch
-@@ -0,0 +1,95 @@
-+From 5ab34cba42e4ee4282fe8bab43f311d51b9bf9bd Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Tue, 26 May 2026 09:52:19 +0200
-+Subject: [PATCH] multi: handle pause in multi socket callback
++++ b/meta/recipes-support/curl/curl/CVE-2026-9545-01.patch
+@@ -0,0 +1,157 @@
++From 41aaac61e215a827619b896d5b8588200cfdae28 Mon Sep 17 00:00:00 2001
++From: Stefan Eissing <stefan@eissing.org>
++Date: Wed, 18 Mar 2026 11:37:18 +0100
++Subject: [PATCH] lib: always use Curl_1st_fatal instead of Curl_1st_err
 +
-+The mev_sh_entry object might be removed if curl_easy_pause() is called
-+from within the socket callback.
++Curl_1st_err() does not return the second error if the first result is
++CURLE_AGAIN. This may cause errors to not become noticeable when they
++should be.
 +
-+Introduced a 'magic' struct field to to 'mev_sh_entry' to make it easier
-+to programmatically detect/assert if the pointer is bad - in debug
-+builds.
++Replace all use of Curl_1st_err() with Curl_1st_fatal(), which handles
++CURLE_AGAIN as a not-a-real-error case.
 +
-+Reported-by: Joshua Rogers
-+Closes #21748
++Closes #20980
 +
-+CVE: CVE-2026-9080
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/5ab34cba42e4ee4282fe8bab43f311d51b9bf9bd]
++CVE: CVE-2026-9545
++Upstream-Status: Backport [https://github.com/curl/curl/commit/41aaac61e215a827619b896d5b8588200cfdae28]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ lib/multi_ev.c | 23 ++++++++++++++++++++---
-+ 1 file changed, 20 insertions(+), 3 deletions(-)
++ lib/easy.c              | 6 ++++--
++ lib/http.c              | 2 +-
++ lib/multi.c             | 2 +-
++ lib/url.c               | 5 -----
++ lib/url.h               | 7 -------
++ lib/vquic/curl_ngtcp2.c | 6 +++---
++ lib/vquic/curl_quiche.c | 4 ++--
++ 7 files changed, 11 insertions(+), 21 deletions(-)
 +
-+diff --git a/lib/multi_ev.c b/lib/multi_ev.c
-+index 478d5a48d5..7ea3b2827e 100644
-+--- a/lib/multi_ev.c
-++++ b/lib/multi_ev.c
-+@@ -40,6 +40,8 @@ static void mev_in_callback(struct Curl_multi *multi, bool value)
-+   multi->in_callback = value;
-+ }
-+ 
-++#define SH_ENTRY_MAGIC 0x570091d
-++
-+ /* Information about a socket for which we inform the libcurl application
-+  * what to supervise (CURL_POLL_IN/CURL_POLL_OUT/CURL_POLL_REMOVE)
-+  */
-+@@ -51,6 +53,9 @@ struct mev_sh_entry {
-+                          * libcurl application to watch out for */
-+   unsigned int readers; /* this many transfers want to read */
-+   unsigned int writers; /* this many transfers want to write */
-++#ifdef DEBUGBUILD
-++  unsigned int magic;
-++#endif
-+   BIT(announced);       /* this socket has been passed to the socket
-+                            callback at least once */
-+ };
-+@@ -75,6 +80,9 @@ static void mev_sh_entry_dtor(void *freethis)
-+ {
-+   struct mev_sh_entry *entry = (struct mev_sh_entry *)freethis;
-+   Curl_uint32_spbset_destroy(&entry->xfers);
-++#ifdef DEBUGBUILD
-++  entry->magic = 0;
-++#endif
-+   curlx_free(entry);
-+ }
-+ 
-+@@ -113,7 +121,9 @@ static struct mev_sh_entry *mev_sh_entry_add(struct Curl_hash *sh,
-+     mev_sh_entry_dtor(check);
-+     return NULL; /* major failure */
++diff --git a/lib/easy.c b/lib/easy.c
++index 2c653b00e9..5a5dac4f56 100644
++--- a/lib/easy.c
+++++ b/lib/easy.c
++@@ -1157,12 +1157,14 @@ CURLcode curl_easy_pause(CURL *d, int action)
++   if((send_paused != send_paused_new) ||
++      (send_paused_new != Curl_creader_is_paused(data))) {
++     changed = TRUE;
++-    result = Curl_1st_err(result, Curl_xfer_pause_send(data, send_paused_new));
+++    result = Curl_1st_fatal(
+++      result, Curl_xfer_pause_send(data, send_paused_new));
 +   }
++ 
++   if(recv_paused != recv_paused_new) {
++     changed = TRUE;
++-    result = Curl_1st_err(result, Curl_xfer_pause_recv(data, recv_paused_new));
+++    result = Curl_1st_fatal(
+++      result, Curl_xfer_pause_recv(data, recv_paused_new));
++   }
++ 
++   /* If not completely pausing both directions now, run again in any case. */
++diff --git a/lib/http.c b/lib/http.c
++index aa34b5d14f..96e7b0de0c 100644
++--- a/lib/http.c
+++++ b/lib/http.c
++@@ -4135,7 +4135,7 @@ static CURLcode http_on_response(struct Curl_easy *data,
++ out:
++   if(last_hd) {
++     /* if not written yet, write it now */
++-    result = Curl_1st_err(
+++    result = Curl_1st_fatal(
++       result, http_write_header(data, last_hd, last_hd_len));
++   }
++   if(conn_changed) {
++diff --git a/lib/multi.c b/lib/multi.c
++index 482c160fde..685bb01f0c 100644
++--- a/lib/multi.c
+++++ b/lib/multi.c
++@@ -718,7 +718,7 @@ static CURLcode multi_done(struct Curl_easy *data,
++   }
++ 
++   /* Make sure that transfer client writes are really done now. */
++-  result = Curl_1st_err(result, Curl_xfer_write_done(data, premature));
+++  result = Curl_1st_fatal(result, Curl_xfer_write_done(data, premature));
++ 
++   /* Inform connection filters that this transfer is done */
++   Curl_conn_ev_data_done(data, premature);
++diff --git a/lib/url.c b/lib/url.c
++index a9ef60709a..cd06d6c626 100644
++--- a/lib/url.c
+++++ b/lib/url.c
++@@ -3875,11 +3875,6 @@ void *Curl_conn_meta_get(struct connectdata *conn, const char *key)
++   return Curl_hash_pick(&conn->meta_hash, CURL_UNCONST(key), strlen(key) + 1);
++ }
++ 
++-CURLcode Curl_1st_err(CURLcode r1, CURLcode r2)
++-{
++-  return r1 ? r1 : r2;
++-}
 +-
-++#ifdef DEBUGBUILD
-++  check->magic = SH_ENTRY_MAGIC;
-++#endif
-+   return check; /* things are good in sockhash land */
-+ }
++ CURLcode Curl_1st_fatal(CURLcode r1, CURLcode r2)
++ {
++   if(r1 && (r1 != CURLE_AGAIN))
++diff --git a/lib/url.h b/lib/url.h
++index 09bc33390f..0afa7eb26e 100644
++--- a/lib/url.h
+++++ b/lib/url.h
++@@ -92,16 +92,9 @@ bool Curl_conn_seems_dead(struct connectdata *conn,
++ CURLcode Curl_conn_upkeep(struct Curl_easy *data,
++                           struct connectdata *conn);
 + 
-+@@ -223,6 +233,7 @@ static CURLMcode mev_sh_entry_update(struct Curl_multi *multi,
++-/**
++- * Always eval all arguments, return the first result != CURLE_OK.
++- * A non-short-circuit evaluation.
++- */
++-CURLcode Curl_1st_err(CURLcode r1, CURLcode r2);
++-
++ /**
++  * Always eval all arguments, return the first
++  * result != (CURLE_OK|CURLE_AGAIN) or `r1`.
++- * A non-short-circuit evaluation.
++  */
++ CURLcode Curl_1st_fatal(CURLcode r1, CURLcode r2);
 + 
-+   /* we should only be called when the callback exists */
-+   DEBUGASSERT(multi->socket_cb);
-++  DEBUGASSERT(entry->magic == SH_ENTRY_MAGIC);
-+   if(!multi->socket_cb)
-+     return CURLM_OK;
++diff --git a/lib/vquic/curl_ngtcp2.c b/lib/vquic/curl_ngtcp2.c
++index ea79eaf747..04f660ac63 100644
++--- a/lib/vquic/curl_ngtcp2.c
+++++ b/lib/vquic/curl_ngtcp2.c
++@@ -1461,8 +1461,8 @@ static CURLcode cf_ngtcp2_recv(struct Curl_cfilter *cf, struct Curl_easy *data,
++   result = CURLE_AGAIN;
 + 
-+@@ -272,12 +283,18 @@ static CURLMcode mev_sh_entry_update(struct Curl_multi *multi,
-+   rc = multi->socket_cb(data, s, comboaction, multi->socket_userp,
-+                         entry->user_data);
-+   mev_in_callback(multi, FALSE);
-+-  entry->announced = TRUE;
-+   if(rc == -1) {
-+     multi->dead = TRUE;
-+     return CURLM_ABORTED_BY_CALLBACK;
++ out:
++-  result = Curl_1st_err(result, cf_progress_egress(cf, data, &pktx));
++-  result = Curl_1st_err(result, check_and_set_expiry(cf, data, &pktx));
+++  result = Curl_1st_fatal(result, cf_progress_egress(cf, data, &pktx));
+++  result = Curl_1st_fatal(result, check_and_set_expiry(cf, data, &pktx));
++ denied:
++   CURL_TRC_CF(data, cf, "[%" PRId64 "] cf_recv(blen=%zu) -> %d, %zu",
++               stream ? stream->id : -1, blen, result, *pnread);
++@@ -1788,7 +1788,7 @@ static CURLcode cf_ngtcp2_send(struct Curl_cfilter *cf, struct Curl_easy *data,
++   result = cf_progress_egress(cf, data, &pktx);
++ 
++ out:
++-  result = Curl_1st_err(result, check_and_set_expiry(cf, data, &pktx));
+++  result = Curl_1st_fatal(result, check_and_set_expiry(cf, data, &pktx));
++ denied:
++   CURL_TRC_CF(data, cf, "[%" PRId64 "] cf_send(len=%zu) -> %d, %zu",
++               stream ? stream->id : -1, len, result, *pnwritten);
++diff --git a/lib/vquic/curl_quiche.c b/lib/vquic/curl_quiche.c
++index a9a5ae6b99..4e8788aa1e 100644
++--- a/lib/vquic/curl_quiche.c
+++++ b/lib/vquic/curl_quiche.c
++@@ -918,7 +918,7 @@ static CURLcode cf_quiche_recv(struct Curl_cfilter *cf, struct Curl_easy *data,
++     result = CURLE_AGAIN;
++ 
++ out:
++-  result = Curl_1st_err(result, cf_flush_egress(cf, data));
+++  result = Curl_1st_fatal(result, cf_flush_egress(cf, data));
++   if(*pnread > 0)
++     ctx->data_recvd += *pnread;
++   CURL_TRC_CF(data, cf, "[%" PRIu64 "] cf_recv(len=%zu) -> %d, %zu, total=%"
++@@ -1144,7 +1144,7 @@ static CURLcode cf_quiche_send(struct Curl_cfilter *cf, struct Curl_easy *data,
 +   }
-+-  entry->action = (unsigned int)comboaction;
-++  /* curl_easy_pause() is documented as callable from any callback; it
-++   * re-enters mev_assess() which may free this 'entry'. Re-fetch. */
-++  entry = mev_sh_entry_get(&multi->ev.sh_entries, s);
-++  if(entry) {
-++    DEBUGASSERT(entry->magic == SH_ENTRY_MAGIC);
-++    entry->announced = TRUE;
-++    entry->action = (unsigned int)comboaction;
-++  }
-+   return CURLM_OK;
-+ }
 + 
++ out:
++-  result = Curl_1st_err(result, cf_flush_egress(cf, data));
+++  result = Curl_1st_fatal(result, cf_flush_egress(cf, data));
++ 
++   CURL_TRC_CF(data, cf, "[%" PRIu64 "] cf_send(len=%zu) -> %d, %zu",
++               stream ? stream->id : (uint64_t)~0, len,
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-9545-02.patch b/meta/recipes-support/curl/curl/CVE-2026-9545-02.patch
+new file mode 100644
+index 0000000000..4fc60eb5c9
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-9545-02.patch
+@@ -0,0 +1,67 @@
++From 7b9613fa9b1a5e04301a3920eef58e8138dad05e Mon Sep 17 00:00:00 2001
++From: Stefan Eissing <stefan@eissing.org>
++Date: Thu, 21 May 2026 14:21:59 +0200
++Subject: [PATCH] ngtcp2: fail handshake directly
++
++When certificate verification fails, error out of the handshake
++callback, forcing ngtcp2 to stop processing the connection any further.
++
++Closes #21712
++
++CVE: CVE-2026-9545
++Upstream-Status: Backport [https://github.com/curl/curl/commit/7b9613fa9b1a5e04301a3920eef58e8138dad05e]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ lib/vquic/curl_ngtcp2.c | 11 ++++++++++-
++ 1 file changed, 10 insertions(+), 1 deletion(-)
++
++diff --git a/lib/vquic/curl_ngtcp2.c b/lib/vquic/curl_ngtcp2.c
++index 4d27ebc0c1..fb7fd61889 100644
++--- a/lib/vquic/curl_ngtcp2.c
+++++ b/lib/vquic/curl_ngtcp2.c
++@@ -504,7 +504,7 @@ static int cf_ngtcp2_handshake_completed(ngtcp2_conn *tconn, void *user_data)
++   data = CF_DATA_CURRENT(cf);
++   DEBUGASSERT(data);
++   if(!ctx || !data)
++-    return NGHTTP3_ERR_CALLBACK_FAILURE;
+++    return NGTCP2_ERR_CALLBACK_FAILURE;
++ 
++   ctx->handshake_at = *Curl_pgrs_now(data);
++   ctx->tls_handshake_complete = TRUE;
++@@ -512,6 +512,9 @@ static int cf_ngtcp2_handshake_completed(ngtcp2_conn *tconn, void *user_data)
++ 
++   ctx->tls_vrfy_result = Curl_vquic_tls_verify_peer(&ctx->tls, cf,
++                                                     data, &ctx->peer);
+++  if(ctx->tls_vrfy_result)
+++    return NGTCP2_ERR_CALLBACK_FAILURE;
+++
++ #ifdef CURLVERBOSE
++   if(Curl_trc_is_verbose(data)) {
++     const ngtcp2_transport_params *rp;
++@@ -1463,6 +1466,8 @@ static CURLcode cf_ngtcp2_recv(struct Curl_cfilter *cf, struct Curl_easy *data,
++ out:
++   result = Curl_1st_fatal(result, cf_progress_egress(cf, data, &pktx));
++   result = Curl_1st_fatal(result, check_and_set_expiry(cf, data, &pktx));
+++  if(ctx->tls_vrfy_result)
+++    result = ctx->tls_vrfy_result;
++ denied:
++   CURL_TRC_CF(data, cf, "[%" PRId64 "] cf_recv(blen=%zu) -> %d, %zu",
++               stream ? stream->id : -1, blen, result, *pnread);
++@@ -1789,6 +1794,8 @@ static CURLcode cf_ngtcp2_send(struct Curl_cfilter *cf, struct Curl_easy *data,
++ 
++ out:
++   result = Curl_1st_fatal(result, check_and_set_expiry(cf, data, &pktx));
+++  if(ctx->tls_vrfy_result)
+++    result = ctx->tls_vrfy_result;
++ denied:
++   CURL_TRC_CF(data, cf, "[%" PRId64 "] cf_send(len=%zu) -> %d, %zu",
++               stream ? stream->id : -1, len, result, *pnwritten);
++@@ -2717,6 +2724,8 @@ static CURLcode cf_ngtcp2_connect(struct Curl_cfilter *cf,
++   }
++ 
++ out:
+++  if(ctx->tls_vrfy_result)
+++    result = ctx->tls_vrfy_result;
++   if(ctx->qconn &&
++      ((result == CURLE_RECV_ERROR) || (result == CURLE_SEND_ERROR)) &&
++      ngtcp2_conn_in_draining_period(ctx->qconn)) {
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 6ad1bfe55f..9de6b1c4dd 100644
+index 9de6b1c4dd..e228618cc3 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -27,6 +27,7 @@ SRC_URI = " \
-     file://CVE-2026-11586.patch \
+@@ -28,6 +28,8 @@ SRC_URI = " \
      file://CVE-2026-7009.patch \
      file://CVE-2026-8925.patch \
-+    file://CVE-2026-9080.patch \
+     file://CVE-2026-9080.patch \
++    file://CVE-2026-9545-01.patch \
++    file://CVE-2026-9545-02.patch \
  "
  
  SRC_URI:append:class-nativesdk = " \
