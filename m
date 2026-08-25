@@ -2,152 +2,146 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AB1DCC61DC4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C1EABC61DC5
 	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 10:07:23 +0000 (UTC)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com [209.85.221.49])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18583.1787652439904299132
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18278.1787652434558804547
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 03:07:20 -0700
+ Tue, 25 Aug 2026 03:07:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=VWio1hlI;
- spf=pass (domain: smile.fr, ip: 209.85.221.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f49.google.com with SMTP id ffacd0b85a97d-47fecbb7000so1707433f8f.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 03:07:19 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=kQRwSPhq;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47ddf7b09e5so3820174f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 03:07:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787652438; x=1788257238; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=d1l7xXHuZwbTHaCUGibyuw8SRx5ibqekv06PbzwZtAA=;
-        b=VWio1hlIvrPrRy31r+Flc6lMcqvTLTJQEU0i5DmDLJVID+kKNreCav+OaUKJG1RwOV
-         gz89yCbAZbtbNIEAgeut+iTqJ6RQMywvScrFMR4wzf7z0NEgJ2GN5LmA05rpxf59gAWg
-         JU/CHQsf2Mgg6OKzJ4pmzquCVaJ7BW25k3VlQ=
+        d=smile.fr; s=google; t=1787652433; x=1788257233; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6fDVWAPoE0GSdFM+6sliREvLuqAPdIxStCuRKsXbiXM=;
+        b=kQRwSPhqm/bsfN1mYcmJVMjodEJTa459fB3m+T74fC6FkcFUysDUTtjKwm6ALMpraV
+         WX+akUSn/4qtDKOwzqanN9kCXuVdJX4X23rA2GpZFhgxttOK/Zb/s+KdRNQjuTH4ii+8
+         V/0+cl8+ktISqflEB51lzGHP0oFr63MbW/Kp0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787652438; x=1788257238;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=d1l7xXHuZwbTHaCUGibyuw8SRx5ibqekv06PbzwZtAA=;
-        b=tX2yV2g6vI4k+zqsKv8180iepbcN5qS90TfHhSxqb/dsaPEuTi4FoBnA/YNhP+rUDB
-         6xAhaGUZo3Yco6XgyYsWE1baV1Vz/Nm5IiBGjkQZUPtUwvnOVQiP49zxz90Y/UIxObvx
-         64uWT5u0lzkJ5CABINUdW407Ip01WLVnJ3kpRMjTV4jTqTclJap9Gf3o3wZxVJhrwjLe
-         W8MbPfmwOKzsttfG3rOYbHkLutgPIbbgwAVbGiZ+8Z0roqTap330G7d0wuVcoOXT1jKp
-         0JC1241KBYsZ68h8srcZK9y7cz0FGe5w3rleB2U15nfBJ9pAs0gFzYIm/7oqQYlCVzUL
-         mqXQ==
-X-Gm-Message-State: AFuF++lIX5G18xYgLeqpPP0gKWlnzrPqwNeOeWgsud08k25H8G0G0dmL
-	1CyNPFHnuux3+UeXDxpdsMjn8y2PPVfJ1cdlNUWeF4qMEZ28FvQ2sjhRAW3Wu7pA7nA0lgx0Te7
-	mfZDDewo=
-X-Gm-Gg: AR+sD12yqC5kw1TYxAmf48ZzkdF+rPsjmjB9XKGArfj9zDvjJrx1TNu8+z3YX+7yj8j
-	xShzUKfB8v5hNTOxumwdJeQRYglP8ZReEHiPtUIKUu7Ble6pLf/Oec40LYCdejcTDyvUWIAzBzn
-	KJTqH8HSrlRU3HSP864SUEoaJiY+eMnsdTVMRJhZbQoyCv37BXXshLc/ez7Y94bbo1vqG6W3DyO
-	OTBAebQg+gk0dI0hXQppi/XK5Tritx3N1xHobB+pIAcpIj0bjvmqtqpdUU3H6QeVMtlykWBvLWy
-	unmovAjJ82CK/KqnQJnypcyjDEXBjwzXlrBXJLMf2rLmoQmsq5ufsLUHFgy2j5+pe1GG/wj++P3
-	cAHbgQZeOP/TWzpI0NBCdnyHfZiZm2gDMwG/dGvmnLuI5SEeJZmv9XAASjdOZpdr4bvcd3F3Ls7
-	T4obCdv4adlqbVbnrekgqXyoRfc/Ziqk/O29PdqafghK7Z6r8za4GKDeOHgWdtDi82qdcqX7Hyw
-	+rWc6ykSbBtxETAyfs1Fbiy0KUnqBmyer+zmaegFQMQr5dmjuxeHC87d3GTxjwNi1+cKvcqKmgc
-	eJv+bg==
-X-Received: by 2002:a05:6000:22c7:b0:482:a36c:a5cd with SMTP id ffacd0b85a97d-482c81cb5a6mr29585121f8f.20.1787652438060;
-        Tue, 25 Aug 2026 03:07:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787652433; x=1788257233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=6fDVWAPoE0GSdFM+6sliREvLuqAPdIxStCuRKsXbiXM=;
+        b=WUlkGPYiFTx+NZGbkt+f/wxQMJU4eN4VZXjA12vHBDvHnwwd5Rq5/aUtelRhyUUaYu
+         Gsssetlg2joOP0VzkJvrDK1xLBK7GjchKb8nkJvL4UVo/x1WtKh3VIthO1eNyBCq63zr
+         XymaBbdGxYdzw+WSMHCNNWZc2+36c0RsFr7ztAbEARs4Jt9GrM9UlGMDwRYqXo2IJch3
+         qQshoZUeC3/OJ68k3ehcJbi0LkxBu/5BNJB87ty8/tuJ5krfhmx7HVrcIa+yKAFb3f5m
+         0hgVhhnv7xD/E/8yq4PiNTzfGc9icLtYRGxYKCDKrikvVnjrUDFrlL+vAM911vjacPIq
+         7bJg==
+X-Gm-Message-State: AFuF++no4GcQiGj8fguUxcrF8n9R0JbgocPmIVxy8XXuocvNHwZ+HiC+
+	m77POFWdWNzU3Z6ZtrFno2VIPLeCKHDoBbbvFj695wwlLGYdNo7rPIdgHUbuKroZxOnk0oQ/i8X
+	CbGAaKFQ=
+X-Gm-Gg: AR+sD13S2A28+oz3x6A85CcxjKhhwpAQ7JBKuWQIcOKXd8agQKb+nJ2bd0yLtJr344u
+	V2z4kHjbB0IpW1BQdiZSNKcuJxYe/wtGwmV+FybW+nRwqnnf6NK74AC26zEwBknfzgMg0y8wes8
+	6mmQc40f1iOS8nhyGjt1infVgVYAQhvwzoyWHnga1Wh32YrZBCvrFSCXwOgncvADt+BvLQNL6HS
+	HK5jmKrTKdRS/duJr5TW+CnSCmu4NH+bmxxnMRcKqIy55t5fUsbIPdf1YLOx+hnnSFl5TJUYf/w
+	oBO8z8v5qb8/iSn4uZSwUP7YzblVHuFAKrvQno8G/G3MbDnrcpFaMImi9+2Dkktq2xHZyz9gjYV
+	5fsgfg17W5q9LSHxkkOMAcL+yxntn5w/Brlt+SPxro2xSO14V94zv5FNRcNO4xyjkKr+OyzFi+8
+	zzr6lxPBLp1B78Jm+eJNr7ydzuAs1w7JvyfWXbEPI/kRwvn9JxstR+fNSsSOvFhkbhaFPNRSyXR
+	7rTU6jt3VBYofD9fNW8X07WlzbuqqwvP0S12lo39RilpX2+yZ4kS0E+xXm8lky0Z8z8TnE=
+X-Received: by 2002:a05:6000:2582:b0:47f:7129:e30 with SMTP id ffacd0b85a97d-482d9f1d930mr6174685f8f.11.1787652431589;
+        Tue, 25 Aug 2026 03:07:11 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9bfd865sm10847901f8f.22.2026.08.25.03.07.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9bfd865sm10847901f8f.22.2026.08.25.03.07.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 03:07:17 -0700 (PDT)
+        Tue, 25 Aug 2026 03:07:11 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 06/11] libssh2: fix CVE-2026-58050
-Date: Tue, 25 Aug 2026 12:06:44 +0200
-Message-ID: <4b86de3333748d41785365fc62f6afabb454b62b.1787652331.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 00/11] Patch review
+Date: Tue, 25 Aug 2026 12:06:38 +0200
+Message-ID: <cover.1787652331.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1787652331.git.yoann.congal@smile.fr>
-References: <cover.1787652331.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 10:07:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244220
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244215
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Please review this set of changes for scarthgap and have comments back by
+end of day Thursday, August 27.
 
-Backport patch to fix CVE-2026-58050.
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4569
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-58050
+The following changes since commit 70dc15941dd33270a92d1001174efb3093e79bdf:
 
-Upstream fix:
-  https://github.com/libssh2/libssh2/commit/34497525929b9a47f03dfb81887ac896202b7e12
+  build-appliance-image: Update to scarthgap head revision (2026-08-24 14:28:47 +0100)
 
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
----
- .../libssh2/libssh2/CVE-2026-58050.patch      | 45 +++++++++++++++++++
- .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
- 2 files changed, 46 insertions(+)
+are available in the Git repository at:
+
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
+
+for you to fetch changes up to b7007d82eec734bab6760ae325645ae5b199e384:
+
+  rpcbind: Fix CVE-2026-16277 (2026-08-25 07:01:14 +0200)
+
+----------------------------------------------------------------
+
+Adarsh Jagadish Kamini (1):
+  libssh2: fix CVE-2026-58050
+
+Deepak Rathore (2):
+  nghttp2: set status for CVE-2026-58055
+  glib-2.0: fix CVE-2026-58015
+
+Etienne Cordonnier (1):
+  curl: fix CVE-2025-10148 backport for websockets on 8.7.1
+
+Jaipaul Cheernam (4):
+  binutils: fix CVE-2025-1147
+  binutils: fix CVE-2025-8224
+  binutils: fix CVE-2026-15003
+  binutils: fix CVE-2026-18220
+
+Peter Marko (1):
+  bison: patch CVE-2026-56389
+
+Ross Burton (1):
+  bitbake.conf: add TMPDIR to GIT_CEILING_DIRECTORIES
+
+Vijay Anusuri (1):
+  rpcbind: Fix CVE-2026-16277
+
+ meta/conf/bitbake.conf                        |   6 +-
+ .../glib-2.0/glib-2.0/CVE-2026-58015_p1.patch |  97 +++++
+ .../glib-2.0/glib-2.0/CVE-2026-58015_p2.patch |  55 +++
+ .../glib-2.0/glib-2.0/CVE-2026-58015_p3.patch | 198 +++++++++
+ .../glib-2.0/glib-2.0/CVE-2026-58015_p4.patch | 222 ++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   4 +
+ meta/recipes-core/glib-2.0/glib.inc           |   2 +-
+ .../binutils/binutils-2.42.inc                |   4 +
+ .../binutils/binutils/CVE-2025-1147.patch     | 110 +++++
+ .../binutils/binutils/CVE-2025-8224.patch     |  54 +++
+ .../binutils/binutils/CVE-2026-15003.patch    | 400 ++++++++++++++++++
+ .../binutils/binutils/CVE-2026-18220.patch    |  65 +++
+ .../bison/bison/CVE-2026-56389.patch          |  56 +++
+ meta/recipes-devtools/bison/bison_3.8.2.bb    |   1 +
+ .../rpcbind/rpcbind/CVE-2026-16277.patch      |  34 ++
+ .../recipes-extended/rpcbind/rpcbind_1.2.6.bb |   1 +
+ .../curl/curl/CVE-2025-10148.patch            |  24 +-
+ .../libssh2/libssh2/CVE-2026-58050.patch      |  45 ++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |   1 +
+ .../recipes-support/nghttp2/nghttp2_1.61.0.bb |   2 +
+ 20 files changed, 1367 insertions(+), 14 deletions(-)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p1.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p2.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p3.patch
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p4.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-1147.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2025-8224.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-18220.patch
+ create mode 100644 meta/recipes-devtools/bison/bison/CVE-2026-56389.patch
+ create mode 100644 meta/recipes-extended/rpcbind/rpcbind/CVE-2026-16277.patch
  create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-58050.patch
 
-diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-58050.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-58050.patch
-new file mode 100644
-index 00000000000..0163b379f35
---- /dev/null
-+++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-58050.patch
-@@ -0,0 +1,45 @@
-+From 05b2fb4ec89d75235dbd97c5965dc0e46b405a7c Mon Sep 17 00:00:00 2001
-+From: Viktor Szakats <commit@vsz.me>
-+Date: Sun, 28 Jun 2026 02:12:52 +0200
-+Subject: [PATCH] publickey: fix potential multiplication overflow in 32-bit
-+ `libssh2_publickey_list_fetch()`
-+
-+Cap list size at 1024 elements.
-+
-+Reported-and-initial-patch-by: Mateusz Gierblinski
-+Reported-and-initial-patch-by: Behzod Abdullayev
-+Reported-by: Sharique Raza
-+
-+Follow-up to e15f5d97a04cc676ce117dd324fef85b046207a9
-+
-+Closes #2128
-+
-+src/publickey.c: replaced ssh2_err() with _libssh2_error() to match
-+the stable branch's error-reporting convention.
-+
-+Assisted-by: kiro:claude-sonnet-5
-+
-+CVE: CVE-2026-58050
-+Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/34497525929b9a47f03dfb81887ac896202b7e12]
-+
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
-+---
-+ src/publickey.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/src/publickey.c b/src/publickey.c
-+index 9c9fa618..196d2f9f 100644
-+--- a/src/publickey.c
-++++ b/src/publickey.c
-+@@ -1114,6 +1114,11 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
-+                 }
-+ 
-+                 if(list[keys].num_attrs) {
-++                    if(list[keys].num_attrs > 1024) {
-++                        _libssh2_error(session, LIBSSH2_ERROR_OUT_OF_BOUNDARY,
-++                                       "Too many publickey attributes");
-++                        goto err_exit;
-++                    }
-+                     list[keys].attrs =
-+                         LIBSSH2_ALLOC(session,
-+                                       list[keys].num_attrs *
-diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-index d14a27f3dc3..d3f39050474 100644
---- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-+++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
-@@ -20,6 +20,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
-            file://CVE-2026-66033.patch \
-            file://CVE-2026-66034.patch \
-            file://CVE-2026-66035.patch \
-+           file://CVE-2026-58050.patch \
-            "
- 
- SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
 
