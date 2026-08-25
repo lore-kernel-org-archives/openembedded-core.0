@@ -1,191 +1,88 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65964C61CE3
-	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 05:57:15 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.15667.1787637421694782831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93BC7C61DBD
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 06:19:15 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15914.1787638744833716759
  for <openembedded-core@lists.openembedded.org>;
- Mon, 24 Aug 2026 22:57:01 -0700
+ Mon, 24 Aug 2026 23:19:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=I4ixADS2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=USzBZeWC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a0377e521e-2c8265c2-08ad-441a-98bf-600509b4f06e-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1787637420;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=DN5IH1+PC33x8jEIGPgCvR9g6Ti3Aez9DN3eCbUsNWQ=;
-	b=I4ixADS277POQXhe9Rd7kATmoehaidKmMouHhrMnOBBChr1sm/NlEV5M96Lolp5z
-	FZ9632Fr+VUVtKbC/qwOnW/JKAXJy+VUNval79LyFONXzIUTcrwBJtsSdQ9jY6MBSwe
-	zkmMv/w6IDpQC5Y5jdMOAM0cBTq2xgHzL1s9HIso=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787637420;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=DN5IH1+PC33x8jEIGPgCvR9g6Ti3Aez9DN3eCbUsNWQ=;
-	b=USzBZeWCguGacubvYaEzWjC7KeXGfQO+pek2sXLE8L7nYS00Tp8UYGH02Bm2b0Ia
-	U1nl82eXA9hesQM7VoD3p9vdrOGQbnYiitdYjRaOK+IoQJW41w1MAxkuTA7STaJsasW
-	MbFPc1RoXLQUIuZHSK8z7K+ApNYX+gLY/lPaei4c=
-Content-Type: multipart/mixed; boundary="===============1910469525370612104=="
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=F79ogY5Y;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso42747295e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 24 Aug 2026 23:19:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1787638743; x=1788243543; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=HlMNVFS9qZodZUucxl5RSC+HirYlJz3OgYLHzQePCUI=;
+        b=F79ogY5Yshd757s30vK3RqGopo1qf9tWAmEDeoqFfxC0JDbqTiUghd+JA84IM7sJX+
+         BBlbnArqz7x+L37ZfFLVMmGQA7ddXc2lphP6Gn5BYiGAx15yAAMeJE4FL97IHjrk/Bb5
+         uAXD5B0gcWwHYGTe2pRW9H7gt6INA4gDa57bQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787638743; x=1788243543;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=HlMNVFS9qZodZUucxl5RSC+HirYlJz3OgYLHzQePCUI=;
+        b=k11h9BNLjHZSsLR6JLOBHWzzFhNlnOvxCmUEDiW0JMV0HKnXcC3xdMxcbFuHrW1a24
+         GXXf64Lh9pT1e1KhnNqWe4HfForM1RZK1wCSdpiXI3dIxyRvhSQ/iWuc3uP8fKonl1Pj
+         1+y82HpPnd+JALULoYLkN/ReVMGg4x826n+dn6F9QzaXn/aw59RaQpW9iXevvvUK4gpv
+         2ZJYUZTb2DKX/1CH6sf4N4N4xXjEsqDmmO/MU6sSCTnWId8i9USyZRFtpIFXxdo2bLtx
+         PK9uFcNQ/IfcFiAgYkOY8e/MKFfJL19g+WCJ1ZP9HchFpyTtBsArXCETbWrl4GaPLbbu
+         k9gQ==
+X-Gm-Message-State: AFuF++nS792Av58zXh0V2cuXU4dQvK9KOiggFRo9AC9zwONDu56UzAD/
+	jlaOER9xoemqtnxP5A17UYluAyMO9z1+Ihua8HM5Y5w22KYKT82nghUowVCVYSY2qWCbU7D2E8w
+	pobKJa8w=
+X-Gm-Gg: AR+sD11y7EdkUNWEvtn2Elc6bIgNZ0s8awHD0Nj1Dj7Q0pJDLx2QYSC0YNVasbPM5EL
+	Srb88t6hxLQ4EsgW4rutp5XbOPhb9wWuag1AWT1G/cpms9bXYy7WQqevLHvWaauiUEK1OstrePy
+	+v8YAY/u1gb86YPc+p4CcLFUot47BWumM6DhED10DH9NA5xELrseT71nN1yTdPvMQ6e3DuN8B97
+	v8wnUauxSINg4jhid1tR2Tlj2rSNnyXedtR/aqb891mJSA9B4fNEVDOgaqzG0uM6wj8eaPo6Tqo
+	MJQCHbYgaRP0KW1hyHivTBYeEEhjdWezmvl1YgMtXa+vbDOUHwPENwgkTaUTL/09RoWKfGiJK2m
+	q/nvGB6dItH60xxit8AZyoF5NTy8gt0ptfYfA0EuFPrK6HwoMbG9EIZmwMZE+/Z6EpqS0oycuYc
+	R5EpvlX+nTB03wEOXbD1lnZI3Sd5aKawfZ1nn3oV9x67yqjrddolrD9uEVMZi6QmrEba+jt5J+c
+	C3MRFuP7KwuSuGI4A==
+X-Received: by 2002:a05:600c:4e56:b0:499:484a:98e7 with SMTP id 5b1f17b1804b1-499c19d5cf2mr286232725e9.14.1787638742809;
+        Mon, 24 Aug 2026 23:19:02 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:1d9d:dbf1:7ccf:7617])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499d6352d07sm17944955e9.7.2026.08.24.23.19.01
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 24 Aug 2026 23:19:01 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] barebox: Upgrade 2026.07.0 -> 2026.08.0
+Date: Tue, 25 Aug 2026 07:18:59 +0100
+Message-ID: <20260825061859.3975665-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pbr: upgrading to 7.1.1 SUCCEEDED
-Message-ID: <010101a0377e521e-2c8265c2-08ad-441a-98bf-600509b4f06e-000000@us-west-2.amazonses.com>
-Date: Tue, 25 Aug 2026 05:57:00 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.25-54.240.27.191
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 05:57:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244196
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 06:19:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244199
 
---===============1910469525370612104==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Includes fix for openssl 4.0 support
 
-Hello,
-
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pbr* to *7.1.1* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-python3-pbr-upgrade-7.1.0-7.1.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 609c25722ced140c2f8b6c92799238217ff99f10 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 25 Aug 2026 05:56:54 +0000
-Subject: [PATCH] python3-pbr: upgrade 7.1.0 -> 7.1.1
-
-Source: ChangeLog
-
-7.1.1
------
-
-* Fix hook ordering race that drops subpackages from wheels
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../python/{python3-pbr_7.1.0.bb => python3-pbr_7.1.1.bb}       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pbr_7.1.0.bb => python3-pbr_7.1.1.bb} (83%)
+ meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pbr_7.1.0.bb b/meta/recipes-devtools/python/python3-pbr_7.1.1.bb
-similarity index 83%
-rename from meta/recipes-devtools/python/python3-pbr_7.1.0.bb
-rename to meta/recipes-devtools/python/python3-pbr_7.1.1.bb
-index 7fc227e6bb..987c1615f1 100644
---- a/meta/recipes-devtools/python/python3-pbr_7.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-pbr_7.1.1.bb
-@@ -13,4 +13,4 @@ RDEPENDS:${PN} += "python3-setuptools"
+diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
+index 6bc3fa07faa..a9f0593e27f 100644
+--- a/meta/recipes-bsp/barebox/barebox-common.inc
++++ b/meta/recipes-bsp/barebox/barebox-common.inc
+@@ -3,6 +3,6 @@ SECTION = "bootloaders"
  
- BBCLASSEXTEND = "native nativesdk"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
  
--SRC_URI[sha256sum] = "66ece3a2f5c4f05e5f37569213e755193f6e00b8aa361bfb190533ea8ee8b10c"
-+SRC_URI[sha256sum] = "973da2aee9961d7cb278aa74e1829f6daafec9dd8ee8c1655cbf3f5843bfe083"
--- 
-2.47.1
-
-
---===============1910469525370612104==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pbr-upgrade-7.1.0-7.1.1.patch"
-
-RnJvbSA2MDljMjU3MjJjZWQxNDBjMmY4YjZjOTI3OTkyMzgyMTdmZjk5ZjEwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMjUgQXVnIDIwMjYgMDU6NTY6NTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBicjogdXBncmFkZSA3LjEuMCAtPiA3LjEuMQoKU291cmNlOiBDaGFuZ2VMb2cKCjcu
-MS4xCi0tLS0tCgoqIEZpeCBob29rIG9yZGVyaW5nIHJhY2UgdGhhdCBkcm9wcyBzdWJwYWNrYWdl
-cyBmcm9tIHdoZWVscwotLS0KIC4uLi9weXRob24ve3B5dGhvbjMtcGJyXzcuMS4wLmJiID0+IHB5
-dGhvbjMtcGJyXzcuMS4xLmJifSAgICAgICB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24ve3B5dGhvbjMtcGJyXzcuMS4wLmJiID0+IHB5dGhvbjMtcGJyXzcuMS4xLmJifSAoODMlKQoK
-ZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wYnJfNy4x
-LjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGJyXzcuMS4xLmJi
-CnNpbWlsYXJpdHkgaW5kZXggODMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24vcHl0aG9uMy1wYnJfNy4xLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29s
-cy9weXRob24vcHl0aG9uMy1wYnJfNy4xLjEuYmIKaW5kZXggN2ZjMjI3ZTZiYi4uOTg3YzE2MTVm
-MSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBicl83
-LjEuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGJyXzcu
-MS4xLmJiCkBAIC0xMyw0ICsxMyw0IEBAIFJERVBFTkRTOiR7UE59ICs9ICJweXRob24zLXNldHVw
-dG9vbHMiCiAKIEJCQ0xBU1NFWFRFTkQgPSAibmF0aXZlIG5hdGl2ZXNkayIKIAotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjY2ZWNlM2EyZjVjNGYwNWU1ZjM3NTY5MjEzZTc1NTE5M2Y2ZTAwYjhhYTM2
-MWJmYjE5MDUzM2VhOGVlOGIxMGMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTczZGEyYWVlOTk2
-MWQ3Y2IyNzhhYTc0ZTE4MjlmNmRhYWZlYzlkZDhlZThjMTY1NWNiZjNmNTg0M2JmZTA4MyIKLS0g
-CjIuNDcuMQoK
-
---===============1910469525370612104==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/python3-pbr: PV changed from "7.1.0" to "7.1.1"
-packages/x86-64-v3-poky-linux/python3-pbr: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pbr/pbr-7.1.0.tar.gz;downloadfilename=pbr-7.1.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pbr/pbr-7.1.1.tar.gz;downloadfilename=pbr-7.1.1.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pbr: PKGV changed from 7.1.0 [default] to 7.1.1 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dbg: PV changed from "7.1.0" to "7.1.1"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dbg: PKGV changed from 7.1.0 [default] to 7.1.1 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dev: PV changed from "7.1.0" to "7.1.1"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-dev: PKGV changed from 7.1.0 [default] to 7.1.1 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-doc: PV changed from "7.1.0" to "7.1.1"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-doc: PKGV changed from 7.1.0 [default] to 7.1.1 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-locale: PV changed from "7.1.0" to "7.1.1"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-locale: PKGV changed from 7.1.0 [default] to 7.1.1 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-src: PV changed from "7.1.0" to "7.1.1"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-src: PKGV changed from 7.1.0 [default] to 7.1.1 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-staticdev: PV changed from "7.1.0" to "7.1.1"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr-staticdev: PKGV changed from 7.1.0 [default] to 7.1.1 [default]
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: PKGSIZE changed from 740279 to 740392 (+0%)
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: PV changed from "7.1.0" to "7.1.1"
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pbr-7.1.1.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info -> /usr/lib/python3.14/site-packages/pbr-7.1.1.dist-info
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: PKGV changed from 7.1.0 [default] to 7.1.1 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-pbr (sysroot):
-  /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info moved to /usr/lib/python3.14/site-packages/pbr-7.1.1.dist-info
-
---===============1910469525370612104==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-pbr-changelog.txt"
-
-Changelog for python3-pbr: 7.1.0 -> 7.1.1
-Source: ChangeLog
-
-7.1.1
------
-
-* Fix hook ordering race that drops subpackages from wheels
-
---===============1910469525370612104==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-pbr/python3-pbr: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pbr-7.1.1.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info -> /usr/lib/python3.14/site-packages/pbr-7.1.1.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-pbr (sysroot):
-  /usr/lib/python3.14/site-packages/pbr-7.1.0.dist-info moved to /usr/lib/python3.14/site-packages/pbr-7.1.1.dist-info
-
---===============1910469525370612104==--
+-PV = "2026.07.0"
++PV = "2026.08.0"
+ SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
+-SRC_URI[sha256sum] = "8b8fb781094cd01c4c5be9d0899d629668cee2b73f1447260851715c4496bd78"
++SRC_URI[sha256sum] = "5b270cbde7f2fc6a78ff6e748eef788bbc04571682e2f2e964cd15a2e009774c"
 
