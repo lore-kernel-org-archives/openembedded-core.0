@@ -1,531 +1,101 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3F3AC61DBD
-	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 18:39:35 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29451.1787683167523739586
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1266BC61DB9
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 18:48:06 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29226.1787683678920549353
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 11:39:28 -0700
+ Tue, 25 Aug 2026 11:47:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm2 header.b=NRjHppq0;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202608251839254605768eae000207fa-dsfxsg@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202608251839254605768eae000207fa
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 25 Aug 2026 20:39:25 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=zz5UV5ZGaAoe0e4EwPofM4v8tWDjtfuvW1Kzed99tnQ=;
- b=NRjHppq0YKkaT3uLik5tpHOb6AgMpjpT6d8ZWLq1dU4mBMj/M3IOrjDk7CKpmrK0KrCa5V
- iz21CfnYoWO8CCwvqRyqtUcd8GE03lgfsd7fyHk+0ejG1OaZzC+y3kuD6RT/qEc3zwxoH+1A
- Yve/AhtJrB2It5O5qHs9wmF8PB2mH/E1vLwivR1xHzqCj78OM48wmaUfH2qrWfNNXqqJxjyn
- wxgFHCQBtIQ27p5lFw3TiEiuZEZRnea7HoTQ9U/1NyEAPkHBdDNt0jfjWHCfMsWOeMTf+zZr
- LT2PKCUAR31OzUo9wQhUPkN2OLwxXPiHDgECWShwd094rQSd9UXCKqww==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH 5/5] curl: patch CVE-2026-9546
-Date: Tue, 25 Aug 2026 20:38:53 +0200
-Message-ID: <20260825183853.1017950-5-peter.marko@siemens.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XUsggLGj;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=uKUA6M05;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a03a402809-d05bd936-df6d-4acc-83d2-14b79b75d05e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1787683678; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=mrk1EX+mXiztWWXz7sDMMm5ZF4iis+JHJRpbMxsq8LA=;
+	b=XUsggLGjtkSIOcgqG3haZWS8rvUNQk5rGvYcDsFLIma8txk9uBD1LY61FIsjsdMm
+	LR8wS52lBNzrvrk2cNPuiBe9IMO8mTyajLxhJxGY77w9NZQrl5jH8L1XJZXT6Q0pTnU
+	zxn6/+lJu6EJGjgQn3CWwbxVbqJnXhtbtHl1ft5A=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787683678;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=mrk1EX+mXiztWWXz7sDMMm5ZF4iis+JHJRpbMxsq8LA=;
+	b=uKUA6M05eq3hXH/JW/JF0DD1MRIimsyX4cjvVdJyV12zrS3tcPElpDK8T7KAIHgf
+	GmMX0lle7o4eoHkFUYENYEoUz/UjRNkUK80WmKgyUvAvecE2sxht5BBQqhj3ukda44l
+	aoRZhjnUVc/G8d8k32d40O54RABENuG1CR/TapH8=
+From: patchtest@automation.yoctoproject.org
+To: Peter Marko <peter.marko@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [wrynose][PATCH 1/5] curl; patch CVE-2026-7009
 In-Reply-To: <20260825183853.1017950-1-peter.marko@siemens.com>
 References: <20260825183853.1017950-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a03a402809-d05bd936-df6d-4acc-83d2-14b79b75d05e-000000@us-west-2.amazonses.com>
+Date: Tue, 25 Aug 2026 18:47:58 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.25-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 18:39:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244260
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 18:48:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244261
 
-From: Peter Marko <peter.marko@siemens.com>
+--NextPart
+Content-Type: text/plain
 
-Pick patch per [1].
-Pick also a precondition patch (containing if clause to else which is
-added by the actual patch).
-Resolve conflicts in test makefiles caused by differences in available
-test suites.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-[1] https://curl.se/docs/CVE-2026-9546.html
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../curl/curl/CVE-2026-9546-01.patch          | 227 ++++++++++++++++++
- .../curl/curl/CVE-2026-9546-02.patch          | 216 +++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   2 +
- 3 files changed, 445 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-9546-01.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-9546-02.patch
+Testing patch /home/patchtest/share/mboxes/wrynose-1-5-curl-patch-CVE-2026-7009.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-9546-01.patch b/meta/recipes-support/curl/curl/CVE-2026-9546-01.patch
-new file mode 100644
-index 0000000000..9cd1a20166
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-9546-01.patch
-@@ -0,0 +1,227 @@
-+From fa057ea3dedb04f93672ec95ee964f1f02ec0ecf Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 15 Apr 2026 08:11:33 +0200
-+Subject: [PATCH] transfer: clear the old autoreferer
-+
-+Verify in test 2505
-+
-+Closes #21322
-+
-+CVE: CVE-2026-9546
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/fa057ea3dedb04f93672ec95ee964f1f02ec0ecf]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ lib/setopt.c               |  1 -
-+ lib/transfer.c             |  5 +++
-+ tests/data/Makefile.am     |  2 +-
-+ tests/data/test2505        | 67 +++++++++++++++++++++++++++++++++++
-+ tests/libtest/Makefile.inc |  2 +-
-+ tests/libtest/lib2505.c    | 71 ++++++++++++++++++++++++++++++++++++++
-+ 6 files changed, 145 insertions(+), 3 deletions(-)
-+ create mode 100644 tests/data/test2505
-+ create mode 100644 tests/libtest/lib2505.c
-+
-+diff --git a/lib/setopt.c b/lib/setopt.c
-+index dae4218b70..e832ef1afd 100644
-+--- a/lib/setopt.c
-++++ b/lib/setopt.c
-+@@ -2015,7 +2015,6 @@ static CURLcode setopt_cptr(struct Curl_easy *data, CURLoption option,
-+      * String to set in the HTTP Referer: field.
-+      */
-+     result = Curl_setstropt(&s->str[STRING_SET_REFERER], ptr);
-+-    Curl_bufref_set(&data->state.referer, s->str[STRING_SET_REFERER], 0, NULL);
-+     break;
-+ 
-+   case CURLOPT_USERAGENT:
-+diff --git a/lib/transfer.c b/lib/transfer.c
-+index a2fce9331b..fd1a903dab 100644
-+--- a/lib/transfer.c
-++++ b/lib/transfer.c
-+@@ -535,6 +535,11 @@ CURLcode Curl_pretransfer(struct Curl_easy *data)
-+   data->state.authproxy.want = data->set.proxyauth;
-+   Curl_safefree(data->info.wouldredirect);
-+   Curl_data_priority_clear_state(data);
-++  if(data->set.http_auto_referer)
-++    Curl_bufref_free(&data->state.referer);
-++  if(data->set.str[STRING_SET_REFERER])
-++    Curl_bufref_set(&data->state.referer, data->set.str[STRING_SET_REFERER],
-++                    0, NULL);
-+ 
-+   if(data->state.httpreq == HTTPREQ_PUT)
-+     data->state.infilesize = data->set.filesize;
-+diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
-+index 1e84b26820..238da5331c 100644
-+--- a/tests/data/Makefile.am
-++++ b/tests/data/Makefile.am
-+@@ -265,7 +265,7 @@ test2309 \
-+ \
-+ test2400 test2401 test2402 test2403 test2404 test2405 test2406 test2407 \
-+ \
-+-test2500 test2501 test2502 test2503 test2504 test2506 \
-++test2500 test2501 test2502 test2503 test2504 test 2505 test2506 \
-+ \
-+ test2600 test2601 test2602 test2603 test2604 test2605 \
-+ \
-+diff --git a/tests/data/test2505 b/tests/data/test2505
-+new file mode 100644
-+index 0000000000..8fac590b37
-+--- /dev/null
-++++ b/tests/data/test2505
-+@@ -0,0 +1,67 @@
-++<?xml version="1.0" encoding="US-ASCII"?>
-++<testcase>
-++<info>
-++<keywords>
-++HTTP
-++referer
-++autoreferer
-++</keywords>
-++</info>
-++
-++# Server-side
-++<reply>
-++<data crlf="headers" nocheck="yes">
-++HTTP/1.1 301 redirect
-++Date: Tue, 09 Nov 2010 14:49:00 GMT
-++Server: server.example.com
-++Content-Length: 47
-++Location: %TESTNUMBER0002
-++
-++file contents should appear once for each file
-++</data>
-++
-++<data2 crlf="headers" nocheck="yes">
-++HTTP/1.1 200 OK
-++Date: Tue, 09 Nov 2010 14:49:00 GMT
-++Server: server.example.com
-++Content-Length: 47
-++
-++file contents should appear once for each file
-++</data2>
-++</reply>
-++
-++# Client-side
-++<client>
-++<server>
-++http
-++</server>
-++<tool>
-++lib%TESTNUMBER
-++</tool>
-++<name>
-++verify CURLOPT_AUTOREFERER switched off
-++</name>
-++<command>
-++http://%HOSTIP:%HTTPPORT
-++</command>
-++</client>
-++
-++# Verify data after the test has been "shot"
-++<verify>
-++<protocol crlf="headers">
-++GET / HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Accept: */*
-++
-++GET /%TESTNUMBER0002 HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Accept: */*
-++Referer: http://%HOSTIP:%HTTPPORT/
-++
-++GET / HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Accept: */*
-++
-++</protocol>
-++</verify>
-++</testcase>
-+diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
-+index 249c6fda87..bdf8a1dbea 100644
-+--- a/tests/libtest/Makefile.inc
-++++ b/tests/libtest/Makefile.inc
-+@@ -113,7 +113,7 @@ TESTS_C = \
-+   lib2023.c lib2032.c lib2082.c \
-+   lib2301.c lib2302.c lib2304.c           lib2306.c lib2308.c lib2309.c \
-+   lib2402.c           lib2404.c lib2405.c \
-+-  lib2502.c lib2504.c lib2506.c \
-++  lib2502.c lib2504.c lib2505.c lib2506.c \
-+   lib2700.c \
-+   lib3010.c lib3025.c lib3026.c lib3027.c lib3033.c lib3034.c \
-+   lib3100.c lib3101.c lib3102.c lib3103.c lib3104.c lib3105.c \
-+diff --git a/tests/libtest/lib2505.c b/tests/libtest/lib2505.c
-+new file mode 100644
-+index 0000000000..c170259874
-+--- /dev/null
-++++ b/tests/libtest/lib2505.c
-+@@ -0,0 +1,71 @@
-++/***************************************************************************
-++ *                                  _   _ ____  _
-++ *  Project                     ___| | | |  _ \| |
-++ *                             / __| | | | |_) | |
-++ *                            | (__| |_| |  _ <| |___
-++ *                             \___|\___/|_| \_\_____|
-++ *
-++ * Copyright (C) Linus Nielsen Feltzing <linus@haxx.se>
-++ *
-++ * This software is licensed as described in the file COPYING, which
-++ * you should have received as part of this distribution. The terms
-++ * are also available at https://curl.se/docs/copyright.html.
-++ *
-++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
-++ * copies of the Software, and permit persons to whom the Software is
-++ * furnished to do so, under the terms of the COPYING file.
-++ *
-++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
-++ * KIND, either express or implied.
-++ *
-++ * SPDX-License-Identifier: curl
-++ *
-++ ***************************************************************************/
-++#include "first.h"
-++
-++#include "testtrace.h"
-++
-++static size_t sink2505(char *ptr, size_t size, size_t nmemb, void *ud)
-++{
-++  (void)ptr;
-++  (void)ud;
-++  return size * nmemb;
-++}
-++
-++static CURLcode test_lib2505(const char *URL)
-++{
-++  CURL *curl;
-++  CURLcode result = CURLE_OUT_OF_MEMORY;
-++
-++  if(curl_global_init(CURL_GLOBAL_ALL) != CURLE_OK) {
-++    curl_mfprintf(stderr, "curl_global_init() failed\n");
-++    return TEST_ERR_MAJOR_BAD;
-++  }
-++
-++  curl = curl_easy_init();
-++  if(!curl) {
-++    curl_mfprintf(stderr, "curl_easy_init() failed\n");
-++    curl_global_cleanup();
-++    return TEST_ERR_MAJOR_BAD;
-++  }
-++
-++  test_setopt(curl, CURLOPT_WRITEFUNCTION, sink2505);
-++  test_setopt(curl, CURLOPT_AUTOREFERER, 1L);
-++  test_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-++  test_setopt(curl, CURLOPT_URL, URL);
-++
-++  result = curl_easy_perform(curl);
-++  curl_mprintf("req1=%d\n", (int)result);
-++
-++  test_setopt(curl, CURLOPT_FOLLOWLOCATION, 0L);
-++  test_setopt(curl, CURLOPT_URL, URL);
-++
-++  result = curl_easy_perform(curl);
-++  curl_mprintf("req2=%d\n", (int)result);
-++
-++test_cleanup:
-++  curl_easy_cleanup(curl);
-++  curl_global_cleanup();
-++
-++  return result;
-++}
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-9546-02.patch b/meta/recipes-support/curl/curl/CVE-2026-9546-02.patch
-new file mode 100644
-index 0000000000..4306b508d1
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-9546-02.patch
-@@ -0,0 +1,216 @@
-+From 862e8a74a84478d82973471b4f49dc2746c1780e Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 25 May 2026 16:43:00 +0200
-+Subject: [PATCH] transfer: clear referer when set to NULL
-+
-+Verify in test 1649
-+
-+Closes #21741
-+
-+CVE: CVE-2026-9546
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/862e8a74a84478d82973471b4f49dc2746c1780e]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ lib/transfer.c             |  2 +
-+ tests/data/Makefile.am     |  1 +
-+ tests/data/test1649        | 55 +++++++++++++++++++++++
-+ tests/libtest/Makefile.inc |  1 +
-+ tests/libtest/lib1649.c    | 90 ++++++++++++++++++++++++++++++++++++++
-+ 5 files changed, 149 insertions(+)
-+ create mode 100644 tests/data/test1649
-+ create mode 100644 tests/libtest/lib1649.c
-+
-+diff --git a/lib/transfer.c b/lib/transfer.c
-+index 721ad8d9ce..49930518ee 100644
-+--- a/lib/transfer.c
-++++ b/lib/transfer.c
-+@@ -540,6 +540,8 @@ CURLcode Curl_pretransfer(struct Curl_easy *data)
-+   if(data->set.str[STRING_SET_REFERER])
-+     Curl_bufref_set(&data->state.referer, data->set.str[STRING_SET_REFERER],
-+                     0, NULL);
-++  else
-++    Curl_bufref_free(&data->state.referer);
-+ 
-+   if(data->state.httpreq == HTTPREQ_PUT)
-+     data->state.infilesize = data->set.filesize;
-+diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
-+index 238da5331c..e8feaf3533 100644
-+--- a/tests/data/Makefile.am
-++++ b/tests/data/Makefile.am
-+@@ -217,6 +217,7 @@ test1614 test1615 test1616 test1617 \
-+ test1620 test1621 test1622 test1623 test1624 \
-+ \
-+ test1630 test1631 test1632 test1633 test1634 test1635 test1636 test1637 \
-++test1649 \
-+ \
-+ test1640 test1641 test1642 test1643 \
-+ \
-+diff --git a/tests/data/test1649 b/tests/data/test1649
-+new file mode 100644
-+index 0000000000..d2fd7799bd
-+--- /dev/null
-++++ b/tests/data/test1649
-+@@ -0,0 +1,55 @@
-++<?xml version="1.0" encoding="US-ASCII"?>
-++<testcase>
-++<info>
-++<keywords>
-++HTTP
-++Referer
-++</keywords>
-++</info>
-++
-++# Server-side
-++<reply>
-++
-++# this is returned first since we get no proxy-auth
-++<data crlf="headers" nocheck="yes">
-++HTTP/1.1 200 OK
-++Content-Length: 6
-++
-++hello
-++</data>
-++
-++</reply>
-++
-++# Client-side
-++<client>
-++<server>
-++http
-++</server>
-++
-++<tool>
-++lib%TESTNUMBER
-++</tool>
-++<name>
-++Set referer first then NULL it
-++</name>
-++<command>
-++http://%HOSTIP:%HTTPPORT
-++</command>
-++</client>
-++
-++# Verify data after the test has been "shot"
-++<verify>
-++<protocol crlf="headers">
-++GET / HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Accept: */*
-++Referer: https://secret.example.com/
-++
-++GET / HTTP/1.1
-++Host: %HOSTIP:%HTTPPORT
-++Accept: */*
-++
-++</protocol>
-++
-++</verify>
-++</testcase>
-+diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
-+index ad86411a7f..d9a94a1e71 100644
-+--- a/tests/libtest/Makefile.inc
-++++ b/tests/libtest/Makefile.inc
-+@@ -100,6 +100,7 @@ TESTS_C = \
-+   lib1582.c lib1588.c \
-+   lib1591.c lib1592.c lib1593.c lib1594.c                     lib1597.c \
-+   lib1598.c lib1599.c \
-++  lib1649.c \
-+   lib1662.c \
-+   lib1900.c lib1901.c lib1902.c lib1903.c lib1905.c lib1906.c lib1907.c \
-+   lib1908.c           lib1910.c lib1911.c lib1912.c lib1913.c \
-+diff --git a/tests/libtest/lib1649.c b/tests/libtest/lib1649.c
-+new file mode 100644
-+index 0000000000..2dd66c0231
-+--- /dev/null
-++++ b/tests/libtest/lib1649.c
-+@@ -0,0 +1,90 @@
-++/***************************************************************************
-++ *                                  _   _ ____  _
-++ *  Project                     ___| | | |  _ \| |
-++ *                             / __| | | | |_) | |
-++ *                            | (__| |_| |  _ <| |___
-++ *                             \___|\___/|_| \_\_____|
-++ *
-++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
-++ *
-++ * This software is licensed as described in the file COPYING, which
-++ * you should have received as part of this distribution. The terms
-++ * are also available at https://curl.se/docs/copyright.html.
-++ *
-++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
-++ * copies of the Software, and permit persons to whom the Software is
-++ * furnished to do so, under the terms of the COPYING file.
-++ *
-++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
-++ * KIND, either express or implied.
-++ *
-++ * SPDX-License-Identifier: curl
-++ *
-++ ***************************************************************************/
-++
-++#include "first.h"
-++
-++/* this is meant to pick up the proxy from the environment variable */
-++static CURLcode init1649(CURL *curl, const char *url)
-++{
-++  CURLcode result = CURLE_OK;
-++
-++  res_easy_setopt(curl, CURLOPT_URL, url);
-++  if(result)
-++    goto init_failed;
-++
-++  res_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-++  if(result)
-++    goto init_failed;
-++
-++  return CURLE_OK; /* success */
-++
-++init_failed:
-++  return result; /* failure */
-++}
-++
-++static CURLcode run1649(CURL *curl, const char *url)
-++{
-++  CURLcode result = CURLE_OK;
-++
-++  result = init1649(curl, url);
-++  if(result)
-++    return result;
-++
-++  return curl_easy_perform(curl);
-++}
-++
-++static CURLcode test_lib1649(const char *URL)
-++{
-++  CURLcode result = CURLE_OK;
-++  CURL *curl = NULL;
-++
-++  res_global_init(CURL_GLOBAL_ALL);
-++  if(result)
-++    return result;
-++
-++  curl = curl_easy_init();
-++  if(!curl) {
-++    curl_mfprintf(stderr, "curl_easy_init() failed\n");
-++    curl_global_cleanup();
-++    return TEST_ERR_MAJOR_BAD;
-++  }
-++
-++  start_test_timing();
-++
-++  easy_setopt(curl, CURLOPT_REFERER, "https://secret.example.com/");
-++
-++  result = run1649(curl, URL);
-++  if(result)
-++    goto test_cleanup;
-++
-++  /* reset it */
-++  easy_setopt(curl, CURLOPT_REFERER, NULL);
-++
-++  result = run1649(curl, URL);
-++
-++test_cleanup:
-++  curl_easy_cleanup(curl);
-++  curl_global_cleanup();
-++  return result;
-++}
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index e228618cc3..73d4394ca9 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -30,6 +30,8 @@ SRC_URI = " \
-     file://CVE-2026-9080.patch \
-     file://CVE-2026-9545-01.patch \
-     file://CVE-2026-9545-02.patch \
-+    file://CVE-2026-9546-01.patch \
-+    file://CVE-2026-9546-02.patch \
- "
- 
- SRC_URI:append:class-nativesdk = " \
+FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
