@@ -1,101 +1,109 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1266BC61DB9
-	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 18:48:06 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29226.1787683678920549353
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E67F8C61DB9
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 18:48:35 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29241.1787683708851360848
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 11:47:59 -0700
+ Tue, 25 Aug 2026 11:48:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XUsggLGj;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=uKUA6M05;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a03a402809-d05bd936-df6d-4acc-83d2-14b79b75d05e-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1787683678; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=mrk1EX+mXiztWWXz7sDMMm5ZF4iis+JHJRpbMxsq8LA=;
-	b=XUsggLGjtkSIOcgqG3haZWS8rvUNQk5rGvYcDsFLIma8txk9uBD1LY61FIsjsdMm
-	LR8wS52lBNzrvrk2cNPuiBe9IMO8mTyajLxhJxGY77w9NZQrl5jH8L1XJZXT6Q0pTnU
-	zxn6/+lJu6EJGjgQn3CWwbxVbqJnXhtbtHl1ft5A=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787683678;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=mrk1EX+mXiztWWXz7sDMMm5ZF4iis+JHJRpbMxsq8LA=;
-	b=uKUA6M05eq3hXH/JW/JF0DD1MRIimsyX4cjvVdJyV12zrS3tcPElpDK8T7KAIHgf
-	GmMX0lle7o4eoHkFUYENYEoUz/UjRNkUK80WmKgyUvAvecE2sxht5BBQqhj3ukda44l
-	aoRZhjnUVc/G8d8k32d40O54RABENuG1CR/TapH8=
-From: patchtest@automation.yoctoproject.org
-To: Peter Marko <peter.marko@siemens.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [wrynose][PATCH 1/5] curl; patch CVE-2026-7009
-In-Reply-To: <20260825183853.1017950-1-peter.marko@siemens.com>
-References: <20260825183853.1017950-1-peter.marko@siemens.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a03a402809-d05bd936-df6d-4acc-83d2-14b79b75d05e-000000@us-west-2.amazonses.com>
-Date: Tue, 25 Aug 2026 18:47:58 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.25-54.240.27.33
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=gdkzHZTj;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 90CBF4E413B0
+	for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 18:48:26 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 4E438604C4;
+	Tue, 25 Aug 2026 18:48:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 100BB11C7A755;
+	Tue, 25 Aug 2026 20:48:20 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1787683701; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=BTMo4+fd9QB+Pdcr2VrFmPWr/kmfqWAL6PEAb8Ymt7I=;
+	b=gdkzHZTjChfLlmG6KdNXbQ+ib8pponpJbY0/Jdd4PvXtqv4e3nmla0UaP57eSNe/LFliK3
+	/JWCwG17BD9YiRV5TynuCXkL8fnVyPx94ERtyfWbrQorh7aeKfipuoEO7D2ZYlS0re7vpi
+	9A0YcSUu66uP1gCNdAiQN7chBurOWXslTyf48VBWzaK6BsewlmZ+Ijkm/Ofs49znapkZ6C
+	dTLx5gjyogKKjFqtZSc+0Z4BFIAE+VnmQ7EWfi/ZaYgLORqx7JPUf4JgmPbSQNSpgwgO6x
+	sK53K3Q/YxKsYWK/6XYOXb9JA0lfMVvnUH3ZFRPmqF3hzpcZ++8Rok/SlKW9Ag==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 25 Aug 2026 20:48:20 +0200
+Message-Id: <DKY8ZEFTEBOF.2QVJI76PJ4GKR@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <alhe@linux.microsoft.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v2] rust: Avoid passing host-specific
+ information to crates Strict Version Hash
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260824235606.4035992-1-alhe@linux.microsoft.com>
+In-Reply-To: <20260824235606.4035992-1-alhe@linux.microsoft.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 18:48:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244261
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 18:48:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244262
 
---NextPart
-Content-Type: text/plain
+On Tue Aug 25, 2026 at 1:56 AM CEST, Alejandro Hernandez Samaniego via list=
+s.openembedded.org wrote:
+> rustc computes each crate's Strict Version Hash (SVH) using inputs that i=
+nclude
+> the *stage0/stage1 bootstrap compiler* fingerprint, which in turn depends=
+ on the
+> build host arch.
+>
+> This eventually may cause sstate matches across architectures for artifac=
+ts that
+> are actually different, causing autobuilder intermitent reproducibility i=
+ssues.
+>
+> To avoid this, pass a fixed value instead of host-specific bits to the sp=
+ecified
+> hash.
+>
+> [YOCTO #15554]
+>
+> Assisted-by: AI - OpenAI
+> Signed-off-by: Alejandro Hernandez <alhe@linux.microsoft.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hi Alejandro,
 
----
-Testing patch /home/patchtest/share/mboxes/wrynose-1-5-curl-patch-CVE-2026-7009.patch
+This looks broken here:
 
-FAIL: test shortlog format: Commit shortlog (first line of commit message) should follow the format "<target>: <summary>" (test_mbox.TestMbox.test_shortlog_format)
+ERROR: rust-native-1.97.1-r0 do_install: Execution of '/srv/pokybuild/yocto=
+-worker/genericx86-64/build/build/tmp/work/x86_64-linux/rust-native/1.97.1/=
+temp/run.do_install.2682640' failed with exit code 1
+...
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/genericx86=
+-64/build/build/tmp/work/x86_64-linux/rust-native/1.97.1/temp/log.do_instal=
+l.2682640
+...
+|     Building [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>    =
+  ] 275/348: object, schemars, tracing-s=E2=80=A6
+|    Compiling rustc_span v0.0.0 (/srv/pokybuild/yocto-worker/genericx86-64=
+/build/build/tmp/work-shared/rust-source-1.97.1-r0/sources/rustc-1.97.1-src=
+/compiler/rustc_span)
+|     Building [=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D>    =
+  ] 276/348: object, schemars, tracing-s=E2=80=A6
+| error: expected `;`, found `StableCrateId`
+|    --> /rustc-dev/8bab26f4f68e0e26f0bb7960be334d5b520ea452/compiler/rustc=
+_span/src/def_id.rs:200:59
+|     |
+| 200 |         hasher.write(b"
 
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/4/builds/4510
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Can you have a look at the issue?
 
----
+Thanks,
+Mathieu
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
---NextPart
-
-
---NextPart--
 
