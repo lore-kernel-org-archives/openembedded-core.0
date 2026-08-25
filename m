@@ -1,290 +1,133 @@
-Return-Path: <JPEWhacker@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 27FE1C61DB9
-	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 15:00:28 +0000 (UTC)
-Received: from mail-yw1-f173.google.com (mail-yw1-f173.google.com [209.85.128.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24035.1787670022632468352
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C300C61DB9
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 15:04:38 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23686.1787670268918263570
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 08:00:22 -0700
+ Tue, 25 Aug 2026 08:04:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=o4te5e9o;
- spf=pass (domain: gmail.com, ip: 209.85.128.173, mailfrom: jpewhacker@gmail.com)
-Received: by mail-yw1-f173.google.com with SMTP id 00721157ae682-836c718715fso46997497b3.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 08:00:22 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787670022; cv=none;
-        d=google.com; s=arc-20260327;
-        b=ejfclloRCpQ5763E3pbCabVwqWcuDn+ufMY2jYQ2/yJFfdG0R+Xb/5U8kxHHeJ05sj
-         ln1jpp7t6ldrcn/8keFKePaZ0gOENTugMebef8stFhkVXCBMrhh2ZbEqZ89r2zplemks
-         mmXeXPOhNLgMBZjatnrYkgOWY8rePvbENI7pB6AWhaUVqkZH/nxI7+tssNd0a+6Mr0wV
-         azWUeAEPzAguDDIS3DgRHDmJpWiWenhZ0xroga29cLvar01F6i796IiFiS79QmR23BqE
-         0gXVciNpWyCl/I+bC0wmr+DlcY63Dh+ZmmenrUCGJdxp+rRPxoYXCft5IOzVNsqeW9lf
-         5QEw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=Y6LTNq0PsFDfRBEXl34i1Nfq6SJj+/2iqf3Ivteltpw=;
-        fh=AiM24HqLxTf1iHQq112QdTxl2RrDKvLKpV+3zcOsbJ8=;
-        b=fFZ5ITLhsdK/x3IE+fjQ8kEmgoDBvFutRguA6b6luYnpwSi8/RXlqlwjMO0pgVwRlX
-         8wHmywwfa/US4VH0zamKhcER+saLwbD5oXKnZNytkwx/BaMwDsZk7D/kXNWAr7xQnh9N
-         JvPnpJfKtXrnaP/krFPJPjaYzv80KFklMzlt8H/n/HTGZPKvFge3zc9+d0285XMN1LeT
-         agPtlwg5IoXsz5o3ituqofhn/4kw/9BtZPpELJBOpMmG/rXoJ9Ezzb4WTdEdz1Q5Z479
-         H89ogj18tK77Rq8v2IzCVv8QlPePCD9DswMtT03iyIHKgqIQpwggcJTt4AT/NfmIwenr
-         DWoQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=kn1znhPX;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49954b88fffso39377555e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 08:04:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787670022; x=1788274822; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Y6LTNq0PsFDfRBEXl34i1Nfq6SJj+/2iqf3Ivteltpw=;
-        b=o4te5e9oMqXrsynJ7hWxYzysPvM2nIKkCjnEpaT7T+OOZU9JS0M6lefSfp9Lc93waD
-         fa/+mqUMA4zKndAiiqI2TktyPXAQP/LBcvZYQbAvzVq1CIQiPH84nJX5MDSATlMsP8Vi
-         +7u/k3F6EY04e0S8VXXQ2XHofzM9XfPZX6LoQ1OZFy4SVk/Cp8k3CFs7uvToMOnoBaaI
-         kS2fbpQ+KuAXUrUvBImJWyrQV5dY9EBsf9kpGHlFPbxMRhvbhhWPANFWxLO2lMXW+lUx
-         4+HaAt/DIPa50H9n7G54bhkHUBXAxAm4MFe/rjGBaf5F1E/BJMEFRKH6rtqYpKICCFU3
-         Mdvg==
+        d=smile.fr; s=google; t=1787670267; x=1788275067; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=L6XX0y1HoZ56S7yGtBbu8Z7Vihzyqv4O01oZDr4rbg8=;
+        b=kn1znhPXT/wqsaCnRFMl+If0VM6J52wUcBTqQPLMqugK1YPsXOqSs9EY8NW6VlSsJW
+         ESPe+LF12WTkORPfd5Nwj4hekcq04AqNhC+TNbU7fF3jQiKJKaXHP034kDU5Eq8FXwjk
+         Utw+a+d9wFi8u0qu+/11g9mvGw/Nn58HIssqE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787670022; x=1788274822;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=Y6LTNq0PsFDfRBEXl34i1Nfq6SJj+/2iqf3Ivteltpw=;
-        b=nTEvr8ez3lZfl9ZsB7Q5DFpZaXB84Fn1qzB4dgkXskSOR6oYf1EZpMj7hxhU59MG0v
-         DTkSXRPM59kb2JoekRMWXsgSLgcvr5ANEa7F4+4SambpkrYqI3VQaStYZvpAF+b0X/+g
-         uouYTK/+CrH9DS5BucpwxNZ1tJwSZ5cu0Cw/wihHiGPOuoUYjWYLrGDEVno1ZcFEPL86
-         +/VMHch+1UMcyHQBjvqC1es7n/COnXAVsSfbWdiu/pzWtiqOuFkPZZN97Rzj/a8ctJRF
-         7o1r7+JAvSUICtgMVs2mBqUVlvRqo7k+8vAsdr5uMSqIEagW1jEKYe5Mlzf6GDBkgdzN
-         y9dg==
-X-Gm-Message-State: AFuF++nu4VB+kNc8cVeUY//xkY3gRMWiOHJPcucyVTANfNSHgLbhD09b
-	i6oRqDXQ9sxTCQIO0Y0sO2UX9WWdSR1YxoKfRq1iQyQqprJFfWlCGK0iSvTZqfT0mHHTsVrz82w
-	fSF2jsERYshTWhE/gyNG5QtrGDUG1mbpJAAVe
-X-Gm-Gg: AR+sD12nkYTSUyrCnfhvtY30v1KITYrhTrtZT6eNXzQ/fS17ZrMnt1NpLGs2c4n+dtU
-	yKXYq24S/20sxtgXTYwtd7wF46hJmG4LIgFnjGdlpoVGaKQtZe9mkezxuTOyw2FKCej0ygaqP57
-	+r6YWFzGT1W/IXjKAu/ut1nccvb6sKaA9B+hx4971Zd1mr+ukKeUDfaEsukJ6/7jcTbHnjOcd1c
-	+rEGXSMNcITV470WhzxjPaABolGuaZbsLYPskNeuVWYss4kyoqb7U04MyjHRK7qjLyUUNoWGYaU
-	hLdMr8QX8ClYEAQ33F1zrYB4v26wouyiGNjHGeNRajouUnPNbtOP+g4TBmw=
-X-Received: by 2002:a05:690c:e297:20b0:826:5659:28aa with SMTP id
- 00721157ae682-85478b735bbmr25375527b3.32.1787670021109; Tue, 25 Aug 2026
- 08:00:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260824201017.3914783-2-iwanicki92@gmail.com>
- <CAJdd5GZsDEKtHL3pNjuqg6xEOWLFMDbGUibbobjus3XJR-8BLg@mail.gmail.com> <2283556.1787636925763155083@lists.openembedded.org>
-In-Reply-To: <2283556.1787636925763155083@lists.openembedded.org>
-From: Joshua Watt <jpewhacker@gmail.com>
-Date: Tue, 25 Aug 2026 09:00:09 -0600
-X-Gm-Features: AcwNN1Wp_9Qu4SpVz11Fgc8Z2-_XNgfsZ-bN0F9OZUnI1TeWeoWyHS96hPXthDE
-Message-ID: <CAJdd5GY9nKqH0jPfUiYc2kDN3sF=Cg=9G+Q6VcPC1pdDRScQVQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH v2] sbom30.py/spdx30_tasks.py: fix SPDX_* prefix lookup
-To: iwanicki92@gmail.com
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000957d0e0659e05cb2"
+        d=1e100.net; s=20251104; t=1787670267; x=1788275067;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=L6XX0y1HoZ56S7yGtBbu8Z7Vihzyqv4O01oZDr4rbg8=;
+        b=Twq9ZY3ieXwHMjN6F4f9IH27Ws9ciSHLmxTOeZ5JIjOXHYHUeUu07g5g3rAuWvdt4K
+         xbmz138eJVEfaL1jtx7S0O36KmY4nJvmYhoFxXpX31LoV/6BWsZ0aLC3t7H9deGHwbPa
+         ROREXTKtfROR/MvSp3Lfy/fUqvta6CGuY+WtdhmuOt23lLNPck5VRe86Ps6AKz7B+0j8
+         kOifFpDT6ps2JG9WTbI2NIYxxdVMj6N6RVy7TeAzvLytgGqlPKlM9jiEBT9KTkXX21Rw
+         UBR4OVSt+uR/ecFLNMM6x6iVPATva/CE+O/ctRkXc/IfLltumN3GizQFN+nC6K4JxN8X
+         J0JQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoFz1WoiwDKa22aCh4z4rY00l5nGulucupArIg+xoID4Ir+Ubr6+ePj968XKPT67XEJ8uybBxnxB/dw3qUhEs9nrw==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kmJeSgmHBdW90+lVH1BLhBjkILcoI80EVUxOVV39KmkQ4SIYLW
+	CAZbAIG2XHEWmh4RnnMVnFdHVFwWonmGxqiYCT/Gi3azC4aL1YvMi3Kn6bOF8Hemd68=
+X-Gm-Gg: AR+sD12ZugknxBzwlJfserhsfNcRfpDXK4ziuucEtzO0/MUZAcr9Jl5Jb4UoGaseYn9
+	iye8hOHeNpa0vgNF9y0zx2QR1wob0ZwhOScWgjkTu3igUhsmFQZobZozD0YBnzmFxKDE+DR3/O6
+	3USnwpGk3phKEF4SCLc5o3v7VtnnmlVmO1FtSL0UP2NF1COmPU6pPos0Vwb07ChEwlZRX7+g2NC
+	y4g920tMP2RyOw4/8OPlGqRpI2cWVMLB6bZ4VtbJu59UAn6Q3XMFsD0I/Nc8l+AuNTJJtM3Bm+u
+	65/5dBZgxQeTtGOmRb2h3obg/FNHLB8waIwgmK1tJkbGd+xH4PS2G7gHxRDBjRlLF5wW8aOTVQj
+	8IHa04pck9uhqQSTl8M2ZC5OAe6Oi+0A/P6ITMHd2U9xrspxarzItfsLrY9phGRAYzEb3B9gVdx
+	42yxK8hd4ti/SFa3HWvNwuigrk7cT9e2x7AmEflG3DiVwNRr+s3rpYbYBuXyqR9cqjqWsH4LmtC
+	TjeOBmEb8j5dfsEIIlugscTM6bKQD9QZqdBtvaBXABteCdxS9B+So60YA0=
+X-Received: by 2002:a05:600c:3b04:b0:499:adb5:e7b2 with SMTP id 5b1f17b1804b1-499c19d733emr293406985e9.11.1787670267007;
+        Tue, 25 Aug 2026 08:04:27 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499d6346ba3sm32747125e9.4.2026.08.25.08.04.26
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Aug 2026 08:04:26 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 25 Aug 2026 17:04:26 +0200
+Message-Id: <DKY47YY3L5UE.1DLQ2RS87JLFQ@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH 1/8] curl: fix CVE-2026-8286
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <deeratho@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260805083103.2633995-1-deeratho@cisco.com>
+ <20260805083103.2633995-2-deeratho@cisco.com>
+In-Reply-To: <20260805083103.2633995-2-deeratho@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 15:00:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244245
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 15:04:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244246
 
---000000000000957d0e0659e05cb2
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-On Mon, Aug 24, 2026 at 11:48=E2=80=AFPM iwanicki92 via lists.openembedded.=
-org
-<iwanicki92=3Dgmail.com@lists.openembedded.org> wrote:
-
-> I'm not sure where the documentation you found suggests this
+On Wed Aug 5, 2026 at 10:30 AM CEST, Deepak Rathore via lists.openembedded.=
+org wrote:
+> From: Deepak Rathore <deeratho@cisco.com>
 >
+> This patch applies the upstream curl security fix backport for
+> CVE-2026-8286. The upstream fix commit is referenced in [1],
+> and the public curl advisory is referenced in [2]. The backported
+> commit link is also recorded in the embedded patch header.
 >
-> The Yocto Project documentation:
-> https://docs.yoctoproject.org/ref-manual/variables.html#term-SPDX_IMAGE_S=
-UPPLIER
-> contains almost the same example:
+> [1] https://github.com/curl/curl/commit/a86efdd7ca5433de9231e650f18247de8=
+319ad16
+> [2] https://curl.se/docs/CVE-2026-8286.html
 >
-> MY_COMPANY_name =3D "Acme Corp"
-> MY_COMPANY_type =3D "organization"
-> SPDX_IMAGE_SUPPLIER =3D "MY_COMPANY"
-> SPDX_SDK_SUPPLIER =3D "MY_COMPANY"
->
+> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> ---
+>  .../curl/curl/CVE-2026-8286.patch             | 81 +++++++++++++++++++
+>  meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+>  2 files changed, 82 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8286.patch
 
-This is incorrect and needs to be removed
+Hello,
 
+This series does not apply on top of the review branch anymore:
+https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/wryn=
+ose-review
+|ERROR: curl-8.19.0-r0 do_patch: Applying patch '.../wrynose/bitbake-builds=
+/poky-wrynose/layers/openembedded-core/meta/recipes-support/curl/curl/CVE-2=
+026-8927.patch' on target directory '.../wrynose/bitbake-builds/poky-wrynos=
+e/build/tmp/work/x86-64-v3-poky-linux/curl/8.19.0/sources/curl-8.19.0'
+|CmdError('quilt --quiltrc .../wrynose/bitbake-builds/poky-wrynose/build/tm=
+p/work/x86-64-v3-poky-linux/curl/8.19.0/recipe-sysroot-native/etc/quiltrc p=
+ush', 0, 'stdout: Applying patch CVE-2026-8927.patch
+|patching file lib/url.c
+|patching file lib/urldata.h
+|patching file tests/data/Makefile.am
+|Hunk #1 FAILED at 218.
+|1 out of 1 hunk FAILED -- rejects in file tests/data/Makefile.am
+|patching file tests/data/test1647
+|patching file tests/libtest/Makefile.inc
+|Hunk #1 FAILED at 100.
+|1 out of 1 hunk FAILED -- rejects in file tests/libtest/Makefile.inc
+|patching file tests/libtest/lib1647.c
+|Patch CVE-2026-8927.patch does not apply (enforce with -f)
+|
+|stderr: ')
+|ERROR: Logfile of failure stored in: .../wrynose/bitbake-builds/poky-wryno=
+se/build/tmp/work/x86-64-v3-poky-linux/curl/8.19.0/temp/log.do_patch.468848
+|ERROR: Task (.../wrynose/bitbake-builds/poky-wrynose/layers/openembedded-c=
+ore/meta/recipes-support/curl/curl_8.19.0.bb:do_patch) failed with exit cod=
+e '1'
 
->
-> the support for this is already implemented by undocumented `_ref` suffix=
-,
-> so maybe documentation should be changed instead.
-> Though `_ref` suffix if I'm reading code correctly allows for infinite
-> chaining e.g:
->
-> SPDX_IMAGE_SUPPLIER_ref =3D "MY_COMPANY1"
-> MY_COMPANY1_ref =3D "MY_COMPANY2"
-> MY_COMPANY2_name =3D "Acme Corp
->
+Can you please rebase and send a v2?
 
+Please note that there are other pending curl CVE patches, I'd recommand
+reviewing/testing patches to identify conflict at the earliest.
 
-That's not how _ref works. _ref allows you to "reference" another SPDX
-"Agent" that was created elsewhere (instead of creating a new one each
-time). So you can do:
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
-SPDX_IMAGE_SUPPLIER_name =3D "AAAA"
-SPDX_IMAGE_SUPPLIER_type =3D "organization"
-
-SPDX_SDK_SUPPLIER_ref =3D "SPDX_IMAGE_SUPPLIER"
-
-And then the generated SPDX will only contain a single "AAAA" company
-object that is referenced in both cases, instead of creating 2 duplicate
-objects. However, at least one of the variables must actually create the
-organization for that to work (e.g. SPDX_IMAGE_SUPPLIER in this case)
-
-
->
->
-> but the values for any base variable are suffixes always appended to that
-> base variable
->
-> SPDX_IMAGE_SUPPLIER =3D "MY_COMPANY"
-> SPDX_IMAGE_SUPPLIER_MY_COMPANY_name =3D "CCCC"
-> SPDX_IMAGE_SUPPLIER_MY_COMPANY_type =3D "organization"
->
->
-> This one I don't think is mentioned anywhere, and also doesn't work. Mayb=
-e
-> you meant SPDX_AUTHORS which has this syntax:
->
-
-Yes, I did, sorry for being confusing. Some variables allow multiple things
-to be assigned (like SPDX_AUTHORS) and some only allow a single one (like
-SPDX_IMAGE_SUPPLIER). The ones the support multiple require the suffixes to
-be specified in the variable name, e.g.
-
-  SPDX_AUTHORS =3D "A B C"
-
-And then the code will create authors using SPDX_AUTHORS_A, SPDX_AUTHORS_B,
-and SPDX_AUTHORS_C, but these 3 variables are all treated the same as all
-other SPDX Agent variables (e.g. the same as SPDX_IMAGE_SUPPLIER)
-
-
-
->
-> SPDX_AUTHORS ??=3D "openembedded"
-> SPDX_AUTHORS[doc] =3D "A space separated list of the document authors. Ea=
-ch
-> item \
->     is used to name a base variable like SPDX_AUTHORS_<AUTHOR> that \
->     describes the author."
-> SPDX_AUTHORS_openembedded_name =3D "OpenEmbedded"
-> SPDX_AUTHORS_openembedded_type =3D "organization"
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#244192):
-> https://lists.openembedded.org/g/openembedded-core/message/244192
-> Mute This Topic: https://lists.openembedded.org/mt/120910416/3616693
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> JPEWhacker@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---000000000000957d0e0659e05cb2
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
-mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 24,=
- 2026 at 11:48=E2=80=AFPM iwanicki92 via <a href=3D"http://lists.openembedd=
-ed.org">lists.openembedded.org</a> &lt;iwanicki92=3D<a href=3D"mailto:gmail=
-.com@lists.openembedded.org">gmail.com@lists.openembedded.org</a>&gt; wrote=
-:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.=
-8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"><blockquote>
-<div>I&#39;m not sure where the documentation you found suggests this</div>
-</blockquote>
-<div>=C2=A0</div>
-<div>The Yocto Project documentation: <a href=3D"https://docs.yoctoproject.=
-org/ref-manual/variables.html#term-SPDX_IMAGE_SUPPLIER" target=3D"_blank">h=
-ttps://docs.yoctoproject.org/ref-manual/variables.html#term-SPDX_IMAGE_SUPP=
-LIER</a> contains almost the same example:</div>
-<div>=C2=A0</div>
-<div>MY_COMPANY_name =3D &quot;Acme Corp&quot;<br>MY_COMPANY_type =3D &quot=
-;organization&quot;<br>SPDX_IMAGE_SUPPLIER =3D &quot;MY_COMPANY&quot;<br>SP=
-DX_SDK_SUPPLIER =3D &quot;MY_COMPANY&quot;</div></blockquote><div><br></div=
-><div>This is incorrect and needs to be removed</div><div>=C2=A0</div><bloc=
-kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
-1px solid rgb(204,204,204);padding-left:1ex">
-<div>=C2=A0</div>
-<div>the support for this is already implemented by undocumented `_ref` suf=
-fix, so maybe documentation should be changed instead.<br>Though `_ref` suf=
-fix if I&#39;m reading code correctly allows for infinite chaining e.g:</di=
-v>
-<div>=C2=A0</div>
-<div>SPDX_IMAGE_SUPPLIER_ref =3D &quot;MY_COMPANY1&quot;</div>
-<div>MY_COMPANY1_ref =3D &quot;MY_COMPANY2&quot;</div>
-<div>MY_COMPANY2_name =3D &quot;Acme Corp</div></blockquote><div><br></div>=
-<div><br></div><div>That&#39;s not how _ref works. _ref allows you to &quot=
-;reference&quot; another SPDX &quot;Agent&quot; that was created elsewhere =
-(instead of creating a new one each time). So you can do:</div><div><br></d=
-iv><div></div><div>SPDX_IMAGE_SUPPLIER_name =3D &quot;AAAA&quot;</div><div>=
-SPDX_IMAGE_SUPPLIER_type =3D &quot;organization&quot;</div><div><br></div><=
-div></div><div>SPDX_SDK_SUPPLIER_ref =3D &quot;SPDX_IMAGE_SUPPLIER&quot;</d=
-iv><div><br></div><div>And then the generated SPDX will only contain a sing=
-le &quot;AAAA&quot; company object that is referenced in both cases, instea=
-d of creating 2 duplicate objects. However, at least one of the variables m=
-ust actually create the organization for that to work (e.g. SPDX_IMAGE_SUPP=
-LIER in this case)</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" =
-style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
-dding-left:1ex">
-<div>=C2=A0</div>
-<blockquote>
-<div>but the values for any base variable are suffixes always appended to t=
-hat base variable<br><br></div>
-<div>SPDX_IMAGE_SUPPLIER =3D &quot;MY_COMPANY&quot;<br>SPDX_IMAGE_SUPPLIER_=
-MY_COMPANY_name =3D &quot;CCCC&quot;<br>SPDX_IMAGE_SUPPLIER_MY_COMPANY_type=
- =3D &quot;organization&quot;</div>
-</blockquote>
-<div>=C2=A0</div>
-<div>This one I don&#39;t think is mentioned anywhere, and also doesn&#39;t=
- work. Maybe you meant SPDX_AUTHORS which has this syntax:</div></blockquot=
-e><div><br></div><div>Yes, I did, sorry for being confusing. Some variables=
- allow multiple things to be assigned (like SPDX_AUTHORS) and some only all=
-ow a single one (like SPDX_IMAGE_SUPPLIER). The ones the support multiple r=
-equire the suffixes to be specified in the variable name, e.g.</div><div><b=
-r></div><div>=C2=A0 SPDX_AUTHORS =3D &quot;A B C&quot;</div><div><br></div>=
-<div>And then the code will create authors using SPDX_AUTHORS_A, SPDX_AUTHO=
-RS_B, and SPDX_AUTHORS_C, but these 3 variables are all treated the same as=
- all other SPDX Agent variables (e.g. the same as SPDX_IMAGE_SUPPLIER)</div=
-><div><br></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D=
-"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
-ft:1ex">
-<div>=C2=A0</div>
-<div>SPDX_AUTHORS ??=3D &quot;openembedded&quot;<br>SPDX_AUTHORS[doc] =3D &=
-quot;A space separated list of the document authors. Each item \<br>=C2=A0 =
-=C2=A0 is used to name a base variable like SPDX_AUTHORS_&lt;AUTHOR&gt; tha=
-t \<br>=C2=A0 =C2=A0 describes the author.&quot;<br>SPDX_AUTHORS_openembedd=
-ed_name =3D &quot;OpenEmbedded&quot;<br>SPDX_AUTHORS_openembedded_type =3D =
-&quot;organization&quot;</div>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#244192): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/244192" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/244192</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120910416/361=
-6693" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/120910416/3616693</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:JPEWhacker@gmail.com" targ=
-et=3D"_blank">JPEWhacker@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div>
-
---000000000000957d0e0659e05cb2--
 
