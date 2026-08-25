@@ -2,741 +2,515 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B0E8C61CE2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 986D0C61DC2
 	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 10:07:23 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18584.1787652440682242623
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18281.1787652437992656828
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 03:07:21 -0700
+ Tue, 25 Aug 2026 03:07:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YuA6/EUz;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-47f84023916so3180112f8f.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 03:07:20 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=MCCD/4kZ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-47f3b39f2a1so3180324f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 03:07:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787652439; x=1788257239; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=+JUIvUjOLR6AGSFoxGDFYQ3kyfssuer1zk4F9tspsJM=;
-        b=YuA6/EUzojIXPGMnBD8B6BCJnJojYUyujMfsHsf6lqmy5WENh8nXgvlpLhypbt1ypu
-         umNI2TnhxywH/goIWB1gwibzDDNXf7Jr9TUTEkR3HpfalCaLNGCKN7MD6smETpjeH9Tn
-         g1LGT0ZeHuqtaPaAOcAtbFgUKPOFvMKfpPT50=
+        d=smile.fr; s=google; t=1787652436; x=1788257236; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ygFD0dtLycSLXx5aJAPetaaQ9RdjHBSdb9ouPzVcTZc=;
+        b=MCCD/4kZnjQS+p27I7fwM7GYTjanv1Dqe2iKIyPTZb0fEPQptnGt5j6cdmUjJdZSsX
+         eCerG5cYLFl0smRv+yqTUgQ7rSBBfSKNGxOlhdZLPLl7Dp8wRJ2y8I3t61VAjCUCU3tn
+         PJBk1xV9GL0BiNxZZLFpg6FmZRJWNrg1QO+HA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787652439; x=1788257239;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=+JUIvUjOLR6AGSFoxGDFYQ3kyfssuer1zk4F9tspsJM=;
-        b=IyE6sQx724HhNbewYYtUaXIKok/udgzTRsjySFact2qCviNOmiJkHNMnP0GnSx+UPV
-         y9I9oeK3ZjWaPKFT3E+gIquWsUHTRibVv97M1We0EzjTvTdZUddZA2WlYMkDw1dg1VYM
-         ouFV+9oTCDmTEvUwCP0NIOdv/J53GKLlRQXLPczrMdBNTcxXMae/ZA3K0Nxro+hO6bYW
-         NZVS+MRhJqL5xxyjlpwx8ylOGngpUaFirOYC7oGNusdiCLuQ3KjtYV2XBj7UlsBBzhwx
-         UqT7JErH3HshA72dW/nHVrzZyPAhYD3fM4y7p+eNT9g2Ki5cdRfaOkGFpRyOb5QFRM5w
-         7G5Q==
-X-Gm-Message-State: AFuF++nr9tgn39TQ/fleHCWuERL5z9IGgvht7mQ3mvavjQ1SJ1j2NJZ/
-	0SNT1fBvOKqrVTu9MqE63kXV7+X2H65CyjcP2JWR+nTeBMlIXY9ak6hfW4PW9kKlvIGONZu0OQ8
-	hyPjkbpQ=
-X-Gm-Gg: AR+sD10QQMx489Z1Cm9Vp7RXjCjhvHDsJ2omiQ4/R9TbKEhzrTcMf2onyAFCjl5N669
-	GYq3yIFLibPkWdQbzFtxvIbY6hRI1Wyeq6M56j2SgBAqNeT+i9ykSDHU/5IiAyO52zD9mBnMGgs
-	YNIBTCS9cD/Kp91aqm/GnE0b22y8lBV1+msvSmbIqC/LY7Zu+5EbDdn3X6NI77TjVgXjrIF+Ljl
-	gskOQvARMeqgZrfViWCJShE7gVYq2Wnh3HVuEv3Y/DqOmtzjaTrz4nMOfSd9ZDVfTQ97tc4dq8x
-	kxpmN2qfLiBxZBlIhvPoBH5ZZDqtNlyBSK6RL83Yls60U1KhFXg8OO19T49LRkORtvcpst2O4FB
-	bGghqcLerv9UyxpvQeQtnx60emH1d5uCiG7ncsbsxNncnjhdMDJ8dYag2f1JpMAcJmaQ4VjpnJ6
-	SDByqaglRg1bP3SEourbyAZUKdBFrdjnQrubAmmfBEGVhblEE27OdEjrqs4hdf8t4RRUMjAVjga
-	6cKibPhmK33ac5ZPKWChDc7yfts2c3L2Fl6JhxSnPNqaO1ubjUayhWx8vMAvjagZDg7djM=
-X-Received: by 2002:a05:6000:2dc9:b0:482:9a18:d753 with SMTP id ffacd0b85a97d-482c0b44acbmr41023656f8f.5.1787652438639;
-        Tue, 25 Aug 2026 03:07:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787652436; x=1788257236;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=ygFD0dtLycSLXx5aJAPetaaQ9RdjHBSdb9ouPzVcTZc=;
+        b=o7ZPrgD/tqdeimTXcKkHBKIvqYglOZCJoP/JWiSPqGBfjcFG6UcdPvxZFnFY8A6PBp
+         C8c5zV7dDN89JxafojF15jp/+spUGVoyI2MmCJ3caqyPs3oiDAJ5VpkGq51l+ptBMBOs
+         uSmCBl7cowMEZGYMuphZcNBFlvdHCHzil0aZGFUkYyh9zvl5nHIvyGT9vrNjd9xdqXIL
+         /ugSLHY2fjYEZoredlXg0mpEvUT6+tE9ETutuMhREaGRj+Ix9WzNm2BNyl5HTO+hTU3O
+         4YtnoCk1GVJfF9tlTTlwa/WoPddxIrgVJnvtnF2reT/6JCk1gK1hBSkww/hp40zYp1CN
+         Xu4g==
+X-Gm-Message-State: AFuF++nEgBSjKVCiX9y82M6NEsq2DyL8dKwzDXT+RDpwrZJLViEE8Dlf
+	g3O5asmURKyt7GjpPGqElENxh3HSC89ZcEGlkpf48jsRygShQs7B6VNNS2tsLRut9/iXA7JJHVZ
+	Uihot7CE=
+X-Gm-Gg: AR+sD13Aue2KICQDiJ4L5C1dJdqLa+oDqGxQVONkS5vKk29KQs2VTqm80ke7KH+MyM0
+	mwv54Hk7J0ZMgvYTsfyMRmCLxaNBbd3HS4QD5DjF+48Q2aVbv0J9BYyEwMcK71ZI0+p3OfouoOB
+	3UAt8CMtG43R223cPIba78rD5Vfrpn+FGW1/JvDoM51llPD1tROv4miggYRZgowS6d0Bdes7ta/
+	UNvD1B3WSHabe482w0LmgcPZkBcV4Fslwxb587l1PMuTWTypUuWfN7G9l6E8fDbKMoqlYqi4K3F
+	816LB0VFoLAABUqlUjcGJXtAtZztneL76I5Sc5HIAO1D1B9cLds5RvoC1vpw/Y5nD6pzQhnW6Zu
+	hRon4BNSDYKiUPeJPcEegxjeKIAkUyPf+FMgi+WVmA9Jd5XK2SLi09ie14RzrHe31Hu1g0LTH/X
+	dgOadZR9phmnWVJuaroJegR81NX5PkkIZ657+cx9PrMl9ioBgx6l/z328A8vC/299GnNY5Tfy8e
+	7ZEGN2HEuGkkApZiL7Mx0o1Jn7PV1mdwGRjAxdkR3Pa7Hq3PMMjEWwmLBcsFFSXP8Pg96c=
+X-Received: by 2002:a05:6000:4909:b0:482:552f:ef68 with SMTP id ffacd0b85a97d-482d9f272b8mr7286332f8f.19.1787652436107;
+        Tue, 25 Aug 2026 03:07:16 -0700 (PDT)
 Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9bfd865sm10847901f8f.22.2026.08.25.03.07.18
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9bfd865sm10847901f8f.22.2026.08.25.03.07.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 25 Aug 2026 03:07:18 -0700 (PDT)
+        Tue, 25 Aug 2026 03:07:15 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 07/11] glib-2.0: fix CVE-2026-58015
-Date: Tue, 25 Aug 2026 12:06:45 +0200
-Message-ID: <b6b82e3c1442b658bd4c1689e09792c9a3a96947.1787652331.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 04/11] binutils: fix CVE-2026-15003
+Date: Tue, 25 Aug 2026 12:06:42 +0200
+Message-ID: <b4675cb889edb4de1f53d9c6c883d0d5d622e49b.1787652331.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1787652331.git.yoann.congal@smile.fr>
 References: <cover.1787652331.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 10:07:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244221
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244218
 
-From: Deepak Rathore <deeratho@cisco.com>
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-This patch applies the upstream glib-2-88 stable backport chain for
-CVE-2026-58015. The issue is in the D-Bus SHA-1 authentication
-mechanism, where a malicious peer could provide an unchecked cookie
-context and cause the client to access unintended files while resolving
-the cookie challenge.
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-15003
+https://sourceware.org/git/?p=binutils-gdb.git;a=commit;h=23acf2f003f81b2f8d9d1997ea45d822d33d386c
 
-Backport the upstream GLib fix chain from the glib-2-88 stable branch:
-- db9c8fae398b validates cookie_context before keyring lookup. This is
-the primary security fix for CVE-2026-58015 [1].
-- c0531125344b tightens cookie ID parsing so empty, negative, and
-out-of-range values are rejected. This hardens the same SHA-1 cookie
-challenge parser and is covered by the upstream regression test [2].
-- 060aea67de75 exposes the private client reject-reason vfunc. This is
-test-support plumbing required by the upstream regression test [3].
-- 091930196229 adds the upstream regression test for SHA-1 cookie
-challenge parsing [4].
+Test results:
+  binutils-cross-testsuite 2.42 (x86_64-oe-linux):
 
-Add dbus-native to PACKAGECONFIG[tests] so Meson can find dbus-daemon
-when building the new installed D-Bus regression test for ptest. This is
-kept as a native-only test dependency to avoid adding a target dbus
-dependency to glib.
+  Before:
+  binutils: 302 passed, 2 unexpected failures, 1 untested, 7 unsupported
+  gas:      1871 passed, 4 unexpected failures, 2 unsupported
+  ld:       1728 passed, 5 unexpected failures, 7 expected failures, 1 unresolved, 20 untested, 99 unsupported
 
-[1] https://gitlab.gnome.org/GNOME/glib/-/commit/db9c8fae398b0c457e660ce63dd5afec8993046a
-[2] https://gitlab.gnome.org/GNOME/glib/-/commit/c0531125344bb25fd66ffb7435ed6c285de09aeb
-[3] https://gitlab.gnome.org/GNOME/glib/-/commit/060aea67de7517d531b8fe2cdc07aa1a00ddeb22
-[4] https://gitlab.gnome.org/GNOME/glib/-/commit/0919301962291a712067ee0c5d273cc392f33277
-[5] https://nvd.nist.gov/vuln/detail/CVE-2026-58015
+  After:
+  binutils: 304 passed, 2 unexpected failures, 1 untested, 7 unsupported
+  gas:      1871 passed, 4 unexpected failures, 2 unsupported
+  ld:       1728 passed, 5 unexpected failures, 7 expected failures, 1 unresolved, 20 untested, 99 unsupported
 
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=23acf2f003f81b2f8d9d1997ea45d822d33d386c]
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Fabien Thomas <fabien.thomas@smile.fr>
 ---
- .../glib-2.0/glib-2.0/CVE-2026-58015_p1.patch |  97 ++++++++
- .../glib-2.0/glib-2.0/CVE-2026-58015_p2.patch |  55 +++++
- .../glib-2.0/glib-2.0/CVE-2026-58015_p3.patch | 198 ++++++++++++++++
- .../glib-2.0/glib-2.0/CVE-2026-58015_p4.patch | 222 ++++++++++++++++++
- meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   4 +
- meta/recipes-core/glib-2.0/glib.inc           |   2 +-
- 6 files changed, 577 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p1.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p2.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p3.patch
- create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p4.patch
+ .../binutils/binutils-2.42.inc                |   1 +
+ .../binutils/binutils/CVE-2026-15003.patch    | 400 ++++++++++++++++++
+ 2 files changed, 401 insertions(+)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch
 
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p1.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p1.patch
+diff --git a/meta/recipes-devtools/binutils/binutils-2.42.inc b/meta/recipes-devtools/binutils/binutils-2.42.inc
+index 5534ce577f9..447529ffa95 100644
+--- a/meta/recipes-devtools/binutils/binutils-2.42.inc
++++ b/meta/recipes-devtools/binutils/binutils-2.42.inc
+@@ -80,5 +80,6 @@ SRC_URI = "\
+      file://CVE-2025-69645.patch \
+      file://CVE-2025-1147.patch \
+      file://CVE-2025-8224.patch \
++     file://CVE-2026-15003.patch \
+ "
+ S  = "${WORKDIR}/git"
+diff --git a/meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch b/meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch
 new file mode 100644
-index 00000000000..1216e1a12b1
+index 00000000000..2f5c42e1b93
 --- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p1.patch
-@@ -0,0 +1,97 @@
-+From 1d0d0dc891399e8572a6c96b116149d076e2de28 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Tue, 28 Apr 2026 15:47:30 +0100
-+Subject: [PATCH 1/4] gdbusauthmechanismsha1: Validate cookie context
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
++++ b/meta/recipes-devtools/binutils/binutils/CVE-2026-15003.patch
+@@ -0,0 +1,400 @@
++From 23acf2f003f81b2f8d9d1997ea45d822d33d386c Mon Sep 17 00:00:00 2001
++From: Alan Modra <amodra@gmail.com>
++Date: Thu, 9 Apr 2026 09:06:27 +0930
++Subject: [PATCH] PR 34053 buffer overflow in xcoff_link_add_symbols
 +
-+Without validation, the server could send a malicious context which
-+contains path traversal characters, allowing it to exfiltrate a SHA-1
-+hashed copy of arbitrary data from the client’s file system.
++This patch adds two sanity checks with error reporting in
++xcoff_link_add_symbols before reading symbol aux entries, add extends
++assertions in later functions.  A whole lot of unnecessary casts are
++also tidied.
 +
-+To exploit this successfully would require the client to choose to
-+connect peer-to-peer to a malicious D-Bus server and to choose the SHA-1
-+authentication mechanism in preference to all the other mechanisms. This
-+is vanishingly unlikely.
++	PR 34053
++	* xcofflink.c: Remove unnecessary casts throughout.
++	(xcoff_link_add_symbols): Sanity check aux entries are within
++	symbol buffer.
++	(bfd_xcoff_build_dynamic_sections): Assert the above is true.
++	(xcoff_link_input_bfd): Likewise.
 +
-+CVE: CVE-2026-58015
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/db9c8fae398b0c457e660ce63dd5afec8993046a]
++CVE: CVE-2026-15003
++Upstream-Status: Backport [https://sourceware.org/git/?p=binutils-gdb.git;a=commitdiff;h=23acf2f003f81b2f8d9d1997ea45d822d33d386c]
 +
-+Backport Changes:
-+- Added <stdint.h> include because the target branch does not otherwise
-+  expose uint8_t used by the upstream validation code during native builds.
-+
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+
-+Fixes: #3931
-+(cherry picked from commit db9c8fae398b0c457e660ce63dd5afec8993046a)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ gio/gdbusauthmechanismsha1.c | 37 ++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 37 insertions(+)
++ bfd/xcofflink.c | 132 +++++++++++++++++++++++-------------------------
++ 1 file changed, 62 insertions(+), 70 deletions(-)
 +
-+diff --git a/gio/gdbusauthmechanismsha1.c b/gio/gdbusauthmechanismsha1.c
-+index c8aa08977..7d8fc1922 100644
-+--- a/gio/gdbusauthmechanismsha1.c
-++++ b/gio/gdbusauthmechanismsha1.c
-+@@ -22,6 +22,7 @@
++diff --git a/bfd/xcofflink.c b/bfd/xcofflink.c
++index 7f1c0df760f..cf3b33e7202 100644
++--- a/bfd/xcofflink.c
+++++ b/bfd/xcofflink.c
++@@ -371,7 +371,7 @@ _bfd_xcoff_canonicalize_dynamic_symtab (bfd *abfd, asymbol **psyms)
++ 	{
++ 	  char *c;
 + 
-+ #include "config.h"
++-	  c = bfd_alloc (abfd, (bfd_size_type) SYMNMLEN + 1);
+++	  c = bfd_alloc (abfd, SYMNMLEN + 1);
++ 	  if (c == NULL)
++ 	    return -1;
++ 	  memcpy (c, ldsym._l._l_name, SYMNMLEN);
++@@ -1038,7 +1038,7 @@ xcoff_link_add_dynamic_symbols (bfd *abfd, struct bfd_link_info *info)
++ 	    {
++ 	      char *dsnm;
 + 
-++#include <stdint.h>
-+ #include <string.h>
-+ #include <fcntl.h>
-+ #include <errno.h>
-+@@ -1198,6 +1199,34 @@ mechanism_client_initiate (GDBusAuthMechanism   *mechanism,
-+   return initial_response;
-+ }
++-	      dsnm = bfd_malloc ((bfd_size_type) strlen (name) + 2);
+++	      dsnm = bfd_malloc (strlen (name) + 2);
++ 	      if (dsnm == NULL)
++ 		return false;
++ 	      dsnm[0] = '.';
++@@ -1081,7 +1081,7 @@ xcoff_link_add_dynamic_symbols (bfd *abfd, struct bfd_link_info *info)
++   coff_section_data (abfd, lsec)->contents = NULL;
 + 
-++/* Context names must be valid ASCII, nonzero length, and may not contain the
-++ * characters slash ("/"), backslash ("\"), space (" "), newline ("\n"),
-++ * carriage return ("\r"), tab ("\t"), or period (".").
-++ *
-++ * See https://dbus.freedesktop.org/doc/dbus-specification.html#auth-mechanisms-sha */
-++static gboolean
-++validate_cookie_context (const char *cookie_context)
-++{
-++  size_t i = 0;
++   /* Record this file in the import files.  */
++-  n = bfd_alloc (abfd, (bfd_size_type) sizeof (struct xcoff_import_file));
+++  n = bfd_alloc (abfd, sizeof (*n));
++   if (n == NULL)
++     return false;
++   n->next = NULL;
++@@ -1477,7 +1477,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_info *info)
++       bfd_vma value;
++       struct xcoff_link_hash_entry *set_toc;
++ 
++-      bfd_coff_swap_sym_in (abfd, (void *) esym, (void *) &sym);
+++      bfd_coff_swap_sym_in (abfd, esym, &sym);
++ 
++       /* In this pass we are only interested in symbols with csect
++ 	 information.  */
++@@ -1523,9 +1523,12 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_info *info)
++ 	{
++ 	  union internal_auxent auxlin;
++ 
++-	  bfd_coff_swap_aux_in (abfd, (void *) (esym + symesz),
+++	  if (symesz >= (size_t) (esym_end - esym))
+++	    goto badaux;
 ++
-++  g_return_val_if_fail (cookie_context != NULL, FALSE);
-++
-++  for (i = 0; cookie_context[i] != '\0'; i++)
-++    {
-++      if ((uint8_t) cookie_context[i] >= 128 ||
-++          cookie_context[i] == '/' ||
-++          cookie_context[i] == '\\' ||
-++          cookie_context[i] == ' ' ||
-++          cookie_context[i] == '\n' ||
-++          cookie_context[i] == '\r' ||
-++          cookie_context[i] == '\t' ||
-++          cookie_context[i] == '.')
-++        return FALSE;
-++    }
-++
-++  return (i > 0);
-++}
-++
-+ static void
-+ mechanism_client_data_receive (GDBusAuthMechanism   *mechanism,
-+                                const gchar          *data,
-+@@ -1232,6 +1261,14 @@ mechanism_client_data_receive (GDBusAuthMechanism   *mechanism,
+++	  bfd_coff_swap_aux_in (abfd, esym + symesz,
++ 				sym.n_type, sym.n_sclass,
++-				0, sym.n_numaux, (void *) &auxlin);
+++				0, sym.n_numaux, &auxlin);
++ 
++ 	  if (auxlin.x_sym.x_fcnary.x_fcn.x_lnnoptr != 0)
++ 	    {
++@@ -1552,7 +1555,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_info *info)
++ 
++ 		  linpstart = (reloc_info[enclosing->target_index].linenos
++ 			       + linoff);
++-		  bfd_coff_swap_lineno_in (abfd, (void *) linpstart, (void *) &lin);
+++		  bfd_coff_swap_lineno_in (abfd, linpstart, &lin);
++ 		  if (lin.l_lnno == 0
++ 		      && ((bfd_size_type) lin.l_addr.l_symndx
++ 			  == ((esym
++@@ -1567,8 +1570,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_info *info)
++ 			   linp < linpend;
++ 			   linp += linesz)
++ 			{
++-			  bfd_coff_swap_lineno_in (abfd, (void *) linp,
++-						   (void *) &lin);
+++			  bfd_coff_swap_lineno_in (abfd, linp, &lin);
++ 			  if (lin.l_lnno == 0)
++ 			    break;
++ 			}
++@@ -1589,21 +1591,21 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_info *info)
++       visibility = sym.n_type & SYM_V_MASK;
++ 
++       /* Pick up the csect auxiliary information.  */
++-      if (sym.n_numaux == 0)
+++      if (sym.n_numaux < 1
+++	  || sym.n_numaux * symesz >= (size_t) (esym_end - esym))
++ 	{
+++	badaux:
++ 	  _bfd_error_handler
++ 	    /* xgettext:c-format */
++-	    (_("%pB: class %d symbol `%s' has no aux entries"),
+++	    (_("%pB: class %d symbol '%s' has missing aux entries"),
++ 	     abfd, sym.n_sclass, name);
++ 	  bfd_set_error (bfd_error_bad_value);
++ 	  goto error_return;
++ 	}
++ 
++-      bfd_coff_swap_aux_in (abfd,
++-			    (void *) (esym + symesz * sym.n_numaux),
+++      bfd_coff_swap_aux_in (abfd, esym + symesz * sym.n_numaux,
++ 			    sym.n_type, sym.n_sclass,
++-			    sym.n_numaux - 1, sym.n_numaux,
++-			    (void *) &aux);
+++			    sym.n_numaux - 1, sym.n_numaux, &aux);
++ 
++       smtyp = SMTYP_SMTYP (aux.x_csect.x_smtyp);
++ 
++@@ -1726,7 +1728,7 @@ xcoff_link_add_symbols (bfd *abfd, struct bfd_link_info *info)
++ 
++ 		  erelsym = ((bfd_byte *) obj_coff_external_syms (abfd)
++ 			     + rel->r_symndx * symesz);
++-		  bfd_coff_swap_sym_in (abfd, (void *) erelsym, (void *) &relsym);
+++		  bfd_coff_swap_sym_in (abfd, erelsym, &relsym);
++ 		  if (EXTERN_SYM_P (relsym.n_sclass))
++ 		    {
++ 		      const char *relname;
++@@ -2507,7 +2509,7 @@ xcoff_link_check_ar_symbols (bfd *abfd,
++     {
++       struct internal_syment sym;
++ 
++-      bfd_coff_swap_sym_in (abfd, (void *) esym, (void *) &sym);
+++      bfd_coff_swap_sym_in (abfd, esym, &sym);
++       esym += (sym.n_numaux + 1) * symesz;
++ 
++       if (EXTERN_SYM_P (sym.n_sclass) && sym.n_scnum != N_UNDEF)
++@@ -4005,7 +4007,7 @@ bfd_xcoff_size_dynamic_sections (bfd *output_bfd,
++     return true;
++ 
++   xcoff_link_hash_traverse (xcoff_hash_table (info), xcoff_post_gc_symbol,
++-			    (void *) ldinfo);
+++			    ldinfo);
++   if (ldinfo->failed)
++     goto error_return;
++ 
++@@ -4216,7 +4218,8 @@ bfd_xcoff_build_dynamic_sections (bfd *output_bfd,
++ 	  /* Read in the csect information, if any.  */
++ 	  if (CSECT_SYM_P (sym.n_sclass))
++ 	    {
++-	      BFD_ASSERT (sym.n_numaux > 0);
+++	      BFD_ASSERT (sym.n_numaux > 0
+++			  && symesz * sym.n_numaux < (size_t) (esymend - esym));
++ 	      bfd_coff_swap_aux_in (sub, esym + symesz * sym.n_numaux,
++ 				    sym.n_type, sym.n_sclass,
++ 				    sym.n_numaux - 1, sym.n_numaux, &aux);
++@@ -4307,7 +4310,7 @@ bfd_xcoff_link_generate_rtinit (bfd *abfd,
++ {
++   struct bfd_in_memory *bim;
++ 
++-  bim = bfd_malloc ((bfd_size_type) sizeof (* bim));
+++  bim = bfd_malloc (sizeof (*bim));
++   if (bim == NULL)
++     return false;
++ 
++@@ -4316,7 +4319,7 @@ bfd_xcoff_link_generate_rtinit (bfd *abfd,
++ 
++   abfd->link.next = 0;
++   abfd->format = bfd_object;
++-  abfd->iostream = (void *) bim;
+++  abfd->iostream = bim;
++   abfd->flags = BFD_IN_MEMORY;
++   abfd->iovec = &_bfd_memory_iovec;
++   abfd->direction = write_direction;
++@@ -4876,8 +4879,8 @@ bfd_xcoff_size_stubs (struct bfd_link_info *info)
++ 			}
++ 
++ 		      bfd_coff_swap_sym_in (input_bfd,
++-					    (void *) esyms + irel->r_symndx * symesz,
++-					    (void *) &sym);
+++					    esyms + irel->r_symndx * symesz,
+++					    &sym);
++ 
++ 		      sym_sec = xcoff_data (input_bfd)->csects[irel->r_symndx];
++ 		      sym_value = sym.n_value - sym_sec->vma;
++@@ -5250,17 +5253,16 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *flinfo,
++       int smtyp = 0;
++       int add;
++ 
++-      bfd_coff_swap_sym_in (input_bfd, (void *) esym, (void *) isymp);
+++      bfd_coff_swap_sym_in (input_bfd, esym, isymp);
++ 
++       /* Read in the csect information, if any.  */
++       if (CSECT_SYM_P (isymp->n_sclass))
++ 	{
++-	  BFD_ASSERT (isymp->n_numaux > 0);
++-	  bfd_coff_swap_aux_in (input_bfd,
++-				(void *) (esym + isymesz * isymp->n_numaux),
+++	  BFD_ASSERT (isymp->n_numaux > 0
+++		      && isymesz * isymp->n_numaux < (size_t) (esym_end - esym));
+++	  bfd_coff_swap_aux_in (input_bfd, esym + isymesz * isymp->n_numaux,
++ 				isymp->n_type, isymp->n_sclass,
++-				isymp->n_numaux - 1, isymp->n_numaux,
++-				(void *) &aux);
+++				isymp->n_numaux - 1, isymp->n_numaux, &aux);
++ 
++ 	  smtyp = SMTYP_SMTYP (aux.x_csect.x_smtyp);
++ 	}
++@@ -5475,12 +5477,10 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *flinfo,
++ 		  if ((bfd_size_type) flinfo->last_file_index >= syment_base)
++ 		    {
++ 		      /* The last C_FILE symbol is in this input file.  */
++-		      bfd_coff_swap_sym_out (output_bfd,
++-					     (void *) &flinfo->last_file,
++-					     (void *) (flinfo->outsyms
++-						    + ((flinfo->last_file_index
++-							- syment_base)
++-						       * osymesz)));
+++		      bfd_coff_swap_sym_out
+++			(output_bfd, &flinfo->last_file,
+++			 flinfo->outsyms + (flinfo->last_file_index
+++					    - syment_base) * osymesz);
++ 		    }
++ 		  else
++ 		    {
++@@ -5489,9 +5489,8 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *flinfo,
++ 			 borrow *outsym temporarily.  */
++ 		      file_ptr pos;
++ 
++-		      bfd_coff_swap_sym_out (output_bfd,
++-					     (void *) &flinfo->last_file,
++-					     (void *) outsym);
+++		      bfd_coff_swap_sym_out (output_bfd, &flinfo->last_file,
+++					     outsym);
++ 
++ 		      pos = obj_sym_filepos (output_bfd);
++ 		      pos += flinfo->last_file_index * osymesz;
++@@ -5557,7 +5556,7 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *flinfo,
++ 	    }
++ 
++ 	  /* Output the symbol.  */
++-	  bfd_coff_swap_sym_out (output_bfd, (void *) &isym, (void *) outsym);
+++	  bfd_coff_swap_sym_out (output_bfd, &isym, outsym);
++ 
++ 	  esym += isymesz;
++ 	  outsym += osymesz;
++@@ -5566,9 +5565,9 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *flinfo,
++ 	    {
++ 	      union internal_auxent aux;
++ 
++-	      bfd_coff_swap_aux_in (input_bfd, (void *) esym, isymp->n_type,
++-				    isymp->n_sclass, i, isymp->n_numaux,
++-				    (void *) &aux);
+++	      bfd_coff_swap_aux_in (input_bfd, esym,
+++				    isymp->n_type, isymp->n_sclass, i,
+++				    isymp->n_numaux, &aux);
++ 
++ 	      if (isymp->n_sclass == C_FILE)
++ 		{
++@@ -5796,9 +5795,9 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *flinfo,
++ 		    }
++ 		}
++ 
++-	      bfd_coff_swap_aux_out (output_bfd, (void *) &aux, isymp->n_type,
+++	      bfd_coff_swap_aux_out (output_bfd, &aux, isymp->n_type,
++ 				     isymp->n_sclass, i, isymp->n_numaux,
++-				     (void *) outsym);
+++				     outsym);
++ 	      outsym += osymesz;
++ 	      esym += isymesz;
++ 	    }
++@@ -5820,10 +5819,9 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *flinfo,
++       && (bfd_size_type) flinfo->last_file_index >= syment_base)
++     {
++       flinfo->last_file.n_value = output_index;
++-      bfd_coff_swap_sym_out (output_bfd, (void *) &flinfo->last_file,
++-			     (void *) (flinfo->outsyms
++-				    + ((flinfo->last_file_index - syment_base)
++-				       * osymesz)));
+++      bfd_coff_swap_sym_out (output_bfd, &flinfo->last_file,
+++			     flinfo->outsyms + (flinfo->last_file_index
+++						- syment_base) * osymesz);
 +     }
 + 
-+   cookie_context = tokens[0];
-++  if (!validate_cookie_context (tokens[0]))
-++    {
-++      g_free (m->priv->reject_reason);
-++      m->priv->reject_reason = g_strdup_printf ("Malformed cookie_context '%s'", tokens[0]);
-++      m->priv->state = G_DBUS_AUTH_MECHANISM_STATE_REJECTED;
-++      goto out;
-++    }
-++
-+   cookie_id = g_ascii_strtoll (tokens[1], &endp, 10);
-+   if (*endp != '\0')
-+     {
-+-- 
-+2.35.6
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p2.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p2.patch
-new file mode 100644
-index 00000000000..28f496734a5
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p2.patch
-@@ -0,0 +1,55 @@
-+From a94b2df7e2bc5f49661e53c2781ce99ae48d18aa Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Tue, 28 Apr 2026 15:49:54 +0100
-+Subject: [PATCH 2/4] gdbusauthmechanismsha1: Improve validation of cookie ID
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+The D-Bus specification says the cookie ID has to be non-negative, but
-+we weren’t checking that (or checking that it was non-empty).
-+
-+CVE: CVE-2026-58015
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/c0531125344bb25fd66ffb7435ed6c285de09aeb]
-+
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+(cherry picked from commit c0531125344bb25fd66ffb7435ed6c285de09aeb)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ gio/gdbusauthmechanismsha1.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/gio/gdbusauthmechanismsha1.c b/gio/gdbusauthmechanismsha1.c
-+index 7d8fc1922..e753d139d 100644
-+--- a/gio/gdbusauthmechanismsha1.c
-++++ b/gio/gdbusauthmechanismsha1.c
-+@@ -1235,7 +1235,7 @@ mechanism_client_data_receive (GDBusAuthMechanism   *mechanism,
-+   GDBusAuthMechanismSha1 *m = G_DBUS_AUTH_MECHANISM_SHA1 (mechanism);
-+   gchar **tokens;
-+   const gchar *cookie_context;
-+-  guint cookie_id;
-++  int64_t cookie_id;
-+   const gchar *server_challenge;
-+   gchar *client_challenge;
-+   gchar *endp;
-+@@ -1270,7 +1270,7 @@ mechanism_client_data_receive (GDBusAuthMechanism   *mechanism,
++   /* Write the modified symbols to the output file.  */
++@@ -6036,16 +6034,13 @@ xcoff_link_input_bfd (struct xcoff_final_link_info *flinfo,
++ 			      void * auxptr;
++ 			      union internal_auxent aux;
++ 
++-			      auxptr = ((void *)
++-					(((bfd_byte *)
++-					  obj_coff_external_syms (input_bfd))
++-					 + ((r_symndx + is->n_numaux)
++-					    * isymesz)));
+++			      auxptr = ((bfd_byte *)
+++					obj_coff_external_syms (input_bfd)
+++					+ (r_symndx + is->n_numaux) * isymesz);
++ 			      bfd_coff_swap_aux_in (input_bfd, auxptr,
++ 						    is->n_type, is->n_sclass,
++ 						    is->n_numaux - 1,
++-						    is->n_numaux,
++-						    (void *) &aux);
+++						    is->n_numaux, &aux);
++ 			      if (SMTYP_SMTYP (aux.x_csect.x_smtyp) == XTY_SD
++ 				  && aux.x_csect.x_smclas == XMC_TC0)
++ 				indx = flinfo->toc_symindx;
++@@ -6564,12 +6559,12 @@ xcoff_write_global_symbol (struct bfd_hash_entry *bh, void * inf)
++ 	  irsym.n_type = T_NULL;
++ 	  irsym.n_numaux = 1;
++ 
++-	  bfd_coff_swap_sym_out (output_bfd, (void *) &irsym, (void *) outsym);
+++	  bfd_coff_swap_sym_out (output_bfd, &irsym, outsym);
++ 	  outsym += bfd_coff_symesz (output_bfd);
++ 
++ 	  /* Note : iraux is initialized above.  */
++-	  bfd_coff_swap_aux_out (output_bfd, (void *) &iraux, T_NULL, C_HIDEXT,
++-				 0, 1, (void *) outsym);
+++	  bfd_coff_swap_aux_out (output_bfd, &iraux, T_NULL, C_HIDEXT,
+++				 0, 1, outsym);
++ 	  outsym += bfd_coff_auxesz (output_bfd);
++ 
++ 	  if (h->indx >= 0)
++@@ -6807,12 +6802,11 @@ xcoff_write_global_symbol (struct bfd_hash_entry *bh, void * inf)
++   isym.n_type = T_NULL;
++   isym.n_numaux = 1;
++ 
++-  bfd_coff_swap_sym_out (output_bfd, (void *) &isym, (void *) outsym);
+++  bfd_coff_swap_sym_out (output_bfd, &isym, outsym);
++   outsym += bfd_coff_symesz (output_bfd);
++ 
++   aux.x_csect.x_smclas = h->smclas;
++-  bfd_coff_swap_aux_out (output_bfd, (void *) &aux, T_NULL, isym.n_sclass, 0, 1,
++-			 (void *) outsym);
+++  bfd_coff_swap_aux_out (output_bfd, &aux, T_NULL, isym.n_sclass, 0, 1, outsym);
++   outsym += bfd_coff_auxesz (output_bfd);
++ 
++   if ((h->root.type == bfd_link_hash_defined
++@@ -6827,13 +6821,12 @@ xcoff_write_global_symbol (struct bfd_hash_entry *bh, void * inf)
++ 	isym.n_sclass = C_WEAKEXT;
++       else
++ 	isym.n_sclass = C_EXT;
++-      bfd_coff_swap_sym_out (output_bfd, (void *) &isym, (void *) outsym);
+++      bfd_coff_swap_sym_out (output_bfd, &isym, outsym);
++       outsym += bfd_coff_symesz (output_bfd);
++ 
++       aux.x_csect.x_smtyp = XTY_LD;
++       aux.x_csect.x_scnlen.u64 = obj_raw_syment_count (output_bfd);
++-      bfd_coff_swap_aux_out (output_bfd, (void *) &aux, T_NULL, C_EXT, 0, 1,
++-			     (void *) outsym);
+++      bfd_coff_swap_aux_out (output_bfd, &aux, T_NULL, C_EXT, 0, 1, outsym);
++       outsym += bfd_coff_auxesz (output_bfd);
 +     }
 + 
-+   cookie_id = g_ascii_strtoll (tokens[1], &endp, 10);
-+-  if (*endp != '\0')
-++  if (*endp != '\0' || endp == tokens[1] || cookie_id < 0 || cookie_id > UINT32_MAX)
++@@ -6929,8 +6922,8 @@ xcoff_reloc_link_order (bfd *output_bfd,
++ 	     howto->name, addend, NULL, NULL, (bfd_vma) 0);
++ 	  break;
++ 	}
++-      ok = bfd_set_section_contents (output_bfd, output_section, (void *) buf,
++-				     (file_ptr) link_order->offset, size);
+++      ok = bfd_set_section_contents (output_bfd, output_section, buf,
+++				     link_order->offset, size);
++       free (buf);
++       if (! ok)
++ 	return false;
++@@ -7395,8 +7388,7 @@ _bfd_xcoff_bfd_final_link (bfd *abfd, struct bfd_link_info *info)
++   if (flinfo.last_file_index != -1)
 +     {
-+       g_free (m->priv->reject_reason);
-+       m->priv->reject_reason = g_strdup_printf ("Malformed cookie_id '%s'", tokens[1]);
-+@@ -1280,7 +1280,7 @@ mechanism_client_data_receive (GDBusAuthMechanism   *mechanism,
-+   server_challenge = tokens[2];
++       flinfo.last_file.n_value = -(bfd_vma) 1;
++-      bfd_coff_swap_sym_out (abfd, (void *) &flinfo.last_file,
++-			     (void *) flinfo.outsyms);
+++      bfd_coff_swap_sym_out (abfd, &flinfo.last_file, flinfo.outsyms);
++       pos = obj_sym_filepos (abfd) + flinfo.last_file_index * symesz;
++       if (bfd_seek (abfd, pos, SEEK_SET) != 0
++ 	  || bfd_write (flinfo.outsyms, symesz, abfd) != symesz)
++@@ -7480,7 +7472,7 @@ _bfd_xcoff_bfd_final_link (bfd *abfd, struct bfd_link_info *info)
++ 	 appear in the symbol table, which is not necessarily by
++ 	 address.  So we sort them here.  There may be a better way to
++ 	 do this.  */
++-      qsort ((void *) flinfo.section_info[o->target_index].relocs,
+++      qsort (flinfo.section_info[o->target_index].relocs,
++ 	     o->reloc_count, sizeof (struct internal_reloc),
++ 	     xcoff_sort_relocs);
 + 
-+   error = NULL;
-+-  cookie = keyring_lookup_entry (cookie_context, cookie_id, &error);
-++  cookie = keyring_lookup_entry (cookie_context, (unsigned int) cookie_id, &error);
-+   if (cookie == NULL)
-+     {
-+       g_free (m->priv->reject_reason);
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p3.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p3.patch
-new file mode 100644
-index 00000000000..b6bd2baeb3f
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p3.patch
-@@ -0,0 +1,198 @@
-+From 99c7abffbd1d549f6c625de6f2028efcdeea5c49 Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Tue, 28 Apr 2026 15:51:00 +0100
-+Subject: [PATCH 3/4] gdbusauthmechanism: Expose client reject reason as a new
-+ vfunc
-+
-+We can do this because `gdbusauthmechanism.h` is a private header.
-+
-+Hook it up to the existing `reject_reason` code in each
-+`GDBusAuthMechanism` implementation, as all three implementations
-+currently intermingle reject reasons from the server and client code, so
-+there would currently be no benefit to having a separate server and
-+client implementation of `*_get_reject_reason()`.
-+
-+This new private API will be used in a new unit test in the following
-+commit.
-+
-+CVE: CVE-2026-58015
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/060aea67de7517d531b8fe2cdc07aa1a00ddeb22]
-+
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+(cherry picked from commit 060aea67de7517d531b8fe2cdc07aa1a00ddeb22)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ gio/gdbusauthmechanism.c         | 7 +++++++
-+ gio/gdbusauthmechanism.h         | 2 ++
-+ gio/gdbusauthmechanismanon.c     | 8 ++++----
-+ gio/gdbusauthmechanismexternal.c | 8 ++++----
-+ gio/gdbusauthmechanismsha1.c     | 8 ++++----
-+ 5 files changed, 21 insertions(+), 12 deletions(-)
-+
-+diff --git a/gio/gdbusauthmechanism.c b/gio/gdbusauthmechanism.c
-+index 6e494dbd9..0d4ef4389 100644
-+--- a/gio/gdbusauthmechanism.c
-++++ b/gio/gdbusauthmechanism.c
-+@@ -328,6 +328,13 @@ _g_dbus_auth_mechanism_client_data_send (GDBusAuthMechanism *mechanism,
-+   return G_DBUS_AUTH_MECHANISM_GET_CLASS (mechanism)->client_data_send (mechanism, out_data_len);
-+ }
++@@ -7488,7 +7480,7 @@ _bfd_xcoff_bfd_final_link (bfd *abfd, struct bfd_link_info *info)
++       irelend = irel + o->reloc_count;
++       erel = external_relocs;
++       for (; irel < irelend; irel++, rel_hash++, erel += relsz)
++-	bfd_coff_swap_reloc_out (abfd, (void *) irel, (void *) erel);
+++	bfd_coff_swap_reloc_out (abfd, irel, erel);
 + 
-++gchar *
-++_g_dbus_auth_mechanism_client_get_reject_reason (GDBusAuthMechanism *mechanism)
-++{
-++  g_return_val_if_fail (G_IS_DBUS_AUTH_MECHANISM (mechanism), NULL);
-++  return G_DBUS_AUTH_MECHANISM_GET_CLASS (mechanism)->client_get_reject_reason (mechanism);
-++}
-++
-+ void
-+ _g_dbus_auth_mechanism_client_shutdown (GDBusAuthMechanism *mechanism)
-+ {
-+diff --git a/gio/gdbusauthmechanism.h b/gio/gdbusauthmechanism.h
-+index f0edd19a3..e906a47ac 100644
-+--- a/gio/gdbusauthmechanism.h
-++++ b/gio/gdbusauthmechanism.h
-+@@ -100,6 +100,7 @@ struct _GDBusAuthMechanismClass
-+                                                          gsize                 data_len);
-+   gchar                    *(*client_data_send)         (GDBusAuthMechanism   *mechanism,
-+                                                          gsize                *out_data_len);
-++  gchar                    *(*client_get_reject_reason) (GDBusAuthMechanism   *mechanism);
-+   void                      (*client_shutdown)          (GDBusAuthMechanism   *mechanism);
-+ };
-+ 
-+@@ -148,6 +149,7 @@ void                      _g_dbus_auth_mechanism_client_data_receive      (GDBus
-+                                                                            gsize                 data_len);
-+ gchar                    *_g_dbus_auth_mechanism_client_data_send         (GDBusAuthMechanism   *mechanism,
-+                                                                           gsize                *out_data_len);
-++gchar                    *_g_dbus_auth_mechanism_client_get_reject_reason (GDBusAuthMechanism   *mechanism);
-+ void                      _g_dbus_auth_mechanism_client_shutdown          (GDBusAuthMechanism   *mechanism);
-+ 
-+ 
-+diff --git a/gio/gdbusauthmechanismanon.c b/gio/gdbusauthmechanismanon.c
-+index 5f59d4a61..3d80ec15f 100644
-+--- a/gio/gdbusauthmechanismanon.c
-++++ b/gio/gdbusauthmechanismanon.c
-+@@ -56,7 +56,7 @@ static void                     mechanism_server_data_receive       (GDBusAuthMe
-+                                                                      gsize                 data_len);
-+ static gchar                   *mechanism_server_data_send          (GDBusAuthMechanism   *mechanism,
-+                                                                      gsize                *out_data_len);
-+-static gchar                   *mechanism_server_get_reject_reason  (GDBusAuthMechanism   *mechanism);
-++static gchar                   *mechanism_server_or_client_get_reject_reason (GDBusAuthMechanism   *mechanism);
-+ static void                     mechanism_server_shutdown           (GDBusAuthMechanism   *mechanism);
-+ static GDBusAuthMechanismState  mechanism_client_get_state          (GDBusAuthMechanism   *mechanism);
-+ static gchar                   *mechanism_client_initiate           (GDBusAuthMechanism   *mechanism,
-+@@ -103,12 +103,13 @@ _g_dbus_auth_mechanism_anon_class_init (GDBusAuthMechanismAnonClass *klass)
-+   mechanism_class->server_initiate           = mechanism_server_initiate;
-+   mechanism_class->server_data_receive       = mechanism_server_data_receive;
-+   mechanism_class->server_data_send          = mechanism_server_data_send;
-+-  mechanism_class->server_get_reject_reason  = mechanism_server_get_reject_reason;
-++  mechanism_class->server_get_reject_reason  = mechanism_server_or_client_get_reject_reason;
-+   mechanism_class->server_shutdown           = mechanism_server_shutdown;
-+   mechanism_class->client_get_state          = mechanism_client_get_state;
-+   mechanism_class->client_initiate           = mechanism_client_initiate;
-+   mechanism_class->client_data_receive       = mechanism_client_data_receive;
-+   mechanism_class->client_data_send          = mechanism_client_data_send;
-++  mechanism_class->client_get_reject_reason  = mechanism_server_or_client_get_reject_reason;
-+   mechanism_class->client_shutdown           = mechanism_client_shutdown;
-+ }
-+ 
-+@@ -222,12 +223,11 @@ mechanism_server_data_send (GDBusAuthMechanism   *mechanism,
-+ }
-+ 
-+ static gchar *
-+-mechanism_server_get_reject_reason (GDBusAuthMechanism   *mechanism)
-++mechanism_server_or_client_get_reject_reason (GDBusAuthMechanism   *mechanism)
-+ {
-+   GDBusAuthMechanismAnon *m = G_DBUS_AUTH_MECHANISM_ANON (mechanism);
-+ 
-+   g_return_val_if_fail (G_IS_DBUS_AUTH_MECHANISM_ANON (mechanism), NULL);
-+-  g_return_val_if_fail (m->priv->is_server && !m->priv->is_client, NULL);
-+   g_return_val_if_fail (m->priv->state == G_DBUS_AUTH_MECHANISM_STATE_REJECTED, NULL);
-+ 
-+   /* can never end up here because we are never in the REJECTED state */
-+diff --git a/gio/gdbusauthmechanismexternal.c b/gio/gdbusauthmechanismexternal.c
-+index 6fe8b1bed..b223ead04 100644
-+--- a/gio/gdbusauthmechanismexternal.c
-++++ b/gio/gdbusauthmechanismexternal.c
-+@@ -64,7 +64,7 @@ static void                     mechanism_server_data_receive       (GDBusAuthMe
-+                                                                      gsize                 data_len);
-+ static gchar                   *mechanism_server_data_send          (GDBusAuthMechanism   *mechanism,
-+                                                                      gsize                *out_data_len);
-+-static gchar                   *mechanism_server_get_reject_reason  (GDBusAuthMechanism   *mechanism);
-++static gchar                   *mechanism_server_or_client_get_reject_reason (GDBusAuthMechanism   *mechanism);
-+ static void                     mechanism_server_shutdown           (GDBusAuthMechanism   *mechanism);
-+ static GDBusAuthMechanismState  mechanism_client_get_state          (GDBusAuthMechanism   *mechanism);
-+ static gchar                   *mechanism_client_initiate           (GDBusAuthMechanism   *mechanism,
-+@@ -111,12 +111,13 @@ _g_dbus_auth_mechanism_external_class_init (GDBusAuthMechanismExternalClass *kla
-+   mechanism_class->server_initiate           = mechanism_server_initiate;
-+   mechanism_class->server_data_receive       = mechanism_server_data_receive;
-+   mechanism_class->server_data_send          = mechanism_server_data_send;
-+-  mechanism_class->server_get_reject_reason  = mechanism_server_get_reject_reason;
-++  mechanism_class->server_get_reject_reason  = mechanism_server_or_client_get_reject_reason;
-+   mechanism_class->server_shutdown           = mechanism_server_shutdown;
-+   mechanism_class->client_get_state          = mechanism_client_get_state;
-+   mechanism_class->client_initiate           = mechanism_client_initiate;
-+   mechanism_class->client_data_receive       = mechanism_client_data_receive;
-+   mechanism_class->client_data_send          = mechanism_client_data_send;
-++  mechanism_class->client_get_reject_reason  = mechanism_server_or_client_get_reject_reason;
-+   mechanism_class->client_shutdown           = mechanism_client_shutdown;
-+ }
-+ 
-+@@ -321,12 +322,11 @@ mechanism_server_data_send (GDBusAuthMechanism   *mechanism,
-+ }
-+ 
-+ static gchar *
-+-mechanism_server_get_reject_reason (GDBusAuthMechanism   *mechanism)
-++mechanism_server_or_client_get_reject_reason (GDBusAuthMechanism   *mechanism)
-+ {
-+   GDBusAuthMechanismExternal *m = G_DBUS_AUTH_MECHANISM_EXTERNAL (mechanism);
-+ 
-+   g_return_val_if_fail (G_IS_DBUS_AUTH_MECHANISM_EXTERNAL (mechanism), NULL);
-+-  g_return_val_if_fail (m->priv->is_server && !m->priv->is_client, NULL);
-+   g_return_val_if_fail (m->priv->state == G_DBUS_AUTH_MECHANISM_STATE_REJECTED, NULL);
-+ 
-+   /* can never end up here because we are never in the REJECTED state */
-+diff --git a/gio/gdbusauthmechanismsha1.c b/gio/gdbusauthmechanismsha1.c
-+index e753d139d..6c1682d3a 100644
-+--- a/gio/gdbusauthmechanismsha1.c
-++++ b/gio/gdbusauthmechanismsha1.c
-+@@ -120,7 +120,7 @@ static void                     mechanism_server_data_receive       (GDBusAuthMe
-+                                                                      gsize                 data_len);
-+ static gchar                   *mechanism_server_data_send          (GDBusAuthMechanism   *mechanism,
-+                                                                      gsize                *out_data_len);
-+-static gchar                   *mechanism_server_get_reject_reason  (GDBusAuthMechanism   *mechanism);
-++static gchar                   *mechanism_server_or_client_get_reject_reason (GDBusAuthMechanism   *mechanism);
-+ static void                     mechanism_server_shutdown           (GDBusAuthMechanism   *mechanism);
-+ static GDBusAuthMechanismState  mechanism_client_get_state          (GDBusAuthMechanism   *mechanism);
-+ static gchar                   *mechanism_client_initiate           (GDBusAuthMechanism   *mechanism,
-+@@ -173,12 +173,13 @@ _g_dbus_auth_mechanism_sha1_class_init (GDBusAuthMechanismSha1Class *klass)
-+   mechanism_class->server_initiate           = mechanism_server_initiate;
-+   mechanism_class->server_data_receive       = mechanism_server_data_receive;
-+   mechanism_class->server_data_send          = mechanism_server_data_send;
-+-  mechanism_class->server_get_reject_reason  = mechanism_server_get_reject_reason;
-++  mechanism_class->server_get_reject_reason  = mechanism_server_or_client_get_reject_reason;
-+   mechanism_class->server_shutdown           = mechanism_server_shutdown;
-+   mechanism_class->client_get_state          = mechanism_client_get_state;
-+   mechanism_class->client_initiate           = mechanism_client_initiate;
-+   mechanism_class->client_data_receive       = mechanism_client_data_receive;
-+   mechanism_class->client_data_send          = mechanism_client_data_send;
-++  mechanism_class->client_get_reject_reason  = mechanism_server_or_client_get_reject_reason;
-+   mechanism_class->client_shutdown           = mechanism_client_shutdown;
-+ }
-+ 
-+@@ -1129,12 +1130,11 @@ mechanism_server_data_send (GDBusAuthMechanism   *mechanism,
-+ }
-+ 
-+ static gchar *
-+-mechanism_server_get_reject_reason (GDBusAuthMechanism   *mechanism)
-++mechanism_server_or_client_get_reject_reason (GDBusAuthMechanism *mechanism)
-+ {
-+   GDBusAuthMechanismSha1 *m = G_DBUS_AUTH_MECHANISM_SHA1 (mechanism);
-+ 
-+   g_return_val_if_fail (G_IS_DBUS_AUTH_MECHANISM_SHA1 (mechanism), NULL);
-+-  g_return_val_if_fail (m->priv->is_server && !m->priv->is_client, NULL);
-+   g_return_val_if_fail (m->priv->state == G_DBUS_AUTH_MECHANISM_STATE_REJECTED, NULL);
-+ 
-+   return g_strdup (m->priv->reject_reason);
-+-- 
-+2.35.6
-+
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p4.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p4.patch
-new file mode 100644
-index 00000000000..0785ad3c3a6
---- /dev/null
-+++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-58015_p4.patch
-@@ -0,0 +1,222 @@
-+From 80d2edcc14f476d0ec82dc0733964afa6e9ca74d Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Tue, 28 Apr 2026 15:52:53 +0100
-+Subject: [PATCH 4/4] tests: Add a unit test for GDBusAuthMechanismSha1 cookie
-+ context parsing
-+
-+This checks for regressions in the fixes from the previous few commits.
-+
-+CVE: CVE-2026-58015
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/0919301962291a712067ee0c5d273cc392f33277]
-+
-+Backport Changes:
-+- Replaced the literal U+1F600 test string with its UTF-8 byte escapes to
-+  avoid the observed Patchwork mbox truncation. The test input is unchanged.
-+
-+Signed-off-by: Philip Withnall <pwithnall@gnome.org>
-+Helps: #3931
-+(cherry picked from commit 0919301962291a712067ee0c5d273cc392f33277)
-+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
-+---
-+ gio/tests/gdbus-auth-mechanism-sha1.c | 177 ++++++++++++++++++++++++++
-+ gio/tests/meson.build                 |   1 +
-+ 2 files changed, 178 insertions(+)
-+ create mode 100644 gio/tests/gdbus-auth-mechanism-sha1.c
-+
-+diff --git a/gio/tests/gdbus-auth-mechanism-sha1.c b/gio/tests/gdbus-auth-mechanism-sha1.c
-+new file mode 100644
-+index 000000000..abcdb4e3e
-+--- /dev/null
-++++ b/gio/tests/gdbus-auth-mechanism-sha1.c
-+@@ -0,0 +1,177 @@
-++/* GLib testing framework examples and tests
-++ *
-++ * Copyright (C) 2026 Philip Withnall
-++ *
-++ * SPDX-License-Identifier: LGPL-2.1-or-later
-++ *
-++ * This library is free software; you can redistribute it and/or
-++ * modify it under the terms of the GNU Lesser General Public
-++ * License as published by the Free Software Foundation; either
-++ * version 2.1 of the License, or (at your option) any later version.
-++ *
-++ * This library is distributed in the hope that it will be useful,
-++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++ * Lesser General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU Lesser General
-++ * Public License along with this library; if not, see <http://www.gnu.org/licenses/>.
-++ *
-++ * Author: Philip Withnall <pwithnall@gnome.org>
-++ */
-++
-++#include <locale.h>
-++#include <gio/gio.h>
-++
-++#include <string.h>
-++#include <unistd.h>
-++
-++#include "gdbus-tests.h"
-++
-++#ifdef G_OS_UNIX
-++#include <gio/gunixconnection.h>
-++#include <gio/gnetworkingprivate.h>
-++#include <gio/gunixsocketaddress.h>
-++#include <gio/gunixfdlist.h>
-++#endif
-++
-++#define GIO_COMPILATION 1
-++#include "gdbusauthmechanism.h"
-++#include "gdbusauthmechanismsha1.h"
-++
-++/* Vfunc wrappers copied from gdbusauthmechanism.c as they are not public. */
-++static gboolean
-++dbus_auth_mechanism_is_supported (GDBusAuthMechanism *mechanism)
-++{
-++  return G_DBUS_AUTH_MECHANISM_GET_CLASS (mechanism)->is_supported (mechanism);
-++}
-++
-++static GDBusAuthMechanismState
-++dbus_auth_mechanism_client_get_state (GDBusAuthMechanism *mechanism)
-++{
-++  return G_DBUS_AUTH_MECHANISM_GET_CLASS (mechanism)->client_get_state (mechanism);
-++}
-++
-++static gchar *
-++dbus_auth_mechanism_client_initiate (GDBusAuthMechanism   *mechanism,
-++                                     GDBusConnectionFlags  conn_flags,
-++                                     size_t               *out_initial_response_len)
-++{
-++  return G_DBUS_AUTH_MECHANISM_GET_CLASS (mechanism)->client_initiate (mechanism,
-++                                                                       conn_flags,
-++                                                                       out_initial_response_len);
-++}
-++
-++static void
-++dbus_auth_mechanism_client_data_receive (GDBusAuthMechanism *mechanism,
-++                                         const char         *data,
-++                                         size_t              data_len)
-++{
-++  G_DBUS_AUTH_MECHANISM_GET_CLASS (mechanism)->client_data_receive (mechanism, data, data_len);
-++}
-++
-++static char *
-++dbus_auth_mechanism_client_get_reject_reason (GDBusAuthMechanism *mechanism)
-++{
-++  return G_DBUS_AUTH_MECHANISM_GET_CLASS (mechanism)->client_get_reject_reason (mechanism);
-++}
-++
-++static void
-++dbus_auth_mechanism_client_shutdown (GDBusAuthMechanism *mechanism)
-++{
-++  G_DBUS_AUTH_MECHANISM_GET_CLASS (mechanism)->client_shutdown (mechanism);
-++}
-++
-++static void
-++test_server_challenge_validation (void)
-++{
-++  const struct
-++    {
-++      const char *server_challenge;
-++      const char *expected_reject_reason_prefix;
-++    }
-++  vectors[] = {
-++    { "valid_context 123 456", "Problems looking up entry in keyring" },
-++    { "invalid/context 123 456", "Malformed cookie_context" },
-++    { "invalid.context 123 456", "Malformed cookie_context" },
-++    { " 123 456", "Malformed cookie_context" },
-++    { "\xF0\x9F\x98\x80" " 123 456", "Malformed cookie_context" },
-++    { "invalid\ncontext 123 456", "Malformed cookie_context" },
-++    { "invalid\rcontext 123 456", "Malformed cookie_context" },
-++    { "invalid\tcontext 123 456", "Malformed cookie_context" },
-++    { "invalid\\context 123 456", "Malformed cookie_context" },
-++    { "valid_context  456", "Malformed cookie_id" },
-++    { "valid_context 123notanumber 456", "Malformed cookie_id" },
-++    { "valid_context -1 456", "Malformed cookie_id" },
-++    { "valid_context 4294967296 456", "Malformed cookie_id" },
-++    { "valid_context 123  ", "Malformed data" },
-++    { "valid_context ", "Malformed data" },
-++  };
-++  GType mechanism_type;
-++  GDBusConnection *connection = NULL;
-++
-++  g_test_summary ("Test that GDBusAuthMechanismSha1 rejects various malformed server data lines");
-++
-++  /* Briefly connect to the actual bus to ensure the GDBusAuth mechanisms are
-++   * all registered. */
-++  session_bus_up ();
-++
-++  connection = g_bus_get_sync (G_BUS_TYPE_SESSION, NULL, NULL);
-++  g_assert_nonnull (connection);
-++  g_clear_object (&connection);
-++
-++  session_bus_down ();
-++
-++  /* Check that we now have the type ID for GDBusAuthMechanismSha1 */
-++  mechanism_type = g_type_from_name ("GDBusAuthMechanismSha1");
-++  g_assert_cmpint (mechanism_type,  !=, 0);
-++
-++  for (size_t i = 0; i < G_N_ELEMENTS (vectors); i++)
-++    {
-++      GDBusAuthMechanism *mechanism = NULL;
-++      char *data = NULL;
-++      size_t data_len = 0;
-++      char *reject_reason = NULL;
-++
-++      mechanism = g_object_new (mechanism_type, NULL);
-++
-++      if (!dbus_auth_mechanism_is_supported (mechanism))
-++        {
-++          g_test_skip ("Mechanism not supported");
-++          g_clear_object (&mechanism);
-++          return;
-++        }
-++
-++      data = dbus_auth_mechanism_client_initiate (mechanism,
-++                                                  G_DBUS_CONNECTION_FLAGS_AUTHENTICATION_CLIENT,
-++                                                  &data_len);
-++      g_free (data);
-++
-++      dbus_auth_mechanism_client_data_receive (mechanism, vectors[i].server_challenge, strlen (vectors[i].server_challenge));
-++
-++      g_assert_cmpint (dbus_auth_mechanism_client_get_state (mechanism), ==, G_DBUS_AUTH_MECHANISM_STATE_REJECTED);
-++
-++      reject_reason = dbus_auth_mechanism_client_get_reject_reason (mechanism);
-++      g_assert_true (g_str_has_prefix (reject_reason, vectors[i].expected_reject_reason_prefix));
-++      g_free (reject_reason);
-++
-++      dbus_auth_mechanism_client_shutdown (mechanism);
-++
-++      g_clear_object (&mechanism);
-++    }
-++}
-++
-++int
-++main (int   argc,
-++      char *argv[])
-++{
-++  setlocale (LC_ALL, "C");
-++
-++  g_test_init (&argc, &argv, G_TEST_OPTION_ISOLATE_DIRS, NULL);
-++
-++  g_test_dbus_unset ();
-++
-++  g_test_add_func ("/gdbus/auth-mechanism-sha1/server-challenge-validation", test_server_challenge_validation);
-++
-++  return g_test_run ();
-++}
-+diff --git a/gio/tests/meson.build b/gio/tests/meson.build
-+index e7699c336..74ea481ff 100644
-+--- a/gio/tests/meson.build
-++++ b/gio/tests/meson.build
-+@@ -418,6 +418,7 @@ if host_system != 'windows'
-+       },
-+       'fdo-notification-backend': {},
-+       'gdbus-auth' : {'extra_sources' : extra_sources},
-++      'gdbus-auth-mechanism-sha1': {'extra_sources' : extra_sources},
-+       'gdbus-bz627724' : {'extra_sources' : extra_sources},
-+       'gdbus-close-pending' : {'extra_sources' : extra_sources},
-+       'gdbus-connection' : {
-+-- 
-+2.35.6
-diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-index e15aa1fe206..70b0b74e881 100644
---- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-+++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
-@@ -54,6 +54,10 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
-            file://CVE-2026-58012.patch \
-            file://CVE-2026-58013.patch \
-            file://CVE-2026-58014.patch \
-+           file://CVE-2026-58015_p1.patch \
-+           file://CVE-2026-58015_p2.patch \
-+           file://CVE-2026-58015_p3.patch \
-+           file://CVE-2026-58015_p4.patch \
-            "
- SRC_URI:append:class-native = " file://relocate-modules.patch \
-                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
-diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib-2.0/glib.inc
-index fac8875d844..5b69c9d7d3e 100644
---- a/meta/recipes-core/glib-2.0/glib.inc
-+++ b/meta/recipes-core/glib-2.0/glib.inc
-@@ -39,7 +39,7 @@ PACKAGECONFIG ??= "libmount \
- PACKAGECONFIG[libmount] = "-Dlibmount=enabled,-Dlibmount=disabled,util-linux"
- PACKAGECONFIG[manpages] = "-Dman=true, -Dman=false, libxslt-native xmlto-native"
- PACKAGECONFIG[libelf] = "-Dlibelf=enabled,-Dlibelf=disabled,elfutils"
--PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false,"
-+PACKAGECONFIG[tests] = "-Dinstalled_tests=true,-Dinstalled_tests=false,dbus-native"
- PACKAGECONFIG[selinux] = "-Dselinux=enabled,-Dselinux=disabled,libselinux"
- 
- EXTRA_OEMESON = "-Ddtrace=false -Dsystemtap=false"
++       rel_size = relsz * o->reloc_count;
++       if (bfd_seek (abfd, o->rel_filepos, SEEK_SET) != 0
 
