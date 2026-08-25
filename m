@@ -1,142 +1,146 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <anis.bougrine10@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F940C61DB9
-	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 20:23:47 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.31651.1787689425548518926
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4617CC61DB9
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 20:50:08 +0000 (UTC)
+Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com [209.85.128.49])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32363.1787691007382233030
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 13:23:45 -0700
+ Tue, 25 Aug 2026 13:50:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ShIge549;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-482e2904915so136180f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 13:23:45 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=A4osxpi4;
+ spf=pass (domain: gmail.com, ip: 209.85.128.49, mailfrom: anis.bougrine10@gmail.com)
+Received: by mail-wm1-f49.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso982885e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 13:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787689424; x=1788294224; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=U6bAAvdrVOGUXZdfRwJQfCDhOUT/Jh58swmlp3lmogY=;
-        b=ShIge549t5RGkcuTK8+IfdDsg87kAmr0+YDB0IDVADHZU84huyDkaKgAVfHSHS4UPQ
-         5VI5s2o6fMb9IWgCF28Z8U+7mQtsIuwsBCRrMAo2adawKawAk00JFkP5gqNFe0KfiWLf
-         PaXqwdebowNdPHpQlF0g4jMztGWrkPOgZ1bHI=
+        d=gmail.com; s=20251104; t=1787691006; x=1788295806; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qcAY5phukPhDG9j6gQXxCiC7402vHsTFsP0BZvHX64c=;
+        b=A4osxpi4875ehYysv2RYm/odzsQlhPT2Hbr+nEs5giVocrrNa8l7m0DLplMmzD/Ff+
+         vEchFcXoA3wvOa1+0NxhFEogF6T5UUPYvlc2eJYAeMwkIqH37/q6uSDK3OEcGdnPTscc
+         Gv2K7XDvoVS4eYnq34z/JGqPRtZjMSTKuiUf8Mw9mFUnsEqhuonj4Zkiny1XxR/s+CGE
+         5D2BsiqZyzTAznx0iaCamS4kT0ELYOOBAnnC8/8VybaHiUdeF+uix1Szaaf80JJ6XwDh
+         TLMuPKxzDYMEFL8++bteNIZkuwNT1y9iyRtoAWHZ8+mhxGtfJna9mE44ID8O04WZdY0k
+         saiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787689424; x=1788294224;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=U6bAAvdrVOGUXZdfRwJQfCDhOUT/Jh58swmlp3lmogY=;
-        b=C54gAH/tqfr8J8BVc8pHg6DbsR6PxbZZ4a3ZOpwmayoPYqmAWKasIomv2h5belsvuj
-         kVjy+3LCOFOU14a2S5m1kkJYF293Dd8uYf2hkL9EXPdGxQjBW1v1DKrzKwKmNM2Onyko
-         L8VLAKTXQr2+OLgXGrfx8cFo+Ucav13E1GXSEDXAgmnAgfZ5+9uEyT+GkITBcte1Xi8G
-         o1Fo0cW4b+a4L1X19vL7ygNGc7robI30oT4vI+CIc231kW+TEb5lKuRw5Hg5dXjctrVZ
-         ibokbvQrs1f57Kjcctm4q6HsN1LfcOqECQzf2L8trbjY3u38ZGOxvQRWYi4OL4XWkYQh
-         Rj8g==
-X-Forwarded-Encrypted: i=1; AHgh+RpIWx05gS3DpHv/yovh43kTDFA6BWBRnplBIgVd3uUU1VDKNNA0OjLNrkY8Jikw8Jbbu87IulWSwXx4GzA8E+pb5Q==@lists.openembedded.org
-X-Gm-Message-State: AFuF++lR4CD9LvAxPSBL8swFOQ1RHTWRICbrKrrxpVE8xTAxDcMdLGqr
-	y6w6Ttm3/qKcz+ZM4zErrb3ZiCA5nubD3lQRGT20+VHSKSVCEvhJwSFxTuS3fCb3uQg=
-X-Gm-Gg: AR+sD13a6FAenpYM8+6stcPv6kSLQf8o3+bGkm2lPEGF0x6WiF0kXMYILHxxmNC1ddM
-	Xet8tw+cR2oH0VKPmHk0vbXfHzHf4gySEQTqxBhnIbk2YJrWVpXB2nz2IJ/OPPOyWjDQxHYCxPN
-	H8eRrnQM9jQh3CL4jbFacrHn8nO+u6YHjZuTqBYmu8PYllEygzBWAe/BbHExeBwVestVPPkOGeJ
-	tjhIMoyBKuWb3RtlP8p7Ng9/Moz44/3ztKQsDAUgsq3e9TAByRjyMdB3G/79AETk74jEa7tYw/F
-	96bAI6mtAQSkTbENncZJwF4DiQZ4gSg8r7/vfDUQR3nY4CcN7YRb6fQ7XUyHx1ChUaA5R6AHS0f
-	CLMpep0D0Bta+70nOv7jnrgZehAhgr+9UF0C2jt1qBpWVh27VzEJkeX7XN9pmdigorozQZ1mM8W
-	0Qv8WWiqIYaNj0IxxRhMV3UoL+YcHn6qcmugCWGHC2hod/yzixNALCqIUiccRfN3qxrilsHAXZo
-	0UpmAtD0buPaub8pi9HJvLBx40+Hs2kGPjm5a60m7Y2Wy8oIzI=
-X-Received: by 2002:a05:6000:989:b0:481:512c:b6b3 with SMTP id ffacd0b85a97d-482e2693a43mr2146204f8f.3.1787689423673;
-        Tue, 25 Aug 2026 13:23:43 -0700 (PDT)
-Received: from localhost (2a02-8440-b502-b60d-93f5-be80-aa62-9351.rev.sfr.net. [2a02:8440:b502:b60d:93f5:be80:aa62:9351])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482e27ab1f3sm522259f8f.11.2026.08.25.13.23.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2026 13:23:43 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 25 Aug 2026 22:23:42 +0200
-Message-Id: <DKYB0FAPAJFD.215VGCBV1PA2B@smile.fr>
-Subject: Re: [wrynose][PATCH] kern-tools: bump SRCREV for conditional
- 'depends on X if Y' support
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Wadim Egorov" <w.egorov@phytec.de>
-To: "Paul Barker" <paul@pbarker.dev>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260825132319.3151755-1-w.egorov@phytec.de>
- <3c09a2a02c36ae3934b533c2cd727d7d4faa44e2.camel@pbarker.dev>
-In-Reply-To: <3c09a2a02c36ae3934b533c2cd727d7d4faa44e2.camel@pbarker.dev>
+        d=1e100.net; s=20251104; t=1787691006; x=1788295806;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qcAY5phukPhDG9j6gQXxCiC7402vHsTFsP0BZvHX64c=;
+        b=hePLkp8i7IBKJrXyat1/J01csksqT3/0l13xjYnD4YwUqndleqOKmev/fx6mzYFxlN
+         +mpu9KALzwzxFHEiaGMy+o4qcbQxRZidoMutXbuzNU1BgFqD/qaa88qZwI8gWOhqgcN8
+         Q6MDSUMiDwg4Sd1sHLCq9OBHpZQT/vf/OojZfWinYpu9NyDSFSHz01RdnztK9XNNaDaU
+         uoNx18d9zaIO/tA7T83EyzEuqZyLBTLN8jmCMm8YiN7Q83ZFNTEIeoaGb9PFcC6AKNbd
+         e3YhU0J6wEfqBn6YtTMLx9G2fSD7SSo9V44ezyCZGU5Laaz+ZZOeNd2j5xGlOAToxfEd
+         rFxQ==
+X-Gm-Message-State: AFuF++luZIwXF1JJ85aNodTDBpg3gIS4PpMsYEd54iPF//SBRNxfGLYb
+	uWvLYhXyN2WmujxM+mrMeRV1hovCzeqAAJfmQDyM+NkMNAEDsB4jjIEwjGMnHOJa+6Y=
+X-Gm-Gg: AR+sD1132/Ax7eXcooIrp5XMZJs7Fm4g71mX//8ip5kKViuCalc896hZzDqzh6dVbcT
+	rZUwSFWBY4AiyYCi5q+m+tt8w/1DatT8L5QAhFsvPyHN30uRpQnFZeNOVUhfSL8brBy3lljI4SO
+	A3VrdY8Nj+CRH6nfQEZTvBSos7K3fzwBacEE6ki6tX6ytuwqemSR4PKZrY8UB4B01BoKLSS39Zb
+	3yjBIiO4HfFRufVd4mMDxyuDgg2/Q7QK3SRUtsMY2jt6x/O5nl3AsGSXEQQXrsIrEULuUBOzqe8
+	O5s18/3E7loZN4UJPgpD4r8gZcDCrPZd5ppGN4YJDyZt6A8qX7OaIb6NwskEv8HULb/FipM11K7
+	092JxLvNPylPH8A2La9RssEufztFd8MA/fokecWyEDX76uwD6U+FoxgAW2epwaLGey2jqZx3gwY
+	QqnxIqgTcOHck2dnmla6c9dEx/vn64/cssDJ6jJ0zQK53Q3xUjkCHHZ3Ok7xW/ERx0xbX91ArsA
+	aN78fJXullF4517Z+bMtbJlSmST1ruxAiX62KOKVVwpKni0W1q0dGICzXDHxQIjmEXTEJYgkLOb
+	HPNNFO541/cl
+X-Received: by 2002:a05:600c:4505:b0:499:8ff5:8ec4 with SMTP id 5b1f17b1804b1-499dc6e4095mr16994435e9.3.1787691005564;
+        Tue, 25 Aug 2026 13:50:05 -0700 (PDT)
+Received: from device-137.home ([2a01:cb15:80cf:2100:f9af:e499:eded:1124])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dca98095sm4507845e9.5.2026.08.25.13.50.04
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Tue, 25 Aug 2026 13:50:05 -0700 (PDT)
+From: Anis Bougrine <anis.bougrine10@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: mathieu.dubois-briand@bootlin.com,
+	richard.purdie@linuxfoundation.org,
+	peter.kjellerstedt@axis.com,
+	Anis Bougrine <anis.bougrine10@gmail.com>,
+	Ross Burton <ross.burton@arm.com>
+Subject: [OE-core][PATCH v5 2/5] kernel: re-sign kernel modules after package stripping process
+Date: Tue, 25 Aug 2026 22:49:27 +0200
+Message-ID: <20260825204931.17628-3-anis.bougrine10@gmail.com>
+X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260825204931.17628-1-anis.bougrine10@gmail.com>
+References: <20260825204931.17628-1-anis.bougrine10@gmail.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 20:23:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244273
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 20:50:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244276
 
-On Tue Aug 25, 2026 at 8:09 PM CEST, Paul Barker wrote:
-> On Tue, 2026-08-25 at 15:23 +0200, Wadim Egorov wrote:
->> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->>=20
->> Pull in the yocto-kernel-tools fix for the kernel's conditional Kconfig
->> dependency syntax (kernel commit 76df6815dab7, first in v7.0). Without i=
-t,
->> do_kernel_configcheck fails on v7.0+ trees once a config uses the syntax
->> (drivers/hv MSHV_ROOT):
->>=20
->>     drivers/hv/Kconfig:77: error: couldn't parse
->>     'depends on HYPERV_VMBUS if HYPERV_VMBUS': extra tokens at end of li=
-ne
->>=20
->> This SRCREV also carries the symbol_why.py/kconf_check audit hardening
->> (surface parse failures instead of swallowing them) and the new hermetic
->> Kconfiglib self-test.
->>=20
->> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
->> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
->> Signed-off-by: Ross Burton <ross.burton@arm.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> (cherry picked from commit 4f592ee59e90e536af33648112658dafe00f5d0e)
->> Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
->> ---
->>  meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->>=20
->> diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/m=
-eta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->> index bd90316050..2e13e4ca31 100644
->> --- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->> +++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
->> @@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "\
->> =20
->>  DEPENDS +=3D "git-replacement-native"
->> =20
->> -SRCREV =3D "a4a362d9f4f0abc8ab145a8673166b9bd875731a"
->> +SRCREV =3D "96a8d58bcd260f104c193a81b727818424d7b263"
->
-> Hi Yoann,
->
-> I think this is worth taking on wrynose as it allows BSPs to use more
-> recent kernels if they need to. The delta in yocto-kernel-tools is
-> relatively small:
->
->     96a8d58bcd26 kern-tools: add Kconfiglib self-test
->     e31601535ff9 symbol_why, kconf_check: surface parse failures and add =
-a parse self-test
->     b5f008535c85 Kconfiglib: support conditional 'depends on X if Y' depe=
-ndencies
->     d30ab1a7626b kgit-create-buckets: update classification for 6.19 kern=
-el
->
-> The self-test suite won't be used, surfacing parse failures is a bugfix
-> and the last two are the ones needed to support Linux v7.0+.
->
-> Best regards,
+Fixes [YOCTO #12927]
 
-Thanks for the ping. I've put it in my next wrynose branch.
+Currently, signed kernel modules are not stripped in order to preserve
+their valid signatures. See commit 4c47e5f.
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+Therefore, this commit makes kernel modules stripped and correctly
+signed. Two options are possible:
+
+    - Strip the kernel modules after installation and before signing.
+    - Re-sign the kernel modules after stripping and before package splitting.
+
+The first option was rejected because debug symbols would be dropped early
+in the build workflow, which may impact the SPDX process.
+
+The second option is adopted because it does not impact the build flow.
+
+Reported-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Anis Bougrine <anis.bougrine10@gmail.com>
+---
+ .../kernel-module-split.bbclass               | 25 +++++++++++++++++++
+ 1 file changed, 25 insertions(+)
+
+diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/classes-recipe/kernel-module-split.bbclass
+index bde7cd02dd..da7b30e99f 100644
+--- a/meta/classes-recipe/kernel-module-split.bbclass
++++ b/meta/classes-recipe/kernel-module-split.bbclass
+@@ -35,6 +35,11 @@ modprobedir ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${nonarch_b
+ 
+ KERNEL_SPLIT_MODULES ?= "1"
+ PACKAGESPLITFUNCS =+ "split_kernel_module_packages"
++# Order matters:
++# 1. Strip the modules
++# 2. Re-sign the modules (if enabled)
++# 3. Split the packages
++PACKAGESPLITFUNCS =+ "post_strip_kernel_modules_signing"
+ 
+ KERNEL_MODULES_META_PACKAGE ?= "${@ d.getVar("KERNEL_PACKAGE_NAME") or "kernel" }-modules"
+ 
+@@ -63,6 +68,26 @@ def get_ext_mod(d):
+ 
+     return d.getVar("S")
+ 
++# This function supports both in-tree and out-of-tree modules.
++post_strip_kernel_modules_signing(){
++    # Read .config values to determine if module auto-signing is enabled
++    is_modules="$(${STAGING_KERNEL_DIR}/scripts/config --file ${KBUILD_OUTPUT}/.config --state MODULES)"
++    is_module_sig="$(${STAGING_KERNEL_DIR}/scripts/config --file ${KBUILD_OUTPUT}/.config --state MODULE_SIG)"
++    is_module_sig_all="$(${STAGING_KERNEL_DIR}/scripts/config --file ${KBUILD_OUTPUT}/.config --state MODULE_SIG_ALL)"
++
++    if [ "$is_modules" = "y" ] && [ "$is_module_sig" = "y" ] && [ "$is_module_sig_all" = "y" ]; then
++        # Sign modules under ${PKGD}, with M= if out-of-tree module.
++        # Out-of-tree module Makefiles invoke the kernel Makefile by appending M= (the module directory) to MAKEFLAGS.
++        # However, they usually do not provide a modules_sign target. Therefore, the kernel modules_sign target has to
++        # be invoked manually after retrieving M= variable from package source code Makefile.
++        oe_runmake \
++            -C ${KBUILD_OUTPUT}  \
++            MODLIB=${PKGD}${nonarch_base_libdir}/modules/${KERNEL_VERSION} \
++            ${@'M=${@get_ext_mod(d)}' if not "virtual/kernel" in d.getVar('PROVIDES') else ''} \
++            modules_sign
++    fi
++}
++
+ python split_kernel_module_packages () {
+     import re
+ 
+-- 
+2.50.1 (Apple Git-155)
 
 
