@@ -2,123 +2,120 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C300C61DB9
-	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 15:04:38 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.23686.1787670268918263570
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E0DC61DBE
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 15:10:48 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.23818.1787670645012433310
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 08:04:29 -0700
+ Tue, 25 Aug 2026 08:10:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=kn1znhPX;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49954b88fffso39377555e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 08:04:28 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=u/QLB4AX;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-480001972b8so1257993f8f.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 08:10:44 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787670267; x=1788275067; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+        d=smile.fr; s=google; t=1787670643; x=1788275443; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=L6XX0y1HoZ56S7yGtBbu8Z7Vihzyqv4O01oZDr4rbg8=;
-        b=kn1znhPXT/wqsaCnRFMl+If0VM6J52wUcBTqQPLMqugK1YPsXOqSs9EY8NW6VlSsJW
-         ESPe+LF12WTkORPfd5Nwj4hekcq04AqNhC+TNbU7fF3jQiKJKaXHP034kDU5Eq8FXwjk
-         Utw+a+d9wFi8u0qu+/11g9mvGw/Nn58HIssqE=
+        bh=Hc+IsxbCoZFRiyaOux110LQEJ4AUZzJ+DjQ2LYasff8=;
+        b=u/QLB4AXUpQhVJ9y9GceBsVZsqz0mvI1y6ZjdwbC6w5qUFqK0MKevksatP2P+E6sxw
+         ZCa18ZZj/OLOSQiC7yP9nXf6BnlNJe+7yoJjFS36Vh/jbUbFTzRJmbDKFKis2sHVnSqa
+         aNbTRIOeHIUrFU/AJCyUqiNmpLPv8KhoSYt3U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787670267; x=1788275067;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+        d=1e100.net; s=20251104; t=1787670643; x=1788275443;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=L6XX0y1HoZ56S7yGtBbu8Z7Vihzyqv4O01oZDr4rbg8=;
-        b=Twq9ZY3ieXwHMjN6F4f9IH27Ws9ciSHLmxTOeZ5JIjOXHYHUeUu07g5g3rAuWvdt4K
-         xbmz138eJVEfaL1jtx7S0O36KmY4nJvmYhoFxXpX31LoV/6BWsZ0aLC3t7H9deGHwbPa
-         ROREXTKtfROR/MvSp3Lfy/fUqvta6CGuY+WtdhmuOt23lLNPck5VRe86Ps6AKz7B+0j8
-         kOifFpDT6ps2JG9WTbI2NIYxxdVMj6N6RVy7TeAzvLytgGqlPKlM9jiEBT9KTkXX21Rw
-         UBR4OVSt+uR/ecFLNMM6x6iVPATva/CE+O/ctRkXc/IfLltumN3GizQFN+nC6K4JxN8X
-         J0JQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoFz1WoiwDKa22aCh4z4rY00l5nGulucupArIg+xoID4Ir+Ubr6+ePj968XKPT67XEJ8uybBxnxB/dw3qUhEs9nrw==@lists.openembedded.org
-X-Gm-Message-State: AFuF++kmJeSgmHBdW90+lVH1BLhBjkILcoI80EVUxOVV39KmkQ4SIYLW
-	CAZbAIG2XHEWmh4RnnMVnFdHVFwWonmGxqiYCT/Gi3azC4aL1YvMi3Kn6bOF8Hemd68=
-X-Gm-Gg: AR+sD12ZugknxBzwlJfserhsfNcRfpDXK4ziuucEtzO0/MUZAcr9Jl5Jb4UoGaseYn9
-	iye8hOHeNpa0vgNF9y0zx2QR1wob0ZwhOScWgjkTu3igUhsmFQZobZozD0YBnzmFxKDE+DR3/O6
-	3USnwpGk3phKEF4SCLc5o3v7VtnnmlVmO1FtSL0UP2NF1COmPU6pPos0Vwb07ChEwlZRX7+g2NC
-	y4g920tMP2RyOw4/8OPlGqRpI2cWVMLB6bZ4VtbJu59UAn6Q3XMFsD0I/Nc8l+AuNTJJtM3Bm+u
-	65/5dBZgxQeTtGOmRb2h3obg/FNHLB8waIwgmK1tJkbGd+xH4PS2G7gHxRDBjRlLF5wW8aOTVQj
-	8IHa04pck9uhqQSTl8M2ZC5OAe6Oi+0A/P6ITMHd2U9xrspxarzItfsLrY9phGRAYzEb3B9gVdx
-	42yxK8hd4ti/SFa3HWvNwuigrk7cT9e2x7AmEflG3DiVwNRr+s3rpYbYBuXyqR9cqjqWsH4LmtC
-	TjeOBmEb8j5dfsEIIlugscTM6bKQD9QZqdBtvaBXABteCdxS9B+So60YA0=
-X-Received: by 2002:a05:600c:3b04:b0:499:adb5:e7b2 with SMTP id 5b1f17b1804b1-499c19d733emr293406985e9.11.1787670267007;
-        Tue, 25 Aug 2026 08:04:27 -0700 (PDT)
+        bh=Hc+IsxbCoZFRiyaOux110LQEJ4AUZzJ+DjQ2LYasff8=;
+        b=qshEdqB41QJ2bYITI/FSTbes99m1CNCFsv7cCU4J7zmUqIHqerPMAU79P08zjCbdnj
+         EBquXeDkmJrUwM2jzHN9Ce78uNgz8At2qcfAy1edZymABVJvb0iJyPiF0dC6UJVFKocj
+         IzKGbml6NdP0ZIX20utpyRJcRHZGquga6E2u9Ne2f3SfAVBooFzmXVhPUhMPTvlcvJ9z
+         Xecr6F50yX985uua2LMaZE6bOeOclQC0uL7/zusv7hKXeeWeSEtWW4G3FEgFSybpOQOS
+         d+63ws39D+IamUycbcIx+xiEZHNFWstCaN7V+DF17pv91voRfkCZbg+oYelg+0mjcj66
+         Zf7A==
+X-Forwarded-Encrypted: i=1; AHgh+RqRqYuW6GGSF6XiTb5wLmjlODqA6hY93hJH0JpeIaOXqt+HuIeCiyzhOLb1dA/gZuxtAu56Edg6Fl1YcYdSaszKIQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kMwEB4zQX6OKxnAPaEcZCX+NyNVs4OPT1zg002rHVuF03IWQwM
+	WF82pmX5jTK/X6QFnTqdX6xsJd4n+WUsTcSABr2Vtah7CDrnPHhlpQVYl17wipZrAI0=
+X-Gm-Gg: AR+sD101PuW6j6Ns/lJE8p2uvpknMbGn55OfpvmLJ5iBvJNaR5OpiAeZSx44IHqVCFb
+	NjjW2xBE06gBLYeVqyt5Xa4B2rfIPHOKDk/sgy31HiEOhw+0qI3P8tvP3gMmyyHwBYQI4Wv/VI+
+	WhZoNAyPRGk7zCXAm5crlhqSPNwuy7HOB7H5OeMGw8EwIp8dcmoPSgkzJliyun2xgAutqUuakHn
+	2YP86fcR4YVFEk8uflKyuu41aVEK0AifHVFr6AQXkOjxuGncL603RSSXgS5cBMaH0SRJ588NPTy
+	qOPkOFBbasPUsPYCCxrQvW6/ENVUKjrYsW5CJ1AzRLnIf9iTP9vLMGwa/xG+xPw7LHVG4+8EJcd
+	wUNTwc2hwIOwrJOz4Kie/LaCRXZ/PcyLWva6ksXwdxneaFFrGBMNzZQHLrwT4ASKjUt1TkkELz1
+	956gaXlXev5SrhV57cXH6XerQ7f/l5HJoVDbk8O0c+QBYS9Ej6YtUf/s5vb6mCIvR0UEvIwS8vw
+	OrVkZDWmRvSIdEzvDh5lZ17/MC0SX7OuPTZVq0g3zijpwmdyQ==
+X-Received: by 2002:a05:6000:1447:b0:47f:f20d:8d4f with SMTP id ffacd0b85a97d-482c0b99930mr44055891f8f.18.1787670643078;
+        Tue, 25 Aug 2026 08:10:43 -0700 (PDT)
 Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499d6346ba3sm32747125e9.4.2026.08.25.08.04.26
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9b69b7fsm12163155f8f.2.2026.08.25.08.10.42
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 25 Aug 2026 08:04:26 -0700 (PDT)
+        Tue, 25 Aug 2026 08:10:42 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 25 Aug 2026 17:04:26 +0200
-Message-Id: <DKY47YY3L5UE.1DLQ2RS87JLFQ@smile.fr>
-Subject: Re: [OE-core][wrynose][PATCH 1/8] curl: fix CVE-2026-8286
+Date: Tue, 25 Aug 2026 17:10:42 +0200
+Message-Id: <DKY4CRPZO0WH.QWIHIK4VRSNJ@smile.fr>
+To: <bhavesh.maheshwari@einfochips.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-Core][Wrynose][PATCH] curl: Fix for CVE-2026-9079
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <deeratho@cisco.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260805083103.2633995-1-deeratho@cisco.com>
- <20260805083103.2633995-2-deeratho@cisco.com>
-In-Reply-To: <20260805083103.2633995-2-deeratho@cisco.com>
+References: <20260730092746.1991111-1-bhavesh.maheshwari@einfochips.com>
+In-Reply-To: <20260730092746.1991111-1-bhavesh.maheshwari@einfochips.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 15:04:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244246
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 15:10:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244247
 
-On Wed Aug 5, 2026 at 10:30 AM CEST, Deepak Rathore via lists.openembedded.=
-org wrote:
-> From: Deepak Rathore <deeratho@cisco.com>
+On Thu Jul 30, 2026 at 11:27 AM CEST, bhavesh.maheshwari via lists.openembe=
+dded.org wrote:
+> Pick patch from [1] mentioned in [2] taken from NVD report in [3].
 >
-> This patch applies the upstream curl security fix backport for
-> CVE-2026-8286. The upstream fix commit is referenced in [1],
-> and the public curl advisory is referenced in [2]. The backported
-> commit link is also recorded in the embedded patch header.
+> [1] https://github.com/curl/curl/commit/88c7e16cceec816a2df45c89
+> [2] https://curl.se/docs/CVE-2026-9079.html
+> [3] https://nvd.nist.gov/vuln/detail/CVE-2026-9079
 >
-> [1] https://github.com/curl/curl/commit/a86efdd7ca5433de9231e650f18247de8=
-319ad16
-> [2] https://curl.se/docs/CVE-2026-8286.html
->
-> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 > ---
->  .../curl/curl/CVE-2026-8286.patch             | 81 +++++++++++++++++++
->  meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
->  2 files changed, 82 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8286.patch
+>  .../curl/curl/CVE-2026-9079.patch             | 289 ++++++++++++++++++
+>  meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
+>  2 files changed, 290 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-9079.patch
 
 Hello,
 
 This series does not apply on top of the review branch anymore:
 https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/wryn=
 ose-review
-|ERROR: curl-8.19.0-r0 do_patch: Applying patch '.../wrynose/bitbake-builds=
-/poky-wrynose/layers/openembedded-core/meta/recipes-support/curl/curl/CVE-2=
-026-8927.patch' on target directory '.../wrynose/bitbake-builds/poky-wrynos=
-e/build/tmp/work/x86-64-v3-poky-linux/curl/8.19.0/sources/curl-8.19.0'
-|CmdError('quilt --quiltrc .../wrynose/bitbake-builds/poky-wrynose/build/tm=
-p/work/x86-64-v3-poky-linux/curl/8.19.0/recipe-sysroot-native/etc/quiltrc p=
-ush', 0, 'stdout: Applying patch CVE-2026-8927.patch
-|patching file lib/url.c
-|patching file lib/urldata.h
-|patching file tests/data/Makefile.am
-|Hunk #1 FAILED at 218.
-|1 out of 1 hunk FAILED -- rejects in file tests/data/Makefile.am
-|patching file tests/data/test1647
-|patching file tests/libtest/Makefile.inc
-|Hunk #1 FAILED at 100.
-|1 out of 1 hunk FAILED -- rejects in file tests/libtest/Makefile.inc
-|patching file tests/libtest/lib1647.c
-|Patch CVE-2026-8927.patch does not apply (enforce with -f)
-|
-|stderr: ')
-|ERROR: Logfile of failure stored in: .../wrynose/bitbake-builds/poky-wryno=
-se/build/tmp/work/x86-64-v3-poky-linux/curl/8.19.0/temp/log.do_patch.468848
-|ERROR: Task (.../wrynose/bitbake-builds/poky-wrynose/layers/openembedded-c=
-ore/meta/recipes-support/curl/curl_8.19.0.bb:do_patch) failed with exit cod=
-e '1'
+| ERROR: curl-8.19.0-r0 do_patch: QA Issue: Fuzz detected:
+|=20
+| Applying patch CVE-2026-9079.patch
+| patching file lib/setopt.c
+| Hunk #1 succeeded at 1694 (offset 15 lines).
+| patching file tests/data/Makefile.am
+| patching file tests/data/test1648
+| patching file tests/libtest/Makefile.inc
+| Hunk #1 succeeded at 100 with fuzz 1.
+| patching file tests/libtest/lib1648.c
+|=20
+|=20
+| The context lines in the patches can be updated with devtool:
+|=20
+|     devtool modify curl
+|     devtool finish --force-patch-refresh curl <layer_path>
+|=20
+| Don't forget to review changes done by devtool!
+|=20
+| Patch log indicates that patches do not apply cleanly. [patch-fuzz]
+| ERROR: curl-8.19.0-r0 do_patch: Fatal QA errors were found, failing task.
+| ERROR: Logfile of failure stored in: .../wrynose/bitbake-builds/poky-wryn=
+ose/build/tmp/work/x86-64-v3-poky-linux/curl/8.19.0/temp/log.do_patch.47557=
+1
+| ERROR: Task (.../wrynose/bitbake-builds/poky-wrynose/layers/openembedded-=
+core/meta/recipes-support/curl/curl_8.19.0.bb:do_patch) failed with exit co=
+de '1'
 
 Can you please rebase and send a v2?
 
