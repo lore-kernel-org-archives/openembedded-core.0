@@ -1,140 +1,140 @@
-Return-Path: <w.egorov@phytec.de>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5BC24C61DC2
-	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 13:23:37 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.137])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21476.1787664213928150098
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AE02C61DC2
+	for <webhook@archiver.kernel.org>; Tue, 25 Aug 2026 13:26:37 +0000 (UTC)
+Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21966.1787664391874828206
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 06:23:34 -0700
+ Tue, 25 Aug 2026 06:26:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@phytec.de header.s=selector2 header.b=V5EC4RA0;
- spf=pass (domain: phytec.de, ip: 40.107.130.137, mailfrom: w.egorov@phytec.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=M0SbK1lXnjYa7upYRJReV0luYyZv9xQCISWIhSod+vLRm0PRrXuhSual77z/v6guT8XrMuYzJ6nCZ9kzFjckCYckfBaGJOCx3QcKkuPLchLVb9umCWRjBhYdJaHJZYgUfDlWmQ5WUa5psz59pI8ARvw2xIyhfrMt5WVsN/3nGjTcC56YjaJVawNLTlXMYNtOvOZitRLzI3inBaoVPHTE2VZfXvnofhSAWhzQuZt3j8qdn6iQJ3pgLkO+LGjQ7yUwCw4xhIUFjVeoFWNt5zzqYNFuJ2Jlgt4NLXlO3vMUuCfpCCOeZTsIJQByK6tH3Xal9YwVGtpJlKFEpkPIcefc9g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=mSBz3w8j7XKAOYuo4A3UhXPN+mOzLUBU0fPRgp+5YaY=;
- b=bjTZyrwKg6oV/W2KJhzlfdu6UCiXrd2GshyBSC2z+xj0+WEO/kKt54Hfm4LVlj+aov2pVfqs5oLkXlhcPdro8WRRbxwLv9uzsb0+dDq1sB4aW3qcRae/lYBQ176q3tH6aFT/nHtWmXwVQCv2ab7HwNBHLjJ2cC9o+mMPFRmIa71i9+3k2JZQWWt1PZYXSX20b0JitQHTVJLRjydAioUTXbJI0T2axv8iKA3NVMJR8O6CDqfu3m8A1IzCfEBqfOuPBX8qJ8DyayTJlTtlcz6pzNEwvP8EgGzGK9oNwaaHc4QQFaz9HMCwFoB8+pUpi1OMAXHQtU4BOxQKWwMDl7+trQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=softfail (sender ip
- is 91.26.50.189) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=phytec.de; dmarc=fail (p=quarantine sp=quarantine pct=100)
- action=quarantine header.from=phytec.de; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=phytec.de;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=mSBz3w8j7XKAOYuo4A3UhXPN+mOzLUBU0fPRgp+5YaY=;
- b=V5EC4RA04GT8efvyUVe6bMee9S/zs7NCWWyqwR9H+7HEU53wcCCi+y9aESOr4ZLFDVXncmxQqgreHRaPi1l5fSM7GtoJAlod77i2VWXAnXMzo8+YugKWFetat5BPKTMES2ROUkmPavgZtEeBYG2kKBSWEADQrG58JOY0Bwu1BKAN1rxLEcQCeHs+YOOqxHEIDxYj+rnYl31NtDqgQRSx4Gs/JxaUebrFj/ArYjDsneYkkUuny4bxsk1+ev1itAmHLMbsciADY5d42ZNvVqZ9bSS7srAhExLyGK43T4pUjDbg7SRZMFDxFmYSorliVaMvV+/j8WpwFRt1dhhkt48Ajg==
-Received: from AS4PR10CA0025.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5d8::14)
- by AM0P195MB0516.EURP195.PROD.OUTLOOK.COM (2603:10a6:20b:16b::9) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.339.12; Tue, 25 Aug
- 2026 13:23:29 +0000
-Received: from AMS1EPF0000004A.eurprd04.prod.outlook.com
- (2603:10a6:20b:5d8:cafe::f) by AS4PR10CA0025.outlook.office365.com
- (2603:10a6:20b:5d8::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.6 via Frontend Transport; Tue, 25
- Aug 2026 13:23:28 +0000
-X-MS-Exchange-Authentication-Results: spf=softfail (sender IP is 91.26.50.189)
- smtp.mailfrom=phytec.de; dkim=none (message not signed)
- header.d=none;dmarc=fail action=quarantine header.from=phytec.de;
-Received-SPF: SoftFail (protection.outlook.com: domain of transitioning
- phytec.de discourages use of 91.26.50.189 as permitted sender)
-Received: from Postix.phytec.de (91.26.50.189) by
- AMS1EPF0000004A.mail.protection.outlook.com (10.167.16.134) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.360.3 via Frontend Transport; Tue, 25 Aug 2026 13:23:28 +0000
-Received: from phytec.de (172.25.0.51) by Postix.phytec.de (172.25.0.11) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.2562.46; Tue, 25 Aug
- 2026 15:23:28 +0200
-From: Wadim Egorov <w.egorov@phytec.de>
-To: <openembedded-core@lists.openembedded.org>
-CC: <yoann.congal@smile.fr>, <upstream@lists.phytec.de>
-Subject: [wrynose][PATCH] kern-tools: bump SRCREV for conditional 'depends on X if Y' support
-Date: Tue, 25 Aug 2026 15:23:19 +0200
-Message-ID: <20260825132319.3151755-1-w.egorov@phytec.de>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=qZxDiRpP;
+ spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-482ddbc11aaso315954f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 06:26:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1787664390; x=1788269190; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=CtcrVloNcEf9MhwZHMxAGp8vITgIROzHkIRsdZfrfjQ=;
+        b=qZxDiRpPfKBDZbg5SU5ccdjlJ+e+XS9kD/w8tGrfFoTd88sNo6GEdCFKk5GJAMfvg8
+         GcPYj3f8/+NMk69B81TTUkWaA22gFreNnA2rxEyksoKGv/kLinQsexcsErq3/uGzvPGC
+         uvRFoQrg3qybukhdfTByBXcsRkqJ2pgD53CwM=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787664390; x=1788269190;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=CtcrVloNcEf9MhwZHMxAGp8vITgIROzHkIRsdZfrfjQ=;
+        b=UwZ4fesEzkvDw74XxDj3upQXlXeRTIzauV+eqEY2OxTS+GecxYrvLvx28TgwE7cQ1E
+         K9rRlAqk74C0U6+OIsJcueBp1+9erhPpHTHhaQTGdRvfi0Jv+0oQhseNi0uBeOQZPm+s
+         RshlhBR2Qe7xWEvN6SbfdkUz+t6bqBayGwtUlU/NC9RRRPqxG6mnTtzH1b4EIabEmizv
+         wdAGPtoG/9F5QVv6G4oOeo5ez54Bcz1ZRvH0LLgEJVvsBewtH+FEWuW41rA9VoOIJjoh
+         Bl8Tqmybbcm45kZp0dgIEOKykd3DzEBAfU1AnrSq3RhKE6Q5SI06R/854crvtHQzqPQO
+         ivfQ==
+X-Forwarded-Encrypted: i=1; AHgh+RorRB6RGXgLjXR4Go1DGdj/a/Err9uL0U46HkT0NP7T27o+y9K8f6yeNpBypqnEstjQCGVns4jAW16GzXpuaSI63w==@lists.openembedded.org
+X-Gm-Message-State: AFuF++meGcEhfNebOo7PT9FHNfTtC4CT9F/mpDBiCnpjZAwGoxTOwhPP
+	h7tfme1yCTdDRx5c2XSNefekGS0t493TbxlzS7kmgN9M4GvrT4PuttF33X4GPRsEe7s=
+X-Gm-Gg: AR+sD11+/2KjU5xTRDd39FB0klMgKWMWA+jDrh8OkrMh391G8p+vBddw0+wvij91I3O
+	AejgV68Skfmux+iGFMJNCQjCUOO3OcgwY3eeniEFNuWLeC8yGNiyo2WBvLTUmCFLuTvgzKBnVyN
+	Kk2tJFI1Wf773QRf40WXFgRQnTkWs1oOoOUKz+rhIg4LReMVXTQpNyfma9NHiHJ+Mne0dAGNV5d
+	oPVksPkAaqa4xjMlzQZ1mCxrnnkS8I4KuRemuOrB7I2KlI+zllueqdsctkyPqLMJA4p0pJgko1g
+	ag0wat1O8zc2YYhmx6BZEksOKuZs81Oom11ko91bFMiadXf+XS3VuS/H8m3+VwC/XMAyxDUcOzr
+	dhNa+BoMNsV1EsQod9c53KiPyT/68lGUNoaP+PjBwiZj+zKAvuijlwAq5WT4skayaPevGAK/7HR
+	rY88IQIphoQfdNN6gYrrUVRyh3t+rD6Or67C4MZ50OD7kbJEY3RSCzo6eREzTpLj0+hmrVEftZ6
+	B35hxiTDs934PXiPYin/k+GDOUwwwTwx8F5QCweQX+A+6eP
+X-Received: by 2002:a05:6000:2383:b0:475:3a97:8e2c with SMTP id ffacd0b85a97d-482c81c0377mr29516890f8f.16.1787664390001;
+        Tue, 25 Aug 2026 06:26:30 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482c9c0acaesm11702672f8f.29.2026.08.25.06.26.29
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 25 Aug 2026 06:26:29 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-Originating-IP: [172.25.0.51]
-X-ClientProxiedBy: Postix.phytec.de (172.25.0.11) To Postix.phytec.de
- (172.25.0.11)
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS1EPF0000004A:EE_|AM0P195MB0516:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5d2d8df4-f124-4a1e-112a-08df02ac0d2f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|376014|23010399003|82310400026|1800799024|6133799003|56012099006|10067099003|11063799006|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	ssQE+XvdY8wTf21+ODZhURissPWHt2Q6gk5+EwPW+sMhtOogcPG1riqtWK3z9rNLT+7gSduLPHtKM1Q3PFgz3q5NdERRQCbZxrzq/jc1iuvpmAViKK2fLFBoe7H9aPGAg7YCs77PuHb19gHrQSUHCRTw118yZ3rNPn3CcHW+8eBXlZDmJfV1Q+Yvtx+5mTnL/tAbU0yT3Hk9FyFXALTfAexCIQgmTDXLRbLakUN5c4200/3TH8QNNYDS5JT3/MnsELLang7v4hq6T/NIfhGVuTRkT/HnShi0Cw+Xh3WkJv6ecFPHFsfA/UwBvevby6jOutNWKSuwZ4ozhvO4K03xJSl2qX7cYfi8C8rkFUQfbzS+IQBV9Ukdc+eYB/LUgO9hQ7fHy/cZZj9twQEDhxi+7/O/4TN1drfngYv44qk8hkvONoiUcMz5t3hwU8MsN5nd2RrJIOmEBSD/P+f637ZDOBJTaUpjfmvMtafIvGrVc+jfEDImPNnbXzEnhb5MRs25yf2V3eAjsfReACDYJzwnxuV2E/TMGSLWEb3lmub6wRzGuhuMV3HG7yXkveKJZoTCQuxEEYJ2efDVw7Aii2zHtyCR2vkMyFQcx8l9BXLGWpeAQ9vyZGFbb9sRUObhacf+PfO0SUoT4oN/0gyoOdxxxcPvlM/lXENL91rAG9BksFq8TT9JdyuwRWLHUOxg5Unq
-X-Forefront-Antispam-Report: 
-	CIP:91.26.50.189;CTRY:DE;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:Postix.phytec.de;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(376014)(23010399003)(82310400026)(1800799024)(6133799003)(56012099006)(10067099003)(11063799006)(18002099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	IkhrtsLTFf0gKYdXKHHQm9rXzhOOZsczdmY7og2VkfZ0IBxZWyQcK+X9+1TMR4eYISWClQIPlgV3mHZ29fPzFyKV1eJzBHBUDpOqc1XE19F2TFFiQ7lO0NVI270XoaQZVuf7cnw/o+E69tc/VqLwpOgxOhiCDTuX1W91Hg1n5wxbqoP2lmR72FtG5o+mjfzd326ZL+/i8pxzp2CvAv1g+faq2QesLgeS7NQGclHfra8PT2aY1XNygZclrqAB5hq8QqqbZlbXaIJvEe3OGup+Xq+QNp8/DS2hCO5xJSnhabY6Cs3QlAo+mMCjbzVn4TZpG3awraE+lH2x23bJm6D50QjPjeBsG+NldE6h/zzZSAmp+LIX1nhZlJAPX6Yn5dr6LbVZousZ5uOwfTey1oRHbDsSkK3GfgCDJmvXG8SDew0opw1hKLaixnhY7pVGaOFU
-X-OriginatorOrg: phytec.de
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Aug 2026 13:23:28.8282
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d2d8df4-f124-4a1e-112a-08df02ac0d2f
-X-MS-Exchange-CrossTenant-Id: e609157c-80e2-446d-9be3-9c99c2399d29
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=e609157c-80e2-446d-9be3-9c99c2399d29;Ip=[91.26.50.189];Helo=[Postix.phytec.de]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF0000004A.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM0P195MB0516
+Content-Type: text/plain; charset=UTF-8
+Date: Tue, 25 Aug 2026 15:26:29 +0200
+Message-Id: <DKY24Z052ZHW.1DIVWIX99A1N5@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH 1/4] wget: Fix CVE-2026-58469
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <hthakar@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260722101230.34771-1-hthakar@cisco.com>
+ <DK5AB0SRDKFY.7NIL8TCKZUUN@smile.fr>
+ <18C4DECEC4DDFC1A.1355869@lists.openembedded.org>
+ <PH7PR11MB85986421972394BF2C2D53E8ADA42@PH7PR11MB8598.namprd11.prod.outlook.com> <CAMSfU+6-0HABPr=nm0kjkj=ByF1_PbU+O-ZrGyQ4zVp-OGgCqA@mail.gmail.com> <2716314.1787663222100636520@lists.openembedded.org>
+In-Reply-To: <2716314.1787663222100636520@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 13:23:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244239
+ <openembedded-core@lists.openembedded.org>; Tue, 25 Aug 2026 13:26:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244240
 
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
+On Tue Aug 25, 2026 at 3:07 PM CEST, Hetvi Thakar -X (hthakar - E INFOCHIPS=
+ PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> On Tue, Aug 25, 2026 at 05:01 PM, Yoann Congal wrote:
+>>=20
+>> Le=C2=A0jeu. 20 ao=C3=BBt 2026 =C3=A0=C2=A011:11, Hetvi Thakar -X (hthak=
+ar - E INFOCHIPS
+>> PRIVATE LIMITED at Cisco) < hthakar@cisco.com > a =C3=A9crit=C2=A0:
+>>=20
+>>> Hi Yoann,
+>>> I hope you're doing well.
+>>> I wanted to follow up on the patch below. It appears it may have been
+>>> missed during the review process. Could you please take a look when you
+>>> have a chance and share your feedback?
+>>> Thank you for your time.
+>>>=20
+>> It was not missed. I've answered that it lacked a master equivalent befo=
+re
+>> I can consider it for wrynose.
+>> Has this changed? In that case, can you provide a link to the master
+>> commit equivalent to this patch?
+>
+> Hi,
 
-Pull in the yocto-kernel-tools fix for the kernel's conditional Kconfig
-dependency syntax (kernel commit 76df6815dab7, first in v7.0). Without it,
-do_kernel_configcheck fails on v7.0+ trees once a config uses the syntax
-(drivers/hv MSHV_ROOT):
+Hello,
 
-    drivers/hv/Kconfig:77: error: couldn't parse
-    'depends on HYPERV_VMBUS if HYPERV_VMBUS': extra tokens at end of line
+> This was a series of four CVE fixes. The patches for the following
+> three CVEs have already been merged into master:
+>
+> CVE-2026-58469:
+> https://git.openembedded.org/openembedded-core/commit/?id=3Df55c2f60daa1a=
+125fd36aa254abb16d431b55042
+>
+> CVE-2026-58471:
+> https://git.openembedded.org/openembedded-core/commit/?id=3Df910a8beb7bb8=
+fb3b41a240dfdad36f76d6b482e
+>
+> CVE-2026-58472:
+> https://git.openembedded.org/openembedded-core/commit/?id=3D8a77e738458a7=
+5186c3bff6c4a97cd87d3aee632
 
-This SRCREV also carries the symbol_why.py/kconf_check audit hardening
-(surface parse failures instead of swallowing them) and the new hermetic
-Kconfiglib self-test.
+I can consider those 3 (hoping for not conflict).
 
-Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 4f592ee59e90e536af33648112658dafe00f5d0e)
-Signed-off-by: Wadim Egorov <w.egorov@phytec.de>
----
- meta/recipes-kernel/kern-tools/kern-tools-native_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+> The remaining patch for CVE-2026-58470 has also been proposed for
+> master:
+>
+> https://patchwork.yoctoproject.org/project/oe-core/patch/20260722081735.1=
+4807-1-amaury.couderc@est.tech/
+>
+> May you please review the remaining patch?
 
-diff --git a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb b/meta=
-/recipes-kernel/kern-tools/kern-tools-native_git.bb
-index bd90316050..2e13e4ca31 100644
---- a/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-+++ b/meta/recipes-kernel/kern-tools/kern-tools-native_git.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "\
-=20
- DEPENDS +=3D "git-replacement-native"
-=20
--SRCREV =3D "a4a362d9f4f0abc8ab145a8673166b9bd875731a"
-+SRCREV =3D "96a8d58bcd260f104c193a81b727818424d7b263"
- PV =3D "0.3+git"
-=20
- inherit native
+This patch is in the "Superseeded" state and is from a month ago. You
+can answer on it asking for its status.
+
+> Once it is reviewed, could you also proceed with the review of the
+> corresponding wrynose and Scarthgap patches?
+
+I regularly re-evaluate the "Awaiting Upstream" patches but you can
+expedite this process by pinging here when you see the patch landing on
+master.
+In this case, we wait for "wget: fix CVE-2026-58470" landing on master.
+
+Regards,
 --=20
-2.48.1
+Yoann Congal
+Smile ECS
 
 
