@@ -1,191 +1,119 @@
-Return-Path: <dkelaiya@cisco.com>
+Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DB631C61DBD
-	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 05:23:34 +0000 (UTC)
-Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6076.1787721806858189594
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D6FB5C5DF97
+	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 05:24:44 +0000 (UTC)
+Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6082.1787721878887268716
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 22:23:27 -0700
+ Tue, 25 Aug 2026 22:24:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=gvj7YEEd;
- spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=SW5sKnhE;
+ spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: hthakar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4413; q=dns/txt;
-  s=iport01; t=1787721806; x=1788931406;
+  d=cisco.com; i=@cisco.com; l=1336; q=dns/txt;
+  s=iport01; t=1787721878; x=1788931478;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=anFaw4YauTROOy13OlZi1ADsxhWURp879dsSLXD9kd8=;
-  b=gvj7YEEdvCb6/KQLvCpzjYDpwmd0LcdREyMQ/REYs1tXNY9Ve7TSnWru
-   tBqM04ftiNFPUAPSQxPDTYvFhzf63Dzt0VTPQyeZZUlWV5+DNfGfuS2tp
-   Rj0EQasL6THDjcb7v7UiTlCKAbSEQzawpf/WOrK40MXX+HeKdVC0Ko85l
-   KVnn9tQ3KHxqRoMW/gpEkA0Zp4O4DsNjTfOPymQbd4zbTpsOr49Jc3l06
-   DaAVrUTGbkg/buwEWZAQGDgmJVwGC3CmKAMGIq5hgMmAc9vQHq6U2iVPo
-   j+Usg0VFILj1ddBkGUdyPA9UZbyIKgpPtVueqsE56XXnVkS4jvlhq7VIa
-   Q==;
-X-CSE-ConnectionGUID: M7kfYKXBRO21ZtU9T+MK7Q==
-X-CSE-MsgGUID: oMF0D8XWRaCrIukYy7bMXQ==
-X-IPAS-Result: =?us-ascii?q?A0BFAgD7do5q/5IQJK1aglmCV3ReQ0mWSp4egX4PAQEBD?=
- =?us-ascii?q?0QNBAEBhD9GjW4CJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBD?=
- =?us-ascii?q?hOGTw2GWgECATUBGAEtLAMBAlojIQkRgmgBgnQDEb5OgiyBAYMoATEFCQJDU?=
- =?us-ascii?q?NswAQsUAYE4hT+IIl0YAYR8JxsbgXKBFYNpgQWBXAEBgSeGfgSCIoEMgVoek?=
- =?us-ascii?q?WpIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQ0bBgWBHYEohBAjGTZ8g?=
- =?us-ascii?q?QlegSspYAESF4EJggcCglqCBQIBSUMOB0c+CxgNSBEsNxQZBD5uB45rH4JCB?=
- =?us-ascii?q?4EOASoBIDMsgS0eMJJqkj6hDwoog3aMIpU6GjOFW6URmQiOCpZQhGmBaDyBR?=
- =?us-ascii?q?wsHcBWDIglKGQ+OOINrgX+DFFHGVScyAgkyAQEHAgcOAwuBaJAAgX4BAQ?=
-IronPort-Data: A9a23:7xmvcKtzO86j2eeqvHb9PLj3cefnVABfMUV32f8akzHdYApBsoF/q
- tZmKTuGOPqDZ2OnfIsnYY+290pV7cPWmINrTQRr+H9gHnxBgMeUXt7xwmUckM+xwmwvaGo9s
- q3yv/GZdJhcokf0/0nrav666yEgiclkf5KkYMbcICd9WAR4fykojBNnioYRj5Vh6TSDK1vlV
- eja/YuFZTdJ5xYuajhKs/LZ9ks21BjPkGpwUmIWNKgjUGD2zxH5PLpHTYmtIn3xRJVjH+LSb
- 47r0LGj82rFyAwmA9Wjn6yTWhVirmn6ZFXmZtJ+AsBOszAazsAA+v9T2Mk0NS+7vw60c+VZk
- 72hg3AfpTABZcUgkMxFO/VR/roX0aduoNcrKlDn2SCfItGvn3bEm51T4E8K0YIw37l0D1Btx
- dYiD2pUXAy+1t715ZHkc7w57igjBJGD0II3s3Vky3TdSP0hW52GG/SM7t5D1zB2jcdLdRrcT
- 5NGMnw0MlKZPVsWZgl/5JEWxI9EglHzcDBcoVOErII84nPYy0p6172F3N/9KoXaFJ0IzxbIz
- o7A12PcLEk2ZOyg8zOu6FOxhd7ewineaLtHQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS4QWJzO/Qpg2eHGVBFm8HY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:laDuT6r1/OfpEMnsonv9JP4aV5odeYIsimQD101hICG9vPb2qy
- nIpoV/6faaslcssR0b9OxoW5PwI080i6QU3WB5B97LN2PbUQCTQr2Kg7GP/9SZIVycysdtkY
- F9bqN5FNr8SXJ+jcr8/U2ENuxI+qjizEht7t2uqUuEimpRGsZd0zs=
-X-Talos-CUID: 9a23:elZonGxdblxPambR/5y4BgUxRcMrQ17t5k33eRaKFVs4dP6wagCprfY=
-X-Talos-MUID: 9a23:LX6emgSGRCDDFr3qRXTroR86GJdY3J6nI1osjJY3qpaOEBxJbmI=
+  bh=9YftZ33OGpmpHS5XY+Rx9iOwI8y8spoXLFOras6a1P4=;
+  b=SW5sKnhEq95GHtXDgIp/UK/mPZ0B+fc6RSTACJ58mZ7IlQobyTHUH9Ek
+   a+B2cuiGPZkpRCc3GORmvX+xKNlGa3EiOFmVkpemOLmwEhPGMMCnnA/x3
+   WoFEdxlnOIt88pwTvDwRFhKVvDUd4jNXojM8MhqSlWGWvJYLfuFBZ2YTA
+   MhGmNmgwcIpXy2a22i81ohYYQau8dVNCgujQsIsNL+qgGXwdouxxUzyaZ
+   0jWwRsq0DU0T4tywwNdyFprvAcr9TzQMBY9iFHonxqntqYDFWF7oJAUWl
+   Fx7jKulPyp/TCkPH41nhz4SToEfr4nTRV0pnqVYk2dKUbHI5aqGuSSE0o
+   g==;
+X-CSE-ConnectionGUID: mA8qdGhCTR6TFAsBLzA4uw==
+X-CSE-MsgGUID: u5L4Dje1SN6NBTccKVZhAA==
+X-IPAS-Result: =?us-ascii?q?A0BCAgD7do5q/5EQJK1aglmCV3ReQ0mTWQGCcJ4egX4PA?=
+ =?us-ascii?q?QEBDz0UBAEBhQWNbgImNAkOAQIEAwIDAQEBAQEBAQEBAQELAQEFAQEBAgEHB?=
+ =?us-ascii?q?YEOE4ZPDYZdKwsBGAEtMFxEgwIBgnQDEQa+SIF5M4EBgygBQ0HcAAELFAEFg?=
+ =?us-ascii?q?TOFP4gidQGEfCcbG4FyhH6CYQEDgSWBBoV4BIMugXiRakiBHgNZLAFVEw0KC?=
+ =?us-ascii?q?wcFgWYDNRIqFW4yHYEjPheBDRsGBYEdgSiEECMZNnyBCV6BKylgARIXgQmCB?=
+ =?us-ascii?q?wKCWoIFAgFJQw4HRz4LGA1IESw3FBkEPm4HjmsfgkgBYS0qApYmkXyhDwoog?=
+ =?us-ascii?q?3aMIpU6GjOqbJkIjgqWUIRpgWg8gVlwFYMiCUoZD5c2xyYnMgIBATkCBwIHD?=
+ =?us-ascii?q?gMLkWiBfgEB?=
+IronPort-Data: A9a23:8CNUdKxenH6xbux54dR6t+dExyrEfRIJ4+MujC+fZmUNrF6WrkVWn
+ DcdX2CCaPjcZjPxLt92OYu09ktU75bSzNY2GgJvq1hgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCea/VH1buSJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 46aT/H3Ygf/hWYkaDxMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJEQfbZQU1eZcPVsQy
+ dIxMxopfDnfmv3jldpXSsE07igiBMDvOIVavjRryivUSK52B5vCWK7No9Rf2V/chOgXQq2YP
+ JRfMGQpNUidC/FMEg9/5JYWnPuoj3r2aRVTqUmeouw85G27IAlZgOK1YYOIKozQLSlTtlvFg
+ j7q/WmgOTdEEvajwjGmzECsr8aayEsXX6pXTtVU7MVCmlyYxmUJBFsOSEG3oPSRjk+4RsJRL
+ FES9iMyrK80skuxQbHVWAW1pnOBtBMQV9dcVuY98gylzqvP/x3fAXAJSDNEYtEquMI6Azsw2
+ Te0c8jBDDhrtviRDHma7LrR9WP0MikOJmhEbigBJecY3+TeTEgIpkqnZr5e/GSd17UZxRmYL
+ +i2kRUD
+IronPort-HdrOrdr: A9a23:/uRguqmgCjL+BJr7MVPfKV4RN9DpDfIA3DAbv31ZSRFFG/FwWf
+ rAoB19726QtN9/YhAdcLy7VZVoIkmsl6Kdn7NwAV7KZmCP0wGVxepZg7cKrQeNJ8TWzJ846U
+ 4ZSdkcNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYLcemvAJsQljuQzW2gYytLeDU=
+X-Talos-CUID: =?us-ascii?q?9a23=3Al7Yls2tkqRnJhUcj+L6f7gVp6IsgWy3EwFjQCHO?=
+ =?us-ascii?q?CV1pHYaa/bU25pL57xp8=3D?=
+X-Talos-MUID: 9a23:+fYyoQaW3V++leBTqmLI2B1gOZ5TxfqIInwGmrY4icmtHHkl
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,244,1779148800"; 
-   d="scan'208";a="818905988"
-Received: from alln-l-core-09.cisco.com ([173.36.16.146])
-  by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 26 Aug 2026 05:23:25 +0000
-Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
+   d="scan'208";a="820915882"
+Received: from alln-l-core-08.cisco.com ([173.36.16.145])
+  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 26 Aug 2026 05:24:38 +0000
+Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by alln-l-core-09.cisco.com (Postfix) with ESMTPS id BD7001800016E;
-	Wed, 26 Aug 2026 05:23:25 +0000 (GMT)
-Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 5469ECCA79B; Tue, 25 Aug 2026 22:23:25 -0700 (PDT)
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+	by alln-l-core-08.cisco.com (Postfix) with ESMTPS id CC77C18000451;
+	Wed, 26 Aug 2026 05:24:37 +0000 (GMT)
+Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
+	id 6D174CCA79B; Tue, 25 Aug 2026 22:24:37 -0700 (PDT)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][scarthgap][PATCH] python3: fix CVE-2026-0864
-Date: Tue, 25 Aug 2026 22:23:22 -0700
-Message-Id: <20260826052322.716321-1-dkelaiya@cisco.com>
+Cc: xe-linux-external@cisco.com,
+	Richard Purdie <richard.purdie@linuxfoundation.org>,
+	Hetvi Thakar <hthakar@cisco.com>
+Subject: [OE-core][wrynose][PATCH] python3-mako: upgrade 1.3.10 -> 1.3.12
+Date: Tue, 25 Aug 2026 22:24:21 -0700
+Message-Id: <20260826052421.3255804-1-hthakar@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: alln-l-core-09.cisco.com
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
+X-Outbound-Node: alln-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 05:23:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244284
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 05:24:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244285
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+ChangeLog:https://docs.makotemplates.org/en/latest/changelog.html#change-1.3.12
 
-[1] https://github.com/python/cpython/commit/db4a157c790479710a1a840d7937c5c815a6f8b6
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-0864
-
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 439b05aa55a7d4d71b81ca93025de1b28d79b311)
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
- .../python/python3/CVE-2026-0864.patch        | 72 +++++++++++++++++++
- .../python/python3_3.12.13.bb                 |  1 +
- 2 files changed, 73 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-0864.patch
+ .../python/{python3-mako_1.3.10.bb => python3-mako_1.3.12.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-mako_1.3.10.bb => python3-mako_1.3.12.bb} (88%)
 
-diff --git a/meta/recipes-devtools/python/python3/CVE-2026-0864.patch b/meta/recipes-devtools/python/python3/CVE-2026-0864.patch
-new file mode 100644
-index 0000000000..e39177bdcb
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3/CVE-2026-0864.patch
-@@ -0,0 +1,72 @@
-+From 1426c0d9d57a1ed19f95de0d461903e7cd6f6f64 Mon Sep 17 00:00:00 2001
-+From: "Miss Islington (bot)"
-+ <31488909+miss-islington@users.noreply.github.com>
-+Date: Tue, 4 Aug 2026 11:27:20 +0200
-+Subject: [PATCH] [3.12] gh-143927: Normalize all line endings (CR, CRLF, and
-+ LF) in configparser (GH-143929) (#152005)
-+
-+gh-143927: Normalize all line endings (CR, CRLF, and LF) in configparser (GH-143929)
-+
-+CVE: CVE-2026-0864
-+Upstream-Status: Backport [https://github.com/python/cpython/commit/db4a157c790479710a1a840d7937c5c815a6f8b6]
-+
-+(cherry picked from commit 5858e42c539dac8394636a6e9b30472b8994851f)
-+
-+Co-authored-by: Seth Larson <seth@python.org>
-+(cherry picked from commit db4a157c790479710a1a840d7937c5c815a6f8b6)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ Lib/configparser.py                                   |  4 +++-
-+ Lib/test/test_configparser.py                         | 11 +++++++++++
-+ .../2026-01-16-11-58-19.gh-issue-143927.aviFeG.rst    |  2 ++
-+ 3 files changed, 16 insertions(+), 1 deletion(-)
-+ create mode 100644 Misc/NEWS.d/next/Security/2026-01-16-11-58-19.gh-issue-143927.aviFeG.rst
-+
-+diff --git a/Lib/configparser.py b/Lib/configparser.py
-+index f96704eb455..8ae35a0a189 100644
-+--- a/Lib/configparser.py
-++++ b/Lib/configparser.py
-+@@ -907,7 +907,9 @@ class RawConfigParser(MutableMapping):
-+             value = self._interpolation.before_write(self, section_name, key,
-+                                                      value)
-+             if value is not None or not self._allow_no_value:
-+-                value = delimiter + str(value).replace('\n', '\n\t')
-++                # Convert all possible line-endings into '\n\t'
-++                value = (delimiter + str(value).replace('\r\n', '\n')
-++                         .replace('\r', '\n').replace('\n', '\n\t'))
-+             else:
-+                 value = ""
-+             fp.write("{}{}\n".format(key, value))
-+diff --git a/Lib/test/test_configparser.py b/Lib/test/test_configparser.py
-+index b7e68d7a3e7..389aa15e670 100644
-+--- a/Lib/test/test_configparser.py
-++++ b/Lib/test/test_configparser.py
-+@@ -527,6 +527,17 @@ boolean {0[0]} NO
-+             cf.get(self.default_section, "Foo"), "Bar",
-+             "could not locate option, expecting case-insensitive defaults")
-+ 
-++    def test_crlf_normalization(self):
-++        cf = self.newconfig({"key1": "a\nb","key2": "a\rb", "key3": "a\r\nb", "key4": "a\r\nb"})
-++        buf = io.StringIO()
-++        cf.write(buf)
-++        cf_str = buf.getvalue()
-++        self.assertNotIn("\r", cf_str)
-++        self.assertNotIn("\r\n", cf_str)
-++        self.assertEqual(cf_str.count("\n"), 10)
-++        self.assertEqual(cf_str.count("\n\t"), 4)
-++        self.assertTrue(cf_str.endswith("\n\n"))
-++
-+     def test_parse_errors(self):
-+         cf = self.newconfig()
-+         self.parse_error(cf, configparser.ParsingError,
-+diff --git a/Misc/NEWS.d/next/Security/2026-01-16-11-58-19.gh-issue-143927.aviFeG.rst b/Misc/NEWS.d/next/Security/2026-01-16-11-58-19.gh-issue-143927.aviFeG.rst
-+new file mode 100644
-+index 00000000000..ca554997e5c
-+--- /dev/null
-++++ b/Misc/NEWS.d/next/Security/2026-01-16-11-58-19.gh-issue-143927.aviFeG.rst
-+@@ -0,0 +1,2 @@
-++Normalize all line endings (CR, CRLF, and LF) to LF+TAB when writing
-++multi-line configparser values.
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-devtools/python/python3_3.12.13.bb b/meta/recipes-devtools/python/python3_3.12.13.bb
-index b6ceb0c634..752e2b888f 100644
---- a/meta/recipes-devtools/python/python3_3.12.13.bb
-+++ b/meta/recipes-devtools/python/python3_3.12.13.bb
-@@ -48,6 +48,7 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
-            file://CVE-2026-11972.patch \
-            file://CVE-2026-9669.patch \
-            file://CVE-2026-7210.patch \
-+           file://CVE-2026-0864.patch \
-            "
+diff --git a/meta/recipes-devtools/python/python3-mako_1.3.10.bb b/meta/recipes-devtools/python/python3-mako_1.3.12.bb
+similarity index 88%
+rename from meta/recipes-devtools/python/python3-mako_1.3.10.bb
+rename to meta/recipes-devtools/python/python3-mako_1.3.12.bb
+index 2d937dc184..b2c1a8dad8 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.3.10.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.3.12.bb
+@@ -8,7 +8,7 @@ PYPI_PACKAGE = "mako"
  
- SRC_URI:append:class-native = " \
+ inherit pypi python_setuptools_build_meta ptest-python-pytest
+ 
+-SRC_URI[sha256sum] = "99579a6f39583fa7e5630a28c3c1f440e4e97a414b80372649c0ce338da2ea28"
++SRC_URI[sha256sum] = "9f778e93289bd410bb35daadeb4fc66d95a746f0b75777b942088b7fd7af550a"
+ 
+ RDEPENDS:${PN} = "python3-html \
+                   python3-markupsafe \
 -- 
 2.35.6
 
