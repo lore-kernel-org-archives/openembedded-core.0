@@ -1,93 +1,145 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 347E3C61DBD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A83D5C61DC2
 	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 08:34:10 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7889.1787733240672481510
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7829.1787733242398817834
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2026 01:34:01 -0700
+ Wed, 26 Aug 2026 01:34:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=PDAF9HOx;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 65F554E413CA
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:33:58 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 34437604EC
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:33:58 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 06D9211C7AC85;
-	Wed, 26 Aug 2026 10:33:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1787733233; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=4XZXNFNw+LbBFZxOZqp7qyJ9QUPCBUDawiiuyDWRgZ0=;
-	b=PDAF9HOxynHusqy+t+IZqRg4lTJ1LkLJglk/0g6CJr2FD0Y0OpYLzVVvTPYvbh57pC7zPv
-	FPZzMZMrNN3+OvRvifhjUnVMo4G1InxT0GYcOfcadNTUQasDB8ei7weAyQv3+U9NerH227
-	i/SURrmcEBJK6c6PV2EnbVRcsOET45pXIfsFVbO1Osp/mCitA/ibUTduURS0PvrbWA06n2
-	T2KrU3+BsYznlP+25FRijaYRZAxu4BmAAySpLMSYajLu+MIgBtx2rxEOhheTKWhDzaFf9m
-	AbeouwqWzUe1SLqsAWWqDLp6yjMg55PruSLnpvOIC0rjEoO7LUm74iuxTtXU+w==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH 0/8] Various upgrades
-Date: Wed, 26 Aug 2026 10:33:39 +0200
-Message-Id: <20260826-mathieu-updates-20260826-v1-0-4082bbc152f2@bootlin.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZNhqO0hw;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-482c58a8683so501983f8f.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 01:34:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1787733240; x=1788338040; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=DMqVUI+hCY73uU56uFAZkBAsFLYfG49AdBcQaJAJEWU=;
+        b=ZNhqO0hwsl3W+cradYalWMBoHBod9ZkEhfFZvAe5/tJNXoxtZiZ4mrSA/+s7iQ98gr
+         /zEhTT9YLxPxIEUU8Rc7h8vW/gszuFRVm8uDX5vhQJv9ShRp5kMy3+t3stKIRZl2mixx
+         PA9+RWGo7gtiLiyOtj46qCfizqB+N6NRkgKHg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787733240; x=1788338040;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=DMqVUI+hCY73uU56uFAZkBAsFLYfG49AdBcQaJAJEWU=;
+        b=hwRR0hS6WrEdfbieV+AP0MlsHnJPhzdtiszJWdx41/CS+M5u9qpRaNMacBGz8aSKdm
+         Ojy6sxt6fNFyX8fqzEqDTw3SeVlY8cRL3TZzVXzQEpK0PDwyXdGhWOyiR/ZhnzAKKR/x
+         5YeGvNcTnRAuuBjTQRMbIx4/LwcmMNd9pWVJxrNV1Kv7wqZOtchDbZILwI9N0eOgFkUz
+         CTExV8AdXGKxM2Ohh5g1RciBxspGyRD/ZXmNwSmfoAhbrj/cl/mq0CdFcFU7uu3wQJOR
+         IdAU4qRl6PXdfeXnAQG6OiPjpJVx+gY4WfwBZ14KbFlACJwYYvXwX/fTIEq/Y0xqwHoA
+         bLNQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqooYsOYmtlfzDYYgQZqDqtkgTvKr7a962XBG01qtGdAD9EZoUZl3A2dXloSjBjxcLZd0oYAPPTkk3LybAlGDn+6A==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kUDPElINiuxMPt85h5oW1is6OErCMBk8LCC90NlJaqYkE//Tn5
+	zuK4NfLk9rD/U0PjIgWryOgM8567CsvTawFhj2gW15RaE5477Lk7KNpU9rv/CJAu45Y=
+X-Gm-Gg: AR+sD10kkgudq3S3PQcVnIaljzGuYeyYWgkAw3Fnzo5RjayaMZl/fB1jX/aDdKTE3oO
+	Btw8QdjIIN0hpxh+17smECxxdrfkZ4oP4Sjd+4PbY31X4kaJtljrSPK94rpPY1/R27aDJUvir++
+	nKZTiHqPI6fIbOPlVE/3OByTkMoL6Pa4b7JZyrN9U/hqhqR4+/aVQzt/smhtOY/zCWkaIKQ3Gum
+	ZlT0lP9o993SRuNsyKHhyWKg8M/bfRt0XYyzQxLN3y2pcdUoKgs4OCza7fQ6BB19i7A2TLGul9N
+	VvMLuuztIwciDCiAzJSKQ4dF8gKSPuw7FJ5wZJzSRjI+CzYVPnmAMwdoMqNJ6CRkPMlVtGFvnKG
+	9ffUGFbfVe2Jd600DliH9iueXxGBVvbGdlbgbh1sLsDbkdOSO7pfvJcf1COUaTvjAxIQp8pAsjo
+	F3mKR8/k9HCtH/MNasfgmX7OshWwQ0qDyO3vDsQEHvR2saoJ4+EzEPspzVaKI86XMV/jPWdUzyI
+	3n6oIy3+kEICW0vEWyALMpxbzphNiNjCH0isiD+IhS7zSMR7Jcuqg==
+X-Received: by 2002:a05:6000:653:b0:482:d9ef:984a with SMTP id ffacd0b85a97d-482e26f16bbmr5617142f8f.10.1787733240335;
+        Wed, 26 Aug 2026 01:34:00 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e581:1e52:aeaa:4925? ([2001:8b0:aba:5f3c:e581:1e52:aeaa:4925])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482e28dbe1dsm2024992f8f.22.2026.08.26.01.33.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2026 01:33:59 -0700 (PDT)
+Message-ID: <6511319d17498eae1dba2a199f07123ca8488454.camel@linuxfoundation.org>
+Subject: Re: [OE-core][PATCH v5 1/5] kernel-module-split.bbclass: add
+ get_ext_mod function for module signing
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Anis Bougrine <anis.bougrine10@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Cc: mathieu.dubois-briand@bootlin.com, peter.kjellerstedt@axis.com, Ross
+ Burton	 <ross.burton@arm.com>
+Date: Wed, 26 Aug 2026 09:33:58 +0100
+In-Reply-To: <20260825204931.17628-2-anis.bougrine10@gmail.com>
+References: <20260825204931.17628-1-anis.bougrine10@gmail.com>
+	 <20260825204931.17628-2-anis.bougrine10@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOOkjmoC/z2MQQqAIBAAvxJ7TrBFLPpKdBBdaw+ZaEUg/T3p0
- HEYZgpkSkwZxqZAoosz76FC1zZgVxMWEuwqA0rUckAtNnOsTKc4ozMHZfELa5zG3iuPUkHNYyL
- P97ee5ud5AeuEpqtqAAAA
-X-Change-ID: 20260826-mathieu-updates-20260826-cad627f4f204
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787733232; l=1712;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=L8mr0z0Gt9JVDmX/kNa/QvjWep3411pCdMEr+Udc+2Q=;
- b=emJJbpCUbEoGyo+fFEuDfoKbqniZP5KoG9ovhLRTX03quy7Se1wvn3IXjbN2/z8REdakGELHd
- +VDFb1UJoZ8BcrHrad9gJmjYhrl1SAqF/VocWdVa7w0YXT13xiyzNPv
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:34:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244367
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244368
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
----
-Mathieu Dubois-Briand (8):
-      python3-imagesize: upgrade 2.0.0 -> 2.0.1
-      libslirp: upgrade 4.9.3 -> 4.9.4
-      cmake,cmake-native: upgrade 4.4.2 -> 4.4.3
-      python3-cryptography: upgrade 50.0.0 -> 50.0.1
-      python3-git: upgrade 3.1.59 -> 3.1.60
-      python3-pbr: upgrade 7.1.0 -> 7.1.2
-      python3-uv-build: upgrade 0.12.5 -> 0.12.6
-      man-pages: upgrade 6.18 -> 6.19
+On Tue, 2026-08-25 at 22:49 +0200, Anis Bougrine wrote:
+> Fixes [YOCTO #12927]
+>=20
+> Out-of-tree module Makefiles invoke the kernel Makefile by appending
+> the M=3D (the module directory) variable to the MAKEFLAGS.
+> However, they usually do not provide a modules_sign target. Therefore,
+> the kernel modules_sign target has to be invoked manually after retrievin=
+g
+> M=3D variable from package source code Makefile.
+>=20
+> This function retrieves the M=3D variable from an external module Makefil=
+e.
+>=20
+> Reported-by: Ross Burton <ross.burton@arm.com>
+> Signed-off-by: Anis Bougrine <anis.bougrine10@gmail.com>
+> ---
+> =C2=A0.../kernel-module-split.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 21 +++++++++++++++++++
+> =C2=A01 file changed, 21 insertions(+)
+>=20
+> diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/class=
+es-recipe/kernel-module-split.bbclass
+> index ab2f0d1c37..bde7cd02dd 100644
+> --- a/meta/classes-recipe/kernel-module-split.bbclass
+> +++ b/meta/classes-recipe/kernel-module-split.bbclass
+> @@ -42,6 +42,27 @@ KERNEL_MODULE_PACKAGE_PREFIX ?=3D ""
+> =C2=A0KERNEL_MODULE_PACKAGE_SUFFIX ?=3D "-${KERNEL_VERSION}"
+> =C2=A0KERNEL_MODULE_PROVIDE_VIRTUAL ?=3D "1"
+> =C2=A0
+> +def get_ext_mod(d):
+> +=C2=A0=C2=A0=C2=A0 """
+> +=C2=A0=C2=A0=C2=A0 Extract the resolved Kbuild M=3D variable from an out=
+ of tree module Makefile variable database.
+> +=C2=A0=C2=A0=C2=A0 """
+> +=C2=A0=C2=A0=C2=A0 import re
+> +=C2=A0=C2=A0=C2=A0 import bb.process
+> +
+> +=C2=A0=C2=A0=C2=A0 try:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 output =3D bb.process.run(
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 "make=
+ -C %s --dry-run --print-data-base" % d.getVar("B")
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 )[0]
+> +=C2=A0=C2=A0=C2=A0 except bb.process.ExecutionError:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return d.getVar("S")
+> +
+> +=C2=A0=C2=A0=C2=A0 for line in output.splitlines():
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 m =3D re.match(r'^M\s*=3D\s*(=
+.*)$', line)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if m:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
+n m.group(1).strip()
+> +
+> +=C2=A0=C2=A0=C2=A0 return d.getVar("S")
+> +
+> =C2=A0python split_kernel_module_packages () {
+> =C2=A0=C2=A0=C2=A0=C2=A0 import re
+>=20
 
- .../slirp/{libslirp_4.9.3.bb => libslirp_4.9.4.bb}                | 2 +-
- .../cmake/{cmake-native_4.4.2.bb => cmake-native_4.4.3.bb}        | 0
- meta/recipes-devtools/cmake/cmake.inc                             | 2 +-
- meta/recipes-devtools/cmake/{cmake_4.4.2.bb => cmake_4.4.3.bb}    | 0
- meta/recipes-devtools/python/python3-cryptography-common.inc      | 2 +-
- meta/recipes-devtools/python/python3-cryptography-vectors.bb      | 2 +-
- meta/recipes-devtools/python/python3-cryptography.bb              | 2 +-
- .../0001-pyproject.toml-remove-benchmark-disable-option.patch     | 8 +++-----
- .../python/{python3-git_3.1.59.bb => python3-git_3.1.60.bb}       | 2 +-
- .../{python3-imagesize_2.0.0.bb => python3-imagesize_2.0.1.bb}    | 4 ++--
- .../python/{python3-pbr_7.1.1.bb => python3-pbr_7.1.2.bb}         | 2 +-
- .../{python3-uv-build_0.12.5.bb => python3-uv-build_0.12.6.bb}    | 2 +-
- .../man-pages/{man-pages_6.18.bb => man-pages_6.19.bb}            | 4 ++--
- 13 files changed, 15 insertions(+), 17 deletions(-)
----
-base-commit: 1426897def97186e2f2ef62fbe140f41a94f07e4
-change-id: 20260826-mathieu-updates-20260826-cad627f4f204
+Sorry, a couple of more things. I'm not sure if it helps but there is a
+scripts/makefile-getvar which may be a simpler way to do this? It was
+created for this kind of usage.
 
-Best regards,
--- 
-Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Also, we're aiming to move python functions into meta/lib/oe, probably
+kernel.py in this case so new functions should really go in there.
 
+Cheers,
+
+Richard
 
