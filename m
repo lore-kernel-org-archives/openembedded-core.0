@@ -2,48 +2,50 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4ED4FC61DCD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B78F5C61DD3
 	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 05:59:58 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6368.1787723991880298869
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6364.1787723988855513680
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 22:59:51 -0700
+ Tue, 25 Aug 2026 22:59:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CwRxaPzn;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fDjE6Hqa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a03ca748e6-9d3fb362-af48-4fc8-a9d2-b2cde918fd79-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=jhIyWRK2;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=yswu+Shp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a03ca73c23-693df253-bf27-4ccd-9d14-d6f12ac5d55c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1787723991;
+	t=1787723988;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=oBcLtkSy7C8RjlG3nYD4VM/NnyCupm0rxnqnDhIqWl8=;
-	b=CwRxaPznr56KMW6yyQajJdc93o5msF17BgXL+cIld8yn8LfWOY4Wxr14v0VM4yPY
-	AGCy3vj5Lwj96d5JQ3X1B6KZ4CLdagJnmOo3NepZFtD3GJmju6QFdj9F7Zx2znlku47
-	FpcY7G1sGhueUhBthptW8xpC4VZIIy99DB7yOLQk=
+	bh=EojQbGAgpN/RI12pgzWiwXEZZenf/HCtFThQ2lUMI4o=;
+	b=jhIyWRK2lIu8ACUtoSonv9nxQAeZnfSZ0AotDHwSvGw5vfvH4zaHez3BspsiKOce
+	TQ9nIxd+RumFALY9AQQMkFBIizmEj6Ei7zM2DQIQFMhUvMylYk9ZfXlXNXQzAH04ZKv
+	VXjxqmnoJlnoWIFye6kqaMEzkgIBN8joUcX21y+w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787723991;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787723988;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=oBcLtkSy7C8RjlG3nYD4VM/NnyCupm0rxnqnDhIqWl8=;
-	b=fDjE6HqaNF2n/bzdRbbpBe6jXu7gzlyACE98DLTI8PouNpVpm9thf/JSYBdz2PKi
-	8ZO8vwExRnfv1N7u5nz9mLlrb6yXWH8E8SzqZH6TM0RTKCNpU5kKwxV2R0mIjAfhWqP
-	knCTNYoxKX/SQggvEebs0CZab+m5cRD+YuZtH4aI=
-Content-Type: multipart/mixed; boundary="===============4344499230196822409=="
+	bh=EojQbGAgpN/RI12pgzWiwXEZZenf/HCtFThQ2lUMI4o=;
+	b=yswu+ShpEalOKtmtjSe/kNf6y9Tm1xwepIFEmyWBJKNTxLta8L+aJSAQ6NyU/jjU
+	7dV+60QhdmjakvvKARR0QPTJZBjWbLE1wDp7wRI8SDfGw7ig5aoetOAXrgxAeqznlcu
+	BWIDnxZGtTPH6v+mZWWfU6czYzMqSXU/2v86D5ME=
+Content-Type: multipart/mixed; boundary="===============6858143046746255392=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Tim Orling <tim.orling@konsulko.com>, 
+	Tim Orling <tim.orling@konsulko.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-uv-build: upgrading to 0.12.6 SUCCEEDED
-Message-ID: <010101a03ca748e6-9d3fb362-af48-4fc8-a9d2-b2cde918fd79-000000@us-west-2.amazonses.com>
-Date: Wed, 26 Aug 2026 05:59:51 +0000
+Subject: [AUH] python3-cryptography-vectors,python3-cryptography: upgrading to
+ 50.0.1,50.0.1 SUCCEEDED
+Message-ID: <010101a03ca73c23-693df253-bf27-4ccd-9d14-d6f12ac5d55c-000000@us-west-2.amazonses.com>
+Date: Wed, 26 Aug 2026 05:59:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.26-54.240.27.29
+X-SES-Outgoing: 2026.08.26-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 05:59:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244310
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244304
 
---===============4344499230196822409==
+--===============6858143046746255392==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +53,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-uv-build* to *0.12.6* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-cryptography-vectors,python3-cryptography* to *50.0.1,50.0.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-uv-build-upgrade-0.12.5-0.12.6.patch
+    - apply the patch: git am 0001-python3-cryptography-vectors-python3-cryptography-up.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,129 +74,255 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 7e6b718d0f17fa5ae38b0cd94533b0bd4e9cf48f Mon Sep 17 00:00:00 2001
+From 2c21d26fbde6aea51060c4d29ca2302429b8b730 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 26 Aug 2026 05:57:50 +0000
-Subject: [PATCH] python3-uv-build: upgrade 0.12.5 -> 0.12.6
+Date: Wed, 26 Aug 2026 05:34:51 +0000
+Subject: [PATCH] python3-cryptography-vectors,python3-cryptography: upgrade
+ 50.0.0 -> 50.0.1,50.0.0 -> 50.0.1
 
+Source: CHANGELOG.rst
+
+50.0.1 - 2026-08-25
+~~~~~~~~~~~~~~~~~~~
+
+* Updated Windows, macOS, and Linux wheels to be compiled with OpenSSL 4.0.2.
 ---
- .../{python3-uv-build_0.12.5.bb => python3-uv-build_0.12.6.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-uv-build_0.12.5.bb => python3-uv-build_0.12.6.bb} (92%)
+ .../python/python3-cryptography-common.inc                | 2 +-
+ .../python/python3-cryptography-vectors.bb                | 2 +-
+ meta/recipes-devtools/python/python3-cryptography.bb      | 2 +-
+ ...1-pyproject.toml-remove-benchmark-disable-option.patch | 8 +++-----
+ 4 files changed, 6 insertions(+), 8 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-uv-build_0.12.5.bb b/meta/recipes-devtools/python/python3-uv-build_0.12.6.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-uv-build_0.12.5.bb
-rename to meta/recipes-devtools/python/python3-uv-build_0.12.6.bb
-index f208c1318b..de84e8d5ad 100644
---- a/meta/recipes-devtools/python/python3-uv-build_0.12.5.bb
-+++ b/meta/recipes-devtools/python/python3-uv-build_0.12.6.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=86d3f3a95c324c9479bd8986968f4327 \
-                     file://crates/uv-pep508/License-Apache;md5=e23fadd6ceef8c618fc1c65191d846fa \
-                     file://crates/uv-pep508/License-BSD;md5=ef7a6027dc4c2389b9afad7e690274c7"
+diff --git a/meta/recipes-devtools/python/python3-cryptography-common.inc b/meta/recipes-devtools/python/python3-cryptography-common.inc
+index 298c52d1d3..d37f52358d 100644
+--- a/meta/recipes-devtools/python/python3-cryptography-common.inc
++++ b/meta/recipes-devtools/python/python3-cryptography-common.inc
+@@ -3,4 +3,4 @@
+ #
+ # Additionally AUH will detect that they share this .inc file and
+ # perform a lockstep upgrade for both.
+-PV = "50.0.0"
++PV = "50.0.1"
+diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors.bb b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+index d62d681c6d..0f25199f68 100644
+--- a/meta/recipes-devtools/python/python3-cryptography-vectors.bb
++++ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
+@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
+ # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
+ #       Upgrade both recipes at the same time
+ require python3-cryptography-common.inc
+-SRC_URI[sha256sum] = "6760814930443e6d73a6afcad09463d3ffdc42084ee0bdcfb2f05697250c3c8d"
++SRC_URI[sha256sum] = "90066d0f7351b12ebac2b4ce594ce0a6f05c19ad3068e4d5cfc64d9d2bec8d80"
  
--SRC_URI[sha256sum] = "0fd12723392fcb697c6512e1cbdbd4e5d30af4702578700c472a6d1a0044c71c"
-+SRC_URI[sha256sum] = "4756f1771d342ff8ff50b529ae23c58d58f14f097c243ca50d3778d0a23d24f0"
+ PYPI_PACKAGE = "cryptography_vectors"
  
- require ${BPN}-crates.inc
+diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
+index d6a1bb53f3..f2ac4e1b89 100644
+--- a/meta/recipes-devtools/python/python3-cryptography.bb
++++ b/meta/recipes-devtools/python/python3-cryptography.bb
+@@ -11,7 +11,7 @@ LDSHARED += "-pthread"
+ # NOTE: Make sure to keep this recipe at the same version as python3-cryptography-vectors
+ #       Upgrade both recipes at the same time
+ require python3-cryptography-common.inc
+-SRC_URI[sha256sum] = "eeac2acb5a20ed25e0ad6d1df9891a520b78b404266b6d11778f25d5d691a6c9"
++SRC_URI[sha256sum] = "5dd9bda1c12b4162f6ff568eeb5e0ff956c28d14406e875cfe8a63a2d414ff20"
  
+ SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
+             file://check-memfree.py \
+diff --git a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
+index 967b661c6e..454e08605a 100644
+--- a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
++++ b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
+@@ -1,4 +1,4 @@
+-From c8fd85d80eb64fede8447842042977b70b3c96bc Mon Sep 17 00:00:00 2001
++From 74473daa46b315f3d98fbf9a6a58f52c9c29a365 Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <mingli.yu@windriver.com>
+ Date: Tue, 17 May 2022 17:22:48 +0800
+ Subject: [PATCH] pyproject.toml: remove --benchmark-disable option
+@@ -26,17 +26,15 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/pyproject.toml b/pyproject.toml
+-index fb8185913..29d0b3e08 100644
++index b56cda9..781743b 100644
+ --- a/pyproject.toml
+ +++ b/pyproject.toml
+ @@ -140,7 +140,7 @@ exclude = [
+  ]
+-
++ 
+  [tool.pytest.ini_options]
+ -addopts = "-r s --capture=no --strict-markers --benchmark-disable"
+ +addopts = "-r s --capture=no --strict-markers"
+  testpaths = ["tests"]
+  console_output_style = "progress-even-when-capture-no"
+  markers = [
+---
+-2.43.0
 -- 
 2.47.1
 
 
---===============4344499230196822409==
+--===============6858143046746255392==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-uv-build: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uv_build/uv_build-0.12.5.tar.gz;downloadfilename=uv_build-0.12.5.tar.gz crate://crates.io/adler2/2.0.1 crate://crates.io/aho-corasick/1.1.4 crate://crates.io/allocator-api2/0.2.21 crate://crates.io/ambient-authority/0.0.2 crate://crates.io/anstream/1.0.0 crate://crates.io/anstyle/1.0.14 crate://crates.io/anstyle-parse/1.0.0 crate://crates.io/anstyle-query/1.1.5 crate://crates.io/anstyle-wincon/3.0.11 crate://crates.io/anyhow/1.0.104 crate://crates.io/archive-trait/0.0.13 crate://crates.io/arcstr/1.2.0 crate://crates.io/arrayvec/0.7.8 crate://crates.io/astral-tokio-tar/0.6.4 crate://crates.io/astral-version-ranges/0.2.2 crate://crates.io/astral_async_zip/0.0.20 crate://crates.io/async-compression/0.4.19 crate://crates.io/autocfg/1.5.0 crate://crates.io/backon/1.6.0 crate://crates.io/base64/0.22.1 crate://crates.io/bitflags/1.3.2 crate://crates.io/bitflags/2.13.1 crate
- ://crates.io/block-buffer/0.10.4 crate://crates.io/block-buffer/0.12.1 crate://crates.io/boxcar/0.2.14 crate://crates.io/bstr/1.12.1 crate://crates.io/bumpalo/3.20.2 crate://crates.io/bytecheck/0.8.2 crate://crates.io/bytecheck_derive/0.8.2 crate://crates.io/bytes/1.12.1 crate://crates.io/cap-primitives/4.0.2 crate://crates.io/cap-std/4.0.2 crate://crates.io/cc/1.2.57 crate://crates.io/cfg-if/1.0.4 crate://crates.io/charset/0.1.5 crate://crates.io/clap/4.6.5 crate://crates.io/clap_builder/4.6.5 crate://crates.io/clap_derive/4.6.4 crate://crates.io/clap_lex/1.1.0 crate://crates.io/colorchoice/1.0.5 crate://crates.io/console/0.16.4 crate://crates.io/const-oid/0.10.2 crate://crates.io/cpufeatures/0.2.17 crate://crates.io/cpufeatures/0.3.0 crate://crates.io/crc32fast/1.5.0 crate://crates.io/crypto-common/0.1.7 crate://crates.io/crypto-common/0.2.2 crate://crates.io/csv/1.4.0 crate://crates.io/csv-core/0.1.13 crate://crates.io/data-encoding/2.11.0 crate://crates.io/defmt/1.1.0 crate://cr
- ates.io/defmt-macros/1.1.0 crate://crates.io/defmt-parser/1.0.0 crate://crates.io/digest/0.10.7 crate://crates.io/digest/0.11.3 crate://crates.io/displaydoc/0.2.5 crate://crates.io/dunce/1.0.5 crate://crates.io/dyn-clone/1.0.20 crate://crates.io/either/1.17.0 crate://crates.io/encode_unicode/1.0.0 crate://crates.io/encoding_rs/0.8.35 crate://crates.io/encoding_rs_io/0.1.7 crate://crates.io/enumflags2/0.7.12 crate://crates.io/enumflags2_derive/0.7.12 crate://crates.io/equivalent/1.0.2 crate://crates.io/erased-serde/0.4.10 crate://crates.io/errno/0.3.14 crate://crates.io/fastrand/2.5.0 crate://crates.io/find-msvc-tools/0.1.9 crate://crates.io/fixedbitset/0.5.7 crate://crates.io/flate2/1.1.9 crate://crates.io/foldhash/0.1.5 crate://crates.io/foldhash/0.2.0 crate://crates.io/form_urlencoded/1.2.2 crate://crates.io/fs-err/3.3.1 crate://crates.io/fs-set-times/0.20.3 crate://crates.io/futures/0.3.33 crate://crates.io/futures-channel/0.3.33 crate://crates.io/futures-core/0.3.33 crate://crat
- es.io/futures-executor/0.3.33 crate://crates.io/futures-io/0.3.33 crate://crates.io/futures-lite/2.6.1 crate://crates.io/futures-macro/0.3.33 crate://crates.io/futures-sink/0.3.33 crate://crates.io/futures-task/0.3.33 crate://crates.io/futures-util/0.3.33 crate://crates.io/generic-array/0.14.7 crate://crates.io/getrandom/0.4.3 crate://crates.io/globset/0.4.19 crate://crates.io/gloo-timers/0.3.0 crate://crates.io/hashbrown/0.15.5 crate://crates.io/hashbrown/0.17.1 crate://crates.io/heck/0.5.0 crate://crates.io/hex/0.4.3 crate://crates.io/hybrid-array/0.4.13 crate://crates.io/icu_collections/2.1.1 crate://crates.io/icu_locale_core/2.1.1 crate://crates.io/icu_normalizer/2.1.1 crate://crates.io/icu_normalizer_data/2.1.1 crate://crates.io/icu_properties/2.1.2 crate://crates.io/icu_properties_data/2.1.2 crate://crates.io/icu_provider/2.1.1 crate://crates.io/idna/1.1.0 crate://crates.io/idna_adapter/1.2.1 crate://crates.io/indexmap/2.14.0 crate://crates.io/indoc/2.0.7 crate://crates.io/ins
- ta/1.48.0 crate://crates.io/io-extras/0.19.0 crate://crates.io/io-lifetimes/2.0.4 crate://crates.io/io-lifetimes/3.0.1 crate://crates.io/ipnet/2.12.0 crate://crates.io/is_terminal_polyfill/1.70.2 crate://crates.io/itertools/0.14.0 crate://crates.io/itoa/1.0.17 crate://crates.io/jiff/0.2.35 crate://crates.io/jiff-core/0.1.0 crate://crates.io/jiff-static/0.2.35 crate://crates.io/jiff-tzdb/0.1.8 crate://crates.io/jiff-tzdb-platform/0.1.3 crate://crates.io/jobserver/0.1.35 crate://crates.io/js-sys/0.3.91 crate://crates.io/junction/2.0.0 crate://crates.io/lazy_static/1.5.0 crate://crates.io/libc/0.2.189 crate://crates.io/linux-raw-sys/0.12.1 crate://crates.io/litemap/0.8.1 crate://crates.io/lock_api/0.4.14 crate://crates.io/log/0.4.29 crate://crates.io/mailparse/0.16.1 crate://crates.io/matchers/0.2.0 crate://crates.io/maybe-owned/0.3.4 crate://crates.io/memchr/2.8.3 crate://crates.io/miniz_oxide/0.8.9 crate://crates.io/mio/1.2.0 crate://crates.io/munge/0.4.7 crate://crates.io/munge_macr
- o/0.4.7 crate://crates.io/nu-ansi-term/0.50.3 crate://crates.io/once_cell/1.21.4 crate://crates.io/once_cell_polyfill/1.70.2 crate://crates.io/owo-colors/4.3.0 crate://crates.io/parking/2.2.1 crate://crates.io/parking_lot/0.12.5 crate://crates.io/parking_lot_core/0.9.12 crate://crates.io/path-slash/0.2.1 crate://crates.io/percent-encoding/2.3.2 crate://crates.io/pest/2.8.6 crate://crates.io/pest_derive/2.8.6 crate://crates.io/pest_generator/2.8.6 crate://crates.io/pest_meta/2.8.6 crate://crates.io/petgraph/0.8.3 crate://crates.io/pin-project/1.1.11 crate://crates.io/pin-project-internal/1.1.11 crate://crates.io/pin-project-lite/0.2.17 crate://crates.io/pkg-config/0.3.32 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/portable-atomic-util/0.2.6 crate://crates.io/potential_utf/0.1.4 crate://crates.io/proc-macro-error-attr2/2.0.0 crate://crates.io/proc-macro-error2/2.0.1 crate://crates.io/proc-macro2/1.0.107 crate://crates.io/ptr_meta/0.3.1 crate://crates.io/ptr_meta_derive/
- 0.3.1 crate://crates.io/quote/1.0.47 crate://crates.io/quoted_printable/0.5.1 crate://crates.io/r-efi/6.0.0 crate://crates.io/rancor/0.1.1 crate://crates.io/redox_syscall/0.5.15 crate://crates.io/ref-cast/1.0.26 crate://crates.io/ref-cast-impl/1.0.26 crate://crates.io/reflink-copy/0.1.30 crate://crates.io/regex/1.13.1 crate://crates.io/regex-automata/0.4.16 crate://crates.io/regex-syntax/0.8.11 crate://crates.io/rend/0.5.3 crate://crates.io/rkyv/0.8.17 crate://crates.io/rkyv_derive/0.8.17 crate://crates.io/rustc-hash/2.1.3 crate://crates.io/rustix/1.1.4 crate://crates.io/rustix-linux-procfs/0.1.1 crate://crates.io/rustversion/1.0.22 crate://crates.io/ryu/1.0.23 crate://crates.io/same-file/1.0.6 crate://crates.io/schemars/1.2.2 crate://crates.io/schemars_derive/1.2.2 crate://crates.io/scopeguard/1.2.0 crate://crates.io/seahash/4.1.0 crate://crates.io/self-replace/1.5.0 crate://crates.io/serde/1.0.229 crate://crates.io/serde-untagged/0.1.9 crate://crates.io/serde_core/1.0.229 crate://
- crates.io/serde_derive/1.0.229 crate://crates.io/serde_derive_internals/0.30.0 crate://crates.io/serde_json/1.0.151 crate://crates.io/serde_spanned/1.1.1 crate://crates.io/sha2/0.10.9 crate://crates.io/sha2/0.11.0 crate://crates.io/sharded-slab/0.1.7 crate://crates.io/shlex/1.3.0 crate://crates.io/signal-hook-registry/1.4.8 crate://crates.io/simd-adler32/0.3.8 crate://crates.io/simdutf8/0.1.5 crate://crates.io/similar/2.7.0 crate://crates.io/slab/0.4.12 crate://crates.io/smallvec/1.15.2 crate://crates.io/smawk/0.3.2 crate://crates.io/spdx/0.13.4 crate://crates.io/stable_deref_trait/1.2.1 crate://crates.io/strip-ansi-escapes/0.2.1 crate://crates.io/strsim/0.11.1 crate://crates.io/syn/2.0.118 crate://crates.io/syn/3.0.3 crate://crates.io/synstructure/0.13.2 crate://crates.io/tar-codec/0.0.13 crate://crates.io/tar-framing/0.0.13 crate://crates.io/temp-env/0.3.6 crate://crates.io/tempfile/3.27.0 crate://crates.io/terminal_size/0.4.4 crate://crates.io/textwrap/0.16.2 crate://crates.io/th
- iserror/2.0.19 crate://crates.io/thiserror-impl/2.0.19 crate://crates.io/thread_local/1.1.9 crate://crates.io/tinystr/0.8.2 crate://crates.io/tinyvec/1.11.0 crate://crates.io/tinyvec_macros/0.1.1 crate://crates.io/tokio/1.53.1 crate://crates.io/tokio-macros/2.7.0 crate://crates.io/tokio-stream/0.1.19 crate://crates.io/tokio-util/0.7.19 crate://crates.io/toml/1.1.3+spec-1.1.0 crate://crates.io/toml_datetime/1.1.1+spec-1.1.0 crate://crates.io/toml_edit/0.25.13+spec-1.1.0 crate://crates.io/toml_parser/1.1.2+spec-1.1.0 crate://crates.io/toml_writer/1.1.2+spec-1.1.0 crate://crates.io/tracing/0.1.44 crate://crates.io/tracing-attributes/0.1.31 crate://crates.io/tracing-core/0.1.36 crate://crates.io/tracing-log/0.2.0 crate://crates.io/tracing-subscriber/0.3.23 crate://crates.io/tracing-test/0.2.6 crate://crates.io/tracing-test-macro/0.2.6 crate://crates.io/typeid/1.0.3 crate://crates.io/typenum/1.20.1 crate://crates.io/ucd-trie/0.1.7 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/
- unicode-linebreak/0.1.5 crate://crates.io/unicode-width/0.2.2 crate://crates.io/unscanny/0.1.0 crate://crates.io/url/2.5.8 crate://crates.io/utf8_iter/1.0.4 crate://crates.io/utf8parse/0.2.2 crate://crates.io/uuid/1.24.0 crate://crates.io/valuable/0.1.1 crate://crates.io/version_check/0.9.5 crate://crates.io/vte/0.14.1 crate://crates.io/walkdir/2.5.0 crate://crates.io/wasi/0.11.1+wasi-snapshot-preview1 crate://crates.io/wasm-bindgen/0.2.114 crate://crates.io/wasm-bindgen-macro/0.2.114 crate://crates.io/wasm-bindgen-macro-support/0.2.114 crate://crates.io/wasm-bindgen-shared/0.2.114 crate://crates.io/winapi-util/0.1.11 crate://crates.io/windows/0.61.3 crate://crates.io/windows-collections/0.2.0 crate://crates.io/windows-core/0.61.2 crate://crates.io/windows-future/0.2.1 crate://crates.io/windows-implement/0.60.2 crate://crates.io/windows-interface/0.59.3 crate://crates.io/windows-link/0.1.3 crate://crates.io/windows-link/0.2.1 crate://crates.io/windows-numerics/0.2.0 crate://crates.i
- o/windows-result/0.3.4 crate://crates.io/windows-strings/0.4.2 crate://crates.io/windows-sys/0.52.0 crate://crates.io/windows-sys/0.60.2 crate://crates.io/windows-sys/0.61.2 crate://crates.io/windows-targets/0.52.6 crate://crates.io/windows-targets/0.53.5 crate://crates.io/windows-threading/0.1.0 crate://crates.io/windows_aarch64_gnullvm/0.52.6 crate://crates.io/windows_aarch64_gnullvm/0.53.1 crate://crates.io/windows_aarch64_msvc/0.52.6 crate://crates.io/windows_aarch64_msvc/0.53.1 crate://crates.io/windows_i686_gnu/0.52.6 crate://crates.io/windows_i686_gnu/0.53.1 crate://crates.io/windows_i686_gnullvm/0.52.6 crate://crates.io/windows_i686_gnullvm/0.53.1 crate://crates.io/windows_i686_msvc/0.52.6 crate://crates.io/windows_i686_msvc/0.53.1 crate://crates.io/windows_x86_64_gnu/0.52.6 crate://crates.io/windows_x86_64_gnu/0.53.1 crate://crates.io/windows_x86_64_gnullvm/0.52.6 crate://crates.io/windows_x86_64_gnullvm/0.53.1 crate://crates.io/windows_x86_64_msvc/0.52.6 crate://crates.io/
- windows_x86_64_msvc/0.53.1 crate://crates.io/winnow/1.0.3 crate://crates.io/winx/0.36.4 crate://crates.io/writeable/0.6.2 crate://crates.io/xattr/1.6.1 crate://crates.io/yoke/0.8.1 crate://crates.io/yoke-derive/0.8.1 crate://crates.io/zerofrom/0.1.6 crate://crates.io/zerofrom-derive/0.1.6 crate://crates.io/zerotrie/0.2.3 crate://crates.io/zerovec/0.11.5 crate://crates.io/zerovec-derive/0.11.2 crate://crates.io/zlib-rs/0.6.3 crate://crates.io/zmij/1.0.21 crate://crates.io/zstd/0.13.3 crate://crates.io/zstd-safe/7.2.4 crate://crates.io/zstd-sys/2.0.16+zstd.1.5.7" to "https://files.pythonhosted.org/packages/source/u/uv_build/uv_build-0.12.6.tar.gz;downloadfilename=uv_build-0.12.6.tar.gz crate://crates.io/adler2/2.0.1 crate://crates.io/aho-corasick/1.1.4 crate://crates.io/allocator-api2/0.2.21 crate://crates.io/ambient-authority/0.0.2 crate://crates.io/anstream/1.0.0 crate://crates.io/anstyle/1.0.14 crate://crates.io/anstyle-parse/1.0.0 crate://crates.io/anstyle-query/1.1.5 crate://crat
- es.io/anstyle-wincon/3.0.11 crate://crates.io/anyhow/1.0.104 crate://crates.io/archive-trait/0.0.13 crate://crates.io/arcstr/1.2.0 crate://crates.io/arrayvec/0.7.8 crate://crates.io/astral-tokio-tar/0.6.4 crate://crates.io/astral-version-ranges/0.2.2 crate://crates.io/astral_async_zip/0.0.20 crate://crates.io/async-compression/0.4.19 crate://crates.io/autocfg/1.5.0 crate://crates.io/backon/1.6.0 crate://crates.io/base64/0.22.1 crate://crates.io/bitflags/1.3.2 crate://crates.io/bitflags/2.13.1 crate://crates.io/block-buffer/0.10.4 crate://crates.io/block-buffer/0.12.1 crate://crates.io/boxcar/0.2.14 crate://crates.io/bstr/1.12.1 crate://crates.io/bumpalo/3.20.2 crate://crates.io/bytecheck/0.8.2 crate://crates.io/bytecheck_derive/0.8.2 crate://crates.io/bytes/1.12.1 crate://crates.io/cap-primitives/4.0.2 crate://crates.io/cap-std/4.0.2 crate://crates.io/cc/1.2.57 crate://crates.io/cfg-if/1.0.4 crate://crates.io/charset/0.1.5 crate://crates.io/clap/4.6.5 crate://crates.io/clap_builder/
- 4.6.5 crate://crates.io/clap_derive/4.6.4 crate://crates.io/clap_lex/1.1.0 crate://crates.io/colorchoice/1.0.5 crate://crates.io/console/0.16.4 crate://crates.io/const-oid/0.10.2 crate://crates.io/cpufeatures/0.2.17 crate://crates.io/cpufeatures/0.3.0 crate://crates.io/crc32fast/1.5.0 crate://crates.io/crypto-common/0.1.7 crate://crates.io/crypto-common/0.2.2 crate://crates.io/csv/1.4.0 crate://crates.io/csv-core/0.1.13 crate://crates.io/data-encoding/2.11.0 crate://crates.io/defmt/1.1.0 crate://crates.io/defmt-macros/1.1.0 crate://crates.io/defmt-parser/1.0.0 crate://crates.io/digest/0.10.7 crate://crates.io/digest/0.11.3 crate://crates.io/displaydoc/0.2.5 crate://crates.io/dunce/1.0.5 crate://crates.io/dyn-clone/1.0.20 crate://crates.io/either/1.17.0 crate://crates.io/encode_unicode/1.0.0 crate://crates.io/encoding_rs/0.8.35 crate://crates.io/encoding_rs_io/0.1.7 crate://crates.io/enumflags2/0.7.12 crate://crates.io/enumflags2_derive/0.7.12 crate://crates.io/equivalent/1.0.2 crate
- ://crates.io/erased-serde/0.4.10 crate://crates.io/errno/0.3.14 crate://crates.io/fastrand/2.5.0 crate://crates.io/find-msvc-tools/0.1.9 crate://crates.io/fixedbitset/0.5.7 crate://crates.io/flate2/1.1.9 crate://crates.io/foldhash/0.1.5 crate://crates.io/foldhash/0.2.0 crate://crates.io/form_urlencoded/1.2.2 crate://crates.io/fs-err/3.3.1 crate://crates.io/fs-set-times/0.20.3 crate://crates.io/futures/0.3.33 crate://crates.io/futures-channel/0.3.33 crate://crates.io/futures-core/0.3.33 crate://crates.io/futures-executor/0.3.33 crate://crates.io/futures-io/0.3.33 crate://crates.io/futures-lite/2.6.1 crate://crates.io/futures-macro/0.3.33 crate://crates.io/futures-sink/0.3.33 crate://crates.io/futures-task/0.3.33 crate://crates.io/futures-util/0.3.33 crate://crates.io/generic-array/0.14.7 crate://crates.io/getrandom/0.4.3 crate://crates.io/globset/0.4.19 crate://crates.io/gloo-timers/0.3.0 crate://crates.io/hashbrown/0.15.5 crate://crates.io/hashbrown/0.17.1 crate://crates.io/heck/0.5
- .0 crate://crates.io/hex/0.4.3 crate://crates.io/hybrid-array/0.4.13 crate://crates.io/icu_collections/2.1.1 crate://crates.io/icu_locale_core/2.1.1 crate://crates.io/icu_normalizer/2.1.1 crate://crates.io/icu_normalizer_data/2.1.1 crate://crates.io/icu_properties/2.1.2 crate://crates.io/icu_properties_data/2.1.2 crate://crates.io/icu_provider/2.1.1 crate://crates.io/idna/1.1.0 crate://crates.io/idna_adapter/1.2.1 crate://crates.io/indexmap/2.14.0 crate://crates.io/indoc/2.0.7 crate://crates.io/insta/1.48.0 crate://crates.io/io-extras/0.19.0 crate://crates.io/io-lifetimes/2.0.4 crate://crates.io/io-lifetimes/3.0.1 crate://crates.io/ipnet/2.12.0 crate://crates.io/is_terminal_polyfill/1.70.2 crate://crates.io/itertools/0.14.0 crate://crates.io/itoa/1.0.17 crate://crates.io/jiff/0.2.35 crate://crates.io/jiff-core/0.1.0 crate://crates.io/jiff-static/0.2.35 crate://crates.io/jiff-tzdb/0.1.8 crate://crates.io/jiff-tzdb-platform/0.1.3 crate://crates.io/jobserver/0.1.35 crate://crates.io/js
- -sys/0.3.91 crate://crates.io/junction/2.0.0 crate://crates.io/lazy_static/1.5.0 crate://crates.io/libc/0.2.189 crate://crates.io/linux-raw-sys/0.12.1 crate://crates.io/litemap/0.8.1 crate://crates.io/lock_api/0.4.14 crate://crates.io/log/0.4.29 crate://crates.io/mailparse/0.16.1 crate://crates.io/matchers/0.2.0 crate://crates.io/maybe-owned/0.3.4 crate://crates.io/memchr/2.8.3 crate://crates.io/miniz_oxide/0.8.9 crate://crates.io/mio/1.2.0 crate://crates.io/munge/0.4.7 crate://crates.io/munge_macro/0.4.7 crate://crates.io/nu-ansi-term/0.50.3 crate://crates.io/once_cell/1.21.4 crate://crates.io/once_cell_polyfill/1.70.2 crate://crates.io/owo-colors/4.3.0 crate://crates.io/parking/2.2.1 crate://crates.io/parking_lot/0.12.5 crate://crates.io/parking_lot_core/0.9.12 crate://crates.io/path-slash/0.2.1 crate://crates.io/percent-encoding/2.3.2 crate://crates.io/pest/2.8.6 crate://crates.io/pest_derive/2.8.6 crate://crates.io/pest_generator/2.8.6 crate://crates.io/pest_meta/2.8.6 crate://c
- rates.io/petgraph/0.8.3 crate://crates.io/pin-project/1.1.11 crate://crates.io/pin-project-internal/1.1.11 crate://crates.io/pin-project-lite/0.2.17 crate://crates.io/pkg-config/0.3.32 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/portable-atomic-util/0.2.6 crate://crates.io/potential_utf/0.1.4 crate://crates.io/proc-macro-error-attr2/2.0.0 crate://crates.io/proc-macro-error2/2.0.1 crate://crates.io/proc-macro2/1.0.107 crate://crates.io/ptr_meta/0.3.1 crate://crates.io/ptr_meta_derive/0.3.1 crate://crates.io/quote/1.0.47 crate://crates.io/quoted_printable/0.5.1 crate://crates.io/r-efi/6.0.0 crate://crates.io/rancor/0.1.1 crate://crates.io/redox_syscall/0.5.15 crate://crates.io/ref-cast/1.0.26 crate://crates.io/ref-cast-impl/1.0.26 crate://crates.io/reflink-copy/0.1.30 crate://crates.io/regex/1.13.1 crate://crates.io/regex-automata/0.4.16 crate://crates.io/regex-syntax/0.8.11 crate://crates.io/rend/0.5.3 crate://crates.io/rkyv/0.8.17 crate://crates.io/rkyv_derive/0.8.17 
- crate://crates.io/rustc-hash/2.1.3 crate://crates.io/rustix/1.1.4 crate://crates.io/rustix-linux-procfs/0.1.1 crate://crates.io/rustversion/1.0.22 crate://crates.io/ryu/1.0.23 crate://crates.io/same-file/1.0.6 crate://crates.io/schemars/1.2.2 crate://crates.io/schemars_derive/1.2.2 crate://crates.io/scopeguard/1.2.0 crate://crates.io/seahash/4.1.0 crate://crates.io/self-replace/1.5.0 crate://crates.io/serde/1.0.229 crate://crates.io/serde-untagged/0.1.9 crate://crates.io/serde_core/1.0.229 crate://crates.io/serde_derive/1.0.229 crate://crates.io/serde_derive_internals/0.30.0 crate://crates.io/serde_json/1.0.151 crate://crates.io/serde_spanned/1.1.1 crate://crates.io/sha2/0.10.9 crate://crates.io/sha2/0.11.0 crate://crates.io/sharded-slab/0.1.7 crate://crates.io/shlex/1.3.0 crate://crates.io/signal-hook-registry/1.4.8 crate://crates.io/simd-adler32/0.3.8 crate://crates.io/simdutf8/0.1.5 crate://crates.io/similar/2.7.0 crate://crates.io/slab/0.4.12 crate://crates.io/smallvec/1.15.2 cr
- ate://crates.io/smawk/0.3.2 crate://crates.io/spdx/0.13.4 crate://crates.io/stable_deref_trait/1.2.1 crate://crates.io/strip-ansi-escapes/0.2.1 crate://crates.io/strsim/0.11.1 crate://crates.io/syn/2.0.118 crate://crates.io/syn/3.0.3 crate://crates.io/synstructure/0.13.2 crate://crates.io/tar-codec/0.0.13 crate://crates.io/tar-framing/0.0.13 crate://crates.io/temp-env/0.3.6 crate://crates.io/tempfile/3.27.0 crate://crates.io/terminal_size/0.4.4 crate://crates.io/textwrap/0.16.2 crate://crates.io/thiserror/2.0.19 crate://crates.io/thiserror-impl/2.0.19 crate://crates.io/thread_local/1.1.9 crate://crates.io/tinystr/0.8.2 crate://crates.io/tinyvec/1.11.0 crate://crates.io/tinyvec_macros/0.1.1 crate://crates.io/tokio/1.53.1 crate://crates.io/tokio-macros/2.7.0 crate://crates.io/tokio-stream/0.1.19 crate://crates.io/tokio-util/0.7.19 crate://crates.io/toml/1.1.3+spec-1.1.0 crate://crates.io/toml_datetime/1.1.1+spec-1.1.0 crate://crates.io/toml_edit/0.25.13+spec-1.1.0 crate://crates.io/to
- ml_parser/1.1.2+spec-1.1.0 crate://crates.io/toml_writer/1.1.2+spec-1.1.0 crate://crates.io/tracing/0.1.44 crate://crates.io/tracing-attributes/0.1.31 crate://crates.io/tracing-core/0.1.36 crate://crates.io/tracing-log/0.2.0 crate://crates.io/tracing-subscriber/0.3.23 crate://crates.io/tracing-test/0.2.6 crate://crates.io/tracing-test-macro/0.2.6 crate://crates.io/typeid/1.0.3 crate://crates.io/typenum/1.20.1 crate://crates.io/ucd-trie/0.1.7 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/unicode-linebreak/0.1.5 crate://crates.io/unicode-width/0.2.2 crate://crates.io/unscanny/0.1.0 crate://crates.io/url/2.5.8 crate://crates.io/utf8_iter/1.0.4 crate://crates.io/utf8parse/0.2.2 crate://crates.io/uuid/1.24.0 crate://crates.io/valuable/0.1.1 crate://crates.io/version_check/0.9.5 crate://crates.io/vte/0.14.1 crate://crates.io/walkdir/2.5.0 crate://crates.io/wasi/0.11.1+wasi-snapshot-preview1 crate://crates.io/wasm-bindgen/0.2.114 crate://crates.io/wasm-bindgen-macro/0.2.114 crat
- e://crates.io/wasm-bindgen-macro-support/0.2.114 crate://crates.io/wasm-bindgen-shared/0.2.114 crate://crates.io/winapi-util/0.1.11 crate://crates.io/windows/0.61.3 crate://crates.io/windows-collections/0.2.0 crate://crates.io/windows-core/0.61.2 crate://crates.io/windows-future/0.2.1 crate://crates.io/windows-implement/0.60.2 crate://crates.io/windows-interface/0.59.3 crate://crates.io/windows-link/0.1.3 crate://crates.io/windows-link/0.2.1 crate://crates.io/windows-numerics/0.2.0 crate://crates.io/windows-result/0.3.4 crate://crates.io/windows-strings/0.4.2 crate://crates.io/windows-sys/0.52.0 crate://crates.io/windows-sys/0.60.2 crate://crates.io/windows-sys/0.61.2 crate://crates.io/windows-targets/0.52.6 crate://crates.io/windows-targets/0.53.5 crate://crates.io/windows-threading/0.1.0 crate://crates.io/windows_aarch64_gnullvm/0.52.6 crate://crates.io/windows_aarch64_gnullvm/0.53.1 crate://crates.io/windows_aarch64_msvc/0.52.6 crate://crates.io/windows_aarch64_msvc/0.53.1 crate:
- //crates.io/windows_i686_gnu/0.52.6 crate://crates.io/windows_i686_gnu/0.53.1 crate://crates.io/windows_i686_gnullvm/0.52.6 crate://crates.io/windows_i686_gnullvm/0.53.1 crate://crates.io/windows_i686_msvc/0.52.6 crate://crates.io/windows_i686_msvc/0.53.1 crate://crates.io/windows_x86_64_gnu/0.52.6 crate://crates.io/windows_x86_64_gnu/0.53.1 crate://crates.io/windows_x86_64_gnullvm/0.52.6 crate://crates.io/windows_x86_64_gnullvm/0.53.1 crate://crates.io/windows_x86_64_msvc/0.52.6 crate://crates.io/windows_x86_64_msvc/0.53.1 crate://crates.io/winnow/1.0.3 crate://crates.io/winx/0.36.4 crate://crates.io/writeable/0.6.2 crate://crates.io/xattr/1.6.1 crate://crates.io/yoke/0.8.1 crate://crates.io/yoke-derive/0.8.1 crate://crates.io/zerofrom/0.1.6 crate://crates.io/zerofrom-derive/0.1.6 crate://crates.io/zerotrie/0.2.3 crate://crates.io/zerovec/0.11.5 crate://crates.io/zerovec-derive/0.11.2 crate://crates.io/zlib-rs/0.6.3 crate://crates.io/zmij/1.0.21 crate://crates.io/zstd/0.13.3 crate:
- //crates.io/zstd-safe/7.2.4 crate://crates.io/zstd-sys/2.0.16+zstd.1.5.7"
-packages/x86-64-v3-poky-linux/python3-uv-build: PV changed from "0.12.5" to "0.12.6"
-packages/x86-64-v3-poky-linux/python3-uv-build: PKGV changed from 0.12.5 [default] to 0.12.6 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dbg: PV changed from "0.12.5" to "0.12.6"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dbg: PKGV changed from 0.12.5 [default] to 0.12.6 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dev: PV changed from "0.12.5" to "0.12.6"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dev: PKGV changed from 0.12.5 [default] to 0.12.6 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-doc: PV changed from "0.12.5" to "0.12.6"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-doc: PKGV changed from 0.12.5 [default] to 0.12.6 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-locale: PV changed from "0.12.5" to "0.12.6"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-locale: PKGV changed from 0.12.5 [default] to 0.12.6 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-src: PV changed from "0.12.5" to "0.12.6"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-src: PKGV changed from 0.12.5 [default] to 0.12.6 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-staticdev: PV changed from "0.12.5" to "0.12.6"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-staticdev: PKGV changed from 0.12.5 [default] to 0.12.6 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PKGSIZE changed from 4462872 to 4466968 (+0%)
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PV changed from "0.12.5" to "0.12.6"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uv_build-0.12.5.dist-info/licenses -> /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/uv_build-0.12.5.dist-info -> /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PKGV changed from 0.12.5 [default] to 0.12.6 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-uv-build (sysroot):
-  /usr/lib/python3.14/site-packages/uv_build-0.12.5.dist-info moved to /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-50.0.0.tar.gz;downloadfilename=cryptography_vectors-50.0.0.tar.gz" to "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-50.0.1.tar.gz;downloadfilename=cryptography_vectors-50.0.1.tar.gz"
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: FILELIST: directory renamed /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.0.dist-info -> /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.1.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-cryptography-vectors (sysroot):
+  /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.0.dist-info moved to /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.1.dist-info
+packages/x86-64-v3-poky-linux/python3-cryptography: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-50.0.0.tar.gz;downloadfilename=cryptography-50.0.0.tar.gz file://0001-pyproject.toml-remove-benchmark-disable-option.patch file://check-memfree.py file://run-ptest crate://crates.io/asn1/0.24.1 crate://crates.io/asn1_derive/0.24.1 crate://crates.io/base64/0.23.0 crate://crates.io/bitflags/2.13.1 crate://crates.io/cc/1.4.0 crate://crates.io/cfg-if/1.0.4 crate://crates.io/find-msvc-tools/0.1.9 crate://crates.io/foreign-types/0.3.2 crate://crates.io/foreign-types-shared/0.1.1 crate://crates.io/heck/0.5.0 crate://crates.io/itoa/1.0.18 crate://crates.io/libc/0.2.189 crate://crates.io/once_cell/1.21.4 crate://crates.io/openssl/0.10.81 crate://crates.io/openssl-macros/0.1.1 crate://crates.io/openssl-sys/0.9.117 crate://crates.io/pem/4.0.0 crate://crates.io/pkg-config/0.3.33 crate://crates.io/portable-atomic/1.14.0 crate://crates.io/proc-macro2/
+ 1.0.107 crate://crates.io/pyo3/0.29.0 crate://crates.io/pyo3-build-config/0.29.0 crate://crates.io/pyo3-ffi/0.29.0 crate://crates.io/pyo3-macros/0.29.0 crate://crates.io/pyo3-macros-backend/0.29.0 crate://crates.io/quote/1.0.47 crate://crates.io/self_cell/1.3.0 crate://crates.io/shlex/2.0.1 crate://crates.io/syn/2.0.119 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/vcpkg/0.2.15" to "https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-50.0.1.tar.gz;downloadfilename=cryptography-50.0.1.tar.gz file://0001-pyproject.toml-remove-benchmark-disable-option.patch file://check-memfree.py file://run-ptest crate://crates.io/asn1/0.24.1 crate://crates.io/asn1_derive/0.24.1 crate://crates.io/base64/0.23.0 crate://crates.io/bitflags/2.13.1 crate://crates.io/cc/1.4.0 crate://crates.io/cfg-if/1.0.4 crate://crates.io/find-msvc-tools/0.1.9 crate://crates.io/foreign-types/0.3.2 crate://crates.io/foreign-types-shared/0.1.1 crate:/
+ /crates.io/heck/0.5.0 crate://crates.io/itoa/1.0.18 crate://crates.io/libc/0.2.189 crate://crates.io/once_cell/1.21.4 crate://crates.io/openssl/0.10.81 crate://crates.io/openssl-macros/0.1.1 crate://crates.io/openssl-sys/0.9.117 crate://crates.io/pem/4.0.0 crate://crates.io/pkg-config/0.3.33 crate://crates.io/portable-atomic/1.14.0 crate://crates.io/proc-macro2/1.0.107 crate://crates.io/pyo3/0.29.0 crate://crates.io/pyo3-build-config/0.29.0 crate://crates.io/pyo3-ffi/0.29.0 crate://crates.io/pyo3-macros/0.29.0 crate://crates.io/pyo3-macros-backend/0.29.0 crate://crates.io/quote/1.0.47 crate://crates.io/self_cell/1.3.0 crate://crates.io/shlex/2.0.1 crate://crates.io/syn/2.0.119 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/vcpkg/0.2.15"
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-dbg: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-dbg: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-dbg: PKGSIZE changed from 1840056 to 1840256 (+0%)
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-dev: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-dev: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-doc: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-doc: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-locale: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-locale: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-ptest: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-ptest: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-src: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-src: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-staticdev: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-staticdev: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography: PV changed from "50.0.0" to "50.0.1"
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography: FILELIST: directory renamed /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info -> /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-cryptography (sysroot):
+  /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info moved to /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info
 
---===============4344499230196822409==
+--===============6858143046746255392==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="python3-cryptography-changelog.txt"
+
+Changelog for python3-cryptography: 50.0.0 -> 50.0.1
+Source: CHANGELOG.rst
+
+50.0.1 - 2026-08-25
+~~~~~~~~~~~~~~~~~~~
+
+* Updated Windows, macOS, and Linux wheels to be compiled with OpenSSL 4.0.2.
+
+--===============6858143046746255392==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-uv-build-upgrade-0.12.5-0.12.6.patch"
+ filename="0001-python3-cryptography-vectors-python3-cryptography-up.patch"
 
-RnJvbSA3ZTZiNzE4ZDBmMTdmYTVhZTM4YjBjZDk0NTMzYjBiZDRlOWNmNDhmIE1vbiBTZXAgMTcg
+RnJvbSAyYzIxZDI2ZmJkZTZhZWE1MTA2MGM0ZDI5Y2EyMzAyNDI5YjhiNzMwIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMjYgQXVnIDIwMjYgMDU6NTc6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXV2LWJ1aWxkOiB1cGdyYWRlIDAuMTIuNSAtPiAwLjEyLjYKCi0tLQogLi4uL3tweXRo
-b24zLXV2LWJ1aWxkXzAuMTIuNS5iYiA9PiBweXRob24zLXV2LWJ1aWxkXzAuMTIuNi5iYn0gIHwg
-MiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5h
-bWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy11di1idWlsZF8wLjEyLjUu
-YmIgPT4gcHl0aG9uMy11di1idWlsZF8wLjEyLjYuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXV2LWJ1aWxkXzAuMTIuNS5iYiBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11di1idWlsZF8wLjEyLjYuYmIKc2lt
-aWxhcml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLXV2LWJ1aWxkXzAuMTIuNS5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRv
-b2xzL3B5dGhvbi9weXRob24zLXV2LWJ1aWxkXzAuMTIuNi5iYgppbmRleCBmMjA4YzEzMThiLi5k
-ZTg0ZThkNWFkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtdXYtYnVpbGRfMC4xMi41LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy11di1idWlsZF8wLjEyLjYuYmIKQEAgLTExLDcgKzExLDcgQEAgTElDX0ZJTEVTX0NI
-S1NVTSA9ICJmaWxlOi8vTElDRU5TRS1BUEFDSEU7bWQ1PTg2ZDNmM2E5NWMzMjRjOTQ3OWJkODk4
-Njk2OGY0MzI3IFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL2NyYXRlcy91di1wZXA1MDgv
-TGljZW5zZS1BcGFjaGU7bWQ1PWUyM2ZhZGQ2Y2VlZjhjNjE4ZmMxYzY1MTkxZDg0NmZhIFwKICAg
-ICAgICAgICAgICAgICAgICAgZmlsZTovL2NyYXRlcy91di1wZXA1MDgvTGljZW5zZS1CU0Q7bWQ1
-PWVmN2E2MDI3ZGM0YzIzODliOWFmYWQ3ZTY5MDI3NGM3IgogCi1TUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiMGZkMTI3MjMzOTJmY2I2OTdjNjUxMmUxY2JkYmQ0ZTVkMzBhZjQ3MDI1Nzg3MDBjNDcyYTZk
-MWEwMDQ0YzcxYyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI0NzU2ZjE3NzFkMzQyZmY4ZmY1MGI1
-MjlhZTIzYzU4ZDU4ZjE0ZjA5N2MyNDNjYTUwZDM3NzhkMGEyM2QyNGYwIgogCiByZXF1aXJlICR7
-QlBOfS1jcmF0ZXMuaW5jCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMjYgQXVnIDIwMjYgMDU6MzQ6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzLHB5dGhvbjMtY3J5cHRvZ3JhcGh5OiB1cGdyYWRl
+CiA1MC4wLjAgLT4gNTAuMC4xLDUwLjAuMCAtPiA1MC4wLjEKClNvdXJjZTogQ0hBTkdFTE9HLnJz
+dAoKNTAuMC4xIC0gMjAyNi0wOC0yNQp+fn5+fn5+fn5+fn5+fn5+fn5+CgoqIFVwZGF0ZWQgV2lu
+ZG93cywgbWFjT1MsIGFuZCBMaW51eCB3aGVlbHMgdG8gYmUgY29tcGlsZWQgd2l0aCBPcGVuU1NM
+IDQuMC4yLgotLS0KIC4uLi9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHktY29tbW9uLmluYyAg
+ICAgICAgICAgICAgICB8IDIgKy0KIC4uLi9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHktdmVj
+dG9ycy5iYiAgICAgICAgICAgICAgICB8IDIgKy0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
+b24vcHl0aG9uMy1jcnlwdG9ncmFwaHkuYmIgICAgICB8IDIgKy0KIC4uLjEtcHlwcm9qZWN0LnRv
+bWwtcmVtb3ZlLWJlbmNobWFyay1kaXNhYmxlLW9wdGlvbi5wYXRjaCB8IDggKysrLS0tLS0KIDQg
+ZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHktY29t
+bW9uLmluYyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFw
+aHktY29tbW9uLmluYwppbmRleCAyOThjNTJkMWQzLi5kMzdmNTIzNThkIDEwMDY0NAotLS0gYS9t
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LWNvbW1vbi5p
+bmMKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBo
+eS1jb21tb24uaW5jCkBAIC0zLDQgKzMsNCBAQAogIwogIyBBZGRpdGlvbmFsbHkgQVVIIHdpbGwg
+ZGV0ZWN0IHRoYXQgdGhleSBzaGFyZSB0aGlzIC5pbmMgZmlsZSBhbmQKICMgcGVyZm9ybSBhIGxv
+Y2tzdGVwIHVwZ3JhZGUgZm9yIGJvdGguCi1QViA9ICI1MC4wLjAiCitQViA9ICI1MC4wLjEiCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3Jh
+cGh5LXZlY3RvcnMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5
+cHRvZ3JhcGh5LXZlY3RvcnMuYmIKaW5kZXggZDYyZDY4MWM2ZC4uMGYyNTE5OWY2OCAxMDA2NDQK
+LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS12
+ZWN0b3JzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlw
+dG9ncmFwaHktdmVjdG9ycy5iYgpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJm
+aWxlOi8vTElDRU5TRTttZDU9OGMzNjE3ZGI0ZmI2ZmFlMDFmMWQyNTNhYjkxNTExZTQgXAogIyBO
+T1RFOiBNYWtlIHN1cmUgdG8ga2VlcCB0aGlzIHJlY2lwZSBhdCB0aGUgc2FtZSB2ZXJzaW9uIGFz
+IHB5dGhvbjMtY3J5cHRvZ3JhcGh5CiAjICAgICAgIFVwZ3JhZGUgYm90aCByZWNpcGVzIGF0IHRo
+ZSBzYW1lIHRpbWUKIHJlcXVpcmUgcHl0aG9uMy1jcnlwdG9ncmFwaHktY29tbW9uLmluYwotU1JD
+X1VSSVtzaGEyNTZzdW1dID0gIjY3NjA4MTQ5MzA0NDNlNmQ3M2E2YWZjYWQwOTQ2M2QzZmZkYzQy
+MDg0ZWUwYmRjZmIyZjA1Njk3MjUwYzNjOGQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTAwNjZk
+MGY3MzUxYjEyZWJhYzJiNGNlNTk0Y2UwYTZmMDVjMTlhZDMwNjhlNGQ1Y2ZjNjRkOWQyYmVjOGQ4
+MCIKIAogUFlQSV9QQUNLQUdFID0gImNyeXB0b2dyYXBoeV92ZWN0b3JzIgogCmRpZmYgLS1naXQg
+YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LmJiIGIv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS5iYgppbmRl
+eCBkNmExYmI1M2YzLi5mMmFjNGUxYjg5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHkuYmIKQEAgLTExLDcgKzExLDcgQEAgTERT
+SEFSRUQgKz0gIi1wdGhyZWFkIgogIyBOT1RFOiBNYWtlIHN1cmUgdG8ga2VlcCB0aGlzIHJlY2lw
+ZSBhdCB0aGUgc2FtZSB2ZXJzaW9uIGFzIHB5dGhvbjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnMKICMg
+ICAgICAgVXBncmFkZSBib3RoIHJlY2lwZXMgYXQgdGhlIHNhbWUgdGltZQogcmVxdWlyZSBweXRo
+b24zLWNyeXB0b2dyYXBoeS1jb21tb24uaW5jCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWVhYzJh
+Y2I1YTIwZWQyNWUwYWQ2ZDFkZjk4OTFhNTIwYjc4YjQwNDI2NmI2ZDExNzc4ZjI1ZDVkNjkxYTZj
+OSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI1ZGQ5YmRhMWMxMmI0MTYyZjZmZjU2OGVlYjVlMGZm
+OTU2YzI4ZDE0NDA2ZTg3NWNmZThhNjNhMmQ0MTRmZjIwIgogCiBTUkNfVVJJICs9ICJmaWxlOi8v
+MDAwMS1weXByb2plY3QudG9tbC1yZW1vdmUtYmVuY2htYXJrLWRpc2FibGUtb3B0aW9uLnBhdGNo
+IFwKICAgICAgICAgICAgIGZpbGU6Ly9jaGVjay1tZW1mcmVlLnB5IFwKZGlmZiAtLWdpdCBhL21l
+dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHkvMDAwMS1weXBy
+b2plY3QudG9tbC1yZW1vdmUtYmVuY2htYXJrLWRpc2FibGUtb3B0aW9uLnBhdGNoIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS8wMDAxLXB5cHJvamVj
+dC50b21sLXJlbW92ZS1iZW5jaG1hcmstZGlzYWJsZS1vcHRpb24ucGF0Y2gKaW5kZXggOTY3YjY2
+MWM2ZS4uNDU0ZTA4NjA1YSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLWNyeXB0b2dyYXBoeS8wMDAxLXB5cHJvamVjdC50b21sLXJlbW92ZS1iZW5jaG1h
+cmstZGlzYWJsZS1vcHRpb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLWNyeXB0b2dyYXBoeS8wMDAxLXB5cHJvamVjdC50b21sLXJlbW92ZS1iZW5jaG1h
+cmstZGlzYWJsZS1vcHRpb24ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGM4ZmQ4NWQ4MGVi
+NjRmZWRlODQ0Nzg0MjA0Mjk3N2I3MGIzYzk2YmMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
+cm9tIDc0NDczZGFhNDZiMzE1ZjNkOThmYmY5YTZhNThmNTJjOWMyOWEzNjUgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCiBGcm9tOiBNaW5nbGkgWXUgPG1pbmdsaS55dUB3aW5kcml2ZXIuY29tPgog
+RGF0ZTogVHVlLCAxNyBNYXkgMjAyMiAxNzoyMjo0OCArMDgwMAogU3ViamVjdDogW1BBVENIXSBw
+eXByb2plY3QudG9tbDogcmVtb3ZlIC0tYmVuY2htYXJrLWRpc2FibGUgb3B0aW9uCkBAIC0yNiwx
+NyArMjYsMTUgQEAgU2lnbmVkLW9mZi1ieTogVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxr
+by5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAK
+IGRpZmYgLS1naXQgYS9weXByb2plY3QudG9tbCBiL3B5cHJvamVjdC50b21sCi1pbmRleCBmYjgx
+ODU5MTMuLjI5ZDBiM2UwOCAxMDA2NDQKK2luZGV4IGI1NmNkYTkuLjc4MTc0M2IgMTAwNjQ0CiAt
+LS0gYS9weXByb2plY3QudG9tbAogKysrIGIvcHlwcm9qZWN0LnRvbWwKIEBAIC0xNDAsNyArMTQw
+LDcgQEAgZXhjbHVkZSA9IFsKICBdCi0KKyAKICBbdG9vbC5weXRlc3QuaW5pX29wdGlvbnNdCiAt
+YWRkb3B0cyA9ICItciBzIC0tY2FwdHVyZT1ubyAtLXN0cmljdC1tYXJrZXJzIC0tYmVuY2htYXJr
+LWRpc2FibGUiCiArYWRkb3B0cyA9ICItciBzIC0tY2FwdHVyZT1ubyAtLXN0cmljdC1tYXJrZXJz
+IgogIHRlc3RwYXRocyA9IFsidGVzdHMiXQogIGNvbnNvbGVfb3V0cHV0X3N0eWxlID0gInByb2dy
+ZXNzLWV2ZW4td2hlbi1jYXB0dXJlLW5vIgogIG1hcmtlcnMgPSBbCi0tLQotMi40My4wCi0tIAoy
+LjQ3LjEKCg==
 
---===============4344499230196822409==
+--===============6858143046746255392==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uv_build-0.12.5.dist-info -> /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info, directory renamed /usr/lib/python3.14/site-packages/uv_build-0.12.5.dist-info/licenses -> /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-uv-build (sysroot):
-  /usr/lib/python3.14/site-packages/uv_build-0.12.5.dist-info moved to /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info
+packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: FILELIST: directory renamed /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.0.dist-info -> /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.1.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-cryptography-vectors (sysroot):
+  /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.0.dist-info moved to /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.1.dist-info
+packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography: FILELIST: directory renamed /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info -> /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-cryptography (sysroot):
+  /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info moved to /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info
 
---===============4344499230196822409==--
+--===============6858143046746255392==--
 
