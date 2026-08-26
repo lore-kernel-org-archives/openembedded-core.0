@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EA79C61DD6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4217BC61DD4
 	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 05:59:59 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6365.1787723988937984795
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6363.1787723988855374068
  for <openembedded-core@lists.openembedded.org>;
  Tue, 25 Aug 2026 22:59:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rBT/Mwqj;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=puvWL4IP;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a03ca73c11-d1f76304-6908-4898-a0ba-8adf67a84447-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GC6N/DSn;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2zYnbEWS;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a03ca73c54-adbfb911-f291-4fbd-bcde-7b655cf98fc8-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1787723988;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=xoOmD9GzsQTF3Xo8JMNeNB+ICaYnbDIFJITD02QEatc=;
-	b=rBT/MwqjOlQaCxp1GhDpmrXb6l8cVvto+E1PnvTpuYUQqetKUZeJIUFthH3q+btE
-	lPwRZsYC27wYvoQiUg8DFPnBzZabruERFf62qCvpqFkJ8CQ8ArKMwuXYthpumKfj7iz
-	tYvaYHZQ7Nb0mtVJirvJQL/HGnptOKKHTkliRte8=
+	bh=YGMy2ddMhdHydCTejr0quQj0BECnY2kxK8h401a7yHE=;
+	b=GC6N/DSnYgTxBMVP3nCbLpbTgVCDXTcoRpUb2mam6nu6bJ7GbGqJyj9PLUNTw2gp
+	Lbm2W2dIMp5DXIf1ynrKS8DsdqoylKXZZ+YJLsSBf0gPVeJmHeOCDxD8ebDj0HkZ/rT
+	WKvfotwx3q9/zskjHj9grL4BBRd8lwcrKoQj42y0=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787723988;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=xoOmD9GzsQTF3Xo8JMNeNB+ICaYnbDIFJITD02QEatc=;
-	b=puvWL4IPXtMiyqbCh9Lt5hgFmTR1LXuGDYlXqyltYnaY3T8KHPkSkkstfNBFeblA
-	cj2BdI7xaakh0LmV4FYWY24kioImEezUTPrcPIDUyhsHBJKjxCQWHlaqd4E0VJf0l0I
-	9Pbb8Q4MQjSx+nqJp2tXHhlO36/EZvY2tkmP91Uk=
-Content-Type: multipart/mixed; boundary="===============3930800725293769375=="
+	bh=YGMy2ddMhdHydCTejr0quQj0BECnY2kxK8h401a7yHE=;
+	b=2zYnbEWSEtny21jZKkxkLjNN+DSu7WBYZN3LK1L1bo/cyiXpjkECZNG1Ozu3SbEm
+	h6ICsYXe8qP3Z06Fo+M389xO5VOHjQq9A9EbJR63a7Mfduy137Xl9SbqQmkmuLeZ7XC
+	brUt/ao4M/8N2XE04z3T087Y8jCFoiUqMMqvylk8=
+Content-Type: multipart/mixed; boundary="===============5617518507532760962=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] cmake,cmake-native: upgrading to 4.4.3,4.4.3 SUCCEEDED
-Message-ID: <010101a03ca73c11-d1f76304-6908-4898-a0ba-8adf67a84447-000000@us-west-2.amazonses.com>
-Date: Wed, 26 Aug 2026 05:59:47 +0000
+Subject: [AUH] openssl: upgrading to 4.0.2 FAILED
+Message-ID: <010101a03ca73c54-adbfb911-f291-4fbd-bcde-7b655cf98fc8-000000@us-west-2.amazonses.com>
+Date: Wed, 26 Aug 2026 05:59:48 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.26-54.240.27.193
+X-SES-Outgoing: 2026.08.26-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 05:59:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244306
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244305
 
---===============3930800725293769375==
+--===============5617518507532760962==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,1338 +50,1071 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *cmake,cmake-native* to *4.4.3,4.4.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *openssl* to *4.0.2* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-cmake-cmake-native-upgrade-4.4.2-4.4.3-4.4.2-4.4.3.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe openssl failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 956 .bb files complete (0 cached, 956 parsed). 1986 targets, 40 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-04eb86757307582e7ff422273b1217269b5b5bff"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:04eb86757307582e7ff422273b1217269b5b5bff"
+meta-yocto-bsp       
+meta-poky            = "master:6ce984c0a3a68c2fdc3c32bc185b6729d09e7829"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 957 .bb files complete (0 cached, 957 parsed). 1987 targets, 40 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-04eb86757307582e7ff422273b1217269b5b5bff"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:04eb86757307582e7ff422273b1217269b5b5bff"
+meta-yocto-bsp       
+meta-poky            = "master:6ce984c0a3a68c2fdc3c32bc185b6729d09e7829"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   4% |#                                   | ETA:  0:00:02
+Adding changed files:   8% |##                                  | ETA:  0:00:01
+Adding changed files:  12% |####                                | ETA:  0:00:01
+Adding changed files:  16% |#####                               | ETA:  0:00:01
+Adding changed files:  20% |#######                             | ETA:  0:00:01
+Adding changed files:  24% |########                            | ETA:  0:00:01
+Adding changed files:  28% |##########                          | ETA:  0:00:01
+Adding changed files:  32% |###########                         | ETA:  0:00:01
+Adding changed files:  36% |#############                       | ETA:  0:00:01
+Adding changed files:  40% |##############                      | ETA:  0:00:01
+Adding changed files:  44% |################                    | ETA:  0:00:01
+Adding changed files:  48% |#################                   | ETA:  0:00:00
+Adding changed files:  52% |###################                 | ETA:  0:00:00
+Adding changed files:  56% |####################                | ETA:  0:00:00
+Adding changed files:  61% |#####################               | ETA:  0:00:00
+Adding changed files:  65% |#######################             | ETA:  0:00:00
+Adding changed files:  69% |########################            | ETA:  0:00:00
+Adding changed files:  73% |##########################          | ETA:  0:00:00
+Adding changed files:  77% |###########################         | ETA:  0:00:00
+Adding changed files:  81% |#############################       | ETA:  0:00:00
+Adding changed files:  85% |##############################      | ETA:  0:00:00
+Adding changed files:  89% |################################    | ETA:  0:00:00
+Adding changed files:  93% |#################################   | ETA:  0:00:00
+Adding changed files:  97% |################################### | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:02
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Extracting upgraded version source...
+INFO: Fetching http://www.openssl.org/source/openssl-4.0.2.tar.gz...
+INFO: Rebasing devtool onto d6ba07602ea3cd9b4724788d53e51b4da4820b2f
+WARNING: Command 'git rebase d6ba07602ea3cd9b4724788d53e51b4da4820b2f' failed:
+Auto-merging test/helpers/handshake.c
+CONFLICT (content): Merge conflict in test/helpers/handshake.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-nativesdk onto d6ba07602ea3cd9b4724788d53e51b4da4820b2f
+WARNING: Command 'git rebase d6ba07602ea3cd9b4724788d53e51b4da4820b2f' failed:
+Auto-merging test/helpers/handshake.c
+CONFLICT (content): Merge conflict in test/helpers/handshake.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/openssl
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/openssl/openssl_4.0.2.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/openssl.txt
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From f6252fd3616af466f74a8caf9b5e174865b0ef41 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 26 Aug 2026 05:29:09 +0000
-Subject: [PATCH] cmake,cmake-native: upgrade 4.4.2 -> 4.4.3,4.4.2 -> 4.4.3
-
-Source: Help/release/4.4.rst
-
-CMake 4.4 Release Notes
-***********************
-
-.. only:: html
-
-  .. contents::
-
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-* CMake diagnostic actions are now tracked in a new state type managed by the
-  :command:`cmake_diagnostic` command.  This replaces the old system which
-  sometimes used variables to manage reporting actions and sometimes did not
-  allow management beyond command-line options and presets.  The new system
-  also introduces several new diagnostic categories and significantly reduces
-  the cost of adding additional categories in the future.  See the
-  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
-
-* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
-  was added to diagnose :command:`install` commands that specify an
-  absolute ``DESTINATION``.  This diagnostic may be controlled with the
-  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
-  the ``installAbsoluteDestination`` field in a
-  :manual:`CMake Presets <cmake-presets(7)>`
-  :preset:`configurePresets.warnings` object,
-  or the :command:`cmake_diagnostic` command.
-
-Presets
--------
-
-* :manual:`cmake-presets(7)` files now support schema version 12.
-
-* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
-  ``--presets-file`` arguments to support loading
-  :manual:`presets <cmake-presets(7)>` from the specified file instead of
-  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
-  :option:`cmake --presets-file`,
-  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
-  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
-  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
-
-* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
-  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
-  presets file containing the ``${fileDir}`` macro, regardless of whether
-  it is inherited by another preset in a different directory.
-
-* :manual:`cmake-presets(7)` gained support for a
-  ``testPassthroughArguments`` field in the
-  test preset ``execution`` object for
-  forwarding arguments to test executables via presets.
-
-File-Based API
---------------
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
-  updated to 2.11.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
-  to support sources belonging to multiple file sets. The ``fileSetIndex``
-  fields are maintained for backwards compatibility only, and users are advised
-  to port to the new fields.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" object gained a new ``backtraces`` field to represent multiple
-  command invocations which associate a single source for a given target with
-  mult
-
-[Changelog truncated as it exceeds 3000 characters;
-the full changelog can be found in an attachment to the AUH email]
-
-Source: Help/release/4.4.rst
-
-CMake 4.4 Release Notes
-***********************
-
-.. only:: html
-
-  .. contents::
-
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-* CMake diagnostic actions are now tracked in a new state type managed by the
-  :command:`cmake_diagnostic` command.  This replaces the old system which
-  sometimes used variables to manage reporting actions and sometimes did not
-  allow management beyond command-line options and presets.  The new system
-  also introduces several new diagnostic categories and significantly reduces
-  the cost of adding additional categories in the future.  See the
-  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
-
-* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
-  was added to diagnose :command:`install` commands that specify an
-  absolute ``DESTINATION``.  This diagnostic may be controlled with the
-  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
-  the ``installAbsoluteDestination`` field in a
-  :manual:`CMake Presets <cmake-presets(7)>`
-  :preset:`configurePresets.warnings` object,
-  or the :command:`cmake_diagnostic` command.
-
-Presets
--------
-
-* :manual:`cmake-presets(7)` files now support schema version 12.
-
-* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
-  ``--presets-file`` arguments to support loading
-  :manual:`presets <cmake-presets(7)>` from the specified file instead of
-  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
-  :option:`cmake --presets-file`,
-  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
-  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
-  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
-
-* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
-  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
-  presets file containing the ``${fileDir}`` macro, regardless of whether
-  it is inherited by another preset in a different directory.
-
-* :manual:`cmake-presets(7)` gained support for a
-  ``testPassthroughArguments`` field in the
-  test preset ``execution`` object for
-  forwarding arguments to test executables via presets.
-
-File-Based API
---------------
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
-  updated to 2.11.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
-  to support sources belonging to multiple file sets. The ``fileSetIndex``
-  fields are maintained for backwards compatibility only, and users are advised
-  to port to the new fields.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" object gained a new ``backtraces`` field to represent multiple
-  command invocations which associate a single source for a given target with
-  mult
-
-[Changelog truncated as it exceeds 3000 characters;
-the full changelog can be found in an attachment to the AUH email]
----
- .../cmake/{cmake-native_4.4.2.bb => cmake-native_4.4.3.bb}      | 0
- meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
- meta/recipes-devtools/cmake/{cmake_4.4.2.bb => cmake_4.4.3.bb}  | 0
- 3 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/cmake/{cmake-native_4.4.2.bb => cmake-native_4.4.3.bb} (100%)
- rename meta/recipes-devtools/cmake/{cmake_4.4.2.bb => cmake_4.4.3.bb} (100%)
-
-diff --git a/meta/recipes-devtools/cmake/cmake-native_4.4.2.bb b/meta/recipes-devtools/cmake/cmake-native_4.4.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake-native_4.4.2.bb
-rename to meta/recipes-devtools/cmake/cmake-native_4.4.3.bb
-diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
-index a51b25b864..b6b10371ce 100644
---- a/meta/recipes-devtools/cmake/cmake.inc
-+++ b/meta/recipes-devtools/cmake/cmake.inc
-@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
- SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
-            "
- 
--SRC_URI[sha256sum] = "1db9e61e60b6e0874c86386340b910382f3c5e75b9fbfb44d122063129a2789d"
-+SRC_URI[sha256sum] = "c46400618b4f1f2b43507f24fb22f3ae830c3416cf23b776e16e1d413aa892f0"
- 
- UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
- 
-diff --git a/meta/recipes-devtools/cmake/cmake_4.4.2.bb b/meta/recipes-devtools/cmake/cmake_4.4.3.bb
-similarity index 100%
-rename from meta/recipes-devtools/cmake/cmake_4.4.2.bb
-rename to meta/recipes-devtools/cmake/cmake_4.4.3.bb
--- 
-2.47.1
-
-
---===============3930800725293769375==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="cmake-native-changelog.txt"
-
-Changelog for cmake-native: 4.4.2 -> 4.4.3
-Source: Help/release/4.4.rst
-
-CMake 4.4 Release Notes
-***********************
-
-.. only:: html
-
-  .. contents::
-
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-* CMake diagnostic actions are now tracked in a new state type managed by the
-  :command:`cmake_diagnostic` command.  This replaces the old system which
-  sometimes used variables to manage reporting actions and sometimes did not
-  allow management beyond command-line options and presets.  The new system
-  also introduces several new diagnostic categories and significantly reduces
-  the cost of adding additional categories in the future.  See the
-  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
-
-* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
-  was added to diagnose :command:`install` commands that specify an
-  absolute ``DESTINATION``.  This diagnostic may be controlled with the
-  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
-  the ``installAbsoluteDestination`` field in a
-  :manual:`CMake Presets <cmake-presets(7)>`
-  :preset:`configurePresets.warnings` object,
-  or the :command:`cmake_diagnostic` command.
-
-Presets
--------
-
-* :manual:`cmake-presets(7)` files now support schema version 12.
-
-* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
-  ``--presets-file`` arguments to support loading
-  :manual:`presets <cmake-presets(7)>` from the specified file instead of
-  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
-  :option:`cmake --presets-file`,
-  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
-  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
-  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
-
-* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
-  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
-  presets file containing the ``${fileDir}`` macro, regardless of whether
-  it is inherited by another preset in a different directory.
-
-* :manual:`cmake-presets(7)` gained support for a
-  ``testPassthroughArguments`` field in the
-  test preset ``execution`` object for
-  forwarding arguments to test executables via presets.
-
-File-Based API
---------------
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
-  updated to 2.11.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
-  to support sources belonging to multiple file sets. The ``fileSetIndex``
-  fields are maintained for backwards compatibility only, and users are advised
-  to port to the new fields.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" object gained a new ``backtraces`` field to represent multiple
-  command invocations which associate a single source for a given target with
-  multiple file sets. The ``backtrace`` field is maintained for backwards
-  compatibility only, and users are advised to port to the new field.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "installers" object's
-  optional ``fileSetType`` field gained a new ``SOURCES`` value to incorporate
-  the new ``SOURCES`` :ref:`file set <file sets>` type in codemodel replies.
-
-Instrumentation
----------------
-
-* The :manual:`cmake-instrumentation(7)` data version has been updated to 1.1.
-* :manual:`cmake-instrumentation(7)` gained a ``captureOutput`` option which
-  collects the ``stdout`` and ``stderr`` of instrumented commands.
-* :manual:`cmake-instrumentation(7)` gained a ``compileTrace`` option which
-  records compiler-generated trace files (e.g., from Clang's ``-ftime-trace``
-  flag).
-
-Generators
-----------
-
-* The :ref:`Ninja Generators` now support generating a build target named
-  ``test_prep/<test-name>`` for each test added by :command:`add_test`, which
-  builds all dependencies for that test. Build dependencies are registered for
-  an executable target invoked by the test, targets referenced in generator
-  expressions in the test command, and explicit dependencies added using the
-  new ``BUILD_DEPENDS`` option. This behavior is enabled by the new
-  :variable:`CMAKE_TEST_BUILD_DEPENDS` variable. A ``test_prep/all``
-  target is also generated to depend on every ``test_prep/<test-name>``
-  target. Tests with names that are not valid target names are excluded from
-  this behavior. If multiple tests in different directories share the same
-  name, their dependencies are merged into one ``test_prep/<test-name>``
-  target.
-
-Languages
----------
-
-* CUDA language level 23 (corresponding to C++ 23) is now supported with
-  NVCC 13.3 and above.
-
-Compilers
----------
-
-* C++ 20 named modules are now supported with ``clang-cl``, except with the
-  :ref:`Visual Studio Generators` (i.e., the ``ClangCl``
-  :variable:`toolset <CMAKE_GENERATOR_TOOLSET>`).
-  See :manual:`cmake-cxxmodules(7)`.
-
-* The ``ibm-flang`` compiler is now supported with
-  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``IBMFlang``.
-
-* The `Pelles C`_ toolchain is now supported with
-  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``PellesC``.
-
-  The ``ASM_POASM`` language was added to support the Pelles Macro Assembler.
-
-* The Open Watcom ``wlink`` linker is now identified with
-  :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``OpenWatcom``.
-
-* The `wild linker <https://github.com/wild-linker/wild>`_ is now
-  supported with :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``WILD``.
-
-Command-Line
-------------
-
-* :manual:`cmake(1)` now supports ``--build <dir> --preset <pre>``
-  regardless of the current working directory.
-
-* The :option:`cmake -D` command-line option now populates a
-  default :prop_cache:`HELPSTRING` for variables known to CMake.
-
-* :option:`cmake --install` now supports installing multiple components.
-
-* :option:`cmake --install` now accepts ``-j<N>`` in addition to ``-j <N>``
-  for specifying the number of parallel jobs.
-
-* The :option:`cmake -E` commands
-  :option:`copy_if_different <cmake-E copy_if_different>`,
-  :option:`copy_if_newer <cmake-E copy_if_newer>`,
-  :option:`copy_directory <cmake-E copy_directory>`,
-  :option:`copy_directory_if_different <cmake-E copy_directory_if_different>`,
-  and :option:`copy_directory_if_newer <cmake-E copy_directory_if_newer>`
-  gained support for the ``-t`` argument.
-
-* The :option:`cmake -E tar <cmake-E tar>` command-line tool gained the
-  :option:`--cmake-tar-encoding <cmake-E_tar --cmake-tar-encoding>` flag
-  to specify the pathname encoding used in archives.
-
-Commands
---------
-
-* The :command:`block` command can now create a ``DIAGNOSTICS`` scope.
-
-* The :command:`cmake_diagnostic` command was added to manipulate CMake's
-  diagnostic state.
-
-* The :command:`cmake_parse_arguments` command gained a new ``PARSE_ARGN``
-  signature that starts parsing after the last named argument of the calling
-  function and works exactly like ``PARSE_ARGV`` with ``<N>`` being the number
-  of parameters in the function definition.
-
-* The :command:`discover_tests` command was added to support registering tests
-  discovered at test time by :manual:`ctest(1)`. It runs a user-provided
-  discovery command, parses its output, and generates test names, arguments,
-  and properties from regular-expression captures.
-
-* The :command:`execute_process` command gained
-  ``ENVIRONMENT`` and ``ENVIRONMENT_MODIFICATION`` options to run child
-  processes with a modified environment.
-
-* The :command:`file(ARCHIVE_CREATE)` and :command:`file(ARCHIVE_EXTRACT)`
-  commands gained an ``ENCODING`` option to specify the encoding of the
-  archive pathnames.  The default is now ``UTF-8``.
-  See policy :policy:`CMP0213`.
-
-* The :command:`file(READ_SYMLINK)` command gained a ``RESULT``
-  option to capture errors without failing.
-
-* The :command:`if` command gained a new ``DIAGNOSTIC`` operator that evaluates
-  to true if a given diagnostic category name is known to CMake.
-
-* The :command:`include` command now has a ``NO_DIAGNOSTIC_SCOPE`` option.
-
-* The :command:`list(FILTER)` command gained a new ``PREDICATE`` mode
-  that invokes a user-defined :command:`function` to decide which elements are
-  included or excluded, complementing the existing ``REGEX`` mode.
-
-* The :command:`list(SORT)` command gained a new ``COMPARATOR`` keyword
-  that invokes a user-defined :command:`function` to compare elements, complementing
-  the built-in ``COMPARE`` methods.
-
-* The :command:`list(TRANSFORM)` command gained a new ``APPLY`` action that
-  invokes a user-defined :command:`function` for each element of the list,
-  enabling arbitrary per-element transformations.
-
-* The :command:`list(TRANSFORM)` command gained a new ``PREDICATE`` selector
-  that invokes a user-defined :command:`function` to decide which elements are
-  transformed.
-
-* The :command:`string(JSON ... PARTIAL_EQUAL) <string(JSON-PARTIAL_EQUAL)>`
-  command was added to compare two JSON values using *partial* equality.
-
-File Sets
----------
-
-* A ``SOURCES`` :ref:`file set <file sets>` type was added to specify
-  a target's source files via file sets.
-
-* The :prop_fs:`CXX_SCAN_FOR_MODULES` file set property was added to
-  control whether a file set's sources are scanned for C++ modules.
-
-* The :prop_fs:`INDEPENDENT_FILES` file set property was added to
-  specify that a file set's sources do not depend on any generated files.
-
-* The :prop_fs:`JOB_POOL_COMPILE` file set property was added to
-  assign a file set's sources to a specific Ninja job pool.
-
-* The :prop_fs:`SCOPE`, :prop_fs:`TYPE`, :prop_fs:`BASE_DIRS`,
-  :prop_fs:`SOURCES`, and :prop_fs:`INTERFACE_SOURCES` file set
-  properties were added to provide the declared details of a file set.
-
-* The :prop_fs:`SKIP_LINTING` file set property was added to exclude
-  a file set's sources from target-wide code checks.
-
-* The :prop_fs:`SKIP_PRECOMPILE_HEADERS` file set property was added
-  to avoid using precompiled headers for a file set's sources.
-
-* The :prop_fs:`SKIP_UNITY_BUILD_INCLUSION` file set property was added
-  to exclude a file set's sources from inclusion in unity builds.
-
-Variables
----------
-
-* The :variable:`CMAKE_INSTALL_DEFAULT_COMPONENT_NAME` variable gained
-  support for a special ``<PROJECT_NAME>`` placeholder value.
-  It tells each :command:`install` invocation to take a default component
-  name from the current :variable:`PROJECT_NAME` variable value.
-
-Environment Variables
----------------------
-
-* The :envvar:`CMAKE_DISABLE_PRECOMPILE_HEADERS` environment variable
-  was added to disable precompiled headers by default.
-
-Properties
-----------
-
-* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
-  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now always
-  create the per-target verification target and the aggregate
-  ``all_verify_interface_header_sets``, ``all_verify_private_header_sets``,
-  and ``all_verify_header_sets`` targets when the property is enabled,
-  even if the target has no matching header sets.
-
-* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
-  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now support
-  ``OBJC`` and ``OBJCXX`` languages in addition to ``C`` and ``CXX``.
-
-* The :prop_tgt:`VS_SOLUTION_DEPLOY` target property is now implemented
-  for targets created by :command:`add_custom_target`.
-
-Modules
--------
-
-* The :module:`CMakePackageConfigHelpers` module's
-  :command:`write_basic_package_version_file` command now supports
-  ``SamePatchVersion``, ``SameFullVersion``, and ``SemanticVersion``
-  compatibility modes. The older ``ExactVersion`` mode is now documented as
-  deprecated in favor of the more explicit ``SamePatchVersion`` and
-  ``SameFullVersion`` modes. The ``SemanticVersion`` mode treats ``0.y.z``
-  versions more strictly than ``1.y.z`` and later versions.
-
-* The :module:`ExternalData` module gained an
-  :variable:`ExternalData_LINK_MODE` variable to select an ordered list
-  of file materialization modes for hard links, symbolic links, and
-  copies.
-
-* The :module:`ExternalData` module gained an
-  :variable:`ExternalData_STATE_ROOT` variable to store hash records outside
-  :variable:`ExternalData_BINARY_ROOT`.
-
-* The :module:`ExternalProject` and :module:`FetchContent` modules gained
-  :variable:`CMAKE_EP_GIT_CLONE_RETRY_COUNT` and
-  :variable:`CMAKE_EP_GIT_CLONE_RETRY_DELAY` variables to control
-  ``git clone`` retries.
-
-* The :module:`FindCUDAToolkit` module now creates a ``CUDA::sanitizer``
-  target for the :ref:`compute-sanitizer <FindCUDAToolkit_sanitizer>`
-  library.
-
-* The :module:`FindCUDAToolkit` module now provides an imported target
-  for ``cufilt`` in CUDA 11.4 and above.
-
-* :module:`FindPython` and :module:`FindPython3` modules gained the support of
-  the Stable ABI for Free Threaded Python (``SABIT``) as specified by
-  :pep:`803`.
-
-Generator Expressions
----------------------
-
-* The :genex:`TARGET_OBJECTS` generator expression now has an optional
-  ``SOURCE_FILES:...`` argument, which can take one or more source files as
-  arguments, and will filter its output to only include objects built from
-  those source files.
-
-Swift
------
-
-* The :ref:`Ninja Generators` gained the
-  :prop_tgt:`Swift_SEPARATE_MODULE_EMISSION` target property, initialized by
-  the :variable:`CMAKE_Swift_SEPARATE_MODULE_EMISSION` variable, to control
-  whether importable Swift targets emit ``.swiftmodule`` from a dedicated
-  build edge.  Policy :policy:`CMP0215` enables this by default.  The
-  behavior requires policies :policy:`CMP0157` and :policy:`CMP0195` to be
-  set to ``NEW``.
-
-* The default :prop_tgt:`Swift_MODULE_NAME` now replaces hyphens with
-  underscores, since hyphens are not valid in Swift module identifiers.
-
-* Swift targets now have a package name by default.
-  See policy :policy:`CMP0216`.
-
-* The :prop_tgt:`Swift_PACKAGE_NAME` target property was added to
-  specify a Swift package name.
-
-* Swift targets on Windows now support the ``$<TARGET_PDB_FILE:...>``
-  family of generator expressions.
-
-CTest
------
-
-* :manual:`ctest(1)` gained support for forwarding extra arguments to test
-  executables using a :option:`-- <ctest -->` separator.
-
-* :manual:`ctest(1)` gained a :ref:`CoverageTool <ctest-CoverageTool>`
-  option in :ref:`Dashboard Client` mode to configure tests for
-  coverage collection by ``llvm-cov``.
-
-* The :command:`ctest_configure`, :command:`ctest_build`,
-  :command:`ctest_test`, and :command:`ctest_memcheck` commands gained
-  ``PRESET`` and ``PRESETS_FILE`` arguments to support using
-  :manual:`presets <cmake-presets(7)>` for their :ref:`Dashboard Client` steps.
-
-  The :variable:`CTEST_CONFIGURE_PRESET`, :variable:`CTEST_BUILD_PRESET`,
-  :variable:`CTEST_TEST_PRESET`, :variable:`CTEST_PRESET`, and
-  :variable:`CTEST_PRESETS_FILE` variables may be used to specify preset
-  arguments to the above commands in a :ref:`Dashboard Client` script or
-  on the :program:`ctest` command line via the
-  :ctest-dashboard-option:`-D` option.
-
-* :manual:`ctest(1)` gained a :ctest-dashboard-option:`--source-dir` option
-  to specify the source directory.  When combined with
-  :ctest-option:`-T` Configure, this allows CTest to perform an
-  initial configure step for an empty binary directory.
-
-* :manual:`ctest(1)` gained support for a :variable:`CTEST_SUBMIT_PARTS`
-  variable that restricts which parts are uploaded when operating in
-  :ref:`Dashboard Client` mode.
-
-* The :command:`ctest_update` command gained ``VERSION_ONLY`` and
-  ``VERSION_OVERRIDE`` options to select or report a source revision
-  without requiring the corresponding
-  :variable:`CTEST_UPDATE_VERSION_ONLY` or
-  :variable:`CTEST_UPDATE_VERSION_OVERRIDE` dashboard script variables.
-
-CPack
------
-
-* The :cpack_gen:`CPack Archive Generator` gained the
-  :variable:`CPACK_ARCHIVE_ENCODING` variable to specify the pathname
-  encoding used in package archives.
-
-* The :cpack_gen:`CPack NSIS Generator` gained a new variable
-  :variable:`CPACK_NSIS_IGNORE_COMPONENTS_PAGE` to ignore the
-  component selection page in the installer.
-
-* The :variable:`CPACK_RPM_SPEC_MORE_DEFINE` variable now supports
-  a list of definitions.
-
-Deprecated and Removed Features
-===============================
-
-* The ``-W[no-][error=]dev`` command-line options are deprecated.  The new
-  spelling is :option:`-W[no-][error=]author <cmake -W>`.
-
-* The ``--warn-uninitialized`` command-line option is deprecated.  The new
-  spelling is :option:`-Wuninitialized <cmake -W>`.
-
-* The ``--no-warn-unused-cli`` command-line option is deprecated.  The new
-  spelling is :option:`-Wno-unused-cli <cmake -Wno->`.
-
-* The :variable:`CMAKE_WARN_DEPRECATED` and :variable:`CMAKE_ERROR_DEPRECATED`
-  variables are deprecated.  The new :command:`cmake_diagnostic` command should
-  be used instead.
-
-* The :prop_dir:`MACROS` directory property does not exist anymore.
-  See policy :policy:`CMP0217`.
-
-Other Changes
-=============
-
-* A file may belong to at most one non-``HEADERS`` :ref:`file set <file sets>`
-  in a target.  See policy :policy:`CMP0211`.
-
-* :command:`macro` invocations now preserve backslashes in arguments.
-  See policy :policy:`CMP0219`.
-
-* :command:`variable_watch` callback command arguments preserve backslashes.
-  See policy :policy:`CMP0219`.
-
-* :manual:`ctest(1)` now exits with non-zero if invoked with no
-  arguments and no test input file exists.
-
-* Test drivers generated by the :command:`create_test_sourcelist` command now
-  support the ``-N`` option to list all tests, one per line.  This is useful in
-  combination with the new :command:`discover_tests` command.
-
-* Names of executables given to the ``DEPENDS`` argument of
-  :command:`add_custom_command` no longer have ``.exe`` suffixes stripped to
-  establish target-level dependencies. See policy :policy:`CMP0212`.
-
-* Targets which provide C++ modules may now be consumed by targets with
-  different :prop_tgt:`compile features <COMPILE_FEATURES>` and
-  :prop_tgt:`options <COMPILE_OPTIONS>` than the provider.
-
-Updates
-=======
-
-Changes made since CMake 4.4.0 include the following.
-
-4.4.1
------
-
-* The :module:`FindPython`, :module:`FindPython3` modules learned
-  to manage, on ``Windows`` systems, the ``pydebug`` ABI flag.
-
-4.4.2
------
-
-* This version made no changes to documented features or interfaces.
-  Some implementation updates were made to support ecosystem changes
-  and/or fix regressions.
-
-4.4.3
------
-
-* Swift policy :policy:`CMP0215`'s ``NEW`` behavior has been updated
-  to require policies :policy:`CMP0157` and :policy:`CMP0195` to also
-  be set to ``NEW``.
-
---===============3930800725293769375==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/cmake/cmake-bash-completion: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-bash-completion: PV changed from "4.4.2" to "4.4.3"
-packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PKGSIZE changed from 1377181744 to 1376850152 (-0%)
-packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PV changed from "4.4.2" to "4.4.3"
-packages/x86-64-v3-poky-linux/cmake/cmake-dev: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-dev: PV changed from "4.4.2" to "4.4.3"
-packages/x86-64-v3-poky-linux/cmake/cmake-doc: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-doc: PV changed from "4.4.2" to "4.4.3"
-packages/x86-64-v3-poky-linux/cmake/cmake-locale: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-locale: PV changed from "4.4.2" to "4.4.3"
-packages/x86-64-v3-poky-linux/cmake/cmake-src: PKGSIZE changed from 10779614 to 10779291 (-0%)
-packages/x86-64-v3-poky-linux/cmake/cmake-src: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-src: PV changed from "4.4.2" to "4.4.3"
-packages/x86-64-v3-poky-linux/cmake/cmake-src: FILELIST: directory renamed /usr/src/debug/cmake/4.4.2/Source/CPack/IFW -> /usr/src/debug/cmake/4.4.3/Source/CPack/IFW, directory renamed /usr/src/debug/cmake/4.4.2/Source/CPack -> /usr/src/debug/cmake/4.4.3/Source/CPack, directory renamed /usr/src/debug/cmake/4.4.2/Source/CTest -> /usr/src/debug/cmake/4.4.3/Source/CTest, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/std/cmext -> /usr/src/debug/cmake/4.4.3/Utilities/std/cmext, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/std/cm -> /usr/src/debug/cmake/4.4.3/Utilities/std/cm, directory renamed /usr/src/debug/cmake/4.4.2/Source/kwsys -> /usr/src/debug/cmake/4.4.3/Source/kwsys, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmelf -> /usr/src/debug/cmake/4.4.3/Utilities/cmelf, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmllpkgc -> /usr/src/debug/cmake/4.4.3/Utilities/cmllpkgc, directory renamed /usr/src/debug/cmake/4.4.2/Source/LexerParser -> /usr/src/d
- ebug/cmake/4.4.3/Source/LexerParser, directory renamed /usr/src/debug/cmake/4.4.2/Source -> /usr/src/debug/cmake/4.4.3/Source, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmjsoncpp/include/json -> /usr/src/debug/cmake/4.4.3/Utilities/cmjsoncpp/include/json, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmlibarchive/libarchive -> /usr/src/debug/cmake/4.4.3/Utilities/cmlibarchive/libarchive, directory renamed /usr/src/debug/cmake/4.4.2/Source/cmsys -> /usr/src/debug/cmake/4.4.3/Source/cmsys, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmjsoncpp/src/lib_json -> /usr/src/debug/cmake/4.4.3/Utilities/cmjsoncpp/src/lib_json, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmlibrhash/librhash -> /usr/src/debug/cmake/4.4.3/Utilities/cmlibrhash/librhash, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/std/cm/bits -> /usr/src/debug/cmake/4.4.3/Utilities/std/cm/bits
-packages/x86-64-v3-poky-linux/cmake/cmake-staticdev: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake-staticdev: PV changed from "4.4.2" to "4.4.3"
-packages/x86-64-v3-poky-linux/cmake/cmake: PKGSIZE changed from 54630515 to 54628004 (-0%)
-packages/x86-64-v3-poky-linux/cmake/cmake: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
-packages/x86-64-v3-poky-linux/cmake/cmake: PV changed from "4.4.2" to "4.4.3"
-packages/x86-64-v3-poky-linux/cmake: PV changed from "4.4.2" to "4.4.3"
-packages/x86-64-v3-poky-linux/cmake: SRC_URI changed from "https://cmake.org/files/v4.4/cmake-4.4.2.tar.gz" to "https://cmake.org/files/v4.4/cmake-4.4.3.tar.gz"
-packages/x86-64-v3-poky-linux/cmake: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
-
---===============3930800725293769375==
-Content-Type: application/octet-stream
+--===============5617518507532760962==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-cmake-cmake-native-upgrade-4.4.2-4.4.3-4.4.2-4.4.3.patch"
-
-RnJvbSBmNjI1MmZkMzYxNmFmNDY2Zjc0YThjYWY5YjVlMTc0ODY1YjBlZjQxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMjYgQXVnIDIwMjYgMDU6Mjk6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
-bWFrZSxjbWFrZS1uYXRpdmU6IHVwZ3JhZGUgNC40LjIgLT4gNC40LjMsNC40LjIgLT4gNC40LjMK
-ClNvdXJjZTogSGVscC9yZWxlYXNlLzQuNC5yc3QKCkNNYWtlIDQuNCBSZWxlYXNlIE5vdGVzCioq
-KioqKioqKioqKioqKioqKioqKioqCgouLiBvbmx5OjogaHRtbAoKICAuLiBjb250ZW50czo6CgpD
-aGFuZ2VzIG1hZGUgc2luY2UgQ01ha2UgNC4zIGluY2x1ZGUgdGhlIGZvbGxvd2luZy4KCk5ldyBG
-ZWF0dXJlcwo9PT09PT09PT09PT0KCkRpYWdub3N0aWNzCi0tLS0tLS0tLS0tCgoqIENNYWtlIGRp
-YWdub3N0aWMgYWN0aW9ucyBhcmUgbm93IHRyYWNrZWQgaW4gYSBuZXcgc3RhdGUgdHlwZSBtYW5h
-Z2VkIGJ5IHRoZQogIDpjb21tYW5kOmBjbWFrZV9kaWFnbm9zdGljYCBjb21tYW5kLiAgVGhpcyBy
-ZXBsYWNlcyB0aGUgb2xkIHN5c3RlbSB3aGljaAogIHNvbWV0aW1lcyB1c2VkIHZhcmlhYmxlcyB0
-byBtYW5hZ2UgcmVwb3J0aW5nIGFjdGlvbnMgYW5kIHNvbWV0aW1lcyBkaWQgbm90CiAgYWxsb3cg
-bWFuYWdlbWVudCBiZXlvbmQgY29tbWFuZC1saW5lIG9wdGlvbnMgYW5kIHByZXNldHMuICBUaGUg
-bmV3IHN5c3RlbQogIGFsc28gaW50cm9kdWNlcyBzZXZlcmFsIG5ldyBkaWFnbm9zdGljIGNhdGVn
-b3JpZXMgYW5kIHNpZ25pZmljYW50bHkgcmVkdWNlcwogIHRoZSBjb3N0IG9mIGFkZGluZyBhZGRp
-dGlvbmFsIGNhdGVnb3JpZXMgaW4gdGhlIGZ1dHVyZS4gIFNlZSB0aGUKICA6bWFudWFsOmBjbWFr
-ZS1kaWFnbm9zdGljcyg3KWAgbWFudWFsIGZvciBhIGxpc3Qgb2YgYXZhaWxhYmxlIGNhdGVnb3Jp
-ZXMuCgoqIFRoZSA6ZGlhZ25vc3RpYzpgQ01EX0lOU1RBTExfQUJTT0xVVEVfREVTVElOQVRJT05g
-IGRpYWdub3N0aWMgY2F0ZWdvcnkKICB3YXMgYWRkZWQgdG8gZGlhZ25vc2UgOmNvbW1hbmQ6YGlu
-c3RhbGxgIGNvbW1hbmRzIHRoYXQgc3BlY2lmeSBhbgogIGFic29sdXRlIGBgREVTVElOQVRJT05g
-YC4gIFRoaXMgZGlhZ25vc3RpYyBtYXkgYmUgY29udHJvbGxlZCB3aXRoIHRoZQogIDpvcHRpb246
-YC1XaW5zdGFsbC1hYnNvbHV0ZS1kZXN0aW5hdGlvbiA8Y21ha2UgLVc+YCBjb21tYW5kLWxpbmUg
-b3B0aW9uLAogIHRoZSBgYGluc3RhbGxBYnNvbHV0ZURlc3RpbmF0aW9uYGAgZmllbGQgaW4gYQog
-IDptYW51YWw6YENNYWtlIFByZXNldHMgPGNtYWtlLXByZXNldHMoNyk+YAogIDpwcmVzZXQ6YGNv
-bmZpZ3VyZVByZXNldHMud2FybmluZ3NgIG9iamVjdCwKICBvciB0aGUgOmNvbW1hbmQ6YGNtYWtl
-X2RpYWdub3N0aWNgIGNvbW1hbmQuCgpQcmVzZXRzCi0tLS0tLS0KCiogOm1hbnVhbDpgY21ha2Ut
-cHJlc2V0cyg3KWAgZmlsZXMgbm93IHN1cHBvcnQgc2NoZW1hIHZlcnNpb24gMTIuCgoqIDptYW51
-YWw6YGNtYWtlKDEpYCwgOm1hbnVhbDpgY3Rlc3QoMSlgLCBhbmQgOm1hbnVhbDpgY3BhY2soMSlg
-IGdhaW5lZAogIGBgLS1wcmVzZXRzLWZpbGVgYCBhcmd1bWVudHMgdG8gc3VwcG9ydCBsb2FkaW5n
-CiAgOm1hbnVhbDpgcHJlc2V0cyA8Y21ha2UtcHJlc2V0cyg3KT5gIGZyb20gdGhlIHNwZWNpZmll
-ZCBmaWxlIGluc3RlYWQgb2YKICBgYENNYWtlUHJlc2V0cy5qc29uYGAgYW5kL29yIGBgQ01ha2VV
-c2VyUHJlc2V0cy5qc29uYGAuIFNlZQogIDpvcHRpb246YGNtYWtlIC0tcHJlc2V0cy1maWxlYCwK
-ICA6b3B0aW9uOmBjbWFrZSAtLWJ1aWxkIC0tcHJlc2V0cy1maWxlIDxjbWFrZS0tYnVpbGQgLS1w
-cmVzZXRzLWZpbGU+YCwKICA6b3B0aW9uOmBjbWFrZSAtLXdvcmtmbG93IC0tcHJlc2V0cy1maWxl
-IDxjbWFrZS0td29ya2Zsb3cgLS1wcmVzZXRzLWZpbGU+YCwKICA6b3B0aW9uOmBjdGVzdCAtLXBy
-ZXNldHMtZmlsZWAsIGFuZCA6b3B0aW9uOmBjcGFjayAtLXByZXNldHMtZmlsZWAgZm9yIGRldGFp
-bHMuCgoqIDptYW51YWw6YGNtYWtlLXByZXNldHMoNylgLCBpbiBzY2hlbWEgdmVyc2lvbiAxMiBh
-bmQgYWJvdmUsIG5vdyBleHBhbmQgdGhlCiAgOnJlZjpgJHtmaWxlRGlyfSA8Q01ha2VQcmVzZXRz
-IGZpbGVEaXI+YCBtYWNybyB0byB0aGUgZGlyZWN0b3J5IG9mIHRoZQogIHByZXNldHMgZmlsZSBj
-b250YWluaW5nIHRoZSBgYCR7ZmlsZURpcn1gYCBtYWNybywgcmVnYXJkbGVzcyBvZiB3aGV0aGVy
-CiAgaXQgaXMgaW5oZXJpdGVkIGJ5IGFub3RoZXIgcHJlc2V0IGluIGEgZGlmZmVyZW50IGRpcmVj
-dG9yeS4KCiogOm1hbnVhbDpgY21ha2UtcHJlc2V0cyg3KWAgZ2FpbmVkIHN1cHBvcnQgZm9yIGEK
-ICBgYHRlc3RQYXNzdGhyb3VnaEFyZ3VtZW50c2BgIGZpZWxkIGluIHRoZQogIHRlc3QgcHJlc2V0
-IGBgZXhlY3V0aW9uYGAgb2JqZWN0IGZvcgogIGZvcndhcmRpbmcgYXJndW1lbnRzIHRvIHRlc3Qg
-ZXhlY3V0YWJsZXMgdmlhIHByZXNldHMuCgpGaWxlLUJhc2VkIEFQSQotLS0tLS0tLS0tLS0tLQoK
-KiBUaGUgOm1hbnVhbDpgY21ha2UtZmlsZS1hcGkoNylgICJjb2RlbW9kZWwiIHZlcnNpb24gMiBv
-YmplY3QgaGFzIGJlZW4KICB1cGRhdGVkIHRvIDIuMTEuCgoqIFRoZSA6bWFudWFsOmBjbWFrZS1m
-aWxlLWFwaSg3KWAgImNvZGVtb2RlbCIgdmVyc2lvbiAyICJ0YXJnZXQiIG9iamVjdCdzCiAgInNv
-dXJjZXMiIGFuZCAiaW50ZXJmYWNlU291cmNlcyIgb2JqZWN0cyBnYWluZWQgbmV3IGBgZmlsZVNl
-dEluZGV4ZXNgYCBmaWVsZHMKICB0byBzdXBwb3J0IHNvdXJjZXMgYmVsb25naW5nIHRvIG11bHRp
-cGxlIGZpbGUgc2V0cy4gVGhlIGBgZmlsZVNldEluZGV4YGAKICBmaWVsZHMgYXJlIG1haW50YWlu
-ZWQgZm9yIGJhY2t3YXJkcyBjb21wYXRpYmlsaXR5IG9ubHksIGFuZCB1c2VycyBhcmUgYWR2aXNl
-ZAogIHRvIHBvcnQgdG8gdGhlIG5ldyBmaWVsZHMuCgoqIFRoZSA6bWFudWFsOmBjbWFrZS1maWxl
-LWFwaSg3KWAgImNvZGVtb2RlbCIgdmVyc2lvbiAyICJ0YXJnZXQiIG9iamVjdCdzCiAgInNvdXJj
-ZXMiIG9iamVjdCBnYWluZWQgYSBuZXcgYGBiYWNrdHJhY2VzYGAgZmllbGQgdG8gcmVwcmVzZW50
-IG11bHRpcGxlCiAgY29tbWFuZCBpbnZvY2F0aW9ucyB3aGljaCBhc3NvY2lhdGUgYSBzaW5nbGUg
-c291cmNlIGZvciBhIGdpdmVuIHRhcmdldCB3aXRoCiAgbXVsdAoKW0NoYW5nZWxvZyB0cnVuY2F0
-ZWQgYXMgaXQgZXhjZWVkcyAzMDAwIGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4g
-YmUgZm91bmQgaW4gYW4gYXR0YWNobWVudCB0byB0aGUgQVVIIGVtYWlsXQoKU291cmNlOiBIZWxw
-L3JlbGVhc2UvNC40LnJzdAoKQ01ha2UgNC40IFJlbGVhc2UgTm90ZXMKKioqKioqKioqKioqKioq
-KioqKioqKioKCi4uIG9ubHk6OiBodG1sCgogIC4uIGNvbnRlbnRzOjoKCkNoYW5nZXMgbWFkZSBz
-aW5jZSBDTWFrZSA0LjMgaW5jbHVkZSB0aGUgZm9sbG93aW5nLgoKTmV3IEZlYXR1cmVzCj09PT09
-PT09PT09PQoKRGlhZ25vc3RpY3MKLS0tLS0tLS0tLS0KCiogQ01ha2UgZGlhZ25vc3RpYyBhY3Rp
-b25zIGFyZSBub3cgdHJhY2tlZCBpbiBhIG5ldyBzdGF0ZSB0eXBlIG1hbmFnZWQgYnkgdGhlCiAg
-OmNvbW1hbmQ6YGNtYWtlX2RpYWdub3N0aWNgIGNvbW1hbmQuICBUaGlzIHJlcGxhY2VzIHRoZSBv
-bGQgc3lzdGVtIHdoaWNoCiAgc29tZXRpbWVzIHVzZWQgdmFyaWFibGVzIHRvIG1hbmFnZSByZXBv
-cnRpbmcgYWN0aW9ucyBhbmQgc29tZXRpbWVzIGRpZCBub3QKICBhbGxvdyBtYW5hZ2VtZW50IGJl
-eW9uZCBjb21tYW5kLWxpbmUgb3B0aW9ucyBhbmQgcHJlc2V0cy4gIFRoZSBuZXcgc3lzdGVtCiAg
-YWxzbyBpbnRyb2R1Y2VzIHNldmVyYWwgbmV3IGRpYWdub3N0aWMgY2F0ZWdvcmllcyBhbmQgc2ln
-bmlmaWNhbnRseSByZWR1Y2VzCiAgdGhlIGNvc3Qgb2YgYWRkaW5nIGFkZGl0aW9uYWwgY2F0ZWdv
-cmllcyBpbiB0aGUgZnV0dXJlLiAgU2VlIHRoZQogIDptYW51YWw6YGNtYWtlLWRpYWdub3N0aWNz
-KDcpYCBtYW51YWwgZm9yIGEgbGlzdCBvZiBhdmFpbGFibGUgY2F0ZWdvcmllcy4KCiogVGhlIDpk
-aWFnbm9zdGljOmBDTURfSU5TVEFMTF9BQlNPTFVURV9ERVNUSU5BVElPTmAgZGlhZ25vc3RpYyBj
-YXRlZ29yeQogIHdhcyBhZGRlZCB0byBkaWFnbm9zZSA6Y29tbWFuZDpgaW5zdGFsbGAgY29tbWFu
-ZHMgdGhhdCBzcGVjaWZ5IGFuCiAgYWJzb2x1dGUgYGBERVNUSU5BVElPTmBgLiAgVGhpcyBkaWFn
-bm9zdGljIG1heSBiZSBjb250cm9sbGVkIHdpdGggdGhlCiAgOm9wdGlvbjpgLVdpbnN0YWxsLWFi
-c29sdXRlLWRlc3RpbmF0aW9uIDxjbWFrZSAtVz5gIGNvbW1hbmQtbGluZSBvcHRpb24sCiAgdGhl
-IGBgaW5zdGFsbEFic29sdXRlRGVzdGluYXRpb25gYCBmaWVsZCBpbiBhCiAgOm1hbnVhbDpgQ01h
-a2UgUHJlc2V0cyA8Y21ha2UtcHJlc2V0cyg3KT5gCiAgOnByZXNldDpgY29uZmlndXJlUHJlc2V0
-cy53YXJuaW5nc2Agb2JqZWN0LAogIG9yIHRoZSA6Y29tbWFuZDpgY21ha2VfZGlhZ25vc3RpY2Ag
-Y29tbWFuZC4KClByZXNldHMKLS0tLS0tLQoKKiA6bWFudWFsOmBjbWFrZS1wcmVzZXRzKDcpYCBm
-aWxlcyBub3cgc3VwcG9ydCBzY2hlbWEgdmVyc2lvbiAxMi4KCiogOm1hbnVhbDpgY21ha2UoMSlg
-LCA6bWFudWFsOmBjdGVzdCgxKWAsIGFuZCA6bWFudWFsOmBjcGFjaygxKWAgZ2FpbmVkCiAgYGAt
-LXByZXNldHMtZmlsZWBgIGFyZ3VtZW50cyB0byBzdXBwb3J0IGxvYWRpbmcKICA6bWFudWFsOmBw
-cmVzZXRzIDxjbWFrZS1wcmVzZXRzKDcpPmAgZnJvbSB0aGUgc3BlY2lmaWVkIGZpbGUgaW5zdGVh
-ZCBvZgogIGBgQ01ha2VQcmVzZXRzLmpzb25gYCBhbmQvb3IgYGBDTWFrZVVzZXJQcmVzZXRzLmpz
-b25gYC4gU2VlCiAgOm9wdGlvbjpgY21ha2UgLS1wcmVzZXRzLWZpbGVgLAogIDpvcHRpb246YGNt
-YWtlIC0tYnVpbGQgLS1wcmVzZXRzLWZpbGUgPGNtYWtlLS1idWlsZCAtLXByZXNldHMtZmlsZT5g
-LAogIDpvcHRpb246YGNtYWtlIC0td29ya2Zsb3cgLS1wcmVzZXRzLWZpbGUgPGNtYWtlLS13b3Jr
-ZmxvdyAtLXByZXNldHMtZmlsZT5gLAogIDpvcHRpb246YGN0ZXN0IC0tcHJlc2V0cy1maWxlYCwg
-YW5kIDpvcHRpb246YGNwYWNrIC0tcHJlc2V0cy1maWxlYCBmb3IgZGV0YWlscy4KCiogOm1hbnVh
-bDpgY21ha2UtcHJlc2V0cyg3KWAsIGluIHNjaGVtYSB2ZXJzaW9uIDEyIGFuZCBhYm92ZSwgbm93
-IGV4cGFuZCB0aGUKICA6cmVmOmAke2ZpbGVEaXJ9IDxDTWFrZVByZXNldHMgZmlsZURpcj5gIG1h
-Y3JvIHRvIHRoZSBkaXJlY3Rvcnkgb2YgdGhlCiAgcHJlc2V0cyBmaWxlIGNvbnRhaW5pbmcgdGhl
-IGBgJHtmaWxlRGlyfWBgIG1hY3JvLCByZWdhcmRsZXNzIG9mIHdoZXRoZXIKICBpdCBpcyBpbmhl
-cml0ZWQgYnkgYW5vdGhlciBwcmVzZXQgaW4gYSBkaWZmZXJlbnQgZGlyZWN0b3J5LgoKKiA6bWFu
-dWFsOmBjbWFrZS1wcmVzZXRzKDcpYCBnYWluZWQgc3VwcG9ydCBmb3IgYQogIGBgdGVzdFBhc3N0
-aHJvdWdoQXJndW1lbnRzYGAgZmllbGQgaW4gdGhlCiAgdGVzdCBwcmVzZXQgYGBleGVjdXRpb25g
-YCBvYmplY3QgZm9yCiAgZm9yd2FyZGluZyBhcmd1bWVudHMgdG8gdGVzdCBleGVjdXRhYmxlcyB2
-aWEgcHJlc2V0cy4KCkZpbGUtQmFzZWQgQVBJCi0tLS0tLS0tLS0tLS0tCgoqIFRoZSA6bWFudWFs
-OmBjbWFrZS1maWxlLWFwaSg3KWAgImNvZGVtb2RlbCIgdmVyc2lvbiAyIG9iamVjdCBoYXMgYmVl
-bgogIHVwZGF0ZWQgdG8gMi4xMS4KCiogVGhlIDptYW51YWw6YGNtYWtlLWZpbGUtYXBpKDcpYCAi
-Y29kZW1vZGVsIiB2ZXJzaW9uIDIgInRhcmdldCIgb2JqZWN0J3MKICAic291cmNlcyIgYW5kICJp
-bnRlcmZhY2VTb3VyY2VzIiBvYmplY3RzIGdhaW5lZCBuZXcgYGBmaWxlU2V0SW5kZXhlc2BgIGZp
-ZWxkcwogIHRvIHN1cHBvcnQgc291cmNlcyBiZWxvbmdpbmcgdG8gbXVsdGlwbGUgZmlsZSBzZXRz
-LiBUaGUgYGBmaWxlU2V0SW5kZXhgYAogIGZpZWxkcyBhcmUgbWFpbnRhaW5lZCBmb3IgYmFja3dh
-cmRzIGNvbXBhdGliaWxpdHkgb25seSwgYW5kIHVzZXJzIGFyZSBhZHZpc2VkCiAgdG8gcG9ydCB0
-byB0aGUgbmV3IGZpZWxkcy4KCiogVGhlIDptYW51YWw6YGNtYWtlLWZpbGUtYXBpKDcpYCAiY29k
-ZW1vZGVsIiB2ZXJzaW9uIDIgInRhcmdldCIgb2JqZWN0J3MKICAic291cmNlcyIgb2JqZWN0IGdh
-aW5lZCBhIG5ldyBgYGJhY2t0cmFjZXNgYCBmaWVsZCB0byByZXByZXNlbnQgbXVsdGlwbGUKICBj
-b21tYW5kIGludm9jYXRpb25zIHdoaWNoIGFzc29jaWF0ZSBhIHNpbmdsZSBzb3VyY2UgZm9yIGEg
-Z2l2ZW4gdGFyZ2V0IHdpdGgKICBtdWx0CgpbQ2hhbmdlbG9nIHRydW5jYXRlZCBhcyBpdCBleGNl
-ZWRzIDMwMDAgY2hhcmFjdGVyczsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBiZSBmb3VuZCBpbiBh
-biBhdHRhY2htZW50IHRvIHRoZSBBVUggZW1haWxdCi0tLQogLi4uL2NtYWtlL3tjbWFrZS1uYXRp
-dmVfNC40LjIuYmIgPT4gY21ha2UtbmF0aXZlXzQuNC4zLmJifSAgICAgIHwgMAogbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
-MiArLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV80LjQuMi5iYiA9PiBjbWFr
-ZV80LjQuMy5iYn0gIHwgMAogMyBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
-dGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS97Y21ha2UtbmF0aXZl
-XzQuNC4yLmJiID0+IGNtYWtlLW5hdGl2ZV80LjQuMy5iYn0gKDEwMCUpCiByZW5hbWUgbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV80LjQuMi5iYiA9PiBjbWFrZV80LjQuMy5iYn0g
-KDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLW5h
-dGl2ZV80LjQuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVf
-NC40LjMuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfNC40LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfNC40LjMuYmIKZGlmZiAtLWdpdCBhL21ldGEv
-cmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-Y21ha2UvY21ha2UuaW5jCmluZGV4IGE1MWIyNWI4NjQuLmI2YjEwMzcxY2UgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKKysrIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYwpAQCAtMTksNyArMTksNyBAQCBDTUFLRV9NQUpPUl9W
-RVJTSU9OID0gIiR7QCcuJy5qb2luKGQuZ2V0VmFyKCdQVicpLnNwbGl0KCcuJylbMDoyXSl9Igog
-U1JDX1VSSSA9ICJodHRwczovL2NtYWtlLm9yZy9maWxlcy92JHtDTUFLRV9NQUpPUl9WRVJTSU9O
-fS9jbWFrZS0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
-XSA9ICIxZGI5ZTYxZTYwYjZlMDg3NGM4NjM4NjM0MGI5MTAzODJmM2M1ZTc1YjlmYmZiNDRkMTIy
-MDYzMTI5YTI3ODlkIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImM0NjQwMDYxOGI0ZjFmMmI0MzUw
-N2YyNGZiMjJmM2FlODMwYzM0MTZjZjIzYjc3NmUxNmUxZDQxM2FhODkyZjAiCiAKIFVQU1RSRUFN
-X0NIRUNLX1JFR0VYID0gImNtYWtlLSg/UDxwdmVyPlxkKyhcLlxkKykrKVwudGFyIgogCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfNC40LjIuYmIgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfNC40LjMuYmIKc2ltaWxhcml0eSBpbmRleCAx
-MDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV80LjQuMi5i
-YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlXzQuNC4zLmJiCi0t
-IAoyLjQ3LjEKCg==
-
---===============3930800725293769375==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="cmake-changelog.txt"
-
-Changelog for cmake: 4.4.2 -> 4.4.3
-Source: Help/release/4.4.rst
-
-CMake 4.4 Release Notes
-***********************
-
-.. only:: html
-
-  .. contents::
-
-Changes made since CMake 4.3 include the following.
-
-New Features
-============
-
-Diagnostics
------------
-
-* CMake diagnostic actions are now tracked in a new state type managed by the
-  :command:`cmake_diagnostic` command.  This replaces the old system which
-  sometimes used variables to manage reporting actions and sometimes did not
-  allow management beyond command-line options and presets.  The new system
-  also introduces several new diagnostic categories and significantly reduces
-  the cost of adding additional categories in the future.  See the
-  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
-
-* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
-  was added to diagnose :command:`install` commands that specify an
-  absolute ``DESTINATION``.  This diagnostic may be controlled with the
-  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
-  the ``installAbsoluteDestination`` field in a
-  :manual:`CMake Presets <cmake-presets(7)>`
-  :preset:`configurePresets.warnings` object,
-  or the :command:`cmake_diagnostic` command.
-
-Presets
--------
-
-* :manual:`cmake-presets(7)` files now support schema version 12.
-
-* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
-  ``--presets-file`` arguments to support loading
-  :manual:`presets <cmake-presets(7)>` from the specified file instead of
-  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
-  :option:`cmake --presets-file`,
-  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
-  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
-  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
-
-* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
-  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
-  presets file containing the ``${fileDir}`` macro, regardless of whether
-  it is inherited by another preset in a different directory.
-
-* :manual:`cmake-presets(7)` gained support for a
-  ``testPassthroughArguments`` field in the
-  test preset ``execution`` object for
-  forwarding arguments to test executables via presets.
-
-File-Based API
---------------
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
-  updated to 2.11.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
-  to support sources belonging to multiple file sets. The ``fileSetIndex``
-  fields are maintained for backwards compatibility only, and users are advised
-  to port to the new fields.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
-  "sources" object gained a new ``backtraces`` field to represent multiple
-  command invocations which associate a single source for a given target with
-  multiple file sets. The ``backtrace`` field is maintained for backwards
-  compatibility only, and users are advised to port to the new field.
-
-* The :manual:`cmake-file-api(7)` "codemodel" version 2 "installers" object's
-  optional ``fileSetType`` field gained a new ``SOURCES`` value to incorporate
-  the new ``SOURCES`` :ref:`file set <file sets>` type in codemodel replies.
-
-Instrumentation
----------------
-
-* The :manual:`cmake-instrumentation(7)` data version has been updated to 1.1.
-* :manual:`cmake-instrumentation(7)` gained a ``captureOutput`` option which
-  collects the ``stdout`` and ``stderr`` of instrumented commands.
-* :manual:`cmake-instrumentation(7)` gained a ``compileTrace`` option which
-  records compiler-generated trace files (e.g., from Clang's ``-ftime-trace``
-  flag).
-
-Generators
-----------
-
-* The :ref:`Ninja Generators` now support generating a build target named
-  ``test_prep/<test-name>`` for each test added by :command:`add_test`, which
-  builds all dependencies for that test. Build dependencies are registered for
-  an executable target invoked by the test, targets referenced in generator
-  expressions in the test command, and explicit dependencies added using the
-  new ``BUILD_DEPENDS`` option. This behavior is enabled by the new
-  :variable:`CMAKE_TEST_BUILD_DEPENDS` variable. A ``test_prep/all``
-  target is also generated to depend on every ``test_prep/<test-name>``
-  target. Tests with names that are not valid target names are excluded from
-  this behavior. If multiple tests in different directories share the same
-  name, their dependencies are merged into one ``test_prep/<test-name>``
-  target.
-
-Languages
----------
-
-* CUDA language level 23 (corresponding to C++ 23) is now supported with
-  NVCC 13.3 and above.
-
-Compilers
----------
-
-* C++ 20 named modules are now supported with ``clang-cl``, except with the
-  :ref:`Visual Studio Generators` (i.e., the ``ClangCl``
-  :variable:`toolset <CMAKE_GENERATOR_TOOLSET>`).
-  See :manual:`cmake-cxxmodules(7)`.
-
-* The ``ibm-flang`` compiler is now supported with
-  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``IBMFlang``.
-
-* The `Pelles C`_ toolchain is now supported with
-  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``PellesC``.
-
-  The ``ASM_POASM`` language was added to support the Pelles Macro Assembler.
-
-* The Open Watcom ``wlink`` linker is now identified with
-  :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``OpenWatcom``.
-
-* The `wild linker <https://github.com/wild-linker/wild>`_ is now
-  supported with :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``WILD``.
-
-Command-Line
-------------
-
-* :manual:`cmake(1)` now supports ``--build <dir> --preset <pre>``
-  regardless of the current working directory.
-
-* The :option:`cmake -D` command-line option now populates a
-  default :prop_cache:`HELPSTRING` for variables known to CMake.
-
-* :option:`cmake --install` now supports installing multiple components.
-
-* :option:`cmake --install` now accepts ``-j<N>`` in addition to ``-j <N>``
-  for specifying the number of parallel jobs.
-
-* The :option:`cmake -E` commands
-  :option:`copy_if_different <cmake-E copy_if_different>`,
-  :option:`copy_if_newer <cmake-E copy_if_newer>`,
-  :option:`copy_directory <cmake-E copy_directory>`,
-  :option:`copy_directory_if_different <cmake-E copy_directory_if_different>`,
-  and :option:`copy_directory_if_newer <cmake-E copy_directory_if_newer>`
-  gained support for the ``-t`` argument.
-
-* The :option:`cmake -E tar <cmake-E tar>` command-line tool gained the
-  :option:`--cmake-tar-encoding <cmake-E_tar --cmake-tar-encoding>` flag
-  to specify the pathname encoding used in archives.
-
-Commands
---------
-
-* The :command:`block` command can now create a ``DIAGNOSTICS`` scope.
-
-* The :command:`cmake_diagnostic` command was added to manipulate CMake's
-  diagnostic state.
-
-* The :command:`cmake_parse_arguments` command gained a new ``PARSE_ARGN``
-  signature that starts parsing after the last named argument of the calling
-  function and works exactly like ``PARSE_ARGV`` with ``<N>`` being the number
-  of parameters in the function definition.
-
-* The :command:`discover_tests` command was added to support registering tests
-  discovered at test time by :manual:`ctest(1)`. It runs a user-provided
-  discovery command, parses its output, and generates test names, arguments,
-  and properties from regular-expression captures.
-
-* The :command:`execute_process` command gained
-  ``ENVIRONMENT`` and ``ENVIRONMENT_MODIFICATION`` options to run child
-  processes with a modified environment.
-
-* The :command:`file(ARCHIVE_CREATE)` and :command:`file(ARCHIVE_EXTRACT)`
-  commands gained an ``ENCODING`` option to specify the encoding of the
-  archive pathnames.  The default is now ``UTF-8``.
-  See policy :policy:`CMP0213`.
-
-* The :command:`file(READ_SYMLINK)` command gained a ``RESULT``
-  option to capture errors without failing.
-
-* The :command:`if` command gained a new ``DIAGNOSTIC`` operator that evaluates
-  to true if a given diagnostic category name is known to CMake.
-
-* The :command:`include` command now has a ``NO_DIAGNOSTIC_SCOPE`` option.
-
-* The :command:`list(FILTER)` command gained a new ``PREDICATE`` mode
-  that invokes a user-defined :command:`function` to decide which elements are
-  included or excluded, complementing the existing ``REGEX`` mode.
-
-* The :command:`list(SORT)` command gained a new ``COMPARATOR`` keyword
-  that invokes a user-defined :command:`function` to compare elements, complementing
-  the built-in ``COMPARE`` methods.
-
-* The :command:`list(TRANSFORM)` command gained a new ``APPLY`` action that
-  invokes a user-defined :command:`function` for each element of the list,
-  enabling arbitrary per-element transformations.
-
-* The :command:`list(TRANSFORM)` command gained a new ``PREDICATE`` selector
-  that invokes a user-defined :command:`function` to decide which elements are
-  transformed.
-
-* The :command:`string(JSON ... PARTIAL_EQUAL) <string(JSON-PARTIAL_EQUAL)>`
-  command was added to compare two JSON values using *partial* equality.
-
-File Sets
----------
-
-* A ``SOURCES`` :ref:`file set <file sets>` type was added to specify
-  a target's source files via file sets.
-
-* The :prop_fs:`CXX_SCAN_FOR_MODULES` file set property was added to
-  control whether a file set's sources are scanned for C++ modules.
-
-* The :prop_fs:`INDEPENDENT_FILES` file set property was added to
-  specify that a file set's sources do not depend on any generated files.
-
-* The :prop_fs:`JOB_POOL_COMPILE` file set property was added to
-  assign a file set's sources to a specific Ninja job pool.
-
-* The :prop_fs:`SCOPE`, :prop_fs:`TYPE`, :prop_fs:`BASE_DIRS`,
-  :prop_fs:`SOURCES`, and :prop_fs:`INTERFACE_SOURCES` file set
-  properties were added to provide the declared details of a file set.
-
-* The :prop_fs:`SKIP_LINTING` file set property was added to exclude
-  a file set's sources from target-wide code checks.
-
-* The :prop_fs:`SKIP_PRECOMPILE_HEADERS` file set property was added
-  to avoid using precompiled headers for a file set's sources.
-
-* The :prop_fs:`SKIP_UNITY_BUILD_INCLUSION` file set property was added
-  to exclude a file set's sources from inclusion in unity builds.
-
-Variables
----------
-
-* The :variable:`CMAKE_INSTALL_DEFAULT_COMPONENT_NAME` variable gained
-  support for a special ``<PROJECT_NAME>`` placeholder value.
-  It tells each :command:`install` invocation to take a default component
-  name from the current :variable:`PROJECT_NAME` variable value.
-
-Environment Variables
----------------------
-
-* The :envvar:`CMAKE_DISABLE_PRECOMPILE_HEADERS` environment variable
-  was added to disable precompiled headers by default.
-
-Properties
-----------
-
-* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
-  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now always
-  create the per-target verification target and the aggregate
-  ``all_verify_interface_header_sets``, ``all_verify_private_header_sets``,
-  and ``all_verify_header_sets`` targets when the property is enabled,
-  even if the target has no matching header sets.
-
-* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
-  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now support
-  ``OBJC`` and ``OBJCXX`` languages in addition to ``C`` and ``CXX``.
-
-* The :prop_tgt:`VS_SOLUTION_DEPLOY` target property is now implemented
-  for targets created by :command:`add_custom_target`.
-
-Modules
--------
-
-* The :module:`CMakePackageConfigHelpers` module's
-  :command:`write_basic_package_version_file` command now supports
-  ``SamePatchVersion``, ``SameFullVersion``, and ``SemanticVersion``
-  compatibility modes. The older ``ExactVersion`` mode is now documented as
-  deprecated in favor of the more explicit ``SamePatchVersion`` and
-  ``SameFullVersion`` modes. The ``SemanticVersion`` mode treats ``0.y.z``
-  versions more strictly than ``1.y.z`` and later versions.
-
-* The :module:`ExternalData` module gained an
-  :variable:`ExternalData_LINK_MODE` variable to select an ordered list
-  of file materialization modes for hard links, symbolic links, and
-  copies.
-
-* The :module:`ExternalData` module gained an
-  :variable:`ExternalData_STATE_ROOT` variable to store hash records outside
-  :variable:`ExternalData_BINARY_ROOT`.
-
-* The :module:`ExternalProject` and :module:`FetchContent` modules gained
-  :variable:`CMAKE_EP_GIT_CLONE_RETRY_COUNT` and
-  :variable:`CMAKE_EP_GIT_CLONE_RETRY_DELAY` variables to control
-  ``git clone`` retries.
-
-* The :module:`FindCUDAToolkit` module now creates a ``CUDA::sanitizer``
-  target for the :ref:`compute-sanitizer <FindCUDAToolkit_sanitizer>`
-  library.
-
-* The :module:`FindCUDAToolkit` module now provides an imported target
-  for ``cufilt`` in CUDA 11.4 and above.
-
-* :module:`FindPython` and :module:`FindPython3` modules gained the support of
-  the Stable ABI for Free Threaded Python (``SABIT``) as specified by
-  :pep:`803`.
-
-Generator Expressions
----------------------
-
-* The :genex:`TARGET_OBJECTS` generator expression now has an optional
-  ``SOURCE_FILES:...`` argument, which can take one or more source files as
-  arguments, and will filter its output to only include objects built from
-  those source files.
-
-Swift
------
-
-* The :ref:`Ninja Generators` gained the
-  :prop_tgt:`Swift_SEPARATE_MODULE_EMISSION` target property, initialized by
-  the :variable:`CMAKE_Swift_SEPARATE_MODULE_EMISSION` variable, to control
-  whether importable Swift targets emit ``.swiftmodule`` from a dedicated
-  build edge.  Policy :policy:`CMP0215` enables this by default.  The
-  behavior requires policies :policy:`CMP0157` and :policy:`CMP0195` to be
-  set to ``NEW``.
-
-* The default :prop_tgt:`Swift_MODULE_NAME` now replaces hyphens with
-  underscores, since hyphens are not valid in Swift module identifiers.
-
-* Swift targets now have a package name by default.
-  See policy :policy:`CMP0216`.
-
-* The :prop_tgt:`Swift_PACKAGE_NAME` target property was added to
-  specify a Swift package name.
-
-* Swift targets on Windows now support the ``$<TARGET_PDB_FILE:...>``
-  family of generator expressions.
-
-CTest
------
-
-* :manual:`ctest(1)` gained support for forwarding extra arguments to test
-  executables using a :option:`-- <ctest -->` separator.
-
-* :manual:`ctest(1)` gained a :ref:`CoverageTool <ctest-CoverageTool>`
-  option in :ref:`Dashboard Client` mode to configure tests for
-  coverage collection by ``llvm-cov``.
-
-* The :command:`ctest_configure`, :command:`ctest_build`,
-  :command:`ctest_test`, and :command:`ctest_memcheck` commands gained
-  ``PRESET`` and ``PRESETS_FILE`` arguments to support using
-  :manual:`presets <cmake-presets(7)>` for their :ref:`Dashboard Client` steps.
-
-  The :variable:`CTEST_CONFIGURE_PRESET`, :variable:`CTEST_BUILD_PRESET`,
-  :variable:`CTEST_TEST_PRESET`, :variable:`CTEST_PRESET`, and
-  :variable:`CTEST_PRESETS_FILE` variables may be used to specify preset
-  arguments to the above commands in a :ref:`Dashboard Client` script or
-  on the :program:`ctest` command line via the
-  :ctest-dashboard-option:`-D` option.
-
-* :manual:`ctest(1)` gained a :ctest-dashboard-option:`--source-dir` option
-  to specify the source directory.  When combined with
-  :ctest-option:`-T` Configure, this allows CTest to perform an
-  initial configure step for an empty binary directory.
-
-* :manual:`ctest(1)` gained support for a :variable:`CTEST_SUBMIT_PARTS`
-  variable that restricts which parts are uploaded when operating in
-  :ref:`Dashboard Client` mode.
-
-* The :command:`ctest_update` command gained ``VERSION_ONLY`` and
-  ``VERSION_OVERRIDE`` options to select or report a source revision
-  without requiring the corresponding
-  :variable:`CTEST_UPDATE_VERSION_ONLY` or
-  :variable:`CTEST_UPDATE_VERSION_OVERRIDE` dashboard script variables.
-
-CPack
------
-
-* The :cpack_gen:`CPack Archive Generator` gained the
-  :variable:`CPACK_ARCHIVE_ENCODING` variable to specify the pathname
-  encoding used in package archives.
-
-* The :cpack_gen:`CPack NSIS Generator` gained a new variable
-  :variable:`CPACK_NSIS_IGNORE_COMPONENTS_PAGE` to ignore the
-  component selection page in the installer.
-
-* The :variable:`CPACK_RPM_SPEC_MORE_DEFINE` variable now supports
-  a list of definitions.
-
-Deprecated and Removed Features
-===============================
-
-* The ``-W[no-][error=]dev`` command-line options are deprecated.  The new
-  spelling is :option:`-W[no-][error=]author <cmake -W>`.
-
-* The ``--warn-uninitialized`` command-line option is deprecated.  The new
-  spelling is :option:`-Wuninitialized <cmake -W>`.
-
-* The ``--no-warn-unused-cli`` command-line option is deprecated.  The new
-  spelling is :option:`-Wno-unused-cli <cmake -Wno->`.
-
-* The :variable:`CMAKE_WARN_DEPRECATED` and :variable:`CMAKE_ERROR_DEPRECATED`
-  variables are deprecated.  The new :command:`cmake_diagnostic` command should
-  be used instead.
-
-* The :prop_dir:`MACROS` directory property does not exist anymore.
-  See policy :policy:`CMP0217`.
-
-Other Changes
-=============
-
-* A file may belong to at most one non-``HEADERS`` :ref:`file set <file sets>`
-  in a target.  See policy :policy:`CMP0211`.
-
-* :command:`macro` invocations now preserve backslashes in arguments.
-  See policy :policy:`CMP0219`.
-
-* :command:`variable_watch` callback command arguments preserve backslashes.
-  See policy :policy:`CMP0219`.
-
-* :manual:`ctest(1)` now exits with non-zero if invoked with no
-  arguments and no test input file exists.
-
-* Test drivers generated by the :command:`create_test_sourcelist` command now
-  support the ``-N`` option to list all tests, one per line.  This is useful in
-  combination with the new :command:`discover_tests` command.
-
-* Names of executables given to the ``DEPENDS`` argument of
-  :command:`add_custom_command` no longer have ``.exe`` suffixes stripped to
-  establish target-level dependencies. See policy :policy:`CMP0212`.
-
-* Targets which provide C++ modules may now be consumed by targets with
-  different :prop_tgt:`compile features <COMPILE_FEATURES>` and
-  :prop_tgt:`options <COMPILE_OPTIONS>` than the provider.
-
-Updates
-=======
-
-Changes made since CMake 4.4.0 include the following.
-
-4.4.1
------
-
-* The :module:`FindPython`, :module:`FindPython3` modules learned
-  to manage, on ``Windows`` systems, the ``pydebug`` ABI flag.
-
-4.4.2
------
-
-* This version made no changes to documented features or interfaces.
-  Some implementation updates were made to support ecosystem changes
-  and/or fix regressions.
-
-4.4.3
------
-
-* Swift policy :policy:`CMP0215`'s ``NEW`` behavior has been updated
-  to require policies :policy:`CMP0157` and :policy:`CMP0195` to also
-  be set to ``NEW``.
-
---===============3930800725293769375==--
+Content-Disposition: attachment; filename="openssl-changelog.txt"
+
+Q2hhbmdlbG9nIGZvciBvcGVuc3NsOiAzLjUuNyAtPiA0LjAuMgpTb3VyY2U6IENIQU5HRVMubWQK
+Ci0gW09wZW5TU0wgNC4wXSgjb3BlbnNzbC00MCkKIC0gW09wZW5TU0wgMy42XSgjb3BlbnNzbC0z
+NikKT3BlblNTTCA0LjAKIyMjIENoYW5nZXMgYmV0d2VlbiA0LjAuMSBhbmQgNC4wLjIgWzI1IEF1
+ZyAyMDI2XQoKICogRml4ZWQgUVVJQyBzZXJ2ZXIgYmVpbmcgYWJsZSB0byB0cmlnZ2VyIGRvdWJs
+ZSBmcmVlIHdoZW4gcHJvY2Vzc2luZyBgSU5JVElBTGAKICAgcGFja2V0LgoKICAgU2V2ZXJpdHk6
+IE1vZGVyYXRlCgogICBJc3N1ZSBzdW1tYXJ5OiBRVUlDIHNlcnZlciBtYXkgZG91YmxlIGZyZWUg
+UVJYIChRVUlDIHJlY29yZCBsYXllciBSWCkgb2JqZWN0CiAgIHdoZW4gY2hhbm5lbCBjcmVhdGlv
+biBmYWlscyBmb3IgaW5pdGlhbCBwYWNrZXQuCgogICBJbXBhY3Qgc3VtbWFyeTogRG91YmxlIGZy
+ZWUgbGVhZHMgdG8gaGVhcCBjb3JydXB0aW9uLCB3aGljaCB0eXBpY2FsbHkgcmVzdWx0cwogICBp
+biB0ZXJtaW5hdGlvbiBvZiBRVUlDIHNlcnZlciBwcm9jZXNzLCBsZWFkaW5nIHRvIGEgRGVuaWFs
+IG9mIFNlcnZpY2UuCiAgIFRoZXJlIGlzIHNvIGZhciBubyBldmlkZW5jZSB0aGF0IHRoaXMgZG91
+YmxlIGZyZWUgaXMgZXhwbG9pdGFibGUgZm9yIHJlbW90ZQogICBjb2RlIGV4ZWN1dGlvbiwgdGh1
+cyBpdCBpcyBjb25zaWRlcmVkIGhpZ2hseSBpbXByb2JhYmxlLgoKICAgUmVwb3J0ZWQgYnk6IEZ1
+enoweCAoWktTQyBJbnN0aXR1dGUgb2YgU2VjdXJpdHkgUmVzZWFyY2gpLCBFbWlsaW8gR2FsbGUs
+CiAgIGFuZCBGZW5nIFh1ZSAoVGhyZWF0Qm9vbikuCgogICAoW0NWRS0yMDI2LTE4Nzk4XSkKCiAg
+ICpBbGV4YW5kciBOZWR2xJtkaWNrw70qCgogKiBGaXhlZCBoZWFwIGJ1ZmZlciBvdmVyZmxvdyBp
+biBDTVMga2V5IHVud3JhcHBpbmcuCgogICBTZXZlcml0eTogTW9kZXJhdGUKCiAgIElzc3VlIHN1
+bW1hcnk6IE9wZW5TU0wgQ01TIGRlY3J5cHRpb24gc2l6ZXMgdGhlIGtleS11bndyYXAgb3V0cHV0
+IGJ1ZmZlcgogICBiYXNlZCBvbiBxdWVyeWluZyB0aGUgdW53cmFwcGVkIGtleSBzaXplLCBidXQg
+dGhlIEFFUy1XUkFQLVBBRCB1bndyYXAKICAgcHJpbWl0aXZlIGNhbiB3cml0ZSBhbmQgY2xlYW5z
+ZSBtb3JlIGJ5dGVzIHRoYW4gdGhhdCBxdWVyeSByZXBvcnRzLCBjYXVzaW5nCiAgIGFuIDgtYnl0
+ZSBvdXQtb2YtYm91bmRzIGhlYXAgd3JpdGUuCgogICBJbXBhY3Qgc3VtbWFyeTogQW4gYXR0YWNr
+ZXIgd2hvIHN1cHBsaWVzIGEgY3JhZnRlZCBDTVMgbWVzc2FnZSBjYW4gdHJpZ2dlcgogICBhIGRl
+dGVybWluaXN0aWMgOC1ieXRlIG91dC1vZi1ib3VuZHMgaGVhcCB3cml0ZSB3aGVuIHRoZSB2aWN0
+aW0gZGVjcnlwdHMgaXQKICAgd2l0aCBgQ01TX2RlY3J5cHQoKWAsIGNvcnJ1cHRpbmcgdGhlIGhl
+YXAgYW5kIHR5cGljYWxseSByZXN1bHRpbmcgaW4gYSBEZW5pYWwKICAgb2YgU2VydmljZS4KCiAg
+IFJlcG9ydGVkIGJ5OiBCaGFiYW5pIFNhbmthciBEYXMgYW5kIEZpbGlwZSBDYXNhbCAoVHJhaWwg
+b2YgQml0cykuCgogICAoW0NWRS0yMDI2LTYzMDcyXSkKCiAgICpEYW5pZWwgS3ViZWMqCgogKiBG
+aXhlZCBpbnZhbGlkIHBvaW50ZXIgZGVyZWZlcmVuY2UgaW4gQ01QIHNlcnZlciB2aWEgY3JhZnRl
+ZCBgcHJvdGVjdGlvbkFsZ2AuCgogICBTZXZlcml0eTogTW9kZXJhdGUKCiAgIElzc3VlIFN1bW1h
+cnk6IFRoZSBPcGVuU1NMIENlcnRpZmljYXRlIE1hbmFnZW1lbnQgUHJvdG9jb2wgKENNUCkKICAg
+cGFzc3dvcmQtYmFzZWQgcHJvdGVjdGlvbiB2ZXJpZmljYXRpb24gb25seSBjaGVja3Mgd2hldGhl
+cgogICB0aGUgYHByb3RlY3Rpb25BbGdgIHBhcmFtZXRlciB3YXMgbm90IE5VTEwgYW5kIG5vdCBp
+dHMgQVNOLjEgdHlwZSwKICAgYmVmb3JlIHRyZWF0aW5nIGl0IGFzIGEgYFBCTVBhcmFtZXRlcmAu
+ICBBIGNyYWZ0ZWQgbWVzc2FnZSBjYW4gY29udGFpbgogICBhIHBhcmFtZXRlciBvZiBhIGRpZmZl
+cmVudCB0eXBlLCB3aGljaCBpcyB0aGVuIGRlcmVmZXJlbmNlZCBhcyBhbiBpbnZhbGlkCiAgIHBv
+aW50ZXIuCgogICBJbXBhY3Qgc3VtbWFyeTogQSByZW1vdGUsIHVuYXV0aGVudGljYXRlZCBhdHRh
+Y2tlciBjYW4gY3Jhc2ggYW4gYXBwbGljYXRpb24KICAgYWN0aW5nIGFzIGEgQ01QIHNlcnZlciB0
+aGF0IGFjY2VwdHMgUEJNLXByb3RlY3RlZCBtZXNzYWdlcywgb3IgYSBDTVAgY2xpZW50CiAgIHRh
+bGtpbmcgdG8gYSBtYWxpY2lvdXMgb3IgaW50ZXJjZXB0ZWQgQ01QIHNlcnZlciwgcmVzdWx0aW5n
+IGluIGEgRGVuaWFsCiAgIG9mIFNlcnZpY2UuCgogICBSZXBvcnRlZCBieTogWWluZyBEb25nIGFu
+ZCBCaGFiYW5pIFNhbmthciBEYXMuCgogICAoW0NWRS0yMDI2LTYzMDc2XSkKCiAgICpEYW5pZWwg
+S3ViZWMqCgogKiBGaXhlZCB1bmJvdW5kZWQgbWVtb3J5IGdyb3d0aCBpbiBRVUlDIHNlcnZlciBp
+bmNvbWluZyBjaGFubmVsIHF1ZXVlLgoKICAgU2V2ZXJpdHk6IExvdwoKICAgSXNzdWUgc3VtbWFy
+eTogV2hlbiBhbiBPcGVuU1NMIFFVSUMgc2VydmVyIChMaXN0ZW5lciBTU0wgb2JqZWN0KSBwcm9j
+ZXNzZXMKICAgdmFsaWQgUVVJQyBJbml0aWFsIHBhY2tldHMgZm9yIHVua25vd24gZGVzdGluYXRp
+b24gY29ubmVjdGlvbiBJRHMsIGl0IGNhbgogICBhbGxvY2F0ZSBhbmQgcXVldWUgbmV3IGluY29t
+aW5nIGNoYW5uZWxzIHdpdGhvdXQgZW5mb3JjaW5nIGFueSBsaW1pdC4KCiAgIEltcGFjdCBzdW1t
+YXJ5OiBBIHJlbW90ZSBwZWVyIHRoYXQgY2FuIG1ha2UgbWFueSBgSU5JVElBTGAgcGFja2V0cyBy
+ZWFjaAogICB0aGUgc2VydmVyIGxpc3RlbmVyIGZhc3RlciB0aGFuIHRoZSBhcHBsaWNhdGlvbiBh
+Y2NlcHRzIGNvbm5lY3Rpb25zIGNhbgogICBjYXVzZSB0aGUgbWVtb3J5IGFsbG9jYXRlZCB0byBz
+dG9yZSB0aGUgcGVyLWNoYW5uZWwgc3RhdGUgdG8gZ3JvdwogICB3aXRob3V0IGFueSBsaW1pdHMs
+IHBvdGVudGlhbGx5IG1ha2luZyB0aGUgUVVJQyBsaXN0ZW5lciB1bmF2YWlsYWJsZQogICBhbmQg
+Y2F1c2luZyBhIERlbmlhbCBvZiBTZXJ2aWNlLgoKICAgUmVwb3J0ZWQgYnk6IEZpbGlwZSBDYXNh
+bCAoVHJhaWwgb2YgQml0cykgaW4gY29sbGFib3JhdGlvbiB3aXRoIE9wZW5BSS4KCiAgIChbQ1ZF
+LTIwMjYtMTQ0NTZdKQogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wv
+cHVsbC8zMjA1MiAtLT4KCiAgICpGaWxpcGUgQ2FzYWwqCgogKiBGaXhlZCBSUEsgc2VydmVyIHNp
+Z25hdHVyZSBhbGdvcml0aG0gc2VsZWN0aW9uIGJlaW5nIGFibGUgdG8gZGVyZWZlcmVuY2UKICAg
+YSBtaXNzaW5nIGNlcnRpZmljYXRlLgoKICAgU2V2ZXJpdHk6IExvdwoKICAgSXNzdWUgc3VtbWFy
+eTogSW4gYSBzZXJ2ZXIgb3IgY2xpZW50IGNvbmZpZ3VyYXRpb24gd2l0aCBbUkZDIDcyNTBdIFJh
+dyBQdWJsaWMKICAgS2V5cyAoUlBLcykgZW5hYmxlZCwgYW5kIG9ubHkgdGhlIHByaXZhdGUga2V5
+ICh3aXRoIG5vIGFzc29jaWF0ZWQKICAgY2VydGlmaWNhdGUpIGNvbmZpZ3VyZWQgbG9jYWxseSwg
+YSBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgbWF5IG9jY3VyCiAgIHdoZW4gdGhlIHJlbW90ZSBw
+ZWVyIHNvbGljaXRzIHJhdyBwdWJsaWMga2V5cyBhbmQgYWxzbyBzZW5kcyB0aGUgdHlwaWNhbGx5
+CiAgIG9taXR0ZWQgYHNpZ25hdHVyZV9hbGdvcml0aG1zX2NlcnRgIFRMUyBleHRlbnNpb24uCgog
+ICBJbXBhY3Qgc3VtbWFyeTogVGhlIGltcGFjdCBpcyBsaW1pdGVkIHRvIGEgcG9zc2libGUgRGVu
+aWFsIG9mIFNlcnZpY2UKICAgYXMgYSByZXN1bHQgb2YgYW4gYXBwbGljYXRpb24gYWJvcnQsIG5v
+IGRhdGEgZGlzY2xvc3VyZSBvciByZW1vdGUgY29tbWFuZAogICBleGVjdXRpb24gYXJlIHBvc3Np
+YmxlLgoKICAgUmVwb3J0ZWQgYnk6IEZpbGlwZSBDYXNhbCAoVHJhaWwgb2YgQml0cykgaW4gY29s
+bGFib3JhdGlvbiB3aXRoIE9wZW5BSS4KCiAgIChbQ1ZFLTIwMjYtMTQ0NTddKQoKICAgKlZpa3Rv
+ciBEdWtob3ZuaSoKCiAqIEZpeGVkIGV4Y2Vzc2l2ZSBtZW1vcnkgdXNlIGJ1ZmZlcmluZyBEVExT
+IHJlY29yZHMgZm9yIGEgZnV0dXJlIGVwb2NoLgoKICAgU2V2ZXJpdHk6IExvdwoKICAgSXNzdWUg
+c3VtbWFyeTogUmVjZWl2aW5nIGEgRFRMUyByZWNvcmQgZm9yIGEgZnV0dXJlIGVwb2NoIHdoaWxl
+IGEgaGFuZHNoYWtlCiAgIGlzIGluIHByb2dyZXNzIGNhdXNlcyBPcGVuU1NMIHRvIGJ1ZmZlciBm
+YXIgbW9yZSBtZW1vcnkgdGhhbiB0aGUgcmVjb3JkCiAgIGl0c2VsZiByZXF1aXJlcy4KCiAgIElt
+cGFjdCBzdW1tYXJ5OiBBIHBlZXIgY2FuIHVzZSBhIHNtYWxsIGFtb3VudCBvZiBuZXR3b3JrIHRy
+YWZmaWMgdG8gbWFrZQogICBhbiBPcGVuU1NMIERUTFMgZW5kcG9pbnQgcmV0YWluIGEgZGlzcHJv
+cG9ydGlvbmF0ZWx5IGxhcmdlIGFtb3VudCBvZiBtZW1vcnksCiAgIHdoaWNoIG1heSBsZWFkIHRv
+IGEgRGVuaWFsIG9mIFNlcnZpY2UuCgogICBSZXBvcnRlZCBieTogQW1hem9uIFdlYiBTZXJ2aWNl
+cy4KCiAgIChbQ1ZFLTIwMjYtNTQ4NzRdKQoKICAgKk1hdHQgQ2Fzd2VsbCoKCiAqIEZpeGVkIGNs
+aWVudC1zaWRlIG5lbW9yeSBsZWFrIGluIE9DU1AgcmVzcG9uc2UgY2hlY2tpbmcuCgogICBTZXZl
+cml0eTogTG93CgogICBJc3N1ZSBzdW1tYXJ5OiBBIG1hbGljaW91cyBUTFMgc2VydmVyIGNhbiBj
+YXVzZSBhIG1lbW9yeSBsZWFrIGluIGEgVExTCiAgIGNsaWVudCB0aGF0IGhhcyBlbmFibGVkIE9D
+U1AgcmVzcG9uc2UgY2hlY2tpbmcgYnkgc2VuZGluZyBhbiBPQ1NQIHJlc3BvbnNlCiAgIHRoYXQg
+Y29udGFpbnMgbm8gc2luZ2xlIHJlc3BvbnNlIGVudHJpZXMuCgogICBJbXBhY3Qgc3VtbWFyeTog
+QW4gYXR0YWNrZXIgY2FuIGxlYWsgYW4gYXR0YWNrZXItdHVuYWJsZSBhbW91bnQgb2YgbWVtb3J5
+CiAgIHBlciBUTFMgaGFuZHNoYWtlIGluIGEgdmljdGltIGNsaWVudCBhcHBsaWNhdGlvbi4gQSBs
+b25nLXJ1bm5pbmcgY2xpZW50CiAgIHRoYXQgcmVwZWF0ZWRseSBjb25uZWN0cyB0byBhIG1hbGlj
+aW91cyBzZXJ2ZXIgY2FuIGhhdmUgaXRzIG1lbW9yeQogICBleGhhdXN0ZWQsIHJlc3VsdGluZyBp
+biBhIERlbmlhbCBvZiBTZXJ2aWNlLgoKICAgUmVwb3J0ZWQgYnk6IEJoYWJhbmkgU2Fua2FyIERh
+cyBhbmQgWmhlbnpoZSBTaGFvLgoKICAgKFtDVkUtMjAyNi01NDg3Nl0pCiAgIDwhLS0gaHR0cHM6
+Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMxNzY0IC0tPgoKICAgKk1vdW5pciBJ
+RFJBU1NJKgoKICogRml4ZWQgdW50cnVzdGVkIFNlbmRlciBETiBiZWluZyB1c2VkIGFzIGEgZm9y
+bWF0IHN0cmluZyBpbiBDTVAgcmVzcG9uc2UKICAgdmFsaWRhdGlvbi4KCiAgIFNldmVyaXR5OiBM
+b3cKCiAgIElzc3VlIFN1bW1hcnk6IFRoZSBPcGVuU1NMIENlcnRpZmljYXRlIE1hbmFnZW1lbnQg
+UHJvdG9jb2wgKENNUCkgcmVzcG9uc2UKICAgdmFsaWRhdGlvbiBwYXNzZWQgYW4gdW5leHBlY3Rl
+ZCByZXNwb25zZSBzZW5kZXIgZGlzdGluZ3Vpc2hlZCBuYW1lIGRpcmVjdGx5CiAgIGFzIHRoZSBm
+b3JtYXQgc3RyaW5nIHRvIGBFUlJfcmFpc2VfZGF0YSgpYC4KCiAgIEltcGFjdCBzdW1tYXJ5OiBB
+IG1hbGljaW91cyBvciBpbnRlcmNlcHRlZCBDTVAgZW5kcG9pbnQgY2FuIGNyYXNoIGEgQ01QCiAg
+IGNsaWVudCB0aGF0IGVuZm9yY2VzIGFuIGV4cGVjdGVkIHNlbmRlciBvciB1c2VzIGEgcGlubmVk
+IHNlcnZlciBjZXJ0aWZpY2F0ZQogICB3aG9zZSBzdWJqZWN0IGJlY29tZXMgdGhlIGRlZmF1bHQg
+ZXhwZWN0ZWQgc2VuZGVyLgoKICAgUmVwb3J0ZWQgYnk6IEZpbGlwZSBDYXNhbCAoVHJhaWwgb2Yg
+Qml0cykgaW4gY29sbGFib3JhdGlvbiB3aXRoIE9wZW5BSSwKICAgQnJhbmRvbiBMdW8sIGFuZCBU
+cmVuZEFJIFplcm8gRGF5IEluaXRpYXRpdmUuCgogICAoW0NWRS0yMDI2LTYzMDczXSkKCiAgICpG
+aWxpcGUgQ2FzYWwqCgogKiBGaXhlZCBDTVAgaW5kZWZpbml0ZSBjYWNoZSBncm93dGggb2YgYGV4
+dHJhQ2VydHNgLgoKICAgU2V2ZXJpdHk6IExvdwoKICAgSXNzdWUgU3VtbWFyeTogVGhlIE9wZW5T
+U0wgQ2VydGlmaWNhdGUgTWFuYWdlbWVudCBQcm90b2NvbCAoQ01QKSBjYWNoZXMKICAgYWRkaXRp
+b25hbCBjZXJ0aWZpY2F0ZXMgKGBleHRyYUNlcnRzYCkgc2VudCBpbiBhIENNUCBtZXNzYWdlLCBi
+dXQgbmV2ZXIKICAgZXhwdW5nZXMgdGhlbSAoZm9yIGluc3RhbmNlLCBpZiB0aGV5IGFyZSBpbnZh
+bGlkKS4gIElmIGEgc2VydmVyIHJldXNlcwogICBhbiBgT1NTTF9DTVBfQ1RYYCBvYmplY3QgZnJl
+cXVlbnRseSwgdGhpcyBjYWNoZSBvZiBgZXh0cmFDZXJ0c2AgbWF5IGdyb3cKICAgdW5ib3VuZGVk
+bHksIGFuZCBhIG1hbGljaW91cyBjbGllbnQgbWF5IGZsb29kIGEgQ01QIHNlcnZlciB3aXRoIHJl
+cXVlc3RzCiAgIGRyaXZpbmcgdGhpcyBncm93dGguCgogICBJbXBhY3QgU3VtbWFyeTogVXNlcnMg
+dXRpbGl6aW5nIGEgQ01QIHNlcnZlciB0aGF0IHJldXNlcyBhIHNpbmdsZQogICBgT1NTTF9DTVBf
+Q1RYYCBvYmplY3QgZm9yIHRoZSBsaWZldGltZSBvZiBhIHNlcnZlciBwcm9jZXNzIG1heSBvYnNl
+cnZlCiAgIHVuYm91bmRlZCBtZW1vcnkgZ3Jvd3RoIGluIHRoZSBldmVudCBhIG1hbGljaW91cyBj
+bGllbnQgcmVwZWF0ZWRseSBzZW5kcwogICByZXF1ZXN0cyBjb250YWluaW5nIHVuaXF1ZSBleHRy
+YSBjZXJ0aWZpY2F0ZXMsIHdoaWNoIG1heSBsZWFkIHRvIE9PTQogICBjb25kaXRpb25zLgoKICAg
+UmVwb3J0ZWQgYnk6IFBhdm9sIFphY2lrIChSZWQgSGF0KS4KCiAgIChbQ1ZFLTIwMjYtNjMwNzRd
+KQoKICAgKk5laWwgSG9ybWFuKgoKICogRml4ZWQgUVVJQyBBQ0stb25seSBwYWNrZXQgcmV0ZW50
+aW9uIGJlaW5nIGFibGUgdG8gY2F1c2UgbWVtb3J5IGV4aGF1c3Rpb24uCgogICBTZXZlcml0eTog
+TG93CgogICBJc3N1ZSBTdW1tYXJ5OiBXaGVuIE9wZW5TU0wgcHJvY2Vzc2VzIFFVSUMgdHJhZmZp
+YyBmcm9tIGEgcGVlcgogICB0aGF0IHJlcGVhdGVkbHkgc2VuZHMgQUNLLWVsaWNpdGluZyBwYWNr
+ZXRzIHdoaWxlIG5vdCBhY2tub3dsZWRnaW5nIEFDSy1vbmx5CiAgIHJlc3BvbnNlcywgdGhlIFFV
+SUMgc3RhY2sgY2FuIHJldGFpbiBBQ0stb25seSBwYWNrZXQgbWV0YWRhdGEKICAgZm9yIHRoZSBs
+aWZldGltZSBvZiB0aGUgY29ubmVjdGlvbi4KCiAgIEltcGFjdCBTdW1tYXJ5OiBBIHJlbW90ZSBw
+ZWVyIHRoYXQgY2FuIGNvbXBsZXRlIGEgUVVJQyBoYW5kc2hha2UgY2FuIGNhdXNlCiAgIGNvbm5l
+Y3Rpb24tc2NvcGVkIG1lbW9yeSBncm93dGgsIHdoaWNoIG1heSBsZWFkIHRvIGEgRGVuaWFsIG9m
+IFNlcnZpY2UKICAgdGhyb3VnaCBtZW1vcnkgZXhoYXVzdGlvbiwgZXNwZWNpYWxseSB3aXRoIHN1
+c3RhaW5lZCB0cmFmZmljIG9yIG1hbnkKICAgY29uY3VycmVudCBRVUlDIGNvbm5lY3Rpb25zLgoK
+ICAgUmVwb3J0ZWQgYnk6IE9wYWwgV3JpZ2h0IChUcmFpbCBvZiBCaXRzKS4KCiAgIChbQ1ZFLTIw
+MjYtNjMwNzVdKQoKICAgKk5laWwgSG9ybWFuKgoKICogRml4ZWQgcG9zc2liaWxpdHkgb2YgQUVB
+RCBmb3JnZXJpZXMgd2l0aCBlbXB0eSBjaXBoZXJ0ZXh0IHdoZW4gdXNpbmcKICAgYEVWUF9DaXBo
+ZXIoKWAuCgogICBTZXZlcml0eTogTG93CgogICBJc3N1ZSBzdW1tYXJ5OiBDaGFDaGEyMC1Qb2x5
+MTMwNSBhbmQgQUVTLU9DQiBkZWNyeXB0aW9uIHdpdGggYW4gZW1wdHkKICAgY2lwaGVydGV4dCBj
+YW4gcmVwb3J0IHN1Y2Nlc3Mgd2l0aG91dCB2ZXJpZnlpbmcgdGhlIHN1cHBsaWVkIGF1dGhlbnRp
+Y2F0aW9uCiAgIHRhZyB3aGVuIHRoZSBvcGVyYXRpb24gaXMgZmluYWxpemVkIGJ5IGNhbGxpbmcg
+dGhlIGBFVlBfQ2lwaGVyKClgIGZ1bmN0aW9uLgoKICAgSW1wYWN0IHN1bW1hcnk6IEFwcGxpY2F0
+aW9ucyBjYWxsaW5nIGBFVlBfQ2lwaGVyKClgIG9uIGFuIGVtcHR5IGNpcGhlcnRleHQKICAgYW5k
+IGV4cGVjdGluZyB0aGUgY2FsbCB0byBjaGVjayB0aGUgQUVBRCB0YWcgbWF5IGFjY2VwdCBmb3Jn
+ZWQgbWVzc2FnZXMuCgogICBSZXBvcnRlZCBieTogQmlsbHkgQnJ1bWxleSAoUm9jaGVzdGVyIElu
+c3RpdHV0ZSBvZiBUZWNobm9sb2d5KS4KCiAgIChbQ1ZFLTIwMjYtNzU4MDNdKQogICA8IS0tIGh0
+dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMjMwMCAtLT4KCiAgICpCaWxs
+eSBCb2IgQnJ1bWxleSoKCiAqIEFkZGVkIGBPUEVOU1NMX2FybWNhcCgzKWAgZG9jdW1lbnRhdGlv
+biBwYWdlLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8z
+MTc0OSAtLT4KCiAgICpQYXVsIEVsbGlvdHQqCgogKiBBZGRlZCBzdXBwb3J0IGZvciBzZWxlY3Rp
+bmcgYXNzZW1ibHkgY29kZSBwYXRocyBmb3IgTExWTS1iYXNlZCBJbnRlbCdzIGBpY3hgCiAgIGNv
+bXBpbGVyLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8z
+MTU3MiAtLT4KCiAgICpXb2xmZ2FuZyBCZWNrKgoKICogVXBkYXRlZCBjb21wbGlhbmNlIHdpdGgg
+VExTIDEuMyBzZXNzaW9uIHRpY2tldCBsaWZldGltZSByZXF1aXJlbWVudHMuCiAgIFRMUyAxLjMg
+Y2xpZW50cyBub3cgY2FwIGB0aWNrZXRfbGlmZXRpbWVfaGludGAgdG8gNyBkYXlzICg2MDQ4MDAg
+c2Vjb25kcykKICAgd2hlbiBwcm9jZXNzaW5nIG5ldyBzZXNzaW9uIHRpY2tldCBtZXNzYWdlcywg
+aW4gYWNjb3JkYW5jZQogICB3aXRoIFtSRkMgODQ0NiBTZWN0aW9uIDQuNi4xXS4KICAgPCEtLSBo
+dHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzExNzQgLS0+CgogICAqQWJl
+bCBUaG9tYXMqCgogKiBGaXhlZCBjaGVja2luZyBvZiBhdXRoZW50aWNhdGlvbiB0YWdzIGZvciBl
+bXB0eSBjaXBoZXJ0ZXh0cyBmb3IgQUVBRCBjaXBoZXJzCiAgIGluIENDTSBjaXBoZXIgbW9kZS4K
+ICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzI0MjcgLS0+
+CgogICAqTW91bmlyIElEUkFTU0kqCgojIyMgQ2hhbmdlcyBiZXR3ZWVuIDQuMC4wIGFuZCA0LjAu
+MSBbOSBKdW4gMjAyNl0KICogRml4ZWQgZG91YmxlLWZyZWUgd2hlbiBjaGVja2luZyBPQ1NQIHN0
+YXBsZWQgcmVzcG9uc2UuCgogICBTZXZlcml0eTogTW9kZXJhdGUKCiAgIElzc3VlIHN1bW1hcnk6
+IEEgbWFsaWNpb3VzIHNlcnZlciBjYW4gZXhwbG9pdCBUTFMgT0NTUCBzdGFwbGluZyBieSBkZWxp
+dmVyaW5nCiAgIGEgY3JhZnRlZCByZXNwb25zZSB0aHJvdWdoIHRoZSBgc3RhdHVzX3JlcXVlc3Rg
+IGV4dGVuc2lvbiwgdHJpZ2dlcmluZwogICBhIGRvdWJsZS1mcmVlIGluIHRoZSBjbGllbnQncyBj
+ZXJ0aWZpY2F0ZSB2ZXJpZmljYXRpb24gcGF0aC4KCiAgIEltcGFjdCBzdW1tYXJ5OiBTdWNjZXNz
+ZnVsIGV4cGxvaXRhdGlvbiBhbGxvd3MgYW4gYXR0YWNrZXIgdG8gY29ycnVwdCBoZWFwCiAgIG1l
+bW9yeSB2aWEgYSBkb3VibGUtZnJlZSwgcG90ZW50aWFsbHkgbGVhZGluZyB0byBhIERlbmlhbCBv
+ZiBTZXJ2aWNlCiAgIG9yIHBvc3NpYmx5IGFuIGF0dGFja2VyIGNvbnRyb2xsZWQgY29kZSBleGVj
+dXRpb24gb3Igb3RoZXIgdW5kZWZpbmVkCiAgIGJlaGF2aW9yLgoKICAgUmVwb3J0ZWQgYnk6IFdh
+bmcgS2VuYXogKFVuaXZlcnNpdHkgb2YgSWxsaW5vaXMpLAogICBHdWlkbyBWcmFua2VuIChBaXNs
+ZSBSZXNlYXJjaCksIGFuZCBBYXJvbiBHcmF0dGFmaW9yaSAoTnZpZGlhKS4KCiAgIChbQ1ZFLTIw
+MjYtMzUxODhdKQoKICAgKkRhbmllbCBLdWJlYyoKCiAqIEZpeGVkIE5VTEwgZGVyZWZlcmVuY2Ug
+aW4gY2VydGlmaWNhdGUgdmVyaWZpY2F0aW9uIHdpdGggT0NTUCBDaGVja2luZy4KCiAgIFNldmVy
+aXR5OiBMb3cKCiAgIElzc3VlIHN1bW1hcnk6IFdoZW4gYSBwYXJ0aWFsLWNoYWluIGNlcnRpZmlj
+YXRlIHZlcmlmaWNhdGlvbiBpcyBlbmFibGVkCiAgIHRvZ2V0aGVyIHdpdGggT0NTUCByZXNwb25z
+ZSBjaGVja2luZyBmb3IgdGhlIHdob2xlIGNoYWluLCBhIE5VTEwgZGVyZWZlcmVuY2UKICAgd2ls
+bCBoYXBwZW4gaWYgdGhlIHZlcmlmaWVkIGNoYWluIGRvZXMgbm90IGhhdmUgYSBzZWxmLXNpZ25l
+ZCB0cnVzdGVkIGFuY2hvciwKICAgY3Jhc2hpbmcgdGhlIHByb2Nlc3MuCgogICBJbXBhY3Qgc3Vt
+bWFyeTogQSBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgY2FuIHRyaWdnZXIgYSBjcmFzaCB3aGlj
+aCBsZWFkcwogICB0byBhIERlbmlhbCBvZiBTZXJ2aWNlIGZvciBhbiBhcHBsaWNhdGlvbi4KCiAg
+IFJlcG9ydGVkIGJ5OiBKb3NodWEgUm9nZXJzIChBaXNsZSBSZXNlYXJjaCkuCgogICAoW0NWRS0y
+MDI2LTQyNzY1XSkKCiAgICpKb3NodWEgUm9nZXJzIChBaXNsZSBSZXNlYXJjaCkgYW5kIERhbmll
+bCBLdWJlYyoKCiAqIEZpeGVkIHBvc3NpYmxlIG91dCBvZiBib3VuZHMgcmVhZCBpbiBgWDUwOV9W
+RVJJRllfUEFSQU1fc2V0MV9lbWFpbCgpYC4KCiAgIFNldmVyaXR5OiBMb3cKCiAgIElzc3VlIHN1
+bW1hcnk6IFdoZW4gYFg1MDlfVkVSSUZZX1BBUkFNX3NldDFfZW1haWwoKWAgaXMgY2FsbGVkCiAg
+IGJ5IGFuIGFwcGxpY2F0aW9uIHRvIHZhbGlkYXRlIGEgY3JhZnRlZCBlLW1haWwgYWRkcmVzcywg
+c3VjaCBhcyBkdXJpbmcKICAgUy9NSU1FIG1lc3NhZ2UgdmFsaWRhdGlvbiwgYW4gb3V0IG9mIGJv
+dW5kcyByZWFkIGNhbiBoYXBwZW4uCgogICBJbXBhY3Qgc3VtbWFyeTogVGhpcyBvdXQgb2YgYm91
+bmRzIHJlYWQgd2lsbCBub3QgZGlyZWN0bHkgZXhmaWx0cmF0ZQogICB0aGUgZGF0YSByZWFkIHRv
+IHRoZSBhdHRhY2tlciwgc28sIHRoZSBtb3N0IGxpa2VseSByZXN1bHQgaXMgYSBjcmFzaAogICBh
+bmQgYSBEZW5pYWwgb2YgU2VydmljZS4KCiAgIFJlcG9ydGVkIGJ5OiBUcmVuZEFJIFplcm8gRGF5
+IEluaXRpYXRpdmUuCgogICAoW0NWRS0yMDI2LTQyNzcxXSkKCiAgICpCb2IgQmVjayoKCiAqIEZp
+eGVkIGV4Y2Vzc2l2ZSBhbGxvY2F0aW9uIG9mIHRoZSBoYW5kc2hha2UgbWVzc2FnZSBidWZmZXIg
+KGFrYSBIb2xsb3dCeXRlKS4KCiAgIFByZXZpb3VzbHksIHdlIHdvdWxkIGFsbG9jYXRlIGEgYnVm
+ZmVyIGxhcmdlIGVub3VnaCB0byBob2xkIHRoZSBmdWxsIHNpemUgb2YKICAgYW4gaW5jb21pbmcg
+aGFuZHNoYWtlIG1lc3NhZ2UgYXMgYWR2ZXJ0aXNlZCBieSB0aGUgcGVlci4gVGhpcyBjb3VsZCBi
+ZSBxdWl0ZQogICBsYXJnZSAoYWx0aG91Z2ggaXQgaXMgYm91bmRlZCwgZS5nLiBmb3IgQ2xpZW50
+SGVsbG8gdGhpcyBpcyBhcHByb3hpbWF0ZWx5CiAgIDEyOCBLaUIpLiBJZiB0aGUgcGVlciB0aGVu
+IGZhaWxzIHRvIHNlbmQgdGhlIGZ1bGwgaGFuZHNoYWtlIG1lc3NhZ2UsIHRoZW4gdGhlCiAgIGVu
+ZHBvaW50IGlzIGxlZnQgd2FpdGluZyBmb3IgdGhlIHJlbWFpbmRlciBvZiB0aGUgbWVzc2FnZSB0
+byBhcnJpdmUgYW5kIHRoZQogICBtZW1vcnkgaXMgc3RpbGwgYWxsb2NhdGVkIChpLmUuIGEgU2xv
+d2xvcmlzIGF0dGFjaykuIFRvIHByZXZlbnQgdGhpcywgd2UKICAgaW5jcmVtZW50YWxseSBncm93
+IHRoZSBidWZmZXIgYXMgd2UgcmVjZWl2ZSB0aGUgZGF0YS4KCiAgIFRoaXMgaXNzdWUgd2FzIHJl
+cG9ydGVkIGJ5IE9rdGEgUmVkIFRlYW0uCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5z
+c2wvb3BlbnNzbC9wdWxsLzMwNzkyIC0tPgoKICAgKk1hdHQgQ2Fzd2VsbCoKCiAqIEZpeGVkIGEg
+cmVncmVzc2lvbiBpbnRyb2R1Y2VkIGluIDQuMC4wIHRoYXQgbGVkIHRvIGEgYG9wZW5zc2wgcGtl
+eWAKICAgY29tbWFuZCBjcmFzaCB3aGVuIGl0IHdhcyBpbnZva2VkIHRvIGVuY3J5cHQgYSBwcml2
+YXRlIGtleSB3aXRoIHBhc3N3b3JkCiAgIGJlaW5nIHByb3ZpZGVkIGludGVyYWN0aXZlbHkuCiAg
+IDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwOTA0IC0tPgoK
+ICAgKlZpa3RvciBEdWtob3ZuaSoKCiAqIEZpeGVkIGEgcmVncmVzc2lvbiBpbnRyb2R1Y2VkIGlu
+IDQuMC4wIHRoYXQgbGVkIHRvIGBvcGVuc3NsIHNfY2xpZW50IC1hZHZgCiAgIGNvbW1hbmQgcHJl
+bWF0dXJlbHkgdGVybWluYXRpbmcgYSBzZXNzaW9uIHdoZW4gcmVhZGluZyBpbnB1dCBvZiAxNjM4
+NCBieXRlcwogICBpbiBvbmUgYHJlYWQoKWAgY2FsbC4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5j
+b20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzE0MTMgLS0+CgogICAqRXVnZW5lIFN5cm9taWF0bmlr
+b3YqCgojIyMgQ2hhbmdlcyBiZXR3ZWVuIDMuNiBhbmQgNC4wLjAgWzE0IEFwciAyMDI2XQoKICog
+QWRkZWQgYC1leHBlY3RlZC1ycGtzYCBvcHRpb24gdG8gdGhlIGBvcGVuc3NsIHNfY2xpZW50YAog
+ICBhbmQgYG9wZW5zc2wgc19zZXJ2ZXJgIGNvbW1hbmRzLiAgVGhpcyBtYWtlcyBpdCBwb3NzaWJs
+ZSB0byBzcGVjaWZ5CiAgIG9uZSBvciBtb3JlIHB1YmxpYyBrZXlzIGV4cGVjdGVkIGZyb20gdGhl
+IHJlbW90ZSBwZWVyIHRoYXQgYXJlIHRoZW4gdXNlZAogICB0byBhdXRoZW50aWNhdGUgdGhlIGNv
+bm5lY3Rpb24uCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxs
+LzMwMDg5IC0tPgoKICAgKlZpa3RvciBEdWtob3ZuaSoKCiAqIEFkZGVkIGAtaG1hYy1lbnZgIGFu
+ZCBgLWhtYWMtc3RkaW5gIG9wdGlvbnMgdG8gYG9wZW5zc2wgZGdzdGAgY29tbWFuZC4KICAgPCEt
+LSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjgxNjAgLS0+CgogICAq
+SWdvciBVc3Rpbm92KgoKICogQWRkZWQgTE1TIHN1cHBvcnQgZm9yIHNpZ25hdHVyZSB2ZXJpZmlj
+YXRpb24gdG8gYG9wZW5zc2wgcGtleXV0bGAgY29tbWFuZC4KICAgVG8gZW5hYmxlIHRoaXMsIExN
+UyBgU3ViamVjdFB1YmxpY0tleUluZm9gIGVuY29kZXIgYW5kIGRlY29kZXJzIHdlcmUKICAgYWRk
+ZWQsIGFuZCB0aGUgTE1TIGtleW1hbmFnZXIgYW5kIHNpZ25hdHVyZSBjb2RlIHdlcmUgdXBkYXRl
+ZC4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjkzODEg
+LS0+CgogICAqU2hhbmUgTG9udGlzKgoKICogQWRkZWQgbmV3IGBTU0xfZ2V0MF9zaWdhbGcoKWAg
+YW5kIGBTU0xfZ2V0MF9zaGFyZWRfc2lnYWxnKClgIGZ1bmN0aW9ucwogICB0byByZXBvcnQgdGhl
+IFRMUyBzaWduYXR1cmUgYWxnb3JpdGhtIG5hbWUgYW5kIGNvZGVwb2ludCBmb3IgdGhlIHBlZXIK
+ICAgYWR2ZXJ0aXNlZCBhbmQgc2hhcmVkIGFsZ29yaXRobXMgcmVzcGVjdGl2ZWx5LiAgVGhlc2Ug
+c3VwZXJzZWRlIHRoZSBleGlzdGluZwogICBgU1NMX2dldF9zaWdhbGdzKClgIGFuZCBgU1NMX2dl
+dF9zaGFyZWRfc2lnYWxncygpYCBmdW5jdGlvbnMsIHdoaWNoIGFyZSBvbmx5CiAgIGEgZ29vZCBm
+aXQgZm9yIFRMUyAxLjIuICBUaGUgbmFtZXMgcmVwb3J0ZWQgYXJlIHRoZSBJQU5BIG5hbWVzLAog
+ICBhbmQgYXJlIGV4cGVjdGVkIHRvIGNvbnNpc3RlbnRseSBtYXRjaCB0aGUgbmFtZXMgZXhwZWN0
+ZWQKICAgaW4gYFNpZ25hdHVyZUFsZ29yaXRobXNgIGNvbmZpZ3VyYXRpb24gc2V0dGluZ3MsIHNl
+ZSBgU1NMX0NPTkZfY21kKDMpYAogICBmb3IgZGV0YWlscy4gIFByZXZpb3VzbHkgcmVwb3J0ZWQg
+bmFtZXMgd2VyZSBub3QgYWx3YXlzIGRpcmVjdGx5IHVzYWJsZQogICBmb3IgY29uZmlndXJhdGlv
+bnMsIGFuZCB3ZXJlIG1vc3RseSBPcGVuU1NMLXNwZWNpZmljIGFsaWFzZXMgdGhhdCByYXJlbHkK
+ICAgbWF0Y2hlZCB0aGUgb2ZmaWNpYWwgSUFOQSBjb2RlcG9pbnQgbmFtZXMuCgogICBUaGVyZSBp
+cyBhbiBhc3NvY2lhdGVkIGNoYW5nZSBpbiBob3cgc2lnbmF0dXJlIGFsZ29yaXRobXMgYXJlIHJl
+cG9ydGVkIGJ5IHRoZQogICBgb3BlbnNzbCBzX2NsaWVudGAgYW5kIGBvcGVuc3NsIHNfc2VydmVy
+YCBjb21tYW5kcy4gIFRoZXkgbm93IHVzZQogICB0aGUgbmV3IGZ1bmN0aW9ucyBhbmQgcmVwb3J0
+IHRoZSBJQU5BIHJlZ2lzdGVyZWQgbmFtZXMgb2YgZWFjaCBzaWduYXR1cmUKICAgc2NoZW1lLiAg
+RXhhbXBsZSBuZXcgb3V0cHV0OgoKICAgICAgIFNpZ25hdHVyZSBBbGdvcml0aG1zOiBtbGRzYTY1
+Om1sZHNhODc6bWxkc2E0NDplY2RzYV9zZWNwMjU2cjFfc2hhMjU2OmVjZHNhX3NlY3AzODRyMV9z
+aGEzODQ6ZWNkc2Ffc2VjcDUyMXIxX3NoYTUxMjplZDI1NTE5OmVkNDQ4OmVjZHNhX2JyYWlucG9v
+bFAyNTZyMXRsczEzX3NoYTI1NjplY2RzYV9icmFpbnBvb2xQMzg0cjF0bHMxM19zaGEzODQ6ZWNk
+c2FfYnJhaW5wb29sUDUxMnIxdGxzMTNfc2hhNTEyOnJzYV9wc3NfcHNzX3NoYTI1Njpyc2FfcHNz
+X3Bzc19zaGEzODQ6cnNhX3Bzc19wc3Nfc2hhNTEyOnJzYV9wc3NfcnNhZV9zaGEyNTY6cnNhX3Bz
+c19yc2FlX3NoYTM4NDpyc2FfcHNzX3JzYWVfc2hhNTEyOnJzYV9wa2NzMV9zaGEyNTY6cnNhX3Br
+Y3MxX3NoYTM4NDpyc2FfcGtjczFfc2hhNTEyOmVjZHNhX3NoYTIyNDpyc2FfcGtjczFfc2hhMjI0
+OmRzYV9zaGEyMjQ6ZHNhX3NoYTI1Njpkc2Ffc2hhMzg0OmRzYV9zaGE1MTIKCiAgIDwhLS0gaHR0
+cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5OTgyIC0tPgoKICAgKlZpa3Rv
+ciBEdWtob3ZuaSoKCiAqIEltcGxlbWVudGVkIGNsaWVudC1zaWRlIHByZWRpY3RlZCBrZXlzaGFy
+ZSBmbG9hdGluZy4gIFdoZW4gYSB0dXBsZSBsb3NlcwogICB0aGUgbGFzdCBlbGVtZW50IHRoYXQg
+d2FzIHRhZ2dlZCBmb3IgdHJhbnNtaXNzaW9uIG9mIGEgcHJlZGljdGVkIGNsaWVudAogICBrZXlz
+aGFyZSAoYnkgZGVmYXVsdCBgKlgyNTUxOU1MS0VNNzY4YCBhbmQgYCpYMjU1MTlgIGluIHRoZWly
+IHJlc3BlY3RpdmUKICAgdHVwbGVzKSwgZWl0aGVyIGJlY2F1c2UgdGhlIGdyb3VwIGlzIG5vdCBl
+bmFibGVkIGF0IGNvbXBpbGUtdGltZSwgb3IKICAgYmVjYXVzZSBpdCBpcyByZW1vdmVkIGJ5IGNv
+bmZpZ3VyYXRpb24gKGUuZy4gYERFRkFVTFQ6LTxncm91cG5hbWU+YCksIGlmCiAgIHRoZSB0dXBs
+ZSByZW1haW5zIG5vbi1lbXB0eSwgdGhlIGtleXNoYXJlIGlzIGluaGVyaXRlZCBieSB0aGUgZmly
+c3QgKGkuZS4KICAgbW9zdCBwcmVmZXJyZWQpIHJlbWFpbmluZyBlbGVtZW50IG9mIHRoZSB0dXBs
+ZS4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAxMTMg
+LS0+CgogICAqVmlrdG9yIER1a2hvdm5pKgoKICogSW1wbGVtZW50ZWQgYE9TU0xfU1RPUkVgIHN1
+cHBvcnQgZm9yIGBFVlBfU0tFWWAgb2JqZWN0cywgdGhhdCBpbmNsdWRlcwogICBhZGRpdGlvbiBv
+ZiBuZXcgYC1za2V5dXJpYCBhbmQgYC1zdG9yZXBhc3NgIG9wdGlvbnMgdG8gYG9wZW5zc2wgZW5j
+YAogICBjb21tYW5kLCBhZGRpdGlvbiBvZiBhIG5ldyBgLXNrZXlzYCBvcHRpb24gdG8gYG9wZW5z
+c2wgc3RvcmV1dGxgIGNvbW1hbmQsCiAgIGFkZGl0aW9uIG9mIGBPU1NMX1NUT1JFX0lORk9fU0tF
+WWAgYE9TU19TVE9SRWAgb2JqZWN0IHR5cGUgYW5kIHRoZSByZWxldmFudAogICBgT1NTTF9TVE9S
+RV9JTkZPX2dldDBfU0tFWSgpYCwgYE9TU0xfU1RPUkVfSU5GT19nZXQxX1NLRVkoKWAsCiAgIGFu
+ZCBgT1NTTF9TVE9SRV9JTkZPX25ld19TS0VZKClgIEFQSXMuCiAgIDwhLS0gaHR0cHM6Ly9naXRo
+dWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI4Mjc4IC0tPgoKICAgKkRtaXRyeSBCZWx5YXZz
+a2l5KgoKICogQWRkZWQgc3VwcG9ydCBmb3IgW1JGQyA4OTk4XSwgc2lnbmF0dXJlIGFsZ29yaXRo
+bSBgc20yc2lnX3NtM2AsIGtleSBleGNoYW5nZQogICBncm91cCBgY3VydmVTTTJgLCBhbmQgW3Rs
+cy1oeWJyaWQtc20yLW1sa2VtXSBwb3N0LXF1YW50dW0gZ3JvdXAKICAgYGN1cnZlU00yTUxLRU03
+NjhgLgoKICAgVmVyaWZpY2F0aW9uIG9mIFNNMi1zaWduZWQgY2VydGlmaWNhdGVzIHJlcXVpcmVk
+IGNoYW5naW5nIHRoZSBkZWZhdWx0CiAgICpkaXN0aW5ndWlzaGluZyBpZGVudGlmaWVyKiBmcm9t
+IGVtcHR5IHRvIHRoZSBjb25zdGFudCBBU0NJSSBzdHJpbmcKICAgIjEyMzQ1Njc4MTIzNDU2Nzgi
+LiAgQW4gZXhwbGljaXQgZW1wdHkgZGlzdGluZ3Vpc2hpbmcgaWRlbnRpZmllciB2YWx1ZSBtYXkK
+ICAgbmVlZCB0byBiZSB1c2VkIHRvIHZlcmlmeSBvciBjcmVhdGUgc2lnbmF0dXJlcyB0aGF0IGFy
+ZSBjb21wYXRpYmxlIHdpdGgKICAgdmVyc2lvbnMgb2YgT3BlblNTTCBwcmlvciB0byA0LjAuICBX
+aXRoIHRoZSBjb21tYW5kLWxpbmUgdG9vbHMgYW4gZW1wdHkKICAgdmFsdWUgY2FuIGJlIHNwZWNp
+ZmllZCB3aXRoIHRoZSB1c2Ugb2YgZWl0aGVyIHRoZSAqKi1wa2V5b3B0KioKICAgKGBvcGVuc3Ns
+LXBrZXl1dGwoMSlgKSBvciAqKi1zaWdvcHQqKiAoYG9wZW5zc2wtZGdzdCgxKWApIG9wdGlvbiB3
+aXRoIGEKICAgdmFsdWUgb2YgImRpc3RpZDoiLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9v
+cGVuc3NsL29wZW5zc2wvcHVsbC8yOTk1MyAtLT4KCiAgICpWaWt0b3IgRHVraG92bmkqCgogKiBB
+ZGRlZCBzdXBwb3J0IGZvciBUTFMgMS4zIFNNIGNpcGhlciBzdWl0ZXMgYFRMU19TTTRfR0NNX1NN
+M2AKICAgYW5kIGBUTFNfU000X0NDTV9TTTNgIGZyb20gW1JGQyA4OTk4XS4KICAgPCEtLSBodHRw
+czovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAwMjggLS0+CgogICAqTWlsYW4g
+QnJvxb4qCgogKiBBZGRlZCBjU0hBS0UgZnVuY3Rpb24gc3VwcG9ydCBhcyBwZXIgW1NQIDgwMC0x
+ODVdLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yODQz
+MiAtLT4KCiAgICpTaGFuZSBMb250aXMqCgogKiBBZGRlZCAiTUwtRFNBLU1VIiBkaWdlc3QgYWxn
+b3JpdGhtIHN1cHBvcnQuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNz
+bC9wdWxsLzI5MjIzIC0tPgoKICAgKlNoYW5lIExvbnRpcyoKCiAqIEFkZGVkIFNOTVAgS0RGIChg
+RVZQX0tERl9TTk1QS0RGYCkgdG8gYEVWUF9LREZgLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNv
+bS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTE5NSAtLT4KCiAgICpCYXJyeSBGdXNzZWxsIGFuZCBI
+ZWxlbiBaaGFuZyoKCiAqIEFkZGVkIFNSVFAgS0RGIChgRVZQX0tERl9TUlRQS0RGYCkgdG8gYEVW
+UF9LREZgLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8y
+OTQzNSAtLT4KCiAgICpCYXJyeSBGdXNzZWxsIGFuZCBIZWxlbiBaaGFuZyoKCiAqIEltcGxlbWVu
+dGVkIFtSRkMgNzkxOV0sIGFkZGluZyBzdXBwb3J0IGZvciBuZWdvdGlhdGVkIEZGREhFIGtleSBl
+eGNoYW5nZQogICBpbiBUTFMgMS4yLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3Ns
+L29wZW5zc2wvcHVsbC8yNDU1MSAtLT4KCiAgICpKb2FjaGltIFZhbmRlcnNtaXNzZW4qICh3aXRo
+IGFkZGl0aW9uYWwgc3VwcG9ydCBmcm9tICpWaWt0b3IgRHVraG92bmkqKQoKICogQWRkZWQgQUtJ
+RCB2ZXJpZmljYXRpb24gY2hlY2tzIHdoZW4gYFg1MDlfVl9GTEFHX1g1MDlfU1RSSUNUYCBpcyBz
+ZXQuCiAgIFJhaXNlIGBYNTA5X1ZfRVJSX01JU1NJTkdfQVVUSE9SSVRZX0tFWV9JREVOVElGSUVS
+YCB3aGVuIEFLSUQgaXMgbm90IHByZXNlbnQuCiAgIFJhaXNlIGBYNTA5X1ZfRVJSX0VNUFRZX0FV
+VEhPUklUWV9LRVlfSURFTlRJRklFUmAgd2hlbiBBS0lEIGhhcyBubyBhdHRyaWJ1dGVzLgogICBS
+YWlzZSBgWDUwOV9WX0VSUl9BS0lEX0lTU1VFUl9TRVJJQUxfTk9UX1BBSVJFRGAgd2hlbiBgYXV0
+aG9yaXR5Q2VydElzc3VlcmAKICAgYW5kIGBhdXRob3JpdHlDZXJ0U2VyaWFsTnVtYmVyYCBmaWVs
+ZHMgYXJlIG5vdCBwYWlyZWQuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3Bl
+bnNzbC9wdWxsLzI5OTcxIC0tPgoKICAgKkRhbmllbCBLdWJlYyoKCiAqIEltcGxlbWVudGVkIFtS
+RkMgOTg0OV0sIGFkZGluZyBzdXBwb3J0IGZvciBFbmNyeXB0ZWQgQ2xpZW50IEhlbGxvIChFQ0gp
+LgogICBTZWUgYGRvYy9kZXNpZ24vZWNoLWFwaS5tZGAgZm9yIGRldGFpbHMuCiAgIDwhLS0gaHR0
+cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI1MTkzIC0tPgogICA8IS0tIGh0
+dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yNTQyMCAtLT4KICAgPCEtLSBo
+dHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjU2NjMgLS0+CiAgIDwhLS0g
+aHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI2MDExIC0tPgogICA8IS0t
+IGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yNzU0MCAtLT4KICAgPCEt
+LSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjc1NjEgLS0+CiAgIDwh
+LS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI4MjcwIC0tPgogICA8
+IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTIwMCAtLT4KICAg
+PCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAwNDggLS0+Cgog
+ICAqU3RlcGhlbiBGYXJyZWxsKiAod2l0aCBtdWNoIHN1cHBvcnQgZnJvbSAqTWF0dCBDYXN3ZWxs
+KiBhbmQgKlRvbcOhxaEgTXLDoXoqKQoKICogSW1wbGVtZW50ZWQgZGlzcGxheSBvZiBDUFUgY2Fw
+YWJpbGl0aWVzIGluIGBvcGVuc3NsIHZlcnNpb24gLWNgIG91dHB1dAogICBvbiBQT1dFUiBhbmQg
+U1BBUkMgcGxhdGZvcm1zLCBhZGRlZCBgT1BFTlNTTF9wcGNjYXAoMylgIG1hbnVhbCBwYWdlLgog
+ICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yODUzNSAtLT4K
+ICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjkxMTYgLS0+
+CiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5MjMwIC0t
+PgoKICAgKkJlcm5kIEVkbGluZ2VyLCBOaWEgQWxhcmllLCBhbmQgR2VvcmdlIFdpbHNvbioKCiAq
+IEFkZGVkIGBPU1NMX0VTU19jaGVja19zaWduaW5nX2NlcnRzX2V4KClgIGZ1bmN0aW9uLgogICBU
+aGlzIEFQSSBjYWxsIGlzIGFuIGV4dGVuc2lvbiB0byBgT1NTTF9FU1NfY2hlY2tfc2lnbmluZ19j
+ZXJ0cygpYCB0aGF0IGFkZHMKICAgdGhlIGFiaWxpdHkgdG8gc3BlY2lmeSBhIGxpYnJhcnkgY29u
+dGV4dCBhbmQgcHJvcGVydHkgcXVlcnkgd2hlbiBmZXRjaGluZwogICBhbGdvcml0aG1zIHRvIHZh
+bGlkYXRlIGEgZ2l2ZW4gY2VydGlmaWNhdGUuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29w
+ZW5zc2wvb3BlbnNzbC9wdWxsLzMwMDM0IC0tPgoKICAgKk5laWwgSG9ybWFuKgoKICogQWRkZWQg
+YE9QRU5TU0xfc2tfc2V0X2NtcF90aHVua3MoKWAgZnVuY3Rpb24gdG8gYWxsb3cgZm9yIHByb3Bl
+ciB0eXBlY2FzdGluZwogICBkdXJpbmcgY29tcGFyaXNvbiBvZiBlbGVtZW50cyBpbiBhIGBTVEFD
+S19PRmAgc3RydWN0dXJlLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5z
+c2wvcHVsbC8yOTY0MCAtLT4KCiAgICpOZWlsIEhvcm1hbioKCiAqIEFkZGVkIGBPU1NMX1BBUkFN
+X2NsZWFyX2ZyZWVgIGZ1bmN0aW9uIHRoYXQgYWxsb3dzIGNsZWFuc2luZyBgUEFSQU1gcyB0aGF0
+CiAgIGNvbnRhaW4gc2Vuc2l0aXZlIGluZm9ybWF0aW9uLCBhbmQgc3dpdGNoZWQgdG8gaXRzIHVz
+ZSB3aGVyZSBpdCBpcyBzdWl0YWJsZS4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNz
+bC9vcGVuc3NsL3B1bGwvMjgxMDggLS0+CgogICAqU2ltbyBTb3VyY2UqCgogKiBBZGRlZCBgQVNO
+MV9CSVRfU1RSSU5HX2dldF9sZW5ndGgoKWAgZnVuY3Rpb24sIHRoYXQgcmV0dXJucyB0aGUgbnVt
+YmVyCiAgIG9mIG9jdGV0cyBhbmQgdGhlIG51bWJlciBvZiB1bnVzZWQgYml0cyBpbiBhbiBgQVNO
+MV9CSVRfU1RSSU5HYCBvYmplY3QuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wv
+b3BlbnNzbC9wdWxsLzI5Mzg3IC0tPgoKICAgKkJvYiBCZWNrKgoKICogQWRkZWQgYEFTTjFfQklU
+X1NUUklOR19zZXQxKClgIGZ1bmN0aW9uIHRvIHNldCBhIGJpdCBzdHJpbmcgdG8gYSB2YWx1ZSwK
+ICAgaW5jbHVkaW5nIHRoZSBsZW5ndGggaW4gYnl0ZXMgYW5kIHRoZSBudW1iZXIgb2YgdW51c2Vk
+IGJpdHMuICBJbnRlcm5hbGx5LAogICBgQVNOMV9CSVRfU1RSSU5HX3NldF9iaXQoKWAgaGFzIGFs
+c28gYmVlbiBtb2RpZmllZCB0byBrZWVwIHRoZSBudW1iZXIKICAgb2YgdW51c2VkIGJpdHMgY29y
+cmVjdCB3aGVuIGNoYW5naW5nIGFuIGBBU04xX0JJVF9TVFJJTkdgLgogICA8IS0tIGh0dHBzOi8v
+Z2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTkyNiAtLT4KCiAgICpCb2IgQmVjayoK
+CiAqIEFkZGVkIGBQQUNLRVRfbXNnX3N0YXJ0KClgIGZ1bmN0aW9uLCB0aGF0IGFsbG93cyBvYnRh
+aW5pbmcgc3RhcnQKICAgb2YgYSBgUEFDS0VUYCBidWZmZXIuCiAgIDwhLS0gaHR0cHM6Ly9naXRo
+dWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI3Nzc2IC0tPgoKICAgKk1hdHQgQ2Fzd2VsbCoK
+CiAqIEFkZGVkIGBTU0xfYWRkMV9kbnNuYW1lKClgLCBgU1NMX3NldDFfZG5zbmFtZSgpYCwgYFNT
+TF9hZGQxX2lwYWRkcigpYCwKICAgYW5kIGBTU0xfc2V0MV9pcGFkZHIoKWAgZnVuY3Rpb25zIGFz
+IGEgcmVwbGFjZW1lbnQgZm9yIGBTU0xfYWRkMV9ob3N0KClgCiAgIGFuZCBgU1NMX3NldDFfaG9z
+dCgpYCB0aGF0IGFyZSBkZXByZWNhdGVkIG5vdy4gIFRoZSBuZXcgcmVwbGFjZW1lbnQgQVBJCiAg
+IGZ1bmN0aW9ucyB3YXMgYWRkZWQgdG8gc3VwcG9ydCBjaGVja2luZyBtdWx0aXBsZSBuYW1lcyBh
+Z2FpbnN0IGEgY2VydGlmaWNhdGUKICAgd2l0aCBgWDUwOV9WRVJJRllfUEFSQU1gLiAgU2VlIGBY
+NTA5X1ZFUklGWV9QQVJBTV9zZXRfZmxhZ3MoMylgIGZvciBmdWxsCiAgIGRldGFpbHMuCiAgIDwh
+LS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5NjEyIC0tPgoKICAg
+KkJvYiBCZWNrKgoKICogQWRkZWQgYFNTTF9saXN0ZW5fZXgoKWAgZnVuY3Rpb24sIHRoYXQsIHRv
+Z2V0aGVyIHdpdGggYWRkZWQgYWJpbGl0eSB0byBjcmVhdGUKICAgImJsYW5rIiBTU0wgb2JqZWN0
+cyB1c2luZyBgT1NTTF9RVUlDX21ldGhvZCgpYCwgYWxsb3dzIGltcGxlbWVudGluZyBwb2xsaW5n
+CiAgIG9mIGluYm91bmQgY29ubmVjdGlvbnMgaW4gUVVJQyBpbiBhIGZhc2hpb24gc2ltaWxhciB0
+byBEVExTLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8y
+NzM5NyAtLT4KCiAgICpOZWlsIEhvcm1hbioKCiAqIEFkZGVkIGBTU0xfQ1RYX2dldDBfYWxwbl9w
+cm90b3MoKWAgYW5kIGBTU0xfZ2V0MF9hbHBuX3Byb3RvcygpYCBmdW5jdGlvbnMuCiAgIDwhLS0g
+aHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5NjQ2IC0tPgoKICAgKkRh
+bmllbCBLdWJlYyoKCiAqIEFkZGVkIGBTU0xfQ1RYX2lzX3NlcnZlcigpYCBmdW5jdGlvbiwgdGhh
+dCBpcyBzaW1pbGFyIHRvIGBTU0xfaXNfc2VydmVyKClgLAogICBidXQgdGFrZXMgYFNTTF9DVFhg
+IG9iamVjdCBhcyBhbiBhcmd1bWVudC4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNz
+bC9vcGVuc3NsL3B1bGwvMjk2MzUgLS0+CgogICAqSWdvciBVc3Rpbm92KgoKICogQWRkZWQgYEVW
+UF9NRF9DVFhfc2VyaWFsaXplKClgL2BFVlBfTURfQ1RYX2Rlc2VyaWFsaXplKClgIGZ1bmN0aW9u
+cy4KICAgVGhlc2UgZnVuY3Rpb25zIGFsbG93IHRvIGV4cG9ydCB0aGUgaW50ZXJuYWwgc3RhdGUg
+b2YgYSBEaWdlc3QgYW5kIHJlLWltcG9ydAogICBpdCBsYXRlciB0byBjb250aW51ZSBhIGNvbXB1
+dGF0aW9uIGZyb20gYSBzcGVjaWZpYyBjaGVja3BvaW50LiAgT25seSBTSEEtMgogICBhbmQgdGhl
+IFNIQS0zIGZhbWlseSAoS2VjY2FrLCBTSEFLRSwgU0hBLTMpIG9mIGZ1bmN0aW9ucyBjdXJyZW50
+bHkgc3VwcG9ydAogICB0aGlzIGZ1bmN0aW9uYWxpdHkuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIu
+Y29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI4ODM3IC0tPgoKICAgKlNpbW8gU29yY2UqCgogKiBB
+ZGRlZCBgQklPX3NldF9zZW5kX2ZsYWdzKClgIGZ1bmN0aW9uIHRoYXQgYWxsb3dzIHNldHRpbmcg
+ZmxhZ3MgcGFzc2VkIHRvCiAgIGBzZW5kKClgLCBgc2VuZHRvKClgLCBhbmQgYHNlbmRtc2coKWAu
+ICBUaGUgbWFpbiBpbnRlbnRpb24gaXMgdG8gYWxsb3cKICAgc2V0dGluZyB0aGUgYE1TR19OT1NJ
+R05BTGAgZmxhZyB0byBhdm9pZCBhIGNyYXNoIG9uIHJlY2VpdmluZyB0aGUgYFNJR1BJUEVgCiAg
+IHNpZ25hbC4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwv
+MzAwNDQgLS0+CgogICAqSWdvciBVc3Rpbm92KgoKICogQWRkZWQgYFg1MDl2M19kZWxldGVfZXh0
+ZW5zaW9uKClgIGZ1bmN0aW9uLCB0aGF0IGV4dGVuZHMKICAgYFg1MDl2M19kZWxldGVfZXh0KClg
+IGJ5IGRlYWxsb2NhdGluZyB0aGUgZXh0ZW5zaW9uIHN0YWNrIGlmIGl0IGJlY29tZXMKICAgZW1w
+dHksIGFzIGEgY29udmVuaWVuY2Ugd3JhcHBlciB1c2VmdWwgZm9yIG9wdGlvbmFsIFguNTA5IGV4
+dGVuc2lvbnMuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxs
+LzMwMjUyIC0tPgoKICAgKlZpa3RvciBEdWtob3ZuaSoKCiAqIEFkZGVkIGFiaWxpdHkgdG8gc3Bl
+Y2lmeSBNTC1LRU0gYW5kIE1MLURTQSBlbmNvZGluZyBmb3JtYXRzIG9uIGEgcGVyLWtleQogICBi
+YXNpcywgYnkgc2V0dGluZyBgb3V0cHV0LWZvcm1hdHNgIGBFVlBfUEtFWWAgZW5jb2RpbmcgcGFy
+YW1ldGVyCiAgIGFwcHJvcHJpYXRlbHkgdmlhIGBPU1NMX0VOQ09ERVJfQ1RYX3NldF9wYXJhbXMo
+MylgLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTIw
+NiAtLT4KCiAgICpWaWt0b3IgRHVraG92bmkqCgogKiBBZGRlZCBkb2N1bWVudGF0aW9uIGZvciBg
+QklPYCBmbGFncyBhbmQgcmVsYXRlZCBmdW5jdGlvbnMuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIu
+Y29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5MzExIC0tPgoKICAgKklnb3IgVXN0aW5vdioKCiAq
+IEZJUFMgc2VsZiB0ZXN0cyBjYW4gbm93IGJlIGRlZmVycmVkIGFuZCBydW4gYXMgbmVlZGVkIHdo
+ZW4gaW5zdGFsbGluZwogICB0aGUgRklQUyBtb2R1bGUgd2l0aCB0aGUgYC1kZWZlcl90ZXN0c2Ag
+b3B0aW9uIG9mIHRoZSBgb3BlbnNzbCBmaXBzaW5zdGFsbGAKICAgY29tbWFuZC4KICAgPCEtLSBo
+dHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjkyMjIgLS0+CgogICAqU2lt
+byBTb3JjZSoKCiAqIExvd2VyIGJvdW5kcyBjaGVja3MgYXJlIG5vdyBlbmZvcmNlZCB3aGVuIHVz
+aW5nIGBQS0NTNV9QQktERjJfSE1BQ2AgQVBJCiAgIHdpdGggRklQUyBwcm92aWRlci4KCiAgIFdo
+ZW4gdXNpbmcgdGhlIEZJUFMgcHJvdmlkZXIgdmlhIHRoZSBgUEtDUzVfUEJLREYyX0hNQUNgIEFQ
+SSwKICAgcGFzc3dvcmQgcHJvdGVjdGVkIGVuY3J5cHRlZCBmaWxlcyB3aWxsIG5vdyBoYXZlIGxv
+d2VyIGJvdW5kcwogICBjaGVja3MgKG1pbmltdW0gaXRlcmF0aW9uIGNvdW50LCBtaW5pbXVtIHBh
+c3N3b3JkIGxlbmd0aCwgc2FsdAogICBzaXplIGFuZCBkZXJpdmVkIGtleSBsZW5ndGhzKSBlbmZv
+cmNlZCBieSBkZWZhdWx0LiAgUHJpb3IgdG8KICAgdXBncmFkaW5nIHRvIHRoaXMgdmVyc2lvbiwg
+dXNlcnMgbWF5IHdhbnQgdG8gY2hlY2sgaWYgdGhlaXIKICAgcGFzc3dvcmQgcHJvdGVjdGVkIGtl
+eeKAk3N0b3JlcyBhcmUgZW5jcnlwdGVkIHVzaW5nIHNob3J0IHBhc3N3b3JkcywKICAgc2FsdHMs
+IGxvdyBpdGVyYXRpb24gY291bnRzIGZvciBQQktERiBvciB3ZWFrZXIgY2lwaGVycy4gVG8KICAg
+dXBncmFkZSB0byB0aGUgbmV3IGRlZmF1bHRzIG9uZSBjYW4gZGVjcnlwdCB0aGUga2V5cyB3aXRo
+IGEKICAgcHJldmlvdXMgT3BlblNTTCB2ZXJzaW9uIG9yIHRoZSBkZWZhdWx0IHByb3ZpZGVyLCBh
+bmQgdGhlbgogICByZS1lbmNyeXB0IHRoZW0gd2l0aCB0aGUgbmV3ZXIgT3BlblNTTCAodXNpbmcg
+dGhlIEZJUFMgcHJvdmlkZXIpLAogICB0aHVzIHVwZ3JhZGluZyB0byBsb25nZXIgcGFzc3dvcmQs
+IHNhbHQgbGVuZ3RoIGFuZCBBRVMtMjU2IENCQy4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20v
+b3BlbnNzbC9vcGVuc3NsL3B1bGwvMjc0MzEgLS0+CgogICAqRGltaXRyaSBKb2huIExlZGtvdioK
+CiAqIEFkZGVkIHN1cHBvcnQgZm9yIHVzaW5nIGVpdGhlciBzdGF0aWMgb3IgZHluYW1pYyBWQyBy
+dW50aW1lIGxpbmthZ2UKICAgb24gV2luZG93cy4gIFVzaW5nIHRoZSBgZW5hYmxlLXN0YXRpYy12
+Y3J1bnRpbWVgIGNvbmZpZ3VyYXRpb24gb3B0aW9uLAogICBPcGVuU1NMIGNhbiBub3cgYmUgY29u
+ZmlndXJlZCB0byB1c2UgdGhlIHN0YXRpYyBvciBkeW5hbWljIGB2Y3J1bnRpbWUuZGxsYAogICBs
+aW5rYWdlLiAgVGhlIG11bHRpdGhyZWFkZWQgb3Igc2luZ2xlIHRocmVhZGVkIHN0YXRpYyBWQyBy
+dW50aW1lIGlzIHNlbGVjdGVkCiAgIGJhc2VkIG9uIHRoZSBgZW5hYmxlLXRocmVhZHNgIG9wdGlv
+bi4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjk5OTUg
+LS0+CgogICAqTmVpbCBIb3JtYW4qCgogKiBBZGRlZCBjb25maWd1cmUgb3B0aW9ucyB0byBkaXNh
+YmxlIEtERiBhbGdvcml0aG1zIGZvciBgaG1hYy1kcmJnLWtkZmAsCiAgIGBrYmtkZmAsIGBrcmI1
+a2RmYCwgYHB2a2tkZmAsIGBzbm1wa2RmYCwgYHNza2RmYCwgYHNzaGtkZmAsIGB4OTQya2RmYCwK
+ICAgYW5kIGB4OTYza2RmYC4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVu
+c3NsL3B1bGwvMjk1NzYgLS0+CgogICAqU2hhbmUgTG9udGlzKgoKICogUmVtb3ZlZCBjb25maWd1
+cmUgb3B0aW9ucyBjYW4gbm93IG9ubHkgYmUgZGlzYWJsZWQuICBZb3UgbWF5IGNvbnRpbnVlCiAg
+IHRvIHVzZSBgZGlzYWJsZS08ZmVhdHVyZT5gIHN5bnRheCwgd2hpY2ggd2lsbCByZW1haW4gc3Vw
+cG9ydGVkLiAgVXNpbmcKICAgYGVuYWJsZS08ZmVhdHVyZT5gIGZvciBhIHJlbW92ZWQgZmVhdHVy
+ZSBpcyBubyBsb25nZXIgcGVybWl0dGVkLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVu
+c3NsL29wZW5zc2wvcHVsbC8yOTMzOCAtLT4KCiAgICpBbmRyZXcgRGluaCoKCiAqIEFkZGVkIHJl
+c3RyaWN0aW9ucyBvbiB0aGUgbWF4aW11bSBudW1iZXIgb2YgVExTIGBrZXlfc2hhcmVgcyAoMTYp
+CiAgIHRoYXQgYSBzZXJ2ZXIgd2lsbCBwYXkgYXR0ZW50aW9uIHRvLCBhcyB3ZWxsIGFzIHRoZSBt
+YXhpbXVtIG51bWJlcgogICBvZiBzdXBwb3J0ZWQgYGdyb3VwYHMgKDEyOCkgYW5kIGBzaWdfYWxn
+YHMgKDEyOCkuICBBbnkgc2VudCBiZXlvbmQKICAgdGhlc2UgbGltaXRzIGFyZSBpZ25vcmVkLCBp
+biBvcmRlciB0byBhdm9pZCBjbGllbnRzIHNlbmRpbmcgZXhjZXNzaXZlbHkKICAgbG9uZyBsaXN0
+cyBpbiB0aGVzZSBleHRlbnNpb25zLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3Ns
+L29wZW5zc2wvcHVsbC8zMDI2MyAtLT4KCiAgICpNYXR0IENhc3dlbGwqCgogKiBSZW1vdmVkIHNw
+ZWNpYWxpc2VkIGJ1aWx0LWluIGxvZ2ljIGZvciBhZGRpbmcgdGhlIFNLSUQgYW5kIEFLSUQgZXh0
+ZW5zaW9ucwogICBmcm9tIGBvcGVuc3NsIHg1MDlgLCBgb3BlbnNzbCByZXFgLCBhbmQgYG9wZW5z
+c2wgY2FgIGNvbW1hbmRzLAogICB0aGVzZSBleHRlbnNpb25zIGFyZSBoYW5kbGVkIHRocm91Z2gg
+Y29uZmlndXJhdGlvbiBmaWxlcyBhbmQgY29tbWFuZC1saW5lCiAgIG9wdGlvbnMganVzdCBsaWtl
+IGFueSBvdGhlciBleHRlbnNpb24uICBTZWUgdGhlaXIgZG9jdW1lbnRhdGlvbiBhbmQgYWxzbwog
+ICBgeDUwOXYzX2NvbmZpZyg1KWAgZm9yIGFkZGl0aW9uYWwgZGV0YWlscy4KCiAgIFVwZGF0ZWQg
+dGhlIHN5bnRheCBvZiB0aGUgYHN1YmplY3RLZXlJZGVudGlmaWVyYCAoU0tJRCkgYW5kCiAgIGBh
+dXRob3JpdHlLZXlJZGVudGlmaWVyYCAoQUtJRCkgZXh0ZW5zaW9ucywgaW50cm9kdWNpbmcgdGhl
+IGBub25zc2AgcXVhbGlmaWVyCiAgIGZvciB0aGUgYGtleWlkYCBhbmQgYGlzc3VlcmAga2V5d29y
+ZHMuCgogICBUaGUgeDUwOSAibWluaS1DQSIgbm93IGF0dGVtcHRzIHRvIGZpbmQgZXh0ZW5zaW9u
+IHNldHRpbmdzIGluIHRoZSBkZWZhdWx0CiAgIGNvbmZpZ3VyYXRpb24gZmlsZSBldmVuIGlmIG5l
+aXRoZXIgdGhlIGAtZXh0ZmlsZWAgbm9yIHRoZSBgLWV4dGVuc2lvbnNgCiAgIG9wdGlvbiBpcyBl
+eHBsaWNpdGx5IHNwZWNpZmllZC4gIEZhaWx1cmUgdG8gb3BlbiB0aGUgZGVmYXVsdCBjb25maWd1
+cmF0aW9uCiAgIGlzIHNpbGVudGx5IGlnbm9yZWQuCgogICBUaGUgc2V0dGluZ3MgaW4gdGhlIHN0
+b2NrIE9wZW5TU0wgNC4wIGNvbmZpZ3VyYXRpb24gZmlsZSBhcnJhbmdlIGZvcgogICBhZGRpdGlv
+biBvZiB0aGUgcmVxdWlzaXRlIFNLSUQgYW5kIEFLSUQgZXh0ZW5zaW9ucy4gIE90aGVyIGNvbmZp
+Z3VyYXRpb24KICAgZmlsZXMgbWF5IG5lZWQgdG8gYmUgYWRqdXN0ZWQgaWYgZGVzaXJlZC4KICAg
+PCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjkwNTcgLS0+Cgog
+ICAqVmlrdG9yIER1a2hvdm5pKgoKICogRW5hYmxlZCBTZXJ2ZXIgdmVyaWZpY2F0aW9uIGJ5IGRl
+ZmF1bHQgaW4gYHNfc2VydmVyYAogICB3aGVuIHRoZSBgLXZlcmlmeV9yZXR1cm5fZXJyb3JgIG9w
+dGlvbiBpcyBlbmFibGVkLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5z
+c2wvcHVsbC8yODQ0NSAtLT4KCiAgICpSeWFuIEhvb3BlcioKCiAqIFJlbW92ZWQgZXh0cmEgbGVh
+ZGluZyAnMDA6JyB3aGVuIHByaW50aW5nIGtleSBkYXRhIHN1Y2ggYXMgYW4gUlNBIG1vZHVsdXMK
+ICAgaW4gaGV4YWRlY2ltYWwgZm9ybWF0IHdoZXJlIHRoZSBmaXJzdCAobW9zdCBzaWduaWZpY2Fu
+dCkgYnl0ZSBpcyA+PSAweDgwLgogICBUaGlzIGhhZCBiZWVuIGFkZGVkIGFydGlmaWNpYWxseSB0
+byByZXNlbWJsZSBBU04uMSBERVIgZW5jb2RpbmcgaW50ZXJuYWxzLgogICBGaXhpbmcgdGhpcyBh
+bHNvIG1ha2VzIHN1cmUgdGhhdCBrZXkgb3V0cHV0IGFsd2F5cyBoYXMgdGhlIGV4cGVjdGVkIGxl
+bmd0aC4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvODEz
+NiAtLT4KCiAgICpEYXZpZCB2b24gT2hlaW1iKgoKICogU3RhbmRhcmRpemVkIHRoZSB3aWR0aCBv
+ZiBoZXhhZGVjaW1hbCBkdW1wcyB0byAyNCBieXRlcyBmb3Igc2lnbmF0dXJlcwogICAodG8gc3Rh
+eSB3aXRoaW4gdGhlIDgwIGNoYXJhY3RlcnMgbGltaXQpIGFuZCAxNiBieXRlcyBmb3IgZXZlcnl0
+aGluZyBlbHNlLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVs
+bC8yOTI2NiAtLT4KCiAgICpCZWF0IEJvbGxpKgoKICogVXBkYXRlZCB0aGUgZGVmYXVsdCBncm91
+cCBsaXN0IHRvIGFwcGVuZCBgU2VjUDI1NnIxTUtFTTc2OGAgYW5kCiAgIGBjdXJ2ZVNNMk1MS0VN
+NzY4YCB0byB0aGUgZmlyc3QgdHVwbGUgaW4gdGhhdCBvcmRlciBhZnRlciBgKlgyNTUxOU1MS0VN
+NzY4YC4KICAgQWxzbyBpbnNlcnRlZCBhIHBlbnVsdGltYXRlIHR1cGxlIHdpdGggYGN1cnZlU00y
+YCAoanVzdCBiZWZvcmUgdGhlIGBGRkRIRWAKICAgZ3JvdXBzKS4KICAgPCEtLSBodHRwczovL2dp
+dGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAxMTMgLS0+CgogICAqVmlrdG9yIER1a2hv
+dm5pKgoKICogQ29uc29saWRhdGVkIHByb2Nlc3Npbmcgb2YgU00yIGFuZCBFZERTQSBzaWduYXR1
+cmVzIHdpdGggZXNzZW50aWFsbHkKICAgaWRlbnRpY2FsIGNvZGUgZm9yIEVDRFNBIGluIHRoZSBg
+b3BlbnNzbCBzcGVlZGAgY29tbWFuZC4gIFRoZSBvdXRwdXQgZm9ybWF0CiAgIGhhcyBjaGFuZ2Vk
+IHNsaWdodGx5IHRvIHJlcG9ydCB0aGUgRUMgY3VydmUgbmFtZSByYXRoZXIgdGhhbiBpdHMgYml0
+IHNpemUuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5
+OTUzIC0tPgoKICAgKlZpa3RvciBEdWtob3ZuaSoKCiAqIENSTHMgd2l0aCBhIG1hbGZvcm1lZCBJ
+c3N1aW5nIERpc3RyaWJ1dGlvbiBQb2ludCBleHRlbnNpb25zIGFyZSBub3cgcmVqZWN0ZWQuCiAg
+IDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMTcxIC0tPgoK
+ICAgKkRhbmllbCBLdWJlYyoKCiAqIENSTHMgd2l0aCBtYWxmb3JtZWQgYENSTCBOdW1iZXJgIG9y
+IGBEZWx0YSBDUkwgSW5kaWNhdG9yYCBleHRlbnNpb25zCiAgIGFyZSBub3cgcmVqZWN0ZWQuCiAg
+IDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMDI0IC0tPgoK
+ICAgKkRhbmllbCBLdWJlYyoKCiAqIEZpeGVkIENSTHMgd2l0aCBpbnZhbGlkIGBBU04xX1RJTUVg
+IGluIGBpbnZhbGlkaXR5RGF0ZWAgZXh0ZW5zaW9ucywKICAgd2hlcmUgdmVyaWZpY2F0aW9uIGlu
+Y29ycmVjdGx5IHN1Y2NlZWRlZC4gIEVuZm9yY2VkIHByb3BlciBoYW5kbGluZwogICBvZiBgQVNO
+MV9USU1FYCB2YWxpZGF0aW9uIHJlc3VsdHMgc28gdGhhdCBhbnkgQ1JMIGNvbnRhaW5pbmcgaW52
+YWxpZAogICB0aW1lIGZpZWxkcyBpcyByZWplY3RlZCBpbW1lZGlhdGVseSwgcHJldmVudGluZyB0
+aGUgZXJyb3IgZnJvbSBwcm9wYWdhdGluZwogICB0byB2ZXJpZmljYXRpb24uCiAgIDwhLS0gaHR0
+cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5MTA3IC0tPgoKICAgKkRhbmll
+bCBLdWJlYyoKCiAqIENSTHMgd2l0aCBhIGBDZXJ0aWZpY2F0ZSBJc3N1ZXJgIGV4dGVuc2lvbiBp
+biBhIGNlcnRpZmljYXRlIHJldm9jYXRpb24gZW50cnkKICAgYXJlIG5vdyByZWplY3RlZCwgdW5s
+ZXNzIHRoZSBgSW5kaXJlY3RgIGZsYWcgaXMgc2V0IHRvIGBUUlVFYAogICBpbiB0aGUgYElzc3Vp
+bmcgRGlzdHJpYnV0aW9uIFBvaW50YCBleHRlbnNpb24gb2YgdGhlIENSTC4KICAgPCEtLSBodHRw
+czovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjkwMTggLS0+CgogICAqRGFuaWVs
+IEt1YmVjKgoKICogYFNTTF9nZXRfZXJyb3IoKWAgbm8gbG9uZ2VyIGRlcGVuZHMgb24gdGhlIHN0
+YXRlIG9mIHRoZSBlcnJvciBzdGFjaywKICAgc28gaXQgaXMgbm8gbG9uZ2VyIG5lY2Vzc2FyeSB0
+byBlbXB0eSB0aGUgZXJyb3IgcXVldWUgYmVmb3JlIHRoZQogICBUTFMvU1NMIEkvTyBvcGVyYXRp
+b25zLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTk5
+MSAtLT4KCiAgICpJZ29yIFVzdGlub3YqCgogKiBgQVNOMV9TVFJJTkdgIGhhcyBiZWVuIG1hZGUg
+b3BhcXVlLgoKICAgQWNjZXNzIHRvIHZhbHVlcyBmcm9tIGBBU04xX1NUUklOR2AgYW5kIHJlbGF0
+ZWQgdHlwZXMgc2hvdWxkIGJlIGRvbmUgd2l0aCB0aGUKICAgYXBwcm9wcmlhdGUgYWNjZXNzb3Ig
+ZnVuY3Rpb25zLiAgVGhlIHZhcmlvdXMgYEFTTjFfU1RSSU5HX0ZMQUdgIHZhbHVlcyBoYXZlCiAg
+IGJlZW4gbWFkZSBwcml2YXRlLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29w
+ZW5zc2wvcHVsbC8yOTg2MiAtLT4KCiAgICpCb2IgQmVjayoKCiAqIGBPUEVOU1NMX2NsZWFudXAo
+KWAgbm93IHJ1bnMgaW4gYSBnbG9iYWwgZGVzdHJ1Y3Rvciwgb3Igbm90IGF0IGFsbAogICBieSBk
+ZWZhdWx0OiAgYE9QRU5TU0xfY2xlYW51cCgpYCB3aWxsIG5vIGxvbmdlciBieSBkZWZhdWx0IGZy
+ZWUgZ2xvYmFsCiAgIG9iamVjdHMgd2hlbiBydW4gZnJvbSBhbiBhcHBsaWNhdGlvbi4gSW5zdGVh
+ZCBpdCBzZXRzIGEgZmxhZyBmb3IgYSBnbG9iYWwKICAgZGVzdHJ1Y3RvciB0byBkbyB0aGlzIGFm
+dGVyIHRoZSBwcm9jZXNzIGV4aXRzLCBhbmQgYWZ0ZXIgc3Vib3JkaW5hdGUKICAgbGlicmFyaWVz
+IHVzaW5nIE9wZW5TU0wgaGF2ZSBydW4gdGhlaXIgZGVzdHJ1Y3RvcnMuIElmIGRlc3RydWN0b3Ig
+c3VwcG9ydAogICBpcyBub3QgYXZhaWxhYmxlLCBgT1BFTlNTTF9jbGVhbnVwKClgIHdpbGwgZG8g
+bm90aGluZywgbGVhdmluZyB0aGUgZ2xvYmFsCiAgIG9iamVjdHMgdG8gYmUgY2xlYW5lZCB1cCBi
+eSB0aGUgb3BlcmF0aW5nIHN5c3RlbS4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNz
+bC9vcGVuc3NsL3B1bGwvMjk3MjEgLS0+CgogICAqQm9iIEJlY2sqCgogKiBgWDUwOV9BTEdPUl9z
+ZXRfbWQoKWAgZnVuY3Rpb24gbm93IHJldHVybnMgYSB2YWx1ZSBpbmRpY2F0aW5nIHN1Y2Nlc3MK
+ICAgIG9yIGZhaWx1cmUuCiAgICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5z
+c2wvcHVsbC8xNzQ5NSAtLT4KCiAgICpEYXZpZCB2b24gT2hlaW1iKgoKICogQ2hhbmdlZCBgQklP
+X3NucHJpbnRmKClgIGltcGxlbWVudGF0aW9uIHRvIHVzZSBgc25wcmludGYoKWAgcHJvdmlkZWQK
+ICAgYnkgc3lzdGVtJ3MgbGliYyAoaW5zdGVhZCBvZiByZWx5aW5nIG9uIGludGVybmFsIGltcGxl
+bWVudGF0aW9uKSwKICAgbWFraW5nIGl0IGJ1Zy1mb3ItYnVnIGNvbXBhdGlibGUgd2l0aCBpdC4K
+ICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjgzMDUgLS0+
+CgogICAqQWxleGFuZHIgTmVkdmVkaWNreSoKCiAqIEFkZGVkIGBYNTA5X2NoZWNrX2NlcnRpZmlj
+YXRlX3RpbWVzKClgIGZ1bmN0aW9uLCBhcyB3ZWxsIGFzCiAgIHRoZSBgPG9wZW5zc2wvcG9zaXhf
+dGltZS5oPmAgaW50ZXJmYWNlIGZyb20gQm9yaW5nU1NML0xpYnJlU1NMLCB0aGF0IHJlcGxhY2UK
+ICAgbm93IGRlcHJlY2F0ZWQgYFg1MDlfY21wX3RpbWUoKWAsIGBYNTA5X2NtcF9jdXJyZW50X3Rp
+bWUoKWAsCiAgIGFuZCBgWDUwOV9jbXBfdGltZWZyYW1lKClgLiBTZWUgYFg1MDlfY2hlY2tfY2Vy
+dGlmaWNhdGVfdGltZXMoMylgCiAgIGZvciBkZXRhaWxzLgogICA8IS0tIGh0dHBzOi8vZ2l0aHVi
+LmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yODYyMyAtLT4KICAgPCEtLSBodHRwczovL2dpdGh1
+Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjkxNTIgLS0+CiAgIDwhLS0gaHR0cHM6Ly9naXRo
+dWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMDk4IC0tPgoKICAgKkJvYiBCZWNrKgoKICog
+YGNvbnN0YC1jb3JyZWN0ZWQgYHRpbWVfdGAgYXJndW1lbnRzIGZvciBgWDUwOV9jbXBfdGltZSgp
+YCwKICAgYFg1MDlfdGltZV9hZGooKWAsIGFuZCBgWDUwOV90aW1lX2Fkal9leCgpYC4KICAgPCEt
+LSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAwMjAgLS0+CgogICAq
+RnJlZGVyaWsgV2VkZWwtSGVpbmVuKgoKICogTWFkZSBgWDUwOV9BVFRSSUJVVEVgIGFjY2Vzc29y
+IGZ1bmN0aW9ucyBgY29uc3RgLWNvcnJlY3QuIFRoZSBmdW5jdGlvbnMKICAgYFg1MDlfQVRUUklC
+VVRFX2dldDBfb2JqZWN0KClgLCBgWDUwOV9BVFRSSUJVVEVfZ2V0MF90eXBlKClgLCBhbmQKICAg
+YFg1MDlfQVRUUklCVVRFX2dldDBfZGF0YSgpYCBub3cgYWNjZXB0IGBjb25zdCBYNTA5X0FUVFJJ
+QlVURSAqYCBhbmQKICAgcmV0dXJuIGBjb25zdGAgcG9pbnRlcnMuIFJlbGF0ZWQgUEtDUyMxMiBm
+dW5jdGlvbnMgYFBLQ1MxMl9nZXRfYXR0cl9nZW4oKWAsCiAgIGBQS0NTMTJfZ2V0X2F0dHIoKWAs
+IGFuZCBgUEtDUzhfZ2V0X2F0dHIoKWAgaGF2ZSBhbHNvIGJlZW4gdXBkYXRlZCB0bwogICByZXR1
+cm4gYGNvbnN0IEFTTjFfVFlQRSAqYC4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNz
+bC9vcGVuc3NsL3B1bGwvMjk4MTMgLS0+CgogICAqa292YW4qCgogKiBNYWRlIGBYNTA5X1BVQktF
+WWAgYWNjZXNzb3IgZnVuY3Rpb25zIGBjb25zdGAtY29ycmVjdC4KICAgPCEtLSBodHRwczovL2dp
+dGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjk0MjggLS0+CgogICAqQm9iIEJlY2sqCgog
+KiBgY29uc3RgLWNvcnJlY3RlZCB2YXJpb3VzIGZ1bmN0aW9uIHJldHVybiB2YWx1ZXMsIHBhcnRp
+Y3VsYXJseSBpbiBgWDUwOWAKICAgYW5kIHJlbGF0ZWQgYXJlYXMsIGFuZCB3aGVuIGZ1bmN0aW9u
+cyB3ZXJlIHJldHVybmluZyBub24tYGNvbnN0YCBvYmplY3RzCiAgIG93bmVkIGJ5IGEgYGNvbnN0
+YCBwYXJhbWV0ZXIuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9w
+dWxsLzMwMDM1IC0tPgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wv
+cHVsbC8zMDAzNiAtLT4KCiAgICpCb2IgQmVjayoKCiAqIE1hbnkgZnVuY3Rpb25zIGFjY2VwdGlu
+ZyBgWDUwOSAqYCBhcmd1bWVudHMsIG9yIHJldHVybmluZyB2YWx1ZXMKICAgZnJvbSBhIGBjb25z
+dGAgYFg1MDkgKmAgaGF2ZSBiZWVuIGNoYW5nZWQgdG8gdGFrZS9yZXR1cm4gYGNvbnN0YAogICBh
+cmd1bWVudHMuIFRoZSBtb3N0IHZpc2libGUgY2hhbmdlcyBhcmUgcGxhY2VzIHdoZXJlIHBvaW50
+ZXIgdmFsdWVzCiAgIGFyZSByZXR1cm5lZCBmcm9tIGEgYGNvbnN0YCBgWDUwOSAqYCBvYmplY3Qu
+IEluIG1hbnkgcGxhY2VzIHdoZXJlCiAgIHRoZXNlIHdlcmUgbm9uIGBjb25zdGAgdmFsdWVzIGJl
+aW5nIHJldHVybmVkIGZyb20gYSBgY29uc3RgIG9iamVjdCwKICAgdGhlc2UgcG9pbnRlciB2YWx1
+ZXMgaGF2ZSBub3cgYmVlbiBtYWRlIGBjb25zdGAuIFRoZSBnb2FsIG9mIHRoaXMKICAgY2hhbmdl
+IGlzIHRvIGVuYWJsZSBmdXR1cmUgaW1wcm92ZW1lbnRzIGluIFguNTA5IGNlcnRpZmljYXRlCiAg
+IGhhbmRsaW5nLiBGb3IgZnVsbCBkZXRhaWxzIHNlZSB0aGUgcmVsZXZhbnQgc2VjdGlvbiBpbgog
+ICBgb3NzbC1taWdyYXRpb24tZ3VpZGUoNylgLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9v
+cGVuc3NsL29wZW5zc2wvcHVsbC8yOTQ2NSAtLT4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20v
+b3BlbnNzbC9vcGVuc3NsL3B1bGwvMjk0NjggLS0+CiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29t
+L29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5NDg4IC0tPgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNv
+bS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMDA1MyAtLT4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5j
+b20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAwNTQgLS0+CiAgIDwhLS0gaHR0cHM6Ly9naXRodWIu
+Y29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMDU2IC0tPgogICA8IS0tIGh0dHBzOi8vZ2l0aHVi
+LmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMDA1OCAtLT4KICAgPCEtLSBodHRwczovL2dpdGh1
+Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAwNjcgLS0+CiAgIDwhLS0gaHR0cHM6Ly9naXRo
+dWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMDcxIC0tPgogICA8IS0tIGh0dHBzOi8vZ2l0
+aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMDA3MiAtLT4KICAgPCEtLSBodHRwczovL2dp
+dGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAwNzMgLS0+CiAgIDwhLS0gaHR0cHM6Ly9n
+aXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMDc0IC0tPgogICA8IS0tIGh0dHBzOi8v
+Z2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMDA3NiAtLT4KICAgPCEtLSBodHRwczov
+L2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAwNzkgLS0+CiAgIDwhLS0gaHR0cHM6
+Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMDgwIC0tPgogICA8IS0tIGh0dHBz
+Oi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMDA4MiAtLT4KICAgPCEtLSBodHRw
+czovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAwODQgLS0+CiAgIDwhLS0gaHR0
+cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMDkwIC0tPgogICA8IS0tIGh0
+dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMDA5MiAtLT4KICAgPCEtLSBo
+dHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAwOTYgLS0+CiAgIDwhLS0g
+aHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMTE3IC0tPgogICA8IS0t
+IGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMDEyNyAtLT4KICAgPCEt
+LSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAyMjkgLS0+CiAgIDwh
+LS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMjM1IC0tPgogICA8
+IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMDI2NSAtLT4KICAg
+PCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAyNzIgLS0+CiAg
+IDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMjczIC0tPgog
+ICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMDI3NiAtLT4K
+CiAgICpCb2IgQmVjayoKCiAqIGBjb25zdGAtY29ycmVjdGVkIHZhcmlvdXMgZnVuY3Rpb24gcGFy
+YW1ldGVycywgaW4gcGFydGljdWxhcgogICBmb3IgYFg1MDlgLXJlbGF0ZWQgZnVuY3Rpb25zLgog
+ICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yODAzMyAtLT4K
+CiAgICpEYXZpZCB2b24gT2hlaW1iKgoKICogYGNvbnN0YC1jb3JyZWN0ZWQgdmFyaW91cyBgWDUw
+OWAtcmVsYXRlZCBmdW5jdGlvbnM6IGBYNTA5X2dldF9wYXRobGVuKClgLAogICBgWDUwOV9jaGVj
+a19jYSgpYCwgYFg1MDlfY2hlY2tfcHVycG9zZSgpYCwgYFg1MDlfZ2V0X3Byb3h5X3BhdGhsZW4o
+KWAsCiAgIGBYNTA5X2dldF9leHRlbnNpb25fZmxhZ3MoKWAsIGBYNTA5X2dldF9rZXlfdXNhZ2Uo
+KWAsCiAgIGBYNTA5X2dldF9leHRlbmRlZF9rZXlfdXNhZ2UoKWAsIGBYNTA5X2dldDBfc3ViamVj
+dF9rZXlfaWQoKWAsCiAgIGBYNTA5X2dldDBfYXV0aG9yaXR5X2tleV9pZCgpYCwgYFg1MDlfZ2V0
+MF9hdXRob3JpdHlfaXNzdWVyKClgLAogICBgWDUwOV9nZXQwX2F1dGhvcml0eV9zZXJpYWwoKWAs
+IGBYNTA5X2dldDBfZGlzdGluZ3Vpc2hpbmdfaWQoKWAuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIu
+Y29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMDU1IC0tPgoKICAgKkJvYiBCZWNrKgoKICogUmVt
+b3ZlZCBuZWVkbGVzcyBgY29uc3RgIHF1YWxpZmllcnMgZnJvbSBzY2FsYXIgdHlwZSBhcmd1bWVu
+dHMgaW4gdGhlIHB1YmxpYwogICBBUElzLCBtb3N0bHkgZm9yIEFFUyBhbmQgQ2FtZWxsaWEuCiAg
+IDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzE4MjI5IC0tPgoK
+ICAgKkRhdmlkIHZvbiBPaGVpbWIqCgogKiBGaXhlZCBhIGJ1ZyB0aGF0IGFsbG93ZWQgVExTIDEu
+MiBjaXBoZXJzIHRvIGJlIGFkZGVkIHRvIHRoZSBUTFMgMS4zCiAgIGBjaXBoZXJzdWl0ZXNgIGxp
+c3QsIGFuZCBmb3IgdGhhdCBsaXN0IHRvIGNvbnRhaW4gZHVwbGljYXRlcy4KICAgQ2lwaGVyIGNv
+bmZpZ3VyYXRpb24gc3RyaW5ncyBmb3IgYm90aCBUTFMgMS4yIGFuZCAxLjMgYXJlIG5vdwogICBj
+YXNlLWluc2Vuc2l0aXZlLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5z
+c2wvcHVsbC8zMDE0MCAtLT4KCiAgICpWaWt0b3IgRHVraG92bmkqCgogKiBEZXByZWNhdGVkIGBB
+U04xX09CSkVDVF9uZXcoKWAgZnVuY3Rpb24uCiAgIFJlZmVyIHRvIGBvc3NsLW1pZ3JhdGlvbi1n
+dWlkZSg3KWAgZm9yIG1vcmUgaW5mby4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNz
+bC9vcGVuc3NsL3B1bGwvMzAwMTEgLS0+CgogICAqRnJlZGVyaWsgV2VkZWwtSGVpbmVuKgoKICog
+RGVwcmVjYXRlZCBgWDUwOV9OQU1FX2dldF90ZXh0X2J5X05JRCgpYCBhbmQgYFg1MDlfTkFNRV9n
+ZXRfdGV4dF9ieV9PQkooKWAKICAgZnVuY3Rpb25zLCBhbmQgZG9jdW1lbnRlZCB0aGVtIGFzIHN1
+Y2guCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzMwMDMx
+IC0tPgoKICAgKkJvYiBCZWNrKgoKICogUmVtb3ZlZCB0aGUgYFNTTF9UWFRfRklQU2Agb3B0aW9u
+LiAgVGhpcyB3YXMgYSByZW1uYW50IG9mIHRoZSBvbGQgRklQUwogICBjYW5pc3RlciBhbmQgd2Fz
+bid0IHVzZWQgYW55bW9yZS4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVu
+c3NsL3B1bGwvMzAyMDAgLS0+CgogICAqRHIgUGF1bCBEYWxlKgoKICogUmVtb3ZlZCBgT1BFTlNT
+TF9hdGV4aXQoKWAgZnVuY3Rpb24uCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wv
+b3BlbnNzbC9wdWxsLzI5ODc0IC0tPgoKICAgKkJvYiBCZWNrKgoKICogUmVtb3ZlZCBjcml0aWNh
+bCBleHRlbnNpb24gZW5mb3JjZW1lbnQgZm9yIGBFWEZMQUdfQkNPTlNfQ1JJVElDQUxgLAogICBg
+RVhGTEFHX0FLSURfQ1JJVElDQUxgLCBgRVhGTEFHX1NLSURfQ1JJVElDQUxgLCBhbmQgYEVYRkxB
+R19TQU5fQ1JJVElDQUxgLAogICBhcyBpdCB3YXMgaW5jb3JyZWN0LiAgVGhlc2UgY2hlY2tzIHdl
+cmUgaW50ZW5kZWQgYXMgQ0EgcmVxdWlyZW1lbnRzCiAgIHRvIHByZXZlbnQgbWlzaW50ZXJwcmV0
+YXRpb24gYnkgdmVyaWZpZXJzIHRoYXQgZG9uJ3Qgc3VwcG9ydCBjZXJ0YWluCiAgIGV4dGVuc2lv
+bnMuICBIb3dldmVyLCBzaW5jZSB3ZSBkbyBzdXBwb3J0IHRoZXNlIGV4dGVuc2lvbnMsCiAgIHRo
+ZXJlIGlzIG5vIHJlcXVpcmVtZW50IGZvciB0aGVtIHRvIGJlIG1hcmtlZCBhcyBjcml0aWNhbC4g
+IEVuZm9yY2luZwogICB0aGF0IG9uIGBYNTA5X1ZfRkxBR19YNTA5X1NUUklDVGAgd2FzIGEgbWlz
+dGFrZS4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzAy
+NDkgLS0+CgogICAqRGFuaWVsIEt1YmVjKgoKICogUmVtb3ZlZCBzdXBwb3J0IGZvciBhbiBTU0x2
+MiBDbGllbnQgSGVsbG8uICBXaGVuIGEgY2xpZW50IHdhbnRlZCB0byBzdXBwb3J0CiAgIGJvdGgg
+U1NMdjIgYW5kIGhpZ2hlciB2ZXJzaW9ucyBsaWtlIFNTTHYzIG9yIGV2ZW4gVExTdjEsIGl0IG5l
+ZWRlZCB0bwogICBzZW5kIGFuIFNTTHYyIENsaWVudCBIZWxsby4gIFNTTHYyIHN1cHBvcnQgaXRz
+ZWxmIHdhcyByZW1vdmVkCiAgIGluIE9wZW5TU0wgMS4xLjAsIGJ1dCB0aGVyZSB3YXMgc3RpbGwg
+Y29tcGF0aWJpbGl0eSBjb2RlIGZvciBjbGllbnRzIHNlbmRpbmcKICAgYW4gU1NMdjIgQ2xpZW50
+IEhlbGxvLiAgU2luY2Ugd2Ugbm8gbG9uZ2VyIHN1cHBvcnQgU1NMdjIgQ2xpZW50IEhlbGxvLAog
+ICBgU1NMX2NsaWVudF9oZWxsb19pc3YyKClgIGlzIG5vdyBkZXByZWNhdGVkIGFuZCBhbHdheXMg
+cmV0dXJucyAwLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVs
+bC8yODA0MSAtLT4KCiAgICpLdXJ0IFJvZWNreCoKCiAqIFJlbW92ZWQgc3VwcG9ydCBmb3IgU1NM
+djMuICBTU0x2MyBoYXMgYmVlbiBkZXByZWNhdGVkIHNpbmNlIDIwMTUsIGFuZCBPcGVuU1NMCiAg
+IGhhZCBpdCBkaXNhYmxlZCBieSBkZWZhdWx0IHNpbmNlIHZlcnNpb24gMS4xLjAgKDIwMTYpLgog
+ICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTMzOCAtLT4K
+CiAgICpLdXJ0IFJvZWNreCoKCiAqIFN1cHBvcnQgb2YgZGVwcmVjYXRlZCBlbGxpcHRpYyBjdXJ2
+ZXMgaW4gVExTIGFjY29yZGluZyB0byBbUkZDIDg0MjJdIHdhcwogICBkaXNhYmxlZCBhdCBjb21w
+aWxlLXRpbWUgYnkgZGVmYXVsdC4gVG8gZW5hYmxlIGl0LCB1c2UgdGhlCiAgIGBlbmFibGUtdGxz
+LWRlcHJlY2F0ZWQtZWNgIGNvbmZpZ3VyYXRpb24gb3B0aW9uLgogICA8IS0tIGh0dHBzOi8vZ2l0
+aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTY1OCAtLT4KCiAgICpEbWl0cnkgQmVseWF2
+c2tpeSoKCiAqIFN1cHBvcnQgb2YgZXhwbGljaXQgRUMgY3VydmVzIHdhcyBkaXNhYmxlZCBieSBk
+ZWZhdWx0LCBhbiBlcnJvciB3aWxsIG9jY3VyCiAgIGlmIGFuIGV4cGxpY2l0IEVDIGN1cnZlIGRv
+ZXNuJ3QgbWF0Y2ggYW55IGtub3duIG9uZS4gIEEgbmV3IGNvbmZpZ3VyYXRpb24KICAgb3B0aW9u
+LCBgZW5hYmxlLWVjX2V4cGxpY2l0X2N1cnZlc2AsIGlzIGFkZGVkLgogICA8IS0tIGh0dHBzOi8v
+Z2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTYzOSAtLT4KCiAgICpEbWl0cnkgQmVs
+eWF2c2tpeSoKCiAqIFJlbW92ZWQgYGNfcmVoYXNoYCBzY3JpcHQgdG9vbC4gVXNlIGBvcGVuc3Ns
+IHJlaGFzaGAgaW5zdGVhZC4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVu
+c3NsL3B1bGwvMjk0MjcgLS0+CgogICAqTm9yYmVydCBQw7NjcyoKCiAqIGBsaWJjcnlwdG9gIG5v
+IGxvbmdlciBjbGVhbnMgdXAgZ2xvYmFsbHkgYWxsb2NhdGVkIGRhdGEgdmlhIGBhdGV4aXQoKWAu
+CiAgIFRoaXMgZGF0YSBpcyBjbGVhbmVkIHVwIGF1dG9tYXRpY2FsbHkgYnkgdGhlIE9TLiAgU29t
+ZSBtZW1vcnkgbGVhayBkZXRlY3RvcnMKICAgbWF5IHJlcG9ydCBzcHVyaW91cyBhbGxvY2F0ZWQg
+YW5kIHJlYWNoYWJsZSBtZW1vcnkgYXQgYXBwbGljYXRpb24gZXhpdC4KICAgVG8gYXZvaWQgc3Vj
+aCBzcHVyaW91cyBsZWFrIGRldGVjdGlvbiByZXBvcnRzIHRoZSBhcHBsaWNhdGlvbiBtYXkgY2Fs
+bAogICBgT1BFTlNTTF9jbGVhbnVwKClgIGJlZm9yZSB0aGUgcHJvY2VzcyBleGl0cy4KICAgPCEt
+LSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjkzODUgLS0+CgogICAq
+QWxleGFuZHIgTmVkdmVkaWNreSoKCiAqIFJlbW92ZWQgdGhlIGBjcnlwdG8tbWRlYnVnLWJhY2t0
+cmFjZWAgY29uZmlndXJhdGlvbiBvcHRpb24gZW50aXJlbHkuCiAgIFRoZSBvcHRpb24gaGFzIGJl
+ZW4gYSBuby1vcCBzaW5jZSBPcGVuU1NMIDEuMC4yLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNv
+bS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTM4MCAtLT4KCiAgICpOZWlsIEhvcm1hbioKCiAqIFJl
+bW92ZWQgdGhlIGRlcHJlY2F0ZWQgZnVuY3Rpb24gYEFTTjFfU1RSSU5HX2RhdGEoKWAuCiAgIDwh
+LS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5MTQ5IC0tPgoKICAg
+KkJvYiBCZWNrKgoKICogUmVtb3ZlZCB0aGUgYEFTTjFfU1RSSU5HX0ZMQUdfWDUwOV9USU1FYCBk
+ZWZpbmUuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5
+MTg3IC0tPgoKICAgKkJvYiBCZWNrKgoKICogRHJvcHBlZCBgZGFyd2luLWkzODZ7LC1jY31gIGFu
+ZCBgZGFyd2luLXBwY3ssNjR9eywtY2N9YCB0YXJnZXRzCiAgIGZyb20gQ29uZmlndXJhdGlvbnMu
+CiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5NjUzIC0t
+PgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTY3MiAt
+LT4KCiAgICpEYW5pZWwgS3ViZWMgYW5kIEV1Z2VuZSBTeXJvbWlhdG5pa292KgoKICogUmVtb3Zl
+ZCBzdXBwb3J0IGZvciBlbmdpbmVzLiAgVGhlIGBuby1lbmdpbmVgIGJ1aWxkIG9wdGlvbgogICBh
+bmQgdGhlIGBPUEVOU1NMX05PX0VOR0lORWAgbWFjcm8gYXJlIGFsd2F5cyBwcmVzZW50LiAgQXBw
+bGljYXRpb25zIHRoYXQgdXNlCiAgIGBFTkdJTkVfYCBmdW5jdGlvbnMgd2l0aG91dCBgT1BFTlNT
+TF9OT19FTkdJTkVgIGd1YXJkcyBjYW4gYmUgYnVpbHQKICAgYnkgZGVmaW5pbmcgYSBtYWNybyBg
+T1BFTlNTTF9FTkdJTkVfU1RVQlNgOyAgaG93ZXZlciwgYWxsIHRoZXNlIGZ1bmN0aW9ucwogICB3
+aWxsIHJldHVybiBlcnJvciB3aGVuIGNhbGxlZC4gIFByb3ZpZGVyIEFQSSBzaG91bGQgYmUgdXNl
+ZCB0byByZXBsYWNlCiAgIGVuZ2luZSBmdW5jdGlvbmFsaXR5LgogICA8IS0tIGh0dHBzOi8vZ2l0
+aHViLmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTMwNSAtLT4KCiAgICpNaWxhbiBCcm/Fvios
+ICpOZWlsIEhvcm1hbiosICpOb3JiZXJ0IFDDs2NzKgoKICogUmVtb3ZlZCBkZXByZWNhdGVkIHN1
+cHBvcnQgZm9yIGN1c3RvbSBgRVZQX0NJUEhFUmAsIGBFVlBfTURgLCBgRVZQX1BLRVlgLAogICBh
+bmQgYEVWUF9QS0VZX0FTTjFgIG1ldGhvZHMgKGBFVlBfQ0lQSEVSX21ldGhfKmAsIGBFVlBfTURf
+bWV0aF8qYCwKICAgYEVWUF9QS0VZX21ldGhfKmAsIGFuZCBgRVZQX1BLRVlfYXNuMV8qYCBmdW5j
+dGlvbiBmYW1pbGllcywgcmVzcGVjdGl2ZWx5KS4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20v
+b3BlbnNzbC9vcGVuc3NsL3B1bGwvMjkyOTkgLS0+CiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29t
+L29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5MzY2IC0tPgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNv
+bS9vcGVuc3NsL29wZW5zc2wvcHVsbC8yOTM4NCAtLT4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5j
+b20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjk0MDUgLS0+CiAgIDwhLS0gaHR0cHM6Ly9naXRodWIu
+Y29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5NDQ2IC0tPgoKICAgKk1hdHQgQ2Fzd2VsbCoKCiAq
+IFJlbW92ZWQgZGVwcmVjYXRlZCBmaXhlZCBTU0wvVExTIHZlcnNpb24gbWV0aG9kcwogICAoYHtT
+U0x2Myx7RCx9VExTdjF7LF8xLF8yfX17LF9jbGllbnQsX3NlcnZlcn1fbWV0aG9kKClgIGZ1bmN0
+aW9ucyksCiAgIHRoZSBtaWdyYXRpbmcgYXBwbGljYXRpb24gc2hvdWxkIHVzZSBgVExTX21ldGhv
+ZCgpYCwgYFRMU19jbGllbnRfbWV0aG9kKClgLAogICBhbmQgYFRMU19zZXJ2ZXJfbWV0aG9kKClg
+IGZ1bmN0aW9ucyBpbnN0ZWFkLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3NsL29w
+ZW5zc2wvcHVsbC8zMDEyOCAtLT4KCiAgICpGcmVkZXJpayBXZWRlbC1IZWluZW4qCgogKiBSZW1v
+dmVkIGBCSU9fZl9yZWxpYWJsZSgpYCBpbXBsZW1lbnRhdGlvbiB3aXRob3V0IHJlcGxhY2VtZW50
+LgogICBJdCB3YXMgYnJva2VuIHNpbmNlIDMuMCByZWxlYXNlIHdpdGhvdXQgYW55IGNvbXBsYWlu
+dHMuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5NDQ1
+IC0tPgoKICAgKlRvbcOhxaEgTXLDoXoqCgogKiBSZW1vdmVkIGRlcHJlY2F0ZWQgZnVuY3Rpb25z
+IGBFUlJfZ2V0X3N0YXRlKClgLCBgRVJSX3JlbW92ZV9zdGF0ZSgpYAogICBhbmQgYEVSUl9yZW1v
+dmVfdGhyZWFkX3N0YXRlKClgLCBhcyB3ZWxsIGFzIHRoZSBgRVJSX0ZMQUdfTUFSS2AsCiAgIGBF
+UlJfRkxBR19DTEVBUmAgYW5kIGBFUlJfTlVNX0VSUk9SU2AgbWFjcm9zLiBUaGUgYEVSUl9TVEFU
+RWAgb2JqZWN0IGlzIG5vdwogICBhbHdheXMgb3BhcXVlLgogICA8IS0tIGh0dHBzOi8vZ2l0aHVi
+LmNvbS9vcGVuc3NsL29wZW5zc2wvcHVsbC8zMDAwNSAtLT4KCiAgICpUb23DocWhIE1yw6F6KgoK
+ICogUmVtb3ZlZCB0aGUgZGVwcmVjYXRlZCBgbXNpZS1oYWNrYCBvcHRpb24gZnJvbSB0aGUgYG9w
+ZW5zc2wgY2FgIGNvbW1hbmQuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3Bl
+bnNzbC9wdWxsLzMwMDMzIC0tPgoKICAgKkJvYiBCZWNrKgoKT3BlblNTTCAzLjYKLS0tLS0tLS0t
+LS0KCiMjIyBDaGFuZ2VzIGJldHdlZW4gMy42LjEgYW5kIDMuNi4yIFs3IEFwciAyMDI2XQogKiBG
+aXhlZCBvdXQtb2YtYm91bmRzIHJlYWQgaW4gQUVTLUNGQi0xMjggb24geDg2LTY0IENQVXMgd2l0
+aCBBVlgtNTEyIHN1cHBvcnQuCiAgIFNldmVyaXR5OiBMb3cKCiAgIElzc3VlIHN1bW1hcnk6IEFw
+cGxpY2F0aW9ucyB1c2luZyBBRVMtQ0ZCMTI4IGVuY3J5cHRpb24gb3IgZGVjcnlwdGlvbiBvbgog
+ICBzeXN0ZW1zIHdpdGggQVZYLTUxMiBhbmQgVkFFUyBzdXBwb3J0IGNhbiB0cmlnZ2VyIGFuIG91
+dC1vZi1ib3VuZHMgcmVhZAogICBvZiB1cCB0byAxNSBieXRlcyB3aGVuIHByb2Nlc3NpbmcgcGFy
+dGlhbCBjaXBoZXIgYmxvY2tzLgoKICAgSW1wYWN0IHN1bW1hcnk6IFRoaXMgb3V0LW9mLWJvdW5k
+cyByZWFkIG1heSB0cmlnZ2VyIGEgY3Jhc2ggd2hpY2ggbGVhZHMgdG8KICAgRGVuaWFsIG9mIFNl
+cnZpY2UgZm9yIGFuIGFwcGxpY2F0aW9uIGlmIHRoZSBpbnB1dCBidWZmZXIgZW5kcyBhdCBhIG1l
+bW9yeQogICBwYWdlIGJvdW5kYXJ5IGFuZCB0aGUgZm9sbG93aW5nIHBhZ2UgaXMgdW5tYXBwZWQu
+IFRoZXJlIGlzIG5vIGluZm9ybWF0aW9uCiAgIGRpc2Nsb3N1cmUgYXMgdGhlIG92ZXItcmVhZCBi
+eXRlcyBhcmUgbm90IHdyaXR0ZW4gdG8gb3V0cHV0LgoKICAgUmVwb3J0ZWQgYnk6IFN0YW5pc2xh
+diBGb3J0IChBaXNsZSBSZXNlYXJjaCksIFBhdmVsIEtvaG91dCAoQWlzbGUgUmVzZWFyY2gpLAog
+ICBhbmQgQWxleCBHYXlub3IgKEFudGhyb3BpYykuCgogICAoW0NWRS0yMDI2LTI4Mzg2XSkKCiAg
+ICpTdGFuaXNsYXYgRm9ydCwgUGF2ZWwgS29ob3V0LCBhbmQgQWxleCBHYXlub3IqCiAqIEZpeGVk
+IHBlcmZvcm1hbmNlIHJlZ3Jlc3Npb25zIGludHJvZHVjZWQgaW4gMy42IGNhdXNlZCBieSB0aGUg
+bGFjawogICBvZiB1c2FnZSBvZiBDUFUtY2FwYWJpbGl0eS1zcGVjaWZpYyBvcHRpbWlzYXRpb25z
+IHdpdGggbm9uLUVWUCBBUElzLAogICBhcyB0aGUgY2FwYWJpbGl0eSBkZXRlY3Rpb24gd2FzIG5v
+IGxvbmdlciBwZXJmb3JtZWQgZHVyaW5nIGxpYnJhcnkgbG9hZC4KICAgPCEtLSBodHRwczovL2dp
+dGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMzA1NTcgLS0+CgogICAqQm9iIEJlY2sqCgoj
+IyMgQ2hhbmdlcyBiZXR3ZWVuIDMuNi4wIGFuZCAzLjYuMSBbMjcgSmFuIDIwMjZdCiAqIEZpeGVk
+IGEgcmVncmVzc2lvbiBpbiBgWDUwOV9WX0ZMQUdfQ1JMX0NIRUNLX0FMTGAgZmxhZyBoYW5kbGlu
+ZyBieSByZXN0b3JpbmcKICAgaXRzIHByZS0zLjYuMCBiZWhhdmlvdXIgb2YgYmVpbmcgaWdub3Jl
+ZCB3aGVuIGBYNTA5X1ZfRkxBR19DUkxfQ0hFQ0tgIGZsYWcKICAgaXMgbm90IHNldCwgYW5kIG5v
+IGxvbmdlciBpbXBseWluZyB0aGUgbGF0dGVyIGZsYWcgaW5zdGVhZC4KICAgPCEtLSBodHRwczov
+L2dpdGh1Yi5jb20vb3BlbnNzbC9vcGVuc3NsL3B1bGwvMjg3OTcgLS0+CgogICAqQ2FydGVyIFRo
+YXh0b24qCgogKiBGaXhlZCBhIHJlZ3Jlc3Npb24gdGhhdCBjYXVzZWQgZ2VuZXJhdGlvbiBvZiBl
+bXB0eSBzdGFwbGVkIE9DU1AgcmVzcG9uc2VzCiAgIHdoZW4gYXQgbGVhc3Qgb25lIGNlcnRpZmlj
+YXRlIGluIHRoZSBjZXJ0aWZpY2F0ZSBjaGFpbiBoYWQgYSBzdGFwbGVkIE9DU1AKICAgcmVzcG9u
+c2UgcHJlc2VudCwgY2F1c2luZyBoYW5kc2hha2UgZmFpbHVyZXMgZm9yIE9wZW5TU0wgMy42LjAg
+c2VydmVycwogICB3aXRoIHZhcmlvdXMgY2xpZW50IGltcGxlbWVudGF0aW9ucywgaW5jbHVkaW5n
+IEdudVRMUyBhbmQgQm9yaW5nU1NMLgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9vcGVuc3Ns
+L29wZW5zc2wvcHVsbC8yODk1NSAtLT4KCiAgICpNYXJ0aW4gUmF1Y2gqCgogKiBGaXhlZCBleGl0
+IGNvZGUgb2YgYG9wZW5zc2wgeDUwOWAgY29tbWFuZCB3aXRoIGAtY2hlY2tlbmRgIG9wdGlvbiBp
+biB1c2UuCiAgIDwhLS0gaHR0cHM6Ly9naXRodWIuY29tL29wZW5zc2wvb3BlbnNzbC9wdWxsLzI5
+MTU1IC0tPgoKICAgKlN0ZWZhbiBSaWVjaGUqCgogICA8IS0tIGh0dHBzOi8vZ2l0aHViLmNvbS9v
+cGVuc3NsL29wZW5zc2wvcHVsbC8yOTI0NSAtLT4KICogUmV2ZXJ0ZWQgYSBjaGFuZ2UgaW4gYmVo
+YXZpb3VyIG9mIHRoZSBzaW5nbGUgc3RhcGxlZCBPQ1NQIHJlc3BvbnNlIEFQSQogICB3aXRoIHJl
+c3BlY3QgdG8gdGhlIG93bmVyc2hpcCBvZiB0aGUgT0NTUCByZXNwb25zZSBvYmplY3QgdGhhdCBj
+YXVzZWQKICAgYSBtZW1vcnkgbGVhay4KICAgPCEtLSBodHRwczovL2dpdGh1Yi5jb20vb3BlbnNz
+bC9vcGVuc3NsL3B1bGwvMjkyNTEgLS0+CgogICAqUmVtaSBHYWNvZ25lIGFuZCBUb23DocWhIE1y
+w6F6KgoKIyMjIENoYW5nZXMgYmV0d2VlbiAzLjUgYW5kIDMuNi4wIFsxIE9jdCAyMDI1XQoKICog
+QWRkZWQgc3VwcG9ydCBmb3IgYEVWUF9TS0VZYCBvcGFxdWUgc3ltbWV0cmljIGtleSBvYmplY3Rz
+IHRvIHRoZSBrZXkKICAgZGVyaXZhdGlvbiBhbmQga2V5IGV4Y2hhbmdlIHByb3ZpZGVyIG1ldGhv
+ZHMuICBBZGRlZAogICBgRVZQX0tERl9DVFhfc2V0X1NLRVkoKWAsIGBFVlBfS0RGX2Rlcml2ZV9T
+S0VZKClgLAogICBhbmQgYEVWUF9QS0VZX2Rlcml2ZV9TS0VZKClgIGZ1bmN0aW9ucy4KCiAgICpE
+bWl0cnkgQmVseWF2c2tpeSBhbmQgU2ltbyBTb3JjZSoKCiAqIEFkZGVkIFBDVCBmb3Iga2V5IGlt
+cG9ydCBmb3IgU0xILURTQSB3aGVuIGluIEZJUFMgbW9kZS4KCiAgICpEciBQYXVsIERhbGUqCgog
+KiBBZGRlZCBgaTJkX1BLQ1M4UHJpdmF0ZUtleSgzKWAgQVBJIHRvIGNvbXBsZW1lbnQgYGkyZF9Q
+cml2YXRlS2V5KDMpYCwKICAgdGhlIGZvcm1lciBhbHdheXMgb3V0cHV0cyBQS0NTIzguCgogICAq
+VmlrdG9yIER1a2hvdm5pKgoKICogSW1wbGVtZW50ZWQgaW50ZXJsZWF2ZWQgQUVTLUNCQytITUFD
+LVNIQSBhbGdvcml0aG0gb24gQUFyY2g2NC4KCiAgICpGYW5nbWluZyBGYW5nKgoKICogQWRkZWQg
+TklTVCBzZWN1cml0eSBjYXRlZ29yaWVzIGZvciBQS0VZIG9iamVjdHMuCgogICAqRHIgUGF1bCBE
+YWxlKgoKICogQWRkZWQgbm90aWZpY2F0aW9uIHdoZW4gYWxsIHN0cmVhbSBGSU5zIGFyZSBhY2tu
+b3dsZWRnZWQgaW4gUVVJQy4gIEludHJvZHVjZWQKICAgYG9zc2xfcXVpY19jaGFubmVsX25vdGlm
+eV9mbHVzaF9kb25lKClgIHNvIHRoYXQgb25jZSBmaW5hbCBGSU5zIGFyZSBBQ0tlZCwKICAgdGhl
+IGNoYW5uZWwgdHJhbnNpdGlvbnMgdG8gdGVybWluYXRpbmcgYW5kIGBTU0xfcG9sbCgpYCBzaWdu
+YWxzIGNvbXBsZXRpb24uCiAgIFRoaXMgYWxsb3dzIGFwcGxpY2F0aW9ucyB0byBwcm9ncmVzcyBz
+aHV0ZG93biByZWxpYWJseS4KCiAgICpBbGV4YW5kciBOZWR2xJtkaWNrw70qCgogKiBBZGRlZCBh
+cnJheSBtZW1vcnkgYWxsb2NhdGlvbiByb3V0aW5lcyBhbmQgY29udmVydGVkIHN1aXRhYmxlIG1l
+bW9yeQogICBhbGxvY2F0aW9uIGNhbGxzIGluIHRoZSBsaWJyYXJ5IHRvIHRoZW0uCgogICAqRXVn
+ZW5lIFN5cm9taWF0bmlrb3YqCgogKiBGaXhlZCBiZWhhdmlvciBjaGFuZ2Ugb2YgRUMga2V5Z2Vu
+IGJ5IGFkZGluZyB0aGUgZ2VuZXJpYyBlcnJvciBlbnRyeSBpZiB0aGUKICAgcHJvdmlkZXIgZGlk
+IG5vdCBpdHNlbGYgYWRkIGFuIGVycm9yIGVudHJ5IG9udG8gdGhlIHF1ZXVlLiAgVGhhdCB3YXks
+IHRoZXJlCiAgIGFsd2F5cyBpcyBhbiBlcnJvciBvbiB0aGUgZXJyb3IgcXVldWUgaW4gY2FzZSBv
+ZiBhIGZhaWx1cmUsIGJ1dCBubyBiZWhhdmlvcgogICBjaGFuZ2UgaW4gY2FzZSB0aGUgcHJvdmlk
+ZXIgZW1pdHRlZCB0aGUgZXJyb3IgZW50cnkgaXRzZWxmLgoKICAgKkluZ28gRnJhbnpraSoKCiAq
+IERvY3VtZW50ZWQgYWxsIHRoZSBlbnZpcm9ubWVudCB2YXJpYWJsZXMgdXNlZCBhY3Jvc3MgdGhl
+IHByb2plY3QKICAgaW4gYG9wZW5zc2wtZW52KDcpYCBhbmQgaW4gc3BlY2lmaWMgbWFuIHBhZ2Vz
+LgoKICAgKkV1Z2VuZSBTeXJvbWlhdG5pa292KgoKICogQWRkZWQgU0hBLTIgYXNzZW1ibHkgaW1w
+bGVtZW50YXRpb24gZW5oYW5jaW5nIHBlcmZvcm1hbmNlIGZvciBMb29uZ0FyY2guCiAgIEFkZGVk
+IG9wdGltaXplZCBTTTMsIE1ENSwgU0hBLTI1NiwgU0hBLTUxMiBpbXBsZW1lbnRhdGlvbiB1c2lu
+ZyBaYmIgZXh0ZW5zaW9uCiAgIGZvciBSSVNDLVYuCgogICAqSnVsaWFuIFpodSoKCiAqIEFkZGVk
+IG9wdGlvbnMgYENSWVBUT19NRU1fU0VDYCBhbmQgYENSWVBUT19NRU1fU0VDX01JTlNJWkVgIHRv
+IGBvcGVuc3NsYCBhcHAKICAgdG8gaW5pdGlhbGl6ZSBzZWN1cmUgbWVtb3J5IGF0IHRoZSBiZWdp
+bm5pbmcgb2YgYG9wZW5zc2xgIGFwcC4KCiAgICpOb3JiZXJ0IFDDs2NzKgoKICogUmVzb2x2ZWQg
+Y29tcGlsZXIgd2FybmluZ3Mgb24gV2luNjQgYnVpbGRzLgoKICAgKlRvbcOhxaEgTXLDoXoqCgog
+KiBFeHRlbmRlZCBuZXcgYENSWVBUT19USFJFQURfW2dldHxzZXRdX2xvY2FsYCBBUEkgdG8gcmVk
+dWNlIHRoZSB1c2FnZQogICBvZiBPUyB0aHJlYWQtbG9jYWwgdmFyaWFibGVzLgoKICAgKk5laWwg
+SG9ybWFuKgoKICogQWRkZWQgYG1ha2VgIHRhcmdldHMgYGJ1aWxkX2luc3Rfc3dgIGFuZCBgYnVp
+bGRfaW5zdF9wcm9ncmFtc2Agd2hpY2ggaGF2ZQogICB0aGUgZnVuY3Rpb25hbGl0eSB0byBzcGxp
+dCB0aGUgYnVpbGQgaW50byB0d28gcGFydHMsIGUuZy4gd2hlbiB0ZXN0cwogICBzaG91bGQgYmUg
+YnVpbHQgd2l0aCBkaWZmZXJlbnQgY29tcGlsZXIgZmxhZ3MgdGhhbiB0aGUgaW5zdGFsbGVkIHNv
+ZnR3YXJlLgoKICAgKlBhdm9sIFphY2lrKgoKICogUmVmYWN0b3JlZCBgT1NTTF9QQVJBTWAgbmFt
+ZSBwYXJzaW5nIHNvIHRoYXQgYXV0b21hdGljYWxseSBnZW5lcmF0ZWQKICAgcGFyc2VycyBhcmUg
+dXNlZCBpbnN0ZWFkIG9mIGBPU1NMX1BBUkFNX2xvY2F0ZSgpYCBjYWxscy4gIFRoaXMgc2hvdWxk
+CiAgIGFsc28gZW5zdXJlIHRoYXQgdGhlIGxpc3Qgb2YgYWNjZXB0YWJsZSBwYXJhbWV0ZXJzIGJl
+dHRlciBtYXRjaGVzCiAgIHRob3NlIHdoaWNoIGFyZSBhY3R1YWxseSBwcm9jZXNzZWQuICBJdCBz
+aG91bGQgYWxzbyBwcm92aWRlIGEgc21hbGwKICAgcGVyZm9ybWFuY2UgaW1wcm92ZW1lbnQsIGJl
+Y2F1c2UgcmVwZWF0ZWQgaXRlcmF0aW9uIG92ZXIgcGFzc2VkCiAgIHBhcmFtZXRlciBhcnJheXMg
+aXMgYXZvaWRlZC4KCiAgICpEciBQYXVsIERhbGUqCgogKiBJbnRyb2R1Y2VkIGBTU0xfT1BfU0VS
+VkVSX1BSRUZFUkVOQ0VgLCBzdXBlcnNlZGluZyBtaXNsZWFkaW5nbHkKICAgbmFtZWQgYFNTTF9P
+UF9DSVBIRVJfU0VSVkVSX1BSRUZFUkVOQ0VgLgoKICAgKk1pY2hhZWwgQmFlbnRzY2gqCgogKiBB
+ZGRlZCBMTVMgc2lnbmF0dXJlIHZlcmlmaWNhdGlvbiBzdXBwb3J0IGFzIHBlciBbU1AgODAwLTIw
+OF0uCiAgIFRoaXMgc3VwcG9ydCBpcyBwcmVzZW50IGluIGJvdGggdGhlIEZJUFMgYW5kIGRlZmF1
+bHQgcHJvdmlkZXJzLgoKICAgKlNoYW5lIExvbnRpcyBhbmQgUGF1bCBEYWxlKgoKICogSW50cm9k
+dWNlZCB1c2Ugb2YgYDxzdGRib29sLmg+YCB3aGVuIGhhbmRsaW5nIEpTT04gZW5jb2RpbmcKICAg
+aW4gdGhlIE9wZW5TU0wgY29kZWJhc2UsIHJlcGxhY2luZyB0aGUgcHJldmlvdXMgdXNlIG9mIGBp
+bnRgCiAgIGZvciB0aGVzZSBib29sZWFuIHZhbHVlcy4KCiAgICpBbGV4aXMgR29vZGZlbGxvdyoK
+CiAqIEFuIEFOU0ktQyB0b29sY2hhaW4gaXMgbm8gbG9uZ2VyIHN1ZmZpY2llbnQgZm9yIGJ1aWxk
+aW5nIE9wZW5TU0wuCiAgIFRoZSBjb2RlIHNob3VsZCBiZSBidWlsdCB1c2luZyBjb21waWxlcnMg
+c3VwcG9ydGluZyBDLTk5IGZlYXR1cmVzLgoKICAgKkFsZXhhbmRyIE5lZHbEm2RpY2vDvSoKCiAq
+IFN1cHBvcnQgZm9yIHRoZSBWeFdvcmtzIHBsYXRmb3JtcyBoYXMgYmVlbiByZW1vdmVkLiAgVGhl
+c2UgcGxhdGZvcm1zCiAgIHdlcmUgdW5hZG9wdGVkLCB1bm1haW50YWluZWQgYW5kIHJlcG9ydGVk
+IHRvIGJlIG5vbi1mdW5jdGlvbmFsLgoKICAgKkFudGhvbnkgSW9wcG9sbyoKCiAqIFJlbGF4ZWQg
+dGhlIHBhdGggY2hlY2sgaW4gT3BlblNTTCdzIGBmaWxlOmAgc2NoZW1lIGltcGxlbWVudGF0aW9u
+IGZvcgogICBgT1NTTF9TVE9SRWAuICBQcmV2aW91c2x5LCB3aGVuIHRoZSBgZmlsZTpgIHNjaGVt
+ZSBpcyBhbiBleHBsaWNpdCBwYXJ0CiAgIG9mIHRoZSBVUkksIG91ciBpbXBsZW1lbnRhdGlvbiBy
+ZXF1aXJlZCBhbiBhYnNvbHV0ZSBwYXRoLCBzdWNoIGFzCiAgIGBmaWxlOi9wYXRoL3RvL2ZpbGUu
+cGVtYC4gIFRoaXMgcmVxdWlyZW1lbnQgaXMgbm93IHJlbGF4ZWQsIGFsbG93aW5nCiAgIGBmaWxl
+OnBhdGgvdG8vZmlsZS5wZW1gLCBhcyB3ZWxsIGFzIGBmaWxlOmZpbGUucGVtYC4KCiAgICpSaWNo
+YXJkIExldml0dGUqCgogKiBDaGFuZ2VkIGBvcGVuc3NsLXBrZXkoMSlgIHRvIG1hdGNoIHRoZSBk
+b2N1bWVudGF0aW9uIHdoZW4gcHJpdmF0ZSBrZXlzCiAgIGFyZSBvdXRwdXQgaW4gREVSIGZvcm1h
+dCAoYC1vdXRmb3JtIERFUmApIGJ5IHByb2R1Y2luZyB0aGUgUEtDUyM4IGZvcm0KICAgYnkgZGVm
+YXVsdC4gIFByZXZpb3VzbHksIHRoaXMgd291bGQgb3V0cHV0IHRoZSAqdHJhZGl0aW9uYWwqIGZv
+cm0gZm9yIHRob3NlCiAgIG9sZGVyIGtleSB0eXBlcyAoYERTQWAsIGBSU0FgLCBgRUNEU0FgKSB0
+aGF0IGhhZCBzdWNoIGEgZm9ybS4gIFRoZQogICBgLXRyYWRpdGlvbmFsYCBmbGFnIGhhcyBiZWVu
+IGV4dGVuZGVkIHRvIHN1cHBvcnQgZXhwbGljaXQgcmVxdWVzdHMgdG8gb3V0cHV0CiAgIHRoYXQg
+Zm9ybWF0IGluIERFUiBmb3JtYXQgKGl0IHdhcyBwcmV2aW91c2x5IFBFTS1vbmx5KS4KCiAgICpW
+aWt0b3IgRHVraG92bmkqCgogKiBBZGRlZCBhbiBgb3BlbnNzbCBjb25maWd1dGxgIHV0aWxpdHkg
+Zm9yIHByb2Nlc3NpbmcgdGhlIE9wZW5TU0wKICAgY29uZmlndXJhdGlvbiBmaWxlIGFuZCBkdW1w
+aW5nIHRoZSBlcXVhbCBjb25maWd1cmF0aW9uIGZpbGUuCgogICAqRG1pdHJ5IEJlbHlhdnNraXkg
+YmFzZWQgb24gQ2xlbWVucyBMYW5nJ3MgY29kZSoKCiAqIEFkZGVkIHN1cHBvcnQgZm9yIHNldHRp
+bmcgYSBmcmVlIGZ1bmN0aW9uIHRodW5rIHRvIGBPUEVOU1NMX3NrYCBzdGFjayB0eXBlcy4KICAg
+VXNpbmcgYSB0aHVuayBhbGxvd3MgdGhlIHR5cGUgc3BlY2lmaWMgZnJlZSBmdW5jdGlvbiB0byBi
+ZSBjYWxsZWQKICAgd2l0aCB0aGUgY29ycmVjdCB0eXBlIGluZm9ybWF0aW9uIGZyb20gZ2VuZXJp
+YyBmdW5jdGlvbnMgbGlrZQogICBgT1BFTlNTTF9za19wb3BfZnJlZSgpYC4KCiAgICpGcmVkZXJp
+ayBXZWRlbC1IZWluZW4qCgogKiBFbmFibGVkIHg4Ni02NCBTTTQgb3B0aW1pemF0aW9ucyB3aXRo
+IFNNNCBJU0EgRXh0ZW5zaW9uIGF2YWlsYWJsZSBzdGFydGluZwogICBMdW5hciBMYWtlIGFuZCBB
+cnJvdyBMYWtlIFMgQ1BVcy4gIFRoZSBleHBlY3RlZCBwZXJmb3JtYW5jZSBpbXByb3ZlbWVudAog
+ICBpcyB+My42eCBmb3IgYHNtNC1jYmNgLCB+Mi45eCBmb3IgYHNtNC1nY21gLCB+OS4yeCBmb3Ig
+YHNtNC14dHNgLAogICB+NS4zeCBmb3IgYHNtNC1jY21gIChvbiBhdmVyYWdlLCBtYXkgdmFyeSBk
+ZXBlbmRpbmcgb24gdGhlIGRhdGEgc2l6ZSkKICAgb24gQXJyb3cgTGFrZSBTLgoKICAgKkFsaW5h
+IEVsaXphcm92YSoKCiAqIEVuYWJsZWQgeDg2LTY0IFNNMyBvcHRpbWl6YXRpb25zIHdpdGggU00z
+IElTQSBFeHRlbnNpb24gYXZhaWxhYmxlIHN0YXJ0aW5nCiAgIEx1bmFyIExha2UgYW5kIEFycm93
+IExha2UgUyBDUFVzLiAgVGhlIGV4cGVjdGVkIHBlcmZvcm1hbmNlIGltcHJvdmVtZW50CiAgIGlz
+IH4yLjLigJQ0Ljd4IChkZXBlbmRzIG9uIHRoZSBkYXRhIHNpemUpIG9uIEFycm93IExha2UgUy4K
+CiAgICpBbGluYSBFbGl6YXJvdmEqCgogKiBFbmFibGVkIHg4Ni02NCBTSEEtNTEyIG9wdGltaXph
+dGlvbnMgd2l0aCBTSEE1MTIgSVNBIEV4dGVuc2lvbi4KICAgT3B0aW1pemVkIGRpZ2VzdHM6IGBz
+aGEzODRgLCBgc2hhNTEyYCwgYHNoYTUxMi0yMjRgLCBgc2hhNTEyLTI1NmAuCiAgIGBvcGVuc3Ns
+IHNwZWVkYCBzaG93cyBzcGVlZHVwcyByYW5naW5nIGZyb20gMS42eCB0byA0LjV4CiAgIG9uIHRo
+ZSBQLWNvcmVzIG9mIEludGVsIENvcmUgVWx0cmEgNSAyMzhWLgoKICAgKkFkcmlhbiBTdGFuY2l1
+KgoKICogQ2hhbmdlZCBkZWZhdWx0IEVDIHBvaW50IGZvcm1hdHMgY29uZmlndXJhdGlvbiB0byBz
+dXBwb3J0IG9ubHkgJ3VuY29tcHJlc3NlZCcKICAgZm9ybWF0LCBhbmQgYWRkZWQgYFNTTF9PUF9M
+RUdBQ1lfRUNfUE9JTlRfRk9STUFUU2AgZmxhZyBhbmQgb3B0aW9ucwogICB0byByZS1lbmFibGUg
+cHJldmlvdXMgZGVmYXVsdCwgaWYgcmVxdWlyZWQuCgogICAqVGltIFBlcnJ5KgoKICogSW5jcmVh
+c2VkIFBLQ1MjMTIgZGVmYXVsdCBgbWFjc2FsdGxlbmAgZnJvbSA4IHRvIDE2LCBhcywgcGVyIE5J
+U1QKICAgW1NQIDgwMC0xMzJdLCB0aGlzIGltcHJvdmVzIGludGVyb3BlcmFiaWxpdHkgZm9yIG5l
+d2x5IGdlbmVyYXRlZCBQS0NTIzEyCiAgIHN0b3JlcyBiZXR3ZWVuIEZJUFMgYW5kIG5vbi1GSVBT
+IGltcGxlbWVudGF0aW9ucy4KCiAgICpEaW1pdHJpIEpvaG4gTGVka292KgoKICogQWRkZWQgYFg1
+MDlfQ1JMX2dldDBfdGJzX3NpZ2FsZygpYCBhY2Nlc3NvciBmb3IgdGhlIHNpZ25hdHVyZQogICBg
+QWxnb3JpdGhtSWRlbnRpZmllcmAgaW5zaWRlIENSTCdzIGBUQlNDZXJ0TGlzdGAuCgogICAqVGhl
+byBCdWVobGVyKgoKICogQWRkZWQgT0lEUyBmb3IgSEtERnMgd2l0aCBTSEEtMjU2LCBTSEEtMzg0
+LCBhbmQgU0hBLTUxMi4gIEFkZGVkIGFiaWxpdHkKICAgdG8gbG9hZCBIS0RGIGNvbmZpZ3VyZWQg
+d2l0aCB0aGVzZSBleHBsaWNpdCBkaWdlc3RzIGJ5IG5hbWUgb3IgT0lELgoKICAgKkRhbmllbCBW
+YW4gR2Vlc3QgKENyeXB0b05leHQgU2VjdXJpdHkpKgoKICogQWRkZWQgSW50ZWwgQVZYLTUxMiBh
+bmQgVkFFUyBvcHRpbWl6YXRpb25zIGZvciBBRVMtQ0ZCMTI4IGFsZ29yaXRobXMuCiAgIEVuY3J5
+cHRpb24gcGVyZm9ybWFuY2Ugb24gbGFyZ2UgYnVmZmVycyBpbXByb3ZlZCBieSAxLjXigJQxLjd4
+LAogICB3aGlsZSBkZWNyeXB0aW9uIHNwZWVkIGluY3JlYXNlZCBieSAyMOKAlDIzeC4KCiAgICpB
+ZHJpYW4gU3RhbmNpdSoKCiAqIEFkZGVkIHN1cHBvcnQgZm9yIFRMUyAxLjMgT0NTUCBtdWx0aS1z
+dGFwbGluZyBmb3Igc2VydmVyIGNlcnRzLgogICAgKiBuZXcgYHNfY2xpZW50YCBvcHRpb25zOgog
+ICAgICAgKiBgLW9jc3BfY2hlY2tfbGVhZmA6IENoZWNrcyB0aGUgc3RhdHVzIG9mIHRoZSBsZWFm
+IChzZXJ2ZXIpIGNlcnRpZmljYXRlLgogICAgICAgKiBgLW9jc3BfY2hlY2tfYWxsYDogQ2hlY2tz
+IHRoZSBzdGF0dXMgb2YgYWxsIGNlcnRpZmljYXRlcyBpbiB0aGUgc2VydmVyCiAgICAgICAgIGNo
+YWluLgogICAgKiBuZXcgYHNfc2VydmVyYCBvcHRpb246CiAgICAgICAqIGAtc3RhdHVzX2FsbGAg
+UHJvdmlkZXMgT0NTUCBzdGF0dXMgaW5mb3JtYXRpb24gZm9yIHRoZSBlbnRpcmUgc2VydmVyCiAg
+ICAgICAgIGNlcnRpZmljYXRlIGNoYWluIChtdWx0aS1zdGFwbGluZykgZm9yIFRMUyAxLjMgYW5k
+IGxhdGVyLgogICAgKiBJbXByb3ZlZCBgLXN0YXR1c19maWxlYCBvcHRpb24gY2FuIG5vdyBiZSBn
+aXZlbiBtdWx0aXBsZSB0aW1lcyB0byBwcm92aWRlCiAgICAgIG11bHRpcGxlIGZpbGVzIGNvbnRh
+aW5pbmcgT0NTUCByZXNwb25zZXMuCgogICAqTWljaGFlbCBLcnVlZ2VyLCBNYXJ0aW4gUmF1Y2gq
+CgogKiBBZGRlZCBgS0VNUmVjaXBpZW50SW5mb2AgKFJGQyA5NjI5KSBhbmQgTUwtS0VNIChgZHJh
+ZnQtaWV0Zi1sYW1wcy1jbXMta3liZXJgKQogICBzdXBwb3J0IHRvIENNUy4KCiAgICpEYW5pZWwg
+VmFuIEdlZXN0IChDcnlwdG9OZXh0IFNlY3VyaXR5KSoKCiAqIEFkZGVkIHN1cHBvcnQgZm9yIEZJ
+UFMgMTg2LTUgZGV0ZXJtaW5pc3RpYyBFQ0RTQSBzaWduYXR1cmUKICAgZ2VuZXJhdGlvbiB0byB0
+aGUgRklQUyBwcm92aWRlci4KCiAgICpEaW1pdHJpIEpvaG4gTGVka292KgoKT3BlblNTTCAzLjUK
+LS0tLS0tLS0tLS0KCiAqIEZpeCBPdXQtb2YtYm91bmRzIHJlYWQgaW4gSFRUUCBjbGllbnQgYG5v
+X3Byb3h5YCBoYW5kbGluZwogICBtYXkgdHJpZ2dlciBhbiBvdXQtb2YtYm91bmRzIHJlYWQgaWYg
+dGhlIGBub19wcm94eWAgZW52aXJvbm1lbnQgdmFyaWFibGUgaXMKICogQWxpZ25lZCB0aGUgYmVo
+YXZpb3VyIG9mIFRMUyBhbmQgRFRMUyBpbiB0aGUgZXZlbnQgb2YgYSBgbm9fcmVuZWdvdGlhdGlv
+bmAKICAgYG5vX3JlbmVnb3RpYXRpb25gIGFsZXJ0IHdhcyByZWNlaXZlZC4gQWxsIHZlcnNpb25z
+IG9mIE9wZW5TU0wgZG8gdGhpcyBmb3IgVExTLgogICBGcm9tIDMuMiBhIGJ1ZyB3YXMgZXhwb3Nl
+ZCB0aGF0IG1lYW50IHRoYXQgRFRMUyBpZ25vcmVkIGBub19yZW5nb3RpYXRpb25gLiBXZQpbQ1ZF
+LTIwMjYtMTQ0NTZdOiBodHRwczovL29wZW5zc2wtbGlicmFyeS5vcmcvbmV3cy92dWxuZXJhYmls
+aXRpZXMvI0NWRS0yMDI2LTE0NDU2CltDVkUtMjAyNi0xNDQ1N106IGh0dHBzOi8vb3BlbnNzbC1s
+aWJyYXJ5Lm9yZy9uZXdzL3Z1bG5lcmFiaWxpdGllcy8jQ1ZFLTIwMjYtMTQ0NTcKW0NWRS0yMDI2
+LTE4Nzk4XTogaHR0cHM6Ly9vcGVuc3NsLWxpYnJhcnkub3JnL25ld3MvdnVsbmVyYWJpbGl0aWVz
+LyNDVkUtMjAyNi0xODc5OApbQ1ZFLTIwMjYtMjgzODZdOiBodHRwczovL29wZW5zc2wtbGlicmFy
+eS5vcmcvbmV3cy92dWxuZXJhYmlsaXRpZXMvI0NWRS0yMDI2LTI4Mzg2CltDVkUtMjAyNi0zNTE4
+OF06IGh0dHBzOi8vb3BlbnNzbC1saWJyYXJ5Lm9yZy9uZXdzL3Z1bG5lcmFiaWxpdGllcy8jQ1ZF
+LTIwMjYtMzUxODgKW0NWRS0yMDI2LTQyNzY1XTogaHR0cHM6Ly9vcGVuc3NsLWxpYnJhcnkub3Jn
+L25ld3MvdnVsbmVyYWJpbGl0aWVzLyNDVkUtMjAyNi00Mjc2NQpbQ1ZFLTIwMjYtNDI3NzFdOiBo
+dHRwczovL29wZW5zc2wtbGlicmFyeS5vcmcvbmV3cy92dWxuZXJhYmlsaXRpZXMvI0NWRS0yMDI2
+LTQyNzcxCltDVkUtMjAyNi01NDg3NF06IGh0dHBzOi8vb3BlbnNzbC1saWJyYXJ5Lm9yZy9uZXdz
+L3Z1bG5lcmFiaWxpdGllcy8jQ1ZFLTIwMjYtNTQ4NzQKW0NWRS0yMDI2LTU0ODc2XTogaHR0cHM6
+Ly9vcGVuc3NsLWxpYnJhcnkub3JnL25ld3MvdnVsbmVyYWJpbGl0aWVzLyNDVkUtMjAyNi01NDg3
+NgpbQ1ZFLTIwMjYtNjMwNzJdOiBodHRwczovL29wZW5zc2wtbGlicmFyeS5vcmcvbmV3cy92dWxu
+ZXJhYmlsaXRpZXMvI0NWRS0yMDI2LTYzMDcyCltDVkUtMjAyNi02MzA3M106IGh0dHBzOi8vb3Bl
+bnNzbC1saWJyYXJ5Lm9yZy9uZXdzL3Z1bG5lcmFiaWxpdGllcy8jQ1ZFLTIwMjYtNjMwNzMKW0NW
+RS0yMDI2LTYzMDc0XTogaHR0cHM6Ly9vcGVuc3NsLWxpYnJhcnkub3JnL25ld3MvdnVsbmVyYWJp
+bGl0aWVzLyNDVkUtMjAyNi02MzA3NApbQ1ZFLTIwMjYtNjMwNzVdOiBodHRwczovL29wZW5zc2wt
+bGlicmFyeS5vcmcvbmV3cy92dWxuZXJhYmlsaXRpZXMvI0NWRS0yMDI2LTYzMDc1CltDVkUtMjAy
+Ni02MzA3Nl06IGh0dHBzOi8vb3BlbnNzbC1saWJyYXJ5Lm9yZy9uZXdzL3Z1bG5lcmFiaWxpdGll
+cy8jQ1ZFLTIwMjYtNjMwNzYKW0NWRS0yMDI2LTc1ODAzXTogaHR0cHM6Ly9vcGVuc3NsLWxpYnJh
+cnkub3JnL25ld3MvdnVsbmVyYWJpbGl0aWVzLyNDVkUtMjAyNi03NTgwMwpbUkZDIDcyNTBdOiBo
+dHRwczovL2RhdGF0cmFja2VyLmlldGYub3JnL2RvYy9odG1sL3JmYzcyNTAKW1JGQyA3OTE5XTog
+aHR0cHM6Ly9kYXRhdHJhY2tlci5pZXRmLm9yZy9kb2MvaHRtbC9yZmM3OTE5CltSRkMgODQyMl06
+IGh0dHBzOi8vZGF0YXRyYWNrZXIuaWV0Zi5vcmcvZG9jL2h0bWwvcmZjODQyMgpbUkZDIDg0NDYg
+U2VjdGlvbiA0LjYuMV06IGh0dHBzOi8vZGF0YXRyYWNrZXIuaWV0Zi5vcmcvZG9jL2h0bWwvcmZj
+ODQ0NiNzZWN0aW9uLTQuNi4xCltSRkMgODk5OF06IGh0dHBzOi8vZGF0YXRyYWNrZXIuaWV0Zi5v
+cmcvZG9jL2h0bWwvcmZjODk5OCNuYW1lLWlhbmEtY29uc2lkZXJhdGlvbnMKW1JGQyA5ODQ5XTog
+aHR0cHM6Ly9kYXRhdHJhY2tlci5pZXRmLm9yZy9kb2MvaHRtbC9yZmM5ODQ5CltTUCA4MDAtMTMy
+XTogaHR0cHM6Ly9jc3JjLm5pc3QuZ292L3B1YnMvc3AvODAwLzEzMi9maW5hbApbU1AgODAwLTE4
+NV06IGh0dHBzOi8vY3NyYy5uaXN0Lmdvdi9wdWJzL3NwLzgwMC8xODUvZmluYWwKW1NQIDgwMC0y
+MDhdOiBodHRwczovL2NzcmMubmlzdC5nb3YvcHVicy9zcC84MDAvMjA4L2ZpbmFsClt0bHMtaHli
+cmlkLXNtMi1tbGtlbV06IGh0dHBzOi8vZGF0YXRyYWNrZXIuaWV0Zi5vcmcvZG9jL2h0bWwvZHJh
+ZnQteWFuZy10bHMtaHlicmlkLXNtMi1tbGtlbS0wMyNuYW1lLWlhbmEtY29uc2lkZXJhdGlvbnMK
+
+--===============5617518507532760962==--
 
