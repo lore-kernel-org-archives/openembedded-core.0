@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2137AC5DF97
-	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 05:51:08 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6338.1787723467232615307
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBBE6C61DBD
+	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 05:51:17 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6267.1787723466480859068
  for <openembedded-core@lists.openembedded.org>;
- Tue, 25 Aug 2026 22:51:07 -0700
+ Tue, 25 Aug 2026 22:51:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PGGZ9YAS;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Na4cfe+Z;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a03c9f4604-dc1f7240-43ad-4b5d-9a66-66f7fbac9a50-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=EJHnHOJ2;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZLsx28+g;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a03c9f4300-4542a07e-2b3d-41e2-8d02-d3433f286995-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1787723466; i=@automation.yoctoproject.org;
+	t=1787723465; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=338xC9rEnU3AA6wTowloDQ6Nz1JNpaLYD2S2vHdoljo=;
-	b=PGGZ9YASnFYfygvRWYfwC49AXGxPcYTvkS3WsLiAj8OEVnJDC28F+O1JdUd7EiNG
-	ZSdI/FulZqSLWWCUuCsC7JPhHfn3IjmAaoflcWPmxY+Ulb7d8SBvXCEMWB2fTXPU8ez
-	LiUPkG6IA31iEMqsdV4eiBLHQeAYx8nCD47xJNY0=
+	bh=Eb9Tml7lDLGxymgTzwJ6y80bWDIMKS/a9EcaJI6tBjU=;
+	b=EJHnHOJ2zcsQkJdpe/ryicgPgGektt2oY+8DT5aeo66w4rtAcX+b6+1M+DDCkR/k
+	dMIUNHfzo2zEtoGFFr55SgKpDbxqjgWg0QZgqwFWZiyMdfVKBWkZz+4t/sBlhEZnEhl
+	jx0Jo12Vf/JxFoEhsq7CesxUAPbxaELBYm6YyGBU=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787723466;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787723465;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=338xC9rEnU3AA6wTowloDQ6Nz1JNpaLYD2S2vHdoljo=;
-	b=Na4cfe+ZS5Sj1LP5Ov9CUp7mH4kWFluItBl/1ySjIeQk1U2okl3H8sBzEwB8ZhDj
-	evnKYBIFsUYfwg9y6UbcrsJMQRv1tua/UW19yDuIsS3i99of3LdhucO3jwTiZIgVNp7
-	/Bu5AO2R6B8R95rM4ACfKF7UYiul66Ne9l4KNg+s=
+	bh=Eb9Tml7lDLGxymgTzwJ6y80bWDIMKS/a9EcaJI6tBjU=;
+	b=ZLsx28+gI0yW1XjviX/DSMeAycu+6XIoQ/RmWS+a7udrDDMdm0tt9+i8XfLTIti8
+	AmsYOuwapzFLjXo9pgzRIEKI0TWkzTHNliBjdTWz/DVwJIJqXIi2TaA3IC9C7sa8mfP
+	PPoGo+0BNeQqm14PSibLusXqCCtsXFipX/thNgVQ=
 From: patchtest@automation.yoctoproject.org
 To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 2/2] python3-maturin: upgrade 1.14.1 -> 1.15.0
-In-Reply-To: <20260826-mathieu-updates-v1-2-7a93b2311f69@bootlin.com>
-References: <20260826-mathieu-updates-v1-2-7a93b2311f69@bootlin.com>
+Subject: Patchtest results for [PATCH 1/2] python3-pbr: upgrade 7.1.0 -> 7.1.1
+In-Reply-To: <20260826-mathieu-updates-v1-1-7a93b2311f69@bootlin.com>
+References: <20260826-mathieu-updates-v1-1-7a93b2311f69@bootlin.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a03c9f4604-dc1f7240-43ad-4b5d-9a66-66f7fbac9a50-000000@us-west-2.amazonses.com>
-Date: Wed, 26 Aug 2026 05:51:06 +0000
+Message-ID: <010101a03c9f4300-4542a07e-2b3d-41e2-8d02-d3433f286995-000000@us-west-2.amazonses.com>
+Date: Wed, 26 Aug 2026 05:51:05 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.26-54.240.27.193
+X-SES-Outgoing: 2026.08.26-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 05:51:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244303
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 05:51:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244302
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/2-2-python3-maturin-upgrade-1.14.1---1.15.0.patch
+Testing patch /home/patchtest/share/mboxes/1-2-python3-pbr-upgrade-7.1.0---7.1.1.patch
 
 FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 
