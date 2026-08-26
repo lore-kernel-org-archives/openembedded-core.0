@@ -1,91 +1,127 @@
-Return-Path: <wangmy@fujitsu.com>
+Return-Path: <anis.bougrine10@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D2C6EC61DD2
-	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 08:18:59 +0000 (UTC)
-Received: from esa6.hc1455-7.c3s2.iphmx.com (esa6.hc1455-7.c3s2.iphmx.com [68.232.139.139])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7687.1787732332661040757
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EE014C61DC2
+	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 08:23:39 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7737.1787732613141312601
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2026 01:18:53 -0700
+ Wed, 26 Aug 2026 01:23:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@fujitsu.com header.s=fj2 header.b=G+9fpsGU;
- spf=pass (domain: fujitsu.com, ip: 68.232.139.139, mailfrom: wangmy@fujitsu.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=fujitsu.com; i=@fujitsu.com; q=dns/txt; s=fj2;
-  t=1787732333; x=1819268333;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=+DwZ3gFkaqkOCR5t13Ut4JRC7QPxB01DEcIW0slmy9Q=;
-  b=G+9fpsGUdXmKtHHBfv3rZ9E5FTbLmSkR6CVU/QVSUjyvcZJESRn55XAi
-   yk3h8nR/klkFz2BAjZoeBGWdnz1OSuY7LAhhFHUyubEw00iycnBw9jm4F
-   ea0SsTqRwuQO1O3rU+uyRxGaliZN1Vwrh48TEHFEn6AO5it00C0q50WDx
-   rxHfOktNWX7iwNkR85nLvU0mC/IGY5BFRRcBh00lcFAkiWN3RQGvLF/cA
-   m4ewlQk22jx0l20r1/cQbxWr9Bl4W7vz/s8N58djlx+1IcX5oG1fIv9Ga
-   bd1GO/DigeMrxysdtbfp/2z8FTtEiA6NAi5fjvA8/ATtGWFvWNEVC/t2H
-   w==;
-X-CSE-ConnectionGUID: sD2ZpAr6TN+wgGoZIoIdKQ==
-X-CSE-MsgGUID: 6pk+1CciRXGYq1zYns2gtg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11886"; a="256374407"
-X-IronPort-AV: E=Sophos;i="6.25,244,1779116400"; 
-   d="scan'208";a="256374407"
-Received: from gmgwuk01.global.fujitsu.com ([172.187.114.235])
-  by esa6.hc1455-7.c3s2.iphmx.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Aug 2026 17:18:39 +0900
-Received: from az2uksmgm4.o.css.fujitsu.com (unknown [10.151.22.201])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by gmgwuk01.global.fujitsu.com (Postfix) with ESMTPS id BFA11C0035C
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:18:38 +0000 (UTC)
-Received: from az2nlsmom1.o.css.fujitsu.com (unknown [10.150.26.198])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by az2uksmgm4.o.css.fujitsu.com (Postfix) with ESMTPS id 77BE11401208
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:18:38 +0000 (UTC)
-Received: from G08FNSTD200057.g08.fujitsu.local (unknown [10.167.135.104])
-	by az2nlsmom1.o.css.fujitsu.com (Postfix) with ESMTP id 77B558214FB;
-	Wed, 26 Aug 2026 08:18:36 +0000 (UTC)
-From: Wang Mingyu < wangmy@fujitsu.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=JVcteOYO;
+ spf=pass (domain: gmail.com, ip: 209.85.128.41, mailfrom: anis.bougrine10@gmail.com)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-495437bb891so4362235e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 01:23:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787732611; x=1788337411; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ZzNWbD01y24yv4R7P5LohG7Tdqsstz6LRC4hpJMYyyQ=;
+        b=JVcteOYOfn1dCAGR9OOFN07cFwZHhSE4dLbYzsrbQu9uu4X46cx3G2bpdk4bu//8Fn
+         UXi/bk/5rMc1E9AQ0dOpBhRJ2lnlj4c0OEx4+1snig8tENXl+czJWOZ6qhsVP7C4kDhd
+         k+kLX1XzeJFq7Vml2bF7Iyl14kSzuaRAFh1mNUtfv4FEvvqP2AhuougtWmww7MCvmCQ9
+         IwfGz6o+W21BRL7nVCEorC8NVskS0xWithW90mDjdTli8T4Ikm7GkvZEMUFXQ7LJQvIh
+         4ILzrFrC5crDWB6kaX6T4BTj6tN7ONnZUV1JLLN+oCNncpjCScN/PVzV4OS3NlwAW+7V
+         qWaw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787732611; x=1788337411;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ZzNWbD01y24yv4R7P5LohG7Tdqsstz6LRC4hpJMYyyQ=;
+        b=sNe1ac0o8oTEQnYs/UaPcCZ0D0CHv5eMcbxvqsoiNrMwLhQ7qhK8uFT5syAeHmO8+v
+         BffW5AV8doi3vR60ULRWhSjVBJOQuAoW1z3oiV2eb2//XXHRahSgKbhffrDaB3m/l3dm
+         V4cIfNv2Y6rxNtjmhinD96QF1NXdI2GgtwEYx+w9+RRtVv/6Y+nXBykPjXIuRo3MekFv
+         DtNf+F/cFjyH+tzbgMpDXrlCdGObF2IkJ5r2TRceTDvNWiwPecL6HFqeEBYXpI7eeh+I
+         FNfFWWuFzZy1aZGbytP+P7AxPad3rq59n/fjQDCpuaOe7HxH5d6ktxtc1uXatjUVBhuo
+         Qq8w==
+X-Gm-Message-State: AFuF++nPR55vb7yAMxInNNMNp5TEOWfZN943GhCh3ktC8tahlF/UYqoW
+	kFSrM4KaTSIWGsSh3czzClnLEzF/uyMPfOLFS63Efjx21TrAmuEi/FMfr4gFV9R48AE=
+X-Gm-Gg: AR+sD133v1e/LKUNu/NPc2EWr5hYQi26b5FBo43bPpeLtYzbebAIa/Njcd3pBxj6+8F
+	bdmefSHVh+LosnB+0BN8gIWno6vj6ZpMRRF9xAECWTDJFFPzWV0FR8usHUEWr4rEacbVLUfiP0T
+	x3XnSNz0fJZ1xUiNFfwIFAwc93onCXUXg5IGz+noula3Q2dbz0zBIcPijnSY8rGYLVPZWVSZybH
+	Bmgf/jczggk3Zq3Ntur1Q6vVirWaGrJjh6VBtvWIExhR9XM4KZzdf5BXWB4lncCK1iZziYoLRQa
+	JdejpKzu0OrvWOTzAL18Z1gTpSIQlO6y9qC+jTWjW0kiYEZ9ohGS88eWtIZ1IpuAEMgTVDWzINq
+	q1JyoqVZFMFxw+khntyMGCsBfvEpchcX2g6JjvWGwD38HA/Um8yUPBAKDrAKCHkmmS1Bc1n0LP/
+	65BxsLSVrHYS/3n6C+dKk9P+uLibHCeZ36lJjiKmDgQM/bg0jtuAO4ikEsNSmQ4SaiVpsqZSXdV
+	6b/Ew3GyAq1/Js9qz3dBUMazmVUSxt7ip9nzaBR9Gm0cI1eu1OQO3YPMRN1muvFZkYENMU7Gvlo
+	SCEx9yjiOZM=
+X-Received: by 2002:a05:600c:4514:b0:499:59fd:dbfc with SMTP id 5b1f17b1804b1-499dc64a671mr29836325e9.1.1787732610968;
+        Wed, 26 Aug 2026 01:23:30 -0700 (PDT)
+Received: from device-137.home ([2a01:cb15:80cf:2100:f9af:e499:eded:1124])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-499dca8b84esm17933655e9.1.2026.08.26.01.23.30
+        (version=TLS1_3 cipher=TLS_CHACHA20_POLY1305_SHA256 bits=256/256);
+        Wed, 26 Aug 2026 01:23:30 -0700 (PDT)
+From: Anis Bougrine <anis.bougrine10@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Wang Mingyu <wangmy@fujitsu.com>
-Subject: [OE-core] [PATCH 08/17] gstreamer1.0-python: upgrade 1.28.5 -> 1.28.6
-Date: Wed, 26 Aug 2026 16:18:23 +0800
-Message-ID: <20260826081832.1059-1-wangmy@fujitsu.com>
-X-Mailer: git-send-email 2.55.0.windows.3
+Cc: mathieu.dubois-briand@bootlin.com,
+	richard.purdie@linuxfoundation.org,
+	peter.kjellerstedt@axis.com,
+	antonin.godard@bootlin.com,
+	Anis Bougrine <anis.bougrine10@gmail.com>
+Subject: [OE-core][PATCH v6 0/5] Make signed kernel modules stripped
+Date: Wed, 26 Aug 2026 10:23:16 +0200
+Message-ID: <20260826082321.22104-1-anis.bougrine10@gmail.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:18:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244356
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:23:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244359
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+- Re-sign modules after the package stripping process.
+- Remove the package-stripping skip for signed modules from package.py.
+- Add KERNEL_MODULE_INSTALL_PREFIX variable
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
----
- ...reamer1.0-python_1.28.5.bb => gstreamer1.0-python_1.28.6.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.28.5.bb => gstreamer1.0-python_1.28.6.bb} (91%)
+Note that tests have been made on core-minimal-image for in-tree modules
+and on crypto-dev and lttng-modules for out-of-tree modules.
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.6.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.6.bb
-index d9179286a3..9e1e0ae64a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.6.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "0ac461b5700b9766998aa686439064caf58ca4fdaf848dfd477b5a7700b176cc"
-+SRC_URI[sha256sum] = "34d58440c53b5495a123d0a4b7b7abbc6e9792a5b21954db86a0791b16f6e012"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject gstreamer1.0-plugins-bad"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
+changes in V6:
+
+    - Sort KERNEL_MODULE_INSTALL_PREFIX variable documentation alphabetically
+
+changes in V5:
+
+    - Adapt signing function to out-of-tree modules.
+
+changes in v4:
+
+    - Re-sign kernel modules after package stripping process
+    - Remove package-stripping skip in package.py
+    - Add MOD_INSTALL_PREFIX variable
+
+changes in v3:
+
+    - Fixing rebase issue.
+
+changes in v2:
+
+    - Use the conditional INSTALL_MOD_STRIP environment variable to avoid
+      duplicating the oe_runmake call.
+    - Use `scripts/config` script instead of grepping .config file.# Please edit the description for the branch
+
+Anis Bougrine (5):
+  kernel-module-split.bbclass: add get_ext_mod function for module
+    signing
+  kernel: re-sign kernel modules after package stripping process
+  package.py: remove stripping and splitting skip for signed kernel
+    modules
+  kernel: centralize kernel module installation path in one variable
+  documentation.conf: add documentation for KERNEL_MODULE_INSTALL_PREFIX
+    variable
+
+ meta/classes-recipe/kernel-arch.bbclass       |  1 +
+ .../kernel-module-split.bbclass               | 46 +++++++++++++++++++
+ meta/classes-recipe/kernel.bbclass            | 12 ++---
+ meta/classes-recipe/module.bbclass            |  2 +-
+ meta/conf/documentation.conf                  |  1 +
+ meta/lib/oe/package.py                        | 26 ++---------
+ 6 files changed, 58 insertions(+), 30 deletions(-)
+
 -- 
-2.43.0
+2.50.1 (Apple Git-155)
 
 
