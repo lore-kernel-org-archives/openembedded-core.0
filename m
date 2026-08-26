@@ -2,137 +2,99 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B0657C61DC4
-	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 08:34:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42FADC61DC2
+	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 08:34:31 +0000 (UTC)
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7838.1787733258955358184
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7842.1787733261835274870
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2026 01:34:19 -0700
+ Wed, 26 Aug 2026 01:34:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=K1yKbcfy;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=gksmYdi9;
  spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 2AAB21A182B
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:34:17 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 388B21A1838
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:34:20 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id F3668604EC
-	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:34:16 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1882011C7AC91;
-	Wed, 26 Aug 2026 10:34:12 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 07270604EC
+	for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:34:20 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5211311C7AC8B;
+	Wed, 26 Aug 2026 10:34:19 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1787733252; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1787733259; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=sClzcXOCv0XbHehc9aBtm32OqbXbHB6xRUGlzaMfxio=;
-	b=K1yKbcfy3atYRpDSUVQpFYnMGwWi27LjFwo5irQ414EiykJEZyqpSk47xgaoYZjW5u7g7C
-	aQnQI5MwjR2bEY2iPqVFQfOuys8vZTOESxT7MYbEMswBgFY4HEoFnxtwku8miweY+dgGuv
-	CaqT/uf+2dTeNGmcYPN5boBVCxQlp16rsFhKDq/PoBJ9Ko23zeg6+hUhMu+ey64wFYE7VG
-	34kU9XR0qSnCO60B5dZijupeLGHL36UQ5vLf9B0YqyXpJwBv/kxwcJnlsRg8XZ1IClTxbo
-	cYYWrtIKKqVl02oqG/3QIB57/oTam6sVnn29/1yCKrQvhJ3oM7eMvfKOfqZyWA==
+	bh=ck/6oqE+FanmIagBe6KXhZMoQpWv4WX1onghopggxIs=;
+	b=gksmYdi9LVW9rldd2Z6M3n0zFt2vxMg7c7mQjoNfigERp47yi5sX1uVSCFGG1U1CFhRYyZ
+	yGInU7VORiVSg/VZhm8ksBOaHaoB10pfpNOczo/9XY6cRonJ2kcWF5qXzTITOqkso36zMN
+	Q/Dvanok3aTx/QXLM4HPRbFcwM6U3C0h4gBUvDFdpeyNGVdTZqF2a/FSqTAl5w+S6/QJtS
+	hTdTC746y0h0KZYeLuD55Oz95p6wTrkYoeuT2SG0IOMayEcHjnfCG0pWJXBGOIeWsNF3s8
+	PsD9N4MtYOrHGFvgQx0V6CVrJIEZhh4pm08wt9dfcGKfpnvjBbrV5akPe0/bKg==
 From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Wed, 26 Aug 2026 10:33:43 +0200
-Subject: [PATCH 4/8] python3-cryptography: upgrade 50.0.0 -> 50.0.1
+Date: Wed, 26 Aug 2026 10:33:47 +0200
+Subject: [PATCH 8/8] man-pages: upgrade 6.18 -> 6.19
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260826-mathieu-updates-20260826-v1-4-4082bbc152f2@bootlin.com>
+Message-Id: <20260826-mathieu-updates-20260826-v1-8-4082bbc152f2@bootlin.com>
 References: <20260826-mathieu-updates-20260826-v1-0-4082bbc152f2@bootlin.com>
 In-Reply-To: <20260826-mathieu-updates-20260826-v1-0-4082bbc152f2@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1787733232; l=4054;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1787733232; l=1944;
  i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=vB8hkouttjXXb6G2bNuEenROkqLB/t8UH8on1pkq8RU=;
- b=hoxxeUfZOGqNfzDyvflAlH7Ch8wA0efV3UfDYrylokBXXRaRBpn0sjlJJEw0NhbfMfamG3JE8
- +n4VmSnBFVKBRQlyaATyQKSWeCYTYBgS3S6FTsktkt47RH7wHMCaaRn
+ bh=CJ3gfrtFOelXbwAMsLe0p/AHr+Sk6j+lVUR/6CkDbn8=;
+ b=B4nnVPk52pz19MFZK8Ggmu9/Dlmmaw9ZOY4WEpGXZCAXb7sLYLDEzfiLIkODle+kri0PawinF
+ uKxoSSdSKVqD3iBGedakzcQUrWkmOq6GQCnlcUHwZC+w57ZCyZ+RwKh
 X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
  pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:34:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244372
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:34:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244376
 
 Changelog:
 
-* Updated Windows, macOS, and Linux wheels to be compiled with OpenSSL 4.0.2.
+Global changes
 
+- share/mk/
+  - Use POSIX.1-2008's '::=' instead of GNU's ':='.
+  - The <string.h>- and <memory.h>-related manual pages have been
+    significantly rewritten.
+
+License-Update: Whitespace changes
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 ---
- meta/recipes-devtools/python/python3-cryptography-common.inc      | 2 +-
- meta/recipes-devtools/python/python3-cryptography-vectors.bb      | 2 +-
- meta/recipes-devtools/python/python3-cryptography.bb              | 2 +-
- .../0001-pyproject.toml-remove-benchmark-disable-option.patch     | 8 +++-----
- 4 files changed, 6 insertions(+), 8 deletions(-)
+ .../man-pages/{man-pages_6.18.bb => man-pages_6.19.bb}                | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography-common.inc b/meta/recipes-devtools/python/python3-cryptography-common.inc
-index 298c52d1d3a8..d37f52358d3f 100644
---- a/meta/recipes-devtools/python/python3-cryptography-common.inc
-+++ b/meta/recipes-devtools/python/python3-cryptography-common.inc
-@@ -3,4 +3,4 @@
- #
- # Additionally AUH will detect that they share this .inc file and
- # perform a lockstep upgrade for both.
--PV = "50.0.0"
-+PV = "50.0.1"
-diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors.bb b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-index d62d681c6d41..0f25199f68d8 100644
---- a/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
- #       Upgrade both recipes at the same time
- require python3-cryptography-common.inc
--SRC_URI[sha256sum] = "6760814930443e6d73a6afcad09463d3ffdc42084ee0bdcfb2f05697250c3c8d"
-+SRC_URI[sha256sum] = "90066d0f7351b12ebac2b4ce594ce0a6f05c19ad3068e4d5cfc64d9d2bec8d80"
+diff --git a/meta/recipes-extended/man-pages/man-pages_6.18.bb b/meta/recipes-extended/man-pages/man-pages_6.19.bb
+similarity index 92%
+rename from meta/recipes-extended/man-pages/man-pages_6.18.bb
+rename to meta/recipes-extended/man-pages/man-pages_6.19.bb
+index 5d6504b85b6a..8aaf5271e126 100644
+--- a/meta/recipes-extended/man-pages/man-pages_6.18.bb
++++ b/meta/recipes-extended/man-pages/man-pages_6.19.bb
+@@ -4,7 +4,7 @@ SECTION = "console/utils"
+ HOMEPAGE = "http://www.kernel.org/pub/linux/docs/man-pages"
+ LICENSE = "BSD-2-Clause AND BSD-3-Clause AND BSD-4-Clause-UC AND GPL-1.0-or-later AND GPL-2.0-only AND GPL-2.0-or-later AND MIT"
  
- PYPI_PACKAGE = "cryptography_vectors"
+-LIC_FILES_CHKSUM = "file://README;md5=e4d3c4124726a2b7763489612768c03c \
++LIC_FILES_CHKSUM = "file://README;md5=494f3aa5d486baf2068b41eb1eec4570 \
+                     file://LICENSES/BSD-2-Clause.txt;md5=9e16594a228301089d759b4f178db91f \
+                     file://LICENSES/BSD-3-Clause.txt;md5=407426fcc1a243b7b2eff6e35c56aca9 \
+                     file://LICENSES/BSD-4-Clause-UC.txt;md5=1da3cf8ad50cd8d5d1de3cfc53196d01 \
+@@ -20,7 +20,7 @@ LIC_FILES_CHKSUM = "file://README;md5=e4d3c4124726a2b7763489612768c03c \
+ SRC_URI = "${KERNELORG_MIRROR}/linux/docs/${BPN}/${BP}.tar.gz \
+            "
  
-diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
-index d6a1bb53f3a7..f2ac4e1b89f4 100644
---- a/meta/recipes-devtools/python/python3-cryptography.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography.bb
-@@ -11,7 +11,7 @@ LDSHARED += "-pthread"
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography-vectors
- #       Upgrade both recipes at the same time
- require python3-cryptography-common.inc
--SRC_URI[sha256sum] = "eeac2acb5a20ed25e0ad6d1df9891a520b78b404266b6d11778f25d5d691a6c9"
-+SRC_URI[sha256sum] = "5dd9bda1c12b4162f6ff568eeb5e0ff956c28d14406e875cfe8a63a2d414ff20"
+-SRC_URI[sha256sum] = "09f975373336a7b44fc1770176f3d2238a111c34e24812ad3b63ec3328795c01"
++SRC_URI[sha256sum] = "fc0c620f07b4eba8ede128fbc267db5ebb4a67bab1aca3b01e5734956baf5572"
  
- SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-             file://check-memfree.py \
-diff --git a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
-index 967b661c6e17..454e08605aa6 100644
---- a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
-+++ b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
-@@ -1,4 +1,4 @@
--From c8fd85d80eb64fede8447842042977b70b3c96bc Mon Sep 17 00:00:00 2001
-+From 74473daa46b315f3d98fbf9a6a58f52c9c29a365 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <mingli.yu@windriver.com>
- Date: Tue, 17 May 2022 17:22:48 +0800
- Subject: [PATCH] pyproject.toml: remove --benchmark-disable option
-@@ -26,17 +26,15 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ inherit manpages lib_package
  
- diff --git a/pyproject.toml b/pyproject.toml
--index fb8185913..29d0b3e08 100644
-+index b56cda9..781743b 100644
- --- a/pyproject.toml
- +++ b/pyproject.toml
- @@ -140,7 +140,7 @@ exclude = [
-  ]
--
-+ 
-  [tool.pytest.ini_options]
- -addopts = "-r s --capture=no --strict-markers --benchmark-disable"
- +addopts = "-r s --capture=no --strict-markers"
-  testpaths = ["tests"]
-  console_output_style = "progress-even-when-capture-no"
-  markers = [
----
--2.43.0
 
 -- 
 2.47.3
