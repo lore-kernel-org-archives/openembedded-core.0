@@ -2,50 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B78F5C61DD3
-	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 05:59:58 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6364.1787723988855513680
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EA79C61DD6
+	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 05:59:59 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6365.1787723988937984795
  for <openembedded-core@lists.openembedded.org>;
  Tue, 25 Aug 2026 22:59:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=jhIyWRK2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=yswu+Shp;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a03ca73c23-693df253-bf27-4ccd-9d14-d6f12ac5d55c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rBT/Mwqj;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=puvWL4IP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a03ca73c11-d1f76304-6908-4898-a0ba-8adf67a84447-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1787723988;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=EojQbGAgpN/RI12pgzWiwXEZZenf/HCtFThQ2lUMI4o=;
-	b=jhIyWRK2lIu8ACUtoSonv9nxQAeZnfSZ0AotDHwSvGw5vfvH4zaHez3BspsiKOce
-	TQ9nIxd+RumFALY9AQQMkFBIizmEj6Ei7zM2DQIQFMhUvMylYk9ZfXlXNXQzAH04ZKv
-	VXjxqmnoJlnoWIFye6kqaMEzkgIBN8joUcX21y+w=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=xoOmD9GzsQTF3Xo8JMNeNB+ICaYnbDIFJITD02QEatc=;
+	b=rBT/MwqjOlQaCxp1GhDpmrXb6l8cVvto+E1PnvTpuYUQqetKUZeJIUFthH3q+btE
+	lPwRZsYC27wYvoQiUg8DFPnBzZabruERFf62qCvpqFkJ8CQ8ArKMwuXYthpumKfj7iz
+	tYvaYHZQ7Nb0mtVJirvJQL/HGnptOKKHTkliRte8=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787723988;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=EojQbGAgpN/RI12pgzWiwXEZZenf/HCtFThQ2lUMI4o=;
-	b=yswu+ShpEalOKtmtjSe/kNf6y9Tm1xwepIFEmyWBJKNTxLta8L+aJSAQ6NyU/jjU
-	7dV+60QhdmjakvvKARR0QPTJZBjWbLE1wDp7wRI8SDfGw7ig5aoetOAXrgxAeqznlcu
-	BWIDnxZGtTPH6v+mZWWfU6czYzMqSXU/2v86D5ME=
-Content-Type: multipart/mixed; boundary="===============6858143046746255392=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=xoOmD9GzsQTF3Xo8JMNeNB+ICaYnbDIFJITD02QEatc=;
+	b=puvWL4IPXtMiyqbCh9Lt5hgFmTR1LXuGDYlXqyltYnaY3T8KHPkSkkstfNBFeblA
+	cj2BdI7xaakh0LmV4FYWY24kioImEezUTPrcPIDUyhsHBJKjxCQWHlaqd4E0VJf0l0I
+	9Pbb8Q4MQjSx+nqJp2tXHhlO36/EZvY2tkmP91Uk=
+Content-Type: multipart/mixed; boundary="===============3930800725293769375=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>, 
-	Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-cryptography-vectors,python3-cryptography: upgrading to
- 50.0.1,50.0.1 SUCCEEDED
-Message-ID: <010101a03ca73c23-693df253-bf27-4ccd-9d14-d6f12ac5d55c-000000@us-west-2.amazonses.com>
-Date: Wed, 26 Aug 2026 05:59:48 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] cmake,cmake-native: upgrading to 4.4.3,4.4.3 SUCCEEDED
+Message-ID: <010101a03ca73c11-d1f76304-6908-4898-a0ba-8adf67a84447-000000@us-west-2.amazonses.com>
+Date: Wed, 26 Aug 2026 05:59:47 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.26-54.240.27.192
+X-SES-Outgoing: 2026.08.26-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 05:59:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244304
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 05:59:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244306
 
---===============6858143046746255392==
+--===============3930800725293769375==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -53,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-cryptography-vectors,python3-cryptography* to *50.0.1,50.0.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *cmake,cmake-native* to *4.4.3,4.4.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-cryptography-vectors-python3-cryptography-up.patch
+    - apply the patch: git am 0001-cmake-cmake-native-upgrade-4.4.2-4.4.3-4.4.2-4.4.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -74,255 +71,1317 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 2c21d26fbde6aea51060c4d29ca2302429b8b730 Mon Sep 17 00:00:00 2001
+From f6252fd3616af466f74a8caf9b5e174865b0ef41 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 26 Aug 2026 05:34:51 +0000
-Subject: [PATCH] python3-cryptography-vectors,python3-cryptography: upgrade
- 50.0.0 -> 50.0.1,50.0.0 -> 50.0.1
+Date: Wed, 26 Aug 2026 05:29:09 +0000
+Subject: [PATCH] cmake,cmake-native: upgrade 4.4.2 -> 4.4.3,4.4.2 -> 4.4.3
 
-Source: CHANGELOG.rst
+Source: Help/release/4.4.rst
 
-50.0.1 - 2026-08-25
-~~~~~~~~~~~~~~~~~~~
+CMake 4.4 Release Notes
+***********************
 
-* Updated Windows, macOS, and Linux wheels to be compiled with OpenSSL 4.0.2.
+.. only:: html
+
+  .. contents::
+
+Changes made since CMake 4.3 include the following.
+
+New Features
+============
+
+Diagnostics
+-----------
+
+* CMake diagnostic actions are now tracked in a new state type managed by the
+  :command:`cmake_diagnostic` command.  This replaces the old system which
+  sometimes used variables to manage reporting actions and sometimes did not
+  allow management beyond command-line options and presets.  The new system
+  also introduces several new diagnostic categories and significantly reduces
+  the cost of adding additional categories in the future.  See the
+  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
+
+* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
+  was added to diagnose :command:`install` commands that specify an
+  absolute ``DESTINATION``.  This diagnostic may be controlled with the
+  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
+  the ``installAbsoluteDestination`` field in a
+  :manual:`CMake Presets <cmake-presets(7)>`
+  :preset:`configurePresets.warnings` object,
+  or the :command:`cmake_diagnostic` command.
+
+Presets
+-------
+
+* :manual:`cmake-presets(7)` files now support schema version 12.
+
+* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
+  ``--presets-file`` arguments to support loading
+  :manual:`presets <cmake-presets(7)>` from the specified file instead of
+  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
+  :option:`cmake --presets-file`,
+  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
+  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
+  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
+
+* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
+  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
+  presets file containing the ``${fileDir}`` macro, regardless of whether
+  it is inherited by another preset in a different directory.
+
+* :manual:`cmake-presets(7)` gained support for a
+  ``testPassthroughArguments`` field in the
+  test preset ``execution`` object for
+  forwarding arguments to test executables via presets.
+
+File-Based API
+--------------
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
+  updated to 2.11.
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
+  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
+  to support sources belonging to multiple file sets. The ``fileSetIndex``
+  fields are maintained for backwards compatibility only, and users are advised
+  to port to the new fields.
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
+  "sources" object gained a new ``backtraces`` field to represent multiple
+  command invocations which associate a single source for a given target with
+  mult
+
+[Changelog truncated as it exceeds 3000 characters;
+the full changelog can be found in an attachment to the AUH email]
+
+Source: Help/release/4.4.rst
+
+CMake 4.4 Release Notes
+***********************
+
+.. only:: html
+
+  .. contents::
+
+Changes made since CMake 4.3 include the following.
+
+New Features
+============
+
+Diagnostics
+-----------
+
+* CMake diagnostic actions are now tracked in a new state type managed by the
+  :command:`cmake_diagnostic` command.  This replaces the old system which
+  sometimes used variables to manage reporting actions and sometimes did not
+  allow management beyond command-line options and presets.  The new system
+  also introduces several new diagnostic categories and significantly reduces
+  the cost of adding additional categories in the future.  See the
+  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
+
+* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
+  was added to diagnose :command:`install` commands that specify an
+  absolute ``DESTINATION``.  This diagnostic may be controlled with the
+  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
+  the ``installAbsoluteDestination`` field in a
+  :manual:`CMake Presets <cmake-presets(7)>`
+  :preset:`configurePresets.warnings` object,
+  or the :command:`cmake_diagnostic` command.
+
+Presets
+-------
+
+* :manual:`cmake-presets(7)` files now support schema version 12.
+
+* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
+  ``--presets-file`` arguments to support loading
+  :manual:`presets <cmake-presets(7)>` from the specified file instead of
+  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
+  :option:`cmake --presets-file`,
+  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
+  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
+  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
+
+* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
+  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
+  presets file containing the ``${fileDir}`` macro, regardless of whether
+  it is inherited by another preset in a different directory.
+
+* :manual:`cmake-presets(7)` gained support for a
+  ``testPassthroughArguments`` field in the
+  test preset ``execution`` object for
+  forwarding arguments to test executables via presets.
+
+File-Based API
+--------------
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
+  updated to 2.11.
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
+  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
+  to support sources belonging to multiple file sets. The ``fileSetIndex``
+  fields are maintained for backwards compatibility only, and users are advised
+  to port to the new fields.
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
+  "sources" object gained a new ``backtraces`` field to represent multiple
+  command invocations which associate a single source for a given target with
+  mult
+
+[Changelog truncated as it exceeds 3000 characters;
+the full changelog can be found in an attachment to the AUH email]
 ---
- .../python/python3-cryptography-common.inc                | 2 +-
- .../python/python3-cryptography-vectors.bb                | 2 +-
- meta/recipes-devtools/python/python3-cryptography.bb      | 2 +-
- ...1-pyproject.toml-remove-benchmark-disable-option.patch | 8 +++-----
- 4 files changed, 6 insertions(+), 8 deletions(-)
+ .../cmake/{cmake-native_4.4.2.bb => cmake-native_4.4.3.bb}      | 0
+ meta/recipes-devtools/cmake/cmake.inc                           | 2 +-
+ meta/recipes-devtools/cmake/{cmake_4.4.2.bb => cmake_4.4.3.bb}  | 0
+ 3 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/cmake/{cmake-native_4.4.2.bb => cmake-native_4.4.3.bb} (100%)
+ rename meta/recipes-devtools/cmake/{cmake_4.4.2.bb => cmake_4.4.3.bb} (100%)
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography-common.inc b/meta/recipes-devtools/python/python3-cryptography-common.inc
-index 298c52d1d3..d37f52358d 100644
---- a/meta/recipes-devtools/python/python3-cryptography-common.inc
-+++ b/meta/recipes-devtools/python/python3-cryptography-common.inc
-@@ -3,4 +3,4 @@
- #
- # Additionally AUH will detect that they share this .inc file and
- # perform a lockstep upgrade for both.
--PV = "50.0.0"
-+PV = "50.0.1"
-diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors.bb b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-index d62d681c6d..0f25199f68 100644
---- a/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=8c3617db4fb6fae01f1d253ab91511e4 \
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography
- #       Upgrade both recipes at the same time
- require python3-cryptography-common.inc
--SRC_URI[sha256sum] = "6760814930443e6d73a6afcad09463d3ffdc42084ee0bdcfb2f05697250c3c8d"
-+SRC_URI[sha256sum] = "90066d0f7351b12ebac2b4ce594ce0a6f05c19ad3068e4d5cfc64d9d2bec8d80"
+diff --git a/meta/recipes-devtools/cmake/cmake-native_4.4.2.bb b/meta/recipes-devtools/cmake/cmake-native_4.4.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake-native_4.4.2.bb
+rename to meta/recipes-devtools/cmake/cmake-native_4.4.3.bb
+diff --git a/meta/recipes-devtools/cmake/cmake.inc b/meta/recipes-devtools/cmake/cmake.inc
+index a51b25b864..b6b10371ce 100644
+--- a/meta/recipes-devtools/cmake/cmake.inc
++++ b/meta/recipes-devtools/cmake/cmake.inc
+@@ -19,7 +19,7 @@ CMAKE_MAJOR_VERSION = "${@'.'.join(d.getVar('PV').split('.')[0:2])}"
+ SRC_URI = "https://cmake.org/files/v${CMAKE_MAJOR_VERSION}/cmake-${PV}.tar.gz \
+            "
  
- PYPI_PACKAGE = "cryptography_vectors"
+-SRC_URI[sha256sum] = "1db9e61e60b6e0874c86386340b910382f3c5e75b9fbfb44d122063129a2789d"
++SRC_URI[sha256sum] = "c46400618b4f1f2b43507f24fb22f3ae830c3416cf23b776e16e1d413aa892f0"
  
-diff --git a/meta/recipes-devtools/python/python3-cryptography.bb b/meta/recipes-devtools/python/python3-cryptography.bb
-index d6a1bb53f3..f2ac4e1b89 100644
---- a/meta/recipes-devtools/python/python3-cryptography.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography.bb
-@@ -11,7 +11,7 @@ LDSHARED += "-pthread"
- # NOTE: Make sure to keep this recipe at the same version as python3-cryptography-vectors
- #       Upgrade both recipes at the same time
- require python3-cryptography-common.inc
--SRC_URI[sha256sum] = "eeac2acb5a20ed25e0ad6d1df9891a520b78b404266b6d11778f25d5d691a6c9"
-+SRC_URI[sha256sum] = "5dd9bda1c12b4162f6ff568eeb5e0ff956c28d14406e875cfe8a63a2d414ff20"
+ UPSTREAM_CHECK_REGEX = "cmake-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-             file://check-memfree.py \
-diff --git a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
-index 967b661c6e..454e08605a 100644
---- a/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
-+++ b/meta/recipes-devtools/python/python3-cryptography/0001-pyproject.toml-remove-benchmark-disable-option.patch
-@@ -1,4 +1,4 @@
--From c8fd85d80eb64fede8447842042977b70b3c96bc Mon Sep 17 00:00:00 2001
-+From 74473daa46b315f3d98fbf9a6a58f52c9c29a365 Mon Sep 17 00:00:00 2001
- From: Mingli Yu <mingli.yu@windriver.com>
- Date: Tue, 17 May 2022 17:22:48 +0800
- Subject: [PATCH] pyproject.toml: remove --benchmark-disable option
-@@ -26,17 +26,15 @@ Signed-off-by: Tim Orling <tim.orling@konsulko.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/pyproject.toml b/pyproject.toml
--index fb8185913..29d0b3e08 100644
-+index b56cda9..781743b 100644
- --- a/pyproject.toml
- +++ b/pyproject.toml
- @@ -140,7 +140,7 @@ exclude = [
-  ]
--
-+ 
-  [tool.pytest.ini_options]
- -addopts = "-r s --capture=no --strict-markers --benchmark-disable"
- +addopts = "-r s --capture=no --strict-markers"
-  testpaths = ["tests"]
-  console_output_style = "progress-even-when-capture-no"
-  markers = [
----
--2.43.0
+diff --git a/meta/recipes-devtools/cmake/cmake_4.4.2.bb b/meta/recipes-devtools/cmake/cmake_4.4.3.bb
+similarity index 100%
+rename from meta/recipes-devtools/cmake/cmake_4.4.2.bb
+rename to meta/recipes-devtools/cmake/cmake_4.4.3.bb
 -- 
 2.47.1
 
 
---===============6858143046746255392==
+--===============3930800725293769375==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="cmake-native-changelog.txt"
+
+Changelog for cmake-native: 4.4.2 -> 4.4.3
+Source: Help/release/4.4.rst
+
+CMake 4.4 Release Notes
+***********************
+
+.. only:: html
+
+  .. contents::
+
+Changes made since CMake 4.3 include the following.
+
+New Features
+============
+
+Diagnostics
+-----------
+
+* CMake diagnostic actions are now tracked in a new state type managed by the
+  :command:`cmake_diagnostic` command.  This replaces the old system which
+  sometimes used variables to manage reporting actions and sometimes did not
+  allow management beyond command-line options and presets.  The new system
+  also introduces several new diagnostic categories and significantly reduces
+  the cost of adding additional categories in the future.  See the
+  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
+
+* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
+  was added to diagnose :command:`install` commands that specify an
+  absolute ``DESTINATION``.  This diagnostic may be controlled with the
+  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
+  the ``installAbsoluteDestination`` field in a
+  :manual:`CMake Presets <cmake-presets(7)>`
+  :preset:`configurePresets.warnings` object,
+  or the :command:`cmake_diagnostic` command.
+
+Presets
+-------
+
+* :manual:`cmake-presets(7)` files now support schema version 12.
+
+* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
+  ``--presets-file`` arguments to support loading
+  :manual:`presets <cmake-presets(7)>` from the specified file instead of
+  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
+  :option:`cmake --presets-file`,
+  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
+  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
+  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
+
+* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
+  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
+  presets file containing the ``${fileDir}`` macro, regardless of whether
+  it is inherited by another preset in a different directory.
+
+* :manual:`cmake-presets(7)` gained support for a
+  ``testPassthroughArguments`` field in the
+  test preset ``execution`` object for
+  forwarding arguments to test executables via presets.
+
+File-Based API
+--------------
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
+  updated to 2.11.
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
+  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
+  to support sources belonging to multiple file sets. The ``fileSetIndex``
+  fields are maintained for backwards compatibility only, and users are advised
+  to port to the new fields.
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
+  "sources" object gained a new ``backtraces`` field to represent multiple
+  command invocations which associate a single source for a given target with
+  multiple file sets. The ``backtrace`` field is maintained for backwards
+  compatibility only, and users are advised to port to the new field.
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 "installers" object's
+  optional ``fileSetType`` field gained a new ``SOURCES`` value to incorporate
+  the new ``SOURCES`` :ref:`file set <file sets>` type in codemodel replies.
+
+Instrumentation
+---------------
+
+* The :manual:`cmake-instrumentation(7)` data version has been updated to 1.1.
+* :manual:`cmake-instrumentation(7)` gained a ``captureOutput`` option which
+  collects the ``stdout`` and ``stderr`` of instrumented commands.
+* :manual:`cmake-instrumentation(7)` gained a ``compileTrace`` option which
+  records compiler-generated trace files (e.g., from Clang's ``-ftime-trace``
+  flag).
+
+Generators
+----------
+
+* The :ref:`Ninja Generators` now support generating a build target named
+  ``test_prep/<test-name>`` for each test added by :command:`add_test`, which
+  builds all dependencies for that test. Build dependencies are registered for
+  an executable target invoked by the test, targets referenced in generator
+  expressions in the test command, and explicit dependencies added using the
+  new ``BUILD_DEPENDS`` option. This behavior is enabled by the new
+  :variable:`CMAKE_TEST_BUILD_DEPENDS` variable. A ``test_prep/all``
+  target is also generated to depend on every ``test_prep/<test-name>``
+  target. Tests with names that are not valid target names are excluded from
+  this behavior. If multiple tests in different directories share the same
+  name, their dependencies are merged into one ``test_prep/<test-name>``
+  target.
+
+Languages
+---------
+
+* CUDA language level 23 (corresponding to C++ 23) is now supported with
+  NVCC 13.3 and above.
+
+Compilers
+---------
+
+* C++ 20 named modules are now supported with ``clang-cl``, except with the
+  :ref:`Visual Studio Generators` (i.e., the ``ClangCl``
+  :variable:`toolset <CMAKE_GENERATOR_TOOLSET>`).
+  See :manual:`cmake-cxxmodules(7)`.
+
+* The ``ibm-flang`` compiler is now supported with
+  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``IBMFlang``.
+
+* The `Pelles C`_ toolchain is now supported with
+  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``PellesC``.
+
+  The ``ASM_POASM`` language was added to support the Pelles Macro Assembler.
+
+* The Open Watcom ``wlink`` linker is now identified with
+  :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``OpenWatcom``.
+
+* The `wild linker <https://github.com/wild-linker/wild>`_ is now
+  supported with :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``WILD``.
+
+Command-Line
+------------
+
+* :manual:`cmake(1)` now supports ``--build <dir> --preset <pre>``
+  regardless of the current working directory.
+
+* The :option:`cmake -D` command-line option now populates a
+  default :prop_cache:`HELPSTRING` for variables known to CMake.
+
+* :option:`cmake --install` now supports installing multiple components.
+
+* :option:`cmake --install` now accepts ``-j<N>`` in addition to ``-j <N>``
+  for specifying the number of parallel jobs.
+
+* The :option:`cmake -E` commands
+  :option:`copy_if_different <cmake-E copy_if_different>`,
+  :option:`copy_if_newer <cmake-E copy_if_newer>`,
+  :option:`copy_directory <cmake-E copy_directory>`,
+  :option:`copy_directory_if_different <cmake-E copy_directory_if_different>`,
+  and :option:`copy_directory_if_newer <cmake-E copy_directory_if_newer>`
+  gained support for the ``-t`` argument.
+
+* The :option:`cmake -E tar <cmake-E tar>` command-line tool gained the
+  :option:`--cmake-tar-encoding <cmake-E_tar --cmake-tar-encoding>` flag
+  to specify the pathname encoding used in archives.
+
+Commands
+--------
+
+* The :command:`block` command can now create a ``DIAGNOSTICS`` scope.
+
+* The :command:`cmake_diagnostic` command was added to manipulate CMake's
+  diagnostic state.
+
+* The :command:`cmake_parse_arguments` command gained a new ``PARSE_ARGN``
+  signature that starts parsing after the last named argument of the calling
+  function and works exactly like ``PARSE_ARGV`` with ``<N>`` being the number
+  of parameters in the function definition.
+
+* The :command:`discover_tests` command was added to support registering tests
+  discovered at test time by :manual:`ctest(1)`. It runs a user-provided
+  discovery command, parses its output, and generates test names, arguments,
+  and properties from regular-expression captures.
+
+* The :command:`execute_process` command gained
+  ``ENVIRONMENT`` and ``ENVIRONMENT_MODIFICATION`` options to run child
+  processes with a modified environment.
+
+* The :command:`file(ARCHIVE_CREATE)` and :command:`file(ARCHIVE_EXTRACT)`
+  commands gained an ``ENCODING`` option to specify the encoding of the
+  archive pathnames.  The default is now ``UTF-8``.
+  See policy :policy:`CMP0213`.
+
+* The :command:`file(READ_SYMLINK)` command gained a ``RESULT``
+  option to capture errors without failing.
+
+* The :command:`if` command gained a new ``DIAGNOSTIC`` operator that evaluates
+  to true if a given diagnostic category name is known to CMake.
+
+* The :command:`include` command now has a ``NO_DIAGNOSTIC_SCOPE`` option.
+
+* The :command:`list(FILTER)` command gained a new ``PREDICATE`` mode
+  that invokes a user-defined :command:`function` to decide which elements are
+  included or excluded, complementing the existing ``REGEX`` mode.
+
+* The :command:`list(SORT)` command gained a new ``COMPARATOR`` keyword
+  that invokes a user-defined :command:`function` to compare elements, complementing
+  the built-in ``COMPARE`` methods.
+
+* The :command:`list(TRANSFORM)` command gained a new ``APPLY`` action that
+  invokes a user-defined :command:`function` for each element of the list,
+  enabling arbitrary per-element transformations.
+
+* The :command:`list(TRANSFORM)` command gained a new ``PREDICATE`` selector
+  that invokes a user-defined :command:`function` to decide which elements are
+  transformed.
+
+* The :command:`string(JSON ... PARTIAL_EQUAL) <string(JSON-PARTIAL_EQUAL)>`
+  command was added to compare two JSON values using *partial* equality.
+
+File Sets
+---------
+
+* A ``SOURCES`` :ref:`file set <file sets>` type was added to specify
+  a target's source files via file sets.
+
+* The :prop_fs:`CXX_SCAN_FOR_MODULES` file set property was added to
+  control whether a file set's sources are scanned for C++ modules.
+
+* The :prop_fs:`INDEPENDENT_FILES` file set property was added to
+  specify that a file set's sources do not depend on any generated files.
+
+* The :prop_fs:`JOB_POOL_COMPILE` file set property was added to
+  assign a file set's sources to a specific Ninja job pool.
+
+* The :prop_fs:`SCOPE`, :prop_fs:`TYPE`, :prop_fs:`BASE_DIRS`,
+  :prop_fs:`SOURCES`, and :prop_fs:`INTERFACE_SOURCES` file set
+  properties were added to provide the declared details of a file set.
+
+* The :prop_fs:`SKIP_LINTING` file set property was added to exclude
+  a file set's sources from target-wide code checks.
+
+* The :prop_fs:`SKIP_PRECOMPILE_HEADERS` file set property was added
+  to avoid using precompiled headers for a file set's sources.
+
+* The :prop_fs:`SKIP_UNITY_BUILD_INCLUSION` file set property was added
+  to exclude a file set's sources from inclusion in unity builds.
+
+Variables
+---------
+
+* The :variable:`CMAKE_INSTALL_DEFAULT_COMPONENT_NAME` variable gained
+  support for a special ``<PROJECT_NAME>`` placeholder value.
+  It tells each :command:`install` invocation to take a default component
+  name from the current :variable:`PROJECT_NAME` variable value.
+
+Environment Variables
+---------------------
+
+* The :envvar:`CMAKE_DISABLE_PRECOMPILE_HEADERS` environment variable
+  was added to disable precompiled headers by default.
+
+Properties
+----------
+
+* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
+  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now always
+  create the per-target verification target and the aggregate
+  ``all_verify_interface_header_sets``, ``all_verify_private_header_sets``,
+  and ``all_verify_header_sets`` targets when the property is enabled,
+  even if the target has no matching header sets.
+
+* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
+  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now support
+  ``OBJC`` and ``OBJCXX`` languages in addition to ``C`` and ``CXX``.
+
+* The :prop_tgt:`VS_SOLUTION_DEPLOY` target property is now implemented
+  for targets created by :command:`add_custom_target`.
+
+Modules
+-------
+
+* The :module:`CMakePackageConfigHelpers` module's
+  :command:`write_basic_package_version_file` command now supports
+  ``SamePatchVersion``, ``SameFullVersion``, and ``SemanticVersion``
+  compatibility modes. The older ``ExactVersion`` mode is now documented as
+  deprecated in favor of the more explicit ``SamePatchVersion`` and
+  ``SameFullVersion`` modes. The ``SemanticVersion`` mode treats ``0.y.z``
+  versions more strictly than ``1.y.z`` and later versions.
+
+* The :module:`ExternalData` module gained an
+  :variable:`ExternalData_LINK_MODE` variable to select an ordered list
+  of file materialization modes for hard links, symbolic links, and
+  copies.
+
+* The :module:`ExternalData` module gained an
+  :variable:`ExternalData_STATE_ROOT` variable to store hash records outside
+  :variable:`ExternalData_BINARY_ROOT`.
+
+* The :module:`ExternalProject` and :module:`FetchContent` modules gained
+  :variable:`CMAKE_EP_GIT_CLONE_RETRY_COUNT` and
+  :variable:`CMAKE_EP_GIT_CLONE_RETRY_DELAY` variables to control
+  ``git clone`` retries.
+
+* The :module:`FindCUDAToolkit` module now creates a ``CUDA::sanitizer``
+  target for the :ref:`compute-sanitizer <FindCUDAToolkit_sanitizer>`
+  library.
+
+* The :module:`FindCUDAToolkit` module now provides an imported target
+  for ``cufilt`` in CUDA 11.4 and above.
+
+* :module:`FindPython` and :module:`FindPython3` modules gained the support of
+  the Stable ABI for Free Threaded Python (``SABIT``) as specified by
+  :pep:`803`.
+
+Generator Expressions
+---------------------
+
+* The :genex:`TARGET_OBJECTS` generator expression now has an optional
+  ``SOURCE_FILES:...`` argument, which can take one or more source files as
+  arguments, and will filter its output to only include objects built from
+  those source files.
+
+Swift
+-----
+
+* The :ref:`Ninja Generators` gained the
+  :prop_tgt:`Swift_SEPARATE_MODULE_EMISSION` target property, initialized by
+  the :variable:`CMAKE_Swift_SEPARATE_MODULE_EMISSION` variable, to control
+  whether importable Swift targets emit ``.swiftmodule`` from a dedicated
+  build edge.  Policy :policy:`CMP0215` enables this by default.  The
+  behavior requires policies :policy:`CMP0157` and :policy:`CMP0195` to be
+  set to ``NEW``.
+
+* The default :prop_tgt:`Swift_MODULE_NAME` now replaces hyphens with
+  underscores, since hyphens are not valid in Swift module identifiers.
+
+* Swift targets now have a package name by default.
+  See policy :policy:`CMP0216`.
+
+* The :prop_tgt:`Swift_PACKAGE_NAME` target property was added to
+  specify a Swift package name.
+
+* Swift targets on Windows now support the ``$<TARGET_PDB_FILE:...>``
+  family of generator expressions.
+
+CTest
+-----
+
+* :manual:`ctest(1)` gained support for forwarding extra arguments to test
+  executables using a :option:`-- <ctest -->` separator.
+
+* :manual:`ctest(1)` gained a :ref:`CoverageTool <ctest-CoverageTool>`
+  option in :ref:`Dashboard Client` mode to configure tests for
+  coverage collection by ``llvm-cov``.
+
+* The :command:`ctest_configure`, :command:`ctest_build`,
+  :command:`ctest_test`, and :command:`ctest_memcheck` commands gained
+  ``PRESET`` and ``PRESETS_FILE`` arguments to support using
+  :manual:`presets <cmake-presets(7)>` for their :ref:`Dashboard Client` steps.
+
+  The :variable:`CTEST_CONFIGURE_PRESET`, :variable:`CTEST_BUILD_PRESET`,
+  :variable:`CTEST_TEST_PRESET`, :variable:`CTEST_PRESET`, and
+  :variable:`CTEST_PRESETS_FILE` variables may be used to specify preset
+  arguments to the above commands in a :ref:`Dashboard Client` script or
+  on the :program:`ctest` command line via the
+  :ctest-dashboard-option:`-D` option.
+
+* :manual:`ctest(1)` gained a :ctest-dashboard-option:`--source-dir` option
+  to specify the source directory.  When combined with
+  :ctest-option:`-T` Configure, this allows CTest to perform an
+  initial configure step for an empty binary directory.
+
+* :manual:`ctest(1)` gained support for a :variable:`CTEST_SUBMIT_PARTS`
+  variable that restricts which parts are uploaded when operating in
+  :ref:`Dashboard Client` mode.
+
+* The :command:`ctest_update` command gained ``VERSION_ONLY`` and
+  ``VERSION_OVERRIDE`` options to select or report a source revision
+  without requiring the corresponding
+  :variable:`CTEST_UPDATE_VERSION_ONLY` or
+  :variable:`CTEST_UPDATE_VERSION_OVERRIDE` dashboard script variables.
+
+CPack
+-----
+
+* The :cpack_gen:`CPack Archive Generator` gained the
+  :variable:`CPACK_ARCHIVE_ENCODING` variable to specify the pathname
+  encoding used in package archives.
+
+* The :cpack_gen:`CPack NSIS Generator` gained a new variable
+  :variable:`CPACK_NSIS_IGNORE_COMPONENTS_PAGE` to ignore the
+  component selection page in the installer.
+
+* The :variable:`CPACK_RPM_SPEC_MORE_DEFINE` variable now supports
+  a list of definitions.
+
+Deprecated and Removed Features
+===============================
+
+* The ``-W[no-][error=]dev`` command-line options are deprecated.  The new
+  spelling is :option:`-W[no-][error=]author <cmake -W>`.
+
+* The ``--warn-uninitialized`` command-line option is deprecated.  The new
+  spelling is :option:`-Wuninitialized <cmake -W>`.
+
+* The ``--no-warn-unused-cli`` command-line option is deprecated.  The new
+  spelling is :option:`-Wno-unused-cli <cmake -Wno->`.
+
+* The :variable:`CMAKE_WARN_DEPRECATED` and :variable:`CMAKE_ERROR_DEPRECATED`
+  variables are deprecated.  The new :command:`cmake_diagnostic` command should
+  be used instead.
+
+* The :prop_dir:`MACROS` directory property does not exist anymore.
+  See policy :policy:`CMP0217`.
+
+Other Changes
+=============
+
+* A file may belong to at most one non-``HEADERS`` :ref:`file set <file sets>`
+  in a target.  See policy :policy:`CMP0211`.
+
+* :command:`macro` invocations now preserve backslashes in arguments.
+  See policy :policy:`CMP0219`.
+
+* :command:`variable_watch` callback command arguments preserve backslashes.
+  See policy :policy:`CMP0219`.
+
+* :manual:`ctest(1)` now exits with non-zero if invoked with no
+  arguments and no test input file exists.
+
+* Test drivers generated by the :command:`create_test_sourcelist` command now
+  support the ``-N`` option to list all tests, one per line.  This is useful in
+  combination with the new :command:`discover_tests` command.
+
+* Names of executables given to the ``DEPENDS`` argument of
+  :command:`add_custom_command` no longer have ``.exe`` suffixes stripped to
+  establish target-level dependencies. See policy :policy:`CMP0212`.
+
+* Targets which provide C++ modules may now be consumed by targets with
+  different :prop_tgt:`compile features <COMPILE_FEATURES>` and
+  :prop_tgt:`options <COMPILE_OPTIONS>` than the provider.
+
+Updates
+=======
+
+Changes made since CMake 4.4.0 include the following.
+
+4.4.1
+-----
+
+* The :module:`FindPython`, :module:`FindPython3` modules learned
+  to manage, on ``Windows`` systems, the ``pydebug`` ABI flag.
+
+4.4.2
+-----
+
+* This version made no changes to documented features or interfaces.
+  Some implementation updates were made to support ecosystem changes
+  and/or fix regressions.
+
+4.4.3
+-----
+
+* Swift policy :policy:`CMP0215`'s ``NEW`` behavior has been updated
+  to require policies :policy:`CMP0157` and :policy:`CMP0195` to also
+  be set to ``NEW``.
+
+--===============3930800725293769375==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-50.0.0.tar.gz;downloadfilename=cryptography_vectors-50.0.0.tar.gz" to "https://files.pythonhosted.org/packages/source/c/cryptography_vectors/cryptography_vectors-50.0.1.tar.gz;downloadfilename=cryptography_vectors-50.0.1.tar.gz"
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dbg: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-dev: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-doc: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-locale: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-src: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors-staticdev: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: FILELIST: directory renamed /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.0.dist-info -> /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.1.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-cryptography-vectors (sysroot):
-  /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.0.dist-info moved to /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.1.dist-info
-packages/x86-64-v3-poky-linux/python3-cryptography: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography: SRC_URI changed from "https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-50.0.0.tar.gz;downloadfilename=cryptography-50.0.0.tar.gz file://0001-pyproject.toml-remove-benchmark-disable-option.patch file://check-memfree.py file://run-ptest crate://crates.io/asn1/0.24.1 crate://crates.io/asn1_derive/0.24.1 crate://crates.io/base64/0.23.0 crate://crates.io/bitflags/2.13.1 crate://crates.io/cc/1.4.0 crate://crates.io/cfg-if/1.0.4 crate://crates.io/find-msvc-tools/0.1.9 crate://crates.io/foreign-types/0.3.2 crate://crates.io/foreign-types-shared/0.1.1 crate://crates.io/heck/0.5.0 crate://crates.io/itoa/1.0.18 crate://crates.io/libc/0.2.189 crate://crates.io/once_cell/1.21.4 crate://crates.io/openssl/0.10.81 crate://crates.io/openssl-macros/0.1.1 crate://crates.io/openssl-sys/0.9.117 crate://crates.io/pem/4.0.0 crate://crates.io/pkg-config/0.3.33 crate://crates.io/portable-atomic/1.14.0 crate://crates.io/proc-macro2/
- 1.0.107 crate://crates.io/pyo3/0.29.0 crate://crates.io/pyo3-build-config/0.29.0 crate://crates.io/pyo3-ffi/0.29.0 crate://crates.io/pyo3-macros/0.29.0 crate://crates.io/pyo3-macros-backend/0.29.0 crate://crates.io/quote/1.0.47 crate://crates.io/self_cell/1.3.0 crate://crates.io/shlex/2.0.1 crate://crates.io/syn/2.0.119 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/vcpkg/0.2.15" to "https://files.pythonhosted.org/packages/source/c/cryptography/cryptography-50.0.1.tar.gz;downloadfilename=cryptography-50.0.1.tar.gz file://0001-pyproject.toml-remove-benchmark-disable-option.patch file://check-memfree.py file://run-ptest crate://crates.io/asn1/0.24.1 crate://crates.io/asn1_derive/0.24.1 crate://crates.io/base64/0.23.0 crate://crates.io/bitflags/2.13.1 crate://crates.io/cc/1.4.0 crate://crates.io/cfg-if/1.0.4 crate://crates.io/find-msvc-tools/0.1.9 crate://crates.io/foreign-types/0.3.2 crate://crates.io/foreign-types-shared/0.1.1 crate:/
- /crates.io/heck/0.5.0 crate://crates.io/itoa/1.0.18 crate://crates.io/libc/0.2.189 crate://crates.io/once_cell/1.21.4 crate://crates.io/openssl/0.10.81 crate://crates.io/openssl-macros/0.1.1 crate://crates.io/openssl-sys/0.9.117 crate://crates.io/pem/4.0.0 crate://crates.io/pkg-config/0.3.33 crate://crates.io/portable-atomic/1.14.0 crate://crates.io/proc-macro2/1.0.107 crate://crates.io/pyo3/0.29.0 crate://crates.io/pyo3-build-config/0.29.0 crate://crates.io/pyo3-ffi/0.29.0 crate://crates.io/pyo3-macros/0.29.0 crate://crates.io/pyo3-macros-backend/0.29.0 crate://crates.io/quote/1.0.47 crate://crates.io/self_cell/1.3.0 crate://crates.io/shlex/2.0.1 crate://crates.io/syn/2.0.119 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/vcpkg/0.2.15"
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-dbg: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-dbg: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-dbg: PKGSIZE changed from 1840056 to 1840256 (+0%)
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-dev: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-dev: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-doc: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-doc: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-locale: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-locale: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-ptest: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-ptest: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-src: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-src: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-staticdev: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography-staticdev: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography: PKGV changed from 50.0.0 [default] to 50.0.1 [default]
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography: PV changed from "50.0.0" to "50.0.1"
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography: FILELIST: directory renamed /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info -> /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-cryptography (sysroot):
-  /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info moved to /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info
+packages/x86-64-v3-poky-linux/cmake/cmake-bash-completion: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
+packages/x86-64-v3-poky-linux/cmake/cmake-bash-completion: PV changed from "4.4.2" to "4.4.3"
+packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PKGSIZE changed from 1377181744 to 1376850152 (-0%)
+packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
+packages/x86-64-v3-poky-linux/cmake/cmake-dbg: PV changed from "4.4.2" to "4.4.3"
+packages/x86-64-v3-poky-linux/cmake/cmake-dev: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
+packages/x86-64-v3-poky-linux/cmake/cmake-dev: PV changed from "4.4.2" to "4.4.3"
+packages/x86-64-v3-poky-linux/cmake/cmake-doc: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
+packages/x86-64-v3-poky-linux/cmake/cmake-doc: PV changed from "4.4.2" to "4.4.3"
+packages/x86-64-v3-poky-linux/cmake/cmake-locale: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
+packages/x86-64-v3-poky-linux/cmake/cmake-locale: PV changed from "4.4.2" to "4.4.3"
+packages/x86-64-v3-poky-linux/cmake/cmake-src: PKGSIZE changed from 10779614 to 10779291 (-0%)
+packages/x86-64-v3-poky-linux/cmake/cmake-src: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
+packages/x86-64-v3-poky-linux/cmake/cmake-src: PV changed from "4.4.2" to "4.4.3"
+packages/x86-64-v3-poky-linux/cmake/cmake-src: FILELIST: directory renamed /usr/src/debug/cmake/4.4.2/Source/CPack/IFW -> /usr/src/debug/cmake/4.4.3/Source/CPack/IFW, directory renamed /usr/src/debug/cmake/4.4.2/Source/CPack -> /usr/src/debug/cmake/4.4.3/Source/CPack, directory renamed /usr/src/debug/cmake/4.4.2/Source/CTest -> /usr/src/debug/cmake/4.4.3/Source/CTest, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/std/cmext -> /usr/src/debug/cmake/4.4.3/Utilities/std/cmext, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/std/cm -> /usr/src/debug/cmake/4.4.3/Utilities/std/cm, directory renamed /usr/src/debug/cmake/4.4.2/Source/kwsys -> /usr/src/debug/cmake/4.4.3/Source/kwsys, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmelf -> /usr/src/debug/cmake/4.4.3/Utilities/cmelf, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmllpkgc -> /usr/src/debug/cmake/4.4.3/Utilities/cmllpkgc, directory renamed /usr/src/debug/cmake/4.4.2/Source/LexerParser -> /usr/src/d
+ ebug/cmake/4.4.3/Source/LexerParser, directory renamed /usr/src/debug/cmake/4.4.2/Source -> /usr/src/debug/cmake/4.4.3/Source, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmjsoncpp/include/json -> /usr/src/debug/cmake/4.4.3/Utilities/cmjsoncpp/include/json, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmlibarchive/libarchive -> /usr/src/debug/cmake/4.4.3/Utilities/cmlibarchive/libarchive, directory renamed /usr/src/debug/cmake/4.4.2/Source/cmsys -> /usr/src/debug/cmake/4.4.3/Source/cmsys, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmjsoncpp/src/lib_json -> /usr/src/debug/cmake/4.4.3/Utilities/cmjsoncpp/src/lib_json, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/cmlibrhash/librhash -> /usr/src/debug/cmake/4.4.3/Utilities/cmlibrhash/librhash, directory renamed /usr/src/debug/cmake/4.4.2/Utilities/std/cm/bits -> /usr/src/debug/cmake/4.4.3/Utilities/std/cm/bits
+packages/x86-64-v3-poky-linux/cmake/cmake-staticdev: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
+packages/x86-64-v3-poky-linux/cmake/cmake-staticdev: PV changed from "4.4.2" to "4.4.3"
+packages/x86-64-v3-poky-linux/cmake/cmake: PKGSIZE changed from 54630515 to 54628004 (-0%)
+packages/x86-64-v3-poky-linux/cmake/cmake: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
+packages/x86-64-v3-poky-linux/cmake/cmake: PV changed from "4.4.2" to "4.4.3"
+packages/x86-64-v3-poky-linux/cmake: PV changed from "4.4.2" to "4.4.3"
+packages/x86-64-v3-poky-linux/cmake: SRC_URI changed from "https://cmake.org/files/v4.4/cmake-4.4.2.tar.gz" to "https://cmake.org/files/v4.4/cmake-4.4.3.tar.gz"
+packages/x86-64-v3-poky-linux/cmake: PKGV changed from 4.4.2 [default] to 4.4.3 [default]
 
---===============6858143046746255392==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-cryptography-changelog.txt"
-
-Changelog for python3-cryptography: 50.0.0 -> 50.0.1
-Source: CHANGELOG.rst
-
-50.0.1 - 2026-08-25
-~~~~~~~~~~~~~~~~~~~
-
-* Updated Windows, macOS, and Linux wheels to be compiled with OpenSSL 4.0.2.
-
---===============6858143046746255392==
+--===============3930800725293769375==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-cryptography-vectors-python3-cryptography-up.patch"
+ filename="0001-cmake-cmake-native-upgrade-4.4.2-4.4.3-4.4.2-4.4.3.patch"
 
-RnJvbSAyYzIxZDI2ZmJkZTZhZWE1MTA2MGM0ZDI5Y2EyMzAyNDI5YjhiNzMwIE1vbiBTZXAgMTcg
+RnJvbSBmNjI1MmZkMzYxNmFmNDY2Zjc0YThjYWY5YjVlMTc0ODY1YjBlZjQxIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMjYgQXVnIDIwMjYgMDU6MzQ6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWNyeXB0b2dyYXBoeS12ZWN0b3JzLHB5dGhvbjMtY3J5cHRvZ3JhcGh5OiB1cGdyYWRl
-CiA1MC4wLjAgLT4gNTAuMC4xLDUwLjAuMCAtPiA1MC4wLjEKClNvdXJjZTogQ0hBTkdFTE9HLnJz
-dAoKNTAuMC4xIC0gMjAyNi0wOC0yNQp+fn5+fn5+fn5+fn5+fn5+fn5+CgoqIFVwZGF0ZWQgV2lu
-ZG93cywgbWFjT1MsIGFuZCBMaW51eCB3aGVlbHMgdG8gYmUgY29tcGlsZWQgd2l0aCBPcGVuU1NM
-IDQuMC4yLgotLS0KIC4uLi9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHktY29tbW9uLmluYyAg
-ICAgICAgICAgICAgICB8IDIgKy0KIC4uLi9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHktdmVj
-dG9ycy5iYiAgICAgICAgICAgICAgICB8IDIgKy0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24vcHl0aG9uMy1jcnlwdG9ncmFwaHkuYmIgICAgICB8IDIgKy0KIC4uLjEtcHlwcm9qZWN0LnRv
-bWwtcmVtb3ZlLWJlbmNobWFyay1kaXNhYmxlLW9wdGlvbi5wYXRjaCB8IDggKysrLS0tLS0KIDQg
-ZmlsZXMgY2hhbmdlZCwgNiBpbnNlcnRpb25zKCspLCA4IGRlbGV0aW9ucygtKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHktY29t
-bW9uLmluYyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFw
-aHktY29tbW9uLmluYwppbmRleCAyOThjNTJkMWQzLi5kMzdmNTIzNThkIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LWNvbW1vbi5p
-bmMKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBo
-eS1jb21tb24uaW5jCkBAIC0zLDQgKzMsNCBAQAogIwogIyBBZGRpdGlvbmFsbHkgQVVIIHdpbGwg
-ZGV0ZWN0IHRoYXQgdGhleSBzaGFyZSB0aGlzIC5pbmMgZmlsZSBhbmQKICMgcGVyZm9ybSBhIGxv
-Y2tzdGVwIHVwZ3JhZGUgZm9yIGJvdGguCi1QViA9ICI1MC4wLjAiCitQViA9ICI1MC4wLjEiCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3Jh
-cGh5LXZlY3RvcnMuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5
-cHRvZ3JhcGh5LXZlY3RvcnMuYmIKaW5kZXggZDYyZDY4MWM2ZC4uMGYyNTE5OWY2OCAxMDA2NDQK
-LS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS12
-ZWN0b3JzLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlw
-dG9ncmFwaHktdmVjdG9ycy5iYgpAQCAtOSw3ICs5LDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJm
-aWxlOi8vTElDRU5TRTttZDU9OGMzNjE3ZGI0ZmI2ZmFlMDFmMWQyNTNhYjkxNTExZTQgXAogIyBO
-T1RFOiBNYWtlIHN1cmUgdG8ga2VlcCB0aGlzIHJlY2lwZSBhdCB0aGUgc2FtZSB2ZXJzaW9uIGFz
-IHB5dGhvbjMtY3J5cHRvZ3JhcGh5CiAjICAgICAgIFVwZ3JhZGUgYm90aCByZWNpcGVzIGF0IHRo
-ZSBzYW1lIHRpbWUKIHJlcXVpcmUgcHl0aG9uMy1jcnlwdG9ncmFwaHktY29tbW9uLmluYwotU1JD
-X1VSSVtzaGEyNTZzdW1dID0gIjY3NjA4MTQ5MzA0NDNlNmQ3M2E2YWZjYWQwOTQ2M2QzZmZkYzQy
-MDg0ZWUwYmRjZmIyZjA1Njk3MjUwYzNjOGQiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTAwNjZk
-MGY3MzUxYjEyZWJhYzJiNGNlNTk0Y2UwYTZmMDVjMTlhZDMwNjhlNGQ1Y2ZjNjRkOWQyYmVjOGQ4
-MCIKIAogUFlQSV9QQUNLQUdFID0gImNyeXB0b2dyYXBoeV92ZWN0b3JzIgogCmRpZmYgLS1naXQg
-YS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LmJiIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS5iYgppbmRl
-eCBkNmExYmI1M2YzLi5mMmFjNGUxYjg5IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcHl0aG9uL3B5dGhvbjMtY3J5cHRvZ3JhcGh5LmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHkuYmIKQEAgLTExLDcgKzExLDcgQEAgTERT
-SEFSRUQgKz0gIi1wdGhyZWFkIgogIyBOT1RFOiBNYWtlIHN1cmUgdG8ga2VlcCB0aGlzIHJlY2lw
-ZSBhdCB0aGUgc2FtZSB2ZXJzaW9uIGFzIHB5dGhvbjMtY3J5cHRvZ3JhcGh5LXZlY3RvcnMKICMg
-ICAgICAgVXBncmFkZSBib3RoIHJlY2lwZXMgYXQgdGhlIHNhbWUgdGltZQogcmVxdWlyZSBweXRo
-b24zLWNyeXB0b2dyYXBoeS1jb21tb24uaW5jCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZWVhYzJh
-Y2I1YTIwZWQyNWUwYWQ2ZDFkZjk4OTFhNTIwYjc4YjQwNDI2NmI2ZDExNzc4ZjI1ZDVkNjkxYTZj
-OSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI1ZGQ5YmRhMWMxMmI0MTYyZjZmZjU2OGVlYjVlMGZm
-OTU2YzI4ZDE0NDA2ZTg3NWNmZThhNjNhMmQ0MTRmZjIwIgogCiBTUkNfVVJJICs9ICJmaWxlOi8v
-MDAwMS1weXByb2plY3QudG9tbC1yZW1vdmUtYmVuY2htYXJrLWRpc2FibGUtb3B0aW9uLnBhdGNo
-IFwKICAgICAgICAgICAgIGZpbGU6Ly9jaGVjay1tZW1mcmVlLnB5IFwKZGlmZiAtLWdpdCBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1jcnlwdG9ncmFwaHkvMDAwMS1weXBy
-b2plY3QudG9tbC1yZW1vdmUtYmVuY2htYXJrLWRpc2FibGUtb3B0aW9uLnBhdGNoIGIvbWV0YS9y
-ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWNyeXB0b2dyYXBoeS8wMDAxLXB5cHJvamVj
-dC50b21sLXJlbW92ZS1iZW5jaG1hcmstZGlzYWJsZS1vcHRpb24ucGF0Y2gKaW5kZXggOTY3YjY2
-MWM2ZS4uNDU0ZTA4NjA1YSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWNyeXB0b2dyYXBoeS8wMDAxLXB5cHJvamVjdC50b21sLXJlbW92ZS1iZW5jaG1h
-cmstZGlzYWJsZS1vcHRpb24ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
-bi9weXRob24zLWNyeXB0b2dyYXBoeS8wMDAxLXB5cHJvamVjdC50b21sLXJlbW92ZS1iZW5jaG1h
-cmstZGlzYWJsZS1vcHRpb24ucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGM4ZmQ4NWQ4MGVi
-NjRmZWRlODQ0Nzg0MjA0Mjk3N2I3MGIzYzk2YmMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
-cm9tIDc0NDczZGFhNDZiMzE1ZjNkOThmYmY5YTZhNThmNTJjOWMyOWEzNjUgTW9uIFNlcCAxNyAw
-MDowMDowMCAyMDAxCiBGcm9tOiBNaW5nbGkgWXUgPG1pbmdsaS55dUB3aW5kcml2ZXIuY29tPgog
-RGF0ZTogVHVlLCAxNyBNYXkgMjAyMiAxNzoyMjo0OCArMDgwMAogU3ViamVjdDogW1BBVENIXSBw
-eXByb2plY3QudG9tbDogcmVtb3ZlIC0tYmVuY2htYXJrLWRpc2FibGUgb3B0aW9uCkBAIC0yNiwx
-NyArMjYsMTUgQEAgU2lnbmVkLW9mZi1ieTogVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxr
-by5jb20+CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAK
-IGRpZmYgLS1naXQgYS9weXByb2plY3QudG9tbCBiL3B5cHJvamVjdC50b21sCi1pbmRleCBmYjgx
-ODU5MTMuLjI5ZDBiM2UwOCAxMDA2NDQKK2luZGV4IGI1NmNkYTkuLjc4MTc0M2IgMTAwNjQ0CiAt
-LS0gYS9weXByb2plY3QudG9tbAogKysrIGIvcHlwcm9qZWN0LnRvbWwKIEBAIC0xNDAsNyArMTQw
-LDcgQEAgZXhjbHVkZSA9IFsKICBdCi0KKyAKICBbdG9vbC5weXRlc3QuaW5pX29wdGlvbnNdCiAt
-YWRkb3B0cyA9ICItciBzIC0tY2FwdHVyZT1ubyAtLXN0cmljdC1tYXJrZXJzIC0tYmVuY2htYXJr
-LWRpc2FibGUiCiArYWRkb3B0cyA9ICItciBzIC0tY2FwdHVyZT1ubyAtLXN0cmljdC1tYXJrZXJz
-IgogIHRlc3RwYXRocyA9IFsidGVzdHMiXQogIGNvbnNvbGVfb3V0cHV0X3N0eWxlID0gInByb2dy
-ZXNzLWV2ZW4td2hlbi1jYXB0dXJlLW5vIgogIG1hcmtlcnMgPSBbCi0tLQotMi40My4wCi0tIAoy
-LjQ3LjEKCg==
+CkRhdGU6IFdlZCwgMjYgQXVnIDIwMjYgMDU6Mjk6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBj
+bWFrZSxjbWFrZS1uYXRpdmU6IHVwZ3JhZGUgNC40LjIgLT4gNC40LjMsNC40LjIgLT4gNC40LjMK
+ClNvdXJjZTogSGVscC9yZWxlYXNlLzQuNC5yc3QKCkNNYWtlIDQuNCBSZWxlYXNlIE5vdGVzCioq
+KioqKioqKioqKioqKioqKioqKioqCgouLiBvbmx5OjogaHRtbAoKICAuLiBjb250ZW50czo6CgpD
+aGFuZ2VzIG1hZGUgc2luY2UgQ01ha2UgNC4zIGluY2x1ZGUgdGhlIGZvbGxvd2luZy4KCk5ldyBG
+ZWF0dXJlcwo9PT09PT09PT09PT0KCkRpYWdub3N0aWNzCi0tLS0tLS0tLS0tCgoqIENNYWtlIGRp
+YWdub3N0aWMgYWN0aW9ucyBhcmUgbm93IHRyYWNrZWQgaW4gYSBuZXcgc3RhdGUgdHlwZSBtYW5h
+Z2VkIGJ5IHRoZQogIDpjb21tYW5kOmBjbWFrZV9kaWFnbm9zdGljYCBjb21tYW5kLiAgVGhpcyBy
+ZXBsYWNlcyB0aGUgb2xkIHN5c3RlbSB3aGljaAogIHNvbWV0aW1lcyB1c2VkIHZhcmlhYmxlcyB0
+byBtYW5hZ2UgcmVwb3J0aW5nIGFjdGlvbnMgYW5kIHNvbWV0aW1lcyBkaWQgbm90CiAgYWxsb3cg
+bWFuYWdlbWVudCBiZXlvbmQgY29tbWFuZC1saW5lIG9wdGlvbnMgYW5kIHByZXNldHMuICBUaGUg
+bmV3IHN5c3RlbQogIGFsc28gaW50cm9kdWNlcyBzZXZlcmFsIG5ldyBkaWFnbm9zdGljIGNhdGVn
+b3JpZXMgYW5kIHNpZ25pZmljYW50bHkgcmVkdWNlcwogIHRoZSBjb3N0IG9mIGFkZGluZyBhZGRp
+dGlvbmFsIGNhdGVnb3JpZXMgaW4gdGhlIGZ1dHVyZS4gIFNlZSB0aGUKICA6bWFudWFsOmBjbWFr
+ZS1kaWFnbm9zdGljcyg3KWAgbWFudWFsIGZvciBhIGxpc3Qgb2YgYXZhaWxhYmxlIGNhdGVnb3Jp
+ZXMuCgoqIFRoZSA6ZGlhZ25vc3RpYzpgQ01EX0lOU1RBTExfQUJTT0xVVEVfREVTVElOQVRJT05g
+IGRpYWdub3N0aWMgY2F0ZWdvcnkKICB3YXMgYWRkZWQgdG8gZGlhZ25vc2UgOmNvbW1hbmQ6YGlu
+c3RhbGxgIGNvbW1hbmRzIHRoYXQgc3BlY2lmeSBhbgogIGFic29sdXRlIGBgREVTVElOQVRJT05g
+YC4gIFRoaXMgZGlhZ25vc3RpYyBtYXkgYmUgY29udHJvbGxlZCB3aXRoIHRoZQogIDpvcHRpb246
+YC1XaW5zdGFsbC1hYnNvbHV0ZS1kZXN0aW5hdGlvbiA8Y21ha2UgLVc+YCBjb21tYW5kLWxpbmUg
+b3B0aW9uLAogIHRoZSBgYGluc3RhbGxBYnNvbHV0ZURlc3RpbmF0aW9uYGAgZmllbGQgaW4gYQog
+IDptYW51YWw6YENNYWtlIFByZXNldHMgPGNtYWtlLXByZXNldHMoNyk+YAogIDpwcmVzZXQ6YGNv
+bmZpZ3VyZVByZXNldHMud2FybmluZ3NgIG9iamVjdCwKICBvciB0aGUgOmNvbW1hbmQ6YGNtYWtl
+X2RpYWdub3N0aWNgIGNvbW1hbmQuCgpQcmVzZXRzCi0tLS0tLS0KCiogOm1hbnVhbDpgY21ha2Ut
+cHJlc2V0cyg3KWAgZmlsZXMgbm93IHN1cHBvcnQgc2NoZW1hIHZlcnNpb24gMTIuCgoqIDptYW51
+YWw6YGNtYWtlKDEpYCwgOm1hbnVhbDpgY3Rlc3QoMSlgLCBhbmQgOm1hbnVhbDpgY3BhY2soMSlg
+IGdhaW5lZAogIGBgLS1wcmVzZXRzLWZpbGVgYCBhcmd1bWVudHMgdG8gc3VwcG9ydCBsb2FkaW5n
+CiAgOm1hbnVhbDpgcHJlc2V0cyA8Y21ha2UtcHJlc2V0cyg3KT5gIGZyb20gdGhlIHNwZWNpZmll
+ZCBmaWxlIGluc3RlYWQgb2YKICBgYENNYWtlUHJlc2V0cy5qc29uYGAgYW5kL29yIGBgQ01ha2VV
+c2VyUHJlc2V0cy5qc29uYGAuIFNlZQogIDpvcHRpb246YGNtYWtlIC0tcHJlc2V0cy1maWxlYCwK
+ICA6b3B0aW9uOmBjbWFrZSAtLWJ1aWxkIC0tcHJlc2V0cy1maWxlIDxjbWFrZS0tYnVpbGQgLS1w
+cmVzZXRzLWZpbGU+YCwKICA6b3B0aW9uOmBjbWFrZSAtLXdvcmtmbG93IC0tcHJlc2V0cy1maWxl
+IDxjbWFrZS0td29ya2Zsb3cgLS1wcmVzZXRzLWZpbGU+YCwKICA6b3B0aW9uOmBjdGVzdCAtLXBy
+ZXNldHMtZmlsZWAsIGFuZCA6b3B0aW9uOmBjcGFjayAtLXByZXNldHMtZmlsZWAgZm9yIGRldGFp
+bHMuCgoqIDptYW51YWw6YGNtYWtlLXByZXNldHMoNylgLCBpbiBzY2hlbWEgdmVyc2lvbiAxMiBh
+bmQgYWJvdmUsIG5vdyBleHBhbmQgdGhlCiAgOnJlZjpgJHtmaWxlRGlyfSA8Q01ha2VQcmVzZXRz
+IGZpbGVEaXI+YCBtYWNybyB0byB0aGUgZGlyZWN0b3J5IG9mIHRoZQogIHByZXNldHMgZmlsZSBj
+b250YWluaW5nIHRoZSBgYCR7ZmlsZURpcn1gYCBtYWNybywgcmVnYXJkbGVzcyBvZiB3aGV0aGVy
+CiAgaXQgaXMgaW5oZXJpdGVkIGJ5IGFub3RoZXIgcHJlc2V0IGluIGEgZGlmZmVyZW50IGRpcmVj
+dG9yeS4KCiogOm1hbnVhbDpgY21ha2UtcHJlc2V0cyg3KWAgZ2FpbmVkIHN1cHBvcnQgZm9yIGEK
+ICBgYHRlc3RQYXNzdGhyb3VnaEFyZ3VtZW50c2BgIGZpZWxkIGluIHRoZQogIHRlc3QgcHJlc2V0
+IGBgZXhlY3V0aW9uYGAgb2JqZWN0IGZvcgogIGZvcndhcmRpbmcgYXJndW1lbnRzIHRvIHRlc3Qg
+ZXhlY3V0YWJsZXMgdmlhIHByZXNldHMuCgpGaWxlLUJhc2VkIEFQSQotLS0tLS0tLS0tLS0tLQoK
+KiBUaGUgOm1hbnVhbDpgY21ha2UtZmlsZS1hcGkoNylgICJjb2RlbW9kZWwiIHZlcnNpb24gMiBv
+YmplY3QgaGFzIGJlZW4KICB1cGRhdGVkIHRvIDIuMTEuCgoqIFRoZSA6bWFudWFsOmBjbWFrZS1m
+aWxlLWFwaSg3KWAgImNvZGVtb2RlbCIgdmVyc2lvbiAyICJ0YXJnZXQiIG9iamVjdCdzCiAgInNv
+dXJjZXMiIGFuZCAiaW50ZXJmYWNlU291cmNlcyIgb2JqZWN0cyBnYWluZWQgbmV3IGBgZmlsZVNl
+dEluZGV4ZXNgYCBmaWVsZHMKICB0byBzdXBwb3J0IHNvdXJjZXMgYmVsb25naW5nIHRvIG11bHRp
+cGxlIGZpbGUgc2V0cy4gVGhlIGBgZmlsZVNldEluZGV4YGAKICBmaWVsZHMgYXJlIG1haW50YWlu
+ZWQgZm9yIGJhY2t3YXJkcyBjb21wYXRpYmlsaXR5IG9ubHksIGFuZCB1c2VycyBhcmUgYWR2aXNl
+ZAogIHRvIHBvcnQgdG8gdGhlIG5ldyBmaWVsZHMuCgoqIFRoZSA6bWFudWFsOmBjbWFrZS1maWxl
+LWFwaSg3KWAgImNvZGVtb2RlbCIgdmVyc2lvbiAyICJ0YXJnZXQiIG9iamVjdCdzCiAgInNvdXJj
+ZXMiIG9iamVjdCBnYWluZWQgYSBuZXcgYGBiYWNrdHJhY2VzYGAgZmllbGQgdG8gcmVwcmVzZW50
+IG11bHRpcGxlCiAgY29tbWFuZCBpbnZvY2F0aW9ucyB3aGljaCBhc3NvY2lhdGUgYSBzaW5nbGUg
+c291cmNlIGZvciBhIGdpdmVuIHRhcmdldCB3aXRoCiAgbXVsdAoKW0NoYW5nZWxvZyB0cnVuY2F0
+ZWQgYXMgaXQgZXhjZWVkcyAzMDAwIGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4g
+YmUgZm91bmQgaW4gYW4gYXR0YWNobWVudCB0byB0aGUgQVVIIGVtYWlsXQoKU291cmNlOiBIZWxw
+L3JlbGVhc2UvNC40LnJzdAoKQ01ha2UgNC40IFJlbGVhc2UgTm90ZXMKKioqKioqKioqKioqKioq
+KioqKioqKioKCi4uIG9ubHk6OiBodG1sCgogIC4uIGNvbnRlbnRzOjoKCkNoYW5nZXMgbWFkZSBz
+aW5jZSBDTWFrZSA0LjMgaW5jbHVkZSB0aGUgZm9sbG93aW5nLgoKTmV3IEZlYXR1cmVzCj09PT09
+PT09PT09PQoKRGlhZ25vc3RpY3MKLS0tLS0tLS0tLS0KCiogQ01ha2UgZGlhZ25vc3RpYyBhY3Rp
+b25zIGFyZSBub3cgdHJhY2tlZCBpbiBhIG5ldyBzdGF0ZSB0eXBlIG1hbmFnZWQgYnkgdGhlCiAg
+OmNvbW1hbmQ6YGNtYWtlX2RpYWdub3N0aWNgIGNvbW1hbmQuICBUaGlzIHJlcGxhY2VzIHRoZSBv
+bGQgc3lzdGVtIHdoaWNoCiAgc29tZXRpbWVzIHVzZWQgdmFyaWFibGVzIHRvIG1hbmFnZSByZXBv
+cnRpbmcgYWN0aW9ucyBhbmQgc29tZXRpbWVzIGRpZCBub3QKICBhbGxvdyBtYW5hZ2VtZW50IGJl
+eW9uZCBjb21tYW5kLWxpbmUgb3B0aW9ucyBhbmQgcHJlc2V0cy4gIFRoZSBuZXcgc3lzdGVtCiAg
+YWxzbyBpbnRyb2R1Y2VzIHNldmVyYWwgbmV3IGRpYWdub3N0aWMgY2F0ZWdvcmllcyBhbmQgc2ln
+bmlmaWNhbnRseSByZWR1Y2VzCiAgdGhlIGNvc3Qgb2YgYWRkaW5nIGFkZGl0aW9uYWwgY2F0ZWdv
+cmllcyBpbiB0aGUgZnV0dXJlLiAgU2VlIHRoZQogIDptYW51YWw6YGNtYWtlLWRpYWdub3N0aWNz
+KDcpYCBtYW51YWwgZm9yIGEgbGlzdCBvZiBhdmFpbGFibGUgY2F0ZWdvcmllcy4KCiogVGhlIDpk
+aWFnbm9zdGljOmBDTURfSU5TVEFMTF9BQlNPTFVURV9ERVNUSU5BVElPTmAgZGlhZ25vc3RpYyBj
+YXRlZ29yeQogIHdhcyBhZGRlZCB0byBkaWFnbm9zZSA6Y29tbWFuZDpgaW5zdGFsbGAgY29tbWFu
+ZHMgdGhhdCBzcGVjaWZ5IGFuCiAgYWJzb2x1dGUgYGBERVNUSU5BVElPTmBgLiAgVGhpcyBkaWFn
+bm9zdGljIG1heSBiZSBjb250cm9sbGVkIHdpdGggdGhlCiAgOm9wdGlvbjpgLVdpbnN0YWxsLWFi
+c29sdXRlLWRlc3RpbmF0aW9uIDxjbWFrZSAtVz5gIGNvbW1hbmQtbGluZSBvcHRpb24sCiAgdGhl
+IGBgaW5zdGFsbEFic29sdXRlRGVzdGluYXRpb25gYCBmaWVsZCBpbiBhCiAgOm1hbnVhbDpgQ01h
+a2UgUHJlc2V0cyA8Y21ha2UtcHJlc2V0cyg3KT5gCiAgOnByZXNldDpgY29uZmlndXJlUHJlc2V0
+cy53YXJuaW5nc2Agb2JqZWN0LAogIG9yIHRoZSA6Y29tbWFuZDpgY21ha2VfZGlhZ25vc3RpY2Ag
+Y29tbWFuZC4KClByZXNldHMKLS0tLS0tLQoKKiA6bWFudWFsOmBjbWFrZS1wcmVzZXRzKDcpYCBm
+aWxlcyBub3cgc3VwcG9ydCBzY2hlbWEgdmVyc2lvbiAxMi4KCiogOm1hbnVhbDpgY21ha2UoMSlg
+LCA6bWFudWFsOmBjdGVzdCgxKWAsIGFuZCA6bWFudWFsOmBjcGFjaygxKWAgZ2FpbmVkCiAgYGAt
+LXByZXNldHMtZmlsZWBgIGFyZ3VtZW50cyB0byBzdXBwb3J0IGxvYWRpbmcKICA6bWFudWFsOmBw
+cmVzZXRzIDxjbWFrZS1wcmVzZXRzKDcpPmAgZnJvbSB0aGUgc3BlY2lmaWVkIGZpbGUgaW5zdGVh
+ZCBvZgogIGBgQ01ha2VQcmVzZXRzLmpzb25gYCBhbmQvb3IgYGBDTWFrZVVzZXJQcmVzZXRzLmpz
+b25gYC4gU2VlCiAgOm9wdGlvbjpgY21ha2UgLS1wcmVzZXRzLWZpbGVgLAogIDpvcHRpb246YGNt
+YWtlIC0tYnVpbGQgLS1wcmVzZXRzLWZpbGUgPGNtYWtlLS1idWlsZCAtLXByZXNldHMtZmlsZT5g
+LAogIDpvcHRpb246YGNtYWtlIC0td29ya2Zsb3cgLS1wcmVzZXRzLWZpbGUgPGNtYWtlLS13b3Jr
+ZmxvdyAtLXByZXNldHMtZmlsZT5gLAogIDpvcHRpb246YGN0ZXN0IC0tcHJlc2V0cy1maWxlYCwg
+YW5kIDpvcHRpb246YGNwYWNrIC0tcHJlc2V0cy1maWxlYCBmb3IgZGV0YWlscy4KCiogOm1hbnVh
+bDpgY21ha2UtcHJlc2V0cyg3KWAsIGluIHNjaGVtYSB2ZXJzaW9uIDEyIGFuZCBhYm92ZSwgbm93
+IGV4cGFuZCB0aGUKICA6cmVmOmAke2ZpbGVEaXJ9IDxDTWFrZVByZXNldHMgZmlsZURpcj5gIG1h
+Y3JvIHRvIHRoZSBkaXJlY3Rvcnkgb2YgdGhlCiAgcHJlc2V0cyBmaWxlIGNvbnRhaW5pbmcgdGhl
+IGBgJHtmaWxlRGlyfWBgIG1hY3JvLCByZWdhcmRsZXNzIG9mIHdoZXRoZXIKICBpdCBpcyBpbmhl
+cml0ZWQgYnkgYW5vdGhlciBwcmVzZXQgaW4gYSBkaWZmZXJlbnQgZGlyZWN0b3J5LgoKKiA6bWFu
+dWFsOmBjbWFrZS1wcmVzZXRzKDcpYCBnYWluZWQgc3VwcG9ydCBmb3IgYQogIGBgdGVzdFBhc3N0
+aHJvdWdoQXJndW1lbnRzYGAgZmllbGQgaW4gdGhlCiAgdGVzdCBwcmVzZXQgYGBleGVjdXRpb25g
+YCBvYmplY3QgZm9yCiAgZm9yd2FyZGluZyBhcmd1bWVudHMgdG8gdGVzdCBleGVjdXRhYmxlcyB2
+aWEgcHJlc2V0cy4KCkZpbGUtQmFzZWQgQVBJCi0tLS0tLS0tLS0tLS0tCgoqIFRoZSA6bWFudWFs
+OmBjbWFrZS1maWxlLWFwaSg3KWAgImNvZGVtb2RlbCIgdmVyc2lvbiAyIG9iamVjdCBoYXMgYmVl
+bgogIHVwZGF0ZWQgdG8gMi4xMS4KCiogVGhlIDptYW51YWw6YGNtYWtlLWZpbGUtYXBpKDcpYCAi
+Y29kZW1vZGVsIiB2ZXJzaW9uIDIgInRhcmdldCIgb2JqZWN0J3MKICAic291cmNlcyIgYW5kICJp
+bnRlcmZhY2VTb3VyY2VzIiBvYmplY3RzIGdhaW5lZCBuZXcgYGBmaWxlU2V0SW5kZXhlc2BgIGZp
+ZWxkcwogIHRvIHN1cHBvcnQgc291cmNlcyBiZWxvbmdpbmcgdG8gbXVsdGlwbGUgZmlsZSBzZXRz
+LiBUaGUgYGBmaWxlU2V0SW5kZXhgYAogIGZpZWxkcyBhcmUgbWFpbnRhaW5lZCBmb3IgYmFja3dh
+cmRzIGNvbXBhdGliaWxpdHkgb25seSwgYW5kIHVzZXJzIGFyZSBhZHZpc2VkCiAgdG8gcG9ydCB0
+byB0aGUgbmV3IGZpZWxkcy4KCiogVGhlIDptYW51YWw6YGNtYWtlLWZpbGUtYXBpKDcpYCAiY29k
+ZW1vZGVsIiB2ZXJzaW9uIDIgInRhcmdldCIgb2JqZWN0J3MKICAic291cmNlcyIgb2JqZWN0IGdh
+aW5lZCBhIG5ldyBgYGJhY2t0cmFjZXNgYCBmaWVsZCB0byByZXByZXNlbnQgbXVsdGlwbGUKICBj
+b21tYW5kIGludm9jYXRpb25zIHdoaWNoIGFzc29jaWF0ZSBhIHNpbmdsZSBzb3VyY2UgZm9yIGEg
+Z2l2ZW4gdGFyZ2V0IHdpdGgKICBtdWx0CgpbQ2hhbmdlbG9nIHRydW5jYXRlZCBhcyBpdCBleGNl
+ZWRzIDMwMDAgY2hhcmFjdGVyczsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBiZSBmb3VuZCBpbiBh
+biBhdHRhY2htZW50IHRvIHRoZSBBVUggZW1haWxdCi0tLQogLi4uL2NtYWtlL3tjbWFrZS1uYXRp
+dmVfNC40LjIuYmIgPT4gY21ha2UtbmF0aXZlXzQuNC4zLmJifSAgICAgIHwgMAogbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYyAgICAgICAgICAgICAgICAgICAgICAgICAgIHwg
+MiArLQogbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV80LjQuMi5iYiA9PiBjbWFr
+ZV80LjQuMy5iYn0gIHwgMAogMyBmaWxlcyBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxl
+dGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS97Y21ha2UtbmF0aXZl
+XzQuNC4yLmJiID0+IGNtYWtlLW5hdGl2ZV80LjQuMy5iYn0gKDEwMCUpCiByZW5hbWUgbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL2NtYWtlL3tjbWFrZV80LjQuMi5iYiA9PiBjbWFrZV80LjQuMy5iYn0g
+KDEwMCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlLW5h
+dGl2ZV80LjQuMi5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVf
+NC40LjMuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1k
+ZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfNC40LjIuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9jbWFrZS9jbWFrZS1uYXRpdmVfNC40LjMuYmIKZGlmZiAtLWdpdCBhL21ldGEv
+cmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMv
+Y21ha2UvY21ha2UuaW5jCmluZGV4IGE1MWIyNWI4NjQuLmI2YjEwMzcxY2UgMTAwNjQ0Ci0tLSBh
+L21ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZS5pbmMKKysrIGIvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL2NtYWtlL2NtYWtlLmluYwpAQCAtMTksNyArMTksNyBAQCBDTUFLRV9NQUpPUl9W
+RVJTSU9OID0gIiR7QCcuJy5qb2luKGQuZ2V0VmFyKCdQVicpLnNwbGl0KCcuJylbMDoyXSl9Igog
+U1JDX1VSSSA9ICJodHRwczovL2NtYWtlLm9yZy9maWxlcy92JHtDTUFLRV9NQUpPUl9WRVJTSU9O
+fS9jbWFrZS0ke1BWfS50YXIuZ3ogXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3Vt
+XSA9ICIxZGI5ZTYxZTYwYjZlMDg3NGM4NjM4NjM0MGI5MTAzODJmM2M1ZTc1YjlmYmZiNDRkMTIy
+MDYzMTI5YTI3ODlkIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImM0NjQwMDYxOGI0ZjFmMmI0MzUw
+N2YyNGZiMjJmM2FlODMwYzM0MTZjZjIzYjc3NmUxNmUxZDQxM2FhODkyZjAiCiAKIFVQU1RSRUFN
+X0NIRUNLX1JFR0VYID0gImNtYWtlLSg/UDxwdmVyPlxkKyhcLlxkKykrKVwudGFyIgogCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfNC40LjIuYmIgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvY21ha2UvY21ha2VfNC40LjMuYmIKc2ltaWxhcml0eSBpbmRleCAx
+MDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9jbWFrZS9jbWFrZV80LjQuMi5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL2NtYWtlL2NtYWtlXzQuNC4zLmJiCi0t
+IAoyLjQ3LjEKCg==
 
---===============6858143046746255392==
+--===============3930800725293769375==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="cmake-changelog.txt"
 
-packages/x86-64-v3-poky-linux/python3-cryptography-vectors/python3-cryptography-vectors: FILELIST: directory renamed /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.0.dist-info -> /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.1.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-cryptography-vectors (sysroot):
-  /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.0.dist-info moved to /usr/lib/python3.14/site-packages/cryptography_vectors-50.0.1.dist-info
-packages/x86-64-v3-poky-linux/python3-cryptography/python3-cryptography: FILELIST: directory renamed /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info -> /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-cryptography (sysroot):
-  /usr/lib/python3.14/site-packages/cryptography-50.0.0.dist-info moved to /usr/lib/python3.14/site-packages/cryptography-50.0.1.dist-info
+Changelog for cmake: 4.4.2 -> 4.4.3
+Source: Help/release/4.4.rst
 
---===============6858143046746255392==--
+CMake 4.4 Release Notes
+***********************
+
+.. only:: html
+
+  .. contents::
+
+Changes made since CMake 4.3 include the following.
+
+New Features
+============
+
+Diagnostics
+-----------
+
+* CMake diagnostic actions are now tracked in a new state type managed by the
+  :command:`cmake_diagnostic` command.  This replaces the old system which
+  sometimes used variables to manage reporting actions and sometimes did not
+  allow management beyond command-line options and presets.  The new system
+  also introduces several new diagnostic categories and significantly reduces
+  the cost of adding additional categories in the future.  See the
+  :manual:`cmake-diagnostics(7)` manual for a list of available categories.
+
+* The :diagnostic:`CMD_INSTALL_ABSOLUTE_DESTINATION` diagnostic category
+  was added to diagnose :command:`install` commands that specify an
+  absolute ``DESTINATION``.  This diagnostic may be controlled with the
+  :option:`-Winstall-absolute-destination <cmake -W>` command-line option,
+  the ``installAbsoluteDestination`` field in a
+  :manual:`CMake Presets <cmake-presets(7)>`
+  :preset:`configurePresets.warnings` object,
+  or the :command:`cmake_diagnostic` command.
+
+Presets
+-------
+
+* :manual:`cmake-presets(7)` files now support schema version 12.
+
+* :manual:`cmake(1)`, :manual:`ctest(1)`, and :manual:`cpack(1)` gained
+  ``--presets-file`` arguments to support loading
+  :manual:`presets <cmake-presets(7)>` from the specified file instead of
+  ``CMakePresets.json`` and/or ``CMakeUserPresets.json``. See
+  :option:`cmake --presets-file`,
+  :option:`cmake --build --presets-file <cmake--build --presets-file>`,
+  :option:`cmake --workflow --presets-file <cmake--workflow --presets-file>`,
+  :option:`ctest --presets-file`, and :option:`cpack --presets-file` for details.
+
+* :manual:`cmake-presets(7)`, in schema version 12 and above, now expand the
+  :ref:`${fileDir} <CMakePresets fileDir>` macro to the directory of the
+  presets file containing the ``${fileDir}`` macro, regardless of whether
+  it is inherited by another preset in a different directory.
+
+* :manual:`cmake-presets(7)` gained support for a
+  ``testPassthroughArguments`` field in the
+  test preset ``execution`` object for
+  forwarding arguments to test executables via presets.
+
+File-Based API
+--------------
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 object has been
+  updated to 2.11.
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
+  "sources" and "interfaceSources" objects gained new ``fileSetIndexes`` fields
+  to support sources belonging to multiple file sets. The ``fileSetIndex``
+  fields are maintained for backwards compatibility only, and users are advised
+  to port to the new fields.
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 "target" object's
+  "sources" object gained a new ``backtraces`` field to represent multiple
+  command invocations which associate a single source for a given target with
+  multiple file sets. The ``backtrace`` field is maintained for backwards
+  compatibility only, and users are advised to port to the new field.
+
+* The :manual:`cmake-file-api(7)` "codemodel" version 2 "installers" object's
+  optional ``fileSetType`` field gained a new ``SOURCES`` value to incorporate
+  the new ``SOURCES`` :ref:`file set <file sets>` type in codemodel replies.
+
+Instrumentation
+---------------
+
+* The :manual:`cmake-instrumentation(7)` data version has been updated to 1.1.
+* :manual:`cmake-instrumentation(7)` gained a ``captureOutput`` option which
+  collects the ``stdout`` and ``stderr`` of instrumented commands.
+* :manual:`cmake-instrumentation(7)` gained a ``compileTrace`` option which
+  records compiler-generated trace files (e.g., from Clang's ``-ftime-trace``
+  flag).
+
+Generators
+----------
+
+* The :ref:`Ninja Generators` now support generating a build target named
+  ``test_prep/<test-name>`` for each test added by :command:`add_test`, which
+  builds all dependencies for that test. Build dependencies are registered for
+  an executable target invoked by the test, targets referenced in generator
+  expressions in the test command, and explicit dependencies added using the
+  new ``BUILD_DEPENDS`` option. This behavior is enabled by the new
+  :variable:`CMAKE_TEST_BUILD_DEPENDS` variable. A ``test_prep/all``
+  target is also generated to depend on every ``test_prep/<test-name>``
+  target. Tests with names that are not valid target names are excluded from
+  this behavior. If multiple tests in different directories share the same
+  name, their dependencies are merged into one ``test_prep/<test-name>``
+  target.
+
+Languages
+---------
+
+* CUDA language level 23 (corresponding to C++ 23) is now supported with
+  NVCC 13.3 and above.
+
+Compilers
+---------
+
+* C++ 20 named modules are now supported with ``clang-cl``, except with the
+  :ref:`Visual Studio Generators` (i.e., the ``ClangCl``
+  :variable:`toolset <CMAKE_GENERATOR_TOOLSET>`).
+  See :manual:`cmake-cxxmodules(7)`.
+
+* The ``ibm-flang`` compiler is now supported with
+  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``IBMFlang``.
+
+* The `Pelles C`_ toolchain is now supported with
+  :variable:`compiler id <CMAKE_<LANG>_COMPILER_ID>` ``PellesC``.
+
+  The ``ASM_POASM`` language was added to support the Pelles Macro Assembler.
+
+* The Open Watcom ``wlink`` linker is now identified with
+  :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``OpenWatcom``.
+
+* The `wild linker <https://github.com/wild-linker/wild>`_ is now
+  supported with :variable:`CMAKE_<LANG>_COMPILER_LINKER_ID` ``WILD``.
+
+Command-Line
+------------
+
+* :manual:`cmake(1)` now supports ``--build <dir> --preset <pre>``
+  regardless of the current working directory.
+
+* The :option:`cmake -D` command-line option now populates a
+  default :prop_cache:`HELPSTRING` for variables known to CMake.
+
+* :option:`cmake --install` now supports installing multiple components.
+
+* :option:`cmake --install` now accepts ``-j<N>`` in addition to ``-j <N>``
+  for specifying the number of parallel jobs.
+
+* The :option:`cmake -E` commands
+  :option:`copy_if_different <cmake-E copy_if_different>`,
+  :option:`copy_if_newer <cmake-E copy_if_newer>`,
+  :option:`copy_directory <cmake-E copy_directory>`,
+  :option:`copy_directory_if_different <cmake-E copy_directory_if_different>`,
+  and :option:`copy_directory_if_newer <cmake-E copy_directory_if_newer>`
+  gained support for the ``-t`` argument.
+
+* The :option:`cmake -E tar <cmake-E tar>` command-line tool gained the
+  :option:`--cmake-tar-encoding <cmake-E_tar --cmake-tar-encoding>` flag
+  to specify the pathname encoding used in archives.
+
+Commands
+--------
+
+* The :command:`block` command can now create a ``DIAGNOSTICS`` scope.
+
+* The :command:`cmake_diagnostic` command was added to manipulate CMake's
+  diagnostic state.
+
+* The :command:`cmake_parse_arguments` command gained a new ``PARSE_ARGN``
+  signature that starts parsing after the last named argument of the calling
+  function and works exactly like ``PARSE_ARGV`` with ``<N>`` being the number
+  of parameters in the function definition.
+
+* The :command:`discover_tests` command was added to support registering tests
+  discovered at test time by :manual:`ctest(1)`. It runs a user-provided
+  discovery command, parses its output, and generates test names, arguments,
+  and properties from regular-expression captures.
+
+* The :command:`execute_process` command gained
+  ``ENVIRONMENT`` and ``ENVIRONMENT_MODIFICATION`` options to run child
+  processes with a modified environment.
+
+* The :command:`file(ARCHIVE_CREATE)` and :command:`file(ARCHIVE_EXTRACT)`
+  commands gained an ``ENCODING`` option to specify the encoding of the
+  archive pathnames.  The default is now ``UTF-8``.
+  See policy :policy:`CMP0213`.
+
+* The :command:`file(READ_SYMLINK)` command gained a ``RESULT``
+  option to capture errors without failing.
+
+* The :command:`if` command gained a new ``DIAGNOSTIC`` operator that evaluates
+  to true if a given diagnostic category name is known to CMake.
+
+* The :command:`include` command now has a ``NO_DIAGNOSTIC_SCOPE`` option.
+
+* The :command:`list(FILTER)` command gained a new ``PREDICATE`` mode
+  that invokes a user-defined :command:`function` to decide which elements are
+  included or excluded, complementing the existing ``REGEX`` mode.
+
+* The :command:`list(SORT)` command gained a new ``COMPARATOR`` keyword
+  that invokes a user-defined :command:`function` to compare elements, complementing
+  the built-in ``COMPARE`` methods.
+
+* The :command:`list(TRANSFORM)` command gained a new ``APPLY`` action that
+  invokes a user-defined :command:`function` for each element of the list,
+  enabling arbitrary per-element transformations.
+
+* The :command:`list(TRANSFORM)` command gained a new ``PREDICATE`` selector
+  that invokes a user-defined :command:`function` to decide which elements are
+  transformed.
+
+* The :command:`string(JSON ... PARTIAL_EQUAL) <string(JSON-PARTIAL_EQUAL)>`
+  command was added to compare two JSON values using *partial* equality.
+
+File Sets
+---------
+
+* A ``SOURCES`` :ref:`file set <file sets>` type was added to specify
+  a target's source files via file sets.
+
+* The :prop_fs:`CXX_SCAN_FOR_MODULES` file set property was added to
+  control whether a file set's sources are scanned for C++ modules.
+
+* The :prop_fs:`INDEPENDENT_FILES` file set property was added to
+  specify that a file set's sources do not depend on any generated files.
+
+* The :prop_fs:`JOB_POOL_COMPILE` file set property was added to
+  assign a file set's sources to a specific Ninja job pool.
+
+* The :prop_fs:`SCOPE`, :prop_fs:`TYPE`, :prop_fs:`BASE_DIRS`,
+  :prop_fs:`SOURCES`, and :prop_fs:`INTERFACE_SOURCES` file set
+  properties were added to provide the declared details of a file set.
+
+* The :prop_fs:`SKIP_LINTING` file set property was added to exclude
+  a file set's sources from target-wide code checks.
+
+* The :prop_fs:`SKIP_PRECOMPILE_HEADERS` file set property was added
+  to avoid using precompiled headers for a file set's sources.
+
+* The :prop_fs:`SKIP_UNITY_BUILD_INCLUSION` file set property was added
+  to exclude a file set's sources from inclusion in unity builds.
+
+Variables
+---------
+
+* The :variable:`CMAKE_INSTALL_DEFAULT_COMPONENT_NAME` variable gained
+  support for a special ``<PROJECT_NAME>`` placeholder value.
+  It tells each :command:`install` invocation to take a default component
+  name from the current :variable:`PROJECT_NAME` variable value.
+
+Environment Variables
+---------------------
+
+* The :envvar:`CMAKE_DISABLE_PRECOMPILE_HEADERS` environment variable
+  was added to disable precompiled headers by default.
+
+Properties
+----------
+
+* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
+  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now always
+  create the per-target verification target and the aggregate
+  ``all_verify_interface_header_sets``, ``all_verify_private_header_sets``,
+  and ``all_verify_header_sets`` targets when the property is enabled,
+  even if the target has no matching header sets.
+
+* The :prop_tgt:`VERIFY_INTERFACE_HEADER_SETS` and
+  :prop_tgt:`VERIFY_PRIVATE_HEADER_SETS` target properties now support
+  ``OBJC`` and ``OBJCXX`` languages in addition to ``C`` and ``CXX``.
+
+* The :prop_tgt:`VS_SOLUTION_DEPLOY` target property is now implemented
+  for targets created by :command:`add_custom_target`.
+
+Modules
+-------
+
+* The :module:`CMakePackageConfigHelpers` module's
+  :command:`write_basic_package_version_file` command now supports
+  ``SamePatchVersion``, ``SameFullVersion``, and ``SemanticVersion``
+  compatibility modes. The older ``ExactVersion`` mode is now documented as
+  deprecated in favor of the more explicit ``SamePatchVersion`` and
+  ``SameFullVersion`` modes. The ``SemanticVersion`` mode treats ``0.y.z``
+  versions more strictly than ``1.y.z`` and later versions.
+
+* The :module:`ExternalData` module gained an
+  :variable:`ExternalData_LINK_MODE` variable to select an ordered list
+  of file materialization modes for hard links, symbolic links, and
+  copies.
+
+* The :module:`ExternalData` module gained an
+  :variable:`ExternalData_STATE_ROOT` variable to store hash records outside
+  :variable:`ExternalData_BINARY_ROOT`.
+
+* The :module:`ExternalProject` and :module:`FetchContent` modules gained
+  :variable:`CMAKE_EP_GIT_CLONE_RETRY_COUNT` and
+  :variable:`CMAKE_EP_GIT_CLONE_RETRY_DELAY` variables to control
+  ``git clone`` retries.
+
+* The :module:`FindCUDAToolkit` module now creates a ``CUDA::sanitizer``
+  target for the :ref:`compute-sanitizer <FindCUDAToolkit_sanitizer>`
+  library.
+
+* The :module:`FindCUDAToolkit` module now provides an imported target
+  for ``cufilt`` in CUDA 11.4 and above.
+
+* :module:`FindPython` and :module:`FindPython3` modules gained the support of
+  the Stable ABI for Free Threaded Python (``SABIT``) as specified by
+  :pep:`803`.
+
+Generator Expressions
+---------------------
+
+* The :genex:`TARGET_OBJECTS` generator expression now has an optional
+  ``SOURCE_FILES:...`` argument, which can take one or more source files as
+  arguments, and will filter its output to only include objects built from
+  those source files.
+
+Swift
+-----
+
+* The :ref:`Ninja Generators` gained the
+  :prop_tgt:`Swift_SEPARATE_MODULE_EMISSION` target property, initialized by
+  the :variable:`CMAKE_Swift_SEPARATE_MODULE_EMISSION` variable, to control
+  whether importable Swift targets emit ``.swiftmodule`` from a dedicated
+  build edge.  Policy :policy:`CMP0215` enables this by default.  The
+  behavior requires policies :policy:`CMP0157` and :policy:`CMP0195` to be
+  set to ``NEW``.
+
+* The default :prop_tgt:`Swift_MODULE_NAME` now replaces hyphens with
+  underscores, since hyphens are not valid in Swift module identifiers.
+
+* Swift targets now have a package name by default.
+  See policy :policy:`CMP0216`.
+
+* The :prop_tgt:`Swift_PACKAGE_NAME` target property was added to
+  specify a Swift package name.
+
+* Swift targets on Windows now support the ``$<TARGET_PDB_FILE:...>``
+  family of generator expressions.
+
+CTest
+-----
+
+* :manual:`ctest(1)` gained support for forwarding extra arguments to test
+  executables using a :option:`-- <ctest -->` separator.
+
+* :manual:`ctest(1)` gained a :ref:`CoverageTool <ctest-CoverageTool>`
+  option in :ref:`Dashboard Client` mode to configure tests for
+  coverage collection by ``llvm-cov``.
+
+* The :command:`ctest_configure`, :command:`ctest_build`,
+  :command:`ctest_test`, and :command:`ctest_memcheck` commands gained
+  ``PRESET`` and ``PRESETS_FILE`` arguments to support using
+  :manual:`presets <cmake-presets(7)>` for their :ref:`Dashboard Client` steps.
+
+  The :variable:`CTEST_CONFIGURE_PRESET`, :variable:`CTEST_BUILD_PRESET`,
+  :variable:`CTEST_TEST_PRESET`, :variable:`CTEST_PRESET`, and
+  :variable:`CTEST_PRESETS_FILE` variables may be used to specify preset
+  arguments to the above commands in a :ref:`Dashboard Client` script or
+  on the :program:`ctest` command line via the
+  :ctest-dashboard-option:`-D` option.
+
+* :manual:`ctest(1)` gained a :ctest-dashboard-option:`--source-dir` option
+  to specify the source directory.  When combined with
+  :ctest-option:`-T` Configure, this allows CTest to perform an
+  initial configure step for an empty binary directory.
+
+* :manual:`ctest(1)` gained support for a :variable:`CTEST_SUBMIT_PARTS`
+  variable that restricts which parts are uploaded when operating in
+  :ref:`Dashboard Client` mode.
+
+* The :command:`ctest_update` command gained ``VERSION_ONLY`` and
+  ``VERSION_OVERRIDE`` options to select or report a source revision
+  without requiring the corresponding
+  :variable:`CTEST_UPDATE_VERSION_ONLY` or
+  :variable:`CTEST_UPDATE_VERSION_OVERRIDE` dashboard script variables.
+
+CPack
+-----
+
+* The :cpack_gen:`CPack Archive Generator` gained the
+  :variable:`CPACK_ARCHIVE_ENCODING` variable to specify the pathname
+  encoding used in package archives.
+
+* The :cpack_gen:`CPack NSIS Generator` gained a new variable
+  :variable:`CPACK_NSIS_IGNORE_COMPONENTS_PAGE` to ignore the
+  component selection page in the installer.
+
+* The :variable:`CPACK_RPM_SPEC_MORE_DEFINE` variable now supports
+  a list of definitions.
+
+Deprecated and Removed Features
+===============================
+
+* The ``-W[no-][error=]dev`` command-line options are deprecated.  The new
+  spelling is :option:`-W[no-][error=]author <cmake -W>`.
+
+* The ``--warn-uninitialized`` command-line option is deprecated.  The new
+  spelling is :option:`-Wuninitialized <cmake -W>`.
+
+* The ``--no-warn-unused-cli`` command-line option is deprecated.  The new
+  spelling is :option:`-Wno-unused-cli <cmake -Wno->`.
+
+* The :variable:`CMAKE_WARN_DEPRECATED` and :variable:`CMAKE_ERROR_DEPRECATED`
+  variables are deprecated.  The new :command:`cmake_diagnostic` command should
+  be used instead.
+
+* The :prop_dir:`MACROS` directory property does not exist anymore.
+  See policy :policy:`CMP0217`.
+
+Other Changes
+=============
+
+* A file may belong to at most one non-``HEADERS`` :ref:`file set <file sets>`
+  in a target.  See policy :policy:`CMP0211`.
+
+* :command:`macro` invocations now preserve backslashes in arguments.
+  See policy :policy:`CMP0219`.
+
+* :command:`variable_watch` callback command arguments preserve backslashes.
+  See policy :policy:`CMP0219`.
+
+* :manual:`ctest(1)` now exits with non-zero if invoked with no
+  arguments and no test input file exists.
+
+* Test drivers generated by the :command:`create_test_sourcelist` command now
+  support the ``-N`` option to list all tests, one per line.  This is useful in
+  combination with the new :command:`discover_tests` command.
+
+* Names of executables given to the ``DEPENDS`` argument of
+  :command:`add_custom_command` no longer have ``.exe`` suffixes stripped to
+  establish target-level dependencies. See policy :policy:`CMP0212`.
+
+* Targets which provide C++ modules may now be consumed by targets with
+  different :prop_tgt:`compile features <COMPILE_FEATURES>` and
+  :prop_tgt:`options <COMPILE_OPTIONS>` than the provider.
+
+Updates
+=======
+
+Changes made since CMake 4.4.0 include the following.
+
+4.4.1
+-----
+
+* The :module:`FindPython`, :module:`FindPython3` modules learned
+  to manage, on ``Windows`` systems, the ``pydebug`` ABI flag.
+
+4.4.2
+-----
+
+* This version made no changes to documented features or interfaces.
+  Some implementation updates were made to support ecosystem changes
+  and/or fix regressions.
+
+4.4.3
+-----
+
+* Swift policy :policy:`CMP0215`'s ``NEW`` behavior has been updated
+  to require policies :policy:`CMP0157` and :policy:`CMP0195` to also
+  be set to ``NEW``.
+
+--===============3930800725293769375==--
 
