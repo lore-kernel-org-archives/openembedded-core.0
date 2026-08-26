@@ -2,77 +2,75 @@ Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A304FC61DD4
-	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 08:13:37 +0000 (UTC)
-Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7696.1787732009352537141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9DC5AC61DBD
+	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 08:13:47 +0000 (UTC)
+Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7655.1787732017439620324
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2026 01:13:30 -0700
+ Wed, 26 Aug 2026 01:13:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=PVNkjrm8;
- spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: hthakar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=S3PQ5CjX;
+ spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: hthakar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1552; q=dns/txt;
-  s=iport01; t=1787732010; x=1788941610;
+  d=cisco.com; i=@cisco.com; l=1641; q=dns/txt;
+  s=iport01; t=1787732017; x=1788941617;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=OzICAlo09NN8WoEhejjI/Dg2g6jjGvb0fgbuRJq269g=;
-  b=PVNkjrm8WgL+IqWP98bwJadmitfNFlovHaj4HpYlGc8CKfK2J6p6t6I3
-   vZjGNKnq25ZSWAriikRTIJ+RaI2S36QHFna/p5Kdt+SnnB8h59Yzdq7L5
-   8tghuLDZWo8YSC7lmh3e9V2Im8yY9aKSfJVoPrEIxefqqmT6O2RR5HUji
-   nX4c20tVa2P1WxIrCf1nRroTaTZCA8mHYZopz/BFgWHWYdvBuGWGsaAIS
-   XM1iHxTmeXJz0I1OhS8tydMkS3gqwWISOYD2X3Umwn88IoPHV7fbmbOcT
-   FuTwM1EF4JSSsSHU/HwTSU4WdUYXUNMW0/qqdnDXuhb0PTiKy5vkAajSz
+  bh=7QgpkDGaF4WsA2esxhiZTb1/SvUBDwxIEhNyTCZZVQk=;
+  b=S3PQ5CjXed7L3bAbVFFgk7D2/vFBWDo7s1jQxmCzb0L53Z881L0qTTIk
+   miv+YQxWNPYVYGxT2FNOEMD/biJluxaoiV/DKKAElgLx+Pcg96vyF7iQT
+   YLaCBtlIBo3WmwA0OD+wYZ2kxNlikpF+WPjCUdLWRa9by0me+L3M1B3c+
+   y2Ixm4tnGaWawV2SW2cVaeAQxMhlkTJe+SOSS7f/KpOIp8gEEDc7Q95rq
+   FqAcC6ZUfSyGpip3E6S+AComypV/eo7qg75w2gek9BcfJDA6JJBPY4U/1
+   Z4YcnHSG9i2EYm4ReCVws5t4G2ogP4z+/wqDthB7KKZ2sHdYdeoEXVc5U
    Q==;
-X-CSE-ConnectionGUID: TLvVyAPhSnK/msAr81VSSg==
-X-CSE-MsgGUID: FjFLzhdMTA6vcKufL4lmbw==
-X-IPAS-Result: =?us-ascii?q?A0BDAgA+n45q/4oQJK1aglmCV3RfQkmWTZ4bgX4PAQEBD?=
- =?us-ascii?q?z0UBAEBhQUCjWwCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBBQEBAQIBBwWBD?=
- =?us-ascii?q?hOGTw2GWwIBAzIBRhAgMSsrGYMDgnQCARG+fIIsgQGDaAJDUNsvAQsUAQWBM?=
- =?us-ascii?q?4U/iCJ1AYR8JxsbgXKBR4M3gQWBXAEBgi2FeASCIoEMk2JIgR4DWSwBVRMNC?=
- =?us-ascii?q?gsHBYFmAzUSKhVuMh2BIz4XgQ0bBgWBHYEohBAjGTZ8gQlegSspYAESF4EJg?=
- =?us-ascii?q?gcCglqCBQIBSUMOB0c+CxgNSBEsNxQZBD5uB45rH4JJgQ4sBEynUqEPCiiDd?=
+X-CSE-ConnectionGUID: /eWAgnLmSIKLmnBuYPO8og==
+X-CSE-MsgGUID: wfytbb1hSoWNCvUiM/PDLA==
+X-IPAS-Result: =?us-ascii?q?A0BDAgDBno5q/5MQJK1aglmCV3RfQkmWTZ4bgX4PAQEBD?=
+ =?us-ascii?q?0QNBAEBhQUCjWwCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECAQcFg?=
+ =?us-ascii?q?Q4Thk8NhlsCAQMyAUYQIDErKxmDA4J0AgERvnSCLIEBg2gCQ1DbMAELFAEFg?=
+ =?us-ascii?q?TOFP4gidQGEfCcbG4FygUeDN4EFgVwBAYIthXgEgiKBDJNiSIEeA1ksAVUTD?=
+ =?us-ascii?q?QoLBwWBZgM1EioVbjIdgSM+F4ENGwYFgR2BKIQQIxk2fIEJXoErKWABEheBC?=
+ =?us-ascii?q?YIHAoJaggUCAUlDDgdHPgsYDUgRLDcUGQQ+bgeOax+CSVo0LASoHqEPCiiDd?=
  =?us-ascii?q?owilVQzqmwLmH2OCpZQhGmBaDyBRwsHcBWDIglKGQ+OOINrgX/KOiQ1PQEBB?=
  =?us-ascii?q?wIHDgMLgWiRfgEB?=
-IronPort-Data: A9a23:SXAfuqomwvfGMPgXgJb020CQLD5eBmJPZBIvgKrLsJaIsI4StFCzt
- garIBnTPfeMazDzKY0jPNi/9EkAv8KDxtJgGQdtrC8zEn4X8+PIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYgLNNwJcaDpOtfrT8k035ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0tpTH19f3
- MQYEzYuKRWYrvjmmYyAceY506zPLOGzVG8eknhkyTecCbMtRorOBv2To9RZxzw3wMtJGJ4yZ
- eJANmEpN0qGOkMJYwxHYH49tL/Aan3XcyFYoVGcv4I84nPYy0p6172F3N/9KobTHZULwhvEz
- o7A10r7LDUINNC69RPb7HmPm+HrwSf+Up1HQdVU8dYv2jV/3Fc7DwUbU1a+q/S1hkOyHtlYM
- UE8/is1sbN081SmSNT4VRC0rHOI+BkGVLJt//YS4QWJzO/Qpg2eHGVBFmcHY909v8hwTjsvv
- rOUo+7U6fVUmOX9YRqgGn289Fte5QB9wbc+WBI5
-IronPort-HdrOrdr: A9a23:eEgD66v6BMal3eEdm0z/fX+Y7skDrtV00zEX/kB9WHVpmwKj+P
- xG+85rsiMc5wxxZJhNo7290ey7MBHhHP1OkO0s1MmZPDUO0VHAROoJ0WKh+UyEJ8SUzIBgPM
- lbH5SWIeeAa2SS9fyKgzWQIpIH3MSN9ryuiKP1yndgShwvVoRbhj0Jczpy1iZNNXJ77V1TLu
- vl2vZ6
-X-Talos-CUID: 9a23:8uk8Nm/qRAm/sWOkTWuVv3IwBP40W0Xd93HzZEqjIHw5EYOuclDFrQ==
-X-Talos-MUID: =?us-ascii?q?9a23=3A0qXyMQx7mNTFD6jIM5gRE3ok3IyaqIqsJmQfkZk?=
- =?us-ascii?q?jh+DaKydTJjm50DCySJByfw=3D=3D?=
+IronPort-Data: A9a23:qLLsh6/IxzLs3FPFBJxODrUD13+TJUtcMsCJ2f8bNWPcYEJGY0x3n
+ GBNDGiDbqncZ2Sgftl0OYSxpEgD7MeGyN5kGwZs+C1EQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmB4E/rbeSxxZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mvyyHjEAX9gWAsYjhKs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2lxMLIx9eBTBFpv1
+ tgdLhoQXyik1+W5lefTpulE3qzPLeHiOIcZ/3UlxjbDALN/GdbIQr7B4plT2zJYasJmRKmFI
+ ZFHL2MxKk2cPHWjOX9PYH46tOe0hnD8eidwo1OOrq1x6G/WpOB0+Oi2boeNIIfWFK25mG6Hq
+ HPa9W6gAiodC/q01weE1zWUqsvmyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NUF+t/7ESGzbDZpl/BQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSj1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:Z04uuaGda4Z5MHkxpLqEMMeALOsnbusQ8zAXPo5KJiC9Ffbo8P
+ xG88576faZslsssTQb6LK90cq7MBfhHOBOgbX5VI3KNGKNhILrFvAG0WKI+VPd8kPFmtK1/J
+ 0QFZSWcOeAbmRSvILd/BSyFcomzZ2s9aClgvqb8lJWJDsaEp2JK2xCe32m+oocfng/OaYE
+X-Talos-CUID: 9a23:yp66L2BqspwjO7H6E25qy2cbHOQgSVz+6HLWCVKJMUE5T7LAHA==
+X-Talos-MUID: 9a23:tnk/iwl1ST4/fiHOwVSEdnp9OtZ06a73CHsKrrMtpfSFEGtIFxO02WE=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,244,1779148800"; 
-   d="scan'208";a="821086454"
-Received: from alln-l-core-01.cisco.com ([173.36.16.138])
-  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 26 Aug 2026 08:13:29 +0000
+   d="scan'208";a="836502349"
+Received: from alln-l-core-10.cisco.com ([173.36.16.147])
+  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 26 Aug 2026 08:13:36 +0000
 Received: from sjc-ads-4178.cisco.com (sjc-ads-4178.cisco.com [171.70.54.199])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-01.cisco.com (Postfix) with ESMTPS id A8D9C180003E9;
-	Wed, 26 Aug 2026 08:13:29 +0000 (GMT)
+	by alln-l-core-10.cisco.com (Postfix) with ESMTPS id 8C3EC18000165;
+	Wed, 26 Aug 2026 08:13:36 +0000 (GMT)
 Received: by sjc-ads-4178.cisco.com (Postfix, from userid 1887505)
-	id 4ED75CE1BBC; Wed, 26 Aug 2026 01:13:29 -0700 (PDT)
+	id 3147CCE1BBC; Wed, 26 Aug 2026 01:13:36 -0700 (PDT)
 From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com,
 	Hetvi Thakar <hthakar@cisco.com>
-Subject: [OE-core][scarthgap][Patch 06/11] u-boot-tools: Ignore CVE-2024-57257
-Date: Wed, 26 Aug 2026 01:12:55 -0700
-Message-Id: <b2b0eef940d90d53e4df5bf4c8aac4a4f40ee0cf.1787731424.git.hthakar@cisco.com>
+Subject: [OE-core][scarthgap][Patch 11/11] u-boot-tools: Ignore CVE-2026-29009
+Date: Wed, 26 Aug 2026 01:13:00 -0700
+Message-Id: <e9ee1ba2c38ca12de91d1e3706773765a0669b04.1787731424.git.hthakar@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <cover.1787731424.git.hthakar@cisco.com>
 References: <cover.1787731424.git.hthakar@cisco.com>
@@ -81,25 +79,26 @@ Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-4178.cisco.com [171.70.54.199];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 171.70.54.199, sjc-ads-4178.cisco.com
-X-Outbound-Node: alln-l-core-01.cisco.com
+X-Outbound-Node: alln-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:13:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244333
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 08:13:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244338
 
 From: Hetvi Thakar <hthakar@cisco.com>
 
 Analysis:
-- CVE-2024-57257 affects U-Boot SquashFS runtime parsing [1].
-- The tools-only build graph does not link fs/squashfs into its host
-  tools [2].
+- CVE-2026-29009 affects nfs_readlink_reply() when CONFIG_CMD_NFS is
+  enabled [1].
+- u-boot-tools uses tools-only_defconfig, where CONFIG_NET is disabled
+  and CONFIG_CMD_NFS is not enabled [2].
 - Hence ignore this CVE for u-boot-tools; the exclusion is
   configuration-based.
 
 Reference:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2024-57257
-[2] https://github.com/u-boot/u-boot/blob/866ca972d6c3/tools/Makefile
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-29009
+[2] https://github.com/u-boot/u-boot/blob/866ca972d6c3/configs/tools-only_defconfig
 
 Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
@@ -107,14 +106,14 @@ Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
  1 file changed, 1 insertion(+)
 
 diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb
-index 66e46fa7af..5bf2ca0f91 100644
+index 8579e18d7b..b2c4275ab9 100644
 --- a/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb
 +++ b/meta/recipes-bsp/u-boot/u-boot-tools_2024.01.bb
-@@ -7,3 +7,4 @@ CVE_STATUS[CVE-2024-42040] = "not-applicable-config: DHCP client code in net/boo
- CVE_STATUS[CVE-2024-57254] = "not-applicable-config: SquashFS runtime code is not built or linked into the host tools produced by tools-only_defconfig."
- CVE_STATUS[CVE-2024-57255] = "not-applicable-config: SquashFS runtime code is not built or linked into the host tools produced by tools-only_defconfig."
- CVE_STATUS[CVE-2024-57256] = "not-applicable-config: Ext4 runtime code is not built or linked into the host tools produced by tools-only_defconfig."
-+CVE_STATUS[CVE-2024-57257] = "not-applicable-config: SquashFS runtime code is not built or linked into the host tools produced by tools-only_defconfig."
+@@ -12,3 +12,4 @@ CVE_STATUS[CVE-2024-57258] = "not-applicable-config: The U-Boot runtime allocato
+ CVE_STATUS[CVE-2024-57259] = "not-applicable-config: SquashFS runtime code is not built or linked into the host tools produced by tools-only_defconfig."
+ CVE_STATUS[CVE-2026-29007] = "not-applicable-config: TCP runtime code in net/tcp.c is not built by tools-only_defconfig, which disables CONFIG_NET."
+ CVE_STATUS[CVE-2026-29008] = "not-applicable-config: TCP runtime code in net/tcp.c is not built by tools-only_defconfig, which disables CONFIG_NET."
++CVE_STATUS[CVE-2026-29009] = "not-applicable-config: NFS client runtime code is not built by tools-only_defconfig, which disables CONFIG_NET and does not enable CONFIG_CMD_NFS."
 -- 
 2.35.6
 
