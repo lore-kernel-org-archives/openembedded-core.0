@@ -2,50 +2,51 @@ Return-Path: <peter.kjellerstedt@axis.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38E51C61DBD
-	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 13:36:29 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12768.1787751387636167731
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E147C61DBD
+	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 13:40:19 +0000 (UTC)
+Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12743.1787751612553033690
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2026 06:36:28 -0700
+ Wed, 26 Aug 2026 06:40:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=cwHbhOJy;
- spf=pass (domain: axis.com, ip: 52.101.65.54, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@axis.com header.s=selector1 header.b=nHmz1Am2;
+ spf=pass (domain: axis.com, ip: 52.101.83.53, mailfrom: peter.kjellerstedt@axis.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=jn9dA3OX2DAssYJlytQWcoA2xas4MjcC/8+SdHg9L4ypG3yShk9aCrpMVJ34Y93n4cVt25bQF+rQQCcaCWBacyW5PFgY+q3kaO1AIZj2MXF/wsBiJnlBGRdgs46UeHSzWHk93O3xpR6p0zJuIa7baYOnvQrq0o7nJLM7/H/kdRtkq4SzaK8eCKTvLHS1+PUeXtKM+owwMP76gscH6QFN80E+ZWwvUCQnnA1nsq90pWGoJfpQyZtjuFnnpyC5wtiCxJ46Yyun+Ym8DGI1s4+k+hAiypvHBToA5LzbhZRbxv7b6EBsb81sG4ccBMcBd59jnoF/5qShBp33jFb2FZLK8A==
+ b=tcUW/58lFLAU0Pc8R9drrcsS3WC9wm5yaAWG58/qKJCHvQ5lPSPNRAV7kxZe0pmvPRDWHK2AcX8ZjPjaz8pcIliq0yha/DN9aFGyKzLmF9rwasPeG6fXRCXEpGIZve59Mw0YAhbxthb+2lRdoSfzCY4wd+5tlTAmt5AmkBazVJd7nNe9/dvIgYre4dWle+586J4JTqqFfII9alINeW29Laj+iCrysw/L8Yd0SIWsa0XhOAEs+RxbK//pS1taLVa6V6cMsuzOtuDb+lcsTA5TY7+lPA1ZRHYs5+ePQx7NqDKucIwfoducVHXcx5eAlbVSqIrpL0wRI1HlPl3Vdlk5xQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=4YyGDkg3kw1f9sK2ZK39gmiKk6hwk1AkNSUri3f9pYs=;
- b=msBH2mH7PsZXt+u7cdcg0EW8A75aUWtZFlE8CJ6+hLS+jTRPEpmH4wc+ZEo3M5glCnlLv2JW9UsE74LsWAq6LXRHuGcIlZnQC8+XHavSopoOXJ9+aSOnGYtUEX7fYpIvoaKJg04OChs/2l1cjqz8E5fgIZqWcqcUbAb1bb0yIy2jgnFK4NPT+es1g4YxIqqH7LfuelZQpc8VXVrULX/K9fgTgVFYl5O7ncUjV3947D3w51D4RN/tydscsX84sZoMgf6D4u60wKPcQYrMddhvHnSu7RcP2SnnYxhgzE521FowEzwP2PDwGgPAxcH0g3e+vVChGX8RQJx5LuE/FyP5vw==
+ bh=ZiQZ3aS290cgmu3szGs/r5Ki7HWKJB2AmBGi33+kcs8=;
+ b=oLro+OCeeBzgFW392qNsl1R4tCWp7Vf/QQfvXws2SD/7gwCyaP3t2m9vubYp1y8/txzNglp7PxcQN/82HIgTMx1Z+xXcXNC5f6yAnqrgE864vUBy8x8vl9rF85feFQj2do8r3wPwT9KuArCkh7oS/jljhs7J1OlpggjjaQHgQxOhux31eyYBa95YKzIInLJ4dVCXMCp+qg8nmKgcemadRMpDnX7SaVm36wWxPQ1FNqXhiPCEI4OcfKr1wKIgT/94xzdOOpU7jjDXqbR5B9FkGG3IbI9xgIkWBpiMjwR51wIQ+eH1RvVK+xB478RLHf1UioTGzCwHh/Yskam9lrcy2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=axis.com; dmarc=pass action=none header.from=axis.com;
  dkim=pass header.d=axis.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=4YyGDkg3kw1f9sK2ZK39gmiKk6hwk1AkNSUri3f9pYs=;
- b=cwHbhOJyVbLUtHx9nmkMcAxdveyH0CbKSsEwoS3CTd6cEo8/w/YeCkUb84KEForMmj8+RaTO1k1DbNvhSuWhm5zyMxDxazNi8hzmFVwZ4eKZQQmqsJh04uZKPQLbTo0zVxNM45Sud4WjBaKx2u4RiLhh8vbckczEKI1n/l7p9W8=
+ bh=ZiQZ3aS290cgmu3szGs/r5Ki7HWKJB2AmBGi33+kcs8=;
+ b=nHmz1Am2zKaJIprp+o/M7w7IYUltRHD/dbvYuCSoy2S7W2vcIA6RH4WCBHVCawBow+X7blk+QMvg+2dCFlXpP09MS1BIOsVYer5aGraAp4KZBaR3KHvtUso1sDS/HGpy4hhxzyuXtw0AiciMLaIlV/b4QBqApmGfF8FUB8rOLn8=
 Received: from DB5PR02MB10213.eurprd02.prod.outlook.com (2603:10a6:10:4a8::17)
- by DU0PR02MB8642.eurprd02.prod.outlook.com (2603:10a6:10:3ed::5) with
+ by AMBPR02MB12140.eurprd02.prod.outlook.com (2603:10a6:20b:724::21) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.8; Wed, 26 Aug
- 2026 13:36:21 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.6; Wed, 26 Aug
+ 2026 13:40:07 +0000
 Received: from DB5PR02MB10213.eurprd02.prod.outlook.com
  ([fe80::e5b6:b9a8:2a5d:e0cd]) by DB5PR02MB10213.eurprd02.prod.outlook.com
  ([fe80::e5b6:b9a8:2a5d:e0cd%4]) with mapi id 15.21.0360.006; Wed, 26 Aug 2026
- 13:36:20 +0000
+ 13:40:07 +0000
 From: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-To: Gustav Lindberg <Gustav.Lindberg@axis.com>,
-	"openembedded-core@lists.openembedded.org"
+To: Peter Kjellerstedt <peter.kjellerstedt@axis.com>, Gustav Lindberg
+	<Gustav.Lindberg@axis.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 Subject: RE: [OE-core] [PATCH 141/141] boost-asio: Add recipe
 Thread-Topic: [OE-core] [PATCH 141/141] boost-asio: Add recipe
-Thread-Index: AQHdNUGnAPmhc432OUOJCecNT/7IJLawUTBg
-Date: Wed, 26 Aug 2026 13:36:20 +0000
+Thread-Index: AQHdNUGnAPmhc432OUOJCecNT/7IJLawUTBggAAEd4A=
+Date: Wed, 26 Aug 2026 13:40:07 +0000
 Message-ID: 
- <DB5PR02MB1021380BA9031F796A5B547ACEFAE2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <DB5PR02MB102133B03E0DA89C4E7678142EFAE2@DB5PR02MB10213.eurprd02.prod.outlook.com>
 References: <20260826095936.307786-1-gustali@axis.com>
-In-Reply-To: <20260826095936.307786-1-gustali@axis.com>
+ <18CF5E6A5FC73F8D.3446132@lists.openembedded.org>
+In-Reply-To: <18CF5E6A5FC73F8D.3446132@lists.openembedded.org>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -53,163 +54,180 @@ X-MS-TNEF-Correlator:
 authentication-results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=axis.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|DU0PR02MB8642:EE_
-x-ms-office365-filtering-correlation-id: fc7bb425-287f-44e6-9379-08df0377039d
+x-ms-traffictypediagnostic: DB5PR02MB10213:EE_|AMBPR02MB12140:EE_
+x-ms-office365-filtering-correlation-id: 8ad52067-a3d2-44c6-087a-08df03778afc
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|6133799003|22082099003|18002099003|38070700021|11063799006|56012099006|10067099003;
+ BCL:0;ARA:13230040|1800799024|376014|23010399003|366016|10067099003|56012099006|11063799006|4143699003|6133799003|18002099003|22082099003|38070700021;
 x-microsoft-antispam-message-info: 
- turEfNSAO8m3gxF8vrx1+LTz+5vnQ/Gg4nmy5TTDONUWjABPFN97TP2fI8S9RjwQJtIBYWQ6XER5Rc9LsBaKhQEfiStcyBdvfKB6E9x9BawQKu3+UINdF73UmR6qs92M6ChGNSlX5lezFjdLlfhxVMGYpgqdPBxr5shYunT89L09e77gbJaHAxxVa3tETv2RjtODc0g/GssoBMvbrlPaBogNMe40RvLZaIcXziETZnB/anLfAm6S83+J8YInsUFL/TYzQ8js0voXhhevamjQi8f6bTEFp/6mFI33cS6VMBx+0N7DSb4+UXbsKJGU4fublRuu3sfPN4TBK0oeYKpiw/9VFbg03nfzMnxVrln1U80inTs71EKq8EKVxkJEii638PpDvd/RT6ptIHZgcJv0ImQFYVBHbH/1PlOUltfkU3cO65iJzBrZZofBEA03W+3p+fqvomcagumrgtUWfAU8WHIU2UQX31XU2/QuWQ80Mt8jSTUYlhY7O/6hqs86e+wHOwctMlkLUSIoMnEvCf7JtRlPxzYCqBMbg+5EFAGyBQnGWK0WrNyLOxOlaLaJ81HCW6tzsoGAyQBqJAW/FCD0Kxe/fzzD6TFJURzuH9thnujQ455x8TYQZT5K9drm3KktYwbS7aS5Y4k17QAI9SNiMdcQj0WOzE2i+ZLnMtS9IkZmg16DPOIrzVyZ6ZRvzx53zMoXbmV1U8OoVWBt5g4yW0ugG3g2x6h68Ty5+j/xNpg=
+ S/lAtyjlshciQx5uB0jJ2ZYKu42wRCZ3B8Mf6nvwqLbX0+1swiaru+Df48j2/w6DEUzYwrjzTJj0ihAmCCAE4j82GvzAi9dZ9lcLmteAs77Wd1/KI+3Oq1lB0oqOgBEroJlyitvyk173I79kfVh/7sFPJjdHOlBtSMJa3JBLPGhCX7OOaTT/ASeqacFAUTxabQ7Z34pd0IIx+qTQH1S47OVGNinj4xYHloZx6m2HJ4HAXIQ9Q5X3wQpZxqk+9vtQYE9IOh0TVyUL+dsMKmROpgBXNT4gKrUT3WBd3MhOt+1O8pJLbT740qNdSbYChgYwQNKm7lyHx1tBhUYwKTaad270ETfm9GuSBsZSZ6nXQDmyRTjG0+sI+g+eYrNWT8PZL9mIekqdYgRCxPYhyKB3o9vnt9R8omVExr5ZGljjhtnZ7/rgDH5dF8gUnGh40wuf8sP2GJZKBraW9edtp9aJDAHCoBhYMo3nuTXROUusxLcBTvfqHzKka9MOAc7HYnRNcalPys+i/LqjHvupVI+wJfilN4606e36WnjULEC1+TQo2I4khOq/NG+J47wtwl7UZ7cxSIHS2z1fTQnpegcWywizX3Yy9Ue69ZpiydDjn6qzvKrnl8v8xTJ0cF83+N0QZHucTdfdUZzjBZu9KScJYLsShZ++LVKBzefLVKOd5Ry9kYgCCwQm8XXwJUOjzs3ZdpZIVq48ZiHAJ1YvFDOO0yHBnAd2CbMG3UI8BsSSVIU=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(6133799003)(22082099003)(18002099003)(38070700021)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB5PR02MB10213.eurprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(23010399003)(366016)(10067099003)(56012099006)(11063799006)(4143699003)(6133799003)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?6N8tsbeXeSjZXwyCzvszqboJvnVVThASYMAmmvGs7FMt4QniCwCzrfjslQ30?=
- =?us-ascii?Q?Wf4mCQ7aL/20aQLUQzBigdCKh0EoRUkYmjByYheRXjZSXk/LlVor0vIGk++B?=
- =?us-ascii?Q?PyhnLgrnSc7HMssFTsAbVXva299HOLptttyeAk8WY9MLtSU7hkNsBUpIfr4b?=
- =?us-ascii?Q?HEDDKqKEpR+9QmQnhHowMmO+vBzy8BgYhmpTqJWTLF4hK+pAseOOR+2TU3/+?=
- =?us-ascii?Q?dCKfoIpsQbu45fP8J06XhoBTCBq4sKprJ0LrNikozTx/FuLvF9Gmo/pSBo5C?=
- =?us-ascii?Q?XexELeZqUMBi3ll8MhzSPJyhG3RbVCrFzJjsrzj6KgF0Cei3knaa5TOm6PCK?=
- =?us-ascii?Q?yOdlTorErHyLn+cr+jMmk0f3P9BXz2h5QvN3iBJGnqBOwg1jKRr/aCul7+vd?=
- =?us-ascii?Q?7SlJhGXzBlvfnDMtBCob+m/8kroKC2W2AAdTFupxsYz0SqVjcUsQm+h5NDkA?=
- =?us-ascii?Q?tC/9yuy1vZj4kjfgShSkn3t7ol7ZeZIp9LLtm/O2P61EYvNbxzwdu5GdrrU5?=
- =?us-ascii?Q?upTTQVPpXp9dCqGwP1L8DHxTdq8K2CfQLCY2FLRYebTWVV1y2u+7YJ+nhN0M?=
- =?us-ascii?Q?CpKOxA9rYSYSTXMBqXZq2JqFSGz1ztQ6Jhq/cxQU7ddqaZyHoCZ7wdRhSFc/?=
- =?us-ascii?Q?Y9wLgTMf0HDGfC1JtlNiYnxlUj/3KMsSMRES5CyX6D0KeDBNy3+A9qm2Jvz6?=
- =?us-ascii?Q?tZaa1fGs9qdvRpuv8z560h5Y70eYhfWNtCQBJA7eoARBIwmvNSudhW2SdrKa?=
- =?us-ascii?Q?uhLIGxSRJYYKgxzYHH0EBO6OYNWXoaWaT25t77nAoxGhU3qPCTmaJx6hKz3x?=
- =?us-ascii?Q?8/uaFWph86jSptPmoJsS7C/fKWE8J5oonUe8d+vI2lk1FS0a5hN0IMq6UAFb?=
- =?us-ascii?Q?CZ+MTZY67cDtsBwizG9BmNOBS1Gxi5yIQCZOPEdl0UHOQgmCuWmCWSoGpsV2?=
- =?us-ascii?Q?cMV19rFmiNpTF5HgsGM88RLSPUtpSQAP28TmwiuaA0qsm2Vxjmove3PGeWBW?=
- =?us-ascii?Q?NoP2F4m9JaqIZ2JHpf8PjKK+XHNPvVNwEjXzIJfOHGS1OKxRo/5Ls7sNV/38?=
- =?us-ascii?Q?IyTkokDJRg/QrMLhcUkdUDmwlHpZfJlVZm0zIMWubzwxV387WA/Jf5epVj//?=
- =?us-ascii?Q?JcUQ8HZxifVXpR19tKqt7E4rYeUbxPNJ6pKVbzZM3ydc8uN6xljB2hPmZJ5X?=
- =?us-ascii?Q?k2Hww3sGjoSv4sI0DKIazRiUZ9BpqrIEHST/p2lrUmLoeZDV6x/hIx1MQO8k?=
- =?us-ascii?Q?Kkyz9/cfBJgRLN5GTIcje1acy2S8ICwqnky0s556a9sbhBocZOWrgdD2f+qS?=
- =?us-ascii?Q?mlp3Epzvtx0moy5kkLmbxUc4j6tLAxzotKi7VdPNQGPQmxWxoa1gzoSP7/wJ?=
- =?us-ascii?Q?24CzgGu+tx+lozQaJXEswlc07/+91s7YJegL2ukqE9T7ubXr6nJvJi6w/ZrI?=
- =?us-ascii?Q?Mv0OLfVnsNHzI5IkWyvLttdipo660jXG64ktXVoUT29mc6uUBYkFUHKsO64l?=
- =?us-ascii?Q?69CBLNiTOEdTLN//Gg82WiTvcr5pbrQ5yQxxFIXk1Pdij6oyJ2bkCZahWiSh?=
- =?us-ascii?Q?vrT8//W72E5RLgz5rpWqoBwYuhVTycI95mgwSS8IxtfcYdNvnKPdifTDp72g?=
- =?us-ascii?Q?N8SEAn897oaGz9JyBLPOim2WX8eBG6411F+qrSUG9d6wcaO+ASAlawR2EuSY?=
- =?us-ascii?Q?7668oWFB7m3/4o2iUsG8YTuVVOU=3D?=
+ =?us-ascii?Q?G9ekwWqTY0QWXZ9JXZ0QSZX01xXNgJ4dhS+zMKoRrtEtGv+d3pyyHE/mnO5S?=
+ =?us-ascii?Q?2BGumi+bZCMFzBYv2HHUxwsyc/y/3E+fgaKdEMphZbU4a9xmBDeAfdvWXZVz?=
+ =?us-ascii?Q?qCJxhWbh9+yzmUsh64dOEeORLEp2UfErBud3ArRxH+QHE5vjvqbM09jO3O6B?=
+ =?us-ascii?Q?XcnGNO5VfRtwHyanMJUEBrTEK9BilX0m/SbmI9yzNy18xzpHoW/60sVZJxgf?=
+ =?us-ascii?Q?FZCReZc2qMeNSK/QINXb762kPIxGx6r4u3h//TKX/XSnvbvclZzFXawvY8Lz?=
+ =?us-ascii?Q?bbTAPaLEvMQ1ZDfMoiDTnNWAoXaJDn3r/A/fpAmJlJVNdIMnyr5Au4sUwWnb?=
+ =?us-ascii?Q?TZ828JyQ/2oVL97SAkLEBKMvZRXjeCoCKqjwAAN9UbTQuSuB1eqMcGuqj/5t?=
+ =?us-ascii?Q?lUg8qqONEcnmmqmG8moPhtS3rxjVN0APbyCmFsV5rReOlfhMIhn+2xxwMJa+?=
+ =?us-ascii?Q?5H/g62ebu5FOkeW8O/LsmotBbUII9pVDnzZ4YSRpF3byl//zZySx5l8H1qwz?=
+ =?us-ascii?Q?WVKByIRAhhsrQlDr3fFJ49jSOcsmCZ5LNFcVFpBP+Ze4m65oO5TDa9LT9d9N?=
+ =?us-ascii?Q?xtyQtwdRx8zrmLpiQW3OxC2699ecN83Cf1lE2/kMpk9i8olKMCGoE2jeDlRr?=
+ =?us-ascii?Q?EthR0VSdHfIg+XYydwv+6mVjUYv7/T6844M1FoJQb82wTUK5rHOyWloCGVfX?=
+ =?us-ascii?Q?UPVCai2ivzBEs/tPTFJqDJIvh9T1kDS9GwyQ6k4WX9pLF/SQ25NjCx3CcwjG?=
+ =?us-ascii?Q?/jLO6nkom4THsWuupp8CN1SM4F0P94d2RbjuMsJWZH/xIcSW7vu2G6h0E2sf?=
+ =?us-ascii?Q?uDuK5Z74Amli4LUzskCq0NnHrIs5wCZqb1dtuoPOQtiZI1w+tFg83dBR9wIJ?=
+ =?us-ascii?Q?/kyCeefGVZhCoJOc67UChaxYBrxr0FTDyMN4lMeeRsmUx4Rok8HQSdq38rVG?=
+ =?us-ascii?Q?koxu++moZf2PTfeJQvGzUBUHAO/9+ntEVOSd1TxKZsMDTDpmbzZVrIEghMy3?=
+ =?us-ascii?Q?9Src6XQU6h5ll2xZxWaWLnIQXO3hKxXoQhaz4yt/Id6XvXvdEqX/lgVs1TRX?=
+ =?us-ascii?Q?uhEw32bPFARdZc4hP9T6J1oWqZLF1roqXH9Q/Sv45BWbp4gmIopsPN4wkwPO?=
+ =?us-ascii?Q?LD33OSa782O6oTybQXQivtMxYH5I3s5tviSlb7PRI+Mm609vzPwWVcsqKl5H?=
+ =?us-ascii?Q?+cZEK6qzo5JkYxPguweDyzoMnbTwUovDE8kIacp2bcVFh7llWQTVdTELnB3g?=
+ =?us-ascii?Q?08B9r1ni+eV9PlT9r+nqhKd1YPhTIyw+dAzQRCCBhCza11kw+wBg9kBYsOxj?=
+ =?us-ascii?Q?TXodufLXhZTLgoeHCZmG3YQfyxOhHj2FUviGXbk5heqmFTRiR54mtR9jxzvt?=
+ =?us-ascii?Q?06I7L9eGRpzxeTNKzU6QQuhZQRdEiIfBkjb9xrYjuqL0uDhGbUyqyq5j+bQj?=
+ =?us-ascii?Q?8Ol5O81Q928nrR0zCVrFZuotTZZ2B7ZuzwYkRKd6rJ5ybgfLCEIHCb59abYP?=
+ =?us-ascii?Q?XYB7SC8TfKvo1tWsz3a8ytZ6svRPv/0+4Sd2V41nnmm7Di83BUYZX20sUdRO?=
+ =?us-ascii?Q?SoQMwP3zwbU1hjPmOTMTd43R8nSb5Sxkyr7JxgAv2u/Pe7wDX1G8ZmR+qURT?=
+ =?us-ascii?Q?EYeeSBAQhNn1cFcXC8aJjgWjw27PF896hUE9Yxpdy/hgIksTKN2tOp3fKY8f?=
+ =?us-ascii?Q?HnObrIbGLt3ZhEiNvx/7xz5aHLU=3D?=
 Content-Type: text/plain; charset="us-ascii"
 Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: axis.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DB5PR02MB10213.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: fc7bb425-287f-44e6-9379-08df0377039d
-X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2026 13:36:20.5993
+X-MS-Exchange-CrossTenant-Network-Message-Id: 8ad52067-a3d2-44c6-087a-08df03778afc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 26 Aug 2026 13:40:07.7123
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 78703d3c-b907-432f-b066-88f7af9ca3af
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: VLgIWaakcDaNzb1QJUwJJibY5xlt8NkWvm2ClJ7kzuY5ukqcOot9V5nBJh7/V3qF
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0PR02MB8642
+X-MS-Exchange-CrossTenant-userprincipalname: ylUe6C+jsjchH678FndKyJVqKCm1Nugzwev/XnnNdhDSBkOa/pX1KhF+6q7FABPZ
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR02MB12140
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 13:36:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244397
+ <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 13:40:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244398
 
 > -----Original Message-----
 > From: openembedded-core@lists.openembedded.org <openembedded-core@lists.o=
-penembedded.org> On Behalf Of Gustav Lindberg via lists.openembedded.org
-> Sent: den 26 augusti 2026 12:00
-> To: openembedded-core@lists.openembedded.org
-> Cc: Gustav Lindberg <Gustav.Lindberg@axis.com>
-> Subject: [OE-core] [PATCH 141/141] boost-asio: Add recipe
+penembedded.org> On Behalf Of Peter Kjellerstedt via lists.openembedded.org
+> Sent: den 26 augusti 2026 15:36
+> To: Gustav Lindberg <Gustav.Lindberg@axis.com>; openembedded-core@lists.o=
+penembedded.org
+> Subject: Re: [OE-core] [PATCH 141/141] boost-asio: Add recipe
 >=20
-> This is needed to build boost asio as a shared library rather than a
-> header-only library, which is needed to save memory.
+> > -----Original Message-----
+> > From: openembedded-core@lists.openembedded.org <openembedded-core@lists=
+.openembedded.org> On Behalf Of Gustav Lindberg via lists.openembedded.org
+> > Sent: den 26 augusti 2026 12:00
+> > To: openembedded-core@lists.openembedded.org
+> > Cc: Gustav Lindberg <Gustav.Lindberg@axis.com>
+> > Subject: [OE-core] [PATCH 141/141] boost-asio: Add recipe
+> >
+> > This is needed to build boost asio as a shared library rather than a
+> > header-only library, which is needed to save memory.
+> >
+> > Change-Id: I3ac5ed0ccadae3e9d042b9c4eed3a1ab7220a009
 >=20
-> Change-Id: I3ac5ed0ccadae3e9d042b9c4eed3a1ab7220a009
-
-Remove the Change-Id.
-
-> Signed-off-by: Gustav Lindberg <gustali@axis.com>
-> ---
->  .../boost-asio/boost-asio_1.90.0.bb           | 33 +++++++++++++++++++
->  .../boost-asio/files/boost_asio.cpp           |  1 +
->  2 files changed, 34 insertions(+)
->  create mode 100644 meta/recipes-support/boost-asio/boost-asio_1.90.0.bb
->  create mode 100644 meta/recipes-support/boost-asio/files/boost_asio.cpp
+> Remove the Change-Id.
 >=20
-> diff --git a/meta/recipes-support/boost-asio/boost-asio_1.90.0.bb b/meta/=
-recipes-support/boost-asio/boost-asio_1.90.0.bb
-> new file mode 100644
-> index 0000000000..ea534ff172
-> --- /dev/null
-> +++ b/meta/recipes-support/boost-asio/boost-asio_1.90.0.bb
-> @@ -0,0 +1,33 @@
-> +SUMMARY =3D "Boost.Asio shared library shim"
-> +DESCRIPTION =3D "Builds libboost_asio as a shared library from boost/asi=
-o/impl/src.hpp"
-> +HOMEPAGE =3D "https://www.boost.org/doc/libs/1_90_0/doc/html/boost_asio.=
-html"
-> +
-> +# Reuse Boost source and licensing metadata from openembedded-core.
+> > Signed-off-by: Gustav Lindberg <gustali@axis.com>
+> > ---
+> >  .../boost-asio/boost-asio_1.90.0.bb           | 33 +++++++++++++++++++
+> >  .../boost-asio/files/boost_asio.cpp           |  1 +
 
-Since this is aimed for OE-Core, the "from openembedded-core" is redundant=
-=20
-and can be removed.
+It would probably also make more sense to put the recipe in=20
+"meta/recipes-support/boost" together with the current boost recipe,=20
+and put the .cpp file in "meta/recipes-support/boost/boost-asio".
 
-> +require recipes-support/boost/boost-${PV}.inc
-> +
-> +SRC_URI +=3D " file://boost_asio.cpp"
-> +
-> +DEPENDS =3D "boost"
-
-Move DEPENDS up to between HOMEPAGE and the require.
-
-> +
-> +do_compile() {
-> +       ${CXX} ${CPPFLAGS} ${CXXFLAGS} \
-> +               -std=3Dc++23 \
-> +               -DBOOST_ASIO_DYN_LINK=3D1 \
-> +               -fPIC \
-> +               -shared \
-> +               -Wl,-soname,libboost_asio.so.1 \
-> +               ${UNPACKDIR}/boost_asio.cpp \
-> +               ${LDFLAGS} \
-> +               -o ${B}/libboost_asio.so.${PV}
-> +}
-> +
-> +do_install() {
-> +       install -d ${D}${libdir}
-> +       install -m 0755 ${B}/libboost_asio.so.${PV} ${D}${libdir}/
-> +       ln -sf libboost_asio.so.${PV} ${D}${libdir}/libboost_asio.so.1
-> +       ln -sf libboost_asio.so.1 ${D}${libdir}/libboost_asio.so
-
-This assumes the major of ${PV} is 1 and updating it will be easy to=20
-miss if the major is ever increased. There is a function that can be=20
-used to extract part(s) of the version number, e.g.:
-
-MAJOR_VER =3D "${@oe.utils.trim_version("${PV}", 1)}"
-
-> +}
-
-Use tabs to indent the shell functions above.
-
-> +
-> +FILES:${PN} +=3D "${libdir}/libboost_asio.so.*"
-
-This should not be needed.
-
-> +
-> +BBCLASSEXTEND =3D "native"
-> diff --git a/meta/recipes-support/boost-asio/files/boost_asio.cpp b/meta/=
-recipes-support/boost-asio/files/boost_asio.cpp
-> new file mode 100644
-> index 0000000000..bf00c8ff26
-> --- /dev/null
-> +++ b/meta/recipes-support/boost-asio/files/boost_asio.cpp
-> @@ -0,0 +1 @@
-> +#include <boost/asio/impl/src.hpp>
-> --
-> 2.43.0
+> >  2 files changed, 34 insertions(+)
+> >  create mode 100644 meta/recipes-support/boost-asio/boost-asio_1.90.0.b=
+b
+> >  create mode 100644 meta/recipes-support/boost-asio/files/boost_asio.cp=
+p
+> >
+> > diff --git a/meta/recipes-support/boost-asio/boost-asio_1.90.0.bb b/met=
+a/recipes-support/boost-asio/boost-asio_1.90.0.bb
+> > new file mode 100644
+> > index 0000000000..ea534ff172
+> > --- /dev/null
+> > +++ b/meta/recipes-support/boost-asio/boost-asio_1.90.0.bb
+> > @@ -0,0 +1,33 @@
+> > +SUMMARY =3D "Boost.Asio shared library shim"
+> > +DESCRIPTION =3D "Builds libboost_asio as a shared library from boost/a=
+sio/impl/src.hpp"
+> > +HOMEPAGE =3D "https://www.boost.org/doc/libs/1_90_0/doc/html/boost_asi=
+o.html"
+> > +
+> > +# Reuse Boost source and licensing metadata from openembedded-core.
+>=20
+> Since this is aimed for OE-Core, the "from openembedded-core" is redundan=
+t
+> and can be removed.
+>=20
+> > +require recipes-support/boost/boost-${PV}.inc
+> > +
+> > +SRC_URI +=3D " file://boost_asio.cpp"
+> > +
+> > +DEPENDS =3D "boost"
+>=20
+> Move DEPENDS up to between HOMEPAGE and the require.
+>=20
+> > +
+> > +do_compile() {
+> > +       ${CXX} ${CPPFLAGS} ${CXXFLAGS} \
+> > +               -std=3Dc++23 \
+> > +               -DBOOST_ASIO_DYN_LINK=3D1 \
+> > +               -fPIC \
+> > +               -shared \
+> > +               -Wl,-soname,libboost_asio.so.1 \
+> > +               ${UNPACKDIR}/boost_asio.cpp \
+> > +               ${LDFLAGS} \
+> > +               -o ${B}/libboost_asio.so.${PV}
+> > +}
+> > +
+> > +do_install() {
+> > +       install -d ${D}${libdir}
+> > +       install -m 0755 ${B}/libboost_asio.so.${PV} ${D}${libdir}/
+> > +       ln -sf libboost_asio.so.${PV} ${D}${libdir}/libboost_asio.so.1
+> > +       ln -sf libboost_asio.so.1 ${D}${libdir}/libboost_asio.so
+>=20
+> This assumes the major of ${PV} is 1 and updating it will be easy to
+> miss if the major is ever increased. There is a function that can be
+> used to extract part(s) of the version number, e.g.:
+>=20
+> MAJOR_VER =3D "${@oe.utils.trim_version("${PV}", 1)}"
+>=20
+> > +}
+>=20
+> Use tabs to indent the shell functions above.
+>=20
+> > +
+> > +FILES:${PN} +=3D "${libdir}/libboost_asio.so.*"
+>=20
+> This should not be needed.
+>=20
+> > +
+> > +BBCLASSEXTEND =3D "native"
+> > diff --git a/meta/recipes-support/boost-asio/files/boost_asio.cpp b/met=
+a/recipes-support/boost-asio/files/boost_asio.cpp
+> > new file mode 100644
+> > index 0000000000..bf00c8ff26
+> > --- /dev/null
+> > +++ b/meta/recipes-support/boost-asio/files/boost_asio.cpp
+> > @@ -0,0 +1 @@
+> > +#include <boost/asio/impl/src.hpp>
+> > --
+> > 2.43.0
+>=20
+> //Peter
 
 //Peter
 
