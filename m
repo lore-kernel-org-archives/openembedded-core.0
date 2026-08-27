@@ -1,150 +1,237 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CF9EAC61DB9
-	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 15:17:06 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.38576.1787843511885189373
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A0E5C61DB9
+	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 15:37:16 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.155.1787845030422930692
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2026 08:11:51 -0700
+ Thu, 27 Aug 2026 08:37:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=FIXdLk5g;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: wenwfu@qualcomm.com)
-Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67RF20f9788690
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:11:51 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:in-reply-to:message-id
-	:mime-version:references:subject:to; s=qcppdkim1; bh=5hN+z15gyTH
-	tPIzkU1c4I693GD9t6N7stvxvdFlG73o=; b=FIXdLk5gyXbxH118F+qnlMtRzor
-	ztBG7O54Yf57plSRhqcPaw11fLKoDnTGuY2+vVOOUY22iYVMsHDtN+Ak+SFFzTEz
-	WbxkFayFv8rnvcOoduIi+bMDGGU4CMZW96MxwdjeaAbGCQ16l0sYYwiDsK6ywyxi
-	iaFHsbnmmkvy501L25W1oK7HSXDBOQAvaJACwQ0KKuo3S7gjbZR3E5bWzkUqZfyy
-	UkhwiU5OlH79ZRy2CJ4nsIUtyRFDZeBJ/b7ss+7iFNXNHNlj2Z7AomTGPkRch55E
-	C+tSWigwV5CmgwdZAB7VfMbFfaxJIsq0PH6w2C9oBE21kmpuwRC+uFHnjpA==
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gapgv8crs-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:11:50 +0000 (GMT)
-Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 67RFBmKd014326;
-	Thu, 27 Aug 2026 15:11:48 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 4g74ujgfb0-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:11:48 +0000 (GMT)
-Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
-	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 67RFBmeC014320
-	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:11:48 GMT
-Received: from perf-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 67RFBmO5014318
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-	Thu, 27 Aug 2026 15:11:48 +0000 (GMT)
-Received: by perf-sh02-lnx.ap.qualcomm.com (Postfix, from userid 3975139)
-	id B222AABA; Thu, 27 Aug 2026 23:11:47 +0800 (CST)
-From: Wenwen Fu <wenwfu@qti.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Wenwen Fu <wenwfu@qti.qualcomm.com>
-Subject: [PATCH v2] initramfs-framework: support LABEL with root-only udev trigger
-Date: Thu, 27 Aug 2026 23:11:44 +0800
-Message-ID: <20260827151144.3046231-1-wenwfu@qti.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260826092522.1618546-1-wenwfu@qti.qualcomm.com>
-References: <20260826092522.1618546-1-wenwfu@qti.qualcomm.com>
-MIME-Version: 1.0
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-ORIG-GUID: 6cL13XL4hl_r-Xtgqe6MQZwNvW5uAA8c
-X-Proofpoint-GUID: 6cL13XL4hl_r-Xtgqe6MQZwNvW5uAA8c
-X-Authority-Analysis: v=2.4 cv=FpU1OWrq c=1 sm=1 tr=0 ts=6a9053b7 cx=c_pps
- a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8 a=EzkYZ8s80MbNxuD3XroA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI3MDEyOCBTYWx0ZWRfX8Ni8o4/tH7sI
- emo14myaoKmmbsEYOWx2+mhmD1fzqnmDod3A94xkDv0xln8JM0yQCUtCMcQOj1LM7nJy0NQU/Ic
- dDhMFFiNTCUlEMk4VzS3Z2iPxoBwzIG8uuaS1O7TcWKsj4DMqLwGQfX2KnFZO3THSn7zW40G++C
- TkFSICer0oTWCsk9IsB0FaJDq4dwTwafhJMIkZn9yBDwcGpJ6kKTkpjJKeFMU0xFiSfh9k8HaX5
- iiZ2f087uvZk0VVCvohTQcikWrysHCL44b8ImF7E6hCKBdLsm12pQVeCdqf9NiefVVmzXIWloKN
- 92zqUmWQnCLl8wL9Dny1JHDzoYyL1ktBcXwft/oXNOslrjOhFbWXVNNHDnlWnZOIyDntsY/wQ84
- 5jqAajZQ2q4mju2gk28pR/ITXOD3LULass2ld2I6InKXRg62Gdi20lg+ZZH3+voWrukw64XVPhT
- khPBALLNqvfsaJkOBOA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwODI3MDEyOCBTYWx0ZWRfXx75N5scMFhPM
- 0UHf3EcGGBb9S5lpVcbSWSOzqlmjALYkcm8242Ln2WQfmiXsyCQjXsvGX8u2084bl1I2uGXlM/F
- vue20O4Y9rFN1pniFGLxS9fnnkWVEVU=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-08-27_06,2026-08-27_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 adultscore=0 suspectscore=0 impostorscore=0 phishscore=0
- spamscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608270128
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=kWxzTXjU;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 1F3B14E4131E;
+	Thu, 27 Aug 2026 15:37:08 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id DD4AB602B8;
+	Thu, 27 Aug 2026 15:37:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 1F31611C78071;
+	Thu, 27 Aug 2026 17:37:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1787845023; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=07ndTFJstsQR6ehqXN+NAoFcLefnWiOaahdxDMASKXg=;
+	b=kWxzTXjUUXLAAx1TRwi7kly+Oba5FIT8f4ABFpgOX8FNHCLhgRMLLMz83fPd1lZ/+aGVpM
+	7YyNqjUwbqd/5F2TNQw/tNsrrgU6jUhh9oNMmDpsFZV+hEe/UkiHK61PgLqzc2Adaz3KLf
+	UR0qMEsJwv1vDg9c0zt6zfG+2tnBy/TfpcEyAzmYS/+s4ku4WcFGPiNOceuUwhhDRzdKa5
+	BrFuGdyJ1b0vz8hngCEYhEHi7mBTYKHbIMAJk6tTQwhqsLFqbPR87xcRjWiH4nQyWEIK6Y
+	ZpkLUjVxYipzFTLiGI7WRkrxDpvmHJSkXOxQrNNCYTh9sWcWEYfIK58B/lg7FQ==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 27 Aug 2026 17:37:01 +0200
+Message-Id: <DKZU60DTZ0YA.193MLWMYN7AU6@bootlin.com>
+Subject: Re: [OE-core] [meta][PATCH 03/06] linux-yocto/7.2: introduce
+ reference kernel recipes
+Cc: <openembedded-core@lists.openembedded.org>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <bruce.ashfield@gmail.com>, <richard.purdie@linuxfoundation.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260821112509.861559-1-bruce.ashfield@gmail.com>
+ <20260821112509.861559-4-bruce.ashfield@gmail.com>
+ <18CF953235C263D2.642712@lists.openembedded.org>
+In-Reply-To: <18CF953235C263D2.642712@lists.openembedded.org>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:17:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244498
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:37:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244499
 
-Filesystem labels are not available in kernel uevents. Add
-util-linux-findfs to initramfs-module-udev and use findfs to resolve
-root=LABEL= to a device. Read the kernel-provided PARTUUID from sysfs
-and trigger only that partition, falling back to a full trigger if the
-label cannot be resolved safely. Keeping findfs out of the BusyBox
-defconfig avoids increasing BusyBox for unrelated users.
+On Thu Aug 27, 2026 at 8:20 AM CEST, Mathieu Dubois-Briand via lists.openem=
+bedded.org wrote:
+> On Fri Aug 21, 2026 at 1:25 PM CEST, Bruce Ashfield via lists.openembedde=
+d.org wrote:
+>> From: Bruce Ashfield <bruce.ashfield@gmail.com>
+>>
+>> 7.2 is our next versioned reference kernel. The standard, preempt-rt
+>> (v7.2-rc4-rt3) and tiny variants are all generated and available.
+>>
+>> Signed SRCREVs point at the freshly generated v7.2 branches; the kmeta
+>> tracks the yocto-7.2 branch.
+>>
+>> Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+>> ---
+>
+> Hi Bruce,
+>
+> I tested the 7.2 kernel, using this commit in meta-yocto:
+>
+> https://git.yoctoproject.org/meta-yocto/commit/?h=3Dcontrib/mathieu/maste=
+r-next-tests-72&id=3D98c8b2ca0c149201f6b2ee52157ca460fd0a2eb4
+>
+> So far, I saw two different errors.
+>
+>
+> First, a fail of kernelmodule.KernelModuleTest.test_kernel_module on qemu=
+x86:
+> Traceback (most recent call last):
+>   File "/srv/pokybuild/yocto-worker/qemux86/build/layers/openembedded-cor=
+e/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/srv/pokybuild/yocto-worker/qemux86/build/layers/openembedded-cor=
+e/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   File "/srv/pokybuild/yocto-worker/qemux86/build/layers/openembedded-cor=
+e/meta/lib/oeqa/core/decorator/__init__.py", line 35, in wrapped_f
+>     return func(*args, **kwargs)
+>   [Previous line repeated 2 more times]
+>   File "/srv/pokybuild/yocto-worker/qemux86/build/layers/openembedded-cor=
+e/meta/lib/oeqa/runtime/cases/kernelmodule.py", line 48, in test_kernel_mod=
+ule
+>     self.assertEqual(status, 0, msg=3D'\n'.join([cmd, output]))
+>     ~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> AssertionError: 2 !=3D 0 : cd /usr/src/kernel && make scripts prepare
+> ...
+> In file included from ./include/uapi/linux/elf.h:5,
+>                  from arch/x86/tools/vdso2c.c:66:
+> ./include/uapi/linux/types.h:10:2: warning: #warning "Attempt to use kern=
+el headers from user space, see https://kernelnewbies.org/KernelHeaders" [-=
+Wcpp]
+>    10 | #warning "Attempt to use kernel headers from user space, see http=
+s://kernelnewbies.org/KernelHeaders"
+>       |  ^~~~~~~
+> arch/x86/tools/vdso2c.c:74:9: error: unknown type name 'bool'
+>    74 |         bool export;
+>       |         ^~~~
+> arch/x86/tools/vdso2c.c:69:1: note: 'bool' is defined in header '<stdbool=
+.h>'; this is probably fixable by adding '#include <stdbool.h>'
+> ...
+> make: *** [Makefile:248: __sub-make] Error 2
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/4474
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/20/builds/4437
+>
+> And then, failure in runtime_test.RustKernel.test_kernel_rust_sample
+> selftest:
+> 2026-08-26 14:11:09,216 - oe-selftest - INFO - runtime_test.RustKernel.te=
+st_kernel_rust_sample (subunit.RemotedTestCase)
+> 2026-08-26 14:11:09,221 - oe-selftest - INFO -  ... FAIL
+>
+> Stderr:
+> 2026-08-26 13:52:43,328 - oe-selftest - INFO - Adding: "include selftest.=
+inc" in /srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-80320=
+4/conf/local.conf
+> 2026-08-26 13:52:43,328 - oe-selftest - INFO - Adding: "include bblayers.=
+inc" in bblayers.conf
+> WARNING: test: LICENSE is using "CLOSED", which is deprecated. Convert to=
+ using a license ref pointing to an actual license file, e.g.
+> LICENSE =3D "LicenseRef-test-CLOSED"
+> WARNING: test: LICENSE is using "CLOSED", which is deprecated. Convert to=
+ using a license ref pointing to an actual license file, e.g.
+> LICENSE =3D "LicenseRef-test-CLOSED"
+> ERROR: When reparsing /tmp/selftest-fetch8rb2fo4w/test.bb:do_checkuri, th=
+e basehash value changed from eaf531c7d0304fd45f77fab173d0399db2b76e45cd464=
+87426eb74bae7d4b7bb to 2cdec1b5839750d0c5998dd35b7ab7380727d2fa3a33aed86414=
+4428d3a78f7d. The metadata is not deterministic and this needs to be fixed.
+> ERROR: The following commands may help:
+> ERROR: $ bitbake test -cdo_checkuri -Snone
+> ERROR: Then:
+> ERROR: $ bitbake test -cdo_checkuri -Sprintdiff
+>
+> I suspect the warning about the LICENSE value is unrelated, but is
+> something else I should fix.
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4680
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/48/builds/4502
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4724
+>
+> Thanks,
+> Mathieu
 
-Tested with bitbake -p and by generating the
-core-image-minimal-initramfs dependency graph.
+Hi Bruce,
 
-AI-Generated: OpenAI Codex
-Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
----
-Changes in v2:
-- Keep findfs out of the default BusyBox configuration.
-- Add util-linux-findfs as an initramfs-module-udev runtime dependency.
----
+Thankfully Richard reminded me of something: warnings are not shown on a
+rebuild, when sstate-cache is used. And as I messed up my first build, I
+do had to rebuild.
 
- .../initrdscripts/initramfs-framework/udev           | 12 ++++++++++++
- .../initrdscripts/initramfs-framework_1.0.bb         |  2 +-
- 2 files changed, 13 insertions(+), 1 deletion(-)
+So here's a new mail to summarize the warnings I've got. Basically there
+just two different things here.
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-index 8f67e78a7c..85c5ba1178 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-@@ -43,6 +43,18 @@ udev_trigger_root_device() {
- 		PARTUUID=?*)
- 			root_match="PARTUUID=${bootparam_root#PARTUUID=}"
- 			;;
-+		LABEL=?*)
-+			# The kernel does not export the filesystem LABEL in the
-+			# uevent, so resolve it to a device node with findfs and
-+			# match on that device's kernel-provided PARTUUID.
-+			root_label="${bootparam_root#LABEL=}"
-+			root_dev=$(findfs "LABEL=$root_label" 2>/dev/null) || return 1
-+			[ -n "$root_dev" ] || return 1
-+			root_partuuid=$(sed -n 's/^PARTUUID=//p' \
-+				"/sys/class/block/${root_dev#/dev/}/uevent" 2>/dev/null)
-+			[ -n "$root_partuuid" ] || return 1
-+			root_match="PARTUUID=$root_partuuid"
-+			;;
- 		*)
- 			return 1
- 			;;
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-index 2ec03bc34c..936cd0c995 100644
---- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
-@@ -88,7 +88,7 @@ RDEPENDS:initramfs-module-mdev = "${PN}-base busybox-mdev"
- FILES:initramfs-module-mdev = "/init.d/01-mdev"
- 
- SUMMARY:initramfs-module-udev = "initramfs support for udev"
--RDEPENDS:initramfs-module-udev = "${PN}-base udev"
-+RDEPENDS:initramfs-module-udev = "${PN}-base udev util-linux-findfs"
- FILES:initramfs-module-udev = "/init.d/01-udev"
- 
- SUMMARY:initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
--- 
-2.43.0
+We have a first group of warnings, both on beaglebone and
+beaglebone-alt:
+WARNING: linux-yocto-7.2+git-r0 do_kernel_configcheck: [kernel config]: spe=
+cified values did not make it into the kernel's final configuration:
+
+    [NOTE]: 'CONFIG_FB_MODE_HELPERS' last val (y) and .config val (n) do no=
+t match
+    [INFO]: CONFIG_FB_MODE_HELPERS : n
+    [INFO]: raw config text:
+
+        config FB_MODE_HELPERS
+        	bool
+        	depends on FB && HAS_IOMEM
+        	help
+        	  This enables functions for handling video modes using the
+        	  Generalized Timing Formula and the EDID parser. A few drivers re=
+ly
+        	  on this feature such as the radeonfb, rivafb, and the i810fb. If
+        	  your driver does not take advantage of this feature, choosing Y =
+will
+        	  just increase the kernel size by about 5K.
+
+        Config 'FB_MODE_HELPERS' has the following Direct dependencies (FB_=
+MODE_HELPERS=3Dy):
+                FB(=3Dy) && HAS_IOMEM(=3Dy)
+        Parent dependencies are:
+             FB [y] HAS_IOMEM [y]
+    [INFO]: config 'CONFIG_FB_MODE_HELPERS' was set, but it wasn't assignab=
+le, check (parent) dependencies
+
+    [INFO]: selection details for 'CONFIG_FB_MODE_HELPERS':
+        Symbols currently n-selecting this symbol (no effect):
+          - FB_CLPS711X
+          - FB_IMX
+          - FB_UVESA
+          - FB_ATMEL
+          - FB_RIVA
+          - FB_I740
+          - FB_I810
+          - FB_RADEON
+          - FB_SAVAGE
+          - FB_NEOMAGIC
+          - FB_3DFX
+          - FB_TRIDENT
+          - FB_VT8500
+          - FB_WM8505
+          - FB_PXA
+          - FB_FSL_DIU
+          - FB_SMSCUFX
+          - FB_UDL
+          - FB_SM750
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/4500
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/2/builds/4500
+
+And then a second group, with qemuarm MACHINE:
+
+WARNING: linux-yocto-7.2+git-r0 do_kernel_configcheck: [kernel config]: Thi=
+s BSP contains fragments with warnings:
+[INFO]: the following symbols were not found in the active configuration:
+     - CONFIG_CRYPTO_AES_ARM
+
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/40/builds/4469
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/4529
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/50/builds/4529
+
+Thanks,
+Mathieu
+
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
+
 
