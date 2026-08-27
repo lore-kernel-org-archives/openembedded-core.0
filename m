@@ -1,98 +1,117 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 13425C61DC2
-	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 09:23:54 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32092.1787822626400037203
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56EEBC61DC7
+	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 10:09:54 +0000 (UTC)
+Received: from mail-qt1-f174.google.com (mail-qt1-f174.google.com [209.85.160.174])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33164.1787825392694930945
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2026 02:23:46 -0700
+ Thu, 27 Aug 2026 03:09:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=FBYUdTqp;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-4957eefd361so12666445e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 02:23:46 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=HFGDN5O6;
+ spf=pass (domain: gmail.com, ip: 209.85.160.174, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f174.google.com with SMTP id d75a77b69052e-52d590ce5cdso3852631cf.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 03:09:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787825391; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Lu2dNNLJUrQE1hhrnJ7z1laikqshiJMBwa7fGgw7+uC4a8pfML4ozWuFieIBaVKono
+         3W14RlKHpIYxZU/lWHLauOWCbq7fW/tmHLslMpO+CaByi693BR3bdjTWJwby7Yj2RHdR
+         nLAziO+vqbQtrsvgmOF43kj8T6bOKqrQaYgVYiYSgJm3riOqBWR0zQD05QTsMSpzabyq
+         Ud4KcdmVm5PUPNBDZaZzyOImgLBlMJ79/HtLs1oGxjaybcv4UlAlLqNDgebSNUDBB7nM
+         AsN1DyzktIxj2SV/BxgBm6h7i50MF1d8k6z6qHMrcQDO4JxWGRwiEVtyQAx8I9zSmTMy
+         ffQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=zgrfousMYGBXz95ssw0zTJMdjuYJwrmzbA0RIHy1vCg=;
+        fh=hrLIMLnLgn9lA4UjcABRY9PW9LZQM2JxdaLMYkWr4sM=;
+        b=PnBjOnks95Y+/PXpsaWtCw/eG4O19G7PAHeRD3pZ1L5BgRkPbwj+RSNbR7LxluflEh
+         TbnMuP8I/yM/Xc7N5WryO22WKaTvK2r6uIi6ERC2JzYF4JqNMzhEcjRvpxyOFApW/DTy
+         F0b2Ov1YJLPDxr7r7pzMeWCCxezKoEsrLnY3zMNHXmLOFOEjtz5OedvA+Elxuz7K7TsE
+         QiAlx8warGqSDfV4DR1S6DwiYt1Apn1dqz8uQFdr9a7TCjdfxWZZ1WV2avRPqMhEdNoX
+         OmHILSVUBufyt3PtiXBdSvxknGhSIx9uM0NkCVrPSjfeEPsKsMoo/6HhaLL8WfgZeKcW
+         xnBA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787822625; x=1788427425; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=WdXKWj6IOoILLB9/4fElg/Ntkq9Qq1bWVOXHRgbhiF0=;
-        b=FBYUdTqpA63ba1a3b32gDhCfvl7+VMfFzob4q15hf3L6MpFQh4jiD3+W/rNrY3LyW+
-         E+Vp9Ter5Jo2J9ss5b3mSVSplychNnswq22lG2rsOQDs2urpvrP4JwHgdUCho4BhlI0F
-         dmDongSNnxt7yk1EZ0tx/w6Zv3+QpfS+t+0Dg=
+        d=gmail.com; s=20251104; t=1787825391; x=1788430191; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=zgrfousMYGBXz95ssw0zTJMdjuYJwrmzbA0RIHy1vCg=;
+        b=HFGDN5O67Fo1+OpHhDb+VJZVdFMurcwly58uKAKYw6oaR23zQaAqXqaXIzMf0iJU+2
+         6A/ZSs/Wr+DSQXwp+xst7JIY+iHz4cjASJwNqGCSJh6THRHbdT59i6jOm+gJRuQCUGzz
+         NtRVbJQVI2xE2jHfmLz3UmzW8FZG5Z8DkjRCBQ9NW4KaCu0YMQSpDMuZ1BrUcmz6w7TV
+         ah2g/IGV5+UGKK9TmSmg4Fgxlix0N3TJgGLf+dFsfe5lo9XD4ye4zJ5qSKsorIrCSGwg
+         F+TY1YoV/f7/OR44JQtCx67ozbLkPH71Fs666+wQZuSolHMv65HxpmU8krfh3+OhMfoZ
+         Iolw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787822625; x=1788427425;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=WdXKWj6IOoILLB9/4fElg/Ntkq9Qq1bWVOXHRgbhiF0=;
-        b=TrdBlYRLri9XlmCGnW/mzb/xWeVHF1r9mN7rYtr0EZcDxQ7j04SruPcITtsRadyXQz
-         LX1cNubNpCFwx2/QvgjgKCCXULqS3nTUpO7Wx7KM2sebMMITFRToywstvFN6Ezzyp+53
-         MCwA5pAugCKJVHwhsjnWplOzybBjK/SreehA+GNagZq7xpVx9YsM0oeybtpdeS8IlpL/
-         KPLUQj0MQM1NUpyxS46ggRkgmmF81VtMoivhfmiSgJjyf5rLrXYkT9WrdXa/L9LR+DW1
-         MvtvxQ7ych5i/Qmhk6USCTvzEiJb9L2f2jq4Es1N2aFDCdyQ2QBafmsLvTIwY1QNpr6p
-         90jg==
-X-Forwarded-Encrypted: i=1; AHgh+RoO8vzhTasEWb3kmR4/tK7GayGB6SsbrG3u5r5JAfehfv94qipy/u9fhKD+Y/a9kXWcueCOm8Ay0KTIdYs/YS3gBA==@lists.openembedded.org
-X-Gm-Message-State: AFuF++kDqFOQOoJX0GWFNqTohAx2XhB+OdrlyEw5rRRBkz17s4r8Vlxj
-	pqGUjUYwsDtJBrqSER/PZoPzIfcIYL1gpaxsn+bOocl2yF2eW3qQPRBrH42bLk0Hjpg=
-X-Gm-Gg: AR+sD13VlbFX4H1BRbECEEW5eKpuh2oaVpifm5HD5fkNWjqR9wduANHdugxXwtSo/R7
-	SEyv251fbpFxjxxLZmVxY8MH1vfgVwaQK3TTjDAbsQtJQDc3QvoifvBt7n6uc400ZJSHyGsXR8+
-	LWC3nViXmSIb1Yq+S96W3SePe3tAfO7vb6MOdkxbxoJA6HCmSUpkoZ58+wdYYr0OkbVD9NllMTw
-	tdSECU/QiagcX4IZwTO50gBEYm3XP8gDCvm08eOV353oOvTu4xTQXVkInFTUoFHgU+mVyLu0ucm
-	SB8AKvC9fL+6J0/SRgYGJw+GSsrpcVVxADYCiiCPHdNGxvSGY4zyDlctRGyEcPPIddiqXUZPmG0
-	poCqybVCm1RJpavvQ/vkxtqUP4ibCCbFS3fwbyr+yrSkIkhXMiTsg4ZVm1mzPZ3VEAgDd5kyJIe
-	Ms0To0vljM9VnsiXvyZJ9eMzzhlLiH5siwCkLi0aiPVYXAjW9xjFTn8BTPMtLwOj13RJ1BuXM9+
-	VMXajGC/3tyLQIEqUVseG5c2hxpdbtTsmbt5I3pTr3KIdYkyy1z
-X-Received: by 2002:a05:600c:34c3:b0:499:afe2:e4d0 with SMTP id 5b1f17b1804b1-499dc70d263mr152667585e9.8.1787822624617;
-        Thu, 27 Aug 2026 02:23:44 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b49236515sm55639975e9.1.2026.08.27.02.23.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Aug 2026 02:23:43 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 27 Aug 2026 11:23:43 +0200
-Message-Id: <DKZM86VB7FTW.37NETKKH4808Q@smile.fr>
-To: <peter.kjellerstedt@axis.com>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 5/5] documentation.conf: Remove the
- documentation of GROUPMEMS_PARAM
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260825180805.2990506-1-pkj@axis.com>
- <20260825180805.2990506-5-pkj@axis.com>
-In-Reply-To: <20260825180805.2990506-5-pkj@axis.com>
+        d=1e100.net; s=20251104; t=1787825391; x=1788430191;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=zgrfousMYGBXz95ssw0zTJMdjuYJwrmzbA0RIHy1vCg=;
+        b=cDJ8Qpq4t888r8IxdvvCJWHWNq8cREVxYftb9fbaA80DCAccA73MiIx3RdPc8bu1RX
+         +7dl9t717yrt5LDz4OwCPV2SczyvUufcbJmIKgA0hnpNrD0kOWyLsAk4Vlz93Fey74nZ
+         FtIoXTCen99q88JfKk0dN8scoLcfBl9ChJGum38uwdu8Gh91xoQOUad0idS//eSlnm1v
+         H6Hr9RHXInqrUs/cjh5SUxCb/2Cskmvc88NtqE3BDmPZ9/PH9xL5p4j67EGsIN+Za684
+         tLxE2TExYeftij2pQrWCsewyhbfdh/RYNowP2LUrFwto+1DISIhzpQqNaMwIsI3nL8tc
+         skBA==
+X-Gm-Message-State: AFuF++lZmogTjVCoKOq4RsD9ArEXSH4G5oekgKGczx/8QfW01RgYXvKH
+	dQp/tDPiIOnqBGMqjBJx/1p1nBCQLwfoFJxn7vFoBTyJSm+cKqk0ILmwkb+TQ8yCDu+i1es8H3F
+	r9icY9qm4pfEe67bdV1gbbKw1ZCIA7nY=
+X-Gm-Gg: AR+sD10CEIXXQUqorYGbGhbpnRLJH1tii9G56FPk0gkPdGjXkp1REinhesXTNwcj47F
+	BQ1Y9/y/riO3ApUjNtHR3pP8b4UItgvpcrxAOcI5O6hLr+VZAZN+iWYLPStuyIJoWZYCv5IJQYO
+	b/NE52AdoRVCKOm+aiOvIBK8weYKYIgZAs5UrIWojurqwZF/2kyVg6wdwasiFwiLyzNw1VPkYvU
+	xdHXo2eJ0RZtpOPyUqgmWEOMJPuKf0Y2EoWnxd7Rxg/CPR7WWHR6eXQkkBYUMsQYUQxsQOqrbeN
+	ajij+GvtpPnKWt/imG43syZ9Z5O1BfivaXQAO9j0krD92oNk1jKiOjyvxNs2bu1uE3y5IsVESCG
+	ofrE=
+X-Received: by 2002:a05:622a:991:b0:527:43a:2f31 with SMTP id
+ d75a77b69052e-52e4228f57cmr152139911cf.15.1787825391600; Thu, 27 Aug 2026
+ 03:09:51 -0700 (PDT)
+MIME-Version: 1.0
+References: <20260519090816.17783-1-pratik.farkase@est.tech> <20260826082716.15560-1-pratik.farkase@est.tech>
+In-Reply-To: <20260826082716.15560-1-pratik.farkase@est.tech>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 27 Aug 2026 12:09:40 +0200
+X-Gm-Features: AcwNN1UY0hwfAUZ6D6LUJPmGMaKjNwwkCNsfPljkKdZ6R2KqO4y044OnE1ArDEc
+Message-ID: <CANNYZj9eY2mj9XoMdCmY80o+95btOvxp1g94RYn9VSAFD2tHAQ@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v3] zstd: add ptest support
+To: pratik.farkase@est.tech
+Cc: openembedded-core@lists.openembedded.org, pratik.farkase@ericsson.com
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 09:23:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244471
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 10:09:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244472
 
-On Tue Aug 25, 2026 at 8:08 PM CEST, Peter Kjellerstedt via lists.openembed=
-ded.org wrote:
-> The GROUPMEMS_PARAM variable has been removed.
->
-> Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-> ---
->  meta/conf/documentation.conf | 1 -
->  1 file changed, 1 deletion(-)
+On Wed, 26 Aug 2026 at 10:27, Pratik Farkase via
+lists.openembedded.org
+<pratik.farkase=est.tech@lists.openembedded.org> wrote:
+> +    # Remove tests incompatible with ptest environment:
+> +    # levels.sh: --ultra/--max levels require >8GB RAM
+> +    rm -f ${D}${PTEST_PATH}/tests/cli-tests/compression/levels.sh
+> +    # window-resize.sh: 1GB window size requires >4GB RAM
+> +    rm -f ${D}${PTEST_PATH}/tests/cli-tests/compression/window-resize.sh
 
-Hello,
+Earlier versions of the patch adjusted RAM allocation for the image,
+and this one removes the tests instead. Why was this changed?
+Adjusting RAM is better, and it's standard procedure for ptests.
 
-I think there is one last reference to GROUPMEMS_PARAM:
-=E2=9D=AF git grep GROUPMEMS_PARAM origin/master-next
-origin/master-next:scripts/contrib/convert-overrides.py:              "pkg_=
-prerm", "RREPLACES", "GROUPMEMS_PARAM", "SYSTEMD_AUTO_ENABLE", "SKIP_FILEDE=
-PS", "PRIVATE_LIBS", "PACKAGE_ADD_METADATA",
+> +    # compress-file-to-dir-without-write-perm.sh: ptest runs as root,
+> +    # which bypasses filesystem permission checks
+> +    rm -f ${D}${PTEST_PATH}/tests/cli-tests/file-stat/compress-file-to-dir-without-write-perm.sh
 
-This won't hold the series but maybe consider a followup patch?
+This as well should not be done: rather run ptests as a regular user,
+for example look at meta/recipes-extended/cpio/files/run-ptest.
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+> +    # cltools/: zstdgrep requires GNU grep --label option not available
+> +    # in BusyBox grep
+> +    rm -rf ${D}${PTEST_PATH}/tests/cli-tests/cltools
 
+This can addressed by adding GNU grep to ptest's package RDEPENDS.
+
+Alex
 
