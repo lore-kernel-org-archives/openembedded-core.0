@@ -1,117 +1,232 @@
-Return-Path: <Yash.Shinde.oss.dev@gmail.com>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F068BC61DB9
-	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 07:20:36 +0000 (UTC)
-Received: from mail-pg1-f176.google.com (mail-pg1-f176.google.com [209.85.215.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.30709.1787815231420018119
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 123E5C61DC2
+	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 07:23:17 +0000 (UTC)
+Received: from mail-ed1-f42.google.com (mail-ed1-f42.google.com [209.85.208.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30736.1787815391604816643
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2026 00:20:31 -0700
+ Thu, 27 Aug 2026 00:23:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=SecYpQVR;
- spf=pass (domain: gmail.com, ip: 209.85.215.176, mailfrom: yash.shinde.oss.dev@gmail.com)
-Received: by mail-pg1-f176.google.com with SMTP id 41be03b00d2f7-cbee846deecso2117002a12.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 00:20:31 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=eXujFm2j;
+ spf=pass (domain: mvista.com, ip: 209.85.208.42, mailfrom: vanusuri@mvista.com)
+Received: by mail-ed1-f42.google.com with SMTP id 4fb4d7f45d1cf-698ae09e356so506340a12.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 00:23:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787815390; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RGyiEiFRwvR/1FdE8JrcDHRN/+8dGUqSlmV/T5hMtmxCbpErXw/6TOTCdoL/yEmvh4
+         wtdmz0PYgPIMZAJOCCK6eXWoN2wVfltZZo4eZDoh0uctEC/duXkQROMcK98JwoA4t+82
+         nC8hP7drZl0auB10/9JPazAoCLL7EIkHuzKrFzdRS/S1xA95J8HHNW2KvrbygBx3MW91
+         dW2++y/Dm5Wgoim/Ancjk7X+CWshuh1vh4Nhy/DHKiZEi5mnCsZBCn+xZ/XRmRS4Da53
+         SZLCe/VyWiI+dt/M1F1+lr7ErCNtcj8mmuTPyTqRgypfGfK8BwyJCeLHhE8gk1vlpbC0
+         yv0Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=goheu8KrsojYx/mOv57xOj2qgXopNJuuesRZzVCxIs4=;
+        fh=U8AJvFDH9EzMQ5AF2yeEipmNIRP9lHLd14HzSfQ14Es=;
+        b=P6BusMTWVv1TaX89xK38W3xxnD/NLqJdkBdDbsAASuIC5pYh76QBbKavV06pywCATh
+         GdSIvIeIXcjfX4+9RVljCpfnTLEJRKpm4epNJwSnJXtDdOtrZtl3asmGt/e1bjwwsuFV
+         pIyFJf7rBAAUTJNLcyuFvGG7t+2pCMrsWV3VSCTFdmTdCV2SaB4RM3xsi8eLV1iRkL4k
+         m4BTIb1MG7/S5ZVSFM1tS9u+x4PYjmoarX8WcZduClPNaF/uBatarCzYn8LSBWYTuUkn
+         B4UzotSJ9w0Yjjq5ioV8fOCnADZjjlPW0zOtONfJ4EMStik4afuTXKpvzKIJlXnw+9oK
+         1xgw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787815231; x=1788420031; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vUSiVz1s4c5vx758hwr0LNjRL69oY7ASOhFiTQvmnGc=;
-        b=SecYpQVR7Ldvpha6d7pR4WPCOVCAJZBcpLPTWEG8QOOJ8teqxs1jP5gfRSLM3BLsgx
-         Csa909hpDQjlgJDmu3ERGYsoHnW4HefKYDOtuGjbCFbmruRd9L0EZs9uS5PkCGCV6RfZ
-         Ap6FDGX7m00qf4ojc17dpiNWtdvY/6wPsvA+9X4YeirLUJMkonv6vTR39sdvevK4+4O4
-         5pGYkQFzY1Ifwv7LLCa9deJa/QvJSrJEmiqOgTuWEf+GTacy2LkW87DHWVP2HARaW4c3
-         Z4Ji4h7pQ7xIUehklBETuVk62iOb8DVZqtPVK690WfvmQje22oXa/emWePnl6GbSRE76
-         /6bw==
+        d=mvista.com; s=google; t=1787815390; x=1788420190; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=goheu8KrsojYx/mOv57xOj2qgXopNJuuesRZzVCxIs4=;
+        b=eXujFm2jChBY1h2L7KldjbQpjWgZZ00tpaEx5jsQhDyVQ/MCo9v/BG0MeW7NbslZ7v
+         cPc6p8Ml7kiWVvUHDADOlapqJmrmA24KoscJeIWuctzz5weh7FjFuAQgGFjtu1jgnHEZ
+         wuB/kkRRU26MF+EkfZyWA/SfawC09EuPOrnyU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787815231; x=1788420031;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vUSiVz1s4c5vx758hwr0LNjRL69oY7ASOhFiTQvmnGc=;
-        b=ayq5jIlZaW0t2rb/QQ+9dRYZz+gnY/10UaBbwGmplsSNu2mE2Uh296CypdpthtZTQS
-         QSwHNXGaynEOi5rgr1HbP8wUs10+ZIj2bov7+bqa6GyrNr2StGEqF0rxh86EhSJKN4dK
-         b2GnhSsfr+g30T9ffOjJIxArhe362rPynNIXjF14j4i/jK6jd0e32wBqX9Z7+RbAVwCM
-         YxEv+0Ww3ccFa/5QP6Oz5Iqh1nm/ijGi8Q+sk0H6NZ0hpxW79LOHKF06BylJdKbLAT42
-         0DWSdaj2mXmzOsYoAfbjgeV/AHoV+NM1UdvBbGqZJHIQeeBpU/Vh/0dc5+FEXePYmQUp
-         V2eQ==
-X-Gm-Message-State: AFuF++mwq/i6Nz7Gxo8qdFDAsBaZpBifjp2LV/p6onFMa9BqJk7qG28p
-	h7gs8KDywAWbn1GvcJk1S7KiPwrNE5LDPQgSAoBBUEPvS+U6EucUc03mpJ69ug==
-X-Gm-Gg: AR+sD11KjCTmccGk8FxUwmdahGNRetwyFb+GM8mM1YKHo624U+z16uIo/daSjkytwFD
-	uHZGi077lbFTe1RHa77QIxd+mQA7t6jw3PgOF7ul2rs1VzOdG6XU0rhyNapR3Dt8D1OA8mqty7x
-	qojWW+odljawkb1T1frkpALlxQgAMYPABEPICxTnlyN+Mit48SEx5Aw5gIp3p9U7NkIMtJxYZex
-	apvoE2C6fZnacjgwuRGr2CPcsc7SS5b2dZsD/acxcdGHAiVx9c2gaxm/2O5i0nUhbiCqq4X76k8
-	lsVFQ44ao6Hu/xmSzrRHKwKBzS3SAjXAYrOKGslCqs+7/KxXbfb911BXzei7CW536YiPLBSugqQ
-	jWQV0Qh3m0tK+0HXS8zhrhej6dnq1c+7hjCEB3cA08NhQJxmT6xdIShnqUkq5m32J/i+dYK0KlM
-	AQ93L7ES9FZo7IHD3Tw7olcwp7zGGcebPPE9dHICRaajW2O+eyhC5387AD0b5hIJQp47AIleplf
-	pKqOnAr6P/NwlWWmuUdFfPY6l/eg4BRi5hmgKB2xR+k0BzJoZN8cHPf6f55zQHX3eUyjO1nhHbp
-	YKf14Slm
-X-Received: by 2002:a05:6a20:9e4d:b0:3c4:1916:9d40 with SMTP id adf61e73a8af0-3cf8403156amr26800401637.12.1787815230752;
-        Thu, 27 Aug 2026 00:20:30 -0700 (PDT)
-Received: from QCOM-V9bhWph2GA.qualcomm.com (blr-bdr-fw-01_GlobalNAT_AllZones-Outside.qualcomm.com. [103.229.18.19])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3283fa89e8fsm22860700eec.8.2026.08.27.00.20.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 27 Aug 2026 00:20:30 -0700 (PDT)
-From: yash.shinde.oss.dev@gmail.com
-X-Google-Original-From: Yash.Shinde.oss.dev@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
-Subject: [PATCH 3/3] python3-websockets: upgrade 17.0.1 -> 17.1
-Date: Thu, 27 Aug 2026 12:50:10 +0530
-Message-ID: <20260827072010.394532-3-Yash.Shinde.oss.dev@gmail.com>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260827072010.394532-1-Yash.Shinde.oss.dev@gmail.com>
-References: <20260827072010.394532-1-Yash.Shinde.oss.dev@gmail.com>
+        d=1e100.net; s=20251104; t=1787815390; x=1788420190;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=goheu8KrsojYx/mOv57xOj2qgXopNJuuesRZzVCxIs4=;
+        b=A/ZhdyC+wzayod/vDGFTMfcM6YjgaZJHLMvpoWbmsY9kjGUFLJ8IWjW182pXGJj+rJ
+         r74FQrG7S4aSui7pCEK0jcVJEpUOuZGett/SKAj3M0W0V6wkFSST/hzlOlEMqMiQgl2p
+         wFXE9eJkZc0Xjb9gTO0pEwaS8BDmbInER7W3VN74tpdH6HuxYTBzhJ38QeM09grkxDqK
+         wPXWWGdlXkvdjjv2qUMy6NYFVAtx9w+C7Dsm8MZ176xzwPPY0BrLKQ8AnIF6LZczNY6e
+         KIiECmQbeAMp0sto0Z4F8jnvC57sJlgkngJZpM/SLIgSIvWVkEyJRq/wRqBJsfkfGHxw
+         qajQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqoNUPW/LXka8lP+giex/xBmkH3TK3W+d605/0I6Vvw1TyQf0PbjhImXDAmYSi+MTLhNfG4Y6JLUzdPiK8S6hjqZA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++lx/4mxR6zojtKbYtooiw2jRSU0SCH9T+zwIyHFexRixVHxp20n
+	pUwy182CoFnSW1+6dkukXVcRHAYV698ieFjs0rmVkG9xaEj2itqpFkurN6q/Mv+teLayHW4nJSm
+	3ksZCAz44DicguraYQPo5ONJi8TxQ6CapES6YTxNlbw==
+X-Gm-Gg: AR+sD11Sn3KQOE5JDwAisgMpe0dPA1kCnD57+e+BYGpZZZLB2yxok7xDgDxDTUm/zdI
+	dIqSN9UXLxpYTDtACbOZpXcWo1n4J+WWpFOpSQ2VhKXodcAMDF4mQ6z1hGhnrHAM/zoj/HjLWF4
+	VV3rSepVB8KCQyYJ8UDFgiM31F5GDgitag7M09HD0Mq9WyvN7ktZp92DBtgFgR4lwzfUNI6refk
+	kIesf9hKdwZWXgSvn7OSv4+q8I6yMCao4kp0NbpMKaJBnpmatZs8jJkQe5IZJoblaSOrFe2+5Wf
+	Ib2dhcCGOwFNqRa7IvZ/SyJtJgCHiwzfFngJRh6y2K93
+X-Received: by 2002:a05:6402:505b:b0:698:af31:5a9b with SMTP id
+ 4fb4d7f45d1cf-6a5df62ac1bmr13658406a12.9.1787815389188; Thu, 27 Aug 2026
+ 00:23:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20260723092354.54697-1-sdoshi@mvista.com> <20260723092354.54697-13-sdoshi@mvista.com>
+ <CANQUz18xEMFKxx9QpXjfBomaJkzJWyj1nkF_vp96fna=dG7LmA@mail.gmail.com> <DKZ1IM1Z8T8O.1D5HCOURS6TZP@smile.fr>
+In-Reply-To: <DKZ1IM1Z8T8O.1D5HCOURS6TZP@smile.fr>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Thu, 27 Aug 2026 12:52:56 +0530
+X-Gm-Features: AcwNN1Wfb6vM2P3icf1YwhYAO_hymKBSROSNHMVYmo3x4A7WmIL2W7iDrEzWwVw
+Message-ID: <CANQUz1_knhX0H_SbpZZ9VeqwY+n5ZueBiGf7NWMhmBLgjofSug@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap][PATCHv2 13/13] vim: Security Fix for CVE-2026-59858
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: sdoshi@mvista.com, Fabien Thomas <fabien.thomas@smile.fr>, 
+	openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="00000000000032667a065a023520"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 07:20:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244463
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 07:23:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244464
 
-From: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
+--00000000000032667a065a023520
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-https://websockets.readthedocs.io/en/stable/project/changelog.html
-https://github.com/python-websockets/websockets/compare/17.0.1...17.1
+Hi Yoann,
 
-- New features
-Added support for reconnecting automatically by using reconnect()
-as an iterator to the threading implementation.
+Thanks for the information.
 
-connect() now follows redirects in the threading implementation.
+I checked the patches, and patches 6=E2=80=9313 are already present in the
+wrynose-nut branch.
 
-connect() can connect to another host and port than those specified
-in the URI in the threading implementation.
+Thanks & Regards,
 
-- Improvements
-Connections are now garbage collected immediately once closed.
+Vijay
 
-unix_connect() and unix_serve() now accept path-like objects,
-such as pathlib.Path, in the path argument.
 
-Signed-off-by: Yash Shinde <Yash.Shinde.oss.dev@gmail.com>
----
- ...{python3-websockets_17.0.1.bb => python3-websockets_17.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-websockets_17.0.1.bb => python3-websockets_17.1.bb} (79%)
+On Wed, Aug 26, 2026 at 10:39=E2=80=AFPM Yoann Congal <yoann.congal@smile.f=
+r> wrote:
 
-diff --git a/meta/recipes-devtools/python/python3-websockets_17.0.1.bb b/meta/recipes-devtools/python/python3-websockets_17.1.bb
-similarity index 79%
-rename from meta/recipes-devtools/python/python3-websockets_17.0.1.bb
-rename to meta/recipes-devtools/python/python3-websockets_17.1.bb
-index 6733cfd0f9..b5ee3ec661 100644
---- a/meta/recipes-devtools/python/python3-websockets_17.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-websockets_17.1.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=51924a6af4495b8cfaee1b1da869b6f4"
- 
- inherit pypi python_setuptools_build_meta
- 
--SRC_URI[sha256sum] = "5baa9bc0dfbae8c507e51c8cf1b6d4628086f7a87bbd3a9952bd5f035451f1cc"
-+SRC_URI[sha256sum] = "acfea4c20bf54384883ea33b1240fc1db4f52e190823a4e2b334bc3e8bfca96a"
- 
- BBCLASSEXTEND = "native nativesdk"
- 
+> On Wed Aug 26, 2026 at 4:51 PM CEST, Vijay Anusuri wrote:
+> > Hi Team,
+> >
+> > Any update on this?
+>
+> For this series, 6-13/13 are in "awaiting Upstream" state[0], that mean
+> that
+> I will check if their equivalent merged on master&wrynose (I plan to do
+> this next week)
+>
+> You can check this yourself and send the missing patches if you find
+> any (please be mindful of exiting patches on -nut branch and on list)
+>
+> Regards,
+>
+> [0]:
+> https://patchwork.yoctoproject.org/project/oe-core/list/?series=3D49053&s=
+tate=3D%2A&archive=3Dboth
+> >
+> > Thanks & Regards,
+> > Vijay
+> >
+> > On Thu, Jul 23, 2026 at 2:56=E2=80=AFPM Siddharth Doshi via
+> lists.openembedded.org
+> > <sdoshi=3Dmvista.com@lists.openembedded.org> wrote:
+> >
+> >> From: Siddharth Doshi <sdoshi@mvista.com>
+> >>
+> >> Picking patch as per [1], and same patch is mentioned in [2]
+> >>
+> >> References:
+> >> [1] https://nvd.nist.gov/vuln/detail/CVE-2026-59858
+> >> [2] https://security-tracker.debian.org/tracker/CVE-2026-59858
+> >>
+> >> Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+> >> ---
+> >>  .../vim/files/CVE-2026-59858.patch            | 134 +++++++++++++++++=
++
+> >>  meta/recipes-support/vim/vim.inc              |   1 +
+> >>  2 files changed, 135 insertions(+)
+> >>  create mode 100644 meta/recipes-support/vim/files/CVE-2026-59858.patc=
+h
+>
+> --
+> Yoann Congal
+> Smile ECS
+>
+>
+
+--00000000000032667a065a023520
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p class=3D"gmail-isSelectedEnd"><span>Hi Yoann,</span></p=
+><p class=3D"gmail-isSelectedEnd"><span>Thanks for the information.</span><=
+/p><p><span>I checked the patches, and patches 6=E2=80=9313 are already pre=
+sent in the wrynose-nut branch.<br><br></span></p><p><span>Thanks &amp;=C2=
+=A0Regards,<br></span></p><p><span>Vijay</span></p><br></div><br><div class=
+=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr=
+">On Wed, Aug 26, 2026 at 10:39=E2=80=AFPM Yoann Congal &lt;<a href=3D"mail=
+to:yoann.congal@smile.fr">yoann.congal@smile.fr</a>&gt; wrote:<br></div><bl=
+ockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-lef=
+t:1px solid rgb(204,204,204);padding-left:1ex">On Wed Aug 26, 2026 at 4:51 =
+PM CEST, Vijay Anusuri wrote:<br>
+&gt; Hi Team,<br>
+&gt;<br>
+&gt; Any update on this?<br>
+<br>
+For this series, 6-13/13 are in &quot;awaiting Upstream&quot; state[0], tha=
+t mean that<br>
+I will check if their equivalent merged on master&amp;wrynose (I plan to do=
+<br>
+this next week)<br>
+<br>
+You can check this yourself and send the missing patches if you find<br>
+any (please be mindful of exiting patches on -nut branch and on list)<br>
+<br>
+Regards,<br>
+<br>
+[0]: <a href=3D"https://patchwork.yoctoproject.org/project/oe-core/list/?se=
+ries=3D49053&amp;state=3D%2A&amp;archive=3Dboth" rel=3D"noreferrer" target=
+=3D"_blank">https://patchwork.yoctoproject.org/project/oe-core/list/?series=
+=3D49053&amp;state=3D%2A&amp;archive=3Dboth</a><br>
+&gt;<br>
+&gt; Thanks &amp; Regards,<br>
+&gt; Vijay<br>
+&gt;<br>
+&gt; On Thu, Jul 23, 2026 at 2:56=E2=80=AFPM Siddharth Doshi via <a href=3D=
+"http://lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.=
+openembedded.org</a><br>
+&gt; &lt;sdoshi=3D<a href=3D"mailto:mvista.com@lists.openembedded.org" targ=
+et=3D"_blank">mvista.com@lists.openembedded.org</a>&gt; wrote:<br>
+&gt;<br>
+&gt;&gt; From: Siddharth Doshi &lt;<a href=3D"mailto:sdoshi@mvista.com" tar=
+get=3D"_blank">sdoshi@mvista.com</a>&gt;<br>
+&gt;&gt;<br>
+&gt;&gt; Picking patch as per [1], and same patch is mentioned in [2]<br>
+&gt;&gt;<br>
+&gt;&gt; References:<br>
+&gt;&gt; [1] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-59858" re=
+l=3D"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-202=
+6-59858</a><br>
+&gt;&gt; [2] <a href=3D"https://security-tracker.debian.org/tracker/CVE-202=
+6-59858" rel=3D"noreferrer" target=3D"_blank">https://security-tracker.debi=
+an.org/tracker/CVE-2026-59858</a><br>
+&gt;&gt;<br>
+&gt;&gt; Signed-off-by: Siddharth Doshi &lt;<a href=3D"mailto:sdoshi@mvista=
+.com" target=3D"_blank">sdoshi@mvista.com</a>&gt;<br>
+&gt;&gt; ---<br>
+&gt;&gt;=C2=A0 .../vim/files/CVE-2026-59858.patch=C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 =C2=A0 =C2=A0 | 134 ++++++++++++++++++<br>
+&gt;&gt;=C2=A0 meta/recipes-support/vim/vim.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
+&gt;&gt;=C2=A0 2 files changed, 135 insertions(+)<br>
+&gt;&gt;=C2=A0 create mode 100644 meta/recipes-support/vim/files/CVE-2026-5=
+9858.patch<br>
+<br>
+-- <br>
+Yoann Congal<br>
+Smile ECS<br>
+<br>
+</blockquote></div>
+
+--00000000000032667a065a023520--
 
