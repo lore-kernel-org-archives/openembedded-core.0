@@ -1,161 +1,150 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EDCA7C61DC4
-	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 15:16:46 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.38907.1787843801536352020
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CF9EAC61DB9
+	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 15:17:06 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.38576.1787843511885189373
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2026 08:16:41 -0700
+ Thu, 27 Aug 2026 08:11:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=W19iTyc3;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-495590dde14so21361425e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 08:16:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787843800; x=1788448600; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EqDSSXi4dv6ZJIZn3ZPImQrMdXdhZppy2Jadw+dss7Y=;
-        b=W19iTyc3mf13t03hRr+8vZ7CYkJGtx3qdpGZOv+OSPPouA/eIwS4u5HfrgOqDdBKDT
-         jobSTUIMCErcXqBebrbkQt2ZP6jybJx6bwpTkhlftGG/RVbIIWfnmzSvU7tpY/j9Y5Ny
-         7XOHvBHZKAUprWKSC2tLJBJrlQ5d7DtWR/qCg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787843800; x=1788448600;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EqDSSXi4dv6ZJIZn3ZPImQrMdXdhZppy2Jadw+dss7Y=;
-        b=kW2FdetxEXo4ZFiAUsMkq4Zpg9yqJdlea7J5x1jJSQeKQFe5yGgyaOsB5Li0co+jG2
-         AW1SQ0risKqlLJBTmHnnVa4z+j35vXIav68dQcJIQN/CFyn/cJvJxsr51nWKrOUuistI
-         u+MNshnrrrbCTdOgYRQUBgzZ1T69/PczZ8oTK7vQSJdqomamf86pJvSeKCK9+Fi6YfJ/
-         /TFTTlgxFAH9Rq/4XKZcZHTPEWeO/XzB1sWUkFjXQzWt6qibYiFinyOCWKlEXOJpSIBU
-         hNhQQOJFRCfk4Rq+Zf5+OU9sFEP/YqTYXWtdlR+8EN5cGWs9QciCbMM2UCnhfreF4eWc
-         1ZKA==
-X-Forwarded-Encrypted: i=1; AHgh+RqicSA+h8kCBygTsV4uqQ0Ryy7GCR+3tLWgi+rmVF+o7FLhf5m1m6rUdHEmDPJl5U/jyJ5yjJHKxRQ21kQUFQKuKw==@lists.openembedded.org
-X-Gm-Message-State: AFuF++lSy4bUn815NX4bIaAfUNwam2+sB9yYqSzkY55zgfzotstrZCjS
-	CSWXcqeXoKdaqxOEcEy1h81+k16n3/HiD+isaQM2epvQegFeBDjbbp4/ObV+UHiHwSs=
-X-Gm-Gg: AR+sD10U4HOcxf2x8At/Jennc/FfQj922MaZyVjRbEkCHPqoZf++EiT6qOWiOPcmjFu
-	Md3cRAAVKbC6nzPqWP3H2Gtvy3R/dzwfuZbzNZDSasuVmsKfqpfmsBpZcuHjo+2eJsOj+Jo+J1T
-	SyMtmnGt0xRFk2Cpp/25ySUk0Yzx8w2fE5C72SEciBIwGzddsFxuQ93RsRxBQDjVGKIfMO2FsbD
-	TLYH6+p1d+JyAV5Zja98fVgP2l6Dz7tiD0GCjGMjC5qmFAH39GN4JTts1kl+Urcb/5AViTLne8o
-	tvWE5iYrCDpi3UYEdX/ex0DtEjtEI0jVmryw866reidUdbSg2rdx2Ho98Uy6t+YSpV/NGl8LO9H
-	Ni9SbZSsRy/facml1+VLWEGPxWoqyo6WmKMnSRziL4quKOJufY+h4XSSVZnzLV2bmosEn7rpxg1
-	FN0oozGQ+LhojZcGOv0UA+1clg8v8nJBHBjNb3/0ahVHeTj6X0loYKjAX/eAypp4tTeXvoLSyFR
-	FYTBwM2mo9yZTCHPBxvQSIDDzRqEG2jOVMaFLpfrNS/x0ooEma5ubCgBCKp4us=
-X-Received: by 2002:a05:600c:1d89:b0:49b:9161:db26 with SMTP id 5b1f17b1804b1-49b9161dc05mr11120175e9.14.1787843799567;
-        Thu, 27 Aug 2026 08:16:39 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482e28e8499sm10182444f8f.26.2026.08.27.08.16.38
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 27 Aug 2026 08:16:39 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 27 Aug 2026 17:16:38 +0200
-Message-Id: <DKZTQEMBB4X3.20JXBADJEQJIJ@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH] classes-global/license: create
- -lic package from PKGD, not D
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <roman.nazarenko@leica-geosystems.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260827140542.669897-1-roman.nazarenko@leica-geosystems.com>
-In-Reply-To: <20260827140542.669897-1-roman.nazarenko@leica-geosystems.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=FIXdLk5g;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: wenwfu@qualcomm.com)
+Received: from pps.filterd (m0279865.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 67RF20f9788690
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:11:51 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:in-reply-to:message-id
+	:mime-version:references:subject:to; s=qcppdkim1; bh=5hN+z15gyTH
+	tPIzkU1c4I693GD9t6N7stvxvdFlG73o=; b=FIXdLk5gyXbxH118F+qnlMtRzor
+	ztBG7O54Yf57plSRhqcPaw11fLKoDnTGuY2+vVOOUY22iYVMsHDtN+Ak+SFFzTEz
+	WbxkFayFv8rnvcOoduIi+bMDGGU4CMZW96MxwdjeaAbGCQ16l0sYYwiDsK6ywyxi
+	iaFHsbnmmkvy501L25W1oK7HSXDBOQAvaJACwQ0KKuo3S7gjbZR3E5bWzkUqZfyy
+	UkhwiU5OlH79ZRy2CJ4nsIUtyRFDZeBJ/b7ss+7iFNXNHNlj2Z7AomTGPkRch55E
+	C+tSWigwV5CmgwdZAB7VfMbFfaxJIsq0PH6w2C9oBE21kmpuwRC+uFHnjpA==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gapgv8crs-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:11:50 +0000 (GMT)
+Received: from pps.filterd (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.7/8.18.1.7) with ESMTP id 67RFBmKd014326;
+	Thu, 27 Aug 2026 15:11:48 GMT
+Received: from pps.reinject (localhost [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 4g74ujgfb0-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:11:48 +0000 (GMT)
+Received: from APTAIPPMTA02.qualcomm.com (APTAIPPMTA02.qualcomm.com [127.0.0.1])
+	by pps.reinject (8.18.1.12/8.18.1.12) with ESMTP id 67RFBmeC014320
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:11:48 GMT
+Received: from perf-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 67RFBmO5014318
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+	Thu, 27 Aug 2026 15:11:48 +0000 (GMT)
+Received: by perf-sh02-lnx.ap.qualcomm.com (Postfix, from userid 3975139)
+	id B222AABA; Thu, 27 Aug 2026 23:11:47 +0800 (CST)
+From: Wenwen Fu <wenwfu@qti.qualcomm.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Wenwen Fu <wenwfu@qti.qualcomm.com>
+Subject: [PATCH v2] initramfs-framework: support LABEL with root-only udev trigger
+Date: Thu, 27 Aug 2026 23:11:44 +0800
+Message-ID: <20260827151144.3046231-1-wenwfu@qti.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260826092522.1618546-1-wenwfu@qti.qualcomm.com>
+References: <20260826092522.1618546-1-wenwfu@qti.qualcomm.com>
+MIME-Version: 1.0
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-ORIG-GUID: 6cL13XL4hl_r-Xtgqe6MQZwNvW5uAA8c
+X-Proofpoint-GUID: 6cL13XL4hl_r-Xtgqe6MQZwNvW5uAA8c
+X-Authority-Analysis: v=2.4 cv=FpU1OWrq c=1 sm=1 tr=0 ts=6a9053b7 cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=Sv0fKeRqtYgA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=Um2Pa8k9VHT-vaBCBUpS:22 a=EUspDBNiAAAA:8 a=EzkYZ8s80MbNxuD3XroA:9
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwODI3MDEyOCBTYWx0ZWRfX8Ni8o4/tH7sI
+ emo14myaoKmmbsEYOWx2+mhmD1fzqnmDod3A94xkDv0xln8JM0yQCUtCMcQOj1LM7nJy0NQU/Ic
+ dDhMFFiNTCUlEMk4VzS3Z2iPxoBwzIG8uuaS1O7TcWKsj4DMqLwGQfX2KnFZO3THSn7zW40G++C
+ TkFSICer0oTWCsk9IsB0FaJDq4dwTwafhJMIkZn9yBDwcGpJ6kKTkpjJKeFMU0xFiSfh9k8HaX5
+ iiZ2f087uvZk0VVCvohTQcikWrysHCL44b8ImF7E6hCKBdLsm12pQVeCdqf9NiefVVmzXIWloKN
+ 92zqUmWQnCLl8wL9Dny1JHDzoYyL1ktBcXwft/oXNOslrjOhFbWXVNNHDnlWnZOIyDntsY/wQ84
+ 5jqAajZQ2q4mju2gk28pR/ITXOD3LULass2ld2I6InKXRg62Gdi20lg+ZZH3+voWrukw64XVPhT
+ khPBALLNqvfsaJkOBOA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwODI3MDEyOCBTYWx0ZWRfXx75N5scMFhPM
+ 0UHf3EcGGBb9S5lpVcbSWSOzqlmjALYkcm8242Ln2WQfmiXsyCQjXsvGX8u2084bl1I2uGXlM/F
+ vue20O4Y9rFN1pniFGLxS9fnnkWVEVU=
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-08-27_06,2026-08-27_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ clxscore=1015 adultscore=0 suspectscore=0 impostorscore=0 phishscore=0
+ spamscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2608270128
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:16:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244497
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 15:17:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244498
 
-On Thu Aug 27, 2026 at 4:05 PM CEST, roman.nazarenko via lists.openembedded=
-.org wrote:
-> From: Roman Nazarenko <roman.nazarenko@leica-geosystems.com>
->
-> do_package and do_populate_sysroot are siblings - both are only ordered
-> "after do_install" - so they run concurrently. With
-> LICENSE_CREATE_PACKAGE=3D1, perform_packagecopy:prepend wrote the
-> LIC_FILES_CHKSUM texts straight into ${D}${datadir}/licenses/${PN}/,
-> mutating the very tree do_populate_sysroot stages with find|cpio:
->
->   | DEBUG: Executing shell function sysroot_stage_all
->   | cpio: ./licenses/libmodule/LICENSE: Cannot stat: No such file or dire=
-ctory
->   | WARNING: exit code 2 from a shell command.
->
-> copy_license_files() removes and re-links an already existing
-> destination, so a file can be listed by find and gone by the time cpio
-> stats it.
->
-> Write into ${PKGD} from a perform_packagecopy:append instead. By then
-> ${D} is complete and untouched, and ${PKGD} is a private copy that
-> do_populate_sysroot never reads. Package contents, on-target paths and
-> ownership are unchanged - do_package is a fakeroot task, so the
-> os.chown() in copy_license_files() still applies. As a side effect the
-> license texts stop being staged into every target recipe's sysroot,
-> which they had no business being in.
->
-> The stale comment about do_install:append goes away with the change,
-> taking the find_license_filesa typo with it.
->
-> This changes perform_packagecopy, so do_package basehashes change for
-> every recipe; expect a one-time repackage.
->
-> Signed-off-by: Roman Nazarenko <roman.nazarenko@leica-geosystems.com>
-> ---
->  meta/classes-global/license.bbclass | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/classes-global/license.bbclass b/meta/classes-global/li=
-cense.bbclass
-> index 6e0de5f414..f2d83c227c 100644
-> --- a/meta/classes-global/license.bbclass
-> +++ b/meta/classes-global/license.bbclass
-> @@ -45,14 +45,15 @@ python do_populate_lic() {
->  }
-> =20
->  PSEUDO_IGNORE_PATHS .=3D ",${@','.join(((d.getVar('COMMON_LICENSE_DIR') =
-or '') + ' ' + (d.getVar('LICENSE_PATH') or '') + ' ' + d.getVar('COREBASE'=
-) + '/meta/COPYING').split())}"
-> -# it would be better to copy them in do_install:append, but find_license=
-_filesa is python
-> -python perform_packagecopy:prepend () {
-> +# Write into PKGD, not D: do_populate_sysroot stages D concurrently and =
-races
-> +# with the remove-then-relink in copy_license_files().
-> +python perform_packagecopy:append () {
->      enabled =3D oe.data.typed_value('LICENSE_CREATE_PACKAGE', d)
->      if d.getVar('CLASSOVERRIDE') =3D=3D 'class-target' and enabled:
->          lic_files_paths =3D find_license_files(d)
-> =20
-> -        # LICENSE_FILES_DIRECTORY starts with '/' so os.path.join cannot=
- be used to join D and LICENSE_FILES_DIRECTORY
-> -        destdir =3D d.getVar('D') + os.path.join(d.getVar('LICENSE_FILES=
-_DIRECTORY'), d.getVar('PN'))
-> +        # LICENSE_FILES_DIRECTORY starts with '/' so os.path.join cannot=
- be used to join PKGD and LICENSE_FILES_DIRECTORY
-> +        destdir =3D d.getVar('PKGD') + os.path.join(d.getVar('LICENSE_FI=
-LES_DIRECTORY'), d.getVar('PN'))
+Filesystem labels are not available in kernel uevents. Add
+util-linux-findfs to initramfs-module-udev and use findfs to resolve
+root=LABEL= to a device. Read the kernel-provided PARTUUID from sysfs
+and trigger only that partition, falling back to a full trigger if the
+label cannot be resolved safely. Keeping findfs out of the BusyBox
+defconfig avoids increasing BusyBox for unrelated users.
 
-Hello,
+Tested with bitbake -p and by generating the
+core-image-minimal-initramfs dependency graph.
 
-It looks like this patch could apply to master (at a really quick
-glance).
+AI-Generated: OpenAI Codex
+Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
+---
+Changes in v2:
+- Keep findfs out of the default BusyBox configuration.
+- Add util-linux-findfs as an initramfs-module-udev runtime dependency.
+---
 
-We have a "master-first" policy which prevent me from merging anything
-to scarthgap if there is no wrynose&master equivalent.
+ .../initrdscripts/initramfs-framework/udev           | 12 ++++++++++++
+ .../initrdscripts/initramfs-framework_1.0.bb         |  2 +-
+ 2 files changed, 13 insertions(+), 1 deletion(-)
 
-Depending on the situation, you will need to send master&wrynose patches
-before I can review this patch.
-
-Regards,
->          copy_license_files(lic_files_paths, destdir)
->          add_package_and_files(d)
->  }
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+index 8f67e78a7c..85c5ba1178 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+@@ -43,6 +43,18 @@ udev_trigger_root_device() {
+ 		PARTUUID=?*)
+ 			root_match="PARTUUID=${bootparam_root#PARTUUID=}"
+ 			;;
++		LABEL=?*)
++			# The kernel does not export the filesystem LABEL in the
++			# uevent, so resolve it to a device node with findfs and
++			# match on that device's kernel-provided PARTUUID.
++			root_label="${bootparam_root#LABEL=}"
++			root_dev=$(findfs "LABEL=$root_label" 2>/dev/null) || return 1
++			[ -n "$root_dev" ] || return 1
++			root_partuuid=$(sed -n 's/^PARTUUID=//p' \
++				"/sys/class/block/${root_dev#/dev/}/uevent" 2>/dev/null)
++			[ -n "$root_partuuid" ] || return 1
++			root_match="PARTUUID=$root_partuuid"
++			;;
+ 		*)
+ 			return 1
+ 			;;
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+index 2ec03bc34c..936cd0c995 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
++++ b/meta/recipes-core/initrdscripts/initramfs-framework_1.0.bb
+@@ -88,7 +88,7 @@ RDEPENDS:initramfs-module-mdev = "${PN}-base busybox-mdev"
+ FILES:initramfs-module-mdev = "/init.d/01-mdev"
+ 
+ SUMMARY:initramfs-module-udev = "initramfs support for udev"
+-RDEPENDS:initramfs-module-udev = "${PN}-base udev"
++RDEPENDS:initramfs-module-udev = "${PN}-base udev util-linux-findfs"
+ FILES:initramfs-module-udev = "/init.d/01-udev"
+ 
+ SUMMARY:initramfs-module-e2fs = "initramfs support for ext4/ext3/ext2 filesystems"
+-- 
+2.43.0
 
