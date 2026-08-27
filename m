@@ -1,102 +1,105 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <dpmin7@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 216BFC5DF97
-	for <webhook@archiver.kernel.org>; Wed, 26 Aug 2026 23:48:28 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25418.1787788102022799399
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21AA6C5DF97
+	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 00:48:10 +0000 (UTC)
+Received: from mail-pj1-f45.google.com (mail-pj1-f45.google.com [209.85.216.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26341.1787791686499284753
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2026 16:48:22 -0700
+ Wed, 26 Aug 2026 17:48:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UWN63BSq;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=JlFOZ2wb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a0407985e3-cf10920f-0b29-4089-b664-898056e5b1c6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1787788101; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=uxPEU/IlEdnEmZ5BXFaAe1j5eACzh1XdTcW2aHfl3ho=;
-	b=UWN63BSqTZLUk/9UeoRewpThOCOyTX1+9rnmukyiMhgFzNhh/f3FviurRJ7o5e0q
-	zCu9+Vv8f4Igy5H1v6S/kIZEV4OiPEji2Ab0mzAlkn11tXsoznWcDN4BIf9dk0MWfMY
-	9aHbj/iLa8+r+xElCi/2bLa4gGmcKwBxWnogrxao=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787788101;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=uxPEU/IlEdnEmZ5BXFaAe1j5eACzh1XdTcW2aHfl3ho=;
-	b=JlFOZ2wbej59Up4/XRroy9y56OpXvf5S1v+kmQnaxrtTdhSGi1BI+1+6AS55XzDV
-	slUdy/kItyOFLFA6DLT72dn/5VK/BeugF/DoG07mSi4t4xuZEWD2upbVdBII9UA/4WB
-	ovME/IGhjoS1P/PJ5I1b9LTOu8CBVJx3zCP77n4w=
-From: patchtest@automation.yoctoproject.org
-To: Anis Bougrine <anis.bougrine10@gmail.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][PATCH v7 5/5] documentation.conf: add documentation for
- KERNEL_MODULE_INSTALL_PREFIX variable
-In-Reply-To: <20260826233416.37047-6-anis.bougrine10@gmail.com>
-References: <20260826233416.37047-6-anis.bougrine10@gmail.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0407985e3-cf10920f-0b29-4089-b664-898056e5b1c6-000000@us-west-2.amazonses.com>
-Date: Wed, 26 Aug 2026 23:48:21 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.26-54.240.27.192
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=h8A6ChsP;
+ spf=pass (domain: gmail.com, ip: 209.85.216.45, mailfrom: dpmin7@gmail.com)
+Received: by mail-pj1-f45.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so1790171a91.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 17:48:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1787791686; x=1788396486; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=x/+HbU6UE9Phdu0cCqrPX4Zi5brpQPreTg1UqbsgoVM=;
+        b=h8A6ChsPA6GjsQDil9tp3/xy/8P/NuD8zyDlyMF698ICw56sOOCBDHI6Bszr66xVDy
+         4xQV3/a4yvWIgt+xBLCGlsVQf6T1FgQNznXy+1v1NEBSsCOTgrvcHzHcOC8pLz4TZ5w4
+         /27BatX5YauIfLvdlnj8wzhFFVbntVCaIrOVkjcL3BqBmPRC5/exyoHbr5Fq0buSpPon
+         niH+2oQyACCzHXsqdT8YLo3nqs0t9cISi/I0VpB9Nt7gB1M/9Myz6FjhmicCwwKSIXNx
+         V4pPWb3yheGGCYU6A2Cgf2OMtoKKdByYixHWfXFGOS+DGhVWhsfdgztKY/FfVs3G++5I
+         WCiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787791686; x=1788396486;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=x/+HbU6UE9Phdu0cCqrPX4Zi5brpQPreTg1UqbsgoVM=;
+        b=qy5vpBK4GpOLci+jy/+rNK8DdvlI0UBSRSPueofcjzof6RNbXUv4CR18hxa0dJRiLi
+         XaBPZ+qRmxxhaQG1re5L73+0n24jtRLms6/PDZ5+DixH4vXo1BlxARCIrQ6/A1GxvsiU
+         DBzG7IBbQjiHJ2L9MaLSjR5PRAIvdLn2e9PGzFUmD3SKvD3aUVcvdv/LwODB6slj125l
+         VgNZPqx2RM0Mc/doTZQSRtZfIrEeDC5Lfv5a/IB4LEQkc56EkZ7o4U3Za9SjjWlR47Tp
+         d6upaw/jlNzZt5cjdLE1Nt1ZcWl9BZQjAqR/P5mK/0S5rRgbeAFZ41x453ALWGT5Tf9j
+         pkAQ==
+X-Gm-Message-State: AFuF++lnOwW1gaQQOGKpD2qQ90XmTUEIIrL8kb1uMwpyUtPmMpIYOohu
+	U1sBIQU9I1MtQi1tYd38rHurNUi6uhyKXtuDt1+AsqJx5A+QcGzOBw8mHmnHLA==
+X-Gm-Gg: AR+sD11NiY3Cuzy0PNpGBqMIVm8daCTilnyxbmi1ilx2Jv4/OoBBXDNRQhQMMW0XPEt
+	3VOEebDv5IYEOHHMU8y4ph9xjeK2YMoaRN+jO3uXMNcw3pnW8/oNn0OIN5gJ1IChPH4ahWQPYPO
+	FR2K3O/kt7Y/eVGpIeyMSh3DxoSWeB7ivByX522h/j1uFi3o1Eeeq1DkzVhZ/mAJTpAk023YMa/
+	kZ1RNaM2WF4L9LBPqm4lwbqgCgeg3d5IME76j+sqvOH8b3wHrDY5dm+zvzeN1fQUrA4rjIy4L6H
+	UMgBhizFEmPsASj8nSFPdNDCvbFLU1OXZ9xUUzkZ0yMrMbfw2m/lSkTeyv6d+1GR9BirnzUoLPu
+	pob7soY67nd7CuMPKV8sdVU20gtK6aOwqsInx7wYn3xtGaP4FvFf9pL04LWVzXNr5rzok6EqNDa
+	Gq3Qz7Vdlpe23tUrlVur/UqLY23dz6nYe2ohCOZnFz7Z/e+lhDFgz5FkbXjhiF
+X-Received: by 2002:a17:90b:380b:b0:38d:ddc2:7ccb with SMTP id 98e67ed59e1d1-3966d13a242mr20606915a91.1.1787791685718;
+        Wed, 26 Aug 2026 17:48:05 -0700 (PDT)
+Received: from dpmin-PC.. ([27.122.242.71])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b19927a1sm405464a91.14.2026.08.26.17.48.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 26 Aug 2026 17:48:05 -0700 (PDT)
+From: Kyungjik Min <dpmin7@gmail.com>
+X-Google-Original-From: Kyungjik Min <dp.min@lge.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Kyungjik Min <dp.min@lge.com>
+Subject: [OE-core][PATCH] rootfs.py: fix run-postinsts removal on multilib images
+Date: Thu, 27 Aug 2026 09:47:55 +0900
+Message-ID: <20260827004755.2074071-1-dp.min@lge.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 26 Aug 2026 23:48:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244441
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 00:48:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244442
 
---NextPart
-Content-Type: text/plain
+ROOTFS_BOOTSTRAP_INSTALL in image.bbclass unconditionally stages
+run-postinsts into every image. When no delayed postinsts remain,
+_uninstall_unneeded() is supposed to remove it again, but the removal
+call used the bare "run-postinsts" package name without applying
+MLPREFIX.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+On a multilib image (e.g. lib32-core-image-minimal), the package that
+is actually installed is lib32-run-postinsts, so the unprefixed
+removal silently matches nothing and run-postinsts leaks into the
+final image manifest, along with its now-pointless init script /
+systemd unit.
 
+Expand MLPREFIX before removing the package, matching the pattern
+already used elsewhere in oe-core (e.g. oe/package.py) for
+package-name lookups that need to work across multilib variants.
+
+Signed-off-by: Kyungjik Min <dp.min@lge.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v7-5-5-documentation.conf-add-documentation-for-KERNEL_MODULE_INSTALL_PREFIX-variable.patch
+ meta/lib/oe/rootfs.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/lib/oe/rootfs.py b/meta/lib/oe/rootfs.py
+index 5eee48f587..e0365da285 100644
+--- a/meta/lib/oe/rootfs.py
++++ b/meta/lib/oe/rootfs.py
+@@ -265,7 +265,8 @@ class Rootfs(object, metaclass=ABCMeta):
+         delayed_postinsts = self._get_delayed_postinsts()
+         if delayed_postinsts is None:
+             if os.path.exists(self.d.expand("${IMAGE_ROOTFS}${sysconfdir}/init.d/run-postinsts")) or os.path.exists(self.d.expand("${IMAGE_ROOTFS}${systemd_system_unitdir}/run-postinsts.service")):
+-                self.pm.remove(["run-postinsts"])
++                mlprefix = self.d.getVar('MLPREFIX') or ""
++                self.pm.remove([mlprefix + "run-postinsts"])
+ 
+         image_rorfs = bb.utils.contains("IMAGE_FEATURES", "read-only-rootfs",
+                                         True, False, self.d) and \
 
