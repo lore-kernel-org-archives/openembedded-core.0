@@ -1,265 +1,133 @@
-Return-Path: <hthakar@cisco.com>
+Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4E5BC61DB9
-	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 06:23:36 +0000 (UTC)
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.30498.1787811807976702134
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C702FC5DF9D
+	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 06:26:56 +0000 (UTC)
+Received: from rcdn-iport-6.cisco.com (rcdn-iport-6.cisco.com [173.37.86.77])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30167.1787812014076049062
  for <openembedded-core@lists.openembedded.org>;
- Wed, 26 Aug 2026 23:23:28 -0700
+ Wed, 26 Aug 2026 23:26:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=iPqJoegJ;
- spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: hthakar@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Q9xyLFXI;
+ spf=pass (domain: cisco.com, ip: 173.37.86.77, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=5890; q=dns/txt;
-  s=iport01; t=1787811808; x=1789021408;
-  h=from:to:cc:subject:date:message-id:mime-version:
+  d=cisco.com; i=@cisco.com; l=2138; q=dns/txt;
+  s=iport01; t=1787812014; x=1789021614;
+  h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=rbRTB3R/4ZR7bybBDnuVos3U3C3Lm+U1IVDWkTvWp9w=;
-  b=iPqJoegJ3PtMOvRJUKtiKqleSaz7OKaDjwO6itmACZQClE0lN1bmQ+Zn
-   XewOtlVuLTRNVO25PwbsyPxxueLGieAaQboJO/NNsMtW+cTkhDsAaYbKQ
-   d4QhsvqfXIOlkrbc16LbIAnfkyazgkZJv0aIh8hdJGZTE4iUezMCdPX2M
-   CegULkUfI2JhKuUTEVDtFde7hdVVlhYkJWlzMXurvgJKSiAHHVLf6LQiG
-   0+f/tpGBDd5pjCNBDVCQAe0rEqOBA9TMBInwEHioL9SYTMWaOCkYwChIR
-   csAoABaxzWo3dcPzvwoljnu1886hxpH1g9w4bKWkHi7kZU0TnG1bAX7Vi
-   A==;
-X-CSE-ConnectionGUID: EWVBkHIYQGamWeZyTeLT9A==
-X-CSE-MsgGUID: Xv29zolUT/CMwpQ2+eFrbw==
-X-IPAS-Result: =?us-ascii?q?A0AmAAC/1o9q/40QJK1aHQEBAQEJARIBBQUBgXwIAQsBg?=
- =?us-ascii?q?lZ0X0JJjHKVP5I3gX4PAQEBD0QNBAEBhQWNcAImNAkOAQIEAwIDAQEBAQEBA?=
- =?us-ascii?q?QEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQIBNQEYAS0sAwECTwsjIYMCAYI6A?=
- =?us-ascii?q?zcCARG+cYIsgQGDKAE/AkNQ2EsNglgBCxQBBYEzAYU+gn+FI10YAYR8Jxsbg?=
- =?us-ascii?q?XKBFYNpgQWBGkIBgUmGXQSCIoEMgVoYBpFvSIEeA1ksAVUTDQoLBwWBZgM1E?=
- =?us-ascii?q?ioVbjIdgSM+F4ENGwYFgR2BKIQQIxk2fIEJXoErKWABEheBCYIHAoJaggUCA?=
- =?us-ascii?q?UlDDgdHQwsYDUgRLDcVGQQ+bgeObx+CToEOAQcjAZVkB5I3oB5xCiiDdowij?=
- =?us-ascii?q?z6FfBozqmwLmH2OCoQJkkeEaYFoPIFHCwdwFYMiCUoZD44qDguDYIF/yjokN?=
- =?us-ascii?q?QIJMwEHAgcPAoFzkX4BAQ?=
-IronPort-Data: A9a23:MPoSo69M62h/5fw7XL8fDrUD13+TJUtcMsCJ2f8bNWPcYEJGY0x3y
- jYeCGiDbPnYZGSkL41/a9+0pxlVvpWDmIRgSFBppSxEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
- 5xGMrEsFOhtEDmE4EzrauS9xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
- 4mvyyHjEAX9gWAsYjhLs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
- /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
- HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2kbArMy+cZWMFhh/
- PknJQIcUh2nu7OflefTpulE3qzPLeHiOIcZ/3UlxjbDALN+HdbIQr7B4plT2zJYasJmRKmFI
- ZFHL2MxKk2cOnWjOX9PYH46tOe0hnD8eidwo1OOrq1x6G/WpOB0+Oi0YIaIIILTHq25mG6ou
- DiX7WP9Py1dH/mA0QPfsX+CnOXQyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NUF+t/7ESGzbDZpl7FQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:vEzaPK/HhC4AWhGE8JVuk+D0I+orL9Y04lQ7vn2ZhyY7TiX+rb
- HKoB11737JYVoqNU3I+urwWpVoP0m9yXcd2+B4Vt2ftWLd1ldAQrsP0WLK+UyFJ8SHzJ8/6Y
- 5QN45jFdb3EV92yez+4AW+DpIc5ePvytHOuQ8bpE0dND2DrMpbnmFENjo=
-X-Talos-CUID: =?us-ascii?q?9a23=3AsQL0qGmfQXC59jQjXAAJQ57QXkfXOVDi8l3TA26?=
- =?us-ascii?q?JMElgTYKYe06s9YdYwuM7zg=3D=3D?=
-X-Talos-MUID: =?us-ascii?q?9a23=3AxZsK/g96G7vkS3sXzQzKF1iQf/d2ufW8D0QwrdI?=
- =?us-ascii?q?tntacDHYzNhmHhiviFw=3D=3D?=
+  bh=bdvrXiXNMBzOCoZuMOgkIRBF5/ruIPSScdbBolJ4olY=;
+  b=Q9xyLFXIirij8RAoWdPHoX1b2f2AV4Ye79skqvxM7I5kRptXFjA4vvnN
+   7WopN59R1xV3sQ9OOV5m2EQz9PKZ5suabvCPDxpvnJpcC8hRj2K2tYTIm
+   dEDVPfiVzaja6t+SxJ5USzAGGuQ8TOGKkrI4WBZgMSKKIBE6pJw02ZjBX
+   ywqDnnW19mhV6tJ/52j+ph/nV0vCUlP6raJlU14FTKZ5bgkUmqSTY9u1p
+   QA2ci4KM9pos3j4b31b86k5XosnWybyP9If7Pf7F8sfdiKDGqyaNUtgs+
+   xxEb+TvpmIeuYqhyNEyajhATidQbLVsorXOlGY08+8QADCR1ohF1RTI1i
+   Q==;
+X-CSE-ConnectionGUID: iYR/MFPARkqLo1v/j/Wojg==
+X-CSE-MsgGUID: e4WZmeh+RvOMuHnA/N8H5Q==
+X-IPAS-Result: =?us-ascii?q?A0BBAgA22I9q/5P/Ja1aHgEBCxIMggULgld0X0JJk1kBT?=
+ =?us-ascii?q?4E1nwqBewMPAQEBDzcaBAEBknUCJjQJDgECBAMCAwEBAQEBAQEBAQEBCwEBB?=
+ =?us-ascii?q?QEBAQIBBwWBDhOGXIcTARgBXVw8CIMCAYJ0A745QoIsgQGDKAGBVNswAQsUA?=
+ =?us-ascii?q?YE4hT+IInaEfCcbG4FygRODa4UQhXgEgiKBDJNnSIEeA1ksAVUTDQoLBwWBZ?=
+ =?us-ascii?q?gM1EioVbjIdgSM+F4ENGwYFgR2BKIQQIxk2fIEJXoErKWESF4EJggcCglqCB?=
+ =?us-ascii?q?QIBSUMOB0dDCxgNSBEsNxUZBD5uB45vH4JOMSgbBxOCKaYioRIKKIN2jCKVO?=
+ =?us-ascii?q?hozqmyZCKRahGmBaDyBWXAVgyIJShkPji0BFdABPDUCOwIHAgcOAwuTZgEB?=
+IronPort-Data: A9a23:KKHevaqJMiJWziKm/6H0apwljfleBmJJZBIvgKrLsJaIsI4StFCzt
+ garIBmCP/iPY2umftl0Otyy9x4BvMWEz4RnGQtu/iBhRi9AouPIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYgLNNwJcaDpOtfrT8kw35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0udGOyZr2
+ 8QxEjMUShfamaW0h428SOY506zPLOGzVG8ekmtrwTecCbMtRorOBvySo9RZxzw3wMtJGJ4yZ
+ eJANmEpN0uGOUASfA5LV/rSn8/w7pX7WzFVpUicuaowy2PS1wd2lrPqNbI5f/TXH5wOxxnB/
+ jiuE2LRD00lBtmSyXm/7FWJm8/JtGTdCKJPLejtnhJtqBjJroAJMzURTVa9rPyzh0KyVt4aI
+ EsO9wIqrLMu7wqsVtT7UhiyrXKIsxJaXMBfe9DW8ymXwabSpgLcDW8eQ3sYMJottdQ9Qnoh0
+ Vrhc87VOAGDeYa9ERq1nop4ZxvrUcTJBQfuvRM5cDY=
+IronPort-HdrOrdr: A9a23:zr/aMaNJs2GSD8BcTvGjsMiBIKoaSvp037BN7TESdfU7SKKlfq
+ yV8cjztiWE6wr5JktApTnoAsDpKhnhHPVOjrX5U43PYOCfgguVBbAny5f+yDv9HCC73Otc2a
+ B8N5VaMrTLfD1HZQKQ2njeLz7mq+P3lJyVuQ==
+X-Talos-CUID: 9a23:Lgs66G9KHJaHFilL09mVv08lIIcAXEX09nTJB0jhFyFrD4KSS1DFrQ==
+X-Talos-MUID: 9a23:cObFNgUqkVUDmKbq/DKwuwNnOccr2bqJLV0tl7xBnZmkaBUlbg==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,246,1779148800"; 
-   d="scan'208";a="818452613"
-Received: from alln-l-core-04.cisco.com ([173.36.16.141])
-  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 27 Aug 2026 06:23:27 +0000
-Received: from sjc-ads-3655.cisco.com (sjc-ads-3655.cisco.com [171.68.250.102])
+   d="scan'208";a="521317102"
+Received: from rcdn-l-core-10.cisco.com ([173.37.255.147])
+  by rcdn-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 27 Aug 2026 06:26:53 +0000
+Received: from bgl-ads-3413.cisco.com (bgl-ads-3413.cisco.com [173.39.60.50])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-04.cisco.com (Postfix) with ESMTPS id E9DE4180001BD;
-	Thu, 27 Aug 2026 06:23:26 +0000 (GMT)
-Received: by sjc-ads-3655.cisco.com (Postfix, from userid 1887505)
-	id 7E58FCC124B; Wed, 26 Aug 2026 23:23:26 -0700 (PDT)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+	by rcdn-l-core-10.cisco.com (Postfix) with ESMTPS id D2D7318000241
+	for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 06:26:52 +0000 (GMT)
+Received: by bgl-ads-3413.cisco.com (Postfix, from userid 1795984)
+	id 05EC7CC037D; Thu, 27 Aug 2026 11:56:51 +0530 (IST)
+From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)" <deeratho@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	Hetvi Thakar <hthakar@cisco.com>
-Subject: [OE-core][PATCH] wget: Fix CVE-2026-58470
-Date: Wed, 26 Aug 2026 23:23:21 -0700
-Message-Id: <20260827062321.3825085-1-hthakar@cisco.com>
+Subject: [OE-core][wrynose][PATCH] cmake-native: use bundled nghttp2 with bundled curl
+Date: Thu, 27 Aug 2026 11:56:37 +0530
+Message-Id: <20260827062638.2141533-1-deeratho@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-3655.cisco.com [171.68.250.102];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.68.250.102, sjc-ads-3655.cisco.com
-X-Outbound-Node: alln-l-core-04.cisco.com
+X-Outbound-Client-TLS: VERIFIED;bgl-ads-3413.cisco.com [173.39.60.50];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 173.39.60.50, bgl-ads-3413.cisco.com
+X-Outbound-Node: rcdn-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 06:23:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244453
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 06:26:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244454
 
-From: Hetvi Thakar <hthakar@cisco.com>
+From: Himanshu Jadon <hjadon@cisco.com>
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
-It also includes the upstream follow-up in [3],
-which preserves 64-bit wgint parsing on 32-bit targets.
+cmake.inc enables system library lookup through
+CMAKE_USE_SYSTEM_LIBRARIES=1. cmake-native already keeps curl bundled,
+but it did not also disable system nghttp2 lookup. With CMake 4.4.x,
+the bundled cmcurl configure can enable nghttp2 when headers are found
+on the host. The later compile uses only the OE native sysroot, so the
+build can fail with:
 
-[1] https://gitlab.com/gnuwget/wget/-/commit/43d3ba9336bc94937e6fae2365c6ffd30c34ffcf
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58470
-[3] https://gitlab.com/gnuwget/wget/-/commit/01ff771caac1958662ca8665eed2021ec386a7af
+  fatal error: nghttp2/nghttp2.h: No such file or directory
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+Disable system nghttp2 lookup for cmake-native also. This keeps it
+consistent with the existing bundled curl setting instead of adding a
+new native dependency because the host happened to expose nghttp2
+during configure.
+
+Add the bundled cmnghttp2 license checksum because the native build now
+uses that copy explicitly.
+
+Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 0b20ba549d6f17af40b9877eb9ab0c52ca62a18c)
+Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 ---
- .../wget/wget/CVE-2026-58470-regression.patch | 48 +++++++++++
- .../wget/wget/CVE-2026-58470.patch            | 79 +++++++++++++++++++
- meta/recipes-extended/wget/wget_1.25.0.bb     |  2 +
- 3 files changed, 129 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58470.patch
+ meta/recipes-devtools/cmake/cmake-native_4.3.1.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch b/meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch
-new file mode 100644
-index 0000000000..c452261a9a
---- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch
-@@ -0,0 +1,48 @@
-+From 01ff771caac1958662ca8665eed2021ec386a7af Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
-+Date: Wed, 12 Aug 2026 19:45:21 +0200
-+Subject: [PATCH] * src/http.c (parse_content_range): Use strtoll instead of
-+ strtol.
-+
-+CVE: CVE-2026-58470
-+Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/01ff771caac1958662ca8665eed2021ec386a7af]
-+
-+(cherry picked from commit 01ff771caac1958662ca8665eed2021ec386a7af)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ src/http.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/http.c b/src/http.c
-+index e5e75ee695..8170a43c27 100644
-+--- a/src/http.c
-++++ b/src/http.c
-+@@ -949,7 +949,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+     return false;
-+ 
-+   errno = 0;
-+-  num = strtol(hdr, &end, 10);
-++  num = strtoll(hdr, &end, 10);
-+   if (errno == ERANGE)
-+     return false;
-+   hdr = end;
-+@@ -959,7 +959,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+   *first_byte_ptr = num;
-+ 
-+   errno = 0;
-+-  num = strtol(hdr, &end, 10);
-++  num = strtoll(hdr, &end, 10);
-+   if (errno == ERANGE)
-+     return false;
-+   hdr = end;
-+@@ -976,7 +976,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+   else
-+     {
-+       errno = 0;
-+-      num = strtol(hdr, NULL, 10);
-++      num = strtoll(hdr, NULL, 10);
-+       if (errno == ERANGE)
-+         return false;
-+     }
-+-- 
-+2.35.6
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58470.patch b/meta/recipes-extended/wget/wget/CVE-2026-58470.patch
-new file mode 100644
-index 0000000000..5d864c5fda
---- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-58470.patch
-@@ -0,0 +1,79 @@
-+From 8740efcdd0d9e7eb04122f63bdb151f1f4d94af8 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
-+Date: Mon, 29 Jun 2026 18:57:54 +0200
-+Subject: [PATCH] * src/http.c (parse_content_range): Fix integer overflow
-+
-+Reported-by: TristanInSec@gmail.com
-+
-+CVE: CVE-2026-58470
-+Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/43d3ba9336bc94937e6fae2365c6ffd30c34ffcf]
-+
-+(cherry picked from commit 43d3ba9336bc94937e6fae2365c6ffd30c34ffcf)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ src/http.c | 35 ++++++++++++++++++++++++-----------
-+ 1 file changed, 24 insertions(+), 11 deletions(-)
-+
-+diff --git a/src/http.c b/src/http.c
-+index 07af1867..ea2e591b 100644
-+--- a/src/http.c
-++++ b/src/http.c
-+@@ -914,6 +914,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+                      wgint *last_byte_ptr, wgint *entity_length_ptr)
-+ {
-+   wgint num;
-++  char *end;
-+ 
-+   /* Ancient versions of Netscape proxy server, presumably predating
-+      rfc2068, sent out `Content-Range' without the "bytes"
-+@@ -932,27 +933,39 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+     }
-+   if (!c_isdigit (*hdr))
-+     return false;
-+-  for (num = 0; c_isdigit (*hdr); hdr++)
-+-    num = 10 * num + (*hdr - '0');
-+-  if (*hdr != '-' || !c_isdigit (*(hdr + 1)))
-++
-++  errno = 0;
-++  num = strtol(hdr, &end, 10);
-++  if (errno == ERANGE)
-++    return false;
-++  hdr = end;
-++
-++  if (*hdr++ != '-' || !c_isdigit (*hdr))
-+     return false;
-+   *first_byte_ptr = num;
-+-  ++hdr;
-+-  for (num = 0; c_isdigit (*hdr); hdr++)
-+-    num = 10 * num + (*hdr - '0');
-+-  if (*hdr != '/')
-++
-++  errno = 0;
-++  num = strtol(hdr, &end, 10);
-++  if (errno == ERANGE)
-++    return false;
-++  hdr = end;
-++
-++  if (*hdr++ != '/')
-+     return false;
-+   *last_byte_ptr = num;
-+-  if (!(c_isdigit (*(hdr + 1)) || *(hdr + 1) == '*'))
-++  if (!(c_isdigit (*hdr) || *hdr == '*'))
-+     return false;
-+   if (*last_byte_ptr < *first_byte_ptr)
-+     return false;
-+-  ++hdr;
-+   if (*hdr == '*')
-+     num = -1;
-+   else
-+-    for (num = 0; c_isdigit (*hdr); hdr++)
-+-      num = 10 * num + (*hdr - '0');
-++    {
-++      errno = 0;
-++      num = strtol(hdr, NULL, 10);
-++      if (errno == ERANGE)
-++        return false;
-++    }
-+   *entity_length_ptr = num;
-+   if ((*entity_length_ptr <= *last_byte_ptr) && *entity_length_ptr != -1)
-+     return false;
-diff --git a/meta/recipes-extended/wget/wget_1.25.0.bb b/meta/recipes-extended/wget/wget_1.25.0.bb
-index 00667a1e24..990bc386a6 100644
---- a/meta/recipes-extended/wget/wget_1.25.0.bb
-+++ b/meta/recipes-extended/wget/wget_1.25.0.bb
-@@ -18,6 +18,8 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://CVE-2026-58469.patch \
-            file://CVE-2026-58469-regression_p1.patch \
-            file://CVE-2026-58469-regression_p2.patch \
-+           file://CVE-2026-58470.patch \
-+           file://CVE-2026-58470-regression.patch \
-            file://CVE-2026-58472.patch \
-            file://CVE-2026-58472-regression.patch \
-            file://CVE-2026-58471.patch \
+diff --git a/meta/recipes-devtools/cmake/cmake-native_4.3.1.bb b/meta/recipes-devtools/cmake/cmake-native_4.3.1.bb
+index a859cef151..911155773c 100644
+--- a/meta/recipes-devtools/cmake/cmake-native_4.3.1.bb
++++ b/meta/recipes-devtools/cmake/cmake-native_4.3.1.bb
+@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM:append = " \
+     file://Utilities/cmlibrhash/COPYING;md5=a8c2a557a5c53b1c12cddbee98c099af \
+     file://Utilities/cmlibuv/LICENSE;md5=ad93ca1fffe931537fcf64f6fcce084d \
+     file://Utilities/cmcurl/COPYING;md5=72f4e9890e99e68d77b7e40703d789b8 \
++    file://Utilities/cmnghttp2/COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec \
+     file://Utilities/cmcppdap/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
+ "
+ 
+@@ -34,6 +35,7 @@ EXTRA_OECMAKE += "\
+     -DCMAKE_DISABLE_FIND_PACKAGE_Libidn2=ON \
+     -DENABLE_ACL=0 -DHAVE_ACL_LIBACL_H=0 \
+     -DHAVE_SYS_ACL_H=0 \
++    -DCMAKE_USE_SYSTEM_LIBRARY_NGHTTP2=0 \
+ "
+ 
+ # Ensure e2fsprogs isn't found on the host to remove a build dependency and reproducible builds.
 -- 
-2.35.6
+2.53.0
 
 
