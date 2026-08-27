@@ -2,76 +2,76 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3E820C61DC2
-	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 13:04:15 +0000 (UTC)
-Received: from fout-a8-smtp.messagingengine.com (fout-a8-smtp.messagingengine.com [103.168.172.151])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.35586.1787835848660100395
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41CB3C61DC6
+	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 13:12:35 +0000 (UTC)
+Received: from fout-a3-smtp.messagingengine.com (fout-a3-smtp.messagingengine.com [103.168.172.146])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36085.1787836351748647432
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2026 06:04:09 -0700
+ Thu, 27 Aug 2026 06:12:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=T3bWgIkK;
- dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=Iy+NmP/0;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.151, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-11.internal (phl-compute-11.internal [10.202.2.51])
-	by mailfout.phl.internal (Postfix) with ESMTP id 86B9DEC022B;
-	Thu, 27 Aug 2026 09:04:07 -0400 (EDT)
+ dkim=pass header.i=@pbarker.dev header.s=fm2 header.b=hgke8MSF;
+ dkim=pass header.i=@messagingengine.com header.s=fm3 header.b=cNOHirTl;
+ spf=pass (domain: pbarker.dev, ip: 103.168.172.146, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfout.phl.internal (Postfix) with ESMTP id C4CB6EC0212;
+	Thu, 27 Aug 2026 09:12:30 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-11.internal (MEProxy); Thu, 27 Aug 2026 09:04:07 -0400
+  by phl-compute-06.internal (MEProxy); Thu, 27 Aug 2026 09:12:30 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm2; t=1787835847;
-	 x=1787922247; bh=gtAffwj2/7uKfB01uk/jbH+wdWAOA+n1S33uZaw63sc=; b=
-	T3bWgIkKfBcRjlgs/RAq7Fs4B4aC7gxs0fFHOEYsZiOx8nWvm4mW3Zuag70o/UB4
-	2A19CFN2q7LIzQOxCA55qnQTsw0k5HKDLyHP0RXyqyBIM9gGk6GCwgvYYuAJM4gC
-	k3XC+vQkxvpmKN45RkOec6ch8gQD5TqygZuB63bcADCNy93+YRYF8EOmTDnJlVWC
-	PvSreRbjPApivIFarEGNInaHOxgS9DC9oFkDNtHFNW0u7OYiSJgW9L0sv88XZnB/
-	1UsPFqJaeTJYbXrLEyMvelAHASsaJi1lFo7fs3/eiYkNdFDxNykhCArIQ8AgBRrn
-	UmW0I9gsiJKgzSQ/w+dnAQ==
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm2; t=1787836350;
+	 x=1787922750; bh=e78bNbRZWAHO7+9mqevzQvW310aPSi38COcaR1igRWI=; b=
+	hgke8MSF03FjyHZmnMab/JcjahrYr+gQWEc1Shl9qHAkGQ/t42keRfmLNm57PgAD
+	m8oYRnX8wqn/YpZq+RaVsnujAx3TPpiciji0muihjjWZK7fQ+XePBZNIWH5nZ1Ww
+	1ZwieGhg8R10qksjn2jIr+t6rQ0dIiziRzhogtaqOzt35d3jLyOGGVf1ey4iOgrb
+	hZOn73u6FYbrBHGfm6yFTn1gqmRiE5mKkaD5CV+sPcjKhXrFoCIrXeIl4fJz8nOJ
+	BcXti8r8u2n8rU9MGUhVBVsO57XCp3QFm2e9F+s/Aom5fS/zWfaovxZVLsirtTvk
+	rWw+Sto5E9BmPNpeCsin1A==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm3; t=1787835847; x=1787922247; bh=g
-	tAffwj2/7uKfB01uk/jbH+wdWAOA+n1S33uZaw63sc=; b=Iy+NmP/0+zL9qzF3g
-	Kg01owEiW+uYCQSAbkEIyQ8GNmHNoMDiSnMN4jNggROjDgXNLwvawMsApZDcMG4H
-	odoDnnGhK/HOpjm4YHPjDQ96Y5xGcrTWsgP8ztBmF7wO/HnMLyMvInerY09Ahihj
-	fJulV1v9KJ+Dx+ygWvgS7DPYpAwVpiSg1Rcu3qWMtztsWrUm/F6f2EH+L9VfjKKS
-	EY0D1o7LCyANDrD3xCE3JLRIXG9Dt3j9G4Z0ozqEI522VojlDjmO5aab1nOx6lKa
-	EFsmopR2LgN0gXDps2YBK0KvmcqzKi9aNeYbFKizyjMUTzXV86kfhDU/M7gOP+hG
-	Iil0g==
-X-ME-Sender: <xms:xzWQavZoFZVYpGRKsir1O46rzyguozAbG7OPz9Uywtj_E-B9YithOQ>
-    <xme:xzWQasX9DPVy99TwH5XrwZAupyTzwYnyLp81LhiAqx70ag0jqGuoMGYXB37dtk5T_
-    2ws47JTGyALqgxuo7lFm1ZmadxppULvzw9Yad8QFOCVMMnB2UdoIHs>
-X-ME-Received: <xmr:xzWQapiI6bOJmqSYatiloI10iL_L0OffN12v3gXjMlXdmzZNyMPuqjrgB96VxfV477n117wSs-5X5Q8AHsSfyekGY_CG3EtTpv7ki2Y>
-X-ME-Proxy-Cause: dmFkZTEOwiqBulqbB1tCZlROg2OtgTZOyoqa+9kpxU5p5+TNHsmL50QLQ3689DPurzI6X+
-    Alk8QYsD6Hjba1yI2pprwKh/MuHQaNBjIMmhzZnHwFASQf+ZLYgavldjxEhfmYWV2WR5UL
-    IYiXzm0QkiK2MDVmrqqhcbf9NznSYUfibTFyfhYHndTkhHI9JcIQtGuYadsNQPi01pxxJs
-    AVZlbZY6lMQsLd52YzVeQB+ZY80szRkUcL9H4KtMdrA5cQz91AGwApyjnTBNqK8o1Ye+MH
-    fmcWFQQjKfrBtafzlGs1y8SZlcAj0kfZsBdGpt7pbh/rR7dm9x6m75rRqmteUQRsWmrXku
-    LbiE8gxZIpvi0W0OSAVT9XpzajcgprA97JvL397iJFAsb0PddlfJxt6vpk0Yq5ggZZ2g4i
-    usLPpALL7ZAZpifyMAn9FQgsw9FGUwZY1msM1u+lrgIXpe5Kscc1Pj86MDefHY5irtthJV
-    Zbod9TorJv/Os16EngWIL2dhSkzDdmMWBImmOr7rbz7aUNGfhBJAEgD471TFSRr9YiXALf
-    wUoTDaw8c3ggXhBoz+eqVVZv4ZNJC/B+S3N46QX+R2/TWysyuQ+cXGER3iZhqDvTTIbIRb
-    5hYdSPw47T4LvvZ1USq3/tHBFCTafXL2H7Rw2t+phZgC9LVuhluyXU+LLdlw
-X-ME-Proxy: <xmx:xzWQaiWk38RWV1UP3kGU0x3yfi8t-44CxMbVys43ox_7cOYqRrBsLg>
-    <xmx:xzWQaoPUYgT4Ed2Br-42sqpwsxoUtQVtyb94oJU-FpnmmC43yBuVVg>
-    <xmx:xzWQamYlmN0CsDrTGfj2eutjS5FDhogr8y-SMEM-lgnb6dH8CH5XTg>
-    <xmx:xzWQasqY5y3fvEMjxdZwDCzogHOuwaUjW1b2111tbF7l7vsRD_oOtQ>
-    <xmx:xzWQalfate-D6SlaJGg9z71FRbKAoQKsTCAhsu7Q83SSrwTxdoG939QF>
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm3; t=1787836350; x=
+	1787922750; bh=e78bNbRZWAHO7+9mqevzQvW310aPSi38COcaR1igRWI=; b=c
+	NOHirTluNqe6QMNx9KuPqqQQMMFdjhF4x3uK1NCFetQB8fy4eXAzhAIBj+duVFeR
+	tAmkrSEjB3bTUsMSkF91iEg7Qeglv2AOfNWqZZIJ+Xnl8CuV8CZ++Q/aq+Yjow/8
+	WXNNb7bga0Ugnjj3fnT3xgGGluEtUwMxewL6kSUUW8gjkTR1NDErJugKwSQhl9dL
+	POIWlQDvpE6bTdoQAwTQYkvrC8RNmfcNTULAP76MqJ8SZj/QgX3gXMRyd2DQmCVm
+	Xor2wWobZ2qe+Mhv3pRrQnkVPIHQjkhvP+7N761PxRHWt2CopJU0kClohM01+7be
+	QcYJeRxndb+SEGRdnEQjQ==
+X-ME-Sender: <xms:vjeQagoTSzHN9gOnWIdiY1p0eKN8lA-hKmb4iMNbxKyoYNJ0Ow4W2g>
+    <xme:vjeQauEOHFu5IC3gd0iFETmhuh-gVTR030Oa4doqHnmhong2AEf8QozkKLoZ8vuzh
+    cgHlpXYxDfgqq0CFsCQ_uGxereTGpXzqWpgIEImq1bsMTdcMu00fAyS>
+X-ME-Received: <xmr:vjeQaimEOgq-1eqbm0NmcfoW6ulzgOWTlG50-cKPce2o_w4p7U-ot8KqbvreruDr8aZqV_DjKOvhDt1idZFctVCjL1m7u75QcN1P6IU>
+X-ME-Proxy-Cause: dmFkZTEv/renouhA9/x2TIKhSnUcjTvqcW4VFzz2zgeQo13KS7e2/fs9p4NLIt4WZsKKoF
+    Z1A02GEoIsZTODa7ptMW2u7W68VSgWLAK9LMA2dO+87YibgRz/jEZ19/8NWsB6HhOPY12T
+    R/SG7v9ilyrX44eTlV02ePBhjyXUyh/0LjNliksjhLKlA/m2B+a2KFcTOhjLRifCsdHsRD
+    QFUwRMECbfK7iNed2C9YxbhZKkxVnprWXzW60fvsnvJn0naLY5DtPOhdkPmt5NERU4IrPq
+    qZVNKHEiFgSbuX6+1Ap/avynqV1S1J2XECjXhOQ7XKmDMrpVr7FNitL4nZIb859n2nkyXp
+    3AETQw5pgToHHs3mebSYV19lJwHeJ8cuqeWsC1lXEdUqHG3BECvOsGFBqc2FLrrSjblEkK
+    HqqGv7zuAq+mX0L62bUTatGvzHSyONZOfjEl72xKENXkvlmNA7I2nYalfC4ebl4fslGuX0
+    ICymJIfd3OEEpgbuMdeNJA2KtXS4+B4XiG8w0BUAB4ZP91ijFRG6X3LSeIVgfb8YtB1wrZ
+    SnTBd8C1mVKPMO4eB/W+Oy1AQhx9OF8tu5UqL92OX3XC5uiCbaA1iWgld+2gw4RlPt+x+m
+    2hRJSJjgB9CHL52pVZvM0Q++eHRviP6kBWqM38ba+sZp0Rnh3KNmwG8XzOnw
+X-ME-Proxy: <xmx:vjeQahmfPTrqqlRII9aRfNK52By0VDn2u42SKQ4DTV9rE66KiE1yrg>
+    <xmx:vjeQajuvmuwaLs8BMZMNmpCp-6jOvShKRb0ySxzHF9bNMt6gMx6rZQ>
+    <xmx:vjeQakkfQXZlWyymPh3cGCr6MF4rvAN4pwc1GPbx09zFzYCfoUCkdQ>
+    <xmx:vjeQauvx9G6HEg1iS6Lt8AtLVJJ32VGhy5gei37BKyTa3HS0jkycfw>
+    <xmx:vjeQageZaN8URwg1fNdfJdOYffelgiRTMslw2B_jnhwWggY1_bN4jY_d>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 27 Aug 2026 09:04:06 -0400 (EDT)
-Message-ID: <be4ca49544e914642e9e4824f2cbd001d42535b0.camel@pbarker.dev>
-Subject: Re: [PATCH] initramfs-framework: support LABEL with root-only udev
- trigger
+ 27 Aug 2026 09:12:29 -0400 (EDT)
+Message-ID: <6fc3dd417116cb61641a293fd9a4256774e708b4.camel@pbarker.dev>
+Subject: Re: [PATCH] classes/archiver: fix tarball content in "original" mode
 From: Paul Barker <paul@pbarker.dev>
-To: Wenwen Fu <wenwfu@qti.qualcomm.com>, 
+To: =?ISO-8859-1?Q?Jo=E3o?= Marcos Costa <joaomarcos.costa@bootlin.com>, 
 	openembedded-core@lists.openembedded.org
-Date: Thu, 27 Aug 2026 14:04:05 +0100
-In-Reply-To: <20260826092522.1618546-1-wenwfu@qti.qualcomm.com>
-References: <20260826092522.1618546-1-wenwfu@qti.qualcomm.com>
+Cc: thomas.petazzoni@bootlin.com
+Date: Thu, 27 Aug 2026 14:12:29 +0100
+In-Reply-To: <20260818133641.1269741-1-joaomarcos.costa@bootlin.com>
+References: <20260818133641.1269741-1-joaomarcos.costa@bootlin.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
@@ -79,36 +79,58 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 13:04:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244487
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 13:12:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244488
 
-On Wed, 2026-08-26 at 17:25 +0800, Wenwen Fu wrote:
-> Filesystem labels are not available in kernel uevents. Enable the
-> BusyBox findfs applet and use it to resolve root=3DLABEL=3D to a device.
-> Read the kernel-provided PARTUUID from sysfs and trigger only that
-> partition. Fall back to the full trigger when the label cannot be
-> resolved safely.
+On Tue, 2026-08-18 at 15:36 +0200, Jo=C3=A3o Marcos Costa wrote:
+> When ARCHIVER_MODE[src] is set to "original", a tarball is generated with
+> the unpacked sources of a given recipe. Prior to it, a tmpdir
+> (i.e. from tempfile.mkdtemp()) is created and the sources are unpacked in=
+side:
 >=20
-> Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
-> ---
->  meta/recipes-core/busybox/busybox/defconfig          |  2 +-
->  .../initrdscripts/initramfs-framework/udev           | 12 ++++++++++++
->  2 files changed, 13 insertions(+), 1 deletion(-)
+> (...)/vim/9.2.0340/archiver-work/tmp8pu2nsck
+> `-- vim-9.2.0340
+>     |-- READMEdir
+>     |-- ci
+>     |-- lang
 >=20
-> diff --git a/meta/recipes-core/busybox/busybox/defconfig b/meta/recipes-c=
-ore/busybox/busybox/defconfig
-> index 1f4b5e3d1e..a282370a8f 100644
-> --- a/meta/recipes-core/busybox/busybox/defconfig
-> +++ b/meta/recipes-core/busybox/busybox/defconfig
-> @@ -634,7 +634,7 @@ CONFIG_FEATURE_FDISK_WRITABLE=3Dy
->  # CONFIG_FEATURE_OSF_LABEL is not set
->  # CONFIG_FEATURE_GPT_LABEL is not set
->  # CONFIG_FEATURE_FDISK_ADVANCED is not set
-> -# CONFIG_FINDFS is not set
-> +CONFIG_FINDFS=3Dy
+> This tmpdir, however, ends up being shipped in the deployed tarball:
+>=20
+> $ tar -tf vim-9.2.0340-r0.tar.xz
+> (...)
+> tmp8pu2nsck/vim-9.2.0340/ci/config.mk.clang-12.sed
+> tmp8pu2nsck/vim-9.2.0340/LICENSE
+> tmp8pu2nsck/vim-9.2.0340/.git-blame-ignore-revs
+> (...)
+>=20
+> This can be avoided by using "-C" option from tar's command, with which w=
+e
+> can point to the tmpdir and to the content inside separately:
+>=20
+> tar --exclude=3Dtemp --exclude=3Dpatches --exclude=3D'.pc' \
+> -C (...)/vim/9.1.1683/archiver-work/tmpv0m93p52 -cf - . | \
+> xz --memlimit=3D50% --threads=3D64 > \
+> (...)/vim/9.1.1683/archiver-sources/(...)/vim-9.1.1683-r0/vim-9.1.1683-r0=
+.tar.xz
+>=20
+> and in the result:
+>=20
+> ./
+> ./vim-9.1.1683/
+> ./vim-9.1.1683/SECURITY.md
+> ./vim-9.1.1683/.codecov.yml
+> (...)
+>=20
+> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 
-Does this really need enabling in the defconfig, i.e. for all users? We
-try to keep the default busybox configuration small.
+Reading this leaves me wondering why we're creating a tmpdir under
+${ARCHIVER_WORKDIR}, why not just unpack the source directly under the
+archiver workdir?
+
+If the tmpdir is needed, I think the issue is that we're passing the
+tmpdir path to create_tarball() in do_ar_original() instead of the full
+path to the extracted sources. I think fixing the call site in
+do_ar_original() would be cleaner if we can do that.
 
 Best regards,
 
