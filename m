@@ -1,103 +1,92 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B908FC61DC2
-	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 12:06:44 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.34557.1787832399048871542
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 01B3BC61DC2
+	for <webhook@archiver.kernel.org>; Thu, 27 Aug 2026 12:25:35 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34885.1787833532736228408
  for <openembedded-core@lists.openembedded.org>;
- Thu, 27 Aug 2026 05:06:40 -0700
+ Thu, 27 Aug 2026 05:25:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=pNhfwXFM;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id E5BC71A185F;
-	Thu, 27 Aug 2026 12:06:36 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id AD8F8602B8;
-	Thu, 27 Aug 2026 12:06:36 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CD21A11C7801A;
-	Thu, 27 Aug 2026 14:06:27 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1787832391; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=HDpqTB/UBWWnMgJ2nNTUSafkfa4Fjf9R94F+1w8+RNc=;
-	b=pNhfwXFMwgKve8O2AdkE3r3MvY0SOnN8JMfz6ucuAhGVled/jPLy/Nsdupfs1bYu47NfrG
-	lpCgth1Tj6eoeD4aWx++CVvEwmAVMy3U2AcC4QNSx6GLolgGLhbi+9NEjVRguObsBuY9ff
-	rCOc6iPnV1Y1R2j03qZ4NTzSZ+1O5G7btUHNKg5tNwoF3Y6OCSz95H2ud+4U600VZTSaIU
-	4a/0+imWW3ya9t4tvO6cfBV65d39UXkeE6jQsetec2c73tChcI7gYwJDMCg2atCrQkCAse
-	YzrC8y9BC3JnE75XJ2j1Ua1KA3xD3Rykq6btmc6MWV9vFBNrx9DxnAQkaeB//g==
+ dkim=pass header.i=@smile.fr header.s=google header.b=MCnsvXvA;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-482e4998d28so1054760f8f.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 05:25:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1787833531; x=1788438331; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+fdXhU1DPevvZVxsFFAARNlb03JV7TmXnNyBXhep1V0=;
+        b=MCnsvXvAX5FBhA+Pdb6gFT5vMzi8lTMUUlIVqzpvbOz5Ee+cnLN/uleU3YzHo5T1yT
+         jO6ZTfjhlOTI3r1GAiY4zERLcqAs54MqWNUN1L8JRZlTulFIWBDGUfioNHgp7wMtStFw
+         Mi0F6RGVKbLIJoNNBe/oH0qQ0clH7eNLDctPo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787833531; x=1788438331;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+fdXhU1DPevvZVxsFFAARNlb03JV7TmXnNyBXhep1V0=;
+        b=WCKY43Hoetrg2jKJu6ODANLxsEWurCu8N4cHJ1FpRYYvIdENyhYgf0irOaEtMJioWp
+         h8K6fcixx5xUkvoGKrO+Eu9UugY823bfby/yLO0EMwrnjO7PlEONIro821upXpY8Q1da
+         qoUW6sqtm+MXAY7MXAcrjnAqK7pBQCiQ54LMiZ6ECVD/HEU/Mp1QsZ7guwFZ8rxtpK3Y
+         1WDSinIyI/TiZvQa9N+bIgBZg6rFYWQhiwTFY9gLf7RMva+q7t7Dzkwt5ZAMy0e2mbU1
+         H2Q232XI2KQRLhCml4mgI/vahSHhtMHPegn4S6CJO11ErgXE7py6EiNiL5NIS908lweB
+         RqbQ==
+X-Forwarded-Encrypted: i=1; AHgh+RqYieIP5EECpM9XNCOosV/RIBlXEPYJ6qO9O6VdjWa12DSH9UyAPqhok5jRbPz7Aj/YJRS7y/x7GlDUIBCBYAcqTg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++mOVM27DmrcoVqGiyp/bNdFlDXrxuJTpy6aCDsGB1TZXRLmJ+3W
+	04p8CU7WRXhywZXcTPeTZIAe//0UtECFrnxq65Zc0egHOxuAOI+yR4P37uy2ZNtbA3U=
+X-Gm-Gg: AR+sD132spvqMhkCozcR39wRSiUKWz9968G8v7buUQsMDLVk8sTVU/6zXuM2Lm4ok55
+	H0WplWI6WYpbrnA+yB5VrzBtBzJxrpLwfr/b4zisJ9/VozuHNDalDYr9rKAkSmypUNaJIRJcY6r
+	BCjF2ElHSNqxo/RPh4wQRMhpDy22mngCCPQad9t29acsvMinLrjoMtYc38HILSn+cJjKv98fb9X
+	5FKRGxs3JBXpw0WP6h8wGv56bUN/p1AQVXeRkLg2BhGVLgqBN/bs/snnb02NeQgUoRSONgMFy+O
+	TtkOd/hldT9U78tfPHP9ELF1qxCk6Xy5XiC/bjgmDtQ5LKWR7gN6GMxaJTMxwivkQ/OiHuBdWiA
+	V9mSChVNf7wAQ5RnQK6sMIvxWsMSHZz7HvEmJdv46QvXxQ1BhKZRNThQuZ2oNPcT8aWJRSeg5wL
+	oddg8NAY4fdDG/vY8plRGGdUvT/aab+bECWpDKfS3B2FDVoj9nGDXCMn/IlqRYgFauLuUwG4Dq7
+	MNATSSB13CNa+ilk70i/2Cq54geER0CZtDf/umF7VohJtGVtmL0
+X-Received: by 2002:a5d:43cf:0:b0:481:5d18:eb9e with SMTP id ffacd0b85a97d-482e26c40c3mr15117324f8f.17.1787833530941;
+        Thu, 27 Aug 2026 05:25:30 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482e27a9f0esm9479179f8f.10.2026.08.27.05.25.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 27 Aug 2026 05:25:30 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 27 Aug 2026 14:06:26 +0200
-Message-Id: <DKZPOS2ZANNR.2AZTW1QIJ8MJB@bootlin.com>
-Subject: Re: [PATCH v18 00/16] rpm: 4.20.1 -> 6.0.2
-Cc: <alex.kanavin@gmail.com>, <mattware@cisco.com>, <esparlin@cisco.com>,
- <peter.marko@siemens.com>, <randy.macleod@windriver.com>
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: "Sumanth Gavini" <sumanth.gavini@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260826214548.3002838-1-sumanth.gavini@windriver.com>
-In-Reply-To: <20260826214548.3002838-1-sumanth.gavini@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Date: Thu, 27 Aug 2026 14:25:29 +0200
+Message-Id: <DKZQ3D64CM1E.3IRQBQ2SFDOMA@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH v2 1/2] binutils: fix CVE-2026-3441
+ and CVE-2026-3442
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <deeratho@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <DICS8ZZ99Q7C.25QI9TUSM1VCB@smile.fr>
+ <20260513172734.3995341-1-sudumbha@cisco.com>
+ <DIZPUVCH66VP.2S19RRFXIN3RT@smile.fr>
+ <400669.1783512925172136878@lists.openembedded.org>
+ <2326647.1787828526675209926@lists.openembedded.org>
+In-Reply-To: <2326647.1787828526675209926@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 12:06:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244482
+ <openembedded-core@lists.openembedded.org>; Thu, 27 Aug 2026 12:25:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244483
 
-On Wed Aug 26, 2026 at 11:45 PM CEST, Sumanth Gavini wrote:
-> * V18:
->     - patch 01-09: unchanged from v17.
->     - patch 10: split into two patches based on richard comments.
->     - patch 11-14: no code changes; patch numbering updated to 12-15.
->     - Added "package_rpm.bbclass: filter pkgconfig() deps regardless of
->       generator state" (0016 patch). Fixes the reproducibility failure
->       Mathieu reported on v17 (pkgconfig() Provides/Requires differing
->       between reproducibleA/reproducibleB-extended on hicolor-icon-theme-=
-dev
->       and others). __pkgconfig_provides/__pkgconfig_requires %{nil}
->       don't reliably suppress RPM 6's generator; adds
->        __requires_exclude/__provides_exclude as an unconditional filter. =
-=20
+On Thu Aug 27, 2026 at 1:02 PM CEST, Deepak Rathore via lists.openembedded.=
+org wrote:
+> Hi Yoann,
 >
+> Any update on this? As per last update, Sudhir has sent the patches for m=
+aster and wrynose branch as well. Can you please review?
 
-Hi Sumanth,
+See https://patchwork.yoctoproject.org/project/oe-core/patch/20260513172734=
+.3995341-2-sudumbha@cisco.com/#40079
+I've dropped this series. Please refresh/resend it.
 
-Thanks for the new version.
-
-We still have a reproducibility issue, I believe it's the same as for
-the previous version:
-
-2026-08-27 09:37:58,061 - oe-selftest - INFO - Traceback (most recent call =
-last):
-  File "/srv/pokybuild/yocto-worker/reproducible/build/layers/openembedded-=
-core/meta/lib/oeqa/selftest/cases/reproducible.py", line 407, in test_repro=
-ducible_builds
-    self.fail('\n'.join(fails))
-    ~~~~~~~~~^^^^^^^^^^^^^^^^^^
-AssertionError: The following rpm packages are different and not in exclusi=
-on list:
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/rpm/./noarch/hicolor-icon-theme-dev-0.18-r0.noarch.rpm
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/rpm/./noarch/iso-codes-dev-4.20.1-r0.noarch.rpm
-/srv/pokybuild/yocto-worker/reproducible/build/build-st/reproducibleB-exten=
-ded/tmp/deploy/rpm/./noarch/wayland-protocols-dev-1.49-r0.noarch.rpm
-
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/4828
-https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260827-qol4ae7a/=
-packages/diff-html/
-
-Thanks,
-Mathieu
-
+Thanks!
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Yoann Congal
+Smile ECS
 
 
