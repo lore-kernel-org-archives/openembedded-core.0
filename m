@@ -1,93 +1,142 @@
-Return-Path: <festevam@gmail.com>
+Return-Path: <quentin.schulz@cherry.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 418EEC61DBD
-	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 14:49:34 +0000 (UTC)
-Received: from mail-ua1-f51.google.com (mail-ua1-f51.google.com [209.85.222.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2467.1787928564095264973
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA2FC61DCB
+	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 14:59:04 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.37])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2711.1787929141509026178
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 07:49:24 -0700
+ Fri, 28 Aug 2026 07:59:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=brjxhCPH;
- spf=pass (domain: gmail.com, ip: 209.85.222.51, mailfrom: festevam@gmail.com)
-Received: by mail-ua1-f51.google.com with SMTP id a1e0cc1a2514c-96723c7151eso330070241.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 07:49:23 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787928563; x=1788533363; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IHOBA1/WbGdWimJoYimJLI4GVWmygahJG84AO3glLUw=;
-        b=brjxhCPHh2tEmhqyJVCJh5yy1eNOiKa4mjbyVGgiE2Pkj6F40GSwoTHVVeiq9Vk5Od
-         Xr8XZbFkcx6GZ7Bon0XY4LtgIu5HfS691KCWS7bS6NO/MQWSeDTuG9CMq/zd5XM9RrYj
-         bw4HjxyHnB/HF6tKLilX9l4P+/dywytI9vKVss9rh815xDKWKD1fPKa4BLR4aukVk1Hw
-         esEfDITtmn75yL4dTCl6tCjie8Gtnn+p0m4tvDGW+nwAB17sMnTlel39wFexST+uNkOH
-         eA+jphlQNchp1UsHYHRNUBtcFU72zNe/pEt1x+rTRF2J3L9n7+Agg9CWGXr2xNvGd28u
-         0oxg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787928563; x=1788533363;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=IHOBA1/WbGdWimJoYimJLI4GVWmygahJG84AO3glLUw=;
-        b=Qkg0Mb6JBbvaM+qZvxMpbcL6YEM9p/vqGC3ZFLmpLq2GTBLaDscOHUgi6JutVoMnoH
-         ZErKK4548UQQrZh7F+KoaCqGXqpPWHJ3nE7E0vLuzHv0RUFxjTU27IK88CYV+rsspNor
-         lMA5PzTGKPfZqflNDbuLG20hqduIWlzapvUSAQtGFFmzPx9xrsKmVLLZ+Ni4PUtesEmv
-         fsdY3jaKw4np0XkdKiTsvj68b2gWmkJKcVcSX6Ps/0NxvyTdtvHS+PkRsznNH+/fNa0X
-         L2bkOR17aRhyG1H8zsYTF/2kxx+LPwoCfsFclerNIo1IHMvAfIWs+whr+2KPve+FX1XK
-         JtcQ==
-X-Gm-Message-State: AFuF++mBru14hnIEeMnG/2i6+wFHnbf1bKp7BA8eXqKsyiHQM90L9FVg
-	P7Y2ju2fP9dPrH2MiPwr/11CNyHLdFNbUAy8PS5+Y+bc6x7evRLZ8j0fJNaJGw==
-X-Gm-Gg: AR+sD10qIIg8uxNAQwWSc8RUvIoLP0Y6FGeTuC0PfYMrTDuvKPfVkNhwTqLF469IvfK
-	wPQ6dX0SLCpdjOynXZ/JyIr086on866DRAn35gJ9H1DlTb9l0d3ObRm5glr7a9G6rUm0bRBmLiA
-	MrAowvJuLyID2sZCHiBRMbBtb3w9dXqyLnblx9C9xjFlIp1siOKD7qmiVNzQQGFlvd2enmTiIe6
-	0heSm9zsdWngcqiZToutmiHafdpXWE/BgkqEp1xG3EmbdBF7fNwZkx+nRueJa7XsEujeQJp2rhN
-	hJs5anhnTLjeLzvXtLmf9lrX9diKmUPM95m7M3JNEQ4/uzEkwNVN0dNo3qdl549hu0IaY+S60Kn
-	BypYnUD94qM4yfv/j2qcI6rc3dTz6syT64pO56x8NxZVlexPFndoKmwenzXfBwCOEvWGTQ0mwAj
-	NEh0GI9zafQ77ELv/y4qEUMtx2wWmPQ6yQ3a0goTqYtgYaw0/ji9TNCREx8YQqBt8GZcfDoSvDc
-	Ri6o210BB2L8J4TtSPXv5OeDqEkfznv5TVoG/U=
-X-Received: by 2002:a05:6102:2c82:b0:785:76cd:ce88 with SMTP id ada2fe7eead31-785962b3bbbmr2233066137.3.1787928560223;
-        Fri, 28 Aug 2026 07:49:20 -0700 (PDT)
-Received: from fabio-X870-EAGLE-WIFI7.. ([2804:1b3:a802:ffb2:89fd:8130:d331:ce62])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-785f532aa2fsm1222207137.2.2026.08.28.07.49.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 07:49:19 -0700 (PDT)
-From: Fabio Estevam <festevam@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] u-boot: Update the HOMEPAGE entry
-Date: Fri, 28 Aug 2026 11:48:59 -0300
-Message-ID: <20260828144859.364618-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@cherry.de header.s=selector1 header.b=LJB2k0I7;
+ spf=pass (domain: cherry.de, ip: 40.107.130.37, mailfrom: quentin.schulz@cherry.de)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Puyo20eCOtxrWJJ8yfPtnSd9L6BFGHlVoMUVQg6jJ//ah7gFn2ATaq/r//qiAumY6Ru0nZJ8ySKqaM4SQ/Z65f+EOXLnHC/wtpy52FMCTrrxTu657+UM880w/mv+c1fxt/x3q0/XNwebYfxzcqv9khqLbn6oDBaflREuidOXOXJGalLJKiBqnItrWQ4YKzAy62QIR202uHpc4aG6hJ6szafDrR3Vj1BLjmQSOQMthcp28FU43sqt9PHHSrXOhxzPhPsYy8+2HL0kMjBLl5Z0SJ4bJ47AcSbyqL7zKTugPUKvQuWFUs456YOnP3LhhCl8+kIhk2Sr8cH+BhT4kWToHA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=EYPuZVLO/Ky4rbg+M4zyjnwrnkDxWNl06Hmw82uWuWg=;
+ b=OeeA8N4BkAJRk+v4FuAdHwLZlvYVl/lZxQ/Ek1Ud7P+0oLRCcJDiklo/1CnIHwj8KjGgJ039aDMcYRiDAzotGqLAphhQKsrazlDyYjEyya3H/J6QRLVyXQ27W8CO82tx49hT0ztTrRrPIPUX8xIrbz+0brxWL3aIOqfP33xAPzbxGJD7WCZse8RbUIJR9/nCZUHS+p7qkeixZSyXRksUwonPVoRoQ0P3sx42oVMdYCtWM8Hmzy094RPq+G5LuswtslITTOs5LWWyhdDdQBjIAayY+qrcmnTa8ZRB2d+RF+u6dg2Gfwcw75t2vRS81wy7GBJ2wRC1SBdxVAArbAikmQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
+ dkim=pass header.d=cherry.de; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=EYPuZVLO/Ky4rbg+M4zyjnwrnkDxWNl06Hmw82uWuWg=;
+ b=LJB2k0I7fUllod2PJFkC4UZBaL94H+4z2Pn2GjnhCUIifVvWn3kDn/tMOrA+rzgxvluXnVeVuBUMlvEdrMfyqxuwRPbuU6C4UJLqiMcR4E4rcoYUVPtbTaF0wrBfBtW+b/uf5i6acPCsxrSsbdCxOKCmMv7KnE8YHx+tgwFArs8=
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=cherry.de;
+Received: from PA3PR04MB11153.eurprd04.prod.outlook.com (2603:10a6:102:4ab::7)
+ by MI9PR04MB187423.eurprd04.prod.outlook.com (2603:10a6:290:c1::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Fri, 28 Aug
+ 2026 14:58:55 +0000
+Received: from PA3PR04MB11153.eurprd04.prod.outlook.com
+ ([fe80::6b02:c0eb:95a4:3c3d]) by PA3PR04MB11153.eurprd04.prod.outlook.com
+ ([fe80::6b02:c0eb:95a4:3c3d%4]) with mapi id 15.21.0360.008; Fri, 28 Aug 2026
+ 14:58:55 +0000
+Message-ID: <b3b26144-af17-4700-ab26-2e8a1d237648@cherry.de>
+Date: Fri, 28 Aug 2026 16:58:53 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] u-boot: Update the HOMEPAGE entry
+To: festevam@gmail.com, openembedded-core@lists.openembedded.org
+References: <20260828144859.364618-1-festevam@gmail.com>
+Content-Language: en-US
+From: Quentin Schulz <quentin.schulz@cherry.de>
+In-Reply-To: <20260828144859.364618-1-festevam@gmail.com>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: VI1PR0502CA0029.eurprd05.prod.outlook.com
+ (2603:10a6:803:1::42) To PA3PR04MB11153.eurprd04.prod.outlook.com
+ (2603:10a6:102:4ab::7)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA3PR04MB11153:EE_|MI9PR04MB187423:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d96d159-06a3-45e6-7870-08df0514e194
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|10070799003|366016|11063799006|18002099003|22082099003|56012099006|10067099003;
+X-Microsoft-Antispam-Message-Info: 
+	XgSwz8XJazVAAkF6abL0rivu3k5b3828F6QnIW+V3oYGMLCk0Ja5Tws/g6yj8XUnhA/6TsDxw5uqsat6+dbNCptOK1QcORWEJd9Vlc2x7ZpI3u4RE5ccFKhfVD1jjGV5C9UA9iTjFi0ZvU3JE112Pp1d1DGyZlvLdSJungf7XuVuqQGrMd379SVqdAn5BbG06y6JO8nHnLYYc6YvfNJY6U48EO8TFj8eF8mSxoFJea6jlCNpXR9GFykN6cR/tH9j3sZBaW20n4rrgY6cPnkzFysEIHqY090AwUEQY8fVY3q6caMo8P2IM56jGu/S5cL2Xpv12st/acN3kbtoaxHGHuUCSnrvnuEgrefb8LbDuITxQXUiI/2fme8WFBlYY+Uqq1UkD5GbW0CX0iPNsH4KGJTtMQzlYjStq96FoJFTAAx3YgW1cvra24ccBV1LHsZT+iJyO9pmnAHTqWmZ6mDfGAwkjjGiJQR839igUj3A4jQdIHOVIIZC+mv3oy51Yy20iBk6d3XBFzFqh2kiCatyESImfLhiuj4naBArjlFzQdt4V3uSo9Qmnv6DscClWRp4f5r4OPno9ZFv99Spz6wpm8BoAlafDnBqgMt/y1nGm8siH3/lSJ0fniZXFqtHtF+ds+9mTOkqjD+GpIVwlVme2C0wQ5OY7Xy4EwETCW0B/RM=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR04MB11153.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(10070799003)(366016)(11063799006)(18002099003)(22082099003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?ZjYvVEdjdTcyYlpFN3ZjT3dpSG1FSVVveXB6bG1oMGRTRlhLbk1jcFZmNm1Z?=
+ =?utf-8?B?VFV6TXA4MUJoYXlzaXNmcjUrakcxdURBMWdRQVJMNzJrNXhzeXcrUFpweFhI?=
+ =?utf-8?B?ZjR3S3M4QXgxRThveVpNV3EzMW1DcUhUaTZOZit1QXhsVFFHTUMzZGZXQ1pu?=
+ =?utf-8?B?b3IrellVT0JEbExkS0hrVml1d2tIMzgzYzJsRDkzZEpraHI3ZWwrekd6dHRX?=
+ =?utf-8?B?MkpDTS93RjRnUTlUbDNxNnd1L010YUlOdDVaOS9PTUJYRjAxcGNxeXRrcUVj?=
+ =?utf-8?B?SHJncmNOZkZ0QU4zKzI4SmFsVDVFbGxwaWd4Q0g2V2UwRDZWK09wcHQ5NHI1?=
+ =?utf-8?B?UmhzWjcxN2pyUjFqdUQrTm1mU0F6Zi9GZWs3YXNpSFltQUs3WEZWd0NHd1Yv?=
+ =?utf-8?B?Z2VQT2lxY2RHT0tqWnV5OVNuSXFLeHFBR1htNXcxaE9OTnBpN0tYVkRkUjky?=
+ =?utf-8?B?eVBmSUFJR1pGV3F1a2xCckFybk1ITENvb1UxcE5KQm1ad1B2cnBFZ0hUcElr?=
+ =?utf-8?B?RGtiNHc3aEpTU3l5WDJOYk9LSGZtRmYyZ3pHNldsaW94c1ZGdkh6SlczQ0JS?=
+ =?utf-8?B?M3g5QkNQTU9TRG91a2dFWFFpQ2J3MzN0Q3FVQStmbjcwY3N4WitBWUJzRk9L?=
+ =?utf-8?B?VUJDOEdibS9TOEZoQmRKV1BSL2EwNHppdDk3YTJzRlNkTHVKRThLT0pnWEZh?=
+ =?utf-8?B?Q21HUW1Eb0FPRXFaQUR4Q1c4NTFGZURnMWtFMmFDSDhDYXU4S2dvMHo1RzBt?=
+ =?utf-8?B?RVprMlBzOXMzZy9vUCtYc1NWQUZoU2RnRWs4bWIrMWRoWWRHc2lKTHh1RU03?=
+ =?utf-8?B?VzI4SkxGMmdqUnFZNGRZVjBlMUJlaUJUSUR3VWV3QXNYbnBZUHNPOFJ5OWJ2?=
+ =?utf-8?B?eFFHU0p2VmZlYjlzbXpkVXFmZzNQck1FdlZjZlNaalBGTFlPRHh0bkQwdUJP?=
+ =?utf-8?B?SS8wNUtzMXpCN2M1UmpUaVEzT2VrVWd6WlkyNTVKNk85NDl1aUpFTks2eDFu?=
+ =?utf-8?B?enN2L212QjlBN09zUVlMZ1pMSHp5OVVaYm1IVmxKVmtWWittVWNPL1I0bTBx?=
+ =?utf-8?B?RHFMaDBjSElHeFpvUC8vQWo3NnNDdlZWd0podzNpVmhIWmV3S1kwNFlIRDRp?=
+ =?utf-8?B?RFQ1QzJ1eVNMcmZPMXQ4OFpiNWJKa25vcTRGaUtFcUZGc3ZaTHBWdEVtUmd5?=
+ =?utf-8?B?Um9GNWxHNjdMN04rd0hBSmd0SVVBT0tMN1hsRmlIUzBCN2NDbzBYMVV4WGNp?=
+ =?utf-8?B?aCtCdGU0T0E2RElwVlNxeUhSbGpXUDdERitzSVU5VmVwdE1RZ0V2cTlNQmx5?=
+ =?utf-8?B?d3p6dWQ3NGdTUzZvY2VBbCs5MVlqNU5UMGFPU2UvVkMvZUFtTkkwVDg5cXMv?=
+ =?utf-8?B?M1NXNEc4d1cwTWhuMGQ3ZjVoL0pPRzBrQUhyV0xvemYzSzA2cEdiS2JNWEF3?=
+ =?utf-8?B?K1cwak9pbnRQOHEvdkJ4ZzF2UXVMaEVBT2RaZjVvVUdIUWE2NlBTV3dxVEVE?=
+ =?utf-8?B?bEVBSFVDTFpveWJoM2psVDlVWmVsSnF1RjlDR3gvZE1Cc3JGMUgvRWR5YVh5?=
+ =?utf-8?B?OTM1M0NvRkRhakJCZDlUS2tPZDVsSWYyZlpKcHg5b2xXUnErbkJtZDdaTXJQ?=
+ =?utf-8?B?VDJFaFhDZGxabExuRTFzY0gyQnFaVHZVZ0YzTm5BSlg3VXNPNjZmTEZzRDlC?=
+ =?utf-8?B?YUhPZ0RRVVJoZTJXckFjSFIydWQ2alBpVEZTK0I3bEpnekczdjlQWE9wbXRa?=
+ =?utf-8?B?Q0gyMHNES29PWm8rbDBGeGZRMTJhekZyTGdRSDhqMXVvSDFFb2dmR1FPQ0ND?=
+ =?utf-8?B?SjAwem52UjVXeENiRTk1Y0RjSFE1Y2x5MFVHOFVyUUhCZG5Lb28yeUtDNGdY?=
+ =?utf-8?B?anJqR2w1MVliNzQ2VTQ0TUlIWTQ0bG5INDl3OVZjOVhnVmR3U09jQTliZmxJ?=
+ =?utf-8?B?L3ZHLzAxUFp6aHg3RW5pNWZMS2hCaDU0WkNmeS9WNGRkZy8vdVZhQmJteWdV?=
+ =?utf-8?B?Nk1oa0xJWU1scyt6VGdSSzJNcFZGLzd4Tkl1c3J0QmcyOHVWaFZWdHpRRHdS?=
+ =?utf-8?B?cTdrOU1VMElkaG5zOFJ3ek5hbmVJQktwazdiZHBleEtEVUFobEptVUc3SGVS?=
+ =?utf-8?B?Si8xUG93TytOZ2pQRFdhckxkQUZxWUwybmE0UWpmVEltY0RSeDNrR0hsR0k4?=
+ =?utf-8?B?NXA4T2Q0SHY2TFRYWDZIUG1wTXVnUndpem5MbEkyUlM1bXpBdWQveURLVkRk?=
+ =?utf-8?B?Q1p5U0hVM0ZBditTZGxQdVJjUjRpZ0o4clJ6bGdMNDNlc0loZjBRV3o4U2hy?=
+ =?utf-8?B?dWV6YU1HN1QrZ2RRSVg3dlRLWnhkRjMyN2VQb2QrWnFrNTRhN05hUmJqRlVr?=
+ =?utf-8?Q?dvkamwTroX3f4+OQGJ5ijj5u4B5+toH6OXFiLFaLofN1h?=
+X-MS-Exchange-AntiSpam-MessageData-1: ykGgcS/2opoGimPUt03pwk3cjbeKGbFp/nU=
+X-OriginatorOrg: cherry.de
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d96d159-06a3-45e6-7870-08df0514e194
+X-MS-Exchange-CrossTenant-AuthSource: PA3PR04MB11153.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2026 14:58:55.3914
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: AauSP1r7Qka7zXNm50jmc7lgYK/A33KiLK16Y+1slXSwTtbrw5udkFscTVZpnTtmWNSiFX8YsFptyjAjL5bNVpj7akjvAGxP72w0AVKbJEM=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI9PR04MB187423
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 14:49:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244549
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 14:59:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244550
 
-The official U-Boot project URL has migrated to the
-u-boot-project.org domain.
+Hi Fabio,
 
-Change the HOMEPAGE entry accordingly.
+On 8/28/26 4:48 PM, Fabio Estevam via lists.openembedded.org wrote:
+> The official U-Boot project URL has migrated to the
+> u-boot-project.org domain.
+> 
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- meta/recipes-bsp/u-boot/u-boot-common.inc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+We have a website at u-boot-project.org, maybe point to that instead of 
+the docs directly?
 
-diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index ba66abd56c..fd27dcf316 100644
---- a/meta/recipes-bsp/u-boot/u-boot-common.inc
-+++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
-@@ -1,4 +1,4 @@
--HOMEPAGE = "http://www.denx.de/wiki/U-Boot/WebHome"
-+HOMEPAGE = "https://docs.u-boot-project.org/en/latest/"
- DESCRIPTION = "U-Boot, a boot loader for Embedded boards based on PowerPC, \
- ARM, MIPS and several other processors, which can be installed in a boot \
- ROM and used to initialize and test the hardware or to download and run \
--- 
-2.43.0
+Otherwise, this patch is much welcome as Denx the company doesn't exist 
+anymore and we don't know for how long that URL will be redirecting to 
+the docs.
 
+Cheers,
+Quentin
 
