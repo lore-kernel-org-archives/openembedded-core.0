@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A6AFC61DD6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F02E0C61DE5
 	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 19:38:33 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2985.1787945902769425091
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3056.1787945905626986153
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 12:38:23 -0700
+ Fri, 28 Aug 2026 12:38:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=wSU6br5j;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49b392ccaacso16805915e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 12:38:22 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=MFabPx42;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-490cf322ed0so15266015e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 12:38:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787945901; x=1788550701; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787945904; x=1788550704; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=kqs7nn8knDR/c+hm4C80l4Gk1Kfgu/Kg9l1UVtN2w7k=;
-        b=wSU6br5j15zjNGRhVn8AoUEYo9BtNeJInBnu6Usv+/1FJfONKuA+Ky95UbcoWGijEp
-         wpKAnVbeE/X0bu8li+HyK94Eg6U8U0ixHWH7irbRjYMwacu+LGp/fVHwqa2GrjDbaRUN
-         JSmxLQss5RzPm+j05rMGKdWVrnqKsuIjg3Lyk=
+        bh=0XTUxqvfXixoFtatcwWloyTTHk3MZRQmJRoaaMee/KM=;
+        b=MFabPx42V8d+iith9LcJGZ5TQbS35olQ64DcK2Ui2BnN2zNx35rJXKGQ6ATqTWNS7V
+         54FVNHo5WAIuJLAq+QQ8CLR69JOBn6hOUYWz70KCK7xm5sP/6HZ6+S7ZkR+dfrlXwkB0
+         QDCBY+82rC8TMf/nqQ627CkL/+tC9QBEpH860=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787945901; x=1788550701;
+        d=1e100.net; s=20251104; t=1787945904; x=1788550704;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=kqs7nn8knDR/c+hm4C80l4Gk1Kfgu/Kg9l1UVtN2w7k=;
-        b=K5Nf2lAANhEAWuUmWf/JkWhnU6wfrefwFCRPU8dXNNqRDZyQxuRGXQrI4LOHGKmK3D
-         xN2ROO7XjCpUeAVd91Rc0KGFqCpIanHDWFAg90FoWS0jrz8RQnaeU78F0L6f3qwwzljT
-         SAQT/Oz1Ii8xHO59SobVAqFZaUJUMWBdCucuh5ZtwJ6rJPaZDFFV+50lEBOsW543sefh
-         0ltwPwdgfw+MP1NfSZc2pbmvTrHO3lLg89PiotZlBU9/E/wQPfOPoJsd93l5nIJfEebB
-         B2TIt47yMYKreGcYagFneSoZYbNHNzksYzZOoxqV8hF30ZPUa+bsJVREyobhyWifTErr
-         iyEA==
-X-Gm-Message-State: AFuF++m29bJ1t+ALaZEeOtcBJCdeMe9KSWwqnvC5CXWe70WqqaC/8kZ0
-	e6UHw0ZBDxHADkp8AAweoSBvGRlz8UkVW2pWdnY0mSk6VBwkFn2Imq6d+9Q2zsF+WAhecgtE4FI
-	HEecC6QA=
-X-Gm-Gg: AR+sD11hxAFPW2VGCxnW6WbyWVkQSWhrXz+Wyq9TPGjVmwtcxucsHs5KS6NKamIXXwX
-	3bZ8ayKHuRq2B8z+P9nXoh6tB0yNJkOrvZHW+VInC7ZmuStv7Ay0MhH2GCywhTOyHKYHrxdYrqp
-	MzUvlnO4fi9vgiQ6C3hNcz4XC0/68ZuFDXXNaCnfr5qUbGt3bK9euSivbUvgOU0bh1nvo4FWjfJ
-	apf4Citg8ybRil22NenfY+bDXldEd2+lbQZZNr4sydkNudJqtYZwrv5wXn0EitWotDf35tiqQn9
-	aFUoDwwYaY8GNpkMXPsRMsEprPVYqsHrfRiAi04WkAvHMA12H7YvHhKENNdcqFYo3lvpgIhQ/hp
-	RmQIuL73K00noGs5o32zIyRIa18P2q6I4ybYaLlp5D2iY6zXmZALDy75b06Ex7mBJQT9itGEfIX
-	NgsXl0KHXxDY09xGlfBZ2BbLAv8zTcmz1Hk24F5JGJ439IyDbuppMsqnYsSyxbdcckw2WZRjNxI
-	uaAzAQW/D9Lu8J/3SYpDomoaSZjGX9cMV8ZRVjiNQ86JZJ1ookBbcN9DaRI/fCU
-X-Received: by 2002:a05:600c:4f8b:b0:49a:2c4b:403f with SMTP id 5b1f17b1804b1-49b91c46494mr118453955e9.13.1787945900878;
-        Fri, 28 Aug 2026 12:38:20 -0700 (PDT)
+        bh=0XTUxqvfXixoFtatcwWloyTTHk3MZRQmJRoaaMee/KM=;
+        b=K3iK3ZNWDpI1gm5s9irlw2Ze+kqB96U3I3XkqUC/UmhgTwXIJ/79p8MvpQtteZxq3p
+         ADqYNwDu6wDyX/USfCFnQ4aEi492oTqnkYey4oeatdJEO1sKzcZM7Iv+p2eAJ9nZz4L5
+         KmQjalPPf+iRi1UlwUbFOoHxqjMr2JtcU1zIlweAsbdTkdNBrnLYZ6d/ZVls+DsBns9c
+         vnRgyXx2VZrwg9Z67gMvnDx2SRW0QjO2W1iIajc0VEitpziEQZpRj77CidVgdt0w5Hwt
+         OlY1Kq5xsSBynvMw0LaXcQr2iFhxyYdE2DJi7aergeAsyyTNNMYCa/MbnRqeGXrj9Rdb
+         yC1Q==
+X-Gm-Message-State: AFuF++luqh+lgDnhBfesEb7F1awO3wFDfmDPDNEvNwkonirwtrp7hoES
+	z/Vz79sAzqsd2FCPGfTvRgx1wrsGXfozcpn9PmltgU1w/159ImQlKeD64OxdlCDSgdjcKzYTUE2
+	M4hheKL4=
+X-Gm-Gg: AR+sD13uNENZFSZagulPX4f28ZYrMC4srlu0MUl5+Ee7Gr2s2gqywDy1Qw071R4y823
+	0dPR6nTHp5wZ06A8lHQn8HLtmIGNq5NPywzHzqcDARPzjtJh5KKRYOYaJVbfpWreYeN19f/9xQO
+	diiX+GA391ZWPwtMlKFUHSv9+7JO3a9UUlhCMZhc2beQHf97w9e4yQ9U/45lXRmQ9ekTlAkBEjb
+	VhVkWgTxbG5PYuSI4rA9BVWCqO9zUPZjdYfez0Bgebqkbn/jwA1ZRnw6zb21tJGRUGetBFQ9p1a
+	3ur5ndIGU3kc7jWVAbZguJdhrJX/69Xsb2gmi9b0uVCWXXsAyfBE3NdWdXbJrmPgmeW1ZhoxIZL
+	DbE24pvAw0KcARaW4bzXb8oNqRKheJGU+m1vH4qAp4NtHMAiX6jnjHU7Nj3AGrRub0/UMDwqGdQ
+	ze3uAdfxWjv64dd3kBEiTj7KOzro+EpRuiinSqq91c3BlGJqduxfaCKP21sxRnkCtlPiAHPMDfu
+	5GrK1RvGkHB23tKxiLViZvKH94kIejSvQfb9WBEUbIB0zvSXP71pu7keQlf/jqz
+X-Received: by 2002:a05:600c:8411:b0:499:4892:d022 with SMTP id 5b1f17b1804b1-49b91c279e1mr161136475e9.8.1787945903751;
+        Fri, 28 Aug 2026 12:38:23 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm147703115e9.4.2026.08.28.12.38.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm147703115e9.4.2026.08.28.12.38.23
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 12:38:20 -0700 (PDT)
+        Fri, 28 Aug 2026 12:38:23 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 29/56] gstreamer1.0*: upgrade 1.28.4 -> 1.28.5
-Date: Fri, 28 Aug 2026 21:35:39 +0200
-Message-ID: <f21461ec3c62d8bd1de46f4c462a38cb56b105f2.1787945536.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 34/56] libsoup: patch CVE-2026-4271
+Date: Fri, 28 Aug 2026 21:35:44 +0200
+Message-ID: <517478a21511355cef67919217ec08e10b95ee90.1787945536.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1787945536.git.yoann.congal@smile.fr>
 References: <cover.1787945536.git.yoann.congal@smile.fr>
@@ -66,227 +66,405 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 19:38:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244590
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244595
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Handle CVE-2026-12891 and CVE-2026-12892.
+Pick patch which has closed gitlab issue for the CVE [1].
+The issue is also referenced in [2]
 
-Set their status explicitly as they are RedHat version-less CVEs.
-Fix references are in Debian reports [1] and [2].
-
-Refresh patches.
-
-[1] https://security-tracker.debian.org/tracker/CVE-2026-12891
-[2] https://security-tracker.debian.org/tracker/CVE-2026-12892
+[1] https://gitlab.gnome.org/GNOME/libsoup/-/work_items/496
+[2] https://security-tracker.debian.org/tracker/CVE-2026-4271
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8aed1d9b14d77d98adde2f6e345b690ab123b72b)
+(From OE-Core rev: 704a1cd0b88ddea0fa790054c3752e82d3d4403d)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../{gst-devtools_1.28.4.bb => gst-devtools_1.28.5.bb}        | 2 +-
- .../{gst-examples_1.28.4.bb => gst-examples_1.28.5.bb}        | 2 +-
- ...reamer1.0-libav_1.28.4.bb => gstreamer1.0-libav_1.28.5.bb} | 2 +-
- ...ugins-bad_1.28.4.bb => gstreamer1.0-plugins-bad_1.28.5.bb} | 2 +-
- ...ins-base_1.28.4.bb => gstreamer1.0-plugins-base_1.28.5.bb} | 2 +-
- ...ins-good_1.28.4.bb => gstreamer1.0-plugins-good_1.28.5.bb} | 2 +-
- ...ins-ugly_1.28.4.bb => gstreamer1.0-plugins-ugly_1.28.5.bb} | 2 +-
- ...amer1.0-python_1.28.4.bb => gstreamer1.0-python_1.28.5.bb} | 2 +-
- ...sp-server_1.28.4.bb => gstreamer1.0-rtsp-server_1.28.5.bb} | 2 +-
- .../0002-tests-add-support-for-install-the-tests.patch        | 2 +-
- .../{gstreamer1.0_1.28.4.bb => gstreamer1.0_1.28.5.bb}        | 4 +++-
- 11 files changed, 13 insertions(+), 11 deletions(-)
- rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.28.4.bb => gst-devtools_1.28.5.bb} (95%)
- rename meta/recipes-multimedia/gstreamer/{gst-examples_1.28.4.bb => gst-examples_1.28.5.bb} (96%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.28.4.bb => gstreamer1.0-libav_1.28.5.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.28.4.bb => gstreamer1.0-plugins-bad_1.28.5.bb} (99%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.28.4.bb => gstreamer1.0-plugins-base_1.28.5.bb} (98%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.28.4.bb => gstreamer1.0-plugins-good_1.28.5.bb} (97%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.28.4.bb => gstreamer1.0-plugins-ugly_1.28.5.bb} (94%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.28.4.bb => gstreamer1.0-python_1.28.5.bb} (91%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.28.4.bb => gstreamer1.0-rtsp-server_1.28.5.bb} (90%)
- rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.28.4.bb => gstreamer1.0_1.28.5.bb} (93%)
+ .../libsoup/libsoup/CVE-2026-4271.patch       | 362 ++++++++++++++++++
+ meta/recipes-support/libsoup/libsoup_3.6.6.bb |   1 +
+ 2 files changed, 363 insertions(+)
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2026-4271.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.5.bb
-similarity index 95%
-rename from meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gst-devtools_1.28.5.bb
-index 9641e42d386..a0775e94add 100644
---- a/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-devtools_1.28.5.bb
-@@ -12,7 +12,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-devtools/gst-devtools-${PV}
-            file://0001-connect-has-a-different-signature-on-musl.patch \
-            "
+diff --git a/meta/recipes-support/libsoup/libsoup/CVE-2026-4271.patch b/meta/recipes-support/libsoup/libsoup/CVE-2026-4271.patch
+new file mode 100644
+index 00000000000..ca377e03553
+--- /dev/null
++++ b/meta/recipes-support/libsoup/libsoup/CVE-2026-4271.patch
+@@ -0,0 +1,362 @@
++From 489affa74c8a229b8a4dd541710d4a5debedb7b4 Mon Sep 17 00:00:00 2001
++From: Carlos Garcia Campos <cgarcia@igalia.com>
++Date: Mon, 16 Feb 2026 12:09:08 +0100
++Subject: [PATCH] server: protect message io while reading and writing
++
++Ensure the nghttp2 session is not destroyed while being used.
++
++Closes #496
++
++CVE: CVE-2026-4271
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libsoup/-/commit/489affa74c8a229b8a4dd541710d4a5debedb7b4]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ .../http2/soup-server-message-io-http2.c      | 117 +++++++++++++-----
++ tests/http2-test.c                            |  54 ++++++++
++ 2 files changed, 141 insertions(+), 30 deletions(-)
++
++diff --git a/libsoup/server/http2/soup-server-message-io-http2.c b/libsoup/server/http2/soup-server-message-io-http2.c
++index 913afb46..6f8d1bb6 100644
++--- a/libsoup/server/http2/soup-server-message-io-http2.c
+++++ b/libsoup/server/http2/soup-server-message-io-http2.c
++@@ -69,6 +69,8 @@ typedef struct {
++         GHashTable *messages;
++ 
++         guint in_callback;
+++        guint protected;
+++        gboolean destroyed;
++ } SoupServerMessageIOHTTP2;
++ 
++ static void soup_server_message_io_http2_send_response (SoupServerMessageIOHTTP2 *io,
++@@ -146,6 +148,8 @@ soup_server_message_io_http2_destroy (SoupServerMessageIO *iface)
++ {
++         SoupServerMessageIOHTTP2 *io = (SoupServerMessageIOHTTP2 *)iface;
++ 
+++        io->destroyed = TRUE;
+++
++         if (io->read_source) {
++                 g_source_destroy (io->read_source);
++                 g_source_unref (io->read_source);
++@@ -160,10 +164,14 @@ soup_server_message_io_http2_destroy (SoupServerMessageIO *iface)
++         }
++ 
++         g_clear_object (&io->iostream);
++-        g_clear_pointer (&io->session, nghttp2_session_del);
++-        g_clear_pointer (&io->messages, g_hash_table_unref);
+++        io->istream = NULL;
+++        io->ostream = NULL;
++ 
++-        g_free (io);
+++        if (io->protected == 0) {
+++                g_clear_pointer (&io->session, nghttp2_session_del);
+++                g_clear_pointer (&io->messages, g_hash_table_unref);
+++                g_free (io);
+++        }
++ }
++ 
++ static void
++@@ -321,7 +329,33 @@ static const SoupServerMessageIOFuncs io_funcs = {
++         soup_server_message_io_http2_is_paused
++ };
++ 
+++static void
+++soup_server_message_io_http2_protect (SoupServerMessageIOHTTP2 *io)
+++{
+++        io->protected++;
+++        g_object_ref (io->conn);
+++}
+++
++ static gboolean
+++soup_server_message_io_http2_unprotect (SoupServerMessageIOHTTP2 *io)
+++{
+++        g_object_unref (io->conn);
+++
+++        if (--io->protected > 0)
+++                return FALSE;
+++
+++        if (io->destroyed) {
+++                g_clear_pointer (&io->session, nghttp2_session_del);
+++                g_clear_pointer (&io->messages, g_hash_table_unref);
+++                g_free (io);
+++
+++                return TRUE;
+++        }
+++
+++        return FALSE;
+++}
+++
+++static void
++ io_write (SoupServerMessageIOHTTP2 *io,
++           GError                  **error)
++ {
++@@ -336,51 +370,57 @@ io_write (SoupServerMessageIOHTTP2 *io,
++                 if (io->write_buffer_size == 0) {
++                         /* Done */
++                         io->write_buffer = NULL;
++-                        return TRUE;
+++                        return;
++                 }
++         }
++ 
+++        if (!io->ostream)
+++                return;
+++
++         gssize ret = g_pollable_stream_write (io->ostream,
++                                               io->write_buffer + io->written_bytes,
++                                               io->write_buffer_size - io->written_bytes,
++                                               FALSE, NULL, error);
++-        if (ret < 0)
++-                return FALSE;
++-
++-        io->written_bytes += ret;
++-        return TRUE;
+++        if (ret > 0)
+++                io->written_bytes += ret;
++ }
++ 
++ static gboolean
++ io_write_ready (GObject                  *stream,
++                 SoupServerMessageIOHTTP2 *io)
++ {
++-        SoupServerConnection *conn = io->conn;
++         GError *error = NULL;
++ 
++-        g_object_ref (conn);
+++        soup_server_message_io_http2_protect (io);
+++
+++        while (!error) {
+++                if (io->destroyed)
+++                        break;
+++
+++                if (!nghttp2_session_want_write (io->session))
+++                        break;
++ 
++-        while (!error && soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io && nghttp2_session_want_write (io->session))
++                 io_write (io, &error);
+++        }
++ 
++         if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK)) {
++                 g_error_free (error);
++-                g_object_unref (conn);
+++                soup_server_message_io_http2_unprotect (io);
++                 return G_SOURCE_CONTINUE;
++         }
++ 
++-        if (soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io) {
+++        if (!io->destroyed) {
++                 if (error)
++                         h2_debug (io, NULL, "[SESSION] IO error: %s", error->message);
++ 
++                 g_clear_pointer (&io->write_source, g_source_unref);
++ 
++                 if (error || (!nghttp2_session_want_read (io->session) && !nghttp2_session_want_write (io->session)))
++-                        soup_server_connection_disconnect (conn);
+++                        soup_server_connection_disconnect (io->conn);
++         }
++ 
++         g_clear_error (&error);
++-        g_object_unref (conn);
+++        soup_server_message_io_http2_unprotect (io);
++ 
++         return G_SOURCE_REMOVE;
++ }
++@@ -390,13 +430,12 @@ static gboolean io_write_idle_cb (SoupServerMessageIOHTTP2* io);
++ static void
++ io_try_write (SoupServerMessageIOHTTP2 *io)
++ {
++-        SoupServerConnection *conn = io->conn;
++         GError *error = NULL;
++ 
++         if (io->write_source)
++                 return;
++ 
++-        if (io->in_callback && soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io) {
+++        if (io->in_callback && !io->destroyed) {
++                 if (!nghttp2_session_want_write (io->session))
++                         return;
++ 
++@@ -416,12 +455,19 @@ io_try_write (SoupServerMessageIOHTTP2 *io)
++                 g_clear_pointer (&io->write_idle_source, g_source_unref);
++         }
++ 
++-        g_object_ref (conn);
+++        soup_server_message_io_http2_protect (io);
+++
+++        while (!error) {
+++                if (io->destroyed)
+++                        break;
+++
+++                if (!nghttp2_session_want_write (io->session))
+++                        break;
++ 
++-        while (!error && soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io && !io->in_callback && nghttp2_session_want_write (io->session))
++                 io_write (io, &error);
+++        }
++ 
++-        if (soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io) {
+++        if (!io->destroyed) {
++                 if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK)) {
++                         g_clear_error (&error);
++                         io->write_source = g_pollable_output_stream_create_source (G_POLLABLE_OUTPUT_STREAM (io->ostream), NULL);
++@@ -434,11 +480,11 @@ io_try_write (SoupServerMessageIOHTTP2 *io)
++                         h2_debug (io, NULL, "[SESSION] IO error: %s", error->message);
++ 
++                 if (error || (!nghttp2_session_want_read (io->session) && !nghttp2_session_want_write (io->session)))
++-                        soup_server_connection_disconnect (conn);
+++                        soup_server_connection_disconnect (io->conn);
++         }
++ 
++         g_clear_error (&error);
++-        g_object_unref (conn);
+++        soup_server_message_io_http2_unprotect (io);
++ }
++ 
++ static gboolean
++@@ -481,31 +527,37 @@ static gboolean
++ io_read_ready (GObject                  *stream,
++                SoupServerMessageIOHTTP2 *io)
++ {
++-        SoupServerConnection *conn = io->conn;
++         gboolean progress = TRUE;
++         GError *error = NULL;
++ 
++-        g_object_ref (conn);
+++        soup_server_message_io_http2_protect (io);
+++
+++        while (progress) {
+++                if (io->destroyed)
+++                        break;
+++
+++                if (!nghttp2_session_want_read (io->session))
+++                        break;
++ 
++-        while (progress && soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io && nghttp2_session_want_read (io->session))
++                 progress = io_read (io, &error);
+++        }
++ 
++         if (g_error_matches (error, G_IO_ERROR, G_IO_ERROR_WOULD_BLOCK)) {
++                 g_error_free (error);
++-                g_object_unref (conn);
+++                soup_server_message_io_http2_unprotect (io);
++                 return G_SOURCE_CONTINUE;
++         }
++ 
++-        if (soup_server_connection_get_io_data (conn) == (SoupServerMessageIO *)io) {
+++        if (!io->destroyed) {
++                 if (error)
++                         h2_debug (io, NULL, "[SESSION] IO error: %s", error->message);
++ 
++                 if (error || (!nghttp2_session_want_read (io->session) && !nghttp2_session_want_write (io->session)))
++-                        soup_server_connection_disconnect (conn);
+++                        soup_server_connection_disconnect (io->conn);
++         }
++ 
++         g_clear_error (&error);
++-        g_object_unref (conn);
+++        soup_server_message_io_http2_unprotect (io);
++ 
++         return G_SOURCE_REMOVE;
++ }
++@@ -931,5 +983,10 @@ soup_server_message_io_http2_new (SoupServerConnection  *conn,
++         nghttp2_submit_settings (io->session, NGHTTP2_FLAG_NONE, settings, G_N_ELEMENTS (settings));
++         io_try_write (io);
++ 
+++#ifdef __clang_analyzer__
+++        // Suppress false positive about io being destroyed here, since at this point we have only
+++        // send the initial settings and not callback is called.
+++        [[clang::suppress]]
+++#endif
++         return (SoupServerMessageIO *)io;
++ }
++diff --git a/tests/http2-test.c b/tests/http2-test.c
++index 0846a0a6..d12b4bf7 100644
++--- a/tests/http2-test.c
+++++ b/tests/http2-test.c
++@@ -1268,6 +1268,40 @@ do_broken_pseudo_header_test (Test *test, gconstpointer data)
++ 	g_uri_unref (uri);
++ }
++ 
+++static void
+++disconnect_on_got_headers (SoupServerMessage *msg, gpointer user_data)
+++{
+++        GUri *uri;
+++        SoupServerConnection *conn;
+++
+++        uri = soup_server_message_get_uri (msg);
+++        if (!g_str_equal (g_uri_get_path (uri), "/close-on-got-headers"))
+++                return;
+++
+++        conn = soup_server_message_get_connection (msg);
+++        soup_server_connection_disconnect (conn);
+++}
+++
+++static void
+++do_server_disconnect_on_got_headers_test (Test *test, gconstpointer data)
+++{
+++        SoupMessage *msg;
+++        GUri *uri;
+++        GBytes *response;
+++        GError *error = NULL;
+++
+++        uri = g_uri_parse_relative (base_uri, "/close-on-got-headers", SOUP_HTTP_URI_FLAGS, NULL);
+++        msg = soup_message_new_from_uri (SOUP_METHOD_GET, uri);
+++
+++        response = soup_test_session_async_send (test->session, msg, NULL, &error);
+++        g_assert_error (error, G_IO_ERROR, G_IO_ERROR_PARTIAL_INPUT);
+++
+++        g_clear_error (&error);
+++        g_bytes_unref (response);
+++        g_object_unref (msg);
+++        g_uri_unref (uri);
+++}
+++
++ static gboolean
++ unpause_message (SoupServerMessage *msg)
++ {
++@@ -1396,12 +1430,26 @@ server_handler (SoupServer        *server,
++                 shutdown (fd, SHUT_WR);
++ #endif
++ 
+++                soup_server_message_set_response (msg, "text/plain",
+++                                                  SOUP_MEMORY_STATIC,
+++                                                  "Success!", 8);
+++        } else if (strcmp (path, "/close-on-got-headers") == 0) {
++                 soup_server_message_set_response (msg, "text/plain",
++                                                   SOUP_MEMORY_STATIC,
++                                                   "Success!", 8);
++         }
++ }
++ 
+++static void
+++server_request_started (SoupServer           *server,
+++                        SoupServerMessage    *msg,
+++                        SoupServerConnection *conn,
+++                        gpointer              user_data)
+++{
+++        g_signal_connect (msg, "got-headers",
+++                          G_CALLBACK (disconnect_on_got_headers), NULL);
+++}
+++
++ static gboolean
++ server_basic_auth_callback (SoupAuthDomain    *auth_domain,
++                             SoupServerMessage *msg,
++@@ -1428,6 +1476,8 @@ main (int argc, char **argv)
++                 return 0;
++ 
++         server = soup_test_server_new (SOUP_TEST_SERVER_IN_THREAD | SOUP_TEST_SERVER_HTTP2);
+++        g_signal_connect (server, "request-started",
+++                          G_CALLBACK (server_request_started), NULL);
++         auth = soup_auth_domain_basic_new ("realm", "http2-test",
++                                            "auth-callback", server_basic_auth_callback,
++                                            NULL);
++@@ -1584,6 +1634,10 @@ main (int argc, char **argv)
++                     setup_session,
++                     do_broken_pseudo_header_test,
++                     teardown_session);
+++        g_test_add ("/http2/server-disconnect-on-got-headers", Test, NULL,
+++                    setup_session,
+++                    do_server_disconnect_on_got_headers_test,
+++                    teardown_session);
++ 
++ 	ret = g_test_run ();
++ 
+diff --git a/meta/recipes-support/libsoup/libsoup_3.6.6.bb b/meta/recipes-support/libsoup/libsoup_3.6.6.bb
+index d18a16379b3..e5c2d18ded7 100644
+--- a/meta/recipes-support/libsoup/libsoup_3.6.6.bb
++++ b/meta/recipes-support/libsoup/libsoup_3.6.6.bb
+@@ -20,6 +20,7 @@ SRC_URI += "file://CVE-2025-32049-1.patch \
+             file://CVE-2026-1539.patch \
+             file://CVE-2026-5119.patch \
+             file://CVE-2026-2708.patch \
++            file://CVE-2026-4271.patch \
+ "
  
--SRC_URI[sha256sum] = "11d4f1188639d3a9762039065bbb7b2c309b7a8ecc6fa4aed12245568bf00db3"
-+SRC_URI[sha256sum] = "7459045db31d6e44600bcbe011dc925750268870e7b90f7e7a0a3af4a21c09e5"
- 
- DEPENDS = "json-glib glib-2.0 glib-2.0-native gstreamer1.0 gstreamer1.0-plugins-base"
- RRECOMMENDS:${PN} = "git"
-diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.28.5.bb
-similarity index 96%
-rename from meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gst-examples_1.28.5.bb
-index ad6374d3fb3..dcdf7fd4331 100644
---- a/meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.28.5.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;b
-            file://gst-player.desktop \
-            "
- 
--SRCREV = "b46f881eaa8126eddfd21b5ae5512f8d4ff36255"
-+SRCREV = "727ceb91886862d200f423baf36cde2bb7ce5b4d"
- 
- S = "${UNPACKDIR}/${BP}/subprojects/gst-examples"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.5.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.5.bb
-index 4898c421905..bda9b213a37 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-libav_1.28.5.bb
-@@ -12,7 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=69333daa044cb77e486cc36129f7a770 \
-                     "
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-libav/gst-libav-${PV}.tar.xz"
--SRC_URI[sha256sum] = "bd17a5df2874a7a58bcbaf7b940223379ad9613624db8ead783db03e74bb904b"
-+SRC_URI[sha256sum] = "452854656056f0b16511a1d9ad4f2679ff5e5a87c89f90cf7ee5dec005ddb1e4"
- 
- S = "${UNPACKDIR}/gst-libav-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb
-similarity index 99%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb
-index e224112d34c..17e49ebbda2 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.5.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
-            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
-            file://0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch \
-            "
--SRC_URI[sha256sum] = "332b7320f30c60f2d5941446d03b9d05e3781f2c2561befbe88718bd777f0e47"
-+SRC_URI[sha256sum] = "d8af55faef2958c1a8663751475ee46f5164877cf4d8c5913ea906ef180aeb71"
- 
- S = "${UNPACKDIR}/gst-plugins-bad-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb
-similarity index 98%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb
-index d9f85417cd8..813d1108fff 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.5.bb
-@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
-            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
-            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
-            "
--SRC_URI[sha256sum] = "a898afd5766172b0049e6781558e0689098bf87b9d82b846c652e571c01d60d8"
-+SRC_URI[sha256sum] = "776f19228f91fd25bbf54d9850597e158507f594872a52b9b6814e2429b43eaa"
- 
- S = "${UNPACKDIR}/gst-plugins-base-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.5.bb
-similarity index 97%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.5.bb
-index 9194cae297e..7b8087eecfd 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.5.bb
-@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "c825ea737c59cea0e4a0c41da2388045ff5dd32d162220ac93a7a82ee4a04e61"
-+SRC_URI[sha256sum] = "58b45d24a1d77b39d7bb7d9ccc6e2d76bbf28618998c335c163f18e6f94a9324"
- 
- S = "${UNPACKDIR}/gst-plugins-good-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.5.bb
-similarity index 94%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.5.bb
-index 4c0811a0561..451378cf72a 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.5.bb
-@@ -15,7 +15,7 @@ SRC_URI = " \
-             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
-             "
- 
--SRC_URI[sha256sum] = "5486cd145c5af43259fd37caca59d048e2a67ddb07082ea8f50ef0f02a85f8a5"
-+SRC_URI[sha256sum] = "0ef4cf9c3c9a5e776a6ca8d190a31863391b681980252143b822b29aa831e120"
- 
- S = "${UNPACKDIR}/gst-plugins-ugly-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-similarity index 91%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-index 555b3105942..d9179286a38 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.5.bb
-@@ -8,7 +8,7 @@ LICENSE = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://COPYING;md5=c34deae4e395ca07e725ab0076a5f740"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "c4eb382720b4443fb801a53418dff0bd4cd7478716d5ced493504a675b4d09fd"
-+SRC_URI[sha256sum] = "0ac461b5700b9766998aa686439064caf58ca4fdaf848dfd477b5a7700b176cc"
- 
- DEPENDS = "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject gstreamer1.0-plugins-bad"
- RDEPENDS:${PN} += "gstreamer1.0 gstreamer1.0-plugins-base python3-pygobject"
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.5.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.5.bb
-index 338cf85e5e9..0b6672c3a6f 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.5.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "bfb6780542bf0d402736232aeae6c5a1b943c445775bf40305bcb86ca70705a0"
-+SRC_URI[sha256sum] = "7e19fddeb1261bebc3ec397857fedd5c77129b66ab52788fdadad05117566225"
- 
- S = "${UNPACKDIR}/${PNREAL}-${PV}"
- 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-index 957356c2ba6..5b52d66190d 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/0002-tests-add-support-for-install-the-tests.patch
-@@ -22,7 +22,7 @@ diff --git a/meson.build b/meson.build
- index abd0ad6..93cd692 100644
- --- a/meson.build
- +++ b/meson.build
--@@ -661,6 +661,10 @@ if bashcomp_dep.found()
-+@@ -662,6 +662,10 @@ if bashcomp_dep.found()
-    endif
-  endif
-  
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb
-similarity index 93%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb
-index d1f06a52338..2bdb1dc8025 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.4.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0_1.28.5.bb
-@@ -22,7 +22,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-${PV}.tar.x
-            file://0003-tests-use-a-dictionaries-for-environment.patch \
-            file://0004-tests-add-helper-script-to-run-the-installed_tests.patch \
-            "
--SRC_URI[sha256sum] = "f5adc7e8f448c10260b3b25aa101c9d540674c8d9a54c2b77a86d04f2b3b50dd"
-+SRC_URI[sha256sum] = "a5a9f783809b17a8eb774f4a7695b2cb8cba6b15520129906f87eaf30e7f8469"
- 
- PACKAGECONFIG ??= "${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)} \
-                    check \
-@@ -72,5 +72,7 @@ RDEPENDS:${PN}-ptest:append:libc-glibc = " glibc-gconv-iso8859-5"
- CVE_PRODUCT = "gstreamer"
- 
- CVE_STATUS[CVE-2026-5056] = "cpe-stable-backport: Fixed since 1.28.2"
-+CVE_STATUS[CVE-2026-12891] = "cpe-stable-backport: Fixed since 1.28.5"
-+CVE_STATUS[CVE-2026-12892] = "cpe-stable-backport: Fixed since 1.28.5"
- 
- PTEST_BUILD_HOST_FILES = ""
+ PROVIDES = "libsoup-3.0"
 
