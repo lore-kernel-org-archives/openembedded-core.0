@@ -1,141 +1,94 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB9E5C61DB9
-	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 10:15:21 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3231.1787912110066040317
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 096D2C61DCB
+	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 10:54:02 +0000 (UTC)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3756.1787914434996836890
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 03:15:10 -0700
+ Fri, 28 Aug 2026 03:53:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=TSfFVCQ9;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-47fd66a094eso295773f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 03:15:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=gJYdQwC/;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.46, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-482c58a8683so664833f8f.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 03:53:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787912108; x=1788516908; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=EqMg2WDA6tK7e9FRUYhtvjIRGlykKBodwFn8fziO3fA=;
-        b=TSfFVCQ9LAzT+KSjs27q03lw+QJHhg1XzIG+4mEzTki+iLeFVGNzqR1lfyn4I37fRT
-         1UCuaQXOQWNgjQpJU1wGTTmfh97z2aQJBIBbDQKjdT2Cz2wTKpVpsYAzmao05MbITDyw
-         ZDJXxQkwPXmaUstHxLZXppI3daJste5Ur0th8=
+        d=linuxfoundation.org; s=google; t=1787914433; x=1788519233; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=dRAAilaBpRrDBkgB5sWes7MzXLT0+t1+2bZux2DT5zM=;
+        b=gJYdQwC/1KCghn7UBHEI1eKdLLeR+leIAo43qRp1rCwVy9hjs/jEZnJH7gXnRLIVos
+         JSQC3WHwJacTBsJKrTiGhg7NKxOxW7bh2pMo5RWiStkY7okOdGQRafPuXYQElF1aqJ+K
+         QpygM81tKoeebk3kCBYjdtGMviLvcWK55JPVQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787912108; x=1788516908;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EqMg2WDA6tK7e9FRUYhtvjIRGlykKBodwFn8fziO3fA=;
-        b=aDB78mbzL3MQ4dIsdIAMg/KynlC1T+h+x7CRJzxmgMo81+3tfn8OgyLi0zYsgjPkwM
-         UdNJgL46IXd0F6PwM95qZB22o7WECO19npTQ9+Ri+EjM7Sq+wRbfGxQV0Tefwe1AYWEr
-         ErN7mRumEEF7eiwcpGR4q+JZvFAQmQ//fadqGCnGG0JyNs8AuyoIXsY5UZvsDOGf01TX
-         APnBOd4/AwM3oSxSa5yfgMrYJQl3jXnXrfqDUuQNxatYQFv4kCbzqUuOzSHeafJvMqrf
-         P97O9OFqyC3o1FFVRz40nGc91lWEQsa9bpX587gJuwPSBRXIMJKxj6+FWFuZfhG6qmGt
-         ha3Q==
-X-Forwarded-Encrypted: i=1; AHgh+RpeXnqMhYSbFafJCdB/z23LLe6F7o6nFLJtCMqdl0YlU0RD5XSULDIW9S+eEjtqfhErD7SNOUBd0HGjALJCUM3xBg==@lists.openembedded.org
-X-Gm-Message-State: AFuF++n5+ZE7NPpfhTG3RpmAd5nPyHBpPHmj1PLloM0bRJKkmeSjKlne
-	W7R28jxijKR4qMb7SQby/3Ir6u3MmK+Jcok7NOJK/Qa5dEIhF495/0RyAOPdri8nAeM=
-X-Gm-Gg: AR+sD10ucdabTPbtStC0Re+95INIvfzQ3G+XMG4oAgoKZFtMfpQgZng+ej8kB1tT8AG
-	NmdOOH3503YE8ioQn51OrEosSiEun23vcgOPPolKj8VNiS2NaL6On1aaJjmwBXcSshnp2X3lP1p
-	oLuzrmc+uYXyOwPGJKb0QdW7QCLdMqTXr1OdnewCGO1sbOozZmNqBlnOxCH6iqrFMGYw3OgC5Di
-	ALiAQHdBscsKXScV2n6LEDAkuvHld2K8KbIHNK0qfdqAazO+0mQ/wn6VybHuNgRoMa8vfQUypCH
-	Pduir4PKSoe+7uycLKCEliMx/ycqkccc86UZkEH4VHV7I7v+cHtyLAl3hY00wZIs6sX2TCNdMfh
-	h1BTk869aJXRGxNsvGB8FXeskW1vUS5Fq+FHd+JnOoUqcA0iRZcvVUnzje/K/6sqaU+63f2hwzz
-	P3Z9pd1cgEoAtV8W/m56Bn7wrQcvZ74VT/flmajqR1bYEh+Az5ZSpKwt0SnxFV+d379UTprTQsM
-	cmwmZtqsNhBej2MCSg9IlReH4euppuvAlFp1zMnhBqISMB6HPhh
-X-Received: by 2002:a05:600c:a47:b0:499:be9e:49c8 with SMTP id 5b1f17b1804b1-49b91c50957mr68418845e9.13.1787912107914;
-        Fri, 28 Aug 2026 03:15:07 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b9500c80asm41182425e9.9.2026.08.28.03.15.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 28 Aug 2026 03:15:07 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 28 Aug 2026 12:15:06 +0200
-Message-Id: <DL0HY2YT9WGM.3ACOQJL408XKI@smile.fr>
-Subject: Re: [OE-core] [wrynose][PATCH 05/15] rsync: upgrade 3.4.1 -> 3.4.2
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260803220157.1520377-1-peter.marko@siemens.com>
- <20260803220157.1520377-5-peter.marko@siemens.com>
-In-Reply-To: <20260803220157.1520377-5-peter.marko@siemens.com>
+        d=1e100.net; s=20251104; t=1787914433; x=1788519233;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=dRAAilaBpRrDBkgB5sWes7MzXLT0+t1+2bZux2DT5zM=;
+        b=ZYZ5Phum6E+2qTZu4nnfoHQ2pHw3hYCopSvROfmYtF/OcGxxr12HVJcfULAseDrI2E
+         KWDvoREtVgm0cxXDorggT9FcENjl6KM111UVz8XGPJQAqgX/hIpdJmP8z7UkRbNowYEs
+         27dSS6wsYaVB+SjUqViL9hQPZkcVEl4UjnC38w+CunVjbt4bpMlnJaIhQYkNKNHdJLfi
+         bU5VIjt8ZbWhK+oZcjR0JoiQKnQfYAAq/i1SUowTfTP6H2vp0oUJPjTz/IATKKKFwXSW
+         SNXkDdT3DlbRjrh5Wwxw6a8HJ/CXjlhBkgRHBOoc5HsTNMtKnuIJ8BDPMaUNVUIlh10v
+         SQUA==
+X-Gm-Message-State: AFuF++mAxvmgQX1rdJurh1mYBj4fhjcV2coQA3yOVAxVTytX8oFg4Kpu
+	HJtCMpKWLhXgubGkY36lNJ6iTPSCThreEbtXoXnhc0CgMUk3flgjzXB8fZW8hrzL4Cp9K9UKOj9
+	HlynjWWc=
+X-Gm-Gg: AR+sD13bi5jpeQkogEZQ4oogz0H+IUMsq5Vt7MbgKuZ0BL+b274ib9pBlO7d89iEUqp
+	1E6IGa9vfmBFJS6VQpFpI8JBML+lKvYp9m0hPqDeytzgSMfDOeS5tXG654XmeOweLo3BRiZETXP
+	ICYOnrFXpo0/bwHEXRn+cAWc0wneJTgSHBNeIdbpaL2DnONH0U3zjZQ1kO4sM/ZZ2t2mtgxPwt/
+	30wDJ/BUuLu3/P3SuOqNEJ9IvFctCoT/KKHaS73amDvbDSINoUkiiSNoTgFvD6/jS+LL4hRY2Xo
+	2XmauIcj/1PkCgPyw3Aee/5TeTKfKWVHdNLk9BRLUcNv3MMM+d4Yl10hbvd534W49TxKoGj1aWv
+	N1iaoqtVm4LULpFTzBqAmfozt/E36YRlTmGvoiRPt0IDdFhspFYakYWkoWOY8Jojp3ZVBlT2mcf
+	+2+Zigsf08Ma9RXcWW8Bn/rXiJrzgWkWFSncaQkTw04FMnnw3R1BfMdtFmefgOCTVAPFYXCnNDl
+	jKkzDJdtLq+ABXg7J1eE2yGq1hj
+X-Received: by 2002:a05:6000:3cd:b0:481:57f7:6015 with SMTP id ffacd0b85a97d-482f7984c9dmr9526886f8f.6.1787914432954;
+        Fri, 28 Aug 2026 03:53:52 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c3f1:c7b4:8368:83c1])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbb33d58sm2723469f8f.35.2026.08.28.03.53.51
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 28 Aug 2026 03:53:51 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] Revert "files/ext-sdk-prepare: Ensure all dependencies extract correctly"
+Date: Fri, 28 Aug 2026 11:53:50 +0100
+Message-ID: <20260828105350.960246-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 10:15:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244529
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 10:54:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244530
 
-On Tue Aug 4, 2026 at 12:01 AM CEST, Peter Marko via lists.openembedded.org=
- wrote:
-> From: Richard Purdie <richard.purdie@linuxfoundation.org>
->
-> Drop backported CVE patch included in this release.
->
-> Parts of the prototypes patch were fixed upstream (in zlib) but some sect=
-ions
-> were not, drop the merged sections of the patch.
->
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (From OE-Core rev: 7ae818a6c3635bff7701c339174b6d281a507462)
->
+This reverts commit f8336d39ddec1600b231a8117441e3927e661087.
 
-Hello,
+This breaks SDK_EXT_TYPE = "minimal" with SDK_INCLUDE_TOOLCHAIN = "1" since
+the toolchain extraction doesn't work well with --runall do_build. We don't
+want toolchain build components.
 
-> Release notes:
-> * https://github.com/RsyncProject/rsync/releases/tag/v3.4.3
-This URL does not match the upgrade (3.4.2 vs 3.4.3).
+Revert and we'll have to find a better way to fix the other issues.
 
-> * packaging: remove old release system
-> * runtests.py: error early when test helper programs are missing
-> * ci: add OpenBSD and NetBSD build jobs
-> * testsuite/xattrs: ignore SUNWattr_* in the Solaris xls helper
-> * use openat2 RESOLVE_BENEATH for secure_relative_open when available
->   (this is a regression fix)
-> * Start 3.4.3dev going.
-> * testsuite: run protected-regular test as non-root using unshare
-> * ci: add Ubuntu 22.04 and AlmaLinux 8 workflows for backporting
-> * combined security fixes for 3.4.3 release
->   * https://www.cve.org/CVERecord?id=3DCVE-2026-43617
->   * https://www.cve.org/CVERecord?id=3DCVE-2026-43618
->   * https://www.cve.org/CVERecord?id=3DCVE-2026-43619
->   * https://www.cve.org/CVERecord?id=3DCVE-2026-43620
->   * https://www.cve.org/CVERecord?id=3DCVE-2026-45232
->   * https://www.cve.org/CVERecord?id=3DCVE-2026-29518
->
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
-> ---
->  ...-prototypes-to-function-declarations.patch | 68 +++----------------
->  .../rsync/files/CVE-2025-10158.patch          | 36 ----------
->  .../rsync/files/determism.patch               |  4 +-
->  .../rsync/files/makefile-no-rebuild.patch     |  6 +-
->  .../rsync/{rsync_3.4.1.bb =3D> rsync_3.4.2.bb}  |  3 +-
->  5 files changed, 16 insertions(+), 101 deletions(-)
->  delete mode 100644 meta/recipes-devtools/rsync/files/CVE-2025-10158.patc=
-h
->  rename meta/recipes-devtools/rsync/{rsync_3.4.1.bb =3D> rsync_3.4.2.bb} =
-(95%)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/files/ext-sdk-prepare.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-Also, this upgrade contains some feature changes:
-* feat: add threads to zstd compression by @eshaz in #424
-* rsync: Add missing dirs long option by @nebkat in #826
-
-I'll hold the rsync upgrades for now and review the rest of the series.
-
-FYI, a previous attemps at fixing these rsync CVEs was ultimately
-rejected:
-https://lore.kernel.org/all/DKXW8UOQZO4F.2HWCHAX1B3QG5@smile.fr/
-
-There was the idea of using the "v3.4.1-sec-patches1" from the project
-but I don't remember if that was tried or not:
-https://github.com/RsyncProject/rsync/releases/tag/v3.4.1-sec-patches1
-
-Regards,
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/files/ext-sdk-prepare.py b/meta/files/ext-sdk-prepare.py
+index ed03b77ae62..89b04030899 100644
+--- a/meta/files/ext-sdk-prepare.py
++++ b/meta/files/ext-sdk-prepare.py
+@@ -69,7 +69,7 @@ def main():
+     with open(logfile, 'a') as logf:
+         logf.write('Preparing SDK for %s...\n' % ', '.join(sdk_targets))
+ 
+-        ret = run_command_interruptible('BB_SETSCENE_ENFORCE=1 bitbake --quiet --runall do_build %s' % ' '.join(sdk_targets))
++        ret = run_command_interruptible('BB_SETSCENE_ENFORCE=1 bitbake --quiet %s' % ' '.join(sdk_targets))
+         if not ret:
+             ret = run_command_interruptible('bitbake --quiet build-sysroots -c build_native_sysroot && bitbake --quiet build-sysroots -c build_target_sysroot')
+         lastlog = get_last_consolelog()
 
