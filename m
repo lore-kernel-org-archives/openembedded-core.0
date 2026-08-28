@@ -1,94 +1,121 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D70E9C61DCB
-	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 10:54:11 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3754.1787914450571946685
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08859C61DB9
+	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 11:00:12 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3840.1787914807842175688
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 03:54:11 -0700
+ Fri, 28 Aug 2026 04:00:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UvVSsTAX;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-499ae1c6471so5866945e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 03:54:10 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Bf73CMjR;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49b8687630fso5485705e9.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 04:00:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1787914449; x=1788519249; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=dRAAilaBpRrDBkgB5sWes7MzXLT0+t1+2bZux2DT5zM=;
-        b=UvVSsTAXEt+FmMHof1AP0UbEWZ2FnQb9KPnsr0WvNHjw0iBH84T4IrZ3iH+oFsgi5t
-         IT6cppFK31AqaWbbrP2KZLsDX/UR6bSXYft1e+C5nupc88fZVvUq+bjJQKphyVytATih
-         vtdEY8DTSPiXQ8GnQV4ABxZX1Or3gaE4GU+DE=
+        d=smile.fr; s=google; t=1787914806; x=1788519606; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Tywg5UYu5zzCvr4ouOsrAz6Ulsqfg/MsZQi70F6xBQ4=;
+        b=Bf73CMjR1OAxwx6ciD3DRmwLpvE4ebRet09axo2SDhzpxI4YEbdJIwdL1RWA09+wUm
+         jfBaQ4rt3ngjSV8/E1D2TK76XN71GigKLtIcpHBcHLJPunUf6rwMZibE3hApPiaPxCxh
+         5XtFx1MJf5WziS9NGYTRfzWE+tDL5iQHFsxyU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787914449; x=1788519249;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=dRAAilaBpRrDBkgB5sWes7MzXLT0+t1+2bZux2DT5zM=;
-        b=XUZDQhDYejsY0vnYPW/J6GoTVKJuII8X+zDfGNiuOfUTRmUJiFAdSQFnzL82m2kP9r
-         Ul+Y4I3ldURTkOUPbkZy30YaTDwr2chKcxbUW4JN3E7v/Xr46U5O/rn7aNEl59bsWza8
-         zW6jIkq3io9JH8D4584aAsmvpsyTmRMQIaLz4zbbPpYRbDRxhizg2XsJ22+k+sHdBdLL
-         TDyggqxHR5DdAI3ejouZWDoQkRHrfNmAsILkPOo0iZrKMyewvTn9haDSqhEI7P8WLcfY
-         8jKE/rUNboftaWY9ItrnBnsPpmkeP6FOPzbnDdF+d0v0BciB5Jctat+wUDl0qLc0Nw7M
-         2nsA==
-X-Gm-Message-State: AFuF++npAtbnPULhYZDAqJqFzlLOE0/Et6DN0myUhKUxs6CNLmtgoXiC
-	bnAh4zjmbtal18p6ZvxTHAQV0WGRjgQ5C2cPYGeBjljlrGeiNfN+wSUvNTZ00B/05Mixt22CN6c
-	Fz5/v0zU=
-X-Gm-Gg: AR+sD11LqqmIioOo+2FuOCE2KqR4/wq/g0bNsG3QA/FNEloYMWsxWq9G4runXf7fGWM
-	QKYTb9IUboPXZU4cxYo+eybsD0Mso7Pfuem00c71wyrb35yQpc8TXc4qLQ3UEkPAW0T9i/QaGyz
-	6eS6P/8bm+X4PzYLXZ4+ggwKBgFNlyyQ2HAiKTAqKo6dzTDeai/p2yS8hvC7m9OlSseMIdQ+wI9
-	AVZ7J1JsHRH3u+XAm5TY/iwqWkuG1U1PAy9IC4/6kFKuo6aCI5NA3Ag6jcBWe2jFBkI8yLgNvJD
-	b+EPBTIEibKhlCKBDKPQyF1OVeJqx0qZ+SWbH30vgcceVpc83trX2xDxVuF4ppFJbc0Bneb6c3Y
-	sINBHN1+1ezbgBT4nkZMtyjWD+KG3lRkkIHxl8fHgT3++x5mQcgwHX6XOZQLSWYPCokv/pNJdht
-	7pQyqLvegTPqPiaE65Et7itV/GXuI6yWC6dgn38slyq1h/Zhed2vMeR3hyyczXT/Le5p5ngU8JU
-	RrT3fgQYb/KKZSDHZLEMShRH/sC
-X-Received: by 2002:a05:600c:8587:b0:499:dbae:43d3 with SMTP id 5b1f17b1804b1-49b91c489bbmr80636275e9.9.1787914448404;
-        Fri, 28 Aug 2026 03:54:08 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c3f1:c7b4:8368:83c1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbac4f9esm2746145f8f.11.2026.08.28.03.54.07
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 03:54:07 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] Revert "files/ext-sdk-prepare: Ensure all dependencies extract correctly"
-Date: Fri, 28 Aug 2026 11:54:06 +0100
-Message-ID: <20260828105406.960288-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20251104; t=1787914806; x=1788519606;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Tywg5UYu5zzCvr4ouOsrAz6Ulsqfg/MsZQi70F6xBQ4=;
+        b=TY/IGz92Kk8gRP4iReKlQWvZyuZ9h5/DEvdobzrrQk5RmCVs675qw361KFd7s89Z1h
+         lIY1tq1+425yyug44nWO3wh+iDhBwOkHYyBHTKdI948k2quNwutYApmH1pp5TvbtoBbL
+         n22J34KK6dIDX/Pn/Zjla91Kl9J0KnovvFyznsGjbATbs5s60D4X250+Gz6OzagaONH8
+         r6WiXE5WCPUFkRn9Gnssy3GueQYayoNdRv7J1Wy41K4qo86rKzip92jiItkuPh8hr7xi
+         fpT2I4JCEe9IPrDD4EgyJQLfToX5zcdMpS8Xc9Mm57YMVeN5uh+DbyCQrflu/aLoiNKe
+         tCPg==
+X-Forwarded-Encrypted: i=1; AHgh+RpKxV/Sx19u6jm2ydIPSUG/EKfJcPaIL3CqcZe9bDUy/nWMGctK7FnVlA3uD6EwkwL+0LhE3WibRcmwDEDQa0jerw==@lists.openembedded.org
+X-Gm-Message-State: AFuF++m/OYfsJ8uFjyGArNWJ2eQQ7ee7Az0fYOsMvENh65X7/nKiSrkk
+	6tVIUxGtl37Mw5ti4LYHJyVAHrZYTvxsS9JssAMU++sMWh5VC66KAo9vCZQf7w8y/kGtKkXMqCM
+	x5uqiQcA=
+X-Gm-Gg: AR+sD110M2T8DcfOpeemnMk05Kz9GswX85gOq6ps5lE7pPGC3DtyQaCVj6jBDZL56AZ
+	44dnh1eEjr+e3IVEyctfExRPmX/At/VgG5pqGwwJH7VNbGNZ6GqOHU9vM1mcRFEdC+ap2QqORxm
+	waFKXQPzIYE26vObBwiqBzpUZY6I/gaEMtRQ8y8GLY+SNwhZf6EjiDrljEdCcTYdI8IkhJmkYp1
+	19bH6c3XYwvXOjanBnwtAUF3ytD0KV2eXsa1Vzn9OiruLyuB9/yyIv8mslG8bmugjWsH+moUn1P
+	BSFu7YoA76K6JuWchDHeND7hYXDQOQtv1sb5GLq0J+q7E2tdTaEn7B6gDR0iCK/Iw2SIarBWADQ
+	LPL8vlRHbVgVwlXB2bygmddAkqcGfc2jE+T34Xi5DwbcfredCvk2KSYMo4BtgaMsXUSVz714Ilo
+	jUAhfGrhW4cyT1lSK7AucA8YYcpXWIvOxDH9mwTqGsZXaSUA3F3rT2JLFerATyOugVzP+xYTouh
+	cgSHsKTqftw2TX/nHBWokkBBf8Vw0pxG8+040M26MMyO+1RyRCvhw==
+X-Received: by 2002:a05:600c:858b:b0:49b:928a:3f9e with SMTP id 5b1f17b1804b1-49b928a4006mr55199965e9.5.1787914805935;
+        Fri, 28 Aug 2026 04:00:05 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49c44feb966sm18955685e9.6.2026.08.28.04.00.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Aug 2026 04:00:05 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 28 Aug 2026 13:00:04 +0200
+Message-Id: <DL0IWIE8CAAI.187JTOKG1O68N@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH 4/6] libxml2: upgrade 2.15.2 ->
+ 2.15.3
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260804200356.2093270-1-peter.marko@siemens.com>
+ <20260804200356.2093270-4-peter.marko@siemens.com>
+In-Reply-To: <20260804200356.2093270-4-peter.marko@siemens.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 10:54:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244531
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 11:00:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244532
 
-This reverts commit f8336d39ddec1600b231a8117441e3927e661087.
+On Tue Aug 4, 2026 at 10:03 PM CEST, Peter Marko via lists.openembedded.org=
+ wrote:
+> From: Richard Purdie <richard.purdie@linuxfoundation.org>
+>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (From OE-Core rev: fd9928e49da740d11f402e13b00cf5401c81d5cd)
 
-This breaks SDK_EXT_TYPE = "minimal" with SDK_INCLUDE_TOOLCHAIN = "1" since
-the toolchain extraction doesn't work well with --runall do_build. We don't
-want toolchain build components.
+Hello Peter,
 
-Revert and we'll have to find a better way to fix the other issues.
+I really appreciate that you took the time to add the changelog, that
+helps me.
+>
+> Release Notes:
+> * https://gitlab.gnome.org/GNOME/libxml2/-/releases/v2.13.3
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/files/ext-sdk-prepare.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+But in this case, the URL and below changelog are wrong (2.13.3 vs
+2.15.3)
 
-diff --git a/meta/files/ext-sdk-prepare.py b/meta/files/ext-sdk-prepare.py
-index ed03b77ae62..89b04030899 100644
---- a/meta/files/ext-sdk-prepare.py
-+++ b/meta/files/ext-sdk-prepare.py
-@@ -69,7 +69,7 @@ def main():
-     with open(logfile, 'a') as logf:
-         logf.write('Preparing SDK for %s...\n' % ', '.join(sdk_targets))
- 
--        ret = run_command_interruptible('BB_SETSCENE_ENFORCE=1 bitbake --quiet --runall do_build %s' % ' '.join(sdk_targets))
-+        ret = run_command_interruptible('BB_SETSCENE_ENFORCE=1 bitbake --quiet %s' % ' '.join(sdk_targets))
-         if not ret:
-             ret = run_command_interruptible('bitbake --quiet build-sysroots -c build_native_sysroot && bitbake --quiet build-sysroots -c build_target_sysroot')
-         lastlog = get_last_consolelog()
+I've fixed it in my branch.
+
+>   * Security
+>     * [CVE-2024-40896] Fix XXE protection in downstream code
+>   * Regressions
+>     * autotools: Use AC_CHECK_DECL to check for getentropy
+>     * xinclude: Fix fallback for text includes
+>     * io: Don't call getcwd in xmlParserGetDirectory
+>     * io: Fix return value of xmlFileRead
+>     * parser: Fix error return of xmlParseBalancedChunkMemory
+>   * Improvements
+>     * xinclude: Set error handler when parsing text
+>     * Undeprecate xmlKeepBlanksDefault
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  ...ake-Fix-installation-directories-in-libxml2.patch | 12 ++++++------
+>  meta/recipes-core/libxml/libxml2/install-tests.patch |  9 +++------
+>  .../libxml/{libxml2_2.15.2.bb =3D> libxml2_2.15.3.bb}  |  2 +-
+>  3 files changed, 10 insertions(+), 13 deletions(-)
+>  rename meta/recipes-core/libxml/{libxml2_2.15.2.bb =3D> libxml2_2.15.3.b=
+b} (97%)
+>
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
+
 
