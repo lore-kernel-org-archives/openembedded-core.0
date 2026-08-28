@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 507D5C61DDC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E806C61DDB
 	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 19:38:33 +0000 (UTC)
-Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2992.1787945909579901223
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2986.1787945903822531147
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 12:38:29 -0700
+ Fri, 28 Aug 2026 12:38:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=XjxX4gez;
- spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-499ae1c6471so10536795e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 12:38:29 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dCRtRkQj;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49557167508so12998445e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 12:38:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787945908; x=1788550708; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787945902; x=1788550702; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Rjq9ra/tL8fSIg8zS3DjxMEnB173V1/0UmbfmYXXHN8=;
-        b=XjxX4gezAGwfGsQIN2zNLyx82ecBy8gffAk4TF9Ew7FKWnf33WkU/aiIGbnA9TG77Q
-         zS2xnnFJeV76d9wBo9Q5rbMQdIkNTg9E5dpN9h/WcG81A5VqS8b3mcy8dfQS/XjfzYdD
-         O2ajPQj8hhWiB94lzWzfX2LK3mgfovBIlKMes=
+        bh=4I0sRohltdVV1CczI79DOiryIQpYS3kx8t/YKP0HYr0=;
+        b=dCRtRkQjdq2P0RGssGJxnS9LMT5OC7Gt7YN8vgzXjdfoDDiVuCWHs8CKj7dTfas1Vv
+         k9ELD6DJ56iRavMNxysbYxnVfGgcTMM0lbIHkxJOfv+5mnK74rhrAcG5m5SrgrPkwFda
+         RMGryw/uo+H9IvIre8i8L8gSRHjwYDxKE8m10=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787945908; x=1788550708;
+        d=1e100.net; s=20251104; t=1787945902; x=1788550702;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Rjq9ra/tL8fSIg8zS3DjxMEnB173V1/0UmbfmYXXHN8=;
-        b=B1d5VzOinz23X42x+ZqaJycBT4cxLizoxqEodwLdOLkFKaO7C0e8oiFmVzQdGNHGtZ
-         RFwZzfZ86qHQAsBFdGPZUpMcAo1litxKM7op/J0kXZPYo/482+g/1dGJgSyv/kZC0dtn
-         18vhfmCyBvi/3gMFjH6U9/EdenQ/SMqKcYX6pZs/PybLAlUhq6MGQK6kg9/mlsDnGGH2
-         BCN1NgJ5ICxEUvOl76/ZR7DFbgvykvJiHM2UPIMsAMyOgH7rznBr60xalqPg03gTeuji
-         HhGKAfvBm4jUUM9AgqFHgQ1tkfkoiVa1d9aKh49y4eml64k7TTd35Bw3AtVgLRJrfZsn
-         OUwg==
-X-Gm-Message-State: AFuF++lk4KIvNhKsbzmZpHPsZ0WJcRY7CXEk0i4tsxEpdQeKO8DUWIPD
-	uZl4gz6U8g8xoQtyWNhx6jcyZYoWHnPZ+ui5gd4reXT1mo9MwOI69nGcGZqRLKMVdUi0Vzp/uzL
-	o4QBp0I4=
-X-Gm-Gg: AR+sD10kGN5xtSATV7ohOUUdeWW4syfPp2Jv6BbsnEKKMGmD1qhNcLTZ4JaaXHmuYqJ
-	B1KykcwZeqQCBrxpsEnpNt6F/gHSVxTQmxeEuF+f3VyRbdnAKIe17NpGOXq7AoavEeZF5Ti2vYk
-	+88I4/OSN0H3/Lu+nSTCfFBw5rAN1XM4zjDkLvrAX9wOrxy+098YKT1rctzz7iGEYcRdphf/Xjo
-	S1kdnoWnbdRDtCXLNH9XjZdFXZ0k8+arNxv+ga3dGItEFev4tLS9VRuUcYruQ3u5FU0dk/T+9EJ
-	fVMZGgCIwPuZ9CEHYOfAKCfFIjTMpVuLdhIL025Wp3/cgVHsAKQyJtCWH5n4Mr0AbjAs+5anmQs
-	Ge/aXytuhfbIGgZre7JKRNuifk96c/FW+8Zice5h3iPUx1arZPdbLjU1IHPGVxT2oLctEQgHWli
-	ZhCyfkvrObbk4vt/HAbCLhZMSWg1ExCgGlIbVrvFxxx/LLQcVoGAheOp4zynG+x9etx0vkzvz4u
-	xgzl8POUFIWwPETemxoz6KGSGbcfhElmRzcVspDHo9MHFRpsNGjgcOCnrRT64oS
-X-Received: by 2002:a05:600c:c493:b0:499:a5c8:c6f3 with SMTP id 5b1f17b1804b1-49b91c20914mr140000615e9.3.1787945907844;
-        Fri, 28 Aug 2026 12:38:27 -0700 (PDT)
+        bh=4I0sRohltdVV1CczI79DOiryIQpYS3kx8t/YKP0HYr0=;
+        b=iTu+6cqnrD5Gx/UPZh3/1IQx3JIpsqGbqptmEcwwHHz1bkcA+UjwD5/7LMRxGlsFIr
+         wqOI+O0ENvs/gELe6Z3vwhFxNDSEGr6xZawDpH9aSFINetK87quKFzRzSk0arJrw7dZx
+         b3Bn73rf+RCHWZ3wPjIaibF6VIi8u5v1toFs8vOd/zedIRpXHia4rp4lyunOv3nVZKxB
+         J/U8LvvnNqNbI0D0VbJr+71fJXyT6LorXnDhAdaxkeUXIFpnN8DCdPGydrqUmlm1eJIU
+         YOOjjas9eexQOmTaooXTCUGmQjZ7ZInaFYeQZAECvPMEtNccPpRHCWpv24UiyypKeD0H
+         bTpg==
+X-Gm-Message-State: AFuF++mbKmaPSRTHqFGp1OJlFDplfglu8oDNsA+CEar+9GWvZxaBmz3C
+	2eXgT4hbfLgeEH8SMoxMIaOeJbiCYIsUq+PbKuKx6EEk49bZCaVfdwT2ZFo9vnh0P7+4prtsRfA
+	Uc7XkOhA=
+X-Gm-Gg: AR+sD12j7gte1ZLVmgx0yPaCWjYsO1jHCP+Sq2rSbkvQpLwlS+C65WRluhfxPgG6NcL
+	hFD7iftiV7StIBLnD9lzy9R2+qsYt4XY2551V69cdKK0gGo9eUQX1Z0D693Vqsycrzmm6NeABVG
+	Xk+4MVjfWV5xXRSrvj94kayD/Ngawz3IBark0eWuCPtdrOMLEKYYtGEaf8diYAKbAv05evA305D
+	Gx/oAsGa9Ij50RwqRzgp1B8jawc6aAXAYzVHeCc4u0tvFIFet46iRSQIVaj209PGygZ/xhMi/gG
+	8ziZg7fVOB9ZfGiUiCHWMz9Ahi+jlEdyrA8pEi+mhVELosRFu1d9ek8RmnSkWyuN5RjOKrlyiQJ
+	JLAqCF02qxaRKYGJANfYHES68N60E4+/rWa09YLGPS7FLSivp1FIUZteBCd/RWOcuo65+aoS+iy
+	38+y4+fx0aZ3M8CjVUxNwxZK0p1svhiWBq8Xw3alkYE2uQas7u+tgiHXcmL7S30dfSDv9jlvxr5
+	ZLh4H/WEVFDy/Q+uGjbYZB9qrceMgIbjrkPj1q6pCbgaoF6zgILOqBWPkdlp90W+wmz8CGF3m4=
+X-Received: by 2002:a05:600c:a0a:b0:498:943:ccc0 with SMTP id 5b1f17b1804b1-49b91c27789mr132375415e9.6.1787945902043;
+        Fri, 28 Aug 2026 12:38:22 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm147703115e9.4.2026.08.28.12.38.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm147703115e9.4.2026.08.28.12.38.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 12:38:27 -0700 (PDT)
+        Fri, 28 Aug 2026 12:38:21 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 41/56] xwayland: upgrade 24.1.12 -> 24.1.13
-Date: Fri, 28 Aug 2026 21:35:51 +0200
-Message-ID: <cce895645d642335b8f1ea92532a394c2af101e3.1787945536.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 31/56] xserver-xorg: upgrade 21.1.23 -> 21.1.24
+Date: Fri, 28 Aug 2026 21:35:41 +0200
+Message-ID: <22241fdfeaf8053c2cb1dc00a6ab89da242b175c.1787945536.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1787945536.git.yoann.congal@smile.fr>
 References: <cover.1787945536.git.yoann.congal@smile.fr>
@@ -66,38 +66,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 19:38:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244602
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244592
 
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: f93929ba6cae77b6e28dce24c63a7501bdbd4cda)
+(From OE-Core rev: a0bcc350b93bee2217cb723ccd6baba6fa252e0d)
 
-Release:
+Release notes:
 * https://lists.x.org/archives/xorg-announce/2026-July/003716.html
-* https://lists.x.org/archives/xorg-announce/2026-July/003717.html
+* https://lists.x.org/archives/xorg-announce/2026-July/003718.html
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../xwayland/{xwayland_24.1.12.bb => xwayland_24.1.13.bb}       | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/xwayland/{xwayland_24.1.12.bb => xwayland_24.1.13.bb} (96%)
+ ...1-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch | 2 +-
+ .../{xserver-xorg_21.1.23.bb => xserver-xorg_21.1.24.bb}        | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.23.bb => xserver-xorg_21.1.24.bb} (92%)
 
-diff --git a/meta/recipes-graphics/xwayland/xwayland_24.1.12.bb b/meta/recipes-graphics/xwayland/xwayland_24.1.13.bb
-similarity index 96%
-rename from meta/recipes-graphics/xwayland/xwayland_24.1.12.bb
-rename to meta/recipes-graphics/xwayland/xwayland_24.1.13.bb
-index 52572bfd21c..41bf1687a28 100644
---- a/meta/recipes-graphics/xwayland/xwayland_24.1.12.bb
-+++ b/meta/recipes-graphics/xwayland/xwayland_24.1.13.bb
-@@ -10,7 +10,7 @@ LICENSE = "MIT & Adobe-Display-PostScript & BSD-3-Clause & DEC-3-Clause & HPND &
- LIC_FILES_CHKSUM = "file://COPYING;md5=f8778cfcd90ece0e4b225f30182227ca"
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
+index 4a5bf4ba437..14831b1a9b9 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg/0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch
+@@ -1,4 +1,4 @@
+-From fec2a3c8922ee7526d59e9fa2c6ad0943018b7b0 Mon Sep 17 00:00:00 2001
++From d387580194e91ad73f896a9669757612c8601c92 Mon Sep 17 00:00:00 2001
+ From: California Sullivan <california.l.sullivan@intel.com>
+ Date: Fri, 16 Mar 2018 17:23:11 -0700
+ Subject: [PATCH] xf86pciBus.c: use Intel ddx only for pre-gen4 hardware
+diff --git a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.23.bb b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb
+similarity index 92%
+rename from meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.23.bb
+rename to meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb
+index d3c00e087e5..8d7f9ae14d2 100644
+--- a/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.23.bb
++++ b/meta/recipes-graphics/xorg-xserver/xserver-xorg_21.1.24.bb
+@@ -1,7 +1,7 @@
+ require xserver-xorg.inc
  
- SRC_URI = "https://www.x.org/archive/individual/xserver/xwayland-${PV}.tar.xz"
--SRC_URI[sha256sum] = "6df02c511b92c1b9848734d9d1b03a4c24f8375ba3cada44e9684a21b5f78e21"
-+SRC_URI[sha256sum] = "173aea3d6f79609164c04528e1c8e4c9b60fcd59391c3c9dad4667297d727fb6"
+ SRC_URI += " file://0001-xf86pciBus.c-use-Intel-ddx-only-for-pre-gen4-hardwar.patch"
+-SRC_URI[sha256sum] = "e39832e5617dadaf072fdf9f0e19e5d2e1c2a13607ac280bac1aba9f8fe14634"
++SRC_URI[sha256sum] = "1a4eb36ca65cc3b1b936566d677a9786e13c11cd5806e951ac55f3f5ce3984af"
  
- UPSTREAM_CHECK_REGEX = "xwayland-(?P<pver>\d+(\.(?!90\d)\d+)+)\.tar"
- 
+ # These extensions are now integrated into the server, so declare the migration
+ # path for in-place upgrades.
 
