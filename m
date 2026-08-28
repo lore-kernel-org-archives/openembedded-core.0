@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CF68C61DE6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB98CC61DFB
 	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 19:38:22 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2979.1787945894363432110
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2984.1787945902188393967
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 12:38:14 -0700
+ Fri, 28 Aug 2026 12:38:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=fPwVzShH;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso8716815e9.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 12:38:14 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=vS7BlAhX;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49557167508so12998275e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 12:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787945892; x=1788550692; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787945900; x=1788550700; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=QujumhdyaP5hIyVb92hRQwEKxzuQ0LCk8yXJlkuagwo=;
-        b=fPwVzShHc7R3ESlV8TsJSn2Brn1zkG4aKcGo9SMazp5I22y/1BuKDMqXRvBhu7iRNq
-         xv8l1Ej/paZcAAxDtw91uWyO2Me0yBOi8fOyApOKwQn51WeYSskeGcWwFxY5VpcA+VKW
-         GSeK3uI4Dn1xmPK7Y+ISjIiYEQv1ie2NHnbLs=
+        bh=8nBJ1Py6sDgs35EuS8nRC0VRMgrihaLIKH6yEWEm1JM=;
+        b=vS7BlAhXopii8YyqqdF0MvJzC9wleSiVqAWM4dyG5us6hsCf2lk9VUBKAOR+E1/il7
+         EK6e++EeiiNJd//cNZHDAF7PkKrYwjFISi6hqd3vjC1uHXH0TOU5ZfSOjGGOP7iDBV3H
+         srqZMwXZ2bVcYQ80AtAPzFIZcHoWeEdg8jj0Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787945892; x=1788550692;
+        d=1e100.net; s=20251104; t=1787945900; x=1788550700;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=QujumhdyaP5hIyVb92hRQwEKxzuQ0LCk8yXJlkuagwo=;
-        b=WMskEi+gMkzJq5In3xKXi/x5WiHFRXEndV1ZA+/xrRJsEhgzykIyjvaR0drFQcJP/Q
-         WKVbsAWWXSUr9qo+Z6RMK77Z2ysS6VI2TL9VKZRw5EYOwycOJq2OT/xliMiLpk6V2j9N
-         hXsZaefNuj84aU4l/fGcgMNOLj3g15sN+Uiu8BsuuHx/T9RboEnYGho1DUoPD91UssV5
-         F1hSmPrr+YUpad3ullVIXZSqoLeeWn8GrU30Sz6y+8Qz3f0JAssTDMaIT+au/Tw+wWzr
-         aKusdGFlZqyzaCV7icPmHLyw21CStu5n8ZGllu9l7Nzx66KmPEjghYBw5BtB/1t+wR/S
-         FIKA==
-X-Gm-Message-State: AFuF++mzn1/h0e5StrgpLj9fc6DFXR0eitPvX2NeAah0IruUeXmzwzCa
-	xBGKieYqarxEk4Ut79g76d4XDUaOFl+ZjUnd84HFoFYnwuq1xzMIpZ6ne0vtvDLAnEBZxPwWlbr
-	Uhv5sYYk=
-X-Gm-Gg: AR+sD10DIQ23w8TScTHpYGdnZ48yPXCKypBmEOV1WvxFFDiFbExTSUonrQdJh0ErELt
-	NwIcSXj/Hzm/+a+rSn7kyTk9GaVsE9E87KvcTWdPD8qrOeOmWko/BTpTDtT5zqG0wMDO1tVKXa9
-	zZ4CrQmAhFZxv7jebEcbnTAYA7zBpAMjepzR+wg+88dAKaxQyK/eAiJj6IgikZ7z2NYmD5odqCc
-	sn5GD/4GInJDCf28SBjesyhXsDFjtLLFZ4A+j8eLHP56wBz4JiR0cT8yCTPLb01ZtWLPhz/oE+9
-	PlY09RXtyDsbpYmY0p3YuK2MvdIhSLvJclw17OTR92XvoA5G+PVtmfMjcY3/SeiHJzClVsujOBA
-	dnL+rS0ozWM0q6PN29k9bTli2YneBtECRq2BMt68qyn/g6cr3AucbVIKw5YZx7ah1+ROo8w+ChH
-	hmyCqbx8113/C0QtJPhHbN9eBcI6R37qQXpvOBQ32ZOM075/t/MMP383xkB3R1p2VOvGn9SC0ss
-	NRT6l3yhkKJ0Yvv3n2RBOcIWwuwN9h8l6ivhR7p6ef2l56o+7IhFDJtrot1PevL
-X-Received: by 2002:a05:600c:3b21:b0:498:952:e276 with SMTP id 5b1f17b1804b1-49b91c3f643mr139530935e9.8.1787945892515;
-        Fri, 28 Aug 2026 12:38:12 -0700 (PDT)
+        bh=8nBJ1Py6sDgs35EuS8nRC0VRMgrihaLIKH6yEWEm1JM=;
+        b=fS2+88hOZHw+LQvQ8r1rbJtfNmm933RgptS4hzdWnKGrp5WgngAwaNTuNOXcD5W7ll
+         JjcZE01BOq5kNSLok1slm1tgCcPNhkYG2wCgrFXW0LxAeuu6HDOMD3ShUXyvPKZDQ+78
+         OpYG9X2Qsh3Yd1tdAF4uZI3wF51+d4C8ZkV0pV/NKadlp/2m5bLqH+Sz39txAbJPECjq
+         wcUyv3glE6G2xjMve0OTvmJg0LHAxJ6rgsCmrYNTnMNxpl+Za3ZMK1Mw/g3A+hHJ+EsY
+         1eg2aNI1K6lOf9fmprkjD4wpll0fptJrhSNVYgJClF4Zd2g511ljPrRHLPrLQgDpwLio
+         WY/w==
+X-Gm-Message-State: AFuF++k7DVbu4O1lksXPXrf7MqltTOxjB7keeE3ETLVRsGzK8FhAQpOQ
+	xN2GPwQvQpd6C4loS+R/yU+tB2yzRun25n5T+4a9LV3rV/GJCIJBEk0GofOVzZfWhILYNSu/Fzp
+	04lXeqXU=
+X-Gm-Gg: AR+sD10xhpKflQHGpfMRWX2oKW8hi1lBDJIQbSGQrMJZk3dV8XrEH/v7NGZp9WLuY64
+	C3fWXfs1T2+686q5PIkM2PbRPp21K1AG4/LuhQSKKkFGQZkCcgkEa4JRJfgV+0gWxsvBKPgLzLO
+	NUKByVNiIvC5udy/m+/Ptq/Ai7fN0v40wQMKnZDg3uo4ZGI66MJBY81uDbeeB2jyAk+HastZLW7
+	ikpIqD3J+iwWMlec30rf0PmvX/t2tszgNvQLydA/i1ArN7XHqRZLbHYWmro/iuNU8J0RIHDFlkO
+	2dI9+Oz9gpfylwklWpJTcV8FSv7kMPD2ritAxs8cVK1Tr0D3GMtuwdBl31E5sho49nWovGbdrVy
+	X5/RYV9J6rfLegXJd0FZSkYc1hdT3hZriraKvf8TQ5B3sFxy8BMpcwKsWUU1/3yeWpBKW1hkCM7
+	YEi6flfF13Q9s2pnmIZWqeOEaM2gDkvg2TLX8DUn9wv/aPtd43NcZkVvlNp2qc9eGmxoV6IjfW5
+	iJ8VX4Lutw7Pn6hxp7t5dWGvpS6LktWZDzHmpfeK50zizIoatixV3cSJXCzsmXo
+X-Received: by 2002:a05:600c:3144:b0:49c:c9ac:a4f3 with SMTP id 5b1f17b1804b1-49cc9acc59amr42052065e9.1.1787945900365;
+        Fri, 28 Aug 2026 12:38:20 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm147703115e9.4.2026.08.28.12.38.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm147703115e9.4.2026.08.28.12.38.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 12:38:12 -0700 (PDT)
+        Fri, 28 Aug 2026 12:38:20 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 15/56] vim: Fix for CVE-2026-57451
-Date: Fri, 28 Aug 2026 21:35:25 +0200
-Message-ID: <efc8a0528f280034dc633e0743aba6543c3c712b.1787945536.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 28/56] gstreamer1.0: upgrade 1.28.2 -> 1.28.4 (the remaining pieces)
+Date: Fri, 28 Aug 2026 21:35:38 +0200
+Message-ID: <810339318721e08a69231c475153cef2e74fe131.1787945536.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1787945536.git.yoann.congal@smile.fr>
 References: <cover.1787945536.git.yoann.congal@smile.fr>
@@ -66,231 +66,288 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 19:38:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244576
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244589
 
-From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-Pick the patch from [1], also referenced in the NVD report [2].
-
-[1] https://github.com/vim/vim/commit/b2338ca90643e2f01ecb6547c1172716aaec4f79
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-57451
-
-Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+((From OE-Core rev: 430c35bc1e4358173ab3b6d1e2e5e94f58357359)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-57451.patch            | 192 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 193 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-57451.patch
+ ...001-Make-player-examples-installable.patch | 21 +++++++++----------
+ ...mples_1.28.2.bb => gst-examples_1.28.4.bb} |  2 +-
+ ...ialized-warnings-when-compiling-with.patch |  4 ++--
+ ...-avoid-including-sys-poll.h-directly.patch |  2 +-
+ ...issing-opencv-data-dir-in-yocto-buil.patch |  4 ++--
+ ...added-buffers-in-wl_shm-buffer-creat.patch |  5 +----
+ ....bb => gstreamer1.0-plugins-bad_1.28.4.bb} |  2 +-
+ ...et-caps-from-src-pad-when-query-caps.patch |  6 +++---
+ ...parse-enhance-SSA-text-lines-parsing.patch |  2 +-
+ ...iv-fb-Make-sure-config.h-is-included.patch |  2 +-
+ ...bb => gstreamer1.0-plugins-base_1.28.4.bb} |  2 +-
+ ...bb => gstreamer1.0-plugins-good_1.28.4.bb} |  2 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.28.4.bb} |  2 +-
+ ....bb => gstreamer1.0-rtsp-server_1.28.4.bb} |  2 +-
+ 14 files changed, 27 insertions(+), 31 deletions(-)
+ rename meta/recipes-multimedia/gstreamer/{gst-examples_1.28.2.bb => gst-examples_1.28.4.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.28.2.bb => gstreamer1.0-plugins-bad_1.28.4.bb} (99%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.28.2.bb => gstreamer1.0-plugins-base_1.28.4.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.28.2.bb => gstreamer1.0-plugins-good_1.28.4.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.28.2.bb => gstreamer1.0-plugins-ugly_1.28.4.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.28.2.bb => gstreamer1.0-rtsp-server_1.28.4.bb} (90%)
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-57451.patch b/meta/recipes-support/vim/files/CVE-2026-57451.patch
-new file mode 100644
-index 00000000000..415ae0dd6c4
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-57451.patch
-@@ -0,0 +1,192 @@
-+From c3c95d56f5f800484b83aaf200dd393196774198 Mon Sep 17 00:00:00 2001
-+From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-+Date: Wed, 17 Jun 2026 21:06:59 +0000
-+Subject: [PATCH] patch 9.2.0670: [security]: Out-of-bounds read with text
-+ properties
-+
-+Problem:  [security]: Out-of-bounds read with text properties
-+          (cipher-creator)
-+Solution: Add out-of-bound checks (Yasuhiro Matsumoto)
-+
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-f36c-2qcp-7gpw
-+
-+Supported by AI
-+
-+Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/b2338ca90643e2f01ecb6547c1172716aaec4f79]
-+CVE: CVE-2026-57451
-+
-+Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
-+---
-+ src/memline.c                  |  7 ++++
-+ src/proto/textprop.pro         |  1 +
-+ src/testdir/test_textprop2.vim | 59 ++++++++++++++++++++++++++++++++++
-+ src/textprop.c                 | 20 ++++++++++++
-+ src/version.c                  |  2 ++
-+ 5 files changed, 89 insertions(+)
-+
-+diff --git a/src/memline.c b/src/memline.c
-+index c15946a6e..07c7a07d3 100644
-+--- a/src/memline.c
-++++ b/src/memline.c
-+@@ -3796,6 +3796,11 @@ adjust_text_props_for_delete(
-+ 		uint16_t pc;
-+ 
-+ 		mch_memmove(&pc, text + textlen, PROP_COUNT_SIZE);
-++		if (!text_prop_count_valid(pc, (size_t)(line_size - (long)textlen)))
-++		{
-++		    internal_error("text property count too large");
-++		    return;
-++		}
-+ 		this_props_len = pc * (int)sizeof(textprop_T);
-+ 	    }
-+ 
-+@@ -4034,6 +4039,8 @@ theend:
-+ 	mch_memmove(&pc, textprop_save, PROP_COUNT_SIZE);
-+ 	props_data = textprop_save + PROP_COUNT_SIZE;
-+ 	props_bytes = pc * (int)sizeof(textprop_T);
-++	if (!text_prop_count_valid(pc, (size_t)textprop_len))
-++	    props_bytes = 0;
-+ 
-+ 	// Adjust text properties in the line above and below.
-+ 	if (lnum > 1)
-+diff --git a/src/proto/textprop.pro b/src/proto/textprop.pro
-+index d3ecf6d14..a01c2f3b2 100644
-+--- a/src/proto/textprop.pro
-++++ b/src/proto/textprop.pro
-+@@ -35,4 +35,5 @@ void clear_buf_prop_types(buf_T *buf);
-+ int adjust_prop_columns(linenr_T lnum, colnr_T col, int bytes_added, int flags);
-+ void adjust_props_for_split(linenr_T lnum_props, linenr_T lnum_top, int kept, int deleted, int at_eol);
-+ void prepend_joined_props(unpacked_memline_T *um, linenr_T lnum, int last_line, long col, int removed);
-++bool text_prop_count_valid(int prop_count, size_t propdata_len);
-+ /* vim: set ft=c : */
-+diff --git a/src/testdir/test_textprop2.vim b/src/testdir/test_textprop2.vim
-+index 193a80841..48387d1c0 100644
-+--- a/src/testdir/test_textprop2.vim
-++++ b/src/testdir/test_textprop2.vim
-+@@ -428,4 +428,63 @@ func Test_multiline_prop_delete_penultimate_line()
-+   call s:CleanupPropTypes(['1', '2', '3'])
-+ endfunc
-+ 
-++func s:ManipulateUndoBlob(name)
-++  " Patch the saved old line in the undo file:
-++  "   00 00 00 08 'QQQQQQQQ'  ->  00 00 00 27 'AAAA' NUL count=0xFFFF <32x00>
-++  " i.e. textlen 8 text-only  ->  39-byte blob: text "AAAA", NUL, prop_count
-++  "   0xFFFF, one zeroed textprop_T(32).  propdata_len becomes 34, count 65535.
-++  let blob   = readfile(a:name, 'B')
-++  let marker = 0z000000085151515151515151
-++  let repl   = 0z000000274141414100FFFF + repeat(0z00, 32)
-++  let mlen   = len(marker)
-++  let idx    = -1
-++  let i      = 0
-++  while i <= len(blob) - mlen
-++    if blob[i : i + mlen - 1] ==# marker
-++      let idx = i
-++      break
-++    endif
-++    let i += 1
-++  endwhile
-++  call assert_true(idx >= 0, 'saved-line marker not found in undo file')
-++
-++  let head = idx > 0 ? blob[0 : idx - 1] : 0z
-++  call writefile(head + repl + blob[idx + mlen :], a:name)
-++
-++  exe "rundo" a:name
-++endfunc
-++
-++" A crafted undo file can restore a line whose declared text-property count is
-++" far larger than the data, making get_text_props() / consumers read past the
-++" line buffer.  Restore such a line and force a consumer; reaching the asserts
-++" (no ASan abort / crash) means the count is bounded.
-++func Test_textprop_undo_bad_prop_count()
-++  CheckFeature persistent_undo
-++
-++  new
-++  call setline(1, ['QQQQQQQQ', 'DECOYLINE'])
-++  let &ul = &ul
-++  call setline(1, 'BBBB')           " undo step saves old line 1 = "QQQQQQQQ"
-++  wundo Xtpundo
-++  call s:ManipulateUndoBlob('Xtpundo')
-++
-++  undo
-++
-++  " Safety: prove the malicious line was actually restored before the consumer
-++  " runs, so the test can't pass vacuously if the patch missed.
-++  call assert_equal('AAAA', getline(1))
-++
-++  " Adding a property anywhere sets b_has_textprop, so get_text_props() will
-++  " actually inspect line 1 instead of returning early.
-++  call prop_type_add('Xtp', {})
-++  call prop_add(2, 1, {'type': 'Xtp', 'length': 1})
-++
-++  " this caused OOB read, now it triggers internal error
-++  call assert_fails('call prop_list(1)', ['E340:', 'corrupted'])
-++
-++  call prop_type_delete('Xtp')
-++  bwipe!
-++  call delete('Xtpundo')
-++endfunc
-++
-+ " vim: shiftwidth=2 sts=2 expandtab
-+diff --git a/src/textprop.c b/src/textprop.c
-+index 33165a8e4..6b0ce45f2 100644
-+--- a/src/textprop.c
-++++ b/src/textprop.c
-+@@ -109,6 +109,12 @@ um_goto_line(unpacked_memline_T *um, linenr_T lnum, int extra_props)
-+     char_u	    *props_start;
-+ 
-+     mch_memmove(&prop_count, count_ptr, PROP_COUNT_SIZE);
-++    if (!text_prop_count_valid(prop_count, propdata_len))
-++    {
-++	iemsg(e_text_property_info_corrupted);
-++	um->buf = NULL;
-++	return false;
-++    }
-+     proplen = (int)prop_count;
-+     props_start = count_ptr + PROP_COUNT_SIZE;
-+ 
-+@@ -1235,6 +1241,11 @@ get_text_props(buf_T *buf, linenr_T lnum, char_u **props, int will_change)
-+ 	return 0;
-+     }
-+     mch_memmove(&prop_count, text + textlen, PROP_COUNT_SIZE);
-++    if (!text_prop_count_valid(prop_count, propdata_len))
-++    {
-++	iemsg(e_text_property_info_corrupted);
-++	return 0;
-++    }
-+     *props = text + textlen + PROP_COUNT_SIZE;
-+     return (int)prop_count;
-+ }
-+@@ -3219,4 +3230,13 @@ prepend_joined_props(
-+     um_abort(&r_um);
-+ }
-+ 
-++    bool
-++text_prop_count_valid(int prop_count, size_t propdata_len)
-++{
-++    if (propdata_len < PROP_COUNT_SIZE)
-++	return false;
-++    return (size_t)prop_count * sizeof(textprop_T)
-++		    <= propdata_len - PROP_COUNT_SIZE;
-++}
-++
-+ #endif // FEAT_PROP_POPUP
-+diff --git a/src/version.c b/src/version.c
-+index 16a8b140d..a216b9b01 100644
-+--- a/src/version.c
-++++ b/src/version.c
-+@@ -736,6 +736,8 @@ static int included_patches[] =
-+ {   /* Add new patch number below this line */
-+ /**/
-+     671,
-++/**/
-++    670,
-+ /**/
-+     663,
-+ /**/
-+-- 
-+2.53.0
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 48edfc694f0..0fc3ae5df08 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -31,6 +31,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-57452.patch \
-            file://CVE-2026-55693.patch \
-            file://CVE-2026-55895.patch \
-+           file://CVE-2026-57451.patch \
+diff --git a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
+index e12ca0b613d..e7862b40e79 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
++++ b/meta/recipes-multimedia/gstreamer/gst-examples/0001-Make-player-examples-installable.patch
+@@ -1,4 +1,4 @@
+-From 7924016fce2d0b435891a335cdae52fc939c7e3b Mon Sep 17 00:00:00 2001
++From 75ff9436c9ff965327d6dad256c0a1539435b13a Mon Sep 17 00:00:00 2001
+ From: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Date: Thu, 17 Aug 2017 11:07:02 +0300
+ Subject: [PATCH] Make player examples installable
+@@ -7,16 +7,15 @@ Signed-off-by: Jussi Kukkonen <jussi.kukkonen@intel.com>
+ Upstream-Status: Denied [Upstream considers these code examples, for now a least]
+ 
+ https://bugzilla.gnome.org/show_bug.cgi?id=777827
+-
+ ---
+  playback/player/gst-play/meson.build | 1 +
+  playback/player/gtk/meson.build      | 1 +
+  2 files changed, 2 insertions(+)
+ 
+-Index: gst-examples/playback/player/gst-play/meson.build
+-===================================================================
+---- gst-examples.orig/playback/player/gst-play/meson.build
+-+++ gst-examples/playback/player/gst-play/meson.build
++diff --git a/playback/player/gst-play/meson.build b/playback/player/gst-play/meson.build
++index 5e80ca8dd4..129e5bdcbe 100644
++--- a/playback/player/gst-play/meson.build
+++++ b/playback/player/gst-play/meson.build
+ @@ -2,5 +2,6 @@ executable('gst-play',
+      ['gst-play.c',
+       'gst-play-kb.c',
+@@ -24,11 +23,11 @@ Index: gst-examples/playback/player/gst-play/meson.build
+ +    install: true,
+      dependencies : [gst_dep, dependency('gstreamer-play-1.0'), m_dep])
+  
+-Index: gst-examples/playback/player/gtk/meson.build
+-===================================================================
+---- gst-examples.orig/playback/player/gtk/meson.build
+-+++ gst-examples/playback/player/gtk/meson.build
+-@@ -20,5 +20,6 @@ if gtk_dep.found()
++diff --git a/playback/player/gtk/meson.build b/playback/player/gtk/meson.build
++index 6892f15254..20d7505877 100644
++--- a/playback/player/gtk/meson.build
+++++ b/playback/player/gtk/meson.build
++@@ -21,5 +21,6 @@ if gtk_dep.found()
+         'gtk-video-renderer.h',
+         'gtk-video-renderer.c'],
+        c_args :  extra_c_args,
+diff --git a/meta/recipes-multimedia/gstreamer/gst-examples_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb
+similarity index 96%
+rename from meta/recipes-multimedia/gstreamer/gst-examples_1.28.2.bb
+rename to meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb
+index 304d71b6377..ad6374d3fb3 100644
+--- a/meta/recipes-multimedia/gstreamer/gst-examples_1.28.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gst-examples_1.28.4.bb
+@@ -12,7 +12,7 @@ SRC_URI = "git://gitlab.freedesktop.org/gstreamer/gstreamer.git;protocol=https;b
+            file://gst-player.desktop \
             "
  
- PV .= ".0340"
+-SRCREV = "43421c2a5b8ac5cceb52b11749df40301e1de5c0"
++SRCREV = "b46f881eaa8126eddfd21b5ae5512f8d4ff36255"
+ 
+ S = "${UNPACKDIR}/${BP}/subprojects/gst-examples"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
+index 307d6696451..f5eb011ffad 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0001-fix-maybe-uninitialized-warnings-when-compiling-with.patch
+@@ -1,4 +1,4 @@
+-From d24bb949e547a0ad69f3f47e4cf262a75bb9fe73 Mon Sep 17 00:00:00 2001
++From bcc4c0d84f573e5d53195a726b475d818759550d Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Tue, 26 Jan 2016 15:16:01 -0800
+ Subject: [PATCH] fix maybe-uninitialized warnings when compiling with -Os
+@@ -11,7 +11,7 @@ Signed-off-by: Andre McCurdy <armccurdy@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/gst-libs/gst/codecparsers/gstvc1parser.c b/gst-libs/gst/codecparsers/gstvc1parser.c
+-index ac8c378..3fc5298 100644
++index d91cc3f..c9058cd 100644
+ --- a/gst-libs/gst/codecparsers/gstvc1parser.c
+ +++ b/gst-libs/gst/codecparsers/gstvc1parser.c
+ @@ -1732,7 +1732,7 @@ gst_vc1_parse_sequence_layer (const guint8 * data, gsize size,
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
+index 7da8994e3d9..ed0a248381d 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0002-avoid-including-sys-poll.h-directly.patch
+@@ -1,4 +1,4 @@
+-From 728238129a8a91cad857023d2e7131591321409d Mon Sep 17 00:00:00 2001
++From 86d9fc16f8d165e79d29ab1130e08663502dcd25 Mon Sep 17 00:00:00 2001
+ From: Andre McCurdy <armccurdy@gmail.com>
+ Date: Wed, 3 Feb 2016 18:05:41 -0800
+ Subject: [PATCH] avoid including <sys/poll.h> directly
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
+index 1edcf07c146..78981c03714 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch
+@@ -1,4 +1,4 @@
+-From 8f7a1c5591e27681f294ae5edf0f32689198abff Mon Sep 17 00:00:00 2001
++From 08cf48c1ad094a522b558f10d24d4aec670dcc88 Mon Sep 17 00:00:00 2001
+ From: Andrey Zhizhikin <andrey.z@gmail.com>
+ Date: Mon, 27 Jan 2020 10:22:35 +0000
+ Subject: [PATCH] opencv: resolve missing opencv data dir in yocto build
+@@ -17,7 +17,7 @@ Signed-off-by: Jose Quaresma <quaresma.jose@gmail.com>
+  1 file changed, 3 insertions(+)
+ 
+ diff --git a/gst-libs/gst/opencv/meson.build b/gst-libs/gst/opencv/meson.build
+-index 64e913e..42a0958 100644
++index 60cb12b..4046b70 100644
+ --- a/gst-libs/gst/opencv/meson.build
+ +++ b/gst-libs/gst/opencv/meson.build
+ @@ -61,6 +61,9 @@ gstopencv_cargs += ['-DOPENCV_PREFIX="' + opencv_prefix + '"']
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
+index 2bb00e2b1d9..97b138a660c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad/0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch
+@@ -1,4 +1,4 @@
+-From 2af4bc8562f970207e3b1f6fc0b377ecf116a69c Mon Sep 17 00:00:00 2001
++From 8ff54f765defbb343340da5de3cf5c89e400a8ff Mon Sep 17 00:00:00 2001
+ From: Tushar Darote <tdarote@qti.qualcomm.com>
+ Date: Mon, 8 Jun 2026 18:05:51 +0530
+ Subject: [PATCH] wayland: handle padded buffers in wl_shm buffer creation
+@@ -233,6 +233,3 @@ index 3c5c3cc..cd9c964 100644
+  
+      g_object_unref (alloc);
+    }
+--- 
+-2.34.1
+-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
+similarity index 99%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
+index 72f2cc73424..e224112d34c 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-bad_1.28.4.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad
+            file://0004-opencv-resolve-missing-opencv-data-dir-in-yocto-buil.patch \
+            file://0005-wayland-handle-padded-buffers-in-wl_shm-buffer-creat.patch \
+            "
+-SRC_URI[sha256sum] = "6467e3964828f4d7d08bfe1fbb4d76287a1c8fa76674e59e101a149c020fefd7"
++SRC_URI[sha256sum] = "332b7320f30c60f2d5941446d03b9d05e3781f2c2561befbe88718bd777f0e47"
+ 
+ S = "${UNPACKDIR}/gst-plugins-bad-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
+index 719c73d3e35..635c801cdc7 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0001-ENGR00312515-get-caps-from-src-pad-when-query-caps.patch
+@@ -1,4 +1,4 @@
+-From a37f0063103e98f5109132ea302b919b92e26a38 Mon Sep 17 00:00:00 2001
++From ae52c483980409c64b8bdd0c7b794533bcc0fec8 Mon Sep 17 00:00:00 2001
+ From: zhouming <b42586@freescale.com>
+ Date: Wed, 14 May 2014 10:16:20 +0800
+ Subject: [PATCH] ENGR00312515: get caps from src pad when query caps
+@@ -16,10 +16,10 @@ Signed-off-by: zhouming <b42586@freescale.com>
+ diff --git a/gst-libs/gst/tag/gsttagdemux.c b/gst-libs/gst/tag/gsttagdemux.c
+ old mode 100644
+ new mode 100755
+-index 975fe83..df82840
++index 16bf001..e17a144
+ --- a/gst-libs/gst/tag/gsttagdemux.c
+ +++ b/gst-libs/gst/tag/gsttagdemux.c
+-@@ -1796,6 +1796,19 @@ gst_tag_demux_pad_query (GstPad * pad, GstObject * parent, GstQuery * query)
++@@ -1797,6 +1797,19 @@ gst_tag_demux_pad_query (GstPad * pad, GstObject * parent, GstQuery * query)
+        }
+        break;
+      }
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
+index bf1e2a89e3b..4ce9f30d6a3 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0002-ssaparse-enhance-SSA-text-lines-parsing.patch
+@@ -1,4 +1,4 @@
+-From f892f0be8ae88acc6482f4b9a9a4db5f03b7adf8 Mon Sep 17 00:00:00 2001
++From 748c467f40d3f0072d9c139f9fdbbfdd56655c1e Mon Sep 17 00:00:00 2001
+ From: Mingke Wang <mingke.wang@freescale.com>
+ Date: Thu, 19 Mar 2015 14:17:10 +0800
+ Subject: [PATCH] ssaparse: enhance SSA text lines parsing.
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
+index 1a988b99de3..a824235731f 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base/0003-viv-fb-Make-sure-config.h-is-included.patch
+@@ -1,4 +1,4 @@
+-From 6f06f4b2f13f028250189225a46a39f402428930 Mon Sep 17 00:00:00 2001
++From 207df05a877717b1dd93a3a5903f0c58dd74c925 Mon Sep 17 00:00:00 2001
+ From: Carlos Rafael Giani <crg7475@mailbox.org>
+ Date: Tue, 21 May 2019 14:01:11 +0200
+ Subject: [PATCH] viv-fb: Make sure config.h is included
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb
+similarity index 98%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb
+index 79cc4f312d9..d9f85417cd8 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-base_1.28.4.bb
+@@ -11,7 +11,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-ba
+            file://0003-viv-fb-Make-sure-config.h-is-included.patch \
+            file://0002-ssaparse-enhance-SSA-text-lines-parsing.patch \
+            "
+-SRC_URI[sha256sum] = "4db76b3619280037a4047de7d9dbb38613a4272dcc40efb333257124635a888d"
++SRC_URI[sha256sum] = "a898afd5766172b0049e6781558e0689098bf87b9d82b846c652e571c01d60d8"
+ 
+ S = "${UNPACKDIR}/gst-plugins-base-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb
+similarity index 97%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb
+index 366eb8189cc..9194cae297e 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.28.4.bb
+@@ -6,7 +6,7 @@ BUGTRACKER = "https://gitlab.freedesktop.org/gstreamer/gst-plugins-good/-/issues
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-good-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "1ace2d8ec74f632d82eab5006753a27fe0c2402db4ca94d63271e494b62f50bf"
++SRC_URI[sha256sum] = "c825ea737c59cea0e4a0c41da2388045ff5dd32d162220ac93a7a82ee4a04e61"
+ 
+ S = "${UNPACKDIR}/gst-plugins-good-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
+index 1f3df47303f..4c0811a0561 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.4.bb
+@@ -15,7 +15,7 @@ SRC_URI = " \
+             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             "
+ 
+-SRC_URI[sha256sum] = "fe39a5ee7115e37de9eb65d899ec84c93e6e26ed3ffe25c6d5176cececbab572"
++SRC_URI[sha256sum] = "5486cd145c5af43259fd37caca59d048e2a67ddb07082ea8f50ef0f02a85f8a5"
+ 
+ S = "${UNPACKDIR}/gst-plugins-ugly-${PV}"
+ 
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.2.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb
+similarity index 90%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.2.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb
+index 755c0c7d56b..338cf85e5e9 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.2.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.4.bb
+@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
+ 
+ SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
+ 
+-SRC_URI[sha256sum] = "917c58b9ff14f91a6b5cd1c3af16c9fcfdf5d8d78d3d167c7e8fa5bdda35f947"
++SRC_URI[sha256sum] = "bfb6780542bf0d402736232aeae6c5a1b943c445775bf40305bcb86ca70705a0"
+ 
+ S = "${UNPACKDIR}/${PNREAL}-${PV}"
+ 
 
