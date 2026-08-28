@@ -2,148 +2,94 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8ABC0C61DE8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD4B6C61DEB
 	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 19:38:22 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3041.1787945891525576988
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3053.1787945901647018900
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 12:38:11 -0700
+ Fri, 28 Aug 2026 12:38:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=wKi6Dgho;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49b0eab380eso13806825e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 12:38:11 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=iWyoa0dW;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49b0d8bc2aaso12488085e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 12:38:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787945890; x=1788550690; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=muMJTespbXwDLXgMmfLHC2t0Bt2OoLetYCYJAmeAUb8=;
-        b=wKi6DghodIl9QgWybx/leWzIkBgkmBvUdWI6Yu8rCzaP2m1cYORKbLFNecCCPmj8mj
-         uFA7cZT2+yhHpkQArkwPU9vXyoVbxNYvwTb6rhXf83xyDbr2CBntcAvAn60xGup8wDCc
-         KfYdjKBEp/1hJpRZ1JTDCSbzaggXUt+XBJRo8=
+        d=smile.fr; s=google; t=1787945900; x=1788550700; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=ihnwxsW+c3nfdo7GusNuNyy4wQ2S91pj6C4drfdY8Jw=;
+        b=iWyoa0dWMWjRKd6LhspAL1X1ZhljSRStCF1twNrcYVyagt6kCRTKNVrw7k3hWwHh4M
+         luzgE11nYuXPDrUbsMrBWjYgn58bhuzd/HKMvSoqDEV/DruC/2pV07FY5/yQjngwUxT+
+         xPafKpUS1zJZdfmz3s3fFqSKPRPLIfc7RlQ18=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787945890; x=1788550690;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=muMJTespbXwDLXgMmfLHC2t0Bt2OoLetYCYJAmeAUb8=;
-        b=fqknm3cBhfnvwayUCtV/wejPJ9zGtN8wGXwQUWnPdfZ2wcZZDADSEXd/V4KwUxFI7l
-         kkyglki8YcJCdY5GmsyoOVNlNnFQxZeLtdikSfOIpqq5LCI2TCkHsEAV7PrdXfEWUpRC
-         VhP2vy2qwy24Q05jxvzA2+rz4m8uj7qxGM1EmE8fkFXUO7rjLyqOauMnnJf95wyAuFnF
-         Z4kWzv5+X2hrp8Xc97+QUHHLQM71OkdnlJ7fo6UTDoea9826l0khSCKutUR+WVKpBkCY
-         mbbX3p/AZE7XTY0VpntMFLVvDruvip7cbGyM5Wx23qW01EEBEG8MLyiVcESCMt9SCe/V
-         CGNA==
-X-Gm-Message-State: AFuF++nLhpDR/XoB/Q4BnLzRS/VDb76X9P+n9CSS2D/Ax8xtlQMZmLEk
-	Uxrw/gEP3cKDKooqseZEAKYeu7Vq4jrCtzgKLyz1Rp8eB9qlPuwnc6F/Nxuy6ZRuBPuHo8jBY/g
-	ZzccErqI=
-X-Gm-Gg: AR+sD13U3qf7vh96FHc+MSi/ZAU82ZGQCi56BLU5mhlMepxXJtZDdlfH0++AqlwsehY
-	cG/jeLHNISg73rzVleyJddRlpkqvTm41UVXao1ZJckTSgE2iL3yuh1ppdXjs4tvTKuwog/w1SmW
-	4JBkgKO9S+no1Tng0y5tTda1aweIrQRQYeoboC3QXM45Cv8LGQKwpfd/vDUqQwikK8Z7+bKsEJ6
-	jVjRzf5AOVV4c+hFiiP2FpMKZ4t6cXyHlVWULZcstAzQ4FJDnusJ9jAXS/+w1K+Utb+greyOecn
-	fyzTVauPGnLkm13yY7Clss8ZvX1cousezqVMnL45pR53XOshqSm+IAvTEUmKrVbji6q/E+GmWzd
-	A19AAKNma8NvX+yYGsTUoSC5yX+fZGPpKJxeIybtyNIpqwX+g1X/inR2jVO+a8n5O0i/qG8sOpI
-	VumKJb7ZLRKjI/S/Q0+8Mtqksa0jjlnwpWPnMIcNALuFssjH5cZfZkL/BIUbM38jT8wd3teFWZH
-	b4njEx/hyWv75g/r4pm742pR1xnj8mi1LjYxblpgVfzT9TML7OA5hOMT3j0HptA
-X-Received: by 2002:a05:600c:529b:b0:499:59fd:dbfc with SMTP id 5b1f17b1804b1-49cca2b77afmr35415775e9.1.1787945889731;
-        Fri, 28 Aug 2026 12:38:09 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787945900; x=1788550700;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=ihnwxsW+c3nfdo7GusNuNyy4wQ2S91pj6C4drfdY8Jw=;
+        b=pBeNQ9Mhb1T59L7rFz9Ci3r83IjSNMG4NCzF65K86KnKiGFHY6OeZYTostffTx/Xy+
+         pZh+eJsEOnMbZjuwesCVrKaWMUeq5T5ZMWj55TjPNG1NT7BH7wRAhUHGSZ4cBukEHKan
+         pa6u4qUm6TXHuHg3ERRnWTUw25wEBfwy80e4TB28G99US7l4JiVadmi1Rtjf7hPE7+/2
+         Br9k3Tc47cMbtcphv97F2x9glITh4rVwrIfYUe18ft+5Oikwi+ykrdMPtpQl78hcwnLr
+         MWhPY0UI0sO4IffHk5oVs3UMBOUBTkqWWMpyfgDQy4/CTlJU3rUgzDfGra5cUFMAGRun
+         U5qw==
+X-Gm-Message-State: AFuF++lj9aeixVf8tpwzE56o5onaLk1gdUt/g+vj2ECFTIBwg31D4inR
+	ZxuG95UlG5bPIuFf4WoyBfQUqtGH6Jg9JMcdE+hYgw8hKL2M5GgfoXPqex48HwfAx5hSNso9Dlt
+	qd2h5sIQ=
+X-Gm-Gg: AR+sD13RHeuc7ORQFqAN2gLbDMLVty4ob4bkmR+4cLkUlc1mc50hHdTzNa9F3sGUaot
+	pAh8chYuzKiFaNrNmKWtaU04iauOlk1g2krZe8bZhPo6dvpxUVlzGzFFVi1ILlLOZG1Ngk5ZMHy
+	6RtmSuYQsBWHZgcWcq3DykpxrY0dac/vQc5BU+SEPnCUVI1UufkuyN61ZINzPPn1S2iD0GGvYil
+	qCrhXnHf3fixIYv5P+FuiigGRui3GNWn3RUu1Z86DAB5Pi1X0xXYl4jOhie3pN3wYTERA3eT2BS
+	btrM+fFoGOJT5zhKUNDzxQ9BvJAvgnQ1OxjzzKfhm6BCAfXi6NfbhgmT3Jyf+ShKGxleFGgXTIu
+	pbFtnH/oat0B0FPbroAYO95O6weJj3uosuVkSHtyk/d0m5Hc8htt+cklk7x7i0cBg2NFJSyWOJ6
+	YZwbFNbhQREYHhDW0HxSAlR8zwZdRSAwq9+70k56869uNd7QxKZshmzM9RXZ0d8XKPn8VbsNc8/
+	GYlhh8uU0upoe89mYZgQucBJ4Yw7gw87hEzbLWc+Lr5rGSBgVItNMROJ3dNjre2
+X-Received: by 2002:a05:600c:4fc5:b0:49b:72e4:6223 with SMTP id 5b1f17b1804b1-49b91c2bcddmr120487405e9.7.1787945899785;
+        Fri, 28 Aug 2026 12:38:19 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm147703115e9.4.2026.08.28.12.38.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm147703115e9.4.2026.08.28.12.38.19
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 12:38:09 -0700 (PDT)
+        Fri, 28 Aug 2026 12:38:19 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 10/56] patch: Fix CVE-2026-56289
-Date: Fri, 28 Aug 2026 21:35:20 +0200
-Message-ID: <15d573ea0ed7e849a2688f56be25cda8578240ad.1787945536.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 27/56] gstreamer1.0: disable an intermittently failing test
+Date: Fri, 28 Aug 2026 21:35:37 +0200
+Message-ID: <edea697f5965a56848315b4198bb0c2f734b35c6.1787945536.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1787945536.git.yoann.congal@smile.fr>
 References: <cover.1787945536.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 19:38:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244571
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244588
 
-From: Hetvi Thakar <hthakar@cisco.com>
+From: Alexander Kanavin <alex@linutronix.de>
 
-This patch applies the upstream fix referenced by NVD in [2], using
-the commit shown in [1].
-
-[1] https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=faba04ef4f2b410257f76c1b9dc85e350929c4b9
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56289
-
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 48c1aa91e829a87c398e8c012cde45cd8c1aab0a)
+(From OE-Core rev: 79ec3a84acc65594942ca9352fddf93d90952d71)
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/patch/patch.inc         |  4 ++-
- .../patch/patch/CVE-2026-56289.patch          | 36 +++++++++++++++++++
- 2 files changed, 39 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/patch/patch/CVE-2026-56289.patch
+ meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-diff --git a/meta/recipes-devtools/patch/patch.inc b/meta/recipes-devtools/patch/patch.inc
-index 44d3046fd87..738bec038dc 100644
---- a/meta/recipes-devtools/patch/patch.inc
-+++ b/meta/recipes-devtools/patch/patch.inc
-@@ -5,7 +5,9 @@ original files, producing patched versions."
- SECTION = "utils"
- HOMEPAGE = "http://savannah.gnu.org/projects/patch/"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
+index 44dc350eb3b..83a78fabd0f 100755
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0/run-ptest
+@@ -23,4 +23,8 @@ GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,parser_pull_short_read"
+ # https://gitlab.freedesktop.org/gstreamer/gstreamer/-/issues/3524
+ GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,parser_convert_duration,parser_pull_frame_growth,parser_reverse_playback"
  
--SRC_URI = "${GNU_MIRROR}/patch/patch-${PV}.tar.gz"
-+SRC_URI = "${GNU_MIRROR}/patch/patch-${PV}.tar.gz \
-+	   file://CVE-2026-56289.patch"
++# Intermittent fail
++# https://gitlab.freedesktop.org/gstreamer/gstreamer/-/work_items/5163
++GST_CHECKS_IGNORE="$GST_CHECKS_IGNORE,test_device_monitor"
 +
- S = "${UNPACKDIR}/patch-${PV}"
- 
- inherit autotools update-alternatives
-diff --git a/meta/recipes-devtools/patch/patch/CVE-2026-56289.patch b/meta/recipes-devtools/patch/patch/CVE-2026-56289.patch
-new file mode 100644
-index 00000000000..8f98c444fc6
---- /dev/null
-+++ b/meta/recipes-devtools/patch/patch/CVE-2026-56289.patch
-@@ -0,0 +1,36 @@
-+From e89f7be0853836908226e1df746fe07ef7c46769 Mon Sep 17 00:00:00 2001
-+From: Paul Eggert <eggert@cs.ucla.edu>
-+Date: Tue, 21 Apr 2026 13:16:10 -0700
-+Subject: [PATCH] =?UTF-8?q?Don=E2=80=99t=20infloop=20on=20null=20ranges?=
-+MIME-Version: 1.0
-+Content-Type: text/plain; charset=UTF-8
-+Content-Transfer-Encoding: 8bit
-+
-+Problem reported by Michał Majchrowicz.
-+* src/patch.c (locate_hunk): Don’t attempt to optimize
-+matches of a null range.  Instead, apply all the checks
-+we apply to non-null ranges.
-+
-+CVE: CVE-2026-56289
-+Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=faba04ef4f2b410257f76c1b9dc85e350929c4b9]
-+
-+(cherry picked from commit faba04ef4f2b410257f76c1b9dc85e350929c4b9)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ src/patch.c | 3 ---
-+ 1 file changed, 3 deletions(-)
-+
-+diff --git a/src/patch.c b/src/patch.c
-+index e4d0524..1e7dfdc 100644
-+--- a/src/patch.c
-++++ b/src/patch.c
-+@@ -1166,9 +1166,6 @@ locate_hunk (idx_t fuzz)
-+     ptrdiff_t max_offset = MAX (max_pos_offset, max_neg_offset);
-+     ptrdiff_t min_offset;
-+ 
-+-    if (!pat_lines)			/* null range matches always */
-+-	return first_guess;
-+-
-+     /* Do not try lines <= 0.  */
-+     if (first_guess <= max_neg_offset)
-+ 	max_neg_offset = first_guess - 1;
+ gnome-desktop-testing-runner --parallel=4 gstreamer "$@"
 
