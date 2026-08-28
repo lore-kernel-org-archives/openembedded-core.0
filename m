@@ -1,366 +1,96 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37C83C61DBD
-	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 07:16:14 +0000 (UTC)
-Received: from mail-pl1-f173.google.com (mail-pl1-f173.google.com [209.85.214.173])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1122.1787901364638267037
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4687DC61DBD
+	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 07:28:04 +0000 (UTC)
+Received: from mail-pj1-f50.google.com (mail-pj1-f50.google.com [209.85.216.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1282.1787902083220679852
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 00:16:04 -0700
+ Fri, 28 Aug 2026 00:28:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Olm29F/l;
- spf=pass (domain: mvista.com, ip: 209.85.214.173, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f173.google.com with SMTP id d9443c01a7336-2d6f9e2f681so4548635ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 00:16:04 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=N7IWsW0k;
+ spf=pass (domain: gmail.com, ip: 209.85.216.50, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pj1-f50.google.com with SMTP id 98e67ed59e1d1-38d489b6b71so957919a91.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 00:28:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1787901364; x=1788506164; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1787902082; x=1788506882; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=jwTTkECFWb9ki77WkJ+7x+vhu9NXEZUNp6Fx8a7htuE=;
-        b=Olm29F/lzVUcaKrUhpiL60ndr3cgmueDjBFHYaRudXi8fD8wLDZPsnKbmoBwgI721t
-         To+RmrmEl3jwdwWX/GGRigbCcacb933ATPPoz4X4O8gagFNcItZvmok7zgcJu6G6SAal
-         FVV/jXAmMFbvdBo1YJip54Osfai1GxqdcOZhI=
+        bh=9J1ICBW360kzG4R+GfbmmUEHU1CQT+6Rv08kza9YzRs=;
+        b=N7IWsW0kDfhTc+CbCdA7ADcUDLM9p1MXSDiIHI7vsQyd/l4iLCL59oXO75fTpiysit
+         EZI2ssLbaxJnu+EXf6lbYEHThASt+E+v+H0AFHWdDsDZqNNgXhAyCWr8wTMPbH0IqyEb
+         xK+dD+Q2fQrwit+1OCfD2EYUIcLjTONI27eaNMxRBwnMgFhw+pgNzjhvBM2gE/RVaMrT
+         d9ZO8sufSrzrfGfZGT4jmCIo5kmpoxlFCpoa+Ulq06POnH4em2VrVHHB9Nd1eKP5QzS7
+         4s7lUZqrqIzbuccenQ3ErlHpVYf5sqjUiAUsEsrIRx0zg1Dor0iLgJfIxX0DqrHyXWcu
+         WaxA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787901364; x=1788506164;
+        d=1e100.net; s=20251104; t=1787902082; x=1788506882;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=jwTTkECFWb9ki77WkJ+7x+vhu9NXEZUNp6Fx8a7htuE=;
-        b=F3s82Lp3lTfboZU/RDwlKOzAEsS6Z5VWAUrcQIEeQzMpBU7glhm+ugATFd4zuJfzYZ
-         uKoCZSm9/IbyYoc0vHNH8sYfXIpCp5lrbL1Y/wfcAVPtbfihNdJGosCzLoi/aQ9xbSxx
-         idzOEagg6z0TIQLR/9LZz3ZfjkKMoDBJUBYR+XitmdrO4ogUnJG09NpkEr3pahayAOc0
-         GcGsmJPvvBhw3PRfeMNQab5k4l9HHh1mjgcNUsQcPlmDFgI0BTMnzZUjQUpk66lIZ7p7
-         9i4Z1A3DsopuMCYxb6euSERik+5Wpvev3PpfoEcUynmrswIglcoyP/zY5co2o3X7fABm
-         6gJA==
-X-Gm-Message-State: AFuF++kr/Ms5+b9RlP5TE4wZ1u15CaoNGCw5St+ovvBGn3Q41qunTejv
-	jJh6uEB8La/8c03OxPOeFHnJGMHvD8/8jw26XAxdmOUa+6xb1mRo1Ixtz4vH5zgADEusFxZ8KZo
-	JyCCt
-X-Gm-Gg: AR+sD1144W5uI0yGtJg1qDlJbQFwjFMPquF3bCVOjucf8+30XdaZytQMIHBxNpra2ou
-	bnhgmMLSJcF+zLuCqhe8itkJahMF4z1uEjIDn013s1GYuc5jvh6y2i+0IVpF/OrBLJZVfjYU0jY
-	veR3lKgheKVpKZ5+cTh6aiaulJicsme0K0i/SmMpGmzhUnnsTKg8iZD/zFUpemI6Eo7ohnHQVuP
-	cA8sDA4MY/+ZlLm9NuBN3mdxOSk9TgYfVXmk8Taw+cQU40WPzIKt/MUqV14FSqd35QweS/HKIIn
-	hKVffISLeKiljoN/ohdf7s91O185X7kyp/yqk8ylYP0KJk/OpjNt9LerfW+LLWtGlj4tj8oMYNk
-	R9HsELLSLkxx5euwg9689BQzyXBIupjrgnATyQwM5CeePdyQHI+Z0jCAAeqdGggoBRJ1MAKikUN
-	g2SWBKWkeRtI9nO5fD58jUTOk+oKfjwgJ3CwduoB36VJdcJOnHnJYpy2ybbW8BMHvkalbSs6iGf
-	ABWNw==
-X-Received: by 2002:a17:903:1850:b0:2d5:e3ce:3988 with SMTP id d9443c01a7336-2d74dddceebmr101284745ad.11.1787901363515;
-        Fri, 28 Aug 2026 00:16:03 -0700 (PDT)
-Received: from MVIN00352.mvista.com ([2401:4900:1cc5:2ce6:cc91:125f:50ad:f5e7])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f8094dasm3061071eec.13.2026.08.28.00.16.01
+        bh=9J1ICBW360kzG4R+GfbmmUEHU1CQT+6Rv08kza9YzRs=;
+        b=ao9JvFuoXIAoWyDnh8e5Y8qb+3vjiHkShvlGczGXaBhImA2X2DnAAC4b+DtzVzPguy
+         f1im3cuw8LjtsqQva7eRGqgNpJzjMgb+UUj/Bn3e2PcBBGmN8yxR/mKC2ODOpwsYuFvy
+         ZV70sAKTp47RNvaC8EAHp5v2zCcGjZjAkX8aTKHSXhUJ/uk0GRiJ5ljj0eIxiwzTcYL+
+         sTiQR+vbaFfPtx1NtUlbfdxhgYjuwaJzqDukxChgc4ElEF1RK3DdgirEfO2QSaQ+3IT2
+         4LrtKO+cyDmEB0nYaoTU799RYs9cgtPhwgvtSoBOOXVIvBKEjm8gOPIFngH0haQ/STjP
+         Qdzg==
+X-Gm-Message-State: AFuF++lgCzO8w5A7aufO6tI42nB4H3oMBqy9FIfku2gBhEXVs2AL6CiX
+	hqjRrxw5QzPmQeUX9QHQJH9eidUFSJksm895jlQ+A4BDg3Czv6RZDIzPgYzsNQ==
+X-Gm-Gg: AR+sD10uyoSgs8YbltN0VpS46Jz/BPKsXO1NZi4YNypP1xQI9nyztf31S4V9QXcb0f8
+	fMbkd/sp0NzLkYKIkR5MOKKlQE9fNB1Rj+N6zPBz5jt7GLC/GoyqucGY/ZplexGqs4HWZBSPx58
+	3cI0FZZNDZ45wi1mU19tzsw1xp9A7ZXhG928OCXEu7oDJS+c8434Hy1AbYYaEALzdT2S76cDQjp
+	nmKMyKqxlqBAifaCsk6rQkHB3d2sBX7V07Ec9uXb+b86Z9/GujqPeykj8TdwkdCheqJByq1Rtbg
+	piuZVfqCrt99dz141AqLOfwrh016peBbHmHGNZy8IOjpc/Ep8Re1Z7of40qBc5ey2zKxx77pmxD
+	120wMfA4ZCgRe0GcbyIqbJPkE7AQW/Kzq9xpegUDc4oJpJAWHFpdnhBLp31ObYShKiKza98YW4E
+	AA5HBDCi46FZ++C24Mf3fBUeXB28yxkHHtYK1NyLmAzEh8//kwQV0Z5+KzmbDkTQcFv2NTwarR
+X-Received: by 2002:a17:90b:2d04:b0:390:8361:a532 with SMTP id 98e67ed59e1d1-396d0ebfb40mr11601046a91.7.1787902082329;
+        Fri, 28 Aug 2026 00:28:02 -0700 (PDT)
+Received: from NVAPF55DW0D-IPD.. ([203.211.104.195])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-396b1868086sm6043192a91.9.2026.08.28.00.27.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 00:16:02 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
+        Fri, 28 Aug 2026 00:28:01 -0700 (PDT)
+From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch 1/2] p11-kit: Fix CVE-2026-13757
-Date: Fri, 28 Aug 2026 12:45:52 +0530
-Message-ID: <20260828071553.70382-1-vanusuri@mvista.com>
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [oe][meta][PATCH 1/2] vte: upgrade 0.84.0 -> 0.84.1
+Date: Fri, 28 Aug 2026 19:27:52 +1200
+Message-ID: <20260828072753.3287708-1-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 07:16:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244517
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 07:28:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244519
 
-Pick patch according to [2]
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-13757
-[2] https://ubuntu.com/security/CVE-2026-13757
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- .../p11-kit/files/CVE-2026-13757.patch        | 265 ++++++++++++++++++
- .../recipes-support/p11-kit/p11-kit_0.25.3.bb |   1 +
- 2 files changed, 266 insertions(+)
- create mode 100644 meta/recipes-support/p11-kit/files/CVE-2026-13757.patch
+ meta/recipes-support/vte/{vte_0.84.0.bb => vte_0.84.1.bb} | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+ rename meta/recipes-support/vte/{vte_0.84.0.bb => vte_0.84.1.bb} (90%)
 
-diff --git a/meta/recipes-support/p11-kit/files/CVE-2026-13757.patch b/meta/recipes-support/p11-kit/files/CVE-2026-13757.patch
-new file mode 100644
-index 0000000000..2f9aa080bb
---- /dev/null
-+++ b/meta/recipes-support/p11-kit/files/CVE-2026-13757.patch
-@@ -0,0 +1,265 @@
-+From 0eedd4ddd7c924f9cbb4ac496b3fda699435c3cf Mon Sep 17 00:00:00 2001
-+From: Zoltan Fridrich <zfridric@redhat.com>
-+Date: Thu, 2 Jul 2026 10:54:47 +0200
-+Subject: [PATCH] rpc: add recursion depth limit into RPC attribute parsing
-+ (CVE-2026-13757)
-+
-+A DoS was possible when client sent request to a server with deeply
-+nested attributes causing stack exhaustion on the server.
-+This patch adds a recursion limit on all server entry points to
-+prevent such attacks.
-+
-+Signed-off-by: Zoltan Fridrich <zfridric@redhat.com>
-+
-+Upstream-Status: Backport [import from ubuntu p11-kit_0.25.3-4ubuntu2.2.debian.tar.xz
-+Upstream commit https://github.com/p11-glue/p11-kit/commit/0eedd4ddd7c924f9cbb4ac496b3fda699435c3cf]
-+CVE: CVE-2026-13757
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ p11-kit/rpc-message.c      | 39 +++++++++++++++++++++++++++++++++-----
-+ p11-kit/rpc-message.h      | 10 +++++++++-
-+ p11-kit/test-rpc-message.c | 39 ++++++++++++++++++++++++++++++++++++--
-+ p11-kit/test-rpc.c         | 27 ++++++++++++++++++++++++++
-+ 4 files changed, 107 insertions(+), 8 deletions(-)
-+
-+diff --git a/p11-kit/rpc-message.c b/p11-kit/rpc-message.c
-+index 09d7f33..d6f0aad 100644
-+--- a/p11-kit/rpc-message.c
-++++ b/p11-kit/rpc-message.c
-+@@ -903,6 +903,15 @@ map_attribute_to_value_type (CK_ATTRIBUTE_TYPE type)
-+ 	}
-+ }
-+ 
-++static bool
-++p11_rpc_buffer_get_attribute_array_value_wrapper (p11_buffer *buffer,
-++						  size_t *offset,
-++						  void *value,
-++						  CK_ULONG *value_length)
-++{
-++	return p11_rpc_buffer_get_attribute_array_value (buffer, offset, value, value_length, 0);
-++}
-++
-+ typedef struct {
-+ 	p11_rpc_value_type type;
-+ 	p11_rpc_value_encoder encode;
-+@@ -912,7 +921,7 @@ typedef struct {
-+ static p11_rpc_attribute_serializer p11_rpc_attribute_serializers[] = {
-+ 	{ P11_RPC_VALUE_BYTE, p11_rpc_buffer_add_byte_value, p11_rpc_buffer_get_byte_value },
-+ 	{ P11_RPC_VALUE_ULONG, p11_rpc_buffer_add_ulong_value, p11_rpc_buffer_get_ulong_value },
-+-	{ P11_RPC_VALUE_ATTRIBUTE_ARRAY, p11_rpc_buffer_add_attribute_array_value, p11_rpc_buffer_get_attribute_array_value },
-++	{ P11_RPC_VALUE_ATTRIBUTE_ARRAY, p11_rpc_buffer_add_attribute_array_value, p11_rpc_buffer_get_attribute_array_value_wrapper },
-+ 	{ P11_RPC_VALUE_MECHANISM_TYPE_ARRAY, p11_rpc_buffer_add_mechanism_type_array_value, p11_rpc_buffer_get_mechanism_type_array_value },
-+ 	{ P11_RPC_VALUE_DATE, p11_rpc_buffer_add_date_value, p11_rpc_buffer_get_date_value },
-+ 	{ P11_RPC_VALUE_BYTE_ARRAY, p11_rpc_buffer_add_byte_array_value, p11_rpc_buffer_get_byte_array_value }
-+@@ -1142,7 +1151,8 @@ bool
-+ p11_rpc_buffer_get_attribute_array_value (p11_buffer *buffer,
-+ 					  size_t *offset,
-+ 					  void *value,
-+-					  CK_ULONG *value_length)
-++					  CK_ULONG *value_length,
-++					  size_t depth)
-+ {
-+ 	uint32_t count, i;
-+ 	CK_ATTRIBUTE *attr, temp;
-+@@ -1157,7 +1167,7 @@ p11_rpc_buffer_get_attribute_array_value (p11_buffer *buffer,
-+ 		attr = value;
-+ 
-+ 	for (i = 0; i < count; i++) {
-+-		if (!p11_rpc_buffer_get_attribute (buffer, offset, attr))
-++		if (!p11_rpc_buffer_get_attribute_recursive (buffer, offset, attr, depth))
-+ 			return false;
-+ 		if (value)
-+ 			attr++;
-+@@ -1255,12 +1265,26 @@ bool
-+ p11_rpc_buffer_get_attribute (p11_buffer *buffer,
-+ 			      size_t *offset,
-+ 			      CK_ATTRIBUTE *attr)
-++{
-++	return p11_rpc_buffer_get_attribute_recursive (buffer, offset, attr, 0);
-++}
-++
-++bool
-++p11_rpc_buffer_get_attribute_recursive (p11_buffer *buffer,
-++					size_t *offset,
-++					CK_ATTRIBUTE *attr,
-++					size_t depth)
-+ {
-+ 	uint32_t type, length, decode_length;
-+ 	unsigned char validity;
-+ 	p11_rpc_attribute_serializer *serializer;
-+ 	p11_rpc_value_type value_type;
-+ 
-++	if (depth > P11_RPC_MAX_RECURSION_DEPTH) {
-++		p11_debug ("recursion depth limit reached");
-++		return false;
-++	}
-++
-+ 	/* The attribute type */
-+ 	if (!p11_rpc_buffer_get_uint32 (buffer, offset, &type))
-+ 		return false;
-+@@ -1284,8 +1308,13 @@ p11_rpc_buffer_get_attribute (p11_buffer *buffer,
-+ 	assert (value_type < ELEMS (p11_rpc_attribute_serializers));
-+ 	serializer = &p11_rpc_attribute_serializers[value_type];
-+ 	assert (serializer != NULL);
-+-	if (!serializer->decode (buffer, offset, attr->pValue, &attr->ulValueLen))
-+-		return false;
-++	if (value_type == P11_RPC_VALUE_ATTRIBUTE_ARRAY) {
-++		if (!p11_rpc_buffer_get_attribute_array_value (buffer, offset, attr->pValue, &attr->ulValueLen, depth + 1))
-++			return false;
-++	} else {
-++		if (!serializer->decode (buffer, offset, attr->pValue, &attr->ulValueLen))
-++			return false;
-++	}
-+ 	if (!attr->pValue) {
-+ 		decode_length = attr->ulValueLen;
-+ 		attr->ulValueLen = length;
-+diff --git a/p11-kit/rpc-message.h b/p11-kit/rpc-message.h
-+index f171fc4..671a60d 100644
-+--- a/p11-kit/rpc-message.h
-++++ b/p11-kit/rpc-message.h
-+@@ -44,6 +44,8 @@
-+ #include "pkcs11.h"
-+ #include "pkcs11x.h"
-+ 
-++#define P11_RPC_MAX_RECURSION_DEPTH 8
-++
-+ /* The calls, must be in sync with array below */
-+ enum {
-+ 	P11_RPC_CALL_ERROR = 0,
-+@@ -441,6 +443,11 @@ bool             p11_rpc_buffer_get_attribute            (p11_buffer *buffer,
-+ 							  size_t *offset,
-+ 							  CK_ATTRIBUTE *attr);
-+ 
-++bool             p11_rpc_buffer_get_attribute_recursive  (p11_buffer *buffer,
-++							  size_t *offset,
-++							  CK_ATTRIBUTE *attr,
-++							  size_t depth);
-++
-+ void             p11_rpc_buffer_add_byte_value           (p11_buffer *buffer,
-+ 							  const void *value,
-+ 							  CK_ULONG value_length);
-+@@ -468,7 +475,8 @@ bool             p11_rpc_buffer_get_attribute_array_value
-+                                                          (p11_buffer *buffer,
-+ 							  size_t *offset,
-+ 							  void *value,
-+-							  CK_ULONG *value_length);
-++							  CK_ULONG *value_length,
-++							  size_t depth);
-+ 
-+ void             p11_rpc_buffer_add_mechanism_type_array_value
-+                                                          (p11_buffer *buffer,
-+diff --git a/p11-kit/test-rpc-message.c b/p11-kit/test-rpc-message.c
-+index 4c11ea5..f00f2f1 100644
-+--- a/p11-kit/test-rpc-message.c
-++++ b/p11-kit/test-rpc-message.c
-+@@ -594,11 +594,11 @@ test_attribute_array_value (void)
-+ 	assert (!p11_buffer_failed (&buffer));
-+ 
-+ 	offset2 = offset;
-+-	ret = p11_rpc_buffer_get_attribute_array_value(&buffer, &offset, NULL, &val_size);
-++	ret = p11_rpc_buffer_get_attribute_array_value(&buffer, &offset, NULL, &val_size, 0);
-+ 	assert_num_eq (true, ret);
-+ 
-+ 	offset = offset2;
-+-	ret = p11_rpc_buffer_get_attribute_array_value(&buffer, &offset, val, &val_size);
-++	ret = p11_rpc_buffer_get_attribute_array_value(&buffer, &offset, val, &val_size, 0);
-+ 	assert_num_eq (true, ret);
-+ 	assert_num_eq (val[0].type, CKA_MODIFIABLE);
-+ 	assert_num_eq (*(CK_BBOOL *)val[0].pValue, CK_TRUE);
-+@@ -806,6 +806,40 @@ test_message_write (void)
-+ 	p11_buffer_uninit (&buffer);
-+ }
-+ 
-++static void
-++test_attribute_recursion_limit (void)
-++{
-++	bool ret;
-++	p11_buffer buffer;
-++	size_t offset = 0;
-++	CK_BBOOL truev = CK_TRUE;
-++	CK_ATTRIBUTE attrs_out;
-++	CK_ATTRIBUTE attrs[P11_RPC_MAX_RECURSION_DEPTH + 2];
-++	for (size_t i = 0; i <= P11_RPC_MAX_RECURSION_DEPTH; i++) {
-++		attrs[i].type = CKA_WRAP_TEMPLATE;
-++		attrs[i].pValue = &attrs[i + 1];
-++		attrs[i].ulValueLen = sizeof (CK_ATTRIBUTE);
-++	}
-++	attrs[P11_RPC_MAX_RECURSION_DEPTH + 1].type = CKA_ENCRYPT;
-++	attrs[P11_RPC_MAX_RECURSION_DEPTH + 1].pValue = &truev;
-++	attrs[P11_RPC_MAX_RECURSION_DEPTH + 1].ulValueLen = sizeof (CK_BBOOL);
-++
-++	ret = p11_buffer_init (&buffer, 0);
-++	assert_num_eq (true, ret);
-++	p11_rpc_buffer_add_attribute_array_value (&buffer, attrs, ELEMS(attrs));
-++	assert_num_eq (true, !p11_buffer_failed (&buffer));
-++
-++	/* Skip the array count */
-++	ret = p11_rpc_buffer_get_uint32(&buffer, &offset, NULL);
-++	assert_num_eq (true, ret);
-++
-++	/* Hit recursion limit */
-++	ret = p11_rpc_buffer_get_attribute(&buffer, &offset, &attrs_out);
-++	assert_num_eq (false, ret);
-++
-++	p11_buffer_uninit (&buffer);
-++}
-++
-+ #include "test-mock.c"
-+ 
-+ static CK_MECHANISM_TYPE mechanisms[] = {
-+@@ -848,6 +882,7 @@ main (int argc,
-+ 	p11_test (test_byte_array_value, "/rpc-message/byte-array-value");
-+ 	p11_test (test_mechanism_value, "/rpc-message/mechanism-value");
-+ 	p11_test (test_message_write, "/rpc-message/message-write");
-++	p11_test (test_attribute_recursion_limit, "/rpc-message/attribute-recursion-limit");
-+ 
-+ 	test_mock_add_tests ("/rpc-message", NULL);
-+ 
-+diff --git a/p11-kit/test-rpc.c b/p11-kit/test-rpc.c
-+index f214509..6059b89 100644
-+--- a/p11-kit/test-rpc.c
-++++ b/p11-kit/test-rpc.c
-+@@ -700,6 +700,32 @@ test_mechanism_unsupported (void *module)
-+ 	teardown_mock_module (rpc_module);
-+ }
-+ 
-++static void
-++test_recursion_limit (void *module)
-++{
-++	CK_FUNCTION_LIST_PTR rpc_module;
-++	CK_SESSION_HANDLE session;
-++	CK_RV rv;
-++	CK_BBOOL val;
-++	CK_ATTRIBUTE attrs[P11_RPC_MAX_RECURSION_DEPTH + 2];
-++	for (size_t i = 0; i <= P11_RPC_MAX_RECURSION_DEPTH; i++) {
-++		attrs[i].type = CKA_WRAP_TEMPLATE;
-++		attrs[i].pValue = &attrs[i + 1];
-++		attrs[i].ulValueLen = sizeof (CK_ATTRIBUTE);
-++	}
-++	attrs[P11_RPC_MAX_RECURSION_DEPTH + 1].type = CKA_ENCRYPT;
-++	attrs[P11_RPC_MAX_RECURSION_DEPTH + 1].pValue = &val;
-++	attrs[P11_RPC_MAX_RECURSION_DEPTH + 1].ulValueLen = sizeof (CK_BBOOL);
-++
-++	rpc_module = setup_test_rpc_module (&test_normal_vtable, module, &session);
-++
-++	/* Hit recursion limit */
-++	rv = (rpc_module->C_GetAttributeValue) (session, MOCK_PUBLIC_KEY_PREFIX, attrs, 1);
-++	assert_num_eq (rv, CKR_DEVICE_ERROR);
-++
-++	teardown_mock_module (rpc_module);
-++}
-++
-+ #ifdef OS_UNIX
-+ 
-+ static void
-+@@ -805,6 +831,7 @@ main (int argc,
-+ 	p11_testx (test_get_slot_list_no_device, &mock_module_v3_no_slots, "/rpc3/get-slot-list-no-device");
-+ 	p11_testx (test_simultaneous_functions, &mock_module_v3_no_slots, "/rpc3/simultaneous-functions");
-+ 	p11_testx (test_mechanism_unsupported, &mock_module_v3, "/rpc3/mechanism-unsupported");
-++	p11_testx (test_recursion_limit, &mock_module_v3, "/rpc3/recursion-limit");
-+ 
-+ #ifdef OS_UNIX
-+ 	p11_testx (test_fork_and_reinitialize, &mock_module_v3_no_slots, "/rpc3/fork-and-reinitialize");
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb b/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
-index 5921a46c88..6c5b82e6bc 100644
---- a/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
-+++ b/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
-@@ -12,6 +12,7 @@ DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''
+diff --git a/meta/recipes-support/vte/vte_0.84.0.bb b/meta/recipes-support/vte/vte_0.84.1.bb
+similarity index 90%
+rename from meta/recipes-support/vte/vte_0.84.0.bb
+rename to meta/recipes-support/vte/vte_0.84.1.bb
+index 43aa280c56..543a4c6474 100644
+--- a/meta/recipes-support/vte/vte_0.84.0.bb
++++ b/meta/recipes-support/vte/vte_0.84.1.bb
+@@ -20,10 +20,7 @@ inherit gnomebase gi-docgen features_check upstream-version-is-even gobject-intr
+ SRC_URI += "file://0001-Add-W_EXITCODE-macro-for-non-glibc-systems.patch \
+ "
  
- SRC_URI = "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https \
-            file://fix-parallel-build-failures.patch \
-+           file://CVE-2026-13757.patch \
-            "
- SRCREV = "917e02a3211dabbdea4b079cb598581dce84fda1"
- S = "${WORKDIR}/git"
--- 
-2.43.0
-
+-SRC_URI[archive.sha256sum] = "0414e31583836aeb7878da25f67c515f7e8879917ecc37c92e26b83e8d8fc3e3"
+-# remove the below line when updating to vte 0.84.1 (or higher) as it includes
+-# https://gitlab.gnome.org/GNOME/vte/-/commit/77fe661760d2afac1e4d5a4b7eba477cbed6b430
+-EXTRA_OEMESON += "-Dsimdutf:base64=true"
++SRC_URI[archive.sha256sum] = "aca1caa8478aebcdbb1d67897fb3511eb7601debae6810e16a15b6fa25f31ac8"
+ 
+ ANY_OF_DISTRO_FEATURES = "${GTK3DISTROFEATURES}"
+ 
 
