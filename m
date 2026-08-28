@@ -1,142 +1,145 @@
-Return-Path: <quentin.schulz@cherry.de>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EA2FC61DCB
-	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 14:59:04 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.37])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2711.1787929141509026178
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04A89C61DCB
+	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 15:07:25 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2894.1787929636527642853
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 07:59:02 -0700
+ Fri, 28 Aug 2026 08:07:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@cherry.de header.s=selector1 header.b=LJB2k0I7;
- spf=pass (domain: cherry.de, ip: 40.107.130.37, mailfrom: quentin.schulz@cherry.de)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Puyo20eCOtxrWJJ8yfPtnSd9L6BFGHlVoMUVQg6jJ//ah7gFn2ATaq/r//qiAumY6Ru0nZJ8ySKqaM4SQ/Z65f+EOXLnHC/wtpy52FMCTrrxTu657+UM880w/mv+c1fxt/x3q0/XNwebYfxzcqv9khqLbn6oDBaflREuidOXOXJGalLJKiBqnItrWQ4YKzAy62QIR202uHpc4aG6hJ6szafDrR3Vj1BLjmQSOQMthcp28FU43sqt9PHHSrXOhxzPhPsYy8+2HL0kMjBLl5Z0SJ4bJ47AcSbyqL7zKTugPUKvQuWFUs456YOnP3LhhCl8+kIhk2Sr8cH+BhT4kWToHA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=EYPuZVLO/Ky4rbg+M4zyjnwrnkDxWNl06Hmw82uWuWg=;
- b=OeeA8N4BkAJRk+v4FuAdHwLZlvYVl/lZxQ/Ek1Ud7P+0oLRCcJDiklo/1CnIHwj8KjGgJ039aDMcYRiDAzotGqLAphhQKsrazlDyYjEyya3H/J6QRLVyXQ27W8CO82tx49hT0ztTrRrPIPUX8xIrbz+0brxWL3aIOqfP33xAPzbxGJD7WCZse8RbUIJR9/nCZUHS+p7qkeixZSyXRksUwonPVoRoQ0P3sx42oVMdYCtWM8Hmzy094RPq+G5LuswtslITTOs5LWWyhdDdQBjIAayY+qrcmnTa8ZRB2d+RF+u6dg2Gfwcw75t2vRS81wy7GBJ2wRC1SBdxVAArbAikmQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cherry.de; dmarc=pass action=none header.from=cherry.de;
- dkim=pass header.d=cherry.de; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cherry.de;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=EYPuZVLO/Ky4rbg+M4zyjnwrnkDxWNl06Hmw82uWuWg=;
- b=LJB2k0I7fUllod2PJFkC4UZBaL94H+4z2Pn2GjnhCUIifVvWn3kDn/tMOrA+rzgxvluXnVeVuBUMlvEdrMfyqxuwRPbuU6C4UJLqiMcR4E4rcoYUVPtbTaF0wrBfBtW+b/uf5i6acPCsxrSsbdCxOKCmMv7KnE8YHx+tgwFArs8=
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=cherry.de;
-Received: from PA3PR04MB11153.eurprd04.prod.outlook.com (2603:10a6:102:4ab::7)
- by MI9PR04MB187423.eurprd04.prod.outlook.com (2603:10a6:290:c1::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.10; Fri, 28 Aug
- 2026 14:58:55 +0000
-Received: from PA3PR04MB11153.eurprd04.prod.outlook.com
- ([fe80::6b02:c0eb:95a4:3c3d]) by PA3PR04MB11153.eurprd04.prod.outlook.com
- ([fe80::6b02:c0eb:95a4:3c3d%4]) with mapi id 15.21.0360.008; Fri, 28 Aug 2026
- 14:58:55 +0000
-Message-ID: <b3b26144-af17-4700-ab26-2e8a1d237648@cherry.de>
-Date: Fri, 28 Aug 2026 16:58:53 +0200
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [PATCH] u-boot: Update the HOMEPAGE entry
-To: festevam@gmail.com, openembedded-core@lists.openembedded.org
-References: <20260828144859.364618-1-festevam@gmail.com>
-Content-Language: en-US
-From: Quentin Schulz <quentin.schulz@cherry.de>
-In-Reply-To: <20260828144859.364618-1-festevam@gmail.com>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: VI1PR0502CA0029.eurprd05.prod.outlook.com
- (2603:10a6:803:1::42) To PA3PR04MB11153.eurprd04.prod.outlook.com
- (2603:10a6:102:4ab::7)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3PR04MB11153:EE_|MI9PR04MB187423:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5d96d159-06a3-45e6-7870-08df0514e194
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|10070799003|366016|11063799006|18002099003|22082099003|56012099006|10067099003;
-X-Microsoft-Antispam-Message-Info: 
-	XgSwz8XJazVAAkF6abL0rivu3k5b3828F6QnIW+V3oYGMLCk0Ja5Tws/g6yj8XUnhA/6TsDxw5uqsat6+dbNCptOK1QcORWEJd9Vlc2x7ZpI3u4RE5ccFKhfVD1jjGV5C9UA9iTjFi0ZvU3JE112Pp1d1DGyZlvLdSJungf7XuVuqQGrMd379SVqdAn5BbG06y6JO8nHnLYYc6YvfNJY6U48EO8TFj8eF8mSxoFJea6jlCNpXR9GFykN6cR/tH9j3sZBaW20n4rrgY6cPnkzFysEIHqY090AwUEQY8fVY3q6caMo8P2IM56jGu/S5cL2Xpv12st/acN3kbtoaxHGHuUCSnrvnuEgrefb8LbDuITxQXUiI/2fme8WFBlYY+Uqq1UkD5GbW0CX0iPNsH4KGJTtMQzlYjStq96FoJFTAAx3YgW1cvra24ccBV1LHsZT+iJyO9pmnAHTqWmZ6mDfGAwkjjGiJQR839igUj3A4jQdIHOVIIZC+mv3oy51Yy20iBk6d3XBFzFqh2kiCatyESImfLhiuj4naBArjlFzQdt4V3uSo9Qmnv6DscClWRp4f5r4OPno9ZFv99Spz6wpm8BoAlafDnBqgMt/y1nGm8siH3/lSJ0fniZXFqtHtF+ds+9mTOkqjD+GpIVwlVme2C0wQ5OY7Xy4EwETCW0B/RM=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR04MB11153.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(10070799003)(366016)(11063799006)(18002099003)(22082099003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?ZjYvVEdjdTcyYlpFN3ZjT3dpSG1FSVVveXB6bG1oMGRTRlhLbk1jcFZmNm1Z?=
- =?utf-8?B?VFV6TXA4MUJoYXlzaXNmcjUrakcxdURBMWdRQVJMNzJrNXhzeXcrUFpweFhI?=
- =?utf-8?B?ZjR3S3M4QXgxRThveVpNV3EzMW1DcUhUaTZOZit1QXhsVFFHTUMzZGZXQ1pu?=
- =?utf-8?B?b3IrellVT0JEbExkS0hrVml1d2tIMzgzYzJsRDkzZEpraHI3ZWwrekd6dHRX?=
- =?utf-8?B?MkpDTS93RjRnUTlUbDNxNnd1L010YUlOdDVaOS9PTUJYRjAxcGNxeXRrcUVj?=
- =?utf-8?B?SHJncmNOZkZ0QU4zKzI4SmFsVDVFbGxwaWd4Q0g2V2UwRDZWK09wcHQ5NHI1?=
- =?utf-8?B?UmhzWjcxN2pyUjFqdUQrTm1mU0F6Zi9GZWs3YXNpSFltQUs3WEZWd0NHd1Yv?=
- =?utf-8?B?Z2VQT2lxY2RHT0tqWnV5OVNuSXFLeHFBR1htNXcxaE9OTnBpN0tYVkRkUjky?=
- =?utf-8?B?eVBmSUFJR1pGV3F1a2xCckFybk1ITENvb1UxcE5KQm1ad1B2cnBFZ0hUcElr?=
- =?utf-8?B?RGtiNHc3aEpTU3l5WDJOYk9LSGZtRmYyZ3pHNldsaW94c1ZGdkh6SlczQ0JS?=
- =?utf-8?B?M3g5QkNQTU9TRG91a2dFWFFpQ2J3MzN0Q3FVQStmbjcwY3N4WitBWUJzRk9L?=
- =?utf-8?B?VUJDOEdibS9TOEZoQmRKV1BSL2EwNHppdDk3YTJzRlNkTHVKRThLT0pnWEZh?=
- =?utf-8?B?Q21HUW1Eb0FPRXFaQUR4Q1c4NTFGZURnMWtFMmFDSDhDYXU4S2dvMHo1RzBt?=
- =?utf-8?B?RVprMlBzOXMzZy9vUCtYc1NWQUZoU2RnRWs4bWIrMWRoWWRHc2lKTHh1RU03?=
- =?utf-8?B?VzI4SkxGMmdqUnFZNGRZVjBlMUJlaUJUSUR3VWV3QXNYbnBZUHNPOFJ5OWJ2?=
- =?utf-8?B?eFFHU0p2VmZlYjlzbXpkVXFmZzNQck1FdlZjZlNaalBGTFlPRHh0bkQwdUJP?=
- =?utf-8?B?SS8wNUtzMXpCN2M1UmpUaVEzT2VrVWd6WlkyNTVKNk85NDl1aUpFTks2eDFu?=
- =?utf-8?B?enN2L212QjlBN09zUVlMZ1pMSHp5OVVaYm1IVmxKVmtWWittVWNPL1I0bTBx?=
- =?utf-8?B?RHFMaDBjSElHeFpvUC8vQWo3NnNDdlZWd0podzNpVmhIWmV3S1kwNFlIRDRp?=
- =?utf-8?B?RFQ1QzJ1eVNMcmZPMXQ4OFpiNWJKa25vcTRGaUtFcUZGc3ZaTHBWdEVtUmd5?=
- =?utf-8?B?Um9GNWxHNjdMN04rd0hBSmd0SVVBT0tMN1hsRmlIUzBCN2NDbzBYMVV4WGNp?=
- =?utf-8?B?aCtCdGU0T0E2RElwVlNxeUhSbGpXUDdERitzSVU5VmVwdE1RZ0V2cTlNQmx5?=
- =?utf-8?B?d3p6dWQ3NGdTUzZvY2VBbCs5MVlqNU5UMGFPU2UvVkMvZUFtTkkwVDg5cXMv?=
- =?utf-8?B?M1NXNEc4d1cwTWhuMGQ3ZjVoL0pPRzBrQUhyV0xvemYzSzA2cEdiS2JNWEF3?=
- =?utf-8?B?K1cwak9pbnRQOHEvdkJ4ZzF2UXVMaEVBT2RaZjVvVUdIUWE2NlBTV3dxVEVE?=
- =?utf-8?B?bEVBSFVDTFpveWJoM2psVDlVWmVsSnF1RjlDR3gvZE1Cc3JGMUgvRWR5YVh5?=
- =?utf-8?B?OTM1M0NvRkRhakJCZDlUS2tPZDVsSWYyZlpKcHg5b2xXUnErbkJtZDdaTXJQ?=
- =?utf-8?B?VDJFaFhDZGxabExuRTFzY0gyQnFaVHZVZ0YzTm5BSlg3VXNPNjZmTEZzRDlC?=
- =?utf-8?B?YUhPZ0RRVVJoZTJXckFjSFIydWQ2alBpVEZTK0I3bEpnekczdjlQWE9wbXRa?=
- =?utf-8?B?Q0gyMHNES29PWm8rbDBGeGZRMTJhekZyTGdRSDhqMXVvSDFFb2dmR1FPQ0ND?=
- =?utf-8?B?SjAwem52UjVXeENiRTk1Y0RjSFE1Y2x5MFVHOFVyUUhCZG5Lb28yeUtDNGdY?=
- =?utf-8?B?anJqR2w1MVliNzQ2VTQ0TUlIWTQ0bG5INDl3OVZjOVhnVmR3U09jQTliZmxJ?=
- =?utf-8?B?L3ZHLzAxUFp6aHg3RW5pNWZMS2hCaDU0WkNmeS9WNGRkZy8vdVZhQmJteWdV?=
- =?utf-8?B?Nk1oa0xJWU1scyt6VGdSSzJNcFZGLzd4Tkl1c3J0QmcyOHVWaFZWdHpRRHdS?=
- =?utf-8?B?cTdrOU1VMElkaG5zOFJ3ek5hbmVJQktwazdiZHBleEtEVUFobEptVUc3SGVS?=
- =?utf-8?B?Si8xUG93TytOZ2pQRFdhckxkQUZxWUwybmE0UWpmVEltY0RSeDNrR0hsR0k4?=
- =?utf-8?B?NXA4T2Q0SHY2TFRYWDZIUG1wTXVnUndpem5MbEkyUlM1bXpBdWQveURLVkRk?=
- =?utf-8?B?Q1p5U0hVM0ZBditTZGxQdVJjUjRpZ0o4clJ6bGdMNDNlc0loZjBRV3o4U2hy?=
- =?utf-8?B?dWV6YU1HN1QrZ2RRSVg3dlRLWnhkRjMyN2VQb2QrWnFrNTRhN05hUmJqRlVr?=
- =?utf-8?Q?dvkamwTroX3f4+OQGJ5ijj5u4B5+toH6OXFiLFaLofN1h?=
-X-MS-Exchange-AntiSpam-MessageData-1: ykGgcS/2opoGimPUt03pwk3cjbeKGbFp/nU=
-X-OriginatorOrg: cherry.de
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5d96d159-06a3-45e6-7870-08df0514e194
-X-MS-Exchange-CrossTenant-AuthSource: PA3PR04MB11153.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Aug 2026 14:58:55.3914
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 5e0e1b52-21b5-4e7b-83bb-514ec460677e
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: AauSP1r7Qka7zXNm50jmc7lgYK/A33KiLK16Y+1slXSwTtbrw5udkFscTVZpnTtmWNSiFX8YsFptyjAjL5bNVpj7akjvAGxP72w0AVKbJEM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI9PR04MB187423
+ dkim=pass header.i=@smile.fr header.s=google header.b=HRejrzTU;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-482fc3327fdso405627f8f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 08:07:16 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1787929635; x=1788534435; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9g4rOzq+kP6l+jm2VtN18fro8SRMwWOjwhDA/namzX8=;
+        b=HRejrzTUmwJY5N9gq76001+GCkzld2pWlljWyU9tBLniVEYAfgYjE01QF7P8rBZNf2
+         34hFAiqR4szstVI1KG5VJlLmwP/ifRW8idT9irlDRsPU3orI+T1zAmBubNu7AA09Qrff
+         +pKsQ+o+6nXEyvvx6DcLcZZWskHdhwfJW77U8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1787929635; x=1788534435;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9g4rOzq+kP6l+jm2VtN18fro8SRMwWOjwhDA/namzX8=;
+        b=QOEN/pfo/RJyQIaYDim+Jv9M+skp1nuVeLgwyWJDhn65/zT1yRnzCtAJOqFiD/yiv1
+         SPi54qbH2v3HVTg1Rs6sQDyv6/HZbSrALUWNWeYZs9kwUTZgdSz7+Hd5GjSV6vHCsOrH
+         vyYa7bFmgtc+e5Y6e2uNSEyhnpPCiq7OFnIsddsjXjMmcW93799l0w5yHDHDByjz+/rn
+         yFU8G3GOWXEOMYKXgwCDzkLVBnCMhSsXSuKKtCPSGkyzm39Vh5eZ4n/gGbaSjUKZFOCN
+         iZ2eoqj4uraQoFLwQwoQm++b7WdmtC1ZPhSRwba+ydw/1HPPTTg8E98DmT2cYaj3gA8Y
+         m0hg==
+X-Forwarded-Encrypted: i=1; AHgh+RoUyHTU9pDAdo9NJhHtglVgZkXcnREE3Ofgms4zLKIE+tAPi0KIXFAxkCIK9T0wY7/cnhxSHu3+Fb1Gylq1El3nUw==@lists.openembedded.org
+X-Gm-Message-State: AFuF++lXi1mFt2aaTVKt1t8fCDpCveuaEU9uu4CaZhKuas3Ba0/JYk3X
+	Q3RcxPC8ixh2UOZH11e+Gvw0oV3EYPZBlNJ0zno9XLuKm4Mu3nK9zutXFDog2Ju4Qzc=
+X-Gm-Gg: AR+sD10dxhWzyTltMVssrddPFDCV0LKhdemjco3b4OO7M2CUfm5bXqKN2ulE8+5WV5x
+	A3eXoExZXibD26t2w/xrIcpOtE1XHTwBxBl3RmdReTI646z5nDeBYO99DIJEYkzVsjmAFo34MQW
+	oMRXs3W7KJ5yG+WoDf1T5O1YcL7/y5jcoE6I8Ke0juytKk2xsFZfKI4QgQEdje28ejdPDv+CxD1
+	PGyt3Pe0o8007rUVxZWnue38zpE8y8GxQQXFPcWvg1d2DQUF4eRX2egPPZjHT3z9nLPT7j6i+UF
+	X9L+3Ng/t8cFLsnx3ZG3MPPBS+WzwKaFcJwsR87eUFQ0h+NqsewuP/tjc7pwJW1GUPTRBqdrS+H
+	XO+HXLiXVjXYSJ0Yhg3MCIGFkr8S1XkN/2xvu8DhQ3OSGp12xAriLv1t3EH33Rlk/yf1LAr7sYM
+	A7H31MxJnGh411HqHUyR4cogAoj/MMLghfMAVLFKjzy8IKmhQ2qD1jBM0MQlyyfdmP4gQ69LJiU
+	HUUG6viMYAXfFS6aPq6f5XLJWthZzL1qXXLjRwDKPHQmpp34gAE
+X-Received: by 2002:a5d:64c5:0:b0:47f:8b24:ef01 with SMTP id ffacd0b85a97d-482f7977aabmr11520289f8f.1.1787929634667;
+        Fri, 28 Aug 2026 08:07:14 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbac7c01sm4558719f8f.14.2026.08.28.08.07.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 28 Aug 2026 08:07:14 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 28 Aug 2026 17:07:13 +0200
+Message-Id: <DL0O5QQ1WOZH.1U9GTXHUPTC79@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH 5/8] curl: fix CVE-2026-8458
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <deeratho@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260805083103.2633995-1-deeratho@cisco.com>
+ <20260805083103.2633995-6-deeratho@cisco.com>
+In-Reply-To: <20260805083103.2633995-6-deeratho@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 14:59:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244550
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 15:07:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244551
 
-Hi Fabio,
+On Wed Aug 5, 2026 at 10:31 AM CEST, Deepak Rathore via lists.openembedded.=
+org wrote:
+> From: Deepak Rathore <deeratho@cisco.com>
+>
+> This patch applies the upstream curl security fix backport for
+> CVE-2026-8458. The upstream fix commit is referenced in [1],
+> and the public curl advisory is referenced in [2]. The backported
+> commit link is also recorded in the embedded patch header.
+>
+> [1] https://github.com/curl/curl/commit/5e99b73cf441d9c369768b9cd48b5389b=
+9a2503d
+> [2] https://curl.se/docs/CVE-2026-8458.html
+>
+> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> ---
+>  .../curl/curl/CVE-2026-8458.patch             | 202 ++++++++++++++++++
+>  meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
+>  2 files changed, 203 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8458.patch
+>
+> diff --git a/meta/recipes-support/curl/curl/CVE-2026-8458.patch b/meta/re=
+cipes-support/curl/curl/CVE-2026-8458.patch
+> new file mode 100644
+> index 0000000000..6340f5305f
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2026-8458.patch
+> @@ -0,0 +1,202 @@
+> +From 01ce94b67888e6efa4196247302e59cf68e77b2d Mon Sep 17 00:00:00 2001
+> +From: Stefan Eissing <stefan@eissing.org>
+> +Date: Mon, 13 Jul 2026 23:13:37 -0700
+> +Subject: [PATCH] creds: add sasl service name
+> +
+> +The SASL service name, used in authentication, is part of curl's credent=
+ials
+> +when authenticating to a server/proxy. Make it part of `struct Curl_cred=
+s`.
+> +
+> +Change code to use `creds` to obtain a service name. By tying creds used
+> +to the connection, connection reuse is also only allowed when the servic=
+e
+> +name matches.
+> +
+> +Closes #21585
+> +
+> +CVE: CVE-2026-8458
+> +Upstream-Status: Backport [https://github.com/curl/curl/commit/5e99b73cf=
+441d9c369768b9cd48b5389b9a2503d]
+> +
+> +Backport Changes:
+> +- Wrynose curl 8.19.0 does not have upstream struct Curl_creds.
+> +  This backport stores the optional SASL service name on the existing
+> +  connectdata/proxy_info structures and compares it during connection
+> +  reuse for the same security behavior.
+> +- Omitted the upstream unit1304 Curl_creds_create() signature
+> +  adjustment because Wrynose 8.19.0 does not contain Curl_creds.
+> +
+> +(cherry picked from commit 5e99b73cf441d9c369768b9cd48b5389b9a2503d)
+> +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> +---
+> + lib/url.c     | 61 ++++++++++++++++++++++++++++++++++++++++++++++-----
+> + lib/urldata.h |  2 ++
+> + 2 files changed, 58 insertions(+), 5 deletions(-)
 
-On 8/28/26 4:48 PM, Fabio Estevam via lists.openembedded.org wrote:
-> The official U-Boot project URL has migrated to the
-> u-boot-project.org domain.
-> 
+This patch looks nothing like the upstream patch and is basically new
+code. I'm not confortable merging this.
 
-We have a website at u-boot-project.org, maybe point to that instead of 
-the docs directly?
+I'll hold this one for now and continue with the rest of the series.
 
-Otherwise, this patch is much welcome as Denx the company doesn't exist 
-anymore and we don't know for how long that URL will be redirecting to 
-the docs.
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
-Cheers,
-Quentin
 
