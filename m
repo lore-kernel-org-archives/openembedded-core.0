@@ -2,100 +2,368 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96C77C61DBD
-	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 13:49:23 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1068.1787924958633584710
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1898FC61DDA
+	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 13:49:24 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1069.1787924960029654602
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 06:49:19 -0700
+ Fri, 28 Aug 2026 06:49:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=AlTb88Fz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49b96837ca3so4918575e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 06:49:18 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BK4D7S2P;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-4956869750eso6430675e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 06:49:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1787924957; x=1788529757; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FEiFgSfG4qWZX4RHUCaPbz8bjTUC5Ui75NW5XbKKEnQ=;
-        b=AlTb88FzU0M0Yeol/CbpTgq3aHKyEcrSQqTUnoVT6J1qON8QnnWWRCzTAnrhOWyWxo
-         U1cigmgNMFQbeE1MhMSf6DDKR5hcI9MEovUmNPDKh2LHvFWReXDKrj6riayJAeOwCCXv
-         XEMA/o3l0lbmnT60Bz7cvqyY12WtRSIHvq41g=
+        d=linuxfoundation.org; s=google; t=1787924958; x=1788529758; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=En3Yx1MYA3NlUoaVSy2eIVbqgHcX1MuSEy+5OO5sZiw=;
+        b=BK4D7S2PDBe1tPp358pxxZS6rjJIkpqhKgfQURaIb+034thAYZF6ulBLUuuGMwFetR
+         8IzGJE8ovpSATs+mPBXJKCDLwo/kUBihU8r4OIjGlXAnD18fhO5g6rt9AisQ0Mg9UHPg
+         7liNTySMypjlOloaBNeWDiJ/EyxiJaR6Di+ME=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787924957; x=1788529757;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=FEiFgSfG4qWZX4RHUCaPbz8bjTUC5Ui75NW5XbKKEnQ=;
-        b=hLK21Hd1tSdh8cmYG37EhGYl1GFRyhjBuQMNHDFKGt6UkpNNPMXYNIFSCNQ1Jq22Zy
-         NSHXUo5JXYtN2L4wUsfHsPQVxTjrG7XtF+EA5HGaLAT0BISlXYMpUMQ7zqMHVPsBil6T
-         cKpGqbs0gaDRsyNnqFmC3xwkG1/VWaZ92FYLHA5TJP1m8cU98NJugnY27H5FDt+eteFE
-         g0qCi3SK/ymOWXqR9TsbJPrZi4Jy5R9YWsEZTdGOJxfCEX/pduIhhTIk9on71kURZukt
-         yZ4XSr7XDql3L1rI3SWqL/fAK5T8/6oeX+cHMk+tv43oqZXrAIHUzVUsz+Lqd5J6Rv5/
-         vAoA==
-X-Gm-Message-State: AFuF++kj2G2Y0mK5D2yOd5Um/5z9YciIjdb3O6EP1mLjdVfD+j2+ZiUX
-	cFFMtq2c/Ui3dQRL53fRGjbxdJHpeL0s79hdbswxzl5BlDQYmWHFbphSkrwdlOzKML2IPhumLad
-	UHHXyBQ8=
-X-Gm-Gg: AR+sD13EC4kx4p4AEnph1ADlCAoG0HDsGR/kntB83FSHJXkPbPY+A1DY0NZZGYPGvVD
-	7Q0EjgiIxQX72B4L/4mV/+gd+YSApgY2ONy2JApK+twuYvivCo+4ff3VxFnx6Lwiq5nNsz6lNWV
-	m8yp5j+M8bn4CUDl8c3oMzoaUtaSOu+HssaTX7QLwKPYZsGhf58QVkOpumC0R2XUXcbIkbYT7rD
-	3q7Rcpk3ohz5pQTNWSm51T4p9a89COegJFPcWqTIEAqcASgBFlsV8iq+t1B780NF1Jc2XSx9yhV
-	c5h0yE3rvfGXAFOQ8QMUucPEb6wXhwhVZ9yCcTMX5/o9xP0T3mZYyMxYY1itxMDRUF1976epuMn
-	9qY9AAhGkWMMQ7x1syDIcQj8S99Dg2aC0/ck75F+6FMRqCjYGVwhB9TVoxBxRA3XRzBZrb+OJuy
-	XcI1dnMvOH97pOrAB5/R2/rOQ9FAeZ7eZGsLWJsqhXVZN0m9CvEuqA/c+EsH5zOLnImpeIAHH6A
-	9MFI+UVo5oipaoQWHY=
-X-Received: by 2002:a05:600c:3549:b0:49b:5521:785d with SMTP id 5b1f17b1804b1-49b91c1e9d8mr100917735e9.4.1787924956526;
-        Fri, 28 Aug 2026 06:49:16 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1787924958; x=1788529758;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=En3Yx1MYA3NlUoaVSy2eIVbqgHcX1MuSEy+5OO5sZiw=;
+        b=eDkixNmDmjrsGnwdetBGd0L1XxSBvvK57DVop8rzhxGLzDRRWqTg9GnA1vT9WcDFZp
+         fc62hkVcLrZ65kR1/fMwdBhm9wNBWyXgeIxsiPEpv/64QWep0U8PQnrBy9oawfCn4vsC
+         n3bWDN6+9TZ5+G4jujkVmUDs22MciYZ1vQIKBQJyJ9UhxPLWZ6x6JOAB13QxvSzN8bAB
+         y4eeDZS0hRc+qSITSlLcQ5+5XWra3jeCEC5cF4jLwFhzr95MZVTXUAz5vCZHzgnhquzb
+         lc7/pti9QsXXf5xWdGCB3uzheiSrFeZ+gMtClBqpuJaqhjbGL71btQRvJ7UKAKjEc6So
+         W1Zg==
+X-Gm-Message-State: AFuF++mlOBrb1seJM4U7kw5Hfwd0Q6egMqbbOYDpt9L0PKVdhfUU7j0Z
+	75UNePnN4l0WWiWqqpG5qbWZAMNPbSj+66Vv+kSw9/jgjxvDHvi1yF3UrevAZibqKGf8F+8xOx9
+	q7rxYTpE=
+X-Gm-Gg: AR+sD10G5IQD4iOuDgUj5M3hlC8jI7QpgtXcUGPvdbeJMx5tHHCfs09pwzm74FJzKee
+	+P40WD9eB25mycpCx5nOjueKdRtKidkBaAs0DMv9ptB0enKEcObzekywlJZfyLdj8lk3n5/eKx3
+	0WGPzdSPoe8zVPdRD9jOrLTtZgdHIs1GxjCwqzIvXHh+e1E+6NESmXCdJm49Ypl39dA+iEcvQA8
+	VlJ+Ki/lrO+S2DsgJO3t6XUzwxCh85Ag8CkkgY6qM/j7IWvsFWeSmU/aOQk+OS9GIvBwG2iM6si
+	cluoHhsKDeaxV/vwM9ks6bmHnpYycq3CLla3DsEu5afjUrAstCBLg742lEFiXpBYSZiXAU5Mvti
+	MJuY4GQESUV3GpLvlIogih0laUkk3tj/zuztGuiNgb0qoXrkw2gpJjKhmr8ToSPY5LjTG5J8p2P
+	3fKVtFHOTZl7fo8nRAMNsALkXz48xv+8bIDGHrkxeqI1lXue3flqz0SN2q/3Mc6pc/EHIoqT5P9
+	evCK41fpgdaDSIkYg==
+X-Received: by 2002:a05:600c:3b10:b0:499:db6e:40a5 with SMTP id 5b1f17b1804b1-49b91c20beemr97368965e9.4.1787924957864;
+        Fri, 28 Aug 2026 06:49:17 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c3f1:c7b4:8368:83c1])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b91ca11d0sm56144815e9.1.2026.08.28.06.49.15
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b91ca11d0sm56144815e9.1.2026.08.28.06.49.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 06:49:15 -0700 (PDT)
+        Fri, 28 Aug 2026 06:49:16 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/3] lttng-modules: 2.15.3 -> 2.16.0
-Date: Fri, 28 Aug 2026 14:49:09 +0100
-Message-ID: <20260828134914.1288180-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/3] lttng-tools: 2.15.1 -> 2.16.0
+Date: Fri, 28 Aug 2026 14:49:10 +0100
+Message-ID: <20260828134914.1288180-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260828134914.1288180-1-richard.purdie@linuxfoundation.org>
+References: <20260828134914.1288180-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 13:49:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244542
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 13:49:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244543
+
+Changes needed for the new release:
+ * Drop the libc++ patch which was fixed upstream slightly differently.
+ * Add a dependency for ptests on python3-sqlite3.
+ * Update the tests patches and files needed to run the ptests to match the new
+   release.
+
+License-Update: Upstream added SPDX identifiers and things are much more
+comprehensively covered, LICENSE is updated to match with autoconf macros,
+docs licenses and vendored libs included.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...1-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch | 2 +-
- .../lttng/{lttng-modules_2.15.3.bb => lttng-modules_2.16.0.bb}  | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-kernel/lttng/{lttng-modules_2.15.3.bb => lttng-modules_2.16.0.bb} (95%)
+ ...static.m4-do-not-write-generation-da.patch |  2 +-
+ ...-tests-do-not-strip-a-helper-library.patch |  5 +-
+ .../lttng/lttng-tools/disable-tests.patch     | 22 ++++---
+ .../lttng/lttng-tools/disable-tests2.patch    | 26 ++++----
+ .../lttng/lttng-tools/libc++.patch            | 59 -------------------
+ ...-tools_2.15.1.bb => lttng-tools_2.16.0.bb} | 30 +++++++---
+ 6 files changed, 47 insertions(+), 97 deletions(-)
+ delete mode 100644 meta/recipes-kernel/lttng/lttng-tools/libc++.patch
+ rename meta/recipes-kernel/lttng/{lttng-tools_2.15.1.bb => lttng-tools_2.16.0.bb} (82%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
-index 6463bcd6cca..3841b9bdcaf 100644
---- a/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
-+++ b/meta/recipes-kernel/lttng/lttng-modules/0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-m4-ax_am_macros_static.m4-do-not-write-generation-da.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-m4-ax_am_macros_static.m4-do-not-write-generation-da.patch
+index 5df7636be55..8601fc43967 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/0001-m4-ax_am_macros_static.m4-do-not-write-generation-da.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/0001-m4-ax_am_macros_static.m4-do-not-write-generation-da.patch
 @@ -1,4 +1,4 @@
--From 78f79eb607b6c0be71144d1ca70391f989846db1 Mon Sep 17 00:00:00 2001
-+From ffc2211208cd3919337db0e675206ce05382c3a7 Mon Sep 17 00:00:00 2001
- From: Bruce Ashfield <bruce.ashfield@gmail.com>
- Date: Sat, 15 May 2021 10:26:38 -0400
- Subject: [PATCH] src/Kbuild: change missing CONFIG_TRACEPOINTS to warning
-diff --git a/meta/recipes-kernel/lttng/lttng-modules_2.15.3.bb b/meta/recipes-kernel/lttng/lttng-modules_2.16.0.bb
-similarity index 95%
-rename from meta/recipes-kernel/lttng/lttng-modules_2.15.3.bb
-rename to meta/recipes-kernel/lttng/lttng-modules_2.16.0.bb
-index 0d9a872ab5f..bc1d50a8b3e 100644
---- a/meta/recipes-kernel/lttng/lttng-modules_2.15.3.bb
-+++ b/meta/recipes-kernel/lttng/lttng-modules_2.16.0.bb
-@@ -21,7 +21,7 @@ SRC_URI = "https://lttng.org/files/${BPN}/${BPN}-${PV}.tar.bz2 \
- # Use :append here so that the patch is applied also when using devupstream
- SRC_URI:append = " file://0001-src-Kbuild-change-missing-CONFIG_TRACEPOINTS-to-warn.patch \
-                 "
--SRC_URI[sha256sum] = "7dc7fdac82a42ce2ed78e00270b69d69e7418a620e8e30791191fe52f0fd3eda"
-+SRC_URI[sha256sum] = "854600604cdaaa66fc1711e564aff37d8dbba9bd1d3aaa94f12a561da845deb9"
+-From c58eed85e47a605e2a9f2b2bc91917f68bec023f Mon Sep 17 00:00:00 2001
++From 2e7fab06b2ede001dead4129e19d0793b5c367a6 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Thu, 18 Jun 2026 16:48:40 +0200
+ Subject: [PATCH] m4/ax_am_macros_static.m4: do not write generation date into
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
+index 36ddf029f63..1186e116c4d 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/0001-tests-do-not-strip-a-helper-library.patch
+@@ -1,4 +1,4 @@
+-From 8e56c9b414b60db1a14ea8ca664e2cff941ae14d Mon Sep 17 00:00:00 2001
++From 1f305930a0e0660bf489ff408d4dedbddc82be0f Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Wed, 17 Jun 2026 10:04:13 +0200
+ Subject: [PATCH] tests: do not strip a helper library
+@@ -22,6 +22,3 @@ index 131a4af..38ce076 100644
+  	@if [ x"$(srcdir)" != x"$(builddir)" ]; then \
+  		for script in $(TEST_DEPS); do \
+  			if [ x"$$(dirname $$script)" != x"." ]; then \
+--- 
+-2.47.3
+-
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch b/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch
+index a8ee81ef0ed..e52d81e9541 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/disable-tests.patch
+@@ -1,4 +1,4 @@
+-From 44c14ba25747ccee72667212003658447d8297ae Mon Sep 17 00:00:00 2001
++From e8d2d5778d3bfc697b7b0f5d9136f5be752f848b Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Tue, 14 Dec 2021 12:34:04 +0000
+ Subject: [PATCH] lttng-tools: Disable problem tests
+@@ -17,27 +17,25 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+  tests/regression/Makefile.am | 13 -------------
+  1 file changed, 13 deletions(-)
  
- export INSTALL_MOD_DIR = "kernel/lttng-modules"
+-diff --git a/tests/regression/Makefile.am b/tests/regression/Makefile.am
+-index 6730ff9..a7cd133 100644
+---- a/tests/regression/Makefile.am
+-+++ b/tests/regression/Makefile.am
+-@@ -46,19 +46,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
++Index: lttng-tools-2.16.0/tests/regression/Makefile.am
++===================================================================
++--- lttng-tools-2.16.0.orig/tests/regression/Makefile.am
+++++ lttng-tools-2.16.0/tests/regression/Makefile.am
++@@ -56,17 +56,6 @@ SERIAL_TESTS = tools/base-path/test_ust
+  	tools/regen-metadata/test_ust \
+  	tools/regen-statedump/test_kernel \
+  	tools/regen-statedump/test_ust \
+ -	tools/notification/test_notification_ust_error \
+--	tools/notification/test_notification_ust_buffer_usage \
+ -	tools/notification/test_notification_ust_capture \
+ -	tools/notification/test_notification_ust_event_rule_condition_exclusion \
+ -	tools/notification/test_notification_kernel_error \
+--	tools/notification/test_notification_kernel_buffer_usage \
++-	tools/notification/test_notification_kernel_buffer_usage.py \
+ -	tools/notification/test_notification_kernel_capture \
+ -	tools/notification/test_notification_kernel_instrumentation \
++-	tools/notification/test_notification_kernel_multi_app.py \
++-	tools/notification/test_notification_kernel_notifier_discarded_count.py \
+ -	tools/notification/test_notification_kernel_syscall \
+--	tools/notification/test_notification_notifier_discarded_count \
+ -	tools/notification/test_notification_kernel_userspace_probe \
+--	tools/notification/test_notification_multi_app \
+--	tools/notification/test_rotation \
++ 	tools/notification/test_rotation \
+  	tools/rotation/test_ust \
+  	tools/rotation/test_kernel \
+- 	tools/rotation/test_ust_kernel \
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch b/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
+index a776638897d..58413492c62 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
++++ b/meta/recipes-kernel/lttng/lttng-tools/disable-tests2.patch
+@@ -1,4 +1,4 @@
+-From 16890a3395d62e760ce11c3c5e1b7323e1b79b46 Mon Sep 17 00:00:00 2001
++From f4ee2586a314368b1789a9ccfd3beedfdc496078 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Tue, 19 Aug 2025 10:09:07 +0100
+ Subject: [PATCH] lttng-tools: Disable slow tests to fix ptest runs
+@@ -13,11 +13,11 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+  tests/regression/Makefile.am | 3 ---
+  1 file changed, 3 deletions(-)
  
+-diff --git a/tests/regression/Makefile.am b/tests/regression/Makefile.am
+-index a7cd133..b5a25eb 100644
+---- a/tests/regression/Makefile.am
+-+++ b/tests/regression/Makefile.am
+-@@ -30,7 +30,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
++Index: lttng-tools-2.16.0/tests/regression/Makefile.am
++===================================================================
++--- lttng-tools-2.16.0.orig/tests/regression/Makefile.am
+++++ lttng-tools-2.16.0/tests/regression/Makefile.am
++@@ -38,7 +38,6 @@ SERIAL_TESTS = tools/base-path/test_ust
+  	tools/tracefile-limits/test_tracefile_count \
+  	tools/tracefile-limits/test_tracefile_size \
+  	tools/exclusion/test_exclusion \
+@@ -25,18 +25,18 @@ index a7cd133..b5a25eb 100644
+  	tools/snapshots/test_ust_fast \
+  	tools/snapshots/test_ust_long \
+  	tools/snapshots/test_ust_streaming \
+-@@ -53,7 +52,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
++@@ -64,7 +63,6 @@ SERIAL_TESTS = tools/base-path/test_ust
+  	tools/rotation/test_schedule_api \
+  	tools/metadata/test_kernel \
+  	tools/working-directory/test_relayd_working_directory \
+ -	tools/clear/test_kernel \
+- 	tools/clear/test_live_hang.py \
+  	tools/tracker/test_event_tracker \
+- 	tools/trigger/start-stop/test_start_stop \
+-@@ -66,7 +64,6 @@ SERIAL_TESTS = tools/base-path/test_ust \
+- 	tools/trace-format/test_trace_format_kernel.py
+- 
+- TESTS = tools/clear/test_disallow.py \
++ 	tools/trigger/test_add_trigger_cli \
++ 	tools/trigger/test_list_triggers_cli \
++@@ -94,7 +92,6 @@ TESTS = tools/network/test_network.py \
++ 	tools/map/test_user_map_channel_integration.py \
++ 	tools/clear/test_disallow.py \
++ 	tools/clear/test_live_hang.py \
+ -	tools/clear/test_ust.py \
+  	tools/clear/test_ust_multi_user.py \
+  	tools/live/test_early_inactive_app.py \
+diff --git a/meta/recipes-kernel/lttng/lttng-tools/libc++.patch b/meta/recipes-kernel/lttng/lttng-tools/libc++.patch
+deleted file mode 100644
+index 938f0856e6d..00000000000
+--- a/meta/recipes-kernel/lttng/lttng-tools/libc++.patch
++++ /dev/null
+@@ -1,59 +0,0 @@
+-From 348e1be1cdfb897bc8a907e1a806cc7591efae8a Mon Sep 17 00:00:00 2001
+-From: Khem Raj <raj.khem@gmail.com>
+-Date: Wed, 20 Aug 2025 23:45:20 -0700
+-Subject: [PATCH] sessiond: avoid std::vector range-ctor on non-standard
+- iterators (libc++)
+-MIME-Version: 1.0
+-Content-Type: text/plain; charset=UTF-8
+-Content-Transfer-Encoding: 8bit
+-
+-libc++ SFINAE-gates std::vector(It, It) behind standard iterator requirements.
+-The events_view/channels_ht_view iterators don’t model Input/Forward, so the
+-range constructor is not viable and the build fails under clang+libc++.
+-Populate the vectors via a simple loop instead, which only relies on !=, ++,
+-and dereference. No functional change; fixes clang/libc++ builds while keeping
+-libstdc++ behavior unchanged.
+-
+-Upstream-Status: Submitted [https://review.lttng.org/c/lttng-tools/+/15163]
+-Signed-off-by: Khem Raj <raj.khem@gmail.com>
+----
+- src/bin/lttng-sessiond/ust-registry-channel.cpp | 7 +++++--
+- src/bin/lttng-sessiond/ust-registry-session.cpp | 7 +++++--
+- 2 files changed, 10 insertions(+), 4 deletions(-)
+-
+-diff --git a/src/bin/lttng-sessiond/ust-registry-channel.cpp b/src/bin/lttng-sessiond/ust-registry-channel.cpp
+-index 45be2cc..01d5db3 100644
+---- a/src/bin/lttng-sessiond/ust-registry-channel.cpp
+-+++ b/src/bin/lttng-sessiond/ust-registry-channel.cpp
+-@@ -529,8 +529,11 @@ void lsu::registry_channel::_accept_on_event_classes(
+- 		events_view(*_events->ht);
+- 
+- 	/* Copy the event ptrs from the _events ht to this vector which we'll sort. */
+--	std::vector<const lttng::sessiond::ust::registry_event *> sorted_event_classes(
+--		events_view.begin(), events_view.end());
+-+  std::vector<const lttng::sessiond::ust::registry_event *> sorted_event_classes;
+-+  /* Avoid libc++’s range-ctor SFINAE on non-standard iterators. */
+-+  for (auto it = events_view.begin(); it != events_view.end(); ++it) {
+-+  	sorted_event_classes.push_back(*it);
+-+  }
+- 
+- 	std::sort(sorted_event_classes.begin(),
+- 		  sorted_event_classes.end(),
+-diff --git a/src/bin/lttng-sessiond/ust-registry-session.cpp b/src/bin/lttng-sessiond/ust-registry-session.cpp
+-index 693fc71..b355a14 100644
+---- a/src/bin/lttng-sessiond/ust-registry-session.cpp
+-+++ b/src/bin/lttng-sessiond/ust-registry-session.cpp
+-@@ -587,8 +587,11 @@ void lsu::registry_session::_accept_on_stream_classes(lst::trace_class_visitor&
+- 						  decltype(lsu::registry_channel::_node),
+- 						  &lsu::registry_channel::_node>
+- 		channels_ht_view(*_channels->ht);
+--	std::vector<const lttng::sessiond::ust::registry_channel *> sorted_stream_classes(
+--		channels_ht_view.begin(), channels_ht_view.end());
+-+  std::vector<const lttng::sessiond::ust::registry_channel *> sorted_stream_classes;
+-+  /* Avoid libc++’s range-ctor SFINAE on non-standard iterators. */
+-+  for (auto it = channels_ht_view.begin(); it != channels_ht_view.end(); ++it) {
+-+  	sorted_stream_classes.push_back(*it);
+-+  }
+- 
+- 	std::sort(sorted_stream_classes.begin(),
+- 		  sorted_stream_classes.end(),
+diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb b/meta/recipes-kernel/lttng/lttng-tools_2.16.0.bb
+similarity index 82%
+rename from meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb
+rename to meta/recipes-kernel/lttng/lttng-tools_2.16.0.bb
+index 040632d6719..f1fe362be1c 100644
+--- a/meta/recipes-kernel/lttng/lttng-tools_2.15.1.bb
++++ b/meta/recipes-kernel/lttng/lttng-tools_2.16.0.bb
+@@ -5,10 +5,22 @@ to extract program execution details from the Linux operating system \
+ and interpret them."
+ HOMEPAGE = "https://github.com/lttng/lttng-tools"
+ 
+-LICENSE = "GPL-2.0-only AND LGPL-2.1-only"
+-LIC_FILES_CHKSUM = "file://LICENSE;md5=40ef17463fbd6f377db3c47b1cbaded8 \
+-                    file://LICENSES/GPL-2.0;md5=e68f69a54b44ba526ad7cb963e18fbce \
+-                    file://LICENSES/LGPL-2.1;md5=9920968d0f2ff585ce61fae30344dd95"
++LICENSE = "BSD-2-Clause AND BSD-3-Clause AND BSL-1.0 AND CC0-1.0 AND CC-BY-SA-4.0 AND FSFAP AND GPL-2.0-only AND GPL-2.0-or-later AND GPL-2.0-or-later WITH Autoconf-exception-2.0 AND GPL-2.0-or-later WITH Autoconf-exception-macro AND LGPL-2.1-only AND LGPL-2.1-or-later AND MIT"
++LIC_FILES_CHKSUM = "file://LICENSE;md5=f7adf214dab700ec91b393898b515f13 \
++                    file://LICENSES/BSD-2-Clause.txt;md5=5d6306d1b08f8df623178dfd81880927 \
++                    file://LICENSES/BSD-3-Clause.txt;md5=4e91b9e6ef320f74590c8c7a64a9188a \
++                    file://LICENSES/BSL-1.0.txt;md5=4415c1f5128c6d51273f9c8362305778 \
++                    file://LICENSES/CC0-1.0.txt;md5=65d3616852dbf7b1a6d4b53b00626032 \
++                    file://LICENSES/CC-BY-SA-4.0.txt;md5=62ccd6e67b4925bbb3063925cd0e57e5 \
++                    file://LICENSES/FSFAP.txt;md5=232368338ef6dc99de71c2e05ff12176 \
++                    file://LICENSES/GPL-2.0-only.txt;md5=3d26203303a722dedc6bf909d95ba815 \
++                    file://LICENSES/GPL-2.0-or-later.txt;md5=3d26203303a722dedc6bf909d95ba815 \
++                    file://LICENSES/GPL-3.0-or-later.txt;md5=75d892af193fd5a298f724c4377d8f62 \
++                    file://LICENSES/LGPL-2.1-only.txt;md5=41890f71f740302b785c27661123bff5 \
++                    file://LICENSES/LGPL-2.1-or-later.txt;md5=41890f71f740302b785c27661123bff5 \
++                    file://LICENSES/MIT.txt;md5=e8f57dd048e186199433be2c41bd3d6d \
++                    file://LICENSES/Autoconf-exception-2.0.txt;md5=13a739a6793bb6742c30b1d3727df7e2 \
++                    file://LICENSES/Autoconf-exception-macro.txt;md5=887fe9d860687d5c7602a5d8ab978171"
+ 
+ include lttng-platforms.inc
+ 
+@@ -28,6 +40,7 @@ RDEPENDS:${PN}-ptest += "perl-module-getopt-long \
+                          python3-json \
+                          python3-io \
+                          python3-shell \
++                         python3-sqlite3 \
+                          python3-xml \
+                          python3-resource \
+ "
+@@ -50,11 +63,10 @@ SRC_URI = "https://lttng.org/files/lttng-tools/lttng-tools-${PV}.tar.bz2 \
+            file://lttng-sessiond.service \
+            file://disable-tests.patch \
+            file://disable-tests2.patch \
+-           file://libc++.patch \
+            file://0001-m4-ax_am_macros_static.m4-do-not-write-generation-da.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "8b6d4ba7ae2c036f7dafbb4e29717677411078f9a9d961b2dc7c1ba16273e9e9"
++SRC_URI[sha256sum] = "b8b3244894e49e773d4942b8899f768057974edf75c18dbb48b65bb123c7b2c7"
+ 
+ inherit autotools ptest pkgconfig useradd python3-dir manpages systemd upstream-stable-release-point
+ 
+@@ -69,7 +81,8 @@ USERADD_PACKAGES = "${PN}"
+ GROUPADD_PARAM:${PN} = "tracing"
+ 
+ FILES:${PN} += "${libdir}/lttng/libexec/* ${datadir}/xml/lttng \
+-                ${PYTHON_SITEPACKAGES_DIR}/*"
++                ${PYTHON_SITEPACKAGES_DIR}/* \
++                ${libdir}/lttng/libtpp*"
+ FILES:${PN}-staticdev += "${PYTHON_SITEPACKAGES_DIR}/*.a"
+ FILES:${PN}-dev += "${PYTHON_SITEPACKAGES_DIR}/*.la"
+ 
+@@ -89,6 +102,7 @@ do_install:append () {
+ 
+ do_install_ptest () {
+     for f in Makefile tests/Makefile tests/utils/utils.sh tests/regression/tools/save-load/*.lttng \
++            tests/utils/lttng-build-profile.json \
+             tests/regression/tools/save-load/configuration/load-42*.lttng tests/regression/tools/health/test_health.sh \
+             tests/regression/tools/metadata/utils.sh tests/regression/tools/rotation/rotate_utils.sh \
+             tests/regression/tools/trace-format/ust-local-trace-pretty.expect* \
+@@ -97,7 +111,7 @@ do_install_ptest () {
+         install -D "${B}/$f" "${D}${PTEST_PATH}/$f"
+     done
+ 
+-    for f in tests/utils/tap-driver.sh config/test-driver src/common/session.xsd src/common/mi-lttng-4.2.xsd \
++    for f in tests/utils/tap-driver.sh config/test-driver src/common/session.xsd src/common/mi-lttng-4.3.xsd \
+              tests/regression/tests.serial; do
+         install -D "${S}/$f" "${D}${PTEST_PATH}/$f"
+     done
 
