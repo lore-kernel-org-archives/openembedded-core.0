@@ -2,352 +2,770 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5562C61DD6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CA7EFC61DD9
 	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 05:57:53 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.419.1787896671233220117
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.433.1787896671374305580
  for <openembedded-core@lists.openembedded.org>;
  Thu, 27 Aug 2026 22:57:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=UwxVJ1sR;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Pxi+sPDo;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a046f22949-e82f584e-78b9-4c7f-95c5-b9de194d993a-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=sQoSi4qR;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OcrY3vCj;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a046f228e0-4be4e6e4-b7f3-4bd3-a2a5-99bb3af9e040-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1787896670;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=EFV7z5kDPh7fqrmROYFI8/Jijd2ksZIy7rzsO3DUBX8=;
-	b=UwxVJ1sRGzdPVqST2kCKgtqcDACIZWHp2i+gNwh3ccJZ+hLjFeeVYrBiewKajYv3
-	ioKpa/4NBW50of4ILRZOaXLB12p7SmKYf1HPyErEitUniBSTfiEsM5yvn2tfQ9H5y9U
-	Zi7kVFfbOrvBhLCN/ZQlWOiYEXug/8lGhhnJs+t4=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=XrhzolpsSbIJidGf249hXHxf/mKUIx8dTPliBRe8Sks=;
+	b=sQoSi4qR9FD0LKgVtX77eTfcNDg+hX7+7ORf4HezsuukTlHV9/H9yL7WoWWzQnE/
+	e88HCJIgOI4DekcdTKDysziEeEzBRbt+ZlUfFbP9PX8xyOYc9yXGHmz6FHJhwzyXB9k
+	pdL8IGSnURhkUmZp3yfizThiLf8msA6+aSQurveM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1787896670;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=EFV7z5kDPh7fqrmROYFI8/Jijd2ksZIy7rzsO3DUBX8=;
-	b=Pxi+sPDo+gbeXp2DNHnftjS4ZMlAH8t3RnjzIWs7iQm62oYwyilQBdkr1MmBxXmK
-	r4mkyaN/ezx8tCBU8lH6hR94k2FrZFlEghmPXdYTL7ZxIqDTwoEm9XdlXkKSRBEFyGX
-	upzqU2CyxkydUFqDHY7PkdjRHIvynYc0pzMdu2fQ=
-Content-Type: multipart/mixed; boundary="===============2589027219426640099=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=XrhzolpsSbIJidGf249hXHxf/mKUIx8dTPliBRe8Sks=;
+	b=OcrY3vCjGoUevu5WpHWzmOA97lqJPgT2KnDWxgPOXGXPUmAu86Fu4fVL5uOzmLjS
+	IhTFrkaFfg8IfD9t4pR/BKOFVm/Ow+9IyqbhQq6Ccqg9ZwkFcc5QtN0muih4iHFzxDF
+	QC/AJIX0Xx4Uvi/qRIFhMUcWMFFDwj3+FvIF6Unk=
+Content-Type: multipart/mixed; boundary="===============2852062690009697707=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-uv-build: upgrading to 0.12.7 SUCCEEDED
-Message-ID: <010101a046f22949-e82f584e-78b9-4c7f-95c5-b9de194d993a-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] Upgrade status: 2026-08-28
+Message-ID: <010101a046f228e0-4be4e6e4-b7f3-4bd3-a2a5-99bb3af9e040-000000@us-west-2.amazonses.com>
 Date: Fri, 28 Aug 2026 05:57:50 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.28-54.240.27.30
+X-SES-Outgoing: 2026.08.28-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 05:57:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244510
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244514
 
---===============2589027219426640099==
+--===============2852062690009697707==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-Hello,
+AUH finished upgrade batch the result patches/logs can be found at:
+https://valkyrie.yocto.io/pub/auh/20260828050054, next are the statistics:
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-uv-build* to *0.12.7* has Succeeded.
+Recipe upgrade statistics:
 
-Next steps:
-    - apply the patch: git am 0001-python3-uv-build-upgrade-0.12.6-0.12.7.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+    * Failed(get_env): 3
+        qemu, 11.1.1, Richard Purdie <richard.purdie@linuxfoundation.org>
+        qemu-native, 11.1.1, Richard Purdie <richard.purdie@linuxfoundation.org>
+        qemu-system-native, 11.1.1, Richard Purdie <richard.purdie@linuxfoundation.org>
+    * Failed (devtool error): 3
+        lttng-tools, 2.16.0, Richard Purdie <richard.purdie@linuxfoundation.org>
+        lttng-ust, 2.16.0, Richard Purdie <richard.purdie@linuxfoundation.org>
+        lttng-modules, 2.16.0, Richard Purdie <richard.purdie@linuxfoundation.org>
+    * Succeeded: 5
+        python3-build, 1.6.0, Ross Burton <ross.burton@arm.com>
+        python3-pygobject, 3.58.0, Trevor Gamblin <tgamblin@baylibre.com>
+        python3-uv-build, 0.12.7, Trevor Gamblin <tgamblin@baylibre.com>
+        debianutils, 5.24, Yi Zhao <yi.zhao@windriver.com>
+        dos2unix, 7.5.7, Khem Raj <raj.khem@gmail.com>
+    * Skipped: 30
+        llvm-project-source-22.1.8, 23.1.0, last attempt 2026-07-29 05:10:33 result=failure; will retry in 1 day(s), Khem Raj <raj.khem@gmail.com>
+        sbom-cve-check-update-nvd-native, 2026.08.28-000009, rapid-fire; last attempt 2026-08-12 05:16:07 result=success; will retry in 15 day(s), Benjamin Robin <benjamin.robin@bootlin.com>
+        sbom-cve-check-update-cvelist-native, 2026-08-28, rapid-fire; last attempt 2026-08-12 05:16:07 result=success; will retry in 15 day(s), Benjamin Robin <benjamin.robin@bootlin.com>
+        gstreamer1.0-plugins-rs, 1.29.2, last attempt 2026-08-06 05:24:25 result=failure; will retry in 9 day(s), Jan Schmidt <jan@centricular.com>
+        openssl, 4.0.2, last attempt 2026-08-26 05:37:04 result=failure; will retry in 29 day(s), Unassigned <unassigned@yoctoproject.org>
+        ovmf, edk2-stable202608, last attempt 2026-08-22 05:07:17 result=failure; will retry in 25 day(s), Unassigned <unassigned@yoctoproject.org>
+        gn, 0-new-commits-available, last attempt 2026-08-12 05:21:07 result=success; will retry in 15 day(s), Khem Raj <raj.khem@gmail.com>
+        nasm, 3.02, last attempt 2026-07-30 05:33:27 result=failure; will retry in 2 day(s), Richard Purdie <richard.purdie@linuxfoundation.org>
+        perlcross, 1.6.5, last attempt 2026-08-18 05:14:21 result=failure; will retry in 21 day(s), Unassigned <unassigned@yoctoproject.org>
+        python3-click, 8.5.0, last attempt 2026-08-27 05:07:09 result=failure; will retry in 30 day(s), Wang Mingyu <wangmy@fujitsu.com>
+        python3-cython, 3.3.0, last attempt 2026-08-23 05:15:55 result=success; will retry in 26 day(s), Trevor Gamblin <tgamblin@baylibre.com>
+        python3-flit-core, 4.0.2, last attempt 2026-08-05 05:12:58 result=failure; will retry in 8 day(s), Tim Orling <tim.orling@konsulko.com>
+        python3-hatchling, 1.32.0, last attempt 2026-08-11 05:53:57 result=failure; will retry in 14 day(s), Ross Burton <ross.burton@arm.com>
+        python3-pbr, 7.1.2, last attempt 2026-08-26 05:51:54 result=success; will retry in 29 day(s), Trevor Gamblin <tgamblin@baylibre.com>
+        python3-scons, 4.11.1, last attempt 2026-08-27 05:09:52 result=success; will retry in 30 day(s), Tim Orling <tim.orling@konsulko.com>
+        python3-shacl2code, 1.2.0, last attempt 2026-08-11 06:17:09 result=failure; will retry in 14 day(s), Benjamin Robin <benjamin.robin@bootlin.com>
+        python3-websockets, 17.1, last attempt 2026-08-27 05:12:52 result=success; will retry in 30 day(s), Tim Orling <tim.orling@konsulko.com>
+        rpm, 6.1.0, last attempt 2026-08-21 05:45:50 result=failure; will retry in 24 day(s), Robert Yang <liezhi.yang@windriver.com>
+        blueprint-compiler, 0.22.2, last attempt 2026-08-11 06:26:13 result=failure; will retry in 14 day(s), Liu Yiding <liuyd.fnst@fujitsu.com>
+        harfbuzz, 14.4.0, last attempt 2026-08-27 05:18:23 result=success; will retry in 30 day(s), Unassigned <unassigned@yoctoproject.org>
+        pango, 1.58.2, last attempt 2026-08-06 05:59:26 result=success; will retry in 9 day(s), Ross Burton <ross.burton@arm.com>
+        piglit, 1.0-new-commits-available, last attempt 2026-08-12 05:48:00 result=failure; will retry in 15 day(s), Ross Burton <ross.burton@arm.com>
+        spirv-llvm-translator, 23.1.0, last attempt 2026-08-07 05:14:23 result=failure; will retry in 10 day(s), Khem Raj <raj.khem@gmail.com>
+        vulkan-samples, git-new-commits-available, rapid-fire; last attempt 2026-08-14 06:26:27 result=failure; will retry in 17 day(s), Ross Burton <ross.burton@arm.com>
+        ffmpeg, 9.0.1, last attempt 2026-08-12 05:56:14 result=success; will retry in 15 day(s), Unassigned <unassigned@yoctoproject.org>
+        lame, 4.0, last attempt 2026-08-12 05:58:03 result=failure; will retry in 15 day(s), Michael Opdenacker <michael.opdenacker@rootcommit.com>
+        gpgme, 2.2.0, last attempt 2026-08-23 05:17:51 result=failure; will retry in 26 day(s), Hongxu Jia <hongxu.jia@windriver.com>
+        libical, 4.0.5, last attempt 2026-08-16 05:10:58 result=success; will retry in 19 day(s), Ross Burton <ross.burton@arm.com>
+        libjitterentropy, 3.7.0, last attempt 2026-08-12 06:00:04 result=failure; will retry in 15 day(s), Ross Burton <ross.burton@arm.com>
+        vte, 0.84.1, last attempt 2026-08-02 06:00:02 result=failure; will retry in 5 day(s), Unassigned <unassigned@yoctoproject.org>
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+    TOTAL: attempted=11 succeeded=5(45.45%) failed=6(54.55%)
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+Recipe upgrade statistics per Maintainer:
 
-Regards,
-The Upgrade Helper
+    Khem Raj <raj.khem: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Trevor Gamblin <tgamblin: attempted=2 succeeded=2(100.00%) failed=0(0.00%)
+    Ross Burton <ross.burton: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
+    Richard Purdie <richard.purdie: attempted=6 succeeded=0(0.00%) failed=6(100.00%)
+    Yi Zhao <yi.zhao: attempted=1 succeeded=1(100.00%) failed=0(0.00%)
 
--- >8 --
-From b9ce9aa5b413d29e5e2a94dca1d4f7b222418142 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 28 Aug 2026 05:52:27 +0000
-Subject: [PATCH] python3-uv-build: upgrade 0.12.6 -> 0.12.7
-
----
- .../python/python3-uv-build-crates.inc        | 20 +++++++++----------
- ...d_0.12.6.bb => python3-uv-build_0.12.7.bb} |  2 +-
- 2 files changed, 11 insertions(+), 11 deletions(-)
- rename meta/recipes-devtools/python/{python3-uv-build_0.12.6.bb => python3-uv-build_0.12.7.bb} (92%)
-
-diff --git a/meta/recipes-devtools/python/python3-uv-build-crates.inc b/meta/recipes-devtools/python/python3-uv-build-crates.inc
-index 8d76d041f3..f6323e878f 100644
---- a/meta/recipes-devtools/python/python3-uv-build-crates.inc
-+++ b/meta/recipes-devtools/python/python3-uv-build-crates.inc
-@@ -12,7 +12,7 @@ SRC_URI += " \
-     crate://crates.io/anstyle-query/1.1.5 \
-     crate://crates.io/anstyle-wincon/3.0.11 \
-     crate://crates.io/anyhow/1.0.104 \
--    crate://crates.io/archive-trait/0.0.13 \
-+    crate://crates.io/archive-trait/0.0.14 \
-     crate://crates.io/arcstr/1.2.0 \
-     crate://crates.io/arrayvec/0.7.8 \
-     crate://crates.io/astral-tokio-tar/0.6.4 \
-@@ -32,8 +32,8 @@ SRC_URI += " \
-     crate://crates.io/bytecheck/0.8.2 \
-     crate://crates.io/bytecheck_derive/0.8.2 \
-     crate://crates.io/bytes/1.12.1 \
--    crate://crates.io/cap-primitives/4.0.2 \
--    crate://crates.io/cap-std/4.0.2 \
-+    crate://crates.io/cap-primitives/4.0.3 \
-+    crate://crates.io/cap-std/4.0.3 \
-     crate://crates.io/cc/1.2.57 \
-     crate://crates.io/cfg-if/1.0.4 \
-     crate://crates.io/charset/0.1.5 \
-@@ -214,8 +214,8 @@ SRC_URI += " \
-     crate://crates.io/syn/2.0.118 \
-     crate://crates.io/syn/3.0.3 \
-     crate://crates.io/synstructure/0.13.2 \
--    crate://crates.io/tar-codec/0.0.13 \
--    crate://crates.io/tar-framing/0.0.13 \
-+    crate://crates.io/tar-codec/0.0.14 \
-+    crate://crates.io/tar-framing/0.0.14 \
-     crate://crates.io/temp-env/0.3.6 \
-     crate://crates.io/tempfile/3.27.0 \
-     crate://crates.io/terminal_size/0.4.4 \
-@@ -324,7 +324,7 @@ SRC_URI[anstyle-parse-1.0.0.sha256sum] = "52ce7f38b242319f7cabaa6813055467063ecd
- SRC_URI[anstyle-query-1.1.5.sha256sum] = "40c48f72fd53cd289104fc64099abca73db4166ad86ea0b4341abe65af83dadc"
- SRC_URI[anstyle-wincon-3.0.11.sha256sum] = "291e6a250ff86cd4a820112fb8898808a366d8f9f58ce16d1f538353ad55747d"
- SRC_URI[anyhow-1.0.104.sha256sum] = "330a5ed07fa54e4702c9d6c4174f74427fc0ef6e214bbd677ae50a5099946470"
--SRC_URI[archive-trait-0.0.13.sha256sum] = "dc23b595ad4092163eaf9c0c7532dd5b6d82274c21560c97dc03fa4e4f09e645"
-+SRC_URI[archive-trait-0.0.14.sha256sum] = "c6080ea14ccf9019d7ce572c319e581c20a805c9bdc6dbfb9b988da003cbd1a3"
- SRC_URI[arcstr-1.2.0.sha256sum] = "03918c3dbd7701a85c6b9887732e2921175f26c350b4563841d0958c21d57e6d"
- SRC_URI[arrayvec-0.7.8.sha256sum] = "d3fb67a6e08acf24fdeccbac2cb6ac4305825bd1f117462e0e6f2f193345ad56"
- SRC_URI[astral-tokio-tar-0.6.4.sha256sum] = "b18457efd137254e016bbde5e1d88df61c4e1a5ae2223746e56123bac6af2463"
-@@ -344,8 +344,8 @@ SRC_URI[bumpalo-3.20.2.sha256sum] = "5d20789868f4b01b2f2caec9f5c4e0213b41e3e5702
- SRC_URI[bytecheck-0.8.2.sha256sum] = "0caa33a2c0edca0419d15ac723dff03f1956f7978329b1e3b5fdaaaed9d3ca8b"
- SRC_URI[bytecheck_derive-0.8.2.sha256sum] = "89385e82b5d1821d2219e0b095efa2cc1f246cbf99080f3be46a1a85c0d392d9"
- SRC_URI[bytes-1.12.1.sha256sum] = "fc652a48c352aef3ea3aed32080501cf3ef6ed5da78602a020c991775b0aff04"
--SRC_URI[cap-primitives-4.0.2.sha256sum] = "cdadbd7c002d3a484b35243669abdae85a0ebaded5a61117169dc3400f9a7ff0"
--SRC_URI[cap-std-4.0.2.sha256sum] = "7281235d6e96d3544ca18bba9049be92f4190f8d923e3caef1b5f66cfa752608"
-+SRC_URI[cap-primitives-4.0.3.sha256sum] = "8b5f74729fd2f44701d1a8eb47e906cdb3ccd9ec0f02baad85a744b791940b18"
-+SRC_URI[cap-std-4.0.3.sha256sum] = "c1ec78e242cfa2cfe276807ac2ecc00315a6c97786977414bcd1c3963b6c91b8"
- SRC_URI[cc-1.2.57.sha256sum] = "7a0dd1ca384932ff3641c8718a02769f1698e7563dc6974ffd03346116310423"
- SRC_URI[cfg-if-1.0.4.sha256sum] = "9330f8b2ff13f34540b44e946ef35111825727b38d33286ef986142615121801"
- SRC_URI[charset-0.1.5.sha256sum] = "f1f927b07c74ba84c7e5fe4db2baeb3e996ab2688992e39ac68ce3220a677c7e"
-@@ -526,8 +526,8 @@ SRC_URI[strsim-0.11.1.sha256sum] = "7da8b5736845d9f2fcb837ea5d9e2628564b3b043a70
- SRC_URI[syn-2.0.118.sha256sum] = "1b9ae57f904213ebb649ce6895b8a66c66f0203b9319718f69a5612a065b1422"
- SRC_URI[syn-3.0.3.sha256sum] = "53e9bae58849f64dfa4f5d5ae372c8341f7305f82a3868709269343628b659a3"
- SRC_URI[synstructure-0.13.2.sha256sum] = "728a70f3dbaf5bab7f0c4b1ac8d7ae5ea60a4b5549c8a5914361c99147a709d2"
--SRC_URI[tar-codec-0.0.13.sha256sum] = "f718b1f470b8ff575d12c85c33bdc8b33743009669c7a5e1923b6583235a2258"
--SRC_URI[tar-framing-0.0.13.sha256sum] = "5aca504a58616b04eb381819c4ddfdf87b6d35f6699090e68d8b40954fb42da7"
-+SRC_URI[tar-codec-0.0.14.sha256sum] = "7ea42eb144d30fcbf32c26dfea8959175bb8335bfb7b18d20c6ed32edecf0551"
-+SRC_URI[tar-framing-0.0.14.sha256sum] = "783223a7a6590be4227cb821e7ce80372575511f67c824921aba0752d8ad5573"
- SRC_URI[temp-env-0.3.6.sha256sum] = "96374855068f47402c3121c6eed88d29cb1de8f3ab27090e273e420bdabcf050"
- SRC_URI[tempfile-3.27.0.sha256sum] = "32497e9a4c7b38532efcdebeef879707aa9f794296a4f0244f6f69e9bc8574bd"
- SRC_URI[terminal_size-0.4.4.sha256sum] = "230a1b821ccbd75b185820a1f1ff7b14d21da1e442e22c0863ea5f08771a8874"
-diff --git a/meta/recipes-devtools/python/python3-uv-build_0.12.6.bb b/meta/recipes-devtools/python/python3-uv-build_0.12.7.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-uv-build_0.12.6.bb
-rename to meta/recipes-devtools/python/python3-uv-build_0.12.7.bb
-index de84e8d5ad..00dcbc1ad1 100644
---- a/meta/recipes-devtools/python/python3-uv-build_0.12.6.bb
-+++ b/meta/recipes-devtools/python/python3-uv-build_0.12.7.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE-APACHE;md5=86d3f3a95c324c9479bd8986968f4327 \
-                     file://crates/uv-pep508/License-Apache;md5=e23fadd6ceef8c618fc1c65191d846fa \
-                     file://crates/uv-pep508/License-BSD;md5=ef7a6027dc4c2389b9afad7e690274c7"
- 
--SRC_URI[sha256sum] = "4756f1771d342ff8ff50b529ae23c58d58f14f097c243ca50d3778d0a23d24f0"
-+SRC_URI[sha256sum] = "e04fe07cc9b6207a41e4971e04d85100edcd1be7fd9a6c889692f5092a9bd7cf"
- 
- require ${BPN}-crates.inc
- 
--- 
-2.47.1
-
-
---===============2589027219426640099==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info/licenses -> /usr/lib/python3.14/site-packages/uv_build-0.12.7.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info -> /usr/lib/python3.14/site-packages/uv_build-0.12.7.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-uv-build (sysroot):
-  /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info moved to /usr/lib/python3.14/site-packages/uv_build-0.12.7.dist-info
-
---===============2589027219426640099==
+--===============2852062690009697707==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-uv-build-upgrade-0.12.6-0.12.7.patch"
+Content-Disposition: attachment; filename="20260828050054.tar.gz"
 
-RnJvbSBiOWNlOWFhNWI0MTNkMjllNWUyYTk0ZGNhMWQ0ZjdiMjIyNDE4MTQyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMjggQXVnIDIwMjYgMDU6NTI6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXV2LWJ1aWxkOiB1cGdyYWRlIDAuMTIuNiAtPiAwLjEyLjcKCi0tLQogLi4uL3B5dGhv
-bi9weXRob24zLXV2LWJ1aWxkLWNyYXRlcy5pbmMgICAgICAgIHwgMjAgKysrKysrKysrLS0tLS0t
-LS0tLQogLi4uZF8wLjEyLjYuYmIgPT4gcHl0aG9uMy11di1idWlsZF8wLjEyLjcuYmJ9IHwgIDIg
-Ky0KIDIgZmlsZXMgY2hhbmdlZCwgMTEgaW5zZXJ0aW9ucygrKSwgMTEgZGVsZXRpb25zKC0pCiBy
-ZW5hbWUgbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi97cHl0aG9uMy11di1idWlsZF8wLjEy
-LjYuYmIgPT4gcHl0aG9uMy11di1idWlsZF8wLjEyLjcuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXV2LWJ1aWxkLWNyYXRlcy5pbmMg
-Yi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXYtYnVpbGQtY3JhdGVzLmlu
-YwppbmRleCA4ZDc2ZDA0MWYzLi5mNjMyM2U4NzhmIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXYtYnVpbGQtY3JhdGVzLmluYworKysgYi9tZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXYtYnVpbGQtY3JhdGVzLmluYwpAQCAtMTIs
-NyArMTIsNyBAQCBTUkNfVVJJICs9ICIgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL2Fuc3R5bGUt
-cXVlcnkvMS4xLjUgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL2Fuc3R5bGUtd2luY29uLzMuMC4x
-MSBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vYW55aG93LzEuMC4xMDQgXAotICAgIGNyYXRlOi8v
-Y3JhdGVzLmlvL2FyY2hpdmUtdHJhaXQvMC4wLjEzIFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby9h
-cmNoaXZlLXRyYWl0LzAuMC4xNCBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vYXJjc3RyLzEuMi4w
-IFwKICAgICBjcmF0ZTovL2NyYXRlcy5pby9hcnJheXZlYy8wLjcuOCBcCiAgICAgY3JhdGU6Ly9j
-cmF0ZXMuaW8vYXN0cmFsLXRva2lvLXRhci8wLjYuNCBcCkBAIC0zMiw4ICszMiw4IEBAIFNSQ19V
-UkkgKz0gIiBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vYnl0ZWNoZWNrLzAuOC4yIFwKICAgICBj
-cmF0ZTovL2NyYXRlcy5pby9ieXRlY2hlY2tfZGVyaXZlLzAuOC4yIFwKICAgICBjcmF0ZTovL2Ny
-YXRlcy5pby9ieXRlcy8xLjEyLjEgXAotICAgIGNyYXRlOi8vY3JhdGVzLmlvL2NhcC1wcmltaXRp
-dmVzLzQuMC4yIFwKLSAgICBjcmF0ZTovL2NyYXRlcy5pby9jYXAtc3RkLzQuMC4yIFwKKyAgICBj
-cmF0ZTovL2NyYXRlcy5pby9jYXAtcHJpbWl0aXZlcy80LjAuMyBcCisgICAgY3JhdGU6Ly9jcmF0
-ZXMuaW8vY2FwLXN0ZC80LjAuMyBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vY2MvMS4yLjU3IFwK
-ICAgICBjcmF0ZTovL2NyYXRlcy5pby9jZmctaWYvMS4wLjQgXAogICAgIGNyYXRlOi8vY3JhdGVz
-LmlvL2NoYXJzZXQvMC4xLjUgXApAQCAtMjE0LDggKzIxNCw4IEBAIFNSQ19VUkkgKz0gIiBcCiAg
-ICAgY3JhdGU6Ly9jcmF0ZXMuaW8vc3luLzIuMC4xMTggXAogICAgIGNyYXRlOi8vY3JhdGVzLmlv
-L3N5bi8zLjAuMyBcCiAgICAgY3JhdGU6Ly9jcmF0ZXMuaW8vc3luc3RydWN0dXJlLzAuMTMuMiBc
-Ci0gICAgY3JhdGU6Ly9jcmF0ZXMuaW8vdGFyLWNvZGVjLzAuMC4xMyBcCi0gICAgY3JhdGU6Ly9j
-cmF0ZXMuaW8vdGFyLWZyYW1pbmcvMC4wLjEzIFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby90YXIt
-Y29kZWMvMC4wLjE0IFwKKyAgICBjcmF0ZTovL2NyYXRlcy5pby90YXItZnJhbWluZy8wLjAuMTQg
-XAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3RlbXAtZW52LzAuMy42IFwKICAgICBjcmF0ZTovL2Ny
-YXRlcy5pby90ZW1wZmlsZS8zLjI3LjAgXAogICAgIGNyYXRlOi8vY3JhdGVzLmlvL3Rlcm1pbmFs
-X3NpemUvMC40LjQgXApAQCAtMzI0LDcgKzMyNCw3IEBAIFNSQ19VUklbYW5zdHlsZS1wYXJzZS0x
-LjAuMC5zaGEyNTZzdW1dID0gIjUyY2U3ZjM4YjI0MjMxOWY3Y2FiYWE2ODEzMDU1NDY3MDYzZWNk
-CiBTUkNfVVJJW2Fuc3R5bGUtcXVlcnktMS4xLjUuc2hhMjU2c3VtXSA9ICI0MGM0OGY3MmZkNTNj
-ZDI4OTEwNGZjNjQwOTlhYmNhNzNkYjQxNjZhZDg2ZWEwYjQzNDFhYmU2NWFmODNkYWRjIgogU1JD
-X1VSSVthbnN0eWxlLXdpbmNvbi0zLjAuMTEuc2hhMjU2c3VtXSA9ICIyOTFlNmEyNTBmZjg2Y2Q0
-YTgyMDExMmZiODg5ODgwOGEzNjZkOGY5ZjU4Y2UxNmQxZjUzODM1M2FkNTU3NDdkIgogU1JDX1VS
-SVthbnlob3ctMS4wLjEwNC5zaGEyNTZzdW1dID0gIjMzMGE1ZWQwN2ZhNTRlNDcwMmM5ZDZjNDE3
-NGY3NDQyN2ZjMGVmNmUyMTRiYmQ2NzdhZTUwYTUwOTk5NDY0NzAiCi1TUkNfVVJJW2FyY2hpdmUt
-dHJhaXQtMC4wLjEzLnNoYTI1NnN1bV0gPSAiZGMyM2I1OTVhZDQwOTIxNjNlYWY5YzBjNzUzMmRk
-NWI2ZDgyMjc0YzIxNTYwYzk3ZGMwM2ZhNGU0ZjA5ZTY0NSIKK1NSQ19VUklbYXJjaGl2ZS10cmFp
-dC0wLjAuMTQuc2hhMjU2c3VtXSA9ICJjNjA4MGVhMTRjY2Y5MDE5ZDdjZTU3MmMzMTllNTgxYzIw
-YTgwNWM5YmRjNmRiZmI5Yjk4OGRhMDAzY2JkMWEzIgogU1JDX1VSSVthcmNzdHItMS4yLjAuc2hh
-MjU2c3VtXSA9ICIwMzkxOGMzZGJkNzcwMWE4NWM2Yjk4ODc3MzJlMjkyMTE3NWYyNmMzNTBiNDU2
-Mzg0MWQwOTU4YzIxZDU3ZTZkIgogU1JDX1VSSVthcnJheXZlYy0wLjcuOC5zaGEyNTZzdW1dID0g
-ImQzZmI2N2E2ZTA4YWNmMjRmZGVjY2JhYzJjYjZhYzQzMDU4MjViZDFmMTE3NDYyZTBlNmYyZjE5
-MzM0NWFkNTYiCiBTUkNfVVJJW2FzdHJhbC10b2tpby10YXItMC42LjQuc2hhMjU2c3VtXSA9ICJi
-MTg0NTdlZmQxMzcyNTRlMDE2YmJkZTVlMWQ4OGRmNjFjNGUxYTVhZTIyMjM3NDZlNTYxMjNiYWM2
-YWYyNDYzIgpAQCAtMzQ0LDggKzM0NCw4IEBAIFNSQ19VUklbYnVtcGFsby0zLjIwLjIuc2hhMjU2
-c3VtXSA9ICI1ZDIwNzg5ODY4ZjRiMDFiMmYyY2FlYzlmNWM0ZTAyMTNiNDFlM2U1NzAyCiBTUkNf
-VVJJW2J5dGVjaGVjay0wLjguMi5zaGEyNTZzdW1dID0gIjBjYWEzM2EyYzBlZGNhMDQxOWQxNWFj
-NzIzZGZmMDNmMTk1NmY3OTc4MzI5YjFlM2I1ZmRhYWFlZDlkM2NhOGIiCiBTUkNfVVJJW2J5dGVj
-aGVja19kZXJpdmUtMC44LjIuc2hhMjU2c3VtXSA9ICI4OTM4NWU4MmI1ZDE4MjFkMjIxOWUwYjA5
-NWVmYTJjYzFmMjQ2Y2JmOTkwODBmM2JlNDZhMWE4NWMwZDM5MmQ5IgogU1JDX1VSSVtieXRlcy0x
-LjEyLjEuc2hhMjU2c3VtXSA9ICJmYzY1MmE0OGMzNTJhZWYzZWEzYWVkMzIwODA1MDFjZjNlZjZl
-ZDVkYTc4NjAyYTAyMGM5OTE3NzViMGFmZjA0IgotU1JDX1VSSVtjYXAtcHJpbWl0aXZlcy00LjAu
-Mi5zaGEyNTZzdW1dID0gImNkYWRiZDdjMDAyZDNhNDg0YjM1MjQzNjY5YWJkYWU4NWEwZWJhZGVk
-NWE2MTExNzE2OWRjMzQwMGY5YTdmZjAiCi1TUkNfVVJJW2NhcC1zdGQtNC4wLjIuc2hhMjU2c3Vt
-XSA9ICI3MjgxMjM1ZDZlOTZkMzU0NGNhMThiYmE5MDQ5YmU5MmY0MTkwZjhkOTIzZTNjYWVmMWI1
-ZjY2Y2ZhNzUyNjA4IgorU1JDX1VSSVtjYXAtcHJpbWl0aXZlcy00LjAuMy5zaGEyNTZzdW1dID0g
-IjhiNWY3NDcyOWZkMmY0NDcwMWQxYThlYjQ3ZTkwNmNkYjNjY2Q5ZWMwZjAyYmFhZDg1YTc0NGI3
-OTE5NDBiMTgiCitTUkNfVVJJW2NhcC1zdGQtNC4wLjMuc2hhMjU2c3VtXSA9ICJjMWVjNzhlMjQy
-Y2ZhMmNmZTI3NjgwN2FjMmVjYzAwMzE1YTZjOTc3ODY5Nzc0MTRiY2QxYzM5NjNiNmM5MWI4Igog
-U1JDX1VSSVtjYy0xLjIuNTcuc2hhMjU2c3VtXSA9ICI3YTBkZDFjYTM4NDkzMmZmMzY0MWM4NzE4
-YTAyNzY5ZjE2OThlNzU2M2RjNjk3NGZmZDAzMzQ2MTE2MzEwNDIzIgogU1JDX1VSSVtjZmctaWYt
-MS4wLjQuc2hhMjU2c3VtXSA9ICI5MzMwZjhiMmZmMTNmMzQ1NDBiNDRlOTQ2ZWYzNTExMTgyNTcy
-N2IzOGQzMzI4NmVmOTg2MTQyNjE1MTIxODAxIgogU1JDX1VSSVtjaGFyc2V0LTAuMS41LnNoYTI1
-NnN1bV0gPSAiZjFmOTI3YjA3Yzc0YmE4NGM3ZTVmZTRkYjJiYWViM2U5OTZhYjI2ODg5OTJlMzlh
-YzY4Y2UzMjIwYTY3N2M3ZSIKQEAgLTUyNiw4ICs1MjYsOCBAQCBTUkNfVVJJW3N0cnNpbS0wLjEx
-LjEuc2hhMjU2c3VtXSA9ICI3ZGE4YjU3MzY4NDVkOWYyZmNiODM3ZWE1ZDllMjYyODU2NGIzYjA0
-M2E3MAogU1JDX1VSSVtzeW4tMi4wLjExOC5zaGEyNTZzdW1dID0gIjFiOWFlNTdmOTA0MjEzZWJi
-NjQ5Y2U2ODk1YjhhNjZjNjZmMDIwM2I5MzE5NzE4ZjY5YTU2MTJhMDY1YjE0MjIiCiBTUkNfVVJJ
-W3N5bi0zLjAuMy5zaGEyNTZzdW1dID0gIjUzZTliYWU1ODg0OWY2NGRmYTRmNWQ1YWUzNzJjODM0
-MWY3MzA1ZjgyYTM4Njg3MDkyNjkzNDM2MjhiNjU5YTMiCiBTUkNfVVJJW3N5bnN0cnVjdHVyZS0w
-LjEzLjIuc2hhMjU2c3VtXSA9ICI3MjhhNzBmM2RiYWY1YmFiN2YwYzRiMWFjOGQ3YWU1ZWE2MGE0
-YjU1NDljOGE1OTE0MzYxYzk5MTQ3YTcwOWQyIgotU1JDX1VSSVt0YXItY29kZWMtMC4wLjEzLnNo
-YTI1NnN1bV0gPSAiZjcxOGIxZjQ3MGI4ZmY1NzVkMTJjODVjMzNiZGM4YjMzNzQzMDA5NjY5Yzdh
-NWUxOTIzYjY1ODMyMzVhMjI1OCIKLVNSQ19VUklbdGFyLWZyYW1pbmctMC4wLjEzLnNoYTI1NnN1
-bV0gPSAiNWFjYTUwNGE1ODYxNmIwNGViMzgxODE5YzRkZGZkZjg3YjZkMzVmNjY5OTA5MGU2OGQ4
-YjQwOTU0ZmI0MmRhNyIKK1NSQ19VUklbdGFyLWNvZGVjLTAuMC4xNC5zaGEyNTZzdW1dID0gIjdl
-YTQyZWIxNDRkMzBmY2JmMzJjMjZkZmVhODk1OTE3NWJiODMzNWJmYjdiMThkMjBjNmVkMzJlZGVj
-ZjA1NTEiCitTUkNfVVJJW3Rhci1mcmFtaW5nLTAuMC4xNC5zaGEyNTZzdW1dID0gIjc4MzIyM2E3
-YTY1OTBiZTQyMjdjYjgyMWU3Y2U4MDM3MjU3NTUxMWY2N2M4MjQ5MjFhYmEwNzUyZDhhZDU1NzMi
-CiBTUkNfVVJJW3RlbXAtZW52LTAuMy42LnNoYTI1NnN1bV0gPSAiOTYzNzQ4NTUwNjhmNDc0MDJj
-MzEyMWM2ZWVkODhkMjljYjFkZThmM2FiMjcwOTBlMjczZTQyMGJkYWJjZjA1MCIKIFNSQ19VUklb
-dGVtcGZpbGUtMy4yNy4wLnNoYTI1NnN1bV0gPSAiMzI0OTdlOWE0YzdiMzg1MzJlZmNkZWJlZWY4
-Nzk3MDdhYTlmNzk0Mjk2YTRmMDI0NGY2ZjY5ZTliYzg1NzRiZCIKIFNSQ19VUklbdGVybWluYWxf
-c2l6ZS0wLjQuNC5zaGEyNTZzdW1dID0gIjIzMGExYjgyMWNjYmQ3NWIxODU4MjBhMWYxZmY3YjE0
-ZDIxZGExZTQ0MmUyMmMwODYzZWE1ZjA4NzcxYTg4NzQiCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtdXYtYnVpbGRfMC4xMi42LmJiIGIvbWV0YS9yZWNp
-cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXV2LWJ1aWxkXzAuMTIuNy5iYgpzaW1pbGFyaXR5
-IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
-bjMtdXYtYnVpbGRfMC4xMi42LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0
-aG9uL3B5dGhvbjMtdXYtYnVpbGRfMC4xMi43LmJiCmluZGV4IGRlODRlOGQ1YWQuLjAwZGNiYzFh
-ZDEgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy11di1i
-dWlsZF8wLjEyLjYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24z
-LXV2LWJ1aWxkXzAuMTIuNy5iYgpAQCAtMTEsNyArMTEsNyBAQCBMSUNfRklMRVNfQ0hLU1VNID0g
-ImZpbGU6Ly9MSUNFTlNFLUFQQUNIRTttZDU9ODZkM2YzYTk1YzMyNGM5NDc5YmQ4OTg2OTY4ZjQz
-MjcgXAogICAgICAgICAgICAgICAgICAgICBmaWxlOi8vY3JhdGVzL3V2LXBlcDUwOC9MaWNlbnNl
-LUFwYWNoZTttZDU9ZTIzZmFkZDZjZWVmOGM2MThmYzFjNjUxOTFkODQ2ZmEgXAogICAgICAgICAg
-ICAgICAgICAgICBmaWxlOi8vY3JhdGVzL3V2LXBlcDUwOC9MaWNlbnNlLUJTRDttZDU9ZWY3YTYw
-MjdkYzRjMjM4OWI5YWZhZDdlNjkwMjc0YzciCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI0NzU2
-ZjE3NzFkMzQyZmY4ZmY1MGI1MjlhZTIzYzU4ZDU4ZjE0ZjA5N2MyNDNjYTUwZDM3NzhkMGEyM2Qy
-NGYwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImUwNGZlMDdjYzliNjIwN2E0MWU0OTcxZTA0ZDg1
-MTAwZWRjZDFiZTdmZDlhNmM4ODk2OTJmNTA5MmE5YmQ3Y2YiCiAKIHJlcXVpcmUgJHtCUE59LWNy
-YXRlcy5pbmMKIAotLSAKMi40Ny4xCgo=
+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
 
---===============2589027219426640099==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/python3-uv-build: PKGV changed from 0.12.6 [default] to 0.12.7 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build: SRC_URI changed from "https://files.pythonhosted.org/packages/source/u/uv_build/uv_build-0.12.6.tar.gz;downloadfilename=uv_build-0.12.6.tar.gz crate://crates.io/adler2/2.0.1 crate://crates.io/aho-corasick/1.1.4 crate://crates.io/allocator-api2/0.2.21 crate://crates.io/ambient-authority/0.0.2 crate://crates.io/anstream/1.0.0 crate://crates.io/anstyle/1.0.14 crate://crates.io/anstyle-parse/1.0.0 crate://crates.io/anstyle-query/1.1.5 crate://crates.io/anstyle-wincon/3.0.11 crate://crates.io/anyhow/1.0.104 crate://crates.io/archive-trait/0.0.13 crate://crates.io/arcstr/1.2.0 crate://crates.io/arrayvec/0.7.8 crate://crates.io/astral-tokio-tar/0.6.4 crate://crates.io/astral-version-ranges/0.2.2 crate://crates.io/astral_async_zip/0.0.20 crate://crates.io/async-compression/0.4.19 crate://crates.io/autocfg/1.5.0 crate://crates.io/backon/1.6.0 crate://crates.io/base64/0.22.1 crate://crates.io/bitflags/1.3.2 crate://crates.io/bitflags/2.13.1 crate
- ://crates.io/block-buffer/0.10.4 crate://crates.io/block-buffer/0.12.1 crate://crates.io/boxcar/0.2.14 crate://crates.io/bstr/1.12.1 crate://crates.io/bumpalo/3.20.2 crate://crates.io/bytecheck/0.8.2 crate://crates.io/bytecheck_derive/0.8.2 crate://crates.io/bytes/1.12.1 crate://crates.io/cap-primitives/4.0.2 crate://crates.io/cap-std/4.0.2 crate://crates.io/cc/1.2.57 crate://crates.io/cfg-if/1.0.4 crate://crates.io/charset/0.1.5 crate://crates.io/clap/4.6.5 crate://crates.io/clap_builder/4.6.5 crate://crates.io/clap_derive/4.6.4 crate://crates.io/clap_lex/1.1.0 crate://crates.io/colorchoice/1.0.5 crate://crates.io/console/0.16.4 crate://crates.io/const-oid/0.10.2 crate://crates.io/cpufeatures/0.2.17 crate://crates.io/cpufeatures/0.3.0 crate://crates.io/crc32fast/1.5.0 crate://crates.io/crypto-common/0.1.7 crate://crates.io/crypto-common/0.2.2 crate://crates.io/csv/1.4.0 crate://crates.io/csv-core/0.1.13 crate://crates.io/data-encoding/2.11.0 crate://crates.io/defmt/1.1.0 crate://cr
- ates.io/defmt-macros/1.1.0 crate://crates.io/defmt-parser/1.0.0 crate://crates.io/digest/0.10.7 crate://crates.io/digest/0.11.3 crate://crates.io/displaydoc/0.2.5 crate://crates.io/dunce/1.0.5 crate://crates.io/dyn-clone/1.0.20 crate://crates.io/either/1.17.0 crate://crates.io/encode_unicode/1.0.0 crate://crates.io/encoding_rs/0.8.35 crate://crates.io/encoding_rs_io/0.1.7 crate://crates.io/enumflags2/0.7.12 crate://crates.io/enumflags2_derive/0.7.12 crate://crates.io/equivalent/1.0.2 crate://crates.io/erased-serde/0.4.10 crate://crates.io/errno/0.3.14 crate://crates.io/fastrand/2.5.0 crate://crates.io/find-msvc-tools/0.1.9 crate://crates.io/fixedbitset/0.5.7 crate://crates.io/flate2/1.1.9 crate://crates.io/foldhash/0.1.5 crate://crates.io/foldhash/0.2.0 crate://crates.io/form_urlencoded/1.2.2 crate://crates.io/fs-err/3.3.1 crate://crates.io/fs-set-times/0.20.3 crate://crates.io/futures/0.3.33 crate://crates.io/futures-channel/0.3.33 crate://crates.io/futures-core/0.3.33 crate://crat
- es.io/futures-executor/0.3.33 crate://crates.io/futures-io/0.3.33 crate://crates.io/futures-lite/2.6.1 crate://crates.io/futures-macro/0.3.33 crate://crates.io/futures-sink/0.3.33 crate://crates.io/futures-task/0.3.33 crate://crates.io/futures-util/0.3.33 crate://crates.io/generic-array/0.14.7 crate://crates.io/getrandom/0.4.3 crate://crates.io/globset/0.4.19 crate://crates.io/gloo-timers/0.3.0 crate://crates.io/hashbrown/0.15.5 crate://crates.io/hashbrown/0.17.1 crate://crates.io/heck/0.5.0 crate://crates.io/hex/0.4.3 crate://crates.io/hybrid-array/0.4.13 crate://crates.io/icu_collections/2.1.1 crate://crates.io/icu_locale_core/2.1.1 crate://crates.io/icu_normalizer/2.1.1 crate://crates.io/icu_normalizer_data/2.1.1 crate://crates.io/icu_properties/2.1.2 crate://crates.io/icu_properties_data/2.1.2 crate://crates.io/icu_provider/2.1.1 crate://crates.io/idna/1.1.0 crate://crates.io/idna_adapter/1.2.1 crate://crates.io/indexmap/2.14.0 crate://crates.io/indoc/2.0.7 crate://crates.io/ins
- ta/1.48.0 crate://crates.io/io-extras/0.19.0 crate://crates.io/io-lifetimes/2.0.4 crate://crates.io/io-lifetimes/3.0.1 crate://crates.io/ipnet/2.12.0 crate://crates.io/is_terminal_polyfill/1.70.2 crate://crates.io/itertools/0.14.0 crate://crates.io/itoa/1.0.17 crate://crates.io/jiff/0.2.35 crate://crates.io/jiff-core/0.1.0 crate://crates.io/jiff-static/0.2.35 crate://crates.io/jiff-tzdb/0.1.8 crate://crates.io/jiff-tzdb-platform/0.1.3 crate://crates.io/jobserver/0.1.35 crate://crates.io/js-sys/0.3.91 crate://crates.io/junction/2.0.0 crate://crates.io/lazy_static/1.5.0 crate://crates.io/libc/0.2.189 crate://crates.io/linux-raw-sys/0.12.1 crate://crates.io/litemap/0.8.1 crate://crates.io/lock_api/0.4.14 crate://crates.io/log/0.4.29 crate://crates.io/mailparse/0.16.1 crate://crates.io/matchers/0.2.0 crate://crates.io/maybe-owned/0.3.4 crate://crates.io/memchr/2.8.3 crate://crates.io/miniz_oxide/0.8.9 crate://crates.io/mio/1.2.0 crate://crates.io/munge/0.4.7 crate://crates.io/munge_macr
- o/0.4.7 crate://crates.io/nu-ansi-term/0.50.3 crate://crates.io/once_cell/1.21.4 crate://crates.io/once_cell_polyfill/1.70.2 crate://crates.io/owo-colors/4.3.0 crate://crates.io/parking/2.2.1 crate://crates.io/parking_lot/0.12.5 crate://crates.io/parking_lot_core/0.9.12 crate://crates.io/path-slash/0.2.1 crate://crates.io/percent-encoding/2.3.2 crate://crates.io/pest/2.8.6 crate://crates.io/pest_derive/2.8.6 crate://crates.io/pest_generator/2.8.6 crate://crates.io/pest_meta/2.8.6 crate://crates.io/petgraph/0.8.3 crate://crates.io/pin-project/1.1.11 crate://crates.io/pin-project-internal/1.1.11 crate://crates.io/pin-project-lite/0.2.17 crate://crates.io/pkg-config/0.3.32 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/portable-atomic-util/0.2.6 crate://crates.io/potential_utf/0.1.4 crate://crates.io/proc-macro-error-attr2/2.0.0 crate://crates.io/proc-macro-error2/2.0.1 crate://crates.io/proc-macro2/1.0.107 crate://crates.io/ptr_meta/0.3.1 crate://crates.io/ptr_meta_derive/
- 0.3.1 crate://crates.io/quote/1.0.47 crate://crates.io/quoted_printable/0.5.1 crate://crates.io/r-efi/6.0.0 crate://crates.io/rancor/0.1.1 crate://crates.io/redox_syscall/0.5.15 crate://crates.io/ref-cast/1.0.26 crate://crates.io/ref-cast-impl/1.0.26 crate://crates.io/reflink-copy/0.1.30 crate://crates.io/regex/1.13.1 crate://crates.io/regex-automata/0.4.16 crate://crates.io/regex-syntax/0.8.11 crate://crates.io/rend/0.5.3 crate://crates.io/rkyv/0.8.17 crate://crates.io/rkyv_derive/0.8.17 crate://crates.io/rustc-hash/2.1.3 crate://crates.io/rustix/1.1.4 crate://crates.io/rustix-linux-procfs/0.1.1 crate://crates.io/rustversion/1.0.22 crate://crates.io/ryu/1.0.23 crate://crates.io/same-file/1.0.6 crate://crates.io/schemars/1.2.2 crate://crates.io/schemars_derive/1.2.2 crate://crates.io/scopeguard/1.2.0 crate://crates.io/seahash/4.1.0 crate://crates.io/self-replace/1.5.0 crate://crates.io/serde/1.0.229 crate://crates.io/serde-untagged/0.1.9 crate://crates.io/serde_core/1.0.229 crate://
- crates.io/serde_derive/1.0.229 crate://crates.io/serde_derive_internals/0.30.0 crate://crates.io/serde_json/1.0.151 crate://crates.io/serde_spanned/1.1.1 crate://crates.io/sha2/0.10.9 crate://crates.io/sha2/0.11.0 crate://crates.io/sharded-slab/0.1.7 crate://crates.io/shlex/1.3.0 crate://crates.io/signal-hook-registry/1.4.8 crate://crates.io/simd-adler32/0.3.8 crate://crates.io/simdutf8/0.1.5 crate://crates.io/similar/2.7.0 crate://crates.io/slab/0.4.12 crate://crates.io/smallvec/1.15.2 crate://crates.io/smawk/0.3.2 crate://crates.io/spdx/0.13.4 crate://crates.io/stable_deref_trait/1.2.1 crate://crates.io/strip-ansi-escapes/0.2.1 crate://crates.io/strsim/0.11.1 crate://crates.io/syn/2.0.118 crate://crates.io/syn/3.0.3 crate://crates.io/synstructure/0.13.2 crate://crates.io/tar-codec/0.0.13 crate://crates.io/tar-framing/0.0.13 crate://crates.io/temp-env/0.3.6 crate://crates.io/tempfile/3.27.0 crate://crates.io/terminal_size/0.4.4 crate://crates.io/textwrap/0.16.2 crate://crates.io/th
- iserror/2.0.19 crate://crates.io/thiserror-impl/2.0.19 crate://crates.io/thread_local/1.1.9 crate://crates.io/tinystr/0.8.2 crate://crates.io/tinyvec/1.11.0 crate://crates.io/tinyvec_macros/0.1.1 crate://crates.io/tokio/1.53.1 crate://crates.io/tokio-macros/2.7.0 crate://crates.io/tokio-stream/0.1.19 crate://crates.io/tokio-util/0.7.19 crate://crates.io/toml/1.1.3+spec-1.1.0 crate://crates.io/toml_datetime/1.1.1+spec-1.1.0 crate://crates.io/toml_edit/0.25.13+spec-1.1.0 crate://crates.io/toml_parser/1.1.2+spec-1.1.0 crate://crates.io/toml_writer/1.1.2+spec-1.1.0 crate://crates.io/tracing/0.1.44 crate://crates.io/tracing-attributes/0.1.31 crate://crates.io/tracing-core/0.1.36 crate://crates.io/tracing-log/0.2.0 crate://crates.io/tracing-subscriber/0.3.23 crate://crates.io/tracing-test/0.2.6 crate://crates.io/tracing-test-macro/0.2.6 crate://crates.io/typeid/1.0.3 crate://crates.io/typenum/1.20.1 crate://crates.io/ucd-trie/0.1.7 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/
- unicode-linebreak/0.1.5 crate://crates.io/unicode-width/0.2.2 crate://crates.io/unscanny/0.1.0 crate://crates.io/url/2.5.8 crate://crates.io/utf8_iter/1.0.4 crate://crates.io/utf8parse/0.2.2 crate://crates.io/uuid/1.24.0 crate://crates.io/valuable/0.1.1 crate://crates.io/version_check/0.9.5 crate://crates.io/vte/0.14.1 crate://crates.io/walkdir/2.5.0 crate://crates.io/wasi/0.11.1+wasi-snapshot-preview1 crate://crates.io/wasm-bindgen/0.2.114 crate://crates.io/wasm-bindgen-macro/0.2.114 crate://crates.io/wasm-bindgen-macro-support/0.2.114 crate://crates.io/wasm-bindgen-shared/0.2.114 crate://crates.io/winapi-util/0.1.11 crate://crates.io/windows/0.61.3 crate://crates.io/windows-collections/0.2.0 crate://crates.io/windows-core/0.61.2 crate://crates.io/windows-future/0.2.1 crate://crates.io/windows-implement/0.60.2 crate://crates.io/windows-interface/0.59.3 crate://crates.io/windows-link/0.1.3 crate://crates.io/windows-link/0.2.1 crate://crates.io/windows-numerics/0.2.0 crate://crates.i
- o/windows-result/0.3.4 crate://crates.io/windows-strings/0.4.2 crate://crates.io/windows-sys/0.52.0 crate://crates.io/windows-sys/0.60.2 crate://crates.io/windows-sys/0.61.2 crate://crates.io/windows-targets/0.52.6 crate://crates.io/windows-targets/0.53.5 crate://crates.io/windows-threading/0.1.0 crate://crates.io/windows_aarch64_gnullvm/0.52.6 crate://crates.io/windows_aarch64_gnullvm/0.53.1 crate://crates.io/windows_aarch64_msvc/0.52.6 crate://crates.io/windows_aarch64_msvc/0.53.1 crate://crates.io/windows_i686_gnu/0.52.6 crate://crates.io/windows_i686_gnu/0.53.1 crate://crates.io/windows_i686_gnullvm/0.52.6 crate://crates.io/windows_i686_gnullvm/0.53.1 crate://crates.io/windows_i686_msvc/0.52.6 crate://crates.io/windows_i686_msvc/0.53.1 crate://crates.io/windows_x86_64_gnu/0.52.6 crate://crates.io/windows_x86_64_gnu/0.53.1 crate://crates.io/windows_x86_64_gnullvm/0.52.6 crate://crates.io/windows_x86_64_gnullvm/0.53.1 crate://crates.io/windows_x86_64_msvc/0.52.6 crate://crates.io/
- windows_x86_64_msvc/0.53.1 crate://crates.io/winnow/1.0.3 crate://crates.io/winx/0.36.4 crate://crates.io/writeable/0.6.2 crate://crates.io/xattr/1.6.1 crate://crates.io/yoke/0.8.1 crate://crates.io/yoke-derive/0.8.1 crate://crates.io/zerofrom/0.1.6 crate://crates.io/zerofrom-derive/0.1.6 crate://crates.io/zerotrie/0.2.3 crate://crates.io/zerovec/0.11.5 crate://crates.io/zerovec-derive/0.11.2 crate://crates.io/zlib-rs/0.6.3 crate://crates.io/zmij/1.0.21 crate://crates.io/zstd/0.13.3 crate://crates.io/zstd-safe/7.2.4 crate://crates.io/zstd-sys/2.0.16+zstd.1.5.7" to "https://files.pythonhosted.org/packages/source/u/uv_build/uv_build-0.12.7.tar.gz;downloadfilename=uv_build-0.12.7.tar.gz crate://crates.io/adler2/2.0.1 crate://crates.io/aho-corasick/1.1.4 crate://crates.io/allocator-api2/0.2.21 crate://crates.io/ambient-authority/0.0.2 crate://crates.io/anstream/1.0.0 crate://crates.io/anstyle/1.0.14 crate://crates.io/anstyle-parse/1.0.0 crate://crates.io/anstyle-query/1.1.5 crate://crat
- es.io/anstyle-wincon/3.0.11 crate://crates.io/anyhow/1.0.104 crate://crates.io/archive-trait/0.0.14 crate://crates.io/arcstr/1.2.0 crate://crates.io/arrayvec/0.7.8 crate://crates.io/astral-tokio-tar/0.6.4 crate://crates.io/astral-version-ranges/0.2.2 crate://crates.io/astral_async_zip/0.0.20 crate://crates.io/async-compression/0.4.19 crate://crates.io/autocfg/1.5.0 crate://crates.io/backon/1.6.0 crate://crates.io/base64/0.22.1 crate://crates.io/bitflags/1.3.2 crate://crates.io/bitflags/2.13.1 crate://crates.io/block-buffer/0.10.4 crate://crates.io/block-buffer/0.12.1 crate://crates.io/boxcar/0.2.14 crate://crates.io/bstr/1.12.1 crate://crates.io/bumpalo/3.20.2 crate://crates.io/bytecheck/0.8.2 crate://crates.io/bytecheck_derive/0.8.2 crate://crates.io/bytes/1.12.1 crate://crates.io/cap-primitives/4.0.3 crate://crates.io/cap-std/4.0.3 crate://crates.io/cc/1.2.57 crate://crates.io/cfg-if/1.0.4 crate://crates.io/charset/0.1.5 crate://crates.io/clap/4.6.5 crate://crates.io/clap_builder/
- 4.6.5 crate://crates.io/clap_derive/4.6.4 crate://crates.io/clap_lex/1.1.0 crate://crates.io/colorchoice/1.0.5 crate://crates.io/console/0.16.4 crate://crates.io/const-oid/0.10.2 crate://crates.io/cpufeatures/0.2.17 crate://crates.io/cpufeatures/0.3.0 crate://crates.io/crc32fast/1.5.0 crate://crates.io/crypto-common/0.1.7 crate://crates.io/crypto-common/0.2.2 crate://crates.io/csv/1.4.0 crate://crates.io/csv-core/0.1.13 crate://crates.io/data-encoding/2.11.0 crate://crates.io/defmt/1.1.0 crate://crates.io/defmt-macros/1.1.0 crate://crates.io/defmt-parser/1.0.0 crate://crates.io/digest/0.10.7 crate://crates.io/digest/0.11.3 crate://crates.io/displaydoc/0.2.5 crate://crates.io/dunce/1.0.5 crate://crates.io/dyn-clone/1.0.20 crate://crates.io/either/1.17.0 crate://crates.io/encode_unicode/1.0.0 crate://crates.io/encoding_rs/0.8.35 crate://crates.io/encoding_rs_io/0.1.7 crate://crates.io/enumflags2/0.7.12 crate://crates.io/enumflags2_derive/0.7.12 crate://crates.io/equivalent/1.0.2 crate
- ://crates.io/erased-serde/0.4.10 crate://crates.io/errno/0.3.14 crate://crates.io/fastrand/2.5.0 crate://crates.io/find-msvc-tools/0.1.9 crate://crates.io/fixedbitset/0.5.7 crate://crates.io/flate2/1.1.9 crate://crates.io/foldhash/0.1.5 crate://crates.io/foldhash/0.2.0 crate://crates.io/form_urlencoded/1.2.2 crate://crates.io/fs-err/3.3.1 crate://crates.io/fs-set-times/0.20.3 crate://crates.io/futures/0.3.33 crate://crates.io/futures-channel/0.3.33 crate://crates.io/futures-core/0.3.33 crate://crates.io/futures-executor/0.3.33 crate://crates.io/futures-io/0.3.33 crate://crates.io/futures-lite/2.6.1 crate://crates.io/futures-macro/0.3.33 crate://crates.io/futures-sink/0.3.33 crate://crates.io/futures-task/0.3.33 crate://crates.io/futures-util/0.3.33 crate://crates.io/generic-array/0.14.7 crate://crates.io/getrandom/0.4.3 crate://crates.io/globset/0.4.19 crate://crates.io/gloo-timers/0.3.0 crate://crates.io/hashbrown/0.15.5 crate://crates.io/hashbrown/0.17.1 crate://crates.io/heck/0.5
- .0 crate://crates.io/hex/0.4.3 crate://crates.io/hybrid-array/0.4.13 crate://crates.io/icu_collections/2.1.1 crate://crates.io/icu_locale_core/2.1.1 crate://crates.io/icu_normalizer/2.1.1 crate://crates.io/icu_normalizer_data/2.1.1 crate://crates.io/icu_properties/2.1.2 crate://crates.io/icu_properties_data/2.1.2 crate://crates.io/icu_provider/2.1.1 crate://crates.io/idna/1.1.0 crate://crates.io/idna_adapter/1.2.1 crate://crates.io/indexmap/2.14.0 crate://crates.io/indoc/2.0.7 crate://crates.io/insta/1.48.0 crate://crates.io/io-extras/0.19.0 crate://crates.io/io-lifetimes/2.0.4 crate://crates.io/io-lifetimes/3.0.1 crate://crates.io/ipnet/2.12.0 crate://crates.io/is_terminal_polyfill/1.70.2 crate://crates.io/itertools/0.14.0 crate://crates.io/itoa/1.0.17 crate://crates.io/jiff/0.2.35 crate://crates.io/jiff-core/0.1.0 crate://crates.io/jiff-static/0.2.35 crate://crates.io/jiff-tzdb/0.1.8 crate://crates.io/jiff-tzdb-platform/0.1.3 crate://crates.io/jobserver/0.1.35 crate://crates.io/js
- -sys/0.3.91 crate://crates.io/junction/2.0.0 crate://crates.io/lazy_static/1.5.0 crate://crates.io/libc/0.2.189 crate://crates.io/linux-raw-sys/0.12.1 crate://crates.io/litemap/0.8.1 crate://crates.io/lock_api/0.4.14 crate://crates.io/log/0.4.29 crate://crates.io/mailparse/0.16.1 crate://crates.io/matchers/0.2.0 crate://crates.io/maybe-owned/0.3.4 crate://crates.io/memchr/2.8.3 crate://crates.io/miniz_oxide/0.8.9 crate://crates.io/mio/1.2.0 crate://crates.io/munge/0.4.7 crate://crates.io/munge_macro/0.4.7 crate://crates.io/nu-ansi-term/0.50.3 crate://crates.io/once_cell/1.21.4 crate://crates.io/once_cell_polyfill/1.70.2 crate://crates.io/owo-colors/4.3.0 crate://crates.io/parking/2.2.1 crate://crates.io/parking_lot/0.12.5 crate://crates.io/parking_lot_core/0.9.12 crate://crates.io/path-slash/0.2.1 crate://crates.io/percent-encoding/2.3.2 crate://crates.io/pest/2.8.6 crate://crates.io/pest_derive/2.8.6 crate://crates.io/pest_generator/2.8.6 crate://crates.io/pest_meta/2.8.6 crate://c
- rates.io/petgraph/0.8.3 crate://crates.io/pin-project/1.1.11 crate://crates.io/pin-project-internal/1.1.11 crate://crates.io/pin-project-lite/0.2.17 crate://crates.io/pkg-config/0.3.32 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/portable-atomic-util/0.2.6 crate://crates.io/potential_utf/0.1.4 crate://crates.io/proc-macro-error-attr2/2.0.0 crate://crates.io/proc-macro-error2/2.0.1 crate://crates.io/proc-macro2/1.0.107 crate://crates.io/ptr_meta/0.3.1 crate://crates.io/ptr_meta_derive/0.3.1 crate://crates.io/quote/1.0.47 crate://crates.io/quoted_printable/0.5.1 crate://crates.io/r-efi/6.0.0 crate://crates.io/rancor/0.1.1 crate://crates.io/redox_syscall/0.5.15 crate://crates.io/ref-cast/1.0.26 crate://crates.io/ref-cast-impl/1.0.26 crate://crates.io/reflink-copy/0.1.30 crate://crates.io/regex/1.13.1 crate://crates.io/regex-automata/0.4.16 crate://crates.io/regex-syntax/0.8.11 crate://crates.io/rend/0.5.3 crate://crates.io/rkyv/0.8.17 crate://crates.io/rkyv_derive/0.8.17 
- crate://crates.io/rustc-hash/2.1.3 crate://crates.io/rustix/1.1.4 crate://crates.io/rustix-linux-procfs/0.1.1 crate://crates.io/rustversion/1.0.22 crate://crates.io/ryu/1.0.23 crate://crates.io/same-file/1.0.6 crate://crates.io/schemars/1.2.2 crate://crates.io/schemars_derive/1.2.2 crate://crates.io/scopeguard/1.2.0 crate://crates.io/seahash/4.1.0 crate://crates.io/self-replace/1.5.0 crate://crates.io/serde/1.0.229 crate://crates.io/serde-untagged/0.1.9 crate://crates.io/serde_core/1.0.229 crate://crates.io/serde_derive/1.0.229 crate://crates.io/serde_derive_internals/0.30.0 crate://crates.io/serde_json/1.0.151 crate://crates.io/serde_spanned/1.1.1 crate://crates.io/sha2/0.10.9 crate://crates.io/sha2/0.11.0 crate://crates.io/sharded-slab/0.1.7 crate://crates.io/shlex/1.3.0 crate://crates.io/signal-hook-registry/1.4.8 crate://crates.io/simd-adler32/0.3.8 crate://crates.io/simdutf8/0.1.5 crate://crates.io/similar/2.7.0 crate://crates.io/slab/0.4.12 crate://crates.io/smallvec/1.15.2 cr
- ate://crates.io/smawk/0.3.2 crate://crates.io/spdx/0.13.4 crate://crates.io/stable_deref_trait/1.2.1 crate://crates.io/strip-ansi-escapes/0.2.1 crate://crates.io/strsim/0.11.1 crate://crates.io/syn/2.0.118 crate://crates.io/syn/3.0.3 crate://crates.io/synstructure/0.13.2 crate://crates.io/tar-codec/0.0.14 crate://crates.io/tar-framing/0.0.14 crate://crates.io/temp-env/0.3.6 crate://crates.io/tempfile/3.27.0 crate://crates.io/terminal_size/0.4.4 crate://crates.io/textwrap/0.16.2 crate://crates.io/thiserror/2.0.19 crate://crates.io/thiserror-impl/2.0.19 crate://crates.io/thread_local/1.1.9 crate://crates.io/tinystr/0.8.2 crate://crates.io/tinyvec/1.11.0 crate://crates.io/tinyvec_macros/0.1.1 crate://crates.io/tokio/1.53.1 crate://crates.io/tokio-macros/2.7.0 crate://crates.io/tokio-stream/0.1.19 crate://crates.io/tokio-util/0.7.19 crate://crates.io/toml/1.1.3+spec-1.1.0 crate://crates.io/toml_datetime/1.1.1+spec-1.1.0 crate://crates.io/toml_edit/0.25.13+spec-1.1.0 crate://crates.io/to
- ml_parser/1.1.2+spec-1.1.0 crate://crates.io/toml_writer/1.1.2+spec-1.1.0 crate://crates.io/tracing/0.1.44 crate://crates.io/tracing-attributes/0.1.31 crate://crates.io/tracing-core/0.1.36 crate://crates.io/tracing-log/0.2.0 crate://crates.io/tracing-subscriber/0.3.23 crate://crates.io/tracing-test/0.2.6 crate://crates.io/tracing-test-macro/0.2.6 crate://crates.io/typeid/1.0.3 crate://crates.io/typenum/1.20.1 crate://crates.io/ucd-trie/0.1.7 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/unicode-linebreak/0.1.5 crate://crates.io/unicode-width/0.2.2 crate://crates.io/unscanny/0.1.0 crate://crates.io/url/2.5.8 crate://crates.io/utf8_iter/1.0.4 crate://crates.io/utf8parse/0.2.2 crate://crates.io/uuid/1.24.0 crate://crates.io/valuable/0.1.1 crate://crates.io/version_check/0.9.5 crate://crates.io/vte/0.14.1 crate://crates.io/walkdir/2.5.0 crate://crates.io/wasi/0.11.1+wasi-snapshot-preview1 crate://crates.io/wasm-bindgen/0.2.114 crate://crates.io/wasm-bindgen-macro/0.2.114 crat
- e://crates.io/wasm-bindgen-macro-support/0.2.114 crate://crates.io/wasm-bindgen-shared/0.2.114 crate://crates.io/winapi-util/0.1.11 crate://crates.io/windows/0.61.3 crate://crates.io/windows-collections/0.2.0 crate://crates.io/windows-core/0.61.2 crate://crates.io/windows-future/0.2.1 crate://crates.io/windows-implement/0.60.2 crate://crates.io/windows-interface/0.59.3 crate://crates.io/windows-link/0.1.3 crate://crates.io/windows-link/0.2.1 crate://crates.io/windows-numerics/0.2.0 crate://crates.io/windows-result/0.3.4 crate://crates.io/windows-strings/0.4.2 crate://crates.io/windows-sys/0.52.0 crate://crates.io/windows-sys/0.60.2 crate://crates.io/windows-sys/0.61.2 crate://crates.io/windows-targets/0.52.6 crate://crates.io/windows-targets/0.53.5 crate://crates.io/windows-threading/0.1.0 crate://crates.io/windows_aarch64_gnullvm/0.52.6 crate://crates.io/windows_aarch64_gnullvm/0.53.1 crate://crates.io/windows_aarch64_msvc/0.52.6 crate://crates.io/windows_aarch64_msvc/0.53.1 crate:
- //crates.io/windows_i686_gnu/0.52.6 crate://crates.io/windows_i686_gnu/0.53.1 crate://crates.io/windows_i686_gnullvm/0.52.6 crate://crates.io/windows_i686_gnullvm/0.53.1 crate://crates.io/windows_i686_msvc/0.52.6 crate://crates.io/windows_i686_msvc/0.53.1 crate://crates.io/windows_x86_64_gnu/0.52.6 crate://crates.io/windows_x86_64_gnu/0.53.1 crate://crates.io/windows_x86_64_gnullvm/0.52.6 crate://crates.io/windows_x86_64_gnullvm/0.53.1 crate://crates.io/windows_x86_64_msvc/0.52.6 crate://crates.io/windows_x86_64_msvc/0.53.1 crate://crates.io/winnow/1.0.3 crate://crates.io/winx/0.36.4 crate://crates.io/writeable/0.6.2 crate://crates.io/xattr/1.6.1 crate://crates.io/yoke/0.8.1 crate://crates.io/yoke-derive/0.8.1 crate://crates.io/zerofrom/0.1.6 crate://crates.io/zerofrom-derive/0.1.6 crate://crates.io/zerotrie/0.2.3 crate://crates.io/zerovec/0.11.5 crate://crates.io/zerovec-derive/0.11.2 crate://crates.io/zlib-rs/0.6.3 crate://crates.io/zmij/1.0.21 crate://crates.io/zstd/0.13.3 crate:
- //crates.io/zstd-safe/7.2.4 crate://crates.io/zstd-sys/2.0.16+zstd.1.5.7"
-packages/x86-64-v3-poky-linux/python3-uv-build: PV changed from "0.12.6" to "0.12.7"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dbg: PKGV changed from 0.12.6 [default] to 0.12.7 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dbg: PV changed from "0.12.6" to "0.12.7"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dev: PKGV changed from 0.12.6 [default] to 0.12.7 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-dev: PV changed from "0.12.6" to "0.12.7"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-doc: PKGV changed from 0.12.6 [default] to 0.12.7 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-doc: PV changed from "0.12.6" to "0.12.7"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-locale: PKGV changed from 0.12.6 [default] to 0.12.7 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-locale: PV changed from "0.12.6" to "0.12.7"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-src: PKGV changed from 0.12.6 [default] to 0.12.7 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-src: PV changed from "0.12.6" to "0.12.7"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-staticdev: PKGV changed from 0.12.6 [default] to 0.12.7 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build-staticdev: PV changed from "0.12.6" to "0.12.7"
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: FILELIST: directory renamed /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info -> /usr/lib/python3.14/site-packages/uv_build-0.12.7.dist-info, directory renamed /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info/licenses -> /usr/lib/python3.14/site-packages/uv_build-0.12.7.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PKGV changed from 0.12.6 [default] to 0.12.7 [default]
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PKGSIZE changed from 4466976 to 4458784 (-0%)
-packages/x86-64-v3-poky-linux/python3-uv-build/python3-uv-build: PV changed from "0.12.6" to "0.12.7"
-Changes to packages/x86-64-v3-poky-linux/python3-uv-build (sysroot):
-  /usr/lib/python3.14/site-packages/uv_build-0.12.6.dist-info moved to /usr/lib/python3.14/site-packages/uv_build-0.12.7.dist-info
-
---===============2589027219426640099==--
+--===============2852062690009697707==--
 
