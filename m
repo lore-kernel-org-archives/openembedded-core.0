@@ -2,220 +2,266 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C58ADC61DCB
-	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 23:32:06 +0000 (UTC)
-Received: from mail-yx1-f51.google.com (mail-yx1-f51.google.com [74.125.224.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1146.1787959926227243257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C8F78C61DCB
+	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 23:37:36 +0000 (UTC)
+Received: from mail-yw1-f169.google.com (mail-yw1-f169.google.com [209.85.128.169])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1213.1787960249297485538
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 16:32:06 -0700
+ Fri, 28 Aug 2026 16:37:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=AZ7Gh52r;
- spf=pass (domain: gmail.com, ip: 74.125.224.51, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx1-f51.google.com with SMTP id 956f58d0204a3-66ce5312ca6so1566514d50.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 16:32:06 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1787959925; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=XQsXIoql;
+ spf=pass (domain: gmail.com, ip: 209.85.128.169, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f169.google.com with SMTP id 00721157ae682-81ee6b2da98so24143897b3.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 16:37:29 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1787960248; cv=none;
         d=google.com; s=arc-20260327;
-        b=k34sQKTTMFEynzbUobSmTlUO99X4uB6ruN6IDPAHvFfZsxDQRLx9JNxHcLQOpWs461
-         VR6W+ulUH0Dn2tREsvlzBCZvyrhwP6um/5UU97QTU1q69oZN4mW8LLrkqUO+XOnIujpq
-         6qNNVV+jNifw48OfZajyul4XN7z9PAtj5hG1oxGU5Br4pMpu/S3aGW6X7Eo/MBkpgLI4
-         ns4+ZbNeDfoY0I9eKMdH67TS3F97brBgWDjbb/P1dtN+D26RDUbh4CLi74+Ps2aRiE2O
-         FH+V7NXjdkFbXoacJsdF51qO0FM5OsLF4/cvkHfVuq/gKG9rdMsJt72JCHIasQ6jGB1e
-         wX6w==
+        b=Rz0CBXxvAk6VlQ09jV2WKJqqBHQQ3AZAixmvgBlpuUteR++J3e7+px2o54CthuavOO
+         TPDIdw/D9M2Shg+nojykFwvHu7knDUtSmuVWu85qHF1pkSI4t04QOujhTdCi7d0zLmAr
+         3IsE06EyQkeaEdFHHU97yNGBt4MAQ8wrQiaLE5Nen3J48uvnPYW+GegXg7OCVZFTd66j
+         gLSRQIlJhmqBwlA6WeVH9+eEk4DQnf+rQAofEvZif55WD7RX0hRDYTfJmH3Wcq7Kg4+L
+         JOz+qsbdpbqrzegeEeYJUP1u4rjwJLuuM1QciwO5gW2kKHZ9lLoPWddwxs0EVRXEOl+0
+         gayQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=we+SNDfern+YD6Kl/l7PiCQFafLIp1VUQ1bE5Wt7JkY=;
-        fh=kmwY42GewyzzGKyZJ2Rvn2oYbsXmD/QRzkoqP05Kxk8=;
-        b=h35bu9sOhlAYI0/Y4ueSrxoRijoRF8JuTEVH+TMz36K4vjCBnYluwAxURKaRFg0I6+
-         XrA0s5P1ygxdL3avjjM71O1wPIabGTVh8iKWq8RYSfH8qseNmcXikFVVqL6WrjKhRg91
-         AVuV3kQ2RjxfHcPee5YC2XNYkDINz7NABxuGbyJXAOm+7gjrD+vuPzi3fhvcDZzF9ntS
-         kqPLZA3JJVrMSYt42JzOlA+mLsbAxeKkCw26QtjO51CYkRT8f1i9KqUzyim1ZzzMlxvp
-         4vD+2BjVNilpQmWikYLRmQ6HbkYjXI4olz0kY4z8O8wJquvzWa01s5eyBVy2xG5Qee7U
-         dUVg==;
+        bh=9+MOHz/ADa2o52OSuxQsh8r8FnJ2lzVfWWuLY0JcMhY=;
+        fh=7+LO5g2386gipOMobn/osmdMWhTo5OJ9aLgl5Q75HYU=;
+        b=IIRCZ3YqErMAzVdMhvzpX7YMsZ75p7/LyUNJePbG9gKrYO6nRFMGW/mpAmsMqMSJGO
+         83xwqSwrelD9ZFHSDixrkwunJe6509uZeqeUK3N44guyOOUkfDP+oAzK48rnwkysOYtP
+         yiYs2gcB/919HKp05KCxN+xPJPJ8XHtuAQLZ0u9blSVDQkwy5TDRpdUh1jnbxiLxgB6s
+         VnEtKvPpSDEO/xXfwFqzL1+3er+6y6D2BfHtmFti8fALP9ClmI6LnDgrb5z2guFjfnuC
+         o7nHmmiskLLo+i5mqNqDOugQlf86QC3SxLZrolTPDj0yiXN39f1XTQWZIxTLaw/DKtny
+         UFRw==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1787959925; x=1788564725; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1787960248; x=1788565048; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=we+SNDfern+YD6Kl/l7PiCQFafLIp1VUQ1bE5Wt7JkY=;
-        b=AZ7Gh52rEK9jrp5ZimpoaoOmTMladW0iBQMoSfB+l0N7PYnMv3VRqcpg0qzVyN0JYK
-         3YdIEWVbLJlar7M9I0xYWyYfZ70BNXQSO7nCVvfq7xRpQL/vvgvcTJLMAO1K6bDNjwos
-         +yciTEuCH4a38j6O/xPdKdouz6Q9unxxjIsAHip1ATF/ZJNq+yAR6gVcBmZxG5O5XLhx
-         Fo9BOq/vjCc3na7lIBwFL4xpF1jh4OWVd9w+dNLsq/RQOVN9ZJ2P0ZAZYPEatq0aFGaS
-         /nbS223zgBxCm6D3Q3J9tkQMhpSmU6rhpBbvdhm001ILvZHix61+wLT/CGzSve36W2xO
-         AI5g==
+        bh=9+MOHz/ADa2o52OSuxQsh8r8FnJ2lzVfWWuLY0JcMhY=;
+        b=XQsXIoqlUU2rWLngjmMWnzX+3vsnqcqnZFZAdqQjW934ysKYpaTc4+QZVjToELyG3Z
+         0VSNeqtqKBcvc/wrG7A7bOu8h6/E0sQ4FKDgsqgQ2XC+7tjQg6b+//3NJIeE+qIY3zOl
+         PBcDROyErdKaWG5p4eWLIu/qdwfkL3hnM0VLn2gaNQUAya58Ku0ggh1MuJ8uIlLjzOGv
+         KpBTOjgNaPZnOUDnl5YpfKHSe5QNrbd2kL7KH4zYO3rRP+mOdsQE4tgfHLn33Ico5CN8
+         SsaR2tv6CucfDbh54Vr+305HbJY9pvjQP6KdQX6kgn2EdHiWRHoTaF5bWjsK3JiH4VFq
+         gY/w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787959925; x=1788564725;
+        d=1e100.net; s=20251104; t=1787960248; x=1788565048;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=we+SNDfern+YD6Kl/l7PiCQFafLIp1VUQ1bE5Wt7JkY=;
-        b=hdC+QiofODzw5umbRFR+o4tLMqqr5tbBe/zt7wCAenQpmVp4OGQ8f4MfaYYL59gr7W
-         xYyG+EzAO8aHRzDNAy1r4w5CfT7haefjnM7K8G/I7tUMF/mTz1MAOr2yI++fErQNYoJN
-         mEuusGtF+6YFtXttE0IstQSnK0TupoNVzNxhHCXFYurNctFzqZ0Y48RCAtEo2EFuf8BD
-         dDTBvqrBoJKJrE5TffCDB7ani/DxB3xx5aN3bvY9/VpJ/utYxn/1Nk3BdjTL0f9zY894
-         Qx6Yrv6zInxe2TNnpxF06G1ek0YRSB2Wyi9Vc9h5C0ahfRKkYmJLbhXPu3Wor1wpv+jB
-         q/2g==
-X-Gm-Message-State: AFuF++lLvmPgnSiImBir7o/Z5NPUKairGJhg2kFSE2nvbXiFQbBkPZXB
-	UcKTG9Qfrn5S0DnUiJUuhciAGLpFENrVg/RVOWZIvhJYJpcnq17NmyC3R2QgsHXepQhl6mVkat3
-	46zZuQ6azrZIYHJb2qeZmVpeU2djTPUI=
-X-Gm-Gg: AYBFou29BetKWTLoMlIABDm3usGkOyce5+uxc/LYWYaqHrgK+OWJIR7m/Z9BeixBsK2
-	hz2/538nE7TT7YA0rN1pbGL4+wAxHkyFQ2fMIlDHrqhSmr1+XrSyUySF8+LEbxteA598egOGtm5
-	I0j7ylq7z5A+MLaI3N1UVyKoqOA6lYlk1S92SOhkqc5WNOn0ZcXgy7GRRo8Q+fRvw/Aq75xtsEf
-	zR37FdaLrJoKyqpMp2HFGygGuAelXaaqrekUjFNzfzhoIsAVWjMugSkpwFeQjCnjNa8iaLe54Xp
-	ixfkrJhLtebrexlb0tq19gO4+WSo/I+w1yzr/U7f34/gDSW1Rgy4L69/oLgKrdVrw6kemJsVgjd
-	XPfRjtAXwC6jz/B+ORVIzGOUEHXk8O/EHPXqITo3F4AmJmJfQq2C/c3EiMZNyLuq2XnXw1v/3iu
-	EE9Q414La/6QTvFIcsNk+qXC8LIP4jjky6mv3dF1DO/fS2PKFeW8dd3jZCdWeUgDIzjW0gm9AsR
-	Oserv5++aj5DhmcQsjXCBXHmV0IeJ/3t/xjMzkYwWJj6VNQ
-X-Received: by 2002:a05:690e:440c:b0:667:ba34:51e2 with SMTP id
- 956f58d0204a3-66e4eb04e33mr2178358d50.13.1787959925208; Fri, 28 Aug 2026
- 16:32:05 -0700 (PDT)
+        bh=9+MOHz/ADa2o52OSuxQsh8r8FnJ2lzVfWWuLY0JcMhY=;
+        b=lKaeA95/EP2a9JXyj9TONzPYp2P4HVc7Ro0xJSV1jdxOkHa+FGViv1bnmhCUUw+qV0
+         WQRn3B4umVoAMOve2mtFbwHr06oZ7H5v3vS4pRzKPC7W2MCWqzVwr62pZhoc0X/i9IEm
+         ZelrHiHBSH+sbCRg/2jTqcj9p/53sYP9H6nc+34HWk1RcVEDvik/8/w/v49gND+fRWHK
+         ibPYWg2nwKbL6caqUPQl/Mm87EoJbWDMMz8hQeHH6HK8/4KCQyx2wYFpEd4g/BiAWGU9
+         qUQ5ZNuqYUlUwRigLR9bJZiIan8JkbfFqI5Qb9jTQttgPe7vjZlGJWm5kYI3ONxof8cW
+         MhPw==
+X-Gm-Message-State: AFuF++lx+Dcv9J5C7urM10n3RQQl47HEp8mtH9tW8FFJQvzwdfqSHK+z
+	NPClQczpVNKGyM77gpTy3cMECueDmXaoa7MBS2ZGhboM3rRX76/sa+PlYGQBAT3LMuC00g/W8mq
+	8bgdze3Hzstl89Oy+hzmixPTYEQoZZAM=
+X-Gm-Gg: AYBFou1MNxZ5lHtcNbPiEQj8PpSKM61/6AfkXSA+4BlXcR7EaVCf37ZisgKQHVSxApj
+	HpBhksalqPbwKlwMQMq76tdp8RZbhOqhpZt45ByykjMV7pYhRAaFCbKwS0Aw6tnM+nPbJ5pnm6j
+	D+TAvRvH0ZAxGmFwtP3KCkVccVQ9URu0e6TJgkTiQQL1UzDHs7iGAalA2IzvdZ4ttN5iF5ea//t
+	H7ZzEOlwqlwO3/zly+nOPs2mawaUls37TCxKP+XpqkJwdVolULUsulMbmQUZ120eE1+//EE5X/f
+	U91VmV2LjuCdbr7Q7aO5GD1Ux/4qOHJnlyElfUNE4Uj8Kf4FdM7Go3hu18ENQANu5f302DpER+u
+	YV7DvajoRyd8dllZgq0oJ/9YhJs9ToL6i6ciT7IXr1IZiK9pkzaJXqqF9eC1m8wdIyO28h9/qWz
+	W+IP6jWZ5s1TfiEIr/ohRyj0FSIJgnlFI0QXO0DQOT6za0rMUrCKw0InZZNknKNDE3jpb/eU4qi
+	tOJ9XeKIYS5Ry/MIS0ggt55PW/9BEEf1KeygPqwVXtdk/pj
+X-Received: by 2002:a05:690c:ed2:b0:81c:b834:47de with SMTP id
+ 00721157ae682-85d6cdc685dmr51529377b3.18.1787960243599; Fri, 28 Aug 2026
+ 16:37:23 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260814051829.35088-1-jaipaul.cheernam@est.tech>
- <20260822175200.57534-1-jaipaul.cheernam@est.tech> <20260822175200.57534-2-jaipaul.cheernam@est.tech>
- <CAMKF1srbmfWVAsLs0VFn00e9enhEhYjZQwWj21JQ8w3qiuV9eA@mail.gmail.com>
- <CAMKF1soam_e0bWKgqVUde_nG7iMjVwC9fue+5q2h=DJ=FSVMXQ@mail.gmail.com> <f7f7ba2e-3630-4020-9b1d-4ed22169ac72@est.tech>
-In-Reply-To: <f7f7ba2e-3630-4020-9b1d-4ed22169ac72@est.tech>
+References: <DS0PR11MB7901641887C85593E522BD3BE0AC2@DS0PR11MB7901.namprd11.prod.outlook.com>
+In-Reply-To: <DS0PR11MB7901641887C85593E522BD3BE0AC2@DS0PR11MB7901.namprd11.prod.outlook.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 28 Aug 2026 16:31:38 -0700
-X-Gm-Features: AcwNN1WOHBqOQ6CCCHc-y53u_0dpAwVUdicZDX1M0AUbZz7yAXg59dzurZw9EEs
-Message-ID: <CAMKF1squj+t_vtLenobqf_dt608SVgY0CoZgMikor8pDxPuMYg@mail.gmail.com>
-Subject: Re: [OE-core] [RFC v4 1/6] openssl: upgrade 3.5.7 -> 4.0.1
-To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Cc: openembedded-core@lists.openembedded.org, 
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Content-Type: multipart/alternative; boundary="00000000000036fa64065a23dcd8"
+Date: Fri, 28 Aug 2026 16:36:56 -0700
+X-Gm-Features: AcwNN1U3GviyNtGAXx4oC_Ojst8yn7LQDQfDYS4Pv6AwSfwiKJpoDqXMxLhNOfc
+Message-ID: <CAMKF1sqVLefx-rJ_vdBAWqNaLtAjykHKb47EL9jttKfxcmKwcw@mail.gmail.com>
+Subject: Re: clang/llvm 23.1.0 upgrade for oe-core
+To: "Dora, Sunil Kumar" <SunilKumar.Dora@windriver.com>
+Cc: openembedded-core <openembedded-core@lists.openembedded.org>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>, Ross Burton <ross.burton@arm.com>, 
+	"MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
+	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, 
+	"Varatharajan, Deepesh" <Deepesh.Varatharajan@windriver.com>
+Content-Type: multipart/alternative; boundary="000000000000313cfb065a23ef2e"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 23:32:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244619
+ <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 23:37:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244620
 
---00000000000036fa64065a23dcd8
+--000000000000313cfb065a23ef2e
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-Thanks Jaipaul, For dead packages I would rather like a recipe removal
-patches.
+Thanks for working on this Sunil. There are some recipes in meta-oe layers
+which depend on clang e.g. perfetto, bcc etc. would be good to try them out
+as well.
 
-On Thu, Aug 27, 2026 at 5:06=E2=80=AFAM Jaipaul Cheernam <jaipaul.cheernam@=
-est.tech>
-wrote:
+On Fri, Aug 28, 2026 at 9:47=E2=80=AFAM Dora, Sunil Kumar <
+SunilKumar.Dora@windriver.com> wrote:
 
+> Hi all,
 >
-> On 2026-08-23 08:57, Khem Raj wrote:
-> >
-> https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/8474313/raw_inl=
-ine
->   Tested bitbake world -k with OpenSSL 4.0.1 upgrade across
->    meta-oe, meta-networking, meta-python, meta-perl, meta-multimedia,
->    meta-xfce, meta-initramfs, meta-filesystems.
+> I have been working on the clang/llvm upgrade to 23.1.0 for oe-core.
+> It is close to ready and I plan to send the series tomorrow.
 >
->    22 recipes fixed =E2=80=94 patches provided, all with upstream referen=
-ces.
+> What it covers:
 >
->    13 recipes still broken:
+> - clang/llvm 22.1.8 to 23.1.0. The carried LLVM patch stack goes from
+>   41 to 34. Seven are upstream or no longer needed, and three needed
+>   rework for changes in LLVM 23.
+> - spirv-llvm-translator moves to its LLVM 23 branch.
+> - openmp builds through the runtimes entry point, since LLVM 23 removed
+>   the standalone build mode.
+> - rust needs upstream test fixes for LLVM 23, and one change to stop
+>   passing the x86 amx-tf32 feature that LLVM 23 removed.
+> - pango, ovmf, vulkan-samples and gettext need small fixes to build
+>   with clang 23.
+> - a few clang and LLVM tests are added to the exclusion list.
 >
->    ENGINE API removed (needs Provider API rewrite):
+> *Testing:*
+> - oe-selftest on the autobuilder for qemuarm, qemuarm64, qemux86,
+>   qemux86-64 and qemuriscv64. That runs the clang, lld and LLVM test
+>   suites on the target.
+> - clang family, rust and core-image-minimal build from scratch.
+> - The series also passed multilib, testimage, SDK and TOOLCHAIN=3Dclang
+> builds.
 >
->    - imx-cst =E2=80=94 NXP proprietary, no public upstream
->    - extract-cert =E2=80=94 needs Provider API migration
+> I would like to go through the patches once more before posting,
+> So I plan to send the series shortly.
 >
->    Dead/unmaintained upstream:
->
->    - wvstreams/wvdial =E2=80=94 archived 2018, dial-up modem dialer
->    - ntp (classic) =E2=80=94 EOL 2023, recommend chrony
->    - loudmouth =E2=80=94 last activity 2019
->
->    No upstream fix available:
->
->    - ldns =E2=80=94 heavy deprecated API usage (issue #243 open since 202=
-4)
->    - unbound =E2=80=94 upstream PR #1437 attempted, closed
->    - softhsm =E2=80=94 upstream PR #882 in progress
->    - ipmiutil =E2=80=94 no upstream fix found
->    - synergy =E2=80=94 TLS methods removed, repo archived
->    - spdm-emu =E2=80=94 depends on libspdm abstraction
->
->
->    - mercurial =E2=80=94 Python 3.14 + OpenSSL 4.0 reports TLS 1.2 as
-> unavailable (upstream CPython limitation, only Python 3.15 officially
-> supports OpenSSL 4.0)
->
-> https://bugzilla.redhat.com/show_bug.cgi?id=3D2494735
->
-> https://github.com/python/cpython/issues/152709
->
->
->    3 upstream PRs submitted by us: ntopng (merged), thrift, snort3
+> Thanks,
+> Sunil Dora
 >
 
---00000000000036fa64065a23dcd8
+--000000000000313cfb065a23ef2e
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div dir=3D"ltr">Thanks Jaipaul, For dead packages I would rather like a re=
-cipe removal patches.=C2=A0</div><br><div class=3D"gmail_quote gmail_quote_=
-container"><div dir=3D"ltr" class=3D"gmail_attr">On Thu, Aug 27, 2026 at 5:=
-06=E2=80=AFAM Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt; wrote:<br>=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex"><br>
-On 2026-08-23 08:57, Khem Raj wrote:<br>
-&gt; <a href=3D"https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/8=
-474313/raw_inline" rel=3D"noreferrer" target=3D"_blank">https://autobuilder=
-.yoctoproject.org/valkyrie/api/v2/logs/8474313/raw_inline</a><br>
-=C2=A0=C2=A0Tested bitbake world -k with OpenSSL 4.0.1 upgrade across<br>
-=C2=A0=C2=A0 meta-oe, meta-networking, meta-python, meta-perl, meta-multime=
-dia,<br>
-=C2=A0=C2=A0 meta-xfce, meta-initramfs, meta-filesystems.<br>
-<br>
-=C2=A0=C2=A0 22 recipes fixed =E2=80=94 patches provided, all with upstream=
- references.<br>
-<br>
-=C2=A0=C2=A0 13 recipes still broken:<br>
-<br>
-=C2=A0=C2=A0 ENGINE API removed (needs Provider API rewrite):<br>
-<br>
-=C2=A0=C2=A0 - imx-cst =E2=80=94 NXP proprietary, no public upstream<br>
-=C2=A0=C2=A0 - extract-cert =E2=80=94 needs Provider API migration<br>
-<br>
-=C2=A0=C2=A0 Dead/unmaintained upstream:<br>
-<br>
-=C2=A0=C2=A0 - wvstreams/wvdial =E2=80=94 archived 2018, dial-up modem dial=
-er<br>
-=C2=A0=C2=A0 - ntp (classic) =E2=80=94 EOL 2023, recommend chrony<br>
-=C2=A0=C2=A0 - loudmouth =E2=80=94 last activity 2019<br>
-<br>
-=C2=A0=C2=A0 No upstream fix available:<br>
-<br>
-=C2=A0=C2=A0 - ldns =E2=80=94 heavy deprecated API usage (issue #243 open s=
-ince 2024)<br>
-=C2=A0=C2=A0 - unbound =E2=80=94 upstream PR #1437 attempted, closed<br>
-=C2=A0=C2=A0 - softhsm =E2=80=94 upstream PR #882 in progress<br>
-=C2=A0=C2=A0 - ipmiutil =E2=80=94 no upstream fix found<br>
-=C2=A0=C2=A0 - synergy =E2=80=94 TLS methods removed, repo archived<br>
-=C2=A0=C2=A0 - spdm-emu =E2=80=94 depends on libspdm abstraction<br>
-<br>
-<br>
-=C2=A0=C2=A0 - mercurial =E2=80=94 Python 3.14 + OpenSSL 4.0 reports TLS 1.=
-2 as <br>
-unavailable (upstream CPython limitation, only Python 3.15 officially <br>
-supports OpenSSL 4.0)<br>
-<br>
-<a href=3D"https://bugzilla.redhat.com/show_bug.cgi?id=3D2494735" rel=3D"no=
-referrer" target=3D"_blank">https://bugzilla.redhat.com/show_bug.cgi?id=3D2=
-494735</a><br>
-<br>
-<a href=3D"https://github.com/python/cpython/issues/152709" rel=3D"noreferr=
-er" target=3D"_blank">https://github.com/python/cpython/issues/152709</a><b=
-r>
-<br>
-<br>
-=C2=A0=C2=A0 3 upstream PRs submitted by us: ntopng (merged), thrift, snort=
-3<br>
-</blockquote></div>
+<div dir=3D"ltr">Thanks for working=C2=A0on this Sunil. There are some reci=
+pes=C2=A0in meta-oe layers which depend on clang e.g. perfetto, bcc etc. wo=
+uld be good to try them out as well.</div><br><div class=3D"gmail_quote gma=
+il_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Aug 28, 2=
+026 at 9:47=E2=80=AFAM Dora, Sunil Kumar &lt;<a href=3D"mailto:SunilKumar.D=
+ora@windriver.com">SunilKumar.Dora@windriver.com</a>&gt; wrote:<br></div><b=
+lockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-le=
+ft:1px solid rgb(204,204,204);padding-left:1ex"><div class=3D"msg-756807953=
+809251349">
 
---00000000000036fa64065a23dcd8--
+
+
+
+<div dir=3D"ltr">
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+Hi all,</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+I have been working on the clang/llvm upgrade to 23.1.0 for oe-core.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+It is close to ready and I plan to send the series tomorrow.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+What it covers:</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+- clang/llvm 22.1.8 to 23.1.0. The carried LLVM patch stack goes from</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+=C2=A0 41 to 34. Seven are upstream or no longer needed, and three needed</=
+div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+=C2=A0 rework for changes in LLVM 23.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+- spirv-llvm-translator moves to its LLVM 23 branch.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+- openmp builds through the runtimes entry point, since LLVM 23 removed</di=
+v>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+=C2=A0 the standalone build mode.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+- rust needs upstream test fixes for LLVM 23, and one change to stop</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+=C2=A0 passing the x86 amx-tf32 feature that LLVM 23 removed.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+- pango, ovmf, vulkan-samples and gettext need small fixes to build</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+=C2=A0 with clang 23.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+- a few clang and LLVM tests are added to the exclusion list.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+<b>Testing:</b></div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+- oe-selftest on the autobuilder for qemuarm, qemuarm64, qemux86,</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+=C2=A0 qemux86-64 and qemuriscv64. That runs the clang, lld and LLVM test</=
+div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+=C2=A0 suites on the target.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+- clang family, rust and core-image-minimal build from scratch.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+- The series also passed multilib, testimage, SDK and TOOLCHAIN=3Dclang bui=
+lds.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+I would like to go through the patches once more before posting,</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+So I plan to send the series shortly.</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+<br>
+</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+Thanks,</div>
+<div style=3D"font-family:Calibri,Helvetica,sans-serif;font-size:12pt;color=
+:rgb(0,0,0)">
+Sunil Dora</div>
+</div>
+
+</div></blockquote></div>
+
+--000000000000313cfb065a23ef2e--
 
