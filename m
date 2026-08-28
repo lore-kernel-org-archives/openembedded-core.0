@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11447C61DDF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F1DAC61DE5
 	for <webhook@archiver.kernel.org>; Fri, 28 Aug 2026 19:38:22 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3044.1787945895129460032
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3045.1787945896522174595
  for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 12:38:15 -0700
+ Fri, 28 Aug 2026 12:38:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=h0uE6pYB;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49b0dbfbf7bso9384165e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 12:38:14 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=q0530IRe;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49b8be0409fso7570255e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 12:38:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1787945893; x=1788550693; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1787945895; x=1788550695; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=xAUUTRA3iLj33LTCZkbF3UZt4PBrnOd1Nqm6NpLwM8I=;
-        b=h0uE6pYBhmSa6qOlzbznlD7FMO2suiw9OB/nyEZy6R12AE2WxIvL6e1NyCNTggwewA
-         hcDuuaB99GHPuWmOra8U5bo6caxH1D7Joea5ELwUj2Q2T5LKE80eS6ncVGox4l0vQKJp
-         xbcw+g/OdkgX5oNzKO/UaniHKiAGObi0Pk+DE=
+        bh=jn2L15yh9UYOq0GviclYN96jmm6FBKsE+XzP9/Dg9LI=;
+        b=q0530IReFvLgeDSMD0vVa1Rw6bTcW9MF/wMK/+wCjLfLUZGac0RcycPs3ONhBsG6Bt
+         mAccYLz71W+Fcd5AT3LDYLvt5ZunyR6iZyAALnmyLMGLHdAiWVAp+4yYHoyf+3++6uZs
+         DTdHZnRPDtyU833Nh0WaNzqTlVQpUsK2HFHXE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1787945893; x=1788550693;
+        d=1e100.net; s=20251104; t=1787945895; x=1788550695;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=xAUUTRA3iLj33LTCZkbF3UZt4PBrnOd1Nqm6NpLwM8I=;
-        b=dZYrx7snfBKDmi4LXnqdBNYLO3k6lc5AUGDNGxdaKiYeDtgaWqi2oTr5YazNo/Oze8
-         tLcuWbdNVLU+DpJ3fXUVAJ3p3ucX9d1JK7BZBuw/yvufYUrMRrm9VWUXkXDatIdBwvxk
-         6tUrmPW649sJEUP8gn4yUtwnFBUd9WYEgTMPFIEf+8Z70alDoY+2ix3f8jOJHONFjM2T
-         EfWA+nVd5BB5g7Ndg1v4aNn8X9xRLAQbIjlk9nAk/xxxkp2sFQIhGhH9LEz4Ve4o6oeZ
-         KbZJCdOvF071XySWFs/rQotjR2tsXf0XxXYggwBFsRxjMFpsWUNai4Mn3Qn8Zq7LuQ4b
-         cm9Q==
-X-Gm-Message-State: AFuF++mqcmU32+Lj0v6jWgaiDRF08naeYG9NagRtjfzMyRGAtXHedCAx
-	eumJur4ecMbnJmSQKbz8AXAFVavRUmmyJv4Bzys0qDEaH8VoiHMXr90QUg+W4jS2ph/Qt8yl2TF
-	uYnCp918=
-X-Gm-Gg: AR+sD13pMFM4F66RRf548Kl7eEnOGFFSBtq+Xl+42+cE+ZHvhGyDBSknCDHRKuXOhDH
-	5TrcKuQA6E6EBTozgjTnbFWFETfk/Hc0Ztt6E2X6n1iT9xlNrVymMZHKUq4LQv9LxPwz6RGYZ4H
-	GwCy82+dfenVSEyexC9lPtLGHGzZa3G4qgMaYJw9ejyCCzJ7UL2vT7WhRlJ3feb9++W1njAIB9h
-	tkcpq5EWy2NfbxZDX6FmrEEnKl1gv7gXQC9Tk+yV6XIHdprBm5vGSCidiply3hTlm8tK/EvDbw8
-	nOMiQ6bx3zx0J/IRNuO6qQ70GoITwb4Y52ZEMQ5XMPWV1whsu6cN0pHfT8HXdnVmSgCogeMeC9o
-	CO1LcwiUBN9ePyagTZ4eb66sDqXZYrsP1x+A0az63BDK1Loax07XlXmNZgAQl1sDtvNUzMWvUY+
-	QPktjGJoIiJovnWpoRpMyxW3Jlfj9FDpIxLXimkHFKRlLns3pIlJSknmNqo+s+Bu0WkQnlN3tcZ
-	hkWyETsuT6xi7lLLWV0h9pIVlsTil54AP1v1OMykEdlYjbb84Ksm78bA883GEM/j4r47NILWAE7
-X-Received: by 2002:a05:600c:1992:b0:499:593b:a15b with SMTP id 5b1f17b1804b1-49b91c1fc56mr139021035e9.1.1787945893049;
-        Fri, 28 Aug 2026 12:38:13 -0700 (PDT)
+        bh=jn2L15yh9UYOq0GviclYN96jmm6FBKsE+XzP9/Dg9LI=;
+        b=ocRdWnhyU+b4cCphEdFRbJlrWVWCzZCVKoiel+OacgdsmGZeVWtOLS1OobhT9vx+bJ
+         PW2isz/W+3NHNHozcNCA0ztC7iRD08dVZfYDWKAEFL8WnelROy/X4TWFTU4gKqXPqET0
+         c0lQP5AVcpUc4IKmEI2qZaicSMq8rwkKYOdt4HUBKC8VqjRZmjq/GnNw4wsvpE0WsA/x
+         n4QkPdmMnvn3OPXGlb736Ay9PcgXfGiEONlubwhDM5P49Zsg0pY9TJS+A5u0ShkGZu/C
+         E3r8rbYW5KY639yY1vRafz24fvO1iY0p3jyhfQanem20Wm11cJWd7gB83hQjY/ZXdNLE
+         PCzA==
+X-Gm-Message-State: AFuF++nbafA2RP97wVtQ/MW/6JJMlp6VIWKpJTOx7bd97gfx9pb4FB1G
+	0qwCRiqS2xyDAnmkLg932LmNfqKQLINRUZ//L7fmggkqApvUrzUiAiU82USf967HKdqsKYhBJGL
+	ef0Y6Kp0=
+X-Gm-Gg: AR+sD12P2vTbMGsfjbA4OY0dDE9/aDMXAJqVZWqAPM8rFFeg2VP2DYxO4h/iKoZEtMA
+	pL7F0Gp5phFxyxeDdSTIp1P4PEBUkSJ4G99gBxKuIkV8vbVNZGY25hja+5Gf+vhKDf9691B7Bm+
+	cohon+yl89SpsLayohEpkVqClJSddRY1C9SaSIPzFFEw926Ro7UfaaHa4i8iJhdFtudhQpGkK0S
+	R0DpRBc3yRMLRiYeuEqmNg2aXOvT+lCTt93V1lF22DM/NOOkbhEtQAPX0mO+mYeRfuIgxEWBMM0
+	TeE9BufdvnIHoVyTFpHnwpGvmWSGw9mt5q90tv+6BlHULLobMHl5lW3n1pWDaqUhVxMLeuS54mX
+	RyoQMNRRJpvP7C06qogHstiWMGc1yYf3EwBLUPaJN2Eh8IIS5FErTZEufN9ekoBLRffJaTwWP2k
+	L2rp7+9l8mfp9zLkJKakzCZFje0Jkzg4W9iaZPwdD8A0bweB9w9O0GxwhOb2RPeD0MjphsXR5xQ
+	fWCpumJ3SOYFGKRHQ1yMRSgvk6FzMZGCnfRDPEdKrZqAy3PiKvBmpEaTcxK026Y
+X-Received: by 2002:a05:600c:4e86:b0:499:db6d:bc97 with SMTP id 5b1f17b1804b1-49b91bd43a7mr121953565e9.0.1787945894672;
+        Fri, 28 Aug 2026 12:38:14 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm147703115e9.4.2026.08.28.12.38.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm147703115e9.4.2026.08.28.12.38.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 28 Aug 2026 12:38:12 -0700 (PDT)
+        Fri, 28 Aug 2026 12:38:14 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 16/56] vim: Fix for CVE-2026-57453
-Date: Fri, 28 Aug 2026 21:35:26 +0200
-Message-ID: <ecce14863415266aa15f735679bad9723ede7bd5.1787945536.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 19/56] vim: Fix for CVE-2026-57456
+Date: Fri, 28 Aug 2026 21:35:29 +0200
+Message-ID: <4f07a9a705bd681fdd8c17649643c36252d65e5b.1787945536.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1787945536.git.yoann.congal@smile.fr>
 References: <cover.1787945536.git.yoann.congal@smile.fr>
@@ -66,284 +66,179 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 28 Aug 2026 19:38:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244577
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244580
 
 From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 
 Pick the patch from [1], also referenced in the NVD report [2].
 
-[1] https://github.com/vim/vim/commit/b2cc9be119d51212bf0d3f2a99
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-57453
+[1] https://github.com/vim/vim/commit/cce141c42740f122dd8486ae04e21c2a81016ba8
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-57456
 
 Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-57453.patch            | 269 ++++++++++++++++++
+ .../vim/files/CVE-2026-57456.patch            | 164 ++++++++++++++++++
  meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 270 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-57453.patch
+ 2 files changed, 165 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-57456.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-57453.patch b/meta/recipes-support/vim/files/CVE-2026-57453.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-57456.patch b/meta/recipes-support/vim/files/CVE-2026-57456.patch
 new file mode 100644
-index 00000000000..46959d715ac
+index 00000000000..253fff486d5
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-57453.patch
-@@ -0,0 +1,269 @@
-+From e1e4a712cb53b6f674ade81ba1384a37a31f3061 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/vim/files/CVE-2026-57456.patch
+@@ -0,0 +1,164 @@
++From 88a735ff4fa7ff269ba4ca94a44e8cdaefa5df28 Mon Sep 17 00:00:00 2001
 +From: Christian Brabandt <cb@256bit.org>
-+Date: Sat, 20 Jun 2026 15:35:58 +0000
-+Subject: [PATCH] patch 9.2.0678: [security]: potential powershell code
-+ execution in zip.vim
++Date: Sun, 21 Jun 2026 19:50:56 +0000
++Subject: [PATCH] patch 9.2.0699: [security]: possible code execution with
++ python complete
 +
-+Problem:  [security]: potential powershell code execution in zip.vim
-+          (DDugs)
-+Solution: Cleanup zip.vim, introduce PSEscape() to escape() potential powershell code,
-+          use consistent s:Escape() in the various PowerShell functions
++Problem:  [security]: possible code execution with python complete
++          (morningbread)
++Solution: Use repr() to quote the doc strings correctly
 +
 +Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-x5fg-h5w9-9frf
++https://github.com/vim/vim/security/advisories/GHSA-ppj8-wqjf-6fp3
++
++Supported by AI
 +
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/b2cc9be119d51212bf0d3f2a99]
-+CVE: CVE-2026-57453
++Upstream-Status: Backport [https://github.com/vim/vim/commit/cce141c42740f122dd8486ae04e21c2a81016ba8]
++CVE: CVE-2026-57456
 +
 +Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 +---
-+ runtime/autoload/zip.vim | 78 +++++++++++++++++++---------------------
-+ runtime/doc/pi_zip.txt   | 12 +------
-+ src/version.c            |  2 ++
-+ 3 files changed, 39 insertions(+), 53 deletions(-)
++ runtime/autoload/python3complete.vim        |  9 +++++----
++ runtime/autoload/pythoncomplete.vim         |  9 +++++----
++ src/testdir/test_plugin_python3complete.vim | 15 +++++++++++++++
++ src/version.c                               |  2 ++
++ 4 files changed, 27 insertions(+), 8 deletions(-)
 +
-+diff --git a/runtime/autoload/zip.vim b/runtime/autoload/zip.vim
-+index f4482fd7f..8738a7f68 100644
-+--- a/runtime/autoload/zip.vim
-++++ b/runtime/autoload/zip.vim
++diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
++index c4ef19d82..f90cca74b 100644
++--- a/runtime/autoload/python3complete.vim
+++++ b/runtime/autoload/python3complete.vim
++@@ -2,7 +2,7 @@
++ " Maintainer: <vacancy>
++ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
++ " Version: 0.10
++-" Last Updated: 2026 Jun 04
+++" Last Updated: 2026 Jun 21
++ "
++ " Roland Puntaier: this file contains adaptations for python3 and is parallel to pythoncomplete.vim
++ "
 +@@ -22,6 +22,7 @@
-+ " 2026 Mar 08 by Vim Project: Make ZipUpdatePS() check for powershell
-+ " 2026 Apr 01 by Vim Project: Detect more path traversal attacks
-+ " 2026 Apr 05 by Vim Project: Detect more path traversal attacks
-++" 2026 Jun 20 by Vim Project: Fix wrong escaping for the powershell calls
-+ " License:	Vim License  (see vim's :help license)
-+ " Copyright:	Copyright (C) 2005-2019 Charles E. Campbell {{{1
-+ "		Permission is hereby granted to use and distribute this code,
-+@@ -49,15 +50,6 @@ let s:NOTE           = 0
++ "     previous code passed buffer-supplied expressions to exec() which
++ "     Python evaluates at definition time, allowing arbitrary code
++ "     execution via crafted def/class headers
+++"   * use repr() on doc strings to prevent code execution
++ "
++ " v 0.9
++ "   * Fixed docstring parsing for classes and functions
++@@ -335,7 +336,7 @@ class Scope(object):
 + 
-+ " ---------------------------------------------------------------------
-+ "  Global Values: {{{1
-+-if !exists("g:zip_shq")
-+- if &shq != ""
-+-  let g:zip_shq= &shq
-+- elseif has("unix")
-+-  let g:zip_shq= "'"
-+- else
-+-  let g:zip_shq= '"'
-+- endif
-+-endif
-+ if !exists("g:zip_zipcmd")
-+  let g:zip_zipcmd= "zip"
-+ endif
-+@@ -133,7 +125,7 @@ function! s:ZipBrowsePS(zipfile)
-+   " Browse the contents of a zip file using PowerShell's
-+   " Equivalent `unzip -Z1 -- zipfile`
-+   let cmds = [
-+-        \ '$zip = [System.IO.Compression.ZipFile]::OpenRead(' . s:Escape(a:zipfile, 1) . ');',
-++        \ '$zip = [System.IO.Compression.ZipFile]::OpenRead(' . s:PSEscape(a:zipfile) . ');',
-+         \ '$zip.Entries | ForEach-Object { $_.FullName };',
-+         \ '$zip.Dispose()'
-+         \ ]
-+@@ -147,16 +139,16 @@ function! s:ZipReadPS(zipfile, fname, tempfile)
-+     call s:Mess('WarningMsg', "***warning*** PowerShell can display, but cannot update, files in archive subfolders")
-+   endif
-+   let cmds = [
-+-        \ '$zip = [System.IO.Compression.ZipFile]::OpenRead(' . s:Escape(a:zipfile, 1) . ');',
-+-        \ '$fileEntry = $zip.Entries | Where-Object { $_.FullName -eq ' . s:Escape(a:fname, 1) . ' };',
-++        \ '$zip = [System.IO.Compression.ZipFile]::OpenRead(' . s:PSEscape(a:zipfile) . ');',
-++        \ '$fileEntry = $zip.Entries | Where-Object { $_.FullName -eq ' . s:PSEscape(a:fname) . ' };',
-+         \ '$stream = $fileEntry.Open();',
-+-        \ '$fileStream = [System.IO.File]::Create(' . s:Escape(a:tempfile, 1) . ');',
-++        \ '$fileStream = [System.IO.File]::Create(' . s:PSEscape(a:tempfile) . ');',
-+         \ '$stream.CopyTo($fileStream);',
-+         \ '$fileStream.Close();',
-+         \ '$stream.Close();',
-+         \ '$zip.Dispose()'
-+         \ ]
-+-  return 'pwsh -NoProfile -Command ' . s:Escape(join(cmds, ' '), 1)
-++  return 'pwsh -NoProfile -Command ' . s:Escape(join(cmds, ' '))
-+ endfunction
++     def get_code(self):
++         str = ""
++-        if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += repr(self.docstr)+'\n'
++         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
++         for sub in self.subscopes:
++             str += sub.get_code()
++@@ -378,7 +379,7 @@ class Class(Scope):
++                        if _DOTTED_NAME_RE.match(s.strip())]
++         if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
++         str += ':\n'
++-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
++         if len(self.subscopes) > 0:
++             for s in self.subscopes: str += s.get_code()
++         else:
++@@ -401,7 +402,7 @@ class Function(Scope):
++         safe_params = [p for p in safe_params if p]
++         str = "%sdef %s(%s):\n" % \
++             (self.currentindent(),self.name,','.join(safe_params))
++-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
++         str += "%spass\n" % self.childindent()
++         return str
 + 
-+ function! s:ZipUpdatePS(zipfile, fname)
-+@@ -166,7 +158,7 @@ function! s:ZipUpdatePS(zipfile, fname)
-+     call s:Mess('Error', "***error*** PowerShell cannot update files in archive subfolders")
-+     return ':'
-+   endif
-+-  return 'Compress-Archive -Path ' . a:fname . ' -Update -DestinationPath ' . a:zipfile
-++  return 'Compress-Archive -Path ' . s:PSEscape(a:fname) . ' -Update -DestinationPath ' . s:PSEscape(a:zipfile)
-+ endfunction
++diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
++index 39b1efd29..d2f5d57b0 100644
++--- a/runtime/autoload/pythoncomplete.vim
+++++ b/runtime/autoload/pythoncomplete.vim
++@@ -2,7 +2,7 @@
++ " Maintainer: <vacancy>
++ " Previous Maintainer: Aaron Griffin <aaronmgriffin@gmail.com>
++ " Version: 0.10
++-" Last Updated: 2026 Jun 04
+++" Last Updated: 2026 Jun 21
++ "
++ " Changes
++ " TODO:
++@@ -20,6 +20,7 @@
++ "     previous code passed buffer-supplied expressions to exec() which
++ "     Python evaluates at definition time, allowing arbitrary code
++ "     execution via crafted def/class headers
+++"   * use repr() on doc strings to prevent code execution
++ "
++ " v 0.9
++ "   * Fixed docstring parsing for classes and functions
++@@ -350,7 +351,7 @@ class Scope(object):
 + 
-+ function! s:ZipExtractFilePS(zipfile, fname)
-+@@ -177,16 +169,16 @@ function! s:ZipExtractFilePS(zipfile, fname)
-+     return ':'
-+   endif
-+   let cmds = [
-+-        \ '$zip = [System.IO.Compression.ZipFile]::OpenRead(' . s:Escape(a:zipfile, 1) . ');',
-+-        \ '$fileEntry = $zip.Entries | Where-Object { $_.FullName -eq ' . a:fname . ' };',
-++        \ '$zip = [System.IO.Compression.ZipFile]::OpenRead(' . s:PSEscape(a:zipfile) . ');',
-++        \ '$fileEntry = $zip.Entries | Where-Object { $_.FullName -eq ' . s:PSEscape(a:fname) . ' };',
-+         \ '$stream = $fileEntry.Open();',
-+-        \ '$fileStream = [System.IO.File]::Create(' . a:fname . ');',
-++        \ '$fileStream = [System.IO.File]::Create(' . s:PSEscape(a:fname) . ');',
-+         \ '$stream.CopyTo($fileStream);',
-+         \ '$fileStream.Close();',
-+         \ '$stream.Close();',
-+         \ '$zip.Dispose()'
-+         \ ]
-+-  return 'pwsh -NoProfile -Command ' . s:Escape(join(cmds, ' '), 1)
-++  return 'pwsh -NoProfile -Command ' . s:Escape(join(cmds, ' '))
-+ endfunction
++     def get_code(self):
++         str = ""
++-        if len(self.docstr) > 0: str += '"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += repr(self.docstr)+'\n'
++         str += 'class _PyCmplNoType:\n    def __getattr__(self,name):\n        return None\n'
++         for sub in self.subscopes:
++             str += sub.get_code()
++@@ -393,7 +394,7 @@ class Class(Scope):
++                        if _DOTTED_NAME_RE.match(s.strip())]
++         if len(safe_supers) > 0: str += '(%s)' % ','.join(safe_supers)
++         str += ':\n'
++-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
++         if len(self.subscopes) > 0:
++             for s in self.subscopes: str += s.get_code()
++         else:
++@@ -416,7 +417,7 @@ class Function(Scope):
++         safe_params = [p for p in safe_params if p]
++         str = "%sdef %s(%s):\n" % \
++             (self.currentindent(),self.name,','.join(safe_params))
++-        if len(self.docstr) > 0: str += self.childindent()+'"""'+self.docstr+'"""\n'
+++        if len(self.docstr) > 0: str += self.childindent()+repr(self.docstr)+'\n'
++         str += "%spass\n" % self.childindent()
++         return str
 + 
-+ function! s:ZipDeleteFilePS(zipfile, fname)
-+@@ -194,12 +186,12 @@ function! s:ZipDeleteFilePS(zipfile, fname)
-+   " Equivalent to `zip -d zipfile fname`
-+   let cmds = [
-+         \ 'Add-Type -AssemblyName System.IO.Compression.FileSystem;',
-+-        \ '$zip = [System.IO.Compression.ZipFile]::Open(' . s:Escape(a:zipfile, 1) . ', ''Update'');',
-+-        \ '$entry = $zip.Entries | Where-Object { $_.Name -eq ' . s:Escape(a:fname, 1) . ' };',
-++        \ '$zip = [System.IO.Compression.ZipFile]::Open(' . s:PSEscape(a:zipfile) . ', ''Update'');',
-++        \ '$entry = $zip.Entries | Where-Object { $_.Name -eq ' . s:PSEscape(a:fname) . ' };',
-+         \ 'if ($entry) { $entry.Delete(); $zip.Dispose() }',
-+         \ 'else { $zip.Dispose() }'
-+         \ ]
-+-  return 'pwsh -NoProfile -Command ' . s:Escape(join(cmds, ' '), 1)
-++  return 'pwsh -NoProfile -Command ' . s:Escape(join(cmds, ' '))
-+ endfunction
++diff --git a/src/testdir/test_plugin_python3complete.vim b/src/testdir/test_plugin_python3complete.vim
++index e2b0c6616..590348ee4 100644
++--- a/src/testdir/test_plugin_python3complete.vim
+++++ b/src/testdir/test_plugin_python3complete.vim
++@@ -221,4 +221,19 @@ func Test_python3complete_allow_import_on_runs_imports()
++         \ 'g:pythoncomplete_allow_import=1 did not run the buffer import')
++ endfunc
 + 
-+ " ----------------
-+@@ -339,9 +331,9 @@ fun! zip#Read(fname,mode)
-+   let temp = tempname()
-+   let fn   = expand('%:p')
-+ 
-+-  let gnu_cmd = g:zip_unzipcmd . ' -p -- ' . s:Escape(zipfile, 0) . ' ' . s:Escape(fname, 0) . ' > ' . s:Escape(temp, 0)
-+-  let gnu_cmd = 'call system(''' . substitute(gnu_cmd, "'", "''", 'g') . ''')'
-+-  let ps_cmd = 'sil !' . s:ZipReadPS(zipfile, fname, temp)
-++  let gnu_cmd = g:zip_unzipcmd . ' -p -- ' . s:Escape(zipfile) . ' ' . s:Escape(fname) . ' > ' . s:Escape(temp)
-++  let gnu_cmd = 'call system(' . string(gnu_cmd) . ')'
-++  let ps_cmd = 'call system(' . string(s:ZipReadPS(zipfile, fname, temp)) . ')'
-+   call s:TryExecGnuFallBackToPs(g:zip_unzipcmd, gnu_cmd, ps_cmd)
-+ 
-+   sil exe 'keepalt file '.temp
-+@@ -408,9 +400,9 @@ fun! zip#Write(fname)
-+     " TODO: what to check on MS-Windows to avoid writing absolute paths?
-+   endif
-+   if fname =~ '^[.]\{1,2}/'
-+-    let gnu_cmd = g:zip_zipcmd . ' -d ' . s:Escape(fnamemodify(zipfile,":p"),0) . ' ' . s:Escape(fname,0)
-+-    let gnu_cmd = 'call system(''' . substitute(gnu_cmd, "'", "''", 'g') . ''')'
-+-    let ps_cmd = $"call system({s:Escape(s:ZipDeleteFilePS(zipfile, fname), 1)})"
-++    let gnu_cmd = g:zip_zipcmd . ' -d ' . s:Escape(fnamemodify(zipfile,":p")) . ' ' . s:Escape(fname)
-++    let gnu_cmd = 'call system(' . string(gnu_cmd) . ')'
-++    let ps_cmd = $"call system({string(s:ZipDeleteFilePS(zipfile, fname))})"
-+     call s:TryExecGnuFallBackToPs(g:zip_zipcmd, gnu_cmd, ps_cmd)
-+     let fname = fname->substitute('^\([.]\{1,2}/\)\+', '', 'g')
-+     let need_rename = 1
-+@@ -419,7 +411,7 @@ fun! zip#Write(fname)
-+   if fname =~ '/'
-+     let dirpath = substitute(fname,'/[^/]\+$','','e')
-+     if has("win32unix") && executable("cygpath")
-+-    let dirpath = substitute(system("cygpath ".s:Escape(dirpath,0)),'\n','','e')
-++    let dirpath = substitute(system("cygpath ".s:Escape(dirpath)),'\n','','e')
-+     endif
-+     call mkdir(dirpath,"p")
-+   endif
-+@@ -430,16 +422,17 @@ fun! zip#Write(fname)
-+   " don't overwrite files forcefully
-+   exe "w ".fnameescape(fname)
-+   if has("win32unix") && executable("cygpath")
-+-    let zipfile = substitute(system("cygpath ".s:Escape(zipfile,0)),'\n','','e')
-++    let zipfile = substitute(system("cygpath ".s:Escape(zipfile)),'\n','','e')
-+   endif
-+ 
-+   if (has("win32") || has("win95") || has("win64") || has("win16")) && &shell !~? 'sh$'
-+     let fname = substitute(fname, '[', '[[]', 'g')
-+   endif
-+ 
-+-  let gnu_cmd = g:zip_zipcmd . ' -u '. s:Escape(fnamemodify(zipfile,":p"),0) . ' ' . s:Escape(fname,0)
-++  let gnu_cmd = g:zip_zipcmd . ' -u '. s:Escape(fnamemodify(zipfile,":p")) . ' ' . s:Escape(fname)
-+   let gnu_cmd = 'call system(''' . substitute(gnu_cmd, "'", "''", 'g') . ''')'
-+-  let ps_cmd = s:ZipUpdatePS(s:Escape(fnamemodify(zipfile, ':p'), 0), s:Escape(fname, 0))
-++  let zip = fnamemodify(zipfile, ':p')
-++  let ps_cmd = s:ZipUpdatePS(zip, fname)
-+   let ps_cmd = 'call system(''' . substitute(ps_cmd, "'", "''", 'g') . ''')'
-+   call s:TryExecGnuFallBackToPs(g:zip_zipcmd, gnu_cmd, ps_cmd)
-+   if &shell =~ 'pwsh'
-+@@ -522,8 +515,8 @@ fun! zip#Extract()
-+ 
-+   " extract the file mentioned under the cursor
-+   let gnu_cmd = g:zip_extractcmd . ' -o '. shellescape(b:zipfile) . ' ' . target
-+-  let gnu_cmd = 'call system(''' . substitute(gnu_cmd, "'", "''", 'g') . ''')'
-+-  let ps_cmd = $"call system({s:Escape(s:ZipExtractFilePS(b:zipfile, target), 1)})"
-++  let gnu_cmd = 'call system(' . string(gnu_cmd) . ')'
-++  let ps_cmd = 'call system(' . string(s:ZipExtractFilePS(b:zipfile, fname)) . ')'
-+   call s:TryExecGnuFallBackToPs(g:zip_extractcmd, gnu_cmd, ps_cmd)
-+ 
-+   if v:shell_error != 0
-+@@ -537,19 +530,20 @@ endfun
-+ 
-+ " ---------------------------------------------------------------------
-+ " s:Escape: {{{2
-+-fun! s:Escape(fname,isfilt)
-+-  if exists("*shellescape")
-+-   if a:isfilt
-+-    let qnameq= shellescape(a:fname,1)
-+-   else
-+-    let qnameq= shellescape(a:fname)
-+-   endif
-++fun! s:Escape(fname, isfilt = 0)
-++  if a:isfilt
-++   let qnameq = shellescape(a:fname, 1)
-+   else
-+-   let qnameq= g:zip_shq.escape(a:fname,g:zip_shq).g:zip_shq
-++   let qnameq = shellescape(a:fname)
-+   endif
-+   return qnameq
-+ endfun
-+ 
-++" s:PSEscape: Escape a string for Powershell, shellescape() does not work here {{{2
-++fun! s:PSEscape(str)
-++  return "'" .. substitute(a:str, "'", "''", 'g') .. "'"
-++endfun
+++func Test_python3complete_no_exec_via_class_docstring()
+++  " A class-body docstring is emitted verbatim between triple quotes by
+++  " get_code() and runs at class-definition time during exec().  A single-
+++  " quoted source docstring lets an embedded """ survive doc()'s leading/
+++  " trailing quote strip and break out of the generated literal.
+++  let marker = tempname()
+++  call s:CompleteAndExpectNoMarker([
+++        \ 'class Foo:',
+++        \ '    ''x"""+open("' . marker . '", "w").close()+"""y''',
+++        \ '    pass',
+++        \ 'Foo.',
+++        \ ], marker,
+++        \ 'class docstring expression was evaluated during omni-completion')
+++endfunc
 ++
-+ " ---------------------------------------------------------------------
-+ " s:ChgDir: {{{2
-+ fun! s:ChgDir(newdir,errlvl,errmsg)
-+diff --git a/runtime/doc/pi_zip.txt b/runtime/doc/pi_zip.txt
-+index e9294b405..67c37721f 100644
-+--- a/runtime/doc/pi_zip.txt
-++++ b/runtime/doc/pi_zip.txt
-+@@ -1,4 +1,4 @@
-+-*pi_zip.txt*	For Vim version 9.2.  Last change: 2026 Apr 05
-++*pi_zip.txt*	For Vim version 9.2.  Last change: 2026 Jun 20
-+ 
-+ 				+====================+
-+ 				| Zip File Interface |
-+@@ -48,16 +48,6 @@ Copyright: Copyright (C) 2005-2015 Charles E Campbell	 *zip-copyright*
-+    If this variable exists and is true, the file window will not be
-+    automatically maximized when opened.
-+ 
-+-							*g:zip_shq*
-+-   Different operating systems may use one or more shells to execute
-+-   commands.  Zip will try to guess the correct quoting mechanism to
-+-   allow spaces and whatnot in filenames; however, if it is incorrectly
-+-   guessing the quote to use for your setup, you may use >
-+-	g:zip_shq
-+-<   which by default is a single quote under Unix (') and a double quote
-+-   under Windows (").  If you'd rather have no quotes, simply set
-+-   g:zip_shq to the empty string (let g:zip_shq= "") in your <.vimrc>.
-+-
-+ 							*g:zip_unzipcmd*
-+    Use this option to specify the program which does the duty of "unzip".
-+    It's used during browsing. By default: >
++ " vim: shiftwidth=2 sts=2 expandtab
 +diff --git a/src/version.c b/src/version.c
-+index a216b9b01..4d6908426 100644
++index d3b72595f..bf680c656 100644
 +--- a/src/version.c
 ++++ b/src/version.c
 +@@ -734,6 +734,8 @@ static char *(features[]) =
@@ -351,22 +246,22 @@ index 00000000000..46959d715ac
 + static int included_patches[] =
 + {   /* Add new patch number below this line */
 ++/**/
-++    678,
+++    699,
 + /**/
-+     671,
++     698,
 + /**/
 +-- 
 +2.53.0
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 0fc3ae5df08..56a2004899a 100644
+index 8c5a5e88a9c..0f1355f0fcc 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -32,6 +32,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-55693.patch \
-            file://CVE-2026-55895.patch \
-            file://CVE-2026-57451.patch \
-+           file://CVE-2026-57453.patch \
+@@ -35,6 +35,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+            file://CVE-2026-57453.patch \
+            file://CVE-2026-57454.patch \
+            file://CVE-2026-57455.patch \
++           file://CVE-2026-57456.patch \
             "
  
  PV .= ".0340"
