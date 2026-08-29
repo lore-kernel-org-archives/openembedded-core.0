@@ -1,100 +1,97 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D361EC61DBE
-	for <webhook@archiver.kernel.org>; Sat, 29 Aug 2026 05:54:18 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2270.1787982851558254465
- for <openembedded-core@lists.openembedded.org>;
- Fri, 28 Aug 2026 22:54:12 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=c3WGaucA;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 38CB04E41417;
-	Sat, 29 Aug 2026 05:54:09 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id F210F6053C;
-	Sat, 29 Aug 2026 05:54:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7D50811C7809D;
-	Sat, 29 Aug 2026 07:54:03 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1787982844; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=9DxvvUsKA78dWVhBV2Sc4YJ6uglPNXM8R7Oszx+iWB0=;
-	b=c3WGaucADNuPeLAYE/RmwL8vAVhnFBoS8GtrzcP1HFVQ+bWEAvzxzF0gQAcp3LeGX0l1mv
-	JtgLk3F1Hq7bBtjchcUcTN/r7WyzMhUePGoYk9/JJzRs505vQs4o54McfFhAb7PPcg5qZF
-	f0bWVX7MvLjYWUFnh6q+IIrRWgy9s8rEhNxkW+dXORvj1Pfy6BNVRGZWc0goBthczt1uwe
-	QcHoHjT0i+J4Y60IlHUEuG9BdUZQJ+cIzPvveKP7SdlY1lz2xTUNS792s5CCKguoUXyWXN
-	Xjq832pklNbnje6ZsyKpopOO+2ezYLJrO7eEnvrNrr/SEFR+AuRSQll8BNs77A==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sat, 29 Aug 2026 07:54:02 +0200
-Message-Id: <DL170QAQB3WG.3GDWN3BWGJ57R@bootlin.com>
-Subject: Re: [OE-core] [PATCHv3 141/141] boost-asio: Add recipe
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <gustali@axis.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260828115322.936850-1-gustali@axis.com>
-In-Reply-To: <20260828115322.936850-1-gustali@axis.com>
-X-Last-TLS-Session-Version: TLSv1.3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48719C61DD6
+	for <webhook@archiver.kernel.org>; Sat, 29 Aug 2026 06:23:09 +0000 (UTC)
+Subject: Re: clang/llvm 23.1.0 upgrade for oe-core
+To: openembedded-core@lists.openembedded.org
+From: "Dora, Sunil Kumar" <SunilKumar.Dora@windriver.com>
+X-Originating-Location: Bengaluru, Karnataka, IN (106.51.220.149)
+X-Originating-Platform: Windows Chrome 151
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Fri, 28 Aug 2026 23:23:03 -0700
+References: <DS0PR11MB7901641887C85593E522BD3BE0AC2@DS0PR11MB7901.namprd11.prod.outlook.com> <CAMKF1sqVLefx-rJ_vdBAWqNaLtAjykHKb47EL9jttKfxcmKwcw@mail.gmail.com>
+In-Reply-To: <CAMKF1sqVLefx-rJ_vdBAWqNaLtAjykHKb47EL9jttKfxcmKwcw@mail.gmail.com>
+Message-ID: <2894840.1787984583874976123@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="s7SGrc7WgeqOwMEE7zyU"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2026 05:54:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244631
+ <openembedded-core@lists.openembedded.org>; Sat, 29 Aug 2026 06:23:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244632
 
-Hi Gustav,
+--s7SGrc7WgeqOwMEE7zyU
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-On Fri Aug 28, 2026 at 1:53 PM CEST, Gustav Lindberg via lists.openembedded=
-.org wrote:
-> This is needed to build boost asio as a shared library rather than a
-> header-only library, which is needed to save memory.
->
-> Signed-off-by: Gustav Lindberg <gustali@axis.com>
-> ---
->  .../boost/boost-asio/boost_asio.cpp           |  1 +
->  .../boost/boost-asio_1.90.0.bb                | 31 +++++++++++++++++++
->  2 files changed, 32 insertions(+)
->  create mode 100644 meta/recipes-support/boost/boost-asio/boost_asio.cpp
->  create mode 100644 meta/recipes-support/boost/boost-asio_1.90.0.bb
->
-> diff --git a/meta/recipes-support/boost/boost-asio/boost_asio.cpp b/meta/=
-recipes-support/boost/boost-asio/boost_asio.cpp
-> new file mode 100644
-> index 0000000000..bf00c8ff26
-> --- /dev/null
-> +++ b/meta/recipes-support/boost/boost-asio/boost_asio.cpp
-> @@ -0,0 +1 @@
-> +#include <boost/asio/impl/src.hpp>
-> diff --git a/meta/recipes-support/boost/boost-asio_1.90.0.bb b/meta/recip=
-es-support/boost/boost-asio_1.90.0.bb
-> new file mode 100644
-> index 0000000000..9630d99e42
-> --- /dev/null
-> +++ b/meta/recipes-support/boost/boost-asio_1.90.0.bb
-> @@ -0,0 +1,31 @@
-> +SUMMARY =3D "Boost.Asio shared library shim"
-> +DESCRIPTION =3D "Builds libboost_asio as a shared library from boost/asi=
-o/impl/src.hpp"
-> +HOMEPAGE =3D "https://www.boost.org/doc/libs/1_90_0/doc/html/boost_asio.=
-html"
-> +
-> +DEPENDS =3D "boost"
-> +
-> +# Reuse Boost source and licensing metadata.
-> +require recipes-support/boost/boost-${PV}.inc
+Hi Khem,
 
-Currently we have a boost-1.92.0.in file, so this will fail.
+I tested the meta-oe layers against the clang/llvm 23.1.0 series, both loca=
+lly and on the autobuilder (meta-oe builder, build 1754).
+
+Two recipes need fixing. I have sent patches for both to openembedded-devel=
+:
+
+*castxml* Clang 23 renamed ASTContext::getRawCommentForDeclNoCache to
+getRawCommentNoCache.
+*bcc* LLVM 23 changed the MCContext constructor to take MCAsmInfo,
+MCRegisterInfo and MCSubtargetInfo by reference rather than
+by pointer.
+
+Both are already fixed upstream but the fixes are not in a release yet, and=
+ meta-oe is on the newest tag of both,
+so the patches are backports. Both upstream fixes are guarded on LLVM_VERSI=
+ON_MAJOR, so older Clang keeps working.
+
+perfetto builds fine, and so does include-what-you-use.
+
+xdp-tools fails at its check_abi step with TOOLCHAIN=3Dclang, but it fails =
+the same way with clang 22.1.8, so it is not caused by the upgrade. I have =
+not sent anything for it.
+
+The autobuilder run also shows krb5, redis, tailscale and doxygen failing. =
+None of them depends on clang or llvm, and they fail with gcc as well. Most=
+ of the error output in that run is vboxguestdrivers basehash non-determini=
+sm, which does not fail any task.
 
 Thanks,
-Mathieu
+Sunil
 
---=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+--s7SGrc7WgeqOwMEE7zyU
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
+<div>
+<p>Hi Khem,</p>
+<p>I tested the meta-oe layers against the clang/llvm 23.1.0 series, both l=
+ocally and on the autobuilder (meta-oe builder, build 1754).</p>
+<p>Two recipes need fixing. I have sent patches for both to openembedded-de=
+vel:</p>
+<p><strong>castxml&nbsp; </strong>Clang 23 renamed ASTContext::getRawCommen=
+tForDeclNoCache to<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &n=
+bsp;getRawCommentNoCache.<br /><strong>bcc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </=
+strong>LLVM 23 changed the MCContext constructor to take MCAsmInfo,<br />&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; MCRegisterInfo a=
+nd MCSubtargetInfo by reference rather than<br />&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; by pointer.</p>
+<p>&nbsp;</p>
+<p>Both are already fixed upstream but the fixes are not in a release yet, =
+and meta-oe is on the newest tag of both, <br />so the patches are backport=
+s. Both upstream fixes are guarded on LLVM_VERSION_MAJOR, so older Clang ke=
+eps working.</p>
+<p>perfetto builds fine, and so does include-what-you-use.</p>
+<p>xdp-tools fails at its check_abi step with TOOLCHAIN=3Dclang, but it fai=
+ls the same way with clang 22.1.8, so it is not caused by the upgrade. I ha=
+ve not sent anything for it.</p>
+<p>The autobuilder run also shows krb5, redis, tailscale and doxygen failin=
+g. None of them depends on clang or llvm, and they fail with gcc as well. M=
+ost of the error output in that run is vboxguestdrivers basehash non-determ=
+inism, which does not fail any task.</p>
+<p>&nbsp;</p>
+<p>Thanks,<br />Sunil</p>
+</div>
+
+--s7SGrc7WgeqOwMEE7zyU--
 
