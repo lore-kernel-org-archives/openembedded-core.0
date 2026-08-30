@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5163C624A4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DACF6C624C8
 	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 21:49:26 +0000 (UTC)
 Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17273.1788126560348587257
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.17272.1788126560348529425
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 14:49:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=KMmDK5nW;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202608302149180d856f9c8f00020704-xzd_2u@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202608302149180d856f9c8f00020704
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=TFaXRv3x;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-20260830214918c08e2d5981000207fa-agxiz8@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260830214918c08e2d5981000207fa
         for <openembedded-core@lists.openembedded.org>;
         Sun, 30 Aug 2026 23:49:18 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=TjpKwxplJ65szEK4WRHX/4jOzQfhjUMVS3QU3vc4uxY=;
- b=KMmDK5nWQBjZ2rvVRtNPoJejUWuDG5tZuqxRAmM3dzWoF/7fv8vRHSoH+0JnaeOXym5Wch
- jP63V+oDAdHQMjCslFpn2O222O2ecTGmUhyxigz9idMTX5+fCXp+9xoSDGcPhfutwwFv0+cC
- 0maIc+YvglZy6orGE9I7CnMevVg6398ljYdVqDp8Nq8aoZBsCWk6PIrRuEoifA+xYcsyOyoE
- UHZoEEjYNORi6tkLeDYsfU4HWyZGAsf9uk0W4KDQQ361aSKKQ4icbHTjB8T3EeQTKfpJEzI6
- NfoZzd2+0XldqsO+1v4WyBbeyZR8k6e5u/wWeQraErzdHiUDQcRkvWKQ==;
+ bh=sJL9z5lLHIaYHjR3mz6+bPb/FbjdXIuxt7Wy0AVgJkA=;
+ b=TFaXRv3xNb4IYfIhL0R7zH0niCnokfIZ5gyfqQlp21QIjLgbDJr5WgJRBXQU4zxd+g71E3
+ zD44OL+9TCtFDvC/mE6HFOWA6nBH+vgm0j1VY5S51eag8xoE9MPLg+r8hmZlX6nG14xZyljw
+ L6Npb5fJ9cqEbNFyW6eTZ89DmybL/PiZ74Hgb3CiqZ7WY0IL0B7Gn2SraEtqS6Lx7VR7X3od
+ YBv4yOUsVqu0AGG4ihK9UwYlXxrRkm4EPZ4xaGLUKEw47sppIXK+WZ6/KaKsfOenCx5YBzlG
+ R2vDFBUO021JInZS2Y7OFXXcByqeR59/eoo1aYDZ6BCtGpc1OAL08wpw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 16/25] runqemu-export-rootfs: refactor in Python
-Date: Sun, 30 Aug 2026 23:48:38 +0200
-Message-ID: <20260830214912.1346063-17-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 11/25] devtool: deploy-target: add --package/--file-glob filters
+Date: Sun, 30 Aug 2026 23:48:33 +0200
+Message-ID: <20260830214912.1346063-12-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 References: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,296 +39,273 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 21:49:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244715
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244712
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Move the userspace NFS export lifecycle into the reusable runqemu helper
-module while preserving the existing command interface.
+Allow deploying only a subset of a recipe's installed files instead of
+always sending the whole do_install output. This can be crucial when a
+recipe's PACKAGES include additional content (e.g. -doc, -staticdev, or
+optional extras) that does not even fit into the target device's
+storage/memory; it also speeds up deployment significantly by avoiding
+the transfer of files that are not actually needed for testing on the
+target.
 
-AI-Generated: Uses GitHub Copilot
+- --package PACKAGE filters the deployed files down to those listed in
+  that package's FILES variable.
+- --file-glob GLOB filters by an arbitrary glob pattern on the installed
+  path. --package and --file-glob combine as a union when both are given.
+
+Examples:
+  devtool deploy-target mdadm root@target
+      deploy everything (minus -dbg/-src/-staticdev, see above)
+  devtool deploy-target mdadm root@target --package mdadm-doc
+      deploy only the mdadm-doc package's files
+  devtool deploy-target mdadm root@target --package mdadm,mdadm-doc
+      deploy the main and -doc packages together
+  devtool deploy-target mdadm root@target --file-glob '/usr/bin/*'
+      deploy only files under /usr/bin
+  devtool ide-sdk mdadm cmake-example core-image-minimal \
+      --package "mdadm:,-doc" --package "cmake-example:,-doc"
+      scope each --package entry to its own recipe when several
+      modified recipes are targeted at once
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/runqemu_utils.py  | 122 ++++++++++++++++++++++++++++++++
- scripts/runqemu-export-rootfs | 126 ++--------------------------------
- 2 files changed, 128 insertions(+), 120 deletions(-)
+ scripts/lib/devtool/deploy.py | 161 ++++++++++++++++++++++++++++++++--
+ 1 file changed, 155 insertions(+), 6 deletions(-)
 
-diff --git a/scripts/lib/runqemu_utils.py b/scripts/lib/runqemu_utils.py
-index dff0ca8d3a..c36e30d76b 100644
---- a/scripts/lib/runqemu_utils.py
-+++ b/scripts/lib/runqemu_utils.py
-@@ -7,6 +7,7 @@
- """Extract and export rootfs tarballs for NFS booting."""
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index 35ec0b1b4d..267d124415 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -17,6 +17,7 @@ import tempfile
+ import bb.utils
+ import argparse_oe
+ import oe.types
++import oe.package
  
- import os
-+import signal
- import subprocess
- import sys
+ from devtool import exec_fakeroot_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
  
-@@ -122,3 +123,124 @@ def extract_sdk_main(argv=None):
-         print('Error: %s' % exc)
-         return 1
-     return 0
+@@ -137,6 +138,92 @@ def _prepare_remote_script(deploy, destdir='/', verbose=False, dryrun=False, und
+ 
+     return '\n'.join(lines)
+ 
++def parse_file_globs_arg(entries, recipename=None):
++    """Flatten --file-glob entries ("[RECIPE:]GLOB") into glob patterns for recipename.
 +
++    E.g. ["other:/usr/bin/*", "/etc/*"] with recipename="myrecipe" -> ["/etc/*"].
++    """
++    globs = []
++    for entry in entries or []:
++        recipe, spec = entry.split(':', 1) if ':' in entry else (None, entry)
++        if recipe is not None and recipename is not None and recipe != recipename:
++            continue
++        if spec:
++            globs.append(spec)
++    return globs
 +
-+_NFS_ACTIONS = ('start', 'stop', 'restart')
++def _match_deploy_files(recipe_outdir, file_globs, recipename=None):
++    """Match file_globs (FILES-variable-style patterns) against recipe_outdir.
 +
++    Returns the matched files (relative to recipe_outdir), or None if no glob
++    applies to recipename.
++    """
++    file_globs = parse_file_globs_arg(file_globs, recipename)
++    if not file_globs:
++        return None
++    cwd = os.getcwd()
++    os.chdir(recipe_outdir)
++    try:
++        matched, _ = oe.package.files_from_filevars(file_globs)
++    finally:
++        os.chdir(cwd)
++    return {os.path.normpath(f) for f in matched}
 +
-+def _nfs_paths(instance):
-+    state_dir = os.path.join(os.path.expanduser('~'), '.runqemu-sdk')
-+    os.makedirs(state_dir, exist_ok=True)
-+    return {
-+        'exports': os.path.join(state_dir, 'exports%s' % instance),
-+        'nfs_pid': os.path.join(state_dir, 'nfs%s.pid' % instance),
-+    }
++def parse_packages_arg(entries, recipename=None):
++    """Flatten --package entries ("[RECIPE:]PKG[,PKG...]") into package names.
 +
++    E.g. with recipename="myrecipe": "myrecipe:,-doc,-ptest" ->
++    ["myrecipe", "myrecipe-doc", "myrecipe-ptest"]; "other:foo" -> [].
++    """
++    packages = []
++    for entry in entries or []:
++        recipe, spec = entry.split(':', 1) if ':' in entry else (None, entry)
++        if recipe is not None and recipename is not None and recipe != recipename:
++            continue
++        for item in spec.split(','):
++            if not item:
++                if recipe is not None:
++                    packages.append(recipe)
++            elif item.startswith('-'):
++                if recipe is None:
++                    raise DevtoolError('Package suffix "%s" requires a "RECIPE:" prefix, '
++                                    'e.g. "RECIPE:%s"' % (item, item))
++                packages.append(recipe + item)
++            else:
++                packages.append(item)
++    return packages
 +
-+def _nfs_ports(instance):
-+    nfs_port = int(os.environ.get('NFSD_PORT', 3049 + 2 * instance))
-+    mount_port = int(os.environ.get('MOUNTD_PORT', 3048 + 2 * instance))
-+    return nfs_port, mount_port
++def is_default_excluded_package(pkg):
++    """True for packages left out of a deploy"""
++    return pkg.endswith(('-dbg', '-src', '-staticdev'))
 +
++def _match_package_files(recipe_outdir, packages_files, packages, recipename=None):
++    """Resolve packages (see parse_packages_arg) into their files under recipe_outdir."""
++    packages = parse_packages_arg(packages, recipename)
++    all_package_names = [pkg for pkg, _ in packages_files]
++    for pkg in packages:
++        if pkg not in all_package_names:
++            raise DevtoolError('Package "%s" is not one of the packages produced '
++                            'by this recipe (PACKAGES: %s)' % (pkg, ' '.join(all_package_names)))
++    cwd = os.getcwd()
++    os.chdir(recipe_outdir)
++    try:
++        seen = set()
++        result = set() if packages else None
++        default_excluded = set()
++        for pkg, files_var in packages_files:
++            matched, _ = oe.package.files_from_filevars((files_var or '').split())
++            matched = {os.path.normpath(f) for f in matched} - seen
++            seen |= matched
++            if pkg in packages:
++                if result is not None:
++                    result |= matched
++            elif is_default_excluded_package(pkg):
++                default_excluded |= matched
++    finally:
++        os.chdir(cwd)
++    return result, default_excluded
 +
-+def _export_usage():
-+    return 'Usage: %s {%s} <nfs-export-dir>' % (
-+        sys.argv[0], '|'.join(_NFS_ACTIONS))
+ def deploy(args, config, basepath, workspace):
+     """Entry point for the devtool 'deploy' subcommand"""
+     import oe.utils
+@@ -160,14 +247,15 @@ def deploy(args, config, basepath, workspace):
+         max_process = oe.utils.get_bb_number_threads(rd)
+         fakerootcmd = rd.getVar('FAKEROOTCMD')
+         fakerootenv = rd.getVar('FAKEROOTENV')
++        packages_files = [(pkg, rd.getVar('FILES:' + pkg) or '')
++                        for pkg in (rd.getVar('PACKAGES') or '').split()]
+     finally:
+         tinfoil.shutdown()
+ 
+-    return deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args)
++    return deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args, file_globs=args.file_globs, packages_files=packages_files)
+ 
+-def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args):
++def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args, file_globs=None, packages_files=None):
+     import math
+-    import oe.package
+ 
+     try:
+         host, destdir = args.target.split(':')
+@@ -208,11 +296,35 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
+         if ret != 0:
+             raise DevtoolError('Failed to strip files for deployment')
+ 
++    allowed_files = None
++    default_excluded_files = set()
++    file_sets = []
++    if file_globs:
++        deploy_files = _match_deploy_files(recipe_outdir, file_globs, getattr(args, 'recipename', None))
++        if deploy_files is not None:
++            file_sets.append(deploy_files)
++    if packages_files:
++        package_files, default_excluded_files = _match_package_files(recipe_outdir, packages_files, getattr(args, 'package', None),
++                                            getattr(args, 'recipename', None))
++        if package_files is not None:
++            file_sets.append(package_files)
++    if file_sets:
++        allowed_files = set().union(*file_sets)
 +
+     filelist = []
++    tar_relpaths = []
+     inodes = set({})
+     ftotalsize = 0
+     for root, _, files in os.walk(recipe_outdir):
+         for fn in files:
++            relpath = os.path.normpath(os.path.join(os.path.relpath(root, recipe_outdir), fn))
++            if allowed_files is not None:
++                if relpath not in allowed_files:
++                    continue
++            elif relpath in default_excluded_files:
++                # No explicit --package/--file-glob filter was given: still leave
++                # out packages like -staticdev that aren't needed on a live target.
++                continue
+             fstat = os.lstat(os.path.join(root, fn))
+             # Get the size in kiB (since we'll be comparing it to the output of du -k)
+             # MUST use lstat() here not stat() or getfilesize() since we don't want to
+@@ -226,6 +338,12 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
+             # The path as it would appear on the target
+             fpath = os.path.join(destdir, os.path.relpath(root, recipe_outdir), fn)
+             filelist.append((fpath, fsize))
++            tar_relpaths.append(relpath)
 +
-+def export_rootfs(action, rootfs_dir):
-+    """Start, stop, or restart the userspace NFS server for *rootfs_dir*."""
-+    if action not in _NFS_ACTIONS:
-+        raise RunQemuRootfsError("Unknown command '%s'" % action)
-+    if not os.path.isdir(rootfs_dir):
-+        raise RunQemuRootfsError("'%s' does not exist" % rootfs_dir)
-+
-+    rootfs_dir = os.path.realpath(rootfs_dir)
-+    state_dir = pseudo_state_dir(rootfs_dir)
-+    if not os.path.isdir(state_dir):
-+        raise RunQemuRootfsError(
-+            '%s does not exist.\n'
-+            'Did you create the export directory using runqemu-extract-sdk?' % state_dir)
-+
-+    if action == 'restart':
-+        export_rootfs('stop', rootfs_dir)
-+        return export_rootfs('start', rootfs_dir)
-+
-+    instance = int(os.environ.get('NFS_INSTANCE', '0'))
-+    paths = _nfs_paths(instance)
-+    if action == 'stop':
-+        if os.path.exists(paths['nfs_pid']):
-+            print('Stopping rpc.nfsd')
-+            with open(paths['nfs_pid']) as pid_file:
-+                pid = pid_file.read().strip()
-+            try:
-+                os.kill(int(pid), signal.SIGTERM)
-+            except (ValueError, ProcessLookupError):
-+                # A stale PID file must not stop the cleanup below.
-+                print('rpc.nfsd is not running')
-+            os.unlink(paths['nfs_pid'])
++    if allowed_files is not None and not filelist:
++        raise DevtoolError('No files to deploy for %s - the --package/--file-glob '
++                        'filter(s) did not match any of the files installed by this '
++                        'recipe.' % args.recipename)
+ 
+     if args.dry_run:
+         print('Files to be deployed for %s on target %s:' % (args.recipename, args.target))
+@@ -282,8 +400,28 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
+     finally:
+         shutil.rmtree(tmpdir)
+ 
+-    # Now run the script
+-    ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, 'tar cf - . | %s  %s %s %s \'sh %s %s %s %s\'' % (ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
++    # Now run the script. When a package/glob filter narrowed down filelist,
++    # tar is given an explicit list of relative paths (-T) instead of packing
++    # the whole recipe_outdir tree.
++    tar_filelist_path = None
++    try:
++        if allowed_files is not None:
++            tar_fd, tar_filelist_path = tempfile.mkstemp(prefix='devtool-deploy-filelist-')
++            with os.fdopen(tar_fd, 'w') as f:
++                for relpath in tar_relpaths:
++                    # './' prefix matches what 'tar cf - .' itself would produce, which
++                    # the remote script's manifest handling (sed "s!^./!$2!") relies on.
++                    f.write('./' + relpath + '\n')
++            tar_cmd = 'tar cf - -T %s' % shlex.quote(tar_filelist_path)
 +        else:
-+            print('No PID file, not stopping rpc.nfsd')
-+        if os.path.exists(paths['exports']):
-+            print('Removing exports file')
-+            os.unlink(paths['exports'])
-+        return
-+
-+    environment = native_environment()
-+    native_sysroot = environment.get('OECORE_NATIVE_SYSROOT')
-+    pseudo = environment.get('PSEUDO')
-+    if not native_sysroot or not pseudo:
-+        raise RunQemuRootfsError('qemu-helper-native did not provide pseudo')
-+
-+    unfsd = os.path.join(native_sysroot, 'usr', 'bin', 'unfsd')
-+    if not os.path.exists(unfsd):
-+        raise RunQemuRootfsError(
-+            'Unable to find unfsd binary in %s/usr/bin/\n'
-+            "This shouldn't happen - something is missing from your toolchain installation"
-+            % native_sysroot)
-+
-+    nfs_port, mount_port = _nfs_ports(instance)
-+    environment['PSEUDO_LOCALSTATEDIR'] = state_dir
-+    with open(paths['exports'], 'w') as exports_file:
-+        exports_file.write('%s (rw,no_root_squash,no_all_squash,insecure)\n' % rootfs_dir)
-+
-+    command = [pseudo, '-P', os.path.join(native_sysroot, 'usr'), unfsd,
-+               '-p', '-i', paths['nfs_pid'], '-e', paths['exports'],
-+               '-n', str(nfs_port), '-m', str(mount_port)]
-+    print('Creating exports file...')
-+    print('Starting User Mode nfsd')
-+    print('  %s' % ' '.join(command))
-+    try:
-+        subprocess.run(command, env=environment, check=True)
-+    except subprocess.CalledProcessError as exc:
-+        raise RunQemuRootfsError('Error starting nfsd') from exc
-+
-+    if not os.path.exists(paths['nfs_pid']):
-+        raise RunQemuRootfsError('rpc.nfsd did not start correctly')
-+    with open(paths['nfs_pid']) as pid_file:
-+        try:
-+            os.kill(int(pid_file.read()), 0)
-+        except OSError as exc:
-+            raise RunQemuRootfsError('rpc.nfsd did not start correctly') from exc
-+
-+    print('')
-+    print('On your target please remember to add the following options for NFS')
-+    print('nfsroot=IP_ADDRESS:%s,nfsvers=3,port=%s,udp,mountport=%s' %
-+          (rootfs_dir, nfs_port, mount_port))
-+
-+
-+def export_rootfs_main(argv=None):
-+    argv = sys.argv[1:] if argv is None else argv
-+    if len(argv) != 2:
-+        print(_export_usage())
-+        return 1
-+    if argv[0] not in _NFS_ACTIONS:
-+        print("Unknown command '%s'" % argv[0])
-+        print(_export_usage())
-+        return 1
-+    try:
-+        export_rootfs(*argv)
-+    except RunQemuRootfsError as exc:
-+        print('Error: %s' % exc)
-+        return 1
-+    return 0
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index 6a8acd0d5a..dde364d37e 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -1,127 +1,13 @@
--#!/bin/bash
--#
--# Copyright (c) 2005-2009 Wind River Systems, Inc.
-+#!/usr/bin/env python3
- #
- # SPDX-License-Identifier: GPL-2.0-only
--#
++            tar_cmd = 'tar cf - .'
++        remote_cmd = '%s | %s  %s %s %s \'sh %s %s %s %s\'' % (
++            tar_cmd, ssh_sshexec, ssh_port, extraoptions, args.target,
++            tmpscript, args.recipename, destdir, tmpfilelist)
++        ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, remote_cmd, cwd=recipe_outdir, shell=True)
++    finally:
++        if tar_filelist_path:
++            os.remove(tar_filelist_path)
+     if ret != 0:
+         raise DevtoolError('Deploy failed - rerun with -s to get a complete '
+                         'error message')
+@@ -362,7 +500,7 @@ def register_commands(subparsers, context):
  
--usage() {
--	echo "Usage: $0 {start|stop|restart} <nfs-export-dir>"
--}
-+import os
-+import sys
+     parser_deploy = subparsers.add_parser('deploy-target',
+                                           help='Deploy recipe output files to live target machine',
+-                                          description='Deploys a recipe\'s build output (i.e. the output of the do_install task) to a live target machine over ssh. By default, any existing files will be preserved instead of being overwritten and will be restored if you run devtool undeploy-target. Note: this only deploys the recipe itself and not any runtime dependencies, so it is assumed that those have been installed on the target beforehand.',
++                                          description='Deploys a recipe\'s build output (i.e. the output of the do_install task) to a live target machine over ssh. By default, any existing files will be preserved instead of being overwritten and will be restored if you run devtool undeploy-target. Note: this only deploys the recipe itself and not any runtime dependencies, so it is assumed that those have been installed on the target beforehand. Use --package/--file-glob to deploy only a subset of the recipe\'s installed files.',
+                                           group='testbuild')
+     parser_deploy.add_argument('recipename', help='Recipe to deploy')
+     parser_deploy.add_argument('target', help='Live target machine running an ssh server: user@hostname[:destdir]')
+@@ -375,6 +513,17 @@ def register_commands(subparsers, context):
+     parser_deploy.add_argument('-P', '--port', help='Specify port to use for connection to the target')
+     parser_deploy.add_argument('-I', '--key',
+                                help='Specify ssh private key for connection to the target')
++    parser_deploy.add_argument('--package', action='append', metavar='PACKAGE',
++                               help='Only deploy files belonging to PACKAGE, as defined by that '
++                                    'package\'s FILES variable in the recipe metadata. May be a '
++                                    'comma-separated list and/or specified multiple times to '
++                                    'include several packages. May be prefixed with "RECIPE:" (must '
++                                    'match RECIPENAME), e.g. "RECIPE:,-doc,-ptest" is short for '
++                                    '"RECIPE,RECIPE-doc,RECIPE-ptest".')
++    parser_deploy.add_argument('--file-glob', action='append', dest='file_globs', metavar='GLOB',
++                               help='Only deploy files whose installed path matches this glob '
++                                    'pattern (e.g. "/usr/bin/*" or "${bindir}/myprog"). May be '
++                                    'specified multiple times. Combined with --package if both are given.')
  
--if [ $# != 2 ]; then
--	usage
--	exit 1
--fi
-+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
- 
--if [[ "$1" != "start" && "$1" != "stop" && "$1" != "restart" ]]; then
--	echo "Unknown command '$1'"
--	usage
--	exit 1
--fi
-+from runqemu_utils import export_rootfs_main
- 
--if [ ! -d "$2" ]; then
--	echo "Error: '$2' does not exist"
--	usage
--	exit 1
--fi
--# Ensure the nfs-export-dir is an absolute path
--NFS_EXPORT_DIR=$(cd "$2" && pwd)
- 
--SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
--if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
--	echo "Error: Unable to find the oe-find-native-sysroot script"
--	echo "Did you forget to source your build environment setup script?"
--	exit 1
--fi
--. $SYSROOT_SETUP_SCRIPT qemu-helper-native
--
--if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/unfsd" ]; then
--	echo "Error: Unable to find unfsd binary in $OECORE_NATIVE_SYSROOT/usr/bin/"
--
--	echo "This shouldn't happen - something is missing from your toolchain installation"
--	exit 1
--fi
--
--if [ ! -d ~/.runqemu-sdk ]; then
--	mkdir -p ~/.runqemu-sdk
--fi
--
--NFS_INSTANCE=${NFS_INSTANCE:=0}
--EXPORTS=~/.runqemu-sdk/exports$NFS_INSTANCE
--RMTAB=~/.runqemu-sdk/rmtab$NFS_INSTANCE
--NFSPID=~/.runqemu-sdk/nfs$NFS_INSTANCE.pid
--MOUNTPID=~/.runqemu-sdk/mount$NFS_INSTANCE.pid
--
--PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
--PSEUDO_LOCALSTATEDIR="$NFS_EXPORT_DIR/../$(basename $NFS_EXPORT_DIR).pseudo_state"
--export PSEUDO_LOCALSTATEDIR
--
--if [ ! -d "$PSEUDO_LOCALSTATEDIR" ]; then
--	echo "Error: $PSEUDO_LOCALSTATEDIR does not exist."
--	echo "Did you create the export directory using runqemu-extract-sdk?"
--	exit 1	
--fi
--
--# NFS server port number
--NFSD_PORT=${NFSD_PORT:=$[ 3049 + 2 * $NFS_INSTANCE ]}
--# mountd port number
--MOUNTD_PORT=${MOUNTD_PORT:=$[ 3048 + 2 * $NFS_INSTANCE ]}
--
--## For debugging you would additionally add
--## --debug all
--UNFSD_OPTS="-p -i $NFSPID -e $EXPORTS -n $NFSD_PORT -m $MOUNTD_PORT"
--
--# See how we were called.
--case "$1" in
--  start)
--	echo "Creating exports file..."
--	echo "$NFS_EXPORT_DIR (rw,no_root_squash,no_all_squash,insecure)" > $EXPORTS
--
--	echo "Starting User Mode nfsd"
--	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/bin/unfsd $UNFSD_OPTS"
--	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/bin/unfsd $UNFSD_OPTS
--	if [ ! $? = 0 ]; then
--		echo "Error starting nfsd"
--		exit 1
--	fi
--	# Check to make sure everything started ok.
--	if [ ! -f $NFSPID ]; then
--		echo "rpc.nfsd did not start correctly"
--		exit 1
--	fi
--	ps -fp `cat $NFSPID` > /dev/null 2> /dev/null
--	if [ ! $? = 0 ]; then
--		echo "rpc.nfsd did not start correctly"
--		exit 1
--	fi
--	echo " "
--	echo "On your target please remember to add the following options for NFS"
--	echo "nfsroot=IP_ADDRESS:$NFS_EXPORT_DIR,nfsvers=3,port=$NFSD_PORT,udp,mountport=$MOUNTD_PORT"
--	;;
--  stop)
--	if [ -f "$NFSPID" ]; then
--		echo "Stopping rpc.nfsd"
--		kill `cat $NFSPID`
--		rm -f $NFSPID
--	else
--		echo "No PID file, not stopping rpc.nfsd"
--	fi
--	if [ -f "$EXPORTS" ]; then
--		echo "Removing exports file"
--		rm -f $EXPORTS
--	fi
--	;;
--  restart)
--	$0 stop $NFS_EXPORT_DIR
--	$0 start $NFS_EXPORT_DIR 
--	if [ ! $? = 0 ]; then
--		exit 1
--	fi
--	;;
--  *)
--	echo "$0 {start|stop|restart} <nfs-export-dir>"
--	;;
--esac
--
--exit 0
-+sys.exit(export_rootfs_main())
+     strip_opts = parser_deploy.add_mutually_exclusive_group(required=False)
+     strip_opts.add_argument('-S', '--strip',
 -- 
 2.55.0
 
