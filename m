@@ -1,139 +1,220 @@
-Return-Path: <chris.laplante@agilent.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 123F2C61DDE
-	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:17:02 +0000 (UTC)
-Received: from SA9PR02CU001.outbound.protection.outlook.com (SA9PR02CU001.outbound.protection.outlook.com [40.93.196.22])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9225.1788099418650221702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A874C61DD9
+	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:29:52 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9427.1788100183422661276
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2026 07:16:58 -0700
+ Sun, 30 Aug 2026 07:29:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@agilent.com header.s=selector1 header.b=TZkytoCD;
- spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: agilent.com, ip: 40.93.196.22, mailfrom: chris.laplante@agilent.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=S/9o6PBKmhgj+mGy1Z5AFIXK2jJjKQyVIvJavFz97RknBmR+TigYjIkG77dJoq4+9CUgnfhTfocTrU204XNetV9heDXN+ETHGJp0EQMEE7pj0ah+w5Huo+yRpPgs8BhwKC0wdszfbhLtbmOOEELiPkKQuEcn0fO5Ja1g7uP/JB1VxNh1GCExl/6V77fNaZVWnwjRYsfLDA842W5Xcnkq6gv3CIBlv9BzFQLxBqV28DBNGv7o6wE72lVG3SBVIaT7Q6ftXbFdqQ/25OXQyU5Q6Y8WTYgzgbZ8E99aco3KV/FYXaH16L/H+yK2K/CSV/CH71yfZ47j4QK7URHRRs5Uww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Q0aMtuTiR9naBI29VQkAkfIB81fIHqbVfoCefgj8zIk=;
- b=gWJnIe5yJPbXAVAgNjoD9M6Z7IH7sFQ7mGgE/eANHoygAx8Y6rj4xrykC0nMWtXL8pVb5PhRyPeRRpm7Ww8N98Ta7IHlqODMoAvPWzIlkJYZxkvVXbOmJUkQNFMr9AKidz6L/r14+QEb/RNVYHSxtUHkr6McnVWOEV/+Hgos4BEqZJ9cF5HNqJzPALr7GILp1TfeTrh0KCNvEQhetjDjvRRSGpPvxeUPXClx3VQOX9jRA8iYpyXNzQuOf/1uyqmC5nN7tZxM3/s5k1hpaYsQxaTbHJC5XMhiFOxuemk6WP8NtqA88e4U2JJBUghtyI3/86aXfEPcCEoN8P7HlAzv6w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.25.218.39) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=agilent.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=agilent.com; dkim=none (message not signed); arc=none
- (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=agilent.com;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Q0aMtuTiR9naBI29VQkAkfIB81fIHqbVfoCefgj8zIk=;
- b=TZkytoCD0WyiwHEB1TtpHYO2+xU32/bO5rPXYfK4jpFbwGCgUX32/1LG4DY/Y0wtvqeEUasURsS9rkAn8az1eNkMR6HUGNwtjplYDwe5yKBgM7XlvsOMy6BRPpbSFISLI5A3mQMkBA7zoQc83gtVLrYXuM6nMlwcuRN9mSnAYG4qAB+nUn5HzxEJcO/pUkVOsTKo7nzup+j0IWhUyy1lVAkBS8i3UmT9YJ+OWVmTqu8RkCGef+kX+tGeJ3O355LRjd6aagMcqTuMwuZu19dWl0H7Bf8yQ86744T6hm10Vacp2UvSbG4VvNJg6eCKGq/laKF4nC6uoCRb8T3+qnqsmw==
-Received: from CH2PR14CA0004.namprd14.prod.outlook.com (2603:10b6:610:60::14)
- by SN7PR12MB6672.namprd12.prod.outlook.com (2603:10b6:806:26c::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.8; Sun, 30 Aug
- 2026 14:16:54 +0000
-Received: from CH1PEPF0000AD81.namprd04.prod.outlook.com
- (2603:10b6:610:60:cafe::3f) by CH2PR14CA0004.outlook.office365.com
- (2603:10b6:610:60::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.13 via Frontend Transport; Sun,
- 30 Aug 2026 14:16:53 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.25.218.39)
- smtp.mailfrom=agilent.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=agilent.com;
-Received-SPF: Pass (protection.outlook.com: domain of agilent.com designates
- 192.25.218.39 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.25.218.39; helo=wpcosapexchedg6.windmz.agilent.com; pr=C
-Received: from wpcosapexchedg6.windmz.agilent.com (192.25.218.39) by
- CH1PEPF0000AD81.mail.protection.outlook.com (10.167.244.89) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Sun, 30 Aug 2026 14:16:53 +0000
-Received: from laplante-B650.lfs.agilent.com (192.25.126.4) by
- edgeappmail.agilent.com (192.25.218.39) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.41; Sun, 30 Aug 2026 08:16:48 -0600
-From: <chris.laplante@agilent.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Chris Laplante <chris.laplante@agilent.com>
-Subject: [PATCH v2] oeqa/selftest/bbtests: tweak test_git_unpack_nonetwork_fail to support bb.fetch2/bb.fetch
-Date: Sun, 30 Aug 2026 10:15:50 -0400
-Message-ID: <20260830141549.8956-2-chris.laplante@agilent.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=efLB+vi5;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-202608301429426e79cd1381000207f9-svua4o@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202608301429426e79cd1381000207f9
+        for <openembedded-core@lists.openembedded.org>;
+        Sun, 30 Aug 2026 16:29:42 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=cjV+f23McuxXialyiT814EX6HwKpUdJOhcJDq1JQiv4=;
+ b=efLB+vi5wFXy+9niHrvXXfqxK6Ju0Jw7AIVn7ObwuAsaMCJUr0tgVBj7fZRfD7eR9BVvfg
+ WfoxfoEYTpAVczvZQQRwpIeYz+ZK7oNoBoQ2VnznSg3HccsPUQOl+4vUZAk1T7es2RhOoy7L
+ c+Jr7SRDJNvfI1OG5vLJmo9oecNLy9v7Gi0Vj5BxBFrx1oIgr2RiKTECm34s7cX4ukXB6ppC
+ VQn9WJYu31rEPKpyAqjoDsMnvrGIjKX8njkvozwVTLWaM/LbOU7OxO2iMgj34v5t/j/pkazI
+ DfnscT7bRuNA1VqRMBw3+9JWFFanVLF+/ylM/jtMDNXSMB81E+c/Yi7w==;
+From: AdrianF <adrian.freihofer@siemens.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH 18/24] devtool: deploy-target: allow deploying directly into a local rootfs
+Date: Sun, 30 Aug 2026 16:28:45 +0200
+Message-ID: <20260830142922.17241-19-adrian.freihofer@siemens.com>
+In-Reply-To: <20260830142922.17241-1-adrian.freihofer@siemens.com>
+References: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: CH1PEPF0000AD81:EE_|SN7PR12MB6672:EE_
-X-MS-Office365-Filtering-Correlation-Id: b8fa0e6e-e507-47d3-5aa2-08df06a1578f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|376014|1800799024|10067099003|3023799007|18002099003|11063799006|56012099006|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	K0VjpTMHZT2/jtG08FzMFlkQChExcGcc5USAJw9hjuraHA0tZurchlSu4cpXOgYc9lFdA3/kp6Tt9vD3X1MT7s4tE7gY4UPguSXv4yddb3+IdTMYrGFqI+tYh0vNoSrXxNmpRw6UndrGgd5dXz74IjUM3mSLwMfJLzCanhAv4g4FEHz3TAzYq7wIvgizxPgYVi6XqgSVBACJrMGYdVK4o08wkSEAT5GhyIRv0JwZMe3PnG6r5gIWnz6O8/pCVHqQBmmiTl3+dG9q7eBU5C3gwazkMHVjUSJ+TD0bGbIyy64UGhV99D6M6tq+eHcjHZRvsUmeaXIL3Y7Kqc/tR60jRr3WzFPXH86Z+2VuIMGRtEt8ueBwS3Lq0yFWdwk6HpjORlb+jg/atYLKvG46wzOaM57CEP5wJ5jZW6CtjsczmPGyTrI4BuG5m/2ib8D6h/gxELMn8oILDcqOvh3u6wCFIpwclQJV48WZCIe7RBaDifL3tBU4rkQpHLl+s6b/m7aY8ewr7fCqEuA6FBkOkN14sKM1FH4VY/s0ZL/20lQBGWJNmaSviFX6Stc2YYPYw0wEaU6K17aWzk7CR6EsnDTnGJMBwVmEJG1ZqS2MjdQqGjmIRRFDqE0dVsXcixo6FkWJrP0cukjOSc+h/w9BmEpC3g==
-X-Forefront-Antispam-Report: 
-	CIP:192.25.218.39;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:wpcosapexchedg6.windmz.agilent.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(376014)(1800799024)(10067099003)(3023799007)(18002099003)(11063799006)(56012099006)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	VL1JNVrBorDcgVtFalP5fotsyPahb2QaKsrRUM+e8JH3rvUlvs2FKXdqlDwrsIgzWrPoTC8b6IFE41MCQnV68fWu7Qa9+BjBeE62C3+bd6I6N18worbLFLyBiFerTclm2I3fJpXKoUj9JMD0iAkEwRkTxnkoxOoX4u5MB6tcU6HF2FFG8ySN+6lkD3XfUYGuggvv0i6JwJuLRGQnRgHVx50xgK6lgKcNneJDkfqedBn4bHKDAx28as2O42SVeDjf6RA7p1e2udU3V6HPky3RTpH0neZ1i5nT0zgirWQ5MfAUMmDpiWOvg5a4HTaYiPlfS7xloLSplPcgulGP+si6uYnjgctC1L3icwJUGlXKkhVVDITAP2+tfZWhqdTTQBvpwXdqKvZje0u1An/kGxVWHeGVihy4JbjODZGfLm03MztAF/nXgRplHkSMmxmASWh1
-X-OriginatorOrg: agilent.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Aug 2026 14:16:53.7395
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b8fa0e6e-e507-47d3-5aa2-08df06a1578f
-X-MS-Exchange-CrossTenant-Id: a9c0bc09-8b46-4206-9351-2ba12fb4a5c0
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=a9c0bc09-8b46-4206-9351-2ba12fb4a5c0;Ip=[192.25.218.39];Helo=[wpcosapexchedg6.windmz.agilent.com]
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: TreatMessagesAsInternal-CH1PEPF0000AD81.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR12MB6672
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:17:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244658
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:29:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244682
 
-From: Chris Laplante <chris.laplante@agilent.com>
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-BitBake is renaming bb.fetch2 to bb.fetch, but the existing srcrev test
-looks for bb.fetch2.get_srcrev() in the assertion. Change the regex to
-match either fetch or fetch2.
+Accept an absolute path as the deploy-target "target" argument to copy
+files directly into a local pseudo-managed rootfs directory (e.g. one
+extracted by 'devtool ide-sdk --nfs' for NFS booting), instead of
+always requiring an ssh connection.
 
-This avoids https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/bui=
-lds/4744/steps/17/logs/errors
+Deploying over ssh to the target would also work for an NFS-mounted
+rootfs, but that means dealing with the target's IP address and sshd
+port, which is way more cumbersome than just passing a local path.
+Copying the files in directly is also faster, since it avoids the
+network/ssh round trip entirely.
 
-Signed-off-by: Chris Laplante <chris.laplante@agilent.com>
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/bbtests.py | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ scripts/lib/devtool/deploy.py | 113 +++++++++++++++++++++++++++++++---
+ 1 file changed, 106 insertions(+), 7 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/bbtests.py b/meta/lib/oeqa/selfte=
-st/cases/bbtests.py
-index 860f499269..519d96d4b4 100644
---- a/meta/lib/oeqa/selftest/cases/bbtests.py
-+++ b/meta/lib/oeqa/selftest/cases/bbtests.py
-@@ -365,7 +365,9 @@ require conf/distro/include/no-gplv3.inc
-         self.write_config("DISTROOVERRIDES .=3D \":gitunpack-enable-recipe=
-\"")
-=20
-         result =3D bitbake('gitunpackoffline-fail -c fetch', ignore_status=
-=3DTrue)
--        self.assertTrue(re.search("Recipe uses a floating tag/branch .* fo=
-r repo .* without a fixed SRCREV yet doesn't call bb.fetch2.get_srcrev()", =
-result.output), msg =3D "Recipe without PV set to SRCPV should have failed:=
- %s" % result.output)
-+        # Match either 'bb.fetch2.get_srcrev()' or 'bb.fetch.get_srcrev()'=
- in the
-+        # error message, in preparation for bb.fetch2 =3D> bb.fetch migrat=
-ion in BitBake.
-+        self.assertTrue(re.search("Recipe uses a floating tag/branch .* fo=
-r repo .* without a fixed SRCREV yet doesn't call bb.fetch2?.get_srcrev()",=
- result.output), msg =3D "Recipe without PV set to SRCPV should have failed=
-: %s" % result.output)
-=20
-     def test_unexpanded_variable_in_path(self):
-         """
---=20
-2.43.0
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index a4fd83d305..88c6e383a0 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -20,6 +20,7 @@ import oe.types
+ import oe.package
+ 
+ from devtool import exec_fakeroot_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
++from runqemu_utils import native_environment, pseudo_state_dir
+ 
+ logger = logging.getLogger('devtool')
+ 
+@@ -254,6 +255,85 @@ def deploy(args, config, basepath, workspace):
+ 
+     return deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args, file_globs=args.file_globs, packages_files=packages_files)
+ 
++def _deploy_local(args, target_dir, filelist, ftotalsize, tar_relpaths, allowed_files,
++                fakerootcmd, fakerootenv, path, recipe_outdir):
++    """Copy files directly into target_dir instead of over ssh/scp.
++
++    target_dir is expected to be a pseudo-managed rootfs previously extracted
++    on the host, e.g. by runqemu-extract-sdk or 'devtool ide-sdk --nfs' for a
++    target device or QEMU instance that NFS-mounts it.
++    """
++    if not os.path.isdir(target_dir):
++        raise DevtoolError('Target directory %s does not exist' % target_dir)
++    state_dir = pseudo_state_dir(target_dir)
++    if not os.path.isdir(state_dir):
++        raise DevtoolError(
++            '%s does not exist - %s does not look like a pseudo-managed rootfs '
++            '(e.g. one extracted by devtool ide-sdk --nfs).' % (state_dir, target_dir))
++
++    environment = native_environment()
++    pseudo = environment.get('PSEUDO')
++    native_sysroot = environment.get('OECORE_NATIVE_SYSROOT')
++    if not pseudo or not native_sysroot:
++        raise DevtoolError('qemu-helper-native did not provide pseudo')
++
++    if not args.no_check_space:
++        freespace = shutil.disk_usage(target_dir).free // 1024
++        if ftotalsize > freespace:
++            raise DevtoolError('Deploy failed - insufficient space on target '
++                            '(available %d, needed %d)' % (freespace, ftotalsize))
++
++    # destdir is target_dir itself: the script writes directly into the
++    # local pseudo-managed rootfs directory, not into the real filesystem root.
++    destdir = target_dir
++    shellscript = _prepare_remote_script(deploy=True,
++                                        destdir=destdir,
++                                        verbose=args.show_status,
++                                        nopreserve=args.no_preserve,
++                                        nocheckspace=True)
++
++    tmpdir = tempfile.mkdtemp(prefix='devtool')
++    tar_filelist_path = None
++    try:
++        script_path = os.path.join(tmpdir, 'devtool_deploy.sh')
++        with open(script_path, 'w') as f:
++            f.write(shellscript)
++        filelist_path = os.path.join(tmpdir, 'devtool_deploy.list')
++        with open(filelist_path, 'w') as f:
++            f.write('%d\n' % ftotalsize)
++            for fpath, fsize in filelist:
++                f.write('%s %d\n' % (fpath, fsize))
++
++        if allowed_files is not None:
++            tar_fd, tar_filelist_path = tempfile.mkstemp(prefix='devtool-deploy-filelist-')
++            with os.fdopen(tar_fd, 'w') as f:
++                for relpath in tar_relpaths:
++                    f.write('./' + relpath + '\n')
++            tar_cmd = 'tar cf - -T %s' % shlex.quote(tar_filelist_path)
++        else:
++            tar_cmd = 'tar cf - .'
++
++        # The extraction side needs its own pseudo session (with different database) than the recipe's own.
++        extract_cmd = 'PSEUDO_LOCALSTATEDIR=%s PSEUDO_INCLUDE_PATHS=%s %s -P %s sh %s %s %s %s' % (
++            shlex.quote(state_dir), shlex.quote(destdir), shlex.quote(pseudo),
++            shlex.quote(os.path.join(native_sysroot, 'usr')),
++            shlex.quote(script_path), shlex.quote(args.recipename),
++            shlex.quote(destdir), shlex.quote(filelist_path))
++        ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path,
++                                '%s | %s' % (tar_cmd, extract_cmd),
++                                cwd=recipe_outdir, shell=True)
++    finally:
++        if tar_filelist_path:
++            os.remove(tar_filelist_path)
++        shutil.rmtree(tmpdir)
++
++    if ret != 0:
++        raise DevtoolError('Deploy failed - rerun with -s to get a complete '
++                        'error message')
++
++    logger.info('Successfully deployed %s to %s' % (recipe_outdir, target_dir))
++    return 0
++
+ def _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files,
+                 fakerootcmd, fakerootenv, path, recipe_outdir):
+     """Copy files to target_dir over ssh/scp (user@hostname[:destdir])."""
+@@ -342,12 +422,16 @@ def _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files
+ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args, file_globs=None, packages_files=None):
+     import math
+ 
+-    try:
+-        host, destdir = args.target.split(':')
+-    except ValueError:
+-        destdir = '/'
++    if os.path.isabs(args.target):
++        # A local pseudo-managed rootfs directory (e.g. NFS-exported)
++        destdir = os.path.realpath(args.target)
+     else:
+-        args.target = host
++        try:
++            host, destdir = args.target.split(':')
++        except ValueError:
++            destdir = '/'
++        else:
++            args.target = host
+     if not destdir.endswith('/'):
+         destdir += '/'
+ 
+@@ -436,6 +520,12 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
+             print('  %s' % item)
+         return 0
+ 
++    if os.path.isabs(args.target):
++        # A local directory (e.g. an NFS-exported rootfs) rather than a
++        # user@host ssh target: copy the files in directly, no network needed.
++        return _deploy_local(args, os.path.realpath(args.target), filelist, ftotalsize, tar_relpaths,
++                            allowed_files, fakerootcmd, fakerootenv, path, recipe_outdir)
++
+     return _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths,
+                         allowed_files, fakerootcmd, fakerootenv, path, recipe_outdir)
+ 
+@@ -503,10 +593,19 @@ def register_commands(subparsers, context):
+ 
+     parser_deploy = subparsers.add_parser('deploy-target',
+                                           help='Deploy recipe output files to live target machine',
+-                                          description='Deploys a recipe\'s build output (i.e. the output of the do_install task) to a live target machine over ssh. By default, any existing files will be preserved instead of being overwritten and will be restored if you run devtool undeploy-target. Note: this only deploys the recipe itself and not any runtime dependencies, so it is assumed that those have been installed on the target beforehand. Use --package/--file-glob to deploy only a subset of the recipe\'s installed files.',
++                                          description='Deploys a recipe\'s build output (i.e. the output of '
++                                                      'the do_install task) to a live target machine over ssh, '
++                                                      'or directly into a local pseudo-managed rootfs directory '
++                                                      '(e.g. one extracted for NFS booting). Existing files are '
++                                                      'preserved by default and restored by devtool '
++                                                      'undeploy-target. Only the recipe itself is deployed, not '
++                                                      'its runtime dependencies. Use --package/--file-glob to '
++                                                      'deploy only a subset of the recipe\'s installed files.',
+                                           group='testbuild')
+     parser_deploy.add_argument('recipename', help='Recipe to deploy')
+-    parser_deploy.add_argument('target', help='Live target machine running an ssh server: user@hostname[:destdir]')
++    parser_deploy.add_argument('target', help='Live target machine running an ssh server: user@hostname[:destdir]. '
++                               'Alternatively, an absolute path to a local pseudo-managed rootfs directory '
++                               '(e.g. one extracted by devtool ide-sdk --nfs) to copy the files into directly, without ssh.')
+     parser_deploy.add_argument('-c', '--no-host-check', help='Disable ssh host key checking', action='store_true')
+     parser_deploy.add_argument('-s', '--show-status', help='Show progress/status output', action='store_true')
+     parser_deploy.add_argument('-n', '--dry-run', help='List files to be deployed only', action='store_true')
+-- 
+2.55.0
 
 
