@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A713CC61DFB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE87C61DF1
 	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:29:53 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9451.1788100183423090784
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9452.1788100183423549590
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 07:29:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=gS57/z4j;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-20260830142940a2dbff4d3600020776-gporln@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260830142940a2dbff4d3600020776
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=KBdLNn2q;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-2026083014294149620e0f8000020791-ua86qh@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2026083014294149620e0f8000020791
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 30 Aug 2026 16:29:40 +0200
+        Sun, 30 Aug 2026 16:29:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=O74ILPKjsMtLZF35PvGlc+SYG3LTRheACCWsCJMwFXk=;
- b=gS57/z4ja/Fh+//48ct1BmczLTMQlnY+zNSwvMcr3CESZ8srnN58D1rGIBQ1sr46x+Hto3
- kCoOyqV6BbFlrJs1v18+AENSOIcQVAP4mLR2hWdJD/dK5ISQ7QmD5CBw6aop75TuHhPma5KZ
- kIN8USWGWrPjoSzKYzHg2Y7vYH7aHssVSwbff9jBKMl2MDXNxshfkSIQCz94VUgT3ftymlGg
- OJwOT8IiIAooKoBBKl1N1yweugbbpLh1OO2zSG2n+UOxawSVZouPQwFSRIFKL2iJJN4vnNlS
- lfm8bU46uNG5Ccd6m2rGQU3ZKTDS+Yqp0yF203xYnDZjwJRn6FCg7yKg==;
+ bh=zapn1ATaEPuLk0BjjMDJRIZsVJtdMIz1iekdlLb+m+U=;
+ b=KBdLNn2q0Cbnx35EUfpOFnSTb0krRzN5nzLS6sxK2WsM3ZfrKf9xdNuwkts3bfNjD9jxjt
+ cuJbEzIqWWocamxPwlnqQoTk/xV+7VCXz/pt4tjGjDmX/DB294amylH6lj4uqQrBG7L8UDtF
+ je5R+JYZvfOA6xolPfIkKx/pJU3r+KyvMb37TsqCwODDU5cp1TztyjD2kfcpC/rj95gneMg0
+ WF48d3k0uJAzILDoEhIgDJ7L8A1IlaTjtvm91xL4U+BJaWjVZ4jKvC6yUIyoS39PxYvU9Pw/
+ aO/q8NIwhl2BwNXtM+vr4lF3+8qa+GzYGY0fIj/4FaloBFyulWjIk8Bw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 03/24] devtool: ide-sdk: VSCode IntelliSense for rootfs-dbg sources
-Date: Sun, 30 Aug 2026 16:28:30 +0200
-Message-ID: <20260830142922.17241-4-adrian.freihofer@siemens.com>
+Subject: [PATCH 15/24] runqemu-extract-sdk: refactor in Python
+Date: Sun, 30 Aug 2026 16:28:42 +0200
+Message-ID: <20260830142922.17241-16-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 References: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,167 +39,288 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:29:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244678
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244677
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Add includePath fallback entries to c_cpp_properties.json pointing at
-recipe-sysroot/usr/include and rootfs-dbg/usr/src/debug, so the C/C++
-extension can resolve symbols in other recipes' sources whenever they
-are opened from rootfs-dbg, e.g. while stepping into them with the
-debugger.
+Move the pseudo-backed rootfs extraction logic into a reusable Python
+module while preserving the existing command interface.
+Install the module with qemu-helper so the wrapper also works from an SDK.
 
-Also widen files.readonlyInclude from just the recipe's sysroots to
-the whole TMPDIR: more robust, since it also covers oe-workdir, rootfs,
-and other generated content reachable from the workspace. oe-logs and
-oe-workdir are kept visible in the VSCode explorer instead of being
-hidden via files.exclude, so build logs and temp scripts can still be
-browsed, while staying out of the file watcher/indexer and read-only.
+AI-Generated: Uses GitHub Copilot
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py     |  8 ++--
- scripts/lib/devtool/ide_plugins/ide_code.py | 44 +++++++++++++++------
- scripts/lib/devtool/ide_sdk.py              |  2 +
- 3 files changed, 38 insertions(+), 16 deletions(-)
+ .../qemu/nativesdk-qemu-helper_1.0.bb         |   3 +
+ scripts/lib/runqemu_utils.py                  | 124 ++++++++++++++++++
+ scripts/runqemu-extract-sdk                   | 103 +--------------
+ 3 files changed, 133 insertions(+), 97 deletions(-)
+ create mode 100644 scripts/lib/runqemu_utils.py
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 7c989f9dc2..c0df13b718 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -3945,11 +3945,11 @@ class DevtoolIdeSdkKernelTests(DevtoolIdeSdkTests):
-                          os.path.join(tempdir, 'Makefile'),
-                          'makefilePath should point to the Makefile in the source tree')
+diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+index e1f343989a..16fc07fadf 100644
+--- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
++++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+@@ -9,6 +9,7 @@ RDEPENDS:${PN} = "nativesdk-qemu nativesdk-unfs3 nativesdk-pseudo \
+ LIC_FILES_CHKSUM = "file://${COREBASE}/scripts/runqemu;beginline=5;endline=10;md5=ac2b489a58739c7628a2604698db5e7f"
  
--        # Verify kernel sources are set read-only
-+        # Verify kernel sources (under TMPDIR) are set read-only
-+        tmpdir = get_bb_var('TMPDIR', recipe_name)
-         readonly_includes = settings_d.get('files.readonlyInclude', {})
--        self.assertTrue(
--            any(k for k in readonly_includes if 'staging_kernel' in k.lower() or 'linux' in k.lower()),
--            'Kernel staging dir should be set read-only in files.readonlyInclude: %s' % readonly_includes)
-+        self.assertIn(os.path.realpath(tmpdir) + '/**', readonly_includes,
-+                     'TMPDIR should be set read-only in files.readonlyInclude: %s' % readonly_includes)
- 
-         # Verify the cross-build environment is exported for the terminal
-         self.assertIn('terminal.integrated.env.linux', settings_d,
-diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
-index 1a8a79f623..5abf0492e8 100644
---- a/scripts/lib/devtool/ide_plugins/ide_code.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -205,9 +205,6 @@ class IdeVSCode(IdeBase):
-         settings_dict["files.watcherExclude"].update(files_excludes_kernel)
-         settings_dict["python.analysis.exclude"] += kernel_exclude_patterns
- 
--        # protect the kernel sources
--        settings_dict["files.readonlyInclude"][modified_recipe.staging_kernel_dir + '/**'] = True
--
-         # Export the complete cross-build environment
-         settings_dict["terminal.integrated.env.linux"] = modified_recipe.exported_vars
- 
-@@ -232,12 +229,15 @@ class IdeVSCode(IdeBase):
-         ]
- 
-     def vscode_settings(self, modified_recipe, image_recipe):
--        files_excludes = {
-+        files_hide = {
-             "**/.git/**": True,
--            "**/oe-logs/**": True,
--            "**/oe-workdir/**": True,
-             "**/source-date-epoch/**": True
-         }
-+        files_watcher_exclude = dict(files_hide)
-+        files_watcher_exclude.update({
-+            "**/oe-logs/**": True,
-+            "**/oe-workdir/**": True,
-+        })
-         python_exclude = [
-             "**/.git/**",
-             "**/oe-logs/**",
-@@ -245,14 +245,16 @@ class IdeVSCode(IdeBase):
-             "**/source-date-epoch/**"
-         ]
-         files_readonly = {
--            modified_recipe.recipe_sysroot + '/**': True,
--            modified_recipe.recipe_sysroot_native + '/**': True,
-+            modified_recipe.tmpdir + '/**': True,
-+            "**/oe-logs/**": True,
-+            "**/oe-workdir/**": True,
-         }
-         if image_recipe.rootfs_dbg is not None:
-             files_readonly[image_recipe.rootfs_dbg + '/**'] = True
-         settings_dict = {
--            "files.watcherExclude": files_excludes,
--            "files.exclude": files_excludes,
-+            "files.watcherExclude": files_watcher_exclude,
-+            "files.exclude": files_hide,
-+            "search.exclude": dict(files_watcher_exclude),
-             "files.readonlyInclude": files_readonly,
-             "python.analysis.exclude": python_exclude
-         }
-@@ -287,7 +289,7 @@ class IdeVSCode(IdeBase):
-         IdeBase.update_json_file(
-             self.dot_code_dir(modified_recipe), extensions_file, {"recommendations": recommendations})
- 
--    def vscode_c_cpp_properties(self, modified_recipe):
-+    def vscode_c_cpp_properties(self, modified_recipe, image_recipe):
-         properties_dict = {
-             "name": modified_recipe.recipe_id_pretty,
-         }
-@@ -322,6 +324,24 @@ class IdeVSCode(IdeBase):
-         else:  # no C/C++ build
-             return
- 
-+        # configurationProvider/compileCommands only cover the recipe under
-+        # development. Add includePath as a fallback so the C/C++ extension
-+        # also resolves symbols in other recipes sources found in rootfs-dbg.
-+        if image_recipe.rootfs_dbg is not None:
-+            recipe_sysroot_include = os.path.join(modified_recipe.recipe_sysroot, "usr", "include")
-+            # rootfs_dbg/usr/include is empty, target headers come from recipe-sysroot,
-+            # consistent with the GDB sourceFileMap for "/usr/include".
-+            rootfs_dbg_src_debug = os.path.join(image_recipe.rootfs_dbg, "usr", "src", "debug")
-+            include_path = properties_dict.get("includePath", ["${workspaceFolder}/**"])
-+            for path in (recipe_sysroot_include, rootfs_dbg_src_debug + "/**"):
-+                if path not in include_path:
-+                    include_path.append(path)
-+            properties_dict["includePath"] = include_path
-+            # That's the default, but make it easy to change if a big index is preferred.
-+            properties_dict["browse"] = {
-+                "limitSymbolsToIncludedHeaders": True
-+            }
+ SRC_URI = "file://${COREBASE}/scripts/runqemu \
++           file://${COREBASE}/scripts/lib/runqemu_utils.py \
+            file://${COREBASE}/scripts/runqemu-addptable2image \
+            file://${COREBASE}/scripts/runqemu-gen-tapdevs \
+            file://${COREBASE}/scripts/runqemu-ifup \
+@@ -30,4 +31,6 @@ do_install() {
+ 	install -d ${D}${bindir}
+ 	install -m 0755 ${S}${COREBASE}/scripts/oe-* ${D}${bindir}/
+ 	install -m 0755 ${S}${COREBASE}/scripts/runqemu* ${D}${bindir}/
++	# The runqemu-* wrappers import this module from their own directory.
++	install -m 0644 ${S}${COREBASE}/scripts/lib/runqemu_utils.py ${D}${bindir}/
+ }
+diff --git a/scripts/lib/runqemu_utils.py b/scripts/lib/runqemu_utils.py
+new file mode 100644
+index 0000000000..dff0ca8d3a
+--- /dev/null
++++ b/scripts/lib/runqemu_utils.py
+@@ -0,0 +1,124 @@
++#!/usr/bin/env python3
++#
++# Helpers shared by runqemu and NFS-rootfs preparation tools.
++#
++# SPDX-License-Identifier: GPL-2.0-only
 +
-         properties_dicts = {
-             "configurations": [
-                 properties_dict
-@@ -873,7 +893,7 @@ class IdeVSCode(IdeBase):
-     def setup_modified_recipe(self, args, image_recipe, modified_recipe):
-         self.vscode_settings(modified_recipe, image_recipe)
-         self.vscode_extensions(modified_recipe)
--        self.vscode_c_cpp_properties(modified_recipe)
-+        self.vscode_c_cpp_properties(modified_recipe, image_recipe)
-         if args.target:
-             if modified_recipe.toolchain == 'clang':
-                 self.initialize_cross_debug_configs(
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 6f08940c9c..d7575ec523 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -457,6 +457,7 @@ class RecipeModified:
-         self.staging_incdir = None
-         self.strip_cmd = None
-         self.target_arch = None
-+        self.tmpdir = None
-         self.toolchain = None
-         self.topdir = None
-         self.workdir = None
-@@ -545,6 +546,7 @@ class RecipeModified:
-             recipe_d.getVar('STAGING_INCDIR'))
-         self.strip_cmd = recipe_d.getVar('STRIP')
-         self.target_arch = recipe_d.getVar('TARGET_ARCH')
-+        self.tmpdir = os.path.realpath(recipe_d.getVar('TMPDIR'))
-         self.toolchain = recipe_d.getVar('TOOLCHAIN')
-         self.topdir = recipe_d.getVar('TOPDIR')
-         self.workdir = os.path.realpath(recipe_d.getVar('WORKDIR'))
++"""Extract and export rootfs tarballs for NFS booting."""
++
++import os
++import subprocess
++import sys
++
++
++class RunQemuRootfsError(Exception):
++    """Raised when an NFS rootfs cannot be prepared or exported."""
++
++
++def native_environment():
++    """Return the qemu-helper-native environment set by oe-find-native-sysroot."""
++    command = '''
++        helper=$(command -v oe-find-native-sysroot) || exit 127
++        . "$helper" qemu-helper-native >/dev/null
++        env -0
++        printf 'PSEUDO=%s\\0OECORE_NATIVE_SYSROOT=%s\\0' "$PSEUDO" "$OECORE_NATIVE_SYSROOT"
++    '''
++    result = subprocess.run(['bash', '-c', command], capture_output=True)
++    if result.returncode:
++        if result.returncode == 127:
++            raise RunQemuRootfsError(
++                'Unable to find the oe-find-native-sysroot script.\n'
++                'Did you forget to source your build system environment setup script?')
++        raise RunQemuRootfsError(
++            result.stderr.decode(errors='replace').strip() or
++            'Unable to set up the qemu-helper-native sysroot')
++
++    environment = {}
++    for entry in result.stdout.split(b'\0'):
++        if b'=' in entry:
++            key, value = entry.split(b'=', 1)
++            environment[key.decode()] = value.decode()
++    return environment
++
++
++def _tar_options(rootfs_tarball):
++    if rootfs_tarball.endswith('.tar.xz'):
++        return ['--numeric-owner', '-xJf']
++    if rootfs_tarball.endswith('.tar.bz2'):
++        return ['--numeric-owner', '-xjf']
++    if rootfs_tarball.endswith('.tar.gz'):
++        return ['--numeric-owner', '-xzf']
++    if rootfs_tarball.endswith('.tar.zst'):
++        return ['--numeric-owner', '--zstd', '-xf']
++    if rootfs_tarball.endswith('.tar'):
++        return ['--numeric-owner', '-xf']
++    raise RunQemuRootfsError(
++        'Unable to determine sdk tarball format\n'
++        'Accepted types: .tar / .tar.gz / .tar.bz2 / .tar.xz / .tar.zst')
++
++
++def pseudo_state_dir(rootfs_dir):
++    """Return the pseudo database location associated with an extracted rootfs."""
++    rootfs_dir = os.path.realpath(rootfs_dir)
++    return os.path.join(os.path.dirname(rootfs_dir),
++                        os.path.basename(rootfs_dir) + '.pseudo_state')
++
++
++def extract_sdk_rootfs(rootfs_tarball, rootfs_dir):
++    """Extract a rootfs tarball under pseudo and return its absolute directory."""
++    if not os.path.exists(rootfs_tarball):
++        raise RunQemuRootfsError("sdk tarball '%s' does not exist" % rootfs_tarball)
++
++    rootfs_tarball = os.path.realpath(rootfs_tarball)
++    rootfs_dir = os.path.realpath(rootfs_dir)
++    tar_options = _tar_options(rootfs_tarball)
++    state_dir = pseudo_state_dir(rootfs_dir)
++    debug_image = '-dbg' in os.path.basename(rootfs_tarball)
++
++    if os.path.exists(state_dir) and not debug_image:
++        raise RunQemuRootfsError(
++            '%s already exists!\n'
++            'Please delete the rootfs tree and pseudo directory manually\n'
++            'if this is really what you want.' % state_dir)
++
++    os.makedirs(rootfs_dir, exist_ok=True)
++    os.makedirs(state_dir, exist_ok=True)
++    open(os.path.join(state_dir, 'pseudo.pid'), 'a').close()
++
++    environment = native_environment()
++    environment['PSEUDO_LOCALSTATEDIR'] = state_dir
++    environment['PSEUDO_INCLUDE_PATHS'] = rootfs_dir
++    pseudo = environment.get('PSEUDO')
++    native_sysroot = environment.get('OECORE_NATIVE_SYSROOT')
++    if not pseudo or not native_sysroot:
++        raise RunQemuRootfsError('qemu-helper-native did not provide pseudo')
++
++    command = [pseudo, '-P', os.path.join(native_sysroot, 'usr'), 'tar', '-C', rootfs_dir]
++    command.extend(tar_options)
++    command.append(rootfs_tarball)
++    print('Extracting rootfs tarball using pseudo...')
++    print(' '.join(command))
++    try:
++        subprocess.run(command, env=environment, check=True)
++    except subprocess.CalledProcessError as exc:
++        raise RunQemuRootfsError('Failed to extract rootfs tarball') from exc
++
++    if len(os.listdir(rootfs_dir)) < 4:
++        print("Warning: I don't see many files in %s" % rootfs_dir)
++        print('Please double-check the extraction worked as intended')
++    else:
++        print('SDK image successfully extracted to %s' % rootfs_dir)
++    return rootfs_dir
++
++
++def extract_sdk_main(argv=None):
++    argv = sys.argv[1:] if argv is None else argv
++    if len(argv) != 2:
++        print('Usage: %s <image-tarball> <extract-dir>' % sys.argv[0])
++        return 1
++    try:
++        extract_sdk_rootfs(*argv)
++    except RunQemuRootfsError as exc:
++        print('Error: %s' % exc)
++        return 1
++    return 0
+diff --git a/scripts/runqemu-extract-sdk b/scripts/runqemu-extract-sdk
+index db9813e1dc..6cad2fdf90 100755
+--- a/scripts/runqemu-extract-sdk
++++ b/scripts/runqemu-extract-sdk
+@@ -1,104 +1,13 @@
+-#!/bin/bash
+-#
+-# This utility extracts an SDK image tarball using pseudo, and stores
+-# the pseudo database in var/pseudo within the rootfs. If you want to
+-# boot QEMU using an nfsroot, you *must* use this script to create the
+-# rootfs to ensure it is done correctly with pseudo.
+-#
+-# Copyright (c) 2010 Intel Corp.
++#!/usr/bin/env python3
+ #
+ # SPDX-License-Identifier: GPL-2.0-only
+-#
+ 
+-function usage() {
+-	echo "Usage: $0 <image-tarball> <extract-dir>"
+-}
++import os
++import sys
+ 
+-if [ $# -ne 2 ]; then
+-	usage
+-	exit 1
+-fi
++sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
+ 
+-SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
+-if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
+-	echo "Error: Unable to find the oe-find-native-sysroot script"
+-	echo "Did you forget to source your build system environment setup script?"
+-	exit 1
+-fi
+-. $SYSROOT_SETUP_SCRIPT qemu-helper-native
+-PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
++from runqemu_utils import extract_sdk_main
+ 
+-ROOTFS_TARBALL=$1
+-SDK_ROOTFS_DIR=$2
+ 
+-if [ ! -e "$ROOTFS_TARBALL" ]; then
+-	echo "Error: sdk tarball '$ROOTFS_TARBALL' does not exist"
+-	usage
+-	exit 1
+-fi
+-
+-# Convert SDK_ROOTFS_DIR to a full pathname
+-if [[ ${SDK_ROOTFS_DIR:0:1} != "/" ]]; then
+-	SDK_ROOTFS_DIR=$(readlink -f $(pwd)/$SDK_ROOTFS_DIR)
+-fi
+-
+-TAR_OPTS=""
+-if [[ "$ROOTFS_TARBALL" =~ tar\.xz$ ]]; then
+-	TAR_OPTS="--numeric-owner -xJf"
+-fi
+-if [[ "$ROOTFS_TARBALL" =~ tar\.bz2$ ]]; then
+-	TAR_OPTS="--numeric-owner -xjf"
+-fi
+-if [[ "$ROOTFS_TARBALL" =~ tar\.gz$ ]]; then
+-	TAR_OPTS="--numeric-owner -xzf"
+-fi
+-if [[ "$ROOTFS_TARBALL" =~ tar\.zst$ ]]; then
+-	TAR_OPTS="--numeric-owner --zstd -xf"
+-fi
+-if [[ "$ROOTFS_TARBALL" =~ \.tar$ ]]; then
+-	TAR_OPTS="--numeric-owner -xf"
+-fi
+-if [ -z "$TAR_OPTS" ]; then
+-	echo "Error: Unable to determine sdk tarball format"
+-	echo "Accepted types: .tar / .tar.gz / .tar.bz2 / .tar.xz / tar.zst"
+-	exit 1
+-fi
+-
+-if [ ! -d "$SDK_ROOTFS_DIR" ]; then
+-	echo "Creating directory $SDK_ROOTFS_DIR"
+-	mkdir -p "$SDK_ROOTFS_DIR"
+-fi
+-
+-pseudo_state_dir="$SDK_ROOTFS_DIR/../$(basename "$SDK_ROOTFS_DIR").pseudo_state"
+-pseudo_state_dir="$(readlink -f $pseudo_state_dir)"
+-
+-debug_image="`echo $ROOTFS_TARBALL | grep '\-dbg\.rootfs\.tar'`"
+-
+-if [ -e "$pseudo_state_dir" -a -z "$debug_image" ]; then
+-	echo "Error: $pseudo_state_dir already exists!"
+-	echo "Please delete the rootfs tree and pseudo directory manually"
+-	echo "if this is really what you want."
+-	exit 1
+-fi
+-
+-mkdir -p "$pseudo_state_dir"
+-touch "$pseudo_state_dir/pseudo.pid"
+-PSEUDO_LOCALSTATEDIR="$pseudo_state_dir"
+-export PSEUDO_LOCALSTATEDIR
+-PSEUDO_INCLUDE_PATHS="$SDK_ROOTFS_DIR"
+-export PSEUDO_INCLUDE_PATHS
+-
+-echo "Extracting rootfs tarball using pseudo..."
+-echo "$PSEUDO $PSEUDO_OPTS tar -C \"$SDK_ROOTFS_DIR\" $TAR_OPTS \"$ROOTFS_TARBALL\""
+-$PSEUDO $PSEUDO_OPTS tar -C "$SDK_ROOTFS_DIR" $TAR_OPTS "$ROOTFS_TARBALL"
+-
+-DIRCHECK=`ls -l "$SDK_ROOTFS_DIR" | wc -l`
+-if [ "$DIRCHECK" -lt 5 ]; then
+-	echo "Warning: I don't see many files in $SDK_ROOTFS_DIR"
+-	echo "Please double-check the extraction worked as intended"
+-	exit 0
+-fi
+-
+-echo "SDK image successfully extracted to $SDK_ROOTFS_DIR"
+-
+-exit 0
++sys.exit(extract_sdk_main())
 -- 
 2.55.0
 
