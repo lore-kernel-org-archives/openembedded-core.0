@@ -2,95 +2,95 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EB2CAC61DB9
-	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 19:43:27 +0000 (UTC)
-Received: from mail-yw1-f182.google.com (mail-yw1-f182.google.com [209.85.128.182])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14959.1788118998277384122
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBCD1C61DB9
+	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 19:45:27 +0000 (UTC)
+Received: from mail-yw1-f174.google.com (mail-yw1-f174.google.com [209.85.128.174])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15074.1788119122827130445
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2026 12:43:18 -0700
+ Sun, 30 Aug 2026 12:45:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=SGr2xRk0;
- spf=pass (domain: gmail.com, ip: 209.85.128.182, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f182.google.com with SMTP id 00721157ae682-85a50f6a7f7so30466997b3.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 12:43:18 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788118997; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=FQb2VnJZ;
+ spf=pass (domain: gmail.com, ip: 209.85.128.174, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f174.google.com with SMTP id 00721157ae682-8588583a7c3so34344157b3.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 12:45:22 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788119122; cv=none;
         d=google.com; s=arc-20260327;
-        b=liB6InAOKon52YSR1g+qyeVHQiD7tTVEfMaF6wFYt10BDBGp5Jrnd7Xn3kkjHeSL3W
-         pogVBd45JqaqXxLC40TLS1pp7bjncPOveAk1zevmByXmOLrgayg3DcBMknhIz+aYlpVU
-         GJmVBLpQ13hSF1AF/2rO/UZDVJnoYXwsYO2xBgtDWfSr7gTyDVN5+8QhFvxlGoYchEhC
-         n9xzhnBtoBAclk79ZIJzCctmh9iqddaaYnKJzqDX/bGp42JiFHwBu/ZjwjTJMh2Gur3/
-         DSegQm6/QEjW0GrFoPZElCiu/+6kywOCBKaWTb+ewfQrPtb4uEiij3GUrJBRWHekRNFa
-         Yj8g==
+        b=MJlffGMVGO5Kxp/WUNTieSU7wdiouiyVkbf78FZ5Ee43az2TAhbuTbRHM/fARNv+Sj
+         tLiO2i1R31HmZSgmpqGRbXSP8UkvdcglBPdXDLAfhipDh+YBYFR0Lyp+UU/DQ5u/mZ4k
+         c3vZ9ciKnNWdLdB2ZnD8uiY1RRzFIO37OHl560T9I7n0TvAWWMOMrw98Z7xVlzOLOlO2
+         v7J7n+rEnDrZm01d3+9C74jvlw6GWOlEPHGJASxtLTrUAd0NfP1XaQvqB4H8J0hjJbX7
+         R74oUYu71Wy0PA5kEt+3X44ShlkfHhDQmfrs1dpVWfzpXYP9Sy+QpthYfBk405TxnWdY
+         ETGQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=sms7cyrASvsNQt+MyscJ9T/dJ7nruQ5MSsOHMOJE0Bo=;
+        bh=S25h/sIUxU+L30wwOWmzTsKHdKEUA12UFuhWy/BVkf8=;
         fh=XdtWSdxUWXiIQqTL/jS3pXJKAtdooZTh4SlEz3R75PA=;
-        b=BfXNLs4/UA3MAGpCBRvR+uEIilkdKu1dwAQTxo1oGtugB5FdCf4S4qoutIa3fB3AoO
-         4WJt33CjZkiLam574tUc6b/1MXzqCsA2gdeQDhUZxTyqqv4yohVxvnw7sS5hdq4c5cD7
-         k/1lv07mApAMDCwpa4SQQertx1Qiyf0ynK6GHJVOg5s2+X/apBP05JhzlB/p/0CjTI+u
-         Uj2JlNlhKSZQ5LYr5YBuiXHc2hOXROfvbd5jzBXKzsDvWf8tERGK8csmr4ixnfZ3H9cx
-         f+EaKBKUZCwxtCgrYZbzjwBD0G4BQ2XBJ4ZVesPbWBrOZv8MKSm6adQLX+l+pzNcMDNu
-         /ppw==;
+        b=hLfKRVJZxmV8lyIOmSifdh5BYVXD4b2BQ6rBXgPPLLggTG769brg6ytHsLCUp1uENs
+         HE0sZPoMc2D2sYiw3vo8eVxKARYFcbLCkZuW5mShCQajSZsRyWtph3WRa04YXaAYgrFm
+         AvinLJvNeOVClPB3Cmx3uNG1FbvplEd9bQLcpQzl+1gzovi62hXFN+7+DKFMs5cAfedl
+         RYblVZOZGuSnN3W95a1AWAF0iYDcY9m9ZcNSVusGTA5ygY6ncWJvX3qz4iQirQ45JqRU
+         pAkoTcTJdeq4YIJZ0kezh79pOMgBuijRHDFQSHjuaIpOTqLuBlcQImeHnN+1y9FbOhWR
+         vmQg==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788118997; x=1788723797; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1788119122; x=1788723922; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=sms7cyrASvsNQt+MyscJ9T/dJ7nruQ5MSsOHMOJE0Bo=;
-        b=SGr2xRk0kxNJN6Nzqz3zeBGfxdEFAIjJLw3QPpO9HGG4dU2GugxgtozHV5oKoguVWo
-         wjsEGxFKvReTgm1WNLklHBrii53SpN0BIFWT+b0mINsSz2/xP4YMuH5GEhV40i3CGRxX
-         rV9aKY2atEZq5u65baOljeNldveBpRSXr310vnGNd3KkOU+7VagRfHncZEWJIJhcQ57h
-         AenLlt090QHf7vvGunFZCpfDBlmfBo2OlX8nYKv7iXjbvQv6kkra9LI1xRY+uO9Gyl1T
-         PpRcyT/qEun2u/iiuWRgspzueg0qmvXR61ZAiHW2g1HJvmdQ2Oi8hQxrueT+3K14dnIa
-         diNw==
+        bh=S25h/sIUxU+L30wwOWmzTsKHdKEUA12UFuhWy/BVkf8=;
+        b=FQb2VnJZVQBqbhzj0Uz81Gv25tjDWa7kqWdijzen93ilVMrL45PZkLmhsVXePoDEaf
+         aNzWtiM54ZKnKosD6/uLg5VeOJD9gqgjIKnUVMCRuCzONCbcEbv0d9yTqE2eX68AKs2m
+         tgUKjyKS0V95errMOqULsQIqCRvTinJiv7muaaBs/sNzarK/AlnINJf5UUti4iPbb21x
+         AZNX1EaB4AgipaWxv8KxUdhzFAZs6V9iRT9oB8az7sfPuWBw3fqqtIfRjZfnIYZuS38V
+         e4xq6kMa8ZStY3FnDcC1aLywJLhDn3dmuqqnr682SM/ydjd4JZ1pX46erbr5kJPuYuqD
+         IaGg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788118997; x=1788723797;
+        d=1e100.net; s=20251104; t=1788119122; x=1788723922;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=sms7cyrASvsNQt+MyscJ9T/dJ7nruQ5MSsOHMOJE0Bo=;
-        b=OrEUxUmyQpzkv12A3rJsiqErjyko34iRtc8xdAFoVcI9G3KIR1lPK4E5spsQ4IBGjy
-         Jib5RJ8stqZLo4Wgm9o2zU5eEHAuY2T4Zp7iKmCVpNrNUwfTzkNDDPbLJC927BEZzcV1
-         YfWKeuVia4EIj2wMA9/9A8Q+ZNhbRTu+hHIzfqcbQ/pmoORB2eNR8ov+MeJtpYGPhYNY
-         uNxKhqKdXIlF7FeQuUPuIrtBDBxNnK8zUm+pqYRchYd53q+8PCX+gi1hmA7geY78OPtJ
-         k67bbO3Wp/irSG7bImXQP7exMg2OnNieWYMvXwKfSKgMvXTZOdzNGxMXR4WpwWFOZg0A
-         +Ddw==
-X-Gm-Message-State: AFuF++metzGpFFBwMiS+PnUhS6CUM7XhfH43Z1hxtOP4VeFG2JvjScSq
-	/FCmvXzGlEj+rwAUmths7nRPDgeDv8fflJF8HyNOIIztP07KwWStLlKDhTdWDAdsneZSAuI3t9K
-	LuBOTg5S6SEYAnPMtQO4EcMtlgrq8pHGh5NiKD1c=
-X-Gm-Gg: AYBFou1Np5tXYzwwliaqbjXhforNv6793nlwwsIskIxDPpshtgjeNzA4nOjzOq4xqEw
-	VXJC4Mi0vR6rJmz0VIQpd/q1vfG8IQHKRBlkPgz0ZMfOc1xzEZxXCLYZAysb4z1P1iU/oBKRBs6
-	ZYefabWjcx12ZAop6l7H1bNut66CBl1uV8wFHdSemZvtvT4f2MvX45OvN42CV6D0HiDc3yMeglT
-	6mJUGeHTTttZoVSNWAsdmWClB+egR+4dfqnXUR8sUdLzYuwGuBXRztA9N9cImoEE8SnpPgfgUwp
-	6/5lJYieVG8Kpb4nwucnOPIEsEYL7qJRJ35G2NVFv48xQq3qv1DyzKWJszSEX0fX4OuXh+N44Zi
-	4q3HbqcluDBcYjF9rPiWtuVaZzS6+/JOz7QIIn4mRPIb5pIyLPANH9O0U3/6Ck4YhUzrVNT8bd3
-	vur+CUNMHYzu4d7TC1Mtz7xBG/JwcnCaFvuz4009T4AGPaWB1qiIhhkz6N6HHq4hCzWoMvobQZ5
-	qtnLsHgMthHqw==
-X-Received: by 2002:a05:690c:e1d4:20b0:814:651e:a553 with SMTP id
- 00721157ae682-85d6b847fd9mr57826817b3.28.1788118997199; Sun, 30 Aug 2026
- 12:43:17 -0700 (PDT)
+        bh=S25h/sIUxU+L30wwOWmzTsKHdKEUA12UFuhWy/BVkf8=;
+        b=VPIbpuWjcWTLBTxyGKq8FGMlmo11KMqmesxbTAYR9i7JoEJvcDe2+gChtF/BkM0eml
+         i/+57/hdoyuGsl0MpKGFlkst/BTNFWPEh3bD2Uc6/T0Kxb8TzQ1Ew0CU5iO7dGNovWis
+         +cN8WksDTuLxm+/qIU6BO8fFQOv6SeqowbjcDzyD4p7KhG5kGXbmk6Z/pIVLu0sNWxpU
+         9tPX3FoH+Q/fPcZ2+WpfuO2o0Rk4zMws2p/K6e3GK/ohyaU4YcZ9R5OU6lxogzdqvYS+
+         dYYQM3dYSEbv6AykElzmBDWunfMVmV+8XAeMi15EPeo966aEuUFEbUGDEErZ+v+JJo8i
+         eNZw==
+X-Gm-Message-State: AFuF++lV91In/aHDauIdAw1ccDHXz8tpA1Lwjt5plcvoUud+AQ18QRIc
+	YATtoj/v7bA6aKFsXEzEdt3tlv3b2ivNljf73n7ftf2vZA+nbF5JRyaRnhjF6fhF5YtGHIKdUGr
+	AIFz8YWCESAMwjpa0j5QINauAsziQbVZ3vX6aa5k=
+X-Gm-Gg: AYBFou0t5vX9HUkzyp+LlH7tgoQ0RMY2rP1S+yW+VlTlxY0mA8GB0ySc+ztohf1ozQA
+	OPy1pTsyByzgTVI9UdT7VrHm3kzBlEtO2aOnQDfkZcGgS7cjwLvE3McO/KUAF8021Q15nRiFaRG
+	4GnlK8nlNWcwSM0Z4j8c8gjJClLhNNYx87Fp+lLff/9E/kvrFB/5mLIMItHPmWFv3VPbAReUL5c
+	ugJ/McODrsg884f8Zpu6ZueWl6XCosRrt7RNu/d3pENmtpqeGR4j5n+181YxwP2ETX7Ug5jlFPQ
+	dU3UNO1ESsAJvyswOiM9xCY2jWYTXRh7XVmrMhKGr/dY9OxMaK8W4ynXYhMz41BvMAGahqExuwn
+	4WgYaRY3oXmKtGFyUcoG0h2adJzreyxLq7GeFwiMD8a+vzkSn6YiP51665pk4DH2aoLhE3I636I
+	mwP0ED5rFPnwnJUO3JJvsF5zN1eYzdImBBT659hz6IPohYgXfO4dGm2PRePc0qkwstKH5/24iRF
+	SO7tf1Ix7suLA==
+X-Received: by 2002:a05:690c:39c:b0:862:b776:8e90 with SMTP id
+ 00721157ae682-862b7769114mr21102097b3.2.1788119121858; Sun, 30 Aug 2026
+ 12:45:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20260830125853.1139807-1-sunilkumar.dora@windriver.com> <20260830125853.1139807-3-sunilkumar.dora@windriver.com>
-In-Reply-To: <20260830125853.1139807-3-sunilkumar.dora@windriver.com>
+References: <20260830125853.1139807-1-sunilkumar.dora@windriver.com> <20260830125853.1139807-4-sunilkumar.dora@windriver.com>
+In-Reply-To: <20260830125853.1139807-4-sunilkumar.dora@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Sun, 30 Aug 2026 12:43:26 -0700
-X-Gm-Features: AcwNN1XavdhOG5AnrfTI5WxAGxnPpig2jQW91hCY0j5_wMKiDjaSnnw8FRBc1uY
-Message-ID: <CAMKF1sq6+P9XY-hLGVnSe_=-HytN7di0pVKwsssuFTn96ueQmw@mail.gmail.com>
-Subject: Re: [PATCH 02/11] spirv-llvm-translator: Upgrade to 23.1.0
+Date: Sun, 30 Aug 2026 12:45:30 -0700
+X-Gm-Features: AcwNN1WcASQXhY40IrSa1Fia9mQagDiVZfbbNLlcEOOUbb8kq_R8q0bn-6rhQ4k
+Message-ID: <CAMKF1srRX9QgGZQL9tTpr6HuOXTOPvM8X+CB08qC_WU0Bptp=A@mail.gmail.com>
+Subject: Re: [PATCH 03/11] openmp: Build via the LLVM runtimes entry point
 To: sunilkumar.dora@windriver.com
 Cc: openembedded-core@lists.openembedded.org, randy.macleod@windriver.com, 
 	sundeep.kokkonda@windriver.com, deepesh.vatharaj@windriver.com
-Content-Type: multipart/alternative; boundary="000000000000a4f071065a48e512"
+Content-Type: multipart/alternative; boundary="000000000000131411065a48ed04"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 19:43:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244693
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 19:45:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244694
 
---000000000000a4f071065a48e512
+--000000000000131411065a48ed04
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -99,65 +99,63 @@ te:
 
 > From: Sunil Dora <sunilkumar.dora@windriver.com>
 >
-> Each release branch of the translator only builds against the
-> matching LLVM major. Move to the llvm_release_230 branch, pinned
-> at the v23.1.0 tag.
+> LLVM 23 removed the standalone build mode for openmp, so do_configure
+> fails with
+>
+>   The legacy standalone build mode has been removed
+>
+> Configure it through the runtimes build with LLVM_ENABLE_RUNTIMES=3Dopenm=
+p,
+> the same way libcxx is built.
+>
+> The runtimes build reads LLVM_LIBDIR_SUFFIX; nothing in LLVM 23 reads
+> OPENMP_LIBDIR_SUFFIX any more, so pass the standard variable like the
+> other clang-family recipes do. Without it openmp installs into lib/
+> while a multilib configuration packages lib64/, and do_package fails
+> with "installed but not shipped" for libomp.so, libarcher.so,
+> libompd.so and the cmake files.
 >
 > Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 > ---
->  ...translator_22.1.5.bb =3D> spirv-llvm-translator_23.1.0.bb} | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->  rename meta/recipes-graphics/spir/{spirv-llvm-translator_22.1.5.bb =3D>
-> spirv-llvm-translator_23.1.0.bb} (87%)
+>  meta/recipes-devtools/clang/openmp_git.bb | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
 >
-> diff --git a/meta/recipes-graphics/spir/spirv-llvm-translator_22.1.5.bb
-> b/meta/recipes-graphics/spir/spirv-llvm-translator_23.1.0.bb
-> similarity index 87%
-> rename from meta/recipes-graphics/spir/spirv-llvm-translator_22.1.5.bb
-> rename to meta/recipes-graphics/spir/spirv-llvm-translator_23.1.0.bb
-> index 1f80c6a27f..fd1dd9cfae 100644
-> --- a/meta/recipes-graphics/spir/spirv-llvm-translator_22.1.5.bb
-> +++ b/meta/recipes-graphics/spir/spirv-llvm-translator_23.1.0.bb
-> @@ -5,8 +5,8 @@ LICENSE =3D "NCSA"
->  LIC_FILES_CHKSUM =3D
-> "file://LICENSE.TXT;md5=3D47e311aa9caedd1b3abf098bd7814d1d"
+> diff --git a/meta/recipes-devtools/clang/openmp_git.bb
+> b/meta/recipes-devtools/clang/openmp_git.bb
+> index 2ba83d48c6..90d4911623 100644
+> --- a/meta/recipes-devtools/clang/openmp_git.bb
+> +++ b/meta/recipes-devtools/clang/openmp_git.bb
+> @@ -18,10 +18,11 @@ inherit cmake pkgconfig python3targetconfig
+>  DEPENDS +=3D "elfutils libffi clang"
 >
->  # pattern: llvm_branch_200, currently there are no minor releases, so, n=
-o
-> llvm_branch_201
+>  EXTRA_OECMAKE +=3D "-DCMAKE_BUILD_TYPE=3DRelWithDebInfo \
+> -
+> -DOPENMP_LIBDIR_SUFFIX=3D${@d.getVar('baselib').replace('lib', '')} \
+> +                  -DLLVM_ENABLE_RUNTIMES=3Dopenmp \
+> +                  -DLLVM_LIBDIR_SUFFIX=3D${LLVM_LIBDIR_SUFFIX} \
 >
 
-  the header comment about the branch naming pattern still references the
-200-era example and could be refreshed while you're here
 
 
-> -SPIRV_BRANCH =3D "llvm_release_220"
-> -SRCREV =3D "27afcfe385cf542197dfde8c658e1f5ff53fc2fc"
-> +SPIRV_BRANCH =3D "llvm_release_230"
-> +SRCREV =3D "19a29d4376ab470909ba43ca014ae668fb1156c9"
->  SRC_URI =3D " \
->      git://
-> github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=3Dhttps;branch=3D$=
-{SPIRV_BRANCH};tag=3Dv${PV}
-> <http://github.com/KhronosGroup/SPIRV-LLVM-Translator;protocol=3Dhttps;br=
-anch=3D$%7BSPIRV_BRANCH%7D;tag=3Dv$%7BPV%7D>
-> \
->  "
-> @@ -18,7 +18,7 @@ DEPENDS =3D "llvm spirv-tools spirv-headers"
->  inherit cmake pkgconfig lib_package
+The recipe keeps PACKAGECONFIG ?=3D "ompt-tools offloading-plugin" =E2=80=
+=94 under
+the runtimes entry point, does offloading-plugin still do anything, or
+would it now need offload added to LLVM_ENABLE_RUNTIMES?
+
+
+>                "
 >
->  EXTRA_OECMAKE =3D "\
-> -    -DBASE_LLVM_VERSION=3D22.1.0 \
-> +    -DBASE_LLVM_VERSION=3D23.1.0 \
->      -DCMAKE_SKIP_BUILD_RPATH=3DON \
->      -DBUILD_SHARED_LIBS=3DON \
->      -DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=3D${STAGING_INCDIR}/.. \
+> -OECMAKE_SOURCEPATH =3D "${S}/openmp"
+> +OECMAKE_SOURCEPATH =3D "${S}/runtimes"
+>
+>  PACKAGECONFIG ?=3D "ompt-tools offloading-plugin"
+>
 > --
 > 2.43.0
 >
 >
 
---000000000000a4f071065a48e512
+--000000000000131411065a48ed04
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -170,79 +168,72 @@ b(204,204,204);padding-left:1ex">From: Sunil Dora &lt;<a href=3D"mailto:sun=
 ilkumar.dora@windriver.com" target=3D"_blank">sunilkumar.dora@windriver.com=
 </a>&gt;<br>
 <br>
-Each release branch of the translator only builds against the<br>
-matching LLVM major. Move to the llvm_release_230 branch, pinned<br>
-at the v23.1.0 tag.<br>
+LLVM 23 removed the standalone build mode for openmp, so do_configure<br>
+fails with<br>
+<br>
+=C2=A0 The legacy standalone build mode has been removed<br>
+<br>
+Configure it through the runtimes build with LLVM_ENABLE_RUNTIMES=3Dopenmp,=
+<br>
+the same way libcxx is built.<br>
+<br>
+The runtimes build reads LLVM_LIBDIR_SUFFIX; nothing in LLVM 23 reads<br>
+OPENMP_LIBDIR_SUFFIX any more, so pass the standard variable like the<br>
+other clang-family recipes do. Without it openmp installs into lib/<br>
+while a multilib configuration packages lib64/, and do_package fails<br>
+with &quot;installed but not shipped&quot; for libomp.so, libarcher.so,<br>
+libompd.so and the cmake files.<br>
 <br>
 Signed-off-by: Sunil Dora &lt;<a href=3D"mailto:sunilkumar.dora@windriver.c=
 om" target=3D"_blank">sunilkumar.dora@windriver.com</a>&gt;<br>
 ---<br>
-=C2=A0...<a href=3D"http://translator_22.1.5.bb" rel=3D"noreferrer" target=
-=3D"_blank">translator_22.1.5.bb</a> =3D&gt; <a href=3D"http://spirv-llvm-t=
-ranslator_23.1.0.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-transl=
-ator_23.1.0.bb</a>} | 6 +++---<br>
-=C2=A01 file changed, 3 insertions(+), 3 deletions(-)<br>
-=C2=A0rename meta/recipes-graphics/spir/{<a href=3D"http://spirv-llvm-trans=
-lator_22.1.5.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translator=
-_22.1.5.bb</a> =3D&gt; <a href=3D"http://spirv-llvm-translator_23.1.0.bb" r=
-el=3D"noreferrer" target=3D"_blank">spirv-llvm-translator_23.1.0.bb</a>} (8=
-7%)<br>
+=C2=A0meta/recipes-devtools/clang/<a href=3D"http://openmp_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">openmp_git.bb</a> | 5 +++--<br>
+=C2=A01 file changed, 3 insertions(+), 2 deletions(-)<br>
 <br>
-diff --git a/meta/recipes-graphics/spir/<a href=3D"http://spirv-llvm-transl=
-ator_22.1.5.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translator_=
-22.1.5.bb</a> b/meta/recipes-graphics/spir/<a href=3D"http://spirv-llvm-tra=
-nslator_23.1.0.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translat=
-or_23.1.0.bb</a><br>
-similarity index 87%<br>
-rename from meta/recipes-graphics/spir/<a href=3D"http://spirv-llvm-transla=
-tor_22.1.5.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translator_2=
-2.1.5.bb</a><br>
-rename to meta/recipes-graphics/spir/<a href=3D"http://spirv-llvm-translato=
-r_23.1.0.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translator_23.=
-1.0.bb</a><br>
-index 1f80c6a27f..fd1dd9cfae 100644<br>
---- a/meta/recipes-graphics/spir/<a href=3D"http://spirv-llvm-translator_22=
-.1.5.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translator_22.1.5.=
-bb</a><br>
-+++ b/meta/recipes-graphics/spir/<a href=3D"http://spirv-llvm-translator_23=
-.1.0.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translator_23.1.0.=
-bb</a><br>
-@@ -5,8 +5,8 @@ LICENSE =3D &quot;NCSA&quot;<br>
-=C2=A0LIC_FILES_CHKSUM =3D &quot;file://LICENSE.TXT;md5=3D47e311aa9caedd1b3=
-abf098bd7814d1d&quot;<br>
+diff --git a/meta/recipes-devtools/clang/<a href=3D"http://openmp_git.bb" r=
+el=3D"noreferrer" target=3D"_blank">openmp_git.bb</a> b/meta/recipes-devtoo=
+ls/clang/<a href=3D"http://openmp_git.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">openmp_git.bb</a><br>
+index 2ba83d48c6..90d4911623 100644<br>
+--- a/meta/recipes-devtools/clang/<a href=3D"http://openmp_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">openmp_git.bb</a><br>
++++ b/meta/recipes-devtools/clang/<a href=3D"http://openmp_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">openmp_git.bb</a><br>
+@@ -18,10 +18,11 @@ inherit cmake pkgconfig python3targetconfig<br>
+=C2=A0DEPENDS +=3D &quot;elfutils libffi clang&quot;<br>
 <br>
-=C2=A0# pattern: llvm_branch_200, currently there are no minor releases, so=
-, no llvm_branch_201<br></blockquote><div><br></div><div>=C2=A0 the header =
-comment about the branch naming pattern still references the 200-era exampl=
-e and could be refreshed while you&#39;re here=C2=A0=C2=A0</div><div>=C2=A0=
-</div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;b=
-order-left:1px solid rgb(204,204,204);padding-left:1ex">
--SPIRV_BRANCH =3D &quot;llvm_release_220&quot;<br>
--SRCREV =3D &quot;27afcfe385cf542197dfde8c658e1f5ff53fc2fc&quot;<br>
-+SPIRV_BRANCH =3D &quot;llvm_release_230&quot;<br>
-+SRCREV =3D &quot;19a29d4376ab470909ba43ca014ae668fb1156c9&quot;<br>
-=C2=A0SRC_URI =3D &quot; \<br>
-=C2=A0 =C2=A0 =C2=A0git://<a href=3D"http://github.com/KhronosGroup/SPIRV-L=
-LVM-Translator;protocol=3Dhttps;branch=3D$%7BSPIRV_BRANCH%7D;tag=3Dv$%7BPV%=
-7D" rel=3D"noreferrer" target=3D"_blank">github.com/KhronosGroup/SPIRV-LLVM=
--Translator;protocol=3Dhttps;branch=3D${SPIRV_BRANCH};tag=3Dv${PV}</a> \<br=
->
-=C2=A0&quot;<br>
-@@ -18,7 +18,7 @@ DEPENDS =3D &quot;llvm spirv-tools spirv-headers&quot;<br=
->
-=C2=A0inherit cmake pkgconfig lib_package<br>
+=C2=A0EXTRA_OECMAKE +=3D &quot;-DCMAKE_BUILD_TYPE=3DRelWithDebInfo \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DOPENMP_LI=
+BDIR_SUFFIX=3D${@d.getVar(&#39;baselib&#39;).replace(&#39;lib&#39;, &#39;&#=
+39;)} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DLLVM_ENAB=
+LE_RUNTIMES=3Dopenmp \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DLLVM_LIBD=
+IR_SUFFIX=3D${LLVM_LIBDIR_SUFFIX} \<br>
+=C2=A0 =C2=A0</blockquote><div><br></div><div><br></div><div><span style=3D=
+"background-color:transparent">The recipe keeps </span><code style=3D"backg=
+round-color:transparent">PACKAGECONFIG ?=3D &quot;ompt-tools offloading-plu=
+gin&quot;</code><span style=3D"background-color:transparent"> =E2=80=94 und=
+er the runtimes entry point, does </span><code style=3D"background-color:tr=
+ansparent">offloading-plugin</code><span style=3D"background-color:transpar=
+ent"> still do anything, or would it now need </span><code style=3D"backgro=
+und-color:transparent">offload</code><span style=3D"background-color:transp=
+arent"> added to </span><code style=3D"background-color:transparent">LLVM_E=
+NABLE_RUNTIMES</code><span style=3D"background-color:transparent">?</span><=
+/div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=3D"margin:0px=
+ 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex"> =
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
 <br>
-=C2=A0EXTRA_OECMAKE =3D &quot;\<br>
--=C2=A0 =C2=A0 -DBASE_LLVM_VERSION=3D22.1.0 \<br>
-+=C2=A0 =C2=A0 -DBASE_LLVM_VERSION=3D23.1.0 \<br>
-=C2=A0 =C2=A0 =C2=A0-DCMAKE_SKIP_BUILD_RPATH=3DON \<br>
-=C2=A0 =C2=A0 =C2=A0-DBUILD_SHARED_LIBS=3DON \<br>
-=C2=A0 =C2=A0 =C2=A0-DLLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=3D${STAGING_IN=
-CDIR}/.. \<br>
+-OECMAKE_SOURCEPATH =3D &quot;${S}/openmp&quot;<br>
++OECMAKE_SOURCEPATH =3D &quot;${S}/runtimes&quot;<br>
+<br>
+=C2=A0PACKAGECONFIG ?=3D &quot;ompt-tools offloading-plugin&quot;<br>
+<br>
 -- <br>
 2.43.0<br>
 <br>
 </blockquote></div></div>
 
---000000000000a4f071065a48e512--
+--000000000000131411065a48ed04--
 
