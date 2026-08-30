@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0748C61DD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DA692C61DE8
 	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 21:49:24 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17149.1788126560349108171
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17150.1788126560454563338
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 14:49:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=LUaX+kNi;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-2026083021491943690d66ef00020764-j2xci8@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2026083021491943690d66ef00020764
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=mB7K0E8B;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20260830214919a62a850e2500020702-ylmjuv@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260830214919a62a850e2500020702
         for <openembedded-core@lists.openembedded.org>;
         Sun, 30 Aug 2026 23:49:19 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=LlmPWDXi+dCOCO7+OaFxqFuhu/kGrmjhLHcFJrRu5gc=;
- b=LUaX+kNi1li3KTrrTHE2iRyHDdkB4kSruVYLQ8yn/b8HdPSvhvwqK/yZlVvz0QlqKn9/UV
- iq95t3tpXfEwGaqYrLPw5cbycsxh06CjzZisNi6Wn5MPK3/gdzxziilD4A6lTS9S+O4E+pRW
- Hn7VoOqDm0DDchHSEanfa6hwhC5HwyVrYw19kCLI8pS8XoHxlxj0xv5Rs5gnaDO9Bk0M/lA7
- FOymBYFxIZDEM46peQYrL6w+Bk+TdPXe6a2zMLBS8R+tRCTdYGdXh9DLuRU7SE5lecJeXsi1
- j023jPex3ii31RiRvkNy7ZU6Hoh8pdHKWXEg2M673JXdIooDKlUa0+nQ==;
+ bh=wjXYdBKkBti3fvtRYwV2IoFngp/gZU0c9Ucxai+hSvM=;
+ b=mB7K0E8BWSWTYSJExEXXF8n2WxGjAUU8YXJXiNfbWWpWh2/GmhSbzQWpj6+ADOFK6pGwnJ
+ S8rlDF9q7PuvMVdDThQp6jueVCAKCdYu0L4rNSLYrG8vgIrIBW5TWDbdad/bUv/bIzYsd3EX
+ lmUGTr7Ljw8KL7EfDHsh+7JJionIJWrG7gb4wiQoEGalJFHeqBqfBUcV0kEvxNg5RB5QaInF
+ 1nkAJB90h88SMpiy7QwzJuq/mPz0f02kXCNZgLqXbllkwOFfwxmW4uj+DQwDLJgdn0p1g7Cs
+ giusxPvf8uQQNL6HVXwnXKj70+1Jra1j6xRjdoVUtwMuea7/21daYiZg==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 25/25] devtool: ide-sdk: fix GDB loading stale libs instead of recipe's own build
-Date: Sun, 30 Aug 2026 23:48:47 +0200
-Message-ID: <20260830214912.1346063-26-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 20/25] oe-selftest: tinfoil: test prepared task runner
+Date: Sun, 30 Aug 2026 23:48:42 +0200
+Message-ID: <20260830214912.1346063-21-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 References: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,118 +39,168 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 21:49:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244724
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244723
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Setting GDB's sysroot to the recipe's D (image/) directory is often not
-enough: D only contains "usr/lib", but the target reports merged-usr
-paths like "/lib/libfoo.so.0", so the sysroot lookup fails and GDB
-falls back to solib-search-path, resolving the library from the full
-image's rootfs-dbg/rootfs instead. Recipes that install libraries
-outside the standard libdir hit this on every rebuild, silently
-debugging with stale symbols from the last full image build. Confirmed
-against gdb-17.2 gdb/solib.c (solib_find_1()) by capturing the GDB MI
-trace of an attach session and cross-checking against that code.
+Add shell and Python marker tasks to pseudo-pyc-test, with and without
+fakeroot. Build the tasks normally to prepare their dependencies, then run
+them again through Tinfoil's run_prepared_task() API.
 
-Fix: add RecipeModified._find_elf_dirs(), which walks D and returns
-every directory containing an ELF file, and prepend those directories
-to additionalSOLibSearchPath, ahead of the rootfs-dbg/rootfs entries,
-in every generated launch config.
+This verifies that a prepared task can be rerun through BitBake's worker
+path without resolving its dependencies, including shell and Python task
+execution within and outside a pseudo session as needed by devtool ide-sdk.
 
-Also extend the launch.json oe-selftest assertions to check that the
-first additionalSOLibSearchPath entry is the recipe's own image (D)
-directory, not rootfs-dbg.
+Exercise Tinfoil.run_prepared_task() with shell and Python tasks, both
+with and without fakeroot. Build the exact task targets normally to
+prepare their prerequisites, remove their markers, then rerun them
+through Tinfoil.
+
+This verifies the no-dependency rerun uses BitBake's worker path for
+each task type and pseudo context.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py |  6 ++++
- scripts/lib/devtool/ide_sdk.py          | 42 ++++++++++++++++++++-----
- 2 files changed, 40 insertions(+), 8 deletions(-)
+ .../pseudo-pyc-test/pseudo-pyc-test.bb        | 45 ++++++++++++++
+ meta/lib/oeqa/selftest/cases/tinfoil.py       | 60 +++++++++++++++++++
+ 2 files changed, 105 insertions(+)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 8d68809552..7d7d228b22 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -3733,6 +3733,12 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-             so_paths = config.get("additionalSOLibSearchPath", [])
-             self.assertIn("/.debug", so_paths, f"Configuration '{config['name']}' should include debug symbol paths")
-             self.assertIn("/rootfs-dbg/", so_paths, f"Configuration '{config['name']}' should include rootfs-dbg paths")
-+            # The recipe's own D/usr/lib must come first, so GDB's solib-search-path
-+            # basename fallback prefers freshly rebuilt libraries over a stale
-+            # rootfs-dbg/rootfs copy from the last full image build.
-+            first_so_path = so_paths.split(":", 1)[0]
-+            self.assertIn("/image/", first_so_path, f"Configuration '{config['name']}' first SO lib search path should be the recipe's own image dir: {first_so_path}")
-+            self.assertNotIn("rootfs-dbg", first_so_path, f"Configuration '{config['name']}' first SO lib search path should not be rootfs-dbg: {first_so_path}")
- 
-             # Verify source file mappings
-             source_map = config.get("sourceFileMap", {})
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 8090117959..c2e7a34b7a 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -939,27 +939,53 @@ class RecipeModified:
-             return True
-         return False
- 
-+    @staticmethod
-+    def _find_elf_dirs(root):
-+        """Return every directory under root that contains an ELF file"""
-+        elf_dirs = []
-+        for dirpath, _dirnames, filenames in os.walk(root):
-+            for filename in filenames:
-+                file_path = os.path.join(dirpath, filename)
-+                if os.path.islink(file_path):
-+                    continue
-+                try:
-+                    with open(file_path, 'rb') as elf_file:
-+                        is_elf = elf_file.read(4) == b'\x7fELF'
-+                except OSError:
-+                    continue
-+                if is_elf:
-+                    elf_dirs.append(dirpath)
-+                    break
-+        return elf_dirs
+diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
+index 12dc91a8f3..f6b31b63cd 100644
+--- a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
++++ b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
+@@ -13,3 +13,48 @@ python do_install() {
+     import pseudo_pyc_test2
+     print(pseudo_pyc_test2.STRING)
+ }
 +
-     def solib_search_path(self, image):
--        """Search for debug symbols in the rootfs and rootfs-dbg
-+        """Search for debug symbols
++TINFOIL_TEST_MARKER_DIR = "${TMPDIR}/tinfoil-prepared-task"
++TINFOIL_TEST_MARKER_VALUE ?= ""
++
++write_tinfoil_shell_marker() {
++    mkdir -p ${TINFOIL_TEST_MARKER_DIR}
++    printf '%s%s' "$1" "${TINFOIL_TEST_MARKER_VALUE}" > ${TINFOIL_TEST_MARKER_DIR}/"$1"
++}
++
++do_tinfoil_dep() {
++    write_tinfoil_shell_marker dep
++}
++addtask tinfoil_dep
++
++do_tinfoil_shell() {
++    write_tinfoil_shell_marker shell
++}
++addtask tinfoil_shell after do_tinfoil_dep
++
++do_tinfoil_shell_fakeroot() {
++    write_tinfoil_shell_marker shell-fakeroot
++}
++do_tinfoil_shell_fakeroot[fakeroot] = "1"
++do_tinfoil_shell_fakeroot[depends] += "virtual/fakeroot-native:do_populate_sysroot"
++addtask tinfoil_shell_fakeroot after do_tinfoil_dep
++
++def write_tinfoil_marker(d, name):
++    import os
++
++    marker_dir = d.getVar('TINFOIL_TEST_MARKER_DIR')
++    os.makedirs(marker_dir, exist_ok=True)
++    with open(os.path.join(marker_dir, name), 'w') as marker:
++        marker.write(name + d.getVar('TINFOIL_TEST_MARKER_VALUE'))
++
++python do_tinfoil_python() {
++    write_tinfoil_marker(d, 'python')
++}
++addtask tinfoil_python after do_tinfoil_dep
++
++python do_tinfoil_python_fakeroot() {
++    write_tinfoil_marker(d, 'python-fakeroot')
++}
++do_tinfoil_python_fakeroot[fakeroot] = "1"
++do_tinfoil_python_fakeroot[depends] += "virtual/fakeroot-native:do_populate_sysroot"
++addtask tinfoil_python_fakeroot after do_tinfoil_dep
+diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
+index 21c8686b2a..d8009eddfe 100644
+--- a/meta/lib/oeqa/selftest/cases/tinfoil.py
++++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
+@@ -6,11 +6,14 @@
  
-         The debug symbols of shared libraries which are provided by other packages
-         are grabbed from the -dbg packages in the rootfs-dbg.
--
-         But most cross debugging tools like gdb, perf, and systemtap need to find
-         executable/library first and through it debuglink note find corresponding
-         symbols file. Therefore the library paths from the rootfs are added as well.
+ import os
+ import re
++import shutil
+ import time
+ import logging
++import uuid
+ import bb.tinfoil
  
-         Note: For the devtool modified recipe compiled from the IDE, the debug
--        symbols are taken from the unstripped binaries in the image folder.
--        Also, devtool deploy-target takes the files from the image folder.
--        debug symbols in the image folder refer to the corresponding source files
--        with absolute paths of the build machine. Debug symbols found in the
--        rootfs-dbg are relocated and contain paths which refer to the source files
--        installed on the target device e.g. /usr/src/...
-+        symbols are taken from the unstripped binaries in the image=${D} directory.
-+        Also, devtool deploy-target takes the files from the image directory.
-+        This recipe's own D is searched (for ELF files, wherever they are
-+        installed) and listed first, ahead of rootfs-dbg/rootfs, so that this
-+        recipe's freshly rebuilt libraries take precedence over any stale copy
-+        from the last full image build. "set sysroot D" alone cannot achieve
-+        this: the target reports merged-usr paths (e.g. "/lib/libfoo.so.0"), but
-+        D only contains "usr/lib" (raw do_install output, no top-level "lib"
-+        symlink), so GDB's sysroot-prefixed lookup always fails open() and it
-+        falls back to solib-search-path's basename matching instead. This also
-+        does not work for libraries which are not installed into the standard
-+        libdirs.
-         """
-         base_libdir = self.base_libdir.lstrip('/')
-         libdir = self.libdir.lstrip('/')
-         so_paths = [
-+            # This recipe's own rebuilt libraries/plugins, ahead of rootfs-dbg/rootfs.
-+            *self._find_elf_dirs(self.d),
-             # debug symbols for package_debug_split_style: debug-with-srcpkg or .debug
-             os.path.join(image.rootfs_dbg, base_libdir, ".debug"),
-             os.path.join(image.rootfs_dbg, libdir, ".debug"),
+ from oeqa.selftest.case import OESelftestTestCase
++from oeqa.utils.commands import bitbake
+ 
+ class TinfoilTests(OESelftestTestCase):
+     """ Basic tests for the tinfoil API """
+@@ -77,6 +80,63 @@ class TinfoilTests(OESelftestTestCase):
+             localdata.setVar('PN', 'hello')
+             self.assertEqual('hello', localdata.getVar('BPN'))
+ 
++    def test_run_prepared_task(self):
++        """Verify run_prepared_task() runs only the requested task, not its
++        dependency.
++
++        pseudo-pyc-test's do_tinfoil_* tasks depend on do_tinfoil_dep; both
++        write a marker file containing the task name plus the current value
++        of TINFOIL_TEST_MARKER_VALUE. A normal bitbake build is expected to
++        update both the dependency's and the requested tasks' markers to a
++        new value. Calling run_prepared_task() with another new value must
++        update only the requested tasks' markers, leaving do_tinfoil_dep's
++        marker at the value written by the earlier bitbake build.
++        """
++        marker_dir = os.path.join(
++            self.builddir, 'tmp', 'tinfoil-prepared-task')
++        shutil.rmtree(marker_dir, ignore_errors=True)
++        self.track_for_cleanup(marker_dir)
++
++        tasks = ('shell', 'shell_fakeroot', 'python', 'python_fakeroot')
++
++        # Use a fresh, random value each run so the tasks' signatures change
++        # and bitbake can't skip them as "up to date" from a previous run.
++        value1 = uuid.uuid4().hex
++        bitbake(' '.join('pseudo-pyc-test:do_tinfoil_%s' % task
++                          for task in tasks),
++                postconfig='TINFOIL_TEST_MARKER_VALUE = "%s"\n' % value1)
++
++        # do_tinfoil_dep is a dependency of all the tasks above, so a normal
++        # bitbake build is expected to have run it too, with the same value.
++        with open(os.path.join(marker_dir, 'dep')) as marker:
++            self.assertEqual(marker.read(), 'dep' + value1)
++        for task in tasks:
++            marker_name = task.replace('_', '-')
++            with open(os.path.join(marker_dir, marker_name)) as marker:
++                self.assertEqual(marker.read(), marker_name + value1)
++
++        with bb.tinfoil.Tinfoil() as tinfoil:
++            tinfoil.prepare(config_only=False, quiet=2)
++            # A distinct value per call proves each run_prepared_task()
++            # invocation re-reads the variable rather than reusing a value
++            # cached from an earlier call in this loop.
++            values2 = {task: uuid.uuid4().hex for task in tasks}
++            for task in tasks:
++                tinfoil.run_command('setVariable', 'TINFOIL_TEST_MARKER_VALUE', values2[task])
++                tinfoil.run_prepared_task(
++                    'pseudo-pyc-test', 'do_tinfoil_%s' % task)
++
++        # The requested tasks must have re-run and picked up their own value
++        for task in tasks:
++            marker_name = task.replace('_', '-')
++            with open(os.path.join(marker_dir, marker_name)) as marker:
++                self.assertEqual(marker.read(), marker_name + values2[task])
++
++        # ...but run_prepared_task() must not have run do_tinfoil_dep, so its
++        # marker should still hold the value written by the earlier bitbake build
++        with open(os.path.join(marker_dir, 'dep')) as marker:
++            self.assertEqual(marker.read(), 'dep' + value1)
++
+     # The config_data API to parse_recipe_file is used by:
+     # layerindex-web layerindex/update_layer.py
+     def test_parse_recipe_custom_data(self):
 -- 
 2.55.0
 
