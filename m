@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DEC2DC624C2
-	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:29:54 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9430.1788100183423104196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A9CFC624C9
+	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:29:55 +0000 (UTC)
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9434.1788100183548899591
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 07:29:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=lm1/4NWu;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-20260830142940a1c4eced5600020715-nkeach@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260830142940a1c4eced5600020715
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=ggcC8Rls;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-20260830142941d13b8271b200020785-j22xqp@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20260830142941d13b8271b200020785
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 30 Aug 2026 16:29:40 +0200
+        Sun, 30 Aug 2026 16:29:42 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=7/VaUD5YeLphG9cw5Smci7s/DApnGoNA/E+ahV2Me2Y=;
- b=lm1/4NWujuZAAL69pGdggb0naPlnr7nyQcDdx9iqJoQBOO4LWm8C/zV3IDgVbBqvxQWN1v
- JWgkd1c15ZcmggtBB3dFByiUlNosn8/fS56aeKfLzTJgKKeizQQ5Tgdk+Wu6iUthSWwrHNtv
- XAb8UZAH5iAqFQ57VIVP3NHJphLJ4rpM6CreuJyTRKdaCff6cA6Kyp5fdCfK0bZ8nhDh693c
- BIhxyKY9Sj5/MXrPbfutnbaM+T6YtCLWzNZFkm2ESsBNLjaT+ESufOx14/L9tyK7dosg6OZU
- 67y4sl6w4BeBRH2Wl24oV1fjyKV8aJKAc+Mf47W7lTke18WG+MqrY+ag==;
+ bh=TjpKwxplJ65szEK4WRHX/4jOzQfhjUMVS3QU3vc4uxY=;
+ b=ggcC8RlsSj+NzB9gCBqN+HRmWCVYXMpgBcc7J8lKAYmUKogkyuEnfCmFS53Ju0slfPyuUp
+ og5rjj4GnAIiEtIjlNuKJVzH34Yr5DFrZFrF4sScUJc4Cet36ArhBVD6kiK9WWDHOilqSeI8
+ SACTDMpFU4D471CDnJc7gRYyDmb+bk4CYI+ClQ3GvBq/kpbrlzRX86JGiSjgshxAPQsWNDZ2
+ 0Ls+n9WoJ6yogHj1kXurbWTjah7xg5FtZCiuiloAI+Jj4MEh40o0FCgItVRRw/tzobbHVm/J
+ ltZZNSW3PcOurvOa1xPBw3vS5OH/AWuAgl6A6G7nuR8+7WB2pSU/FbXw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 05/24] devtool: ide-sdk: auto-write image debug settings to bbappend
-Date: Sun, 30 Aug 2026 16:28:32 +0200
-Message-ID: <20260830142922.17241-6-adrian.freihofer@siemens.com>
+Subject: [PATCH 16/24] runqemu-export-rootfs: refactor in Python
+Date: Sun, 30 Aug 2026 16:28:43 +0200
+Message-ID: <20260830142922.17241-17-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 References: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,389 +38,297 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:29:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244669
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:29:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244666
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Simplify devtool ide-sdk usage by automatically generating the image
-modifications required for debugging, instead of requiring manual
-local.conf edits.
+Move the userspace NFS export lifecycle into the reusable runqemu helper
+module while preserving the existing command interface.
 
-Generate the needed IMAGE_* and debug-server settings in the workspace
-image bbappend based on the selected recipes and debugger. Add only
-settings that are still missing, and remove the generated section
-again when it becomes unnecessary, so configuration stays minimal and
-up to date.
-
-This was not done before because rewriting image metadata after parse
-caused basehash inconsistency warnings. That is now handled by
-controlling the parse flow and allowing the required additional parse
-round(s) after bbappend updates.
-
-Build in two phases so debugger ports are known before the image build,
-and handle bbappend updates in a way that avoids basehash
-non-determinism warnings.
-
-This allows to simplify the documentation. We can remove the instructions
-for manually configuring IMAGE_GEN_DEBUGFS, IMAGE_FSTYPES_DEBUGFS,
-IMAGE_CLASSES as well as appends to IMAGE_INSTALL in local.conf. That
-just happens automatically now when running devtool ide-sdk.
-
-Support also bbappend files with version in the file name like for
-example: foo_1.2.bbappend or foo_git.bbappend.
+AI-Generated: Uses GitHub Copilot
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_sdk.py | 251 +++++++++++++++++++++++++++------
- 1 file changed, 206 insertions(+), 45 deletions(-)
+ scripts/lib/runqemu_utils.py  | 122 ++++++++++++++++++++++++++++++++
+ scripts/runqemu-export-rootfs | 126 ++--------------------------------
+ 2 files changed, 128 insertions(+), 120 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index d7575ec523..b62a0f612e 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -185,32 +185,79 @@ class RecipeImage:
-     rootfs must be created as part of the SDK.
-     """
+diff --git a/scripts/lib/runqemu_utils.py b/scripts/lib/runqemu_utils.py
+index dff0ca8d3a..c36e30d76b 100644
+--- a/scripts/lib/runqemu_utils.py
++++ b/scripts/lib/runqemu_utils.py
+@@ -7,6 +7,7 @@
+ """Extract and export rootfs tarballs for NFS booting."""
  
--    def __init__(self, name):
--        self.combine_dbg_image = False
--        self.gdbserver_missing = False
-+    MARKER = '# devtool ide-sdk: image debug settings'
-+
-+    def __init__(self, name, orig_bbappend_content=None):
-         self.name = name
-         self.rootfs = None
-         self.__rootfs_dbg = None
-         self.bootstrap_tasks = [self.name + ':do_build']
-+        # Debug settings already provided by the base configuration (e.g.
-+        # local.conf, MACHINE, DISTRO, the recipe itself) plus any bbappend
-+        # content other than devtool ide-sdk's own section (see
-+        # strip_bbappend_sections()). Populated by initialize().
-+        self.base_image_gen_debugfs = False
-+        self.base_image_fstypes_debugfs = ''
-+        self.base_has_combined_dbg = False
-+        self.base_image_install = set()
-+        self._bbappend = None
-+        # Content of the bbappend before strip_bbappend_sections() ran.
-+        self._orig_bbappend_content = orig_bbappend_content
-+
-+    @classmethod
-+    def _strip_marker_section(cls, content):
-+        """Remove devtool ide-sdk's own image debug settings section, if any"""
-+        return re.sub(
-+            r'^' + re.escape(cls.MARKER) + r'\n(?:[^\n]+\n)*',
-+            '', content, flags=re.MULTILINE)
-+
-+    @classmethod
-+    def strip_bbappend_sections(cls, config, recipe_names):
-+        """Remove devtool ide-sdk's own bbappend section from earlier runs
-+
-+        Returns a {recipe name: content before stripping} dict for the recipes
-+        that have a bbappend, to be passed on to the RecipeImage constructor.
-+        """
-+        originals = {}
-+        appends_dir = os.path.join(config.workspace_path, 'appends')
-+        for name in recipe_names:
-+            bbappend = os.path.join(appends_dir, name + '.bbappend')
-+            if not os.path.exists(bbappend):
-+                continue
-+            with open(bbappend, 'r') as f:
-+                content = f.read()
-+            originals[name] = content
-+            stripped = cls._strip_marker_section(content)
-+            if stripped != content:
-+                with open(bbappend, 'w') as f:
-+                    f.write(stripped)
-+        return originals
+ import os
++import signal
+ import subprocess
+ import sys
  
-     def initialize(self, config, tinfoil):
-+        appends_dir = os.path.join(config.workspace_path, 'appends')
-+        self._bbappend = os.path.join(appends_dir, self.name + '.bbappend')
+@@ -122,3 +123,124 @@ def extract_sdk_main(argv=None):
+         print('Error: %s' % exc)
+         return 1
+     return 0
 +
-+        # strip_bbappend_sections() ran before the tinfoil session started, so
-+        # this parse sees the same bbappend content as any other parse of this
-+        # recipe until the tinfoil session ends.
-         image_d = parse_recipe(
-             config, tinfoil, self.name, appends=True, filter_workspace=False)
-         if not image_d:
-             raise DevtoolError(
-                 "Parsing image recipe %s failed" % self.name)
- 
--        self.combine_dbg_image = bb.data.inherits_class(
-+        self.base_image_gen_debugfs = image_d.getVar(
-+            'IMAGE_GEN_DEBUGFS') == '1'
-+        self.base_image_fstypes_debugfs = image_d.getVar(
-+            'IMAGE_FSTYPES_DEBUGFS') or ''
-+        self.base_has_combined_dbg = bb.data.inherits_class(
-             'image-combined-dbg', image_d)
-+        self.base_image_install = set(
-+            (image_d.getVar('IMAGE_INSTALL') or '').split())
- 
-         workdir = image_d.getVar('WORKDIR')
-         self.rootfs = os.path.join(workdir, 'rootfs')
--        if image_d.getVar('IMAGE_GEN_DEBUGFS') == "1":
--            self.__rootfs_dbg = os.path.join(workdir, 'rootfs-dbg')
--
--        package_install = image_d.getVar('PACKAGE_INSTALL').split()
--        self.gdbserver_missing = 'gdbserver' not in package_install
--        self.lldb_server_missing = 'lldb-server' not in package_install
-+        self.__rootfs_dbg = os.path.join(workdir, 'rootfs-dbg')
- 
-     @property
-     def debug_support(self):
-@@ -222,6 +269,76 @@ class RecipeImage:
-             return self.__rootfs_dbg
-         return None
- 
-+    def update_image_bbappend(self, recipes_modified):
-+        """Write debug settings for modified-mode recipes into the image bbappend.
 +
-+        Writes IMAGE_GEN_DEBUGFS, IMAGE_FSTYPES_DEBUGFS, IMAGE_CLASSES for
-+        image-combined-dbg, the appropriate debug server (gdbserver or
-+        lldb-server), and IMAGE_INSTALL entries for each modified recipe
-+        (including the ptest package when the recipe inherits ptest).
++_NFS_ACTIONS = ('start', 'stop', 'restart')
 +
-+        initialize() already stripped this section from the bbappend on
-+        disk before parsing, so it only needs to be added back here, if
-+        still needed. Returns True if the resulting bbappend content
-+        actually differs from what was on disk when initialize() ran, False
-+        if it is left exactly as it was.
-+        """
-+        wants_gdbserver = any(
-+            r.wants_gdbserver and r.toolchain != 'clang'
-+            for r in recipes_modified)
-+        wants_lldb_server = any(
-+            r.wants_gdbserver and r.toolchain == 'clang'
-+            for r in recipes_modified)
 +
-+        # Only add what the base configuration (e.g. local.conf) does not
-+        # already provide, to avoid duplicate/conflicting settings.
-+        lines = []
-+        if not self.base_image_gen_debugfs:
-+            lines.append('IMAGE_GEN_DEBUGFS = "1"')
-+        if self.base_image_fstypes_debugfs != '':
-+            lines.append('IMAGE_FSTYPES_DEBUGFS = ""')
-+        if not self.base_has_combined_dbg:
-+            lines.append('IMAGE_CLASSES += "image-combined-dbg"')
-+        if wants_gdbserver and 'gdbserver' not in self.base_image_install:
-+            lines.append('IMAGE_INSTALL:append = " gdbserver"')
-+        if wants_lldb_server and 'lldb-server' not in self.base_image_install:
-+            lines.append('IMAGE_INSTALL:append = " lldb-server"')
-+        for r in recipes_modified:
-+            if r.name not in self.base_image_install:
-+                lines.append('IMAGE_INSTALL:append = " %s"' % r.name)
-+            if r.has_ptest and (r.name + '-ptest') not in self.base_image_install:
-+                lines.append('IMAGE_INSTALL:append = " %s-ptest"' % r.name)
++def _nfs_paths(instance):
++    state_dir = os.path.join(os.path.expanduser('~'), '.runqemu-sdk')
++    os.makedirs(state_dir, exist_ok=True)
++    return {
++        'exports': os.path.join(state_dir, 'exports%s' % instance),
++        'nfs_pid': os.path.join(state_dir, 'nfs%s.pid' % instance),
++    }
 +
-+        original_content = self._orig_bbappend_content or ''
-+        # strip_bbappend_sections() left this on disk, and it is what bitbake
-+        # parsed. Any difference from it invalidates the parsed basehashes.
-+        if os.path.exists(self._bbappend):
-+            with open(self._bbappend, 'r') as f:
-+                parsed_content = f.read()
++
++def _nfs_ports(instance):
++    nfs_port = int(os.environ.get('NFSD_PORT', 3049 + 2 * instance))
++    mount_port = int(os.environ.get('MOUNTD_PORT', 3048 + 2 * instance))
++    return nfs_port, mount_port
++
++
++def _export_usage():
++    return 'Usage: %s {%s} <nfs-export-dir>' % (
++        sys.argv[0], '|'.join(_NFS_ACTIONS))
++
++
++def export_rootfs(action, rootfs_dir):
++    """Start, stop, or restart the userspace NFS server for *rootfs_dir*."""
++    if action not in _NFS_ACTIONS:
++        raise RunQemuRootfsError("Unknown command '%s'" % action)
++    if not os.path.isdir(rootfs_dir):
++        raise RunQemuRootfsError("'%s' does not exist" % rootfs_dir)
++
++    rootfs_dir = os.path.realpath(rootfs_dir)
++    state_dir = pseudo_state_dir(rootfs_dir)
++    if not os.path.isdir(state_dir):
++        raise RunQemuRootfsError(
++            '%s does not exist.\n'
++            'Did you create the export directory using runqemu-extract-sdk?' % state_dir)
++
++    if action == 'restart':
++        export_rootfs('stop', rootfs_dir)
++        return export_rootfs('start', rootfs_dir)
++
++    instance = int(os.environ.get('NFS_INSTANCE', '0'))
++    paths = _nfs_paths(instance)
++    if action == 'stop':
++        if os.path.exists(paths['nfs_pid']):
++            print('Stopping rpc.nfsd')
++            with open(paths['nfs_pid']) as pid_file:
++                pid = pid_file.read().strip()
++            try:
++                os.kill(int(pid), signal.SIGTERM)
++            except (ValueError, ProcessLookupError):
++                # A stale PID file must not stop the cleanup below.
++                print('rpc.nfsd is not running')
++            os.unlink(paths['nfs_pid'])
 +        else:
-+            parsed_content = ''
++            print('No PID file, not stopping rpc.nfsd')
++        if os.path.exists(paths['exports']):
++            print('Removing exports file')
++            os.unlink(paths['exports'])
++        return
 +
-+        if not lines:
-+            # The base configuration already provides everything needed.
-+            if parsed_content != original_content:
-+                logger.info(
-+                    "Removed image debug settings from %s: already provided by the base configuration", self._bbappend)
-+            return False
++    environment = native_environment()
++    native_sysroot = environment.get('OECORE_NATIVE_SYSROOT')
++    pseudo = environment.get('PSEUDO')
++    if not native_sysroot or not pseudo:
++        raise RunQemuRootfsError('qemu-helper-native did not provide pseudo')
 +
-+        new_section = self.MARKER + '\n' + '\n'.join(lines) + '\n'
-+        new_content = parsed_content
-+        if new_content and not new_content.endswith('\n'):
-+            new_content += '\n'
-+        new_content += new_section
++    unfsd = os.path.join(native_sysroot, 'usr', 'bin', 'unfsd')
++    if not os.path.exists(unfsd):
++        raise RunQemuRootfsError(
++            'Unable to find unfsd binary in %s/usr/bin/\n'
++            "This shouldn't happen - something is missing from your toolchain installation"
++            % native_sysroot)
 +
-+        appends_dir = os.path.dirname(self._bbappend)
-+        os.makedirs(appends_dir, exist_ok=True)
-+        with open(self._bbappend, 'w') as f:
-+            f.write(new_content)
++    nfs_port, mount_port = _nfs_ports(instance)
++    environment['PSEUDO_LOCALSTATEDIR'] = state_dir
++    with open(paths['exports'], 'w') as exports_file:
++        exports_file.write('%s (rw,no_root_squash,no_all_squash,insecure)\n' % rootfs_dir)
 +
-+        logger.info("Updated image bbappend %s", self._bbappend)
-+        return True
++    command = [pseudo, '-P', os.path.join(native_sysroot, 'usr'), unfsd,
++               '-p', '-i', paths['nfs_pid'], '-e', paths['exports'],
++               '-n', str(nfs_port), '-m', str(mount_port)]
++    print('Creating exports file...')
++    print('Starting User Mode nfsd')
++    print('  %s' % ' '.join(command))
++    try:
++        subprocess.run(command, env=environment, check=True)
++    except subprocess.CalledProcessError as exc:
++        raise RunQemuRootfsError('Error starting nfsd') from exc
 +
++    if not os.path.exists(paths['nfs_pid']):
++        raise RunQemuRootfsError('rpc.nfsd did not start correctly')
++    with open(paths['nfs_pid']) as pid_file:
++        try:
++            os.kill(int(pid_file.read()), 0)
++        except OSError as exc:
++            raise RunQemuRootfsError('rpc.nfsd did not start correctly') from exc
++
++    print('')
++    print('On your target please remember to add the following options for NFS')
++    print('nfsroot=IP_ADDRESS:%s,nfsvers=3,port=%s,udp,mountport=%s' %
++          (rootfs_dir, nfs_port, mount_port))
++
++
++def export_rootfs_main(argv=None):
++    argv = sys.argv[1:] if argv is None else argv
++    if len(argv) != 2:
++        print(_export_usage())
++        return 1
++    if argv[0] not in _NFS_ACTIONS:
++        print("Unknown command '%s'" % argv[0])
++        print(_export_usage())
++        return 1
++    try:
++        export_rootfs(*argv)
++    except RunQemuRootfsError as exc:
++        print('Error: %s' % exc)
++        return 1
++    return 0
+diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
+index 6a8acd0d5a..dde364d37e 100755
+--- a/scripts/runqemu-export-rootfs
++++ b/scripts/runqemu-export-rootfs
+@@ -1,127 +1,13 @@
+-#!/bin/bash
+-#
+-# Copyright (c) 2005-2009 Wind River Systems, Inc.
++#!/usr/bin/env python3
+ #
+ # SPDX-License-Identifier: GPL-2.0-only
+-#
  
- class RecipeMetaIdeSupport:
-     """For the shared sysroots mode meta-ide-support is needed
-@@ -475,6 +592,8 @@ class RecipeModified:
-         # Whether to warn when DEBUG_BUILD is not set.  Kernel modules are built
-         # by the kernel's build system and DEBUG_BUILD does not influence them.
-         self.wants_debug_build = True
-+        # Whether this recipe provides a ptest package
-+        self.has_ptest = False
-         # build_tool = cmake
-         self.oecmake_generator = None
-         self.cmake_cache_vars = None
-@@ -592,6 +711,8 @@ class RecipeModified:
-             self.reverse_debug_prefix_map = self._init_reverse_debug_prefix_map(
-                 recipe_d.getVar('DEBUG_PREFIX_MAP'))
+-usage() {
+-	echo "Usage: $0 {start|stop|restart} <nfs-export-dir>"
+-}
++import os
++import sys
  
-+        self.has_ptest = bb.data.inherits_class('ptest', recipe_d)
-+
-         # Recipe ID is the identifier for IDE config sections
-         self.recipe_id = self.bpn + "-" + self.package_arch
-         self.recipe_id_pretty = self.bpn + ": " + self.package_arch
-@@ -1235,9 +1356,21 @@ def ide_setup(args, config, basepath, workspace):
-         if recipe in ['meta-ide-support', 'build-sysroots']:
-             raise DevtoolError("Invalid recipe: %s." % recipe)
+-if [ $# != 2 ]; then
+-	usage
+-	exit 1
+-fi
++sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
  
--    # Collect information about tasks which need to be bitbaked
-+    # Collect information about tasks which need to be bitbaked.
-+    # In modified mode the image build is held back until after
-+    # setup_modified_recipe() has assigned the debugger port numbers and
-+    # update_image_bbappend() has written the complete bbappend. That way
-+    # the image is built with a single, stable recipe hash so that no
-+    # basehash-changed warnings are emitted.
-     bootstrap_tasks = []
-     bootstrap_tasks_late = []
-+    image_bootstrap_tasks = []
-+    # Must happen before setup_tinfoil() so that every parse in this session
-+    # sees the same bbappend content. Which of the recipes is the image is only
-+    # known after parsing, so this covers all of them; for a recipe without an
-+    # ide-sdk section it is a no-op.
-+    orig_bbappend_contents = RecipeImage.strip_bbappend_sections(
-+        config, args.recipenames)
-     tinfoil = setup_tinfoil(config_only=False, basepath=basepath)
-     try:
-         # define mode depending on recipes which need to be processed
-@@ -1269,8 +1402,9 @@ def ide_setup(args, config, basepath, workspace):
-             if not recipes_modified_names:
-                 appends_dir = os.path.join(config.workspace_path, 'appends')
-                 recipes_modified_names = sorted(
--                    os.path.splitext(os.path.basename(path))[0]
--                    for path in glob.glob(os.path.join(appends_dir, '*.bbappend')))
-+                    bb.parse.vars_from_file(path, None)[0]
-+                    for path in glob.glob(os.path.join(appends_dir, '*.bbappend'))
-+                    if bb.parse.vars_from_file(path, None)[0] not in recipes_image_names)
-                 if recipes_modified_names:
-                     logger.info(
-                         "No modified recipes specified, using workspace bbappends from %s: %s",
-@@ -1302,9 +1436,17 @@ def ide_setup(args, config, basepath, workspace):
-         recipes_images = []
-         for recipes_image_name in recipes_image_names:
-             logger.info("Using image: %s" % recipes_image_name)
--            recipe_image = RecipeImage(recipes_image_name)
-+            recipe_image = RecipeImage(
-+                recipes_image_name,
-+                orig_bbappend_contents.get(recipes_image_name))
-             recipe_image.initialize(config, tinfoil)
--            bootstrap_tasks += recipe_image.bootstrap_tasks
-+            if args.mode == DevtoolIdeMode.modified:
-+                # Keep the image build separate so that the complete bbappend
-+                # can be written in one step before the image is built,
-+                # avoiding sstate hash mismatches.
-+                image_bootstrap_tasks += recipe_image.bootstrap_tasks
-+            else:
-+                bootstrap_tasks += recipe_image.bootstrap_tasks
-             recipes_images.append(recipe_image)
+-if [[ "$1" != "start" && "$1" != "stop" && "$1" != "restart" ]]; then
+-	echo "Unknown command '$1'"
+-	usage
+-	exit 1
+-fi
++from runqemu_utils import export_rootfs_main
  
-         # Provide a Direct SDK with shared sysroots
-@@ -1357,37 +1499,22 @@ def ide_setup(args, config, basepath, workspace):
-     finally:
-         tinfoil.shutdown()
+-if [ ! -d "$2" ]; then
+-	echo "Error: '$2' does not exist"
+-	usage
+-	exit 1
+-fi
+-# Ensure the nfs-export-dir is an absolute path
+-NFS_EXPORT_DIR=$(cd "$2" && pwd)
  
-+    bb_cmd = 'bitbake '
-+    if args.bitbake_k:
-+        bb_cmd += "-k "
-+
-     if not args.skip_bitbake:
--        bb_cmd = 'bitbake '
--        if args.bitbake_k:
--            bb_cmd += "-k "
--        bb_cmd_early = bb_cmd + ' '.join(bootstrap_tasks)
--        exec_build_env_command(
--            config.init_path, basepath, bb_cmd_early, watch=True)
--        if bootstrap_tasks_late:
--            bb_cmd_late = bb_cmd + ' '.join(bootstrap_tasks_late)
-+        # Phase 1: build modified recipes and debug tools so that
-+        # installed_binaries is populated and port numbers can be assigned.
-+        # The image is built in phase 2, after the complete bbappend is written.
-+        if bootstrap_tasks:
-             exec_build_env_command(
--                config.init_path, basepath, bb_cmd_late, watch=True)
+-SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
+-if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
+-	echo "Error: Unable to find the oe-find-native-sysroot script"
+-	echo "Did you forget to source your build environment setup script?"
+-	exit 1
+-fi
+-. $SYSROOT_SETUP_SCRIPT qemu-helper-native
 -
--    wants_gdbserver = any(
--        r.wants_gdbserver and r.toolchain == 'gcc'
--        for r in recipes_modified)
--    wants_lldb_server = any(
--        r.wants_gdbserver and r.toolchain == 'clang'
--        for r in recipes_modified)
--    for recipe_image in recipes_images:
--        if wants_gdbserver and recipe_image.gdbserver_missing:
--            logger.warning(
--                "gdbserver not installed in image %s. Remote debugging will not be available" % recipe_image)
--        if wants_lldb_server and recipe_image.lldb_server_missing:
--            logger.warning(
--                "lldb-server not installed in image %s. "
--                "Remote debugging with LLDB (CodeLLDB) will not be available. "
--                "Add 'lldb-server' to IMAGE_INSTALL." % recipe_image)
+-if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/unfsd" ]; then
+-	echo "Error: Unable to find unfsd binary in $OECORE_NATIVE_SYSROOT/usr/bin/"
 -
--        if (wants_gdbserver or wants_lldb_server) and recipe_image.combine_dbg_image is False:
--            logger.warning(
--                'IMAGE_CLASSES += "image-combined-dbg" is missing for image %s. Remote debugging will not find debug symbols from rootfs-dbg.' % recipe_image)
-+                config.init_path, basepath,
-+                bb_cmd + ' '.join(bootstrap_tasks), watch=True)
-+        if bootstrap_tasks_late:
-+            exec_build_env_command(
-+                config.init_path, basepath,
-+                bb_cmd + ' '.join(bootstrap_tasks_late), watch=True)
- 
-     # Instantiate the active IDE plugin
-     ide = ide_plugins[args.ide]()
-@@ -1408,6 +1535,39 @@ def ide_setup(args, config, basepath, workspace):
-                     'You might want to add DEBUG_BUILD = "1" to %s. '
-                     'Note that devtool modify --debug-build can do this automatically.',
-                     recipe_modified.name, recipe_modified.bbappend)
-+
-+        # Ports are now assigned. Write the complete image bbappend in a
-+        # single step so that the image is built with exactly one recipe
-+        # hash. This avoids the sstate basehash-changed warnings that
-+        # arise when the bbappend is modified after the image has
-+        # already been built. This also runs with --skip-bitbake, otherwise
-+        # the section removed by strip_bbappend_sections() would be lost.
-+        bbappend_changed = False
-+        for ri in recipes_images:
-+            if ri.update_image_bbappend(recipes_modified):
-+                bbappend_changed = True
-+
-+        if not args.skip_bitbake:
-+            if image_bootstrap_tasks:
-+                if bbappend_changed:
-+                    # The bbappend content just written differs from the one
-+                    # bitbake parsed during the tinfoil session above. With a
-+                    # memory resident server that session's basehashes are
-+                    # still cached, so reparsing would report "basehash value
-+                    # changed ... not deterministic" for every task. Tell
-+                    # bitbake the recipe intentionally changed by resetting the
-+                    # cooker: this clears its basehash history.
-+                    reparse_tinfoil = setup_tinfoil(config_only=True, basepath=basepath)
-+                    try:
-+                        reparse_tinfoil.run_command('resetCooker')
-+                        reparse_tinfoil.parse_recipes()
-+                    finally:
-+                        reparse_tinfoil.shutdown()
-+
-+                # Phase 2: build the image
-+                exec_build_env_command(
-+                    config.init_path, basepath,
-+                    bb_cmd + ' '.join(image_bootstrap_tasks), watch=True)
-     else:
-         raise DevtoolError("Must not end up here.")
- 
-@@ -1483,7 +1643,8 @@ def register_commands(subparsers, context):
-     parser_ide_sdk.add_argument(
-         '-I', '--key', help='Specify ssh private key for connection to the target')
-     parser_ide_sdk.add_argument(
--        '--skip-bitbake', help='Generate IDE configuration but skip calling bitbake to update the SDK', action='store_true')
-+        '--skip-bitbake', help='Skip the bitbake builds which update the SDK. The recipes are still parsed, '
-+        'the IDE configuration is generated from their metadata', action='store_true')
-     parser_ide_sdk.add_argument(
-         '-k', '--bitbake-k', help='Pass -k parameter to bitbake', action='store_true')
-     parser_ide_sdk.add_argument(
+-	echo "This shouldn't happen - something is missing from your toolchain installation"
+-	exit 1
+-fi
+-
+-if [ ! -d ~/.runqemu-sdk ]; then
+-	mkdir -p ~/.runqemu-sdk
+-fi
+-
+-NFS_INSTANCE=${NFS_INSTANCE:=0}
+-EXPORTS=~/.runqemu-sdk/exports$NFS_INSTANCE
+-RMTAB=~/.runqemu-sdk/rmtab$NFS_INSTANCE
+-NFSPID=~/.runqemu-sdk/nfs$NFS_INSTANCE.pid
+-MOUNTPID=~/.runqemu-sdk/mount$NFS_INSTANCE.pid
+-
+-PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
+-PSEUDO_LOCALSTATEDIR="$NFS_EXPORT_DIR/../$(basename $NFS_EXPORT_DIR).pseudo_state"
+-export PSEUDO_LOCALSTATEDIR
+-
+-if [ ! -d "$PSEUDO_LOCALSTATEDIR" ]; then
+-	echo "Error: $PSEUDO_LOCALSTATEDIR does not exist."
+-	echo "Did you create the export directory using runqemu-extract-sdk?"
+-	exit 1	
+-fi
+-
+-# NFS server port number
+-NFSD_PORT=${NFSD_PORT:=$[ 3049 + 2 * $NFS_INSTANCE ]}
+-# mountd port number
+-MOUNTD_PORT=${MOUNTD_PORT:=$[ 3048 + 2 * $NFS_INSTANCE ]}
+-
+-## For debugging you would additionally add
+-## --debug all
+-UNFSD_OPTS="-p -i $NFSPID -e $EXPORTS -n $NFSD_PORT -m $MOUNTD_PORT"
+-
+-# See how we were called.
+-case "$1" in
+-  start)
+-	echo "Creating exports file..."
+-	echo "$NFS_EXPORT_DIR (rw,no_root_squash,no_all_squash,insecure)" > $EXPORTS
+-
+-	echo "Starting User Mode nfsd"
+-	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/bin/unfsd $UNFSD_OPTS"
+-	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/bin/unfsd $UNFSD_OPTS
+-	if [ ! $? = 0 ]; then
+-		echo "Error starting nfsd"
+-		exit 1
+-	fi
+-	# Check to make sure everything started ok.
+-	if [ ! -f $NFSPID ]; then
+-		echo "rpc.nfsd did not start correctly"
+-		exit 1
+-	fi
+-	ps -fp `cat $NFSPID` > /dev/null 2> /dev/null
+-	if [ ! $? = 0 ]; then
+-		echo "rpc.nfsd did not start correctly"
+-		exit 1
+-	fi
+-	echo " "
+-	echo "On your target please remember to add the following options for NFS"
+-	echo "nfsroot=IP_ADDRESS:$NFS_EXPORT_DIR,nfsvers=3,port=$NFSD_PORT,udp,mountport=$MOUNTD_PORT"
+-	;;
+-  stop)
+-	if [ -f "$NFSPID" ]; then
+-		echo "Stopping rpc.nfsd"
+-		kill `cat $NFSPID`
+-		rm -f $NFSPID
+-	else
+-		echo "No PID file, not stopping rpc.nfsd"
+-	fi
+-	if [ -f "$EXPORTS" ]; then
+-		echo "Removing exports file"
+-		rm -f $EXPORTS
+-	fi
+-	;;
+-  restart)
+-	$0 stop $NFS_EXPORT_DIR
+-	$0 start $NFS_EXPORT_DIR 
+-	if [ ! $? = 0 ]; then
+-		exit 1
+-	fi
+-	;;
+-  *)
+-	echo "$0 {start|stop|restart} <nfs-export-dir>"
+-	;;
+-esac
+-
+-exit 0
++sys.exit(export_rootfs_main())
 -- 
 2.55.0
 
