@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE87C61DF1
-	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:29:53 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9452.1788100183423549590
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C194C61DFD
+	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:29:54 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9453.1788100183423622171
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 07:29:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=KBdLNn2q;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-2026083014294149620e0f8000020791-ua86qh@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 2026083014294149620e0f8000020791
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=U5FOK71D;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-2026083014294068bad33313000207a3-g5tgoh@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2026083014294068bad33313000207a3
         for <openembedded-core@lists.openembedded.org>;
         Sun, 30 Aug 2026 16:29:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=zapn1ATaEPuLk0BjjMDJRIZsVJtdMIz1iekdlLb+m+U=;
- b=KBdLNn2q0Cbnx35EUfpOFnSTb0krRzN5nzLS6sxK2WsM3ZfrKf9xdNuwkts3bfNjD9jxjt
- cuJbEzIqWWocamxPwlnqQoTk/xV+7VCXz/pt4tjGjDmX/DB294amylH6lj4uqQrBG7L8UDtF
- je5R+JYZvfOA6xolPfIkKx/pJU3r+KyvMb37TsqCwODDU5cp1TztyjD2kfcpC/rj95gneMg0
- WF48d3k0uJAzILDoEhIgDJ7L8A1IlaTjtvm91xL4U+BJaWjVZ4jKvC6yUIyoS39PxYvU9Pw/
- aO/q8NIwhl2BwNXtM+vr4lF3+8qa+GzYGY0fIj/4FaloBFyulWjIk8Bw==;
+ bh=K1qrykSNcjEu7y502YB/cPZ2jFJx5l8WZmcl82y5JFc=;
+ b=U5FOK71D/ECR9yS/iDbGoF+Hm5fUXLNrtU7MfRlO6JQf2ofq15NsLMqpbKuGriQCVGR1Xd
+ cdWD/z6ZzbgPv+c1szi4EOL8CT+ogw8LOAFZFaGdftvAOD2vCWW/kht3OQIMQ7wnZI7linUx
+ J9qTL1lRFqLvRk4CUowYKZVM/j3pmduGs39gM2hTKkYMIZdr1Jv+DLQDli88kX4u3s1UaN9+
+ QWlgClr3yZGNNhWTgtA2PWNJ6dWqBlIRMmHsujqJrDJESlGRAXsK7g10TTrVelaKvufzHyWA
+ cy0sD0cr2e3yTwrXqBiDk8925Gn24AhWNeVJm6c6c+1COCYq1LKfcI/g==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 15/24] runqemu-extract-sdk: refactor in Python
-Date: Sun, 30 Aug 2026 16:28:42 +0200
-Message-ID: <20260830142922.17241-16-adrian.freihofer@siemens.com>
+Subject: [PATCH 06/24] oe-selftest: devtool ide-sdk: adapt tests for auto-written image debug settings
+Date: Sun, 30 Aug 2026 16:28:33 +0200
+Message-ID: <20260830142922.17241-7-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 References: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,289 +38,264 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:29:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244677
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:29:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244676
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Move the pseudo-backed rootfs extraction logic into a reusable Python
-module while preserving the existing command interface.
-Install the module with qemu-helper so the wrapper also works from an SDK.
+devtool ide-sdk now writes IMAGE_GEN_DEBUGFS, IMAGE_CLASSES +=
+"image-combined-dbg" and the required IMAGE_INSTALL entries
+(gdbserver/lldb-server, per-recipe ptest packages) to the image
+workspace bbappend automatically. _write_bb_config() therefore no
+longer sets these in local.conf, so tests also exercise that ide-sdk
+does not need help from local.conf to enable image debug support.
 
-AI-Generated: Uses GitHub Copilot
+Tests that use runqemu now call devtool ide-sdk once before starting
+QEMU to build the image with the debug settings already applied, and
+again with --skip-bitbake -t root@<ip> once the real target IP is
+known, to update the deploy scripts without triggering a redundant
+image rebuild.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .../qemu/nativesdk-qemu-helper_1.0.bb         |   3 +
- scripts/lib/runqemu_utils.py                  | 124 ++++++++++++++++++
- scripts/runqemu-extract-sdk                   | 103 +--------------
- 3 files changed, 133 insertions(+), 97 deletions(-)
- create mode 100644 scripts/lib/runqemu_utils.py
+ meta/lib/oeqa/selftest/cases/devtool.py | 111 +++++++++++++-----------
+ 1 file changed, 61 insertions(+), 50 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-index e1f343989a..16fc07fadf 100644
---- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-+++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-@@ -9,6 +9,7 @@ RDEPENDS:${PN} = "nativesdk-qemu nativesdk-unfs3 nativesdk-pseudo \
- LIC_FILES_CHKSUM = "file://${COREBASE}/scripts/runqemu;beginline=5;endline=10;md5=ac2b489a58739c7628a2604698db5e7f"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 87efa1ee80..1ecf4c24f5 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2889,15 +2889,15 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         if self.logger.isEnabledFor(logging.DEBUG):
+             self._cmd_logger = self.logger
  
- SRC_URI = "file://${COREBASE}/scripts/runqemu \
-+           file://${COREBASE}/scripts/lib/runqemu_utils.py \
-            file://${COREBASE}/scripts/runqemu-addptable2image \
-            file://${COREBASE}/scripts/runqemu-gen-tapdevs \
-            file://${COREBASE}/scripts/runqemu-ifup \
-@@ -30,4 +31,6 @@ do_install() {
- 	install -d ${D}${bindir}
- 	install -m 0755 ${S}${COREBASE}/scripts/oe-* ${D}${bindir}/
- 	install -m 0755 ${S}${COREBASE}/scripts/runqemu* ${D}${bindir}/
-+	# The runqemu-* wrappers import this module from their own directory.
-+	install -m 0644 ${S}${COREBASE}/scripts/lib/runqemu_utils.py ${D}${bindir}/
- }
-diff --git a/scripts/lib/runqemu_utils.py b/scripts/lib/runqemu_utils.py
-new file mode 100644
-index 0000000000..dff0ca8d3a
---- /dev/null
-+++ b/scripts/lib/runqemu_utils.py
-@@ -0,0 +1,124 @@
-+#!/usr/bin/env python3
-+#
-+# Helpers shared by runqemu and NFS-rootfs preparation tools.
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
+-    def _write_bb_config(self, recipe_names, extra_packages=None):
+-        """Helper to write the bitbake local.conf file"""
+-        image_install = 'gdbserver ' + ' '.join([r + '-ptest' for r in recipe_names])
+-        if extra_packages:
+-            image_install += ' ' + ' '.join(extra_packages)
++    def _write_bb_config(self):
++        """Helper to write the bitbake local.conf file.
 +
-+"""Extract and export rootfs tarballs for NFS booting."""
-+
-+import os
-+import subprocess
-+import sys
-+
-+
-+class RunQemuRootfsError(Exception):
-+    """Raised when an NFS rootfs cannot be prepared or exported."""
-+
-+
-+def native_environment():
-+    """Return the qemu-helper-native environment set by oe-find-native-sysroot."""
-+    command = '''
-+        helper=$(command -v oe-find-native-sysroot) || exit 127
-+        . "$helper" qemu-helper-native >/dev/null
-+        env -0
-+        printf 'PSEUDO=%s\\0OECORE_NATIVE_SYSROOT=%s\\0' "$PSEUDO" "$OECORE_NATIVE_SYSROOT"
-+    '''
-+    result = subprocess.run(['bash', '-c', command], capture_output=True)
-+    if result.returncode:
-+        if result.returncode == 127:
-+            raise RunQemuRootfsError(
-+                'Unable to find the oe-find-native-sysroot script.\n'
-+                'Did you forget to source your build system environment setup script?')
-+        raise RunQemuRootfsError(
-+            result.stderr.decode(errors='replace').strip() or
-+            'Unable to set up the qemu-helper-native sysroot')
-+
-+    environment = {}
-+    for entry in result.stdout.split(b'\0'):
-+        if b'=' in entry:
-+            key, value = entry.split(b'=', 1)
-+            environment[key.decode()] = value.decode()
-+    return environment
-+
-+
-+def _tar_options(rootfs_tarball):
-+    if rootfs_tarball.endswith('.tar.xz'):
-+        return ['--numeric-owner', '-xJf']
-+    if rootfs_tarball.endswith('.tar.bz2'):
-+        return ['--numeric-owner', '-xjf']
-+    if rootfs_tarball.endswith('.tar.gz'):
-+        return ['--numeric-owner', '-xzf']
-+    if rootfs_tarball.endswith('.tar.zst'):
-+        return ['--numeric-owner', '--zstd', '-xf']
-+    if rootfs_tarball.endswith('.tar'):
-+        return ['--numeric-owner', '-xf']
-+    raise RunQemuRootfsError(
-+        'Unable to determine sdk tarball format\n'
-+        'Accepted types: .tar / .tar.gz / .tar.bz2 / .tar.xz / .tar.zst')
-+
-+
-+def pseudo_state_dir(rootfs_dir):
-+    """Return the pseudo database location associated with an extracted rootfs."""
-+    rootfs_dir = os.path.realpath(rootfs_dir)
-+    return os.path.join(os.path.dirname(rootfs_dir),
-+                        os.path.basename(rootfs_dir) + '.pseudo_state')
-+
-+
-+def extract_sdk_rootfs(rootfs_tarball, rootfs_dir):
-+    """Extract a rootfs tarball under pseudo and return its absolute directory."""
-+    if not os.path.exists(rootfs_tarball):
-+        raise RunQemuRootfsError("sdk tarball '%s' does not exist" % rootfs_tarball)
-+
-+    rootfs_tarball = os.path.realpath(rootfs_tarball)
-+    rootfs_dir = os.path.realpath(rootfs_dir)
-+    tar_options = _tar_options(rootfs_tarball)
-+    state_dir = pseudo_state_dir(rootfs_dir)
-+    debug_image = '-dbg' in os.path.basename(rootfs_tarball)
-+
-+    if os.path.exists(state_dir) and not debug_image:
-+        raise RunQemuRootfsError(
-+            '%s already exists!\n'
-+            'Please delete the rootfs tree and pseudo directory manually\n'
-+            'if this is really what you want.' % state_dir)
-+
-+    os.makedirs(rootfs_dir, exist_ok=True)
-+    os.makedirs(state_dir, exist_ok=True)
-+    open(os.path.join(state_dir, 'pseudo.pid'), 'a').close()
-+
-+    environment = native_environment()
-+    environment['PSEUDO_LOCALSTATEDIR'] = state_dir
-+    environment['PSEUDO_INCLUDE_PATHS'] = rootfs_dir
-+    pseudo = environment.get('PSEUDO')
-+    native_sysroot = environment.get('OECORE_NATIVE_SYSROOT')
-+    if not pseudo or not native_sysroot:
-+        raise RunQemuRootfsError('qemu-helper-native did not provide pseudo')
-+
-+    command = [pseudo, '-P', os.path.join(native_sysroot, 'usr'), 'tar', '-C', rootfs_dir]
-+    command.extend(tar_options)
-+    command.append(rootfs_tarball)
-+    print('Extracting rootfs tarball using pseudo...')
-+    print(' '.join(command))
-+    try:
-+        subprocess.run(command, env=environment, check=True)
-+    except subprocess.CalledProcessError as exc:
-+        raise RunQemuRootfsError('Failed to extract rootfs tarball') from exc
-+
-+    if len(os.listdir(rootfs_dir)) < 4:
-+        print("Warning: I don't see many files in %s" % rootfs_dir)
-+        print('Please double-check the extraction worked as intended')
-+    else:
-+        print('SDK image successfully extracted to %s' % rootfs_dir)
-+    return rootfs_dir
-+
-+
-+def extract_sdk_main(argv=None):
-+    argv = sys.argv[1:] if argv is None else argv
-+    if len(argv) != 2:
-+        print('Usage: %s <image-tarball> <extract-dir>' % sys.argv[0])
-+        return 1
-+    try:
-+        extract_sdk_rootfs(*argv)
-+    except RunQemuRootfsError as exc:
-+        print('Error: %s' % exc)
-+        return 1
-+    return 0
-diff --git a/scripts/runqemu-extract-sdk b/scripts/runqemu-extract-sdk
-index db9813e1dc..6cad2fdf90 100755
---- a/scripts/runqemu-extract-sdk
-+++ b/scripts/runqemu-extract-sdk
-@@ -1,104 +1,13 @@
--#!/bin/bash
--#
--# This utility extracts an SDK image tarball using pseudo, and stores
--# the pseudo database in var/pseudo within the rootfs. If you want to
--# boot QEMU using an nfsroot, you *must* use this script to create the
--# rootfs to ensure it is done correctly with pseudo.
--#
--# Copyright (c) 2010 Intel Corp.
-+#!/usr/bin/env python3
- #
- # SPDX-License-Identifier: GPL-2.0-only
--#
++        Image debug settings (IMAGE_GEN_DEBUGFS, IMAGE_CLASSES += image-combined-dbg,
++        IMAGE_INSTALL for gdbserver/lldb-server and the recipe under test) are written
++        automatically by devtool ide-sdk to the image workspace bbappend.
++        Only settings not managed by ide_sdk are configured here.
++        """
+         conf_lines = [
+-            'IMAGE_CLASSES += "image-combined-dbg"',
+-            'IMAGE_GEN_DEBUGFS = "1"',
+-            'IMAGE_INSTALL:append = " %s"' % image_install,
+             'DISTRO_FEATURES:append = " ptest"',
+             # Static UIDs/GIDs are required so that files installed via
+             # "install -o ${BPN}" in do_install embed the same UID that gets
+@@ -3374,70 +3374,67 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+         testimage = "oe-selftest-image"
  
--function usage() {
--	echo "Usage: $0 <image-tarball> <extract-dir>"
--}
-+import os
-+import sys
+         self._check_workspace()
+-        self._write_bb_config(recipe_names)
++        self._write_bb_config()
+         self._check_runqemu_prerequisites()
  
--if [ $# -ne 2 ]; then
--	usage
--	exit 1
--fi
-+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
+         # Verify deployment to Qemu (system mode) works
+-        bitbake(testimage)
++        tempdir_cmake = self._devtool_ide_sdk_recipe("cmake-example", "CMakeLists.txt", None)
++        tempdir_meson = self._devtool_ide_sdk_recipe("meson-example", "meson.build", testimage)
++        runCmd('devtool ide-sdk cmake-example meson-example %s -c --ide=none' % testimage,
++               output_log=self._cmd_logger)
++
+         with runqemu(testimage, runqemuparams="nographic") as qemu:
+             # cmake-example recipe
+             recipe_name = "cmake-example"
+             example_exe = "cmake-example"
+             example_user_group = "cmake-example"
+             conf_file = "/etc/cmake-example.conf"
+-            build_file = "CMakeLists.txt"
  
--SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
--if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
--	echo "Error: Unable to find the oe-find-native-sysroot script"
--	echo "Did you forget to source your build system environment setup script?"
--	exit 1
--fi
--. $SYSROOT_SETUP_SCRIPT qemu-helper-native
--PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
-+from runqemu_utils import extract_sdk_main
+             # Verify the cmake-example service is running on the target
+             self._verify_service_running(qemu, example_exe)
+             # Verify /etc/cmake-example.conf is owned by the cmake-example user
+             self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
  
--ROOTFS_TARBALL=$1
--SDK_ROOTFS_DIR=$2
+-            # Setup the recipe with devtool ide-sdk cmake-example ...
+-            tempdir = self._devtool_ide_sdk_recipe(
+-                recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
++            # Re-run ide-sdk with the actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
  
--if [ ! -e "$ROOTFS_TARBALL" ]; then
--	echo "Error: sdk tarball '$ROOTFS_TARBALL' does not exist"
--	usage
--	exit 1
--fi
+             self._gdb_cross()
+-            compile_cmd = self._verify_cmake_preset(tempdir)
+-            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe, compile_cmd)
++            compile_cmd = self._verify_cmake_preset(tempdir_cmake)
++            self._devtool_ide_sdk_qemu(tempdir_cmake, qemu, recipe_name, example_exe, compile_cmd)
+ 
+             # Verify the oe-scripts sym-link is valid
+             self.assertEqual(self._workspace_scripts_dir(
+-                recipe_name), self._sources_scripts_dir(tempdir))
++                recipe_name), self._sources_scripts_dir(tempdir_cmake))
+ 
+             # Verify /etc/cmake-example.conf is still owned by the cmake-example user
+             # after the install and deploy scripts updated the file
+             self._verify_conf_file(qemu, conf_file, example_exe, example_exe)
+ 
 -
--# Convert SDK_ROOTFS_DIR to a full pathname
--if [[ ${SDK_ROOTFS_DIR:0:1} != "/" ]]; then
--	SDK_ROOTFS_DIR=$(readlink -f $(pwd)/$SDK_ROOTFS_DIR)
--fi
--
--TAR_OPTS=""
--if [[ "$ROOTFS_TARBALL" =~ tar\.xz$ ]]; then
--	TAR_OPTS="--numeric-owner -xJf"
--fi
--if [[ "$ROOTFS_TARBALL" =~ tar\.bz2$ ]]; then
--	TAR_OPTS="--numeric-owner -xjf"
--fi
--if [[ "$ROOTFS_TARBALL" =~ tar\.gz$ ]]; then
--	TAR_OPTS="--numeric-owner -xzf"
--fi
--if [[ "$ROOTFS_TARBALL" =~ tar\.zst$ ]]; then
--	TAR_OPTS="--numeric-owner --zstd -xf"
--fi
--if [[ "$ROOTFS_TARBALL" =~ \.tar$ ]]; then
--	TAR_OPTS="--numeric-owner -xf"
--fi
--if [ -z "$TAR_OPTS" ]; then
--	echo "Error: Unable to determine sdk tarball format"
--	echo "Accepted types: .tar / .tar.gz / .tar.bz2 / .tar.xz / tar.zst"
--	exit 1
--fi
--
--if [ ! -d "$SDK_ROOTFS_DIR" ]; then
--	echo "Creating directory $SDK_ROOTFS_DIR"
--	mkdir -p "$SDK_ROOTFS_DIR"
--fi
--
--pseudo_state_dir="$SDK_ROOTFS_DIR/../$(basename "$SDK_ROOTFS_DIR").pseudo_state"
--pseudo_state_dir="$(readlink -f $pseudo_state_dir)"
--
--debug_image="`echo $ROOTFS_TARBALL | grep '\-dbg\.rootfs\.tar'`"
--
--if [ -e "$pseudo_state_dir" -a -z "$debug_image" ]; then
--	echo "Error: $pseudo_state_dir already exists!"
--	echo "Please delete the rootfs tree and pseudo directory manually"
--	echo "if this is really what you want."
--	exit 1
--fi
--
--mkdir -p "$pseudo_state_dir"
--touch "$pseudo_state_dir/pseudo.pid"
--PSEUDO_LOCALSTATEDIR="$pseudo_state_dir"
--export PSEUDO_LOCALSTATEDIR
--PSEUDO_INCLUDE_PATHS="$SDK_ROOTFS_DIR"
--export PSEUDO_INCLUDE_PATHS
--
--echo "Extracting rootfs tarball using pseudo..."
--echo "$PSEUDO $PSEUDO_OPTS tar -C \"$SDK_ROOTFS_DIR\" $TAR_OPTS \"$ROOTFS_TARBALL\""
--$PSEUDO $PSEUDO_OPTS tar -C "$SDK_ROOTFS_DIR" $TAR_OPTS "$ROOTFS_TARBALL"
--
--DIRCHECK=`ls -l "$SDK_ROOTFS_DIR" | wc -l`
--if [ "$DIRCHECK" -lt 5 ]; then
--	echo "Warning: I don't see many files in $SDK_ROOTFS_DIR"
--	echo "Please double-check the extraction worked as intended"
--	exit 0
--fi
--
--echo "SDK image successfully extracted to $SDK_ROOTFS_DIR"
--
--exit 0
-+sys.exit(extract_sdk_main())
+             # meson-example recipe
+             recipe_name = "meson-example"
+             example_exe = "mesonex"
+             example_user_group = "meson-example"
+             conf_file = "/etc/meson-example.conf"
+-            build_file = "meson.build"
+ 
+             # Verify the meson-example service is running on the target
+             self._verify_service_running(qemu, example_exe)
+             # Verify /etc/meson-example.conf is owned by the meson-example user
+             self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
+ 
+-            # Setup the recipe with devtool ide-sdk meson-example ...
+-            tempdir = self._devtool_ide_sdk_recipe(
+-                recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
++            # Re-run ide-sdk with the actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+             self._gdb_cross()
+-            compile_cmd = self._verify_meson_build(tempdir, recipe_name)
+-            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe, compile_cmd)
++            compile_cmd = self._verify_meson_build(tempdir_meson, recipe_name)
++            self._devtool_ide_sdk_qemu(tempdir_meson, qemu, recipe_name, example_exe, compile_cmd)
+ 
+             # Verify the oe-scripts sym-link is valid
+             self.assertEqual(self._workspace_scripts_dir(
+-                recipe_name), self._sources_scripts_dir(tempdir))
++                recipe_name), self._sources_scripts_dir(tempdir_meson))
+ 
+             # Verify /etc/meson-example.conf is still owned by the meson-example user
+             # after the install and deploy scripts updated the file
+@@ -3784,15 +3781,17 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+         build_file = "CMakeLists.txt"
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name])
++        self._write_bb_config()
+ 
+-        # Verify deployment to Qemu (system mode) works
++        # Build image with debug settings before starting QEMU
+         self._check_runqemu_prerequisites()
+-        bitbake(testimage)
++        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
++        runCmd('devtool ide-sdk %s %s -c --ide=code' % (recipe_name, testimage),
++               output_log=self._cmd_logger)
++
+         with runqemu(testimage, runqemuparams="nographic") as qemu:
+-            tempdir = self._devtool_ide_sdk_recipe(
+-                recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
++            # Re-run with actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=code' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+             self._verify_cmake_preset(tempdir)
+@@ -3814,15 +3813,18 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+         testimage = "oe-selftest-image"
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name])
++        self._write_bb_config()
+ 
+-        # Verify deployment to Qemu (system mode) works
++        # Build image with debug settings before starting QEMU
+         self._check_runqemu_prerequisites()
+-        bitbake(testimage)
++        tempdir = self._devtool_ide_sdk_recipe(
++            recipe_name, build_file, testimage)
++        runCmd('devtool ide-sdk %s %s -c --ide=code' % (recipe_name, testimage),
++               output_log=self._cmd_logger)
++
+         with runqemu(testimage, runqemuparams="nographic") as qemu:
+-            tempdir = self._devtool_ide_sdk_recipe(
+-                recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
++            # Re-run with actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=code' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+@@ -4507,13 +4509,17 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
+         testimage = "oe-selftest-image"
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
++        self._write_bb_config()
+ 
++        # Build image with debug settings (lldb-server for clang) before starting QEMU
+         self._check_runqemu_prerequisites()
+-        bitbake(testimage)
++        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
++        runCmd('devtool ide-sdk %s %s -c --ide=code' % (recipe_name, testimage),
++               output_log=self._cmd_logger)
++
+         with runqemu(testimage, runqemuparams="nographic") as qemu:
+-            tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
++            # Re-run with actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=code' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+@@ -4566,7 +4572,7 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
+         testimage = "oe-selftest-image"
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
++        self._write_bb_config()
+ 
+         # Build image with debug settings (lldb-server for clang) before starting QEMU
+         self._check_runqemu_prerequisites()
+@@ -4678,12 +4684,17 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
+         testimage = 'oe-selftest-image'
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
++        self._write_bb_config()
+         self._check_runqemu_prerequisites()
+-        bitbake(testimage)
++
++        # Build image with debug settings (lldb-server for clang) before starting QEMU
++        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
++        runCmd('devtool ide-sdk %s %s -c --ide=none' % (recipe_name, testimage),
++               output_log=self._cmd_logger)
++
+         with runqemu(testimage, runqemuparams='nographic') as qemu:
+-            tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
++            # Re-run with actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+@@ -4742,7 +4753,7 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
+         testimage = 'oe-selftest-image'
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
++        self._write_bb_config()
+         self._check_runqemu_prerequisites()
+ 
+         # Build image with debug settings (lldb-server for clang) before starting QEMU
+@@ -4803,7 +4814,7 @@ class DevtoolIdeSdkMiscTests(DevtoolIdeSdkTests):
+         shared_recipe_name = "cmake-example"
+ 
+         self._check_workspace()
+-        self._write_bb_config([modified_recipe_name])
++        self._write_bb_config()
+         tempdir = self._devtool_ide_sdk_recipe(
+             modified_recipe_name, modified_build_file, None)
+ 
 -- 
 2.55.0
 
