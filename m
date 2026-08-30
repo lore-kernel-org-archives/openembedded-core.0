@@ -2,36 +2,35 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B7DFFC624D3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1270C624D2
 	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 21:49:27 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17151.1788126560905249504
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17146.1788126560348882388
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 14:49:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=AXUx1GwE;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-20260830214919748d1f6696000207f5-ole7ab@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20260830214919748d1f6696000207f5
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=ikSMsMZX;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-20260830214917f0abe47c0700020783-fm6k5y@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260830214917f0abe47c0700020783
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 30 Aug 2026 23:49:19 +0200
+        Sun, 30 Aug 2026 23:49:17 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=mdB2D9oOIhE1+3lfi9RCmJPeu6zpwig5nfpZvKdceLM=;
- b=AXUx1GwEWz0WMVqguH0VKXaDEkJcCJ+vPJPb7Suq2P2vwwmcLd9r74N7pS9kHvih4co064
- CXKEdT2KwrT9E9gzzqnEoN74NV88FD+r6iSwTTWSH1oRZZYGqtN2IMmtVHljDWLdObGKd0jR
- +V14yRjV52RXMFCABDNNIvGNmOFoxn4yHggTgJDvaVrOUQemMFE89R+CXy86GSZyeW2WTugH
- b/6gjxbKm5E7RqlezEKiuGmTsRDEJ//ee/P8MTKbD9WbgMlNa/92GT2ibmH2P3Hm4BAK4woD
- 1MA4zZAq2dWGKRHJ40LpVU+AHWnXo1zSDBnqrUxBum7om4l3IPNysC4w==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=MeGOq4NJSF1qlTmvXANY9h8ddDBaXdnjFN6c1HKM5qc=;
+ b=ikSMsMZXOJbu3vgn+aaYlcNGKZZfRniu0TkT11GZBCYboUo4DMDq/3pZQc7Tftn4BTk3Zv
+ G8Np60WmjgvDO63VYlcYBV5AaaoGZd+NFxHrrlbL5Jlx7dCTCyEumkoi/gNbO3xIRmrQaaEY
+ BB96KqMxaAfILMCaKaUIqsqSYDw/k32UF0FU72FL1+dNdODpnhk7++8R+yIDoxij2ifXOTfz
+ jYEiuT30Tk9jSO3w4PI7IqfkZRIc2LpEIm+XCdB7gi8ShxBHO2ZFMW7qIweygTXW/uDbhKl4
+ uhwxJS530PqB1rNo9oe0v7xhEwQ6+dm5GoRsbmkIReOQNtq9dZkNA/Eg==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 19/25] oe-selftest: devtool deploy-target: test deploying into a local rootfs path
-Date: Sun, 30 Aug 2026 23:48:41 +0200
-Message-ID: <20260830214912.1346063-20-adrian.freihofer@siemens.com>
-In-Reply-To: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
-References: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 00/25] devtool: ide-sdk: NFS/slirp support, deploy filtering, and robustness fixes
+Date: Sun, 30 Aug 2026 23:48:22 +0200
+Message-ID: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-1329275:519-21489:flowmailer
@@ -39,105 +38,100 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 21:49:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244702
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244703
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Extract an image's rootfs tarball with runqemu-extract-sdk, boot it via
-NFS with runqemu, then deploy a devtool-modified recipe directly into
-that directory with plain 'devtool deploy-target <recipe> <path>' (no
-ssh) while the target has it mounted live, and confirm the target
-immediately sees the change.
+changes v1 --> v2:
+- Complaints from Patchwork
+- One more fix commit
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- meta/lib/oeqa/selftest/cases/devtool.py | 73 +++++++++++++++++++++++++
- 1 file changed, 73 insertions(+)
+This series improves `devtool ide-sdk` and its underlying deploy-target
+infrastructure:
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 3e0eb7948f..35f2aa2e6c 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -2171,6 +2171,79 @@ class DevtoolDeployTargetTests(DevtoolBase):
-                     extra_args = ' '.join(a for a in (strip_opt, filter_args) if a)
-                     _deploy_and_check(extra_args, check_full_filelist=not filter_args, expected_files=expected_files)
- 
-+    @OETestTag("runqemu")
-+    def test_devtool_deploy_target_path(self):
-+        """Verify 'devtool deploy-target <recipe> <path>' deploys straight into
-+        a local pseudo-managed rootfs directory (no ssh), and that a target
-+        booting that same directory via NFS immediately sees the change.
-+        """
-+        self._check_runqemu_prerequisites()
-+        self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
-+        testrecipe = 'mdadm'
-+        testfile = '/sbin/mdadm'
-+        if "usrmerge" in get_bb_var('DISTRO_FEATURES'):
-+            testfile = '/usr/sbin/mdadm'
-+        testcommand = '/sbin/mdadm --help'
-+        testimage = 'oe-selftest-image'
-+
-+        # A tar rootfs is needed both to extract a local copy of it (below)
-+        # and for runqemu to NFS-boot straight from that extracted directory.
-+        self.append_config('IMAGE_FSTYPES:append = " tar"\n')
-+        bitbake("%s qemu-native qemu-helper-native" % testimage)
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'], testimage)
-+        deploy_dir_image = bb_vars['DEPLOY_DIR_IMAGE']
-+        image_link_name = bb_vars['IMAGE_LINK_NAME']
-+        self.add_command_to_tearDown('bitbake -c clean %s' % testimage)
-+        self.add_command_to_tearDown('rm -f %s/%s*' % (deploy_dir_image, testimage))
-+
-+        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(tempdir)
-+        self.track_for_cleanup(self.workspacedir)
-+        self.add_command_to_tearDown('bitbake -c clean %s' % testrecipe)
-+        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
-+        runCmd('devtool modify %s -x %s' % (testrecipe, tempdir))
-+        runCmd('devtool build %s' % testrecipe)
-+
-+        # Extract a local pseudo-managed rootfs the same way
-+        rootfs_tarball = os.path.join(deploy_dir_image, image_link_name + '.tar')
-+        self.assertExists(rootfs_tarball)
-+        extractdir = tempfile.mkdtemp(prefix='devtoolqa')
-+        self.track_for_cleanup(extractdir)
-+        nfs_rootfs = os.path.join(extractdir, 'rootfs')
-+        runCmd('runqemu-extract-sdk %s %s' % (rootfs_tarball, nfs_rootfs))
-+        self.assertExists(nfs_rootfs)
-+        self.assertExists(nfs_rootfs + '.pseudo_state')
-+
-+        # oe-selftest-image does not install mdadm by default, so the target must not see it yet.
-+        self.assertNotExists(os.path.join(nfs_rootfs, testfile.lstrip('/')))
-+
-+        qemuboot = os.path.join(deploy_dir_image, image_link_name + '.qemuboot.conf')
-+        self.assertExists(qemuboot)
-+        launch_cmd = 'runqemu %s %s nographic' % (shlex.quote(qemuboot), shlex.quote(nfs_rootfs))
-+        with runqemu(testimage, launch_cmd=launch_cmd) as qemu:
-+            status, output = qemu.run("awk '$2 == \"/\" {print $3}' /proc/mounts")
-+            self.assertEqual(status, 0)
-+            self.assertEqual(output.strip(), 'nfs')
-+
-+            status, _ = qemu.run(testcommand)
-+            self.assertNotEqual(status, 0, '%s should not be deployed yet' % testfile)
-+
-+            # Deploy directly into the local rootfs path (no ssh) while the target has it NFS-mounted live
-+            deploy_cmd = 'devtool deploy-target %s %s' % (testrecipe, nfs_rootfs)
-+            if self.logger.isEnabledFor(logging.DEBUG):
-+                deploy_cmd += ' -s'
-+            result = runCmd(deploy_cmd)
-+            self.assertEqual(result.status, 0)
-+            self.assertExists(os.path.join(nfs_rootfs, testfile.lstrip('/')))
-+
-+            status, _ = qemu.run(testcommand)
-+            self.assertEqual(status, 0, '%s was not deployed' % testfile)
-+
-+            # Deploying again while the target still has this directory NFS-mounted live must still succeed.
-+            result = runCmd(deploy_cmd)
-+            self.assertEqual(result.status, 0)
-+
-+
- class DevtoolBuildImageTests(DevtoolBase):
- 
-     def test_devtool_build_image(self):
+- Adds `--nfs` rootfs debugging support (`rootfs`/`rootfs-dbg`), allowing the
+  target to boot from a combined companion `rootfs-dbg` — opening up
+  possibilities such as code coverage and profiling (e.g. `perf`) and other
+  tools that need debug symbols present on the target.
+- Runs `do_install` through BitBake instead of shelling out, using a new
+  tinfoil prepared-task runner — much better functionally and also much
+  quicker than before.
+  Requires the latest bitbake master (adds `Tinfoil.run_prepared_task`).
+- Adds `runqemu` slirp networking support for ide-sdk (with auto
+  port-forwarding and automatic SSH host-key check disabling for loopback
+  targets).
+- Adds `--package`/`--file-glob` deploy filters to `devtool deploy-target`,
+  plus support for deploying directly into a local rootfs path (e.g. an NFS
+  export), refactoring the ssh deployment path into its own function.
+- Refactors `runqemu-extract-sdk` and `runqemu-export-rootfs` into Python.
+- Various ide-sdk fixes: auto-write image debug settings to the bbappend,
+  dedupe `solib_search_path` entries, VSCode IntelliSense for rootfs-dbg
+  sources, and cpp-example breakpoint/attach fixes.
+
+Each feature/fix is covered by a corresponding oe-selftest addition.
+
+A documentation update covering these changes will be sent as a follow-up series shortly.
+
+Adrian Freihofer (25):
+  runqemu-extract-sdk: set PSEUDO_INCLUDE_PATHS for the extraction
+  devtool: ide-sdk: dedupe solib_search_path entries
+  devtool: ide-sdk: VSCode IntelliSense for rootfs-dbg sources
+  cpp-example: fix stuck breakpoints when attaching and daemonize
+    properly
+  devtool: ide-sdk: auto-write image debug settings to bbappend
+  oe-selftest: devtool ide-sdk: adapt tests for auto-written image debug
+    settings
+  oeqa: QemuTarget: set use_slirp when slirp is in runqemuparams
+  devtool: ide-sdk: support runqemu slirp
+  devtool: ide-sdk: auto-disable ssh host key checking for loopback
+    targets
+  oe-selftest: devtool ide-sdk: add slirp networking test
+  devtool: deploy-target: add --package/--file-glob filters
+  oe-selftest: devtool deploy-target: test --package/--file-glob filters
+  devtool: ide-sdk: forward --package/--file-glob deploy filters
+  oe-selftest: devtool ide-sdk: cover --package filters
+  runqemu-extract-sdk: refactor in Python
+  runqemu-export-rootfs: refactor in Python
+  devtool: deploy: split ssh deployment into a separate function
+  devtool: deploy-target: allow deploying directly into a local rootfs
+  oe-selftest: devtool deploy-target: test deploying into a local rootfs
+    path
+  oe-selftest: tinfoil: test prepared task runner
+  devtool: ide-sdk: run do_install through BitBake
+  oe-selftest: devtool ide-sdk: test install task
+  devtool: ide-sdk: support NFS rootfs
+  oe-selftest: devtool ide-sdk: test NFS debug rootfs
+  devtool: ide-sdk: fix GDB loading stale libs instead of recipe's own
+    build
+
+ .../recipes-test/cpp/cmake-example.inc        |   1 +
+ .../recipes-test/cpp/cpp-example.inc          |   4 +
+ .../recipes-test/cpp/files/CMakeLists.txt     |   6 +
+ .../recipes-test/cpp/files/cpp-example.cpp    |  91 ++-
+ .../recipes-test/cpp/files/cpp-example.init   |  10 +-
+ .../recipes-test/cpp/files/daemonize.cpp      |  57 ++
+ .../recipes-test/cpp/files/daemonize.hpp      |  27 +
+ .../recipes-test/cpp/files/meson.build        |   9 +-
+ .../recipes-test/cpp/files/meson.options      |   2 +
+ .../recipes-test/cpp/meson-example.inc        |   1 +
+ .../pseudo-pyc-test/pseudo-pyc-test.bb        |  45 ++
+ meta/lib/oeqa/selftest/cases/devtool.py       | 632 +++++++++++++----
+ meta/lib/oeqa/selftest/cases/tinfoil.py       |  60 ++
+ meta/lib/oeqa/targetcontrol.py                |  23 +-
+ .../qemu/nativesdk-qemu-helper_1.0.bb         |   3 +
+ scripts/lib/devtool/deploy.py                 | 392 +++++++++--
+ scripts/lib/devtool/ide_plugins/__init__.py   |  41 +-
+ scripts/lib/devtool/ide_plugins/ide_code.py   |  93 ++-
+ scripts/lib/devtool/ide_plugins/ide_none.py   |   8 +-
+ scripts/lib/devtool/ide_sdk.py                | 649 +++++++++++++++---
+ scripts/lib/runqemu_utils.py                  | 246 +++++++
+ scripts/runqemu-export-rootfs                 | 126 +---
+ scripts/runqemu-extract-sdk                   | 101 +--
+ 23 files changed, 2090 insertions(+), 537 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/cpp/files/daemonize.cpp
+ create mode 100644 meta-selftest/recipes-test/cpp/files/daemonize.hpp
+ create mode 100644 scripts/lib/runqemu_utils.py
+
 -- 
 2.55.0
 
