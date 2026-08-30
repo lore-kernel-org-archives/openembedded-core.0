@@ -1,101 +1,151 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54124C61DE1
-	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:56:26 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9937.1788101777705513264
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 16017C61DD9
+	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 17:14:57 +0000 (UTC)
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12302.1788110088855261697
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2026 07:56:17 -0700
+ Sun, 30 Aug 2026 10:14:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PhCupDei;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=pnKYWy+K;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a0532bd60b-ad68f29b-8716-450f-9e4c-2d11cb2c805c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788101777; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=wblrW8F9ONfI5kGvHcP3JuwurnIu0jtjInrdi1/rJ+c=;
-	b=PhCupDeiDtrFCvKkB7mMP6qo3bygJtiHrYpxpV6GSVfGcu5fiKiPx6rwjCgZQ6aU
-	u4Rg2TapznqXRiSKWO0jBWnMzLHRB9pgXM/GGHbIuf1t7G6ttGWE/CrAPtNnJDBhaxF
-	0WSG39E1/llbJ0vX6CGPndCMbsT4QMg9RTc+urOQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788101777;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=wblrW8F9ONfI5kGvHcP3JuwurnIu0jtjInrdi1/rJ+c=;
-	b=pnKYWy+KO2m+YVslLaR20ZMoXZ8KuL2cjwi+ccaVnYlncBhazmg3zPY4XQwO81TF
-	+UZRYDG7lmg7zaD4UuglciyqY8D7HIyJ9eGvPbjsh12oJpWnnJjmtptvCXcde45ZD5a
-	BLXjB8ot1BzlLpHIP5fo6PH0G1x6d9y9r+LlXbzs=
-From: patchtest@automation.yoctoproject.org
-To: AdrianF <adrian.freihofer@siemens.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 22/24] oe-selftest: devtool ide-sdk: test install task
-In-Reply-To: <20260830142922.17241-23-adrian.freihofer@siemens.com>
-References: <20260830142922.17241-23-adrian.freihofer@siemens.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0532bd60b-ad68f29b-8716-450f-9e4c-2d11cb2c805c-000000@us-west-2.amazonses.com>
-Date: Sun, 30 Aug 2026 14:56:16 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.30-54.240.27.23
+ dkim=pass header.i=@smile.fr header.s=google header.b=aZ34IemZ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48436668d20so372759f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 10:14:48 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1788110087; x=1788714887; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=h7GQpu5U5+/0Ul1HQuNne7itEw0NmKUgwhQ9KIawiCk=;
+        b=aZ34IemZ1+j0Zqo8W9rvNBOnc6R8dqAdD3ybUXhieygZCLp0WxNq2clpFG/CKRr8HF
+         WRPZfjHGAh2h/B/vbfk6Bw0q7g1mr5rerCK/jE2totggdQudOo1LPpdeWDOyeQc9LoVs
+         d3bbe6sJ8WcQ7rZ9N27l3GHkAnml4yJ8Foi4I=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788110087; x=1788714887;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=h7GQpu5U5+/0Ul1HQuNne7itEw0NmKUgwhQ9KIawiCk=;
+        b=NG6b43dSBUpeMf0MtaxrjFqWkvSrYs4lKp+UJ5ir5cOzzGk/r2NZFTHwLy6FYX51xG
+         EskY+doPQsj5VxYVRubyysmWc0olTlpKw/LLNvBjbnGKgWxMRQHfqh3IZJEaUnHDwUrJ
+         GBZEB+Nn0wH8XDTHjzizH9UF7QCN35pk2qT9DV16dM1gp+zeHtT9v4W5s5z7pebDGDpH
+         CVJ+EHeb0FZwqxkQeg0ywWprii/nHee/oQURvAbZaloCdQMkwHaJVpzDA+OTX15W1aAJ
+         Ga2ML5P4aYgJg80CM/qGaecmJliCHiVL7fUKP3ZzUJ6/o7LckT+c02yL5P6LE6PUl4vA
+         vWQg==
+X-Forwarded-Encrypted: i=1; AHgh+RrqPKwbHdwFDx5iz04sokP0PN2O7hHZZtlYap9JzIeuaUx/VmOidtEe2RhZ548T7FdR3ylZLkJPOh3TksIiIsTLwQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kFu2G07cC2qomveiklyF3dPHRkpja74VeV+QGT/jNbG3DEyP/o
+	tVIprK/wBTNpbM2W6K5knXcjFIyv2/+PgmCIY4Vt5+4gcdmwmDDp2TVIUDJgFTEvE9w=
+X-Gm-Gg: AR+sD11rtgMAvc5tMOiKmX6JZqJtGZl3vkGwIknuC59NIgkYyOnirWOnljf0u5KAIjU
+	SuWgY7sVennX4rjLwsvSWVmQe42fgpHAqN5AkB8//DJYeTltp71psT1KhjdU0jVpmsSmc+0ABCp
+	wN9X7kZAKPyiq2Dz2UwRQjiY5/q9EWFxosDlSQYDLFdXgokZWWkbE2+SzENIwrN6mjkJlwl/Kka
+	K7HOJBKFq+IEIii+tkthG4TMDkmL0rRNR8rhzBI7MuCGU35tBXVcE56KAxlumT3wn+aIlPWj6jY
+	fDuh11R+vaAtaLuuMwsBVsgkGMM39uXOVR8Nw56yAgKPnKGoIKER28GG57FfMTcIl60YJCIk5tL
+	4VPcJ5NtTHBeLj3YB+dgkPNDoCOQYvyZfxk1+CEbKxsfcb+amm1CqFKNSuPD4lrfEcLd+JXeLGe
+	h+1rS1/3+DcWeKEMZ4wA4x+ShjMZPMH3D69BK6G8qzLbYMKtfmEbxofjtmZqihS2hnedmc4r6Fc
+	/sGcYk33qik4XaMDqPCYBHzThMAoaRlllux7owdPSluQ249I+kAn1pxYQuPwrI=
+X-Received: by 2002:a05:600c:5291:b0:49c:cee2:1697 with SMTP id 5b1f17b1804b1-49ccee216c1mr150375425e9.16.1788110086815;
+        Sun, 30 Aug 2026 10:14:46 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbb2794dsm17932842f8f.25.2026.08.30.10.14.46
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 30 Aug 2026 10:14:46 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Sun, 30 Aug 2026 19:14:46 +0200
+Message-Id: <DL2G4HBXZK8O.2BJXQFIJGNX9C@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH] time64: enable 64-bit
+ time/file-offset flags for 32-bit nativesdk
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <peter.tatrai.ext@siemens.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260826073701.367061-1-peter.tatrai.ext@siemens.com>
+In-Reply-To: <20260826073701.367061-1-peter.tatrai.ext@siemens.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:56:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244687
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 17:14:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244688
 
---NextPart
-Content-Type: text/plain
+On Wed Aug 26, 2026 at 9:37 AM CEST, Peter via lists.openembedded.org Tatra=
+i wrote:
+> From: Peter Tatrai <peter.tatrai.ext@siemens.com>
+>
+> When SDKMACHINE is set to i686 or i586, nativesdk binaries are compiled
+> as 32-bit. Without -D_TIME_BITS=3D64 and -D_FILE_OFFSET_BITS=3D64, stat()
+> and time-related syscalls use 32-bit types, causing EOVERFLOW on
+> filesystems with large inode numbers (e.g. container overlay filesystems)
+> and Y2038 issues.
+>
+> Add SDK_CC_ARCH appends for class-nativesdk:i686 and class-nativesdk:i586
+> using GLIBC_64BIT_TIME_FLAGS, mirroring how target architectures are
+> handled.
+>
+> Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>"
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit d9f62a45555673842021d5746437e66c40d3f3cc)
+> Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+> ---
+>  meta/conf/distro/include/time64.inc | 10 ++++++++++
+>  1 file changed, 10 insertions(+)
+>
+> diff --git a/meta/conf/distro/include/time64.inc b/meta/conf/distro/inclu=
+de/time64.inc
+> index dd29105db4..7f02774839 100644
+> --- a/meta/conf/distro/include/time64.inc
+> +++ b/meta/conf/distro/include/time64.inc
+> @@ -32,6 +32,16 @@ GLIBC_64BIT_TIME_FLAGS:pn-pulseaudio =3D ""
+>  # libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cpp
+>  GLIBC_64BIT_TIME_FLAGS:pn-gcc-sanitizers =3D ""
+> =20
+> +# Apply the same flags to nativesdk packages when building for a 32-bit =
+SDK
+> +# host (i686, i586).
+> +SDK_CC_ARCH:append:class-nativesdk:i686 =3D "${GLIBC_64BIT_TIME_FLAGS}"
+> +SDK_CC_ARCH:append:class-nativesdk:i586 =3D "${GLIBC_64BIT_TIME_FLAGS}"
+> +
+> +# nativesdk-pseudo wraps both 32-bit and 64-bit libc calls; enabling LFS=
+ flags
+> +# causes duplicate symbol errors (e.g. creat64, fopen64) on i686 because=
+ glibc
+> +# aliases the non-LFS names to their 64-bit counterparts via macros.
+> +GLIBC_64BIT_TIME_FLAGS:pn-nativesdk-pseudo =3D ""
+> +
+>  # Caused by the flags exceptions above
+>  INSANE_SKIP:append:pn-gcc-sanitizers =3D " 32bit-time"
+>  INSANE_SKIP:append:pn-glibc =3D " 32bit-time"
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello,
 
----
-Testing patch /home/patchtest/share/mboxes/22-24-oe-selftest-devtool-ide-sdk-test-install-task.patch
+This patch does break some builds:
+qemux86 debian11-vk-1 scarthgap completed at 2026-08-30 14:36:35+00:00
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/30/builds/4505
+qemuarm-oecore rocky8-vk-1 scarthgap completed at 2026-08-30 14:06:41+00:00
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/40/builds/4502
+buildtools ubuntu2404-vk-1 scarthgap completed at 2026-08-30 14:00:30+00:00
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/43/builds/4546
+qemux86-64 debian12-vk-4 scarthgap completed at 2026-08-30 14:14:14+00:00
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/68/builds/4636
 
-FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
+(And, also, I suspect meta-mingw ubuntu2404-vk-3 scarthgap completed at 202=
+6-08-30 13:35:59+00:00
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/7/builds/3475)
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+I've reproduced this locally:
+With SDKMACHINE=3D"i686"
+"bitbake nativesdk-glibc" fails with this patch and succeed without.
 
-SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+The error message boils down to:
+| Error: symbol '__sigtimedwait64' is already defined.
 
----
+Can you look into this?
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
---NextPart
-
-
---NextPart--
 
