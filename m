@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4A9CFC624C9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1CD5DC624C8
 	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:29:55 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9434.1788100183548899591
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9432.1788100183423521046
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 07:29:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=ggcC8Rls;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-20260830142941d13b8271b200020785-j22xqp@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20260830142941d13b8271b200020785
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=gg+maEF2;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-202608301429414a50b2e19d000207ed-ll1jy2@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202608301429414a50b2e19d000207ed
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 30 Aug 2026 16:29:42 +0200
+        Sun, 30 Aug 2026 16:29:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=TjpKwxplJ65szEK4WRHX/4jOzQfhjUMVS3QU3vc4uxY=;
- b=ggcC8RlsSj+NzB9gCBqN+HRmWCVYXMpgBcc7J8lKAYmUKogkyuEnfCmFS53Ju0slfPyuUp
- og5rjj4GnAIiEtIjlNuKJVzH34Yr5DFrZFrF4sScUJc4Cet36ArhBVD6kiK9WWDHOilqSeI8
- SACTDMpFU4D471CDnJc7gRYyDmb+bk4CYI+ClQ3GvBq/kpbrlzRX86JGiSjgshxAPQsWNDZ2
- 0Ls+n9WoJ6yogHj1kXurbWTjah7xg5FtZCiuiloAI+Jj4MEh40o0FCgItVRRw/tzobbHVm/J
- ltZZNSW3PcOurvOa1xPBw3vS5OH/AWuAgl6A6G7nuR8+7WB2pSU/FbXw==;
+ bh=0bzlD3QpycxDG+Xrm3mTE+g+QZ6QQ4yxG6qumr+cxyA=;
+ b=gg+maEF2ypLGuUuDl4S4GREKFmUMspPAxX3ur81sKJTvWjJZ6J5H+5/1TnjgbauV9QTFyO
+ OWTwAtAgnPWJGzv2JJSyLgiiv26ixLT++5dbTwJsI5J7PQQAYwuRwArUDZyuxCqtuF7pJzXk
+ fnaA+DssYmXbNvOpPlFcVrkqXbaKwmjeKml7skIxguFdmLlLl5wRHgMWDPFhp20rzyAe5RKz
+ M5Kyeu0U6elnYlwA6b+XlKidCw8mBHfdKACSXjVi+kxsy3w9snUUWA1vUrVYNtKsZ8zkKgF4
+ IpvFCbCtRhIss8Q0Iv86YzCo4gcfpuba53YTMEZUl0tlm63J67JLw6og==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 16/24] runqemu-export-rootfs: refactor in Python
-Date: Sun, 30 Aug 2026 16:28:43 +0200
-Message-ID: <20260830142922.17241-17-adrian.freihofer@siemens.com>
+Subject: [PATCH 08/24] devtool: ide-sdk: support runqemu slirp
+Date: Sun, 30 Aug 2026 16:28:35 +0200
+Message-ID: <20260830142922.17241-9-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 References: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,296 +39,318 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:29:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244666
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244668
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Move the userspace NFS export lifecycle into the reusable runqemu helper
-module while preserving the existing command interface.
+ide-sdk needs to make sure the debugger server ports are reachable, so
+when runqemu uses slirp networking, add the required port forwards to
+QB_SLIRP_OPT in the image bbappend.
 
-AI-Generated: Uses GitHub Copilot
+Example:
+  devtool ide-sdk oe-selftest-image -t root@localhost -P 2222 -c
+  runqemu slirp serialstdio snapshot
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/runqemu_utils.py  | 122 ++++++++++++++++++++++++++++++++
- scripts/runqemu-export-rootfs | 126 ++--------------------------------
- 2 files changed, 128 insertions(+), 120 deletions(-)
+ scripts/lib/devtool/ide_plugins/__init__.py |  15 ++-
+ scripts/lib/devtool/ide_plugins/ide_none.py |   6 +-
+ scripts/lib/devtool/ide_sdk.py              | 133 +++++++++++++++-----
+ 3 files changed, 121 insertions(+), 33 deletions(-)
 
-diff --git a/scripts/lib/runqemu_utils.py b/scripts/lib/runqemu_utils.py
-index dff0ca8d3a..c36e30d76b 100644
---- a/scripts/lib/runqemu_utils.py
-+++ b/scripts/lib/runqemu_utils.py
-@@ -7,6 +7,7 @@
- """Extract and export rootfs tarballs for NFS booting."""
+diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
+index 136ddd8914..a5069cae85 100644
+--- a/scripts/lib/devtool/ide_plugins/__init__.py
++++ b/scripts/lib/devtool/ide_plugins/__init__.py
+@@ -65,6 +65,10 @@ class DebuggerCrossConfig:
+             DebuggerCrossConfig._port_next += 1
+         self.debug_server_port = self.debug_server_ports[self.default_mode]
+         self.id_pretty = "%d_%s" % (self.debug_server_port, self.binary_pretty)
++        # Hook for subclasses needing additional fixed ports forwarded through
++        # slirp beyond the one-per-mode debug_server_ports (e.g. lldb-server's
++        # spawned gdbserver instances).
++        self.extra_ports = []
  
- import os
-+import signal
- import subprocess
- import sys
+         if self.id_pretty in DebuggerCrossConfig._configs:
+             raise DevtoolError(
+@@ -269,6 +273,13 @@ class LldbServerConfig(DebuggerCrossConfig):
+                  default_mode=DebuggerServerModes.MULTI):
+         super().__init__(image_recipe, modified_recipe, binary,
+                          default_mode)
++        # lldb-server platform spawns a separate gdb-remote-protocol
++        # "gdbserver" instance per debug session; without --gdbserver-port it
++        # picks a random port, which cannot be forwarded through slirp NAT.
++        # Pin it to a fixed, dedicated port that gets slirp-forwarded too.
++        self.gdbserver_port = DebuggerCrossConfig._port_next
++        DebuggerCrossConfig._port_next += 1
++        self.extra_ports.append(self.gdbserver_port)
  
-@@ -122,3 +123,124 @@ def extract_sdk_main(argv=None):
-         print('Error: %s' % exc)
-         return 1
-     return 0
+     def _lldb_server_tmp_dir(self, mode):
+         return os.path.join('/tmp', 'lldb_server_%s' % self.id_pretty_mode(mode))
+@@ -294,8 +305,8 @@ class LldbServerConfig(DebuggerCrossConfig):
+             cmd = self._target_tcp_port_check_cmd() + " && exit 0; "
+             cmd += "mkdir -p %s; " % tmp_dir
+             cmd += "cd %s; " % tmp_dir
+-            cmd += "%s platform --server --listen *:%s > %s 2>&1 & _lldb_server_pid=\\$!; " % (
+-                lldb_server, self.debug_server_port, log_file)
++            cmd += "%s platform --server --listen *:%s --gdbserver-port %s > %s 2>&1 & _lldb_server_pid=\\$!; " % (
++                lldb_server, self.debug_server_port, self.gdbserver_port, log_file)
+             cmd += "echo \\$_lldb_server_pid > %s; " % pid_file
+             cmd += self._target_wait_for_tcp_port_cmd(
+                 "lldb_server_pid", log_file)
+diff --git a/scripts/lib/devtool/ide_plugins/ide_none.py b/scripts/lib/devtool/ide_plugins/ide_none.py
+index 959140cedb..e4b255f2fa 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_none.py
++++ b/scripts/lib/devtool/ide_plugins/ide_none.py
+@@ -207,10 +207,12 @@ class LldbServerConfigNone(LldbServerConfig):
+         lines = ['# This file is generated by devtool ide-sdk']
+         if server_mode == DebuggerServerModes.MULTI:
+             lines.append('# On the remote target:')
+-            lines.append('#   lldb-server platform --server --listen *:%d' % self.debug_server_port)
++            lines.append('#   lldb-server platform --server --listen *:%d --gdbserver-port %d' % (
++                self.debug_server_port, self.gdbserver_port))
+         else:
+             lines.append('# On the remote target:')
+-            lines.append('#   lldb-server platform --one-shot --server --listen *:%d' % self.debug_server_port)
++            lines.append('#   lldb-server platform --one-shot --server --listen *:%d --gdbserver-port %d' % (
++                self.debug_server_port, self.gdbserver_port))
+         lines.append('# On the build machine:')
+         lines.append('#   cd ' + self.modified_recipe.real_srctree)
+         lines.append('#   ' + self.debugger_cross.lldb + ' -s ' + self.lldbinit)
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index b62a0f612e..719648a3eb 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -23,7 +23,7 @@ import scriptutils
+ import bb
+ from devtool import exec_build_env_command, setup_tinfoil, check_workspace_recipe, DevtoolError, parse_recipe
+ from devtool.standard import get_real_srctree
+-from devtool.ide_plugins import BuildTool
++from devtool.ide_plugins import BuildTool, DebuggerCrossConfig
+ from oe.kernel_module import kernel_module_os_env
+ 
+ 
+@@ -186,15 +186,17 @@ class RecipeImage:
+     """
+ 
+     MARKER = '# devtool ide-sdk: image debug settings'
++    QB_SLIRP_MARKER = '# devtool ide-sdk: QB_SLIRP_OPT'
+ 
+     def __init__(self, name, orig_bbappend_content=None):
+         self.name = name
+         self.rootfs = None
+         self.__rootfs_dbg = None
++        self.qb_slirp_opt = ''
+         self.bootstrap_tasks = [self.name + ':do_build']
+         # Debug settings already provided by the base configuration (e.g.
+         # local.conf, MACHINE, DISTRO, the recipe itself) plus any bbappend
+-        # content other than devtool ide-sdk's own section (see
++        # content other than devtool ide-sdk's own sections (see
+         # strip_bbappend_sections()). Populated by initialize().
+         self.base_image_gen_debugfs = False
+         self.base_image_fstypes_debugfs = ''
+@@ -204,11 +206,11 @@ class RecipeImage:
+         # Content of the bbappend before strip_bbappend_sections() ran.
+         self._orig_bbappend_content = orig_bbappend_content
+ 
+-    @classmethod
+-    def _strip_marker_section(cls, content):
+-        """Remove devtool ide-sdk's own image debug settings section, if any"""
++    @staticmethod
++    def _strip_marker_section(content, marker):
++        """Remove one devtool ide-sdk marker section, if present"""
+         return re.sub(
+-            r'^' + re.escape(cls.MARKER) + r'\n(?:[^\n]+\n)*',
++            r'^' + re.escape(marker) + r'\n(?:[^\n]+\n)*',
+             '', content, flags=re.MULTILINE)
+ 
+     @classmethod
+@@ -227,7 +229,8 @@ class RecipeImage:
+             with open(bbappend, 'r') as f:
+                 content = f.read()
+             originals[name] = content
+-            stripped = cls._strip_marker_section(content)
++            stripped = cls._strip_marker_section(content, cls.MARKER)
++            stripped = cls._strip_marker_section(stripped, cls.QB_SLIRP_MARKER)
+             if stripped != content:
+                 with open(bbappend, 'w') as f:
+                     f.write(stripped)
+@@ -259,6 +262,8 @@ class RecipeImage:
+         self.rootfs = os.path.join(workdir, 'rootfs')
+         self.__rootfs_dbg = os.path.join(workdir, 'rootfs-dbg')
+ 
++        self.qb_slirp_opt = image_d.getVar('QB_SLIRP_OPT') or ''
 +
-+
-+_NFS_ACTIONS = ('start', 'stop', 'restart')
-+
-+
-+def _nfs_paths(instance):
-+    state_dir = os.path.join(os.path.expanduser('~'), '.runqemu-sdk')
-+    os.makedirs(state_dir, exist_ok=True)
-+    return {
-+        'exports': os.path.join(state_dir, 'exports%s' % instance),
-+        'nfs_pid': os.path.join(state_dir, 'nfs%s.pid' % instance),
-+    }
-+
-+
-+def _nfs_ports(instance):
-+    nfs_port = int(os.environ.get('NFSD_PORT', 3049 + 2 * instance))
-+    mount_port = int(os.environ.get('MOUNTD_PORT', 3048 + 2 * instance))
-+    return nfs_port, mount_port
-+
-+
-+def _export_usage():
-+    return 'Usage: %s {%s} <nfs-export-dir>' % (
-+        sys.argv[0], '|'.join(_NFS_ACTIONS))
-+
-+
-+def export_rootfs(action, rootfs_dir):
-+    """Start, stop, or restart the userspace NFS server for *rootfs_dir*."""
-+    if action not in _NFS_ACTIONS:
-+        raise RunQemuRootfsError("Unknown command '%s'" % action)
-+    if not os.path.isdir(rootfs_dir):
-+        raise RunQemuRootfsError("'%s' does not exist" % rootfs_dir)
-+
-+    rootfs_dir = os.path.realpath(rootfs_dir)
-+    state_dir = pseudo_state_dir(rootfs_dir)
-+    if not os.path.isdir(state_dir):
-+        raise RunQemuRootfsError(
-+            '%s does not exist.\n'
-+            'Did you create the export directory using runqemu-extract-sdk?' % state_dir)
-+
-+    if action == 'restart':
-+        export_rootfs('stop', rootfs_dir)
-+        return export_rootfs('start', rootfs_dir)
-+
-+    instance = int(os.environ.get('NFS_INSTANCE', '0'))
-+    paths = _nfs_paths(instance)
-+    if action == 'stop':
-+        if os.path.exists(paths['nfs_pid']):
-+            print('Stopping rpc.nfsd')
-+            with open(paths['nfs_pid']) as pid_file:
-+                pid = pid_file.read().strip()
-+            try:
-+                os.kill(int(pid), signal.SIGTERM)
-+            except (ValueError, ProcessLookupError):
-+                # A stale PID file must not stop the cleanup below.
-+                print('rpc.nfsd is not running')
-+            os.unlink(paths['nfs_pid'])
+     @property
+     def debug_support(self):
+         return bool(self.rootfs_dbg)
+@@ -279,9 +284,10 @@ class RecipeImage:
+ 
+         initialize() already stripped this section from the bbappend on
+         disk before parsing, so it only needs to be added back here, if
+-        still needed. Returns True if the resulting bbappend content
+-        actually differs from what was on disk when initialize() ran, False
+-        if it is left exactly as it was.
++        still needed. Also updates QB_SLIRP_OPT with the debugger server
++        port forwards (see update_qb_slirp_opt()). Returns True if the
++        resulting bbappend content actually differs from what was on disk
++        when initialize() ran, False if it is left exactly as it was.
+         """
+         wants_gdbserver = any(
+             r.wants_gdbserver and r.toolchain != 'clang'
+@@ -319,24 +325,90 @@ class RecipeImage:
+             parsed_content = ''
+ 
+         if not lines:
+-            # The base configuration already provides everything needed.
+-            if parsed_content != original_content:
++            if self.MARKER in original_content:
+                 logger.info(
+                     "Removed image debug settings from %s: already provided by the base configuration", self._bbappend)
++            image_changed = False
 +        else:
-+            print('No PID file, not stopping rpc.nfsd')
-+        if os.path.exists(paths['exports']):
-+            print('Removing exports file')
-+            os.unlink(paths['exports'])
-+        return
++            new_section = self.MARKER + '\n' + '\n'.join(lines) + '\n'
++            new_content = parsed_content
++            if new_content and not new_content.endswith('\n'):
++                new_content += '\n'
++            new_content += new_section
 +
-+    environment = native_environment()
-+    native_sysroot = environment.get('OECORE_NATIVE_SYSROOT')
-+    pseudo = environment.get('PSEUDO')
-+    if not native_sysroot or not pseudo:
-+        raise RunQemuRootfsError('qemu-helper-native did not provide pseudo')
++            appends_dir = os.path.dirname(self._bbappend)
++            os.makedirs(appends_dir, exist_ok=True)
++            with open(self._bbappend, 'w') as f:
++                f.write(new_content)
++            logger.info("Updated image bbappend %s", self._bbappend)
++            image_changed = True
 +
-+    unfsd = os.path.join(native_sysroot, 'usr', 'bin', 'unfsd')
-+    if not os.path.exists(unfsd):
-+        raise RunQemuRootfsError(
-+            'Unable to find unfsd binary in %s/usr/bin/\n'
-+            "This shouldn't happen - something is missing from your toolchain installation"
-+            % native_sysroot)
++        slirp_changed = self.update_qb_slirp_opt()
++        return image_changed or slirp_changed
 +
-+    nfs_port, mount_port = _nfs_ports(instance)
-+    environment['PSEUDO_LOCALSTATEDIR'] = state_dir
-+    with open(paths['exports'], 'w') as exports_file:
-+        exports_file.write('%s (rw,no_root_squash,no_all_squash,insecure)\n' % rootfs_dir)
++    def update_qb_slirp_opt(self):
++        """Update QB_SLIRP_OPT in the image bbappend
 +
-+    command = [pseudo, '-P', os.path.join(native_sysroot, 'usr'), unfsd,
-+               '-p', '-i', paths['nfs_pid'], '-e', paths['exports'],
-+               '-n', str(nfs_port), '-m', str(mount_port)]
-+    print('Creating exports file...')
-+    print('Starting User Mode nfsd')
-+    print('  %s' % ' '.join(command))
-+    try:
-+        subprocess.run(command, env=environment, check=True)
-+    except subprocess.CalledProcessError as exc:
-+        raise RunQemuRootfsError('Error starting nfsd') from exc
++        Support connecting to a debugger server running on the target device via
++        runqemu's slirp network:
++        - If the base value is non-empty (recipe/machine sets QB_SLIRP_OPT):
++          only missing port forwards are appended via QB_SLIRP_OPT:append.
++        - If the base value is empty (runqemu would use its own built-in default
++          of SSH 2222, telnet 2323, tftp): a full QB_SLIRP_OPT assignment is
++          written that mirrors that default plus the debugger ports, so that
++          runqemu reads the complete set from the .qemuboot.conf.
 +
-+    if not os.path.exists(paths['nfs_pid']):
-+        raise RunQemuRootfsError('rpc.nfsd did not start correctly')
-+    with open(paths['nfs_pid']) as pid_file:
-+        try:
-+            os.kill(int(pid_file.read()), 0)
-+        except OSError as exc:
-+            raise RunQemuRootfsError('rpc.nfsd did not start correctly') from exc
-+
-+    print('')
-+    print('On your target please remember to add the following options for NFS')
-+    print('nfsroot=IP_ADDRESS:%s,nfsvers=3,port=%s,udp,mountport=%s' %
-+          (rootfs_dir, nfs_port, mount_port))
-+
-+
-+def export_rootfs_main(argv=None):
-+    argv = sys.argv[1:] if argv is None else argv
-+    if len(argv) != 2:
-+        print(_export_usage())
-+        return 1
-+    if argv[0] not in _NFS_ACTIONS:
-+        print("Unknown command '%s'" % argv[0])
-+        print(_export_usage())
-+        return 1
-+    try:
-+        export_rootfs(*argv)
-+    except RunQemuRootfsError as exc:
-+        print('Error: %s' % exc)
-+        return 1
-+    return 0
-diff --git a/scripts/runqemu-export-rootfs b/scripts/runqemu-export-rootfs
-index 6a8acd0d5a..dde364d37e 100755
---- a/scripts/runqemu-export-rootfs
-+++ b/scripts/runqemu-export-rootfs
-@@ -1,127 +1,13 @@
--#!/bin/bash
--#
--# Copyright (c) 2005-2009 Wind River Systems, Inc.
-+#!/usr/bin/env python3
- #
- # SPDX-License-Identifier: GPL-2.0-only
--#
++        Returns True if the bbappend content actually changed, False otherwise.
++        """
++        ports = sorted({port for cfg in DebuggerCrossConfig._configs.values()
++                        for port in list(cfg.debug_server_ports.values()) + cfg.extra_ports})
++        if not ports:
+             return False
  
--usage() {
--	echo "Usage: $0 {start|stop|restart} <nfs-export-dir>"
--}
-+import os
-+import sys
+-        new_section = self.MARKER + '\n' + '\n'.join(lines) + '\n'
+-        new_content = parsed_content
++        # Determine which ports are already in the base value
++        already = {int(m.group(1))
++                   for m in re.finditer(r':(\d+)-:\d+', self.qb_slirp_opt)}
++        missing_ports = [p for p in ports if p not in already]
++        if not missing_ports:
++            logger.info("QB_SLIRP_OPT already contains all needed port forwards")
++            return False
++
++        if self.qb_slirp_opt:
++            # Base value exists: :append only the missing port forwards
++            extra = ''.join(
++                ',hostfwd=tcp:127.0.0.1:%d-:%d' % (p, p) for p in missing_ports)
++            new_line = 'QB_SLIRP_OPT:append = "%s"' % extra
++        else:
++            # No base value: mirror runqemu's built-in default (SSH 2222, telnet
++            # 2323, tftp) and add the debugger ports.
++            all_hostfwds = (
++                'hostfwd=tcp:127.0.0.1:2222-:22,'
++                'hostfwd=tcp:127.0.0.1:2323-:23'
++            )
++            all_hostfwds += ''.join(
++                ',hostfwd=tcp:127.0.0.1:%d-:%d' % (p, p) for p in missing_ports)
++            new_line = 'QB_SLIRP_OPT = "-netdev user,id=net0,%s,tftp=${DEPLOY_DIR_IMAGE}"' % all_hostfwds
++
++        if os.path.exists(self._bbappend):
++            with open(self._bbappend, 'r') as f:
++                content = f.read()
++        else:
++            content = ''
++        stripped_content = self._strip_marker_section(content, self.QB_SLIRP_MARKER)
++        new_content = stripped_content
+         if new_content and not new_content.endswith('\n'):
+             new_content += '\n'
+-        new_content += new_section
++        new_content += self.QB_SLIRP_MARKER + '\n' + new_line + '\n'
++
++        if new_content == content:
++            logger.debug("QB_SLIRP_OPT in %s is already up to date", self._bbappend)
++            return False
  
--if [ $# != 2 ]; then
--	usage
--	exit 1
--fi
-+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
+         appends_dir = os.path.dirname(self._bbappend)
+         os.makedirs(appends_dir, exist_ok=True)
+         with open(self._bbappend, 'w') as f:
+             f.write(new_content)
+-
+-        logger.info("Updated image bbappend %s", self._bbappend)
++        logger.info("Updated QB_SLIRP_OPT in %s: %s", self._bbappend, new_line)
+         return True
  
--if [[ "$1" != "start" && "$1" != "stop" && "$1" != "restart" ]]; then
--	echo "Unknown command '$1'"
--	usage
--	exit 1
--fi
-+from runqemu_utils import export_rootfs_main
  
--if [ ! -d "$2" ]; then
--	echo "Error: '$2' does not exist"
--	usage
--	exit 1
--fi
--# Ensure the nfs-export-dir is an absolute path
--NFS_EXPORT_DIR=$(cd "$2" && pwd)
+@@ -1359,9 +1431,9 @@ def ide_setup(args, config, basepath, workspace):
+     # Collect information about tasks which need to be bitbaked.
+     # In modified mode the image build is held back until after
+     # setup_modified_recipe() has assigned the debugger port numbers and
+-    # update_image_bbappend() has written the complete bbappend. That way
+-    # the image is built with a single, stable recipe hash so that no
+-    # basehash-changed warnings are emitted.
++    # update_image_bbappend() has written the complete bbappend (including
++    # QB_SLIRP_OPT). That way the image is built with a single, stable
++    # recipe hash so that no basehash-changed warnings are emitted.
+     bootstrap_tasks = []
+     bootstrap_tasks_late = []
+     image_bootstrap_tasks = []
+@@ -1442,8 +1514,8 @@ def ide_setup(args, config, basepath, workspace):
+             recipe_image.initialize(config, tinfoil)
+             if args.mode == DevtoolIdeMode.modified:
+                 # Keep the image build separate so that the complete bbappend
+-                # can be written in one step before the image is built,
+-                # avoiding sstate hash mismatches.
++                # (IMAGE_ vars + QB_SLIRP_OPT) can be written in one step
++                # before the image is built, avoiding sstate hash mismatches.
+                 image_bootstrap_tasks += recipe_image.bootstrap_tasks
+             else:
+                 bootstrap_tasks += recipe_image.bootstrap_tasks
+@@ -1536,12 +1608,13 @@ def ide_setup(args, config, basepath, workspace):
+                     'Note that devtool modify --debug-build can do this automatically.',
+                     recipe_modified.name, recipe_modified.bbappend)
  
--SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
--if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
--	echo "Error: Unable to find the oe-find-native-sysroot script"
--	echo "Did you forget to source your build environment setup script?"
--	exit 1
--fi
--. $SYSROOT_SETUP_SCRIPT qemu-helper-native
--
--if [ ! -e "$OECORE_NATIVE_SYSROOT/usr/bin/unfsd" ]; then
--	echo "Error: Unable to find unfsd binary in $OECORE_NATIVE_SYSROOT/usr/bin/"
--
--	echo "This shouldn't happen - something is missing from your toolchain installation"
--	exit 1
--fi
--
--if [ ! -d ~/.runqemu-sdk ]; then
--	mkdir -p ~/.runqemu-sdk
--fi
--
--NFS_INSTANCE=${NFS_INSTANCE:=0}
--EXPORTS=~/.runqemu-sdk/exports$NFS_INSTANCE
--RMTAB=~/.runqemu-sdk/rmtab$NFS_INSTANCE
--NFSPID=~/.runqemu-sdk/nfs$NFS_INSTANCE.pid
--MOUNTPID=~/.runqemu-sdk/mount$NFS_INSTANCE.pid
--
--PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
--PSEUDO_LOCALSTATEDIR="$NFS_EXPORT_DIR/../$(basename $NFS_EXPORT_DIR).pseudo_state"
--export PSEUDO_LOCALSTATEDIR
--
--if [ ! -d "$PSEUDO_LOCALSTATEDIR" ]; then
--	echo "Error: $PSEUDO_LOCALSTATEDIR does not exist."
--	echo "Did you create the export directory using runqemu-extract-sdk?"
--	exit 1	
--fi
--
--# NFS server port number
--NFSD_PORT=${NFSD_PORT:=$[ 3049 + 2 * $NFS_INSTANCE ]}
--# mountd port number
--MOUNTD_PORT=${MOUNTD_PORT:=$[ 3048 + 2 * $NFS_INSTANCE ]}
--
--## For debugging you would additionally add
--## --debug all
--UNFSD_OPTS="-p -i $NFSPID -e $EXPORTS -n $NFSD_PORT -m $MOUNTD_PORT"
--
--# See how we were called.
--case "$1" in
--  start)
--	echo "Creating exports file..."
--	echo "$NFS_EXPORT_DIR (rw,no_root_squash,no_all_squash,insecure)" > $EXPORTS
--
--	echo "Starting User Mode nfsd"
--	echo "  $PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/bin/unfsd $UNFSD_OPTS"
--	$PSEUDO $PSEUDO_OPTS $OECORE_NATIVE_SYSROOT/usr/bin/unfsd $UNFSD_OPTS
--	if [ ! $? = 0 ]; then
--		echo "Error starting nfsd"
--		exit 1
--	fi
--	# Check to make sure everything started ok.
--	if [ ! -f $NFSPID ]; then
--		echo "rpc.nfsd did not start correctly"
--		exit 1
--	fi
--	ps -fp `cat $NFSPID` > /dev/null 2> /dev/null
--	if [ ! $? = 0 ]; then
--		echo "rpc.nfsd did not start correctly"
--		exit 1
--	fi
--	echo " "
--	echo "On your target please remember to add the following options for NFS"
--	echo "nfsroot=IP_ADDRESS:$NFS_EXPORT_DIR,nfsvers=3,port=$NFSD_PORT,udp,mountport=$MOUNTD_PORT"
--	;;
--  stop)
--	if [ -f "$NFSPID" ]; then
--		echo "Stopping rpc.nfsd"
--		kill `cat $NFSPID`
--		rm -f $NFSPID
--	else
--		echo "No PID file, not stopping rpc.nfsd"
--	fi
--	if [ -f "$EXPORTS" ]; then
--		echo "Removing exports file"
--		rm -f $EXPORTS
--	fi
--	;;
--  restart)
--	$0 stop $NFS_EXPORT_DIR
--	$0 start $NFS_EXPORT_DIR 
--	if [ ! $? = 0 ]; then
--		exit 1
--	fi
--	;;
--  *)
--	echo "$0 {start|stop|restart} <nfs-export-dir>"
--	;;
--esac
--
--exit 0
-+sys.exit(export_rootfs_main())
+-        # Ports are now assigned. Write the complete image bbappend in a
+-        # single step so that the image is built with exactly one recipe
+-        # hash. This avoids the sstate basehash-changed warnings that
+-        # arise when the bbappend is modified after the image has
+-        # already been built. This also runs with --skip-bitbake, otherwise
+-        # the section removed by strip_bbappend_sections() would be lost.
++        # Ports are now assigned. Write the complete image bbappend --
++        # IMAGE_ debug settings and QB_SLIRP_OPT -- in a single step so
++        # that the image is built with exactly one recipe hash. This
++        # avoids the sstate basehash-changed warnings that arise when
++        # the bbappend is modified after the image has already been
++        # built. This also runs with --skip-bitbake, otherwise the sections
++        # removed by strip_bbappend_sections() would be lost.
+         bbappend_changed = False
+         for ri in recipes_images:
+             if ri.update_image_bbappend(recipes_modified):
+@@ -1564,7 +1637,9 @@ def ide_setup(args, config, basepath, workspace):
+                     finally:
+                         reparse_tinfoil.shutdown()
+ 
+-                # Phase 2: build the image
++                # Phase 2: build the image. do_image -> do_write_qemuboot_conf
++                # picks up QB_SLIRP_OPT from the bbappend written above, so no
++                # separate write_qemuboot_conf step is needed.
+                 exec_build_env_command(
+                     config.init_path, basepath,
+                     bb_cmd + ' '.join(image_bootstrap_tasks), watch=True)
 -- 
 2.55.0
 
