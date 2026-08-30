@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A45BBC61DB9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D32B6C61DE5
 	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 05:33:02 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3840.1788067974108241915
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3850.1788067977553346827
  for <openembedded-core@lists.openembedded.org>;
- Sat, 29 Aug 2026 22:32:54 -0700
+ Sat, 29 Aug 2026 22:32:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=C5mQ1q6i;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CAroFi4Z;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a051280804-372745af-7c44-484d-b15a-9d7fb7f3596f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CdmM7pzw;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=HHDY4eU8;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a05128156a-aa9f1397-9f4b-45e0-b041-98c7040e20ee-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788067973;
+	t=1788067976;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=XxgkICAjz85XhFlqUV4fj9qGfSa7HNLQb5En8ufJ6d4=;
-	b=C5mQ1q6i73vDaffcl1FtP1OTQ1BFPDAus5Dzi+pJGvn6+rUV8rUi1YnVsOHpUX+w
-	K5LyB03g6ASN790mLqGJV5Q45xKiY/mlM6NHgalkGWv5ySmdKhN8NH8gf7uslG/JDb+
-	7wE2VgCq7xD6nDnC7a92nIT1u6GeWIvWDsF/thss=
+	bh=zeK19hlQXtYlkOA24aIRjsBQk0MgcXpYdFGf3Nt/4gs=;
+	b=CdmM7pzw3bLtTl76YajFbTKKNs2rhsLWCOeYHFURBG3Xnn633eQ21u52kfiGU6Ip
+	CFS9yJT4ZNQWGlO/VYxKYJ263QJC3ToF4mPRc1BVx+o3jRDYx9kaLR4JO/t/ZFty5Yh
+	2z3jQFpL/Tb9+06dPZQkmu0eheAl0cdHYINFlcMM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788067973;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788067976;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=XxgkICAjz85XhFlqUV4fj9qGfSa7HNLQb5En8ufJ6d4=;
-	b=CAroFi4Zib4F3Ybs+34yCGBckpQy+bzDLG2AeNVsYgZcn1cWaT/0XMLbXclsmAJJ
-	OxXG4u7krdX8L1s6ZY5W0JXyW4/ZanXji3Q4RXPI+WXxxi7eO4TRXP6pTd8UryldHU5
-	DCELqJofQ1WY05RhioqpRmTeSWTYnfENqwtSkhso=
-Content-Type: multipart/mixed; boundary="===============7718361463271701672=="
+	bh=zeK19hlQXtYlkOA24aIRjsBQk0MgcXpYdFGf3Nt/4gs=;
+	b=HHDY4eU823krm72m+9PyBy9kLEEo8el4cdtOvjkOxCbxskYr4hWZzvkuOaNKvgES
+	KnR4JM6HU266UVjWFfXF3pju0dWOINsvMTQkcxmQ3CTztfTzO8tIMsIeDwgSFRspwjn
+	k+1WVK4If5uHnsB19FeeVHF6zR16MLmF+HyNclZI=
+Content-Type: multipart/mixed; boundary="===============8956261209584092616=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: Khem Raj <raj.khem@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.167.0 SUCCEEDED
-Message-ID: <010101a051280804-372745af-7c44-484d-b15a-9d7fb7f3596f-000000@us-west-2.amazonses.com>
-Date: Sun, 30 Aug 2026 05:32:53 +0000
+Subject: [AUH] re2c: upgrading to 4.6 SUCCEEDED
+Message-ID: <010101a05128156a-aa9f1397-9f4b-45e0-b041-98c7040e20ee-000000@us-west-2.amazonses.com>
+Date: Sun, 30 Aug 2026 05:32:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.30-54.240.27.33
+X-SES-Outgoing: 2026.08.30-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 05:33:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244637
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244641
 
---===============7718361463271701672==
+--===============8956261209584092616==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.167.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *re2c* to *4.6* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.165.10-6.167.0.patch
+    - apply the patch: git am 0001-re2c-upgrade-4.5.1-4.6.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,129 +72,124 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 027ca7b6504cfe3ceb6eb02846a67290c8ca074d Mon Sep 17 00:00:00 2001
+From 09fe024ab80f9634452046cf671c2f34fccc0853 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sun, 30 Aug 2026 05:17:15 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.165.10 -> 6.167.0
+Date: Sun, 30 Aug 2026 05:32:49 +0000
+Subject: [PATCH] re2c: upgrade 4.5.1 -> 4.6
 
+Source: CHANGELOG
+
+4.6 (2026-08-29)
+~~~~~~~~~~~~~~~~
+
+- Added support for Zig labeled continue optimization.
+  (`#580 <https://github.com/skvadrik/re2c/pull/580>`_).
+
+- Updated C/C++ examples to use re2c features available in version 4.0 or higher.
 ---
- ...on3-hypothesis_6.165.10.bb => python3-hypothesis_6.167.0.bb} | 2 +-
+ meta/recipes-support/re2c/{re2c_4.5.1.bb => re2c_4.6.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.165.10.bb => python3-hypothesis_6.167.0.bb} (92%)
+ rename meta/recipes-support/re2c/{re2c_4.5.1.bb => re2c_4.6.bb} (90%)
 
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.165.10.bb b/meta/recipes-devtools/python/python3-hypothesis_6.167.0.bb
-similarity index 92%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.165.10.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.167.0.bb
-index ccb6c6cf8f..4ab6e27f84 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.165.10.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.167.0.bb
-@@ -17,7 +17,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
+diff --git a/meta/recipes-support/re2c/re2c_4.5.1.bb b/meta/recipes-support/re2c/re2c_4.6.bb
+similarity index 90%
+rename from meta/recipes-support/re2c/re2c_4.5.1.bb
+rename to meta/recipes-support/re2c/re2c_4.6.bb
+index ad33ef6a0b..70ce9c82e8 100644
+--- a/meta/recipes-support/re2c/re2c_4.5.1.bb
++++ b/meta/recipes-support/re2c/re2c_4.6.bb
+@@ -8,7 +8,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=64eca4d8a3b67f9dc7656094731a2c8d"
  
--SRC_URI[sha256sum] = "68b45e09834cd80523cb1eb274463073c7a9af4e4ef7cff34d9615f355572d32"
-+SRC_URI[sha256sum] = "23a60707a2bc5e0c59ef95e94264c4e8fd1c54b4ca1b95cbde74fb68b9c2eeef"
+ SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
  
- RDEPENDS:${PN} += " \
-     python3-attrs \
+-SRC_URI[sha256sum] = "ffea067c11aa668bcb42885be6e6cd000302000b7747d2bb213299ec66b7864e"
++SRC_URI[sha256sum] = "75bf2696445e831d0d44e0d9f2909eeffc18c09757f222b2fb025f7e59fe130b"
+ GITHUB_BASE_URI = "https://github.com/skvadrik/re2c/releases"
+ 
+ BBCLASSEXTEND = "native nativesdk"
 -- 
 2.47.1
 
 
---===============7718361463271701672==
+--===============8956261209584092616==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.165.10.tar.gz;downloadfilename=hypothesis-6.165.10.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.29.2 crate://crates.io/pyo3-build-config/0.29.2 crate://crates.io/pyo3-ffi/0.29.2 crate://crates.io/pyo3-macros/0.29.2 crate://crates.io/pyo3-macros-backend/0.29.2 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 c
- rate://crates.io/wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.167.0.tar.gz;downloadfilename=hypothesis-6.167.0.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.29.2 crate://crates.io/pyo3-build-config/0.29.2 crate://crates.io/pyo3-ffi/0.29.2 crate://crates.io/pyo3-macros/0.29.2 crate://crates.io/pyo3-macros-backend/0.29.2 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://cr
- ates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py"
-packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.165.10" to "6.167.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.165.10 [default] to 6.167.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.165.10" to "6.167.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.165.10 [default] to 6.167.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.165.10" to "6.167.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.165.10 [default] to 6.167.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.165.10" to "6.167.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.165.10 [default] to 6.167.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.165.10" to "6.167.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.165.10 [default] to 6.167.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.165.10" to "6.167.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.165.10 [default] to 6.167.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.165.10" to "6.167.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.165.10 [default] to 6.167.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.165.10" to "6.167.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.165.10 [default] to 6.167.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.165.10" to "6.167.0"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.165.10 [default] to 6.167.0 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 4532112 to 4549224 (+0%)
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/entry_points.txt was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/WHEEL was removed
+packages/x86-64-v3-poky-linux/re2c: SRC_URI changed from "https://github.com/skvadrik/re2c/releases/download/4.5.1/re2c-4.5.1.tar.xz" to "https://github.com/skvadrik/re2c/releases/download/4.6/re2c-4.6.tar.xz"
+packages/x86-64-v3-poky-linux/re2c: PV changed from "4.5.1" to "4.6"
+packages/x86-64-v3-poky-linux/re2c: PKGV changed from 4.5.1 [default] to 4.6 [default]
+packages/x86-64-v3-poky-linux/re2c/re2c-dbg: PV changed from "4.5.1" to "4.6"
+packages/x86-64-v3-poky-linux/re2c/re2c-dbg: PKGSIZE changed from 197744008 to 198085208 (+0%)
+packages/x86-64-v3-poky-linux/re2c/re2c-dbg: PKGV changed from 4.5.1 [default] to 4.6 [default]
+packages/x86-64-v3-poky-linux/re2c/re2c-dev: PV changed from "4.5.1" to "4.6"
+packages/x86-64-v3-poky-linux/re2c/re2c-dev: PKGV changed from 4.5.1 [default] to 4.6 [default]
+packages/x86-64-v3-poky-linux/re2c/re2c-doc: PV changed from "4.5.1" to "4.6"
+packages/x86-64-v3-poky-linux/re2c/re2c-doc: PKGSIZE changed from 1851284 to 1858106 (+0%)
+packages/x86-64-v3-poky-linux/re2c/re2c-doc: PKGV changed from 4.5.1 [default] to 4.6 [default]
+packages/x86-64-v3-poky-linux/re2c/re2c-locale: PV changed from "4.5.1" to "4.6"
+packages/x86-64-v3-poky-linux/re2c/re2c-locale: PKGV changed from 4.5.1 [default] to 4.6 [default]
+packages/x86-64-v3-poky-linux/re2c/re2c-src: PV changed from "4.5.1" to "4.6"
+packages/x86-64-v3-poky-linux/re2c/re2c-src: PKGSIZE changed from 1836662 to 1847372 (+1%)
+packages/x86-64-v3-poky-linux/re2c/re2c-src: FILELIST: directory renamed /usr/src/debug/re2c/4.5.1/src/adfa -> /usr/src/debug/re2c/4.6/src/adfa, directory renamed /usr/src/debug/re2c/4.5.1/src/encoding -> /usr/src/debug/re2c/4.6/src/encoding, directory renamed /usr/src/debug/re2c/4.5.1/src/util -> /usr/src/debug/re2c/4.6/src/util, directory renamed /usr/src/debug/re2c/4.5.1/src/debug -> /usr/src/debug/re2c/4.6/src/debug, directory renamed /usr/src/debug/re2c/4.5.1/src/cfg -> /usr/src/debug/re2c/4.6/src/cfg, directory renamed /usr/src/debug/re2c/4.5.1/src -> /usr/src/debug/re2c/4.6/src, directory renamed /usr/src/debug/re2c/4.5.1/src/msg -> /usr/src/debug/re2c/4.6/src/msg, directory renamed /usr/src/debug/re2c/4.5.1/src/regexp -> /usr/src/debug/re2c/4.6/src/regexp, directory renamed /usr/src/debug/re2c/4.5.1/src/dfa -> /usr/src/debug/re2c/4.6/src/dfa, directory renamed /usr/src/debug/re2c/4.5.1/src/nfa -> /usr/src/debug/re2c/4.6/src/nfa, directory renamed /usr/src/debug/re2c/4.5.1/src
+ /parse -> /usr/src/debug/re2c/4.6/src/parse, directory renamed /usr/src/debug/re2c/4.5.1/src/options -> /usr/src/debug/re2c/4.6/src/options, directory renamed /usr/src/debug/re2c/4.5.1/src/skeleton -> /usr/src/debug/re2c/4.6/src/skeleton, directory renamed /usr/src/debug/re2c/4.5.1/src/test/range -> /usr/src/debug/re2c/4.6/src/test/range, directory renamed /usr/src/debug/re2c/4.5.1/src/codegen -> /usr/src/debug/re2c/4.6/src/codegen
+packages/x86-64-v3-poky-linux/re2c/re2c-src: PKGV changed from 4.5.1 [default] to 4.6 [default]
+packages/x86-64-v3-poky-linux/re2c/re2c-staticdev: PV changed from "4.5.1" to "4.6"
+packages/x86-64-v3-poky-linux/re2c/re2c-staticdev: PKGV changed from 4.5.1 [default] to 4.6 [default]
+packages/x86-64-v3-poky-linux/re2c/re2c: PV changed from "4.5.1" to "4.6"
+packages/x86-64-v3-poky-linux/re2c/re2c: PKGSIZE changed from 13373711 to 13419165 (+0%)
+packages/x86-64-v3-poky-linux/re2c/re2c: PKGV changed from 4.5.1 [default] to 4.6 [default]
 
---===============7718361463271701672==
+--===============8956261209584092616==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.165.10-6.167.0.patch"
+Content-Disposition: attachment; filename="0001-re2c-upgrade-4.5.1-4.6.patch"
 
-RnJvbSAwMjdjYTdiNjUwNGNmZTNjZWI2ZWIwMjg0NmE2NzI5MGM4Y2EwNzRkIE1vbiBTZXAgMTcg
+RnJvbSAwOWZlMDI0YWI4MGY5NjM0NDUyMDQ2Y2Y2NzFjMmYzNGZjY2MwODUzIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFN1biwgMzAgQXVnIDIwMjYgMDU6MTc6MTUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNjUuMTAgLT4gNi4xNjcuMAoKLS0tCiAuLi5v
-bjMtaHlwb3RoZXNpc182LjE2NS4xMC5iYiA9PiBweXRob24zLWh5cG90aGVzaXNfNi4xNjcuMC5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLWh5cG90aGVzaXNf
-Ni4xNjUuMTAuYmIgPT4gcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTY3LjAuYmJ9ICg5MiUpCgpkaWZm
-IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNf
-Ni4xNjUuMTAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3Ro
-ZXNpc182LjE2Ny4wLmJiCnNpbWlsYXJpdHkgaW5kZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTY1LjEwLmJiCnJlbmFt
-ZSB0byBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE2
-Ny4wLmJiCmluZGV4IGNjYjZjNmNmOGYuLjRhYjZlMjdmODQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTY1LjEwLmJiCisrKyBi
-L21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTY3LjAu
-YmIKQEAgLTE3LDcgKzE3LDcgQEAgU1JDX1VSSSArPSAiIFwKICAgICBmaWxlOi8vdGVzdF9ybGUu
-cHkgXAogICAgICIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjY4YjQ1ZTA5ODM0Y2Q4MDUyM2Ni
-MWViMjc0NDYzMDczYzdhOWFmNGU0ZWY3Y2ZmMzRkOTYxNWYzNTU1NzJkMzIiCitTUkNfVVJJW3No
-YTI1NnN1bV0gPSAiMjNhNjA3MDdhMmJjNWUwYzU5ZWY5NWU5NDI2NGM0ZThmZDFjNTRiNGNhMWI5
-NWNiZGU3NGZiNjhiOWMyZWVlZiIKIAogUkRFUEVORFM6JHtQTn0gKz0gIiBcCiAgICAgcHl0aG9u
-My1hdHRycyBcCi0tIAoyLjQ3LjEKCg==
+CkRhdGU6IFN1biwgMzAgQXVnIDIwMjYgMDU6MzI6NDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBy
+ZTJjOiB1cGdyYWRlIDQuNS4xIC0+IDQuNgoKU291cmNlOiBDSEFOR0VMT0cKCjQuNiAoMjAyNi0w
+OC0yOSkKfn5+fn5+fn5+fn5+fn5+fgoKLSBBZGRlZCBzdXBwb3J0IGZvciBaaWcgbGFiZWxlZCBj
+b250aW51ZSBvcHRpbWl6YXRpb24uCiAgKGAjNTgwIDxodHRwczovL2dpdGh1Yi5jb20vc2t2YWRy
+aWsvcmUyYy9wdWxsLzU4MD5gXykuCgotIFVwZGF0ZWQgQy9DKysgZXhhbXBsZXMgdG8gdXNlIHJl
+MmMgZmVhdHVyZXMgYXZhaWxhYmxlIGluIHZlcnNpb24gNC4wIG9yIGhpZ2hlci4KLS0tCiBtZXRh
+L3JlY2lwZXMtc3VwcG9ydC9yZTJjL3tyZTJjXzQuNS4xLmJiID0+IHJlMmNfNC42LmJifSB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1zdXBwb3J0L3JlMmMve3JlMmNfNC41LjEuYmIgPT4gcmUyY180LjYuYmJ9
+ICg5MCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvcmUyYy9yZTJjXzQuNS4x
+LmJiIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvcmUyYy9yZTJjXzQuNi5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDkwJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9yZTJjL3JlMmNfNC41LjEu
+YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1zdXBwb3J0L3JlMmMvcmUyY180LjYuYmIKaW5kZXgg
+YWQzM2VmNmEwYi4uNzBjZTljODJlOCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+cmUyYy9yZTJjXzQuNS4xLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L3JlMmMvcmUyY180
+LjYuYmIKQEAgLTgsNyArOCw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7
+bWQ1PTY0ZWNhNGQ4YTNiNjdmOWRjNzY1NjA5NDczMWEyYzhkIgogCiBTUkNfVVJJID0gIiR7R0lU
+SFVCX0JBU0VfVVJJfS9kb3dubG9hZC8ke1BWfS8ke0JQTn0tJHtQVn0udGFyLnh6IgogCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiZmZlYTA2N2MxMWFhNjY4YmNiNDI4ODViZTZlNmNkMDAwMzAyMDAw
+Yjc3NDdkMmJiMjEzMjk5ZWM2NmI3ODY0ZSIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI3NWJmMjY5
+NjQ0NWU4MzFkMGQ0NGUwZDlmMjkwOWVlZmZjMThjMDk3NTdmMjIyYjJmYjAyNWY3ZTU5ZmUxMzBi
+IgogR0lUSFVCX0JBU0VfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNvbS9za3ZhZHJpay9yZTJjL3Jl
+bGVhc2VzIgogCiBCQkNMQVNTRVhURU5EID0gIm5hdGl2ZSBuYXRpdmVzZGsiCi0tIAoyLjQ3LjEK
+Cg==
 
---===============7718361463271701672==
+--===============8956261209584092616==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="re2c-changelog.txt"
 
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/entry_points.txt was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/licenses/LICENSE.txt was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.167.0.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/entry_points.txt was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/licenses/LICENSE.txt was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/hypothesis-6.165.10.dist-info/WHEEL was removed
+Changelog for re2c: 4.5.1 -> 4.6
+Source: CHANGELOG
 
---===============7718361463271701672==--
+4.6 (2026-08-29)
+~~~~~~~~~~~~~~~~
+
+- Added support for Zig labeled continue optimization.
+  (`#580 <https://github.com/skvadrik/re2c/pull/580>`_).
+
+- Updated C/C++ examples to use re2c features available in version 4.0 or higher.
+
+--===============8956261209584092616==--
 
