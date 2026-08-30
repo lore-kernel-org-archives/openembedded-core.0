@@ -2,49 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 74DC6C61DE4
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54124C61DE1
 	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:56:26 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9936.1788101776682764910
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9937.1788101777705513264
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2026 07:56:16 -0700
+ Sun, 30 Aug 2026 07:56:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=jGE0LV5i;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ysRoLRZ9;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a0532bd1a3-83ec7994-6d09-4790-ab21-8dfc7e077f80-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PhCupDei;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=pnKYWy+K;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a0532bd60b-ad68f29b-8716-450f-9e4c-2d11cb2c805c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788101775; i=@automation.yoctoproject.org;
+	t=1788101777; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=LcNOvTImtxN9gDsopoRfQaWwBkawwCPmsrFdCEJ/Mnw=;
-	b=jGE0LV5iCbOpBNd26i6rPuOLQYjqzeE27CqDdrB49LOY2E3+N80/zDL8QepqEiZb
-	MasILnt76soRL/og1nCVr2sz26/F5ea/D6TUwbll685Szb1IbM5pqpPYcpGcVhv1Xgy
-	Gftlhgmf5k4wgj/AMomai2UiTX3F+NrxeqiW/i7o=
+	bh=wblrW8F9ONfI5kGvHcP3JuwurnIu0jtjInrdi1/rJ+c=;
+	b=PhCupDeiDtrFCvKkB7mMP6qo3bygJtiHrYpxpV6GSVfGcu5fiKiPx6rwjCgZQ6aU
+	u4Rg2TapznqXRiSKWO0jBWnMzLHRB9pgXM/GGHbIuf1t7G6ttGWE/CrAPtNnJDBhaxF
+	0WSG39E1/llbJ0vX6CGPndCMbsT4QMg9RTc+urOQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788101775;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788101777;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=LcNOvTImtxN9gDsopoRfQaWwBkawwCPmsrFdCEJ/Mnw=;
-	b=ysRoLRZ9nYB7mBLNJLAdHGkTPzavQpIOQ8u4WbUeHvlLpI6LMsQ0/ZOzmlKatVP6
-	TLHeZoJ6ZqbAPYa5L+be/UL0grTPELY3QTb+WQbG4H97L7MVylKx8OGL2bCzdUZzX90
-	l1kZdOJrdIMcTJkaioAR59TLPA/oi58xi0UScwwY=
+	bh=wblrW8F9ONfI5kGvHcP3JuwurnIu0jtjInrdi1/rJ+c=;
+	b=pnKYWy+KO2m+YVslLaR20ZMoXZ8KuL2cjwi+ccaVnYlncBhazmg3zPY4XQwO81TF
+	+UZRYDG7lmg7zaD4UuglciyqY8D7HIyJ9eGvPbjsh12oJpWnnJjmtptvCXcde45ZD5a
+	BLXjB8ot1BzlLpHIP5fo6PH0G1x6d9y9r+LlXbzs=
 From: patchtest@automation.yoctoproject.org
 To: AdrianF <adrian.freihofer@siemens.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 17/24] devtool: deploy: split ssh deployment into a separate
- function
-In-Reply-To: <20260830142922.17241-18-adrian.freihofer@siemens.com>
-References: <20260830142922.17241-18-adrian.freihofer@siemens.com>
+Subject: Patchtest results for [PATCH 22/24] oe-selftest: devtool ide-sdk: test install task
+In-Reply-To: <20260830142922.17241-23-adrian.freihofer@siemens.com>
+References: <20260830142922.17241-23-adrian.freihofer@siemens.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0532bd1a3-83ec7994-6d09-4790-ab21-8dfc7e077f80-000000@us-west-2.amazonses.com>
-Date: Sun, 30 Aug 2026 14:56:15 +0000
+Message-ID: <010101a0532bd60b-ad68f29b-8716-450f-9e4c-2d11cb2c805c-000000@us-west-2.amazonses.com>
+Date: Sun, 30 Aug 2026 14:56:16 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.08.30-54.240.27.45
+X-SES-Outgoing: 2026.08.30-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:56:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244686
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244687
 
 --NextPart
 Content-Type: text/plain
@@ -54,16 +53,16 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/17-24-devtool-deploy-split-ssh-deployment-into-a-separate-function.patch
+Testing patch /home/patchtest/share/mboxes/22-24-oe-selftest-devtool-ide-sdk-test-install-task.patch
 
-FAIL: test max line length: Patch line too long (current length 247, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+FAIL: test Signed-off-by presence: Mbox is missing Signed-off-by. Add it manually or with "git commit --amend -s" (test_mbox.TestMbox.test_signed_off_by_presence)
 
 PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
 PASS: test pylint (test_python_pylint.PyLint.test_pylint)
