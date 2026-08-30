@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C28A8C624D5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8957C624D6
 	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 21:49:27 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17150.1788126560454563338
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17142.1788126560348019166
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 14:49:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=iXqvgnbF;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20260830214918bbc413a5950002076f-__lnip@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260830214918bbc413a5950002076f
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=LGyphoJw;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-202608302149187405234422000207c2-lo3c5i@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202608302149187405234422000207c2
         for <openembedded-core@lists.openembedded.org>;
         Sun, 30 Aug 2026 23:49:18 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=zapn1ATaEPuLk0BjjMDJRIZsVJtdMIz1iekdlLb+m+U=;
- b=iXqvgnbFy1B2ln+W0yNm8X+BjW6qS1MANY/K2NP9yL9TjvcMtH/XqJkBHcDm1GULE3zult
- aeyi28trF520RJPiw+E0rkuqcoyUcKrTpolVQFJsWXzFTMWtQPO2I/ECZSaS5b6/LigUptGA
- iLpY+gLQXzrT5Lv2kxhF0yRNZcua+2oG2vVsbGAdwx5fpjwzsuLEts3y97pPqigtsOjd6Dj6
- kSgWq/gIgE3+QDY6hodvEXEu+6cltpgSeOXbl8eAog+8K2OkfrT9IEvYYmXSIdR+bYOx41iS
- KqvoUHyKs1LeRtIkuJd9Lp2VQDlF+TL3cyjPftLvqzldNLIGrYRQT6qQ==;
+ bh=fafpM09JOMQpRxZuW1R5dZrBHdOOsqqeOjchKViAKGI=;
+ b=LGyphoJwxJNM1CSMsGJ4QxNaKJsWRJ8E1hyr4NTX4nz7zCSF1D+MPVJq1YU0xSCfaKGMi3
+ 6/IsdUzQIc/WXVhEOxasJVn1X04DOmHGiBGVJiNub1+SRoHH4/cL/mKuz1BGQgpxjSoxz+IK
+ mTM83W5GK5Zsk6GxvhJx46RAw8c0qq2chCvYDCZ1hamKnp2qIcFfCncDYuEaYU1lpILF7Siv
+ KiZcAR3D4kZkO3l4ZRN0yCiWvv5ddeECHjy/ZB5pf/WFMAwlJKy/wNIQUDQziwgRkUzG2lWt
+ F3rrqgUk5sFAse1bbuqgXTSuSKi/4K8soghlM/5eVHKCR1N3uO2QzozQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 15/25] runqemu-extract-sdk: refactor in Python
-Date: Sun, 30 Aug 2026 23:48:37 +0200
-Message-ID: <20260830214912.1346063-16-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 12/25] oe-selftest: devtool deploy-target: test --package/--file-glob filters
+Date: Sun, 30 Aug 2026 23:48:34 +0200
+Message-ID: <20260830214912.1346063-13-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 References: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,288 +39,217 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 21:49:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244701
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244699
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Move the pseudo-backed rootfs extraction logic into a reusable Python
-module while preserving the existing command interface.
-Install the module with qemu-helper so the wrapper also works from an SDK.
+Extend test_devtool_deploy_target to validate --package/--file-glob
+filter behavior for both default deploy and --strip deploy.
 
-AI-Generated: Uses GitHub Copilot
+The test now covers package-only, glob-only, and combined filtering,
+plus recipe-scoped "RECIPE:" forms and shorthand expansion.
+
+Examples covered by the test:
+- devtool deploy-target -c mdadm root@<ip> --package mdadm
+- devtool deploy-target -c mdadm root@<ip> --package mdadm-doc
+- devtool deploy-target -c mdadm root@<ip> --package mdadm,mdadm-doc
+- devtool deploy-target -c mdadm root@<ip> --file-glob /usr/sbin/mdadm
+- devtool deploy-target -c mdadm root@<ip> --package mdadm --file-glob /usr/sbin/mdadm
+- devtool deploy-target -c mdadm root@<ip> --package mdadm:-doc
+- devtool deploy-target -c mdadm root@<ip> --package mdadm:,-doc
+- devtool deploy-target -c mdadm root@<ip> --file-glob mdadm:/usr/sbin/mdadm
+
+This also verifies that non-matching "other-recipe:" prefixes are
+ignored for the current recipe.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .../qemu/nativesdk-qemu-helper_1.0.bb         |   3 +
- scripts/lib/runqemu_utils.py                  | 124 ++++++++++++++++++
- scripts/runqemu-extract-sdk                   | 103 +--------------
- 3 files changed, 133 insertions(+), 97 deletions(-)
- create mode 100644 scripts/lib/runqemu_utils.py
+ meta/lib/oeqa/selftest/cases/devtool.py | 135 +++++++++++++++++-------
+ scripts/lib/devtool/deploy.py           |  10 +-
+ 2 files changed, 108 insertions(+), 37 deletions(-)
 
-diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-index e1f343989a..16fc07fadf 100644
---- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-+++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-@@ -9,6 +9,7 @@ RDEPENDS:${PN} = "nativesdk-qemu nativesdk-unfs3 nativesdk-pseudo \
- LIC_FILES_CHKSUM = "file://${COREBASE}/scripts/runqemu;beginline=5;endline=10;md5=ac2b489a58739c7628a2604698db5e7f"
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index c18b94ab5a..b3eb3c28fb 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2038,8 +2038,14 @@ class DevtoolDeployTargetTests(DevtoolBase):
+         # Definitions
+         testrecipe = 'mdadm'
+         testfile = '/sbin/mdadm'
++        # mdmon is installed by the same do_install, used to check --package/--file-glob filtering
++        otherfile = '/sbin/mdmon'
+         if "usrmerge" in get_bb_var('DISTRO_FEATURES'):
+             testfile = '/usr/sbin/mdadm'
++            otherfile = '/usr/sbin/mdmon'
++        # Use the mdadm-doc package for testing --package and --file-glob filtering
++        mandir = get_bb_var('mandir', testrecipe)
++        docfile = os.path.join(mandir, 'man8', '%s.8' % testrecipe)
+         testimage = 'oe-selftest-image'
+         testcommand = '/sbin/mdadm --help'
+         # Build an image to run
+@@ -2066,48 +2072,105 @@ class DevtoolDeployTargetTests(DevtoolBase):
+         self.assertIn('  %s' % testfile, result.output)
+         # Boot the image
+         with runqemu(testimage) as qemu:
+-            # Now really test deploy-target
+-            for extra_opt in ['', '--strip']:
+-                deploy_cmd= 'devtool deploy-target -c %s root@%s %s' % (testrecipe, qemu.ip, extra_opt)
+-                self.logger.debug(deploy_cmd)
++            def _deploy_and_check(extra_args, check_full_filelist, expected_files):
++                """Deploy with extra_args, verify the result, then undeploy and verify removal.
++
++                check_full_filelist is only meaningful for an unfiltered deploy: it
++                compares every file installed by do_install against what actually
++                landed on the target. For a --package/--file-glob filtered deploy,
++                expected_files instead maps a handful of representative paths
++                (testfile, otherfile, docfile) to whether they should have been
++                deployed by this particular filter.
++                """
++                deploy_cmd = 'devtool deploy-target -c %s root@%s %s' % (testrecipe, qemu.ip, extra_args)
++                if self.logger.isEnabledFor(logging.DEBUG):
++                    deploy_cmd += ' -s'
+                 result = runCmd(deploy_cmd)
+-                # Run a test command to see if it was installed properly
+-                status, _ = qemu.run(testcommand)
+-                self.assertEqual(status, 0)
+-                # Check if it deployed all of the files with the right ownership/perms
+-                # First look on the host - need to do this under pseudo to get the correct ownership/perms
+-                bb_vars = get_bb_vars(['D', 'FAKEROOTENV', 'FAKEROOTCMD', 'PATH'], testrecipe)
+-                installdir = bb_vars['D']
+-                fakerootenv = bb_vars['FAKEROOTENV']
+-                fakerootcmd = bb_vars['FAKEROOTCMD']
+-                path = bb_vars['PATH']
+-                result = runCmd('PATH="%s" %s %s find . -type f -exec ls -l {} \\;' % (path, fakerootenv, fakerootcmd), cwd=installdir)
+-                filelist1 = self._process_ls_output(result.output)
++                self.logger.debug('%s\n%s' % (deploy_cmd, result.output))
++
++                if check_full_filelist:
++                    # Run a test command to see if it was installed properly
++                    status, _ = qemu.run(testcommand)
++                    self.assertEqual(status, 0, '%s: %s was not deployed' % (extra_args, testfile))
++
++                    # Check if it deployed all of the files with the right ownership/perms
++                    # First look on the host - need to do this under pseudo to get the correct ownership/perms
++                    bb_vars = get_bb_vars(['D', 'FAKEROOTENV', 'FAKEROOTCMD', 'PATH'], testrecipe)
++                    installdir = bb_vars['D']
++                    fakerootenv = bb_vars['FAKEROOTENV']
++                    fakerootcmd = bb_vars['FAKEROOTCMD']
++                    path = bb_vars['PATH']
++                    result = runCmd('PATH="%s" %s %s find . -type f -exec ls -l {} \\;' % (path, fakerootenv, fakerootcmd), cwd=installdir)
++                    filelist1 = self._process_ls_output(result.output)
++
++                    # Now look on the target
++                    tempdir2 = tempfile.mkdtemp(prefix='devtoolqa')
++                    self.track_for_cleanup(tempdir2)
++                    tmpfilelist = os.path.join(tempdir2, 'files.txt')
++                    with open(tmpfilelist, 'w') as f:
++                        for line in filelist1:
++                            splitline = line.split()
++                            f.write(splitline[-1] + '\n')
++                    remotefilelist = '/tmp/%s' % os.path.basename(tmpfilelist)
++                    status, _ = qemu.copy_to(tmpfilelist, remotefilelist)
++                    self.assertEqual(status, 0)
++                    status, output = qemu.run(
++                        'xargs ls -l < %s; status=$?; rm -f %s; exit $status' % (
++                            remotefilelist, remotefilelist))
++                    self.assertEqual(status, 0)
++                    filelist2 = self._process_ls_output(output)
++                    filelist1.sort(key=lambda item: item.split()[-1])
++                    filelist2.sort(key=lambda item: item.split()[-1])
++                    self.assertEqual(filelist1, filelist2)
++                else:
++                    for path, expected in expected_files.items():
++                        status, _ = qemu.run('test -e %s' % path)
++                        if expected:
++                            self.assertEqual(status, 0, '%s: %s should have been deployed' % (extra_args, path))
++                        else:
++                            self.assertNotEqual(status, 0, '%s: %s should not have been deployed' % (extra_args, path))
  
- SRC_URI = "file://${COREBASE}/scripts/runqemu \
-+           file://${COREBASE}/scripts/lib/runqemu_utils.py \
-            file://${COREBASE}/scripts/runqemu-addptable2image \
-            file://${COREBASE}/scripts/runqemu-gen-tapdevs \
-            file://${COREBASE}/scripts/runqemu-ifup \
-@@ -30,4 +31,6 @@ do_install() {
- 	install -d ${D}${bindir}
- 	install -m 0755 ${S}${COREBASE}/scripts/oe-* ${D}${bindir}/
- 	install -m 0755 ${S}${COREBASE}/scripts/runqemu* ${D}${bindir}/
-+	# The runqemu-* wrappers import this module from their own directory.
-+	install -m 0644 ${S}${COREBASE}/scripts/lib/runqemu_utils.py ${D}${bindir}/
- }
-diff --git a/scripts/lib/runqemu_utils.py b/scripts/lib/runqemu_utils.py
-new file mode 100644
-index 0000000000..dff0ca8d3a
---- /dev/null
-+++ b/scripts/lib/runqemu_utils.py
-@@ -0,0 +1,124 @@
-+#!/usr/bin/env python3
-+#
-+# Helpers shared by runqemu and NFS-rootfs preparation tools.
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+
-+"""Extract and export rootfs tarballs for NFS booting."""
-+
-+import os
-+import subprocess
-+import sys
-+
-+
-+class RunQemuRootfsError(Exception):
-+    """Raised when an NFS rootfs cannot be prepared or exported."""
-+
-+
-+def native_environment():
-+    """Return the qemu-helper-native environment set by oe-find-native-sysroot."""
-+    command = '''
-+        helper=$(command -v oe-find-native-sysroot) || exit 127
-+        . "$helper" qemu-helper-native >/dev/null
-+        env -0
-+        printf 'PSEUDO=%s\\0OECORE_NATIVE_SYSROOT=%s\\0' "$PSEUDO" "$OECORE_NATIVE_SYSROOT"
-+    '''
-+    result = subprocess.run(['bash', '-c', command], capture_output=True)
-+    if result.returncode:
-+        if result.returncode == 127:
-+            raise RunQemuRootfsError(
-+                'Unable to find the oe-find-native-sysroot script.\n'
-+                'Did you forget to source your build system environment setup script?')
-+        raise RunQemuRootfsError(
-+            result.stderr.decode(errors='replace').strip() or
-+            'Unable to set up the qemu-helper-native sysroot')
-+
-+    environment = {}
-+    for entry in result.stdout.split(b'\0'):
-+        if b'=' in entry:
-+            key, value = entry.split(b'=', 1)
-+            environment[key.decode()] = value.decode()
-+    return environment
-+
-+
-+def _tar_options(rootfs_tarball):
-+    if rootfs_tarball.endswith('.tar.xz'):
-+        return ['--numeric-owner', '-xJf']
-+    if rootfs_tarball.endswith('.tar.bz2'):
-+        return ['--numeric-owner', '-xjf']
-+    if rootfs_tarball.endswith('.tar.gz'):
-+        return ['--numeric-owner', '-xzf']
-+    if rootfs_tarball.endswith('.tar.zst'):
-+        return ['--numeric-owner', '--zstd', '-xf']
-+    if rootfs_tarball.endswith('.tar'):
-+        return ['--numeric-owner', '-xf']
-+    raise RunQemuRootfsError(
-+        'Unable to determine sdk tarball format\n'
-+        'Accepted types: .tar / .tar.gz / .tar.bz2 / .tar.xz / .tar.zst')
-+
-+
-+def pseudo_state_dir(rootfs_dir):
-+    """Return the pseudo database location associated with an extracted rootfs."""
-+    rootfs_dir = os.path.realpath(rootfs_dir)
-+    return os.path.join(os.path.dirname(rootfs_dir),
-+                        os.path.basename(rootfs_dir) + '.pseudo_state')
-+
-+
-+def extract_sdk_rootfs(rootfs_tarball, rootfs_dir):
-+    """Extract a rootfs tarball under pseudo and return its absolute directory."""
-+    if not os.path.exists(rootfs_tarball):
-+        raise RunQemuRootfsError("sdk tarball '%s' does not exist" % rootfs_tarball)
-+
-+    rootfs_tarball = os.path.realpath(rootfs_tarball)
-+    rootfs_dir = os.path.realpath(rootfs_dir)
-+    tar_options = _tar_options(rootfs_tarball)
-+    state_dir = pseudo_state_dir(rootfs_dir)
-+    debug_image = '-dbg' in os.path.basename(rootfs_tarball)
-+
-+    if os.path.exists(state_dir) and not debug_image:
-+        raise RunQemuRootfsError(
-+            '%s already exists!\n'
-+            'Please delete the rootfs tree and pseudo directory manually\n'
-+            'if this is really what you want.' % state_dir)
-+
-+    os.makedirs(rootfs_dir, exist_ok=True)
-+    os.makedirs(state_dir, exist_ok=True)
-+    open(os.path.join(state_dir, 'pseudo.pid'), 'a').close()
-+
-+    environment = native_environment()
-+    environment['PSEUDO_LOCALSTATEDIR'] = state_dir
-+    environment['PSEUDO_INCLUDE_PATHS'] = rootfs_dir
-+    pseudo = environment.get('PSEUDO')
-+    native_sysroot = environment.get('OECORE_NATIVE_SYSROOT')
-+    if not pseudo or not native_sysroot:
-+        raise RunQemuRootfsError('qemu-helper-native did not provide pseudo')
-+
-+    command = [pseudo, '-P', os.path.join(native_sysroot, 'usr'), 'tar', '-C', rootfs_dir]
-+    command.extend(tar_options)
-+    command.append(rootfs_tarball)
-+    print('Extracting rootfs tarball using pseudo...')
-+    print(' '.join(command))
-+    try:
-+        subprocess.run(command, env=environment, check=True)
-+    except subprocess.CalledProcessError as exc:
-+        raise RunQemuRootfsError('Failed to extract rootfs tarball') from exc
-+
-+    if len(os.listdir(rootfs_dir)) < 4:
-+        print("Warning: I don't see many files in %s" % rootfs_dir)
-+        print('Please double-check the extraction worked as intended')
-+    else:
-+        print('SDK image successfully extracted to %s' % rootfs_dir)
-+    return rootfs_dir
-+
-+
-+def extract_sdk_main(argv=None):
-+    argv = sys.argv[1:] if argv is None else argv
-+    if len(argv) != 2:
-+        print('Usage: %s <image-tarball> <extract-dir>' % sys.argv[0])
-+        return 1
-+    try:
-+        extract_sdk_rootfs(*argv)
-+    except RunQemuRootfsError as exc:
-+        print('Error: %s' % exc)
-+        return 1
-+    return 0
-diff --git a/scripts/runqemu-extract-sdk b/scripts/runqemu-extract-sdk
-index db9813e1dc..6cad2fdf90 100755
---- a/scripts/runqemu-extract-sdk
-+++ b/scripts/runqemu-extract-sdk
-@@ -1,104 +1,13 @@
--#!/bin/bash
--#
--# This utility extracts an SDK image tarball using pseudo, and stores
--# the pseudo database in var/pseudo within the rootfs. If you want to
--# boot QEMU using an nfsroot, you *must* use this script to create the
--# rootfs to ensure it is done correctly with pseudo.
--#
--# Copyright (c) 2010 Intel Corp.
-+#!/usr/bin/env python3
- #
- # SPDX-License-Identifier: GPL-2.0-only
--#
+-                # Now look on the target
+-                tempdir2 = tempfile.mkdtemp(prefix='devtoolqa')
+-                self.track_for_cleanup(tempdir2)
+-                tmpfilelist = os.path.join(tempdir2, 'files.txt')
+-                with open(tmpfilelist, 'w') as f:
+-                    for line in filelist1:
+-                        splitline = line.split()
+-                        f.write(splitline[-1] + '\n')
+-                remotefilelist = '/tmp/%s' % os.path.basename(tmpfilelist)
+-                status, _ = qemu.copy_to(tmpfilelist, remotefilelist)
+-                self.assertEqual(status, 0)
+-                status, output = qemu.run(
+-                    'xargs ls -l < %s; status=$?; rm -f %s; exit $status' % (
+-                        remotefilelist, remotefilelist))
+-                self.assertEqual(status, 0)
+-                filelist2 = self._process_ls_output(output)
+-                filelist1.sort(key=lambda item: item.split()[-1])
+-                filelist2.sort(key=lambda item: item.split()[-1])
+-                self.assertEqual(filelist1, filelist2)
+                 # Test undeploy-target
+-                result = runCmd('devtool undeploy-target -c %s root@%s' % (testrecipe, qemu.ip))
++                runCmd('devtool undeploy-target -c %s root@%s' % (testrecipe, qemu.ip))
+                 status, _ = qemu.run(testcommand)
+                 self.assertNotEqual(status, 0, 'undeploy-target did not remove command as it should have')
  
--function usage() {
--	echo "Usage: $0 <image-tarball> <extract-dir>"
--}
-+import os
-+import sys
++            filter_cases = [
++                ('', {}),
++                ('--package %s' % testrecipe,
++                 {testfile: True, otherfile: True, docfile: False}),
++                ('--package %s-doc' % testrecipe,
++                 {testfile: False, otherfile: False, docfile: True}),
++                ('--package %s,%s-doc' % (testrecipe, testrecipe),
++                 {testfile: True, otherfile: True, docfile: True}),
++                ('--file-glob %s' % testfile,
++                 {testfile: True, otherfile: False, docfile: False}),
++                ('--package %s --file-glob %s' % (testrecipe, testfile),
++                 {testfile: True, otherfile: True, docfile: False}),
++                # "RECIPE:" prefix (needed so a single 'devtool ide-sdk' invocation
++                # can scope --package/--file-glob entries to one of several recipes)
++                ('--package %s:%s' % (testrecipe, testrecipe),
++                 {testfile: True, otherfile: True, docfile: False}),
++                # shorthand: "RECIPE:-suffix" expands to "RECIPE-suffix"
++                ('--package %s:-doc' % testrecipe,
++                 {testfile: False, otherfile: False, docfile: True}),
++                # shorthand: empty item + "-suffix" combined in one entry
++                ('--package %s:,-doc' % testrecipe,
++                 {testfile: True, otherfile: True, docfile: True}),
++                # a "RECIPE:" prefix that doesn't match this recipe is skipped,
++                # leaving no package filter applied (same as passing none at all)
++                ('--package other-recipe:%s' % testrecipe,
++                 {testfile: True, otherfile: True, docfile: True}),
++                ('--file-glob %s:%s' % (testrecipe, testfile),
++                 {testfile: True, otherfile: False, docfile: False}),
++                ('--file-glob other-recipe:%s' % testfile,
++                 {testfile: True, otherfile: True, docfile: True}),
++            ]
++            for strip_opt in ['', '--strip']:
++                for filter_args, expected_files in filter_cases:
++                    extra_args = ' '.join(a for a in (strip_opt, filter_args) if a)
++                    _deploy_and_check(extra_args, check_full_filelist=not filter_args, expected_files=expected_files)
++
+ class DevtoolBuildImageTests(DevtoolBase):
  
--if [ $# -ne 2 ]; then
--	usage
--	exit 1
--fi
-+sys.path.insert(0, os.path.join(os.path.dirname(os.path.realpath(__file__)), 'lib'))
+     def test_devtool_build_image(self):
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index 267d124415..d11b04aea2 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -500,7 +500,15 @@ def register_commands(subparsers, context):
  
--SYSROOT_SETUP_SCRIPT=`which oe-find-native-sysroot 2> /dev/null`
--if [ -z "$SYSROOT_SETUP_SCRIPT" ]; then
--	echo "Error: Unable to find the oe-find-native-sysroot script"
--	echo "Did you forget to source your build system environment setup script?"
--	exit 1
--fi
--. $SYSROOT_SETUP_SCRIPT qemu-helper-native
--PSEUDO_OPTS="-P $OECORE_NATIVE_SYSROOT/usr"
-+from runqemu_utils import extract_sdk_main
- 
--ROOTFS_TARBALL=$1
--SDK_ROOTFS_DIR=$2
- 
--if [ ! -e "$ROOTFS_TARBALL" ]; then
--	echo "Error: sdk tarball '$ROOTFS_TARBALL' does not exist"
--	usage
--	exit 1
--fi
--
--# Convert SDK_ROOTFS_DIR to a full pathname
--if [[ ${SDK_ROOTFS_DIR:0:1} != "/" ]]; then
--	SDK_ROOTFS_DIR=$(readlink -f $(pwd)/$SDK_ROOTFS_DIR)
--fi
--
--TAR_OPTS=""
--if [[ "$ROOTFS_TARBALL" =~ tar\.xz$ ]]; then
--	TAR_OPTS="--numeric-owner -xJf"
--fi
--if [[ "$ROOTFS_TARBALL" =~ tar\.bz2$ ]]; then
--	TAR_OPTS="--numeric-owner -xjf"
--fi
--if [[ "$ROOTFS_TARBALL" =~ tar\.gz$ ]]; then
--	TAR_OPTS="--numeric-owner -xzf"
--fi
--if [[ "$ROOTFS_TARBALL" =~ tar\.zst$ ]]; then
--	TAR_OPTS="--numeric-owner --zstd -xf"
--fi
--if [[ "$ROOTFS_TARBALL" =~ \.tar$ ]]; then
--	TAR_OPTS="--numeric-owner -xf"
--fi
--if [ -z "$TAR_OPTS" ]; then
--	echo "Error: Unable to determine sdk tarball format"
--	echo "Accepted types: .tar / .tar.gz / .tar.bz2 / .tar.xz / tar.zst"
--	exit 1
--fi
--
--if [ ! -d "$SDK_ROOTFS_DIR" ]; then
--	echo "Creating directory $SDK_ROOTFS_DIR"
--	mkdir -p "$SDK_ROOTFS_DIR"
--fi
--
--pseudo_state_dir="$SDK_ROOTFS_DIR/../$(basename "$SDK_ROOTFS_DIR").pseudo_state"
--pseudo_state_dir="$(readlink -f $pseudo_state_dir)"
--
--debug_image="`echo $ROOTFS_TARBALL | grep '\-dbg\.rootfs\.tar'`"
--
--if [ -e "$pseudo_state_dir" -a -z "$debug_image" ]; then
--	echo "Error: $pseudo_state_dir already exists!"
--	echo "Please delete the rootfs tree and pseudo directory manually"
--	echo "if this is really what you want."
--	exit 1
--fi
--
--mkdir -p "$pseudo_state_dir"
--touch "$pseudo_state_dir/pseudo.pid"
--PSEUDO_LOCALSTATEDIR="$pseudo_state_dir"
--export PSEUDO_LOCALSTATEDIR
--PSEUDO_INCLUDE_PATHS="$SDK_ROOTFS_DIR"
--export PSEUDO_INCLUDE_PATHS
--
--echo "Extracting rootfs tarball using pseudo..."
--echo "$PSEUDO $PSEUDO_OPTS tar -C \"$SDK_ROOTFS_DIR\" $TAR_OPTS \"$ROOTFS_TARBALL\""
--$PSEUDO $PSEUDO_OPTS tar -C "$SDK_ROOTFS_DIR" $TAR_OPTS "$ROOTFS_TARBALL"
--
--DIRCHECK=`ls -l "$SDK_ROOTFS_DIR" | wc -l`
--if [ "$DIRCHECK" -lt 5 ]; then
--	echo "Warning: I don't see many files in $SDK_ROOTFS_DIR"
--	echo "Please double-check the extraction worked as intended"
--	exit 0
--fi
--
--echo "SDK image successfully extracted to $SDK_ROOTFS_DIR"
--
--exit 0
-+sys.exit(extract_sdk_main())
+     parser_deploy = subparsers.add_parser('deploy-target',
+                                           help='Deploy recipe output files to live target machine',
+-                                          description='Deploys a recipe\'s build output (i.e. the output of the do_install task) to a live target machine over ssh. By default, any existing files will be preserved instead of being overwritten and will be restored if you run devtool undeploy-target. Note: this only deploys the recipe itself and not any runtime dependencies, so it is assumed that those have been installed on the target beforehand. Use --package/--file-glob to deploy only a subset of the recipe\'s installed files.',
++                                          description='Deploys a recipe\'s build output (i.e. the output of '
++                                                       'the do_install task) to a live target machine over ssh. '
++                                                       'By default, any existing files will be preserved instead '
++                                                       'of being overwritten and will be restored if you run '
++                                                       'devtool undeploy-target. Note: this only deploys the '
++                                                       'recipe itself and not any runtime dependencies, so it is '
++                                                       'assumed that those have been installed on the target '
++                                                       'beforehand. Use --package/--file-glob to deploy only a '
++                                                       'subset of the recipe\'s installed files.',
+                                           group='testbuild')
+     parser_deploy.add_argument('recipename', help='Recipe to deploy')
+     parser_deploy.add_argument('target', help='Live target machine running an ssh server: user@hostname[:destdir]')
 -- 
 2.55.0
 
