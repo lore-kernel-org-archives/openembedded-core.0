@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33C0CC61DFF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFCE5C624A5
 	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 14:29:54 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9459.1788100184012431295
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9438.1788100184573511779
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 07:29:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=lXEReJIh;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-20260830142942ccc3a96926000207dc-0l8f_n@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260830142942ccc3a96926000207dc
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=f8ZUErSI;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-20260830142942cbb72ab62f0002070a-niuyju@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 20260830142942cbb72ab62f0002070a
         for <openembedded-core@lists.openembedded.org>;
         Sun, 30 Aug 2026 16:29:42 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=eqp6S81Ngk5WrYFs3TiLjt8JsRRgPRMX+jdcAMIZtc8=;
- b=lXEReJIhWn6pPfgV/Tc/wXjgVg/hvBgAVWXsiPzPIg5/106JMW5jyR5XUlkX+IXDVMi6wf
- 00BDqMxja1kKA+Ia5heHNMQpIDPSO1lQ9njsf0XUIark6JXKgu3L6MrY4jrZekQAUNIzFFY4
- Yo3kQG2jEYCZAymiWQn/E2bDxVxdAPSs5FYgKJcWghjsiUELIVnj/abSO98BRJ5d8GhjUkuV
- EKMPAewt9iRT1vDgiLZpYELFcbn1GbbZjUjULSnSkFIAlDiSKuURAXBPpbGsT09GtMeGI9Rn
- +47iWonIHzhAeMY9cs0Fu9vrxokaGq0zEm0eyFiSkj8cGwE3UBnE9VOA==;
+ bh=7g3PlO/+cF3lKflvvDNgM7bMu8xwLpQ1yvZAdh5u1Ts=;
+ b=f8ZUErSIvmcA9Fsee3C4JZ97fYmesZ/E/Q5CPjpioyhc1+KoR/d94cBXj/LTOm6eXdgeRF
+ 7qi439TJyJM2wyZ4gMtTIm3pjCzFMOlR5QzmCd9+ipQVap4MiSTjYbCmJKhB4mYA00vIPcvk
+ gATfXxAImf/e1o7y2Qi2BO95hLFy7bSL54xMX/6Madw5QAz0q49Nt9oXM3/tI7oEh91HVprB
+ KuKbr2rybNz0L76Nj73/gI50mDrFwx2XgTwVQdCpdOs91vNUuWSV/Jeoye9PgSQkHf/UQ1w5
+ 8J4aSmXgLFoujyi0p2IzY3bhx40yhuQQMpmsnr1ZelD9YihRwtrm30Lg==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 17/24] devtool: deploy: split ssh deployment into a separate function
-Date: Sun, 30 Aug 2026 16:28:44 +0200
-Message-ID: <20260830142922.17241-18-adrian.freihofer@siemens.com>
+Subject: [PATCH 24/24] oe-selftest: devtool ide-sdk: test NFS debug rootfs
+Date: Sun, 30 Aug 2026 16:28:51 +0200
+Message-ID: <20260830142922.17241-25-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 References: <20260830142922.17241-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,204 +39,156 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 14:29:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244674
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244670
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-This is a refactoring preparation for adding a new local deployment
-method that will be used for NFS rootfs deployments.
+Exercise --nfs=rootfs-dbg with a real image build and verify the
+extracted rootfs, pseudo state, and generated VS Code debug paths.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/deploy.py | 168 ++++++++++++++++++----------------
- 1 file changed, 87 insertions(+), 81 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 118 ++++++++++++++++++++++++
+ 1 file changed, 118 insertions(+)
 
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index cf481d6b63..a4fd83d305 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -254,6 +254,91 @@ def deploy(args, config, basepath, workspace):
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index c05cf7bc82..8d68809552 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -3539,8 +3539,18 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+         r = runCmd(gdbserver_script, output_log=self._cmd_logger)
+         self.assertEqual(r.status, 0)
  
-     return deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args, file_globs=args.file_globs, packages_files=packages_files)
++        # The start script already waited for gdbserver's port to come up
++        # before returning, so the pid file it wrote must exist by now. Still
++        # retry the read a few times: on an NFS-root target (--nfs=rootfs-dbg)
++        # this check runs over a fresh SSH connection right after the one that
++        # wrote the file, and a brief visibility lag has been observed there.
+         pid_file = '/tmp/gdbserver_1234_usr-bin-%s_multi/gdbserver.pid' % example_exe
+         status, output = qemu.run('cat %s' % pid_file)
++        for _ in range(10):
++            if status == 0:
++                break
++            time.sleep(1)
++            status, output = qemu.run('cat %s' % pid_file)
+         self.assertEqual(status, 0)
+         gdbserver_pid = output.strip()
+         self.assertRegex(gdbserver_pid, r'^\d+$')
+@@ -3974,6 +3984,114 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+                 self.assertEqual(r.status, 0)
+                 debug_check_func(r.output, DevtoolIdeSdkTests.MAGIC_STRING_ORIG)
  
-+def _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files,
-+                fakerootcmd, fakerootenv, path, recipe_outdir):
-+    """Copy files to target_dir over ssh/scp (user@hostname[:destdir])."""
-+    extraoptions = ''
-+    if args.no_host_check:
-+        extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-+    if not args.show_status:
-+        extraoptions += ' -q'
++    def test_devtool_ide_sdk_code_nfs_debug_rootfs(self):
++        """Verify ide-sdk extracts an NFS debug rootfs for VS Code debugging."""
++        recipe_name = "cmake-example"
++        build_file = "CMakeLists.txt"
++        testimage = "oe-selftest-image"
 +
-+    scp_sshexec = ''
-+    ssh_sshexec = 'ssh'
-+    if args.ssh_exec:
-+        scp_sshexec = "-S %s" % args.ssh_exec
-+        ssh_sshexec = args.ssh_exec
-+    scp_port = ''
-+    ssh_port = ''
-+    if args.port:
-+        scp_port = "-P %s" % args.port
-+        ssh_port = "-p %s" % args.port
++        self._check_workspace()
++        self._write_bb_config()
++        tempdir = self._devtool_ide_sdk_recipe(
++            recipe_name, build_file, testimage)
++        runCmd('devtool ide-sdk %s %s -c --ide=code --nfs=rootfs-dbg' %
++               (recipe_name, testimage), output_log=self._cmd_logger)
 +
-+    if args.key:
-+        extraoptions += ' -i %s' % args.key
++        nfs_rootfs = os.path.join(
++            self.workspacedir, 'nfs-exports', testimage, 'rootfs-dbg')
++        self.assertExists(nfs_rootfs)
++        self.assertExists(nfs_rootfs + '.pseudo_state')
++        self.assertExists(os.path.join(nfs_rootfs, 'usr', 'bin', recipe_name))
++        runqemu_helper = os.path.join(
++            self.workspacedir, 'nfs-exports', testimage,
++            'runqemu-rootfs-dbg')
++        self.assertExists(runqemu_helper)
++        self.assertTrue(os.access(runqemu_helper, os.X_OK))
++        with open(runqemu_helper) as helper_file:
++            helper = helper_file.read()
++        self.assertIn('exec runqemu ', helper)
++        self.assertIn(nfs_rootfs, helper)
 +
-+    # In order to delete previously deployed files and have the manifest file on
-+    # the target, we write out a shell script and then copy it to the target
-+    # so we can then run it (piping tar output to it).
-+    # (We cannot use scp here, because it doesn't preserve symlinks.)
-+    tmpdir = tempfile.mkdtemp(prefix='devtool')
-+    try:
-+        tmpscript = '/tmp/devtool_deploy.sh'
-+        tmpfilelist = os.path.join(os.path.dirname(tmpscript), 'devtool_deploy.list')
-+        shellscript = _prepare_remote_script(deploy=True,
-+                                            destdir=destdir,
-+                                            verbose=args.show_status,
-+                                            nopreserve=args.no_preserve,
-+                                            nocheckspace=args.no_check_space)
-+        # Write out the script to a file
-+        with open(os.path.join(tmpdir, os.path.basename(tmpscript)), 'w') as f:
-+            f.write(shellscript)
-+        # Write out the file list
-+        with open(os.path.join(tmpdir, os.path.basename(tmpfilelist)), 'w') as f:
-+            f.write('%d\n' % ftotalsize)
-+            for fpath, fsize in filelist:
-+                f.write('%s %d\n' % (fpath, fsize))
-+        # Copy them to the target
-+        ret = subprocess.call("scp %s %s %s %s/* %s:%s" % (scp_sshexec, scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
-+        if ret != 0:
-+            raise DevtoolError('Failed to copy script to %s - rerun with -s to '
-+                            'get a complete error message' % args.target)
-+    finally:
-+        shutil.rmtree(tmpdir)
++        bbappend = os.path.join(
++            self.workspacedir, 'appends', testimage + '.bbappend')
++        with open(bbappend) as append_file:
++            self.assertRegex(
++                append_file.read(),
++                r'IMAGE_FSTYPES_DEBUGFS(?::append)? = " ?tar"')
 +
-+    # Now run the script. When a package/glob filter narrowed down filelist,
-+    # tar is given an explicit list of relative paths (-T) instead of packing
-+    # the whole recipe_outdir tree.
-+    tar_filelist_path = None
-+    try:
-+        if allowed_files is not None:
-+            tar_fd, tar_filelist_path = tempfile.mkstemp(prefix='devtool-deploy-filelist-')
-+            with os.fdopen(tar_fd, 'w') as f:
-+                for relpath in tar_relpaths:
-+                    # './' prefix matches what 'tar cf - .' itself would produce, which
-+                    # the remote script's manifest handling (sed "s!^./!$2!") relies on.
-+                    f.write('./' + relpath + '\n')
-+            tar_cmd = 'tar cf - -T %s' % shlex.quote(tar_filelist_path)
-+        else:
-+            tar_cmd = 'tar cf - .'
-+        ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, '%s | %s  %s %s %s \'sh %s %s %s %s\'' % (tar_cmd, ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
-+    finally:
-+        if tar_filelist_path:
-+            os.remove(tar_filelist_path)
-+    if ret != 0:
-+        raise DevtoolError('Deploy failed - rerun with -s to get a complete '
-+                        'error message')
++        with open(os.path.join(tempdir, '.vscode', 'launch.json')) as launch_file:
++            launch_configurations = json.load(launch_file)['configurations']
++        for configuration in launch_configurations:
++            self.assertIn(
++                nfs_rootfs, configuration['additionalSOLibSearchPath'])
++            self.assertEqual(
++                os.path.join(nfs_rootfs, 'usr', 'src', 'debug'),
++                configuration['sourceFileMap']['/usr/src/debug'])
 +
-+    logger.info('Successfully deployed %s' % recipe_outdir)
++    def _test_devtool_ide_sdk_nfs_debug_rootfs_qemu(self, slirp=False):
++        """Boot the extracted NFS debug rootfs and exercise remote GDB."""
++        recipe_name = "cmake-example"
++        build_file = "CMakeLists.txt"
++        testimage = "oe-selftest-image"
 +
-+    files_list = []
-+    for root, _, files in os.walk(recipe_outdir):
-+        for filename in files:
-+            filename = os.path.relpath(os.path.join(root, filename), recipe_outdir)
-+            files_list.append(os.path.join(destdir, filename))
++        self._check_workspace()
++        self._write_bb_config()
++        if not slirp:
++            self._check_runqemu_prerequisites()
 +
-+    return 0
++        tempdir = self._devtool_ide_sdk_recipe(
++            recipe_name, build_file, testimage)
++        runCmd('devtool ide-sdk %s %s -c --ide=none --nfs=rootfs-dbg' %
++               (recipe_name, testimage),
++               output_log=self._cmd_logger)
 +
- def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args, file_globs=None, packages_files=None):
-     import math
- 
-@@ -351,87 +436,8 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
-             print('  %s' % item)
-         return 0
- 
--    extraoptions = ''
--    if args.no_host_check:
--        extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
--    if not args.show_status:
--        extraoptions += ' -q'
--
--    scp_sshexec = ''
--    ssh_sshexec = 'ssh'
--    if args.ssh_exec:
--        scp_sshexec = "-S %s" % args.ssh_exec
--        ssh_sshexec = args.ssh_exec
--    scp_port = ''
--    ssh_port = ''
--    if args.port:
--        scp_port = "-P %s" % args.port
--        ssh_port = "-p %s" % args.port
--
--    if args.key:
--        extraoptions += ' -i %s' % args.key
--
--    # In order to delete previously deployed files and have the manifest file on
--    # the target, we write out a shell script and then copy it to the target
--    # so we can then run it (piping tar output to it).
--    # (We cannot use scp here, because it doesn't preserve symlinks.)
--    tmpdir = tempfile.mkdtemp(prefix='devtool')
--    try:
--        tmpscript = '/tmp/devtool_deploy.sh'
--        tmpfilelist = os.path.join(os.path.dirname(tmpscript), 'devtool_deploy.list')
--        shellscript = _prepare_remote_script(deploy=True,
--                                            destdir=destdir,
--                                            verbose=args.show_status,
--                                            nopreserve=args.no_preserve,
--                                            nocheckspace=args.no_check_space)
--        # Write out the script to a file
--        with open(os.path.join(tmpdir, os.path.basename(tmpscript)), 'w') as f:
--            f.write(shellscript)
--        # Write out the file list
--        with open(os.path.join(tmpdir, os.path.basename(tmpfilelist)), 'w') as f:
--            f.write('%d\n' % ftotalsize)
--            for fpath, fsize in filelist:
--                f.write('%s %d\n' % (fpath, fsize))
--        # Copy them to the target
--        ret = subprocess.call("scp %s %s %s %s/* %s:%s" % (scp_sshexec, scp_port, extraoptions, tmpdir, args.target, os.path.dirname(tmpscript)), shell=True)
--        if ret != 0:
--            raise DevtoolError('Failed to copy script to %s - rerun with -s to '
--                            'get a complete error message' % args.target)
--    finally:
--        shutil.rmtree(tmpdir)
--
--    # Now run the script. When a package/glob filter narrowed down filelist,
--    # tar is given an explicit list of relative paths (-T) instead of packing
--    # the whole recipe_outdir tree.
--    tar_filelist_path = None
--    try:
--        if allowed_files is not None:
--            tar_fd, tar_filelist_path = tempfile.mkstemp(prefix='devtool-deploy-filelist-')
--            with os.fdopen(tar_fd, 'w') as f:
--                for relpath in tar_relpaths:
--                    # './' prefix matches what 'tar cf - .' itself would produce, which
--                    # the remote script's manifest handling (sed "s!^./!$2!") relies on.
--                    f.write('./' + relpath + '\n')
--            tar_cmd = 'tar cf - -T %s' % shlex.quote(tar_filelist_path)
--        else:
--            tar_cmd = 'tar cf - .'
--        ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, '%s | %s  %s %s %s \'sh %s %s %s %s\'' % (tar_cmd, ssh_sshexec, ssh_port, extraoptions, args.target, tmpscript, args.recipename, destdir, tmpfilelist), cwd=recipe_outdir, shell=True)
--    finally:
--        if tar_filelist_path:
--            os.remove(tar_filelist_path)
--    if ret != 0:
--        raise DevtoolError('Deploy failed - rerun with -s to get a complete '
--                        'error message')
--
--    logger.info('Successfully deployed %s' % recipe_outdir)
--
--    files_list = []
--    for root, _, files in os.walk(recipe_outdir):
--        for filename in files:
--            filename = os.path.relpath(os.path.join(root, filename), recipe_outdir)
--            files_list.append(os.path.join(destdir, filename))
--
--    return 0
-+    return _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths,
-+                        allowed_files, fakerootcmd, fakerootenv, path, recipe_outdir)
- 
- def undeploy(args, config, basepath, workspace):
-     """Entry point for the devtool 'undeploy' subcommand"""
++        nfs_rootfs = os.path.join(
++            self.workspacedir, 'nfs-exports', testimage, 'rootfs-dbg')
++        runqemu_helper = os.path.join(
++            self.workspacedir, 'nfs-exports', testimage,
++            'runqemu-rootfs-dbg')
++        self.assertExists(nfs_rootfs)
++        self.assertExists(runqemu_helper)
++
++        launch_cmd = '%s nographic' % shlex.quote(runqemu_helper)
++        runqemuparams = ''
++        if slirp:
++            launch_cmd += ' slirp'
++            # QemuTarget uses this only to select its localhost SSH endpoint;
++            # launch_cmd supplies the actual runqemu option.
++            runqemuparams = 'slirp'
++
++        with runqemu(testimage, runqemuparams=runqemuparams,
++                     launch_cmd=launch_cmd) as qemu:
++            status, output = qemu.run(
++                "awk '$2 == \"/\" {print $3}' /proc/mounts")
++            self.assertEqual(status, 0)
++            self.assertEqual(output.strip(), 'nfs')
++
++            # Re-run with the real QEMU target address, instead of 192.168.7.2 IP
++            if slirp:
++                target_options = '-t root@%s -P %s ' % (qemu.ip, qemu.port or '2222')
++            else:
++                target_options = '-t root@%s -c ' % qemu.ip
++            runCmd('devtool ide-sdk %s %s %s--skip-bitbake --ide=none --nfs=rootfs-dbg' %
++                   (recipe_name, testimage, target_options),
++                   output_log=self._cmd_logger)
++
++            self._gdb_cross()
++            compile_cmd = self._verify_cmake_preset(tempdir)
++            self._devtool_ide_sdk_qemu(
++                tempdir, qemu, recipe_name, recipe_name, compile_cmd)
++
++    @OETestTag("runqemu")
++    def test_devtool_ide_sdk_none_nfs_qemu(self):
++        """Verify remote GDB debugging through an NFS-root QEMU target."""
++        self._test_devtool_ide_sdk_nfs_debug_rootfs_qemu()
++
++    @OETestTag("runqemu")
++    def test_devtool_ide_sdk_none_nfs_qemu_slirp(self):
++        """Verify remote GDB debugging through an NFS-root slirp target."""
++        self._test_devtool_ide_sdk_nfs_debug_rootfs_qemu(slirp=True)
++
+     @OETestTag("runqemu")
+     def test_devtool_ide_sdk_code_cmake(self):
+         """Verify a cmake recipe works with ide=code mode"""
 -- 
 2.55.0
 
