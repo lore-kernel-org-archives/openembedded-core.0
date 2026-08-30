@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDE32C624C2
-	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 21:49:26 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.17274.1788126560348866703
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E7CAC624CD
+	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 21:49:27 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17144.1788126560348605284
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 14:49:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=SL6/8ZpM;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-20260830214917502b0ff7930002077a-zhenek@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260830214917502b0ff7930002077a
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=PKDdfrOT;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-2026083021491709df33932300020793-ppatae@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2026083021491709df33932300020793
         for <openembedded-core@lists.openembedded.org>;
         Sun, 30 Aug 2026 23:49:17 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=GvtcMGv1+qUfYqMYpWxrxcwFlDgtWUWmABpeChZgvws=;
- b=SL6/8ZpMkciyqGTCRKCTy+hhB1iUp1poOWuwz3sXlwTkAgWhDfnPsfYAT6Hw9DnLVTMeTI
- H/gl5zzxLQt6zW5aqc5Er7PrqFi5dl3bZJR9eRtl/niIqKrb2netuiZqrNKZZJcp9jAEELyZ
- piwTUeBcpK0GoIKa5wxBuufn7WlPxml/GiLCRU44zhwlGLS9YiiQOGyuPBB43Qzo8qoCZvUq
- bs+psEWJqzlFNXdWMrLzDbwwzAqH2jc1OpK4po0vKIMcUnV7Vyo4siDvE4TqiXQSI/JDekYu
- ph107SAh1x/88AOYTF6luihO0DMpxNZZzRygK4tVzyXMJowRzPcgj0KQ==;
+ bh=K1qrykSNcjEu7y502YB/cPZ2jFJx5l8WZmcl82y5JFc=;
+ b=PKDdfrOTqbb70yvoieWLti7RP8o8NDL8aNIWZjyULv1fJjzg1GnUUvd7lI5hm/YCOEfKyl
+ KaCGy+3Xid4jsQou3ksEAuvGb6k2/9mQTxZdR68tSItk1n1EnuPqViJrhVjCM3ws2JJ2SBZu
+ W2/ya35iwpjhe8VXQLGCsyfnPk/czCgTN8kv9aCdcRKn4jU58x3K4JxUMYNIItynIlszDNlK
+ xgQYGbaJGuKLvrWltpYT7OC6C2tIQTgKytkgH6zW0DpfG/F1ZDabQ29efKbDlkxDoPdem+dw
+ 8tEJ7pbitv4RN/t4k0twgiM/gIuiNBW+OnmA+ohskU0zMOx4LHaLzEPQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 04/25] cpp-example: fix stuck breakpoints when attaching and daemonize properly
-Date: Sun, 30 Aug 2026 23:48:26 +0200
-Message-ID: <20260830214912.1346063-5-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 06/25] oe-selftest: devtool ide-sdk: adapt tests for auto-written image debug settings
+Date: Sun, 30 Aug 2026 23:48:28 +0200
+Message-ID: <20260830214912.1346063-7-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 References: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,466 +38,263 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 21:49:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244713
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 21:49:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244709
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Attaching gdbserver to the already-running SysV-init-started instance
-and then adding a breakpoint left it unbound (grey/hollow) forever,
-even though setting the same breakpoint before starting the debugger
-worked fine.
+devtool ide-sdk now writes IMAGE_GEN_DEBUGFS, IMAGE_CLASSES +=
+"image-combined-dbg" and the required IMAGE_INSTALL entries
+(gdbserver/lldb-server, per-recipe ptest packages) to the image
+workspace bbappend automatically. _write_bb_config() therefore no
+longer sets these in local.conf, so tests also exercise that ide-sdk
+does not need help from local.conf to enable image debug support.
 
-Root cause: cpp-example.init started the daemon via
-`start-stop-daemon --background`, which double-forks to detach from
-the terminal. That leaves the final daemon process in a process group
-whose leader has already exited, i.e. its pgid no longer equals its
-own pid. gdbserver's remote-interrupt mechanism pauses a running
-inferior with `kill(-pid, SIGINT)` (signal the whole process group);
-with a mismatched pgid this fails silently (ESRCH), GDB's
-`-exec-interrupt` never actually stops the target, and MIEngine's
-pending-breakpoint bind times out and reports it as unbound.
-
-Fix by dropping the double-fork daemonization we inherited from
-`start-stop-daemon`/SysV-init cargo culting in favor of the classic,
-correct Unix daemon recipe: a single fork() + setsid(), which makes
-the process its own session AND process-group leader (pgid == pid)
-and keeps gdbserver's SIGINT-to-process-group interrupt working. As
-part of doing this properly:
-
-- cpp-example itself now daemonizes (--daemonize), writes its own
-  pidfile (--pidfile), and drops root privileges (--uid/--gid)
-  instead of depending on start-stop-daemon/su for that.
-- stdio is redirected to /dev/null after setsid() so the service
-  actually releases the console instead of holding it open forever.
-- Since stdio is gone once daemonized, log through syslog instead so
-  the service's messages aren't silently discarded.
-- All of this legacy SysV-init-only behavior lives in a new
-  daemonize.cpp/.hpp, compiled in only when WITH_SYSTEMD is off;
-  under systemd (Type=simple) none of it is needed since systemd
-  already daemonizes, drops privileges, and tracks the pid itself.
+Tests that use runqemu now call devtool ide-sdk once before starting
+QEMU to build the image with the debug settings already applied, and
+again with --skip-bitbake -t root@<ip> once the real target IP is
+known, to update the deploy scripts without triggering a redundant
+image rebuild.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .../recipes-test/cpp/cmake-example.inc        |  1 +
- .../recipes-test/cpp/cpp-example.inc          |  4 +
- .../recipes-test/cpp/files/CMakeLists.txt     |  6 ++
- .../recipes-test/cpp/files/cpp-example.cpp    | 91 +++++++++++++++++--
- .../recipes-test/cpp/files/cpp-example.init   | 10 +-
- .../recipes-test/cpp/files/daemonize.cpp      | 57 ++++++++++++
- .../recipes-test/cpp/files/daemonize.hpp      | 27 ++++++
- .../recipes-test/cpp/files/meson.build        |  9 +-
- .../recipes-test/cpp/files/meson.options      |  2 +
- .../recipes-test/cpp/meson-example.inc        |  1 +
- meta/lib/oeqa/selftest/cases/devtool.py       |  8 +-
- 11 files changed, 198 insertions(+), 18 deletions(-)
- create mode 100644 meta-selftest/recipes-test/cpp/files/daemonize.cpp
- create mode 100644 meta-selftest/recipes-test/cpp/files/daemonize.hpp
+ meta/lib/oeqa/selftest/cases/devtool.py | 111 +++++++++++++-----------
+ 1 file changed, 61 insertions(+), 50 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/cpp/cmake-example.inc b/meta-selftest/recipes-test/cpp/cmake-example.inc
-index eb023d389a..38d53af7b8 100644
---- a/meta-selftest/recipes-test/cpp/cmake-example.inc
-+++ b/meta-selftest/recipes-test/cpp/cmake-example.inc
-@@ -11,6 +11,7 @@ SRC_URI += "file://CMakeLists.txt"
- inherit cmake-qemu
- 
- PACKAGECONFIG[failing_test] = "-DFAILING_TEST=ON"
-+PACKAGECONFIG[systemd] = "-DWITH_SYSTEMD=ON,-DWITH_SYSTEMD=OFF"
- 
- # Support installing all recipe variants in parallel
- EXTRA_OECMAKE += "\
-diff --git a/meta-selftest/recipes-test/cpp/cpp-example.inc b/meta-selftest/recipes-test/cpp/cpp-example.inc
-index 0070d17201..3934345f17 100644
---- a/meta-selftest/recipes-test/cpp/cpp-example.inc
-+++ b/meta-selftest/recipes-test/cpp/cpp-example.inc
-@@ -15,6 +15,8 @@ SRC_URI = "\
-     file://cpp-example.cpp \
-     file://cpp-example-lib.hpp \
-     file://cpp-example-lib.cpp \
-+    file://daemonize.cpp \
-+    file://daemonize.hpp \
-     file://test-cpp-example.cpp \
-     file://cpp-example.conf \
-     file://config.h.in \
-@@ -33,6 +35,8 @@ SYSTEMD_SERVICE:${PN} = "${BPN}.service"
- INITSCRIPT_NAME = "${BPN}"
- INITSCRIPT_PARAMS = "defaults 99"
- 
-+PACKAGECONFIG ??= "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', 'systemd', '', d)}"
-+
- # Create cpp-example user and group
- USERADD_PACKAGES = "${PN}"
- GROUPADD_PARAM:${PN} = "--system ${EX_SERVICE_USER}"
-diff --git a/meta-selftest/recipes-test/cpp/files/CMakeLists.txt b/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
-index 8802839702..e063bdafb3 100644
---- a/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
-+++ b/meta-selftest/recipes-test/cpp/files/CMakeLists.txt
-@@ -13,6 +13,7 @@ project(cmake-example
- 
- option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
- option(FAILING_TEST "Compile a failing unit test to test the test infrastructure" OFF)
-+option(WITH_SYSTEMD "Target is managed by systemd: skip the legacy SysV daemonize/pidfile/privilege-drop code" OFF)
- 
- set(BINARY_NAME "cmake-example" CACHE STRING "Name of the installed executable and library prefix")
- set(TEST_BINARY_NAME "test-cmake-example" CACHE STRING "Name of the installed test executable")
-@@ -54,6 +55,11 @@ install(TARGETS ${BINARY_NAME}-lib
- add_executable(${BINARY_NAME} cpp-example.cpp)
- target_include_directories(${BINARY_NAME} PRIVATE ${CMAKE_CURRENT_BINARY_DIR})
- target_link_libraries(${BINARY_NAME} PRIVATE ${BINARY_NAME}-lib)
-+if (WITH_SYSTEMD)
-+    target_compile_definitions(${BINARY_NAME} PRIVATE WITH_SYSTEMD)
-+else()
-+    target_sources(${BINARY_NAME} PRIVATE daemonize.cpp daemonize.hpp)
-+endif(WITH_SYSTEMD)
- 
- install(TARGETS ${BINARY_NAME}
-     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-index a376419c13..f18911554c 100644
---- a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-@@ -6,44 +6,117 @@
- 
- #include "cpp-example-lib.hpp"
- 
-+#include <cstdlib>
- #include <iostream>
- #include <unistd.h>
- #include <string>
- #include <vector>
- 
-+#ifndef WITH_SYSTEMD
-+#include <sys/types.h>
-+#include <syslog.h>
-+
-+#include "daemonize.hpp"
-+#endif
-+
-+namespace {
-+
-+#ifndef WITH_SYSTEMD
-+bool g_use_syslog = false;
-+#endif
-+
-+// Prints an informational message. Under systemd, stdout is already captured
-+// by the journal. Otherwise, use stdout until daemonized (stdio is then
-+// redirected to /dev/null), and syslog afterwards so messages aren't lost.
-+void log_info(const std::string& msg)
-+{
-+#ifndef WITH_SYSTEMD
-+    if (g_use_syslog) {
-+        syslog(LOG_INFO, "%s", msg.c_str());
-+        return;
-+    }
-+#endif
-+    std::cout << msg << std::endl;
-+}
-+
-+} // namespace
-+
- int main(int argc, char* argv[])
- {
-     bool endless_mode = false;
-+#ifndef WITH_SYSTEMD
-+    bool daemonize_mode = false;
-+    std::string pidfile_path;
-+    bool have_uid = false;
-+    bool have_gid = false;
-+    uid_t target_uid = 0;
-+    gid_t target_gid = 0;
-+#endif
- 
-     // Parse command line arguments
-     for (int i = 1; i < argc; i++) {
--        if (std::string(argv[i]) == "--endless") {
-+        std::string arg = argv[i];
-+        if (arg == "--endless") {
-             endless_mode = true;
--        } else if (std::string(argv[i]) == "--help" || std::string(argv[i]) == "-h") {
-+#ifndef WITH_SYSTEMD
-+        } else if (arg == "--daemonize") {
-+            daemonize_mode = true;
-+        } else if (arg == "--pidfile" && i + 1 < argc) {
-+            pidfile_path = argv[++i];
-+        } else if (arg == "--uid" && i + 1 < argc) {
-+            target_uid = static_cast<uid_t>(std::strtoul(argv[++i], nullptr, 10));
-+            have_uid = true;
-+        } else if (arg == "--gid" && i + 1 < argc) {
-+            target_gid = static_cast<gid_t>(std::strtoul(argv[++i], nullptr, 10));
-+            have_gid = true;
-+#endif
-+        } else if (arg == "--help" || arg == "-h") {
-             std::cout << "Usage: " << argv[0] << " [OPTIONS]" << std::endl;
-             std::cout << "Options:" << std::endl;
--            std::cout << "  --endless    Run in endless loop mode (for service)" << std::endl;
--            std::cout << "  --help, -h   Show this help message" << std::endl;
-+            std::cout << "  --endless          Run in endless loop mode (for service)" << std::endl;
-+#ifndef WITH_SYSTEMD
-+            std::cout << "  --daemonize        Detach from the controlling terminal" << std::endl;
-+            std::cout << "  --pidfile <path>   Write the daemon's PID to <path>" << std::endl;
-+            std::cout << "  --uid <uid>        Drop root privileges to this user ID" << std::endl;
-+            std::cout << "  --gid <gid>        Drop root privileges to this group ID" << std::endl;
-+#endif
-+            std::cout << "  --help, -h         Show this help message" << std::endl;
-             return 0;
-         }
-     }
- 
-+#ifndef WITH_SYSTEMD
-+    if (daemonize_mode) {
-+        daemonize();
-+        openlog(argv[0], LOG_PID, LOG_DAEMON);
-+        g_use_syslog = true;
-+    }
-+
-+    if (!pidfile_path.empty()) {
-+        write_pidfile(pidfile_path);
-+    }
-+
-+    // Drop privileges after daemonizing/writing the pidfile (both may need
-+    // root, e.g. to create files under /var/run), but before doing any work.
-+    drop_privileges(have_gid, target_gid, have_uid, target_uid);
-+#endif
-+
-     auto cpp_example = CppExample();
- 
-     if (endless_mode) {
--        std::cout << "Starting cpp-example service in endless mode..." << std::endl;
-+        log_info("Starting cpp-example service in endless mode...");
-     } else {
--        std::cout << "Running cpp-example once..." << std::endl;
-+        log_info("Running cpp-example once...");
-     }
- 
--    std::cout << "C++ example linking " << cpp_example.get_string() << std::endl;
--    std::cout << "Linking json-c version " << cpp_example.get_json_c_version() << std::endl;
-+    log_info("C++ example linking " + cpp_example.get_string());
-+    log_info(std::string("Linking json-c version ") + cpp_example.get_json_c_version());
-     cpp_example.print_json();
- 
-     do {
-         // Read and print message from config file
-         std::string config_message = cpp_example.read_config_message();
--        std::cout << "Config file message: " << config_message << std::endl;
-+        log_info("Config file message: " + config_message);
- 
-         if (endless_mode) {
-             // Sleep for 1 second
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.init b/meta-selftest/recipes-test/cpp/files/cpp-example.init
-index 30b8486eeb..6ef9aaac38 100644
---- a/meta-selftest/recipes-test/cpp/files/cpp-example.init
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example.init
-@@ -25,8 +25,7 @@ start() {
-     fi
- 
-     echo -n "Starting $DAEMON: "
--    start-stop-daemon --start --quiet --pidfile $PIDFILE --make-pidfile \
--        --background --chuid $USER --exec $DAEMON_PATH -- $DAEMON_ARGS
-+    $DAEMON_PATH --daemonize --pidfile "$PIDFILE" --uid "$(id -u "$USER")" --gid "$(id -g "$USER")" $DAEMON_ARGS
-     RETVAL=$?
-     if [ $RETVAL -eq 0 ]; then
-         echo "OK"
-@@ -39,8 +38,11 @@ start() {
- 
- stop() {
-     echo -n "Stopping $DAEMON: "
--    start-stop-daemon --stop --quiet --pidfile $PIDFILE
--    RETVAL=$?
-+    if [ -f "$PIDFILE" ] && kill "$(cat "$PIDFILE")" 2>/dev/null; then
-+        RETVAL=0
-+    else
-+        RETVAL=1
-+    fi
-     if [ $RETVAL -eq 0 ]; then
-         echo "OK"
-         rm -f $PIDFILE $LOCK_FILE
-diff --git a/meta-selftest/recipes-test/cpp/files/daemonize.cpp b/meta-selftest/recipes-test/cpp/files/daemonize.cpp
-new file mode 100644
-index 0000000000..7d91259bfa
---- /dev/null
-+++ b/meta-selftest/recipes-test/cpp/files/daemonize.cpp
-@@ -0,0 +1,57 @@
-+/*
-+ * Copyright OpenEmbedded Contributors
-+ *
-+ * SPDX-License-Identifier: MIT
-+ */
-+
-+#include "daemonize.hpp"
-+
-+#include <cstdlib>
-+#include <fcntl.h>
-+#include <fstream>
-+#include <grp.h>
-+#include <unistd.h>
-+
-+void daemonize()
-+{
-+    pid_t pid = fork();
-+    if (pid < 0) {
-+        std::perror("fork");
-+        std::exit(1);
-+    }
-+    if (pid > 0) {
-+        _exit(0);
-+    }
-+    setsid();
-+
-+    // setsid() only drops the controlling-terminal association; stdio still
-+    // points at the console, so redirect it or an --endless service keeps
-+    // the console open/busy with its output forever.
-+    int null_fd = open("/dev/null", O_RDWR);
-+    if (null_fd >= 0) {
-+        dup2(null_fd, STDIN_FILENO);
-+        dup2(null_fd, STDOUT_FILENO);
-+        dup2(null_fd, STDERR_FILENO);
-+        if (null_fd > STDERR_FILENO) {
-+            close(null_fd);
-+        }
-+    }
-+}
-+
-+void write_pidfile(const std::string& path)
-+{
-+    std::ofstream pidfile(path, std::ios::trunc);
-+    pidfile << getpid() << std::endl;
-+}
-+
-+void drop_privileges(bool have_gid, gid_t gid, bool have_uid, uid_t uid)
-+{
-+    if (have_gid && (setgroups(0, nullptr) != 0 || setgid(gid) != 0)) {
-+        std::perror("setgid");
-+        std::exit(1);
-+    }
-+    if (have_uid && setuid(uid) != 0) {
-+        std::perror("setuid");
-+        std::exit(1);
-+    }
-+}
-diff --git a/meta-selftest/recipes-test/cpp/files/daemonize.hpp b/meta-selftest/recipes-test/cpp/files/daemonize.hpp
-new file mode 100644
-index 0000000000..17d85d690a
---- /dev/null
-+++ b/meta-selftest/recipes-test/cpp/files/daemonize.hpp
-@@ -0,0 +1,27 @@
-+/*
-+ * Copyright OpenEmbedded Contributors
-+ *
-+ * SPDX-License-Identifier: MIT
-+ */
-+
-+#pragma once
-+
-+// Legacy SysV-init daemonizing helpers. Not needed (and not built) when
-+// WITH_SYSTEMD is set, since systemd already daemonizes, drops privileges,
-+// and tracks the pid itself.
-+
-+#include <string>
-+#include <sys/types.h>
-+
-+// Detaches from the controlling terminal. Uses a single fork (not the classic
-+// double-fork) so this process becomes its own session AND process-group
-+// leader (pgid == pid); a second fork would hand it off to a child with a
-+// stale pgid, which breaks gdbserver's SIGINT-to-process-group interrupt.
-+void daemonize();
-+
-+// Writes the current process's pid to the given path.
-+void write_pidfile(const std::string& path);
-+
-+// Permanently drops from root to the given group/user. Must run gid before
-+// uid: once uid is dropped, the process no longer has permission to setgid.
-+void drop_privileges(bool have_gid, gid_t gid, bool have_uid, uid_t uid);
-diff --git a/meta-selftest/recipes-test/cpp/files/meson.build b/meta-selftest/recipes-test/cpp/files/meson.build
-index 3cb4669dfa..620c220dbd 100644
---- a/meta-selftest/recipes-test/cpp/files/meson.build
-+++ b/meta-selftest/recipes-test/cpp/files/meson.build
-@@ -30,6 +30,13 @@ configure_file(input : 'config.h.in',
- # Include the build directory for config.h
- inc_dir = include_directories('.')
- 
-+example_sources = ['cpp-example.cpp']
-+if get_option('WITH_SYSTEMD').enabled()
-+    add_project_arguments('-DWITH_SYSTEMD', language: 'cpp')
-+else
-+    example_sources += ['daemonize.cpp', 'daemonize.hpp']
-+endif
-+
- exlib = shared_library(binary_name + 'lib',
-     'cpp-example-lib.cpp', 'cpp-example-lib.hpp',
-     version: meson.project_version(),
-@@ -40,7 +47,7 @@ exlib = shared_library(binary_name + 'lib',
-     )
- 
- executable(binary_name,
--    'cpp-example.cpp',
-+    example_sources,
-     link_with : exlib,
-     include_directories : inc_dir,
-     install : true
-diff --git a/meta-selftest/recipes-test/cpp/files/meson.options b/meta-selftest/recipes-test/cpp/files/meson.options
-index 374e346197..a507518990 100644
---- a/meta-selftest/recipes-test/cpp/files/meson.options
-+++ b/meta-selftest/recipes-test/cpp/files/meson.options
-@@ -1,6 +1,8 @@
- 
- option('FAILING_TEST', type : 'feature', value : 'disabled',
-     description : 'Compile a failing unit test to test the test infrastructure')
-+option('WITH_SYSTEMD', type : 'feature', value : 'disabled',
-+    description : 'Target is managed by systemd: skip the legacy SysV daemonize/pidfile/privilege-drop code')
- option('BINARY_NAME', type : 'string', value : 'mesonex',
-     description : 'Name of the installed executable')
- option('TEST_BINARY_NAME', type : 'string', value : 'test-mesonex',
-diff --git a/meta-selftest/recipes-test/cpp/meson-example.inc b/meta-selftest/recipes-test/cpp/meson-example.inc
-index 2937be27f8..eb60649636 100644
---- a/meta-selftest/recipes-test/cpp/meson-example.inc
-+++ b/meta-selftest/recipes-test/cpp/meson-example.inc
-@@ -16,6 +16,7 @@ SRC_URI += "\
- inherit pkgconfig meson
- 
- PACKAGECONFIG[failing_test] = "-DFAILING_TEST=enabled"
-+PACKAGECONFIG[systemd] = "-DWITH_SYSTEMD=enabled,-DWITH_SYSTEMD=disabled"
- 
- # Support installing all recipes variants in parallel
- EXTRA_OEMESON += "\
 diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index c0df13b718..87efa1ee80 100644
+index 87efa1ee80..1ecf4c24f5 100644
 --- a/meta/lib/oeqa/selftest/cases/devtool.py
 +++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -3123,7 +3123,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         # the first _gdb_cross_debugging_multi call above.
-         self._gdb_cross_debugging_multi(
-             qemu, recipe_name, example_exe, MAGIC_STRING_NEW,
--            exe_break_line=63 + LINE_SHIFT, exe_list_line=55 + LINE_SHIFT,
-+            exe_break_line=136 + LINE_SHIFT, exe_list_line=128 + LINE_SHIFT,
-             hpp_break_line=21 + LINE_SHIFT, lib_break_line=31 + LINE_SHIFT)
+@@ -2889,15 +2889,15 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         if self.logger.isEnabledFor(logging.DEBUG):
+             self._cmd_logger = self.logger
  
-     def _verify_cmake_preset(self, tempdir):
-@@ -3239,7 +3239,7 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-         self.assertIn("GNU gdb", r.output)
+-    def _write_bb_config(self, recipe_names, extra_packages=None):
+-        """Helper to write the bitbake local.conf file"""
+-        image_install = 'gdbserver ' + ' '.join([r + '-ptest' for r in recipe_names])
+-        if extra_packages:
+-            image_install += ' ' + ' '.join(extra_packages)
++    def _write_bb_config(self):
++        """Helper to write the bitbake local.conf file.
++
++        Image debug settings (IMAGE_GEN_DEBUGFS, IMAGE_CLASSES += image-combined-dbg,
++        IMAGE_INSTALL for gdbserver/lldb-server and the recipe under test) are written
++        automatically by devtool ide-sdk to the image workspace bbappend.
++        Only settings not managed by ide_sdk are configured here.
++        """
+         conf_lines = [
+-            'IMAGE_CLASSES += "image-combined-dbg"',
+-            'IMAGE_GEN_DEBUGFS = "1"',
+-            'IMAGE_INSTALL:append = " %s"' % image_install,
+             'DISTRO_FEATURES:append = " ptest"',
+             # Static UIDs/GIDs are required so that files installed via
+             # "install -o ${BPN}" in do_install embed the same UID that gets
+@@ -3374,70 +3374,67 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+         testimage = "oe-selftest-image"
  
-     def _gdb_debug_cpp_example(self, magic_string, gdb_start_cmd="run",
--                              exe_break_line=63, exe_list_line=55, hpp_break_line=21,
-+                              exe_break_line=136, exe_list_line=128, hpp_break_line=21,
-                               lib_break_line=31):
-         """Get a series of gdb commands to debug the cpp-example-lib example"""
-         gdb_batch_cmd = " -ex 'break main' -ex '%s'" % gdb_start_cmd
-@@ -3285,7 +3285,7 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-         gdb_batch_cmd += " -ex 'continue'"
-         return gdb_batch_cmd
+         self._check_workspace()
+-        self._write_bb_config(recipe_names)
++        self._write_bb_config()
+         self._check_runqemu_prerequisites()
  
--    def _gdb_debug_cpp_example_check(self, gdb_output, magic_string, exe_list_line=55, lib_break_line=31):
-+    def _gdb_debug_cpp_example_check(self, gdb_output, magic_string, exe_list_line=128, lib_break_line=31):
-         self.assertIn("Breakpoint 1, main", gdb_output)
-         self.assertIn("$1 = 0", gdb_output)  # test.string.compare equal
-         self.assertIn("$2 = -3", gdb_output)  # test.string.compare longer
-@@ -3313,7 +3313,7 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-         self.assertIn("exited normally", gdb_output)
+         # Verify deployment to Qemu (system mode) works
+-        bitbake(testimage)
++        tempdir_cmake = self._devtool_ide_sdk_recipe("cmake-example", "CMakeLists.txt", None)
++        tempdir_meson = self._devtool_ide_sdk_recipe("meson-example", "meson.build", testimage)
++        runCmd('devtool ide-sdk cmake-example meson-example %s -c --ide=none' % testimage,
++               output_log=self._cmd_logger)
++
+         with runqemu(testimage, runqemuparams="nographic") as qemu:
+             # cmake-example recipe
+             recipe_name = "cmake-example"
+             example_exe = "cmake-example"
+             example_user_group = "cmake-example"
+             conf_file = "/etc/cmake-example.conf"
+-            build_file = "CMakeLists.txt"
  
-     def _gdb_cross_debugging_multi(self, qemu, recipe_name, example_exe, magic_string,
--                                   exe_break_line=63, exe_list_line=55, hpp_break_line=21,
-+                                   exe_break_line=136, exe_list_line=128, hpp_break_line=21,
-                                    lib_break_line=31):
-         """Verify gdb-cross is working
+             # Verify the cmake-example service is running on the target
+             self._verify_service_running(qemu, example_exe)
+             # Verify /etc/cmake-example.conf is owned by the cmake-example user
+             self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
+ 
+-            # Setup the recipe with devtool ide-sdk cmake-example ...
+-            tempdir = self._devtool_ide_sdk_recipe(
+-                recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
++            # Re-run ide-sdk with the actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+             self._gdb_cross()
+-            compile_cmd = self._verify_cmake_preset(tempdir)
+-            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe, compile_cmd)
++            compile_cmd = self._verify_cmake_preset(tempdir_cmake)
++            self._devtool_ide_sdk_qemu(tempdir_cmake, qemu, recipe_name, example_exe, compile_cmd)
+ 
+             # Verify the oe-scripts sym-link is valid
+             self.assertEqual(self._workspace_scripts_dir(
+-                recipe_name), self._sources_scripts_dir(tempdir))
++                recipe_name), self._sources_scripts_dir(tempdir_cmake))
+ 
+             # Verify /etc/cmake-example.conf is still owned by the cmake-example user
+             # after the install and deploy scripts updated the file
+             self._verify_conf_file(qemu, conf_file, example_exe, example_exe)
+ 
+-
+             # meson-example recipe
+             recipe_name = "meson-example"
+             example_exe = "mesonex"
+             example_user_group = "meson-example"
+             conf_file = "/etc/meson-example.conf"
+-            build_file = "meson.build"
+ 
+             # Verify the meson-example service is running on the target
+             self._verify_service_running(qemu, example_exe)
+             # Verify /etc/meson-example.conf is owned by the meson-example user
+             self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
+ 
+-            # Setup the recipe with devtool ide-sdk meson-example ...
+-            tempdir = self._devtool_ide_sdk_recipe(
+-                recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
++            # Re-run ide-sdk with the actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+             self._gdb_cross()
+-            compile_cmd = self._verify_meson_build(tempdir, recipe_name)
+-            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe, compile_cmd)
++            compile_cmd = self._verify_meson_build(tempdir_meson, recipe_name)
++            self._devtool_ide_sdk_qemu(tempdir_meson, qemu, recipe_name, example_exe, compile_cmd)
+ 
+             # Verify the oe-scripts sym-link is valid
+             self.assertEqual(self._workspace_scripts_dir(
+-                recipe_name), self._sources_scripts_dir(tempdir))
++                recipe_name), self._sources_scripts_dir(tempdir_meson))
+ 
+             # Verify /etc/meson-example.conf is still owned by the meson-example user
+             # after the install and deploy scripts updated the file
+@@ -3784,15 +3781,17 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+         build_file = "CMakeLists.txt"
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name])
++        self._write_bb_config()
+ 
+-        # Verify deployment to Qemu (system mode) works
++        # Build image with debug settings before starting QEMU
+         self._check_runqemu_prerequisites()
+-        bitbake(testimage)
++        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
++        runCmd('devtool ide-sdk %s %s -c --ide=code' % (recipe_name, testimage),
++               output_log=self._cmd_logger)
++
+         with runqemu(testimage, runqemuparams="nographic") as qemu:
+-            tempdir = self._devtool_ide_sdk_recipe(
+-                recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
++            # Re-run with actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=code' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+             self._verify_cmake_preset(tempdir)
+@@ -3814,15 +3813,18 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+         testimage = "oe-selftest-image"
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name])
++        self._write_bb_config()
+ 
+-        # Verify deployment to Qemu (system mode) works
++        # Build image with debug settings before starting QEMU
+         self._check_runqemu_prerequisites()
+-        bitbake(testimage)
++        tempdir = self._devtool_ide_sdk_recipe(
++            recipe_name, build_file, testimage)
++        runCmd('devtool ide-sdk %s %s -c --ide=code' % (recipe_name, testimage),
++               output_log=self._cmd_logger)
++
+         with runqemu(testimage, runqemuparams="nographic") as qemu:
+-            tempdir = self._devtool_ide_sdk_recipe(
+-                recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
++            # Re-run with actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=code' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+@@ -4507,13 +4509,17 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
+         testimage = "oe-selftest-image"
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
++        self._write_bb_config()
+ 
++        # Build image with debug settings (lldb-server for clang) before starting QEMU
+         self._check_runqemu_prerequisites()
+-        bitbake(testimage)
++        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
++        runCmd('devtool ide-sdk %s %s -c --ide=code' % (recipe_name, testimage),
++               output_log=self._cmd_logger)
++
+         with runqemu(testimage, runqemuparams="nographic") as qemu:
+-            tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
++            # Re-run with actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=code' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+@@ -4566,7 +4572,7 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
+         testimage = "oe-selftest-image"
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
++        self._write_bb_config()
+ 
+         # Build image with debug settings (lldb-server for clang) before starting QEMU
+         self._check_runqemu_prerequisites()
+@@ -4678,12 +4684,17 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
+         testimage = 'oe-selftest-image'
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
++        self._write_bb_config()
+         self._check_runqemu_prerequisites()
+-        bitbake(testimage)
++
++        # Build image with debug settings (lldb-server for clang) before starting QEMU
++        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
++        runCmd('devtool ide-sdk %s %s -c --ide=none' % (recipe_name, testimage),
++               output_log=self._cmd_logger)
++
+         with runqemu(testimage, runqemuparams='nographic') as qemu:
+-            tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
++            # Re-run with actual QEMU IP; image is already built
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
+                 recipe_name, testimage, qemu.ip)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
+ 
+@@ -4742,7 +4753,7 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
+         testimage = 'oe-selftest-image'
+ 
+         self._check_workspace()
+-        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
++        self._write_bb_config()
+         self._check_runqemu_prerequisites()
+ 
+         # Build image with debug settings (lldb-server for clang) before starting QEMU
+@@ -4803,7 +4814,7 @@ class DevtoolIdeSdkMiscTests(DevtoolIdeSdkTests):
+         shared_recipe_name = "cmake-example"
+ 
+         self._check_workspace()
+-        self._write_bb_config([modified_recipe_name])
++        self._write_bb_config()
+         tempdir = self._devtool_ide_sdk_recipe(
+             modified_recipe_name, modified_build_file, None)
  
 -- 
 2.55.0
