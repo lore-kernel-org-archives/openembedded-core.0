@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E7CAC624CD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 71A74C624CF
 	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 21:49:27 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17144.1788126560348605284
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17148.1788126560349050641
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 14:49:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=PKDdfrOT;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-2026083021491709df33932300020793-ppatae@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2026083021491709df33932300020793
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=kVGeLUC+;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-2026083021491753bff86eb30002076b-lnrwu0@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2026083021491753bff86eb30002076b
         for <openembedded-core@lists.openembedded.org>;
         Sun, 30 Aug 2026 23:49:17 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=K1qrykSNcjEu7y502YB/cPZ2jFJx5l8WZmcl82y5JFc=;
- b=PKDdfrOTqbb70yvoieWLti7RP8o8NDL8aNIWZjyULv1fJjzg1GnUUvd7lI5hm/YCOEfKyl
- KaCGy+3Xid4jsQou3ksEAuvGb6k2/9mQTxZdR68tSItk1n1EnuPqViJrhVjCM3ws2JJ2SBZu
- W2/ya35iwpjhe8VXQLGCsyfnPk/czCgTN8kv9aCdcRKn4jU58x3K4JxUMYNIItynIlszDNlK
- xgQYGbaJGuKLvrWltpYT7OC6C2tIQTgKytkgH6zW0DpfG/F1ZDabQ29efKbDlkxDoPdem+dw
- 8tEJ7pbitv4RN/t4k0twgiM/gIuiNBW+OnmA+ohskU0zMOx4LHaLzEPQ==;
+ bh=dRA0GrgzP21Y7AktCLuUt6URHG5IBVeRB4L3ox7Hw1Q=;
+ b=kVGeLUC+NQZuEoQbuiu4HL59XrYX9PdRhn8sOqFhJmrzNxQsvmZF2c9aZJ1cnNXMb0DCvT
+ 6c14RCNTzOGjd6uetLnsNR9YmbPSYzPORjxYvXDLXraNq1P6W3XW5/se7jfsGeMdqjFATH57
+ Qvmh526oIhmM5lqkhyKxNoiw3ABfNo2CPga0yQ5y7B0fRmqarRJ0xBw3HejXigvHC431mF6B
+ zBWml2EOcvoZ6GvlIrAlj+Yu+FdQ78hKgyKuept4/i6340koQ8fQJquF/emdq80IRsh805/e
+ 1emHnoPFdov56mEvzGkbd3Yidq1P05rApCLMu/HAbRY8sBpACxble7Ww==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 06/25] oe-selftest: devtool ide-sdk: adapt tests for auto-written image debug settings
-Date: Sun, 30 Aug 2026 23:48:28 +0200
-Message-ID: <20260830214912.1346063-7-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 02/25] devtool: ide-sdk: dedupe solib_search_path entries
+Date: Sun, 30 Aug 2026 23:48:24 +0200
+Message-ID: <20260830214912.1346063-3-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 References: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,263 +39,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 21:49:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244709
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244706
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-devtool ide-sdk now writes IMAGE_GEN_DEBUGFS, IMAGE_CLASSES +=
-"image-combined-dbg" and the required IMAGE_INSTALL entries
-(gdbserver/lldb-server, per-recipe ptest packages) to the image
-workspace bbappend automatically. _write_bb_config() therefore no
-longer sets these in local.conf, so tests also exercise that ide-sdk
-does not need help from local.conf to enable image debug support.
-
-Tests that use runqemu now call devtool ide-sdk once before starting
-QEMU to build the image with the debug settings already applied, and
-again with --skip-bitbake -t root@<ip> once the real target IP is
-known, to update the deploy scripts without triggering a redundant
-image rebuild.
+With usrmerge in DISTRO_FEATURES (the default), root_prefix becomes
+exec_prefix, so base_libdir and libdir resolve to the same path. This
+made most entries of solib_search_path() literal duplicates. Dedupe
+while preserving order.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 111 +++++++++++++-----------
- 1 file changed, 61 insertions(+), 50 deletions(-)
+ scripts/lib/devtool/ide_sdk.py | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 87efa1ee80..1ecf4c24f5 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -2889,15 +2889,15 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         if self.logger.isEnabledFor(logging.DEBUG):
-             self._cmd_logger = self.logger
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 4fdeeec24d..6f08940c9c 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -643,7 +643,8 @@ class RecipeModified:
+             os.path.join(image.rootfs, base_libdir),
+             os.path.join(image.rootfs, libdir)
+         ]
+-        return so_paths
++        # base_libdir == libdir when usrmerge is in DISTRO_FEATURES (the default), dedupe
++        return list(dict.fromkeys(so_paths))
  
--    def _write_bb_config(self, recipe_names, extra_packages=None):
--        """Helper to write the bitbake local.conf file"""
--        image_install = 'gdbserver ' + ' '.join([r + '-ptest' for r in recipe_names])
--        if extra_packages:
--            image_install += ' ' + ' '.join(extra_packages)
-+    def _write_bb_config(self):
-+        """Helper to write the bitbake local.conf file.
-+
-+        Image debug settings (IMAGE_GEN_DEBUGFS, IMAGE_CLASSES += image-combined-dbg,
-+        IMAGE_INSTALL for gdbserver/lldb-server and the recipe under test) are written
-+        automatically by devtool ide-sdk to the image workspace bbappend.
-+        Only settings not managed by ide_sdk are configured here.
-+        """
-         conf_lines = [
--            'IMAGE_CLASSES += "image-combined-dbg"',
--            'IMAGE_GEN_DEBUGFS = "1"',
--            'IMAGE_INSTALL:append = " %s"' % image_install,
-             'DISTRO_FEATURES:append = " ptest"',
-             # Static UIDs/GIDs are required so that files installed via
-             # "install -o ${BPN}" in do_install embed the same UID that gets
-@@ -3374,70 +3374,67 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-         testimage = "oe-selftest-image"
- 
-         self._check_workspace()
--        self._write_bb_config(recipe_names)
-+        self._write_bb_config()
-         self._check_runqemu_prerequisites()
- 
-         # Verify deployment to Qemu (system mode) works
--        bitbake(testimage)
-+        tempdir_cmake = self._devtool_ide_sdk_recipe("cmake-example", "CMakeLists.txt", None)
-+        tempdir_meson = self._devtool_ide_sdk_recipe("meson-example", "meson.build", testimage)
-+        runCmd('devtool ide-sdk cmake-example meson-example %s -c --ide=none' % testimage,
-+               output_log=self._cmd_logger)
-+
-         with runqemu(testimage, runqemuparams="nographic") as qemu:
-             # cmake-example recipe
-             recipe_name = "cmake-example"
-             example_exe = "cmake-example"
-             example_user_group = "cmake-example"
-             conf_file = "/etc/cmake-example.conf"
--            build_file = "CMakeLists.txt"
- 
-             # Verify the cmake-example service is running on the target
-             self._verify_service_running(qemu, example_exe)
-             # Verify /etc/cmake-example.conf is owned by the cmake-example user
-             self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
- 
--            # Setup the recipe with devtool ide-sdk cmake-example ...
--            tempdir = self._devtool_ide_sdk_recipe(
--                recipe_name, build_file, testimage)
--            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
-+            # Re-run ide-sdk with the actual QEMU IP; image is already built
-+            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
-                 recipe_name, testimage, qemu.ip)
-             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
- 
-             self._gdb_cross()
--            compile_cmd = self._verify_cmake_preset(tempdir)
--            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe, compile_cmd)
-+            compile_cmd = self._verify_cmake_preset(tempdir_cmake)
-+            self._devtool_ide_sdk_qemu(tempdir_cmake, qemu, recipe_name, example_exe, compile_cmd)
- 
-             # Verify the oe-scripts sym-link is valid
-             self.assertEqual(self._workspace_scripts_dir(
--                recipe_name), self._sources_scripts_dir(tempdir))
-+                recipe_name), self._sources_scripts_dir(tempdir_cmake))
- 
-             # Verify /etc/cmake-example.conf is still owned by the cmake-example user
-             # after the install and deploy scripts updated the file
-             self._verify_conf_file(qemu, conf_file, example_exe, example_exe)
- 
--
-             # meson-example recipe
-             recipe_name = "meson-example"
-             example_exe = "mesonex"
-             example_user_group = "meson-example"
-             conf_file = "/etc/meson-example.conf"
--            build_file = "meson.build"
- 
-             # Verify the meson-example service is running on the target
-             self._verify_service_running(qemu, example_exe)
-             # Verify /etc/meson-example.conf is owned by the meson-example user
-             self._verify_conf_file(qemu, conf_file, example_user_group, example_user_group)
- 
--            # Setup the recipe with devtool ide-sdk meson-example ...
--            tempdir = self._devtool_ide_sdk_recipe(
--                recipe_name, build_file, testimage)
--            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
-+            # Re-run ide-sdk with the actual QEMU IP; image is already built
-+            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
-                 recipe_name, testimage, qemu.ip)
-             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
- 
-             self._gdb_cross()
--            compile_cmd = self._verify_meson_build(tempdir, recipe_name)
--            self._devtool_ide_sdk_qemu(tempdir, qemu, recipe_name, example_exe, compile_cmd)
-+            compile_cmd = self._verify_meson_build(tempdir_meson, recipe_name)
-+            self._devtool_ide_sdk_qemu(tempdir_meson, qemu, recipe_name, example_exe, compile_cmd)
- 
-             # Verify the oe-scripts sym-link is valid
-             self.assertEqual(self._workspace_scripts_dir(
--                recipe_name), self._sources_scripts_dir(tempdir))
-+                recipe_name), self._sources_scripts_dir(tempdir_meson))
- 
-             # Verify /etc/meson-example.conf is still owned by the meson-example user
-             # after the install and deploy scripts updated the file
-@@ -3784,15 +3781,17 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-         build_file = "CMakeLists.txt"
- 
-         self._check_workspace()
--        self._write_bb_config([recipe_name])
-+        self._write_bb_config()
- 
--        # Verify deployment to Qemu (system mode) works
-+        # Build image with debug settings before starting QEMU
-         self._check_runqemu_prerequisites()
--        bitbake(testimage)
-+        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
-+        runCmd('devtool ide-sdk %s %s -c --ide=code' % (recipe_name, testimage),
-+               output_log=self._cmd_logger)
-+
-         with runqemu(testimage, runqemuparams="nographic") as qemu:
--            tempdir = self._devtool_ide_sdk_recipe(
--                recipe_name, build_file, testimage)
--            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
-+            # Re-run with actual QEMU IP; image is already built
-+            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=code' % (
-                 recipe_name, testimage, qemu.ip)
-             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
-             self._verify_cmake_preset(tempdir)
-@@ -3814,15 +3813,18 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-         testimage = "oe-selftest-image"
- 
-         self._check_workspace()
--        self._write_bb_config([recipe_name])
-+        self._write_bb_config()
- 
--        # Verify deployment to Qemu (system mode) works
-+        # Build image with debug settings before starting QEMU
-         self._check_runqemu_prerequisites()
--        bitbake(testimage)
-+        tempdir = self._devtool_ide_sdk_recipe(
-+            recipe_name, build_file, testimage)
-+        runCmd('devtool ide-sdk %s %s -c --ide=code' % (recipe_name, testimage),
-+               output_log=self._cmd_logger)
-+
-         with runqemu(testimage, runqemuparams="nographic") as qemu:
--            tempdir = self._devtool_ide_sdk_recipe(
--                recipe_name, build_file, testimage)
--            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
-+            # Re-run with actual QEMU IP; image is already built
-+            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=code' % (
-                 recipe_name, testimage, qemu.ip)
-             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
- 
-@@ -4507,13 +4509,17 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
-         testimage = "oe-selftest-image"
- 
-         self._check_workspace()
--        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
-+        self._write_bb_config()
- 
-+        # Build image with debug settings (lldb-server for clang) before starting QEMU
-         self._check_runqemu_prerequisites()
--        bitbake(testimage)
-+        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
-+        runCmd('devtool ide-sdk %s %s -c --ide=code' % (recipe_name, testimage),
-+               output_log=self._cmd_logger)
-+
-         with runqemu(testimage, runqemuparams="nographic") as qemu:
--            tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
--            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=code' % (
-+            # Re-run with actual QEMU IP; image is already built
-+            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=code' % (
-                 recipe_name, testimage, qemu.ip)
-             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
- 
-@@ -4566,7 +4572,7 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
-         testimage = "oe-selftest-image"
- 
-         self._check_workspace()
--        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
-+        self._write_bb_config()
- 
-         # Build image with debug settings (lldb-server for clang) before starting QEMU
-         self._check_runqemu_prerequisites()
-@@ -4678,12 +4684,17 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
-         testimage = 'oe-selftest-image'
- 
-         self._check_workspace()
--        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
-+        self._write_bb_config()
-         self._check_runqemu_prerequisites()
--        bitbake(testimage)
-+
-+        # Build image with debug settings (lldb-server for clang) before starting QEMU
-+        tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
-+        runCmd('devtool ide-sdk %s %s -c --ide=none' % (recipe_name, testimage),
-+               output_log=self._cmd_logger)
-+
-         with runqemu(testimage, runqemuparams='nographic') as qemu:
--            tempdir = self._devtool_ide_sdk_recipe(recipe_name, build_file, testimage)
--            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --ide=none' % (
-+            # Re-run with actual QEMU IP; image is already built
-+            bitbake_sdk_cmd = 'devtool ide-sdk %s %s -t root@%s -c --skip-bitbake --ide=none' % (
-                 recipe_name, testimage, qemu.ip)
-             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
- 
-@@ -4742,7 +4753,7 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
-         testimage = 'oe-selftest-image'
- 
-         self._check_workspace()
--        self._write_bb_config([recipe_name], extra_packages=['lldb-server'])
-+        self._write_bb_config()
-         self._check_runqemu_prerequisites()
- 
-         # Build image with debug settings (lldb-server for clang) before starting QEMU
-@@ -4803,7 +4814,7 @@ class DevtoolIdeSdkMiscTests(DevtoolIdeSdkTests):
-         shared_recipe_name = "cmake-example"
- 
-         self._check_workspace()
--        self._write_bb_config([modified_recipe_name])
-+        self._write_bb_config()
-         tempdir = self._devtool_ide_sdk_recipe(
-             modified_recipe_name, modified_build_file, None)
- 
+     def solib_search_path_str(self, image):
+         """Return a : separated list of paths usable by GDB's set solib-search-path"""
 -- 
 2.55.0
 
