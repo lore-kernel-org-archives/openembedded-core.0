@@ -1,151 +1,174 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <twoerner@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 16017C61DD9
-	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 17:14:57 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12302.1788110088855261697
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65281C61DB9
+	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 18:34:57 +0000 (UTC)
+Received: from mail-qk1-f178.google.com (mail-qk1-f178.google.com [209.85.222.178])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13801.1788114889538860461
  for <openembedded-core@lists.openembedded.org>;
- Sun, 30 Aug 2026 10:14:49 -0700
+ Sun, 30 Aug 2026 11:34:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=aZ34IemZ;
- spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-48436668d20so372759f8f.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 10:14:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=cXRSVwCS;
+ spf=pass (domain: gmail.com, ip: 209.85.222.178, mailfrom: twoerner@gmail.com)
+Received: by mail-qk1-f178.google.com with SMTP id af79cd13be357-9384cb251fbso127554585a.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 11:34:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788110087; x=1788714887; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=h7GQpu5U5+/0Ul1HQuNne7itEw0NmKUgwhQ9KIawiCk=;
-        b=aZ34IemZ1+j0Zqo8W9rvNBOnc6R8dqAdD3ybUXhieygZCLp0WxNq2clpFG/CKRr8HF
-         WRPZfjHGAh2h/B/vbfk6Bw0q7g1mr5rerCK/jE2totggdQudOo1LPpdeWDOyeQc9LoVs
-         d3bbe6sJ8WcQ7rZ9N27l3GHkAnml4yJ8Foi4I=
+        d=gmail.com; s=20251104; t=1788114888; x=1788719688; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=vCq3/Qf7N8RFAueawSzk2jVU8DmNMNwkgOoswa56QZk=;
+        b=cXRSVwCShuWOe6EuPcEa7nmqTBRMIt+sL+WeDuG4OXmtVzr+ISb2fOp3Z0geGrxLr7
+         FN8+OswVAx+nNr+rCfgypvrZw/oJuez0zGnI61xPOD77evLYy1Bbv4U/T/13SCL7ByNQ
+         KcKFkz9cdstERiHdgc/mxQ84vNqIZQ47yQSUsLxSs4n4CIpt4crWlJSkElTcci5JsjMB
+         iQvorwMWupUCDw7UCZe648+iXHywvigKtHCvSadywJMJWajHstNu1+f26OqyVGNR9yDR
+         7V2ytviQFqhXi3GRwp9WWz30w8blTF0CSmeDZUto6XLC/8cUPPZFe/x1oAPZhigWvVv6
+         /hFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788110087; x=1788714887;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=h7GQpu5U5+/0Ul1HQuNne7itEw0NmKUgwhQ9KIawiCk=;
-        b=NG6b43dSBUpeMf0MtaxrjFqWkvSrYs4lKp+UJ5ir5cOzzGk/r2NZFTHwLy6FYX51xG
-         EskY+doPQsj5VxYVRubyysmWc0olTlpKw/LLNvBjbnGKgWxMRQHfqh3IZJEaUnHDwUrJ
-         GBZEB+Nn0wH8XDTHjzizH9UF7QCN35pk2qT9DV16dM1gp+zeHtT9v4W5s5z7pebDGDpH
-         CVJ+EHeb0FZwqxkQeg0ywWprii/nHee/oQURvAbZaloCdQMkwHaJVpzDA+OTX15W1aAJ
-         Ga2ML5P4aYgJg80CM/qGaecmJliCHiVL7fUKP3ZzUJ6/o7LckT+c02yL5P6LE6PUl4vA
-         vWQg==
-X-Forwarded-Encrypted: i=1; AHgh+RrqPKwbHdwFDx5iz04sokP0PN2O7hHZZtlYap9JzIeuaUx/VmOidtEe2RhZ548T7FdR3ylZLkJPOh3TksIiIsTLwQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++kFu2G07cC2qomveiklyF3dPHRkpja74VeV+QGT/jNbG3DEyP/o
-	tVIprK/wBTNpbM2W6K5knXcjFIyv2/+PgmCIY4Vt5+4gcdmwmDDp2TVIUDJgFTEvE9w=
-X-Gm-Gg: AR+sD11rtgMAvc5tMOiKmX6JZqJtGZl3vkGwIknuC59NIgkYyOnirWOnljf0u5KAIjU
-	SuWgY7sVennX4rjLwsvSWVmQe42fgpHAqN5AkB8//DJYeTltp71psT1KhjdU0jVpmsSmc+0ABCp
-	wN9X7kZAKPyiq2Dz2UwRQjiY5/q9EWFxosDlSQYDLFdXgokZWWkbE2+SzENIwrN6mjkJlwl/Kka
-	K7HOJBKFq+IEIii+tkthG4TMDkmL0rRNR8rhzBI7MuCGU35tBXVcE56KAxlumT3wn+aIlPWj6jY
-	fDuh11R+vaAtaLuuMwsBVsgkGMM39uXOVR8Nw56yAgKPnKGoIKER28GG57FfMTcIl60YJCIk5tL
-	4VPcJ5NtTHBeLj3YB+dgkPNDoCOQYvyZfxk1+CEbKxsfcb+amm1CqFKNSuPD4lrfEcLd+JXeLGe
-	h+1rS1/3+DcWeKEMZ4wA4x+ShjMZPMH3D69BK6G8qzLbYMKtfmEbxofjtmZqihS2hnedmc4r6Fc
-	/sGcYk33qik4XaMDqPCYBHzThMAoaRlllux7owdPSluQ249I+kAn1pxYQuPwrI=
-X-Received: by 2002:a05:600c:5291:b0:49c:cee2:1697 with SMTP id 5b1f17b1804b1-49ccee216c1mr150375425e9.16.1788110086815;
-        Sun, 30 Aug 2026 10:14:46 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbb2794dsm17932842f8f.25.2026.08.30.10.14.46
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 30 Aug 2026 10:14:46 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Sun, 30 Aug 2026 19:14:46 +0200
-Message-Id: <DL2G4HBXZK8O.2BJXQFIJGNX9C@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH] time64: enable 64-bit
- time/file-offset flags for 32-bit nativesdk
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <peter.tatrai.ext@siemens.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260826073701.367061-1-peter.tatrai.ext@siemens.com>
-In-Reply-To: <20260826073701.367061-1-peter.tatrai.ext@siemens.com>
+        d=1e100.net; s=20251104; t=1788114888; x=1788719688;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=vCq3/Qf7N8RFAueawSzk2jVU8DmNMNwkgOoswa56QZk=;
+        b=IxkiZ/YBzW/evuiSKXRCAKTdcq1jE5KJ1m4HyQqflovaOzb3xifs974IfZKNww/U/g
+         HWThUdoDuW1SY5SimIYvrHykEKg11oqgW0OCm6MRkJsv45wJIbpiG71d7CAURW/cbzag
+         Rq8YVYLY5vdkvsM5lGIwb2OdWDSkCq0wf/3XDqehSuM0Sa+b82M3RraZPmJBi4No9Zj5
+         1sT9Ofuwlf74II8sL0XzJo+qmhISU1RqGcprrtFvrow9dP4GzPzyQSFy2okhBaFw8YYY
+         9Req/vzW7aM2brYdxo3BYB8ZznN4hJ4oq0AsXtw13r3qnxE3FlqcnNOo78fGCgZDx50M
+         WCGw==
+X-Gm-Message-State: AFuF++lTqSLcYnb5kMDaAqPTQmU10Vnk/wWxBLPHckRjPNfavdi3Fh+v
+	1HE4lsS/W5Ziv2BQlt9heHpzLbAqQ7jd5wOJ7BkAfROChWwMRiVxAa29tZTerRn/
+X-Gm-Gg: AR+sD12kW7Ce/CqQFTjELa4x8U/QlrHAyoG0X3juWCQxWnr9MSzPmKAN2ncQ4USZXWF
+	9BIjDsGdhufwA/qaCmUlJDfhKgYzwZfdzByiAw1TyJrowyEaGKMNWeFIHPna9SRs+DLC+C+8Z/7
+	Cq2B2EBB76kIhptupKhmI+v0EFTOmYIkQETo+0Q+YtoVV5gk6D1hGHm2J95NBDo2YFPRa6e9/GS
+	ev8ded4BJ77LK6l5/14DvlFGuNb+K/Hh18qxfDMDWQH07J4chslA+axy06wbTdPdwvgJcR49xy6
+	VjnvFlw2pBvP7XX4xrmnUWet+GikK91bNQK+6hjMn8ngrHze+qq3R315KH6liHzYv7EhMwhudwR
+	3szibQS2Fy2TAbCYJrHvlG5ym0Q5n46KlGQ0dewwCBvWhRIL+7f4cvc7yPjoOBWbWANi6bh3hrG
+	i1WnVXQxPeDL40OSEhzLbdPSuJUpaPIeiIVmcjjj9JeHKn7t0wVhtBJ6Zj3LzsVppE4RcRQyhWA
+	BvTMEDa43dAP3NRqTChAl2PaauNxw==
+X-Received: by 2002:a05:620a:8003:b0:936:cd74:4f45 with SMTP id af79cd13be357-9391391b3f0mr2407697885a.37.1788114888241;
+        Sun, 30 Aug 2026 11:34:48 -0700 (PDT)
+Received: from localhost.localdomain (pppoe-209-91-167-254.vianet.ca. [209.91.167.254])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-9391723e87dsm625644285a.15.2026.08.30.11.34.47
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 30 Aug 2026 11:34:47 -0700 (PDT)
+From: Trevor Woerner <twoerner@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] devtool: sdk-install: re-assemble the shared sysroot every time
+Date: Sun, 30 Aug 2026 14:34:44 -0400
+Message-ID: <20260830183444.4025831-1-twoerner@gmail.com>
+X-Mailer: git-send-email 2.51.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 17:14:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244688
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 18:34:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244689
 
-On Wed Aug 26, 2026 at 9:37 AM CEST, Peter via lists.openembedded.org Tatra=
-i wrote:
-> From: Peter Tatrai <peter.tatrai.ext@siemens.com>
->
-> When SDKMACHINE is set to i686 or i586, nativesdk binaries are compiled
-> as 32-bit. Without -D_TIME_BITS=3D64 and -D_FILE_OFFSET_BITS=3D64, stat()
-> and time-related syscalls use 32-bit types, causing EOVERFLOW on
-> filesystems with large inode numbers (e.g. container overlay filesystems)
-> and Y2038 issues.
->
-> Add SDK_CC_ARCH appends for class-nativesdk:i686 and class-nativesdk:i586
-> using GLIBC_64BIT_TIME_FLAGS, mirroring how target architectures are
-> handled.
->
-> Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>"
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit d9f62a45555673842021d5746437e66c40d3f3cc)
-> Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
-> ---
->  meta/conf/distro/include/time64.inc | 10 ++++++++++
->  1 file changed, 10 insertions(+)
->
-> diff --git a/meta/conf/distro/include/time64.inc b/meta/conf/distro/inclu=
-de/time64.inc
-> index dd29105db4..7f02774839 100644
-> --- a/meta/conf/distro/include/time64.inc
-> +++ b/meta/conf/distro/include/time64.inc
-> @@ -32,6 +32,16 @@ GLIBC_64BIT_TIME_FLAGS:pn-pulseaudio =3D ""
->  # libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cpp
->  GLIBC_64BIT_TIME_FLAGS:pn-gcc-sanitizers =3D ""
-> =20
-> +# Apply the same flags to nativesdk packages when building for a 32-bit =
-SDK
-> +# host (i686, i586).
-> +SDK_CC_ARCH:append:class-nativesdk:i686 =3D "${GLIBC_64BIT_TIME_FLAGS}"
-> +SDK_CC_ARCH:append:class-nativesdk:i586 =3D "${GLIBC_64BIT_TIME_FLAGS}"
-> +
-> +# nativesdk-pseudo wraps both 32-bit and 64-bit libc calls; enabling LFS=
- flags
-> +# causes duplicate symbol errors (e.g. creat64, fopen64) on i686 because=
- glibc
-> +# aliases the non-LFS names to their 64-bit counterparts via macros.
-> +GLIBC_64BIT_TIME_FLAGS:pn-nativesdk-pseudo =3D ""
-> +
->  # Caused by the flags exceptions above
->  INSANE_SKIP:append:pn-gcc-sanitizers =3D " 32bit-time"
->  INSANE_SKIP:append:pn-glibc =3D " 32bit-time"
+sdk-install runs the build-sysroots tasks only when it found something
+to install, so a recipe already staged in the components directory is
+never assembled into the shared sysroot: sdk-install reports it as
+installed while none of its commands are on PATH. devtool build leaves
+that state, running do_populate_sysroot and nothing more. Both tasks are
+nostamp with cleandirs, so running them unconditionally is idempotent.
 
-Hello,
+The esdk selftest installs a native recipe, discards the assembled
+sysroot and asks for it again, requiring the command to stay inside the
+eSDK.
 
-This patch does break some builds:
-qemux86 debian11-vk-1 scarthgap completed at 2026-08-30 14:36:35+00:00
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/30/builds/4505
-qemuarm-oecore rocky8-vk-1 scarthgap completed at 2026-08-30 14:06:41+00:00
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/40/builds/4502
-buildtools ubuntu2404-vk-1 scarthgap completed at 2026-08-30 14:00:30+00:00
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/43/builds/4546
-qemux86-64 debian12-vk-4 scarthgap completed at 2026-08-30 14:14:14+00:00
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/68/builds/4636
+[YOCTO #11138]
 
-(And, also, I suspect meta-mingw ubuntu2404-vk-3 scarthgap completed at 202=
-6-08-30 13:35:59+00:00
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/7/builds/3475)
+AI-Generated: codex/claude-opus 5 (xhigh)
+Signed-off-by: Trevor Woerner <twoerner@gmail.com>
+---
+ meta/lib/oeqa/selftest/cases/esdk.py | 44 ++++++++++++++++++++++++++--
+ scripts/lib/devtool/sdk.py           | 10 +++----
+ 2 files changed, 47 insertions(+), 7 deletions(-)
 
-I've reproduced this locally:
-With SDKMACHINE=3D"i686"
-"bitbake nativesdk-glibc" fails with this patch and succeed without.
-
-The error message boils down to:
-| Error: symbol '__sigtimedwait64' is already defined.
-
-Can you look into this?
-
-Thanks!
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/lib/oeqa/selftest/cases/esdk.py b/meta/lib/oeqa/selftest/cases/esdk.py
+index 7a5fe00a0823..8536c9b56e8f 100644
+--- a/meta/lib/oeqa/selftest/cases/esdk.py
++++ b/meta/lib/oeqa/selftest/cases/esdk.py
+@@ -33,7 +33,7 @@ class oeSDKExtSelfTest(OESelftestTestCase):
+         if not 'shell' in options:
+             options['shell'] = True
+ 
+-        runCmd("cd %s; unset BBPATH; unset BUILDDIR; . %s; %s" % (tmpdir_eSDKQA, env_eSDK, cmd), **options)
++        return runCmd("cd %s; unset BBPATH; unset BUILDDIR; . %s; %s" % (tmpdir_eSDKQA, env_eSDK, cmd), **options)
+ 
+     @staticmethod
+     def generate_eSDK(image):
+@@ -111,8 +111,48 @@ SSTATE_MIRRORS =  "file://.* file://%s/PATH"
+         cmd = "devtool sdk-install %s " % pn_sstate
+         oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, self.tmpdir_eSDKQA, cmd)
+ 
++    def test_sdk_install_assembles_the_shared_sysroot(self):
++        """
++        A recipe's commands are only on PATH once the shared sysroot has
++        been assembled from the components directory, and sdk-install
++        assembles it only when it had something to install. Install a
++        recipe, discard the assembled sysroot, and ask for the recipe
++        again: it is already staged, so there is nothing to install, and
++        the commands have to be reachable regardless.
++
++        The recipe has to be a native one. An eSDK builds PATH from the
++        native sysroot alone, so a target recipe's commands are not
++        reachable however the sysroot was assembled.
++        """
++        recipe = 'bc-native'
++        command = 'bc'
++        bitbake(recipe)
++        install = "devtool sdk-install %s" % recipe
++        oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, self.tmpdir_eSDKQA, install)
++
++        # the state devtool build leaves behind: staged, not assembled
++        oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, self.tmpdir_eSDKQA,
++                                      "bitbake build-sysroots -c clean")
++        oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, self.tmpdir_eSDKQA, install)
++
++        # The eSDK environment appends the caller's PATH, and bc is not a
++        # host tool oe requires, so an unassembled sysroot resolves either
++        # to the build machine's copy or to nothing at all. Neither is a
++        # command error, so ask without raising and report which happened.
++        result = oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, self.tmpdir_eSDKQA,
++                                               "command -v %s" % command,
++                                               ignore_status=True)
++        # sourcing the eSDK environment prints a banner, and run_esdk_cmd
++        # merges stderr into the output, so the answer is the last line
++        found = ""
++        if result.status == 0:
++            found = result.output.strip().splitlines()[-1].strip()
++        self.assertTrue(found.startswith(self.tmpdir_eSDKQA),
++                        "sdk-install left %s out of the eSDK's shared sysroot; "
++                        "%s resolved to %s"
++                        % (command, command, found or "nothing"))
++
+     def test_image_generation_binary_feeds(self):
+         image = 'core-image-minimal'
+         cmd = "devtool build-image %s" % image
+         oeSDKExtSelfTest.run_esdk_cmd(self.env_eSDK, self.tmpdir_eSDKQA, cmd)
+-
+diff --git a/scripts/lib/devtool/sdk.py b/scripts/lib/devtool/sdk.py
+index 7adb3de806b7..555bc82969a4 100644
+--- a/scripts/lib/devtool/sdk.py
++++ b/scripts/lib/devtool/sdk.py
+@@ -300,11 +300,11 @@ def sdk_install(args, config, basepath, workspace):
+         if failed:
+             return 2
+ 
+-        try:
+-            exec_build_env_command(config.init_path, basepath, 'bitbake build-sysroots -c build_native_sysroot', watch=True)
+-            exec_build_env_command(config.init_path, basepath, 'bitbake build-sysroots -c build_target_sysroot', watch=True)
+-        except bb.process.ExecutionError as e:
+-            raise DevtoolError('Failed to bitbake build-sysroots:\n%s' % (str(e)))
++    try:
++        exec_build_env_command(config.init_path, basepath, 'bitbake build-sysroots -c build_native_sysroot', watch=True)
++        exec_build_env_command(config.init_path, basepath, 'bitbake build-sysroots -c build_target_sysroot', watch=True)
++    except bb.process.ExecutionError as e:
++        raise DevtoolError('Failed to bitbake build-sysroots:\n%s' % (str(e)))
+ 
+ 
+ def register_commands(subparsers, context):
 
