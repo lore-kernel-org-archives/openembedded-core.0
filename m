@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DA692C61DE8
-	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 21:49:24 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17150.1788126560454563338
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 05B9EC61DEB
+	for <webhook@archiver.kernel.org>; Sun, 30 Aug 2026 21:49:25 +0000 (UTC)
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17141.1788126560347933185
  for <openembedded-core@lists.openembedded.org>;
  Sun, 30 Aug 2026 14:49:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=mB7K0E8B;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20260830214919a62a850e2500020702-ylmjuv@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260830214919a62a850e2500020702
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=TgdQ8GI/;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-202608302149199457dbabbd000207de-bg_rrk@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202608302149199457dbabbd000207de
         for <openembedded-core@lists.openembedded.org>;
         Sun, 30 Aug 2026 23:49:19 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=wjXYdBKkBti3fvtRYwV2IoFngp/gZU0c9Ucxai+hSvM=;
- b=mB7K0E8BWSWTYSJExEXXF8n2WxGjAUU8YXJXiNfbWWpWh2/GmhSbzQWpj6+ADOFK6pGwnJ
- S8rlDF9q7PuvMVdDThQp6jueVCAKCdYu0L4rNSLYrG8vgIrIBW5TWDbdad/bUv/bIzYsd3EX
- lmUGTr7Ljw8KL7EfDHsh+7JJionIJWrG7gb4wiQoEGalJFHeqBqfBUcV0kEvxNg5RB5QaInF
- 1nkAJB90h88SMpiy7QwzJuq/mPz0f02kXCNZgLqXbllkwOFfwxmW4uj+DQwDLJgdn0p1g7Cs
- giusxPvf8uQQNL6HVXwnXKj70+1Jra1j6xRjdoVUtwMuea7/21daYiZg==;
+ bh=kTdZ8cCfp5h5iAAVS7oinrBDwFaRgChydc2Y0MbV/Zk=;
+ b=TgdQ8GI/p51V79ZTzK1HwJ85H/rHabwrvtrPcHp9v0HzznWtuEfJyUCll6LtpP4QVlGnav
+ BIpYll2yc+5F31TmNCRFHHwvnX6OdUNMH+fZPGG4jD69EOeZ4fOCTJlhxjSy/g7CPBWjuz+t
+ hv2N/qceiDeMtehpTfSurWE+VEIYF8mWub37q7uGWAUm2yrX2A/ZnMqNrvns73SPdiPrSFFF
+ dWtdFTmsMxftJYX5rRUe6EFioMH8/wwAfl0CJ6LJS+JtP9VYT9I+Z8dyvRcpMieMG4N3kZ4g
+ DVdVsD4Dk51dLuqzRuhtAfsLoLeDjJWNc+G+61yt6QqpkHn/NAoMEV+g==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 20/25] oe-selftest: tinfoil: test prepared task runner
-Date: Sun, 30 Aug 2026 23:48:42 +0200
-Message-ID: <20260830214912.1346063-21-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 21/25] devtool: ide-sdk: run do_install through BitBake
+Date: Sun, 30 Aug 2026 23:48:43 +0200
+Message-ID: <20260830214912.1346063-22-adrian.freihofer@siemens.com>
 In-Reply-To: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 References: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,169 +38,84 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 21:49:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244723
+ <openembedded-core@lists.openembedded.org>; Sun, 30 Aug 2026 21:49:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244722
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Add shell and Python marker tasks to pseudo-pyc-test, with and without
-fakeroot. Build the tasks normally to prepare their dependencies, then run
-them again through Tinfoil's run_prepared_task() API.
+Generate a Python install-task runner for the IDE SDK environment. It
+prepares Tinfoil normally, then invokes run_prepared_task() to rerun
+do_install through BitBake's worker path before deploying the result.
 
-This verifies that a prepared task can be rerun through BitBake's worker
-path without resolving its dependencies, including shell and Python task
-execution within and outside a pseudo session as needed by devtool ide-sdk.
+The IDE owns configure, compile, and unit-test steps in the modified source
+tree. At deployment time, resolving task dependencies could rerun those
+steps, discard the IDE's build results, and add unnecessary delay. The
+prepared-task runner therefore executes only do_install after BitBake has
+prepared its prerequisites.
 
-Exercise Tinfoil.run_prepared_task() with shell and Python tasks, both
-with and without fakeroot. Build the exact task targets normally to
-prepare their prerequisites, remove their markers, then rerun them
-through Tinfoil.
-
-This verifies the no-dependency rerun uses BitBake's worker path for
-each task type and pseudo context.
+This supports shell and Python task bodies and lets BitBake establish the
+fakeroot environment when the task requires pseudo.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .../pseudo-pyc-test/pseudo-pyc-test.bb        | 45 ++++++++++++++
- meta/lib/oeqa/selftest/cases/tinfoil.py       | 60 +++++++++++++++++++
- 2 files changed, 105 insertions(+)
+ scripts/lib/devtool/ide_sdk.py | 42 +++++++++++++++++++---------------
+ 1 file changed, 24 insertions(+), 18 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
-index 12dc91a8f3..f6b31b63cd 100644
---- a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
-+++ b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
-@@ -13,3 +13,48 @@ python do_install() {
-     import pseudo_pyc_test2
-     print(pseudo_pyc_test2.STRING)
- }
-+
-+TINFOIL_TEST_MARKER_DIR = "${TMPDIR}/tinfoil-prepared-task"
-+TINFOIL_TEST_MARKER_VALUE ?= ""
-+
-+write_tinfoil_shell_marker() {
-+    mkdir -p ${TINFOIL_TEST_MARKER_DIR}
-+    printf '%s%s' "$1" "${TINFOIL_TEST_MARKER_VALUE}" > ${TINFOIL_TEST_MARKER_DIR}/"$1"
-+}
-+
-+do_tinfoil_dep() {
-+    write_tinfoil_shell_marker dep
-+}
-+addtask tinfoil_dep
-+
-+do_tinfoil_shell() {
-+    write_tinfoil_shell_marker shell
-+}
-+addtask tinfoil_shell after do_tinfoil_dep
-+
-+do_tinfoil_shell_fakeroot() {
-+    write_tinfoil_shell_marker shell-fakeroot
-+}
-+do_tinfoil_shell_fakeroot[fakeroot] = "1"
-+do_tinfoil_shell_fakeroot[depends] += "virtual/fakeroot-native:do_populate_sysroot"
-+addtask tinfoil_shell_fakeroot after do_tinfoil_dep
-+
-+def write_tinfoil_marker(d, name):
-+    import os
-+
-+    marker_dir = d.getVar('TINFOIL_TEST_MARKER_DIR')
-+    os.makedirs(marker_dir, exist_ok=True)
-+    with open(os.path.join(marker_dir, name), 'w') as marker:
-+        marker.write(name + d.getVar('TINFOIL_TEST_MARKER_VALUE'))
-+
-+python do_tinfoil_python() {
-+    write_tinfoil_marker(d, 'python')
-+}
-+addtask tinfoil_python after do_tinfoil_dep
-+
-+python do_tinfoil_python_fakeroot() {
-+    write_tinfoil_marker(d, 'python-fakeroot')
-+}
-+do_tinfoil_python_fakeroot[fakeroot] = "1"
-+do_tinfoil_python_fakeroot[depends] += "virtual/fakeroot-native:do_populate_sysroot"
-+addtask tinfoil_python_fakeroot after do_tinfoil_dep
-diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
-index 21c8686b2a..d8009eddfe 100644
---- a/meta/lib/oeqa/selftest/cases/tinfoil.py
-+++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
-@@ -6,11 +6,14 @@
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index ac4930af50..ee3c50460a 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -1400,26 +1400,32 @@ class RecipeModified:
+                           self.fakerootcmd, self.fakerootenv))
+         return self.write_script(cmd_lines, 'deploy_target')
  
- import os
- import re
-+import shutil
- import time
- import logging
-+import uuid
- import bb.tinfoil
++    def gen_install_task_script(self):
++        """Generate a script which runs do_install through BitBake."""
++        cmd_lines = ['#!%s' % sys.executable]
++        if self.cmd_compile:
++            cmd_lines += ['import subprocess',
++                          'subprocess.run(%s, cwd=%r, shell=True, check=True)' %
++                          (repr(self.cmd_compile), self.real_srctree)]
++        cmd_lines += ['import os',
++                      'import sys',
++                      'sys.path.insert(0, %r)' % os.path.realpath(
++                          os.path.join(self.bitbakepath, '..', 'lib')),
++                      'import bb.tinfoil',
++                      'os.chdir(%r)' % self.topdir,
++                      'tinfoil = bb.tinfoil.Tinfoil()',
++                      'try:',
++                      '    tinfoil.prepare(config_only=False, quiet=2)',
++                      '    tinfoil.run_prepared_task(%r, "do_install")' % self.pn,
++                      'finally:',
++                      '    tinfoil.shutdown()']
++        return self.write_script(cmd_lines, 'bb_run_do_install')
++
+     def gen_install_deploy_script(self, args):
+         """Generate a script which does install and deploy"""
+-        cmd_lines = ['#!/bin/sh']
+-
+-        # Save the original command-line args before 'set' overwrites $@
+-        cmd_lines.append('_args="$@"')
+-        # . oe-init-build-env $BUILDDIR $BITBAKEDIR
+-        # Using 'set' to pass the build directory to oe-init-build-env in sh syntax
+-        cmd_lines.append('cd "%s" || { echo "cd %s failed"; exit 1; }' % (
+-            self.oe_init_dir, self.oe_init_dir))
+-        cmd_lines.append('set %s %s' % (self.topdir, self.bitbakepath.rstrip('/bin')))
+-        cmd_lines.append('. "%s" || { echo ". %s %s failed"; exit 1; }' % (
+-            self.oe_init_build_env, self.oe_init_build_env, self.topdir))
+-
+-        # bitbake -c install
+-        cmd_lines.append(
+-            'bitbake %s -c install --force || { echo "bitbake %s -c install --force failed"; exit 1; }' % (self.bpn, self.bpn))
+-
+-        # Self contained devtool deploy-target - use saved args, not $@ (overwritten by 'set')
+-        cmd_lines.append(self.gen_deploy_target_script(args) + ' $_args')
++        cmd_lines = ['#!/bin/sh -e']
++        cmd_lines.append(self.gen_install_task_script())
++        cmd_lines.append(self.gen_deploy_target_script(args) + ' "$@"')
  
- from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake
+         return self.write_script(cmd_lines, 'install_and_deploy')
  
- class TinfoilTests(OESelftestTestCase):
-     """ Basic tests for the tinfoil API """
-@@ -77,6 +80,63 @@ class TinfoilTests(OESelftestTestCase):
-             localdata.setVar('PN', 'hello')
-             self.assertEqual('hello', localdata.getVar('BPN'))
- 
-+    def test_run_prepared_task(self):
-+        """Verify run_prepared_task() runs only the requested task, not its
-+        dependency.
-+
-+        pseudo-pyc-test's do_tinfoil_* tasks depend on do_tinfoil_dep; both
-+        write a marker file containing the task name plus the current value
-+        of TINFOIL_TEST_MARKER_VALUE. A normal bitbake build is expected to
-+        update both the dependency's and the requested tasks' markers to a
-+        new value. Calling run_prepared_task() with another new value must
-+        update only the requested tasks' markers, leaving do_tinfoil_dep's
-+        marker at the value written by the earlier bitbake build.
-+        """
-+        marker_dir = os.path.join(
-+            self.builddir, 'tmp', 'tinfoil-prepared-task')
-+        shutil.rmtree(marker_dir, ignore_errors=True)
-+        self.track_for_cleanup(marker_dir)
-+
-+        tasks = ('shell', 'shell_fakeroot', 'python', 'python_fakeroot')
-+
-+        # Use a fresh, random value each run so the tasks' signatures change
-+        # and bitbake can't skip them as "up to date" from a previous run.
-+        value1 = uuid.uuid4().hex
-+        bitbake(' '.join('pseudo-pyc-test:do_tinfoil_%s' % task
-+                          for task in tasks),
-+                postconfig='TINFOIL_TEST_MARKER_VALUE = "%s"\n' % value1)
-+
-+        # do_tinfoil_dep is a dependency of all the tasks above, so a normal
-+        # bitbake build is expected to have run it too, with the same value.
-+        with open(os.path.join(marker_dir, 'dep')) as marker:
-+            self.assertEqual(marker.read(), 'dep' + value1)
-+        for task in tasks:
-+            marker_name = task.replace('_', '-')
-+            with open(os.path.join(marker_dir, marker_name)) as marker:
-+                self.assertEqual(marker.read(), marker_name + value1)
-+
-+        with bb.tinfoil.Tinfoil() as tinfoil:
-+            tinfoil.prepare(config_only=False, quiet=2)
-+            # A distinct value per call proves each run_prepared_task()
-+            # invocation re-reads the variable rather than reusing a value
-+            # cached from an earlier call in this loop.
-+            values2 = {task: uuid.uuid4().hex for task in tasks}
-+            for task in tasks:
-+                tinfoil.run_command('setVariable', 'TINFOIL_TEST_MARKER_VALUE', values2[task])
-+                tinfoil.run_prepared_task(
-+                    'pseudo-pyc-test', 'do_tinfoil_%s' % task)
-+
-+        # The requested tasks must have re-run and picked up their own value
-+        for task in tasks:
-+            marker_name = task.replace('_', '-')
-+            with open(os.path.join(marker_dir, marker_name)) as marker:
-+                self.assertEqual(marker.read(), marker_name + values2[task])
-+
-+        # ...but run_prepared_task() must not have run do_tinfoil_dep, so its
-+        # marker should still hold the value written by the earlier bitbake build
-+        with open(os.path.join(marker_dir, 'dep')) as marker:
-+            self.assertEqual(marker.read(), 'dep' + value1)
-+
-     # The config_data API to parse_recipe_file is used by:
-     # layerindex-web layerindex/update_layer.py
-     def test_parse_recipe_custom_data(self):
 -- 
 2.55.0
 
