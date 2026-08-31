@@ -1,109 +1,74 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35071C61DD3
-	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 09:12:47 +0000 (UTC)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25688.1788167565913869425
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 883BBC61DFD
+	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 09:19:48 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25688.1788167980536173355
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 02:12:46 -0700
+ Mon, 31 Aug 2026 02:19:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=o40WwlfG;
- spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-482f2ee53e7so1432925f8f.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 02:12:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788167564; x=1788772364; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=aA+ytBaLYJ/+MGFYVuvMTSfaUNxcE9FCV6A9c5b+UDQ=;
-        b=o40WwlfGsQ6U4AKPI1bk02zCOKFp4LByG5GvyPZpq9mGJYmUSBRRUvQ9hKVcECknCx
-         cOHj92PWEWmQqBm32coUgUDp+Yuo/87eUB7uo47JxoYoNpn9Q0gRU0UZ3zRgBIO1Qz68
-         kh0bm2/6anPfa/TJmEf7wRSHr/hJXlEsqXVVg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788167564; x=1788772364;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=aA+ytBaLYJ/+MGFYVuvMTSfaUNxcE9FCV6A9c5b+UDQ=;
-        b=h0WhsP7ohnvBdLgQVuaISlyZ5jZXCmUiSXcaUdDHWMTvNjgOLJ3kasvaAllepMDAez
-         HHcbi+ohf62a7z+vGFsDJCPtUrN+UsULXk4kqSKKKo4jwvk4UqSNvVFyrkHYL2g243bj
-         w3GGSENAh82ddZgJO+hG8bXUtWQAZvhW26Csv361HQdZn5dllLesJfbeZzMABopjfPyW
-         7LQ7nMEnLwRsIvtwQunC1H4bIIASPMs3TCGPlO3WLnO0l6ohumBrOvLsfY5tZpta8UR7
-         mggLoOH2RHDx/o1wm7GIC4P4yYJOm6fVY29gjJn24MBTjlM+RKU1teEjgEot0+BqZ6U+
-         i7cA==
-X-Forwarded-Encrypted: i=1; AKwUvBw46Urs1mxp3GAx7myxQHlWNXzxD6H+9g35McGc92LbyjETdBRJYk/lQiZGWz7lIajOiGjQ9J4c+lg9q5Ui/6v2+g==@lists.openembedded.org
-X-Gm-Message-State: AFuF++lQtggmOrHRMD9DKHPHEzD3gqKWhgirRrOOLNQBaNrylpq++QNF
-	+j1wi6fkRgowoM8N5TIK3gy+SMbzG+TH8zDj6GrHIoTExeOTonYwU/BpBUd+P9XO58g=
-X-Gm-Gg: AYBFou1UYUfi+CRrXdD8HSOjd0nrAkC+q8qAkcFLur5u6kiWi7624Aaqo77PjWa0MiT
-	7dTia8XKHoIFmzI8kYxs/cp9P8uT8T2SWcN0AXff8fUmkBuO5I5bVEvxO6Zj6IUpTALX29fyamq
-	PRinm+pH9ScMVBVIkNUcc/Fdx7u2s+nVQNgxdznmsb4cb17I99XxnCmDr0ZGBMk+gLt3joARIML
-	+RrSGhwvbovr4Rimsvvb/9GYujWA7Ha8mL/JBmmqRGimEpPqQF8Oe3kvrfUfGCWiUQOakpVH/J9
-	GuzHsp4ysBvdBpoZ6n+Mqe67iPh7gcCOJVXewWnw1vFRJBU6+eIJw4ZCD0iMu7x3wuRwCCRtzJ8
-	1y718zUm6bpaEkeRD0W82rf85s/rjv91GEF5G8WexIXxMtloThHUu/GESTU5Rpv2ZiJdCXNLBJR
-	xm2ItNLXiob7NM0Ardp1/Oq+CISnosNOms7A6gBSIJdKFuWWH9mUlIQu8f9EgDx5XlPKoIQzNXJ
-	01CEL0JbwElejct3R5iS2Uz1v8+TJOdKuxzpxKTKJGLADIA
-X-Received: by 2002:a5d:5f49:0:b0:483:ca4a:530c with SMTP id ffacd0b85a97d-483ca4a5654mr22434375f8f.18.1788167563704;
-        Mon, 31 Aug 2026 02:12:43 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-482fbab730fsm22489611f8f.8.2026.08.31.02.12.42
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Aug 2026 02:12:42 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 31 Aug 2026 11:12:42 +0200
-Message-Id: <DL30HXPDJQL3.3LPAQ8V1DUDRD@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH] python3-mako: Fix CVE-2026-41205
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <xe-linux-external@cisco.com>
-To: <hthakar@cisco.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260819111509.53180-1-hthakar@cisco.com>
-In-Reply-To: <20260819111509.53180-1-hthakar@cisco.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ET3XX1F/;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=dha94p6Z;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a0571e023f-27b599e5-7128-467b-a5f4-e4b679e11a99-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1788167979; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=KWhxroiJJoeoqpvynYtMmvAL/4733YeeIo5LgCAKjhw=;
+	b=ET3XX1F/fadYb6hcdC4CTZf4dhhLAi8g1Ds4JHv7bIVT8TWGHlAl6fF5iWCNXF4k
+	R1aX+yJ7PVe4ItJyhZoUKFGF6WqeD7fekgi9Ahko4Fee2/Uprk/B7hQ6B/UWgjykiD+
+	e59LRgyXTyJ4rNMByO1sWTMgocKohIlj+pT7cNI0=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788167979;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=KWhxroiJJoeoqpvynYtMmvAL/4733YeeIo5LgCAKjhw=;
+	b=dha94p6ZTsgTSSt7Xj8njpPgmyDatt7tI0NtvL6wAX6+y07rPiuhRR2oonxhMips
+	oaRlSifvmr6QRsO/HW1u00mpm5rsrWNzt83nnQQeoXZTFVTPIlWL9pQpBPZ2XZvvdmR
+	ruoQ6x//vEN7YP/Uel8DWzoOkUK0O8p3D0SydYp0=
+From: patchtest@automation.yoctoproject.org
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/9] appstream: upgrade 1.1.6 -> 1.2.0
+In-Reply-To: 
+ <20260831-mathieu-updates-2026-08-31-v1-3-58b54db72860@bootlin.com>
+References: 
+ <20260831-mathieu-updates-2026-08-31-v1-3-58b54db72860@bootlin.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a0571e023f-27b599e5-7128-467b-a5f4-e4b679e11a99-000000@us-west-2.amazonses.com>
+Date: Mon, 31 Aug 2026 09:19:39 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.08.31-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:12:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244754
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:19:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244755
 
-On Wed Aug 19, 2026 at 1:15 PM CEST, Hetvi Thakar -X (hthakar - E INFOCHIPS=
- PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> From: Hetvi Thakar <hthakar@cisco.com>
->
-> This patch applies the upstream fix as referenced in [2], using
-> the commit shown in [1].
->
-> The backport makes Template URI normalization strip all leading
-> slashes, preventing a double-slash URI from bypassing the path
-> traversal check while keeping Mako at version 1.3.2.
->
-> [1] https://github.com/sqlalchemy/mako/commit/e05ac61989a7fb9dd7dcde6cfd7=
-2dc48328719a3
-> [2] https://github.com/advisories/GHSA-v92g-xgxw-vvmm
->
-> Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-> ---
->  .../python/python3-mako/CVE-2026-41205.patch  | 110 ++++++++++++++++++
->  .../python/python3-mako_1.3.2.bb              |   2 +
->  2 files changed, 112 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-mako/CVE-2026-41=
-205.patch
+--NextPart
+Content-Type: text/plain
 
-Hello,
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-As fas as I can tell, a fix for this CVE is also needed on wrynose.
+---
+Tests failed for the patch, but the results log could not be processed due to excessive result line length.
+---
 
-I can't merge here until this is fixed there.
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
-Can you send a patch to fix this and then, ping back here?
+--NextPart
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
 
+--NextPart--
 
