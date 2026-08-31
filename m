@@ -2,415 +2,382 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CC67EC61DD3
-	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 09:49:18 +0000 (UTC)
-Received: from rcdn-iport-9.cisco.com (rcdn-iport-9.cisco.com [173.37.86.80])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.26028.1788169757771709385
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EDE9AC61DE2
+	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 09:55:28 +0000 (UTC)
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.26115.1788170121480920881
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 02:49:18 -0700
+ Mon, 31 Aug 2026 02:55:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=LDq/eP5m;
- spf=pass (domain: cisco.com, ip: 173.37.86.80, mailfrom: deeratho@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=NBk8IW4s;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: deeratho@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=9092; q=dns/txt;
-  s=iport01; t=1788169757; x=1789379357;
+  d=cisco.com; i=@cisco.com; l=8804; q=dns/txt;
+  s=iport01; t=1788170121; x=1789379721;
   h=from:to:subject:date:message-id:references:in-reply-to:
    mime-version;
-  bh=fl/KOg6F6NvH+wY704wT5O+kEU3rWM2RkU5S/EgyEeM=;
-  b=LDq/eP5mzSNkOayvv4wsdT3IKRyZrqAWG8MXrubp6jOIPy4aWarnqPKy
-   /Ge/PhMa9V5VxxC6yOWfZ2QbieizKmSaT7bfA2BOhSxYwzfrCQC426VUD
-   /J9CwbwM+VsY1WfNxKChR1zP30xlmjyAoaK0LDM5ejqMfMAaebUHqhz70
-   /tGasKn9ZEyPKyr58skb5JUvjX34/BeO1FIify7/YDdWuJBzoXUprFnYr
-   RDwf8axj/1HpCM14MEYqZ+LThCBdvYlmCY7XsVm9yFoqlTEhSTkB17VMW
-   aXGzd5XdtBBKY8SApYWumwtRXehhcGeF7cua/oOUwaY+dJrbOoVe/Q11G
+  bh=U0odvLhuK7s1cuvqsQXzH5DbsUacr4meN7J4eRSwZKA=;
+  b=NBk8IW4s4yzc/ii2CH2lOCoy0jUguwxUVYJ7B6lD1TwIYGmGUvV+bH76
+   IFNNj1AG3Zt3Y1aodMProHDZFWBiRmxjerTqOAk7YWbxYeHuWt+wVGkEm
+   cfnZzs55dJexWJn4TKBXffpsMg3vYFZltQbBeGwQYG+GqBMPTXZa+DBIX
+   teW3kzfyZxfZonPsVaCm3GXjQvM+d8U3aLCo1xcRQ79tjBexUo8WmHvDO
+   pxEEl8msCZoKx8yxPAjbUYz3j1k3uAiXBbJsJDKL2xlKbL+LP6hmu48F6
+   bWpF7uHkhXEjT9R/YcYaN45TPPVniG4hd3zU0F3O6ucE1cQeIOwPCQs8J
    A==;
-X-CSE-ConnectionGUID: jvaey8BrTaiXcxJWg3fUkw==
-X-CSE-MsgGUID: ugOP/O5jQvGykzvwBaPB0A==
-X-IPAS-Result: =?us-ascii?q?A0CTBABWTZVq/5H/Ja1agS6BK4E9ATBTgQgCgSFJiCMDh?=
- =?us-ascii?q?SuGWIIhA54bgXQKDwEBAQ0BAS4BFQ0EAQGFBQKNcwImNgcOAQIEAwIDAQEBA?=
- =?us-ascii?q?QEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDYZaAQEBAQMBSgE9AgEIEQMBAQEBG?=
- =?us-ascii?q?BYnCh0IAgQBEgiCe4IdFkEDAQIOBrZnAooceIE0gQGDKAE/AgJAAdwMFAGBO?=
- =?us-ascii?q?IU/gx4BASqBNYJdgSMYARuEYScbG4FygVeCaT6BBYFcAgECgTQrHjCDRYIwB?=
- =?us-ascii?q?IIiehIbgT9yJYFUihGFI1JyIgMmMywBVRMXCwcFgSMQMwMqLy0jSwUtHXAMJ?=
- =?us-ascii?q?xIPHRcXHlgbBgUSICpBRCMDPoEZQQKBdD8jGTZ6gQlegSspYQIQF0YuFYIIA?=
- =?us-ascii?q?oJagSdeAgFJQw4HR1MJBAttPTcGDxkDBIE1BY4OB1sfgkoBYSgFAQceBAJPg?=
- =?us-ascii?q?UQZEQsWolyiRIEzCiiDdowijT6IMheFW6URC5h9I41nmw4CBAIEBQIQAQEGg?=
- =?us-ascii?q?W8DMoFZcBU7gmcJFjQZD1aRTYUTgS3FWXkCCTIBAQcCBw4DC4FokAAmgVgBA?=
- =?us-ascii?q?Q?=
-IronPort-PHdr: A9a23:Zi2EPxIPo1NSLfueUdmcuVQyDhhOgF28FhQe5pxijKpBbeH5uZ/jJ
- 0fYo/5qiQyBUYba7qdcgvHN++D7WGMG6Iqcqn1KbpFWVhEEhMlX1wwtCcKIEwv6edbhbjcxG
- 4JJU1oNwg==
-IronPort-Data: A9a23:ugEhvq2LpbX+RbKnLvbD5Yhwkn2cJEfYwER7XKvMYLTBsI5bp2MGy
- WAcXDvTbqreZGCgKY1zbNjgp0wOupHTz9JnTVY43Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+X-CSE-ConnectionGUID: SmfWvQU7QomPdyiabw1e7Q==
+X-CSE-MsgGUID: 8EL0pvHRT3Sw4Xgtrilc0Q==
+X-IPAS-Result: =?us-ascii?q?A0BvAwCwTpVq/4oQJK1aHgEBCxIMZYEgC4E9MVOBCAKBI?=
+ =?us-ascii?q?UkDiCADhSuGWIIhA54bgXQKDwEBAQ4BLgEJGQQBAYUFAo1zAiY0CQ4BAgQDA?=
+ =?us-ascii?q?gMBAQEBAQEBAQEBAQsBAQUBAQECAQcFgQ4ThhUIMg2GWgEBAQEDAYEIAgEIE?=
+ =?us-ascii?q?QQBAQEuJwodCAIEARIIgnuCHRZBAwECDga2aQKKHHiBNIEBg1oFCQJD3AwVg?=
+ =?us-ascii?q?TiFP4MeAQEqgTWCXYEjGAEbhGEnGxuBcoFXgmk+gQWBXAECAQEXgTcRhBOCM?=
+ =?us-ascii?q?ASCInoSG4IxJZEIUnIiAyYzLAFVExcLBwWBIxAzAyAKLy0CFA0iDxoFLR1wD?=
+ =?us-ascii?q?CcSDx0XFx5YGwYFEiAqQUQjAxMrgRlBAoF0PyMZNnqBCV6BKylhAhAXRi4Vg?=
+ =?us-ascii?q?ggCglqBJ14CAUlDDgdHUwkEC209NwYPGQMEgTUFjg4HWx+CSz1SKQIigUpAB?=
+ =?us-ascii?q?gEPoniBfKF7CiiDdowijT6IMheEBIFXiz2HA5JRmQgjgjaLMZYAhQ4CBAIEB?=
+ =?us-ascii?q?QIQAQEGgWg8gUcLB3AVgyIJShkPhU6MVYF/gxTHBnkCAQgDLwEBBwIHDgMLg?=
+ =?us-ascii?q?WiQAoF8AQE?=
+IronPort-PHdr: A9a23:AmBywhzoK0mgGYXXCzPsngc9DxPP8539OgoTr50/hK0LKOKo/o/pO
+ wrU4vA+xFPKXICO8/tfkKKWqKHvX2Uc/IyM+G4Pap1CVhIJyI0WkgUsDdTDCBjTJ//xZCt8F
+ 8NHPGI=
+IronPort-Data: A9a23:z0VqNa2INY6T53Tx7/bD5Ytwkn2cJEfYwER7XKvMYLTBsI5bpzQOy
+ jMeDz2AOa6PZmOhftFxa4m/9h8C7MXWzd83Sgpr3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
  512huHodZ5yFjmH4E/xbtANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
  Lsen+WFYAX7g24vajpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
  u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGDl8/MJxI0PxLCGB+/
- uw6Fz9WYC2AmLfjqF67YrEEasULNsLnOsYb/3pn1zycVaZgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUidC/FMEg9/5JYWkOqlnHDjczpwo1OOrq1x6G/WpOB0+OW3aYCMIILaHq25mG6Fq
- UX+uEOkACgEG82c2ySa2HuUrLfmyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc8BbH+t/7ESGzbDZpl7JQGMFVTVGLtchsafaWAAX6
- 7NApPuwbRRHu7yOQnXb/bCRxQ5e8wBMRYPeTUfolTc43uQ=
-IronPort-HdrOrdr: A9a23:1J3cXq8BjJB69T9WoGduk+HRdr1zdoMgy1knxilNoENuA6+lfp
- GV/MjziyWUtN9IYgBepTnhAsW9qADnhOBICOgqTPuftWbdyRCVxe1ZnO/fKnjbalHDH41mpO
- hdmspFeafN5DFB5K6QjnjbYrMdKZu8gd2VbIzlvhFQpHRRGtldBnBCe3+m+yNNNW57LKt8Pq
- CxouBAoD2tc2kWaMOUOlkpNtKom/T70LjdTVojHRAI1Cmi5AnE1JfKVzSI1BYXVD1ChYwl7X
- XElALB4KCiueGQyxPX1WPfhq4m1ucJzOEtOOW8zuwubhn8gAehY4psH5eYuioune2p4FE21P
- HRvhYJJa1ImjPsV1DwhSGo9xjr0T4o5XOn40Sfm2HfrcvwQy9/I9ZdhLhebgDS5yMbzZJBOe
- NwriCkXqhsfFf9dRfGlp/1vtZR5wyJSE8Z4KsuZrpkINIjgfFq3NQiFQhuYeY99WrBmfAa+a
- 9VfYDhzccTV0+GZHbEuWQq6tmtUnMvWiqieCE5y5eoO/w8pgEl86Per/ZvxEvp+P8GOup5zv
- WBPaJymL5USMgKKap7GecaWMOyTnfAWBTWLQupUB/a/Yw8SjvwQqTMkf0IzfDvfIZNwIo5mZ
- zHXl8dvWkue1j2AcnL2JFQ6BjCTGi0QDyok6hlltVEk6y5QKCuPTyISVgoncflq/IDAtfDU/
- L2PJ5NGffsIWbnBI4M1QzjXJtZL2UYTaQuy5wGckPLptiOJpzht+TdfvqWLL3xESw8Ume6GX
- cHVCibHrQ30qlqYA6OvPH8YQKYRqWkx+MDLEHzxZln9LQw
-X-Talos-CUID: =?us-ascii?q?9a23=3AWu0uimipHH5uPS4Efu2+mRUPFjJucGPUwWaACVW?=
- =?us-ascii?q?EAGdZQ623dlDL9p5njJ87?=
-X-Talos-MUID: =?us-ascii?q?9a23=3ApRm0Kg9tVBfM5LF4R21XXV6Qf9pnxJzpLx0PqIs?=
- =?us-ascii?q?pqsqWKzNaMg+31B3iFw=3D=3D?=
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGN0Q4ApMhx7lOBmR2+
+ e0ZIToSNx3cvrfjqF67YrEEasULJc3vOsYb/3pn1zycVa9gSpHYSKKM7thdtNsyrpkRRrCFO
+ YxAN3w2N0Sojx5nYj/7DLoykeqyj2X/dBVTqUmeouw85G27IAlZgOKwYYeJIoTTLSlTtha1g
+ jre4UTDPkohK4Cvxiaf83an3taayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
+ 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0Ut5UFag+rQqK0KeRu1/fDWkfRTkHY9sj3CMreQEXO
+ payt4qBLRRksaaeTjSW8bL8kN94EXF9wbMqDcPccTY43g==
+IronPort-HdrOrdr: A9a23:g4An6KEfXOAOaVBqpLqF4ZLXdLJyesId70hD6qkvc203TiXIra
+ CTdaogtCMc0AxhJ03I+ertBEDyewKjyXcV2/hcAV7MZnichILFFvAH0WKm+UydJ8SczJ8T6U
+ 4DSdkFNDSYNzET5qiKgnjcLz9j+qj7zEnCv5a5854Zd3ATV0gW1XYBNu/0KDwQeCB2QbACON
+ 634M1BqzC8eXIRQPiaKxA+NdTrlpngrr6jRQQJKSIGxWC14A+A2frXAhKY1hARX3d1x6s+8W
+ /Kqgr95q+ymfC2wB3R2gbontprcd3apedrNYipsIw4Oz/sggGnaMBKQLuZpg04p+mp9RIDjM
+ TMiw1IBbUy11rhOkWO5Tf90Qjp1zgjr1X4z0WDvHflqcvlABonFst6g55DeBex0TtigDg86t
+ MI44uqjesSMfryplW72zEObWAtqqOAmwtmrQfUtQ0HbWJRUs4IkWVVxjIlLH5JJlOL1GlgKp
+ guMOjsoNBLbFidc3fV+kNrwNCqQzAPOy3ueDlYhiRQuAImwUyQCCAjtZYidntszuNPd7BUo+
+ vDKahmj7dIU4sfar98Hv4IRY+tBnXKWg+kChPYHb3LLtBPB5v2ke++3JwloOWxPJAYxpo7n5
+ rMFFteqG4pYkrrTcmDxodC/BzBSHi0GW2F8LAS27Fp/rnnALb7OyyKT14j18OmvvUEG8XeH/
+ K+IohfDfPvJXbnXYxJwwr9UZ9PLmR2arxehv8rH1aV5s7bIIzjseLWNP7VObr2CD4hHnjyB3
+ MSNQKDUvmoLnrbLUMQrCKhL08FIHaPj66YOJKqitQu9A==
+X-Talos-CUID: 9a23:7tnKj23Cd0tPClmYfnsvxbxfIcUrTWPk8SjpJEqABXdoQbeKEFLPwfYx
+X-Talos-MUID: 9a23:6EoexwbulYOKr+BT5xLI3Cl8FP1UuJ+xVHACjY8Hv8LcDHkl
 X-IronPort-Anti-Spam-Filtered: true
-Received: from rcdn-l-core-08.cisco.com ([173.37.255.145])
-  by rcdn-iport-9.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 31 Aug 2026 09:49:16 +0000
-Received: from rcdn-opgw-2.cisco.com (rcdn-opgw-2.cisco.com [72.163.7.163])
+Received: from alln-l-core-01.cisco.com ([173.36.16.138])
+  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 31 Aug 2026 09:55:20 +0000
+Received: from alln-opgw-2.cisco.com (alln-opgw-2.cisco.com [173.37.147.250])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-08.cisco.com (Postfix) with ESMTPS id B813718000443
-	for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:49:16 +0000 (GMT)
-X-CSE-ConnectionGUID: cVwodfMlTPaMyH15wRjaqQ==
-X-CSE-MsgGUID: b12YwxRuSOWX7lSQ1fd4WA==
-Authentication-Results: rcdn-opgw-2.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+	by alln-l-core-01.cisco.com (Postfix) with ESMTPS id 6F095180003D1
+	for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:55:20 +0000 (GMT)
+X-CSE-ConnectionGUID: EDBpxNhXQsGjAGvj0icrMA==
+X-CSE-MsgGUID: Oo68c0wGQCuh8xmz7VnDMA==
+Authentication-Results: alln-opgw-2.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
 X-IronPort-AV: E=Sophos;i="6.25,252,1779148800"; 
-   d="scan'208,217";a="72785913"
-Received: from mail-southcentralusazon11013020.outbound.protection.outlook.com (HELO SA9PR02CU001.outbound.protection.outlook.com) ([40.93.196.20])
-  by rcdn-opgw-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 31 Aug 2026 09:49:16 +0000
+   d="scan'208,217";a="59892849"
+Received: from mail-westusazon11010003.outbound.protection.outlook.com (HELO BYAPR05CU005.outbound.protection.outlook.com) ([52.101.85.3])
+  by alln-opgw-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 31 Aug 2026 09:55:19 +0000
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=QmuJahRBb1YBlY5Vsmgskk6PXvxsvbTrIvh+ien5O0Q90O3s7AvvRLhmmD1nMRAdqrTxD+yGAK92v57GvZ2ETWlz1JobXAahK5qMF38nmfxrxasOdFXInjqcZZ4ERNZYWDQMeOLHeq9bYqoBFGLUslRo3n8h8r5ij1DCcYvtwmVuIbZtLKBichKKV/Ww7lV5H2huK7uyGxgSUMKZ91Itv3bjTXjwVL8OhmPuNNfNp0MF0SASjEi0rREiOd0Ds6MCwUvNqPpIcEwFfFiOtWFguf1jz1T877ldNZgx7MgrivyyJGAjPrwf1E3bX+KRL4HKM1wLeHfzbz6XeY/j12Nu3Q==
+ b=n6+r8Pm40svwF5rSQEXGCdtiICe+JjcUIPfeH3dYEaWeG6OQVd96yRYOyy1HBv8yGMk4ID3u8dmYQn+yEwe1kluqh5GCdbrwmciDWoS7gTtLD9R9IupGmKpa+2401DFLX00xVT0QMz9q3a0+oR52Tv8uIcRauUdxjTsycZwNtvYxX8bF2S37ETBL5AUL+H/famRljpc2ZKhftYkLiuzKB4owt/FZK86iM5psnr0aS3AWi2ZWoEE5A2zim8M6BpSvV2vZ/KVK7PBN9BI3kp6HafwvHlPCwry3OCg7Dy10rm/+o2//l0tew+tws5dwGrTwYezdslRa3mRRU3rVvcN7IQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=fl/KOg6F6NvH+wY704wT5O+kEU3rWM2RkU5S/EgyEeM=;
- b=a8gX3FJIHWiSyX4bDX8v4rGv3kC7nXFsdo0KFwEwE7Gx/Zot4jNO51YfTlhuhYOU3p19iN7Kb/J2ubvWhoV5H+wuIqhSDBuKxh9jKklOUtrFzcR2TrPcWHxkQd+TVY68QCtSVE9BcPQG34juo8RaC/eCrpIHeO4kTEgiibJb5irRxNchqjmurygDb2kbhji0JFzgt0AdwVjsJxpDVuhXpo4V7lXzibeWeQaztWQt87/uVE0hexJwNQnr/+F4jte89CeHIp4ETViTasEVwX0Asw/dL/xT1hzpoLk8/ZVfj3rwok5pQx/erErR+2UyPTAibfFO6LH16RBWEw9HEXKp/Q==
+ bh=U0odvLhuK7s1cuvqsQXzH5DbsUacr4meN7J4eRSwZKA=;
+ b=lkAgaRqdgdvByezHTKuuDS5li+Pgj8U2ZH1K02PVIStD+inTn6gSrsTOOAG8JuINblrt/5CyXi6/zgpuuoyGmRgsoLmReXndCtdrBBuQuP5klPmKl8N2vCRmNU2F5i6bAeecWucsZ+vQpzkpv/QdLf9fvaBp2xGQrU41USU8PhOJDmlW4GlGYuFgIP36KBy/Dn6lixQPdbahYlO/YoJWp57OYcxJhufMb1HmnsDx0QWr5T1apc5G8wi7c3clArKleBx+lD8arA1AVe5CDNY6MYQLhqJzWoopPYoPgPl0v3A13N/W7+vnmROPq2dd9bJ6lH3bRNXi9RUtKCoyMvk9nw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
  dkim=pass header.d=cisco.com; arc=none
 Received: from DM4SPRMB0074.namprd11.prod.outlook.com (2603:10b6:8:1cc::23) by
- DS4PPF1DFB73954.namprd11.prod.outlook.com (2603:10b6:f:fc02::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Mon, 31 Aug
- 2026 09:49:15 +0000
+ DS7PR11MB8826.namprd11.prod.outlook.com (2603:10b6:8:256::7) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.360.13; Mon, 31 Aug 2026 09:55:17 +0000
 Received: from DM4SPRMB0074.namprd11.prod.outlook.com
  ([fe80::6a69:dea7:cb45:38c7]) by DM4SPRMB0074.namprd11.prod.outlook.com
  ([fe80::6a69:dea7:cb45:38c7%5]) with mapi id 15.21.0360.008; Mon, 31 Aug 2026
- 09:49:15 +0000
+ 09:55:17 +0000
 From: "Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco)"
 	<deeratho@cisco.com>
-To: Yoann Congal <yoann.congal@smile.fr>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][wrynose][PATCH 6/8] curl: fix CVE-2026-11856
-Thread-Topic: [OE-core][wrynose][PATCH 6/8] curl: fix CVE-2026-11856
-Thread-Index: AQHdNwFIBkSmlVp9akSpFt/lpThtALa37bpU
-Date: Mon, 31 Aug 2026 09:49:15 +0000
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
+	<yoann.congal@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH] binutils: fix CVE-2026-3441 and
+ CVE-2026-3442
+Thread-Topic: [OE-core][wrynose][PATCH] binutils: fix CVE-2026-3441 and
+ CVE-2026-3442
+Thread-Index: AQHdDW+MA6A8tkbRH0Gs68jmBGzWprayKkaAgAYW+lA=
+Date: Mon, 31 Aug 2026 09:55:17 +0000
 Message-ID: 
- <DM4SPRMB0074F405FC6510E934BBA5B0C4A92@DM4SPRMB0074.namprd11.prod.outlook.com>
-References: <20260805083103.2633995-1-deeratho@cisco.com>
- <20260805083103.2633995-7-deeratho@cisco.com>
- <DL0OISA3XTZ0.1FABX40IWA0V6@smile.fr>
-In-Reply-To: <DL0OISA3XTZ0.1FABX40IWA0V6@smile.fr>
+ <DM4SPRMB00746CCE4700D43920F1F69EC4A92@DM4SPRMB0074.namprd11.prod.outlook.com>
+References: <20260706174652.4053594-2-sudumbha@cisco.com>
+ <DKZQM58DFF46.1QQ8FRST5L5KI@smile.fr>
+In-Reply-To: <DKZQM58DFF46.1QQ8FRST5L5KI@smile.fr>
 Accept-Language: en-US
 Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: 
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DM4SPRMB0074:EE_|DS4PPF1DFB73954:EE_
-x-ms-office365-filtering-correlation-id: d1a10779-3eb8-45fc-56ac-08df07451e33
+x-ms-traffictypediagnostic: DM4SPRMB0074:EE_|DS7PR11MB8826:EE_
+x-ms-office365-filtering-correlation-id: 47cf4cd4-c44d-49fd-3a2b-08df0745f673
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|18002099003|22082099003|56012099006|13003099007|8096899003|38070700021|11063799006|4143699003|10067099003;
+ BCL:0;ARA:13230040|366016|376014|1800799024|23010399003|8096899003|38070700021|10067099003|56012099006|4143699003|11063799006|13003099007|6133799003|18002099003|22082099003;
 x-microsoft-antispam-message-info: 
- w8j/he5v9PYq6CCrJeay8qW/o4VT7c6P9K5+SZ4+KbJw2rrmyrhT8Fg+S99IFrkVmrdZaGZmDcnHsfXUFPcJUVmosmNytJF8pPeIm5Z6PSPRxR1xEZde7bqxGsndMH470+w2Zqks3E8vG4uHc4VtvyxssTy45mkLqriDK3TNoq8hEfELY+E0LBSHK/LLVJV9nFhRfbfBlenDpQNqTa2VllmmGXa4+LyOz9WzpE1RTyZz2ROC1xu92Q6f91XVAlpQ6IKyqDfKQQITYnpSmR8XFuOIaCcTtkxZSb2vQsI3IL+IVK0cDZrjsYxIAePLmohuweaIIMvBcjhX3ozjqBJnmezMr0F+AMu7R/dWw9abSokuPXkQi9Zqtv3hWHWJUo343/sgWe8Chs9z4C3RERrTC/QmfBnTqpvLWEeGiKV7MmI+GShTIIIiLtBifb5zLMJ/X+4ImnhauNicegMFA3LqF+02+vyDB/ptjzhs8ClKwEpi/JM2Cd/W+4xNvGdeMDssz4IGu+NEnmABLIgZWY/n0F4FQpQ7Cy75l8gT3XwaHzVL4Y6hiXSk+DRgfnTUj27UX0g0FvaM8Ib9fUv8bNqeByguAphoxlA73gW0akOGygPNz1Ix0NVVeUqJOLoA9BO4u1Ia0CBopjgqdlTd6tYZvlCXM4J7XGLn8PEHm17pjjQ=
+ IhQqpqIoFF1Lq/tDvChdPrE1ZR2NmBaOXNGVR8i67O82wdkKlTF4P0lpgnkWoHyiZ2Gh650wMNr8ddnDgrz7Sx5ERDix8R7W7sdRtzYq35eM273QXnlOkDNh4H79KPySkTUvq9YVSQktFtX4lXh9LmgQn5/wR5RtRmawlm3DpXZgRYldvUqX7JOxoC9uHnvQa7bOj8NiIF0sELO2ETZJYthGs09YY183KGNHSYPy8Jkjw5ccVK9x4K3qLO+N63/lmNnTiAVNp8c/4p1770Yr/IH2PquWb5dKQo9X49bR28YL1tpb0Zg2igNlvzCCeQT1Qo4hqWEDEDqu3nPchcVFUu8cylxXgka3P+48d7erqyiMZc7zDOrNFvMTb1m2DFoW39/PF5FKvEHR2sXj71ZN+S9ncdnhBZP090sYz2xCJAzm5NKZpF+jgcHktbJXwz84SkqgxKjjzqhqGtrOAsuAxoc2R8Jus5kPhp6eQSSSn8eh4cY9g7F5E8VV9eEXgZVn0+ARZdoJQwvgoTha3NcxnqKcSfEJ0xWKOAu6HrU/fvJtdaCRzXcoGbBx3Hbza4qq2LBsxqRd0LCPNEdIK8mmun3oW2S7jEB6wA7UbAULNHRQW6pJuymApYs4RudGhlRDNwyuubKGfJBY+hiZCF4fbRZDhjI7/rsBJKsaVSA9Skk=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4SPRMB0074.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(18002099003)(22082099003)(56012099006)(13003099007)(8096899003)(38070700021)(11063799006)(4143699003)(10067099003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4SPRMB0074.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(23010399003)(8096899003)(38070700021)(10067099003)(56012099006)(4143699003)(11063799006)(13003099007)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?6Mrduzul5XV/4HH96z7jBWfnsyUPj79gBjo3TGcSxQg+uJX6eMBv6QtOUghM?=
- =?us-ascii?Q?OTYdVUjsg2XVdAIhqWUsekOF9rz07oh8+AV8NX82F40b9ipC5zSw4J93cFx6?=
- =?us-ascii?Q?l8rA+JX1EpB9kE8tAxSykhTlSA8QT1NSHgtd5WuWXQkgniaqgDbX6Hv2UIAr?=
- =?us-ascii?Q?/vjX6pVMnEgT+xp2o3Ef9kgH8Il1FDn6Mhen71AgM3g6rHkG3O+bOqR+P03I?=
- =?us-ascii?Q?MlEPG8OUMjAg4AeEVxyLCwIW3VD2MkKcrfh5XGfqjoFgNRFMULwAc12PE3Ev?=
- =?us-ascii?Q?QMTFgSPabqEjXaR3uKsNLsWZgNNUt+dqoB578SGm6UgYjH4JMvKGJ+ZTxzHR?=
- =?us-ascii?Q?tqRaHdwjYI7ZmiMuthgGk6trKgPgUctnnhKaShcPzxspmNxoUZR+zNiDrHHl?=
- =?us-ascii?Q?+0qh/Scl1nGdYkYcGn28u1FTG4KoPL/iWvq0uoS/CmSmXaCStqYdHmvuH7EE?=
- =?us-ascii?Q?gGZSNbVuM21WiHwz0x3+VltA918ePiel6URgHPew9CbxOZbcNZtkfwAr0KFD?=
- =?us-ascii?Q?74eh1geN3+DP9win7J/GdUWok21NwerDdNbDykQkz3tyMnkUWq3++z6M1VCy?=
- =?us-ascii?Q?K9JdMJsJkTQ4k1J3NBiDV5rllbV1iEAKR9dVWogO91CXK2ju3GIzVpJC5dOB?=
- =?us-ascii?Q?yzYh+3TvbljgFb9qnaxDlJ793yU1Pt8vzcf1iGCrx3MPfe+IWOfZMqKWYfP2?=
- =?us-ascii?Q?E+Hc/fWhP/bjjmBnTfdkz6Boq92orUQENq2ttgap4M3h/0FasEo8euR1DRlQ?=
- =?us-ascii?Q?5weI1BHkLXlImJOUn4CI2br4x+9Fm6UbpJZeC5a4JB1qwm3dU85YCsFl478q?=
- =?us-ascii?Q?yRNN4O0sN/OBbvqwRjAfGKqVFJ1mjFc1fUmcw4+FfvyqjTGWMPIzzm4Ki4Py?=
- =?us-ascii?Q?uONOLKziAssBvdWS60rHViIdaxu/BvIN69E6KFBl8zuTMLu6FkW87vwGC+RH?=
- =?us-ascii?Q?VlDOZRScTfx15o0uyHZR2IxWLxtq8XlheIJkHI8tmhW+WKQ9cl/zwR6Wn1Rl?=
- =?us-ascii?Q?0jEnWx64DcEVsJaHCtPCyJrcAuk9i93k3O2d8n+Yp+bLh6A0qDeBWzt3Qk2a?=
- =?us-ascii?Q?jeZm4otmKv/LAnzp0m6z8j8A81qtn/tdPqioz50XBrPA7zvp1nvxOdlI++ds?=
- =?us-ascii?Q?SavuHU707Rl57xF8y6tjsVP3NdtLN7p04O2JZmYFnPEeqRlyoDZrqxhEDKIo?=
- =?us-ascii?Q?++QChBUuuX3a2BoEWVnlNbZ7dN/8A7sMNQVtOso23CGkb7JeSjeCBSA8MmEY?=
- =?us-ascii?Q?u4Pr4VarNRHr4nKAVfmJBujSczpuC6NzTV/ttS0Rz8xdfnW+8+3dRlv/FWa6?=
- =?us-ascii?Q?darh1RinMtQpXBs6nBZWWdTJp4B5lAv6xIggs2uNKxVO8Ra2/A5xHzkgIySs?=
- =?us-ascii?Q?h51oaMdtZEAeJRxJOGUuf3JV3vjvAtoXVFdh2olFlgraDrKgkbyZ0VV3+MEj?=
- =?us-ascii?Q?+2ZdscM3EjlP3NuW0hjY4Z3D4FPL+PmX7hmNKq2L8G/q6nG/y1CoKrJM0k4X?=
- =?us-ascii?Q?7p8AKsMBmXVOwRPkuO09Sbcbfgw3qY8UNy8HjcAOLbn/IZF+TEPUzeJcXGMP?=
- =?us-ascii?Q?GwGDTGJhBzLggC/+OdsuzKBZs522aP9jNjWdc73nHGBNSKUOZR1nEOxLHmAq?=
- =?us-ascii?Q?Bx+AP1JLXGxlTVUefAV7SLWwyXq54fubEt0ijclqblVTH/REVDkxSG6vTyGf?=
- =?us-ascii?Q?gJlduaomNDjpT6XRWNS4IVIBjeK3TCp/2wyF60/R+5oAnRHF?=
+ =?iso-8859-1?Q?sDGzbvuxXaR7CytzFZA+b2GQ1b+9LH/h8j8VMPbxq0b2FC0JeqW3A7QA9t?=
+ =?iso-8859-1?Q?5bnym8bgjBYdYvNQ66u/RLX5cDkzlKw4uNxP1665mcDxmToCjJHSBazMTk?=
+ =?iso-8859-1?Q?RDqcPAo6J7tI8ady/QPmSSNXEYeZaM1iAzRZ1ShT5ZegbWviliQRfluC/o?=
+ =?iso-8859-1?Q?Jpzxk9hYQGXSdJMvDI5pPuj55K3lpv7wPfPe7uIEuniPkv++IevseencvP?=
+ =?iso-8859-1?Q?SBYiZu62okhFICZEN3JvXW1ROTnrDTN3qn1k/TI0Lpzm0qIyFjRahFnC3M?=
+ =?iso-8859-1?Q?B9Pwq1f1gvg4DzJd7Rb219rdPg7Lwf29jCesyeVxaBRTi2eBBd2dcM3XfZ?=
+ =?iso-8859-1?Q?WhCFULpNP1exCocMCxw5eIjRAlUQaaWz1S2UnI2v8RiUz9m/ri0hdWxg5v?=
+ =?iso-8859-1?Q?EDN33suk3omaeXjUGHq4eAF6FFLWrWsODJciRN2/xwltbXlc9TGYa6Squ0?=
+ =?iso-8859-1?Q?ECl7hNw4qbf7QjHY7Fu3aVpRPpWTwnRvNk6mXTHm3jFTNDp+sWLIsloh9y?=
+ =?iso-8859-1?Q?Ph4aR30dpApxT8b1P2IgzOhS2he1LKQiwcFWF74oNviJSY9SNUc76UlNRG?=
+ =?iso-8859-1?Q?O2xln9vzbHs81N/yBoLmTxFHpGcwSiSJhue9relGKMNc67pLy1NLwHsXxB?=
+ =?iso-8859-1?Q?0PZbt0nWL55pUEymVRb8zgNls2SG6hVm5SsUj/ZsCU07eXqhohFetMd0in?=
+ =?iso-8859-1?Q?XfUD4ahixdNYJISDeRS3AMwpHnfJU+B5kkPLR4EHMAjsjzu86CHc720ZPk?=
+ =?iso-8859-1?Q?wRAiJ3AVfWr9GjkXG26jQC+slSjlpSFBRDes5uwNs7mglfvoRdZwh/KVo4?=
+ =?iso-8859-1?Q?E6TjojXrfILP8Jb3x3vcpaIC1lnpmsEsdh4WQVAh33Kgxu3KLeoQqIzyr4?=
+ =?iso-8859-1?Q?jUD5sQPmyTi7V6pTSruhDuG0Nke3wEBqL7918hvnd5Mgu8DCkOY5J85ulw?=
+ =?iso-8859-1?Q?y3KnKZ1Ci6R8kLfw03RXvaXIOu91ZDp+RmUGWTDsxV4uszAcgIsxD+TzY7?=
+ =?iso-8859-1?Q?lsr4i8wuKd9UOqxLLunmzid33YKPXnNb0RC9vIo1B0LoXEudONWd9nXxm7?=
+ =?iso-8859-1?Q?YzgHaRbWTYJWIxTC4NL5XWoC2nJJ0gMtzuyqhHsHzQpMHUcniUFiZAQsmn?=
+ =?iso-8859-1?Q?L8gvfRLCvQe2JbBveoC4x9NL8V/CnZ6c7VrM38n9OoPgv3GytqXyuRgGuH?=
+ =?iso-8859-1?Q?I1smddM4fjmCnOa4pnJm8Dn+zxCKNGXgy9z94kIFrS43xwME5rTW+J3Gmj?=
+ =?iso-8859-1?Q?7d/1vEk2ppDh6znyllhXj4AoZm/TR+WrhrdCHNS1v6CEFwuTWH+SpLcxgE?=
+ =?iso-8859-1?Q?KnD8jTRx1s5EutFifKYgA0cgup4+FHC73uTMG6oLuDi6+90aKvW0tR0sxm?=
+ =?iso-8859-1?Q?U0EudAppGhZPSH3ogldDET3HOVWD+OrZWLN43VD8OFjm8dYmYAQtmXV0zc?=
+ =?iso-8859-1?Q?ASNDadyTpoI6iYiJd+XHVUA3pd4RKDeqBsrnXfT7HW3BoNsaKv6pMYWoYV?=
+ =?iso-8859-1?Q?YPhHawj6i76kuiaw/cVLH9hRvEZzNlMebKwENzVhT8jmuUs5Q38+0qmuKJ?=
+ =?iso-8859-1?Q?E3GwSLneuveBB1FNznQCVqahr/rSnO814BKktnYwcvX4PgMpYCDVkn34xz?=
+ =?iso-8859-1?Q?lGSwK5D2M0TWAQaKMf86edtTf/evaVON1zcrADFZqVwbJL/Qcck4d4Oalf?=
+ =?iso-8859-1?Q?LW99YWh0/MB6WVJfBFHBaORNWg7RJO5MOr8v01FsfFgt8fJ9wSTqEbHbKw?=
+ =?iso-8859-1?Q?5oki4godfKxNx+tLuDQKrZDRw3K/UBxZka/xwxUcI9pMVd?=
 Content-Type: multipart/alternative;
-	boundary="_000_DM4SPRMB0074F405FC6510E934BBA5B0C4A92DM4SPRMB0074namprd_"
+	boundary="_000_DM4SPRMB00746CCE4700D43920F1F69EC4A92DM4SPRMB0074namprd_"
 MIME-Version: 1.0
 X-Exchange-RoutingPolicyChecked: 
-	o5eDyr2E4r65GhQ9Z+zcNm/yiDnh06WnQNrKfQRwHEQP6qcj/ysQf/7gTyjGWeFvW0KG9bUOw4KtFW8KP1N/taWEcGeYlJZg84rQ2gwT0yARF3fSJ3MFZXDHWdUD3NgXbfcLcJZOgnNTxWx2xJ9vHVA7dDmRZurJnd2sfbj3+wjWPxZvG7JFkQ25PhZHOIjYPa2prYhSReU7bA8B8rEIf8JmnV2KaRobF2zfnqYf+8VaBOSbN35NmAFwjeC9QQ9SZcdbHLSAB51zqftVvwAxEPQeixMT/Yvu6/9qSWYTqDm9pXXzW4AJXMOCdVRQfPoD91dEoiF/7oZwY+WV23cqWA==
+	UJ4TJpFRnisXBLCsVhNTrayRoFffZJl/3+YGCy0ahHJP6WIhDK/J74PPDWQq3cWkoIjApOUYpxfflo5thIvZION6v89SSMgNUPE8Rkg4461j8PI8uMQ4x5sViPbb9KHIF6bQeaHVo6oJQo8ucuiCAG5s/eVbbdD3BeICauOV4c/YNVOuvPv4Al0x/W/jPKyNTw/CuuED59PhnOMQVL31oA3RuRwKGGairHnQWL8i8m6lyA02/QIHvfBwaVLECq1DtpoAg5od5cxBcBOWzsz5nC+6302de0ON7mvTUjHrBFEcckUFKsM9jhnZ8vti4ojx7dqG3S/9eXv/V/PhnIVKPw==
 X-OriginatorOrg: cisco.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: DM4SPRMB0074.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: d1a10779-3eb8-45fc-56ac-08df07451e33
-X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2026 09:49:15.0673
+X-MS-Exchange-CrossTenant-Network-Message-Id: 47cf4cd4-c44d-49fd-3a2b-08df0745f673
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2026 09:55:17.8573
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 6pg5YfLGGHL814EGIcGbjx64djJ2NnhFlBsVihLM5+KNzHbCCJHJH3XIqUZ2vkLS0+/fYfhKIbhJsfT2AlgJZQ==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPF1DFB73954
-X-Outbound-Client-TLS: ANONYMOUS;rcdn-opgw-2.cisco.com [72.163.7.163];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 72.163.7.163, rcdn-opgw-2.cisco.com
-X-Outbound-Node: rcdn-l-core-08.cisco.com
+X-MS-Exchange-CrossTenant-userprincipalname: eYFoJYLghPLJefpX+/a39Lpo2SLCW0cpP4DT9hYsVtBxSSHI0Y0A74o1B5WyLgcKNojcyEovp5XqYup25qLi0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS7PR11MB8826
+X-Outbound-Client-TLS: ANONYMOUS;alln-opgw-2.cisco.com [173.37.147.250];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 173.37.147.250, alln-opgw-2.cisco.com
+X-Outbound-Node: alln-l-core-01.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:49:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244761
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:55:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244762
 
---_000_DM4SPRMB0074F405FC6510E934BBA5B0C4A92DM4SPRMB0074namprd_
-Content-Type: text/plain; charset="us-ascii"
+--_000_DM4SPRMB00746CCE4700D43920F1F69EC4A92DM4SPRMB0074namprd_
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
-Thanks, Yoann, for your review.
-
-Let me review your suggestion and comments in both patches.
-
+Thanks, Yoann,
+Yes, according to the current NVD data, all binutils versions are listed as=
+ affected.
+I'll send a correction request with NVD to help update the record and align=
+ it with the upstream fix status.
 Regards,
 Deepak
 ________________________________
-From: Yoann Congal <yoann.congal@smile.fr>
-Sent: Friday, August 28, 2026 8:54 PM
-To: Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cisco) <de=
-eratho@cisco.com>; openembedded-core@lists.openembedded.org <openembedded-c=
-ore@lists.openembedded.org>
-Subject: Re: [OE-core][wrynose][PATCH 6/8] curl: fix CVE-2026-11856
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoann.=
+congal=3Dsmile.fr@lists.openembedded.org>
+Sent: Thursday, August 27, 2026 6:20 PM
+To: sudumbha@cisco.com <sudumbha@cisco.com>; openembedded-core@lists.openem=
+bedded.org <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose][PATCH] binutils: fix CVE-2026-3441 and CVE-=
+2026-3442
 
-On Wed Aug 5, 2026 at 10:31 AM CEST, Deepak Rathore via lists.openembedded.=
+On Mon Jul 6, 2026 at 7:46 PM CEST, Sudhir Dumbhare via lists.openembedded.=
 org wrote:
-> From: Deepak Rathore <deeratho@cisco.com>
+> From: Sudhir Dumbhare <sudumbha@cisco.com>
 >
-> This patch applies the upstream curl security backports for
-> CVE-2026-11856. The main fix commit is referenced in [1], the
-> Digest proxy-state follow-up is referenced in [2], and the public
-> curl advisory is referenced in [3]. The individual backported commit
-> links are recorded in the embedded patch headers.
+> This patch applies the upstream fix [1], which addresses two out-of-bound=
+s
+> read issues in bfd/xcofflink.c within xcoff_link_add_symbols(). The chang=
+es
+> shown in [2] are referenced by [3] and [4].
 >
-> [1] https://github.com/curl/curl/commit/5c6b4880357ab3e72967c1c45cae0f96f=
-fabc535
-> [2] https://github.com/curl/curl/commit/7ec25148c06b049d3252172ff17fae85b=
-19c54c9
-> [3] https://curl.se/docs/CVE-2026-11856.html
+> [1] https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3Dc2bf7=
+de1eb77a91d7a3c86d56408bf57de540faf
+> [2] https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dblobdiff;f=3Dbfd=
+/xcofflink.c;h=3D1781182fa6a3f92e5e91996f8b0dcf3ab192679b;hp=3Dfde21c9f9583=
+baff05e72e390e6bb896d02f9d43;hb=3Dc2bf7de1eb77a91d7a3c86d56408bf57de540faf;=
+hpb=3Dd7f532cb3a46527
+> [3] https://bugzilla.suse.com/show_bug.cgi?id=3DCVE-2026-3441
+> [4] https://bugzilla.suse.com/show_bug.cgi?id=3DCVE-2026-3442
 >
-> Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+> Reference:
+> https://nvd.nist.gov/vuln/detail/CVE-2026-3441
+> https://nvd.nist.gov/vuln/detail/CVE-2026-3442
+> https://www.suse.com/security/cve/CVE-2026-3441.html
+> https://www.suse.com/security/cve/CVE-2026-3442.html
+>
+> Signed-off-by: Sudhir Dumbhare <sudumbha@cisco.com>
 > ---
->  .../curl/curl/CVE-2026-11856_p1.patch         | 372 ++++++++++++++++++
->  .../curl/curl/CVE-2026-11856_p2.patch         |  72 ++++
->  meta/recipes-support/curl/curl_8.19.0.bb      |   2 +
->  3 files changed, 446 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-11856_p1.patc=
-h
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-11856_p2.patc=
-h
->
-> diff --git a/meta/recipes-support/curl/curl/CVE-2026-11856_p1.patch b/met=
-a/recipes-support/curl/curl/CVE-2026-11856_p1.patch
-> new file mode 100644
-> index 0000000000..80fb18a7c1
-> --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/CVE-2026-11856_p1.patch
-> @@ -0,0 +1,372 @@
-> +From 3349fbcb7876456cadc3cc3a8d3e8aff29406906 Mon Sep 17 00:00:00 2001
-> +From: Daniel Stenberg <daniel@haxx.se>
-> +Date: Mon, 13 Jul 2026 23:17:23 -0700
-> +Subject: [PATCH] digest: flush state on origin or credential change
-> +
-> +Verified by test 1686
-> +
-> +Closes #21944
-> +
-> +CVE: CVE-2026-11856
-> +Upstream-Status: Backport [https://github.com/curl/curl/commit/5c6b48803=
-57ab3e72967c1c45cae0f96ffabc535]
-> +
-> +Backport Changes:
-> +- Wrynose curl 8.19.0 does not have upstream Curl_peer or
-> +  struct Curl_creds. This backport stores the host Digest origin
-> +  and user/password on digestdata, then flushes stale host Digest
-> +  state before reuse when either value changes.
-> +- Kept Wrynose test-list ordering and added only the upstream
-> +  test1686/lib1686 regression coverage.
+>  .../binutils/binutils-2.46.inc                |  1 +
+>  .../CVE-2026-3441_CVE-2026-3442.patch         | 51 +++++++++++++++++++
+>  2 files changed, 52 insertions(+)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-3441=
+_CVE-2026-3442.patch
 
-Same as previous patch of the series, this is new code that does not
-look like the fix from upstream (I can't accept/understand backporting
-adaptation but here, I feel like this is too much)
+Because binutils was upgraded in master to 2.47 (with this patch in it),
+It should be considered fixed. Could you send a modification request to
+NVD to help clean the data? Also, please consider sending a CVE_STATUS
+patch for this CVE for master.
 
-I'll hold this one as well.
-
-Regards,
+Thanks!
 --
 Yoann Congal
 Smile ECS
 
 
---_000_DM4SPRMB0074F405FC6510E934BBA5B0C4A92DM4SPRMB0074namprd_
-Content-Type: text/html; charset="us-ascii"
+--_000_DM4SPRMB00746CCE4700D43920F1F69EC4A92DM4SPRMB0074namprd_
+Content-Type: text/html; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
 
 <html>
 <head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Diso-8859-=
+1">
 <style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
 ttom:0;} </style>
 </head>
 <body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Thanks, Yoann, for your review.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Let me review your suggestion and comments in both patches.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Regards,</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 11pt; c=
-olor: rgb(0, 0, 0);">
-Deepak</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Yoann Congal &lt;yoan=
-n.congal@smile.fr&gt;<br>
-<b>Sent:</b> Friday, August 28, 2026 8:54 PM<br>
-<b>To:</b> Deepak Rathore -X (deeratho - E INFOCHIPS PRIVATE LIMITED at Cis=
-co) &lt;deeratho@cisco.com&gt;; openembedded-core@lists.openembedded.org &l=
-t;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core][wrynose][PATCH 6/8] curl: fix CVE-2026-11856<=
-/font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+<div class=3D"elementToProof" style=3D"line-height: 20px; margin-top: 1em; =
+margin-bottom: 1em; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontSer=
+vice, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);=
 ">
-<div class=3D"PlainText">On Wed Aug 5, 2026 at 10:31 AM CEST, Deepak Rathor=
-e via lists.openembedded.org wrote:<br>
-&gt; From: Deepak Rathore &lt;deeratho@cisco.com&gt;<br>
-&gt;<br>
-&gt; This patch applies the upstream curl security backports for<br>
-&gt; CVE-2026-11856. The main fix commit is referenced in [1], the<br>
-&gt; Digest proxy-state follow-up is referenced in [2], and the public<br>
-&gt; curl advisory is referenced in [3]. The individual backported commit<b=
-r>
-&gt; links are recorded in the embedded patch headers.<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://github.com/curl/curl/commit/5c6b4880357ab3e7296=
-7c1c45cae0f96ffabc535">
-https://github.com/curl/curl/commit/5c6b4880357ab3e72967c1c45cae0f96ffabc53=
-5</a><br>
-&gt; [2] <a href=3D"https://github.com/curl/curl/commit/7ec25148c06b049d325=
-2172ff17fae85b19c54c9">
-https://github.com/curl/curl/commit/7ec25148c06b049d3252172ff17fae85b19c54c=
-9</a><br>
-&gt; [3] <a href=3D"https://curl.se/docs/CVE-2026-11856.html">https://curl.=
-se/docs/CVE-2026-11856.html</a><br>
-&gt;<br>
-&gt; Signed-off-by: Deepak Rathore &lt;deeratho@cisco.com&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; .../curl/curl/CVE-2026-11856_p1.patch&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; | 372 ++++++++++++++++++<br>
-&gt;&nbsp; .../curl/curl/CVE-2026-11856_p2.patch&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp;&nbsp;&nbsp;&nbsp; |&nbsp; 72 ++++<br>
-&gt;&nbsp; meta/recipes-support/curl/curl_8.19.0.bb&nbsp;&nbsp;&nbsp;&nbsp;=
-&nbsp; |&nbsp;&nbsp; 2 +<br>
-&gt;&nbsp; 3 files changed, 446 insertions(+)<br>
-&gt;&nbsp; create mode 100644 meta/recipes-support/curl/curl/CVE-2026-11856=
-_p1.patch<br>
-&gt;&nbsp; create mode 100644 meta/recipes-support/curl/curl/CVE-2026-11856=
-_p2.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-support/curl/curl/CVE-2026-11856_p1.patch b/=
-meta/recipes-support/curl/curl/CVE-2026-11856_p1.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..80fb18a7c1<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-support/curl/curl/CVE-2026-11856_p1.patch<br>
-&gt; @@ -0,0 +1,372 @@<br>
-&gt; +From 3349fbcb7876456cadc3cc3a8d3e8aff29406906 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Daniel Stenberg &lt;daniel@haxx.se&gt;<br>
-&gt; +Date: Mon, 13 Jul 2026 23:17:23 -0700<br>
-&gt; +Subject: [PATCH] digest: flush state on origin or credential change<b=
-r>
-&gt; +<br>
-&gt; +Verified by test 1686<br>
-&gt; +<br>
-&gt; +Closes #21944<br>
-&gt; +<br>
-&gt; +CVE: CVE-2026-11856<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/curl/curl/co=
-mmit/5c6b4880357ab3e72967c1c45cae0f96ffabc535">https://github.com/curl/curl=
-/commit/5c6b4880357ab3e72967c1c45cae0f96ffabc535</a>]<br>
-&gt; +<br>
-&gt; +Backport Changes:<br>
-&gt; +- Wrynose curl 8.19.0 does not have upstream Curl_peer or<br>
-&gt; +&nbsp; struct Curl_creds. This backport stores the host Digest origin=
-<br>
-&gt; +&nbsp; and user/password on digestdata, then flushes stale host Diges=
-t<br>
-&gt; +&nbsp; state before reuse when either value changes.<br>
-&gt; +- Kept Wrynose test-list ordering and added only the upstream<br>
-&gt; +&nbsp; test1686/lib1686 regression coverage.<br>
-<br>
-Same as previous patch of the series, this is new code that does not<br>
-look like the fix from upstream (I can't accept/understand backporting<br>
-adaptation but here, I feel like this is too much)<br>
-<br>
-I'll hold this one as well.<br>
-<br>
+Thanks, Yoann,</div>
+<div class=3D"elementToProof" style=3D"line-height: 20px; margin-top: 1em; =
+margin-bottom: 1em; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontSer=
+vice, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);=
+">
+Yes, according to the current NVD data, all binutils versions are listed as=
+ affected.</div>
+<div class=3D"elementToProof" style=3D"line-height: 20px; margin-top: 1em; =
+margin-bottom: 1em; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontSer=
+vice, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);=
+">
+I'll send a correction request with NVD to help update the record and align=
+ it with the upstream fix status.</div>
+<div class=3D"elementToProof" style=3D"line-height: 20px; margin-top: 1em; =
+margin-bottom: 1em; font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontSer=
+vice, Calibri, Helvetica, sans-serif; font-size: 11pt; color: rgb(0, 0, 0);=
+">
 Regards,<br>
--- <br>
+Deepak</div>
+<hr style=3D"display: inline-block; width: 98%;">
+<div id=3D"divRplyFwdMsg">
+<div style=3D"direction: ltr; font-family: Calibri, sans-serif; font-size: =
+11pt; color: rgb(0, 0, 0);">
+<b>From:</b> openembedded-core@lists.openembedded.org &lt;openembedded-core=
+@lists.openembedded.org&gt; on behalf of Yoann Congal via lists.openembedde=
+d.org &lt;yoann.congal=3Dsmile.fr@lists.openembedded.org&gt;<br>
+<b>Sent:</b> Thursday, August 27, 2026 6:20 PM<br>
+<b>To:</b> sudumbha@cisco.com &lt;sudumbha@cisco.com&gt;; openembedded-core=
+@lists.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br=
+>
+<b>Subject:</b> Re: [OE-core][wrynose][PATCH] binutils: fix CVE-2026-3441 a=
+nd CVE-2026-3442</div>
+<div style=3D"direction: ltr;">&nbsp;</div>
+</div>
+<div style=3D"font-size: 11pt;">On Mon Jul 6, 2026 at 7:46 PM CEST, Sudhir =
+Dumbhare via lists.openembedded.org wrote:<br>
+&gt; From: Sudhir Dumbhare &lt;sudumbha@cisco.com&gt;<br>
+&gt;<br>
+&gt; This patch applies the upstream fix [1], which addresses two out-of-bo=
+unds<br>
+&gt; read issues in bfd/xcofflink.c within xcoff_link_add_symbols(). The ch=
+anges<br>
+&gt; shown in [2] are referenced by [3] and [4].<br>
+&gt;<br>
+&gt; [1] <a href=3D"https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dco=
+mmit;h=3Dc2bf7de1eb77a91d7a3c86d56408bf57de540faf" id=3D"OWA86f74da9-1895-8=
+4ce-d76b-a878b838da83" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">
+https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dcommit;h=3Dc2bf7de1eb7=
+7a91d7a3c86d56408bf57de540faf</a><br>
+&gt; [2] <a href=3D"https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dbl=
+obdiff;f=3Dbfd/xcofflink.c;h=3D1781182fa6a3f92e5e91996f8b0dcf3ab192679b;hp=
+=3Dfde21c9f9583baff05e72e390e6bb896d02f9d43;hb=3Dc2bf7de1eb77a91d7a3c86d564=
+08bf57de540faf;hpb=3Dd7f532cb3a46527" id=3D"OWA7d0aedb9-b9e6-1b68-3351-ce76=
+982f5c6f" class=3D"OWAAutoLink" data-auth=3D"NotApplicable">
+https://sourceware.org/git/?p=3Dbinutils-gdb.git;a=3Dblobdiff;f=3Dbfd/xcoff=
+link.c;h=3D1781182fa6a3f92e5e91996f8b0dcf3ab192679b;hp=3Dfde21c9f9583baff05=
+e72e390e6bb896d02f9d43;hb=3Dc2bf7de1eb77a91d7a3c86d56408bf57de540faf;hpb=3D=
+d7f532cb3a46527</a><br>
+&gt; [3] <a href=3D"https://bugzilla.suse.com/show_bug.cgi?id=3DCVE-2026-34=
+41" id=3D"OWAb440009d-5075-4487-5052-b439a55d877d" class=3D"OWAAutoLink" da=
+ta-auth=3D"NotApplicable">
+https://bugzilla.suse.com/show_bug.cgi?id=3DCVE-2026-3441</a><br>
+&gt; [4] <a href=3D"https://bugzilla.suse.com/show_bug.cgi?id=3DCVE-2026-34=
+42" id=3D"OWA8b545572-8177-6ee2-2d2f-89f4fbcc092a" class=3D"OWAAutoLink" da=
+ta-auth=3D"NotApplicable">
+https://bugzilla.suse.com/show_bug.cgi?id=3DCVE-2026-3442</a><br>
+&gt;<br>
+&gt; Reference:<br>
+&gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-3441" id=3D"OWA7f=
+3a60f1-86d5-9dd5-0d61-89f806898213" class=3D"OWAAutoLink" data-auth=3D"NotA=
+pplicable">
+https://nvd.nist.gov/vuln/detail/CVE-2026-3441</a><br>
+&gt; <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-3442" id=3D"OWA06=
+d3d12c-f626-374c-fe02-e9f49ac7bc4a" class=3D"OWAAutoLink" data-auth=3D"NotA=
+pplicable">
+https://nvd.nist.gov/vuln/detail/CVE-2026-3442</a><br>
+&gt; <a href=3D"https://www.suse.com/security/cve/CVE-2026-3441.html" id=3D=
+"OWAf823ac19-a08e-556a-7b5f-6e617cb5f3c3" class=3D"OWAAutoLink" data-auth=
+=3D"NotApplicable">
+https://www.suse.com/security/cve/CVE-2026-3441.html</a><br>
+&gt; <a href=3D"https://www.suse.com/security/cve/CVE-2026-3442.html" id=3D=
+"OWA00a9c5fa-d43e-681d-4d66-0d2fa95e7e0c" class=3D"OWAAutoLink" data-auth=
+=3D"NotApplicable">
+https://www.suse.com/security/cve/CVE-2026-3442.html</a><br>
+&gt;<br>
+&gt; Signed-off-by: Sudhir Dumbhare &lt;sudumbha@cisco.com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp; .../binutils/binutils-2.46.inc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbs=
+p;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; |&nbsp; 1 +<br>
+&gt;&nbsp; .../CVE-2026-3441_CVE-2026-3442.patch&nbsp;&nbsp;&nbsp;&nbsp;&nb=
+sp;&nbsp;&nbsp;&nbsp; | 51 +++++++++++++++++++<br>
+&gt;&nbsp; 2 files changed, 52 insertions(+)<br>
+&gt;&nbsp; create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2=
+026-3441_CVE-2026-3442.patch<br>
+<br>
+Because binutils was upgraded in master to 2.47 (with this patch in it),<br=
+>
+It should be considered fixed. Could you send a modification request to<br>
+NVD to help clean the data? Also, please consider sending a CVE_STATUS<br>
+patch for this CVE for master.<br>
+<br>
+Thanks!<br>
+--<br>
 Yoann Congal<br>
 Smile ECS<br>
 <br>
 </div>
-</span></font></div>
 </body>
 </html>
 
---_000_DM4SPRMB0074F405FC6510E934BBA5B0C4A92DM4SPRMB0074namprd_--
+--_000_DM4SPRMB00746CCE4700D43920F1F69EC4A92DM4SPRMB0074namprd_--
 
