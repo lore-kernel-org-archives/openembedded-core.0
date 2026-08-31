@@ -2,132 +2,100 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1052EC624A4
-	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 13:24:01 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.29518.1788182633532338222
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 15DB2C624C6
+	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 13:28:31 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29489.1788182903524688702
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 06:23:53 -0700
+ Mon, 31 Aug 2026 06:28:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Mw4kH6+D;
- spf=pass (domain: smile.fr, ip: 209.85.128.48, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-4998b5a63e2so33116565e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 06:23:53 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=GnGaV6TP;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso23636915e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 06:28:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788182632; x=1788787432; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=qOPf5RK9O4AZzLt4bzPge5MfhVHYTG4yOQS+CnhupD0=;
-        b=Mw4kH6+DBCxr2Iv2J9wA5h8U69KYItEc4MvZ8t+e+DHKBHvGs+Fxo6l9i8tNz0w5y+
-         erqBlGaj2RnlK2cZePq/pOQUk9C6LNeeX/VgWiDd8ouKEhRh5ELSmdIMohySPypVOuoF
-         3klxA1e9Zwn2qBCxCKevQVx7EVxFPVpGRE3Ek=
+        d=smile.fr; s=google; t=1788182902; x=1788787702; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=ElMT4vcJP5X1J//IzWh0WLVCAqR5bwE7oUu4kaGGkyk=;
+        b=GnGaV6TP69Mcw398tGYiuwGc5z4D+me7N82DZqG0jn6UD7CdEu9xQukdIyHvT+EdKw
+         F4GxNsDaIAnuU3ETbZfq/s9mfs8sDzvyA1cjekYbPnMCQLKvsizEcPM/CaKg+6wifcdP
+         5FFdCKgAqzBtZnOoFOKW0OZoEEscLOa4nB4Q0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788182632; x=1788787432;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qOPf5RK9O4AZzLt4bzPge5MfhVHYTG4yOQS+CnhupD0=;
-        b=APqKBW36TlK7oimP/IoMLajdcDEzL8t9k9xqnJFV3zRrxzCRhM4GWBqvxCGkFGCLxb
-         rUYvaQj8LG7uAmc69mhOA3G8+LmhiiTGZTy2pFPT3Tutwy8hIs9XoD+Rf+9lEHOaagrm
-         R0rt9hEkjQ5if1u+QenJrc/uriaaLAWr1ONrp7NCBnv7F1esTsv9Y8jaWFdFntL9m/9p
-         MVmWfg/qb2kVrB6LmNxNu3cql/Hlt1npAMnI//E4LdQyO1XVPfiBQ/CyPNpG0rN0dbwn
-         uqYcn0jreaJFfLnitOmP4igWHacrkLHXflu/KzL4MqpD0w/5d9MmpVN8+G58nWT/nUES
-         2CxQ==
-X-Forwarded-Encrypted: i=1; AHgh+RoAfiuGsWTMVVTKXFAWXlxEx533FrgJTYz7G6QXl1ybe0B5HBFLWHZURf/9aua+L7qODAlm9jmOaPZHH/HODuOfkw==@lists.openembedded.org
-X-Gm-Message-State: AFuF++l9U+njLRlihR49rvwdjoyI6hf4jr/vQ0hSsbBuhIxx/IoSuumK
-	KGLuSJjczss5jq6da4T/ILNdrV7CFx7jotHfDnzsab1qp70zpN0tG8cT7dyOYOy0Tig=
-X-Gm-Gg: AR+sD10cc6hZXt1hdx63IIibnFneIhhpFRrAltXy19WuOf8aLvrrHMlnSX0TFYPYQ1b
-	nniuoLfqrSKixvsNBZ/+j211orfTdl6fSARK9lp1Yso7d+jv/txApv07lxlZVAnpoQFUJuLDy04
-	Ujzt57cWVL/kES+ifOFH/OkOxys1f0tcnBrFcLShYodDN8XYSVp67xBonQWaJkMuhKaKlkRA34I
-	w6LueUEmQL6D//CET7GonjLQ1kucOG3nCeWGmIWyz1NBmvJmU1KC1j68rD3n5ZaaCSKPB9yg6I+
-	KQpk5DN2KyaOsu1fCHfMsPt4fgIIJkWFUg58YJnkt1gk/f0mL4LPYWTkV1qOkgIpCJLD+kTPlY3
-	OBlgZ1Q4UU8rCT0v1ObObIHETlRD+mOmbGDGcfhCFM7s6kLtMEutwvlKjte+mapIWLHxsbL2mRR
-	JISFiTYPUbUYFvJ6lV9onq+d9s0CYFsiMFmAvXyvVBFLIFQPEy6ErXi1CMcV8JNigIVzHMmknBw
-	LC4DUxcVQdmGbzgvd7ynFCCRXajr+fLhzoKHC3zSdXp3RDr
-X-Received: by 2002:a05:600c:c0cf:b0:499:726b:7375 with SMTP id 5b1f17b1804b1-49b91c51e62mr359259905e9.14.1788182631591;
-        Mon, 31 Aug 2026 06:23:51 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788182902; x=1788787702;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=ElMT4vcJP5X1J//IzWh0WLVCAqR5bwE7oUu4kaGGkyk=;
+        b=UKtbSPBpdU1e11RJMo2GQdswvPsPTwuKK0aXJRI/G4rdEvSX1Wl6H1s8bEi4/2+PUb
+         zDP/Dk2x9B3oi5Vo6/Vnq9DFmqGyYzux0eIxnpwG+LifRjTfToXmlcCSW15A5jcdHYwW
+         UG/TNrO5OvXhnAjuDDlWNpnIhW7Ff+cm/dAnQCjTW0A64G2OhM0yU5rS3KfmZNJU7gbM
+         /v6rTLKgh6YBE0F8+EQld9NHD1RIrPtskpTQwbB2yb7DRfaJSJe7vnKeYuRpTtkTPo4k
+         aqpLAJXEArev2vOlcyckez8yUnJTnVJuoA6M0y0lMAQQMMjjV8HT8IRNTyzOlE4Yux24
+         L/lg==
+X-Forwarded-Encrypted: i=1; AHgh+RqokCfI4zc3/OZsve5ZTYO28rBTK7Wm3bfnDJgAiXSFmu3wSiu2gpECI8troZy2T5S+Jmc4qZ56PNPgE43aXb3Hgg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nHBT3Gmbvy2c/UVHCdPr9a6YscVj9KfyS1gUUUBzfsiyk937gz
+	iqOBEiI+PgDd9lETc5PfC0bLNgS8/cjFvcS1Bo8x2bWKq/Mq1WjAi9IYzNqjx4avLI6WKBGLvAC
+	a+V+msiE=
+X-Gm-Gg: AR+sD13TJcNfSsBTbmUysdy8f5EZmRm9njTzQX5GAgXAdVA8sPeIwuOcQ/ArBPJFyyp
+	1iHAjn++IFJ3VE1lHtzQIB93guizHZhUSZ3oAW+R4Hj9HFTwAtMazqEGQE1QAEbOtETx4s8ZORz
+	iDGuJlN8R/2qwIQL71se1sbZ7X7V5eu4aYvOTfEYpE/rhENlJGX5Z3s9aC0kfFO1y//1TuIouK0
+	bmerK8IuLMI8KDlnz5sOCIjob05b0rjCKIDu3hmhZx/NJFDSuwWNPbhclsLn2He0EK/G40HI0ae
+	j1WXspRfFFEod1vi0lcv79tEg2nu2RedPMsl4NIAUmBPXe8EsmwfROg/Fy1og8JnpzDdFCq+u4D
+	4IIze14ip9cX3pvIJ3WBNw0wwrQwfGZWYhB33M/E8NYTfqJ6hc/o8y8tWv6QolxJm6x93ILs8AC
+	g3odgMmzD6hNi+7H+zKSfMYOew6zyqFN6JH7r1t1OmUx8QoDch/TsPrZa9Wq3EevTfsAWlJYEam
+	tX+bDv2rkGvGlSAXCva1GXgbnGdv81JoaAOyay9YExoWgFj
+X-Received: by 2002:a05:600c:c113:b0:497:fecd:5b00 with SMTP id 5b1f17b1804b1-49cdc435d58mr10661725e9.9.1788182901704;
+        Mon, 31 Aug 2026 06:28:21 -0700 (PDT)
 Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b94dcaf61sm268222085e9.4.2026.08.31.06.23.50
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm345969355e9.4.2026.08.31.06.28.20
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Aug 2026 06:23:51 -0700 (PDT)
+        Mon, 31 Aug 2026 06:28:21 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 31 Aug 2026 15:23:50 +0200
-Message-Id: <DL35U7WTHLGH.1EDKQXKX03YE9@smile.fr>
-Subject: Re: [OE-core] [scarthgap] [PATCH] vim: add PACKAGECONFIG option for
- desktop files
+Date: Mon, 31 Aug 2026 15:28:20 +0200
+Message-Id: <DL35XNZB838H.X4I9ZPILT8R8@smile.fr>
+To: <leonid.iziumtsev@est.tech>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][scarthgap][PATCH] python3: fix CVE-2026-4360
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <xe-linux-external@cisco.com>, <to@cisco.com>, "Mathieu Dubois-Briand"
- <mathieu.dubois-briand@bootlin.com>, "Richard Purdie"
- <richard.purdie@linuxfoundation.org>
-To: <shinucha@cisco.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260724061324.1541029-1-shinucha@cisco.com>
-In-Reply-To: <20260724061324.1541029-1-shinucha@cisco.com>
+References: <20260729093726.426192-1-leonid.iziumtsev@est.tech>
+In-Reply-To: <20260729093726.426192-1-leonid.iziumtsev@est.tech>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 13:24:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244764
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 13:28:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244765
 
-On Fri Jul 24, 2026 at 8:13 AM CEST, Shinu Chandran via lists.openembedded.=
-org wrote:
-> The recipe currently always inherits mime-xdg and keeps the installed des=
-ktop
-> files. Add a desktop PACKAGECONFIG option so configurations can disable t=
-hat
-> desktop integration while preserving the current default behavior.
+On Wed Jul 29, 2026 at 11:37 AM CEST, Leonid Iziumtsev via lists.openembedd=
+ed.org wrote:
+> Backport patch to fix CVE-2026-4360.
 >
-> When desktop support is disabled, remove the generated desktop files duri=
-ng
-> do_install and avoid inheriting mime-xdg.
+> Reference:
+>   https://nvd.nist.gov/vuln/detail/CVE-2026-4360
 >
-> Signed-off-by: Shinu Chandran <shinucha@cisco.com>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 942813bf3f249f80f3154ba8137d172c406bf319)
+> Upstream fix:
+>   https://github.com/python/cpython/commit/eee3ddf0ca10283cc7fea724aae9cd=
+8665f8d15e
+>
+> Signed-off-by: Leonid Iziumtsev <leonid.iziumtsev@est.tech>
 > ---
->  meta/recipes-support/vim/vim.inc | 11 ++++++++++-
->  1 file changed, 10 insertions(+), 1 deletion(-)
->
-> diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/=
-vim.inc
-> index d69a337b4e..f97062aede 100644
-> --- a/meta/recipes-support/vim/vim.inc
-> +++ b/meta/recipes-support/vim/vim.inc
-> @@ -50,7 +50,7 @@ S =3D "${WORKDIR}/git"
-> =20
->  VIMDIR =3D "vim${@d.getVar('PV').split('.')[0]}${@d.getVar('PV').split('=
-.')[1]}"
-> =20
-> -inherit autotools-brokensep update-alternatives mime-xdg pkgconfig
-> +inherit autotools-brokensep update-alternatives pkgconfig
-> =20
->  CLEANBROKEN =3D "1"
-> =20
-> @@ -76,9 +76,11 @@ do_configure () {
->  PACKAGECONFIG ??=3D "\
->      ${@bb.utils.filter('DISTRO_FEATURES', 'acl selinux', d)} \
->      ${@bb.utils.contains('DISTRO_FEATURES', 'x11', 'x11 gtkgui', '', d)}=
- \
-> +    desktop \
->      nls \
->  "
+>  .../python/python3/CVE-2026-4360.patch        | 148 ++++++++++++++++++
+>  .../python/python3_3.12.13.bb                 |   1 +
+>  2 files changed, 149 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-4360.pa=
+tch
 
 Hello,
 
-Thanks for the patch, but PACKAGECONFIG changes are usually unacceptable
-for stable. Are clear bugfix could provide an exception but here I don't
-see a "real" bug:
-IIUC, using this patch would only cut the dependencies and remove 2
-files from the package and this looks more like a cleanup than a real
-bugfix.
-
-So, unless you can provide compelling reason to merge this, I won't
-accept this for now.
+I plan to replace this patch by the 3.12.14 upgrade I received in the
+meantime:
+https://github.com/python/cpython/commit/0367912be336348b30572f8029cec4a282=
+782d92
+https://patchwork.yoctoproject.org/project/oe-core/patch/20260822172544.192=
+7400-1-peter.marko@siemens.com/
 
 Regards,
 --=20
