@@ -1,219 +1,150 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <peter.tatrai.ext@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 66C48C624A5
-	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 14:44:41 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.3])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.31226.1788187471836117729
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6CEF3C624A4
+	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 14:57:11 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.9])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.31553.1788188229249320387
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 07:44:32 -0700
+ Mon, 31 Aug 2026 07:57:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=i1yhQLqN;
- spf=pass (domain: est.tech, ip: 52.101.65.3, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=aL0tuURJ;
+ spf=pass (domain: siemens.com, ip: 40.107.159.9, mailfrom: peter.tatrai.ext@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZBISsGW8jJOKkw9JJTvfIPxGK/3DQvTSetTprZZcPiJOXtMgw/rV0twBsll32jrypt6DQsB8Vg6R7gOfNobAQ+JCxYDK8DPJ2D9cBWRtaQussrhjJFDV7RdaF+hads2ygkpyG77Q2ldcWSH5g/Q3r1dNyxtZA/hRQBi15kvPV0XaGC+ope6j0pGdDIh+LKBZa8SxPdNErdSTl5NjteL+bAbEnxMyccpPg9z4oN+YVLYEmja2NqAgYXKEaKB+TTUlJDjR4G93BQiMiHm8THOBSG87HsLjfZWy5vvO0ytYefdJiocxG4ZyA5AM0fKyHcMpCggag5HhT06ptU1FR1B8ag==
+ b=VKTq41CJIqLVljzm9ZSNfyVQ4+7SjqIXRP42+c5lggTaPLW3Np3WRXmH0T3SrA1WMCK212tCzGfc6SuWHAt/8ZwMSiWt2R+A/5QL9J+g87ij4LmNQlwCkfku4+ZN0F8DjAD0kmt2YiqmPCiWn2BuCwCkhnAUsD0IOQFesq7eJjf5tlI1qHZLnky5F81VqjLEEl86mX2xdBYaF8mLvZrs5cK0xccew5auJz2Cn3TSQDCDzIGjXLOxyHZ/AANETil/WJX90QJnT8PmOucvWYW4AcIQFAvZ8WIAV8jKYoA6r62HB4D3Wo+cfSG9IW074mPTbo18c3rI0UZ6EeMALNh8mA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=PT7QojON/uNYWM6PUPSRo9Qt645trNKQEjyHAm/1qMc=;
- b=wFdCPvNB+B6fV1iheo2Z/b35uVohzLttI/LXy6L6HsehMOikxM7mTPJ59IQmw8SpJvreEzECwKZccc7be6jRgQik01xYZ9303ilYJ5jsWJWDc3Iz7gRh6P5XZBRQn6/UaziI+ViH5NmOaW00kTHSR+BrC+Bs/lBnTjKJhq9pS9ZyVjWo94lR+b2jRRt7OZ5mAsXdBtyXx/GsVw4g0w94R4vK8kYecN9j4F2GTab81DaHY7xEwPI+heuFu2QFGnEPnfY8eXXo6Sm2dUjyeHb9ZTtFo3XcQcNvHUh8ylWbJ3gJ0olq+0gtTAQ/V2nB5nYz+19avwo+DWIkliTiEson7A==
+ bh=VmURU3/yjWySXiCNI735UvyX4FvZngR9XcLFFEy2BMg=;
+ b=Mh/SMOGdFYiI7TepU+2fG8jj8Li0DwdNwhKaYD7WE1I9iar0KnbHiHU/6PxHVM0pON/A+48yyrF9u2YpRwnVxAY6ur64C5rFEiT/rJjPs91qCbBe7+gEmz9BgAS6UAIrNqlHhmXkwmFfbpdbg3CBhPmlehX8cACdKgA+Y87g+3ofBzNcCRYMuUArPGztnRhvrfgpIp27wQOfD1l+pB+uLtFz9PXBsWUkufKlDeRSnYrn7ToNvCwPfm5sfbpvHgcei8GQKbzLuiHxloT6t5zvRiteuKH01Zf47scLwcP0wyaP85CiLaGS1fRE506jmUsyBG5ZCAytXPq6rFKfPDfnuQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=PT7QojON/uNYWM6PUPSRo9Qt645trNKQEjyHAm/1qMc=;
- b=i1yhQLqNnRZmLWlkhu1DsEuybfWgKO2IN4qwbWsO7+VCqaIwdyBpfFFt7foKvxJJCAF7wVOPk9KlKZ70R7BacOyuXj1sfpYzdvq3agHZOjmnOVYXNFLfCKvMs56PN+EcjSjgA6h0LDcqwJDGnfm4xsZSt/kTj44HMsFiUN0xhxofcCFk2foIEXIHhI5mC5wNPfnkcQghxTMgn2DfSuRwrURjGqIffnFm6mU8DcF/7mhNU0lbWe7wAFCkJSDToM529tKrWcINfR16fr7fXIOD187SZIcvXDBDhsgvy/1xRSQNZ8hp/N9r+Vte8wY7VThxTwQ1+PQnWpccH/SVEM3BHQ==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
- by AMBP189MB3280.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6ac::11) with
+ bh=VmURU3/yjWySXiCNI735UvyX4FvZngR9XcLFFEy2BMg=;
+ b=aL0tuURJ72ZmXCsH2nNKHDWA8hzunHArS8qlR+DKdM0D8d8V1NlyMT9MckGE9VSZjo87iJ4eEiHOrXfXXoZBe4aUnhZoOOyH0x79gEXTpCszGJjG7+AAQpyrZNJkbMXpr4jMGiYbz4JiVfhlpNYDVqpzxnka6vKxVRHiyl+kpvqqWU8w1DEqZvnc8HH97JFswlTGyj4Vq2KtVkOGCQkFzJBjmJWU0T9kcNaoMnv8nIQGO8nY09LRM+cqEM5G23m/zUh08kIp5kp+hMqtjVbQmW7FubCkY2ngfiV0CAP9IlGISI9VHwCiSB9J+anYCllZibrFn18LoFVIbrINT5ND1A==
+Received: from AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:605::21)
+ by GVXPR10MB8841.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:150:1d9::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Mon, 31 Aug
- 2026 14:44:28 +0000
-Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0360.008; Mon, 31 Aug 2026
- 14:44:28 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [scarthgap][PATCH] perl: Fix CVE-2026-19487
-Date: Mon, 31 Aug 2026 16:44:26 +0200
-Message-ID: <20260831144426.9995-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0157.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c7::14) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:18:3::ad4)
+ 2026 14:57:04 +0000
+Received: from AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::9f70:952:2a71:7f3f]) by AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::9f70:952:2a71:7f3f%6]) with mapi id 15.21.0360.008; Mon, 31 Aug 2026
+ 14:57:04 +0000
+From: "Tatrai, Peter" <peter.tatrai.ext@siemens.com>
+To: Yoann Congal <yoann.congal@smile.fr>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: RE: [OE-core] [scarthgap][PATCH] time64: enable 64-bit
+ time/file-offset flags for 32-bit nativesdk
+Thread-Topic: [OE-core] [scarthgap][PATCH] time64: enable 64-bit
+ time/file-offset flags for 32-bit nativesdk
+Thread-Index: AQHdNS2z2KAAmFRUZU2mNrv3Qdc+Nba228AAgAFnuNA=
+Date: Mon, 31 Aug 2026 14:57:04 +0000
+Message-ID: 
+ <AS2PR10MB7347225FBE1F80F0519A80DDDBA92@AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260826073701.367061-1-peter.tatrai.ext@siemens.com>
+ <DL2G4HBXZK8O.2BJXQFIJGNX9C@smile.fr>
+In-Reply-To: <DL2G4HBXZK8O.2BJXQFIJGNX9C@smile.fr>
+Accept-Language: en-US, sk-SK
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=46fb9c56-caca-4604-9a31-5edc9f8f528c;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-08-31T14:42:14Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AS2PR10MB7347:EE_|GVXPR10MB8841:EE_
+x-ms-office365-filtering-correlation-id: 5fa343b1-df64-4fb4-f4ad-08df07701ea8
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|55112099003|18002099003|22082099003|38070700021|56012099006|11063799006|4143699003|10067099003;
+x-microsoft-antispam-message-info: 
+ +PmkjGp5QEjMrYOxoogOxXR+B6PNX7AsUR2lw57CtI/QSyTwSJMH36cgmQgG9LUFZH8e7FJlUbyL04uN9etFGlaTfscOrA+8Gid0MfzO78HANvc09zrLNu76AT1yWFCc6Ta7WfK2cgaSzy5GUaa8NffsENrYFPCyXBSWTGIVDi4XvvoClp6q9xeeCTgN7AIzHPM/vpJBOro8yVIp7S6nAbSrcqt+yP/lxJ2Ryu2XNMCiBb+1Qj64HgAmlq7vwBJmvOFbs3laGv2IF5SLAP84yNazu5onkLBEOXIxdCdx+zKA4YiInT5ok0bVhPaJy3vcEZ6OURl2NnhlcXQuVMrHK6y3eYK6L/e9Qt1PBZ7A56y4BIly/QH3qD9vQWJRaUFQHxQT2e7t7zw+5pHsP79lXtUF2MxjFKEtj014iBvLy4ErdFebfkXsITNW8jqMX4UV4az3EWLpr4U0e89bU1wlobnZ5OFzsozT+v7lBk24DLAnL3W/BGoIgj9qw4YbML3Msdz2+wIT//No9rDLq1lLJxQ2ZOnWuD+c59J0PKtg0mHUplO8R09Cn2SHTk7pz8gDqpyoRocSX15+WVFUP8+zjbC9wKNAh8S8QYYkpvsiYYEz3Co2dFgv2bQQ5pRPNmfqAlHZFg57b8IF7vLEa1FemxoPqIlHxUx+DKYRKN5CK9vWwbqyIZYdb+O8O85bw4/ZPlHZw2wZvJFLqJuOaehGs9hZABaw4+gY2B5eM8W6qiw=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(55112099003)(18002099003)(22082099003)(38070700021)(56012099006)(11063799006)(4143699003)(10067099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?Njd0bW9iZ0NrNkM3MXRxa2YxVHl0bGRlb1d1bkkrUnBHRE51Q1lYdE5oc2Jr?=
+ =?utf-8?B?N2xpVEJNdXlFb0lkNHhubGdCNDlEQXROZzk2NVdXa0grSXhkd0Foc0NXajNK?=
+ =?utf-8?B?L09UdnRXTGJaTUt2TzdXY1g1c0RCYlRidUhOREFZdXcya204Q0NJUGpLNzlB?=
+ =?utf-8?B?dWpBZGZkcjRlOFJBOG5HNXB6R0RhSXpCakFWZVFkZjlOSEVXdFlBSEdjSStM?=
+ =?utf-8?B?RDNmVnhPbGNpMHhidVZZek9tRXh4ZVk2alBqK2xuN25qVW9NamNqZERUUDVt?=
+ =?utf-8?B?OVlqZHlEOCs4Sy9BQjR0MXNmakNwcXpsYW04ampyOWsvN3BJUml0NEIvZy92?=
+ =?utf-8?B?UTNLYkZQVkg1bVUzUElNZ0l6WUgxRW4yT0pScStROGplSno4ek1aYzRwTDdY?=
+ =?utf-8?B?ek01NWhURHBjNUdkY0ZqMXh0NWVibys5QXF1Zk9oeElVdVliUkQzaHV4Yzdz?=
+ =?utf-8?B?OElRVitGdEIvV3czNUlZem9zc3VXcjI1SURRNWJ5dEVRQURQQUFtSEFzWnFq?=
+ =?utf-8?B?eGpKZVUrbzUrMmZxNHRSWmhKTzF4ZjAvaitNUjhPQXluSWd1Y0M3VTlLMklW?=
+ =?utf-8?B?RlkrbkJYcnYrZ0dmN0k3Z2Iwb25FTi9lUlh5dUhkMFd0KzhVUDFkeHR3blE1?=
+ =?utf-8?B?Vkg5amhBRXN0QkhxOEE3OWs0Tk9OR2F4dGt0NnN1UXRkUHV2a056UmtrL1Uy?=
+ =?utf-8?B?ZExQdTlEN3NMWGZlek1XdEtqOHorNm5wdzVkVjhNY3RyTjU0VzB0WXpTMFF6?=
+ =?utf-8?B?b0xHenBYVlJvNzlMQlNZNjZ5cTBSTlZnc1RDMXlwMjYxcVV0RmJGeWIzaDdy?=
+ =?utf-8?B?WEFuR3dwSTZGNU9ZMGNFdlJuckRBdDl3K2RlMDFDOGlwK0hQQ3Ayd3g4SHJI?=
+ =?utf-8?B?dFFZMU5uN3g4aDc3V3BHMmlXMVZNYStEMWU3NkFOZGJ5NEpraWZKRXN1UGRP?=
+ =?utf-8?B?S0xPVlVYVjNTRVgzdnVma3FJbStVeFZHaDMxWUxxK0hjeGZUSU5UbTh1T2RZ?=
+ =?utf-8?B?M1Q0L2dEVi9TWmg1dTRKOFBMM0FjK1kzaEJyR1NDL2lmeUZMUTlsYlFMajlh?=
+ =?utf-8?B?TkF4VHpCb3ZZVC9zS3lTR3FRdnhCeDYwV0tHbFpSQ0MvQ2ZzVGVDcVpHUDFG?=
+ =?utf-8?B?TTZjR3BiZFpDMkdyMGxLeFpZQ3RBSlBmRkpJSy92TlU4RmN2SXdycjUwcmZl?=
+ =?utf-8?B?NDd0SjhybnF5Rk5zVURnMThlZXVqTklRSGpjSjdraUdNaXdaNzFsdWV5MnFj?=
+ =?utf-8?B?QUFKcDJtZVE1RFY0VTZNWDFuYXBsUUxtckZYTG5VSUQyQkovMTdQZEx2UnUw?=
+ =?utf-8?B?cjVaNHY0eS9WN3RkZjUrNUpya1lWTC9NS1FXKy9VRmV4ZHRNTnhwc1ZiOVF4?=
+ =?utf-8?B?eW1scGJJV01sc0VXTmF3bDk2YTFDS3pFZC9TMEplOGpHTDNBOHppMHUwOXV2?=
+ =?utf-8?B?N0lNQTFMVmJsSHFwV2krUmRocCtvTTB2cnIzZTF1d1YrWUNXbHlhd21aUFZK?=
+ =?utf-8?B?WHJSVVZscjN2TmpKOUREcWFWOHMrbUc0SzZEK1VDQklFeXdIdVQwUVJOaGpT?=
+ =?utf-8?B?akFrdFRqZmNQTDlMeS9YZTROdVFVOHZ3K3ZaNWFWMUM3WC9ac3JlZTdURWF5?=
+ =?utf-8?B?c2x6U2JQOURSWk9DR0lyMFMwTVhuYzFBM2JNaHRzaWllcDRsbktlUnYzaHZR?=
+ =?utf-8?B?elJkZzE5Zm5GUi8vL1daNnVONzZUQzQxYlVVcnhkRFBLUVR0L3g4dG5jZXFn?=
+ =?utf-8?B?Ykk0UjdUdUN2Z1BFMElMb2NRZXdBNUpMNFFkU1ZqRGwzc1ZwWDU5UUM4WEx2?=
+ =?utf-8?B?bHVoYTFkZ3hBU0xic3lxc2FMczNkNjBaZGVreFNkbitxSjJNY3BsSW1hRHJB?=
+ =?utf-8?B?R3h3R2p3QmFkMWI0dy9KSjdQeDRJTzJ4Q2srMU5yTHdlemRxQ0RqbnBOWUJS?=
+ =?utf-8?B?RkZSQXdiQStRUTkyVTl3bDVJOTVDRHY0V012Ry9jZUZXbWhUdmpGTFhSU2RG?=
+ =?utf-8?B?Wk8zb29lWFMyTmljVGVJejJwSFBGOHNFYjRWRW1nSzluSmNaZC9DUXNsdlcy?=
+ =?utf-8?B?SUt0NXo4bjhNOTRXdGdZZURXTXd6blZYWnBYQ3FiNWhDc2p1YUFRY1FIRkxC?=
+ =?utf-8?B?Y3IxL3EwSlp3eVdkMnVRVWlmUUo1VFBDK3FKQ0pqLy84aG5GdjdRNXpic3U4?=
+ =?utf-8?B?S011bmFYZ1cvRk0vYyt4ald6U2hpTGdXdVZEUmpuVkFCbGtoVlJUVEVibmph?=
+ =?utf-8?B?UHJGWTZLRnRkUkhLL0xac25YS0lkQ3A3V1dLVWZPWnRjUlZjMmZmbk9KaFlB?=
+ =?utf-8?B?TGhsWjl0SXh6ZnBWQmo1NVhLZHF5V2Vnbkg2QXhkRDU0N2I5Q1doUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AMBP189MB3280:EE_
-X-MS-Office365-Filtering-Correlation-Id: 6539af21-efea-4840-b28a-08df076e5be4
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|366016|23010399003|376014|18002099003|12006099003|10067099003|13003099007|6133799003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	NYkPD/UHU4cWqeSmLDJSTw7cTGoKO72bDKKF16jiBctHMZ90glGkmwTcds+7RPVzXHSB/Ke9Rd313fpHJg5apyTEko3j81SmnGGu9sn7NgluZQo6Dwq0F7TFiL7C9c4rMYRzs5oGXUxXMSgdOA/DHDPmcYZFkC5xdYkt8ZpbugTD6I9gEyM9EaHq0rXPAi5wV8449cdcDF37NWSTOQktssUdp+IBlKm36pi0xfO/T1smHRenz8CWPiWWQVXkV1/FSkaM1wVtdEE6Z8RLppG/Ws5nxAtKQKyltw6ttepbFn3KsqSXiXoAMsRxXBWAwlDIR6nzPBzuCvHaDValg4sWFOWmzExpjBH4e14iJEKWwmxUAg7/kfSanShfTUKLu7bZRy1Ql9P/B8BKPLN3m1z7lV9BCUKmyv9G840WzhMcRm8L4uYegCbkBn7E598En+Ggf3g1rUCDNqG/l5IYYennNgTqsPvLAGHDLBllT8L/PtaumDUIQfLko4uIL5VjoKGuBi2lIGCaFQJoOh03jqioGn26Mr9Zpxqi9VcvjuAo9pPSJ7T/qjx2/ZAU6e6yGOFQ8bufl7xKPu70yNkouls0CNbifU53prLvZD0mxk/c0vuLaLw8Q1e77Bsjzb+vGjJrEPXMGLI33aKWahttO4pwP8JcPIpXieg9Nw+K9zH2w/o=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(23010399003)(376014)(18002099003)(12006099003)(10067099003)(13003099007)(6133799003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?IYPVx82GnZfRw0wiHvCc7yAuB9AA9JWSAHZHL9HBhXtAwO7czudesCF+7eOD?=
- =?us-ascii?Q?LGdzLTRE7OYOsaLgPUFHP72BmHepWTtbPTpUvWbHHaaIevZEJ2CwwEQbPojO?=
- =?us-ascii?Q?P8EBASAXZB40X4ypdao0QPzLv3pHZD5MFidRjgi+aK2PdWX50U6lKJCCStJt?=
- =?us-ascii?Q?RFccLCMhsGUxO0Aqng6Krd9S5r+fpowSBAbsFEwGqkmYPXUErODe4L3It6IH?=
- =?us-ascii?Q?Y4Z/kFUJKVKr1XBXPHvhfOjbGo2vHVTePK/yyiKmSK94N2R0CLC29T8/XL5k?=
- =?us-ascii?Q?bweLFJBUQ9SyApVEXIARqmzSZpCMuIG+uO8Nuee7AiNTm3dcvTKW2razj5/E?=
- =?us-ascii?Q?Tl921nZBRJJIWLbUTdd+MVEEOZbRh6B5rtTGEEzNYAKMryuUqYF1eHTUVfC6?=
- =?us-ascii?Q?iThbNxhtHCZoQLYRQt7lxH8ESHhS9txzmZMaIwO2nuQlNaTZDutC8uMfyAfU?=
- =?us-ascii?Q?wQSTIjoE3z4gLnAPziWmSNYKZ28R68Z7CBkxL3hKm8iLcFOokr5jIPEy3aHe?=
- =?us-ascii?Q?0mAwCZYaA7Sr9GSPHEW+J2RZRlz2pu2wK0X9OjZo3xilwL4sDuD0CnTJmsY6?=
- =?us-ascii?Q?GvdtwtI/54sN0clr6g+OgWO/Ar47GvV99EB/Uz3H1gsJFaBSxCvRGZPykUgI?=
- =?us-ascii?Q?o5Sz5vXZQA3ZKsu5CIORbMRfl3ZFNFjbcxEJ+uWdQ2jnvBZNClrQBEYEeHJW?=
- =?us-ascii?Q?IsdTagyImQvyduA2grQKByqd/E1Kto0XAjh/386AmkLYO+Yf5SDPW8XsjADL?=
- =?us-ascii?Q?f7s3BZwK3Z5QatQt2LV86z+EmiZxAIdW7tptdNbt5QrVsVnSe2ZRwPBmVCYh?=
- =?us-ascii?Q?FLxIacTazpj0UrW7kHxCLp7SisbHohEi9u+0mAB37DG+1ekPaKlwhID9u8ge?=
- =?us-ascii?Q?VEuRTB3+nQSQvnIHuFijLJAi1CrW4807FjSdf5xbfyBQ7tRT71cQDJsOxu3k?=
- =?us-ascii?Q?TI+jIGRl3Dk5gZiWH6x5TigNaaMO6vebPYw3on9sij96fYMoQSwrM7LpRZJx?=
- =?us-ascii?Q?X1xpVw8e0PtBWQ/idLPiuOFjB5MmRsvHRXZHVWHQuJvCq2RHZU5qMFRvLeyA?=
- =?us-ascii?Q?HhlR1xhSddE4jZQjykdHAlYAPh4Vo8uoXlODNhz/X/j681dhb/k7s9gLwHYD?=
- =?us-ascii?Q?OkexYjxqwGPJGKpZWf/fyqdW4puinhqVDs6XTpr32maxw7YZC41ROwSr8qO+?=
- =?us-ascii?Q?jhivVFZoREE/kAsFhODHzrGHxxDvZwRbo2BP8ZpQLJCozMYJfA+4MjqSltww?=
- =?us-ascii?Q?Y9cOTD4TB+I/7dwixBvu+ESbMEJImZfW9XO+rltY7UKZ//5nm4XnUiSoEus/?=
- =?us-ascii?Q?WxdfDMCp+/iYsv89UXVDqgzAqZFC6oA1OL9eTRsy9ULnkPJVmQmsYGilam+v?=
- =?us-ascii?Q?RbhXkwksVH1H0pP7aaZ2Ga4DhIBNjsON80eycHE2Ry7Qw6FUimWghFWYxTFy?=
- =?us-ascii?Q?WSLx0Bcn58Yx0SH0pbblFO3rOg6XzhIUurT8A+tE63xGVRrmnTNipdHo1W2x?=
- =?us-ascii?Q?dgqGt0RX9DvgrUv1EcAmGBsBgDQpI1+A6Fp/OXfjFy5waE5RhUJha+7AE5h/?=
- =?us-ascii?Q?It90KZPxPNreDiiUoDCYxBC1mH8BLU5jMi/LbFE7kWv0Db24s5sgdSaIbNOs?=
- =?us-ascii?Q?bxgTrFVDqc8VNDJGN//dtQ3G560WHCwF5F4j9FUaqOD7+W5/sujEz0NptT5M?=
- =?us-ascii?Q?nBXe0gMx1J4wJJj3BmKBafALaHzHuvkQMGg1ldUHN0a66fixGyFg4XDqyyCX?=
- =?us-ascii?Q?BWZJnf0rDw4giKGm8yDA3k6H34yKmJU=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 6539af21-efea-4840-b28a-08df076e5be4
-X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 31 Aug 2026 14:44:28.0650
+X-MS-Exchange-CrossTenant-AuthSource: AS2PR10MB7347.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5fa343b1-df64-4fb4-f4ad-08df07701ea8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 31 Aug 2026 14:57:04.1602
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: tZwmMDHk4xdl73DiXX0h33iHoyYfZbenl1I6dXa/VX8pO9FC8OMvpgZbnOT9hk3XgWvor4mCqlbVX+0X22ViGH5IgmkjYNU6LRKCTRiJYKo=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBP189MB3280
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: qQIqFNi3/0r2x0jQUMaO7KUxnE5GkdGtLsaQ/C7mG1/QYkgYBjHfLSIj4fptFKcYuCVjsEBbk96bkTNwSSsy4Rf6WF6XKpXFAQTadsnhoZA=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXPR10MB8841
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 14:44:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244768
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 14:57:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244769
 
-Backport fix for CVE-2026-19487 - AHO-CORASICK regex engine bug
-
-Includes 5 regression test cases in t/re/re_tests.
-
-Tested by running re/pat.t on qemux86-64 target:
-1267/1267 tests passed (only pre-existing TODOs as expected failures).
-
-NVD: https://nvd.nist.gov/vuln/detail/CVE-2026-19487
-Upstream-commit: https://github.com/Perl/perl5/commit/1a21abacaf6f684928bae=
-8baaa153733c8c238eb
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- .../perl/files/CVE-2026-19487.patch           | 66 +++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.38.4.bb     |  1 +
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-19487.patch
-
-diff --git a/meta/recipes-devtools/perl/files/CVE-2026-19487.patch b/meta/r=
-ecipes-devtools/perl/files/CVE-2026-19487.patch
-new file mode 100644
-index 0000000000..86feedcda4
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2026-19487.patch
-@@ -0,0 +1,66 @@
-+From 46014ec220989897d7ea53ccc780cea767cc0862 Mon Sep 17 00:00:00 2001
-+From: Yves Orton <demerphq@gmail.com>
-+Date: Fri, 7 Feb 2025 10:06:10 +0100
-+Subject: [PATCH] regexec.c - Fix GH 22892 - AHO-CORASICK edge case issue
-+
-+In some circumstances the AHO-CORASICK logic wasn't matching properly
-+when there were two possibilities whose proper prefix matches a proper
-+suffix of a third possibilty, and one of those possibilities was shorter
-+than the other.
-+
-+This was because we were NOT resetting the 'failed' flag properly.
-+This bug must be rare because it took more than a decade for anyone
-+to notice.
-+
-+This patch fixes the problem by resetting the failed flag after a
-+successful transition.
-+
-+A good example of this problem is as follows:
-+
-+    "ABCDE" =3D~ m/ABCF|BCDE|C/
-+
-+This should match 'BCDE' and not 'C'. Because of the flag issue we were
-+matching 'C' instead.
-+
-+This fixes https://github.com/Perl/perl5/issues/22892
-+
-+Note: t/re/re_tests hunk adjusted for 5.38.4 context (line numbers and
-+surrounding test data differ from upstream which targets a newer perl).
-+
-+Upstream-Status: Backport [https://github.com/Perl/perl5/commit/1a21abacaf=
-6f684928bae8baaa153733c8c238eb]
-+CVE: CVE-2026-19487
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ regexec.c     | 1 +
-+ t/re/re_tests | 6 ++++++
-+ 2 files changed, 7 insertions(+)
-+
-+diff --git a/regexec.c b/regexec.c
-+index e96b622..1eb59bb 100644
-+--- a/regexec.c
-++++ b/regexec.c
-+@@ -3406,6 +3406,7 @@ S_find_byclass(pTHX_ regexp * prog, const regnode *c=
-, char *s,
-+                             {
-+                                 DEBUG_TRIE_EXECUTE_r(
-+                                     Perl_re_printf( aTHX_ " - legal\n"));
-++                                failed =3D 0;
-+                                 state =3D tmp;
-+                                 break;
-+                             }
-+diff --git a/t/re/re_tests b/t/re/re_tests
-+index 10da625..eefa579 100644
-+--- a/t/re/re_tests
-++++ b/t/re/re_tests
-+@@ -2157,6 +2157,12 @@ AB\s+\x{100}	AB \x{100}X	y	-	-
-+ /^(xa|(?:[Z=3D])*\1a){2}$/	xa=3Dxaaa	n	-	-	# GH 10073 - RT72020
-+ /^(xa|(?:[Z=3D]|zzzz)*\1a){2}$/	xa=3Dxaaa	n	-	-	# GH 10073 - RT72020
-+=20
-++ABCF|BCDE|C	ABCDEX	y	$&	BCDE	-	# GH 22892 - AHO-CORASICK bug
-++ABCF|BCDE|C	ABCDX	y	$&	C	-	# GH 22892 - AHO-CORASICK bug
-++ABCF|BCDE|C(G)	ABCDE	y	$&	BCDE	-	# GH 22892 - AHO-CORASICK bug
-++ABCF|BCDE|C[Gg]	ABCDE	y	$&	BCDE	-	# GH 22892 - AHO-CORASICK bug
-++ABCF|BCD[Ee]|C[Gg]	ABCDE	y	$&	BCDE	-	# GH 22892 - AHO-CORASICK bug
-++
-+ # Keep these lines at the end of the file
-+ # pat	string	y/n/etc	expr	expected-expr	skip-reason	comment
-+ # vim: softtabstop=3D0 noexpandtab
-diff --git a/meta/recipes-devtools/perl/perl_5.38.4.bb b/meta/recipes-devto=
-ols/perl/perl_5.38.4.bb
-index 9f4cc1c404..5663bbd011 100644
---- a/meta/recipes-devtools/perl/perl_5.38.4.bb
-+++ b/meta/recipes-devtools/perl/perl_5.38.4.bb
-@@ -20,6 +20,7 @@ SRC_URI =3D "https://www.cpan.org/src/5.0/perl-${PV}.tar.=
-gz;name=3Dperl \
-            file://0001-Fix-intermittent-failure-of-test-t-op-sigsystem.t.p=
-atch \
-            file://CVE-2026-8376-01.patch \
-            file://CVE-2026-8376-02.patch \
-+           file://CVE-2026-19487.patch \
-            "
- SRC_URI:append:class-native =3D " \
-            file://perl-configpm-switch.patch \
+SGVsbG8gWW9hbm4sDQoNCj4gSSd2ZSByZXByb2R1Y2VkIHRoaXMgbG9jYWxseToNCj4gV2l0aCBT
+REtNQUNISU5FPSJpNjg2Ig0KPiAiYml0YmFrZSBuYXRpdmVzZGstZ2xpYmMiIGZhaWxzIHdpdGgg
+dGhpcyBwYXRjaCBhbmQgc3VjY2VlZCB3aXRob3V0Lg0KPiANCj4gVGhlIGVycm9yIG1lc3NhZ2Ug
+Ym9pbHMgZG93biB0bzoNCj4gfCBFcnJvcjogc3ltYm9sICdfX3NpZ3RpbWVkd2FpdDY0JyBpcyBh
+bHJlYWR5IGRlZmluZWQuDQo+IA0KPiBDYW4geW91IGxvb2sgaW50byB0aGlzPw0KDQpUaGFua3Mg
+Zm9yIHRoZSByZXBvcnQuIFJvb3QgY2F1c2U6IMKgR0xJQkNfNjRCSVRfVElNRV9GTEFHUzpwbi1n
+bGliYyA9ICIiwqBvbmx5IGV4Y2x1ZGVzDQp0aGUgdGFyZ2V0wqBnbGliYyByZWNpcGUsIG5vdCB0
+aGUgY2xhc3MtZXh0ZW5kZWQgbmF0aXZlc2RrLWdsaWJjwqAsIHNvwqBuYXRpdmVzZGstZ2xpYmMg
+c3RpbGwgZ290IGJ1aWx0DQp3aXRoIHRoZSBuZXcgdGltZTY0IGZsYWdzLCBjYXVzaW5nIHRoYXQg
+c3ltYm9sIGNvbGxpc2lvbi4gVGhpcyBvbmx5IGFmZmVjdHMgZ2xpYmMgPCAyLjQwLCB3aGljaCBp
+cw0Kd2h5IHNjYXJ0aGdhcCBoaXRzIGl0IGJ1dCBtYXN0ZXIvd3J5bm9zZSBkb24ndC4NCg0KSSd2
+ZSBzZW50IGEgdjIgYWRkaW5nIEdMSUJDXzY0QklUX1RJTUVfRkxBR1M6cG4tbmF0aXZlc2RrLWds
+aWJjID0gIiLCoHRvIGZpeCBpdDoNCmh0dHBzOi8vbGlzdHMub3BlbmVtYmVkZGVkLm9yZy9nL29w
+ZW5lbWJlZGRlZC1jb3JlL3RvcGljL3NjYXJ0aGdhcF9wYXRjaF92Ml90aW1lNjQvMTIxMDE0Mjgw
+DQoNClBldGVyIFRhdHJhaQ0KDQo=
 
