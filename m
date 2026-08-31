@@ -2,100 +2,110 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15DB2C624C6
-	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 13:28:31 +0000 (UTC)
-Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29489.1788182903524688702
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46878C624A4
+	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 14:21:11 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.30723.1788186063706208658
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 06:28:23 -0700
+ Mon, 31 Aug 2026 07:21:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=GnGaV6TP;
- spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso23636915e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 06:28:23 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dl/TIPq3;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49b392ccaacso49697155e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 07:21:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788182902; x=1788787702; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+        d=smile.fr; s=google; t=1788186062; x=1788790862; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ElMT4vcJP5X1J//IzWh0WLVCAqR5bwE7oUu4kaGGkyk=;
-        b=GnGaV6TP69Mcw398tGYiuwGc5z4D+me7N82DZqG0jn6UD7CdEu9xQukdIyHvT+EdKw
-         F4GxNsDaIAnuU3ETbZfq/s9mfs8sDzvyA1cjekYbPnMCQLKvsizEcPM/CaKg+6wifcdP
-         5FFdCKgAqzBtZnOoFOKW0OZoEEscLOa4nB4Q0=
+        bh=urWNEQ5sTM09c0MzVGy++IrIxtshjcWu1b4Z7VzfbEg=;
+        b=dl/TIPq3fRTOou89gW6k2VMV5qK7qIiFxb5YHcv6jDLsEMfd9iALBaPFklNZRyntfF
+         rT+FXAd58ywaOr0xUhautXCvaltv1TdsIH9EslNC1sPxHIKnNlTT0G4Cb8Z+VVhH1LLe
+         zbVGDc0jskb2cidluMUpLydbIQZk0UR1qjJyo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788182902; x=1788787702;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+        d=1e100.net; s=20251104; t=1788186062; x=1788790862;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ElMT4vcJP5X1J//IzWh0WLVCAqR5bwE7oUu4kaGGkyk=;
-        b=UKtbSPBpdU1e11RJMo2GQdswvPsPTwuKK0aXJRI/G4rdEvSX1Wl6H1s8bEi4/2+PUb
-         zDP/Dk2x9B3oi5Vo6/Vnq9DFmqGyYzux0eIxnpwG+LifRjTfToXmlcCSW15A5jcdHYwW
-         UG/TNrO5OvXhnAjuDDlWNpnIhW7Ff+cm/dAnQCjTW0A64G2OhM0yU5rS3KfmZNJU7gbM
-         /v6rTLKgh6YBE0F8+EQld9NHD1RIrPtskpTQwbB2yb7DRfaJSJe7vnKeYuRpTtkTPo4k
-         aqpLAJXEArev2vOlcyckez8yUnJTnVJuoA6M0y0lMAQQMMjjV8HT8IRNTyzOlE4Yux24
-         L/lg==
-X-Forwarded-Encrypted: i=1; AHgh+RqokCfI4zc3/OZsve5ZTYO28rBTK7Wm3bfnDJgAiXSFmu3wSiu2gpECI8troZy2T5S+Jmc4qZ56PNPgE43aXb3Hgg==@lists.openembedded.org
-X-Gm-Message-State: AFuF++nHBT3Gmbvy2c/UVHCdPr9a6YscVj9KfyS1gUUUBzfsiyk937gz
-	iqOBEiI+PgDd9lETc5PfC0bLNgS8/cjFvcS1Bo8x2bWKq/Mq1WjAi9IYzNqjx4avLI6WKBGLvAC
-	a+V+msiE=
-X-Gm-Gg: AR+sD13TJcNfSsBTbmUysdy8f5EZmRm9njTzQX5GAgXAdVA8sPeIwuOcQ/ArBPJFyyp
-	1iHAjn++IFJ3VE1lHtzQIB93guizHZhUSZ3oAW+R4Hj9HFTwAtMazqEGQE1QAEbOtETx4s8ZORz
-	iDGuJlN8R/2qwIQL71se1sbZ7X7V5eu4aYvOTfEYpE/rhENlJGX5Z3s9aC0kfFO1y//1TuIouK0
-	bmerK8IuLMI8KDlnz5sOCIjob05b0rjCKIDu3hmhZx/NJFDSuwWNPbhclsLn2He0EK/G40HI0ae
-	j1WXspRfFFEod1vi0lcv79tEg2nu2RedPMsl4NIAUmBPXe8EsmwfROg/Fy1og8JnpzDdFCq+u4D
-	4IIze14ip9cX3pvIJ3WBNw0wwrQwfGZWYhB33M/E8NYTfqJ6hc/o8y8tWv6QolxJm6x93ILs8AC
-	g3odgMmzD6hNi+7H+zKSfMYOew6zyqFN6JH7r1t1OmUx8QoDch/TsPrZa9Wq3EevTfsAWlJYEam
-	tX+bDv2rkGvGlSAXCva1GXgbnGdv81JoaAOyay9YExoWgFj
-X-Received: by 2002:a05:600c:c113:b0:497:fecd:5b00 with SMTP id 5b1f17b1804b1-49cdc435d58mr10661725e9.9.1788182901704;
-        Mon, 31 Aug 2026 06:28:21 -0700 (PDT)
+        bh=urWNEQ5sTM09c0MzVGy++IrIxtshjcWu1b4Z7VzfbEg=;
+        b=bMdy+3sXyOgjRQ75QK6pSzv/Ng37R3k0cP9lwsIim/IF7wQ/BB1Du5iTKo0MU2T1fr
+         vTAD06/E/GH8SCah1M2cPmCLSxrRY94NZHvtcqRbT9rX1b13Kh7sT+OJ0whE8U2W+qad
+         AgwkKT9Ur3lt+ub48BzSGKdtJmkVSZlqXk6d6VAwdeO94c1wFn6/K2LXZjn88qLmmjJX
+         V2KzKffYR6Pgx4sgkMH/EBekrEPXNPc7Si+BvTOOUlpzx5glsxdsSWFzBh2Pc6Kw1w7f
+         ZdKmEewmiG+K+Z1P08NNwT4UPT308UoEHycJe2vXjjBQIX8LpSrKPJuprcOpaqQQbmJH
+         2mRg==
+X-Forwarded-Encrypted: i=1; AHgh+RplF3O3YE6sTsYAXLttTS50d7r//zkO1OeHMWWqD8tFGuKna9jsIDISZm/RfZ095Vl/wqK2Hmkm7tE2zNw4Zw4pjw==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kPGO7uFU9ILulG1qh+XRQRiK6Ohh6m8TJNuu8GTwsgKL9p/vEA
+	5N7YGCy7olZp0w+97mT2+eGWDs1eDvBRCj3KRWz60QLOXmdRe8uRjulaZylfiGy2+K4=
+X-Gm-Gg: AR+sD12V+KCueMO6cvdmxhkpZbNgvY9kM3yG/JKRF13bwe1SsNbeAmeg2v2UvWQ+FuS
+	2+dR7DsI/YBACFZFSNgVCi6xoUvA8GMQdVqjJZnvcpptpYyYzXIWKTqsPbJnMMfNcUvPG3fsS0f
+	6K8EcSmZ1ny4tF9t8sVN28qBskcof/N2bVTdvlbvoOH6zfRhYsKoUQKxMDTdn2pAdVGFGZVvvzx
+	ZYPWN0ShCM74V6VL5gpiQJxLfenYIB3OerPoV2nCgrEaJyiy17nQaoQC6f3OHOK0nJX3FnRNngv
+	OMxYNC8P51xZ53Ey9vjQmQPSucw5QrINUpZ2MDdhRMQp8T9Ez1BPzsL+txalf6FjbeWsrvKE/UI
+	grmFj98NafamO0B9ZZMVuRI4lfTryc4vK/NHQNbNcm4CS3eeTVF4p7V0DQutgUKuAS0w0yO8J9v
+	wtYw8ppqbsrV9Dtu/rEBtkWdNpXUoCmgjJKOauIYt4Ojy88KPsez9wQC68x1jMjxOkA7RjwIZxp
+	jsrvp405TNP3IJ/HXLKlV/V3UfhkbidzyqRMJJuD4M74Rwn
+X-Received: by 2002:a05:600c:4f8b:b0:49a:2c4b:403f with SMTP id 5b1f17b1804b1-49b91c46494mr350203505e9.13.1788186061782;
+        Mon, 31 Aug 2026 07:21:01 -0700 (PDT)
 Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b497fa9c5sm345969355e9.4.2026.08.31.06.28.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49b91c5790csm242112955e9.0.2026.08.31.07.21.01
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 31 Aug 2026 06:28:21 -0700 (PDT)
+        Mon, 31 Aug 2026 07:21:01 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Mon, 31 Aug 2026 15:28:20 +0200
-Message-Id: <DL35XNZB838H.X4I9ZPILT8R8@smile.fr>
-To: <leonid.iziumtsev@est.tech>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][PATCH] python3: fix CVE-2026-4360
+Date: Mon, 31 Aug 2026 16:21:00 +0200
+Message-Id: <DL371ZPMRYMX.3Q2T6B000L34F@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH v2] gnupg: Mark CVE-2025-68972 as
+ upstream-wontfix
 From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <roland.kovacs@est.tech>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260729093726.426192-1-leonid.iziumtsev@est.tech>
-In-Reply-To: <20260729093726.426192-1-leonid.iziumtsev@est.tech>
+References: <20260821093052.1174778-1-roland.kovacs@est.tech>
+In-Reply-To: <20260821093052.1174778-1-roland.kovacs@est.tech>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 13:28:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244765
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 14:21:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244766
 
-On Wed Jul 29, 2026 at 11:37 AM CEST, Leonid Iziumtsev via lists.openembedd=
-ed.org wrote:
-> Backport patch to fix CVE-2026-4360.
+On Fri Aug 21, 2026 at 11:30 AM CEST, Roland Kov=C3=A1cs via lists.openembe=
+dded.org wrote:
+> Mark CVE-2025-68972 as upstream-wontfix based on mailing list discussion,
+> where the maintainer states that "[...] this is wrong usage of a tool or =
+social
+> engineering".
 >
-> Reference:
->   https://nvd.nist.gov/vuln/detail/CVE-2026-4360
+> Link: https://lists.gnupg.org/pipermail/gnupg-devel/2026-January/036154.h=
+tml
 >
-> Upstream fix:
->   https://github.com/python/cpython/commit/eee3ddf0ca10283cc7fea724aae9cd=
-8665f8d15e
->
-> Signed-off-by: Leonid Iziumtsev <leonid.iziumtsev@est.tech>
+> Signed-off-by: Roland Kovacs <roland.kovacs@est.tech>
 > ---
->  .../python/python3/CVE-2026-4360.patch        | 148 ++++++++++++++++++
->  .../python/python3_3.12.13.bb                 |   1 +
->  2 files changed, 149 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-4360.pa=
-tch
+> v1: https://lists.openembedded.org/g/openembedded-core/message/243897
+> v1 -> v2:
+> 	- Fix patchtest complaint about empty commit message.
+>  meta/recipes-support/gnupg/gnupg_2.4.9.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-support/gnupg/gnupg_2.4.9.bb b/meta/recipes-sup=
+port/gnupg/gnupg_2.4.9.bb
+> index c85de6047f..3ebea399d7 100644
+> --- a/meta/recipes-support/gnupg/gnupg_2.4.9.bb
+> +++ b/meta/recipes-support/gnupg/gnupg_2.4.9.bb
+> @@ -85,3 +85,4 @@ lcl_maybe_fortify:mipsarch =3D ""
+> =20
+>  CVE_STATUS[CVE-2022-3219] =3D "upstream-wontfix: Upstream doesn't seem t=
+o be keen on merging the proposed commit - https://dev.gnupg.org/T5993"
+>  CVE_STATUS[CVE-2025-30258] =3D "cpe-stable-backport: fir for this CVE wa=
+s backported to version 2.4.8"
+> +CVE_STATUS[CVE-2025-68972] =3D "upstream-wontfix: Upstream considers thi=
+s CVE invalid - https://lists.gnupg.org/pipermail/gnupg-devel/2026-January/=
+036154.html"
 
 Hello,
 
-I plan to replace this patch by the 3.12.14 upgrade I received in the
-meantime:
-https://github.com/python/cpython/commit/0367912be336348b30572f8029cec4a282=
-782d92
-https://patchwork.yoctoproject.org/project/oe-core/patch/20260822172544.192=
-7400-1-peter.marko@siemens.com/
+I don't think we need this fix since MITRE data shows CVE-2025-68972 only
+affect <=3D 2.4.8 and we are at 2.4.9.
 
 Regards,
 --=20
