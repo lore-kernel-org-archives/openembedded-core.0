@@ -2,94 +2,154 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC4D8C61DE2
-	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 09:04:36 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C80CC61DE2
+	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 09:04:47 +0000 (UTC)
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25597.1788167074758183034
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25558.1788167080006345277
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 02:04:35 -0700
+ Mon, 31 Aug 2026 02:04:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=aqIkW+77;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=QlXK1B9c;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 153404E41464
-	for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:04:33 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 587144E41464
+	for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:04:38 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D72E960231
-	for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:04:32 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 275E011C78B30;
-	Mon, 31 Aug 2026 11:04:27 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 2D20260231
+	for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:04:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C96E211C78B04;
+	Mon, 31 Aug 2026 11:04:32 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788167068; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1788167073; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=fjZWvqzNOiNkVo+MNn8S6CQLl0ESevlFkCdXha2oS+w=;
-	b=aqIkW+77mOTC2B3MbiJ3j2ZcZIOhB3FE9uOkS7XRqlpTIYieM4ITN3mwpYt4kC6af80g3F
-	XkGaC4K4TYOl5XxWK5cNKsVnYSwogtVN13DG443vHpn0k8C/JC7LuTwTSZI+K04JYXGn8G
-	2cQ1Y6S6Ljioq4gs45BYX+egmQvn7wpKRiLWxrbZ2BRQ78XZlnF+lg4Bhtz3TnD7aXAoph
-	qepEl5svjpGacFNohrjr0XZQ2rCL3cnBDKPSzpBGzjKNj3FPv8yOYwmtvjsuUpwOSeSY2m
-	69yjLD12xh39fBFsGOtjDNuC6JDCChjt767YfeYk6pMYAcGpkWLPO4x0NKt7rA==
+	bh=wohBntDq1lUpS4JTIqoOjM0fGnPD09VxX1tNaXtUmv8=;
+	b=QlXK1B9cKynZR2lRn4pFSq4zST97xEp1yg7howEPBvwJPiKWKY5EWXHI5vCMbDdi2Gt7no
+	28K26ny3YLoEvUK3n0FGXP3rc+tPBj2XZ9THPrpMzpyrQi6hAJCfZMPHluTpe/PSr7Mh8G
+	TOMBYopLTVCMCBvsj1MtcISCYKKzHTWLxoFz+8r4NcGsyrQLJWYIIOfGF1pUkOrsGcrw5P
+	rYrwpGamzz/1LoVZkShyX5+jsd3n0OGTRN9U4SPEVQXWd2r864V3yPSbNueWQy7qCAPshr
+	F07/E45nsUWSz81oYCNYSO+46vaEf4jjM6+an5Fbxh403cZXIzQ6X7FG40v+Xg==
 From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Mon, 31 Aug 2026 11:03:40 +0200
-Subject: [PATCH 8/9] python3-pdm: upgrade 2.28.2 -> 2.29.0
+Date: Mon, 31 Aug 2026 11:03:41 +0200
+Subject: [PATCH 9/9] sysstat: upgrade 12.7.9 -> 12.8.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260831-mathieu-updates-2026-08-31-v1-8-58b54db72860@bootlin.com>
+Message-Id: <20260831-mathieu-updates-2026-08-31-v1-9-58b54db72860@bootlin.com>
 References: <20260831-mathieu-updates-2026-08-31-v1-0-58b54db72860@bootlin.com>
 In-Reply-To: <20260831-mathieu-updates-2026-08-31-v1-0-58b54db72860@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788167050; l=3195;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788167050; l=4825;
  i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=3bBIKE/CMTqoPvwtdrj0lBNJlzkoTnD/zEVu7RFqCm0=;
- b=YplEagk+68y7REhgSin2vkiAUGWKcg6DjcZK/7b1vHpFRbBsjYWwMrNxjr7EDFXlu4EzXCJEY
- DSvvI84ox51AC7FHWw7iq32pfEHRF5n379gY+qoUc3H8YLILYtiMitJ
+ bh=aCVwBhaC1T4GYkL98Xir/lrVetOs6kjfIbqy9M44NNA=;
+ b=zwyNNNR5gHYwUn36Uu4VFwOFug5XBtwfKWGyBmbOSZ2myHM1w/+DO+DTBKntKN4LI9bkJNBhl
+ 2a9khDlKCTfDnkL5wo9SIoWqJ2oOuuq+D8GEhJa7hcxBLOWgyJhCF0f
 X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
  pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:04:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244750
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:04:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244751
 
-Source: CHANGELOG.md
+Source: CHANGES
 
-- Export editable local dependencies with relative paths in requirements files. ([#3294](https://github.com/pdm-project/pdm/issues/3294))
-- Extend `pdm run` with `--env`, `--env-file` and `--working-dir` options to set or override the corresponding script options dynamically. ([#3829](https://github.com/pdm-project/pdm/issues/3829))
+	* [Agenticode]: sadc: Read /proc/stat once per collection cycle.
+	* rd_stats.c: Rework functions to read /proc files once.
+	* Read all /proc files once per collection cycle.
+	* [Sagar Sagar]: Avoid all-zero CPU rows on counter regression.
+	* [Lilu]: svg_stats.c: Fix integer overflow in allocate_graph_lines
+	  size computation.
+	* [Hang Zhao]: sadc: Fix pgscan_direct counter incorrectly including
+	  pgscan_direct_throttle.
+	* [Andy Lau]: sadc: Fix pgsteal/s double counting by only summing
+	  pgsteal_anon and pgsteal_file.
+	* [Andy Lau]: sar, mpstat: use write() instead of printf() in signal
+	  handler to ensure JSON output is properly closed on SIGTERM.
+	* [Andy Lau]: Remove unnecessary unsigned int cast that truncates
+	  irq_nr in read_stat_total_irq().
+	* [Andy Lau]: Fix typo in sar manual page.
+	* [Dean Chen]: sadf, sar: let --fs match mountpoints as well as device
+	  names.
+	* sar/sadf: Don't test for empty "--fs=" list.
+	* [Nathan Scott]: iostat/tapestat/cifsiostat: add -G flag for gibibyte
+	  display.
+	* [Nathan Scott]: sa1: derive LONG_NAME from SADC_OPTIONS, not just
+	  HISTORY.
+	* [Nathan Scott]: sa2: honour -D in SADC_OPTIONS for date format.
+	* [Nathan Scott]: Slightly reduce scope of install-cron configure script
+	  option.
+	* [Nathan Scott]: Rename --enable-install-cron to
+	  --disable-automated-sar-reporting.
+	* [Nathan Scott]: Enable automated sar reporting by default.
+	* [Nathan Scott]: sadc: Fix heap buffer overflow in reallocate_buffer().
+	* [Nathan Scott]: do_test: Replace bash-ism with POSIX arithmetic.
+	* [Nathan Scott]: do_test: Exit with error status on test failure.
+	* [Nathan Scott]: tests: Fix PCP archive test portability.
+	* [Nathan Scott]: ci: Add GitHub Actions CI workflow.
+	* sa1: Remove "iso" option.
+	* cifsiostat: Add JSON output for option -G (display in Gigabytes).
+	* pidstat: Add fflush() after JSON closing output.
+	* sadc: Now only read pgscan_kswapd counter.
+	* sa_wrap.c: Also use reallocate_buffer() function for A_PWR_FREQ
+	  activity.
+	* cifsiostat, iostat, sa1, sadf, sar and tapestat manual pages updated.
+	* Non-regression tests updated. New tests added.
+	* simtest: Fix issue related to 19th day of the month.
+	* Makefile: Fix EXTRALIST variable contents.
+	* Fix some tests for out-of-tree build.
+	* do_test: Make options available with out-of-tree target.
+	* [orbisai0security]: Fix a (theoretical) security vulnerability.
+	* [Peter Dave Hello]: Refresh sysstat gettext template file.
+	* FAQ file updated.
+	* NLS translations updated.
+	* Update year in copyright messages.
+	* tapestat: Cosmetic change.
 
-- Restrict a locked package to the platform it was resolved for when it doesn't belong to every lock target, so `pdm lock --platform ... --append` no longer adds entries that get installed on the other targets. ([#3261](https://github.com/pdm-project/pdm/issues/3261))
-- Keep Poetry `include` entries restricted to the sdist format when importing, writing them to `tool.pdm.build.source-includes` instead of dropping them. ([#3854](https://github.com/pdm-project/pdm/issues/3854))
-- Accept `--no-verify-ssl` on `pdm publish`, which was misspelled as `--no-very-ssl`. The old spelling keeps working as an alias. ([#3857](https://github.com/pdm-project/pdm/issues/3857))
-- Convert Poetry tilde constraints with fewer than three components to the bounds Poetry means: `~1.2` becomes `<1.3` rather than `<2.0`, and `~1` no longer produces an invalid `~=1` specifier that aborts the import. ([#3858](https://github.com/pdm-project/pdm/issues/3858))
-- Keep the separating comma out of the operator and accept a `v` prefix when converting Poetry version constraints. ([#3860](https://github.com/pdm-project/pdm/issues/3860))
-- Keep importing a Poetry project when an author or maintainer entry does not fit the `Name <email>` pattern. ([#3861](https://github.com/pdm-project/pdm/issues/3861))
-- Skip `requires-python` when a Pipfile `[requires]` table has no python version, instead of writing `>=None`. ([#3862](https://github.com/pdm-project/pdm/issues/3862))
-- Leave the version and description empty instead of aborting when a flit module cannot be parsed. ([#3864](https://github.com/pdm-project/pdm/issues/3864))
-- Respect dependency group selection options when exporting to `pylock.toml`, producing a single-use lock file that contains only the selected packages. ([#3866](https://github.com/pdm-project/pdm/issues/3866))
-
+2026/08/28: Version 12.8.0 - Sebastien Godard (sysstat <at> orange.fr)
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 ---
- .../python/{python3-pdm_2.28.2.bb => python3-pdm_2.29.0.bb}             | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../sysstat/0001-configure.in-remove-check-for-chkconfig.patch        | 4 ++--
+ .../recipes-extended/sysstat/{sysstat_12.7.9.bb => sysstat_12.8.0.bb} | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pdm_2.28.2.bb b/meta/recipes-devtools/python/python3-pdm_2.29.0.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-pdm_2.28.2.bb
-rename to meta/recipes-devtools/python/python3-pdm_2.29.0.bb
-index 7dd74040ed72..faf9b63a3d8c 100644
---- a/meta/recipes-devtools/python/python3-pdm_2.28.2.bb
-+++ b/meta/recipes-devtools/python/python3-pdm_2.29.0.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- SECTION = "devel/python"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
+diff --git a/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch b/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
+index 431a60aee155..3bbf769929ce 100644
+--- a/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
++++ b/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
+@@ -1,4 +1,4 @@
+-From f41b0253d1583f7e1286fa2f29393c3d3f5183b4 Mon Sep 17 00:00:00 2001
++From 7df414e3a4919d6bc68728ea593d00098ef1fc13 Mon Sep 17 00:00:00 2001
+ From: Wenlin Kang <wenlin.kang@windriver.com>
+ Date: Tue, 5 Nov 2019 16:16:44 +0800
+ Subject: [PATCH] configure.ac: remove check for chkconfig
+@@ -13,7 +13,7 @@ Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
+  1 file changed, 2 insertions(+), 1 deletion(-)
  
--SRC_URI[sha256sum] = "dc31c1d11c2e90564207181f87ca3d6fc16ee6584d703c0a9e0c03ba287a925a"
-+SRC_URI[sha256sum] = "28c520267a15d7a3921b934ec4bfc2d1dc18379fbb653bb20d8e840b2788be6b"
+ diff --git a/configure.ac b/configure.ac
+-index 8b5f9b73..910ebd5a 100644
++index 17507ea9..a08d717b 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -42,7 +42,8 @@ AC_SUBST(VER_JSON)
+diff --git a/meta/recipes-extended/sysstat/sysstat_12.7.9.bb b/meta/recipes-extended/sysstat/sysstat_12.8.0.bb
+similarity index 98%
+rename from meta/recipes-extended/sysstat/sysstat_12.7.9.bb
+rename to meta/recipes-extended/sysstat/sysstat_12.8.0.bb
+index ffc7c0ac3736..967e60f2d484 100644
+--- a/meta/recipes-extended/sysstat/sysstat_12.7.9.bb
++++ b/meta/recipes-extended/sysstat/sysstat_12.8.0.bb
+@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/sysstat/sysstat.git;protocol=https;branch=master;tag
  
- inherit pypi python_pdm
+ LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
+ 
+-SRCREV = "b8f987807e7c7ba5c1b2ca8b7b1e9d80e61bce6c"
++SRCREV = "ffabe8175aa9a7aa056380c66ed3648e50c1967d"
+ 
+ DEPENDS += "base-passwd xz-native"
  
 
 -- 
