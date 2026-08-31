@@ -1,158 +1,113 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C80CC61DE2
-	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 09:04:47 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25558.1788167080006345277
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2BF8EC61DD3
+	for <webhook@archiver.kernel.org>; Mon, 31 Aug 2026 09:06:57 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25580.1788167211774280310
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 02:04:40 -0700
+ Mon, 31 Aug 2026 02:06:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=QlXK1B9c;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 587144E41464
-	for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:04:38 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 2D20260231
-	for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:04:38 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id C96E211C78B04;
-	Mon, 31 Aug 2026 11:04:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788167073; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=wohBntDq1lUpS4JTIqoOjM0fGnPD09VxX1tNaXtUmv8=;
-	b=QlXK1B9cKynZR2lRn4pFSq4zST97xEp1yg7howEPBvwJPiKWKY5EWXHI5vCMbDdi2Gt7no
-	28K26ny3YLoEvUK3n0FGXP3rc+tPBj2XZ9THPrpMzpyrQi6hAJCfZMPHluTpe/PSr7Mh8G
-	TOMBYopLTVCMCBvsj1MtcISCYKKzHTWLxoFz+8r4NcGsyrQLJWYIIOfGF1pUkOrsGcrw5P
-	rYrwpGamzz/1LoVZkShyX5+jsd3n0OGTRN9U4SPEVQXWd2r864V3yPSbNueWQy7qCAPshr
-	F07/E45nsUWSz81oYCNYSO+46vaEf4jjM6+an5Fbxh403cZXIzQ6X7FG40v+Xg==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Mon, 31 Aug 2026 11:03:41 +0200
-Subject: [PATCH 9/9] sysstat: upgrade 12.7.9 -> 12.8.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260831-mathieu-updates-2026-08-31-v1-9-58b54db72860@bootlin.com>
-References: <20260831-mathieu-updates-2026-08-31-v1-0-58b54db72860@bootlin.com>
-In-Reply-To: <20260831-mathieu-updates-2026-08-31-v1-0-58b54db72860@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788167050; l=4825;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=aCVwBhaC1T4GYkL98Xir/lrVetOs6kjfIbqy9M44NNA=;
- b=zwyNNNR5gHYwUn36Uu4VFwOFug5XBtwfKWGyBmbOSZ2myHM1w/+DO+DTBKntKN4LI9bkJNBhl
- 2a9khDlKCTfDnkL5wo9SIoWqJ2oOuuq+D8GEhJa7hcxBLOWgyJhCF0f
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@smile.fr header.s=google header.b=T4pZwZym;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49b0dbfbf7bso22712575e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 02:06:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1788167210; x=1788772010; darn=lists.openembedded.org;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=NIMJUpjDyTID7HnIOSdElwmLneafEVLvBOlaU+O38wA=;
+        b=T4pZwZymqc7UjX+QB6mwX0CZ/4h3/lLL2O9Dz1/Qpb533uBYz52Fq0WAWKcEp02A/9
+         7QpjZPBdxw/+88x7zSSHelZW+Oh/6wyFmeQ/LR5BytBk0flfMlcfdsOaHAKb6XJY7BZD
+         z+DQM4Vo8OQbfa3YQJ5YppYXbJnKDukMTqCyg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788167210; x=1788772010;
+        h=in-reply-to:references:subject:to:cc:from:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NIMJUpjDyTID7HnIOSdElwmLneafEVLvBOlaU+O38wA=;
+        b=ed5AU+BWuD+yKsyI2isvYsqENDb1FAjkc+DUanDA/TsCdPcGyuiJoUBVn2ouj4tSmV
+         GXEdILR94+djnjoISH7NzCgGSGi3TH9bwGYvfNg1r0W3d/mBVFbefkBreQQXJANuOn7c
+         /25VmLODiyBNaYfo30xhMhfbORAjb/RUXuESLKYBMbjxS6CpfPGI+m++Bk+rTkOq4HYB
+         7SCA+TFRKMj9jALZm1mf8qrJK0qtzOuQuNvmgBlFno50zPwKR6M1WqLqmv/McFZ2wJQK
+         4QWwj7q4LOertuPQZdtc9o1y3jQEpf9gUHWIvAoDemQpyC5bfdtdpwWzedHutZ15qP6l
+         t82g==
+X-Forwarded-Encrypted: i=1; AHgh+Rrw9lh2l82siBNBPUC3TlP9QJPf3ax9o4VUYzZKfUbrW/NyyEUce5vh+jlwogRwqoCUuN1QI5AbJKC3f3f9MOkwWw==@lists.openembedded.org
+X-Gm-Message-State: AFuF++l2OXGzeZOw0czXykHCiQ99CphFfHiKtC5AIFGz2nuOB/exApue
+	QWoPpf+go+vlCiubOeMpP/SR7GtY/uNXpfdcCPt7vHEIE0MeiF3pLjpIMpWxvc8c9rbvTdf36AB
+	qNoj5lu8=
+X-Gm-Gg: AR+sD111jQipvNeP2csPXMh5ihwOOCYxzeuWlLouGILxN2ud6NKTuh1VI8MSmb80tTN
+	qoesYGZCW0VLmjBsBdq4V9NhhXcv5Yb4NV7qXo4ByiSqyjkqldTooH6cx9C/LkcgT9lqYpKJNY8
+	KiNu6phxXVgfSMMduPIHlEo6TdrMTLYgiocnuYqsis81AzJqx4YRXkAnypC7tTlAt2+GX7g8P02
+	+QQHjy+IXnQ9btVDdlU1eqqs643uFdB/V5Z5TovFcqnf1+5xErT7hl60XFQyP5YPlPrcCLipTol
+	tFPLaIIjb0fd+vuF+vEjTnQm0pHMjWPKc1EOUNZg89/oSW2pY59otlPtv1qovs666nKrfPXoVTC
+	EOe2LRSiZcHwyuaLMcTznLTRaoZTcMvNLd5wZCGYa/rJ8New0ZYEaqTNrjnCJSVrfTqIoWtn/kQ
+	ismBjWhDN7HXIJrgRTNelaUYeBDL8ILiIN5hHJcbCOdWSukZfLQHxmCrnEDaLWHZEZULO9rP43J
+	PqmreUOWsNt8Jwn2LnRtSoaVxAol7gK7A8tS/2bc2XptQ0W
+X-Received: by 2002:a05:600c:8b76:b0:49b:9161:db26 with SMTP id 5b1f17b1804b1-49cd9479180mr31708415e9.14.1788167209601;
+        Mon, 31 Aug 2026 02:06:49 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ccea87e1asm131350985e9.2.2026.08.31.02.06.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 31 Aug 2026 02:06:49 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 31 Aug 2026 11:06:48 +0200
+Message-Id: <DL30DF8R6J3Y.2XMP2OA0BFNV0@smile.fr>
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <Sundeep.Kokkonda@windriver.com>
+To: <Hemanth.KumarMD@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [scarthgap][PATCH] glibc: fix CVE-2026-5435
+X-Mailer: aerc 0.20.0
+References: <20260819092634.570557-1-Hemanth.KumarMD@windriver.com>
+In-Reply-To: <20260819092634.570557-1-Hemanth.KumarMD@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:04:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244751
+ <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 09:06:57 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244752
 
-Source: CHANGES
+On Wed Aug 19, 2026 at 11:26 AM CEST, Hemanth Kumar M D via lists.openembed=
+ded.org wrote:
+> From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+>
+> resolv: More types as unknown in ns_sprintrrf (CVE-2026-5435)
+>
+> Specifically, CERT, TKEY, TSIG, OPT.  This removes the buggy
+> implementations of TSIG, fixing bug 34033, and partially
+> fixing bug 34069.
+>
+> Reference:
+> [1] https://nvd.nist.gov/vuln/detail/CVE-2026-5435
+> [2] https://sourceware.org/bugzilla/show_bug.cgi?id=3D34033
+> [3] https://sourceware.org/git/?p=3Dglibc.git;a=3Dcommit;h=3Dca44a6609c29=
+a683b03575fa035c6d17aa591e72
+>
+> Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+> ---
+>  .../glibc/glibc/0024-CVE-2026-5435.patch      | 137 ++++++++++++++++++
+>  meta/recipes-core/glibc/glibc_2.39.bb         |   1 +
+>  2 files changed, 138 insertions(+)
+>  create mode 100644 meta/recipes-core/glibc/glibc/0024-CVE-2026-5435.patc=
+h
 
-	* [Agenticode]: sadc: Read /proc/stat once per collection cycle.
-	* rd_stats.c: Rework functions to read /proc files once.
-	* Read all /proc files once per collection cycle.
-	* [Sagar Sagar]: Avoid all-zero CPU rows on counter regression.
-	* [Lilu]: svg_stats.c: Fix integer overflow in allocate_graph_lines
-	  size computation.
-	* [Hang Zhao]: sadc: Fix pgscan_direct counter incorrectly including
-	  pgscan_direct_throttle.
-	* [Andy Lau]: sadc: Fix pgsteal/s double counting by only summing
-	  pgsteal_anon and pgsteal_file.
-	* [Andy Lau]: sar, mpstat: use write() instead of printf() in signal
-	  handler to ensure JSON output is properly closed on SIGTERM.
-	* [Andy Lau]: Remove unnecessary unsigned int cast that truncates
-	  irq_nr in read_stat_total_irq().
-	* [Andy Lau]: Fix typo in sar manual page.
-	* [Dean Chen]: sadf, sar: let --fs match mountpoints as well as device
-	  names.
-	* sar/sadf: Don't test for empty "--fs=" list.
-	* [Nathan Scott]: iostat/tapestat/cifsiostat: add -G flag for gibibyte
-	  display.
-	* [Nathan Scott]: sa1: derive LONG_NAME from SADC_OPTIONS, not just
-	  HISTORY.
-	* [Nathan Scott]: sa2: honour -D in SADC_OPTIONS for date format.
-	* [Nathan Scott]: Slightly reduce scope of install-cron configure script
-	  option.
-	* [Nathan Scott]: Rename --enable-install-cron to
-	  --disable-automated-sar-reporting.
-	* [Nathan Scott]: Enable automated sar reporting by default.
-	* [Nathan Scott]: sadc: Fix heap buffer overflow in reallocate_buffer().
-	* [Nathan Scott]: do_test: Replace bash-ism with POSIX arithmetic.
-	* [Nathan Scott]: do_test: Exit with error status on test failure.
-	* [Nathan Scott]: tests: Fix PCP archive test portability.
-	* [Nathan Scott]: ci: Add GitHub Actions CI workflow.
-	* sa1: Remove "iso" option.
-	* cifsiostat: Add JSON output for option -G (display in Gigabytes).
-	* pidstat: Add fflush() after JSON closing output.
-	* sadc: Now only read pgscan_kswapd counter.
-	* sa_wrap.c: Also use reallocate_buffer() function for A_PWR_FREQ
-	  activity.
-	* cifsiostat, iostat, sa1, sadf, sar and tapestat manual pages updated.
-	* Non-regression tests updated. New tests added.
-	* simtest: Fix issue related to 19th day of the month.
-	* Makefile: Fix EXTRALIST variable contents.
-	* Fix some tests for out-of-tree build.
-	* do_test: Make options available with out-of-tree target.
-	* [orbisai0security]: Fix a (theoretical) security vulnerability.
-	* [Peter Dave Hello]: Refresh sysstat gettext template file.
-	* FAQ file updated.
-	* NLS translations updated.
-	* Update year in copyright messages.
-	* tapestat: Cosmetic change.
+Hello,
 
-2026/08/28: Version 12.8.0 - Sebastien Godard (sysstat <at> orange.fr)
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
----
- .../sysstat/0001-configure.in-remove-check-for-chkconfig.patch        | 4 ++--
- .../recipes-extended/sysstat/{sysstat_12.7.9.bb => sysstat_12.8.0.bb} | 2 +-
- 2 files changed, 3 insertions(+), 3 deletions(-)
+As fas as I can tell, a fix for this CVE is also needed on wrynose.
 
-diff --git a/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch b/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
-index 431a60aee155..3bbf769929ce 100644
---- a/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
-+++ b/meta/recipes-extended/sysstat/sysstat/0001-configure.in-remove-check-for-chkconfig.patch
-@@ -1,4 +1,4 @@
--From f41b0253d1583f7e1286fa2f29393c3d3f5183b4 Mon Sep 17 00:00:00 2001
-+From 7df414e3a4919d6bc68728ea593d00098ef1fc13 Mon Sep 17 00:00:00 2001
- From: Wenlin Kang <wenlin.kang@windriver.com>
- Date: Tue, 5 Nov 2019 16:16:44 +0800
- Subject: [PATCH] configure.ac: remove check for chkconfig
-@@ -13,7 +13,7 @@ Signed-off-by: Wenlin Kang <wenlin.kang@windriver.com>
-  1 file changed, 2 insertions(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 8b5f9b73..910ebd5a 100644
-+index 17507ea9..a08d717b 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -42,7 +42,8 @@ AC_SUBST(VER_JSON)
-diff --git a/meta/recipes-extended/sysstat/sysstat_12.7.9.bb b/meta/recipes-extended/sysstat/sysstat_12.8.0.bb
-similarity index 98%
-rename from meta/recipes-extended/sysstat/sysstat_12.7.9.bb
-rename to meta/recipes-extended/sysstat/sysstat_12.8.0.bb
-index ffc7c0ac3736..967e60f2d484 100644
---- a/meta/recipes-extended/sysstat/sysstat_12.7.9.bb
-+++ b/meta/recipes-extended/sysstat/sysstat_12.8.0.bb
-@@ -12,7 +12,7 @@ SRC_URI = "git://github.com/sysstat/sysstat.git;protocol=https;branch=master;tag
- 
- LIC_FILES_CHKSUM = "file://COPYING;md5=a23a74b3f4caf9616230789d94217acb"
- 
--SRCREV = "b8f987807e7c7ba5c1b2ca8b7b1e9d80e61bce6c"
-+SRCREV = "ffabe8175aa9a7aa056380c66ed3648e50c1967d"
- 
- DEPENDS += "base-passwd xz-native"
- 
+I can't merge here until this is fixed there.
 
--- 
-2.47.3
+Can you send a patch to fix this on these branches and then, ping back
+here?
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
 
