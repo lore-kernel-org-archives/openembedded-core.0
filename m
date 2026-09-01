@@ -1,452 +1,224 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <Ghanshyam.BanaitSanjay@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C9F9C624C6
-	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 09:28:12 +0000 (UTC)
-Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3813.1788254882145499514
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1562C624CF
+	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 10:40:12 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5113.1788259204946431377
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 02:28:02 -0700
+ Tue, 01 Sep 2026 03:40:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=cY8AuFWe;
- spf=pass (domain: mvista.com, ip: 209.85.216.42, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so735591a91.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 02:28:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1788254881; x=1788859681; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=J3/GxAxXBBJJkdpvVXLa/5+cCjB0ys+yuGYITv1cFOk=;
-        b=cY8AuFWeMLW0Z+R9cqjH1T/Ew/SDQ5jo1iEqIMr461EjKvckYcuVFbje9kzanfOjWR
-         WNVdfwb9XnEFKCxXjECQl+BVu7at7MRBKrT27eRVQwstLcaI/7mvmSJ6whD04WwI8aCz
-         AUKK8Me6l6/Cx+9CrkcSANGst98j7lvyJHRNk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788254881; x=1788859681;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=J3/GxAxXBBJJkdpvVXLa/5+cCjB0ys+yuGYITv1cFOk=;
-        b=R5S3q2HE3nbKVEqnAYXUY80W/OguDqdr+NhXDeJ6FSNAqTKAHBL1D21WR6K4UR+xb+
-         yoQKj4qSLz0Q5AbQpttAfcdqUyznW+Z1z0NFVVXfFYWbDk4CtFVkMhDK0UAfSVyU+20M
-         y8E8k5uXiBVk/WL57B7+SXDOkIqfPYbKEivcFxXJYoKe1yb/Lin9obnR/bQel0BcjPCX
-         uSN9E/i6csvefdyH8sqEm2FcWXUYH8LROdRPyLKWhiBJYr0LBTWqYx2mem+AdBFMZ7JT
-         hmhEqtntqMZYfSQxKtplhIZCRl+Alz2clM1Ll/TF0mb0jEf5cnxcmovBw/9DkO3DNBAP
-         7I+A==
-X-Gm-Message-State: AFuF++ncTSW9PlXl7dxXBIqD8RJPc9K1Ud3rEGueBa/funVXkJvxv03F
-	vntr9rJc8v8Sp63imSsiFyDg1OWRNrE7Vt/aN7bLkoUUxTC9cNH0XmEdseJ7de5pbjHOpO1a/x9
-	RboNP
-X-Gm-Gg: AYBFou19Cq0m5xrxvJwZkRN+2ixOxMvoWlOvsOgesgR4Zhp23ZECACPDd6Rn0D+Aiml
-	8gZGxcnEzpuQZypvTrnIx6b1hKxeuKL02Zrair7pYAqePzSbskSfir2kuJ/3R31c5I06nv6iUwb
-	GlpzeyXov7WDy4FFwXh8UirON2M82+xepM/ZOcCHjJLbdp3Hp6kC2dE4AIbby+eZ7+jAZuuS2h5
-	xzzwg1aDAXsQjq+xyOoT/lOuWtILZzdNJ24uxs0w3ODC9RVlcrj5PZZtGew/Tj074u8JLIr/qLT
-	elLSdykuBBdP0mf1VQT9mSgulyM1P2Diwo9OBwY9oUz8bkEdsPDIoMxlJAQkl0VLQynMewwg48y
-	giVgJbaW9Anjuba1K/pDJBz9+BZKN6qWD65Io5fuOx8ad2Z/WC0ocChYGBIKGvsq1pIMWa0fpkr
-	q27mbbmuT2uh+xBNtB8iOFx2pqjoQRmejPMTgM8v6s0zkEw/VykGsVZ6j/NBXVFcjj
-X-Received: by 2002:a17:90b:582e:b0:398:9be9:ab8e with SMTP id 98e67ed59e1d1-3989be9acb8mr33898863a91.19.1788254881216;
-        Tue, 01 Sep 2026 02:28:01 -0700 (PDT)
-Received: from MVIN00352.. ([2401:4900:1f29:c0f2:70c7:b40a:9f7a:1a18])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-32b4bc05416sm23271473eec.6.2026.09.01.02.27.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 02:28:00 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=Te8yDogQ;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3704ae816c=ghanshyam.banaitsanjay@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 681AKILi1314347
+	for <openembedded-core@lists.openembedded.org>; Tue, 1 Sep 2026 10:40:03 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=J6LiZbf6WpfDDAEpJMSW
+	eVS9wJlsoKVSFDYnO7JLruI=; b=Te8yDogQld9h1SE0H/vrzR1niTeTSzFBegno
+	PiqCAgakeCTg2HT6QIJzyDB8DkpfZGIfymt1D9KALwduimeeCltiI0SrG147mFHg
+	QcRS1OiXFmB219EqW/QgdDbVwLWZyKOd3fB2bNk1ELuQggi0euU4saqezdzUu5hE
+	4lZJMft2QYrWS1yD++TWTxfcT45qIhxBFLsKM+Blw9HhyKIvbOlbOfCpmj6O7sDO
+	46K9FZcLMUGO9nk72y4BfAhSQLZOVCMKI7tfkUNf9Z/JsLGZZrL6a0GlrGYPjVqi
+	G844q/o7tELFncGT0u3iUbESEEZanxaVI2IWI3qMY7lnKuu3/A==
+Received: from dm5pr21cu001.outbound.protection.outlook.com (mail-centralusazon11021107.outbound.protection.outlook.com [52.101.62.107])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gbpd7v5e3-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 10:40:03 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=dSCnu9pV5x6jIFr6ODnwMCryFyIghKhE8xGn84isMuvt/I7t1IVfd9w/LdBv7MpSQpRQQiYnb2MzzrVpsnaMaWPsxIN6MuxSzjHMZrdro2m6JBDgbanB5EGOqxmISHTfz/1c6d3UexpjzX2WI0l6WveWBY/yfVqfoWaxhWaKkvvhRgkS4Y+9liv0BQ3YSZ7cE62/CaaeX90Tdh0TVx+k9ekIBThhmnEIxlqUcHYTxXXLiSyiypy+7sPyXb8344o2UyQImvHl/J/xKgqf2+9WO5AJ3ftz8HaBd+mApVuGLWEvyLo2+sjaKxXl1o2czkFVmtJk6w2s7wuJZwhLjPlkBw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=J6LiZbf6WpfDDAEpJMSWeVS9wJlsoKVSFDYnO7JLruI=;
+ b=PvDm/X2wtmZWuxEyZlIk6AD3pNePUydCf0QUrTrNljtisuV/wqB0Rg0NJ4YtA/zbh3IdOu/oor16HGrSAOx0ks/f19RKpJ8Kb40DZ+CKigic2/rvswKWlde1c/llsrg2mWW0bimGJEd0O1URwouPne9/CDuyhb5msCwpmS3Tls1/yJZqXDZ1+yg0sEwNuQam5RoefINmJsqm4POCjrRmLQh+smQArf/tbwSw7xLK0KDgz9nmstuLFbG5hCwzmyeXy54uSipFjajMTZj5Oqv4Qg+XXBvA3XE3KWuaUSOMvxPFPhPIvE5Yi9ectOeecQS7df9F0OEm7DjVBFdcf6+2Tw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from SJ5PPF57F27BA08.namprd11.prod.outlook.com
+ (2603:10b6:a0f:fc02::82b) by LV3PR11MB8482.namprd11.prod.outlook.com
+ (2603:10b6:408:1bb::19) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
+ 2026 10:39:59 +0000
+Received: from SJ5PPF57F27BA08.namprd11.prod.outlook.com
+ ([fe80::68e:cafc:75a:3e02]) by SJ5PPF57F27BA08.namprd11.prod.outlook.com
+ ([fe80::68e:cafc:75a:3e02%8]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
+ 10:39:58 +0000
+From: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch 3/3] python3-cryptography: Fix CVE-2026-69249
-Date: Tue,  1 Sep 2026 14:57:41 +0530
-Message-ID: <20260901092741.34198-3-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260901092741.34198-1-vanusuri@mvista.com>
-References: <20260901092741.34198-1-vanusuri@mvista.com>
-MIME-Version: 1.0
+Subject: [OE-Core][PATCH] libssh2: fix CVE-2026-58051
+Date: Tue,  1 Sep 2026 16:09:37 +0530
+Message-Id: <20260901103937.1630469-1-Ghanshyam.BanaitSanjay@windriver.com>
+X-Mailer: git-send-email 2.40.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SEWP216CA0060.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2ba::8) To SJ5PPF57F27BA08.namprd11.prod.outlook.com
+ (2603:10b6:a0f:fc02::82b)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: SJ5PPF57F27BA08:EE_|LV3PR11MB8482:EE_
+X-MS-Office365-Filtering-Correlation-Id: 5d87f2f2-8b6e-42ba-8744-08df08155eb3
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|52116014|10067099003|12006099003|11063799006|56012099006|18002099003|13003099007|38350700014;
+X-Microsoft-Antispam-Message-Info: 
+	lx6u3fsi9WguyePU7oI/XIsd23DGsqNUfqeRBAJeoHKR7WDW9YDw/vHkHjk+MaZEjLWwpkEA2YHxjG8xMcOK5aWDnsfcvmU1cHrX90rnqyF1N4HVL/lr0aP0IdHI0goQM/5z6iQX+smFnIKdR8drY+nJPejjG2YwjKwRf3dmPtr3UZ5Mum67gXR00WDdYmfXScX4wvcqQc2g/tHVPfSYY4dPQ7UVBNN+EomifVpyJeeljSOA+d+0e0On9G9d6uEj2Y4BiD5TiD5BVnhQ2+6jzeCt+Q0frgTy6gwOwW9ZiCAQduuFxHnuI/0Clz0JsawsD4f/D0ZyS1u0yc1wUuceAQ6T244AyJ6/XUCJdZ0dJLPNnyp9aItR6/3wZpjjDEThxIH2/S3A3PcNWkqA4L4Qm5ixdhg3rNBOm0OCmt97R5wqOEx+wg3EhMJLBNASHQjugPPmNJZV2gOxZPtbXmzaDS+uPXzdLs36BbFATHEUhjl77un3tRA6PgGoIesAaWWVV7GlbPKp05iAlmkZH6iaVJrJrnGK1KD1xbXOKRJyHdv4n1OCahNjW62rPdYbbbfqRwrfkcK37fBXDRLm1k4m36+m9fxH4QPNmC4g3qx/xmXyU3cMYHlR7Vd7GrCg58axZ/z+wUWMluxuY9xGY8zd2qtzGRGOE43OuJk+PwrNX3Y=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ5PPF57F27BA08.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(52116014)(10067099003)(12006099003)(11063799006)(56012099006)(18002099003)(13003099007)(38350700014);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?oMHF2EwAnea3iQbn4WWVvqNFlIyNFHf6GTLwZ2sK89dvOmRXZ2/4M++qv/2t?=
+ =?us-ascii?Q?xZWK0xEU3xnRmPbBw+3+VYA0nHY3Y1kefC20iQSNe1rGSl4Sp/VBvtssQ09g?=
+ =?us-ascii?Q?XYpgwtS2ncfgflpaqeeNW3n1+sPHFjD33igEHYqJOkdArkIN7oxnmwFQWCnI?=
+ =?us-ascii?Q?q08zXbyNg4170ZgbuCQwMvcpWCwZwqY9KwS9OhdHDS420os3XfbiR9UezrKW?=
+ =?us-ascii?Q?7iCM+BREzNtt1Ra0NQ0WEv+wk9IrBWMsB3tdw36M7JRAxLoBYK7ZRhfK/CSE?=
+ =?us-ascii?Q?1LPUcVeaAfmiDFKIQZP2SlvZvZu6pBKFXxe4RN65oh9SLgV94+gUJERoku0p?=
+ =?us-ascii?Q?Eyczr2MvtKOKRArcRWtstFVufdoG8tAC4yPBuVRtvxAmrUI8wLNgQRUurpGS?=
+ =?us-ascii?Q?YUfa3vJpXLVs+cSl5sAI3fxp7TuPRW5rJBXQtiCRhD4J0RnFLBpN7LFk7DFd?=
+ =?us-ascii?Q?8CGSPsBhpwLxaKbbxgJZ26z41G2dFa5WRiTxwVIYXig7ebAwih2iZ7r4jtcN?=
+ =?us-ascii?Q?w/aSZ1HrXKbBCfyvHCqTADZgqSR+qnuuEoWXSVIcaAa6h6QZMepjsMbBaOG1?=
+ =?us-ascii?Q?aTwA+4Sze03CjvaEssLZOJauInuD57n20m3bwC7byoRw07uwGb+ql9VsHCoP?=
+ =?us-ascii?Q?xkIU+ZZEWokLv8fJeilXBUfB9AYIGYTwIY5PI+JUf+Wrwix6z33QXPZt1t/I?=
+ =?us-ascii?Q?0Hs/V5F5JsmIpcfbQMfec1sUHdKwBgAgU6lSH2jWRQpb7scrY4VqfIp6msZz?=
+ =?us-ascii?Q?WBdTd0u0dE09Ax7e6Gl/7PFXlYs1OPBYP+ncq2oMlnyU8LKdPHpI3AEDw7S9?=
+ =?us-ascii?Q?b5XEcKb4gyMx6l3P40QOUlbwJh28AxcViurDmT36eisRUnATHmvcqcumWWUP?=
+ =?us-ascii?Q?DPZ5fEjzZEhvqEjrtLgR539q9jwA7l4jHJIUt2rNVKTP91JgFZoHk3mu8s8A?=
+ =?us-ascii?Q?nOZRPMlbFrK+gNNLj4M9fwhiv5fm1Fl+hrVb1KJ6jqAqZlqlndHJGKW/0df4?=
+ =?us-ascii?Q?qGHKujWlBJrZQzQhpYI/M1VT0btvvalNx4soDBTxIoWY03Xgd7DwTiInN/+a?=
+ =?us-ascii?Q?QugbqGlXGOQkgh7gFDHqAxa0MxdRG5fIrj121gD4BAXGFOVm+xfWF0v0zIUk?=
+ =?us-ascii?Q?zQMu2iXmrz1Xe6cbJkABErKfLUKfbn3i0uOSsr9DpzdR2/EvyRaUYscy5Ucx?=
+ =?us-ascii?Q?VU5yRhjN2rB9FnDzHJYZLRsi+NNeLWjPHZxd4c4otzBViciUT4EAXArIN6Qs?=
+ =?us-ascii?Q?DZSWG/TsqXIkIZzPjfhV1+mSMq5z80LiIZ7RQ0oVE5ShZfEg259PGf+WXS4E?=
+ =?us-ascii?Q?lF/ut1s3sqP7Yfnt3s6tnmPhUl7kEp96qmfiTHxO46VacnKR4RtcE64H/vyV?=
+ =?us-ascii?Q?UUoIkTmpcLKMDy3mDbRmL8bgK1sOwcr7P0ihHW1rZ9OINI3Ro5EGI8xqaJS8?=
+ =?us-ascii?Q?u4MuwklSBkz63MyPpWkOYsbACuyHtBx4TvNA8EUdMn1cUCglUMxfX1qLgMXI?=
+ =?us-ascii?Q?GrFkagn2KPEwZ1FMIAknNR7uaWrPesU2jIqKmw83dyALwn2ZY6kJ2Pg8Z7dq?=
+ =?us-ascii?Q?2PsAi2WWqMqtUd2fDPWH5jUNs96wp6M/xwgXBwEzZRtvUMYCfG2Eh9oaWzjy?=
+ =?us-ascii?Q?8OXgEzZZbFHvAv9tBnZ6RwM5AoUJ5tnWCJ6CS1u80Qp7C+Swx2QYLvX4TmVi?=
+ =?us-ascii?Q?Xz4mmHrFNbobIbqf5G+LzyKz+4X8nZBBy1ROo5da1oAOIl8tAZsTB6V55AC1?=
+ =?us-ascii?Q?w9IfAa8fQz5RWXaP0LiWBKFxLwnwNLQ/1pHAdpcAljGDFG3w8iHy?=
+X-Exchange-RoutingPolicyChecked: 
+	Ou39fiC2NHeG3WcGFYkJFn/a0PUEjqcCY9YtQ6fk8yVa8/QLnqrM1R7S/cRFZdHXuLX5ODB32ooHDUeRnXgpXmvWiCxdVTEpExKyFIpDkYPeOVq6vi+xNbCNcb9rm010esil4+BR1jmFr9gdbvKUSuzFC3iuKzyjXqInxN0VX0seCw11JO7QhlhAVgS+965C0I5mhEoC+mr9HnreqpHpZsS9sSypT6YErI7moyysdGqq8IsGnr8bornJeEjqVJJCLa7njtLmQuXeR67K8ORz7IGIvMnebF51g2qZ6K2LmOGeE6Wd1OqlYf31RgsVHU+RPWKkbEaOchpno60ceMBR1g==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 5d87f2f2-8b6e-42ba-8744-08df08155eb3
+X-MS-Exchange-CrossTenant-AuthSource: SJ5PPF57F27BA08.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 10:39:58.9158
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: G3EDYlCwNaCQr9m2JHgT00dvtiX8el7sNQzAV5yzjHZoYs5+OPTvpuhx0l15j4zxB4DJigM+HU7GrH7S3nOG7gGfr0i10TG8D19//dOmyWyQ2Ki591HF2LDlwkQlmk1c
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV3PR11MB8482
+X-Authority-Analysis: v=2.4 cv=Ie63n2qa c=1 sm=1 tr=0 ts=6a96ab83 cx=c_pps
+ a=+HJImzcKfBiIxAXIXfD3UA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=PYnjg3YJAAAA:8
+ a=NEAV23lmAAAA:8 a=oeppcwj8AAAA:8 a=t7CeM3EgAAAA:8 a=aV93AJox-TxQ-MY7focA:9
+ a=EbX5vdCAct3xugfmopdr:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTAxMDA5NCBTYWx0ZWRfX7g1JHkG/P0nY
+ eN3v1rR2eGT0h7c6G+Hx7ecE/fWrj5T+bATENjEiVWVpvHkXAH7vm+2up9GdC6tEQsyP/KsEwDh
+ bnuL7vI71KHAkkH9NLoMa0Gv0OYoscO3u8McYK8SePWx66C09wsRUxrfk5KILzMgp+lW8+Ln2lG
+ +KR/SIUUziJX6lDEMx4c2sxbE9fMiYG7AGeNtr8qtIk2mPP/qSfQY4gvIi3z9GcHyUKYqOmgezI
+ vPFCj63G4kZZaexuQj1tc2ZbS9oHmPGLsgzpxT9gxDSB7EMF7srv10E7QegNksxGHI7S4ncv+V4
+ 6ToKmWKDjAqgt/2AjWIC3CdWMqCjETgHg7bz54D+aZPb9k9xCRp46p/NY9Qt2icRALCTSLLKw43
+ HKhyc5+Amf/C4LhKP56VKB7gMGMUHL8Dv99KOBl0SEvrleb81shciXToxVOng0QNe/mGC0YrprM
+ DaGD0cqVwwKGioJnWFA==
+X-Proofpoint-ORIG-GUID: bGvNrU6wLb9HxSO5hUTS6BIAvVZqhGBq
+X-Proofpoint-GUID: bGvNrU6wLb9HxSO5hUTS6BIAvVZqhGBq
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTAxMDA5NCBTYWx0ZWRfX6Mz2w6+AzWPs
+ aWsdrp/UYaU4RbedS8dt7OgA8Jz3A6ftig6Z1OcI55gH7XcJz9LfUKG5pRBE6s5ibqTmwGzdNSK
+ lC+5U8VzZaFwWRv4kUIiCePzpzq6Q51uGgLr1wT4JI/Ixguj9vS6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-01_03,2026-08-31_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0 bulkscore=0
+ suspectscore=0 clxscore=1015 adultscore=0 priorityscore=1501 malwarescore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609010094
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 09:28:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244816
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 10:40:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244817
 
-Pick patch according to [2]
+libssh2 through 1.11.1 grows its publickey list with SSH2_REALLOC but does not zero-initialize new entries before parsing populates them,
+so a parse failure reaching the cleanup path leaves libssh2_publickey_list_free operating on an uninitialized entry.
+A malicious SSH server offering the publickey subsystem can use a malformed response to make cleanup free an uninitialized,
+attacker-influenceable attrs pointer in a connecting libssh2 client.
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-69249
-[2] https://security-tracker.debian.org/tracker/CVE-2026-69249
+Reference:
+https://nvd.nist.gov/vuln/detail/CVE-2026-58051
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Backport the patch to fix CVE-2026-58051.
+https://github.com/libssh2/libssh2/commit/a9758da45a52bc8c630ec9493804d0c6ea30b24a
+
+Signed-off-by: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
 ---
- .../python3-cryptography/CVE-2026-69249.patch | 349 ++++++++++++++++++
- .../python/python3-cryptography_42.0.5.bb     |   1 +
- 2 files changed, 350 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch
+ .../libssh2/libssh2/CVE-2026-58051.patch      | 34 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch
 new file mode 100644
-index 0000000000..a920b4a7cc
+index 0000000000..20f454a304
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch
-@@ -0,0 +1,349 @@
-+From 4a12cf49675a184e47f912b00b04f3a629283582 Mon Sep 17 00:00:00 2001
-+From: William Woodruff <william@yossarian.net>
-+Date: Sat, 6 Jun 2026 23:30:03 -0400
-+Subject: [PATCH] Add a signature validation budget during path construction
-+ (#14960)
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch
+@@ -0,0 +1,34 @@
++From a9758da45a52bc8c630ec9493804d0c6ea30b24a Mon Sep 17 00:00:00 2001
++From: Viktor Szakats <vszakats@users.noreply.github.com>
++Date: Mon, 29 Jun 2026 19:12:21 +0200
++Subject: [PATCH] publickey: fix potential arbitrary free in
++ `libssh2_publickey_list_fetch()` (#2127)
 +
-+* Add a signature validation budget during path construction
++Due to uninitialized list entry.
 +
-+This extends our existing NC budget check to include a budget
-+for signature validations. If a path construction exceeds the
-+budget by performing more than the allowed number of signature
-+validation steps, the entire construction fails.
++Reported-and-patch-by: Behzod Abdullayev
++Reported-by: Sharique Raza
 +
-+For now, our budget is 128 signature validations. This is
-+consistent with (higher than) Go and rustls-webpki, which
-+both set a limit of 100. Like Go, we attempt to make the "best"
-+use of our signature budget by ordering by likelihood, using
-+AKI/SKI match as the strongest signal of fitness.
++Follow-up to e15f5d97a04cc676ce117dd324fef85b046207a9
 +
-+* Bump limbo
++CVE: CVE-2026-58051
 +
-+* Temporary commit
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/a9758da45a52bc8c630ec9493804d0c6ea30b24a]
 +
-+* Revert "Temporary commit"
-+
-+This reverts commit bcdb6808562a8b8f484f85d21cb201cfdb2bbbd7.
-+
-+* Fudge a coverage test into place
-+
-+* Coverage for the coverage god
-+
-+Upstream-Status: Backport [import from suse python-cryptography-42.0.4-slfo.1.1_6.1.src.rpm
-+Upstream commit https://github.com/pyca/cryptography/commit/4a12cf49675a184e47f912b00b04f3a629283582]
-+CVE: CVE-2026-69249
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Signed-off-by: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
 +---
-+ .../cryptography-x509-verification/src/lib.rs | 209 +++++++++++++++++-
-+ .../src/policy/mod.rs                         |   8 +-
-+ 2 files changed, 208 insertions(+), 9 deletions(-)
++ src/publickey.c | 1 +
++ 1 file changed, 1 insertion(+)
 +
-+diff --git a/src/rust/cryptography-x509-verification/src/lib.rs b/src/rust/cryptography-x509-verification/src/lib.rs
-+index a505349..334eed4 100644
-+--- a/src/rust/cryptography-x509-verification/src/lib.rs
-++++ b/src/rust/cryptography-x509-verification/src/lib.rs
-+@@ -15,9 +15,12 @@ use std::vec;
-+ 
-+ use cryptography_x509::extensions::{DuplicateExtensionsError, Extensions};
-+ use cryptography_x509::{
-+-    extensions::{NameConstraints, SubjectAlternativeName},
-++    extensions::{AuthorityKeyIdentifier, NameConstraints, SubjectAlternativeName},
-+     name::GeneralName,
-+-    oid::{NAME_CONSTRAINTS_OID, SUBJECT_ALTERNATIVE_NAME_OID},
-++};
-++use cryptography_x509::oid::{
-++    AUTHORITY_KEY_IDENTIFIER_OID, NAME_CONSTRAINTS_OID, SUBJECT_ALTERNATIVE_NAME_OID,
-++    SUBJECT_KEY_IDENTIFIER_OID,
-+ };
-+ 
-+ use types::{DNSPattern};
-+@@ -40,15 +43,23 @@ pub enum ValidationError {
-+ 
-+ struct Budget {
-+     name_constraint_checks: usize,
-++    signature_checks: usize,
-+ }
-+ 
-+ impl Budget {
-+-    // Same limit as other validators
-++    // The maximum number of name constraint checks performed when attempting
-++    // path construction. This is the same limit as other validators.
-+     const DEFAULT_NAME_CONSTRAINT_CHECK_LIMIT: usize = 1 << 20;
-+ 
-++    // The maximum number of signature verifications performed when attempting
-++    // path construction. The is similar to other validators:
-++    // both Go and rustls-webpki pick 100.
-++    const DEFAULT_SIGNATURE_CHECK_LIMIT: usize = 1 << 7;
-++
-+     fn new() -> Budget {
-+         Budget {
-+             name_constraint_checks: Self::DEFAULT_NAME_CONSTRAINT_CHECK_LIMIT,
-++            signature_checks: Self::DEFAULT_SIGNATURE_CHECK_LIMIT,
-+         }
-+     }
-+ 
-+@@ -61,6 +72,15 @@ impl Budget {
-+                 ))?;
-+         Ok(())
-+     }
-++    
-++    fn signature_check(&mut self) -> Result<(), ValidationError> {
-++        self.signature_checks = self.signature_checks.checked_sub(1).ok_or_else(|| {
-++            ValidationError::FatalError(
-++                "Exceeded maximum signature check limit",
-++            )
-++        })?;
-++        Ok(())
-++    }
-+ }
-+ 
-+ impl From<asn1::ParseError> for ValidationError {
-+@@ -270,18 +290,57 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
-+         }
-+     }
-+ 
-++    /// Identify and return potential issuers for `cert`, considering
-++    /// candidates from both the trusted store and untrusted intermediate set.
-++    /// Trusted candidates are returned before untrusted intermediate
-++    /// candidates, and both groups are opportunisitically ordered by
-++    /// "likeliness" in terms of AKI/SKI match.
-+     fn potential_issuers(
-+         &'a self,
-+         cert: &'a VerificationCertificate<'chain, B>,
-+-    ) -> impl Iterator<Item = &'a VerificationCertificate<'chain, B>> + '_ {
-+-        // TODO: Optimizations:
-+-        // * Search by AKI and other identifiers?
-+-        self.store
-++        cert_extensions: &Extensions<'chain>,
-++    ) -> Vec<&'a VerificationCertificate<'chain, B>> {
-++        let mut candidates: Vec<&'a VerificationCertificate<'chain, B>> = self
-++            .store
-+             .get_by_subject(&cert.certificate().tbs_cert.issuer)
-+             .iter()
-+             .chain(self.intermediates.iter().filter(|&candidate| {
-+                 candidate.certificate().subject() == cert.certificate().issuer()
-+             }))
-++            .collect();
-++
-++        let want_kid: Option<&[u8]> = cert_extensions
-++            .get_extension(&AUTHORITY_KEY_IDENTIFIER_OID)
-++            .and_then(|ext| ext.value::<AuthorityKeyIdentifier<'_>>().ok())
-++            .and_then(|aki| aki.key_identifier);
-++
-++        // This mirrors Go's `findPotentialParents`: we have a global
-++        // signature budget, so we want to bucket candidates by likeliness
-++        // to avoid wasting budget on (potentially adversarial) name collisions.
-++        //
-++        // Observe that we use a stable sort to preserve trusted candidates
-++        // before untrusted candidates in each likeliness bucket. In other
-++        // words, we always try a likely trusted candidate over an equally
-++        // likely untrusted one.
-++        //
-++        // See: <https://github.com/golang/go/blob/d00c67f297e/src/crypto/x509/cert_pool.go#L136>
-++        candidates.sort_by_key(|candidate| {
-++            let have_kid: Option<&[u8]> =
-++                candidate.certificate().extensions().ok().and_then(|exts| {
-++                    exts.get_extension(&SUBJECT_KEY_IDENTIFIER_OID)
-++                        .and_then(|ext| ext.value::<&[u8]>().ok())
-++                });
-++
-++            match (want_kid, have_kid) {
-++                // cert AKID matches candidate SKID, highest likelihood.
-++                (Some(want), Some(have)) if want == have => 0,
-++                // cert AKID and candidate SKID don't match, lowest likelihood.
-++                (Some(_), Some(_)) => 2,
-++                // cert AKID and/or candidate SKID is not present, medium likelihood.
-++                _ => 1u8,
-++            }
-++        });
-++        candidates
-+     }
-+ 
-+     fn build_chain_inner(
-+@@ -314,7 +373,8 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
-+         // Otherwise, we collect a list of potential issuers for this cert,
-+         // and continue with the first that verifies.
-+         let mut last_err: Option<ValidationError> = None;
-+-        for issuing_cert_candidate in self.potential_issuers(working_cert) {
-++        for issuing_cert_candidate in self.potential_issuers(working_cert, working_cert_extensions)
-++        {
-+             // A candidate issuer is said to verify if it both
-+             // signs for the working certificate and conforms to the
-+             // policy.
-+@@ -324,6 +384,7 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
-+                 working_cert.certificate(),
-+                 current_depth,
-+                 &issuer_extensions,
-++                budget,
-+             ) {
-+                 Ok(_) => {
-+                     match self.build_chain_inner(
-+@@ -417,3 +478,135 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
-+         Ok(chain)
-+     }
-+ }
-++
-++#[cfg(test)]
-++mod tests {
-++    use asn1::ParseError;
-++    use cryptography_x509::certificate::Certificate;
-++    use cryptography_x509::oid::SUBJECT_ALTERNATIVE_NAME_OID;
-++
-++    use crate::certificate::tests::PublicKeyErrorOps;
-++    use crate::ops::{CryptoOps, VerificationCertificate};
-++    use crate::policy::{Policy, PolicyDefinition, Subject};
-++    use crate::trust_store::Store;
-++    use crate::types::DNSName;
-++    use crate::{Budget, ChainBuilder, NameChain, ValidationError};
-++
-++    #[test]
-++    fn test_validationerror_display() {
-++        let err = ValidationError::Malformed(
-++            ParseError::new(asn1::ParseErrorKind::InvalidLength),
-++        );
-++        assert_eq!(err.to_string(), "ASN.1 parsing error: invalid length");
-++
-++        let err = ValidationError::ExtensionError{
-++            oid: SUBJECT_ALTERNATIVE_NAME_OID,
-++            reason: "duplicate extension",
-++        };
-++        assert_eq!(
-++            err.to_string(),
-++            "invalid extension: 2.5.29.17: duplicate extension"
-++        );
-++
-++        let err = ValidationError::FatalError("oops");
-++        assert_eq!(err.to_string(), "fatal error: oops");
-++    }
-++
-++    /// A `CryptoOps` whose public key extraction and signature verification
-++    /// always succeed, so that `valid_issuer` can be driven to completion
-++    /// without real cryptographic material.
-++    struct NullOps;
-++
-++    impl CryptoOps for NullOps {
-++        type Key = ();
-++        type Err = ();
-++        type CertificateExtra = ();
-++        type PolicyExtra = ();
-++
-++        fn public_key(&self, _cert: &Certificate<'_>) -> Result<Self::Key, Self::Err> {
-++            Ok(())
-++        }
-++
-++        fn verify_signed_by(
-++            &self,
-++            _cert: &Certificate<'_>,
-++            _key: &Self::Key,
-++        ) -> Result<(), Self::Err> {
-++            Ok(())
-++        }
-++
-++        fn clone_public_key(_key: &Self::Key) -> Self::Key {}
-++
-++        fn clone_extra(_extra: &Self::CertificateExtra) -> Self::CertificateExtra {}
-++    }
-++
-++    #[test]
-++    fn test_clone() {
-++        assert_eq!(NullOps::clone_public_key(&()), ());
-++        assert_eq!(NullOps::clone_extra(&()), ());
-++    }
-++
-++    // A self-issued ("looping") CA certificate that is its own issuer.
-++    fn looping_ca_pem() -> pem::Pem {
-++        pem::parse(
-++            "-----BEGIN CERTIFICATE-----
-++MIIBcjCCARmgAwIBAgIBATAKBggqhkjOPQQDAjAhMR8wHQYDVQQDDBZsb29waW5n
-++IHNlbGYtc2lnbmVkIENBMB4XDTIzMTIzMTAwMDAwMFoXDTI0MDEzMTAwMDAwMFow
-++ITEfMB0GA1UEAwwWbG9vcGluZyBzZWxmLXNpZ25lZCBDQTBZMBMGByqGSM49AgEG
-++CCqGSM49AwEHA0IABKAoXUGnHdfXJbSXjRjeW+PCVHmlo4KEki69N5pJUA0QyQMR
-++v9ySOMnWf3Ea7TR4g3zdguwTP7LdpSku3uR1QkmjQjBAMA8GA1UdEwEB/wQFMAMB
-++Af8wDgYDVR0PAQH/BAQDAgGGMB0GA1UdDgQWBBR23MGdG1Ma9iR+3CxKTafD/OE0
-++dTAKBggqhkjOPQQDAgNHADBEAiA4RCr07KfZdM16VfGNZAQFjvC60SWIU3RRVY/L
-++qolIOwIgCaIgj9ipK0Q0p+45UJiq+L/ncrxsweJkFq/UYubzhX0=
-++-----END CERTIFICATE-----",
-++        )
-++        .unwrap()
-++    }
-++
-++    /// Exercises our pathlen overflow error scenario.
-++    ///
-++    /// This condition is logically unreachable from Python, since
-++    /// we unconditionally limit signature checks to a number smaller
-++    /// than `u8::MAX`, meaning that we always exhaust the signature budget
-++    /// before potentially exhausting the pathlen budget.
-++    ///
-++    /// To test that directly, we manually lift the signature budget
-++    /// and start our pathlen state right at `u8::MAX`, guaranteeing
-++    /// an overflow on the immediate chain building step.
-++    #[test]
-++    fn test_build_chain_inner_depth_overflow() {
-++        let pem = looping_ca_pem();
-++        let ca = asn1::parse_single::<Certificate<'_>>(pem.contents()).unwrap();
-++        let ca_exts = ca.extensions().ok().unwrap();
-++
-++        // The same self-issued CA is both the working certificate and its own
-++        // (only) candidate issuer, so the search recurses on itself.
-++        let working = VerificationCertificate::<NullOps>::new(&ca, ());
-++        let intermediates = [VerificationCertificate::<NullOps>::new(&ca, ())];
-++        let store: Store<'_, NullOps> = Store::new([]);
-++
-++        let subject = Subject::DNS(DNSName::new("example.com").unwrap());
-++        let time = asn1::DateTime::new(2024, 1, 1, 0, 0, 0).unwrap();
-++        let policy_def =
-++            PolicyDefinition::server(NullOps, subject, time, Some(u8::MAX), None, None).unwrap();
-++        let policy = Policy::new(&policy_def, ());
-++
-++        let builder = ChainBuilder::new(&intermediates, &policy, &store);
-++        let mut budget = Budget {
-++            name_constraint_checks: usize::MAX,
-++            signature_checks: usize::MAX,
-++        };
-++
-++        let name_chain = NameChain::new::<NullOps>(None, &ca_exts, false)
-++            .ok()
-++            .unwrap();
-++        let err = builder
-++            .build_chain_inner(&working, u8::MAX, &ca_exts, name_chain, &mut budget)
-++            .unwrap_err();
-++
-++        assert!(matches!(
-++            err.kind,
-++            ValidationError::Other(msg) if msg.contains("current depth calculation overflowed")
-++        ));
-++    }
-++}
-+diff --git a/src/rust/cryptography-x509-verification/src/policy/mod.rs b/src/rust/cryptography-x509-verification/src/policy/mod.rs
-+index d5a199d..5bdc8d5 100644
-+--- a/src/rust/cryptography-x509-verification/src/policy/mod.rs
-++++ b/src/rust/cryptography-x509-verification/src/policy/mod.rs
-+@@ -25,7 +25,7 @@ use once_cell::sync::Lazy;
-+ use crate::ops::CryptoOps;
-+ use crate::policy::extension::{ca, common, ee, Criticality, ExtensionPolicy, ExtensionValidator};
-+ use crate::types::{DNSName, DNSPattern, IPAddress};
-+-use crate::{ValidationError, VerificationCertificate};
-++use crate::{Budget, ValidationError, VerificationCertificate};
-+ 
-+ // SubjectPublicKeyInfo AlgorithmIdentifier constants, as defined in CA/B 7.1.3.1.
-+ 
-+@@ -463,10 +463,16 @@ impl<'a, B: CryptoOps> Policy<'a, B> {
-+         child: &Certificate<'_>,
-+         current_depth: u8,
-+         issuer_extensions: &Extensions<'_>,
-++        budget: &mut Budget,
-+     ) -> Result<(), ValidationError> {
-+         // The issuer needs to be a valid CA at the current depth.
-+         self.permits_ca(issuer.certificate(), current_depth, issuer_extensions)?;
-+ 
-++        // Charge the (potentially expensive) signature verification against the
-++        // budget before performing it, bounding the total work an attacker can
-++        // force during chain building.
-++        budget.signature_check()?;
-++
-+         // CA/B 7.1.3.1 SubjectPublicKeyInfo
-+         // NOTE: We check the issuer's SPKI here, since the issuer is
-+         // definitionally a CA and thus subject to CABF key requirements.
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-index 8148ec0ba5..899332123f 100644
---- a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-@@ -14,6 +14,7 @@ SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-             file://CVE-2026-26007.patch \
-             file://CVE-2026-34073.patch \
-             file://CVE-2026-69248.patch \
-+            file://CVE-2026-69249.patch \
-             file://check-memfree.py \
-             file://run-ptest \
-            "
++diff --git a/src/publickey.c b/src/publickey.c
++index b7f384310e..a0d3100005 100644
++--- a/src/publickey.c
+++++ b/src/publickey.c
++@@ -905,6 +905,7 @@ int libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY *pkey,
++                     goto err_exit;
++                 }
++                 list = newlist;
+++                memset(&list[keys], 0, sizeof(list[keys]));
++             }
++             if(pkey->version == 1) {
++                 unsigned long comment_len;
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+index e8fa4a5eec..c579749dc3 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -21,6 +21,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://CVE-2026-66034.patch \
+            file://CVE-2026-66035.patch \
+            file://CVE-2026-58050.patch \
++           file://CVE-2026-58051.patch \
+ 	   "
+ 
+ SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
 -- 
-2.43.0
+2.40.0
 
 
