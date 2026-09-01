@@ -2,61 +2,61 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1578C61DD6
-	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 07:45:24 +0000 (UTC)
-Received: from mail-pj1-f52.google.com (mail-pj1-f52.google.com [209.85.216.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2555.1788248720397482565
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4C93C61DD3
+	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 07:45:34 +0000 (UTC)
+Received: from mail-pj1-f48.google.com (mail-pj1-f48.google.com [209.85.216.48])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2558.1788248726972160284
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 00:45:20 -0700
+ Tue, 01 Sep 2026 00:45:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=kMkmkVED;
- spf=pass (domain: mvista.com, ip: 209.85.216.52, mailfrom: hprajapati@mvista.com)
-Received: by mail-pj1-f52.google.com with SMTP id 98e67ed59e1d1-396750cfee6so3574097a91.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 00:45:20 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=fq5LiR84;
+ spf=pass (domain: mvista.com, ip: 209.85.216.48, mailfrom: hprajapati@mvista.com)
+Received: by mail-pj1-f48.google.com with SMTP id 98e67ed59e1d1-398e9698a70so714263a91.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 00:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1788248720; x=1788853520; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1788248726; x=1788853526; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=CWGfx+UUNtGpNlLy7RVwYblDdrzeNj9UUGuetIAs6NU=;
-        b=kMkmkVED2r5+3Cb/kkROLm+DtRpEZmrpvF6l/LF2/fF4k/HQm1Js+St1B8OXne37U1
-         hSMu/SVoLhI5HMTEHGGSfhBOEx2X2vLveMSIYB+PiXBHa1G2nRWAoxw03wpemPUubSrV
-         wrh9RmvSGNxIf0kayy0Sh1uzf4Ck4hWPfbXds=
+        bh=wgs7m4vC0GjPrMexqfZPrByswlfHGa+nqTNH780ZgSc=;
+        b=fq5LiR84RUpXYaUP4JBqSGfqlOwppyWhBcJSYL4YkUI8ZF/r6zbP9FKUcDo5uQBW39
+         sM6nVCwRYPYMxRU1mtdVTMzRV3jcJsMRIP+tmchYnKzLLC/rq6orc1BMHRRXxUujCAKa
+         KvFRgkxUAFAZckxvYnS4dcPwn6SX4U16NEQQw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788248720; x=1788853520;
+        d=1e100.net; s=20251104; t=1788248726; x=1788853526;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=CWGfx+UUNtGpNlLy7RVwYblDdrzeNj9UUGuetIAs6NU=;
-        b=kIb8ElXdFVY1Vfnxjd2nGAY3b+x1CoBMAUy+O3YjmeJam2MSaUthDofJszvOqqTep8
-         /ssWwLX8WT8Qs3FV8ta0396OpTeSxS9bFIkEYqDXjU1/TP+f6frxm3GrcIvcc/HsJaiT
-         V1p3LDnShnETWC/ZziIZCb399Qrx21l42tbMjA13jExpKG9hkJ2SMBPKg5vG9p7lpQgO
-         uypPk3u5cusWneMNySFBaAoVl4pMGI6YNyM8ygn1LbaFv1tjR8hWkfzfgUyIUB/3K078
-         CtGIVDu5MKGOvRWx2aTxrbQBMa/b0JqChtG8TigF5u8nBOZcQjBVTldXUvyj+coK0FH3
-         ft+g==
-X-Gm-Message-State: AFuF++kyfg+hBCylpgEqto1ljgK6LagM7xMeJIUMuzbrLD/fH90xk+46
-	TvF40YlHLN02S5SFHxkfFM9ekJy0yC5IyenT1rz4jefepvNgnHI/mSlu4oTX6/NwXLAQIcm2ulB
-	ZubUXyEQ=
-X-Gm-Gg: AYBFou37DBjD6j3p7LUJV80+KbWJ1mcSB9gD4O9h51iBNzrObUutTHJc7ywOGInqBlI
-	G9K29Knvi6grzq6NMBJMOFHLb00Vx5RlOmAUwRA5p2bpiJ7T/Jwj0rWcYKLT8UAvhGhJQFZYKEO
-	XOB94c+Jc5iRAl0NUaXUbM/ivFrDaskDoZa4dqSdZ2ugB5tCz1zhvwHVZhkn/RlG1Zt/SOii6S5
-	7gHjvNp3wQdd2Bb8kkWe3IAgN5t5Hri3dRTt3BetNGOMDpb5+KIMYHnB9VLZwBuiH5BIlxgJsj4
-	pf1phqUOHsb4qpf5uIf3HNRQnChHC1MRbsg2Xpb+J5wRuvhqpL2YaFxPDdQbckDxH2+/vlbKUwA
-	/e/ajefh5gdfn6ipKcdNP6/LpV+/957wWN7ZQEA5FEWtfE800jBJzJjQJtcRcrqswuMNHpeeDug
-	QKKQEWpad5irKLiDT5KhGXOaIR32d4qgZWUUl0qNK4uqrwg5Hw1VYa6yfx34ZzVxQjVnTzsRuXS
-	Q==
-X-Received: by 2002:a17:90b:3c83:b0:398:9bd5:490b with SMTP id 98e67ed59e1d1-3989bd54c84mr35645390a91.18.1788248719735;
-        Tue, 01 Sep 2026 00:45:19 -0700 (PDT)
+        bh=wgs7m4vC0GjPrMexqfZPrByswlfHGa+nqTNH780ZgSc=;
+        b=hEDW82FuJb7DfzeVbJQOOkWlOwlC/8g/wa5Wkg9YAOi1zD3gRIaDRe+GTShBJKpxxr
+         jJPuA8Wm0H3KXdSDn/hnWhDN3hEEe9zH/BdtX+IJLJfcQ3z26r6NXctAUZCe6Mdp4bWm
+         lI8tfYUd0wLGNYlikZBPLnMynkEH0rAOK2yhXkkBJmemkB0Ax7Lard6hVEaBv/ML6CAj
+         UEovu1vF0hpK+HiVkm2M/tWVnPqTEkL9nuENCeHdbYbtyXBxY3exRJUvousdqcIKVpHZ
+         7nPi4is94CC24pw5IlDxXNa6m0wo2wszGXVN9HMM/h+5MezXpn3JTRxTVs6VzHf1Rq9k
+         sc+A==
+X-Gm-Message-State: AFuF++ks8XF61+oQyJnljDbf+l1HtVCqOcg7RJMQ0OZJmQMjSCHR/UOA
+	eSIlt3xtUjDQmGWgndYC1ZLsRNxz4AUUQ1wlDQPQfn/zK7bFLUdaz2lbz2x+T5Bb9YzbJuxnAuG
+	c+ZXNoN8=
+X-Gm-Gg: AYBFou3BEkigoqyFnYpFUSA6ct7jp7r6Fcvod3dRg6XDlqJ1WCxseFhYgFRJUH6GB0e
+	oFI9YV2iKcaM/+XBUYw3Ea42Rz228jBGU+xAz55C/ldljNEIpyL9/y2VFK01LTCxvUOSE6xrAKO
+	J1UiUvzt/cNT0s4QSS5pnwueYT2eU6gULNFYl1BtyPSXcH3T6P/B9tycOi7M9T4RQqu1FLLmX9m
+	cYS3wdmtygMWUktAyWJei9jN7Y+rmrreS4Yr7qCiv4x9PVFl870gwUX/VNWu/vNLnpK/bOcytKr
+	t0a2KOSOhMEDar67Q+b4+p6ab1lwdz6m3hEboNXQKVOPUUKqk38PIfSXp6S+MVfyLntWebwVWfH
+	f0EMVHQncsD9qBcR2J9gYSuEXO/D9445XOwZT/pYo/rULGewgA23I02NOncNno7JNRAGKsZgIad
+	ikOcKV3NVLMTLzivYYGyrgBfdnO68nVnsqGpqkHHrXdESJUxRrYm/z0EbXk0exiJwxu5AvP+a0A
+	w==
+X-Received: by 2002:a17:90a:b8f:b0:398:d292:e6d5 with SMTP id 98e67ed59e1d1-398d292ea0emr14127345a91.24.1788248726188;
+        Tue, 01 Sep 2026 00:45:26 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([103.250.136.191])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-142e0de4de3sm47564414c88.12.2026.09.01.00.44.58
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-142e0de4de3sm47564414c88.12.2026.09.01.00.45.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 00:45:19 -0700 (PDT)
+        Tue, 01 Sep 2026 00:45:25 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH 2/3] vim: Fix for CVE-2026-73073
-Date: Tue,  1 Sep 2026 13:14:43 +0530
-Message-ID: <20260901074444.59811-2-hprajapati@mvista.com>
+Subject: [scarthgap][PATCH 3/3] vim: Fix for CVE-2026-73074
+Date: Tue,  1 Sep 2026 13:14:44 +0530
+Message-ID: <20260901074444.59811-3-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260901074444.59811-1-hprajapati@mvista.com>
 References: <20260901074444.59811-1-hprajapati@mvista.com>
@@ -65,125 +65,137 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 07:45:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244803
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 07:45:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244804
 
 Pick the patch from [1], also referenced in the NVD report [2].
 
-[1] https://github.com/vim/vim/commit/2f628d8104958fa7421664f792ca6d4f7a39a10f
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73073
+[1] https://github.com/vim/vim/commit/a9336b476fd1a182e3f79b5f83c0ffb04f8a922b
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73074
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../vim/files/CVE-2026-73073.patch            | 89 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 90 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73073.patch
+ .../vim/files/CVE-2026-73074.patch            | 101 ++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   1 +
+ 2 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-73074.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-73073.patch b/meta/recipes-support/vim/files/CVE-2026-73073.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-73074.patch b/meta/recipes-support/vim/files/CVE-2026-73074.patch
 new file mode 100644
-index 0000000000..932580d3a1
+index 0000000000..3402b72bd2
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-73073.patch
-@@ -0,0 +1,89 @@
-+From 2f628d8104958fa7421664f792ca6d4f7a39a10f Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-support/vim/files/CVE-2026-73074.patch
+@@ -0,0 +1,101 @@
++From a9336b476fd1a182e3f79b5f83c0ffb04f8a922b Mon Sep 17 00:00:00 2001
 +From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-+Date: Fri, 17 Jul 2026 09:11:42 +0900
-+Subject: [PATCH] patch 9.2.0845: [security]: arbitrary Ex command execution
-+ during C omni-completion
++Date: Thu, 23 Jul 2026 20:14:13 +0000
++Subject: [PATCH] patch 9.2.0841: [security]: heap overflow when adding > 65535
++ text properties
 +
-+Problem:  [security]: arbitrary Ex command execution during C
-+          omni-completion (Threonine)
-+Solution: Match tags typeref literally to block Ex command injection
-+          (Yasuhiro Matsumoto).
-+
-+Escaping only "/" and "\" left the typeref able to break out of the
-+:vimgrep pattern without a "/": an unclosed "[" makes vimgrep's pattern
-+skipping fail, and the parser then treats a following "|" as a command
-+separator, so the tag value runs as Ex commands during C omni-completion.
-+Match the field literally with \V so no regex metacharacter can affect
-+pattern parsing.
++Problem:  [security]: heap overflow when adding > 65535 text properties
++          (Wang1rrr).
++Solution: Verify that the number of text properties falls within the
++          limit (Yasuhiro Matsumoto).
 +
 +Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-cx73-phcg-3j5g
++https://github.com/vim/vim/security/advisories/GHSA-hm4g-pjfx-m27j
 +
 +Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
 +Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+CVE: CVE-2026-73073
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/2f628d8104958fa7421664f792ca6d4f7a39a10f]
++CVE: CVE-2026-73074
++Upstream-Status: Backport [https://github.com/vim/vim/commit/a9336b476fd1a182e3f79b5f83c0ffb04f8a922b]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ runtime/autoload/ccomplete.vim        |  5 ++++-
-+ src/testdir/test_plugin_ccomplete.vim | 26 ++++++++++++++++++++++++++
-+ 2 files changed, 30 insertions(+), 1 deletion(-)
++ src/errors.h                  |  4 ++++
++ src/po/vim.pot                |  3 +++
++ src/testdir/test_textprop.vim | 18 ++++++++++++++++++
++ src/textprop.c                |  7 +++++++
++ 4 files changed, 32 insertions(+)
 +
-+diff --git a/runtime/autoload/ccomplete.vim b/runtime/autoload/ccomplete.vim
-+index 248d6f2e60..5a48581dcf 100644
-+--- a/runtime/autoload/ccomplete.vim
-++++ b/runtime/autoload/ccomplete.vim
-+@@ -592,8 +592,11 @@ def StructMembers( # {{{1
-+       if complete_check()
-+         return []
-+       endif
-++      # Match "typename" literally (\V): escaping alone is not enough, as e.g.
-++      # an unclosed "[" makes vimgrep's pattern skipping fail and the rest of
-++      # the tag value is then parsed as Ex commands.
-+       execute 'silent! keepjumps noautocmd '
-+-        .. n .. 'vimgrep ' .. '/\t' .. escape(typename, '/\') .. '\(\t\|$\)/j '
-++        .. n .. 'vimgrep ' .. '/\t\V' .. escape(typename, '/\') .. '\m\(\t\|$\)/j '
-+         .. fnames
++diff --git a/src/errors.h b/src/errors.h
++index 01ed16a035..5354e85f25 100644
++--- a/src/errors.h
+++++ b/src/errors.h
++@@ -3795,3 +3795,7 @@ EXTERN char e_socket_server_failed_connecting[]
++ EXTERN char e_socket_server_unavailable[]
++ 	INIT(= N_("E1567: Cannot start socket server, socket path is unavailable"));
++ #endif
+++#ifdef FEAT_PROP_POPUP
+++EXTERN char e_too_many_text_properties_on_a_single_line[]
+++	INIT(= N_("E1580: Too many text properties on a single line"));
+++#endif
++diff --git a/src/po/vim.pot b/src/po/vim.pot
++index be79cf0dab..100344e270 100644
++--- a/src/po/vim.pot
+++++ b/src/po/vim.pot
++@@ -8838,6 +8838,9 @@ msgstr ""
++ msgid "E1567: Cannot start socket server, socket path is unavailable"
++ msgstr ""
 + 
-+       qflist = getqflist()
-+diff --git a/src/testdir/test_plugin_ccomplete.vim b/src/testdir/test_plugin_ccomplete.vim
-+index a635bd50bd..c1754d17c1 100644
-+--- a/src/testdir/test_plugin_ccomplete.vim
-++++ b/src/testdir/test_plugin_ccomplete.vim
-+@@ -31,6 +31,32 @@ func Test_ccomplete_no_exec_via_typeref()
-+   unlet! g:ccomplete_injected
+++msgid "E1580: Too many text properties on a single line"
+++msgstr ""
+++
++ #. type of cmdline window or 0
++ #. result of cmdline window or 0
++ #. buffer of cmdline window or NULL
++diff --git a/src/testdir/test_textprop.vim b/src/testdir/test_textprop.vim
++index b5c9f63f65..5a69ca75e7 100644
++--- a/src/testdir/test_textprop.vim
+++++ b/src/testdir/test_textprop.vim
++@@ -4781,4 +4781,22 @@ func Test_textprop_materialize_list()
++ 	call assert_equal([], prop_list(1, #{ids: 3->range()}))
 + endfunc
 + 
-++" Escaping "/" and "\" is not enough: with no "/" in the payload, an unclosed
-++" "[" makes vimgrep's pattern skipping fail, and the command parser then treats
-++" the first "|" as a command separator.  The typeref must be matched literally.
-++func Test_ccomplete_no_exec_via_typeref_bracket()
-++  CheckUnix
-++  let sentinel = tempname()
-++  call delete(sentinel)
-++  let tagsfile = s:WriteTags([
-++        \ "myvar\tmain.c\t/^x$/;\"\tv\ttyperef:struct:[|call system('touch " .. sentinel .. "')|####",
-++        \ ])
-++
-++  let save_tags = &tags
-++  let &tags = tagsfile
-++
+++" Adding more than 65535 text properties to one line must be rejected instead
+++" of wrapping the uint16_t property count and overflowing the allocation.
+++func Test_prop_add_over_uint16_max()
+++  CheckNotAsan
+++  CheckNotValgrind
 ++  new
-++  call ccomplete#Complete(1, '')
-++  call ccomplete#Complete(0, 'myvar.x')
-++
-++  call assert_false(filereadable(sentinel),
-++        \ 'typeref field was executed as an Ex command during omni-completion')
-++
+++  call setline(1, 'x')
+++  call prop_type_add('overflow', {})
+++  for _ in range(0xffff)
+++    call prop_add(1, 1, {'type': 'overflow', 'length': 0})
+++  endfor
+++  call assert_equal(0xffff, prop_list(1)->len())
+++  call assert_fails("call prop_add(1, 1, {'type': 'overflow', 'length': 0})", 'E1580:')
+++  call assert_equal(0xffff, prop_list(1)->len())
+++  call prop_type_delete('overflow')
 ++  bwipe!
-++  let &tags = save_tags
-++  call delete(sentinel)
 ++endfunc
 ++
-+ " A legitimate typeref must still drive struct-member completion: escaping the
-+ " field value must not break the normal path.
-+ func Test_ccomplete_typeref_completion_still_works()
++ " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/textprop.c b/src/textprop.c
++index a06605d3dd..1f06615dbc 100644
++--- a/src/textprop.c
+++++ b/src/textprop.c
++@@ -240,6 +240,13 @@ prop_add_one(
++ 	proplen = get_text_props(buf, lnum, &props, TRUE);
++ 	textlen = buf->b_ml.ml_line_len - proplen * sizeof(textprop_T);
++ 
+++	// prop_count is a uint16_t; stop before proplen + 1 wraps to zero.
+++	if (proplen >= 0xffff)
+++	{
+++	    emsg(_(e_too_many_text_properties_on_a_single_line));
+++	    goto theend;
+++	}
+++
++ 	if (lnum == start_lnum)
++ 	    col = start_col;
++ 	else
 +-- 
 +2.50.1
 +
 diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 6097fb72a2..c000f5b3ab 100644
+index c000f5b3ab..82697e68ab 100644
 --- a/meta/recipes-support/vim/vim.inc
 +++ b/meta/recipes-support/vim/vim.inc
-@@ -52,6 +52,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-59857.patch \
+@@ -53,6 +53,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
             file://CVE-2026-59858.patch \
             file://CVE-2026-73072.patch \
-+           file://CVE-2026-73073.patch \
+            file://CVE-2026-73073.patch \
++           file://CVE-2026-73074.patch \
             "
  
  PV .= ".1683"
