@@ -1,197 +1,118 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F34FBC624CE
-	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 12:11:22 +0000 (UTC)
-Received: from mail-pg1-f170.google.com (mail-pg1-f170.google.com [209.85.215.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6560.1788264678710690630
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82799C624D2
+	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 12:24:04 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.12])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6590.1788264807667574068
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 05:11:18 -0700
+ Tue, 01 Sep 2026 05:13:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Ole9cD2t;
- spf=pass (domain: mvista.com, ip: 209.85.215.170, mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f170.google.com with SMTP id 41be03b00d2f7-c9aea40d799so548525a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 05:11:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1788264678; x=1788869478; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=/lg7U779gRVmZoOHiP1tN0XFaNyDUYsrtCnH/rjdWwY=;
-        b=Ole9cD2tdd4nI/dDMeF1brWegTRNQfMYi7kemrzOPCG9jOfjke0gLZs9CkIQPNKrmR
-         dncxUXuLUNm6jFHmWhGxzgZBeeaE+2WShlD4mdPIk9/lcN7u/UCkebhJFOtUy+rK62wB
-         iMJ9LgQVLadJDMoHMjbvE7rVAEcqqE9DtVR34=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788264678; x=1788869478;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/lg7U779gRVmZoOHiP1tN0XFaNyDUYsrtCnH/rjdWwY=;
-        b=pvVp+H7/DXawLACwI/jAjwaBSVCLF4Vn3B/QAav3mrz+Dn4FLaSXfedyYuoj/TqUoD
-         eHpOTdcp4NxMFmEExP0f0Lo8aBRjjl4BA3ZWS1OU+5zEhKWVXUJdiF9LCS20IK/aT0PL
-         HjR4X7usp2ldVGUOm16WBBtMkpr7/Zyx39hdq+yoo8uxq/2J62aDxGemrPH3gGwzu6sh
-         VUB0N4yY9fVwMw0fls28UbluT8sUkuC/594HbXlO7rEchny5YB0dXHAUGNZ6H0eWVCuN
-         19Pr/pzwGg9oJPjX6QR5gmKWYntV5yLkyXq8sA/SSm3ZYlZQALYYHS3MAYizFG9uzeCK
-         k0zg==
-X-Gm-Message-State: AFuF++k0nAG6J1Lhk77aZLS3nMaCicwenEUhztnXe5VQzLHclI2zRYP9
-	378jgCOeesuYQkK9gW4f3nQb4PGi/jAmJvOp7rj5jV6ma2phZKcTDdS1f2lCqF/TDojP5+SzOhu
-	XzIIb
-X-Gm-Gg: AYBFou2zLLN1vwMVILkFipSl2r+a+b58Yd6lmoXp3XSWyNJjtDn2p/TGTcRZCXuQYg9
-	VNdV+Wz46Wk4uTXs1oBK6dDPacq3EmlEdFd1oKssBACHsvzeW9r9zhekkUAjrMC0mEfCAOPCDdm
-	1IQgJ95+YZ56QSUhEXFShgD8JPy1i8doFC/uN+Uq30STF1Mt9gcx/bzjDc80uaCpJEWJjWN3n3u
-	dUhMmQ8BEdnXBYms76TFzGUSzDsBJ57mRXupANMONcpIANzFBI4lwvt5sxjo4d8HoJPQxQHPXJh
-	ogcd5BgEQw8pueCA7OfIOHikFvbujFXQ4r6/Y8TNKpVx8yLtNiircru1QGJBacv0qUYU4caJpkB
-	af/Repaqi9DSIbHn484Ngq3o9RVPAr1YEtHOB+Py5xvA5FlYgOEKhS0Ov1dvUywQRz99W4U/GnA
-	tN9XbJqrHPJTIHF/2LtNlkfEAXdC8ICpTLvG/2I26MR6TO7ua7tSDfxSNWkQDRuJaIa8o+IIt1J
-	Gflw0ZArgJe
-X-Received: by 2002:a17:90b:3c07:b0:398:c0ad:711c with SMTP id 98e67ed59e1d1-398c0ad98afmr28569091a91.15.1788264677607;
-        Tue, 01 Sep 2026 05:11:17 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([103.250.136.191])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3286f552473sm42587270eec.0.2026.09.01.05.11.15
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 05:11:17 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH 1/2] vim: Fix for CVE-2026-73077
-Date: Tue,  1 Sep 2026 17:41:01 +0530
-Message-ID: <20260901121103.83546-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=@leica-geosystems.com header.s=selector1 header.b=iDU1r9dp;
+ spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: leica-geosystems.com, ip: 40.107.159.12, mailfrom: roman.nazarenko@leica-geosystems.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=nD6/9g//ochwZBB2TA9Wu/+LgMJPqs4v4fp8y6p5Najx+dE1Ugtmf4e4MjLD6CYjbJZefmYU2n40yTx6MFeT8dKOOUZ7CpmMxag+NxEOZNoeHL5qlc0jJrFKvAzFM5Dw5wcOq21yQw8OTmEZo1uifSMSQQ9m3wQ+U/fJk322ESOhXkK4hh4Txb8IDrnjqFYSVcYF/4IwrNOPrrlujjPFbCkcCqirR4ZwMJtzprRpDvKDHyG4hxf1+Tt9nbIjC6qRWzTn/4Dot+DZhYqHbTsCrnSxzOzZ8mudDFJ+a9+cg4OcVKbPqpwqDZ1yuTe5ZBIyU6RsT3piMbfNxxho8l1g0w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=t5ASg1tzGIpX6sPU0QRFgYNgcIph2Q/o8eJCj6UKiYw=;
+ b=ybnLjBKg9oomhJXdlC9OWzDDobP2Uxj5Exz8tm5M9SRxOP5zKHtxqOPLohf4X0TZkeZFZpaIlpUcGLfJIhKDy1k2PdcJlx0eZ1F+Ol+HpRMZ1y1xicdIV2Hs1i8bu1bqqqhAPkQBYd4tpjHfIq+o8RVMQLSzXDrxJ7XdnZXHckgaCHd3ZMwQcO+5i9iIcsMefczdAaNlMqQS3uDtcMENuFjU3WNBQUybOHBY6ohNzGYfaRMbSTbo8IM9uvd/N+NJ7dL07EjRr2vS3GAE4LHGAvFnGrUfWTwJAjElcpKqSDHwGSAcagPGl6gRABcbDM1gU9M10TduyISmImbM325FUw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 193.8.40.99) smtp.rcpttodomain=lists.openembedded.org
+ smtp.mailfrom=leica-geosystems.com; dmarc=pass (p=reject sp=reject pct=100)
+ action=none header.from=leica-geosystems.com; dkim=none (message not signed);
+ arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=leica-geosystems.com;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=t5ASg1tzGIpX6sPU0QRFgYNgcIph2Q/o8eJCj6UKiYw=;
+ b=iDU1r9dpxXyIGkBBJ195pZeD75gT6kYTSkkDkjWwV4lY1f6wzW17WyH1MRVZr5OQXUJ6usPEdsa7uX/oqXSbM4piggfA6m/Jp1EgHWSi3wKB3C13pvohEh+e9dA608EoA1piu6JLlIqj+dvW4+o4//8uvD/5pSY6N/6USMp3XsQ=
+Received: from DUZPR01CA0327.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4ba::17) by AM9PR06MB8084.eurprd06.prod.outlook.com
+ (2603:10a6:20b:3a5::16) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.10; Tue, 1 Sep
+ 2026 11:58:55 +0000
+Received: from DB1PEPF000509F1.eurprd03.prod.outlook.com
+ (2603:10a6:10:4ba:cafe::6e) by DUZPR01CA0327.outlook.office365.com
+ (2603:10a6:10:4ba::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.10 via Frontend Transport; Tue, 1
+ Sep 2026 11:58:55 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 193.8.40.99)
+ smtp.mailfrom=leica-geosystems.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=leica-geosystems.com;
+Received-SPF: Pass (protection.outlook.com: domain of leica-geosystems.com
+ designates 193.8.40.99 as permitted sender) receiver=protection.outlook.com;
+ client-ip=193.8.40.99; helo=hexagon.com; pr=C
+Received: from hexagon.com (193.8.40.99) by
+ DB1PEPF000509F1.mail.protection.outlook.com (10.167.242.75) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.360.3 via Frontend Transport; Tue, 1 Sep 2026 11:58:53 +0000
+Received: from GEO-L5CG4163Q2B.lgs-net.com ([10.67.144.137]) by hexagon.com with Microsoft SMTPSVC(10.0.17763.1697);
+	 Tue, 1 Sep 2026 13:58:53 +0200
+From: roman.nazarenko@leica-geosystems.com
+To: richard.purdie@linuxfoundation.org
+CC: openembedded-core@lists.openembedded.org
+Subject: Re: FILLME-exact-v1-subject
+Date: Tue,  1 Sep 2026 13:58:52 +0200
+Message-ID: <20260901115853.481006-1-roman.nazarenko@leica-geosystems.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260827155227.813074-1-roman.nazarenko@leica-geosystems.com>
+References: <20260827155227.813074-1-roman.nazarenko@leica-geosystems.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginalArrivalTime: 01 Sep 2026 11:58:53.0685 (UTC) FILETIME=[42904250:01DD3A09]
+X-EOPAttributedMessage: 0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DB1PEPF000509F1:EE_|AM9PR06MB8084:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2c9cde80-aa85-4b56-0ce3-08df0820653a
+X-SET-LOWER-SCL-SCANNER: YES
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: BCL:0;ARA:13230040|376014|23010399003|82310400026|1800799024|36860700016|56012099006|11063799006|5023799004|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: /nr1zzfnY98zikPE3CGSAGP6i77cPF2aOC8+ze0e1DRZZWeli4JkExfH09rYzPVBoFZ7uGfzmIilAPBhHOBdLLBT23Wmi0h7RJUJOqlgEO0xTgK4ctovHGd6A/L7E3vf3EO7ZeOCiC0wIJ0Bm6fioijIPtGrqlDdkxntJlH6YRyf95nbm/HAC84Edp1NmAKCn2QECiRqlS8q6E8NXclid1fHnMbNsa6wIpyljOrOXVJPCnyHPn916BsdbdJzu1eIvmf44v9dXy/O1h4H0AcqdxicCs6E6F/f71573dKPWSB2C/8Wk/uUGgCQAXcYSg8VO5u5aOwg55PTI7ZjrO1ldi9r2WUCBrp5pcgRrzeWlaUKbdTy/1OMDi0hYuNv5l+KIZDTLZ6RrkOFl5mnCRgAfxZL83eiI2NFQAV5Fr0sRFcB0SLfUa5nWJ/W3/JUz4fBo0Bieyp7PFMOQ3N8vM0OSJjDcDirvDWDwRz8RIFhXWWvtim5xI9QczNE4om+JZUKopNECE0eVXXsnbse2oq3rEzi/vDI06OuDzZ8SmqZKWJpPgVvoVWu3I6nGXiyLKo3TrK7c+mtqQUdZ83Lh5t3e9+T9Xq5JR6p6JRqwWf3B71OFrdp7X9U28HaJSLngsyxuEwFL8leSlpPDV+oDmsySuPQLHpjpmeVk+tFpOC/agA/tjEwIq3qwWafmfF/+JtRF15fh4F3TT5VQcuSE12U2g==
+X-Forefront-Antispam-Report: CIP:193.8.40.99;CTRY:CH;LANG:en;SCL:1;SRV:;IPV:CAL;SFV:NSPM;H:hexagon.com;PTR:ahersrvdom51.leica-geosystems.com;CAT:NONE;SFS:(13230040)(376014)(23010399003)(82310400026)(1800799024)(36860700016)(56012099006)(11063799006)(5023799004)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: mx8fTI0rktNArH2qseZq0aMV4YeAsMmEz7hktd6RPbMvU50QmJ2AADlcgDC+S8mrmDUzIm5ZgCoFcjXAd80eXEz27XC5MXd9/J1FROPLHgCUUciMSfoQHGFJ4yvd8U57eG7/wvzphCoXfTE0+YEZVbOcofOgnR9geYxOvNna0W9Y2H2qdCvg930jE5aUVtYNp90krqoKgYGr4mI1pMiVObnWVKcu6Ydtwfrj73wmFP2AcYQndsV7mT6CYlXumluENXeviJ+T3iHgIcS16cVnjkcQYao7AghnssnV7AhwOQAbJdDrBJQQ7fovNKIGBd3bJcgZt0X4tUVQOPBygwKu+ph980E7oaTa9bs40QCMlqrbWP8LE1Jlkb4XHUKfgHPT6U+a5wBpaF+ByJy9AJZvdiT7z4MwDrqPz8mDEZQEbufHStwQ6Li793B+gxTK6Bqw
+X-OriginatorOrg: leica-geosystems.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 11:58:53.9530
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2c9cde80-aa85-4b56-0ce3-08df0820653a
+X-MS-Exchange-CrossTenant-Id: 1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=1b16ab3e-b8f6-4fe3-9f3e-2db7fe549f6a;Ip=[193.8.40.99];Helo=[hexagon.com]
+X-MS-Exchange-CrossTenant-AuthSource: DB1PEPF000509F1.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR06MB8084
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 12:11:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244818
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 12:24:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244820
 
-Pick the patch from [1], also referenced in the NVD report [2].
+From: Roman Nazarenko <roman.nazarenko@leica-geosystems.com>
 
-[1] https://github.com/vim/vim/commit/c5a82fe013e73c98004ad7cd4f906b1ad1ed610e
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73077
+I tried the do_install postfunc and it breaks packagegroups.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../vim/files/CVE-2026-73077.patch            | 96 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 97 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73077.patch
+packagegroup.bbclass does "deltask do_install" but keeps do_package, and
+a deleted task never runs its postfuncs. So with
+LICENSE_CREATE_PACKAGE=3D1 add_package_and_files() still creates ${PN}-lic
+in perform_packagecopy, nothing fills it, and ALLOW_EMPTY is set for
+packagegroup packages - a silently empty package. Those -lic packages do
+have content today, as find_license_files() returns generic_<LICENSE>
+even with an empty LIC_FILES_CHKSUM. Packagegroups also deltask
+do_populate_sysroot, so they were never racy to begin with.
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-73077.patch b/meta/recipes-support/vim/files/CVE-2026-73077.patch
-new file mode 100644
-index 0000000000..6bf157a808
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-73077.patch
-@@ -0,0 +1,96 @@
-+From c5a82fe013e73c98004ad7cd4f906b1ad1ed610e Mon Sep 17 00:00:00 2001
-+From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-+Date: Thu, 23 Jul 2026 19:13:15 +0000
-+Subject: [PATCH] patch 9.2.0839: [security]: arbitrary code execution via
-+ keyword lookup
-+
-+Problem:  [security]: arbitrary code execution via keyword lookup in
-+          sh.vim, zsh.vim and ps1.vim filetype plugin
-+          (manus-use)
-+Solution: For powershell, quote the commands using single quotes, for
-+          sh/zsh pass the argument as a separate list item to term_start()/system()
-+          (Yasuhiro Matsumoto).
-+
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-r5v6-q6j8-8qw2
-+
-+Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+CVE: CVE-2026-73077
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/c5a82fe013e73c98004ad7cd4f906b1ad1ed610e]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ runtime/ftplugin/ps1.vim | 5 +++--
-+ runtime/ftplugin/sh.vim  | 5 +++--
-+ runtime/ftplugin/zsh.vim | 6 +++---
-+ 3 files changed, 9 insertions(+), 7 deletions(-)
-+
-+diff --git a/runtime/ftplugin/ps1.vim b/runtime/ftplugin/ps1.vim
-+index f1fe78df4c..9ff764a282 100644
-+--- a/runtime/ftplugin/ps1.vim
-++++ b/runtime/ftplugin/ps1.vim
-+@@ -6,6 +6,7 @@
-+ "              2024 May 23 by Riley Bruins <ribru17@gmail.com> ('commentstring')
-+ "              2024 Sep 19 by Konfekt (simplify keywordprg #15696)
-+ "              2025 Jul 22 by phanium (use :hor term #17822)
-++"              2026 Jul 10 by Vim Project (quote K argument, prevent command injection)
-+ 
-+ " Only do this when not done yet for this buffer
-+ if exists("b:did_ftplugin") | finish | endif
-+@@ -52,9 +53,9 @@ endif
-+ 
-+ if exists('s:pwsh_cmd')
-+   if exists(':terminal') == 2
-+-    command! -buffer -nargs=1 GetHelp silent exe 'hor term ' . s:pwsh_cmd . ' -NoLogo -NoProfile -NonInteractive -ExecutionPolicy RemoteSigned -Command Get-Help -Full "<args>"' . (executable('less') ? ' | less' : '')
-++    command! -buffer -nargs=1 GetHelp call term_start([s:pwsh_cmd, '-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'RemoteSigned', '-Command', "Get-Help -Full '" . substitute(<q-args>, "'", "''", 'g') . "'" . (executable('less') ? ' | less' : '')])
-+   else
-+-    command! -buffer -nargs=1 GetHelp echo system(s:pwsh_cmd . ' -NoLogo -NoProfile -NonInteractive -ExecutionPolicy RemoteSigned -Command Get-Help -Full <args>')
-++    command! -buffer -nargs=1 GetHelp echo system([s:pwsh_cmd, '-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'RemoteSigned', '-Command', "Get-Help -Full '" . substitute(<q-args>, "'", "''", 'g') . "'"])
-+   endif
-+   setlocal keywordprg=:GetHelp
-+   let b:undo_ftplugin ..= " | setl kp< | sil! delc -buffer GetHelp"
-+diff --git a/runtime/ftplugin/sh.vim b/runtime/ftplugin/sh.vim
-+index 18cd219cdc..45e6f44fcf 100644
-+--- a/runtime/ftplugin/sh.vim
-++++ b/runtime/ftplugin/sh.vim
-+@@ -8,6 +8,7 @@
-+ "			2024 Dec 29 by Vim Project (improve setting shellcheck compiler)
-+ "			2025 Mar 09 by Vim Project (set b:match_skip)
-+ "			2025 Jul 22 by phanium (use :hor term #17822)
-++"			2026 Jul 10 by Vim Project (pass K argument as a list, prevent shell injection)
-+ 
-+ if exists("b:did_ftplugin")
-+   finish
-+@@ -54,9 +55,9 @@ let s:is_kornshell = get(b:, "is_kornshell", get(g:, "is_kornshell", 0))
-+ 
-+ if s:is_bash
-+   if exists(':terminal') == 2
-+-    command! -buffer -nargs=1 ShKeywordPrg silent exe ':hor term bash -c "help "<args>" 2>/dev/null || man "<args>""'
-++    command! -buffer -nargs=1 ShKeywordPrg call term_start(['bash', '-c', 'help "$1" 2>/dev/null || man "$1"', '--', <q-args>])
-+   else
-+-    command! -buffer -nargs=1 ShKeywordPrg echo system('bash -c "help <args>" 2>/dev/null || MANPAGER= man "<args>"')
-++    command! -buffer -nargs=1 ShKeywordPrg echo system(['bash', '-c', 'help "$1" 2>/dev/null || MANPAGER= man "$1"', '--', <q-args>])
-+   endif
-+   setlocal keywordprg=:ShKeywordPrg
-+   let b:undo_ftplugin ..= " | setl kp< | sil! delc -buffer ShKeywordPrg"
-+diff --git a/runtime/ftplugin/zsh.vim b/runtime/ftplugin/zsh.vim
-+index 65e9f377bf..8ee71c4e17 100644
-+--- a/runtime/ftplugin/zsh.vim
-++++ b/runtime/ftplugin/zsh.vim
-+@@ -22,9 +22,9 @@ let b:undo_ftplugin = "setl com< cms< fo< "
-+ 
-+ if executable('zsh') && &shell !~# '/\%(nologin\|false\)$'
-+   if exists(':terminal') == 2
-+-    command! -buffer -nargs=1 ZshKeywordPrg silent exe ':hor term zsh -c "autoload -Uz run-help; run-help <args>"'
-+-  else
-+-    command! -buffer -nargs=1 ZshKeywordPrg echo system('MANPAGER= zsh -c "autoload -Uz run-help; run-help <args> 2>/dev/null"')
-++    command! -buffer -nargs=1 ZshKeywordPrg call term_start(['zsh', '-c', 'autoload -Uz run-help; run-help "$1"', '--', <q-args>])
-++  elseif has("patch-9.2.0250")
-++    command! -buffer -nargs=1 ZshKeywordPrg echo system(['zsh', '-c', 'autoload -Uz run-help; MANPAGER= run-help "$1" 2>/dev/null', '--', <q-args>])
-+   endif
-+   setlocal keywordprg=:ZshKeywordPrg
-+   let b:undo_ftplugin .= '| setl keywordprg< | sil! delc -buffer ZshKeywordPrg'
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 82697e68ab..bf18aa7720 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -54,6 +54,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-73072.patch \
-            file://CVE-2026-73073.patch \
-            file://CVE-2026-73074.patch \
-+           file://CVE-2026-73077.patch \
-            "
- 
- PV .= ".1683"
--- 
-2.50.1
+It is also wider than needed: do_install[postfuncs] has to be added
+unconditionally, so do_install's basehash changes for every recipe and
+sstate is invalidated from there downwards.
 
+${PKGD} avoids both - it is private to do_package, so the race is gone
+by construction, and it works for recipes without a do_install. It does
+stop staging license texts into recipe-sysroot, but that looks like the
+fix rather than a side effect, given the failure came out of
+sysroot_stage_all.
+
+Ok to keep ${PKGD}, or is there something about ${D} I am missing?
 
