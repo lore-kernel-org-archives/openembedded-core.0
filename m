@@ -2,277 +2,192 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 696C5C624D1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56B0DC624CF
 	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 06:21:44 +0000 (UTC)
 Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.18])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.1704.1788243697599189245
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 23:21:38 -0700
+ Mon, 31 Aug 2026 23:21:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=TPnWjVBu;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=BPQzDEW9;
  spf=pass (domain: est.tech, ip: 40.107.130.18, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=CXmsv+nExe6PHMY8qLDNrrXNyoHGnbDle/nKsA7aKGiWhwqE6/mwr+ma9gFTlwvYguaRV5KvfOKZXyrDqUZb9RSuRoU2Cnk2rTdWdpo3TO6Ej3HsNDTOyUBezH4zzEnZLwtZeok8stNzb85ihB1OM5fbE4cApS7St2lj9nYv3xAhQmtsLJQuGQwbrkf+NWPYCIU/GbavdLmfpOVOpsVYsM/X2wm4cP9tn1hFay7Nk3baVJcEFZWuAW7ntJYY6Kt4Be2+inV/xnGDE/zZh2g1Vl+Rwc7//7zYy3kxtvqW5+6ZbvMDSqSay10Jo3RhcZsWf4eq26eTsLG/9mfZzC1y9w==
+ b=WE510UeVkvuV4C/Tl1L4kB71X/WY9PChB2zo4QUAKYpZ3qAjLEZqI1vG9QgP19fROIXyALVd5Ol0Zp0YYyxDuAr/Kew5mXX1RqVxsliwQLHKEpnGGeYjNrp5DeEW8naXFPmUP1oE3rljpL05xKAo/KzlIBpy/mD/8iAyuBYf9T7A75WiRu1OMNOL89fsXv35eMfL6Gpcl6YU4iDOU8K1s2C6seH0B/QOUua9qoVhICfAZqij6nYka8wURkfuXzfe9EHTHI4CVxMOSAtwJyLDdOdc8U4hleYNoHl+do2jr+5bFfL1YczzdbHnQ3i9fmf5vr/XX90FmSLudXGSsn1oEw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=V87qZLHvY0qG04LCHhoTx8v+LKYEZQkEf2NZc17Tzbk=;
- b=Du+/z0PFq2K5zaQkw06MSx2SPYBp90iX0K4CHVGmP/+wh1oPZmCSU9ESmvqIzxyqlM6YVrpq6iMnKOEw57wFU5WiM1fGFkrY1qYDmWdBFLVKj9uWYZbMOSpnXpT83aepugnYj1glUurwnQvkCFmkH6fVxUnn2sVopuhLksGWtKNp45R6Sxa+i39OkeI4aHIY8DzO2+H+VIM0AAs+yxY0oH3SXdLmYaY93o/kniKME/W2lqH3L45gJImpj/gR9sDkyOrotNac7nEUUzSWxqXp1gqUTHcQEIn3ayplIUgdQXBYRHC2CXQg4NK88nsXUSt3oBkxV8RhetCK5PA0aCWkaQ==
+ bh=f9weWZlQhz4+2HzN70MeC/Lq83eEwitFtf/h9FPI9h4=;
+ b=cSXsTHEUMgJKDwcYaSfSDzXyHQPezFxszBjSphciJOmENMdv15GgE6CEWgcqlWUzhPgIRv1J8wQ/dbBD4h7OikwDxoY2yRPGcyNmvdAsQFkp8pCewrgn9KYcYI76EXhfwk8nxcnJAM9rB3TxsPVb8bKqfu1WdZ9dr0Gb8byvpBGFc5JBZDm7fW2ogqTo6NtXW7B7kXCzArw4CYoSlCduNSI8RWwKZrepbb7/BAu43LzJ96GxyfF5Mj4mRL9R7Vu7mP5ns98SJNMIZNAp+OjimCkCmcErk6FvEUVs2K4QFBYpnFIgjqSxmYhIioFjF1lR9FqAggzu5NjNEAuej8VR5Q==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=V87qZLHvY0qG04LCHhoTx8v+LKYEZQkEf2NZc17Tzbk=;
- b=TPnWjVBuBR+RIuo/izQH/AXTYMPs+/q5xoHTTrwtO6EeqGKQ3CZuBED+ReueOCgSf95nsM8J7dOjDjSApFz3n4HsJTUFowxY94OVBIgmOmGw7JSrAz27FBUYb3Qh86g5CrigMZmWWLEOwOY1jtSiDpzcVJD0+gUmdBRuVKNsm20coIUUS2gwfsU/ESZi81s/82f2rkZgyfPNlRmXis0FVLlwlEmUEtCsd67c+n7RA9tEuWeVKcYIWHBDxWYriaBaXE8+zSsdfbxXegbJFSpwbHorFtcnFmeDlT4v7KzVbTCCoIyL63pjVoiuI4iYNJd0bc7EaosIlH5RkQe4NLiZUQ==
+ bh=f9weWZlQhz4+2HzN70MeC/Lq83eEwitFtf/h9FPI9h4=;
+ b=BPQzDEW9g9VTIeIVI5fNT8ap7kkSLNY75D1oMpxCObpEsjvMMdiaJ64BHj+0aPaSq6tSHPnsnDCVs0i4mxabp2cKEKxeEjY8RrWLAYu4Fy2BWD2QvZJLDoxQppOdyDaVMjS3msTQfBJmSzH4t8eUBaGoULQZuwUG07flc7k2sRhhsVDt6q5B3cQhu1lX6v1nIWq8loJnA3dr2ociaAy3fxxMXu7CYuyl8FFec4qHzPVAHIv/MHMUDn613xnXhmSDzHWLQzed78GKyTwFTKFVQGt9xd0/mQnU+aVMg8OikVW9wyVVLGLhMhxUwvO9faEz4F4CJixOopJlj2AgwJdNOA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by GV4P189MB3535.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2bc::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
- 2026 06:21:30 +0000
+ 2026 06:21:31 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
- 06:21:30 +0000
+ 06:21:31 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/4] gnupg: upgrade 2.5.21 -> 2.5.22
-Date: Tue,  1 Sep 2026 08:21:24 +0200
-Message-ID: <20260901062125.37994-4-jaipaul.cheernam@est.tech>
+Subject: [PATCH 4/4] librepo: upgrade 1.20.0 -> 1.21.0
+Date: Tue,  1 Sep 2026 08:21:25 +0200
+Message-ID: <20260901062125.37994-5-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260901062125.37994-1-jaipaul.cheernam@est.tech>
 References: <20260901062125.37994-1-jaipaul.cheernam@est.tech>
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU2P251CA0004.EURP251.PROD.OUTLOOK.COM
- (2603:10a6:10:230::14) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU7P250CA0028.EURP250.PROD.OUTLOOK.COM
+ (2603:10a6:10:54f::33) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|GV4P189MB3535:EE_
-X-MS-Office365-Filtering-Correlation-Id: a8760d82-7b42-4309-51d5-08df07f142d4
+X-MS-Office365-Filtering-Correlation-Id: ff62b45a-0698-4f98-c4cf-08df07f14366
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|10070799003|376014|366016|23010399003|18002099003|22082099003|3023799007|11063799006|56012099006|10067099003;
+	BCL:0;ARA:13230040|1800799024|10070799003|376014|366016|23010399003|18002099003|22082099003|3023799007|11063799006|6133799003|56012099006|10067099003;
 X-Microsoft-Antispam-Message-Info: 
-	4gDSJJ6VjtELpuXkfNPUtgem0HmfZXdM9HhO6rgzgz/i7bQoQTO2DVASxvAquNRsc+IR4LF+WoOAxqZrPLgnlRTKJOaC3+D4epC2nh3HGH44dOqJzK2Hkw/nztnk2yCU3CkJpxCY09ste1KJCEZxFXeHvMVvuziv2pBEVaeOt5uZgN38AHqBH6SaFf9LWgzgtq0U578jLfwAs0xChtuWjGPFizrgxj+z1C0i8P9lTxS72COvfNhuQLZI7/15pIzZ7tNpgykMN2oESedXM25+ms1O7+HRI8/+yiD8BTknseS/39IitOCOotgEiJWHJooXDkhkRpaljNwuJNRP1KGBNl3FwUf0qqXNcF3g2+HgfDyutQkLKhixnlouA3Cxmi6w5WGZhTbHOXzu16A2R6vNjTT5Bz0OTKuGuzGi0r8Y2zAW2d7ueoW2/bxPFJlxdTPlAAMzyyKrETAkDQkkZdZVQ5m54hmWkd0quSLbmEm/ByS34zLvB3x/BsQgK6k3hxLOFVGhbVD5z7zzM17NTBiGxyQb7YW5kSVVcp6mX/UjJXDZKe6NKvjGUpvhRXla7EltrVuOI8ZxJRl1FNxH+8Q75/lbUV4XIrBnK9cMr+XUn14LWrmnOF1AxZzO+Tx5TnUH/zz7mK/DPuW4Tpv6NyeOYZvXMYniRvsSjp157NyfooQ=
+	7yn7kScnqZ080H/9i0W0Fwo1wyC2sh/CltxhiGPzZldyoTGc4Qfa92y7SFxwAUuzC6v78PoUCiuqLmghV89w0B115nQSw0WDwePLpqf/it9ahatvqFmnZhJmLx/zfBWqKFHC7WPKwBwrALhvDn5euKle5QpEZ+Dzq6hnm7JBO9ESWe+0U0+2KSLpvSky9UhlspF9P42gNvfopNrPHSh72AgG2CvGluEC3Wby0zQRNxXxMRLsQQZsuiT3ZI6shfuSHa3Ohss9ExR5Rt0inmp+6JeujlH2mLKA8/i1gfVWiLPoqbbaJVaP3AIhTWlqRERtWs41HKYfjP3vWV6/EVh7uyAgBDuQ7bZAKdV5C5NOBtamR7vtH4LO9TtmS7EMDrWZDv7kPLt/AcqtWbz7u0vrwJ9DF3Gb4c1/xboxImqIEjbLv/P20H8vPocoemVJAnoES+43mvEtYJwZgS4i9ReWN+6TrKuNGoOSGK7O2zCHSVSW/x6BNkI5aC/a77pjEp+tpDE/kETR03N6bABgb3o7O0DTjwbpkgOUzRykzmgCL55FqHTKd/bJagp3hOg3vGXygnUqjhPM2gCA8vLZww8pHJzh5uw57PHG9kQXU1rY1/zW00IO63JOPkXjqdHO0ap3or8mWeGNIYTQ8Cba133qPBfrAxclVezV7dKkG7FayF4=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(366016)(23010399003)(18002099003)(22082099003)(3023799007)(11063799006)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(366016)(23010399003)(18002099003)(22082099003)(3023799007)(11063799006)(6133799003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?cLniVMhAK4ExIt5A+thr3mPp2tUW5aEv+klsBpELw+vturiKeVWV29JVUPPU?=
- =?us-ascii?Q?kEM4pbk6HMestsuTHvFdJQAUJ5v7k2aA0BLElXZ3Gc3NBloAFMzDaJqBlaXB?=
- =?us-ascii?Q?Tg/34bUEUyKGqjZNlcvFmK94aVMKkkUY0gxRaIanBrEnXTQ7rXriJr6K2D+l?=
- =?us-ascii?Q?in+bHKGsJzvRm+Rj//oYw3p4WLUQbFctkthmtyjy6Zi5gxADKP5gdNEqHnhC?=
- =?us-ascii?Q?kn5gvWCxyivWshk8YGBnmP6MZSfMbrqEmDxP7FqbgwHF2Ks0v8116nIFCI1V?=
- =?us-ascii?Q?4bdvyI3EtV2YjAbAx+syhNC6Zd1tQm8m60Ba/DK6VMTRNH5cMuKCSq9Q8rzh?=
- =?us-ascii?Q?XeLg2qUyKys2GG67l3jsuPqa+Emy4hvJMuugbTjgOyZa/XGQCo/HYBOZFv03?=
- =?us-ascii?Q?IP87dA3J89hlq7hAwCoa/KvInodMxIsYEfvhzJWnI6SE/ne1hXeHtP96+cAZ?=
- =?us-ascii?Q?0SG2GrYSfFRwNA2RMY19kD+gHNT0WCrkN7zGvtop9m/snAojOpckktHOPZp+?=
- =?us-ascii?Q?REw+9tFgoouFLsoMPiJMl1CcttEL2H3OVvkJvP5Cnw2+pwuPpBazsZ8GYHxL?=
- =?us-ascii?Q?BjbomDNsi06joobG4xaaGe10RrLWB2SOskI3mTxtJUTCAzzh2GYVz9TLOaEp?=
- =?us-ascii?Q?DBz7+xIusfB2GEjxSPL2dYaNr+Pr8JamcdG9Fgwxj+VAZZzya82qbNtMDgLK?=
- =?us-ascii?Q?4a4dXG/tWLKTycPAk3+2BgXXrbU9PlRV13G+Oy8dLy5OznvBdy4/tyE0bHCW?=
- =?us-ascii?Q?/UOfKtecRB8bs3Y9te3kt8lXuLfdY/klIS2MKVQYEs/o+JVdunOJsW5U52hY?=
- =?us-ascii?Q?X+4b3ZgD4YTpzUbuIKnmvFDJdz5ILWGWaP36PzqtDkgP3yc4enIZVUpH4xSt?=
- =?us-ascii?Q?KZ8r9OiHIX3rRphJWeAQyvUq7q4yAe30JU9b6zi+LazQh3swTdBA/S+AnAQD?=
- =?us-ascii?Q?V7ywxVMXUkK+x1rcEmDqKzYEw7NwFlPga3OMvEEi9yNsZdK9KLo+t0LuSTSw?=
- =?us-ascii?Q?oZ4cLhAGX6k2sSXl/448a7dulw+NZe6mnfdjqnt8xZA3Yv3GJcHPVFPBh2RF?=
- =?us-ascii?Q?u4tkW4IwQOZOOpGpcHmey5aHw2eX5+ogcM5GRw4CQZ+b5hh9qtGpTG4Ckesn?=
- =?us-ascii?Q?48G6H3sWzRFLBfRp6+2kSvhS86xN9/2oaG/t6ZouxDPG05k6LkI7XpGWf9Jd?=
- =?us-ascii?Q?k5LZgF/t3aNrCRM/lEpTJLOdYiUcPH69xc5oFpVQa5sazd2C4whCneKyp3Vh?=
- =?us-ascii?Q?DpPNZ/k9AJTWnF6XNuzbhql3HJIOyJ3J8GunyOAJBVCGftMG2y5sFKEV0mHy?=
- =?us-ascii?Q?O1Lmja2xR+8Ln5Yw0tBDRDo0CU8Pwfrpij9udMb4y+VHyl16pyD2Ipy4p+sw?=
- =?us-ascii?Q?8pmnGGh8LaNpBV9U0E9vsOk39WZVuXMymcDhMiJ01X+0r6e5Nh9qv7OSdW+L?=
- =?us-ascii?Q?xNRVsxr+ApH/bez3VJNMcyZKeUqsizZdb/x2KOoRLGQ7QHkcQYgs3e1HpejU?=
- =?us-ascii?Q?b9/5yV3wpYm1jaVBUhzj0YfuVYebE6GFiPY762ZACWRyzmrQj+qxQka4wuzn?=
- =?us-ascii?Q?8T/nBxCUSf8RIYvtJvjZkQC8ftbXMSo3FMzpYKwKtucTxfZinyJRWEXSooVR?=
- =?us-ascii?Q?xV5yp+9nMhvVQwMWsofSuvF2K4F8LZO4/5u+mgRctp4B8zleCDtMGkPkv3MN?=
- =?us-ascii?Q?En7HS3Je7UInuseu2l79gZDXSPjKlvc4Ztf0fEklWSG7SB4C8rZtUizOi3Jh?=
- =?us-ascii?Q?wx3o+ZvPXPMDCsZ2fYKl6q3fP2Sw6+CcikhgDQb8StZxpC93Grt1hffRdzzG?=
-X-MS-Exchange-AntiSpam-MessageData-1: ILce6Pbfvqi0tL91Y9TgbnQ8TN6ty71Qj8Y=
+	=?us-ascii?Q?C/FalGaoVzgxROZUpe8QBF1GmwsMr3Ga7JWwG5nxWCfK5Xc0U2Obq1jspWFy?=
+ =?us-ascii?Q?EKrNXzhNFSLofOysSiaVCkjVE1u/f0RT53Lb0NX4DdDOJfW49kGcvQZ4LI/0?=
+ =?us-ascii?Q?S2eodxNNMh/7ektER5jhCAuH08kNN+5OZcKlI8dnB93uIYROnMQ6qGUypEfx?=
+ =?us-ascii?Q?8eXI4452bdigYmC4suhDfzng7Jml0c+zJRy8zbyfaV+N02ZiGaGNxPSTeU9j?=
+ =?us-ascii?Q?Z3U2BzqcM9n4xMWe1H+6SA4C2qX5YSkqHVrUG9uELUgHcbSUYJbY83qAX9Sg?=
+ =?us-ascii?Q?Q97gVoh/i8BaGN12mf6oeS0e2sgoFz4YQUgCVbl+yzB3hGyBinNEWkNGGgyH?=
+ =?us-ascii?Q?46QyT5DTeUNQ+ZCMo59aIMQLPngMDAuDUNtswYUoEHJMfamqlWtajejpek+J?=
+ =?us-ascii?Q?m8iYn2K8u/M4iGJhI5MhTdo0Gbor39T93LYBFAYD5odvyV/+UGHjzwMFuV/s?=
+ =?us-ascii?Q?561Uk/kwVnwEVfa1XRy6bDhHb1/5v3OT+23XAT+F6vIt53sOp6tPdFsXRrlL?=
+ =?us-ascii?Q?cJNaq4D3ozFa9h8maCHMyej6bw45jCus+1P7eA7JGYkHXMFwwb32n3miKLB4?=
+ =?us-ascii?Q?3WmCqj8SothzEP8p+lAXhCBCDh0ci2C5KA8yS25py6TPlFtlW1QEgGrHfuOv?=
+ =?us-ascii?Q?ZP7LyeQpIHhGEfLi3UDK7iWy52bH9cie2DKPRVOOY8WBcCmpHP35kzepZYP3?=
+ =?us-ascii?Q?XTV1SHNbP04q8eg0TEf2ehu96eUwN6UInua0LcDlUNyINUq2+JJTbU3x0VSa?=
+ =?us-ascii?Q?g30I8Mds8cuA+Ai1X7LwlWbD25DfVuxlyiLIKAORj53u/I0fCV/vN1h6qqKE?=
+ =?us-ascii?Q?A9C4rg8vKZzTNivI0+SDE7tFJQJoZT8Yn+kbOa/ojWBn/AwLGj1OPo2883Cg?=
+ =?us-ascii?Q?Bdfcoh3n+pEHKpuiQDR30LyDwykV2aPeHc1bPZIvMFhB4cynj3NJXKV98G+r?=
+ =?us-ascii?Q?4ppzzcZQFYWa1ibyFjX1a4Kpbz2hPdAuK2Nb8ecbQEs0ksOZhJdArWlDEesH?=
+ =?us-ascii?Q?oS7eo+XQ9AGjWdfO02ICtUA367zpvBKNgRhy1x3Azd+vGixQcoHLqgYwMUH7?=
+ =?us-ascii?Q?4MT4gin0YuUx3Z7fyLi+WGxXw2ozLXvsqFQ74z29L8Py+Hdb1+xQoaIpx7Kr?=
+ =?us-ascii?Q?7SxHABEpqA/GcqNtytTh7et6xciiYlZUmWvATKIZnougiI+mh+nsv4XfRF5g?=
+ =?us-ascii?Q?X7eGbu/H/LaZvPIhaXX+hcghKQ15G1KNcOAVF0UPHZFV15//Z8fL7Prr1eJx?=
+ =?us-ascii?Q?g7AQy3zr0hXBypXs12OaUZuLLmkQhgkk0cZl7S7Z1hkI+oQYoST373uSO49S?=
+ =?us-ascii?Q?jfD1QydUYvP9Yr0o4NBbO3/HP+gog59boebQaY2yHNve1wj7znZMmF6Iv9/h?=
+ =?us-ascii?Q?VDMYV7DuKcVjmw63wXXTfOYRoSjoWeRw/VPc5KpaxgUtuQynHlJ5r2I9G510?=
+ =?us-ascii?Q?bbT/+sGCg8uECcYZksfL7Z+o6H0StLF3c/wxq4lXp25pmwxJ3JXmiBlXZ5gp?=
+ =?us-ascii?Q?mM8HU68vFWpZskBdNb9SRdSajmDEPaVdc5u4rp1IRXjEI/lr8My8vrChc1l/?=
+ =?us-ascii?Q?64vzaDAuJoEj0DbdUFCp5rPKKB1orKiGSOjGWYUSmHyh5CKMxAbPbRYyG6OO?=
+ =?us-ascii?Q?oijRSAQBLVGM7uwW5hG9kGwTHuExCQMzumWtPC5VP1Fi6cqJ9GJ1TaZdQiRM?=
+ =?us-ascii?Q?OCwMD/RP/fqpc3E2NaN7G56uRtSeYCJHTF8SqPsPiEAkK01uQxhcRx5izWnV?=
+ =?us-ascii?Q?mDHYtYX/3oizIRdLf0J3aRBF4NPuYfzeKAWMdCJQXNvmIllldOP0EAgwErvK?=
+X-MS-Exchange-AntiSpam-MessageData-1: i+07iHjc52TLpp9MPjRmeQhJhMqekbUE1s4=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: a8760d82-7b42-4309-51d5-08df07f142d4
+X-MS-Exchange-CrossTenant-Network-Message-Id: ff62b45a-0698-4f98-c4cf-08df07f14366
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 06:21:30.0563
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 06:21:31.0346
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: /u3CSmKWhFWtzfgwI2QV7K6RSkvFwXbqZ1udeYw3niGZogSINpibFBvboKOOW9VN9n5eldjORpxKaHlsfOOvP42Qw6W0Q3irCSInWgKG/fI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: jRyilXo7rVo6E9gNOlR9z1DIJT0dAwNeA5PW67y/TvuVZcqQml+1xavtyR1YxjCt2IWsHm7j39AlIBmTqpFIOIMUPSlN40Q4hJm+uU0Mzts=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4P189MB3535
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 06:21:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244796
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244797
 
-CompareLog: https://github.com/gpg/gnupg/compare/gnupg-2.5.21...gnupg-2.5.2=
-2
+5e5bdda use PROV for pkcs11 URIs with OpenSSL 4.x
+54e8496 test: verify missing key error message consistency across backends
+ea33d57 gpgme: report "Signing key not found" when signing key is missing
+13e2a9b PGP: define shared error message constants for both backends
+f756add Optionally build librepo as a static library as well
+adf4afa test: don't expect empty file when downloading fails
+84ce760 Fix metadata file descriptor leaks
+ec49f22 Close zchunk seed fd in find_local_zck_header
+a42277a Do not fail in lr_prepare_repodata_dir() if repodata/ dir exists
+84206b2 Fix download resume within a single session
+23a958f Configure packit to use caret notation for postrelease snapshots
+9e5b003 Set CMAKE_SKIP_RPATH to TRUE
+5d8b0ea Fix memory leaks in `lr_yum_download_repos`
+e39ef74 Fix: actually store metalink and mirrorlist download targets
+9eff2fc PGP: Fix creating /run/gnupg/user
+731b5f9 Replace deprecated CURLOPT_PROGRESSFUNCTION
+be788e8 spec: Postrelease version bump
+5d52606 gpgme: Improve handling of expired GPG signatures with key rotation=
+ support
+067e0ea Merge packit copr_build jobs into one
+310d247 CI: Correct a link to packit documentation
+03a20b2 Add build requirements installation instructions
+0fc4b98 Test importing keys with prefix and suffix
+a260f21 We cannot build for epel-8 due to glib2 =E2=89=A5 2.66 requirement
+f22fc30 Add packit copr-builds and tests
+
+- Refresh patches context
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- ...verride-init-is-not-needed-with-gcc-9.patch |  2 +-
- ...e-a-custom-value-for-the-location-of-.patch |  4 ++--
- ...-use-pkgconfig-instead-of-npth-config.patch |  2 +-
- .../recipes-support/gnupg/gnupg/relocate.patch | 18 +++++++++---------
- .../gnupg/{gnupg_2.5.21.bb =3D> gnupg_2.5.22.bb} |  2 +-
- 5 files changed, 14 insertions(+), 14 deletions(-)
- rename meta/recipes-support/gnupg/{gnupg_2.5.21.bb =3D> gnupg_2.5.22.bb} (=
-97%)
+ ...Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch | 4 ++--
+ .../librepo/{librepo_1.20.0.bb =3D> librepo_1.21.0.bb}          | 2 +-
+ 2 files changed, 3 insertions(+), 3 deletions(-)
+ rename meta/recipes-devtools/librepo/{librepo_1.20.0.bb =3D> librepo_1.21.=
+0.bb} (94%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-ne=
-eded-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-ini=
-t-is-not-needed-with-gcc-9.patch
-index 7a3fa59c54..52db780959 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-wi=
-th-gcc-9.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-wi=
-th-gcc-9.patch
+diff --git a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtai=
+n-PYTHON_INSTALL_DIR-by-running-p.patch b/meta/recipes-devtools/librepo/lib=
+repo/0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-p.patch
+index ac5373f2e7..6cfe970c2f 100644
+--- a/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHO=
+N_INSTALL_DIR-by-running-p.patch
++++ b/meta/recipes-devtools/librepo/librepo/0002-Do-not-try-to-obtain-PYTHO=
+N_INSTALL_DIR-by-running-p.patch
 @@ -1,4 +1,4 @@
--From 46db1301b1b71f47aa131b9a3de9d1cf356cf408 Mon Sep 17 00:00:00 2001
-+From 8b7d344ed35bc4bcfa0d531a0885fc1bea01ffda Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 20 Dec 2018 17:37:48 -0800
- Subject: [PATCH] Woverride-init is not needed with gcc 9
-diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custo=
-m-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-=
-configure.ac-use-a-custom-value-for-the-location-of-.patch
-index 1c7cd7ba7b..04dd45e676 100644
---- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value=
--for-the-location-of-.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value=
--for-the-location-of-.patch
-@@ -1,4 +1,4 @@
--From fd060f524e50c7c3f8694f71630ac151627235f1 Mon Sep 17 00:00:00 2001
-+From f86e7337698debfe5152f4f4bc840bf56f868fab Mon Sep 17 00:00:00 2001
+-From 0062f49b62ce014dc81485c6ae101d49399d22cf Mon Sep 17 00:00:00 2001
++From ba81dfc3aaeadad0e22272136740864bc95d4f6b Mon Sep 17 00:00:00 2001
  From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Mon, 22 Jan 2018 18:00:21 +0200
- Subject: [PATCH] configure.ac: use a custom value for the location of
-@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
+ Date: Fri, 30 Dec 2016 18:05:36 +0200
+ Subject: [PATCH] Do not try to obtain PYTHON_INSTALL_DIR by running python=
+.
+@@ -11,7 +11,7 @@ Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
+  1 file changed, 6 insertions(+), 6 deletions(-)
 =20
- diff --git a/configure.ac b/configure.ac
--index 5ac4d0b..09615c5 100644
-+index 9e2a42d..b48b88d 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -1909,7 +1909,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
-diff --git a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of=
--npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-in=
-stead-of-npth-config.patch
-index f4c9b2161a..7553bd9f3f 100644
---- a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-c=
-onfig.patch
-+++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-c=
-onfig.patch
-@@ -1,4 +1,4 @@
--From b8a99b2d9caa05f54be25635e3b1687753fe7196 Mon Sep 17 00:00:00 2001
-+From 3c1d201eace11d557eb6c589842e93b8bacbe8f9 Mon Sep 17 00:00:00 2001
- From: Saul Wold <sgw@linux.intel.com>
- Date: Wed, 16 Aug 2017 11:16:30 +0800
- Subject: [PATCH] use pkgconfig instead of npth config
-diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes=
--support/gnupg/gnupg/relocate.patch
-index 02f03386ec..234afd16fe 100644
---- a/meta/recipes-support/gnupg/gnupg/relocate.patch
-+++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
-@@ -1,4 +1,4 @@
--From c70694bd3e71cc1fec6ccb3ea0f694c3863ebd48 Mon Sep 17 00:00:00 2001
-+From f49d102adf393f57e6ca7b6ec6969f60115055ef Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Wed, 19 Sep 2018 14:44:40 +0100
- Subject: [PATCH] Allow the environment to override where gnupg looks for i=
-ts
-@@ -13,10 +13,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  1 file changed, 7 insertions(+), 7 deletions(-)
+ diff --git a/librepo/python/CMakeLists.txt b/librepo/python/CMakeLists.txt
+-index 8523ca7..06e5f7b 100644
++index 91b7385..b08358b 100644
+ --- a/librepo/python/CMakeLists.txt
+ +++ b/librepo/python/CMakeLists.txt
+ @@ -16,12 +16,12 @@ SET (librepomodule_SRCS
+diff --git a/meta/recipes-devtools/librepo/librepo_1.20.0.bb b/meta/recipes=
+-devtools/librepo/librepo_1.21.0.bb
+similarity index 94%
+rename from meta/recipes-devtools/librepo/librepo_1.20.0.bb
+rename to meta/recipes-devtools/librepo/librepo_1.21.0.bb
+index 7a2e9e6b9b..72ee9a627c 100644
+--- a/meta/recipes-devtools/librepo/librepo_1.20.0.bb
++++ b/meta/recipes-devtools/librepo/librepo_1.21.0.bb
+@@ -9,7 +9,7 @@ SRC_URI =3D "git://github.com/rpm-software-management/libre=
+po.git;branch=3Dmaster;pr
+            file://0002-Do-not-try-to-obtain-PYTHON_INSTALL_DIR-by-running-=
+p.patch \
+            "
 =20
- diff --git a/common/homedir.c b/common/homedir.c
--index 835f0ea..0a67a33 100644
-+index 7538642..92e8125 100644
- --- a/common/homedir.c
- +++ b/common/homedir.c
--@@ -1526,7 +1526,7 @@ gnupg_socketdir (void)
-+@@ -1575,7 +1575,7 @@ gnupg_socketdir (void)
-    if (!name)
-      {
-        unsigned int dummy;
-@@ -25,7 +25,7 @@ index 835f0ea..0a67a33 100644
-        gpgrt_annotate_leaked_object (name);
-      }
- =20
--@@ -1555,7 +1555,7 @@ gnupg_sysconfdir (void)
-+@@ -1604,7 +1604,7 @@ gnupg_sysconfdir (void)
-    if (dir)
-      return dir;
-    else
-@@ -34,7 +34,7 @@ index 835f0ea..0a67a33 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
- =20
--@@ -1591,7 +1591,7 @@ gnupg_bindir (void)
-+@@ -1640,7 +1640,7 @@ gnupg_bindir (void)
-        return name;
-      }
-    else
-@@ -43,7 +43,7 @@ index 835f0ea..0a67a33 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
- =20
--@@ -1618,7 +1618,7 @@ gnupg_libexecdir (void)
-+@@ -1667,7 +1667,7 @@ gnupg_libexecdir (void)
-        return name;
-      }
-    else
-@@ -52,7 +52,7 @@ index 835f0ea..0a67a33 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
- =20
--@@ -1648,7 +1648,7 @@ gnupg_libdir (void)
-+@@ -1697,7 +1697,7 @@ gnupg_libdir (void)
-        return name;
-      }
-    else
-@@ -61,7 +61,7 @@ index 835f0ea..0a67a33 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
- =20
--@@ -1679,7 +1679,7 @@ gnupg_datadir (void)
-+@@ -1728,7 +1728,7 @@ gnupg_datadir (void)
-        return name;
-      }
-    else
-@@ -70,7 +70,7 @@ index 835f0ea..0a67a33 100644
-  #endif /*!HAVE_W32_SYSTEM*/
-  }
- =20
--@@ -1711,7 +1711,7 @@ gnupg_localedir (void)
-+@@ -1760,7 +1760,7 @@ gnupg_localedir (void)
-        return name;
-      }
-    else
-diff --git a/meta/recipes-support/gnupg/gnupg_2.5.21.bb b/meta/recipes-supp=
-ort/gnupg/gnupg_2.5.22.bb
-similarity index 97%
-rename from meta/recipes-support/gnupg/gnupg_2.5.21.bb
-rename to meta/recipes-support/gnupg/gnupg_2.5.22.bb
-index dc77691bbd..803fb2765a 100644
---- a/meta/recipes-support/gnupg/gnupg_2.5.21.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.5.22.bb
-@@ -25,7 +25,7 @@ SRC_URI:append:class-native =3D " file://0001-configure.a=
-c-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk =3D " file://relocate.patch"
+-SRCREV =3D "363cb70c6548be900832bc9b18ced3e7569da15a"
++SRCREV =3D "5e5bddacad52121f970c499e13a98d936dcdc7b6"
 =20
--SRC_URI[sha256sum] =3D "e3af2c8caa46a66a9329fa7c6880af260451914d819595beab=
-c2c26597b31352"
-+SRC_URI[sha256sum] =3D "96e27b020ad26510388e06f5f07f3f70a4ed8916ee995f1b72=
-b7a024e6d9d87e"
+ DEPENDS =3D "curl glib-2.0 openssl attr gpgme libxml2"
 =20
- EXTRA_OECONF =3D "--disable-ldap \
- 		--disable-ccid-driver \
 
