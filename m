@@ -2,142 +2,204 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E0DC3C61DE4
-	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 06:21:42 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0B4E3C61DD6
+	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 06:21:43 +0000 (UTC)
 Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.44])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.1669.1788243693002455956
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 23:21:34 -0700
+ Mon, 31 Aug 2026 23:21:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=EJw10cRJ;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=DjiFKoqR;
  spf=pass (domain: est.tech, ip: 52.101.66.44, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AzsfodKAh9fiLgz90iMsWDFB39QiIBdJ0FUYUY1izKVOy+aLleXXW7jK6qW9C8A6UAQBlt9/VZfD3Ot4i091bjwFiH+7jprx+4UBPtPlie8GgQ+q8W17tS4Zla64j7UUyywVX3Si9vPH3ttbszR6BZzWFiFdO8S+1siSORLiKGnBjwU18C4Wq8qVSWw2NrThxJHaZEynwMQlnVr3i/LMjfiZMeBuv1YR5wyOoHyT7erxUPyYRRsAL6qdAZI7QXF3QGxt50lsgQ6wfSbby88he3q5aRf5Zaxe7QK6PPu9jQWr5tIDpklXXllkYLY04Bk4guINNqEalpcWS3PoqqxUFA==
+ b=jA/aqXU2ZrCJQFZZe6Bo02vx8yilvF8BGZEhssER7tPqw3MHXO8h/YCN1euJWlhMfLTpAKblAmhue/a2arsER25AFm/foFkjQWsvpuohtIHzvTV82X5uRGcphnNjnCN6MyVpNTGmNNzrkbdYrd7DC0mpYUPZa9ODo/hWsOgtz01POTm9NONc+dl8YtULKl/EU1+eVcZ3Fjsnl1O4BsUR52Jh6+MsiGUZe1LVDiBB2IBcTa+WdMwZFU+dsV6XWr6CLisJnY2mx1+2PAfWV4LxhvplwaW0zxzUidtkBGwRMt/GPREQC3EjKvz+bd5xFob2pRusF4xNenEArciVifuKlw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=i9tkR+AhtdAmOzLkbLlmZUPykfZPEUwaQ7TNcdT+MnI=;
- b=OwP+P9PYJcmXLB1s6JT6G12gTFQrxR4KkekYNxCBiv9nG+xV7MD37WkZ46yoWUKis2EuzPsKf1YhwbDiBTjJae+MaPIhVyz54+CxeAaAbbH9J4iXHj9SzdaKfbFBnl9N3aKfOoTgIeE/twD1yJwAz0XCNeVQNBujvaAlhPekjoMTrjok6gGfrYStUTelD4YtBMobvbMyFu8lk+EgZ8QoIudVUd5bhBjXxHFW4xjqWxn51NHS5qKgeYFsGggfa+5Q+MrSxiSGWt1EyoC1/VcuIbk6VnZeCISDUEUdZpSfy32a3kLyufhG8wD9D5kE4Ars8dcs2rAD2PkTdoaU4STFLg==
+ bh=/k0LvP+PFEeFpowmz6bD/lIUOIxnz/lT1FxBzEswvPg=;
+ b=ajs8ejusMqU4MFvPP1jLSfPk0c2MR5hts8o6BY0o85LNxjP+okNjUwFT5+zujs6Xmixd5jgxJoQLkUsf2jSz3m7na9B7pp+LMBTz/FUZ34hP3GeB0Xup5bui/L+r/hj/MXjKktL2rWdbzgkuJyLSIajUP1X40wFdQGJHyMKaP2Fxjnolfiy7kHXBvNKIvpy2HvrKF4XlFONnbrgAGSYFXDL+EJB6U6UDJJH0JVZ7BowSr6nvyhwlZWYBhG4eW4lQGmaX3R8d+JZLBHVdclImj55FGp2MmzxYUvBKWRo83qkq0eqRZ0HYx4XZILwTXrvKoy7O9QRbhwfkMIOxy+2FpQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=i9tkR+AhtdAmOzLkbLlmZUPykfZPEUwaQ7TNcdT+MnI=;
- b=EJw10cRJWIo6aoavMBTqo28CgC3s7Yrk4CWYcCoPft6lPIKVOwts+p9hlh5xVD60dw1PDDDnQOHAwY+eqBedV/KQTTJEBRgBqOwYcNt4/FJK3d2U4TgkSzKw4o9w9T82U7Mc+f8wEM2jxj4YRqMGpSu6xFOQzlbuPkYMhwC1H/RrOZmGP+iee+wXZRJODZwBk8usABzrxN3edNWa21q3BtahEsFQiQK0i+VVl/88l0FqIs+FPYj0icv43asBNiEp68JlRJcE9qxDCQ+uiIAPccxu5Zw2ZbfOPFIKiHZwIenz3/np2DIPoGBXzDKY0VuAuQFVt34rNO3purk5TADN4A==
+ bh=/k0LvP+PFEeFpowmz6bD/lIUOIxnz/lT1FxBzEswvPg=;
+ b=DjiFKoqR5pWbfWdBVN0tNL5bW0b5JbK82EtMd/DAGCE4EviyOvTIDvyyNl4BQ4VtOdQ1Frw8+bbSR/lEjGpfzlTMv52H8iLc5VNmcTxupX5rFDXiiobAGHfp5DWiuA+yPZ9o6vy1f9fVpNm++pleZxmA/175JsXxzchihLbaE6ql7JCMqZMC54iOADihQ7V19C+9ZSJyr3A4LJr/6X9cBNCbXkL4xBTNFH8q7Lz7U9j/EYRV1XGGo01hYpSgouLb7K2+eivRLTS6sy36GB4veX7g5lbgAMLUy1l1ZHuHycKGNQLege3PQTiN1luD4MqorVuWgh+lqPzoPBolE3ywrw==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by GV4P189MB3535.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2bc::11) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
- 2026 06:21:27 +0000
+ 2026 06:21:28 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::7ab2:c6af:6760:5c85%7]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
- 06:21:27 +0000
+ 06:21:28 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/4] upgrades: expat, libpcre2, gnupg, librepo
-Date: Tue,  1 Sep 2026 08:21:21 +0200
-Message-ID: <20260901062125.37994-1-jaipaul.cheernam@est.tech>
+Subject: [PATCH 1/4] expat: upgrade 2.8.3 -> 2.8.4
+Date: Tue,  1 Sep 2026 08:21:22 +0200
+Message-ID: <20260901062125.37994-2-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Type: text/plain; charset=UTF-8
+In-Reply-To: <20260901062125.37994-1-jaipaul.cheernam@est.tech>
+References: <20260901062125.37994-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: DU6P191CA0043.EURP191.PROD.OUTLOOK.COM
- (2603:10a6:10:53f::29) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+Content-Type: text/plain
+X-ClientProxiedBy: DUZPR01CA0040.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:468::18) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|GV4P189MB3535:EE_
-X-MS-Office365-Filtering-Correlation-Id: 146df14a-7033-4a7f-d69c-08df07f1410a
+X-MS-Office365-Filtering-Correlation-Id: 9b4617f9-b945-4af6-0de1-08df07f141c5
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|10070799003|376014|366016|23010399003|18002099003|11063799006|6133799003|56012099006|10067099003;
+	BCL:0;ARA:13230040|1800799024|10070799003|376014|366016|23010399003|18002099003|22082099003|11063799006|6133799003|56012099006|10067099003;
 X-Microsoft-Antispam-Message-Info: 
-	tdlPycPLG0bgfQQnQOwlFoRD2TSikSw+f4T6ztp5v7BLJ3eGe7R7glPNHxtMZTkvZjgg50voirMVb7APdOBbsNeSZ3cH7Z6DZ0BuuFmn2Iivq+LkikvaIhk0EmiyeQ4I8eTNpiLkECQrjbRPlr/EOfpP9LFTt9u8MpP/mXhADVJecIkHSRpxkHJRJixFTLR2M91zAxldyiwHDVuTAkk6OrI6SxCu7RaiRMOm0bEpZwkURiw949PzM4LyO7wPMdKFZWNz765zdH+GgP2afN4qOQMKrLOr1ArCb/q9GOxYTGVk+/bnvbw7j8GtJWx5ONJeWgrgsC1UoW67eGY4AE5Ymif0v2xwdSSOBgd3EeHDyXu3UXhFTZJkTuRcVVtpYmioIBqNQZD+LUYdBNLAW8xRAj/bs0adV8SN7X44reSuF+9AE6NGn3HYAP19Dg1xeFxlsEYjd3zGlNiVjank7aFkKUOAS3fhH6o3uXa5WLvTsCDwqwZ6pFdj2wdhOf8R5aeOupim2355BWqWy/Ha1+7vedAV06HDpub95Be3RHE9LyO3N1UN6lFdJyKAVCiBDXGdlTAgqVlxtGvucBbW55GQz3r8910MSGcnU0YCzlG2+I1RrjnfZQAk0/xuF2bP9EyhRJeTx+MQzGZRmvpTjVIuE2voOqKkQoaAE1zUBKtTV7k=
+	YD0LT0e0UIR4uprNqZulOb7CcOc8la1bWj/7nWzR3OXanOVLheGMa0O78dk+JVX0+q0ZSE3jb/bzE8FIZS13bToWtP4RPOr1GZn+czJhxUdvup2CKbeKCGNWdT+f8oWIKBV3jv6dKhVFcGVC2MU8Kta09X6xlVugoa63W3T4wwJTlVKL1n2dZ79p11+YB/PGeiV6ek/UBr932UocYDqBQH4IZr72cLuyij/m+hcJnFs3852dV7sbjZZcN48j+CARlfzqrFADoEbEkEPRP26tR5t/WwIai6MjKvU+26rLTceMK2JYhSjkmvUF8wqgvsR97wq5jKuAn1560C+z3DETcbpn9A9/AaHouXPtR7yWo5NM4jXHpHu09Bp4vFMouzzaZGqrjzlMzyrh1J+9wBAeFAHix1Q4KjJ2zytn3b+oKVRcNzs9W3vUGd2iP1Awt5D85ybRETvEvSHVwNQWP4QcIa+reziuWOHKFHcvGv+MZIyt3yPaA1wuRWrIItM0V5Zl2K+X/CU1JC6DPLtWI1KEaqjezUs41TwcKOpCO9znoEz0j//qtGGIha7ECJvuMz9aW9ENrh+6yG68Vsawh1jsCxLK9LnsiVLLI6ZFwBeYtec=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(366016)(23010399003)(18002099003)(11063799006)(6133799003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(10070799003)(376014)(366016)(23010399003)(18002099003)(22082099003)(11063799006)(6133799003)(56012099006)(10067099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?JRIv4EUjE2iHcdr69RLSYbTFy0wQtqvx2ZijUWk05DwBWNVCPb76oLuL1UI/?=
- =?us-ascii?Q?vHaFKmph4MpN3WenV86xsWpzLyUSWHJGJhFQh8nxlTyIVmwan1jBmMrdVGTe?=
- =?us-ascii?Q?9KkFPnz2lm3HW2YDGN75MXvJ4adcswx+QvRAea7NKkRUCt5bE2NUMDhsWmkO?=
- =?us-ascii?Q?NVPm4rPDu/Rmad6HfJFK+MQbS9Mrj+QWFnzViaJTurt70gStxsXSZiRvRSRH?=
- =?us-ascii?Q?EgknUYxWrmotnhGxloPy2AbMg8Jx00mPIZUNDC6skqY5xZxgugoFCSVaM0xp?=
- =?us-ascii?Q?F3olPFjw0jjknH4w0Meq+WQDnzn50uXSe15nlFACNE6irsqYsk6jLYCtUqwe?=
- =?us-ascii?Q?k1Sh7h5eUsWq+QSTXDYNvsUhRq30SKauBvFE00bzSACl8BpZC5uDGWWwBWDi?=
- =?us-ascii?Q?OMb7mhcxmOWwpe0MOwtRr25m+I/SPQD5A5fhubhP6gWVGE5U9ZOUqk2jXkhM?=
- =?us-ascii?Q?4MqV2agKOTnrfrt+EAKR10TKRLOHKUWDnmd3+WnEoMfuIPcnZ2lIpq6ZYdiI?=
- =?us-ascii?Q?w8f9EQ4hTiOmdA6zPnlmecBZ4fy/pOxawgtGi15xXUdedSFEEPrwo/S7rsuX?=
- =?us-ascii?Q?RPP/3vzLzegT3Zhg1yySE9CvjDF8v/tka3XN5hUqDgt6dbOCrSSt9ticbwE5?=
- =?us-ascii?Q?NBf9ulKqFaDv4/wLLS0m9PPWgtxTY+/6gB/gURBeAsPU7ZDxmF1lnFKuE1d1?=
- =?us-ascii?Q?kJdCi1Jf8VyWS9RMwwCbXe1eDeoiHGHA1C65PT2NEZ+h5q4OPYayR7N2MU8V?=
- =?us-ascii?Q?am5fxeLagMNaoSHf8JyH9du00w67gLuYMOkcWw1AXhtgZflAgRwP+I7eet0L?=
- =?us-ascii?Q?UvQCYrBPY6ks2ruNGdBpYw+i36IFYuvQO/7syxYwBoDOyWE1GTC/L+EW+IV1?=
- =?us-ascii?Q?vzObqOQHQubD9n6bwVoAkqggw1tCV/UK3HxF8LHGmQhzmSssZw1KV2kg0qMQ?=
- =?us-ascii?Q?X8hB1XIgPZ0hROOTboVQljnZOaswqFGTl4k5iw8Ibe2YAPgIc7lKpw2b3Z05?=
- =?us-ascii?Q?lqOJ2oy5CI7y0M3BAhzgBgjLGCIjaNmDjy6wovvlXVbBko8gH4BhYD1GjEBi?=
- =?us-ascii?Q?j2Goh7bbpxiqzevhuevQlJoCVBpp0X/7aaTt3Qwr6sSujuY++KuxDRtprbRe?=
- =?us-ascii?Q?EbQXgTdde4PIwnty4GoYzWwTKAY55mvyFJAVkUtZZCfsjn0mV6D5ftRq0BaZ?=
- =?us-ascii?Q?CkEFK6pPTTEQtg6dK5yN5AWp3Dq8W6pd7QP/DLyJ4EHBcvR01YbA/WXxjN3H?=
- =?us-ascii?Q?VM9avD4U5JzQg11WilHB6JgBzwVBOibYNEJQe1nVO146dWY5Jmzq3+kPZCoc?=
- =?us-ascii?Q?5bcD03WJ7aStV8Ky/A4Y+uJ1rsQn7ItakwWPyzX5kRwtGteHY5xIu7gETgqX?=
- =?us-ascii?Q?koMW1xm9SLn5J7gQnejFAgNur0T+BEPACm3YUVkUM/rriwrScd4LymGrUqzu?=
- =?us-ascii?Q?FoHvzhQOdjD5jlhqclmQPiesizSfNwjhR2LBBtdFWq0bO8FTaPN+W0OKI90Z?=
- =?us-ascii?Q?gQRaKHef97pB+hULpZEEHfkTUN3aKiBp1NJBVWLqRjIsXtbCSOI7FiHKzd3O?=
- =?us-ascii?Q?uyv2AWrlIYbvhj9C7f3dMM9qkCuHQsyG0rurshVP2YBaYZOKLVMuTgVoF2KI?=
- =?us-ascii?Q?CjBn2F7jL3CpAX8bxLtrWbdfhTmQBwp0VGSlRiqON+o11mdqM0sJrF9Hj1cu?=
- =?us-ascii?Q?GGhtv2Nt1KoLJ4yUKpNd0uKyuwsj9QYtR6GmBUl1D2sRyb184wKsysj5DaK8?=
- =?us-ascii?Q?3UJtD8lSCT8IkC9/3TCpQt5c2iHVfQ9ZezOvJkrcniT9mM/JwKpMEA/m79QG?=
-X-MS-Exchange-AntiSpam-MessageData-1: sss4PyxGMTf413ZItluhYEjLZH2ykCfOkEs=
+	=?us-ascii?Q?GUMq7lcR6+zSEKPYBhMcuprEHvEd/EzNzmVt89xeQ4Ka5YlfAn6BTYXpxZLb?=
+ =?us-ascii?Q?IiYRCBGZv1z41OVgRTR78qQBimd31SwDoGt6gxia+d+UEXCHlzYA4L8EKaqy?=
+ =?us-ascii?Q?bbv2vDkQOx726sE0ej+NOk3ri2wIZb8vIHdcHQHoqvsUW6MM+4Be8ZQI3OV5?=
+ =?us-ascii?Q?e6lbEaWHV6xeH1fY9KQ/CGulW1gjzJqXx+CfWwHXdhd25K1mHvkkJEbrKxQQ?=
+ =?us-ascii?Q?JbKjevvNo+ZtBeCwSP++ZU0RNV+hblK8BN5QCj7j3py7B9pwjoZCN6rNwG2H?=
+ =?us-ascii?Q?k2pDsriL1AliqS9SFWSa/wXaooqQp5poH+uCrabc1cCzgqMTgtkb+xF+Z8Rh?=
+ =?us-ascii?Q?dDiZktF6OxTHGcISKgOWbTJKJaDNgTRhjCsRG4iWBFKOkyY4Y0F4wJq7G+MS?=
+ =?us-ascii?Q?QZmjZ7m9U3+s0rVgw+esAC7dE4tX/dv265gO1Je2CXciuRG9Udcs3YGRv+9f?=
+ =?us-ascii?Q?/E90JUYVpEtiq07DAjIAMiWlJ7l/hFBs1jSsv05uMwxWDO8C+SaPiy4C64hr?=
+ =?us-ascii?Q?GYHigYc/FUsmCKSwGV1BZrm0FkJXnlJUxXT4019lJ8tNzEEJx81dSSmZ424M?=
+ =?us-ascii?Q?/4j6HgB07UljcimntCOLAe1lkHRSBMHwOSLd4M8OcxrY5EPwqya4zxmqU4cc?=
+ =?us-ascii?Q?ORUcRoOEFpyXpBAJyskR8o+ZnZY5Zw+Y4OBR057pdiNBjTsHUCfS9Oj9UbNY?=
+ =?us-ascii?Q?PN4kDSleTiiHkbN6S5fPfZ7Av7vlRZ4Y2p9ZxWDkW6FApw+nhSB2fbotcL3G?=
+ =?us-ascii?Q?+SfLX2T3Oa5gIsxTzzwGII4Hyo3m6Z4grx/GI2rGVM1Pf+2fozXXN+DI1xbO?=
+ =?us-ascii?Q?shWFQZpaettf5TB7Ml4yBHYHncpsG0JiXZfw1DpVc3BNI655P7fjVjw7Ul6y?=
+ =?us-ascii?Q?BjdTCvBSPesWn/HIpv29+/rwLhTjIZYO2TV+8prD1sbv9g3dWvCnWo79hjml?=
+ =?us-ascii?Q?g4JTROoo5IxMkIXPtLRREGZC4pexaruB9B5gk+co/oedNhcvUoWocvTfvNhu?=
+ =?us-ascii?Q?VX2ZJS/pxa5W1KbIrWshCceX034dIFWBUg/sabJqre5UIpCO7ov2eHR8C6cq?=
+ =?us-ascii?Q?e19alEy+9uccmrb1QsieS7oo2Txe246zyDJto52bWG3FnUCSOQlNN0HoK/Lr?=
+ =?us-ascii?Q?SVpxaut9aHwponRiArU1PD+RHdqut8y1/WZulpp9VBMeVuLWKVDbeEu3cSow?=
+ =?us-ascii?Q?QrXhwlsagvo+jxwqxOGYlOw8NMFY2n4jKbrw8VpDJD0PRJNTxNVOvpcHPeG4?=
+ =?us-ascii?Q?jNaDXEBVNw/LXgkJnpyOUm8YUuEUfNNqs8pkDDfxncrZb0WZSuJKjrLgxRQ+?=
+ =?us-ascii?Q?j2fjwaoHQT409COCKXK/IsYJTdQtE1O3modIhavxZ2BM50Hqc8DU3ibG7mO6?=
+ =?us-ascii?Q?6wkasq7jyQYeLOk1tpjemx2+IqqE6HQHXjxNnN051t3RhTkACj2EWQbWCGdz?=
+ =?us-ascii?Q?DtCwO7viO+em59KkaKf+oa9ksMpRXKhq0Bf2LZ6nq32bYhk2oVeD1n7GGJbn?=
+ =?us-ascii?Q?2xWUXhbQT6SWAd8c2EL9ANpdLybRCDHPq049ZlzCRLt1/PIJUXl42qWV47gY?=
+ =?us-ascii?Q?2ePLDTmuf28iaPrOST0bTjTXvlCytEmIGMPA44/DPCJKTnQ/MPrE/Y4vaZe5?=
+ =?us-ascii?Q?elnSazfouUMe6wJKIHWDh1GguBde8uQVix8+mOZd87qINDrYVLWt0Y/x+wxX?=
+ =?us-ascii?Q?WQAsJlYYsMCcmkqNI/op0yz3L+AHdTfwAIojq5t9OOHFsbeLL6V98kY56WM1?=
+ =?us-ascii?Q?CECn7JmUSpFikw5MyyZ6sN1b2x1bYAtL/v7Q7k7PeGPbbTJgVyZq5NfdaWT1?=
+X-MS-Exchange-AntiSpam-MessageData-1: FnsdqNQBBmrKzKmRh1ZAkRoYDNjWN6ogWhw=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 146df14a-7033-4a7f-d69c-08df07f1410a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9b4617f9-b945-4af6-0de1-08df07f141c5
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 06:21:27.1357
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 06:21:28.2763
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: hjykPAJD8W7yadcaabClqlT87Lkx7NiLCE9rBE7f0hvTl5keiZjjughvmGPOtvhqpou7O5yGbENBjK5gZhL6zauV3/3UpyG+8ZydDiFPxgc=
+X-MS-Exchange-CrossTenant-UserPrincipalName: NmaornNqOMuSDNxQ7lDEM1hUjJ/Pdgh1S8vDO4TWKZBL0i9wJPw8N4GZxuESfT3U/MChMWjavqOaQJ/4OV5rm4uD2Gh21n30BcbOyPYt31Q=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV4P189MB3535
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 06:21:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244795
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 06:21:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244794
 
-A batch of routine version upgrades for four recipes:
+Source: Changes [1]
 
-  expat:    2.8.3  -> 2.8.4
-  libpcre2: 10.47  -> 10.48
-  gnupg:    2.5.21 -> 2.5.22
-  librepo:  1.20.0 -> 1.21.0
+Release 2.8.4 Mon August 31 2026
+        Security fixes:
+     #1321 #1331  CVE-2026-66046, CVE-2026-76641 -- Fix quadratic runtime f=
+rom
+                    "attribute isCdata lookups" that allowed denial of serv=
+ice
+                    attacks through moderately sized crafted XML input
+                    (CWE-407).
+                    The vulnerability is closely related to past CVE-2026-4=
+5186
+                    that was fixed with Expat 2.8.1.
+                    Please note that a layer of compression around XML can
+                    significantly reduce the minimum attack payload size.
+                    Upstream CVSS 3.1 vector:
+                    AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H (CVSS score: 7.5)
+                    (Note the "AV:N" for network/remote.)
+           #1322  CVE-2026-76957 -- Protect custom encoding callbacks from
+                    parser re-entry. The vulnerability is closely related t=
+o
+                    past issues CVE-2026-50219, CVE-2026-56131 and
+                    CVE-2026-56412 that were all fixed with Expat 2.8.2.
+           #1326  CVE-2026-76956 -- Fix inverted getentropy() return handli=
+ng
+                    Allows for hash flooding denial of services in
+                    configurations where getentropy is configured or detect=
+ed
+                    as the only high quality entropy extractor.
+                    Upstream CVSS 3.1 vector:
+                    AV:N/AC:H/PR:N/UI:N/S:U/C:N/I:N/A:H (CVSS score: 5.9)
+                    (Note the "AV:N" for network/remote.)
 
-Jaipaul Cheernam (4):
-  expat: upgrade 2.8.3 -> 2.8.4
-  libpcre2: upgrade 10.47 -> 10.48
-  gnupg: upgrade 2.5.21 -> 2.5.22
-  librepo: upgrade 1.20.0 -> 1.21.0
+        Other changes:
+     #1332 #1333  CMake: Only add `/source-charset:utf-8` when `/utf-8` is =
+not
+                    present
+           #1315  lib: Resolve (currently unreachable) undefined behavior f=
+rom
+                    overshifting a signed int to the left
+     #1325 #1334  lib: Support read-only hash table lookup with keys that a=
+re
+                    not zero-terminated
+           #1340  lib: Use a C99 bool for `ENTITY.open`
+           #1319  Fix typo in comment
+           #1320  Sync file headers
+     #1328 #1329  Version info bumped from 13:3:12 (libexpat*.so.1.12.3)
+                    to 13:4:12 (libexpat*.so.1.12.4); see https://verbump.d=
+e/
+                    for what these numbers do
 
- .../expat/{expat_2.8.3.bb =3D> expat_2.8.4.bb}   |  2 +-
- ...btain-PYTHON_INSTALL_DIR-by-running-p.patch |  4 ++--
- .../{librepo_1.20.0.bb =3D> librepo_1.21.0.bb}   |  2 +-
- ...verride-init-is-not-needed-with-gcc-9.patch |  2 +-
- ...e-a-custom-value-for-the-location-of-.patch |  4 ++--
- ...-use-pkgconfig-instead-of-npth-config.patch |  2 +-
- .../recipes-support/gnupg/gnupg/relocate.patch | 18 +++++++++---------
- .../gnupg/{gnupg_2.5.21.bb =3D> gnupg_2.5.22.bb} |  2 +-
- .../{libpcre2_10.47.bb =3D> libpcre2_10.48.bb}   |  2 +-
- 9 files changed, 19 insertions(+), 19 deletions(-)
+        Infrastructure:
+     #1317 #1335  CI: Cover compilation and execution with Fil-C
+           #1337  CI: Cover compilation and execution on riscv64
+           #1338  CI: Cover compilation and execution with Clang-based MinG=
+W
+           #1339  CI: Cover compilation and execution on (big-endian) s390x
+           #1316  CI: Run test suite with musl, also
+           #1336  CI: Bump WASI SDK from 33 to 34
+           #1345  CI: Bump Clang from 22 to 23
+
+ - Complete Changes at [1]
+
+[1] https://github.com/libexpat/libexpat/blob/R_2_8_4/expat/Changes
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ meta/recipes-core/expat/{expat_2.8.3.bb =3D> expat_2.8.4.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
  rename meta/recipes-core/expat/{expat_2.8.3.bb =3D> expat_2.8.4.bb} (92%)
- rename meta/recipes-devtools/librepo/{librepo_1.20.0.bb =3D> librepo_1.21.=
-0.bb} (94%)
- rename meta/recipes-support/gnupg/{gnupg_2.5.21.bb =3D> gnupg_2.5.22.bb} (=
-97%)
- rename meta/recipes-support/libpcre/{libpcre2_10.47.bb =3D> libpcre2_10.48=
-.bb} (96%)
 
+diff --git a/meta/recipes-core/expat/expat_2.8.3.bb b/meta/recipes-core/exp=
+at/expat_2.8.4.bb
+similarity index 92%
+rename from meta/recipes-core/expat/expat_2.8.3.bb
+rename to meta/recipes-core/expat/expat_2.8.4.bb
+index 79e8c15227..050f148b07 100644
+--- a/meta/recipes-core/expat/expat_2.8.3.bb
++++ b/meta/recipes-core/expat/expat_2.8.4.bb
+@@ -15,7 +15,7 @@ SRC_URI =3D "${GITHUB_BASE_URI}/download/R_${VERSION_TAG}=
+/expat-${PV}.tar.bz2  \
+ GITHUB_BASE_URI =3D "https://github.com/libexpat/libexpat/releases/"
+ UPSTREAM_CHECK_REGEX =3D "releases/tag/R_(?P<pver>.+)"
+=20
+-SRC_URI[sha256sum] =3D "b4cc2483927d5e90bf8c40b44a6b95b368b42a8a96e25883fc=
+e188b48a92b670"
++SRC_URI[sha256sum] =3D "963250a823c16a498582b4ad82ad0f88926be0769675d3b695=
+6be4d769a1cd8f"
+=20
+ EXTRA_OECMAKE:class-native +=3D "-DEXPAT_BUILD_DOCS=3DOFF"
+=20
 
