@@ -1,197 +1,358 @@
-Return-Path: <frezidok1@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AEA0C61DE4
-	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 05:48:42 +0000 (UTC)
-Received: from mail-yx1-f47.google.com (mail-yx1-f47.google.com [74.125.224.47])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1282.1788241717344837878
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79A9AC624CE
+	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 05:53:12 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1375.1788241988925003237
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 22:48:37 -0700
+ Mon, 31 Aug 2026 22:53:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ecg5K+F1;
- spf=pass (domain: gmail.com, ip: 74.125.224.47, mailfrom: frezidok1@gmail.com)
-Received: by mail-yx1-f47.google.com with SMTP id 956f58d0204a3-66e63afda8fso2102019d50.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 31 Aug 2026 22:48:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788241716; cv=none;
-        d=google.com; s=arc-20260327;
-        b=HrF/OJsk4d+2nyrNpsD4RTrOdtHRbOH/YzMfLvAq9AYOq4AU7MNC5+ylBpR+ULDolH
-         FeIR4FyHgdKYfocTjQODlZaS1ykGD+DMN6BXbQ3qbd4u7EuN3+hkR+uKXQJrqNrCpSAV
-         W4QqU479az9at/vNpt4NzbOJNESYtktNq0UhA4YMwMrqiei6kujPRGvybcTOcU1zLtkx
-         GmWDrLef4e13+psaIexuFAs2cltiq2iMj/Wvm/xn/NdzwSI4Tthm27oNnGks7zLFRd9e
-         dJq9bKw2gDULuF2rwY+jI1rAb145+WUPf/WRWlopUAi9LUwhPWUbS61dr5YWZ77gWyyj
-         XD+w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=2d7seWZzicr/hYqK3+E4Afa5j15W9jSJ2yKp99hNJKM=;
-        fh=OORmwxTzc7lkglRMfNmJ9TSOzQk3MXdj9ntP6C6YZUM=;
-        b=Bi8yBDBX5WO7biGNFSKyIDyp4Vt4BGvNNhvwgFIIaOaSmS0/81mIWT8QjEpvp0NTNV
-         0yr6qhk7vAifN0zvV0y94WT20UeT5CR0DTM9aBdFV0Sk2ZM7HMlJdOPz8wSPOWQpdH9k
-         EF5U5JMcUX2PpaCegN4ODXRQP8gckYWGFo/TprCN5QleF4IvU70XiMM1YYygadIClb68
-         Qd5wL0lajk+BoZ6Sz5s0MvzWkn88uH4RBKQNyHe1jYWK8hgT7zAl56Gzme91gOB8AoRE
-         JhrG2N+BHcohtnatkfScL+TK51kQP/YuAZGkUVuwTkAEvzEUueCXCc0fB+tEb9SL0XdY
-         HC5g==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788241716; x=1788846516; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=2d7seWZzicr/hYqK3+E4Afa5j15W9jSJ2yKp99hNJKM=;
-        b=ecg5K+F1EqJ803iFROdZA8DP7n5D9nfGF47LrMWFUYj1z3lc8S+g59cEUA9XJffMXv
-         EAo2xxGfpPWHD+pFPXsF0LyTzdhCmM4NWoPfI563TtPInez8ljAnmxbkKpjgXvrz3CnU
-         X5By5r5lvh2lc1Gk009PC2NGrln8IQactYRWxH9xUY7pkKB15HDFUviOLDewap0yxc1Z
-         V/+qSpXwZDumWcX+FjxCtB0mF8KX1EwlSxPgUdOTmr4OlVKBr/JMjvvTG/l0djGDiS0M
-         cWwQJH6AK8F/BhuMqKB3Dk/2oceFDioGNvlovAMYci3OCUpuYtz4j/nWV+5ad+P5592Z
-         1ywA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788241716; x=1788846516;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=2d7seWZzicr/hYqK3+E4Afa5j15W9jSJ2yKp99hNJKM=;
-        b=cVL3/mQ8Xhs2Y987p9UJKJzTd8OUFwItDkCExDji+n247pbc2E/I6o6+SlLB5SP3dK
-         aNLSvDyF0d0XkigkAFqkXFdHZ2EgaKSa6wxyj/WW2sypWUGPFrNeSw21sSDbJElazs+1
-         gtUzf1lxvSrBSQfS2g2HSpm3NAt70B6BeT+K1WA+sisfhoC7pZNIkfsCu+OKzHlGE6J/
-         bS49pLghdJA2Y3jKw/NiSrzXu6HmuuChQpldYmf8YL8cStjLitU4tyiHsMDN6Bpk5O9/
-         i+2myv6UU8TbjQvK8ihLjzlO5BRPlJ1kfqkH1TpJxpH22gLdhxzko09FZlBcdp8tayZY
-         S/Qw==
-X-Gm-Message-State: AFuF++mdrQHmVKTI8XA1v0jy3FNsJ8dbKJMb43GxJZPBPheKysAsus73
-	xsR7gWihW8+4HOmq81H5IUyLwhEMJLbpa/4OVMV8X97Srh4p/GP7yRECxWjiP73CW/3YLy1pQ97
-	ZYQiuDhaifKj7H7uBUb4OQykqFvRCbTg=
-X-Gm-Gg: AYBFou1MA2GKk+lABPNtaRLgbl473a/ZSN0sG0s8Shi0SchvavM5mpwGJOAveTDJ7HC
-	JDXnidt41Dhme2OPZkAkp9nEBzvx9eHUx+EXXif053yzwp39xYxvCO8n4ENWEzApvn60hajsY9m
-	gbK5Hvt1zMnAPrl0nfmoeqLDD7cmXzyq/891FcVX6qHWdemcESykyxOz3QxR87YUTPck6g81dcz
-	6QkbULpVJvEHJFFbRctyVbB141q4NKkbmU38dqpvOf3BaRScGeIIJvKP5s9oAGUBV338sWPgDzq
-	3eFDE3U/iAJxmDNWhvK9LTujOC4ktrCrazd37lMZI3rG
-X-Received: by 2002:a05:690e:1247:b0:66f:8ea3:9326 with SMTP id
- 956f58d0204a3-66f8ea394d7mr359156d50.9.1788241716269; Mon, 31 Aug 2026
- 22:48:36 -0700 (PDT)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=LwdrElto;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fzyvRpWw;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a05b874983-425d1327-86f3-4518-946c-062930ebe044-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1788241988;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=t4E67cger/HOWLxXr2NkAQO7Jn9oS2PVM+H/PYyri2s=;
+	b=LwdrEltoKCcTgtb1I59T/CfCc4dN066K960ZANiZcxwL5LFv4RH0zjmxvD44+CD4
+	VXDa7+WqwefbQLGd0oLenJJQKNqctH1b2+W5ZC4DJvi7mtzu7b88n43jGGzi8wOM8aC
+	enITmzObnCnKTpThC+pAn7ZjoXutcnVWZNO+Vj88=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788241988;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=t4E67cger/HOWLxXr2NkAQO7Jn9oS2PVM+H/PYyri2s=;
+	b=fzyvRpWwERMjWCnegI+oKtWyHmQn3S310G6LfOJqQ7xuhTuFF9YY49Bsom2uFqBU
+	RpNkPZbZi2D/Ykx5E1mET2d1cXmYLlSF6a2zZ6gzPv+aIhf3ZfJR5kILN9w9BeHYHt8
+	PzYifzS5fO6mWgYGpJNL0X7a5SUHYj4Wb7xu5fOU=
+Content-Type: multipart/mixed; boundary="===============5278454354864276756=="
 MIME-Version: 1.0
-References: <20260831080223.124050-1-frezidok1@gmail.com> <DL3QHRJANNVL.8YPDPUMNTLHZ@bootlin.com>
-In-Reply-To: <DL3QHRJANNVL.8YPDPUMNTLHZ@bootlin.com>
-From: Dmitry Sakhonchik <frezidok1@gmail.com>
-Date: Tue, 1 Sep 2026 08:48:24 +0300
-X-Gm-Features: AcwNN1VjsLdnTgL8eJDLQJOnDHjaPsGcQbw8c8E98G4BJ5M0h2pZda265FoX7oI
-Message-ID: <CAP4GjN78wJPuN=hcN7+ogx_j1We2jAwPQDE=DauQFBowN3-CRw@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] io_uring-writev: open output file through io_uring
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Cc: openembedded-core@lists.openembedded.org, martin.jansa@gmail.com
-Content-Type: multipart/alternative; boundary="0000000000004556b1065a6578c7"
+From: auh@yoctoproject.org
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] expat: upgrading to 2.8.4 SUCCEEDED
+Message-ID: <010101a05b874983-425d1327-86f3-4518-946c-062930ebe044-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Sep 2026 05:53:07 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.01-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 05:48:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244785
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 05:53:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244786
 
---0000000000004556b1065a6578c7
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--===============5278454354864276756==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
 
-Hi.
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpleHBhdCogdG8gKjIuOC40KiBoYXMgU3VjY2VlZGVkLgoKTmV4dCBzdGVwczoKICAgIC0g
+YXBwbHkgdGhlIHBhdGNoOiBnaXQgYW0gMDAwMS1leHBhdC11cGdyYWRlLTIuOC4zLTIuOC40LnBh
+dGNoCiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVwc3RyZWFtIHBhdGNoZXMgYW5kIHN1bW1h
+cml6ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwKICAgIC0gY29tcGlsZSBhbiBpbWFnZSB0
+aGF0IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBlcmZvcm0gc29tZSBiYXNpYyBzYW5pdHkg
+dGVzdHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBzaWduIGl0IG9mZjogZ2l0IGNvbW1pdCAt
+cyAtLXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNlbmQgaXQgdG8gdGhlIGFwcHJvcHJpYXRl
+IG1haWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYgeW91IGJlbGlldmUgdGhlIHJlY2lwZSBz
+aG91bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGltZSwKeW91IGNhbiBmaWxsIFJFQ0lQRV9O
+T19VUERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVjaXBlIGZpbGUgc28gdGhhdAphdXRvbWF0
+aWMgdXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0dGVtcHRlZC4KClBsZWFzZSByZXZpZXcg
+dGhlIGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGluZm9ybWF0aW9uIGFuZCBidWlsZC91cGRh
+dGUgZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBmaWxlIGEgYnVnIGF0IGh0dHBzOi8vYnVn
+emlsbGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9QXV0b21hdGVkJTIw
+VXBkYXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVwZ3JhZGUgSGVscGVyCgotLSA+OCAtLQpG
+cm9tIDIwMWM2NzY3ZDlhNDQxMTBlYzcyZGVhZTViZWYwYTMxZTE0ZDE0MzAgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVyIDxhdWhAeW9jdG9wcm9qZWN0Lm9yZz4K
+RGF0ZTogVHVlLCAxIFNlcCAyMDI2IDA1OjI2OjE3ICswMDAwClN1YmplY3Q6IFtQQVRDSF0gZXhw
+YXQ6IHVwZ3JhZGUgMi44LjMgLT4gMi44LjQKTUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1UeXBl
+OiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhi
+aXQKClNvdXJjZTogQ2hhbmdlcwoKUmVsZWFzZSAyLjguNCBNb24gQXVndXN0IDMxIDIwMjYKICAg
+ICAgICBTZWN1cml0eSBmaXhlczoKICAgICAjMTMyMSAjMTMzMSAgQ1ZFLTIwMjYtNjYwNDYsIENW
+RS0yMDI2LTc2NjQxIC0tIEZpeCBxdWFkcmF0aWMgcnVudGltZSBmcm9tCiAgICAgICAgICAgICAg
+ICAgICAgImF0dHJpYnV0ZSBpc0NkYXRhIGxvb2t1cHMiIHRoYXQgYWxsb3dlZCBkZW5pYWwgb2Yg
+c2VydmljZQogICAgICAgICAgICAgICAgICAgIGF0dGFja3MgdGhyb3VnaCBtb2RlcmF0ZWx5IHNp
+emVkIGNyYWZ0ZWQgWE1MIGlucHV0CiAgICAgICAgICAgICAgICAgICAgKENXRS00MDcpLgogICAg
+ICAgICAgICAgICAgICAgIFRoZSB2dWxuZXJhYmlsaXR5IGlzIGNsb3NlbHkgcmVsYXRlZCB0byBw
+YXN0IENWRS0yMDI2LTQ1MTg2CiAgICAgICAgICAgICAgICAgICAgdGhhdCB3YXMgZml4ZWQgd2l0
+aCBFeHBhdCAyLjguMS4KICAgICAgICAgICAgICAgICAgICBQbGVhc2Ugbm90ZSB0aGF0IGEgbGF5
+ZXIgb2YgY29tcHJlc3Npb24gYXJvdW5kIFhNTCBjYW4KICAgICAgICAgICAgICAgICAgICBzaWdu
+aWZpY2FudGx5IHJlZHVjZSB0aGUgbWluaW11bSBhdHRhY2sgcGF5bG9hZCBzaXplLgogICAgICAg
+ICAgICAgICAgICAgIFVwc3RyZWFtIENWU1MgMy4xIHZlY3RvcjoKICAgICAgICAgICAgICAgICAg
+ICBBVjpOL0FDOkwvUFI6Ti9VSTpOL1M6VS9DOk4vSTpOL0E6SCAoQ1ZTUyBzY29yZTogNy41KQog
+ICAgICAgICAgICAgICAgICAgIChOb3RlIHRoZSAiQVY6TiIgZm9yIG5ldHdvcmsvcmVtb3RlLikK
+ICAgICAgICAgICAjMTMyMiAgQ1ZFLTIwMjYtNzY5NTcgLS0gUHJvdGVjdCBjdXN0b20gZW5jb2Rp
+bmcgY2FsbGJhY2tzIGZyb20KICAgICAgICAgICAgICAgICAgICBwYXJzZXIgcmUtZW50cnkuIFRo
+ZSB2dWxuZXJhYmlsaXR5IGlzIGNsb3NlbHkgcmVsYXRlZCB0bwogICAgICAgICAgICAgICAgICAg
+IHBhc3QgaXNzdWVzIENWRS0yMDI2LTUwMjE5LCBDVkUtMjAyNi01NjEzMSBhbmQKICAgICAgICAg
+ICAgICAgICAgICBDVkUtMjAyNi01NjQxMiB0aGF0IHdlcmUgYWxsIGZpeGVkIHdpdGggRXhwYXQg
+Mi44LjIuCiAgICAgICAgICAgIzEzMjYgIENWRS0yMDI2LTc2OTU2IC0tIEZpeCBpbnZlcnRlZCBn
+ZXRlbnRyb3B5KCkgcmV0dXJuIGhhbmRsaW5nCiAgICAgICAgICAgICAgICAgICAgQWxsb3dzIGZv
+ciBoYXNoIGZsb29kaW5nIGRlbmlhbCBvZiBzZXJ2aWNlcyBpbgogICAgICAgICAgICAgICAgICAg
+IGNvbmZpZ3VyYXRpb25zIHdoZXJlIGdldGVudHJvcHkgaXMgY29uZmlndXJlZCBvciBkZXRlY3Rl
+ZAogICAgICAgICAgICAgICAgICAgIGFzIHRoZSBvbmx5IGhpZ2ggcXVhbGl0eSBlbnRyb3B5IGV4
+dHJhY3Rvci4KICAgICAgICAgICAgICAgICAgICBVcHN0cmVhbSBDVlNTIDMuMSB2ZWN0b3I6CiAg
+ICAgICAgICAgICAgICAgICAgQVY6Ti9BQzpIL1BSOk4vVUk6Ti9TOlUvQzpOL0k6Ti9BOkggKENW
+U1Mgc2NvcmU6IDUuOSkKICAgICAgICAgICAgICAgICAgICAoTm90ZSB0aGUgIkFWOk4iIGZvciBu
+ZXR3b3JrL3JlbW90ZS4pCgogICAgICAgIE90aGVyIGNoYW5nZXM6CiAgICAgIzEzMzIgIzEzMzMg
+IENNYWtlOiBPbmx5IGFkZCBgL3NvdXJjZS1jaGFyc2V0OnV0Zi04YCB3aGVuIGAvdXRmLThgIGlz
+IG5vdAogICAgICAgICAgICAgICAgICAgIHByZXNlbnQKICAgICAgICAgICAjMTMxNSAgbGliOiBS
+ZXNvbHZlIChjdXJyZW50bHkgdW5yZWFjaGFibGUpIHVuZGVmaW5lZCBiZWhhdmlvciBmcm9tCiAg
+ICAgICAgICAgICAgICAgICAgb3ZlcnNoaWZ0aW5nIGEgc2lnbmVkIGludCB0byB0aGUgbGVmdAog
+ICAgICMxMzI1ICMxMzM0ICBsaWI6IFN1cHBvcnQgcmVhZC1vbmx5IGhhc2ggdGFibGUgbG9va3Vw
+IHdpdGgga2V5cyB0aGF0IGFyZQogICAgICAgICAgICAgICAgICAgIG5vdCB6ZXJvLXRlcm1pbmF0
+ZWQKICAgICAgICAgICAjMTM0MCAgbGliOiBVc2UgYSBDOTkgYm9vbCBmb3IgYEVOVElUWS5vcGVu
+YAogICAgICAgICAgICMxMzE5ICBGaXggdHlwbyBpbiBjb21tZW50CiAgICAgICAgICAgIzEzMjAg
+IFN5bmMgZmlsZSBoZWFkZXJzCiAgICAgIzEzMjggIzEzMjkgIFZlcnNpb24gaW5mbyBidW1wZWQg
+ZnJvbSAxMzozOjEyIChsaWJleHBhdCouc28uMS4xMi4zKQogICAgICAgICAgICAgICAgICAgIHRv
+IDEzOjQ6MTIgKGxpYmV4cGF0Ki5zby4xLjEyLjQpOyBzZWUgaHR0cHM6Ly92ZXJidW1wLmRlLwog
+ICAgICAgICAgICAgICAgICAgIGZvciB3aGF0IHRoZXNlIG51bWJlcnMgZG8KCiAgICAgICAgSW5m
+cmFzdHJ1Y3R1cmU6CiAgICAgIzEzMTcgIzEzMzUgIENJOiBDb3ZlciBjb21waWxhdGlvbiBhbmQg
+ZXhlY3V0aW9uIHdpdGggRmlsLUMKICAgICAgICAgICAjMTMzNyAgQ0k6IENvdmVyIGNvbXBpbGF0
+aW9uIGFuZCBleGVjdXRpb24gb24gcmlzY3Y2NAogICAgICAgICAgICMxMzM4ICBDSTogQ292ZXIg
+Y29tcGlsYXRpb24gYW5kIGV4ZWN1dGlvbiB3aXRoIENsYW5nLWJhc2VkIE1pbkdXCiAgICAgICAg
+ICAgIzEzMzkgIENJOiBDb3ZlciBjb21waWxhdGlvbiBhbmQgZXhlY3V0aW9uIG9uIChiaWctZW5k
+aWFuKSBzMzkweAogICAgICAgICAgICMxMzE2ICBDSTogUnVuIHRlc3Qgc3VpdGUgd2l0aCBtdXNs
+LCBhbHNvCiAgICAgICAgICAgIzEzMzYgIENJOiBCdW1wIFdBU0kgU0RLIGZyb20gMzMgdG8gMzQK
+ICAgICAgICAgICAjMTM0NSAgQ0k6IEJ1bXAgQ2xhbmcgZnJvbSAyMiB0byAyMwoKICAgICAgICBT
+cGVjaWFsIHRoYW5rcyB0bzoKICAgICAgICAgICAgQWxiZXJ0byBNYXNjaGlldHRvCiAgICAgICAg
+ICAgIEFsZXhhbmRlciBCbHVobQogICAgICAgICAgICBCZXJrYXkgRXJlbiDDnHLDvG4KICAgICAg
+ICAgICAgRGFycmVuIENhcnJlcmFzCiAgICAgICAgICAgIEZhYmlhbiBXYWhsZSAoSGFwIFNlY3Vy
+aXR5KQogICAgICAgICAgICBNYXR0ZW8gRm9yemFuCiAgICAgICAgICAgIE1hdHRoZXcgRmVybmFu
+ZGV6CiAgICAgICAgICAgIFNvcnJhc2h1dCBLYWV3dGF3b3JuCgpbQ2hhbmdlbG9nIHRydW5jYXRl
+ZCBhcyBpdCBleGNlZWRzIDMwMDAgY2hhcmFjdGVyczsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBi
+ZSBmb3VuZCBpbiBhbiBhdHRhY2htZW50IHRvIHRoZSBBVUggZW1haWxdCi0tLQogbWV0YS9yZWNp
+cGVzLWNvcmUvZXhwYXQve2V4cGF0XzIuOC4zLmJiID0+IGV4cGF0XzIuOC40LmJifSB8IDIgKy0K
+IDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1l
+dGEvcmVjaXBlcy1jb3JlL2V4cGF0L3tleHBhdF8yLjguMy5iYiA9PiBleHBhdF8yLjguNC5iYn0g
+KDkyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjguMy5i
+YiBiL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuOC40LmJiCnNpbWlsYXJpdHkgaW5k
+ZXggOTIlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuOC4zLmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjguNC5iYgppbmRleCA3
+OWU4YzE1MjI3Li4wNTBmMTQ4YjA3IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9leHBh
+dC9leHBhdF8yLjguMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjgu
+NC5iYgpAQCAtMTUsNyArMTUsNyBAQCBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3du
+bG9hZC9SXyR7VkVSU0lPTl9UQUd9L2V4cGF0LSR7UFZ9LnRhci5iejIgIFwKIEdJVEhVQl9CQVNF
+X1VSSSA9ICJodHRwczovL2dpdGh1Yi5jb20vbGliZXhwYXQvbGliZXhwYXQvcmVsZWFzZXMvIgog
+VVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAicmVsZWFzZXMvdGFnL1JfKD9QPHB2ZXI+LispIgogCi1T
+UkNfVVJJW3NoYTI1NnN1bV0gPSAiYjRjYzI0ODM5MjdkNWU5MGJmOGM0MGI0NGE2Yjk1YjM2OGI0
+MmE4YTk2ZTI1ODgzZmNlMTg4YjQ4YTkyYjY3MCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5NjMy
+NTBhODIzYzE2YTQ5ODU4MmI0YWQ4MmFkMGY4ODkyNmJlMDc2OTY3NWQzYjY5NTZiZTRkNzY5YTFj
+ZDhmIgogCiBFWFRSQV9PRUNNQUtFOmNsYXNzLW5hdGl2ZSArPSAiLURFWFBBVF9CVUlMRF9ET0NT
+PU9GRiIKIAotLSAKMi40Ny4xCgo=
 
-Yes, it=E2=80=99s for Martin=E2=80=99s branch, he=E2=80=99s already merged =
-it. I just couldn=E2=80=99t
-figure out how to specify a branch I am applying to.
+--===============5278454354864276756==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-=D0=92=D1=82, 1 =D1=81=D0=B5=D0=BD=D1=82. 2026=E2=80=AF=D0=B3. =D0=B2 08:35=
-, Mathieu Dubois-Briand <
-mathieu.dubois-briand@bootlin.com>:
+packages/x86-64-v3-poky-linux/expat/expat-bin: PV changed from "2.8.3" to "2.8.4"
+packages/x86-64-v3-poky-linux/expat/expat-bin: PKGV changed from 2.8.3 [default] to 2.8.4 [default]
+packages/x86-64-v3-poky-linux/expat/expat-dbg: FILELIST: removed "/usr/lib/.debug/libexpat.so.1.12.3", added "/usr/lib/.debug/libexpat.so.1.12.4"
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PV changed from "2.8.3" to "2.8.4"
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PKGSIZE changed from 1789352 to 1826736 (+2%)
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PKGV changed from 2.8.3 [default] to 2.8.4 [default]
+packages/x86-64-v3-poky-linux/expat/expat-dev: FILELIST: directory renamed /usr/lib/cmake/expat-2.8.3 -> /usr/lib/cmake/expat-2.8.4
+packages/x86-64-v3-poky-linux/expat/expat-dev: PV changed from "2.8.3" to "2.8.4"
+packages/x86-64-v3-poky-linux/expat/expat-dev: PKGV changed from 2.8.3 [default] to 2.8.4 [default]
+packages/x86-64-v3-poky-linux/expat/expat-doc: PV changed from "2.8.3" to "2.8.4"
+packages/x86-64-v3-poky-linux/expat/expat-doc: PKGSIZE changed from 120656 to 123821 (+3%)
+packages/x86-64-v3-poky-linux/expat/expat-doc: PKGV changed from 2.8.3 [default] to 2.8.4 [default]
+packages/x86-64-v3-poky-linux/expat/expat-locale: PV changed from "2.8.3" to "2.8.4"
+packages/x86-64-v3-poky-linux/expat/expat-locale: PKGV changed from 2.8.3 [default] to 2.8.4 [default]
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PV changed from "2.8.3" to "2.8.4"
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PKGV changed from 2.8.3 [default] to 2.8.4 [default]
+packages/x86-64-v3-poky-linux/expat/expat-src: FILELIST: directory renamed /usr/src/debug/expat/2.8.3/lib -> /usr/src/debug/expat/2.8.4/lib, directory renamed /usr/src/debug/expat/2.8.3/tests/benchmark -> /usr/src/debug/expat/2.8.4/tests/benchmark, directory renamed /usr/src/debug/expat/2.8.3/xmlwf -> /usr/src/debug/expat/2.8.4/xmlwf, directory renamed /usr/src/debug/expat/2.8.3/tests -> /usr/src/debug/expat/2.8.4/tests
+packages/x86-64-v3-poky-linux/expat/expat-src: PV changed from "2.8.3" to "2.8.4"
+packages/x86-64-v3-poky-linux/expat/expat-src: PKGSIZE changed from 1359558 to 1370126 (+1%)
+packages/x86-64-v3-poky-linux/expat/expat-src: PKGV changed from 2.8.3 [default] to 2.8.4 [default]
+packages/x86-64-v3-poky-linux/expat/expat-staticdev: PV changed from "2.8.3" to "2.8.4"
+packages/x86-64-v3-poky-linux/expat/expat-staticdev: PKGV changed from 2.8.3 [default] to 2.8.4 [default]
+packages/x86-64-v3-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.12.3", added "/usr/lib/libexpat.so.1.12.4"
+packages/x86-64-v3-poky-linux/expat/expat: PV changed from "2.8.3" to "2.8.4"
+packages/x86-64-v3-poky-linux/expat/expat: PKGV changed from 2.8.3 [default] to 2.8.4 [default]
+packages/x86-64-v3-poky-linux/expat: SRC_URI changed from "https://github.com/libexpat/libexpat/releases//download/R_2_8_3/expat-2.8.3.tar.bz2 file://run-ptest" to "https://github.com/libexpat/libexpat/releases//download/R_2_8_4/expat-2.8.4.tar.bz2 file://run-ptest"
+packages/x86-64-v3-poky-linux/expat: PV changed from "2.8.3" to "2.8.4"
+packages/x86-64-v3-poky-linux/expat: PKGV changed from 2.8.3 [default] to 2.8.4 [default]
+Changes to packages/x86-64-v3-poky-linux/expat (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.3 to libexpat.so.1.12.4
+  /usr/lib/cmake/expat-2.8.3 moved to /usr/lib/cmake/expat-2.8.4
+  /usr/lib/libexpat.so.1.12.3 moved to /usr/lib/libexpat.so.1.12.4
+Changes to packages/x86_64-linux/expat-native (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.3 to libexpat.so.1.12.4
+  /usr/lib/cmake/expat-2.8.3 moved to /usr/lib/cmake/expat-2.8.4
+  /usr/lib/libexpat.so.1.12.3 moved to /usr/lib/libexpat.so.1.12.4
 
-> On Mon Aug 31, 2026 at 10:02 AM CEST, Dmitry Sakhonchik via
-> lists.openembedded.org wrote:
-> > From: Dmitry Sakhonchik <frezidok1@gmail.com>
-> >
-> > The existing test creates the output file with open(), which ends up
-> > using openat() and is therefore intercepted by pseudo before the actual
-> > io_uring write operation happens.
-> >
-> > Use IORING_OP_OPENAT to create the output file through io_uring as well=
-.
-> > This makes the test successfully bypass pseudo
-> >
-> > io-uring-writev.bb: wrynose doesn't support "S =3D ${WORKDIR}" anymore,
-> fix it
-> >
-> > [YOCTO #15244]
-> >
-> > Signed-off-by: Dmitry Sakhonchik <frezidok1@gmail.com>
-> > ---
->
-> Hi Dmitry,
->
-> I suspect this was targeting Martin's branch and not master? Otherwise
-> we are missing the commits adding the io-uring-writev recipes.
->
-> Thanks,
-> Mathieu
->
-> --
-> Mathieu Dubois-Briand, Bootlin
-> Embedded Linux and Kernel engineering
-> https://bootlin.com
->
->
+--===============5278454354864276756==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="expat-changelog.txt"
 
---0000000000004556b1065a6578c7
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Q2hhbmdlbG9nIGZvciBleHBhdDogMi44LjMgLT4gMi44LjQKU291cmNlOiBDaGFuZ2VzCgpSZWxl
+YXNlIDIuOC40IE1vbiBBdWd1c3QgMzEgMjAyNgogICAgICAgIFNlY3VyaXR5IGZpeGVzOgogICAg
+ICMxMzIxICMxMzMxICBDVkUtMjAyNi02NjA0NiwgQ1ZFLTIwMjYtNzY2NDEgLS0gRml4IHF1YWRy
+YXRpYyBydW50aW1lIGZyb20KICAgICAgICAgICAgICAgICAgICAiYXR0cmlidXRlIGlzQ2RhdGEg
+bG9va3VwcyIgdGhhdCBhbGxvd2VkIGRlbmlhbCBvZiBzZXJ2aWNlCiAgICAgICAgICAgICAgICAg
+ICAgYXR0YWNrcyB0aHJvdWdoIG1vZGVyYXRlbHkgc2l6ZWQgY3JhZnRlZCBYTUwgaW5wdXQKICAg
+ICAgICAgICAgICAgICAgICAoQ1dFLTQwNykuCiAgICAgICAgICAgICAgICAgICAgVGhlIHZ1bG5l
+cmFiaWxpdHkgaXMgY2xvc2VseSByZWxhdGVkIHRvIHBhc3QgQ1ZFLTIwMjYtNDUxODYKICAgICAg
+ICAgICAgICAgICAgICB0aGF0IHdhcyBmaXhlZCB3aXRoIEV4cGF0IDIuOC4xLgogICAgICAgICAg
+ICAgICAgICAgIFBsZWFzZSBub3RlIHRoYXQgYSBsYXllciBvZiBjb21wcmVzc2lvbiBhcm91bmQg
+WE1MIGNhbgogICAgICAgICAgICAgICAgICAgIHNpZ25pZmljYW50bHkgcmVkdWNlIHRoZSBtaW5p
+bXVtIGF0dGFjayBwYXlsb2FkIHNpemUuCiAgICAgICAgICAgICAgICAgICAgVXBzdHJlYW0gQ1ZT
+UyAzLjEgdmVjdG9yOgogICAgICAgICAgICAgICAgICAgIEFWOk4vQUM6TC9QUjpOL1VJOk4vUzpV
+L0M6Ti9JOk4vQTpIIChDVlNTIHNjb3JlOiA3LjUpCiAgICAgICAgICAgICAgICAgICAgKE5vdGUg
+dGhlICJBVjpOIiBmb3IgbmV0d29yay9yZW1vdGUuKQogICAgICAgICAgICMxMzIyICBDVkUtMjAy
+Ni03Njk1NyAtLSBQcm90ZWN0IGN1c3RvbSBlbmNvZGluZyBjYWxsYmFja3MgZnJvbQogICAgICAg
+ICAgICAgICAgICAgIHBhcnNlciByZS1lbnRyeS4gVGhlIHZ1bG5lcmFiaWxpdHkgaXMgY2xvc2Vs
+eSByZWxhdGVkIHRvCiAgICAgICAgICAgICAgICAgICAgcGFzdCBpc3N1ZXMgQ1ZFLTIwMjYtNTAy
+MTksIENWRS0yMDI2LTU2MTMxIGFuZAogICAgICAgICAgICAgICAgICAgIENWRS0yMDI2LTU2NDEy
+IHRoYXQgd2VyZSBhbGwgZml4ZWQgd2l0aCBFeHBhdCAyLjguMi4KICAgICAgICAgICAjMTMyNiAg
+Q1ZFLTIwMjYtNzY5NTYgLS0gRml4IGludmVydGVkIGdldGVudHJvcHkoKSByZXR1cm4gaGFuZGxp
+bmcKICAgICAgICAgICAgICAgICAgICBBbGxvd3MgZm9yIGhhc2ggZmxvb2RpbmcgZGVuaWFsIG9m
+IHNlcnZpY2VzIGluCiAgICAgICAgICAgICAgICAgICAgY29uZmlndXJhdGlvbnMgd2hlcmUgZ2V0
+ZW50cm9weSBpcyBjb25maWd1cmVkIG9yIGRldGVjdGVkCiAgICAgICAgICAgICAgICAgICAgYXMg
+dGhlIG9ubHkgaGlnaCBxdWFsaXR5IGVudHJvcHkgZXh0cmFjdG9yLgogICAgICAgICAgICAgICAg
+ICAgIFVwc3RyZWFtIENWU1MgMy4xIHZlY3RvcjoKICAgICAgICAgICAgICAgICAgICBBVjpOL0FD
+OkgvUFI6Ti9VSTpOL1M6VS9DOk4vSTpOL0E6SCAoQ1ZTUyBzY29yZTogNS45KQogICAgICAgICAg
+ICAgICAgICAgIChOb3RlIHRoZSAiQVY6TiIgZm9yIG5ldHdvcmsvcmVtb3RlLikKCiAgICAgICAg
+T3RoZXIgY2hhbmdlczoKICAgICAjMTMzMiAjMTMzMyAgQ01ha2U6IE9ubHkgYWRkIGAvc291cmNl
+LWNoYXJzZXQ6dXRmLThgIHdoZW4gYC91dGYtOGAgaXMgbm90CiAgICAgICAgICAgICAgICAgICAg
+cHJlc2VudAogICAgICAgICAgICMxMzE1ICBsaWI6IFJlc29sdmUgKGN1cnJlbnRseSB1bnJlYWNo
+YWJsZSkgdW5kZWZpbmVkIGJlaGF2aW9yIGZyb20KICAgICAgICAgICAgICAgICAgICBvdmVyc2hp
+ZnRpbmcgYSBzaWduZWQgaW50IHRvIHRoZSBsZWZ0CiAgICAgIzEzMjUgIzEzMzQgIGxpYjogU3Vw
+cG9ydCByZWFkLW9ubHkgaGFzaCB0YWJsZSBsb29rdXAgd2l0aCBrZXlzIHRoYXQgYXJlCiAgICAg
+ICAgICAgICAgICAgICAgbm90IHplcm8tdGVybWluYXRlZAogICAgICAgICAgICMxMzQwICBsaWI6
+IFVzZSBhIEM5OSBib29sIGZvciBgRU5USVRZLm9wZW5gCiAgICAgICAgICAgIzEzMTkgIEZpeCB0
+eXBvIGluIGNvbW1lbnQKICAgICAgICAgICAjMTMyMCAgU3luYyBmaWxlIGhlYWRlcnMKICAgICAj
+MTMyOCAjMTMyOSAgVmVyc2lvbiBpbmZvIGJ1bXBlZCBmcm9tIDEzOjM6MTIgKGxpYmV4cGF0Ki5z
+by4xLjEyLjMpCiAgICAgICAgICAgICAgICAgICAgdG8gMTM6NDoxMiAobGliZXhwYXQqLnNvLjEu
+MTIuNCk7IHNlZSBodHRwczovL3ZlcmJ1bXAuZGUvCiAgICAgICAgICAgICAgICAgICAgZm9yIHdo
+YXQgdGhlc2UgbnVtYmVycyBkbwoKICAgICAgICBJbmZyYXN0cnVjdHVyZToKICAgICAjMTMxNyAj
+MTMzNSAgQ0k6IENvdmVyIGNvbXBpbGF0aW9uIGFuZCBleGVjdXRpb24gd2l0aCBGaWwtQwogICAg
+ICAgICAgICMxMzM3ICBDSTogQ292ZXIgY29tcGlsYXRpb24gYW5kIGV4ZWN1dGlvbiBvbiByaXNj
+djY0CiAgICAgICAgICAgIzEzMzggIENJOiBDb3ZlciBjb21waWxhdGlvbiBhbmQgZXhlY3V0aW9u
+IHdpdGggQ2xhbmctYmFzZWQgTWluR1cKICAgICAgICAgICAjMTMzOSAgQ0k6IENvdmVyIGNvbXBp
+bGF0aW9uIGFuZCBleGVjdXRpb24gb24gKGJpZy1lbmRpYW4pIHMzOTB4CiAgICAgICAgICAgIzEz
+MTYgIENJOiBSdW4gdGVzdCBzdWl0ZSB3aXRoIG11c2wsIGFsc28KICAgICAgICAgICAjMTMzNiAg
+Q0k6IEJ1bXAgV0FTSSBTREsgZnJvbSAzMyB0byAzNAogICAgICAgICAgICMxMzQ1ICBDSTogQnVt
+cCBDbGFuZyBmcm9tIDIyIHRvIDIzCgogICAgICAgIFNwZWNpYWwgdGhhbmtzIHRvOgogICAgICAg
+ICAgICBBbGJlcnRvIE1hc2NoaWV0dG8KICAgICAgICAgICAgQWxleGFuZGVyIEJsdWhtCiAgICAg
+ICAgICAgIEJlcmtheSBFcmVuIMOccsO8bgogICAgICAgICAgICBEYXJyZW4gQ2FycmVyYXMKICAg
+ICAgICAgICAgRmFiaWFuIFdhaGxlIChIYXAgU2VjdXJpdHkpCiAgICAgICAgICAgIE1hdHRlbyBG
+b3J6YW4KICAgICAgICAgICAgTWF0dGhldyBGZXJuYW5kZXoKICAgICAgICAgICAgU29ycmFzaHV0
+IEthZXd0YXdvcm4KICAgICAgICAgICAgV2FkZSBTcGFya3MgSUlJCiAgICAgICAgICAgIFpleW91
+IExpdQogICAgICAgICAgICAgICAgIGFuZAogICAgICAgICAgICBDaXR5IG9mIE11bmljaCBPcGVu
+IFNvdXJjZSBTYWJiYXRpY2FsCiAgICAgICAgICAgIE1vb25zaG90IEFJCiAgICAgICAgICAgIFZ1
+bG5DaGVjawogICAgICAgICAgICBaLmFpCg==
 
-<div><div dir=3D"auto">Hi.=C2=A0</div><div dir=3D"auto"><br></div><div dir=
-=3D"auto">Yes, it=E2=80=99s for Martin=E2=80=99s branch, he=E2=80=99s alrea=
-dy merged it. I just couldn=E2=80=99t figure out how to specify a branch I =
-am applying to.=C2=A0</div><div><br><div class=3D"gmail_quote"><div dir=3D"=
-ltr" class=3D"gmail_attr">=D0=92=D1=82, 1 =D1=81=D0=B5=D0=BD=D1=82. 2026=E2=
-=80=AF=D0=B3. =D0=B2 08:35, Mathieu Dubois-Briand &lt;<a href=3D"mailto:mat=
-hieu.dubois-briand@bootlin.com" target=3D"_blank">mathieu.dubois-briand@boo=
-tlin.com</a>&gt;:<br></div></div></div></div><div><div><div class=3D"gmail_=
-quote"><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;=
-border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mon Aug 31, 202=
-6 at 10:02 AM CEST, Dmitry Sakhonchik via <a href=3D"http://lists.openembed=
-ded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.org</a> wr=
-ote:<br>
-&gt; From: Dmitry Sakhonchik &lt;<a href=3D"mailto:frezidok1@gmail.com" tar=
-get=3D"_blank">frezidok1@gmail.com</a>&gt;<br>
-&gt;<br>
-&gt; The existing test creates the output file with open(), which ends up<b=
-r>
-&gt; using openat() and is therefore intercepted by pseudo before the actua=
-l<br>
-&gt; io_uring write operation happens.<br>
-&gt;<br>
-&gt; Use IORING_OP_OPENAT to create the output file through io_uring as wel=
-l.<br>
-&gt; This makes the test successfully bypass pseudo<br>
-&gt;<br>
-&gt; <a href=3D"http://io-uring-writev.bb" rel=3D"noreferrer" target=3D"_bl=
-ank">io-uring-writev.bb</a>: wrynose doesn&#39;t support &quot;S =3D ${WORK=
-DIR}&quot; anymore, fix it<br>
-&gt;<br>
-&gt; [YOCTO #15244]<br>
-&gt;<br>
-&gt; Signed-off-by: Dmitry Sakhonchik &lt;<a href=3D"mailto:frezidok1@gmail=
-.com" target=3D"_blank">frezidok1@gmail.com</a>&gt;<br>
-&gt; ---<br>
-<br>
-Hi Dmitry,<br>
-<br>
-I suspect this was targeting Martin&#39;s branch and not master? Otherwise<=
-br>
-we are missing the commits adding the io-uring-writev recipes.<br>
-<br>
-Thanks,<br>
-Mathieu<br>
-<br>
--- <br>
-Mathieu Dubois-Briand, Bootlin<br>
-Embedded Linux and Kernel engineering<br>
-<a href=3D"https://bootlin.com" rel=3D"noreferrer" target=3D"_blank">https:=
-//bootlin.com</a><br>
-<br>
-</blockquote></div></div>
-</div>
+--===============5278454354864276756==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
---0000000000004556b1065a6578c7--
+packages/x86-64-v3-poky-linux/expat/expat-dev: FILELIST: directory renamed /usr/lib/cmake/expat-2.8.3 -> /usr/lib/cmake/expat-2.8.4
+packages/x86-64-v3-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.12.3", added "/usr/lib/libexpat.so.1.12.4"
+Changes to packages/x86-64-v3-poky-linux/expat (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.3 to libexpat.so.1.12.4
+  /usr/lib/cmake/expat-2.8.3 moved to /usr/lib/cmake/expat-2.8.4
+  /usr/lib/libexpat.so.1.12.3 moved to /usr/lib/libexpat.so.1.12.4
+Changes to packages/x86_64-linux/expat-native (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.3 to libexpat.so.1.12.4
+  /usr/lib/cmake/expat-2.8.3 moved to /usr/lib/cmake/expat-2.8.4
+  /usr/lib/libexpat.so.1.12.3 moved to /usr/lib/libexpat.so.1.12.4
+
+--===============5278454354864276756==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-expat-upgrade-2.8.3-2.8.4.patch"
+
+RnJvbSAyMDFjNjc2N2Q5YTQ0MTEwZWM3MmRlYWU1YmVmMGEzMWUxNGQxNDMwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBTZXAgMjAyNiAwNToyNjoxNyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGV4
+cGF0OiB1cGdyYWRlIDIuOC4zIC0+IDIuOC40Ck1JTUUtVmVyc2lvbjogMS4wCkNvbnRlbnQtVHlw
+ZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4
+Yml0CgpTb3VyY2U6IENoYW5nZXMKClJlbGVhc2UgMi44LjQgTW9uIEF1Z3VzdCAzMSAyMDI2CiAg
+ICAgICAgU2VjdXJpdHkgZml4ZXM6CiAgICAgIzEzMjEgIzEzMzEgIENWRS0yMDI2LTY2MDQ2LCBD
+VkUtMjAyNi03NjY0MSAtLSBGaXggcXVhZHJhdGljIHJ1bnRpbWUgZnJvbQogICAgICAgICAgICAg
+ICAgICAgICJhdHRyaWJ1dGUgaXNDZGF0YSBsb29rdXBzIiB0aGF0IGFsbG93ZWQgZGVuaWFsIG9m
+IHNlcnZpY2UKICAgICAgICAgICAgICAgICAgICBhdHRhY2tzIHRocm91Z2ggbW9kZXJhdGVseSBz
+aXplZCBjcmFmdGVkIFhNTCBpbnB1dAogICAgICAgICAgICAgICAgICAgIChDV0UtNDA3KS4KICAg
+ICAgICAgICAgICAgICAgICBUaGUgdnVsbmVyYWJpbGl0eSBpcyBjbG9zZWx5IHJlbGF0ZWQgdG8g
+cGFzdCBDVkUtMjAyNi00NTE4NgogICAgICAgICAgICAgICAgICAgIHRoYXQgd2FzIGZpeGVkIHdp
+dGggRXhwYXQgMi44LjEuCiAgICAgICAgICAgICAgICAgICAgUGxlYXNlIG5vdGUgdGhhdCBhIGxh
+eWVyIG9mIGNvbXByZXNzaW9uIGFyb3VuZCBYTUwgY2FuCiAgICAgICAgICAgICAgICAgICAgc2ln
+bmlmaWNhbnRseSByZWR1Y2UgdGhlIG1pbmltdW0gYXR0YWNrIHBheWxvYWQgc2l6ZS4KICAgICAg
+ICAgICAgICAgICAgICBVcHN0cmVhbSBDVlNTIDMuMSB2ZWN0b3I6CiAgICAgICAgICAgICAgICAg
+ICAgQVY6Ti9BQzpML1BSOk4vVUk6Ti9TOlUvQzpOL0k6Ti9BOkggKENWU1Mgc2NvcmU6IDcuNSkK
+ICAgICAgICAgICAgICAgICAgICAoTm90ZSB0aGUgIkFWOk4iIGZvciBuZXR3b3JrL3JlbW90ZS4p
+CiAgICAgICAgICAgIzEzMjIgIENWRS0yMDI2LTc2OTU3IC0tIFByb3RlY3QgY3VzdG9tIGVuY29k
+aW5nIGNhbGxiYWNrcyBmcm9tCiAgICAgICAgICAgICAgICAgICAgcGFyc2VyIHJlLWVudHJ5LiBU
+aGUgdnVsbmVyYWJpbGl0eSBpcyBjbG9zZWx5IHJlbGF0ZWQgdG8KICAgICAgICAgICAgICAgICAg
+ICBwYXN0IGlzc3VlcyBDVkUtMjAyNi01MDIxOSwgQ1ZFLTIwMjYtNTYxMzEgYW5kCiAgICAgICAg
+ICAgICAgICAgICAgQ1ZFLTIwMjYtNTY0MTIgdGhhdCB3ZXJlIGFsbCBmaXhlZCB3aXRoIEV4cGF0
+IDIuOC4yLgogICAgICAgICAgICMxMzI2ICBDVkUtMjAyNi03Njk1NiAtLSBGaXggaW52ZXJ0ZWQg
+Z2V0ZW50cm9weSgpIHJldHVybiBoYW5kbGluZwogICAgICAgICAgICAgICAgICAgIEFsbG93cyBm
+b3IgaGFzaCBmbG9vZGluZyBkZW5pYWwgb2Ygc2VydmljZXMgaW4KICAgICAgICAgICAgICAgICAg
+ICBjb25maWd1cmF0aW9ucyB3aGVyZSBnZXRlbnRyb3B5IGlzIGNvbmZpZ3VyZWQgb3IgZGV0ZWN0
+ZWQKICAgICAgICAgICAgICAgICAgICBhcyB0aGUgb25seSBoaWdoIHF1YWxpdHkgZW50cm9weSBl
+eHRyYWN0b3IuCiAgICAgICAgICAgICAgICAgICAgVXBzdHJlYW0gQ1ZTUyAzLjEgdmVjdG9yOgog
+ICAgICAgICAgICAgICAgICAgIEFWOk4vQUM6SC9QUjpOL1VJOk4vUzpVL0M6Ti9JOk4vQTpIIChD
+VlNTIHNjb3JlOiA1LjkpCiAgICAgICAgICAgICAgICAgICAgKE5vdGUgdGhlICJBVjpOIiBmb3Ig
+bmV0d29yay9yZW1vdGUuKQoKICAgICAgICBPdGhlciBjaGFuZ2VzOgogICAgICMxMzMyICMxMzMz
+ICBDTWFrZTogT25seSBhZGQgYC9zb3VyY2UtY2hhcnNldDp1dGYtOGAgd2hlbiBgL3V0Zi04YCBp
+cyBub3QKICAgICAgICAgICAgICAgICAgICBwcmVzZW50CiAgICAgICAgICAgIzEzMTUgIGxpYjog
+UmVzb2x2ZSAoY3VycmVudGx5IHVucmVhY2hhYmxlKSB1bmRlZmluZWQgYmVoYXZpb3IgZnJvbQog
+ICAgICAgICAgICAgICAgICAgIG92ZXJzaGlmdGluZyBhIHNpZ25lZCBpbnQgdG8gdGhlIGxlZnQK
+ICAgICAjMTMyNSAjMTMzNCAgbGliOiBTdXBwb3J0IHJlYWQtb25seSBoYXNoIHRhYmxlIGxvb2t1
+cCB3aXRoIGtleXMgdGhhdCBhcmUKICAgICAgICAgICAgICAgICAgICBub3QgemVyby10ZXJtaW5h
+dGVkCiAgICAgICAgICAgIzEzNDAgIGxpYjogVXNlIGEgQzk5IGJvb2wgZm9yIGBFTlRJVFkub3Bl
+bmAKICAgICAgICAgICAjMTMxOSAgRml4IHR5cG8gaW4gY29tbWVudAogICAgICAgICAgICMxMzIw
+ICBTeW5jIGZpbGUgaGVhZGVycwogICAgICMxMzI4ICMxMzI5ICBWZXJzaW9uIGluZm8gYnVtcGVk
+IGZyb20gMTM6MzoxMiAobGliZXhwYXQqLnNvLjEuMTIuMykKICAgICAgICAgICAgICAgICAgICB0
+byAxMzo0OjEyIChsaWJleHBhdCouc28uMS4xMi40KTsgc2VlIGh0dHBzOi8vdmVyYnVtcC5kZS8K
+ICAgICAgICAgICAgICAgICAgICBmb3Igd2hhdCB0aGVzZSBudW1iZXJzIGRvCgogICAgICAgIElu
+ZnJhc3RydWN0dXJlOgogICAgICMxMzE3ICMxMzM1ICBDSTogQ292ZXIgY29tcGlsYXRpb24gYW5k
+IGV4ZWN1dGlvbiB3aXRoIEZpbC1DCiAgICAgICAgICAgIzEzMzcgIENJOiBDb3ZlciBjb21waWxh
+dGlvbiBhbmQgZXhlY3V0aW9uIG9uIHJpc2N2NjQKICAgICAgICAgICAjMTMzOCAgQ0k6IENvdmVy
+IGNvbXBpbGF0aW9uIGFuZCBleGVjdXRpb24gd2l0aCBDbGFuZy1iYXNlZCBNaW5HVwogICAgICAg
+ICAgICMxMzM5ICBDSTogQ292ZXIgY29tcGlsYXRpb24gYW5kIGV4ZWN1dGlvbiBvbiAoYmlnLWVu
+ZGlhbikgczM5MHgKICAgICAgICAgICAjMTMxNiAgQ0k6IFJ1biB0ZXN0IHN1aXRlIHdpdGggbXVz
+bCwgYWxzbwogICAgICAgICAgICMxMzM2ICBDSTogQnVtcCBXQVNJIFNESyBmcm9tIDMzIHRvIDM0
+CiAgICAgICAgICAgIzEzNDUgIENJOiBCdW1wIENsYW5nIGZyb20gMjIgdG8gMjMKCiAgICAgICAg
+U3BlY2lhbCB0aGFua3MgdG86CiAgICAgICAgICAgIEFsYmVydG8gTWFzY2hpZXR0bwogICAgICAg
+ICAgICBBbGV4YW5kZXIgQmx1aG0KICAgICAgICAgICAgQmVya2F5IEVyZW4gw5xyw7xuCiAgICAg
+ICAgICAgIERhcnJlbiBDYXJyZXJhcwogICAgICAgICAgICBGYWJpYW4gV2FobGUgKEhhcCBTZWN1
+cml0eSkKICAgICAgICAgICAgTWF0dGVvIEZvcnphbgogICAgICAgICAgICBNYXR0aGV3IEZlcm5h
+bmRlegogICAgICAgICAgICBTb3JyYXNodXQgS2Fld3Rhd29ybgoKW0NoYW5nZWxvZyB0cnVuY2F0
+ZWQgYXMgaXQgZXhjZWVkcyAzMDAwIGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4g
+YmUgZm91bmQgaW4gYW4gYXR0YWNobWVudCB0byB0aGUgQVVIIGVtYWlsXQotLS0KIG1ldGEvcmVj
+aXBlcy1jb3JlL2V4cGF0L3tleHBhdF8yLjguMy5iYiA9PiBleHBhdF8yLjguNC5iYn0gfCAyICst
+CiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBt
+ZXRhL3JlY2lwZXMtY29yZS9leHBhdC97ZXhwYXRfMi44LjMuYmIgPT4gZXhwYXRfMi44LjQuYmJ9
+ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi44LjMu
+YmIgYi9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjguNC5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjguMy5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi44LjQuYmIKaW5kZXgg
+NzllOGMxNTIyNy4uMDUwZjE0OGIwNyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvZXhw
+YXQvZXhwYXRfMi44LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi44
+LjQuYmIKQEAgLTE1LDcgKzE1LDcgQEAgU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93
+bmxvYWQvUl8ke1ZFUlNJT05fVEFHfS9leHBhdC0ke1BWfS50YXIuYnoyICBcCiBHSVRIVUJfQkFT
+RV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xpYmV4cGF0L2xpYmV4cGF0L3JlbGVhc2VzLyIK
+IFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInJlbGVhc2VzL3RhZy9SXyg/UDxwdmVyPi4rKSIKIAot
+U1JDX1VSSVtzaGEyNTZzdW1dID0gImI0Y2MyNDgzOTI3ZDVlOTBiZjhjNDBiNDRhNmI5NWIzNjhi
+NDJhOGE5NmUyNTg4M2ZjZTE4OGI0OGE5MmI2NzAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiOTYz
+MjUwYTgyM2MxNmE0OTg1ODJiNGFkODJhZDBmODg5MjZiZTA3Njk2NzVkM2I2OTU2YmU0ZDc2OWEx
+Y2Q4ZiIKIAogRVhUUkFfT0VDTUFLRTpjbGFzcy1uYXRpdmUgKz0gIi1ERVhQQVRfQlVJTERfRE9D
+Uz1PRkYiCiAKLS0gCjIuNDcuMQoK
+
+--===============5278454354864276756==--
 
