@@ -2,60 +2,60 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 50A88C624CF
-	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 09:28:02 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3794.1788254877903242349
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C9F9C624C6
+	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 09:28:12 +0000 (UTC)
+Received: from mail-pj1-f42.google.com (mail-pj1-f42.google.com [209.85.216.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3813.1788254882145499514
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 02:27:57 -0700
+ Tue, 01 Sep 2026 02:28:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=S9J4P8m4;
- spf=pass (domain: mvista.com, ip: 209.85.214.176, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2d6d28aa26cso4066865ad.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 02:27:57 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=cY8AuFWe;
+ spf=pass (domain: mvista.com, ip: 209.85.216.42, mailfrom: vanusuri@mvista.com)
+Received: by mail-pj1-f42.google.com with SMTP id 98e67ed59e1d1-38ec1402b05so735591a91.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 02:28:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1788254877; x=1788859677; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1788254881; x=1788859681; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=gTbSfwlasWkRTq3o3e3V3aYga9Voq/9BP4yNeaDMEZM=;
-        b=S9J4P8m4IJSCEqLBTPDRjI0BuU0wmzK9XuiPCn95ZC91f8+LA7mpBRuLWT7yykkyrY
-         z7DI8FplCxo205JVaG+/Zf1MTnwIOe6Qz295DHxA+hbe0TJ4v9j/L8zrgZ7tQl5f0zGr
-         Jvg5BIIhCjV0x9oKL/SIo/POmd9qkUXN9d0uc=
+        bh=J3/GxAxXBBJJkdpvVXLa/5+cCjB0ys+yuGYITv1cFOk=;
+        b=cY8AuFWeMLW0Z+R9cqjH1T/Ew/SDQ5jo1iEqIMr461EjKvckYcuVFbje9kzanfOjWR
+         WNVdfwb9XnEFKCxXjECQl+BVu7at7MRBKrT27eRVQwstLcaI/7mvmSJ6whD04WwI8aCz
+         AUKK8Me6l6/Cx+9CrkcSANGst98j7lvyJHRNk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788254877; x=1788859677;
+        d=1e100.net; s=20251104; t=1788254881; x=1788859681;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=gTbSfwlasWkRTq3o3e3V3aYga9Voq/9BP4yNeaDMEZM=;
-        b=DpKb+/6rRcFbd97/UKjDi7/FFR0xWZqR9LgqLv25s4RYS4ewxezfFtPx14oL91wB05
-         Bf+Ksx/B672mNX7XOEi64c4i2VjWxp3XEN8R1jFB+swdmHyp/5BGlpsaN9a5Za04N/Mb
-         f9XIo7ZXMQIXR8un9Z9gYfDuBbQdcwEX8r6ZhbkWCxJBZCgs4QTNQj91wdx2DIa+njp9
-         QtPMd02qXCIR8IjcElTI+UhNbHgFV3dfn/VHuIrADf19Gfawi0twg0jEzlHlAYgSzKPN
-         zthU0DTln3VJM4lwEquXqThjzsWq9kBJUbS6hX3xyBrmR8oSFjkyTHscN7i5jiVCwVBu
-         njzA==
-X-Gm-Message-State: AFuF++nxHg7IQvTTVgZe3pQAK61SsMGj6HGycwrmgvkQ5BX0hDy7kBnI
-	Lrg5QkBj3aFvMenRqrAdtJZ/2l4r274gYGKHscPuPCNhJ6QLy4Qv1h6FbeL0t48O3ktEjNGmr3Q
-	6gEwm
-X-Gm-Gg: AYBFou2o8Wd00z4mPbb6YVIK0XnwuiC2R8pXiQmpa34Qm2tUtfvTDE+UcnYcRfuNuCD
-	2HD0kgxdxdo5AWB9MMhDM+dKulDC77ESpa9c81EUWAYBEIMnyhqsICFCVHnDu8rI4nRjC0YxWqW
-	IL3M/pTl0O/4d2OIT2ndCOq09LuNWHhnSFgFLAzNGoOgQIxKLPPY48uuBY91oi/B9GUCK2UvC3r
-	eDKfUS5/MPLnXazxd1ddf3tA2ymAzReROe8qfCKHx7TbtrKV31T6ELKoh+cN84iypDAoVe9g7eo
-	Jpa4cChF/Vmt6qQ+yNQKxkBhIHaVdK6+p7kvJnLX2Twvh9qES1NU93WBuKz6eT7z7R2e+WbZSDv
-	ZwKKNB6Guf47GzlI71hmPxJpEw77Dk3JKtoWgEORK1GWhAFkNrilEgCyRYN8mdHF8AMwGA5J0LZ
-	ykeIwL/RGuh3SxkInVmrXshg5ZJM3Ijx1SH+VMqriqHIbiuJXnWNrYfDf1PzeySG4aYg==
-X-Received: by 2002:a17:903:1b0e:b0:2d3:78c2:1f19 with SMTP id d9443c01a7336-2d74ddc6da3mr522611805ad.9.1788254876777;
-        Tue, 01 Sep 2026 02:27:56 -0700 (PDT)
+        bh=J3/GxAxXBBJJkdpvVXLa/5+cCjB0ys+yuGYITv1cFOk=;
+        b=R5S3q2HE3nbKVEqnAYXUY80W/OguDqdr+NhXDeJ6FSNAqTKAHBL1D21WR6K4UR+xb+
+         yoQKj4qSLz0Q5AbQpttAfcdqUyznW+Z1z0NFVVXfFYWbDk4CtFVkMhDK0UAfSVyU+20M
+         y8E8k5uXiBVk/WL57B7+SXDOkIqfPYbKEivcFxXJYoKe1yb/Lin9obnR/bQel0BcjPCX
+         uSN9E/i6csvefdyH8sqEm2FcWXUYH8LROdRPyLKWhiBJYr0LBTWqYx2mem+AdBFMZ7JT
+         hmhEqtntqMZYfSQxKtplhIZCRl+Alz2clM1Ll/TF0mb0jEf5cnxcmovBw/9DkO3DNBAP
+         7I+A==
+X-Gm-Message-State: AFuF++ncTSW9PlXl7dxXBIqD8RJPc9K1Ud3rEGueBa/funVXkJvxv03F
+	vntr9rJc8v8Sp63imSsiFyDg1OWRNrE7Vt/aN7bLkoUUxTC9cNH0XmEdseJ7de5pbjHOpO1a/x9
+	RboNP
+X-Gm-Gg: AYBFou19Cq0m5xrxvJwZkRN+2ixOxMvoWlOvsOgesgR4Zhp23ZECACPDd6Rn0D+Aiml
+	8gZGxcnEzpuQZypvTrnIx6b1hKxeuKL02Zrair7pYAqePzSbskSfir2kuJ/3R31c5I06nv6iUwb
+	GlpzeyXov7WDy4FFwXh8UirON2M82+xepM/ZOcCHjJLbdp3Hp6kC2dE4AIbby+eZ7+jAZuuS2h5
+	xzzwg1aDAXsQjq+xyOoT/lOuWtILZzdNJ24uxs0w3ODC9RVlcrj5PZZtGew/Tj074u8JLIr/qLT
+	elLSdykuBBdP0mf1VQT9mSgulyM1P2Diwo9OBwY9oUz8bkEdsPDIoMxlJAQkl0VLQynMewwg48y
+	giVgJbaW9Anjuba1K/pDJBz9+BZKN6qWD65Io5fuOx8ad2Z/WC0ocChYGBIKGvsq1pIMWa0fpkr
+	q27mbbmuT2uh+xBNtB8iOFx2pqjoQRmejPMTgM8v6s0zkEw/VykGsVZ6j/NBXVFcjj
+X-Received: by 2002:a17:90b:582e:b0:398:9be9:ab8e with SMTP id 98e67ed59e1d1-3989be9acb8mr33898863a91.19.1788254881216;
+        Tue, 01 Sep 2026 02:28:01 -0700 (PDT)
 Received: from MVIN00352.. ([2401:4900:1f29:c0f2:70c7:b40a:9f7a:1a18])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-32b4bc05416sm23271473eec.6.2026.09.01.02.27.54
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-32b4bc05416sm23271473eec.6.2026.09.01.02.27.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 02:27:55 -0700 (PDT)
+        Tue, 01 Sep 2026 02:28:00 -0700 (PDT)
 From: Vijay Anusuri <vanusuri@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch 2/3] python3-cryptography: Fix CVE-2026-69248
-Date: Tue,  1 Sep 2026 14:57:40 +0530
-Message-ID: <20260901092741.34198-2-vanusuri@mvista.com>
+Subject: [OE-core][scarthgap][patch 3/3] python3-cryptography: Fix CVE-2026-69249
+Date: Tue,  1 Sep 2026 14:57:41 +0530
+Message-ID: <20260901092741.34198-3-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260901092741.34198-1-vanusuri@mvista.com>
 References: <20260901092741.34198-1-vanusuri@mvista.com>
@@ -64,333 +64,385 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 09:28:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244815
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 09:28:12 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244816
 
 Pick patch according to [2]
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-69248
-[2] https://security-tracker.debian.org/tracker/CVE-2026-69248
+[1] https://nvd.nist.gov/vuln/detail/cve-2026-69249
+[2] https://security-tracker.debian.org/tracker/CVE-2026-69249
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../python3-cryptography/CVE-2026-69248.patch | 297 ++++++++++++++++++
+ .../python3-cryptography/CVE-2026-69249.patch | 349 ++++++++++++++++++
  .../python/python3-cryptography_42.0.5.bb     |   1 +
- 2 files changed, 298 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-69248.patch
+ 2 files changed, 350 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69248.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69248.patch
+diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch
 new file mode 100644
-index 0000000000..5ccccd8034
+index 0000000000..a920b4a7cc
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69248.patch
-@@ -0,0 +1,297 @@
-+From 4d035a4225965edeffd312079a510ef25fcfdcb2 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch
+@@ -0,0 +1,349 @@
++From 4a12cf49675a184e47f912b00b04f3a629283582 Mon Sep 17 00:00:00 2001
 +From: William Woodruff <william@yossarian.net>
-+Date: Thu, 21 May 2026 20:44:05 -0400
-+Subject: [PATCH] x509: distinguish NC kinds when evaluating wildcard DNS SANs
-+ (#14888)
++Date: Sat, 6 Jun 2026 23:30:03 -0400
++Subject: [PATCH] Add a signature validation budget during path construction
++ (#14960)
 +
-+* x509: distinguish NC kinds when evaluating wildcard DNS SANs
++* Add a signature validation budget during path construction
 +
-+* Bump x509-limbo
++This extends our existing NC budget check to include a budget
++for signature validations. If a path construction exceeds the
++budget by performing more than the allowed number of signature
++validation steps, the entire construction fails.
++
++For now, our budget is 128 signature validations. This is
++consistent with (higher than) Go and rustls-webpki, which
++both set a limit of 100. Like Go, we attempt to make the "best"
++use of our signature budget by ordering by likelihood, using
++AKI/SKI match as the strongest signal of fitness.
++
++* Bump limbo
++
++* Temporary commit
++
++* Revert "Temporary commit"
++
++This reverts commit bcdb6808562a8b8f484f85d21cb201cfdb2bbbd7.
++
++* Fudge a coverage test into place
++
++* Coverage for the coverage god
 +
 +Upstream-Status: Backport [import from suse python-cryptography-42.0.4-slfo.1.1_6.1.src.rpm
-+Upstream commit https://github.com/pyca/cryptography/commit/4d035a4225965edeffd312079a510ef25fcfdcb2]
-+CVE: CVE-2026-69248
++Upstream commit https://github.com/pyca/cryptography/commit/4a12cf49675a184e47f912b00b04f3a629283582]
++CVE: CVE-2026-69249
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ .../cryptography-x509-verification/src/lib.rs |  37 +++-
-+ .../src/types.rs                              | 165 ++++++++++++------
-+ 2 files changed, 145 insertions(+), 57 deletions(-)
++ .../cryptography-x509-verification/src/lib.rs | 209 +++++++++++++++++-
++ .../src/policy/mod.rs                         |   8 +-
++ 2 files changed, 208 insertions(+), 9 deletions(-)
 +
 +diff --git a/src/rust/cryptography-x509-verification/src/lib.rs b/src/rust/cryptography-x509-verification/src/lib.rs
-+index f49f618..a505349 100644
++index a505349..334eed4 100644
 +--- a/src/rust/cryptography-x509-verification/src/lib.rs
 ++++ b/src/rust/cryptography-x509-verification/src/lib.rs
-+@@ -101,6 +101,7 @@ impl<'a, 'chain> NameChain<'a, 'chain> {
++@@ -15,9 +15,12 @@ use std::vec;
 + 
-+     fn evaluate_single_constraint(
-+         &self,
-++        kind: SubtreeKind,
-+         constraint: &GeneralName<'chain>,
-+         san: &GeneralName<'chain>,
-+         budget: &mut Budget,
-+@@ -109,8 +110,18 @@ impl<'a, 'chain> NameChain<'a, 'chain> {
++ use cryptography_x509::extensions::{DuplicateExtensionsError, Extensions};
++ use cryptography_x509::{
++-    extensions::{NameConstraints, SubjectAlternativeName},
+++    extensions::{AuthorityKeyIdentifier, NameConstraints, SubjectAlternativeName},
++     name::GeneralName,
++-    oid::{NAME_CONSTRAINTS_OID, SUBJECT_ALTERNATIVE_NAME_OID},
+++};
+++use cryptography_x509::oid::{
+++    AUTHORITY_KEY_IDENTIFIER_OID, NAME_CONSTRAINTS_OID, SUBJECT_ALTERNATIVE_NAME_OID,
+++    SUBJECT_KEY_IDENTIFIER_OID,
++ };
 + 
-+         match (constraint, san) {
-+             (GeneralName::DNSName(pattern), GeneralName::DNSName(name)) => {
-++                // NOTE: A DNS SAN can be a wildcard pattern (e.g. `*.foo.com`)
-++                // rather than an ordinary DNS name. A wildcard represents a
-++                // *set* of names, so the check depends on which subtree we're
-++                // evaluating: a `permittedSubtrees` constraint must contain
-++                // *every* name the wildcard can expand to, whereas an
-++                // `excludedSubtrees` constraint matches if it overlaps the
-++                // wildcard at all. We dispatch on `kind` accordingly.
-+                 match (DNSConstraint::new(pattern.0), DNSPattern::new(name.0)) {
-+-                    (Some(pattern), Some(name)) => Ok(Applied(pattern.matches(&name))),
-++                    (Some(pattern), Some(name)) => Ok(Applied(match kind {
-++                        SubtreeKind::Permitted => pattern.permits(&name),
-++                        SubtreeKind::Excluded => pattern.excludes(&name),
-++                    })),
-+                     (_, None) => Err(ValidationError::Other(format!(
-+                         "unsatisfiable DNS name constraint: malformed SAN {}",
-+                         name.0
-+@@ -155,7 +166,12 @@ impl<'a, 'chain> NameChain<'a, 'chain> {
-+             let mut permit = true;
-+             if let Some(permitted_subtrees) = &constraints.permitted_subtrees {
-+                 for p in permitted_subtrees.unwrap_read().clone() {
-+-                    let status = self.evaluate_single_constraint(&p.base, &san, budget)?;
-++                    let status = self.evaluate_single_constraint(
-++                        SubtreeKind::Permitted,
-++                        &p.base,
-++                        &san,
-++                        budget,
-++                    )?;
-+                     if status.is_applied() {
-+                         permit = status.is_match();
-+                         if permit {
-+@@ -173,7 +189,12 @@ impl<'a, 'chain> NameChain<'a, 'chain> {
++ use types::{DNSPattern};
++@@ -40,15 +43,23 @@ pub enum ValidationError {
 + 
-+             if let Some(excluded_subtrees) = &constraints.excluded_subtrees {
-+                 for e in excluded_subtrees.unwrap_read().clone() {
-+-                    let status = self.evaluate_single_constraint(&e.base, &san, budget)?;
-++                    let status = self.evaluate_single_constraint(
-++                        SubtreeKind::Excluded,
-++                        &e.base,
-++                        &san,
-++                        budget,
-++                    )?;
-+                     if status.is_match() {
-+                         return Err(ValidationError::Other(
-+                             "excluded name constraint matched SAN".into(),
-+@@ -207,6 +228,16 @@ struct ChainBuilder<'a, 'chain, B: CryptoOps> {
-+     store: &'a Store<'chain, B>,
++ struct Budget {
++     name_constraint_checks: usize,
+++    signature_checks: usize,
 + }
 + 
-++/// Identifies which kind of name constraint subtree a SAN is being evaluated
-++/// against. The two subtree kinds use different matching semantics for
-++/// wildcard DNS SANs (containment vs. overlap); see [`DNSConstraint::permits`]
-++/// and [`DNSConstraint::excludes`].
-++#[derive(Clone, Copy)]
-++enum SubtreeKind {
-++    Permitted,
-++    Excluded,
-++}
-++
-+ // When applying a name constraint, we need to distinguish between a few different scenarios:
-+ // * `Applied(true)`: The name constraint is the same type as the SAN and matches.
-+ // * `Applied(false)`: The name constraint is the same type as the SAN and does not match.
-+diff --git a/src/rust/cryptography-x509-verification/src/types.rs b/src/rust/cryptography-x509-verification/src/types.rs
-+index d82936e..c0b72e3 100644
-+--- a/src/rust/cryptography-x509-verification/src/types.rs
-++++ b/src/rust/cryptography-x509-verification/src/types.rs
-+@@ -129,44 +129,69 @@ impl<'a> DNSConstraint<'a> {
-+         DNSName::new(pattern).map(Self)
-+     }
++ impl Budget {
++-    // Same limit as other validators
+++    // The maximum number of name constraint checks performed when attempting
+++    // path construction. This is the same limit as other validators.
++     const DEFAULT_NAME_CONSTRAINT_CHECK_LIMIT: usize = 1 << 20;
 + 
-+-    /// Returns true if this `DNSConstraint` matches the given `DNSPattern`.
-++    /// Returns true if the given exact `DNSName` falls within this
-++    /// constraint's subtree.
-+     ///
-+-    /// Constraint matching is defined by RFC 5280: any DNS name that can
-+-    /// be constructed by simply adding zero or more labels to the left-hand
-+-    /// side of the name satisfies the name constraint.
-++    /// Per RFC 5280, a name satisfies the constraint if it can be constructed
-++    /// by adding zero or more labels to the left-hand side of the constraint's
-++    /// name (i.e. it is the constraint's name, or a subdomain of it).
-++    fn contains(&self, name: &DNSName<'_>) -> bool {
-++        // NOTE: This may seem like an obtuse way to perform label matching,
-++        // but it saves us a few allocations: doing a substring check instead
-++        // would require us to clone each string and do case normalization.
-++        // Note also that we check the length in advance: Rust's zip
-++        // implementation terminates with the shorter iterator, so we need
-++        // to first check that the candidate name is at least as long as
-++        // the constraint it's matching against.
-++        name.as_str().len() >= self.0.as_str().len()
-++            && self
-++                .0
-++                .rlabels()
-++                .zip(name.rlabels())
-++                .all(|(a, o)| a.eq_ignore_ascii_case(o))
-++    }
+++    // The maximum number of signature verifications performed when attempting
+++    // path construction. The is similar to other validators:
+++    // both Go and rustls-webpki pick 100.
+++    const DEFAULT_SIGNATURE_CHECK_LIMIT: usize = 1 << 7;
 ++
-++    /// Returns true if the given `DNSPattern` is permitted by this constraint,
-++    /// for use with a `permittedSubtrees` name constraint.
-+     ///
-+-    /// On top of what RFC 5280 specifies, we define behavior for wildcard
-+-    /// patterns (which are not covered by RFC 5280): a wildcard pattern
-+-    /// matches a constraint if the pattern matches the constraint's inner name,
-+-    /// _or_ if the pattern's inner name matches the constraint.
-+-    /// This allows us to reject DNS names like `*.example.com` when
-+-    /// the constraint is `example.com` or `bar.example.com`.
-+-    pub fn matches(&self, name: &DNSPattern<'_>) -> bool {
-+-        match name {
-+-            DNSPattern::Exact(name) => {
-+-                // NOTE: This may seem like an obtuse way to perform label matching,
-+-                // but it saves us a few allocations: doing a substring check instead
-+-                // would require us to clone each string and do case normalization.
-+-                // Note also that we check the length in advance: Rust's zip
-+-                // implementation terminates with the shorter iterator, so we need
-+-                // to first check that the candidate name is at least as long as
-+-                // the constraint it's matching against.
-+-                name.as_str().len() >= self.0.as_str().len()
-+-                    && self
-+-                        .0
-+-                        .rlabels()
-+-                        .zip(name.rlabels())
-+-                        .all(|(a, o)| a.eq_ignore_ascii_case(o))
-+-            }
-+-            DNSPattern::Wildcard(inner) => {
-+-                // NOTE: This check is not as simple as a single pattern match,
-+-                // since we need two subtly distinct cases here:
-+-                // 1. Constraint `bar.example.com` on `*.example.com`
-+-                // 2. Constraint `example.com` on `*.example.com`
-+-                // The first cases is handled by `DNSPattern::matches`, and the second is handled
-+-                // by `DNSConstraint::matches`.
-+-                name.matches(&self.0) || self.matches(&DNSPattern::Exact(inner.clone()))
-+-            }
-++    /// A pattern is permitted only if *every* name it can represent falls
-++    /// within the constraint's subtree. An exact name is permitted by ordinary
-++    /// subtree containment (per RFC 5280).
-++    ///
-++    /// Wildcard patterns are not covered by RFC 5280; we define their behavior
-++    /// here. A wildcard pattern `*.X` is permitted only if its base name `X`
-++    /// itself falls within the constraint's subtree. This is stricter than
-++    /// mere overlap: `*.example.com` is *not* permitted by `foo.example.com`,
-++    /// since it can also expand to a sibling such as `bar.example.com` that
-++    /// lies outside the permitted subtree.
-++    pub fn permits(&self, pattern: &DNSPattern<'_>) -> bool {
-++        match pattern {
-++            DNSPattern::Exact(name) => self.contains(name),
-++            DNSPattern::Wildcard(base) => self.contains(base),
-++        }
-++    }
-++
-++    /// Returns true if the given `DNSPattern` is excluded by this constraint,
-++    /// for use with an `excludedSubtrees` name constraint.
-++    ///
-++    /// A pattern is excluded if *any* name it can represent falls within the
-++    /// constraint's subtree. An exact name is excluded by ordinary subtree
-++    /// containment (per RFC 5280).
-++    ///
-++    /// Wildcard patterns are not covered by RFC 5280; we define their behavior
-++    /// here. A wildcard pattern `*.X` is excluded if it overlaps the subtree
-++    /// at all, which happens in two subtly distinct cases:
-++    ///
-++    /// 1. The constraint is more specific than the wildcard, e.g. constraint
-++    ///    `bar.example.com` and pattern `*.example.com` (which can expand to
-++    ///    `bar.example.com`). This is handled by `DNSPattern::matches`.
-++    /// 2. The wildcard's base name falls within the subtree, e.g. constraint
-++    ///    `example.com` and pattern `*.example.com`. This is handled by
-++    ///    `DNSConstraint::contains`.
-++    pub fn excludes(&self, pattern: &DNSPattern<'_>) -> bool {
-++        match pattern {
-++            DNSPattern::Exact(name) => self.contains(name),
-++            DNSPattern::Wildcard(base) => pattern.matches(&self.0) || self.contains(base),
++     fn new() -> Budget {
++         Budget {
++             name_constraint_checks: Self::DEFAULT_NAME_CONSTRAINT_CHECK_LIMIT,
+++            signature_checks: Self::DEFAULT_SIGNATURE_CHECK_LIMIT,
 +         }
 +     }
++ 
++@@ -61,6 +72,15 @@ impl Budget {
++                 ))?;
++         Ok(())
++     }
+++    
+++    fn signature_check(&mut self) -> Result<(), ValidationError> {
+++        self.signature_checks = self.signature_checks.checked_sub(1).ok_or_else(|| {
+++            ValidationError::FatalError(
+++                "Exceeded maximum signature check limit",
+++            )
+++        })?;
+++        Ok(())
+++    }
 + }
-+@@ -462,37 +487,69 @@ mod tests {
++ 
++ impl From<asn1::ParseError> for ValidationError {
++@@ -270,18 +290,57 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
++         }
 +     }
 + 
-+     #[test]
-+-    fn test_dnsconstraint_matches() {
-++    fn test_dnsconstraint_exact() {
-+         let example_com = DNSConstraint::new("example.com").unwrap();
+++    /// Identify and return potential issuers for `cert`, considering
+++    /// candidates from both the trusted store and untrusted intermediate set.
+++    /// Trusted candidates are returned before untrusted intermediate
+++    /// candidates, and both groups are opportunisitically ordered by
+++    /// "likeliness" in terms of AKI/SKI match.
++     fn potential_issuers(
++         &'a self,
++         cert: &'a VerificationCertificate<'chain, B>,
++-    ) -> impl Iterator<Item = &'a VerificationCertificate<'chain, B>> + '_ {
++-        // TODO: Optimizations:
++-        // * Search by AKI and other identifiers?
++-        self.store
+++        cert_extensions: &Extensions<'chain>,
+++    ) -> Vec<&'a VerificationCertificate<'chain, B>> {
+++        let mut candidates: Vec<&'a VerificationCertificate<'chain, B>> = self
+++            .store
++             .get_by_subject(&cert.certificate().tbs_cert.issuer)
++             .iter()
++             .chain(self.intermediates.iter().filter(|&candidate| {
++                 candidate.certificate().subject() == cert.certificate().issuer()
++             }))
+++            .collect();
+++
+++        let want_kid: Option<&[u8]> = cert_extensions
+++            .get_extension(&AUTHORITY_KEY_IDENTIFIER_OID)
+++            .and_then(|ext| ext.value::<AuthorityKeyIdentifier<'_>>().ok())
+++            .and_then(|aki| aki.key_identifier);
+++
+++        // This mirrors Go's `findPotentialParents`: we have a global
+++        // signature budget, so we want to bucket candidates by likeliness
+++        // to avoid wasting budget on (potentially adversarial) name collisions.
+++        //
+++        // Observe that we use a stable sort to preserve trusted candidates
+++        // before untrusted candidates in each likeliness bucket. In other
+++        // words, we always try a likely trusted candidate over an equally
+++        // likely untrusted one.
+++        //
+++        // See: <https://github.com/golang/go/blob/d00c67f297e/src/crypto/x509/cert_pool.go#L136>
+++        candidates.sort_by_key(|candidate| {
+++            let have_kid: Option<&[u8]> =
+++                candidate.certificate().extensions().ok().and_then(|exts| {
+++                    exts.get_extension(&SUBJECT_KEY_IDENTIFIER_OID)
+++                        .and_then(|ext| ext.value::<&[u8]>().ok())
+++                });
+++
+++            match (want_kid, have_kid) {
+++                // cert AKID matches candidate SKID, highest likelihood.
+++                (Some(want), Some(have)) if want == have => 0,
+++                // cert AKID and candidate SKID don't match, lowest likelihood.
+++                (Some(_), Some(_)) => 2,
+++                // cert AKID and/or candidate SKID is not present, medium likelihood.
+++                _ => 1u8,
+++            }
+++        });
+++        candidates
++     }
 + 
-+-        // Exact domain and arbitrary subdomains match.
-+-        assert!(example_com.matches(&DNSPattern::new("example.com").unwrap()));
-+-        assert!(example_com.matches(&DNSPattern::new("foo.example.com").unwrap()));
-+-        assert!(example_com.matches(&DNSPattern::new("foo.bar.baz.quux.example.com").unwrap()));
-++        // For exact patterns, `permits` and `excludes` behave identically:
-++        // the pattern must fall within the constraint's subtree.
-++        for permitted in [
-++            "example.com",
-++            "foo.example.com",
-++            "foo.bar.baz.quux.example.com",
-++        ] {
-++            let pattern = DNSPattern::new(permitted).unwrap();
-++            assert!(example_com.permits(&pattern));
-++            assert!(example_com.excludes(&pattern));
++     fn build_chain_inner(
++@@ -314,7 +373,8 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
++         // Otherwise, we collect a list of potential issuers for this cert,
++         // and continue with the first that verifies.
++         let mut last_err: Option<ValidationError> = None;
++-        for issuing_cert_candidate in self.potential_issuers(working_cert) {
+++        for issuing_cert_candidate in self.potential_issuers(working_cert, working_cert_extensions)
+++        {
++             // A candidate issuer is said to verify if it both
++             // signs for the working certificate and conforms to the
++             // policy.
++@@ -324,6 +384,7 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
++                 working_cert.certificate(),
++                 current_depth,
++                 &issuer_extensions,
+++                budget,
++             ) {
++                 Ok(_) => {
++                     match self.build_chain_inner(
++@@ -417,3 +478,135 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
++         Ok(chain)
++     }
++ }
+++
+++#[cfg(test)]
+++mod tests {
+++    use asn1::ParseError;
+++    use cryptography_x509::certificate::Certificate;
+++    use cryptography_x509::oid::SUBJECT_ALTERNATIVE_NAME_OID;
+++
+++    use crate::certificate::tests::PublicKeyErrorOps;
+++    use crate::ops::{CryptoOps, VerificationCertificate};
+++    use crate::policy::{Policy, PolicyDefinition, Subject};
+++    use crate::trust_store::Store;
+++    use crate::types::DNSName;
+++    use crate::{Budget, ChainBuilder, NameChain, ValidationError};
+++
+++    #[test]
+++    fn test_validationerror_display() {
+++        let err = ValidationError::Malformed(
+++            ParseError::new(asn1::ParseErrorKind::InvalidLength),
+++        );
+++        assert_eq!(err.to_string(), "ASN.1 parsing error: invalid length");
+++
+++        let err = ValidationError::ExtensionError{
+++            oid: SUBJECT_ALTERNATIVE_NAME_OID,
+++            reason: "duplicate extension",
+++        };
+++        assert_eq!(
+++            err.to_string(),
+++            "invalid extension: 2.5.29.17: duplicate extension"
+++        );
+++
+++        let err = ValidationError::FatalError("oops");
+++        assert_eq!(err.to_string(), "fatal error: oops");
+++    }
+++
+++    /// A `CryptoOps` whose public key extraction and signature verification
+++    /// always succeed, so that `valid_issuer` can be driven to completion
+++    /// without real cryptographic material.
+++    struct NullOps;
+++
+++    impl CryptoOps for NullOps {
+++        type Key = ();
+++        type Err = ();
+++        type CertificateExtra = ();
+++        type PolicyExtra = ();
+++
+++        fn public_key(&self, _cert: &Certificate<'_>) -> Result<Self::Key, Self::Err> {
+++            Ok(())
 ++        }
-+ 
-+         // Parent domains, distinct domains, and substring domains do not match.
-+-        assert!(!example_com.matches(&DNSPattern::new("com").unwrap()));
-+-        assert!(!example_com.matches(&DNSPattern::new("badexample.com").unwrap()));
-+-        assert!(!example_com.matches(&DNSPattern::new("wrong.com").unwrap()));
-++        for rejected in ["com", "badexample.com", "wrong.com"] {
-++            let pattern = DNSPattern::new(rejected).unwrap();
-++            assert!(!example_com.permits(&pattern));
-++            assert!(!example_com.excludes(&pattern));
+++
+++        fn verify_signed_by(
+++            &self,
+++            _cert: &Certificate<'_>,
+++            _key: &Self::Key,
+++        ) -> Result<(), Self::Err> {
+++            Ok(())
 ++        }
+++
+++        fn clone_public_key(_key: &Self::Key) -> Self::Key {}
+++
+++        fn clone_extra(_extra: &Self::CertificateExtra) -> Self::CertificateExtra {}
 ++    }
 ++
 ++    #[test]
-++    fn test_dnsconstraint_permits_wildcard() {
-++        let com = DNSConstraint::new("com").unwrap();
-++        let example_com = DNSConstraint::new("example.com").unwrap();
-++        let foo_example_com = DNSConstraint::new("foo.example.com").unwrap();
-++        let any_example_com = DNSPattern::new("*.example.com").unwrap();
+++    fn test_clone() {
+++        assert_eq!(NullOps::clone_public_key(&()), ());
+++        assert_eq!(NullOps::clone_extra(&()), ());
+++    }
 ++
-++        // A wildcard `*.example.com` is permitted only by constraints whose
-++        // subtree contains *every* name the wildcard can expand to, i.e. those
-++        // that contain `example.com` itself.
-++        assert!(com.permits(&any_example_com));
-++        assert!(example_com.permits(&any_example_com));
+++    // A self-issued ("looping") CA certificate that is its own issuer.
+++    fn looping_ca_pem() -> pem::Pem {
+++        pem::parse(
+++            "-----BEGIN CERTIFICATE-----
+++MIIBcjCCARmgAwIBAgIBATAKBggqhkjOPQQDAjAhMR8wHQYDVQQDDBZsb29waW5n
+++IHNlbGYtc2lnbmVkIENBMB4XDTIzMTIzMTAwMDAwMFoXDTI0MDEzMTAwMDAwMFow
+++ITEfMB0GA1UEAwwWbG9vcGluZyBzZWxmLXNpZ25lZCBDQTBZMBMGByqGSM49AgEG
+++CCqGSM49AwEHA0IABKAoXUGnHdfXJbSXjRjeW+PCVHmlo4KEki69N5pJUA0QyQMR
+++v9ySOMnWf3Ea7TR4g3zdguwTP7LdpSku3uR1QkmjQjBAMA8GA1UdEwEB/wQFMAMB
+++Af8wDgYDVR0PAQH/BAQDAgGGMB0GA1UdDgQWBBR23MGdG1Ma9iR+3CxKTafD/OE0
+++dTAKBggqhkjOPQQDAgNHADBEAiA4RCr07KfZdM16VfGNZAQFjvC60SWIU3RRVY/L
+++qolIOwIgCaIgj9ipK0Q0p+45UJiq+L/ncrxsweJkFq/UYubzhX0=
+++-----END CERTIFICATE-----",
+++        )
+++        .unwrap()
+++    }
 ++
-++        // A constraint more specific than the wildcard's base does *not*
-++        // permit it: the wildcard can expand to siblings outside the subtree
-++        // (e.g. `*.example.com` can be `bar.example.com`, which lies outside
-++        // `foo.example.com`).
-++        assert!(!foo_example_com.permits(&any_example_com));
-+     }
-+ 
-+     #[test]
-+-    fn test_dnsconstraint_matches_wildcard() {
-++    fn test_dnsconstraint_excludes_wildcard() {
-+         let com = DNSConstraint::new("com").unwrap();
-+         let example_com = DNSConstraint::new("example.com").unwrap();
-+         let bar_example_com = DNSConstraint::new("bar.example.com").unwrap();
-+         let baz_bar_example_com = DNSConstraint::new("baz.bar.example.com").unwrap();
-+         let any_example_com = DNSPattern::new("*.example.com").unwrap();
-+ 
-+-        assert!(com.matches(&any_example_com));
-+-        assert!(example_com.matches(&any_example_com));
-+-        assert!(bar_example_com.matches(&any_example_com));
-+-
-+-        // A constraint on `baz.bar.example.com` doesn't match `*.example.com`,
-+-        // since `baz.bar.example.com` matches zero or more sublabels of
-+-        // `baz.bar.example.com` while `*.example.com` matches exactly one
-+-        // sublabel of `example.com`.
-+-        assert!(!baz_bar_example_com.matches(&any_example_com));
-++        // A wildcard `*.example.com` is excluded by any constraint whose
-++        // subtree it overlaps, including constraints more specific than the
-++        // wildcard's base.
-++        assert!(com.excludes(&any_example_com));
-++        assert!(example_com.excludes(&any_example_com));
-++        assert!(bar_example_com.excludes(&any_example_com));
+++    /// Exercises our pathlen overflow error scenario.
+++    ///
+++    /// This condition is logically unreachable from Python, since
+++    /// we unconditionally limit signature checks to a number smaller
+++    /// than `u8::MAX`, meaning that we always exhaust the signature budget
+++    /// before potentially exhausting the pathlen budget.
+++    ///
+++    /// To test that directly, we manually lift the signature budget
+++    /// and start our pathlen state right at `u8::MAX`, guaranteeing
+++    /// an overflow on the immediate chain building step.
+++    #[test]
+++    fn test_build_chain_inner_depth_overflow() {
+++        let pem = looping_ca_pem();
+++        let ca = asn1::parse_single::<Certificate<'_>>(pem.contents()).unwrap();
+++        let ca_exts = ca.extensions().ok().unwrap();
 ++
-++        // A constraint on `baz.bar.example.com` doesn't overlap
-++        // `*.example.com`, since `baz.bar.example.com` matches zero or more
-++        // sublabels of `baz.bar.example.com` while `*.example.com` matches
-++        // exactly one sublabel of `example.com`.
-++        assert!(!baz_bar_example_com.excludes(&any_example_com));
-+     }
+++        // The same self-issued CA is both the working certificate and its own
+++        // (only) candidate issuer, so the search recurses on itself.
+++        let working = VerificationCertificate::<NullOps>::new(&ca, ());
+++        let intermediates = [VerificationCertificate::<NullOps>::new(&ca, ())];
+++        let store: Store<'_, NullOps> = Store::new([]);
+++
+++        let subject = Subject::DNS(DNSName::new("example.com").unwrap());
+++        let time = asn1::DateTime::new(2024, 1, 1, 0, 0, 0).unwrap();
+++        let policy_def =
+++            PolicyDefinition::server(NullOps, subject, time, Some(u8::MAX), None, None).unwrap();
+++        let policy = Policy::new(&policy_def, ());
+++
+++        let builder = ChainBuilder::new(&intermediates, &policy, &store);
+++        let mut budget = Budget {
+++            name_constraint_checks: usize::MAX,
+++            signature_checks: usize::MAX,
+++        };
+++
+++        let name_chain = NameChain::new::<NullOps>(None, &ca_exts, false)
+++            .ok()
+++            .unwrap();
+++        let err = builder
+++            .build_chain_inner(&working, u8::MAX, &ca_exts, name_chain, &mut budget)
+++            .unwrap_err();
+++
+++        assert!(matches!(
+++            err.kind,
+++            ValidationError::Other(msg) if msg.contains("current depth calculation overflowed")
+++        ));
+++    }
+++}
++diff --git a/src/rust/cryptography-x509-verification/src/policy/mod.rs b/src/rust/cryptography-x509-verification/src/policy/mod.rs
++index d5a199d..5bdc8d5 100644
++--- a/src/rust/cryptography-x509-verification/src/policy/mod.rs
+++++ b/src/rust/cryptography-x509-verification/src/policy/mod.rs
++@@ -25,7 +25,7 @@ use once_cell::sync::Lazy;
++ use crate::ops::CryptoOps;
++ use crate::policy::extension::{ca, common, ee, Criticality, ExtensionPolicy, ExtensionValidator};
++ use crate::types::{DNSName, DNSPattern, IPAddress};
++-use crate::{ValidationError, VerificationCertificate};
+++use crate::{Budget, ValidationError, VerificationCertificate};
 + 
-+     #[test]
++ // SubjectPublicKeyInfo AlgorithmIdentifier constants, as defined in CA/B 7.1.3.1.
++ 
++@@ -463,10 +463,16 @@ impl<'a, B: CryptoOps> Policy<'a, B> {
++         child: &Certificate<'_>,
++         current_depth: u8,
++         issuer_extensions: &Extensions<'_>,
+++        budget: &mut Budget,
++     ) -> Result<(), ValidationError> {
++         // The issuer needs to be a valid CA at the current depth.
++         self.permits_ca(issuer.certificate(), current_depth, issuer_extensions)?;
++ 
+++        // Charge the (potentially expensive) signature verification against the
+++        // budget before performing it, bounding the total work an attacker can
+++        // force during chain building.
+++        budget.signature_check()?;
+++
++         // CA/B 7.1.3.1 SubjectPublicKeyInfo
++         // NOTE: We check the issuer's SPKI here, since the issuer is
++         // definitionally a CA and thus subject to CABF key requirements.
 +-- 
 +2.43.0
 +
 diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-index 01382219fa..8148ec0ba5 100644
+index 8148ec0ba5..899332123f 100644
 --- a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
 +++ b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-@@ -13,6 +13,7 @@ SRC_URI[sha256sum] = "6fe07eec95dfd477eb9530aef5bead34fec819b3aaf6c5bd6d20565da6
- SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
+@@ -14,6 +14,7 @@ SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
              file://CVE-2026-26007.patch \
              file://CVE-2026-34073.patch \
-+            file://CVE-2026-69248.patch \
+             file://CVE-2026-69248.patch \
++            file://CVE-2026-69249.patch \
              file://check-memfree.py \
              file://run-ptest \
             "
