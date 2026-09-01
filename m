@@ -1,140 +1,295 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 81E0BC624D5
-	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 13:52:09 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8612.1788270720748090056
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EEE1C61DD3
+	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 14:04:59 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.6])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8932.1788271485992377890
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 06:52:01 -0700
+ Tue, 01 Sep 2026 07:04:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=a3PWCgq0;
- spf=pass (domain: axis.com, ip: 52.101.65.50, mailfrom: peter.kjellerstedt@axis.com)
+ dkim=pass header.i=@ericsson.com header.s=selector2 header.b=BSbcmwXA;
+ spf=pass (domain: ericsson.com, ip: 52.101.72.6, mailfrom: daniel.turull@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JbhHMj3sd8V/8wcznBiiaZEA5tQIj1z1FwJCc7mKB67LO25hUuV2SXcfwK4Mre9zBxG33cF9iRKblHN/1ebSNgxc9RpB3zxTjKKRBt36lME7eD4s+ZVo4S+4+LvW61ov5SaY32E7QDT3GSAbTy++gTi3g5bL7uC9xSy9v90xEV+qlr1LwLhYJoQgraLHczUFKRV1E5A5SzpVwYChCGYtDtkc5zilf4XCeSQt95qzDZDob/PduoKOISyQ+fLuL8FEVPHG+soSuJXcvHhLeblszH6PozWvsWMlSVp26xVRzb+XRFZkOZ72EJYghMkLWtlVdqx0z84V5dLkGzmHU2+wCA==
+ b=Y8bRJBBaUNvQVCplYEi3FPcyJLIn7+PIYLpADAY1Sid78Jmcpk4ETDMk9vQ03ZyKtQiOUdf25Epzz69wEx285Vhm5UewY0VgDzrxs+hXPlpgzinI1D3AgwtIdPyBYE3Yzr0oaiYhqv37MyLlSbZPLY9RMZJa9Dt11RwgprVu56uHDhlpQZKGXSrsauNzHJ4nDxMmztK+ojS49GVOG98bfeonu1dLTKsTKHCnSBFaV3zOi0wGt6Bn08f56nv78J+p9LkuhPyL+yZXreqzf+y7HDBjZmZ6DWmoFMLHhahbOnBVcpPh9tw79bC4RWjlfZCPijzEh8TnwZAqpUB9KoCqAg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ddVtEN96TXhbTGpwkasUu3HZHGz1GlJ0mhYFThqr7fg=;
- b=WvRVMi12RVUtQN8C6YLpV3SUabuy/2fFtEZ8ISSR9U0DWhLDVwnWkZzB8viV53B4qimXx1LQ42SDIo3pMD+x49GPgQs2lRoE5BWnhlJ9uesuwzDoRGvrTSlwfXCqz+b3MIZhb+TIg/f6C3gKPU0S1/J0gcj3lxurh2WyJVK+UtAZzJrxODzP/EhdRAYeFsha6F8N5dzx4NaLJM1zAfTzQ/mrnThpe8o8Jy67R7xuingDnT2sIFTT73swFFxbOrYpOctWCjEIeJSncbBp8xwKtm/eqvD9WeNpnoLNqlPkH+WvnEfncWIji5LKOx8Ze2K7oj8UVAk80x1UTClJcFesQg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
+ bh=F5VrRBy9cNgz2x2GIMC72q/aEDa+IOT0befjhNNIlw8=;
+ b=UHv5kEmi3gWJGtzbvtiWMlLTKRyPYfmInvAZVmBga4HK0shW1pUyvgjEc/aKDfHHWTLfbAWsI1kHRLTeMvqwREtHWAKgBLTkKphha7ZZ6Fu6iHXr5HepHBaGqrpdczrTWb8JQbsesl4Bt/xzhVS7zgqHsB4SOMgeYmIW4o+MJzgCIstKiaIVgD/M6qDoWlH/1HKYVNFRW05+2Hl8IRThor7PuQ+wFAX7Kz2JiC6y92+Dadh25tMCuoHINyA59RpltoNRVsuqE8MdYWqIrRgFZiCyKUSnHJ+fyMw41TM7obiai1ZzcOQrI4z31sb5fLKvMXTCXACJEkkhONVlaiXSsQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
+ dkim=pass header.d=ericsson.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ddVtEN96TXhbTGpwkasUu3HZHGz1GlJ0mhYFThqr7fg=;
- b=a3PWCgq0Y9FJq/4x0DIBSjvhXnzTDt9yJDGkhsfH5SEaugZLFV+1ntaeLUl8mrZDbl64CMjOv+StrF7aKLcKpLMZwKcHDUAmzHBR0/Kz6wG+7WVFGkrCGuZWvte5Cx6m00wWIfkU+kAvMmtUbAM6DriUG7ZRd2SoNwuhpPJqPYI=
-Received: from MI1P293CA0002.ITAP293.PROD.OUTLOOK.COM (2603:10a6:290:2::9) by
- PA4PR02MB6797.eurprd02.prod.outlook.com (2603:10a6:102:f4::18) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.360.13; Tue, 1 Sep 2026 13:51:56 +0000
-Received: from MI3PEPF00008553.eurprd05.prod.outlook.com
- (2603:10a6:290:2:cafe::78) by MI1P293CA0002.outlook.office365.com
- (2603:10a6:290:2::9) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.360.13 via Frontend Transport; Tue, 1
- Sep 2026 13:51:56 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- MI3PEPF00008553.mail.protection.outlook.com (10.167.240.7) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Tue, 1 Sep 2026 13:51:56 +0000
-Received: from se-mail10w.axis.com (10.20.40.10) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Tue, 1 Sep
- 2026 15:51:55 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Tue, 1 Sep 2026 15:51:55 +0200
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 87ADE133A
-	for <openembedded-core@lists.openembedded.org>; Tue,  1 Sep 2026 15:51:55 +0200 (CEST)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id 824E6125EF1; Tue,  1 Sep 2026 15:51:55 +0200 (CEST)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH] lttng-tools: Avoid the CC-BY-SA-4.0 license for code packages
-Date: Tue, 1 Sep 2026 15:51:52 +0200
-Message-ID: <20260901135152.1182514-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ bh=F5VrRBy9cNgz2x2GIMC72q/aEDa+IOT0befjhNNIlw8=;
+ b=BSbcmwXA3Qnqw98A+7QBeDT+z6a6hYcrC0+8ZTK+7Gb+fw6sT4cSnAECvksSp3+7MIwauBPeXq9VbTwRpMF3FeJw92Enorr3nA+7tg2jFyr+MbSeEQ90S4mrpt0V7Mlc61gjQs0KvQaQWOFmmSzFZlnsrcDs15YqfyjMUp64JOpKm2ZUrOYOBA5xYxKmtfgaNmLJKUb50RR3U6TozNKa1Y5zsrY6vdocYHDSdbsqn7veFePAmibufQXt9BrmHw5YB0dACXixij4ZS+9LOx0lapURng+ONNnbJtd4oaWGLbxxRDGV0TGkSsxHkDqXL83T+pZgUQPWgBPe+D64QpTs0g==
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com (2603:10a6:102:4af::6)
+ by VI1PR0701MB6880.eurprd07.prod.outlook.com (2603:10a6:800:19d::7) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Tue, 1 Sep
+ 2026 14:04:41 +0000
+Received: from PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7]) by PA3PR07MB10721.eurprd07.prod.outlook.com
+ ([fe80::afd3:17e5:1663:7ce7%2]) with mapi id 15.21.0360.008; Tue, 1 Sep 2026
+ 14:04:41 +0000
+From: Daniel Turull <daniel.turull@ericsson.com>
+To: Ross Burton <ross.burton@arm.com>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [AUH] python3-build: upgrading to 1.6.0 SUCCEEDED
+Thread-Topic: [OE-core] [AUH] python3-build: upgrading to 1.6.0 SUCCEEDED
+Thread-Index: AQHdNrJHp8UN9ctqckqJJe/rsEVLpra5xL+d
+Date: Tue, 1 Sep 2026 14:04:41 +0000
+Message-ID: 
+ <PA3PR07MB10721FB07C882EEE01C98BBDD8AA82@PA3PR07MB10721.eurprd07.prod.outlook.com>
+References: 
+ <010101a046f2282b-698750fc-6b87-415d-a181-ff0414056aa3-000000@us-west-2.amazonses.com>
+In-Reply-To: 
+ <010101a046f2282b-698750fc-6b87-415d-a181-ff0414056aa3-000000@us-west-2.amazonses.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ericsson.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: PA3PR07MB10721:EE_|VI1PR0701MB6880:EE_
+x-ms-office365-filtering-correlation-id: 1eb991f8-2dfb-493d-992f-08df0831f7a3
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|376014|1800799024|22122799003|23010399003|10070799003|10067099003|6133799003|3023799007|4133799003|11063799006|56012099006|18002099003|22082099003|38070700021;
+x-microsoft-antispam-message-info: 
+ K835O1k6a4wEvkQf4/aOMOuJ5wxqgsmZgWMfgBq0I0hybq/bQ+KDihkqF4jmvPfmjpL5VxdVR8P4ZCHZ/sGw4IyfrMdxP7Ee7eEiIPJ+Qt+mRmRA0wlP+6BSEZzGcVRFY0OEsjitZFMsBD8m2FgLOT4ioZng22vg66R760xEoL3Spt4togVUex6lzpimcfDyybJLOdSRMVLr3iungiouqD3J9wSaXLwFSppajwr2n4hN6h3ljn6vvh9YUko5OMdreQtnEGIvSePfpBE7tl9wXHsZwXNtkKa6CpBvf6Zi6M8SmgkXMS5fM3to54/Rj54e56ed4o4Dt9dILp5EmsSD7knJonCyyRdYWXUK57vRpzbXBhdRbzoDpnrnvDhM4UKcNpLLsomtDsURKkjHQ+1ptctSg+gLiXwZwZjVQH6WJ0chrDGvFcc+RKmLgwdMZy+9+Q+qRA5zx9xaJ32XNYsF9udY1+kd/Ahg8eO164fGm90IGpx7scNyLzIebqPgFiF96aK1++jbAaXP7UVA2fzP4JPaHR/FqiQyWbOAyxy3AGrV7RpwrCyfT/DMMSvQG0JOgJ2Bs0Obt8knIszX8fn21nqc0cW3kh2fCutFc0vlIBEKD6zPkPAOYWWJix+WRqlO7lDZcgzoIorsMuODjOYe3lnOBktQ8kl+b+Zk40w5wok=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3PR07MB10721.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(376014)(1800799024)(22122799003)(23010399003)(10070799003)(10067099003)(6133799003)(3023799007)(4133799003)(11063799006)(56012099006)(18002099003)(22082099003)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?c0bFk9mwdDM3FJsdtlM8OWK4aiC8GSQQXxkviCyxU0+9wzH6GZ6r5OqoKp?=
+ =?iso-8859-1?Q?vz93WgknKkhQsTAd1lfCCJ9RAoVPKJm+BlkZr58nONnvEN7UAkWQPtzm4c?=
+ =?iso-8859-1?Q?zJ2ep0guvYav/qxDeDRe8v4z8FZ5yhygx/qKndeBN3h9XMwayjHUhHtdlF?=
+ =?iso-8859-1?Q?wJ1fnkAJ0F/6SlKinFr7Qa1xpVT6W3E/Qu2kpy4z+17iuF5OVqNBbcAFXh?=
+ =?iso-8859-1?Q?dSY8J/BlXUaTwMUtYk63hrAoJ7BVG0ZkA1GtXUvoXaauYEupZbpYYVYl9T?=
+ =?iso-8859-1?Q?9zfu+nIclTqSMOIDUshRVii1dGclAYIdU0G/xjU1rDPIDE0JpG3IarIaMr?=
+ =?iso-8859-1?Q?yusnnHwr+IFiHsOR9Hg8JTe0P8Lg3qBGTRE3CfzVtxw0G37afs7nxuZV9o?=
+ =?iso-8859-1?Q?pOPdb3fbGmLszXG+TyuPPamd+77ohkedBaX1pq7czdWnr1S0I28VQ67YlU?=
+ =?iso-8859-1?Q?DdbonKTuqn9WPD9gJcNmKy4yBF1UPNrqmhDfhS3PDGIMoeeXSYdqAyU/Vq?=
+ =?iso-8859-1?Q?mxDZKFoZT1JcOINiye2idGnaXuF/RntEgKf1zEEd3OKFLSyZsTRAy3xSw4?=
+ =?iso-8859-1?Q?VOZrMNOnKvlxb6S/xuyqdsrpt9Nf3b9aRTB/11DJSH7qoN5Oxc/FhvtIOu?=
+ =?iso-8859-1?Q?lN707dKJl4HSluuP9Pbn8Zx0WEFdFHWP0ZMx4NirZ+AH2qChEm5HOwRtKM?=
+ =?iso-8859-1?Q?ZY/p7EmobXFneWIZAfSckQtVT18hnMas4N9fnNZOX8iTecbfLYAy55/HpF?=
+ =?iso-8859-1?Q?vD4sJ+r01clA0XUwMORreJV2BX8RSHwJO0/kzz7VxDEeAoKVxXt/Fyeaa6?=
+ =?iso-8859-1?Q?EHobw/E6MUtv5hmnOxYtcVQrVncn6cpzYk6YmA5V0OUXH8U3wCVo9nmCqh?=
+ =?iso-8859-1?Q?pVvDXFB0mzziCxf1iYL4oBp3XXAEYsnFmI0l6TsAigA/vKplUvE1oUAMfW?=
+ =?iso-8859-1?Q?2OGc7rumFnV4bnIgMH+k9BrRckWYMgv6aBD1CrW+hP71EcbvXnK4/wqmcJ?=
+ =?iso-8859-1?Q?y5mG+7yDenCBhW2gh/x2crySTh6hc0DyPg6kzydTXesYTx2f7HQ5b5H9HN?=
+ =?iso-8859-1?Q?dwt/TNdiXF2vGWEj7C/juhETNw+6BkIIUZTRdibUl2u6ar0xpOnxPzZ3Qb?=
+ =?iso-8859-1?Q?3U/dBE2isT+hAtuTD9reLygsHok0xhGxlDPpOIb289LttIUkoZ0ri/TIjY?=
+ =?iso-8859-1?Q?jSTKbCySKRVCtEG0mLUjoDQP/srkXDZPOKDeblRa/6wJv8F6bw7wVbz78u?=
+ =?iso-8859-1?Q?XT7Xv9StwUMWV3FTYmdUMlEXVzRY4yOc4X9gm4WwwLv3KYel+JZ3EZwq04?=
+ =?iso-8859-1?Q?Zb4q/e/ROXr1Kk+W57gqtr4tz3xcmbjv9N6ByDDNMGZpna73V0seqhAs3w?=
+ =?iso-8859-1?Q?3KPFjx4/U0FCtzxx+WOMZFXLBs44vwvwuZuif8LdBW6Sfi07SMQ/DrH2Bj?=
+ =?iso-8859-1?Q?uf+DMxy4DagarP0a7DMXiqh3kBEbDvIL/vRj3xv1iUSw83YQXJECd2lZ79?=
+ =?iso-8859-1?Q?pfJpty8jOcb7xVEYwVa0F3WYiKXWKGgj5P850Y7WsglZXGczzP6AxrOpTz?=
+ =?iso-8859-1?Q?F4TZVCViNzsiZcKFVuvkrV+gq0VoOziGgh32gnrOP0I/Rawaw9yfo9wuOm?=
+ =?iso-8859-1?Q?UAU7+gIRr1fz8Fa9sLr05DMrlUL8D75vdisDEpYeiy/Tid715LJpCyHrWC?=
+ =?iso-8859-1?Q?JUi0Jrb6Bd4r5cvYXeuezaflEMYxEfbvvGwv1DhSfdoVsZNLUmybYZ7RM4?=
+ =?iso-8859-1?Q?y7XvS+klL6Bs/nzb4RBX8iltijAvkjoc120loGnVFG2BWADYUq3TI3+S5q?=
+ =?iso-8859-1?Q?hP8CGysprr/OOEwUYi5vHvOIPQhF6MPuHjonVJQfOh5DNCJ9LnNn1HZ5mf?=
+ =?iso-8859-1?Q?FP?=
+x-ms-exchange-antispam-messagedata-1: 6xLpgWq6Tfc+NQ==
+Content-Type: text/plain; charset="iso-8859-1"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI3PEPF00008553:EE_|PA4PR02MB6797:EE_
-X-MS-Office365-Filtering-Correlation-Id: 9be9a511-8237-47e7-ef68-08df08302fa9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|23010399003|376014|1800799024|82310400026|11063799006|56012099006|10067099003|6133799003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	y2bswfQ2uEkPUmok44xz4Mo0dYFFAMZQZHV8ChZTHyxBOzXBwJ1uzMhc+onOWptmK1klkudUaPwLt4v5s8kwFzIb2QhiNAak1Wj/Jk1nstx9zWAPsY10pk1UoHdBpNmB3EiTH1sQ17C2tIQnGB44iHs3sB1qL4kQlWywwVSRjR2G0Jjcz57QcZrEg6Ob7azz1ZvmSYesMq9A9VkIsxNGUbDRXkEoZ4R2wxEsJu1VGET8L8UO9aABRzSTgOQIrjl9tCNrSpQOE/p1MQrXZQbIJX+GbSOgz5E7/TmYFzNdv6EjGA03K9DbRv6Gp3LY6KjAGO7AMB3j62Fa+bi6di0P3IK0u2kP74zBCAAXltV1380q7FkZLyK1Mfj+zVKJbS5rrwDEHz0dB+ADtweEEIuIqRPYunaeOPewAjGSH5O8TZwyvG82kd7C3aR8EFFcJSbawsMQ/ORk7/CEFFTe1d0HMrBKPQZa/b6bk4vcC2Xt7wsyfgjdFhfnspJyAGo2tPktrQwLMWuCvZ+Sks4naC3nmH/RJlwzeu9i01Tx4HCEe9o5eYA9VpTEL5OjZOiA5ZlMC0RRW6+iuy9aMJ271aIgRU6AbONMnWQadZraKviG6WYRqlgcW5KPfYDUldtuBPuOJVUxd/6tpi4YKdrnqDMTDl06BD0UJPuxqbgNxMvtkE/5naEZBcjSW3W/jy+Bl/CRD7gTvbUbLg9sbE3r1amwiQ==
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(376014)(1800799024)(82310400026)(11063799006)(56012099006)(10067099003)(6133799003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	N7WDH43d8RzaJt79NiI0q092MiDls408+OqMQXPe7Ar03Y1Orhpte6aZvv2jEUcwRRsJJPTNOMz7072qh6IssKdsFlDJnMd6oUAR0Up1ivF5cuSCtpKuxgyHftyYNRcBJGd/AeRhbReLAbtqL0nO+xHC5+krfHqBPbbfpzERFY4FPgGVVeWMRngs0L3vq88aau143VsIjLdse0cW1gRpX1y5zmO5k1KP4qkANur5fiCO1qb5bphrLpiogzAh2Dz9cyPmK8OqA1Tk+UBe8IXqamnJUfakUT0b/ZTrYmxtT62L4Y0MxeyKKW4dlErVMSKkYhYlVHZ6gBPcQGHojEjKWq14Y0sPn4jrzNNXC0u+7RGHQIhd+w8Wc/4mdcs4disF0Wuih13gn1fcJMxvklJ2ITZhgXkdeDcnRwc/dzBTWKU+2gTqZ5di5TkXPNFbSxXV
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Sep 2026 13:51:56.0414
+MIME-Version: 1.0
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: PA3PR07MB10721.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1eb991f8-2dfb-493d-992f-08df0831f7a3
+X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Sep 2026 14:04:41.0532
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9be9a511-8237-47e7-ef68-08df08302fa9
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	MI3PEPF00008553.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR02MB6797
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: enAUB1Abq1XkNw+YbEBMAHYkMLYQKi+0QEBSlxEtuoCCcKh2brNtt3/kd5q6BkbId8ztw9OVn2hJ0CobEtpr9D3P1xPQRFajLADokm4JD00=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR0701MB6880
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 13:52:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244828
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 14:04:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244829
 
-It only affects documentation files, so remove it from all other
-packages.
+Hi,
+I took a quick look at the generated changelog and I have identified the pr=
+oblem.
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
+Problem:
+AUH Updates from 1.5.1 to 1.6.0 but there is no 1.5.1 information in the 1.=
+6.0 changelog.rst, but it is in the old version.
+
+1.6.0 CHANGELOG.rst
+grep "(2026"  CHANGELOG.rst
+ 1.6.0 (2026-08-27)
+ 1.5.0 (2026-04-30)
+ 1.4.4 (2026-04-22)
+ 1.4.3 (2026-04-10)
+ 1.4.2 (2026-03-25)
+ 1.4.1 (2026-03-24)
+ 1.4.0 (2026-01-08)
+
+1.5.1 CHANGELOG.rst
+git show main:CHANGELOG.rst | grep "(2026"
+ 1.5.1 (2026-07-09)
+ 1.5.0 (2026-04-30)
+ 1.4.4 (2026-04-22)
+ 1.4.3 (2026-04-10)
+ 1.4.2 (2026-03-25)
+ 1.4.1 (2026-03-24)
+ 1.4.0 (2026-01-08)
+
+Then the changelog diff generated is broken since it mixes content from 1.5=
+.1 and 1.6.0.
+
+I'll look into adding a guard for it. The quick workaround is to just manua=
+lly the relevant section of new CHANGELOG.rst into the commit message
+
+Best regards,
+Daniel
+
+
+________________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Auto Upgrade Helper via lists.openembedded.org =
+<auh=3Dyoctoproject.org@lists.openembedded.org>
+Sent: Friday, August 28, 2026 7:57 AM
+To: Ross Burton
+Cc: openembedded-core@lists.openembedded.org
+Subject: [OE-core] [AUH] python3-build: upgrading to 1.6.0 SUCCEEDED
+
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-build* to *1.6=
+.0* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-python3-build-upgrade-1.5.1-1.6.0.patch
+    - check the changes to upstream patches and summarize them in the commi=
+t message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this tim=
+e,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update f=
+ailures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bu=
+g.cgi?product=3DAutomated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 7b21d98057ce518b5e3cf7f2f7cff239e7c95da7 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 28 Aug 2026 05:36:35 +0000
+Subject: [PATCH] python3-build: upgrade 1.5.1 -> 1.6.0
+
+Source: CHANGELOG.rst
+
+1.6.0 (2026-08-27)
+- Pass ``--dependency-constraints-txt`` files through to the installer unmo=
+dified instead of re-parsing them into a
+  deduplicated set of lines, fixing a case where a hashed requirement (e.g.=
+ from ``pip-compile --generate-hashes``) could
+  have its ``--hash`` continuation line separated from its requirement line=
+ and silently dropped, depending on the
+  interpreter's hash seed - by :user:`manfred-kaiser` (:issue:`1140`)
+**********
+ Removals
+**********
+
+- Remove ``exc_info`` parameter and attribute from ``BuildBackendException`=
+`. - by :user:`layday` (:issue:`1161`)
+
+**************
+ Deprecations
+**************
+- :issue:`1058`, :issue:`1060`, :issue:`1062`, :issue:`1093`, :issue:`1099`=
+, :issue:`1107`, :issue:`1113`, :issue:`1117`, :issue:`1122`, :issue:`1124`=
+, :issue:`1128`, :issue:`1132`
 ---
- meta/recipes-kernel/lttng/lttng-tools_2.16.0.bb | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+ .../python3-build/check-valid-dist.patch       | 18 ++++++++++++------
+ ...3-build_1.5.1.bb =3D> python3-build_1.6.0.bb} |  2 +-
+ 2 files changed, 13 insertions(+), 7 deletions(-)
+ rename meta/recipes-devtools/python/{python3-build_1.5.1.bb =3D> python3-b=
+uild_1.6.0.bb} (87%)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-tools_2.16.0.bb b/meta/recipes=
--kernel/lttng/lttng-tools_2.16.0.bb
-index 8e2f890e55..cfc16ed6c7 100644
---- a/meta/recipes-kernel/lttng/lttng-tools_2.16.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-tools_2.16.0.bb
-@@ -5,7 +5,14 @@ to extract program execution details from the Linux operat=
-ing system \
- and interpret them."
- HOMEPAGE =3D "https://github.com/lttng/lttng-tools"
-=20
--LICENSE =3D "BSD-2-Clause AND BSD-3-Clause AND BSL-1.0 AND CC0-1.0 AND CC-=
-BY-SA-4.0 AND FSFAP AND GPL-2.0-only AND GPL-2.0-or-later AND GPL-2.0-or-la=
-ter WITH Autoconf-exception-2.0 AND GPL-2.0-or-later WITH Autoconf-exceptio=
-n-macro AND LGPL-2.1-only AND LGPL-2.1-or-later AND MIT"
-+CODE_LICENSES =3D "BSD-2-Clause AND BSD-3-Clause AND BSL-1.0 AND CC0-1.0 A=
-ND FSFAP AND GPL-2.0-only AND GPL-2.0-or-later AND GPL-2.0-or-later WITH Au=
-toconf-exception-2.0 AND GPL-2.0-or-later WITH Autoconf-exception-macro AND=
- LGPL-2.1-only AND LGPL-2.1-or-later AND MIT"
-+
-+LICENSE =3D "${CODE_LICENSES} AND CC-BY-SA-4.0"
-+LICENSE:${PN} =3D "${CODE_LICENSES}"
-+LICENSE:${PN}-dev =3D "${CODE_LICENSES}"
-+LICENSE:${PN}-dbg =3D "${CODE_LICENSES}"
-+LICENSE:${PN}-ptest =3D "${CODE_LICENSES}"
-+LICENSE:${PN}-src =3D "${CODE_LICENSES}"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Df7adf214dab700ec91b393898b515f1=
-3 \
-                     file://LICENSES/BSD-2-Clause.txt;md5=3D5d6306d1b08f8df=
-623178dfd81880927 \
-                     file://LICENSES/BSD-3-Clause.txt;md5=3D4e91b9e6ef320f7=
-4590c8c7a64a9188a \
+diff --git a/meta/recipes-devtools/python/python3-build/check-valid-dist.pa=
+tch b/meta/recipes-devtools/python/python3-build/check-valid-dist.patch
+index dd6f256e26..82c31a49a4 100644
+--- a/meta/recipes-devtools/python/python3-build/check-valid-dist.patch
++++ b/meta/recipes-devtools/python/python3-build/check-valid-dist.patch
+@@ -1,4 +1,7 @@
+-Ignore invalid distributions when checking dependencies
++From a2a217409e01e3ebea88dce85d81dbe6b3c79187 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross.burton@arm.com>
++Date: Wed, 12 Aug 2026 12:35:29 +0100
++Subject: [PATCH] Ignore invalid distributions when checking dependencies
+
+ If there's an empty directory foo-1.2.dist-info/ on the search path then
+ importlib will return that as a distribution called "foo".
+@@ -12,12 +15,15 @@ the dist-info directory is empties but remains in the s=
+ysroot.
+
+ Upstream-Status: Submitted [https://github.com/pypa/build/pull/1145]
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ src/build/_util.py | 5 +++++
++ 1 file changed, 5 insertions(+)
+
+-diff --git i/src/build/_util.py w/src/build/_util.py
+-index c365003..ba047c7 100644
+---- i/src/build/_util.py
+-+++ w/src/build/_util.py
+-@@ -67,6 +67,11 @@ def _check_dependency(
++diff --git a/src/build/_util.py b/src/build/_util.py
++index cce8f94..54bc02c 100644
++--- a/src/build/_util.py
+++++ b/src/build/_util.py
++@@ -63,6 +63,11 @@ def _check_dependency(
+          yield (*ancestral_req_strings, normalised_req_string)
+          return
+
+diff --git a/meta/recipes-devtools/python/python3-build_1.5.1.bb b/meta/rec=
+ipes-devtools/python/python3-build_1.6.0.bb
+similarity index 87%
+rename from meta/recipes-devtools/python/python3-build_1.5.1.bb
+rename to meta/recipes-devtools/python/python3-build_1.6.0.bb
+index d572ca846f..acec9cd9ef 100644
+--- a/meta/recipes-devtools/python/python3-build_1.5.1.bb
++++ b/meta/recipes-devtools/python/python3-build_1.6.0.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D310439af287b0fb4=
+780b2ad6907c256c"
+
+ SRC_URI +=3D "file://check-valid-dist.patch"
+
+-SRC_URI[sha256sum] =3D "94e17f1db803ab22f46049376c44c8437c52090f0dfdf1adc4=
+3df56542d644fb"
++SRC_URI[sha256sum] =3D "bd2c8afc603e7a2e0ce70e2ea85f0a6d02043bafbd307f5bad=
+a0f98669eca5af"
+
+ inherit pypi python_flit_core
+
+--
+2.47.1
+
 
