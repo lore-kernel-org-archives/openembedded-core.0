@@ -1,97 +1,111 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2ECF6C61DD3
-	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 08:10:45 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2839.1788250244034225691
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 775A4C61DD3
+	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 08:25:26 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3116.1788251119319870815
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 01:10:44 -0700
+ Tue, 01 Sep 2026 01:25:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=vA3oLlfh;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id B2A1F1A192F;
-	Tue,  1 Sep 2026 08:10:41 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 7F8AC6053C;
-	Tue,  1 Sep 2026 08:10:41 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8AD1911C78AAE;
-	Tue,  1 Sep 2026 10:10:39 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788250241; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=HBzVgYDuZKrkWarshiTtubF576g3ygt4XNWlUAToE+Y=;
-	b=vA3oLlfhVaAtH1P57cv40H6Itmo7FVN9kQiw/zJ9nxJcxmY3FfXIJ6YOLpRbgFRfKaFiNQ
-	TxtL1MHC6Xt7TOjC3gKNapdTsRz3YtdMR7Qqa1wfLyuu8GbEZHoQ4kRtuQE8FtvP1XJ6IA
-	fAhpMW5olivBQ3CMIS+syqZ1tMWtbRh3k1jij7ZnyLI0n6HpCbWCP//pLYyasuvDtZkx2p
-	oGQaz/puygyfJAzxOGX0s6BACLERysDAW3dhIGt/RTGVgagq09kc96R6OsryFx17aUUXfr
-	52Sd2rQfgfHnkzvuMYlVoWZsFLtd95DByftkfwmfkaL9qVwracZa4kVovBH42g==
+ dkim=pass header.i=@smile.fr header.s=google header.b=vVZJrbK4;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-482f9309813so572253f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 01:25:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1788251117; x=1788855917; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Okm3/T7XRXu8WY2UaJ3JbBL5g0oRCPtH7Rta9vHzUeY=;
+        b=vVZJrbK4QMaC449IniED/q8IONs4JSk7xSmuDPECVqiEjB3suyCEazaJvnoTS0W9Jc
+         qPMxInRo/EAcXaC/pXez4h7NxvT4bcyibGHNBh3z9YVgybio9RgETOu8hYYw2OoB1s5B
+         /IFNbYihNTSnZ0WKLnNFA5jTCWpGvpd5wxcqo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788251117; x=1788855917;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Okm3/T7XRXu8WY2UaJ3JbBL5g0oRCPtH7Rta9vHzUeY=;
+        b=n+42KcAtOC3TigJLNTWURiWyFNl39d+Ig/4qbd3i+J7VSAegK35NY4C3ivkwE5DrPA
+         mz2LWFHgaj0NkHi2z+4ijG3T4c5178FORv36TmXnI0TzeyxsLFu9IYuNiE4zVO2Pzbl5
+         MQiaZW0P/HRRJjKXR38fJb7OUyDxlmVpXrQW/mMXbBYuRpgs8Ud7RBNptMaBSVMVT4Vv
+         hZXIwbsVfMBMGSDZv71RG0kX2zIgRUvRb+EJ5ogkASobJkMfXjQ0lnc7YsLoxV3cevyW
+         KrFe0gmvtyu01Xx0M6kHiwypkY2iVvaPKz8Wsqqq53HyrrPfw4vy68IX0SoClihhwthc
+         oXWQ==
+X-Forwarded-Encrypted: i=1; AHgh+RoCGjtN5EMxTytBFmeedEwVGOeBqPm4VsLyd6Lm8tmhZD79x+2sIx49LpAn1JdN1NjYJOXRUza+RWW3Hf239Ozr3w==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kHvW50n6O1kTfKFPuH93DkDw1SUtVVv+XiYHYu2KYkW9mDCtE+
+	0kfk3QFFwDElnOVexVPIYVINdc57CLSnlJhinT1qWj2P1y3Ik+3Dsz6G0MzJ5ei09UA=
+X-Gm-Gg: AR+sD125RT1nvwkPOUb206dQbUf+4HGXyzdWsJWB8zWC9nzI/U+WxJGOe/OemEva48Q
+	1yb98LVIwd2fDNMWyJj3Jb1agExy8CDiFAtBCEC/qgsQSm3YTD1U4TdNFbgSMe/Cv4QMr1OidG3
+	crbNG9LnVyfRww0Gw2eyPj12e2MReIu55r2nwlVe6TaEdm8CNuI61itx+F5MlwJFgwNLy9fI/hw
+	fNKU4CNvVJNdkfl528FjW8Y4f9uLESQl7mn068p8/yMkajEImz+q5p+7iIneEYw8YZLrmgJcZQC
+	srOxwyEmQcouL6oHeNXw7c+W3f6N+Vit2uREk0qzWjtv3pnS0+I2i1GcnEoYXYdKUflN88LPLPw
+	VnCYbew6zzN1pV5KXH+fqyFIXvk0VUMo0gUFILErm2D/tONYj9pgtnrrTSB1i2za+JJzpqYx9xk
+	DMx0EYCMtJjifqKn2QK4QPoo6CSH0a0qrZ8eH7nitc44KQ+ml7QjzONlrNgBPHhF1AYS+z2HefI
+	RKv3OxCeiq+ylzcX0MY+7MhRy8Rz+5CB2tk5kxStlifTgYo
+X-Received: by 2002:a05:600c:4443:b0:499:b3f0:ff05 with SMTP id 5b1f17b1804b1-49b91c56f41mr458522785e9.13.1788251117348;
+        Tue, 01 Sep 2026 01:25:17 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cd8148fbdsm74888845e9.3.2026.09.01.01.25.16
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Sep 2026 01:25:16 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 01 Sep 2026 10:10:36 +0200
-Message-Id: <DL3TSXRF336O.2A2WSRP1RG8ZM@bootlin.com>
-Subject: Re: [OE-core] [PATCHv4] boost-asio: Add recipe
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <gustali@axis.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20260831080952.2703441-1-gustali@axis.com>
-In-Reply-To: <20260831080952.2703441-1-gustali@axis.com>
-X-Last-TLS-Session-Version: TLSv1.3
+Date: Tue, 01 Sep 2026 10:25:16 +0200
+Message-Id: <DL3U45PSQCW3.19FJ2SIN19176@smile.fr>
+Subject: Re: [OE-core] [scarthgap] [PATCH] initscripts: avoid service
+ dependency in mountnfs.sh
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <xe-linux-external@cisco.com>, <to@cisco.com>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>
+To: <shinucha@cisco.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260825052051.2023677-1-shinucha@cisco.com>
+In-Reply-To: <20260825052051.2023677-1-shinucha@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 08:10:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244805
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 08:25:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244806
 
-On Mon Aug 31, 2026 at 10:09 AM CEST, Gustav Lindberg via lists.openembedde=
-d.org wrote:
-> This is needed to build boost asio as a shared library rather than a
-> header-only library, which is needed to save memory.
+On Tue Aug 25, 2026 at 7:20 AM CEST, Shinu Chandran via lists.openembedded.=
+org wrote:
+> mountnfs.sh uses "service rpcbind status" only to avoid
+> starting rpcbind twice before mounting remote filesystems. That
+> pulls init-system-helpers-service into images solely to provide
+> /usr/sbin/service.
 >
-> Signed-off-by: Gustav Lindberg <gustali@axis.com>
+> Use start-stop-daemon test mode for the rpcbind status check
+> instead. The script already uses start-stop-daemon to start rpcbind,
+> so this keeps the duplicate-start protection without requiring the
+> Debian service wrapper.
+>
+> With mountnfs.sh no longer invoking service, drop
+> init-system-helpers-service from the initscripts runtime dependencies.
+>
+> Signed-off-by: Shinu Chandran <shinucha@cisco.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 > ---
->  .../boost/boost-asio/boost_asio.cpp           |  1 +
->  .../boost/boost-asio_1.92.0.bb                | 33 +++++++++++++++++++
->  2 files changed, 34 insertions(+)
->  create mode 100644 meta/recipes-support/boost/boost-asio/boost_asio.cpp
->  create mode 100644 meta/recipes-support/boost/boost-asio_1.92.0.bb
->
-> diff --git a/meta/recipes-support/boost/boost-asio/boost_asio.cpp b/meta/=
-recipes-support/boost/boost-asio/boost_asio.cpp
-> new file mode 100644
-> index 0000000000..bf00c8ff26
-> --- /dev/null
-> +++ b/meta/recipes-support/boost/boost-asio/boost_asio.cpp
+>  meta/recipes-core/initscripts/initscripts-1.0/mountnfs.sh | 3 +--
+>  meta/recipes-core/initscripts/initscripts_1.0.bb          | 1 -
+>  2 files changed, 1 insertion(+), 3 deletions(-)
 
-Hi Gustav,
+Hello,
 
-Thanks for the new version. It is still failing on the autobuilder:
+Thanks for the patch but, to me, this looks like a cleanup fix without
+fixing any bugs. Those are not usually acceptable per stable policy.
 
-ERROR: boost-asio-1.92.0-r0 do_package_qa: QA Issue: File /usr/lib/.debug/l=
-ibboost_asio.so.1.92.0 in package boost-asio-dbg contains reference to TMPD=
-IR [buildpaths]
-ERROR: boost-asio-1.92.0-r0 do_package_qa: QA Issue: File /usr/lib/.debug/l=
-ibboost_asio.so.1.92.0 in package boost-asio-dbg contains a reference to th=
-e build host HOME directory. If upstream hardcodes a directory path that ma=
-tches your home, you can set OEQA_BUILDPATHS_SKIP =3D "/srv/pokybuild" in t=
-he recipe. [buildpaths]
-ERROR: boost-asio-1.92.0-r0 do_package_qa: Fatal QA errors were found, fail=
-ing task.
+So, I'm not going to take this unless I'm wrong.
+(And, if I'm wrong, then, it would also require an equivalent on
+wrynose)
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/6/builds/4560
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/25/builds/4543
-
-Can you have a look at the issue?
-
-Thanks,
-Mathieu
-
+Regards,
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Yoann Congal
+Smile ECS
 
 
