@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 465A3C61DD6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F97CC624D3
 	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 05:53:22 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1379.1788241992117500022
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1376.1788241989629145012
  for <openembedded-core@lists.openembedded.org>;
- Mon, 31 Aug 2026 22:53:12 -0700
+ Mon, 31 Aug 2026 22:53:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SfN8GFGb;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=POZQ3mh6;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a05b8755ef-cf7e0a8c-503d-4690-a419-c3f9802e8d22-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=WaxVrTqr;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1st8sCj4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a05b87569f-8478ceea-a3ca-46bc-b3c4-63ea3d6f4071-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1788241991;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=GPbyqjo5/81O7Gkusr8ewOV7XhHrCQO7c6qVS2aROd0=;
-	b=SfN8GFGbmEqnzqi3f9CJI7sCdM22XmgF5s3J8AWooLn8nftP4EXfnM2SgbXd1JkW
-	GAnZWQMpwmAxEncv0/Bqxji32P2RsGAG2Gj4AgiQKBWEGMg8DuM5Sd+nvR3WZ8wq4yI
-	RuYqXR4y6F8WAOiQRh9HZMbjM0kPoUIeB0unqwEU=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=ycZL9JObr/kjbBNzp0N9yj1oJO65OFfJlj4V3Wdy0qE=;
+	b=WaxVrTqr9i4cnk8F8BiGBFxaobeNbpHYo6WBRlV1Ldm49fwwRMIv33MdH/bvtzU8
+	XwWzg6xdYu2BABT8yPUUK76Nt5NO41LJM08teQZBoFqpi0/DJohZT8IYj8xTA5eaJMI
+	e28SGtCqyiPoe6ZudxHDC53oB48JztWaXDop3ixI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788241991;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=GPbyqjo5/81O7Gkusr8ewOV7XhHrCQO7c6qVS2aROd0=;
-	b=POZQ3mh6w8GojCPvITCs6De+ROS9/wcx/zKHZbVUkZfwhEM3Oec0Xj87eCt561hx
-	3rE6AzIMsOVtDtVgJovk5dSr/kBHQ9vwcFKvEJ6yekGRPRWHmNp2w6S07x13NPCKejy
-	QTLmbn52vJJ9bUIcAg7pOr4HrvoxoGy6/GALTavE=
-Content-Type: multipart/mixed; boundary="===============7630524407755219440=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=ycZL9JObr/kjbBNzp0N9yj1oJO65OFfJlj4V3Wdy0qE=;
+	b=1st8sCj4OzT3++bNqkvbmX0geBKSUP7DlpxM9dVIdwsChWFd4LtbZBJvoHTN3zcu
+	I7JBqXBCWiLFtFbjDOdmnvzDjduhDtu7ecIrxGZWcnvcDZFk3efZEpllgTZuadC/OC4
+	ZYw7U7f8CLF/dh7lFEh+vOWX6yFjnWrwumE2bGNs=
+Content-Type: multipart/mixed; boundary="===============8256325768137388708=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libpcre2: upgrading to 10.48 SUCCEEDED
-Message-ID: <010101a05b8755ef-cf7e0a8c-503d-4690-a419-c3f9802e8d22-000000@us-west-2.amazonses.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] gnupg: upgrading to 2.5.22 SUCCEEDED
+Message-ID: <010101a05b87569f-8478ceea-a3ca-46bc-b3c4-63ea3d6f4071-000000@us-west-2.amazonses.com>
 Date: Tue, 1 Sep 2026 05:53:11 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.01-54.240.27.30
+X-SES-Outgoing: 2026.09.01-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 05:53:22 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244791
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244788
 
---===============7630524407755219440==
+--===============8256325768137388708==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libpcre2* to *10.48* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *gnupg* to *2.5.22* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libpcre2-upgrade-10.47-10.48.patch
+    - apply the patch: git am 0001-gnupg-upgrade-2.5.21-2.5.22.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,463 +72,747 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From ed7805f84d67056b98061858cf40202238c35dde Mon Sep 17 00:00:00 2001
+From 993565fb98e7c8edfb84cf6de54388e911e57034 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Tue, 1 Sep 2026 05:53:04 +0000
-Subject: [PATCH] libpcre2: upgrade 10.47 -> 10.48
+Date: Tue, 1 Sep 2026 05:44:26 +0000
+Subject: [PATCH] gnupg: upgrade 2.5.21 -> 2.5.22
 
 Source: ChangeLog
 
-Version 10.48 31-August-2026
-----------------------------
+2026-08-31  Werner Koch  <wk@gnupg.org>
 
-1. (#826) [GHSA-q7rw-r7qq-2hx6] Initialized alignment padding in serialized
-character lists so that pcre2_serialize_encode() does not expose two
-uninitialised bytes from malloc().
+	Release 2.5.22.
+	+ commit bd253e9fecedd4c0e699530826ee43264581634b
 
-2. (#825) Fixed the casing of CMake package variables and corrected
-Readline/ncurses linkage.
+2026-08-26  Philip Le  <philip.le@gnupg.com>
 
-3. (#830) Updated Unicode support to Unicode 17.0, including new scripts,
-characters, properties, case mappings, and emoji data.
+	gpgsm: Fix condition for de-vs compliance status line.
+	+ commit a09f16f2b17a47b3f215e2d257ef256f3b2b724e
+	* sm/decrypt.c (gpgsm_decrypt): Also check other conditions for de-vs
+	compliance before emitting status line.
 
-4. (a9d4a748) Renamed the default development branch from master to main.
+2026-08-25  Philip Le  <philip.le@gnupg.com>
 
-5. (574f5683) Allowed PCRE2_NO_UTF_CHECK to differ between an existing match
-and pcre2_substitute() with PCRE2_SUBSTITUTE_MATCHED, instead of returning
-PCRE2_ERROR_DIFFSUBSOPTIONS.
+	gpgsm: Check keyboxd usage in keydb_get_flags.
+	+ commit e338ea3de2d151fe718c11d7dcd2a2178b10a22e
+	* sm/keydb.c (keydb_get_flags): Add condition that keyboxd is not
+	used.
 
-6. (#841) Fixed incorrect compilation and matching of character classes that
-combine characters from multiple internal ranges, including characters at or
-below U+00FF together with characters at U+0100 and U+8000 or above.
+2026-08-21  Werner Koch  <wk@gnupg.org>
 
-7. (#849) Reduced the memory used by each pcre2_match() heap frame by shrinking
-temporary fields.
+	gpgconf: Print a warning on Windows on insufficent /etc permissions.
+	+ commit 56eb3148c7b88eb1c0804141b58cb54b9007f48d
+	* README (Securing the global config files on Windows): New.
 
-8. (#852) Added interpreter and JIT support for possessive repeats of
-backreferences.
+	* tools/gpgconf.c [W32]: Include aclapi.h.
+	(enum cmd_and_opt_values): Add oDebug.
+	(opts): Add option --debug.
+	(debug_flags): New.
+	(main): Parse debug flags.
+	(w32_get_file_integrity_level) [W32]: New.
+	(show_configs) [W32]: Check permissions of the gloab sysconfdir
+	* tools/gpgconf.h (opt): Add field 'debug'.
+	(DBG_W32_API): New.
 
-9. (#857) Fixed a regression in pcre2_substitute() that mishandled repeated
-backslash escapes in extended replacement strings.
+2026-08-18  Philip Le  <philip.le@gnupg.com>
 
-10. (#858) Added improvements to pcre2_substitute(). Support for partial matches
-with PCRE2_SUBSTITUTE_REPLACEMENT_ONLY added, and added
-PCRE2_ERROR_PARTIALSUBS for replacements containing $' or $_ which cannot be
-expanded for partial matches.
+	gpg: Emit status line for failed write.
+	+ commit 09ac242827c3bd002da2ff9d693a2db646d4e386
+	* g10/plaintext.c (handle_plaintext): Emit error location and code in
+	failure status.
 
-11. (#859, 30c9faa4) Expanded pcre2-config's recognition of system library
-directories on Linux (multilib and multiarch), and AIX and Solaris, avoiding
-unnecessary -L options.
+2026-08-12  Philip Le  <philip.le@gnupg.com>
+	    Werner Koch  <wk@gnupg.org>
 
-12. (#875) Fixed a stale repeat value while constructing JIT scan prefixes,
-which could cause missed matches when a prefix was followed by a bounded
-character-class repeat with a zero minimum.
+	gpg: Fix regression introduced by partial file guards.
+	+ commit 1b8debd65baaa05250ce26079fad15ac7bb16bd5
+	* g10/main.h (gnupg_rollback_partial_file): New. Removes .part files.
+	(gnupg_commit_partial_file): New. Renames .part files.
+	* g10/misc.c (gnupg_rollback_partial_file): New.
+	(gnupg_commit_partial_file): New.
+	* g10/mainproc.c (proc_encrypted): Use gnupg_commit_partial_file.
+	* g10/gpg.c (g10_exit): Use gnupg_commit_partial_file.
+	(main): Remove .part files if decryption fails.
 
-13. (#879) Fixed build warnings in pcre2grep with C23 and glibc 2.43, by retaining
-const qualifiers from strstr() and strchr().
+2026-08-12  NIIBE Yutaka  <gniibe@fsij.org>
 
-14. (#883) Prevented generator expressions inherited from a parent CMake
-project from entering CMAKE_REQUIRED_DEFINITIONS during configuration checks.
+	common,gpg: Don't enable the partial file guard if already done.
+	+ commit 95ad7f7a5165b96e1a39afe70b1b1092b9ab6f45
+	* common/stringhelp.c (has_suffix): New.
+	* common/stringhelp.h (has_suffix): New.
+	* g10/plaintext.c (get_output_file): Only enable the partial
+	file guard when it doesn't have ".part" suffix.
 
-15. (#884, #880) Made symbol-version scripts platform-specific, fixing Solaris SPARC
-symbol versioning.
+2026-08-10  Werner Koch  <wk@gnupg.org>
 
-16. (#888) Fixed memory leaks and stale-pointer double frees when
-pcre2_deserialize_decode() rejects an invalid block size.
+	gpg: Fix TOFU trust models to actually check UTK signatures.
+	+ commit 08611f5da8ad4b9cc80bb05f0f8610ec6baa6063
+	* g10/tofu.c (signed_by_utk): Add arg ctrl.  Use macros fro the
+	  sigclass.  Check the signature before returning true.
 
-17. (#894) Updated Zig's build.zig, including exported headers, hidden symbol
-visibility, and sanitizer support.
+2026-08-05  Werner Koch  <wk@gnupg.org>
 
-18. (#893) Changed pcre2test builds to detect setrlimit() instead of relying on
-a hard-coded platform list.
+	g13: Add sanity check on the syntax of the dmsetup algo string.
+	+ commit 386c3e63b1cac7f506f974715dbf30c6d40663dd
+	* g13/sh-dmcrypt.c (is_valid_algostr): New
+	(sh_dmcrypt_mount_container): Use here
+	(sh_dmcrypt_resume_container): and here.
 
-19. (#907) Added support for installing PCRE2 directly with `zig fetch`,
-including a Zig package manifest and release integration.
+2026-08-04  NIIBE Yutaka  <gniibe@fsij.org>
 
-20. (#912) Fixed a JIT-specific bug in variable-length lookbehinds which caused
-incorrect match results during backtracking.
-
-21. (#863) Added a five-year support lifecycle policy and publication of backport
-patches for security and high-s
+	gpg: Add a comment and minor fix for composing SEXP.
+	+ com
 
 [Changelog truncated as it exceeds 3000 characters;
 the full changelog can be found in an attachment to the AUH email]
 ---
- .../libpcre/{libpcre2_10.47.bb => libpcre2_10.48.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/libpcre/{libpcre2_10.47.bb => libpcre2_10.48.bb} (96%)
+ ...verride-init-is-not-needed-with-gcc-9.patch |  2 +-
+ ...e-a-custom-value-for-the-location-of-.patch |  4 ++--
+ ...-use-pkgconfig-instead-of-npth-config.patch |  2 +-
+ .../recipes-support/gnupg/gnupg/relocate.patch | 18 +++++++++---------
+ .../gnupg/{gnupg_2.5.21.bb => gnupg_2.5.22.bb} |  2 +-
+ 5 files changed, 14 insertions(+), 14 deletions(-)
+ rename meta/recipes-support/gnupg/{gnupg_2.5.21.bb => gnupg_2.5.22.bb} (97%)
 
-diff --git a/meta/recipes-support/libpcre/libpcre2_10.47.bb b/meta/recipes-support/libpcre/libpcre2_10.48.bb
-similarity index 96%
-rename from meta/recipes-support/libpcre/libpcre2_10.47.bb
-rename to meta/recipes-support/libpcre/libpcre2_10.48.bb
-index 35330845d1..d5daff03c0 100644
---- a/meta/recipes-support/libpcre/libpcre2_10.47.bb
-+++ b/meta/recipes-support/libpcre/libpcre2_10.48.bb
-@@ -19,7 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/pcre2-${PV}/pcre2-${PV}.tar.bz2 \
- GITHUB_BASE_URI = "https://github.com/PCRE2Project/pcre2/releases"
- UPSTREAM_CHECK_REGEX = "releases/tag/pcre2-(?P<pver>\d+(\.\d+)+)$"
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+index 7a3fa59c54..52db780959 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-Woverride-init-is-not-needed-with-gcc-9.patch
+@@ -1,4 +1,4 @@
+-From 46db1301b1b71f47aa131b9a3de9d1cf356cf408 Mon Sep 17 00:00:00 2001
++From 8b7d344ed35bc4bcfa0d531a0885fc1bea01ffda Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Thu, 20 Dec 2018 17:37:48 -0800
+ Subject: [PATCH] Woverride-init is not needed with gcc 9
+diff --git a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+index 1c7cd7ba7b..04dd45e676 100644
+--- a/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
++++ b/meta/recipes-support/gnupg/gnupg/0001-configure.ac-use-a-custom-value-for-the-location-of-.patch
+@@ -1,4 +1,4 @@
+-From fd060f524e50c7c3f8694f71630ac151627235f1 Mon Sep 17 00:00:00 2001
++From f86e7337698debfe5152f4f4bc840bf56f868fab Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Mon, 22 Jan 2018 18:00:21 +0200
+ Subject: [PATCH] configure.ac: use a custom value for the location of
+@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex.kanavin@gmail.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
  
--SRC_URI[sha256sum] = "47fe8c99461250d42f89e6e8fdaeba9da057855d06eb7fc08d9ca03fd08d7bc7"
-+SRC_URI[sha256sum] = "b6c68fdf6f3ac31388b50aa89ff0fc49c00c987c16e7b5146491d12003f2c8ed"
+ diff --git a/configure.ac b/configure.ac
+-index 5ac4d0b..09615c5 100644
++index 9e2a42d..b48b88d 100644
+ --- a/configure.ac
+ +++ b/configure.ac
+ @@ -1909,7 +1909,7 @@ AC_DEFINE_UNQUOTED(GPGCONF_DISP_NAME, "GPGConf",
+diff --git a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+index f4c9b2161a..7553bd9f3f 100644
+--- a/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
++++ b/meta/recipes-support/gnupg/gnupg/0002-use-pkgconfig-instead-of-npth-config.patch
+@@ -1,4 +1,4 @@
+-From b8a99b2d9caa05f54be25635e3b1687753fe7196 Mon Sep 17 00:00:00 2001
++From 3c1d201eace11d557eb6c589842e93b8bacbe8f9 Mon Sep 17 00:00:00 2001
+ From: Saul Wold <sgw@linux.intel.com>
+ Date: Wed, 16 Aug 2017 11:16:30 +0800
+ Subject: [PATCH] use pkgconfig instead of npth config
+diff --git a/meta/recipes-support/gnupg/gnupg/relocate.patch b/meta/recipes-support/gnupg/gnupg/relocate.patch
+index 02f03386ec..234afd16fe 100644
+--- a/meta/recipes-support/gnupg/gnupg/relocate.patch
++++ b/meta/recipes-support/gnupg/gnupg/relocate.patch
+@@ -1,4 +1,4 @@
+-From c70694bd3e71cc1fec6ccb3ea0f694c3863ebd48 Mon Sep 17 00:00:00 2001
++From f49d102adf393f57e6ca7b6ec6969f60115055ef Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Wed, 19 Sep 2018 14:44:40 +0100
+ Subject: [PATCH] Allow the environment to override where gnupg looks for its
+@@ -13,10 +13,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 7 insertions(+), 7 deletions(-)
  
- CVE_PRODUCT = "pcre2"
+ diff --git a/common/homedir.c b/common/homedir.c
+-index 835f0ea..0a67a33 100644
++index 7538642..92e8125 100644
+ --- a/common/homedir.c
+ +++ b/common/homedir.c
+-@@ -1526,7 +1526,7 @@ gnupg_socketdir (void)
++@@ -1575,7 +1575,7 @@ gnupg_socketdir (void)
+    if (!name)
+      {
+        unsigned int dummy;
+@@ -25,7 +25,7 @@ index 835f0ea..0a67a33 100644
+        gpgrt_annotate_leaked_object (name);
+      }
+  
+-@@ -1555,7 +1555,7 @@ gnupg_sysconfdir (void)
++@@ -1604,7 +1604,7 @@ gnupg_sysconfdir (void)
+    if (dir)
+      return dir;
+    else
+@@ -34,7 +34,7 @@ index 835f0ea..0a67a33 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1591,7 +1591,7 @@ gnupg_bindir (void)
++@@ -1640,7 +1640,7 @@ gnupg_bindir (void)
+        return name;
+      }
+    else
+@@ -43,7 +43,7 @@ index 835f0ea..0a67a33 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1618,7 +1618,7 @@ gnupg_libexecdir (void)
++@@ -1667,7 +1667,7 @@ gnupg_libexecdir (void)
+        return name;
+      }
+    else
+@@ -52,7 +52,7 @@ index 835f0ea..0a67a33 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1648,7 +1648,7 @@ gnupg_libdir (void)
++@@ -1697,7 +1697,7 @@ gnupg_libdir (void)
+        return name;
+      }
+    else
+@@ -61,7 +61,7 @@ index 835f0ea..0a67a33 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1679,7 +1679,7 @@ gnupg_datadir (void)
++@@ -1728,7 +1728,7 @@ gnupg_datadir (void)
+        return name;
+      }
+    else
+@@ -70,7 +70,7 @@ index 835f0ea..0a67a33 100644
+  #endif /*!HAVE_W32_SYSTEM*/
+  }
+  
+-@@ -1711,7 +1711,7 @@ gnupg_localedir (void)
++@@ -1760,7 +1760,7 @@ gnupg_localedir (void)
+        return name;
+      }
+    else
+diff --git a/meta/recipes-support/gnupg/gnupg_2.5.21.bb b/meta/recipes-support/gnupg/gnupg_2.5.22.bb
+similarity index 97%
+rename from meta/recipes-support/gnupg/gnupg_2.5.21.bb
+rename to meta/recipes-support/gnupg/gnupg_2.5.22.bb
+index dc77691bbd..803fb2765a 100644
+--- a/meta/recipes-support/gnupg/gnupg_2.5.21.bb
++++ b/meta/recipes-support/gnupg/gnupg_2.5.22.bb
+@@ -25,7 +25,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
+                                 file://relocate.patch"
+ SRC_URI:append:class-nativesdk = " file://relocate.patch"
  
+-SRC_URI[sha256sum] = "e3af2c8caa46a66a9329fa7c6880af260451914d819595beabc2c26597b31352"
++SRC_URI[sha256sum] = "96e27b020ad26510388e06f5f07f3f70a4ed8916ee995f1b72b7a024e6d9d87e"
+ 
+ EXTRA_OECONF = "--disable-ldap \
+ 		--disable-ccid-driver \
 -- 
 2.47.1
 
 
---===============7630524407755219440==
+--===============8256325768137388708==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-gnupg-upgrade-2.5.21-2.5.22.patch"
+
+RnJvbSA5OTM1NjVmYjk4ZTdjOGVkZmI4NGNmNmRlNTQzODhlOTExZTU3MDM0IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMSBTZXAgMjAyNiAwNTo0NDoyNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGdu
+dXBnOiB1cGdyYWRlIDIuNS4yMSAtPiAyLjUuMjIKClNvdXJjZTogQ2hhbmdlTG9nCgoyMDI2LTA4
+LTMxICBXZXJuZXIgS29jaCAgPHdrQGdudXBnLm9yZz4KCglSZWxlYXNlIDIuNS4yMi4KCSsgY29t
+bWl0IGJkMjUzZTlmZWNlZGQ0YzBlNjk5NTMwODI2ZWU0MzI2NDU4MTYzNGIKCjIwMjYtMDgtMjYg
+IFBoaWxpcCBMZSAgPHBoaWxpcC5sZUBnbnVwZy5jb20+CgoJZ3Bnc206IEZpeCBjb25kaXRpb24g
+Zm9yIGRlLXZzIGNvbXBsaWFuY2Ugc3RhdHVzIGxpbmUuCgkrIGNvbW1pdCBhMDlmMTZmMmIxN2E0
+N2IzZjIxNWUyZDI1N2VmMjU2ZjNiMmI3MjRlCgkqIHNtL2RlY3J5cHQuYyAoZ3Bnc21fZGVjcnlw
+dCk6IEFsc28gY2hlY2sgb3RoZXIgY29uZGl0aW9ucyBmb3IgZGUtdnMKCWNvbXBsaWFuY2UgYmVm
+b3JlIGVtaXR0aW5nIHN0YXR1cyBsaW5lLgoKMjAyNi0wOC0yNSAgUGhpbGlwIExlICA8cGhpbGlw
+LmxlQGdudXBnLmNvbT4KCglncGdzbTogQ2hlY2sga2V5Ym94ZCB1c2FnZSBpbiBrZXlkYl9nZXRf
+ZmxhZ3MuCgkrIGNvbW1pdCBlMzM4ZWEzZGUyZDE1MWZlNzE4YzExZDdkY2QyYTIxNzhiMTBhMjJl
+CgkqIHNtL2tleWRiLmMgKGtleWRiX2dldF9mbGFncyk6IEFkZCBjb25kaXRpb24gdGhhdCBrZXli
+b3hkIGlzIG5vdAoJdXNlZC4KCjIwMjYtMDgtMjEgIFdlcm5lciBLb2NoICA8d2tAZ251cGcub3Jn
+PgoKCWdwZ2NvbmY6IFByaW50IGEgd2FybmluZyBvbiBXaW5kb3dzIG9uIGluc3VmZmljZW50IC9l
+dGMgcGVybWlzc2lvbnMuCgkrIGNvbW1pdCA1NmViMzE0OGM3Yjg4ZWIxYzA4MDQxNDFiNThjYjU0
+YjkwMDdmNDhkCgkqIFJFQURNRSAoU2VjdXJpbmcgdGhlIGdsb2JhbCBjb25maWcgZmlsZXMgb24g
+V2luZG93cyk6IE5ldy4KCgkqIHRvb2xzL2dwZ2NvbmYuYyBbVzMyXTogSW5jbHVkZSBhY2xhcGku
+aC4KCShlbnVtIGNtZF9hbmRfb3B0X3ZhbHVlcyk6IEFkZCBvRGVidWcuCgkob3B0cyk6IEFkZCBv
+cHRpb24gLS1kZWJ1Zy4KCShkZWJ1Z19mbGFncyk6IE5ldy4KCShtYWluKTogUGFyc2UgZGVidWcg
+ZmxhZ3MuCgkodzMyX2dldF9maWxlX2ludGVncml0eV9sZXZlbCkgW1czMl06IE5ldy4KCShzaG93
+X2NvbmZpZ3MpIFtXMzJdOiBDaGVjayBwZXJtaXNzaW9ucyBvZiB0aGUgZ2xvYWIgc3lzY29uZmRp
+cgoJKiB0b29scy9ncGdjb25mLmggKG9wdCk6IEFkZCBmaWVsZCAnZGVidWcnLgoJKERCR19XMzJf
+QVBJKTogTmV3LgoKMjAyNi0wOC0xOCAgUGhpbGlwIExlICA8cGhpbGlwLmxlQGdudXBnLmNvbT4K
+CglncGc6IEVtaXQgc3RhdHVzIGxpbmUgZm9yIGZhaWxlZCB3cml0ZS4KCSsgY29tbWl0IDA5YWMy
+NDI4MjdjM2JkMDAyZGEyZmY5ZDY5M2EyZGI2NDZkNGUzODYKCSogZzEwL3BsYWludGV4dC5jICho
+YW5kbGVfcGxhaW50ZXh0KTogRW1pdCBlcnJvciBsb2NhdGlvbiBhbmQgY29kZSBpbgoJZmFpbHVy
+ZSBzdGF0dXMuCgoyMDI2LTA4LTEyICBQaGlsaXAgTGUgIDxwaGlsaXAubGVAZ251cGcuY29tPgoJ
+ICAgIFdlcm5lciBLb2NoICA8d2tAZ251cGcub3JnPgoKCWdwZzogRml4IHJlZ3Jlc3Npb24gaW50
+cm9kdWNlZCBieSBwYXJ0aWFsIGZpbGUgZ3VhcmRzLgoJKyBjb21taXQgMWI4ZGViZDY1YmFhYTA1
+MjUwY2UyNjA3OWZhZDE1YWM3YmIxNmJkNQoJKiBnMTAvbWFpbi5oIChnbnVwZ19yb2xsYmFja19w
+YXJ0aWFsX2ZpbGUpOiBOZXcuIFJlbW92ZXMgLnBhcnQgZmlsZXMuCgkoZ251cGdfY29tbWl0X3Bh
+cnRpYWxfZmlsZSk6IE5ldy4gUmVuYW1lcyAucGFydCBmaWxlcy4KCSogZzEwL21pc2MuYyAoZ251
+cGdfcm9sbGJhY2tfcGFydGlhbF9maWxlKTogTmV3LgoJKGdudXBnX2NvbW1pdF9wYXJ0aWFsX2Zp
+bGUpOiBOZXcuCgkqIGcxMC9tYWlucHJvYy5jIChwcm9jX2VuY3J5cHRlZCk6IFVzZSBnbnVwZ19j
+b21taXRfcGFydGlhbF9maWxlLgoJKiBnMTAvZ3BnLmMgKGcxMF9leGl0KTogVXNlIGdudXBnX2Nv
+bW1pdF9wYXJ0aWFsX2ZpbGUuCgkobWFpbik6IFJlbW92ZSAucGFydCBmaWxlcyBpZiBkZWNyeXB0
+aW9uIGZhaWxzLgoKMjAyNi0wOC0xMiAgTklJQkUgWXV0YWthICA8Z25paWJlQGZzaWoub3JnPgoK
+CWNvbW1vbixncGc6IERvbid0IGVuYWJsZSB0aGUgcGFydGlhbCBmaWxlIGd1YXJkIGlmIGFscmVh
+ZHkgZG9uZS4KCSsgY29tbWl0IDk1YWQ3ZjdhNTE2NWI5NmUxYTM5YWZlNzBiMWIxMDkyYjlhYjZm
+NDUKCSogY29tbW9uL3N0cmluZ2hlbHAuYyAoaGFzX3N1ZmZpeCk6IE5ldy4KCSogY29tbW9uL3N0
+cmluZ2hlbHAuaCAoaGFzX3N1ZmZpeCk6IE5ldy4KCSogZzEwL3BsYWludGV4dC5jIChnZXRfb3V0
+cHV0X2ZpbGUpOiBPbmx5IGVuYWJsZSB0aGUgcGFydGlhbAoJZmlsZSBndWFyZCB3aGVuIGl0IGRv
+ZXNuJ3QgaGF2ZSAiLnBhcnQiIHN1ZmZpeC4KCjIwMjYtMDgtMTAgIFdlcm5lciBLb2NoICA8d2tA
+Z251cGcub3JnPgoKCWdwZzogRml4IFRPRlUgdHJ1c3QgbW9kZWxzIHRvIGFjdHVhbGx5IGNoZWNr
+IFVUSyBzaWduYXR1cmVzLgoJKyBjb21taXQgMDg2MTFmNWRhOGFkNGI5Y2M4MGJiMDVmMGY4NjEw
+ZWM2YmFhNjA2MwoJKiBnMTAvdG9mdS5jIChzaWduZWRfYnlfdXRrKTogQWRkIGFyZyBjdHJsLiAg
+VXNlIG1hY3JvcyBmcm8gdGhlCgkgIHNpZ2NsYXNzLiAgQ2hlY2sgdGhlIHNpZ25hdHVyZSBiZWZv
+cmUgcmV0dXJuaW5nIHRydWUuCgoyMDI2LTA4LTA1ICBXZXJuZXIgS29jaCAgPHdrQGdudXBnLm9y
+Zz4KCglnMTM6IEFkZCBzYW5pdHkgY2hlY2sgb24gdGhlIHN5bnRheCBvZiB0aGUgZG1zZXR1cCBh
+bGdvIHN0cmluZy4KCSsgY29tbWl0IDM4NmMzZTYzYjFjYWM3ZjUwNmY5NzQ3MTVkYmYzMGM2ZDQw
+NjYzZGQKCSogZzEzL3NoLWRtY3J5cHQuYyAoaXNfdmFsaWRfYWxnb3N0cik6IE5ldwoJKHNoX2Rt
+Y3J5cHRfbW91bnRfY29udGFpbmVyKTogVXNlIGhlcmUKCShzaF9kbWNyeXB0X3Jlc3VtZV9jb250
+YWluZXIpOiBhbmQgaGVyZS4KCjIwMjYtMDgtMDQgIE5JSUJFIFl1dGFrYSAgPGduaWliZUBmc2lq
+Lm9yZz4KCglncGc6IEFkZCBhIGNvbW1lbnQgYW5kIG1pbm9yIGZpeCBmb3IgY29tcG9zaW5nIFNF
+WFAuCgkrIGNvbQoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQgZXhjZWVkcyAzMDAwIGNoYXJh
+Y3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQgaW4gYW4gYXR0YWNobWVudCB0
+byB0aGUgQVVIIGVtYWlsXQotLS0KIC4uLnZlcnJpZGUtaW5pdC1pcy1ub3QtbmVlZGVkLXdpdGgt
+Z2NjLTkucGF0Y2ggfCAgMiArLQogLi4uZS1hLWN1c3RvbS12YWx1ZS1mb3ItdGhlLWxvY2F0aW9u
+LW9mLS5wYXRjaCB8ICA0ICsrLS0KIC4uLi11c2UtcGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1j
+b25maWcucGF0Y2ggfCAgMiArLQogLi4uL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy9yZWxv
+Y2F0ZS5wYXRjaCB8IDE4ICsrKysrKysrKy0tLS0tLS0tLQogLi4uL2dudXBnL3tnbnVwZ18yLjUu
+MjEuYmIgPT4gZ251cGdfMi41LjIyLmJifSB8ICAyICstCiA1IGZpbGVzIGNoYW5nZWQsIDE0IGlu
+c2VydGlvbnMoKyksIDE0IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1zdXBwb3J0
+L2dudXBnL3tnbnVwZ18yLjUuMjEuYmIgPT4gZ251cGdfMi41LjIyLmJifSAoOTclKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDEtV292ZXJyaWRlLWlu
+aXQtaXMtbm90LW5lZWRlZC13aXRoLWdjYy05LnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQv
+Z251cGcvZ251cGcvMDAwMS1Xb3ZlcnJpZGUtaW5pdC1pcy1ub3QtbmVlZGVkLXdpdGgtZ2NjLTku
+cGF0Y2gKaW5kZXggN2EzZmE1OWM1NC4uNTJkYjc4MDk1OSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMS1Xb3ZlcnJpZGUtaW5pdC1pcy1ub3QtbmVlZGVk
+LXdpdGgtZ2NjLTkucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcv
+MDAwMS1Xb3ZlcnJpZGUtaW5pdC1pcy1ub3QtbmVlZGVkLXdpdGgtZ2NjLTkucGF0Y2gKQEAgLTEs
+NCArMSw0IEBACi1Gcm9tIDQ2ZGIxMzAxYjFiNzFmNDdhYTEzMWI5YTNkZTlkMWNmMzU2Y2Y0MDgg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDhiN2QzNDRlZDM1YmM0YmNmYTBkNTMxYTA4
+ODVmYzFiZWEwMWZmZGEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBLaGVtIFJhaiA8
+cmFqLmtoZW1AZ21haWwuY29tPgogRGF0ZTogVGh1LCAyMCBEZWMgMjAxOCAxNzozNzo0OCAtMDgw
+MAogU3ViamVjdDogW1BBVENIXSBXb3ZlcnJpZGUtaW5pdCBpcyBub3QgbmVlZGVkIHdpdGggZ2Nj
+IDkKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDEtY29u
+ZmlndXJlLmFjLXVzZS1hLWN1c3RvbS12YWx1ZS1mb3ItdGhlLWxvY2F0aW9uLW9mLS5wYXRjaCBi
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDEtY29uZmlndXJlLmFjLXVzZS1h
+LWN1c3RvbS12YWx1ZS1mb3ItdGhlLWxvY2F0aW9uLW9mLS5wYXRjaAppbmRleCAxYzdjZDdiYTdi
+Li4wNGRkNDVlNjc2IDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVw
+Zy8wMDAxLWNvbmZpZ3VyZS5hYy11c2UtYS1jdXN0b20tdmFsdWUtZm9yLXRoZS1sb2NhdGlvbi1v
+Zi0ucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMS1jb25m
+aWd1cmUuYWMtdXNlLWEtY3VzdG9tLXZhbHVlLWZvci10aGUtbG9jYXRpb24tb2YtLnBhdGNoCkBA
+IC0xLDQgKzEsNCBAQAotRnJvbSBmZDA2MGY1MjRlNTBjN2MzZjg2OTRmNzE2MzBhYzE1MTYyNzIz
+NWYxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBmODZlNzMzNzY5OGRlYmZlNTE1MmY0
+ZjRiYzg0MGJmNTZmODY4ZmFiIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFu
+ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBNb24sIDIyIEphbiAy
+MDE4IDE4OjAwOjIxICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGNvbmZpZ3VyZS5hYzogdXNlIGEg
+Y3VzdG9tIHZhbHVlIGZvciB0aGUgbG9jYXRpb24gb2YKQEAgLTEzLDcgKzEzLDcgQEAgU2lnbmVk
+LW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiAgMSBm
+aWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiAKIGRpZmYgLS1naXQg
+YS9jb25maWd1cmUuYWMgYi9jb25maWd1cmUuYWMKLWluZGV4IDVhYzRkMGIuLjA5NjE1YzUgMTAw
+NjQ0CitpbmRleCA5ZTJhNDJkLi5iNDhiODhkIDEwMDY0NAogLS0tIGEvY29uZmlndXJlLmFjCiAr
+KysgYi9jb25maWd1cmUuYWMKIEBAIC0xOTA5LDcgKzE5MDksNyBAQCBBQ19ERUZJTkVfVU5RVU9U
+RUQoR1BHQ09ORl9ESVNQX05BTUUsICJHUEdDb25mIiwKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1zdXBwb3J0L2dudXBnL2dudXBnLzAwMDItdXNlLXBrZ2NvbmZpZy1pbnN0ZWFkLW9mLW5wdGgt
+Y29uZmlnLnBhdGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMi11c2Ut
+cGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1jb25maWcucGF0Y2gKaW5kZXggZjRjOWIyMTYxYS4u
+NzU1M2JkOWYzZiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcv
+MDAwMi11c2UtcGtnY29uZmlnLWluc3RlYWQtb2YtbnB0aC1jb25maWcucGF0Y2gKKysrIGIvbWV0
+YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGcvMDAwMi11c2UtcGtnY29uZmlnLWluc3RlYWQt
+b2YtbnB0aC1jb25maWcucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGI4YTk5YjJkOWNhYTA1
+ZjU0YmUyNTYzNWUzYjE2ODc3NTNmZTcxOTYgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9t
+IDNjMWQyMDFlYWNlMTFkNTU3ZWI2YzU4OTg0MmU5M2I4YmFjYmU4ZjkgTW9uIFNlcCAxNyAwMDow
+MDowMCAyMDAxCiBGcm9tOiBTYXVsIFdvbGQgPHNnd0BsaW51eC5pbnRlbC5jb20+CiBEYXRlOiBX
+ZWQsIDE2IEF1ZyAyMDE3IDExOjE2OjMwICswODAwCiBTdWJqZWN0OiBbUEFUQ0hdIHVzZSBwa2dj
+b25maWcgaW5zdGVhZCBvZiBucHRoIGNvbmZpZwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1
+cHBvcnQvZ251cGcvZ251cGcvcmVsb2NhdGUucGF0Y2ggYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9n
+bnVwZy9nbnVwZy9yZWxvY2F0ZS5wYXRjaAppbmRleCAwMmYwMzM4NmVjLi4yMzRhZmQxNmZlIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy9yZWxvY2F0ZS5wYXRj
+aAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZy9yZWxvY2F0ZS5wYXRjaApA
+QCAtMSw0ICsxLDQgQEAKLUZyb20gYzcwNjk0YmQzZTcxY2MxZmVjNmNjYjNlYTBmNjk0YzM4NjNl
+YmQ0OCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZjQ5ZDEwMmFkZjM5M2Y1N2U2Y2E3
+YjZlYzY5NjlmNjAxMTUwNTVlZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJvc3Mg
+QnVydG9uIDxyb3NzLmJ1cnRvbkBpbnRlbC5jb20+CiBEYXRlOiBXZWQsIDE5IFNlcCAyMDE4IDE0
+OjQ0OjQwICswMTAwCiBTdWJqZWN0OiBbUEFUQ0hdIEFsbG93IHRoZSBlbnZpcm9ubWVudCB0byBv
+dmVycmlkZSB3aGVyZSBnbnVwZyBsb29rcyBmb3IgaXRzCkBAIC0xMywxMCArMTMsMTAgQEAgU2ln
+bmVkLW9mZi1ieTogQWxleGFuZGVyIEthbmF2aW4gPGFsZXhAbGludXRyb25peC5kZT4KICAxIGZp
+bGUgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0
+IGEvY29tbW9uL2hvbWVkaXIuYyBiL2NvbW1vbi9ob21lZGlyLmMKLWluZGV4IDgzNWYwZWEuLjBh
+NjdhMzMgMTAwNjQ0CitpbmRleCA3NTM4NjQyLi45MmU4MTI1IDEwMDY0NAogLS0tIGEvY29tbW9u
+L2hvbWVkaXIuYwogKysrIGIvY29tbW9uL2hvbWVkaXIuYwotQEAgLTE1MjYsNyArMTUyNiw3IEBA
+IGdudXBnX3NvY2tldGRpciAodm9pZCkKK0BAIC0xNTc1LDcgKzE1NzUsNyBAQCBnbnVwZ19zb2Nr
+ZXRkaXIgKHZvaWQpCiAgICBpZiAoIW5hbWUpCiAgICAgIHsKICAgICAgICB1bnNpZ25lZCBpbnQg
+ZHVtbXk7CkBAIC0yNSw3ICsyNSw3IEBAIGluZGV4IDgzNWYwZWEuLjBhNjdhMzMgMTAwNjQ0CiAg
+ICAgICAgZ3BncnRfYW5ub3RhdGVfbGVha2VkX29iamVjdCAobmFtZSk7CiAgICAgIH0KICAKLUBA
+IC0xNTU1LDcgKzE1NTUsNyBAQCBnbnVwZ19zeXNjb25mZGlyICh2b2lkKQorQEAgLTE2MDQsNyAr
+MTYwNCw3IEBAIGdudXBnX3N5c2NvbmZkaXIgKHZvaWQpCiAgICBpZiAoZGlyKQogICAgICByZXR1
+cm4gZGlyOwogICAgZWxzZQpAQCAtMzQsNyArMzQsNyBAQCBpbmRleCA4MzVmMGVhLi4wYTY3YTMz
+IDEwMDY0NAogICNlbmRpZiAvKiFIQVZFX1czMl9TWVNURU0qLwogIH0KICAKLUBAIC0xNTkxLDcg
+KzE1OTEsNyBAQCBnbnVwZ19iaW5kaXIgKHZvaWQpCitAQCAtMTY0MCw3ICsxNjQwLDcgQEAgZ251
+cGdfYmluZGlyICh2b2lkKQogICAgICAgIHJldHVybiBuYW1lOwogICAgICB9CiAgICBlbHNlCkBA
+IC00Myw3ICs0Myw3IEBAIGluZGV4IDgzNWYwZWEuLjBhNjdhMzMgMTAwNjQ0CiAgI2VuZGlmIC8q
+IUhBVkVfVzMyX1NZU1RFTSovCiAgfQogIAotQEAgLTE2MTgsNyArMTYxOCw3IEBAIGdudXBnX2xp
+YmV4ZWNkaXIgKHZvaWQpCitAQCAtMTY2Nyw3ICsxNjY3LDcgQEAgZ251cGdfbGliZXhlY2RpciAo
+dm9pZCkKICAgICAgICByZXR1cm4gbmFtZTsKICAgICAgfQogICAgZWxzZQpAQCAtNTIsNyArNTIs
+NyBAQCBpbmRleCA4MzVmMGVhLi4wYTY3YTMzIDEwMDY0NAogICNlbmRpZiAvKiFIQVZFX1czMl9T
+WVNURU0qLwogIH0KICAKLUBAIC0xNjQ4LDcgKzE2NDgsNyBAQCBnbnVwZ19saWJkaXIgKHZvaWQp
+CitAQCAtMTY5Nyw3ICsxNjk3LDcgQEAgZ251cGdfbGliZGlyICh2b2lkKQogICAgICAgIHJldHVy
+biBuYW1lOwogICAgICB9CiAgICBlbHNlCkBAIC02MSw3ICs2MSw3IEBAIGluZGV4IDgzNWYwZWEu
+LjBhNjdhMzMgMTAwNjQ0CiAgI2VuZGlmIC8qIUhBVkVfVzMyX1NZU1RFTSovCiAgfQogIAotQEAg
+LTE2NzksNyArMTY3OSw3IEBAIGdudXBnX2RhdGFkaXIgKHZvaWQpCitAQCAtMTcyOCw3ICsxNzI4
+LDcgQEAgZ251cGdfZGF0YWRpciAodm9pZCkKICAgICAgICByZXR1cm4gbmFtZTsKICAgICAgfQog
+ICAgZWxzZQpAQCAtNzAsNyArNzAsNyBAQCBpbmRleCA4MzVmMGVhLi4wYTY3YTMzIDEwMDY0NAog
+ICNlbmRpZiAvKiFIQVZFX1czMl9TWVNURU0qLwogIH0KICAKLUBAIC0xNzExLDcgKzE3MTEsNyBA
+QCBnbnVwZ19sb2NhbGVkaXIgKHZvaWQpCitAQCAtMTc2MCw3ICsxNzYwLDcgQEAgZ251cGdfbG9j
+YWxlZGlyICh2b2lkKQogICAgICAgIHJldHVybiBuYW1lOwogICAgICB9CiAgICBlbHNlCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZ18yLjUuMjEuYmIgYi9tZXRh
+L3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZ18yLjUuMjIuYmIKc2ltaWxhcml0eSBpbmRleCA5
+NyUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251cGcvZ251cGdfMi41LjIxLmJi
+CnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnVwZy9nbnVwZ18yLjUuMjIuYmIKaW5k
+ZXggZGM3NzY5MWJiZC4uODAzZmIyNzY1YSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvZ251cGcvZ251cGdfMi41LjIxLmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXBn
+L2dudXBnXzIuNS4yMi5iYgpAQCAtMjUsNyArMjUsNyBAQCBTUkNfVVJJOmFwcGVuZDpjbGFzcy1u
+YXRpdmUgPSAiIGZpbGU6Ly8wMDAxLWNvbmZpZ3VyZS5hYy11c2UtYS1jdXN0b20tdmFsdWUtZm9y
+LQogICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBmaWxlOi8vcmVsb2NhdGUucGF0Y2gi
+CiBTUkNfVVJJOmFwcGVuZDpjbGFzcy1uYXRpdmVzZGsgPSAiIGZpbGU6Ly9yZWxvY2F0ZS5wYXRj
+aCIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gImUzYWYyYzhjYWE0NmE2NmE5MzI5ZmE3YzY4ODBh
+ZjI2MDQ1MTkxNGQ4MTk1OTViZWFiYzJjMjY1OTdiMzEzNTIiCitTUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiOTZlMjdiMDIwYWQyNjUxMDM4OGUwNmY1ZjA3ZjNmNzBhNGVkODkxNmVlOTk1ZjFiNzJiN2Ew
+MjRlNmQ5ZDg3ZSIKIAogRVhUUkFfT0VDT05GID0gIi0tZGlzYWJsZS1sZGFwIFwKIAkJLS1kaXNh
+YmxlLWNjaWQtZHJpdmVyIFwKLS0gCjIuNDcuMQoK
+
+--===============8256325768137388708==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libpcre2: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2: SRC_URI changed from "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.47/pcre2-10.47.tar.bz2 file://run-ptest" to "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.48/pcre2-10.48.tar.bz2 file://run-ptest"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.15.0", added "/usr/lib/libpcre2-16.so.0.16.0"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.15.0", added "/usr/lib/libpcre2-32.so.0.16.0"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: PKGSIZE changed from 4361872 to 4418400 (+1%)
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dbg: FILELIST: removed "/usr/lib/.debug/libpcre2-16.so.0.15.0 /usr/lib/.debug/libpcre2-8.so.0.15.0 /usr/lib/.debug/libpcre2-32.so.0.15.0 /usr/lib/.debug/libpcre2-posix.so.3.0.7", added "/usr/lib/.debug/libpcre2-posix.so.3.0.8 /usr/lib/.debug/libpcre2-32.so.0.16.0 /usr/lib/.debug/libpcre2-16.so.0.16.0 /usr/lib/.debug/libpcre2-8.so.0.16.0"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-dev: PKGSIZE changed from 60872 to 60916 (+0%)
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: PKGSIZE changed from 2827983 to 2865434 (+1%)
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: FILELIST: added "/usr/share/doc/pcre2/SUPPORT-LIFECYCLE.md"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-locale: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-ptest: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-ptest: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-ptest: PKGSIZE changed from 3390317 to 3421873 (+1%)
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: PKGSIZE changed from 2894984 to 2925848 (+1%)
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-src: FILELIST: directory renamed /usr/src/debug/libpcre2/10.47/src -> /usr/src/debug/libpcre2/10.48/src
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-staticdev: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-8.so.0.15.0 /usr/lib/libpcre2-posix.so.3.0.7", added "/usr/lib/libpcre2-posix.so.3.0.8 /usr/lib/libpcre2-8.so.0.16.0"
-packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/pcre2grep-doc: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/pcre2grep: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/pcre2test-doc: PKGSIZE changed from 97211 to 97354 (+0%)
-packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PV changed from "10.47" to "10.48"
-packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGV changed from 10.47 [default] to 10.48 [default]
-packages/x86-64-v3-poky-linux/libpcre2/pcre2test: PKGSIZE changed from 292848 to 296944 (+1%)
-Changes to packages/x86-64-v3-poky-linux/libpcre2 (sysroot):
-  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.15.0 to libpcre2-16.so.0.16.0
-  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.15.0 to libpcre2-16.so.0.16.0
-  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.15.0 to libpcre2-32.so.0.16.0
-  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.15.0 to libpcre2-32.so.0.16.0
-  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.15.0 to libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.15.0 to libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.7 to libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.7 to libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-8.so.0.15.0 moved to /usr/lib/libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-posix.so.3.0.7 moved to /usr/lib/libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-16.so.0.16.0 was added
-  /usr/lib/libpcre2-32.so.0.16.0 was added
-  /usr/lib/libpcre2-16.so.0.15.0 was removed
-  /usr/lib/libpcre2-32.so.0.15.0 was removed
-Changes to packages/x86_64-linux/libpcre2-native (sysroot):
-  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.15.0 to libpcre2-16.so.0.16.0
-  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.15.0 to libpcre2-16.so.0.16.0
-  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.15.0 to libpcre2-32.so.0.16.0
-  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.15.0 to libpcre2-32.so.0.16.0
-  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.15.0 to libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.15.0 to libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.7 to libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.7 to libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-8.so.0.15.0 moved to /usr/lib/libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-posix.so.3.0.7 moved to /usr/lib/libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-16.so.0.16.0 was added
-  /usr/lib/libpcre2-32.so.0.16.0 was added
-  /usr/lib/libpcre2-16.so.0.15.0 was removed
-  /usr/lib/libpcre2-32.so.0.15.0 was removed
+packages/x86-64-v3-poky-linux/gnupg/gnupg-dbg: PKGSIZE changed from 22351032 to 22366160 (+0%)
+packages/x86-64-v3-poky-linux/gnupg/gnupg-dbg: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-dbg: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-dev: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-dev: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-doc: PKGSIZE changed from 12896 to 13224 (+3%)
+packages/x86-64-v3-poky-linux/gnupg/gnupg-doc: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-doc: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-gpg: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-gpg: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ca: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ca: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-cs: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-cs: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-da: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-da: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-de: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-de: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-el: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-el: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-en+boldquot: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-en+boldquot: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-en+quot: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-en+quot: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-eo: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-eo: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-es: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-es: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-et: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-et: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-fi: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-fi: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-fr: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-fr: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-gl: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-gl: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-hu: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-hu: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-id: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-id: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-it: PKGSIZE changed from 234669 to 234794 (+0%)
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-it: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-it: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ja: PKGSIZE changed from 256047 to 256410 (+0%)
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ja: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ja: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ka: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ka: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-nb: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-nb: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-nl: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-nl: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-pl: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-pl: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-pt: PKGSIZE changed from 238764 to 239436 (+0%)
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-pt: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-pt: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ro: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ro: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ru: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-ru: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-sk: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-sk: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-sv: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-sv: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-tr: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-tr: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-uk: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-uk: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-zh-cn: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-zh-cn: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-zh-tw: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-locale-zh-tw: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-src: PKGSIZE changed from 9186836 to 9200644 (+0%)
+packages/x86-64-v3-poky-linux/gnupg/gnupg-src: FILELIST: directory renamed /usr/src/debug/gnupg/2.5.21/g10 -> /usr/src/debug/gnupg/2.5.22/g10, directory renamed /usr/src/debug/gnupg/2.5.21/dirmngr -> /usr/src/debug/gnupg/2.5.22/dirmngr, directory renamed /usr/src/debug/gnupg/2.5.21/common -> /usr/src/debug/gnupg/2.5.22/common, directory renamed /usr/src/debug/gnupg/2.5.21/scd -> /usr/src/debug/gnupg/2.5.22/scd, directory renamed /usr/src/debug/gnupg/2.5.21/regexp -> /usr/src/debug/gnupg/2.5.22/regexp, directory renamed /usr/src/debug/gnupg/2.5.21/kbx -> /usr/src/debug/gnupg/2.5.22/kbx, directory renamed /usr/src/debug/gnupg/2.5.21/tools -> /usr/src/debug/gnupg/2.5.22/tools, directory renamed /usr/src/debug/gnupg/2.5.21/sm -> /usr/src/debug/gnupg/2.5.22/sm, directory renamed /usr/src/debug/gnupg/2.5.21/agent -> /usr/src/debug/gnupg/2.5.22/agent
+packages/x86-64-v3-poky-linux/gnupg/gnupg-src: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-src: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg-staticdev: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg-staticdev: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg/gnupg: PKGSIZE changed from 4774532 to 4774993 (+0%)
+packages/x86-64-v3-poky-linux/gnupg/gnupg: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg/gnupg: PV changed from "2.5.21" to "2.5.22"
+packages/x86-64-v3-poky-linux/gnupg: SRC_URI changed from "https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.5.21.tar.bz2 file://0002-use-pkgconfig-instead-of-npth-config.patch file://0001-Woverride-init-is-not-needed-with-gcc-9.patch" to "https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.5.22.tar.bz2 file://0002-use-pkgconfig-instead-of-npth-config.patch file://0001-Woverride-init-is-not-needed-with-gcc-9.patch"
+packages/x86-64-v3-poky-linux/gnupg: PKGV changed from 2.5.21 [default] to 2.5.22 [default]
+packages/x86-64-v3-poky-linux/gnupg: PV changed from "2.5.21" to "2.5.22"
 
---===============7630524407755219440==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libpcre2-upgrade-10.47-10.48.patch"
-
-RnJvbSBlZDc4MDVmODRkNjcwNTZiOTgwNjE4NThjZjQwMjAyMjM4YzM1ZGRlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFR1ZSwgMSBTZXAgMjAyNiAwNTo1MzowNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
-YnBjcmUyOiB1cGdyYWRlIDEwLjQ3IC0+IDEwLjQ4CgpTb3VyY2U6IENoYW5nZUxvZwoKVmVyc2lv
-biAxMC40OCAzMS1BdWd1c3QtMjAyNgotLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tCgoxLiAo
-IzgyNikgW0dIU0EtcTdydy1yN3FxLTJoeDZdIEluaXRpYWxpemVkIGFsaWdubWVudCBwYWRkaW5n
-IGluIHNlcmlhbGl6ZWQKY2hhcmFjdGVyIGxpc3RzIHNvIHRoYXQgcGNyZTJfc2VyaWFsaXplX2Vu
-Y29kZSgpIGRvZXMgbm90IGV4cG9zZSB0d28KdW5pbml0aWFsaXNlZCBieXRlcyBmcm9tIG1hbGxv
-YygpLgoKMi4gKCM4MjUpIEZpeGVkIHRoZSBjYXNpbmcgb2YgQ01ha2UgcGFja2FnZSB2YXJpYWJs
-ZXMgYW5kIGNvcnJlY3RlZApSZWFkbGluZS9uY3Vyc2VzIGxpbmthZ2UuCgozLiAoIzgzMCkgVXBk
-YXRlZCBVbmljb2RlIHN1cHBvcnQgdG8gVW5pY29kZSAxNy4wLCBpbmNsdWRpbmcgbmV3IHNjcmlw
-dHMsCmNoYXJhY3RlcnMsIHByb3BlcnRpZXMsIGNhc2UgbWFwcGluZ3MsIGFuZCBlbW9qaSBkYXRh
-LgoKNC4gKGE5ZDRhNzQ4KSBSZW5hbWVkIHRoZSBkZWZhdWx0IGRldmVsb3BtZW50IGJyYW5jaCBm
-cm9tIG1hc3RlciB0byBtYWluLgoKNS4gKDU3NGY1NjgzKSBBbGxvd2VkIFBDUkUyX05PX1VURl9D
-SEVDSyB0byBkaWZmZXIgYmV0d2VlbiBhbiBleGlzdGluZyBtYXRjaAphbmQgcGNyZTJfc3Vic3Rp
-dHV0ZSgpIHdpdGggUENSRTJfU1VCU1RJVFVURV9NQVRDSEVELCBpbnN0ZWFkIG9mIHJldHVybmlu
-ZwpQQ1JFMl9FUlJPUl9ESUZGU1VCU09QVElPTlMuCgo2LiAoIzg0MSkgRml4ZWQgaW5jb3JyZWN0
-IGNvbXBpbGF0aW9uIGFuZCBtYXRjaGluZyBvZiBjaGFyYWN0ZXIgY2xhc3NlcyB0aGF0CmNvbWJp
-bmUgY2hhcmFjdGVycyBmcm9tIG11bHRpcGxlIGludGVybmFsIHJhbmdlcywgaW5jbHVkaW5nIGNo
-YXJhY3RlcnMgYXQgb3IKYmVsb3cgVSswMEZGIHRvZ2V0aGVyIHdpdGggY2hhcmFjdGVycyBhdCBV
-KzAxMDAgYW5kIFUrODAwMCBvciBhYm92ZS4KCjcuICgjODQ5KSBSZWR1Y2VkIHRoZSBtZW1vcnkg
-dXNlZCBieSBlYWNoIHBjcmUyX21hdGNoKCkgaGVhcCBmcmFtZSBieSBzaHJpbmtpbmcKdGVtcG9y
-YXJ5IGZpZWxkcy4KCjguICgjODUyKSBBZGRlZCBpbnRlcnByZXRlciBhbmQgSklUIHN1cHBvcnQg
-Zm9yIHBvc3Nlc3NpdmUgcmVwZWF0cyBvZgpiYWNrcmVmZXJlbmNlcy4KCjkuICgjODU3KSBGaXhl
-ZCBhIHJlZ3Jlc3Npb24gaW4gcGNyZTJfc3Vic3RpdHV0ZSgpIHRoYXQgbWlzaGFuZGxlZCByZXBl
-YXRlZApiYWNrc2xhc2ggZXNjYXBlcyBpbiBleHRlbmRlZCByZXBsYWNlbWVudCBzdHJpbmdzLgoK
-MTAuICgjODU4KSBBZGRlZCBpbXByb3ZlbWVudHMgdG8gcGNyZTJfc3Vic3RpdHV0ZSgpLiBTdXBw
-b3J0IGZvciBwYXJ0aWFsIG1hdGNoZXMKd2l0aCBQQ1JFMl9TVUJTVElUVVRFX1JFUExBQ0VNRU5U
-X09OTFkgYWRkZWQsIGFuZCBhZGRlZApQQ1JFMl9FUlJPUl9QQVJUSUFMU1VCUyBmb3IgcmVwbGFj
-ZW1lbnRzIGNvbnRhaW5pbmcgJCcgb3IgJF8gd2hpY2ggY2Fubm90IGJlCmV4cGFuZGVkIGZvciBw
-YXJ0aWFsIG1hdGNoZXMuCgoxMS4gKCM4NTksIDMwYzlmYWE0KSBFeHBhbmRlZCBwY3JlMi1jb25m
-aWcncyByZWNvZ25pdGlvbiBvZiBzeXN0ZW0gbGlicmFyeQpkaXJlY3RvcmllcyBvbiBMaW51eCAo
-bXVsdGlsaWIgYW5kIG11bHRpYXJjaCksIGFuZCBBSVggYW5kIFNvbGFyaXMsIGF2b2lkaW5nCnVu
-bmVjZXNzYXJ5IC1MIG9wdGlvbnMuCgoxMi4gKCM4NzUpIEZpeGVkIGEgc3RhbGUgcmVwZWF0IHZh
-bHVlIHdoaWxlIGNvbnN0cnVjdGluZyBKSVQgc2NhbiBwcmVmaXhlcywKd2hpY2ggY291bGQgY2F1
-c2UgbWlzc2VkIG1hdGNoZXMgd2hlbiBhIHByZWZpeCB3YXMgZm9sbG93ZWQgYnkgYSBib3VuZGVk
-CmNoYXJhY3Rlci1jbGFzcyByZXBlYXQgd2l0aCBhIHplcm8gbWluaW11bS4KCjEzLiAoIzg3OSkg
-Rml4ZWQgYnVpbGQgd2FybmluZ3MgaW4gcGNyZTJncmVwIHdpdGggQzIzIGFuZCBnbGliYyAyLjQz
-LCBieSByZXRhaW5pbmcKY29uc3QgcXVhbGlmaWVycyBmcm9tIHN0cnN0cigpIGFuZCBzdHJjaHIo
-KS4KCjE0LiAoIzg4MykgUHJldmVudGVkIGdlbmVyYXRvciBleHByZXNzaW9ucyBpbmhlcml0ZWQg
-ZnJvbSBhIHBhcmVudCBDTWFrZQpwcm9qZWN0IGZyb20gZW50ZXJpbmcgQ01BS0VfUkVRVUlSRURf
-REVGSU5JVElPTlMgZHVyaW5nIGNvbmZpZ3VyYXRpb24gY2hlY2tzLgoKMTUuICgjODg0LCAjODgw
-KSBNYWRlIHN5bWJvbC12ZXJzaW9uIHNjcmlwdHMgcGxhdGZvcm0tc3BlY2lmaWMsIGZpeGluZyBT
-b2xhcmlzIFNQQVJDCnN5bWJvbCB2ZXJzaW9uaW5nLgoKMTYuICgjODg4KSBGaXhlZCBtZW1vcnkg
-bGVha3MgYW5kIHN0YWxlLXBvaW50ZXIgZG91YmxlIGZyZWVzIHdoZW4KcGNyZTJfZGVzZXJpYWxp
-emVfZGVjb2RlKCkgcmVqZWN0cyBhbiBpbnZhbGlkIGJsb2NrIHNpemUuCgoxNy4gKCM4OTQpIFVw
-ZGF0ZWQgWmlnJ3MgYnVpbGQuemlnLCBpbmNsdWRpbmcgZXhwb3J0ZWQgaGVhZGVycywgaGlkZGVu
-IHN5bWJvbAp2aXNpYmlsaXR5LCBhbmQgc2FuaXRpemVyIHN1cHBvcnQuCgoxOC4gKCM4OTMpIENo
-YW5nZWQgcGNyZTJ0ZXN0IGJ1aWxkcyB0byBkZXRlY3Qgc2V0cmxpbWl0KCkgaW5zdGVhZCBvZiBy
-ZWx5aW5nIG9uCmEgaGFyZC1jb2RlZCBwbGF0Zm9ybSBsaXN0LgoKMTkuICgjOTA3KSBBZGRlZCBz
-dXBwb3J0IGZvciBpbnN0YWxsaW5nIFBDUkUyIGRpcmVjdGx5IHdpdGggYHppZyBmZXRjaGAsCmlu
-Y2x1ZGluZyBhIFppZyBwYWNrYWdlIG1hbmlmZXN0IGFuZCByZWxlYXNlIGludGVncmF0aW9uLgoK
-MjAuICgjOTEyKSBGaXhlZCBhIEpJVC1zcGVjaWZpYyBidWcgaW4gdmFyaWFibGUtbGVuZ3RoIGxv
-b2tiZWhpbmRzIHdoaWNoIGNhdXNlZAppbmNvcnJlY3QgbWF0Y2ggcmVzdWx0cyBkdXJpbmcgYmFj
-a3RyYWNraW5nLgoKMjEuICgjODYzKSBBZGRlZCBhIGZpdmUteWVhciBzdXBwb3J0IGxpZmVjeWNs
-ZSBwb2xpY3kgYW5kIHB1YmxpY2F0aW9uIG9mIGJhY2twb3J0CnBhdGNoZXMgZm9yIHNlY3VyaXR5
-IGFuZCBoaWdoLXMKCltDaGFuZ2Vsb2cgdHJ1bmNhdGVkIGFzIGl0IGV4Y2VlZHMgMzAwMCBjaGFy
-YWN0ZXJzOwp0aGUgZnVsbCBjaGFuZ2Vsb2cgY2FuIGJlIGZvdW5kIGluIGFuIGF0dGFjaG1lbnQg
-dG8gdGhlIEFVSCBlbWFpbF0KLS0tCiAuLi4vbGlicGNyZS97bGlicGNyZTJfMTAuNDcuYmIgPT4g
-bGlicGNyZTJfMTAuNDguYmJ9ICAgICAgICAgICAgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBp
-bnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9s
-aWJwY3JlL3tsaWJwY3JlMl8xMC40Ny5iYiA9PiBsaWJwY3JlMl8xMC40OC5iYn0gKDk2JSkKCmRp
-ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xpYnBjcmUyXzEwLjQ3LmJi
-IGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8xMC40OC5iYgpzaW1pbGFy
-aXR5IGluZGV4IDk2JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xp
-YnBjcmUyXzEwLjQ3LmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJwY3JlL2xp
-YnBjcmUyXzEwLjQ4LmJiCmluZGV4IDM1MzMwODQ1ZDEuLmQ1ZGFmZjAzYzAgMTAwNjQ0Ci0tLSBh
-L21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnBjcmUvbGlicGNyZTJfMTAuNDcuYmIKKysrIGIvbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbGlicGNyZS9saWJwY3JlMl8xMC40OC5iYgpAQCAtMTksNyArMTks
-NyBAQCBTUkNfVVJJID0gIiR7R0lUSFVCX0JBU0VfVVJJfS9kb3dubG9hZC9wY3JlMi0ke1BWfS9w
-Y3JlMi0ke1BWfS50YXIuYnoyIFwKIEdJVEhVQl9CQVNFX1VSSSA9ICJodHRwczovL2dpdGh1Yi5j
-b20vUENSRTJQcm9qZWN0L3BjcmUyL3JlbGVhc2VzIgogVVBTVFJFQU1fQ0hFQ0tfUkVHRVggPSAi
-cmVsZWFzZXMvdGFnL3BjcmUyLSg/UDxwdmVyPlxkKyhcLlxkKykrKSQiCiAKLVNSQ19VUklbc2hh
-MjU2c3VtXSA9ICI0N2ZlOGM5OTQ2MTI1MGQ0MmY4OWU2ZThmZGFlYmE5ZGEwNTc4NTVkMDZlYjdm
-YzA4ZDljYTAzZmQwOGQ3YmM3IgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImI2YzY4ZmRmNmYzYWMz
-MTM4OGI1MGFhODlmZjBmYzQ5YzAwYzk4N2MxNmU3YjUxNDY0OTFkMTIwMDNmMmM4ZWQiCiAKIENW
-RV9QUk9EVUNUID0gInBjcmUyIgogCi0tIAoyLjQ3LjEKCg==
-
---===============7630524407755219440==
+--===============8256325768137388708==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="gnupg-changelog.txt"
 
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-16: FILELIST: removed "/usr/lib/libpcre2-16.so.0.15.0", added "/usr/lib/libpcre2-16.so.0.16.0"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-32: FILELIST: removed "/usr/lib/libpcre2-32.so.0.15.0", added "/usr/lib/libpcre2-32.so.0.16.0"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2-doc: FILELIST: added "/usr/share/doc/pcre2/SUPPORT-LIFECYCLE.md"
-packages/x86-64-v3-poky-linux/libpcre2/libpcre2: FILELIST: removed "/usr/lib/libpcre2-posix.so.3.0.7 /usr/lib/libpcre2-8.so.0.15.0", added "/usr/lib/libpcre2-8.so.0.16.0 /usr/lib/libpcre2-posix.so.3.0.8"
-Changes to packages/x86-64-v3-poky-linux/libpcre2 (sysroot):
-  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.15.0 to libpcre2-16.so.0.16.0
-  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.15.0 to libpcre2-16.so.0.16.0
-  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.15.0 to libpcre2-32.so.0.16.0
-  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.15.0 to libpcre2-32.so.0.16.0
-  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.15.0 to libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.15.0 to libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.7 to libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.7 to libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-8.so.0.15.0 moved to /usr/lib/libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-posix.so.3.0.7 moved to /usr/lib/libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-16.so.0.16.0 was added
-  /usr/lib/libpcre2-32.so.0.16.0 was added
-  /usr/lib/libpcre2-16.so.0.15.0 was removed
-  /usr/lib/libpcre2-32.so.0.15.0 was removed
-Changes to packages/x86_64-linux/libpcre2-native (sysroot):
-  /usr/lib/libpcre2-16.so.0 changed symlink target from libpcre2-16.so.0.15.0 to libpcre2-16.so.0.16.0
-  /usr/lib/libpcre2-16.so changed symlink target from libpcre2-16.so.0.15.0 to libpcre2-16.so.0.16.0
-  /usr/lib/libpcre2-32.so.0 changed symlink target from libpcre2-32.so.0.15.0 to libpcre2-32.so.0.16.0
-  /usr/lib/libpcre2-32.so changed symlink target from libpcre2-32.so.0.15.0 to libpcre2-32.so.0.16.0
-  /usr/lib/libpcre2-8.so.0 changed symlink target from libpcre2-8.so.0.15.0 to libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-8.so changed symlink target from libpcre2-8.so.0.15.0 to libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-posix.so.3 changed symlink target from libpcre2-posix.so.3.0.7 to libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-posix.so changed symlink target from libpcre2-posix.so.3.0.7 to libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-8.so.0.15.0 moved to /usr/lib/libpcre2-8.so.0.16.0
-  /usr/lib/libpcre2-posix.so.3.0.7 moved to /usr/lib/libpcre2-posix.so.3.0.8
-  /usr/lib/libpcre2-16.so.0.16.0 was added
-  /usr/lib/libpcre2-32.so.0.16.0 was added
-  /usr/lib/libpcre2-16.so.0.15.0 was removed
-  /usr/lib/libpcre2-32.so.0.15.0 was removed
-
---===============7630524407755219440==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="libpcre2-changelog.txt"
-
-Changelog for libpcre2: 10.47 -> 10.48
+Changelog for gnupg: 2.5.21 -> 2.5.22
 Source: ChangeLog
 
-Version 10.48 31-August-2026
-----------------------------
+2026-08-31  Werner Koch  <wk@gnupg.org>
 
-1. (#826) [GHSA-q7rw-r7qq-2hx6] Initialized alignment padding in serialized
-character lists so that pcre2_serialize_encode() does not expose two
-uninitialised bytes from malloc().
+	Release 2.5.22.
+	+ commit bd253e9fecedd4c0e699530826ee43264581634b
 
-2. (#825) Fixed the casing of CMake package variables and corrected
-Readline/ncurses linkage.
+2026-08-26  Philip Le  <philip.le@gnupg.com>
 
-3. (#830) Updated Unicode support to Unicode 17.0, including new scripts,
-characters, properties, case mappings, and emoji data.
+	gpgsm: Fix condition for de-vs compliance status line.
+	+ commit a09f16f2b17a47b3f215e2d257ef256f3b2b724e
+	* sm/decrypt.c (gpgsm_decrypt): Also check other conditions for de-vs
+	compliance before emitting status line.
 
-4. (a9d4a748) Renamed the default development branch from master to main.
+2026-08-25  Philip Le  <philip.le@gnupg.com>
 
-5. (574f5683) Allowed PCRE2_NO_UTF_CHECK to differ between an existing match
-and pcre2_substitute() with PCRE2_SUBSTITUTE_MATCHED, instead of returning
-PCRE2_ERROR_DIFFSUBSOPTIONS.
+	gpgsm: Check keyboxd usage in keydb_get_flags.
+	+ commit e338ea3de2d151fe718c11d7dcd2a2178b10a22e
+	* sm/keydb.c (keydb_get_flags): Add condition that keyboxd is not
+	used.
 
-6. (#841) Fixed incorrect compilation and matching of character classes that
-combine characters from multiple internal ranges, including characters at or
-below U+00FF together with characters at U+0100 and U+8000 or above.
+2026-08-21  Werner Koch  <wk@gnupg.org>
 
-7. (#849) Reduced the memory used by each pcre2_match() heap frame by shrinking
-temporary fields.
+	gpgconf: Print a warning on Windows on insufficent /etc permissions.
+	+ commit 56eb3148c7b88eb1c0804141b58cb54b9007f48d
+	* README (Securing the global config files on Windows): New.
 
-8. (#852) Added interpreter and JIT support for possessive repeats of
-backreferences.
+	* tools/gpgconf.c [W32]: Include aclapi.h.
+	(enum cmd_and_opt_values): Add oDebug.
+	(opts): Add option --debug.
+	(debug_flags): New.
+	(main): Parse debug flags.
+	(w32_get_file_integrity_level) [W32]: New.
+	(show_configs) [W32]: Check permissions of the gloab sysconfdir
+	* tools/gpgconf.h (opt): Add field 'debug'.
+	(DBG_W32_API): New.
 
-9. (#857) Fixed a regression in pcre2_substitute() that mishandled repeated
-backslash escapes in extended replacement strings.
+2026-08-18  Philip Le  <philip.le@gnupg.com>
 
-10. (#858) Added improvements to pcre2_substitute(). Support for partial matches
-with PCRE2_SUBSTITUTE_REPLACEMENT_ONLY added, and added
-PCRE2_ERROR_PARTIALSUBS for replacements containing $' or $_ which cannot be
-expanded for partial matches.
+	gpg: Emit status line for failed write.
+	+ commit 09ac242827c3bd002da2ff9d693a2db646d4e386
+	* g10/plaintext.c (handle_plaintext): Emit error location and code in
+	failure status.
 
-11. (#859, 30c9faa4) Expanded pcre2-config's recognition of system library
-directories on Linux (multilib and multiarch), and AIX and Solaris, avoiding
-unnecessary -L options.
+2026-08-12  Philip Le  <philip.le@gnupg.com>
+	    Werner Koch  <wk@gnupg.org>
 
-12. (#875) Fixed a stale repeat value while constructing JIT scan prefixes,
-which could cause missed matches when a prefix was followed by a bounded
-character-class repeat with a zero minimum.
+	gpg: Fix regression introduced by partial file guards.
+	+ commit 1b8debd65baaa05250ce26079fad15ac7bb16bd5
+	* g10/main.h (gnupg_rollback_partial_file): New. Removes .part files.
+	(gnupg_commit_partial_file): New. Renames .part files.
+	* g10/misc.c (gnupg_rollback_partial_file): New.
+	(gnupg_commit_partial_file): New.
+	* g10/mainproc.c (proc_encrypted): Use gnupg_commit_partial_file.
+	* g10/gpg.c (g10_exit): Use gnupg_commit_partial_file.
+	(main): Remove .part files if decryption fails.
 
-13. (#879) Fixed build warnings in pcre2grep with C23 and glibc 2.43, by retaining
-const qualifiers from strstr() and strchr().
+2026-08-12  NIIBE Yutaka  <gniibe@fsij.org>
 
-14. (#883) Prevented generator expressions inherited from a parent CMake
-project from entering CMAKE_REQUIRED_DEFINITIONS during configuration checks.
+	common,gpg: Don't enable the partial file guard if already done.
+	+ commit 95ad7f7a5165b96e1a39afe70b1b1092b9ab6f45
+	* common/stringhelp.c (has_suffix): New.
+	* common/stringhelp.h (has_suffix): New.
+	* g10/plaintext.c (get_output_file): Only enable the partial
+	file guard when it doesn't have ".part" suffix.
 
-15. (#884, #880) Made symbol-version scripts platform-specific, fixing Solaris SPARC
-symbol versioning.
+2026-08-10  Werner Koch  <wk@gnupg.org>
 
-16. (#888) Fixed memory leaks and stale-pointer double frees when
-pcre2_deserialize_decode() rejects an invalid block size.
+	gpg: Fix TOFU trust models to actually check UTK signatures.
+	+ commit 08611f5da8ad4b9cc80bb05f0f8610ec6baa6063
+	* g10/tofu.c (signed_by_utk): Add arg ctrl.  Use macros fro the
+	  sigclass.  Check the signature before returning true.
 
-17. (#894) Updated Zig's build.zig, including exported headers, hidden symbol
-visibility, and sanitizer support.
+2026-08-05  Werner Koch  <wk@gnupg.org>
 
-18. (#893) Changed pcre2test builds to detect setrlimit() instead of relying on
-a hard-coded platform list.
+	g13: Add sanity check on the syntax of the dmsetup algo string.
+	+ commit 386c3e63b1cac7f506f974715dbf30c6d40663dd
+	* g13/sh-dmcrypt.c (is_valid_algostr): New
+	(sh_dmcrypt_mount_container): Use here
+	(sh_dmcrypt_resume_container): and here.
 
-19. (#907) Added support for installing PCRE2 directly with `zig fetch`,
-including a Zig package manifest and release integration.
+2026-08-04  NIIBE Yutaka  <gniibe@fsij.org>
 
-20. (#912) Fixed a JIT-specific bug in variable-length lookbehinds which caused
-incorrect match results during backtracking.
+	gpg: Add a comment and minor fix for composing SEXP.
+	+ commit e9b40fd1f0c0f6639c16346e895153561be93388
+	* g10/import.c (internal_skey_object_to_sexp): Add comment.
+	* g10/keyid.c (keygrip_from_pk): Compose correct SEXP with Ed448.
 
-21. (#863) Added a five-year support lifecycle policy and publication of backport
-patches for security and high-severity fixes in older releases.
+2026-07-30  Philip Le  <philip.le@gnupg.com>
+	    Werner Koch  <wk@gnupg.org>
 
-22. (#937) Fixed a leak and later invalid free when calling the fast-path
-pcre2_jit_match() function with a match data object previously used with
-pcre2_match() and PCRE2_COPY_MATCHED_SUBJECT. No security advisory, as this is
-considered unlikely to affect applications.
+	gpgsm: Emit issuer and serial no. when the certificate is not found.
+	+ commit 82d5dc7782617cb7683b3769a3267e154ebdb067
+	* doc/DETAILS: Update NO_PUBKEY for X.509 certificates.
+	* sm/verify.c (gpgsm_verify): Print the issuer and serial no. of the
+	signer's certificate when the certificate is not found.
 
-23. (#936) Made pcre2grep recognize -- during positional argument processing,
-for improved compatibility with GNU grep.
+2026-07-30  Philip Le  <philip.le@gnupg.com>
 
-24. (#922) Added support for Zig JIT builds to fetch SLJIT through the Zig
-package manager when the Git submodule is absent. The minimum Zig version
-is raised to 0.16.0.
+	gpg: Emit signing time as status output for bad signatures.
+	+ commit e5acae48015751e21a04bf3113ba42d02c3db3f7
+	* g10/mainproc.c (print_good_bad_signature): Emit signature creation
+	time with STATUS_SIGINFO for bad signatures.
 
-25. (#926) [GHSA-2p8c-ff85-vh9x] If pcre2_jit_compile() is called with options
-for some match modes, and then pcre2_match() is used to perform a match for a
-different match mode, an out-of-bounds read can occur if the match is attempted
-against invalid UTF input. The interpreter fallback now performs its own UTF
-validation correctly when some JIT match modes have been compiled, but not the
-requested mode.
+2026-07-30  Philip Le  <philip.le@gnupg.com>
+	    Werner Koch  <wk@gnupg.org>
 
-26. (#909) [GHSA-q8g2-wprr-34m9] If pcre2_convert() is called on untrusted input
-on platforms with 32-bit size_t, an out-of-bounds heap write can occur.
-Additionally, the allocation made was larger than required in common cases.
-Added overflow checks for allocations in pattern conversion and substring APIs.
+	gpgsm: Emit signing time as status output for bad signatures.
+	+ commit 74305fa7d79700eb5ec03ab575260d640430bc71
+	* common/status.h (enum): Add new STATUS_SIGINFO.
+	* doc/DETAILS: Add description for new STATUS_SIGINFO.
+	* sm/verify.c (gpgsm_verify): Add signature creation time with
+	STATUS_SIGINFO for bad signatures.
 
-27. (#945) Fixed JIT character advancement with PCRE2_MATCH_INVALID_UTF in
-UTF-8 and UTF-16 modes. Valid multi-code-unit characters are now advanced as a
-unit, while invalid characters advance by one code unit, preventing adjacent
-characters from being skipped.
+2026-07-30  NIIBE Yutaka  <gniibe@fsij.org>
 
-28. (#948) Fixed one-past-the-end compile error offsets for incomplete \x{,
-\o{, and \N{U+ escapes at the end of a pattern.
+	scd: Allow switching APP when opt.pcsc_shared is enabled.
+	+ commit f783c02525c3be9af14e84ec6456d4bde6018c74
+	* scd/app.c (maybe_switch_app): Add opt.pcsc_shared condition.
 
-29. (#947) Clarified documentation for PCRE2_DFA_RESTART, which does not remove
-the requirement to retain previously supplied subject data, including sufficient
-history for nested lookbehinds.
+2026-07-21  NIIBE Yutaka  <gniibe@fsij.org>
 
-30. (#942, #954) Fixed pcre2grep handling for \K matches whose end offset precedes
-their start offset. Such ranges could previously cause an unsigned match-length
-underflow.
+	gpgsm: Fix keydb_get_flags with keyboxd.
+	+ commit 766e9773cbc2a03d0392c2a2c94d0fe237741c5b
+	* sm/keydb.c (struct keydb_handle): Add new field of last_is_revoked.
+	(keydb_get_flag): Support keyboxd.
+	(search_status_cb): Fill last_is_revoked field.
 
-31. (#956) Fixed an integer overflow in pcre2grep when advancing multiline
-output state, and preserved pending output when crossing lines.
+2026-07-20  Philip Le  <philip.le@gnupg.com>
 
-32. (#957) Updated bundled SLJIT with architecture-specific code-generation and
-portability fixes.
+	gpgsm: Check args for special file names and dashes.
+	+ commit 2efb4a6242e25a661eb60adf2cb2c5abf4185d04
+	* sm/gpgsm.c (main): Use open_es_fread to check input args for special
+	file names and dashes.
 
-33. (#958) Fixed CMake installation of MSVC PDB files when
-CMAKE_SHARED_LIBRARY_PREFIX_C is customized.
+2026-07-17  NIIBE Yutaka  <gniibe@fsij.org>
 
-34. (#961, #962) Fixed two compilation issues preventing use of extended
-(Boolean) character classes before a lookbehind, or inside a lookaround.
+	scd: Put a workaround for buggy CCID device.
+	+ commit 481b3dd50e744a6d4213abecd27ac1f497c6e1c5
+	* scd/ccid-driver.c (bulk_in): Handle ZLP.
 
-35. (GHSA-3r4p-g7gg-ppmf) Fixed an out-of-bounds write in DFA matching when
-using a heap limit; also fixed possible integer overflows which could cause
-under-allocation of the workspace.
+2026-07-16  Philip Le  <philip.le@gnupg.com>
 
-36. (GHSA-fmgr-6ggq-9859) Added bounds checks for several integer overflows
-while compiling patterns on 32-bit CPUs, which could cause under-allocation
-followed by out-of-bounds writes.
+	gpgsm: Return 0 if decryption of multi recipient file succeeeds.
+	+ commit 890d16586beaa185b082a21e6a26b953181da3eb
+	* sm/gpgsm.c (main): Reset error count when decryption succeeds.
 
-37. (GHSA-9qww-pwc4-77qq) Applied lower buffer bound to prevent two
-out-of-bounds reads while scanning backwards through invalid UTF data with
-PCRE2_MATCH_INVALID_UTF.
+2026-07-15  Werner Koch  <wk@gnupg.org>
 
---===============7630524407755219440==--
+	common: Make unix_rootdir work for macOS.
+	+ commit 0be940905d70125866622c6f53b8d25bde87c21b
+	* common/homedir.c [APPLE]: Include procinfo.h
+	(macos_myproc_self) [APPLE]: New.
+	(unix_rootdir, gnupg_myproc_self): Call macos specific version.
+
+	gpg: Add option primary to the --card-edit generate command.
+	+ commit a95da9e25362ea9f33c1e0b4441a86d6eca937f0
+	* g10/card-util.c (generate_card_keys): Add arg arg_string and
+	  implement option "primary".
+	* g10/main.h (GENERATE_KEYPAIR_FULL): New.
+	(GENERATE_KEYPAIR_CARDBACKUP): New.
+	(GENERATE_KEYPAIR_CARDPRIMARY): New.
+	* g10/keygen.c (generate_keypair): Remove args full and and
+	  card_backup_key and replace by a new genflags args.  Implement the
+	  new CARDPRIMARY feature.
+
+	gpg: Fix long standing regression of "bkuptocard"
+	+ commit f103eaee63f702278824967365de16b9757ecc83
+	* g10/card-util.c (card_store_subkey): Add arg r_selected_use to
+	  return the selected usage.
+	* g10/keygen.c (append_subkey_to_keyblock): New.
+	* g10/keyedit.c (keyedit_menu) <bkuptocard>:  Also append a
+	  corresponding new subkey.
+
+2026-07-14  Werner Koch  <wk@gnupg.org>
+
+	doc: Improve comment on one function.
+	+ commit 204d02da018e8aba0bdbae2b5d0c3151a810bf9f
+	* g10/keygen.c (write_keybinding): Rename a variable.
+
+2026-07-10  Daniel Cerqueira  <dan.git@lispclub.com>
+
+	po: Update Portuguese Translation.
+	+ commit 3913f7b167394cdf47c8f150247c2823f58966e7
+
+2026-07-09  Philip Le  <philip.le@gnupg.com>
+
+	gpgsm: Only display de-vs compliance status in de-vs compliance mode.
+	+ commit 4a8f177f390b270df9a86ea47d8eced85420d7d4
+	* sm/decrypt.c (gpgsm_decrypt): Check cert chain only in de-vs
+	compliance mode.
+
+2026-07-08  NIIBE Yutaka  <gniibe@fsij.org>
+
+	gpg: Fix a memory leak.
+	+ commit 6faaeca6b89a64763242cb8b586245085257b066
+	* g10/trustdb.c (validate_keys): Release KEYBLOCK.
+
+2026-07-07  Philip Le  <philip.le@gnupg.com>
+
+	gpg: Fix possible double free in import_revoke_cert.
+	+ commit a19534b70e27df101a0ad8f653aee8eefdbe8469
+	* g10/import.c (import_revoke_cert): Fix possible double free. Use
+	LEAVE label on errors.
+
+	gpg: Fix assertion.
+	+ commit e319d82d7e3ad9cf2eff3642e23b63304eda55f2
+	* g10/build-packet.c (build_sig_subpkt_from_sig): Fix assertion.
+	Check fingerprint version before creating the signature subpacket.
+
+2026-07-07  NIIBE Yutaka  <gniibe@fsij.org>
+
+	common:dotlock:unix: Don't emit wrong error message.
+	+ commit f454e9372ae0e2a2a0ec034dbdbfa9c8c6d68f77
+	* common/dotlock.c (dotlock_take_unix): It's not an error when
+	it encounters disappeared lockfile.
+
+2026-07-06  Philip Le  <philip.le@gnupg.com>
+
+	gpg: Fix using wrong fingerprint length.
+	+ commit 42e6677f7ab5617ce605cad08079a48095be09cf
+	g10/build-packet.c (build_sig_subpkt_from_sig): Use the fpr length of
+	the to be revoked key.
+
+2026-07-03  NIIBE Yutaka  <gniibe@fsij.org>
+
+	gpg: Fix trustdb recursive lock problem.
+	+ commit 7752c7dcad8942e4227384282e6c8eb85b284d6f
+	* g10/tdbio.c (take_write_lock): It's the callee to handle the
+	recursive lock.
+	(tdbio_sync): Simply use take_write_lock and release_write_lock.
+
+--===============8256325768137388708==--
 
