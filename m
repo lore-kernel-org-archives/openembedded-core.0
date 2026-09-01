@@ -1,87 +1,103 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F477C624D5
-	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 17:41:59 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.648.1788284511656410031
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 79353C624D3
+	for <webhook@archiver.kernel.org>; Tue,  1 Sep 2026 17:47:19 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.693.1788284838251723490
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 10:41:51 -0700
+ Tue, 01 Sep 2026 10:47:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=n1JalQ8v;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id BBDD11A1936
-	for <openembedded-core@lists.openembedded.org>; Tue,  1 Sep 2026 17:41:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8F8A16053C
-	for <openembedded-core@lists.openembedded.org>; Tue,  1 Sep 2026 17:41:49 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 5333B11C7929D;
-	Tue,  1 Sep 2026 19:41:48 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788284508; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=ovTmc+kJyciAiErh8XvZWM8Dm0Ydosu8Brwu4dw5UD4=;
-	b=n1JalQ8vtAiK2/I4htrbQyTVqk9aiM8V0WAHQ5AxmhK6hy9kpxnKMEOA5hY/MMAd4oG5TX
-	ldinFmvr614aks8Cr36KvGwK6Em0MuTEXZQkiBps6ZoHJk3yHGju8/bFEYOru+YlKdvzWF
-	ZV3jUsFOLG4BCQSGgyPV+jgQtB7uLj42JNHXo9hYZ+VVQmB+z82bJpre8H0ZUrfjo43wfs
-	jwy1wvUU2JKlAcspE/EAy1Ol9mRHikDg1cjsgj2uBVPdHWnMH1pIeAdWeQg+p+lAFgjrle
-	LR6JsG2MFHZZMRyw4AH04XU0nxPmthQGGP7OlZsjNYRCbUeOGdMNWQAjPNdJrQ==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH 0/2] oeqa/selftest/reproducible: Use a fake time during
- build
-Date: Tue, 01 Sep 2026 19:41:43 +0200
-Message-Id: <20260901-mathieu-reproducible-faketime-v1-0-eac182548422@bootlin.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAFcOl2oC/x3MTQqDMBAG0KvIrB1ITCm0VykuYvJFh9YfJiqCe
- PcGl2/zTspQQaZ3dZJilyzzVGDrisLgpx4ssZga0zzNy1ge/ToINlYsOsctSPcDJ//FKiP4Ea1
- 1ziH6kKgciyLJcf+f9rr+0pm0hG8AAAA=
-X-Change-ID: 20260901-mathieu-reproducible-faketime-4d11333edacf
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788284507; l=1119;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=9nrXXAi6AKsel12teueDzxBXF4f6S6Ijs5tqidIfcw8=;
- b=MVOS1Hk8SVjSvpRVRd5N41febHOELuzWOjhWq177OcpauWSwUlVgRdeZfL1El/vA3LeXtixvP
- ibTSJ1lKYmOCUamKTXfU8MBPnv5RIhZKNpP9j0FQdXyGuHnDfxZXtDo
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AMJstHvq;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=3KhZ6EuP;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a05e151dd5-1072bcad-7e3a-4257-9337-fb956b93ced0-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1788284837; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=jJ9txEP34LTb3ECRMCz1s8VJdWGRfTzk4HTTNlZwDuE=;
+	b=AMJstHvqHiGBgAEiKVjGVpfF7OT5FRtSJs8DDgLF69RZT5syqS+N59MrINY4QCh2
+	LT7B4MS9CbPyRL29CoXM0a5nXS4JB4kgoG6kHQ+1n+1WQ5Q3Oj4RjST+FY5HhgwSexY
+	VEXgWOGjrF2SIgqVu8clF44ww1j+PA4RJNFIZtwc=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788284837;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=jJ9txEP34LTb3ECRMCz1s8VJdWGRfTzk4HTTNlZwDuE=;
+	b=3KhZ6EuPDwEquk5gB94nT0xH6lIcNq2kcXqKiKAhbo8RlU/RL5+psQEn54iHwLi6
+	I/FRxD/yiJGsAeePARkIZ299WI0FPzMov4hFtpf527yzTmWhBTd+Y5xQdr53RUfmfUT
+	s+YrI6+ntO1meR9pvRQTxuUEuGLxIukOKwze7QSU=
+From: patchtest@automation.yoctoproject.org
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 1/2] libfaketime: Import recipe from meta-oe
+In-Reply-To: 
+ <20260901-mathieu-reproducible-faketime-v1-1-eac182548422@bootlin.com>
+References: 
+ <20260901-mathieu-reproducible-faketime-v1-1-eac182548422@bootlin.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a05e151dd5-1072bcad-7e3a-4257-9337-fb956b93ced0-000000@us-west-2.amazonses.com>
+Date: Tue, 1 Sep 2026 17:47:17 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.01-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 17:41:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244841
+ <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 17:47:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244844
 
-Implement some long standing idea: use a fake time during the second
-half of the reproducible tests, helping to find potentially hidden
-reproducibility issues.
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13509
+--NextPart
+Content-Type: text/plain
 
-No regression seen with current master branch:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/4878
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 ---
-Mathieu Dubois-Briand (2):
-      libfaketime: Import recipe from meta-oe
-      oeqa/selftest/reproducible: Use a fake time during build
+Testing patch /home/patchtest/share/mboxes/1-2-libfaketime-Import-recipe-from-meta-oe.patch
 
- meta/conf/distro/include/maintainers.inc           |  1 +
- meta/lib/oeqa/selftest/cases/reproducible.py       | 28 +++++++++++++-----
- ...onst-qualifiers-to-fix-build-with-ISO-C23.patch | 34 ++++++++++++++++++++++
- .../libfaketime/libfaketime_0.9.12.bb              | 31 ++++++++++++++++++++
- 4 files changed, 87 insertions(+), 7 deletions(-)
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: '0001-Add-const-qualifiers-to-fix-build-with-ISO-C23.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum presence (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+PASS: test license presence (test_metadata.TestMetadata.test_license_presence)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test summary presence (test_metadata.TestMetadata.test_summary_presence)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
+
 ---
-base-commit: db81c1a42a0f552d9a8ec124f004ae2063d58c33
-change-id: 20260901-mathieu-reproducible-faketime-4d11333edacf
 
-Best regards,
--- 
-Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
 
+--NextPart
+
+
+--NextPart--
 
