@@ -1,127 +1,89 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 853C4C624D6
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 12:20:04 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11519.1788351602837215075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 871C5C624D0
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 12:21:34 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11536.1788351688980485244
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 05:20:03 -0700
+ Wed, 02 Sep 2026 05:21:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CMlkh4VA;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.45, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-482fc3327fdso687133f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 05:20:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1788351601; x=1788956401; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=D0GQm5LUdlcOGIGUCgX/qYaJqLNhayjmq3gcNDCgOWo=;
-        b=CMlkh4VAWOTDHF0eRaZXs6c7+K6eqKyKYugaflH2T0ZAw0kCv3fX1RjAtFo4D9yrPd
-         IBz+3+v4Pu3sY7gPDAPwv0tv1HJnIW84cveEAtRro6ODbWV5PipYh13+xQrp7AUezvzl
-         ICeGJX/eZjLCK2MG74t256/zweBzmrfR7cK2E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788351601; x=1788956401;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=D0GQm5LUdlcOGIGUCgX/qYaJqLNhayjmq3gcNDCgOWo=;
-        b=rxfy75LVH7EuTotaPMCoUZw7ZFiwYDJY4r+Tyz3JFAOY6c9aX0LVplIwU3SyvCuk3Y
-         P1TMXEzdgYcSZsvLnVpTZLXN/7V6EgvjG/K5dIUD2LFKYZGH/jX7e2VxvD7za4ks1nZC
-         29Q7FXfwDqB8+v43vup8Mnm4YftJe2U6l33oUJFQGb4BWXe5gcqKueZ3D2xGNUbx/KLO
-         mNo+LJiQOQ5sGvw1ebtbwaBXnyya9rm/9A+LzsU0CN5gB6wfufOw7LS4AtUZplYtkYC2
-         Zt+u9gFi/Fe9Mlv0khiivTVM0spQpvMPN5cYDSGg7IlXun27Nuw7Yg4SPOZuiF60oPU3
-         Cb4A==
-X-Forwarded-Encrypted: i=1; AKwUvBzbzQpj42uC0O77idZxP9uwB5jqXGLtQnsOg9bwTFZV0CGU9ZrOSX4NqC+QQo5VygNqqop8tA5+wgdYKChOHOv9Ew==@lists.openembedded.org
-X-Gm-Message-State: AFuF++mALDcFZPLFa9YDru0BJvoHZn4gQPKfA8iQTMVKfEG1oggJLMZL
-	JR8kby6HAob55T1c7eKVU2Ixk45oxIv22JIm95KtgF1axK0XFccsNVs5mbYiTrimoJ/KKw6lTYK
-	vUNyF1Ls=
-X-Gm-Gg: AYBFou2xT3zpHVLdYssjB7UKzLhiqNg4AtKMrY+SHgZPbcJAFWh2j76w/jn+v6di/3c
-	HloDM4avzkbayTafmIoxi/w+Vlqagk7BRyJisPKj/qWkxVZIDsjqbArOPo/eo1Kh0St913CHyIA
-	NSCuIkFo/7sRTULYrcQyll7rNWxpPMjlh+tvqY96lHF6qJAcznVSlBSHGMEzCFOALY5U2jPLii0
-	QvGuV8SRLhFKW5mc9DPjXe1En1pH3j8zdfePx3VjKA9HpGcxabElLkgwiu3W8M4EflELZUP0NRM
-	omU/l1XX44YYekSbp5R4KsbxXyRY9+1VpDVwTPLqwHaEV4dX87vTMXMizZA6ZfgLgv+sASt2LmU
-	xH+GM6m2eL0aAsfwsoiu9qDtX9T8hanjBshV699oLjohgkYM9P8upVEU10j1cMK2F3oxrr0Atxq
-	qI21kmD7xcRyulK5LenCqfwuvXFAr45Wn+uZE1uhXbxR2Nvv5c2M+fTU0KGKuaUygGexO2Jfuu/
-	XvyPDAXFvcKvztDM+0fxCwOFHIw6HMTjMfrCDyotT8VStpEti3FIw==
-X-Received: by 2002:a05:6000:4819:b0:47f:e748:3ae3 with SMTP id ffacd0b85a97d-48488deedc7mr8368543f8f.3.1788351600876;
-        Wed, 02 Sep 2026 05:20:00 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:89b1:8875:2e41:59f0? ([2001:8b0:aba:5f3c:89b1:8875:2e41:59f0])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448eea5b4sm6160101f8f.27.2026.09.02.05.19.59
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 05:20:00 -0700 (PDT)
-Message-ID: <20c692768ef0b8ab15d6b884c11b5e0c5eb1f3ce.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] wpa-supplicant: Build .config from fragments
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: alex.kiernan@gmail.com, openembedded-core@lists.openembedded.org
-Date: Wed, 02 Sep 2026 13:19:59 +0100
-In-Reply-To: <20260831060120.399342-2-alex.kiernan@gmail.com>
-References: <20260831060120.399342-2-alex.kiernan@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=LxrFcp6F;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id A6FF41A1957
+	for <openembedded-core@lists.openembedded.org>; Wed,  2 Sep 2026 12:21:26 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 6950B6053C
+	for <openembedded-core@lists.openembedded.org>; Wed,  2 Sep 2026 12:21:26 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 82DBA11C79293;
+	Wed,  2 Sep 2026 14:21:25 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1788351686; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=+T8igUfDQbPC+O3jpvrPCVFE/Xm7A4pQcTDq0nYYIDE=;
+	b=LxrFcp6FVHuU82WoDv3+nSvYoGGFSE7PitratGpLdD3jBV1zPv4skkc137Hsv+1JsAaZ/X
+	RI0M+C9CpJ0OEW5Nsqv54ve4lU1bLtdY6a0GWtOl9vvY+mqLjGAr/2Dw8RuGR+SZVEWn9o
+	H2d+9DLpsI8OsBLl41jdeeF07W3mvATlynoSbvSkSTOZSud7cP15WGd4aUg7L9pn516Scr
+	XSJkMBO2fldfzCftT0FtJvcpovs/LJ9g6Bkg0XCwRxRHEx7yFU5ldhZ1ZHUD7Z68z2RU4s
+	UiYxpd7+9lmsAu6pYibVl5X0DWOECc6Iqe5Z/XrVRTSxVh3k38PaDkYnbAVJ0g==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Date: Wed, 02 Sep 2026 14:21:17 +0200
+Subject: [PATCH] python3-shacl2code: upgrade 1.2.0 -> 1.3.2
 MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260902-mathieu-python3-shacl2code-1-3-2-v1-1-765805e89a5c@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIALwUmGoC/x3NQQqDMBBA0avIrB1IRqikVykuknHaDLSJJCoW8
+ e4NXb7N/ydUKSoV7t0JRXatmlOD7Tvg6NNLUOdmIEM34wzhx69RZcPlu8acBqzR85s4z4IWByR
+ 0FEY7snEhMLTMUuSpx3/xmK7rB7jUcvRyAAAA
+X-Change-ID: 20260902-mathieu-python3-shacl2code-1-3-2-92b717c09bbc
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788351684; l=1238;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=vH29U3LXaLY9lzQFufdlNd3gJb8diF6tfELGbcygts0=;
+ b=1jxo+8a49b3Km3VM14IH1R4Ck5ICOnrzPqY2yPOVkdDxDdcFXEBO0zO/ls7HJ1xFMgzq+J+Is
+ tNDXx1zJHBDDwmEfxRFtvM6Wpmh5l9Eutn7XVRpTyoASryDZH+/PO5z
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 12:20:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244940
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 12:21:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244941
 
-On Mon, 2026-08-31 at 07:01 +0100, Alex Kiernan via lists.openembedded.org =
-wrote:
-> do_configure built wpa_supplicant's .config by sed-ing upstream's
-> defconfig and echoing CONFIG lines onto it, this is both fragile and
-> makes handling anything not covered by PACKAGECONFIG tricky.
->=20
-> wpa_supplicant has no configure script and no kconfig - it's just make,
-> so switch do_configure to build the configuration from a base file and
-> .cfg fragments, which matches what CML1 recipes do (though this isn't
-> CML1).
->=20
-> This should have no functional change; the effective configuration
-> should be identical.
->=20
-> AI-Generated: Claude Opus 5 (Claude Code)
-> Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> ---
-> =C2=A0.../wpa-supplicant/wpa-supplicant/mbo.cfg=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 2 +
-> =C2=A0.../wpa-supplicant/wpa-supplicant/suiteb.cfg=C2=A0 |=C2=A0 4 ++
-> =C2=A0.../wpa-supplicant/tls-gnutls.cfg=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 23 ++++++++++
-> =C2=A0.../wpa-supplicant/tls-openssl.cfg=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 |=C2=A0 7 +++
-> =C2=A0.../wpa-supplicant/wpa-supplicant/wnm.cfg=C2=A0=C2=A0=C2=A0=C2=A0 |=
-=C2=A0 2 +
-> =C2=A0.../wpa-supplicant/wpa-supplicant_2.12.bb=C2=A0=C2=A0=C2=A0=C2=A0 |=
- 46 +++++++------------
-> =C2=A06 files changed, 55 insertions(+), 29 deletions(-)
-> =C2=A0create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-sup=
-plicant/mbo.cfg
-> =C2=A0create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-sup=
-plicant/suiteb.cfg
-> =C2=A0create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-sup=
-plicant/tls-gnutls.cfg
-> =C2=A0create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-sup=
-plicant/tls-openssl.cfg
-> =C2=A0create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-sup=
-plicant/wnm.cfg
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+---
+ .../python/{python3-shacl2code_1.2.0.bb => python3-shacl2code_1.3.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I'm not convinced this is an improvement. It takes one relatively
-readable function and turns it into many different files spread all
-over and complicates the SRC_URI.
+diff --git a/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb b/meta/recipes-devtools/python/python3-shacl2code_1.3.2.bb
+similarity index 81%
+rename from meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb
+rename to meta/recipes-devtools/python/python3-shacl2code_1.3.2.bb
+index 6956aad6189c..f43f49f1f092 100644
+--- a/meta/recipes-devtools/python/python3-shacl2code_1.2.0.bb
++++ b/meta/recipes-devtools/python/python3-shacl2code_1.3.2.bb
+@@ -5,7 +5,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=0582f358628f299f29c23bf5fb2f73c9"
+ 
+ PYPI_PACKAGE = "shacl2code"
+-SRC_URI[sha256sum] = "92c5bb633b232bb914699157b3e79796aaf1672f22c0cac0cc633f353aa8a398"
++SRC_URI[sha256sum] = "2dd0b7a4fd50958d0783764da6ca9ede1805ccdd22b6bed3afbf89136e8962be"
+ 
+ inherit pypi python_hatchling
+ 
 
-I appreciate it isn't easy to add new entries currently but that could
-be solved by making this function a standalone function which a
-bbappend could add to, if the additional PACKAGECONFIG really isn't
-suitable for core.
+---
+base-commit: dcd8e6d6703e2d5baf82f0b2e846d977c0c5844f
+change-id: 20260902-mathieu-python3-shacl2code-1-3-2-92b717c09bbc
 
-So no, I'm not really convinced this is a change for the better :/
+Best regards,
+-- 
+Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 
-Cheers,
-
-Richard
 
