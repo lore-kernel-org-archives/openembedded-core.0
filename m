@@ -1,344 +1,252 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D7FCC61DFD
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 07:16:33 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.6])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6992.1788333384780883665
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1DCD8C61DD6
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 07:32:23 +0000 (UTC)
+Received: from mail-ej1-f49.google.com (mail-ej1-f49.google.com [209.85.218.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6994.1788334333910747046
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 00:16:25 -0700
+ Wed, 02 Sep 2026 00:32:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=bRnoubg4;
- spf=pass (domain: est.tech, ip: 52.101.69.6, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GuMcXpX4Pg92dSmeHtz5+yYnbQMKPqzs0LBbSLCN/pFIwfsrGzG6bxHK84H/Ar8Mb0YU5ZE0W9flwKcdFtdR2LyU10s9h4AlFyFZsUxCatlL4iLuQkpdEJKtjVpIyGPAxOFwku8hnv1hJmWVt5n0CX+28X6lIcdmLIOE6zuDx9lMQnkB1WuMuMyADK7Q51MSJpAs14ScChlIyrJ7bOQXcJ91DLmJDds64BEAJmaGN9PCyPDZ9cOZVDTk670ioAjzuRvbwDgwgQyj/JDGw2h4/ckDZjZPXlMT02cbT7z62bKJ1NgspnVhCPkkOVKASDFShZXzCmTp2rmt4hAEZNhmLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Yyk2kLDp9Py7woBruwVtYYPU/ETM9McvnjZdd7uBCt4=;
- b=VXhX2wiur7AJz7Tv1P2b4KT+kn9s/ljOySyPWUNnH2AwrnNxqvMj8gc+agAbN1uCmvoPU4OexRL+OhFQyJTzBbmVZAExO3AOvSD4t6653ZT25VT4+mECJJuXrngaIx5qHj9FRBNPDN6ogdN3ujgv7KHGgyQDBDaEooHw8+wgY5o5UUDNxN0Zn221tPIBEE4+7xwtpWyrYwYV2PAefYWSFQltcZbBfG1bnTgbqqrJ1zPLWq07Z87EztNCSlSh9ldiHCgL05Ga5O5qGneRH+/0s7AtCmLdsT8vqF6g/Pm0r1PxFUUyJUQcwtTf0gw2fiXyCxOQVuqSKGCCRJTOjTyd6g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Yyk2kLDp9Py7woBruwVtYYPU/ETM9McvnjZdd7uBCt4=;
- b=bRnoubg4F/wCO7EnWj7vs+YLf1hHUDHyOkSTBLeUDJxMLpyYUWFqdcvyTRsnRBFO1XzRANJ3tlqroI8FCBOJKLUXo3PyeNl+7RuAjkwLoRK4qYsInaC/QCua3c/4tIeQGPcqGiEgdgjHQ3RLDc+O9a5utfSgs6grEUHsqovqLzisdStj/ZmdtoO2WN7CHpSgoKKzGJphgPqll6u2cl3mWX1bZNP2CsIa48J8ZRRF75BC6t2yKhWLf1mGzUt+pW2n5qf+L5gilNWCGlBCqcegyQJi6dTJ577NOL53l2ePykkKIDqyVa9zupTig0zdZQxwl99+aTRsQjhEBZ5hsMshmg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by GVXP189MB3404.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:2a9::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
- 2026 07:16:18 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0360.008; Wed, 2 Sep 2026
- 07:16:18 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v6] zstd: add ptest support
-Date: Wed,  2 Sep 2026 09:16:13 +0200
-Message-ID: <20260902071613.9813-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260831062453.8048-1-pratik.farkase@est.tech>
-References: <20260831062453.8048-1-pratik.farkase@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO4P265CA0273.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:37a::10) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
+ dkim=pass header.i=@mvista.com header.s=google header.b=OkxttNDA;
+ spf=pass (domain: mvista.com, ip: 209.85.218.49, mailfrom: vanusuri@mvista.com)
+Received: by mail-ej1-f49.google.com with SMTP id a640c23a62f3a-c25b661d37dso102184666b.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 00:32:13 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788334332; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fqMR+vt2ar1ZZyuiY06+Ry2jU4xEc2O93ogjDpWk5VVW6hLn2p2q+KUHhtfJL+rDt8
+         V5M0E8olLKQ/QbXAFdbCQz7HX5hh2HIuYBRSI8jNl2DP7UFYcruUIvLighur6SWkyWev
+         994zKSTpiI0Qgnxgj64r3LoD1LNWgsn77zcB48swISIxbIfgnG5NMfRAA5fcq/1B5eYY
+         /wF3aKt5kG2NJJ0s6NsgNh5hQ/aO8Hl2iU+QctsDm+KsF3hqh7lZwWZtlL/DUp+sAIl2
+         aXcI7QTxlsEIK5Aob1375qUuh90Z7H7bNMnRsKva/e2WKHPJImku+MQCexu8vlIUKMXx
+         MhbA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=tVAOhqTClzOY2qgDnHqiDUCBreQBCoNu4RgVpAu5RmU=;
+        fh=GHvkvuDq1dzEkTgh1+82oK11fSs11JFWdMos3uPvYu4=;
+        b=TSZUkQtuoR0W/22PbKYFkdwjAGKGXkAyBI7LMvvi97L/znRepfsmEwc7bfsBdCprsF
+         knYA1NBmfmX3bc0EHQdDUQMTJ8N8yenGh6/R1QNoqM/FgqvkGnXQXtcmlfl3IoDsxto2
+         pjhYZEBio2OlKjOAAkKv/LoMemmnl3jiyKhdt9wXd0rQNZjQHdeg9X6LVmvBg1bFIr4K
+         vE1E6OKIqFD/2Ol43mV5ZwXuRuxyV3pCifzc2qkIhxiKqRaqfMPVKy98L4x4EkjMHEYF
+         +91gGHYyCrHS7Ssh8ly699CooIKXzzmFyi9eLvRCZW8nphsZ+A+wiHFVBeEKcZSrvAZv
+         rjeA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1788334332; x=1788939132; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=tVAOhqTClzOY2qgDnHqiDUCBreQBCoNu4RgVpAu5RmU=;
+        b=OkxttNDAuRIeRoFDCUvEhnEE5Q1Xeqmj/dGpaqIQD0ne6PWNdqI/4qzpTqvwnLk77/
+         W8TuXzzLj9WrD5Seh7qkrlGkzf7g1vxzUkYED7n1sxAJFcib80hwKWCI/MXD5rMbvzna
+         cUGI1le9hHv5GzmaZ4BBg4IVYMJ+dLY9IpAGs=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788334332; x=1788939132;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=tVAOhqTClzOY2qgDnHqiDUCBreQBCoNu4RgVpAu5RmU=;
+        b=UcG1eFYm0QemUh/WmZDvUi28U6GWw48RL70x37sdEjy25+87LbxxiWfq+cIDILm9M/
+         5wLzejopp78rio1WLtIXl6K37wp+DMif5B4EJGp12uKcqsoo7Dshz5m1L4p5v+2PE35L
+         hZNX5xHLhD9+zBU4u02MVz6/cNj/5+7Z3lvdHUCHWWav4RHAKMsjDO0XMIbdmI6mrz7A
+         ebWyCODAZIAXtJ10f6vmSFPD57KXrFtjWwRs+IYAnMf7uNXNgZ4nlWDI6wc37GEyu072
+         aU8/29fp+l4ILzlc09S8+J+tFz6MXOLN6Xd/EfDsINogFGL422sOw4r3LQi5D+2rvzVF
+         0gnA==
+X-Gm-Message-State: AFuF++n/I+3wDjZs0e5yISsJVXpJTeApJfhc5iO9GeWPtrFVpuWkMOBk
+	ZubvSxkgu8P3o/bbxYLq1siiLevZpbEYN08drrTypKVTwgXZVKMdTz7Q8Vk9AS2n9GmbpNe1Tla
+	V1EMeXkO5m4iaRQZKzsdY9tmFDN/gwcU7vOFYxmPtxg==
+X-Gm-Gg: AYBFou2ZOXy8grM1SZb1Mw0MPWYqkbo0sd9FZfXYpVE4KqIOiAdSyWyi0nIKHUhnt6V
+	CaaZMFiLb0we+xAfkASJSM6L+wHy6lZD7zi0pJMp6Moz1jLpFs/JLYJuohsLLoO3lhznYLny8iI
+	yG5jjMbAdmvvyMlkRAA9K0STu21/KDyZ8YEG6WZ/d+fCeXyCpdSiXSR0QGKiaunSZSyJfWa1Jvq
+	kXDZFvvY2Asn5P/BC0fRZ6kQ3KLPPMolqvbN/HADTbx/QVYjPCgCgLAQYbQcMgqmIxOI06O6SV5
+	dsPI2Vc53fxNDYB1vxNDc8Bb1RM1zQW37fY5tREY6D/fnFaCmJ8GRG6Ljr2aa4N6MnnnmcP+SVC
+	0g89m6mlTgZ1/tQ==
+X-Received: by 2002:a17:906:4795:b0:c20:f6d9:d8c7 with SMTP id
+ a640c23a62f3a-c25d55ebe06mr114377566b.24.1788334331831; Wed, 02 Sep 2026
+ 00:32:11 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|GVXP189MB3404:EE_
-X-MS-Office365-Filtering-Correlation-Id: c01577ed-fc86-4d7e-bb26-08df08c2154f
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|6133799003|3023799007|10067099003|56012099006|11063799006|22082099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	+DEEO8xkWUd82F1pD0Qvqv/gGz7KYpq3t1hskscyGXWHYHv92SvxO1bq4qEepCG5xctHNZ3n73PNxlqu4nAJ/7oqv6OO1T3t27jEJeglY2kqiksFUj92FLdVF6bV/xBOoVPp2zhv+Ct5ZM7dM1Ho0xd0mxYpm+WxL1StPgp7tPqnRy7cOVpuH4wX82LOS2WawFc3Uq2L41vUSTOGZ5RY8+90geAEix385OzV68vi6giYbJxVjZ4w9PSJswdKEnTZEXdDIcfP3si431ARb2m3v12mB6sLZMKs1uxb4ML2wXdejudr7usEGultJMWxplxaqIfmp0gkeMTNrKKCQCCaaM3j/YiWMvzlAg7TXRP8pd51uZlk0+aaSJAfeGx6AOMPGU6yHm5aUJSzpRX6LbLE4bHJ7WrhUWyQMR79s4z9x21O/shi6m6+I2Vq6apdn3pWukY0tLX6ebi11kpTWYDPNFExIF58Q+ZUlu0KX/htyFeeQxcAmsweMLkPxYVaAM1UNCgY0jzcAt1Y0UBviDeINJBoaD58jrGBdvJEtJHodTWsksn9G3JJwSyarxGUdPoKMd7d99s92iLPXsFtbfPEnXuCVu9LwpxzTrXIO1o4n2X0bIeQlpXrxv6RPsZVZE2oFbRncF46NGtI0c9fFi9gNFh/AXpFe/7pn4IXO9uhN+o=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(6133799003)(3023799007)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?VzD8RPBvswTh9TiR/OjzZ7QFk5qEo6BE1IOX9u8daeKvOYRFHfilRiuxv40C?=
- =?us-ascii?Q?0bJs1cm29/dexqdkEaJ+LhY54pNhmRS+1WU/PidcPYGBmOPlmCozdWXgd1fb?=
- =?us-ascii?Q?Gl3kuanpa7oqNaAhIWhKG69DCxzx4e9popoDGAnW7PbRBX//CoBR57Hpe7m0?=
- =?us-ascii?Q?r9lwphSNBeD8S+P7KSlR05y+dXhHQOrkob/pk6lKXnuMu33K4y6C89Uk+bKI?=
- =?us-ascii?Q?f+3OiKMcJ5zWnUc9jk8CPSm2Yeuzm3hP++4UyY+EvSGP6fmT+rEO1ZOzshEF?=
- =?us-ascii?Q?6ziNEWxRwXa528TwcaYr50OAwrHQ9sauJxMR6PEYw+nCqfzJvX9VHqvTJ4rb?=
- =?us-ascii?Q?JV0Uoga629xeYqR2UFS53OMNh6LI7vBHeKQtnwoLi2pxWx6X9F3wIXm8Uidq?=
- =?us-ascii?Q?/Rfp8e3CdegA/UsJXq76yCxTRGmpBWWmm/QgEmEvi7rbwwfRcmHdcNA2531Z?=
- =?us-ascii?Q?cemYh+/alSsINoyRVsSIXycPhRxC4NfyXUGgB6xDAKk6Pr0JfoVJEqG5xg5s?=
- =?us-ascii?Q?Q4pNTZyT8JS8S0SSM6T4A+Nycn8PXtKLZ+WPj238MUeeJOWKwEl8En7W+wWT?=
- =?us-ascii?Q?VCffo8E8iBSYawyOaXAdvmB8RoJp6GaPgKYEOkzPQaUDzSv+wtTdYw/5SQCZ?=
- =?us-ascii?Q?91LRdma78eX5MhCEh8W5m0HkNMDxo2ub9fmwQK8id+XHlhgj6dh6uy0iJPjZ?=
- =?us-ascii?Q?9RBHSdUgC2sM3T43iSuHhp5RIrqEW0eJqeW/CqY7jnGXTFaiPqXfLqxrgcVy?=
- =?us-ascii?Q?RTombqf4EDt+l2LyzeFyMIJsEVccIi7G+XRGovHSM/NfhPWjPc4LnEiwJIrS?=
- =?us-ascii?Q?qJQMMdJ6tJ1Usd+4ZjeeKvbsvxNzPK2pE7WVLjbIGx1HBdVQmADNrgISgfbU?=
- =?us-ascii?Q?KZeoCtrr80En8Ohs4OxOAOhXUiU9RZNnst9UPC5ZLCP3KJWLtfeXmiquThkT?=
- =?us-ascii?Q?zUgGMXKtS25qJowbwJfGFIBtsQaicOWg3sZCDBKV1+MnHhi5zmMMqCCO8/pT?=
- =?us-ascii?Q?MgwrmHZDxHN0lGWQJv2o/phe9sabUEgijDxZR3MU9VwlN2JPvcA+l79jSRYq?=
- =?us-ascii?Q?GAuWFyz0svqQOwYHXMeBJeiFnJoO/LAhgOhNHv5huWH+OgdPkweFIKIIwgKW?=
- =?us-ascii?Q?eiDXCdcfOaArm5XGqNAIS3WXh6EtO197SZanV0JDHTUfrdRcWecLZYXoD/qS?=
- =?us-ascii?Q?zhCgIA6lOn7I2jlsHfu3PgbtasmGJhwTO+fKoF603TdmlFqhw3LRAXRP/khO?=
- =?us-ascii?Q?K7IejvNExcPq6bdgo0L9wgoq3G2htMrpx6cPkfXziH95jK6z1IJVBSt48Z6i?=
- =?us-ascii?Q?0RECfL1eEWL1Q4DP5J0OEnUVwAFcy90/6OUAinMGrESglylRB5LW0Li5rx9B?=
- =?us-ascii?Q?xO6wMedwKUCsmGoPWq88OBZzvrXdG8IZfbnBlcnBeAJf6dkADJe9wW4CD72V?=
- =?us-ascii?Q?s5PgIeKh7hi6QSSumKh046cWKHLRUbYZqyrAFXGPBSGMLGY8BHWO4ZiJdPGH?=
- =?us-ascii?Q?KpU4VTbyejPO4UDr73sfLoM4H9D8oB0WOtv0wHh7V2TBMzsTPn6FT0X0bjeY?=
- =?us-ascii?Q?c9VZwhEbBYF66VJVbMd1opmaMHVHosczagYoD2eUlBLiR+b2wiHCOIMHyz7M?=
- =?us-ascii?Q?5YiXcuH4zN7oSEVDl8u8W3G+yW+x75bYFeX2I/Qca3P9K8bfvbc3XRLlNj0D?=
- =?us-ascii?Q?6uhHvWfEN2yeM8cCDqP4AxzZtqmEO+ZFaQgVlz6RDOC4z1mjMfBwj6fdpREf?=
- =?us-ascii?Q?0t3sMjfxFg=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: c01577ed-fc86-4d7e-bb26-08df08c2154f
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 07:16:18.5352
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: yWOD0VY0NqHN7jagsz6AkK0jACXMfa+N21lqAkdwMJc4h6N/ioAUqcBbkMhfDAfom1jDIjEL4qRoctQlO8hyug==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB3404
+References: <20260814101941.873295-1-vanusuri@mvista.com> <20260814101941.873295-3-vanusuri@mvista.com>
+ <DL4LVZ66P1HD.10FI9J12FE2L0@smile.fr>
+In-Reply-To: <DL4LVZ66P1HD.10FI9J12FE2L0@smile.fr>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Wed, 2 Sep 2026 13:01:59 +0530
+X-Gm-Features: AcwNN1VqTIoOm8_BDcxoKnGGzpAv5perX1P-80Z9j382uXC5I6vmV6Hbtl5rNBQ
+Message-ID: <CANQUz1_GWaKEy-e96Lzy6KeV8yJZBi5Jon7SE4GQnHy+FSUV-A@mail.gmail.com>
+Subject: Re: [OE-core][wrynose][patch 3/3] p11-kit: upgrade 0.26.4 -> 0.26.5
+To: Yoann Congal <yoann.congal@smile.fr>
+Cc: openembedded-core@lists.openembedded.org, 
+	Jaipaul Cheernam <jaipaul.cheernam@est.tech>, 
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Content-Type: multipart/alternative; boundary="00000000000096bbe7065a7b08bb"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 07:16:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244897
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 07:32:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244898
 
-Add ptest support for zstd running fullbench and the upstream cli-tests
-suite, providing integration testing of compression, decompression,
-dictionaries, file handling, and CLI behavior.
+--00000000000096bbe7065a7b08bb
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Tests included:
-  - fullbench: validates all internal compression/decompression functions
-  - cli-tests: 41 shell-based integration tests covering compression,
-    decompression, dictionaries, file-stat, progress, symlinks,
-    cltools, and multi-threading
+Sure. I'll fix SRCREV assignments & send V2.
 
-The cli-tests run as the ptest user so that permission-related tests
-work correctly. The levels.sh test is patched to skip the --max
-compression level on systems with less than 10GB RAM, as it allocates
-~8.5GB on 64-bit systems.
+Thanks & Regards,
+Vijay
 
-Tested on qemux86-64 (4GB RAM) with ptest-runner: fullbench PASS,
-cli-tests 41/41 PASS. Runtime is ~41 seconds.
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
-Changes in v6:
-- Move IMAGE_ROOTFS_EXTRA_SPACE override next to the other
-  IMAGE_ROOTFS_EXTRA_SPACE entries for consistency
 
-Changes in v5:
-- Add IMAGE_ROOTFS_EXTRA_SPACE override for zstd ptest image
-  (window-resize.sh creates a 1GB file and needs sufficient disk)
+On Wed, Sep 2, 2026 at 11:41=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr=
+> wrote:
 
-Changes in v4:
-- Run cli-tests as ptest user for permission tests
-- Add GNU grep and less to RDEPENDS for cltools tests
-- Install zstdgrep/zstdless scripts for cltools tests
-- Patch levels.sh to skip --max level on systems with <10GB RAM
+> On Fri Aug 14, 2026 at 12:19 PM CEST, Vijay Anusuri via
+> lists.openembedded.org wrote:
+> > From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> >
+> > ChangeLog: https://github.com/p11-glue/p11-kit/releases/tag/0.26.5
+> >
+> > 0.26.5 (stable)
+> > * rpc: guard against overflow when decoding nested attributes
+> (CVE-2026-18938) [PR#777]
+> >
+> > Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> > (cherry picked from commit 21a2c91ccca5257ede8994d30460b0dcda617c3a)
+> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> > ---
+> >  .../p11-kit/{p11-kit_0.26.4.bb =3D> p11-kit_0.26.5.bb}            | 2 =
++-
+> >  1 file changed, 1 insertion(+), 1 deletion(-)
+> >  rename meta/recipes-support/p11-kit/{p11-kit_0.26.4.bb =3D>
+> p11-kit_0.26.5.bb} (98%)
+> >
+> > diff --git a/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
+> b/meta/recipes-support/p11-kit/p11-kit_0.26.5.bb
+> > similarity index 98%
+> > rename from meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
+> > rename to meta/recipes-support/p11-kit/p11-kit_0.26.5.bb
+> > index 9219e9eefc..8229cf96c9 100644
+> > --- a/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
+> > +++ b/meta/recipes-support/p11-kit/p11-kit_0.26.5.bb
+> > @@ -14,7 +14,7 @@ SRC_URI =3D "gitsm://
+> github.com/p11-glue/p11-kit;branch=3Dmaster;protocol=3Dhttps;tag=3D
+> >             "
+> >  SRCREV =3D "8e6e4e6d64d9fe91c62b0052c105b2b72d4c24ef"
+> >  SRC_URI =3D "gitsm://
+> github.com/p11-glue/p11-kit;branch=3Dmaster;protocol=3Dhttps;tag=3D${PV}
+> <http://github.com/p11-glue/p11-kit;branch=3Dmaster;protocol=3Dhttps;tag=
+=3D$%7BPV%7D>
+> "
+> > -SRCREV =3D "a14788849d1ef44422d679534a13821eab5bb5f4"
+> > +SRCREV =3D "120050e353e8f43d7c40bbcc047f667f903f4de5"
+>
+> Hello,
+>
+> It did not happened in this patch but some thing is wrong here: we have
+> 2 SRCREV assignments.
+>
+> Can you send a v2 with that fixed and rebase it on top of latest
+> wrynose?
+> Be aware that "p11-kit: upgrade 0.26.2 -> 0.26.4" should merge soon
+> (currently in wrynose-next).
+>
+> Regards,
+> --
+> Yoann Congal
+> Smile ECS
+>
+>
 
-Changes in v3:
-- Reduced test scope to fullbench + cli-tests only (per Ross's review)
-- Removed fuzzers and stress tests
-- Moved from PTESTS_SLOW to PTESTS_FAST
+--00000000000096bbe7065a7b08bb
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Changes in v2:
-- Added source .c/.h files as training corpus for dictionary builder tests
-- Fixed cli-tests invocation
+<div dir=3D"ltr"><div><div>Sure. I&#39;ll fix SRCREV assignments &amp; send=
+ V2.=C2=A0<br><br></div>Thanks &amp;=C2=A0Regards,<br></div>Vijay<div><br><=
+br></div></div><br><div class=3D"gmail_quote gmail_quote_container"><div di=
+r=3D"ltr" class=3D"gmail_attr">On Wed, Sep 2, 2026 at 11:41=E2=80=AFAM Yoan=
+n Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile.fr=
+</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:=
+0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">=
+On Fri Aug 14, 2026 at 12:19 PM CEST, Vijay Anusuri via <a href=3D"http://l=
+ists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembed=
+ded.org</a> wrote:<br>
+&gt; From: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
+&gt;<br>
+&gt; ChangeLog: <a href=3D"https://github.com/p11-glue/p11-kit/releases/tag=
+/0.26.5" rel=3D"noreferrer" target=3D"_blank">https://github.com/p11-glue/p=
+11-kit/releases/tag/0.26.5</a><br>
+&gt;<br>
+&gt; 0.26.5 (stable)<br>
+&gt; * rpc: guard against overflow when decoding nested attributes (CVE-202=
+6-18938) [PR#777]<br>
+&gt;<br>
+&gt; Signed-off-by: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
+&gt; Signed-off-by: Richard Purdie &lt;<a href=3D"mailto:richard.purdie@lin=
+uxfoundation.org" target=3D"_blank">richard.purdie@linuxfoundation.org</a>&=
+gt;<br>
+&gt; (cherry picked from commit 21a2c91ccca5257ede8994d30460b0dcda617c3a)<b=
+r>
+&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
+" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
+&gt; ---<br>
+&gt;=C2=A0 .../p11-kit/{<a href=3D"http://p11-kit_0.26.4.bb" rel=3D"norefer=
+rer" target=3D"_blank">p11-kit_0.26.4.bb</a> =3D&gt; <a href=3D"http://p11-=
+kit_0.26.5.bb" rel=3D"noreferrer" target=3D"_blank">p11-kit_0.26.5.bb</a>}=
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 | 2 +-<br>
+&gt;=C2=A0 1 file changed, 1 insertion(+), 1 deletion(-)<br>
+&gt;=C2=A0 rename meta/recipes-support/p11-kit/{<a href=3D"http://p11-kit_0=
+.26.4.bb" rel=3D"noreferrer" target=3D"_blank">p11-kit_0.26.4.bb</a> =3D&gt=
+; <a href=3D"http://p11-kit_0.26.5.bb" rel=3D"noreferrer" target=3D"_blank"=
+>p11-kit_0.26.5.bb</a>} (98%)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-support/p11-kit/<a href=3D"http://p11-kit_0.=
+26.4.bb" rel=3D"noreferrer" target=3D"_blank">p11-kit_0.26.4.bb</a> b/meta/=
+recipes-support/p11-kit/<a href=3D"http://p11-kit_0.26.5.bb" rel=3D"norefer=
+rer" target=3D"_blank">p11-kit_0.26.5.bb</a><br>
+&gt; similarity index 98%<br>
+&gt; rename from meta/recipes-support/p11-kit/<a href=3D"http://p11-kit_0.2=
+6.4.bb" rel=3D"noreferrer" target=3D"_blank">p11-kit_0.26.4.bb</a><br>
+&gt; rename to meta/recipes-support/p11-kit/<a href=3D"http://p11-kit_0.26.=
+5.bb" rel=3D"noreferrer" target=3D"_blank">p11-kit_0.26.5.bb</a><br>
+&gt; index 9219e9eefc..8229cf96c9 100644<br>
+&gt; --- a/meta/recipes-support/p11-kit/<a href=3D"http://p11-kit_0.26.4.bb=
+" rel=3D"noreferrer" target=3D"_blank">p11-kit_0.26.4.bb</a><br>
+&gt; +++ b/meta/recipes-support/p11-kit/<a href=3D"http://p11-kit_0.26.5.bb=
+" rel=3D"noreferrer" target=3D"_blank">p11-kit_0.26.5.bb</a><br>
+&gt; @@ -14,7 +14,7 @@ SRC_URI =3D &quot;gitsm://<a href=3D"http://github.c=
+om/p11-glue/p11-kit;branch=3Dmaster;protocol=3Dhttps;tag=3D" rel=3D"norefer=
+rer" target=3D"_blank">github.com/p11-glue/p11-kit;branch=3Dmaster;protocol=
+=3Dhttps;tag=3D</a><br>
+&gt;=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+&gt;=C2=A0 SRCREV =3D &quot;8e6e4e6d64d9fe91c62b0052c105b2b72d4c24ef&quot;<=
+br>
+&gt;=C2=A0 SRC_URI =3D &quot;gitsm://<a href=3D"http://github.com/p11-glue/=
+p11-kit;branch=3Dmaster;protocol=3Dhttps;tag=3D$%7BPV%7D" rel=3D"noreferrer=
+" target=3D"_blank">github.com/p11-glue/p11-kit;branch=3Dmaster;protocol=3D=
+https;tag=3D${PV}</a>&quot;<br>
+&gt; -SRCREV =3D &quot;a14788849d1ef44422d679534a13821eab5bb5f4&quot;<br>
+&gt; +SRCREV =3D &quot;120050e353e8f43d7c40bbcc047f667f903f4de5&quot;<br>
+<br>
+Hello,<br>
+<br>
+It did not happened in this patch but some thing is wrong here: we have<br>
+2 SRCREV assignments.<br>
+<br>
+Can you send a v2 with that fixed and rebase it on top of latest<br>
+wrynose?<br>
+Be aware that &quot;p11-kit: upgrade 0.26.2 -&gt; 0.26.4&quot; should merge=
+ soon<br>
+(currently in wrynose-next).<br>
+<br>
+Regards,<br>
+-- <br>
+Yoann Congal<br>
+Smile ECS<br>
+<br>
+</blockquote></div>
 
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-core/images/core-image-ptest.bb  |  4 ++
- ...std-max-level-when-memory-is-insuffi.patch | 31 ++++++++++++++
- meta/recipes-extended/zstd/zstd/run-ptest     | 21 ++++++++++
- meta/recipes-extended/zstd/zstd_1.5.7.bb      | 40 ++++++++++++++++++-
- 5 files changed, 96 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/zstd/zstd/0001-cli-tests-skip-zst=
-d-max-level-when-memory-is-insuffi.patch
- create mode 100644 meta/recipes-extended/zstd/zstd/run-ptest
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index ce6c0a2d76..d8eba9dafa 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -150,6 +150,7 @@ PTESTS_SLOW =3D "\
-     tcl \
-     tcl8 \
-     util-linux \
-+    zstd \
- "
-=20
- # python3 ptests hang on qemuriscv64
-diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-co=
-re/images/core-image-ptest.bb
-index b20e8ca76d..22bb23c0e7 100644
---- a/meta/recipes-core/images/core-image-ptest.bb
-+++ b/meta/recipes-core/images/core-image-ptest.bb
-@@ -36,6 +36,9 @@ IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-python3-numpy=
- =3D "3048576"
- # golang go-ptest requires extra space
- IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-go =3D "1524288"
-=20
-+# zstd cli-tests create large temporary files (e.g. 1GB for window-resize)
-+IMAGE_ROOTFS_EXTRA_SPACE:virtclass-mcextend-zstd =3D "1524288"
-+
- # ptests need more memory than standard to avoid the OOM killer
- QB_MEM =3D "-m 1024"
- QB_MEM:virtclass-mcextend-lttng-tools =3D "-m 4096"
-@@ -45,6 +48,7 @@ QB_MEM:virtclass-mcextend-python3-numpy =3D "-m 4096"
- QB_MEM:virtclass-mcextend-tcl =3D "-m 5100"
- QB_MEM:virtclass-mcextend-go =3D "-m 4096"
- QB_MEM:virtclass-mcextend-gnutls =3D "-m 1536"
-+QB_MEM:virtclass-mcextend-zstd =3D "-m 4096"
-=20
- TEST_SUITES =3D "ping ssh parselogs ptest"
-=20
-diff --git a/meta/recipes-extended/zstd/zstd/0001-cli-tests-skip-zstd-max-l=
-evel-when-memory-is-insuffi.patch b/meta/recipes-extended/zstd/zstd/0001-cl=
-i-tests-skip-zstd-max-level-when-memory-is-insuffi.patch
-new file mode 100644
-index 0000000000..5f9d5b85d1
---- /dev/null
-+++ b/meta/recipes-extended/zstd/zstd/0001-cli-tests-skip-zstd-max-level-wh=
-en-memory-is-insuffi.patch
-@@ -0,0 +1,31 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Pratik Farkase <pratik.farkase@est.tech>
-+Date: Thu, 27 Aug 2026 12:00:00 +0000
-+Subject: [PATCH] cli-tests: skip zstd --max level when memory is insuffici=
-ent
-+
-+The --max compression level on 64-bit systems allocates ~8.5GB, which
-+exceeds what is available in memory-constrained test environments such
-+as QEMU. Extend the existing 32-bit skip logic to also check available
-+system memory, using the same fallback (copy level-19 output as max).
-+
-+Upstream-Status: Inappropriate [https://github.com/facebook/zstd/issues/47=
-48]
-+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-+---
-+ tests/cli-tests/compression/levels.sh | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
-+
-+diff --git a/tests/cli-tests/compression/levels.sh b/tests/cli-tests/compr=
-ession/levels.sh
-+index b8230f2..7846d3e 100755
-+--- a/tests/cli-tests/compression/levels.sh
-++++ b/tests/cli-tests/compression/levels.sh
-+@@ -16,8 +16,8 @@ zstd --fast=3D10 file -o file-f10.zst -q
-+ zstd --fast=3D1 file -o file-f1.zst -q
-+ zstd -1 file -o file-1.zst -q
-+ zstd -19 file -o file-19.zst -q
-+-if echo "$version_info" | grep -q '32-bit'; then
-+-    # skip --max test: not enough address space
-++if echo "$version_info" | grep -q '32-bit' || [ "$(awk '/MemTotal/{print =
-$2}' /proc/meminfo)" -lt 10000000 ]; then
-++    # skip --max test: not enough address space or memory (<10GB)
-+     cp file-19.zst file-max.zst
-+ else
-+     zstd --max file -o file-max.zst -q
-diff --git a/meta/recipes-extended/zstd/zstd/run-ptest b/meta/recipes-exten=
-ded/zstd/zstd/run-ptest
-new file mode 100644
-index 0000000000..0949e9187a
---- /dev/null
-+++ b/meta/recipes-extended/zstd/zstd/run-ptest
-@@ -0,0 +1,21 @@
-+#!/bin/sh
-+# SPDX-License-Identifier: MIT
-+
-+cd "$(dirname "$0")/tests" || exit 1
-+
-+run_test() {
-+    name=3D$1; shift
-+    if "$@"; then echo "PASS: $name"; else echo "FAIL: $name"; fi
-+}
-+
-+run_test fullbench ./fullbench -i1
-+
-+if [ -d cli-tests ] && command -v python3 >/dev/null 2>&1; then
-+    # cli-tests needs to write to bin/symlinks and scratch dirs.
-+    # Run as ptest user so permission-related tests work correctly.
-+    chown -R ptest:ptest .
-+    su ptest -s /bin/sh -c "./cli-tests/run.py --exec-prefix=3D'' --zstd=
-=3D'$(command -v zstd)' --datagen=3D./datagen"
-+    run_test cli-tests test $? -eq 0
-+else
-+    echo "SKIP: cli-tests"
-+fi
-diff --git a/meta/recipes-extended/zstd/zstd_1.5.7.bb b/meta/recipes-extend=
-ed/zstd/zstd_1.5.7.bb
-index ef0bd54c9c..4c3b377c14 100644
---- a/meta/recipes-extended/zstd/zstd_1.5.7.bb
-+++ b/meta/recipes-extended/zstd/zstd_1.5.7.bb
-@@ -12,7 +12,10 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D0822a32f7acdb=
-e013606746641746ee8 \
-                     file://COPYING;md5=3D39bba7d2cf0ba1036f2a6e2be52fe3f0 =
-\
-                     "
-=20
--SRC_URI =3D "git://github.com/facebook/zstd.git;branch=3Drelease;protocol=
-=3Dhttps;tag=3Dv${PV}"
-+SRC_URI =3D "git://github.com/facebook/zstd.git;branch=3Drelease;protocol=
-=3Dhttps;tag=3Dv${PV} \
-+           file://run-ptest \
-+           file://0001-cli-tests-skip-zstd-max-level-when-memory-is-insuff=
-i.patch \
-+           "
-=20
- SRCREV =3D "f8745da6ff1ad1e7bab384bd1f9d742439278e99"
- UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
-@@ -44,3 +47,38 @@ PACKAGE_BEFORE_PN =3D "libzstd"
- FILES:libzstd =3D "${libdir}/libzstd${SOLIBS}"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-+
-+inherit ptest
-+
-+do_compile_ptest() {
-+    oe_runmake -C ${S}/tests fullbench datagen \
-+        ZSTD_LEGACY_SUPPORT=3D${ZSTD_LEGACY_SUPPORT}
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/tests
-+    install -d ${D}${PTEST_PATH}/programs
-+
-+    # Test binaries
-+    install -m 0755 ${S}/tests/fullbench ${D}${PTEST_PATH}/tests/
-+    install -m 0755 ${S}/tests/datagen ${D}${PTEST_PATH}/tests/
-+
-+    # cli-tests
-+    cp -r ${S}/tests/cli-tests ${D}${PTEST_PATH}/tests/
-+
-+    # Golden test data needed by cli-tests
-+    for d in golden-compression golden-decompression golden-dictionaries; =
-do
-+        cp -r ${S}/tests/$d ${D}${PTEST_PATH}/tests/
-+    done
-+
-+    # zstdgrep/zstdless scripts needed by cltools tests
-+    install -m 0755 ${S}/programs/zstdgrep ${D}${PTEST_PATH}/programs/
-+    install -m 0755 ${S}/programs/zstdless ${D}${PTEST_PATH}/programs/
-+
-+    # The levels.sh expected stderr includes set -v traces that change
-+    # after patching the memory check. Remove the exact match file so
-+    # the test framework ignores stderr comparison.
-+    rm -f ${D}${PTEST_PATH}/tests/cli-tests/compression/levels.sh.stderr.e=
-xact
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D "bash grep less python3-core python3-modules"
---=20
-2.43.0
-
+--00000000000096bbe7065a7b08bb--
 
