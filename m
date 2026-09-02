@@ -1,103 +1,146 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17244C61DD6
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 16:04:21 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.810.1788365053765084022
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9F39C624DA
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 17:00:45 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.520.1788368435800957841
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 09:04:13 -0700
+ Wed, 02 Sep 2026 10:00:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IL/iqd22;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fKtqaBnb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a062dd1b7c-dd50f4c4-a4c9-45f9-ba82-2d7915b233be-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788365053; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=6seRyBjkOHbyjUNgimKJR8qq9FhsNLOlOywc8G+1kiU=;
-	b=IL/iqd22y6h4B9ozEGVSLxFZEWTep7chGNy4kDTGzrVBPEiREIvnf4fOgtIlI5Gp
-	m3xlxk5y6XZ0yK8NkgsL9+n2kyaIypErh8FATFKpISKLqdg4IfRwhuwJ68H1g0lH/ea
-	xBMBexV8A93CPvVynay9XcKYnnBfuUPqMtjQbtf8=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788365053;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=6seRyBjkOHbyjUNgimKJR8qq9FhsNLOlOywc8G+1kiU=;
-	b=fKtqaBnb3D3JkTsEPh6Uo99ZJ1mjpVRLeXP/Hq+dLWKBDS8osej/Xv3dALtVl5j3
-	ksVFohWA0PZ7R+hZBjMvRcC9Soy2n7bRTLv9o4RHgs73ZvkpF3XWYM7CQgIXLR3hl1r
-	Gq34U5l/QxwISKKTq+DTfnC8dZysP8rer+kTXUzE=
-From: patchtest@automation.yoctoproject.org
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 8/8] go-binary-native: upgrade 1.27.0 -> 1.27.1
-In-Reply-To: 
- <20260902-mathieu-updates-2026-09-02-v1-8-039b74833ec7@bootlin.com>
-References: 
- <20260902-mathieu-updates-2026-09-02-v1-8-039b74833ec7@bootlin.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a062dd1b7c-dd50f4c4-a4c9-45f9-ba82-2d7915b233be-000000@us-west-2.amazonses.com>
-Date: Wed, 2 Sep 2026 16:04:12 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.02-54.240.27.23
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DYec9+93;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49a97714f5dso9646065e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 10:00:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1788368434; x=1788973234; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=SbTQw5t+k3MUhgg4U/I7SiC/YPJ4nmS0LRT6EsdR190=;
+        b=DYec9+93sgUjM6Av2mCvl8MdPUZsPDYU0Lw47ea9v99eYz1RH51uF4Qgcafh+WUnuA
+         64OnoqJQz25xhTKza/4yw6Txjdo+v+fM+uIwUM2gJ8EAcUwRSt54bi4BtFdK7HsdDP8D
+         ZstgO6KGKfGUrAXdDSOCnD2fyPxUmeeOsMZ7o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788368434; x=1788973234;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=SbTQw5t+k3MUhgg4U/I7SiC/YPJ4nmS0LRT6EsdR190=;
+        b=bGRUoHTkrbAlNTrt6kM+Qs1lb7EcPTOmDErR6pSYWMiYzaj18q578b4ZOtFvKM7aw1
+         hZjL3vInrNAXyeX00QZVkRUyZHdP8P8oEqBncD64nLYSrLcl1Rx+dPm/aMdCk+nCzgLf
+         NmhPU/Qubl4h+0g+8tkKei8JMayCBU8CA75ThnDgEvR2mJdFQzUPEDHoN56lCR/wygh+
+         sPJNlzOVF9jIP43kiAZ24fPUFOvxy62pWZkNZnuJ/3udkYVMl/lVg3/e+jA6DhosP6+l
+         2vZHve7DxnEQgp2hfkZOsXvGjCFQHdzcD2JVO13VeC2YlwZaRn1vsW3vqTQXcKIGbPQQ
+         vmww==
+X-Gm-Message-State: AFuF++mvGIsoPFk/a6+qIKgiRurYnSH1ZKmC2NknFxHCafi0Gh0akMoJ
+	lZ2UWPZhUKjiBED/3Bpji9fOiiwiCuGHhZCpuDAtXHdeQ6l0YFqawpN8nBGhC3ixMaNBVmUu0aP
+	GJYSxyso=
+X-Gm-Gg: AR+sD10RA45CYpuEPP5Nmec7i6JsBSIuWK9zcucRmQEP6AcXKVC3375Z8XssLEXrSpT
+	HvS3E88NSjKdPcfs4KudnUgaoRN10qi411/0J05YSOVtChwB6m9p5dTKoj8vkiCccWNDDtBaBm1
+	J4b1f+ofQcx5eIwPcFtWcHCl+rGDZrqfzQx2YdcUjQ0gE5e9gSUYZfRsQt4zRR0QSR4bnGOJunX
+	A555ALdSloltkV166VSeHjuNlVFFLX97pt7aPzUBQFtmmDvOWFbaVus1V0xL7zgXJk3iG+paV5a
+	cckEKZOJtnkt55Vz//ksaKRZUv/6uH4m+lY1vFMvDlOp0OlrLWtKQcKbXcZCHrWUS1A4+6bTRYh
+	jkHfe8THqhbqOEtAg+Xm3pLZ9SHnclNFW2dAGfNFGxwmexV5/p4bRJf4EOBnI5SbxoooHZsvzH8
+	MFwItAETyfuQ153A8hRIvmPv7DluehA4oyXaGwBQoeRKvrOlxRMWndmfRBQVv2Gdn79McXquHGN
+	ezHk3UX/62pwTwu6w==
+X-Received: by 2002:a05:600c:3496:b0:493:f5bf:4dc6 with SMTP id 5b1f17b1804b1-49ce57fb12cmr129969165e9.7.1788368433619;
+        Wed, 02 Sep 2026 10:00:33 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:89b1:8875:2e41:59f0])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448eeabbfsm7205831f8f.31.2026.09.02.10.00.32
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Sep 2026 10:00:32 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] openssl: Upgrade 4.0.1 -> 4.0.2
+Date: Wed,  2 Sep 2026 18:00:30 +0100
+Message-ID: <20260902170030.3404153-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 16:04:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244983
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 17:00:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244984
 
---NextPart
-Content-Type: text/plain
+OpenSSL 4.0.2 is a security patch release. The most severe CVE fixed
+in this release is Moderate.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+This release incorporates the following bug fixes and mitigations:
 
+    Fixed QUIC server being able to trigger double free when processing
+    INITIAL packet.
+    (CVE-2026-18798)
+
+    Fixed heap buffer overflow in CMS key unwrapping.
+    (CVE-2026-63072)
+
+    Fixed invalid pointer dereference in CMP server via crafted protectionAlg.
+    (CVE-2026-63076)
+
+    Fixed unbounded memory growth in QUIC server incoming channel queue.
+    (CVE-2026-14456)
+
+    Fixed RPK server signature algorithm selection being able to dereference
+    a missing certificate.
+    (CVE-2026-14457)
+
+    Fixed excessive memory use buffering DTLS records for a future epoch.
+    (CVE-2026-54874)
+
+    Fixed client-side memory leak in OCSP response checking.
+    (CVE-2026-54876)
+
+    Fixed untrusted Sender DN being used as a format string in CMP response
+    validation.
+    (CVE-2026-63073)
+
+    Fixed CMP indefinite cache growth of extraCerts.
+    (CVE-2026-63074)
+
+    Fixed QUIC ACK-only packet retention being able to cause memory exhaustion.
+    (CVE-2026-63075)
+
+    Fixed possibility of AEAD forgeries with empty ciphertext when using
+    EVP_Cipher().
+    (CVE-2026-75803)
+
+    Fixed checking of authentication tags for empty ciphertexts for AEAD ciphers
+    in CCM cipher mode.
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
-Testing patch /home/patchtest/share/mboxes/8-8-go-binary-native-upgrade-1.27.0---1.27.1.patch
+ .../openssl/openssl/0001-extend-check_cwm-test-timeout.patch    | 2 +-
+ .../openssl/{openssl_4.0.1.bb => openssl_4.0.2.bb}              | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-connectivity/openssl/{openssl_4.0.1.bb => openssl_4.0.2.bb} (99%)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
+diff --git a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
+index 76bc05d5f95..26622fd1b18 100644
+--- a/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
++++ b/meta/recipes-connectivity/openssl/openssl/0001-extend-check_cwm-test-timeout.patch
+@@ -1,4 +1,4 @@
+-From 14856dbd767621ce6f162680c00557b54af0effb Mon Sep 17 00:00:00 2001
++From 07bbd037ca61264bcc311856a119b664ce13f586 Mon Sep 17 00:00:00 2001
+ From: Gyorgy Sarvari <skandigraun@gmail.com>
+ Date: Thu, 23 Oct 2025 11:24:36 +0200
+ Subject: [PATCH] extend check_cwm test timeout
+diff --git a/meta/recipes-connectivity/openssl/openssl_4.0.1.bb b/meta/recipes-connectivity/openssl/openssl_4.0.2.bb
+similarity index 99%
+rename from meta/recipes-connectivity/openssl/openssl_4.0.1.bb
+rename to meta/recipes-connectivity/openssl/openssl_4.0.2.bb
+index a669de1b225..9e143b6f6ed 100644
+--- a/meta/recipes-connectivity/openssl/openssl_4.0.1.bb
++++ b/meta/recipes-connectivity/openssl/openssl_4.0.2.bb
+@@ -18,7 +18,7 @@ SRC_URI:append:class-nativesdk = " \
+            file://environment.d-openssl.sh \
+            "
+ 
+-SRC_URI[sha256sum] = "2db3f3a0d6ea4b59e1f094ace2c8cd536dffb87cdc39084c5afa1e6f7f37dd09"
++SRC_URI[sha256sum] = "736b467530f916737b7031310ccb21d8218c6229e61e8e160cd1d3458cd543a8"
+ 
+ inherit lib_package multilib_header ptest perlnative manpages
+ 
 
