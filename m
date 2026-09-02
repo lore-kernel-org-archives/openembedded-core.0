@@ -1,144 +1,121 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 324D1C61DD6
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 06:14:40 +0000 (UTC)
-Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6047.1788329672995211526
- for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 23:14:33 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=tWG5w4Gr;
- spf=pass (domain: smile.fr, ip: 209.85.208.49, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a5e971c970so3226746a12.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 23:14:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788329671; x=1788934471; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=i9O3wqnksShDoBxvuep6E93qnF41Py8Uz+eP03NOjYE=;
-        b=tWG5w4Grwh7yVycEQ74qxsAhGfm1f0cuWwPRBWCBsOLzAcgi3Pvh62wZcnF0QyzvsE
-         UEeiRptSHUtnwHHpRY+GrN8Rh4XkUFejI9JDi+nlFsAjd0XE7pCh8x2v8JaTdBEVBBHA
-         xyo/Rbp10FSRcfVLXQMeEumI0ZrB2P+qK5R5g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788329671; x=1788934471;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=i9O3wqnksShDoBxvuep6E93qnF41Py8Uz+eP03NOjYE=;
-        b=EBDx23B6qi4xCK+fUTNQK9ApoMNP13BGulkAvvzxSg1oe7rNwTmHrZb8/up8d2q5MF
-         dYtwT2rOCjdAf9ib9odEiuO+w4DvMK8EhhoHNnc40k6y0VEPBOTlmnEEUzyQbJFKigWq
-         yl3TvIDTkfS34zc+xjPkV3HoAxHUkmN43T7F9zSNFc/MjUlqvRUc8RgE2hndMDDl3Eif
-         4z1kYLN+2zW0iqZQlCWYbjTrQuloRqWkdvQjJVE/eIHIkRCCBc0oO/LoIR5b863KDyG+
-         b3MR/X+LBFpW74N3c6REXBKs7J8tvnoj1hxH5U1pz/gN7oOSwsVR6uPoygrpwj0jhXWY
-         A97g==
-X-Forwarded-Encrypted: i=1; AHgh+RppcP12hxm4iCjTELBvnrIoysKBDqpJZLqAu2Y4nj7lS1IKJzfYQN7S7CAaJvf7G6bmXYuU1uvl0pCq8m1Ui4CyxQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++k/9fkjeX872pgo8l8RVYSQBEPFekFMpmDHwuGzmyDzgxpE2EY4
-	uffvAxXx6xun5w3uSu0499vlrSj87TZtxY1+KuIj3wW/Uoxs6ZNwizlItLuqDtvAkGKFHpJmPPS
-	vlpKQ89E=
-X-Gm-Gg: AR+sD12vP+pQAm8uSuG9BU3APYkFssbboH9eD7WxhRDI7CIs2y1Zs/kezwHtKGHrT6P
-	7lg7T+/5Ea+ypkmHhkQIxnHka/iBKTE7byL2kq0BYebpNsTQaVq8L+4FumnxZ7t3aGt/CrtJawr
-	quJoYQJkzbykGNNhDjS7iCNiz6e6wH58eSe9OUIoQpoURChXXc1nnbeUA8/PJngjoxWBhGq/gT+
-	vLMqmdOzz24DjpOe2m+SFiTa4/Ve5QagkvQxV0iQY/F2bJCUFvEwRmrmdBObh0sMWF89Djmd2F+
-	ebsmqMtV7945N2zLfF0g+wUm1gxhY5ANGR2nqJk4X6lFpEEK+VjhLME6/mOkRm6TyfnP6o0BPtR
-	dHv39Y+kA7D1GfyB7QkaPNlc9xuczIFCbF8eWv/Av6tFCPEzurRFqce5NtQDQRnmoQOcOR96jsk
-	fJ6MRD9F3xTs7hLb/Ci31bkA78OuIioE4oYzkGqzPYendv5XAVoPsoDEgOIJl32XWggUJIzbzkU
-	Dxi5rcM/qxCWsdZoUG+zmLpgvIWLnECc6bV2jSaVuqhfVCcTA==
-X-Received: by 2002:a17:907:1c92:b0:c24:6382:2648 with SMTP id a640c23a62f3a-c25dca1a9c1mr50162566b.5.1788329670704;
-        Tue, 01 Sep 2026 23:14:30 -0700 (PDT)
-Received: from localhost (2a02-8440-2607-5ad5-e257-1b9f-da87-0e1f.rev.sfr.net. [2a02:8440:2607:5ad5:e257:1b9f:da87:e1f])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c25cffc5cd9sm74094366b.6.2026.09.01.23.14.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Sep 2026 23:14:30 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 02 Sep 2026 08:14:29 +0200
-Message-Id: <DL4LYKDNDBSE.K4SM1TC4D2FA@smile.fr>
-Subject: Re: [OE-core][wrynose][PATCH] perl: upgrade 5.42.0 -> 5.44.0
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <Randy.MacLeod@windriver.com>
-To: <abhishek.bachiphale@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260814153052.2863858-1-Abhishek.Bachiphale@windriver.com>
-In-Reply-To: <20260814153052.2863858-1-Abhishek.Bachiphale@windriver.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A56AC61DFD
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 06:16:10 +0000 (UTC)
+Subject: Re: [scarthgap][PATCH] python3-py: ignore CVE-2022-42969
+To: openembedded-core@lists.openembedded.org
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
+X-Originating-Platform: Windows Edge 152
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Tue, 01 Sep 2026 23:16:05 -0700
+References: <20260826053217.729875-1-dkelaiya@cisco.com> <DL3V33TEPWDN.ZM1L9P29KZF9@smile.fr>
+In-Reply-To: <DL3V33TEPWDN.ZM1L9P29KZF9@smile.fr>
+Message-ID: <2527846.1788329765934963865@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="sptByxRZBGD4U4imcn0J"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:14:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244893
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:16:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244894
 
-On Fri Aug 14, 2026 at 5:30 PM CEST, Abhishek Bachiphale via lists.openembe=
-dded.org wrote:
-> From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
->
-> Cherry-pick from OE-Core master (5.42.2 -> 5.44.0),
-> adapted for wrynose which had 5.42.0
->
-> This upgrade fixes the following CVEs:
->   - CVE-2026-42496: Archive::Tar symlink path traversal (CVSS 9.1)
->   - CVE-2026-42497: Archive::Tar hardlink path traversal (CVSS 9.1)
->   - CVE-2026-9538: Archive::Tar memory exhaustion DoS
->   - CVE-2026-8376: Perl regex heap buffer overflow (32-bit)
->   - CVE-2026-13221: Perl regex trie overflow (>65535 branches)
->
-> Changes: https://perldoc.perl.org/5.44.0/perldelta
->
-> Add perlcross patches to support perl 5.44.0:
-> - Patchset symlinks for perl5-5.44.0
-> - Configure checks for d_getentropy, i_stdckdint, i_sysrandom
-> - Fix checkfield() for C23/GCC 16 compatibility
->
-> Verified: ptest passed.
->
-> Drop patches already included in this release:
-> - CVE-2026-8376-01.patch (upstream commit e842efdafe7c)
-> - CVE-2026-8376-02.patch (upstream commit 5e7f119eb2bb)
-> - determinism.patch (Encode::Byte sort fix)
->
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 036700267e816ebfc56c404e872055f93f73c88f)
-> Signed-off-by: Abhishek Bachiphale <Abhishek.Bachiphale@windriver.com>
-> ---
->  .../files/0001-patches-for-perl-5.44.0.patch  | 110 ++++++++++++++++++
->  ...Add-configure-checks-for-perl-5.44.0.patch |  47 ++++++++
->  ...Fix-checkfield-for-C23-compatibility.patch |  35 ++++++
->  .../perl-cross/perlcross_1.6.4.bb             |   3 +
->  .../perl/files/CVE-2026-8376-01.patch         |  62 ----------
->  .../perl/files/CVE-2026-8376-02.patch         |  49 --------
->  .../perl/files/determinism.patch              |  51 --------
->  .../perl/{perl_5.42.0.bb =3D> perl_5.44.0.bb}   |   5 +-
->  8 files changed, 196 insertions(+), 166 deletions(-)
->  create mode 100644 meta/recipes-devtools/perl-cross/files/0001-patches-f=
-or-perl-5.44.0.patch
->  create mode 100644 meta/recipes-devtools/perl-cross/files/0002-Add-confi=
-gure-checks-for-perl-5.44.0.patch
->  create mode 100644 meta/recipes-devtools/perl-cross/files/0003-Fix-check=
-field-for-C23-compatibility.patch
->  delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-01.pat=
-ch
->  delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-02.pat=
-ch
->  delete mode 100644 meta/recipes-devtools/perl/files/determinism.patch
->  rename meta/recipes-devtools/perl/{perl_5.42.0.bb =3D> perl_5.44.0.bb} (=
-98%)
+--sptByxRZBGD4U4imcn0J
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Hello,
+On Tue, Sep 1, 2026 at 02:40 PM, Yoann Congal wrote:
 
-I merged some CVE fixes since you sent this.
-So it does not apply cleanly anymore.
+>=20
+> On Wed Aug 26, 2026 at 7:32 AM CEST, Darsh Kelaiya -X (dkelaiya - E
+> INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+>=20
+>> From: Darsh Kelaiya <dkelaiya@cisco.com>
+>>=20
+>> Analysis:
+>> - NVD marks CVE-2022-42969 as disputed because multiple parties could
+>> not reproduce it and argue that it is not a valid vulnerability [1].
+>> - GitHub withdrew the advisory because the available evidence does not
+>> show a valid, reproducible vulnerability [2].
+>> - Wrynose and master use the same python3-py version and carry the same
+>> disputed CVE status, so that disposition applies to Scarthgap [3].
+>> - Hence ignoring the CVE for now.
+>>=20
+>> Reference:
+>> [1] https://nvd.nist.gov/vuln/detail/CVE-2022-42969
+>> [2] https://github.com/advisories/GHSA-w596-4wvx-j9j6
+>> [3] https://git.openembedded.org/meta-openembedded/commit/?id=3D91f6b85b=
+36316d5940ee194b1d195caf3ac040b1
+>>=20
+>>=20
+>> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+>> ---
+>> meta/recipes-devtools/python/python3-py_1.11.0.bb | 2 ++
+>> 1 file changed, 2 insertions(+)
+>=20
+> Hello,
+>=20
+> This CVE is already not in our metrics. Because OE-Core/scarthgap lacks
+> these commits from meta-openembedded:
+> * 1fac509459 (python3-py: set CVE_PRODUCT, 2025-12-31)
+> * 26fa8b053b (python3-py: correct CVE_PRODUCT mapping, 2026-08-21)
+>=20
+> Can you send a v2 series with these backports added?
+>=20
+> Thanks!
+> --
+> Yoann Congal
+> Smile ECS
 
-Can you send a rebased v2 version that handle the new patches?
+Hi Yoann,
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+I=E2=80=99ve added the two requested python3-py backports in the v2 series:
 
+https://lists.openembedded.org/g/openembedded-core/topic/scarthgap_patch_v2=
+_1_3/121047195
+
+Thanks,
+Darsh Kelaiya
+
+--sptByxRZBGD4U4imcn0J
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>On Tue, Sep 1, 2026 at 02:40 PM, Yoann Congal wrote:</div>
+<div>
+<blockquote>On Wed Aug 26, 2026 at 7:32 AM CEST, Darsh Kelaiya -X (dkelaiya=
+ - E INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:<=
+br />
+<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />Analy=
+sis:<br />- NVD marks CVE-2022-42969 as disputed because multiple parties c=
+ould<br />not reproduce it and argue that it is not a valid vulnerability [=
+1].<br />- GitHub withdrew the advisory because the available evidence does=
+ not<br />show a valid, reproducible vulnerability [2].<br />- Wrynose and =
+master use the same python3-py version and carry the same<br />disputed CVE=
+ status, so that disposition applies to Scarthgap [3].<br />- Hence ignorin=
+g the CVE for now.<br /><br />Reference:<br />[1] <a href=3D"https://nvd.ni=
+st.gov/vuln/detail/CVE-2022-42969" target=3D"_blank" rel=3D"noopener">https=
+://nvd.nist.gov/vuln/detail/CVE-2022-42969</a><br />[2] <a href=3D"https://=
+github.com/advisories/GHSA-w596-4wvx-j9j6" target=3D"_blank" rel=3D"noopene=
+r">https://github.com/advisories/GHSA-w596-4wvx-j9j6</a><br />[3] <a href=
+=3D"https://git.openembedded.org/meta-openembedded/commit/?id=3D91f6b85b363=
+16d5940ee194b1d195caf3ac040b1" target=3D"_blank" rel=3D"noopener">https://g=
+it.openembedded.org/meta-openembedded/commit/?id=3D91f6b85b36316d5940ee194b=
+1d195caf3ac040b1</a><br /><br />Signed-off-by: Darsh Kelaiya &lt;dkelaiya@c=
+isco.com&gt;<br />---<br />meta/recipes-devtools/python/python3-py_1.11.0.b=
+b | 2 ++<br />1 file changed, 2 insertions(+)</blockquote>
+Hello,<br /><br />This CVE is already not in our metrics. Because OE-Core/s=
+carthgap lacks<br />these commits from meta-openembedded:<br />* 1fac509459=
+ (python3-py: set CVE_PRODUCT, 2025-12-31)<br />* 26fa8b053b (python3-py: c=
+orrect CVE_PRODUCT mapping, 2026-08-21)<br /><br />Can you send a v2 series=
+ with these backports added?<br /><br />Thanks!<br />-- <br />Yoann Congal<=
+br />Smile ECS</blockquote>
+Hi Yoann,<br /><br />I&rsquo;ve added the two requested python3-py backport=
+s in the v2 series:<br /><br />https://lists.openembedded.org/g/openembedde=
+d-core/topic/scarthgap_patch_v2_1_3/121047195<br /><br />Thanks,<br />Darsh=
+ Kelaiya</div>
+
+--sptByxRZBGD4U4imcn0J--
 
