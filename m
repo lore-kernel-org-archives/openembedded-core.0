@@ -2,77 +2,74 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2974C624D4
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 06:09:49 +0000 (UTC)
-Received: from alln-iport-7.cisco.com (alln-iport-7.cisco.com [173.37.142.94])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6000.1788329387795936263
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 158CEC61DFD
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 06:09:50 +0000 (UTC)
+Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6163.1788329387884020496
  for <openembedded-core@lists.openembedded.org>;
  Tue, 01 Sep 2026 23:09:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Ps94pAAk;
- spf=pass (domain: cisco.com, ip: 173.37.142.94, mailfrom: dkelaiya@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=PD5E7TGw;
+ spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: dkelaiya@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1366; q=dns/txt;
+  d=cisco.com; i=@cisco.com; l=1517; q=dns/txt;
   s=iport01; t=1788329387; x=1789538987;
   h=from:to:cc:subject:date:message-id:in-reply-to:
    references:mime-version:content-transfer-encoding;
-  bh=nIc3zEsWzkI7SssGz8CQ/LWJBw0S0GJrT3qJGd3M31A=;
-  b=Ps94pAAkjFZnfBHPWYKoXCnORqkRm0YC46gw0knY5wKpC+ZTGJ2mfS5q
-   tcXFfcFo1LCdwg7P1Bc9weGr+0ts1n/M6UMbAog2XPwoqVpb21MF/wh2K
-   HBoTw/IURyYJFYU6TraNS25apGlFWU1G42I7Qh+is48O3xpDi/2+H3LKe
-   eJqhSMhInibBeCWqXASmW9Gfv+7vXVwNB99yhIKipGLvGh8SlLrxRF6MO
-   qdjURn4mgWo2GQiLeWwIuF8PF0meFk4wFEuaEQB5y3nai9BCgl4MuOobv
-   KPPEtW5Gdb5a9NGU7FoNhi+qyG7dqsga850DMrtbLN/vM/IypA0HLdUl7
-   w==;
-X-CSE-ConnectionGUID: n7MrGLrkQRCu1eigtlNGAg==
-X-CSE-MsgGUID: VC3dgUUDQkeP1EUi9atBww==
-X-IPAS-Result: =?us-ascii?q?A0A2AwBSvJdq/40QJK1RCYJZgld0YENJlV5sA6AZDwEBA?=
- =?us-ascii?q?Q83GgQBAYUFAo13AiY3Bg4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
- =?us-ascii?q?Q4ThlyQGgIBAzIBGAEtECAxKysZgwIBgnQDvgqCLIEBgygB3QQBCxQBgTiFP?=
- =?us-ascii?q?4gidoR8JxsbgXKEfoQKDXmFeASCInoSk2BIgR4DWSwBVRMNCgsHBYFmAzUSK?=
- =?us-ascii?q?hVuMh2BIz4XgQ0bBgWBHYEog0EjGTZ4gQlegSspYAESF4EJgggCglSCBQIBS?=
- =?us-ascii?q?UMOB0dTCScKCxgNSBEsNxUZBD5uB45ZH4JPATxRllSReqEPCiiDdowilToaM?=
- =?us-ascii?q?6psLphapFqEaYF+JkaBE3AVgyIJShkPji4V0BknMgI7AQEHAgcOAwuBaJAAg?=
- =?us-ascii?q?X4BAQ?=
-IronPort-Data: A9a23:Ms1uE6lIYmfwrOq6a/62ei3o5gzqJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
- xJJWz+FOa6LZmTyctglPN60oxhUv5HRn9FrHVdqpCFkEVtH+JHPbTi7wugcHM8zwunrFh8PA
- xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
- Y20+ZC31GONgWYubDpFs/jb8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
- /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
- OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FYtH3/xYJXtNz
- MYzNWkAbx+fg8SZ6b3uH4GAhux7RCXqFIobvnclyXTSCuwrBMifBa7L/tRfmjw3g6iiH96HO
- JFfMmQpNUqGOkEWUrsUIMpWcOOAinrydzRZuVu9rqss6G+Vxwt0uFToGIqPJIbXHJUNxC50o
- Er41D/1DSwnGOWcxALc30+t1+bTtzzkDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0c9lQHuh88giP4q3P+ECAG2EARTlEbZots8peeNAx/
- laNm9WsAXlkt6eYDCrBsLyVtji1fyMSKAfueBM5cOfM2PG7yKlbs/4FZowL/HKd5jEtJQzN/
- g==
-IronPort-HdrOrdr: A9a23:Uu6Rwa6H6bHK9wK5XgPXwOrXdLJyesId70hD6qm+c3Nom6uj5q
- eTdZsgtCMc5Ax9ZJhko6HjBEDiewK5yXcK2+ks1N6ZNWGM0ldAbrsSiLcKqAePJ8SRzIJgPN
- 9bAstDIey1K0RmhsDn5wT9OdMhzN6btJ2Mv47lvhFQpcUAUdAZ0++/YTzra3FLeA==
-X-Talos-CUID: =?us-ascii?q?9a23=3AlEH3rWjLI9pSCFdC/Pwj1vPRJTJudCL41lj0OUy?=
- =?us-ascii?q?BM010EbCURkOU3oxNnJ87?=
-X-Talos-MUID: 9a23:f4ZHdwa3QmGiduBTiRS3iD5fCetR4KmWUW0wkMQPp+ObKnkl
+  bh=LOevGNsd9ICT2lAnzN4eybZnvC5k+wLniFTuPf24ifc=;
+  b=PD5E7TGwRoVx66aOrXc/6Hl0UyGQLI5oTGADeHAYnpaaiS3l7y7YREve
+   DU25JPVZOXcxnSPNVt19lx8LSnrGnIN0xOdALSv82Se+hliyX1xP58Vht
+   bOTF8jZoHOG32r2FXLVceaOjXMjPuHACnWkLT4781N2c9irXLzFJIf4ET
+   Y5LZWWQbl+OktGwJNfJPwWLCjhnpbwInyshIE/w223EJmVjNJ6vkwi2Ic
+   I9+cdgsvKYye1prSKIOdKe8C2do3R3jYxS2QX7uhW9GtyVKI08kByOs+Y
+   j5vg20ja88XWh7skEEl1z+dmWWlUDIlf8k4in5OgQC+8Lo2H8h5DBJupe
+   Q==;
+X-CSE-ConnectionGUID: qOJQDeqhSimHu7heWvpkyQ==
+X-CSE-MsgGUID: bCVA1Yw9Q1uBHrDBGY99Mw==
+X-IPAS-Result: =?us-ascii?q?A0BFAgDHvJdq/5EQJK1aglmCV3RgQ0mVXm+eG4F+DwEBA?=
+ =?us-ascii?q?Q9EDQQBAYUFAo13AiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
+ =?us-ascii?q?Q4Thk8NkBoCAQMyARgBLRAgMSsrGYMCAYJ0AxG9dIIsgQGDKAE/AkNQ2zABC?=
+ =?us-ascii?q?xQBgTiFP4gidQGEfBcQGxuBcoEVg2mBBYFcAQECGIIThXgEgiJ6EpNgSIEeA?=
+ =?us-ascii?q?1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4ENGwYFgR2BKINBIxk2eIEJXoErK?=
+ =?us-ascii?q?WABEheBCYIIAoJUggUCAUlDDgdHUwknCgsYDUgRLDcVGQQ+bgeOWR+CT4EOL?=
+ =?us-ascii?q?AR3gVOlVKEPCiiDdowilToaM6psC5h9jgqWUIRpgWg8gUcLB3AVgyIJShkPj?=
+ =?us-ascii?q?i4KC4NggX+DFMcmJzICCTIBAQcCBw4DC4FokX4BAQ?=
+IronPort-Data: A9a23:dyJy2aoArAIkRQSzk8YcrR6QnpBeBmJOZBIvgKrLsJaIsI4StFCzt
+ garIBmHPKuKYTakLoxzOty/pE9XuseDydBkTAFl+3o3HnlG9+PIVI+TRqvS04x+DSFioGZPt
+ Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
+ T/Ji5OZYgLNNwJcaDpOtfrS8Ek35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
+ 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
+ I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0v9QI1hi+
+ OUYEzEITg3ch++J3qq4W9A506zPLOGzVG8eknhkyTecCbMtRorOBv2ao9RZxzw3wMtJGJ4yZ
+ eJANmEpN0qGOkMJYwtKYH49tL/Aan3Xfz5VrFuUtKMf6GnIxws327/oWDbQUozQFZ8FwBbJ/
+ goq+UzzKS8zbe2AmAPc71iMnMPlshKqCacNQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
+ FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwAiJzqyR50OSAXIJC2YRLtcnr8QxAzct0
+ zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
+IronPort-HdrOrdr: A9a23:YHR5T63eDDctSVgLnoBN4gqjBJAkLtp133Aq2lEZdPWaSKOlfq
+ eV7ZMmPHDP6Qr5NEtMpTnEAtjjfZq+z+8Q3WBuB9eftWDd0QPCRr2Kr7GSpgEIcBeRygcy78
+ tdmtBFeb7NJGk/q9rm6w+lFNtl6tyG/Ke0wdr69R5WPGdXg2UK1XYANu5deXcGPTV7OQ==
+X-Talos-CUID: =?us-ascii?q?9a23=3APdG2YWr4/wKborfRwthobf/mUdkCUETxwW7QGE6?=
+ =?us-ascii?q?9KXs2SLCqV0eT6Zoxxg=3D=3D?=
+X-Talos-MUID: 9a23:kLdLdQra1tccsqoutFcezztJCu4x0rv/MRkQu7Ucl+OrBH0hHijI2Q==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,257,1779148800"; 
-   d="scan'208";a="826251802"
-Received: from alln-l-core-04.cisco.com ([173.36.16.141])
-  by alln-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Sep 2026 06:09:47 +0000
+   d="scan'208";a="828286890"
+Received: from alln-l-core-08.cisco.com ([173.36.16.145])
+  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Sep 2026 06:09:47 +0000
 Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by alln-l-core-04.cisco.com (Postfix) with ESMTPS id D52B3180004AE;
+	by alln-l-core-08.cisco.com (Postfix) with ESMTPS id E2FC418000479;
 	Wed,  2 Sep 2026 06:09:46 +0000 (GMT)
 Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 729C2CCD9B2; Tue,  1 Sep 2026 23:09:46 -0700 (PDT)
+	id 784C7CD02B9; Tue,  1 Sep 2026 23:09:46 -0700 (PDT)
 From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Devansh Patel <devanshp@cisco.com>,
-	Khem Raj <khem.raj@oss.qualcomm.com>,
-	Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][scarthgap][PATCH v2 2/3] python3-py: correct CVE_PRODUCT mapping
-Date: Tue,  1 Sep 2026 23:09:42 -0700
-Message-Id: <20260902060943.2931635-2-dkelaiya@cisco.com>
+Cc: Darsh Kelaiya <dkelaiya@cisco.com>
+Subject: [OE-core][scarthgap][PATCH v2 3/3] python3-py: ignore CVE-2022-42969
+Date: Tue,  1 Sep 2026 23:09:43 -0700
+Message-Id: <20260902060943.2931635-3-dkelaiya@cisco.com>
 X-Mailer: git-send-email 2.35.6
 In-Reply-To: <20260902060943.2931635-1-dkelaiya@cisco.com>
 References: <20260902060943.2931635-1-dkelaiya@cisco.com>
@@ -80,42 +77,43 @@ MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: alln-l-core-04.cisco.com
+X-Outbound-Node: alln-l-core-08.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:09:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244891
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:09:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244889
 
-From: Devansh Patel <devanshp@cisco.com>
+From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-The product-only "py" mapping generates a wildcard-vendor identity
-instead of the exact NVD identity for the packaged pytest-dev py
-source. Use "pytest:py" for its NVD dictionary CPE and configuration
-matches.
+Analysis:
+- NVD marks CVE-2022-42969 as disputed because multiple parties could
+  not reproduce it and argue that it is not a valid vulnerability [1].
+- GitHub withdrew the advisory because the available evidence does not
+  show a valid, reproducible vulnerability [2].
+- Wrynose and master use the same python3-py version and carry the same
+  disputed CVE status, so that disposition applies to Scarthgap [3].
+- Hence ignoring the CVE for now.
 
-This changes the generated product identity. With sbom-cve-check 1.3.3,
-the current CVE report is unchanged using the pinned database snapshots;
-both mappings report CVE-2020-29651 and CVE-2022-42969.
+Reference:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2022-42969
+[2] https://github.com/advisories/GHSA-w596-4wvx-j9j6
+[3] https://git.openembedded.org/meta-openembedded/commit/?id=91f6b85b36316d5940ee194b1d195caf3ac040b1
 
-Signed-off-by: Devansh Patel <devanshp@cisco.com>
-Signed-off-by: Khem Raj <khem.raj@oss.qualcomm.com>
-(cherry picked from commit 26fa8b053b71d1f3f8da359abaef578c671c692f)
 Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 ---
- meta/recipes-devtools/python/python3-py_1.11.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ meta/recipes-devtools/python/python3-py_1.11.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/meta/recipes-devtools/python/python3-py_1.11.0.bb b/meta/recipes-devtools/python/python3-py_1.11.0.bb
-index a75b9c2b14..906410e9bb 100644
+index 906410e9bb..f850be1163 100644
 --- a/meta/recipes-devtools/python/python3-py_1.11.0.bb
 +++ b/meta/recipes-devtools/python/python3-py_1.11.0.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a6bb0320b04a0a503f12f69fea479de9"
- 
+@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a6bb0320b04a0a503f12f69fea479de9"
  SRC_URI[sha256sum] = "51c75c4126074b472f746a24399ad32f6053d1b34b68d2fa41e558e6f4a98719"
  
--CVE_PRODUCT = "py"
-+CVE_PRODUCT = "pytest:py"
+ CVE_PRODUCT = "pytest:py"
++CVE_STATUS[CVE-2022-42969] = "disputed: upstream could not reproduce it and GitHub withdrew the advisory"
  
  DEPENDS += "python3-setuptools-scm-native"
  
