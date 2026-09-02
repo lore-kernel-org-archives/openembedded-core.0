@@ -1,110 +1,103 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AFF8BC61DD6
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 15:48:59 +0000 (UTC)
-Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.392.1788364132252089349
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17244C61DD6
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 16:04:21 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.810.1788365053765084022
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 08:48:52 -0700
+ Wed, 02 Sep 2026 09:04:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=WChEENW3;
- spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-90cd1012479so24188686d6.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 08:48:52 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788364131; cv=none;
-        d=google.com; s=arc-20260327;
-        b=NhLNB+1e0B5hVv4M+4WrIJZ5CXA9ZbucY+4Mn+/qXbTLzfQiRA8zEbNEHGfiP7eeYB
-         /Gr4K4QhCWZ06noIl8QGJNadlm1PJi/2GYbb4/dqlldwBEBQMCqaNSQIHjdOdRg5fg45
-         EfKawgo2W0aFJh6DPfS8SJwnq1p3/U2buboW20Q8BNE73nLbfh3eg4HAkdtnqLFcxfWM
-         Kf5kgNgdAEefW/xFEjWK5dI/9yX8b/iqSBSqq8HRVBfkbkaNg3hnF3XalzKOLlIuTqU5
-         0fVxnSm7dtn1zChDV+6Y2OzM0C0tq5bWLQuapWPPP/wpXU+zWhtGxUlwTrh+ovFKp6P1
-         E1/w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=8+NUvzK5IsC3o26OI0Mo/whvDAw97f5leg407dAZa1o=;
-        fh=71abzk+jWAeDPl3/3yNVuuKHJ8SDtwNAJsLUXfSZoz8=;
-        b=W+wojyjEYpJheVjh21eDujB5U8Aj3B1I1RhPBwF+0iZ9zjf62GCXNdLpx7Xd2AWhvb
-         59QkC7u21by8k1pDT7Jn4TzMUA+9Nup4hKOHTutAj15Rpxr0w7jz2Z8UAS90JVMBmgUk
-         mqVqyBFU/SmFs2Hq6jy437FIPy+f0EU7dt81kqfOcKurNYWbtQ1tSIsGIGsophwvMzUU
-         LAfGkyJrA/vNDrPmZ2djzrg0ktgf2Mu80liKkwa3OLOX6DBEMFw2kxYqo5ZxuvLmm6R8
-         2NTvVs8vDMeAFsgwjtQIN5aRs1I/0hN87k8i48D+4jAUVQEuv5pYt824HAxqCQbsbaId
-         uUhQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788364131; x=1788968931; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=8+NUvzK5IsC3o26OI0Mo/whvDAw97f5leg407dAZa1o=;
-        b=WChEENW3ylTbFa18Yp727gAx0g6fFXHSjc3P9FEEDsw+zbmaWxJ+vD2zNiI3mZSC/Y
-         QvRovz76EfzUEbsPc9QRG/zXpAES2IYyx5AYyyUu6py2zRxMgjkmaoAYafTHhCI1Hifr
-         jNLnfYE/Rs5/4bfkozW0lTNw90n2ESALOq+YJYx5hiILtmtiriweZXSEnKc0+A1pl9hD
-         qLJZAfRQfdgoMgmIaVIdN9dQmdudkzFveI0MDibVlMw6GianNCWab754IZ4iSQ4Wqp20
-         zBIXni9XU5rYhbiVzZGzrirrvmfHpAVAnanjiG2oejZFPCOnUXMurTfJ1y8oaagqLDgd
-         SUhg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788364131; x=1788968931;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=8+NUvzK5IsC3o26OI0Mo/whvDAw97f5leg407dAZa1o=;
-        b=bgUqY2ELUaAh0kx7GHDvrvyAbqUmTYaIfqM3rGUzO32THYWsTk2TzMnq6l1HTHPn2B
-         Gn33xoQLtFPJ5yTwC+2uwxunOF1Vs+QCeaOK6/KCNKo4AHmlvsn4oPKzBSDzuFegLnvt
-         8+KCHBo/mdHzrKni5ywcq13lTi+IxTAreVewgcb078YHQXN1zv5CgXDm+liVYOjh0mHs
-         P3WiNuNDuFH5sl6tSvab1UnjOfYXJ+4CvT3E5jtO8LU17xiS5qFkmL/5V7GOg0f5a5Ct
-         vyP2YtxRMYeou0mp5QFH6nWX9MBTtJ9c5mlGQ2FDlP4zcQj6uZaglVp0jAXjnmuJnCMc
-         adqQ==
-X-Gm-Message-State: AFuF++lMdchvWMjbAtnImcFF2axcRplu2qBWLVJg6DeNt4gMSqK5tF4g
-	vA5Di1NGELQMrBF/wr3YOY1Yd7nq4EYkjLsfoWD7CQdrkrtYCLA0JaePE1xoh8wEnZzkMefsMof
-	9EDtDCoiFRGOb+CwuylDhWhflxCKswN0=
-X-Gm-Gg: AR+sD11g8F1a/NuaSD02byF1rWfs9XVXIWeVkqkfZF6XyewAOso3/YEjnkKKKo7RzvB
-	lo7p//+6y7pnx1gKrno+TC/ygIXkpVSrVjsc+cuW3zlC+sTYsvRxWH0VJRsoDarUnvHibg3DkkJ
-	GSNLOeFe0SnxLnYcQaK6sx7pXw/NHG92YIP2mX9sWz3Rr6ry8NlakQsFQTuphHCsnz5ZpRcAqd5
-	liLYODmll9i4SnnHKPQtyw4HGSh+FHpzM562a50qcNduItxGG/RvrtD7s3bkJnodeWM22DZAqHh
-	m3T3Q8+uOPficuVtB2XP5RsRgNDkDVEeijBBackQ6jxhs8OI5W770LNQv1u+dN8FhB7Z0o0TsAz
-	AnNA=
-X-Received: by 2002:a05:622a:4d8d:b0:51b:fb5f:b263 with SMTP id
- d75a77b69052e-53042f6fbacmr2110931cf.4.1788364131053; Wed, 02 Sep 2026
- 08:48:51 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260902083814.3966089-1-gustali@axis.com> <CANNYZj-U2CMMmb51x2phvgMwT5O+dPh+OrOu4hy=GjAjezbO2Q@mail.gmail.com>
- <DBBPR02MB10462218FD1B6135FB85DC4B087B72@DBBPR02MB10462.eurprd02.prod.outlook.com>
-In-Reply-To: <DBBPR02MB10462218FD1B6135FB85DC4B087B72@DBBPR02MB10462.eurprd02.prod.outlook.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 2 Sep 2026 17:48:39 +0200
-X-Gm-Features: AcwNN1WLTBxM2Cx9dYMaIscJDftfV4HzQYn9R_e8ba5o-QnjghKcpw9d4OvLvao
-Message-ID: <CANNYZj-U-aq+tFW0VXDEhnFvgV=49ckEBL4Czg=PgXa+3v4MqQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCHv6] boost-asio: Add recipe
-To: Gustav Lindberg <Gustav.Lindberg@axis.com>
-Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IL/iqd22;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fKtqaBnb;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a062dd1b7c-dd50f4c4-a4c9-45f9-ba82-2d7915b233be-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1788365053; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=6seRyBjkOHbyjUNgimKJR8qq9FhsNLOlOywc8G+1kiU=;
+	b=IL/iqd22y6h4B9ozEGVSLxFZEWTep7chGNy4kDTGzrVBPEiREIvnf4fOgtIlI5Gp
+	m3xlxk5y6XZ0yK8NkgsL9+n2kyaIypErh8FATFKpISKLqdg4IfRwhuwJ68H1g0lH/ea
+	xBMBexV8A93CPvVynay9XcKYnnBfuUPqMtjQbtf8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788365053;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=6seRyBjkOHbyjUNgimKJR8qq9FhsNLOlOywc8G+1kiU=;
+	b=fKtqaBnb3D3JkTsEPh6Uo99ZJ1mjpVRLeXP/Hq+dLWKBDS8osej/Xv3dALtVl5j3
+	ksVFohWA0PZ7R+hZBjMvRcC9Soy2n7bRTLv9o4RHgs73ZvkpF3XWYM7CQgIXLR3hl1r
+	Gq34U5l/QxwISKKTq+DTfnC8dZysP8rer+kTXUzE=
+From: patchtest@automation.yoctoproject.org
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 8/8] go-binary-native: upgrade 1.27.0 -> 1.27.1
+In-Reply-To: 
+ <20260902-mathieu-updates-2026-09-02-v1-8-039b74833ec7@bootlin.com>
+References: 
+ <20260902-mathieu-updates-2026-09-02-v1-8-039b74833ec7@bootlin.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a062dd1b7c-dd50f4c4-a4c9-45f9-ba82-2d7915b233be-000000@us-west-2.amazonses.com>
+Date: Wed, 2 Sep 2026 16:04:12 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.02-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 15:48:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244982
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 16:04:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244983
 
-On Wed, 2 Sept 2026 at 17:11, Gustav Lindberg <Gustav.Lindberg@axis.com> wr=
-ote:
-> Making these changes upstream would require everyone who uses boost to bu=
-ild the boost-asio shared library whether they need it or not, which would =
-be wasteful. Note that my change doesn't require all openembedded users to =
-build the shared library, it's still possible to use the boost recipe witho=
-ut the boost-asio recipe and get the header-only version of boost-asio with=
-out the shared library. The point in making these changes here is that user=
-s can decide whether they want to use the header-only version or the shared=
- library by using the correct recipe.
+--NextPart
+Content-Type: text/plain
 
-That's not the preferred way. The better way is to keep everything in
-a single recipe, and enabled the shared library (or not) with a
-PACKAGECONFIG option, ideally one that passes down a command line
-option to the boost build system.
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Alex
+---
+Testing patch /home/patchtest/share/mboxes/8-8-go-binary-native-upgrade-1.27.0---1.27.1.patch
+
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
