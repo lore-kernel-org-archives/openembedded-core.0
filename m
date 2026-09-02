@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EE918C61DD6
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 10:00:15 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.63])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9259.1788343209693426663
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0D010C624D0
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 10:00:16 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.66])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9256.1788343206813141606
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 03:00:09 -0700
+ Wed, 02 Sep 2026 03:00:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=ZbBFS5JB;
- spf=pass (domain: ericsson.com, ip: 52.101.66.63, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=YsctUptm;
+ spf=pass (domain: ericsson.com, ip: 52.101.84.66, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=k8wwvgSH+jAF/ANNheN/vLX8YXH4Ypb56gWCM/qwvwgh5DyS2UQ4UOiHoPVH5kYK53iN8Bn8Hrgy/5GvCujW0GZVP73lyLwpiU5ymMeO4OSTzFKbThyuoxSXo83vo5Ht6nw8Y5TXNCaHFqdKUI1ZA/CtnlQQ7/6RKDRO8ziCcP9cWXo60N59ySkyXnG7zjgCSG+5iIlkaMgMRLzvjISOrRkMprsN2tsO4vNSRvo4q0dM6GKlJt/i6YoFz87FmjrCa5YtEpttAiyN8ik0mkvyI63Ob7ea+hKNnuetfovvQBoolzgcgecWXWLyHLDND0cy3iFUluGAPqZzPhrKZuCUYQ==
+ b=PppErm926KuauvNre/1Hc+gYGRK0iOpTE/AVmBF9B4yQ/ZwL1wic6Obw8m0XmZ2oNXFhkhqT6dQUkgBoorBqIrUzp1386JUZ/6kVj9Hvx1JOwp3QxpnK+Im2HNbHcfF9qrNdlDGIt13xQOI+EqksnpBL5vki3e4JqbvUIr5aR7jSQzt/AJsNJ0IzNBcdNu3drejCCXEfH7OG3D4s50qXEVBeQrPDs/3yBUkCtEeof/VGJNx4nZWS2k5hRa8LBjTPUuzpARSSg15Z+iHMELcO5TgaOD1CzQAfMOMxlzXUR4G6izlN0CFnfPfB5f6n1BRA5Bm1bC7lbr1UzoNmHlnSZA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=OVPMCt3EaXST5kB4zLW+tjebP7km8cSYWzLxbSDzup4=;
- b=aViVehnHfzE40PJC5QdpJliuuRF/tlTKcBz0wXq9GMqpuKogqx8Y0mTYWilhB+nAw1rrH4BhNXIeb0vxcfYvOJJd7mPKL3SjxftuZXryEVkchgOl7Yc7bD41OTao00qyhfRCazFOY48NbiqT5CSReWpB1HlULuUQYvurVlTY12bNDnt4xixesMvKa4DFyFIEelRNGJjtnCDSKjK6WUUqWXE4sTYe3JQdwHev6hCparEEXPJVAOU0HkAPRGXR/MN7xgcYyorDavLxEfuMuGP9knMkIoVzBuevVGkvQC/P/JjzMkC3xH/GhcCpoB7wosfNdZKmZ1kmAHFAslojm4tyig==
+ bh=hhZkh2BTZE9jc3/H35dQZ5/Mch1Lp4eV+SKPEmi47Xw=;
+ b=NFcKhYzgVvegeTgHKgTBz9VbYQQGRr65EjjudDPMWu7oXdR0KXC2LYSvKy0k48JDAWAhI2sv7eQ1aqXDE1+AUC/kx+dku7cKSwMLwupNTlv2ELBGE/mHJSFRD1P7CN4R+Y13kbBYbPu1mQkjKCKqSYFQNz4wJVE3tUN4+TjxBkmThFRJybTFu1Mjnh686ihFByyopAk8AbDJuV5kMQEY+/ReIWME/ILMIXWSFbHObRM0sBnEMxHAALF7jz3CmvmWc+nK5WqoFOUit1qlBPRA3Vz60Wcv3PJW59s2Kk1Ua7Tt91F/bqBJYvVIlCOdiJWzCLLxf9fQ7cn3kX6xZSqVWw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=bootlin.com smtp.mailfrom=ericsson.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
@@ -25,16 +25,16 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=OVPMCt3EaXST5kB4zLW+tjebP7km8cSYWzLxbSDzup4=;
- b=ZbBFS5JBmOokSwv1UmRaE1Ti9rigLwQXDTrSlHU/Fzc42dFfSgT0xPkgtkMwWLp0ofunDlHt3/c26kAw1SP9lfQVQodLKI2dv0J3OR5E6Agn/vp31LydMI9OShgu6CZhKpLJ9T+dhO644bTCn5yiYLmOlApiPlCW/400Rm/1U9qoe4ZEd8FtBBWZiJhDEBqzAhzlPaDZ0JnQrATLIY0MuRq8pQVhTBpL/CEMlCLO9Hv/zv3hEB04iRHqzI4lrsSmpUY7MQr1FJ2jJkSma+wbNTbUckxG/95qCSzjQIydZHCS+vOS+sDFZLjOmjji9Hv40j7txIDLRhiQF1SeG29fjg==
-Received: from AS4P189CA0011.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5d7::12)
- by DB9PR07MB7979.eurprd07.prod.outlook.com (2603:10a6:10:2ab::6) with
+ bh=hhZkh2BTZE9jc3/H35dQZ5/Mch1Lp4eV+SKPEmi47Xw=;
+ b=YsctUptmtXbkQO3PICdGGkoAr+5y/3c2iA+fW9oBGhH/P+OyAevnpGR5xYadVFIDAV0+40cJBHq4ske7tTnvd+A4TMilOXydkTdKv3vFYWVESg6J5JUij77fvcFdmvQ4Tl5YXA2kcmM6yV5BBlLeCuvyd5NH49sqAnQ4TEOvx0wDw0H1q4mf4UW09MU4QQVb+K+4aX+U6DgJioSdaGabPkVrGhE0xU8gZsl9LXCw5IhZV015z/XvfW2t2as8sL5C9tXjMEwPD0RRqe1G+Lh170T5TmF2SLtzKBZSTQpXuDMuh3YOJWw+ESukkpOq0Y/1Ol8m4cMnMmg5qDmuMFiDfg==
+Received: from AS4P189CA0012.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5d7::15)
+ by AM7PR07MB6819.eurprd07.prod.outlook.com (2603:10a6:20b:1b7::10) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
  2026 10:00:03 +0000
 Received: from AMS0EPF000001AA.eurprd05.prod.outlook.com
- (2603:10a6:20b:5d7:cafe::7c) by AS4P189CA0011.outlook.office365.com
- (2603:10a6:20b:5d7::12) with Microsoft SMTP Server (version=TLS1_3,
+ (2603:10a6:20b:5d7:cafe::9c) by AS4P189CA0012.outlook.office365.com
+ (2603:10a6:20b:5d7::15) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.11 via Frontend Transport; Wed, 2
  Sep 2026 10:00:03 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
@@ -52,17 +52,18 @@ Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.2562.37; Wed, 2 Sep 2026 11:59:33 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 035A84020AA1;
-	Wed,  2 Sep 2026 11:59:32 +0200 (CEST)
+	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 399B94020E87;
+	Wed,  2 Sep 2026 11:59:33 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 6CD72700E7C3; Wed,  2 Sep 2026 11:59:32 +0200 (CEST)
+	id 873FC700EB53; Wed,  2 Sep 2026 11:59:32 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Daniel Turull <daniel.turull@ericsson.com>, Mathieu Dubois-Briand
-	<mathieu.dubois-briand@bootlin.com>
-Subject: [wrynose][PATCH 12/20] openssl: inherit upstream-stable-release-point
-Date: Wed, 2 Sep 2026 11:59:12 +0200
-Message-ID: <20260902095920.2840293-13-daniel.turull@ericsson.com>
+	<mathieu.dubois-briand@bootlin.com>, Richard Purdie
+	<richard.purdie@linuxfoundation.org>
+Subject: [wrynose][PATCH 18/20] lttng-ust: inherit upstream-stable-release-point
+Date: Wed, 2 Sep 2026 11:59:18 +0200
+Message-ID: <20260902095920.2840293-19-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260902095920.2840293-1-daniel.turull@ericsson.com>
 References: <20260902095920.2840293-1-daniel.turull@ericsson.com>
@@ -71,95 +72,95 @@ Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF000001AA:EE_|DB9PR07MB7979:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1a62b564-25bd-4a03-5ccb-08df08d8f556
+X-MS-TrafficTypeDiagnostic: AMS0EPF000001AA:EE_|AM7PR07MB6819:EE_
+X-MS-Office365-Filtering-Correlation-Id: f0dd745c-4757-4548-4b54-08df08d8f5ad
 X-SMTP-Server: smtp-central.internal.ericsson.com
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|36860700016|376014|1800799024|82310400026|13003099007|10067099003|56012099006|18002099003|22082099003|11063799006;
+	BCL:0;ARA:13230040|36860700016|23010399003|376014|1800799024|82310400026|6133799003|10067099003|11063799006|18002099003|22082099003|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	eHhQuLepjhj97Fj2TwJmyoo1KkCYF9c5KRfeVqqME0yaTTkC86ssWASsBGORsvbuy5pYz8zn2Elq+HfdLFgZihvWRxuxpPB3GmGEhzLFkPd/GVyZkApFoHF8/uwcYPtH6rx7IQEyk2OGd0RDTPYhDmj2py286eh0dh1ZEHhE8b+E/CM4WAyVwNYmTm2QRnenmj+VnMSReKreAGfknJieFrBxKXci2cpOX+7YjwrEBoN9rDilc6WFhODytpQrIoStu/ljaXfo0rzzQCLhnr18JB3Gy7x0A+JOSsZnrOPnqP+wc8xbtk7LEfOornDZVk8Z9KHjNO1VU6IfcL/yDrcWq7pyzzYuk8UPhDWjPvRTBlRpjawxo9CJoK3kuGhshf0a7Gc1HphY69eIqoISyptNzr5vV2ryjUy/k/qoARcXmIud8lBoVwr8s86dNg8pHIbge0LNt+rMHshiJrm4CbqAGpIvNConulAMq1VXLN0cM5H4SOP2JaDK+8j2i1VFGdiiGV8CAJSPz49cX/cTQqDANh3j1PwzH3zGiuskBBiRyHq2IYdThyuAPEh2rISOpgA9HqX2fTKmkz6hZNyCvL6iXrTtEO0Nje9kOWmvk4sbckfHmNBCxGj7TBurTsgE60AxHM+C3v1WHDaUZXUXrXRwYw==
+	zb9O1s4ovrdMMr8b40aeno2Xs/PT2eYoI3verYeerfrsSBf/kF1V9Jo+U/c3sqPqnfxmcevZrAPF3iv1hQuga8lrdYeMg6xfaHtEEWizxJ9tpUNSBWvXiygeSSwNHPfP1YNw+mqJTtu9UzAKvmeVvthtZu266wl2tLVN9TbUjsgGqH9q7G3HbN3u52ZFmgRbWre+YlDkMR9rSl/MLk4ATNxx8oeWRkRdXnINrGdR3TtI2+LWlnbWO/y9XGyukCbuDz3zSPnO+aKysRy0h4Y0+NQcDHhuPNvqh4hDNiYIZrMlbzgn+L8mVvYKGTJG3yQfFqxUkO02jbqg0kV2GlfHnPCQSTxEbeWuFE4f1CPG0RR04h1krXZJZQSdnQSwjng4dlk/B84h70NryomLoTfk58uE3S+F50+09U9iQuXloLPn3xv7EUkCaF2Sa4itF7PLG7KkUoFIgxjd6CVo2CJy6Wo3BzL90zVk0zoyXRA5Z/+ud+l9Cn2WcfnkW7bmgKvUqXGWgd3YJwTIJRCbmVbazXsjdsFV++SbW288yL5hYYz9n0FJ/zh35u4bPlTyCcLwRP1hCavaL3ajtFdqY5BWeksTFySB428EmfiA3JNk43Ka6LN4/qyRn5fuTNCWPLTQmDov/6lpYB6VrzW4jj31ng==
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(376014)(1800799024)(82310400026)(13003099007)(10067099003)(56012099006)(18002099003)(22082099003)(11063799006);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(23010399003)(376014)(1800799024)(82310400026)(6133799003)(10067099003)(11063799006)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	tN6uB8sQo8eUXnByWYkIpmf5lmPJxjzX5n0/ETlGfGWx4AfbGOpgBMAXe/L4WRriRI2jUy0RUEXu38zs4e0/3M1ZRRvi2sia3Z81OUGglIPkDYv3sg3TEgna9ZFUuVkkPBHK5GLKlApAFGKhYjGLbHYhAGsUa+7RBLhgJwGsNB/VULgVjtk0vrC3qrc3VIpDRZbBprkx4gQ9PKsFPLxlheq8EIJ0gp5Ztxw0C+qcWZgaWOGVWGCPf6mH9DKQhZZiJ8XRjADx6mFnnbxCCZblni+I5n8kfpdubzkEInB2IYVsG/IPS1V3NnDLdt3wU1kYNexxOG9FFzSczvQrZAoUJip+03s5xmJElj2AEJpNz/U0/od1COSqZGbSvbhXvnbOK5H3MQvaDbIt3nmMBOZPZVi85xY2s5o5rDiZSGRfbg6DdDyBY7CI+Vmuj3iJHO/j
+	mWnTp913narWau/dTFNCX9tzKQfkISYvB0JPu7rr7u801QT1X/YY+45XwxoHxqH/pc8nuouH5OcUapu7SiHd2N8Kd1kPlCsS/9uSl+gEW/Ntx1xXzBBrge7uyHqCeBhnA5SBfENFaP8M5xjK/NH4EzS76WDXxBFFP+8NuiaMPKeJNH0iJXkL+kupheEPxBfgs9DEWYh0771aiPKdD5DV+p4xRuEwp2vz5gOhRtg7LXOMv9G35YqCRp0wHg98MwYni+uwdTaNH6eZW0mSecz4nVWUDxytRwL3y/TYo3I4LSklkv8aAxc5+jqkJZjZhScbxBMCYluwWkJtoooXr5LTdI2y776zrjdHGgjT1EgpkHBImnWoIMwKUTGDardmB/0QzXPTJg5zbNd9ZHiixmseIXpqrcbHALxOzQwyVCJ0cjpYV7FqGxQNlHOzKluxG8iP
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 10:00:03.1343
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 10:00:03.7036
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1a62b564-25bd-4a03-5ccb-08df08d8f556
+X-MS-Exchange-CrossTenant-Network-Message-Id: f0dd745c-4757-4548-4b54-08df08d8f5ad
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
 	AMS0EPF000001AA.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9PR07MB7979
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PR07MB6819
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 10:00:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244928
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 10:00:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244926
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-OpenSSL's release strategy states that patch releases contain only bug and
-security fixes, with no new features and no API or ABI breaking changes.
-It maintains several series at once: 3.0.21, 3.4.6, 3.5.7 and 3.6.3 were
-all released on 2026-06-09, with 4.0.0 already out. So upgrades within a
-major.minor are stable point upgrades per the OE-Core stable release
-policy (ref-manual, "Stable Point Release Upgrades").
+lttng-ust maintains a branch per minor series (stable-2.13 through
+stable-2.16) and releases from several at once: 2.14.2 and 2.15.1 went out
+the same day in May 2026, and three series together in February, 2.13.10,
+2.14.1 and 2.15.0. So upgrades within a major.minor are stable point
+upgrades per the OE-Core stable release policy (ref-manual, "Stable Point
+Release Upgrades"). There is no written policy document, so qualification
+rests on that branch structure and the release contents below.
 
   https://docs.yoctoproject.org/dev/ref-manual/release-process.html#stable-=
 point-release-upgrades
-  https://openssl-library.org/policies/releasestrat/
+  https://github.com/lttng/lttng-ust/tree/stable-2.15
 
-Checked the last three point releases. Each is labelled "a security patch
-release" in its own NEWS.md header, and every entry is a CVE fix, the item
-count matching the unique CVE count exactly: 15 CVEs in 3.5.7 (Jun 09
-2026), 7 in 3.5.6 (Apr 07 2026), 12 in 3.5.5 (Jan 27 2026).
+Upstream keeps a ChangeLog with a per-release entry list, and every entry
+for the one point release in the current series is labelled a fix. 2.15.1
+(May 22 2026) covers a negative error code on incorrect message size, a
+shmp() return value checked before dereference, an underflow warning in
+zero_file, uninitialised LTTNG_UST_LFILE and sigevent structs, close_range
+inefficiency and excessive fd-tracker memory use, and a NULL check in
+ustctl. The one non-fix entry changes a likely to unlikely branch hint.
 
-When a series reaches EOL the regex must be moved to the next maintained
-series by hand, as that is a feature-level change.
-
-One limit is worth stating, from this recipe's own history: 3.2.4 -> 3.2.5
-was refused on scarthgap in July 2025 for intermittent ptest failures in a
-dependent recipe, bisected to an upstream commit and reported upstream,
-and the branch went to 3.2.6 instead. A fixes-only release can still fail
-to integrate, so proposing an upgrade is not the same as it passing.
+Only one point release exists in the 2.15 series so far, so this also
+rests on the 2.13 series' record, which ran to ten.
 
 Already tracked this way on the OE stable branches, counting only bumps
-since each branch forked: kirkstone 3.0.2 -> 3.0.19 on the 3.0 LTS series;
-scarthgap 3.2.1 -> 3.2.6 then, at EOL, 3.5.5 -> 3.5.7; wrynose picked up
-3.5.7.
+since each branch forked: kirkstone took 2.13.5 -> 2.13.6 and scarthgap
+2.13.7 -> 2.13.8 -> 2.13.10. wrynose has taken none and sits at 2.14.0.
 
 AI-Generated: Kiro with Claude Opus 5
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-(cherry picked from commit 75f78c58cf9e4b385ddf4f09668b7f1a49117d97)
----
- meta/recipes-connectivity/openssl/openssl_3.5.7.bb | 5 +++++
- 1 file changed, 5 insertions(+)
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-diff --git a/meta/recipes-connectivity/openssl/openssl_3.5.7.bb b/meta/reci=
-pes-connectivity/openssl/openssl_3.5.7.bb
-index 212879dfa3..1f2754d5e0 100644
---- a/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-+++ b/meta/recipes-connectivity/openssl/openssl_3.5.7.bb
-@@ -24,6 +24,11 @@ SRC_URI[sha256sum] =3D "a8c0d28a529ca480f9f36cf5792e2cd2=
-1984552a3c8e4aa11a24aa31ae
- inherit lib_package multilib_header multilib_script ptest perlnative manpa=
-ges
- MULTILIB_SCRIPTS =3D "${PN}-bin:${bindir}/c_rehash"
+Adapted for wrynose: applied to lttng-ust_2.14.0.bb (upstream: lttng-ust_2.=
+15.1.bb).
+(cherry picked from commit a5dcaef20fc91539efa08b47607c4c91f4f49849)
+---
+ meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb b/meta/recipes-k=
+ernel/lttng/lttng-ust_2.14.0.bb
+index 1a15c5b420..4285a445d6 100644
+--- a/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
++++ b/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
+@@ -11,7 +11,9 @@ PYTHON_OPTION =3D "am_cv_python_pyexecdir=3D'${PYTHON_SIT=
+EPACKAGES_DIR}' \
+                  PYTHON_INCLUDE=3D'-I${STAGING_INCDIR}/python${PYTHON_BASE=
+VERSION}${PYTHON_ABI}' \
+ "
 =20
-+# OpenSSL publishes bugfix/security-only releases on its per-minor branche=
-s.
-+# When the tracked series reaches EOL, bump the regex manually to the next
-+# maintained series.
-+inherit upstream-stable-release-point
-+
- PACKAGECONFIG ?=3D ""
- PACKAGECONFIG:class-native =3D ""
- PACKAGECONFIG:class-nativesdk =3D ""
+-inherit autotools lib_package manpages python3native pkgconfig
++# lttng-ust publishes bugfix/security-only releases on its per-minor
++# stable-X.Y branches, the same upstream and release model as lttng-tools.
++inherit autotools lib_package manpages python3native pkgconfig upstream-st=
+able-release-point
+=20
+ include lttng-platforms.inc
+=20
 
