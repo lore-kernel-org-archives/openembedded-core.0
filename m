@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5AE15C624DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35C05C624D7
 	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 09:59:45 +0000 (UTC)
-Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.21])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9242.1788343179729044457
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.21])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9245.1788343180111551403
  for <openembedded-core@lists.openembedded.org>;
  Wed, 02 Sep 2026 02:59:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=V1KSZn3u;
- spf=pass (domain: ericsson.com, ip: 52.101.70.21, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=ITUOYOdU;
+ spf=pass (domain: ericsson.com, ip: 52.101.66.21, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pnKtn76RhUj5zIiaB6KBgmRCmadYE/hQSH6gWdB5mcpAiaZKLAPkT4nsyM45L333ebxWeSzMIC+LUowP7v2hW8kqlHmR1KMbMUGZRMtPlv3dJuHJRK9gYwsyS+GZchhupydpTwB9KvLo3piLf21wHavfMlA40TFbb5aK5taHPWk4rtIz0eZLfArbnIMENubr4MQqEn9YT+j9hKbWR0UCFEm7xY/I0QVUGH/g3/YriMYZC7RCqRfaH/GXDrpl3M3rcQU4s76fDupRcoQv6FzY6zw9uc/MJs4qKpmo6iet2oZ0aYKYFsrb4WVeFbtlBCseeEGLtycKs7Awa1TGdbkQIg==
+ b=tz1gqHaEil/acVOzTwjfizZZNnMmjd1rosoiiUwQmqsSKiqlOi24z4cWathgcylrp+vtdkAPwpBqr4o30mvCqEq7qnVu3rbbOhryf5sak5nS8HFFW086YBSlQUteLV7eRfkpvsq3p3YaCKOFgrS/2FMUPn7O+eq5FldyrbC2Kdo56FR/ZotO/9nVnwmkvP7+5aTjFPVdWaxw8c1CXg+GG2jacsX+wOwibxDCTU99SVOCbTzp9ZFFzRC+yTyw053dCm+56ekb94AH+TqvEfheW0i7MVCI0Lxo3H8lN08UwS5HNc6fTRx7JFDA7ApOIlPMRmIv25OeIUsXqgtmKzKCEg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8PpTi4xtZd0Jn3m9cCk1wmnO+MfOis97u5jR6x2w5nE=;
- b=CSW8tT27Of/cJT1Hm4XpfOtu/VGtojfCM1rH0e9O6+5oUs9sXkcmJR8RisjCuzg05w88LhPqUQmek2uhh3gj1rYqGSSBHHEF2HvM7lYpsPEtJAPfH1RuIORwu5XM8FvY97ZSjlQE6tycApd6Vj6s/pnLCBPqq4/Ys9mcIwhl9V6mkSDnfwY7cKqfH5swzgNLQgLTckhc9mbEE2UVXEf8ui7Vas650Lk+xwbQ8an6tz9Nz/yzYUWY4LXKDjPVjiyggXfJelYmGUT30TYKXjXst2ialXAeXM7Kn16JHKRnK/QOlNXwlF2Lot8bwD8xF+FXJyVMZl0AQCaGctDiV9nyOQ==
+ bh=RxOFw8DMJLFY4Kl2gngsSZ6/XTuf+RWLe6A9JGXS4LY=;
+ b=PcOzgVOBHspZmpsbA29jrwX/c+Eo6oDzxRvqw+5m1cSfwjaKdTztAiHAHbeQunb/k8SiYCUMyurPc4ImxG432phGCWtx7bOhPZM0b1pGRiMN4bDib2o5gvlAxwE+sX/A0GkvYu3dfrQqYdGgf7egJSCAvAQnO0B5C4Rd1hlIaEwqoO8MubxklaTszX15eXU8xIYDzh1pEr6yEJEOebTZ3YK7cYKBNIzGRQMcgbVptZwFxxoZRV+pj6JxCchhzhQKTQxWySMxwzWD1eH4FfLK/6W7/akaneWIs8obJ11cb4VFKXP8+fsLhwZcy54oLTH6Tx14SBIb5RF7CWWnRmxl9w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=linuxfoundation.org
  smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -26,18 +26,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=8PpTi4xtZd0Jn3m9cCk1wmnO+MfOis97u5jR6x2w5nE=;
- b=V1KSZn3uAAABErfFMQszGBDk6xJXmdZkzMm0oBK1I4M6ZuLj5gVnacWUYZwiNd9POmpA/BYJGlPDlsKwlGpnbfWMVOKqWvsn5j37Ug82buiPGnjH7C68NroyjZY0LF0A0M0G/Tge96qXEOVfgSS1y0lohaFuyh7015hQifXZ59tZnrAl7dJCGOFFfl6EZUSya124zGVhp8okS4CzPl9JxchgE+hjriP5sZaisjEEdej4T5FMZ0/YagTbnUu7bxUcW3AIqqycND6sVbvQnPAvrV1U/4LK40USKvu9w8qDqcWkOFUjtlq9Y855QvFxum9GE4i+11nxsEel82lsYWi2kA==
-Received: from AS4PR09CA0003.eurprd09.prod.outlook.com (2603:10a6:20b:5e0::6)
- by PR3PR07MB7019.eurprd07.prod.outlook.com (2603:10a6:102:78::5) with
+ bh=RxOFw8DMJLFY4Kl2gngsSZ6/XTuf+RWLe6A9JGXS4LY=;
+ b=ITUOYOdUvzGZ3BGFBfAU+OkYZOukdnSJctlyTUyijzkjnpUMcGc/QLlkS9A0iYSBTHRTVEawvUs1PDd7k16sWVWKQExQBFVOD/sfEHvFmSq2D8bhksfkY06YisZ5+mNrkDbPmDJdJO6E6hkCnaWDhN6gxYwnDqmBTi3LnDdn+xDt4fP25/GeV6M/0PL4M0Fiya3j6b5M+nwA7NID68fC4wj2zWe7SZ0fFwcTJjbxaZ2PDYAEXL6GnFr/5VPb6MZAE/dnIqcZIw3s9eQnAHegUExVJNPlup7DZ3hDNsd/OQqjRfaJP+uqyL2Kip3vIG/uAKuh8P+0UxB4OYnGaWYgLQ==
+Received: from AS4PR10CA0015.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5dc::11)
+ by AM9PR07MB7715.eurprd07.prod.outlook.com (2603:10a6:20b:30e::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.10; Wed, 2 Sep
- 2026 09:59:35 +0000
-Received: from AMS1EPF00000047.eurprd04.prod.outlook.com
- (2603:10a6:20b:5e0:cafe::13) by AS4PR09CA0003.outlook.office365.com
- (2603:10a6:20b:5e0::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
+ 2026 09:59:34 +0000
+Received: from AM2PEPF0001C711.eurprd05.prod.outlook.com
+ (2603:10a6:20b:5dc:cafe::92) by AS4PR10CA0015.outlook.office365.com
+ (2603:10a6:20b:5dc::11) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.11 via Frontend Transport; Wed, 2
- Sep 2026 09:59:35 +0000
+ Sep 2026 09:59:34 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -45,25 +45,25 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- AMS1EPF00000047.mail.protection.outlook.com (10.167.16.135) with Microsoft
+ AM2PEPF0001C711.mail.protection.outlook.com (10.167.16.181) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Wed, 2 Sep 2026 09:59:35 +0000
+ 15.21.382.8 via Frontend Transport; Wed, 2 Sep 2026 09:59:34 +0000
 Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.65) with Microsoft SMTP Server
+ smtp-central.internal.ericsson.com (100.87.178.63) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.2562.37; Wed, 2 Sep 2026 11:59:33 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 835A54020B44;
+	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 06B984020AB0;
 	Wed,  2 Sep 2026 11:59:32 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 48519700DF75; Wed,  2 Sep 2026 11:59:32 +0200 (CEST)
+	id 516C7700DF78; Wed,  2 Sep 2026 11:59:32 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Daniel Turull <daniel.turull@ericsson.com>, Richard Purdie
 	<richard.purdie@linuxfoundation.org>
-Subject: [wrynose][PATCH 04/20] systemd: inherit upstream-stable-release-point
-Date: Wed, 2 Sep 2026 11:59:04 +0200
-Message-ID: <20260902095920.2840293-5-daniel.turull@ericsson.com>
+Subject: [wrynose][PATCH 06/20] dbus: inherit upstream-stable-release-point
+Date: Wed, 2 Sep 2026 11:59:06 +0200
+Message-ID: <20260902095920.2840293-7-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260902095920.2840293-1-daniel.turull@ericsson.com>
 References: <20260902095920.2840293-1-daniel.turull@ericsson.com>
@@ -72,100 +72,91 @@ Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS1EPF00000047:EE_|PR3PR07MB7019:EE_
-X-MS-Office365-Filtering-Correlation-Id: 183d5887-7163-4167-f11d-08df08d8e4f8
+X-MS-TrafficTypeDiagnostic: AM2PEPF0001C711:EE_|AM9PR07MB7715:EE_
+X-MS-Office365-Filtering-Correlation-Id: 9860ccbe-f4f2-41e7-732f-08df08d8e46c
 X-SMTP-Server: smtp-central.internal.ericsson.com
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|376014|1800799024|82310400026|23010399003|13003099007|3023799007|10067099003|56012099006|11063799006|18002099003|22082099003;
+	BCL:0;ARA:13230040|23010399003|1800799024|82310400026|36860700016|376014|10067099003|18002099003|22082099003|11063799006|56012099006|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	dVgCkTa+YfWzbdBsbZN5nX3vKEK5ZenSDce2DhFxBTKpi9gtSTjjgiZgT65UaOm4+fBj8JHoGIK5KLuVdbD1Oko/MBj6qtcnc4Eap9k4q/F2rycKYg7nx0d5JQdmljH7lw1fV+x4QhoC8DeHu2GWNyAWyAtckmPzEZ9eGMIZxQ0MDNqL3rrcG8OaTvIUdGxSNMGN/oofgQsIdKIa9IAISxt1t7VEVOJhVwxkcLwLBqwHddFUSAvZ1LgpEdyOejQJ6xKBXxZCxrYUrY2L23KXLruChP4Yc765wb9/w3T9WX9M6PWSn6T2PKQth6PeHX3zBQFFgVSig/UgXF6lZMkmkRYt7xpoKyoRqetmaOLupfX08Yfx3Yr294vMyZdAb56B8V+3q8UljHrrD7B+iyHeaBB4H8mqmR8CSRmzKD5CWAdLq26i6r2h5wRt0M0eBY8Jkoe8bwnrgvgupUHCpeULWJ2NtJjVhwMjRNufYOowv7LoJ4usnsTvzcGiyI8upCtzVMPhWQveieYn345U1Ev7MefPEC3MXvVzxztJ2ja1O2jwlJBJOlxOU1GXYDZco6lXmVbn3wxSDUTQyONFwjjqkZU7weaMyAH0Bqhrefo+Xno6bUykh019+31YKFD+Zxd3zH+cYeReLS759q3oH9XSUAZ/SSm2a/AfQ8Kd10clCcQ=
+	AZFvh/Sp0cAntaPYKii5NIB4DpREVs5z8cQssBgMzMVftVbPMBu5dW85blY78bk9GpnOwMuV0Dxh+Fo7TArd3k/0Z8Qsju8EmXEMqxFOxH/gfh6OwDN38sW2vCoTydaEMXKPcTzYZyHc+7H4wynPvqKjsVVdvozPoRtO72awvwkXkspCngaQ7Lt0bTxjZvjcA4cRA7/aI1wdhrlBDavVWeEOYQ1L67acRcdwrgJ5NQjbyfYzDeIcpp52VzZ+QQ/EuWgqBBgVEiOvjsfoZGjgf7nzYBExBvLEHU85Qe0/ypOPAYS7j+mr5Z08YPreQFo+LZVLW/4UdNw2OTrWVjLQBw9y9Yb+JYnE2fxJFJpGtRR8vfvb4Al95afB1tFx7VLxATXKkjNWoWcvLsl/EVNgD+CZHUgJhrHWvJ8jxiVAwVQuqmlU7d8Ax0x0TgssOFzsS1r+2xlqJOWv1wBEjMR6qlotmWZnfzVpBB8XTVE0HnTW8/Qv6PPu/7t2wA5TKdTbNTvmiN7wyueAqTrpPES7j7jwJk1LZuAdoqAfU7LbAqWT7YM6FRaBS/IvmSRAbwj938mN/2mU71XEeRj9igiMGAFR3Hn04m2vpAsX4zyZ7L/odmLKNE/oLJr7qjqDgBfPDf4slF7raYtRVKWgHI9AEg==
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(376014)(1800799024)(82310400026)(23010399003)(13003099007)(3023799007)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(82310400026)(36860700016)(376014)(10067099003)(18002099003)(22082099003)(11063799006)(56012099006)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	J8sIjlvvjG0WTiu7xkbTArq7wDxxWbnRYUTv9jhN497DY/3zQS1QkyClRg1t+gZeMm0OfekKVg2A6xPlx5PhAql1jy9Yb3Srpwr99X/9pax/vZaT3rQqOI4YSgQHe5wmDRr+FLgiydYxMvVCteezGGvW3SRJ80ymHHUfgidNxtDfc8pHZhgxnjBIVvOyuZIlIO02+QuaX/rbfiUr0al/1NcaU/+22u41jIHfsxKAwq0sP2tsau6h6prh/td0+kcP3+L2Rr06jclzhIpxi5OTfHx4wnYvZFm+3c8VkLY5blyT5BWxT/rJHoKEHYe0E4ftDG6X54H1STaTrD4jEo7iUohRXLMUCp3IdTN79yYIc84W3cu0fkj3JXiR2lIXy3dJpBkDc7v5VhS+9g4kiriYcd82HWgYg2khmob5muE+FO+lBi7g9yP37wLGuErH9eVC
+	99iqBV7J0nMPjPvCXazMpWu2jpsBE4yyX8assxoc0kW78r7ERzpKswGppxJjFbMbxUc+dfKtipzzGgZJ3HzCnEFL0IzwSw4sfdSEDe9Rb7dKokioNmCimPtNc2A5OYA/9A0swKngQxvWNUSC//pkBwyvZ1Z6DBjNc3VvK6+QBY4ewt16HbycBBWGoBL07ahGmyqHkVouqysn7LuKwHZkkex3A2x6Hk2fzzCj4vLK3LPkIT6hjyoDHdX/PWckqw8ukLQOm8J8V4sXM8/V8RaOE1LJm/1+7fWtyDRdDK9yHizc88uMBk6bLHDpbZXNaD+5v7mf2mYtY5GsnbcBweUhWcTZPePWC5ZFNKy5QSmsHcz5/3XW+26Gw7P6QMpsA0Kr/zfXFlXY5Ncr3oPPx6UW1+HzZ5hhalIxlMujXNPg1J0GStlDGb3g/OohUzGhixDQ
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 09:59:35.6776
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 09:59:34.7551
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 183d5887-7163-4167-f11d-08df08d8e4f8
+X-MS-Exchange-CrossTenant-Network-Message-Id: 9860ccbe-f4f2-41e7-732f-08df08d8e46c
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF00000047.eurprd04.prod.outlook.com
+	AM2PEPF0001C711.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PR3PR07MB7019
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM9PR07MB7715
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 09:59:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244914
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244916
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-systemd's README ("STABLE BRANCHES AND BACKPORTS") documents per-release
-stable branches carrying backported patches. The current one, v261-stable,
-is branched in the main repository; the README still points at the
-systemd-stable repository, which holds the branches up to v255. The major
-is a single version part (261 -> 261.1), so upgrades within a major
-are stable point upgrades per the OE-Core stable release policy
-(ref-manual, "Stable Point Release Upgrades"). STABLE_VERSION_PARTS is
-set to 1 accordingly.
+D-Bus's CONTRIBUTING.md documents even-minor stable branches, currently
+dbus-1.16.x, that receive only cherry-picked bug fixes, so upgrades
+within a major.minor are stable point upgrades per the OE-Core stable
+release policy (ref-manual, "Stable Point Release Upgrades"). It also
+states that odd-minor development branches such as 1.17.x are not
+supported at all and receive no bug fixes, not even for security
+vulnerabilities, so only the even-minor stable series should be tracked.
 
   https://docs.yoctoproject.org/dev/ref-manual/release-process.html#stable-=
 point-release-upgrades
-  https://github.com/systemd/systemd/blob/v261.1/README#L460
-  https://github.com/systemd/systemd/tree/v261-stable
+  https://gitlab.freedesktop.org/dbus/dbus/-/blob/dbus-1.16.2/CONTRIBUTING.=
+md#L65
 
-Checked the last point release for feature creep:
+Checked the only point release in the series so far for feature creep,
+the 1.16.x series having just one non-.0 release to date:
 
-  261.2 (Jul 23 2026), against 261.1 (Jun 26 2026): 277 commits, mostly
-  fixes. NEWS files both releases under "CHANGES WITH 261" and gives
-  neither its own entry. Four items are feature-shaped: refcounting,
-  argument handling and JSON output additions, plus one new internal
-  string-util flag.
-
-Those are small internal additions on a real, diverged stable branch
-rather than mainline drift, and none introduce a new subsystem: closer in
-scope to a security-hardening batch than a feature release, though
-broader than a pure bugfix release.
-
-These bumps are not free: the scarthgap 255.4 -> 255.13 bump was held for a
-v2 because TCLIBC=3Dmusl broke, and was merged once fixed. A point release
-being fixes-only upstream does not remove the need to build and test it.
+  1.16.2 (Feb 27 2025): two items -- one build-regression fix for
+  verbose-mode builds against libselinux >=3D 3.8, and a documentation
+  update. No API or behaviour changes.
 
 Already tracked this way on the OE stable branches, counting only bumps
-made since each branch forked from master: kirkstone 250.4 -> 250.14 and
-scarthgap 255.4 -> 255.21. wrynose has had no point-release bump yet.
+made since each branch forked from master: kirkstone 1.14.0 -> 1.14.8.
+scarthgap has had zero point-release bumps since its fork and remains at
+1.14.10; wrynose ships 1.16.2 as its initial version with no bump yet.
 
 AI-Generated: Kiro with Claude Opus 5
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c19dd5b2afa61ca78dad0b65556ba66e83db57c5)
----
- meta/recipes-core/systemd/systemd.inc | 5 +++++
- 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/syst=
-emd/systemd.inc
-index f107c4c5da..bbcacf9deb 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -21,6 +21,11 @@ SRC_URI =3D "git://github.com/systemd/systemd.git;protoc=
-ol=3Dhttps;branch=3D${SRCBRANC
+(cherry picked from commit 63948049e50abeda630fb716ea0ba97e71b4f7cd)
+---
+ meta/recipes-core/dbus/dbus_1.16.2.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/recipes-core/dbus/dbus_1.16.2.bb b/meta/recipes-core/dbus=
+/dbus_1.16.2.bb
+index 7425bd2364..1102a8660e 100644
+--- a/meta/recipes-core/dbus/dbus_1.16.2.bb
++++ b/meta/recipes-core/dbus/dbus_1.16.2.bb
+@@ -5,6 +5,12 @@ SECTION =3D "base"
 =20
- CVE_PRODUCT =3D "systemd"
+ inherit meson pkgconfig gettext upstream-version-is-even ptest-gnome
 =20
-+# systemd publishes bugfix/security-only releases on its stable/v<major>-s=
-table
-+# branches (e.g. 261 -> 261.1). The major is a single version part.
-+STABLE_VERSION_PARTS =3D "1"
++# D-Bus publishes bugfix/security-only micro releases on its stable
++# (even-minor) branches. Odd-minor development branches (e.g. 1.17.x) are
++# not supported at all and receive no bug fixes, not even for security
++# vulnerabilities, so only the even-minor stable series is tracked here.
 +inherit upstream-stable-release-point
 +
- CVE_STATUS[CVE-2019-3815] =3D "not-applicable-platform: only applied to RH=
-EL"
- CVE_STATUS[CVE-2026-40223] =3D "fixed-version: fixed in 259.2"
- CVE_STATUS[CVE-2026-40224] =3D "fixed-version: fixed in 259.3"
+ LICENSE =3D "AFL-2.1 | GPL-2.0-or-later"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Deb0ffc69a965797a3d6686baa153ef0=
+5 \
+                     file://dbus/dbus.h;beginline=3D6;endline=3D22;md5=3Ddf=
+4251a6c6e15e6a9e3c77b2ac30065d \
 
