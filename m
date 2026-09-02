@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79651C61DD6
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 09:59:43 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9250.1788343181439269248
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E4FDC624DA
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 09:59:45 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.9])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9246.1788343180732398544
  for <openembedded-core@lists.openembedded.org>;
  Wed, 02 Sep 2026 02:59:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=YsIGwInh;
- spf=pass (domain: ericsson.com, ip: 52.101.84.45, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=Hhr8yBp4;
+ spf=pass (domain: ericsson.com, ip: 52.101.84.9, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=GsdIjyQnGu5E//fQytiaTn+ET3mqevtOBNSBxkfdwaCB8J4exBNh2y4GeKZviS28oqNQJdzqHW6GoeLF+DRWYDIxtuXXO3qGTX377ghxJ060gTtt1BepShehEecoz+386BXjDEI4CDSDCXyt08vm3Bq7qkrgoF8NsJu0TEKM/wH3LB9TC30vHE8Ql1mMol8BhYyNorcPoMVnpeik1qlxRtS7VAFf36ie3HcW150HVMRErfu9P6To8lZRNf7uA8KNMsYe+VMVPP1HuFIgn5wDZa6YN0u5nf0mfi20IwuqrgfeA2k+owoVCvPNriif91bHffEwqIzE7K4GDW0DVTLzjw==
+ b=N3/IOOmcEvJ0kX4RLYKTmsAUXT3AeKXEN8E3Ls3wrKsDyE5XOMPGeYHli2BOP68dOza4kIEe41UQ7Pa/FgI31NbBAUjF32jtjIopNbkkN+SIa0DI3VsqXaq4J00uf2qltV0f7aXXmc+6a5eMM/r6J85T4g6mmGoPvjqlqvFY3FKXDOYpPa8PwN9pQof++xwhfqKMyhRqdOhE9bDYRw50wkHJRVzLt6+DFxBg1aLEY2jPqpAcb/E1FSpP2/4crSev+AGZl6YKlWjK5/ZcoWg/jFRgqsZOLUepjRlYWo6rZcfEcmZYXkLf7z9+fPkw/bRl+TIIxyyOl3TUsPO7NjoXtA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xZZ4P/2hD1aoqDUwEzKtgFdrnOWGlYlgyZLA8bLkfkM=;
- b=pXbbm4D64eaR2u171dWlvzpG/3IRk1LSoQSuf8eCvSBjbz5iubBRZasAj+jdqqaBJz+uriEIFcOY8a50uIER5FX85mz+C3R5hJpUFcIQQdo+lPnaGaL56kpkw9EEb6JeUEfUmiF013ewJ+XFi/LkYp5zju8DZ/F9h/CV5XH1ApZflRVthuiMtytzxLiVx2Zr6TbmgYXfTj8HRYt326MH+/FPquF3vv8iRDq823M2T7uXkZHqbzZhyA/pTMGuUcfeuKvtp51+H59y1MuJkGzzszpRNgZ2g8l/b3v6zc3VR+CS6CzlyiZXf1EZlQ1fgDOkEkzbhYg8kY+ZAWOcYKqa9Q==
+ bh=17QHgRsRKOglEZidFokuXoP1vx2kLCcaq+U3+Ma2qN4=;
+ b=iOP8g1p1wc1J6d+8PfXsrNv0EvUvfE/SMD0utO64dWQah8uSSToOYc2WhtiXlhJE741rhZp8EukYMbhCu7+mdr8z4iotL5tfGYWQFH4f7GSTwQhzf1uzj8H/V63m/Qh+Ah8mReqLgYwV/ezdLSSjjJCef+QMbMXXJ0YVuvST5Gmsm+wQHBDJqk4EDDTYGVq8PRkBfAzc2fxTrgJLHHVCPuzFMEIP93N52zSCJykGJUJY3lsRcULPxC8hQQ8mTAdnPbLaJaXdx4f2iKSnvva3pEABGI40R6Mv5qyJ7pjQv8OlkZhT8mQ2LyWHsG8fwnWwz0m7Bqes6GS35TVbhF0zbQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=bootlin.com smtp.mailfrom=ericsson.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
@@ -25,18 +25,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xZZ4P/2hD1aoqDUwEzKtgFdrnOWGlYlgyZLA8bLkfkM=;
- b=YsIGwInhR17kcSRjzB9ZCACLyL01mbcIWTecvxmzulXlHzZsPFlqPlSHt1ZRL8poMsuRAglGM6ykpIsJvNCyNBJwoPuRD72uhZ+ey/yVn8WcbXa5IrDqmRHnYLdPb/VUrLire10dyKQwPYfgvS7zFlCUolYRAKaJbJuPgy4KyuOS1WGN+bTBdeTIJtLWxk6cWhv8Z5ebThJvE1paxN2A4kY6OXeKTXnZdat1mV+htANi7RiM//DgIXxrSMb13yn7xj7uy4mEgcDSmMw8rTx+ds8uKnaxWXSILWkM0MK3hhAQyIAxRhFbuQVwFNX8x18Eg717acWvaRHbrXssHEvW7Q==
-Received: from AM0PR10CA0012.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::22)
- by AS8PR07MB7783.eurprd07.prod.outlook.com (2603:10a6:20b:352::11) with
+ bh=17QHgRsRKOglEZidFokuXoP1vx2kLCcaq+U3+Ma2qN4=;
+ b=Hhr8yBp4I1MYrscVdDISzrT0fgEVqstREnDm9mc8aeNHfCB5jJqw+DBoDMF3cqnDkQagsjD0ewasdJ2B88uzfZhr0Cea3QDijfAbdLUb+49fo31ntYfDhF8b+Vfnr36js1oyGI8LvBxVFjCTwTlK6RBlRn2uB9fNeyPU9cdo4+It6tzVa1FfZdTq38vxCa30Q6UytG5+Qyb777xmduZj9rAZZaBTLwTb3wFMRB+D9GaQgpy5ecRAwyMLgEoxHK+m7rBBj9b0BCGLEwRcTsuc7uiks/+iLJBX8LUE9qdfqICJXjKSsFQmwEwSlu39JrpVbqLBEgN6C0jNowJ7oVGeiQ==
+Received: from AM0PR10CA0016.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:208:17c::26)
+ by FRZPR07MB12364.eurprd07.prod.outlook.com (2603:10a6:d10:1cb::24) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.10; Wed, 2 Sep
- 2026 09:59:35 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
+ 2026 09:59:36 +0000
 Received: from DU6PEPF00009525.eurprd02.prod.outlook.com
- (2603:10a6:208:17c:cafe::15) by AM0PR10CA0012.outlook.office365.com
- (2603:10a6:208:17c::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.11 via Frontend Transport; Wed, 2
- Sep 2026 09:59:34 +0000
+ (2603:10a6:208:17c:cafe::3f) by AM0PR10CA0016.outlook.office365.com
+ (2603:10a6:208:17c::26) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.10 via Frontend Transport; Wed, 2
+ Sep 2026 09:59:36 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -46,25 +46,23 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
 Received: from oa.msg.ericsson.com (192.176.1.74) by
  DU6PEPF00009525.mail.protection.outlook.com (10.167.8.6) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Wed, 2 Sep 2026 09:59:33 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
+ 15.21.382.8 via Frontend Transport; Wed, 2 Sep 2026 09:59:36 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
  smtp-central.internal.ericsson.com (100.87.178.66) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.2562.37; Wed, 2 Sep 2026 11:59:33 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 685184020B44;
-	Wed,  2 Sep 2026 11:59:32 +0200 (CEST)
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 3D6CD95808;
+	Wed,  2 Sep 2026 11:59:33 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 3EF6B700CF27; Wed,  2 Sep 2026 11:59:32 +0200 (CEST)
+	id 7A101700E7E1; Wed,  2 Sep 2026 11:59:32 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: Chen Qi <Qi.Chen@windriver.com>, Antonin Godard
-	<antonin.godard@bootlin.com>, Richard Purdie
-	<richard.purdie@linuxfoundation.org>, Daniel Turull
-	<daniel.turull@ericsson.com>
-Subject: [wrynose][PATCH 02/20] upstream-stable-release-point.bbclass: add bbclass for stable point upgrade
-Date: Wed, 2 Sep 2026 11:59:02 +0200
-Message-ID: <20260902095920.2840293-3-daniel.turull@ericsson.com>
+CC: Daniel Turull <daniel.turull@ericsson.com>, Mathieu Dubois-Briand
+	<mathieu.dubois-briand@bootlin.com>
+Subject: [wrynose][PATCH 15/20] sqlite3: inherit upstream-stable-release-point
+Date: Wed, 2 Sep 2026 11:59:15 +0200
+Message-ID: <20260902095920.2840293-16-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260902095920.2840293-1-daniel.turull@ericsson.com>
 References: <20260902095920.2840293-1-daniel.turull@ericsson.com>
@@ -73,101 +71,89 @@ Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU6PEPF00009525:EE_|AS8PR07MB7783:EE_
-X-MS-Office365-Filtering-Correlation-Id: 525d981e-a86a-4cd5-4a4d-08df08d8e3df
+X-MS-TrafficTypeDiagnostic: DU6PEPF00009525:EE_|FRZPR07MB12364:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70b8de64-5e5b-47d3-404c-08df08d8e535
 X-SMTP-Server: smtp-central.internal.ericsson.com
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|376014|1800799024|82310400026|23010399003|10067099003|56012099006|11063799006|18002099003|22082099003;
+	BCL:0;ARA:13230040|1800799024|82310400026|36860700016|376014|23010399003|6133799003|22082099003|18002099003|56012099006|10067099003|11063799006;
 X-Microsoft-Antispam-Message-Info: 
-	tfhbSi4I2kRVJdeJfkYRVT/OVgX1Krxv6O0P0MVZj561qeiq1hO1knZdDqG4d0bHNzhAeqoRZ2Nt8oMlWGwDRMMSEPh9H8WJ2kmwYix1KQBHq9kOGHiRQJzFJmt94aDFezUMhVOtLmUdVRrUqaYDFgfS1Z+3V3KQshtOmqksUQnXvhUaW4QXssqY9IdL2/AxkryevVpdIdW42WI2kkuvuGfQClKXhFR4xkNJ97Sr7a+CJwuOCJI4r/h630HJrGKPCtweI8eMYcYLCkz+roIeA/1kXbdL6sIpVTc68qpHN9NJ45bephFWwkeIw7OrhWoGYgGsq1PiUqFcH2KjxKEigzCS7aZtjcLRGCdIjM+8mhX+K+Czsj8/YiRSzyEAFw+RR/bT42t9fX8jH5kfWTLVPKXNM3yYUD5P7lngtGvwBcPVbYa7Zdbgp/9EdjRIELkzjLF38+58ALDdkNamPKZt49w2PZqXictwLT26Sz8QHZnEFHlt70owHkLl+QLawO+scRU3W0fHGN2+e6bZPV9ssE5du10cVwb+PiB9oSwJEMRyXwL1wNEymxQHCVxmu4DW+DlaBOr8I/hOPLVvfBsxnKNPLBaRZRsJTbO6YT+Xgk833WpWeEKLHmTfLLKM3FiJctuZOJkfPHfsbaqZ8pOCGryjgLumOQ5vsyJz89nQN7GYzrDKcJs3BVdhh07tGj7bF6ID6XgsPBr30ZpgqGBQyQ==
+	tkAMBH93/tFtl6VQxt/RQP4PuFt57STJcxiTe6diktuegGa9X7wSB9QnWvEvr+Ht3fpIHce9VN0idp081ynFX+t6RwtdBU7SuuHdAqxRK0z6XMuY/lbhqlkOXCO0gE2hNBgq+e5rqqYuALh7Sce9rMMqgIbI7SVj5LwFPXEDDhlzuEbxkYZSAkd+y6Ns5NaxGSbUmY5J6WlggArgZwRVr0QJ+P4FCbWEHw6rNXTxe6vxqFEWkOnq8AvcEvCoAumqojXylYKf8ildQIxBNeWhUS3i5TW36jaTgAqh+Y4fF6rwlPN9PDskY1pLwH6pkTHhIucwdSOujMKp3yQ4I5QJ+nWJe0QZmTnrNMJFeUTDYQ8hS42G3iBI5sZE/Au9aJnq0Ekw2H426/hjNXqWHKrUXpmqQIFkrm9Ya19PO2coEUXOodQLBkmGfGAsB5MuE7QIjv1ao46dCbQ2VyT8FeqzAhPO6rr7e08UxY9Jmix8rfwGTLt211vUmsN2DvBIFZGYbJFBVSyTYMSwmpMoGgXAQZ6kuPsTGHpZ4DunzWYxaTJndVQNLX79yQTDMNWV5Fv/aZka6nGkOg4o1q2axkCIL6AbSfxFYcV6TCnGb/IcCF39P3vewU16mTp6r6HcvXsLxRKDW5rN/dcietwAbnOSWg==
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(376014)(1800799024)(82310400026)(23010399003)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(36860700016)(376014)(23010399003)(6133799003)(22082099003)(18002099003)(56012099006)(10067099003)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	AUisTLGVOTEeNalHy2nJirr6MBD755Dn2gGXicT/Mp31uyxmDwitFsMTZeCs5tZWfrLcTTeZFqSXEgyu7u1+NtFSfC9KBeXolqri6vV8xsPktxl/UCCzGxyhnph4tExHfyxPGYUHTKb2KLvSXTayzIV95Rj5LJXqdnat1bpHFTd9r15AytaDDo+2A1uEc4FNnMH2G4F3PyUIhG13G8fNy6Z/PrG4DpOfDKAtdjJ2WqXoUp+usXz0peV9HVSJcgKqRxVdOXFWsJ73deBDVmB+z9RTwRK1ODr83odJ+vWDX6Cwwr20+b1Zg5+ASuN3wsH8rhTAVdGGu5FCJRsHW7egklgliULmG1AC/9B1it9e1VsZgsL9i4uadiLYj/osk/KIN7xDi9/34igEzoa2fxtSu0ntz/AkXTJWgg6CkaAHLoV49MWBp8aaxm/dcg80F8l9
+	0DUcaz0mGU2JCAV7APaS29tDL4nUnemcazQyogwBQVpIwJUJCR4J2p/WjkPXCywqR1z+wwXJYaIhSbiX7FVMbpslmpVQI3NVIMMyraQsh86Nwb3ghk8HfAg7GfsFi+pA8gcett1LYQwBcsmeNp4kjpJ+ICypx0LNHVNs4MXyuFyIpl41wF+0K2atUv33vT7micODuaZk4fMioqJMsMy9xv+Z1j1WxUF2To1CTW9vZAvRQh/1VhurOyAXECVpNu4eI4Uo2513QWW3o4mxUG3ElXp0PAFmidZHm0onmH/zpWolgqu5MZvbFA6NC7vhRX0qhDsa262VKZYTezGwBVcR6N3Ws8La+E3GEz/K7RJf6DI8iPgk9U5Rc4VenhckVVoQEJaNEzD0TRjgFQrXHCr1vmYSZ8SpF3VcIDHk8H7WLWm+6o/qvxe6ccYNMzyvJc2S
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 09:59:33.8105
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 09:59:36.0511
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 525d981e-a86a-4cd5-4a4d-08df08d8e3df
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70b8de64-5e5b-47d3-404c-08df08d8e535
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
 	DU6PEPF00009525.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR07MB7783
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: FRZPR07MB12364
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 09:59:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244921
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 09:59:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244917
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-If a recipe can do stable version upgrade and the stable parts of the versi=
-on
-is seperated by '.', then it can inherit this bbclass.
+SQLite cuts a per-minor maintenance branch for each release series,
+branch-3.53 matching the current PV alongside branch-3.52, -3.51 and
+-3.50, and tags patch releases off it. Superseded branches keep receiving
+them: 3.44.5 and 3.42.1 were released in mid-2025, long after 3.50 was
+current. So upgrades within a major.minor are stable point upgrades per
+the OE-Core stable release policy (ref-manual, "Stable Point Release
+Upgrades").
 
-By default, the stable parts number is 2, which means the following upgrade=
-s
-are stable version upgrades:
-x.y.z -> x.y.z+1
-x.y.z+1 -> x.y.z+1.zz
-x.y.z+1.zz -> x.y.z+2
+  https://docs.yoctoproject.org/dev/ref-manual/release-process.html#stable-=
+point-release-upgrades
+  https://github.com/sqlite/sqlite/tree/branch-3.53
 
-Recipes that have different stable version parts can also inherit this bbcl=
-ass
-and set STABLE_VERSION_PARTS. For example, systemd sets this variable to "1=
-".
+Checked the whole current series. 3.53.1 (May 05 2026) through 3.53.4 (Jul
+24 2026) are almost entirely memory-safety and corruption-handling fixes:
+five out-of-bounds reads, two buffer overreads or overwrites, two integer
+overflows, hot-journal rollback with a zeroed super-journal record, safer
+double-to-int64 conversion, and mutex acquisition added to a batch of
+sqlite3_* entry points. 3.53.0 (Apr 09 2026) opens the series and does add
+API surface, confirming X.Y.0 bumps must stay outside the regex.
 
-For recipes whose stable version part is not separated by '.', they should =
-not
-inherit this bbclass and intead set UPSTREAM_STABLE_RELEASE_REGEX themselve=
-s.
-For example, openssh's stable part is separted by 'p' and should not inheri=
-t
-this bbclass.
+Two additive exceptions in 3.53.4, neither touching the core library ABI:
+the SQLITE_SHELL_EDITION compile-time option for the CLI, and
+sqlite3_intck_register() in the incremental integrity-check extension.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Already tracked this way on the OE stable branches, counting only bumps
+since each branch forked: kirkstone 3.38.2 -> 3.38.3 -> 3.38.5 and
+scarthgap 3.45.1 -> 3.45.3. wrynose is at 3.51.3 with no in-series bump
+yet.
 
-(cherry picked from commit a1e069d04cb13e990b362804bd56a4935338ef96)
+AI-Generated: Kiro with Claude Opus 5
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(cherry picked from commit 22cd1dfc82049e47be5e73057c2f12cda036f352)
 ---
- .../upstream-stable-release-point.bbclass     | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 meta/classes-recipe/upstream-stable-release-point.bbcla=
-ss
+ meta/recipes-support/sqlite/sqlite3.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/classes-recipe/upstream-stable-release-point.bbclass b/me=
-ta/classes-recipe/upstream-stable-release-point.bbclass
-new file mode 100644
-index 0000000000..98fdb5b808
---- /dev/null
-+++ b/meta/classes-recipe/upstream-stable-release-point.bbclass
-@@ -0,0 +1,21 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
-+
-+#
-+# This bbclass is expected to be inherited by recipes explicitly.
-+# If a recipe's version is separated by point and we know for sure
-+# which parts of the version represent the stable part, then the
-+# recipe could inherit this bbclass.
-+#
-+
-+STABLE_VERSION_PARTS ?=3D "2"
-+def get_majmin_version_regex(d):
-+    pv =3D d.getVar('PV')
-+    stable_parts =3D pv.split('.')[:int(d.getVar('STABLE_VERSION_PARTS'))]
-+    return r'\.'.join(stable_parts)
-+
-+STABLE_VERSION_REGEX =3D "${@get_majmin_version_regex(d)}"
-+UPSTREAM_STABLE_RELEASE_REGEX ?=3D "^${STABLE_VERSION_REGEX}(\.\d+)*$"
+diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support=
+/sqlite/sqlite3.inc
+index 94dbc38ec5..8791749dc8 100644
+--- a/meta/recipes-support/sqlite/sqlite3.inc
++++ b/meta/recipes-support/sqlite/sqlite3.inc
+@@ -21,7 +21,7 @@ UPSTREAM_CHECK_REGEX =3D "releaselog/(?P<pver>(\d+[\.\-_]=
+*)+)\.html"
+=20
+ CVE_PRODUCT =3D "sqlite"
+=20
+-inherit pkgconfig siteinfo
++inherit pkgconfig siteinfo upstream-stable-release-point
+=20
+ # enable those which are enabled by default in configure
+ PACKAGECONFIG ?=3D "fts4 fts5 rtree dyn_ext"
 
