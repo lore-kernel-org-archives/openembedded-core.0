@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88370C624D3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7D57CC624D6
 	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 05:27:08 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5672.1788326819179254016
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5674.1788326824513873943
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 22:26:59 -0700
+ Tue, 01 Sep 2026 22:27:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=O8T0587m;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49b8e527d63so6490575e9.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 22:26:58 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=C8OlTaaP;
+ spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49b0dd3c9a0so3919735e9.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 22:27:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788326817; x=1788931617; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1788326823; x=1788931623; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=t9eZd2ld8w4iKXEGV3L0LyCFqRb8Nw0fzxb9pZfvfbA=;
-        b=O8T0587mYPRPbET16y3IbE1SGUmLyzYppl3xzqWFPjg/MrQZ4FNBc5Sz5gW5lDmKVG
-         BB6o5NDlyfk7tJ84pVH2Jq5ExH4ADXzXCUw1xRr+ZruySX68w608dXmHwcU74yjVJahY
-         rlO2ZP+Fno5rY5r6FB7N1oViudol81y5U8bAc=
+        bh=d3SVAbhrqenkv1Ww5+v4UVLAjfI5Z3wOzn72hFwCk6g=;
+        b=C8OlTaaPhaHNPJE2iH40Vp6z4bInxbwEkgy77mO+JDHXgPAAgS3ues4IEnRtfy1P2b
+         +y+inMpY5kdUi3nG8T4FMNl8m/g368Pb0JULj6FFlikghU+ck9y8tZ3qVpzzKcIDvx2e
+         bmM0Y9w9laX8CBphyw7ASl814jfHlufEn14Pw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788326817; x=1788931617;
+        d=1e100.net; s=20251104; t=1788326823; x=1788931623;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=t9eZd2ld8w4iKXEGV3L0LyCFqRb8Nw0fzxb9pZfvfbA=;
-        b=D8wN6bxRnSR6NBlRoaRHoYF6wbyL3Yeech/dtbl69ggmX4Yf/wY5iomiUrsEcHUSJI
-         wtntMr5taRd8KfN3g4m6AeJPy8es7I7S9Sz46ofDFIe6ggQI6PXaJpAwpLnQqP18bntX
-         XYM/cDklWDGs8Lg2I2Doi0/KT3y11xlP7IEsFVY+Db7ENvpxsQdvZI81Qp/pMwvqhRaz
-         EbG7TaEYcSEP+QRS4mj2/NcE3kU0Ol/Ian2X1WJO6o/vGxg396FpY+7JSebjqPzaisGz
-         zianbHZ7cxxXHDr25aclGcUtSUSd1RXlcArVoFrQnsyQQRvikA7APolE5WWSFryL6u75
-         UIJA==
-X-Gm-Message-State: AFuF++m/6sDXZ+RF4IdpmSb4ytCrMqv6OvO8duBLPQIU7DEXO8Vu8auC
-	HYt8YjHRvxAhADZmXf2Nh21c7hHQ2eCc63PW1+TWqnjVVVnlu6T+0K0TIVtqLoRyP89cuwJqxli
-	xr8SmIwU=
-X-Gm-Gg: AR+sD10NIR57ZNS31/6EbhMQ8OTHKR3m52xu2totxRM+l9LCXHM2yxlTnXVsR7V96NE
-	B65orPXYrqzd2iDLxRiBfWdVbZtlB9adVlWO4UH7exBxQbU9lHNjIJiwzIT+CZI5IkG9KOw74GU
-	xBQCX31FmUq33x/57V/VmHWKc9Xc1ucxvRL8DXfRNAh0dAZpyhSdBucD+5RA0cwXhbDdAlzGvRp
-	CGjOm7MVBfXUyUBuCh78lTXQdrbFFXh+WwkyGvvHUw/bW8QgHADwLhUFbT14aSxWUHniTgQiPtr
-	tmsbrEAjg2eb0rOf+C6dAUtF+jcqqxDPtmw6UDb9aB/g9bifnXBQ9TH1FEE6xwU2JgKNBRZsyXm
-	hI17L4TwOC3jV3GBr5o8XFrZkyf0MV34Oi5Nf4G7cql97uNmR2YTZqisF4OGd01OHEl5QgHxRnu
-	eoDUCWfVkCHguS0QXLVrvULJuVBYqK0KtzXdV1b1bTFAKj7hBp8svLi9gGOuS8aQ2ssab9on0ew
-	Oi0RBBR+C0JEDz28w==
-X-Received: by 2002:a05:600c:4687:b0:49c:cfad:90c1 with SMTP id 5b1f17b1804b1-49ce5819a3amr31379485e9.14.1788326817339;
-        Tue, 01 Sep 2026 22:26:57 -0700 (PDT)
+        bh=d3SVAbhrqenkv1Ww5+v4UVLAjfI5Z3wOzn72hFwCk6g=;
+        b=Q2U1lUwQPxP2J/SKmutejKzEosuCwog0D7qBF/9fsKaO504WDt7WMYM7+++U/mtspW
+         fhB6U/tLXfvmXhFp4uFoHEVobWYm2hTjzDmLkGf6esMhHGnxjwCzKOZzutV3uIjZLqtM
+         lScA2lIO8ocZZ099l809heJcKHwjTqQlUAv4GvNXXnGxw8M4OrwkbgYXCmdUZIYnpE2D
+         nRd3TPRWRZr/uzUSQUbrA8/X1VZM35lxQk0HA76kGSRaoKy4TEVxED2fRpZup68ogiLN
+         HRuIw8vg8tQVhYsQyH5VDuJI+C5McSw41TVxxckMs2KvOoRdyUAZf7QZuCIZGNG0Aod3
+         3PtA==
+X-Gm-Message-State: AFuF++lsk/zkVYUHB2u0YeTJsWeXsJcevugkbsonFPRQzDEMelvVWjBE
+	pFBodK6+HlLAR6hdc0zrZEypo5MdU55ied6Js9wuCmeZLW5WidiogvPivDd4I8YLDRwcAi7hIHw
+	lTh73VLs=
+X-Gm-Gg: AR+sD125/FYDYaQ3Nw7+5fAmI3bjhBLZ6TNrsebq6NMMOu565b2+3iTc1GZQd/X6GQ5
+	/fEU3zGLqA07aPbxFNKmma/aZO8MiOiVaVkhI8lqRD4U8J9Bsaqc8g2MLfg3fSXfGAFF6ttcMhW
+	CbCO8X2apaoUN9ylMFRzhjJnWKcm/evqHsw/0jtyqDqh7JEZWJqNdTHmMsn8QgbWswS+JHQpV+E
+	U8bA8SWtj9NXSLUplsalU9/Qvz+LWgJXeZG6/3EiyQN1FS4yj4XS3EryZ5f5mr2P6hyRVoPiCl2
+	2W+cP1MxMxKtO6RBKtFaS8QpKWSpXvFrCIglRMVyn3WlGYSOxA3gEbPnSfh6b3vsTEzZJzrTeta
+	V7ZwtrLPFjyPO8U8/908ptuYrl72q0uK0V22QW9iQJwkEKY6zedXo/JPaEYDLCldn9JybWD3Nfx
+	gWHDWZdvTWwrQj5pcYfSuSFzZF2rmjw8DllBxj3TuTBZhLjrLW0ruDnAkfEkSsRqU2TaqEegynw
+	HpW0yfsSJaxwCAbiO4=
+X-Received: by 2002:a05:600c:1913:b0:49c:e3c3:5efd with SMTP id 5b1f17b1804b1-49ce583d6ecmr28979605e9.9.1788326822642;
+        Tue, 01 Sep 2026 22:27:02 -0700 (PDT)
 Received: from FRSMI25-LASER.wifi-gare.sncf.com ([148.169.40.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce4780f0dsm37084695e9.12.2026.09.01.22.26.56
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce4780f0dsm37084695e9.12.2026.09.01.22.27.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 22:26:57 -0700 (PDT)
+        Tue, 01 Sep 2026 22:27:02 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 15/27] wget: Fix CVE-2026-58471
-Date: Wed,  2 Sep 2026 07:25:32 +0200
-Message-ID: <e8a20e6c7f6b2fc06b1ef0fabf63ed5fc349f1ac.1788326578.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 18/27] vim: Security Fix for CVE-2026-55892
+Date: Wed,  2 Sep 2026 07:25:35 +0200
+Message-ID: <df7fb45b185ad3fd3b339ee25ce9dad041741f25.1788326578.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788326578.git.yoann.congal@smile.fr>
 References: <cover.1788326578.git.yoann.congal@smile.fr>
@@ -66,111 +66,121 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 05:27:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244866
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244869
 
-From: Hetvi Thakar <hthakar@cisco.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
+Picking patch as per [1], and same patch is mentioned in [2]
 
-[1] https://gitlab.com/gnuwget/wget/-/commit/c2640fe5171c59f87c58dc9fcb195b2d18b010ee
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58471
+References:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-55892
+[2] https://security-tracker.debian.org/tracker/CVE-2026-55892
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../wget/wget/CVE-2026-58471.patch            | 71 +++++++++++++++++++
- meta/recipes-extended/wget/wget_1.21.4.bb     |  1 +
- 2 files changed, 72 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58471.patch
+ .../vim/files/CVE-2026-55892.patch            | 81 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-55892.patch
 
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58471.patch b/meta/recipes-extended/wget/wget/CVE-2026-58471.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-55892.patch b/meta/recipes-support/vim/files/CVE-2026-55892.patch
 new file mode 100644
-index 00000000000..4938e6761a5
+index 00000000000..5f46c97cfa3
 --- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-58471.patch
-@@ -0,0 +1,71 @@
-+From f419222cc7e02dea2da104b4fb5a997019bab9a9 Mon Sep 17 00:00:00 2001
-+From: Arkadi Vainbrand <arkadva8@gmail.com>
-+Date: Tue, 13 Jan 2026 12:22:04 +0200
-+Subject: [PATCH] Fix buffer size handling in filename conversion
++++ b/meta/recipes-support/vim/files/CVE-2026-55892.patch
+@@ -0,0 +1,81 @@
++From f0df4a48a426bd67c0c2f5ad536000a4368cd4c0 Mon Sep 17 00:00:00 2001
++From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
++Date: Tue, 16 Jun 2026 20:32:21 +0000
++Subject: [PATCH 10/17] patch 9.2.0662: [security] Stack out-of-bounds write in
++ dump_prefixes()
 +
-+* src/url.c (convert_fname): Fix buffer overflow.
++Problem:  [security]: a crafted spell file with a self-referential
++          BY_INDEX node in the prefix tree can drive dump_prefixes()
++          past the end of its MAXWLEN-sized depth arrays on :spelldump
++          (cipher-creator)
++Solution: only descend while depth < MAXWLEN - 1, as the sibling trie
++          walkers already do (Yasuhiro Matsumoto)
 +
-+Copyright-paperwork-exempt: Yes
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-qm9w-fmpj-879h
 +
-+CVE: CVE-2026-58471
-+Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/c2640fe5171c59f87c58dc9fcb195b2d18b010ee]
++Supported by AI
 +
-+Signed-off-by: Arkadi Vainbrand <arkadva8@gmail.com>
-+(cherry picked from commit c2640fe5171c59f87c58dc9fcb195b2d18b010ee)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++Upstream-Status: Backport [https://github.com/vim/vim/commit/8325b193bba5f01e7a7d8241fc8633d93dff996b]
++CVE: CVE-2026-55892
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ src/url.c | 20 +++++++++++++-------
-+ 1 file changed, 13 insertions(+), 7 deletions(-)
++ src/spell.c                |  2 +-
++ src/testdir/test_spell.vim | 27 +++++++++++++++++++++++++++
++ 2 files changed, 28 insertions(+), 1 deletion(-)
 +
-+diff --git a/src/url.c b/src/url.c
-+index 68688256..6a9efe88 100644
-+--- a/src/url.c
-++++ b/src/url.c
-+@@ -1603,7 +1603,7 @@ convert_fname (char *fname)
-+   const char *from_encoding = opt.encoding_remote;
-+   const char *to_encoding = opt.locale;
-+   iconv_t cd;
-+-  size_t len, done, inlen, outlen;
-++  size_t len, inlen, outlen;
-+   char *s;
-+   const char *orig_fname;
++diff --git a/src/spell.c b/src/spell.c
++index 2281986435..6ef3fa899b 100644
++--- a/src/spell.c
+++++ b/src/spell.c
++@@ -4328,7 +4328,7 @@ dump_prefixes(
++ 			}
++ 		    }
++ 		}
++-		else
+++		else if (depth < MAXWLEN - 1)
++ 		{
++ 		    // Normal char, go one level deeper.
++ 		    prefix[depth++] = c;
++diff --git a/src/testdir/test_spell.vim b/src/testdir/test_spell.vim
++index 170ea57926..2a3f0e3696 100644
++--- a/src/testdir/test_spell.vim
+++++ b/src/testdir/test_spell.vim
++@@ -1567,4 +1567,31 @@ let g:test_data_aff_sal = [
++       \"SAL Z                    S",
++       \ ]
 + 
-+@@ -1625,7 +1625,6 @@ convert_fname (char *fname)
-+   inlen = strlen (fname);
-+   len = outlen = inlen * 2;
-+   converted_fname = s = xmalloc (outlen + 1);
-+-  done = 0;
-+ 
-+   for (;;)
-+     {
-+@@ -1633,7 +1632,7 @@ convert_fname (char *fname)
-+       if (iconv (cd, (ICONV_CONST char **) &fname, &inlen, &s, &outlen) == 0
-+           && iconv (cd, NULL, NULL, &s, &outlen) == 0)
-+         {
-+-          *(converted_fname + len - outlen - done) = '\0';
-++          *s = '\0';
-+           iconv_close (cd);
-+           DEBUGP (("Converted file name '%s' (%s) -> '%s' (%s)\n",
-+                    orig_fname, from_encoding, converted_fname, to_encoding));
-+@@ -1656,10 +1655,17 @@ convert_fname (char *fname)
-+         }
-+       else if (errno == E2BIG) /* Output buffer full */
-+         {
-+-          done = len;
-+-          len = outlen = done + inlen * 2;
-+-          converted_fname = xrealloc (converted_fname, outlen + 1);
-+-          s = converted_fname + done;
-++          size_t used = s - converted_fname;
-++          size_t newlen = used + inlen * 2 + 1;
+++" A crafted .spl with a self-referential BY_INDEX node in the PREFIXTREE drove
+++" dump_prefixes() past its MAXWLEN-sized depth arrays (stack out-of-bounds
+++" write).  The tree parses cleanly (shared refs aren't recursed); the walk
+++" happens on :spelldump.  Reaching the assert means no OOB.  Same class as the
+++" tree_count_words() fix (9.2.0653).
+++func Test_spelldump_prefixtree_overflow()
+++  CheckUnix
+++  call mkdir('Xrtp/spell', 'pR')
+++  " VIMspell + v50, SN_PREFCOND(prefixcnt=1), SN_END,
+++  " LWORDTREE word "a" with affixID=1 (so dump_prefixes runs),
+++  " empty KWORDTREE, PREFIXTREE child BY_INDEX -> nodeidx 0 (self-cycle), 'A'
+++  let spl = eval('0z56494D7370656C6C32030000000003000100FF00000004'
+++        \ .. '0161010220010000000000000002010100000041')
+++  call writefile(spl, 'Xrtp/spell/xx.utf-8.spl', 'b')
 ++
-++          /* Ensure we actually grow the buffer */
-++          if (newlen <= len)
-++            newlen = len * 2;
+++  new
+++  set runtimepath+=./Xrtp
+++  set spelllang=xx
+++  set spell
+++  spelldump
+++  call assert_true(line('$') > 1)
 ++
-++          converted_fname = xrealloc (converted_fname, newlen + 1);
-++          len = newlen;
-++          s = converted_fname + used;
-++          outlen = len - used;
-+         }
-+       else /* Weird, we got an unspecified error */
-+         {
-diff --git a/meta/recipes-extended/wget/wget_1.21.4.bb b/meta/recipes-extended/wget/wget_1.21.4.bb
-index cb05ff34f89..9c7d42bd3f0 100644
---- a/meta/recipes-extended/wget/wget_1.21.4.bb
-+++ b/meta/recipes-extended/wget/wget_1.21.4.bb
-@@ -5,6 +5,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://CVE-2026-58469.patch \
-            file://CVE-2026-58469-regression_p1.patch \
-            file://CVE-2026-58469-regression_p2.patch \
-+           file://CVE-2026-58471.patch \
-           "
+++  set spell& spelllang& runtimepath&
+++  bwipe!
+++  bwipe!
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.44.4
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 248160a82c2..07f7b7dd16c 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -42,6 +42,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-47162.patch \
+            file://CVE-2026-47167.patch \
+            file://CVE-2026-55693.patch \
++           file://CVE-2026-55892.patch \
+            "
  
- SRC_URI[sha256sum] = "81542f5cefb8faacc39bbbc6c82ded80e3e4a88505ae72ea51df27525bcde04c"
+ PV .= ".1683"
 
