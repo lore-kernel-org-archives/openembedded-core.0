@@ -1,145 +1,187 @@
-Return-Path: <alex.kiernan@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B11A4C624D0
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 12:41:26 +0000 (UTC)
-Received: from mail-lj1-f169.google.com (mail-lj1-f169.google.com [209.85.208.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11506.1788352884542188593
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CD956C624D9
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 13:01:37 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12295.1788354088669948976
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 05:41:24 -0700
+ Wed, 02 Sep 2026 06:01:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=I2plKja3;
- spf=pass (domain: gmail.com, ip: 209.85.208.169, mailfrom: alex.kiernan@gmail.com)
-Received: by mail-lj1-f169.google.com with SMTP id 38308e7fff4ca-3a20f56876eso9230561fa.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 05:41:24 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788352882; cv=none;
-        d=google.com; s=arc-20260327;
-        b=dSIffqV1FivU1eUC2ND1FFU2RghUHzb3hIa4hQom5lCrNcyyfbtp0Eua12S2Gp0E6n
-         Cw8LCUNfamB5PmPm7FLStZfuQxJ649LifGdXy9hFEsEHZokVlp+c1xlpcaPzLnXRMZ3X
-         J9U+sxcEUck2MpibGYVM10R5X1+tefOEQwj0vbc1JbzJOvzg1WFFJ6OHQ4zVgFM9y/zG
-         PRW/AS6x5I1I0+FHOWKowoXDcPOzaiUQ2wnnjm9v4VD3/NJs19gA43I2JmxamZVxs04T
-         85fFEp7rEyzkhxVJ8GS/hYl38XskfPouNnwRUKfpOA82Dz57pzbxE0LnHwUBgspbFvhS
-         wgrg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=content-transfer-encoding:cc:to:subject:message-id:date:from
-         :in-reply-to:references:mime-version:dkim-signature;
-        bh=oL7chveIxDD17muyOMORfZ2/WC63Q/TagEv2sfmICCw=;
-        fh=Tyc0Jk2T+8fGWDixU3qFe8BDCZOG+4XtkeWc0U40ryA=;
-        b=qDnefxF10rGW31PU+62tAVv2oECU5zok9ir6Yb+v2HJQpdpYDKFVSQltvk8Uixnu23
-         htg3DNl4YxsR/WN1wESVk3oQelvkF6wVVKWgqtpJRMboGy8wUeUhNIW89PcL58qcTKIV
-         cwN1EJd52ZZT0mzC4l0pcJ1l/QnshLIXxuJyO2Pq1HjTb2uTDqwH4bf4PO00GDlgJ45s
-         HCjtqGk3WthB+wB4gssgNMAeGhdpU1wX4Wno5H9t9I50Tx6FlWfGHZnWdL+z6u3FJa7/
-         N9j79lhdTkR5CPA9mqHnoTqA0hzbmCdRdM7oIm7eOhx+OJctsRO6x9daMxNBQ8CPR7q/
-         RzPw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=vkfrW8XI;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49b0dd3c9a0so6793435e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:01:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788352882; x=1788957682; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=oL7chveIxDD17muyOMORfZ2/WC63Q/TagEv2sfmICCw=;
-        b=I2plKja3I+huUd32D9dw2q5VCg/8nXj7C7zSrgmDkt0w9aMNH1CI+9JtlTWodwLWXm
-         PuQM1C6ORpANwbzhFbWkrBx/DllNuYLO+R+m0I4U+YEOszBNmrYE1o0zY5tmENxmzhdJ
-         +Lel+2TIQ6C7V0hrJ8iAOie6CmdQ49qoxdCtHnkCXGxJ0ktuoSRg2jmEpYzR6h95j9Qh
-         s9LAGtghJyjXhNDw5h9VSmpa0IvttHKMJFZomgJqMjeedH52+hyF6LJCMiFZPkd0iiPD
-         IiDW8K0xacqf8WPWCadrb24FdgLs9pZ9HopyEm2hn3l2J3r7bQ9b8mdP84/CCluE3YHY
-         Tllg==
+        d=smile.fr; s=google; t=1788354087; x=1788958887; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=vB4Dh8ZO7yzTQuFOhuKBwy7RN00i+orFcq14B8YF650=;
+        b=vkfrW8XIndaALO7wVpD+LHx8Y1nTlykyQP3wVY7e50+mfd580UNpFXVeB2fxJqOgat
+         rjccPp1wEvq10AeH/3tDK4YRG4QrToaIbAPVnYZ7RjYMP/ziUGeMs+bxc3UkmSlntNsj
+         PIyUnOkC4KkIdC8GgdYtpoOgX5sfG/pTpD7h0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788352882; x=1788957682;
-        h=content-transfer-encoding:content-type:cc:to:subject:message-id
-         :date:from:in-reply-to:references:mime-version:x-gm-gg
+        d=1e100.net; s=20251104; t=1788354087; x=1788958887;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=oL7chveIxDD17muyOMORfZ2/WC63Q/TagEv2sfmICCw=;
-        b=jP28WL5VuHnvYs+CCrpuYdr2wfZruGCRVhAH4QuyUK9+hmyw9a0ry+kpcTAd+RSHln
-         3GhnDYSf4/6uKrVh6H3MovORsEt9DUCtvBbcmqZiaxJhy5ydILnEzWSLk9Z3YPHbdoH0
-         ZPMNFyVsDAqh6/0x0of00TI1QpsSLnq4UtRuSOGMFBgEztLrgsweiIvpN6L7YFms/KG9
-         kXrybqVM7OsHSl+k2vt3rypx8D9a3NAweDSOjRTVcCZ4ojnUa0q0tProESJqyYUFNvyL
-         j+cJ5iVHv1XPKTOeNxWR72M2I/MSt9AncyxYaIZM28940MTJBTBKRtWJjt4quw+vaaEZ
-         P2xA==
-X-Gm-Message-State: AFuF++kZdfk370iqoj94z9sAMn/yMe9Y3PTgrfgSmkkB52z87mhkj9eS
-	DVLUjjFdjQJ8Nw5v5ZspJyWUZd+al5TDh6Rjn56yiZBXI8xdHvgHns8FzXK56GsI11cK9BGjOwu
-	GBXWvgslrHXfKUMDprzoirCqiPJSCRFoK7pM/
-X-Gm-Gg: AYBFou024f0IO9ULVwprKJL/yrsJaanWU9d01JuQk3chNmkS1kDzpOMlgMULGXhIdSX
-	vorlMW9c15zT4PssZWYcZgEUUtJlXb4RjoBKIphj2Pn2RbeCQh24ceAjDD5RY/onn1RO6oUgVno
-	P9kBenrIi58n3yhgIQxYSwrrZtChi1L1q9zlXgvCmWo8hjO9LdoSwTxSBCW7eK2EUf6HIKbLDVK
-	EqBfdSZP82cwW2tV7i/gxa7BwTy9DNaMJf2oBMfBXIn1jH04S3/xjb/lRaRGoxES3WaTyPgz20t
-	kf45gHHRNpiHdTR8NVRrPObF+dH80gxPe1xNLc2yhM9AMDL/5l7jPA==
-X-Received: by 2002:a2e:be25:0:b0:3a3:24f9:6e8b with SMTP id
- 38308e7fff4ca-3a350111d2cmr8809311fa.11.1788352881844; Wed, 02 Sep 2026
- 05:41:21 -0700 (PDT)
-MIME-Version: 1.0
-References: <20260831060120.399342-2-alex.kiernan@gmail.com> <20c692768ef0b8ab15d6b884c11b5e0c5eb1f3ce.camel@linuxfoundation.org>
-In-Reply-To: <20c692768ef0b8ab15d6b884c11b5e0c5eb1f3ce.camel@linuxfoundation.org>
-From: Alex Kiernan <alex.kiernan@gmail.com>
-Date: Wed, 2 Sep 2026 13:41:08 +0100
-X-Gm-Features: AcwNN1U0eZgnAbk_3RKL8L_XIYhQYC7yhKTsDZOPjv6XYlrXVs8FZQj21wNDmmY
-Message-ID: <CAO5Uq5S5O_O-9z2JXAJOhHrK2or5Qz47Mcd=OA4zYkgZq0GrRQ@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] wpa-supplicant: Build .config from fragments
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: text/plain; charset="UTF-8"
+        bh=vB4Dh8ZO7yzTQuFOhuKBwy7RN00i+orFcq14B8YF650=;
+        b=sDMRT7J82V4dthF5VpGfkcdKXPJ6N4u9vbeDKw+Ci9uG8LMZQtCXLUgEGTwPWrnMbt
+         0fdce+jC/iCuyYh2lvgm+owdtNYBRPPzggwJRYpCR5/y9VO+oaqXYC4OsF3z/FR8peT5
+         BjWM6x36FiyhSsYQIT4WBVKQM6vm2UNaqhFrUGjX45Z1UAXQfKX7J9zvi6X9ED+J3KBL
+         9VSKzXYDEDMApGnEl7Vv4MeBaNBl+FP2G0/wkzjjt1ifr8GChWSQbWS54epU4IukKzTs
+         c5iwUByRfnq7PEc8R9WktonMwFZWk9yn5yjj7mAgH1OhGhalD5U4aBt8mWcggQmdG7Kn
+         PYVw==
+X-Forwarded-Encrypted: i=1; AHgh+RqA7T0iTnoqUMljX5j4c/mwWyG0HVh1M4KgD2eqrYhASoGvk32Hpq/3Bh8oLH6vEocDWD1R1jtoMLlPvxs0XglEUA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++lMEaaGiE/5wilf1PNILNR/CZnSQeIlYNZSQDHuXXXtQYJctMTG
+	Ep9A9/CG6ev0YaNtFH86q/R4EnH7TL6Z8s9A2EY9mIMGMA4M73xiWb/MyCFtPfFkCs0=
+X-Gm-Gg: AR+sD13s0XGe76zjLT3Ea34R/zVdf7dZZvnF+zC82uyJ7nHyW8sEmL9ZNXSHGmUEj7h
+	xjJIpof/gZ9EImSjgKt+8QytfcSPkmGUN1u+lRDCEdgKGcnwFlqc7Csc5r91HZP/np1MXtcz6nu
+	NaGK8IPU3DcnnoseKN9TEMZ4TxrCcHIxvbJ2BIKBlAL4x2dfCdD+PPFzLcsCDk7sNTgr8XQgfU9
+	aGLim10vOm1kIbzgKAreQbTOwlnH2nwYZYTluSNPHfASFOYnGI3NURwtUA06jzL3sNroSyz5Ltx
+	NNzxWY7DfkYFpFcA9Wpz9HSwKVqKjQijBur+VXEZHAehsgtbrOM2c8LmAzqJylV/BFB1/h9vqIl
+	TfBzCUfVBk7oYwh+FuHfpsmvIln14/5+zSNS71iQJDmaJh10gaSu01nj8/FH+LtIooxQSkRXOe0
+	UtA/LN4A0QwECjjNR4A2tp9+3pfe5hcURGIypO6u2EGvOmXE7E7+ogs26rVTSQtXeL/zQ90Dr+l
+	Ug2Rgh+zxufgRarr1OYAERYOqAnLmUrhVHZIcJse+JJmSehVRkVQoKAeIM=
+X-Received: by 2002:a05:600c:8b86:b0:49c:d27e:8f7c with SMTP id 5b1f17b1804b1-49ce5843b42mr84834375e9.12.1788354086741;
+        Wed, 02 Sep 2026 06:01:26 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce831af89sm19225875e9.1.2026.09.02.06.01.25
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Sep 2026 06:01:26 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 02 Sep 2026 15:01:24 +0200
+Message-Id: <DL4UM4WBEOTF.2U2FRST6PNQFF@smile.fr>
+Cc: <xe-linux-external@cisco.com>
+To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][wrynose][PATCH 2/4] python3-git: fix CVE-2026-42215
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260819050808.3986732-1-dkelaiya@cisco.com>
+ <20260819050808.3986732-2-dkelaiya@cisco.com>
+In-Reply-To: <20260819050808.3986732-2-dkelaiya@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 12:41:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244945
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 13:01:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244946
 
-On Wed, Sep 2, 2026 at 1:20=E2=80=AFPM Richard Purdie
-<richard.purdie@linuxfoundation.org> wrote:
+On Wed Aug 19, 2026 at 7:08 AM CEST, Darsh Kelaiya -X (dkelaiya - E INFOCHI=
+PS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> From: Darsh Kelaiya <dkelaiya@cisco.com>
 >
-> On Mon, 2026-08-31 at 07:01 +0100, Alex Kiernan via lists.openembedded.or=
-g wrote:
-> > do_configure built wpa_supplicant's .config by sed-ing upstream's
-> > defconfig and echoing CONFIG lines onto it, this is both fragile and
-> > makes handling anything not covered by PACKAGECONFIG tricky.
-> >
-> > wpa_supplicant has no configure script and no kconfig - it's just make,
-> > so switch do_configure to build the configuration from a base file and
-> > .cfg fragments, which matches what CML1 recipes do (though this isn't
-> > CML1).
-> >
-> > This should have no functional change; the effective configuration
-> > should be identical.
-> >
-> > AI-Generated: Claude Opus 5 (Claude Code)
-> > Signed-off-by: Alex Kiernan <alex.kiernan@gmail.com>
-> > ---
-> >  .../wpa-supplicant/wpa-supplicant/mbo.cfg     |  2 +
-> >  .../wpa-supplicant/wpa-supplicant/suiteb.cfg  |  4 ++
-> >  .../wpa-supplicant/tls-gnutls.cfg             | 23 ++++++++++
-> >  .../wpa-supplicant/tls-openssl.cfg            |  7 +++
-> >  .../wpa-supplicant/wpa-supplicant/wnm.cfg     |  2 +
-> >  .../wpa-supplicant/wpa-supplicant_2.12.bb     | 46 +++++++------------
-> >  6 files changed, 55 insertions(+), 29 deletions(-)
-> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-suppli=
-cant/mbo.cfg
-> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-suppli=
-cant/suiteb.cfg
-> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-suppli=
-cant/tls-gnutls.cfg
-> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-suppli=
-cant/tls-openssl.cfg
-> >  create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-suppli=
-cant/wnm.cfg
+> This patch applies the upstream fix as referenced in [4], using all the
+> backported commits shown in [1], [2], and [3].
 >
-> I'm not convinced this is an improvement. It takes one relatively
-> readable function and turns it into many different files spread all
-> over and complicates the SRC_URI.
+> [1] https://github.com/gitpython-developers/GitPython/commit/142195888e71=
+3542189533a52cdfc333f05c3af6
+> [2] https://github.com/gitpython-developers/GitPython/commit/9aed7cf8c20f=
+69effcfcf7ebef09f312f73ab826
+> [3] https://github.com/gitpython-developers/GitPython/commit/43d92dec4683=
+568d11495956dd556161f17c3ea8
+> [4] https://github.com/gitpython-developers/GitPython/security/advisories=
+/GHSA-rpm5-65cw-6hj4
 >
-> I appreciate it isn't easy to add new entries currently but that could
-> be solved by making this function a standalone function which a
-> bbappend could add to, if the additional PACKAGECONFIG really isn't
-> suitable for core.
+> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+> ---
+>  .../python3-git/CVE-2026-42215_p1.patch       | 60 +++++++++++++++++++
+>  .../python3-git/CVE-2026-42215_p2.patch       | 29 +++++++++
+>  .../python3-git/CVE-2026-42215_p3.patch       | 45 ++++++++++++++
+>  .../python/python3-git_3.1.43.bb              |  3 +
+>  4 files changed, 137 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-422=
+15_p1.patch
+>  create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-422=
+15_p2.patch
+>  create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-422=
+15_p3.patch
 >
+> diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.p=
+atch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
+> new file mode 100644
+> index 0000000000..0129250fdf
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
+> @@ -0,0 +1,60 @@
+> +From dd5d1c4ddcc5d44faf4e71bcfa338f09db2022d6 Mon Sep 17 00:00:00 2001
+> +From: w <w@mac.lan>
+> +Date: Mon, 20 Apr 2026 23:29:50 -0400
+> +Subject: [PATCH] Block unsafe underscored git kwargs / Fix for
+> + GHSA-rpm5-65cw-6hj4
+> +
+> +CVE: CVE-2026-42215
+> +Upstream-Status: Backport [https://github.com/gitpython-developers/GitPy=
+thon/commit/142195888e713542189533a52cdfc333f05c3af6]
+> +
+> +Backport Changes:
+> +- Omitted test/test_clone.py, test/test_git.py, and
+> +  test/test_remote.py because the PyPI 3.1.43 source used by the
+> +  recipe does not ship the upstream test tree.
+> +
+> +(cherry picked from commit 142195888e713542189533a52cdfc333f05c3af6)
+> +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+> +---
+> + git/cmd.py | 21 +++++++++++++--------
+> + 1 file changed, 13 insertions(+), 8 deletions(-)
+> +
+> [...]
+> diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.p=
+atch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
+> new file mode 100644
+> index 0000000000..4326bede07
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
+> @@ -0,0 +1,29 @@
+> +From e77461e6953a67f17ecd1808c352e6613a17345b Mon Sep 17 00:00:00 2001
+> +From: w <w@mac.lan>
+> +Date: Mon, 20 Apr 2026 23:43:59 -0400
+> +Subject: [PATCH] linter fix
+> +
+> +CVE: CVE-2026-42215
+> +Upstream-Status: Backport [https://github.com/gitpython-developers/GitPy=
+thon/commit/9aed7cf8c20f69effcfcf7ebef09f312f73ab826]
+> +
+> +(cherry picked from commit 9aed7cf8c20f69effcfcf7ebef09f312f73ab826)
+> +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+> +---
+> + git/cmd.py | 4 +---
+> + 1 file changed, 1 insertion(+), 3 deletions(-)
+> +
+> +diff --git a/git/cmd.py b/git/cmd.py
+> +index 2ecb8e66..372eac28 100644
+> +--- a/git/cmd.py
+> ++++ b/git/cmd.py
+> +@@ -729,9 +729,7 @@ class Git(metaclass=3D_GitMeta):
+> +         for option in options:
+> +             unsafe_option =3D canonical_unsafe_options.get(cls._canonic=
+alize_option_name(option))
+> +             if unsafe_option is not None:
+> +-                raise UnsafeOptionError(
+> +-                    f"{unsafe_option} is not allowed, use `allow_unsafe=
+_options=3DTrue` to allow it."
+> +-                )
+> ++                raise UnsafeOptionError(f"{unsafe_option} is not allowe=
+d, use `allow_unsafe_options=3DTrue` to allow it.")
+> +=20
+> +     class AutoInterrupt:
+> +         """Process wrapper that terminates the wrapped process on final=
+ization.
 
-Okay, I can do that instead... what really bit me was the need to
-replace the whole config and then having override the entire
-do_configure in order to stop it modifying it.
+Hello,
 
+I don't think we need this "linter fix" _p2 patch. If that works, can you
+send a v2 without it?
+
+Same for the scarthgap patch.
+
+Thanks!
 --=20
-Alex Kiernan
+Yoann Congal
+Smile ECS
+
 
