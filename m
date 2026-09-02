@@ -1,137 +1,103 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AAF0C624D3
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 12:27:34 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11262.1788352047594761546
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9030DC624D0
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 12:31:14 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11322.1788352265817970515
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 05:27:27 -0700
+ Wed, 02 Sep 2026 05:31:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=jEx6Bw99;
- spf=pass (domain: smile.fr, ip: 209.85.128.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-495590dde14so9888875e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 05:27:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788352046; x=1788956846; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qoLfKGPE6Yxxh5X3+98ahqpBU2Gxrwbjif2BLN1yz2U=;
-        b=jEx6Bw99FhLupKj1kmzKtC5B4m9LPURrIjdyaGXWD8UzWOKD+5WX7Nsm/a0DHeI2qV
-         i7GMLUt58z8IqJb2K35jCvt9rJMmpbajDc1oz2aX5kgmyEoxrVxltGDl3+NN80tyrIiA
-         Y+ib1vQxBpw3wYxq7NdrJV5dqMsC3g0j5yEvo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788352046; x=1788956846;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=qoLfKGPE6Yxxh5X3+98ahqpBU2Gxrwbjif2BLN1yz2U=;
-        b=odCFOKqem/ywRlvRq5i+c6KpRlMFmn3frtdnDdhTxDozM7IBrldJs1k2rOiaSn2aU8
-         sdrGNlglC5HgD9OMiu4z8j7ZtbxttKPNF7USEqFpG2O5S3ypZH9BCESIN6jQXX9NgQrj
-         rSmNd2GcGY8eSmKTWBeY7JouGEsFUe/NMPrL7CJXnT9PQHnAOxsmx8PZBQ/omaq1iSFJ
-         R/gG/n5pJgMOvhxb6AgwznXN1GEsfVRwl+9X5FJUO7NYX0L/F0hIPTusUGUohO4lUU18
-         fQhknuDi9lfnmOc2Kcecfsl8wzx0FhNlPKSekK0dQu2TG5rWSit6qIybpwTcheIJAKow
-         363A==
-X-Forwarded-Encrypted: i=1; AHgh+Rqbacb30XALUScsFAkpKovoeOteIeG2DQGxoxgrkDNpOGGC6See2rhV+Xmg9lxW8RZqWg5Y7zg7CN+FkzBq7LStvA==@lists.openembedded.org
-X-Gm-Message-State: AFuF++k9VKA2ylizeS21TS/TINEaPpd6esDjHIhc3Z+urmV7X8i+we3c
-	vjDT/LyVnxcbl0nv/sDX4rKpwUkYhGAJ0J8+wH83cZ3yIv+S/hKGI08DDNPaxu8MiWtbx4oW0NE
-	ateF4cV0=
-X-Gm-Gg: AR+sD12bVXUXFy485s+SKO7qS3lYGeuothKqsPwZI+4d0i58l/acyGlbz7iE9avVC3O
-	BJ3mkQYnWHvfXxnZVmwzqr5K3HWgZNGhFkupdfdCiw2NuUyDVdLCCH8Y6dtqDcqlbDthMlQyook
-	/aHIWJ0+db1d+04zRv/Ak3yD5lQbpacmFXavL6ilch5/nm65G/J9hcDr8SUxQtCZ2AFh1eCT9uD
-	KA7eGCSI0BYgtfm0yTbCbu3DTdaxo9kQUbq5xkT6b2oE/LXuVB04DU9tDPFfzUgxNfvuoaSzixV
-	/VO30nc7SF0vqALZd5Zht5CfddtL513RucdimdBh0nRGf+Uxa4wtnldJZPpruf/NUMi3f3rUNLR
-	gfBzjk6JYPOfBPGJc9zFohWDbqTfKTVamJd0TZfFBSRZFmJupXo1uLzb06MAcMCHTx1BHzsExSV
-	n5yrQrielDdg0fjoZewweRgy8izBkh+he1tPtlHsOHaBawpJ6JI7jegy/y44qHB5ZNrFFpFMBJt
-	ontjc6e7qh66xh0Eboa33BL8zxylEf6gZpToONY/JqGuUyo
-X-Received: by 2002:a05:600c:8012:b0:49a:252d:52f5 with SMTP id 5b1f17b1804b1-49ce583d99bmr89124765e9.11.1788352045788;
-        Wed, 02 Sep 2026 05:27:25 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cdce164bcsm141253195e9.7.2026.09.02.05.27.25
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Sep 2026 05:27:25 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 02 Sep 2026 14:27:25 +0200
-Message-Id: <DL4TW3TEQW7H.12E8VXJ763YYG@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH] python3-lxml: fix CVE-2026-41066
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260819055403.4036170-1-dkelaiya@cisco.com>
-In-Reply-To: <20260819055403.4036170-1-dkelaiya@cisco.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ufGL+HDL;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=EiJmiDDA;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a06219fa98-4c8961d9-1ba2-426a-88e5-c17faaccedd8-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1788352265; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=r3Hxr4H0O0ZxBVNpCasB+tCBbYl5fQuhTtN5NYX2Hjo=;
+	b=ufGL+HDL4+g4b14kQHk02zn18KRO8dwnW6RylS8yLn0arFrUGThTNuNFpSb5JKKP
+	7nDFFCWkSz2E6jeTrtyiyd2jYi1QhxJsEPe5xU/g9Z3orsRU9qYENzd8SPgcGXYxLe0
+	6GGmwaaHXj3Y4h/ei7dzPU4ZK26uOWoLcADKX5hA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788352265;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=r3Hxr4H0O0ZxBVNpCasB+tCBbYl5fQuhTtN5NYX2Hjo=;
+	b=EiJmiDDATCEmkfjIKvOfUbAIb/3tCSKFx96fUSav4lzPC9/ty8P00KHQvk9PbMY/
+	CcR/4hgtrPea4WlZOsGExuO3wdkobzi9fXNL6sRVLrz64Q91uRWB+4DyRvJBIHnhpor
+	8cuu/o4AhNbDGDbQEGv67NaAShSKOvILFPgiiRG8=
+From: patchtest@automation.yoctoproject.org
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] python3-shacl2code: upgrade 1.2.0 -> 1.3.2
+In-Reply-To: 
+ <20260902-mathieu-python3-shacl2code-1-3-2-v1-1-765805e89a5c@bootlin.com>
+References: 
+ <20260902-mathieu-python3-shacl2code-1-3-2-v1-1-765805e89a5c@bootlin.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a06219fa98-4c8961d9-1ba2-426a-88e5-c17faaccedd8-000000@us-west-2.amazonses.com>
+Date: Wed, 2 Sep 2026 12:31:04 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.02-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 12:27:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244943
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 12:31:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244944
 
-On Wed Aug 19, 2026 at 7:54 AM CEST, Darsh Kelaiya -X (dkelaiya - E INFOCHI=
-PS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> From: Darsh Kelaiya <dkelaiya@cisco.com>
->
-> This patch applies the upstream fix as referenced in [2], using the
-> commit shown in [1].
->
-> [1] https://github.com/lxml/lxml/commit/ab431ea0b9a7357d968f1d1c5c614649e=
-9aaf358
-> [2] https://github.com/lxml/lxml/security/advisories/GHSA-vfmq-68hx-4jfw
->
-> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-> ---
->  .../python/python3-lxml/CVE-2026-41066.patch  | 4613 +++++++++++++++++
->  .../python/python3-lxml_5.0.2.bb              |    4 +-
->  2 files changed, 4616 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/python/python3-lxml/CVE-2026-41=
-066.patch
->
-> diff --git a/meta/recipes-devtools/python/python3-lxml/CVE-2026-41066.pat=
-ch b/meta/recipes-devtools/python/python3-lxml/CVE-2026-41066.patch
-> new file mode 100644
-> index 0000000000..9c333d7ef7
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-lxml/CVE-2026-41066.patch
-> @@ -0,0 +1,4613 @@
-> +From 4fe0735416504223919151aa43c8ccba4626597f Mon Sep 17 00:00:00 2001
-> +From: Stefan Behnel <stefan_ml@behnel.de>
-> +Date: Fri, 10 Apr 2026 10:13:03 +0200
-> +Subject: [PATCH] LP#2146291: Set "resolve_entities=3D'internal'" as defa=
-ult for
-> + all parser subclasses.
-> +
-> +CVE: CVE-2026-41066
-> +Upstream-Status: Backport [https://github.com/lxml/lxml/commit/ab431ea0b=
-9a7357d968f1d1c5c614649e9aaf358]
-> +
-> +Backport Changes:
-> +- Keep the lxml 5.0.2 XMLParser signature without decompress.
-> +- Regenerate etree.c because Scarthgap builds without Cython.
-> +
-> +(cherry picked from commit ab431ea0b9a7357d968f1d1c5c614649e9aaf358)
-> +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-> +---
-> + src/lxml/etree.c       | 1242 ++++++++++++++++++++--------------------
-> + src/lxml/iterparse.pxi |    8 +-
-> + src/lxml/parser.pxi    |    6 +-
-> + 3 files changed, 629 insertions(+), 627 deletions(-)
+--NextPart
+Content-Type: text/plain
 
-Hello,
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-As I wrote in https://lore.kernel.org/all/20260819103604.107840-1-dkelaiya@=
-cisco.com/:
-> Also, if we go through with regenerating etree.c with cython. I'd
-> appreciate:
-> * some info about how it was done,
-> * a little effort to decrease patch size (the scarthgap one had a lot of
->   meaningless line number changes): I'd accept a patch format change from
->   upstream if that results in a small etree.c patch.
+---
+Testing patch /home/patchtest/share/mboxes/python3-shacl2code-upgrade-1.2.0---1.3.2.patch
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
