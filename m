@@ -1,83 +1,110 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 72C76C624DD
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 15:46:59 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.337.1788364010761974872
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AFF8BC61DD6
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 15:48:59 +0000 (UTC)
+Received: from mail-qv1-f44.google.com (mail-qv1-f44.google.com [209.85.219.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.392.1788364132252089349
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 08:46:51 -0700
+ Wed, 02 Sep 2026 08:48:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=Ig6oJqEn;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 082E31A1965
-	for <openembedded-core@lists.openembedded.org>; Wed,  2 Sep 2026 15:46:49 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id D22F36053C
-	for <openembedded-core@lists.openembedded.org>; Wed,  2 Sep 2026 15:46:48 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E1B5E11C79B5A;
-	Wed,  2 Sep 2026 17:46:47 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788364008; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=lkKgKKWBZSjFEyFxCD3tFNj584vYyA9JJ/+O5H9JOz4=;
-	b=Ig6oJqEntdG/imBxgflhyNjf+5tCTpQSTX8NRMV/z9nQ5CCHvfhFy1zhiFDoLRIXYXC6Ol
-	rGTS6jW53a7GjPy2NLha6SRs0vC8hw7Bzwh0XyPA8elNlXIoXwTfJinXSBFqcoFZLB074o
-	tV/QvwZnFNeqZOVHAu8SHaSUhwNfGpoXSt4Ld5mvug60AhoLgJQ9ro91y1cl6j+1YGkszb
-	tA/CaUnNm/02FHfxsIFzvp9QH01x29tf6kZ6s9eGiUOsNm7HTMMEcQRH+fOEQOW1YC5WkL
-	SG3Lq0UE53GhQHklpnCw8cRYADrPSmvjj/W+1kkYUxPAx/yiQMjY2AgEWs+rfA==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Wed, 02 Sep 2026 17:46:46 +0200
-Subject: [PATCH 4/8] mesa-demos: upgrade to latest revision
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=WChEENW3;
+ spf=pass (domain: gmail.com, ip: 209.85.219.44, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f44.google.com with SMTP id 6a1803df08f44-90cd1012479so24188686d6.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 08:48:52 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788364131; cv=none;
+        d=google.com; s=arc-20260327;
+        b=NhLNB+1e0B5hVv4M+4WrIJZ5CXA9ZbucY+4Mn+/qXbTLzfQiRA8zEbNEHGfiP7eeYB
+         /Gr4K4QhCWZ06noIl8QGJNadlm1PJi/2GYbb4/dqlldwBEBQMCqaNSQIHjdOdRg5fg45
+         EfKawgo2W0aFJh6DPfS8SJwnq1p3/U2buboW20Q8BNE73nLbfh3eg4HAkdtnqLFcxfWM
+         Kf5kgNgdAEefW/xFEjWK5dI/9yX8b/iqSBSqq8HRVBfkbkaNg3hnF3XalzKOLlIuTqU5
+         0fVxnSm7dtn1zChDV+6Y2OzM0C0tq5bWLQuapWPPP/wpXU+zWhtGxUlwTrh+ovFKp6P1
+         E1/w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=8+NUvzK5IsC3o26OI0Mo/whvDAw97f5leg407dAZa1o=;
+        fh=71abzk+jWAeDPl3/3yNVuuKHJ8SDtwNAJsLUXfSZoz8=;
+        b=W+wojyjEYpJheVjh21eDujB5U8Aj3B1I1RhPBwF+0iZ9zjf62GCXNdLpx7Xd2AWhvb
+         59QkC7u21by8k1pDT7Jn4TzMUA+9Nup4hKOHTutAj15Rpxr0w7jz2Z8UAS90JVMBmgUk
+         mqVqyBFU/SmFs2Hq6jy437FIPy+f0EU7dt81kqfOcKurNYWbtQ1tSIsGIGsophwvMzUU
+         LAfGkyJrA/vNDrPmZ2djzrg0ktgf2Mu80liKkwa3OLOX6DBEMFw2kxYqo5ZxuvLmm6R8
+         2NTvVs8vDMeAFsgwjtQIN5aRs1I/0hN87k8i48D+4jAUVQEuv5pYt824HAxqCQbsbaId
+         uUhQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788364131; x=1788968931; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=8+NUvzK5IsC3o26OI0Mo/whvDAw97f5leg407dAZa1o=;
+        b=WChEENW3ylTbFa18Yp727gAx0g6fFXHSjc3P9FEEDsw+zbmaWxJ+vD2zNiI3mZSC/Y
+         QvRovz76EfzUEbsPc9QRG/zXpAES2IYyx5AYyyUu6py2zRxMgjkmaoAYafTHhCI1Hifr
+         jNLnfYE/Rs5/4bfkozW0lTNw90n2ESALOq+YJYx5hiILtmtiriweZXSEnKc0+A1pl9hD
+         qLJZAfRQfdgoMgmIaVIdN9dQmdudkzFveI0MDibVlMw6GianNCWab754IZ4iSQ4Wqp20
+         zBIXni9XU5rYhbiVzZGzrirrvmfHpAVAnanjiG2oejZFPCOnUXMurTfJ1y8oaagqLDgd
+         SUhg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788364131; x=1788968931;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=8+NUvzK5IsC3o26OI0Mo/whvDAw97f5leg407dAZa1o=;
+        b=bgUqY2ELUaAh0kx7GHDvrvyAbqUmTYaIfqM3rGUzO32THYWsTk2TzMnq6l1HTHPn2B
+         Gn33xoQLtFPJ5yTwC+2uwxunOF1Vs+QCeaOK6/KCNKo4AHmlvsn4oPKzBSDzuFegLnvt
+         8+KCHBo/mdHzrKni5ywcq13lTi+IxTAreVewgcb078YHQXN1zv5CgXDm+liVYOjh0mHs
+         P3WiNuNDuFH5sl6tSvab1UnjOfYXJ+4CvT3E5jtO8LU17xiS5qFkmL/5V7GOg0f5a5Ct
+         vyP2YtxRMYeou0mp5QFH6nWX9MBTtJ9c5mlGQ2FDlP4zcQj6uZaglVp0jAXjnmuJnCMc
+         adqQ==
+X-Gm-Message-State: AFuF++lMdchvWMjbAtnImcFF2axcRplu2qBWLVJg6DeNt4gMSqK5tF4g
+	vA5Di1NGELQMrBF/wr3YOY1Yd7nq4EYkjLsfoWD7CQdrkrtYCLA0JaePE1xoh8wEnZzkMefsMof
+	9EDtDCoiFRGOb+CwuylDhWhflxCKswN0=
+X-Gm-Gg: AR+sD11g8F1a/NuaSD02byF1rWfs9XVXIWeVkqkfZF6XyewAOso3/YEjnkKKKo7RzvB
+	lo7p//+6y7pnx1gKrno+TC/ygIXkpVSrVjsc+cuW3zlC+sTYsvRxWH0VJRsoDarUnvHibg3DkkJ
+	GSNLOeFe0SnxLnYcQaK6sx7pXw/NHG92YIP2mX9sWz3Rr6ry8NlakQsFQTuphHCsnz5ZpRcAqd5
+	liLYODmll9i4SnnHKPQtyw4HGSh+FHpzM562a50qcNduItxGG/RvrtD7s3bkJnodeWM22DZAqHh
+	m3T3Q8+uOPficuVtB2XP5RsRgNDkDVEeijBBackQ6jxhs8OI5W770LNQv1u+dN8FhB7Z0o0TsAz
+	AnNA=
+X-Received: by 2002:a05:622a:4d8d:b0:51b:fb5f:b263 with SMTP id
+ d75a77b69052e-53042f6fbacmr2110931cf.4.1788364131053; Wed, 02 Sep 2026
+ 08:48:51 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260902-mathieu-updates-2026-09-02-v1-4-039b74833ec7@bootlin.com>
-References: <20260902-mathieu-updates-2026-09-02-v1-0-039b74833ec7@bootlin.com>
-In-Reply-To: <20260902-mathieu-updates-2026-09-02-v1-0-039b74833ec7@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788364004; l=916;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=UyJAEPlyMjbYKBDPkZ5uYmnULHJha25HkdZ8GiNloME=;
- b=xB0bP+i8Da9Ru5Tg2Tdw+3OYXjfTr5nECqwMFE0vPpGTt3Hs6zxSM0Jp0o+ArmjoPPKiPmrp6
- IV8Irc0ce+NDP/8W3R42wRci411oCBYqmSQ+BydA2oJyEQ9QAXFjNK5
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
+References: <20260902083814.3966089-1-gustali@axis.com> <CANNYZj-U2CMMmb51x2phvgMwT5O+dPh+OrOu4hy=GjAjezbO2Q@mail.gmail.com>
+ <DBBPR02MB10462218FD1B6135FB85DC4B087B72@DBBPR02MB10462.eurprd02.prod.outlook.com>
+In-Reply-To: <DBBPR02MB10462218FD1B6135FB85DC4B087B72@DBBPR02MB10462.eurprd02.prod.outlook.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 2 Sep 2026 17:48:39 +0200
+X-Gm-Features: AcwNN1WLTBxM2Cx9dYMaIscJDftfV4HzQYn9R_e8ba5o-QnjghKcpw9d4OvLvao
+Message-ID: <CANNYZj-U-aq+tFW0VXDEhnFvgV=49ckEBL4Czg=PgXa+3v4MqQ@mail.gmail.com>
+Subject: Re: [OE-core] [PATCHv6] boost-asio: Add recipe
+To: Gustav Lindberg <Gustav.Lindberg@axis.com>
+Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 15:46:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244977
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 15:48:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244982
 
-Changelog:
-71b184c3 Add GL ES 1.0 CL version of gears
+On Wed, 2 Sept 2026 at 17:11, Gustav Lindberg <Gustav.Lindberg@axis.com> wr=
+ote:
+> Making these changes upstream would require everyone who uses boost to bu=
+ild the boost-asio shared library whether they need it or not, which would =
+be wasteful. Note that my change doesn't require all openembedded users to =
+build the shared library, it's still possible to use the boost recipe witho=
+ut the boost-asio recipe and get the header-only version of boost-asio with=
+out the shared library. The point in making these changes here is that user=
+s can decide whether they want to use the header-only version or the shared=
+ library by using the correct recipe.
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
----
- meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+That's not the preferred way. The better way is to keep everything in
+a single recipe, and enabled the shared library (or not) with a
+PACKAGECONFIG option, ideally one that passes down a command line
+option to the boost build system.
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
-index 784c2d4ad7db..e945538c482d 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://src/xdemos/glxgears.c;beginline=1;endline=5;md5=2c456
- 
- SRC_URI = "git://gitlab.freedesktop.org/mesa/demos.git;protocol=https;branch=main"
- 
--SRCREV = "10418e7636cdd9595dda18c3d78a562d7248f734"
-+SRCREV = "71b184c379625c91195f5d69186d4de5a1f642ac"
- 
- # This recipe doesn't plan to make more releases, so track upstream git commits
- PV .= "+git"
-
--- 
-2.47.3
-
+Alex
 
