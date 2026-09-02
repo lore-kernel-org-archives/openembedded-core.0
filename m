@@ -1,123 +1,127 @@
-Return-Path: <dkelaiya@cisco.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 158CEC61DFD
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 06:09:50 +0000 (UTC)
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6163.1788329387884020496
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30F3EC61DD6
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 06:11:20 +0000 (UTC)
+Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6019.1788329469415552318
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 23:09:48 -0700
+ Tue, 01 Sep 2026 23:11:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=PD5E7TGw;
- spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: dkelaiya@cisco.com)
+ dkim=pass header.i=@smile.fr header.s=google header.b=inI1owC0;
+ spf=pass (domain: smile.fr, ip: 209.85.218.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c250c6a6a6eso86127366b.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 23:11:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1517; q=dns/txt;
-  s=iport01; t=1788329387; x=1789538987;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=LOevGNsd9ICT2lAnzN4eybZnvC5k+wLniFTuPf24ifc=;
-  b=PD5E7TGwRoVx66aOrXc/6Hl0UyGQLI5oTGADeHAYnpaaiS3l7y7YREve
-   DU25JPVZOXcxnSPNVt19lx8LSnrGnIN0xOdALSv82Se+hliyX1xP58Vht
-   bOTF8jZoHOG32r2FXLVceaOjXMjPuHACnWkLT4781N2c9irXLzFJIf4ET
-   Y5LZWWQbl+OktGwJNfJPwWLCjhnpbwInyshIE/w223EJmVjNJ6vkwi2Ic
-   I9+cdgsvKYye1prSKIOdKe8C2do3R3jYxS2QX7uhW9GtyVKI08kByOs+Y
-   j5vg20ja88XWh7skEEl1z+dmWWlUDIlf8k4in5OgQC+8Lo2H8h5DBJupe
-   Q==;
-X-CSE-ConnectionGUID: qOJQDeqhSimHu7heWvpkyQ==
-X-CSE-MsgGUID: bCVA1Yw9Q1uBHrDBGY99Mw==
-X-IPAS-Result: =?us-ascii?q?A0BFAgDHvJdq/5EQJK1aglmCV3RgQ0mVXm+eG4F+DwEBA?=
- =?us-ascii?q?Q9EDQQBAYUFAo13AiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
- =?us-ascii?q?Q4Thk8NkBoCAQMyARgBLRAgMSsrGYMCAYJ0AxG9dIIsgQGDKAE/AkNQ2zABC?=
- =?us-ascii?q?xQBgTiFP4gidQGEfBcQGxuBcoEVg2mBBYFcAQECGIIThXgEgiJ6EpNgSIEeA?=
- =?us-ascii?q?1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4ENGwYFgR2BKINBIxk2eIEJXoErK?=
- =?us-ascii?q?WABEheBCYIIAoJUggUCAUlDDgdHUwknCgsYDUgRLDcVGQQ+bgeOWR+CT4EOL?=
- =?us-ascii?q?AR3gVOlVKEPCiiDdowilToaM6psC5h9jgqWUIRpgWg8gUcLB3AVgyIJShkPj?=
- =?us-ascii?q?i4KC4NggX+DFMcmJzICCTIBAQcCBw4DC4FokX4BAQ?=
-IronPort-Data: A9a23:dyJy2aoArAIkRQSzk8YcrR6QnpBeBmJOZBIvgKrLsJaIsI4StFCzt
- garIBmHPKuKYTakLoxzOty/pE9XuseDydBkTAFl+3o3HnlG9+PIVI+TRqvS04x+DSFioGZPt
- Zh2hgzodZhsJpPkjk7zdOCn9j8kif3gqoPUUIbsIjp2SRJvVBAvgBdin/9RqoNziLBVOSvV0
- T/Ji5OZYgLNNwJcaDpOtfrS8Ek35ZwehRtB1rAATaET1LPhvyF94KI3fcmZM3b+S49IKe+2L
- 86r5K255G7Q4yA2AdqjlLvhGmVSKlIFFVHT4pb+c/HKbilq/kTe4I5iXBYvQRs/ZwGyojxE4
- I4lWapc5useFvakdOw1C3G0GszlVEFM0OevzXOX6aR/w6BaGpfh660GMa04AWEX0v9QI1hi+
- OUYEzEITg3ch++J3qq4W9A506zPLOGzVG8eknhkyTecCbMtRorOBv2ao9RZxzw3wMtJGJ4yZ
- eJANmEpN0qGOkMJYwtKYH49tL/Aan3Xfz5VrFuUtKMf6GnIxws327/oWDbQUozQFZ8FwBbJ/
- goq+UzzKS8zbe2AmAPc71iMnMPlshKqCacNQejQGvlCxQf7KnYoIBoOWF22pPO0hkKzV5dUL
- FYZ0i4vtrQpskuzQ9/wWhe1rHKJslgbQdU4LgEhwAiJzqyR50OSAXIJC2YRLtcnr8QxAzct0
- zdlgu/UONCmi5XNIVr1y1tehWra1fQ9RYPaWRI5cA==
-IronPort-HdrOrdr: A9a23:YHR5T63eDDctSVgLnoBN4gqjBJAkLtp133Aq2lEZdPWaSKOlfq
- eV7ZMmPHDP6Qr5NEtMpTnEAtjjfZq+z+8Q3WBuB9eftWDd0QPCRr2Kr7GSpgEIcBeRygcy78
- tdmtBFeb7NJGk/q9rm6w+lFNtl6tyG/Ke0wdr69R5WPGdXg2UK1XYANu5deXcGPTV7OQ==
-X-Talos-CUID: =?us-ascii?q?9a23=3APdG2YWr4/wKborfRwthobf/mUdkCUETxwW7QGE6?=
- =?us-ascii?q?9KXs2SLCqV0eT6Zoxxg=3D=3D?=
-X-Talos-MUID: 9a23:kLdLdQra1tccsqoutFcezztJCu4x0rv/MRkQu7Ucl+OrBH0hHijI2Q==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,257,1779148800"; 
-   d="scan'208";a="828286890"
-Received: from alln-l-core-08.cisco.com ([173.36.16.145])
-  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 02 Sep 2026 06:09:47 +0000
-Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-08.cisco.com (Postfix) with ESMTPS id E2FC418000479;
-	Wed,  2 Sep 2026 06:09:46 +0000 (GMT)
-Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 784C7CD02B9; Tue,  1 Sep 2026 23:09:46 -0700 (PDT)
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][scarthgap][PATCH v2 3/3] python3-py: ignore CVE-2022-42969
-Date: Tue,  1 Sep 2026 23:09:43 -0700
-Message-Id: <20260902060943.2931635-3-dkelaiya@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260902060943.2931635-1-dkelaiya@cisco.com>
-References: <20260902060943.2931635-1-dkelaiya@cisco.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: alln-l-core-08.cisco.com
+        d=smile.fr; s=google; t=1788329467; x=1788934267; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=aYZvxZiGwZtdraWdi7J0Ly30C2RRueiH3HYsvOsD+VU=;
+        b=inI1owC0Ycz6NX4T5fiZSgrtvp1lThcH1CEFaeyW19XaFnSTgRJdcjL5S1nw+NHzR4
+         vZEir3J/Pr4/8TaK8Kbc68JzdyzT00fxsuODIfaHAF0Kp61QaLU92gswpcux6yCLtiGl
+         olPwZa8Zn+kGRLHr2ScXFjyHvxuFjca0BSjjc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788329467; x=1788934267;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=aYZvxZiGwZtdraWdi7J0Ly30C2RRueiH3HYsvOsD+VU=;
+        b=qO7SyHCA88XS2LHusZDC6Gq1Ul6rmagVvkP6OBInd5uKaAOcfqBtE0zraCzhv3qzg8
+         Axp2/EylzIfg6BuLn1D0M1kwn59gJx1w+FO9V3O/tX5mu3Grt87G0QZci+CuG0b6AGQk
+         8qfoR3U6IeAX6fh09o5YmLYcVb3vKaDVpZskzsqXw/3daBeU9RULsOa208M1UW4Av4b2
+         X1RacJ7X5UM+zaPzj0HdD3zuMJAJYIvEb/YkEyMFVNIe8YCxlAdxmIqBfI4UeUHJ4xk8
+         aYjSG5LVdOHZ0rtCdocKOZx5/zcrL4oNeIGogB46gEJO8LLS+YI5PNcOxz1YjVvhUBhu
+         Iztg==
+X-Forwarded-Encrypted: i=1; AHgh+Rr4zH0zerQMNszGw+5E/Yw8sFNABLhw/cXWm2ZmUQXV1xiaQyoo36HPPAv2aZeOyzAYjxARzLwko9eYYUhsLId/1g==@lists.openembedded.org
+X-Gm-Message-State: AFuF++mNmVa6zjisagESfUeUq0V/1l6qXlfe5poBFfKsCNSu2NAtQInb
+	4K3L/ah2Wt8q3pGZWE8HhW2boddnsEJ9dzx9I4Frx1xGi7APV4fqgodJulursenJrUc=
+X-Gm-Gg: AR+sD11lqU9N1GCWv0fUdeSaquofd6jHLg2idF+qiygMUnqhU6hrw8JtZ6u91ftHYLH
+	7ONT6kP46KpJxZnXMKVcbtse1ptpALPYVcvraSW5jwAe0DqjDGWL2Yq2XCqFK6oacUKFE7uJRQu
+	qC0JyyUI7fkDfFpX23VB5yO35zeD3wP2rqn9dmdwDF6kWqGCoizEFvNUqrnyshOmtg+aKKgT7HD
+	UlXNSUu4SujSXxf7TXfU+7hDL8rmMKLOhlxpDNv+TlWRzflqrIwzw40EvzusE9NmECm4k3piKIQ
+	CRQqKckgh4lafwItLejGLWaaJ3u6QWVbri922ny+33hrfuAXwVboV+lggKpzrILVVol/LSgD7rV
+	apxZnyTeiQ+1PtXIF5kO6icKBs9IT3p+QgCgCjHuE7QDNDs30BbeptIqhY/+gThW4b45/Wn81b1
+	FNZR1ieMzNs8Wi5A72iE7aoXC0Bu0+kvCnxZDIXYfLA6SoVImwnvmtzHVq0iUYedjkMwnebxuw4
+	liBsFL4GyglfnWWZfWAGw+xkse2hnbdxHeAxu6cIjKFtTlfKg==
+X-Received: by 2002:a17:907:8e86:b0:c25:608d:7934 with SMTP id a640c23a62f3a-c25d543f85bmr146693866b.12.1788329467498;
+        Tue, 01 Sep 2026 23:11:07 -0700 (PDT)
+Received: from localhost (2a02-8440-2607-5ad5-e257-1b9f-da87-0e1f.rev.sfr.net. [2a02:8440:2607:5ad5:e257:1b9f:da87:e1f])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c25d042efc2sm69656366b.59.2026.09.01.23.11.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 01 Sep 2026 23:11:07 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 02 Sep 2026 08:11:06 +0200
+Message-Id: <DL4LVZ66P1HD.10FI9J12FE2L0@smile.fr>
+Subject: Re: [OE-core][wrynose][patch 3/3] p11-kit: upgrade 0.26.4 -> 0.26.5
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>
+To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260814101941.873295-1-vanusuri@mvista.com>
+ <20260814101941.873295-3-vanusuri@mvista.com>
+In-Reply-To: <20260814101941.873295-3-vanusuri@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:09:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244889
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:11:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244892
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+On Fri Aug 14, 2026 at 12:19 PM CEST, Vijay Anusuri via lists.openembedded.=
+org wrote:
+> From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+>
+> ChangeLog: https://github.com/p11-glue/p11-kit/releases/tag/0.26.5
+>
+> 0.26.5 (stable)
+> * rpc: guard against overflow when decoding nested attributes (CVE-2026-1=
+8938) [PR#777]
+>
+> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 21a2c91ccca5257ede8994d30460b0dcda617c3a)
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> ---
+>  .../p11-kit/{p11-kit_0.26.4.bb =3D> p11-kit_0.26.5.bb}            | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>  rename meta/recipes-support/p11-kit/{p11-kit_0.26.4.bb =3D> p11-kit_0.26=
+.5.bb} (98%)
+>
+> diff --git a/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb b/meta/recipe=
+s-support/p11-kit/p11-kit_0.26.5.bb
+> similarity index 98%
+> rename from meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
+> rename to meta/recipes-support/p11-kit/p11-kit_0.26.5.bb
+> index 9219e9eefc..8229cf96c9 100644
+> --- a/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
+> +++ b/meta/recipes-support/p11-kit/p11-kit_0.26.5.bb
+> @@ -14,7 +14,7 @@ SRC_URI =3D "gitsm://github.com/p11-glue/p11-kit;branch=
+=3Dmaster;protocol=3Dhttps;tag=3D
+>             "
+>  SRCREV =3D "8e6e4e6d64d9fe91c62b0052c105b2b72d4c24ef"
+>  SRC_URI =3D "gitsm://github.com/p11-glue/p11-kit;branch=3Dmaster;protoco=
+l=3Dhttps;tag=3D${PV}"
+> -SRCREV =3D "a14788849d1ef44422d679534a13821eab5bb5f4"
+> +SRCREV =3D "120050e353e8f43d7c40bbcc047f667f903f4de5"
 
-Analysis:
-- NVD marks CVE-2022-42969 as disputed because multiple parties could
-  not reproduce it and argue that it is not a valid vulnerability [1].
-- GitHub withdrew the advisory because the available evidence does not
-  show a valid, reproducible vulnerability [2].
-- Wrynose and master use the same python3-py version and carry the same
-  disputed CVE status, so that disposition applies to Scarthgap [3].
-- Hence ignoring the CVE for now.
+Hello,
 
-Reference:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2022-42969
-[2] https://github.com/advisories/GHSA-w596-4wvx-j9j6
-[3] https://git.openembedded.org/meta-openembedded/commit/?id=91f6b85b36316d5940ee194b1d195caf3ac040b1
+It did not happened in this patch but some thing is wrong here: we have
+2 SRCREV assignments.
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
----
- meta/recipes-devtools/python/python3-py_1.11.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+Can you send a v2 with that fixed and rebase it on top of latest
+wrynose?
+Be aware that "p11-kit: upgrade 0.26.2 -> 0.26.4" should merge soon
+(currently in wrynose-next).
 
-diff --git a/meta/recipes-devtools/python/python3-py_1.11.0.bb b/meta/recipes-devtools/python/python3-py_1.11.0.bb
-index 906410e9bb..f850be1163 100644
---- a/meta/recipes-devtools/python/python3-py_1.11.0.bb
-+++ b/meta/recipes-devtools/python/python3-py_1.11.0.bb
-@@ -6,6 +6,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=a6bb0320b04a0a503f12f69fea479de9"
- SRC_URI[sha256sum] = "51c75c4126074b472f746a24399ad32f6053d1b34b68d2fa41e558e6f4a98719"
- 
- CVE_PRODUCT = "pytest:py"
-+CVE_STATUS[CVE-2022-42969] = "disputed: upstream could not reproduce it and GitHub withdrew the advisory"
- 
- DEPENDS += "python3-setuptools-scm-native"
- 
--- 
-2.35.6
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
 
