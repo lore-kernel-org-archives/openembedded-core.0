@@ -2,124 +2,141 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 30F3EC61DD6
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 06:11:20 +0000 (UTC)
-Received: from mail-ej1-f44.google.com (mail-ej1-f44.google.com [209.85.218.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6019.1788329469415552318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 324D1C61DD6
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 06:14:40 +0000 (UTC)
+Received: from mail-ed1-f49.google.com (mail-ed1-f49.google.com [209.85.208.49])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6047.1788329672995211526
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 23:11:09 -0700
+ Tue, 01 Sep 2026 23:14:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=inI1owC0;
- spf=pass (domain: smile.fr, ip: 209.85.218.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-ej1-f44.google.com with SMTP id a640c23a62f3a-c250c6a6a6eso86127366b.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 23:11:09 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=tWG5w4Gr;
+ spf=pass (domain: smile.fr, ip: 209.85.208.49, mailfrom: yoann.congal@smile.fr)
+Received: by mail-ed1-f49.google.com with SMTP id 4fb4d7f45d1cf-6a5e971c970so3226746a12.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 23:14:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788329467; x=1788934267; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1788329671; x=1788934471; darn=lists.openembedded.org;
         h=in-reply-to:references:to:cc:from:subject:message-id:date
          :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=aYZvxZiGwZtdraWdi7J0Ly30C2RRueiH3HYsvOsD+VU=;
-        b=inI1owC0Ycz6NX4T5fiZSgrtvp1lThcH1CEFaeyW19XaFnSTgRJdcjL5S1nw+NHzR4
-         vZEir3J/Pr4/8TaK8Kbc68JzdyzT00fxsuODIfaHAF0Kp61QaLU92gswpcux6yCLtiGl
-         olPwZa8Zn+kGRLHr2ScXFjyHvxuFjca0BSjjc=
+        bh=i9O3wqnksShDoBxvuep6E93qnF41Py8Uz+eP03NOjYE=;
+        b=tWG5w4Grwh7yVycEQ74qxsAhGfm1f0cuWwPRBWCBsOLzAcgi3Pvh62wZcnF0QyzvsE
+         UEeiRptSHUtnwHHpRY+GrN8Rh4XkUFejI9JDi+nlFsAjd0XE7pCh8x2v8JaTdBEVBBHA
+         xyo/Rbp10FSRcfVLXQMeEumI0ZrB2P+qK5R5g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788329467; x=1788934267;
+        d=1e100.net; s=20251104; t=1788329671; x=1788934471;
         h=in-reply-to:references:to:cc:from:subject:message-id:date
          :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=aYZvxZiGwZtdraWdi7J0Ly30C2RRueiH3HYsvOsD+VU=;
-        b=qO7SyHCA88XS2LHusZDC6Gq1Ul6rmagVvkP6OBInd5uKaAOcfqBtE0zraCzhv3qzg8
-         Axp2/EylzIfg6BuLn1D0M1kwn59gJx1w+FO9V3O/tX5mu3Grt87G0QZci+CuG0b6AGQk
-         8qfoR3U6IeAX6fh09o5YmLYcVb3vKaDVpZskzsqXw/3daBeU9RULsOa208M1UW4Av4b2
-         X1RacJ7X5UM+zaPzj0HdD3zuMJAJYIvEb/YkEyMFVNIe8YCxlAdxmIqBfI4UeUHJ4xk8
-         aYjSG5LVdOHZ0rtCdocKOZx5/zcrL4oNeIGogB46gEJO8LLS+YI5PNcOxz1YjVvhUBhu
-         Iztg==
-X-Forwarded-Encrypted: i=1; AHgh+Rr4zH0zerQMNszGw+5E/Yw8sFNABLhw/cXWm2ZmUQXV1xiaQyoo36HPPAv2aZeOyzAYjxARzLwko9eYYUhsLId/1g==@lists.openembedded.org
-X-Gm-Message-State: AFuF++mNmVa6zjisagESfUeUq0V/1l6qXlfe5poBFfKsCNSu2NAtQInb
-	4K3L/ah2Wt8q3pGZWE8HhW2boddnsEJ9dzx9I4Frx1xGi7APV4fqgodJulursenJrUc=
-X-Gm-Gg: AR+sD11lqU9N1GCWv0fUdeSaquofd6jHLg2idF+qiygMUnqhU6hrw8JtZ6u91ftHYLH
-	7ONT6kP46KpJxZnXMKVcbtse1ptpALPYVcvraSW5jwAe0DqjDGWL2Yq2XCqFK6oacUKFE7uJRQu
-	qC0JyyUI7fkDfFpX23VB5yO35zeD3wP2rqn9dmdwDF6kWqGCoizEFvNUqrnyshOmtg+aKKgT7HD
-	UlXNSUu4SujSXxf7TXfU+7hDL8rmMKLOhlxpDNv+TlWRzflqrIwzw40EvzusE9NmECm4k3piKIQ
-	CRQqKckgh4lafwItLejGLWaaJ3u6QWVbri922ny+33hrfuAXwVboV+lggKpzrILVVol/LSgD7rV
-	apxZnyTeiQ+1PtXIF5kO6icKBs9IT3p+QgCgCjHuE7QDNDs30BbeptIqhY/+gThW4b45/Wn81b1
-	FNZR1ieMzNs8Wi5A72iE7aoXC0Bu0+kvCnxZDIXYfLA6SoVImwnvmtzHVq0iUYedjkMwnebxuw4
-	liBsFL4GyglfnWWZfWAGw+xkse2hnbdxHeAxu6cIjKFtTlfKg==
-X-Received: by 2002:a17:907:8e86:b0:c25:608d:7934 with SMTP id a640c23a62f3a-c25d543f85bmr146693866b.12.1788329467498;
-        Tue, 01 Sep 2026 23:11:07 -0700 (PDT)
+        bh=i9O3wqnksShDoBxvuep6E93qnF41Py8Uz+eP03NOjYE=;
+        b=EBDx23B6qi4xCK+fUTNQK9ApoMNP13BGulkAvvzxSg1oe7rNwTmHrZb8/up8d2q5MF
+         dYtwT2rOCjdAf9ib9odEiuO+w4DvMK8EhhoHNnc40k6y0VEPBOTlmnEEUzyQbJFKigWq
+         yl3TvIDTkfS34zc+xjPkV3HoAxHUkmN43T7F9zSNFc/MjUlqvRUc8RgE2hndMDDl3Eif
+         4z1kYLN+2zW0iqZQlCWYbjTrQuloRqWkdvQjJVE/eIHIkRCCBc0oO/LoIR5b863KDyG+
+         b3MR/X+LBFpW74N3c6REXBKs7J8tvnoj1hxH5U1pz/gN7oOSwsVR6uPoygrpwj0jhXWY
+         A97g==
+X-Forwarded-Encrypted: i=1; AHgh+RppcP12hxm4iCjTELBvnrIoysKBDqpJZLqAu2Y4nj7lS1IKJzfYQN7S7CAaJvf7G6bmXYuU1uvl0pCq8m1Ui4CyxQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++k/9fkjeX872pgo8l8RVYSQBEPFekFMpmDHwuGzmyDzgxpE2EY4
+	uffvAxXx6xun5w3uSu0499vlrSj87TZtxY1+KuIj3wW/Uoxs6ZNwizlItLuqDtvAkGKFHpJmPPS
+	vlpKQ89E=
+X-Gm-Gg: AR+sD12vP+pQAm8uSuG9BU3APYkFssbboH9eD7WxhRDI7CIs2y1Zs/kezwHtKGHrT6P
+	7lg7T+/5Ea+ypkmHhkQIxnHka/iBKTE7byL2kq0BYebpNsTQaVq8L+4FumnxZ7t3aGt/CrtJawr
+	quJoYQJkzbykGNNhDjS7iCNiz6e6wH58eSe9OUIoQpoURChXXc1nnbeUA8/PJngjoxWBhGq/gT+
+	vLMqmdOzz24DjpOe2m+SFiTa4/Ve5QagkvQxV0iQY/F2bJCUFvEwRmrmdBObh0sMWF89Djmd2F+
+	ebsmqMtV7945N2zLfF0g+wUm1gxhY5ANGR2nqJk4X6lFpEEK+VjhLME6/mOkRm6TyfnP6o0BPtR
+	dHv39Y+kA7D1GfyB7QkaPNlc9xuczIFCbF8eWv/Av6tFCPEzurRFqce5NtQDQRnmoQOcOR96jsk
+	fJ6MRD9F3xTs7hLb/Ci31bkA78OuIioE4oYzkGqzPYendv5XAVoPsoDEgOIJl32XWggUJIzbzkU
+	Dxi5rcM/qxCWsdZoUG+zmLpgvIWLnECc6bV2jSaVuqhfVCcTA==
+X-Received: by 2002:a17:907:1c92:b0:c24:6382:2648 with SMTP id a640c23a62f3a-c25dca1a9c1mr50162566b.5.1788329670704;
+        Tue, 01 Sep 2026 23:14:30 -0700 (PDT)
 Received: from localhost (2a02-8440-2607-5ad5-e257-1b9f-da87-0e1f.rev.sfr.net. [2a02:8440:2607:5ad5:e257:1b9f:da87:e1f])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c25d042efc2sm69656366b.59.2026.09.01.23.11.06
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c25cffc5cd9sm74094366b.6.2026.09.01.23.14.29
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Sep 2026 23:11:07 -0700 (PDT)
+        Tue, 01 Sep 2026 23:14:30 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 02 Sep 2026 08:11:06 +0200
-Message-Id: <DL4LVZ66P1HD.10FI9J12FE2L0@smile.fr>
-Subject: Re: [OE-core][wrynose][patch 3/3] p11-kit: upgrade 0.26.4 -> 0.26.5
+Date: Wed, 02 Sep 2026 08:14:29 +0200
+Message-Id: <DL4LYKDNDBSE.K4SM1TC4D2FA@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH] perl: upgrade 5.42.0 -> 5.44.0
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>, "Richard Purdie"
- <richard.purdie@linuxfoundation.org>
-To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
+Cc: <Randy.MacLeod@windriver.com>
+To: <abhishek.bachiphale@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260814101941.873295-1-vanusuri@mvista.com>
- <20260814101941.873295-3-vanusuri@mvista.com>
-In-Reply-To: <20260814101941.873295-3-vanusuri@mvista.com>
+References: <20260814153052.2863858-1-Abhishek.Bachiphale@windriver.com>
+In-Reply-To: <20260814153052.2863858-1-Abhishek.Bachiphale@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:11:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244892
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:14:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244893
 
-On Fri Aug 14, 2026 at 12:19 PM CEST, Vijay Anusuri via lists.openembedded.=
-org wrote:
+On Fri Aug 14, 2026 at 5:30 PM CEST, Abhishek Bachiphale via lists.openembe=
+dded.org wrote:
 > From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 >
-> ChangeLog: https://github.com/p11-glue/p11-kit/releases/tag/0.26.5
+> Cherry-pick from OE-Core master (5.42.2 -> 5.44.0),
+> adapted for wrynose which had 5.42.0
 >
-> 0.26.5 (stable)
-> * rpc: guard against overflow when decoding nested attributes (CVE-2026-1=
-8938) [PR#777]
+> This upgrade fixes the following CVEs:
+>   - CVE-2026-42496: Archive::Tar symlink path traversal (CVSS 9.1)
+>   - CVE-2026-42497: Archive::Tar hardlink path traversal (CVSS 9.1)
+>   - CVE-2026-9538: Archive::Tar memory exhaustion DoS
+>   - CVE-2026-8376: Perl regex heap buffer overflow (32-bit)
+>   - CVE-2026-13221: Perl regex trie overflow (>65535 branches)
+>
+> Changes: https://perldoc.perl.org/5.44.0/perldelta
+>
+> Add perlcross patches to support perl 5.44.0:
+> - Patchset symlinks for perl5-5.44.0
+> - Configure checks for d_getentropy, i_stdckdint, i_sysrandom
+> - Fix checkfield() for C23/GCC 16 compatibility
+>
+> Verified: ptest passed.
+>
+> Drop patches already included in this release:
+> - CVE-2026-8376-01.patch (upstream commit e842efdafe7c)
+> - CVE-2026-8376-02.patch (upstream commit 5e7f119eb2bb)
+> - determinism.patch (Encode::Byte sort fix)
 >
 > Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 > Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (cherry picked from commit 21a2c91ccca5257ede8994d30460b0dcda617c3a)
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+> (cherry picked from commit 036700267e816ebfc56c404e872055f93f73c88f)
+> Signed-off-by: Abhishek Bachiphale <Abhishek.Bachiphale@windriver.com>
 > ---
->  .../p11-kit/{p11-kit_0.26.4.bb =3D> p11-kit_0.26.5.bb}            | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->  rename meta/recipes-support/p11-kit/{p11-kit_0.26.4.bb =3D> p11-kit_0.26=
-.5.bb} (98%)
->
-> diff --git a/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb b/meta/recipe=
-s-support/p11-kit/p11-kit_0.26.5.bb
-> similarity index 98%
-> rename from meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
-> rename to meta/recipes-support/p11-kit/p11-kit_0.26.5.bb
-> index 9219e9eefc..8229cf96c9 100644
-> --- a/meta/recipes-support/p11-kit/p11-kit_0.26.4.bb
-> +++ b/meta/recipes-support/p11-kit/p11-kit_0.26.5.bb
-> @@ -14,7 +14,7 @@ SRC_URI =3D "gitsm://github.com/p11-glue/p11-kit;branch=
-=3Dmaster;protocol=3Dhttps;tag=3D
->             "
->  SRCREV =3D "8e6e4e6d64d9fe91c62b0052c105b2b72d4c24ef"
->  SRC_URI =3D "gitsm://github.com/p11-glue/p11-kit;branch=3Dmaster;protoco=
-l=3Dhttps;tag=3D${PV}"
-> -SRCREV =3D "a14788849d1ef44422d679534a13821eab5bb5f4"
-> +SRCREV =3D "120050e353e8f43d7c40bbcc047f667f903f4de5"
+>  .../files/0001-patches-for-perl-5.44.0.patch  | 110 ++++++++++++++++++
+>  ...Add-configure-checks-for-perl-5.44.0.patch |  47 ++++++++
+>  ...Fix-checkfield-for-C23-compatibility.patch |  35 ++++++
+>  .../perl-cross/perlcross_1.6.4.bb             |   3 +
+>  .../perl/files/CVE-2026-8376-01.patch         |  62 ----------
+>  .../perl/files/CVE-2026-8376-02.patch         |  49 --------
+>  .../perl/files/determinism.patch              |  51 --------
+>  .../perl/{perl_5.42.0.bb =3D> perl_5.44.0.bb}   |   5 +-
+>  8 files changed, 196 insertions(+), 166 deletions(-)
+>  create mode 100644 meta/recipes-devtools/perl-cross/files/0001-patches-f=
+or-perl-5.44.0.patch
+>  create mode 100644 meta/recipes-devtools/perl-cross/files/0002-Add-confi=
+gure-checks-for-perl-5.44.0.patch
+>  create mode 100644 meta/recipes-devtools/perl-cross/files/0003-Fix-check=
+field-for-C23-compatibility.patch
+>  delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-01.pat=
+ch
+>  delete mode 100644 meta/recipes-devtools/perl/files/CVE-2026-8376-02.pat=
+ch
+>  delete mode 100644 meta/recipes-devtools/perl/files/determinism.patch
+>  rename meta/recipes-devtools/perl/{perl_5.42.0.bb =3D> perl_5.44.0.bb} (=
+98%)
 
 Hello,
 
-It did not happened in this patch but some thing is wrong here: we have
-2 SRCREV assignments.
+I merged some CVE fixes since you sent this.
+So it does not apply cleanly anymore.
 
-Can you send a v2 with that fixed and rebase it on top of latest
-wrynose?
-Be aware that "p11-kit: upgrade 0.26.2 -> 0.26.4" should merge soon
-(currently in wrynose-next).
+Can you send a rebased v2 version that handle the new patches?
 
-Regards,
+Thanks!
 --=20
 Yoann Congal
 Smile ECS
