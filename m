@@ -1,185 +1,101 @@
-Return-Path: <gustali@axis.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D6C5C624D0
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 08:38:35 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7743.1788338306045018688
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4C91DC61DFD
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 08:49:45 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7889.1788338978638388534
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 01:38:28 -0700
+ Wed, 02 Sep 2026 01:49:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=IZbtQju8;
- spf=pass (domain: axis.com, ip: 40.107.162.51, mailfrom: gustav.lindberg@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=R8muuQor0XF1Q8EDh9Qk05liAyb0xlWAWHDh2AGoaUscg5R5DvZ0QdC5RghTNmp9PgfMPAFgktKrOQV4CW0CzWFgHHq/wzZDHmWU7mkUTOtGiWsFMdtC9tCetfhkgaeGPxUekF3FXxMiy+btMXO7t0fbfjbN9FLjeXlu0OTFmHYGrL9/C8Qg2D0F4Lk1wrkeOzohUfpR4Y8u3dT2IxLSKZc0PyEK6Vo52wNM/VX9ekpTlYuN3+gARE9ETr9jVAgVlUlvY3Li3OOwECBqia9kVtiAWfUyfwYYjdM7i5OT88TJEex1eP/LGKHJilYjudtZ4vdU8r6nxetTK1x/4VYkdg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Vn064P7VdLjedbZpgUPTBluO3jWqIfOHmOZBh1dEUhA=;
- b=PZpMF1eMdu6PWk3qewOK5bN4xYi8w6pAQ//ZYRcgKzaBTy0k/YbjmVncd8XaO4LD6bSSFdBif+u6a3npCmrVEjvfOejIEb3ZF2WI6I6VjvpBCtxuVYma4vocxa0+Ywnel6hY34Vcl9ITQp+nFyoLGqke7KvJuo44Yfw2l3uVo7blkzVqfxFk1yG8hpGWyl41vcF6WjzVBkSi/n8BF045lST6RYT4/GrQO4ot/jVgNKZpJ3ujgiU+UD+h8YtqmbyNQzI2SU/BLKQ/KuMXpT1r5yJ4Eg0u+cVDt1u17HzSF4QaXjjMoYrAnCD5FNXRFBvazl9G7OG0E7JyZnnvVlTzIw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Vn064P7VdLjedbZpgUPTBluO3jWqIfOHmOZBh1dEUhA=;
- b=IZbtQju8op10V7j5agZEF3Ix2Nm/Tbq2FAkGqXz6ObW8Jo1hUrA1FjdPgHEi6t2O9si2HsQuk1AJJ1tSDBMbe1DHtflOCnPCLS4cHGZnma+JxoxkkAoDFO8h9kntPszqWKXfV/sXWLR64SeY689glW77//3r70vnlPYU6RcdInE=
-Received: from DB9PR05CA0009.eurprd05.prod.outlook.com (2603:10a6:10:1da::14)
- by DB3PR0202MB9107.eurprd02.prod.outlook.com (2603:10a6:10:43d::12) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Wed, 2 Sep
- 2026 08:38:19 +0000
-Received: from DU2PEPF00028D05.eurprd03.prod.outlook.com
- (2603:10a6:10:1da:cafe::3c) by DB9PR05CA0009.outlook.office365.com
- (2603:10a6:10:1da::14) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.11 via Frontend Transport; Wed, 2
- Sep 2026 08:38:19 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DU2PEPF00028D05.mail.protection.outlook.com (10.167.242.165) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Wed, 2 Sep 2026 08:38:19 +0000
-Received: from se-mail11w.axis.com (10.20.40.11) by se-mail11w.axis.com
- (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.2.1748.39; Wed, 2 Sep
- 2026 10:38:18 +0200
-Received: from se-intmail02x.se.axis.com (10.4.0.28) by se-mail11w.axis.com
- (10.20.40.11) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Wed, 2 Sep 2026 10:38:18 +0200
-Received: from pc53324-2309.se.axis.com (pc53324-2309.se.axis.com [10.92.8.4])
-	by se-intmail02x.se.axis.com (Postfix) with ESMTP id D4DAA73B;
-	Wed,  2 Sep 2026 10:38:18 +0200 (CEST)
-Received: by pc53324-2309.se.axis.com (Postfix, from userid 18459)
-	id CD8334A82D1F; Wed,  2 Sep 2026 10:38:18 +0200 (CEST)
-From: Gustav Lindberg <gustali@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Gustav Lindberg <gustali@axis.com>
-Subject: [PATCHv6] boost-asio: Add recipe
-Date: Wed, 2 Sep 2026 10:38:14 +0200
-Message-ID: <20260902083814.3966089-1-gustali@axis.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=u43eEnGe;
+ spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso8317875e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 01:49:38 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1788338977; x=1788943777; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=+J2+QwA5ZXMb2JAvw7lGt78kpLsdRlpN3hmEl4hG7/U=;
+        b=u43eEnGeNGyi1VBE89tuza8TbakPValdDHfKf5jikBNAljWBqfixOVGyRnMM3jl+OT
+         KbjEF33bsc35u0eNGVIeoDOhgaFwFcwUCg8wTPBUlXbsZcI0+2GdEvtGSbSLrLhwd31q
+         ELvx/dxoTS2oFp/hn7iyns4o6oU2rrbxeZOg0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788338977; x=1788943777;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=+J2+QwA5ZXMb2JAvw7lGt78kpLsdRlpN3hmEl4hG7/U=;
+        b=aLW/4AIKK4FOKuSm+CjOBaRTOpc/RHlBmwvPkbbQlNB8ZOUXBhl3F058l8+gI1eLnT
+         UzfHJLKRnmu887VmV/3JcNuNcE1sF522h9rGGEUYN+4TvYxHISmkXgjYPi9xyP84UEkX
+         a22VV0smfuKvgEU1SrNbOaZqO6GBtc9z/3K4j8+Q31IlZCD29taAbxflKUdWki2GI6LK
+         zlBHw7beLUX7d3kNwNE1pwHgLM1wRrcThLnTJxpIyYr2FUHAK6t2hSKsW3N+ZFXyo8EX
+         1XpE/KoeJXDk7QFaZiuKvs+Hnt/WEIon4BM2G4SVxhUihMK8jnE84hBeYLAWkS9fjwP5
+         mXUw==
+X-Forwarded-Encrypted: i=1; AHgh+RoanFszVTHRjpNNVW8rCHe4IsALij0KtsNR2cNGxlk22ksULMATNIDHladAAAB462CH5QHjm4Qva6CdRsKORpOxwQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nKc/Uq0xCLi3RHOzeyWmGHBErJvcNkfwd6LfZuPnbwGDRdxg8W
+	WYwC8tcWp4YsXVBe0mhOhuQVMwVvNrhGf33NRuMSGNRlWA3BaYIBu/nrP6sOpsU1eUs=
+X-Gm-Gg: AR+sD11ZN2k/qy3r5VFBhvOBxwd9UUJ4aLiuGtXJ/Y42/3vmX6HTCEiPSjftlAfDnbg
+	HE3TQ+ZutKcwSaoqGzMU6VraE6Bu8D3OpDW0F3mkogJgjV1Yio08P/0YyV5aoNVB7WRxsxibbsI
+	xesW9AuX+Hd/7FTBBkFn6u/GiWYvP87kvGGY2Gw/swW2PY9j8p21e522mbMePOyWHzBaA4cYKnK
+	1cUTZzqIP6qaqL+4Ptaczhv3vo5wFfLRjiRjRIkockN3VhH/6jDicSU6A4Ij+x4hUnchx2NqQ73
+	qhXIJQAyM078H8dJi4oPHsFDhJkWC9ygYTp64sCSUgit9vv8LhuSkiwKoihFvan3I54Cc6p+rBS
+	aDC5ySRePiBLshebx+I9HdV9iMAKw6FJKClvXX5VfDwvup5mWh0Ay4EV/BzRnfmMtSpSGzau4ly
+	6OHPUYfggp8Sj20lAn4+rh5ilbcBcyXoL+EE2GPRLhrsc2/teEqGQDoN3KSKBV32ZVqiSF50Qir
+	/tOdaGySdEeo0N0Md306vMKFFvF5gQ032wBERAJrOF7AfpyWXi2lLCt8Bw=
+X-Received: by 2002:a05:600c:3113:b0:49b:924e:9a28 with SMTP id 5b1f17b1804b1-49ce58163aemr48699335e9.1.1788338976832;
+        Wed, 02 Sep 2026 01:49:36 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce58da3acsm80148245e9.0.2026.09.02.01.49.36
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Sep 2026 01:49:36 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DU2PEPF00028D05:EE_|DB3PR0202MB9107:EE_
-X-MS-Office365-Filtering-Correlation-Id: 1d4fe629-b3a7-4ed9-ae95-08df08cd8a6a
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|36860700016|82310400026|1800799024|11063799006|10067099003|18002099003|56012099006|13003099007;
-X-Microsoft-Antispam-Message-Info: 
-	tta5AO0AEuQ4V9rTuydEd+nlxwDqV3/Gm4N9VaEv/+vuqOZ8aTF/ikx+M26qZRFN9B9cRRop6YUPepOcbEdBgFsJs5iVj2nQLgNn1uxLS9bVyqO63gcsART+dc5DSJpbRvxd2JHfbzf7AVz3xONYH485UiUABQDv1BFSPC+UGEcidjQyUI2ZpO4shSHX02xHhdR1IKMhCeJILTtOPWAvHJuiYK59s49+hRkWShorVtQFYL9tB//qyp37K34M3f9+Wlac4PeYCxdH2rVq9Lxx1UHAcqvy9eVbXrhYubAZQdF1qj6XHJV2yuZxR1P7h+R8ntY8dbAjvgl8/8T1prbAXhX6WFie8jSFgcVLrMD8cuuNimPXqzr+zOsXSJkoFSmwlyBKi1xkLbPCNhDMQh0sFi1SZUU4HUETnmpfIfs/AIXU5ez5Qfxw9N00Bi42Vfh0D185CjXoXoECXG6EWhwzP4iLz7aOOWqrWd/5L67wpyB4oAzBRl0Cc0z1rgq/0WqHXmLW8Ci3MMS90dRZL0gWWMxI4DJQiY8X9TT7mY0xSUPaBo+sjFCtNRRSNa1M6oG1bgQHUKKauAwlstI8mbNoxc2KNUN7XwK0UtK+qW0P7oImmIHJVec0IkIFlGtnUOEZ0knX8AmjRtXxOKy+/V3NQH8Tm830hgL/W5N3FtWUBHFqapRkr3ql+ggu6dxaNADIVOzoU2TvAGTo0f+bFC9hpw==
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(376014)(23010399003)(36860700016)(82310400026)(1800799024)(11063799006)(10067099003)(18002099003)(56012099006)(13003099007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	v9ar2WONhuVZ+7lt21ciYG71mwjk+3j27Qb8sUlA4+a6br+5ZiuZSUeXK4/HMmvtdOxtaXaUTl922imFe13erRnvp48OKXtoPeQO+K9lpX7kHDNtLSg1k83C+Le2b00qF/2zS/vWGZMJg5r87OmBHQI57/Td2p6uMXBJotEJTO6WTmVlqHnxezxSz92JxRVqYUo65KhBd2x2TRmsjOcFJVCVm065esfd+zFQ4i/8hcYruwZYIX9yDM9JE+wqnc5i/oCXavHkiJ82SjhXfsvw4v/XJ/UaI34HufmidxewibMaeIVNxClqlI7j5VyX3yGCE8P/Me+kaoOS4T/XMLGzzpqSMmW3b6a4/dcqQKeEyWTpb0XT4YzbKvWoY4QoR5oszd1Zh5Kmm515MSjyC2MksqhcA1AAgyk59Rn0U4y2zJ0ANy+99wJ9swvVxLDMyD2p
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Sep 2026 08:38:19.2949
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 1d4fe629-b3a7-4ed9-ae95-08df08cd8a6a
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DU2PEPF00028D05.eurprd03.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB3PR0202MB9107
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 02 Sep 2026 10:49:36 +0200
+Message-Id: <DL4P9C29ANWC.3FP4S0YEWBR8Z@smile.fr>
+Subject: Re: [OE-core] Reminder-2: [wrynose][PATCH] mesa: align x86 mesa
+ config with LLVM graphics
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <ashishkumar.mishra@bmwtechworks.in>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260820163342.12213-1-emailaddress.ashish@gmail.com>
+ <2227188.1787546845267962127@lists.openembedded.org>
+ <3020885.1788337871466410607@lists.openembedded.org>
+In-Reply-To: <3020885.1788337871466410607@lists.openembedded.org>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 08:38:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244903
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 08:49:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244904
 
-This is needed to build boost asio as a shared library rather than a
-header-only library, which is needed to save memory.
+On Wed Sep 2, 2026 at 10:31 AM CEST, AshishKumar Mishra via lists.openembed=
+ded.org wrote:
+> Hi Team ,
+>
+> Can this patch be takedn in wrynose or if team have any suggestion .
+> I can rework accordingly
+> The patch is merged i master branch and fix the silent bug there
+> https://git.openembedded.org/openembedded-core/tree/meta/recipes-graphics=
+/mesa/mesa.bb
+>
+> Thanks ,
+> Ashish
 
-Signed-off-by: Gustav Lindberg <gustali@axis.com>
----
- meta/conf/distro/include/maintainers.inc      |  1 +
- .../boost/boost-asio/boost_asio.cpp           |  1 +
- .../boost/boost-asio_1.92.0.bb                | 33 +++++++++++++++++++
- 3 files changed, 35 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost-asio/boost_asio.cpp
- create mode 100644 meta/recipes-support/boost/boost-asio_1.92.0.bb
+Hello,
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
-clude/maintainers.inc
-index 99242af484..0df2a731a4 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -76,6 +76,7 @@ RECIPE_MAINTAINER:pn-blueprint-compiler =3D "Liu Yiding <=
-liuyd.fnst@fujitsu.com>"
- RECIPE_MAINTAINER:pn-bluez5 =3D "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-bmaptool =3D "Trevor Woerner <twoerner@gmail.com>"
- RECIPE_MAINTAINER:pn-boost =3D "Unassigned <unassigned@yoctoproject.org>"
-+RECIPE_MAINTAINER:pn-boost-asio =3D "Gustav Lindberg <gustali@axis.com>"
- RECIPE_MAINTAINER:pn-boost-build-native =3D "Unassigned <unassigned@yoctop=
-roject.org>"
- RECIPE_MAINTAINER:pn-bootchart2 =3D "Unassigned <unassigned@yoctoproject.o=
-rg>"
- RECIPE_MAINTAINER:pn-bsd-headers =3D "Khem Raj <raj.khem@gmail.com>"
-diff --git a/meta/recipes-support/boost/boost-asio/boost_asio.cpp b/meta/re=
-cipes-support/boost/boost-asio/boost_asio.cpp
-new file mode 100644
-index 0000000000..bf00c8ff26
---- /dev/null
-+++ b/meta/recipes-support/boost/boost-asio/boost_asio.cpp
-@@ -0,0 +1 @@
-+#include <boost/asio/impl/src.hpp>
-diff --git a/meta/recipes-support/boost/boost-asio_1.92.0.bb b/meta/recipes=
--support/boost/boost-asio_1.92.0.bb
-new file mode 100644
-index 0000000000..e275a3b61b
---- /dev/null
-+++ b/meta/recipes-support/boost/boost-asio_1.92.0.bb
-@@ -0,0 +1,33 @@
-+SUMMARY =3D "Boost.Asio shared library shim"
-+DESCRIPTION =3D "Builds libboost_asio as a shared library from boost/asio/=
-impl/src.hpp"
-+HOMEPAGE =3D "https://www.boost.org/doc/libs/1_90_0/doc/html/boost_asio.ht=
-ml"
-+
-+DEPENDS =3D "boost"
-+
-+# Reuse Boost source and licensing metadata.
-+require recipes-support/boost/boost-${PV}.inc
-+
-+SRC_URI +=3D " file://boost_asio.cpp;subdir=3D${BOOST_P}"
-+
-+MAJOR_VER =3D "${@oe.utils.trim_version("${PV}", 1)}"
-+
-+do_compile() {
-+	${CXX} ${CPPFLAGS} ${CXXFLAGS} \
-+		-std=3Dc++23 \
-+		-DBOOST_ASIO_DYN_LINK=3D1 \
-+		-fPIC \
-+		-shared \
-+		-Wl,-soname,libboost_asio.so.${MAJOR_VER} \
-+		${S}/boost_asio.cpp \
-+		${LDFLAGS} \
-+		-o ${B}/libboost_asio.so.${PV}
-+}
-+
-+do_install() {
-+	install -d ${D}${libdir}
-+	install -m 0755 ${B}/libboost_asio.so.${PV} ${D}${libdir}/
-+	ln -sf libboost_asio.so.${PV} ${D}${libdir}/libboost_asio.so.${MAJOR_VER}
-+	ln -sf libboost_asio.so.${MAJOR_VER} ${D}${libdir}/libboost_asio.so
-+}
-+
-+BBCLASSEXTEND =3D "native"
+Sorry, the patch pending queue is quite long at the moment and I have not
+reached this patch yet.
+Usually I would tell you to wait 2 weeks before pinging a patch.
+In this case, I think I will need a week or 2 before clearing the queue.
+So please wait 2 more weeks before pinging again.
+
+Thanks for your patience.
 --=20
-2.43.0
+Yoann Congal
+Smile ECS
 
-Add myself as maintainer
 
