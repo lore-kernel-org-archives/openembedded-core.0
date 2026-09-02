@@ -1,271 +1,312 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F6A4C61DD6
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 05:31:59 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5602.1788327109722003349
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CCD02C624D3
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 05:33:39 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5743.1788327217171998424
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 22:31:49 -0700
+ Tue, 01 Sep 2026 22:33:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=hm8giTMI;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=158Jt1zZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a0609a1f90-6c03981f-8515-4d57-a57d-ad1139f7d28c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788327108;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=5yos3hPIuOUyZC+f2Qpryv55N4cufNlNjT+IiYSVyiM=;
-	b=hm8giTMI2woBus5orCcSkA45FfbSDB4dwRz6zGBx5nJQDjjitRSsPfKgHWfvmt2D
-	fPh64sF7lvux1TRbL+43qRS4tZmH1vNT+E+Dc8vOksp5A2lP+6kNjD386wo4WU+uJec
-	82gSf4ztmAwrGNXgAZ3BUfEVmBFnD61sHKWj/wCc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788327108;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=5yos3hPIuOUyZC+f2Qpryv55N4cufNlNjT+IiYSVyiM=;
-	b=158Jt1zZHwCsXyM/pfBO7HTUkqBH81FLSbcCZyEsMHR+fJDBAbbicZYyLnLIk378
-	LTiGEBUfNq3fYL/H8csOaizYN+FZ73TFsnPY2I+5smmBdVCfXG6eaKrkNNxyftAWRR3
-	iogWgApzWj1k3RhPT9dAPoScVUQMrkPWYwYCU3OU=
-Content-Type: multipart/mixed; boundary="===============0887922479883919600=="
-MIME-Version: 1.0
-From: auh@yoctoproject.org
+ dkim=pass header.i=@smile.fr header.s=google header.b=CfmCnkje;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-482f9309813so627605f8f.1
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 22:33:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1788327215; x=1788932015; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=tYwqFAvZggOqGzTWeIO8Osbdx6L8pBcK2cxD1oBWBV4=;
+        b=CfmCnkjeon+fzhFxrP+6BeGGIJxWyx0venND6NAIpfFvgQXyLhBMe9KH0rTO082hsd
+         f6nT+SgIoYuDyBWz5pFbAchhdwZHdxvZLfLA/e9kQDcwb6ZwSi0hE0dV1AFjmsmnYaJ5
+         pLc5+Vk4wFCR7Gwh1HWw7wNZ3aRZVUbxA3PdE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788327215; x=1788932015;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=tYwqFAvZggOqGzTWeIO8Osbdx6L8pBcK2cxD1oBWBV4=;
+        b=NHHwbarI6rOcjIpTdC2EAHGdGuwLoCHM7uK9yqULGKBpVznlPLr1JDWSRkbm8EWsoC
+         xLSWEgMbAnxZDTAaeGCdNBHzCPp2XNW8LPyZoVxHGIAXGIbitCwP+wTpkZ5MSaiP8/Uc
+         6k1sGXDHVJnAUJkDIRGOCwmmXH7+/zuHv8CCWLASfVFsqk7elt5vCV0TD5zAs++n/789
+         8hQMj0yBpBc2UbqPhS7xz/ri2MFrZdjspe5G1QlHUePGez+oRhI2Wyg/yAw6+t6gL96d
+         x4kahdOukYlOsm4cVz5deqfTRBfqqKQgZQRLoFzDyyYAmg16wn4TRJAv6Y85mV4AuPED
+         c+iQ==
+X-Gm-Message-State: AFuF++lu87ewzBzK7hDZjyI8xXHzXFVcifep8yqaeTxVfBpjPS7TVrOV
+	cwrowOHdMkNDafXz3sunbhL6FoTd7PJaBV7XFLIjMssqKxFGjVVeyMw9yBPQi+KK4xeEVBBsIiv
+	dkbSOU7w=
+X-Gm-Gg: AYBFou3bRZwLiJ8ozPGwS/vEMuT//0JEDJvfEilT23DIl67KUgPO5mCPMsxYZP70lHv
+	n7My5dXCMHcvQIBfoX+vrbGDYcA5NS+cspuJxR2Y0JBMraiWjSMmzyZS25Wi2iFrl4Pz6HCb3mg
+	eMtx/mh7ylqOb89w85+pzsg1mpqkIXBNjDlW8SjuaMBEelUekkBg8cKYH0dcVcgr8SXCUaEnVV2
+	F7fienwyqrxHIPrJ+IvZkFY3VTZ3z/ir/4nJ1unsf0m4PrlkVg8OJ++KYub4lD+3sdagHxR6nPL
+	5UytQM44d8kJUsVcywtgXkuvC6K1vsuXWegjDpe0/PJtua1dfWQymF/uzocC+yJL0J0JNeDv5XW
+	pZwaXw52wCvKMKBl73p0E6NrJ+CvKn9KBdXTpZJ/e6U3VKz2PGiHv/ydFU13iBXQff6/MmbBWJr
+	G9W+XfCxHMhl4y2KWkCaHlZAsOfNqPzswjo2XYBm5vGSeNii1KxW9vfXQnU0fND4sGuB85wApUj
+	ZObck70dpNxl2+fUmEA+fKDF31Z
+X-Received: by 2002:a05:6000:1449:b0:47f:8ac0:ccb4 with SMTP id ffacd0b85a97d-48488f07b9cmr3706980f8f.10.1788327215240;
+        Tue, 01 Sep 2026 22:33:35 -0700 (PDT)
+Received: from FRSMI25-LASER.wifi-gare.sncf.com ([148.169.40.19])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48448ed30c0sm3948710f8f.24.2026.09.01.22.33.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Sep 2026 22:33:34 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] mesa-demos: upgrading to
- 71b184c379625c91195f5d69186d4de5a1f642ac SUCCEEDED
-Message-ID: <010101a0609a1f90-6c03981f-8515-4d57-a57d-ad1139f7d28c-000000@us-west-2.amazonses.com>
-Date: Wed, 2 Sep 2026 05:31:48 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.02-54.240.27.45
+Cc: Paul Barker <paul@pbarker.dev>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][wrynose 00/56] Pull request (cover letter only)
+Date: Wed,  2 Sep 2026 07:33:18 +0200
+Message-ID: <cover.1788327061.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 05:31:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244885
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 05:33:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244886
 
---===============0887922479883919600==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Those are the patches from the last patch review:
+https://lore.kernel.org/all/cover.1787945536.git.yoann.congal@smile.fr/
 
-Hello,
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4604
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *mesa-demos* to *71b184c379625c91195f5d69186d4de5a1f642ac* has Succeeded.
+The following changes since commit f7397af248e1e338929d70a910b0fbc2341528ec:
 
-Next steps:
-    - apply the patch: git am 0001-mesa-demos-upgrade-to-latest-revision.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+  mirrors: Disable YP mirrors on autobuilder (2026-08-21 18:06:46 +0200)
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+are available in the Git repository at:
 
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-next
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-next
 
-Regards,
-The Upgrade Helper
+for you to fetch changes up to 00c66f1d38a234f7738c2eb8fafa41b4f057a865:
 
--- >8 --
-From 6f98ac94d1c353febe9f425250c9e75527036fca Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 2 Sep 2026 05:31:40 +0000
-Subject: [PATCH] mesa-demos: upgrade to latest revision
+  pseudo: 1.9.10 -> 1.9.11 (2026-08-28 17:24:32 +0200)
 
-71b184c3 Add GL ES 1.0 CL version of gears
----
- meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+----------------------------------------------------------------
 
-diff --git a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
-index 784c2d4ad7..e945538c48 100644
---- a/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
-+++ b/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://src/xdemos/glxgears.c;beginline=1;endline=5;md5=2c456
- 
- SRC_URI = "git://gitlab.freedesktop.org/mesa/demos.git;protocol=https;branch=main"
- 
--SRCREV = "10418e7636cdd9595dda18c3d78a562d7248f734"
-+SRCREV = "71b184c379625c91195f5d69186d4de5a1f642ac"
- 
- # This recipe doesn't plan to make more releases, so track upstream git commits
- PV .= "+git"
--- 
-2.47.1
+Adarsh Jagadish Kamini (1):
+  glibc: stable 2.43 branch updates
 
+Alexander Kanavin (2):
+  gstreamer1.0: disable an intermittently failing test
+  gstreamer1.0: upgrade 1.28.2 -> 1.28.4 (the remaining pieces)
 
---===============0887922479883919600==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="mesa-demos-changelog.txt"
+Bhavesh R Maheshwari (10):
+  vim: Fix for CVE-2026-55693
+  vim: Fix for CVE-2026-55895
+  vim: Fix for CVE-2026-57451
+  vim: Fix for CVE-2026-57453
+  vim: Fix for CVE-2026-57454
+  vim: Fix for CVE-2026-57455
+  vim: Fix for CVE-2026-57456
+  vim: Fix for CVE-2026-59856
+  vim: Fix for CVE-2026-59857
+  vim: Fix for CVE-2026-59858
 
-Changelog for mesa-demos: 9.0.0+git -> 9.0.0+git
+Bruce Ashfield (1):
+  kern-tools: bump SRCREV for conditional 'depends on X if Y' support
 
-71b184c3 Add GL ES 1.0 CL version of gears
+Deepak Rathore (6):
+  curl: fix CVE-2026-8286
+  curl: set CVE_STATUS for CVE-2026-8924
+  curl: fix CVE-2026-8927
+  curl: fix CVE-2026-8932
+  curl: set CVE_STATUS for CVE-2026-9547
+  curl: set CVE_STATUS for CVE-2026-12064
 
---===============0887922479883919600==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Hetvi Thakar (5):
+  wget: Fix CVE-2026-58469
+  wget: Fix CVE-2026-58471
+  wget: Fix CVE-2026-58472
+  patch: Fix CVE-2026-56289
+  patch: Fix CVE-2026-56288
 
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-dbg: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-dev: RRECOMMENDS: removed "mesa-demos (['= 9.0.0+git0+10418e7636-r0'])", added "mesa-demos (['= 9.0.0+git0+71b184c379-r0'])"
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-dev: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-doc: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-info: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-locale: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-src: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-staticdev: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-staticdev: RDEPENDS: removed "mesa-demos-dev (['= 9.0.0+git0+10418e7636-r0'])", added "mesa-demos-dev (['= 9.0.0+git0+71b184c379-r0'])"
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
+Jaipaul Cheernam (2):
+  perl: fix CVE-2026-13221
+  perl: fix CVE-2026-57432
 
---===============0887922479883919600==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+Leonid Iziumtsev (1):
+  coreutils: fix CVE-2026-56391
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 956 .bb files complete (0 cached, 956 parsed). 1986 targets, 40 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+Peter Marko (10):
+  openssh: set status for CVE-2026-55653
+  connman: remove connection_manager from CVE_PRODUCTS
+  gstreamer1.0*: upgrade 1.28.4 -> 1.28.5
+  ffmpeg: upgrade 8.0.1 -> 8.0.3
+  ffmpeg: set status for CVE-2026-8461 and CVE-2026-40962
+  libsoup: patch CVE-2026-4271
+  diffutils: patch CVE-2026-53910
+  p11-kit: set status for CVE-2026-13757
+  libxml2: set status for CVE-2026-6732
+  python3-cryptography(-vectors): upgrade 46.0.5 -> 46.0.7
 
-Build Configuration:
-BB_VERSION           = "2.19.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-e2a7243bbfd836fa52a5a9e935c29d9e32aaf535"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:e2a7243bbfd836fa52a5a9e935c29d9e32aaf535"
-meta-yocto-bsp       
-meta-poky            = "master:6ce984c0a3a68c2fdc3c32bc185b6729d09e7829"
-workspace            = "<unknown>:<unknown>"
+Richard Purdie (15):
+  gst-devtools: upgrade 1.28.2 -> 1.28.4
+  gstreamer1.0-libav: upgrade 1.28.2 -> 1.28.4
+  gstreamer1.0-python: upgrade 1.28.2 -> 1.28.4
+  gstreamer1.0: upgrade 1.28.2 -> 1.28.4
+  xserver-xorg: upgrade 21.1.22 -> 21.1.23
+  xserver-xorg: upgrade 21.1.23 -> 21.1.24
+  ruby: upgrade 4.0.2 -> 4.0.3
+  ruby: upgrade 4.0.3 -> 4.0.5
+  xwayland: upgrade 24.1.11 -> 24.1.12
+  xwayland: upgrade 24.1.12 -> 24.1.13
+  p11-kit: upgrade 0.26.2 -> 0.26.4
+  libxml2: upgrade 2.15.2 -> 2.15.3
+  pseudo: Add in openat2, exec and linkat fixes
+  pseudo: Update to 1.9.10
+  pseudo: 1.9.10 -> 1.9.11
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 591 Local 580 Mirrors 0 Missed 11 Current 523 (98% match, 99% complete)
-done.
-Removing 10 stale sstate objects for arch x86-64-v3...done.
-Removing 1 stale sstate objects for arch qemux86_64...done.
-NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 2408 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_fetch)
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_fetch: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_fetch: Succeeded
-NOTE: Running task 2629 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_unpack)
-NOTE: Running task 2630 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_prepare_recipe_sysroot)
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_unpack: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_unpack: Succeeded
-NOTE: Running task 2631 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_patch)
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_patch: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_patch: Succeeded
-NOTE: Running task 2632 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_deploy_source_date_epoch)
-NOTE: Running task 2633 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_populate_lic)
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_deploy_source_date_epoch: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_populate_lic: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_populate_lic: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_populate_lic unihash changed to a1b2ea3938feadfad4263faf11ecb44641c697bf6630b0f4b90869836901e593
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_deploy_source_date_epoch: Succeeded
-NOTE: Running task 2634 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_configure)
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_configure: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_configure: Succeeded
-NOTE: Running task 2635 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_compile)
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_compile: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_compile: Succeeded
-NOTE: Running task 2636 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_install)
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_install: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_install: Succeeded
-NOTE: Running task 2637 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_package)
-NOTE: Running task 2638 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_populate_sysroot)
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_package: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_populate_sysroot: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_populate_sysroot: Succeeded
-NOTE: Task /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_populate_sysroot unihash changed to 99e056f47e080efe1f942641d6f278f3a49a8530678c0d02d3e283980c144cf4
-NOTE: Setscene tasks completed
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_package: Succeeded
-NOTE: Running task 2639 of 2646 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_packagedata)
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_packagedata: Started
-NOTE: recipe mesa-demos-9.0.0+git-r0: task do_packagedata: Failed
-NOTE: Tasks Summary: Attempted 2639 tasks of which 2627 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 2 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260902052822.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260902052822.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+Sudhir Dumbhare (1):
+  binutils: fix CVE-2026-3441 and CVE-2026-3442
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_packagedata
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/mesa-demos/9.0.0+git/temp/log.do_packagedata.1059425
-Summary: There were 9 ERROR messages, returning a non-zero exit code.
-ERROR: mesa-demos-9.0.0+git-r0 do_packagedata: QA Issue: Package version for package mesa-demos-src went backwards which would break package feeds (from 0:9.0.0+git0+10418e7636-r0 to 0:9.0.0+git0+71b184c379-r0) [version-going-backwards]
-ERROR: mesa-demos-9.0.0+git-r0 do_packagedata: QA Issue: Package version for package mesa-demos-dbg went backwards which would break package feeds (from 0:9.0.0+git0+10418e7636-r0 to 0:9.0.0+git0+71b184c379-r0) [version-going-backwards]
-ERROR: mesa-demos-9.0.0+git-r0 do_packagedata: QA Issue: Package version for package mesa-demos-staticdev went backwards which would break package feeds (from 0:9.0.0+git0+10418e7636-r0 to 0:9.0.0+git0+71b184c379-r0) [version-going-backwards]
-ERROR: mesa-demos-9.0.0+git-r0 do_packagedata: QA Issue: Package version for package mesa-demos-dev went backwards which would break package feeds (from 0:9.0.0+git0+10418e7636-r0 to 0:9.0.0+git0+71b184c379-r0) [version-going-backwards]
-ERROR: mesa-demos-9.0.0+git-r0 do_packagedata: QA Issue: Package version for package mesa-demos-doc went backwards which would break package feeds (from 0:9.0.0+git0+10418e7636-r0 to 0:9.0.0+git0+71b184c379-r0) [version-going-backwards]
-ERROR: mesa-demos-9.0.0+git-r0 do_packagedata: QA Issue: Package version for package mesa-demos-locale went backwards which would break package feeds (from 0:9.0.0+git0+10418e7636-r0 to 0:9.0.0+git0+71b184c379-r0) [version-going-backwards]
-ERROR: mesa-demos-9.0.0+git-r0 do_packagedata: QA Issue: Package version for package mesa-demos-info went backwards which would break package feeds (from 0:9.0.0+git0+10418e7636-r0 to 0:9.0.0+git0+71b184c379-r0) [version-going-backwards]
-ERROR: mesa-demos-9.0.0+git-r0 do_packagedata: QA Issue: Package version for package mesa-demos went backwards which would break package feeds (from 0:9.0.0+git0+10418e7636-r0 to 0:9.0.0+git0+71b184c379-r0) [version-going-backwards]
-ERROR: mesa-demos-9.0.0+git-r0 do_packagedata: Fatal QA errors were found, failing task.
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/mesa-demos/9.0.0+git/temp/log.do_packagedata.1059425
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb:do_packagedata) failed with exit code '1'
+Tim Orling (1):
+  python3-pyasn1: upgrade 0.6.3 -> 0.6.4
 
---===============0887922479883919600==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Wang Mingyu (1):
+  python3-pyasn1: upgrade 0.6.2 -> 0.6.3
 
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-dbg: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-dev: RRECOMMENDS: removed "mesa-demos (['= 9.0.0+git0+10418e7636-r0'])", added "mesa-demos (['= 9.0.0+git0+71b184c379-r0'])"
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-dev: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-doc: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-info: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-locale: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-src: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-staticdev: RDEPENDS: removed "mesa-demos-dev (['= 9.0.0+git0+10418e7636-r0'])", added "mesa-demos-dev (['= 9.0.0+git0+71b184c379-r0'])"
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos-staticdev: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
-packages/x86-64-v3-poky-linux/mesa-demos/mesa-demos: PKGV changed from 9.0.0+git0+10418e7636 to 9.0.0+git0+71b184c379
+ .../connman/connman_2.0.bb                    |    2 -
+ .../openssh/openssh_10.3p1.bb                 |    1 +
+ .../coreutils/coreutils/CVE-2026-56391.patch  |   66 +
+ meta/recipes-core/coreutils/coreutils_9.10.bb |    1 +
+ meta/recipes-core/glibc/glibc-version.inc     |    2 +-
+ meta/recipes-core/glibc/glibc_2.43.bb         |    1 +
+ ...-installation-directories-in-libxml2.patch |   12 +-
+ .../libxml/libxml2/install-tests.patch        |    9 +-
+ .../{libxml2_2.15.2.bb => libxml2_2.15.3.bb}  |    3 +-
+ .../binutils/binutils-2.46.inc                |    1 +
+ .../CVE-2026-3441_CVE-2026-3442.patch         |   51 +
+ meta/recipes-devtools/patch/patch.inc         |    6 +-
+ .../patch/patch/CVE-2026-56288.patch          |   75 ++
+ .../patch/patch/CVE-2026-56289.patch          |   36 +
+ .../perl/files/CVE-2026-13221.patch           |   75 ++
+ .../perl/files/CVE-2026-57432-01.patch        |   52 +
+ .../perl/files/CVE-2026-57432-02.patch        |   34 +
+ meta/recipes-devtools/perl/perl_5.42.0.bb     |    3 +
+ meta/recipes-devtools/pseudo/pseudo_git.bb    |    4 +-
+ .../python/python3-cryptography-common.inc    |    2 +-
+ .../python/python3-cryptography-vectors.bb    |    2 +-
+ .../python/python3-cryptography.bb            |    2 +-
+ ...yasn1_0.6.2.bb => python3-pyasn1_0.6.4.bb} |    2 +-
+ ...save-the-original-name-and-timestamp.patch |    5 +-
+ ...x-cross-compilation-of-external-gems.patch |    6 +-
+ ...ine-REG_S1-and-REG_S2-for-musl-riscv.patch |    4 +-
+ ...Obey-LDFLAGS-for-the-link-of-libruby.patch |    6 +-
+ ...doc-build-reproducible-documentation.patch |   15 +-
+ ...-list-of-object-files-in-generated-M.patch |    6 +-
+ ...eproducible-change-fixing-784225-too.patch |    6 +-
+ .../0006-Make-gemspecs-reproducible.patch     |   13 +-
+ ..._rm_r_no_permissions-test-under-root.patch |    4 +-
+ .../ruby/{ruby_4.0.2.bb => ruby_4.0.5.bb}     |    2 +-
+ .../diffutils/CVE-2026-53910-01.patch         |   67 +
+ .../diffutils/CVE-2026-53910-02.patch         |   35 +
+ .../diffutils/diffutils_3.12.bb               |    9 +
+ .../wget/CVE-2026-58469-regression_p1.patch   |   39 +
+ .../wget/CVE-2026-58469-regression_p2.patch   |   26 +
+ .../wget/wget/CVE-2026-58469.patch            |   53 +
+ .../wget/wget/CVE-2026-58471.patch            |   71 +
+ .../wget/wget/CVE-2026-58472-regression.patch |  233 ++++
+ .../wget/wget/CVE-2026-58472.patch            |   74 ++
+ meta/recipes-extended/wget/wget_1.25.0.bb     |    6 +
+ ...-Intel-ddx-only-for-pre-gen4-hardwar.patch |    2 +-
+ ...org_21.1.22.bb => xserver-xorg_21.1.24.bb} |    2 +-
+ ...wayland_24.1.11.bb => xwayland_24.1.13.bb} |    2 +-
+ .../kern-tools/kern-tools-native_git.bb       |    2 +-
+ .../{ffmpeg_8.0.1.bb => ffmpeg_8.0.3.bb}      |    4 +-
+ ...ct-has-a-different-signature-on-musl.patch |    2 +-
+ ...tools_1.28.2.bb => gst-devtools_1.28.5.bb} |    2 +-
+ ...001-Make-player-examples-installable.patch |   21 +-
+ ...mples_1.28.2.bb => gst-examples_1.28.5.bb} |    2 +-
+ ...1.28.2.bb => gstreamer1.0-libav_1.28.5.bb} |    2 +-
+ ...ialized-warnings-when-compiling-with.patch |    4 +-
+ ...-avoid-including-sys-poll.h-directly.patch |    2 +-
+ ...issing-opencv-data-dir-in-yocto-buil.patch |    4 +-
+ ...added-buffers-in-wl_shm-buffer-creat.patch |    5 +-
+ ....bb => gstreamer1.0-plugins-bad_1.28.5.bb} |    2 +-
+ ...et-caps-from-src-pad-when-query-caps.patch |    6 +-
+ ...parse-enhance-SSA-text-lines-parsing.patch |    2 +-
+ ...iv-fb-Make-sure-config.h-is-included.patch |    2 +-
+ ...bb => gstreamer1.0-plugins-base_1.28.5.bb} |    2 +-
+ ...bb => gstreamer1.0-plugins-good_1.28.5.bb} |    2 +-
+ ...bb => gstreamer1.0-plugins-ugly_1.28.5.bb} |    2 +-
+ ....28.2.bb => gstreamer1.0-python_1.28.5.bb} |    2 +-
+ ....bb => gstreamer1.0-rtsp-server_1.28.5.bb} |    2 +-
+ ...spect-the-idententaion-used-in-meson.patch |    2 +-
+ ...ts-add-support-for-install-the-tests.patch |    6 +-
+ ...s-use-a-dictionaries-for-environment.patch |    2 +-
+ ...er-script-to-run-the-installed_tests.patch |    2 +-
+ .../gstreamer/gstreamer1.0/run-ptest          |    4 +
+ ...er1.0_1.28.2.bb => gstreamer1.0_1.28.5.bb} |    4 +-
+ .../curl/curl/CVE-2026-8286.patch             |   81 ++
+ .../curl/curl/CVE-2026-8927.patch             |  349 +++++
+ .../curl/curl/CVE-2026-8932-dependent.patch   |   71 +
+ .../curl/curl/CVE-2026-8932.patch             | 1148 +++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |    7 +
+ .../libsoup/libsoup/CVE-2026-4271.patch       |  362 ++++++
+ meta/recipes-support/libsoup/libsoup_3.6.6.bb |    1 +
+ .../{p11-kit_0.26.2.bb => p11-kit_0.26.4.bb}  |    3 +-
+ .../vim/files/CVE-2026-55693.patch            |  103 ++
+ .../vim/files/CVE-2026-55895.patch            |  106 ++
+ .../vim/files/CVE-2026-57451.patch            |  192 +++
+ .../vim/files/CVE-2026-57453.patch            |  269 ++++
+ .../vim/files/CVE-2026-57454.patch            |  203 +++
+ .../vim/files/CVE-2026-57455.patch            |   87 ++
+ .../vim/files/CVE-2026-57456.patch            |  164 +++
+ .../vim/files/CVE-2026-59856.patch            |  118 ++
+ .../vim/files/CVE-2026-59857.patch            |  125 ++
+ .../vim/files/CVE-2026-59858.patch            |  149 +++
+ meta/recipes-support/vim/vim.inc              |   10 +
+ 91 files changed, 4659 insertions(+), 109 deletions(-)
+ create mode 100644 meta/recipes-core/coreutils/coreutils/CVE-2026-56391.patch
+ rename meta/recipes-core/libxml/{libxml2_2.15.2.bb => libxml2_2.15.3.bb} (95%)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-3441_CVE-2026-3442.patch
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2026-56289.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-13221.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-57432-01.patch
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-57432-02.patch
+ rename meta/recipes-devtools/python/{python3-pyasn1_0.6.2.bb => python3-pyasn1_0.6.4.bb} (83%)
+ rename meta/recipes-devtools/ruby/{ruby_4.0.2.bb => ruby_4.0.5.bb} (98%)
+ create mode 100644 meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-01.patch
+ create mode 100644 meta/recipes-extended/diffutils/diffutils/CVE-2026-53910-02.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58469-regression_p1.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58469-regression_p2.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58469.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58471.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58472-regression.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58472.patch
+ rename meta/recipes-graphics/xorg-xserver/{xserver-xorg_21.1.22.bb => xserver-xorg_21.1.24.bb} (92%)
+ rename meta/recipes-graphics/xwayland/{xwayland_24.1.11.bb => xwayland_24.1.13.bb} (96%)
+ rename meta/recipes-multimedia/ffmpeg/{ffmpeg_8.0.1.bb => ffmpeg_8.0.3.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gst-devtools_1.28.2.bb => gst-devtools_1.28.5.bb} (95%)
+ rename meta/recipes-multimedia/gstreamer/{gst-examples_1.28.2.bb => gst-examples_1.28.5.bb} (96%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-libav_1.28.2.bb => gstreamer1.0-libav_1.28.5.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-bad_1.28.2.bb => gstreamer1.0-plugins-bad_1.28.5.bb} (99%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-base_1.28.2.bb => gstreamer1.0-plugins-base_1.28.5.bb} (98%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-good_1.28.2.bb => gstreamer1.0-plugins-good_1.28.5.bb} (97%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-plugins-ugly_1.28.2.bb => gstreamer1.0-plugins-ugly_1.28.5.bb} (94%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-python_1.28.2.bb => gstreamer1.0-python_1.28.5.bb} (91%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0-rtsp-server_1.28.2.bb => gstreamer1.0-rtsp-server_1.28.5.bb} (90%)
+ rename meta/recipes-multimedia/gstreamer/{gstreamer1.0_1.28.2.bb => gstreamer1.0_1.28.5.bb} (93%)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8286.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8927.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8932-dependent.patch
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8932.patch
+ create mode 100644 meta/recipes-support/libsoup/libsoup/CVE-2026-4271.patch
+ rename meta/recipes-support/p11-kit/{p11-kit_0.26.2.bb => p11-kit_0.26.4.bb} (95%)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-55693.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-55895.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-57451.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-57453.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-57454.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-57455.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-57456.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-59856.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-59857.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-59858.patch
 
---===============0887922479883919600==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-mesa-demos-upgrade-to-latest-revision.patch"
-
-RnJvbSA2Zjk4YWM5NGQxYzM1M2ZlYmU5ZjQyNTI1MGM5ZTc1NTI3MDM2ZmNhIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMiBTZXAgMjAyNiAwNTozMTo0MCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIG1l
-c2EtZGVtb3M6IHVwZ3JhZGUgdG8gbGF0ZXN0IHJldmlzaW9uCgo3MWIxODRjMyBBZGQgR0wgRVMg
-MS4wIENMIHZlcnNpb24gb2YgZ2VhcnMKLS0tCiBtZXRhL3JlY2lwZXMtZ3JhcGhpY3MvbWVzYS9t
-ZXNhLWRlbW9zXzkuMC4wLmJiIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCsp
-LCAxIGRlbGV0aW9uKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdyYXBoaWNzL21lc2Ev
-bWVzYS1kZW1vc185LjAuMC5iYiBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9tZXNhL21lc2EtZGVt
-b3NfOS4wLjAuYmIKaW5kZXggNzg0YzJkNGFkNy4uZTk0NTUzOGM0OCAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWdyYXBoaWNzL21lc2EvbWVzYS1kZW1vc185LjAuMC5iYgorKysgYi9tZXRhL3Jl
-Y2lwZXMtZ3JhcGhpY3MvbWVzYS9tZXNhLWRlbW9zXzkuMC4wLmJiCkBAIC0xMSw3ICsxMSw3IEBA
-IExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL3NyYy94ZGVtb3MvZ2x4Z2VhcnMuYztiZWdpbmxp
-bmU9MTtlbmRsaW5lPTU7bWQ1PTJjNDU2CiAKIFNSQ19VUkkgPSAiZ2l0Oi8vZ2l0bGFiLmZyZWVk
-ZXNrdG9wLm9yZy9tZXNhL2RlbW9zLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbiIKIAot
-U1JDUkVWID0gIjEwNDE4ZTc2MzZjZGQ5NTk1ZGRhMThjM2Q3OGE1NjJkNzI0OGY3MzQiCitTUkNS
-RVYgPSAiNzFiMTg0YzM3OTYyNWM5MTE5NWY1ZDY5MTg2ZDRkZTVhMWY2NDJhYyIKIAogIyBUaGlz
-IHJlY2lwZSBkb2Vzbid0IHBsYW4gdG8gbWFrZSBtb3JlIHJlbGVhc2VzLCBzbyB0cmFjayB1cHN0
-cmVhbSBnaXQgY29tbWl0cwogUFYgLj0gIitnaXQiCi0tIAoyLjQ3LjEKCg==
-
---===============0887922479883919600==--
 
