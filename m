@@ -2,51 +2,50 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 182DBC624DB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 33236C624DC
 	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 15:46:59 +0000 (UTC)
 Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.333.1788364008688583398
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.328.1788364009861168185
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 08:46:49 -0700
+ Wed, 02 Sep 2026 08:46:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=OYYEjiEE;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=x4kQLkaV;
  spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 6B6441A195C
-	for <openembedded-core@lists.openembedded.org>; Wed,  2 Sep 2026 15:46:46 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 2B7A01A1964
+	for <openembedded-core@lists.openembedded.org>; Wed,  2 Sep 2026 15:46:48 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3FEB76053C
-	for <openembedded-core@lists.openembedded.org>; Wed,  2 Sep 2026 15:46:46 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id AB0EA11C79905;
-	Wed,  2 Sep 2026 17:46:44 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 0139D6053C
+	for <openembedded-core@lists.openembedded.org>; Wed,  2 Sep 2026 15:46:48 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 6570611C79A84;
+	Wed,  2 Sep 2026 17:46:47 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788364005; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=dfW4naw/LNDvoC7rofcOwZytHJjyKwYew8ZQMnvDI2U=;
-	b=OYYEjiEEfP5F9D8XP0sTPS2Ag23AJ+voPj2s+sTZHErQeKUAgIHrHHFM8pQiqdpsjF+R5O
-	0tzjIPtK1Y+Fuy/d2FvTyGuMuBvWAflHYpwPVTOgogUUWJ4zkSbbHHf/A1+HdRZhyW8IUA
-	9lNacmBYaDPw5+HkAj0rfEWOOjfJgFL6Qh1zhtM0Z3hLUTBAWO2d4mFablfSqOGj1F7ONo
-	h0Vu1CqEZXVmeo/WJTzd+OW706vEXF9TyV5aB9ubzpnGLHKLTdlAOLTHitEEhyWGIyjSG1
-	NK3tPmmS0IjUkA0abGtZQEpqHuOO3I6beVXmMJuwmJP3Iau7aG4P7TblE/vb5g==
+	t=1788364007; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=fwKtklsRxFRunnDLdCDefIvyhKl4MscsW1CV1W60Qf4=;
+	b=x4kQLkaVdPpxhhXgvhupCPzgKgVDq6AjvCUjx0XdugNDkOOc80J2SsFK8V/RE7mjK7EMNf
+	ds64sxHKqhZmiWRVXs67raD0TfMu5uZuXG44J511I8aHAl5G2okCYobRXfaVlwmDMqXreI
+	HFsfdlLZP4UkMFUzknJ72qJH/OTexvT5aPSJ4pOlhd903uj3PO25OGCdJCkuiRR2XURiE0
+	77kEAlhnS+rDJfhKrPJ5iQtQ7MW/q+NjsPbh5wAmZRr1mzidBMaIPtFWPhtbF6y1MdheVW
+	M33Vhyld9NcXxISe6S/tEbMORNwgEvUSEW2FrjNqNExoKmFuzjaJxDhT5zA4oQ==
 From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Subject: [PATCH 0/8] Upgrades of 2026-09-02
-Date: Wed, 02 Sep 2026 17:46:42 +0200
-Message-Id: <20260902-mathieu-updates-2026-09-02-v1-0-039b74833ec7@bootlin.com>
+Date: Wed, 02 Sep 2026 17:46:45 +0200
+Subject: [PATCH 3/8] python3-vcs-versioning: upgrade 2.3.1 -> 2.3.2
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAOJEmGoC/x3MSQqAMAxA0atI1gZicaBeRVxUG20WDrQqgvTuV
- pefB/+BwF44QJs94PmSINuaosgzGJ1ZZ0axqUGRqkmTwsUcTvjEc7fm4IAfIGlMNKhm0GNZkdU
- lpMHueZL7n3d9jC+IOWNabAAAAA==
-X-Change-ID: 20260902-mathieu-updates-2026-09-02-b27b9c450d94
+Message-Id: <20260902-mathieu-updates-2026-09-02-v1-3-039b74833ec7@bootlin.com>
+References: <20260902-mathieu-updates-2026-09-02-v1-0-039b74833ec7@bootlin.com>
+In-Reply-To: <20260902-mathieu-updates-2026-09-02-v1-0-039b74833ec7@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788364004; l=2562;
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788364004; l=2106;
  i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=N3hZrOa009HeKqoMAQFkX/i+aB+5d1UwXZRPdEbisPE=;
- b=mXDVDX/33bbbEHj5vA9tLlNBq6y46HA+s/V2PBPOdvXEs7LImGOf/kui3cKDj5TNNvCV15daF
- gNdVgzw6bORAu4NMqShpRmnYtfxB/8jRLGoFfAvnhmdIuLyqVfo94Vm
+ bh=qNU2em0Na5g0p2FWGKeNSr1NMSlFbTvn8Gnbnft4j9M=;
+ b=apetcPiW/imXWdbQBwqu3Ut9ivgrPPyYfLT6jqgM3PwdskHa1wOmzOS+Xn6uPL+KzjG10zobD
+ y+rOg9MOXPCDMgOWla/0w4hRi4UZxpsIwtlCL0okQNt6RFHokK45Cy7
 X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
  pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
 X-Last-TLS-Session-Version: TLSv1.3
@@ -54,55 +53,50 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 15:46:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244975
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244976
+
+Changelog:
+- Fixed
+  - Register the `pkginfo` workdir discovery factory in vcs-versioning
+    itself. `PKG-INFO` is standard sdist metadata, not a setuptools
+    artifact, but its factory was only registered by setuptools-scm --
+    so a standalone vcs-versioning install could not infer a version
+    from an sdist. This broke sdist builds for non-setuptools backends,
+    e.g. meson-python calling `python -m vcs_versioning` from
+    `project()`.
+  - Fallback workdir candidates are now ordered by how much metadata
+    they carry (egg-info, then archival, then `PKG-INFO`) instead of by
+    entry point iteration order, so a setuptools built sdist keeps using
+    its `scm_version.json` now that the two factories ship from
+    different distributions.
+- Miscellaneous
+  - Stop shipping a per-package `uv.lock` in the sdist. It could not be
+    generated correctly whenever `setuptools-scm` required an unreleased
+    `vcs-versioning`, which broke the release proposal workflow.
 
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 ---
-Mathieu Dubois-Briand (8):
-      spirv-llvm-translator: upgrade 23.1.0 -> 23.1.1
-      python3-uv-build: upgrade 0.12.8 -> 0.12.9
-      python3-vcs-versioning: upgrade 2.3.1 -> 2.3.2
-      mesa-demos: upgrade to latest revision
-      python3-setuptools-scm: upgrade 10.2.1 -> 10.2.2
-      go: upgrade 1.27.0 -> 1.27.1
-      libgcrypt: upgrade 1.12.2 -> 1.12.3
-      go-binary-native: upgrade 1.27.0 -> 1.27.1
+ ...{python3-vcs-versioning_2.3.1.bb => python3-vcs-versioning_2.3.2.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
- .../go/{go-1.27.0.inc => go-1.27.1.inc}            |  2 +-
- ...native_1.27.0.bb => go-binary-native_1.27.1.bb} |  6 ++--
- ...adian_1.27.0.bb => go-cross-canadian_1.27.1.bb} |  0
- .../go/{go-cross_1.27.0.bb => go-cross_1.27.1.bb}  |  0
- ...go-crosssdk_1.27.0.bb => go-crosssdk_1.27.1.bb} |  0
- .../{go-runtime_1.27.0.bb => go-runtime_1.27.1.bb} |  0
- ...-content-based-hash-generation-less-pedan.patch | 34 ++++++++++------------
- ...w-GOTOOLDIR-to-be-overridden-in-the-envir.patch | 14 ++++-----
- .../0003-ld-add-soname-to-shareable-objects.patch  | 15 ++++------
- ...verride-CC-when-building-dist-and-go_boot.patch | 10 ++-----
- ...-cmd-dist-separate-host-and-target-builds.patch | 31 +++++++++-----------
- ...06-cmd-go-make-GOROOT-precious-by-default.patch | 23 +++++++--------
- ...ter-out-build-specific-paths-from-linker-.patch | 14 ++++-----
- ...t-buildgo.go-do-not-hardcode-host-compile.patch | 11 +++----
- ...ter-build-paths-on-staticly-linked-arches.patch | 15 ++++------
- ...r-GOROOT-for-func-ldShared-when-trimpath-.patch | 12 +++-----
- .../go/{go_1.27.0.bb => go_1.27.1.bb}              |  0
- ..._10.2.1.bb => python3-setuptools-scm_10.2.2.bb} |  2 +-
- ...-build_0.12.8.bb => python3-uv-build_0.12.9.bb} |  2 +-
- ...ng_2.3.1.bb => python3-vcs-versioning_2.3.2.bb} |  2 +-
- meta/recipes-graphics/mesa/mesa-demos_9.0.0.bb     |  2 +-
- ...r_23.1.0.bb => spirv-llvm-translator_23.1.1.bb} |  2 +-
- .../0001-libgcrypt-fix-m4-file-for-oe-core.patch   |  2 +-
- ...-tests-Fix-link-errors-for-t-thread-local.patch | 13 ++++-----
- ...ile.am-fix-undefined-reference-to-pthread.patch | 11 +++----
- .../libgcrypt/files/no-bench-slope.patch           |  2 +-
- .../libgcrypt/files/no-native-gpg-error.patch      |  4 +--
- .../{libgcrypt_1.12.2.bb => libgcrypt_1.12.3.bb}   |  4 +--
- 28 files changed, 96 insertions(+), 137 deletions(-)
----
-base-commit: 76d6de7d485e0a5d5082e1c94049d0ef2b88a003
-change-id: 20260902-mathieu-updates-2026-09-02-b27b9c450d94
+diff --git a/meta/recipes-devtools/python/python3-vcs-versioning_2.3.1.bb b/meta/recipes-devtools/python/python3-vcs-versioning_2.3.2.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-vcs-versioning_2.3.1.bb
+rename to meta/recipes-devtools/python/python3-vcs-versioning_2.3.2.bb
+index 1800475dff4c..57ea6a92273f 100644
+--- a/meta/recipes-devtools/python/python3-vcs-versioning_2.3.1.bb
++++ b/meta/recipes-devtools/python/python3-vcs-versioning_2.3.2.bb
+@@ -5,7 +5,7 @@ library that can be used independently of setuptools."
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c9b06ad2ebd7e2e82d34b3caf353e7d5"
+ 
+-SRC_URI[sha256sum] = "806635bd0ea653c96af98a70624be758d408a989f2cd0b390e63474d99f96b63"
++SRC_URI[sha256sum] = "24abddff97aecf44cf3fec727eae8d76d9c6f70f5acb39afc41f824d69f2aac5"
+ 
+ SRC_URI += "\
+     file://run-ptest \
 
-Best regards,
 -- 
-Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+2.47.3
 
 
