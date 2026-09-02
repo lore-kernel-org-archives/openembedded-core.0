@@ -2,157 +2,184 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B5428C61DFD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B6721C624D3
 	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 05:27:18 +0000 (UTC)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5678.1788326829148628669
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5548.1788326837793506149
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 22:27:09 -0700
+ Tue, 01 Sep 2026 22:27:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=nDDY968l;
- spf=pass (domain: smile.fr, ip: 209.85.128.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49b8687630fso4317405e9.3
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 22:27:08 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=HledwrnC;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49b8f86c6deso3711645e9.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 22:27:17 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788326824; x=1788931624; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=sGrz6NYiJrzUJjb5sq6H3Vqb72HZT/DyugxJyfQTcEk=;
-        b=nDDY968lKMXX1hkzkdgENV8pH9owAxL6JTgTupKilkknfDAMOT85V164Hy82XHZWFV
-         kj49VqbbdMoVNbfs/XsIJR7c2/RY2OxKfm8xMj5Ex0oVl6hdPHUio3wJIVsgWO997Van
-         Ak2SsEvW5f0eJanlqKzkMzD2HCT8cWLypOBAY=
+        d=smile.fr; s=google; t=1788326836; x=1788931636; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=QN7MDTL/f7+pm94+Q5/15el1JwGtzF10TbfDrMABNOQ=;
+        b=HledwrnCm3AXkIihxYQFW+kT3hx30Vh1swd4wYYwQRYxkc24tVCknoHdawyFpjQpM3
+         5MZuKecg/dskEYVRSt0e9QC3SxrWImRtX+wKAjb0K+Gx1FR7myu3FLsfqAna06MZavJj
+         36WTcPROY0Sbz55oKv2jFjVFNbEypNe/5rluQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788326824; x=1788931624;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=sGrz6NYiJrzUJjb5sq6H3Vqb72HZT/DyugxJyfQTcEk=;
-        b=VpqL9oo5PSp3AVKbKc23MZ+g6SClWLcNpzIk2SEu+PD9JMIMfHrsQv63kcFqwu0Lv6
-         7BRIBcFv6jOSaLlRuUDy2XAUnOQtjrwP0oc7moW/39fANskTJWykv39ZexB6zE6oPtW/
-         agkdCft+hQCp2HHYpAZNC9Cl+11j1cU3qxxsgyX8HD9VZlHqUpx0eK3A1WYL/d7PQ9A4
-         941ggyq0+GspEAgCJvC8YpvBFR1t2rRxNaNCdhbW1z1A+xBfnvMnnI+4C4FGS9xJCn0q
-         dJDZFacgvzbf+sT0g7q6wDc96Paqb2evybDGPEmvmrVoLrnehb94OxwciuKWNM69Cf+D
-         hNag==
-X-Gm-Message-State: AFuF++ni1ORihegz9sM/Ei/XwphHzklM0Fxp5Iq9Kvl74KXwj3j3k6hM
-	ckZWviDpgYFhkkNrpKquoAscXrg31VB7VgTEYAL/eqwax/7LeKewgJVEY5odiEnZnOxXNcKrxBE
-	02e/z5Gg=
-X-Gm-Gg: AR+sD12nKvnYKhmvRZLpYiPLrHI33AR8DIETP18TQZNLxmvZAJDmnB2AzaXgZCP+W3W
-	DBDRpoRuH3dOIGcAUsKwX1Kn8ywZJQmYIiU1dMbjm1LpXjqKkvuWeM36h4lz4tGHI0EZmLf6G81
-	OFqCe0MH2TycFlfVRfUsb4xTDmSGDf8mUasSj9e8QUyBFfdLa9BvW2nKVu8XUfStsHUpEv0Kghz
-	BJv8qVwnz2Kw+iZV19EYDe1ZKmUBRnjniwAC100DN06uJ/ioEks2WQrHlxkIEdPtk/6lYdZF1Xh
-	aNg11hswh7J6StLO2VgpsVguCnGGvHuVBox6QREJbW3/MGIqA+vRhnYD8mfY7/cNqjT1cJLq2XM
-	Lx8kj98CowtgQv0KwaVFvPKTmGHiNSPCMnHf8gfr8s1OSTLksj51kwB/K5AHk2OltNK8M1jm1Gy
-	EXH29mtZ1M9RoDYiGGmhWcf8RxtTgfRgcLNKsqryF3D8IoSaKhPVimAz2aqxJtkIi5vbyYd448Q
-	VHaGz/f9b80yEktsQ==
-X-Received: by 2002:a05:600c:3b07:b0:496:bffb:fb7b with SMTP id 5b1f17b1804b1-49ce5823706mr32063605e9.10.1788326823963;
-        Tue, 01 Sep 2026 22:27:03 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788326836; x=1788931636;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=QN7MDTL/f7+pm94+Q5/15el1JwGtzF10TbfDrMABNOQ=;
+        b=ZoeFhcv1Gt0iM5ObLji6YbfUYnK80NgCc8hLdUNNYBiVvD7BXOAuCi38p3RtzG24lZ
+         +EY3KSdBogyuotDcQOI49/Ocyh2VtLZyiMAZlJtWsbR5XWft/sw/nDMWkxILvd+f858O
+         1hsdekSQa5nojB8R8p35cdWAoH0uMP3VXOugs//k7W6CGW29LlZg5eHUpkifh28EDrey
+         YXQgsPurAzxacTrV7ne9+NrLjWLz7A7M/5zQNhzt4ylfiYBUwPOiJuVipb8IFKEvokKI
+         TuxKGRAjRIqH9phFw8EPrOv9bahT/VSzeLBbzoHGHtlqOt1hVe+XGo66nTNmy4DqFBbg
+         8Kxw==
+X-Gm-Message-State: AFuF++kAZ2asfAtSIQN3uiDMxMLrbEe8fajjwkaUIgSKUiOCxTEh4CBT
+	NWspaayy3o9suP7SIy7SyRcEboLhuTw6m1eBdV4CdqvF+6v/j68ewuoM8wkFVIYEF0w90/DopcT
+	G4xME/Xo=
+X-Gm-Gg: AR+sD12NgwIwC+ug/80uXzR9e95Mh8ag5jYNoXXk+H90AQVoGzEgDVaV4Fztv2GwMHI
+	mAm1+xeKgIP2PVr8zhdeLoKkGlXdC07lSSPg5fc4AVYz3lEvAdJlVjA9Fkt1HopV9x+/MTgt2pn
+	RKLXf0q/YVAz7ca7BemF0LlLSdGc1ZZsjzPIXJZS0GbLFk+3LRvNdF/GZojJOob47CROPj8huSz
+	EwMDVAh13RAcp/EYBprtfyaLiZkVQtiEX2zSfrzps1EzmCO3XfUyrnX27O65oWBOLx40fG2GltB
+	JBdYcDuzxZI5+p3FOWqRB81OsEUtntFa+WLP7TLEfS0n1BJX2dQA/TyeQ0s8xXjqCv/TyMhOtfC
+	z1TcH+yT/nY3LFf5EiA+sdrOkbv525l7kAWI582SjyY1TqSGzDbWLpX7EDbg+/eJFz7355+4XV3
+	HxBm6WnGJ7LjbrXGIu6cH1UrMWFUdjdkytsAOrxHKfrpBU6iHj0okoq1aQdfzqoysgejTgReGZz
+	Oym57hJyV1eMi+oZQ==
+X-Received: by 2002:a05:600c:1da1:b0:499:9eb8:a1d7 with SMTP id 5b1f17b1804b1-49ce5842935mr41312845e9.9.1788326836061;
+        Tue, 01 Sep 2026 22:27:16 -0700 (PDT)
 Received: from FRSMI25-LASER.wifi-gare.sncf.com ([148.169.40.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce4780f0dsm37084695e9.12.2026.09.01.22.27.02
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce4780f0dsm37084695e9.12.2026.09.01.22.27.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 22:27:03 -0700 (PDT)
+        Tue, 01 Sep 2026 22:27:15 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 19/27] vim: Security Fix for CVE-2026-55895
-Date: Wed,  2 Sep 2026 07:25:36 +0200
-Message-ID: <87b2def5858ea51650b1e0381ed104d5670c50b1.1788326578.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 27/27] patch: Fix CVE-2026-56288
+Date: Wed,  2 Sep 2026 07:25:44 +0200
+Message-ID: <1b1e13055b4eed838e1411d91dea46de08e1d72f.1788326578.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788326578.git.yoann.congal@smile.fr>
 References: <cover.1788326578.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 05:27:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244873
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244878
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: Hetvi Thakar <hthakar@cisco.com>
 
-Picking patch as per [1], and same patch is mentioned in [2]
+This patch applies the upstream fix referenced by NVD in [2], using
+the commit shown in [1].
 
-References:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-55895
-[2] https://security-tracker.debian.org/tracker/CVE-2026-55895
+[1] https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=e6d6a4e021660679d7fc9150f981d4920f722313
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-56288
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit a30cd69993f9f48d5cf55e57181e49171f0a1b7a)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-55895.patch            | 53 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-55895.patch
+ .../patch/patch/CVE-2026-56288.patch          | 75 +++++++++++++++++++
+ meta/recipes-devtools/patch/patch_2.7.6.bb    |  1 +
+ 2 files changed, 76 insertions(+)
+ create mode 100644 meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-55895.patch b/meta/recipes-support/vim/files/CVE-2026-55895.patch
+diff --git a/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch b/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
 new file mode 100644
-index 00000000000..0084006b72d
+index 00000000000..03e1211f2ed
 --- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-55895.patch
-@@ -0,0 +1,53 @@
-+From 0d286458d71ff7b4d759621dd9a567aa9354819a Mon Sep 17 00:00:00 2001
-+From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-+Date: Tue, 16 Jun 2026 21:00:28 +0000
-+Subject: [PATCH 11/17] patch 9.2.0663: [security]: runtime(netrw): code
-+ injection in local file deletion
++++ b/meta/recipes-devtools/patch/patch/CVE-2026-56288.patch
+@@ -0,0 +1,75 @@
++From f98fd4b5f696d1fcc9d86f81555370cf4b21150f Mon Sep 17 00:00:00 2001
++From: Paul Eggert <eggert@cs.ucla.edu>
++Date: Tue, 21 Apr 2026 10:05:02 -0700
++Subject: [PATCH] Avoid null pointer derefence with bad hunks
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+Problem:  [security]: s:NetrwLocalRmFile() escapes only the backslash in
-+          the file name before passing it to :execute, so a name
-+          containing "|" injects arbitrary Ex commands when the file is
-+          deleted (cipher-creator)
-+Solution: Use fnameescape() to correctly escape the file name
-+          (Yasuhiro Matsumoto).
++Problem reported by Michał Majchrowicz.
++* src/pch.c (another_hunk): Keep chars_read positive
++even with malformed hunks.
 +
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-vhh8-v6wx-hjjh
++CVE: CVE-2026-56288
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/patch.git/commit/?id=e6d6a4e021660679d7fc9150f981d4920f722313]
 +
-+Supported by AI
-+
-+Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/55bc757a5d436e59d50fe43f7cda94b118f86cb2]
-+CVE: CVE-2026-55895
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++(cherry picked from commit e6d6a4e021660679d7fc9150f981d4920f722313)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 +---
-+ runtime/pack/dist/opt/netrw/autoload/netrw.vim | 4 ++--
-+ 1 file changed, 2 insertions(+), 2 deletions(-)
++ src/pch.c | 15 ++++++++++-----
++ 1 file changed, 10 insertions(+), 5 deletions(-)
 +
-+diff --git a/runtime/pack/dist/opt/netrw/autoload/netrw.vim b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+index 9014ca339b..af43f469d1 100644
-+--- a/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-++++ b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+@@ -3025,7 +3025,7 @@ function s:NetrwBrowse(islocal,dirname)
-+     elseif !a:islocal && dirname !~ '[\/]$' && dirname !~ '^"'
-+         " s:NetrwBrowse :  remote regular file handler {{{3
-+         if bufname(dirname) != ""
-+-            exe "NetrwKeepj b ".bufname(dirname)
-++            exe "NetrwKeepj b ".fnameescape(bufname(dirname))
-+         else
-+             " attempt transfer of remote regular file
-+ 
-+@@ -8737,7 +8737,7 @@ function s:NetrwLocalRmFile(path, fname, all)
-+             call netrw#msg#Notify('ERROR', printf("unable to delete <%s>!", rmfile))
-+         else
-+             " Remove file only if there are no pending changes
-+-            execute printf('silent! bwipeout %s', rmfile)
-++            execute printf('silent! bwipeout %s', fnameescape(rmfile))
-+         endif
-+ 
-+     elseif dir && (all || empty(ok))
-+-- 
-+2.44.4
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 07f7b7dd16c..bd1d52eaf67 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -43,6 +43,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-47167.patch \
-            file://CVE-2026-55693.patch \
-            file://CVE-2026-55892.patch \
-+           file://CVE-2026-55895.patch \
-            "
++diff --git a/src/pch.c b/src/pch.c
++index 6f9f36f..0a31f72 100644
++--- a/src/pch.c
+++++ b/src/pch.c
++@@ -1728,7 +1728,8 @@ another_hunk (enum diff difftype, bool rev)
++ 		    p_end = filldst-1;
++ 		    malformed ();
++ 		}
++-		chars_read -= fillsrc == p_ptrn_lines && incomplete_line ();
+++		chars_read -= (1 < chars_read && fillsrc == p_ptrn_lines
+++			       && incomplete_line ());
++ 		p_Char[fillsrc] = ch;
++ 		p_line[fillsrc] = s;
++ 		p_len[fillsrc++] = chars_read;
++@@ -1745,7 +1746,8 @@ another_hunk (enum diff difftype, bool rev)
++ 		    malformed ();
++ 		}
++ 		context++;
++-		chars_read -= fillsrc == p_ptrn_lines && incomplete_line ();
+++		chars_read -= (1 < chars_read && fillsrc == p_ptrn_lines
+++			       && incomplete_line ());
++ 		p_Char[fillsrc] = ch;
++ 		p_line[fillsrc] = s;
++ 		p_len[fillsrc++] = chars_read;
++@@ -1765,7 +1767,8 @@ another_hunk (enum diff difftype, bool rev)
++ 		    p_end = fillsrc-1;
++ 		    malformed ();
++ 		}
++-		chars_read -= filldst == p_end && incomplete_line ();
+++		chars_read -= (1 < chars_read && filldst == p_end
+++			       && incomplete_line ());
++ 		p_Char[filldst] = ch;
++ 		p_line[filldst] = s;
++ 		p_len[filldst++] = chars_read;
++@@ -1852,7 +1855,8 @@ another_hunk (enum diff difftype, bool rev)
++ 	    if (buf[0] != '<' || (buf[1] != ' ' && buf[1] != '\t'))
++ 	      fatal ("'<' followed by space or tab expected at line %s of patch",
++ 		     format_linenum (numbuf0, p_input_line));
++-	    chars_read -= 2 + (i == p_ptrn_lines && incomplete_line ());
+++	    chars_read -= 2 + (3 < chars_read && i == p_ptrn_lines
+++			       && incomplete_line ());
++ 	    p_len[i] = chars_read;
++ 	    p_line[i] = savebuf (buf + 2, chars_read);
++ 	    if (chars_read && ! p_line[i]) {
++@@ -1897,7 +1901,8 @@ another_hunk (enum diff difftype, bool rev)
++ 	    if (buf[0] != '>' || (buf[1] != ' ' && buf[1] != '\t'))
++ 	      fatal ("'>' followed by space or tab expected at line %s of patch",
++ 		     format_linenum (numbuf0, p_input_line));
++-	    chars_read -= 2 + (i == p_end && incomplete_line ());
+++	    chars_read -= 2 + (3 < chars_read && i == p_end
+++			       && incomplete_line ());
++ 	    p_len[i] = chars_read;
++ 	    p_line[i] = savebuf (buf + 2, chars_read);
++ 	    if (chars_read && ! p_line[i]) {
+diff --git a/meta/recipes-devtools/patch/patch_2.7.6.bb b/meta/recipes-devtools/patch/patch_2.7.6.bb
+index 74d9085c6b9..53e96dea0f8 100644
+--- a/meta/recipes-devtools/patch/patch_2.7.6.bb
++++ b/meta/recipes-devtools/patch/patch_2.7.6.bb
+@@ -12,6 +12,7 @@ SRC_URI += "file://0001-Unset-need_charset_alias-when-building-for-musl.patch \
+             file://0001-Don-t-leak-temporary-file-on-failed-multi-file-ed.patch \
+             file://CVE-2019-20633.patch \
+             file://CVE-2026-56289.patch \
++            file://CVE-2026-56288.patch \
+ "
  
- PV .= ".1683"
+ SRC_URI[md5sum] = "4c68cee989d83c87b00a3860bcd05600"
 
