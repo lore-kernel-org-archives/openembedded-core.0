@@ -2,135 +2,166 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BE614C624D3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F024C624D9
 	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 13:23:18 +0000 (UTC)
-Received: from mail-qv1-f52.google.com (mail-qv1-f52.google.com [209.85.219.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12761.1788355389230032517
+Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12766.1788355393168999002
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 06:23:09 -0700
+ Wed, 02 Sep 2026 06:23:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=FA+ddqZm;
- spf=pass (domain: gmail.com, ip: 209.85.219.52, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qv1-f52.google.com with SMTP id 6a1803df08f44-90cd4631090so11692996d6.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:23:09 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=SIeJq6aU;
+ spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-52ff7e275e0so9168621cf.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 06:23:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788355388; x=1788960188; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XIynLHqxJMF9PiCqxCOZuPeNyW6bqIBmHuPUAfIXBl8=;
-        b=FA+ddqZmo4uVgB+P483u5eVOrUsw6XPc83w/Lbbby+DO98BZWUYWp1KiiNkbwXFeVF
-         wTo17cfj2z80qv4BOcxBixGDTZljxYw6jX9pVp/rcS7HBIiPXyF0/NsmTmDeN6QenxlF
-         hUA9oYT7ojFJiF30WSDKm+e7jwcHCir/y7Ijmdww5Hwal4dbVnGVjzWhlRbkF2HONhGP
-         bsz4qoBnmybN+atq1BbjO28GslfDABkPepek+kwyVxuxU8O1KBYREuTPeK1dpBq7ThSV
-         3joHXvNssQQCcF3sC3GiaLQiPeg2wAuKhWyLdVjB2PZ7EWApc/L1RExfWaPpulh7PfFU
-         i6bA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788355388; x=1788960188;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1788355392; x=1788960192; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=XIynLHqxJMF9PiCqxCOZuPeNyW6bqIBmHuPUAfIXBl8=;
-        b=Ng82wguZoYXX7SZ/WD5g9KBTAmMSNl1OakObGEiX/gSYiuYPBKwZc+GwZkPfuDpkrk
-         yezI9ha5AtZsd1e6PdSENQF1D2kFyitn0VApMyDslxwyHVRyvkJp6nXbYDtrRGFeFJwy
-         62S+DZEMpTsdS0y9lx9Lscmyjj0tgK/3xCiaMxz2f4kkU6LcUsYUUnOfH+XJ5lXORuMq
-         QeaqyEzFfhUEbNnLqb/57vEtKcMXHYnFnCWltTJBHrFyJTZTvN5iCw6MF1C9dD/b2GFl
-         dDlcSVC2GoFF+JWWt0wSIXCmm6umqlGNBR4/GsHghIyNbGMQgomYYdRkK3sXPiZiZmuJ
-         DfTw==
-X-Gm-Message-State: AFuF++lfxPk3qd8/tAHpS8377GtJ4S1tLDP0pSIH4VzgVcxJqX9UjA+2
-	uyr3CIZ3baZxiC8KL9cyA4PWcAxavhoudelp25xJRxMN8OnMWQW+FkOc
-X-Gm-Gg: AR+sD11Q7BbS8Jf/N7wYeEj7g6/mVgpQdXKA1/T+0Kis9QoBlNYmXrG5heWyDWKjhds
-	piTEkYLQNIxqWpPLb9RGBwqbHjyWVQ7rc7WHEfL7EiTJk007O2YIRtgz4xfWnmf2zi5g3rS2dPW
-	O0AtYqsmSEE81+s2tvMSv86+f29Gj1xqqPQ3Q0fFcxtynBGYS/TlsR5HnXNQKOHECT1/n/ByGwk
-	OWqdwCQSoK8N2M3G2UJz+WCJ3vx5fIts6nAOYdSNUKRIYzDS2VWE5Rt7bSwbOBBYP4zjWugbxv+
-	3w77LpJZTjvWAn7mXzi+yk7ffKz216cOz1qIkSgd3+LB8a0mKC4z1uGWYj4bUMsVn972yaMyjXh
-	nSks9NI3AqHYn2zcXNQmADbhliDqvlh59Rz/uOuP86JCE/4i/Q5Z3kw2Qn0smwE/yqbAXRmx5vZ
-	evw1gbRXxxwTA2z7GlzysBzvgjUjC/hi9sT04WkbaB6oCjSneXokDdbcxuld9tomrOdD3OH52gG
-	dovnZ7r7RBseJFKxcl4D0nKVrp5OxzRX/slO2UcRDVWHWTlOmhFOdd85BIfWjCYaVzWEttXwbuZ
-	bcP/qAn8L2v8b7LKSgS03yCji4j0z/WdkvtG2M1197/RdedLgK/GOjm1Y7A9zXLDn/sxPOQSzLu
-	G6lmg
-X-Received: by 2002:a05:6214:3f86:b0:90c:6948:9191 with SMTP id 6a1803df08f44-9102ea5a164mr37054876d6.12.1788355387618;
-        Wed, 02 Sep 2026 06:23:07 -0700 (PDT)
+        bh=EO3m5cnAdAuBaY1kWrscHNyArSJE3pzj5aAFOf3AEGo=;
+        b=SIeJq6aUC7BQb52/OBjSoioK5Fw5vDdS+Zdvruagnvk2MWBOtKjiSQSueLYL4whRk4
+         6hEnRsL9wx+saK4Lihn5pJ0Fw3G7tE77/gj/IYov9RBvwohlJVTJE307qe4kfpG67CY3
+         JeUgSw2Bg5QdKkRIOlo/Ks2Z/Z+qScxlmCtVlFmei4M28CT6UTvwe12h9gvv7qAwchXl
+         OZbI0JmTB/tGQrU4cmtyqO3ycKEZ4mmB2DNvzMhl9E6r1qQ6Dx2ThqJFWuDt1SHoJeag
+         Ak0vntRi267K8H219mFeIFt8unJuXWxtQfXVW+5OZteLRnNQBDW6qxj8VD+aRsmKHBen
+         eTlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788355392; x=1788960192;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=EO3m5cnAdAuBaY1kWrscHNyArSJE3pzj5aAFOf3AEGo=;
+        b=ENOX2yCM2OWa5djI/7n21tf+3OwDWTiF9lkjQ0QIFvcT5LSkyJIMkgKRxhk3Z9WF3x
+         6MZx503J1whypITVPvT8Q8kxC4U2nakav9ToXzEVcBEL9Dx4G3S6dVe4flh4xxIKAfQ0
+         TfG/0mQqrRR1cV9GJXlfpr+eNl+cgMAy7Fns2/WdDAi8VY7nkng4ts7DAZ3toslvfxav
+         hUPg5G/4EHGYyYY3TLUBRSQTSnBP1U+UilQN6/SF5OfxechShgGMiA31l/6zJnQZNeZ3
+         gMObJOW0rW6KmyqTzzyN/vTEmexBJmHAF+B8qLxUVndKGDZZ2xQrpoAhQ3wggaJDL2Ek
+         MiZg==
+X-Gm-Message-State: AFuF++nT33bAk8zTpFfXERSC5+nW7Q7cQT5liZUsycfH+PDNdIWG9N0f
+	7HqHEB3Nzbdp0bK9JpWe8GISFZ4bBQEqnM6JCqR+JmFtj+/uoYsYQNAT
+X-Gm-Gg: AR+sD13mqU3FwZQz4GBoIHauUnpriVZHJa30R1NSR6ZZzgb7XNe92DlpNej3UrkY6Il
+	sSa3g0p8gI1FqkmBCfRSg6m1KbHs6j5tk6FmYvVx4fo3LpelK8UcrSJo4iaHSeFhQzn/tfjjdjL
+	kTZGIawGGXpbtQ8bVc5ZQx/rB34SwOi2p+IVBN7WplbbpgYAThCzbFWD26cN7OEoQhcHZ8kE38M
+	sHAKTeMVrBPpHa6yKch0DCM22ZAone6k2lG0RGiAbKk1wMXa7fDHw7I2zE3eLS2JCLJU7GaB0K0
+	kNoKvXkKB7sDyPzs+sD8bcoJfM/8dh5djAm8p8pweyHHpb42wMdEfT8c0voQ8eOYLsX0C0l0rHB
+	WqVSAYZH+XZjulxLgSgo+Msodk/8Z3U4xxCRlu47xZXqV9ui/WyHOi2DfYncqsRirEX7SWgbux9
+	saL28XKsrLhmb2h/jUaMgBGyP1WaswmrtEdRezeLpcZG7NG9kWHwrwmJpsbY2XoyAc2nzSTZ0GN
+	Tjxuo3vbzY2JJItOTlGqXAAQmdX8eP3AFn3A7Bk93sMZN8FWlncU4B7um/Ttwb1U1IxBI8P4Z8s
+	toifdjSAVSGS8OMW9IyLicx8h4ZJtHk06ttaIS8aH9uWaQFYDOf/m/aq9xs/I2gkL5r1s6Zn5+P
+	lkr2XhJ8JGMABJVg=
+X-Received: by 2002:ac8:5e09:0:b0:530:1229:94d4 with SMTP id d75a77b69052e-53036cd4d09mr48794271cf.26.1788355389679;
+        Wed, 02 Sep 2026 06:23:09 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90e9ee43763sm18059076d6.22.2026.09.02.06.23.06
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-90e9ee43763sm18059076d6.22.2026.09.02.06.23.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Sep 2026 06:23:07 -0700 (PDT)
+        Wed, 02 Sep 2026 06:23:09 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/7 v2] linux-yocto: consolidated pull request
-Date: Wed,  2 Sep 2026 09:22:57 -0400
-Message-ID: <20260902132305.3685228-1-bruce.ashfield@gmail.com>
+Subject: [meta][PATCH 02/07] linux-yocto/7.2: BSPs: fix configuration warnings
+Date: Wed,  2 Sep 2026 09:22:59 -0400
+Message-ID: <20260902132305.3685228-3-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260902132305.3685228-1-bruce.ashfield@gmail.com>
+References: <20260902132305.3685228-1-bruce.ashfield@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 13:23:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244948
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244951
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
-Hi all,
+Integrating the following commit(s) to linux-yocto/.:
 
-Here's the next set of linux-yocto patches.
+1/2 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: cfg: drop CONFIG_FB_MODE_HELPERS (now an internal option)
+    Date: Mon, 31 Aug 2026 22:16:52 -0400
 
-I've addressed the reported issues with the 7.2 series:
+    Upstream commit c031bffabaf7c ("fbdev: Turn FB_MODE_HELPERS into an
+    internal config option") removed the prompt from FB_MODE_HELPERS, making
+    it a non-user-selectable symbol that is select-ed by the fbdev drivers
+    which need it. Fragments can no longer set it directly, so it trips
+    do_kernel_configcheck on v7.2 (e.g. beaglebone):
 
-  - configuration warnings
-  - fixed devsrc for 32 bit x86 kernels
-  - fixed the rust QA warning
+        'CONFIG_FB_MODE_HELPERS' last val (y) and .config val (n) do not match
+        config 'CONFIG_FB_MODE_HELPERS' was set, but it wasn't assignable
 
-I've also bumped to 7.2.2, and included a 6.18 bump in this series.
+    Drop the now-ineffective assignments; the FB drivers select it as needed.
 
-A note about the rust QA fix (it is covered in the commit itself)
-... but I'll summarize it here:
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
 
-Between the 6.18 and 7.2 kernel this commit: dda135077ecc9 ("rust:
-build: remap path to avoid absolute path") was done, and it restricts
-rustc path remapping to macro scope. That leaves build paths in the
-DWARF debug info of rust objects.
+2/2 [
+    Author: Bruce Ashfield
+    Email: bruce.ashfield@gmail.com
+    Subject: bsp/qemuarma15: drop removed CONFIG_CRYPTO_AES_ARM
+    Date: Mon, 31 Aug 2026 22:17:34 -0400
 
-In our builds that is what triggerse buildpaths QA check on kernel-dbg
-(samples/rust/*.ko and vmlinux)
+    Upstream commit fa2297750c2c ("lib/crypto: arm/aes: Migrate optimized
+    code into library") removed the CRYPTO_AES_ARM Kconfig symbol, folding
+    the scalar ARM AES implementation into the crypto library. The stale
+    assignment trips do_kernel_configcheck on v7.2 (qemuarm):
 
-The gotcha is that the kenrel Makefile is structured in such a way
-that I can't fix it from the recipe or bbclasses, I did a kernel patch
-for linux-yocto, and will send it upstream once I'm convinced it is the
-right thing (and have checked that no one else is hitting this yet).
+        the following symbols were not found in the active configuration:
+             - CONFIG_CRYPTO_AES_ARM
 
-The linux-yocto patch widens the scope to 'all' so rust debug info is
-remapped like C, restoring the pre-7.x.
+    Drop it; the functionality now lives in the always-available library.
 
-Cheers,
+    Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+]
 
-Bruce
+Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
+---
+ meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb   | 2 +-
+ meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb | 2 +-
+ meta/recipes-kernel/linux/linux-yocto_7.2.bb      | 2 +-
+ 3 files changed, 3 insertions(+), 3 deletions(-)
 
-openembedded-core (6):
-  linux-yocto/7.2: introduce reference kernel recipes
-  linux-yocto/7.2: BSPs: fix configuration warnings
-  linux-yocto/7.2: update to v7.2.2
-  linux-yocto/7.2: remap rust debug info paths
-  kernel-devsrc: ship tools/include for archscripts host tools
-  linux-yocto/6.18: update to v6.18.48
-
-meta-yocto (1):
-  linux-yocto/6.18: update to v6.18.48
-
- openembedded-core:
- meta/recipes-kernel/linux/kernel-devsrc.bb         |  7 +++++--
- meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb   |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb    | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb |  6 +++---
- meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb  | 34 ++++++++++++++++++++++++++++++++++
- meta/recipes-kernel/linux/linux-yocto_6.18.bb      | 24 ++++++++++++------------
- meta/recipes-kernel/linux/linux-yocto_7.2.bb       | 78 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 7 files changed, 184 insertions(+), 20 deletions(-)
-
- meta-yocto:
- meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb b/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb
+index 64b1c0affe..48f304ef22 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb
+@@ -16,7 +16,7 @@ python () {
+ }
+ 
+ SRCREV_machine ?= "1177250341f415eb484ad60cbef9107d4fca08c8"
+-SRCREV_meta ?= "a594a8179dfd8d677083ab6389616f3d1223c396"
++SRCREV_meta ?= "622c1c473d1d14aae5a94c1883274f77094caabc"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-7.2;destsuffix=${KMETA};protocol=https"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb
+index e494b22e4f..b62f25b2cd 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb
+@@ -19,7 +19,7 @@ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+ SRCREV_machine ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
+-SRCREV_meta ?= "a594a8179dfd8d677083ab6389616f3d1223c396"
++SRCREV_meta ?= "622c1c473d1d14aae5a94c1883274f77094caabc"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_7.2.bb b/meta/recipes-kernel/linux/linux-yocto_7.2.bb
+index b684c0590e..3047c310ef 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_7.2.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_7.2.bb
+@@ -28,7 +28,7 @@ SRCREV_machine:qemux86 ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
+ SRCREV_machine:qemux86-64 ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
+ SRCREV_machine:qemumips64 ?= "ab0e33fefa2a3d0366b2b8deb7cfb3be2d8dc436"
+ SRCREV_machine ?= "d8eb6bd48aa600ae8ceb8e3a37c2bde59c581e3d"
+-SRCREV_meta ?= "a594a8179dfd8d677083ab6389616f3d1223c396"
++SRCREV_meta ?= "622c1c473d1d14aae5a94c1883274f77094caabc"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
 -- 
 2.43.0
+
 
