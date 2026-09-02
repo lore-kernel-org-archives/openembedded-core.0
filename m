@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03F33C624D3
-	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 05:26:58 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5536.1788326807650884876
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6D9C0C61DFD
+	for <webhook@archiver.kernel.org>; Wed,  2 Sep 2026 05:27:08 +0000 (UTC)
+Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5673.1788326822649841758
  for <openembedded-core@lists.openembedded.org>;
- Tue, 01 Sep 2026 22:26:48 -0700
+ Tue, 01 Sep 2026 22:27:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=EnYRy/Og;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49557167508so5863355e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 22:26:47 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Z2nNyqNs;
+ spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49b96837ca3so3741785e9.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 01 Sep 2026 22:27:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788326806; x=1788931606; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1788326821; x=1788931621; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Q10Mg7VmUsN4dC3gNsnSAImkF7AyxOvWMr6dOCou1RA=;
-        b=EnYRy/Og+39VImz3WTR0bTonYDtPkITibQTlylJ2Cs/KbCxBVP5BMoW//Y3MGC59fF
-         YbtlaFVHbQOZ4+zzv6HXzTPvRM16/kaVtzfGKp9CssGTDhUOPd2otLIGf86y7cFlKpts
-         5NR5ih2qocejnYMWSDWgdWGZ1Ec/k9ckk1+AE=
+        bh=za9lQzWTsrGVpZQ9cILX/7yNl5yu3tkOJq565O1kenI=;
+        b=Z2nNyqNs4dzepRp/ZPXTRsrkXAVg9mD5QEkRg8mA7K0D5bbsdgh4yGY54hp1CvojQD
+         CXMIxGboVamvYuPkeGiWKoh0Tdf/BUWDUot2eRo27R/FXNV1Cos1yQFj+7iyJ6g3QLqL
+         8kfeG6lpYrCn8egFxlhoEm0fgTq5FFQluYxXg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788326806; x=1788931606;
+        d=1e100.net; s=20251104; t=1788326821; x=1788931621;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=Q10Mg7VmUsN4dC3gNsnSAImkF7AyxOvWMr6dOCou1RA=;
-        b=SIjPZ1QIH4h1geks/GPfRsR3MrLqIkVpYSmtsV/nL339/5jcXM5GkJEAWHc48OMUr0
-         i72rHcoXZbEWpj6Vn99vJjcrRYMRgMcqVbBqUhsGV6O4/JQItYrgFW5qrmsEbXK82QF0
-         cZ7022zLSGcdqAbgqDRnFaBRRkIJ0+WGr6VaynJu+NRrkcxXKnjYS87Le1hIPrk+S8LJ
-         R1dOiPIt8wRuX5FjVQTdr9YOiavQZZzf11iS+KlLQKziDQG+TS48iL95BPjdczDSp3p7
-         fnIcK5U9tOoVHycyBybmkkahiQbp/qTOumv3MUxnwnd7E047Oh+Svql4dYSrho5OSlTb
-         PomQ==
-X-Gm-Message-State: AFuF++nOsTHxWMH0vB/ChQrbaUcKi2kEfe9+2uVt366mQ41d2I4Mzl3+
-	RdqxmIBVMx4LHavJpokQ1LcyOq2JUBL0XcSVUsI4wndmXxS8X4hUcSJf3a0R2fOrAEMrZeEsK/Y
-	jtZtMFUc=
-X-Gm-Gg: AR+sD11ekYWUoQFOjuGdJ3iAJXBJX2F4kzBTtfv1gcmKFx23ayUOW1+DZ7RBWTYqomx
-	qZ3bFI6msEE2hluykTPdHHHGNCPRAXeqdNYINt1su1TAWrxmBgCmBXEOddO2T5fs74A2f8LvDKe
-	K8fdt3p/fkUxV9f3Fz6cNz7062YlkC9rfq6K6tnq42uJ6tltClGje0VSWnIfNPrn1lHAvoIYi9X
-	t/O/eg/hC92hQXKFSLkY/KyjaZ7/SJnXMX5ZiZEVVMhgbOo0+SHCPqPGkduRkbDnWtBAnAiucp8
-	iA043Kp351J7d3XkZ+lz6T25aicy+Hma9EqG/HXltuGQSS/bPB7nSoQKVVc/idHKRjNVyAKW2v/
-	N6Ne+zEXYtAthXuXzHdNGTF2aezal4Hb2EeGZwlW4tTymO6PuTdIWdn8dkoJ6wkxLxMAQDSwQsG
-	ewcsp6Jpy0oCWeDoScgBN5kI/N1kBlT+DPz818Vopbl2XMWGE+rnIuelXZoLG8hzblCMB8DJjux
-	iBq5NFV05FGeytXk0Uf7XGfNlQq
-X-Received: by 2002:a05:600c:699b:b0:49b:9205:45b3 with SMTP id 5b1f17b1804b1-49ce584c6femr36888175e9.15.1788326805039;
-        Tue, 01 Sep 2026 22:26:45 -0700 (PDT)
+        bh=za9lQzWTsrGVpZQ9cILX/7yNl5yu3tkOJq565O1kenI=;
+        b=EGBdqNsnUD0xAYSf1RDKCm/od9W0sHBfzy9NRTybhypbeEZbXhGcky0S6Pq/1puEDX
+         pKGW4G4jMJIXWX25/oeW748SE057RSZTUSCY7qiJPN1d0d6t4OspMS4X9/u5eK0RI9uN
+         GIMKgp4QM3hQnqHsIxJK+jug+RWZNbRy+xc7Wjdggp1fIJR2DRoKr1aPl4ZrmXqNkDqs
+         Lph3A6y4cWWctCte19xGhlC9GLW/FB69YLClVtq8uRdET40djG3P8MZDvORPVA6CsT9z
+         kqu5a756DLOvZIHGf5ME0e34yYj+gvwQUXf5JkGSUDfHSdBLG3G1Nylz2i8xpFIhjBEd
+         kV0w==
+X-Gm-Message-State: AFuF++mCHenMVj1GPxQ/uvNoyDhSRaAnVC6H9KOu+RJRLBMjMXBwIxOY
+	RLB8OUyHtzSFMgrwUTS7bxeJn7W0xrrr0g7rTyWjAX+SmWiV9Lps9qbe7XDezuc2A/ZLde51top
+	zu+CqEhU=
+X-Gm-Gg: AR+sD11Wzv3lunDm64/OjQT5WHYhdWV46gP6mOB6HsfN9+zY7tprv29uXB02EYhg8d2
+	/Hzn8oQySXSmWzzJuBB9YskFgRzPaNqMERVLwckUNuIh8epZRay/LIhyBgnnoA71q+51qgrKgKm
+	ZAH1hWsv1lWB40MjOCXhTXLjMtDzqnIfC4kLBk/GXGsf2vL3aoydT/Z/6LEIYSsGUWfTWccxFDZ
+	9Cyz/sWcACbMnIm98fLEdQgz5vuzQYukMjVWYEiCgVCisFYVsC+jq6jgaBovxn9iPs1LeJ5K4rd
+	KHznIjK0NNZluJHN7fjTkJut+63wY2oatoIAs4wJirhXQfuswXxA0Y9EmRlNI5FL3bFW1AEe1fX
+	v1QtJcg5++83GwiJXPAiIBgZ0qH83ywgo0xtHVJDvXYN+ATr31ZipVdvJztNC/jhRwNkGpmanBE
+	z1KrpgCQQBKRjFx7wjW7I4/hATFOIksdu38pZyjbxJDHUsB5YJSVs2m1ubjoVcH+yiLMgRmNjS0
+	d+js91PpVszhRb2/g==
+X-Received: by 2002:a05:600c:621b:b0:499:dbae:86be with SMTP id 5b1f17b1804b1-49ce58352ccmr38554005e9.14.1788326820834;
+        Tue, 01 Sep 2026 22:27:00 -0700 (PDT)
 Received: from FRSMI25-LASER.wifi-gare.sncf.com ([148.169.40.19])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce4780f0dsm37084695e9.12.2026.09.01.22.26.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce4780f0dsm37084695e9.12.2026.09.01.22.26.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Sep 2026 22:26:44 -0700 (PDT)
+        Tue, 01 Sep 2026 22:27:00 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/27] libarchive: handle CVE-2026-5121
-Date: Wed,  2 Sep 2026 07:25:25 +0200
-Message-ID: <608a151948db9652b0e7032863bba1ed022a00aa.1788326578.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 17/27] vim: Security Fix for CVE-2026-55693
+Date: Wed,  2 Sep 2026 07:25:34 +0200
+Message-ID: <f4d6729cf38708effd445aa739bfd34d3adda3d0.1788326578.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788326578.git.yoann.congal@smile.fr>
 References: <cover.1788326578.git.yoann.congal@smile.fr>
@@ -65,1334 +65,129 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 05:26:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244859
+ <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 05:27:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244868
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Cherry-pick patch for this CVE mentioned in [1].
+Picking patch as per [1], and same patch is mentioned in [2]
 
-Since the actual code change is already included in previous patch for
-CVE-2026-4426, add reference to CVE-2026-5121 to that patch and keep the
-remaining part (test) as CVE-2026-5121-02.patch.
+References:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-55693
+[2] https://security-tracker.debian.org/tracker/CVE-2026-55693
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-5121
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- ...atch => CVE-2026-4426_CVE-2026-5121.patch} |    1 +
- .../libarchive/CVE-2026-5121-02.patch         | 1270 +++++++++++++++++
- .../libarchive/libarchive_3.7.9.bb            |    3 +-
- 3 files changed, 1273 insertions(+), 1 deletion(-)
- rename meta/recipes-extended/libarchive/libarchive/{CVE-2026-4426.patch => CVE-2026-4426_CVE-2026-5121.patch} (99%)
- create mode 100644 meta/recipes-extended/libarchive/libarchive/CVE-2026-5121-02.patch
+ .../vim/files/CVE-2026-55693.patch            | 88 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 89 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-55693.patch
 
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4426.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4426_CVE-2026-5121.patch
-similarity index 99%
-rename from meta/recipes-extended/libarchive/libarchive/CVE-2026-4426.patch
-rename to meta/recipes-extended/libarchive/libarchive/CVE-2026-4426_CVE-2026-5121.patch
-index c303c2372a5..bc754e742a9 100644
---- a/meta/recipes-extended/libarchive/libarchive/CVE-2026-4426.patch
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-4426_CVE-2026-5121.patch
-@@ -21,6 +21,7 @@ decompression path from executing.
- Found by fuzzing with ASAN/UBSAN.
- 
- CVE: CVE-2026-4426
-+CVE: CVE-2026-5121
- Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/c3cb1c568ebf9e8f7f478cfc0356ae54e99712b0]
- Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
- ---
-diff --git a/meta/recipes-extended/libarchive/libarchive/CVE-2026-5121-02.patch b/meta/recipes-extended/libarchive/libarchive/CVE-2026-5121-02.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-55693.patch b/meta/recipes-support/vim/files/CVE-2026-55693.patch
 new file mode 100644
-index 00000000000..90b9e6f6102
+index 00000000000..d35b6f5fe54
 --- /dev/null
-+++ b/meta/recipes-extended/libarchive/libarchive/CVE-2026-5121-02.patch
-@@ -0,0 +1,1270 @@
-+From a2a73a8f14b3208c7f6acbbc93265254a7c1efd0 Mon Sep 17 00:00:00 2001
-+From: elhananhaenel <elhanan.haenel@mail.huji.ac.il>
-+Date: Thu, 19 Mar 2026 16:43:29 +0200
-+Subject: [PATCH] Add regression test for zisofs 32-bit heap overflow
++++ b/meta/recipes-support/vim/files/CVE-2026-55693.patch
+@@ -0,0 +1,88 @@
++From 315b35adb406138c962bcc653db95acc3c87c8ab Mon Sep 17 00:00:00 2001
++From: Christian Brabandt <cb@256bit.org>
++Date: Mon, 15 Jun 2026 19:39:08 +0000
++Subject: [PATCH 09/17] patch 9.2.0653: [security]: out-of-bounds write in
++ tree_count_words()
 +
-+A crafted ISO with pz_log2_bs=2 and pz_uncompressed_size=0xFFFFFFF9
-+causes an integer overflow in the block pointer allocation in
-+zisofs_read_data(). On 32-bit, (ceil+1)*4 wraps size_t to 0, malloc(0)
-+returns a tiny buffer, and the code writes ~4GB past it.
++Problem:  [security]: a crafted spell file can drive tree_count_words()
++          past the end of its MAXWLEN-sized depth arrays; the descent
++          loop has no depth bound.
++Solution: only descend while depth < MAXWLEN - 1, as the sibling trie
++          walkers already do; apply the same guard to sug_filltree().
 +
-+The pz_log2_bs validation fix prevents this. Add a regression test with
-+a crafted 48KB ISO that triggers the overflow on unfixed 32-bit builds.
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-wgh4-64f7-q3jq
 +
-+CVE: CVE-2026-5121
-+Upstream-Status: Backport [https://github.com/libarchive/libarchive/commit/a2a73a8f14b3208c7f6acbbc93265254a7c1efd0]
-+Modification: part of oupstream patch is moved to CVE-2026-4426_CVE-2026-5121.patch
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++Supported by AI.
++
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++Upstream-Status: Backport [https://github.com/vim/vim/commit/a80874d9b84a01040e3d1aef2d4a59e1934dafb7]
++CVE: CVE-2026-55693
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ Makefile.am                                   |    2 +
-+ libarchive/test/CMakeLists.txt                |    1 +
-+ .../test_read_format_iso_zisofs_overflow.c    |  104 ++
-+ ...est_read_format_iso_zisofs_overflow.iso.uu | 1096 +++++++++++++++++
-+ 4 files changed, 1203 insertions(+)
-+ create mode 100644 libarchive/test/test_read_format_iso_zisofs_overflow.c
-+ create mode 100644 libarchive/test/test_read_format_iso_zisofs_overflow.iso.uu
++ src/spellfile.c                |  4 ++--
++ src/testdir/test_spellfile.vim | 27 +++++++++++++++++++++++++++
++ 2 files changed, 29 insertions(+), 2 deletions(-)
 +
-+diff --git a/Makefile.am b/Makefile.am
-+index 57102431..e55882af 100644
-+--- a/Makefile.am
-++++ b/Makefile.am
-+@@ -505,6 +505,7 @@ libarchive_test_SOURCES= \
-+ 	libarchive/test/test_read_format_isorr_new_bz2.c \
-+ 	libarchive/test/test_read_format_isorr_rr_moved.c \
-+ 	libarchive/test/test_read_format_isozisofs_bz2.c \
-++	libarchive/test/test_read_format_iso_zisofs_overflow.c \
-+ 	libarchive/test/test_read_format_lha.c \
-+ 	libarchive/test/test_read_format_lha_bugfix_0.c \
-+ 	libarchive/test/test_read_format_lha_filename.c \
-+@@ -861,6 +862,7 @@ libarchive_test_EXTRA_DIST=\
-+ 	libarchive/test/test_read_format_iso_rockridge_rr_moved.iso.Z.uu \
-+ 	libarchive/test/test_read_format_iso_xorriso.iso.Z.uu \
-+ 	libarchive/test/test_read_format_iso_zisofs.iso.Z.uu \
-++	libarchive/test/test_read_format_iso_zisofs_overflow.iso.uu \
-+ 	libarchive/test/test_read_format_lha_bugfix_0.lzh.uu \
-+ 	libarchive/test/test_read_format_lha_filename_cp932.lzh.uu \
-+ 	libarchive/test/test_read_format_lha_filename_utf16.lzh.uu \
-+diff --git a/libarchive/test/CMakeLists.txt b/libarchive/test/CMakeLists.txt
-+index 4838f336..95c1b33f 100644
-+--- a/libarchive/test/CMakeLists.txt
-++++ b/libarchive/test/CMakeLists.txt
-+@@ -149,6 +149,7 @@ IF(ENABLE_TEST)
-+     test_read_format_isorr_new_bz2.c
-+     test_read_format_isorr_rr_moved.c
-+     test_read_format_isozisofs_bz2.c
-++    test_read_format_iso_zisofs_overflow.c
-+     test_read_format_lha.c
-+     test_read_format_lha_bugfix_0.c
-+     test_read_format_lha_filename.c
-+diff --git a/libarchive/test/test_read_format_iso_zisofs_overflow.c b/libarchive/test/test_read_format_iso_zisofs_overflow.c
-+new file mode 100644
-+index 00000000..bad52b15
-+--- /dev/null
-++++ b/libarchive/test/test_read_format_iso_zisofs_overflow.c
-+@@ -0,0 +1,104 @@
-++/*-
-++ * Copyright (c) 2025
-++ * All rights reserved.
-++ *
-++ * Redistribution and use in source and binary forms, with or without
-++ * modification, are permitted provided that the following conditions
-++ * are met:
-++ * 1. Redistributions of source code must retain the above copyright
-++ *    notice, this list of conditions and the following disclaimer.
-++ * 2. Redistributions in binary form must reproduce the above copyright
-++ *    notice, this list of conditions and the following disclaimer in the
-++ *    documentation and/or other materials provided with the distribution.
-++ *
-++ * THIS SOFTWARE IS PROVIDED BY THE AUTHOR(S) ``AS IS'' AND ANY EXPRESS OR
-++ * IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES
-++ * OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.
-++ * IN NO EVENT SHALL THE AUTHOR(S) BE LIABLE FOR ANY DIRECT, INDIRECT,
-++ * INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT
-++ * NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE,
-++ * DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY
-++ * THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
-++ * (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF
-++ * THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-++ */
-++#include "test.h"
++diff --git a/src/spellfile.c b/src/spellfile.c
++index 0b9536dc16..0010d9aa27 100644
++--- a/src/spellfile.c
+++++ b/src/spellfile.c
++@@ -645,7 +645,7 @@ tree_count_words(char_u *byts, idx_T *idxs)
++ 		    ++curi[depth];
++ 		}
++ 	    }
++-	    else
+++	    else if (depth < MAXWLEN - 1)
++ 	    {
++ 		// Normal char, go one level deeper to count the words.
++ 		++depth;
++@@ -5648,7 +5648,7 @@ sug_filltree(spellinfo_T *spin, slang_T *slang)
++ 		    ++curi[depth];
++ 		}
++ 	    }
++-	    else
+++	    else if (depth < MAXWLEN - 1)
++ 	    {
++ 		// Normal char, go one level deeper.
++ 		tword[depth++] = c;
++diff --git a/src/testdir/test_spellfile.vim b/src/testdir/test_spellfile.vim
++index b72974ed07..e5f8c5778f 100644
++--- a/src/testdir/test_spellfile.vim
+++++ b/src/testdir/test_spellfile.vim
++@@ -1166,4 +1166,31 @@ func Test_mkspell_empty_dic()
++ endfunc
++ 
++ 
+++func Test_spell_sug_tree_count_words_overflow()
+++  " A crafted .spl/.sug pair with a BY_INDEX self-cycle in the fold word tree
+++  " parses cleanly (shared refs aren't recursed, so read_tree_node()'s depth
+++  " cap never trips), but drove tree_count_words() past its MAXWLEN-sized depth
+++  " arrays -> stack out-of-bounds write.  The walk only happens when
+++  " spellsuggest() loads the matching .sug.  Reaching the assert == no OOB.
+++  call mkdir('Xrtp/spell', 'pR')
+++  " VIMspell + v50, SN_SUGFILE(ts), SN_END, LWORDTREE{node:1,BY_INDEX->0,'A'},
+++  " empty KWORDTREE/PREFIXTREE
+++  let spl = eval('0z56494D7370656C6C320B0000000008000000001234'
+++        \ .. '5678FF000000020101000000410000000000000000')
+++  " VIMsug + v1, matching ts, SUGWORDTREE word "a", empty SUGTABLE
+++  let sug = 0z56494D737567010000000012345678000000040161010000000000
+++  call writefile(spl, 'Xrtp/spell/xx.utf-8.spl', 'b')
+++  call writefile(sug, 'Xrtp/spell/xx.utf-8.sug', 'b')
 ++
-++/*
-++ * Verify that a crafted ISO9660 image with an invalid zisofs block-size
-++ * exponent (pz_log2_bs) is handled gracefully.
-++ *
-++ * The ZF extension in the Rock Ridge entry stores pz_log2_bs as a raw
-++ * byte from the image.  The zisofs spec only permits values 15-17.
-++ * Values outside that range can cause:
-++ *   - Undefined behavior via oversized bit shifts (any platform)
-++ *   - Integer overflow in block pointer allocation on 32-bit platforms,
-++ *     leading to a heap buffer overflow write
-++ *
-++ * The test image has pz_log2_bs=2 (out of spec) combined with
-++ * pz_uncompressed_size=0xFFFFFFF9.  On 32-bit, (ceil+1)*4 overflows
-++ * size_t to 0, malloc(0) returns a tiny buffer, and the code attempts
-++ * to write ~4GB into it.  On 64-bit the allocation is huge and safely
-++ * fails.
-++ *
-++ * We verify the fix by checking archive_entry_size() after reading the
-++ * header.  When pz_log2_bs validation rejects the bad value (pz=0),
-++ * the entry keeps its raw on-disk size (small).  Without the fix,
-++ * the reader sets the entry size to pz_uncompressed_size (0xFFFFFFF9).
-++ *
-++ * We intentionally do NOT call archive_read_data() here.  Without the
-++ * fix, the data-read path triggers a heap buffer overflow on 32-bit
-++ * that silently corrupts the process heap, causing later tests to
-++ * crash rather than this one.
-++ */
-++DEFINE_TEST(test_read_format_iso_zisofs_overflow)
-++{
-++	const char reffile[] = "test_read_format_iso_zisofs_overflow.iso";
-++	struct archive *a;
-++	struct archive_entry *ae;
-++	int r = ARCHIVE_OK;
-++	int found_regular_file = 0;
+++  new
+++  set runtimepath+=./Xrtp
+++  set spelllang=xx
+++  set spell
+++  " Unpatched: OOB write here (ASan abort, or crash).  Patched: returns a list.
+++  call assert_equal(v:t_list, type(spellsuggest('helloo')))
 ++
-++	extract_reference_file(reffile);
-++	assert((a = archive_read_new()) != NULL);
-++	assertEqualIntA(a, ARCHIVE_OK, archive_read_support_filter_all(a));
-++	assertEqualIntA(a, ARCHIVE_OK, archive_read_support_format_all(a));
-++	assertEqualIntA(a, ARCHIVE_OK,
-++	    archive_read_open_filename(a, reffile, 10240));
+++  set spell& spelllang& runtimepath&
+++  bwipe!
+++endfunc
 ++
-++	while ((r = archive_read_next_header(a, &ae)) == ARCHIVE_OK ||
-++	    r == ARCHIVE_WARN) {
-++		/*
-++		 * With the fix, pz_log2_bs=2 is rejected and pz is set
-++		 * to 0, so the entry keeps its small raw size from the
-++		 * ISO directory record.  Without the fix, zisofs sets
-++		 * the entry size to pz_uncompressed_size (0xFFFFFFF9).
-++		 *
-++		 * We intentionally do NOT call archive_read_data().
-++		 * Without the fix, the data-read path triggers a heap
-++		 * buffer overflow on 32-bit that silently corrupts the
-++		 * process heap, causing later tests to crash rather
-++		 * than this one.
-++		 */
-++		if (archive_entry_filetype(ae) == AE_IFREG) {
-++			la_int64_t sz = archive_entry_size(ae);
-++			failure("entry \"%s\" has size %jd"
-++			    "; expected < 1 MiB"
-++			    " (if size is 4294966265 = 0xFFFFFFF9, the"
-++			    " pz_log2_bs validation is missing)",
-++			    archive_entry_pathname(ae), (intmax_t)sz);
-++			assert(sz < 1024 * 1024);
-++			found_regular_file = 1;
-++		}
-++	}
-++
-++	/* Iteration must have completed normally. */
-++	assertEqualInt(ARCHIVE_EOF, r);
-++
-++	/* The PoC image contains a regular file; if we never saw one,
-++	 * something is wrong with the test image. */
-++	assert(found_regular_file);
-++
-++	assertEqualIntA(a, ARCHIVE_OK, archive_read_close(a));
-++	assertEqualInt(ARCHIVE_OK, archive_read_free(a));
-++}
-+diff --git a/libarchive/test/test_read_format_iso_zisofs_overflow.iso.uu b/libarchive/test/test_read_format_iso_zisofs_overflow.iso.uu
-+new file mode 100644
-+index 00000000..5e7dcc37
-+--- /dev/null
-++++ b/libarchive/test/test_read_format_iso_zisofs_overflow.iso.uu
-+@@ -0,0 +1,1096 @@
-++begin 664 test_read_format_iso_zisofs_overflow.iso
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M```````````!0T0P,#$!````````````````````````````````````````
-++M````4$]#7U=2251%`````````````````````````````````````````!@`
-++M```````8```````````````````````````````````````````!```!`0``
-++M`0`("``*````````"A(`````````````$@`````B`!,````````3``@`````
-++M"`!Z`1D,`````@```0```0$`````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M``````````````````````````````````````````````$`````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M`````````````````````````````````````````/]#1#`P,0$`````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M`````````````0`3`````0``````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M``````````````````````````````````````````!5`!,````````3``@`
-++M````"`!Z`1D,`````@```0```0$`4U`'`;[O`%!8+`'M00````!![0(`````
-++M```"``````````````````````$````````!(@`3````````$P`(``````@`
-++M>@$9#`````(```$```$!`7T`%````````!00"``````($'H!&0P````````!
-++M```!#D]615)&3$]7+D))3CLQ`%I&$`%P>@0"^?O__P````!.31$!`$]615)&
-++M3$]7+D))3E!8+`&D@0````"!I`$````````!``````````````````````(`
-++M```````"````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M`````````````#?D4Y;)V]8'^?O__P0"``!!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!
-++M0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"
-++M0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#
-++M1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$04)#1$%"0T1!0D-$
-++M04)#1```````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++M````````````````````````````````````````````````````````````
-++,````````````````
-++`
-++end
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-index c167b164b4b..fb6ed5686df 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-@@ -46,9 +46,10 @@ SRC_URI = "http://libarchive.org/downloads/libarchive-${PV}.tar.gz \
-            file://CVE-2025-60753-02.patch \
-            file://CVE-2026-4111-1.patch \
-            file://CVE-2026-4111-2.patch \
--           file://CVE-2026-4426.patch \
-+           file://CVE-2026-4426_CVE-2026-5121.patch \
-            file://CVE-2026-4424-1.patch \
-            file://CVE-2026-4424-2.patch \
-+           file://CVE-2026-5121-02.patch \
++ " vim: shiftwidth=2 sts=2 expandtab
++-- 
++2.44.4
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index ec2cedc965d..248160a82c2 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -41,6 +41,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-43961.patch \
+            file://CVE-2026-47162.patch \
+            file://CVE-2026-47167.patch \
++           file://CVE-2026-55693.patch \
             "
- UPSTREAM_CHECK_URI = "http://libarchive.org/"
  
+ PV .= ".1683"
 
