@@ -1,95 +1,74 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90127C61DD3
-	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 06:50:38 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1834.1788418221482352976
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A154EC624A4
+	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 07:13:18 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2264.1788419595231239637
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 23:50:22 -0700
+ Thu, 03 Sep 2026 00:13:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=YkEML6bW;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-2026090306501780aa9d8b1400020737-wkczz_@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2026090306501780aa9d8b1400020737
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 03 Sep 2026 08:50:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=G/oRBSkxW3LB2dvANkU/d71uKWFQgHE4e9YdiQxoIrM=;
- b=YkEML6bWVFQ3z9o45td9BxprpsInDb1/W3cUtcVTvIi6rSY/G+zw9eMr8LSaXQdYvxBw9B
- 0yuyWgwE6dRh6Q5HnQXtiYyGbLtZGRyDO8PPvh6cTtvOS9FhB963tRrYKp6sD/kqRlaQNdWz
- aYaSTVFn4aisullzBG6CUQafO31XAFt1EbHKL+d0YnNzGTAJveXdNAESIfhic4sgoYhxt7nC
- t36snnxpiLAyt+tKPomPPMSFfNcyuTgrdMQnG/pvBg4Imetn+TwM60hvGXv4dfhuZbZS/VbW
- g7eQTuNY7kWeBhVaC0i/JQbcz/6psheLFcepGlmlm63abRs1p66HxKUw==;
-From: AdrianF <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH] devtool: ide-sdk: harden debug server startup wait
-Date: Thu,  3 Sep 2026 08:50:08 +0200
-Message-ID: <20260903065008.2632105-1-adrian.freihofer@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=m8ZcTpmF;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id E8BEB1A1973;
+	Thu,  3 Sep 2026 07:13:12 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B7436602B8;
+	Thu,  3 Sep 2026 07:13:12 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 574F011C79881;
+	Thu,  3 Sep 2026 09:13:10 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1788419592; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=2GIwnapoN96PRzrzs+woiwXc991TFKv+r93jtncbEKk=;
+	b=m8ZcTpmF1V5YsOUl89cm3U6brHzRU4RtWX3IVkYJIIbhI5/zlpif5weugdeclfNv4ifFH+
+	iGR6mCLKI1QbCePBtQvQevVFE07r6ik3ws4IBBK/3LfLlrvaD/x6MFELcnytlXgyPgVCe6
+	iCtjkz0J0UeC75LdJXEBPd+Spkk9iq/n2HGEA/yQfv47MfqmQV3bjN8BivvGLeGj6wY/z9
+	2RU/pkzu2UlVykLMX4Uc94D3btZe7iyKOzchqHtd7MolssF/Ko9rEofvi0C9U2VT3DHeFu
+	hApOXu8MZF5wJAqve55DN+C8Wc3UcqmqDubdUly4KPKIINhdg5gOYZGCv+uVmA==
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 03 Sep 2026 09:13:10 +0200
+Message-Id: <DL5HU1HRCYK4.1FCQM3U3M7VIB@bootlin.com>
+Subject: Re: [OE-core] [PATCH v2] openssl: use nonarch_libdir for openssldir
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: <jaeyoon.jung@lge.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20260902100013.2136263-1-jaeyoon.jung@lge.com>
+In-Reply-To: <20260902100013.2136263-1-jaeyoon.jung@lge.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 06:50:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245010
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 07:13:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245011
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+On Wed Sep 2, 2026 at 12:00 PM CEST, Jaeyoon Jung (LGE) via lists.openembed=
+ded.org wrote:
+> From: Jaeyoon Jung <jaeyoon.jung@lge.com>
+>
+> Set openssldir to ${nonarch_libdir}/ssl-3 instead of ${libdir}/ssl-3
+> as the contents of this directory do not vary between non-multilib and
+> multilib builds.
+>
+> Signed-off-by: Jaeyoon Jung <jaeyoon.jung@lge.com>
+> ---
 
-lldb-server failed to start within the shared 30s budget on the
-autobuilder, reported as "lldb-server did not start on port 1234
-after 300 retries" with an empty server log (process still starting,
-not crashed). Give LldbServerConfig its own longer budget
-(TARGET_START_RETRIES = 600, ~60s) instead of raising it for GDB too.
+Hi Jaeyoon,
 
-Also make the shared wait loop fail fast when the server process has
-already exited, dumping its log immediately instead of only after the
-full timeout elapses, and drop the now-stale comment in the gdbserver
-readiness selftest wait about needing to exceed that budget.
+Thanks for the new version. It is conflicting with 4.0 upgrade of
+openssl, can you rebase on today master branch and send a new version if
+it's still needed?
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- scripts/lib/devtool/ide_plugins/__init__.py | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+Thanks,
+Mathieu
 
-diff --git a/scripts/lib/devtool/ide_plugins/__init__.py b/scripts/lib/devtool/ide_plugins/__init__.py
-index fd66060682..46d54f983e 100644
---- a/scripts/lib/devtool/ide_plugins/__init__.py
-+++ b/scripts/lib/devtool/ide_plugins/__init__.py
-@@ -125,13 +125,17 @@ class DebuggerCrossConfig:
-         port = self.port(mode)
-         dump_log = "cat %s >&2; " % log_file if log_file else ""
-         cleanup = ""
-+        died_check = ""
-         if pid_var:
-             cleanup = "kill \\$_%s 2>/dev/null; " % pid_var
-+            died_check = (
-+                "kill -0 \\$_%s 2>/dev/null || { %secho %s exited before it started listening on port %s >&2; exit 1; }; "
-+                    % (pid_var, dump_log, self.DEBUG_SERVER_NAME, port))
-         return (
--            "_w=0; while ! %s; do _w=\\$((_w+1)); [ \\$_w -lt %d ] || { "
-+            "_w=0; while ! %s; do %s_w=\\$((_w+1)); [ \\$_w -lt %d ] || { "
-             "%secho %s did not start on port %s after \\$_w retries >&2; %sexit 1; }; "
-             "sleep 0.1; done;"
--                % (self._target_tcp_port_check_cmd(mode), self.TARGET_START_RETRIES,
-+                % (self._target_tcp_port_check_cmd(mode), died_check, self.TARGET_START_RETRIES,
-                     cleanup, self.DEBUG_SERVER_NAME, port, dump_log))
- 
-     def _target_wait_for_process_exit_cmd(self, pid_var):
-@@ -268,6 +272,7 @@ class LldbServerConfig(DebuggerCrossConfig):
-     PID argument; attaching is done client-side via 'process attach'.
-     """
-     DEBUG_SERVER_NAME = "lldb-server"
-+    TARGET_START_RETRIES = 600
- 
-     def __init__(self, image_recipe, modified_recipe, binary,
-                  default_mode=DebuggerServerModes.MULTI):
--- 
-2.55.0
+--=20
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
