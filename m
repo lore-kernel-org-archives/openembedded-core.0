@@ -2,128 +2,146 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BD73C61DD6
-	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 01:08:39 +0000 (UTC)
-Received: from mail-yw1-f179.google.com (mail-yw1-f179.google.com [209.85.128.179])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10332.1788397717257997257
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 77337C61DD6
+	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 01:10:49 +0000 (UTC)
+Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10240.1788397846230751799
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 18:08:37 -0700
+ Wed, 02 Sep 2026 18:10:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=gKjJnRgz;
- spf=pass (domain: gmail.com, ip: 209.85.128.179, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f179.google.com with SMTP id 00721157ae682-866e57f63a3so23187237b3.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 18:08:37 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788397716; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=BgcVs7bb;
+ spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-857ff9fef54so19130017b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 18:10:46 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788397845; cv=none;
         d=google.com; s=arc-20260327;
-        b=pE0kcpS5aa0D+ZH7tlh8Yh5oDRY33VZcDfNUR+onAVFg/nR5yYOSXL6q96XgkOA751
-         EmLLJZGu1l2+YH5Ct6lHi/KfHrakPKtX69s6sc1AOEu6k7JqnSKTAuZiyUQg8GlSv4Uu
-         0OUuTV7rlGI0XdyokuMYc7hMTP6wiaY73ATOEJNZhjq5Q3KxXxQzUQvE1EWsu4zxTl5P
-         fFc1NEXt0cH3zbyuPARrwkynyRmA+1A0LUvDStHAGiGC06vL+zxMhaHYoWrOT+C90twP
-         9hOK1QbOSySGflxw7V6N3EvzRlCoYi3z2pp+m76RCEb6RzUaztkHXzgLhwe1eamOlN2H
-         PD0A==
+        b=CHQ8M7zAimulWTrGAKePOxpO5OMQQqFlhI4XFM28GyVjNxngdi731cSm+XVGVT+mqe
+         gbYGsdtgcVf/j3Xy9UN9oNBJlwuO8AnWO4x+g0YZtlMY5OL/6ImSAqCNTxEFjEAOmTuz
+         6jcTjCTToYbVyTVkCJcvEiQSUxOFcW6HxXnGlL0SDMNhmNuHR5qTvDl5uzbcNzifd03i
+         HcfY4p4MxwD9M52a5rCnznNaGPhRTfk99RzhbzQ1a3YlklM/y/vt/KuZpN6kDfxxSft+
+         qJIKoOXbvHKp7g50N1vF5m3qsLPCiVkuUFUDe3ZZPvBuvGZaso9NH/1Lj7sDAQXSnDF5
+         woTA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=8ZuemwCMiXyuPQXipS7rAjxQKUJ7nyE/iixgzpnEMsE=;
+        bh=XTPKkKywvxnj50atu3w6I8SqX1EwULkpR6qcWMnPoCk=;
         fh=aFV7J8ngdfO0qf/7Exvg31KDr2OGL+G2lw9KMbsH+8g=;
-        b=jWd4vL+Enmg1kg6nnmPaamkWXE1zkCXZFsJK59Vz2TNJ1CdagBbsrr9SCwr6K2h3op
-         h7kHk3CC4w7uGQi6pUl3kTgSuxZvRF63E3XtFcNrlQgP+TvAge01DkVgWNQ5K38vxkYT
-         q4CNty/hUwGAZ8YmoXRGbT093X0cqLEJNpEINLJgfxOkzE+0lyIDiNXYuTH9aQlkvCac
-         jGysIkdBZnLVYp0SBYXrSeEd6eBTfVTYJHn4X+oDr+/rS6lFlViDEEVGC9KKZJHjeXMH
-         qt6D/iub1GQr7UJ+Osx8VSyBl5+w19bYuLxR0hTF8hlgLKuMboHdmpqJOiAFKqfAbsBY
-         BPOw==;
+        b=D9sOgkVD3XjXtVspTAfwMnbE1FJnKHzLCfQadGAHc/OPJIlkPdujD+X85Exjw03yxO
+         0EAISWLapmkSdCGnZmuMnns3moyD+ivQdb2VbNvlmdomdnyrqjxGw9y92XATipUWVXET
+         gXjto5Cskj7TGqVeq4HuL6bfYtVEyXQywfYkB1zlfKjDz8ai1OqwRUeO/DUqDPZ7kRQB
+         MvcUptRLktHfSmAHM+c/HzIchVIeRuU2It0e4YltLXhDP/HajDYzUUMjs/LFhG6Hg2tW
+         gKF1wE0tptX/y501lp3Uit3U8E19yii/RGXvYjnnga23+C1f3pzC1NKjsG1/YIRqxE/K
+         MsbA==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788397716; x=1789002516; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1788397845; x=1789002645; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=8ZuemwCMiXyuPQXipS7rAjxQKUJ7nyE/iixgzpnEMsE=;
-        b=gKjJnRgzLaNdyih3F3QVExjbEdvRrT2ZEHduCU5fFE5MiTb1UTeu56u6mywP1JMCSR
-         EKSm2PI3ujOrGbkZ2mL3Uithw2MNmxJ/3UdrC88adGYO5FLQECHTCAQui7rF30u2xSEA
-         RloLkxVvP1zlYKx5ypPOUej8Y8hhK2HjZ2keVvbdRz8m/hGP0H+GG2bOlh1GfKb4QUzt
-         I3upK6XtavrYoo781jtDO5lc4u4YE39NUheU1uqK1vbH9JttzUn65q5tGzRBkJ764yAA
-         MPQnWMSuOnCuCfKnOjO1tP7OzmQgRZG6u+wBkS71wHGkgbPijNmyJI2cHxqJtE3Vvpu/
-         zXEw==
+        bh=XTPKkKywvxnj50atu3w6I8SqX1EwULkpR6qcWMnPoCk=;
+        b=BgcVs7bb9Rx0omsYp4h30uj3RXEgu5j2Jx/0ll+7zNfuXpRnj7r0LUvqHBOOctAzgi
+         APXDGGfSHHX+ibpXSNnIAURBtSdgHvcCcuEwBoRBg88fsgZt8aamyWEMLYrbtvE6i1/m
+         viE06rxhxdh8GQ1vY69aM2PX1LTxjIc1/IpOm3/lemILmdy8OKPKs5aW7NNfDdEKX6O4
+         dAP4/v7Zv0aP6pr6H0aEc3jaIs3sQfA4qxnoRpoDyZKAL0hGCq6lHPAUm9/fAIuoMvzu
+         mWDq2ejWqvzroXzLvDwIlxnpLlF+pEZUbcFI0XrD9kThTAkyGbEB+YgqRDFnZtaDCZkR
+         q40Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788397716; x=1789002516;
+        d=1e100.net; s=20251104; t=1788397845; x=1789002645;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=8ZuemwCMiXyuPQXipS7rAjxQKUJ7nyE/iixgzpnEMsE=;
-        b=BrpuEvdyU0/QB+7Xx8l8l63MtU+RkT13TlE0uctt7FgMGPloRtTrj1OcqpLqh7p4at
-         aLBczsHxtCSdCZ+Y6IzMQZ29C9xkp55YxEe23l1CGoNjDan0bKrIvSIozwfmmMP55wFy
-         dfQMIQ1qMT7hr0sDPXmSsTfjkLF75HKl3EbJ7j3naC97aujOyMXrWz7tzFudBXGlJBom
-         +hOVtpXM01Lgd2Xonuko41lpDcBRkpqKVUZXTP/0LDtwee13zDpfgIq8We+m3XH9yD+h
-         zsAgSvasl9DIUt1MEbinL7QT67+sQ7HHuYvAXvOjNlU8BtodmnfU7TUmtKDD41NOXARw
-         aYrA==
-X-Gm-Message-State: AFuF++lb9TWov69ldDvryqLNQY2sEcz83kXlBhUvykYXNu9lEhkpIHOA
-	4uQ2Z0/xj6zonsFLoyMj3SU3CgN+uZDAUkin1rS2hG0a3+Mie++0tcpVWyo9K5FEpfeuuRmEEcI
-	Zh7y/zlureIOut7epwQSmvk5IrdwlfGd2Gg==
-X-Gm-Gg: AYBFou0IVEcAJRHn/lOgNmkE/z4Id8yQOnpuJ9A7c655eKVmIRhnAtoagsPAgBbFh3v
-	ddnGgweFG4AmycmPvaIXu5YzF90+A2PV9XA5XU1DVIjGksXA4Lb7EYMKWrQp2so9Un8fTedpLB9
-	U1OWnx4+tr8QXk6gtHcxSdS3GusqWx8vmLtZKoTtwDkpicGvMy7s/7pBQhUbvVrpomZLaaVvoHG
-	Fr0P0xOdJSje8KJdT0cM9n6FwHz+8A/zuKWFfWC1+n8ypPUK+R2iR5qiqThbKpZa3n2XbnyZlHe
-	jueDkF1CczgRbmrFalRG5K38bCYlpPZsBIJS738SBUR61+vi7/5u6CEuwatFqyg2UF9sEZeNB1I
-	ZQzGyKVW8UWwOHAr6Y29yFudCFsTimA7hv2HOWoN+FzcqZOgr2U2FHSPJCJnyHA42WvNOITscS2
-	xuXL/303CRWlsilxhZf1iuDjEfeFBAqPMN9tENzQnq1bGTHrGt4J16iAS/ByoSO2uOOWUdeowX5
-	V0MMmaXAw3yqw==
-X-Received: by 2002:a05:690c:a613:b0:85b:7fb9:22fa with SMTP id
- 00721157ae682-86c4f66987bmr35956807b3.10.1788397715942; Wed, 02 Sep 2026
- 18:08:35 -0700 (PDT)
+        bh=XTPKkKywvxnj50atu3w6I8SqX1EwULkpR6qcWMnPoCk=;
+        b=qSy7uYEKHNivENxwHhGcehK8uoxLRAD6lSjl8iMtutkImtCUJH2TX4uA8v/vdwB1Zm
+         G3+nvu0aSecXXbJen0PoX0OyP1jn0ddLO7iOm9pxPYX2w8bLBQ7VjnEPuTQTudyVsgNo
+         kTWJg43uVSuvzJmdrRrsXwLCuvjxlRw5flhRWELSbhEeB2rfxT2RvNMcitkgOFzpZ3O9
+         VHDcBVcOZ0sgoEK8dHeZut3ZbTg3PPM++GCS9TmlsXuMKFHWUKmfaUT/EsZiKoglRtR1
+         ZDgtuydKeUaZtGmcGDf+f0C7IwhY/hmS79UZr2kXg/ibwUXXrRued9mqFCZ8u/HKsq/Z
+         dPGw==
+X-Gm-Message-State: AFuF++kwrAc2Y6DizyUWz3hFFzt74QA3JsOhSuGSbwZPL0ZJS6DMwbjK
+	eOH168scc2r6jLqgs0m2OlhUZHxi3U/0iMQR+ErvG7r3HBmbh60x0Pm9g4F0Ucst6Zx4LXk9cUS
+	KaVKyu/pGVdFrQ1dNDivbXz7aj/yvYuGpYw==
+X-Gm-Gg: AYBFou1bM6N24zlAGBkj+K603n7WPAhbC40YVtA5Z+SjIxeisP+jNKLsCPPjq/yTG5G
+	l41bvt07lx6zVyrX9s2DhN9mQxtYHuId0x1N4KWzky7HZurGWC8MpuRfA5ccJOmRtu5c5NwimlB
+	mYm5dyObHY1bYLhin0Wemi1cuWx4nE/JTAjhDl4D6PrGgBGtg14r+xOjUup0ukaGypALAv87vuN
+	3zHmEm8lngZoGnYQE8CeBmAVgFhBzyP/zEcHuEMaesD0UQmQNtw6WH/FdDzHh5w5mY08NQZs5dn
+	DgNO7VJHx3KrdZ1ib1Qy1wlHtuv1aBb65NBlezgY7WcRdSEfM5jysc9FWcAyMZKe1JyrhxiyAii
+	8nRamknGqQbkUO8RRmzlWD7NtEaZpYkcBWqm3Lum6acM3F21puFr8HTLfhsDR6qyd07bqZXEVAq
+	jC1enudrie36JQveIaYvhEifz37bLsOzepE2A4opm4DaLcWuC9KZPfITzRIFmUoidl2BwCir9rX
+	UQugYGX8+y1QQ==
+X-Received: by 2002:a05:690c:9e:b0:81d:29ce:cd7f with SMTP id
+ 00721157ae682-86c53884d6dmr41341497b3.24.1788397844904; Wed, 02 Sep 2026
+ 18:10:44 -0700 (PDT)
 MIME-Version: 1.0
 References: <20260830125853.1139807-1-sunilkumar.dora@windriver.com>
- <20260830125853.1139807-5-sunilkumar.dora@windriver.com> <CAMKF1sqMUeSk=TBrD7VN6HvEWrhPzYUQkJxAngQyQHJAH=PDwQ@mail.gmail.com>
- <d5f983c7-2098-4969-a93e-f00ec65a637c@windriver.com>
-In-Reply-To: <d5f983c7-2098-4969-a93e-f00ec65a637c@windriver.com>
+ <CAMKF1soQRjHMiJnndyuEGrjf_VqB5fg4TjekEMgAe5cZLz8t0A@mail.gmail.com> <cd27e5c8-3846-4e35-bde3-643a1b753c69@windriver.com>
+In-Reply-To: <cd27e5c8-3846-4e35-bde3-643a1b753c69@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 2 Sep 2026 18:08:09 -0700
-X-Gm-Features: AcwNN1W7NiYi1AtJ8r-4ii8N921WXwRnnDwWYrEfYh2bdq9VnN6RPpWGuEFU9vg
-Message-ID: <CAMKF1soSi078w3JFZDHQTMv3GUkvRM2=+M13=qb49rPzy--jfg@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 04/11] rust: Fix build and oe-selftest failures
- with LLVM 23
+Date: Wed, 2 Sep 2026 18:10:18 -0700
+X-Gm-Features: AcwNN1UfR7BiX3Mv83xS0zIyoHUJrF67StoWeUGGq-PySI45LcNyRKqRbRZQBJs
+Message-ID: <CAMKF1sq0eQY8h3G3BMo7osHQRYvD159Rb9ucN=twWxWKE3OJDA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 00/11] clang/llvm: Upgrade to 23.1.0
 To: "Dora, Sunil Kumar" <SunilKumar.Dora@windriver.com>
 Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
 	"MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
 	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, 
 	"deepesh.vatharaj@windriver.com" <deepesh.vatharaj@windriver.com>
-Content-Type: multipart/alternative; boundary="00000000000093713d065a89caf5"
+Content-Type: multipart/alternative; boundary="000000000000433e45065a89d28d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 01:08:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244994
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 01:10:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244995
 
---00000000000093713d065a89caf5
+--000000000000433e45065a89d28d
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 31, 2026 at 10:17=E2=80=AFPM Dora, Sunil Kumar <
+On Mon, Aug 31, 2026 at 9:59=E2=80=AFPM Dora, Sunil Kumar <
 SunilKumar.Dora@windriver.com> wrote:
 
-> On 8/31/2026 1:17 AM, Khem Raj via lists.openembedded.org wrote:
+> On 8/31/2026 1:23 AM, Khem Raj via lists.openembedded.org wrote:
 >
 > *CAUTION: This email comes from a non Wind River email account!*
 > Do not click links or open attachments unless you recognize the sender an=
 d
 > know the content is safe.
-> I wonder if each backport should have been a patch of its own. It would
-> make it easy to maintain of some of them get backported to later versions
-> of rust.
+> Looks pretty good to me. I have few feedback comments, not a merge blocke=
+r
+> but good to consider for future ease of porting.
 >
-> I checked with Deepesh. These all exist for the same llvm 23 bump, mostly
-> test guarding plus the one AssignGUID wrapper fix, and they become
-> redundant
-> together once we move to a rust that supports LLVM 23. So one patch keeps
-> it simple here. For real compiler or library backports we agree
-> separate patches make life easier and we will do that going forward. Ok t=
-o
-> keep this one as is?
+> Thanks Khem.
+>
+> Quick update on the upstream side since the series went out.
+>
+> The clang half of the ssp_nonshared patch (0004 in the stack) was *merged
+> *into llvm main yesterday, commit fd974c429301
+> <https://github.com/llvm/llvm-project/commit/fd974c4293015388337e2f66f817=
+a23e5873389f>,
+> reviewed by
+> MaskRay (Original PR #219828
+> <https://github.com/llvm/llvm-project/pull/219828> ). A backport to
+> release/23.x is open as PR #220136
+> <https://github.com/llvm/llvm-project/pull/220136>.
+> If that lands I will flip 0004 to Upstream-Status: Backport, and at the
+> next upgrade the patch goes away entirely.
 >
 
-OK, Lets try it this way, Since we will bump minor versions of llvm during
-its lifetime we will see if it will cause conflicts too much.
+Thanks for following up on these patches, its really long time that we
+clear this debt.
+
+
+>
+> The gcc half is on gcc-patches
+> <https://gcc.gnu.org/pipermail/gcc-patches/2026-August/729351.html> as v2
+> with bugzilla PR 127138
+> <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D127138>. Sam James
+> mentioned Gentoo has carried the same fix downstream for years.
+>
+
+yes, I know, again same, it will be nicer to get this list down as well.
+Somethings are due to how OE has customized stuff so it will
+be hard to get rid of but anything that gets upstreamed is a bonus.
 
 
 >
@@ -134,872 +152,301 @@ its lifetime we will see if it will cause conflicts too much.
 > On Sun, Aug 30, 2026 at 5:59=E2=80=AFAM <sunilkumar.dora@windriver.com> w=
 rote:
 >
->> From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+>> From: Sunil Dora <sunilkumar.dora@windriver.com>
 >>
->> Backport upstream Rust commits to address build and oe-selftest
->> failures introduced by the LLVM 23 upgrade.
+>> This upgrades clang/llvm from 22.1.8 to 23.1.0 and fixes the fallout
+>> found while testing the result.
 >>
->> New patch:
->> 0004-Backport-commits-from-rust-Fix-selftest-llvm23.patch
->> The backported changes update LLVM 23 compatibility in the Rust LLVM
->> wrapper and adjust affected LLVM codegen tests.
+>> The carried LLVM patch stack goes from 41 to 35: seven dropped
+>> because 23.1.0 already contains the fix or the code they patched no
+>> longer exists, three reworked for LLVM 23, and one added for a 32-bit
+>> x86 build break, already merged in llvm-project.
 >>
->> Selftest Changes:
->> Exclude the following Windows-specific test from oe-selftest,
->> as it is not relevant.
->> tests/assembly-llvm/x86_64-windows-float-abi.rs
+>> Please apply with git am --keep-cr: patch 8 fixes an ovmf file that
+>> uses CRLF line endings, and plain git am corrupts the patch.
 >>
->> Excluded tests:
->> +---------+---------+---------+
->> | Before  |  After  | Skipped |
->> +---------+---------+---------+
->> |   43    |   44    |   +1    |
->> +---------+---------+---------+
+>> I have also reported the underlying bugs upstream:
+>>   llvm float16 fix, merged:
+>>     https://github.com/llvm/llvm-project/pull/219675
+>>   ovmf fix, sent to edk2:
+>>     https://github.com/tianocore/edk2/pull/13038
+>>   pango warning, the root cause is in GLib, reported to both:
+>>     https://gitlab.gnome.org/GNOME/glib/-/issues/4038
+>>     https://gitlab.gnome.org/GNOME/pango/-/issues/900
+>>   vulkan-samples warning, which is a real bug in their code:
+>>     https://github.com/KhronosGroup/Vulkan-Samples/issues/1570
 >>
->> Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
->> Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
->> ---
+>> Tested: oe-selftest clang suites on qemuarm, qemuarm64, qemux86,
+>> qemux86-64 and qemuriscv64 on the autobuilder, musl images on qemux86
+>> and qemuarm64, a qemux86 world build with TOOLCHAIN=3Dclang, 32-bit
+>> multilib, and core-image-minimal testimage runs.
+>>
+>> Deepesh Varatharajan (2):
+>>   rust: Fix build and oe-selftest failures with LLVM 23
+>>   clang/llvm: Ignore tests fail with clang/llvm 23 upgrade
+>>
+>> Sunil Dora (9):
+>>   clang/llvm: Upgrade to 23.1.0 release
+>>   spirv-llvm-translator: Upgrade to 23.1.0
+>>   openmp: Build via the LLVM runtimes entry point
+>>   rust: Do not pass the removed x86 amx-tf32 feature to LLVM 23
+>>   clang: Disable clangd's decision-forest completion model on powerpc
+>>   pango: Don't turn clang 23's -Wunused-but-set-global into an error
+>>   ovmf: Fix memcpy alias prototype for clang 23
+>>   vulkan-samples: Don't turn clang 23's -Wdangling-gsl into an error
+>>   gettext: Export a fully-flagged Objective-C compiler
+>>
+>>  meta/conf/distro/include/maintainers.inc      |   2 +-
+>>  meta/lib/oeqa/selftest/cases/clang.py         |  10 +
 >>  meta/lib/oeqa/selftest/cases/rust.py          |   1 +
+>>  ...t-env.in-do-not-add-C-CXX-parameters.patch |  17 +-
+>>  meta/recipes-core/gettext/gettext_1.0.bb      |   5 +
+>>  ...sicLib-fix-memcpy-alias-prototype-fo.patch |  35 +
+>>  meta/recipes-core/ovmf/ovmf_git.bb            |   1 +
+>>  ...ify-cross-compilation.-Don-t-use-na.patch} |   6 +-
+>>  ...ibunwind-headers-when-LIBCXXABI_LIBU.patch |  60 --
+>>  ...-support-a-new-embedded-linux-target.patch | 309 --------
+>>  ...env-override-of-exe-and-libdir-path.patch} |   4 +-
+>>  ...-driver-Check-sysroot-for-ldso-path.patch} |  14 +-
+>>  ...ools.cpp-Add-lssp_nonshared-on-musl.patch} |   6 +-
+>>  ...5-clang-Prepend-trailing-to-sysroot.patch} |  10 +-
+>>  ...fine-releative-gcc-installation-dir.patch} |  10 +-
+>>  ...d-and-ldl-along-with-lunwind-for-st.patch} |  10 +-
+>>  ...-Check-for-atomic-double-intrinsics.patch} |   4 +-
+>>  ...ure-for-packages-using-find_package.patch} |  20 +-
+>>  ...e-dir-location-for-cross-toolchains.patch} |   4 +-
+>>  ...dyld-prefix-when-checking-sysroot-f.patch} |  18 +-
+>>  ...clang-Use-python3-in-python-scripts.patch} |   6 +-
+>>  ...-anchor-for-adding-OE-distro-vendor.patch} |  37 +-
+>>  ...ple-for-non-debian-multiarch-linux-.patch} |   9 +-
+>>  ...ibunwind-Added-unw_backtrace-method.patch} |   8 +-
+>>  ...016-lldb-Link-with-libatomic-on-x86.patch} |   4 +-
+>>  ...ot-use-backtrace-APIs-on-non-glibc-l.patch |  68 --
+>>  ...mpiler-rt-Enable-__int128-for-ppc32.patch} |  26 +-
+>>  ...t-use-cmake-infra-to-detect-libzstd.patch} |   8 +-
+>>  ...-Fix-stat-struct-s-size-for-O32-ABI.patch} |   6 +-
+>>  ...cpp-ARMLibDirs-search-also-in-lib32.patch} |  10 +-
+>>  ...-OE-specific-ABI-triple-for-N32-ABI.patch} |  63 +-
+>>  ...nwind.pc.in-and-llvm-config-scripts.patch} |  12 +-
+>>  ...pect-LLVM_LIBDIR_SUFFIX-like-other-.patch} |  17 +-
+>>  ...o-not-pass-target-to-clang-compiler.patch} |   4 +-
+>>  ...-sort-ClassInfo-lists-by-name-as-we.patch} |   4 +-
+>>  ...ve-LLVM_LDFLAGS-from-ldflags-output.patch} |   4 +-
+>>  ...de-sync_fetch_and_-for-any-pre-ARMv.patch} |   6 +-
+>>  ...de-uptr-sptr-typedefs-on-Mips-Linux.patch} |   8 +-
+>>  ...-headers-in-the-debug-info-when-bui.patch} |   6 +-
+>>  ..._HAVE_OPT_VIEWER_MODULES-externally.patch} |   6 +-
+>>  ...ang-tblgen-if-it-is-actually-needed.patch} |   8 +-
+>>  ...ymlink-path-for-libcc-when-LLVM_ENA.patch} |   8 +-
+>>  ...ix-sysroot-based-compiler-rt-search.patch} |  15 +-
+>>  ...> 0034-guard-clang-tools-extra-test.patch} |  47 +-
+>>  ...ng-block-when-searching-for-noreturn.patch |  41 --
+>>  ...e-float16-on-32-bit-x86-without-SSE2.patch |  36 +
+>>  ...UNKNOWN-elements-of-OffloadArch-enum.patch | 274 --------
+>>  ...e-__gnu_unwind_frame-in-cxa_personal.patch |  33 -
+>>  ...te-exit-fold-candidates-in-determini.patch |  71 --
+>>  meta/recipes-devtools/clang/clang_git.bb      |   4 +
+>>  meta/recipes-devtools/clang/common-clang.inc  |   4 +-
+>>  meta/recipes-devtools/clang/common.inc        |  78 +--
+>>  meta/recipes-devtools/clang/openmp_git.bb     |   5 +-
 >>  ...ommits-from-rust-Fix-selftest-llvm23.patch | 661 ++++++++++++++++++
->>  meta/recipes-devtools/rust/rust-source.inc    |   1 +
->>  3 files changed, 663 insertions(+)
+>>  ...llvm-Do-not-pass-amx-tf32-to-LLVM-23.patch |  38 +
+>>  meta/recipes-devtools/rust/rust-source.inc    |   2 +
+>>  ...ror-on-clang-s-unused-but-set-global.patch |  28 +
+>>  meta/recipes-graphics/pango/pango_1.58.0.bb   |   1 +
+>>  ...1.5.bb =3D> spirv-llvm-translator_23.1.0.bb} |   6 +-
+>>  .../vulkan/vulkan-samples_git.bb              |   4 +-
+>>  60 files changed, 1109 insertions(+), 1113 deletions(-)
+>>  create mode 100644
+>> meta/recipes-core/ovmf/ovmf/0005-CryptoPkg-IntrinsicLib-fix-memcpy-alias=
+-prototype-fo.patch
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0003-compiler-rt-Simplify-cross-compi=
+lation.-Don-t-use-na.patch
+>> =3D> 0001-compiler-rt-Simplify-cross-compilation.-Don-t-use-na.patch} (9=
+0%)
+>>  delete mode 100644
+>> meta/recipes-devtools/clang/clang/0001-libcxxabi-Find-libunwind-headers-=
+when-LIBCXXABI_LIBU.patch
+>>  delete mode 100644
+>> meta/recipes-devtools/clang/clang/0002-compiler-rt-support-a-new-embedde=
+d-linux-target.patch
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0004-llvm-allow-env-override-of-exe-a=
+nd-libdir-path.patch
+>> =3D> 0002-llvm-allow-env-override-of-exe-and-libdir-path.patch} (96%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0005-clang-driver-Check-sysroot-for-l=
+dso-path.patch
+>> =3D> 0003-clang-driver-Check-sysroot-for-ldso-path.patch} (87%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0006-clang-Driver-tools.cpp-Add-lssp_=
+nonshared-on-musl.patch
+>> =3D> 0004-clang-Driver-tools.cpp-Add-lssp_nonshared-on-musl.patch} (86%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0007-clang-Prepend-trailing-to-sysroo=
+t.patch
+>> =3D> 0005-clang-Prepend-trailing-to-sysroot.patch} (81%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0009-clang-Define-releative-gcc-insta=
+llation-dir.patch
+>> =3D> 0006-clang-Define-releative-gcc-installation-dir.patch} (94%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0010-clang-Add-lpthread-and-ldl-along=
+-with-lunwind-for-st.patch
+>> =3D> 0007-clang-Add-lpthread-and-ldl-along-with-lunwind-for-st.patch} (8=
+6%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0011-Check-for-atomic-double-intrinsi=
+cs.patch
+>> =3D> 0008-Check-for-atomic-double-intrinsics.patch} (91%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0012-cmake-Fix-configure-for-packages=
+-using-find_package.patch
+>> =3D> 0009-cmake-Fix-configure-for-packages-using-find_package.patch} (89=
+%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0013-clang-Fix-resource-dir-location-=
+for-cross-toolchains.patch
+>> =3D> 0010-clang-Fix-resource-dir-location-for-cross-toolchains.patch} (9=
+5%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0014-clang-driver-Add-dyld-prefix-whe=
+n-checking-sysroot-f.patch
+>> =3D> 0011-clang-driver-Add-dyld-prefix-when-checking-sysroot-f.patch} (8=
+8%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0015-clang-Use-python3-in-python-scri=
+pts.patch
+>> =3D> 0012-clang-Use-python3-in-python-scripts.patch} (90%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0016-llvm-clang-Insert-anchor-for-add=
+ing-OE-distro-vendor.patch
+>> =3D> 0013-llvm-clang-Insert-anchor-for-adding-OE-distro-vendor.patch} (9=
+1%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0018-clang-Fix-x86-triple-for-non-deb=
+ian-multiarch-linux-.patch
+>> =3D> 0014-clang-Fix-x86-triple-for-non-debian-multiarch-linux-.patch} (8=
+6%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0019-libunwind-Added-unw_backtrace-me=
+thod.patch
+>> =3D> 0015-libunwind-Added-unw_backtrace-method.patch} (89%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0020-lldb-Link-with-libatomic-on-x86.=
+patch
+>> =3D> 0016-lldb-Link-with-libatomic-on-x86.patch} (92%)
+>>  delete mode 100644
+>> meta/recipes-devtools/clang/clang/0017-compiler-rt-Do-not-use-backtrace-=
+APIs-on-non-glibc-l.patch
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0021-compiler-rt-Enable-__int128-for-=
+ppc32.patch
+>> =3D> 0017-compiler-rt-Enable-__int128-for-ppc32.patch} (77%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0022-llvm-Do-not-use-cmake-infra-to-d=
+etect-libzstd.patch
+>> =3D> 0018-llvm-Do-not-use-cmake-infra-to-detect-libzstd.patch} (91%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0023-compiler-rt-Fix-stat-struct-s-si=
+ze-for-O32-ABI.patch
+>> =3D> 0019-compiler-rt-Fix-stat-struct-s-size-for-O32-ABI.patch} (91%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0024-ToolChains-Gnu.cpp-ARMLibDirs-se=
+arch-also-in-lib32.patch
+>> =3D> 0020-ToolChains-Gnu.cpp-ARMLibDirs-search-also-in-lib32.patch} (98%=
+)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0025-clang-llvm-Add-OE-specific-ABI-t=
+riple-for-N32-ABI.patch
+>> =3D> 0021-clang-llvm-Add-OE-specific-ABI-triple-for-N32-ABI.patch} (60%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0026-llvm-Add-libunwind.pc.in-and-llv=
+m-config-scripts.patch
+>> =3D> 0022-llvm-Add-libunwind.pc.in-and-llvm-config-scripts.patch} (84%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0027-scan-build-py-respect-LLVM_LIBDI=
+R_SUFFIX-like-other-.patch
+>> =3D> 0023-scan-build-py-respect-LLVM_LIBDIR_SUFFIX-like-other-.patch} (9=
+0%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0028-compiler-rt-Do-not-pass-target-t=
+o-clang-compiler.patch
+>> =3D> 0024-compiler-rt-Do-not-pass-target-to-clang-compiler.patch} (91%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0029-AsmMatcherEmitter-sort-ClassInfo=
+-lists-by-name-as-we.patch
+>> =3D> 0025-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch} (9=
+2%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0030-llvm-config-remove-LLVM_LDFLAGS-=
+from-ldflags-output.patch
+>> =3D> 0026-llvm-config-remove-LLVM_LDFLAGS-from-ldflags-output.patch} (92=
+%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0031-compiler-rt-Exclude-sync_fetch_a=
+nd_-for-any-pre-ARMv.patch
+>> =3D> 0027-compiler-rt-Exclude-sync_fetch_and_-for-any-pre-ARMv.patch} (9=
+5%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0032-compiler-rt-Hardcode-uptr-sptr-t=
+ypedefs-on-Mips-Linu.patch
+>> =3D> 0028-Hardcode-uptr-sptr-typedefs-on-Mips-Linux.patch} (86%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0034-Revert-libc-Remap-headers-in-the=
+-debug-info-when-bui.patch
+>> =3D> 0029-Revert-libc-Remap-headers-in-the-debug-info-when-bui.patch} (8=
+9%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0036-Don-t-expose-LLVM_HAVE_OPT_VIEWE=
+R_MODULES-externally.patch
+>> =3D> 0030-Don-t-expose-LLVM_HAVE_OPT_VIEWER_MODULES-externally.patch} (8=
+6%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0037-clang-Only-build-clang-tblgen-if=
+-it-is-actually-need.patch
+>> =3D> 0031-Only-build-clang-tblgen-if-it-is-actually-needed.patch} (81%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0038-llvm-libgcc-Fix-symlink-path-for=
+-libcc-when-LLVM_ENA.patch
+>> =3D> 0032-llvm-libgcc-Fix-symlink-path-for-libcc-when-LLVM_ENA.patch} (9=
+3%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0041-Consolidate-and-fix-sysroot-base=
+d-compiler-rt-search.patch
+>> =3D> 0033-Consolidate-and-fix-sysroot-based-compiler-rt-search.patch} (9=
+1%)
+>>  rename
+>> meta/recipes-devtools/clang/clang/{0042-guard-clang-tools-extra-test.pat=
+ch
+>> =3D> 0034-guard-clang-tools-extra-test.patch} (83%)
+>>  delete mode 100644
+>> meta/recipes-devtools/clang/clang/0035-Prevent-revisiting-block-when-sea=
+rching-for-noreturn.patch
+>>  create mode 100644
+>> meta/recipes-devtools/clang/clang/0035-libc-Disable-float16-on-32-bit-x8=
+6-without-SSE2.patch
+>>  delete mode 100644
+>> meta/recipes-devtools/clang/clang/0039-Rename-UNUSED-and-UNKNOWN-element=
+s-of-OffloadArch-enum.patch
+>>  delete mode 100644
+>> meta/recipes-devtools/clang/clang/0040-libcxxabi-declare-__gnu_unwind_fr=
+ame-in-cxa_personal.patch
+>>  delete mode 100644
+>> meta/recipes-devtools/clang/clang/0043-LoopUnroll-Iterate-exit-fold-cand=
+idates-in-determini.patch
 >>  create mode 100644
 >> meta/recipes-devtools/rust/files/0004-Backport-commits-from-rust-Fix-sel=
 ftest-llvm23.patch
->>
->> diff --git a/meta/lib/oeqa/selftest/cases/rust.py
->> b/meta/lib/oeqa/selftest/cases/rust.py
->> index fa8a8c1e7c..645b5d5fbf 100644
->> --- a/meta/lib/oeqa/selftest/cases/rust.py
->> +++ b/meta/lib/oeqa/selftest/cases/rust.py
->> @@ -83,6 +83,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase,
->> OEPTestResultTestCase):
->>                              'src/tools/tidy',
->>
->>  'tests/assembly-llvm/asm/aarch64-outline-atomics.rs',
->>                              'tests/assembly-llvm/c-variadic/arm.rs',
->> +
->> 'tests/assembly-llvm/x86_64-windows-float-abi.rs',
->>                              'tests/codegen-llvm/thread-local.rs',
->>                              'tests/mir-opt/',
->>                              'tests/run-make',
->> diff --git
->> a/meta/recipes-devtools/rust/files/0004-Backport-commits-from-rust-Fix-s=
-elftest-llvm23.patch
->> b/meta/recipes-devtools/rust/files/0004-Backport-commits-from-rust-Fix-s=
-elftest-llvm23.patch
->> new file mode 100644
->> index 0000000000..1e1bf089f1
->> --- /dev/null
->> +++
->> b/meta/recipes-devtools/rust/files/0004-Backport-commits-from-rust-Fix-s=
-elftest-llvm23.patch
->> @@ -0,0 +1,661 @@
->> +Backport commits that fix build and oe-selftest failures seen with llvm
->> 23
->> +
->> +Upstream-Status: Backport [
->> https://github.com/rust-lang/rust/commit/b8d3a4ac9cfeb81d1e929fe6eab0af4=
-b77ba3bb4
->> ]
->> +Upstream-Status: Backport [
->> https://github.com/rust-lang/rust/commit/d4a24cd6e18b98326429d8c7e7bbb26=
-9da14a5aa
->> ]
->> +Upstream-Status: Backport [
->> https://github.com/rust-lang/rust/commit/20ac2125a2142c9bde53ca06d9b3cfb=
-6941fd437
->> ]
->> +Upstream-Status: Backport [
->> https://github.com/rust-lang/rust/commit/2d18054569d1169bfae7ce21e5c7111=
-f32f16774
->> ]
->> +Upstream-Status: Backport [
->> https://github.com/rust-lang/rust/commit/e2159107f6ebc615ba6a92960d65528=
-baf90cd35
->> ]
->> +Upstream-Status: Backport [
->> https://github.com/rust-lang/rust/commit/283a60b64339d611b76a4ed2f9286f4=
-17b269b2f
->> ]
->> +Upstream-Status: Backport [
->> https://github.com/rust-lang/rust/commit/61d9ba28a99f073fbeb19dbb552ddf3=
-43aef62f0
->> ]
->> +
->> +Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com=
->
->> +
->> +diff --git a/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
->> b/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
->> +index fe5b8edce4a..e4807f10805 100644
->> +--- a/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
->> ++++ b/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
->> +@@ -49,6 +49,9 @@
->> + #include "llvm/Transforms/Instrumentation/RealtimeSanitizer.h"
->> + #include "llvm/Transforms/Instrumentation/ThreadSanitizer.h"
->> + #include "llvm/Transforms/Scalar/AnnotationRemarks.h"
->> ++#if LLVM_VERSION_GE(23, 0)
->> ++#include "llvm/Transforms/Utils/AssignGUID.h"
->> ++#endif
->> + #include "llvm/Transforms/Utils/CanonicalizeAliases.h"
->> + #include "llvm/Transforms/Utils/FunctionImportUtils.h"
->> + #include "llvm/Transforms/Utils/NameAnonGlobals.h"
->> +@@ -925,6 +928,9 @@
->> +   if (NeedThinLTOBufferPasses) {
->> +     MPM.addPass(CanonicalizeAliasesPass());
->> +     MPM.addPass(NameAnonGlobalPass());
->> ++#if LLVM_VERSION_GE(23, 0)
->> ++    MPM.addPass(AssignGUIDPass());
->> ++#endif
->> +   }
->> +   // For `-Copt-level=3D0`, and the pre-link fat/thin LTO stages.
->> +   if (ThinLTOBufferRef && *ThinLTOBufferRef =3D=3D nullptr) {
->> +@@ -1464,6 +1470,9 @@
->> +         PB.registerLoopAnalyses(LAM);
->> +         PB.crossRegisterProxies(LAM, FAM, CGAM, MAM);
->> +         ModulePassManager MPM;
->> ++#if LLVM_VERSION_GE(23, 0)
->> ++        MPM.addPass(AssignGUIDPass());
->> ++#endif
->> +         MPM.addPass(ThinLTOBitcodeWriterPass(OS, nullptr));
->> +         MPM.run(*unwrap(M), MAM);
->> +       } else {
->> +diff --git a/tests/codegen-llvm/bpf-allows-unaligned.rs
->> b/tests/codegen-llvm/bpf-allows-unaligned.rs
->> +index c7a70d5b2e5..7e95a56d984 100644
->> +--- a/tests/codegen-llvm/bpf-allows-unaligned.rs
->> ++++ b/tests/codegen-llvm/bpf-allows-unaligned.rs
->> +@@ -5,7 +5,7 @@
->> +
->> + #[no_mangle]
->> + #[target_feature(enable =3D "allows-misaligned-mem-access")]
->> +-// CHECK: define noundef zeroext i8 @foo(i8 noundef returned %arg)
->> unnamed_addr #0 {
->> ++// CHECK: define noundef zeroext i8 @foo(i8 noundef returned %arg)
->> unnamed_addr #0
->> + pub unsafe fn foo(arg: u8) -> u8 {
->> +     arg
->> + }
->> +diff --git a/tests/codegen-llvm/branch-protection.rs
->> b/tests/codegen-llvm/branch-protection.rs
->> +index ed1cb2cd137..11847c256d6 100644
->> +--- a/tests/codegen-llvm/branch-protection.rs
->> ++++ b/tests/codegen-llvm/branch-protection.rs
->> +@@ -22,7 +22,7 @@
->> + use minicore::*;
->> +
->> + // A basic test function.
->> +-// CHECK: @test(){{.*}} [[ATTR:#[0-9]+]] {
->> ++// CHECK: @test(){{.*}} [[ATTR:#[0-9]+]]
->> + #[no_mangle]
->> + pub fn test() {}
->> +
->> +diff --git a/tests/codegen-llvm/frame-pointer-cli-control.rs
->> b/tests/codegen-llvm/frame-pointer-cli-control.rs
->> +index 911a5f03cbc..79cdfc70f1a 100644
->> +--- a/tests/codegen-llvm/frame-pointer-cli-control.rs
->> ++++ b/tests/codegen-llvm/frame-pointer-cli-control.rs
->> +@@ -45,7 +45,7 @@
->> +
->> + extern crate minicore;
->> +
->> +-// CHECK: i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]] {
->> ++// CHECK: i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]]
->> + #[no_mangle]
->> + pub fn peach(x: u32) -> u32 {
->> +     x
->> +diff --git a/tests/codegen-llvm/frame-pointer.rs
->> b/tests/codegen-llvm/frame-pointer.rs
->> +index 1d0dd762826..a52d95a2386 100644
->> +--- a/tests/codegen-llvm/frame-pointer.rs
->> ++++ b/tests/codegen-llvm/frame-pointer.rs
->> +@@ -18,7 +18,7 @@
->> + extern crate minicore;
->> + use minicore::*;
->> +
->> +-// CHECK: define i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]] {
->> ++// CHECK: define i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]]
->> + #[no_mangle]
->> + pub fn peach(x: u32) -> u32 {
->> +     x
->> +diff --git a/tests/codegen-llvm/gpu-convergent.rs
->> b/tests/codegen-llvm/gpu-convergent.rs
->> +index bb9271ab699..376d65a3d4a 100644
->> +--- a/tests/codegen-llvm/gpu-convergent.rs
->> ++++ b/tests/codegen-llvm/gpu-convergent.rs
->> +@@ -17,7 +17,7 @@
->> +     fn ext();
->> + }
->> +
->> +-// CHECK: define {{.*}}_kernel void @fun(i32{{.*}}) unnamed_addr
->> #[[ATTR:[0-9]+]] {
->> ++// CHECK: define {{.*}}_kernel void @fun(i32{{.*}}) unnamed_addr
->> #[[ATTR:[0-9]+]]
->> + // CHECK: declare void @ext() unnamed_addr #[[ATTR]]
->> + // CHECK: attributes #[[ATTR]] =3D {{.*}} convergent
->> + #[no_mangle]
->> +diff --git a/tests/codegen-llvm/instrument-coverage/testprog.rs
->> b/tests/codegen-llvm/instrument-coverage/testprog.rs
->> +index ef61ede6de8..67c49c438f9 100644
->> +--- a/tests/codegen-llvm/instrument-coverage/testprog.rs
->> ++++ b/tests/codegen-llvm/instrument-coverage/testprog.rs
->> +@@ -101,7 +101,7 @@ fn main() {
->> + // CHECK-SAME:   @__llvm_prf_nm
->> + // CHECK-SAME:   section "llvm.metadata"
->> +
->> +-// CHECK:        define internal { {{.*}} }
->> @_R{{[a-zA-Z0-9_]+}}testprog14will_be_called() unnamed_addr #{{[0-9]+}} =
-{
->> ++// CHECK:        define internal { {{.*}} }
->> @_R{{[a-zA-Z0-9_]+}}testprog14will_be_called() unnamed_addr #{{[0-9]+}}
->> + // CHECK-NEXT:   start:
->> + // CHECK-NOT:    define internal
->> + // CHECK:        atomicrmw add ptr
->> +@@ -109,7 +109,7 @@ fn main() {
->> +
->> + // CHECK:        declare void @llvm.instrprof.increment(ptr, i64, i32,
->> i32) #[[LLVM_INSTRPROF_INCREMENT_ATTR:[0-9]+]]
->> +
->> +-// WIN:          define linkonce_odr hidden i32
->> @__llvm_profile_runtime_user() #[[LLVM_PROFILE_RUNTIME_USER_ATTR:[0-9]+]=
-]
->> comdat {{.*}}{
->> ++// WIN:          define linkonce_odr hidden i32
->> @__llvm_profile_runtime_user() #[[LLVM_PROFILE_RUNTIME_USER_ATTR:[0-9]+]=
-]
->> comdat {{.*}}
->> + // WIN-NEXT:     %1 =3D load i32, ptr @__llvm_profile_runtime
->> + // WIN-NEXT:     ret i32 %1
->> + // WIN-NEXT:     }
->> +diff --git a/tests/codegen-llvm/link_section.rs
->> b/tests/codegen-llvm/link_section.rs
->> +index f196ea86c44..61bde683c0a 100644
->> +--- a/tests/codegen-llvm/link_section.rs
->> ++++ b/tests/codegen-llvm/link_section.rs
->> +@@ -29,7 +29,7 @@ pub enum E {
->> + #[link_section =3D "__TEST,three"]
->> + pub static VAR3: E =3D E::B(1.);
->> +
->> +-// CHECK: define {{(dso_local )?}}void @fn1() {{.*}} section
->> "__TEST,four" {
->> ++// CHECK: define {{(dso_local )?}}void @fn1() {{.*}} section
->> "__TEST,four"
->> + #[no_mangle]
->> + #[link_section =3D "__TEST,four"]
->> + pub fn fn1() {}
->> +diff --git
->> a/tests/codegen-llvm/sanitizer/cfi/emit-type-metadata-itanium-cxx-abi-no=
-rmalized-generalized.rs
->> b/tests/codegen-llvm/sanitizer/cfi/emit-type-metadata-itanium-cxx-abi-no=
-rmalized-generalized.rs
->> +index 7639ce7b104..5b1aa97ab33 100644
->> +---
->> a/tests/codegen-llvm/sanitizer/cfi/emit-type-metadata-itanium-cxx-abi-no=
-rmalized-generalized.rs
->> ++++
->> b/tests/codegen-llvm/sanitizer/cfi/emit-type-metadata-itanium-cxx-abi-no=
-rmalized-generalized.rs
->> +@@ -7,21 +7,21 @@
->> +
->> + pub fn foo(f: fn(i32) -> i32, arg: i32) -> i32 {
->> +     // CHECK-LABEL: define{{.*}}foo
->> +-    // CHECK-SAME:  {{.*}}![[TYPE1:[0-9]+]]
->> ++    // CHECK-SAME:  {{.*}}!type ![[TYPE1:[0-9]+]]
->> +     // CHECK:       call i1 @llvm.type.test(ptr {{%f|%0}}, metadata
->> !"_ZTSFu3i32S_E.normalized.generalized")
->> +     f(arg)
->> + }
->> +
->> + pub fn bar(f: fn(i32, i32) -> i32, arg1: i32, arg2: i32) -> i32 {
->> +     // CHECK-LABEL: define{{.*}}bar
->> +-    // CHECK-SAME:  {{.*}}![[TYPE2:[0-9]+]]
->> ++    // CHECK-SAME:  {{.*}}!type ![[TYPE2:[0-9]+]]
->> +     // CHECK:       call i1 @llvm.type.test(ptr {{%f|%0}}, metadata
->> !"_ZTSFu3i32S_S_E.normalized.generalized")
->> +     f(arg1, arg2)
->> + }
->> +
->> + pub fn baz(f: fn(i32, i32, i32) -> i32, arg1: i32, arg2: i32, arg3:
->> i32) -> i32 {
->> +     // CHECK-LABEL: define{{.*}}baz
->> +-    // CHECK-SAME:  {{.*}}![[TYPE3:[0-9]+]]
->> ++    // CHECK-SAME:  {{.*}}!type ![[TYPE3:[0-9]+]]
->> +     // CHECK:       call i1 @llvm.type.test(ptr {{%f|%0}}, metadata
->> !"_ZTSFu3i32S_S_S_E.normalized.generalized")
->> +     f(arg1, arg2, arg3)
->> + }
->> +diff --git
->> a/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs
->> b/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs
->> +index 35317b0dd39..3df2d569f9a 100644
->> +--- a/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs
->> ++++ b/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs
->> +@@ -72,7 +72,7 @@ pub unsafe fn some_non_zero_from_atomic_get() ->
->> Option<NonZeroUsize> {
->> + ///
->> + /// The way we check that the LLVM IR is correct is by making sure tha=
-t
->> neither
->> + /// `panic` nor `unreachable` is part of the LLVM IR:
->> +-// CHECK-LABEL: define {{.*}} i64 @some_non_zero_from_atomic_get2()
->> {{.*}} {
->> ++// CHECK-LABEL: define {{.*}} i64 @some_non_zero_from_atomic_get2()
->> {{.*}}
->> + // CHECK-NOT: panic
->> + // CHECK-NOT: unreachable
->> + #[no_mangle]
->> +diff --git a/tests/codegen-llvm/target-feature-negative-implication.rs
->> b/tests/codegen-llvm/target-feature-negative-implication.rs
->> +index a9cdca42839..376599738e5 100644
->> +--- a/tests/codegen-llvm/target-feature-negative-implication.rs
->> ++++ b/tests/codegen-llvm/target-feature-negative-implication.rs
->> +@@ -13,7 +13,7 @@
->> + #[no_mangle]
->> + pub unsafe fn banana() {
->> +     // CHECK-LABEL: @banana()
->> +-    // CHECK-SAME: [[BANANAATTRS:#[0-9]+]] {
->> ++    // CHECK-SAME: [[BANANAATTRS:#[0-9]+]]
->> + }
->> +
->> + // CHECK: attributes [[BANANAATTRS]]
->> +diff --git a/tests/codegen-llvm/target-feature-overrides.rs
->> b/tests/codegen-llvm/target-feature-overrides.rs
->> +index 2adc8ee6f53..3bf05c7977e 100644
->> +--- a/tests/codegen-llvm/target-feature-overrides.rs
->> ++++ b/tests/codegen-llvm/target-feature-overrides.rs
->> +@@ -23,7 +23,7 @@
->> + #[no_mangle]
->> + pub unsafe fn apple() -> u32 {
->> +     // CHECK-LABEL: @apple()
->> +-    // CHECK-SAME: [[APPLEATTRS:#[0-9]+]] {
->> ++    // CHECK-SAME: [[APPLEATTRS:#[0-9]+]]
->> +     // CHECK: {{.*}}call{{.*}}@peach
->> +     peach()
->> + }
->> +@@ -32,7 +32,7 @@ pub unsafe fn apple() -> u32 {
->> + #[no_mangle]
->> + pub unsafe fn banana() -> u32 {
->> +     // CHECK-LABEL: @banana()
->> +-    // CHECK-SAME: [[BANANAATTRS:#[0-9]+]] {
->> ++    // CHECK-SAME: [[BANANAATTRS:#[0-9]+]]
->> +     // COMPAT: {{.*}}call{{.*}}@peach
->> +     // INCOMPAT: {{.*}}call{{.*}}@apple
->> +     apple() // Compatible for inline in COMPAT revision and can't be
->> inlined in INCOMPAT
->> +diff --git a/tests/codegen-llvm/unwind-abis/aapcs-unwind-abi.rs
->> b/tests/codegen-llvm/unwind-abis/aapcs-unwind-abi.rs
->> +index ecace722e0d..279780e3a7a 100644
->> +--- a/tests/codegen-llvm/unwind-abis/aapcs-unwind-abi.rs
->> ++++ b/tests/codegen-llvm/unwind-abis/aapcs-unwind-abi.rs
->> +@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
->> + // `aapcs-unwind` extern functions. `aapcs-unwind` functions MUST NOT
->> have this attribute. We
->> + // disable optimizations above to prevent LLVM from inferring the
->> attribute.
->> +
->> +-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
->> ++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
->> + #[no_mangle]
->> + pub extern "aapcs" fn rust_item_that_cannot_unwind() {}
->> +
->> +-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
->> ++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
->> + #[no_mangle]
->> + pub extern "aapcs-unwind" fn rust_item_that_can_unwind() {}
->> +
->> +diff --git a/tests/codegen-llvm/unwind-abis/c-unwind-abi.rs
->> b/tests/codegen-llvm/unwind-abis/c-unwind-abi.rs
->> +index 46c08b5fc4f..1b3312839e3 100644
->> +--- a/tests/codegen-llvm/unwind-abis/c-unwind-abi.rs
->> ++++ b/tests/codegen-llvm/unwind-abis/c-unwind-abi.rs
->> +@@ -7,11 +7,11 @@
->> +
->> + #![crate_type =3D "lib"]
->> +
->> +-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
->> ++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
->> + #[no_mangle]
->> + pub extern "C" fn rust_item_that_cannot_unwind() {}
->> +
->> +-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
->> ++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
->> + #[no_mangle]
->> + pub extern "C-unwind" fn rust_item_that_can_unwind() {}
->> +
->> +diff --git a/tests/codegen-llvm/unwind-abis/cdecl-unwind-abi.rs
->> b/tests/codegen-llvm/unwind-abis/cdecl-unwind-abi.rs
->> +index 8e643d6ce49..6f4eafb353c 100644
->> +--- a/tests/codegen-llvm/unwind-abis/cdecl-unwind-abi.rs
->> ++++ b/tests/codegen-llvm/unwind-abis/cdecl-unwind-abi.rs
->> +@@ -7,11 +7,11 @@
->> +
->> + #![crate_type =3D "lib"]
->> +
->> +-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
->> ++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
->> + #[no_mangle]
->> + pub extern "cdecl" fn rust_item_that_cannot_unwind() {}
->> +
->> +-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
->> ++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
->> + #[no_mangle]
->> + pub extern "cdecl-unwind" fn rust_item_that_can_unwind() {}
->> +
->> +diff --git a/tests/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs
->> b/tests/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs
->> +index 7df46813ed1..51c6fd15b9c 100644
->> +--- a/tests/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs
->> ++++ b/tests/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs
->> +@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
->> + // `fastcall-unwind` extern functions. `fastcall-unwind` functions MUS=
-T
->> NOT have this attribute. We
->> + // disable optimizations above to prevent LLVM from inferring the
->> attribute.
->> +
->> +-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
->> ++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
->> + #[no_mangle]
->> + pub extern "fastcall" fn rust_item_that_cannot_unwind() {}
->> +
->> +-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
->> ++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
->> + #[no_mangle]
->> + pub extern "fastcall-unwind" fn rust_item_that_can_unwind() {}
->> +
->> +diff --git a/tests/codegen-llvm/unwind-abis/stdcall-unwind-abi.rs
->> b/tests/codegen-llvm/unwind-abis/stdcall-unwind-abi.rs
->> +index cc06ee12549..b5fcea52b4d 100644
->> +--- a/tests/codegen-llvm/unwind-abis/stdcall-unwind-abi.rs
->> ++++ b/tests/codegen-llvm/unwind-abis/stdcall-unwind-abi.rs
->> +@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
->> + // extern functions. `stdcall-unwind` functions MUST NOT have this
->> attribute. We disable
->> + // optimizations above to prevent LLVM from inferring the attribute.
->> +
->> +-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
->> ++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
->> + #[no_mangle]
->> + pub extern "stdcall" fn rust_item_that_cannot_unwind() {}
->> +
->> +-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
->> ++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
->> + #[no_mangle]
->> + pub extern "stdcall-unwind" fn rust_item_that_can_unwind() {}
->> +
->> +diff --git a/tests/codegen-llvm/unwind-abis/system-unwind-abi.rs
->> b/tests/codegen-llvm/unwind-abis/system-unwind-abi.rs
->> +index 5f910248346..15fce95fe28 100644
->> +--- a/tests/codegen-llvm/unwind-abis/system-unwind-abi.rs
->> ++++ b/tests/codegen-llvm/unwind-abis/system-unwind-abi.rs
->> +@@ -7,11 +7,11 @@
->> +
->> + #![crate_type =3D "lib"]
->> +
->> +-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
->> ++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
->> + #[no_mangle]
->> + pub extern "system" fn rust_item_that_cannot_unwind() {}
->> +
->> +-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
->> ++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
->> + #[no_mangle]
->> + pub extern "system-unwind" fn rust_item_that_can_unwind() {}
->> +
->> +diff --git a/tests/codegen-llvm/unwind-abis/sysv64-unwind-abi.rs
->> b/tests/codegen-llvm/unwind-abis/sysv64-unwind-abi.rs
->> +index 69bfaf80b4b..1293e7c0a5f 100644
->> +--- a/tests/codegen-llvm/unwind-abis/sysv64-unwind-abi.rs
->> ++++ b/tests/codegen-llvm/unwind-abis/sysv64-unwind-abi.rs
->> +@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
->> + // `sysv64-unwind` extern functions. `sysv64-unwind` functions MUST NO=
-T
->> have this attribute. We
->> + // disable optimizations above to prevent LLVM from inferring the
->> attribute.
->> +
->> +-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
->> ++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
->> + #[no_mangle]
->> + pub extern "sysv64" fn rust_item_that_cannot_unwind() {}
->> +
->> +-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
->> ++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
->> + #[no_mangle]
->> + pub extern "sysv64-unwind" fn rust_item_that_can_unwind() {}
->> +
->> +diff --git a/tests/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs
->> b/tests/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs
->> +index 05f6b8b70e1..a9b6c34ee58 100644
->> +--- a/tests/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs
->> ++++ b/tests/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs
->> +@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
->> + // `thiscall-unwind` extern functions. `thiscall-unwind` functions MUS=
-T
->> NOT have this attribute. We
->> + // disable optimizations above to prevent LLVM from inferring the
->> attribute.
->> +
->> +-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
->> ++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
->> + #[no_mangle]
->> + pub extern "thiscall" fn rust_item_that_cannot_unwind() {}
->> +
->> +-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
->> ++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
->> + #[no_mangle]
->> + pub extern "thiscall-unwind" fn rust_item_that_can_unwind() {}
->> +
->> +diff --git a/tests/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs
->> b/tests/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs
->> +index d001a16b32a..8cedb55ae1d 100644
->> +--- a/tests/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs
->> ++++ b/tests/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs
->> +@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
->> + // `vectorcall-unwind` extern functions. `vectorcall-unwind` functions
->> MUST NOT have this attribute.
->> + // We disable optimizations above to prevent LLVM from inferring the
->> attribute.
->> +
->> +-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
->> ++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
->> + #[no_mangle]
->> + pub extern "vectorcall" fn rust_item_that_cannot_unwind() {}
->> +
->> +-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
->> ++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
->> + #[no_mangle]
->> + pub extern "vectorcall-unwind" fn rust_item_that_can_unwind() {}
->> +
->> +diff --git a/tests/codegen-llvm/unwind-abis/win64-unwind-abi.rs
->> b/tests/codegen-llvm/unwind-abis/win64-unwind-abi.rs
->> +index 257f00b54e4..2a3ad330406 100644
->> +--- a/tests/codegen-llvm/unwind-abis/win64-unwind-abi.rs
->> ++++ b/tests/codegen-llvm/unwind-abis/win64-unwind-abi.rs
->> +@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}
->> + // `win64-unwind` extern functions. `win64-unwind` functions MUST NOT
->> have this attribute. We
->> + // disable optimizations above to prevent LLVM from inferring the
->> attribute.
->> +
->> +-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {
->> ++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0
->> + #[no_mangle]
->> + pub extern "win64" fn rust_item_that_cannot_unwind() {}
->> +
->> +-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {
->> ++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1
->> + #[no_mangle]
->> + pub extern "win64-unwind" fn rust_item_that_can_unwind() {}
->> +
->> +diff --git a/tests/assembly-llvm/slice-is_ascii.rs
->> b/tests/assembly-llvm/slice-is_ascii.rs
->> +index e53cd5160cf..6d660e78147 100644
->> +--- a/tests/assembly-llvm/slice-is_ascii.rs
->> ++++ b/tests/assembly-llvm/slice-is_ascii.rs
->> +@@ -6,6 +6,11 @@
->> + //@ only-x86_64
->> + //@ ignore-sgx
->> +
->> ++// No longer optimizes as desired, tracked at:
->> ++// https://github.com/rust-lang/rust/issues/154141
->> ++// https://github.com/llvm/llvm-project/issues/209216
->> ++//@ max-llvm-major-version: 22
->> ++
->> + #![feature(str_internals)]
->> +
->> + // CHECK-LABEL: is_ascii_simple_demo:
->> +diff --git a/tests/assembly-llvm/simd-intrinsic-mask-reduce.rs
->> b/tests/assembly-llvm/simd-intrinsic-mask-reduce.rs
->> +index 40d16886c6d..d3698fda5fe 100644
->> +--- a/tests/assembly-llvm/simd-intrinsic-mask-reduce.rs
->> ++++ b/tests/assembly-llvm/simd-intrinsic-mask-reduce.rs
->> +@@ -1,12 +1,16 @@
->> + // verify that simd mask reductions do not introduce additional bit
->> shift operations
->> + //@ add-minicore
->> +-//@ revisions: x86 aarch64
->> ++//@ revisions: x86 aarch64-llvm22 aarch64
->> + //@ [x86] compile-flags: --target=3Dx86_64-unknown-linux-gnu -C
->> llvm-args=3D-x86-asm-syntax=3Dintel
->> + // Set the base cpu explicitly, in case the default has been changed.
->> + //@ [x86] compile-flags: -C target-cpu=3Dx86-64
->> + //@ [x86] needs-llvm-components: x86
->> ++//@ [aarch64-llvm22] compile-flags: --target=3Daarch64-unknown-linux-g=
-nu
->> ++//@ [aarch64-llvm22] needs-llvm-components: aarch64
->> ++//@ [aarch64-llvm22] max-llvm-major-version: 22
->> + //@ [aarch64] compile-flags: --target=3Daarch64-unknown-linux-gnu
->> + //@ [aarch64] needs-llvm-components: aarch64
->> ++//@ [aarch64] min-llvm-version: 23
->> + //@ assembly-output: emit-asm
->> + //@ compile-flags: --crate-type=3Dlib -Copt-level=3D3 -C panic=3Dabort
->> +
->> +@@ -33,12 +37,19 @@
->> +     // x86-NEXT: {{cmp ax, -1|cmp eax, 65535|xor eax, 65535}}
->> +     // x86-NEXT: sete al
->> +     //
->> ++    // aarch64-llvm22-NOT: shl
->> ++    // aarch64-llvm22: cmge v0.16b, v0.16b, #0
->> ++    // aarch64-llvm22-DAG: mov [[REG1:[a-z0-9]+]], #1
->> ++    // aarch64-llvm22-DAG: umaxv b0, v0.16b
->> ++    // aarch64-llvm22-NEXT: fmov [[REG2:[a-z0-9]+]], s0
->> ++    // aarch64-llvm22-NEXT: bic w0, [[REG1]], [[REG2]]
->> ++    //
->> +     // aarch64-NOT: shl
->> +     // aarch64: cmge v0.16b, v0.16b, #0
->> +-    // aarch64-DAG: mov [[REG1:[a-z0-9]+]], #1
->> +-    // aarch64-DAG: umaxv b0, v0.16b
->> +-    // aarch64-NEXT: fmov [[REG2:[a-z0-9]+]], s0
->> +-    // aarch64-NEXT: bic w0, [[REG1]], [[REG2]]
->> ++    // aarch64-NEXT: addp [[REG1:d[0-9]+]], v0.2d
->> ++    // aarch64-NEXT: fmov [[REG2:x[0-9]+]], [[REG1]]
->> ++    // aarch64-NEXT: cmp [[REG2]], #0
->> ++    // aarch64-NEXT: cset w0, eq
->> +     simd_reduce_all(m)
->> + }
->> +
->> +@@ -50,10 +61,17 @@
->> +     // x86-NEXT: test eax, eax
->> +     // x86-NEXT: setne al
->> +     //
->> ++    // aarch64-llvm22-NOT: shl
->> ++    // aarch64-llvm22: cmlt v0.16b, v0.16b, #0
->> ++    // aarch64-llvm22-NEXT: umaxv b0, v0.16b
->> ++    // aarch64-llvm22-NEXT: fmov [[REG:[a-z0-9]+]], s0
->> ++    // aarch64-llvm22-NEXT: and w0, [[REG]], #0x1
->> ++    //
->> +     // aarch64-NOT: shl
->> +     // aarch64: cmlt v0.16b, v0.16b, #0
->> +-    // aarch64-NEXT: umaxv b0, v0.16b
->> +-    // aarch64-NEXT: fmov [[REG:[a-z0-9]+]], s0
->> +-    // aarch64-NEXT: and w0, [[REG]], #0x1
->> ++    // aarch64-NEXT: addp [[REG1:d[0-9]+]], v0.2d
->> ++    // aarch64-NEXT: fmov [[REG2:x[0-9]+]], [[REG1]]
->> ++    // aarch64-NEXT: cmp [[REG2]], #0
->> ++    // aarch64-NEXT: cset w0, ne
->> +     simd_reduce_any(m)
->> + }
->> +diff --git a/tests/codegen-llvm/asm/global_asm.rs
->> b/tests/codegen-llvm/asm/global_asm.rs
->> +index 32075daa3cf..8c1c4a3b588 100644
->> +--- a/tests/codegen-llvm/asm/global_asm.rs
->> ++++ b/tests/codegen-llvm/asm/global_asm.rs
->> +@@ -7,10 +7,10 @@
->> +
->> + use std::arch::global_asm;
->> +
->> +-// CHECK-LABEL: foo
->> + // CHECK: module asm
->> ++// CHECK-LABEL: foo
->> + // this regex will capture the correct unconditional branch inst.
->> +-// CHECK: module asm "{{[[:space:]]+}}jmp baz"
->> ++// CHECK: "{{[[:space:]]+}}jmp baz"
->> + global_asm!(
->> +     r#"
->> +     .global foo
->> +diff --git a/tests/codegen-llvm/asm/global_asm_include.rs
->> b/tests/codegen-llvm/asm/global_asm_include.rs
->> +index 98be9c3e333..cad9901336b 100644
->> +--- a/tests/codegen-llvm/asm/global_asm_include.rs
->> ++++ b/tests/codegen-llvm/asm/global_asm_include.rs
->> +@@ -7,9 +7,9 @@
->> +
->> + use std::arch::global_asm;
->> +
->> +-// CHECK-LABEL: foo
->> + // CHECK: module asm
->> +-// CHECK: module asm "{{[[:space:]]+}}jmp baz"
->> ++// CHECK-LABEL: foo
->> ++// CHECK: "{{[[:space:]]+}}jmp baz"
->> + global_asm!(include_str!("foo.s"));
->> +
->> + extern "C" {
->> +diff --git a/tests/codegen-llvm/asm/global_asm_x2.rs
->> b/tests/codegen-llvm/asm/global_asm_x2.rs
->> +index 9e3a00f0680..8c6f38289de 100644
->> +--- a/tests/codegen-llvm/asm/global_asm_x2.rs
->> ++++ b/tests/codegen-llvm/asm/global_asm_x2.rs
->> +@@ -8,12 +8,12 @@
->> +
->> + use core::arch::global_asm;
->> +
->> +-// CHECK-LABEL: foo
->> + // CHECK: module asm
->> +-// CHECK: module asm "{{[[:space:]]+}}jmp baz"
->> ++// CHECK-LABEL: foo
->> ++// CHECK: "{{[[:space:]]+}}jmp baz"
->> + // any other global_asm will be appended to this first block, so:
->> + // CHECK-LABEL: bar
->> +-// CHECK: module asm "{{[[:space:]]+}}jmp quux"
->> ++// CHECK: "{{[[:space:]]+}}jmp quux"
->> + global_asm!(
->> +     r#"
->> +     .global foo
->> +diff --git a/tests/codegen-llvm/array-cmp.rs
->> b/tests/codegen-llvm/array-cmp.rs
->> +index 0106b9c15c1..5b0a802f409 100644
->> +--- a/tests/codegen-llvm/array-cmp.rs
->> ++++ b/tests/codegen-llvm/array-cmp.rs
->> +@@ -2,6 +2,9 @@
->> +
->> + //@ compile-flags: -C opt-level=3D2
->> + //@ needs-deterministic-layouts (checks depend on tuple layout)
->> ++//@ revisions: LLVM22 LLVM23
->> ++//@ [LLVM22] max-llvm-major-version: 22
->> ++//@ [LLVM23] min-llvm-version: 23
->> +
->> + #![crate_type =3D "lib"]
->> +
->> +@@ -66,7 +69,8 @@ pub fn compare() -> bool {
->> +     // CHECK-NEXT: br i1 %[[EQ01]], label %{{.+}}, label %[[EXIT_U]]
->> +
->> +     // CHECK: [[DONE]]:
->> +-    // CHECK: %[[RET:.+]] =3D phi i1 [ %{{.+}}, %[[EXIT_S]] ], [ %{{.+=
-}},
->> %[[EXIT_U]] ], [ true, %[[L11]] ]
->> ++    // LLVM22: %[[RET:.+]] =3D phi i1 [ %{{.+}}, %[[EXIT_S]] ], [
->> %{{.+}}, %[[EXIT_U]] ], [ true, %[[L11]] ]
->> ++    // LLVM23: %[[RET:.+]] =3D phi i1 [ %{{.+}}, %[[EXIT_U]] ], [
->> %{{.+}}, %[[EXIT_S]] ], [ true, %[[L11]] ]
->> +     // CHECK: ret i1 %[[RET]]
->> +
->> +     a <=3D b
->> +diff --git a/tests/codegen-llvm/enum/enum-match.rs
->> b/tests/codegen-llvm/enum/enum-match.rs
->> +index 6d8b97328f8..a0cba452e12 100644
->> +--- a/tests/codegen-llvm/enum/enum-match.rs
->> ++++ b/tests/codegen-llvm/enum/enum-match.rs
->> +@@ -1,5 +1,8 @@
->> + //@ compile-flags: -Copt-level=3D1
->> + //@ only-64bit
->> ++//@ revisions: LLVM22 LLVM23
->> ++//@ [LLVM22] max-llvm-major-version: 22
->> ++//@ [LLVM23] min-llvm-version: 23
->> +
->> + #![crate_type =3D "lib"]
->> + #![feature(core_intrinsics)]
->> +@@ -18,8 +21,9 @@ pub enum Enum0 {
->> + // CHECK-LABEL: define{{( dso_local)?}} noundef{{( range\(i8 [0-9]+,
->> [0-9]+\))?}} i8 @match0(i8{{.+}}%0)
->> + // CHECK-NEXT: start:
->> + // CHECK-NEXT: %[[IS_B:.+]] =3D icmp eq i8 %0, 2
->> +-// CHECK-NEXT: %[[TRUNC:.+]] =3D and i8 %0, 1
->> +-// CHECK-NEXT: %[[R:.+]] =3D select i1 %[[IS_B]], i8 13, i8 %[[TRUNC]]
->> ++// LLVM22-NEXT: %[[TRUNC:.+]] =3D and i8 %0, 1
->> ++// LLVM22-NEXT: %[[R:.+]] =3D select i1 %[[IS_B]], i8 13, i8 %[[TRUNC]=
-]
->> ++// LLVM23-NEXT: %[[R:.+]] =3D select i1 %[[IS_B]], i8 13, i8 %0
->> + // CHECK-NEXT: ret i8 %[[R]]
->> + #[no_mangle]
->> + pub fn match0(e: Enum0) -> u8 {
->> +diff --git a/tests/assembly-llvm/simd-bitmask.rs
->> b/tests/assembly-llvm/simd-bitmask.rs
->> +index 98f63c165f3..e8bb335c5b0 100644
->> +--- a/tests/assembly-llvm/simd-bitmask.rs
->> ++++ b/tests/assembly-llvm/simd-bitmask.rs
->> +@@ -11,7 +11,7 @@
->> + //@ [aarch64] min-llvm-version: 23
->> + //@ [aarch64] compile-flags: --target=3Daarch64-unknown-linux-gnu
->> + //@ [aarch64] needs-llvm-components: aarch64
->> +-//@ [aarch64-llvm-pre-23] ignore-llvm-version: 23 - 99
->> ++//@ [aarch64-llvm-pre-23] max-llvm-major-version: 22
->> + //@ [aarch64-llvm-pre-23] compile-flags:
->> --target=3Daarch64-unknown-linux-gnu
->> + //@ [aarch64-llvm-pre-23] needs-llvm-components: aarch64
->> + //@ assembly-output: emit-asm
->> +diff --git a/tests/codegen-llvm/array-equality.rs
->> b/tests/codegen-llvm/array-equality.rs
->> +index 706caebdcb6..c0f716b6067 100644
->> +--- a/tests/codegen-llvm/array-equality.rs
->> ++++ b/tests/codegen-llvm/array-equality.rs
->> +@@ -1,5 +1,5 @@
->> + //@ revisions: llvm-current llvm-next
->> +-//@[llvm-current] ignore-llvm-version: 23-99
->> ++//@[llvm-current] max-llvm-major-version: 22
->> + //@[llvm-next] min-llvm-version: 23
->> + //@ compile-flags: -Copt-level=3D3 -Z merge-functions=3Ddisabled
->> + //@ only-x86_64
->> +diff --git a/tests/ui/explicit-tail-calls/support/bystack.rs
->> b/tests/ui/explicit-tail-calls/support/bystack.rs
->> +index ddd9c79f5c7..c89ad194f8b 100644
->> +--- a/tests/ui/explicit-tail-calls/support/bystack.rs
->> ++++ b/tests/ui/explicit-tail-calls/support/bystack.rs
->> +@@ -36,11 +36,11 @@
->> + //@ revisions: loongarch32
->> + //@[loongarch32] compile-flags: --target loongarch32-unknown-none
->> + //@[loongarch32] needs-llvm-components: loongarch
->> +-//@[loongarch32] ignore-llvm-version: 22 - 23
->> ++//@[loongarch32] max-llvm-major-version: 21
->> + //@ revisions: loongarch64
->> + //@[loongarch64] compile-flags: --target loongarch64-unknown-linux-gnu
->> + //@[loongarch64] needs-llvm-components: loongarch
->> +-//@[loongarch64] ignore-llvm-version: 22 - 23
->> ++//@[loongarch64] max-llvm-major-version: 21
->> + //@ revisions: bpf
->> + //@[bpf] compile-flags: --target bpfeb-unknown-none
->> + //@[bpf] needs-llvm-components: bpf
->> +diff --git a/tests/ui/explicit-tail-calls/support/byval.rs
->> b/tests/ui/explicit-tail-calls/support/byval.rs
->> +index f451a953f2a..e6f26b9292e 100644
->> +--- a/tests/ui/explicit-tail-calls/support/byval.rs
->> ++++ b/tests/ui/explicit-tail-calls/support/byval.rs
->> +@@ -36,11 +36,11 @@
->> + //@ revisions: loongarch32
->> + //@[loongarch32] compile-flags: --target loongarch32-unknown-none
->> + //@[loongarch32] needs-llvm-components: loongarch
->> +-//@[loongarch32] ignore-llvm-version: 22 - 23
->> ++//@[loongarch32] max-llvm-major-version: 21
->> + //@ revisions: loongarch64
->> + //@[loongarch64] compile-flags: --target loongarch64-unknown-linux-gnu
->> + //@[loongarch64] needs-llvm-components: loongarch
->> +-//@[loongarch64] ignore-llvm-version: 22 - 23
->> ++//@[loongarch64] max-llvm-major-version: 21
->> + //@ revisions: bpf
->> + //@[bpf] compile-flags: --target bpfeb-unknown-none
->> + //@[bpf] needs-llvm-components: bpf
->> +diff --git a/tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs
->> b/tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs
->> +index 5834255f3d3..c3090a20e4d 100644
->> +--- a/tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs
->> ++++ b/tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs
->> +@@ -14,7 +14,6 @@ pub unsafe fn foo(x: &mut Copied<Iter<'_, u32>>) ->
->> u32 {
->> +     // CHECK-NOT: br {{.*}}
->> +     // CHECK-NOT: select
->> +     // CHECK: [[RET:%.*]] =3D load i32, ptr
->> +-    // CHECK-NEXT: assume
->> +-    // CHECK-NEXT: ret i32 [[RET]]
->> ++    // CHECK: ret i32 [[RET]]
->> +     x.next().unwrap_unchecked()
->> + }
->> diff --git a/meta/recipes-devtools/rust/rust-source.inc
->> b/meta/recipes-devtools/rust/rust-source.inc
->> index dd3e89a097..d87271b29c 100644
->> --- a/meta/recipes-devtools/rust/rust-source.inc
->> +++ b/meta/recipes-devtools/rust/rust-source.inc
->> @@ -7,6 +7,7 @@ SRC_URI +=3D "
->> https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n
->>
->> file://0001-src-core-build_steps-tool.rs-switch-off-lto-for-rust.patch;p=
-atchdir=3D${RUSTSRC}
->> \
->>
->> file://0002-Fix-rust-build-failure-with-unstable-options.patch;patchdir=
-=3D${RUSTSRC}
->> \
->>
->> file://0003-bootstrap-skip-StdarchVerify-when-remote-testing.patch;patch=
-dir=3D${RUSTSRC}
->> \
->> +
->> file://0004-Backport-commits-from-rust-Fix-selftest-llvm23.patch;patchdi=
-r=3D${RUSTSRC}
->> \
->>  "
->>  SRC_URI[rust.sha256sum] =3D
->> "271fa73d8174f53d713c46a8310da7bf7cfdcfb8b7cfd1c2b74b84a83ae9fb1e"
+>>  create mode 100644
+>> meta/recipes-devtools/rust/files/0005-rustc_codegen_llvm-Do-not-pass-amx=
+-tf32-to-LLVM-23.patch
+>>  create mode 100644
+>> meta/recipes-graphics/pango/pango/0001-meson-don-t-error-on-clang-s-unus=
+ed-but-set-global.patch
+>>  rename meta/recipes-graphics/spir/{spirv-llvm-translator_22.1.5.bb =3D>
+>> spirv-llvm-translator_23.1.0.bb} (87%)
 >>
 >> --
 >> 2.43.0
@@ -1007,9 +454,9 @@ r=3D${RUSTSRC}
 >>
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#244695): https://lists.openembedded.org/g/openembedde=
-d-core/message/244695
-> Mute This Topic: https://lists.openembedded.org/mt/120998122/8968818
+> View/Reply Online (#244697): https://lists.openembedded.org/g/openembedde=
+d-core/message/244697
+> Mute This Topic: https://lists.openembedded.org/mt/120998127/8968818
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Su=
 nilKumar.Dora@windriver.com]
@@ -1019,22 +466,22 @@ nilKumar.Dora@windriver.com]
 >
 >
 
---00000000000093713d065a89caf5
+--000000000000433e45065a89d28d
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
 mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 31,=
- 2026 at 10:17=E2=80=AFPM Dora, Sunil Kumar &lt;<a href=3D"mailto:SunilKuma=
-r.Dora@windriver.com">SunilKumar.Dora@windriver.com</a>&gt; wrote:<br></div=
-><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border=
--left:1px solid rgb(204,204,204);padding-left:1ex"><u></u>
+ 2026 at 9:59=E2=80=AFPM Dora, Sunil Kumar &lt;<a href=3D"mailto:SunilKumar=
+.Dora@windriver.com">SunilKumar.Dora@windriver.com</a>&gt; wrote:<br></div>=
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex"><u></u>
 
 
 
 
 <div>
-<div>On 8/31/2026 1:17 AM, Khem Raj via <a href=3D"http://lists.openembedde=
+<div>On 8/31/2026 1:23 AM, Khem Raj via <a href=3D"http://lists.openembedde=
 d.org" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
 </div>
 <blockquote type=3D"cite">
@@ -1048,22 +495,42 @@ r open attachments unless you recognize the sender and know the content is =
 safe.</span><br>
 <u></u></div>
 <div>
-<div dir=3D"ltr">I wonder if each backport should have=C2=A0been a patch of=
- its own. It would make=C2=A0it easy to maintain of some of them get backpo=
-rted to later versions of rust.</div>
+<div dir=3D"ltr">Looks pretty good to me. I have few feedback comments, not=
+ a merge blocker but good to consider for future ease of porting.</div>
 </div>
 </blockquote>
-I checked with Deepesh. These all exist for the same llvm 23 bump, mostly t=
-est guarding plus the one AssignGUID wrapper fix, and they become redundant=
-=C2=A0<br>
-together once we move to a rust that supports LLVM 23. So one patch keeps i=
-t simple here. For real compiler or library backports we agree=C2=A0<br>
-separate patches make life easier and we will do that going forward. Ok to =
-keep this one as is?<br></div></blockquote><div><br></div><div>OK, Lets try=
- it this way, Since we will bump minor versions=C2=A0of llvm during its lif=
-etime we will see if it will cause conflicts too much.</div><div>=C2=A0</di=
-v><blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;borde=
-r-left:1px solid rgb(204,204,204);padding-left:1ex"><div>
+Thanks Khem.<br>
+<br>
+Quick update on the upstream side since the series went out.<br>
+<br>
+The clang half of the ssp_nonshared patch (0004 in the stack) was <b>merged=
+ </b>into llvm main yesterday, commit
+<a href=3D"https://github.com/llvm/llvm-project/commit/fd974c4293015388337e=
+2f66f817a23e5873389f" target=3D"_blank">
+fd974c429301</a>, reviewed by<br>
+MaskRay (Original <a href=3D"https://github.com/llvm/llvm-project/pull/2198=
+28" target=3D"_blank">
+PR #219828</a> ). A backport to release/23.x is open as <a href=3D"https://=
+github.com/llvm/llvm-project/pull/220136" target=3D"_blank">
+PR #220136</a>.=C2=A0<br>
+If that lands I will flip 0004 to Upstream-Status: Backport, and at the nex=
+t upgrade the patch goes away entirely.<br></div></blockquote><div><br></di=
+v><div>Thanks for following=C2=A0up on these patches, its really long time =
+that we clear this debt.</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
+uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
+04);padding-left:1ex"><div>
+<br>
+The gcc half is on <a href=3D"https://gcc.gnu.org/pipermail/gcc-patches/202=
+6-August/729351.html" target=3D"_blank">
+gcc-patches</a> as v2 with bugzilla <a href=3D"https://gcc.gnu.org/bugzilla=
+/show_bug.cgi?id=3D127138" target=3D"_blank">
+PR 127138</a>. Sam James mentioned Gentoo has carried the same fix downstre=
+am for years.<br></div></blockquote><div><br></div><div>yes, I know, again =
+same, it will be nicer to get this list down as well. Somethings are due to=
+ how OE has customized stuff so it will</div><div>be hard to get rid of but=
+ anything that gets upstreamed is a bonus.</div><div>=C2=A0</div><blockquot=
+e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
+olid rgb(204,204,204);padding-left:1ex"><div>
 <br>
 Thanks,<br>
 Sunil Dora
@@ -1076,898 +543,279 @@ unilkumar.dora@windriver.com</a>&gt; wrote:<br>
 </div>
 <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
 left:1px solid rgb(204,204,204);padding-left:1ex">
-From: Deepesh Varatharajan &lt;<a href=3D"mailto:Deepesh.Varatharajan@windr=
-iver.com" target=3D"_blank">Deepesh.Varatharajan@windriver.com</a>&gt;<br>
+From: Sunil Dora &lt;<a href=3D"mailto:sunilkumar.dora@windriver.com" targe=
+t=3D"_blank">sunilkumar.dora@windriver.com</a>&gt;<br>
 <br>
-Backport upstream Rust commits to address build and oe-selftest<br>
-failures introduced by the LLVM 23 upgrade.<br>
+This upgrades clang/llvm from 22.1.8 to 23.1.0 and fixes the fallout<br>
+found while testing the result.<br>
 <br>
-New patch:<br>
-0004-Backport-commits-from-rust-Fix-selftest-llvm23.patch<br>
-The backported changes update LLVM 23 compatibility in the Rust LLVM<br>
-wrapper and adjust affected LLVM codegen tests.<br>
+The carried LLVM patch stack goes from 41 to 35: seven dropped<br>
+because 23.1.0 already contains the fix or the code they patched no<br>
+longer exists, three reworked for LLVM 23, and one added for a 32-bit<br>
+x86 build break, already merged in llvm-project.<br>
 <br>
-Selftest Changes:<br>
-Exclude the following Windows-specific test from oe-selftest,<br>
-as it is not relevant.<br>
-tests/assembly-llvm/x86_64-windows-float-abi.rs<br>
+Please apply with git am --keep-cr: patch 8 fixes an ovmf file that<br>
+uses CRLF line endings, and plain git am corrupts the patch.<br>
 <br>
-Excluded tests:<br>
-+---------+---------+---------+<br>
-| Before=C2=A0 |=C2=A0 After=C2=A0 | Skipped |<br>
-+---------+---------+---------+<br>
-|=C2=A0 =C2=A043=C2=A0 =C2=A0 |=C2=A0 =C2=A044=C2=A0 =C2=A0 |=C2=A0 =C2=A0+=
-1=C2=A0 =C2=A0 |<br>
-+---------+---------+---------+<br>
+I have also reported the underlying bugs upstream:<br>
+=C2=A0 llvm float16 fix, merged:<br>
+=C2=A0 =C2=A0 <a href=3D"https://github.com/llvm/llvm-project/pull/219675" =
+rel=3D"noreferrer" target=3D"_blank">
+https://github.com/llvm/llvm-project/pull/219675</a><br>
+=C2=A0 ovmf fix, sent to edk2:<br>
+=C2=A0 =C2=A0 <a href=3D"https://github.com/tianocore/edk2/pull/13038" rel=
+=3D"noreferrer" target=3D"_blank">
+https://github.com/tianocore/edk2/pull/13038</a><br>
+=C2=A0 pango warning, the root cause is in GLib, reported to both:<br>
+=C2=A0 =C2=A0 <a href=3D"https://gitlab.gnome.org/GNOME/glib/-/issues/4038"=
+ rel=3D"noreferrer" target=3D"_blank">
+https://gitlab.gnome.org/GNOME/glib/-/issues/4038</a><br>
+=C2=A0 =C2=A0 <a href=3D"https://gitlab.gnome.org/GNOME/pango/-/issues/900"=
+ rel=3D"noreferrer" target=3D"_blank">
+https://gitlab.gnome.org/GNOME/pango/-/issues/900</a><br>
+=C2=A0 vulkan-samples warning, which is a real bug in their code:<br>
+=C2=A0 =C2=A0 <a href=3D"https://github.com/KhronosGroup/Vulkan-Samples/iss=
+ues/1570" rel=3D"noreferrer" target=3D"_blank">
+https://github.com/KhronosGroup/Vulkan-Samples/issues/1570</a><br>
 <br>
-Signed-off-by: Deepesh Varatharajan &lt;<a href=3D"mailto:Deepesh.Varathara=
-jan@windriver.com" target=3D"_blank">Deepesh.Varatharajan@windriver.com</a>=
-&gt;<br>
-Signed-off-by: Sunil Dora &lt;<a href=3D"mailto:sunilkumar.dora@windriver.c=
-om" target=3D"_blank">sunilkumar.dora@windriver.com</a>&gt;<br>
----<br>
+Tested: oe-selftest clang suites on qemuarm, qemuarm64, qemux86,<br>
+qemux86-64 and qemuriscv64 on the autobuilder, musl images on qemux86<br>
+and qemuarm64, a qemux86 world build with TOOLCHAIN=3Dclang, 32-bit<br>
+multilib, and core-image-minimal testimage runs.<br>
+<br>
+Deepesh Varatharajan (2):<br>
+=C2=A0 rust: Fix build and oe-selftest failures with LLVM 23<br>
+=C2=A0 clang/llvm: Ignore tests fail with clang/llvm 23 upgrade<br>
+<br>
+Sunil Dora (9):<br>
+=C2=A0 clang/llvm: Upgrade to 23.1.0 release<br>
+=C2=A0 spirv-llvm-translator: Upgrade to 23.1.0<br>
+=C2=A0 openmp: Build via the LLVM runtimes entry point<br>
+=C2=A0 rust: Do not pass the removed x86 amx-tf32 feature to LLVM 23<br>
+=C2=A0 clang: Disable clangd&#39;s decision-forest completion model on powe=
+rpc<br>
+=C2=A0 pango: Don&#39;t turn clang 23&#39;s -Wunused-but-set-global into an=
+ error<br>
+=C2=A0 ovmf: Fix memcpy alias prototype for clang 23<br>
+=C2=A0 vulkan-samples: Don&#39;t turn clang 23&#39;s -Wdangling-gsl into an=
+ error<br>
+=C2=A0 gettext: Export a fully-flagged Objective-C compiler<br>
+<br>
+=C2=A0meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A02 +-<br>
+=C2=A0meta/lib/oeqa/selftest/cases/clang.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0|=C2=A0 10 +<br>
 =C2=A0meta/lib/oeqa/selftest/cases/rust.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
 =A0 |=C2=A0 =C2=A01 +<br>
+=C2=A0...t-env.in-do-not-add-C-CXX-parameters.patch |=C2=A0 17 +-<br>
+=C2=A0meta/recipes-core/gettext/<a href=3D"http://gettext_1.0.bb" rel=3D"no=
+referrer" target=3D"_blank">gettext_1.0.bb</a>=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A05 +<br>
+=C2=A0...sicLib-fix-memcpy-alias-prototype-fo.patch |=C2=A0 35 +<br>
+=C2=A0meta/recipes-core/ovmf/<a href=3D"http://ovmf_git.bb" rel=3D"noreferr=
+er" target=3D"_blank">ovmf_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
+=A0 |=C2=A0 =C2=A01 +<br>
+=C2=A0...ify-cross-compilation.-Don-t-use-na.patch} |=C2=A0 =C2=A06 +-<br>
+=C2=A0...ibunwind-headers-when-LIBCXXABI_LIBU.patch |=C2=A0 60 --<br>
+=C2=A0...-support-a-new-embedded-linux-target.patch | 309 --------<br>
+=C2=A0...env-override-of-exe-and-libdir-path.patch} |=C2=A0 =C2=A04 +-<br>
+=C2=A0...-driver-Check-sysroot-for-ldso-path.patch} |=C2=A0 14 +-<br>
+=C2=A0...ools.cpp-Add-lssp_nonshared-on-musl.patch} |=C2=A0 =C2=A06 +-<br>
+=C2=A0...5-clang-Prepend-trailing-to-sysroot.patch} |=C2=A0 10 +-<br>
+=C2=A0...fine-releative-gcc-installation-dir.patch} |=C2=A0 10 +-<br>
+=C2=A0...d-and-ldl-along-with-lunwind-for-st.patch} |=C2=A0 10 +-<br>
+=C2=A0...-Check-for-atomic-double-intrinsics.patch} |=C2=A0 =C2=A04 +-<br>
+=C2=A0...ure-for-packages-using-find_package.patch} |=C2=A0 20 +-<br>
+=C2=A0...e-dir-location-for-cross-toolchains.patch} |=C2=A0 =C2=A04 +-<br>
+=C2=A0...dyld-prefix-when-checking-sysroot-f.patch} |=C2=A0 18 +-<br>
+=C2=A0...clang-Use-python3-in-python-scripts.patch} |=C2=A0 =C2=A06 +-<br>
+=C2=A0...-anchor-for-adding-OE-distro-vendor.patch} |=C2=A0 37 +-<br>
+=C2=A0...ple-for-non-debian-multiarch-linux-.patch} |=C2=A0 =C2=A09 +-<br>
+=C2=A0...ibunwind-Added-unw_backtrace-method.patch} |=C2=A0 =C2=A08 +-<br>
+=C2=A0...016-lldb-Link-with-libatomic-on-x86.patch} |=C2=A0 =C2=A04 +-<br>
+=C2=A0...ot-use-backtrace-APIs-on-non-glibc-l.patch |=C2=A0 68 --<br>
+=C2=A0...mpiler-rt-Enable-__int128-for-ppc32.patch} |=C2=A0 26 +-<br>
+=C2=A0...t-use-cmake-infra-to-detect-libzstd.patch} |=C2=A0 =C2=A08 +-<br>
+=C2=A0...-Fix-stat-struct-s-size-for-O32-ABI.patch} |=C2=A0 =C2=A06 +-<br>
+=C2=A0...cpp-ARMLibDirs-search-also-in-lib32.patch} |=C2=A0 10 +-<br>
+=C2=A0...-OE-specific-ABI-triple-for-N32-ABI.patch} |=C2=A0 63 +-<br>
+=C2=A0...nwind.pc.in-and-llvm-config-scripts.patch} |=C2=A0 12 +-<br>
+=C2=A0...pect-LLVM_LIBDIR_SUFFIX-like-other-.patch} |=C2=A0 17 +-<br>
+=C2=A0...o-not-pass-target-to-clang-compiler.patch} |=C2=A0 =C2=A04 +-<br>
+=C2=A0...-sort-ClassInfo-lists-by-name-as-we.patch} |=C2=A0 =C2=A04 +-<br>
+=C2=A0...ve-LLVM_LDFLAGS-from-ldflags-output.patch} |=C2=A0 =C2=A04 +-<br>
+=C2=A0...de-sync_fetch_and_-for-any-pre-ARMv.patch} |=C2=A0 =C2=A06 +-<br>
+=C2=A0...de-uptr-sptr-typedefs-on-Mips-Linux.patch} |=C2=A0 =C2=A08 +-<br>
+=C2=A0...-headers-in-the-debug-info-when-bui.patch} |=C2=A0 =C2=A06 +-<br>
+=C2=A0..._HAVE_OPT_VIEWER_MODULES-externally.patch} |=C2=A0 =C2=A06 +-<br>
+=C2=A0...ang-tblgen-if-it-is-actually-needed.patch} |=C2=A0 =C2=A08 +-<br>
+=C2=A0...ymlink-path-for-libcc-when-LLVM_ENA.patch} |=C2=A0 =C2=A08 +-<br>
+=C2=A0...ix-sysroot-based-compiler-rt-search.patch} |=C2=A0 15 +-<br>
+=C2=A0...&gt; 0034-guard-clang-tools-extra-test.patch} |=C2=A0 47 +-<br>
+=C2=A0...ng-block-when-searching-for-noreturn.patch |=C2=A0 41 --<br>
+=C2=A0...e-float16-on-32-bit-x86-without-SSE2.patch |=C2=A0 36 +<br>
+=C2=A0...UNKNOWN-elements-of-OffloadArch-enum.patch | 274 --------<br>
+=C2=A0...e-__gnu_unwind_frame-in-cxa_personal.patch |=C2=A0 33 -<br>
+=C2=A0...te-exit-fold-candidates-in-determini.patch |=C2=A0 71 --<br>
+=C2=A0meta/recipes-devtools/clang/<a href=3D"http://clang_git.bb" rel=3D"no=
+referrer" target=3D"_blank">clang_git.bb</a>=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
+=C2=A04 +<br>
+=C2=A0meta/recipes-devtools/clang/common-clang.inc=C2=A0 |=C2=A0 =C2=A04 +-=
+<br>
+=C2=A0meta/recipes-devtools/clang/common.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
+=C2=A0 78 +--<br>
+=C2=A0meta/recipes-devtools/clang/<a href=3D"http://openmp_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">openmp_git.bb</a>=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
+=C2=A05 +-<br>
 =C2=A0...ommits-from-rust-Fix-selftest-llvm23.patch | 661 +++++++++++++++++=
 +<br>
+=C2=A0...llvm-Do-not-pass-amx-tf32-to-LLVM-23.patch |=C2=A0 38 +<br>
 =C2=A0meta/recipes-devtools/rust/rust-source.inc=C2=A0 =C2=A0 |=C2=A0 =C2=
+=A02 +<br>
+=C2=A0...ror-on-clang-s-unused-but-set-global.patch |=C2=A0 28 +<br>
+=C2=A0meta/recipes-graphics/pango/<a href=3D"http://pango_1.58.0.bb" rel=3D=
+"noreferrer" target=3D"_blank">pango_1.58.0.bb</a>=C2=A0 =C2=A0|=C2=A0 =C2=
 =A01 +<br>
-=C2=A03 files changed, 663 insertions(+)<br>
+=C2=A0...<a href=3D"http://1.5.bb" rel=3D"noreferrer" target=3D"_blank">1.5=
+.bb</a> =3D&gt;
+<a href=3D"http://spirv-llvm-translator_23.1.0.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">
+spirv-llvm-translator_23.1.0.bb</a>} |=C2=A0 =C2=A06 +-<br>
+=C2=A0.../vulkan/<a href=3D"http://vulkan-samples_git.bb" rel=3D"noreferrer=
+" target=3D"_blank">vulkan-samples_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
+=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
+=C2=A060 files changed, 1109 insertions(+), 1113 deletions(-)<br>
+=C2=A0create mode 100644 meta/recipes-core/ovmf/ovmf/0005-CryptoPkg-Intrins=
+icLib-fix-memcpy-alias-prototype-fo.patch<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0003-compiler-rt-Simplify-c=
+ross-compilation.-Don-t-use-na.patch =3D&gt; 0001-compiler-rt-Simplify-cros=
+s-compilation.-Don-t-use-na.patch} (90%)<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0001-libcxxabi-F=
+ind-libunwind-headers-when-LIBCXXABI_LIBU.patch<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0002-compiler-rt=
+-support-a-new-embedded-linux-target.patch<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0004-llvm-allow-env-overrid=
+e-of-exe-and-libdir-path.patch =3D&gt; 0002-llvm-allow-env-override-of-exe-=
+and-libdir-path.patch} (96%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0005-clang-driver-Check-sys=
+root-for-ldso-path.patch =3D&gt; 0003-clang-driver-Check-sysroot-for-ldso-p=
+ath.patch} (87%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0006-clang-Driver-tools.cpp=
+-Add-lssp_nonshared-on-musl.patch =3D&gt; 0004-clang-Driver-tools.cpp-Add-l=
+ssp_nonshared-on-musl.patch} (86%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0007-clang-Prepend-trailing=
+-to-sysroot.patch =3D&gt; 0005-clang-Prepend-trailing-to-sysroot.patch} (81=
+%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0009-clang-Define-releative=
+-gcc-installation-dir.patch =3D&gt; 0006-clang-Define-releative-gcc-install=
+ation-dir.patch} (94%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0010-clang-Add-lpthread-and=
+-ldl-along-with-lunwind-for-st.patch =3D&gt; 0007-clang-Add-lpthread-and-ld=
+l-along-with-lunwind-for-st.patch} (86%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0011-Check-for-atomic-doubl=
+e-intrinsics.patch =3D&gt; 0008-Check-for-atomic-double-intrinsics.patch} (=
+91%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0012-cmake-Fix-configure-fo=
+r-packages-using-find_package.patch =3D&gt; 0009-cmake-Fix-configure-for-pa=
+ckages-using-find_package.patch} (89%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0013-clang-Fix-resource-dir=
+-location-for-cross-toolchains.patch =3D&gt; 0010-clang-Fix-resource-dir-lo=
+cation-for-cross-toolchains.patch} (95%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0014-clang-driver-Add-dyld-=
+prefix-when-checking-sysroot-f.patch =3D&gt; 0011-clang-driver-Add-dyld-pre=
+fix-when-checking-sysroot-f.patch} (88%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0015-clang-Use-python3-in-p=
+ython-scripts.patch =3D&gt; 0012-clang-Use-python3-in-python-scripts.patch}=
+ (90%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0016-llvm-clang-Insert-anch=
+or-for-adding-OE-distro-vendor.patch =3D&gt; 0013-llvm-clang-Insert-anchor-=
+for-adding-OE-distro-vendor.patch} (91%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0018-clang-Fix-x86-triple-f=
+or-non-debian-multiarch-linux-.patch =3D&gt; 0014-clang-Fix-x86-triple-for-=
+non-debian-multiarch-linux-.patch} (86%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0019-libunwind-Added-unw_ba=
+cktrace-method.patch =3D&gt; 0015-libunwind-Added-unw_backtrace-method.patc=
+h} (89%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0020-lldb-Link-with-libatom=
+ic-on-x86.patch =3D&gt; 0016-lldb-Link-with-libatomic-on-x86.patch} (92%)<b=
+r>
+=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0017-compiler-rt=
+-Do-not-use-backtrace-APIs-on-non-glibc-l.patch<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0021-compiler-rt-Enable-__i=
+nt128-for-ppc32.patch =3D&gt; 0017-compiler-rt-Enable-__int128-for-ppc32.pa=
+tch} (77%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0022-llvm-Do-not-use-cmake-=
+infra-to-detect-libzstd.patch =3D&gt; 0018-llvm-Do-not-use-cmake-infra-to-d=
+etect-libzstd.patch} (91%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0023-compiler-rt-Fix-stat-s=
+truct-s-size-for-O32-ABI.patch =3D&gt; 0019-compiler-rt-Fix-stat-struct-s-s=
+ize-for-O32-ABI.patch} (91%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0024-ToolChains-Gnu.cpp-ARM=
+LibDirs-search-also-in-lib32.patch =3D&gt; 0020-ToolChains-Gnu.cpp-ARMLibDi=
+rs-search-also-in-lib32.patch} (98%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0025-clang-llvm-Add-OE-spec=
+ific-ABI-triple-for-N32-ABI.patch =3D&gt; 0021-clang-llvm-Add-OE-specific-A=
+BI-triple-for-N32-ABI.patch} (60%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0026-llvm-Add-libunwind.pc.=
+in-and-llvm-config-scripts.patch =3D&gt; 0022-llvm-Add-libunwind.pc.in-and-=
+llvm-config-scripts.patch} (84%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0027-scan-build-py-respect-=
+LLVM_LIBDIR_SUFFIX-like-other-.patch =3D&gt; 0023-scan-build-py-respect-LLV=
+M_LIBDIR_SUFFIX-like-other-.patch} (90%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0028-compiler-rt-Do-not-pas=
+s-target-to-clang-compiler.patch =3D&gt; 0024-compiler-rt-Do-not-pass-targe=
+t-to-clang-compiler.patch} (91%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0029-AsmMatcherEmitter-sort=
+-ClassInfo-lists-by-name-as-we.patch =3D&gt; 0025-AsmMatcherEmitter-sort-Cl=
+assInfo-lists-by-name-as-we.patch} (92%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0030-llvm-config-remove-LLV=
+M_LDFLAGS-from-ldflags-output.patch =3D&gt; 0026-llvm-config-remove-LLVM_LD=
+FLAGS-from-ldflags-output.patch} (92%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0031-compiler-rt-Exclude-sy=
+nc_fetch_and_-for-any-pre-ARMv.patch =3D&gt; 0027-compiler-rt-Exclude-sync_=
+fetch_and_-for-any-pre-ARMv.patch} (95%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0032-compiler-rt-Hardcode-u=
+ptr-sptr-typedefs-on-Mips-Linu.patch =3D&gt; 0028-Hardcode-uptr-sptr-typede=
+fs-on-Mips-Linux.patch} (86%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0034-Revert-libc-Remap-head=
+ers-in-the-debug-info-when-bui.patch =3D&gt; 0029-Revert-libc-Remap-headers=
+-in-the-debug-info-when-bui.patch} (89%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0036-Don-t-expose-LLVM_HAVE=
+_OPT_VIEWER_MODULES-externally.patch =3D&gt; 0030-Don-t-expose-LLVM_HAVE_OP=
+T_VIEWER_MODULES-externally.patch} (86%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0037-clang-Only-build-clang=
+-tblgen-if-it-is-actually-need.patch =3D&gt; 0031-Only-build-clang-tblgen-i=
+f-it-is-actually-needed.patch} (81%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0038-llvm-libgcc-Fix-symlin=
+k-path-for-libcc-when-LLVM_ENA.patch =3D&gt; 0032-llvm-libgcc-Fix-symlink-p=
+ath-for-libcc-when-LLVM_ENA.patch} (93%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0041-Consolidate-and-fix-sy=
+sroot-based-compiler-rt-search.patch =3D&gt; 0033-Consolidate-and-fix-sysro=
+ot-based-compiler-rt-search.patch} (91%)<br>
+=C2=A0rename meta/recipes-devtools/clang/clang/{0042-guard-clang-tools-extr=
+a-test.patch =3D&gt; 0034-guard-clang-tools-extra-test.patch} (83%)<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0035-Prevent-rev=
+isiting-block-when-searching-for-noreturn.patch<br>
+=C2=A0create mode 100644 meta/recipes-devtools/clang/clang/0035-libc-Disabl=
+e-float16-on-32-bit-x86-without-SSE2.patch<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0039-Rename-UNUS=
+ED-and-UNKNOWN-elements-of-OffloadArch-enum.patch<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0040-libcxxabi-d=
+eclare-__gnu_unwind_frame-in-cxa_personal.patch<br>
+=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0043-LoopUnroll-=
+Iterate-exit-fold-candidates-in-determini.patch<br>
 =C2=A0create mode 100644 meta/recipes-devtools/rust/files/0004-Backport-com=
 mits-from-rust-Fix-selftest-llvm23.patch<br>
-<br>
-diff --git a/meta/lib/oeqa/selftest/cases/rust.py b/meta/lib/oeqa/selftest/=
-cases/rust.py<br>
-index fa8a8c1e7c..645b5d5fbf 100644<br>
---- a/meta/lib/oeqa/selftest/cases/rust.py<br>
-+++ b/meta/lib/oeqa/selftest/cases/rust.py<br>
-@@ -83,6 +83,7 @@ class RustSelfTestSystemEmulated(OESelftestTestCase, OEPT=
-estResultTestCase):<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;src/tools/tidy&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;tests/assembly-llvm/asm/aarch64-outline=
--atomics.rs&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;tests/assembly-llvm/c-variadic/arm.rs&#=
-39;,<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 &#39;tests/assembly-llvm/x86_64-windows-float-abi.=
-rs&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;tests/codegen-llvm/thread-local.rs&#39;=
-,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;tests/mir-opt/&#39;,<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&#39;tests/run-make&#39;,<br>
-diff --git a/meta/recipes-devtools/rust/files/0004-Backport-commits-from-ru=
-st-Fix-selftest-llvm23.patch b/meta/recipes-devtools/rust/files/0004-Backpo=
-rt-commits-from-rust-Fix-selftest-llvm23.patch<br>
-new file mode 100644<br>
-index 0000000000..1e1bf089f1<br>
---- /dev/null<br>
-+++ b/meta/recipes-devtools/rust/files/0004-Backport-commits-from-rust-Fix-=
-selftest-llvm23.patch<br>
-@@ -0,0 +1,661 @@<br>
-+Backport commits that fix build and oe-selftest failures seen with llvm 23=
-<br>
-+<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/rust-lang/rust/co=
-mmit/b8d3a4ac9cfeb81d1e929fe6eab0af4b77ba3bb4" rel=3D"noreferrer" target=3D=
-"_blank">https://github.com/rust-lang/rust/commit/b8d3a4ac9cfeb81d1e929fe6e=
-ab0af4b77ba3bb4</a>]<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/rust-lang/rust/co=
-mmit/d4a24cd6e18b98326429d8c7e7bbb269da14a5aa" rel=3D"noreferrer" target=3D=
-"_blank">https://github.com/rust-lang/rust/commit/d4a24cd6e18b98326429d8c7e=
-7bbb269da14a5aa</a>]<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/rust-lang/rust/co=
-mmit/20ac2125a2142c9bde53ca06d9b3cfb6941fd437" rel=3D"noreferrer" target=3D=
-"_blank">https://github.com/rust-lang/rust/commit/20ac2125a2142c9bde53ca06d=
-9b3cfb6941fd437</a>]<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/rust-lang/rust/co=
-mmit/2d18054569d1169bfae7ce21e5c7111f32f16774" rel=3D"noreferrer" target=3D=
-"_blank">https://github.com/rust-lang/rust/commit/2d18054569d1169bfae7ce21e=
-5c7111f32f16774</a>]<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/rust-lang/rust/co=
-mmit/e2159107f6ebc615ba6a92960d65528baf90cd35" rel=3D"noreferrer" target=3D=
-"_blank">https://github.com/rust-lang/rust/commit/e2159107f6ebc615ba6a92960=
-d65528baf90cd35</a>]<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/rust-lang/rust/co=
-mmit/283a60b64339d611b76a4ed2f9286f417b269b2f" rel=3D"noreferrer" target=3D=
-"_blank">https://github.com/rust-lang/rust/commit/283a60b64339d611b76a4ed2f=
-9286f417b269b2f</a>]<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/rust-lang/rust/co=
-mmit/61d9ba28a99f073fbeb19dbb552ddf343aef62f0" rel=3D"noreferrer" target=3D=
-"_blank">https://github.com/rust-lang/rust/commit/61d9ba28a99f073fbeb19dbb5=
-52ddf343aef62f0</a>]<br>
-+<br>
-+Signed-off-by: Deepesh Varatharajan &lt;<a href=3D"mailto:Deepesh.Varathar=
-ajan@windriver.com" target=3D"_blank">Deepesh.Varatharajan@windriver.com</a=
->&gt;<br>
-+<br>
-+diff --git a/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp b/compiler/r=
-ustc_llvm/llvm-wrapper/PassWrapper.cpp<br>
-+index fe5b8edce4a..e4807f10805 100644<br>
-+--- a/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp<br>
-++++ b/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp<br>
-+@@ -49,6 +49,9 @@<br>
-+ #include &quot;llvm/Transforms/Instrumentation/RealtimeSanitizer.h&quot;<=
-br>
-+ #include &quot;llvm/Transforms/Instrumentation/ThreadSanitizer.h&quot;<br=
->
-+ #include &quot;llvm/Transforms/Scalar/AnnotationRemarks.h&quot;<br>
-++#if LLVM_VERSION_GE(23, 0)<br>
-++#include &quot;llvm/Transforms/Utils/AssignGUID.h&quot;<br>
-++#endif<br>
-+ #include &quot;llvm/Transforms/Utils/CanonicalizeAliases.h&quot;<br>
-+ #include &quot;llvm/Transforms/Utils/FunctionImportUtils.h&quot;<br>
-+ #include &quot;llvm/Transforms/Utils/NameAnonGlobals.h&quot;<br>
-+@@ -925,6 +928,9 @@<br>
-+=C2=A0 =C2=A0if (NeedThinLTOBufferPasses) {<br>
-+=C2=A0 =C2=A0 =C2=A0MPM.addPass(CanonicalizeAliasesPass());<br>
-+=C2=A0 =C2=A0 =C2=A0MPM.addPass(NameAnonGlobalPass());<br>
-++#if LLVM_VERSION_GE(23, 0)<br>
-++=C2=A0 =C2=A0 MPM.addPass(AssignGUIDPass());<br>
-++#endif<br>
-+=C2=A0 =C2=A0}<br>
-+=C2=A0 =C2=A0// For `-Copt-level=3D0`, and the pre-link fat/thin LTO stage=
-s.<br>
-+=C2=A0 =C2=A0if (ThinLTOBufferRef &amp;&amp; *ThinLTOBufferRef =3D=3D null=
-ptr) {<br>
-+@@ -1464,6 +1470,9 @@<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PB.registerLoopAnalyses(LAM);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0PB.crossRegisterProxies(LAM, FAM, CGAM, =
-MAM);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ModulePassManager MPM;<br>
-++#if LLVM_VERSION_GE(23, 0)<br>
-++=C2=A0 =C2=A0 =C2=A0 =C2=A0 MPM.addPass(AssignGUIDPass());<br>
-++#endif<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MPM.addPass(ThinLTOBitcodeWriterPass(OS,=
- nullptr));<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0MPM.run(*unwrap(M), MAM);<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0} else {<br>
-+diff --git a/tests/codegen-llvm/bpf-allows-unaligned.rs b/tests/codegen-ll=
-vm/bpf-allows-unaligned.rs<br>
-+index c7a70d5b2e5..7e95a56d984 100644<br>
-+--- a/tests/codegen-llvm/bpf-allows-unaligned.rs<br>
-++++ b/tests/codegen-llvm/bpf-allows-unaligned.rs<br>
-+@@ -5,7 +5,7 @@<br>
-+ <br>
-+ #[no_mangle]<br>
-+ #[target_feature(enable =3D &quot;allows-misaligned-mem-access&quot;)]<br=
->
-+-// CHECK: define noundef zeroext i8 @foo(i8 noundef returned %arg) unname=
-d_addr #0 {<br>
-++// CHECK: define noundef zeroext i8 @foo(i8 noundef returned %arg) unname=
-d_addr #0<br>
-+ pub unsafe fn foo(arg: u8) -&gt; u8 {<br>
-+=C2=A0 =C2=A0 =C2=A0arg<br>
-+ }<br>
-+diff --git a/tests/codegen-llvm/branch-protection.rs b/tests/codegen-llvm/=
-branch-protection.rs<br>
-+index ed1cb2cd137..11847c256d6 100644<br>
-+--- a/tests/codegen-llvm/branch-protection.rs<br>
-++++ b/tests/codegen-llvm/branch-protection.rs<br>
-+@@ -22,7 +22,7 @@<br>
-+ use minicore::*;<br>
-+ <br>
-+ // A basic test function.<br>
-+-// CHECK: @test(){{.*}} [[ATTR:#[0-9]+]] {<br>
-++// CHECK: @test(){{.*}} [[ATTR:#[0-9]+]]<br>
-+ #[no_mangle]<br>
-+ pub fn test() {}<br>
-+ <br>
-+diff --git a/tests/codegen-llvm/frame-pointer-cli-control.rs b/tests/codeg=
-en-llvm/frame-pointer-cli-control.rs<br>
-+index 911a5f03cbc..79cdfc70f1a 100644<br>
-+--- a/tests/codegen-llvm/frame-pointer-cli-control.rs<br>
-++++ b/tests/codegen-llvm/frame-pointer-cli-control.rs<br>
-+@@ -45,7 +45,7 @@<br>
-+ <br>
-+ extern crate minicore;<br>
-+ <br>
-+-// CHECK: i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]] {<br>
-++// CHECK: i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]]<br>
-+ #[no_mangle]<br>
-+ pub fn peach(x: u32) -&gt; u32 {<br>
-+=C2=A0 =C2=A0 =C2=A0x<br>
-+diff --git a/tests/codegen-llvm/frame-pointer.rs b/tests/codegen-llvm/fram=
-e-pointer.rs<br>
-+index 1d0dd762826..a52d95a2386 100644<br>
-+--- a/tests/codegen-llvm/frame-pointer.rs<br>
-++++ b/tests/codegen-llvm/frame-pointer.rs<br>
-+@@ -18,7 +18,7 @@<br>
-+ extern crate minicore;<br>
-+ use minicore::*;<br>
-+ <br>
-+-// CHECK: define i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]] {<br>
-++// CHECK: define i32 @peach{{.*}}[[PEACH_ATTRS:\#[0-9]+]]<br>
-+ #[no_mangle]<br>
-+ pub fn peach(x: u32) -&gt; u32 {<br>
-+=C2=A0 =C2=A0 =C2=A0x<br>
-+diff --git a/tests/codegen-llvm/gpu-convergent.rs b/tests/codegen-llvm/gpu=
--convergent.rs<br>
-+index bb9271ab699..376d65a3d4a 100644<br>
-+--- a/tests/codegen-llvm/gpu-convergent.rs<br>
-++++ b/tests/codegen-llvm/gpu-convergent.rs<br>
-+@@ -17,7 +17,7 @@<br>
-+=C2=A0 =C2=A0 =C2=A0fn ext();<br>
-+ }<br>
-+ <br>
-+-// CHECK: define {{.*}}_kernel void @fun(i32{{.*}}) unnamed_addr #[[ATTR:=
-[0-9]+]] {<br>
-++// CHECK: define {{.*}}_kernel void @fun(i32{{.*}}) unnamed_addr #[[ATTR:=
-[0-9]+]]<br>
-+ // CHECK: declare void @ext() unnamed_addr #[[ATTR]]<br>
-+ // CHECK: attributes #[[ATTR]] =3D {{.*}} convergent<br>
-+ #[no_mangle]<br>
-+diff --git a/tests/codegen-llvm/instrument-coverage/testprog.rs b/tests/co=
-degen-llvm/instrument-coverage/testprog.rs<br>
-+index ef61ede6de8..67c49c438f9 100644<br>
-+--- a/tests/codegen-llvm/instrument-coverage/testprog.rs<br>
-++++ b/tests/codegen-llvm/instrument-coverage/testprog.rs<br>
-+@@ -101,7 +101,7 @@ fn main() {<br>
-+ // CHECK-SAME:=C2=A0 =C2=A0@__llvm_prf_nm<br>
-+ // CHECK-SAME:=C2=A0 =C2=A0section &quot;llvm.metadata&quot;<br>
-+ <br>
-+-// CHECK:=C2=A0 =C2=A0 =C2=A0 =C2=A0 define internal { {{.*}} } @_R{{[a-z=
-A-Z0-9_]+}}testprog14will_be_called() unnamed_addr #{{[0-9]+}} {<br>
-++// CHECK:=C2=A0 =C2=A0 =C2=A0 =C2=A0 define internal { {{.*}} } @_R{{[a-z=
-A-Z0-9_]+}}testprog14will_be_called() unnamed_addr #{{[0-9]+}}<br>
-+ // CHECK-NEXT:=C2=A0 =C2=A0start:<br>
-+ // CHECK-NOT:=C2=A0 =C2=A0 define internal<br>
-+ // CHECK:=C2=A0 =C2=A0 =C2=A0 =C2=A0 atomicrmw add ptr<br>
-+@@ -109,7 +109,7 @@ fn main() {<br>
-+ <br>
-+ // CHECK:=C2=A0 =C2=A0 =C2=A0 =C2=A0 declare void @llvm.instrprof.increme=
-nt(ptr, i64, i32, i32) #[[LLVM_INSTRPROF_INCREMENT_ATTR:[0-9]+]]<br>
-+ <br>
-+-// WIN:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 define linkonce_odr hidden i32 =
-@__llvm_profile_runtime_user() #[[LLVM_PROFILE_RUNTIME_USER_ATTR:[0-9]+]] c=
-omdat {{.*}}{<br>
-++// WIN:=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 define linkonce_odr hidden i32 =
-@__llvm_profile_runtime_user() #[[LLVM_PROFILE_RUNTIME_USER_ATTR:[0-9]+]] c=
-omdat {{.*}}<br>
-+ // WIN-NEXT:=C2=A0 =C2=A0 =C2=A0%1 =3D load i32, ptr @__llvm_profile_runt=
-ime<br>
-+ // WIN-NEXT:=C2=A0 =C2=A0 =C2=A0ret i32 %1<br>
-+ // WIN-NEXT:=C2=A0 =C2=A0 =C2=A0}<br>
-+diff --git a/tests/codegen-llvm/link_section.rs b/tests/codegen-llvm/link_=
-section.rs<br>
-+index f196ea86c44..61bde683c0a 100644<br>
-+--- a/tests/codegen-llvm/link_section.rs<br>
-++++ b/tests/codegen-llvm/link_section.rs<br>
-+@@ -29,7 +29,7 @@ pub enum E {<br>
-+ #[link_section =3D &quot;__TEST,three&quot;]<br>
-+ pub static VAR3: E =3D E::B(1.);<br>
-+ <br>
-+-// CHECK: define {{(dso_local )?}}void @fn1() {{.*}} section &quot;__TEST=
-,four&quot; {<br>
-++// CHECK: define {{(dso_local )?}}void @fn1() {{.*}} section &quot;__TEST=
-,four&quot;<br>
-+ #[no_mangle]<br>
-+ #[link_section =3D &quot;__TEST,four&quot;]<br>
-+ pub fn fn1() {}<br>
-+diff --git a/tests/codegen-llvm/sanitizer/cfi/emit-type-metadata-itanium-c=
-xx-abi-normalized-generalized.rs b/tests/codegen-llvm/sanitizer/cfi/emit-ty=
-pe-metadata-itanium-cxx-abi-normalized-generalized.rs<br>
-+index 7639ce7b104..5b1aa97ab33 100644<br>
-+--- a/tests/codegen-llvm/sanitizer/cfi/emit-type-metadata-itanium-cxx-abi-=
-normalized-generalized.rs<br>
-++++ b/tests/codegen-llvm/sanitizer/cfi/emit-type-metadata-itanium-cxx-abi-=
-normalized-generalized.rs<br>
-+@@ -7,21 +7,21 @@<br>
-+ <br>
-+ pub fn foo(f: fn(i32) -&gt; i32, arg: i32) -&gt; i32 {<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK-LABEL: define{{.*}}foo<br>
-+-=C2=A0 =C2=A0 // CHECK-SAME:=C2=A0 {{.*}}![[TYPE1:[0-9]+]]<br>
-++=C2=A0 =C2=A0 // CHECK-SAME:=C2=A0 {{.*}}!type ![[TYPE1:[0-9]+]]<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK:=C2=A0 =C2=A0 =C2=A0 =C2=A0call i1 @llvm.type=
-.test(ptr {{%f|%0}}, metadata !&quot;_ZTSFu3i32S_E.normalized.generalized&q=
-uot;)<br>
-+=C2=A0 =C2=A0 =C2=A0f(arg)<br>
-+ }<br>
-+ <br>
-+ pub fn bar(f: fn(i32, i32) -&gt; i32, arg1: i32, arg2: i32) -&gt; i32 {<b=
-r>
-+=C2=A0 =C2=A0 =C2=A0// CHECK-LABEL: define{{.*}}bar<br>
-+-=C2=A0 =C2=A0 // CHECK-SAME:=C2=A0 {{.*}}![[TYPE2:[0-9]+]]<br>
-++=C2=A0 =C2=A0 // CHECK-SAME:=C2=A0 {{.*}}!type ![[TYPE2:[0-9]+]]<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK:=C2=A0 =C2=A0 =C2=A0 =C2=A0call i1 @llvm.type=
-.test(ptr {{%f|%0}}, metadata !&quot;_ZTSFu3i32S_S_E.normalized.generalized=
-&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0f(arg1, arg2)<br>
-+ }<br>
-+ <br>
-+ pub fn baz(f: fn(i32, i32, i32) -&gt; i32, arg1: i32, arg2: i32, arg3: i3=
-2) -&gt; i32 {<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK-LABEL: define{{.*}}baz<br>
-+-=C2=A0 =C2=A0 // CHECK-SAME:=C2=A0 {{.*}}![[TYPE3:[0-9]+]]<br>
-++=C2=A0 =C2=A0 // CHECK-SAME:=C2=A0 {{.*}}!type ![[TYPE3:[0-9]+]]<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK:=C2=A0 =C2=A0 =C2=A0 =C2=A0call i1 @llvm.type=
-.test(ptr {{%f|%0}}, metadata !&quot;_ZTSFu3i32S_S_S_E.normalized.generaliz=
-ed&quot;)<br>
-+=C2=A0 =C2=A0 =C2=A0f(arg1, arg2, arg3)<br>
-+ }<br>
-+diff --git a/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs =
-b/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs<br>
-+index 35317b0dd39..3df2d569f9a 100644<br>
-+--- a/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs<br>
-++++ b/tests/codegen-llvm/some-non-zero-from-atomic-optimization.rs<br>
-+@@ -72,7 +72,7 @@ pub unsafe fn some_non_zero_from_atomic_get() -&gt; Opti=
-on&lt;NonZeroUsize&gt; {<br>
-+ ///<br>
-+ /// The way we check that the LLVM IR is correct is by making sure that n=
-either<br>
-+ /// `panic` nor `unreachable` is part of the LLVM IR:<br>
-+-// CHECK-LABEL: define {{.*}} i64 @some_non_zero_from_atomic_get2() {{.*}=
-} {<br>
-++// CHECK-LABEL: define {{.*}} i64 @some_non_zero_from_atomic_get2() {{.*}=
-}<br>
-+ // CHECK-NOT: panic<br>
-+ // CHECK-NOT: unreachable<br>
-+ #[no_mangle]<br>
-+diff --git a/tests/codegen-llvm/target-feature-negative-implication.rs b/t=
-ests/codegen-llvm/target-feature-negative-implication.rs<br>
-+index a9cdca42839..376599738e5 100644<br>
-+--- a/tests/codegen-llvm/target-feature-negative-implication.rs<br>
-++++ b/tests/codegen-llvm/target-feature-negative-implication.rs<br>
-+@@ -13,7 +13,7 @@<br>
-+ #[no_mangle]<br>
-+ pub unsafe fn banana() {<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK-LABEL: @banana()<br>
-+-=C2=A0 =C2=A0 // CHECK-SAME: [[BANANAATTRS:#[0-9]+]] {<br>
-++=C2=A0 =C2=A0 // CHECK-SAME: [[BANANAATTRS:#[0-9]+]]<br>
-+ }<br>
-+ <br>
-+ // CHECK: attributes [[BANANAATTRS]]<br>
-+diff --git a/tests/codegen-llvm/target-feature-overrides.rs b/tests/codege=
-n-llvm/target-feature-overrides.rs<br>
-+index 2adc8ee6f53..3bf05c7977e 100644<br>
-+--- a/tests/codegen-llvm/target-feature-overrides.rs<br>
-++++ b/tests/codegen-llvm/target-feature-overrides.rs<br>
-+@@ -23,7 +23,7 @@<br>
-+ #[no_mangle]<br>
-+ pub unsafe fn apple() -&gt; u32 {<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK-LABEL: @apple()<br>
-+-=C2=A0 =C2=A0 // CHECK-SAME: [[APPLEATTRS:#[0-9]+]] {<br>
-++=C2=A0 =C2=A0 // CHECK-SAME: [[APPLEATTRS:#[0-9]+]]<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK: {{.*}}call{{.*}}@peach<br>
-+=C2=A0 =C2=A0 =C2=A0peach()<br>
-+ }<br>
-+@@ -32,7 +32,7 @@ pub unsafe fn apple() -&gt; u32 {<br>
-+ #[no_mangle]<br>
-+ pub unsafe fn banana() -&gt; u32 {<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK-LABEL: @banana()<br>
-+-=C2=A0 =C2=A0 // CHECK-SAME: [[BANANAATTRS:#[0-9]+]] {<br>
-++=C2=A0 =C2=A0 // CHECK-SAME: [[BANANAATTRS:#[0-9]+]]<br>
-+=C2=A0 =C2=A0 =C2=A0// COMPAT: {{.*}}call{{.*}}@peach<br>
-+=C2=A0 =C2=A0 =C2=A0// INCOMPAT: {{.*}}call{{.*}}@apple<br>
-+=C2=A0 =C2=A0 =C2=A0apple() // Compatible for inline in COMPAT revision an=
-d can&#39;t be inlined in INCOMPAT<br>
-+diff --git a/tests/codegen-llvm/unwind-abis/aapcs-unwind-abi.rs b/tests/co=
-degen-llvm/unwind-abis/aapcs-unwind-abi.rs<br>
-+index ecace722e0d..279780e3a7a 100644<br>
-+--- a/tests/codegen-llvm/unwind-abis/aapcs-unwind-abi.rs<br>
-++++ b/tests/codegen-llvm/unwind-abis/aapcs-unwind-abi.rs<br>
-+@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}<br>
-+ // `aapcs-unwind` extern functions. `aapcs-unwind` functions MUST NOT hav=
-e this attribute. We<br>
-+ // disable optimizations above to prevent LLVM from inferring the attribu=
-te.<br>
-+ <br>
-+-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {<br>
-++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;aapcs&quot; fn rust_item_that_cannot_unwind() {}<br>
-+ <br>
-+-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {<br>
-++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;aapcs-unwind&quot; fn rust_item_that_can_unwind() {}<br>
-+ <br>
-+diff --git a/tests/codegen-llvm/unwind-abis/c-unwind-abi.rs b/tests/codege=
-n-llvm/unwind-abis/c-unwind-abi.rs<br>
-+index 46c08b5fc4f..1b3312839e3 100644<br>
-+--- a/tests/codegen-llvm/unwind-abis/c-unwind-abi.rs<br>
-++++ b/tests/codegen-llvm/unwind-abis/c-unwind-abi.rs<br>
-+@@ -7,11 +7,11 @@<br>
-+ <br>
-+ #![crate_type =3D &quot;lib&quot;]<br>
-+ <br>
-+-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {<br>
-++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;C&quot; fn rust_item_that_cannot_unwind() {}<br>
-+ <br>
-+-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {<br>
-++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;C-unwind&quot; fn rust_item_that_can_unwind() {}<br>
-+ <br>
-+diff --git a/tests/codegen-llvm/unwind-abis/cdecl-unwind-abi.rs b/tests/co=
-degen-llvm/unwind-abis/cdecl-unwind-abi.rs<br>
-+index 8e643d6ce49..6f4eafb353c 100644<br>
-+--- a/tests/codegen-llvm/unwind-abis/cdecl-unwind-abi.rs<br>
-++++ b/tests/codegen-llvm/unwind-abis/cdecl-unwind-abi.rs<br>
-+@@ -7,11 +7,11 @@<br>
-+ <br>
-+ #![crate_type =3D &quot;lib&quot;]<br>
-+ <br>
-+-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {<br>
-++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;cdecl&quot; fn rust_item_that_cannot_unwind() {}<br>
-+ <br>
-+-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {<br>
-++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;cdecl-unwind&quot; fn rust_item_that_can_unwind() {}<br>
-+ <br>
-+diff --git a/tests/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs b/tests=
-/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs<br>
-+index 7df46813ed1..51c6fd15b9c 100644<br>
-+--- a/tests/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs<br>
-++++ b/tests/codegen-llvm/unwind-abis/fastcall-unwind-abi.rs<br>
-+@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}<br>
-+ // `fastcall-unwind` extern functions. `fastcall-unwind` functions MUST N=
-OT have this attribute. We<br>
-+ // disable optimizations above to prevent LLVM from inferring the attribu=
-te.<br>
-+ <br>
-+-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {<br>
-++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;fastcall&quot; fn rust_item_that_cannot_unwind() {}<br>
-+ <br>
-+-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {<br>
-++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;fastcall-unwind&quot; fn rust_item_that_can_unwind() {}<=
-br>
-+ <br>
-+diff --git a/tests/codegen-llvm/unwind-abis/stdcall-unwind-abi.rs b/tests/=
-codegen-llvm/unwind-abis/stdcall-unwind-abi.rs<br>
-+index cc06ee12549..b5fcea52b4d 100644<br>
-+--- a/tests/codegen-llvm/unwind-abis/stdcall-unwind-abi.rs<br>
-++++ b/tests/codegen-llvm/unwind-abis/stdcall-unwind-abi.rs<br>
-+@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}<br>
-+ // extern functions. `stdcall-unwind` functions MUST NOT have this attrib=
-ute. We disable<br>
-+ // optimizations above to prevent LLVM from inferring the attribute.<br>
-+ <br>
-+-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {<br>
-++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;stdcall&quot; fn rust_item_that_cannot_unwind() {}<br>
-+ <br>
-+-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {<br>
-++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;stdcall-unwind&quot; fn rust_item_that_can_unwind() {}<b=
-r>
-+ <br>
-+diff --git a/tests/codegen-llvm/unwind-abis/system-unwind-abi.rs b/tests/c=
-odegen-llvm/unwind-abis/system-unwind-abi.rs<br>
-+index 5f910248346..15fce95fe28 100644<br>
-+--- a/tests/codegen-llvm/unwind-abis/system-unwind-abi.rs<br>
-++++ b/tests/codegen-llvm/unwind-abis/system-unwind-abi.rs<br>
-+@@ -7,11 +7,11 @@<br>
-+ <br>
-+ #![crate_type =3D &quot;lib&quot;]<br>
-+ <br>
-+-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {<br>
-++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;system&quot; fn rust_item_that_cannot_unwind() {}<br>
-+ <br>
-+-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {<br>
-++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;system-unwind&quot; fn rust_item_that_can_unwind() {}<br=
->
-+ <br>
-+diff --git a/tests/codegen-llvm/unwind-abis/sysv64-unwind-abi.rs b/tests/c=
-odegen-llvm/unwind-abis/sysv64-unwind-abi.rs<br>
-+index 69bfaf80b4b..1293e7c0a5f 100644<br>
-+--- a/tests/codegen-llvm/unwind-abis/sysv64-unwind-abi.rs<br>
-++++ b/tests/codegen-llvm/unwind-abis/sysv64-unwind-abi.rs<br>
-+@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}<br>
-+ // `sysv64-unwind` extern functions. `sysv64-unwind` functions MUST NOT h=
-ave this attribute. We<br>
-+ // disable optimizations above to prevent LLVM from inferring the attribu=
-te.<br>
-+ <br>
-+-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {<br>
-++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;sysv64&quot; fn rust_item_that_cannot_unwind() {}<br>
-+ <br>
-+-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {<br>
-++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;sysv64-unwind&quot; fn rust_item_that_can_unwind() {}<br=
->
-+ <br>
-+diff --git a/tests/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs b/tests=
-/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs<br>
-+index 05f6b8b70e1..a9b6c34ee58 100644<br>
-+--- a/tests/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs<br>
-++++ b/tests/codegen-llvm/unwind-abis/thiscall-unwind-abi.rs<br>
-+@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}<br>
-+ // `thiscall-unwind` extern functions. `thiscall-unwind` functions MUST N=
-OT have this attribute. We<br>
-+ // disable optimizations above to prevent LLVM from inferring the attribu=
-te.<br>
-+ <br>
-+-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {<br>
-++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;thiscall&quot; fn rust_item_that_cannot_unwind() {}<br>
-+ <br>
-+-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {<br>
-++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;thiscall-unwind&quot; fn rust_item_that_can_unwind() {}<=
-br>
-+ <br>
-+diff --git a/tests/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs b/tes=
-ts/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs<br>
-+index d001a16b32a..8cedb55ae1d 100644<br>
-+--- a/tests/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs<br>
-++++ b/tests/codegen-llvm/unwind-abis/vectorcall-unwind-abi.rs<br>
-+@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}<br>
-+ // `vectorcall-unwind` extern functions. `vectorcall-unwind` functions MU=
-ST NOT have this attribute.<br>
-+ // We disable optimizations above to prevent LLVM from inferring the attr=
-ibute.<br>
-+ <br>
-+-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {<br>
-++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;vectorcall&quot; fn rust_item_that_cannot_unwind() {}<br=
->
-+ <br>
-+-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {<br>
-++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;vectorcall-unwind&quot; fn rust_item_that_can_unwind() {=
-}<br>
-+ <br>
-+diff --git a/tests/codegen-llvm/unwind-abis/win64-unwind-abi.rs b/tests/co=
-degen-llvm/unwind-abis/win64-unwind-abi.rs<br>
-+index 257f00b54e4..2a3ad330406 100644<br>
-+--- a/tests/codegen-llvm/unwind-abis/win64-unwind-abi.rs<br>
-++++ b/tests/codegen-llvm/unwind-abis/win64-unwind-abi.rs<br>
-+@@ -16,11 +16,11 @@ pub trait Sized: MetaSized {}<br>
-+ // `win64-unwind` extern functions. `win64-unwind` functions MUST NOT hav=
-e this attribute. We<br>
-+ // disable optimizations above to prevent LLVM from inferring the attribu=
-te.<br>
-+ <br>
-+-// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0 {<br>
-++// CHECK: @rust_item_that_cannot_unwind() unnamed_addr #0<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;win64&quot; fn rust_item_that_cannot_unwind() {}<br>
-+ <br>
-+-// CHECK: @rust_item_that_can_unwind() unnamed_addr #1 {<br>
-++// CHECK: @rust_item_that_can_unwind() unnamed_addr #1<br>
-+ #[no_mangle]<br>
-+ pub extern &quot;win64-unwind&quot; fn rust_item_that_can_unwind() {}<br>
-+ <br>
-+diff --git a/tests/assembly-llvm/slice-is_ascii.rs b/tests/assembly-llvm/s=
-lice-is_ascii.rs<br>
-+index e53cd5160cf..6d660e78147 100644<br>
-+--- a/tests/assembly-llvm/slice-is_ascii.rs<br>
-++++ b/tests/assembly-llvm/slice-is_ascii.rs<br>
-+@@ -6,6 +6,11 @@<br>
-+ //@ only-x86_64<br>
-+ //@ ignore-sgx<br>
-+<br>
-++// No longer optimizes as desired, tracked at:<br>
-++// <a href=3D"https://github.com/rust-lang/rust/issues/154141" rel=3D"nor=
-eferrer" target=3D"_blank">
-https://github.com/rust-lang/rust/issues/154141</a><br>
-++// <a href=3D"https://github.com/llvm/llvm-project/issues/209216" rel=3D"=
-noreferrer" target=3D"_blank">
-https://github.com/llvm/llvm-project/issues/209216</a><br>
-++//@ max-llvm-major-version: 22<br>
-++<br>
-+ #![feature(str_internals)]<br>
-+<br>
-+ // CHECK-LABEL: is_ascii_simple_demo:<br>
-+diff --git a/tests/assembly-llvm/simd-intrinsic-mask-reduce.rs b/tests/ass=
-embly-llvm/simd-intrinsic-mask-reduce.rs<br>
-+index 40d16886c6d..d3698fda5fe 100644<br>
-+--- a/tests/assembly-llvm/simd-intrinsic-mask-reduce.rs<br>
-++++ b/tests/assembly-llvm/simd-intrinsic-mask-reduce.rs<br>
-+@@ -1,12 +1,16 @@<br>
-+ // verify that simd mask reductions do not introduce additional bit shift=
- operations<br>
-+ //@ add-minicore<br>
-+-//@ revisions: x86 aarch64<br>
-++//@ revisions: x86 aarch64-llvm22 aarch64<br>
-+ //@ [x86] compile-flags: --target=3Dx86_64-unknown-linux-gnu -C llvm-args=
-=3D-x86-asm-syntax=3Dintel<br>
-+ // Set the base cpu explicitly, in case the default has been changed.<br>
-+ //@ [x86] compile-flags: -C target-cpu=3Dx86-64<br>
-+ //@ [x86] needs-llvm-components: x86<br>
-++//@ [aarch64-llvm22] compile-flags: --target=3Daarch64-unknown-linux-gnu<=
-br>
-++//@ [aarch64-llvm22] needs-llvm-components: aarch64<br>
-++//@ [aarch64-llvm22] max-llvm-major-version: 22<br>
-+ //@ [aarch64] compile-flags: --target=3Daarch64-unknown-linux-gnu<br>
-+ //@ [aarch64] needs-llvm-components: aarch64<br>
-++//@ [aarch64] min-llvm-version: 23<br>
-+ //@ assembly-output: emit-asm<br>
-+ //@ compile-flags: --crate-type=3Dlib -Copt-level=3D3 -C panic=3Dabort<br=
->
-+<br>
-+@@ -33,12 +37,19 @@<br>
-+=C2=A0 =C2=A0 =C2=A0// x86-NEXT: {{cmp ax, -1|cmp eax, 65535|xor eax, 6553=
-5}}<br>
-+=C2=A0 =C2=A0 =C2=A0// x86-NEXT: sete al<br>
-+=C2=A0 =C2=A0 =C2=A0//<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22-NOT: shl<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22: cmge v0.16b, v0.16b, #0<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22-DAG: mov [[REG1:[a-z0-9]+]], #1<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22-DAG: umaxv b0, v0.16b<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22-NEXT: fmov [[REG2:[a-z0-9]+]], s0<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22-NEXT: bic w0, [[REG1]], [[REG2]]<br>
-++=C2=A0 =C2=A0 //<br>
-+=C2=A0 =C2=A0 =C2=A0// aarch64-NOT: shl<br>
-+=C2=A0 =C2=A0 =C2=A0// aarch64: cmge v0.16b, v0.16b, #0<br>
-+-=C2=A0 =C2=A0 // aarch64-DAG: mov [[REG1:[a-z0-9]+]], #1<br>
-+-=C2=A0 =C2=A0 // aarch64-DAG: umaxv b0, v0.16b<br>
-+-=C2=A0 =C2=A0 // aarch64-NEXT: fmov [[REG2:[a-z0-9]+]], s0<br>
-+-=C2=A0 =C2=A0 // aarch64-NEXT: bic w0, [[REG1]], [[REG2]]<br>
-++=C2=A0 =C2=A0 // aarch64-NEXT: addp [[REG1:d[0-9]+]], v0.2d<br>
-++=C2=A0 =C2=A0 // aarch64-NEXT: fmov [[REG2:x[0-9]+]], [[REG1]]<br>
-++=C2=A0 =C2=A0 // aarch64-NEXT: cmp [[REG2]], #0<br>
-++=C2=A0 =C2=A0 // aarch64-NEXT: cset w0, eq<br>
-+=C2=A0 =C2=A0 =C2=A0simd_reduce_all(m)<br>
-+ }<br>
-+<br>
-+@@ -50,10 +61,17 @@<br>
-+=C2=A0 =C2=A0 =C2=A0// x86-NEXT: test eax, eax<br>
-+=C2=A0 =C2=A0 =C2=A0// x86-NEXT: setne al<br>
-+=C2=A0 =C2=A0 =C2=A0//<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22-NOT: shl<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22: cmlt v0.16b, v0.16b, #0<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22-NEXT: umaxv b0, v0.16b<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22-NEXT: fmov [[REG:[a-z0-9]+]], s0<br>
-++=C2=A0 =C2=A0 // aarch64-llvm22-NEXT: and w0, [[REG]], #0x1<br>
-++=C2=A0 =C2=A0 //<br>
-+=C2=A0 =C2=A0 =C2=A0// aarch64-NOT: shl<br>
-+=C2=A0 =C2=A0 =C2=A0// aarch64: cmlt v0.16b, v0.16b, #0<br>
-+-=C2=A0 =C2=A0 // aarch64-NEXT: umaxv b0, v0.16b<br>
-+-=C2=A0 =C2=A0 // aarch64-NEXT: fmov [[REG:[a-z0-9]+]], s0<br>
-+-=C2=A0 =C2=A0 // aarch64-NEXT: and w0, [[REG]], #0x1<br>
-++=C2=A0 =C2=A0 // aarch64-NEXT: addp [[REG1:d[0-9]+]], v0.2d<br>
-++=C2=A0 =C2=A0 // aarch64-NEXT: fmov [[REG2:x[0-9]+]], [[REG1]]<br>
-++=C2=A0 =C2=A0 // aarch64-NEXT: cmp [[REG2]], #0<br>
-++=C2=A0 =C2=A0 // aarch64-NEXT: cset w0, ne<br>
-+=C2=A0 =C2=A0 =C2=A0simd_reduce_any(m)<br>
-+ }<br>
-+diff --git a/tests/codegen-llvm/asm/global_asm.rs b/tests/codegen-llvm/asm=
-/global_asm.rs<br>
-+index 32075daa3cf..8c1c4a3b588 100644<br>
-+--- a/tests/codegen-llvm/asm/global_asm.rs<br>
-++++ b/tests/codegen-llvm/asm/global_asm.rs<br>
-+@@ -7,10 +7,10 @@<br>
-+<br>
-+ use std::arch::global_asm;<br>
-+<br>
-+-// CHECK-LABEL: foo<br>
-+ // CHECK: module asm<br>
-++// CHECK-LABEL: foo<br>
-+ // this regex will capture the correct unconditional branch inst.<br>
-+-// CHECK: module asm &quot;{{[[:space:]]+}}jmp baz&quot;<br>
-++// CHECK: &quot;{{[[:space:]]+}}jmp baz&quot;<br>
-+ global_asm!(<br>
-+=C2=A0 =C2=A0 =C2=A0r#&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0.global foo<br>
-+diff --git a/tests/codegen-llvm/asm/global_asm_include.rs b/tests/codegen-=
-llvm/asm/global_asm_include.rs<br>
-+index 98be9c3e333..cad9901336b 100644<br>
-+--- a/tests/codegen-llvm/asm/global_asm_include.rs<br>
-++++ b/tests/codegen-llvm/asm/global_asm_include.rs<br>
-+@@ -7,9 +7,9 @@<br>
-+<br>
-+ use std::arch::global_asm;<br>
-+<br>
-+-// CHECK-LABEL: foo<br>
-+ // CHECK: module asm<br>
-+-// CHECK: module asm &quot;{{[[:space:]]+}}jmp baz&quot;<br>
-++// CHECK-LABEL: foo<br>
-++// CHECK: &quot;{{[[:space:]]+}}jmp baz&quot;<br>
-+ global_asm!(include_str!(&quot;foo.s&quot;));<br>
-+<br>
-+ extern &quot;C&quot; {<br>
-+diff --git a/tests/codegen-llvm/asm/global_asm_x2.rs b/tests/codegen-llvm/=
-asm/global_asm_x2.rs<br>
-+index 9e3a00f0680..8c6f38289de 100644<br>
-+--- a/tests/codegen-llvm/asm/global_asm_x2.rs<br>
-++++ b/tests/codegen-llvm/asm/global_asm_x2.rs<br>
-+@@ -8,12 +8,12 @@<br>
-+<br>
-+ use core::arch::global_asm;<br>
-+<br>
-+-// CHECK-LABEL: foo<br>
-+ // CHECK: module asm<br>
-+-// CHECK: module asm &quot;{{[[:space:]]+}}jmp baz&quot;<br>
-++// CHECK-LABEL: foo<br>
-++// CHECK: &quot;{{[[:space:]]+}}jmp baz&quot;<br>
-+ // any other global_asm will be appended to this first block, so:<br>
-+ // CHECK-LABEL: bar<br>
-+-// CHECK: module asm &quot;{{[[:space:]]+}}jmp quux&quot;<br>
-++// CHECK: &quot;{{[[:space:]]+}}jmp quux&quot;<br>
-+ global_asm!(<br>
-+=C2=A0 =C2=A0 =C2=A0r#&quot;<br>
-+=C2=A0 =C2=A0 =C2=A0.global foo<br>
-+diff --git a/tests/codegen-llvm/array-cmp.rs b/tests/codegen-llvm/array-cm=
-p.rs<br>
-+index 0106b9c15c1..5b0a802f409 100644<br>
-+--- a/tests/codegen-llvm/array-cmp.rs<br>
-++++ b/tests/codegen-llvm/array-cmp.rs<br>
-+@@ -2,6 +2,9 @@<br>
-+<br>
-+ //@ compile-flags: -C opt-level=3D2<br>
-+ //@ needs-deterministic-layouts (checks depend on tuple layout)<br>
-++//@ revisions: LLVM22 LLVM23<br>
-++//@ [LLVM22] max-llvm-major-version: 22<br>
-++//@ [LLVM23] min-llvm-version: 23<br>
-+<br>
-+ #![crate_type =3D &quot;lib&quot;]<br>
-+<br>
-+@@ -66,7 +69,8 @@ pub fn compare() -&gt; bool {<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK-NEXT: br i1 %[[EQ01]], label %{{.+}}, label %=
-[[EXIT_U]]<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK: [[DONE]]:<br>
-+-=C2=A0 =C2=A0 // CHECK: %[[RET:.+]] =3D phi i1 [ %{{.+}}, %[[EXIT_S]] ], =
-[ %{{.+}}, %[[EXIT_U]] ], [ true, %[[L11]] ]<br>
-++=C2=A0 =C2=A0 // LLVM22: %[[RET:.+]] =3D phi i1 [ %{{.+}}, %[[EXIT_S]] ],=
- [ %{{.+}}, %[[EXIT_U]] ], [ true, %[[L11]] ]<br>
-++=C2=A0 =C2=A0 // LLVM23: %[[RET:.+]] =3D phi i1 [ %{{.+}}, %[[EXIT_U]] ],=
- [ %{{.+}}, %[[EXIT_S]] ], [ true, %[[L11]] ]<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK: ret i1 %[[RET]]<br>
-+<br>
-+=C2=A0 =C2=A0 =C2=A0a &lt;=3D b<br>
-+diff --git a/tests/codegen-llvm/enum/enum-match.rs b/tests/codegen-llvm/en=
-um/enum-match.rs<br>
-+index 6d8b97328f8..a0cba452e12 100644<br>
-+--- a/tests/codegen-llvm/enum/enum-match.rs<br>
-++++ b/tests/codegen-llvm/enum/enum-match.rs<br>
-+@@ -1,5 +1,8 @@<br>
-+ //@ compile-flags: -Copt-level=3D1<br>
-+ //@ only-64bit<br>
-++//@ revisions: LLVM22 LLVM23<br>
-++//@ [LLVM22] max-llvm-major-version: 22<br>
-++//@ [LLVM23] min-llvm-version: 23<br>
-+<br>
-+ #![crate_type =3D &quot;lib&quot;]<br>
-+ #![feature(core_intrinsics)]<br>
-+@@ -18,8 +21,9 @@ pub enum Enum0 {<br>
-+ // CHECK-LABEL: define{{( dso_local)?}} noundef{{( range\(i8 [0-9]+, [0-9=
-]+\))?}} i8 @match0(i8{{.+}}%0)<br>
-+ // CHECK-NEXT: start:<br>
-+ // CHECK-NEXT: %[[IS_B:.+]] =3D icmp eq i8 %0, 2<br>
-+-// CHECK-NEXT: %[[TRUNC:.+]] =3D and i8 %0, 1<br>
-+-// CHECK-NEXT: %[[R:.+]] =3D select i1 %[[IS_B]], i8 13, i8 %[[TRUNC]]<br=
->
-++// LLVM22-NEXT: %[[TRUNC:.+]] =3D and i8 %0, 1<br>
-++// LLVM22-NEXT: %[[R:.+]] =3D select i1 %[[IS_B]], i8 13, i8 %[[TRUNC]]<b=
-r>
-++// LLVM23-NEXT: %[[R:.+]] =3D select i1 %[[IS_B]], i8 13, i8 %0<br>
-+ // CHECK-NEXT: ret i8 %[[R]]<br>
-+ #[no_mangle]<br>
-+ pub fn match0(e: Enum0) -&gt; u8 {<br>
-+diff --git a/tests/assembly-llvm/simd-bitmask.rs b/tests/assembly-llvm/sim=
-d-bitmask.rs<br>
-+index 98f63c165f3..e8bb335c5b0 100644<br>
-+--- a/tests/assembly-llvm/simd-bitmask.rs<br>
-++++ b/tests/assembly-llvm/simd-bitmask.rs<br>
-+@@ -11,7 +11,7 @@<br>
-+ //@ [aarch64] min-llvm-version: 23<br>
-+ //@ [aarch64] compile-flags: --target=3Daarch64-unknown-linux-gnu<br>
-+ //@ [aarch64] needs-llvm-components: aarch64<br>
-+-//@ [aarch64-llvm-pre-23] ignore-llvm-version: 23 - 99<br>
-++//@ [aarch64-llvm-pre-23] max-llvm-major-version: 22<br>
-+ //@ [aarch64-llvm-pre-23] compile-flags: --target=3Daarch64-unknown-linux=
--gnu<br>
-+ //@ [aarch64-llvm-pre-23] needs-llvm-components: aarch64<br>
-+ //@ assembly-output: emit-asm<br>
-+diff --git a/tests/codegen-llvm/array-equality.rs b/tests/codegen-llvm/arr=
-ay-equality.rs<br>
-+index 706caebdcb6..c0f716b6067 100644<br>
-+--- a/tests/codegen-llvm/array-equality.rs<br>
-++++ b/tests/codegen-llvm/array-equality.rs<br>
-+@@ -1,5 +1,5 @@<br>
-+ //@ revisions: llvm-current llvm-next<br>
-+-//@[llvm-current] ignore-llvm-version: 23-99<br>
-++//@[llvm-current] max-llvm-major-version: 22<br>
-+ //@[llvm-next] min-llvm-version: 23<br>
-+ //@ compile-flags: -Copt-level=3D3 -Z merge-functions=3Ddisabled<br>
-+ //@ only-x86_64<br>
-+diff --git a/tests/ui/explicit-tail-calls/support/bystack.rs b/tests/ui/ex=
-plicit-tail-calls/support/bystack.rs<br>
-+index ddd9c79f5c7..c89ad194f8b 100644<br>
-+--- a/tests/ui/explicit-tail-calls/support/bystack.rs<br>
-++++ b/tests/ui/explicit-tail-calls/support/bystack.rs<br>
-+@@ -36,11 +36,11 @@<br>
-+ //@ revisions: loongarch32<br>
-+ //@[loongarch32] compile-flags: --target loongarch32-unknown-none<br>
-+ //@[loongarch32] needs-llvm-components: loongarch<br>
-+-//@[loongarch32] ignore-llvm-version: 22 - 23<br>
-++//@[loongarch32] max-llvm-major-version: 21<br>
-+ //@ revisions: loongarch64<br>
-+ //@[loongarch64] compile-flags: --target loongarch64-unknown-linux-gnu<br=
->
-+ //@[loongarch64] needs-llvm-components: loongarch<br>
-+-//@[loongarch64] ignore-llvm-version: 22 - 23<br>
-++//@[loongarch64] max-llvm-major-version: 21<br>
-+ //@ revisions: bpf<br>
-+ //@[bpf] compile-flags: --target bpfeb-unknown-none<br>
-+ //@[bpf] needs-llvm-components: bpf<br>
-+diff --git a/tests/ui/explicit-tail-calls/support/byval.rs b/tests/ui/expl=
-icit-tail-calls/support/byval.rs<br>
-+index f451a953f2a..e6f26b9292e 100644<br>
-+--- a/tests/ui/explicit-tail-calls/support/byval.rs<br>
-++++ b/tests/ui/explicit-tail-calls/support/byval.rs<br>
-+@@ -36,11 +36,11 @@<br>
-+ //@ revisions: loongarch32<br>
-+ //@[loongarch32] compile-flags: --target loongarch32-unknown-none<br>
-+ //@[loongarch32] needs-llvm-components: loongarch<br>
-+-//@[loongarch32] ignore-llvm-version: 22 - 23<br>
-++//@[loongarch32] max-llvm-major-version: 21<br>
-+ //@ revisions: loongarch64<br>
-+ //@[loongarch64] compile-flags: --target loongarch64-unknown-linux-gnu<br=
->
-+ //@[loongarch64] needs-llvm-components: loongarch<br>
-+-//@[loongarch64] ignore-llvm-version: 22 - 23<br>
-++//@[loongarch64] max-llvm-major-version: 21<br>
-+ //@ revisions: bpf<br>
-+ //@[bpf] compile-flags: --target bpfeb-unknown-none<br>
-+ //@[bpf] needs-llvm-components: bpf<br>
-+diff --git a/tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs b/=
-tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs<br>
-+index 5834255f3d3..c3090a20e4d 100644<br>
-+--- a/tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs<br>
-++++ b/tests/codegen-llvm/issues/issue-107681-unwrap_unchecked.rs<br>
-+@@ -14,7 +14,6 @@ pub unsafe fn foo(x: &amp;mut Copied&lt;Iter&lt;&#39;_, =
-u32&gt;&gt;) -&gt; u32 {<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK-NOT: br {{.*}}<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK-NOT: select<br>
-+=C2=A0 =C2=A0 =C2=A0// CHECK: [[RET:%.*]] =3D load i32, ptr<br>
-+-=C2=A0 =C2=A0 // CHECK-NEXT: assume<br>
-+-=C2=A0 =C2=A0 // CHECK-NEXT: ret i32 [[RET]]<br>
-++=C2=A0 =C2=A0 // CHECK: ret i32 [[RET]]<br>
-+=C2=A0 =C2=A0 =C2=A0x.next().unwrap_unchecked()<br>
-+ }<br>
-diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devt=
-ools/rust/rust-source.inc<br>
-index dd3e89a097..d87271b29c 100644<br>
---- a/meta/recipes-devtools/rust/rust-source.inc<br>
-+++ b/meta/recipes-devtools/rust/rust-source.inc<br>
-@@ -7,6 +7,7 @@ SRC_URI +=3D &quot;<a href=3D"https://static.rust-lang.org/=
-dist/rustc-$%7BRUST_VERSION%7D-src.tar.xz;n" rel=3D"noreferrer" target=3D"_=
-blank">https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.tar.xz;n=
-</a><br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a>file://0001-src-core-bui=
-ld_steps-tool.rs-switch-off-lto-for-rust.patch;patchdir=3D$</a>{RUSTSRC} \<=
-br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a>file://0002-Fix-rust-bui=
-ld-failure-with-unstable-options.patch;patchdir=3D$</a>{RUSTSRC} \<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0<a>file://0003-bootstrap-sk=
-ip-StdarchVerify-when-remote-testing.patch;patchdir=3D$</a>{RUSTSRC} \<br>
-+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 <a>
-file://0004-Backport-commits-from-rust-Fix-selftest-llvm23.patch;patchdir=
-=3D$</a>{RUSTSRC} \<br>
-=C2=A0&quot;<br>
-=C2=A0SRC_URI[rust.sha256sum] =3D &quot;271fa73d8174f53d713c46a8310da7bf7cf=
-dcfb8b7cfd1c2b74b84a83ae9fb1e&quot;<br>
+=C2=A0create mode 100644 meta/recipes-devtools/rust/files/0005-rustc_codege=
+n_llvm-Do-not-pass-amx-tf32-to-LLVM-23.patch<br>
+=C2=A0create mode 100644 meta/recipes-graphics/pango/pango/0001-meson-don-t=
+-error-on-clang-s-unused-but-set-global.patch<br>
+=C2=A0rename meta/recipes-graphics/spir/{<a href=3D"http://spirv-llvm-trans=
+lator_22.1.5.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translator=
+_22.1.5.bb</a> =3D&gt;
+<a href=3D"http://spirv-llvm-translator_23.1.0.bb" rel=3D"noreferrer" targe=
+t=3D"_blank">
+spirv-llvm-translator_23.1.0.bb</a>} (87%)<br>
 <br>
 -- <br>
 2.43.0<br>
@@ -1979,11 +827,11 @@ dcfb8b7cfd1c2b74b84a83ae9fb1e&quot;<br>
 <fieldset></fieldset>
 <pre>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 Links: You receive all messages sent to this group.
-View/Reply Online (#244695): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/244695" target=3D"_blank">https://lists.openembedde=
-d.org/g/openembedded-core/message/244695</a>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120998122/896=
-8818" target=3D"_blank">https://lists.openembedded.org/mt/120998122/8968818=
+View/Reply Online (#244697): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/244697" target=3D"_blank">https://lists.openembedde=
+d.org/g/openembedded-core/message/244697</a>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120998127/896=
+8818" target=3D"_blank">https://lists.openembedded.org/mt/120998127/8968818=
 </a>
 Group Owner: <a href=3D"mailto:openembedded-core+owner@lists.openembedded.o=
 rg" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a>
@@ -2001,5 +849,5 @@ nk">SunilKumar.Dora@windriver.com</a>]
 
 </blockquote></div></div>
 
---00000000000093713d065a89caf5--
+--000000000000433e45065a89d28d--
 
