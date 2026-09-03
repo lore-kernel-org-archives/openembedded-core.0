@@ -1,88 +1,94 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49651C624D7
-	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 21:22:49 +0000 (UTC)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.279.1788470562614218364
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B731C61DD3
+	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 21:32:19 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.471.1788471136525495752
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2026 14:22:43 -0700
+ Thu, 03 Sep 2026 14:32:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=A7moCucj;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.54, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-499b2981a7bso3615325e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 14:22:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1788470561; x=1789075361; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=r8wytAVIdFpCdN4p87iYZILidhhpJTY/LhjyZarV3VQ=;
-        b=A7moCucjOesFC+EvA4msmt1x/HS9l2060sIWVsolsq1HW0g1HZztdJeH3FfABCt6jI
-         nw3Z3vQOqjR6FK3oOwn/Qa2rxuYND5MgsqN9Jwqy95V3jOMjaSXm8VEvQb3HB2tmdOyE
-         3Hpbc4OJPmSlXkeZo9kwSWMzIthlJq56vXOnk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788470561; x=1789075361;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=r8wytAVIdFpCdN4p87iYZILidhhpJTY/LhjyZarV3VQ=;
-        b=HdC0H3Pa7s2EaKntVhHaFDUf36moP9SDyqL9Pv5NL3MBLfVssq82xCiaUkzf7qLLBD
-         hmPW70N4sexrh6UiA8JfCxEWTIalxKeyteqduWsXHoihlRgywrto1B31DU9OuOKHtPdm
-         x1lrjIv8MZdcsX7i7Bnlei9WXXBCz0eDvqNbPrz24XZrsYyshcq3pLiw2cSquGpLQbLg
-         UwAiLP4E2M/IP0JiVgWF94HOb8+HbxGoH23URs0TkAMCq/UagErnHEycauau/EM/YaiS
-         l+lCG2Pv1LIkMkJHk0/3hlAwNfeMIoSldipPz1nGrMPDs3LggWe6lNUZCSwcH6HYyPO9
-         haYg==
-X-Gm-Message-State: AFuF++ng+CQV2wOeYD5kZ/VqEw7sPtTDCtbBHmC3QCWlNqrK52pCbu8t
-	rsid8OqmZFtJpgkHDzEWd3B2cBWQxwcVIaPfKoOWjV2M5i6ra5O9EjekjZZ4p3Y/Vq8mAAeL5xX
-	ppIx8Utg=
-X-Gm-Gg: AYBFou053sv98P+8eiDmwiMszhA2uJbgfstCwjhEyPGVAAe83oGQ62Y6JE+4/i0fP3B
-	KljXSeMwTjVwbpVGShVHj1t3dMS7btE6CLRs08Mz4iv7iskkLhF3a4tVPNUxVRzx+rf8FGnU77N
-	MYBEym2/qI8lx43txemI8GZ0c0mhXSsxOhJNIVeosU7uyK+JTgTkhMviSGTbRsr3eIgi+t1AIUS
-	78rbdp930svcCBiplfi9/GE16d5MbicR+su6SoebSog9a8XhShRhMlU0sf186NU0E9fkeVRYVyU
-	Dt4C6NkP07mIfVzTw4n1IZlIunRtNJqdKvO0mgicaRrSsXgRWw1qDHOapEGlLubNTISBtet0mIA
-	DAj8/BEuolnVFqTpJglc9FO5q3W4oawG99t84rswy0P4Auoup+G5PCecQCPa4z8CV1jFg44P+ht
-	5f9fArvfTf/3L6WAJztehzATOab2KLq3Xe+5++UqDk/mssUfQlNlrx1bGHKSL9w36Gwfi7X0Ed8
-	4X3IGf3As4BBziO
-X-Received: by 2002:a05:600c:6383:b0:49c:e88b:b7ce with SMTP id 5b1f17b1804b1-49cf823f147mr14014905e9.11.1788470560910;
-        Thu, 03 Sep 2026 14:22:40 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3f77:7f7:7ec1:8841])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7703ef1sm12780285e9.3.2026.09.03.14.22.40
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 14:22:40 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] sanity.conf: Require bitbake 2.19.1 for bb.fetch changes
-Date: Thu,  3 Sep 2026 22:22:39 +0100
-Message-ID: <20260903212239.632265-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=kVe7rcPK;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=d+zfvhSh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a0692fcb7d-13c4c11c-824d-4e5b-b09c-04f8d5782821-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1788471135; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=lDhhQF46vbWwqyEnzDNT5b8h6xLhKjrD4E5xbldgJUQ=;
+	b=kVe7rcPKcPBzVLIzJRQwkaRa2BUDV5IXwigGqW+Sy2o1vRt7l7insBUAYVeMN3H1
+	ytq2lnQSVbjybU8rMVF2iENNn8oG6q+QpFPDVB086hOA0dLkU5hpQJ1/991gmUPLan1
+	5qQOgA4DDWHe9QpWjN4kcwgLKCfZCeKbv4h+7fKc=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788471135;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=lDhhQF46vbWwqyEnzDNT5b8h6xLhKjrD4E5xbldgJUQ=;
+	b=d+zfvhShaPDyhCVR30dS4XFUUVKTw+SU3EzTNSzY/4mEaYiaUbv8x82UOELKdwZB
+	w5t5TRlkPPnMwSeyXbgcmLiad/Z/WJlsRHdSduxBEAPx16ZYMeghm4XqcZBnuXSGE4b
+	86a6qngco8Z+hhP1waYEwUAsrDN6xBZnnQm3Xtaw=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 2/2] sanity.conf: Require bitbake 1.19.1 for bb.fetch changes
+In-Reply-To: <20260903212155.632078-2-richard.purdie@linuxfoundation.org>
+References: <20260903212155.632078-2-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a0692fcb7d-13c4c11c-824d-4e5b-b09c-04f8d5782821-000000@us-west-2.amazonses.com>
+Date: Thu, 3 Sep 2026 21:32:15 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.03-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 21:22:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245047
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 21:32:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245049
 
-The bb.fetch2 -> bb.fetch changes are in bitbake 2.19.1
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- meta/conf/sanity.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/2-2-sanity.conf-Require-bitbake-1.19.1-for-bb.fetch-changes.patch
 
-diff --git a/meta/conf/sanity.conf b/meta/conf/sanity.conf
-index f80763bbe97..ea39170c709 100644
---- a/meta/conf/sanity.conf
-+++ b/meta/conf/sanity.conf
-@@ -3,7 +3,7 @@
- # See sanity.bbclass
- #
- # Expert users can confirm their sanity with "touch conf/sanity.conf"
--BB_MIN_VERSION = "2.18.0"
-+BB_MIN_VERSION = "2.19.1"
- 
- SANITY_ABIFILE = "${TMPDIR}/abi_version"
- 
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
