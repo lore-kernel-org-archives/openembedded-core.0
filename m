@@ -2,117 +2,191 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 89243C624DB
-	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 20:45:55 +0000 (UTC)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.772.1788468347364140032
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6225FC624DB
+	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 21:11:19 +0000 (UTC)
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.78.1788469870994121415
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2026 13:45:47 -0700
+ Thu, 03 Sep 2026 14:11:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=uLvbcSkX;
- spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47fe89fb333so220579f8f.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 13:45:47 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=dfU57mJY;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-47fe89fb333so232741f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 14:11:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788468345; x=1789073145; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1788469869; x=1789074669; darn=lists.openembedded.org;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=V80ZTyKuOBXKbpy0R/j0ATCUJCCsCsa+XKi9BIGpwiw=;
-        b=uLvbcSkX/ZTVOAt3Gb9l/h43MpVBhWFRikEY/jRpWK5HUKD8IjSG5a4UTHQv/ecA8Q
-         3ynbTkuQf9i42iusynGkshTM8cevK6re3jTn6aVlPYwjeHDt2jHRJ8ebjrDtehZdms7V
-         8A7Bw/cWV7PElD11VLrUl92ZIWlGUEsQX16f4=
+        bh=Elwdd/nITTBDg4MGbOocfFHufl6qkbUB+YyB4oDttCA=;
+        b=dfU57mJY5d05uodxyzQufTlzwDlJOP4Imsk9mTW/FK0yNJ+U2J3SvgPpRyws1dMsq8
+         W7ibseteUtzRBmlOq31O5p9HtfhPjiUX78SMIzm4jHP5mLnb0ZG3R7IWUlrc3Pk5T1ja
+         UC9KSM5a1uUyL9FIFMSHhn/4hs7JCUAU69wv0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788468345; x=1789073145;
+        d=1e100.net; s=20251104; t=1788469869; x=1789074669;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=V80ZTyKuOBXKbpy0R/j0ATCUJCCsCsa+XKi9BIGpwiw=;
-        b=jtmAe8Fo9CxPB3B4w6ua1yG2G0Kpokr++ZT+hCekI2S5wJVHuK2RA3XcFQpmoXlum/
-         zs22NeBZW1urR2DhEBSsVRpSmZlJAoHyNAnxeXLUH7tavdIDH/TQrH1xMSyaj6cVUB6P
-         v0RnQDhut5ulqoUrzzGD40I6f4Fr3nULkzZRWhimazWBeE36olKlfkCesk/6SLZaV1KA
-         6tW8JltdVxMcenKg+52oYJJTlA56L0g+7yu1ouH4lFMqR9J83J+Mtm3PyYAAa4d7CAJs
-         /QG9QKO7zfXxWJVFQ4DST5+MfQfR5Nq2Y/v4CJYzDTP56Mh2OR2Imrl4Nh+lSmHVp813
-         oNGw==
-X-Forwarded-Encrypted: i=1; AKwUvBxjV9O1PtQnGXq6URNRAunG6OsTe6PjTgmpSXJrj5NoVxphIQumokLIac22WW5AKWKU+6qVmLhmlhB7A7kQBC/HuQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++kbUqBal6wB1bU8cVYqB3hlWRqo0YfS+m96aAzy33cQ10OLAniY
-	Pzy77i2EwPQkYW/y99Fv+KTqc00j1ec+FNaQZlCRuLhJuX6TWR/VDQY+RSLus7nZfNo=
-X-Gm-Gg: AYBFou3unEsV044kG24Qvsx5dRV3aEvVBbSonlEJsXeSSwcZC+qqNzzZXql9M502td9
-	aDdcklCNGM8UbYpR+Qzbj7VS+niYoTzrPnQl2hRuAc+upjarQW7V9ET1zsdJWAXT1fXq4FwXAE+
-	csW7hLEIZIWYJRphgVgr3pIlBUkVqhtHkk4f3Q7w21T/LluribdQL6FXy3/2FwTJuF2PJP71fyd
-	uXnF91W4n32FHEE1NITclrZdI1mX0ZOT+XjZIAy9AUrOzv5H03+oQ8KRr4invcKEr9MiAFHJE8Q
-	Ur24BwPNieFvAEw+kNhzOdsaWbfEfArrpwE/xsOnVgsgU2Wqi2eL1re3+fXYBjsh60vkfjBsPwb
-	Nma+3A5GBzZTAMQyFgmGMAPZJTHWaJ2ZcFrO7wHfsqmzDo+Q4SEajobr3wCkuMW9zUKJpghVe3c
-	p55+JK0QmXMtEhRasKmTxZ0A/xAoYQY1xFHKaQ649y9eqMtpavDnygJGusaIHC0zLi5xvzzQAZG
-	SW/eRrP+1nTLYWFXJB+OxumPWRQJy2syYy9XCdbdADOd6iXp6nGwUKWRIfrow==
-X-Received: by 2002:a05:6000:29d2:b0:484:3cbf:f254 with SMTP id ffacd0b85a97d-485872ae327mr2117179f8f.21.1788468345547;
-        Thu, 03 Sep 2026 13:45:45 -0700 (PDT)
+        bh=Elwdd/nITTBDg4MGbOocfFHufl6qkbUB+YyB4oDttCA=;
+        b=GZtriKFW2mfuqh8lF8kujFhlMGHq+qgzOkicMJxpBMmu0HTG9MVWbgxm81sSCBtHeX
+         tecC2CVA+8g5YbMi430gTHf24+tDiqotNK1jwuhMPgirxm5wo+eWrZw5p1AG7dYZo61t
+         nuM+FKbJ0lYUSeM35KlGuMRp7oo/FdACwhe6BYYkxTjDE6LLgsGnq4eZ1PePaFnS7iHs
+         5WC+O1bvf1IXO/n/Vs1/vij75wIev5uSdcKUoCA1sTOsSFghKgTEHPRk4KnccxG4TlUp
+         xTF7PznEl7wNJTHZtLvl5Qqf6I5h63A0cTfGENGwh+QvmNZo8vx2XblrCi/9EBrL2P2Y
+         28RQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx5ihhFcTgHbmb9s3SkhOQVFVrhTOUWU+YE/Rr68QBIzjlG5xHTD+t1H7dUExPKSJN4s8TQdpOBWbeShja5Sio+8g==@lists.openembedded.org
+X-Gm-Message-State: AFuF++mLf/KGtC4t0i0YKom3OdN/VZAEu40SPRZPWWAGY3ocBd5mTpPV
+	N/9+IV2ZlKvV+xZ2DV2SUZoMqShUGi7fx/DPKMPT6IK4V1tHvL7Zr6b+IxJYG2gdWCLrlOfRkL7
+	/WG0LTfc=
+X-Gm-Gg: AYBFou3l6g8IMAp9C/Nj+3df2EeHRkUzK6elgA1fu9lO+wA8O2wo0F0RGMyksisw3Nu
+	VP965K+x/BAbRU+jOBo2xJ5ViDepvBK60W61vbqfMuTe1p8okY4mMjoDLKnCoTCVR6KrwZ7PgMi
+	egsLpauCNwrY/BzXXQT1KdqmFv1wBUVeU5LY7lNDGD5wfARH0zbJHlbYrbYqQjevNpB1i+tDU07
+	HdwpbEXDD0H89IbaZ6NbwuFLfn48rjqr2X6+pw1aYP8wTNW094ndU46FaX2dXlDkn3gJve6UPpm
+	58F+q2kVYuJXQXCJBhBZcE99Yg/6gvvbMu682wE4HkzTgox4jj2yKDD58Is1fBunc78UGDg6wWh
+	Poob9qxJu7Y/WA/N2DYAfi8D3fyOzIe/g1/5PYog5vEx4YoiUZY5MzMprczmuqbsGc7RdTAWvYw
+	kcrR6KaNMLzH4+D3/N/QwXzm9WH3OLrhS1HwzL1R44uGNCiyr7r0/H+8+0iHxhjorlAagwV7iFq
+	0F8Nn9SWMbS3T4vlPALHM0/0SOn42B731biq3aSEwichzy4noDDOR+2QG8B1g==
+X-Received: by 2002:a05:6000:60b:b0:484:46e9:3f99 with SMTP id ffacd0b85a97d-4858729b6bdmr3531507f8f.13.1788469868993;
+        Thu, 03 Sep 2026 14:11:08 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00939d825f00cb3861.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:939d:825f:cb:3861])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c81c3sm1007545f8f.26.2026.09.03.13.45.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883a9a67sm1165093f8f.16.2026.09.03.14.11.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Sep 2026 13:45:45 -0700 (PDT)
+        Thu, 03 Sep 2026 14:11:08 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Thu, 03 Sep 2026 22:45:44 +0200
-Message-Id: <DL5Z475KF36A.2GWHJC82115IA@smile.fr>
-Subject: Re: [OE-core] [wrynose][PATCH 1/3] libslirp: fix upstream version
- check
+Date: Thu, 03 Sep 2026 23:11:08 +0200
+Message-Id: <DL5ZNN0ND074.3UFP77OL4YV24@smile.fr>
+Subject: Re: [OE-core][wrynose][patch 1/3] libxfont: Fix CVE-2026-56001
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
+To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260823155741.2091982-1-peter.marko@siemens.com>
-In-Reply-To: <20260823155741.2091982-1-peter.marko@siemens.com>
+References: <20260824064944.29802-1-vanusuri@mvista.com>
+In-Reply-To: <20260824064944.29802-1-vanusuri@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 20:45:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245042
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 21:11:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245043
 
-On Sun Aug 23, 2026 at 5:57 PM CEST, Peter Marko via lists.openembedded.org=
- wrote:
-> From: Alexander Kanavin <alex@linutronix.de>
+On Mon Aug 24, 2026 at 8:49 AM CEST, Vijay Anusuri via lists.openembedded.o=
+rg wrote:
+> Pick patch according to [2]
 >
-> The regex excludes bogus old yyyymmdd tags which sort higher than real ve=
-rsions.
+> [1] https://nvd.nist.gov/vuln/detail/CVE-2026-56001
+> [2] https://security-tracker.debian.org/tracker/CVE-2026-56001
 >
-> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> (From OE-Core rev: 2a60e5db4460cd8ec99b43d8f2ff733ba509c373)
-> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 > ---
->  meta/recipes-connectivity/slirp/libslirp_4.9.1.bb | 1 +
->  1 file changed, 1 insertion(+)
+>  .../xorg-lib/libxfont/CVE-2026-56001.patch    | 84 +++++++++++++++++++
+>  .../xorg-lib/libxfont_1.5.4.bb                |  3 +
+>  2 files changed, 87 insertions(+)
+>  create mode 100644 meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-5600=
+1.patch
 >
-> diff --git a/meta/recipes-connectivity/slirp/libslirp_4.9.1.bb b/meta/rec=
-ipes-connectivity/slirp/libslirp_4.9.1.bb
-> index 9f7005d709..50577fd4ae 100644
-> --- a/meta/recipes-connectivity/slirp/libslirp_4.9.1.bb
-> +++ b/meta/recipes-connectivity/slirp/libslirp_4.9.1.bb
-> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3Dbca0186b14e6=
-b05e338e729f106db727"
-> =20
->  SRC_URI =3D "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=3D=
-https;branch=3Dmaster"
->  SRCREV =3D "9c744e1e52aa0d9646ed91d789d588696292c21e"
-> +UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
-> =20
->  DEPENDS =3D "glib-2.0"
-> =20
+> diff --git a/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch=
+ b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch
+> new file mode 100644
+> index 0000000000..506a2dc22a
+> --- /dev/null
+> +++ b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch
+> @@ -0,0 +1,84 @@
+> +From be0b08e2d354138d3222b4490e2a77c6ee42f778 Mon Sep 17 00:00:00 2001
+> +From: Peter Hutterer <peter.hutterer@who-t.net>
+> +Date: Mon, 1 Jun 2026 16:46:10 +1000
+> +Subject: [PATCH] bitscale: fix integer overflow in BitmapScaleBitmaps
+> + bytestoalloc
+> +
+> +bytestoalloc is declared as unsigned int (32-bit). When the sum of
+> +per-glyph byte counts exceeds 2^32, the value wraps around and calloc()
+> +allocates a buffer that is too small. The subsequent ScaleBitmap loop
+> +then writes past the end of the allocated buffer.
+> +
+> +Change bytestoalloc from unsigned int to size_t to match the actual
+> +allocation size type, and add an explicit overflow check in the
+> +accumulation loop to bail out if the total would exceed SIZE_MAX.
+> +
+> +This vulnerability was discovered by:
+> +Anonymous working with TrendAI Zero Day Initiative
+> +
+> +CVE-2026-56001/ZDI-CAN-30558
+> +
+> +Assisted-by: Claude:claude-opus-4-6
+> +Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
+> +Part-of: <https://gitlab.freedesktop.org/xorg/lib/libxfont/-/merge_reque=
+sts/34>
+> +
+> +Upstream-Status: Backport [import from debian libxfont1 1.5.2-4+deb9u1
+> +Upstream commit https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commi=
+t/be0b08e2d354138d3222b4490e2a77c6ee42f778]
+> +CVE: CVE-2026-56001
+> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 
-Hello Peter,
+Hello,
 
-Thanks for the series. But, with regrets, I don't think it is acceptable
-under the policy:
-* 1&3/3 are not bug fixes (UPSTREAM_CHECK_GITTAGREGEX is not used right
-  now on stables)
-* 2/3 is the upgrade. It contains:=20
-  "Changed: bootp: allow https for UEFI HTTP boot"
-  and that is a feature change (even if, behind it there is only a one
-  line change)
+This patch (and also the other ones in this series) was non-trivially
+changes without a comment explaining why.
 
-I think you did this backport to fix CVE-2026-9539. I think we'll have
-to backport the fix, (like you did on scarthgap).
+> +---
+> + src/bitmap/bitscale.c | 24 +++++++++++++++++++++---
+> + 1 file changed, 21 insertions(+), 3 deletions(-)
+> +
+> +diff --git a/src/bitmap/bitscale.c b/src/bitmap/bitscale.c
+> +index 13ed924..c87fa96 100644
+> +--- a/src/bitmap/bitscale.c
+> ++++ b/src/bitmap/bitscale.c
+> +@@ -38,6 +38,7 @@ from The Open Group.
+> + #include <X11/fonts/bitmap.h>
+> + #include <X11/fonts/fontutil.h>
+> + #include <math.h>
+> ++#include <stdint.h>
+              ^ This is new: I suppose to get size_t but that should be
+			    explained. Also, "man size_t" tells me that size_t in
+				stddef.h not stdint.h.
+> +=20
+> + #ifndef MAX
+> + #define   MAX(a,b)    (((a)>(b)) ? a : b)
+> +@@ -1459,7 +1460,7 @@ BitmapScaleBitmaps(FontPtr pf,          /* scaled =
+font */
+> + 		opci;
+> +     FontInfoPtr pfi;
+> +     int         glyph;
+> +-    unsigned    bytestoalloc =3D 0;
+> ++    size_t      bytestoalloc =3D 0;
+> +     int		firstCol, lastCol, firstRow, lastRow;
+> +=20
+> +     double	xform[4], inv_xform[4];
+> +@@ -1486,8 +1487,25 @@ BitmapScaleBitmaps(FontPtr pf,          /* scaled=
+ font */
+> +     glyph =3D pf->glyph;
+> +     for (i =3D 0; i < nchars; i++)
+> +     {
+> +-	if ((pci =3D ACCESSENCODING(bitmapFont->encoding, i)))
+> +-	    bytestoalloc +=3D BYTES_FOR_GLYPH(pci, glyph);
+> ++	if ((pci =3D ACCESSENCODING(bitmapFont->encoding, i))) {
+> ++	    size_t glyphsize =3D BYTES_FOR_GLYPH(pci, glyph);
+> ++	    if (bytestoalloc > SIZE_MAX - glyphsize) {
+> ++		fprintf(stderr,
+> ++			"Error: bitmap allocation overflow for scaled font\n");
+> ++		goto bail;
+> ++	    }
+> ++	    bytestoalloc +=3D glyphsize;
+> ++	}
+> ++    }
+> ++
+> ++    /* Reject unreasonably large bitmap allocations that could result
+> ++     * from malicious fonts with extreme scale factors.  256 MiB is
+> ++     * far beyond any legitimate scaled bitmap font. */
+> ++#define BITMAP_SCALE_MAX_ALLOC	(256 * 1024 * 1024)
+> ++    if (bytestoalloc > BITMAP_SCALE_MAX_ALLOC) {
+> ++	fprintf(stderr,
+> ++	       "Error: scaled bitmap size %zu exceeds limit\n", bytestoalloc);
+> ++       goto bail;
+         ^ This line has been reindented from upstream, that might make
+		 future backports needlessly harder.
+
+Can you send a v2 with the changes either removed or explained in the
+patch message?
 
 Thanks!
 --=20
