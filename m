@@ -1,95 +1,109 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D8086C61DD3
-	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 07:58:58 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2566.1788422335613595306
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E3B99C624A4
+	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 08:10:18 +0000 (UTC)
+Received: from mail-qt1-f171.google.com (mail-qt1-f171.google.com [209.85.160.171])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2821.1788423014182165232
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2026 00:58:56 -0700
+ Thu, 03 Sep 2026 01:10:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=VGPvuczJ;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49b0dbfbf7bso13522135e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 00:58:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=F5DoJ4cz;
+ spf=pass (domain: gmail.com, ip: 209.85.160.171, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qt1-f171.google.com with SMTP id d75a77b69052e-51bfe810293so18229011cf.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 01:10:14 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788423013; cv=none;
+        d=google.com; s=arc-20260327;
+        b=QMd4+Xj8PynX8/tMvKC9Y0D+I9tmxPvkVU/31dqmFvkVU3VDOgHSlSHKJqZNZGyAUq
+         TBhxzaeJINSOsc1EhyCL9SGYtC1cRUzJlg8beTkgBC9Gn4mL3w7zEvzScChJ5wK+yvxZ
+         fq8mlLTf7AVpSjFYoE69eMQz/dQpFxYFDMx/rFl6Nm9PkMUHDwbrLjCzAdTcPJQm4tAR
+         gHCUdCKVfQXnrIll5sX562lE3VyLTbn/HxE1uwCCGzS6bBNrzE7jjmEKEXluDJaUjxHP
+         bGhtfeCSix9zhj4ni7/QRCKWkisV5I2k5Yn52E5kuX/POpuQ4bQO1ResKB6UqgSAZpPO
+         utSw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=qsi/mT/12KdZt7dcGvXktDgOSgKcVgsaT7R6QxoyYFg=;
+        fh=6trZKu6CeeobEveUQkVRxCghTyh9FO/k4oP6dTfwfYo=;
+        b=bc6T7tARVf8zv2932D0vtgGG9yEhNhpVOHpY6kGCLmI5e/o8PpOXgJYAiu18R1aoPH
+         SJnOggVkJ+D5KbOql1VDrtp2iKKcH3Jup0JIeWqlarQaXIEUVwcg4CLMuDpYDBeEZPSL
+         X6nUCxh00E3pT+6mKnzabax4zWm7oGkfFw9+m3nFSsv76LrKC+Cu2/uj/KIlQJINewom
+         50sn7+RBdmC9gi5kdyhE3Bc2kUTE+ATxIawjAPjW1FPN7leQDoGqfc95V4LAbAguPZYp
+         vRetkswlFnflV34V0ISmDoVZeO/o2o7zji0vPWb28AEdq4vgw/Ep/SQsv9AesVasn/Q3
+         l0oQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1788422334; x=1789027134; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=cg5n5YKF7AVZ+NOvBp7bDP/3xwoPmHs9tRDS19w5L9o=;
-        b=VGPvuczJCZInGWIx/SSVrBsrDxgwgmJcCYL7qPLSXToQ/B98PoERZBuhWlXBG1dAEL
-         /y/h0oIv/en1ByOxnugWmdEJlp753SwvaOAnIBYBeVPTNWyeDJ8jAO3QCKLvomohYn6U
-         6Y2iswF/+fUH9X3qaVsmk9J2B2/1LFDBoDn00=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788422334; x=1789027134;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+        d=gmail.com; s=20251104; t=1788423013; x=1789027813; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=cg5n5YKF7AVZ+NOvBp7bDP/3xwoPmHs9tRDS19w5L9o=;
-        b=l6zF3gvMdj77ddohoyOXpDE0IkyJfajb2Aa6HABv0bFt0KsdARz/ejgmyKfJpXsUHJ
-         iwAM3meFeO58TIRuIouu2wgTC1ESacpQZ/iBa2H4Gm7lj9x6bvOM8vNgvh5g9JRvHLCB
-         wW0bSOs4Y46PH3UhoxgC0eaWfiRhH5FrW6T2l89phn/RP/9bTLgvtoCi8GeAUTBb66AN
-         YIRfhDym3vtO0/qq4+Shp75Y3h/ANKJSoL/3UqNZcxwwun77mbXWo2xb0o4ARRQ/Y/vl
-         LG/+dZ4Ry8Qqa9JwP+7H46KXKIwyr3svsL5XV70SVxpHS3jRclj3MNVjRVI89Cxe9xRM
-         TUKw==
-X-Gm-Message-State: AFuF++n1SjsRoyrR74vnmERIZLBt/Z6cIIXrGqwncsX7Mri4fzWTpMZ2
-	elW/fP9+RpdpCL3bORDRqlmp/+i0rrvQ8LPIf5KHySyFjaC/LUc2+CEQ6qD1vda+gLLlOHqoeod
-	szec+ux4=
-X-Gm-Gg: AYBFou34zZl2DSx6BemSnbUQGkc7VPfQxhWtbWKPLlqB6I6IbyK78Pmi+AJpGICQALF
-	Jaciy5SMmuAifgAEhXhSCulMLSyD3HqOdrbQ3NYaymWVSmxW8rqJPBVi8SfDIaaEez3A+3ar3Q5
-	2hc3bSiQWlUusEAr0WkkLGg0VJhmLi3NobQXU6c/jsSCcep5Ri+7K+kKPO9HOAqiEvNRrj40Kpf
-	uyTLb8mMNjJ430iQGWccnupoR9G18uU5aLCS0yuTdxZY2NdtR+R/yagsP6ChTF5Wc+uhpM5JYUs
-	DQA7lpk5d09+UtjLDZFx55NBJIiNIwt2mPHc/w421+J5odXBUAFfWDgOSO+jpygtB/iZVo0LC4x
-	AOwxZdWb3H733IHRGv5R30oxGtxUGDLg/pa87KZHnDI/HtZbpYXistGF+p4kCtGHfvl3aDId38c
-	vOpCzsXaQ3aK0cJ5Sj+qmhdx17GJ8io38V5LtReWv+Vu89mckwHr2gZOMHYFTstiL97FeOK7jq1
-	jXyGAYGQpBkqfaJQw1r5ZoY0pRshBwIJX71mucUZ2+evB6y5F4SnQ==
-X-Received: by 2002:a05:600c:4715:b0:49b:9161:db26 with SMTP id 5b1f17b1804b1-49ce5843bc0mr170827285e9.14.1788422333660;
-        Thu, 03 Sep 2026 00:58:53 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a76d:4840:1f4f:ed41? ([2001:8b0:aba:5f3c:a76d:4840:1f4f:ed41])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce7ac52c3sm75199065e9.4.2026.09.03.00.58.52
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 00:58:52 -0700 (PDT)
-Message-ID: <28d2a313b1c66aa90c10b35c85c88186abc087a2.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 3/3] python3-lxml: upgrade 6.1.2 -> 6.1.3
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Date: Thu, 03 Sep 2026 08:58:52 +0100
-In-Reply-To: <18D1BC8F7721B412.3984255@lists.openembedded.org>
-References: <20260903064403.3848874-1-richard.purdie@linuxfoundation.org>
-	 <18D1BC8F7721B412.3984255@lists.openembedded.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        bh=qsi/mT/12KdZt7dcGvXktDgOSgKcVgsaT7R6QxoyYFg=;
+        b=F5DoJ4czi1oInFL6kudjX4zzQStQTg5gwopgn7wfm+3iH+jEbXWROBGoItzM8pvhH/
+         EsCp+ouPKZ1d8AicaaoGikTle8uWdYTmLww9nZ0lnHZWNsfTbgLS5hL1p17KEaiI+FZr
+         zCEt47kLVA9Sh2uUH7HPtfuhrvxePiZl4aY+Oy4AXQe20TFPXeCpwBr7yqnDsCVERBbL
+         v/eSyz7v1ZBauquavkHpFCWhnygQczMc/tMxAVj83b/YibqpkZ7p96fJSv0+hJufC93W
+         qneFt33DI816hFZcluXBMIGNiPuEOSrkB+kdHyFylOftAPYTqsxD1lR+k3msmCK7uQbt
+         /0ag==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788423013; x=1789027813;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qsi/mT/12KdZt7dcGvXktDgOSgKcVgsaT7R6QxoyYFg=;
+        b=JA3sTr7uMpyZiQNjcYWh4G6r/VneuIcyfSSnAmOJ0sVkvXYcT5A2FzisGF86awl+p8
+         oeIdEqXA7HQIU+CQVDNl0L90BFr5EJ/nuG1omxE2ztEvqYfJs04mneVOldGquS13+nae
+         Ph1DCo8YGU98r+5pA/g2YCBKu5aJwNfY8okS9UNFdwl48djTTj4nm4gBFRqHLG7dFYjy
+         8W43tfzIo9wx5Tbomu0Ay0yEkZp6HqPyW1Yhdapf0Gl2x8vZtb8Mt75PjgKEKUB6srm0
+         gRJ21Ltim3mcupxtJlAE0MlfgmE2oiX1267EhWrkLogVr0AoYeYas4hWYOUffkDjCerk
+         0q7Q==
+X-Gm-Message-State: AFuF++m/WKCWVEcgtNsRCfl422Fo9FnxqbTOztZT9tl28hSfKbg+iLYt
+	aCCUC/xAlJZLxiiy0iGkrMk/Gpi5WEOPfncxQqLCVA6O/HaQJB4swFOaeimD9exfDO2xRaheqCY
+	6yswRs/E93Ws1FoMFOWdrP3tWk/836cY=
+X-Gm-Gg: AYBFou1TXgEz+k5prOfYau2FZMoEaOw+EYJCIW3hBZublTspHv3HLFjqn+VpiShC7La
+	NljX5YYktVSyY0d5QH4YqC+bUxD1eliTKhmAh1xj83RfXaz9If9CKNAG+r+Q1fJ/CpYFTV0BFpE
+	m6g6A2ndyhktDTAWHHsTEBhK9eEi/wK6S9bAQQRXtnPFhhxwK6WHPE/JRc0EA/j8qTeEVjpremd
+	YSoQwMu8uW3EMFxi8l3xAoP7cu0I5TdaP+KXRmXXRlVQyy9RyUetWi7jm5YPBsrTO+dxxhVNG3d
+	gmZj02FY68dFjl7sdUy7fN2YDioHwNgJrijKektWuZwYh58eEoycqItvb/vTlalIqmLJdoYOy+E
+	a+QYaZ+nZMHrpRg==
+X-Received: by 2002:a05:622a:c13:b0:530:42d4:4c97 with SMTP id
+ d75a77b69052e-53042d458b4mr59158411cf.41.1788423012969; Thu, 03 Sep 2026
+ 01:10:12 -0700 (PDT)
 MIME-Version: 1.0
+References: <010101a065cacddf-8c4c8571-518d-437d-988e-c3642ad3b435-000000@us-west-2.amazonses.com>
+ <24c12b9706da066e59f1581c91a8f238f5fe83b8.camel@linuxfoundation.org>
+In-Reply-To: <24c12b9706da066e59f1581c91a8f238f5fe83b8.camel@linuxfoundation.org>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Thu, 3 Sep 2026 10:10:01 +0200
+X-Gm-Features: AcwNN1UzVcDWDk1v1iRB5jZccSL7AezZuE-xm6LMW3oYSlalbRnkTHtdnqrEuI4
+Message-ID: <CANNYZj94sKa-ziuwUpmfZSN+xjdgnM7ir_U8-RHiPjphjO5+dQ@mail.gmail.com>
+Subject: Re: [OE-core] [AUH] mesa-tools-native,mesa: upgrading to
+ 26.2.2,26.2.2 SUCCEEDED
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	"daniel.turull" <daniel.turull@ericsson.com>
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 07:58:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245016
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 08:10:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245017
 
-On Thu, 2026-09-03 at 07:44 +0100, Richard Purdie via lists.openembedded.or=
-g wrote:
-> Bug fix:
-> =C2=A0=C2=A0=C2=A0 LP#2165901: External parameter entity parsing was allo=
-wed by default (with resolve_entities=3D"internal").
->=20
-> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-> ---
-> =C2=A0.../python/{python3-lxml_6.1.2.bb =3D> python3-lxml_6.1.3.bb}=C2=A0=
-=C2=A0=C2=A0=C2=A0 | 2 +-
-> =C2=A01 file changed, 1 insertion(+), 1 deletion(-)
-> =C2=A0rename meta/recipes-devtools/python/{python3-lxml_6.1.2.bb =3D> pyt=
-hon3-lxml_6.1.3.bb} (95%)
+On Thu, 3 Sept 2026 at 08:46, Richard Purdie
+<richard.purdie@linuxfoundation.org> wrote:
 
-Probably breaks systemd:
+> The changelog is a bit weird on mesa, it always seems to find the N-1
+> version rather than the one it is upgrading too.
+>
+> I'm also thinking the AUH shouldn't include the same info twice for the
+> changelog, or the version in the subject line. If it is the same, we
+> don't need it twice?
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/4412
+Yes, definitely. AUH should be tweaked to not repeat 'old.version ->
+new.version' if it's the same for all recipes in a group, and also
+drop consecutive changelogs if they're the same. Daniel, can you add
+this to the list of tweaks you're planning to do please?
 
-Cheers,
-
-Richard
+Alex
 
