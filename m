@@ -1,129 +1,122 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 04255C61DD3
-	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 20:21:31 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.260.1788466886156713051
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89243C624DB
+	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 20:45:55 +0000 (UTC)
+Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com [209.85.221.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.772.1788468347364140032
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2026 13:21:26 -0700
+ Thu, 03 Sep 2026 13:45:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=h7+Bquxz;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.44, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-498028b3d5eso3354895e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 13:21:25 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=uLvbcSkX;
+ spf=pass (domain: smile.fr, ip: 209.85.221.54, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f54.google.com with SMTP id ffacd0b85a97d-47fe89fb333so220579f8f.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 13:45:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1788466884; x=1789071684; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=gcRFN5F4H7+CiCxwS8YcMkmQI3NR9tVptuyfZC5VPLk=;
-        b=h7+BquxzJC4wPDSnt2k9N7BEGxTcq/HnxxnQeOGuI00z+xY+i86d+YeR6qZAGRaJHJ
-         yyqN1DbBJ0IP9dMxYAIm61kx3K/hG8pCiU/S60B7tbHfaLCUcd0mhIupZTbsuu8j8WAY
-         FuY73C0dawHFQVye5rYRKOvcMEVT5B8pyUq8s=
+        d=smile.fr; s=google; t=1788468345; x=1789073145; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=V80ZTyKuOBXKbpy0R/j0ATCUJCCsCsa+XKi9BIGpwiw=;
+        b=uLvbcSkX/ZTVOAt3Gb9l/h43MpVBhWFRikEY/jRpWK5HUKD8IjSG5a4UTHQv/ecA8Q
+         3ynbTkuQf9i42iusynGkshTM8cevK6re3jTn6aVlPYwjeHDt2jHRJ8ebjrDtehZdms7V
+         8A7Bw/cWV7PElD11VLrUl92ZIWlGUEsQX16f4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788466884; x=1789071684;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=gcRFN5F4H7+CiCxwS8YcMkmQI3NR9tVptuyfZC5VPLk=;
-        b=OcBNS8tyg1R6ASF+y8g/VO9EkKRftQTIDPqgiTpRdxauxvl/2JKlN5JTdCGM66riJK
-         SalqIzGOK7EWCdB2cIImFzt2s1S9hj7bCckyvGkWOMPh/3sYdDa9QrHTy7hjl4P8Q+/u
-         ahOg9JKy/543dDrgwtbvTRUrSM97h6G5sbR3mXgMxJMnPZwH6Q0qemtY4CZ2yQN6FDxt
-         nyA217IIAbtcdaBOkNgIKoWvSvC6jQh3eSFUYV/qVvGJWv0ucgE+GgeDnehfLlUt1Vwn
-         ulofbFclvzerhP5ZnQtGz64uiRbmzVFdIQHnL4aIH3Xia8Q54URVC5lVXjjdA1Pgbg02
-         yTsg==
-X-Forwarded-Encrypted: i=1; AKwUvBwjgvIITdbzPVym3emLTpLt7H2VoxSSOsyORzPn7RsUTb9XbnZyHgxp4Z7l7ydnk84dlh4ihKIfVBzk+D7XQ8xMaA==@lists.openembedded.org
-X-Gm-Message-State: AFuF++mc6GYRMOn6wDAbBJdI1SzlpmfOcu6DFXvkeHfcKUeqr4cjqOQr
-	w/TvewSXFiqWVGYH58BJRr0n/xuaaIdc0pjrayXuLK33JfJjTEy8/BGFUd+eu9PT2vk=
-X-Gm-Gg: AYBFou1HjcRFkjvkr+6AENjiXigCfWQnkf4IRVsFUBbG1bJRTvjjzodbXVsTEsLH4vb
-	mw8GPiO454kF7bE1NmEC3v5DDpXExO3el73VtG91GFeCbRwQQIVmoNmn5qn+sDcArou35Xtag3D
-	PmZlI+p5AWSQG9Gdeggpdbhx9W7WbDSgLcNvfSUVa6iILDvBwuYLDfyuu+h+ntbVttcxMw3h8F7
-	CiuYuSkqW2GDE7m2Yl15gupRCnUYNY/56R+zGc+FsLGMhLC/iGAEiTrjE8Bka7/HH7JkYB/DJ0t
-	hVekGG6kVAXgZ4AeM+ll7sYPutYTd8OqVAG6iYWrucHzyxJZdF1MDHAPADAj25ZR7H4ENZTWh4Q
-	BPA50HseusVGK8acmm1IldOtqn1OaMKrRzpaY5tELa8ZiYBHZCWGq9RE5uR+sawj0OC7OXbIA99
-	h87LRvly0b9wMGjTHNsKUBW49vWT9lSyzXcPlFTWYOIGgyTJIG8OXfPssJ7slHMqNqI92uvw/eS
-	WRTpi6rdNhLTMQ3ykB7+ipGY9tvxyzf/CTNBkyAO39fZDbpuxs=
-X-Received: by 2002:a05:600d:8498:20b0:49c:cee0:f383 with SMTP id 5b1f17b1804b1-49cf828c65amr6137715e9.16.1788466884271;
-        Thu, 03 Sep 2026 13:21:24 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3f77:7f7:7ec1:8841? ([2001:8b0:aba:5f3c:3f77:7f7:7ec1:8841])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7740d44sm21485825e9.15.2026.09.03.13.21.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Sep 2026 13:21:23 -0700 (PDT)
-Message-ID: <59f84c8da48e254a2974ca4ddeef4426734e64b7.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v2 02/25] devtool: ide-sdk: dedupe
- solib_search_path entries
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: "Freihofer, Adrian" <adrian.freihofer@siemens.com>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Date: Thu, 03 Sep 2026 21:21:22 +0100
-In-Reply-To: <1ffaac43051093ec29916ce154a96b6e1fd943bc.camel@siemens.com>
-References: <20260830214912.1346063-1-adrian.freihofer@siemens.com>
-			 <20260830214912.1346063-3-adrian.freihofer@siemens.com>
-		 <92d96154859f9da579f751003a941a97921a32fb.camel@linuxfoundation.org>
-	 <1ffaac43051093ec29916ce154a96b6e1fd943bc.camel@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
+        d=1e100.net; s=20251104; t=1788468345; x=1789073145;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=V80ZTyKuOBXKbpy0R/j0ATCUJCCsCsa+XKi9BIGpwiw=;
+        b=jtmAe8Fo9CxPB3B4w6ua1yG2G0Kpokr++ZT+hCekI2S5wJVHuK2RA3XcFQpmoXlum/
+         zs22NeBZW1urR2DhEBSsVRpSmZlJAoHyNAnxeXLUH7tavdIDH/TQrH1xMSyaj6cVUB6P
+         v0RnQDhut5ulqoUrzzGD40I6f4Fr3nULkzZRWhimazWBeE36olKlfkCesk/6SLZaV1KA
+         6tW8JltdVxMcenKg+52oYJJTlA56L0g+7yu1ouH4lFMqR9J83J+Mtm3PyYAAa4d7CAJs
+         /QG9QKO7zfXxWJVFQ4DST5+MfQfR5Nq2Y/v4CJYzDTP56Mh2OR2Imrl4Nh+lSmHVp813
+         oNGw==
+X-Forwarded-Encrypted: i=1; AKwUvBxjV9O1PtQnGXq6URNRAunG6OsTe6PjTgmpSXJrj5NoVxphIQumokLIac22WW5AKWKU+6qVmLhmlhB7A7kQBC/HuQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kbUqBal6wB1bU8cVYqB3hlWRqo0YfS+m96aAzy33cQ10OLAniY
+	Pzy77i2EwPQkYW/y99Fv+KTqc00j1ec+FNaQZlCRuLhJuX6TWR/VDQY+RSLus7nZfNo=
+X-Gm-Gg: AYBFou3unEsV044kG24Qvsx5dRV3aEvVBbSonlEJsXeSSwcZC+qqNzzZXql9M502td9
+	aDdcklCNGM8UbYpR+Qzbj7VS+niYoTzrPnQl2hRuAc+upjarQW7V9ET1zsdJWAXT1fXq4FwXAE+
+	csW7hLEIZIWYJRphgVgr3pIlBUkVqhtHkk4f3Q7w21T/LluribdQL6FXy3/2FwTJuF2PJP71fyd
+	uXnF91W4n32FHEE1NITclrZdI1mX0ZOT+XjZIAy9AUrOzv5H03+oQ8KRr4invcKEr9MiAFHJE8Q
+	Ur24BwPNieFvAEw+kNhzOdsaWbfEfArrpwE/xsOnVgsgU2Wqi2eL1re3+fXYBjsh60vkfjBsPwb
+	Nma+3A5GBzZTAMQyFgmGMAPZJTHWaJ2ZcFrO7wHfsqmzDo+Q4SEajobr3wCkuMW9zUKJpghVe3c
+	p55+JK0QmXMtEhRasKmTxZ0A/xAoYQY1xFHKaQ649y9eqMtpavDnygJGusaIHC0zLi5xvzzQAZG
+	SW/eRrP+1nTLYWFXJB+OxumPWRQJy2syYy9XCdbdADOd6iXp6nGwUKWRIfrow==
+X-Received: by 2002:a05:6000:29d2:b0:484:3cbf:f254 with SMTP id ffacd0b85a97d-485872ae327mr2117179f8f.21.1788468345547;
+        Thu, 03 Sep 2026 13:45:45 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00939d825f00cb3861.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:939d:825f:cb:3861])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883c81c3sm1007545f8f.26.2026.09.03.13.45.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Sep 2026 13:45:45 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 03 Sep 2026 22:45:44 +0200
+Message-Id: <DL5Z475KF36A.2GWHJC82115IA@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH 1/3] libslirp: fix upstream version
+ check
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <peter.marko@siemens.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260823155741.2091982-1-peter.marko@siemens.com>
+In-Reply-To: <20260823155741.2091982-1-peter.marko@siemens.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 20:21:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245041
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 20:45:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245042
 
-On Thu, 2026-09-03 at 16:06 +0000, Freihofer, Adrian wrote:
-> On Thu, 2026-09-03 at 12:18 +0100, Richard Purdie wrote:
-> > On Sun, 2026-08-30 at 23:48 +0200, Adrian Freihofer via
-> > lists.openembedded.org wrote:
-> > > From: Adrian Freihofer <adrian.freihofer@siemens.com>
-> > >=20
-> > > With usrmerge in DISTRO_FEATURES (the default), root_prefix becomes
-> > > exec_prefix, so base_libdir and libdir resolve to the same path.
-> > > This
-> > > made most entries of solib_search_path() literal duplicates. Dedupe
-> > > while preserving order.
-> > >=20
-> > > Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> > > ---
-> > > =C2=A0scripts/lib/devtool/ide_sdk.py | 3 ++-
-> > > =C2=A01 file changed, 2 insertions(+), 1 deletion(-)
-> > >=20
-> > > diff --git a/scripts/lib/devtool/ide_sdk.py
-> > > b/scripts/lib/devtool/ide_sdk.py
-> > > index 4fdeeec24d..6f08940c9c 100755
-> > > --- a/scripts/lib/devtool/ide_sdk.py
-> > > +++ b/scripts/lib/devtool/ide_sdk.py
-> > > @@ -643,7 +643,8 @@ class RecipeModified:
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 os.path.join(image.rootfs, base_libdir),
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0 os.path.join(image.rootfs, libdir)
-> > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ]
-> > > -=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return so_paths
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # base_libdir =3D=3D libd=
-ir when usrmerge is in
-> > > DISTRO_FEATURES (the default), dedupe
-> > > +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return list(dict.fromkeys=
-(so_paths))
-> >=20
-> > This is a little hard to read, would set(so_paths) work here?
->=20
-> The order of these paths is essential. Therefore set would not work.
->=20
-> I'm working on a v3 which will improve the comments for this
-> complicated function as much as possible.
+On Sun Aug 23, 2026 at 5:57 PM CEST, Peter Marko via lists.openembedded.org=
+ wrote:
+> From: Alexander Kanavin <alex@linutronix.de>
+>
+> The regex excludes bogus old yyyymmdd tags which sort higher than real ve=
+rsions.
+>
+> Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (From OE-Core rev: 2a60e5db4460cd8ec99b43d8f2ff733ba509c373)
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> ---
+>  meta/recipes-connectivity/slirp/libslirp_4.9.1.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-connectivity/slirp/libslirp_4.9.1.bb b/meta/rec=
+ipes-connectivity/slirp/libslirp_4.9.1.bb
+> index 9f7005d709..50577fd4ae 100644
+> --- a/meta/recipes-connectivity/slirp/libslirp_4.9.1.bb
+> +++ b/meta/recipes-connectivity/slirp/libslirp_4.9.1.bb
+> @@ -6,6 +6,7 @@ LIC_FILES_CHKSUM =3D "file://COPYRIGHT;md5=3Dbca0186b14e6=
+b05e338e729f106db727"
+> =20
+>  SRC_URI =3D "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=3D=
+https;branch=3Dmaster"
+>  SRCREV =3D "9c744e1e52aa0d9646ed91d789d588696292c21e"
+> +UPSTREAM_CHECK_GITTAGREGEX =3D "v(?P<pver>\d+(\.\d+)+)"
+> =20
+>  DEPENDS =3D "glib-2.0"
+> =20
 
+Hello Peter,
 
-I wondered if order was important. I think in that case I'd change the
-way you're building it in the code above to use a dict, assume dict
-ordering and then just make a list from that...
+Thanks for the series. But, with regrets, I don't think it is acceptable
+under the policy:
+* 1&3/3 are not bug fixes (UPSTREAM_CHECK_GITTAGREGEX is not used right
+  now on stables)
+* 2/3 is the upgrade. It contains:=20
+  "Changed: bootp: allow https for UEFI HTTP boot"
+  and that is a feature change (even if, behind it there is only a one
+  line change)
 
-Cheers,
+I think you did this backport to fix CVE-2026-9539. I think we'll have
+to backport the fix, (like you did on scarthgap).
 
-Richard
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
 
