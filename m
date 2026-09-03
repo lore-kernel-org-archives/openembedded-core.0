@@ -1,126 +1,85 @@
-Return-Path: <SunilKumar.Dora@windriver.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C8E49C624DA
-	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 18:40:27 +0000 (UTC)
-Subject: Re: [PATCH v3] rust: Avoid passing host-specific information to crates Strict Version Hash
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AE43AC61DD3
+	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 20:11:10 +0000 (UTC)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com [209.85.128.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.36.1788466262705318042
+ for <openembedded-core@lists.openembedded.org>;
+ Thu, 03 Sep 2026 13:11:03 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=IvGL+8/O;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.41, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f41.google.com with SMTP id 5b1f17b1804b1-49b0dd3c9a0so2573405e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 13:11:02 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1788466261; x=1789071061; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=/Xnj7L54EW2TTBFug1yIn8PtgQgx9kNWvHceWal3we0=;
+        b=IvGL+8/OHnUWLCTnC/QYbVNU3CYlsNei4RouQBw5YxoWR1+J0+9Syq7oWd/k5kulPD
+         m+n70BfEVTCMvCM4sDwGmjbXzhxrFssoL9Tny3D/bX9MDoQZesIdrk/ceoYnf103uwDR
+         Yem7FVQPwA6+VOYeRIz2aAz9ry6kZFRmEPo6M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788466261; x=1789071061;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=/Xnj7L54EW2TTBFug1yIn8PtgQgx9kNWvHceWal3we0=;
+        b=dFMDWABRSXmYZKdzjFz8lgY+a9INNYMvXAUfcWLwewC1ZO8t3KlOh+ZJk5M6nnqYNM
+         rauDVCL3hHOcWDOvLoPfYjavNThBNvAZhWDIsKzJjr+sCdu5ADXO8X8QbZL8Subd793P
+         I/oN/jFuLACza4HCzF5QdHTBJbe8gHfxM3d/iYqDBXUjeJjWre8PN7ehWLZ2fHHvPUwh
+         CXaEQiQ/as/xSWq2nLAABGxnchC4DpUter1+pz89FkrmCHigp9zPrUd2O949Oar3F3rx
+         zK/3c40Mr9Lp32hJJYGj0jUfB0bdEWCIRYl0Rl8qWb5BZehoVsbbUcF/fcxhRP7nbMsE
+         Y4cw==
+X-Gm-Message-State: AFuF++n9T3SB7zH1HqEFXKaIRukE2dvYM0qPt5DFLc3j7NbuTw0N14N/
+	2pZgeUpyTLpIFPuEkJfIVeM1YDnrslDavyp/wd4dfiTE55qF6qh+rPdSxF6xdAfE+r9oDjwC2Vf
+	vljmhbr8=
+X-Gm-Gg: AYBFou2KqqUwBJZEkH8kNcl4ZmcRHVn6t6u3WHXR54ur2Hl22ErRDmE8O/FRlJdijxg
+	bSOhTPAdyuVFyVARv5dcuRqrmHWyYsS2Fv4HBI/+cEtHBUXgMLl4xEdJkqZ7071nOjga5QhEOkB
+	TqPGwyBaqGbYjM2CullEAMO2XufzeoaJENKjE8sZJwfA1oUZTVGMhUFxrc2wNPGksK0X9uVd7nR
+	ys4uLrh6BnfLOJaZQ9KKOilRN/FUurzdM85U2M7IU3sd3Pj1HQA3jtJ64l4FWsXipMTsRTN3dy5
+	YIajn9SPhgIIe13+EGYYcaS8Ux93XsiaxCtG/qHlT1wXo/iokv03lh/r3DWc3Fhd1sqAsWb4iT6
+	bs+uURdOflbrxv2uySojeGKq2pdI5W5dQH5Wo6x+VQsUhsjDcXOORyge5ISdNpUnROeTOp1BNWY
+	6KQ/zbNro+RbcA7AIgOxNb5GnCWZfYQWUbyr+kA+MuZqe1vlwD9DFthxeIuo9e08G9ldnoEMWt9
+	sp37RVEbVPK8HlYGAAIS58xGHo=
+X-Received: by 2002:a05:600c:6290:b0:499:8174:9f39 with SMTP id 5b1f17b1804b1-49cf7f3d239mr11321165e9.0.1788466260774;
+        Thu, 03 Sep 2026 13:11:00 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:3f77:7f7:7ec1:8841])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588390e30sm947091f8f.7.2026.09.03.13.10.59
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 03 Sep 2026 13:11:00 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-From: "Dora, Sunil Kumar" <SunilKumar.Dora@windriver.com>
-X-Originating-Location: Bengaluru, Karnataka, IN (106.51.217.239)
-X-Originating-Platform: Windows Chrome 151
-User-Agent: GROUPS.IO Web Poster
+Subject: [PATCH] meta-selftest/devtool/bbpath: Add missing import
+Date: Thu,  3 Sep 2026 21:10:58 +0100
+Message-ID: <20260903201058.368406-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Date: Thu, 03 Sep 2026 11:40:22 -0700
-References: <20260826155417.2774608-1-alhe@linux.microsoft.com> <2326647.1787768749336187635@lists.openembedded.org> <fac01045131c56332854097dc98f0744a0e5ee5a.camel@linuxfoundation.org> <69b11fc6-cffc-4b91-8853-c9ab277577c8@linux.microsoft.com> <18CF75EE37DB8543.642712@lists.openembedded.org> <e6874bb2ac2d116380c62b2295da246b79136093.camel@linuxfoundation.org> <d6fbb4c3-6178-4f8e-9421-d3134793acb1@linux.microsoft.com> <78bca4cc9c3e7fd3014f22e1d1b9529480089a2a.camel@linuxfoundation.org>
-In-Reply-To: <78bca4cc9c3e7fd3014f22e1d1b9529480089a2a.camel@linuxfoundation.org>
-Message-ID: <3299883.1788460822003555425@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="fpmNHJOxuOuTTdMpgOgH"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 18:40:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245039
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 20:11:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245040
 
---fpmNHJOxuOuTTdMpgOgH
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+The file uses the os module but doesn't import it. Fix that.
 
-I'm still working through the remaining Rust packages and will follow up on=
- that separately.
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta-selftest/lib/devtool/bbpath.py | 1 +
+ 1 file changed, 1 insertion(+)
 
-While going through the reproducible-cross diffoscope output, though, I not=
-iced something unrelated to Rust
-that I think may explain the git/git-dbg entries, so sharing it here in cas=
-e it's useful or helps narrow things down.
-
-In the 2026-07-29 report from builder 120 [1], git's .rodata has:
-
--0x001b1780 6769742d 00000000 61617263 68363400 =C2=A0git-....aarch64.
-+0x001b1780 6769742d 00000000 7838365f 36340000 =C2=A0git-....x86_64..
-
-i.e. the build host's arch string, sitting right next to git's "cpu: %s" fo=
-rmat string.
-
-git's Makefile does:
-
-ifeq (,$(HOST_CPU))
-BASIC_CFLAGS +=3D -DGIT_HOST_CPU=3D"\"$(firstword $(subst -, ,$(uname_M)))\=
-""
-else
-BASIC_CFLAGS +=3D -DGIT_HOST_CPU=3D"\"$(HOST_CPU)\""
-endif
-
-uname_M comes from `uname -m` on the build machine, and GIT_HOST_CPU
-ends up in the "cpu:" line of `git version --build-options`.
-
-Upstream even documents HOST_CPU as the thing to set when cross compiling,
-but our recipe never sets it, so we always take the uname fallback.
-
-Since "aarch64" and "x86_64" have different lengths, everything after that =
-string shifts,
-which is why the git diffs look much bigger than they really are (.text, .s=
-ymtab and so on) -
-the instructions themselves don't change. git/git-dbg show up in every run =
-I've looked
-at (119/120/121, before and after the SVH fix, on both x86 and arm hosts),
-so it fits a build host leak rather than anything rust related.
-
-The fix should just be:
-
-EXTRA_OEMAKE +=3D "HOST_CPU=3D${TARGET_ARCH}"
-
-in git_2.55.0.bb. As far as I can tell TARGET_ARCH does the right
-thing for native (=3D BUILD_ARCH) and nativesdk (=3D SDK_ARCH) as well, so
-no class overrides needed.
-
-I'm cross checking with a locally to make sure the resulting binary really =
-says "aarch64", and will send the patch once
-that's confirmed.
-
-[1] https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260729-j6j_x=
-puw/packages/diff-html/
-
-Thanks,
-Sunil
-
---fpmNHJOxuOuTTdMpgOgH
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>I'm still working through the remaining Rust packages and will follow =
-up on that separately.<br /><br />While going through the reproducible-cros=
-s diffoscope output, though, I noticed something unrelated to Rust <br />th=
-at I think may explain the git/git-dbg entries, so sharing it here in case =
-it's useful or helps narrow things down.<br /><br />In the 2026-07-29 repor=
-t from builder 120 [1], git's .rodata has:<br /><br />&nbsp; &nbsp; -0x001b=
-1780 6769742d 00000000 61617263 68363400 &nbsp;git-....aarch64.<br />&nbsp;=
- &nbsp; +0x001b1780 6769742d 00000000 7838365f 36340000 &nbsp;git-....x86_6=
-4..<br /><br />i.e. the build host's arch string, sitting right next to git=
-'s "cpu: %s" format string. <br /><br />git's Makefile does:<br /><br />&nb=
-sp; &nbsp; ifeq (,$(HOST_CPU))<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbs=
-p; BASIC_CFLAGS +=3D -DGIT_HOST_CPU=3D"\"$(firstword $(subst -, ,$(uname_M)=
-))\""<br />&nbsp; &nbsp; else<br />&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp=
-; BASIC_CFLAGS +=3D -DGIT_HOST_CPU=3D"\"$(HOST_CPU)\""<br />&nbsp; &nbsp; e=
-ndif<br /><br />uname_M comes from `uname -m` on the build machine, and GIT=
-_HOST_CPU <br />ends up in the "cpu:" line of `git version --build-options`=
-. <br /><br />Upstream even documents HOST_CPU as the thing to set when cro=
-ss compiling, <br />but our recipe never sets it, so we always take the una=
-me fallback.<br /><br />Since "aarch64" and "x86_64" have different lengths=
-, everything after that string shifts, <br />which is why the git diffs loo=
-k much bigger than they really are (.text, .symtab and so on) - <br />the i=
-nstructions themselves don't change. git/git-dbg show up in every run I've =
-looked<br />at (119/120/121, before and after the SVH fix, on both x86 and =
-arm hosts), <br />so it fits a build host leak rather than anything rust re=
-lated.<br /><br />The fix should just be:<br /><br />&nbsp; &nbsp; EXTRA_OE=
-MAKE +=3D "HOST_CPU=3D${TARGET_ARCH}"<br /><br />in git_2.55.0.bb. As far a=
-s I can tell TARGET_ARCH does the right<br />thing for native (=3D BUILD_AR=
-CH) and nativesdk (=3D SDK_ARCH) as well, so<br />no class overrides needed=
-.<br /><br />I'm cross checking with a locally to make sure the resulting b=
-inary really says "aarch64", and will send the patch once<br />that's confi=
-rmed.<br /><br />[1] https://valkyrie.yocto.io/pub/repro-fail/oe-reproducib=
-le-20260729-j6j_xpuw/packages/diff-html/<br /><br />Thanks,<br />Sunil<br /=
-><br /></div>
-
---fpmNHJOxuOuTTdMpgOgH--
+diff --git a/meta-selftest/lib/devtool/bbpath.py b/meta-selftest/lib/devtool/bbpath.py
+index 5e8ffb3af6b..17965544763 100644
+--- a/meta-selftest/lib/devtool/bbpath.py
++++ b/meta-selftest/lib/devtool/bbpath.py
+@@ -1,4 +1,5 @@
+ import argparse
++import os
+ 
+ already_loaded = False
+ kept_context = None
 
