@@ -2,151 +2,111 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 77337C61DD6
-	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 01:10:49 +0000 (UTC)
-Received: from mail-yw1-f170.google.com (mail-yw1-f170.google.com [209.85.128.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10240.1788397846230751799
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 721FAC61DD6
+	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 01:12:09 +0000 (UTC)
+Received: from mail-yw1-f175.google.com (mail-yw1-f175.google.com [209.85.128.175])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10384.1788397927950474136
  for <openembedded-core@lists.openembedded.org>;
- Wed, 02 Sep 2026 18:10:46 -0700
+ Wed, 02 Sep 2026 18:12:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=BgcVs7bb;
- spf=pass (domain: gmail.com, ip: 209.85.128.170, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f170.google.com with SMTP id 00721157ae682-857ff9fef54so19130017b3.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 18:10:46 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788397845; cv=none;
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=kMKPjkMM;
+ spf=pass (domain: gmail.com, ip: 209.85.128.175, mailfrom: raj.khem@gmail.com)
+Received: by mail-yw1-f175.google.com with SMTP id 00721157ae682-86162c086f8so7818767b3.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 02 Sep 2026 18:12:07 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788397927; cv=none;
         d=google.com; s=arc-20260327;
-        b=CHQ8M7zAimulWTrGAKePOxpO5OMQQqFlhI4XFM28GyVjNxngdi731cSm+XVGVT+mqe
-         gbYGsdtgcVf/j3Xy9UN9oNBJlwuO8AnWO4x+g0YZtlMY5OL/6ImSAqCNTxEFjEAOmTuz
-         6jcTjCTToYbVyTVkCJcvEiQSUxOFcW6HxXnGlL0SDMNhmNuHR5qTvDl5uzbcNzifd03i
-         HcfY4p4MxwD9M52a5rCnznNaGPhRTfk99RzhbzQ1a3YlklM/y/vt/KuZpN6kDfxxSft+
-         qJIKoOXbvHKp7g50N1vF5m3qsLPCiVkuUFUDe3ZZPvBuvGZaso9NH/1Lj7sDAQXSnDF5
-         woTA==
+        b=eN4rfUojSSvf/J6MVul8J3On76dYh/WsP6vWBdiXsOaxM8MMcCreERtlBYuSdP99ft
+         V5vXqvfdKI1P+4NuSt2UCya7z+DGjp1XDtENyjDK85OqNXUOS3ScFnOovtYYUmDtr0iS
+         +eZNEao9CXyZQkfsX9u86na9lSqOh4qD9f8kRN6dtX6cJDaqXBvbQjggVYvbGg5eYHdz
+         p4Sfoue+keltRx2fPSBK0afR9gQY4gLorWKnJgV+KT55Bwif9KNQtzD6IhtBnk8qN3jV
+         E+R16VCBI5jizSZlkPde5lqo8lQhlCe6zL95IhnOJhZ8TBCjKxQtxjFrCIn/rtVe8kFN
+         6XXg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
         h=cc:to:subject:message-id:date:from:in-reply-to:references
          :mime-version:dkim-signature;
-        bh=XTPKkKywvxnj50atu3w6I8SqX1EwULkpR6qcWMnPoCk=;
+        bh=aYLHB1aXxRD5pEejHywWy/uIhIIeYB1kRtQEbtGyx7c=;
         fh=aFV7J8ngdfO0qf/7Exvg31KDr2OGL+G2lw9KMbsH+8g=;
-        b=D9sOgkVD3XjXtVspTAfwMnbE1FJnKHzLCfQadGAHc/OPJIlkPdujD+X85Exjw03yxO
-         0EAISWLapmkSdCGnZmuMnns3moyD+ivQdb2VbNvlmdomdnyrqjxGw9y92XATipUWVXET
-         gXjto5Cskj7TGqVeq4HuL6bfYtVEyXQywfYkB1zlfKjDz8ai1OqwRUeO/DUqDPZ7kRQB
-         MvcUptRLktHfSmAHM+c/HzIchVIeRuU2It0e4YltLXhDP/HajDYzUUMjs/LFhG6Hg2tW
-         gKF1wE0tptX/y501lp3Uit3U8E19yii/RGXvYjnnga23+C1f3pzC1NKjsG1/YIRqxE/K
-         MsbA==;
+        b=QmgcgFQaxlJ3VpqSTGJeGUHKhGW2kLSZ7W6E3NIfQ/esKftMy1j5oiPafdz7M2zNm7
+         pVJxc0HNXgaU/HSpT1TRsGq1mIORzkMDW20UKPr0RlySsNhI5F+w2jhmxWxHqU03Zh7R
+         p5zVpe7fHQsDU84Euvap1x9izDUQo7+sNMbEBQh2i4U3iTRpZP6TPZ2qZIHxr1OO4gMm
+         2NieoE7OWSaLNPd3rrxplTtm+D2kQtYMvRDjt4QXgWkenIAmGzabDbDYZNZbPnVwDp+q
+         MB2KybhqqJl5CG8W17outixycSN05epaqY9xnxAi9J2E0va5ATgHCTKl8LmMh6L5f+7/
+         1yAQ==;
         darn=lists.openembedded.org
 ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788397845; x=1789002645; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1788397927; x=1789002727; darn=lists.openembedded.org;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=XTPKkKywvxnj50atu3w6I8SqX1EwULkpR6qcWMnPoCk=;
-        b=BgcVs7bb9Rx0omsYp4h30uj3RXEgu5j2Jx/0ll+7zNfuXpRnj7r0LUvqHBOOctAzgi
-         APXDGGfSHHX+ibpXSNnIAURBtSdgHvcCcuEwBoRBg88fsgZt8aamyWEMLYrbtvE6i1/m
-         viE06rxhxdh8GQ1vY69aM2PX1LTxjIc1/IpOm3/lemILmdy8OKPKs5aW7NNfDdEKX6O4
-         dAP4/v7Zv0aP6pr6H0aEc3jaIs3sQfA4qxnoRpoDyZKAL0hGCq6lHPAUm9/fAIuoMvzu
-         mWDq2ejWqvzroXzLvDwIlxnpLlF+pEZUbcFI0XrD9kThTAkyGbEB+YgqRDFnZtaDCZkR
-         q40Q==
+        bh=aYLHB1aXxRD5pEejHywWy/uIhIIeYB1kRtQEbtGyx7c=;
+        b=kMKPjkMMbMaIwIRVYkb3HHl9J88A2JTYfH9Xb7pCGC5BdmmVKeT/Dmo4MpA5tTA6Mv
+         0rBYEGB1BEdo2JGUfCmEMPR2LoTB7rFRZdo51FpIkYRBBaWAPkjGIqM6B26HXbHrBUSR
+         hVNHm9gdtnNVWGCpuW+uXyX7r2KqJ2cCakAxxjmnmX1Q59p/+FwJLBJzu7TEDNyLEage
+         IPG7QHvWRu72ouKN6Ft+Dbvqx0l8utAueGZ8Q+n3E5xK57JVLBx7QV4NoLevQvIn8n8W
+         zDNCTGqXcyeJnQLeCqSZZn4sIlQe1WbG1799laVMk+TpRWjoc3CdJZRVwRu4J2dhOccS
+         xTtg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788397845; x=1789002645;
+        d=1e100.net; s=20251104; t=1788397927; x=1789002727;
         h=content-type:cc:to:subject:message-id:date:from:in-reply-to
          :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=XTPKkKywvxnj50atu3w6I8SqX1EwULkpR6qcWMnPoCk=;
-        b=qSy7uYEKHNivENxwHhGcehK8uoxLRAD6lSjl8iMtutkImtCUJH2TX4uA8v/vdwB1Zm
-         G3+nvu0aSecXXbJen0PoX0OyP1jn0ddLO7iOm9pxPYX2w8bLBQ7VjnEPuTQTudyVsgNo
-         kTWJg43uVSuvzJmdrRrsXwLCuvjxlRw5flhRWELSbhEeB2rfxT2RvNMcitkgOFzpZ3O9
-         VHDcBVcOZ0sgoEK8dHeZut3ZbTg3PPM++GCS9TmlsXuMKFHWUKmfaUT/EsZiKoglRtR1
-         ZDgtuydKeUaZtGmcGDf+f0C7IwhY/hmS79UZr2kXg/ibwUXXrRued9mqFCZ8u/HKsq/Z
-         dPGw==
-X-Gm-Message-State: AFuF++kwrAc2Y6DizyUWz3hFFzt74QA3JsOhSuGSbwZPL0ZJS6DMwbjK
-	eOH168scc2r6jLqgs0m2OlhUZHxi3U/0iMQR+ErvG7r3HBmbh60x0Pm9g4F0Ucst6Zx4LXk9cUS
-	KaVKyu/pGVdFrQ1dNDivbXz7aj/yvYuGpYw==
-X-Gm-Gg: AYBFou1bM6N24zlAGBkj+K603n7WPAhbC40YVtA5Z+SjIxeisP+jNKLsCPPjq/yTG5G
-	l41bvt07lx6zVyrX9s2DhN9mQxtYHuId0x1N4KWzky7HZurGWC8MpuRfA5ccJOmRtu5c5NwimlB
-	mYm5dyObHY1bYLhin0Wemi1cuWx4nE/JTAjhDl4D6PrGgBGtg14r+xOjUup0ukaGypALAv87vuN
-	3zHmEm8lngZoGnYQE8CeBmAVgFhBzyP/zEcHuEMaesD0UQmQNtw6WH/FdDzHh5w5mY08NQZs5dn
-	DgNO7VJHx3KrdZ1ib1Qy1wlHtuv1aBb65NBlezgY7WcRdSEfM5jysc9FWcAyMZKe1JyrhxiyAii
-	8nRamknGqQbkUO8RRmzlWD7NtEaZpYkcBWqm3Lum6acM3F21puFr8HTLfhsDR6qyd07bqZXEVAq
-	jC1enudrie36JQveIaYvhEifz37bLsOzepE2A4opm4DaLcWuC9KZPfITzRIFmUoidl2BwCir9rX
-	UQugYGX8+y1QQ==
-X-Received: by 2002:a05:690c:9e:b0:81d:29ce:cd7f with SMTP id
- 00721157ae682-86c53884d6dmr41341497b3.24.1788397844904; Wed, 02 Sep 2026
- 18:10:44 -0700 (PDT)
+        bh=aYLHB1aXxRD5pEejHywWy/uIhIIeYB1kRtQEbtGyx7c=;
+        b=p4yZpILgVSx8ztQM+z35Jpfzu/hpinsqnK40PmHogQZxCLZyubtx+2z9G/eKSTo8s+
+         ykfbYFPfX7MsrIAvlP3ntjNjdyii8uMBTzBqzfOPheP/vPCyCQqhA4kTjXZsBoFpb5Zr
+         1cmmf+/LQda6lnPjmjujDa2vqFmcYHnNjwbAXvjRW6MiHBPW1PloRPsazYzhWferxsOq
+         2EXSdzM/r/Q7v7hYjFDnpW1OUl8YKV3B5KJr+lKLvrQnJy5Eai+A2h5lmvwhq97eU7Eo
+         hTZAfQggugkvqc7yypqHzq15ZMdJTCNbqP9nzlHLgDT0x85zcrviDvMyeRu6NHAD4XoG
+         Yi4g==
+X-Gm-Message-State: AFuF++mEnTW/DAyxrKO4MX5WH+Wclb6OuA+02v9nyE+PqloN3IqN6KTe
+	QXSA5zJWQkKaXqQb4EToc5gqz2j83tGFvHLgkeBvZ32wGdm6tqHfyOrwpOFp7lQD4/7MQEgCNqv
+	M3Q1Ey3Amkfen4Fs2vBMVGeQ2S2yDRQ3tew==
+X-Gm-Gg: AYBFou0P0b6Miu/nwN+fMjpF3uZRKS6t1FcvJcCHftpPYox6RLUstpzYGN5HZteBq6D
+	bbhul4Jn5W9rEL3FBMjDx7gxrF24/e3z5NawO4/bHxhf/VbsF9Li7I4ZAFjkmUFjeUVugJisLjr
+	ybNvtGw/GQqazzpdxhNv/Suwyd/LQ+Nz21krsqYyiL8mrW8K/IANK+uKuuWd1/zNek+USMOxdQ5
+	jAIrp+mjutqVX8jWpZSpLY3t2wbAYQRBuncOag8ezsaSnaLzemGvZ8pnIBp6ALofFwgpt1GkwgX
+	mNUGnV9E8IuzaxPgWi/EIfjCFuIZ4eYy8MXyuPw21HPqYxjMUatMN/FNG0wIfgfLSVuzXFEw8M1
+	w+uNTlpVu4KImrVdlE22JPp3ftZYrWMwb/WAOMbdKW7UAKcZK4MghBY0kLvVFyeMXKTDnn5ZWks
+	x376gL2o9PakeXll1HfvV8/oz/PrtqTY9ltQEJfWuCiDoIxTXEehZPFJoRMA5NXvhGM56N5NhNC
+	0U/BilV46yyWEYvlXrFGmIA0A==
+X-Received: by 2002:a05:690c:a84:b0:7f0:38f7:6ca6 with SMTP id
+ 00721157ae682-86e6d7905ccmr15184337b3.5.1788397926882; Wed, 02 Sep 2026
+ 18:12:06 -0700 (PDT)
 MIME-Version: 1.0
 References: <20260830125853.1139807-1-sunilkumar.dora@windriver.com>
- <CAMKF1soQRjHMiJnndyuEGrjf_VqB5fg4TjekEMgAe5cZLz8t0A@mail.gmail.com> <cd27e5c8-3846-4e35-bde3-643a1b753c69@windriver.com>
-In-Reply-To: <cd27e5c8-3846-4e35-bde3-643a1b753c69@windriver.com>
+ <20260830125853.1139807-4-sunilkumar.dora@windriver.com> <CAMKF1srRX9QgGZQL9tTpr6HuOXTOPvM8X+CB08qC_WU0Bptp=A@mail.gmail.com>
+ <09fa9968-aedb-427e-925a-1cb07d8cfe03@windriver.com>
+In-Reply-To: <09fa9968-aedb-427e-925a-1cb07d8cfe03@windriver.com>
 From: Khem Raj <raj.khem@gmail.com>
-Date: Wed, 2 Sep 2026 18:10:18 -0700
-X-Gm-Features: AcwNN1UfR7BiX3Mv83xS0zIyoHUJrF67StoWeUGGq-PySI45LcNyRKqRbRZQBJs
-Message-ID: <CAMKF1sq0eQY8h3G3BMo7osHQRYvD159Rb9ucN=twWxWKE3OJDA@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH 00/11] clang/llvm: Upgrade to 23.1.0
+Date: Wed, 2 Sep 2026 18:11:38 -0700
+X-Gm-Features: AcwNN1Vh7TRjMINJ-I-mrRC67prSkm-7U2K8DjySI_pyt6PerBs1nGPkvjo7H6w
+Message-ID: <CAMKF1sr=hz7xqqB0Rx7fazO8r37Wm0bdBn27rZPrwRMOtOVMEw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 03/11] openmp: Build via the LLVM runtimes entry point
 To: "Dora, Sunil Kumar" <SunilKumar.Dora@windriver.com>
 Cc: "openembedded-core@lists.openembedded.org" <openembedded-core@lists.openembedded.org>, 
 	"MacLeod, Randy" <Randy.MacLeod@windriver.com>, 
 	"Kokkonda, Sundeep" <Sundeep.Kokkonda@windriver.com>, 
 	"deepesh.vatharaj@windriver.com" <deepesh.vatharaj@windriver.com>
-Content-Type: multipart/alternative; boundary="000000000000433e45065a89d28d"
+Content-Type: multipart/alternative; boundary="0000000000002624f6065a89d715"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 01:10:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244995
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 01:12:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/244996
 
---000000000000433e45065a89d28d
+--0000000000002624f6065a89d715
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
-On Mon, Aug 31, 2026 at 9:59=E2=80=AFPM Dora, Sunil Kumar <
+On Mon, Aug 31, 2026 at 9:33=E2=80=AFPM Dora, Sunil Kumar <
 SunilKumar.Dora@windriver.com> wrote:
 
-> On 8/31/2026 1:23 AM, Khem Raj via lists.openembedded.org wrote:
+> On 8/31/2026 1:15 AM, Khem Raj via lists.openembedded.org wrote:
 >
 > *CAUTION: This email comes from a non Wind River email account!*
 > Do not click links or open attachments unless you recognize the sender an=
 d
 > know the content is safe.
-> Looks pretty good to me. I have few feedback comments, not a merge blocke=
-r
-> but good to consider for future ease of porting.
->
-> Thanks Khem.
->
-> Quick update on the upstream side since the series went out.
->
-> The clang half of the ssp_nonshared patch (0004 in the stack) was *merged
-> *into llvm main yesterday, commit fd974c429301
-> <https://github.com/llvm/llvm-project/commit/fd974c4293015388337e2f66f817=
-a23e5873389f>,
-> reviewed by
-> MaskRay (Original PR #219828
-> <https://github.com/llvm/llvm-project/pull/219828> ). A backport to
-> release/23.x is open as PR #220136
-> <https://github.com/llvm/llvm-project/pull/220136>.
-> If that lands I will flip 0004 to Upstream-Status: Backport, and at the
-> next upgrade the patch goes away entirely.
->
-
-Thanks for following up on these patches, its really long time that we
-clear this debt.
-
-
->
-> The gcc half is on gcc-patches
-> <https://gcc.gnu.org/pipermail/gcc-patches/2026-August/729351.html> as v2
-> with bugzilla PR 127138
-> <https://gcc.gnu.org/bugzilla/show_bug.cgi?id=3D127138>. Sam James
-> mentioned Gentoo has carried the same fix downstream for years.
->
-
-yes, I know, again same, it will be nicer to get this list down as well.
-Somethings are due to how OE has customized stuff so it will
-be hard to get rid of but anything that gets upstreamed is a bonus.
-
-
->
-> Thanks,
-> Sunil Dora
 >
 >
 > On Sun, Aug 30, 2026 at 5:59=E2=80=AFAM <sunilkumar.dora@windriver.com> w=
@@ -154,299 +114,90 @@ rote:
 >
 >> From: Sunil Dora <sunilkumar.dora@windriver.com>
 >>
->> This upgrades clang/llvm from 22.1.8 to 23.1.0 and fixes the fallout
->> found while testing the result.
+>> LLVM 23 removed the standalone build mode for openmp, so do_configure
+>> fails with
 >>
->> The carried LLVM patch stack goes from 41 to 35: seven dropped
->> because 23.1.0 already contains the fix or the code they patched no
->> longer exists, three reworked for LLVM 23, and one added for a 32-bit
->> x86 build break, already merged in llvm-project.
+>>   The legacy standalone build mode has been removed
 >>
->> Please apply with git am --keep-cr: patch 8 fixes an ovmf file that
->> uses CRLF line endings, and plain git am corrupts the patch.
+>> Configure it through the runtimes build with LLVM_ENABLE_RUNTIMES=3Dopen=
+mp,
+>> the same way libcxx is built.
 >>
->> I have also reported the underlying bugs upstream:
->>   llvm float16 fix, merged:
->>     https://github.com/llvm/llvm-project/pull/219675
->>   ovmf fix, sent to edk2:
->>     https://github.com/tianocore/edk2/pull/13038
->>   pango warning, the root cause is in GLib, reported to both:
->>     https://gitlab.gnome.org/GNOME/glib/-/issues/4038
->>     https://gitlab.gnome.org/GNOME/pango/-/issues/900
->>   vulkan-samples warning, which is a real bug in their code:
->>     https://github.com/KhronosGroup/Vulkan-Samples/issues/1570
+>> The runtimes build reads LLVM_LIBDIR_SUFFIX; nothing in LLVM 23 reads
+>> OPENMP_LIBDIR_SUFFIX any more, so pass the standard variable like the
+>> other clang-family recipes do. Without it openmp installs into lib/
+>> while a multilib configuration packages lib64/, and do_package fails
+>> with "installed but not shipped" for libomp.so, libarcher.so,
+>> libompd.so and the cmake files.
 >>
->> Tested: oe-selftest clang suites on qemuarm, qemuarm64, qemux86,
->> qemux86-64 and qemuriscv64 on the autobuilder, musl images on qemux86
->> and qemuarm64, a qemux86 world build with TOOLCHAIN=3Dclang, 32-bit
->> multilib, and core-image-minimal testimage runs.
+>> Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
+>> ---
+>>  meta/recipes-devtools/clang/openmp_git.bb | 5 +++--
+>>  1 file changed, 3 insertions(+), 2 deletions(-)
 >>
->> Deepesh Varatharajan (2):
->>   rust: Fix build and oe-selftest failures with LLVM 23
->>   clang/llvm: Ignore tests fail with clang/llvm 23 upgrade
+>> diff --git a/meta/recipes-devtools/clang/openmp_git.bb
+>> b/meta/recipes-devtools/clang/openmp_git.bb
+>> index 2ba83d48c6..90d4911623 100644
+>> --- a/meta/recipes-devtools/clang/openmp_git.bb
+>> +++ b/meta/recipes-devtools/clang/openmp_git.bb
+>> @@ -18,10 +18,11 @@ inherit cmake pkgconfig python3targetconfig
+>>  DEPENDS +=3D "elfutils libffi clang"
 >>
->> Sunil Dora (9):
->>   clang/llvm: Upgrade to 23.1.0 release
->>   spirv-llvm-translator: Upgrade to 23.1.0
->>   openmp: Build via the LLVM runtimes entry point
->>   rust: Do not pass the removed x86 amx-tf32 feature to LLVM 23
->>   clang: Disable clangd's decision-forest completion model on powerpc
->>   pango: Don't turn clang 23's -Wunused-but-set-global into an error
->>   ovmf: Fix memcpy alias prototype for clang 23
->>   vulkan-samples: Don't turn clang 23's -Wdangling-gsl into an error
->>   gettext: Export a fully-flagged Objective-C compiler
+>>  EXTRA_OECMAKE +=3D "-DCMAKE_BUILD_TYPE=3DRelWithDebInfo \
+>> -
+>> -DOPENMP_LIBDIR_SUFFIX=3D${@d.getVar('baselib').replace('lib', '')} \
+>> +                  -DLLVM_ENABLE_RUNTIMES=3Dopenmp \
+>> +                  -DLLVM_LIBDIR_SUFFIX=3D${LLVM_LIBDIR_SUFFIX} \
 >>
->>  meta/conf/distro/include/maintainers.inc      |   2 +-
->>  meta/lib/oeqa/selftest/cases/clang.py         |  10 +
->>  meta/lib/oeqa/selftest/cases/rust.py          |   1 +
->>  ...t-env.in-do-not-add-C-CXX-parameters.patch |  17 +-
->>  meta/recipes-core/gettext/gettext_1.0.bb      |   5 +
->>  ...sicLib-fix-memcpy-alias-prototype-fo.patch |  35 +
->>  meta/recipes-core/ovmf/ovmf_git.bb            |   1 +
->>  ...ify-cross-compilation.-Don-t-use-na.patch} |   6 +-
->>  ...ibunwind-headers-when-LIBCXXABI_LIBU.patch |  60 --
->>  ...-support-a-new-embedded-linux-target.patch | 309 --------
->>  ...env-override-of-exe-and-libdir-path.patch} |   4 +-
->>  ...-driver-Check-sysroot-for-ldso-path.patch} |  14 +-
->>  ...ools.cpp-Add-lssp_nonshared-on-musl.patch} |   6 +-
->>  ...5-clang-Prepend-trailing-to-sysroot.patch} |  10 +-
->>  ...fine-releative-gcc-installation-dir.patch} |  10 +-
->>  ...d-and-ldl-along-with-lunwind-for-st.patch} |  10 +-
->>  ...-Check-for-atomic-double-intrinsics.patch} |   4 +-
->>  ...ure-for-packages-using-find_package.patch} |  20 +-
->>  ...e-dir-location-for-cross-toolchains.patch} |   4 +-
->>  ...dyld-prefix-when-checking-sysroot-f.patch} |  18 +-
->>  ...clang-Use-python3-in-python-scripts.patch} |   6 +-
->>  ...-anchor-for-adding-OE-distro-vendor.patch} |  37 +-
->>  ...ple-for-non-debian-multiarch-linux-.patch} |   9 +-
->>  ...ibunwind-Added-unw_backtrace-method.patch} |   8 +-
->>  ...016-lldb-Link-with-libatomic-on-x86.patch} |   4 +-
->>  ...ot-use-backtrace-APIs-on-non-glibc-l.patch |  68 --
->>  ...mpiler-rt-Enable-__int128-for-ppc32.patch} |  26 +-
->>  ...t-use-cmake-infra-to-detect-libzstd.patch} |   8 +-
->>  ...-Fix-stat-struct-s-size-for-O32-ABI.patch} |   6 +-
->>  ...cpp-ARMLibDirs-search-also-in-lib32.patch} |  10 +-
->>  ...-OE-specific-ABI-triple-for-N32-ABI.patch} |  63 +-
->>  ...nwind.pc.in-and-llvm-config-scripts.patch} |  12 +-
->>  ...pect-LLVM_LIBDIR_SUFFIX-like-other-.patch} |  17 +-
->>  ...o-not-pass-target-to-clang-compiler.patch} |   4 +-
->>  ...-sort-ClassInfo-lists-by-name-as-we.patch} |   4 +-
->>  ...ve-LLVM_LDFLAGS-from-ldflags-output.patch} |   4 +-
->>  ...de-sync_fetch_and_-for-any-pre-ARMv.patch} |   6 +-
->>  ...de-uptr-sptr-typedefs-on-Mips-Linux.patch} |   8 +-
->>  ...-headers-in-the-debug-info-when-bui.patch} |   6 +-
->>  ..._HAVE_OPT_VIEWER_MODULES-externally.patch} |   6 +-
->>  ...ang-tblgen-if-it-is-actually-needed.patch} |   8 +-
->>  ...ymlink-path-for-libcc-when-LLVM_ENA.patch} |   8 +-
->>  ...ix-sysroot-based-compiler-rt-search.patch} |  15 +-
->>  ...> 0034-guard-clang-tools-extra-test.patch} |  47 +-
->>  ...ng-block-when-searching-for-noreturn.patch |  41 --
->>  ...e-float16-on-32-bit-x86-without-SSE2.patch |  36 +
->>  ...UNKNOWN-elements-of-OffloadArch-enum.patch | 274 --------
->>  ...e-__gnu_unwind_frame-in-cxa_personal.patch |  33 -
->>  ...te-exit-fold-candidates-in-determini.patch |  71 --
->>  meta/recipes-devtools/clang/clang_git.bb      |   4 +
->>  meta/recipes-devtools/clang/common-clang.inc  |   4 +-
->>  meta/recipes-devtools/clang/common.inc        |  78 +--
->>  meta/recipes-devtools/clang/openmp_git.bb     |   5 +-
->>  ...ommits-from-rust-Fix-selftest-llvm23.patch | 661 ++++++++++++++++++
->>  ...llvm-Do-not-pass-amx-tf32-to-LLVM-23.patch |  38 +
->>  meta/recipes-devtools/rust/rust-source.inc    |   2 +
->>  ...ror-on-clang-s-unused-but-set-global.patch |  28 +
->>  meta/recipes-graphics/pango/pango_1.58.0.bb   |   1 +
->>  ...1.5.bb =3D> spirv-llvm-translator_23.1.0.bb} |   6 +-
->>  .../vulkan/vulkan-samples_git.bb              |   4 +-
->>  60 files changed, 1109 insertions(+), 1113 deletions(-)
->>  create mode 100644
->> meta/recipes-core/ovmf/ovmf/0005-CryptoPkg-IntrinsicLib-fix-memcpy-alias=
--prototype-fo.patch
->>  rename
->> meta/recipes-devtools/clang/clang/{0003-compiler-rt-Simplify-cross-compi=
-lation.-Don-t-use-na.patch
->> =3D> 0001-compiler-rt-Simplify-cross-compilation.-Don-t-use-na.patch} (9=
-0%)
->>  delete mode 100644
->> meta/recipes-devtools/clang/clang/0001-libcxxabi-Find-libunwind-headers-=
-when-LIBCXXABI_LIBU.patch
->>  delete mode 100644
->> meta/recipes-devtools/clang/clang/0002-compiler-rt-support-a-new-embedde=
-d-linux-target.patch
->>  rename
->> meta/recipes-devtools/clang/clang/{0004-llvm-allow-env-override-of-exe-a=
-nd-libdir-path.patch
->> =3D> 0002-llvm-allow-env-override-of-exe-and-libdir-path.patch} (96%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0005-clang-driver-Check-sysroot-for-l=
-dso-path.patch
->> =3D> 0003-clang-driver-Check-sysroot-for-ldso-path.patch} (87%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0006-clang-Driver-tools.cpp-Add-lssp_=
-nonshared-on-musl.patch
->> =3D> 0004-clang-Driver-tools.cpp-Add-lssp_nonshared-on-musl.patch} (86%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0007-clang-Prepend-trailing-to-sysroo=
-t.patch
->> =3D> 0005-clang-Prepend-trailing-to-sysroot.patch} (81%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0009-clang-Define-releative-gcc-insta=
-llation-dir.patch
->> =3D> 0006-clang-Define-releative-gcc-installation-dir.patch} (94%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0010-clang-Add-lpthread-and-ldl-along=
--with-lunwind-for-st.patch
->> =3D> 0007-clang-Add-lpthread-and-ldl-along-with-lunwind-for-st.patch} (8=
-6%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0011-Check-for-atomic-double-intrinsi=
-cs.patch
->> =3D> 0008-Check-for-atomic-double-intrinsics.patch} (91%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0012-cmake-Fix-configure-for-packages=
--using-find_package.patch
->> =3D> 0009-cmake-Fix-configure-for-packages-using-find_package.patch} (89=
-%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0013-clang-Fix-resource-dir-location-=
-for-cross-toolchains.patch
->> =3D> 0010-clang-Fix-resource-dir-location-for-cross-toolchains.patch} (9=
-5%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0014-clang-driver-Add-dyld-prefix-whe=
-n-checking-sysroot-f.patch
->> =3D> 0011-clang-driver-Add-dyld-prefix-when-checking-sysroot-f.patch} (8=
-8%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0015-clang-Use-python3-in-python-scri=
-pts.patch
->> =3D> 0012-clang-Use-python3-in-python-scripts.patch} (90%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0016-llvm-clang-Insert-anchor-for-add=
-ing-OE-distro-vendor.patch
->> =3D> 0013-llvm-clang-Insert-anchor-for-adding-OE-distro-vendor.patch} (9=
-1%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0018-clang-Fix-x86-triple-for-non-deb=
-ian-multiarch-linux-.patch
->> =3D> 0014-clang-Fix-x86-triple-for-non-debian-multiarch-linux-.patch} (8=
-6%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0019-libunwind-Added-unw_backtrace-me=
-thod.patch
->> =3D> 0015-libunwind-Added-unw_backtrace-method.patch} (89%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0020-lldb-Link-with-libatomic-on-x86.=
-patch
->> =3D> 0016-lldb-Link-with-libatomic-on-x86.patch} (92%)
->>  delete mode 100644
->> meta/recipes-devtools/clang/clang/0017-compiler-rt-Do-not-use-backtrace-=
-APIs-on-non-glibc-l.patch
->>  rename
->> meta/recipes-devtools/clang/clang/{0021-compiler-rt-Enable-__int128-for-=
-ppc32.patch
->> =3D> 0017-compiler-rt-Enable-__int128-for-ppc32.patch} (77%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0022-llvm-Do-not-use-cmake-infra-to-d=
-etect-libzstd.patch
->> =3D> 0018-llvm-Do-not-use-cmake-infra-to-detect-libzstd.patch} (91%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0023-compiler-rt-Fix-stat-struct-s-si=
-ze-for-O32-ABI.patch
->> =3D> 0019-compiler-rt-Fix-stat-struct-s-size-for-O32-ABI.patch} (91%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0024-ToolChains-Gnu.cpp-ARMLibDirs-se=
-arch-also-in-lib32.patch
->> =3D> 0020-ToolChains-Gnu.cpp-ARMLibDirs-search-also-in-lib32.patch} (98%=
-)
->>  rename
->> meta/recipes-devtools/clang/clang/{0025-clang-llvm-Add-OE-specific-ABI-t=
-riple-for-N32-ABI.patch
->> =3D> 0021-clang-llvm-Add-OE-specific-ABI-triple-for-N32-ABI.patch} (60%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0026-llvm-Add-libunwind.pc.in-and-llv=
-m-config-scripts.patch
->> =3D> 0022-llvm-Add-libunwind.pc.in-and-llvm-config-scripts.patch} (84%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0027-scan-build-py-respect-LLVM_LIBDI=
-R_SUFFIX-like-other-.patch
->> =3D> 0023-scan-build-py-respect-LLVM_LIBDIR_SUFFIX-like-other-.patch} (9=
-0%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0028-compiler-rt-Do-not-pass-target-t=
-o-clang-compiler.patch
->> =3D> 0024-compiler-rt-Do-not-pass-target-to-clang-compiler.patch} (91%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0029-AsmMatcherEmitter-sort-ClassInfo=
--lists-by-name-as-we.patch
->> =3D> 0025-AsmMatcherEmitter-sort-ClassInfo-lists-by-name-as-we.patch} (9=
-2%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0030-llvm-config-remove-LLVM_LDFLAGS-=
-from-ldflags-output.patch
->> =3D> 0026-llvm-config-remove-LLVM_LDFLAGS-from-ldflags-output.patch} (92=
-%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0031-compiler-rt-Exclude-sync_fetch_a=
-nd_-for-any-pre-ARMv.patch
->> =3D> 0027-compiler-rt-Exclude-sync_fetch_and_-for-any-pre-ARMv.patch} (9=
-5%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0032-compiler-rt-Hardcode-uptr-sptr-t=
-ypedefs-on-Mips-Linu.patch
->> =3D> 0028-Hardcode-uptr-sptr-typedefs-on-Mips-Linux.patch} (86%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0034-Revert-libc-Remap-headers-in-the=
--debug-info-when-bui.patch
->> =3D> 0029-Revert-libc-Remap-headers-in-the-debug-info-when-bui.patch} (8=
-9%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0036-Don-t-expose-LLVM_HAVE_OPT_VIEWE=
-R_MODULES-externally.patch
->> =3D> 0030-Don-t-expose-LLVM_HAVE_OPT_VIEWER_MODULES-externally.patch} (8=
-6%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0037-clang-Only-build-clang-tblgen-if=
--it-is-actually-need.patch
->> =3D> 0031-Only-build-clang-tblgen-if-it-is-actually-needed.patch} (81%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0038-llvm-libgcc-Fix-symlink-path-for=
--libcc-when-LLVM_ENA.patch
->> =3D> 0032-llvm-libgcc-Fix-symlink-path-for-libcc-when-LLVM_ENA.patch} (9=
-3%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0041-Consolidate-and-fix-sysroot-base=
-d-compiler-rt-search.patch
->> =3D> 0033-Consolidate-and-fix-sysroot-based-compiler-rt-search.patch} (9=
-1%)
->>  rename
->> meta/recipes-devtools/clang/clang/{0042-guard-clang-tools-extra-test.pat=
-ch
->> =3D> 0034-guard-clang-tools-extra-test.patch} (83%)
->>  delete mode 100644
->> meta/recipes-devtools/clang/clang/0035-Prevent-revisiting-block-when-sea=
-rching-for-noreturn.patch
->>  create mode 100644
->> meta/recipes-devtools/clang/clang/0035-libc-Disable-float16-on-32-bit-x8=
-6-without-SSE2.patch
->>  delete mode 100644
->> meta/recipes-devtools/clang/clang/0039-Rename-UNUSED-and-UNKNOWN-element=
-s-of-OffloadArch-enum.patch
->>  delete mode 100644
->> meta/recipes-devtools/clang/clang/0040-libcxxabi-declare-__gnu_unwind_fr=
-ame-in-cxa_personal.patch
->>  delete mode 100644
->> meta/recipes-devtools/clang/clang/0043-LoopUnroll-Iterate-exit-fold-cand=
-idates-in-determini.patch
->>  create mode 100644
->> meta/recipes-devtools/rust/files/0004-Backport-commits-from-rust-Fix-sel=
-ftest-llvm23.patch
->>  create mode 100644
->> meta/recipes-devtools/rust/files/0005-rustc_codegen_llvm-Do-not-pass-amx=
--tf32-to-LLVM-23.patch
->>  create mode 100644
->> meta/recipes-graphics/pango/pango/0001-meson-don-t-error-on-clang-s-unus=
-ed-but-set-global.patch
->>  rename meta/recipes-graphics/spir/{spirv-llvm-translator_22.1.5.bb =3D>
->> spirv-llvm-translator_23.1.0.bb} (87%)
+>
+>
+>
+> The recipe keeps PACKAGECONFIG ?=3D "ompt-tools offloading-plugin" =E2=80=
+=94 under
+> the runtimes entry point, does offloading-plugin still do anything, or
+> would it now need offload added to LLVM_ENABLE_RUNTIMES?
+>
+> It doesn't do anything for the build, and it didn't with the old entry
+> point either. It passes no cmake flags and the build depends
+> are already in DEPENDS. So the only thing it really adds is the
+> libelf/libffi RDEPENDS. Our libomp.so links only libc.
+> The plugins that needed libffi/libelf moved out of openmp/ into offload/
+> back in LLVM 19, so nothing here builds them.
+> The openmp-libomptarget package is empty, no ipk gets written.
+>
+> I only checked oe-core, other layers may still use this option, you know
+> that history better than me.
+>
+> OPENMP_ENABLE_LIBOMPTARGET still works though. It adds some hooks in
+> libomp that look up libomptarget functions with dlsym at runtime.
+> Default is ON on 64-bit, the recipe doesn't touch it, and it is the same
+> with both entry points.
+>
+> To actually build the plugins we would need
+> LLVM_ENABLE_RUNTIMES=3D"openmp;offload".
+> That is a new library and new packaging, so I did not want to mix it into
+> the upgrade.
+>
+> As a follow-up I can keep the PACKAGECONFIG as is, drop it with the empty
+> package, or add offload as a new option.
+> Which one do you prefer?
+>
+
+Latter is good to go IMO.
+
+
+>
+> Thanks,
+> Sunil Dora
+>
+>
+>
+>>                "
+>>
+>> -OECMAKE_SOURCEPATH =3D "${S}/openmp"
+>> +OECMAKE_SOURCEPATH =3D "${S}/runtimes"
+>>
+>>  PACKAGECONFIG ?=3D "ompt-tools offloading-plugin"
 >>
 >> --
 >> 2.43.0
@@ -454,9 +205,9 @@ ed-but-set-global.patch
 >>
 > -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 > Links: You receive all messages sent to this group.
-> View/Reply Online (#244697): https://lists.openembedded.org/g/openembedde=
-d-core/message/244697
-> Mute This Topic: https://lists.openembedded.org/mt/120998127/8968818
+> View/Reply Online (#244694): https://lists.openembedded.org/g/openembedde=
+d-core/message/244694
+> Mute This Topic: https://lists.openembedded.org/mt/120998125/8968818
 > Group Owner: openembedded-core+owner@lists.openembedded.org
 > Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [Su=
 nilKumar.Dora@windriver.com]
@@ -466,13 +217,13 @@ nilKumar.Dora@windriver.com]
 >
 >
 
---000000000000433e45065a89d28d
+--0000000000002624f6065a89d715
 Content-Type: text/html; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 
 <div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
 mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Aug 31,=
- 2026 at 9:59=E2=80=AFPM Dora, Sunil Kumar &lt;<a href=3D"mailto:SunilKumar=
+ 2026 at 9:33=E2=80=AFPM Dora, Sunil Kumar &lt;<a href=3D"mailto:SunilKumar=
 .Dora@windriver.com">SunilKumar.Dora@windriver.com</a>&gt; wrote:<br></div>=
 <blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
 left:1px solid rgb(204,204,204);padding-left:1ex"><u></u>
@@ -481,7 +232,7 @@ left:1px solid rgb(204,204,204);padding-left:1ex"><u></u>
 
 
 <div>
-<div>On 8/31/2026 1:23 AM, Khem Raj via <a href=3D"http://lists.openembedde=
+<div>On 8/31/2026 1:15 AM, Khem Raj via <a href=3D"http://lists.openembedde=
 d.org" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
 </div>
 <blockquote type=3D"cite">
@@ -495,47 +246,10 @@ r open attachments unless you recognize the sender and know the content is =
 safe.</span><br>
 <u></u></div>
 <div>
-<div dir=3D"ltr">Looks pretty good to me. I have few feedback comments, not=
- a merge blocker but good to consider for future ease of porting.</div>
+<div dir=3D"ltr">
+<div dir=3D"ltr"><br>
 </div>
-</blockquote>
-Thanks Khem.<br>
 <br>
-Quick update on the upstream side since the series went out.<br>
-<br>
-The clang half of the ssp_nonshared patch (0004 in the stack) was <b>merged=
- </b>into llvm main yesterday, commit
-<a href=3D"https://github.com/llvm/llvm-project/commit/fd974c4293015388337e=
-2f66f817a23e5873389f" target=3D"_blank">
-fd974c429301</a>, reviewed by<br>
-MaskRay (Original <a href=3D"https://github.com/llvm/llvm-project/pull/2198=
-28" target=3D"_blank">
-PR #219828</a> ). A backport to release/23.x is open as <a href=3D"https://=
-github.com/llvm/llvm-project/pull/220136" target=3D"_blank">
-PR #220136</a>.=C2=A0<br>
-If that lands I will flip 0004 to Upstream-Status: Backport, and at the nex=
-t upgrade the patch goes away entirely.<br></div></blockquote><div><br></di=
-v><div>Thanks for following=C2=A0up on these patches, its really long time =
-that we clear this debt.</div><div>=C2=A0</div><blockquote class=3D"gmail_q=
-uote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,2=
-04);padding-left:1ex"><div>
-<br>
-The gcc half is on <a href=3D"https://gcc.gnu.org/pipermail/gcc-patches/202=
-6-August/729351.html" target=3D"_blank">
-gcc-patches</a> as v2 with bugzilla <a href=3D"https://gcc.gnu.org/bugzilla=
-/show_bug.cgi?id=3D127138" target=3D"_blank">
-PR 127138</a>. Sam James mentioned Gentoo has carried the same fix downstre=
-am for years.<br></div></blockquote><div><br></div><div>yes, I know, again =
-same, it will be nicer to get this list down as well. Somethings are due to=
- how OE has customized stuff so it will</div><div>be hard to get rid of but=
- anything that gets upstreamed is a bonus.</div><div>=C2=A0</div><blockquot=
-e class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px s=
-olid rgb(204,204,204);padding-left:1ex"><div>
-<br>
-Thanks,<br>
-Sunil Dora
-<blockquote type=3D"cite">
-<div><br>
 <div class=3D"gmail_quote">
 <div dir=3D"ltr" class=3D"gmail_attr">On Sun, Aug 30, 2026 at 5:59=E2=80=AF=
 AM &lt;<a href=3D"mailto:sunilkumar.dora@windriver.com" target=3D"_blank">s=
@@ -546,276 +260,113 @@ left:1px solid rgb(204,204,204);padding-left:1ex">
 From: Sunil Dora &lt;<a href=3D"mailto:sunilkumar.dora@windriver.com" targe=
 t=3D"_blank">sunilkumar.dora@windriver.com</a>&gt;<br>
 <br>
-This upgrades clang/llvm from 22.1.8 to 23.1.0 and fixes the fallout<br>
-found while testing the result.<br>
+LLVM 23 removed the standalone build mode for openmp, so do_configure<br>
+fails with<br>
 <br>
-The carried LLVM patch stack goes from 41 to 35: seven dropped<br>
-because 23.1.0 already contains the fix or the code they patched no<br>
-longer exists, three reworked for LLVM 23, and one added for a 32-bit<br>
-x86 build break, already merged in llvm-project.<br>
+=C2=A0 The legacy standalone build mode has been removed<br>
 <br>
-Please apply with git am --keep-cr: patch 8 fixes an ovmf file that<br>
-uses CRLF line endings, and plain git am corrupts the patch.<br>
+Configure it through the runtimes build with LLVM_ENABLE_RUNTIMES=3Dopenmp,=
 <br>
-I have also reported the underlying bugs upstream:<br>
-=C2=A0 llvm float16 fix, merged:<br>
-=C2=A0 =C2=A0 <a href=3D"https://github.com/llvm/llvm-project/pull/219675" =
-rel=3D"noreferrer" target=3D"_blank">
-https://github.com/llvm/llvm-project/pull/219675</a><br>
-=C2=A0 ovmf fix, sent to edk2:<br>
-=C2=A0 =C2=A0 <a href=3D"https://github.com/tianocore/edk2/pull/13038" rel=
-=3D"noreferrer" target=3D"_blank">
-https://github.com/tianocore/edk2/pull/13038</a><br>
-=C2=A0 pango warning, the root cause is in GLib, reported to both:<br>
-=C2=A0 =C2=A0 <a href=3D"https://gitlab.gnome.org/GNOME/glib/-/issues/4038"=
- rel=3D"noreferrer" target=3D"_blank">
-https://gitlab.gnome.org/GNOME/glib/-/issues/4038</a><br>
-=C2=A0 =C2=A0 <a href=3D"https://gitlab.gnome.org/GNOME/pango/-/issues/900"=
- rel=3D"noreferrer" target=3D"_blank">
-https://gitlab.gnome.org/GNOME/pango/-/issues/900</a><br>
-=C2=A0 vulkan-samples warning, which is a real bug in their code:<br>
-=C2=A0 =C2=A0 <a href=3D"https://github.com/KhronosGroup/Vulkan-Samples/iss=
-ues/1570" rel=3D"noreferrer" target=3D"_blank">
-https://github.com/KhronosGroup/Vulkan-Samples/issues/1570</a><br>
+the same way libcxx is built.<br>
 <br>
-Tested: oe-selftest clang suites on qemuarm, qemuarm64, qemux86,<br>
-qemux86-64 and qemuriscv64 on the autobuilder, musl images on qemux86<br>
-and qemuarm64, a qemux86 world build with TOOLCHAIN=3Dclang, 32-bit<br>
-multilib, and core-image-minimal testimage runs.<br>
+The runtimes build reads LLVM_LIBDIR_SUFFIX; nothing in LLVM 23 reads<br>
+OPENMP_LIBDIR_SUFFIX any more, so pass the standard variable like the<br>
+other clang-family recipes do. Without it openmp installs into lib/<br>
+while a multilib configuration packages lib64/, and do_package fails<br>
+with &quot;installed but not shipped&quot; for libomp.so, libarcher.so,<br>
+libompd.so and the cmake files.<br>
 <br>
-Deepesh Varatharajan (2):<br>
-=C2=A0 rust: Fix build and oe-selftest failures with LLVM 23<br>
-=C2=A0 clang/llvm: Ignore tests fail with clang/llvm 23 upgrade<br>
-<br>
-Sunil Dora (9):<br>
-=C2=A0 clang/llvm: Upgrade to 23.1.0 release<br>
-=C2=A0 spirv-llvm-translator: Upgrade to 23.1.0<br>
-=C2=A0 openmp: Build via the LLVM runtimes entry point<br>
-=C2=A0 rust: Do not pass the removed x86 amx-tf32 feature to LLVM 23<br>
-=C2=A0 clang: Disable clangd&#39;s decision-forest completion model on powe=
-rpc<br>
-=C2=A0 pango: Don&#39;t turn clang 23&#39;s -Wunused-but-set-global into an=
- error<br>
-=C2=A0 ovmf: Fix memcpy alias prototype for clang 23<br>
-=C2=A0 vulkan-samples: Don&#39;t turn clang 23&#39;s -Wdangling-gsl into an=
- error<br>
-=C2=A0 gettext: Export a fully-flagged Objective-C compiler<br>
-<br>
-=C2=A0meta/conf/distro/include/maintainers.inc=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-=C2=A02 +-<br>
-=C2=A0meta/lib/oeqa/selftest/cases/clang.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0|=C2=A0 10 +<br>
-=C2=A0meta/lib/oeqa/selftest/cases/rust.py=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A0...t-env.in-do-not-add-C-CXX-parameters.patch |=C2=A0 17 +-<br>
-=C2=A0meta/recipes-core/gettext/<a href=3D"http://gettext_1.0.bb" rel=3D"no=
-referrer" target=3D"_blank">gettext_1.0.bb</a>=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-=C2=A05 +<br>
-=C2=A0...sicLib-fix-memcpy-alias-prototype-fo.patch |=C2=A0 35 +<br>
-=C2=A0meta/recipes-core/ovmf/<a href=3D"http://ovmf_git.bb" rel=3D"noreferr=
-er" target=3D"_blank">ovmf_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 |=C2=A0 =C2=A01 +<br>
-=C2=A0...ify-cross-compilation.-Don-t-use-na.patch} |=C2=A0 =C2=A06 +-<br>
-=C2=A0...ibunwind-headers-when-LIBCXXABI_LIBU.patch |=C2=A0 60 --<br>
-=C2=A0...-support-a-new-embedded-linux-target.patch | 309 --------<br>
-=C2=A0...env-override-of-exe-and-libdir-path.patch} |=C2=A0 =C2=A04 +-<br>
-=C2=A0...-driver-Check-sysroot-for-ldso-path.patch} |=C2=A0 14 +-<br>
-=C2=A0...ools.cpp-Add-lssp_nonshared-on-musl.patch} |=C2=A0 =C2=A06 +-<br>
-=C2=A0...5-clang-Prepend-trailing-to-sysroot.patch} |=C2=A0 10 +-<br>
-=C2=A0...fine-releative-gcc-installation-dir.patch} |=C2=A0 10 +-<br>
-=C2=A0...d-and-ldl-along-with-lunwind-for-st.patch} |=C2=A0 10 +-<br>
-=C2=A0...-Check-for-atomic-double-intrinsics.patch} |=C2=A0 =C2=A04 +-<br>
-=C2=A0...ure-for-packages-using-find_package.patch} |=C2=A0 20 +-<br>
-=C2=A0...e-dir-location-for-cross-toolchains.patch} |=C2=A0 =C2=A04 +-<br>
-=C2=A0...dyld-prefix-when-checking-sysroot-f.patch} |=C2=A0 18 +-<br>
-=C2=A0...clang-Use-python3-in-python-scripts.patch} |=C2=A0 =C2=A06 +-<br>
-=C2=A0...-anchor-for-adding-OE-distro-vendor.patch} |=C2=A0 37 +-<br>
-=C2=A0...ple-for-non-debian-multiarch-linux-.patch} |=C2=A0 =C2=A09 +-<br>
-=C2=A0...ibunwind-Added-unw_backtrace-method.patch} |=C2=A0 =C2=A08 +-<br>
-=C2=A0...016-lldb-Link-with-libatomic-on-x86.patch} |=C2=A0 =C2=A04 +-<br>
-=C2=A0...ot-use-backtrace-APIs-on-non-glibc-l.patch |=C2=A0 68 --<br>
-=C2=A0...mpiler-rt-Enable-__int128-for-ppc32.patch} |=C2=A0 26 +-<br>
-=C2=A0...t-use-cmake-infra-to-detect-libzstd.patch} |=C2=A0 =C2=A08 +-<br>
-=C2=A0...-Fix-stat-struct-s-size-for-O32-ABI.patch} |=C2=A0 =C2=A06 +-<br>
-=C2=A0...cpp-ARMLibDirs-search-also-in-lib32.patch} |=C2=A0 10 +-<br>
-=C2=A0...-OE-specific-ABI-triple-for-N32-ABI.patch} |=C2=A0 63 +-<br>
-=C2=A0...nwind.pc.in-and-llvm-config-scripts.patch} |=C2=A0 12 +-<br>
-=C2=A0...pect-LLVM_LIBDIR_SUFFIX-like-other-.patch} |=C2=A0 17 +-<br>
-=C2=A0...o-not-pass-target-to-clang-compiler.patch} |=C2=A0 =C2=A04 +-<br>
-=C2=A0...-sort-ClassInfo-lists-by-name-as-we.patch} |=C2=A0 =C2=A04 +-<br>
-=C2=A0...ve-LLVM_LDFLAGS-from-ldflags-output.patch} |=C2=A0 =C2=A04 +-<br>
-=C2=A0...de-sync_fetch_and_-for-any-pre-ARMv.patch} |=C2=A0 =C2=A06 +-<br>
-=C2=A0...de-uptr-sptr-typedefs-on-Mips-Linux.patch} |=C2=A0 =C2=A08 +-<br>
-=C2=A0...-headers-in-the-debug-info-when-bui.patch} |=C2=A0 =C2=A06 +-<br>
-=C2=A0..._HAVE_OPT_VIEWER_MODULES-externally.patch} |=C2=A0 =C2=A06 +-<br>
-=C2=A0...ang-tblgen-if-it-is-actually-needed.patch} |=C2=A0 =C2=A08 +-<br>
-=C2=A0...ymlink-path-for-libcc-when-LLVM_ENA.patch} |=C2=A0 =C2=A08 +-<br>
-=C2=A0...ix-sysroot-based-compiler-rt-search.patch} |=C2=A0 15 +-<br>
-=C2=A0...&gt; 0034-guard-clang-tools-extra-test.patch} |=C2=A0 47 +-<br>
-=C2=A0...ng-block-when-searching-for-noreturn.patch |=C2=A0 41 --<br>
-=C2=A0...e-float16-on-32-bit-x86-without-SSE2.patch |=C2=A0 36 +<br>
-=C2=A0...UNKNOWN-elements-of-OffloadArch-enum.patch | 274 --------<br>
-=C2=A0...e-__gnu_unwind_frame-in-cxa_personal.patch |=C2=A0 33 -<br>
-=C2=A0...te-exit-fold-candidates-in-determini.patch |=C2=A0 71 --<br>
-=C2=A0meta/recipes-devtools/clang/<a href=3D"http://clang_git.bb" rel=3D"no=
-referrer" target=3D"_blank">clang_git.bb</a>=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =
-=C2=A04 +<br>
-=C2=A0meta/recipes-devtools/clang/common-clang.inc=C2=A0 |=C2=A0 =C2=A04 +-=
-<br>
-=C2=A0meta/recipes-devtools/clang/common.inc=C2=A0 =C2=A0 =C2=A0 =C2=A0 |=
-=C2=A0 78 +--<br>
+Signed-off-by: Sunil Dora &lt;<a href=3D"mailto:sunilkumar.dora@windriver.c=
+om" target=3D"_blank">sunilkumar.dora@windriver.com</a>&gt;<br>
+---<br>
 =C2=A0meta/recipes-devtools/clang/<a href=3D"http://openmp_git.bb" rel=3D"n=
-oreferrer" target=3D"_blank">openmp_git.bb</a>=C2=A0 =C2=A0 =C2=A0|=C2=A0 =
-=C2=A05 +-<br>
-=C2=A0...ommits-from-rust-Fix-selftest-llvm23.patch | 661 +++++++++++++++++=
-+<br>
-=C2=A0...llvm-Do-not-pass-amx-tf32-to-LLVM-23.patch |=C2=A0 38 +<br>
-=C2=A0meta/recipes-devtools/rust/rust-source.inc=C2=A0 =C2=A0 |=C2=A0 =C2=
-=A02 +<br>
-=C2=A0...ror-on-clang-s-unused-but-set-global.patch |=C2=A0 28 +<br>
-=C2=A0meta/recipes-graphics/pango/<a href=3D"http://pango_1.58.0.bb" rel=3D=
-"noreferrer" target=3D"_blank">pango_1.58.0.bb</a>=C2=A0 =C2=A0|=C2=A0 =C2=
-=A01 +<br>
-=C2=A0...<a href=3D"http://1.5.bb" rel=3D"noreferrer" target=3D"_blank">1.5=
-.bb</a> =3D&gt;
-<a href=3D"http://spirv-llvm-translator_23.1.0.bb" rel=3D"noreferrer" targe=
-t=3D"_blank">
-spirv-llvm-translator_23.1.0.bb</a>} |=C2=A0 =C2=A06 +-<br>
-=C2=A0.../vulkan/<a href=3D"http://vulkan-samples_git.bb" rel=3D"noreferrer=
-" target=3D"_blank">vulkan-samples_git.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 |=C2=A0 =C2=A04 +-<br>
-=C2=A060 files changed, 1109 insertions(+), 1113 deletions(-)<br>
-=C2=A0create mode 100644 meta/recipes-core/ovmf/ovmf/0005-CryptoPkg-Intrins=
-icLib-fix-memcpy-alias-prototype-fo.patch<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0003-compiler-rt-Simplify-c=
-ross-compilation.-Don-t-use-na.patch =3D&gt; 0001-compiler-rt-Simplify-cros=
-s-compilation.-Don-t-use-na.patch} (90%)<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0001-libcxxabi-F=
-ind-libunwind-headers-when-LIBCXXABI_LIBU.patch<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0002-compiler-rt=
--support-a-new-embedded-linux-target.patch<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0004-llvm-allow-env-overrid=
-e-of-exe-and-libdir-path.patch =3D&gt; 0002-llvm-allow-env-override-of-exe-=
-and-libdir-path.patch} (96%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0005-clang-driver-Check-sys=
-root-for-ldso-path.patch =3D&gt; 0003-clang-driver-Check-sysroot-for-ldso-p=
-ath.patch} (87%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0006-clang-Driver-tools.cpp=
--Add-lssp_nonshared-on-musl.patch =3D&gt; 0004-clang-Driver-tools.cpp-Add-l=
-ssp_nonshared-on-musl.patch} (86%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0007-clang-Prepend-trailing=
--to-sysroot.patch =3D&gt; 0005-clang-Prepend-trailing-to-sysroot.patch} (81=
-%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0009-clang-Define-releative=
--gcc-installation-dir.patch =3D&gt; 0006-clang-Define-releative-gcc-install=
-ation-dir.patch} (94%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0010-clang-Add-lpthread-and=
--ldl-along-with-lunwind-for-st.patch =3D&gt; 0007-clang-Add-lpthread-and-ld=
-l-along-with-lunwind-for-st.patch} (86%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0011-Check-for-atomic-doubl=
-e-intrinsics.patch =3D&gt; 0008-Check-for-atomic-double-intrinsics.patch} (=
-91%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0012-cmake-Fix-configure-fo=
-r-packages-using-find_package.patch =3D&gt; 0009-cmake-Fix-configure-for-pa=
-ckages-using-find_package.patch} (89%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0013-clang-Fix-resource-dir=
--location-for-cross-toolchains.patch =3D&gt; 0010-clang-Fix-resource-dir-lo=
-cation-for-cross-toolchains.patch} (95%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0014-clang-driver-Add-dyld-=
-prefix-when-checking-sysroot-f.patch =3D&gt; 0011-clang-driver-Add-dyld-pre=
-fix-when-checking-sysroot-f.patch} (88%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0015-clang-Use-python3-in-p=
-ython-scripts.patch =3D&gt; 0012-clang-Use-python3-in-python-scripts.patch}=
- (90%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0016-llvm-clang-Insert-anch=
-or-for-adding-OE-distro-vendor.patch =3D&gt; 0013-llvm-clang-Insert-anchor-=
-for-adding-OE-distro-vendor.patch} (91%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0018-clang-Fix-x86-triple-f=
-or-non-debian-multiarch-linux-.patch =3D&gt; 0014-clang-Fix-x86-triple-for-=
-non-debian-multiarch-linux-.patch} (86%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0019-libunwind-Added-unw_ba=
-cktrace-method.patch =3D&gt; 0015-libunwind-Added-unw_backtrace-method.patc=
-h} (89%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0020-lldb-Link-with-libatom=
-ic-on-x86.patch =3D&gt; 0016-lldb-Link-with-libatomic-on-x86.patch} (92%)<b=
-r>
-=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0017-compiler-rt=
--Do-not-use-backtrace-APIs-on-non-glibc-l.patch<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0021-compiler-rt-Enable-__i=
-nt128-for-ppc32.patch =3D&gt; 0017-compiler-rt-Enable-__int128-for-ppc32.pa=
-tch} (77%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0022-llvm-Do-not-use-cmake-=
-infra-to-detect-libzstd.patch =3D&gt; 0018-llvm-Do-not-use-cmake-infra-to-d=
-etect-libzstd.patch} (91%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0023-compiler-rt-Fix-stat-s=
-truct-s-size-for-O32-ABI.patch =3D&gt; 0019-compiler-rt-Fix-stat-struct-s-s=
-ize-for-O32-ABI.patch} (91%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0024-ToolChains-Gnu.cpp-ARM=
-LibDirs-search-also-in-lib32.patch =3D&gt; 0020-ToolChains-Gnu.cpp-ARMLibDi=
-rs-search-also-in-lib32.patch} (98%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0025-clang-llvm-Add-OE-spec=
-ific-ABI-triple-for-N32-ABI.patch =3D&gt; 0021-clang-llvm-Add-OE-specific-A=
-BI-triple-for-N32-ABI.patch} (60%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0026-llvm-Add-libunwind.pc.=
-in-and-llvm-config-scripts.patch =3D&gt; 0022-llvm-Add-libunwind.pc.in-and-=
-llvm-config-scripts.patch} (84%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0027-scan-build-py-respect-=
-LLVM_LIBDIR_SUFFIX-like-other-.patch =3D&gt; 0023-scan-build-py-respect-LLV=
-M_LIBDIR_SUFFIX-like-other-.patch} (90%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0028-compiler-rt-Do-not-pas=
-s-target-to-clang-compiler.patch =3D&gt; 0024-compiler-rt-Do-not-pass-targe=
-t-to-clang-compiler.patch} (91%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0029-AsmMatcherEmitter-sort=
--ClassInfo-lists-by-name-as-we.patch =3D&gt; 0025-AsmMatcherEmitter-sort-Cl=
-assInfo-lists-by-name-as-we.patch} (92%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0030-llvm-config-remove-LLV=
-M_LDFLAGS-from-ldflags-output.patch =3D&gt; 0026-llvm-config-remove-LLVM_LD=
-FLAGS-from-ldflags-output.patch} (92%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0031-compiler-rt-Exclude-sy=
-nc_fetch_and_-for-any-pre-ARMv.patch =3D&gt; 0027-compiler-rt-Exclude-sync_=
-fetch_and_-for-any-pre-ARMv.patch} (95%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0032-compiler-rt-Hardcode-u=
-ptr-sptr-typedefs-on-Mips-Linu.patch =3D&gt; 0028-Hardcode-uptr-sptr-typede=
-fs-on-Mips-Linux.patch} (86%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0034-Revert-libc-Remap-head=
-ers-in-the-debug-info-when-bui.patch =3D&gt; 0029-Revert-libc-Remap-headers=
--in-the-debug-info-when-bui.patch} (89%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0036-Don-t-expose-LLVM_HAVE=
-_OPT_VIEWER_MODULES-externally.patch =3D&gt; 0030-Don-t-expose-LLVM_HAVE_OP=
-T_VIEWER_MODULES-externally.patch} (86%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0037-clang-Only-build-clang=
--tblgen-if-it-is-actually-need.patch =3D&gt; 0031-Only-build-clang-tblgen-i=
-f-it-is-actually-needed.patch} (81%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0038-llvm-libgcc-Fix-symlin=
-k-path-for-libcc-when-LLVM_ENA.patch =3D&gt; 0032-llvm-libgcc-Fix-symlink-p=
-ath-for-libcc-when-LLVM_ENA.patch} (93%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0041-Consolidate-and-fix-sy=
-sroot-based-compiler-rt-search.patch =3D&gt; 0033-Consolidate-and-fix-sysro=
-ot-based-compiler-rt-search.patch} (91%)<br>
-=C2=A0rename meta/recipes-devtools/clang/clang/{0042-guard-clang-tools-extr=
-a-test.patch =3D&gt; 0034-guard-clang-tools-extra-test.patch} (83%)<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0035-Prevent-rev=
-isiting-block-when-searching-for-noreturn.patch<br>
-=C2=A0create mode 100644 meta/recipes-devtools/clang/clang/0035-libc-Disabl=
-e-float16-on-32-bit-x86-without-SSE2.patch<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0039-Rename-UNUS=
-ED-and-UNKNOWN-elements-of-OffloadArch-enum.patch<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0040-libcxxabi-d=
-eclare-__gnu_unwind_frame-in-cxa_personal.patch<br>
-=C2=A0delete mode 100644 meta/recipes-devtools/clang/clang/0043-LoopUnroll-=
-Iterate-exit-fold-candidates-in-determini.patch<br>
-=C2=A0create mode 100644 meta/recipes-devtools/rust/files/0004-Backport-com=
-mits-from-rust-Fix-selftest-llvm23.patch<br>
-=C2=A0create mode 100644 meta/recipes-devtools/rust/files/0005-rustc_codege=
-n_llvm-Do-not-pass-amx-tf32-to-LLVM-23.patch<br>
-=C2=A0create mode 100644 meta/recipes-graphics/pango/pango/0001-meson-don-t=
--error-on-clang-s-unused-but-set-global.patch<br>
-=C2=A0rename meta/recipes-graphics/spir/{<a href=3D"http://spirv-llvm-trans=
-lator_22.1.5.bb" rel=3D"noreferrer" target=3D"_blank">spirv-llvm-translator=
-_22.1.5.bb</a> =3D&gt;
-<a href=3D"http://spirv-llvm-translator_23.1.0.bb" rel=3D"noreferrer" targe=
-t=3D"_blank">
-spirv-llvm-translator_23.1.0.bb</a>} (87%)<br>
+oreferrer" target=3D"_blank">openmp_git.bb</a> | 5 +++--<br>
+=C2=A01 file changed, 3 insertions(+), 2 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/clang/<a href=3D"http://openmp_git.bb" r=
+el=3D"noreferrer" target=3D"_blank">openmp_git.bb</a> b/meta/recipes-devtoo=
+ls/clang/<a href=3D"http://openmp_git.bb" rel=3D"noreferrer" target=3D"_bla=
+nk">openmp_git.bb</a><br>
+index 2ba83d48c6..90d4911623 100644<br>
+--- a/meta/recipes-devtools/clang/<a href=3D"http://openmp_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">openmp_git.bb</a><br>
++++ b/meta/recipes-devtools/clang/<a href=3D"http://openmp_git.bb" rel=3D"n=
+oreferrer" target=3D"_blank">openmp_git.bb</a><br>
+@@ -18,10 +18,11 @@ inherit cmake pkgconfig python3targetconfig<br>
+=C2=A0DEPENDS +=3D &quot;elfutils libffi clang&quot;<br>
+<br>
+=C2=A0EXTRA_OECMAKE +=3D &quot;-DCMAKE_BUILD_TYPE=3DRelWithDebInfo \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DOPENMP_LI=
+BDIR_SUFFIX=3D${@d.getVar(&#39;baselib&#39;).replace(&#39;lib&#39;, &#39;&#=
+39;)} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DLLVM_ENAB=
+LE_RUNTIMES=3Dopenmp \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DLLVM_LIBD=
+IR_SUFFIX=3D${LLVM_LIBDIR_SUFFIX} \<br>
+=C2=A0 =C2=A0</blockquote>
+<div><br>
+</div>
+<div><br>
+</div>
+<div><span style=3D"background-color:transparent">The recipe keeps </span><=
+code style=3D"background-color:transparent">PACKAGECONFIG ?=3D &quot;ompt-t=
+ools offloading-plugin&quot;</code><span style=3D"background-color:transpar=
+ent"> =E2=80=94 under the runtimes entry point, does
+</span><code style=3D"background-color:transparent">offloading-plugin</code=
+><span style=3D"background-color:transparent"> still do anything, or would =
+it now need
+</span><code style=3D"background-color:transparent">offload</code><span sty=
+le=3D"background-color:transparent"> added to
+</span><code style=3D"background-color:transparent">LLVM_ENABLE_RUNTIMES</c=
+ode><span style=3D"background-color:transparent">?</span></div>
+</div>
+</div>
+</div>
+</blockquote>
+It doesn&#39;t do anything for the build, and it didn&#39;t with the old en=
+try point either. It passes no cmake flags and the build depends<br>
+are already in DEPENDS. So the only thing it really adds is the libelf/libf=
+fi RDEPENDS. Our libomp.so links only libc.=C2=A0<br>
+The plugins that needed libffi/libelf moved out of openmp/ into offload/ ba=
+ck in LLVM 19, so nothing here builds them.=C2=A0<br>
+The openmp-libomptarget package is empty, no ipk gets written.=C2=A0<br>
+<br>
+I only checked oe-core, other layers may still use this option, you know th=
+at history better than me.<br>
+<br>
+OPENMP_ENABLE_LIBOMPTARGET still works though. It adds some hooks in libomp=
+ that look up libomptarget functions with dlsym at runtime.<br>
+Default is ON on 64-bit, the recipe doesn&#39;t touch it, and it is the sam=
+e with both entry points.<br>
+<br>
+To actually build the plugins we would need LLVM_ENABLE_RUNTIMES=3D&quot;op=
+enmp;offload&quot;.=C2=A0<br>
+That is a new library and new packaging, so I did not want to mix it into t=
+he upgrade.=C2=A0<br>
+<br>
+As a follow-up I can keep the PACKAGECONFIG as is, drop it with the empty p=
+ackage, or add offload as a new option.=C2=A0<br>
+Which one do you prefer?<br></div></blockquote><div><br></div><div>Latter i=
+s good to go IMO.</div><div>=C2=A0</div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex"><div>
+<br>
+Thanks,<br>
+Sunil Dora<br>
+<br>
+<blockquote type=3D"cite">
+<div>
+<div dir=3D"ltr">
+<div class=3D"gmail_quote">
+<div>=C2=A0</div>
+<blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-=
+left:1px solid rgb(204,204,204);padding-left:1ex">
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;<br>
+<br>
+-OECMAKE_SOURCEPATH =3D &quot;${S}/openmp&quot;<br>
++OECMAKE_SOURCEPATH =3D &quot;${S}/runtimes&quot;<br>
+<br>
+=C2=A0PACKAGECONFIG ?=3D &quot;ompt-tools offloading-plugin&quot;<br>
 <br>
 -- <br>
 2.43.0<br>
@@ -823,15 +374,16 @@ spirv-llvm-translator_23.1.0.bb</a>} (87%)<br>
 </blockquote>
 </div>
 </div>
+</div>
 <br>
 <fieldset></fieldset>
 <pre>-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
 Links: You receive all messages sent to this group.
-View/Reply Online (#244697): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/244697" target=3D"_blank">https://lists.openembedde=
-d.org/g/openembedded-core/message/244697</a>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120998127/896=
-8818" target=3D"_blank">https://lists.openembedded.org/mt/120998127/8968818=
+View/Reply Online (#244694): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/244694" target=3D"_blank">https://lists.openembedde=
+d.org/g/openembedded-core/message/244694</a>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120998125/896=
+8818" target=3D"_blank">https://lists.openembedded.org/mt/120998125/8968818=
 </a>
 Group Owner: <a href=3D"mailto:openembedded-core+owner@lists.openembedded.o=
 rg" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a>
@@ -849,5 +401,5 @@ nk">SunilKumar.Dora@windriver.com</a>]
 
 </blockquote></div></div>
 
---000000000000433e45065a89d28d--
+--0000000000002624f6065a89d715--
 
