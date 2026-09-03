@@ -1,101 +1,135 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BA21C624DE
-	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 21:32:19 +0000 (UTC)
-Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.470.1788471135212811219
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 78688C61DD3
+	for <webhook@archiver.kernel.org>; Thu,  3 Sep 2026 21:34:39 +0000 (UTC)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.507.1788471275660378710
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2026 14:32:15 -0700
+ Thu, 03 Sep 2026 14:34:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=sWhQrdO9;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=mqymhkq3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a0692fc842-c3e424c3-5561-4a89-bf57-562f5e0b5d24-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788471134; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Vzs6aNXztwCWzfEcJ8SqkQkOcHIoGd1loeFr5FAq2Gc=;
-	b=sWhQrdO9kz90TxD2XSRlCV5uSvXtcl0EZESyCC5i8MpoX6ZPLNwNSXBNcMj8B4o2
-	jujbR+Co1TU11PENo4Oe6NWMPud8wGV6vVfWM7kUu1ZPFfWhsFCGXAXd+7WC/YYbZ8S
-	9M01QhV/NTfAhtVpEqPxx/BIg7VKiV0loOxp/t1Q=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788471134;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Vzs6aNXztwCWzfEcJ8SqkQkOcHIoGd1loeFr5FAq2Gc=;
-	b=mqymhkq3rQyzXhJ2dNJDkXWOja/DCtSijMa/8XEGul9CHajHn4KRwevOMb4KIOda
-	MX/2Fu6UQ6bg/IFjL6ucL0a1NEW5BwH5XlDM2+zz1TzyFsy15YLuubpBq+xsoHwgCr6
-	ItLPZJ9oLRcNSWYf/SEQ5Bk2q5EwuWEo1UovlVSw=
-From: patchtest@automation.yoctoproject.org
-To: Richard Purdie <richard.purdie@linuxfoundation.org>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] meta/scripts: Replace bb.fetch2 with bb.fetch
-In-Reply-To: <20260903212155.632078-1-richard.purdie@linuxfoundation.org>
-References: <20260903212155.632078-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0692fc842-c3e424c3-5561-4a89-bf57-562f5e0b5d24-000000@us-west-2.amazonses.com>
-Date: Thu, 3 Sep 2026 21:32:14 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.03-54.240.27.191
+ dkim=pass header.i=@smile.fr header.s=google header.b=jHZTyrxB;
+ spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49954b88fffso2716855e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 14:34:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1788471274; x=1789076074; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=7MITHwqt4EMOdfUi77t2KJ1h6AUG/2AZbESJ8/ubep8=;
+        b=jHZTyrxBtvf/ZWowEZeaX4fPNFT+A0LDYyvFKjnun+lLo8/neEeO8dBLOetGJyK67B
+         oeGzJOkPWirUwtDEjMPiLvl270vvt24Yne3oUsHf8yXoVzivc+XVfn+Evpry2mnjEQ97
+         ddQrppB9UMoTuYC23p+7nuiU65CGtUe131/lA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788471274; x=1789076074;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=7MITHwqt4EMOdfUi77t2KJ1h6AUG/2AZbESJ8/ubep8=;
+        b=dUfj2U/olQieQC9G21wcXGm6PLbK2+/ulMxijHYgnFrfptCzdcoRD8sYCAvJz1gJ4O
+         0I3ZzadOqcNGQD1BYJWXQQXghUhcTZhBVPLCyVrxWgLzUpM1TfxwXSCbTb7fQdBhU/oA
+         J11if7XklcAsUFHQBWpdhsRXRE8GxzGG1tuRyTGOX/ENIdkBJVD4ONmbWCe4xNM1afiz
+         G8qhjvmNN7hlszab0UoWfIyptGLNqJ2jx1jILe+xQxJ4ybMTGhwskik0Ww0xvVprkpxV
+         k0oxwMOC3nMfzOKMSx7GAqr7KmossImPxQ3TXfzNmjlQ1bGHIgYA4WHfc1e8vg9fgB57
+         zwaw==
+X-Forwarded-Encrypted: i=1; AKwUvBzXd8NI8d4o71mn7CeT6n807yjkK9mS75O03S0bt8I3yyd2Uh5MrTDQgZ0K15eXsTww0UoV/9+gUHineCCrXclCUA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kU92uCBKrpqVezchViWCOQ6+W+iS5N4dACUIRcTlsxFEt4aqfX
+	CawM/gCF0vwlzUiTHCB2sZZal2H+EF5pB0sz0cxcrkWLaF61wm6RdPeLB34iVeuEU+M=
+X-Gm-Gg: AYBFou2E0ZTZ8WWq8zYv/CcROMjm7Jb6+wjemI37C+74ZSomQ2JDKtmZFxNKmZRn4oo
+	OLbbuZhyDc4rlGt92tV3z1s7nK2DmvWGtGIcStrxkSexBnZk7ZwCZGwR/AH6PArTLKuNU0d8W2m
+	GxNzCwL+EVtwDM4Vxv6te+qRODsDOUSxN+YDCrm85FnXXm2EfxIvNp7JCNNRuneRwlBooAVGoVO
+	Y9m/sDr3R7vRmzpqT3WhQV1XVGAImAxpGICZ3eWEMFkPmjc4oUDfdkbrHPqTGZQDiXVCYNbHkTM
+	wLKBSLNvUBgW7smr2U/bX+1COQ1iMKoqdtEjjiOaqw9GUdA+idG0II4Pd19eL9wIbx4kuiRLJri
+	QGOhaBdfrahWyLFftHk6vTnB4cV34Y44c9eGP9yOYJ72yGiRdvH3iyb9PU5puCSXBPpHueWLW1U
+	es9HmoExXsRInSzwVACvxbjKuedlF+C4Jn5K4uDpm0vguYihBMhcI0WJ7ZLq0wHfvAbT9TCwczH
+	iZR2d0sq4id4rF2xyFc+zFIBUIyCmMebS+DzoZF8TVj/buW8N4=
+X-Received: by 2002:a05:600c:8b76:b0:49c:f4e1:3135 with SMTP id 5b1f17b1804b1-49cf8259953mr14339785e9.14.1788471273674;
+        Thu, 03 Sep 2026 14:34:33 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00939d825f00cb3861.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:939d:825f:cb:3861])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cf7703cc7sm16034745e9.4.2026.09.03.14.34.33
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Sep 2026 14:34:33 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 03 Sep 2026 23:34:32 +0200
+Message-Id: <DL605KBROWS4.DZGC5ES0FPEB@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH] kernel-yocto-rust: skip recipe for
+ riscv64 when Rust support is enabled
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <Sundeep.Kokkonda@windriver.com>
+To: <Harish.Sadineni@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260811115855.4033577-1-Harish.Sadineni@windriver.com>
+In-Reply-To: <20260811115855.4033577-1-Harish.Sadineni@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 21:32:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245048
+ <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 21:34:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245050
 
---NextPart
-Content-Type: text/plain
+On Tue Aug 11, 2026 at 1:58 PM CEST, Harish via lists.openembedded.org Sadi=
+neni wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>
+> Kernel Rust support on riscv64 requires building the kernel with Clang.
+> Since Wrynose does not provide Clang toolchian support for kernel
+> builds, skip the recipe when TARGET_ARCH is riscv64.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello,
 
----
-Testing patch /home/patchtest/share/mboxes/1-2-meta-scripts-Replace-bb.fetch2-with-bb.fetch.patch
+OE-Core/wrynose indeed does not but meta-clang seem to do that:
+https://github.com/kraj/meta-clang/blob/wrynose/conf/nonclangable.conf#L369
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-FAIL: test max line length: Patch line too long (current length 242, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
+Wouldn't this patch needlessly prevent user from using meta-clang to get
+a RISCV rust-enabled kernel?
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+I wonder if we need a patch more like master's:
+2b228490b7e (kernel-yocto-rust: Add clang toolchain check for riscv64, 2026=
+-08-05)
 
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+What do you think?
 
----
+>
+> This avoids attempting an unsupported kernel Rust build and provides a
+> clear parse-time error explaining the limitation.
+>
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+>  meta/classes-recipe/kernel-yocto-rust.bbclass | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+>
+> diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes=
+-recipe/kernel-yocto-rust.bbclass
+> index 49f2bfc1ae..6be97c2db8 100644
+> --- a/meta/classes-recipe/kernel-yocto-rust.bbclass
+> +++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
+> @@ -25,3 +25,12 @@ do_kernel_configme:append () {
+>  # More details in: https://lists.openembedded.org/g/openembedded-core/me=
+ssage/229336
+>  # Disable ccache for kernel build if kernel rust support is enabled to w=
+orkaround this.
+>  CCACHE_DISABLE ?=3D "1"
+> +
+> +python () {
+> +    if d.getVar('TARGET_ARCH') =3D=3D 'riscv64' :
+> +        raise bb.parse.SkipRecipe(
+> +            "Rust support in the kernel on riscv64 requires kernel to bu=
+ild with clang, "
+> +            "Wrynose doesn't have clang toolchain support for kernel. Se=
+e "
+> +            "https://docs.kernel.org/rust/arch-support.html for details.=
+"
+> +        )
+> +}
 
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
---NextPart
-
-
---NextPart--
 
