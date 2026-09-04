@@ -1,112 +1,102 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58AFDC79F80
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 08:23:25 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9192.1788510197560430006
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BF9C79F80
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 08:32:35 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9267.1788510744974589034
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 01:23:17 -0700
+ Fri, 04 Sep 2026 01:32:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=Y2QmZiRG;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: antonin.godard@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id E0AF54E41501
-	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 08:23:15 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B5E8C6057F
-	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 08:23:15 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9A5DC11C7A753;
-	Fri,  4 Sep 2026 10:23:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788510190; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=NysDmWP41Uul4eo8KMuU40N4mFoJIdtz6KWTiq1T6Go=;
-	b=Y2QmZiRGBRKHawAilJ1j0ZYzAU/OsbIWyeAWOf0ege9pa56vNjDMaufjuw0vprauSrErxG
-	zK2Jn0B48HGJrIExM6p6CKZnrQa4cFkP9M6+f3ByQkwaIBLExorIITSj8zsoGNDS235KiB
-	1/bLWHgQyEDKPnbc2qtqgg9l94cJ5idx/zE7eckzyFri5VDecyY+bjBC67Dk5PN/Co6zeU
-	vyYfVZkjI9nex+5PZKCphNfDPr1ECoRTvoMfECzbBK6C2ZA0OYKtDUKcjeNtrLN0Ep+rhi
-	/uwquSZRsmW7bhxxmwSquHyzHBb1WnFk954fhT2mHbO1xjRu9pC9gVmMH9WAAQ==
-From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Fri, 04 Sep 2026 10:23:01 +0200
-Subject: [PATCH 4/4] scripts/oe-depends-dot: give the dotfile argument a
- sensible default
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-oe-depends-dot-cleanups-v1-4-b56bf05fc5fd@bootlin.com>
-References: <20260904-oe-depends-dot-cleanups-v1-0-b56bf05fc5fd@bootlin.com>
-In-Reply-To: <20260904-oe-depends-dot-cleanups-v1-0-b56bf05fc5fd@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Antonin Godard <antonin.godard@bootlin.com>
-X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=1709;
- i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=vtHNLFd/Qm3tiw7o6Ao1tu1F15zUt9YVSuyBOH5l4Rc=;
- b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqmn/mFJgXnaF8H80OSLX+l4vfUsWaO+Od3i0uW
- pVw9sCnl7yJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCapp/5gAKCRDRgEFAKaOo
- NiZfD/9hjvcLQzYzVtZUvNP+afm0DjDCGs5CVH9LmdxDA16UZ9vu/htx7Uuid4CJJScoFYu/HxO
- 6bmEFh0Q2Jsd919XGcsd3No8KZ9T9cXrhGSE4J8t/+U581tRyygLho5ZnBFEtMm10dFl6m+bI4B
- 9rkieE8Q+pePq5hed2JWWYRf4Nc5tnYhFEYkPfYtQUh1Zz/Gh0wtxZWl09fwEwiI03KsUqeuh0Y
- vKeOeS5wMB+Qnew5+dFG13aazuOTq2JRPpnwk6IRA+3Tz8dQtSvL7RAJdDfefBCthlZ/c/fMrkC
- 2E/y1DWhVkEw9R533jhai6cPr6CjiowTvSG+xm1hpNmcs/tiqsLAJXO620eD7c7CTUimmQCaoZC
- 1o77I/mLI+5QhCEpvAg4T2NnmayEfsTu4lWXkFm8tKsqeMgfRKPmmV63lAmE+FBvb1Efwh6KZRj
- 50czMXg3GSvsMVt/g7RI3dF7C9i0ytz9xlHePq4ivquyrDPzuDAlpSivoYwHyowDhUHqFFGgJSZ
- ECbPIxOzGrx1sFACx8XigctNX7xyufiBMNbCrTlRfX/aWseKmj3wQuOFcW1So2rhZHKyngPhdU3
- 18u5MedZhz1ERJrCxjUbKLQGkzZXyaudYLQZ7+X55fDLmP1V/bCtojrZ5phbTB2TFK7vI4oriQW
- 6itBLsYIU4bXAXw==
-X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
- fpr=8648725188DD401BB9A0D3FFD180414029A3A836
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bgl3K85M;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=t2k1M2oh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a06b8c2dd0-99d97290-a3d4-4cba-9d44-23634d73799a-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1788510744; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=y9sx1SE4GfxMSVxjYNHuDVbuyo4HrTCollK/PdF/kYo=;
+	b=bgl3K85MjISkEnzOgO1+ik906rq+Aft05Km7NuZoFKwh2G3rYK2seL/pw3VF6p7C
+	Oob9yZJw3Jp+fk0ef4TJC4niKqC4W/E/MpGQKBqO9upYSCKTpek2Kxd+jMdClfPjuRL
+	SBsilNTMqbi58QPvQTcrNSqdUZ9SYuHqoEHVarWk=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788510744;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=y9sx1SE4GfxMSVxjYNHuDVbuyo4HrTCollK/PdF/kYo=;
+	b=t2k1M2oh2L5gCznk+GLRpDnmldCG9Y/wEwZqEa5yv80eBn7ix502PwBH4orvu+L4
+	uq7UWjZpVvZM6Emw8XSoIX0tj6iE4toWpMqK8czVb0wheZiMS+Z2sp47KiZ/YqX6yHL
+	FkL9IQxxW/aBpuqfUMD7ZAidIXkFxJG63/FfwCPM=
+From: patchtest@automation.yoctoproject.org
+To: Antonin Godard <antonin.godard@bootlin.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 3/4] scripts/oe-depends-dot: fix Fonud -> Found typo in
+ warning
+In-Reply-To: <20260904-oe-depends-dot-cleanups-v1-3-b56bf05fc5fd@bootlin.com>
+References: <20260904-oe-depends-dot-cleanups-v1-3-b56bf05fc5fd@bootlin.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a06b8c2dd0-99d97290-a3d4-4cba-9d44-23634d73799a-000000@us-west-2.amazonses.com>
+Date: Fri, 4 Sep 2026 08:32:24 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.04-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 08:23:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245070
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 08:32:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245071
 
-Running this script mostly happens after running 'bitbake -g <recipe>',
-which generates the task-depends.dot file in the current working
-directory with the name 'task-depends.dot'.
+--NextPart
+Content-Type: text/plain
 
-Make the dotfile positional argument optional with './task-depends.dot'
-as default value, so we can run the command without specify it each
-time. If the file doesn't exist, hint the user at what to do (run
-bitbake -g).
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 ---
- scripts/oe-depends-dot | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/3-4-scripts-oe-depends-dot-fix-Fonud---Found-typo-in-warning.patch
 
-diff --git a/scripts/oe-depends-dot b/scripts/oe-depends-dot
-index 560d2fd2bb..92e68e74ae 100755
---- a/scripts/oe-depends-dot
-+++ b/scripts/oe-depends-dot
-@@ -17,7 +17,8 @@ class Dot(object):
-             description="Analyse task-depends.dot generated by bitbake -g",
-             formatter_class=argparse.RawDescriptionHelpFormatter)
-         parser.add_argument("dotfile",
--            help = "Specify the dotfile", action='store', default='')
-+            help = "Dotfile to inspect (default: ./task-depends.dot)",
-+            nargs='?', action='store', default='./task-depends.dot')
-         parser.add_argument("-k", "--key",
-             help = "Specify the key, e.g., recipe name",
-             action="store", default='')
-@@ -49,6 +50,10 @@ Reduce the .dot file packages only, no tasks:
- 
-         self.args = parser.parse_args()
- 
-+        if not os.path.exists(self.args.dotfile):
-+            print(f"Dotfile {self.args.dotfile} does not exists. Did you run 'bitbake -g <recipe>'?")
-+            sys.exit(1)
-+
-     @staticmethod
-     def insert_dep_chain(chain, rdeps, alldeps):
-         """
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
--- 
-2.55.0
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
