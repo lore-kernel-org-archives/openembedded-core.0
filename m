@@ -1,158 +1,106 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8F75FC61DD6
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 13:48:08 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9138.1788509864684379589
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B44F9C624D3
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 14:23:48 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14935.1788531827314301375
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 01:17:45 -0700
+ Fri, 04 Sep 2026 07:23:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=SVr0ApQ/;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=37077ff900=himaniramesh.barde@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 6846516K629721;
-	Fri, 4 Sep 2026 08:00:20 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=3kW8/zpRP
-	u2ru2q8reSLfn8hsL4NSljzmkZCdO/BGwg=; b=SVr0ApQ/tjw+fadHqR/Up8k3f
-	MRyCt0X7peTVExRA199KG+m2C/W4/y1TX98PBwF906Xi39+llzlD8LsOhduDuelh
-	gTD/WrgJMBCJEfLoLOYalqKyv/q2NHVcofaeUxNFO/bC5WR1rcAsh+piEOxfuDjB
-	YWOhQUA37xLHI/274dmOyIki2LauRJSFRRj0kaNmgY2c/NeZT9m2QHh8PG5lOnSM
-	/y+876uoRjlSDqTZYkCd5NrVQbhc8kh7XpXcXHaGXcki1Ah1EaKp1n8/zBxUEuMs
-	Hw45KCIY5iswdRDQnJ5BnV2PUxsDiQtisHMToaRgc9426Jrujur4/NVQ4dmkw==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gf5q0j0s3-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Fri, 04 Sep 2026 08:00:19 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Fri, 4 Sep 2026 01:00:17 -0700
-Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Fri, 4 Sep 2026 01:00:17 -0700
-From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Randy.MacLeod@windriver.com>, <ross.burton@arm.com>,
-        Himani Ramesh Barde
-	<HimaniRamesh.Barde@windriver.com>
-Subject: [OE-core][PATCH] systemd: re-enable ptest support
-Date: Fri, 4 Sep 2026 08:00:04 +0000
-Message-ID: <20260904080004.2501262-1-HimaniRamesh.Barde@windriver.com>
-X-Mailer: git-send-email 2.54.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Cz6mCw7W;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-49b9320423cso11497405e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 07:23:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1788531825; x=1789136625; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=OxhIhNK9shAGgcZdWeSn0yqOv5EXETilWpL8UMa+T04=;
+        b=Cz6mCw7WHS5u/vs19OUHL2eSA53br5qJFD2NHUNhKCzI6wKnNPs0ssgmGJ6k6QtnTO
+         UyqfrUlO+cyOsuW6cuFtlp3t03WZBN/9dLMToXvify3YhamzAuDdfWQtJ7mJB60XOj88
+         leQ3bHWynhRjM8FVDZeCt3BYAP8mNsAVG3pOQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788531825; x=1789136625;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=OxhIhNK9shAGgcZdWeSn0yqOv5EXETilWpL8UMa+T04=;
+        b=Azost3qhekHGFikd9PoMUxru6zhh6ktoxLhFr2uiuqjbpTYeoAHceN++xfeEpsrc8d
+         /D5TA3I1hUz2p77DPT90HCN6yRroTRUIq0KRYUmAWoHizQCEGLIUr9hWvM4JBkgtxn/w
+         ZHbAZgAgyUYeiMBo6BaHBimuX09sAQdqoPuT1QVnHFLOO2CN+DT3sK4/+yYMJi+krIce
+         +c2ErzfT+Y8xuOnyvOkop/Tk3e3PijjjIJWHk7yK1/Y4h1tCf4WUF6tueDe6q6m0WPj7
+         V5f5WA4F/JuUTC0LEdi/o1ZejCmN69NsuoJNj6sPlq/UfHslC5DqnME3XA3cvBw2EUs3
+         5wwQ==
+X-Gm-Message-State: AFuF++nWy3Gr0d66CP3W02rnS6RVej+AdNAP5G/v0mKafLxzn51OxZJD
+	M/mcc1FMms12pKKZIZrXlC4iDMg5kX+TyGOiKeGYcwkaH41m5av9igEW8XWhQs/mliirS4qkC0d
+	hMHCIHiw=
+X-Gm-Gg: AYBFou1L5Pb4JpPqkvigluvM/ns1+YntKi5qNPE+1zZ+6aYQNCTxpD/7vfk3JL9v+eX
+	z9bPaS9ZUka2Vmt87ecOJ2e8BmOeDzM+QQil8Dnq8GosK9dUQaq6ntRYdW+OlKsho+t4Vt1DNBZ
+	41qyrsoM+AuYUhFu4S3bwAyUnRXOrAxxtQcApj7dh9xHKUFefpw3FEA7lvcytM4VgEibAK92m5k
+	xKNW3a8BCY/Xb4fUGVztKNzLGwOtRrxx09mzsaRqt1lkSCTEN6ZB9MNkmguqSjuMIsh6QqMzOcr
+	vpJIBwYJYtjCAAG/f/1Q6wyHf+XcmdXHFfCijeoLUzGG+jL1qeYey3L95VxNBopgj6pUYlanYte
+	UOlKOQ+5YR6H8NGDywHKJ0Mm7bdxMMRwfIbGuF3SM/O8bd4H+l9Ga4kTTtBc+1aIj5dNefOS3y2
+	E3ff5fhWJgOzrGOSp/qmXftP5ujuJyN7876gfc9nzAw3KpDsKOPtgfSARKELBIjwY5CsY4T+kyU
+	nC2DDtPejsWA4gzgA==
+X-Received: by 2002:a05:600c:3485:b0:49c:cee0:e7c1 with SMTP id 5b1f17b1804b1-49cf825c119mr120230005e9.16.1788531825184;
+        Fri, 04 Sep 2026 07:23:45 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:23f6:3417:15e4:9ee4])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce554d52esm137868375e9.3.2026.09.04.07.23.43
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 04 Sep 2026 07:23:44 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 1/4] enchant2: upgrade 2.8.19 -> 2.8.21
+Date: Fri,  4 Sep 2026 15:23:40 +0100
+Message-ID: <20260904142343.1608107-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-X-Authority-Analysis: v=2.4 cv=Po6jqQM3 c=1 sm=1 tr=0 ts=6a9a7a93 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=klDOsUkWDRETUCZYPvoE:22 a=GhQEx97vAAAA:20 a=t7CeM3EgAAAA:8
- a=BoTvoepAtHVGsuerbB8A:9 a=FdTzh2GWekK77mhwV6Dw:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-GUID: 2jK4R4hB7-n9euZJJwK352nv0h912-9s
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA0MDA3MiBTYWx0ZWRfXw2QYif38myc9
- 9QpbO18tzXBYaxi+rWQBHbvhcFf0ldEKyeakV5OvzyiEU8+3E46X3hm39LCGu2YI/of0x3gzvMc
- ABtccg/Ibd43uxmghujz9GlaCa/TYv7imD8gDMCHwjJxZsyiuJgZ
-X-Proofpoint-ORIG-GUID: 2jK4R4hB7-n9euZJJwK352nv0h912-9s
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA0MDA3MiBTYWx0ZWRfX4HWVy5GROZ5b
- 0HscnUTKmGfJRwu5dVItavZV8uW7ZpM8E9qXS/CiZjN5Tx8EhZ3pfgUDmb0FcWdJ60CpEnqHTY2
- Ej1EtCEtD622FXgizERtdT3jauedkT2B+6R+jK08zqf7OxlCPa/HtrnAvHhr4DsJxeqoWQrf4e3
- gNLEA59kXBhD05QumVTHpXlHwmQxO+vzeAYCxdPTjkUV0P25qNPPWRURIncYT92XSNf+0fPeCK5
- SVQIQFcni68lJFqkNCV5mAA30pa+wNbdAsQxWIQxAWJ+nJYrngbfwg2ZYgXpBf4/fdX0Cvsm9tN
- nKiaK0//o/9TadFRoIkXgPBrhdm5QOw5uyXczQS+X4sTCAV6LTSLh1aB157Y36Snl9lYbq+0L0y
- bezrfcv3lIkQC3Fr3ZUtqxu5lz0tsVb/zWUcuml/hD7gXKcjjv9tcrGRAIZXAhqox/x0fszQOzt
- K53NltzlMt7hA4fYW6A==
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-04_02,2026-09-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 priorityscore=1501 impostorscore=0 suspectscore=0 phishscore=0
- lowpriorityscore=0 clxscore=1011 bulkscore=0 adultscore=0 malwarescore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609040072
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 13:48:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245116
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 14:23:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245117
 
-ptest support for systemd was dropped in 2018 (commit 906230a73b3c) when the recipe switched to meson, as there was no easy way to install and run the test suite. Current systemd and meson resolve this: the meson 'install-tests' option installs the unit-test binaries and a run-unit-tests.py runner under ${prefix}/lib/systemd/tests, and run-unit-tests.py already emits PASS:/SKIP: results per test.
+2.8.21 (September 3, 2026)
+--------------------------
 
-Enable install-tests, package the installed tree into systemd-ptest, and add a run-ptest wrapper that drives run-unit-tests.py. This provides ptest coverage for the systemd:test and libsystemd meson unit-test suites.
+This release fixes two bugs in composite dictionaries: first, if any
+dictionary creation failed during creation of a composite dictionary,
+dictionaries already created would be leaked; and secondly, the broker error
+status could end up indicating an error incorrectly when one provider or
+language failed and a fallback later succeeded. Thanks to @lpyuu for the
+report and fixes.
 
-The test/units integration tests, which require a booted system, are out of scope here and can be addressed separately.
+2.8.20 (August 25, 2026)
+------------------------
 
-Verified on systemd 257.6: -Dinstall-tests=true installs 313 test-* unit-test binaries plus run-unit-tests.py; systemd-ptest packages cleanly. The recipe change parses without error against oe-core master (261.2).
+This release improves the man page for enchant(1), mostly by documenting
+Ispell command-line options and pipe-mode commands that it ignores.
 
-[YOCTO #16386]
-
-Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-core/systemd/systemd/run-ptest | 11 +++++++++++
- meta/recipes-core/systemd/systemd_261.2.bb  | 18 +++++++++++++++++-
- 2 files changed, 28 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-core/systemd/systemd/run-ptest
+ .../enchant/{enchant2_2.8.19.bb => enchant2_2.8.21.bb}          | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-support/enchant/{enchant2_2.8.19.bb => enchant2_2.8.21.bb} (91%)
 
-diff --git a/meta/recipes-core/systemd/systemd/run-ptest b/meta/recipes-core/systemd/systemd/run-ptest
-new file mode 100755
-index 0000000000..b2204b96d4
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/run-ptest
-@@ -0,0 +1,11 @@
-+#!/bin/sh
-+# Run systemd's installed meson unit tests in ptest format.
-+# systemd's -Dinstall-tests=true installs run-unit-tests.py plus the
-+# unit-tests/test-* binaries; run-unit-tests.py already emits PASS:/SKIP: lines.
-+set -u
-+here="$(cd "$(dirname "$0")" && pwd)"
-+for cand in "$here/run-unit-tests.py" "$here/tests/run-unit-tests.py" /usr/lib/systemd/tests/run-unit-tests.py; do
-+    [ -f "$cand" ] && { python3 "$cand" 2>&1; exit 0; }
-+done
-+echo "FAIL: systemd-ptest (run-unit-tests.py not found)"
-+exit 1
-diff --git a/meta/recipes-core/systemd/systemd_261.2.bb b/meta/recipes-core/systemd/systemd_261.2.bb
-index 80e1aa07d1..dfd2b7c0c9 100644
---- a/meta/recipes-core/systemd/systemd_261.2.bb
-+++ b/meta/recipes-core/systemd/systemd_261.2.bb
-@@ -9,7 +9,7 @@ DEPENDS:append:libc-musl = " libucontext"
+diff --git a/meta/recipes-support/enchant/enchant2_2.8.19.bb b/meta/recipes-support/enchant/enchant2_2.8.21.bb
+similarity index 91%
+rename from meta/recipes-support/enchant/enchant2_2.8.19.bb
+rename to meta/recipes-support/enchant/enchant2_2.8.21.bb
+index f5d5897fd06..49d953a6c87 100644
+--- a/meta/recipes-support/enchant/enchant2_2.8.19.bb
++++ b/meta/recipes-support/enchant/enchant2_2.8.21.bb
+@@ -12,7 +12,7 @@ DEPENDS = "glib-2.0 groff-native"
+ inherit autotools pkgconfig github-releases
  
- SECTION = "base/shell"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/enchant-${PV}.tar.gz"
+-SRC_URI[sha256sum] = "c8d70991d544ee39274b96bd01d2858a009fe732ff43f2aaf605fd61ecd06f60"
++SRC_URI[sha256sum] = "dd2a762697c463148a8f59867089a5ebf2dd1449d869f93764b76c12bcf8acc0"
  
--inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives systemd gettext bash-completion manpages features_check mime
-+inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives systemd gettext bash-completion manpages features_check mime ptest
+ GITHUB_BASE_URI = "https://github.com/rrthomas/enchant/releases"
  
- # unmerged-usr support is deprecated upstream, taints the system and will be
- # removed in the near future. Fail the build if it is not enabled.
-@@ -37,6 +37,7 @@ SRC_URI += " \
-            file://systemd-pager.sh \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0003-Do-not-create-var-log-README.patch \
-+file://run-ptest \
-            "
- 
- PAM_PLUGINS = " \
-@@ -937,3 +938,18 @@ python do_warn_musl() {
-         bb.warn("Using systemd with musl is experimental, see https://github.com/systemd/systemd/blob/9ca4334/NEWS#L524 for details")
- }
- addtask warn_musl before do_configure
-+
-+# ptest support: systemd's meson 'install-tests' option installs the unit-test
-+# binaries and run-unit-tests.py under ${prefix}/lib/systemd/tests. Package them
-+# into systemd-ptest and drive them via run-ptest. [YOCTO #16386]
-+EXTRA_OEMESON:append = " -Dinstall-tests=true"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}
-+    if [ -d ${D}${prefix}/lib/systemd/tests ]; then
-+        cp -r ${D}${prefix}/lib/systemd/tests/* ${D}${PTEST_PATH}/
-+    fi
-+}
-+
-+RDEPENDS:${PN}-ptest += "${PN} python3-core bash"
-+INSANE_SKIP:${PN}-ptest += "dev-deps debug-files"
--- 
-2.54.0
-
 
