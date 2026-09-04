@@ -1,102 +1,93 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 83BF9C79F80
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 08:32:35 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9267.1788510744974589034
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95AEEC624DE
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 08:43:05 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9366.1788511379555166446
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 01:32:25 -0700
+ Fri, 04 Sep 2026 01:43:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=bgl3K85M;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=t2k1M2oh;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a06b8c2dd0-99d97290-a3d4-4cba-9d44-23634d73799a-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788510744; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=y9sx1SE4GfxMSVxjYNHuDVbuyo4HrTCollK/PdF/kYo=;
-	b=bgl3K85MjISkEnzOgO1+ik906rq+Aft05Km7NuZoFKwh2G3rYK2seL/pw3VF6p7C
-	Oob9yZJw3Jp+fk0ef4TJC4niKqC4W/E/MpGQKBqO9upYSCKTpek2Kxd+jMdClfPjuRL
-	SBsilNTMqbi58QPvQTcrNSqdUZ9SYuHqoEHVarWk=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788510744;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=y9sx1SE4GfxMSVxjYNHuDVbuyo4HrTCollK/PdF/kYo=;
-	b=t2k1M2oh2L5gCznk+GLRpDnmldCG9Y/wEwZqEa5yv80eBn7ix502PwBH4orvu+L4
-	uq7UWjZpVvZM6Emw8XSoIX0tj6iE4toWpMqK8czVb0wheZiMS+Z2sp47KiZ/YqX6yHL
-	FkL9IQxxW/aBpuqfUMD7ZAidIXkFxJG63/FfwCPM=
-From: patchtest@automation.yoctoproject.org
-To: Antonin Godard <antonin.godard@bootlin.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 3/4] scripts/oe-depends-dot: fix Fonud -> Found typo in
- warning
-In-Reply-To: <20260904-oe-depends-dot-cleanups-v1-3-b56bf05fc5fd@bootlin.com>
-References: <20260904-oe-depends-dot-cleanups-v1-3-b56bf05fc5fd@bootlin.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a06b8c2dd0-99d97290-a3d4-4cba-9d44-23634d73799a-000000@us-west-2.amazonses.com>
-Date: Fri, 4 Sep 2026 08:32:24 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.04-54.240.27.30
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=IAtQn3tH;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 40AE41A1997;
+	Fri,  4 Sep 2026 08:42:57 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 141AC6057F;
+	Fri,  4 Sep 2026 08:42:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 70F1111C7A753;
+	Fri,  4 Sep 2026 10:42:50 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1788511372; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=4g6OEf9Z/AFZVP7SW0/bD3bNSuYShziWBzHXzTDhmgg=;
+	b=IAtQn3tHpUHE2P2IUfbu9GK2QG3kbsdyumW0smpuW8RZX/Cr43hTH4ePiLi0EX05hI6ZPD
+	eE3eJ6Qlq3XnSk6FW6SOt3FtJf/DLP8D/+lu4fmn9LulCecX5i0b+2SyFqC8y7dwFkFF9A
+	16zxJdusoijl4KrhwgVPGOQhGhiOaC2W9XPxUv/87HRTaLdRbBPSi39ORnrp8q0iZLjPKn
+	4RVD+li+0GGqMJCnQnM1yOyCoNPxea9yveEtOiwW9/nvFzETPwT0/SdtO/a+fut+WTJYqv
+	L3R0Tu+2Fvmt8Xp1hk659qyuQqhjT3W4a3WHEI7CvdXM4VM+tZeRmogyyWq3Qg==
+From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
+Date: Fri, 04 Sep 2026 10:42:39 +0200
+Subject: [PATCH] sbom-cve-check-update-db: Exclude recipes from rm_work
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Message-Id: <20260904-sbom-cve-check-update-db-no-rm-work-v1-1-e19b06eba7ea@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXNTQ6CMBBA4auQWTtJQdToVYwL5gcZCS1pAU0Id
+ 6fq8tu8t0LSaJrgVqwQdbFkwWeUhwK4a/xT0SQbKled3dXVmCgMyIsid8o9zqM0k6IQ+oBxwHe
+ IPToSupRyPLXEkEtj1NY+v8v98Xea6aU8fdOwbTt4CzpVhwAAAA==
+X-Change-ID: 20260904-sbom-cve-check-update-db-no-rm-work-0bdb71d35fbc
+To: openembedded-core@lists.openembedded.org
+Cc: ross.burton@arm.com, mathieu.dubois-briand@bootlin.com, 
+ thomas.petazzoni@bootlin.com, pascal.eberhard@se.com, wahid.essid@se.com, 
+ "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
+X-Mailer: b4 0.15.2
+X-Last-TLS-Session-Version: TLSv1.3
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 08:32:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245071
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 08:43:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245072
 
---NextPart
-Content-Type: text/plain
+If the "rm_work" task runs on these recipes, the next execution of the
+do_sbom_cve_check task would force the CVE databases to be extracted
+again. Excluding the recipes from "rm_work" allows the build system to
+remember that the unpack and patch tasks were already executed, so
+it does not run them a second time. Extracting the CVE databases is
+slow, and it also removes the database "index", which sbom-cve-check
+has to regenerate =E2=80=94 an even slower step.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Keeping WORKDIR around is cheap: for the recipes downloading the CVE
+databases, it stays below 400 kB (not counting the "temp" directory,
+which rm_work leaves in place anyway).
+
+Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootli=
+n.com>
+---
+ meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-d=
+b.inc b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
+index fbdc561e8c6a..2efc080b9327 100644
+--- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
+@@ -2,6 +2,7 @@
+=20
+ INHIBIT_DEFAULT_DEPS =3D "1"
+ EXCLUDE_FROM_WORLD =3D "1"
++RM_WORK_EXCLUDE +=3D "${PN}"
+=20
+ inherit native
+ require conf/sbom-cve-check-config.inc
 
 ---
-Testing patch /home/patchtest/share/mboxes/3-4-scripts-oe-depends-dot-fix-Fonud---Found-typo-in-warning.patch
+base-commit: 934e84e9ea1fa2faf14bdafa71638fdca22dd79a
+change-id: 20260904-sbom-cve-check-update-db-no-rm-work-0bdb71d35fbc
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+Best regards,
+-- =20
+Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
