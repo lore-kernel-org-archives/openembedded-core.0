@@ -2,61 +2,60 @@ Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E28FC79F80
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6EFC9C79F87
 	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 08:23:15 +0000 (UTC)
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9188.1788510192635955917
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9187.1788510191422498321
  for <openembedded-core@lists.openembedded.org>;
  Fri, 04 Sep 2026 01:23:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=aeI8Mw3q;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=abUTVvDJ;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: antonin.godard@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id E10884E41507
-	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 08:23:10 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 8FE834E41502
+	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 08:23:09 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id B4DEA6057F
-	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 08:23:10 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CC2BA11C7AB30;
-	Fri,  4 Sep 2026 10:23:09 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 5E2606057F
+	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 08:23:09 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 62A5F11C7A7F4;
+	Fri,  4 Sep 2026 10:23:08 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788510190; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1788510188; h=from:subject:date:message-id:to:cc:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=JQ+Cn6imyeJcUbYUVS7utgNBxud7ifX7ubNSDHOrlTc=;
-	b=aeI8Mw3qC8dIbiAaDMsurWgCnwFsiZ/w8yXBRIvsvWXzRwoEHCxrjzcLKOHtEu2iEtgsI7
-	sSuHd78lPId5PQ3VDXLc9mYDgP6j56VztZ+Ou3Ix2YZIAivY2hLfLEr577JlVbrWadFmaH
-	PR3mwOfPaEc5yflFtveUCHoX/P+YTrjxuC9/L7vJTcpylAFhd1Tm7Gf2DmaM1LqU16cew1
-	2tv71bw5ixweK8w2YzEDz8R6+TEKanjZ+5tNeycvQSMpR4k3CexS78ixwX7w48woFTTYoX
-	YhmZFfdWbGv8muqKmRDDVhTATiR1BEHQvfcd4+Z8xGOs7iWLppzGkNZKBavUZg==
+	bh=P/40646cnoGegdR72Yz4Kzj5Zr3NP1LAycJmzQp9AHM=;
+	b=abUTVvDJVAX+nlIcfmtTRcCCC+tGm5H6EYfDubTtQvrn5EBMCcdCYsiIieB11SZgzTYpbe
+	FXfFwwxOABRP07aT7kyboOnqemmC1NnACCJGykn+iShdnkbXooZZ1E5wLhoRFlNOvA/fLW
+	CR3ud6m4xitrOSmiD3I5HR2/OP4YnVzZn3amMuHclhAkk3RiSIVH4QefacF1lH7HElGqJ3
+	Prr/0Ovmfuag7DvTBqBS29Q0vwOiS850tfSqA7POeFps0sD05yQKAZDg2AovePLrh4U8fM
+	M1PNq1LIiUtcYwzm8onT/vkv7icAfW8bZBV0PovwIW++9p9EMaNEqhI10ay2sw==
 From: Antonin Godard <antonin.godard@bootlin.com>
-Date: Fri, 04 Sep 2026 10:23:00 +0200
-Subject: [PATCH 3/4] scripts/oe-depends-dot: fix Fonud -> Found typo in
- warning
+Date: Fri, 04 Sep 2026 10:22:58 +0200
+Subject: [PATCH 1/4] scripts/oe-depends-dot: fix dotfile argument type
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260904-oe-depends-dot-cleanups-v1-3-b56bf05fc5fd@bootlin.com>
+Message-Id: <20260904-oe-depends-dot-cleanups-v1-1-b56bf05fc5fd@bootlin.com>
 References: <20260904-oe-depends-dot-cleanups-v1-0-b56bf05fc5fd@bootlin.com>
 In-Reply-To: <20260904-oe-depends-dot-cleanups-v1-0-b56bf05fc5fd@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  Antonin Godard <antonin.godard@bootlin.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=779;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=2348;
  i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=TLoJvibF6qPuoTSwKMMjcBo+Jgj1aWb+GS3EHLDs5BI=;
- b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqmn/mKay22vn5YcCuJFsDg3zz3ZWvoREUXGJbL
- tSCShh+46+JAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCapp/5gAKCRDRgEFAKaOo
- NhmwD/99WVXSJtBSqwlC44hQhavP2pdqLqc1xiIvYCblXQQARMPkxyPVDtVQkc3mgEAFshFXO6b
- bmfGmgHvaSApLyIrGL93TzV9Py8+4wUuAtoNzekukVKXusyqGiSL5t92pNLKWdLi4XhnfA5j0E7
- IwaymwU0xZn8y9S4lVOwJCwFA4hhWX+pYUd0hzwnPnwFfUHRNbFgZyNwHtHRq7uK8iZzJK2NHgv
- vaNG/XqgO/kkkNMEQ9Z93Bc1Ka3hG1gIAIVLjuvyDPKRV2joGY/a/5Lc3UYlBPtIRm+5Q8OQyFa
- /QLnvawMAQJF1kOdcn6X3N2k/RqEREeJ/ikHrfyyOPSWTv1cvva4fmfzwHGFIonLqRhR9YhpgVZ
- VWh5wfRIZTA58UkWsFm14eKuCvvGx1yIDz3f/WzXw8VLnspOT6+sU11LUQBrXPev8OjciG0GPqV
- NxiQwqD2A1Pxmh1wt1tc8QFBn/PsFjo89toxD/8J2KMmZzmyG9utp6yl1rpMe//bnqREvRhTZaB
- gh0K+n0SDAwg4HPQvnRukpIFGX4zpunvMmMxJzSOPN5w3a/qjzgs4jJZTqrtHGi6sgeaokXQa+9
- y6vDffsQ4uTATFzC8Qp6O2m4MfLDeONKI0YGu1aHXTV6zpAwL5AVv/PMopR3SnrGXzEsNyINfUz
- EhhV675SMe+E5GQ==
+ bh=NQ18PwYznAKatpRlruC3uH3p0EUYoLjZDyNM88UJPlQ=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqmn/mk85/8fsYTFigb9jnrEBc4d7/tIBflE4qN
+ kt050fWgdeJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCapp/5gAKCRDRgEFAKaOo
+ NnY8D/9HxXakUcULf3Ojuu0krdWwedf/qbWeRNlOU9TjnVDCxhAf1Vxqxeh9bLCHI208L3tzBRV
+ c+EKsT4Mj75JgKcvz/OhN/MOtsHY6t2obxKLcq4kRAOGKkLfwTZ4uKrzlm9thO32OFWdXm2J/U1
+ hHY5ACWrkMYmc18FIIaCHH+ifK3uPtcp5cC/zz/wsu9V+1zRPQkRnalx+FAH5zS0EmZH7nJtQkG
+ tWX0ZJ+2DuW2ApeaUxN4UXDXsPkeS7qvBPJM+otaSdu2XI8PndvV0C4ZtlPjbAa/rp8nyc/LD6/
+ dSeErWWOWNJRZVsPn2efdqkww97A+qSKbwOCALfDcqscPnG4n5GnMJ1znxv7qy+vAFt5fQ+XaRC
+ kdnWrVboUW4/VVZeaxhvFvvpCsW9nSWHjB4DxRj9hAStWHROI1RWmLsnKGVWVrC/CEV2mxaS9/S
+ qlrgTr11OUQjjBmKCx0vx3b6j0OFwajfiSg4qSDsPEybVa5cNnLOLILHpL7jgTW3w4wP8zPzNbg
+ dpeP0xeckbEZ4g4+Q2k4DO16Q5NLwj9YdYMwkA+trlSbB++H4SywGFyazx27DW3IxX5Vmn0SxU9
+ T+4be/WFx8Jxsi3cKzGPfxjW9P3Cetf6udmm6YBtlBcpRaNnfWRvmNuG8c2mja10rz1JiJihrP1
+ ZmZNAokbhMgfsIA==
 X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
  fpr=8648725188DD401BB9A0D3FFD180414029A3A836
 X-Last-TLS-Session-Version: TLSv1.3
@@ -64,26 +63,57 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 08:23:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245068
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245066
+
+We can only pass one dotfile to this script, so storing this argument as
+a list does not make sense as we only ever use its first and only item.
+Store the argument as a string instead.
 
 Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 ---
- scripts/oe-depends-dot | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/oe-depends-dot | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/scripts/oe-depends-dot b/scripts/oe-depends-dot
-index c505a196f9..560d2fd2bb 100755
+index 10e8b1d387..7b16b911bd 100755
 --- a/scripts/oe-depends-dot
 +++ b/scripts/oe-depends-dot
-@@ -119,7 +119,7 @@ Reduce the .dot file packages only, no tasks:
-                     if not key in depends[key]:
-                         depends[key].add(dep)
-                     else:
--                        print('WARNING: Fonud duplicated line: %s' % line)
-+                        print('WARNING: Found duplicated line: %s' % line)
-                 else:
-                     depends[key] = set()
-                     depends[key].add(dep)
+@@ -17,7 +17,7 @@ class Dot(object):
+             description="Analyse task-depends.dot generated by bitbake -g",
+             formatter_class=argparse.RawDescriptionHelpFormatter)
+         parser.add_argument("dotfile",
+-            help = "Specify the dotfile", nargs = 1, action='store', default='')
++            help = "Specify the dotfile", action='store', default='')
+         parser.add_argument("-k", "--key",
+             help = "Specify the key, e.g., recipe name",
+             action="store", default='')
+@@ -101,7 +101,7 @@ Reduce the .dot file packages only, no tasks:
+         #print(self.args.dotfile[0])
+         # The format is {key: depends}
+         depends = {}
+-        with open(self.args.dotfile[0], 'r') as f:
++        with open(self.args.dotfile, 'r') as f:
+             for line in f.readlines():
+                 if ' -> ' not in line:
+                     continue
+@@ -139,7 +139,7 @@ Reduce the .dot file packages only, no tasks:
+                         child_deps |= depends[dep]
+ 
+                 reduced_depends[k] = deps - child_deps
+-                outfile= '%s-reduced%s' % (self.args.dotfile[0][:-4], self.args.dotfile[0][-4:])
++                outfile= '%s-reduced%s' % (self.args.dotfile[:-4], self.args.dotfile[-4:])
+             with open(outfile, 'w') as f:
+                 print('Saving reduced dot file to %s' % outfile)
+                 f.write('digraph depends {\n')
+@@ -150,7 +150,7 @@ Reduce the .dot file packages only, no tasks:
+             sys.exit(0)
+ 
+         if self.args.key not in depends:
+-            print("ERROR: Can't find key %s in %s" % (self.args.key, self.args.dotfile[0]))
++            print("ERROR: Can't find key %s in %s" % (self.args.key, self.args.dotfile))
+             sys.exit(1)
+ 
+         if self.args.depends:
 
 -- 
 2.55.0
