@@ -2,87 +2,111 @@ Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2EC6DC79F85
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 08:23:15 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 58AFDC79F80
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 08:23:25 +0000 (UTC)
 Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9187.1788510191091380408
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9192.1788510197560430006
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 01:23:12 -0700
+ Fri, 04 Sep 2026 01:23:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=hhDqR0db;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=Y2QmZiRG;
  spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: antonin.godard@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id B3B854E41501
-	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 08:23:08 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id E0AF54E41501
+	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 08:23:15 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8073C6057F
-	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 08:23:08 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0600711C7A463;
-	Fri,  4 Sep 2026 10:23:02 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B5E8C6057F
+	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 08:23:15 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 9A5DC11C7A753;
+	Fri,  4 Sep 2026 10:23:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788510184; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=b1HMWQfiTz0exTngWdY8ZY9ReX8zDOVWvGjLUVe15SE=;
-	b=hhDqR0db7HnAOWZw+Xk1hWwHEWfGV6KzfBPiVX8FDA8Av+c0S40X9fVZBYS/j+92P7caNe
-	+oKH0uXUBxS4q9rWgDXLWG2NLdG7478FNhgRZz5yTizp+9Bg9GK5JcFcN0KzqEkZumK2ek
-	fh0KGiaE12fLVGEsgM7To2URup50m+sdxEKUhrzcK+mrBeEIMpvT+Drw3M3X7Q3LHgTeyz
-	q8HGx4ZU/zyjLIrw3ps/HtsgJ9SA+oA9tyajXSfFCCIjJOI4y+6jkHJbvQAlBmbVuVLbkZ
-	Lt8A2i7utZ/yNBl8ueDl/XHcZJbpCzvsAo91HMJ4LU+IKGzB9F8AyKq5BddQZQ==
+	t=1788510190; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=NysDmWP41Uul4eo8KMuU40N4mFoJIdtz6KWTiq1T6Go=;
+	b=Y2QmZiRGBRKHawAilJ1j0ZYzAU/OsbIWyeAWOf0ege9pa56vNjDMaufjuw0vprauSrErxG
+	zK2Jn0B48HGJrIExM6p6CKZnrQa4cFkP9M6+f3ByQkwaIBLExorIITSj8zsoGNDS235KiB
+	1/bLWHgQyEDKPnbc2qtqgg9l94cJ5idx/zE7eckzyFri5VDecyY+bjBC67Dk5PN/Co6zeU
+	vyYfVZkjI9nex+5PZKCphNfDPr1ECoRTvoMfECzbBK6C2ZA0OYKtDUKcjeNtrLN0Ep+rhi
+	/uwquSZRsmW7bhxxmwSquHyzHBb1WnFk954fhT2mHbO1xjRu9pC9gVmMH9WAAQ==
 From: Antonin Godard <antonin.godard@bootlin.com>
-Subject: [PATCH 0/4] Minor cleanups and improvements for
- script/oe-depends-dot
-Date: Fri, 04 Sep 2026 10:22:57 +0200
-Message-Id: <20260904-oe-depends-dot-cleanups-v1-0-b56bf05fc5fd@bootlin.com>
+Date: Fri, 04 Sep 2026 10:23:01 +0200
+Subject: [PATCH 4/4] scripts/oe-depends-dot: give the dotfile argument a
+ sensible default
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMyw6CMBBG4Vchs3aSCnipr2Jc1PZHx5i26QAxI
- bw7VZff4pyFFEWgdGkWKphFJcWK/a4h/3TxAZZQTa1pj8aanhM4ICMG5ZBG9m+4OGXlw+DsCbD
- nzluqdS4Y5PM7X29/63R/wY/fHa3rBn1xLeF7AAAA
-X-Change-ID: 20260904-oe-depends-dot-cleanups-5fa97ee983c9
+Message-Id: <20260904-oe-depends-dot-cleanups-v1-4-b56bf05fc5fd@bootlin.com>
+References: <20260904-oe-depends-dot-cleanups-v1-0-b56bf05fc5fd@bootlin.com>
+In-Reply-To: <20260904-oe-depends-dot-cleanups-v1-0-b56bf05fc5fd@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
  Antonin Godard <antonin.godard@bootlin.com>
 X-Mailer: b4 0.16.0
-X-Developer-Signature: v=1; a=openpgp-sha256; l=739;
+X-Developer-Signature: v=1; a=openpgp-sha256; l=1709;
  i=antonin.godard@bootlin.com; h=from:subject:message-id;
- bh=BfMVazIj+3qQcOsepgp0mOZO1C3+rYHDuG1Wz5Qrt+k=;
- b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqmn/mzmhDSfyiDPFg6A8Gs+AwcLt+h9FoUnwIi
- b+HdC74dKaJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCapp/5gAKCRDRgEFAKaOo
- NgVlD/9ApIivKi5JIqW9UJim/4XxvUH5unwJc+8IInmmi7wHowMozIBEkj6fLnzDDNOMPzqB6j5
- fQb5qpYhffKQbQJYXdK58+q9jLlgKP+bRp6TyS6D/oH7VvZjjp8cNZx848V+K7ZVdMWIdGHCfVA
- 9F+LhgnQjiTDjg3NWW+ICoirpWmG1y+hYQK1mqfmaK7UYeqG+hYuYmK2WqztZqzZzaFCYCizRdd
- GA0niXxsm4ANn6mCF4N1PSthGB0rRwnHp/NRonRSbILZ8N/hp9lCE2qAZsynbh/vTzU9kOyWnQB
- w2dhuIwc7AQAZJIPYdhOq6Y74vMLQzklqkZxwJYSfFCvovJy5kBPgcMmzlrj2WlP+UbdP8mRs2o
- HQBuRqsLe32N50k235iXQcqIDMsHti8nQfxjiR7Aoc09lRReB+TLHEPdicZRVXIfPVFjbex9YEm
- y2Pj6wbx/feQWzHiQKfMDhTTS0xMUgXCHBc993URTSbHAlouVPsQ5vkJVPGXZXgQGF2qlyVqohM
- SxgaC4LrAEb4O7X5QTV8Ms5mNDc6HQT40pOPEUJ0i27nBfvRf7m35ZML2+M1LQRRIOyRXiGhNjJ
- APpFvdUouiCi7UVrvG31J0EfRHDYIrrvNrtKij1BgE4g4z+MtRNU6oQeABcI6YivlWMAt+l8Bd+
- nF3UVviNl7pDd7Q==
+ bh=vtHNLFd/Qm3tiw7o6Ao1tu1F15zUt9YVSuyBOH5l4Rc=;
+ b=owEBbQKS/ZANAwAKAdGAQUApo6g2AcsmYgBqmn/mFJgXnaF8H80OSLX+l4vfUsWaO+Od3i0uW
+ pVw9sCnl7yJAjMEAAEKAB0WIQSGSHJRiN1AG7mg0//RgEFAKaOoNgUCapp/5gAKCRDRgEFAKaOo
+ NiZfD/9hjvcLQzYzVtZUvNP+afm0DjDCGs5CVH9LmdxDA16UZ9vu/htx7Uuid4CJJScoFYu/HxO
+ 6bmEFh0Q2Jsd919XGcsd3No8KZ9T9cXrhGSE4J8t/+U581tRyygLho5ZnBFEtMm10dFl6m+bI4B
+ 9rkieE8Q+pePq5hed2JWWYRf4Nc5tnYhFEYkPfYtQUh1Zz/Gh0wtxZWl09fwEwiI03KsUqeuh0Y
+ vKeOeS5wMB+Qnew5+dFG13aazuOTq2JRPpnwk6IRA+3Tz8dQtSvL7RAJdDfefBCthlZ/c/fMrkC
+ 2E/y1DWhVkEw9R533jhai6cPr6CjiowTvSG+xm1hpNmcs/tiqsLAJXO620eD7c7CTUimmQCaoZC
+ 1o77I/mLI+5QhCEpvAg4T2NnmayEfsTu4lWXkFm8tKsqeMgfRKPmmV63lAmE+FBvb1Efwh6KZRj
+ 50czMXg3GSvsMVt/g7RI3dF7C9i0ytz9xlHePq4ivquyrDPzuDAlpSivoYwHyowDhUHqFFGgJSZ
+ ECbPIxOzGrx1sFACx8XigctNX7xyufiBMNbCrTlRfX/aWseKmj3wQuOFcW1So2rhZHKyngPhdU3
+ 18u5MedZhz1ERJrCxjUbKLQGkzZXyaudYLQZ7+X55fDLmP1V/bCtojrZ5phbTB2TFK7vI4oriQW
+ 6itBLsYIU4bXAXw==
 X-Developer-Key: i=antonin.godard@bootlin.com; a=openpgp;
  fpr=8648725188DD401BB9A0D3FFD180414029A3A836
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 08:23:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245065
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 08:23:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245070
 
-This series is a simple round of cleanups and improvements for
-scripts/oe-depends-dot, along with making the dotfile optional as it is
-mostly always ./task-depends.dot.
+Running this script mostly happens after running 'bitbake -g <recipe>',
+which generates the task-depends.dot file in the current working
+directory with the name 'task-depends.dot'.
+
+Make the dotfile positional argument optional with './task-depends.dot'
+as default value, so we can run the command without specify it each
+time. If the file doesn't exist, hint the user at what to do (run
+bitbake -g).
 
 Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 ---
-Antonin Godard (4):
-      scripts/oe-depends-dot: fix dotfile argument type
-      scripts/oe-depends-dot: remove custom argument checking
-      scripts/oe-depends-dot: fix Fonud -> Found typo in warning
-      scripts/oe-depends-dot: give the dotfile argument a sensible default
+ scripts/oe-depends-dot | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
- scripts/oe-depends-dot | 16 +++++++++-------
- 1 file changed, 9 insertions(+), 7 deletions(-)
----
-base-commit: 934e84e9ea1fa2faf14bdafa71638fdca22dd79a
-change-id: 20260904-oe-depends-dot-cleanups-5fa97ee983c9
+diff --git a/scripts/oe-depends-dot b/scripts/oe-depends-dot
+index 560d2fd2bb..92e68e74ae 100755
+--- a/scripts/oe-depends-dot
++++ b/scripts/oe-depends-dot
+@@ -17,7 +17,8 @@ class Dot(object):
+             description="Analyse task-depends.dot generated by bitbake -g",
+             formatter_class=argparse.RawDescriptionHelpFormatter)
+         parser.add_argument("dotfile",
+-            help = "Specify the dotfile", action='store', default='')
++            help = "Dotfile to inspect (default: ./task-depends.dot)",
++            nargs='?', action='store', default='./task-depends.dot')
+         parser.add_argument("-k", "--key",
+             help = "Specify the key, e.g., recipe name",
+             action="store", default='')
+@@ -49,6 +50,10 @@ Reduce the .dot file packages only, no tasks:
+ 
+         self.args = parser.parse_args()
+ 
++        if not os.path.exists(self.args.dotfile):
++            print(f"Dotfile {self.args.dotfile} does not exists. Did you run 'bitbake -g <recipe>'?")
++            sys.exit(1)
++
+     @staticmethod
+     def insert_dep_chain(chain, rdeps, alldeps):
+         """
+
+-- 
+2.55.0
 
 
