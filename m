@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 685E1C61DD3
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 05:38:23 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7585.1788500298064891113
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82820C79F84
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 05:38:24 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7599.1788500295386713235
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2026 22:38:18 -0700
+ Thu, 03 Sep 2026 22:38:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=rTXZlDbf;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=EKTu4266;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a06aecc606-ff3538a2-81e4-480c-949f-d6e314f5766e-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=HBWG8e26;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=TtHCDKJ3;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a06aecbb2f-9220a113-93ae-4b6b-abc6-ddea1e196874-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788500297;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=HQZK/kTemURmnT2h5Qo9uSBYZBO2z/Bmqv5ThgCuqew=;
-	b=rTXZlDbfpi3MeeM65Q+Ss7YTYp/JlnYFV78zu+TZp71UtWV1uDxtvhNxJ9bdqB2/
-	tHXGZh6QSA0b2OFxvgHdSx3raZCwpz3YcAZdkD4UpBYs1f3Zb6qUs21MxvSnOrtplTL
-	Td63iUnQEa6Cou1JvAA+O6t71PBPKBcBY5t192HY=
+	t=1788500294;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=r/Q0bcHxMVlUbNR54JvhimPp7mHxbml7eVyiBVc8R4w=;
+	b=HBWG8e26cNFw2vxF4czUu47Jicpmnm/9Q7Mef2FKgGIN64X6m+hsuH0ssW8Gm6Tp
+	L8COlcogi3U6Ro1C05L/6SHzAdGVxM56ldo9XyOfO85MNb6vYD/yZjgQsgolEcOVGpG
+	sHVZyNYrAz90OYcFaRte2aKidAd9w9vM6kNXBVJw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788500297;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=HQZK/kTemURmnT2h5Qo9uSBYZBO2z/Bmqv5ThgCuqew=;
-	b=EKTu4266zP+UB8PDjyugNM3jiRrDCCas/e6mXH+TPLkghN2Wou8NkNdSKTj/p67U
-	+KnEBNDwhCNt5P5keFHqThLn1+qdK3HXoWyjAkTUD5hFvMELTyDjdoNJzMfoRbJL6TA
-	srbMj02iRfDXWBYc6C9V7sQ1C+d5a2txtI3pHYOs=
-Content-Type: multipart/mixed; boundary="===============0454699720885444563=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788500294;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=r/Q0bcHxMVlUbNR54JvhimPp7mHxbml7eVyiBVc8R4w=;
+	b=TtHCDKJ32ji2D84Gk0AD9Mfnz1sHZ0bzH9utQzmcHtgezGck2oenZPPh+5UrMqwg
+	rqouok64uZ7fdb5+E3Pqyptu3jKC8vssD4zjPaTaGuNtJ+o3Sqxdkf7z4tL3ylc6SOP
+	0E54xUX+smpP09nNVDi+bdLmmjd1SrZvmllveLhg=
+Content-Type: multipart/mixed; boundary="===============1443765523469493737=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] wireless-regdb: upgrading to 2026.09.03 SUCCEEDED
-Message-ID: <010101a06aecc606-ff3538a2-81e4-480c-949f-d6e314f5766e-000000@us-west-2.amazonses.com>
-Date: Fri, 4 Sep 2026 05:38:17 +0000
+To: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] rust-source-1.98.0: upgrading to 1.98.1 FAILED
+Message-ID: <010101a06aecbb2f-9220a113-93ae-4b6b-abc6-ddea1e196874-000000@us-west-2.amazonses.com>
+Date: Fri, 4 Sep 2026 05:38:14 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.04-54.240.27.193
+X-SES-Outgoing: 2026.09.04-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 05:38:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245057
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 05:38:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245055
 
---===============0454699720885444563==
+--===============1443765523469493737==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,106 +51,91 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *wireless-regdb* to *2026.09.03* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *rust-source-1.98.0* to *1.98.1* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-wireless-regdb-upgrade-2026.05.30-2026.09.03.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+The following devtool command failed:  finish -f rust-source-1.98.0 /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1988 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 959 .bb files complete (958 cached, 1 parsed). 1989 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+
+ERROR: Unable to parse /srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 145, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/conf/layer.conf not found
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 170, in wrapped
+    return func(fn, *args)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
+    return bb.parse.handle(fn, data, include, baseconfig=True)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 119, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 121, in handle
+    abs_fn = resolve_file(fn, data)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 145, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found" % fn)
+FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/rust/conf/layer.conf not found
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 352, in <module>
+    ret = main()
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 338, in main
+    ret = args.func(args, config, basepath, workspace)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 2217, in finish
+    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
+                                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1906, in _update_recipe
+    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
+                                ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1728, in _update_recipe_patch
+    appendfile, destpath = oe.recipeutils.bbappend_recipe(
+                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+                    rd, appendlayerdir, files,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+                    redirect_output=dry_run_outdir,
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                    params=params)
+                    ^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 721, in bbappend_recipe
+    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
+                         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 630, in get_bbappend_path
+    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 182, in wrapped
+    raise bb.BBHandledException()
+bb.BBHandledException
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From c79fc024018479f6550821bbf60f13ba3ad9d0b1 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 4 Sep 2026 05:30:51 +0000
-Subject: [PATCH] wireless-regdb: upgrade 2026.05.30 -> 2026.09.03
-
----
- ...ireless-regdb_2026.05.30.bb => wireless-regdb_2026.09.03.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2026.05.30.bb => wireless-regdb_2026.09.03.bb} (94%)
-
-diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.05.30.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.09.03.bb
-similarity index 94%
-rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.05.30.bb
-rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.09.03.bb
-index 69dd761ca6..18cb4bf353 100644
---- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.05.30.bb
-+++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.09.03.bb
-@@ -5,7 +5,7 @@ LICENSE = "ISC"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
- 
- SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
--SRC_URI[sha256sum] = "8a27bfc081bafed8c24dd70fab0d96f098e5a0bfcd08d3da672595f225ab8993"
-+SRC_URI[sha256sum] = "b22e0901227b820cd1c280abe681a15b773a5103a5e10dc442e94ebb34cbf58d"
- 
- inherit bin_package allarch
- 
--- 
-2.47.1
-
-
---===============0454699720885444563==
+--===============1443765523469493737==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="rust-source-1.98.0-changelog.txt"
 
-packages/all-poky-linux/wireless-regdb: PV changed from "2026.05.30" to "2026.09.03"
-packages/all-poky-linux/wireless-regdb: PKGV changed from 2026.05.30 [default] to 2026.09.03 [default]
-packages/all-poky-linux/wireless-regdb: SRC_URI changed from "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2026.05.30.tar.xz" to "https://www.kernel.org/pub/software/network/wireless-regdb/wireless-regdb-2026.09.03.tar.xz"
-packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PV changed from "2026.05.30" to "2026.09.03"
-packages/all-poky-linux/wireless-regdb/wireless-regdb-src: PKGV changed from 2026.05.30 [default] to 2026.09.03 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PV changed from "2026.05.30" to "2026.09.03"
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGV changed from 2026.05.30 [default] to 2026.09.03 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb-static: PKGSIZE changed from 7465 to 7433 (-0%)
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PV changed from "2026.05.30" to "2026.09.03"
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGV changed from 2026.05.30 [default] to 2026.09.03 [default]
-packages/all-poky-linux/wireless-regdb/wireless-regdb: PKGSIZE changed from 8847 to 8815 (-0%)
+Changelog for rust-source-1.98.0: 1.98.0 -> 1.98.1
+Source: RELEASES.md
 
---===============0454699720885444563==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-wireless-regdb-upgrade-2026.05.30-2026.09.03.patch"
+Version 1.98.1 (2026-09-03)
+===========================
 
-RnJvbSBjNzlmYzAyNDAxODQ3OWY2NTUwODIxYmJmNjBmMTNiYTNhZDlkMGIxIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgNCBTZXAgMjAyNiAwNTozMDo1MSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHdp
-cmVsZXNzLXJlZ2RiOiB1cGdyYWRlIDIwMjYuMDUuMzAgLT4gMjAyNi4wOS4wMwoKLS0tCiAuLi5p
-cmVsZXNzLXJlZ2RiXzIwMjYuMDUuMzAuYmIgPT4gd2lyZWxlc3MtcmVnZGJfMjAyNi4wOS4wMy5i
-Yn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMta2VybmVsL3dpcmVsZXNzLXJlZ2RiL3t3aXJlbGVzcy1yZWdk
-Yl8yMDI2LjA1LjMwLmJiID0+IHdpcmVsZXNzLXJlZ2RiXzIwMjYuMDkuMDMuYmJ9ICg5NCUpCgpk
-aWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1yZWdkYi93aXJlbGVzcy1y
-ZWdkYl8yMDI2LjA1LjMwLmJiIGIvbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1yZWdkYi93
-aXJlbGVzcy1yZWdkYl8yMDI2LjA5LjAzLmJiCnNpbWlsYXJpdHkgaW5kZXggOTQlCnJlbmFtZSBm
-cm9tIG1ldGEvcmVjaXBlcy1rZXJuZWwvd2lyZWxlc3MtcmVnZGIvd2lyZWxlc3MtcmVnZGJfMjAy
-Ni4wNS4zMC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWtlcm5lbC93aXJlbGVzcy1yZWdkYi93
-aXJlbGVzcy1yZWdkYl8yMDI2LjA5LjAzLmJiCmluZGV4IDY5ZGQ3NjFjYTYuLjE4Y2I0YmYzNTMg
-MTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1rZXJuZWwvd2lyZWxlc3MtcmVnZGIvd2lyZWxlc3Mt
-cmVnZGJfMjAyNi4wNS4zMC5iYgorKysgYi9tZXRhL3JlY2lwZXMta2VybmVsL3dpcmVsZXNzLXJl
-Z2RiL3dpcmVsZXNzLXJlZ2RiXzIwMjYuMDkuMDMuYmIKQEAgLTUsNyArNSw3IEBAIExJQ0VOU0Ug
-PSAiSVNDIgogTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MDdjNGY2ZGVh
-Mzg0NWIwMmExOGRjMDBjOGM4NzY5OWMiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cua2VybmVs
-Lm9yZy9wdWIvc29mdHdhcmUvbmV0d29yay8ke0JQTn0vJHtCUH0udGFyLnh6IgotU1JDX1VSSVtz
-aGEyNTZzdW1dID0gIjhhMjdiZmMwODFiYWZlZDhjMjRkZDcwZmFiMGQ5NmYwOThlNWEwYmZjZDA4
-ZDNkYTY3MjU5NWYyMjVhYjg5OTMiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiYjIyZTA5MDEyMjdi
-ODIwY2QxYzI4MGFiZTY4MWExNWI3NzNhNTEwM2E1ZTEwZGM0NDJlOTRlYmIzNGNiZjU4ZCIKIAog
-aW5oZXJpdCBiaW5fcGFja2FnZSBhbGxhcmNoCiAKLS0gCjIuNDcuMQoK
+<a id="1.98.1"></a>
 
---===============0454699720885444563==--
+* [rustc: fix miscompilation in generating vtables](https://github.com/rust-lang/rust/issues/161441)
+
+--===============1443765523469493737==--
 
