@@ -1,239 +1,273 @@
-Return-Path: <Harish.Sadineni@windriver.com>
+Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F6EC624DE
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 11:40:23 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11825.1788522012167202024
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 21D73C624D3
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 12:06:03 +0000 (UTC)
+Received: from alln-iport-8.cisco.com (alln-iport-8.cisco.com [173.37.142.95])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12312.1788523561661860986
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 04:40:13 -0700
+ Fri, 04 Sep 2026 05:06:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=KgKmUvyb;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3707c58deb=harish.sadineni@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 684AJWaq415170
-	for <openembedded-core@lists.openembedded.org>; Fri, 4 Sep 2026 11:40:10 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=05CzPrI6gag2ZR2+/rtMO+7htTG2DvV/+D9lYZVebnA=; b=
-	KgKmUvybklgS9Tb9g4UPViTdI8cwIJEWVYtsGHq/jVxbkS/wvx1W5xyJg6ygd189
-	4vK0sBHvYmlE/11JR1a5n/w+CR4OOh2BLxqKmfkyt44fTDWpwGL99S6bbRXZnmC4
-	RPDjnQ9YPerMtE//k951MqdRyALc7ibZ3JqrviD1LMuTP7/zlbzIo/TkenwTKTNM
-	HwJSQEqX4ngEhwrYt8q86vbuv/19EE3Q68WbeGSB1BYX0G/vAxdgREk/1Sk7J/UU
-	6LkYXubBmx5+F3dvHIXB0lpZzKJG3B0rmieO8Yon6bHjSgPRy6/Em7CYlqacqb+F
-	851KrLE6RNEwIi6PZhuCiA==
-Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020094.outbound.protection.outlook.com [52.101.193.94])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gf5nyjamk-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Fri, 04 Sep 2026 11:40:09 +0000 (GMT)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wCkzMxzKQJRmIShzT4KFE01og9V2OgQ+Mr5BFnwE1ipGIUkuF0JCX7lq0wOHsht98v8Kns4IFSgyI05bze1enMCwYUIRso3dDH0Ok8hO5ZXIVYVwza9psNMvYear9U3HpPZvvPObslS0kZkBtmuz9lOhcOpIPh3oabsWIHVADsSXi8c1kRS6N+zv7R5dT7TJ/cwge1OrOWmcDpVf42nv72hYcxh+9+eB9/UXn2UpB88R4o612JqC2CsuF2BGkNMnzS2PEdAKnB3i65Hmh8MEbmsROFdhnRylYRjBitvAARm++mjZiqJQbrAAEtnUYovmxUVXkqOLSZbiBqWyEhBPmw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=05CzPrI6gag2ZR2+/rtMO+7htTG2DvV/+D9lYZVebnA=;
- b=L8AUsPwUY/aXLS6kahYaXRIg21aS34WaqHpBtFInJPTQMCaEqhz3veS8/ogS1O6jY0o5nUIv+KLpqJ3q75bvUpkUgQsm1C+MmA3BllmHewWflHmOcfV7hGpbeDcMWophiWcYoZIhPsi0ETRyi0eRkkK7CwETZsVl02o6F1JAAMwYCElv59Ts+fbVyX/Dn8/i3ttPlTp0Vrfz7dMNJKO2Z8POAdUV6BDhUdm5LI1RXSpBcw/u0LPF9sOt8cjXa+xi9ZlsETilkq53cF5JKPdX6snq0NBSOFkZ9Y+Wq+81x624Xv2QveyKau2ytSnIFByB+R1FzNgorhOhn9t8mjCXpA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
- by IA3PR11MB9253.namprd11.prod.outlook.com (2603:10b6:208:571::22) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
- 2026 11:40:07 +0000
-Received: from PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
- ([fe80::6852:6964:54d3:49c9%5]) with mapi id 15.21.0360.006; Fri, 4 Sep 2026
- 11:40:07 +0000
-Message-ID: <ba9f25de-6240-4854-9ee4-83ebaa89de49@windriver.com>
-Date: Fri, 4 Sep 2026 17:10:04 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core] [wrynose][PATCH] kernel-yocto-rust: skip recipe for
- riscv64 when Rust support is enabled
-To: Yoann Congal <yoann.congal@smile.fr>,
-        openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com
-References: <20260811115855.4033577-1-Harish.Sadineni@windriver.com>
- <DL605KBROWS4.DZGC5ES0FPEB@smile.fr>
-Content-Language: en-US
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
-In-Reply-To: <DL605KBROWS4.DZGC5ES0FPEB@smile.fr>
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
-X-ClientProxiedBy: SJ0PR13CA0068.namprd13.prod.outlook.com
- (2603:10b6:a03:2c4::13) To PH0PR11MB5658.namprd11.prod.outlook.com
- (2603:10b6:510:e2::23)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=KZNQAtkx;
+ spf=pass (domain: cisco.com, ip: 173.37.142.95, mailfrom: hthakar@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=6193; q=dns/txt;
+  s=iport01; t=1788523561; x=1789733161;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=BGCwtF0RASwJVOe76K0cPYVFHslJkxsMnss02ronzEc=;
+  b=KZNQAtkx0Ee+3dyBWZD9A6iHsJeH5fqMsFQDmITpPXaVmU6DmsUavQEw
+   QUxX2N6Ly9YOvC91a2DgJGdTmXdMOi/m9FNYj0Wyr1411B6loOk/ZfBEb
+   NK7cquy1cJpwks7OdrblFLB6OZ0vh8TTTXRqu1sQxA/olxX1HNE9GmgQy
+   UTl0LxGJk6vu4EQ8wLmgoyOKxnQRG2V6znJ4JVnhMrxycYoneF1fnJh58
+   dEvd3J+cq/Tsuj9/VbM67S9Hcia3P+calHezkpiyszgHY8tBcUQ06ZnR9
+   E/Z068saShCkhtclQ7j5qpd75vpbuRKhQkd7bx+eEXFsNE8VwvLjbf7mM
+   g==;
+X-CSE-ConnectionGUID: 3/GoLrWAReaRas6iL/yYww==
+X-CSE-MsgGUID: FM1m88rmSaKvrq9NhZVw9w==
+X-IPAS-Result: =?us-ascii?q?A0AbAABCs5pq/5IQJK1aHAEBAQEBAQcBARIBAQQEAQGBf?=
+ =?us-ascii?q?AcBAQsBglZ0YENJjHKVP5I3gX4PAQEBD0QNBAEBhQWOBAImNAkOAQIEAwIDA?=
+ =?us-ascii?q?QEBAQEBAQEBAQELAQEFAQEBAgEHBYEOE4ZPDZAcAQIBNQEYAS0sAwECTwsjI?=
+ =?us-ascii?q?YMCAYI6AzcDEcJjgiyBAYMoAT8CQ9kbDYJZAQsUAQWBMwGFPoJ/hSNdGAGEf?=
+ =?us-ascii?q?CcbG4FygRWDaYEFgRpCAYFJhl0EgiKBDIFaGAaRb0iBHgNZLAFVEw0KCwcFg?=
+ =?us-ascii?q?WYDNRIqFW4yHYEjPheBBxsGBYEdgSeDPyMZNnqBCV6BKylgARIXgQmCCAKCV?=
+ =?us-ascii?q?IIDAgFJQw4HR1MJJ0EECxgNSBEsNxUZBD5uB45fH4JQgQ4BByMBlWQHkjegH?=
+ =?us-ascii?q?nEKKIN2jCKPPoV8GjOqbQuYfY4KhAmSR4RpgWg8gUcLB3AVgyIJShkPjisOC?=
+ =?us-ascii?q?4NggX/KOicyAgkyAQEHAgcOAwuBaJF+AQE?=
+IronPort-Data: A9a23:SW9Nwakc7Q/OaunvRKEjusno5gydJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
+ xJNUW+EaKmIYjH2KtsiOt7np0sGvpGBy9QySFNl/C01FFtH+JHPbTi7wugcHM8zwunrFh8PA
+ xA2M4GYRCwMZiaC4E/raf658SUUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
+ Y20+ZC31GONgWYubDpFs/7b8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
+ /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
+ OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FdZf1eFTG15nz
+ /EREjkWMBGnwPOH363uH4GAhux7RCXqFIobvnclyXTSCuwrBMiSBa7L/tRfmjw3g6iiH96HO
+ JFfMmQpNUqGOkERUrsUIMpWcOOAhmX/ej5RsnqepLE85C7YywkZPL3FYIGMJ4TaGZoE9qqej
+ kzjpmGpUgsfD9W81yCco1SstNHQzDyuDer+E5X9rJaGmma7w2UPCBwbSB23vPO+i1X7UcheI
+ koY0iApqrQ29UrtRd74NzWioXWEtwQQHcJNCeE75SmJy6zJ8wieG24IRyJAb9pgs9U5LRQtz
+ lKPktbjCDBjvbHQQnWH+5+QrCiuIm4SNWIEaCoOQAcJ7tWlp5s85i8jVf5qFKqzy9mwEjbqz
+ nXS/W41hq4YiogA0KDTEU37vg9Ab6PhFmYdjjg7lEr8hu+lTOZJv7CV1GU=
+IronPort-HdrOrdr: A9a23:8/AWRq7mtVb6FHjtDgPXwOTXdLJyesId70hD6qm+c3Nom6uj5q
+ WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBKLZslnd8lXFh41g/J
+ YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
+X-Talos-CUID: 9a23:UM7QIm8hl0lTOUHa1jKVvxVTNccBaEL09nrZGUajV2dND6ykVkDFrQ==
+X-Talos-MUID: 9a23:zSny5An0zJnRIGmPMwkidnpMEZ5ts/S0DXsEsoscopiiNR5OJGaC2WE=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,262,1779148800"; 
+   d="scan'208";a="831508479"
+Received: from alln-l-core-09.cisco.com ([173.36.16.146])
+  by alln-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 04 Sep 2026 12:06:00 +0000
+Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by alln-l-core-09.cisco.com (Postfix) with ESMTPS id 97F2C1800047C;
+	Fri,  4 Sep 2026 12:06:00 +0000 (GMT)
+Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
+	id 2F800CCD9B2; Fri,  4 Sep 2026 05:06:00 -0700 (PDT)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com,
+	Hetvi Thakar <hthakar@cisco.com>,
+	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][wrynose][PATCH v2] wget: Fix CVE-2026-58470
+Date: Fri,  4 Sep 2026 05:05:35 -0700
+Message-Id: <20260904120535.1687717-1-hthakar@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|IA3PR11MB9253:EE_
-X-MS-Office365-Filtering-Correlation-Id: 871f05d5-3b7a-43ac-e825-08df0a7944a7
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|13003099007|18002099003|22082099003|56012099006|4143699003|11063799006|10067099003;
-X-Microsoft-Antispam-Message-Info: 
-	2RZoyViSe6ocPz818HwVcVXjSDTVF3DZdc/gHMZWRvcpdyrVmR7YNQxsb/WD3ReRDn0KGtfGTUQ3MyjaxJEF3xc78+wSRCMx4WfpetDTrL+oYCduDGzVIFiDb9bTMQi2kbivOSNSDQwwAwwSrx25PrfHMG00/5B6K0fdnY4z/ddMvR9rLyfYtx+SUttvDq8paNkzvwTtxp8kZmOMQnFPBvB2e8AZ3z0eHaaEYahU5W3Gasxknw2BUqcaYdaXJEyPs83RED24UaLQ6mJfVTtXIJhU5Xp0kqBowWSFE3r8hUMUVbNjYx7Euznuv8EIvg+NUUsBKWybDp2KcOKUVFSoFmfrNk78JlDHN1ZvqidaeVzCIi3i1EnJrm7Ayg92X+JRudOyI2omSFUnlbc26Oj24bk3ccO6wRcfCYv5v0oTsSfvunp54+47GJus02kmwVlaRQhSjv2v6sDfBBmw/dtftCPAtkyRmqnpGCF1vP+7qLK62EsVG+lHAXhvn0AMXLdNh1NZCqBnOAkUA8BA37DuikZpqwd1ZrMs4ze6W9+xg3IaHRS1kcqRQ2e2J6vxT7jO/LYbbx9Syf+aJLaLC42u72AsolwfYF6KUtQ4zOYa/dU=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(13003099007)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006)(10067099003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?eDduVFFVSGlZb0d4aCtRZjRETXZlajcrdkF6L0I1UmR5ZnR2cVg3eUFReVB0?=
- =?utf-8?B?UWtIa3B5U3A2UVhPcndJUTJIZXBhU3R5Uk16dVNXN2UxTkYzZUZoYUp3K1lY?=
- =?utf-8?B?M1BmNnhxTXBDY3FkL0RUdHhHZjd6bFNxelVQNk9MQlEyeGRuVUpFbzdvSVNI?=
- =?utf-8?B?MU55bnpiQTVMbEd6bE9JSjZPeXFmUk9nbW1MakdjRDJ1MnUvUWJVQ0Raakpr?=
- =?utf-8?B?clNFcXR0SFBWNTZBMEdTNklPdUgvdTJPSmxla2FGV0ZFSzhIUW9RL3dhUTlV?=
- =?utf-8?B?KzJUbXY4RnNWVzMvT0QwUml6Mm5CYzFPUTh0elBodWFDSFM1NzhGRllOTjlx?=
- =?utf-8?B?NEd0VWdROXM5TVpSQ1dGalFFSDdaU2t3V1lUYjhWb2VsaU5obmR4V3plbEZY?=
- =?utf-8?B?MVlmWE80K0VBaXByUWdaeUhsdlNjMWE4aWhTZXY4OERzdUJqUXdiZ2VOZjlq?=
- =?utf-8?B?UFl6K2ozQjk5ajdJZjFJSFdBcWszeVNCV2NaT0tmSGd4WmZqcmZzT1l2Y3lH?=
- =?utf-8?B?TUR4VGd2UjhNZWgwY2s1cGxuUFhTQWMzb3BjYTZNU05pTmkrZ1hTQzk0VEFQ?=
- =?utf-8?B?dmJmbE41Vk5RSDdIaVNIODZZTGp2blhod3F6a1owY2tDazJoYVZtU3JwNHg4?=
- =?utf-8?B?MC9ubGxXaUNOdFg4MFlURlArL1Y5MFg1VXp2SnpRTWdZREFyL0oreExoMzRp?=
- =?utf-8?B?dCtwQVVJOFZWMldQNmdyRk1HLzZxNlFIcUltZ2puQjJYWkRXMzVKclhnNjFi?=
- =?utf-8?B?WUNkM3FTM3FMR201USs0S3ZRNmVSNUFpQU0ya1IyUmJHeUd1UFQ4SWdsKzVw?=
- =?utf-8?B?Z21ob0hodmQ2bkdYZGN6cG10V0k0Q1N5bDZNKyszeHJsT1V4Sm9MdSsvaGUz?=
- =?utf-8?B?Yml5b25lVEFDWjV6Q2ZmUVlEV1lhMWZoUGl2VEo3Z0cyaDI5ckpWY29WQXNM?=
- =?utf-8?B?ZVA4eVByQS9Fd0g0djM2RVQ3ZTBYY1VqdUEvSGlHN1ZsYzBVQXQ1T3Z3b3Bz?=
- =?utf-8?B?T3pnemx6eEd0OEpHVkZrZlRDMkthazQ4Zkt4ZEpiQXBXY25uVDluVThiZ0FS?=
- =?utf-8?B?Si8rNDN6VjdmSG9LYVNrMlJaanF1NW5QV1doS3FuOXJQbm1xNkEzNUg3eEhJ?=
- =?utf-8?B?SWlMdHVkcjh3SlhoSzZLL2k1WU96R04xU3VxYkFUN0lKQUdiNU1lMkQ3M3BB?=
- =?utf-8?B?S09SSksyUkNYdzh5SFNYWDRLSHJIQkdpN3JBY0FtMVRNOXdQZWg4TFBQcmZ2?=
- =?utf-8?B?WFBCVkpodnQyQitUaGlsL2FNcXZ0TWswalkzT2ZPbmJVTWtrbWJIQzRIZzJT?=
- =?utf-8?B?dS8vdDZRSG9jcXBMWjV5SHd4empmd0szMVZLeWVEZTc2WFA5V3hJNWJJVURp?=
- =?utf-8?B?YTZvWUZkZjdQSk13L1ZkWjdKeW8zL05RbmlQa01hSDVpRnp4amN1dDBzU0xx?=
- =?utf-8?B?RW9ZTUEyZnVTR0I5bndhZHdXKzY5WVNrcUZhN1pWVmpvVUxkMjVKRGFBUnRS?=
- =?utf-8?B?WlVwVEZDNHdabk4vVkNJaCtSZzRaeTRiWTJscmdRNVRmWkM2ajZ2M3ZlNlQz?=
- =?utf-8?B?ajZKYUM1WlIzSmtzYjdmY1hib1BFaHZJdnplK3RwMUxQWFpHb1ZPa0FySWFr?=
- =?utf-8?B?YXNrK2x4b09NcXdjQ3BPcExmMG5PdkJhRHl4QkMyYW1DR1BsRVBXNkFJamxN?=
- =?utf-8?B?N2pJVldYR2FVOWt6aEwyRkxZVTdrQVRSSFdSZWFsT1kvNFk2Q1FBMlBtVDM1?=
- =?utf-8?B?VEtEbHd0VWI4UVVsbXp2NEx3dHRXVE1ia3krUlpsWkdnT0VDY3czNzcyVE51?=
- =?utf-8?B?RXFqZGFkREZyK0hEMjFSOS9kYnk4NW5oTlpmNDN4LzdVcWwyOStrM1Q2cFM2?=
- =?utf-8?B?U09iSEQ4YmZGdkplOVFTTWI3MkJBR254cnJQM1pVdWV4TGs1VVNLcENxN2xP?=
- =?utf-8?B?UEJyOFJkU2Jka2xCR0ltS05UYTErTFZPSWtUTy96c3R4bmRBVGRQemNIMGU5?=
- =?utf-8?B?UGZ1M3Zxbkg1dTBqYWRoL2tQcDUxeU1EK0pQWmRGYnYvdjcwWmFDb3ptaFcv?=
- =?utf-8?B?UnlxenpTaExoNlpVaG93cjFCeDRaNFoyQ28vR0wxWUdjSFpUV2Y4TkNOWXd6?=
- =?utf-8?B?N0d3VlVqdklzejZZT1RFMFVLeDB3NjZzMmpFUERlK1c3WGdLT0I0dmdPYmxG?=
- =?utf-8?B?NTg3WmV6d2wxTngyc1NaUjVWTjZhZS91MklRRDFMQjV2YTZOWHlDSHZHWnJl?=
- =?utf-8?B?NU5HRy9sYms2bjVTaXgzUElXN2NyTE41YU8zVytGTDkybk5jZHZzVE1NdWlQ?=
- =?utf-8?B?ckZDdERBNko1NEdDNFFtSzQyOHlVeU01dm9SdnA3eXc5cmtvaDJFVy9wWStp?=
- =?utf-8?Q?W26zwfO1Q/og9+EE=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	eHmdL3OSqL61VSU1xfMrMq5OxHxOH7IBq+DvVrMEAbaIIOGR53Hg8SKoUglcb7NQDY4BuFynQsgfVrRF2Vi6MxVDotPQS5k77IR2ED+6flO66qoOeUMz9tK9uszUBt+D8vqlCu/yMOdyCFi92vc4brherAJ7utwjVpxkoMigxkIeNbRcbg6dJzD4xRN9/0O5To7NqShjFzMPBXyn7hRnB0FpwdgWSfTZuiq8jDytH7y2i3QPey2gqbdgpp/8iry8h8KYjlAJtz99KOV0UBhUcb7megGXrAlv4CBgwFRkxMPrTWompwQLRkqderLEJpeAKdRPikJm/b5m+MSUNOJx5A==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 871f05d5-3b7a-43ac-e825-08df0a7944a7
-X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 11:40:07.0759
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: EEU9SKL05jwD1To+gMz1xQevV4JwHZIuQSAropMIUExQ5PPVnST58hJmvOVmpHEewBRHNyjVWBE30pjVLNDvuG+919E03gHEMObQiacp2+Q=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9253
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: XKJe4hyYFzm4R1jEVca-7vg2XiPpw4jr
-X-Authority-Analysis: v=2.4 cv=LvuiDHdc c=1 sm=1 tr=0 ts=6a9aae1a cx=c_pps
- a=R0VBx4CaF46Y8RBs4q2Lkw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
- a=VzLtzqT8AAAA:20 a=Q4-j1AaZAAAA:8 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8
- a=RSAcSJ8HTIuc__QHzRYA:9 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
- a=FdTzh2GWekK77mhwV6Dw:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA0MDEwNSBTYWx0ZWRfX2XZBV9FN79v6
- pToV0UmLDYToRkoHBxKma0SyC5jchMFI6go8vlzNOdJBf7WoAGUyWNMq6MrHs+kHzLIkefaESjk
- 6GrApIWIamC/qBVNGRQ2YjEUD0k3HwPrbKncAOWrR6X0sN0RSqu8J1UYQinWn1X7fHxkqNCLiIR
- fDnXHkOdgwLhxAzO5dcy+ta1LYKIZHwVGV6IFcedBAszBcD3vM8FxAf58RZ+Ml1hlLitN6CpvNg
- Vr4GkiNCg/EeWlRkiMfU7Y665SPGucQk4e7LloBL27KEw85f1ADwbCTOGzl3BgYG95fr32+/Fpc
- zhhpLtMyZZikFxOIhNfiCM2JmNbrzT3z9N3qyGv1wrAWuiepi/8pMBd5unXFki/1oMea4DDvaVX
- ivav09P79htB9aDBV6bEVtJrFZtskO7RozZeKS0XDbtgtE9kauL2wusAqVW27kJp8guPvshOEW7
- LPTwP0YNBmTmsRgWSqA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA0MDEwNSBTYWx0ZWRfXxFHqqxy/iWN7
- YTXAwb4twSrxVuxBWyt5qPrYQaw4ls5+sAKfnBVFwaUGIzqhu/SMH7TjZE7QTQA6Mso2QAzirI5
- XLuQRSR5xR3mJA75xhyWyxN7MFCjqzxZPney2qeM2Lfo+2t2rNvM
-X-Proofpoint-GUID: L-u4WppSEgXez3Ro7309YDWFWSYhHf4E
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-04_03,2026-09-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- priorityscore=1501 bulkscore=0 lowpriorityscore=0 impostorscore=0
- phishscore=0 malwarescore=0 suspectscore=0 clxscore=1015 adultscore=0
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2609040105
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
+X-Outbound-Node: alln-l-core-09.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 11:40:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245090
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 12:06:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245091
 
+From: Hetvi Thakar <hthakar@cisco.com>
 
-On 04-09-2026 03:04 am, Yoann Congal wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
->
-> On Tue Aug 11, 2026 at 1:58 PM CEST, Harish via lists.openembedded.org Sadineni wrote:
->> From: Harish Sadineni <Harish.Sadineni@windriver.com>
->>
->> Kernel Rust support on riscv64 requires building the kernel with Clang.
->> Since Wrynose does not provide Clang toolchian support for kernel
->> builds, skip the recipe when TARGET_ARCH is riscv64.
-> Hello,
->
-> OE-Core/wrynose indeed does not but meta-clang seem to do that:
-> https://github.com/kraj/meta-clang/blob/wrynose/conf/nonclangable.conf#L369
->
-> Wouldn't this patch needlessly prevent user from using meta-clang to get
-> a RISCV rust-enabled kernel?
->
-> I wonder if we need a patch more like master's:
-> 2b228490b7e (kernel-yocto-rust: Add clang toolchain check for riscv64, 2026-08-05)
->
-> What do you think?
-Hi Yoann,
+This patch applies the upstream fix as referenced in [2],
+using the commit shown in [1].
+It also includes the upstream follow-up in [3],
+which preserves 64-bit wgint parsing on 32-bit targets.
 
-I understood what you meant, If someone uses 'linux-yocto_%.bbappend' to 
-build the kernel with the clang toolchain [1],
-this patch would prevent them from using rust in the kernel. Is my 
-understanding correct?
+[1] https://gitlab.com/gnuwget/wget/-/commit/43d3ba9336bc94937e6fae2365c6ffd30c34ffcf
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58470
+[3] https://gitlab.com/gnuwget/wget/-/commit/01ff771caac1958662ca8665eed2021ec386a7af
 
-If so, I'll implement the same clang toolchain check as 
-'kernel-yocto-rust: Add clang toolchain check for riscv64' for wrynose,
-and just adjust the error message accordingly.
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-[1]https://github.com/kraj/meta-clang/blob/wrynose/README.md#kernel-build-with-clang
+(cherry picked from commit 9b2b418a1546ae4bd6d044474765fa817e9a95f8)
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+---
+Changes in v2
+- Added the regression commit
+---
+ .../wget/wget/CVE-2026-58470-regression.patch | 48 +++++++++++
+ .../wget/wget/CVE-2026-58470.patch            | 79 +++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.25.0.bb     |  2 +
+ 3 files changed, 129 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58470.patch
 
-<https://github.com/kraj/meta-clang/blob/wrynose/README.md#kernel-build-with-clang>Thanks,
-harish
->> This avoids attempting an unsupported kernel Rust build and provides a
->> clear parse-time error explaining the limitation.
->>
->> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
->> ---
->>   meta/classes-recipe/kernel-yocto-rust.bbclass | 9 +++++++++
->>   1 file changed, 9 insertions(+)
->>
->> diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes-recipe/kernel-yocto-rust.bbclass
->> index 49f2bfc1ae..6be97c2db8 100644
->> --- a/meta/classes-recipe/kernel-yocto-rust.bbclass
->> +++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
->> @@ -25,3 +25,12 @@ do_kernel_configme:append () {
->>   # More details in: https://lists.openembedded.org/g/openembedded-core/message/229336
->>   # Disable ccache for kernel build if kernel rust support is enabled to workaround this.
->>   CCACHE_DISABLE ?= "1"
->> +
->> +python () {
->> +    if d.getVar('TARGET_ARCH') == 'riscv64' :
->> +        raise bb.parse.SkipRecipe(
->> +            "Rust support in the kernel on riscv64 requires kernel to build with clang, "
->> +            "Wrynose doesn't have clang toolchain support for kernel. See "
->> +            "https://docs.kernel.org/rust/arch-support.html for details."
->> +        )
->> +}
-> Regards,
-> --
-> Yoann Congal
-> Smile ECS
+diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch b/meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch
+new file mode 100644
+index 0000000000..c452261a9a
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch
+@@ -0,0 +1,48 @@
++From 01ff771caac1958662ca8665eed2021ec386a7af Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
++Date: Wed, 12 Aug 2026 19:45:21 +0200
++Subject: [PATCH] * src/http.c (parse_content_range): Use strtoll instead of
++ strtol.
++
++CVE: CVE-2026-58470
++Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/01ff771caac1958662ca8665eed2021ec386a7af]
++
++(cherry picked from commit 01ff771caac1958662ca8665eed2021ec386a7af)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ src/http.c | 6 +++---
++ 1 file changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/src/http.c b/src/http.c
++index e5e75ee695..8170a43c27 100644
++--- a/src/http.c
+++++ b/src/http.c
++@@ -949,7 +949,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
++     return false;
++ 
++   errno = 0;
++-  num = strtol(hdr, &end, 10);
+++  num = strtoll(hdr, &end, 10);
++   if (errno == ERANGE)
++     return false;
++   hdr = end;
++@@ -959,7 +959,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
++   *first_byte_ptr = num;
++ 
++   errno = 0;
++-  num = strtol(hdr, &end, 10);
+++  num = strtoll(hdr, &end, 10);
++   if (errno == ERANGE)
++     return false;
++   hdr = end;
++@@ -976,7 +976,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
++   else
++     {
++       errno = 0;
++-      num = strtol(hdr, NULL, 10);
+++      num = strtoll(hdr, NULL, 10);
++       if (errno == ERANGE)
++         return false;
++     }
++-- 
++2.35.6
+diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58470.patch b/meta/recipes-extended/wget/wget/CVE-2026-58470.patch
+new file mode 100644
+index 0000000000..5d864c5fda
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget/CVE-2026-58470.patch
+@@ -0,0 +1,79 @@
++From 8740efcdd0d9e7eb04122f63bdb151f1f4d94af8 Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
++Date: Mon, 29 Jun 2026 18:57:54 +0200
++Subject: [PATCH] * src/http.c (parse_content_range): Fix integer overflow
++
++Reported-by: TristanInSec@gmail.com
++
++CVE: CVE-2026-58470
++Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/43d3ba9336bc94937e6fae2365c6ffd30c34ffcf]
++
++(cherry picked from commit 43d3ba9336bc94937e6fae2365c6ffd30c34ffcf)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ src/http.c | 35 ++++++++++++++++++++++++-----------
++ 1 file changed, 24 insertions(+), 11 deletions(-)
++
++diff --git a/src/http.c b/src/http.c
++index 07af1867..ea2e591b 100644
++--- a/src/http.c
+++++ b/src/http.c
++@@ -914,6 +914,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
++                      wgint *last_byte_ptr, wgint *entity_length_ptr)
++ {
++   wgint num;
+++  char *end;
++ 
++   /* Ancient versions of Netscape proxy server, presumably predating
++      rfc2068, sent out `Content-Range' without the "bytes"
++@@ -932,27 +933,39 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
++     }
++   if (!c_isdigit (*hdr))
++     return false;
++-  for (num = 0; c_isdigit (*hdr); hdr++)
++-    num = 10 * num + (*hdr - '0');
++-  if (*hdr != '-' || !c_isdigit (*(hdr + 1)))
+++
+++  errno = 0;
+++  num = strtol(hdr, &end, 10);
+++  if (errno == ERANGE)
+++    return false;
+++  hdr = end;
+++
+++  if (*hdr++ != '-' || !c_isdigit (*hdr))
++     return false;
++   *first_byte_ptr = num;
++-  ++hdr;
++-  for (num = 0; c_isdigit (*hdr); hdr++)
++-    num = 10 * num + (*hdr - '0');
++-  if (*hdr != '/')
+++
+++  errno = 0;
+++  num = strtol(hdr, &end, 10);
+++  if (errno == ERANGE)
+++    return false;
+++  hdr = end;
+++
+++  if (*hdr++ != '/')
++     return false;
++   *last_byte_ptr = num;
++-  if (!(c_isdigit (*(hdr + 1)) || *(hdr + 1) == '*'))
+++  if (!(c_isdigit (*hdr) || *hdr == '*'))
++     return false;
++   if (*last_byte_ptr < *first_byte_ptr)
++     return false;
++-  ++hdr;
++   if (*hdr == '*')
++     num = -1;
++   else
++-    for (num = 0; c_isdigit (*hdr); hdr++)
++-      num = 10 * num + (*hdr - '0');
+++    {
+++      errno = 0;
+++      num = strtol(hdr, NULL, 10);
+++      if (errno == ERANGE)
+++        return false;
+++    }
++   *entity_length_ptr = num;
++   if ((*entity_length_ptr <= *last_byte_ptr) && *entity_length_ptr != -1)
++     return false;
+diff --git a/meta/recipes-extended/wget/wget_1.25.0.bb b/meta/recipes-extended/wget/wget_1.25.0.bb
+index fb77754965..34c3e2eb5e 100644
+--- a/meta/recipes-extended/wget/wget_1.25.0.bb
++++ b/meta/recipes-extended/wget/wget_1.25.0.bb
+@@ -18,6 +18,8 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://CVE-2026-58469.patch \
+            file://CVE-2026-58469-regression_p1.patch \
+            file://CVE-2026-58469-regression_p2.patch \
++           file://CVE-2026-58470.patch \
++           file://CVE-2026-58470-regression.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "766e48423e79359ea31e41db9e5c289675947a7fcf2efdcedb726ac9d0da3784"
+-- 
+2.35.6
+
 
