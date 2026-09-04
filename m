@@ -1,141 +1,108 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23942C624DE
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 12:29:53 +0000 (UTC)
-Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.55])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12710.1788524989049833141
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2707EC624DE
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 12:39:05 +0000 (UTC)
+Received: from mail-qv1-f45.google.com (mail-qv1-f45.google.com [209.85.219.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12902.1788525544609484686
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 05:29:49 -0700
+ Fri, 04 Sep 2026 05:39:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=YSJVFIGe;
- spf=pass (domain: ericsson.com, ip: 40.107.159.55, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BhNKQJnXjl/xOLZBDKdrgTjgOUwwmMXrYFdWwOVb39WK6WL8XRufz/J7PE0cOOkPDfVCX8Jy9DaqSKftzc6B/LSyxs8PkB32BSO06Jrh5sT4VW6FAIIHaUUaaVaJTIfdEzkgeMjQYuFfrHFRUBgenkPnFjTIqTDPq5N5POtUamM8WhjpO70xkE1DVe/e9l6IfXpYKVMQwh4kePwx/AHDVocT+avwNN3k6E0wXd74zfDdFH0mJYPPhofZpqjgd6zSLYrj/U+UuqdQbZtO8UNJCrmnlnT8HV0uYa6OMRIXnTgcy/fp4Q9adXoy9or4Q31vw0+1QljPqBCBpkZ77x/zww==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=GB4Az4932oaYO6cvMgji2smM4BE+dHIHqdV26bRUv0k=;
- b=oKQ+lEMBBesiS3y7076M1qpSnPaweARdUhSxu9Pe6yXHGYBtqTuXJxN9xaZi3iRmKL0T6QJWU1aM/H6hPABi29Myz/pKumVJ9FuD8R6vEjYbz0QYV9AcBTBGUsRWtVlVB7ET3//OzTtMHHeO6LZ/lVyI0AdhN4hdkOzpzLL3/EswSFUVinE5BQ66CsOsCElSSoXnjFUHp1aHXBOYPyG6JM8bYAOq4+TBMWTl+9k4wHOkOTnnZy635nCwzCyiDMFsW+8oGjBP/ak6d8EnVshgQDmZpiPPRn0NDPFw46a3RsrUxK3WdujItRp8+XbPhQI6tAyX1SWsk/+0oi8hBzN12w==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=ericsson.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=GB4Az4932oaYO6cvMgji2smM4BE+dHIHqdV26bRUv0k=;
- b=YSJVFIGehEe8TYp0eYyXB/Qi7PO/JcuAEo1RFriWbl4KrzOIOmMRdyQDJ/iF/fYVDbUric8/cAZjvmh6dzrLiGEUViZmHT1hnyyNw4pfqXEi2mcaXRbTH7azDEsVvooEWoyY+EInN3nyEsJxyyU/3ahBaxVFeZ+Tkn7IA9FuhnfKLhGYa0gp9oBRlMlAEHQs8F5pAHxwazUhgZ2/SJ1340NYSCZrO4uQ5XZuQy2V66QIoOj7WbKM8r+xm0qVQpNOPPXoaB81Kh16r+ZAWaGrEWe0RQUmdll+y1fWml+l7dHxnQnBGH4eK2heXocQHnw30hZkHQQi5vCfHjBcs4wZ7Q==
-Received: from AS4PR10CA0012.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5dc::15)
- by AS5PR07MB9798.eurprd07.prod.outlook.com (2603:10a6:20b:655::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
- 2026 12:29:43 +0000
-Received: from AM4PEPF00027A5D.eurprd04.prod.outlook.com
- (2603:10a6:20b:5dc:cafe::7b) by AS4PR10CA0012.outlook.office365.com
- (2603:10a6:20b:5dc::15) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.12 via Frontend Transport; Fri, 4
- Sep 2026 12:29:43 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- AM4PEPF00027A5D.mail.protection.outlook.com (10.167.16.69) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Fri, 4 Sep 2026 12:29:42 +0000
-Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.66) with Microsoft SMTP Server
- id 15.2.2562.37; Fri, 4 Sep 2026 14:29:42 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 43ADF4118492;
-	Fri,  4 Sep 2026 14:16:06 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 0CCF2700CF25; Fri,  4 Sep 2026 14:16:06 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [scarthgap][PATCH v2] libarchive: mark CVE-2026-14164 as fixed-version
-Date: Fri, 4 Sep 2026 14:16:00 +0200
-Message-ID: <20260904121600.3612212-1-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.53.0
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=f8cx70E9;
+ spf=pass (domain: gmail.com, ip: 209.85.219.45, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv1-f45.google.com with SMTP id 6a1803df08f44-90e7c71f86eso6639326d6.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 05:39:04 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788525543; cv=none;
+        d=google.com; s=arc-20260327;
+        b=rLXJtI7/dpKz4wVIXWwKqlBDn/FGpbAYjjHLJDZyV3RGbLd0MXnvWtv9AzN/U9gg17
+         xLLneefjHLaxp+eHnPJW88GWrJn7x2v2QXFBeCRSUUThzjh6Q2PqEYbMCL913t2aadsg
+         Us5gNVfurgtLEVpcDvLFxAkv28hJJ/YZnhU/+Vjr0u+QXHxfq3pf3YHW/Dcm14fgzVch
+         eLhrqBxPRKu/92+3wbtQLkPClrhFeVyMKOB3qZspd+kzWjcdw2zy7YqI7M066Vl1TgOT
+         maFHTtHKWPEiZp/RGU5voTOjFkQs4VMiFOuxA2N463xyv/x430bQwG9W1UCg1vwfWQqR
+         QoNw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=JSeweAP2mq0m+UgrW7sEXWEgxYK+HFmsTfzhhPnjwIQ=;
+        fh=RCaApkehVtG2mSa1pwjcTQlzEkY7MxMmvHAaiXPP7bE=;
+        b=JP7jrfhwv8yDNaM2OWGQ5K0DaLpdvjB9JG1azxUrSe+7UNsg0iV+qVc4DlikApKj23
+         SqTIrqn6P0iD74Sp8+ppD+pSk0snrvpYO165KgioxF5CdtG8vqWDvh/yIsDIWmJzJ+Gl
+         FIhSNx4NL2UyDEgp3Qggjw7XsQUD/OYO2bqigK0F6ukpmmS4v92d9ji8Zd735QNqcGd7
+         sLTfriCk0eSx/5hF2XFhhRhjp/MH4rxrkPBeOs0JjfxTFzxwZfoLqdEOdpbxIrAU3VPs
+         ZRDGyISfRuOwiXLQw7LioM1MXGD4R34ENpFlVk45cc900nY3iEa5JNf9i5+qBHzNcOGn
+         B0kg==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788525543; x=1789130343; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JSeweAP2mq0m+UgrW7sEXWEgxYK+HFmsTfzhhPnjwIQ=;
+        b=f8cx70E9IlElSkkRddx2Hp0P1NN94z4aZLdQWDVFRf0kb28F++Ir/l3RqdY3eyaFka
+         SI1RVTqmEEPxrsOoMMAfM3YqTFscY8opITy6O25tXP8Dq4P/1GMxRR4823bSFgDwcim+
+         p6TuScqD/JSzyqBMn9AqYURVx+OvjbHT8KUi9bHFkf50j15u4RWmUmt9r0F4CMvtreEF
+         0sSaYmTOVBynDzlBzZqK8MJoz7fOlt+TLLMMf5dvGWJDxuty5vvnu3HVrhFl5Vbap2u6
+         2h/g3orFDPzNqmJncNtOSx5Tk9CFdxbUBtepfwNVEY3hAJrxf8AuBVb6d7yBMm5THA4h
+         UH5g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788525543; x=1789130343;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=JSeweAP2mq0m+UgrW7sEXWEgxYK+HFmsTfzhhPnjwIQ=;
+        b=juX2hcibegaSeSArayJeYGtfGGH1yBIXKc64X+qKzK0c7+cG0xuDqN7ZL/fAttXBOX
+         tb+QiWECHrGRn2dopHzBbIYc++re6F92yM75C0zeu87MKD/BEB6Ah0yzpiuwYIBtQpWH
+         5sOw9uOHSkIw1uZlp/99tciu8oTYQ72d8UgdFmRqUi9l293eH4uggpBcENRm3pj6dFsH
+         YZrO2c+//5fvjra0ZY9iPINoXX4p8BDVkuTh7z6QEP/Xd+H+j9ribXNDJYsw5CnCGf8P
+         S7CPFG5I8Vhwvp1ldppcOR1aR1I32noWwjjL8AhosnKcuM/Bw9jspbKzlI2ceQ9fl/ua
+         kbNQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwp4K3gQTqy3pbvpI6l3rsoQ6v/cd38+pHkIV8Gol92VEu8guVdWVttVa27jn8kEPhp1TC9hpVoteRke7mhsToLJg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++k8U5FE9pbruu+VT5bU+r/VJZWcPRegzNOn2SvWPmHXLTuNF5cR
+	w+Mzd+h+bF8aGY2RdPzZWs+Uh0GPn4xbA0vicmbDSbB1dze0HmCw7m5Ilm2ux8wYRgSAEKWO5oo
+	d0pTKmCW513M2tIdjXVb8u3j39bWoUpw=
+X-Gm-Gg: AYBFou1Rxu3StrS9KL3HUVbyFfTxujE0vn0HmEx7/KtWeEOYWl3gOC304oCDgNWburY
+	pJB1Qe1u3xOuTEQqfbdT0M/0UMdJdT+doe0ZR6H0jt3OosrRzhQ4b/Q5sx0250VgRpjRYwCXed5
+	BzDpJIuddSTCABpk1QyOvDyHojN9kpwD90JeOVcek16jLH1XVheCkhaHX1ZFrkoCGl+8VPlpz78
+	F9Aj59aqDc36H1+JfUhmcFYkqtMgi5eXsoyhibwAzHg5GozOGlzhuvRo8vmkPdJ/AmKB0QXnRf1
+	2R+QERHE6uKdeIVFt57HTUyUrtjakPP6H8S4w9ZI6tr7oK+m7v7834SusqLN4TSS8m/+nc8Va5A
+	kjA8=
+X-Received: by 2002:a05:6214:844c:b0:910:3455:53bc with SMTP id
+ 6a1803df08f44-9103efe264amr47516696d6.34.1788525543457; Fri, 04 Sep 2026
+ 05:39:03 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM4PEPF00027A5D:EE_|AS5PR07MB9798:EE_
-X-MS-Office365-Filtering-Correlation-Id: f1a606ed-2368-4b86-a670-08df0a803285
-X-SMTP-Server: smtp-central.internal.ericsson.com
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|23010399003|36860700016|1800799024|376014|10067099003|18002099003|56012099006|11063799006;
-X-Microsoft-Antispam-Message-Info: 
-	at9rMYMKPz+GnWMBU+CeBKnnb2m5qZ619iAyEJkxX1HowZC49pauL1qlFsruXunZ0Y7yYQWXkKe2wFWGhU5Mo0OAK4dLpMIVtQfQZousPTyNQUDODHiFoJMBJGX7dRHxPE3aooAgPGiYpJ+fL8erArbAceeybrmy9GaXRbfWBCoso9GGMZuZuASEkduym4DAYIBubmXG4anhiXtN2zH1w9opjfcEiEdKf4ulz7Y0gEjOs4AB3DOSkIW3V71GhdekGPAMetuJ4y8pLvv4Vd6/c9ILAXjP6ay8jz5B7AVXFQQNxC3jqkbu9/rCZl+wWtNNLhfiLZHvdk7eTBNnDeTv4A9Nx+vCruXbem8bGvKqKfmwTrsIC4vPHKN04cf5PZyoZnnov2EZnjOuPeZEqgJDh7N6PobE6oHorFQnjcQ4oLyaOB3E5yMyXq3RyuUDjsP4kBrJWg1LSsUtWk0+Xwxn7xWErCI7piNJkjsgSFoFVcXX3uN3aOlh/vfBdAghkZOisXmrEeeyLRmSv7Hdc3ddwy24Wuv1luuuOhfwSbgEQlPZuQ6mYsQRn5btfnN/sQRtD1IGsszteiiL3cVtic5XYdx7Va18+N60KnUqZBSi/geWor6hRMC364ROvQdxe2MaCJrat7gvDw5Iq2S4+XtwmqbdJ/+lvA6C4gmC9LNZQd4=
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(82310400026)(23010399003)(36860700016)(1800799024)(376014)(10067099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	HFdzsDRKxxvnlxeNDo2VZG3kkIUE3y7HQ5m2Js/otlNvWDdPOcVo45mUDzN74WOt+wics1qJYuG8PXRX/u/M/3kB8trfiMc4Z8iuMRuo5xHAiGTHXlxuN63b7yzW3etCiH1esOJGHx8nP9gJQ6hkfgdppYQ7XPXeGgg6Buxp5P074ffvC6Mr3vUAIPYUun9q6lWx94FeWZtYnuQI/3rP5v9VU46cppJAUd79HFx3lhZqLwt97/1n8exNgHxrEyzkUb2FfnKbNXr4bgqmFKkBhhr2Q3uko3wRvdvJzFfpo8vdFuz1BbkG8+oxNSq7WdhGEmd4r/FfvP+N7w4Ang23887lKvRYiXUMKAEMpMo3f0BwpLPbmyRamXDIdd8rknF9Fb9UVaIRW9Ju8DTR1Q9Yk1zr3LEVgB6Z7cXsIuIM8+fHQ5kMwgbzLO+JsvTTRvaM
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 12:29:42.8778
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: f1a606ed-2368-4b86-a670-08df0a803285
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM4PEPF00027A5D.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS5PR07MB9798
+References: <20260823155741.2091982-1-peter.marko@siemens.com> <DL5Z475KF36A.2GWHJC82115IA@smile.fr>
+In-Reply-To: <DL5Z475KF36A.2GWHJC82115IA@smile.fr>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 4 Sep 2026 14:38:51 +0200
+X-Gm-Features: AcwNN1W6CMWqiVGsn2X4j0GV8tLIFT7XSF0zqw_Sy7eLkLg3t2vJQc5sANwe_nw
+Message-ID: <CANNYZj8F6OBVu=cnCnEbAnCGVNBrex9uaTvkqtzwCFg=nKaByg@mail.gmail.com>
+Subject: Re: [OE-core] [wrynose][PATCH 1/3] libslirp: fix upstream version check
+To: yoann.congal@smile.fr
+Cc: peter.marko@siemens.com, openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 12:29:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245096
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 12:39:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245097
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+On Thu, 3 Sept 2026 at 22:45, Yoann Congal via lists.openembedded.org
+<yoann.congal=smile.fr@lists.openembedded.org> wrote:
+> Thanks for the series. But, with regrets, I don't think it is acceptable
+> under the policy:
+> * 1&3/3 are not bug fixes (UPSTREAM_CHECK_GITTAGREGEX is not used right
+>   now on stables)
 
-The RAR5 double-free in init_unpack() is a regression introduced
-upstream by commit 620bdafa on 2026-05-16 and existed only
-on the git master branch until it was fixed by PR #3071 (commit
-1c914cdf) on 2026-05-24. It was never part of an upstream release.
+Being able to check upstream versions is a valid use case for stable
+branches too, even if the functionality is not currently used by Yocto
+project itself. Users can check what the latest (or latest stable,
+if/when that support is backported) version is, and make their own
+decision about updating it downstream.
 
-The upstream release tarballs (3.6.x/3.7.x/3.8.6) use the older
-init_unpack() with unchecked calloc and no early-return path, so the
-freed window_buf/filtered_buf pointers are never left dangling and the
-double-free cannot occur.
+It's a *very* low risk change as well, as it is used only in the
+version check and nowhere in actual builds.
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-14164
-  https://lore.kernel.org/openembedded-core/0447ebc9d29b0736de8ba0c75f155ed=
-4f880d072.camel@pbarker.dev/
-
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- meta/recipes-extended/libarchive/libarchive_3.7.9.bb | 5 +++++
- 1 file changed, 5 insertions(+)
-
-diff --git a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb b/meta/re=
-cipes-extended/libarchive/libarchive_3.7.9.bb
-index c167b164b4..27d78ac760 100644
---- a/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-+++ b/meta/recipes-extended/libarchive/libarchive_3.7.9.bb
-@@ -82,3 +82,8 @@ ALTERNATIVE_LINK_NAME[cpio] =3D "${base_bindir}/cpio"
- ALTERNATIVE_TARGET[cpio] =3D "${bindir}/bsdcpio"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-+
-+CVE_STATUS[CVE-2026-14164] =3D "fixed-version: Double-free regression in t=
-he RAR5\
-+ reader's init_unpack() was introduced upstream by commit 620bdafa (2026-0=
-5-16) and existed\
-+ only on the git master branch until the fix in PR #3071 (commit 1c914cdf,=
- 2026-05-24). It was\
-+ never part of an upstream release tarball."
+Alex
 
