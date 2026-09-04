@@ -1,251 +1,229 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADE4DC624DE
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 16:43:23 +0000 (UTC)
-Received: from mail-yw1-f181.google.com (mail-yw1-f181.google.com [209.85.128.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2659.1788540197219972179
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BFEA3C79F80
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 17:01:43 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3022.1788541293506754841
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 09:43:17 -0700
+ Fri, 04 Sep 2026 10:01:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=bSqlklCj;
- spf=pass (domain: gmail.com, ip: 209.85.128.181, mailfrom: raj.khem@gmail.com)
-Received: by mail-yw1-f181.google.com with SMTP id 00721157ae682-86d43cdee51so16624447b3.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 09:43:17 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788540196; cv=none;
-        d=google.com; s=arc-20260327;
-        b=JCBBMVQ1R3BtqKv5r824wPo/n2BfPM8af7DjbY5elRbGn+VImGtg7PIgLRyDdghuaz
-         0176Viu4nRcWpbjuYhIl7i+QmDdRQrG9TGn0jX1lcmsi+dQTtILyYyhEAuhmODfw79Wr
-         LZTpdqCZS7G0dEH6JpwtJ+jwuZDwAxPk/MuQXK0FUfU6wc/nnCkf/+1/x8bJ7hhMxpNg
-         1C+mdRjH4q1d3iqT3koJbAYo+ZzivvOzVaxnj7hb4FAk0O2b4ILYdnUydpne5rZfmAZM
-         v6M3wBKdLb8Mbcd6V8xEmd6zhgVu4sIZPIvmiFxDG5j0hOqJHo2DVGTchghQIkZVU8XB
-         2xKg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=cD9MTwBB9bjQjIEL+BNNHDOX3yzb3bmz7bQbVXamNK8=;
-        fh=c8gzXe9Tb3DYJY8T1ToyIO5IJGBe5vpTYi6yqGpJc7M=;
-        b=mQ8k1S5us5gr8FhposSnUirtmVhzNQewK+NcmsonhMoftVo6d1YMUaAp5boFHQjeyV
-         RvOASjk8aX+adcVvVyTxoy+diqAibhpXh3i7vgD5vDQ/27G27h3IuBEDF+QqmCqkgZUs
-         w9avhkStHL5Io3hxbK3bUSaKnbHIVghe1iIuS4yhu99XWgUR2Q0k4oXTlGsUDIlTeIwt
-         DS4zF9RF6ZCWpcsM700wy/Hzamy8sYX0YEWeVRCGSMHgeNyN08vyJqkXnCgpyrDs7A9z
-         CN1pDlbtyRw36vapCRkCKyUheKPhn79//pmyMFfmyy7kWjX2cMQAiUCwD6Yei2nHVQJ7
-         EZXw==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788540196; x=1789144996; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=cD9MTwBB9bjQjIEL+BNNHDOX3yzb3bmz7bQbVXamNK8=;
-        b=bSqlklCjRuaaYHOtT0dteQ0itYO2ooUu1exeXT3bHnWUslPBeM0Oltpece5lQdZb17
-         6753PnV3gmIbsPlJzPIBbAxXZcas+GohhQ7Ht9vhPptVc4uyPcLt+HupixN9/tmGVeUt
-         3iE7NRZm7M9t2Y8sotN7VPGUTD9P1xhWt4ohu61WbN5xfbiDTGupWCAYyVAmkGIkukN7
-         Q+ezehrVGujQIvfaIcZ2x9J9BDaGWmH9bF0pE+NZ0H0+CwKh1l4iCWXwQ+kwVvoJtl7V
-         q2ogMe6ghaw3qA+B3UtTf23aRaCu4OPoz383B3COpfULLCUbP9xScJbfSdLS4WpktAQP
-         7PmQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788540196; x=1789144996;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=cD9MTwBB9bjQjIEL+BNNHDOX3yzb3bmz7bQbVXamNK8=;
-        b=R7obH+VAl1SKJ6OhEa/clttil7aBLOMor1vCCsGI9tB66hq5jjOiTGrXRzYLBHRxFN
-         BCG3Zs748THZuaDYL7M/t9Y/7qqR2vJOp0AC5TmGwHWnnKi+SvoSL2gjfIbyn6zbMoEb
-         aPSAiPGBscTaEhjESE0TWyt7q1gyNTXcBRWkoTQ6nGnXguEcQveqDlF6P+tzAYXPFYmI
-         SVztVMhIUZ9Vc4kK6cThZAETzJ8gKrMzHCKO7/pFp46/XwkqI2PjjNzsj8hqUzDJQj4m
-         HaemMmnELKM3fwiLqMMS443P4fXEZf8uAg8fYOWeRbG/5sp1qa1E9ZsjDF6ZmuxDin2m
-         HkxQ==
-X-Forwarded-Encrypted: i=1; AKwUvByxckt+bxIa5o+Wi0lpHYuUTNVoRTOb4A8Q6tnpLENnbNvc51UcfJfMEXQx/HKLagRMrcb2plwg2CQ1NB9cGmDA5w==@lists.openembedded.org
-X-Gm-Message-State: AFuF++mkYxtP1UnFn5SPHkGanb3A/+3rT6eiRsGgfFiJYhGsdKCwansz
-	ZzyKTkO4EdbXC1zmkpRZEZYmblHtSlXGE2t9gap3B07dV1rGrSMyYuSGUcsPVjVIn1vMiw3VX/H
-	ux7710HWyGJtIDVdYmtQLdQ32UpHbI3s=
-X-Gm-Gg: AYBFou30/PE19WNw+tm2VpXozjeHmWS4woYYRB7oEBTGV5SCZMoNPR21/HZzr2W9SsR
-	fcr9B3uQCqMkxiHamyFGkPN2EXfWzCoDnUg3huxNr6YKI4PI5MO0H15yP0Ur8J0P4qh8RjjSa1f
-	dBXuW+kl8e1Ds5or+r+skmzj524YFY/k3AAyXTiDlHJiVbbWNRHgPn8wHqSDWRvdzzMdf0uDDMn
-	iz3DzIl6fSOpbckVJlHkIbS/+FL+seyNYiRHpQp39/yO1NsKgeNlC+7LdmyIGLuOoR4fMCvhPMM
-	lWZwH1r1eO5m8vb6A/nwpn673JJ3djW9/Tpm4HeuHlHPOF4MQ9FEoVghStgxoXIxGpDECCHHt0t
-	T9PN9ASGfNtWdJEUq001Ikuts+R45mlqOPy/YzpQJWtbx0qVMACnxyEbs/nRUnCprwxN4YCTZ/k
-	7WJ1DIRUrePRPzPt62hVWWdq8bJRK75g094GNuwxoh2Fo1w6yy1LT8Mc4qdpIXAWx/17JmSO1tF
-	G+Yl2ixiP0pg4/Z9rAL9dDh
-X-Received: by 2002:a05:690c:e3e3:b0:866:4769:d60d with SMTP id
- 00721157ae682-8712a9f58bemr38844107b3.22.1788540196175; Fri, 04 Sep 2026
- 09:43:16 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=B1ePJOxC;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 2EC11153B
+	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 10:01:29 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 7F45C3F673
+	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 10:01:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1788541292; bh=FLafMCS9fUF/kkomK9DYOPJcqdKIGTUi8uAEWEqlU0k=;
+	h=From:To:Subject:Date:From;
+	b=B1ePJOxCWEj7ST4iE3usHeF86B4GnJ0x33uYRr6MM9zDq0Em80AiNonU8GPEbvglR
+	 IN2EP7i1jVF6Cy43GY1NBLMPQkAZek5EazYDB3u4Y5A+Ig6HikWvxs9mHGlI+VJyKJ
+	 DZ0jW3Aps5zEpZ2d64cWZBZXNhK8mEMEeljGVz3o=
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] libical: refresh build path removal
+Date: Fri,  4 Sep 2026 18:01:28 +0100
+Message-ID: <20260904170128.2665899-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-References: <20260904080004.2501262-1-HimaniRamesh.Barde@windriver.com> <459ee648f0e733958f7e0d21074d3fa41e77248a.camel@linuxfoundation.org>
-In-Reply-To: <459ee648f0e733958f7e0d21074d3fa41e77248a.camel@linuxfoundation.org>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Fri, 4 Sep 2026 09:42:49 -0700
-X-Gm-Features: AcwNN1UFvVWugzRVUlWjE6D6AGyy1Os5mFM9iJ0oIE4YshBODSWwcPMF7A2NCH8
-Message-ID: <CAMKF1sr=zhY_+aWw17=O4n73JeqUVXsRxO87RzBVct7WhETGnA@mail.gmail.com>
-Subject: Re: [OE-core][PATCH] systemd: re-enable ptest support
-To: richard.purdie@linuxfoundation.org
-Cc: HimaniRamesh.Barde@windriver.com, openembedded-core@lists.openembedded.org, 
-	Randy.MacLeod@windriver.com, ross.burton@arm.com
-Content-Type: multipart/alternative; boundary="0000000000000f4367065aaaf7ed"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 16:43:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245125
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 17:01:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245126
 
---0000000000000f4367065aaaf7ed
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Fixes have been merged upstream, so replace our patch and a sed with an
+upstreamed patch that will be in libical 4.0.6.
 
-with master-next I am seeing
+Add a link to the relevant upstream bug for the ical-glib-src-generator
+removal.
 
-ERROR: systemd-1_261.2-r0 do_package_qa: QA Issue: supports ptests but is
-not included in oe-core's ptest-packagelists.inc [missing-ptest]
-ERROR: systemd-1_261.2-r0 do_package_qa: Fatal QA errors were found,
-failing task.
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ ...001-Mark-ICU-as-private-linkage-1366.patch | 76 +++++++++++++++++++
+ .../libical/libical/flags.patch               | 38 ----------
+ meta/recipes-support/libical/libical_4.0.5.bb |  8 +-
+ 3 files changed, 78 insertions(+), 44 deletions(-)
+ create mode 100644 meta/recipes-support/libical/libical/0001-Mark-ICU-as=
+-private-linkage-1366.patch
+ delete mode 100644 meta/recipes-support/libical/libical/flags.patch
 
-perhaps due to the same patch ?
+diff --git a/meta/recipes-support/libical/libical/0001-Mark-ICU-as-privat=
+e-linkage-1366.patch b/meta/recipes-support/libical/libical/0001-Mark-ICU=
+-as-private-linkage-1366.patch
+new file mode 100644
+index 00000000000..53bd1683af2
+--- /dev/null
++++ b/meta/recipes-support/libical/libical/0001-Mark-ICU-as-private-linka=
+ge-1366.patch
+@@ -0,0 +1,76 @@
++From 13642054f650795446f6020d9d2e14d147b8da51 Mon Sep 17 00:00:00 2001
++From: Ross Burton <ross@burtonini.com>
++Date: Wed, 2 Sep 2026 16:14:44 +0100
++Subject: [PATCH] Mark ICU as private linkage (#1366)
++
++* libical-glib: Hide some target options in the installed CMake files
++
++The build paths could be shown in the installed .cmake files, thus
++hide them from there, because they are not needed.
++
++Closes https://github.com/libical/libical/issues/532
++
++* libical: mark ICU linkage as private
++
++There's no need to expose the ICU linkage publically as the .so will
++pull this in itself.
++
++This has a side-effect of removing build/sysroot paths from the installe=
+d
++.cmake files.
++
++Closes #532.
++
++---------
++
++Co-authored-by: Milan Crha <mcrha@redhat.com>
++(cherry picked from commit 38c7e6d31a3a1a4bd67479f402c323fb0679271e)
++
++Upstream-Status: Backport [libical 13642054f650795446f6020d9d2e14d147b8d=
+a51]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
++---
++ src/libical-glib/CMakeLists.txt | 9 +++++----
++ src/libical/CMakeLists.txt      | 2 +-
++ 2 files changed, 6 insertions(+), 5 deletions(-)
++
++diff --git a/src/libical-glib/CMakeLists.txt b/src/libical-glib/CMakeLis=
+ts.txt
++index d63bbf3c..470a4d22 100644
++--- a/src/libical-glib/CMakeLists.txt
+++++ b/src/libical-glib/CMakeLists.txt
++@@ -24,16 +24,17 @@ if(NOT DEFINED LIBXML2_DEFINITIONS)
++ endif()
++ target_compile_options(
++   ical-glib-src-generator
++-  PUBLIC
+++  PRIVATE
++     ${GLIB_CFLAGS}
++     ${LIBXML2_DEFINITIONS}
++     -DG_LOG_DOMAIN=3D\"src-generator\"
++ )
++ target_link_libraries(
++   ical-glib-src-generator
++-  ${GLIB_LDFLAGS}
++-  ${GOBJECT_LDFLAGS}
++-  ${LIBXML2_LIBRARIES}
+++  PRIVATE
+++    ${GLIB_LDFLAGS}
+++    ${GOBJECT_LDFLAGS}
+++    ${LIBXML2_LIBRARIES}
++ )
++=20
++ install(
++diff --git a/src/libical/CMakeLists.txt b/src/libical/CMakeLists.txt
++index 6fc2e953..583f2eeb 100644
++--- a/src/libical/CMakeLists.txt
+++++ b/src/libical/CMakeLists.txt
++@@ -294,7 +294,7 @@ if(DEFINED CMAKE_THREAD_LIBS_INIT)
++   target_link_libraries(ical ${CMAKE_THREAD_LIBS_INIT})
++ endif()
++ if(ICU_FOUND)
++-  target_link_libraries(ical ${ICU_LIBRARIES})
+++  target_link_libraries(ical PRIVATE ${ICU_LIBRARIES})
++   if(VCPKG_MANIFEST_MODE)
++     if(NOT APPLE AND NOT WIN32)
++       target_link_libraries(ical "m;stdc++")
++--=20
++2.43.0
++
+diff --git a/meta/recipes-support/libical/libical/flags.patch b/meta/reci=
+pes-support/libical/libical/flags.patch
+deleted file mode 100644
+index 868314591c3..00000000000
+--- a/meta/recipes-support/libical/libical/flags.patch
++++ /dev/null
+@@ -1,38 +0,0 @@
+-From cba8f762f6a3270530550915d957c01f3da9a601 Mon Sep 17 00:00:00 2001
+-From: Milan Crha <mcrha@redhat.com>
+-Date: Wed, 10 Sep 2025 09:52:37 +0200
+-Subject: [PATCH] libical-glib: Hide some target options in the installed=
+ CMake
+-
+- files
+-
+-The build paths could be shown in the installed .cmake files, thus
+-hide them from there, because they are needed.
+-
+-Closes https://github.com/libical/libical/issues/532
+-
+-Upstream-Status: Submitted [https://github.com/libical/libical/pull/1010=
+]
+-Signed-off-by: Ross Burton <ross.burton@arm.com>
+----
+- src/libical-glib/CMakeLists.txt | 3 ++-
+- 1 file changed, 2 insertions(+), 1 deletion(-)
+-
+-diff --git a/src/libical-glib/CMakeLists.txt b/src/libical-glib/CMakeLis=
+ts.txt
+-index d63bbf3..d820160 100644
+---- a/src/libical-glib/CMakeLists.txt
+-+++ b/src/libical-glib/CMakeLists.txt
+-@@ -24,13 +24,14 @@ if(NOT DEFINED LIBXML2_DEFINITIONS)
+- endif()
+- target_compile_options(
+-   ical-glib-src-generator
+--  PUBLIC
+-+  PRIVATE
+-     ${GLIB_CFLAGS}
+-     ${LIBXML2_DEFINITIONS}
+-     -DG_LOG_DOMAIN=3D\"src-generator\"
+- )
+- target_link_libraries(
+-   ical-glib-src-generator
+-+  PRIVATE
+-   ${GLIB_LDFLAGS}
+-   ${GOBJECT_LDFLAGS}
+-   ${LIBXML2_LIBRARIES}
+diff --git a/meta/recipes-support/libical/libical_4.0.5.bb b/meta/recipes=
+-support/libical/libical_4.0.5.bb
+index 8ec656edd21..952e2c60540 100644
+--- a/meta/recipes-support/libical/libical_4.0.5.bb
++++ b/meta/recipes-support/libical/libical_4.0.5.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D6d929449=
+3d031c817783b0400a126c89 \
+ SECTION =3D "libs"
+=20
+ SRC_URI =3D "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.gz \
+-           file://flags.patch \
++           file://0001-Mark-ICU-as-private-linkage-1366.patch \
+            "
+ SRC_URI[sha256sum] =3D "cc09a3ac41d60e6144e644bd3fcf97d47106d659c4a0b896=
+5102581401e67c9c"
+=20
+@@ -43,12 +43,8 @@ EXTRA_OECMAKE +=3D "-DLIBICAL_JAVA_BINDINGS=3DFalse"
+ # Tell the cross-libical where the tool it needs to build is
+ EXTRA_OECMAKE:append:class-target =3D " -DIMPORT_ICAL_GLIB_SRC_GENERATOR=
+=3D${STAGING_LIBDIR_NATIVE}/cmake/LibIcal/IcalGlibSrcGenerator.cmake"
+=20
+-do_install:append () {
+-    # Remove build host references (https://github.com/libical/libical/i=
+ssues/532)
+-    sed -i -e 's,${STAGING_LIBDIR},${libdir},g' ${D}${libdir}/cmake/LibI=
+cal/LibIcalTargets.cmake
+-}
+-
+ # This tool is only needed to cross-compile, delete it from the target p=
+ackages
++# https://github.com/libical/libical/issues/1365
+ do_install:append:class-target() {
+     rm -f ${D}${libexecdir}/libical/ical-glib-src-generator
+     rm -f ${D}${libdir}/cmake/LibIcal/IcalGlibSrcGenerator*.cmake
+--=20
+2.43.0
 
-On Fri, Sep 4, 2026 at 9:35=E2=80=AFAM Richard Purdie via lists.openembedde=
-d.org
-<richard.purdie=3Dlinuxfoundation.org@lists.openembedded.org> wrote:
-
-> On Fri, 2026-09-04 at 08:00 +0000, Himani Ramesh Barde via
-> lists.openembedded.org wrote:
-> > ptest support for systemd was dropped in 2018 (commit 906230a73b3c)
-> > when the recipe switched to meson, as there was no easy way to
-> > install and run the test suite. Current systemd and meson resolve
-> > this: the meson 'install-tests' option installs the unit-test
-> > binaries and a run-unit-tests.py runner under
-> > ${prefix}/lib/systemd/tests, and run-unit-tests.py already emits
-> > PASS:/SKIP: results per test.
-> >
-> > Enable install-tests, package the installed tree into systemd-ptest,
-> > and add a run-ptest wrapper that drives run-unit-tests.py. This
-> > provides ptest coverage for the systemd:test and libsystemd meson
-> > unit-test suites.
-> >
-> > The test/units integration tests, which require a booted system, are
-> > out of scope here and can be addressed separately.
-> >
-> > Verified on systemd 257.6: -Dinstall-tests=3Dtrue installs 313 test-*
-> > unit-test binaries plus run-unit-tests.py; systemd-ptest packages
-> > cleanly. The recipe change parses without error against oe-core
-> > master (261.2).
-> >
-> > [YOCTO #16386]
-> >
-> > Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-> > ---
-> >  meta/recipes-core/systemd/systemd/run-ptest | 11 +++++++++++
-> >  meta/recipes-core/systemd/systemd_261.2.bb  | 18 +++++++++++++++++-
-> >  2 files changed, 28 insertions(+), 1 deletion(-)
-> >  create mode 100755 meta/recipes-core/systemd/systemd/run-ptest
->
-> First issue found in test:
->
-> https://autobuilder.yoctoproject.org/valkyrie/#/builders/10/builds/4554
->
-> Cheers,
->
-> Richard
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#245124):
-> https://lists.openembedded.org/g/openembedded-core/message/245124
-> Mute This Topic: https://lists.openembedded.org/mt/121086003/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
-
---0000000000000f4367065aaaf7ed
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr">with master-next I am seeing<div><br></div><div>ERROR: sys=
-temd-1_261.2-r0 do_package_qa: QA Issue: supports ptests but is not include=
-d in oe-core&#39;s ptest-packagelists.inc [missing-ptest]<br>ERROR: systemd=
--1_261.2-r0 do_package_qa: Fatal QA errors were found, failing task.</div><=
-div><br></div><div>perhaps due to the same patch ?</div></div><br><div clas=
-s=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail_att=
-r">On Fri, Sep 4, 2026 at 9:35=E2=80=AFAM Richard Purdie via <a href=3D"htt=
-p://lists.openembedded.org">lists.openembedded.org</a> &lt;richard.purdie=
-=3D<a href=3D"mailto:linuxfoundation.org@lists.openembedded.org">linuxfound=
-ation.org@lists.openembedded.org</a>&gt; wrote:<br></div><blockquote class=
-=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rg=
-b(204,204,204);padding-left:1ex">On Fri, 2026-09-04 at 08:00 +0000, Himani =
-Ramesh Barde via <a href=3D"http://lists.openembedded.org" rel=3D"noreferre=
-r" target=3D"_blank">lists.openembedded.org</a> wrote:<br>
-&gt; ptest support for systemd was dropped in 2018 (commit 906230a73b3c)<br=
->
-&gt; when the recipe switched to meson, as there was no easy way to<br>
-&gt; install and run the test suite. Current systemd and meson resolve<br>
-&gt; this: the meson &#39;install-tests&#39; option installs the unit-test<=
-br>
-&gt; binaries and a run-unit-tests.py runner under<br>
-&gt; ${prefix}/lib/systemd/tests, and run-unit-tests.py already emits<br>
-&gt; PASS:/SKIP: results per test.<br>
-&gt; <br>
-&gt; Enable install-tests, package the installed tree into systemd-ptest,<b=
-r>
-&gt; and add a run-ptest wrapper that drives run-unit-tests.py. This<br>
-&gt; provides ptest coverage for the systemd:test and libsystemd meson<br>
-&gt; unit-test suites.<br>
-&gt; <br>
-&gt; The test/units integration tests, which require a booted system, are<b=
-r>
-&gt; out of scope here and can be addressed separately.<br>
-&gt; <br>
-&gt; Verified on systemd 257.6: -Dinstall-tests=3Dtrue installs 313 test-*<=
-br>
-&gt; unit-test binaries plus run-unit-tests.py; systemd-ptest packages<br>
-&gt; cleanly. The recipe change parses without error against oe-core<br>
-&gt; master (261.2).<br>
-&gt; <br>
-&gt; [YOCTO #16386]<br>
-&gt; <br>
-&gt; Signed-off-by: Himani Ramesh Barde &lt;<a href=3D"mailto:HimaniRamesh.=
-Barde@windriver.com" target=3D"_blank">HimaniRamesh.Barde@windriver.com</a>=
-&gt;<br>
-&gt; ---<br>
-&gt; =C2=A0meta/recipes-core/systemd/systemd/run-ptest | 11 +++++++++++<br>
-&gt; =C2=A0meta/recipes-core/systemd/<a href=3D"http://systemd_261.2.bb" re=
-l=3D"noreferrer" target=3D"_blank">systemd_261.2.bb</a>=C2=A0 | 18 ++++++++=
-+++++++++-<br>
-&gt; =C2=A02 files changed, 28 insertions(+), 1 deletion(-)<br>
-&gt; =C2=A0create mode 100755 meta/recipes-core/systemd/systemd/run-ptest<b=
-r>
-<br>
-First issue found in test:<br>
-<br>
-<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/10/buil=
-ds/4554" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
-ect.org/valkyrie/#/builders/10/builds/4554</a><br>
-<br>
-Cheers,<br>
-<br>
-Richard<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#245124): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/245124" rel=3D"noreferrer" target=3D"_blank">https:=
-//lists.openembedded.org/g/openembedded-core/message/245124</a><br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121086003/199=
-7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
-t/121086003/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
-br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
-g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
-=3D"_blank">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div>
-
---0000000000000f4367065aaaf7ed--
 
