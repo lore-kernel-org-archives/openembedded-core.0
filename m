@@ -2,239 +2,259 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B9AEBC79F80
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 09:41:50 +0000 (UTC)
-Received: from alln-iport-5.cisco.com (alln-iport-5.cisco.com [173.37.142.92])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10250.1788514909890908524
- for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 02:41:50 -0700
-Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=WETfYNaV;
- spf=pass (domain: cisco.com, ip: 173.37.142.92, mailfrom: dkelaiya@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=6582; q=dns/txt;
-  s=iport01; t=1788514909; x=1789724509;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=RWZVEUzLyirxRg5oqcIIA3ZT9k4qJDHSQ3IjoDazDgI=;
-  b=WETfYNaVYmetk1+Gqwvy9ut/6AGcT/QLD54rG/vl+l/ePwDPa8IQtYi3
-   dKqgKDb7ryD3llyQUV+I0j9Fkk/sURHiMdLyfQmyCgUJSFTpPLxV75DWc
-   JzBLNweKJnJKpGJfpc7+nnTOAkbjkBNvdcB6+ay946+tsCS9s0xBgazfR
-   L6YCR3Wymyyvb8Fph1+FXegAnr+fQv8VBXsZDCbnrF2MvWJSF0B4l0Fwj
-   DB3yMB3MmegFwNei5a7jtC5C/DDerGnpINhfVMuiJQBwo84+C5hGmZ2Dj
-   Q9zF7n4ikXr2y62S5sXJBJ+R5jOOfLc525ijlCMzTqDOdLS0WuwNDD7Si
-   Q==;
-X-CSE-ConnectionGUID: Nmh0beHBStiMppZ2NNEOSg==
-X-CSE-MsgGUID: +zvN5d/PRyi3+AtolZebhA==
-X-IPAS-Result: =?us-ascii?q?A0BFAgD5kJpq/44QJK1aglmCV3RgQ0kDlkeeHoF+DwEBA?=
- =?us-ascii?q?Q9EDQQBAYQ/Ro4EAiY0CQ4BAgQDAgMBAQEBAQEBAQEBAQsBAQUBAQECAQcFg?=
- =?us-ascii?q?Q4Thk8NkBkBAgEqCwEYAS0sAwECWiMhgwIBgnQDEcJ4gXkzgQGDKAGBVNsxA?=
- =?us-ascii?q?QsUAYE4hT+IIl0YAUSEOCcbG4FygRWDaYEFgVwCgUyGWQSCInoSgVqBDpB/S?=
- =?us-ascii?q?IEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EHGwYFgR2BJ4M/Ixk2eoEJX?=
- =?us-ascii?q?oErKWABEheBCYIIAoJUggMCAUlDDgdHUwknQQQLGA1IESw3FRkEPm4Hjl8fg?=
- =?us-ascii?q?jAgAYENAQohgU1fo1WCIaEPCiiDdowilToaM6ptC5h9jgqVO4EVhGmBaDyBW?=
- =?us-ascii?q?XAVO4JnCUoZD445g2uFZMZVJzICBgMDLwEBBwIHDgMLgWiRfgEB?=
-IronPort-Data: A9a23:Jyex9KNHMumgF5rvrR30lsFynXyQoLVcMsEvi/4bfWQNrUpx3zACm
- jQaUWCCaffZZzf9eN50ad+1/BtQu5XRyNQyTnM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
- ykmQoCeaphyFTmE+kvF3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WV7lV
- e/a+ZWFZgf0g2Usbgr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
- 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
- I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj69NrDBk8MK0ywfp2JHlWx
- 6Y+Dh0qVR/W0opawJrjIgVtrs0nKM+uOMYUvWttiGmES/0nWpvEBa7N4Le03h9p2ZsIRqiYP
- pRfMGY1BPjDS0Un1lM/BJEzmO6pl3DXeDxDo1XTrq0yi4TW5FwqieawaYuLK7RmQ+0WjFi++
- 26Bx17oA0pZHcCYzQiI+HKF07qncSTTHdh6+KeD3vlyjVuew2YeBBEbWR6wpuO0okq/QM5Eb
- UsM9ywjqKI/+ECmQp/6RRLQnZKflhcYX9wVF6gx7xuAj/KJpQ2YHWMDCDVGbbTKqfMLeNDj7
- XfR9/uBONClmOTKIZ5B3t94dQ+PBBU=
-IronPort-HdrOrdr: A9a23:MSk+iK6OO/laBbhozQPXwP7XdLJyesId70hD6qm+c3Nom6uj5q
- WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBPPZsl7dMhy70PJB3q
- F9dKU7ItjxAV9myfve2mCDYrIdKB3tytHPuQ8YpE0dKj1XVw==
-X-Talos-CUID: =?us-ascii?q?9a23=3A31OvZ2uabi+PqRNoNR8sIx976IsDd32FxnrwCXS?=
- =?us-ascii?q?kCENxUI/Pb3m935hrxp8=3D?=
-X-Talos-MUID: 9a23:Iwsv8wWNyGfZmcHq/Hz+mhc/OIBQ2bWvUwMkjZICicSONQUlbg==
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,260,1779148800"; 
-   d="scan'208";a="831651969"
-Received: from alln-l-core-05.cisco.com ([173.36.16.142])
-  by alln-iport-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 04 Sep 2026 09:41:48 +0000
-Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-05.cisco.com (Postfix) with ESMTPS id D6DAA18000140;
-	Fri,  4 Sep 2026 09:41:47 +0000 (GMT)
-Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 7A0BACCA79B; Fri,  4 Sep 2026 02:41:47 -0700 (PDT)
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C267EC624DE
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 09:46:30 +0000 (UTC)
+Subject: Re: [wrynose][PATCH 2/4] python3-git: fix CVE-2026-42215
 To: openembedded-core@lists.openembedded.org
-Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH v2 2/4] python3-git: fix CVE-2026-42215
-Date: Fri,  4 Sep 2026 02:41:45 -0700
-Message-Id: <20260904094145.1531031-1-dkelaiya@cisco.com>
-X-Mailer: git-send-email 2.35.6
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
+X-Originating-Platform: Windows Edge 152
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: alln-l-core-05.cisco.com
+Date: Fri, 04 Sep 2026 02:46:26 -0700
+References: <20260819050808.3986732-1-dkelaiya@cisco.com> <20260819050808.3986732-2-dkelaiya@cisco.com> <DL4UM4WBEOTF.2U2FRST6PNQFF@smile.fr>
+In-Reply-To: <DL4UM4WBEOTF.2U2FRST6PNQFF@smile.fr>
+Message-ID: <7884.1788515186007356272@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="Y4blBG0ury722bFKG3h5"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 09:41:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245085
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 09:46:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245086
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+--Y4blBG0ury722bFKG3h5
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-This patch applies the upstream fix as referenced in [3],
-using the backported commits shown in [1] and [2].
+On Wed, Sep 2, 2026 at 06:31 PM, Yoann Congal wrote:
 
-[1] https://github.com/gitpython-developers/GitPython/commit/142195888e713542189533a52cdfc333f05c3af6
-[2] https://github.com/gitpython-developers/GitPython/commit/43d92dec4683568d11495956dd556161f17c3ea8
-[3] https://github.com/gitpython-developers/GitPython/security/advisories/GHSA-rpm5-65cw-6hj4
+>=20
+> On Wed Aug 19, 2026 at 7:08 AM CEST, Darsh Kelaiya -X (dkelaiya - E
+> INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+>=20
+>> From: Darsh Kelaiya <dkelaiya@cisco.com>
+>>=20
+>> This patch applies the upstream fix as referenced in [4], using all the
+>> backported commits shown in [1], [2], and [3].
+>>=20
+>> [1] https://github.com/gitpython-developers/GitPython/commit/142195888e7=
+13542189533a52cdfc333f05c3af6
+>>=20
+>> [2] https://github.com/gitpython-developers/GitPython/commit/9aed7cf8c20=
+f69effcfcf7ebef09f312f73ab826
+>>=20
+>> [3] https://github.com/gitpython-developers/GitPython/commit/43d92dec468=
+3568d11495956dd556161f17c3ea8
+>>=20
+>> [4] https://github.com/gitpython-developers/GitPython/security/advisorie=
+s/GHSA-rpm5-65cw-6hj4
+>>=20
+>>=20
+>> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+>> ---
+>> .../python3-git/CVE-2026-42215_p1.patch | 60 +++++++++++++++++++
+>> .../python3-git/CVE-2026-42215_p2.patch | 29 +++++++++
+>> .../python3-git/CVE-2026-42215_p3.patch | 45 ++++++++++++++
+>> .../python/python3-git_3.1.43.bb | 3 +
+>> 4 files changed, 137 insertions(+)
+>> create mode 100644
+>> meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
+>> create mode 100644
+>> meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
+>> create mode 100644
+>> meta/recipes-devtools/python/python3-git/CVE-2026-42215_p3.patch
+>>=20
+>> diff --git
+>> a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
+>> b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
+>> new file mode 100644
+>> index 0000000000..0129250fdf
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
+>> @@ -0,0 +1,60 @@
+>> +From dd5d1c4ddcc5d44faf4e71bcfa338f09db2022d6 Mon Sep 17 00:00:00 2001
+>> +From: w <w@mac.lan>
+>> +Date: Mon, 20 Apr 2026 23:29:50 -0400
+>> +Subject: [PATCH] Block unsafe underscored git kwargs / Fix for
+>> + GHSA-rpm5-65cw-6hj4
+>> +
+>> +CVE: CVE-2026-42215
+>> +Upstream-Status: Backport [ https://github.com/gitpython-developers/Git=
+Python/commit/142195888e713542189533a52cdfc333f05c3af6
+>> ]
+>> +
+>> +Backport Changes:
+>> +- Omitted test/test_clone.py, test/test_git.py, and
+>> + test/test_remote.py because the PyPI 3.1.43 source used by the
+>> + recipe does not ship the upstream test tree.
+>> +
+>> +(cherry picked from commit 142195888e713542189533a52cdfc333f05c3af6)
+>> +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+>> +---
+>> + git/cmd.py | 21 +++++++++++++--------
+>> + 1 file changed, 13 insertions(+), 8 deletions(-)
+>> +
+>> [...]
+>> diff --git
+>> a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
+>> b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
+>> new file mode 100644
+>> index 0000000000..4326bede07
+>> --- /dev/null
+>> +++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
+>> @@ -0,0 +1,29 @@
+>> +From e77461e6953a67f17ecd1808c352e6613a17345b Mon Sep 17 00:00:00 2001
+>> +From: w <w@mac.lan>
+>> +Date: Mon, 20 Apr 2026 23:43:59 -0400
+>> +Subject: [PATCH] linter fix
+>> +
+>> +CVE: CVE-2026-42215
+>> +Upstream-Status: Backport [ https://github.com/gitpython-developers/Git=
+Python/commit/9aed7cf8c20f69effcfcf7ebef09f312f73ab826
+>> ]
+>> +
+>> +(cherry picked from commit 9aed7cf8c20f69effcfcf7ebef09f312f73ab826)
+>> +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+>> +---
+>> + git/cmd.py | 4 +---
+>> + 1 file changed, 1 insertion(+), 3 deletions(-)
+>> +
+>> +diff --git a/git/cmd.py b/git/cmd.py
+>> +index 2ecb8e66..372eac28 100644
+>> +--- a/git/cmd.py
+>> ++++ b/git/cmd.py
+>> +@@ -729,9 +729,7 @@ class Git(metaclass=3D_GitMeta):
+>> + for option in options:
+>> + unsafe_option =3D
+>> canonical_unsafe_options.get(cls._canonicalize_option_name(option))
+>> + if unsafe_option is not None:
+>> +- raise UnsafeOptionError(
+>> +- f"{unsafe_option} is not allowed, use `allow_unsafe_options=3DTrue` t=
+o
+>> allow it."
+>> +- )
+>> ++ raise UnsafeOptionError(f"{unsafe_option} is not allowed, use
+>> `allow_unsafe_options=3DTrue` to allow it.")
+>> +
+>> + class AutoInterrupt:
+>> + """Process wrapper that terminates the wrapped process on finalization=
+.
+>=20
+> Hello,
+>=20
+> I don't think we need this "linter fix" _p2 patch. If that works, can you
+> send a v2 without it?
+>=20
+> Same for the scarthgap patch.
+>=20
+> Thanks!
+> --
+> Yoann Congal
+> Smile ECS
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
----
-Changes in v2:
-- Dropped the "linter fix" _p2 patch and renamed
-  the _p3 patch to _p2.
----
- .../python3-git/CVE-2026-42215_p1.patch       | 60 +++++++++++++++++++
- .../python3-git/CVE-2026-42215_p2.patch       | 45 ++++++++++++++
- .../python/python3-git_3.1.43.bb              |  2 +
- 3 files changed, 107 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
+Hi Yoann,
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
-new file mode 100644
-index 0000000000..0129250fdf
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
-@@ -0,0 +1,60 @@
-+From dd5d1c4ddcc5d44faf4e71bcfa338f09db2022d6 Mon Sep 17 00:00:00 2001
-+From: w <w@mac.lan>
-+Date: Mon, 20 Apr 2026 23:29:50 -0400
-+Subject: [PATCH] Block unsafe underscored git kwargs / Fix for
-+ GHSA-rpm5-65cw-6hj4
-+
-+CVE: CVE-2026-42215
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/142195888e713542189533a52cdfc333f05c3af6]
-+
-+Backport Changes:
-+- Omitted test/test_clone.py, test/test_git.py, and
-+  test/test_remote.py because the PyPI 3.1.43 source used by the
-+  recipe does not ship the upstream test tree.
-+
-+(cherry picked from commit 142195888e713542189533a52cdfc333f05c3af6)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ git/cmd.py | 21 +++++++++++++--------
-+ 1 file changed, 13 insertions(+), 8 deletions(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index 90fc39cd..2ecb8e66 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -711,6 +711,12 @@ class Git(metaclass=_GitMeta):
-+                 f"The `{protocol}::` protocol looks suspicious, use `allow_unsafe_protocols=True` to allow it."
-+             )
-+ 
-++    @classmethod
-++    def _canonicalize_option_name(cls, option: str) -> str:
-++        """Normalize an option or kwarg name for unsafe-option checks."""
-++        option_name = option.lstrip("-").split("=", 1)[0].split(None, 1)[0]
-++        return dashify(option_name)
-++
-+     @classmethod
-+     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
-+         """Check for unsafe options.
-+@@ -718,15 +724,14 @@ class Git(metaclass=_GitMeta):
-+         Some options that are passed to ``git <command>`` can be used to execute
-+         arbitrary commands. These are blocked by default.
-+         """
-+-        # Options can be of the form `foo`, `--foo bar`, or `--foo=bar`, so we need to
-+-        # check if they start with "--foo" or if they are equal to "foo".
-+-        bare_unsafe_options = [option.lstrip("-") for option in unsafe_options]
-++        # Options can be of the form `foo`, `--foo`, `--foo bar`, or `--foo=bar`.
-++        canonical_unsafe_options = {cls._canonicalize_option_name(option): option for option in unsafe_options}
-+         for option in options:
-+-            for unsafe_option, bare_option in zip(unsafe_options, bare_unsafe_options):
-+-                if option.startswith(unsafe_option) or option == bare_option:
-+-                    raise UnsafeOptionError(
-+-                        f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-+-                    )
-++            unsafe_option = canonical_unsafe_options.get(cls._canonicalize_option_name(option))
-++            if unsafe_option is not None:
-++                raise UnsafeOptionError(
-++                    f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-++                )
-+ 
-+     class AutoInterrupt:
-+         """Process wrapper that terminates the wrapped process on finalization.
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
-new file mode 100644
-index 0000000000..a23fba8d81
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
-@@ -0,0 +1,45 @@
-+From 3ee4db90229dbb1fbdc8572dc8219990d70db368 Mon Sep 17 00:00:00 2001
-+From: w <w@mac.lan>
-+Date: Tue, 21 Apr 2026 12:03:20 -0400
-+Subject: [PATCH] git.cmd: harden unsafe option canonicalization and isolate
-+ push test cases
-+
-+CVE: CVE-2026-42215
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/43d92dec4683568d11495956dd556161f17c3ea8]
-+
-+Backport Changes:
-+- Omitted test/test_remote.py because the PyPI 3.1.43 source used
-+  by the recipe does not ship the upstream test tree.
-+
-+(cherry picked from commit 43d92dec4683568d11495956dd556161f17c3ea8)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ git/cmd.py | 15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index 372eac28..a1e77bdb 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -713,9 +713,18 @@ class Git(metaclass=_GitMeta):
-+ 
-+     @classmethod
-+     def _canonicalize_option_name(cls, option: str) -> str:
-+-        """Normalize an option or kwarg name for unsafe-option checks."""
-+-        option_name = option.lstrip("-").split("=", 1)[0].split(None, 1)[0]
-+-        return dashify(option_name)
-++        """Return the option name used for unsafe-option checks.
-++
-++        Examples:
-++            ``"--upload-pack=/tmp/helper"`` -> ``"upload-pack"``
-++            ``"upload_pack"`` -> ``"upload-pack"``
-++            ``"--config core.filemode=false"`` -> ``"config"``
-++        """
-++        option_name = option.lstrip("-").split("=", 1)[0]
-++        option_tokens = option_name.split(None, 1)
-++        if not option_tokens:
-++            return ""
-++        return dashify(option_tokens[0])
-+ 
-+     @classmethod
-+     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.43.bb b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-index bfbdd80289..26d9a3f063 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.43.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.43.bb
-@@ -13,6 +13,8 @@ PYPI_PACKAGE = "GitPython"
- inherit pypi python_setuptools_build_meta
- 
- SRC_URI += "file://CVE-2026-42284.patch \
-+           file://CVE-2026-42215_p1.patch \
-+           file://CVE-2026-42215_p2.patch \
-            "
- SRC_URI[sha256sum] = "35f314a9f878467f5453cc1fee295c3e18e52f1b99f10f6cf5b1682e968a9e7c"
- 
--- 
-2.35.6
+Thanks for the review.
 
+I've sent v2 patches for Wrynose [1] and Scarthgap [2] as requested.
+
+[1] https://lists.openembedded.org/g/openembedded-core/topic/wrynose_patch_=
+v2_2_4/121083416
+[2] https://lists.openembedded.org/g/openembedded-core/topic/scarthgap_patc=
+h_v2_2_4/121083408
+
+Regards,
+Darsh Kelaiya
+
+--Y4blBG0ury722bFKG3h5
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>On Wed, Sep 2, 2026 at 06:31 PM, Yoann Congal wrote:</div>
+<div>
+<blockquote>On Wed Aug 19, 2026 at 7:08 AM CEST, Darsh Kelaiya -X (dkelaiya=
+ - E INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:<=
+br />
+<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />This =
+patch applies the upstream fix as referenced in [4], using all the<br />bac=
+kported commits shown in [1], [2], and [3].<br /><br />[1] <a href=3D"https=
+://github.com/gitpython-developers/GitPython/commit/142195888e713542189533a=
+52cdfc333f05c3af6" target=3D"_blank" rel=3D"noopener">https://github.com/gi=
+tpython-developers/GitPython/commit/142195888e713542189533a52cdfc333f05c3af=
+6</a><br />[2] <a href=3D"https://github.com/gitpython-developers/GitPython=
+/commit/9aed7cf8c20f69effcfcf7ebef09f312f73ab826" target=3D"_blank" rel=3D"=
+noopener">https://github.com/gitpython-developers/GitPython/commit/9aed7cf8=
+c20f69effcfcf7ebef09f312f73ab826</a><br />[3] <a href=3D"https://github.com=
+/gitpython-developers/GitPython/commit/43d92dec4683568d11495956dd556161f17c=
+3ea8" target=3D"_blank" rel=3D"noopener">https://github.com/gitpython-devel=
+opers/GitPython/commit/43d92dec4683568d11495956dd556161f17c3ea8</a><br />[4=
+] <a href=3D"https://github.com/gitpython-developers/GitPython/security/adv=
+isories/GHSA-rpm5-65cw-6hj4" target=3D"_blank" rel=3D"noopener">https://git=
+hub.com/gitpython-developers/GitPython/security/advisories/GHSA-rpm5-65cw-6=
+hj4</a><br /><br />Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<=
+br />---<br />.../python3-git/CVE-2026-42215_p1.patch | 60 ++++++++++++++++=
++++<br />.../python3-git/CVE-2026-42215_p2.patch | 29 +++++++++<br />.../py=
+thon3-git/CVE-2026-42215_p3.patch | 45 ++++++++++++++<br />.../python/pytho=
+n3-git_3.1.43.bb | 3 +<br />4 files changed, 137 insertions(+)<br />create =
+mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patc=
+h<br />create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026=
+-42215_p2.patch<br />create mode 100644 meta/recipes-devtools/python/python=
+3-git/CVE-2026-42215_p3.patch<br /><br />diff --git a/meta/recipes-devtools=
+/python/python3-git/CVE-2026-42215_p1.patch b/meta/recipes-devtools/python/=
+python3-git/CVE-2026-42215_p1.patch<br />new file mode 100644<br />index 00=
+00000000..0129250fdf<br />--- /dev/null<br />+++ b/meta/recipes-devtools/py=
+thon/python3-git/CVE-2026-42215_p1.patch<br />@@ -0,0 +1,60 @@<br />+From d=
+d5d1c4ddcc5d44faf4e71bcfa338f09db2022d6 Mon Sep 17 00:00:00 2001<br />+From=
+: w &lt;w@mac.lan&gt;<br />+Date: Mon, 20 Apr 2026 23:29:50 -0400<br />+Sub=
+ject: [PATCH] Block unsafe underscored git kwargs / Fix for<br />+ GHSA-rpm=
+5-65cw-6hj4<br />+<br />+CVE: CVE-2026-42215<br />+Upstream-Status: Backpor=
+t [<a href=3D"https://github.com/gitpython-developers/GitPython/commit/1421=
+95888e713542189533a52cdfc333f05c3af6" target=3D"_blank" rel=3D"noopener">ht=
+tps://github.com/gitpython-developers/GitPython/commit/142195888e7135421895=
+33a52cdfc333f05c3af6</a>]<br />+<br />+Backport Changes:<br />+- Omitted te=
+st/test_clone.py, test/test_git.py, and<br />+ test/test_remote.py because =
+the PyPI 3.1.43 source used by the<br />+ recipe does not ship the upstream=
+ test tree.<br />+<br />+(cherry picked from commit 142195888e713542189533a=
+52cdfc333f05c3af6)<br />+Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.co=
+m&gt;<br />+---<br />+ git/cmd.py | 21 +++++++++++++--------<br />+ 1 file =
+changed, 13 insertions(+), 8 deletions(-)<br />+<br />[...]<br />diff --git=
+ a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch b/meta/=
+recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch<br />new file m=
+ode 100644<br />index 0000000000..4326bede07<br />--- /dev/null<br />+++ b/=
+meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch<br />@@ -0=
+,0 +1,29 @@<br />+From e77461e6953a67f17ecd1808c352e6613a17345b Mon Sep 17 =
+00:00:00 2001<br />+From: w &lt;w@mac.lan&gt;<br />+Date: Mon, 20 Apr 2026 =
+23:43:59 -0400<br />+Subject: [PATCH] linter fix<br />+<br />+CVE: CVE-2026=
+-42215<br />+Upstream-Status: Backport [<a href=3D"https://github.com/gitpy=
+thon-developers/GitPython/commit/9aed7cf8c20f69effcfcf7ebef09f312f73ab826" =
+target=3D"_blank" rel=3D"noopener">https://github.com/gitpython-developers/=
+GitPython/commit/9aed7cf8c20f69effcfcf7ebef09f312f73ab826</a>]<br />+<br />=
++(cherry picked from commit 9aed7cf8c20f69effcfcf7ebef09f312f73ab826)<br />=
++Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br />+---<br />+ g=
+it/cmd.py | 4 +---<br />+ 1 file changed, 1 insertion(+), 3 deletions(-)<br=
+ />+<br />+diff --git a/git/cmd.py b/git/cmd.py<br />+index 2ecb8e66..372ea=
+c28 100644<br />+--- a/git/cmd.py<br />++++ b/git/cmd.py<br />+@@ -729,9 +7=
+29,7 @@ class Git(metaclass=3D_GitMeta):<br />+ for option in options:<br /=
+>+ unsafe_option =3D canonical_unsafe_options.get(cls._canonicalize_option_=
+name(option))<br />+ if unsafe_option is not None:<br />+- raise UnsafeOpti=
+onError(<br />+- f"{unsafe_option} is not allowed, use `allow_unsafe_option=
+s=3DTrue` to allow it."<br />+- )<br />++ raise UnsafeOptionError(f"{unsafe=
+_option} is not allowed, use `allow_unsafe_options=3DTrue` to allow it.")<b=
+r />+ <br />+ class AutoInterrupt:<br />+ """Process wrapper that terminate=
+s the wrapped process on finalization.</blockquote>
+Hello,<br /><br />I don't think we need this "linter fix" _p2 patch. If tha=
+t works, can you<br />send a v2 without it?<br /><br />Same for the scarthg=
+ap patch.<br /><br />Thanks!<br />-- <br />Yoann Congal<br />Smile ECS</blo=
+ckquote>
+Hi Yoann,<br /><br />Thanks for the review.<br /><br />I've sent v2 patches=
+ for Wrynose [1] and Scarthgap [2] as requested.<br /><br />[1] <a href=3D"=
+https://lists.openembedded.org/g/openembedded-core/topic/wrynose_patch_v2_2=
+_4/121083416" target=3D"_blank" rel=3D"noopener">https://lists.openembedded=
+.org/g/openembedded-core/topic/wrynose_patch_v2_2_4/121083416</a><br />[2] =
+<a href=3D"https://lists.openembedded.org/g/openembedded-core/topic/scarthg=
+ap_patch_v2_2_4/121083408" target=3D"_blank" rel=3D"noopener">https://lists=
+.openembedded.org/g/openembedded-core/topic/scarthgap_patch_v2_2_4/12108340=
+8</a><br /><br />Regards,<br />Darsh Kelaiya</div>
+
+--Y4blBG0ury722bFKG3h5--
 
