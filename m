@@ -1,438 +1,228 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <Hemanth.KumarMD@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3318EC79F80
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 06:01:34 +0000 (UTC)
-Received: from mail-ej1-f48.google.com (mail-ej1-f48.google.com [209.85.218.48])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7877.1788501691192155328
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A1955C624DE
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 06:50:34 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8326.1788504624778317918
  for <openembedded-core@lists.openembedded.org>;
- Thu, 03 Sep 2026 23:01:31 -0700
+ Thu, 03 Sep 2026 23:50:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=OhUiGRMZ;
- spf=pass (domain: mvista.com, ip: 209.85.218.48, mailfrom: vanusuri@mvista.com)
-Received: by mail-ej1-f48.google.com with SMTP id a640c23a62f3a-c2544ff970dso82406166b.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 23:01:30 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788501689; cv=none;
-        d=google.com; s=arc-20260327;
-        b=Msvjuhu5gBCCZbXzoSd9gN8KJH6CpmCbDggWt00hEMLI/DTXibcal+PqmLJoDU4418
-         XagL/3p/CB5XLnhrjoKkXFF2feTG8spQvzbk8THDkPBjztpVmrcyjKqzGXRkiBND6/P8
-         iWAPFdqOxuVFN487GXnib9qyvmmZak6e7HBjrmggwBq7wfHYmRyDLC9KBsFzcGwHlD7D
-         5NmGz46lzIDleOCC4PKDTL6PM9O+yUAm42TGf6L9fzpMbN0YOPB7Uvn+3SEkIYWvZQPk
-         ubI8bQ0FQSVAygdV/hIgpyfi4XuYm3aRv2ifGK89inUdYeW3S2o39d0UPPGa8AW0obMm
-         C8Vg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=uiN0lyPC0vQkEdRqlOM5NroJOiR5TDfnHu6+bsr/XIY=;
-        fh=5VpxgiaFCw99hmUxvV+/er63fRX0UWM338mat0ljUv0=;
-        b=KRHJ0TjBmoCL0LldAaVDN6YcGBWY5wSzfyL0c/CpZQvEkPQ8jY+fyBKhMZulx3YIFl
-         MUZhXYacGOQo/utN60DUinkFtM1v6Yvws5+LbVit3yuf9pB6hg15wfQBcKJPVgHwnBL/
-         h91UdLp6eZF2voVFryC2Y9B4aggU3EI9r5574HV6lHnezepNpuA0PDu7jMwFDfKQPh7z
-         FVXlCilPWSp4J98KhoAgCgeowqDcbAYdyOqmRL+kS9kSNSCpHe2hT6WUslyRXay2IYB8
-         vuIHbEEebFC066PlKv2KAERpE/0ECkpzX09DNNwQQwjNVNAwN1nFW0HLVH/GPDcSD3gX
-         i40Q==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1788501689; x=1789106489; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=uiN0lyPC0vQkEdRqlOM5NroJOiR5TDfnHu6+bsr/XIY=;
-        b=OhUiGRMZF+Cj3I4iNzfAljWdtMkhHEiAJmbwwrkIlu4sRG/9GTltQKdJRK0JmlPd7r
-         ULK5a7gCweMpHoQEqSztZq3i3DP8QkM0ltZKru20KUaRg5sifLRv1k/YYRrH4KA3gDKh
-         j9W0Lmy1epV24dAcU1MP1VuQnJLbdBVxia6VY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788501689; x=1789106489;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=uiN0lyPC0vQkEdRqlOM5NroJOiR5TDfnHu6+bsr/XIY=;
-        b=hH8jsenL/LU0pEGS/LKn9y9Lrw3xRF38wbX7TainFUESZpl1nLwEpP4heo5Xh3Zjq3
-         w+lXXqx3X33pBhT8kLc4rO69SWUW4RxR9655gZjK6EEsCo/VITo01M/pbvQFa6Fd+sWw
-         kvZ3Jhx7YPn9PG0XWukmBthg2t8Ge+4Zk9YnT7BJJTGgR4abxGrvgIAwf6CeGREQXHqm
-         VBkTDeo5jbIdPnTZSl956wcwHXyZWBd4OKVlTtUj5t7PhoO1jFrm6tU5Qq2+A/aKqauY
-         QBtc8XgCtcBwZX0Rb0qDOt5HH2xZSGaxlFEpz54cLWVM5EkOhLJ56bmt5rDgImSG4p0q
-         y3HA==
-X-Gm-Message-State: AFuF++nl9N+6tumbl3H8KmhnJQua5jzbMKr4+PClDnXn2gzsG1EaUoQi
-	PbFWMsJE0vAAc/fB80zEQrrfhp27eQWH1SBiiNhGcv9Lkz49JlhEZMrss2+NjAPVYjGPWWNdRhJ
-	F60ulyZ+/q1CqmV3q9mvC9MqRYj3kcpz2MnJA7itKrw==
-X-Gm-Gg: AYBFou0AJlpw9LtkQLRlw2hu2S6SRzargqiKVfjQAcw9GY4ljsL1VtLMWYDSrCmEx1m
-	GUVrlhxL3sfIseuUzMUt44DfSkMDg2P1XvSaC3ts/KCyvQh/Uqj0nhss/U2cXpMeBQZEEajWjSU
-	eJVbsJoyD7g0pgg6jTWQ9gt875WFXqzmTNevJcQCskIL+8nD/jYHUpTUVx7qEyg2fMYwiZJLeRj
-	BwlUOLQ9ZJBhgIxZpDmcRDdEWLfdi3Ie/Y5pJZM1/BkMXmjKnRQRnxweaF7FpTY7Hxg1L/f41jg
-	xPwyrVHCm/J5v8HU1i/rkEr4XkA7G5VCVYQtwRDjN3FzSKp5EBAuT0ud98EkoMxTGA9PsCXSNwH
-	aPw==
-X-Received: by 2002:a17:907:ea90:b0:c26:1649:47ab with SMTP id
- a640c23a62f3a-c26164956dcmr51330966b.33.1788501689173; Thu, 03 Sep 2026
- 23:01:29 -0700 (PDT)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=A0omdM9n;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=37074d364f=hemanth.kumarmd@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68465GHr576096
+	for <openembedded-core@lists.openembedded.org>; Thu, 3 Sep 2026 23:50:24 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=rQf+wQWX0
+	8cbnQnevz0Ov0tX/KU2sIuqxo2jy+JsASg=; b=A0omdM9n8+qGfZOoOCFadvcrI
+	sIeZBFR6bd5h3ZdKpNK+hw35lbqXUW42mQ5B2nloPwg6iTlGJBGvFHkddl07nWnt
+	caOwLUHDXZqUCu6akTrvl+LIGsVTEV4471GisSuN0hwpQbe8DIht1/duewrnwHY/
+	7cE+LXANRt9Md2jkGW6TjLpOIcbme+SGT7QG9eNIDlqVijr0K2+L85XOJY3ageVH
+	PoqauteyiPGgpACshS6YaE3K9JOjtlTjBM1Jx45irQLUzoraqLSSjFUx2591A87w
+	rrHo7BGAYxO1rJdkX5vF72/+wMBQeSb+XUvZzfTTomWTxK4ARluNmM73qTk+A==
+Received: from sn4pr2101cu001.outbound.protection.outlook.com (mail-southcentralusazon11022095.outbound.protection.outlook.com [40.93.195.95])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gf5qshxqa-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 03 Sep 2026 23:50:23 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ed2q8wldSp7LACR3Fq8EPB49SmKozUYR07MIv7WaMdNkGhH24QXCWGRK9KgcS0ZfE4nnOCYcro0Mi0SwZe3SxqMA7TdEy45rmPBxgR3u/r5lnOewKWZOgPeaRn85POB2eoE/W3eKBH0YiycVniS/+v1Q857kjmevQ/sxphIms+/xET+g+senlDTL4xlhcJVoenkM0gRRHcvORNtPpn9bnZ3kprgnT71HprLEEDN8SvhnE7hOfWS/yt833U653/i5LElocTu8SXgZLxrYICGOGnL9szJvZpWwByE46ZhI4REQ4dMoYTAs9DzOwiZb2LIXUzbnZS1xmjZ2GgQmeyc11g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=rQf+wQWX08cbnQnevz0Ov0tX/KU2sIuqxo2jy+JsASg=;
+ b=B44tWQVDIsAsHA1SZ6ivtsbsvAukFcMzvvOsOThJSROCcSAoQLaLWFPikQZN5c7x4JAx4syrqZRhGpbCVlnuUPbjG4ql8sUUhuQi7ZYARzirBBG8jWS9gJQXnm8URFRdUmYWbbAa9q4XM5WOa1KNlq/vSdWtgaKrl+cdXmuquBzfZ455y3Dp/7v1uMdxYZ6zwf0bpjJ7b5u7UedNF8+gu75OCm9ebHOBE9yBnZti/v6wdmyMt93gCedDyN2LZimYD108Z+y5PTg0rjA3kklk1KbUKkKQYW/473kFhDmBUgbCzApWuAQntBlFUmM/sVi4A1OebBGQ/tzIaF1fx22XEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
+ CH3PR11MB343702.namprd11.prod.outlook.com (2603:10b6:610:366::23) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.10; Fri, 4 Sep
+ 2026 06:50:20 +0000
+Received: from DM6PR11MB4564.namprd11.prod.outlook.com
+ ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
+ ([fe80::21dd:5cab:fc47:1dfe%4]) with mapi id 15.21.0360.008; Fri, 4 Sep 2026
+ 06:50:20 +0000
+From: Hemanth.KumarMD@windriver.com
+To: openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com, Hemanth.KumarMD@windriver.com
+Subject: [wrynose][PATCH] glibc: stable 2.43 branch updates
+Date: Thu,  3 Sep 2026 23:50:00 -0700
+Message-ID: <20260904065001.674758-1-Hemanth.KumarMD@windriver.com>
+X-Mailer: git-send-email 2.49.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR03CA0212.namprd03.prod.outlook.com
+ (2603:10b6:a03:39f::7) To DM6PR11MB4564.namprd11.prod.outlook.com
+ (2603:10b6:5:2a0::7)
 MIME-Version: 1.0
-References: <20260824064944.29802-1-vanusuri@mvista.com> <DL5ZNN0ND074.3UFP77OL4YV24@smile.fr>
-In-Reply-To: <DL5ZNN0ND074.3UFP77OL4YV24@smile.fr>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Fri, 4 Sep 2026 11:31:15 +0530
-X-Gm-Features: AcwNN1WcQYFPRnNEktYQbOuenGVWVVfFNoIZH6mxYFQk1AQ_Cl7hqk7efatMMRU
-Message-ID: <CANQUz1_WittegyDFtgyzJvmhKzoteK36s7+8JHcZymXSfSawVA@mail.gmail.com>
-Subject: Re: [OE-core][wrynose][patch 1/3] libxfont: Fix CVE-2026-56001
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="000000000000dd1e05065aa1ff22"
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|CH3PR11MB343702:EE_
+X-MS-Office365-Filtering-Correlation-Id: 82150bdf-7694-4027-dc03-08df0a50c950
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|52116014|1800799024|376014|366016|23010399003|38350700014|3023799007|10067099003|11063799006|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	SyXw7U0I7k/BqatdSC3uUqHFaHaixR/caJx9WeLpvxaF/QqbFgfdnesNqVsriv+UKdcVr6stqAC7JtKMu/afT2BLGtlMfyFRlmmJluqGoF8tmldG4H33jlgrbMNQG/PN2L95ngvUNs9+Wgn0AK+IFMfrYiVl0cA2QBfYdWwSrnvlEWPbibu13F4PAHF/W7+dQp+wHUd0qf/VocpDugg+fdS40k9mFfvSEKh+M/HxcKMliqVJyc8qaf9x18AOhNYewLqvRI6p63YLMq63kVjNqpgB13wpbNllJJVXgQ+mDDt+7tz8rJuXaxTVeePpkVJETHxaHEbGJ5zff/FNLOfOvP+zm+TGoFvwDG3ZYXkQFcesQZ+O99fGEpJkc9rM507gKToq8uwzeGK+KLTZrOXkF+3TXGUlvmhOCB/KEbRk6Onk3I39/m3etPa6ukwp9ObrFSlvrmlecDexwuf0dGcKCoXV0DmQFrlA/cA5qOoTa+NKVAbxZ/VzKvj/WYndsZlU1aZ3MBWTmi84yhp1OaxRH/6ClsdiiRK6g4cF8Ezl3YGalfLIuajBXneu8DojJyd3KoRzpEqP3vwjCo8/rgE+GWg/4t9K0RyVaVJtmY9Xj7qs0S60/sxr4B2kLMwTTZxWE88zNwBK1Cssru39h4P4bYY1s4fnyLcqHLOXHT078q1LsacaFEFr1YSP1hV1llmS7Q3UsK2lWNk6BlsyV5coB848YYii9an+ZKgo9nBGPZU=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(52116014)(1800799024)(376014)(366016)(23010399003)(38350700014)(3023799007)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?MA4YfQ52aLSPM4ig9WongAc+AQUIZ0eNJ8Yq5k03i+B+HkvKDd33im0oFuOA?=
+ =?us-ascii?Q?pO7wsE3cF425ohFlRDStEEEANdqKkWqZRvTbf2zpjmuro8fdkfybdB73v7v7?=
+ =?us-ascii?Q?v0AgY07wmtjsYGOuiToKm2D/z110rgZHdHa5xfSysTVOlWdXnDh5AxIswfCy?=
+ =?us-ascii?Q?O/ccceW6AR7h/eazFVrpEMZ2sB5Hu8t+Dh0o33W5+CeZ9UXKhrbqPXKmEgkv?=
+ =?us-ascii?Q?1B8PzoCxq3iLqWSGOHAVzaNUaQZdBize5sd9Px36YrGjz3uN3umXIXPYMIyE?=
+ =?us-ascii?Q?Tc59AUh8zr667pRHFPIupNy6jgpxRsnd3TTDZDhfr1LBos1z+odzqQXhiTL/?=
+ =?us-ascii?Q?YXTn7jUXbbUh374qwkubxlgIXmLdNaHQH232KF0dghnPgKeAzgGbAinLwIyp?=
+ =?us-ascii?Q?7HdMDIqwD8ZVW/+gSRQFsOBB8Q4SYVF+Mn7bGnOnwRW+ZNiKh03ckIM+0G58?=
+ =?us-ascii?Q?Cg+k2C3pSXvOrkbfvcWvKh9JaJL+57VkpUlCUkeKljVkIprnvcEm8x/VS3ad?=
+ =?us-ascii?Q?dNGnucmmHJpHozNMCqfpqFN19hv5jR1BMetkusxoGJaZkDgFdmBpNLFkDmDu?=
+ =?us-ascii?Q?1H/lyl+TdavwdncDq7YMVtfVNKObJv57NiwFwkRTQUR4loCtkUXdITVdGHU4?=
+ =?us-ascii?Q?nrZHs0pTu6/2Tfx+No0yACEZxEWY5W99LKXzhn2K35Xp4ZmeN8tCmfNSV660?=
+ =?us-ascii?Q?wt7+q/OoHa+PlvmSxyvRNNy6kCjs2o7uOof52x6paYBx4Xs6/E6PNerHBXOk?=
+ =?us-ascii?Q?gr+2ztobfublz2EaxH2k7rd2GxNo67pUoJxCTsQXNy+7Pk3r/f5X2N1ckw7a?=
+ =?us-ascii?Q?ogC4rN17Y/mHfVD0dg++J6zJRMOu3aAS3Kc4Zwi/hia4+Hi6/Q22oi1Vckqd?=
+ =?us-ascii?Q?vS4e1pQOCYocDCYLA8oCvJP6opMBD2RlctPIo+ZymjisnoFHfrTtjVrf2Ncw?=
+ =?us-ascii?Q?ltjj/kWQDFTKGvgNA07LcztOnRcAUyfAOXoXz6n3yKng/qCMdM5/y3tlMSwK?=
+ =?us-ascii?Q?dxBSr+u8q+ZZRHQVOOBFwXEb/nM0C7jO09waE3ILwbX4n6lVtDUxqn0sfdmH?=
+ =?us-ascii?Q?tvLfemOe0sWKsYM2hB29pJjn/rJTBhZetVBT/DsvjU5kiCcLfJbILHjDtkB9?=
+ =?us-ascii?Q?5aV0Y3zsUcpdFLWiSW2K3rW5NR/XWeh7vpWfnsXYzP7Ck93pRwb/k/4QSUHX?=
+ =?us-ascii?Q?H6pD6ONpA2fs4y3p+KBR0WVFC3208aRCHiO2Z88FJBLtG7GYEiMGjpHH7t2j?=
+ =?us-ascii?Q?0urW/7deNNFLBDftYC7QrmpMdaoWRtsvYAfDuy7CyEH6uPQcLcmLP8MSFYDg?=
+ =?us-ascii?Q?E/UB0AT1h9MxSe/qCvmIJ2YgpKFbkEUcf+cfqBp9jFSi0vyR67KGtd6Wk0XU?=
+ =?us-ascii?Q?O7epxaKCdPQFwcdTj1N1Fad5A+85FSWxhYH4wM5fqZBtRUDmc1Vi+gPjFmdn?=
+ =?us-ascii?Q?lyDZnW9fZmsI0XlbOm5sUO7HQQpJ/SfmraEgHBjHk0YKTdhYuOo041usaep8?=
+ =?us-ascii?Q?jusy6/55yYFd+lo7xEwHHSsIGZmRA/6HkzCld53Mff/Hg1nMUFKSnKwMwa+7?=
+ =?us-ascii?Q?3p7FjpYfJAdT0g5eZPU5W6n67yhqg+N3J3RFjkeSY1wfXVzCZBd7oXOvUJi4?=
+ =?us-ascii?Q?GLrVCYoQ6PTxG4VViTaYNkI6TWESSqSjlY+zMPNVLAWqC78z2GLtHRDwA5b4?=
+ =?us-ascii?Q?r3GawCamnXmAaiYzj1gZrChtHiwbdKl0OcoQmfiAtPD0kAcj6CcNuoYCgchW?=
+ =?us-ascii?Q?ILnMLXcB2FVKva6iK+K9+V9RiNV0Swk=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	OoN70xy6WyKPXYa92Lk8YCWRDF8M0v5iDaKdNL3TK/+UMqdUTASe86NZjULD5XCgUzsQ8vwUIFoagdyF5UyEz1O7/JF349hA7qf1vP9wznkNCqiUjDEcScv2LfjSXVIf7YSU7flRvgaqnU7SqfvFMvua8VIIvhVH/Rg1rrVkvSGAgoLrSmAaIJIcHkvL+QOBpIT0jGU1dvFTt0l1NYESHczWxcDTAXjEj9gB8zcw53Ikv9zVDMaA+B3U+LTzMsteHmLzOtu00ohAIqDYyk12ioPe8nltE3oTAM738JrLCEflUjN4FjsHV9c+9afGKpz5Gq1xv9Bl+BrCQG83wQFe2g==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 82150bdf-7694-4027-dc03-08df0a50c950
+X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 06:50:20.2319
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: p0yMbppBGSAQaBh+SlcIDcmRFnWtQ5E878kAhLgY7SiauuGZUDlPycIL0bavcPCbWc3sxcsBX1j5G39aCdsr3O0oFNQ5GiK8fkvKJfz3Ajo=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB343702
+X-Proofpoint-ORIG-GUID: i7-P--e_O2hWMnqAGWJWaZmVatfbNGA-
+X-Authority-Analysis: v=2.4 cv=AMY1HWas c=1 sm=1 tr=0 ts=6a9a6a30 cx=c_pps
+ a=ZO9zLbrfvwitr87ojz3Jng==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8
+ a=CCpqsmhAAAAA:8 a=3fvyemLPPgf0_nW2UJEA:9 a=FdTzh2GWekK77mhwV6Dw:22
+ a=ul9cdbp4aOFLsgKbc677:22
+X-Proofpoint-GUID: i7-P--e_O2hWMnqAGWJWaZmVatfbNGA-
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA0MDA2MSBTYWx0ZWRfX7B4cxzvWxNIR
+ 0KdSbxA/RRcbke0vxutm4S9NOs/FGdTHEd2GxZUoGHtc1eCuwc+zjLDHEdE0ZbES8MALCkJ48MG
+ e0j8568UgaKqbmR3SePW3z89d3kaZZ95XJttiw213fQZ10x+G6813pqkqNiJzX+3yc1G2YIDzw3
+ tro5SjYpslq3dL/49flW19EdABFSY9OOZJfsjkUAezHEnoVkokMCOqPSAKRRpTHFdwIkE0Qm1bY
+ HNRjToC/TVGqDu75QowRzlwvdm9zsVAlkhHmqJQWtac9g2wgKIWmQuvyChrhQxFIxBy/JdJhKK2
+ kyKvLicumovTgrTHK+UALE59vEuCx9CyGJlI82kOgzaz5zLj3l9hqB7xthExoPFKc19J/hG6dEJ
+ F1us2WzXZy8SLr+H+yW9v4FdelFhZNDWeyf+8pcnqn2DN6m7coDN4OxzF92Q0SZCS/ShslG3yC3
+ lcUJBPgXpwIBwlLaLcQ==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA0MDA2MSBTYWx0ZWRfX1dGonuR8PIww
+ A0cMMEIeR5/uQN21x51utAD13fDX6/u0u4Xkgx58ybbyyAfV1PrREjb1Tu4pat9xS6wawZj8Uvc
+ iKnH8RdcSQy5L8YLMbjhIaa6aW4lGSglCJbJZ5hPNVJ90PRbCblY
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-04_02,2026-09-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ bulkscore=0 priorityscore=1501 suspectscore=0 phishscore=0 spamscore=0
+ malwarescore=0 adultscore=0 clxscore=1015 lowpriorityscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2606150000 definitions=main-2609040061
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 06:01:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245063
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 06:50:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245064
 
---000000000000dd1e05065aa1ff22
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
 
-Hi Yoann,
+$ git log --oneline 1c9988e52540c844928c6d93ff45305adc2c24a0..8dad0ee453a9bd9d24e55daba85e70915b29e19d
+8dad0ee453 alpha: expect test-float32x-float64-div to fail
+f024355965 alpha: add the denormal trap enable bit to FE_NOMASK_ENV
+c4dac931ab alpha: Fix stack alignment in makecontext
+76115597fe alpha: fix setrlimit compat symbol for negative rlim values besides -1
+c29ca5d216 iconvdata: Test case for bug 34556, bug 34568
+3ad1bbd8f9 iconvdata: EUC_JISX0213 decoding lacks pending character reset (CVE-2026-80489)
+138c43f018 iconvdata: SHIFT_JISX0213 decoding lacks pending character reset (CVE-2026-77117)
+713998bf00 stdlib: Fix right-justification in strfmon (bug 34510, CVE-2026-19499)
+2a35bab35b posix: Remove unnecessary overflow check in wordexp (BZ 34090)
+4964178b4d m68k: remove sysdeps/m68k/m680x0/fpu/w_fmod_compat.c (bug 34559)
+0afa34adb0 misc: Fix out-of-bounds array write in tdelete (bug 34506)
+7d26579873 malloc: Show hugetlb tunable default in --list-tunables
+8017bcfc4d m68k: Fix fmod/fmodf infinite recursion (BZ 34508)
+a388c4002d posix: Fix wordexp WRDE_APPEND to preserve state on non-NOSPACE errors (BZ 34090, CVE-2026-6368)
+bc95068f5f ppc64le: Restore optimized memchr for power10 [BZ #34300]
 
-Thanks for the review.
+Testing Results:
++--------------+--------+--------+------+
+| Result       | Before | After  | Diff |
++--------------+--------+--------+------+
+| PASS         | 5818   | 5821   | +3   |
+| XPASS        | 4      | 4      | 0    |
+| FAIL         | 1071   | 1071   | 0    |
+| XFAIL        | 16     | 16     | 0    |
+| UNSUPPORTED  | 402    | 402    | 0    |
+| UNRESOLVED   | 7      | 7      | 0    |
++--------------+--------+--------+------+
 
-I added #include <stdint.h> because SIZE_MAX is used in bitscale.c. Without
-this include, the build fails with the following error:
+Changes in testcases:
++------------------------------------+--------+--------+
+| Testcase                           | Before | After  |
++------------------------------------+--------+--------+
+| iconvdata/tst-jisx0213-progress    | N/A    | PASS   |
+| posix/tst-wordexp-append           | N/A    | PASS   |
+| stdlib/tst-strfmon-bug34510        | N/A    | PASS   |
++------------------------------------+--------+--------+
 
-error: 'SIZE_MAX' undeclared (first use in this function)
-note: 'SIZE_MAX' is defined in header '<stdint.h>'; this is probably
-fixable by adding '#include <stdint.h>'
+Justification:
 
-For v2, I'll add a note explaining the reason for adding <stdint.h>, and
-I'll also fix the indentation change to keep it consistent with upstream
-and make future backports easier.
+commit - c29ca5d216 iconvdata: Test case for bug 34556, bug 34568
+Adds the regression test for the EUC_JISX0213 / SHIFT_JISX0213 pending
+character reset fixes (CVE-2026-80489, CVE-2026-77117).
++PASS: iconvdata/tst-jisx0213-progress
 
-Thanks & Regards,
-Vijay
+commit - a388c4002d posix: Fix wordexp WRDE_APPEND to preserve state
+on non-NOSPACE errors (BZ 34090, CVE-2026-6368)
+Fixes WRDE_APPEND state preservation and adds a regression test.
++PASS: posix/tst-wordexp-append
 
+commit - 713998bf00 stdlib: Fix right-justification in strfmon
+Fixes right-justification in strfmon and adds a regression test.
++PASS: stdlib/tst-strfmon-bug34510
 
-On Fri, Sep 4, 2026 at 2:41=E2=80=AFAM Yoann Congal <yoann.congal@smile.fr>=
- wrote:
+Signed-off-by: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
+---
+ meta/recipes-core/glibc/glibc-version.inc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-> On Mon Aug 24, 2026 at 8:49 AM CEST, Vijay Anusuri via
-> lists.openembedded.org wrote:
-> > Pick patch according to [2]
-> >
-> > [1] https://nvd.nist.gov/vuln/detail/CVE-2026-56001
-> > [2] https://security-tracker.debian.org/tracker/CVE-2026-56001
-> >
-> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > ---
-> >  .../xorg-lib/libxfont/CVE-2026-56001.patch    | 84 +++++++++++++++++++
-> >  .../xorg-lib/libxfont_1.5.4.bb                |  3 +
-> >  2 files changed, 87 insertions(+)
-> >  create mode 100644
-> meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch
-> >
-> > diff --git
-> a/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch
-> b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch
-> > new file mode 100644
-> > index 0000000000..506a2dc22a
-> > --- /dev/null
-> > +++ b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch
-> > @@ -0,0 +1,84 @@
-> > +From be0b08e2d354138d3222b4490e2a77c6ee42f778 Mon Sep 17 00:00:00 2001
-> > +From: Peter Hutterer <peter.hutterer@who-t.net>
-> > +Date: Mon, 1 Jun 2026 16:46:10 +1000
-> > +Subject: [PATCH] bitscale: fix integer overflow in BitmapScaleBitmaps
-> > + bytestoalloc
-> > +
-> > +bytestoalloc is declared as unsigned int (32-bit). When the sum of
-> > +per-glyph byte counts exceeds 2^32, the value wraps around and calloc(=
-)
-> > +allocates a buffer that is too small. The subsequent ScaleBitmap loop
-> > +then writes past the end of the allocated buffer.
-> > +
-> > +Change bytestoalloc from unsigned int to size_t to match the actual
-> > +allocation size type, and add an explicit overflow check in the
-> > +accumulation loop to bail out if the total would exceed SIZE_MAX.
-> > +
-> > +This vulnerability was discovered by:
-> > +Anonymous working with TrendAI Zero Day Initiative
-> > +
-> > +CVE-2026-56001/ZDI-CAN-30558
-> > +
-> > +Assisted-by: Claude:claude-opus-4-6
-> > +Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-> > +Part-of: <
-> https://gitlab.freedesktop.org/xorg/lib/libxfont/-/merge_requests/34>
-> > +
-> > +Upstream-Status: Backport [import from debian libxfont1 1.5.2-4+deb9u1
-> > +Upstream commit
-> https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/be0b08e2d354138=
-d3222b4490e2a77c6ee42f778
-> ]
-> > +CVE: CVE-2026-56001
-> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
->
-> Hello,
->
-> This patch (and also the other ones in this series) was non-trivially
-> changes without a comment explaining why.
->
-> > +---
-> > + src/bitmap/bitscale.c | 24 +++++++++++++++++++++---
-> > + 1 file changed, 21 insertions(+), 3 deletions(-)
-> > +
-> > +diff --git a/src/bitmap/bitscale.c b/src/bitmap/bitscale.c
-> > +index 13ed924..c87fa96 100644
-> > +--- a/src/bitmap/bitscale.c
-> > ++++ b/src/bitmap/bitscale.c
-> > +@@ -38,6 +38,7 @@ from The Open Group.
-> > + #include <X11/fonts/bitmap.h>
-> > + #include <X11/fonts/fontutil.h>
-> > + #include <math.h>
-> > ++#include <stdint.h>
->               ^ This is new: I suppose to get size_t but that should be
->                             explained. Also, "man size_t" tells me that
-> size_t in
->                                 stddef.h not stdint.h.
-> > +
-> > + #ifndef MAX
-> > + #define   MAX(a,b)    (((a)>(b)) ? a : b)
-> > +@@ -1459,7 +1460,7 @@ BitmapScaleBitmaps(FontPtr pf,          /* scale=
-d
-> font */
-> > +             opci;
-> > +     FontInfoPtr pfi;
-> > +     int         glyph;
-> > +-    unsigned    bytestoalloc =3D 0;
-> > ++    size_t      bytestoalloc =3D 0;
-> > +     int             firstCol, lastCol, firstRow, lastRow;
-> > +
-> > +     double  xform[4], inv_xform[4];
-> > +@@ -1486,8 +1487,25 @@ BitmapScaleBitmaps(FontPtr pf,          /*
-> scaled font */
-> > +     glyph =3D pf->glyph;
-> > +     for (i =3D 0; i < nchars; i++)
-> > +     {
-> > +-    if ((pci =3D ACCESSENCODING(bitmapFont->encoding, i)))
-> > +-        bytestoalloc +=3D BYTES_FOR_GLYPH(pci, glyph);
-> > ++    if ((pci =3D ACCESSENCODING(bitmapFont->encoding, i))) {
-> > ++        size_t glyphsize =3D BYTES_FOR_GLYPH(pci, glyph);
-> > ++        if (bytestoalloc > SIZE_MAX - glyphsize) {
-> > ++            fprintf(stderr,
-> > ++                    "Error: bitmap allocation overflow for scaled
-> font\n");
-> > ++            goto bail;
-> > ++        }
-> > ++        bytestoalloc +=3D glyphsize;
-> > ++    }
-> > ++    }
-> > ++
-> > ++    /* Reject unreasonably large bitmap allocations that could result
-> > ++     * from malicious fonts with extreme scale factors.  256 MiB is
-> > ++     * far beyond any legitimate scaled bitmap font. */
-> > ++#define BITMAP_SCALE_MAX_ALLOC      (256 * 1024 * 1024)
-> > ++    if (bytestoalloc > BITMAP_SCALE_MAX_ALLOC) {
-> > ++    fprintf(stderr,
-> > ++           "Error: scaled bitmap size %zu exceeds limit\n",
-> bytestoalloc);
-> > ++       goto bail;
->          ^ This line has been reindented from upstream, that might make
->                  future backports needlessly harder.
->
-> Can you send a v2 with the changes either removed or explained in the
-> patch message?
->
-> Thanks!
-> --
-> Yoann Congal
-> Smile ECS
->
->
+diff --git a/meta/recipes-core/glibc/glibc-version.inc b/meta/recipes-core/glibc/glibc-version.inc
+index cf5a444095..6d667ac95c 100644
+--- a/meta/recipes-core/glibc/glibc-version.inc
++++ b/meta/recipes-core/glibc/glibc-version.inc
+@@ -1,6 +1,6 @@
+ SRCBRANCH ?= "release/2.43/master"
+ PV = "2.43+git"
+-SRCREV_glibc ?= "1c9988e52540c844928c6d93ff45305adc2c24a0"
++SRCREV_glibc ?= "8dad0ee453a9bd9d24e55daba85e70915b29e19d"
+ SRCREV_localedef ?= "cba02c503d7c853a38ccfb83c57e343ca5ecd7e5"
+ 
+ GLIBC_GIT_URI ?= "git://sourceware.org/git/glibc.git;protocol=https"
+-- 
+2.49.0
 
---000000000000dd1e05065aa1ff22
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"ltr"><p class=3D"gmail-isSelectedEnd"><span>Hi Yoann,</span></p=
-><p class=3D"gmail-isSelectedEnd"><span>Thanks for the review.</span></p><p=
- class=3D"gmail-isSelectedEnd"><span>I added </span><code dir=3D"ltr"><span=
->#include &lt;stdint.h&gt;</span></code><span> because </span><code dir=3D"=
-ltr"><span>SIZE_MAX</span></code><span> is used in </span><code dir=3D"ltr"=
-><span>bitscale.c</span></code><span>. Without this include, the build fail=
-s with the following error:</span></p><pre dir=3D"ltr"><code dir=3D"ltr"><s=
-pan>error: &#39;SIZE_MAX&#39; undeclared (first use in this function)
-note: &#39;SIZE_MAX&#39; is defined in header &#39;&lt;stdint.h&gt;&#39;; t=
-his is probably fixable by adding &#39;#include &lt;stdint.h&gt;&#39;</span=
-></code></pre><p class=3D"gmail-isSelectedEnd"><span>For v2, I&#39;ll add a=
- note explaining the reason for adding </span><code dir=3D"ltr"><span>&lt;s=
-tdint.h&gt;</span></code><span>, and I&#39;ll also fix the indentation chan=
-ge to keep it consistent with upstream and make future backports easier.</s=
-pan></p><p><span>Thanks &amp;=C2=A0Regards,</span><br><span>Vijay</span></p=
-><br></div><br><div class=3D"gmail_quote gmail_quote_container"><div dir=3D=
-"ltr" class=3D"gmail_attr">On Fri, Sep 4, 2026 at 2:41=E2=80=AFAM Yoann Con=
-gal &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile.fr</a>&=
-gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"margin:0px 0=
-px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex">On Mo=
-n Aug 24, 2026 at 8:49 AM CEST, Vijay Anusuri via <a href=3D"http://lists.o=
-penembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openembedded.or=
-g</a> wrote:<br>
-&gt; Pick patch according to [2]<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-56001" rel=3D=
-"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2026-56=
-001</a><br>
-&gt; [2] <a href=3D"https://security-tracker.debian.org/tracker/CVE-2026-56=
-001" rel=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.o=
-rg/tracker/CVE-2026-56001</a><br>
-&gt;<br>
-&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
-" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../xorg-lib/libxfont/CVE-2026-56001.patch=C2=A0 =C2=A0 | 84 +++=
-++++++++++++++++<br>
-&gt;=C2=A0 .../xorg-lib/<a href=3D"http://libxfont_1.5.4.bb" rel=3D"norefer=
-rer" target=3D"_blank">libxfont_1.5.4.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 |=C2=A0 3 +<br>
-&gt;=C2=A0 2 files changed, 87 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-graphics/xorg-lib/libxfont/CVE-2=
-026-56001.patch<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.pa=
-tch b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..506a2dc22a<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch<br>
-&gt; @@ -0,0 +1,84 @@<br>
-&gt; +From be0b08e2d354138d3222b4490e2a77c6ee42f778 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Peter Hutterer &lt;<a href=3D"mailto:peter.hutterer@who-t.net" =
-target=3D"_blank">peter.hutterer@who-t.net</a>&gt;<br>
-&gt; +Date: Mon, 1 Jun 2026 16:46:10 +1000<br>
-&gt; +Subject: [PATCH] bitscale: fix integer overflow in BitmapScaleBitmaps=
-<br>
-&gt; + bytestoalloc<br>
-&gt; +<br>
-&gt; +bytestoalloc is declared as unsigned int (32-bit). When the sum of<br=
->
-&gt; +per-glyph byte counts exceeds 2^32, the value wraps around and calloc=
-()<br>
-&gt; +allocates a buffer that is too small. The subsequent ScaleBitmap loop=
-<br>
-&gt; +then writes past the end of the allocated buffer.<br>
-&gt; +<br>
-&gt; +Change bytestoalloc from unsigned int to size_t to match the actual<b=
-r>
-&gt; +allocation size type, and add an explicit overflow check in the<br>
-&gt; +accumulation loop to bail out if the total would exceed SIZE_MAX.<br>
-&gt; +<br>
-&gt; +This vulnerability was discovered by:<br>
-&gt; +Anonymous working with TrendAI Zero Day Initiative<br>
-&gt; +<br>
-&gt; +CVE-2026-56001/ZDI-CAN-30558<br>
-&gt; +<br>
-&gt; +Assisted-by: Claude:claude-opus-4-6<br>
-&gt; +Signed-off-by: Peter Hutterer &lt;<a href=3D"mailto:peter.hutterer@wh=
-o-t.net" target=3D"_blank">peter.hutterer@who-t.net</a>&gt;<br>
-&gt; +Part-of: &lt;<a href=3D"https://gitlab.freedesktop.org/xorg/lib/libxf=
-ont/-/merge_requests/34" rel=3D"noreferrer" target=3D"_blank">https://gitla=
-b.freedesktop.org/xorg/lib/libxfont/-/merge_requests/34</a>&gt;<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [import from debian libxfont1 1.5.2-4+deb9u=
-1<br>
-&gt; +Upstream commit <a href=3D"https://gitlab.freedesktop.org/xorg/lib/li=
-bxfont/-/commit/be0b08e2d354138d3222b4490e2a77c6ee42f778" rel=3D"noreferrer=
-" target=3D"_blank">https://gitlab.freedesktop.org/xorg/lib/libxfont/-/comm=
-it/be0b08e2d354138d3222b4490e2a77c6ee42f778</a>]<br>
-&gt; +CVE: CVE-2026-56001<br>
-&gt; +Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.co=
-m" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-<br>
-Hello,<br>
-<br>
-This patch (and also the other ones in this series) was non-trivially<br>
-changes without a comment explaining why.<br>
-<br>
-&gt; +---<br>
-&gt; + src/bitmap/bitscale.c | 24 +++++++++++++++++++++---<br>
-&gt; + 1 file changed, 21 insertions(+), 3 deletions(-)<br>
-&gt; +<br>
-&gt; +diff --git a/src/bitmap/bitscale.c b/src/bitmap/bitscale.c<br>
-&gt; +index 13ed924..c87fa96 100644<br>
-&gt; +--- a/src/bitmap/bitscale.c<br>
-&gt; ++++ b/src/bitmap/bitscale.c<br>
-&gt; +@@ -38,6 +38,7 @@ from The Open Group.<br>
-&gt; + #include &lt;X11/fonts/bitmap.h&gt;<br>
-&gt; + #include &lt;X11/fonts/fontutil.h&gt;<br>
-&gt; + #include &lt;math.h&gt;<br>
-&gt; ++#include &lt;stdint.h&gt;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 ^ This is new: I suppose t=
-o get size_t but that should be<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 explained. Also, &quot;man size_t&quot; tells me t=
-hat size_t in<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 stddef.h not stdint.h.<br>
-&gt; + <br>
-&gt; + #ifndef MAX<br>
-&gt; + #define=C2=A0 =C2=A0MAX(a,b)=C2=A0 =C2=A0 (((a)&gt;(b)) ? a : b)<br>
-&gt; +@@ -1459,7 +1460,7 @@ BitmapScaleBitmaps(FontPtr pf,=C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 =C2=A0 /* scaled font */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0opci;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0FontInfoPtr pfi;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0glyph;<br>
-&gt; +-=C2=A0 =C2=A0 unsigned=C2=A0 =C2=A0 bytestoalloc =3D 0;<br>
-&gt; ++=C2=A0 =C2=A0 size_t=C2=A0 =C2=A0 =C2=A0 bytestoalloc =3D 0;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0int=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0firstCol, lastCol, firstRow, lastRow;<br>
-&gt; + <br>
-&gt; +=C2=A0 =C2=A0 =C2=A0double=C2=A0 xform[4], inv_xform[4];<br>
-&gt; +@@ -1486,8 +1487,25 @@ BitmapScaleBitmaps(FontPtr pf,=C2=A0 =C2=A0 =
-=C2=A0 =C2=A0 =C2=A0 /* scaled font */<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0glyph =3D pf-&gt;glyph;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0for (i =3D 0; i &lt; nchars; i++)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0{<br>
-&gt; +-=C2=A0 =C2=A0 if ((pci =3D ACCESSENCODING(bitmapFont-&gt;encoding, i=
-)))<br>
-&gt; +-=C2=A0 =C2=A0 =C2=A0 =C2=A0 bytestoalloc +=3D BYTES_FOR_GLYPH(pci, g=
-lyph);<br>
-&gt; ++=C2=A0 =C2=A0 if ((pci =3D ACCESSENCODING(bitmapFont-&gt;encoding, i=
-))) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 size_t glyphsize =3D BYTES_FOR_GLYPH(pci=
-, glyph);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 if (bytestoalloc &gt; SIZE_MAX - glyphsi=
-ze) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fprintf(stderr,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 &quot;Error: bitmap allocation overflow for scaled font\n&quot;);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 goto bail;<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 bytestoalloc +=3D glyphsize;<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 /* Reject unreasonably large bitmap allocations that c=
-ould result<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0* from malicious fonts with extreme scale factor=
-s.=C2=A0 256 MiB is<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0* far beyond any legitimate scaled bitmap font. =
-*/<br>
-&gt; ++#define BITMAP_SCALE_MAX_ALLOC=C2=A0 =C2=A0 =C2=A0 (256 * 1024 * 102=
-4)<br>
-&gt; ++=C2=A0 =C2=A0 if (bytestoalloc &gt; BITMAP_SCALE_MAX_ALLOC) {<br>
-&gt; ++=C2=A0 =C2=A0 fprintf(stderr,<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0&quot;Error: scaled bitmap =
-size %zu exceeds limit\n&quot;, bytestoalloc);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0goto bail;<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0^ This line has been reindented from upst=
-ream, that might make<br>
-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0future backpo=
-rts needlessly harder.<br>
-<br>
-Can you send a v2 with the changes either removed or explained in the<br>
-patch message?<br>
-<br>
-Thanks!<br>
--- <br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</blockquote></div>
-
---000000000000dd1e05065aa1ff22--
 
