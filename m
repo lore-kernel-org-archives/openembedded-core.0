@@ -1,209 +1,239 @@
-Return-Path: <gustali@axis.com>
+Return-Path: <Harish.Sadineni@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D30B3C624D3
-	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 10:02:20 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10479.1788516135145784500
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 08F6EC624DE
+	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 11:40:23 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11825.1788522012167202024
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 03:02:15 -0700
+ Fri, 04 Sep 2026 04:40:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=f0P/fNsQ;
- spf=pass (domain: axis.com, ip: 52.101.66.53, mailfrom: gustav.lindberg@axis.com)
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=KgKmUvyb;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3707c58deb=harish.sadineni@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 684AJWaq415170
+	for <openembedded-core@lists.openembedded.org>; Fri, 4 Sep 2026 11:40:10 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=05CzPrI6gag2ZR2+/rtMO+7htTG2DvV/+D9lYZVebnA=; b=
+	KgKmUvybklgS9Tb9g4UPViTdI8cwIJEWVYtsGHq/jVxbkS/wvx1W5xyJg6ygd189
+	4vK0sBHvYmlE/11JR1a5n/w+CR4OOh2BLxqKmfkyt44fTDWpwGL99S6bbRXZnmC4
+	RPDjnQ9YPerMtE//k951MqdRyALc7ibZ3JqrviD1LMuTP7/zlbzIo/TkenwTKTNM
+	HwJSQEqX4ngEhwrYt8q86vbuv/19EE3Q68WbeGSB1BYX0G/vAxdgREk/1Sk7J/UU
+	6LkYXubBmx5+F3dvHIXB0lpZzKJG3B0rmieO8Yon6bHjSgPRy6/Em7CYlqacqb+F
+	851KrLE6RNEwIi6PZhuCiA==
+Received: from ch1pr05cu001.outbound.protection.outlook.com (mail-northcentralusazon11020094.outbound.protection.outlook.com [52.101.193.94])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gf5nyjamk-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Fri, 04 Sep 2026 11:40:09 +0000 (GMT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Q70Khajt/3XWyF1itOrEQXhOd5oBOnCAbVadSkqk1GgnDO2GvN76y5kyTda2uosUVoEptg/YTnpqJ8snkJdZgxUFPsadZ4XaGSDgt6Jc9a5BYJuNVys7mqZad/H08nN9oW4kiwsJ6/nfmI3+/d3WbSqI5T6pk7jUjYzcmp7tLwnVP5INWS1Se3Uy2XJRAOqC6lWD0gu10X6P93kdBF+3C5qEjQ6+V5xTju3lhM5SjBfSOhZPZphHXibAKP/038AfFb4gWIehgWxh6afGu4842/F2jgThGDXX/DqdJKe2XHhxC7HcMCFk5dZwArpQlElAoKRkRWjrbKd1CYkjU6zI+w==
+ b=wCkzMxzKQJRmIShzT4KFE01og9V2OgQ+Mr5BFnwE1ipGIUkuF0JCX7lq0wOHsht98v8Kns4IFSgyI05bze1enMCwYUIRso3dDH0Ok8hO5ZXIVYVwza9psNMvYear9U3HpPZvvPObslS0kZkBtmuz9lOhcOpIPh3oabsWIHVADsSXi8c1kRS6N+zv7R5dT7TJ/cwge1OrOWmcDpVf42nv72hYcxh+9+eB9/UXn2UpB88R4o612JqC2CsuF2BGkNMnzS2PEdAKnB3i65Hmh8MEbmsROFdhnRylYRjBitvAARm++mjZiqJQbrAAEtnUYovmxUVXkqOLSZbiBqWyEhBPmw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=iGbHiwAOCKQOl85UmP+Imrju0e8FEF5iAK+1Edwu2lE=;
- b=ErmETBIILGZ7kDVSt4R4Nd22yX00c3R4nCLeEscmlt18+UxLoFCrhR3+XaoS4LED+8WF0Y/fm1vjLdEbpUjnyN+TNA/HNfHqp6Q6V5tQ4GWNMKQoIAfUIoNI0ed1e3HqSN2kDSoRLPVSs71cQWYts1anvoThWK6PF7AS1AwLZaJ+xd2/VgTB0ZcqkHQO3XB0uf2VgQAQCBun0MqSXPSL+LKxIlk1jEYbuF0JAQCrQMF1n1zpi6A4pODPisKG+S3mN0ClsDL53jJtD1E6adq1BJfmnoLaPKwrgmZVzqUDsSogH3voxUzJ99rB8rrfcB9x7SLflxL/Pqqy51PSbhipog==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=iGbHiwAOCKQOl85UmP+Imrju0e8FEF5iAK+1Edwu2lE=;
- b=f0P/fNsQi5cmBmLwFgsobV2XZv/Fhh8GUIQ0CBhItkW13jWGj6JTcQ2Rsn7OygggCzeIFPdeClp1D2keVEuKJdpm3e0zmRDXFF+xOAELkFlnTWaCP1vHztUPGnSXZC3EQfybPrUzxMaKhsr7mxRV41B9rIdTaHPTe4NnpI96r6k=
-Received: from AS4P190CA0068.EURP190.PROD.OUTLOOK.COM (2603:10a6:20b:656::28)
- by AM7PPF9020C43FB.eurprd02.prod.outlook.com (2603:10a6:20f:fff1::816) with
+ bh=05CzPrI6gag2ZR2+/rtMO+7htTG2DvV/+D9lYZVebnA=;
+ b=L8AUsPwUY/aXLS6kahYaXRIg21aS34WaqHpBtFInJPTQMCaEqhz3veS8/ogS1O6jY0o5nUIv+KLpqJ3q75bvUpkUgQsm1C+MmA3BllmHewWflHmOcfV7hGpbeDcMWophiWcYoZIhPsi0ETRyi0eRkkK7CwETZsVl02o6F1JAAMwYCElv59Ts+fbVyX/Dn8/i3ttPlTp0Vrfz7dMNJKO2Z8POAdUV6BDhUdm5LI1RXSpBcw/u0LPF9sOt8cjXa+xi9ZlsETilkq53cF5JKPdX6snq0NBSOFkZ9Y+Wq+81x624Xv2QveyKau2ytSnIFByB+R1FzNgorhOhn9t8mjCXpA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com (2603:10b6:510:e2::23)
+ by IA3PR11MB9253.namprd11.prod.outlook.com (2603:10b6:208:571::22) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.360.13; Fri, 4 Sep
- 2026 10:02:11 +0000
-Received: from AMS0EPF0000056B.eurprd02.prod.outlook.com
- (2603:10a6:20b:656::4) by AS4P190CA0068.outlook.office365.com
- (2603:10a6:20b:656::28) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.382.12 via Frontend Transport; Fri, 4
- Sep 2026 10:02:10 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AMS0EPF0000056B.mail.protection.outlook.com (10.167.242.121) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.382.8 via Frontend Transport; Fri, 4 Sep 2026 10:02:10 +0000
-Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Fri, 4 Sep
- 2026 12:02:10 +0200
-Received: from se-mail11w.axis.com (10.20.40.11) by SE-MAILARCH01W.axis.com
- (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Fri, 4 Sep
- 2026 12:02:09 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail11w.axis.com
- (10.20.40.11) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Fri, 4 Sep 2026 12:02:09 +0200
-Received: from pc53324-2309.se.axis.com (pc53324-2309.se.axis.com [10.92.8.4])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id C8868E15;
-	Fri,  4 Sep 2026 12:02:09 +0200 (CEST)
-Received: by pc53324-2309.se.axis.com (Postfix, from userid 18459)
-	id C39E84A819D9; Fri,  4 Sep 2026 12:02:09 +0200 (CEST)
-From: Gustav Lindberg <gustali@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Gustav Lindberg <gustali@axis.com>
-Subject: [PATCHv8] boost: Add support for building boost-asio as a shared library
-Date: Fri, 4 Sep 2026 12:02:08 +0200
-Message-ID: <20260904100208.3052527-1-gustali@axis.com>
-X-Mailer: git-send-email 2.43.0
+ 2026 11:40:07 +0000
+Received: from PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9]) by PH0PR11MB5658.namprd11.prod.outlook.com
+ ([fe80::6852:6964:54d3:49c9%5]) with mapi id 15.21.0360.006; Fri, 4 Sep 2026
+ 11:40:07 +0000
+Message-ID: <ba9f25de-6240-4854-9ee4-83ebaa89de49@windriver.com>
+Date: Fri, 4 Sep 2026 17:10:04 +0530
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [wrynose][PATCH] kernel-yocto-rust: skip recipe for
+ riscv64 when Rust support is enabled
+To: Yoann Congal <yoann.congal@smile.fr>,
+        openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+References: <20260811115855.4033577-1-Harish.Sadineni@windriver.com>
+ <DL605KBROWS4.DZGC5ES0FPEB@smile.fr>
+Content-Language: en-US
+From: Harish Sadineni <Harish.Sadineni@windriver.com>
+In-Reply-To: <DL605KBROWS4.DZGC5ES0FPEB@smile.fr>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: SJ0PR13CA0068.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c4::13) To PH0PR11MB5658.namprd11.prod.outlook.com
+ (2603:10b6:510:e2::23)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS0EPF0000056B:EE_|AM7PPF9020C43FB:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2e158f5b-340c-4d7f-3374-08df0a6b95f3
+X-MS-TrafficTypeDiagnostic: PH0PR11MB5658:EE_|IA3PR11MB9253:EE_
+X-MS-Office365-Filtering-Correlation-Id: 871f05d5-3b7a-43ac-e825-08df0a7944a7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|36860700016|23010399003|82310400026|10067099003|56012099006|11063799006|6133799003|18002099003;
+	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|13003099007|18002099003|22082099003|56012099006|4143699003|11063799006|10067099003;
 X-Microsoft-Antispam-Message-Info: 
-	/Fb3mJjnLR2sJQg4PWDCfsmN/pihSOwzeDH8QXeoGm1PeSCVd8AIh+w/ZDgGaN7b3Cl6MD310N1WJ+EbXbBvXwbNNg7WqARODVOWQBmqGNNCWrfiCmS8TdaD4jZ+zB4O1byQ+QP8qFiCw8aUMIvr9FTtT8raAgMHdfG7FcYVMWV0SphDGLOKc0tQdzQuvHWNCsxZ0E0MkBp2JH1pEh4M6seUCDNz7FVlyRlawh55tjHebaDaybLpdg+89OHDt5B7fohlmVWPw+G+PFj5ux/esE3dQiZ139UbknzQ7woUcOlzhBsqzTmye14Fu6GSpwjs7lERyW12RuMhkpcP/prj1T3/v/Q7Y71ksBjFRaCx3nJPe/GqyHci0V8wRcYoBpxNye34zN999Vaux9PqlArFTfgYdzAjKdOYAjVb4QaPWbH9BGHLpERqgrtkLy6UikOuotrKSAfVnMP0xjaiWN8jtcz2YDu2tVoC5MadQwvepZK4X3p4sAzvLOzmGlunPKJoP8Jvpfb0RbvtvCD2iRsC98tBmw6vl6KJ7WuP9LnWXsU+B4dwSxYafFvelLcptE19RgLgmkJFfKLe37LmY0OWpB439tKWaqGDkR6DnKXH3LODE6vEoS7324KE42E0DX/2gmtbx/ajD4VCjKMEruwagPWC8QKY6Qs0oaPb+Tduu9RAP1AFEfV6T1DYugXVXrDXM+w9Vu/I4qad8v/ZtHaS5A==
+	2RZoyViSe6ocPz818HwVcVXjSDTVF3DZdc/gHMZWRvcpdyrVmR7YNQxsb/WD3ReRDn0KGtfGTUQ3MyjaxJEF3xc78+wSRCMx4WfpetDTrL+oYCduDGzVIFiDb9bTMQi2kbivOSNSDQwwAwwSrx25PrfHMG00/5B6K0fdnY4z/ddMvR9rLyfYtx+SUttvDq8paNkzvwTtxp8kZmOMQnFPBvB2e8AZ3z0eHaaEYahU5W3Gasxknw2BUqcaYdaXJEyPs83RED24UaLQ6mJfVTtXIJhU5Xp0kqBowWSFE3r8hUMUVbNjYx7Euznuv8EIvg+NUUsBKWybDp2KcOKUVFSoFmfrNk78JlDHN1ZvqidaeVzCIi3i1EnJrm7Ayg92X+JRudOyI2omSFUnlbc26Oj24bk3ccO6wRcfCYv5v0oTsSfvunp54+47GJus02kmwVlaRQhSjv2v6sDfBBmw/dtftCPAtkyRmqnpGCF1vP+7qLK62EsVG+lHAXhvn0AMXLdNh1NZCqBnOAkUA8BA37DuikZpqwd1ZrMs4ze6W9+xg3IaHRS1kcqRQ2e2J6vxT7jO/LYbbx9Syf+aJLaLC42u72AsolwfYF6KUtQ4zOYa/dU=
 X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(36860700016)(23010399003)(82310400026)(10067099003)(56012099006)(11063799006)(6133799003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PH0PR11MB5658.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(13003099007)(18002099003)(22082099003)(56012099006)(4143699003)(11063799006)(10067099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	4O5lK5VZ2qNps+QEqiQldjWiFMgI+tnD+gBDHKm5v2tvIrGzpM0M4ZWQ4V7lBl2sGN0pPKG70qqjLL9p36EWDUFO6x1ItZXLzc1EG7Hr82nKYcvSC0mD2YvImu9QC4x98YMsleFqfKfqmLAO4wAF+Jl4hDaSp9fOls7yHu1Aud+f08puhdVM1vWA02g39euLEYM7A/iiZf0GCsKPHR1zvhKKRnHjPj/8bVB0KmxGcwoeJ240AoCc0ei7hDYvcmWldaBq3M1g6ubPYjBMkgU/dgjSdNUkoJe8s245MoTEOsAVahA1WHlU6F8MnjicePZIM6Okak8wn009IfYKieQpfveUrYkwFBdqTWZTktIEnSRGHd8E5bWMnIN+pnikaKsjQbKv3Jzeb/mE1Ow6Rue84wKT34Es9fMleC8y+w9UGX2RPEy0VsJL6r9uDDOrR99z
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 10:02:10.3024
+	=?utf-8?B?eDduVFFVSGlZb0d4aCtRZjRETXZlajcrdkF6L0I1UmR5ZnR2cVg3eUFReVB0?=
+ =?utf-8?B?UWtIa3B5U3A2UVhPcndJUTJIZXBhU3R5Uk16dVNXN2UxTkYzZUZoYUp3K1lY?=
+ =?utf-8?B?M1BmNnhxTXBDY3FkL0RUdHhHZjd6bFNxelVQNk9MQlEyeGRuVUpFbzdvSVNI?=
+ =?utf-8?B?MU55bnpiQTVMbEd6bE9JSjZPeXFmUk9nbW1MakdjRDJ1MnUvUWJVQ0Raakpr?=
+ =?utf-8?B?clNFcXR0SFBWNTZBMEdTNklPdUgvdTJPSmxla2FGV0ZFSzhIUW9RL3dhUTlV?=
+ =?utf-8?B?KzJUbXY4RnNWVzMvT0QwUml6Mm5CYzFPUTh0elBodWFDSFM1NzhGRllOTjlx?=
+ =?utf-8?B?NEd0VWdROXM5TVpSQ1dGalFFSDdaU2t3V1lUYjhWb2VsaU5obmR4V3plbEZY?=
+ =?utf-8?B?MVlmWE80K0VBaXByUWdaeUhsdlNjMWE4aWhTZXY4OERzdUJqUXdiZ2VOZjlq?=
+ =?utf-8?B?UFl6K2ozQjk5ajdJZjFJSFdBcWszeVNCV2NaT0tmSGd4WmZqcmZzT1l2Y3lH?=
+ =?utf-8?B?TUR4VGd2UjhNZWgwY2s1cGxuUFhTQWMzb3BjYTZNU05pTmkrZ1hTQzk0VEFQ?=
+ =?utf-8?B?dmJmbE41Vk5RSDdIaVNIODZZTGp2blhod3F6a1owY2tDazJoYVZtU3JwNHg4?=
+ =?utf-8?B?MC9ubGxXaUNOdFg4MFlURlArL1Y5MFg1VXp2SnpRTWdZREFyL0oreExoMzRp?=
+ =?utf-8?B?dCtwQVVJOFZWMldQNmdyRk1HLzZxNlFIcUltZ2puQjJYWkRXMzVKclhnNjFi?=
+ =?utf-8?B?WUNkM3FTM3FMR201USs0S3ZRNmVSNUFpQU0ya1IyUmJHeUd1UFQ4SWdsKzVw?=
+ =?utf-8?B?Z21ob0hodmQ2bkdYZGN6cG10V0k0Q1N5bDZNKyszeHJsT1V4Sm9MdSsvaGUz?=
+ =?utf-8?B?Yml5b25lVEFDWjV6Q2ZmUVlEV1lhMWZoUGl2VEo3Z0cyaDI5ckpWY29WQXNM?=
+ =?utf-8?B?ZVA4eVByQS9Fd0g0djM2RVQ3ZTBYY1VqdUEvSGlHN1ZsYzBVQXQ1T3Z3b3Bz?=
+ =?utf-8?B?T3pnemx6eEd0OEpHVkZrZlRDMkthazQ4Zkt4ZEpiQXBXY25uVDluVThiZ0FS?=
+ =?utf-8?B?Si8rNDN6VjdmSG9LYVNrMlJaanF1NW5QV1doS3FuOXJQbm1xNkEzNUg3eEhJ?=
+ =?utf-8?B?SWlMdHVkcjh3SlhoSzZLL2k1WU96R04xU3VxYkFUN0lKQUdiNU1lMkQ3M3BB?=
+ =?utf-8?B?S09SSksyUkNYdzh5SFNYWDRLSHJIQkdpN3JBY0FtMVRNOXdQZWg4TFBQcmZ2?=
+ =?utf-8?B?WFBCVkpodnQyQitUaGlsL2FNcXZ0TWswalkzT2ZPbmJVTWtrbWJIQzRIZzJT?=
+ =?utf-8?B?dS8vdDZRSG9jcXBMWjV5SHd4empmd0szMVZLeWVEZTc2WFA5V3hJNWJJVURp?=
+ =?utf-8?B?YTZvWUZkZjdQSk13L1ZkWjdKeW8zL05RbmlQa01hSDVpRnp4amN1dDBzU0xx?=
+ =?utf-8?B?RW9ZTUEyZnVTR0I5bndhZHdXKzY5WVNrcUZhN1pWVmpvVUxkMjVKRGFBUnRS?=
+ =?utf-8?B?WlVwVEZDNHdabk4vVkNJaCtSZzRaeTRiWTJscmdRNVRmWkM2ajZ2M3ZlNlQz?=
+ =?utf-8?B?ajZKYUM1WlIzSmtzYjdmY1hib1BFaHZJdnplK3RwMUxQWFpHb1ZPa0FySWFr?=
+ =?utf-8?B?YXNrK2x4b09NcXdjQ3BPcExmMG5PdkJhRHl4QkMyYW1DR1BsRVBXNkFJamxN?=
+ =?utf-8?B?N2pJVldYR2FVOWt6aEwyRkxZVTdrQVRSSFdSZWFsT1kvNFk2Q1FBMlBtVDM1?=
+ =?utf-8?B?VEtEbHd0VWI4UVVsbXp2NEx3dHRXVE1ia3krUlpsWkdnT0VDY3czNzcyVE51?=
+ =?utf-8?B?RXFqZGFkREZyK0hEMjFSOS9kYnk4NW5oTlpmNDN4LzdVcWwyOStrM1Q2cFM2?=
+ =?utf-8?B?U09iSEQ4YmZGdkplOVFTTWI3MkJBR254cnJQM1pVdWV4TGs1VVNLcENxN2xP?=
+ =?utf-8?B?UEJyOFJkU2Jka2xCR0ltS05UYTErTFZPSWtUTy96c3R4bmRBVGRQemNIMGU5?=
+ =?utf-8?B?UGZ1M3Zxbkg1dTBqYWRoL2tQcDUxeU1EK0pQWmRGYnYvdjcwWmFDb3ptaFcv?=
+ =?utf-8?B?UnlxenpTaExoNlpVaG93cjFCeDRaNFoyQ28vR0wxWUdjSFpUV2Y4TkNOWXd6?=
+ =?utf-8?B?N0d3VlVqdklzejZZT1RFMFVLeDB3NjZzMmpFUERlK1c3WGdLT0I0dmdPYmxG?=
+ =?utf-8?B?NTg3WmV6d2wxTngyc1NaUjVWTjZhZS91MklRRDFMQjV2YTZOWHlDSHZHWnJl?=
+ =?utf-8?B?NU5HRy9sYms2bjVTaXgzUElXN2NyTE41YU8zVytGTDkybk5jZHZzVE1NdWlQ?=
+ =?utf-8?B?ckZDdERBNko1NEdDNFFtSzQyOHlVeU01dm9SdnA3eXc5cmtvaDJFVy9wWStp?=
+ =?utf-8?Q?W26zwfO1Q/og9+EE=3D?=
+X-Exchange-RoutingPolicyChecked: 
+	eHmdL3OSqL61VSU1xfMrMq5OxHxOH7IBq+DvVrMEAbaIIOGR53Hg8SKoUglcb7NQDY4BuFynQsgfVrRF2Vi6MxVDotPQS5k77IR2ED+6flO66qoOeUMz9tK9uszUBt+D8vqlCu/yMOdyCFi92vc4brherAJ7utwjVpxkoMigxkIeNbRcbg6dJzD4xRN9/0O5To7NqShjFzMPBXyn7hRnB0FpwdgWSfTZuiq8jDytH7y2i3QPey2gqbdgpp/8iry8h8KYjlAJtz99KOV0UBhUcb7megGXrAlv4CBgwFRkxMPrTWompwQLRkqderLEJpeAKdRPikJm/b5m+MSUNOJx5A==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 871f05d5-3b7a-43ac-e825-08df0a7944a7
+X-MS-Exchange-CrossTenant-AuthSource: PH0PR11MB5658.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 04 Sep 2026 11:40:07.0759
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2e158f5b-340c-4d7f-3374-08df0a6b95f3
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS0EPF0000056B.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM7PPF9020C43FB
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: EEU9SKL05jwD1To+gMz1xQevV4JwHZIuQSAropMIUExQ5PPVnST58hJmvOVmpHEewBRHNyjVWBE30pjVLNDvuG+919E03gHEMObQiacp2+Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: IA3PR11MB9253
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-Proofpoint-ORIG-GUID: XKJe4hyYFzm4R1jEVca-7vg2XiPpw4jr
+X-Authority-Analysis: v=2.4 cv=LvuiDHdc c=1 sm=1 tr=0 ts=6a9aae1a cx=c_pps
+ a=R0VBx4CaF46Y8RBs4q2Lkw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22
+ a=VzLtzqT8AAAA:20 a=Q4-j1AaZAAAA:8 a=VwQbUJbxAAAA:8 a=t7CeM3EgAAAA:8
+ a=RSAcSJ8HTIuc__QHzRYA:9 a=QEXdDO2ut3YA:10 a=9H3Qd4_ONW2Ztcrla5EB:22
+ a=FdTzh2GWekK77mhwV6Dw:22 a=bA3UWDv6hWIuX7UZL3qL:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA0MDEwNSBTYWx0ZWRfX2XZBV9FN79v6
+ pToV0UmLDYToRkoHBxKma0SyC5jchMFI6go8vlzNOdJBf7WoAGUyWNMq6MrHs+kHzLIkefaESjk
+ 6GrApIWIamC/qBVNGRQ2YjEUD0k3HwPrbKncAOWrR6X0sN0RSqu8J1UYQinWn1X7fHxkqNCLiIR
+ fDnXHkOdgwLhxAzO5dcy+ta1LYKIZHwVGV6IFcedBAszBcD3vM8FxAf58RZ+Ml1hlLitN6CpvNg
+ Vr4GkiNCg/EeWlRkiMfU7Y665SPGucQk4e7LloBL27KEw85f1ADwbCTOGzl3BgYG95fr32+/Fpc
+ zhhpLtMyZZikFxOIhNfiCM2JmNbrzT3z9N3qyGv1wrAWuiepi/8pMBd5unXFki/1oMea4DDvaVX
+ ivav09P79htB9aDBV6bEVtJrFZtskO7RozZeKS0XDbtgtE9kauL2wusAqVW27kJp8guPvshOEW7
+ LPTwP0YNBmTmsRgWSqA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA0MDEwNSBTYWx0ZWRfXxFHqqxy/iWN7
+ YTXAwb4twSrxVuxBWyt5qPrYQaw4ls5+sAKfnBVFwaUGIzqhu/SMH7TjZE7QTQA6Mso2QAzirI5
+ XLuQRSR5xR3mJA75xhyWyxN7MFCjqzxZPney2qeM2Lfo+2t2rNvM
+X-Proofpoint-GUID: L-u4WppSEgXez3Ro7309YDWFWSYhHf4E
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-04_03,2026-09-03_01,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 bulkscore=0 lowpriorityscore=0 impostorscore=0
+ phishscore=0 malwarescore=0 suspectscore=0 clxscore=1015 adultscore=0
+ spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2609040105
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 10:02:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245089
+ <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 11:40:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245090
 
-This is needed to build boost asio as a shared library rather than a
-header-only library, which is needed to save memory.
 
-This can be enabled by adding `PACKAGECONFIG:append =3D " asio-shared"` to
-`boost_%.bbappend`.
+On 04-09-2026 03:04 am, Yoann Congal wrote:
+> CAUTION: This email comes from a non Wind River email account!
+> Do not click links or open attachments unless you recognize the sender and know the content is safe.
+>
+> On Tue Aug 11, 2026 at 1:58 PM CEST, Harish via lists.openembedded.org Sadineni wrote:
+>> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>>
+>> Kernel Rust support on riscv64 requires building the kernel with Clang.
+>> Since Wrynose does not provide Clang toolchian support for kernel
+>> builds, skip the recipe when TARGET_ARCH is riscv64.
+> Hello,
+>
+> OE-Core/wrynose indeed does not but meta-clang seem to do that:
+> https://github.com/kraj/meta-clang/blob/wrynose/conf/nonclangable.conf#L369
+>
+> Wouldn't this patch needlessly prevent user from using meta-clang to get
+> a RISCV rust-enabled kernel?
+>
+> I wonder if we need a patch more like master's:
+> 2b228490b7e (kernel-yocto-rust: Add clang toolchain check for riscv64, 2026-08-05)
+>
+> What do you think?
+Hi Yoann,
 
-Signed-off-by: Gustav Lindberg <gustali@axis.com>
----
- meta/recipes-support/boost/boost.inc          | 25 +++++++++++++++++++
- .../boost/boost/boost_asio.cpp                |  1 +
- 2 files changed, 26 insertions(+)
- create mode 100644 meta/recipes-support/boost/boost/boost_asio.cpp
+I understood what you meant, If someone uses 'linux-yocto_%.bbappend' to 
+build the kernel with the clang toolchain [1],
+this patch would prevent them from using rust in the kernel. Is my 
+understanding correct?
 
-diff --git a/meta/recipes-support/boost/boost.inc b/meta/recipes-support/bo=
-ost/boost.inc
-index 64a57ddfb2..0267d8e819 100644
---- a/meta/recipes-support/boost/boost.inc
-+++ b/meta/recipes-support/boost/boost.inc
-@@ -16,6 +16,7 @@ do_configure[cleandirs] =3D "${B}"
-=20
- BOOST_LIBS =3D "\
- 	atomic \
-+	asio \
- 	charconv \
- 	chrono \
- 	container \
-@@ -51,11 +52,14 @@ BOOST_LIBS =3D "\
-=20
- # optional libraries
- PACKAGECONFIG ??=3D "locale python"
-+PACKAGECONFIG[asio-shared] =3D ",,"
- PACKAGECONFIG[locale] =3D ",,icu"
- PACKAGECONFIG[graph_parallel] =3D ",,,boost-mpi mpich"
- PACKAGECONFIG[mpi] =3D ",,mpich"
- PACKAGECONFIG[python] =3D ",,python3"
-=20
-+SRC_URI:append =3D " ${@bb.utils.contains('PACKAGECONFIG', 'asio-shared', =
-'file://boost_asio.cpp', '', d)}"
-+
- inherit python3-dir
- PYTHON_ROOT =3D "${STAGING_DIR_HOST}/${prefix}"
-=20
-@@ -198,6 +202,20 @@ do_compile() {
- 		--debug-configuration
- }
-=20
-+do_compile:append() {
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'asio-shared', 'true', 'false', =
-d)}; then
-+		${CXX} ${CPPFLAGS} ${CXXFLAGS} \
-+			-DBOOST_ASIO_DYN_LINK=3D1 \
-+			-I${S} \
-+			-fPIC \
-+			-shared \
-+			-Wl,-soname,libboost_asio.so.${PV} \
-+			${UNPACKDIR}/boost_asio.cpp \
-+			${LDFLAGS} \
-+			-o ${B}/libboost_asio.so.${PV}
-+	fi
-+}
-+
- do_install() {
- 	cd ${S}
- 	b2 ${BJAM_OPTS} \
-@@ -220,4 +238,11 @@ do_install() {
-=20
- }
-=20
-+do_install:append() {
-+	if ${@bb.utils.contains('PACKAGECONFIG', 'asio-shared', 'true', 'false', =
-d)}; then
-+		install -Dm 0755 ${B}/libboost_asio.so.${PV} ${D}${libdir}/libboost_asio=
-.so.${PV}
-+		ln -sf libboost_asio.so.${PV} ${D}${libdir}/libboost_asio.so
-+	fi
-+}
-+
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-support/boost/boost/boost_asio.cpp b/meta/recipes=
--support/boost/boost/boost_asio.cpp
-new file mode 100644
-index 0000000000..eb3b7262c3
---- /dev/null
-+++ b/meta/recipes-support/boost/boost/boost_asio.cpp
-@@ -0,0 +1 @@
-+#include <boost/asio/impl/src.hpp>
-\ No newline at end of file
---=20
-2.43.0
+If so, I'll implement the same clang toolchain check as 
+'kernel-yocto-rust: Add clang toolchain check for riscv64' for wrynose,
+and just adjust the error message accordingly.
 
-Rename `asio` packageconfig flag to `asio-shared` and include asio in BOOST=
-_LIBS unconditionally.
+[1]https://github.com/kraj/meta-clang/blob/wrynose/README.md#kernel-build-with-clang
 
-> No custom compiler executions please. Building a shared library should
-> be done by the boost build system itself, and enabled via a flag to it
-> during do_configure (e.g. via PACKAGECONFIG_CONFARGS or BJAM_EXTRA).
-> You probably need to patch boost to do this, and send the needed patch
-> upstream.
-
-I spent a day trying to get that to work, but it doesn't seem to be possibl=
-e. Everything I tried either breaks
-the header-only version or doesn't build the shared library.
+<https://github.com/kraj/meta-clang/blob/wrynose/README.md#kernel-build-with-clang>Thanks,
+harish
+>> This avoids attempting an unsupported kernel Rust build and provides a
+>> clear parse-time error explaining the limitation.
+>>
+>> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+>> ---
+>>   meta/classes-recipe/kernel-yocto-rust.bbclass | 9 +++++++++
+>>   1 file changed, 9 insertions(+)
+>>
+>> diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes-recipe/kernel-yocto-rust.bbclass
+>> index 49f2bfc1ae..6be97c2db8 100644
+>> --- a/meta/classes-recipe/kernel-yocto-rust.bbclass
+>> +++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
+>> @@ -25,3 +25,12 @@ do_kernel_configme:append () {
+>>   # More details in: https://lists.openembedded.org/g/openembedded-core/message/229336
+>>   # Disable ccache for kernel build if kernel rust support is enabled to workaround this.
+>>   CCACHE_DISABLE ?= "1"
+>> +
+>> +python () {
+>> +    if d.getVar('TARGET_ARCH') == 'riscv64' :
+>> +        raise bb.parse.SkipRecipe(
+>> +            "Rust support in the kernel on riscv64 requires kernel to build with clang, "
+>> +            "Wrynose doesn't have clang toolchain support for kernel. See "
+>> +            "https://docs.kernel.org/rust/arch-support.html for details."
+>> +        )
+>> +}
+> Regards,
+> --
+> Yoann Congal
+> Smile ECS
 
