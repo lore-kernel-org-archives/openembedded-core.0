@@ -2,32 +2,32 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5C639C79F82
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF17C79F88
 	for <webhook@archiver.kernel.org>; Fri,  4 Sep 2026 13:38:28 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13889.1788529100520856390
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14076.1788529101185685236
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 06:38:20 -0700
+ Fri, 04 Sep 2026 06:38:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=nvBDLOUC;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=TV3QmtEZ;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5228F152B
-	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 06:38:16 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 0BA72152B
+	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 06:38:17 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 97D283F7D8
-	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 06:38:19 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5CED23F7D8
+	for <openembedded-core@lists.openembedded.org>; Fri,  4 Sep 2026 06:38:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788529100; bh=CNgXIB5DljLDY3RSidcTRnJezIFFTRMq7gs4yZf+ZWw=;
+	t=1788529100; bh=PuDrsPA72b2M+Fe/H4N5AvOk015S+LfOHJN0yeUxZrw=;
 	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=nvBDLOUCx0r3nKkX2T1PiojpSwBhx7yrOZodFyixYjdkSpNiG/Z19LkpxKawrW3r9
-	 aOhGqycoNJM+32V+3wedZiaDGOSpIiKDELRmerSByFxVyRpbmV6LtZfOPb+zht9nP7
-	 xWYhUu+VETUTdiNq25/tpHLxD1uumY2ZIUmXeAmA=
+	b=TV3QmtEZSED9hjRaGAG9/1mPvKGEHZl9M1JzANMXypx14TfcLwU7xiIqziPD6pfeV
+	 nU21ZWj7ClMNPBT3kDjGcimlAoyjYv7noqMq5mGw7xqGXiYwCVSkSET4MGn0yXE9t4
+	 RitCp938DkjIyCO1ydgEbo4kNN8g0J5lWPuaNWyk=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 3/4] classes/pypi: rename pypi_package() to pypi_default_package()
-Date: Fri,  4 Sep 2026 14:38:14 +0100
-Message-ID: <20260904133815.778303-3-ross.burton@arm.com>
+Subject: [PATCH v2 4/4] pypi: improve upstream check regex
+Date: Fri,  4 Sep 2026 14:38:15 +0100
+Message-ID: <20260904133815.778303-4-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260904133815.778303-1-ross.burton@arm.com>
 References: <20260904133815.778303-1-ross.burton@arm.com>
@@ -37,43 +37,87 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 04 Sep 2026 13:38:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245112
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245113
 
-Make it clear that this function returns a default value.
+Currently the upstream release checker fetches the Simple API release
+index which lists all of the uploaded files.  However the naming rules
+have evolved over time[1] so matching the value of PYPI_PACKAGE fails if
+the sdist filename was not normalised but then is normalised.
+
+Remove UPSTREAM_CHECK_PYPI_PACKAGE which is realistically unused[2] and
+instead transform the PYPI_PACKAGE into a regular expression that
+handles both - and _ being used in the filename.
+
+Change the version number match so that it handles .postN suffixes, as
+defined in the Version Specifiers documentation[3]. We don't want to
+match any alphanumeric characters as this would also match development
+snapshots and release candidates.
+
+Finally escape the . between the version and the extension, so this
+matches a literal . and not any character.
+
+Across oe-core and meta-oe this improves the upstream detection quite
+significantly:
+
+- 93 recipes move from a broken check to up-to-date
+- 21 recipes move from a broken check to needing an update
+- 30 recipes move from up-to-date to needing an update
+
+[1] Specifically PEP-0427 introduced normalisation of special characters
+    to underscores and lowercasing.
+[2] No users in oe-core, three in meta-oe which are no longer needed
+    after this change.
+[3] https://packaging.python.org/en/latest/specifications/version-specifi=
+ers/
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/pypi.bbclass | 8 ++++++--
- 1 file changed, 6 insertions(+), 2 deletions(-)
+ meta/classes-recipe/pypi.bbclass | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/meta/classes-recipe/pypi.bbclass b/meta/classes-recipe/pypi.=
 bbclass
-index b42b171e151..eb13ffe7e71 100644
+index eb13ffe7e71..08788fcb9a9 100644
 --- a/meta/classes-recipe/pypi.bbclass
 +++ b/meta/classes-recipe/pypi.bbclass
-@@ -4,7 +4,11 @@
- # SPDX-License-Identifier: MIT
+@@ -39,8 +39,7 @@ def pypi_src_uri(d):
+=20
+ def pypi_normalize(d):
+     """"
+-        Normalize the package names to match PEP625 (https://peps.python=
+.org/pep-0625/).
+-        For non-compliant packages, maintainers can set UPSTREAM_CHECK_P=
+YPI_PACKAGE to override the normalization
++    Normalize the package names to match PEP625 (https://peps.python.org=
+/pep-0625/).
+     """
+     import re
+     return re.sub(r"[-_.]+", "-", d.getVar('PYPI_PACKAGE')).lower()
+@@ -52,7 +51,10 @@ SECTION =3D "devel/python"
+ SRC_URI:prepend =3D "${PYPI_SRC_URI} "
+ S =3D "${UNPACKDIR}/${PYPI_PACKAGE}-${PV}"
+=20
+-UPSTREAM_CHECK_PYPI_PACKAGE ?=3D "${PYPI_PACKAGE}"
++def pypi_normalize_regex(d):
++    # Use a regex wildcard instead of hyphen as the filenames
++    # may or may not have been normalised properly.
++    return pypi_normalize(d).replace("-", "[_-]")
+=20
+ # Use the simple repository API rather than the potentially unstable pro=
+ject URL
+ # More information on the pypi API specification is avaialble here:
+@@ -60,7 +62,7 @@ UPSTREAM_CHECK_PYPI_PACKAGE ?=3D "${PYPI_PACKAGE}"
  #
+ # NOTE: All URLs for the simple API MUST request canonical normalized UR=
+Ls per the spec
+ UPSTREAM_CHECK_URI ?=3D "https://pypi.org/simple/${@pypi_normalize(d)}/"
+-UPSTREAM_CHECK_REGEX ?=3D "(?i)${UPSTREAM_CHECK_PYPI_PACKAGE}-(?P<pver>(=
+\d+[\.\-_]*)+).(tar\.gz|tgz|zip|tar\.bz2)"
++UPSTREAM_CHECK_REGEX ?=3D "(?i)${@pypi_normalize_regex(d)}-(?P<pver>(\d+=
+(\.[\d\-]+)*(\.post\d+)?))\.(tar\.gz|tgz|zip|tar\.bz2)"
 =20
--def pypi_package(d):
-+def pypi_default_package(d):
-+    """
-+    Return a reasonable guess for the PyPI package name by
-+    stripping any python- prefix from PN.
-+    """
-     bpn =3D d.getVar('BPN')
-     if bpn.startswith('python-'):
-         return bpn[7:]
-@@ -13,7 +17,7 @@ def pypi_package(d):
-     return bpn
+ CVE_PRODUCT ?=3D "python:${PYPI_PACKAGE}"
 =20
- # The PyPi package name (defaults to PN without the python3- prefix)
--PYPI_PACKAGE ?=3D "${@pypi_package(d)}"
-+PYPI_PACKAGE ?=3D "${@pypi_default_package(d)}"
- # The file extension of the source archive
- PYPI_PACKAGE_EXT ?=3D "tar.gz"
- # An optional prefix for the download file in the case of name collision=
-s
 --=20
 2.43.0
 
