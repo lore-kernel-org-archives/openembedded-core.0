@@ -2,225 +2,358 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E280C624D6
-	for <webhook@archiver.kernel.org>; Sat,  5 Sep 2026 07:39:11 +0000 (UTC)
-Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3965.1788593946081881048
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2EC4C624DB
+	for <webhook@archiver.kernel.org>; Sat,  5 Sep 2026 09:06:51 +0000 (UTC)
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4598.1788599201673057162
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Sep 2026 00:39:06 -0700
+ Sat, 05 Sep 2026 02:06:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JUnev1zs;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.50, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-485888b3c3dso1848360f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 00:39:05 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=BwJd+iYR;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.52, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-484374f54d0so1097236f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 02:06:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1788593944; x=1789198744; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=g8KZ6e7+I7sJZbHkGJoKsct+NlC+WJGK6CX4Cnp1DYc=;
-        b=JUnev1zsibhOClqS0AbIPt9SxLyDASGHCp2E/4NnGZjzBpfthDHg+6d9UdmkFhQoIx
-         GSOp/Omt24PerDrUMoKybH7NKM1N4Ht/BOr/9x6dP0T0athS0vUQ9GPXvdL+avYAHcxj
-         feK1U5jdXXVbtSEqb0vNBObakSWJQ4hIX1q0I=
+        d=linuxfoundation.org; s=google; t=1788599200; x=1789204000; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9hYYNbglzoF9JqmvyOSPI5azWUhuNFmLgFgpcem8PgY=;
+        b=BwJd+iYRX4nkOfgrdFMZRegl9Z3gIYKxBc4sgElovTQ2ywOmwrlN4jruAI3OqOjkTF
+         i3jISeCTjejrGac8AY1vGY5JQgSxnbD7mwP2+s4TSjiQ4bqSo1HSbRoHrW8si2/uJmjm
+         xouEPQ2OXz8tC9v31BbqKmPNNQUDBVAmbsIic=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788593944; x=1789198744;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=g8KZ6e7+I7sJZbHkGJoKsct+NlC+WJGK6CX4Cnp1DYc=;
-        b=bjBu9XNrFPITuHpSkgSN2POUWQO8cQrZ6DCAoAm/SCmRvUR7PBXQhO3LR48QALRMQS
-         tAM2wra8MgLSVRs9mMw/JQguAy+F9WND2cqHVKawbmOFSyJIhCRul/4VdV1PCF07TaXU
-         5VeyCND69M1aWb9LQ+sVSrsoynVEDogwIHYvDbBtOfA/4SVihzoN8PjV8pz1yk2U4al5
-         4bFPQEuam0CFRsfOMvlvEU0pXYzzsY0DHjthzE2j47TOT7R6+eScvvgjiZN2oVAhwTaY
-         fg2GcaB+0qx2zU41XQ9YBBfBhsZTkDwIT5SN5PARFhJsUvVlDgUcsMx2o3GgaA4rA0GJ
-         RJ+A==
-X-Forwarded-Encrypted: i=1; AKwUvBwtVNNG7AMHdM0MippkcHv6HZSk7+ChoRASNT7RLzD/CPAjEd0Je9HOPln40Q2z6vuiS73B19LrpumV+XwxDuMa9Q==@lists.openembedded.org
-X-Gm-Message-State: AFuF++mD9lglhYr4TH6feDwhHbaDzWyWtjDLSdP24T4zvexOGBP7hXN4
-	zJWV462HKy0KZBUIDynZegtUrnxFr1O3eBzvCKzKNJOLxn6c1vSyzRgHBRRDV6zZsZI=
-X-Gm-Gg: AYBFou0bIyS04iEXn+TUprAlH/4DLG2yZN9TSH5GOKE5fJbLzmDsEO3bfLmlYTsyhE1
-	duE8Z0xnwy5gwJPYmrNk8AmYmXMkaBZ7IVRCGYpy7E54OzuSLf28F5MoRrPX7aHAInonoMKpbja
-	9dsIKRGcYTgOWOlHLg09torwhdoiB/yoD5uhYkoEQcFOGJ4U0i3yYuAtZJRAs2utrsEQz2WRq4H
-	GotwZq7kqWijXmGzcs87m6cXnBqTwlrbSDHRv/IVseSZy4K+tGTJDNjqNYeUwmYgElI8r2BLk64
-	TVaCnEJMQmv2SGL7ONyrXz3bnrrfQB5CuxlPMfSteSDab0NCQnhzxlz+KyTeyoxbv5ZD+64EDtN
-	35bT4y2cvOjPjNVnSNji4oN1OCRpNJwf4X7pDMDb8JNxYwKABTbl5uhMvybcjy3/kFcZAZ6ZTZl
-	/i9I6veTG4NFZZGxL2H+Pl3aw/vKSGkYqvmThRBPP3+chGUBg7ODPm73awcLrf1orgWYSMBAlg1
-	+RAvZIqBkX4O8KGMETOpIvqxjBZAK4o2i3SjG8khf2WS0NLN+o=
-X-Received: by 2002:a05:6000:4a14:b0:485:8f42:e8e2 with SMTP id ffacd0b85a97d-4858f42eb77mr3783710f8f.1.1788593944158;
-        Sat, 05 Sep 2026 00:39:04 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:98f:90b6:41a8:38d5? ([2001:8b0:aba:5f3c:98f:90b6:41a8:38d5])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48591eb3d3bsm2482190f8f.0.2026.09.05.00.39.02
+        d=1e100.net; s=20251104; t=1788599200; x=1789204000;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=9hYYNbglzoF9JqmvyOSPI5azWUhuNFmLgFgpcem8PgY=;
+        b=ioHoTy/cY72xQFMcIMePuKawXvbu+G8K7GIPUMTCbl6MM9PSE9OF8M+XmJSFiatUEh
+         vJT5KVU4sz1Ts6InEjMkOhFvE03qtIo4S1vMUld/KNSEz6/hVQX+7+MUDOC0/ir+MvYq
+         5Ng5lotIel1BhjopEyV9d1fI7UB9PVerBxpI+O8SdwcCKrPe0x/BSUmextjGV43LLrtX
+         RGZieRh6Drgm3myVCsd28u3MI1kIzD4qUu0jX0HUWxiTVFf7/S/GI7cmPyHDnl+kiRVp
+         d3BBc1prhUhk+tqRKvK2Vnl2vHFY0eyZR1bQx+nSMQG7mqXo5lkmyaSgoRnXOGv0abPS
+         5KtQ==
+X-Gm-Message-State: AFuF++naDKVBzEeAF69GOk4kkyUatwxjfn0VtWcS6UYyVwhBqgKmSpBH
+	j7kUfClTmc4pOPts+sQryWery/a3bPNYQRyRQ9VjvUd+wlIzcLp6JkgiqJTjID2V5F2dDyJVdT1
+	YVnTrjPw=
+X-Gm-Gg: AYBFou2uIC+GSn8zc+RFNVHkXBFw69A5Sh31VKz2tZSKsJz22Qne742pzUjvFEgwgQ8
+	cdSWy2yFEeiFKx6xsCgF6drppyZo1GbzImsLSd5ClCzgJ1onltm+6KiXsFTeowaK4vW8jBH+Ufa
+	UlJu6E+rH+kAmgd6u6DhQ+PKou30WaMLzgpW2h4P1gSj5L4usxZNEXXRXF5wBxV7t2owKNVMXhy
+	L/iR4t/llbTwz6IKGRN6j/+mhA6X1drRH3GhsadOM0BmL7Rg+Qr6TosVQKWZwN33Age4cHHGuxU
+	IJNKDto2A5r1rnG/rN1FunFPKixNCGv+54O5e/yRYGESJV5WJ69HD30oqFs+AF8qLhKuh0oTj+E
+	PcMTWsV2j7AcF8Z9KHQSOGoQspGWbIWfiz1B6gV0sJiptWXlOMLFkSIz+0swOYoU8j61KT4pQ1G
+	wWvxeX+JMW51rOB+anNPsbKt1G2BDhmsgdPQIp4BMNhMrtn3eoz6/EQQXeFdJhyNb6ulAUtEDmW
+	Zwu53/t1pCFol8E
+X-Received: by 2002:a05:6000:2585:b0:485:8e72:93ad with SMTP id ffacd0b85a97d-4858e729492mr12768271f8f.0.1788599199505;
+        Sat, 05 Sep 2026 02:06:39 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:98f:90b6:41a8:38d5])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885bbb51sm12613729f8f.30.2026.09.05.02.06.38
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 00:39:03 -0700 (PDT)
-Message-ID: <7f5c5ec971adc08fc5e2ca6e4b0c30840880cb3f.camel@linuxfoundation.org>
-Subject: Re: [OE-core][PATCH v7 2/5] kernel: re-sign kernel modules after
- package stripping process
+        Sat, 05 Sep 2026 02:06:38 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: Anis Bougrine <anis.bougrine10@gmail.com>, 
-	openembedded-core@lists.openembedded.org
-Cc: Ross Burton <ross.burton@arm.com>, Bruce Ashfield
- <bruce.ashfield@gmail.com>
-Date: Sat, 05 Sep 2026 08:39:02 +0100
-In-Reply-To: <20260826233416.37047-3-anis.bougrine10@gmail.com>
-References: <20260826233416.37047-1-anis.bougrine10@gmail.com>
-	 <20260826233416.37047-3-anis.bougrine10@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] meta/lib: Clean up python library imports
+Date: Sat,  5 Sep 2026 10:06:37 +0100
+Message-ID: <20260905090637.2747518-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 07:39:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245145
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 09:06:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245146
 
-On Thu, 2026-08-27 at 01:34 +0200, Anis Bougrine wrote:
-> Fixes [YOCTO #12927]
->=20
-> Currently, signed kernel modules are not stripped in order to preserve
-> their valid signatures. See commit 4c47e5f.
->=20
-> Therefore, this commit makes kernel modules stripped and correctly
-> signed. Two options are possible:
->=20
-> =C2=A0=C2=A0=C2=A0 - Strip the kernel modules after installation and befo=
-re signing.
-> =C2=A0=C2=A0=C2=A0 - Re-sign the kernel modules after stripping and befor=
-e package splitting.
->=20
-> The first option was rejected because debug symbols would be dropped earl=
-y
-> in the build workflow, which may impact the SPDX process.
->=20
-> The second option is adopted because it does not impact the build flow.
->=20
-> Reported-by: Ross Burton <ross.burton@arm.com>
-> Signed-off-by: Anis Bougrine <anis.bougrine10@gmail.com>
-> ---
-> =C2=A0.../kernel-module-split.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 25 +++++++++++++++++++
-> =C2=A01 file changed, 25 insertions(+)
->=20
-> diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/class=
-es-recipe/kernel-module-split.bbclass
-> index ab2f0d1c37..2b40437cc2 100644
-> --- a/meta/classes-recipe/kernel-module-split.bbclass
-> +++ b/meta/classes-recipe/kernel-module-split.bbclass
-> @@ -35,6 +35,11 @@ modprobedir ??=3D "${@bb.utils.contains('DISTRO_FEATUR=
-ES', 'systemd', '${nonarch_b
-> =C2=A0
-> =C2=A0KERNEL_SPLIT_MODULES ?=3D "1"
-> =C2=A0PACKAGESPLITFUNCS =3D+ "split_kernel_module_packages"
-> +# Order matters:
-> +# 1. Strip the modules
-> +# 2. Re-sign the modules (if enabled)
-> +# 3. Split the packages
-> +PACKAGESPLITFUNCS =3D+ "post_strip_kernel_modules_signing"
-> =C2=A0
-> =C2=A0KERNEL_MODULES_META_PACKAGE ?=3D "${@ d.getVar("KERNEL_PACKAGE_NAME=
-") or "kernel" }-modules"
-> =C2=A0
-> @@ -42,6 +47,26 @@ KERNEL_MODULE_PACKAGE_PREFIX ?=3D ""
-> =C2=A0KERNEL_MODULE_PACKAGE_SUFFIX ?=3D "-${KERNEL_VERSION}"
-> =C2=A0KERNEL_MODULE_PROVIDE_VIRTUAL ?=3D "1"
-> =C2=A0
-> +# This function supports both in-tree and out-of-tree modules.
-> +post_strip_kernel_modules_signing(){
-> +=C2=A0=C2=A0=C2=A0 # Read .config values to determine if module auto-sig=
-ning is enabled
-> +=C2=A0=C2=A0=C2=A0 is_modules=3D"$(${STAGING_KERNEL_DIR}/scripts/config =
---file ${KBUILD_OUTPUT}/.config --state MODULES)"
-> +=C2=A0=C2=A0=C2=A0 is_module_sig=3D"$(${STAGING_KERNEL_DIR}/scripts/conf=
-ig --file ${KBUILD_OUTPUT}/.config --state MODULE_SIG)"
-> +=C2=A0=C2=A0=C2=A0 is_module_sig_all=3D"$(${STAGING_KERNEL_DIR}/scripts/=
-config --file ${KBUILD_OUTPUT}/.config --state MODULE_SIG_ALL)"
-> +
-> +=C2=A0=C2=A0=C2=A0 if [ "$is_modules" =3D "y" ] && [ "$is_module_sig" =
-=3D "y" ] && [ "$is_module_sig_all" =3D "y" ]; then
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Sign modules under ${PKGD},=
- with M=3D if out-of-tree module.
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Out-of-tree module Makefile=
-s invoke the kernel Makefile by appending M=3D (the module directory) to MA=
-KEFLAGS.
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # However, they usually do no=
-t provide a modules_sign target. Therefore, the kernel modules_sign target =
-has to
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # be invoked manually after r=
-etrieving M=3D variable from package source code Makefile.
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 oe_runmake \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -C ${=
-KBUILD_OUTPUT}=C2=A0 \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MODLI=
-B=3D${PKGD}${nonarch_base_libdir}/modules/${KERNEL_VERSION} \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${@'M=
-=3D%s' % oe.kernel_module.get_ext_mod(d) if not "virtual/kernel" in d.getVa=
-r('PROVIDES') else ''} \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 modul=
-es_sign
-> +=C2=A0=C2=A0=C2=A0 fi
-> +}
+There are a number of places os isn't imported as in class code, bitbake
+has always handled this. Some external usages of the modules are triggering
+exceptions from missing imports after bitbake's own imports were cleaned up.
 
-This has merged and I'm really happy to see the signing code improved.
-There is a weird bug this as introduced though where the eSDK is
-breaking in kernel module compile tests.
+Add the easily identified missing import os calls and move other imports
+to the start of the files whilst there.
 
-This is an example failure:
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ meta/lib/oe/bootfiles.py        | 11 ++++++-----
+ meta/lib/oe/buildstats.py       |  1 +
+ meta/lib/oe/copy_buildsystem.py |  8 +++-----
+ meta/lib/oe/distro_check.py     |  5 +++--
+ meta/lib/oe/kernel.py           |  1 +
+ meta/lib/oe/license.py          |  1 +
+ meta/lib/oe/npm_registry.py     |  1 +
+ meta/lib/oe/path.py             |  1 +
+ meta/lib/oe/sanity.py           |  1 +
+ meta/lib/oe/spdx_common.py      |  1 +
+ meta/lib/oe/sstatesig.py        |  1 +
+ meta/lib/oe/terminal.py         |  1 +
+ meta/lib/oe/utils.py            |  1 +
+ meta/lib/oeqa/utils/__init__.py | 10 +++++-----
+ meta/lib/oeqa/utils/metadata.py |  2 ++
+ 15 files changed, 29 insertions(+), 17 deletions(-)
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/4551
-
-In the bad environment, you can source the test eSDK environment:
-
-. /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-lin=
-ux/core-image-sato/1.0/testsdkext/environment-setup-core2-32-poky-linux
-
-Rerun the compile step:
-
-/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux=
-/core-image-sato/1.0/testsdkext/tmp/work/qemux86-poky-linux/kernel-module-h=
-ello-world/1.0+git/temp/run.do_compile
-
-where you see hello-world.ko get generated:
-
-make[2]: Entering directory '/srv/pokybuild/yocto-worker/qemux86/build/buil=
-d/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testsdkext/workspace/sour=
-ces/kernel-module-hello-world'
-  LD [M]  hello-world.ko
-make[2]: Leaving directory '/srv/pokybuild/yocto-worker/qemux86/build/build=
-/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testsdkext/workspace/sourc=
-es/kernel-module-hello-world'
-
-then watch:
-
-devtool build kernel-module-hello-world
-
-fail as above, noting that the hello-world.ko file disappears by the time i=
-t runs.
-
-To cut a long story short (hours of debugging), this happens during
-parsing of the kernel-module-hello-world recipe. If you add a
-bb.warn("Executing make") to oe.kernel_module.get_ext_mod() in
-meta/lib/oe/kernel_module.py, you will see it runs make during parsing
-and that make command deletes the .ko file.
-
-This raises a few questions:
-
-a) why is make being run during parsing?
-
-The shell function is being expanded to work out dependencies=C2=A0=20
-and=C2=A0that triggers the python function call. This should definitely not
-be happening during parsing so that is a bug.
-
-b) why does calling --dry-run on the kernel makefile delete files?
-
-We need to fix this somehow to avoid the failures/bad behaviour. I at
-least wanted to explain the issue now I'd found the underlying area of
-the problem. I've not really had a chance to think about solutions yet.
-
-Cheers,
-
-Richard
-
-
-
-
+diff --git a/meta/lib/oe/bootfiles.py b/meta/lib/oe/bootfiles.py
+index 7ee148c4e25..c69db1ad582 100644
+--- a/meta/lib/oe/bootfiles.py
++++ b/meta/lib/oe/bootfiles.py
+@@ -12,11 +12,12 @@
+ #
+ # Heavily inspired of bootimg_partition.py
+ #
+-def get_boot_files(deploy_dir, boot_files):
+-    import re
+-    import os
+-    from glob import glob
+ 
++import os
++import re
++import glob
++
++def get_boot_files(deploy_dir, boot_files):
+     if boot_files is None:
+         return None
+ 
+@@ -45,7 +46,7 @@ def get_boot_files(deploy_dir, boot_files):
+                                 os.path.join(dst,
+                                              os.path.basename(name))
+ 
+-            srcs = glob(os.path.join(deploy_dir, src))
++            srcs = glob.glob(os.path.join(deploy_dir, src))
+ 
+             for entry in srcs:
+                 src = os.path.relpath(entry, deploy_dir)
+diff --git a/meta/lib/oe/buildstats.py b/meta/lib/oe/buildstats.py
+index 2700245ec69..db3d26afb8b 100644
+--- a/meta/lib/oe/buildstats.py
++++ b/meta/lib/oe/buildstats.py
+@@ -7,6 +7,7 @@
+ # Because it is a real Python module, it can hold persistent state,
+ # like open log files and the time of the last sampling.
+ 
++import os
+ import time
+ import re
+ import bb.event
+diff --git a/meta/lib/oe/copy_buildsystem.py b/meta/lib/oe/copy_buildsystem.py
+index ced751b8356..73b868ff2ec 100644
+--- a/meta/lib/oe/copy_buildsystem.py
++++ b/meta/lib/oe/copy_buildsystem.py
+@@ -12,11 +12,13 @@
+ #                              e.g.: ".*-downloads closed-.*"
+ #
+ 
++import os
++import re
+ import stat
+ import shutil
++import subprocess
+ 
+ def _smart_copy(src, dest):
+-    import subprocess
+     # smart_copy will choose the correct function depending on whether the
+     # source is a file or a directory.
+     mode = os.stat(src).st_mode
+@@ -38,7 +40,6 @@ class BuildSystem(object):
+         self.layers_exclude_pattern = d.getVar('SDK_LAYERS_EXCLUDE_PATTERN')
+ 
+     def copy_bitbake_and_layers(self, destdir, workspace_name=None):
+-        import re
+         # Copy in all metadata layers + bitbake (as repositories)
+         copied_corebase = None
+         layers_copied = []
+@@ -261,7 +262,6 @@ def merge_lockedsigs(copy_tasks, lockedsigs_main, lockedsigs_extra, merged_outpu
+         write_sigs_file(merged_output, arch_order, merged)
+ 
+ def create_locked_sstate_cache(lockedsigs, input_sstate_cache, output_sstate_cache, d, fixedlsbstring="", filterfile=None):
+-    import shutil
+     bb.note('Generating sstate-cache...')
+ 
+     nativelsbstring = d.getVar('NATIVELSBSTRING')
+@@ -282,8 +282,6 @@ def create_locked_sstate_cache(lockedsigs, input_sstate_cache, output_sstate_cac
+                         shutil.move(src, dest)
+ 
+ def check_sstate_task_list(d, targets, filteroutfile, cmdprefix='', cwd=None, logfile=None):
+-    import subprocess
+-
+     bb.note('Generating sstate task list...')
+ 
+     if not cwd:
+diff --git a/meta/lib/oe/distro_check.py b/meta/lib/oe/distro_check.py
+index 3494520f40d..1d78348ff3d 100644
+--- a/meta/lib/oe/distro_check.py
++++ b/meta/lib/oe/distro_check.py
+@@ -4,6 +4,9 @@
+ # SPDX-License-Identifier: GPL-2.0-only
+ #
+ 
++import os
++import shutil
++
+ def create_socket(url, d):
+     import urllib
+     from bb.utils import export_proxies
+@@ -150,8 +153,6 @@ def get_latest_released_ubuntu_source_package_list(d):
+     return latest, package_names
+ 
+ def create_distro_packages_list(distro_check_dir, d):
+-    import shutil
+-
+     pkglst_dir = os.path.join(distro_check_dir, "package_lists")
+     bb.utils.remove(pkglst_dir, True)
+     bb.utils.mkdirhier(pkglst_dir)
+diff --git a/meta/lib/oe/kernel.py b/meta/lib/oe/kernel.py
+index ff88c41b218..624eace10ec 100644
+--- a/meta/lib/oe/kernel.py
++++ b/meta/lib/oe/kernel.py
+@@ -4,6 +4,7 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
++import os
+ import re
+ 
+ # Return a value for the ARCH environment variable for kernel compilation (including
+diff --git a/meta/lib/oe/license.py b/meta/lib/oe/license.py
+index adcfc827cfc..bd1d85ad5fd 100644
+--- a/meta/lib/oe/license.py
++++ b/meta/lib/oe/license.py
+@@ -6,6 +6,7 @@
+ """Code for parsing OpenEmbedded license strings"""
+ 
+ import ast
++import os
+ import re
+ import oe.qa
+ from fnmatch import fnmatchcase as fnmatch
+diff --git a/meta/lib/oe/npm_registry.py b/meta/lib/oe/npm_registry.py
+index d97ced7cdaf..6d8ad903cfd 100644
+--- a/meta/lib/oe/npm_registry.py
++++ b/meta/lib/oe/npm_registry.py
+@@ -4,6 +4,7 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
++import os
+ import bb
+ import json
+ import subprocess
+diff --git a/meta/lib/oe/path.py b/meta/lib/oe/path.py
+index 7255d99bc2f..88d256f00b4 100644
+--- a/meta/lib/oe/path.py
++++ b/meta/lib/oe/path.py
+@@ -6,6 +6,7 @@
+ 
+ import errno
+ import glob
++import os
+ import shutil
+ import subprocess
+ import os.path
+diff --git a/meta/lib/oe/sanity.py b/meta/lib/oe/sanity.py
+index 387d745024c..c9149ec974d 100644
+--- a/meta/lib/oe/sanity.py
++++ b/meta/lib/oe/sanity.py
+@@ -4,6 +4,7 @@
+ # SPDX-License-Identifier: MIT
+ #
+ 
++import os
+ import oe.utils
+ 
+ def bblayers_conf_file(d):
+diff --git a/meta/lib/oe/spdx_common.py b/meta/lib/oe/spdx_common.py
+index f885f1832ae..ad2bc0ffda3 100644
+--- a/meta/lib/oe/spdx_common.py
++++ b/meta/lib/oe/spdx_common.py
+@@ -8,6 +8,7 @@ import bb
+ import collections
+ import json
+ import oe.packagedata
++import os
+ import re
+ import shutil
+ 
+diff --git a/meta/lib/oe/sstatesig.py b/meta/lib/oe/sstatesig.py
+index bd509800726..9928f3af495 100644
+--- a/meta/lib/oe/sstatesig.py
++++ b/meta/lib/oe/sstatesig.py
+@@ -7,6 +7,7 @@ import bb.parse
+ import bb.siggen
+ import bb.runqueue
+ import oe
++import os
+ import netrc
+ 
+ def sstate_rundepfilter(siggen, fn, recipename, task, dep, depname, dataCaches):
+diff --git a/meta/lib/oe/terminal.py b/meta/lib/oe/terminal.py
+index ec65b616ab6..a8d3840153f 100644
+--- a/meta/lib/oe/terminal.py
++++ b/meta/lib/oe/terminal.py
+@@ -5,6 +5,7 @@
+ #
+ import logging
+ import oe.classutils
++import os
+ import shlex
+ from bb.process import Popen, ExecutionError
+ 
+diff --git a/meta/lib/oe/utils.py b/meta/lib/oe/utils.py
+index d24f49b875a..66f6323addf 100644
+--- a/meta/lib/oe/utils.py
++++ b/meta/lib/oe/utils.py
+@@ -7,6 +7,7 @@
+ import subprocess
+ import traceback
+ import errno
++import os
+ 
+ import bb.parse
+ from bb import multiprocessing
+diff --git a/meta/lib/oeqa/utils/__init__.py b/meta/lib/oeqa/utils/__init__.py
+index e03f7e33bb0..89e24e6492e 100644
+--- a/meta/lib/oeqa/utils/__init__.py
++++ b/meta/lib/oeqa/utils/__init__.py
+@@ -3,6 +3,11 @@
+ #
+ # SPDX-License-Identifier: MIT
+ #
++
++import importlib
++import os
++import sys
++
+ # Enable other layers to have modules in the same named directory
+ from pkgutil import extend_path
+ __path__ = extend_path(__path__, __name__)
+@@ -24,8 +29,6 @@ def avoid_paths_in_environ(paths):
+ 
+         Returns new PATH without avoided PATHs.
+     """
+-    import os
+-
+     new_path = ''
+     for p in os.environ['PATH'].split(':'):
+        avoid = False
+@@ -56,9 +59,6 @@ def make_logger_bitbake_compatible(logger):
+     return logger
+ 
+ def load_test_components(logger, executor):
+-    import sys
+-    import os
+-    import importlib
+ 
+     from oeqa.core.context import OETestContextExecutor
+ 
+diff --git a/meta/lib/oeqa/utils/metadata.py b/meta/lib/oeqa/utils/metadata.py
+index b320df67e0b..e68cb5ce19f 100644
+--- a/meta/lib/oeqa/utils/metadata.py
++++ b/meta/lib/oeqa/utils/metadata.py
+@@ -5,6 +5,8 @@
+ # Functions to get metadata from the testing host used
+ # for analytics of test results.
+ 
++import os
++
+ from collections import OrderedDict
+ from collections.abc import MutableMapping
+ from xml.dom.minidom import parseString
 
