@@ -2,327 +2,476 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CE2ABC79FA8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB46EC79FAA
 	for <webhook@archiver.kernel.org>; Sat,  5 Sep 2026 20:45:37 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2598.1788641131209828790
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2487.1788641126805165538
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Sep 2026 13:45:31 -0700
+ Sat, 05 Sep 2026 13:45:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=n5/95yRT;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-4858c1c4b4eso1169224f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 13:45:30 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=pp0EUcbV;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49557167508so26652575e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 13:45:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788641129; x=1789245929; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=GwECAu0RkEXnL/dgGAGcF9OflepRBoBMHwCmrY2sa4E=;
-        b=n5/95yRTJAnU5ugaiWTg3i+CAftV3lKHsqmErDuZOjYMjeuP4gXr9k8hkYFet/f3h6
-         M7MP+Np6r/7bZQHDjxAboBuAVIrUxW45KOGSlZZbR8OtxAGyYgf6S9g5iVF+oaFRrgOO
-         z3TTPYn/pbKI3TxrZMTA7C9kZO4E0gYpdFdF8=
+        d=smile.fr; s=google; t=1788641125; x=1789245925; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=uNpfDTk6jCsyMjtCm8h3eRnhz4E3GmkhsoGYq4542eE=;
+        b=pp0EUcbVAkLKbhddOwAD+DfvakVNf2RwNsu3aRR+VZtmOrSwRiOt6S9YIIqMKzUKqv
+         WSTifAPdgTTodNEMBWeLZarcs2v4dagnb44XjZwrr4/d+e4EV2LcyJ+ZEp27y4lLP3Tm
+         M48F2ZeEpXv+jsc7NZudVHXfU/PLkxqxU4uLQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788641129; x=1789245929;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=GwECAu0RkEXnL/dgGAGcF9OflepRBoBMHwCmrY2sa4E=;
-        b=G3p1iYrKkUlwt7m4nFnKncaaEV2NpDiX/LUFxogTSoN3ZUnKpqcrmfbVVyYP8kdREc
-         5SCpN1zUWSwZsvaJ17hK5OUrawjK3Mp+R+Kgxx7YjimWYWL9OOU9qyWjESTfABwuKYxx
-         IwAiwcOCHRn/a51V9E7g/AUKynVdjHxzEXEWdFdDM1CbO9dr/96EPPtV80cL4ZlqCdFC
-         GMkpyKQP15/iM7ItEqGgtDm8Fj7V1uWLD3KG8tB7TM5Zy0O4/6PUPqmURmczWaA2NyqT
-         3SZo9L8GivSX/6+oM6UmJpmKBKgBoFZFDaH5EDEW3U/pRbkJplbwvcfW8yCHjVFVAML9
-         Bogw==
-X-Gm-Message-State: AFuF++mVqejQ8vpV4+8DGnXSV9qMe3i2YB3O/KNlYmX+m5sxyK4MWRDO
-	QyU47OgPoDFISOpsW/CROqj9iOX4bMLaC6gb46NlS0lMwED0eHWxoYVUtkKvnPNw8T7mf7+Nwns
-	yuLD/3BA=
-X-Gm-Gg: AYBFou0accwlpkHGX87zNRaHt8OnZ4dnC9VqYmMtN0ToS57y00AIStnbyTNP9qDdOoi
-	bBgUjGaTTPp/a+5f6KPG6xvIBK6OBC6oWcgMgGe3Z2Rm77+xnKOk4t7k6Rbj33O5jOx93rRjCnT
-	PI1rm4ksLLwL0hiAelMP/Z1QzmMdE6Xwg7BwPYYMTaAO4ZwI4N02rbSh2DMkw0xSL0fC4FT2V3Z
-	Tw7okFBfm5xi/Dze64RyGurIr2dc9cc5r8ZCGGPzjXHYn1FHAYhrsHZyNxlCL4WKtAo558zn0YQ
-	vPa0k8Yp4E6btSZACl7aSw2hgYjna2Xi8mmChBfnXuCkVYVSxYuVkcMELFR28us70kIlecYoY/u
-	LCB+R3DdYJCcNdNe84gGeCH8Uxi72338OdEp10n8V/dUNaf55XYN9z86MHrN6GRQDW4OjTRj6bD
-	C+D7KwY/xGjo60Tj8Vifyw5TVUe5U9huUQASJQ8n9B226yu1PEW5LX/hebWLVefB51fbqmlAGtA
-	Bhm+aP8szVO/OqkTApyNJL5lJzyKn8pQYvpVMscolXWRFIUgeck8iwAZZb8ZmNKyKM=
-X-Received: by 2002:adf:e198:0:b0:485:8a46:b3b8 with SMTP id ffacd0b85a97d-4858a46b5e5mr14218687f8f.32.1788641129319;
-        Sat, 05 Sep 2026 13:45:29 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788641125; x=1789245925;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=uNpfDTk6jCsyMjtCm8h3eRnhz4E3GmkhsoGYq4542eE=;
+        b=mTi2djmH523b90x/CZmQ9cgWffexcQ5JyZHRhuiLbyGr4Cve4bTLgKmnrePJY2V43d
+         gD0uQnFTT/N1rexRU/P+jikPJTDoJ+l41td75R1U8G+v/KVfJKHwqy0ieSbe4L0hjjuy
+         6ADbvm7J+h+c2dPsZrKuAfSf0mnJfrZ91kpIZOILKdlUh50l3tZkjnuhIw3rOlQwtq3f
+         3ehhjyCWvM8Gb1y7eB83OvfBEyYCeDf3+sj7E78ZKV1YhwgHhpxo3bBVANTRyy/+4yQC
+         jyYQm7axMdjjqxAHeL3AIWNx/FdnFdC8t208ubn4Z1W1/x1bRR9inTCtFheEy9acNqTh
+         S7Mw==
+X-Gm-Message-State: AFuF++nrcRhdPX/hItja/aY2Dfegi1Q3ZoafRO1mnl92bgLN+ygSG2qR
+	GEeg7+G5pmQDuIwmExRexO0vYjFhOpbwfn6gk2MQBepfZKz6gLRusy71K59NlOq056PmCUt3MqD
+	Y7yNgUCU=
+X-Gm-Gg: AYBFou3lX8bJQpwXHsx2DT+GIPp7kSl2VUYGMq7hc4dWPb/u8m9hvNRV+VUpQzXVfpk
+	BoRQq2uHc4rLM6y46DHBx6urhNbni15AXMNQ3fMSNoom36N9V1ZrcQV4spk9SZkfM0EtX9rPf/I
+	fyl+lJecePNAsVoviVnu1AoK7iAeUEutqidwEFA5GSER9SYDMw/xvEmZyjwvH3Uzgbu+rdt9KY8
+	i48Wxswjd+KiOhQdAqyJBfl1vb2JjP8DQQm6CrGxEVdjavbnaxgV6UB+rNgw33kO9iNv4x2PjN/
+	6naUq8y3ff3UUXK/g+sKTzBJsBQ2yUTM+IV/CnJQPsN9OA9l8kFMQoamBAN6nMEK+oP7RZfmEiY
+	b432BSr7pzLXo+bD1rYeBuWKUXZLlp10yvxuwP6bchG5nHKClRJhCLu3zrGWkB6LLsrKrlG/sx7
+	Ib3kKTOfjdC3Mnr3J2yadfXI+zpz802NQQ8SoUEFRFel7IFDRnb1ezJzdcCEv8OGA76AUjH12Yr
+	7EiCwPuSP75pen/UjzbK98sudDM3XEDLIocxJphqkARlLsUnDZAehwK579EZHTUEg==
+X-Received: by 2002:a05:600d:6450:10b0:49c:ffaf:95a1 with SMTP id 5b1f17b1804b1-49cffaf95c3mr128571975e9.1.1788641124888;
+        Sat, 05 Sep 2026 13:45:24 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa0048511f7ccf23d3ce.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:4851:1f7c:cf23:d3ce])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885bfdf6sm17069098f8f.34.2026.09.05.13.45.28
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885bfdf6sm17069098f8f.34.2026.09.05.13.45.24
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 13:45:28 -0700 (PDT)
+        Sat, 05 Sep 2026 13:45:24 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 33/40] python3-idna: Fix CVE-2026-45409
-Date: Sat,  5 Sep 2026 22:44:34 +0200
-Message-ID: <2438f1d257581e9841475cd108c7a6957cd201e8.1788629392.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 25/40] python3: upgrade 3.14.6 -> 3.14.7
+Date: Sat,  5 Sep 2026 22:44:26 +0200
+Message-ID: <8ed4aeb3e72e4d643801adba289123b2378705bb.1788629392.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788629392.git.yoann.congal@smile.fr>
 References: <cover.1788629392.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 20:45:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245185
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245177
 
-From: Hetvi Thakar <hthakar@cisco.com>
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-This patch applies the upstream 3.15 backport for
-CVE-2026-45409. The upstream fix commit series is referenced
-in [1], and the public CVE advisory is referenced in [2]. The
-individual backported commit links are recorded in the embedded
-patch headers.
+Release notes: [1]
 
-Backport Changes:
-- Omitted the first commit's HISTORY.rst release entry because it
-  conflicts with the 3.11 history and is not required for the fix.
+Removed patches included in this release.
+Removed obsolete CVE_STATUS entries.
 
-[1] https://github.com/kjd/idna/compare/v3.13...v3.15
-[2] https://github.com/advisories/GHSA-65pc-fj4g-8rjx
+[1] https://docs.python.org/3/whatsnew/changelog.html#python-3-14-7-final
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+(From OE-Core rev: 1e7832f8de0a07a2c7c6e239b31b82d47ccb915c)
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../python3-idna/CVE-2026-45409_p1.patch      | 75 +++++++++++++++++++
- .../python3-idna/CVE-2026-45409_p2.patch      | 48 ++++++++++++
- .../python3-idna/CVE-2026-45409_p3.patch      | 72 ++++++++++++++++++
- .../python/python3-idna_3.11.bb               |  4 +
- 4 files changed, 199 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p2.patch
- create mode 100644 meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p3.patch
+ ...shebang-overflow-on-python-config.py.patch |  6 +-
+ ...e-stdin-I-O-errors-same-way-as-maste.patch |  4 +-
+ ...-use-prefix-value-from-build-configu.patch |  7 +-
+ ...-qemu-wrapper-when-gathering-profile.patch |  9 +--
+ ...est_sysconfig-for-posix_user-purelib.patch |  4 +-
+ .../0001-prefer-valid-entrypoints.patch       |  2 +-
+ ...g.py-use-platlibdir-also-for-purelib.patch |  4 +-
+ ...le.py-correct-the-test-output-format.patch |  6 +-
+ .../python/python3/CVE-2026-11940.patch       | 67 -------------------
+ .../python/python3/CVE-2026-11972.patch       | 61 -----------------
+ .../python/python3/makerace.patch             |  6 +-
+ .../python/python3/valid-dists.patch          |  2 +-
+ .../{python3_3.14.6.bb => python3_3.14.7.bb}  |  7 +-
+ 13 files changed, 24 insertions(+), 161 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2026-11940.patch
+ delete mode 100644 meta/recipes-devtools/python/python3/CVE-2026-11972.patch
+ rename meta/recipes-devtools/python/{python3_3.14.6.bb => python3_3.14.7.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p1.patch b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p1.patch
-new file mode 100644
-index 00000000000..8c103635cf1
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p1.patch
-@@ -0,0 +1,75 @@
-+From 6c647e3d5d9daca452ae74fc10d50f20e998e444 Mon Sep 17 00:00:00 2001
-+From: Kim Davies <kim@cynosure.com.au>
-+Date: Sun, 10 May 2026 08:47:22 -0700
-+Subject: [PATCH] Merge commit from fork
-+
-+CVE: CVE-2026-45409
-+Upstream-Status: Backport [https://github.com/kjd/idna/commit/c0dda4501df5d91c3181ce6f962dc5de74e82cc1]
-+
-+Backport Changes:
-+- Omitted HISTORY.rst because its 3.14 release entry conflicts with the 3.11
-+  history and is not required for the security fix.
-+
-+(cherry picked from commit c0dda4501df5d91c3181ce6f962dc5de74e82cc1)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ idna/core.py       | 14 ++++++++++++++
-+ tests/test_idna.py | 13 +++++++++++++
-+ 2 files changed, 27 insertions(+)
-+
-+diff --git a/idna/core.py b/idna/core.py
-+index 8177bf7..ce995c9 100644
-+--- a/idna/core.py
-++++ b/idna/core.py
-+@@ -377,6 +377,15 @@ def encode(
-+             raise IDNAError("should pass a unicode string to the function rather than a byte string.")
-+     if uts46:
-+         s = uts46_remap(s, std3_rules, transitional)
-++
-++    # Reject inputs that exceed the maximum DNS domain length up-front.
-++    # Each codepoint in a U-label contributes at least one octet to its
-++    # A-label form, so any input longer than the domain limit cannot
-++    # produce a valid A-domain. Short-circuiting here prevents per-label
-++    # validation from being driven into quadratic time
-++    if len(s) > 254:
-++        raise IDNAError("Domain too long")
-++
-+     trailing_dot = False
-+     result = []
-+     if strict:
-+@@ -415,6 +424,11 @@ def decode(
-+         raise IDNAError("Invalid ASCII in A-label")
-+     if uts46:
-+         s = uts46_remap(s, std3_rules, False)
-++    # See encode() for rationale; the same bound applies because every
-++    # legal A-domain is at most 254 octets and every codepoint of a
-++    # legal U-domain contributes at least one octet to its A-form.
-++    if len(s) > 254:
-++        raise IDNAError("Domain too long")
-+     trailing_dot = False
-+     result = []
-+     if not strict:
-+diff --git a/tests/test_idna.py b/tests/test_idna.py
-+index b59f5e5..ff24ebf 100755
-+--- a/tests/test_idna.py
-++++ b/tests/test_idna.py
-+@@ -80,6 +80,19 @@ class IDNATests(unittest.TestCase):
-+         self.assertFalse(idna.valid_label_length("a" * 64))
-+         self.assertRaises(idna.IDNAError, idna.encode, "a" * 64)
-+ 
-++    def test_oversized_input_rejected_promptly(self):
-++        # GHSA-65pc-fj4g-8rjx: encode/decode must reject inputs that
-++        # exceed the maximum DNS domain length before per-codepoint
-++        # validation runs, so labels dominated by CONTEXTO codepoints
-++        # cannot drive validation into quadratic time.
-++        import time
-++
-++        for payload in ("٠" * 8000, "・" * 8000 + "漢"):
-++            start = time.perf_counter()
-++            self.assertRaises(idna.IDNAError, idna.encode, payload)
-++            self.assertRaises(idna.IDNAError, idna.decode, payload)
-++            self.assertLess(time.perf_counter() - start, 1.0)
-++
-+     def test_check_bidi(self):
-+         la = "\u0061"
-+         r = "\u05d0"
-diff --git a/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p2.patch b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p2.patch
-new file mode 100644
-index 00000000000..07b5b148f58
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p2.patch
-@@ -0,0 +1,48 @@
-+From 44713e1252442331fd49dfca00cd42bc27859198 Mon Sep 17 00:00:00 2001
-+From: Kim Davies <kim@cynosure.com.au>
-+Date: Sun, 10 May 2026 12:44:47 -0700
-+Subject: [PATCH] Use valid_string_length() for early oversized-input check
-+
-+CVE: CVE-2026-45409
-+Upstream-Status: Backport [https://github.com/kjd/idna/commit/628fef84d3eda59321c21127e73dcd873db23ead]
-+
-+(cherry picked from commit 628fef84d3eda59321c21127e73dcd873db23ead)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ idna/core.py | 16 ++++++----------
-+ 1 file changed, 6 insertions(+), 10 deletions(-)
-+
-+diff --git a/idna/core.py b/idna/core.py
-+index ce995c9..db19bda 100644
-+--- a/idna/core.py
-++++ b/idna/core.py
-+@@ -378,12 +378,9 @@ def encode(
-+     if uts46:
-+         s = uts46_remap(s, std3_rules, transitional)
-+ 
-+-    # Reject inputs that exceed the maximum DNS domain length up-front.
-+-    # Each codepoint in a U-label contributes at least one octet to its
-+-    # A-label form, so any input longer than the domain limit cannot
-+-    # produce a valid A-domain. Short-circuiting here prevents per-label
-+-    # validation from being driven into quadratic time
-+-    if len(s) > 254:
-++    # Reject inputs that exceed the maximum DNS domain length up-front
-++    # to avoid expensive computation on long inputs.
-++    if not valid_string_length(s, trailing_dot=True):
-+         raise IDNAError("Domain too long")
-+ 
-+     trailing_dot = False
-+@@ -424,10 +421,9 @@ def decode(
-+         raise IDNAError("Invalid ASCII in A-label")
-+     if uts46:
-+         s = uts46_remap(s, std3_rules, False)
-+-    # See encode() for rationale; the same bound applies because every
-+-    # legal A-domain is at most 254 octets and every codepoint of a
-+-    # legal U-domain contributes at least one octet to its A-form.
-+-    if len(s) > 254:
-++    # Reject inputs that exceed the maximum DNS domain length up-front
-++    # to avoid expensive computation on long inputs.
-++    if not valid_string_length(s, trailing_dot=True):
-+         raise IDNAError("Domain too long")
-+     trailing_dot = False
-+     result = []
-diff --git a/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p3.patch b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p3.patch
-new file mode 100644
-index 00000000000..f7302a94170
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p3.patch
-@@ -0,0 +1,72 @@
-+From bd119cd4055324ece8a9bb1ef5413e3ad581b0ed Mon Sep 17 00:00:00 2001
-+From: metsw24-max <metsw24@gmail.com>
-+Date: Mon, 11 May 2026 20:59:30 +0530
-+Subject: [PATCH] Enforce early length limits in check_label
-+
-+CVE: CVE-2026-45409
-+Upstream-Status: Backport [https://github.com/kjd/idna/commit/e1cb465b6376f33306a26f467d197edbcd01c4b9]
-+
-+(cherry picked from commit e1cb465b6376f33306a26f467d197edbcd01c4b9)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ idna/core.py       | 11 +++++++++++
-+ tests/test_idna.py | 24 ++++++++++++++++++++++++
-+ 2 files changed, 35 insertions(+)
-+
-+diff --git a/idna/core.py b/idna/core.py
-+index db19bda..254f090 100644
-+--- a/idna/core.py
-++++ b/idna/core.py
-+@@ -247,6 +247,17 @@ def check_label(label: Union[str, bytes, bytearray]) -> None:
-+         label = label.decode("utf-8")
-+     if len(label) == 0:
-+         raise IDNAError("Empty Label")
-++    # Reject oversized labels before per-codepoint validation runs.
-++    # CONTEXTJ/CONTEXTO checks scan the whole label per codepoint, so an
-++    # uncapped label drives validation into quadratic time
-++    # (GHSA-65pc-fj4g-8rjx / CVE-2024-3651). encode()/decode() cap the
-++    # whole-domain length; this cap protects direct callers of
-++    # alabel/ulabel/check_label and the idna2008 incremental codec.
-++    # Use the whole-domain bound rather than the per-label DNS bound so
-++    # that UTS #46 lenient decoding of labels longer than 63 chars is
-++    # preserved.
-++    if not valid_string_length(label, trailing_dot=True):
-++        raise IDNAError("Label too long")
-+ 
-+     check_nfc(label)
-+     check_hyphen_ok(label)
-+diff --git a/tests/test_idna.py b/tests/test_idna.py
-+index ff24ebf..9832c39 100755
-+--- a/tests/test_idna.py
-++++ b/tests/test_idna.py
-+@@ -93,6 +93,30 @@ class IDNATests(unittest.TestCase):
-+             self.assertRaises(idna.IDNAError, idna.decode, payload)
-+             self.assertLess(time.perf_counter() - start, 1.0)
-+ 
-++    def test_oversized_label_rejected_promptly(self):
-++        # The whole-domain cap in encode()/decode() does not cover direct
-++        # callers of alabel/ulabel/check_label, nor the idna2008
-++        # incremental codec which calls alabel/ulabel per label. Without a
-++        # per-label cap, a single oversized CONTEXTO-heavy label still
-++        # drives validation into quadratic time.
-++        import codecs
-++        import time
-++
-++        import idna.codec  # noqa: F401  (register the idna2008 codec)
-++
-++        payload = "・" * 8000 + "漢"
-++        start = time.perf_counter()
-++        self.assertRaises(idna.IDNAError, idna.check_label, payload)
-++        self.assertRaises(idna.IDNAError, idna.alabel, payload)
-++        self.assertRaises(idna.IDNAError, idna.ulabel, payload)
-++        self.assertRaises(
-++            idna.IDNAError,
-++            codecs.getincrementalencoder("idna2008")().encode,
-++            payload,
-++            True,
-++        )
-++        self.assertLess(time.perf_counter() - start, 1.0)
-++
-+     def test_check_bidi(self):
-+         la = "\u0061"
-+         r = "\u05d0"
-diff --git a/meta/recipes-devtools/python/python3-idna_3.11.bb b/meta/recipes-devtools/python/python3-idna_3.11.bb
-index eb875729345..1a852561a46 100644
---- a/meta/recipes-devtools/python/python3-idna_3.11.bb
-+++ b/meta/recipes-devtools/python/python3-idna_3.11.bb
-@@ -3,6 +3,10 @@ HOMEPAGE = "https://github.com/kjd/idna"
- LICENSE = "BSD-3-Clause & Python-2.0 & Unicode-TOU"
- LIC_FILES_CHKSUM = "file://LICENSE.md;md5=18a4795c19833413a7e2f1cb3cd3b143"
+diff --git a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+index c2106f94370..7a605383647 100644
+--- a/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
++++ b/meta/recipes-devtools/python/python3/0001-Avoid-shebang-overflow-on-python-config.py.patch
+@@ -1,4 +1,4 @@
+-From 6b111a328c1c57b1580d63894b2b5d337316f6d4 Mon Sep 17 00:00:00 2001
++From 3f2df0e1fce8c7425998dade00d084f1b101a982 Mon Sep 17 00:00:00 2001
+ From: Paulo Neves <ptsneves@gmail.com>
+ Date: Tue, 7 Jun 2022 16:16:41 +0200
+ Subject: [PATCH] Avoid shebang overflow on python-config.py
+@@ -16,10 +16,10 @@ Upstream-Status: Denied [distribution]
+  1 file changed, 2 insertions(+)
  
-+SRC_URI += "file://CVE-2026-45409_p1.patch \
-+           file://CVE-2026-45409_p2.patch \
-+           file://CVE-2026-45409_p3.patch \
-+           "
- SRC_URI[sha256sum] = "795dafcc9c04ed0c1fb032c2aa73654d8e8c5023a7df64a53f39190ada629902"
+ diff --git a/Makefile.pre.in b/Makefile.pre.in
+-index 9ec3a71..f7d5382 100644
++index e946018..345ed29 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2829,6 +2829,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
++@@ -2835,6 +2835,8 @@ python-config: $(srcdir)/Misc/python-config.in Misc/python-config.sh
+  	@ # Substitution happens here, as the completely-expanded BINDIR
+  	@ # is not available in configure
+  	sed -e "s,@EXENAME@,$(EXENAME)," < $(srcdir)/Misc/python-config.in >python-config.py
+diff --git a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
+index d9072a36f7b..532adfe69a9 100644
+--- a/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
++++ b/meta/recipes-devtools/python/python3/0001-Lib-pty.py-handle-stdin-I-O-errors-same-way-as-maste.patch
+@@ -1,4 +1,4 @@
+-From 129ee75863081d9e3418acca3df1e47667f671ad Mon Sep 17 00:00:00 2001
++From 9cd44429215352eb2753e0fd8e25fef24f714006 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Thu, 16 Sep 2021 16:35:37 +0200
+ Subject: [PATCH] Lib/pty.py: handle stdin I/O errors same way as master I/O
+@@ -29,7 +29,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 4 insertions(+), 1 deletion(-)
  
- inherit pypi python_flit_core ptest-python-pytest
+ diff --git a/Lib/pty.py b/Lib/pty.py
+-index 1d97994..fa8821b 100644
++index 4b25ac3..d6aac07 100644
+ --- a/Lib/pty.py
+ +++ b/Lib/pty.py
+ @@ -149,7 +149,10 @@ def _copy(master_fd, master_read=_read, stdin_read=_read):
+diff --git a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
+index 285580195b4..60391e726bd 100644
+--- a/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
++++ b/meta/recipes-devtools/python/python3/0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch
+@@ -1,4 +1,4 @@
+-From e3c6e770e73e1329958db0a73883e42b01763ae3 Mon Sep 17 00:00:00 2001
++From b5aad6a9b6c5add7a85861aed8aa030c1ad3d52f Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Fri, 17 Nov 2023 14:26:32 +0100
+ Subject: [PATCH] Lib/sysconfig.py: use prefix value from build configuration
+@@ -18,7 +18,7 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+  1 file changed, 5 insertions(+), 5 deletions(-)
+ 
+ diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
+-index 2ecbff222fe..cec54cb23dc 100644
++index 0a8bcc0..a2341f2 100644
+ --- a/Lib/sysconfig/__init__.py
+ +++ b/Lib/sysconfig/__init__.py
+ @@ -538,12 +538,12 @@ def _init_config_vars():
+@@ -39,6 +39,3 @@ index 2ecbff222fe..cec54cb23dc 100644
+      _CONFIG_VARS['implementation'] = _get_implementation()
+      _CONFIG_VARS['implementation_lower'] = _get_implementation().lower()
+      _CONFIG_VARS['abiflags'] = abiflags
+--- 
+-2.51.0
+-
+diff --git a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
+index e25797f57ec..c7f14cad1e0 100644
+--- a/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
++++ b/meta/recipes-devtools/python/python3/0001-Makefile.pre-use-qemu-wrapper-when-gathering-profile.patch
+@@ -1,4 +1,4 @@
+-From e7a8a7385f561f214054cf95f0a22bfa064eee0b Mon Sep 17 00:00:00 2001
++From d6f77e3a934616d1f6c083b7144c50a32e08b70a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 30 Jan 2019 12:41:04 +0100
+ Subject: [PATCH] Makefile.pre: use qemu wrapper when gathering profile data
+@@ -15,10 +15,10 @@ Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
+  1 file changed, 1 insertion(+), 2 deletions(-)
+ 
+ diff --git a/Makefile.pre.in b/Makefile.pre.in
+-index 3bd4495f95b..8e8fc60bc76 100644
++index 526d500..a7e536d 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -857,8 +857,7 @@ profile-run-stamp:
++@@ -861,8 +861,7 @@ profile-run-stamp:
+  	# enabled.
+  	$(MAKE) profile-gen-stamp
+  	# Next, run the profile task to generate the profile information.
+@@ -28,6 +28,3 @@ index 3bd4495f95b..8e8fc60bc76 100644
+  	$(LLVM_PROF_MERGER)
+  	# Remove profile generation binary since we are done with it.
+  	$(MAKE) clean-retain-profile
+--- 
+-2.39.5
+-
+diff --git a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
+index 6a62c6dc5b9..5509b7475a9 100644
+--- a/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
++++ b/meta/recipes-devtools/python/python3/0001-Update-test_sysconfig-for-posix_user-purelib.patch
+@@ -1,4 +1,4 @@
+-From 5bf5aa6eae1fa3eed66893e51a1858ab481426b4 Mon Sep 17 00:00:00 2001
++From c608cb4b3c8c31f1aa25ad1264ff58733fb99769 Mon Sep 17 00:00:00 2001
+ From: Wentao Zhang <wentao.zhang@windriver.com>
+ Date: Mon, 20 Mar 2023 13:39:52 +0800
+ Subject: [PATCH] Update test_sysconfig for posix_user purelib
+@@ -22,7 +22,7 @@ Signed-off-by: Wentao Zhang <wentao.zhang@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Lib/test/test_sysconfig.py b/Lib/test/test_sysconfig.py
+-index 1ade492..4e94889 100644
++index 1fe4b68..383142a 100644
+ --- a/Lib/test/test_sysconfig.py
+ +++ b/Lib/test/test_sysconfig.py
+ @@ -434,7 +434,7 @@ class TestSysConfig(unittest.TestCase, VirtualEnvironmentMixin):
+diff --git a/meta/recipes-devtools/python/python3/0001-prefer-valid-entrypoints.patch b/meta/recipes-devtools/python/python3/0001-prefer-valid-entrypoints.patch
+index 1250dc9ff04..ae3698fac47 100644
+--- a/meta/recipes-devtools/python/python3/0001-prefer-valid-entrypoints.patch
++++ b/meta/recipes-devtools/python/python3/0001-prefer-valid-entrypoints.patch
+@@ -1,4 +1,4 @@
+-From ef33ac27e3ac1b9cb159d7eec0ad1af120cd9dc1 Mon Sep 17 00:00:00 2001
++From 8d7fcf04c6513841c7985e64b746b1ef5de0c426 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Fri, 17 Apr 2026 16:53:42 +0100
+ Subject: [PATCH] prefer valid entrypoints
+diff --git a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
+index b9c68a98d70..7807827d9aa 100644
+--- a/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
++++ b/meta/recipes-devtools/python/python3/0001-sysconfig.py-use-platlibdir-also-for-purelib.patch
+@@ -1,4 +1,4 @@
+-From bbcb17dc1ed283f41c8cd94d39f70898f0c45583 Mon Sep 17 00:00:00 2001
++From c10d1b295a9fb93836830cce441da3f22e5c7cd7 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Sun, 12 Sep 2021 21:44:36 +0200
+ Subject: [PATCH] sysconfig.py: use platlibdir also for purelib
+@@ -13,7 +13,7 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Lib/sysconfig/__init__.py b/Lib/sysconfig/__init__.py
+-index 80aef34..f8e1c7d 100644
++index faf8273..0a8bcc0 100644
+ --- a/Lib/sysconfig/__init__.py
+ +++ b/Lib/sysconfig/__init__.py
+ @@ -29,7 +29,7 @@ _INSTALL_SCHEMES = {
+diff --git a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
+index 201271b0c07..a60d082e2f4 100644
+--- a/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
++++ b/meta/recipes-devtools/python/python3/0001-test_locale.py-correct-the-test-output-format.patch
+@@ -1,4 +1,4 @@
+-From c1f3cf625c0f011060ddaa2a4096f6aa13dd1ee6 Mon Sep 17 00:00:00 2001
++From f0ac5b479b99bfb7f5e937a941b31a596f4caafc Mon Sep 17 00:00:00 2001
+ From: Mingli Yu <mingli.yu@windriver.com>
+ Date: Mon, 5 Aug 2019 15:57:39 +0800
+ Subject: [PATCH] test_locale.py: correct the test output format
+@@ -31,10 +31,10 @@ Signed-off-by: Mingli Yu <mingli.yu@windriver.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Lib/test/test_locale.py b/Lib/test/test_locale.py
+-index da4bd79..fd9e67d 100644
++index f918435..1910a43 100644
+ --- a/Lib/test/test_locale.py
+ +++ b/Lib/test/test_locale.py
+-@@ -500,7 +500,7 @@ class TestRealLocales(unittest.TestCase):
++@@ -499,7 +499,7 @@ class TestRealLocales(unittest.TestCase):
+              self.skipTest('test needs Turkish locale')
+          loc = locale.getlocale(locale.LC_CTYPE)
+          if verbose:
+diff --git a/meta/recipes-devtools/python/python3/CVE-2026-11940.patch b/meta/recipes-devtools/python/python3/CVE-2026-11940.patch
+deleted file mode 100644
+index 05a5802c396..00000000000
+--- a/meta/recipes-devtools/python/python3/CVE-2026-11940.patch
++++ /dev/null
+@@ -1,67 +0,0 @@
+-From e24b4e95524fbe8cd0f46aa3292e8040f0e07c83 Mon Sep 17 00:00:00 2001
+-From: "Miss Islington (bot)"
+- <31488909+miss-islington@users.noreply.github.com>
+-Date: Tue, 23 Jun 2026 15:58:47 +0200
+-Subject: [PATCH 1/2] gh-151558: Fix symlink escape via `tarfile`
+- hardlink-extraction fallback (GH-151559)
+-
+-CVE: CVE-2026-11940
+-Upstream-Status: Backport [https://github.com/python/cpython/commit/27dd970bf6b17ebca7c8ed486a40ab043ed7af8f]
+-
+-Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
+----
+- Lib/tarfile.py           |  3 +++
+- Lib/test/test_tarfile.py | 24 ++++++++++++++++++++++++
+- 2 files changed, 27 insertions(+)
+-
+-diff --git a/Lib/tarfile.py b/Lib/tarfile.py
+-index e6734db24f64..63f23490e8a1 100644
+---- a/Lib/tarfile.py
+-+++ b/Lib/tarfile.py
+-@@ -2782,6 +2782,9 @@ def makelink_with_filter(self, tarinfo, targetpath,
+-                     "makelink_with_filter: if filter_function is not None, "
+-                     + "extraction_root must also not be None")
+-             try:
+-+                filter_function(
+-+                    unfiltered.replace(name=tarinfo.name, deep=False),
+-+                    extraction_root)
+-                 filtered = filter_function(unfiltered, extraction_root)
+-             except _FILTER_ERRORS as cause:
+-                 raise LinkFallbackError(tarinfo, unfiltered.name) from cause
+-diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
+-index d974c7d46ec1..0fc7413be8db 100644
+---- a/Lib/test/test_tarfile.py
+-+++ b/Lib/test/test_tarfile.py
+-@@ -4344,6 +4344,30 @@ def test_sneaky_hardlink_fallback(self):
+-                     self.expect_file("boom", symlink_to='../../link_here')
+-                     self.expect_file("c", symlink_to='b')
+-
+-+    @symlink_test
+-+    def test_sneaky_hardlink_fallback_deep(self):
+-+        # (CVE-2026-11940)
+-+        with ArchiveMaker() as arc:
+-+            arc.add("a/b/s", symlink_to=os.path.join("..", "escape"))
+-+            arc.add("s", hardlink_to=os.path.join("a", "b", "s"))
+-+
+-+        with self.check_context(arc.open(), 'data'):
+-+            e = self.expect_exception(
+-+                tarfile.LinkFallbackError,
+-+                "link 's' would be extracted as a copy of "
+-+                + "'a/b/s', which was rejected")
+-+            self.assertIsInstance(e.__cause__,
+-+                                  tarfile.LinkOutsideDestinationError)
+-+
+-+        for filter in 'tar', 'fully_trusted':
+-+            with self.subTest(filter), self.check_context(arc.open(), filter):
+-+                if not os_helper.can_symlink():
+-+                    self.expect_file("a/")
+-+                    self.expect_file("a/b/")
+-+                else:
+-+                    self.expect_file("a/b/s", symlink_to=os.path.join('..', 'escape'))
+-+                    self.expect_file("s", symlink_to=os.path.join('..', 'escape'))
+-+
+-     @symlink_test
+-     def test_exfiltration_via_symlink(self):
+-         # (CVE-2025-4138)
+---
+-2.54.0
+diff --git a/meta/recipes-devtools/python/python3/CVE-2026-11972.patch b/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
+deleted file mode 100644
+index 12a79754feb..00000000000
+--- a/meta/recipes-devtools/python/python3/CVE-2026-11972.patch
++++ /dev/null
+@@ -1,61 +0,0 @@
+-From 2d256d4bfd654bdcaf2d96733799be73b8ff8f69 Mon Sep 17 00:00:00 2001
+-From: Petr Viktorin <encukou@gmail.com>
+-Date: Tue, 23 Jun 2026 15:13:30 +0200
+-Subject: [PATCH 2/2] gh-151981: Make tarfile._Stream.seek break at EOF
+- (GH-151982)
+-
+-Co-authored-by: Stan Ulbrych <stan@python.org>
+-
+-CVE: CVE-2026-11972
+-Upstream-Status: Backport [https://github.com/python/cpython/commit/f50bf13566189c8d0ce5a814f33eff3d89951896]
+-
+-Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
+----
+- Lib/tarfile.py           |  4 +++-
+- Lib/test/test_tarfile.py | 16 ++++++++++++++++
+- 2 files changed, 19 insertions(+), 1 deletion(-)
+-
+-diff --git a/Lib/tarfile.py b/Lib/tarfile.py
+-index 63f23490e8a1..399f906efdff 100644
+---- a/Lib/tarfile.py
+-+++ b/Lib/tarfile.py
+-@@ -524,7 +524,9 @@ def seek(self, pos=0):
+-         if pos - self.pos >= 0:
+-             blocks, remainder = divmod(pos - self.pos, self.bufsize)
+-             for i in range(blocks):
+--                self.read(self.bufsize)
+-+                data = self.read(self.bufsize)
+-+                if not data:
+-+                    break
+-             self.read(remainder)
+-         else:
+-             raise StreamError("seeking backwards is not allowed")
+-diff --git a/Lib/test/test_tarfile.py b/Lib/test/test_tarfile.py
+-index 0fc7413be8db..045377d620cc 100644
+---- a/Lib/test/test_tarfile.py
+-+++ b/Lib/test/test_tarfile.py
+-@@ -4786,6 +4786,22 @@ def valueerror_filter(tarinfo, path):
+-         with self.check_context(arc.open(errorlevel='boo!'), filtererror_filter):
+-             self.expect_exception(TypeError)  # errorlevel is not int
+-
+-+    @support.subTests('format', [tarfile.GNU_FORMAT, tarfile.PAX_FORMAT])
+-+    def test_getmembers_big_size(self, format):
+-+        # gh-151981: A loop in seek() for streaming files tried to read the
+-+        # declared number of blocks even at EOF
+-+        tinfo = tarfile.TarInfo("huge-file")
+-+        tinfo.size = 1 << 64
+-+        bio = io.BytesIO()
+-+        # Write header without data
+-+        bio.write(tinfo.tobuf(format))
+-+
+-+        # Reset & try to get contents
+-+        bio.seek(0)
+-+        with tarfile.open(fileobj=bio, mode="r|") as tar:
+-+            with self.assertRaises(tarfile.ReadError):
+-+                tar.getmembers()
+-+
+-
+- class OverwriteTests(archiver_tests.OverwriteTests, unittest.TestCase):
+-     testdir = os.path.join(TEMPDIR, "testoverwrite")
+---
+-2.54.0
+diff --git a/meta/recipes-devtools/python/python3/makerace.patch b/meta/recipes-devtools/python/python3/makerace.patch
+index b29ea56cc34..248a521118c 100644
+--- a/meta/recipes-devtools/python/python3/makerace.patch
++++ b/meta/recipes-devtools/python/python3/makerace.patch
+@@ -1,4 +1,4 @@
+-From 2b458b4e1bcd57e3f135d3f0e715f64b98b27906 Mon Sep 17 00:00:00 2001
++From b41557f570ff4451c477669d6ca5bfacabe21c66 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Tue, 13 Jul 2021 23:19:29 +0100
+ Subject: [PATCH] python3: Fix make race
+@@ -17,10 +17,10 @@ Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/Makefile.pre.in b/Makefile.pre.in
+-index be1b9ea..9ec3a71 100644
++index a7e536d..e946018 100644
+ --- a/Makefile.pre.in
+ +++ b/Makefile.pre.in
+-@@ -2735,7 +2735,7 @@ COMPILEALL_OPTS=-j0
++@@ -2741,7 +2741,7 @@ COMPILEALL_OPTS=-j0
+  TEST_MODULES=@TEST_MODULES@
+  
+  .PHONY: libinstall
+diff --git a/meta/recipes-devtools/python/python3/valid-dists.patch b/meta/recipes-devtools/python/python3/valid-dists.patch
+index 38b6ebc5cb1..7fe18254e50 100644
+--- a/meta/recipes-devtools/python/python3/valid-dists.patch
++++ b/meta/recipes-devtools/python/python3/valid-dists.patch
+@@ -1,4 +1,4 @@
+-From a65c29adc027b3615154cab73aaedd58a6aa23da Mon Sep 17 00:00:00 2001
++From 66874ce1a9f21b4b00dc85919734d58e6243ca29 Mon Sep 17 00:00:00 2001
+ From: "Jason R. Coombs" <jaraco@jaraco.com>
+ Date: Tue, 23 Jul 2024 08:36:16 -0400
+ Subject: [PATCH] Prioritize valid dists to invalid dists when retrieving by
+diff --git a/meta/recipes-devtools/python/python3_3.14.6.bb b/meta/recipes-devtools/python/python3_3.14.7.bb
+similarity index 98%
+rename from meta/recipes-devtools/python/python3_3.14.6.bb
+rename to meta/recipes-devtools/python/python3_3.14.7.bb
+index 0a9e82d445f..b798f1c3697 100644
+--- a/meta/recipes-devtools/python/python3_3.14.6.bb
++++ b/meta/recipes-devtools/python/python3_3.14.7.bb
+@@ -35,14 +35,12 @@ SRC_URI = "http://www.python.org/ftp/python/${PV}/Python-${PV}.tar.xz \
+            file://0001-Skip-flaky-test_default_timeout-tests.patch \
+            file://0001-test_only_active_thread-skip-problematic-test.patch \
+            file://0001-prefer-valid-entrypoints.patch \
+-           file://CVE-2026-11940.patch \
+-           file://CVE-2026-11972.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://0001-Lib-sysconfig.py-use-prefix-value-from-build-configu.patch \
+            "
+ 
+-SRC_URI[sha256sum] = "143b1dddefaec3bd2e21e3b839b34a2b7fb9842272883c576420d605e9f30c63"
++SRC_URI[sha256sum] = "3b48dac8fb59f62eaa67ac83c1eb12bda1b7a08406dd286e252c11a66be27f81"
+ 
+ # exclude pre-releases for both python 2.x and 3.x
+ UPSTREAM_CHECK_REGEX = "[Pp]ython-(?P<pver>\d+(\.\d+)+).tar"
+@@ -532,5 +530,4 @@ py3_sysroot_cleanup () {
+ 	rm -rf ${SYSROOT_DESTDIR}${libdir}/python${PYTHON_MAJMIN}/test
+ }
+ 
+-CVE_STATUS[CVE-2026-6019] = "cpe-stable-backport: backported to v3.14.5"
+-CVE_STATUS[CVE-2026-7210] = "cpe-stable-backport: backported to v3.14.6"
++
 
