@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1AECC79F90
-	for <webhook@archiver.kernel.org>; Sat,  5 Sep 2026 06:28:39 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3450.1788589715364641833
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF2AC624D6
+	for <webhook@archiver.kernel.org>; Sat,  5 Sep 2026 06:28:38 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3415.1788589712312415955
  for <openembedded-core@lists.openembedded.org>;
- Fri, 04 Sep 2026 23:28:35 -0700
+ Fri, 04 Sep 2026 23:28:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BNTcmW0z;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=PdwhzjQW;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a070412b55-140eedb7-0cc4-431b-abd7-fd8672c74b65-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=jJdmWWpO;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=eNpbo0xh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a07041205e-ed1d54df-bcb3-4335-988f-691221f198e5-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788589714;
+	t=1788589711;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=D01DO3lk6aXoQPuZr7d28LyaruX/b9CJyRdz2ACOULM=;
-	b=BNTcmW0zs9W3vGH0DXDvbMMMmN5O4n7peJVb2ttMJCetpgoqZALNwR7wMTXi1sXK
-	ngb82MJ7zCPqUdNqaMlUP+fn/YGeMe4zhngs7TUgZxSPLvM6HGRF1ie6+CM3AVdnjea
-	PcpD9rbfb4066wd+YlWZ4Ya/mkwn/2pPZ25Y7dZA=
+	bh=6iPSOy6XQ1zGvEbakofPNZzYs/UzTzsPyFe2A6eglO0=;
+	b=jJdmWWpOowY/2YjniWIIQPOSgNIt+HV9sS7lrtWsmedkdMXjSYF+KmjoiVA4QVIH
+	07BzjGMagNuZiCLcFDANMog/RRaY14Jmt6c827UcsYagD8737BxfRdBFHUqrVri5vOu
+	9pUrWU0nI/WWu2bQFMraJPz5qkBnjcJ35vAd4JLM=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788589714;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788589711;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=D01DO3lk6aXoQPuZr7d28LyaruX/b9CJyRdz2ACOULM=;
-	b=PdwhzjQWadYPKtNEmtyma6SaJfuHrEdsycEUvxHDr+Rx7kAwg8RWLrhvb28MY0D0
-	XBAfGRFKtyA/F2wRuvid7GjHsOL66zXg1xWo8NxmoN8+it5GqpjHPlTJZ8iSIUBxMlJ
-	ggMdGsFBW0c15f9agOJFFOOeSa8yRZDJ8sWs8jFU=
-Content-Type: multipart/mixed; boundary="===============5617748445824732288=="
+	bh=6iPSOy6XQ1zGvEbakofPNZzYs/UzTzsPyFe2A6eglO0=;
+	b=eNpbo0xhxBoSf3uLw/Evdd0bg4DmOnfLCG+qdujNp4VkO0cesZemc9vUwQLNhDdz
+	RiN3wgT/G3KVmSkhOhjoGU1PsXcb4m2jDNBmRmFWx8Jr4ibiDcsf4Ulf78xj2K10Oiz
+	nhwmQLYDu+R2WBPFgz2nfaiV6vhEjvglDCgUYmes=
+Content-Type: multipart/mixed; boundary="===============6381990093743007256=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-flit-core: upgrading to 4.0.2 SUCCEEDED
-Message-ID: <010101a070412b55-140eedb7-0cc4-431b-abd7-fd8672c74b65-000000@us-west-2.amazonses.com>
-Date: Sat, 5 Sep 2026 06:28:34 +0000
+Subject: [AUH] libxml2: upgrading to 2.15.4 SUCCEEDED
+Message-ID: <010101a07041205e-ed1d54df-bcb3-4335-988f-691221f198e5-000000@us-west-2.amazonses.com>
+Date: Sat, 5 Sep 2026 06:28:31 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.05-54.240.27.23
+X-SES-Outgoing: 2026.09.05-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 06:28:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245134
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 06:28:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245132
 
---===============5617748445824732288==
+--===============6381990093743007256==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-flit-core* to *4.0.2* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libxml2* to *2.15.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-flit-core-upgrade-3.12.0-4.0.2.patch
+    - apply the patch: git am 0001-libxml2-upgrade-2.15.3-2.15.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,355 +72,490 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 9f6eacd3ab415ff303b96cef58be0b0976af7d0f Mon Sep 17 00:00:00 2001
+From a09ca2ffaba825830a3dbca8f0a01f24535474cb Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 5 Sep 2026 05:58:01 +0000
-Subject: [PATCH] python3-flit-core: upgrade 3.12.0 -> 4.0.2
+Date: Sat, 5 Sep 2026 05:20:55 +0000
+Subject: [PATCH] libxml2: upgrade 2.15.3 -> 2.15.4
 
-Source: doc/history.rst
+Source: NEWS
 
-Version 4.0.2
--------------
+v2.15.4: Sep 01 2026
 
-- Fix invalid metadata files with ``Import-Name`` (:ghissue:`813`).
+### Security
 
-Version 4.0.1
--------------
+- xmlregexp: Prevent out-of-bounds read in NXT macro
+- fix: add missing overflow checks in dict.c, uri.c, and valid.c
+- xmlregexp: Calc string length after null checking
+- xpointer: Check overflow in xmlXPtrEvalXPtrPart
+- xmlIO: Check for int overflow before calling writecallback
+- fix(xinclude): propagate parseFlags in xmlXIncludeProcess and xmlXIncludeProcessTree
 
-No changes, but a new tag to trigger an upload to PyPI now that twine will
-accept it.
+### Improvements
 
-Version 4.0
------------
+- Improve bound checks for xmlcatalog and xmllint arguments (out-of-bound)
+- Fix memory leak in static Windows library (memory-leak)
+- xmlreader: Copy DTD in xmlTextReaderDumpCopy
+- parser: Fix double free in xmlIOParseDTD (double-free)
+- parser: fix division-by-zero when maxAmpl is set to 0
+- parser: Fix memory leak in xmlCtxtSetSaxHandler (memory-leak)
+- catalog: Make sure to reset catalog resolve cache
+- xmlAddChild: unlink node before free for text nodes (memory-leak)
+- Normalize entity values in attr in xmlNodeGetContent
+- Handle whitespace for date/time/duration types
+- catalog: Fix NULL deref for nextCatalog without 'catalog' attribute (null-deref)
 
-This version contains breaking changes, but most projects which are already
-using the ``[project]`` table for metadata shouldn't be affected, and can simply
-change the ``flit_core <4`` constraint to ``<5``.
+### Thanks
 
-- The ``[tool.flit.metadata]`` table is no longer used for project metadata
-  (:ghpull:`771`). Use the newer :ref:`[project] table <pyproject_toml_project>`
-  instead (or if that is not possible, build with ``flit_core <4``).
-- :ref:`build_cmd` and :ref:`publish_cmd` no longer include files in the sdist
-  based on what is committed in git or Mercurial (:ghpull:`772`). These commands
-  now build packages more like Flit does when called as a backend by e.g.
-  ``python -m build``. Specify :ref:`sdist include & exclude patterns
-  <pyproject_toml_sdist>` instead (Flit can help to generate these), or pass
-  the ``--use-vcs`` option to get the old behaviour back.
-- ``flit_core`` now requires Python 3.8 or above (:ghpull:`738`)
-- The ``--setup-py`` option to generate sdists containing a ``setup.py`` file
-  is no longer available (:ghpull:`776`).
-- Making typing stubs packages with a ``-stubs`` suffix will now work
-  (:ghpull:`742`).
-- The default glob patterns for license files have been extended to include
-  ``NOTICE*`` and ``AUTHORS*`` (:ghpull:`758`).
-- ``license-files`` glob patterns can contain spaces (:ghpull:`797`).
-- Fix a bug where license files could be found twice on Windows (:ghpull:`752`).
-- The new ``Import-Name`` and ``Import-Namespace`` metadata fields (metadata 2.5)
-  are now supported (:ghpull:`774`). In most cases no new input is required,
-  as Flit will create this metadata automatically.
-- Fix creating RECORD files when file names include commas (:ghpull:`744`).
-- The ``--use-vcs`` option now correctly recognises git from inside a git
-  worktree folder (:ghpull:`799`).
-- On Python 3.12 and above, ``flit build`` now uses the 'data' filter when
-  extracting the just-created sdist prior to building a wheel (:ghpull:`775`).
-  This restricts some special features of tar files, but sdists are unlikely
-  to use these features, and they would probably break in other scenarios if
-  you did.
-- The vendorised ``readme_renderer`` package was updated to version 44.0
-  (:ghpull:`760`).
+Thanks to the following new contributors:
 
-- Flit will work with current development versions of Python again (:ghpull:`684`).
-- The ``flit`` command line package now requires Python 3.8 or above (:ghpull:`660`).
-- Flit now has a ``SECURITY.md`` file in the GitHub repository (:ghpull:`665`).
-  new ``[tool.flit.metadata.urls]`` section of
-  archive, such as from GitHub.
+- Brett Kail
+- Ion Nistor
+- Kevin Braun
+- Mohammad Seet
+- rootvector2
+- Ruben Thijssen
+- yirou_yang
+- Zhihan Zheng
+- zhuofeng
+
+### Full list of commits and contributors on this release
+
+13  Daniel Garcia Moreno
+ 8  Mohammad Seet
+ 6  zhuofeng
+ 2  Benjamin Gilbert
+ 1  Brett Kail
+ 1  Hieu Le Minh
+ 1  Ion Nistor
+ 1  Kevin Braun
+ 1  Nick Wellnhofer
+ 1  Ruben Thijssen
+ 1  Zhihan Zheng
+ 1  rootvector2
+ 1  yirou_yang
 ---
- .../{python3-flit-core_3.12.0.bb => python3-flit-core_4.0.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-flit-core_3.12.0.bb => python3-flit-core_4.0.2.bb} (91%)
+ ...-installation-directories-in-libxml2.patch |  6 +-
+ .../libxml/libxml2/CVE-2026-11979.patch       | 81 -------------------
+ .../libxml/libxml2/install-tests.patch        |  2 +-
+ .../{libxml2_2.15.3.bb => libxml2_2.15.4.bb}  |  3 +-
+ 4 files changed, 5 insertions(+), 87 deletions(-)
+ delete mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch
+ rename meta/recipes-core/libxml/{libxml2_2.15.3.bb => libxml2_2.15.4.bb} (96%)
 
-diff --git a/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb b/meta/recipes-devtools/python/python3-flit-core_4.0.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-flit-core_3.12.0.bb
-rename to meta/recipes-devtools/python/python3-flit-core_4.0.2.bb
-index e40ffd0d0f..27aaae085d 100644
---- a/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb
-+++ b/meta/recipes-devtools/python/python3-flit-core_4.0.2.bb
-@@ -8,7 +8,7 @@ BUGTRACKER = "https://github.com/pypa/flit/issues"
- LICENSE = "BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=41eb78fa8a872983a882c694a8305f08"
+diff --git a/meta/recipes-core/libxml/libxml2/0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch b/meta/recipes-core/libxml/libxml2/0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch
+index d19b284866..a1d24b596e 100644
+--- a/meta/recipes-core/libxml/libxml2/0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch
++++ b/meta/recipes-core/libxml/libxml2/0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch
+@@ -1,4 +1,4 @@
+-From 803e6f21d3d7ef6399f6ffe58cd28fa6dc7b94e9 Mon Sep 17 00:00:00 2001
++From aa31b72c260de3f15289db8d78c9674b0cf55f7f Mon Sep 17 00:00:00 2001
+ From: Peter Marko <peter.marko@siemens.com>
+ Date: Mon, 26 May 2025 21:11:14 +0200
+ Subject: [PATCH] Revert "cmake: Fix installation directories in
+@@ -66,10 +66,10 @@ index ff6433f..b775cfe 100644
+  set(LIBXML2_LIBRARIES ${LIBXML2_LIBRARY})
+  set(LIBXML2_INCLUDE_DIRS ${LIBXML2_INCLUDE_DIR})
+ diff --git a/meson.build b/meson.build
+-index 2cfecb6..f78da31 100644
++index f8337ea..19fdbb0 100644
+ --- a/meson.build
+ +++ b/meson.build
+-@@ -593,9 +593,6 @@ config_cmake = configuration_data()
++@@ -594,9 +594,6 @@ config_cmake = configuration_data()
+  config_cmake.set('LIBXML_MAJOR_VERSION', v_maj)
+  config_cmake.set('LIBXML_MINOR_VERSION', v_min)
+  config_cmake.set('LIBXML_MICRO_VERSION', v_mic)
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch
+deleted file mode 100644
+index a14e566681..0000000000
+--- a/meta/recipes-core/libxml/libxml2/CVE-2026-11979.patch
++++ /dev/null
+@@ -1,81 +0,0 @@
+-From dfad0660f7dab3b5f8317b703b16ad0b0d12697d Mon Sep 17 00:00:00 2001
+-From: Daniel Garcia Moreno <daniel.garcia@suse.com>
+-Date: Fri, 22 May 2026 12:21:20 +0200
+-Subject: [PATCH] xmlcatalog: overflow check for large --shell commands
+-
+-Fix https://gitlab.gnome.org/GNOME/libxml2/-/work_items/1124
+-
+-CVE: CVE-2026-11979
+-Signed-off-by: Anton Skorup <anton.skorup@axis.com>
+-Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/c2e233fc1b341685fc99621b2768b503f777a72e]
+----
+- test/catalogs/test.sh | 11 +++++++++++
+- xmlcatalog.c          | 16 ++++++++++++++++
+- 2 files changed, 27 insertions(+)
+-
+-diff --git a/test/catalogs/test.sh b/test/catalogs/test.sh
+-index 7e5eaa76..84e8b90a 100755
+---- a/test/catalogs/test.sh
+-+++ b/test/catalogs/test.sh
+-@@ -10,6 +10,17 @@ fi
+- 
+- exitcode=0
+- 
+-+# Test xmlcatalog --shell command line
+-+# Case 1: Really long argument (470 chars)
+-+input=""; for i in {1..470}; do input="${input}A"; done
+-+echo $input | $xmlcatalog --shell test/catalogs/dockbook.xml || exit 1
+-+# Case 2: public + long argument
+-+input="public "; for i in {1..470}; do input="${input}A"; done
+-+echo $input | $xmlcatalog --shell test/catalogs/dockbook.xml || exit 1
+-+# Case 3: public + lots of args
+-+input="public "; for i in {1..80}; do input="${input} x"; done
+-+echo $input | $xmlcatalog --shell test/catalogs/dockbook.xml || exit 1
+-+
+- for i in test/catalogs/*.script ; do
+-     name=$(basename $i .script)
+-     xml="./test/catalogs/$name.xml"
+-diff --git a/xmlcatalog.c b/xmlcatalog.c
+-index b400c7cb..5113e930 100644
+---- a/xmlcatalog.c
+-+++ b/xmlcatalog.c
+-@@ -135,6 +135,12 @@ static void usershell(void) {
+- 	       (*cur != '\n') && (*cur != '\r')) {
+- 	    if (*cur == 0)
+- 		break;
+-+            /* Do not read beyond the command array capacity */
+-+            if (i >= (int)sizeof(command) - 2) {
+-+                printf("Invalid command %s\n", cur);
+-+                i = 0;
+-+                break;
+-+            }
+- 	    command[i++] = *cur++;
+- 	}
+- 	command[i] = 0;
+-@@ -152,6 +158,11 @@ static void usershell(void) {
+- 	while ((*cur != '\n') && (*cur != '\r') && (*cur != 0)) {
+- 	    if (*cur == 0)
+- 		break;
+-+            if (i >= (int)sizeof(arg) - 2) {
+-+                printf("Invalid arg %s\n", arg);
+-+                i = 0;
+-+                break;
+-+            }
+- 	    arg[i++] = *cur++;
+- 	}
+- 	arg[i] = 0;
+-@@ -164,6 +175,11 @@ static void usershell(void) {
+- 	cur = arg;
+- 	memset(argv, 0, sizeof(argv));
+- 	while (*cur != 0) {
+-+            if (i >= (int)sizeof(argv) / (int)sizeof(char*)) {
+-+                printf("Too much arguments\n");
+-+                break;
+-+            }
+-+
+- 	    while ((*cur == ' ') || (*cur == '\t')) cur++;
+- 	    if (*cur == '\'') {
+- 		cur++;
+--- 
+-2.43.0
+-
+diff --git a/meta/recipes-core/libxml/libxml2/install-tests.patch b/meta/recipes-core/libxml/libxml2/install-tests.patch
+index 996ade614e..55559b7df3 100644
+--- a/meta/recipes-core/libxml/libxml2/install-tests.patch
++++ b/meta/recipes-core/libxml/libxml2/install-tests.patch
+@@ -1,4 +1,4 @@
+-From c6b547e06beb0f0ba99e30d036f055eaed9ec4dc Mon Sep 17 00:00:00 2001
++From 11159757ae9ff484e02764b36cef970b3d0178c2 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@arm.com>
+ Date: Fri, 17 Oct 2025 14:15:36 +0800
+ Subject: [PATCH] add yocto-specific install-ptest target
+diff --git a/meta/recipes-core/libxml/libxml2_2.15.3.bb b/meta/recipes-core/libxml/libxml2_2.15.4.bb
+similarity index 96%
+rename from meta/recipes-core/libxml/libxml2_2.15.3.bb
+rename to meta/recipes-core/libxml/libxml2_2.15.4.bb
+index 8b0ba29412..99f3b9675a 100644
+--- a/meta/recipes-core/libxml/libxml2_2.15.3.bb
++++ b/meta/recipes-core/libxml/libxml2_2.15.4.bb
+@@ -18,10 +18,9 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
+            file://run-ptest \
+            file://install-tests.patch \
+            file://0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch \
+-           file://CVE-2026-11979.patch \
+            "
  
--SRC_URI[sha256sum] = "1c80f34dd96992e7758b40423d2809f48f640ca285d0b7821825e50745ec3740"
-+SRC_URI[sha256sum] = "232bc4317279e8952eca9fb3f5e000d8395d693b39c105b99f619ce461e1da85"
+-SRC_URI[archive.sha256sum] = "78262a6e7ac170d6528ebfe2efccdf220191a5af6a6cd61ea4a9a9a5042c7a07"
++SRC_URI[archive.sha256sum] = "98087fd181d9070724f3fbc65c7377db03038eb92bd882374daff44940138821"
+ SRC_URI[testtar.sha256sum] = "c6b2d42ee50b8b236e711a97d68e6c4b5c8d83e69a2be4722379f08702ea7273"
  
- inherit pypi python_flit_core
- 
+ CVE_STATUS[CVE-2025-6170] = "fixed-version: fixed in version 2.14.5"
 -- 
 2.47.1
 
 
---===============5617748445824732288==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-flit-core-changelog.txt"
-
-Changelog for python3-flit-core: 3.12.0 -> 4.0.2
-Source: doc/history.rst
-
-Version 4.0.2
--------------
-
-- Fix invalid metadata files with ``Import-Name`` (:ghissue:`813`).
-
-Version 4.0.1
--------------
-
-No changes, but a new tag to trigger an upload to PyPI now that twine will
-accept it.
-
-Version 4.0
------------
-
-This version contains breaking changes, but most projects which are already
-using the ``[project]`` table for metadata shouldn't be affected, and can simply
-change the ``flit_core <4`` constraint to ``<5``.
-
-- The ``[tool.flit.metadata]`` table is no longer used for project metadata
-  (:ghpull:`771`). Use the newer :ref:`[project] table <pyproject_toml_project>`
-  instead (or if that is not possible, build with ``flit_core <4``).
-- :ref:`build_cmd` and :ref:`publish_cmd` no longer include files in the sdist
-  based on what is committed in git or Mercurial (:ghpull:`772`). These commands
-  now build packages more like Flit does when called as a backend by e.g.
-  ``python -m build``. Specify :ref:`sdist include & exclude patterns
-  <pyproject_toml_sdist>` instead (Flit can help to generate these), or pass
-  the ``--use-vcs`` option to get the old behaviour back.
-- ``flit_core`` now requires Python 3.8 or above (:ghpull:`738`)
-- The ``--setup-py`` option to generate sdists containing a ``setup.py`` file
-  is no longer available (:ghpull:`776`).
-- Making typing stubs packages with a ``-stubs`` suffix will now work
-  (:ghpull:`742`).
-- The default glob patterns for license files have been extended to include
-  ``NOTICE*`` and ``AUTHORS*`` (:ghpull:`758`).
-- ``license-files`` glob patterns can contain spaces (:ghpull:`797`).
-- Fix a bug where license files could be found twice on Windows (:ghpull:`752`).
-- The new ``Import-Name`` and ``Import-Namespace`` metadata fields (metadata 2.5)
-  are now supported (:ghpull:`774`). In most cases no new input is required,
-  as Flit will create this metadata automatically.
-- Fix creating RECORD files when file names include commas (:ghpull:`744`).
-- The ``--use-vcs`` option now correctly recognises git from inside a git
-  worktree folder (:ghpull:`799`).
-- On Python 3.12 and above, ``flit build`` now uses the 'data' filter when
-  extracting the just-created sdist prior to building a wheel (:ghpull:`775`).
-  This restricts some special features of tar files, but sdists are unlikely
-  to use these features, and they would probably break in other scenarios if
-  you did.
-- The vendorised ``readme_renderer`` package was updated to version 44.0
-  (:ghpull:`760`).
-
-- Flit will work with current development versions of Python again (:ghpull:`684`).
-- The ``flit`` command line package now requires Python 3.8 or above (:ghpull:`660`).
-- Flit now has a ``SECURITY.md`` file in the GitHub repository (:ghpull:`665`).
-  new ``[tool.flit.metadata.urls]`` section of
-  archive, such as from GitHub.
-
---===============5617748445824732288==
+--===============6381990093743007256==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-flit-core-upgrade-3.12.0-4.0.2.patch"
+ filename="0001-libxml2-upgrade-2.15.3-2.15.4.patch"
 
-RnJvbSA5ZjZlYWNkM2FiNDE1ZmYzMDNiOTZjZWY1OGJlMGIwOTc2YWY3ZDBmIE1vbiBTZXAgMTcg
+RnJvbSBhMDljYTJmZmFiYTgyNTgzMGEzZGJjYThmMGEwMWYyNDUzNTQ3NGNiIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgNSBTZXAgMjAyNiAwNTo1ODowMSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
-dGhvbjMtZmxpdC1jb3JlOiB1cGdyYWRlIDMuMTIuMCAtPiA0LjAuMgoKU291cmNlOiBkb2MvaGlz
-dG9yeS5yc3QKClZlcnNpb24gNC4wLjIKLS0tLS0tLS0tLS0tLQoKLSBGaXggaW52YWxpZCBtZXRh
-ZGF0YSBmaWxlcyB3aXRoIGBgSW1wb3J0LU5hbWVgYCAoOmdoaXNzdWU6YDgxM2ApLgoKVmVyc2lv
-biA0LjAuMQotLS0tLS0tLS0tLS0tCgpObyBjaGFuZ2VzLCBidXQgYSBuZXcgdGFnIHRvIHRyaWdn
-ZXIgYW4gdXBsb2FkIHRvIFB5UEkgbm93IHRoYXQgdHdpbmUgd2lsbAphY2NlcHQgaXQuCgpWZXJz
-aW9uIDQuMAotLS0tLS0tLS0tLQoKVGhpcyB2ZXJzaW9uIGNvbnRhaW5zIGJyZWFraW5nIGNoYW5n
-ZXMsIGJ1dCBtb3N0IHByb2plY3RzIHdoaWNoIGFyZSBhbHJlYWR5CnVzaW5nIHRoZSBgYFtwcm9q
-ZWN0XWBgIHRhYmxlIGZvciBtZXRhZGF0YSBzaG91bGRuJ3QgYmUgYWZmZWN0ZWQsIGFuZCBjYW4g
-c2ltcGx5CmNoYW5nZSB0aGUgYGBmbGl0X2NvcmUgPDRgYCBjb25zdHJhaW50IHRvIGBgPDVgYC4K
-Ci0gVGhlIGBgW3Rvb2wuZmxpdC5tZXRhZGF0YV1gYCB0YWJsZSBpcyBubyBsb25nZXIgdXNlZCBm
-b3IgcHJvamVjdCBtZXRhZGF0YQogICg6Z2hwdWxsOmA3NzFgKS4gVXNlIHRoZSBuZXdlciA6cmVm
-OmBbcHJvamVjdF0gdGFibGUgPHB5cHJvamVjdF90b21sX3Byb2plY3Q+YAogIGluc3RlYWQgKG9y
-IGlmIHRoYXQgaXMgbm90IHBvc3NpYmxlLCBidWlsZCB3aXRoIGBgZmxpdF9jb3JlIDw0YGApLgot
-IDpyZWY6YGJ1aWxkX2NtZGAgYW5kIDpyZWY6YHB1Ymxpc2hfY21kYCBubyBsb25nZXIgaW5jbHVk
-ZSBmaWxlcyBpbiB0aGUgc2Rpc3QKICBiYXNlZCBvbiB3aGF0IGlzIGNvbW1pdHRlZCBpbiBnaXQg
-b3IgTWVyY3VyaWFsICg6Z2hwdWxsOmA3NzJgKS4gVGhlc2UgY29tbWFuZHMKICBub3cgYnVpbGQg
-cGFja2FnZXMgbW9yZSBsaWtlIEZsaXQgZG9lcyB3aGVuIGNhbGxlZCBhcyBhIGJhY2tlbmQgYnkg
-ZS5nLgogIGBgcHl0aG9uIC1tIGJ1aWxkYGAuIFNwZWNpZnkgOnJlZjpgc2Rpc3QgaW5jbHVkZSAm
-IGV4Y2x1ZGUgcGF0dGVybnMKICA8cHlwcm9qZWN0X3RvbWxfc2Rpc3Q+YCBpbnN0ZWFkIChGbGl0
-IGNhbiBoZWxwIHRvIGdlbmVyYXRlIHRoZXNlKSwgb3IgcGFzcwogIHRoZSBgYC0tdXNlLXZjc2Bg
-IG9wdGlvbiB0byBnZXQgdGhlIG9sZCBiZWhhdmlvdXIgYmFjay4KLSBgYGZsaXRfY29yZWBgIG5v
-dyByZXF1aXJlcyBQeXRob24gMy44IG9yIGFib3ZlICg6Z2hwdWxsOmA3MzhgKQotIFRoZSBgYC0t
-c2V0dXAtcHlgYCBvcHRpb24gdG8gZ2VuZXJhdGUgc2Rpc3RzIGNvbnRhaW5pbmcgYSBgYHNldHVw
-LnB5YGAgZmlsZQogIGlzIG5vIGxvbmdlciBhdmFpbGFibGUgKDpnaHB1bGw6YDc3NmApLgotIE1h
-a2luZyB0eXBpbmcgc3R1YnMgcGFja2FnZXMgd2l0aCBhIGBgLXN0dWJzYGAgc3VmZml4IHdpbGwg
-bm93IHdvcmsKICAoOmdocHVsbDpgNzQyYCkuCi0gVGhlIGRlZmF1bHQgZ2xvYiBwYXR0ZXJucyBm
-b3IgbGljZW5zZSBmaWxlcyBoYXZlIGJlZW4gZXh0ZW5kZWQgdG8gaW5jbHVkZQogIGBgTk9USUNF
-KmBgIGFuZCBgYEFVVEhPUlMqYGAgKDpnaHB1bGw6YDc1OGApLgotIGBgbGljZW5zZS1maWxlc2Bg
-IGdsb2IgcGF0dGVybnMgY2FuIGNvbnRhaW4gc3BhY2VzICg6Z2hwdWxsOmA3OTdgKS4KLSBGaXgg
-YSBidWcgd2hlcmUgbGljZW5zZSBmaWxlcyBjb3VsZCBiZSBmb3VuZCB0d2ljZSBvbiBXaW5kb3dz
-ICg6Z2hwdWxsOmA3NTJgKS4KLSBUaGUgbmV3IGBgSW1wb3J0LU5hbWVgYCBhbmQgYGBJbXBvcnQt
-TmFtZXNwYWNlYGAgbWV0YWRhdGEgZmllbGRzIChtZXRhZGF0YSAyLjUpCiAgYXJlIG5vdyBzdXBw
-b3J0ZWQgKDpnaHB1bGw6YDc3NGApLiBJbiBtb3N0IGNhc2VzIG5vIG5ldyBpbnB1dCBpcyByZXF1
-aXJlZCwKICBhcyBGbGl0IHdpbGwgY3JlYXRlIHRoaXMgbWV0YWRhdGEgYXV0b21hdGljYWxseS4K
-LSBGaXggY3JlYXRpbmcgUkVDT1JEIGZpbGVzIHdoZW4gZmlsZSBuYW1lcyBpbmNsdWRlIGNvbW1h
-cyAoOmdocHVsbDpgNzQ0YCkuCi0gVGhlIGBgLS11c2UtdmNzYGAgb3B0aW9uIG5vdyBjb3JyZWN0
-bHkgcmVjb2duaXNlcyBnaXQgZnJvbSBpbnNpZGUgYSBnaXQKICB3b3JrdHJlZSBmb2xkZXIgKDpn
-aHB1bGw6YDc5OWApLgotIE9uIFB5dGhvbiAzLjEyIGFuZCBhYm92ZSwgYGBmbGl0IGJ1aWxkYGAg
-bm93IHVzZXMgdGhlICdkYXRhJyBmaWx0ZXIgd2hlbgogIGV4dHJhY3RpbmcgdGhlIGp1c3QtY3Jl
-YXRlZCBzZGlzdCBwcmlvciB0byBidWlsZGluZyBhIHdoZWVsICg6Z2hwdWxsOmA3NzVgKS4KICBU
-aGlzIHJlc3RyaWN0cyBzb21lIHNwZWNpYWwgZmVhdHVyZXMgb2YgdGFyIGZpbGVzLCBidXQgc2Rp
-c3RzIGFyZSB1bmxpa2VseQogIHRvIHVzZSB0aGVzZSBmZWF0dXJlcywgYW5kIHRoZXkgd291bGQg
-cHJvYmFibHkgYnJlYWsgaW4gb3RoZXIgc2NlbmFyaW9zIGlmCiAgeW91IGRpZC4KLSBUaGUgdmVu
-ZG9yaXNlZCBgYHJlYWRtZV9yZW5kZXJlcmBgIHBhY2thZ2Ugd2FzIHVwZGF0ZWQgdG8gdmVyc2lv
-biA0NC4wCiAgKDpnaHB1bGw6YDc2MGApLgoKLSBGbGl0IHdpbGwgd29yayB3aXRoIGN1cnJlbnQg
-ZGV2ZWxvcG1lbnQgdmVyc2lvbnMgb2YgUHl0aG9uIGFnYWluICg6Z2hwdWxsOmA2ODRgKS4KLSBU
-aGUgYGBmbGl0YGAgY29tbWFuZCBsaW5lIHBhY2thZ2Ugbm93IHJlcXVpcmVzIFB5dGhvbiAzLjgg
-b3IgYWJvdmUgKDpnaHB1bGw6YDY2MGApLgotIEZsaXQgbm93IGhhcyBhIGBgU0VDVVJJVFkubWRg
-YCBmaWxlIGluIHRoZSBHaXRIdWIgcmVwb3NpdG9yeSAoOmdocHVsbDpgNjY1YCkuCiAgbmV3IGBg
-W3Rvb2wuZmxpdC5tZXRhZGF0YS51cmxzXWBgIHNlY3Rpb24gb2YKICBhcmNoaXZlLCBzdWNoIGFz
-IGZyb20gR2l0SHViLgotLS0KIC4uLi97cHl0aG9uMy1mbGl0LWNvcmVfMy4xMi4wLmJiID0+IHB5
-dGhvbjMtZmxpdC1jb3JlXzQuMC4yLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2Vy
-dGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRo
-b24ve3B5dGhvbjMtZmxpdC1jb3JlXzMuMTIuMC5iYiA9PiBweXRob24zLWZsaXQtY29yZV80LjAu
-Mi5iYn0gKDkxJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
-dGhvbjMtZmxpdC1jb3JlXzMuMTIuMC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1mbGl0LWNvcmVfNC4wLjIuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZy
-b20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWZsaXQtY29yZV8zLjEyLjAu
-YmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1mbGl0LWNv
-cmVfNC4wLjIuYmIKaW5kZXggZTQwZmZkMGQwZi4uMjdhYWFlMDg1ZCAxMDA2NDQKLS0tIGEvbWV0
-YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWZsaXQtY29yZV8zLjEyLjAuYmIKKysr
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLWZsaXQtY29yZV80LjAuMi5i
-YgpAQCAtOCw3ICs4LDcgQEAgQlVHVFJBQ0tFUiA9ICJodHRwczovL2dpdGh1Yi5jb20vcHlwYS9m
-bGl0L2lzc3VlcyIKIExJQ0VOU0UgPSAiQlNELTMtQ2xhdXNlIgogTElDX0ZJTEVTX0NIS1NVTSA9
-ICJmaWxlOi8vTElDRU5TRTttZDU9NDFlYjc4ZmE4YTg3Mjk4M2E4ODJjNjk0YTgzMDVmMDgiCiAK
-LVNSQ19VUklbc2hhMjU2c3VtXSA9ICIxYzgwZjM0ZGQ5Njk5MmU3NzU4YjQwNDIzZDI4MDlmNDhm
-NjQwY2EyODVkMGI3ODIxODI1ZTUwNzQ1ZWMzNzQwIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjIz
-MmJjNDMxNzI3OWU4OTUyZWNhOWZiM2Y1ZTAwMGQ4Mzk1ZDY5M2IzOWMxMDViOTlmNjE5Y2U0NjFl
-MWRhODUiCiAKIGluaGVyaXQgcHlwaSBweXRob25fZmxpdF9jb3JlCiAKLS0gCjIuNDcuMQoK
+CkRhdGU6IFNhdCwgNSBTZXAgMjAyNiAwNToyMDo1NSArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGxp
+YnhtbDI6IHVwZ3JhZGUgMi4xNS4zIC0+IDIuMTUuNAoKU291cmNlOiBORVdTCgp2Mi4xNS40OiBT
+ZXAgMDEgMjAyNgoKIyMjIFNlY3VyaXR5CgotIHhtbHJlZ2V4cDogUHJldmVudCBvdXQtb2YtYm91
+bmRzIHJlYWQgaW4gTlhUIG1hY3JvCi0gZml4OiBhZGQgbWlzc2luZyBvdmVyZmxvdyBjaGVja3Mg
+aW4gZGljdC5jLCB1cmkuYywgYW5kIHZhbGlkLmMKLSB4bWxyZWdleHA6IENhbGMgc3RyaW5nIGxl
+bmd0aCBhZnRlciBudWxsIGNoZWNraW5nCi0geHBvaW50ZXI6IENoZWNrIG92ZXJmbG93IGluIHht
+bFhQdHJFdmFsWFB0clBhcnQKLSB4bWxJTzogQ2hlY2sgZm9yIGludCBvdmVyZmxvdyBiZWZvcmUg
+Y2FsbGluZyB3cml0ZWNhbGxiYWNrCi0gZml4KHhpbmNsdWRlKTogcHJvcGFnYXRlIHBhcnNlRmxh
+Z3MgaW4geG1sWEluY2x1ZGVQcm9jZXNzIGFuZCB4bWxYSW5jbHVkZVByb2Nlc3NUcmVlCgojIyMg
+SW1wcm92ZW1lbnRzCgotIEltcHJvdmUgYm91bmQgY2hlY2tzIGZvciB4bWxjYXRhbG9nIGFuZCB4
+bWxsaW50IGFyZ3VtZW50cyAob3V0LW9mLWJvdW5kKQotIEZpeCBtZW1vcnkgbGVhayBpbiBzdGF0
+aWMgV2luZG93cyBsaWJyYXJ5IChtZW1vcnktbGVhaykKLSB4bWxyZWFkZXI6IENvcHkgRFREIGlu
+IHhtbFRleHRSZWFkZXJEdW1wQ29weQotIHBhcnNlcjogRml4IGRvdWJsZSBmcmVlIGluIHhtbElP
+UGFyc2VEVEQgKGRvdWJsZS1mcmVlKQotIHBhcnNlcjogZml4IGRpdmlzaW9uLWJ5LXplcm8gd2hl
+biBtYXhBbXBsIGlzIHNldCB0byAwCi0gcGFyc2VyOiBGaXggbWVtb3J5IGxlYWsgaW4geG1sQ3R4
+dFNldFNheEhhbmRsZXIgKG1lbW9yeS1sZWFrKQotIGNhdGFsb2c6IE1ha2Ugc3VyZSB0byByZXNl
+dCBjYXRhbG9nIHJlc29sdmUgY2FjaGUKLSB4bWxBZGRDaGlsZDogdW5saW5rIG5vZGUgYmVmb3Jl
+IGZyZWUgZm9yIHRleHQgbm9kZXMgKG1lbW9yeS1sZWFrKQotIE5vcm1hbGl6ZSBlbnRpdHkgdmFs
+dWVzIGluIGF0dHIgaW4geG1sTm9kZUdldENvbnRlbnQKLSBIYW5kbGUgd2hpdGVzcGFjZSBmb3Ig
+ZGF0ZS90aW1lL2R1cmF0aW9uIHR5cGVzCi0gY2F0YWxvZzogRml4IE5VTEwgZGVyZWYgZm9yIG5l
+eHRDYXRhbG9nIHdpdGhvdXQgJ2NhdGFsb2cnIGF0dHJpYnV0ZSAobnVsbC1kZXJlZikKCiMjIyBU
+aGFua3MKClRoYW5rcyB0byB0aGUgZm9sbG93aW5nIG5ldyBjb250cmlidXRvcnM6CgotIEJyZXR0
+IEthaWwKLSBJb24gTmlzdG9yCi0gS2V2aW4gQnJhdW4KLSBNb2hhbW1hZCBTZWV0Ci0gcm9vdHZl
+Y3RvcjIKLSBSdWJlbiBUaGlqc3NlbgotIHlpcm91X3lhbmcKLSBaaGloYW4gWmhlbmcKLSB6aHVv
+ZmVuZwoKIyMjIEZ1bGwgbGlzdCBvZiBjb21taXRzIGFuZCBjb250cmlidXRvcnMgb24gdGhpcyBy
+ZWxlYXNlCgoxMyAgRGFuaWVsIEdhcmNpYSBNb3Jlbm8KIDggIE1vaGFtbWFkIFNlZXQKIDYgIHpo
+dW9mZW5nCiAyICBCZW5qYW1pbiBHaWxiZXJ0CiAxICBCcmV0dCBLYWlsCiAxICBIaWV1IExlIE1p
+bmgKIDEgIElvbiBOaXN0b3IKIDEgIEtldmluIEJyYXVuCiAxICBOaWNrIFdlbGxuaG9mZXIKIDEg
+IFJ1YmVuIFRoaWpzc2VuCiAxICBaaGloYW4gWmhlbmcKIDEgIHJvb3R2ZWN0b3IyCiAxICB5aXJv
+dV95YW5nCi0tLQogLi4uLWluc3RhbGxhdGlvbi1kaXJlY3Rvcmllcy1pbi1saWJ4bWwyLnBhdGNo
+IHwgIDYgKy0KIC4uLi9saWJ4bWwvbGlieG1sMi9DVkUtMjAyNi0xMTk3OS5wYXRjaCAgICAgICB8
+IDgxIC0tLS0tLS0tLS0tLS0tLS0tLS0KIC4uLi9saWJ4bWwvbGlieG1sMi9pbnN0YWxsLXRlc3Rz
+LnBhdGNoICAgICAgICB8ICAyICstCiAuLi4ve2xpYnhtbDJfMi4xNS4zLmJiID0+IGxpYnhtbDJf
+Mi4xNS40LmJifSAgfCAgMyArLQogNCBmaWxlcyBjaGFuZ2VkLCA1IGluc2VydGlvbnMoKyksIDg3
+IGRlbGV0aW9ucygtKQogZGVsZXRlIG1vZGUgMTAwNjQ0IG1ldGEvcmVjaXBlcy1jb3JlL2xpYnht
+bC9saWJ4bWwyL0NWRS0yMDI2LTExOTc5LnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUv
+bGlieG1sL3tsaWJ4bWwyXzIuMTUuMy5iYiA9PiBsaWJ4bWwyXzIuMTUuNC5iYn0gKDk2JSkKCmRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi8wMDAxLVJldmVydC1j
+bWFrZS1GaXgtaW5zdGFsbGF0aW9uLWRpcmVjdG9yaWVzLWluLWxpYnhtbDIucGF0Y2ggYi9tZXRh
+L3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi8wMDAxLVJldmVydC1jbWFrZS1GaXgtaW5zdGFs
+bGF0aW9uLWRpcmVjdG9yaWVzLWluLWxpYnhtbDIucGF0Y2gKaW5kZXggZDE5YjI4NDg2Ni4uYTFk
+MjRiNTk2ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDIvMDAw
+MS1SZXZlcnQtY21ha2UtRml4LWluc3RhbGxhdGlvbi1kaXJlY3Rvcmllcy1pbi1saWJ4bWwyLnBh
+dGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyLzAwMDEtUmV2ZXJ0LWNt
+YWtlLUZpeC1pbnN0YWxsYXRpb24tZGlyZWN0b3JpZXMtaW4tbGlieG1sMi5wYXRjaApAQCAtMSw0
+ICsxLDQgQEAKLUZyb20gODAzZTZmMjFkM2Q3ZWY2Mzk5ZjZmZmU1OGNkMjhmYTZkYzdiOTRlOSBN
+b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gYWEzMWI3MmMyNjBkZTNmMTUyODlkYjhkNzhj
+OTY3NGIwY2Y1NWY3ZiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFBldGVyIE1hcmtv
+IDxwZXRlci5tYXJrb0BzaWVtZW5zLmNvbT4KIERhdGU6IE1vbiwgMjYgTWF5IDIwMjUgMjE6MTE6
+MTQgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gUmV2ZXJ0ICJjbWFrZTogRml4IGluc3RhbGxhdGlv
+biBkaXJlY3RvcmllcyBpbgpAQCAtNjYsMTAgKzY2LDEwIEBAIGluZGV4IGZmNjQzM2YuLmI3NzVj
+ZmUgMTAwNjQ0CiAgc2V0KExJQlhNTDJfTElCUkFSSUVTICR7TElCWE1MMl9MSUJSQVJZfSkKICBz
+ZXQoTElCWE1MMl9JTkNMVURFX0RJUlMgJHtMSUJYTUwyX0lOQ0xVREVfRElSfSkKIGRpZmYgLS1n
+aXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkCi1pbmRleCAyY2ZlY2I2Li5mNzhkYTMxIDEw
+MDY0NAoraW5kZXggZjgzMzdlYS4uMTlmZGJiMCAxMDA2NDQKIC0tLSBhL21lc29uLmJ1aWxkCiAr
+KysgYi9tZXNvbi5idWlsZAotQEAgLTU5Myw5ICs1OTMsNiBAQCBjb25maWdfY21ha2UgPSBjb25m
+aWd1cmF0aW9uX2RhdGEoKQorQEAgLTU5NCw5ICs1OTQsNiBAQCBjb25maWdfY21ha2UgPSBjb25m
+aWd1cmF0aW9uX2RhdGEoKQogIGNvbmZpZ19jbWFrZS5zZXQoJ0xJQlhNTF9NQUpPUl9WRVJTSU9O
+Jywgdl9tYWopCiAgY29uZmlnX2NtYWtlLnNldCgnTElCWE1MX01JTk9SX1ZFUlNJT04nLCB2X21p
+bikKICBjb25maWdfY21ha2Uuc2V0KCdMSUJYTUxfTUlDUk9fVkVSU0lPTicsIHZfbWljKQpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDIvQ1ZFLTIwMjYtMTE5Nzku
+cGF0Y2ggYi9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9DVkUtMjAyNi0xMTk3OS5w
+YXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggYTE0ZTU2NjY4MS4uMDAwMDAwMDAw
+MAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9DVkUtMjAyNi0xMTk3OS5w
+YXRjaAorKysgL2Rldi9udWxsCkBAIC0xLDgxICswLDAgQEAKLUZyb20gZGZhZDA2NjBmN2RhYjNi
+NWY4MzE3YjcwM2IxNmFkMGIwZDEyNjk3ZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206
+IERhbmllbCBHYXJjaWEgTW9yZW5vIDxkYW5pZWwuZ2FyY2lhQHN1c2UuY29tPgotRGF0ZTogRnJp
+LCAyMiBNYXkgMjAyNiAxMjoyMToyMCArMDIwMAotU3ViamVjdDogW1BBVENIXSB4bWxjYXRhbG9n
+OiBvdmVyZmxvdyBjaGVjayBmb3IgbGFyZ2UgLS1zaGVsbCBjb21tYW5kcwotCi1GaXggaHR0cHM6
+Ly9naXRsYWIuZ25vbWUub3JnL0dOT01FL2xpYnhtbDIvLS93b3JrX2l0ZW1zLzExMjQKLQotQ1ZF
+OiBDVkUtMjAyNi0xMTk3OQotU2lnbmVkLW9mZi1ieTogQW50b24gU2tvcnVwIDxhbnRvbi5za29y
+dXBAYXhpcy5jb20+Ci1VcHN0cmVhbS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGxhYi5n
+bm9tZS5vcmcvR05PTUUvbGlieG1sMi8tL2NvbW1pdC9jMmUyMzNmYzFiMzQxNjg1ZmM5OTYyMWIy
+NzY4YjUwM2Y3NzdhNzJlXQotLS0tCi0gdGVzdC9jYXRhbG9ncy90ZXN0LnNoIHwgMTEgKysrKysr
+KysrKysKLSB4bWxjYXRhbG9nLmMgICAgICAgICAgfCAxNiArKysrKysrKysrKysrKysrCi0gMiBm
+aWxlcyBjaGFuZ2VkLCAyNyBpbnNlcnRpb25zKCspCi0KLWRpZmYgLS1naXQgYS90ZXN0L2NhdGFs
+b2dzL3Rlc3Quc2ggYi90ZXN0L2NhdGFsb2dzL3Rlc3Quc2gKLWluZGV4IDdlNWVhYTc2Li44NGU4
+YjkwYSAxMDA3NTUKLS0tLSBhL3Rlc3QvY2F0YWxvZ3MvdGVzdC5zaAotKysrIGIvdGVzdC9jYXRh
+bG9ncy90ZXN0LnNoCi1AQCAtMTAsNiArMTAsMTcgQEAgZmkKLSAKLSBleGl0Y29kZT0wCi0gCi0r
+IyBUZXN0IHhtbGNhdGFsb2cgLS1zaGVsbCBjb21tYW5kIGxpbmUKLSsjIENhc2UgMTogUmVhbGx5
+IGxvbmcgYXJndW1lbnQgKDQ3MCBjaGFycykKLStpbnB1dD0iIjsgZm9yIGkgaW4gezEuLjQ3MH07
+IGRvIGlucHV0PSIke2lucHV0fUEiOyBkb25lCi0rZWNobyAkaW5wdXQgfCAkeG1sY2F0YWxvZyAt
+LXNoZWxsIHRlc3QvY2F0YWxvZ3MvZG9ja2Jvb2sueG1sIHx8IGV4aXQgMQotKyMgQ2FzZSAyOiBw
+dWJsaWMgKyBsb25nIGFyZ3VtZW50Ci0raW5wdXQ9InB1YmxpYyAiOyBmb3IgaSBpbiB7MS4uNDcw
+fTsgZG8gaW5wdXQ9IiR7aW5wdXR9QSI7IGRvbmUKLStlY2hvICRpbnB1dCB8ICR4bWxjYXRhbG9n
+IC0tc2hlbGwgdGVzdC9jYXRhbG9ncy9kb2NrYm9vay54bWwgfHwgZXhpdCAxCi0rIyBDYXNlIDM6
+IHB1YmxpYyArIGxvdHMgb2YgYXJncwotK2lucHV0PSJwdWJsaWMgIjsgZm9yIGkgaW4gezEuLjgw
+fTsgZG8gaW5wdXQ9IiR7aW5wdXR9IHgiOyBkb25lCi0rZWNobyAkaW5wdXQgfCAkeG1sY2F0YWxv
+ZyAtLXNoZWxsIHRlc3QvY2F0YWxvZ3MvZG9ja2Jvb2sueG1sIHx8IGV4aXQgMQotKwotIGZvciBp
+IGluIHRlc3QvY2F0YWxvZ3MvKi5zY3JpcHQgOyBkbwotICAgICBuYW1lPSQoYmFzZW5hbWUgJGkg
+LnNjcmlwdCkKLSAgICAgeG1sPSIuL3Rlc3QvY2F0YWxvZ3MvJG5hbWUueG1sIgotZGlmZiAtLWdp
+dCBhL3htbGNhdGFsb2cuYyBiL3htbGNhdGFsb2cuYwotaW5kZXggYjQwMGM3Y2IuLjUxMTNlOTMw
+IDEwMDY0NAotLS0tIGEveG1sY2F0YWxvZy5jCi0rKysgYi94bWxjYXRhbG9nLmMKLUBAIC0xMzUs
+NiArMTM1LDEyIEBAIHN0YXRpYyB2b2lkIHVzZXJzaGVsbCh2b2lkKSB7Ci0gCSAgICAgICAoKmN1
+ciAhPSAnXG4nKSAmJiAoKmN1ciAhPSAnXHInKSkgewotIAkgICAgaWYgKCpjdXIgPT0gMCkKLSAJ
+CWJyZWFrOwotKyAgICAgICAgICAgIC8qIERvIG5vdCByZWFkIGJleW9uZCB0aGUgY29tbWFuZCBh
+cnJheSBjYXBhY2l0eSAqLwotKyAgICAgICAgICAgIGlmIChpID49IChpbnQpc2l6ZW9mKGNvbW1h
+bmQpIC0gMikgewotKyAgICAgICAgICAgICAgICBwcmludGYoIkludmFsaWQgY29tbWFuZCAlc1xu
+IiwgY3VyKTsKLSsgICAgICAgICAgICAgICAgaSA9IDA7Ci0rICAgICAgICAgICAgICAgIGJyZWFr
+OwotKyAgICAgICAgICAgIH0KLSAJICAgIGNvbW1hbmRbaSsrXSA9ICpjdXIrKzsKLSAJfQotIAlj
+b21tYW5kW2ldID0gMDsKLUBAIC0xNTIsNiArMTU4LDExIEBAIHN0YXRpYyB2b2lkIHVzZXJzaGVs
+bCh2b2lkKSB7Ci0gCXdoaWxlICgoKmN1ciAhPSAnXG4nKSAmJiAoKmN1ciAhPSAnXHInKSAmJiAo
+KmN1ciAhPSAwKSkgewotIAkgICAgaWYgKCpjdXIgPT0gMCkKLSAJCWJyZWFrOwotKyAgICAgICAg
+ICAgIGlmIChpID49IChpbnQpc2l6ZW9mKGFyZykgLSAyKSB7Ci0rICAgICAgICAgICAgICAgIHBy
+aW50ZigiSW52YWxpZCBhcmcgJXNcbiIsIGFyZyk7Ci0rICAgICAgICAgICAgICAgIGkgPSAwOwot
+KyAgICAgICAgICAgICAgICBicmVhazsKLSsgICAgICAgICAgICB9Ci0gCSAgICBhcmdbaSsrXSA9
+ICpjdXIrKzsKLSAJfQotIAlhcmdbaV0gPSAwOwotQEAgLTE2NCw2ICsxNzUsMTEgQEAgc3RhdGlj
+IHZvaWQgdXNlcnNoZWxsKHZvaWQpIHsKLSAJY3VyID0gYXJnOwotIAltZW1zZXQoYXJndiwgMCwg
+c2l6ZW9mKGFyZ3YpKTsKLSAJd2hpbGUgKCpjdXIgIT0gMCkgewotKyAgICAgICAgICAgIGlmIChp
+ID49IChpbnQpc2l6ZW9mKGFyZ3YpIC8gKGludClzaXplb2YoY2hhciopKSB7Ci0rICAgICAgICAg
+ICAgICAgIHByaW50ZigiVG9vIG11Y2ggYXJndW1lbnRzXG4iKTsKLSsgICAgICAgICAgICAgICAg
+YnJlYWs7Ci0rICAgICAgICAgICAgfQotKwotIAkgICAgd2hpbGUgKCgqY3VyID09ICcgJykgfHwg
+KCpjdXIgPT0gJ1x0JykpIGN1cisrOwotIAkgICAgaWYgKCpjdXIgPT0gJ1wnJykgewotIAkJY3Vy
+Kys7Ci0tLSAKLTIuNDMuMAotCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwv
+bGlieG1sMi9pbnN0YWxsLXRlc3RzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xp
+YnhtbDIvaW5zdGFsbC10ZXN0cy5wYXRjaAppbmRleCA5OTZhZGU2MTRlLi41NTU1OWI3ZGYzIDEw
+MDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMi9pbnN0YWxsLXRlc3Rz
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyL2luc3RhbGwtdGVz
+dHMucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGM2YjU0N2UwNmJlYjBmMGJhOTllMzBkMDM2
+ZjA1NWVhZWQ5ZWM0ZGMgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDExMTU5NzU3YWU5
+ZmY0ODRlMDI3NjRiMzZjZWY5NzBiM2QwMTc4YzIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBG
+cm9tOiBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KIERhdGU6IEZyaSwgMTcgT2N0
+IDIwMjUgMTQ6MTU6MzYgKzA4MDAKIFN1YmplY3Q6IFtQQVRDSF0gYWRkIHlvY3RvLXNwZWNpZmlj
+IGluc3RhbGwtcHRlc3QgdGFyZ2V0CmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9saWJ4
+bWwvbGlieG1sMl8yLjE1LjMuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS9saWJ4bWwvbGlieG1sMl8y
+LjE1LjQuYmIKc2ltaWxhcml0eSBpbmRleCA5NiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNv
+cmUvbGlieG1sL2xpYnhtbDJfMi4xNS4zLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9s
+aWJ4bWwvbGlieG1sMl8yLjE1LjQuYmIKaW5kZXggOGIwYmEyOTQxMi4uOTlmM2I5Njc1YSAxMDA2
+NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNvcmUvbGlieG1sL2xpYnhtbDJfMi4xNS4zLmJiCisrKyBi
+L21ldGEvcmVjaXBlcy1jb3JlL2xpYnhtbC9saWJ4bWwyXzIuMTUuNC5iYgpAQCAtMTgsMTAgKzE4
+LDkgQEAgU1JDX1VSSSArPSAiaHR0cDovL3d3dy53My5vcmcvWE1ML1Rlc3QveG1sdHMyMDEzMDky
+My50YXI7c3ViZGlyPSR7QlB9O25hbWU9dGVzdHQKICAgICAgICAgICAgZmlsZTovL3J1bi1wdGVz
+dCBcCiAgICAgICAgICAgIGZpbGU6Ly9pbnN0YWxsLXRlc3RzLnBhdGNoIFwKICAgICAgICAgICAg
+ZmlsZTovLzAwMDEtUmV2ZXJ0LWNtYWtlLUZpeC1pbnN0YWxsYXRpb24tZGlyZWN0b3JpZXMtaW4t
+bGlieG1sMi5wYXRjaCBcCi0gICAgICAgICAgIGZpbGU6Ly9DVkUtMjAyNi0xMTk3OS5wYXRjaCBc
+CiAgICAgICAgICAgICIKIAotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiNzgyNjJhNmU3
+YWMxNzBkNjUyOGViZmUyZWZjY2RmMjIwMTkxYTVhZjZhNmNkNjFlYTRhOWE5YTUwNDJjN2EwNyIK
+K1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gIjk4MDg3ZmQxODFkOTA3MDcyNGYzZmJjNjVj
+NzM3N2RiMDMwMzhlYjkyYmQ4ODIzNzRkYWZmNDQ5NDAxMzg4MjEiCiBTUkNfVVJJW3Rlc3R0YXIu
+c2hhMjU2c3VtXSA9ICJjNmIyZDQyZWU1MGI4YjIzNmU3MTFhOTdkNjhlNmM0YjVjOGQ4M2U2OWEy
+YmU0NzIyMzc5ZjA4NzAyZWE3MjczIgogCiBDVkVfU1RBVFVTW0NWRS0yMDI1LTYxNzBdID0gImZp
+eGVkLXZlcnNpb246IGZpeGVkIGluIHZlcnNpb24gMi4xNC41IgotLSAKMi40Ny4xCgo=
 
---===============5617748445824732288==
+--===============6381990093743007256==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="libxml2-changelog.txt"
+
+Changelog for libxml2: 2.15.3 -> 2.15.4
+Source: NEWS
+
+v2.15.4: Sep 01 2026
+
+### Security
+
+- xmlregexp: Prevent out-of-bounds read in NXT macro
+- fix: add missing overflow checks in dict.c, uri.c, and valid.c
+- xmlregexp: Calc string length after null checking
+- xpointer: Check overflow in xmlXPtrEvalXPtrPart
+- xmlIO: Check for int overflow before calling writecallback
+- fix(xinclude): propagate parseFlags in xmlXIncludeProcess and xmlXIncludeProcessTree
+
+### Improvements
+
+- Improve bound checks for xmlcatalog and xmllint arguments (out-of-bound)
+- Fix memory leak in static Windows library (memory-leak)
+- xmlreader: Copy DTD in xmlTextReaderDumpCopy
+- parser: Fix double free in xmlIOParseDTD (double-free)
+- parser: fix division-by-zero when maxAmpl is set to 0
+- parser: Fix memory leak in xmlCtxtSetSaxHandler (memory-leak)
+- catalog: Make sure to reset catalog resolve cache
+- xmlAddChild: unlink node before free for text nodes (memory-leak)
+- Normalize entity values in attr in xmlNodeGetContent
+- Handle whitespace for date/time/duration types
+- catalog: Fix NULL deref for nextCatalog without 'catalog' attribute (null-deref)
+
+### Thanks
+
+Thanks to the following new contributors:
+
+- Brett Kail
+- Ion Nistor
+- Kevin Braun
+- Mohammad Seet
+- rootvector2
+- Ruben Thijssen
+- yirou_yang
+- Zhihan Zheng
+- zhuofeng
+
+### Full list of commits and contributors on this release
+
+13  Daniel Garcia Moreno
+ 8  Mohammad Seet
+ 6  zhuofeng
+ 2  Benjamin Gilbert
+ 1  Brett Kail
+ 1  Hieu Le Minh
+ 1  Ion Nistor
+ 1  Kevin Braun
+ 1  Nick Wellnhofer
+ 1  Ruben Thijssen
+ 1  Zhihan Zheng
+ 1  rootvector2
+ 1  yirou_yang
+
+--===============6381990093743007256==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-flit-core: PV changed from "3.12.0" to "4.0.2"
-packages/x86-64-v3-poky-linux/python3-flit-core: PKGV changed from 3.12.0 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core: SRC_URI changed from "https://files.pythonhosted.org/packages/source/f/flit/flit-3.12.0.tar.gz" to "https://files.pythonhosted.org/packages/source/f/flit/flit-4.0.2.tar.gz"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-dbg: PV changed from "3.12.0" to "4.0.2"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-dbg: PKGV changed from 3.12.0 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-dev: PV changed from "3.12.0" to "4.0.2"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-dev: PKGV changed from 3.12.0 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-doc: PV changed from "3.12.0" to "4.0.2"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-doc: PKGV changed from 3.12.0 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-locale: PV changed from "3.12.0" to "4.0.2"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-locale: PKGV changed from 3.12.0 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-src: PV changed from "3.12.0" to "4.0.2"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-src: PKGV changed from 3.12.0 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-staticdev: PV changed from "3.12.0" to "4.0.2"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core-staticdev: PKGV changed from 3.12.0 [default] to 4.0.2 [default]
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core: PV changed from "3.12.0" to "4.0.2"
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core: FILELIST: directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info -> /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info -> /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core: PKGSIZE changed from 323957 to 311648 (-4%)
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core: PKGV changed from 3.12.0 [default] to 4.0.2 [default]
-Changes to packages/x86-64-v3-poky-linux/python3-flit-core (sysroot):
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/WHEEL was removed
+packages/x86-64-v3-poky-linux/libxml2: PKGV changed from 2.15.3 [default] to 2.15.4 [default]
+packages/x86-64-v3-poky-linux/libxml2: SRC_URI changed from "https://download.gnome.org/sources//libxml2/2.15/libxml2-2.15.3.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.15.3;name=testtar file://run-ptest file://install-tests.patch file://0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch file://CVE-2026-11979.patch" to "https://download.gnome.org/sources//libxml2/2.15/libxml2-2.15.4.tar.xz;name=archive http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=libxml2-2.15.4;name=testtar file://run-ptest file://install-tests.patch file://0001-Revert-cmake-Fix-installation-directories-in-libxml2.patch"
+packages/x86-64-v3-poky-linux/libxml2: PV changed from "2.15.3" to "2.15.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2-dbg: PKGV changed from 2.15.3 [default] to 2.15.4 [default]
+packages/x86-64-v3-poky-linux/libxml2/libxml2-dbg: FILELIST: removed "/usr/lib/.debug/libxml2.so.16.1.3", added "/usr/lib/.debug/libxml2.so.16.1.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2-dbg: PKGSIZE changed from 5119504 to 5134088 (+0%)
+packages/x86-64-v3-poky-linux/libxml2/libxml2-dbg: PV changed from "2.15.3" to "2.15.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2-dev: PKGV changed from 2.15.3 [default] to 2.15.4 [default]
+packages/x86-64-v3-poky-linux/libxml2/libxml2-dev: PV changed from "2.15.3" to "2.15.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2-doc: PKGV changed from 2.15.3 [default] to 2.15.4 [default]
+packages/x86-64-v3-poky-linux/libxml2/libxml2-doc: PV changed from "2.15.3" to "2.15.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2-locale: PKGV changed from 2.15.3 [default] to 2.15.4 [default]
+packages/x86-64-v3-poky-linux/libxml2/libxml2-locale: PV changed from "2.15.3" to "2.15.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2-ptest: PKGV changed from 2.15.3 [default] to 2.15.4 [default]
+packages/x86-64-v3-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/test/XInclude/issue1120/issue1120-2.xml /usr/lib/libxml2/ptest/result/XInclude/issue1120-2.xml.err /usr/lib/libxml2/ptest/result/XInclude/issue1120-1.xml.err /usr/lib/libxml2/ptest/result/XInclude/issue1120-2.xml /usr/lib/libxml2/ptest/result/XInclude/issue1120-1.xml /usr/lib/libxml2/ptest/test/schemas/date-whitespace_0.xml /usr/lib/libxml2/ptest/test/schemas/date-whitespace_1.xml /usr/lib/libxml2/ptest/result/schemas/date-whitespace_0_1.err /usr/lib/libxml2/ptest/test/catalogs/next-catalog-missing-attr.xml /usr/lib/libxml2/ptest/test/XInclude/issue1120/issue1120-1.xml /usr/lib/libxml2/ptest/test/schemas/date-whitespace_0.xsd /usr/lib/libxml2/ptest/result/schemas/date-whitespace_0_0.err"
+packages/x86-64-v3-poky-linux/libxml2/libxml2-ptest: PKGSIZE changed from 16406007 to 16422924 (+0%)
+packages/x86-64-v3-poky-linux/libxml2/libxml2-ptest: PV changed from "2.15.3" to "2.15.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2-src: PKGV changed from 2.15.3 [default] to 2.15.4 [default]
+packages/x86-64-v3-poky-linux/libxml2/libxml2-src: FILELIST: directory renamed /usr/src/debug/libxml2/2.15.3/include/libxml -> /usr/src/debug/libxml2/2.15.4/include/libxml, directory renamed /usr/src/debug/libxml2/2.15.3/codegen -> /usr/src/debug/libxml2/2.15.4/codegen, directory renamed /usr/src/debug/libxml2/2.15.3 -> /usr/src/debug/libxml2/2.15.4, directory renamed /usr/src/debug/libxml2/2.15.3/include/private -> /usr/src/debug/libxml2/2.15.4/include/private
+packages/x86-64-v3-poky-linux/libxml2/libxml2-src: PKGSIZE changed from 5508800 to 5523563 (+0%)
+packages/x86-64-v3-poky-linux/libxml2/libxml2-src: PV changed from "2.15.3" to "2.15.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2-staticdev: PKGV changed from 2.15.3 [default] to 2.15.4 [default]
+packages/x86-64-v3-poky-linux/libxml2/libxml2-staticdev: PV changed from "2.15.3" to "2.15.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2-utils: PKGV changed from 2.15.3 [default] to 2.15.4 [default]
+packages/x86-64-v3-poky-linux/libxml2/libxml2-utils: PV changed from "2.15.3" to "2.15.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2: PKGV changed from 2.15.3 [default] to 2.15.4 [default]
+packages/x86-64-v3-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.16.1.3", added "/usr/lib/libxml2.so.16.1.4"
+packages/x86-64-v3-poky-linux/libxml2/libxml2: PV changed from "2.15.3" to "2.15.4"
+Changes to packages/x86-64-v3-poky-linux/libxml2 (sysroot):
+  /usr/lib/libxml2.so.16 changed symlink target from libxml2.so.16.1.3 to libxml2.so.16.1.4
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.16.1.3 to libxml2.so.16.1.4
+  /usr/lib/libxml2.so.16.1.3 moved to /usr/lib/libxml2.so.16.1.4
 Changes to packages/x86_64-linux/elfutils-native (sysroot):
   /usr/bin/eu-stackprof was added
-Changes to packages/x86_64-linux/python3-flit-core-native (sysroot):
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/RECORD was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/RECORD was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/WHEEL was removed
 
---===============5617748445824732288==
+--===============6381990093743007256==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-flit-core/python3-flit-core: FILELIST: directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info -> /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info, directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info -> /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-flit-core (sysroot):
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/WHEEL was removed
+packages/x86-64-v3-poky-linux/libxml2/libxml2-ptest: FILELIST: added "/usr/lib/libxml2/ptest/test/schemas/date-whitespace_0.xml /usr/lib/libxml2/ptest/test/schemas/date-whitespace_1.xml /usr/lib/libxml2/ptest/result/XInclude/issue1120-2.xml /usr/lib/libxml2/ptest/test/schemas/date-whitespace_0.xsd /usr/lib/libxml2/ptest/test/XInclude/issue1120/issue1120-1.xml /usr/lib/libxml2/ptest/result/XInclude/issue1120-2.xml.err /usr/lib/libxml2/ptest/test/catalogs/next-catalog-missing-attr.xml /usr/lib/libxml2/ptest/result/XInclude/issue1120-1.xml.err /usr/lib/libxml2/ptest/result/schemas/date-whitespace_0_1.err /usr/lib/libxml2/ptest/result/schemas/date-whitespace_0_0.err /usr/lib/libxml2/ptest/result/XInclude/issue1120-1.xml /usr/lib/libxml2/ptest/test/XInclude/issue1120/issue1120-2.xml"
+packages/x86-64-v3-poky-linux/libxml2/libxml2: FILELIST: removed "/usr/lib/libxml2.so.16.1.3", added "/usr/lib/libxml2.so.16.1.4"
+Changes to packages/x86-64-v3-poky-linux/libxml2 (sysroot):
+  /usr/lib/libxml2.so.16 changed symlink target from libxml2.so.16.1.3 to libxml2.so.16.1.4
+  /usr/lib/libxml2.so changed symlink target from libxml2.so.16.1.3 to libxml2.so.16.1.4
+  /usr/lib/libxml2.so.16.1.3 moved to /usr/lib/libxml2.so.16.1.4
 Changes to packages/x86_64-linux/elfutils-native (sysroot):
   /usr/bin/eu-stackprof was added
-Changes to packages/x86_64-linux/python3-flit-core-native (sysroot):
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/licenses/LICENSE was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/METADATA was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/RECORD was added
-  /usr/lib/python3.14/site-packages/flit_core-4.0.2.dist-info/WHEEL was added
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/flit_core/vendor/tomli-1.2.3.dist-info/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/licenses/LICENSE was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/METADATA was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/RECORD was removed
-  /usr/lib/python3.14/site-packages/flit_core-3.12.0.dist-info/WHEEL was removed
 
---===============5617748445824732288==--
+--===============6381990093743007256==--
 
