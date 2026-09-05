@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8111C79FA7
-	for <webhook@archiver.kernel.org>; Sat,  5 Sep 2026 20:45:24 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 04C3EC624DB
+	for <webhook@archiver.kernel.org>; Sat,  5 Sep 2026 20:45:25 +0000 (UTC)
 Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2474.1788641112943504575
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2584.1788641119450615543
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Sep 2026 13:45:13 -0700
+ Sat, 05 Sep 2026 13:45:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=HL0YZl7G;
+ dkim=pass header.i=@smile.fr header.s=google header.b=Rpg3+yg3;
  spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-485843aeab8so2346526f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 13:45:12 -0700 (PDT)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4858595f997so1316220f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 13:45:19 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788641111; x=1789245911; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1788641118; x=1789245918; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=FqONaJBdzg15J+Mpp/68+AN2zDtGIVVL5VvvS2h9s1w=;
-        b=HL0YZl7GiQILxAwnX7vek3I3mnhbKCVgV7FiMw+/PZYq98TJHibyswSLQPGuSHF6Ff
-         MUGa5VmLfdioR2wcFaCGJ3m+X7rB4NGFhVkpKsu9+GAFKrNG3M1KV9HA2tA00IiRB/zT
-         qIkpVY33RnmcgaApVO2vC43H5pr/zoyA1YNkI=
+        bh=cihpcZCcpxBh3i0qK1Ewu84bv4i3hjMi8KksH7UkfBc=;
+        b=Rpg3+yg3iR+Xmw1TnTs3MbpUNl18zrqQiEUzyMgl4a0zdhgbKCg84/Cc8TiB9uREyF
+         f7Rl4Mknayh3atVsjJeEXDBLk2vMaroIYRd+sIWnDh6Zi7eqzu9GWoJdxrDypJHBNbMT
+         dA2Euw2PaurpwjmHmWNomsrjJW5JnU1E+d/Rk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788641111; x=1789245911;
+        d=1e100.net; s=20251104; t=1788641118; x=1789245918;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=FqONaJBdzg15J+Mpp/68+AN2zDtGIVVL5VvvS2h9s1w=;
-        b=CGo5puxVGY7wMXQ2vM16epb7ChEFi841l/nfuMHp3fH2LIUez8xenUhm5SM8MPgD+o
-         hhS2Kdn8nQcUd2TU0IKYw5GnFjCFxbhpc6XkA/AgxU0HtFOmNCfrVg4bX7+w3yp1Sc0A
-         flVaiTt+pUXIOboOMVJwJMLj1mwDKlcCVtgew/4sxJZiv6vjhKm9CP3Gfn0jdJYbVoq2
-         OYAuxi/ah40r4o+7Bj3xrmVA/hQ/pXbTnTaDSgZ2fwh4c8/T5e4t0y9Nkkuw7k9IufoQ
-         sLa+9CDkZLjIeIjNG2/bG/58vlhkmmW4xQ0CRnnlkaLD7STEAGjMiFPw/YAhNVsFGXBK
-         h+8g==
-X-Gm-Message-State: AFuF++khbuLjdTH5vTtnSdTGBDfZVr9dypEuPQNbBdgHtJgy3EDfk8O1
-	ZW1kCZ+FvXm2OdeYCqrQ9CrWrJ/DenAtOrl2ZFSUtTB5p53qspRMS7cedIqq3rg7hdV8R4RTtcN
-	/Fa3jQR4=
-X-Gm-Gg: AYBFou2AfpdRGONpj0FOFuhLCnDW8EAPtZayCMh31/jvZ5YwUuRsTO0GPTy9oMM8bKh
-	99BUR7MK2MNyo9IWqIZLcTL6M4Z0aDtPdg4cxthwExyfY1cpwyYsCAtI/P0vjJEl715wJEWOYX+
-	nmyaOmANmT6PvM/CrZEJcv9TzMG6RZfy0S2DBCf9DipIV+kSkvshNwKW5XmMlBuchMW6IOXxGFO
-	5iSTNAkqaMDTE+0X0Lw7sjn96N8EbcpO1+iCXKMEuGzeO6ohwo8Ka54/33EBYR0/N60P54+n9bQ
-	9LLceNZycyKSf5HtOyraslh4jJa4IgNAThwTa3qPROt/4sjsow6fmVaMF+6t4iRK7Mo+wGU8Yb1
-	dYQhMz9h/g+jUFTZDrHk2wXHnAv2cdy/iNqI7IsNziz8w07O7KSwa9xR+z4evKTx8FW7clSscSq
-	nGSCumjQwbzFeroP2y2YpqSDylnPEi3CNFky9Yb7EHUzYtfub9oUb8rYVYW7hjRmOhyIP4SHhlM
-	Zd8l5wb6lhXtigUZeu1lV6xQNaKs0FnzFQT3QEWpS17ayuA48sESRanAjyCeUNoag==
-X-Received: by 2002:a05:6000:605:b0:485:8b66:f5 with SMTP id ffacd0b85a97d-4858b660161mr23048423f8f.18.1788641111218;
-        Sat, 05 Sep 2026 13:45:11 -0700 (PDT)
+        bh=cihpcZCcpxBh3i0qK1Ewu84bv4i3hjMi8KksH7UkfBc=;
+        b=oEkvbcdPqfV8/xGqXjo+BOriQeqWyFacpH6Qv3kX7SgiqiByMEb0ISWVf87opgoZ3M
+         D0G9i6ypUid6U7Yhx1MPKtPv42IKQ8fSpSsMlhjn2nYLta2iEs3aDSx081XPuDvdErem
+         6Xx6OnCmq9MKpoIUJsOycHNr+MKnBlzW0jGgNhAu7m3EFhoHYMWJc8mUcGpnpIhKeJ9j
+         BF33SEr0FuECpU6bigyzhzTjJCsGV3hBLU9G9yk3aNF/XQSZbq5wKXIT4GBtiMXzGsjY
+         f9iAUrYQ1xbpecUV3emzp9JaButVXHolFw4ZnpwpdEOD360HpkmtQLNyTCwiME1Ee817
+         upKg==
+X-Gm-Message-State: AFuF++kGXhEG2/EP8ecCRje7O6t+3rXlbnZ/rt9wjE9PC0J414IxfNgz
+	9weWQdEWLcLDsWmOyjGE8PZQ1K0xxjygnpWctn8iZ5TLVSv0ErR+kDJRxwZYlhAmlHbCFOnfB2H
+	Ozbr8DQY=
+X-Gm-Gg: AYBFou38ZQL7l9O69HSj+3n2cMXPstslHXOX4Q2Ges4pjj9rhuNYoQEo8R9H0SKvC8a
+	gQOGOE7BhP6MhE8dOde8U5UTvs59LZHolMtQZh8wAe6PABme+CcaVzkTeFnckT68b2EFYioaJHz
+	pFdXu2Ze8L6ThReaDlKBaX6GfpWfNWIWTGR3pkD9MWJ2oD/mx0WsxA5bhIHNe/RWyo33G7QjqGq
+	ZmRlZq3O8o/BBM7pKm2/UhTXAJ+lV0ks0ifMuCINMMKvp/iETC3ostAQIV3JbpAvWR2/0Ol5QdF
+	thDH5BMtckJqU5ZvOOksuf95T9O8JGoXKBPrZlWmo5UaeMpKk3bI+amR3zXQxLMOiRwdUeKShka
+	t6qwFCUqWW6dqixiTlGhoaBUeBiuKbzD9xE49HVnRJSGFPofm6Omyfga3t/4lUZFzieiPVnhg+I
+	S/jpoXuZY47ipcdPIkx65Fp6yUPCG1nrfS8VblRmYs2X+GSBYLSQwkZthh2YYxJTgaBLeShhjdu
+	jLqkJ8GwCGgKGkVG5kn+RTdKMMlN5hYycmFGYlb4tuz1kZ3IK7hEa4RsXYiO306/4elXm/NazD7
+X-Received: by 2002:a05:6000:612:b0:485:8e19:1979 with SMTP id ffacd0b85a97d-4858e191d46mr19199921f8f.11.1788641117625;
+        Sat, 05 Sep 2026 13:45:17 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa0048511f7ccf23d3ce.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:4851:1f7c:cf23:d3ce])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885bfdf6sm17069098f8f.34.2026.09.05.13.45.10
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885bfdf6sm17069098f8f.34.2026.09.05.13.45.17
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 13:45:10 -0700 (PDT)
+        Sat, 05 Sep 2026 13:45:17 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 02/40] expat: set CVE_STATUS for CVE-2026-72522
-Date: Sat,  5 Sep 2026 22:44:03 +0200
-Message-ID: <f76844064efd49938292c39d3b0203c23b8d6d31.1788629392.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 13/40] python3-numpy: fix CVE_PRODUCT
+Date: Sat,  5 Sep 2026 22:44:14 +0200
+Message-ID: <67ff6e69aa7ae4d83a636fd593a048fb2fb18536.1788629392.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788629392.git.yoann.congal@smile.fr>
 References: <cover.1788629392.git.yoann.congal@smile.fr>
@@ -65,44 +65,56 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 20:45:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245154
+ <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 20:45:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245165
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Tim Orling <tim.orling@konsulko.com>
 
-CVE-2026-72522 is an out-of-bounds read and infinite loop vulnerability in
-Expat's *_toUtf16 functions caused by mis-classifying low surrogates as
-high surrogates.
+Without this change, 0 CVEs are reported.
 
-Our Yocto configuration is not affected by this vulnerability:
-- Expat is compiled with EXPAT_CHAR_TYPE=char (8-bit character representation).
-- Neither XML_UNICODE nor XML_UNICODE_WCHAR_T is defined.
-- The vulnerable *_toUtf16 functions are only invoked when Expat's internal
-  character type is 16-bit (ushort or wchar_t).
-- In 8-bit mode, Expat handles conversion using *_toUtf8 functions even when
-  parsing UTF-16 encoded XML inputs, rendering the vulnerable code path
-  unreachable.
+With this change, 8 Patched CVEs are reported:
+* CVE-2014-1858
+* CVE-2014-1859
+* CVE-2017-12852
+* CVE-2019-6446
+* CVE-2021-33430
+* CVE-2021-34141
+* CVE-2021-41495
+* CVE-2021-41496
 
-Reference:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-72522
-[2] https://github.com/libexpat/libexpat/pull/1296/changes/8fbfb52fa88e040e8b0b7a9d39f260d6a9e8b6db
+This can be verified with a query like:
+$ cat .../core-image-ptest-python3-numpy-*.rootfs.sbom-cve-check.yocto.json \
+  | jq '.package[] | select(.name == "python3-numpy") \
+  | .issue[] | {id: .id, status: .status}'
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit ad623e71fadeddcb0b70bba8fbf28c75a976e596)
+The current "python3-numpy" mapping has no matching NVD CPE or
+configuration identity, so eight source-aligned CVE records are missed.
+Use "numpy:numpy", the active NVD dictionary CPE and configuration
+identity for the packaged NumPy source.
+
+Note: The original commit targeted python3-numpy_2.5.2.bb. This is
+adjusted for Wrynose, where the recipe version is 2.4.3.
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: EXPAT_CHAR_TYPE=char is the default and we do not change it]
 ---
- meta/recipes-core/expat/expat_2.7.5.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ meta/recipes-devtools/python/python3-numpy_2.4.3.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-core/expat/expat_2.7.5.bb b/meta/recipes-core/expat/expat_2.7.5.bb
-index 890ee5b7d34..da35b8f9ff5 100644
---- a/meta/recipes-core/expat/expat_2.7.5.bb
-+++ b/meta/recipes-core/expat/expat_2.7.5.bb
-@@ -57,3 +57,6 @@ do_install_ptest:class-target() {
- BBCLASSEXTEND += "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.4.3.bb b/meta/recipes-devtools/python/python3-numpy_2.4.3.bb
+index 7521a93f990..f34723b2c26 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.4.3.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.4.3.bb
+@@ -18,6 +18,8 @@ SRC_URI[sha256sum] = "483a201202b73495f00dbc83796c6ae63137a9bdade074f7648b3e3261
+ GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
  
- CVE_PRODUCT = "expat libexpat"
++CVE_PRODUCT = "numpy:numpy"
 +
-+CVE_STATUS[CVE-2026-72522] = "not-applicable-config: Needs Expat compiled with 16bit character support , Issue only affects firefox/Windows. \
-+EXPAT_CHAR_TYPE:STRING=char is for Yocto builds"
+ inherit pkgconfig ptest python_mesonpy github-releases cython
+ 
+ S = "${UNPACKDIR}/numpy-${PV}"
 
