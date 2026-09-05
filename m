@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 642F4C79FA7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A7AF2C79FA9
 	for <webhook@archiver.kernel.org>; Sat,  5 Sep 2026 20:45:37 +0000 (UTC)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2591.1788641126193946377
+Received: from mail-wr1-f48.google.com (mail-wr1-f48.google.com [209.85.221.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2600.1788641132281020534
  for <openembedded-core@lists.openembedded.org>;
- Sat, 05 Sep 2026 13:45:26 -0700
+ Sat, 05 Sep 2026 13:45:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Xx72ybeN;
- spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49b8ce9b733so16598955e9.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 13:45:25 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=q65lSRsv;
+ spf=pass (domain: smile.fr, ip: 209.85.221.48, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f48.google.com with SMTP id ffacd0b85a97d-48441a2ba14so1927243f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 13:45:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788641124; x=1789245924; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1788641130; x=1789245930; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=spGuQHW1dLggawfE9WDcF7r5TZVSjiHtmd3Nsle3jYA=;
-        b=Xx72ybeNu8mafK25Snh5v/IY8Svd06in73vR/mKVWQxmriFh8v5juBGzM94MeSAt9A
-         Ht6RVd0Gytro7HcBfTb1n3OnVsZtiV93pPZ9oOg2i+rC8hCuJqJyR2yc1F7QQNUwNgJk
-         nEn4RC3kBCqT/02r0GwkOG8zkHFKXrjjfDw3c=
+        bh=TH+pDBfmQmOHZapKeEsv9RuadGN3fgUqaecmPz+wPIY=;
+        b=q65lSRsv/XDwTZv52vfUODGFUx2GnrR+nuYdfqQhZ3zseAQh7QheElKDgF8vvHE7ko
+         gkppIkm/cmyLMHfEF4bwqHqn64T1UvI5CxW7USfmfOdVY6Tae374xdCHNQeRUHtf1UKV
+         9KAMdiajkXB+S4XXcZnCoaXx3Q1JnN6Ssu9fs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788641124; x=1789245924;
+        d=1e100.net; s=20251104; t=1788641130; x=1789245930;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=spGuQHW1dLggawfE9WDcF7r5TZVSjiHtmd3Nsle3jYA=;
-        b=MsA15zQv84IAfBfzzXALFStjSh0hswomaITWNBQyIjpa1Eiy6gUpxmlt1MqPER7QVc
-         Tn+O4bG0hQZCpGq9c58dStGCDwGcGvpSco6OLb+BY0naKaRU7vXwWuD/WLZ5bY7XV/2v
-         CIAZLOxhoiCjzDvxTpTEuqYt/sPEgJiNL72QWoyv5eQHXvdmEVbaVsRCNG/EctcMZhOZ
-         qtcKpiZkenH/4L6KXFYcirfAVezJVFukA/Ty37U5OFxgcflXX5CD2qBwky4+sT0jQra0
-         +FRew6Vg8Bl/f6ZE111MKdsbxkqdCj3bBwj8reO2b3TRnypsE4QVlIGoWJ17+YbtthTE
-         yidQ==
-X-Gm-Message-State: AFuF++lywWu7XAj3AiJUF8qiJSg1g8hoLDDEjHMSsWmcPFEt9iECs3Eq
-	GCAaFLlyXR4I9FhBxe+kU27ppR5VdXVbTx3yde6iuicDoZtj3Oj2k6C4TwZdsUwTRM8sRDbyXmV
-	jkD77GBM=
-X-Gm-Gg: AYBFou1g7ebMxnSFlizJwTHrgC0uLmxgFtPf635qhQoSO1z1mILZqFgXMDlLRY3vBsO
-	uCAaqo9TmFqwv25QHmm5O8jd0ByZdS0Oyz6AMx0NaTdS9Ee229RJH8ZyLMdXat6x2yOobNB2Zn/
-	qVvaaRgeHuIkXOWncbzNC8/2oDfxECI5ib90QWcY2YRXvd0R0gbiwZQTtCDXHyYIOBQ1UpZjpNE
-	gWNE4UxkweAPSdIuWXafCa6zV3rpkaDIA9c9xsceVs2UCL+jQyxEcxEGhWRCzRQeamAMQliG0dR
-	zteS63L1pznFawDxNTUib3iJgSkAJBOutERPwoTU6RcgUOV3Amez3u8DJKbuRAGs7o7+Qh68Mje
-	fU5OgbClmwo5PfZrlcMfKCHNntWYvMm0bi+lWwRKmVjhImce/0Zkys2HPWAxntOwvdXXbuDrmfQ
-	QwoV76Byj2LpFeePqd2i/mOlTD7Yfu/eR9CV3JRfF1eh8Qt2jfmxl06nAl4ipO/ujEYfo/Zp1tE
-	602cu9qw3oF/OWDBFToB5TvvPx3c4NmjAuJ2Hbaej1Y9lj4N+WvgJ/RDcc3sHfa8A==
-X-Received: by 2002:a05:600c:1d1c:b0:49d:91d:d192 with SMTP id 5b1f17b1804b1-49d091dd358mr22839225e9.5.1788641124410;
-        Sat, 05 Sep 2026 13:45:24 -0700 (PDT)
+        bh=TH+pDBfmQmOHZapKeEsv9RuadGN3fgUqaecmPz+wPIY=;
+        b=cnJCsTJK0V5ZfK1Nd5XxNu6aysZTdWObrK5NhlC5JxvMXMVjw1k7BHmuD3ldw+fILE
+         OV5NRafq4To+BPQILgSc/95yXL0bTERsmH2pfKHwdQDm0NbZPYViK7XwWqhjGIAMpsAh
+         fNhqi9l7wDsywQu+Px0DBoQOaC5RSWgorjHAsD/CF2d2Entn9WcnbX0cHtz8ox2tsDJG
+         SIEFO0Wq3RatfgdrXjh5BCt6abQ62HNnZml9FDB/ERwUzVjP/AvsiCd4FFysbk6UXmCH
+         nEMW3enNQV4VCl5UDOpMcMYHCoMhlSU00U7wjtfZteJ6M/7hmN1GpDIXj589N69nIgG6
+         Jb5w==
+X-Gm-Message-State: AFuF++kYANXW7dsj+abZxn/9DrMPPmp5H+DgKmcKSC1ScQTJh5xdDxnu
+	hPqTCmBlJT811tsQr9bQfiDAoUPPFtueBkSq3AAebbwGuFSfsYA0PxtZdB2Sa78mYAXkYlHsRBt
+	LTdlvXFQ=
+X-Gm-Gg: AYBFou2JMvYfil4w2bk6LWjXSMEZdNRzu4Y99E8aujBvEOeJ7b/z6jpw9tt/HU0uVw1
+	AX1FIlKse3+QvE9Wb2I7N/MTUrad7mT6G3j6y55UY65WmFT+vMhx6fwF/cW7+4Mkzcr3xX0/BEY
+	4cEJTQ0ZlKyyTBBpEfe09s5JEQ9nMRYZwfSIc5q9oE+wguAh2MLNYLKXJ0ET2+oXXhb5Vq8Qx+3
+	g1nkBL7K/9znL1xhZDMmBsP22KXv/p6UTDaAxABuQOLzixg8pjNDtY8Lztb2wQmFmKROBjwzu33
+	n1Mv1kMFMwq8jJExLeO8h45cOcjK1BtnflhsD5WW++iqvhVs8Smby1MyXY5/SCeyLZi4w2tiB+n
+	1RIUSXhEtMkkZXyBiDBIUxj8c7hY22oadKc9AWKZ2e5iXDEHBpCgL0sFRHG2SadLtZ8tHX/AFnB
+	YiGvm55AnSFVy/RHiPbWhsmhtkNV+/6gPo8jmuf39ANXsrPZz41X152sE10lXbdngaeYnAX/64B
+	HSYLREyK0abRRQ3CmLuj0wNLgc3CWS+hftaKd7MVrXOabk9qLo4m/0D4yva+CmCog==
+X-Received: by 2002:a05:6000:470c:b0:485:8a46:705c with SMTP id ffacd0b85a97d-4858a4671b8mr12233156f8f.46.1788641130532;
+        Sat, 05 Sep 2026 13:45:30 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa0048511f7ccf23d3ce.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:4851:1f7c:cf23:d3ce])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885bfdf6sm17069098f8f.34.2026.09.05.13.45.23
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885bfdf6sm17069098f8f.34.2026.09.05.13.45.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 05 Sep 2026 13:45:24 -0700 (PDT)
+        Sat, 05 Sep 2026 13:45:30 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 24/40] util-linux: Fix CVE-2026-3184
-Date: Sat,  5 Sep 2026 22:44:25 +0200
-Message-ID: <4aa5df104fd606fa21173ab7cd91d41ac40eaad3.1788629392.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 35/40] libssh2: Fix CVE-2026-58051
+Date: Sat,  5 Sep 2026 22:44:36 +0200
+Message-ID: <6e2a6bb91130873b08ff845a28620a8efaa436cb.1788629392.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788629392.git.yoann.congal@smile.fr>
 References: <cover.1788629392.git.yoann.congal@smile.fr>
@@ -66,99 +66,77 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sat, 05 Sep 2026 20:45:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245176
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245187
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Hetvi Thakar <hthakar@cisco.com>
 
-Reference:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-3184
-[2] https://github.com/util-linux/util-linux/commit/8b29aeb081e297e48c4c1ac53d88ae07e1331984
+Backport the upstream fix for CVE-2026-58051 using the
+commit in [1].
+The CVE advisory [2] describes an uninitialized
+publickey-list entry cleanup issue affecting libssh2
+through 1.11.1.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+[1] https://github.com/libssh2/libssh2/commit/a9758da45a52bc8c630ec9493804d0c6ea30b24a
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58051
+
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/util-linux/util-linux.inc   |  1 +
- .../util-linux/util-linux/CVE-2026-3184.patch | 61 +++++++++++++++++++
- 2 files changed, 62 insertions(+)
- create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-3184.patch
+ .../libssh2/libssh2/CVE-2026-58051.patch      | 34 +++++++++++++++++++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |  1 +
+ 2 files changed, 35 insertions(+)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch
 
-diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index aec8721ca32..fdc62acc748 100644
---- a/meta/recipes-core/util-linux/util-linux.inc
-+++ b/meta/recipes-core/util-linux/util-linux.inc
-@@ -20,6 +20,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
-            file://0001-lsfd-mkfds-foreign-sockets-skip-when-lacking-sock_di.patch \
-            file://0001-ts-kill-decode-use-RTMIN-from-kill-L-instead-of-hard.patch \
-            file://0001-tests-script-Disable-size-option-test.patch \
-+           file://CVE-2026-3184.patch \
+diff --git a/meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch b/meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch
+new file mode 100644
+index 00000000000..68f71efe68e
+--- /dev/null
++++ b/meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch
+@@ -0,0 +1,34 @@
++From 8cb6cf1244e8d62175bf5df32a400f00ddadb40d Mon Sep 17 00:00:00 2001
++From: Viktor Szakats <vszakats@users.noreply.github.com>
++Date: Mon, 29 Jun 2026 19:12:21 +0200
++Subject: [PATCH] publickey: fix potential arbitrary free in
++ `libssh2_publickey_list_fetch()` (#2127)
++
++Due to uninitialized list entry.
++
++Reported-and-patch-by: Behzod Abdullayev
++Reported-by: Sharique Raza
++
++Follow-up to e15f5d97a04cc676ce117dd324fef85b046207a9
++
++CVE: CVE-2026-58051
++Upstream-Status: Backport [https://github.com/libssh2/libssh2/commit/a9758da45a52bc8c630ec9493804d0c6ea30b24a]
++
++(cherry picked from commit a9758da45a52bc8c630ec9493804d0c6ea30b24a)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ src/publickey.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/src/publickey.c b/src/publickey.c
++index 9c9fa618..87bc894f 100644
++--- a/src/publickey.c
+++++ b/src/publickey.c
++@@ -972,6 +972,7 @@ libssh2_publickey_list_fetch(LIBSSH2_PUBLICKEY * pkey, unsigned long *num_keys,
++                     goto err_exit;
++                 }
++                 list = newlist;
+++                memset(&list[keys], 0, sizeof(list[keys]));
++             }
++             if(pkey->version == 1) {
++                 unsigned long comment_len;
+diff --git a/meta/recipes-support/libssh2/libssh2_1.11.1.bb b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+index 52684ae74ef..3c72f844adf 100644
+--- a/meta/recipes-support/libssh2/libssh2_1.11.1.bb
++++ b/meta/recipes-support/libssh2/libssh2_1.11.1.bb
+@@ -21,6 +21,7 @@ SRC_URI = "http://www.libssh2.org/download/${BP}.tar.gz \
+            file://CVE-2026-66034.patch \
+            file://CVE-2026-66035.patch \
+            file://CVE-2026-58050.patch \
++           file://CVE-2026-58051.patch \
             "
  
- SRC_URI[sha256sum] = "f586e35d320ff537aab3ffeca37e9ecd482ccbe013590db4429a414d8aa6a728"
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-3184.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-3184.patch
-new file mode 100644
-index 00000000000..6dbfebe4b91
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-3184.patch
-@@ -0,0 +1,61 @@
-+From 3fb64ddbffbc9442dca56eb6d4f263d525708b64 Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Thu, 19 Feb 2026 12:20:28 +0100
-+Subject: [PATCH] login: use original FQDN for PAM_RHOST
-+
-+When login -h <remotehost> is invoked, init_remote_info() strips the
-+local domain suffix from the hostname (FQDN to short name) before
-+storing it in cxt->hostname. This truncated value is then used for
-+PAM_RHOST, which can bypass pam_access host deny rules that match on
-+the FQDN.
-+
-+Preserve the original -h hostname in a new cmd_hostname field and use
-+it for PAM_RHOST, while keeping the truncated hostname for utmp/wtmp
-+and logging unchanged.
-+
-+Note, the real-world impact is low -- login -h is only used by legacy
-+telnet/rlogin daemons, and exploitation requires FQDN-specific
-+pam_access rules on a system still using these obsolete services.
-+
-+Reported-by: Asim Viladi Oglu Manizada <manizada@pm.me>
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+(cherry picked from commit 8b29aeb081e297e48c4c1ac53d88ae07e1331984)
-+
-+CVE: CVE-2026-3184
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/8b29aeb081e297e48c4c1ac53d88ae07e1331984]
-+
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ login-utils/login.c | 5 ++++-
-+ 1 file changed, 4 insertions(+), 1 deletion(-)
-+
-+diff --git a/login-utils/login.c b/login-utils/login.c
-+index 321f9d6ce..0c5c805aa 100644
-+--- a/login-utils/login.c
-++++ b/login-utils/login.c
-+@@ -128,6 +128,7 @@ struct login_context {
-+ 	char		*thishost;		/* this machine */
-+ 	char		*thisdomain;		/* this machine's domain */
-+ 	char		*hostname;		/* remote machine */
-++	char		*cmd_hostname;		/* remote machine as specified on command line */
-+ 	char		hostaddress[16];	/* remote address */
-+ 
-+ 	pid_t		pid;
-+@@ -906,7 +907,7 @@ static pam_handle_t *init_loginpam(struct login_context *cxt)
-+ 
-+ 	/* hostname & tty are either set to NULL or their correct values,
-+ 	 * depending on how much we know. */
-+-	rc = pam_set_item(pamh, PAM_RHOST, cxt->hostname);
-++	rc = pam_set_item(pamh, PAM_RHOST, cxt->cmd_hostname);
-+ 	if (is_pam_failure(rc))
-+ 		loginpam_err(pamh, rc);
-+ 
-+@@ -1249,6 +1250,8 @@ static void init_remote_info(struct login_context *cxt, char *remotehost)
-+ 
-+ 	get_thishost(cxt, &domain);
-+ 
-++	cxt->cmd_hostname = xstrdup(remotehost);
-++
-+ 	if (domain && (p = strchr(remotehost, '.')) &&
-+ 	    strcasecmp(p + 1, domain) == 0)
-+ 		*p = '\0';
+ SRC_URI[sha256sum] = "d9ec76cbe34db98eec3539fe2c899d26b0c837cb3eb466a56b0f109cabf658f7"
 
