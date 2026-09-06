@@ -2,35 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 33FE1C79F9E
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 35102C79FA0
 	for <webhook@archiver.kernel.org>; Sun,  6 Sep 2026 21:03:23 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21705.1788728596288320424
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21341.1788728596211101080
  for <openembedded-core@lists.openembedded.org>;
  Sun, 06 Sep 2026 14:03:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=dMDwqqrf;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-2026090621031396245b512800020772-gbvfmb@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2026090621031396245b512800020772
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=X52UMPfF;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-2026090621031301ca6d99800002078f-y8vxlo@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2026090621031301ca6d99800002078f
         for <openembedded-core@lists.openembedded.org>;
         Sun, 06 Sep 2026 23:03:13 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=zE4ceVg4o08oskoLrbtOzvnclw8gdzi+brH/TCw08z4=;
- b=dMDwqqrfSkm1cfXolGAhb17fu/Ds5hYWQc1ihv1FhOmJNGwCOnnEKOXKh8HS3IzVoXEShv
- uWzKo7mOoEVbn4qfjZ/mtUEMSPh1uKpdq7qxg7EwejmjgQPYchbcf2OXvJ7jedhn47bNR++i
- 8Rnxci9Krcz4CcX02drMVJosK5YuivpZ1xJmm6qlgQnuf/sQ0I/A+1WkmekS2GUfllI1mkDi
- hqxOLNK35tXjag5+N7TFSje/iOz49qHw6Qre7FAVFCmbLlQEVMkTwgpK1fyQ6+P0YhbLFtj1
- tUjVg2qs+zFWrXyllKlR5FG9H6pf6ifPRiPhqZsnFj++/PVxFw+86okg==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=d7CGwtHA5/DW8tQOiY6MUZaDLbmFG9INYBBZ8v4/Gv4=;
+ b=X52UMPfFo/usZ1uVwnFuxgLbIc+gHJ2R9gjpCLlYc09/mSCs+3+qf9LXqh5Mnjs0OWYnkr
+ 0MgW40Kk94K0cBbI6D5kfiIdLnV1T7DZPcvSA6mJ4pbe5Pff1OgdDOeqAPVG5NRsrRyy0Bra
+ rUTnX1F57xFjmU13HwOoGFELxdEd6BCnSVNKvUa8Z9N8pu+XbojgWdTCZ2cBZAwT5IydmU1J
+ MffLOWcoC/U37rXFVgF+6ev/i5I3AHjr7kLJjuiNiiNZgUure5yQDX4fWOG/ry7QdLc7Kj8h
+ qzMYV7gBIHlne2KiKQPP7AgXQX1eJZanE2UiVL/XW9SXnX18GCem4rQA==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 2/9] oe-selftest: devtool ide-sdk: do not guess the slirp SSH port
-Date: Sun,  6 Sep 2026 23:02:00 +0200
-Message-ID: <20260906210307.2793974-3-adrian.freihofer@siemens.com>
-In-Reply-To: <20260906210307.2793974-1-adrian.freihofer@siemens.com>
-References: <20260906210307.2793974-1-adrian.freihofer@siemens.com>
+Subject: [PATCH 0/9] devtool: ide-sdk: bug fixes, do_install-through-bitbake, NFS deploy prep
+Date: Sun,  6 Sep 2026 23:01:58 +0200
+Message-ID: <20260906210307.2793974-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -39,32 +37,46 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 06 Sep 2026 21:03:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245217
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245210
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Falling back to a hardcoded 2222 hides the case where runqemu did not
-report an ip:port pair: the test would then keep running against a port
-that nothing listens on and fail somewhere further down. Assert the port
-instead, so the failure points at its actual cause.
----
- meta/lib/oeqa/selftest/cases/devtool.py | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+Mix of three things:
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index de59feadb8..3a407a5162 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -3991,7 +3991,8 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
- 
-         with runqemu(testimage, runqemuparams="nographic slirp") as qemu:
-             slirp_host = qemu.ip
--            slirp_port = qemu.port or '2222'
-+            self.assertIsNotNone(qemu.port, 'No SSH port for the slirp target')
-+            slirp_port = qemu.port
- 
-             # Re-run ide-sdk with the actual slirp address; image is already built.
-             bitbake_sdk_cmd = (
+1. Bug fixes (1-2): stale-lib GDB fix, don't guess the slirp SSH port in the selftest.
+2. Resend of patches sent a few days ago (3-6), rebased to apply in a
+   different order and independently of the more controversial
+   attach-mode/port-allocation work: attach process pre-selection via
+   `processFilter`, and running `do_install` through BitBake (plus its
+   tinfoil/selftest coverage).
+3. Cleanup/prep for the upcoming NFS rootfs export patches (7-9), which
+   will be resent separately once reworked: `PSEUDO_INCLUDE_PATHS` for
+   `unfsd`, decoupling deploy's pseudo calls from `bitbake.conf`, and
+   dropping a dead `files_list` computation.
+
+Adrian Freihofer (9):
+  devtool: ide-sdk: fix GDB loading stale libs instead of recipe's own
+    build
+  oe-selftest: devtool ide-sdk: do not guess the slirp SSH port
+  devtool: ide-sdk: pre-select attach process with processFilter
+  oe-selftest: tinfoil: test prepared task runner
+  devtool: ide-sdk: run do_install through BitBake
+  oe-selftest: devtool ide-sdk: test install task
+  runqemu-export-rootfs: set PSEUDO_INCLUDE_PATHS for unfsd
+  devtool: deploy: make pseudo calls independent of bitbake.conf
+  devtool: deploy: remove dead files_list computation
+
+ .../pseudo-pyc-test/pseudo-pyc-test.bb        |  45 ++++++++
+ meta/conf/bitbake.conf                        |   2 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       |  95 +++++++++++++---
+ meta/lib/oeqa/selftest/cases/tinfoil.py       |  60 ++++++++++
+ scripts/lib/devtool/__init__.py               |  11 +-
+ scripts/lib/devtool/deploy.py                 |  17 ++-
+ scripts/lib/devtool/ide_plugins/ide_code.py   |   1 +
+ scripts/lib/devtool/ide_sdk.py                | 104 +++++++++++-------
+ scripts/runqemu-export-rootfs                 |   2 +
+ 9 files changed, 270 insertions(+), 67 deletions(-)
+
 -- 
 2.55.0
 
