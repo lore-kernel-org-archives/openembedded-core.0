@@ -2,33 +2,35 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35102C79FA0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F2AAC79FA7
 	for <webhook@archiver.kernel.org>; Sun,  6 Sep 2026 21:03:23 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21341.1788728596211101080
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.21704.1788728596080129521
  for <openembedded-core@lists.openembedded.org>;
  Sun, 06 Sep 2026 14:03:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=X52UMPfF;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-2026090621031301ca6d99800002078f-y8vxlo@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2026090621031301ca6d99800002078f
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=EjOGhR/t;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-20260906210313275b440e8e000207ba-3eftw_@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260906210313275b440e8e000207ba
         for <openembedded-core@lists.openembedded.org>;
         Sun, 06 Sep 2026 23:03:13 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=d7CGwtHA5/DW8tQOiY6MUZaDLbmFG9INYBBZ8v4/Gv4=;
- b=X52UMPfFo/usZ1uVwnFuxgLbIc+gHJ2R9gjpCLlYc09/mSCs+3+qf9LXqh5Mnjs0OWYnkr
- 0MgW40Kk94K0cBbI6D5kfiIdLnV1T7DZPcvSA6mJ4pbe5Pff1OgdDOeqAPVG5NRsrRyy0Bra
- rUTnX1F57xFjmU13HwOoGFELxdEd6BCnSVNKvUa8Z9N8pu+XbojgWdTCZ2cBZAwT5IydmU1J
- MffLOWcoC/U37rXFVgF+6ev/i5I3AHjr7kLJjuiNiiNZgUure5yQDX4fWOG/ry7QdLc7Kj8h
- qzMYV7gBIHlne2KiKQPP7AgXQX1eJZanE2UiVL/XW9SXnX18GCem4rQA==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=6AlUM29nFpKNoSOB76K+XEvJKIZL8ujuRTWdSXT4bjQ=;
+ b=EjOGhR/thKX5ZmSsXT0+GomL26y9TGb84BqGmzd4bNUTZvhTB2EXU7BXbjl/w61fQR+sLL
+ VFCA61J8lsZMCa6ttoH1zUqIeW5op1Mu5XQCGaG1dNZJIs6rjxOzLpUeVPz8TNb7su+/J4Uq
+ UPuz2R7oqnAQ5ux/tH66A2T0MT0TpOwjjgNB0w2IFbw47sWgLJ080srCh4Y4LsvJw56zkoPk
+ u5btp1f4r0sHODE/n6n7TkuSnar/d4VjlXaLZ/dQjO5YS4yYcoQB/pxUfvF09HeR6rZQTG1k
+ YXyBtokL2OQqRcm6dK4Yq/7re1e7duX6ZdiSUQf8vMjvsKTpERM5TWPg==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 0/9] devtool: ide-sdk: bug fixes, do_install-through-bitbake, NFS deploy prep
-Date: Sun,  6 Sep 2026 23:01:58 +0200
-Message-ID: <20260906210307.2793974-1-adrian.freihofer@siemens.com>
+Subject: [PATCH 3/9] devtool: ide-sdk: pre-select attach process with processFilter
+Date: Sun,  6 Sep 2026 23:02:01 +0200
+Message-ID: <20260906210307.2793974-4-adrian.freihofer@siemens.com>
+In-Reply-To: <20260906210307.2793974-1-adrian.freihofer@siemens.com>
+References: <20260906210307.2793974-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -37,46 +39,55 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 06 Sep 2026 21:03:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245210
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245218
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Mix of three things:
+The ATTACH launch config now uses the extended-remote protocol, which
+makes cppdbg show a picker listing every process running on the
+target. In modified-recipe mode the binary to attach to is already
+known, so the picker is only extra clicking, and on a busy target it
+can make finding the right process among unrelated ones tedious.
 
-1. Bug fixes (1-2): stale-lib GDB fix, don't guess the slirp SSH port in the selftest.
-2. Resend of patches sent a few days ago (3-6), rebased to apply in a
-   different order and independently of the more controversial
-   attach-mode/port-allocation work: attach process pre-selection via
-   `processFilter`, and running `do_install` through BitBake (plus its
-   tinfoil/selftest coverage).
-3. Cleanup/prep for the upcoming NFS rootfs export patches (7-9), which
-   will be resent separately once reworked: `PSEUDO_INCLUDE_PATHS` for
-   `unfsd`, decoupling deploy's pseudo calls from `bitbake.conf`, and
-   dropping a dead `files_list` computation.
+Set "processFilter" to a regex matching the deployed binary's path so
+cppdbg pre-selects it instead of showing the full process list. This
+is a recent cpptools feature; until it ships in a released cpptools,
+cppdbg silently ignores it and falls back to showing the full
+unfiltered process list.
 
-Adrian Freihofer (9):
-  devtool: ide-sdk: fix GDB loading stale libs instead of recipe's own
-    build
-  oe-selftest: devtool ide-sdk: do not guess the slirp SSH port
-  devtool: ide-sdk: pre-select attach process with processFilter
-  oe-selftest: tinfoil: test prepared task runner
-  devtool: ide-sdk: run do_install through BitBake
-  oe-selftest: devtool ide-sdk: test install task
-  runqemu-export-rootfs: set PSEUDO_INCLUDE_PATHS for unfsd
-  devtool: deploy: make pseudo calls independent of bitbake.conf
-  devtool: deploy: remove dead files_list computation
+Require cpptools version that supports processFilter
+https://github.com/microsoft/vscode-cpptools/pull/14684
 
- .../pseudo-pyc-test/pseudo-pyc-test.bb        |  45 ++++++++
- meta/conf/bitbake.conf                        |   2 +-
- meta/lib/oeqa/selftest/cases/devtool.py       |  95 +++++++++++++---
- meta/lib/oeqa/selftest/cases/tinfoil.py       |  60 ++++++++++
- scripts/lib/devtool/__init__.py               |  11 +-
- scripts/lib/devtool/deploy.py                 |  17 ++-
- scripts/lib/devtool/ide_plugins/ide_code.py   |   1 +
- scripts/lib/devtool/ide_sdk.py                | 104 +++++++++++-------
- scripts/runqemu-export-rootfs                 |   2 +
- 9 files changed, 270 insertions(+), 67 deletions(-)
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/lib/oeqa/selftest/cases/devtool.py     | 1 +
+ scripts/lib/devtool/ide_plugins/ide_code.py | 1 +
+ 2 files changed, 2 insertions(+)
 
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 3a407a5162..a4b7a83094 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -3569,6 +3569,7 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+                 # from the process instead of killing it.
+                 self.assertTrue(config.get("useExtendedRemote"), f"Configuration '{config['name']}' should use useExtendedRemote")
+                 self.assertNotIn("cwd", config, f"Configuration '{config['name']}' should not set cwd in attach mode")
++                self.assertTrue(config.get("processFilter"), f"Configuration '{config['name']}' should use processFilter")
+             else:
+                 self.fail(f"Configuration '{config['name']}' has unexpected request type: {config['request']}")
+ 
+diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
+index 937c63a4a5..6effbac654 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_code.py
++++ b/scripts/lib/devtool/ide_plugins/ide_code.py
+@@ -387,6 +387,7 @@ class IdeVSCode(IdeBase):
+             # this configuration is generated. Stopping the session detaches
+             # from the process instead of killing it.
+             launch_config["useExtendedRemote"] = True
++            launch_config["processFilter"] = "(^| )%s( |$)" % cross_debug_config.binary.binary_path
+         else:
+             # cwd, environment and externalConsole configure the process the
+             # debugger starts, they are not part of the attach schema.
 -- 
 2.55.0
 
