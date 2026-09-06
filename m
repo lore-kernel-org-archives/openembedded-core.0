@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA41EC79FAA
-	for <webhook@archiver.kernel.org>; Sun,  6 Sep 2026 21:03:23 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.21345.1788728596288271985
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C4EBC79FAC
+	for <webhook@archiver.kernel.org>; Sun,  6 Sep 2026 21:03:24 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.21342.1788728596220245324
  for <openembedded-core@lists.openembedded.org>;
  Sun, 06 Sep 2026 14:03:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=XDgm+5kh;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-20260906210313ab403b38d0000207a1-fste2z@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260906210313ab403b38d0000207a1
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=DGZTPYNd;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-20260906210314ed93242e4400020788-jzs8lb@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260906210314ed93242e4400020788
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 06 Sep 2026 23:03:13 +0200
+        Sun, 06 Sep 2026 23:03:14 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=5aBTMJCbJTqe33Z4Hf1g1etper4QEr6My+8fwQ3yZRs=;
- b=XDgm+5kh9dfgQMC9QgTMb1N4BFAidnjwyH/XjGD0K07jzIrLU/dyrZOh7FWR9BzKII5sbC
- vpIjsqBgQXflgxzSAnAxw2Q2gn5AajBt/vYBaexq03jrQzEQllsl1Sv0v8an8xtOpaANc88U
- 3X79TrlpZSFzDg82g1+p+19ysqhqzPQcKrg8fi75G7w2/tJFGm/sIQIi11wL/RCgOkF/fRs1
- SopM2WnmVxEX2uPiRQjEG225d9HT7XagrCt//sybS3Oq93T+1IPAv0ACVo4O9UncB9tjmhvy
- oc6u/UXkP0yuXLwwIwafdfNW9MuUaSbU7PwHj2038mxvtkzcdFQm86RA==;
+ bh=y4/o320ZnJGz8ndz7TqwxLbxosK772fsbOZ/LTHTpQ4=;
+ b=DGZTPYNdY+VzgeaAT08KV7hG3vBwHjkuHdUdSigJcw615/DIzjJH+AQ8LjEB2VCb3mvrRm
+ TG2/TcZTXORLhMyJn0SfcLpObxq1XF0RRQ+TQQpgpsqKoZcPJ6BXlZDXkGZJl0U2GnZoKVAS
+ VWYY+Sf7m21l7OgN4EtWBQ4Rebj3R+O1Tf1tR4F82jahsLVw033QzroILAi0yL2VA7YXyXU9
+ /CG8wIGJsrV0SZrWOz+XfIfNjXQihWHKsuO1EOSc7YPy+/bSpyL+r3QKpAgVhXiF9G5kuYVc
+ ls+xTxGs9CK8DCHbm7/0ELkLe4RTnwCGRRC4PLnNi2Wowr++NzpZKO0w==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 6/9] oe-selftest: devtool ide-sdk: test install task
-Date: Sun,  6 Sep 2026 23:02:04 +0200
-Message-ID: <20260906210307.2793974-7-adrian.freihofer@siemens.com>
+Subject: [PATCH 8/9] devtool: deploy: make pseudo calls independent of bitbake.conf
+Date: Sun,  6 Sep 2026 23:02:06 +0200
+Message-ID: <20260906210307.2793974-9-adrian.freihofer@siemens.com>
 In-Reply-To: <20260906210307.2793974-1-adrian.freihofer@siemens.com>
 References: <20260906210307.2793974-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,153 +38,103 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 06 Sep 2026 21:03:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245215
+ <openembedded-core@lists.openembedded.org>; Sun, 06 Sep 2026 21:03:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245211
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Verify that the ide-sdk setup generates the do_install task script and that
-the script runs successfully. This covers the prepared-task runner used by
-the IDE deployment workflow without requiring Qemu.
-
-Replace the ad-hoc dependsOn handling in _verify_launch_config() with a
-new helper that mirrors VS Code's task dependency resolution and
-execution order. This ensures that the selftest runs the same sequence
-of tasks as VS Code would, including compile and install/deploy
-prerequisites, before starting the debug server. This also aligns the
-gdb and lldb selftest paths to avoid behavior drift and improve test
-reliability.
+Relying on bitbake.conf's global PSEUDO_INCLUDE_PATHS to cover the
+stripped-copy directory is fragile, and will only get more fragile as
+devtool deploy learns to deploy to more kinds of places. Add an
+env_overrides parameter to exec_fakeroot_no_d() and use it to state
+PSEUDO_INCLUDE_PATHS explicitly for each pseudo call in the --strip
+path, so bitbake.conf no longer needs a devtool-specific entry.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 86 ++++++++++++++++++++-----
- 1 file changed, 70 insertions(+), 16 deletions(-)
+ meta/conf/bitbake.conf          |  2 +-
+ scripts/lib/devtool/__init__.py | 11 ++++++++++-
+ scripts/lib/devtool/deploy.py   | 11 +++++++----
+ 3 files changed, 18 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index a4b7a83094..cf7b97fdda 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -3043,7 +3043,7 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         """Verify the scripts referred by the tasks.json file are fine.
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index 63d84cf37b..a21223e216 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -752,7 +752,7 @@ SRC_URI = ""
+ PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
+ PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
+ PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
+-PSEUDO_INCLUDE_PATHS = "/proc,${WORKDIR}/image,${WORKDIR}/package,${WORKDIR}/rootfs,${WORKDIR}/sstate-build-package/,${WORKDIR}/sstate-install-package/,${WORKDIR}/pkgdata,${WORKDIR}/minidebuginfo,${WORKDIR}/devtool-deploy-target-stripped"
++PSEUDO_INCLUDE_PATHS = "/proc,${WORKDIR}/image,${WORKDIR}/package,${WORKDIR}/rootfs,${WORKDIR}/sstate-build-package/,${WORKDIR}/sstate-install-package/,${WORKDIR}/pkgdata,${WORKDIR}/minidebuginfo"
  
-         This function does not depend on Qemu. Therefore it verifies the scripts
--        exists and the delete step works as expected. But it does not try to
-+        exists and the install step works as expected. But it does not try to
-         deploy to Qemu.
-         """
-         recipe_id, recipe_id_pretty = self._get_recipe_ids(recipe_name)
-@@ -3061,6 +3061,11 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         i_and_d_script_path = os.path.join(
-             self._workspace_scripts_dir(recipe_name), i_and_d_script)
-         self.assertExists(i_and_d_script_path)
-+        install_script = 'bb_run_do_install_' + recipe_id
-+        install_script_path = os.path.join(
-+            self._workspace_scripts_dir(recipe_name), install_script)
-+        self.assertExists(install_script_path)
-+        runCmd(install_script_path, cwd=tempdir, output_log=self._cmd_logger)
+ export PSEUDO_DISABLED = "1"
+ #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
+index 58b02eb460..32a7bc0098 100644
+--- a/scripts/lib/devtool/__init__.py
++++ b/scripts/lib/devtool/__init__.py
+@@ -77,7 +77,14 @@ def exec_watch(cmd, **options):
  
-         deploy_script_path = os.path.join(
-             self._workspace_scripts_dir(recipe_name), 'deploy_target_' + recipe_id)
-@@ -3295,6 +3300,60 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         self.assertEqual(actual_group, group,
-                          msg="%s not owned by group %s: got %s" % (conf_file, group, actual_group))
+     return buf, None
  
-+    def _run_vscode_task_with_dependencies(self, tempdir, task_label, run_main_task=True):
-+        """Run a VS Code shell task and its dependsOn chain.
+-def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, **kwargs):
++def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, env_overrides=None, **kwargs):
++    """Run cmd under pseudo using a recipe's own FAKEROOTCMD/FAKEROOTENV.
 +
-+        The helper mirrors VS Code task dependency ordering for selftests, so
-+        preLaunchTask prerequisites (e.g. compile and do_install/deploy tasks)
-+        run before the debug server task.
-+        """
-+        tasks_path = os.path.join(tempdir, '.vscode', 'tasks.json')
-+        self.assertExists(tasks_path, 'tasks.json not found at %s' % tasks_path)
-+
-+        with open(tasks_path) as tasks_j:
-+            tasks_d = json.load(tasks_j)
-+
-+        task_by_label = {
-+            task.get('label'): task
-+            for task in tasks_d.get('tasks', [])
-+            if task.get('label')
-+        }
-+        self.assertIn(task_label, task_by_label,
-+                      "Task '%s' not found in tasks.json" % task_label)
-+
-+        ran = set()
-+
-+        def run_task(label, execute_task):
-+            if label in ran:
-+                return
-+
-+            task = task_by_label[label]
-+            deps = task.get('dependsOn', [])
-+            if isinstance(deps, str):
-+                deps = [deps]
-+
-+            for dep in deps:
-+                self.assertIn(dep, task_by_label,
-+                              "DependsOn task '%s' not found in tasks.json" % dep)
-+                run_task(dep, True)
-+
-+            if execute_task:
-+                command = task.get('command')
-+                if command:
-+                    args = task.get('args', [])
-+                    if not isinstance(args, list):
-+                        args = [args]
-+                    task_cmd = [command] + [str(arg) for arg in args]
-+
-+                    task_cwd = task.get('options', {}).get('cwd', tempdir)
-+                    if isinstance(task_cwd, str):
-+                        task_cwd = task_cwd.replace('${workspaceFolder}', tempdir)
-+                    runCmd(task_cmd, cwd=task_cwd, output_log=self._cmd_logger)
-+
-+            ran.add(label)
-+
-+        run_task(task_label, run_main_task)
-+
++    env_overrides, if given, is applied after fakerootenv so callers can point
++    pseudo at a different database/allow-list, e.g. a target rootfs's own
++    PSEUDO_LOCALSTATEDIR/PSEUDO_INCLUDE_PATHS instead of the ambient ones from
++    FAKEROOTENV.
++    """
+     if not os.path.exists(fakerootcmd):
+         logger.error('pseudo executable %s could not be found - have you run a build yet? pseudo-native should install this and if you have run any build then that should have been built')
+         return 2
+@@ -88,6 +95,8 @@ def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, **kwargs):
+         if '=' in varvalue:
+             splitval = varvalue.split('=', 1)
+             newenv[splitval[0]] = splitval[1]
++    if env_overrides:
++        newenv.update(env_overrides)
+     return subprocess.call("%s %s" % (fakerootcmd, cmd), env=newenv, **kwargs)
  
- class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+ def setup_tinfoil(config_only=False, basepath=None, tracking=False):
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index d11b04aea2..7a83d4a23a 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -277,8 +277,10 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
+         srcdir = recipe_outdir
+         recipe_outdir = os.path.join(workdir, 'devtool-deploy-target-stripped')
+         if os.path.isdir(recipe_outdir):
+-            exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, "rm -rf %s" % recipe_outdir, shell=True)
+-        exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
++            exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, "rm -rf %s" % recipe_outdir,
++                                env_overrides={'PSEUDO_INCLUDE_PATHS': recipe_outdir}, shell=True)
++        exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir),
++                            env_overrides={'PSEUDO_INCLUDE_PATHS': '%s,%s' % (srcdir, recipe_outdir)}, shell=True)
  
-@@ -3786,21 +3845,10 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-             (task for task in tasks if task["label"] == prelaunch_task_name), None)
-         self.assertIsNotNone(prelaunch_task, f"PreLaunchTask '{prelaunch_task_name}' not found in tasks.json")
+         # Strip under pseudo so that it records any inode replacements made by
+         # the strip tool before the deployment tar reads this directory.
+@@ -292,7 +294,7 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
+         ret = exec_fakeroot_no_d(
+             fakerootcmd, fakerootenv, path,
+             '%s -c %s' % (shlex.quote(sys.executable), shlex.quote(strip_script)),
+-            shell=True)
++            env_overrides={'PSEUDO_INCLUDE_PATHS': recipe_outdir}, shell=True)
+         if ret != 0:
+             raise DevtoolError('Failed to strip files for deployment')
  
--        # Find the dependsOn task if exists (install and deploy-target)
--        if "dependsOn" in prelaunch_task:
--            depends_task_names = prelaunch_task["dependsOn"]
--            for depends_task_name in depends_task_names:
--                depends_task = next(
--                    (task for task in tasks if task["label"] == depends_task_name), None)
--                self.assertIsNotNone(depends_task, f"DependsOn task '{depends_task_name}' not found in tasks.json")
--                # For simplicity, we assume the dependsOn task is a prerequisite and does not affect the main command
--                self.logger.debug(f"PreLaunchTask '{prelaunch_task_name}' depends on '{depends_task_name}'")
--
--                # Extract command details from dependsOn task
--                depends_task_command = depends_task["command"]
--                depends_task_args = depends_task.get("args", [])
--                self.logger.debug(f"Would execute dependsOn task: {depends_task_command} {' '.join(depends_task_args)}")
--                runCmd(f"{depends_task_command} {' '.join(depends_task_args)}", output_log=self._cmd_logger)
-+        # Execute preLaunchTask prerequisites exactly like VS Code dependsOn
-+        # handling, but keep starting the debug server in this method.
-+        self._run_vscode_task_with_dependencies(
-+            tempdir, prelaunch_task_name, run_main_task=False)
- 
-         # Verify task structure and extract command details
-         self.assertEqual(prelaunch_task["type"], "shell", f"Task '{prelaunch_task_name}' should be shell type")
-@@ -4569,6 +4617,12 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
-         self.assertIsNotNone(prelaunch_task,
-                              "preLaunchTask '%s' not found in tasks.json" % prelaunch_task_name)
- 
-+        # Run compile/install/deploy prerequisites exactly as VS Code would,
-+        # but keep starting the debug server itself in this method so we can
-+        # retain explicit readiness handling and diagnostics.
-+        self._run_vscode_task_with_dependencies(
-+            tempdir, prelaunch_task_name, run_main_task=False)
-+
-         # Extract the SSH command and start lldb-server on the target
-         task_command = prelaunch_task["command"]
-         task_args = prelaunch_task["args"]
+@@ -418,7 +420,8 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
+         remote_cmd = '%s | %s  %s %s %s \'sh %s %s %s %s\'' % (
+             tar_cmd, ssh_sshexec, ssh_port, extraoptions, args.target,
+             tmpscript, args.recipename, destdir, tmpfilelist)
+-        ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, remote_cmd, cwd=recipe_outdir, shell=True)
++        ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, remote_cmd, cwd=recipe_outdir,
++                                env_overrides={'PSEUDO_INCLUDE_PATHS': recipe_outdir}, shell=True)
+     finally:
+         if tar_filelist_path:
+             os.remove(tar_filelist_path)
 -- 
 2.55.0
 
