@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3B88C79FA0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8609EC79FA9
 	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 13:36:16 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.35232.1788788171726196002
+Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.34939.1788788166401464706
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2026 06:36:12 -0700
+ Mon, 07 Sep 2026 06:36:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=XrjUso1t;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-499ae1c6471so35017875e9.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:36:11 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=YnXt7dZL;
+ spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-48441a2ba1bso2546309f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:36:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788788170; x=1789392970; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1788788165; x=1789392965; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=RdTkEA8KR7xRi0mq5K1fT3ITsXYBddIrXGOJwmCY4eU=;
-        b=XrjUso1tc7gwUWWPH3K09ZzZZ+febnHGKmyQfiaR3hg637IzSdoKPJbWRqumPGcDl0
-         b+0ntgfXWCPxRoZj1KzPvV86cGqZX02FEKlEJtPtH9vhtPtsgsmcEwGvq7t/nAQxSpI6
-         NNxDOOHI0OMiqUfZgO2mZcg5O5xmm35e3+5YA=
+        bh=JO5zvFE1+KfNIE2qhgM+i92/qrTMrFBIURJ7XUHqT8w=;
+        b=YnXt7dZLr/iVn/7SHaDbqpwju+Q7MpOzuwSFmGHlJMqfBWRMz27J4ghaDjkFF/sbZS
+         M3SK51rLtP8fqMlakGTcmZN+grQ7f/zBjUplwcG+MqXgbtFgPqMKVV55BaU6cZOuIyQo
+         OCI/dZUzBd3K7p861WqUy0B8ZCym3/Z0HyXJ8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788788170; x=1789392970;
+        d=1e100.net; s=20251104; t=1788788165; x=1789392965;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=RdTkEA8KR7xRi0mq5K1fT3ITsXYBddIrXGOJwmCY4eU=;
-        b=ZlKRnot0No21AfUs5pdI0px1jndQ+dgoulhCFHvyMw6fqQSESoUuHOGUZeXMEu62Fx
-         HGlvtPsCBeWFT8BXGX3MV+9Q41VJvlRhwpk1xAB7Au5+b+cH0iWY+yEEsneq/xMMjDyO
-         b30hCIWFLVVr4wE0fB3L31rS/7S8FasGM+rp6vOukPqvPso3jiiFnAKMQS73/4BrylRz
-         LmnSdeqdhmiQO1QN2IpjmgoYpEaaWLnIoIvG/6jCfLmXV40n45nLJAB6hmnJjw9qAYjR
-         CeYAtvMLmkceqMrTVOStYVxLUKmd8+r3m8Bjja1qMVyg4m+hYDYZ4L6wjelwhVePex0b
-         CFkw==
-X-Gm-Message-State: AFuF++ne0dZJGbF3h9PhXt4XX7IcpjCcSzGwGVeliEfwbgQDOpuCaOhL
-	dCNOtKtxtwP7OMGrFRKjThBueifIIxEYeTid6Lhps3s1aJPVx8UU0Yxw5izN5dD6zT5VXr8RSp9
-	7G14Ua6s=
-X-Gm-Gg: AYBFou3gc8xyUgo6YZrSraEjIF/b5sres+JQ4u1PhJ8AkHu8jc2P/Cb+QmdcyUBcR2H
-	TXKsi9vaS30jb/7n+xw8YWZoiDDslZseZew9iUQP/xbz49Sb4SAyhRIdYflA/IpEeb6LGPUh3Fl
-	hoCGfLW16VZSdDw+NqcrvsKvX83xYw/5lwpeI8k08HDrApHrQlxOb/HHbDJgz0f74Q0o5XHS6/j
-	wdbNnwDoiSMki8TkPyEzek3E87bGiIDC/RsKq6zIp9VSp5FC28Vv5A4/knXihb9G6upyTaKgSdH
-	M3XvRe1f66U0H76UMPyxD+hGRAmIPAmE0yKgY+7kUDM5EwRto5Rtx5ekmiyLREUxrXXwtlo1XM8
-	5K1eNvWkpOoPUSaEAM5bejJwExV/0Nwmle15d9onVQLn9Diwmuy+jsNG/GORfgGbnKKG02+w0zg
-	4fyTzahZWVYa5OcZnFOG0/o2kuJdwVp5Y8D8/Ggq8vNLxOxZzSv0BEsKDIag9TofmWwDVsD0TmB
-	PDNijAiCQcJa3tyhMJfKu/u1UzcwcJJEZKo0aAhOwAm/7lJi9m5wVPvUPIee5OT
-X-Received: by 2002:a05:600c:3d92:b0:49d:726:cc9f with SMTP id 5b1f17b1804b1-49d0726cd2emr271048805e9.5.1788788169831;
-        Mon, 07 Sep 2026 06:36:09 -0700 (PDT)
+        bh=JO5zvFE1+KfNIE2qhgM+i92/qrTMrFBIURJ7XUHqT8w=;
+        b=D2HUdNQpRJfbq39ozVYieKjK5A0DLpStHCnAbpyIGjTB3Ka+a8+g2XxUqLJGHjGwPy
+         RWHlRYPkb10s+L9R5Zdt0mzlt/tXZJzoPRWDlIWcuXYoc0moRu69wn6LSdciFV4HLDDl
+         UMkkt69jn4ojMBwCgl9p6T+Ey8h7X/AtKWqj1T+r0OcC6pGOwTkWotVyZ6LsFNVwmIzD
+         ne1l095WWv6ZJ8P3OzwJxNjlqyviVHx4/8LMuelX6yfksMn0iYy+C/NW3W42m5TNuXmz
+         T+beYq5z/V5RARELAsaE0FQJJqtPaN7ys4WGt5gIt2sVjR9knL3HxBXr6EQ0QPfYf/d6
+         R92A==
+X-Gm-Message-State: AFuF++lK01lbzi6PfdLYzP7rI8xGFEDke6snxgKs+S5NLrDYEggT1V1p
+	O9wIeVFZdJ2VDjLN7hTPCZT3vo9zs4B3H3xmEvJye9oNTqjshoIS+87BrSh8sI6bFfNfh+/O/OJ
+	01dKMQjM=
+X-Gm-Gg: AYBFou11ySsUWYRYxQnzsp0ILadXlfMK5d9uW8ZyZ4pCSKrXHPF1der/KQSZ1KONT4R
+	EEylaahO9SQVg2epaCwGUZTMzqJ8yAeNH3aA0Ari8pO+RKQxw5Tf9liJ3evRZVj5gtRqJ1J8w/D
+	Lsd9M66Gi9zVBrrdfAeCiwB/TiGdHSB6fLSo7aFr2M9EFX2uZQ2a9Rf1ypxfvdt5epU8nOkoN8l
+	IbAei8fTBPFHJd9jub25+2PVeGMQY/PK63e5R0kj/63pF9AVGKqUrjrUTjD/ms7tnvuGjVV6jk3
+	F8Si3kdISwSA9wDq1mN1NPe+Pzkyb8l35kL7LABobnrno4hi5dEwCaShv39tmDupFOTU+Jad9i0
+	nRq8AdjMetDu+BzJQM9Yyxr3ZCHuFceUkY3eAy758rm0qgvfJ4+YX6/tKl9N8XYkss48uMeMrFe
+	Yodp6K64NNhjO8jAOKuDH3sPcVmhR20SWr+scTY1gTQtWtVmWEVhx3RJCvzIJubErQH1Rm7Ifur
+	U5V17Qfvq61erlutoyXO7lxz0/m48SgH64dZjqeCbLHWa+GGHuDjNwGuDF26LdB
+X-Received: by 2002:a05:6000:1a8c:b0:485:8ee5:5ffa with SMTP id ffacd0b85a97d-485a2c5f5c3mr911215f8f.38.1788788164566;
+        Mon, 07 Sep 2026 06:36:04 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588394fa1sm27523836f8f.8.2026.09.07.06.36.09
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588394fa1sm27523836f8f.8.2026.09.07.06.36.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 06:36:09 -0700 (PDT)
+        Mon, 07 Sep 2026 06:36:04 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 34/35] busybox: patch CVE-2024-58251
-Date: Mon,  7 Sep 2026 15:35:30 +0200
-Message-ID: <6c0b6e39336686590820dce96913f143a45edadf.1788787321.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 25/35] python3-git: fix CVE-2026-44244
+Date: Mon,  7 Sep 2026 15:35:21 +0200
+Message-ID: <9aaa23d4f6c04049fcdb532f6a83c654e8e6e15d.1788787321.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788787321.git.yoann.congal@smile.fr>
 References: <cover.1788787321.git.yoann.congal@smile.fr>
@@ -66,105 +66,187 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 13:36:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245291
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245283
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Darsh Kelaiya <dkelaiya@cisco.com>
 
-Pick patch applied by Debian [1].
+This patch applies the upstream 3.1.49 backport for
+CVE-2026-44244. The upstream fix merge is referenced in [1],
+and the public CVE advisory is referenced in [2]. The individual
+backported commits are referenced in [3] and [4].
 
-I did not find any reference on busybox mailing list that this patch was
-submitted. Submitting patch for someone else would be inappropriate,
-and busybox is currently known to be very inactive, hence the unwanted
-Pending Upstream-Status status.
-Also note that the related busybox bugreport [2] is currently not
-public, so it is possible that it was submitted there.
+[1] https://github.com/gitpython-developers/GitPython/commit/b049a13105992f22376ad0c7ec945bf3bfb365ae
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-44244
+[3] https://github.com/gitpython-developers/GitPython/commit/c417af469f9aa3da8dfef78f996c0fb8c5d1f4c2
+[4] https://github.com/gitpython-developers/GitPython/commit/8e24503b42c1d63dd98e8b2e6a2f655bdd0821e3
 
-[1] https://sources.debian.org/patches/busybox/1:1.37.0-10.1/netstat-sanitize-argv0-for-p-CVE-2024-58251.patch/
-[2] https://bugs.busybox.net/show_bug.cgi?id=15922
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-(cherry picked from commit 7261144785aa508377c995e52d7e2410a814f00b)
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-(cherry picked from commit 8f344d46b96fb16632501749dc39b97aa3e11836)
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../busybox/busybox/CVE-2024-58251.patch      | 51 +++++++++++++++++++
- meta/recipes-core/busybox/busybox_1.36.1.bb   |  1 +
- 2 files changed, 52 insertions(+)
- create mode 100644 meta/recipes-core/busybox/busybox/CVE-2024-58251.patch
+ .../python3-git/CVE-2026-44244_p1.patch       | 104 ++++++++++++++++++
+ .../python3-git/CVE-2026-44244_p2.patch       |  30 +++++
+ .../python/python3-git_3.1.42.bb              |   2 +
+ 3 files changed, 136 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-44244_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-44244_p2.patch
 
-diff --git a/meta/recipes-core/busybox/busybox/CVE-2024-58251.patch b/meta/recipes-core/busybox/busybox/CVE-2024-58251.patch
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p1.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p1.patch
 new file mode 100644
-index 00000000000..713d345ca83
+index 00000000000..92aa9056225
 --- /dev/null
-+++ b/meta/recipes-core/busybox/busybox/CVE-2024-58251.patch
-@@ -0,0 +1,51 @@
-+From: Valery Ushakov <valery.ushakov@bell-sw.com>
-+Date: Thu, 21 Aug 2025 12:31:53 +0000
-+Subject: netstat: CVE-2024-58251 - sanitize argv0 for -p
-+Bug-Debian: https://bugs.debian.org/1104009
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p1.patch
+@@ -0,0 +1,104 @@
++From 19e86eacc9471f2c3ef6f6a55dcaed40e5e139a0 Mon Sep 17 00:00:00 2001
++From: "GPT 5.5" <codex@openai.com>
++Date: Wed, 29 Apr 2026 05:47:57 +0800
++Subject: [PATCH] reject control chars in written values in configuration
 +
-+Signed-off-by: Valery Ushakov <valery.ushakov@bell-sw.com>
++Reject CR, LF, and NUL in GitConfigParser values before writing them
++to git config files (which also is a deviation from Git which escapes them).
 +
-+CVE: CVE-2024-58251
-+Upstream-Status: Pending
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++GitConfigParser._write() serializes embedded newlines as indented
++continuation lines by replacing "\n" with "\n\t". Git itself skips
++leading whitespace before parsing config tokens, so an injected value
++such as:
++
++    foo
++    [core]
++    hooksPath=/tmp/hooks
++
++is written in a form where the indented "[core]" line is still parsed by
++Git as a real section header. This lets attacker-controlled input passed
++to config_writer().set_value() poison repository config, including
++core.hooksPath, and redirect hook execution for later Git operations.
++
++Fail closed instead of stripping or normalizing these characters. Silent
++normalization can hide unsanitized caller input, and GitPython does not
++currently round-trip Git-style escaped values such as "\n" as embedded
++newlines.
++
++Apply the validation to set_value(), add_value(), and the public set()
++path so callers cannot bypass the safer helper API. Add regression tests
++for the advisory payload and for CR, LF, NUL, and bytes values.
++
++This preserves existing read behavior for config files that already
++contain multiline values while preventing GitPython from writing new
++unsafe values.
++
++CVE: CVE-2026-44244
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/c417af469f9aa3da8dfef78f996c0fb8c5d1f4c2]
++
++Backport Changes:
++- Omit regression tests because the Scarthgap PyPI source
++  archive does not include the upstream test suite.
++
++Co-authored-by: Sebastian Thiel <sebastian.thiel@icloud.com>
++(cherry picked from commit c417af469f9aa3da8dfef78f996c0fb8c5d1f4c2)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
 +---
-+ networking/netstat.c | 7 ++++++-
-+ 1 file changed, 6 insertions(+), 1 deletion(-)
++ git/config.py | 24 ++++++++++++++++++++++--
++ 1 file changed, 22 insertions(+), 2 deletions(-)
 +
-+diff --git a/networking/netstat.c b/networking/netstat.c
-+index 807800a62..d979f6079 100644
-+--- a/networking/netstat.c
-++++ b/networking/netstat.c
-+@@ -41,6 +41,7 @@
++diff --git a/git/config.py b/git/config.py
++index 85f75419..ce307110 100644
++--- a/git/config.py
+++++ b/git/config.py
++@@ -841,6 +841,24 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++             return str(value)
++         return force_text(value)
 + 
-+ #include "libbb.h"
-+ #include "inet_common.h"
-++#include "unicode.h"
-+ 
-+ //usage:#define netstat_trivial_usage
-+ //usage:       "[-"IF_ROUTE("r")"al] [-tuwx] [-en"IF_FEATURE_NETSTAT_WIDE("W")IF_FEATURE_NETSTAT_PRG("p")"]"
-+@@ -314,9 +315,12 @@ static int FAST_FUNC dir_act(struct recursive_state *state,
-+ 		return FALSE;
-+ 	cmdline_buf[n] = '\0';
-+ 
-++	/* don't write process-controlled argv[0] to the user's terminal as-is */
-++	const char *argv0base = printable_string(bb_basename(cmdline_buf));
+++    def _value_to_string_safe(self, value: Union[str, bytes, int, float, bool]) -> str:
+++        value_str = self._value_to_string(value)
+++        if re.search(r"[\r\n\x00]", value_str):
+++            raise ValueError("Git config values must not contain CR, LF, or NUL")
+++        return value_str
 ++
-+ 	/* go through all files in /proc/PID/fd and check whether they are sockets */
-+ 	strcpy(proc_pid_fname + len - (sizeof("cmdline")-1), "fd");
-+-	pid_slash_progname = concat_path_file(pid, bb_basename(cmdline_buf)); /* "PID/argv0" */
-++	pid_slash_progname = concat_path_file(pid, argv0base); /* "PID/argv0" */
-+ 	n = recursive_action(proc_pid_fname,
-+ 			ACTION_RECURSE | ACTION_QUIET,
-+ 			add_to_prg_cache_if_socket,
-+@@ -686,6 +690,7 @@ int netstat_main(int argc UNUSED_PARAM, char **argv)
-+ 	unsigned opt;
+++    @needs_values
+++    @set_dirty_and_flush_changes
+++    def set(
+++        self,
+++        section: str,
+++        option: str,
+++        value: Union[str, bytes, int, float, bool, None] = None,
+++    ) -> None:
+++        if value is not None:
+++            value = self._value_to_string_safe(value)
+++        return super().set(section, option, value)
+++
++     @needs_values
++     @set_dirty_and_flush_changes
++     def set_value(self, section: str, option: str, value: Union[str, bytes, int, float, bool]) -> "GitConfigParser":
++@@ -855,9 +873,10 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++             a string.
++         :return: This instance
++         """
+++        value_str = self._value_to_string_safe(value)
++         if not self.has_section(section):
++             self.add_section(section)
++-        self.set(section, option, self._value_to_string(value))
+++        self.set(section, option, value_str)
++         return self
 + 
-+ 	INIT_G();
-++	init_unicode();
++     @needs_values
++@@ -875,9 +894,10 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++             to a string
++         :return: This instance
++         """
+++        value_str = self._value_to_string_safe(value)
++         if not self.has_section(section):
++             self.add_section(section)
++-        self._sections[section].add(option, self._value_to_string(value))
+++        self._sections[section].add(option, value_str)
++         return self
 + 
-+ 	/* Option string must match NETSTAT_xxx constants */
-+ 	opt = getopt32(argv, NETSTAT_OPTS);
++     def rename_section(self, section: str, new_name: str) -> "GitConfigParser":
 +-- 
-+2.34.1
++2.35.6
+diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p2.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p2.patch
+new file mode 100644
+index 00000000000..fcc3a872752
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-git/CVE-2026-44244_p2.patch
+@@ -0,0 +1,30 @@
++From cf273ba3958ad02afa361167a0d0f82e1f4b5f4d Mon Sep 17 00:00:00 2001
++From: "GPT 5.5" <codex@openai.com>
++Date: Wed, 29 Apr 2026 06:39:02 +0800
++Subject: [PATCH] avoid duplicate validation in set_value
 +
-diff --git a/meta/recipes-core/busybox/busybox_1.36.1.bb b/meta/recipes-core/busybox/busybox_1.36.1.bb
-index 60796de9ce2..70d984b7c6e 100644
---- a/meta/recipes-core/busybox/busybox_1.36.1.bb
-+++ b/meta/recipes-core/busybox/busybox_1.36.1.bb
-@@ -67,6 +67,7 @@ SRC_URI = "https://busybox.net/downloads/busybox-${PV}.tar.bz2;name=tarball \
-            file://CVE-2026-29004-01.patch \
-            file://CVE-2026-29004-02.patch \
-            file://CVE-2026-38754.patch \
-+           file://CVE-2024-58251.patch \
++CVE: CVE-2026-44244
++Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/8e24503b42c1d63dd98e8b2e6a2f655bdd0821e3]
++
++Co-authored-by: Sebastian Thiel <sebastian.thiel@icloud.com>
++(cherry picked from commit 8e24503b42c1d63dd98e8b2e6a2f655bdd0821e3)
++Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
++---
++ git/config.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/git/config.py b/git/config.py
++index ce307110..7988f5d9 100644
++--- a/git/config.py
+++++ b/git/config.py
++@@ -876,7 +876,7 @@ class GitConfigParser(cp.RawConfigParser, metaclass=MetaParserBuilder):
++         value_str = self._value_to_string_safe(value)
++         if not self.has_section(section):
++             self.add_section(section)
++-        self.set(section, option, value_str)
+++        super().set(section, option, value_str)
++         return self
++ 
++     @needs_values
++-- 
++2.35.6
+diff --git a/meta/recipes-devtools/python/python3-git_3.1.42.bb b/meta/recipes-devtools/python/python3-git_3.1.42.bb
+index 99f31791bd5..e728e8bfa4c 100644
+--- a/meta/recipes-devtools/python/python3-git_3.1.42.bb
++++ b/meta/recipes-devtools/python/python3-git_3.1.42.bb
+@@ -15,6 +15,8 @@ inherit pypi python_setuptools_build_meta
+ SRC_URI += "file://CVE-2026-42284.patch \
+             file://CVE-2026-44243_p1.patch \
+             file://CVE-2026-44243_p2.patch \
++            file://CVE-2026-44244_p1.patch \
++            file://CVE-2026-44244_p2.patch \
             "
- SRC_URI:append:libc-musl = " file://musl.cfg "
- # TODO http://lists.busybox.net/pipermail/busybox/2023-January/090078.html
+ SRC_URI[sha256sum] = "2d99869e0fef71a73cbd242528105af1d6c1b108c60dfabd994bf292f76c3ceb"
+ 
 
