@@ -1,81 +1,94 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A4D62C79F99
-	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 14:59:40 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.37318.1788793172670543252
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 794E4C79FA1
+	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 15:27:20 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.37754.1788794829378480702
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2026 07:59:33 -0700
+ Mon, 07 Sep 2026 08:27:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=Z3YqLtxj;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 5D0761476
-	for <openembedded-core@lists.openembedded.org>; Mon,  7 Sep 2026 07:59:28 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 9F6873F528
-	for <openembedded-core@lists.openembedded.org>; Mon,  7 Sep 2026 07:59:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788793172; bh=P8ZJop2IIWVM9+BpsxR/lMQvD8NcpBwE+7larCLleT0=;
-	h=From:To:Subject:Date:From;
-	b=Z3YqLtxjH13BubJAlS1OKC24nUESV2VPF1vYFai+gX3+CVB+/Ef3lBYQsKyAVPt6W
-	 HqmO8zwPsZFxiSHk5nkHl/DeLVk/hcinqoX7SjRPft3sb5wMZR9+2ATY9rYNrofTh2
-	 qQT8BYxfBJd9IrpjyeSrw8EDZRkhiPE6831sglSw=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3-flit-core: use flit-core sdist instead of flit
-Date: Mon,  7 Sep 2026 15:59:28 +0100
-Message-ID: <20260907145928.4115637-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=zIu6m6l9;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 447C61A1A3A
+	for <openembedded-core@lists.openembedded.org>; Mon,  7 Sep 2026 15:27:07 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 143CD60383
+	for <openembedded-core@lists.openembedded.org>; Mon,  7 Sep 2026 15:27:07 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7D54711C7AF29;
+	Mon,  7 Sep 2026 17:27:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1788794822; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=irONESxbq4czCJyijTHVXMxl2Tq94eoJoDXRDrJfJ7s=;
+	b=zIu6m6l9DAPZOqTY6iz7Ny3eC8e7ENUCSSM2NjQcWBENDbXB7jerAj4+6ciSx1CgTH0UkJ
+	Mgr4jEef7CZO4JZBmz54DmZ0XrjD3TZStfe8+b82JR+WpMBrsnT0icypQ8KKhd8LsC+hjM
+	w0HA1g7S/c9VuWt9n3sn24QlTfMti8VYYjxfalf2Wm1dE3oMB0BuzC1IMn1Of14VhLjS+P
+	a4oHIEEXTtgXZmsuGfaTf71yWkk6aYocdzZ5uaaLgLI5EPzuuEv9egZs/hg6cBwJvp7Zb+
+	Zz5tTIOEDRWG15XkaITgMQiFQKus+jwSuty2b9YxIIZblyMFy08bAvD2mmTU5Q==
+From: Benjamin Robin <benjamin.robin@bootlin.com>
+Date: Mon, 07 Sep 2026 17:27:00 +0200
+Subject: [PATCH] sstate-cache-management: check also SSTATE_DIR environment
+ variable
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260907-sstate-cache-management-sstate-dir-v1-1-ed1a8ad1be0d@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/zXNwQrCMBCE4VcpezaQphLRVxEPazJtV2iUbCpC6
+ bsbLT1+c/hnIUUWKF2ahTLeovJMFe2hoTByGmAkVpOzztuzPRnVwgUmcBhhJk48YEIq+x4lmxb
+ OHX3set8x1dAro5fP/+R626zz/YFQfmVa1y8lOhNUhgAAAA==
+X-Change-ID: 20260907-sstate-cache-management-sstate-dir-1e2246d3f63a
+To: openembedded-core@lists.openembedded.org
+Cc: mathieu.dubois-briand@bootlin.com, thomas.petazzoni@bootlin.com, 
+ Benjamin Robin <benjamin.robin@bootlin.com>
+X-Mailer: b4 0.15.2
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 14:59:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245299
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 15:27:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245300
 
-The flit sdist includes a copy of flit-core, but the maintainers also
-upload a package that contains just flit-core.  Use this to allow the
-default class to work.
+Support KAS users by recognizing the SSTATE_DIR environment variable for
+configuring the sstate cache directory, as documented in [1]. Yocto
+respects this variable since KAS includes it in
+BB_ENV_PASSTHROUGH_ADDITIONS.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+This improves usability for the many users relying on KAS.
+
+[1] https://kas.readthedocs.io/en/latest/userguide/env-vars.html#variables-glossary
+
+Signed-off-by: Benjamin Robin <benjamin.robin@bootlin.com>
 ---
- meta/recipes-devtools/python/python3-flit-core_3.12.0.bb | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ scripts/sstate-cache-management.py | 7 ++++---
+ 1 file changed, 4 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb b/m=
-eta/recipes-devtools/python/python3-flit-core_3.12.0.bb
-index e40ffd0d0f7..d6b37fe904b 100644
---- a/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb
-+++ b/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb
-@@ -8,7 +8,7 @@ BUGTRACKER =3D "https://github.com/pypa/flit/issues"
- LICENSE =3D "BSD-3-Clause"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D41eb78fa8a872983a882c694a8305=
-f08"
-=20
--SRC_URI[sha256sum] =3D "1c80f34dd96992e7758b40423d2809f48f640ca285d0b782=
-1825e50745ec3740"
-+SRC_URI[sha256sum] =3D "18f63100d6f94385c6ed57a72073443e1a71a4acb4339491=
-615d0f16d6ff01b2"
-=20
- inherit pypi python_flit_core
-=20
-@@ -16,9 +16,7 @@ inherit pypi python_flit_core
- DEPENDS:remove:class-native =3D " python3-build-native python3-installer=
--native"
- DEPENDS:append:class-native =3D " unzip-native"
-=20
--# We need the full flit tarball
--PYPI_PACKAGE =3D "flit"
--PEP517_SOURCE_PATH =3D "${S}/flit_core"
-+PYPI_PACKAGE =3D "flit_core"
-=20
- do_compile:class-native () {
-     python_flit_core_do_manual_build
---=20
-2.43.0
+diff --git a/scripts/sstate-cache-management.py b/scripts/sstate-cache-management.py
+index 303b8f13a349..f5737004c544 100755
+--- a/scripts/sstate-cache-management.py
++++ b/scripts/sstate-cache-management.py
+@@ -202,9 +202,10 @@ def parse_arguments():
+ 
+     parser.add_argument(
+         "--cache-dir",
+-        default=os.environ.get("SSTATE_CACHE_DIR"),
+-        help="""Specify sstate cache directory, will use the environment
+-            variable SSTATE_CACHE_DIR if it is not specified.""",
++        default=os.environ.get("SSTATE_CACHE_DIR") or os.environ.get("SSTATE_DIR"),
++        help="""Specify the sstate cache directory. Defaults to the value of the
++            SSTATE_CACHE_DIR environment variable, or SSTATE_DIR if SSTATE_CACHE_DIR
++            is not set.""",
+     )
+ 
+     # parser.add_argument(
+
+---
+base-commit: 47021aa89adb81c822e8ec37f17266197914f6b8
+change-id: 20260907-sstate-cache-management-sstate-dir-1e2246d3f63a
+
+Best regards,
+--  
+Benjamin Robin <benjamin.robin@bootlin.com>
 
 
