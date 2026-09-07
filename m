@@ -1,127 +1,156 @@
-Return-Path: <hthakar@cisco.com>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F702C79F89
-	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 08:22:31 +0000 (UTC)
-Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.30273.1788769348583659393
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F17A1C79F9E
+	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 09:13:37 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.48])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30926.1788772407365025863
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2026 01:22:28 -0700
+ Mon, 07 Sep 2026 02:13:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=d0bEWvfZ;
- spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: hthakar@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=1790; q=dns/txt;
-  s=iport01; t=1788769348; x=1789978948;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=OWqz1bgAhTkeRWxwqmq8w1eXUP7CYS1AUa7Vsb/rxVs=;
-  b=d0bEWvfZmivrHZPhmZJQ08r1shkxYNYTSr8MQTPPrWrBMAvsRdq859Xf
-   EJPvmbORMRdIUTkkzHdL5/0NQVtnHsJnhphVzkHbu+kZIt3pYN5TPaYYA
-   bBtV16OF9VoxiA4NYahlAnVyaIjbCtt0AaZp9Y3WRDzx2ohT7Z8H0Ii1E
-   2VA8VNuzJWvtMvdXtpF3DlZirfGwOpVQEUrTSoKFcPmmB9AFRyaDWs1iZ
-   +D02w+FN7r2ghhGFAlhY7WDzDPxQNj2JdLj7+2DcgEjxrOO9DG8jhfvd/
-   +UTLEqgMNNq299HVZd0w7e3XUkLhBZ5+DzzQm6XZUG+gVVFzNr8phKphk
-   A==;
-X-CSE-ConnectionGUID: j/jkDkD7Ttm71vLA9jqyiA==
-X-CSE-MsgGUID: +BC3Yk7JQaybSMpIe+tAyw==
-X-IPAS-Result: =?us-ascii?q?A0BDAgA9c55q/4oQJK1aglmCGD90YENJlkqeHoF+DwEBA?=
- =?us-ascii?q?Q89FAQBAYUFjgUCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBAQUBAQECAQcFg?=
- =?us-ascii?q?Q4Thk8NkB82ARgBLTBcHQEmgwIBgnQDEcQugiyBAYMoAYFU2zEBCxQBBYEzh?=
- =?us-ascii?q?T+IInUBhHwnGxuBcoR+gQWBXAEBAhiCE4V4BIIigQyEDY9lSIEeA1ksAVUTD?=
- =?us-ascii?q?QoLBwWBZgM1EioVbjIdgSM+F4EHGwYFgR2BJ4M/Ixk2eoEJXoErKWABEheBC?=
- =?us-ascii?q?YIIAoJUggECAUlDDgdFUwknQQoSDAsYDUgRLDcVGQQ+bgeObR+CVw6BACwgA?=
- =?us-ascii?q?nlRGaN8giGhDwoog3aMIpU6GjOqbQsjmFqOCpVoaIRpgWg8gSgfCwdwFYJuA?=
- =?us-ascii?q?QEyCUoZD445gR8BB4JEgX9lyVUnMgI7AQEHAgcOAwuBaJF+AQE?=
-IronPort-Data: A9a23:OGpZHqnbwamU9sNGL7BfypDo5gzWJ0RdPkR7XQ2eYbSJt1+Wr1Gzt
- xIbCz/XOavbZWSjfYgiOYS/px5Q7JKHmNNhGQds+389F1tH+JHPbTi7wugcHM8zwunrFh8PA
- xA2M4GYRCwMZiaC4Errav6+/SEUOZigHtLUEPTDNj16WThqQSIgjQMLs+Mii+aEu/Dha++2k
- Y20+ZC31GONgWYubDpFs/3b8XuDgdyr0N8mlg1mDRx0lAe2e0k9VPo3Oay3Jn3kdYhYdsbSb
- /rD1ryw4lTC9B4rDN6/+p6jGqHdauePVeQmoiM+t5mK2nCulARrukoIHKZ0hXNsttm8t4sZJ
- OOhGnCHYVxB0qXkwIzxWvTDes10FfUuFLTveRBTvSEPpqHLWyOE/hlgMK05FY9f+OVbAk0Ry
- eAdd2kTSjnShfunwZvuH4GAhux7RCXqFIobvnclyXTSCuwrBMiaBa7L/tRfmjw3g6iiH96HO
- JFfMmQpNUqGOkYfUrsUIMpWcOOAhmX/ej5RsnqepLE85C7YywkZPL3FYIGPI4DRFZ8I9qqej
- iHs1D/IAU44DdWOwwGg6lOhxfPmjDyuDer+E5X9rJaGmma7wXQeDhATX1a3rfS1z0W5Qd93L
- 00P5jFoqrA/8kGuRNTxUxC05nmesXYht8F4Guk+7kSJj6HT+QvcXjFCRT9aY9tgv8gzLdA36
- mK0cxrSLWQHmNWopbi1rN94cRva1fApEFI/
-IronPort-HdrOrdr: A9a23:tB7dN6w/nvuKm811gK5/KrPwAL1zdoMgy1knxilNoNJuHfBw8P
- re+cjzuiWUtN98YhwdcLO7Scu9qA3nlaKdiLN5VdzJYOCMggWVxe9ZgbcK6geQfxEWjtQttp
- tIQuxZFMD6C0R8gILR5Qm1FMtl/fy8mZrY4ts3CxxWPHhXg2YK1XYeNjqm
-X-Talos-CUID: =?us-ascii?q?9a23=3ATAnhVGmOG11EE3b+1UnA1BpTmv3XOX+aznT8IGP?=
- =?us-ascii?q?nNXpsF+SLbXbB+rp1kuM7zg=3D=3D?=
-X-Talos-MUID: 9a23:1TDrIgZScamT8eBT9BXH3wBha+VR6rWkM2UVsJhFp+CVKnkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.25,267,1779148800"; 
-   d="scan'208";a="832143825"
-Received: from alln-l-core-01.cisco.com ([173.36.16.138])
-  by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 07 Sep 2026 08:22:27 +0000
-Received: from sjc-ads-5245.cisco.com (sjc-ads-5245.cisco.com [10.28.23.9])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-01.cisco.com (Postfix) with ESMTPS id 7B6C118000181;
-	Mon,  7 Sep 2026 08:22:27 +0000 (GMT)
-Received: by sjc-ads-5245.cisco.com (Postfix, from userid 1887505)
-	id 0DD83CC1611; Mon,  7 Sep 2026 01:22:27 -0700 (PDT)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=FPW8qBbM;
+ spf=pass (domain: est.tech, ip: 52.101.66.48, mailfrom: pratik.farkase@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ROEu57KLH8E4xZA/04e3RZqtB51R9atKMrMKCa/ZgFE5AGh84a5qQB3zvwgXxiXRYR9fP8aKz6iqefhGFAuK2/ArE57PLOmXBgFDMrdrOIPIMDjXSG/X6Yvc60P1EgZvzEd1MIIPo8Zm4sltSCYDvsxXYEBPmYmakDUWjGW3xZqfAeGjmOaiMJrC/xXrzBYzrWu1Huh0hnFRQwSpdxtVwl+R8r48F7XlQ4tM9f4GS3/qxCpy0at595wLWKMsLgWGR92WRf4g3Y1v9eaE0lXX9YdMG47JZ2U26aQIJ2I6G9fT9pxPX5NRQOVZC2ra0l7YzzEOwuScUGUkY+jXvoeL7A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=N3H6tHyq0jN15DTiZJ9DPPyqFa4yKLqD7XDhCRyyBZE=;
+ b=SAumvhNDm/M8qPRZmGiYlzCSNg/By7/glJMON+aZsePq4KJIB/eraC3DoOlidpYQV12FAq9EWu5y7wKhe7Re/N1xP/xS/XARDKU9S7N2ZXAUzkxzaNSd7amjo/emFMjjPY+MgG6as1I2i1n45cSgCWSLx9HlK1/BrkYsDs82QzkAsBebw1CA6agbE1dYmlkz9H5UmKCIBH54u8kN9FEVs4wiUIUhzbK+GJGJlXbMomq/Q/zfJqvDCMuIVyryrTfH+5LsgnUtBD8vUQS9S7wDUkMlFNIP4IaEEl1ClH7UZTTO2VGCdDi3E7cawIgnT0uFpLujQwyHRSA72QDYpUvvMg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=N3H6tHyq0jN15DTiZJ9DPPyqFa4yKLqD7XDhCRyyBZE=;
+ b=FPW8qBbMq33dQ0KeViGkvzdTnnQC3o4OQEgDJO59wBPaTTK9gsXcQMPSI0x1VeCWTX7pEy7CVcMf08x45L4P158w+dOBdMFwjrZI4CIPV24j8cmw5GCmFnxLN8OGA5QfH6uueVXuC1UykOibMzcHyj5eApZBbVqpOX6+Mr8dGebLmJrBREBZ2KNouMlmYbE+FDnZEFFrcKmU0A+F203ypVnV86T92NLHi5w6X7EywYKOAHM45QZ2sQTmxlOJPwrJU9ostLpPRLY/1ChLmPw+Cqx8FPQyss4GOlRDzJDM4c1o4ztZrcA0qzfpZhyhuB7CLZeh3ahCh0GvPEDhZR/iiQ==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
+ by VI1P18901MB0782.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:11c::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.382.15; Mon, 7 Sep
+ 2026 09:13:21 +0000
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0382.014; Mon, 7 Sep 2026
+ 09:13:21 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com,
-	Hetvi Thakar <hthakar@cisco.com>
-Subject: [OE-core][wrynose][PATCH] python3-pip: set CVE_STATUS for CVE-2018-20225
-Date: Mon,  7 Sep 2026 01:22:18 -0700
-Message-Id: <20260907082218.2177656-1-hthakar@cisco.com>
-X-Mailer: git-send-email 2.35.6
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v1] python3: ptest: skip flaky test_taskgroup_23
+Date: Mon,  7 Sep 2026 11:13:02 +0200
+Message-ID: <20260907091302.15611-1-pratik.farkase@est.tech>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DUZPR01CA0128.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4bc::21) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:4d4::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5245.cisco.com [10.28.23.9];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.23.9, sjc-ads-5245.cisco.com
-X-Outbound-Node: alln-l-core-01.cisco.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|VI1P18901MB0782:EE_
+X-MS-Office365-Filtering-Correlation-Id: da6ee046-a05d-45cf-5249-08df0cc04366
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|6133799003|10067099003|56012099006|11063799006|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	W+4Ih9kjJ1wYhvvUu1OWbSiFvv/n6CAimY+R5udnpsyTRGWim/9AzZWVhNjvLzxQY4bIGkQ0/jiM0KPESW45Ho9nAU1SheDPFWygeejvzq9R0o6gATmrx6b1HnV5ywPB5u6ZeOI+VbCnANZFWtfHb5R5n7L7BNtJB2rwyC5TkJGfCUu/Ip/G7+cT6BeqyrtPN6BZCHff0TaedUoqkj26IKsnTYBARs+WDdOG/T3b8oICwfkXpiqmKK01q1jX/S4XwkeofPoKrax7b3axUE3EPKV5HU8gGmYa4dhnXfX7CPNSo9UFJDmg+tifGoZBzG37deYiFfbMQ7E3qgXTKuuhSVRiUsXLJdK5l+3J85jQmN5mhnHiyZ22WQ+Z03xCup+lw4nn7Xpy2PPGltftkvbOgZ18CUF1g0669X/7P16YB2seSazRYg26Y0EhVjo+KAOfbKMdypR+6GTok/SoGzAaJhYWc3l9F9+orV3cjcRP29Qprr3/780OkNxhPekCQFBpzmvpfu4G/WgJqvDCCRXkDkY0ZSSIBTfhTnjwWp/QDBZZmSfp3QFt5OK5H2h9G1gW3hZybrw6qs0dY+yoN/jylOwVG9KAyYx/q+3TnMOmy3qEiUh7UEV1WBMuT8Q5DLzNWHDfsirxEpoIyS5iGYpcw0jedDert6NS/CBNECl+xTo=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(6133799003)(10067099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?6HnMpaYcMMxilFk6e7ipdBjozvocW/jCFJrTWmwxoBG4cMEz5KlaKoC6hNGs?=
+ =?us-ascii?Q?UnmilNrbVfy3PwbHLked3h5DdBBlOLTrTOgc9V/GKPV6SFxC52bEBMvNaWLB?=
+ =?us-ascii?Q?6q0Y0sq1d0WOL4BREsSwlXlKyXOiDYjV+tsF72M4cZLW2lyGvUb1K4x0K2iE?=
+ =?us-ascii?Q?WOlP1N7ldDqwFWoaLOmrFe2q3mVCNv2M8pWIhIJ6sk/jbA27n+Sn1qZ94RF9?=
+ =?us-ascii?Q?bIWxwQHLLrE5JYqMQHRn80q0rGNZWQDiG8YBXYn9CJVNJIagZnzW8QEs6VNc?=
+ =?us-ascii?Q?LNyU6SdRIj5gZ7BsBu+Vx8uiDAr6GtLRzSviHRbehyYMXw3Aza2CKpUgY9NS?=
+ =?us-ascii?Q?jJgzTnfCwpuoOKW1DbSOMaEikoR9QTC4F30mjATl6AnpaQqR457gzcuj//YT?=
+ =?us-ascii?Q?z4t4DSpOfh5oHdeEqmiMdUu8olVSmQ9Wgm9onfcjmhSiH0iggq9kPv3kio6I?=
+ =?us-ascii?Q?0H7VXP0X0GsmJcACWtVFnvQ0BL72OfWW2Y70gLwNCxvey/CeVCKLfLNPcNLo?=
+ =?us-ascii?Q?aipGrpZpjh/rJzhctVPxZ0pX0XwmaMeTm00W3F/11eBSwPtYzoJxS1r81SGI?=
+ =?us-ascii?Q?Ofkb+/kaD+TEnvQjxbHauhH/2o2TUBd0yMYML7xGctBpa/8BBXDcxELl1cD/?=
+ =?us-ascii?Q?tb2OLuuOSR7IpNEcohpchTiWy/YZ5lgrBpYKRtwNG6VB8xSJaB6iiuZjEyit?=
+ =?us-ascii?Q?q6AGlzs2jrLE+xJb4BvOom/fkePCjRs31mJT6S9UBDdF5oIGeywNq914VZSQ?=
+ =?us-ascii?Q?zJlB8iFUVqL1imV4apn4+/C/1ejQUYuXGIadTtvI9s54rj+hVjL7B4QaJPyc?=
+ =?us-ascii?Q?+khya1utgd6WMqrWdkTLkoyHjJgbrtyCNItHa+0ZlhgeoyAPmayWJomKxEfr?=
+ =?us-ascii?Q?QZS00hHVXFY26pGVSEkLmSGtn7bNtl/m3YldDgaL5IkIjVHpSKoVG2iXl8QA?=
+ =?us-ascii?Q?UQFKRir+X+qLwHEUtt5JSMMvkmPd8asrSo1CaXtjhAk00Yd6PQOsbhlZcWcQ?=
+ =?us-ascii?Q?6Fq6tk/Z5bhTEQ7FpLlRVsgpvmP6s8nb6V1J03AyCOzgWTJDIFQbB8VdP3rr?=
+ =?us-ascii?Q?Om4IuztMM4QTezhQImamnOqqRWFoxDZJ4VVWTF50HshKRUCyVNERHwylwt83?=
+ =?us-ascii?Q?jAQ1nC+FAs7Rmr9enSN2qFvF5XD9UqpoKo8NANj2QoI/8J55S3Zv4QeQG/a2?=
+ =?us-ascii?Q?jNoRMKOLCT4J2/Dl6hA4aThVQjsN4rwib8etRMlt7O0xhhobKqn7sCQezBke?=
+ =?us-ascii?Q?A96P1RnrPkoK2+mO1hnhZswQxHUr2lkhkdFzukWgLX8AHy4UJjzzUqNnBlhD?=
+ =?us-ascii?Q?WxnLu8aCK92oH+DKU7ZNsPIykISUSOUgyObFtY6shyogDg6NWNIw1EUEsfyK?=
+ =?us-ascii?Q?O1iiuTJuVRVALzqL3CHvKsjmMxUiddC1T96LgdvIsudL5+UEI5jGUWTinLDR?=
+ =?us-ascii?Q?aoydoeKeWD5ldX+0TIjfsRDr/imZNC/7mHYCvujnEzv1ysQqpTX0KWpeS6cw?=
+ =?us-ascii?Q?nFoHBfSAzLhOgSYhILJ//T/I32wOlfyTIk6fPrmrU1K//Sz5KdAHtC3HqU0X?=
+ =?us-ascii?Q?Z+Wt5gpIUa8yOzvyrSbT8l4HynJFAceWb+oBsxIIfZALgOP+R3YxXgsQYtNQ?=
+ =?us-ascii?Q?n3gTLIhYuDjuc1fmDaLkAEXwpBXewGXgOQoVi58WJDHlj4wDuYLfY9rNfzSo?=
+ =?us-ascii?Q?f8MR+gHmldk3F8kFFflJ+r5LuKJr3UDtdDOfb25iMAJq/fAhO7xLtrrfRI3t?=
+ =?us-ascii?Q?RXE5aoYDkA=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: da6ee046-a05d-45cf-5249-08df0cc04366
+X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 07 Sep 2026 09:13:21.5062
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: HEu0NNff6Vljob8mdz8EkKcgtVkckenEDwCBVWfXGhkI+mkuoLWdXihgtVHg1Tr/kMga3hohPDwEQBzGVUP6tA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1P18901MB0782
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 08:22:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245240
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 09:13:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245241
 
-From: Hetvi Thakar <hthakar@cisco.com>
+The asyncio test test_taskgroup_23 creates tasks that each sleep for a
+fixed time, then sleeps 1.35s and asserts all tasks have completed. On
+loaded autobuilder hosts under QEMU emulation the event loop timers are
+delayed, so tasks are still pending when the assertion runs and the test
+fails intermittently (AssertionError: 2 !=3D 0).
 
-Analysis:
-- NVD marks CVE-2018-20225 as disputed. [1]
-- pip searches all configured package indexes without priority and selects
-  the highest matching version. --extra-index-url adds an equal-priority
-  package source. [2]
-- Exploitation requires use of --extra-index-url and an attacker-published,
-  higher-version package with the name of a private package. [1]
-- Upstream closed the related report as not planned, and Red Hat classified
-  the issue as WONTFIX because this behavior is intentional. [3][4]
-- Record the disputed status; no source patch is available.
+This is part of the broader class of timing-sensitive CPython tests
+tracked at https://github.com/python/cpython/issues/130363
 
-Reference:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2018-20225
-[2] https://pip.pypa.io/en/stable/cli/pip_install/
-[3] https://github.com/pypa/pip/issues/12874
-[4] https://bugzilla.redhat.com/show_bug.cgi?id=1835736
+[YOCTO #15564]
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
 ---
- meta/recipes-devtools/python/python3-pip_26.0.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ meta/recipes-devtools/python/python3_3.14.7.bb | 9 +++++++++
+ 1 file changed, 9 insertions(+)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_26.0.1.bb b/meta/recipes-devtools/python/python3-pip_26.0.1.bb
-index 1a2cbc397a..46fa63e6a6 100644
---- a/meta/recipes-devtools/python/python3-pip_26.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-pip_26.0.1.bb
-@@ -34,6 +34,8 @@ SRC_URI[sha256sum] = "c4037d8a277c89b320abe636d59f91e6d0922d08a05b60e85e53b29661
- 
- CVE_PRODUCT = "pypa:pip"
- 
-+CVE_STATUS[CVE-2018-20225] = "disputed: Exploitation requires use of --extra-index-url with a private package not present on the primary public index; pip intentionally selects the highest version across configured indexes"
+diff --git a/meta/recipes-devtools/python/python3_3.14.7.bb b/meta/recipes-=
+devtools/python/python3_3.14.7.bb
+index 18373e5b5e..997a1ef48c 100644
+--- a/meta/recipes-devtools/python/python3_3.14.7.bb
++++ b/meta/recipes-devtools/python/python3_3.14.7.bb
+@@ -329,6 +329,15 @@ SKIPPED_TESTS +=3D " \
+     --ignore test.test_remote_pdb.PdbAttachTestCase.test_attach_to_process=
+_with_colors \
+ "
+=20
++# Intermittent failure under load - this asyncio taskgroup test assumes
++# scheduled tasks finish within a fixed sleep, which does not hold on
++# loaded autobuilder hosts under QEMU emulation where timer callbacks are
++# delayed. Part of the broader timing-sensitive test class (CPython #13036=
+3).
++# Bugzilla YP 15564
++SKIPPED_TESTS +=3D " \
++    --ignore test.test_asyncio.test_taskgroups.TestTaskGroup.test_taskgrou=
+p_23 \
++"
 +
- do_install:append(){
- 	# pip vendors distlib which ships Windows launcher templates (*.exe).
- 	# Keep them only when building for a Windows (mingw) host.
--- 
-2.35.6
+ SKIPPED_TESTS:append:libc-musl =3D " \
+     -x test__locale \
+     -x test_c_locale_coercion \
+--=20
+2.43.0
 
 
