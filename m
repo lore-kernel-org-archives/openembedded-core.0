@@ -1,124 +1,94 @@
-Return-Path: <devanshp@cisco.com>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9A3CC79F9E
-	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 05:43:47 +0000 (UTC)
-Subject: Re: [PATCH] binutils: correct CVE_PRODUCT mapping
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 43A6AC79F9E
+	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 06:37:38 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.28902.1788763051702694510
+ for <openembedded-core@lists.openembedded.org>;
+ Sun, 06 Sep 2026 23:37:32 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=VaHBoIHR;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-202609070637280c45b4247300020788-zggiks@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202609070637280c45b4247300020788
+        for <openembedded-core@lists.openembedded.org>;
+        Mon, 07 Sep 2026 08:37:28 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=6AlUM29nFpKNoSOB76K+XEvJKIZL8ujuRTWdSXT4bjQ=;
+ b=VaHBoIHRv3TLkh7g3lBj9RmM3eWbuxaPRZaf2g0IIadZM/np5nsUDejbV/OYQtcgexiX+9
+ v/nWbIM8n010bjBMCIaUdcFhSwwSkDjywo+qr4nuS4bHiRvQmGLM+QGSGD+8NWEafrygGFxt
+ vFaj/LSXTIptQ6fLVexEFJc5Mw+psQvIGayFn9v9lIoOIp4NGWQLtPgZTYeaWcHGxlpfcom5
+ DIuKWUbRRCKQsHV/er1TPJ2j+cb9T569mLhwlQrpf57/AGR6gFPt95TSASNOwaucyro2/ke0
+ Us+Plf4EoaZQ7yvN673rJ0xVIc4gEpC/fAhbXh1CKkDhSL6hxEWWc8Og==;
+From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-From: "Devansh Patel" <devanshp@cisco.com>
-X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
-X-Originating-Platform: Windows Edge 152
-User-Agent: GROUPS.IO Web Poster
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v2 3/9] devtool: ide-sdk: pre-select attach process with processFilter
+Date: Mon,  7 Sep 2026 08:36:09 +0200
+Message-ID: <20260907063720.56742-4-adrian.freihofer@siemens.com>
+In-Reply-To: <20260907063720.56742-1-adrian.freihofer@siemens.com>
+References: <20260907063720.56742-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
-Date: Sun, 06 Sep 2026 22:43:45 -0700
-References: <20260824110156.25702-1-devanshp@cisco.com> <82653ab103f8116bfb0a9a675cf9d7f38a92a588.camel@pbarker.dev> <2789044.1787834827643066647@lists.openembedded.org> <6aad1ce63d1f75e5d5cde45b2691ac68151762ce.camel@pbarker.dev>
-In-Reply-To: <6aad1ce63d1f75e5d5cde45b2691ac68151762ce.camel@pbarker.dev>
-Message-ID: <199240.1788759825143617206@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="AUbWe1av35Yhg7i40qK4"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 05:43:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245227
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:37:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245237
 
---AUbWe1av35Yhg7i40qK4
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-On Thu, Aug 27, 2026 at 07:54 PM, Paul Barker wrote:
+The ATTACH launch config now uses the extended-remote protocol, which
+makes cppdbg show a picker listing every process running on the
+target. In modified-recipe mode the binary to attach to is already
+known, so the picker is only extra clicking, and on a busy target it
+can make finding the right process among unrelated ones tedious.
 
->=20
-> Hi Devansh,
->=20
-> The commit messages for these changes make no mention of the SBOM
-> output. Commit messages need to explain *why* a change is proposed. So
-> from the patches you sent I could only infer that this was solely about
-> CVE matching accuracy.
->=20
-> CVE_PRODUCT assignments have so far been used when the default leads to
-> either CVEs being missed, or unrelated CVEs being matched. We haven't
-> carried CVE_PRODUCT assignments purely for SBOM accuracy. I don't really
-> have the context to understand if this is required or not - I think we
-> need some discussion and input from others here. Could you send an email
-> to the openembedded-architecture list to discuss the need for additional
-> CVE_PRODUCT assignments before sending further patches like this?
->=20
-> Best regards,
->=20
-> --
-> Paul Barker
+Set "processFilter" to a regex matching the deployed binary's path so
+cppdbg pre-selects it instead of showing the full process list. This
+is a recent cpptools feature; until it ships in a released cpptools,
+cppdbg silently ignores it and falls back to showing the full
+unfiltered process list.
 
-Hi Paul,
+Require cpptools version that supports processFilter
+https://github.com/microsoft/vscode-cpptools/pull/14684
 
-Thank you for the clarification.
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+---
+ meta/lib/oeqa/selftest/cases/devtool.py     | 1 +
+ scripts/lib/devtool/ide_plugins/ide_code.py | 1 +
+ 2 files changed, 2 insertions(+)
 
-We are reviewing the proposed CVE_PRODUCT changes internally at Cisco, part=
-icularly
-the relationship between CVE matching, CPE identities in SPDX output, and t=
-he
-sbom-cve-check workflow.
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 3a407a5162..a4b7a83094 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -3569,6 +3569,7 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
+                 # from the process instead of killing it.
+                 self.assertTrue(config.get("useExtendedRemote"), f"Configuration '{config['name']}' should use useExtendedRemote")
+                 self.assertNotIn("cwd", config, f"Configuration '{config['name']}' should not set cwd in attach mode")
++                self.assertTrue(config.get("processFilter"), f"Configuration '{config['name']}' should use processFilter")
+             else:
+                 self.fail(f"Configuration '{config['name']}' has unexpected request type: {config['request']}")
+ 
+diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
+index 937c63a4a5..6effbac654 100644
+--- a/scripts/lib/devtool/ide_plugins/ide_code.py
++++ b/scripts/lib/devtool/ide_plugins/ide_code.py
+@@ -387,6 +387,7 @@ class IdeVSCode(IdeBase):
+             # this configuration is generated. Stopping the session detaches
+             # from the process instead of killing it.
+             launch_config["useExtendedRemote"] = True
++            launch_config["processFilter"] = "(^| )%s( |$)" % cross_debug_config.binary.binary_path
+         else:
+             # cwd, environment and externalConsole configure the process the
+             # debugger starts, they are not part of the attach schema.
+-- 
+2.55.0
 
-The main question is whether a vendor-qualified mapping is appropriate when=
- it improves
-the component identity in the SBOM but does not change the reported CVEs, a=
-nd how existing
-product aliases should be retained where they are necessary for complete CV=
-E coverage.
-
-We will ask our Cisco representative to raise this broader topic to the ope=
-nembedded community
-with more details. In the meantime, we will pause further CVE_PRODUCT submi=
-ssions
-that are intended to improve SBOM identity.
-
-We will continue proposing mappings where the default value demonstrably mi=
-sses relevant CVEs
-or produces unrelated matches, with the specific CVE-reporting impact docum=
-ented in the commit message.
-
-Best regards,
-Devansh
-
---AUbWe1av35Yhg7i40qK4
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>On Thu, Aug 27, 2026 at 07:54 PM, Paul Barker wrote:</div>
-<div>
-<blockquote>Hi Devansh,<br /><br />The commit messages for these changes ma=
-ke no mention of the SBOM<br />output. Commit messages need to explain *why=
-* a change is proposed. So<br />from the patches you sent I could only infe=
-r that this was solely about<br />CVE matching accuracy.<br /><br />CVE_PRO=
-DUCT assignments have so far been used when the default leads to<br />eithe=
-r CVEs being missed, or unrelated CVEs being matched. We haven't<br />carri=
-ed CVE_PRODUCT assignments purely for SBOM accuracy. I don't really<br />ha=
-ve the context to understand if this is required or not - I think we<br />n=
-eed some discussion and input from others here. Could you send an email<br =
-/>to the openembedded-architecture list to discuss the need for additional<=
-br />CVE_PRODUCT assignments before sending further patches like this?<br /=
-><br />Best regards,<br /><br />-- <br />Paul Barker</blockquote>
-</div>
-<div>Hi Paul,<br /><br />Thank you for the clarification.<br /><br />We are=
- reviewing the proposed CVE_PRODUCT changes internally at Cisco, particular=
-ly</div>
-<div>the relationship between CVE matching, CPE identities in SPDX output, =
-and the</div>
-<div>sbom-cve-check workflow.<br /><br />The main question is whether a ven=
-dor-qualified mapping is appropriate when it improves</div>
-<div>the component identity in the SBOM but does not change the reported CV=
-Es, and how existing</div>
-<div>product aliases should be retained where they are necessary for comple=
-te CVE coverage.<br /><br />We will ask our Cisco representative to raise t=
-his broader topic to the openembedded community&nbsp;</div>
-<div>with more details. In the meantime, we will pause further CVE_PRODUCT =
-submissions</div>
-<div>that are intended to improve SBOM identity.<br /><br />We will continu=
-e proposing mappings where the default value demonstrably misses relevant C=
-VEs</div>
-<div>or produces unrelated matches, with the specific CVE-reporting impact =
-documented in the commit message.<br /><br />Best regards,<br />Devansh</di=
-v>
-
---AUbWe1av35Yhg7i40qK4--
 
