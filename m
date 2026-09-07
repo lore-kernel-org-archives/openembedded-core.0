@@ -2,52 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 38B4CC79FAD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AF15C79FAC
 	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 13:36:17 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34940.1788788167507874367
+Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com [209.85.221.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.35226.1788788168056862977
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2026 06:36:07 -0700
+ Mon, 07 Sep 2026 06:36:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=iNs5XsYR;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-482ea739de2so2399170f8f.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=CSvyBHdQ;
+ spf=pass (domain: smile.fr, ip: 209.85.221.51, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f51.google.com with SMTP id ffacd0b85a97d-484374f54d0so2179799f8f.3
         for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:36:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1788788166; x=1789392966; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=qnMSyLhyHYgQP76hLyrZqxTNK0Nt4A7zDhxgFflgpC4=;
-        b=iNs5XsYRwaOUYS6rsk34YcfjgnfLRgdcXJkcNDgdwC3Pr6gFz7LsKQNrnrcVBAFkAd
-         7SqPAd+nB23lalq57YLHuRudUIfDWuob9eScHdqOp1hjxVGKPOhRwU+JHoCiF/jc7X4Y
-         bp0Oyj50mnVDJf4BMEsAEWy4ZQtD8+GrT3sfc=
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=HMbHLFqC3ycXDimUwLrfX4/0UdR/L1eJNTjUnLxKvJQ=;
+        b=CSvyBHdQJ9PC563W6uayX0b5cWh1Hz0P43eu0+sqH+MGqT5tXzsL1upxJHT3xQc2PX
+         M/8baz3y7RKGLXziOSHXmGqWwkQEZtFWdem6lMFtT9j5BydpDCtXwwSXawB+vfIBa4cf
+         87EQ0QLTGY/Kd9magKOhbxT0MLCi+GcpXCDUU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1788788166; x=1789392966;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=qnMSyLhyHYgQP76hLyrZqxTNK0Nt4A7zDhxgFflgpC4=;
-        b=XljJec4PfOAoJdWjMecBnUZGOzIHad469vsgA4WSTJ3V91ErX9H/FmDVeQW5cD4Pa9
-         oVUxQMLU9+Loh58kC+YWBk4JGqbAU3g3lf+Rg0uNkfYssyJhHkgobEAzSQjWJe+/YC/+
-         ahumB+Mjiicfn358iD0XwjaR7qy2KPtvy65vVpSHEQs96CU1cjo2FxGaJKCsKn9+WZd4
-         aTHtmkXV2VOSJzoIHU8IRh5RJzJxo+y+hTG8IDstkqH/CsUfjhgpnM5TsKUpfNy3qrkX
-         G4yI4YKlezJ45AkaCT0X4ehVRgd2g9hgLcWFY/DAW13r4JURPYe3l4tOml+SyZ0ybLl+
-         Kvlw==
-X-Gm-Message-State: AFuF++lupCSD5byVw+mJ8cKUQTHpLqZiIqmD3n9ZcWfkV5E0IFPDRrC+
-	TsdyqEtZjIuv3KL+DkM2xvRq+L0udeUsLkUIJEj7F+HA8At1JACWw+r9HCqnDb94qVIAxsPeHuF
-	5Za4h5BQ=
-X-Gm-Gg: AYBFou01Z1+fMPvulslX5B93goxVHvZDYL6w2sOGqzXha82RY1Ln6v2SWfyEB9n2YrK
-	n9O9krenWniIaEdaOVx0DHMQLEpGLk/lffQ+TFXpA2UqufBY8gvPkJfhFUblC1FMk3eunSXcQuv
-	4XUVsGg4Xd5mlfempOa8UKElFpxDM+5ePPve7MtNPqFcY+j6bWA/pKONgIa8PWjQTRXoEWSA1qH
-	7iliEuCBdvb8e0x+PjLjzYnXgEjJaaQY+P4reYxPG0ApIs80jI14xA3DgQ9t9N9mnZhyDj7fveI
-	X2YtL92AKa5lTW9Z5xdZ3FTDunKOml8nvPUZALfy2aekxIe/HmfJrZv5KShq95hO2OG6lU37yUr
-	mMK0xH2GgOw8aGkIukbikv4Unj0jgDzjOVu53QoTiWB1wOoO4d7oAn6SmQP4uTqLd6mu02wcLjZ
-	qo816TGUWHnVpaus0+U+fbPm5T+1Ici/2FlSpHkhIUq6HtzbrljEiIUb5zqu4jz6hLCjYh4ZFwT
-	ui/Wy5r+1QHJJT6S0Wc9W51rQL7xsjtdA8h/yzNkqYB7cw5snlcJujnz8afZYEc
-X-Received: by 2002:a5d:4c8a:0:b0:484:338b:3bc1 with SMTP id ffacd0b85a97d-485872edfb5mr21283423f8f.27.1788788165665;
-        Mon, 07 Sep 2026 06:36:05 -0700 (PDT)
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=HMbHLFqC3ycXDimUwLrfX4/0UdR/L1eJNTjUnLxKvJQ=;
+        b=pM7A/qvwfdJ/UNfgCXthA9BpXqQxpyxLAhKKAzOnae45TS3m6pSx1QnbPj10VKXqWa
+         onwxqUHPLVWYM+WhTJENjZvtAhFYKhDRqSEt4B6GJgJNMBYFHHm1nrVSHkRchZPvEZi+
+         oz9Q02oUsx5dRy2lrjunHvhDAr4w4Pfd1rlVvRFEoMjEsyrkWVi/FqRXyE9NUtF9me3G
+         3axJsaTE/B45g5hw9ds32wovapMW4ZXKoKYL5d3L1GpZvdT9YBjoJlRLZGG9bWzVuRtO
+         jbwNgFi1CpQrZTiQmAv1xXq7FBlW116VzxZq2fbDq48ofokUYh/py8bd08iEqxiB6vL3
+         9LYA==
+X-Gm-Message-State: AFuF++mbwI1zFKB4Xxu6eNsdP8hvvn7O1YWsqNV0SD2uGgtZLweE8Cd/
+	y3JA2LJ7f/xmRlaXIFVzYqBd4tv2GIvZ9GEqq7xDd5VdyVibevUEEMdhmLCbfdJE55FC66e4ILc
+	RddYT3Ic=
+X-Gm-Gg: AYBFou1L73Jx1IdpkIBYB9XOPvb55b16uOkyYfnStNYWZ3dvD+vEWZWJ3csFkKY7ORq
+	kvcT3jz+AzJISKBSe+iu9vGDC2HqvV/PZpbmnfjnxsWuKAtk5KIw/mrrSCx0I3fTLHnPfAt97qY
+	QaUZ7b+tBCRuI9UxnfdXWgnVdm7sFU8b7ewrtzhouyB4D4kJCYdrH4HO7UwXF73XRIg9PCRVafH
+	mo/9kJTLgPcltC23T/sniWfAFQ+AIR6o0bZGa5yLNcyyCWko3HX9Hrv83HlwUm5N5upvGc5jzbC
+	LkB35edPWdjCn4GwyUBbmWsS5szngC9JGtF0BNDHliABgCU8qjQcTUf0sXhavtdEsUqmTYd5Rnc
+	pB4fmeqaH0HyDmBYS147B7fIRqLW5/F0RcY6ise9rf+SIUFgnw82Rf9UMXNHaS6OAx23ryYbMHm
+	SlF3k+VMZCkWb0+5cOZioN3dMP3B2Gt4X/nSnjuBZiDTvE/S2mT3jnv1pFAhEsTgHL7ygVAL+eg
+	lAiswjyZtyE83JVeUdT7C3Ud5iKx1s4L8wMYKd71PMu7XDEZaFLY6nOTUTT+9gJ
+X-Received: by 2002:a05:6000:26c4:b0:485:847c:4c64 with SMTP id ffacd0b85a97d-4858729b6f7mr42772763f8f.28.1788788166240;
+        Mon, 07 Sep 2026 06:36:06 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588394fa1sm27523836f8f.8.2026.09.07.06.36.05
         for <openembedded-core@lists.openembedded.org>
@@ -55,60 +54,167 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Mon, 07 Sep 2026 06:36:05 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 27/35] ovmf: fix tpm PACKAGECONFIG to use TPM2_ENABLE
-Date: Mon,  7 Sep 2026 15:35:23 +0200
-Message-ID: <e01b71bd0e69226399902ea4b0c58dae24ab70c3.1788787321.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 28/35] python3-mako: Fix CVE-2026-41205
+Date: Mon,  7 Sep 2026 15:35:24 +0200
+Message-ID: <0c13fdc7798a24dadb60b7dba60049558bf5c021.1788787321.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788787321.git.yoann.congal@smile.fr>
 References: <cover.1788787321.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 13:36:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245284
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245285
 
-From: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
+From: Hetvi Thakar <hthakar@cisco.com>
 
-The tpm PACKAGECONFIG passed "-D TPM_ENABLE=TRUE/FALSE", but ovmf
-renamed that macro to TPM2_ENABLE in edk2 commit 4de8d61bcec0
-("OvmfPkg: rework TPM configuration", first released in
-edk2-stable202202). Since then TPM_ENABLE has been an unknown macro
-that edk2 ignores, so TPM2 support was never compiled in, even for
-MACHINEs with 'tpm'/'tpm2' in MACHINE_FEATURES.
+This patch applies the upstream fix as referenced in [2], using
+the commit shown in [1].
 
-Use TPM2_ENABLE (as defined in
-OvmfPkg/Include/Dsc/OvmfTpmDefines.dsc.inc and consumed by
-OvmfPkgX64.dsc) so the tpm PACKAGECONFIG actually enables TPM2 support.
+The backport makes Template URI normalization strip all leading
+slashes, preventing a double-slash URI from bypassing the path
+traversal check while keeping Mako at version 1.3.2.
 
-The same commit also added a separate TPM1_ENABLE macro (TPM 1.2
-support, default TRUE), but its dsc.inc snippets are only included
-inside OvmfPkgX64.dsc's "!if $(TPM2_ENABLE) == TRUE" block, so it has
-no effect unless TPM2_ENABLE is TRUE. No separate PACKAGECONFIG knob is
-needed.
+[1] https://github.com/sqlalchemy/mako/commit/e05ac61989a7fb9dd7dcde6cfd72dc48328719a3
+[2] https://github.com/advisories/GHSA-v92g-xgxw-vvmm
 
-Signed-off-by: Eilís 'pidge' Ní Fhlannagáin <pidge@baylibre.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d6b434455544e5922d75ba07a74490e6a6df7a0c)
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-core/ovmf/ovmf_git.bb | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../python/python3-mako/CVE-2026-41205.patch  | 110 ++++++++++++++++++
+ .../python/python3-mako_1.3.2.bb              |   2 +
+ 2 files changed, 112 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-mako/CVE-2026-41205.patch
 
-diff --git a/meta/recipes-core/ovmf/ovmf_git.bb b/meta/recipes-core/ovmf/ovmf_git.bb
-index 4e6227f4849..06e96d3a089 100644
---- a/meta/recipes-core/ovmf/ovmf_git.bb
-+++ b/meta/recipes-core/ovmf/ovmf_git.bb
-@@ -13,7 +13,7 @@ PACKAGECONFIG ??= ""
- PACKAGECONFIG += "${@bb.utils.contains('MACHINE_FEATURES', 'tpm', 'tpm', '', d)}"
- PACKAGECONFIG += "${@bb.utils.contains('MACHINE_FEATURES', 'tpm2', 'tpm', '', d)}"
- PACKAGECONFIG[secureboot] = ",,,"
--PACKAGECONFIG[tpm] = "-D TPM_ENABLE=TRUE,-D TPM_ENABLE=FALSE,,"
-+PACKAGECONFIG[tpm] = "-D TPM2_ENABLE=TRUE,-D TPM2_ENABLE=FALSE,,"
+diff --git a/meta/recipes-devtools/python/python3-mako/CVE-2026-41205.patch b/meta/recipes-devtools/python/python3-mako/CVE-2026-41205.patch
+new file mode 100644
+index 00000000000..0699654b532
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-mako/CVE-2026-41205.patch
+@@ -0,0 +1,110 @@
++From e05ac61989a7fb9dd7dcde6cfd72dc48328719a3 Mon Sep 17 00:00:00 2001
++From: Mike Bayer <mike_mp@zzzcomputing.com>
++Date: Tue, 14 Apr 2026 15:45:19 -0400
++Subject: [PATCH] Fix path traversal via double-slash URI prefix in
++ TemplateLookup
++
++The URI normalization in Template.__init__ stripped only a single
++leading slash, while TemplateLookup.get_template() stripped all
++leading slashes. A URI such as "//../../secret.txt" could bypass
++the directory traversal check.  Changed to use lstrip("/") so
++both code paths handle leading slashes consistently.
++
++Fixes: #434
++Change-Id: I400b9a40aed956cc2b5826a9c8736f104e84f1a4
++
++CVE: CVE-2026-41205
++Upstream-Status: Backport [https://github.com/sqlalchemy/mako/commit/e05ac61989a7fb9dd7dcde6cfd72dc48328719a3]
++
++(cherry picked from commit e05ac61989a7fb9dd7dcde6cfd72dc48328719a3)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ doc/build/unreleased/434.rst | 10 +++++++++
++ mako/template.py             |  4 +---
++ test/test_lookup.py          | 41 ++++++++++++++++++++++++++++++++++++
++ 3 files changed, 52 insertions(+), 3 deletions(-)
++ create mode 100644 doc/build/unreleased/434.rst
++
++diff --git a/doc/build/unreleased/434.rst b/doc/build/unreleased/434.rst
++new file mode 100644
++index 00000000..452265ad
++--- /dev/null
+++++ b/doc/build/unreleased/434.rst
++@@ -0,0 +1,10 @@
+++.. change::
+++    :tags: bug, template
+++    :tickets: 434
+++
+++    Fixed issue in :class:`.TemplateLookup` where a URI with a double-slash
+++    prefix (e.g. ``//../../``) could bypass the directory traversal check in
+++    :class:`.Template`, allowing reads of arbitrary files outside of the
+++    template directory. The issue was caused by an inconsistency in how leading
+++    slashes were stripped between :meth:`.TemplateLookup.get_template` and
+++    :class:`.Template` initialization.
++diff --git a/mako/template.py b/mako/template.py
++index 82c7cba8..d8ebc949 100644
++--- a/mako/template.py
+++++ b/mako/template.py
++@@ -259,9 +259,7 @@ def __init__(
++             self.module_id = "memory:" + hex(id(self))
++             self.uri = self.module_id
++ 
++-        u_norm = self.uri
++-        if u_norm.startswith("/"):
++-            u_norm = u_norm[1:]
+++        u_norm = self.uri.lstrip("/")
++         u_norm = os.path.normpath(u_norm)
++         if u_norm.startswith(".."):
++             raise exceptions.TemplateLookupException(
++diff --git a/test/test_lookup.py b/test/test_lookup.py
++index 6a797d7a..2f7cdf0b 100644
++--- a/test/test_lookup.py
+++++ b/test/test_lookup.py
++@@ -127,6 +127,47 @@ def test_dont_accept_relative_outside_of_root(self):
++         # this is OK since the .. cancels out
++         runtime._lookup_template(ctx, "foo/../index.html", index.uri)
++ 
+++    def test_dont_accept_relative_outside_of_root_via_double_slash(self):
+++        """test that double-slash URI prefix can't bypass the
+++        path traversal check"""
+++        with tempfile.TemporaryDirectory() as base:
+++            tmpl_dir = os.path.join(base, "app", "templates")
+++            os.makedirs(tmpl_dir)
+++            with open(os.path.join(tmpl_dir, "index.html"), "w") as f:
+++                f.write("Hello")
+++
+++            secret = os.path.join(base, "secrets", "creds.txt")
+++            os.makedirs(os.path.dirname(secret))
+++            with open(secret, "w") as f:
+++                f.write("SECRET_KEY=supersecret123")
+++
+++            tl = lookup.TemplateLookup(directories=[tmpl_dir])
+++            rel = os.path.relpath(secret, tmpl_dir)
+++
+++            # single-slash prefix should also be blocked
+++            assert_raises_message(
+++                exceptions.TemplateLookupException,
+++                "cannot be relative outside of the root path",
+++                tl.get_template,
+++                "/" + rel,
+++            )
+++
+++            # double-slash prefix must not bypass the check
+++            assert_raises_message(
+++                exceptions.TemplateLookupException,
+++                "cannot be relative outside of the root path",
+++                tl.get_template,
+++                "//" + rel,
+++            )
+++
+++            # triple-slash prefix must not bypass the check
+++            assert_raises_message(
+++                exceptions.TemplateLookupException,
+++                "cannot be relative outside of the root path",
+++                tl.get_template,
+++                "///" + rel,
+++            )
+++
++     def test_checking_against_bad_filetype(self):
++         with tempfile.TemporaryDirectory() as tempdir:
++             tl = lookup.TemplateLookup(directories=[tempdir])
+diff --git a/meta/recipes-devtools/python/python3-mako_1.3.2.bb b/meta/recipes-devtools/python/python3-mako_1.3.2.bb
+index 5b7df9192f8..617bf33443c 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.3.2.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.3.2.bb
+@@ -8,6 +8,8 @@ PYPI_PACKAGE = "Mako"
  
- # GCC12 trips on it
- #see https://src.fedoraproject.org/rpms/edk2/blob/rawhide/f/0032-Basetools-turn-off-gcc12-warning.patch
+ inherit pypi python_setuptools_build_meta
+ 
++SRC_URI += "file://CVE-2026-41205.patch \
++            "
+ SRC_URI[sha256sum] = "2a0c8ad7f6274271b3bb7467dd37cf9cc6dab4bc19cb69a4ef10669402de698e"
+ 
+ RDEPENDS:${PN} = "python3-html \
 
