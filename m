@@ -1,110 +1,105 @@
-Return-Path: <efecanicoz@gmail.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 59E8EC79F9E
-	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 13:27:52 +0000 (UTC)
-Received: from mail-ej1-f52.google.com (mail-ej1-f52.google.com [209.85.218.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34725.1788787667940719947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 45448C79F9E
+	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 13:36:02 +0000 (UTC)
+Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.34927.1788788161505748401
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2026 06:27:48 -0700
+ Mon, 07 Sep 2026 06:36:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=FwYTr71t;
- spf=pass (domain: gmail.com, ip: 209.85.218.52, mailfrom: efecanicoz@gmail.com)
-Received: by mail-ej1-f52.google.com with SMTP id a640c23a62f3a-c2569aa5116so689800366b.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:27:47 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=jSl85l8W;
+ spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-48444ec4fe2so2150252f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:36:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788787666; x=1789392466; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=QUCpTQg1qPGfZAAixtvqqyIXTDcE/vweDAhDpAThnFo=;
-        b=FwYTr71t9z2nOjeVQ3D+DTqFFPv8Wflz3fUX3j4uwNKwo2G4AIVJHQIBqtboTAMV8c
-         1TEzX/vSasIPsiG/uu5+oj40DN8wZQuhqFGoWV7DzMjTfik3sIWjliDA5/bJ98hN8k+W
-         IacJ4ROWdVcBeRm2omep1qIfPw4Des9R0ZfWvGVIi5r7enXoRrAoR0CC3lui+cKeAkrR
-         lbSNinZhfQOO5OgBBw89HBXqqrWTOvJlN9WolmulSLtlRuTF9Ar6sJBtAk4zFkh+2I+4
-         W2+ZiwbUekxRdLXT2ZHZKHUwLFI8pDlvMxTDXjtrCYyfXnllT6QMp3wDudmimdiLmUSl
-         yCsg==
+        d=smile.fr; s=google; t=1788788160; x=1789392960; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=hkRY3tJ41NlrnUvTjKfEAHj/lfBCKuSlv55EBnWIoCY=;
+        b=jSl85l8WnoOkpN3j1noyDZv9JklJxVNJJFu64YjQbJSDb/WY6S4g9MBf9Ps03M0FPG
+         vQs7Xjo1q1I618LyHeNuOfpKf1ek5Lx+rOJi8b5VoAZRfnSvKTYZWxwpgfg7U4oU9IH1
+         HrgChjJnuTJJAr+6J7IWbALgVHweOVDQS+xgo=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788787666; x=1789392466;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=QUCpTQg1qPGfZAAixtvqqyIXTDcE/vweDAhDpAThnFo=;
-        b=UGzVolRTye0EvEkMI911UOE/elfngAL0XKYN8iNXunXF8670QySu8SqoI5cnJJa+qD
-         wyKM5VL8u11tB9Y4jJh/4CC8G4O8JNk8IbXpRyrX4wqQMI1a13+4UWKMgMI+TGAsfEYP
-         rwP5F8wn5tDDhVAskPHXP3Xi9TsOnF4YZulbwxryxcXT5aNh9v7f53uzF3QcN4hBReMt
-         BEI0PFvndVBBctMqkotgNGCNc7XtAH2jT4W6Lx/duxFkr1b7kEO5DrMesdPEkuBhVFMg
-         Mk0pyCjT0qf/cKCqbv+NJUiOe7fCoC48KKNC51aGy0vaYJe1G3HcvFQUQ+vwLSLZFNF1
-         IEZw==
-X-Gm-Message-State: AFuF++lfQxTuAFye9JWhkhdheCJ+4zRopI+r0wyneHCzBWhQyA6OkyTM
-	UDI4rBaU2gIOgXFuCLiH4KdyMW+6BAOIDOsEfGiZe14JoVX0JLsgqVF2rDVgGw==
-X-Gm-Gg: AYBFou1k2EcHT+aAHNCMJQoP9ASgasxOYU4+7bwQs20qgoDTEi1kYcZ7j5vi2NfwS+c
-	0SdJ077pfQ3OSHXAWvSvqrc18c0k5c95+ZarA8AvC5FMnO0wHMfsDI4TjVf7uzZr3/LbGQa/3mi
-	YhsXP1YSxbbwyG/9OPuQI6k9aqSW3nBJeqkDmF2XFRBhEa9DAv+bxhv9XavFSiW/V2ogNWl6I+V
-	zod7oKWPDzbaCSxYthvPFWk+8MaqD5ED2l1iaWb7yteFLYQfTBUqNYvWSMQqtWOhapZSJdtPd1i
-	HyHtXk6ubx36BNMRgD4mb3hs/Fjk0an1xOwrVTJjArVYYphGYDL5+JQ9gM8cH+rP2cr9/8TKudF
-	5iYsFsQxoYOMCuyXBAun4RPFmTT7YOOO/ObUiUvP4WJElPkZQtNxljqIu/UnStnW+ou0aPcwFrv
-	qez/2Ap3wXEC9UZosG9Vp0rUKmh+lNQLsxXhZtBFjcEUgJ0wcCp+9cpnQtWxLz+fmw+d3Z3EWf8
-	F52npMVxNrriVF3/8ryyw==
-X-Received: by 2002:a17:907:c48b:b0:c25:f7dc:2dd with SMTP id a640c23a62f3a-c25f7dc091fmr990519166b.30.1788787665939;
-        Mon, 07 Sep 2026 06:27:45 -0700 (PDT)
-Received: from IRS-520670-Linux.atlascopco.group ([147.161.188.113])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d4aa0b9sm474845466b.11.2026.09.07.06.27.45
+        d=1e100.net; s=20251104; t=1788788160; x=1789392960;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=hkRY3tJ41NlrnUvTjKfEAHj/lfBCKuSlv55EBnWIoCY=;
+        b=TkNXoknRIbeXJEALE/6F5As6SEdf70PcqrMerr0BWMJAdMI1jw/7wiD7J24sUCR3M4
+         /9ANJ0pqHOTiqe7V5+63kXGDMwNmJWAJCu0saC97UJvQs5EqQVhUNLWQ3Yw31cryH8b5
+         ZWIaRxrsU4BCrdzekjs/ayUcZtyUdgX9hR4gLKIpgZGvqRpYZWAH7WYYohSCQkVaT19Q
+         V3dy79y/BgIT3dcGOU6vTPkN9qvSzVYjx9obU5ygSK+I8d6gAMxl2EpoaPIc0HmdeTas
+         JwXWP+erJdmHIW2nXB7kHYduEYDwZBaspq1bd/dw1hadfVwLACSZ2Bnw0aY9OQ5IvF/O
+         r6PQ==
+X-Gm-Message-State: AFuF++n+vxzJzvWdihmckhzRiMO3gfkTUBJVevLeB3EGCNoQQFe8+rBM
+	7z3EUAPsroQf11ECuUeaECG/RgcqkyGvizJLPuLownrVwm5yNbacI1BVoyzY45Lxl/tS5Gz+kdY
+	yssPkSRI=
+X-Gm-Gg: AYBFou1rP5mDan89Ied4xjVUMj6WIlixf4mgwLkZvYzyqYZTOwkjBmcznIHlS9NhKA7
+	+lUbK6PAM68deeXYv3sK1eU/az5L2xFDWvDPQAtyTsHFJwLsbAJWaiVZOaG73qFNnuRxwUsecB8
+	RchtgPUZ++Jtsy2CeTJlcBzsxA7v1QEjxGosZko8bSo1Y90H6da2rxgirOYWhYNv71MhPNEYkHB
+	iZm6hqyvJFZIsLFR7wGqpFcRVAcULsyobyEBMavvOX87W/5rtELh+6FAR4eX0bnF4RuTDmmNmNO
+	5JUpv685EmvMnRZ2Ji2uTLpH5JKSMCjg4OMX9XKfnSyd4DmxlfcdfgcR5Bcvooz4Ys7HAznl+pM
+	m+NdM0PKLIU/WBMcQC8IccJD4U44uEKXj30mdwD4/Q/GAuOvKKce1/gYbF7GAwghzHTgyOJLj7L
+	OQ4XO1xycY2BV7UmjAbtJcAwEDaqaLBjI0J88Rm2dfcOpjiBP1jJvyQKlr2Fgo6ksyICOU0s4BR
+	WMUPgaGjX/vfJC8rMc8Hi9UUfKm3bsuLiU5Mm+NT6JhWhrtS9hMDw+j/l5MKzodJg==
+X-Received: by 2002:adf:e19e:0:b0:482:dac8:cd0d with SMTP id ffacd0b85a97d-48587288cddmr48720283f8f.21.1788788159669;
+        Mon, 07 Sep 2026 06:35:59 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588394fa1sm27523836f8f.8.2026.09.07.06.35.59
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 06:27:45 -0700 (PDT)
-From: Efe Can Icoz <efecanicoz@gmail.com>
-X-Google-Original-From: Efe Can Icoz <efe.canicoz@atlascopco.com>
+        Mon, 07 Sep 2026 06:35:59 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Efe Can Icoz <efe.canicoz@atlascopco.com>
-Subject: [PATCH] multilib: make preferred_provider mirroring deterministic
-Date: Mon,  7 Sep 2026 15:27:37 +0200
-Message-ID: <20260907132737.106279-1-efe.canicoz@atlascopco.com>
-X-Mailer: git-send-email 2.43.0
+Subject: [OE-core][scarthgap 16/35] python3-click: fix CVE_PRODUCT
+Date: Mon,  7 Sep 2026 15:35:12 +0200
+Message-ID: <0aa95f67c7e0363b59faa9d9bb60ee7c2d09b137.1788787321.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1788787321.git.yoann.congal@smile.fr>
+References: <cover.1788787321.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 13:27:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245257
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 13:36:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245274
 
-Sort PREFERRED_PROVIDER_ and PREFERRED_RPROVIDER_ lists before iterating over
-them to make multilib mirroring deterministic. Otherwise ordering becomes
-random and if base version comes after overriden version, new created
-multilib-base version is wiping previously created multilib-overriden versions
-in setVar function.
+From: Tim Orling <tim.orling@konsulko.com>
 
-Sorting providers and rproviders makes sure that base versions of any variable
-comes before any of it's override definitions.
+Recipe (PV): python3-click (8.1.7)
+Before -> After python:click -> palletsprojects:click
+Newly caught: CVE-2026-7246 (command injection in click.edit())
+Status: unpatched (fixed 8.3.3)
 
-Signed-off-by: Efe Can Icoz <efe.canicoz@atlascopco.com>
+Note: The original commit targeted python3-click_8.4.2.bb. This is
+adjusted for Scarthgap, where the recipe version is 8.1.7. The unrelated
+DESCRIPTION cleanup from the original commit is intentionally omitted.
+
+AI-Generated: Claude Sonnet 5
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 30357a26d7ce490725d1b0ac3375047d00595a5c)
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/classes/multilib_global.bbclass | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-devtools/python/python3-click_8.1.7.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes/multilib_global.bbclass b/meta/classes/multilib_global.bbclass
-index d9372d9ed1..d936dfe787 100644
---- a/meta/classes/multilib_global.bbclass
-+++ b/meta/classes/multilib_global.bbclass
-@@ -67,7 +67,7 @@ def preferred_ml_updates(d):
-     sort_versions(required_versions, "REQUIRED")
-     sort_versions(preferred_versions, "PREFERRED")
+diff --git a/meta/recipes-devtools/python/python3-click_8.1.7.bb b/meta/recipes-devtools/python/python3-click_8.1.7.bb
+index 7d91e1af838..b75d9108893 100644
+--- a/meta/recipes-devtools/python/python3-click_8.1.7.bb
++++ b/meta/recipes-devtools/python/python3-click_8.1.7.bb
+@@ -14,6 +14,8 @@ inherit pypi setuptools3 ptest
  
--    for prov in providers:
-+    for prov in sorted(providers):
-         val = d.getVar(prov, False)
-         pkg = prov.replace("PREFERRED_PROVIDER_", "")
-         if pkg.endswith("-native") or "-crosssdk-" in pkg or pkg.startswith(("nativesdk-", "virtual/nativesdk-")):
-@@ -112,7 +112,7 @@ def preferred_ml_updates(d):
-         if prov != provexp and d.getVar(prov, False):
-             d.renameVar(prov, provexp)
+ SRC_URI += "file://run-ptest"
  
--    for prov in rproviders:
-+    for prov in sorted(rproviders):
-         val = d.getVar(prov, False)
-         pkg = prov.replace("PREFERRED_RPROVIDER_", "")
-         for p in prefixes:
--- 
-2.43.0
-
++CVE_PRODUCT = "palletsprojects:click"
++
+ RDEPENDS:${PN}-ptest += " \
+ 	python3-pytest \
+ 	python3-terminal \
 
