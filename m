@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC3B4C79FA3
-	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 06:37:38 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28903.1788763051702754762
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 30DBDC79FA9
+	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 06:37:39 +0000 (UTC)
+Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.28579.1788763051698837091
  for <openembedded-core@lists.openembedded.org>;
  Sun, 06 Sep 2026 23:37:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=MNOR2yB/;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-202609070637292e1adc35270002074c-nmbknn@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202609070637292e1adc35270002074c
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=EGfCPOkv;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-1329275-2026090706372831830838b1000207c0-kakku0@rts-flowmailer.siemens.com)
+Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 2026090706372831830838b1000207c0
         for <openembedded-core@lists.openembedded.org>;
-        Mon, 07 Sep 2026 08:37:29 +0200
+        Mon, 07 Sep 2026 08:37:28 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=y4/o320ZnJGz8ndz7TqwxLbxosK772fsbOZ/LTHTpQ4=;
- b=MNOR2yB/sDwSOPlpjnETZWJfNoQmIGyjvNx1YxgYXzLOsvBcBTWdnknBhOAjfzp2S7txvn
- Xo7VSo4c9MfKMiljKuNxrZ+wSkFeIylrwOx0qxcp7l7JYvQU58W2O+rr9qCH0RVK+mCjUVyh
- XTj1XwNrElFjnnGpBZKTftp2c6w0ZaQHoUYNBtGaRCDDRrtqpBNJgvnNNJPvZXrKEExm71UO
- VLwol5Dpq57AVMhFZZuq8UgGvpSegYTHbSa5ai48H3++O8+ybI+JutugSyc4ETe/3D/XE+WG
- gbMHtssTkUVLRhwEon4iwZ2y846wd7WlRAar7iW2ctM0QXvpZ7UvCyCg==;
+ bh=NuTHXMVx56kgah/008ySd9suXzyg1Tg8cD9ZNzEJ8lA=;
+ b=EGfCPOkv0f/HI2JgurbrhHL/fdwothPJglCFPzVCgZzPiysOwvipDUHy48YiFk8rM+e681
+ vZK/mUvxLoMLSYKMmQ+vzCjAhZRRSdM5kLQ6QF0VhecjvhPjrCBkI30x/XMZX5GMYeeurb7L
+ IXyT//z49ptRLGH6hKALL0iPxB/nl4SWe88hILktW+tee5fgy7QThgQGdyEU0BXElCGnzi37
+ Y3XPoNdY/wIT+1gPM02JaZIDlZdGJxXJkNQZMjLbNSglytB1uW9TaJJzcJAUJU7tER4q7CW+
+ 4PXk3Ev0qqITj9U3pGIt6qhAQ73uxADIuD89rSeyR4eTYOxl6RttYDvw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 8/9] devtool: deploy: make pseudo calls independent of bitbake.conf
-Date: Mon,  7 Sep 2026 08:36:14 +0200
-Message-ID: <20260907063720.56742-9-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 5/9] devtool: ide-sdk: run do_install through BitBake
+Date: Mon,  7 Sep 2026 08:36:11 +0200
+Message-ID: <20260907063720.56742-6-adrian.freihofer@siemens.com>
 In-Reply-To: <20260907063720.56742-1-adrian.freihofer@siemens.com>
 References: <20260907063720.56742-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,103 +38,84 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:37:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245231
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:37:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245229
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Relying on bitbake.conf's global PSEUDO_INCLUDE_PATHS to cover the
-stripped-copy directory is fragile, and will only get more fragile as
-devtool deploy learns to deploy to more kinds of places. Add an
-env_overrides parameter to exec_fakeroot_no_d() and use it to state
-PSEUDO_INCLUDE_PATHS explicitly for each pseudo call in the --strip
-path, so bitbake.conf no longer needs a devtool-specific entry.
+Generate a Python install-task runner for the IDE SDK environment. It
+prepares Tinfoil normally, then invokes run_prepared_task() to rerun
+do_install through BitBake's worker path before deploying the result.
+
+The IDE owns configure, compile, and unit-test steps in the modified source
+tree. At deployment time, resolving task dependencies could rerun those
+steps, discard the IDE's build results, and add unnecessary delay. The
+prepared-task runner therefore executes only do_install after BitBake has
+prepared its prerequisites.
+
+This supports shell and Python task bodies and lets BitBake establish the
+fakeroot environment when the task requires pseudo.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/conf/bitbake.conf          |  2 +-
- scripts/lib/devtool/__init__.py | 11 ++++++++++-
- scripts/lib/devtool/deploy.py   | 11 +++++++----
- 3 files changed, 18 insertions(+), 6 deletions(-)
+ scripts/lib/devtool/ide_sdk.py | 42 +++++++++++++++++++---------------
+ 1 file changed, 24 insertions(+), 18 deletions(-)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 63d84cf37b..a21223e216 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -752,7 +752,7 @@ SRC_URI = ""
- PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
- PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
- PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
--PSEUDO_INCLUDE_PATHS = "/proc,${WORKDIR}/image,${WORKDIR}/package,${WORKDIR}/rootfs,${WORKDIR}/sstate-build-package/,${WORKDIR}/sstate-install-package/,${WORKDIR}/pkgdata,${WORKDIR}/minidebuginfo,${WORKDIR}/devtool-deploy-target-stripped"
-+PSEUDO_INCLUDE_PATHS = "/proc,${WORKDIR}/image,${WORKDIR}/package,${WORKDIR}/rootfs,${WORKDIR}/sstate-build-package/,${WORKDIR}/sstate-install-package/,${WORKDIR}/pkgdata,${WORKDIR}/minidebuginfo"
+diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
+index 6558137134..0b76aa448b 100755
+--- a/scripts/lib/devtool/ide_sdk.py
++++ b/scripts/lib/devtool/ide_sdk.py
+@@ -1421,26 +1421,32 @@ class RecipeModified:
+                           self.fakerootcmd, self.fakerootenv))
+         return self.write_script(cmd_lines, 'deploy_target')
  
- export PSEUDO_DISABLED = "1"
- #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index 58b02eb460..32a7bc0098 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -77,7 +77,14 @@ def exec_watch(cmd, **options):
- 
-     return buf, None
- 
--def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, **kwargs):
-+def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, env_overrides=None, **kwargs):
-+    """Run cmd under pseudo using a recipe's own FAKEROOTCMD/FAKEROOTENV.
++    def gen_install_task_script(self):
++        """Generate a script which runs do_install through BitBake."""
++        cmd_lines = ['#!%s' % sys.executable]
++        if self.cmd_compile:
++            cmd_lines += ['import subprocess',
++                          'subprocess.run(%s, cwd=%r, shell=True, check=True)' %
++                          (repr(self.cmd_compile), self.real_srctree)]
++        cmd_lines += ['import os',
++                      'import sys',
++                      'sys.path.insert(0, %r)' % os.path.realpath(
++                          os.path.join(self.bitbakepath, '..', 'lib')),
++                      'import bb.tinfoil',
++                      'os.chdir(%r)' % self.topdir,
++                      'tinfoil = bb.tinfoil.Tinfoil()',
++                      'try:',
++                      '    tinfoil.prepare(config_only=False, quiet=2)',
++                      '    tinfoil.run_prepared_task(%r, "do_install")' % self.pn,
++                      'finally:',
++                      '    tinfoil.shutdown()']
++        return self.write_script(cmd_lines, 'bb_run_do_install')
 +
-+    env_overrides, if given, is applied after fakerootenv so callers can point
-+    pseudo at a different database/allow-list, e.g. a target rootfs's own
-+    PSEUDO_LOCALSTATEDIR/PSEUDO_INCLUDE_PATHS instead of the ambient ones from
-+    FAKEROOTENV.
-+    """
-     if not os.path.exists(fakerootcmd):
-         logger.error('pseudo executable %s could not be found - have you run a build yet? pseudo-native should install this and if you have run any build then that should have been built')
-         return 2
-@@ -88,6 +95,8 @@ def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, **kwargs):
-         if '=' in varvalue:
-             splitval = varvalue.split('=', 1)
-             newenv[splitval[0]] = splitval[1]
-+    if env_overrides:
-+        newenv.update(env_overrides)
-     return subprocess.call("%s %s" % (fakerootcmd, cmd), env=newenv, **kwargs)
+     def gen_install_deploy_script(self, args):
+         """Generate a script which does install and deploy"""
+-        cmd_lines = ['#!/bin/sh']
+-
+-        # Save the original command-line args before 'set' overwrites $@
+-        cmd_lines.append('_args="$@"')
+-        # . oe-init-build-env $BUILDDIR $BITBAKEDIR
+-        # Using 'set' to pass the build directory to oe-init-build-env in sh syntax
+-        cmd_lines.append('cd "%s" || { echo "cd %s failed"; exit 1; }' % (
+-            self.oe_init_dir, self.oe_init_dir))
+-        cmd_lines.append('set %s %s' % (self.topdir, self.bitbakepath.rstrip('/bin')))
+-        cmd_lines.append('. "%s" || { echo ". %s %s failed"; exit 1; }' % (
+-            self.oe_init_build_env, self.oe_init_build_env, self.topdir))
+-
+-        # bitbake -c install
+-        cmd_lines.append(
+-            'bitbake %s -c install --force || { echo "bitbake %s -c install --force failed"; exit 1; }' % (self.bpn, self.bpn))
+-
+-        # Self contained devtool deploy-target - use saved args, not $@ (overwritten by 'set')
+-        cmd_lines.append(self.gen_deploy_target_script(args) + ' $_args')
++        cmd_lines = ['#!/bin/sh -e']
++        cmd_lines.append(self.gen_install_task_script())
++        cmd_lines.append(self.gen_deploy_target_script(args) + ' "$@"')
  
- def setup_tinfoil(config_only=False, basepath=None, tracking=False):
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index d11b04aea2..7a83d4a23a 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -277,8 +277,10 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
-         srcdir = recipe_outdir
-         recipe_outdir = os.path.join(workdir, 'devtool-deploy-target-stripped')
-         if os.path.isdir(recipe_outdir):
--            exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, "rm -rf %s" % recipe_outdir, shell=True)
--        exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir), shell=True)
-+            exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, "rm -rf %s" % recipe_outdir,
-+                                env_overrides={'PSEUDO_INCLUDE_PATHS': recipe_outdir}, shell=True)
-+        exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, "cp -af %s %s" % (os.path.join(srcdir, '.'), recipe_outdir),
-+                            env_overrides={'PSEUDO_INCLUDE_PATHS': '%s,%s' % (srcdir, recipe_outdir)}, shell=True)
+         return self.write_script(cmd_lines, 'install_and_deploy')
  
-         # Strip under pseudo so that it records any inode replacements made by
-         # the strip tool before the deployment tar reads this directory.
-@@ -292,7 +294,7 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
-         ret = exec_fakeroot_no_d(
-             fakerootcmd, fakerootenv, path,
-             '%s -c %s' % (shlex.quote(sys.executable), shlex.quote(strip_script)),
--            shell=True)
-+            env_overrides={'PSEUDO_INCLUDE_PATHS': recipe_outdir}, shell=True)
-         if ret != 0:
-             raise DevtoolError('Failed to strip files for deployment')
- 
-@@ -418,7 +420,8 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
-         remote_cmd = '%s | %s  %s %s %s \'sh %s %s %s %s\'' % (
-             tar_cmd, ssh_sshexec, ssh_port, extraoptions, args.target,
-             tmpscript, args.recipename, destdir, tmpfilelist)
--        ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, remote_cmd, cwd=recipe_outdir, shell=True)
-+        ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, remote_cmd, cwd=recipe_outdir,
-+                                env_overrides={'PSEUDO_INCLUDE_PATHS': recipe_outdir}, shell=True)
-     finally:
-         if tar_filelist_path:
-             os.remove(tar_filelist_path)
 -- 
 2.55.0
 
