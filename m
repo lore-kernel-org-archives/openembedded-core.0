@@ -1,167 +1,179 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 717EDC79F99
-	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 21:46:39 +0000 (UTC)
-Received: from mail-pg1-f171.google.com (mail-pg1-f171.google.com [209.85.215.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6150.1788817597631025858
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 65FDCC79F99
+	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 21:56:39 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6313.1788818195789844005
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2026 14:46:37 -0700
+ Mon, 07 Sep 2026 14:56:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=ixufsAzO;
- spf=pass (domain: gmail.com, ip: 209.85.215.171, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pg1-f171.google.com with SMTP id 41be03b00d2f7-cc1c7364550so4082129a12.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 14:46:37 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OUFUWG4O;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.42, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-495590dde14so56794255e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 14:56:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788817597; x=1789422397; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=r8+zc3JS9MyWDEOfX11u+KrpyHtxrV1Sanr9/sVO1Hk=;
-        b=ixufsAzObVS2NEJw7LvESlfs8zUG2rfQ30UarB8elhiv221C4JuVj5DXD3OmzSBhb7
-         atV8i2RMr1/MrfrMBj0x0gic49twrh8TWUgYNLnXiMgKZ0wwUcZZwxG8dVYCbm1+N1cu
-         aOPb5tJDE0CwB6dKcaUVLTdOgHW4rUXzhVzE2ufyGb0u8zQ8klWx5BcGefNFcyHaVYwk
-         3UUfN4N+Lw6THOmSkbSQJjP3g0UciDH2qXBcbMlsUl5Ii3yo8KWlQAt4PNYumV5dvFsX
-         HBY+PBd3X2Smdu/ehdDIEAEsfJx14dUyNYwTUphI7e8/3D1WO8Ig2xmU+6kp//YJQzw6
-         v0nw==
+        d=linuxfoundation.org; s=google; t=1788818194; x=1789422994; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=uwEY9tR//jHlmqr/5uuiVuNqv1CptfVzREWzWCqygzs=;
+        b=OUFUWG4O5ViXwhVrZP7wlpkkIjChXpcsc4UImetJTl7BZxcrq6XxWQfS5AwHTshyE+
+         etAuaBBysJIS+D1N59FChKTFMIJfd4eJ5IskqK3uxS7Hl6sO/HKNRfbdSEySgfV1K/GD
+         rm6cl92573TyqoJ3tUDnnMyNhhzMHrEGQBB0E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788817597; x=1789422397;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=r8+zc3JS9MyWDEOfX11u+KrpyHtxrV1Sanr9/sVO1Hk=;
-        b=hpm6iIsuggB9qZZRg75iOb5NnoyljEovhuoYObO86nweTEdLGw52zmt6qz43Jd8ifS
-         t8f7lC0P/RJ7Sga9opvu8DlU2SzGBjWHPzB6rI9mp0yKFA5cq3CGpxs/zEZmq8NZoDCo
-         Vz5dVSW7Sf7bumFDaCaBLK14ouee0sHpMG6weX0QtLgomFtSA0/3gR45WXK7Ehskxjvx
-         PzJYuLvnigvZ+6xQx9oBxslfgSqyPrR8Huuhauf4N8uj7GsGcYiLp2oRW2bhv5b/bK0o
-         quFfBX1opkyoeSFXIbfYyiswb2zwI1oJG8gpdKqN0typyoVxXsnD0TsxUFpKK+FHw2L4
-         DnMg==
-X-Gm-Message-State: AFuF++mm8yJ4qbVeatJOc2hQdZ3RNjnlQq9x1ANhqigmxCbOCU54PaX2
-	6TbX7JbJMA3Mt143G86jK7kMUg9XGFsn09TaJK5VhL6nF8Fx32Xr57m+gBnzPtGQ
-X-Gm-Gg: AYBFou1biH3qVnZkHIUTe35Wm1G4KDInAOidsui3CcBNXY1UQ5qqbBbYD0HFuLfrTUA
-	3y3RdvibISRLl397EBS4O1Vb86jbRA92A9RkksfO1974HlwkAlhYwpRdGCse5dk1f6pFuGIGikF
-	d6BTv/DZx0VhjfjAcxHx0AenItFIns4jJs1tyz6n5i7TLyfbWQ9InGGyCIE74zxFPco0D5jGBkK
-	68rmlb6Vr6YEQt/MEOvHWLbI9YDq77fMudKnGipeqeCZQvBhAs1iELzKSfrbgz9jA59y05k0hyC
-	vLEUpRIlFetN8Ob/gBZGa9KNWsMB0C7ASBsOLzWL/Ywqc+bLqA1FgiQPiYxoy9JYqVdbNjEb5to
-	B8wZhm8e6D6peIBHcAbaVp1CiQeQXQpzcf0l9ARHa4eBXV+tMnWjxipe2ehUPmnmoJCCQV3tyCs
-	Xi6C0L3xWaM8ouV+MjBwtlZ0yxCyB8rd7xrpTo9LWZeb9BZ/uL3SuS8KfDgq2T+enGPCurGtOE
-X-Received: by 2002:a05:6a00:8c02:b0:85b:635e:7814 with SMTP id d2e1a72fcca58-86169e6ed2bmr35785667b3a.12.1788817596923;
-        Mon, 07 Sep 2026 14:46:36 -0700 (PDT)
-Received: from NVAPF55DW0D-IPD.. ([203.211.104.195])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-8615371e5f9sm4763519b3a.47.2026.09.07.14.46.33
+        d=1e100.net; s=20251104; t=1788818194; x=1789422994;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=uwEY9tR//jHlmqr/5uuiVuNqv1CptfVzREWzWCqygzs=;
+        b=jnzCZic4dxvkAwoxysK5yaynqSoj2eXZCvE78ZjwsAZPftxHFYHkSU5MJxk6lb3f8+
+         NXQrbRhCaxCaxJUQ83oVvsNSXwhNQ1mHASzDxTuZc26zNrREXRrj9svbG8zAuDsc3j+o
+         0dvgRMB9Mae9nfyI4wIwWXMdOI8a849lUuNj8lU8RwnkOBNh7XvKfu5uoVPdorFdguLy
+         D0TD6lNIaMGDH507YglsDVXaVagL4Lm3Z8AM6RLhpwffsVV9Sv+HIUQPHeUCxAttef3y
+         rLPwDb2VKDTV823hKdZsqrHgVBZsHc/5RJjbULgq8TcYe37l05wh5kZ/In7LEIfv5SAM
+         Pt6Q==
+X-Forwarded-Encrypted: i=1; AKwUvBy5ej/rYRa/w7ezddMt3BztH35pMDrC4EDfXWsQHBv509stQgVqslOq0HrkYE4A/nugM5LBTrS0mdfaEoc/dO2tEQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++n2qOnmDvvQec3iG5d+psk38MZx/kDVahdptK1KgNk0jJhOTMJD
+	q6TE3qe+K1htE37bCappXY7x8t+Aaajwm0y/joT3Vwxy7MewDyFZfONFKaaf5clG6RHXgCrZPPq
+	+ELhwnn0=
+X-Gm-Gg: AYBFou3BuQbtf6L190jMkwomF0SxdMwyjBllj0LvKfD/fI9pkbJ7sb1N9wha5d0yBft
+	sIR9R+HHOZjU762k+8boCelBjcZJE7AD1mgtyKev3aTvNaUQQcsSuk4zJgLp+LS/ylHtWpx/wjj
+	ZBWGqKgOgf/1cqU0PdrUC0fvmK6xQPNm4kIbz5sp8tVO5IlNiPVd6CYfd2z6wfH2yJbxp1IJ6Rx
+	vfqo/CjuEuVIvh1e8p0Jzo5+Oj8YDI9y6FEQbgqYbiUoTS84ZRhr/S0lbHyMEeZiO9CtgqCohsk
+	ygue/1IE6dfXFiVwSp9UfRMS0LsdWnIGypx2Kt850IaLFzL5E3fY4n3nJ1+kbpx+INMVswHwILA
+	CFIhaRrN9PISWqujA0QFsX0QJm8/500G3uGQAIR/aq0W8+zlbqGgtAZUHSb8PeuF6gZXbmRyYnB
+	8A2NcWijtB4V2SbckzijulcttB0rXojQgDRyJOr2oD6UHSS06NK31kHKTwL5j91tppgArA1IK1k
+	dhLi7JLHZii+jC7asgoyp9esDwhoH8Msq0Tczol7V503DphrEL5WA==
+X-Received: by 2002:a05:600c:4ecc:b0:49d:870:7a69 with SMTP id 5b1f17b1804b1-49d08707aafmr227168915e9.12.1788818193766;
+        Mon, 07 Sep 2026 14:56:33 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e2ae:fec4:d03e:3153? ([2001:8b0:aba:5f3c:e2ae:fec4:d03e:3153])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cfbdacc45sm310809535e9.11.2026.09.07.14.56.32
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 14:46:36 -0700 (PDT)
-From: ankur.tyagi85@gmail.com
-To: openembedded-core@lists.openembedded.org
-Cc: Jaipaul Cheernam <jaipaul.cheernam@est.tech>,
-	Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][wrynose][PATCH 2/2] ca-certificates: upgrade 20260601 -> 20260816
-Date: Tue,  8 Sep 2026 09:46:21 +1200
-Message-ID: <20260907214622.3484241-2-ankur.tyagi85@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260907214622.3484241-1-ankur.tyagi85@gmail.com>
-References: <20260907214622.3484241-1-ankur.tyagi85@gmail.com>
+        Mon, 07 Sep 2026 14:56:32 -0700 (PDT)
+Message-ID: <19734acbbb01f4ad17ab04a23fd92295b0e5db6f.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v2 2/3] toolchain-scripts: source
+ target-specific environment setup scripts
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Harish.Sadineni@windriver.com, openembedded-core@lists.openembedded.org
+Cc: Sundeep.Kokkonda@windriver.com
+Date: Mon, 07 Sep 2026 22:56:32 +0100
+In-Reply-To: <20260807093116.3680514-2-Harish.Sadineni@windriver.com>
+References: <20260807093116.3680514-1-Harish.Sadineni@windriver.com>
+	 <20260807093116.3680514-2-Harish.Sadineni@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 21:46:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245307
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 21:56:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245308
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+On Fri, 2026-08-07 at 02:31 -0700, Sadineni, Harish via lists.openembedded.=
+org wrote:
+> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>=20
+> YOCTO [#15061]
+>=20
+> Export `OECORE_TARGET_SYS` in the generated SDK and tree environment
+> setup scripts, and source any `*.sh` files from
+> `environment-setup.d/${TARGET_SYS}` in addition to the existing
+> `environment-setup.d` directory.
+>=20
+> This complements the rust-cross-canadian changes, where Rust
+> environment setup scripts are installed under a target-specific
+> directory. By sourcing only the scripts that match the active target,
+> the SDK avoids loading environment settings for other target variants,
+> such as mixing 32-bit and 64-bit configurations in multilib SDKs.
+>=20
+> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+> ---
+> =C2=A0meta/classes-recipe/toolchain-scripts.bbclass | 8 ++++++++
+> =C2=A01 file changed, 8 insertions(+)
+>=20
+> diff --git a/meta/classes-recipe/toolchain-scripts.bbclass b/meta/classes=
+-recipe/toolchain-scripts.bbclass
+> index d94dcdee39..f0f599959d 100644
+> --- a/meta/classes-recipe/toolchain-scripts.bbclass
+> +++ b/meta/classes-recipe/toolchain-scripts.bbclass
+> @@ -76,6 +76,7 @@ toolchain_create_sdk_env_script () {
+> =C2=A0	echo 'export OECORE_MESON_HOST_CPU_FAMILY=3D"${@meson_cpu_family('=
+TARGET_ARCH', d)}"' >>$script
+> =C2=A0	echo 'export OECORE_MESON_HOST_CPU=3D"${TARGET_ARCH}"' >>$script
+> =C2=A0	echo 'export OECORE_MESON_HOST_ENDIAN=3D"${@meson_endian('TARGET',=
+ d)}"' >>$script
+> +	echo 'export OECORE_TARGET_SYS=3D"${TARGET_SYS}"' >> $script
+> =C2=A0
+> =C2=A0	echo 'unset command_not_found_handle' >> $script
+> =C2=A0
+> @@ -110,6 +111,7 @@ toolchain_create_tree_env_script () {
+> =C2=A0	echo 'export OECORE_MESON_HOST_CPU_FAMILY=3D"${@meson_cpu_family('=
+TARGET_ARCH', d)}"' >>$script
+> =C2=A0	echo 'export OECORE_MESON_HOST_CPU=3D"${TARGET_ARCH}"' >>$script
+> =C2=A0	echo 'export OECORE_MESON_HOST_ENDIAN=3D"${@meson_endian('TARGET',=
+ d)}"' >>$script
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 echo 'export OECORE_TARGET_SY=
+S=3D"${TARGET_SYS}"' >> $script
+> =C2=A0
+> =C2=A0	toolchain_shared_env_script
+> =C2=A0
+> @@ -172,6 +174,12 @@ if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d=
+" ]; then
+> =C2=A0	=C2=A0=C2=A0=C2=A0 . \$envfile
+> =C2=A0=C2=A0=C2=A0=C2=A0 done
+> =C2=A0fi
+> +if [ -d "\$OECORE_NATIVE_SYSROOT/environment-setup.d/\$OECORE_TARGET_SYS=
+" ]; then
+> +=C2=A0=C2=A0=C2=A0 for envfile in \$OECORE_NATIVE_SYSROOT/environment-se=
+tup.d/\$OECORE_TARGET_SYS/*.sh; do
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 . \$e=
+nvfile
+> +=C2=A0=C2=A0=C2=A0 done
+> +fi
+> +
+> =C2=A0EOF
+> =C2=A0}
 
-Source: debian/changelog
+Thanks to your other emails, I think I finally understand what is going
+on here. Sorry for being a bit slow in understanding the issues
+involved. I think what has been confusing me is that we have this code
+which was meant to handle the target specific scripts:
 
-ca-certificates (20260816) unstable; urgency=medium
+https://git.openembedded.org/openembedded-core/commit/?id=3D2d9466734f0c0c9=
+0724820bc36992b2800ffa4d0
 
-  * Update Mozilla certificate authority bundle to version 2.90
-    The following certificate authorities were added (+):
-    + "SECOM TLS ECC Root CA 2024"
-    + "SECOM TLS RSA Root CA 2024"
-    + "Telia EC TLS Root CA v3"
-    + "Telia RSA TLS Root CA v3"
-    The following certificate authorities were removed (-):
-    - "Atos TrustedRoot 2011"
-    - "Entrust Root Certification Authority"
-    - "SecureSign Root CA12"
-    - "ePKI Root Certification Authority"
+which I appear to have added in 2014. I can't find any record of
+anything actually successfully adding a target environment.d file using
+the above layout, everything is nativesdk based as far as I can see.
+I'm not even sure it is possible to add such a thing easily.
 
- -- Julien Cristau <jcristau@debian.org>  Sun, 16 Aug 2026 23:04:36 +0200
+So your approach is probably the right one but at the same time, we
+should probably remove this other confusing one, assuming we can find
+nothing installing such scripts. That should reduce the confusion and
+code complexity a little.
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit e639396818e7152896e75364cff5fb97ae19cb32)
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
----
- ...vert-mozilla-certdata2pem.py-print-a-warning-for-e.patch | 6 +++---
- ...date-ca-certificates-don-t-use-Debianisms-in-run-p.patch | 2 +-
- ...date-ca-certificates-use-relative-symlinks-from-ET.patch | 2 +-
- ...certificates_20260601.bb => ca-certificates_20260816.bb} | 2 +-
- 4 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-support/ca-certificates/{ca-certificates_20260601.bb => ca-certificates_20260816.bb} (97%)
+This does bring one further detail we need to get right, which is the
+name of the directory.
 
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch b/meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch
-index 1226508c98..001b468624 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/0001-Revert-mozilla-certdata2pem.py-print-a-warning-for-e.patch
-@@ -1,4 +1,4 @@
--From 743774cd53ed1c45bb660eddacf6dadb5ee3e145 Mon Sep 17 00:00:00 2001
-+From 8ea56b7d5eadb04309dc3cf1e6b0d94d1d053d80 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex@linutronix.de>
- Date: Mon, 18 Oct 2021 12:05:49 +0200
- Subject: [PATCH] Revert "mozilla/certdata2pem.py: print a warning for expired
-@@ -16,10 +16,10 @@ Signed-off-by: Alexander Kanavin <alex@linutronix.de>
-  3 files changed, 1 insertion(+), 13 deletions(-)
- 
- diff --git a/debian/changelog b/debian/changelog
--index dbe3e9c..496e05d 100644
-+index 7ad495f..058ef5e 100644
- --- a/debian/changelog
- +++ b/debian/changelog
--@@ -156,7 +156,6 @@ ca-certificates (20211004) unstable; urgency=low
-+@@ -234,7 +234,6 @@ ca-certificates (20211004) unstable; urgency=low
-      - "Trustis FPS Root CA"
-      - "Staat der Nederlanden Root CA - G3"
-    * Blacklist expired root certificate "DST Root CA X3" (closes: #995432)
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch b/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch
-index 1a29da756f..dcfa355411 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch
-@@ -1,4 +1,4 @@
--From 63086d41f76b1c3357e23c6509df72d3f75af20c Mon Sep 17 00:00:00 2001
-+From bab2e13b69af12c1864cccf371ebc4ef57a6fec2 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@intel.com>
- Date: Mon, 6 Jul 2015 15:19:41 +0100
- Subject: [PATCH] ca-certificates: remove Debianism in run-parts invocation
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
-index 929945b56f..4d97c81b0d 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
-+++ b/meta/recipes-support/ca-certificates/ca-certificates/0003-update-ca-certificates-use-relative-symlinks-from-ET.patch
-@@ -1,4 +1,4 @@
--From a69933f96a8675369de702bdb55e57dc21f65e7f Mon Sep 17 00:00:00 2001
-+From 8a5b4e2dd1479de0338db7a7234d037ef0f71c2f Mon Sep 17 00:00:00 2001
- From: =?UTF-8?q?Andr=C3=A9=20Draszik?= <andre.draszik@jci.com>
- Date: Wed, 28 Mar 2018 16:45:05 +0100
- Subject: [PATCH] update-ca-certificates: use relative symlinks from
-diff --git a/meta/recipes-support/ca-certificates/ca-certificates_20260601.bb b/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
-similarity index 97%
-rename from meta/recipes-support/ca-certificates/ca-certificates_20260601.bb
-rename to meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
-index 1bc64fe34a..9dd3a05948 100644
---- a/meta/recipes-support/ca-certificates/ca-certificates_20260601.bb
-+++ b/meta/recipes-support/ca-certificates/ca-certificates_20260816.bb
-@@ -14,7 +14,7 @@ DEPENDS:class-nativesdk = "openssl-native"
- # Need rehash from openssl and run-parts from debianutils
- PACKAGE_WRITE_DEPS += "openssl-native debianutils-native"
- 
--SRC_URI[sha256sum] = "7ab6301f7f34eef90a4d278647c260bc0762e0e14561f4649854cf4b0d4bea21"
-+SRC_URI[sha256sum] = "d939bcdd0cb058712cf4175bac76997676eb8b68fe9473765e1b40fb3d5b186a"
- SRC_URI = "${DEBIAN_MIRROR}/main/c/ca-certificates/${BPN}_${PV}.tar.xz \
-            file://0001-update-ca-certificates-don-t-use-Debianisms-in-run-p.patch \
-            file://0003-update-ca-certificates-use-relative-symlinks-from-ET.patch \
+The recipe is named: PN =3D "rust-cross-canadian-${TRANSLATED_TARGET_ARCH}"
+
+i.e. it regenerates if TARGET_ARCH changes.
+
+You're placing the files in TARGET_SYS, which is not equal to
+TARGET_ARCH. Which one is correct? If we build a target which combines
+glibc and musl, would we need a different rust-cross-canadian for each
+libc?
+
+I suspect PN is wrong and it should also use TARGET_SYS?
+
+The patches in this series also need to be the other way around - add
+the search path in first, then use it in the next patch.
+
+Cheers,
+
+Richard
 
