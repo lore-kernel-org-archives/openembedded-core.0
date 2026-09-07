@@ -2,50 +2,50 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ADB80C79FAC
-	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 13:36:03 +0000 (UTC)
-Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com [209.85.221.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34919.1788788157202117607
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 767DEC79FB2
+	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 13:36:04 +0000 (UTC)
+Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.34920.1788788157634500821
  for <openembedded-core@lists.openembedded.org>;
  Mon, 07 Sep 2026 06:35:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=yqh8oNmT;
- spf=pass (domain: smile.fr, ip: 209.85.221.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f42.google.com with SMTP id ffacd0b85a97d-48584dc164fso3372652f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:35:56 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=DlFncPio;
+ spf=pass (domain: smile.fr, ip: 209.85.221.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-48441a2ba14so3128682f8f.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:35:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788788155; x=1789392955; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1788788156; x=1789392956; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=upndc3jtG6zuoJ2tRjcDWhb5064N6xIUNBjEFkdXOe4=;
-        b=yqh8oNmToWvdegao1LltUA0zwgbhAsKAhz8xfklvQQL5pyuZ/QKs+XtQvfIyJthQCv
-         +ZSVCS1UfR24ag/k+nxFaJ5gx8/wq23lADRZhHXq+d4Bo2EMc7kGb348npAFVlgbKDbG
-         tHHjRbP7AshKrRo1RICFfsHmLNW0zm3HtzKN4=
+        bh=tbJEenHJTgzjq8aKyuDVIPlbcVrK0u2r7YzPX8IT8+k=;
+        b=DlFncPioMpMZWR2lNQF0fCISPPheNZg6lqdEh/gmCyiUESsWE74Gb/HqLWwpxiRaTJ
+         gW91FuNESLWzLOxAoogHZ00vnbx0rvB4lyXFDG+7pcnkGnNlVfXzSu2BorkUw1CgBhX+
+         reGOwfqQRBpOHGPS1ZkSbycYd/QEZmMbzJS1Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788788155; x=1789392955;
+        d=1e100.net; s=20251104; t=1788788156; x=1789392956;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=upndc3jtG6zuoJ2tRjcDWhb5064N6xIUNBjEFkdXOe4=;
-        b=sr01Ttvl7Njb+JiivT17icsXHKHZD8Gn0RkkF+0tswynN3s6nFqW/EKTUuAECZbfRy
-         hdmcBEQA0Nhesd2dJzpt/Jm+Khq2mPEhcKl3LJ9Ew0ozBgHUqEALC5HT0FrpfC/tEczr
-         OCNjNpz7IBsk5IsEt+WNt0FmBW1efoN4TrBtBpjQVvD47BjUgNGhf9ENLd/L/gvEQyyM
-         dv2rU+wa6vf8+7zY8iaL+ZTHQLTavhqBdEm40GtJ3lUx563A1hJ/WddeadyAJz70UNAj
-         autNYBjkBfnx8G7QF02QNhpfgCXYc/DCWEgUSAkm1hWrHJitro886oeqGW85+Z9oD/uL
-         u68w==
-X-Gm-Message-State: AFuF++nKY59SpsAJUa38ErGd6PWNtXURhUFsBFJJKzbwa846DvpyxVvE
-	WCEHkoiFnf5tnwBsjd2RbCoE0D321BebwQXsHaUwRJPvR+ZLQF4r8jUqckYJwLiaZIFibl/gZRc
-	OevpK9po=
-X-Gm-Gg: AYBFou10tD4EvnKgD6AW05tgT3Ucsjv7ymg9Po1xOSA9nXC9u7CbGdf1rBelkcr9+M0
-	+C8ycjArLBL3uqoJu7ILSejxlCHMBD0AJWO0XOwLTaGQt+N79qs9mExBMxhlkNk26TT/RPTG0da
-	35cUvTgmKyrf5KdASwJ5LT8C+DalWYDxxX9y5vXaZ5WCSZ7dryvyBS6hwDg5oqeaFLj3Eu6y6CX
-	jNnO8ZxyBQJC0f4Na2ym0LyrulZtFMhogGTWoyU0ty0fsQOgpT3D7kso/1PN1g4yAzN6MHIXe+j
-	gVGRQkJayl33Bd6MWW0bkKQ88la6c4sgC7uv5Z+eCNyI4t2PqDC26w9TX9DaefqsLR/xd5muyZW
-	4eCBo0Sh1WtZdk28F4BQap+IqDG6vQnmAXDtfG9FAIkmRNQ19X8lvtf6H5ra0fBE0oH/zd+NwO7
-	bLy7RVVoQ0ULBGN0NsZ8bkLrgMDzNbUvVtFVcIS+AcDqCOGVyog/9+MCn+4l+gTQG7YuXl2e7tF
-	7CTubLNmG5K5Q3k2/xGvSFiOhzBP3/U5qHMAwJ5WksYzVPsjJpZg5tMLw4aDo9r
-X-Received: by 2002:a05:6000:4a0a:b0:485:8a46:704d with SMTP id ffacd0b85a97d-4858a46713emr22311882f8f.31.1788788155450;
+        bh=tbJEenHJTgzjq8aKyuDVIPlbcVrK0u2r7YzPX8IT8+k=;
+        b=HiJrrNGbqmihgR1lNkY8O6pA6f2Jml3ZKJUljFwMeHEm4rUn8Ecv6nDsampAcynn5m
+         UTW6m4aIze/e++QmNNjawxcPmlF+K1EaC54i5hXbMd/YPNRa7xsUYQPRGvsczV0tcYff
+         A4pNVxN0m7hIKKzVdyPp8fTul3z5n+X/dp5Kx4wrtDRhbUuz+H4c4FK6PO2RrrR2nSoE
+         Be7OypixzhA9NmSXHl+jEaf/dfsy7Naio5bc/C5vcDyytoKIHTWAyYXPlLv2X7IjXRcm
+         IU8lKGINoIEJKiR21jBUCU+GD7O9Loty2Y89p8jr16a9N47KFRwJnM+WHyNEzEF2JhNc
+         B5uQ==
+X-Gm-Message-State: AFuF++lvKsAr8ANBHYprRZJ9jviGz24rkNalt038fpfCxphW7uUTvssJ
+	EPfIq4kMqpiyI9lfGznyw+ScFqTu21qUjR0gwbinaYBf8WPctxtCn0RyA6MjRJub50/fQhGuCDl
+	e0X8Mh0o=
+X-Gm-Gg: AYBFou0U70zpZCoNSm7B8sKAx7MO+7ij9jQTgNMcHYbLC/63ryVzECUigq9+t0HKuOt
+	Cs4ZRK9ekvEUgdwPbGlsucEUtrwvQzZgk48hJMR7veD488jk76s3fxt3VDA0f9y6fHw9ybtSRVl
+	x6MGzmdLZMWyWFNjfDqNzsQjO2Dwc+wJbk79yUJyYnVSjk2w3PtqlpiM6MAjjtG9o5/xXLKPzL5
+	LYm+0KTAlyFsYTLZsEcefgJZekEG85DOaKwDKpYAjuLFsXgQunvWAJ2EzJYNrC7YU2VoahWKB2f
+	BcvW1eaQeh4rhbeZFZIVD40xK0/e0nwvNt8k+WF/GHU+Ft6hWzh6Oif5BMeUXaECWklWdM5klCS
+	yeThuFTWru5G/BPp//REZTEK6GG+ptjC+B23RGFNJODj9HqmysbBsBbvFZX07ogbD0QQfg4Z09v
+	xYHpXfneeemTBiQxQoApCY8AOMaD6OTlMg3bOscMLimErYzA7yLUUNeFtgcbcuFjD0UFNTvCGsh
+	F4rOdGPdAaqHm6x7iyDhtLEr5sSfv+0Q+lSlItMhvsDRJAGSSOXVBSZJfMfhRxX
+X-Received: by 2002:a05:6000:46c8:b0:485:847f:fd8b with SMTP id ffacd0b85a97d-48587091978mr18364235f8f.5.1788788155886;
         Mon, 07 Sep 2026 06:35:55 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588394fa1sm27523836f8f.8.2026.09.07.06.35.55
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Mon, 07 Sep 2026 06:35:55 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/35] libevent: use libtool to install test binaries
-Date: Mon,  7 Sep 2026 15:35:04 +0200
-Message-ID: <9d8cfd0d991cc03afe26983abe16dcb5ca341898.1788787321.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 09/35] libevent: merge inherit statements
+Date: Mon,  7 Sep 2026 15:35:05 +0200
+Message-ID: <d7da98bea1a60b2f31806c9f2dd4f499737b22ad.1788787321.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788787321.git.yoann.congal@smile.fr>
 References: <cover.1788787321.git.yoann.congal@smile.fr>
@@ -65,42 +65,44 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 13:36:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245266
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 13:36:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245267
 
-From: Ross Burton <ross.burton@arm.com>
+From: Pratik Farkase <pratik.farkase@est.tech>
 
-If libtool builds a binary it's best to use libtool to install it, as
-otherwise you might install a wrapper script or need to make assumptions
-about where libtool has put the real binary (as this isn't always .libs)
+Merge the separate inherit statements into a single one for
+improved readability and consistency with OE style.
 
+No functional change intended.
+
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Ross Burton <ross.burton@arm.com>
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 1dc0e5e240adf61561c899108d2fb5be71e648e4)
+(From OE-Core rev: 99792ab6ba188a7623804e587edf8de23690ad3f)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-support/libevent/libevent_2.1.12.bb | 8 ++------
- 1 file changed, 2 insertions(+), 6 deletions(-)
+ meta/recipes-support/libevent/libevent_2.1.12.bb | 4 +---
+ 1 file changed, 1 insertion(+), 3 deletions(-)
 
 diff --git a/meta/recipes-support/libevent/libevent_2.1.12.bb b/meta/recipes-support/libevent/libevent_2.1.12.bb
-index 25388fb4d7f..be690fe94e9 100644
+index be690fe94e9..32c61768d93 100644
 --- a/meta/recipes-support/libevent/libevent_2.1.12.bb
 +++ b/meta/recipes-support/libevent/libevent_2.1.12.bb
-@@ -52,12 +52,8 @@ do_install:append() {
- }
+@@ -28,13 +28,11 @@ S = "${WORKDIR}/${BPN}-${PV}-stable"
+ PACKAGECONFIG ??= ""
+ PACKAGECONFIG[openssl] = "--enable-openssl,--disable-openssl,openssl"
  
- do_install_ptest() {
--	install -d ${D}${PTEST_PATH}/test
--	for file in ${B}/test/.libs/regress ${B}/test/.libs/test*
--	do
--		install -m 0755 $file ${D}${PTEST_PATH}/test
--	done
+-inherit autotools github-releases
++inherit autotools github-releases ptest multilib_header
+ 
+ # Needed for Debian packaging
+ LEAD_SONAME = "libevent-2.1.so"
+ 
+-inherit ptest multilib_header
 -
-+        install -d ${D}${PTEST_PATH}/test
-+        ${B}/libtool --mode=install install ${B}/test/regress ${D}${PTEST_PATH}/test/
-         # handle multilib
-         sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
- }
+ DEPENDS = "zlib"
+ 
+ PACKAGES_DYNAMIC = "^${PN}-.*$"
 
