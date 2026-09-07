@@ -1,199 +1,188 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3061C79FAE
-	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 06:37:39 +0000 (UTC)
-Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.28580.1788763051699160064
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C725FC79F89
+	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 07:41:50 +0000 (UTC)
+Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.29626.1788766902646488573
  for <openembedded-core@lists.openembedded.org>;
- Sun, 06 Sep 2026 23:37:32 -0700
+ Mon, 07 Sep 2026 00:41:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm2 header.b=HVWdLYzl;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-20260907063728a77935ffbf00020714-2jnn53@rts-flowmailer.siemens.com)
-Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 20260907063728a77935ffbf00020714
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 07 Sep 2026 08:37:28 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm2;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=pS11joJ71i5fICEMrki89ZNucs3an6B+OJrT7MzQYDM=;
- b=HVWdLYzlpbz/1Y4IpMTSm5RUUY/c15DQcymOlZiYnLUiAOpL0btp75dL5RHb0gsk/DFPg4
- I6XHCScAG766+QqsAURyHs3YSRAd6iWPG55KmEuWC+jvQK8BzJ1hYF4DpBHpZqUZ8KIS2Rkq
- zPdaKvnsRn1Wjww4956fvSIuMX2PShk6eTfct1Y+8p5MGvDwXrd/9lqEr9MaMv2jNvyBRofm
- EaUuX5j5YQnFVcbxJqpRREf6Or+jdpb5yRvbiRoI0NFCCdP6gqOksWlceUfZ6W1gkr//MyD4
- 9bzwPV2F2Lt73lv6pGbJurF0LahafRixzeosrh1K7X21tVbt1l74oCxw==;
-From: AdrianF <adrian.freihofer@siemens.com>
+ dkim=pass header.i=@mvista.com header.s=google header.b=Ds2se5iv;
+ spf=pass (domain: mvista.com, ip: 209.85.215.181, mailfrom: hprajapati@mvista.com)
+Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cbb8b54fcf8so3452687a12.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 00:41:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1788766902; x=1789371702; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=k9Uc/bzwtfJiWsv7hBQdQwm0whjdzQ4JjjRUbUe1/sI=;
+        b=Ds2se5ivRfFpRf/CvTpFZuCWhQ5dGtySQ/N+zQh7NuQKTmm7xBiGofH49AYiU6GpPM
+         pdYYJJRBNH31xHEiZFg8UsUYLBJnRF1+CWdZaIAOw9sk9CbOI6eo3t8zWS4LrkKEaRfV
+         0LHSncbYmXjmFrUbsycUYQ/qVp9Xv91gFmCDg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788766902; x=1789371702;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=k9Uc/bzwtfJiWsv7hBQdQwm0whjdzQ4JjjRUbUe1/sI=;
+        b=kZGzM2a4nezU8WHyP0XGLxtiGVEK5s1SMQXBt+Gr3mPNAbbihRyqhzHVdQgvK3jnOp
+         lw+HgEus89SAOHjzFU3XbyjUh6r2nSYBmFpz1Su4jpOAz+nFhmKQPqJslMD+lYoUI7xC
+         A5wqZ2sjGJ1rVl5iCGEWce/J0Gxu0HKIAIO+7zqzH3eStNEztjLTuEq+DH56ADW51hPQ
+         Jmgq5+dDYd6XKcIHFYCzzC60Q5rhyPfNZVedfuKZJ5DADh5/62Od+CHV0IdsfLlrWiVm
+         9CJqmvy6r/7BaYtLnM/baAuToBrmryB5+hIM0nkqKMm32xNuaW9/MHUilPZ/NksC6Que
+         Uwbw==
+X-Gm-Message-State: AFuF++mKZ8JNY9pUFUqEAJR8QgNXd/LvmkPQBWrVpx9vycIFkWn0tyT1
+	udVxqdTyLMwN+2UocvtrKU8+6TetKDBW7skpg4r1mKHoglDD6lYfxdFmh8VXfCdxNNZ7cAbeyVz
+	4yDNs5ak=
+X-Gm-Gg: AYBFou11j21GkWlK7mJaSCkW9PD6eKfLJMfNUDklRCXdshuYk6bLrLD5quZgTynj6of
+	YA0m89BfqTVMOvayyG+zzscM6cx173AJOCxvfxGXb8RHOcQYDWSbOp0jabcZUdjfpecVGDR5iPU
+	oiIo1HS2qaRD12rZ3+CV7TbsOma/cXGFjBYI1btXX6ifsSNrzxEmKPTQLn/rfg0SKBoYyWPmlkH
+	sq9sS/SwhwwOg6XLZNE2WmhxMK9Y8sWSS/xMTT2irz2ewUk399f9G7RGabhMEvmns1mohy3MO9Z
+	7IjMH+DQqSPc45TXzbnkdENtknxpdMbesmKhNyEeUKLWl1+yeOngH6Ggf/lMcOGUILk0JfpQyDN
+	r9b4GtdO50dAUeWD/mbnP9qTqczHSbHNSTM+FiwF9UYu05zQSYStAh4Pa+w4rB4YRl2pOJV0VVM
+	cn3osrIIx/ZLfnL6mbk7S2PLa7GET+z7FEwsveIPakth+b6Wa4sVtgzgcJoZeJkFZWu24rPE7+H
+	Jk=
+X-Received: by 2002:a17:90b:3944:b0:392:b509:b1a5 with SMTP id 98e67ed59e1d1-39b261b19d9mr35651505a91.14.1788766901529;
+        Mon, 07 Sep 2026 00:41:41 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([103.250.136.170])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339a62be87sm22577832eec.6.2026.09.07.00.41.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 07 Sep 2026 00:41:40 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH v2 4/9] oe-selftest: tinfoil: test prepared task runner
-Date: Mon,  7 Sep 2026 08:36:10 +0200
-Message-ID: <20260907063720.56742-5-adrian.freihofer@siemens.com>
-In-Reply-To: <20260907063720.56742-1-adrian.freihofer@siemens.com>
-References: <20260907063720.56742-1-adrian.freihofer@siemens.com>
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] perl: fix for CVE-2026-42496
+Date: Mon,  7 Sep 2026 13:11:27 +0530
+Message-ID: <20260907074128.234508-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:37:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245228
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 07:41:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245238
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+Pick patch from [1] also mentioned at NVD report in [2]
 
-Add shell and Python marker tasks to pseudo-pyc-test, with and without
-fakeroot. Build the tasks normally to prepare their dependencies, remove
-their markers, then rerun them through Tinfoil's run_prepared_task() API.
+[1] https://github.com/jib/archive-tar-new/commit/17c873492a05eddc0de18c1485e0b2cccd5a9158
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-42496
+[3] https://security-tracker.debian.org/tracker/CVE-2026-42496
 
-This verifies that a prepared task can be rerun through BitBake's worker
-path without resolving its dependencies, including shell and Python task
-execution within and outside a pseudo session as needed by devtool ide-sdk.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../pseudo-pyc-test/pseudo-pyc-test.bb        | 45 ++++++++++++++
- meta/lib/oeqa/selftest/cases/tinfoil.py       | 60 +++++++++++++++++++
- 2 files changed, 105 insertions(+)
+ .../perl/files/CVE-2026-42496.patch           | 86 +++++++++++++++++++
+ meta/recipes-devtools/perl/perl_5.38.4.bb     |  1 +
+ 2 files changed, 87 insertions(+)
+ create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-42496.patch
 
-diff --git a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
-index 12dc91a8f3..f6b31b63cd 100644
---- a/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
-+++ b/meta-selftest/recipes-test/pseudo-pyc-test/pseudo-pyc-test.bb
-@@ -13,3 +13,48 @@ python do_install() {
-     import pseudo_pyc_test2
-     print(pseudo_pyc_test2.STRING)
- }
+diff --git a/meta/recipes-devtools/perl/files/CVE-2026-42496.patch b/meta/recipes-devtools/perl/files/CVE-2026-42496.patch
+new file mode 100644
+index 0000000000..34d59d9363
+--- /dev/null
++++ b/meta/recipes-devtools/perl/files/CVE-2026-42496.patch
+@@ -0,0 +1,86 @@
++From 17c873492a05eddc0de18c1485e0b2cccd5a9158 Mon Sep 17 00:00:00 2001
++From: Stig Palmquist <stig@stig.io>
++Date: Thu, 21 May 2026 19:59:21 +0100
++Subject: [PATCH] Validate symlink and hardlink linkname in SECURE MODE
 +
-+TINFOIL_TEST_MARKER_DIR = "${TMPDIR}/tinfoil-prepared-task"
-+TINFOIL_TEST_MARKER_VALUE ?= ""
++Signed-off-by: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
 +
-+write_tinfoil_shell_marker() {
-+    mkdir -p ${TINFOIL_TEST_MARKER_DIR}
-+    printf '%s%s' "$1" "${TINFOIL_TEST_MARKER_VALUE}" > ${TINFOIL_TEST_MARKER_DIR}/"$1"
-+}
++CVE: CVE-2026-42496
++Upstream-Status: Backport [https://github.com/jib/archive-tar-new/commit/17c873492a05eddc0de18c1485e0b2cccd5a9158]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ cpan/Archive-Tar/lib/Archive/Tar.pm     | 30 +++++++++++++++++++++++++
++ cpan/Archive-Tar/t/04_resolved_issues.t |  2 ++
++ 2 files changed, 32 insertions(+)
 +
-+do_tinfoil_dep() {
-+    write_tinfoil_shell_marker dep
-+}
-+addtask tinfoil_dep
++diff --git a/cpan/Archive-Tar/lib/Archive/Tar.pm b/cpan/Archive-Tar/lib/Archive/Tar.pm
++index 476e646..4c73823 100644
++--- a/cpan/Archive-Tar/lib/Archive/Tar.pm
+++++ b/cpan/Archive-Tar/lib/Archive/Tar.pm
++@@ -944,6 +944,19 @@ sub _make_special_file {
++     my $err;
++ 
++     if( $entry->is_symlink ) {
+++        if( !$INSECURE_EXTRACT_MODE ) {
+++            my $linkname = $entry->linkname;
+++            if( File::Spec->file_name_is_absolute($linkname) ) {
+++                $self->_error( qq[Symlink '] . $entry->full_path .
+++                    qq[' has absolute target. Not extracting under SECURE EXTRACT MODE] );
+++                return;
+++            }
+++            if( grep { $_ eq '..' } File::Spec->splitdir($linkname) ) {
+++                $self->_error( qq[Symlink '] . $entry->full_path .
+++                    qq[' target attempts traversal. Not extracting under SECURE EXTRACT MODE] );
+++                return;
+++            }
+++        }
++         my $fail;
++         if( ON_UNIX ) {
++             symlink( $entry->linkname, $file ) or $fail++;
++@@ -957,6 +970,23 @@ sub _make_special_file {
++                 $entry->linkname .q[' failed] if $fail;
++ 
++     } elsif ( $entry->is_hardlink ) {
+++        if( !$INSECURE_EXTRACT_MODE ) {
+++            my $linkname = $entry->linkname;
+++            if( File::Spec->file_name_is_absolute($linkname) ) {
+++                $self->_error( qq[Hardlink '] . $entry->full_path .
+++                    qq[' has absolute target '$linkname'. Not extracting ] .
+++                    qq[under SECURE EXTRACT MODE: extraction itself chmods ] .
+++                    qq[the shared inode.] );
+++                return;
+++            }
+++            if( grep { $_ eq '..' } File::Spec->splitdir($linkname) ) {
+++                $self->_error( qq[Hardlink '] . $entry->full_path .
+++                    qq[' target '$linkname' attempts traversal. Not ] .
+++                    qq[extracting under SECURE EXTRACT MODE: extraction ] .
+++                    qq[itself chmods the shared inode.] );
+++                return;
+++            }
+++        }
++         my $fail;
++         if( ON_UNIX ) {
++             link( $entry->linkname, $file ) or $fail++;
++diff --git a/cpan/Archive-Tar/t/04_resolved_issues.t b/cpan/Archive-Tar/t/04_resolved_issues.t
++index fc713cd..593501a 100644
++--- a/cpan/Archive-Tar/t/04_resolved_issues.t
+++++ b/cpan/Archive-Tar/t/04_resolved_issues.t
++@@ -219,6 +219,7 @@ SKIP: {
++ 		}
++ 
++     { #use case 1 - in memory extraction
+++	        local $Archive::Tar::INSECURE_EXTRACT_MODE=1;
++ 			my $t=Archive::Tar->new;
++ 			$t->read( $archname );
++ 			my $r = eval{ $t->extract };
++@@ -230,6 +231,7 @@ SKIP: {
++ 
++ 		{ #use case 2 - iter extraction
++ 		  #$DB::single = 2;
+++		local $Archive::Tar::INSECURE_EXTRACT_MODE=1;
++ 			my $next=Archive::Tar->iter( $archname, 1 );
++ 			my $failed = 0;
++ 			#use Data::Dumper;
++-- 
++2.50.1
 +
-+do_tinfoil_shell() {
-+    write_tinfoil_shell_marker shell
-+}
-+addtask tinfoil_shell after do_tinfoil_dep
-+
-+do_tinfoil_shell_fakeroot() {
-+    write_tinfoil_shell_marker shell-fakeroot
-+}
-+do_tinfoil_shell_fakeroot[fakeroot] = "1"
-+do_tinfoil_shell_fakeroot[depends] += "virtual/fakeroot-native:do_populate_sysroot"
-+addtask tinfoil_shell_fakeroot after do_tinfoil_dep
-+
-+def write_tinfoil_marker(d, name):
-+    import os
-+
-+    marker_dir = d.getVar('TINFOIL_TEST_MARKER_DIR')
-+    os.makedirs(marker_dir, exist_ok=True)
-+    with open(os.path.join(marker_dir, name), 'w') as marker:
-+        marker.write(name + d.getVar('TINFOIL_TEST_MARKER_VALUE'))
-+
-+python do_tinfoil_python() {
-+    write_tinfoil_marker(d, 'python')
-+}
-+addtask tinfoil_python after do_tinfoil_dep
-+
-+python do_tinfoil_python_fakeroot() {
-+    write_tinfoil_marker(d, 'python-fakeroot')
-+}
-+do_tinfoil_python_fakeroot[fakeroot] = "1"
-+do_tinfoil_python_fakeroot[depends] += "virtual/fakeroot-native:do_populate_sysroot"
-+addtask tinfoil_python_fakeroot after do_tinfoil_dep
-diff --git a/meta/lib/oeqa/selftest/cases/tinfoil.py b/meta/lib/oeqa/selftest/cases/tinfoil.py
-index 21c8686b2a..d8009eddfe 100644
---- a/meta/lib/oeqa/selftest/cases/tinfoil.py
-+++ b/meta/lib/oeqa/selftest/cases/tinfoil.py
-@@ -6,11 +6,14 @@
- 
- import os
- import re
-+import shutil
- import time
- import logging
-+import uuid
- import bb.tinfoil
- 
- from oeqa.selftest.case import OESelftestTestCase
-+from oeqa.utils.commands import bitbake
- 
- class TinfoilTests(OESelftestTestCase):
-     """ Basic tests for the tinfoil API """
-@@ -77,6 +80,63 @@ class TinfoilTests(OESelftestTestCase):
-             localdata.setVar('PN', 'hello')
-             self.assertEqual('hello', localdata.getVar('BPN'))
- 
-+    def test_run_prepared_task(self):
-+        """Verify run_prepared_task() runs only the requested task, not its
-+        dependency.
-+
-+        pseudo-pyc-test's do_tinfoil_* tasks depend on do_tinfoil_dep; both
-+        write a marker file containing the task name plus the current value
-+        of TINFOIL_TEST_MARKER_VALUE. A normal bitbake build is expected to
-+        update both the dependency's and the requested tasks' markers to a
-+        new value. Calling run_prepared_task() with another new value must
-+        update only the requested tasks' markers, leaving do_tinfoil_dep's
-+        marker at the value written by the earlier bitbake build.
-+        """
-+        marker_dir = os.path.join(
-+            self.builddir, 'tmp', 'tinfoil-prepared-task')
-+        shutil.rmtree(marker_dir, ignore_errors=True)
-+        self.track_for_cleanup(marker_dir)
-+
-+        tasks = ('shell', 'shell_fakeroot', 'python', 'python_fakeroot')
-+
-+        # Use a fresh, random value each run so the tasks' signatures change
-+        # and bitbake can't skip them as "up to date" from a previous run.
-+        value1 = uuid.uuid4().hex
-+        bitbake(' '.join('pseudo-pyc-test:do_tinfoil_%s' % task
-+                          for task in tasks),
-+                postconfig='TINFOIL_TEST_MARKER_VALUE = "%s"\n' % value1)
-+
-+        # do_tinfoil_dep is a dependency of all the tasks above, so a normal
-+        # bitbake build is expected to have run it too, with the same value.
-+        with open(os.path.join(marker_dir, 'dep')) as marker:
-+            self.assertEqual(marker.read(), 'dep' + value1)
-+        for task in tasks:
-+            marker_name = task.replace('_', '-')
-+            with open(os.path.join(marker_dir, marker_name)) as marker:
-+                self.assertEqual(marker.read(), marker_name + value1)
-+
-+        with bb.tinfoil.Tinfoil() as tinfoil:
-+            tinfoil.prepare(config_only=False, quiet=2)
-+            # A distinct value per call proves each run_prepared_task()
-+            # invocation re-reads the variable rather than reusing a value
-+            # cached from an earlier call in this loop.
-+            values2 = {task: uuid.uuid4().hex for task in tasks}
-+            for task in tasks:
-+                tinfoil.run_command('setVariable', 'TINFOIL_TEST_MARKER_VALUE', values2[task])
-+                tinfoil.run_prepared_task(
-+                    'pseudo-pyc-test', 'do_tinfoil_%s' % task)
-+
-+        # The requested tasks must have re-run and picked up their own value
-+        for task in tasks:
-+            marker_name = task.replace('_', '-')
-+            with open(os.path.join(marker_dir, marker_name)) as marker:
-+                self.assertEqual(marker.read(), marker_name + values2[task])
-+
-+        # ...but run_prepared_task() must not have run do_tinfoil_dep, so its
-+        # marker should still hold the value written by the earlier bitbake build
-+        with open(os.path.join(marker_dir, 'dep')) as marker:
-+            self.assertEqual(marker.read(), 'dep' + value1)
-+
-     # The config_data API to parse_recipe_file is used by:
-     # layerindex-web layerindex/update_layer.py
-     def test_parse_recipe_custom_data(self):
+diff --git a/meta/recipes-devtools/perl/perl_5.38.4.bb b/meta/recipes-devtools/perl/perl_5.38.4.bb
+index b86c58f540..f2a1b22b14 100644
+--- a/meta/recipes-devtools/perl/perl_5.38.4.bb
++++ b/meta/recipes-devtools/perl/perl_5.38.4.bb
+@@ -24,6 +24,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
+            file://CVE-2026-57432-01.patch \
+            file://CVE-2026-57432-02.patch \
+            file://CVE-2025-40909.patch \
++           file://CVE-2026-42496.patch \
+            "
+ SRC_URI:append:class-native = " \
+            file://perl-configpm-switch.patch \
 -- 
-2.55.0
+2.50.1
 
 
