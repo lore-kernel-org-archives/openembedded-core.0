@@ -2,459 +2,434 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9B77C79F89
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B684AC79FA1
 	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 05:23:47 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.28213.1788758621428004318
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.27907.1788758621272344750
  for <openembedded-core@lists.openembedded.org>;
  Sun, 06 Sep 2026 22:23:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=aWb6QMnh;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZwUJkWow;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a07a527877-d6472f91-10d3-4efe-9c8e-85fa17b38b36-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=jQEtAXGz;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NQNnPJ3n;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a07a5277e4-98dac518-679b-4976-91ab-98999c1ed355-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1788758620;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=3HCcAKTaYhH3KeAB6n/r35W1vtsyDkyjPcjlWYI0whY=;
-	b=aWb6QMnhWnVVowfd9++D+hyvU7JAlnAaVznVCNHf0SK/g1PI23yhbzjFHgOGAnlZ
-	STsTA5iBsJX0Hxa0xLFn5c4k6c6BFYhEDtnTtsPhkKH86e8u0lsWCyuLATYcMs3Rseh
-	rDdLCG7n/1t4ZYrcXYzLPuUS5jjd7Gupau6WPjzI=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=E0CvkXUuQQMcidohQhgumabwX80VOgH5kNnX+lMg+Yk=;
+	b=jQEtAXGz9bWwl0aBtoAEpZOyU4nTUyeQlntmzMXByYEeY63kwp0gn/hTeHxspNHX
+	fqxoy0u3NxCvQOp6fib8qP64zs2hJhzYxMQ/8SoRz8GR+saEE/2ZlhPBbq7BRd1O0fZ
+	kB3CC974EWzFAhPCWl40bhyPwZTdO5XTCNUydcdQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788758620;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=3HCcAKTaYhH3KeAB6n/r35W1vtsyDkyjPcjlWYI0whY=;
-	b=ZwUJkWowSyf22PWrRZZpP+Zd1oGdhvYALIbKmABr+q8v30vs7qmBy/mvyvGmucbL
-	m6+5FpMlUHHdKLQmyOp9mWw5y4ak5JESDLf1U4aLNGeNTiJdnVAOp/SJCXBOasi88iQ
-	JC46BFnnlFYXYWC3HGIrhrO166Na46lGX0dWZxaw=
-Content-Type: multipart/mixed; boundary="===============1162936331241049619=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=E0CvkXUuQQMcidohQhgumabwX80VOgH5kNnX+lMg+Yk=;
+	b=NQNnPJ3ns436sHgezWsrnFlWd8mudJ1UqmbA4a+0UhWditHA9YXPR9B2wKE1t//z
+	zE99fZdXBWumhsTe5JzfZHnGUux3l7+UyuJ8mHxhdRc9S1E46rcFBwGrzJGBJpuOG7M
+	3ZJmNzN2ccP29rtk8ZYoAgt+zOXskRB1POoBUfjo=
+Content-Type: multipart/mixed; boundary="===============1409357017651697192=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] Upgrade status: 2026-09-07
-Message-ID: <010101a07a527877-d6472f91-10d3-4efe-9c8e-85fa17b38b36-000000@us-west-2.amazonses.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-numpy: upgrading to 2.5.3 SUCCEEDED
+Message-ID: <010101a07a5277e4-98dac518-679b-4976-91ab-98999c1ed355-000000@us-west-2.amazonses.com>
 Date: Mon, 7 Sep 2026 05:23:40 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.07-54.240.27.33
+X-SES-Outgoing: 2026.09.07-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 05:23:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245225
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245224
 
---===============1162936331241049619==
+--===============1409357017651697192==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 
-AUH finished upgrade batch the result patches/logs can be found at:
-https://valkyrie.yocto.io/pub/auh/20260907050053, next are the statistics:
+Hello,
 
-Recipe upgrade statistics:
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-numpy* to *2.5.3* has Succeeded.
 
-    * Succeeded: 2
-        python3-git, 3.1.62, Trevor Gamblin <tgamblin@baylibre.com>
-        python3-numpy, 2.5.3, Trevor Gamblin <tgamblin@baylibre.com>
-    * Skipped: 30
-        sbom-cve-check-update-cvelist-native, 2026-09-07, rapid-fire; last attempt 2026-08-12 05:16:07 result=success; will retry in 5 day(s), Benjamin Robin <benjamin.robin@bootlin.com>
-        sbom-cve-check-update-nvd-native, 2026.09.07-000009, rapid-fire; last attempt 2026-08-12 05:16:07 result=success; will retry in 5 day(s), Benjamin Robin <benjamin.robin@bootlin.com>
-        gstreamer1.0-plugins-rs, 1.29.2, last attempt 2026-09-06 05:18:24 result=failure; will retry in 30 day(s), Jan Schmidt <jan@centricular.com>
-        libpcap, 1.10.7, last attempt 2026-09-06 05:26:05 result=success; will retry in 30 day(s), Unassigned <unassigned@yoctoproject.org>
-        ovmf, edk2-stable202608, last attempt 2026-08-22 05:07:17 result=failure; will retry in 15 day(s), Unassigned <unassigned@yoctoproject.org>
-        bindgen-cli, 0.73.1, last attempt 2026-09-06 05:27:57 result=failure; will retry in 30 day(s), Khem Raj <raj.khem@gmail.com>
-        gn, 0-new-commits-available, last attempt 2026-08-12 05:21:07 result=success; will retry in 5 day(s), Khem Raj <raj.khem@gmail.com>
-        perlcross, 1.6.5, last attempt 2026-08-18 05:14:21 result=failure; will retry in 11 day(s), Unassigned <unassigned@yoctoproject.org>
-        python3-cython, 3.3.0, last attempt 2026-08-23 05:15:55 result=success; will retry in 16 day(s), Trevor Gamblin <tgamblin@baylibre.com>
-        python3-flit-core, 4.0.2, last attempt 2026-09-05 05:58:01 result=success; will retry in 29 day(s), Tim Orling <tim.orling@konsulko.com>
-        python3-hatchling, 1.32.0, last attempt 2026-08-11 05:53:57 result=failure; will retry in 4 day(s), Ross Burton <ross.burton@arm.com>
-        python3-hypothesis, 6.167.1, last attempt 2026-08-31 05:08:15 result=success; will retry in 24 day(s), Trevor Gamblin <tgamblin@baylibre.com>
-        python3-libarchive-c, 5.3, last attempt 2026-09-05 06:00:05 result=failure; will retry in 29 day(s), Joshua Watt <JPEWhacker@gmail.com>
-        python3-lxml, 6.1.3, last attempt 2026-09-03 05:40:57 result=success; will retry in 27 day(s), Khem Raj <raj.khem@gmail.com>
-        python3-more-itertools, 11.1.0, last attempt 2026-09-05 06:01:23 result=failure; will retry in 29 day(s), Tim Orling <tim.orling@konsulko.com>
-        python3-pbr, 7.1.2, last attempt 2026-08-26 05:51:54 result=success; will retry in 19 day(s), Trevor Gamblin <tgamblin@baylibre.com>
-        python3-pytz, 2026.3.post1, last attempt 2026-09-05 06:09:03 result=success; will retry in 29 day(s), Tim Orling <tim.orling@konsulko.com>
-        python3-shacl2code, 1.3.2, last attempt 2026-09-01 05:33:39 result=success; will retry in 25 day(s), Benjamin Robin <benjamin.robin@bootlin.com>
-        python3-spdx-tools, 0.8.5, last attempt 2026-09-05 06:11:07 result=failure; will retry in 29 day(s), Marta Rybczynska <marta.rybczynska@ygreky.com>
-        python3-subunit, 1.4.6, last attempt 2026-09-05 06:12:26 result=failure; will retry in 29 day(s), Trevor Gamblin <tgamblin@baylibre.com>
-        rpm, 6.1.0, last attempt 2026-08-21 05:45:50 result=failure; will retry in 14 day(s), Robert Yang <liezhi.yang@windriver.com>
-        blueprint-compiler, 0.22.2, last attempt 2026-08-11 06:26:13 result=failure; will retry in 4 day(s), Liu Yiding <liuyd.fnst@fujitsu.com>
-        mesa-demos, 9.0.0-new-commits-available, last attempt 2026-09-02 05:31:40 result=success; will retry in 26 day(s), Unassigned <unassigned@yoctoproject.org>
-        piglit, 1.0-new-commits-available, last attempt 2026-08-12 05:48:00 result=failure; will retry in 5 day(s), Ross Burton <ross.burton@arm.com>
-        vulkan-samples, git-new-commits-available, rapid-fire; last attempt 2026-08-14 06:26:27 result=failure; will retry in 7 day(s), Ross Burton <ross.burton@arm.com>
-        ffmpeg, 9.0.1, last attempt 2026-08-12 05:56:14 result=success; will retry in 5 day(s), Unassigned <unassigned@yoctoproject.org>
-        lame, 4.0, last attempt 2026-08-12 05:58:03 result=failure; will retry in 5 day(s), Michael Opdenacker <michael.opdenacker@rootcommit.com>
-        puzzles, 0.0-new-commits-available, last attempt 2026-08-20 05:41:29 result=success; will retry in 13 day(s), Unassigned <unassigned@yoctoproject.org>
-        gpgme, 2.2.0, last attempt 2026-08-23 05:17:51 result=failure; will retry in 16 day(s), Hongxu Jia <hongxu.jia@windriver.com>
-        libjitterentropy, 3.7.0, last attempt 2026-08-12 06:00:04 result=failure; will retry in 5 day(s), Ross Burton <ross.burton@arm.com>
+Next steps:
+    - apply the patch: git am 0001-python3-numpy-upgrade-2.5.2-2.5.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-    TOTAL: attempted=2 succeeded=2(100.00%) failed=0(0.00%)
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
-Recipe upgrade statistics per Maintainer:
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
-    Trevor Gamblin <tgamblin: attempted=2 succeeded=2(100.00%) failed=0(0.00%)
+Regards,
+The Upgrade Helper
 
---===============1162936331241049619==
+-- >8 --
+From 5e8347c5d90f46228671c0e7c8639aa4d3a7e58d Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 7 Sep 2026 05:23:36 +0000
+Subject: [PATCH] python3-numpy: upgrade 2.5.2 -> 2.5.3
+
+Source: doc/changelog/2.5.3-changelog.rst, doc/source/release/2.5.3-notes.rst
+
+Contributors
+============
+
+A total of 9 people contributed to this release.  People with a "+" by their
+names contributed a patch for the first time.
+
+* Charles Harris
+* Iason Krommydas
+* James Davies +
+* Joren Hammudoglu
+* Maanas Arora
+* Matti Picus
+* Nathan Goldbaum
+* Shikhar Goel +
+* Yeonho Kim +
+
+Pull requests merged
+====================
+
+A total of 27 pull requests were merged for this release.
+
+* `#32235 <https://github.com/numpy/numpy/pull/32235>`__: MAINT: Prepare 2.5.x for further development
+* `#32289 <https://github.com/numpy/numpy/pull/32289>`__: BUG: raise ValueError when reading into record array with references...
+* `#32290 <https://github.com/numpy/numpy/pull/32290>`__: BUG: avoid uninitialized memory access / NULL-pointer deref in...
+* `#32291 <https://github.com/numpy/numpy/pull/32291>`__: TYP: fix ``np.random.{get,set}_bit_generator`` implicit re-exports...
+* `#32292 <https://github.com/numpy/numpy/pull/32292>`__: BUG: don't assume strides are a multiple of itemsize in stringdtype...
+* `#32293 <https://github.com/numpy/numpy/pull/32293>`__: CI: fix ccache CC override, add CXX in mac Conda CI (#32285)
+* `#32303 <https://github.com/numpy/numpy/pull/32303>`__: BUG: Fix ref leak in _convert_from_type for custom scalar types...
+* `#32304 <https://github.com/numpy/numpy/pull/32304>`__: BUG: fix a number of issues around iterators and StringDType...
+* `#32326 <https://github.com/numpy/numpy/pull/32326>`__: TST: avoid allocating huge tuple of arrays in concatenate test...
+* `#32338 <https://github.com/numpy/numpy/pull/32338>`__: BUG: avoid possible UB in 'safe' multiplication helpers (#32294)
+* `#32339 <https://github.com/numpy/numpy/pull/32339>`__: MAINT: use ``PyObject_`` functions instead of raw ``PyArray_ ones`` (#32331)
+* `#32378 <https://github.com/numpy/numpy/pull/32378>`__: BUG: validate UTF-8 and harden StringDType bounds handling (#32296)
+* `#32380 <https://github.com/numpy/numpy/pull/32380>`__: BUG: fix two error handling mistakes in stringdtype replace loop...
+* `#32381 <https://github.com/numpy/numpy/pull/32381>`__: BUG: fix visibility annotations for functions in StringDType...
+* `#32384 <https://github.com/numpy/numpy/pull/32384>`__: MAINT: Update ml_dtypes pin to 8/21/2026.
+* `#32385 <https://github.com/numpy/numpy/pull/32385>`__: MAINT: Update numpy/_core/src/umath/svml
+* `#32410 <https://github.com/numpy/numpy/pull/32410>`__: MAINT: skip failing cython limited API tests on Cython 3.3.0...
+* `#32427 <https://github.com/numpy/numpy/pull/32427>`__: BUG: close duplicated file descriptor if fdopen fails (#32386)
+* `#32428 <https://github.com/numpy/numpy/pull/32428>`__: MAINT: add missing space in warning and error messages (#32405)
+* `#32430 <https://github.com/numpy/numpy/pull/32430>`__: BUG: fix error handling in StringDType to fixed-width bytes case...
+* `#32441 <https://github.com/numpy/numpy/pull/32441>`__: MAINT: Only run nightly BLAS test
+
+[Changelog truncated as it exceeds 3000 characters;
+the full changelog can be found in an attachment to the AUH email]
+---
+ .../python/{python3-numpy_2.5.2.bb => python3-numpy_2.5.3.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-numpy_2.5.2.bb => python3-numpy_2.5.3.bb} (97%)
+
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.5.2.bb b/meta/recipes-devtools/python/python3-numpy_2.5.3.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python3-numpy_2.5.2.bb
+rename to meta/recipes-devtools/python/python3-numpy_2.5.3.bb
+index 4406204681..c88b0bf1a2 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.5.2.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.5.3.bb
+@@ -10,7 +10,7 @@ SRCNAME = "numpy"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "d482d171c406ae88c5b19cad3b6a1c4c5209f886ab74bc44c2c865c23f52d860"
++SRC_URI[sha256sum] = "df2d5874ff183595a4ba404edd04f6bd9b5505c1d7708573f6a6c17489a67563"
+ 
+ GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
+-- 
+2.47.1
+
+
+--===============1409357017651697192==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-numpy: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
+packages/x86-64-v3-poky-linux/python3-numpy: SRC_URI changed from "https://github.com/numpy/numpy/releases/download/v2.5.2/numpy-2.5.2.tar.gz file://run-ptest" to "https://github.com/numpy/numpy/releases/download/v2.5.3/numpy-2.5.3.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/python3-numpy: PV changed from "2.5.2" to "2.5.3"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dbg: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dbg: PV changed from "2.5.2" to "2.5.3"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dbg: PKGSIZE changed from 101281136 to 101309008 (+0%)
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dev: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-dev: PV changed from "2.5.2" to "2.5.3"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-doc: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-doc: PV changed from "2.5.2" to "2.5.3"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-locale: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-locale: PV changed from "2.5.2" to "2.5.3"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-ptest: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-ptest: PV changed from "2.5.2" to "2.5.3"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: FILELIST: directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/fft -> /usr/src/debug/python3-numpy/2.5.3/numpy/fft, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/_philox.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/_philox.cpython-314-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/_common.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/_common.cpython-314-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/_generator.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/_generator.cpython-314-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/linalg/lapack_lite -> /usr/src/debug/python3-numpy/2.5.3/numpy/l
+ inalg/lapack_lite, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/src/distributions -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/src/distributions, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/include -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/include, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/highway/hwy -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/highway/hwy, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/fft/pocketfft -> /usr/src/debug/python3-numpy/2.5.3/numpy/fft/pocketfft, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/linalg -> /usr/src/debug/python3-numpy/2.5.3/numpy/linalg, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/mtrand.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/mtrand.cpython-314-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/
+ _mt19937.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/_mt19937.cpython-314-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/_simd -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/_simd, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/include/numpy/random -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/include/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/common/pythoncapi-compat -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/pythoncapi-compat, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/common/simd/avx2 -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/simd/avx2, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/src/mt19937 -> /usr/src/d
+ ebug/python3-numpy/2.5.3/numpy/random/src/mt19937, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/include/numpy -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/include/numpy, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/bit_generator.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/bit_generator.cpython-314-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/common/dlpack -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/dlpack, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/common -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/include/numpy/libdivide -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/include/numpy/libdivide, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/common/simd -> /usr/src/debug/python3-n
+ umpy/2.5.3/numpy/_core/src/common/simd, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/npymath -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/npymath, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/_bounded_integers.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/_bounded_integers.cpython-314-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/_pcg64.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/_pcg64.cpython-314-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/_sfc64.cpython-314-x86_64-linux-gnu.so.p/numpy/random -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/_sfc64.cpython-314-x86_64-linux-gnu.so.p/numpy/random, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/src/pcg64 -> /usr/src/debug/python3-numpy/2.5.3/num
+ py/random/src/pcg64, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/src/sfc64 -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/src/sfc64, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/highway/hwy/ops -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/highway/hwy/ops, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/multiarray/textreading -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/multiarray/textreading, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/npysort/x86-simd-sort/src -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/npysort/x86-simd-sort/src, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/common/simd/sse -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/simd/sse, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/umath -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/umath, directory renamed /usr/src/debug/python3-num
+ py/2.5.2/numpy/random/src/philox -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/src/philox, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/common/simd/avx512 -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/common/simd/avx512, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/multiarray/stringdtype -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/multiarray/stringdtype, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/multiarray -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/multiarray, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/random/src/legacy -> /usr/src/debug/python3-numpy/2.5.3/numpy/random/src/legacy, directory renamed /usr/src/debug/python3-numpy/2.5.2/numpy/_core/src/npysort -> /usr/src/debug/python3-numpy/2.5.3/numpy/_core/src/npysort
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: PV changed from "2.5.2" to "2.5.3"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-src: PKGSIZE changed from 25739481 to 25750757 (+0%)
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-staticdev: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy-staticdev: PV changed from "2.5.2" to "2.5.3"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: PKGV changed from 2.5.2 [default] to 2.5.3 [default]
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: FILELIST: directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/distributions -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/distributions, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/mt19937 -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/mt19937, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/src/highway -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/highway, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/fft/pocketfft -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info
+ /licenses/numpy/fft/pocketfft, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/src/umath/svml -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/umath/svml, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/philox -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/philox, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/ma -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/ma, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/src/multiarray -> /usr/lib/python3.14/site-packages/numpy-2.5
+ .3.dist-info/licenses/numpy/_core/src/multiarray, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/include/numpy/libdivide -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/include/numpy/libdivide, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/pcg64 -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/ran
+ dom/src/pcg64, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/splitmix64 -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/splitmix64, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/sfc64 -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/sfc64, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/linalg/lapack_lite -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/linalg/lapack_lite
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: PV changed from "2.5.2" to "2.5.3"
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: PKGSIZE changed from 41578761 to 41645185 (+0%)
+Changes to packages/x86-64-v3-poky-linux/python3-numpy (sysroot):
+  /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info moved to /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info
+
+--===============1409357017651697192==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="python3-numpy-changelog.txt"
+
+Changelog for python3-numpy: 2.5.2 -> 2.5.3
+Source: doc/changelog/2.5.3-changelog.rst, doc/source/release/2.5.3-notes.rst
+
+Contributors
+============
+
+A total of 9 people contributed to this release.  People with a "+" by their
+names contributed a patch for the first time.
+
+* Charles Harris
+* Iason Krommydas
+* James Davies +
+* Joren Hammudoglu
+* Maanas Arora
+* Matti Picus
+* Nathan Goldbaum
+* Shikhar Goel +
+* Yeonho Kim +
+
+Pull requests merged
+====================
+
+A total of 27 pull requests were merged for this release.
+
+* `#32235 <https://github.com/numpy/numpy/pull/32235>`__: MAINT: Prepare 2.5.x for further development
+* `#32289 <https://github.com/numpy/numpy/pull/32289>`__: BUG: raise ValueError when reading into record array with references...
+* `#32290 <https://github.com/numpy/numpy/pull/32290>`__: BUG: avoid uninitialized memory access / NULL-pointer deref in...
+* `#32291 <https://github.com/numpy/numpy/pull/32291>`__: TYP: fix ``np.random.{get,set}_bit_generator`` implicit re-exports...
+* `#32292 <https://github.com/numpy/numpy/pull/32292>`__: BUG: don't assume strides are a multiple of itemsize in stringdtype...
+* `#32293 <https://github.com/numpy/numpy/pull/32293>`__: CI: fix ccache CC override, add CXX in mac Conda CI (#32285)
+* `#32303 <https://github.com/numpy/numpy/pull/32303>`__: BUG: Fix ref leak in _convert_from_type for custom scalar types...
+* `#32304 <https://github.com/numpy/numpy/pull/32304>`__: BUG: fix a number of issues around iterators and StringDType...
+* `#32326 <https://github.com/numpy/numpy/pull/32326>`__: TST: avoid allocating huge tuple of arrays in concatenate test...
+* `#32338 <https://github.com/numpy/numpy/pull/32338>`__: BUG: avoid possible UB in 'safe' multiplication helpers (#32294)
+* `#32339 <https://github.com/numpy/numpy/pull/32339>`__: MAINT: use ``PyObject_`` functions instead of raw ``PyArray_ ones`` (#32331)
+* `#32378 <https://github.com/numpy/numpy/pull/32378>`__: BUG: validate UTF-8 and harden StringDType bounds handling (#32296)
+* `#32380 <https://github.com/numpy/numpy/pull/32380>`__: BUG: fix two error handling mistakes in stringdtype replace loop...
+* `#32381 <https://github.com/numpy/numpy/pull/32381>`__: BUG: fix visibility annotations for functions in StringDType...
+* `#32384 <https://github.com/numpy/numpy/pull/32384>`__: MAINT: Update ml_dtypes pin to 8/21/2026.
+* `#32385 <https://github.com/numpy/numpy/pull/32385>`__: MAINT: Update numpy/_core/src/umath/svml
+* `#32410 <https://github.com/numpy/numpy/pull/32410>`__: MAINT: skip failing cython limited API tests on Cython 3.3.0...
+* `#32427 <https://github.com/numpy/numpy/pull/32427>`__: BUG: close duplicated file descriptor if fdopen fails (#32386)
+* `#32428 <https://github.com/numpy/numpy/pull/32428>`__: MAINT: add missing space in warning and error messages (#32405)
+* `#32430 <https://github.com/numpy/numpy/pull/32430>`__: BUG: fix error handling in StringDType to fixed-width bytes case...
+* `#32441 <https://github.com/numpy/numpy/pull/32441>`__: MAINT: Only run nightly BLAS tests on main.
+* `#32471 <https://github.com/numpy/numpy/pull/32471>`__: BUG: fix memory leak in StringDType creation error path (#32470)
+* `#32477 <https://github.com/numpy/numpy/pull/32477>`__: BUG: fix stale fill_value after ufuncs change MaskedArray dtype...
+* `#32478 <https://github.com/numpy/numpy/pull/32478>`__: MAINT: exit deadlock tests quickly on slow hardware (#32466)
+* `#32481 <https://github.com/numpy/numpy/pull/32481>`__: BUG: Backport StringDType byteorder fixes
+* `#32506 <https://github.com/numpy/numpy/pull/32506>`__: DOC: use static scipy doc site for intershpinx (#32503)
+* `#32509 <https://github.com/numpy/numpy/pull/32509>`__: BUG: fix crash in ufunc.resolve_dtypes with a Python scalar type...
+
+.. currentmodule:: numpy
+
+=========================
+NumPy 2.5.3 Release Notes
+=========================
+
+The NumPy 2.5.3 is a patch release that fixes bugs discovered after the 2.5.2
+release. Apart from the usual bug and maintenance work, there are a number of
+StringDType related fixes for problems discovered during the ongoing string
+work in the main branch.
+
+This release supports Python versions 3.12-3.15
+
+Changes
+=======
+
+* Casting a fixed-width byte string array (``np.bytes_``) to ``StringDType``
+  now raises ``TypeError`` when the bytes are not valid UTF-8. Previously the
+  invalid bytes were stored as-is and later caused undefined behavior in
+  string operations.
+
+  (`gh-32296 <https://github.com/numpy/numpy/pull/32296>`__)
+
+* ``MaskedArray._fill_value`` would become stale when ufuncs that change dtype
+  left the result holding a fill_value typed for the old dtype. The mismatch
+  was silent until something later called ``_check_fill_value``, such as
+  ``.view()``, and then a ``TypeError`` would be raised.  Now, when the copied
+  fill_value is no longer valid for the new dtype, fall back to the
+  default fill_value for that dtype instead of propagating the stale value.
+  This may raise a ``ComplexWarning`` if the fill_value is complex and the
+  new dtype is real.
+
+  (`gh-32423 <https://github.com/numpy/numpy/pull/32423>`__)
+
+Contributors
+============
+
+A total of 9 people contributed to this release.  People with a "+" by their
+names contributed a patch for the first time.
+
+* Charles Harris
+* Iason Krommydas
+* James Davies +
+* Joren Hammudoglu
+* Maanas Arora
+* Matti Picus
+* Nathan Goldbaum
+* Shikhar Goel +
+* Yeonho Kim +
+
+Pull requests merged
+====================
+
+A total of 27 pull requests were merged for this release.
+
+* `#32235 <https://github.com/numpy/numpy/pull/32235>`__: MAINT: Prepare 2.5.x for further development
+* `#32289 <https://github.com/numpy/numpy/pull/32289>`__: BUG: raise ValueError when reading into record array with references...
+* `#32290 <https://github.com/numpy/numpy/pull/32290>`__: BUG: avoid uninitialized memory access / NULL-pointer deref in...
+* `#32291 <https://github.com/numpy/numpy/pull/32291>`__: TYP: fix ``np.random.{get,set}_bit_generator`` implicit re-exports...
+* `#32292 <https://github.com/numpy/numpy/pull/32292>`__: BUG: don't assume strides are a multiple of itemsize in stringdtype...
+* `#32293 <https://github.com/numpy/numpy/pull/32293>`__: CI: fix ccache CC override, add CXX in mac Conda CI (#32285)
+* `#32303 <https://github.com/numpy/numpy/pull/32303>`__: BUG: Fix ref leak in _convert_from_type for custom scalar types...
+* `#32304 <https://github.com/numpy/numpy/pull/32304>`__: BUG: fix a number of issues around iterators and StringDType...
+* `#32326 <https://github.com/numpy/numpy/pull/32326>`__: TST: avoid allocating huge tuple of arrays in concatenate test...
+* `#32338 <https://github.com/numpy/numpy/pull/32338>`__: BUG: avoid possible UB in 'safe' multiplication helpers (#32294)
+* `#32339 <https://github.com/numpy/numpy/pull/32339>`__: MAINT: use ``PyObject_`` functions instead of raw ``PyArray_ ones`` (#32331)
+* `#32378 <https://github.com/numpy/numpy/pull/32378>`__: BUG: validate UTF-8 and harden StringDType bounds handling (#32296)
+* `#32380 <https://github.com/numpy/numpy/pull/32380>`__: BUG: fix two error handling mistakes in stringdtype replace loop...
+* `#32381 <https://github.com/numpy/numpy/pull/32381>`__: BUG: fix visibility annotations for functions in StringDType...
+* `#32384 <https://github.com/numpy/numpy/pull/32384>`__: MAINT: Update ml_dtypes pin to 8/21/2026.
+* `#32385 <https://github.com/numpy/numpy/pull/32385>`__: MAINT: Update numpy/_core/src/umath/svml
+* `#32410 <https://github.com/numpy/numpy/pull/32410>`__: MAINT: skip failing cython limited API tests on Cython 3.3.0...
+* `#32427 <https://github.com/numpy/numpy/pull/32427>`__: BUG: close duplicated file descriptor if fdopen fails (#32386)
+* `#32428 <https://github.com/numpy/numpy/pull/32428>`__: MAINT: add missing space in warning and error messages (#32405)
+* `#32430 <https://github.com/numpy/numpy/pull/32430>`__: BUG: fix error handling in StringDType to fixed-width bytes case...
+* `#32441 <https://github.com/numpy/numpy/pull/32441>`__: MAINT: Only run nightly BLAS tests on main.
+* `#32471 <https://github.com/numpy/numpy/pull/32471>`__: BUG: fix memory leak in StringDType creation error path (#32470)
+* `#32477 <https://github.com/numpy/numpy/pull/32477>`__: BUG: fix stale fill_value after ufuncs change MaskedArray dtype...
+* `#32478 <https://github.com/numpy/numpy/pull/32478>`__: MAINT: exit deadlock tests quickly on slow hardware (#32466)
+* `#32481 <https://github.com/numpy/numpy/pull/32481>`__: BUG: Backport StringDType byteorder fixes
+* `#32506 <https://github.com/numpy/numpy/pull/32506>`__: DOC: use static scipy doc site for intershpinx (#32503)
+* `#32509 <https://github.com/numpy/numpy/pull/32509>`__: BUG: fix crash in ufunc.resolve_dtypes with a Python scalar type...
+
+--===============1409357017651697192==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="20260907050053.tar.gz"
+Content-Disposition: attachment;
+ filename="0001-python3-numpy-upgrade-2.5.2-2.5.3.patch"
 
-H4sIAFlKnmoAA+w9a3fbtpL5zF+Bk+09sWNTEl+i7G3TKI6aZNs6PrHd7d02R4ZISOKar0uQstXe
-/vc7A5B62Y71oNQmJU+OI5EA5j0YDMCR3tCbjaOG3bAaDcuoP9nG1YDLtiz4XzOsZmPm/8n1RLN0
-0zZN3WxAO83QTesJsbaCzcKV8ZQmhDyJo+txL/N894F2jz3/TC99Xv48cxzG3HL1YAX5W5qhgfzN
-pmVX8t/F9YD843E6jEJDDbMgHm+qDavL3zbhv0r+O7iWkj8LqOd3eRYENBmvDgMF3DTNB+SvGU3b
-nJe/ruuG8YQ0yif37vU3l/9FdEx+eXaRsFGUkDc06PleSL5OB/LTyx4d+14vYTUnCl48+6hg8yhm
-IQt6zHWZqzpRwl76Hk95bfZ+LUoGynnW+3/mpACgffn2I5nTqWOSxYOEul44IGlE9JpVM8j55clJ
-p/O681pppyl1hgELU35M6jwZ1Sf8r48jJ43Umyi5ZkmdZsO6vC3/ylGZOmR+DI8X1Jv6/oJqi15D
-wD9Kxqrr9ftqP/P9WnqbbhXs3DfVGdJwwPxosHW4aG/qPPBiCBSBLv4atZimznC3fEfSFeUt8/3o
-UFFSeESE2yHwgZIwSr2+59DUi0LST6KApENG2hmozqWETN4KyNCTpuIhhYcBdHAITVMWxCnqWY6m
-aJAwx4vZHt8nz+dwe44NnwtGPCdDysm5dIqg1YpyykBCPGUxP1YIXCqhceyPxYCCa8dk4KWEBmQV
-VudDOUPmXIuhpEZwiTJPEwYDipZwj4Yukb7Y+01QEhCwWdErCgIAHjDO6YAdFqNGQez5wJCQeAHc
-J4JFThSm1At5jrlzDU/yDsDGfpQEhEcBIz3KgYWchl4KVDIw9IJusE53SrdEyxsAkJRE/b7kQ46R
-yomqJoyzVAWxDMHVqKron4/FcShPSEiILo6TKE48mjKCOoBOAn2MorT9lCUhSHXE/PEh8fpkHGWk
-x3yPjWalSvgwynwX9QaeFmJ3idAN0KjUC4A/2NcBtvQ93ycfOifvzjrd0/fdy7PX7YtO90Onff7+
-FHkLmMfgyABoMXwfGcojwUplqmk5HE5ucujEj0COCeKQa6HQojOfUY6DjTx2I0kWDg8wxJE5Af6T
-fpbAkwQQQGlI1UcmFwbnInv6wJ4M8Ksp7XBMgG09H/QhluMLLCl0GCDhwzQFra2D6Q1+A4JpTRg0
-dEEnjQ67Du6WJV14XnMG3rfwxM2c9Ju2JI+5/9AblwIqfHgLmPhgbsoHNqCJyw+VC6BiwRYVVSUv
-WiBr5Ts0WYu1DNN2LPeo0Tebut5q2prTYLbTahpHlJquQW1mtVzyI1B6zmKi2WBFx+If0cGcxDDH
-C1DI1+CLXi7S8kJ5DYge41CHxBajoU8iDetYN46NJjnA2GNmijprX5w8NEkxMT/pRH0hJypFOY+y
-xIHh3cipT7x3XTyc8eYJTw9FEy6a1xMm5JK3A90EuSWo1idgjInXA0YnXPlm5gKNB6NIqQ8mRY7A
-MiMQrbBd0Rz0RZgMaHQ+do2QM9noxkvBKMnTg6ekJ/yTlyghGB2f605z60WFQz3se4CQMA9Q0+fk
-ZEgT1Me3NEk8DjfeUQ7C+R7kEIxdinf+R4z5moIqc3KANyAkCKFHEGRuNPAzuPUjpSE40nYSJVR8
-TVOPnHlOhgOcUrCikLyJfLdHswDunA+9awAMt5gvhvwni8JhRL73AviqnMEMDfT+K0NvBN4uGTB3
-jmv3ck+3STzX8YYlLO+dkz/DRiT+6r8MCEQt8nVhOeDRhlkPY6G6nMXyyRyGrYumL666XdC59rvT
-i2NylrCYJlJ3bucs2gVn5UcxhjcFmNbR0mBaRxLMq8s3xyShHhj6T9TPWCcB9pKbIUOHJSMrLwT1
-AJcVJSDpJKFjqRUJ6wPtoQPqV6sVGBw1lsbgqDGDAR1Fnkuy0IMZwqM+zEkucDWAeZ1QmDc5J3Vy
-evnDD2oceehfgHqAD6jNwtaWh61J2Bf/PDsGbb0lV1dhXEvAHUVB7fcBSw9hlvmj2/PS7gDi0YSC
-TV1dwcwX+54DU0zCVHYbR0k6R7u+PHx9hnY3Cp/BZM9hOobpAIwKfT/KnJIg81MP7RBUzwPPz3Gy
-hrkEW4UDNx3HbBYBY3kEDInAyTtJv+PgxEFOTkg0YgmicEio65KTn39GeAF1CLgXl0IHsidUzdrP
-wRqNpcFC0xm6vwO4KESwlWsE0gWXAsDTLoZmXaRN6DvYN0wdhDvUB2vG2zNMNxrm8sDNGeBINESE
-GSw1EsFdYL9ge5SJKELKXMZJ54Lbry/muG3APLAsZL2Zq9v5RaHqEMxGGImCfQ0zDKeyXMzCwjjy
-A9gBLViIMzTGTDOwjdbSsI3WHTOLI849mOLJ5SuE84zTPntW6FoRH8sYnEtpH5kTaRtL+xhoOufK
-MvAxV1dn4/dituyCPfWz0EFgSC6Ew9RFBiT0RjRrIyO6JAoZh6Z7ArY2QcNengP2LAdG4FxEzHN5
-8Z3aEuKFScIFdzcjZdJDLeDwBOITFJFkQnMCvbW0m4OmC1qX3kSECS87GT6AsJReM75g2mAdsU8d
-BvFfFM9Iv7W0o4OmC9BHHogegmGIw2kIwQOV/JcTy1QaD+h8a3lra5lzwpcxHwn8riCNkxiXGxFp
-1XVNLPSmMJaeK6HpfTBkmy4mFWDx6dQziDuHdT4K/ByEqS0tPmg6B4Jfe7EIl1FsjgjzYFEBqxOY
-r9pn7+TaBnSWnMhnBizOGlMGmhA/LAtZt2dE5/gRWI+bSfvMI3yYBLmTeDE4KlzE9F1MngjspNka
-rYnGmvrS9gJN50jGaQAUlCPFPEZ1BMnd0CTEG2g/Upnz9aKEbDYm04NpLM9sY9FWFuxkXi9RfaAR
-c9Ubz4WApDdOMS7FwGvKcHNpW4Gmc3S/D2FFnmQhCb3BMIXPr35onwsBK8ovJ0V4TlJoIkUCsSmE
-BuwWl/mcGLAywBV4Qh2YTPh/KyIwxthxEtqLZWMPZzkx5+DCLF/CYVBXrGPbl29lEuMjrIRUhQBx
-eRqk/vvcQqMr1he1Xo9884LcfWLAkz9gofxvopMDGEeTOiSxcQ/hOzhhmH7BA+wd7ON3F8JY8VXd
-V8AXYdwPYk5pXa5fuQohaBpFPt8An70j+x/7ioLJG1jiiaxH/ZMwHgDRW7UXglc4mC5EFegNvdBl
-twSwUXJKRYJoDVSK/iC+dVCSeJhmo6k3zGZLq9WcVqvX6PU1qhNN5MBRD9Zjk3JwcLAmq16+JKrW
-OLTJgfgLX88/nJy2f+yQb8hT0fapgre6lx/e4a2vfn/z7uLt5avuq/Z5B2/+UXejm9CPqFsfffX7
-2U9/1L/6PR/iD1XcqKU0qQ1+I7+KhE5xoZaC8YKZqTFa38Ljp4qaQ/2FD6luNSGM/ogIuGZLdzVb
-c4CVlLVajtXTjhzqGr0mhZuOpTeO+q1Wk/Zss+eYpqM7rabl6Ebf0t1Ws/FUOXhg4L7uWi3b7Pe1
-lmEdWdTsUbNhMtdtmP1mzz3qWVbDcjTXthstyzb6Tdp0NNtsHdGmbTUN4JNCFpiD4z7ipvJFJYfu
-l2fnFx867R+7J287J993P3TedH7GEYom9ZQO6qNv9749+zqGiPrFr+7B3q81+Lt/sP/VU0yoKHrN
-tGuaoihl5P+X2v95OEm+FIxP7/8YmqUZxf6PacPnhm5atlbt/+ziyjO/vH7baqpNUx0ZKlKqwqSd
-3dYXsmFn37/5qZh1pJOVebFfXNansAb5ON3KmdxSVoJQeKE5IMua14yXEnjJxzLbXjioRZf0FFFe
-E4AxA8B4EMBqDDhbYPBTgb3EUsBZabyFfSa3N9i+EO+FuQuqzt/9X2cejNbQ9JamGU0EBF8M8HSN
-Ftk7aEDgsgFANto9GwXMrbIxcnZPlYC5TaowVQMGuWvCJmC3SZvwLzsnrYC6Tcpg7b9zugTM7979
-0PnhHeb6XA+ibAx48uWTS+oZT0RWwmW9bLAw1syEU+/3U9wqerS9MW1/uAk8mfyud+Oh50e3NUe2
-VA3NVIELXeCCoF4dhFmNR7V4rttKmG4EqRQacUM5CndB41qQSqFxsm+xCzLXBbYRpTAu9Qd1n6K5
-dn0vZSvhfrd7GXwXTT0ut0ZFMnUNft4ZpAzMvNDxM3c1Hs133QiLaT526A2GN3RcH96MV0Lm3hE2
-wgl8Zj2OnGuWruFtpz1L0OI1NLcMnQhS/LADD7EWoFL8YJBqR0eGvQsvuB6oza1qdSsqyZK73Avc
-NW1Y9C0Bj9w3rS+9h4cpiUsyBsibOjT2VDxMR1dzOI8PVy62KJ06Hd3qm2E5GaasuTW3sXVn1bx7
-2Xq3qcKVwZ25wyo7cHebwCtXV10fQ7jNFFWOUSpeGyFUumf0vZ7rjbwVA8BPjlS+x9nc2ZSEUxiP
-8dTAmvjkvUuJX8RRFOZ28djbgCV8F4HMhjDLyUM4g6a5kzTEGoBKoZD3nd1QuA6gsuZrwd11Z2vR
-uSxMBBfWxUR0Ln/9W4/i1RIED45SEm7iEKA4glhP2W1aHAFeD8X7ByvPQ/MoSUWKFh2/Kr7Bk/V9
-9v3jbSGu5nydWfieUUrCLdtgrsvKmumEwYuU8NruQvTezjrI0kpaCcFA5dvq7KHRjW11ZrDSMd0Y
-u7I0zWcD6qyGzp3e5XqyzfzWxvtku9iJu7u5rlu2cWS2NLELZ9lWw7bsjbfWOZ5qdv6MDfZZyFtk
-6K7pWmJLExaFRZ+aZoK3S5k6gSeZI4/Q4L6Gim8jQheHhbx4/PgGypIgjNVBPGjIpVK1mLoqlZ7H
-ElubU3In9CyRkDtjb4OOMvDdIn/v34zanLfLbVWVqR/TFy62oiLT4XdCzaPp+zJpWzm5X6qHWgi/
-S3VQjwTnm9MR0BIRD+hOdOuewLhMbVoibF6dmg0w3TpPH0t5l8XcVRPiZerMvYmKrajPvZC27olK
-dz878p1zic5yXecn06ClUsFj30sD73ZbpEzH3xE9c0nfckn5ZEp4cyo+cbxtczruDr7RanTba927
-iQNTs+yW3RSJA1NrmpbWsvLEwcm07NEKUMkeH/MkitJ9rMm07twYRCNZTmVNOZXyOtbOr6Xe/5rP
-lMxVK1sGxqff/9K1RlOfvP9lmk18/8tu6NX7X7u4pm9DYx2BBfOVialJ1aOq6FFV9Ciuih5VRY+q
-okdV0aOq6FFV9KgqelQVPaqKHv3lix4JAQcUgo8Cir08FHvRIvMwp5gFZwl0IAQTzljyIcajSYK9
-dmPCXnt5jbLtBdDgdXxR1dbvjjD4I7SPsVWGnoDnSQaIs/k1c4U3JgsRh7m8Fzbtea1itxBGueDy
-YRq8zrn6r8xzroHRQDD3oxvhmG8wEBI0N6fKvLwDNOcc4CvqXGPUNu/rQW0gtAW6UZl4DsNqLD29
-Q1MJ4/X7EznLybMPELJ48RiXbgTTHcLHiuCVD8H53QqqrIaxP4G49MwKTRck6SSUD1F9hOxqCeOR
-P2KFr81XcWfSJ81EUihKpVaDGCuBUD4NIjfz2fGxdKHKvcshuSY6zYKzcX6q4oNc7ZBTXIp+oo+o
-aDzbUVQilyvHfMUkS2kLOWCVZU5cjzsYkeIiU+gmLi/FMlqZrFXbsEBKp0XMM57BWk3UaAbnhGaK
-MRSsUwiWWj/ENhhbi/h6Ev8psxoBI+c+9jYvHZ3XgZ7Dx80SUWwfQEbhIBLuUQyiIJyihDjCJz1Y
-WTjDGnJgujokPIvFEqKQCwzLxfRr1DRdhT+WUiTwlAkPYTVNuQgb6R3nl8PPF2l7Yk0jnCLEWvvo
-La+uZsi8ulIICcHMxOqPw0O8K9Z/EG+JFSASIL0qsgtrf4vwScZONVybjrwo47JcO4zmhfK57COW
-xljjSBSEUz0ZTCNrIainYCe44HNZ3wvhU48NYfEvLAQGygmB+SyRAQrwjgBFg6EqArHl1znCNPfF
-QvxqxpPVulOvh9SK8uI9WOOKJRh6RcGA3BPKAu/SHQqTAmR81k/zAukcImcyjHy3EMvEn2Jbd5IW
-gRa5ByVoCjCpBnmx+hvKwUf4WOouC1PPF6Xi06Go057zy/dhpKurrqhpP4f9IWgS1ovHQvJXVzUs
-gb63j7eprCcfAk4Lws3JlaJ3awRs9+ZwKnMnij2GteRnSAHxTcuvSzEXdIXshuRnJPuAJ+nhK0iy
-ZB+MkZ+5mh1LdgSeyjB3JvjHOvV0INdFOLSUhehVg7GE/QSg3DJjgXSdRLAoZ7f/KwMSXKT38xzU
-LOqObFWwBDW/QJoIk6T+rIqZ+tJrWmiaq1iVf6vyb1X+rcq/Vfm3Kv9W5d+q/FuVf6vyb1X+rcq/
-Vfm3Kv/2ifzbn31ipbrKvJY6/7XKTxneA+OR339tWPri7782DaNZnf/axVX9MF91Rq3KkVU5sipH
-VuXIqhxZlSOrcmRVjqzKkVU5suqH+QQh1Q/zVT/MV/0wX/XDfCv9MN+fndNZ5Vrv9/+W/uk/cX06
-/9ewDWPx9/+MpmFW+b9dXH/twmJfdOmMv3hRqy+jFMOXWSDjMy208hkXB/wrl076XMtR/cllU6oS
-dFXpw8+o9NyXVo7071Dw7csqp/mZFo+9q+KfdbHMHRauq+pxffHXI/mfgZfWN4YhkjyW9VD+B6/5
-81+a3TDNJ8Qqgb5Hr795/mcJ+YuNki7PgoAm43VgPJL/a+qatnD+T2saRpX/28V1ER2TX55dJGwU
-JeQNDXrgz8nX6UB+etmjY/C8CcPM+YtnHxVsjjuiLOgx12WuihP4Sx98Lq/N3seTfjNn+NqXMyf4
-QKeK83vitdkIXyCvNXVyfnly0um87rxW2pMdO35MYD4a1Sfsr4sDhSq+s86SOs2GMjud/y2OpcqT
-FvUF7aa+P6fZd/LaKm4mYnJ7l0C3DG/u8C7cmBzdFVzX5H+6PLy7RTRmMZirIKkob5nvR4eKIs75
-CW8jSy2EUer1i7Mzk3oJ7Qw0Zv6kqSJezsaHFB4G4jA9TVMWxGLHtzgrKt9+xx26Pb5Pns9g9Byb
-PZeceE6GlJNz6QhBkxXllIGAeMpifiy2yVRC41gWEZCHNI+J2GQNyCq8zocS78fLt9inwVYWc/zN
-rUAOz+SRKemB8bQatA6Kgg245gfg+VGBw2JUWPfjTjQNiRfQQV6oAs+XUi/kOeYieso7ABf7URKI
-F/lJj3J8HYGGuIkrjl8UdINJulO6JVreIMRN+qjfl3zIMVI5UdWEcZaqIJUhuBdVFf3zsTgTh8KK
-LXlgaRLFiSdOtOSHQdCvKErbT1kSglBHzIcFgtcn4ygjPeZ7bDQrVMKHok4A1n3osULqLhGqAQqF
-Z2cPFeyLZwTwLRbyoXPy7qzTPX3fvTx73b7odD902ufvT5G3gHkMzguAFsOLrX0eCVYqU0XL4fC8
-SsG06ADgkCuh0KIzWUUDa1CwG0my8HL5wRM+dxAVA9gkkJqPTC4sThzGwdMoGeBXU9rhuKj1QWI5
-vsCSynoiKSn2P+Hrb0AwrS0ex64zPPrZhec1Z+B9C0/+w963/0aOHGn+Pn+FgMXBe+dmDd9VZYwX
-Y3tm7bN3x0Z7fMbicBgkyWQVW3wNHyWpf7i//TIyWaUHP1ZHqqtkA9eyMVJnSRHJZGZkPL/IxnT4
-9W/M48nsv/muSQFSP/yBckbUafvqvdyJLuvfaYSUF0eRIqH/tlHvWueEq0XYxn62SSJvvQ7kepv4
-wvUDmSdJnPtRnPip9GW4ja+cWu7Fv/KjT6WWP7mYpLmTPDKuzKF9nlo+5Y1PR9bkik+/d8xw/qtM
-R50FcYJlodRlEJBWP5oZOFP6sez6r39fDKb85ut+ovO1yA5F33SFMnh+/4e//saJtmnnxF1wr8yx
-8O6rr/6nORhqc7+7ESVtVMr0VZtHLZH2rORKoGmsi8aIjrFV7OmcHcIJ8uUr++npTB9fvV0SIpO0
-upMlIZOsaBHMCc0bJeLviBftcnHK2FF72J7ls5D8tOqLaTyK1k/mXb7Imjl94E9JPG+TxsOdz79u
-/dcl8TxnwExMecYcpPD4r0jheTYR2wye5xM6JhJF0Xor4yherUS29fzNJlaPaJ/A83xmFvk7z2el
-03dCnb4TmvSd3/2v73/6y/s/f/e33/1IuSOnffzTJKV+dRrRCStFrWS9erPtQ1tM++AndV+OrWb+
-kxb6P9HE1C8vZOTkkZf6YbZJ3XwdBMLbRmG4DjZRHq3XoYiyXG7W8TqPRJpn6+02FEGgVlGtVxrL
-NN1Gixk53nrrZTKOA3ebpG66TvNUhG6SbzJfBplcp8LdemmSb0MZu5GXSE9k7tr305jwvEWuH/C7
-7//y/Q/f/fXml4rg042eJfTx05yZL96af8wXw/5ftpKYPD5h/yvOp/yfIFyvCf/dd6Mv9v9bfPHc
-ulozmrWKMCLU9IowUpHbLELTOyY2Pid6VAe0Trwyf7Bv+sH4FL4+0Z80sN2jsvBEbZiEu8l9NBO8
-HF3/SNfmYeddHycF81nbx8kRYtv38aV9nSW7S78uQP9Nnwj25bzgE+GOo9d8oga1br3gEzXpGz8R
-FV+V8qoPdWLxls+Fm+xe7qGOLXbf8InO9Lq94HOd6+V7vadb6DpEjYZCTzcd8uKIyu+smhXPmVxt
-4T43s3Z2Db429XR2710q/3R5hp87sc/YMq/ZoNbxcbLjLaPjZxbLIkR+Zsn+0Srol69/4Ndr7D+7
-6o9P2n+eG6+f2H/U/yvwoy/9v97k65/shvpc+X/p++jyN+aXO+PL1z/RF0P+2wS1IY9PyP/AjaJT
-/Z8fUf5PFH3J/3mbry9B2i9B2i9B2i9B2i9B2i9B2k8Gaf/Rl9WXr4t/MfS/p6qfde9v+vqE/ueu
-H/O/A/U/sv/VHv2i/73FF+7/rZWsmXL1Rbf6J9atXvn+X5z/5zndK7UvLrDHzp5/P1aX4Qv8Zy+O
-11/O/5t8vZdpU9eU6GxKMZJiSMStvFGa9EFtgNXqq9+dkqopHVvp0VVD9tu/S9rq3TEZeRrQyd90
-5P73L9Qe/sW7m184Kf13l64oY/o7SRnPv87V6ZSPH1INyaoVO9n9OhVP/ogwNFeJ6OR72TZ9QU69
-X6uT8+QPy6aWqyka815P7Aelv/5ayYhdUdNvlL1jJkz/OB40I7uoU4BO/aA7blcWSbqaptzJXB+t
-/uv/8Yv/ox9QZgafV3chSBslSpRe++6mGYd2HH71VS4GUSqrtBaEAKpWccLXZXH8+he/0u31Jvhj
-xepv7/9D/WsYO2o0qOH6fnUT+tuv/v94FUlRj0OhfnuXJW/6Rl4y/vJivryYLy/mSi/m5q+E+jqF
-Gm6+3nVj4si8uPlXyhoZe2Xc/u2HP/3w57//8NNv3//5T9//8O7Y8/fYdlb9hr9SJv1NTdVZj4M/
-fP2b/46oX4fy6CRNMzyh/Z/krYQkCY/XXc+oTuMLlB3tZLgG/Z0cBvpNm2XxVi5vvQ1tR+nWRSVK
-xxRvXYeVukYdf+Wylmi12ayC+Qrp4UXKzoSffx0O6ZTTxqMehr9UxwzQNx8scKiGjiCGr8jBQCbz
-9qk1i7Rr+n5aJiUu57vpLC/IZ+ExdKnjSLhTdsICcFnaq+ll5023j6MrPE+HrRoyLZQ5jNApU2Mc
-NsowvSQHtTT3affQsmRpSFAhM7J6dJnwEXjrwvS1TailtKN+XdZUFK8syoRM/AuuzxM2WZP2V2ZR
-KRPwGizM0e2zW+cJs1Z2ajuNVfVwSVZq9uoacojX5P7pL8/k8Xmuy6d/UNpUlbFkR+yBvatHl8jy
-dZhX0Dbv2EJmv3L+V2JBotTk46j/JuNY8F7CKvShHkDDZ3hcnvZJRTe36P0m/ikOba+3uVaJrrcX
-rFJRi6wQtWOSm5iPBhRYNbjM69VXtt0zvcWKkQgx70dngdE/bTYFc+UIpaVqWTTJszyXT2Z4riKU
-gpq6XJosqUz3vCWwo1tmyRUWwcBudE6nbh6Czyg+6n4/l5/9oXKmcLVjDHPH/Op1eF3pCYak3Mna
-RnLbvuOrvuIrENeKF389wlUIrgI9imlfmuguTS03uhevfKT16GFI/7OF4ytZzi/LC3FQMo2YWPgV
-XvsEr7iD7Vl1Y03QOtdap+tMehKa5jfsPFOYFzT4rzL7LPnk22U8xRqowPAZMjvXqQ3h1yulfC7N
-IxOTYs+zy/z1ygOmGQ0DHteg+RlH+FWcPkvC2nK0kRlWtJXMIIvTPJKl1h4z99SRxyvc2nwmj66F
-id11H+ZK1CvLY62UDH/+rjHl14UV2AyOuVDaedjsOtHuWT6dyF25YL+aYRYX56ArmFjq1Ou4tQ+G
-X9bwzmCwUgrr/IYywywuLDFix+ZnWY0sAeIpXRsIED0MqVpo4K8gbrxW1+MxFqWNN8xdxdsZbRrE
-lC9Lsht7FkVvtd3AS4CG56aO6Lh3sg1ZmuxJcdS/cnkeShz3Q+YwbSkr0sPHTAzCTtC7fpyypOXw
-kVIKXnUlsnmotTkIzrr4Kz8E62KGMVm7KK8N+Ur24hVecKX7Ix81DUMWl6d6J/tBfc4zYFxswLhA
-bhu6esEvGSO5z9oHXeHKohlCqiGiKx8k8zQG8DAGaFPc5k099NzIv1J2V/OIsB4F82UGZv3V3GWs
-R+ckPY/wgXlkY7gIMViEe8LfYm6BlQd3gRqek+0lk6rSY+EKxHOa1Bqj41GN4KuK0KsiyGPuVDdw
-qps50QP/FHhwATy0AEXdjsxljeECxGgB+EIghERDRLRqskow11XtoLlANMNzwoRjzV3YCC5sNFcq
-dqw4xIIKCDXA+9uEvNTc3YoOVoQE4Z16WxZbC0kXD0mXfBM7FDhvnDxhppW4aobz5dCj5+gfKspf
-ZD1AgK+IAN8RT1hw72J1IEBcgEYxeX0AyRlgcRItXu7jExT1IJl60Ha72noo8Gg+OPcg8sB81f7K
-gxEUPXzuOdKiUxo7V2ShhfrEu+gfatEORcrk4UEdSQ/PuMhaqdNFveOSxpQBYVI7HAo6c6Uuko4h
-0BY1YVEWgpt4Bq8eF1w9lMHVUWIV6/51V1sk0s0wpH2oeF56uhSQVKdhSDgTuvXChcUlUW5ZEdmA
-xOHcEDfD0PJkkbXRm2iy/b7K1X5mLkQAYo96FNKm08gLT9sucVHLTr2/S+tRZjMzzwjK89GjkGzO
-C0irtZzvCT2KJ2uj+KLjEQGlR09XV4UyCJMVOT/QehQRJkGkthv3xc3XQo/iA12lTK2Kr//dD2qF
-L35LabnGlmpol9EwJMtUPfi2MBFlenItqRY8oihlX49Coh7T67fB67pZWlfJX1kkx4IFOaYo9A3z
-ANvJG7IxqLKJ6WUOwbT1KCQumBvCxn7TUkdJB58nJ10oJ90F2TBwXRk+FA0+lpIF99pEGa16FF/J
-aVf34sDTqGymfJ8mWrt0jMLGVTRdOsJz2WaGl5kUXP2K9hkyF5G/9kj9WnSdO5a+4kLd24W694n0
-rXzoHyrWbfKqqesKPraCj0Q1ikqeyPNllQtVLheqXFMQUh5s8hlA/R8NniGuM5GvRbxqspHrKuZS
-L4eh3jnMAJwyt7G/woPqhyZtJs2sCrMnzy+NtCJuwrMDz4GIVF6k8J6IWsSAuLR3pleg7NTpctpy
-3BV174y7klmB4m+wNbcBR+kZq27oW8fgRFyZ0/GhEsFK6L0Ap13TvBWrhLr2XZzV/q4UQyYHmXKP
-Nzwg8+PRDXxJx6f6pMCwF0ND5VSXjA2+JH/54sWUjvZugknl+qnm51uPLtO/NOFDUTlDUT+VFFPA
-HlHeUj7qdju3EbZAJ1Gkr0CVJnvxyLFIW25Zl9JIUWUuDc/Jlr3QTTCYKirKAXZhCjDBSiTNvS04
-wAZdgsdP5i7ovKC6umrHk+4gPDmPTSqaB8GiFwC/5dzwoiapuaBkOd4SowUGGdb1+AKL4kythAvi
-knp0TpYwLmhJ06ZmxtJduIHnM1Z6fyXai5Z8K5lD54K5ddHGnZPsPvYfmdq9v/LRy9Lj84TDtGCX
-vCuLEkXFzPCccuVYFNMji8qDFlUvB6U5sfONYIwNxNeoRJV2mKyZUVTkS3KhL2nsE/ZKuCDq4IKQ
-w2ETs+Qu2XXQPeAhXUIcxL6gQGnd906V8ZyrFMSB9rCHQsqahVWWm7p//2+Xont5LiWTomYti7og
-1TGbv8BpfE63HOXHiGd6bOZkaRBoVnVdidqxkGlMjc3Q3dXMFGUX7uTFCTOve3TXz0hm+7RNeeaC
-C5ElzPCMblHL4TXVx/OrGGVTFm3XjINkOUPXUDlZQ+WkuOMFdYBMi5FMu5WsIFwApxgsFZaNTAMg
-8qFMp+F5Ul+TFKV0kq4RWSLq7AgI0TnctBmljUWe54Lc0umDGc9aio4pQ+GFCm7TOu/5l56v7AqQ
-UbpCynuTNzVvGVDY2kdBa6pm73teUpY6ZC14l3p4gTDreg5hfDKE8cm2bZ1MXfsF00aENxKiylvW
-CAJHRCDA08m+KQ98qb5FEYItNGX7suhY8w3VLkLK9RYo132T8rB9dARuIeDngYVQu0udY0l16pSu
-Sh72S95zd62yEce2LYtU1FxXDTpwIN5FniVH97vlCVAXuY7NMKbdir6/Y0mfYBWDa0mPzkmP/QNZ
-t2TmD4KZHRkg49YMLzGwulUXOKCLlZxN9tf2duXx6tIyNX3nTvBcIFwJookSPhmTKNgoehQSZoYt
-UE2hGZ5T7Zo2kTxPgvZwbIHXxozPfRQ8yCuluM+FCA3OCd4zYceU5gbknR6dOxMInVDph3dNd1sw
-gVdWG7QdzPBcUGck/IudFdyeh7QlMzzXE/OxzZo75kWo1gAaT2oYnO+izBxBQlXUqZyFif/2l+9+
-8+P3cBdGsJBFbRUabE59hzopev3Je92L5Kbo1RBFL2mlCEF2r/5DiKuiV9Pqhpsm1yjwE3A7AdIT
-uOo5PzU/LGDtAifB2olKqXlc4K/PwAk8MbsunytRbynW4VwYBW9GPxfsOhhbBieH+cXfARF1bA6x
-DeHrbM9Hyrn6Jkl2Xod8qeTAhN/7PLpyDR5XJF/UinRZkjdcR/0uv4Mwszfg8laPcx0OJrXi+kv2
-nM9VeeieWnrpLi6lpop709SEm2uLEoNBBTsxsIA/5s77NmFGJGFViY+rSiiOvOuakWV9WzrU7quS
-mVfpoQJJM7ygyk3Nby+6wE8AaK8AdEv94BxZH4quqStFgrCBCcuFACBsgHxeye2abMyD0Mqle8Hz
-Y1kx2DVXJF5kUrtbGh56nxXt681aKSrqFLS3uxcADpekbroqOn3SMMtpeBymHxzTHPKChPtiVyvD
-17m0Q470AmWxN5TndHm5MKo5a3v6GsTvipSfEsIlWpNZyy3UmaenxSA3rZYD17rlkmyoVYqxrS/4
-7M2hyp1eqQ0WqebsdT3he01D+mLWOOLkZ3bYeLqXYsiH4rkIvysIGcPg0o6TZ8S1ZX1powtwIOVE
-9r2iV4jy4q/mUwyvy0umZdH20slkMl50h89Z1Ze18OYMLpynChj0e8fG2/15nGzCqa9nNIg6E9T9
-SgsD06jhuiynxhnX33BTR4uu0b3J34AVqSuivWzq33Nez1FIr2NZPOM4hz59G6ZvsBk1gtzbP5wB
-rrv+4/WyzPXlLpnFE0wefVsKnlTixjs7KbKyqO2Q6lCdMIrQ9lIMzJycLSCpR+dEH/q8t0jLQXBB
-PoQLetpF5fKpyUfql04QPNKtRLpXL9IZyQ93DQYmT5da2l26pc/BhFD4aQ7URy7rcxTCpfG5LTs8
-dCMz1TFEcEdmeG7FUkmiJOQC/luF4FVzym0mBul06Yp5gOZJJSij9tCUyhqh3Lyizi66Sz4ycyao
-QB+lNwQgu0HwuqBRZs5ceujROclxaOhdOaJTx8UeoTMkh7I3t8WR+DvyssxaXfOEK1F/0cmCk73j
-IaBU3JOHIvs2xIPVhomGrSXsXnQ8BALKuwIQBGZ4Tnvo8p7v/kGQ6ghPXUPpOiw0FQJjXPnRL82f
-uIQBBnP2Z780Z5oqoc7sVQIykUJYS511tiCs6ijNF4kG58T3XSt42IBqAZDMAsVS2gP0+i4AqMcm
-bK/5hA2/48krqH9OgwEuu0enk2G8K8fLZtEoxXGQnWyZZ8IGuFWbpzLjJfahTF6Ux5vJD2JXj5bS
-MmZqupnsb4em1Umm/JxxJQDQEfDnRyAr+oGa2ehMtIs6J3Nq16m9/N2FvXlZkedE7bJhZrMSPKmF
-knjBdquKTOo+4Cyi82oNVCWW8dTBkKCy58tphudEm1TdnEp4VKWTDRlLPoWgBjoEFdAn2n3p9MND
-Kfu9lFxDYr2Fai0NA0bKfmNfzwj7BSG/ZO0t81z4GDbKh2/xTihlokvZuePcsyH9vG+7hgtrGa4x
-6O8abGdZ5hYCyNtC9JjtPLIku8amHsaDNQserFlQAogJzxCtQpQ0YYZndCmdMC8bnghSuiuqrTTD
-c9JMt6aa1lzE0+CcYsmLC/sQVtqHsNJ5xZO+Pu675eO+W7yL2V9FqL7YDM+J1qPF7UYp627sg9qo
-6YM5/YZMXtE92LQbsWq4RElV/vOCSlYbHuT5gmWKvkVQG4GEI4jwoh7KF12PzgiLCIk3Mzyj/EFZ
-j2xzCRp3EF6OsPa4ok1dooiuGkaUmTe2u1qjbW2GEV2uIqu3buT5DoJ2fPohYmJSB5mNsSnDDJW/
-eUhvVsRJy2eeF3z/+WiDlM0uTNtyZLpxfYijNo3PiY+s9KAIoqdHED3d2tcSQhgE2MJLkc7k4eJ4
-cpV87sI555WEF4AenpOtUhs9gJmBNWQ2xbbwkOAOIy+FJufNuUous15dLXhY0cHKnSuyNDinWNQf
-uGjL2JXqIV9qoxRkG8t0jYUcSg4iyuROvYJ5qmnfyoeODwHPJ8z25S147wDVjnnjKdmA4l00DCKL
-Q7q32r9c5ANNWdkL3FsaxxSRkXe6kkxCjdPKjosj6gNgKTOMuExlQ4MoLXi40PPoAtfjkUMtZdbb
-cHB9FwK1mA8W+Sh7k5I5rVgF8GEC/DBKAdaVUHz6AcI0CjCcbqXeguh62bHp+8qIRdE2DIZcWb1l
-uC5wWYhwX1St2q/8iftzxwoNzk8Zk2KEQ48RDj0q+cWNOVIkDHmtECpM28sx47YMRJXaZnhOd2qF
-KUqRKKuci5SJO4Ug0Xti0NeegYvlcUAKoAcVwBOHoamK9K4rBq5PiA+H9chj4NXn+DHseWKGF8kn
-IuF2tvEgWJ4eXiavXwBvz6M3HJ19w5QBODy0XDBBH4YOaXiZg9IYpahbXptb/ADLxOlCZPrE2W0O
-Tt1zRXngnS0C0tEhSFjlPX20zEd2Q8GrtdPwAmu14NCo1Z8ss8mZPCyyfE6096LLeDlgun3jqm36
-Yc7kyWfLrMoiZaXHbmCjqg1sVHUi3uwlkXEUE1n3vIwzDL+F0bceGZUNtxMMqbLIsRyCkoUjfT5C
-Br9n5VPaVcN7CS4hnCBNN0DNZE8cmtQm7oe0fx/o/kfqAzPKitvgnp340CsjgPda9Ymdv1czvMiB
-PGAiYUZQUDss1AzrRJyyr9ieE1ttYlcMGSutKcQNOELcgONIfk8G2GQi2dXOWj+JYZWLOlXK/0Nb
-OJT5yUMUpNsAKQHRWR3DMDzwmsK5UPC5ZwVfkdVMQDzY+wv4l0+UqcapLz4ywV6wY/Jc2/miLiyC
-HSvUC16PnmHQU506X83muhRPDPpmE7usDkA+3j1nN88HcoKxksMC2AAjgA0wTtT7pm4bau/Ig2CG
-2kVwVrsgFkauOn0rU6UrpWJQf8hFqY5WyNty/IDBlhlcRyqmGV7kMekZlDbSyV7/DWcRXdi51gwv
-8lIHsWC71AACrBk+Q/6W3Sbb1oSrRHfLRYSh7j4whdVDOaxPOYxtL3JuEh87S/aRwzB23DpuCCft
-LcBJHxlQhMKqWYCP3bH+ubvPDHDRwVDOFw2eIT/s6ZAzl4ndvvhEP6uUxZ7eSh4asr9C2bJ69DwL
-rYaUSkvm2hB80OwnfJjONZQza4aXiUtuVoZO5N4oMYckrPlkmUvBwxiNVxADTg8vEy/H3Y5ZXmHv
-HWh5rXAC5NcLznn12kaSZ5nK8bg7FKlM58SpumsG5gHwYMc6D3asO5Hvua3OCOx5rujr0WXqD+SW
-ZJo/4JZ0YXbPI/VUFB03RI9T9fxzWoViYNz6zHsG3TJniMsyZye2KPGCTOfgjHR+2BEUDDfNAOuq
-MIPhCYcm+cDMYAtWEfKomuEzLCxwmJWMgTVM8VkXiTIK1TtmXpIBrOIJYBXPEwZdQ8vk7Jvmlt35
-FyaUnH+OiQ2BunCBYlwM2eliyM5HXuoX+4FIXU95eejVlcxNxMV5uGcfQQce+zFhd7Nysarnnlf1
-DCMO/S3UkbbndaSHB1GxTkcM9eD4rB7cZTmzvG0Nr+X12Wu5kzl5cFPm2VMTxckZAcrOeGTy88hv
-VxagvGszvMwhT4Mg2DoHURbq2PH7V+IsveX7jhhtN2veiQhALoQeXSbfUL+NeqxkJ7jZlujWCM96
-OLqWEgpY+phxryKrZPpgmckoKlk63KNhl+NxZNKnTLeGWhB0sM3wMnmpXsdQpM7xL3guJws0wEdO
-w9ia2jg+0IyH9B0zzGHUpzyUMRf3pHZhU+o5H1bwKYRuZTO8zKPgNpJFQssMLxOvdKhXsNU31IDC
-xw0oTiwqXofTGK5OfH5x6uaOwM2ogL66nrOxb7pBEkz5IIpaMhMHsI54VkXs2+x+ctYQWCkvhYDC
-oyikcy6o07f7or53RLfTdgfXcEKiKz63boZN2rQPyTgMXBeUfeh0YtQNmTPsJS/qEsBLJTh7qRg+
-XB1rTn3LoE7brCsSDSsvqeiBezLRbjt7eJ6xy+Th7Zjth6rkc7MPbzzn9kFpZh1LE0Buk3NOkxd8
-lDjl1Wa/JiL0nNfPw9u9LQNMUnxU+jO9uDdietj5bZarf6q/ZwaSXrNVyGiyaPANo0ZnQ0ZD1xwk
-VYn3fZEX3NvDaJ4e7E/1+Nky04eWMEvVH8qa/oyrP+JwFWxf/oRVs+uKnKdqv+INEeCO6Y4wIXI4
-zTi0I9MlAJOdl3l1BXszxLC9UwybOz3SL5WhG/CWCil0PiwROJE/8NPfjOsFuhlgReaRxyHtj6YC
-ux8MKhXXo2e4TL/JPvlYfzx+sMjoLr0rMi6iBgLm0qPL5GWi87p4pz5asKui84aVYkI+LG45OXRi
-nfNh3e0lVxcNkfPVDC+Sv6/KockKnn/Xg42QPdgI+ciA7POy4DkR7Tp8HTl8LHid8V7hyWDqsiFM
-QafhGeFH7BKCBJy6FTDXHq384qpo8j9XrJWxMWOeTNuq3Jg3e6J+1yn1W1HXeDKXJM6t9fRXMbK3
-zPCcalspLe3nsSmEY5LznbYpi5R1J3Mhb54wYXokkLfADM+J9w81E3UEd9VGrvFuTJhqP9p7Idx7
-3Vg7lI1MGWCX3RkAstMGrnOLU1O353JTCYTfSUk93Ute8i65dlFPywAhSf48in5vAxampBWEU1kD
-QJWeUAFZB3+N48lzimNi4QP1SLiiZqQegn/p73jJiCEsmAlhwUz/0L/EtZpqFxf8ayFF+edroT6h
-Vwq6zh3/JqDGc0nX3MoazeIR1ZMw51jiLQDFXcF82YY0d9QP3Kvbw4fNQ+dtSMv5wp3tm4kUD1T2
-qShvrEhvyJzjlZSOdd6zVAIXL4aLF0PZWHkmWdVu/LawB1EyY8NRjDEq9DiiqwxOXq5KgDFGAowx
-ojVRrrYC4FHM8IysSNsiZRcAuCGorDx+MKfdp0WRNbzkOBfmTJnhOWVmvoUPpKAenVFMnoMrf/pg
-IBwNiHeZWpFVJ4CNpKk0e1aeNFkgKBKKUGLVdmisJkzYIazppupOvGWG0n2cFOvjpFilmdQFU89G
-F64enVMdeWgzOncNJ10CAUHIePaNkQMk2NAiP0vf5Ow23wfqJaQ87LloQVxc1VwJSvu1CPHtgea8
-E3e3loeai9uyI4h3U7fDFG8u9G2Y8fnm2zVkRZaNbkx1SV3emjAXTn6njFI7vGOkrsO1VpbpdY7L
-rmtyuzkThBR3i3ws7KbtISBfRHmftaJjJQ9sV/FcOtPgfMc99svNx7J00uplc4DP3npPWNzKrpYl
-RfauxIC88jpe01Ap1NU7MD9nd0kmSsCwCyh1tScygWkYUOaDLrl+5MYuMIymD2bEP4i6ZyJQafQx
-WMKNLEu1FDxwb3d+ltTYnF6RiIKpWFMiPExBpnFIeYY0f0ZZ3YDMdT2KKNvgLSGFUo8iwkVW+5YK
-IMqzQ2KLkIFqbmMt6L9wgeauqNY9t+8qv15Tk+2dumDtNi7gsKLaFq3kS9YIau4R0NwV6b4pWfKU
-wLwCZCLSMCI8FF3LrHHCELuoMEjRfX5DnveeoMiKh3JFy2K3H4aWqTWFqw3aaTQ8p9wohUHRZB5o
-f6F5MOwe3Cd23RshKDAg2zDBqLdb8OLM8JzqwEvv0MiVS1CtEfBGlOwNAeq3PFS6VfKbk4DWHjQ4
-I0kpwjxkAJ9yQeHNBtEKFd1W/cSN8M/XFbqkKtbBpco3UF5jhuc0M8Gr5kNQIAgIpCpqm+5C0Jsx
-F4mVLrZnlh3CBGUfJyhXfcU7AnTNAlA7MzyPfsqBH5CAGRI4PcL88LTVpRIzl8fxnPO5liVB16hg
-9mjme3yUUTVYOlDQbQfhFi2cdR7W4T2kwxtNUP3aoNHPbLD9UPbRAtBiUUndkooPkBdA1Ar4IgmA
-rxaV7NWgnPqSszl5yNL3kMf/CPUn7s3u53NwYUEp1JOOHCyIo+kDaNi22H3kLT1w0KOKl65Jef7N
-EEIIhgsQglXRs+4b2IoBNmI4BoRvi44VBrbJY/l5bHg1giGqiw5RXbRSlBNmAIiKGdHeQvh0imx/
-SKmrKhfdEEFueBBxo0+5QRq6DWFc2UNx5bST0g4TP4JVHLi/pJ2gDtFtCQnvRdbcOb1UNLgaCVfL
-OdJ+6LkNd+wo8yj6aI3N8JwutwO7D5MvfJx8MRB4jMMteSR7CZbO+rDXpg2G6bpF4td8gLIJbpUF
-yATiQGqHD9UORZcIsiatRDnu1oEyAIdn7bI5/meQ+gCzCOR9UeeNk41VZddVg6feTfStJr9mBhNI
-mbH1yvMkx1hDh/9CwguL5B0BqWXN7grw6kfSHJoRso0jZBvfPW+tzIqnoKQ5uBj7whoMHQA1I9L3
-mQVAvgeT6z2YXK/2seT1QdYdDFCDo+MHc9oshTCCmeERzAxn719U+IrW9WPPe3jyaCK3YQT0QdkW
-7V7UPIBelDwZodzJXcqK2lBjD+RDnsbnZLNbpy3uk5GZvxSGUH+n4TntgpBHd5IXZKHKHNxcBuXX
-ZHeiGIRDUIX8ssUIAjqj6gAL/HKUn6BHQWRbI7E4BYXhCJSLQPeYThoMqLRBxUW7XqmFGqj/2PnR
-oO6xZEeENk8Ed85w+0tmgr0friKEyKLHEWFm90Af9e00w4iqw7YiArQVzfA81l3oIhXLrcjvMKub
-Ve34TmKcSuWhXCoKAJqDxFVI0bWyxZ2ZdiMzeO6DJhE+bhFRNwOzWI4qi2DbcbwM5NMRXBwKi6Yr
-1KGqPzANlBjBKJhhGEyTyn7lgvt4EA6PhhfcRKztRpFlmMoZoFROXV7HSz7g5vRYgIt5Gxyh2wBh
-kYpa2SayLJ28YeI7qGd2USxlGkernPFSZHSiHvCGTuPzrDU1ZRsEXw/pX2Z4TruTktvfwKdsfkg5
-BJR3pWS5B2zaa+1KtnuAHE9BhGFApk9AcpZo95IbOLARzHvR5cn4kaU/eyHGnA8hXEaxG5xdO9pE
-cVArmbPpWXeyH9Sd1WfMqhjrZCbD4ErE7z0WGKJFJOhDK3fOMHYJS1IFEFcugLhyt1WfjglT4cAy
-dSG1RLbNPTPYGSH/gxlGlHNxK28l8xKHyUwwb4e8BUnDxfuBNwGMLfUZN3UnWAh4BjDmqUgfhE1X
-QdiM28fNuI+r4fR8EGzulXuifceMb0JwKIgNVUnqtCuUtcJ1c8CKJXwKd+XIS0hFu24LIfgq2QuH
-IpwlL6REWA3wsp0+gPkBzlXe4jwUfnmhOuehZKsObl6fy30vu8OFK7MRo8syqHfczmA4ZTJCOZNt
-U++ctGR2mOFOlgI6ktdSUvtwFhACQfClLbqDs5dEnt1zx1Z1M0zK8lA5QydqpSYyMSF9jIHmYxA0
-w4ata73qSZShMqgNqU3jqZEDU1AgpDCcmCA7TZdvDZFAQ3ojCsMOQ+4kxUBBN1ERPAq7RB6q0zP6
-h6Lbleqv1X7iCgSMm4hgEw9jeSvqa2/XiUvZCKb9/BlMrrpbJx6k9hTDA92dnegKfq/CV/KbYF9p
-C5fi4fov6tCUTGFrz+JO5DmvkwBWNrCmQYn1NRMYSp0EHGAKUISpGthFNMhJpUfBIjwoyz4z6SYp
-f8OibJZw7qk6krcIufFFxkScm0aMQcaR43/SedRVkFW6oIhnbvIg8e/Vn/ZNZ67LVhAVK2831kuR
-ZmqaH6WidO7ZWxK7ZMFTaIrUipIkDxsHGgMzoZSG+6bbOaS2V8LCeWiTVpoWIk2ZNUYuhgYASdhE
-edhT3zWnH8aE2xgNEIcFMPcpN3xhgcSr6R6Y+wNJLBeGxInsbZI2VcU1h2x63Rvq3GYwVk0GivtK
-MHW/EHfyCFErj/tb+ZA0ossskjz8VQjDxHNXp9oZNkmDNvuDziKbtGksi4wUVORHF4NTCYIcYr5G
-jOcEc9qOcvw+38QWa841/U/k1fKwVoauYB/EH8z4nH5HngQmcBkPYvLe4s6k8meUoD6Nz6NS5S0b
-Dcnmmn+DtqjOBLXG3N/QZJrG565l2U22gEX+HNdhO1VX98WOcDAdJWBsuHBvy1t5L1ObSIeaKoZo
-D+aHNJNt1WRXw7q7VcRZ6htqhgFbYVCdBO1zeSAKzHg/mixqc3Ykzq1ftzFM6vHeyYuuuhPMDl5U
-vLfBW11/sMCDHLnAkP/bX777zY/f44xO3GtrARDsvUyLVhIa2NhStUp2oxSuZtztb8RNL5VKTXWb
-VPaglLulE6NMqZ7ndOOrlPTsD006NGqVBx0DuxJ9DtkzHcyusKqJSGSpNy4zxuPBpGkPHDcNtqwO
-sWXvZNaaEu1srFq+FrmGdRxrUMehpqytXm1AXmHuL0BYPp9ecyc7prrhozRhH6YJF1Tr3PdOJ3fM
-UlryZrtbAwcIHN36o3keY2kiSFxbwMOJaeYDTJ3aNhY8EHNNCKqpyC+sqVt4CyEQlxleot02ZbN7
-cLjJmEQMKfHTOOYyppUVg1e8Ags3EtyiZniejFMK5lWAu98i2NddP9AlY/NaNyAB1gxD6vJeVC0b
-L8aSOoUQZKfkBB0qwXQ7vpoHNfG7eDzzGQd+9+HXP8blqau1b3bMtKsAkg0w1ZabzBWvIpRsRcMw
-yUNvSVIVWKvhQiXFhW1WiXqd0U3NjBUj0t4S6WEvG268jO9JGoqcCcqBVOAQFpFRvkvTJTy0GhuU
-lqrdeT4rEV39/QJZWNY7lr0UY8bDXsJ+KRiwTXhBc6hpguK8Vkpm1hPEL4XwpZpo1nOhTth01Sa4
-kwmTLL+H9L3PA/ruAhegCunRcxmBveB6J5kmUSDyVjCxDTeUiOuh6u4nn2F3/gOzOhgJBiQWTplf
-xifp7AZWkBN5PpHb80R+KlthZt2hjLtl2kdf9qWjVicGrSA7nWtOMtGgX+bzsbekdVLfILuqqLml
-EJYvVscLLebOI48TwC59aNu0EnXOTHnE8SDYgPp0yzhpWVBQlQ4Xf/ZzNjMW3f1hoEZQaZOxFNXt
-KkAdjoM5ZV3yVAvCRuLbOCS2tjicugW3pVoIy9Iqbk8OTdpgQPR7HtoB17/9WIEnJDOK6EJkCRf2
-B+3345A1d7WNpLQIMd/x6jsIewzXGaO0PnXv3xYD88pQ5joqqzTDc9KtTNTPss6cnIutsGDFYxu+
-bY25dGk9W7SdPjdsmwabNIgu1y2IjK81WGOhVMLSrumDu4pdCO2JCrHF4PRt4Wv5zdshMSqdNsNz
-6ikTForfd1YMA7O7GtJjfajHEsa/WgGyRblpnLpOC8KsoeyUpBItFyQ9gOGfAIZ/kqbpB9M+zyqO
-t8VnZYsOi+ZxebKpcFLZTbmzPK/UFEcCu2/6ABgTdd+U8paXkuWuEKqOHp1THnlAXhsM9rnBYJ88
-l3dEGs3czWKGQcA0KUTNVhMilHIQoXwD6ljQ9GnDu7UCUK8agGLVrOl9pTSxTOs1RIdYY3SIOt2L
-emAaCOr9oGJHGp67gzsCRy6YygD2M7vIz7zLkspK8kP0U4hAz+tvF8O0iximXezqRtkYR+QDgj3n
-dtrUiRAL+RGAzdgyM6HUpkVmHg0jsgPvfAQYSj3AUOrkKiT8RavXGFJ9OA9HZX+XCR6KgBJj0JcR
-Ai9GkbJKttYom2CNkgmKXplZygxi4gr6GEnFRxY0FTAwb1YfAhb6ELCQwhh9P/Ly+gJoQwTQhiDC
-Q1MVqdPwYBbXGPhgvQh8kPT8Xrq4FAVPOxVM19AapSCuYQCA3cPPJagjONsIz9bGAgRlqe5CWWpW
-9G0pHpwXMGRndQrYXBa/O3ngJ+1jn7q3gKjOTj/yF9L4FnFm5X3BilooAwHdT2YYEc5z1qUawDTx
-AKaJE9WKWoxzgzd8j5ImfQ2i1AnY0gDcMns3UXmu7r3K3HK4pNhbAErZFTx1i1Lb0FaGCPOKbLtz
-ZNfxagiUoY78DTF03StThHWRhLALRbjUheK2T5i7jZ+SSqX3bCxZrl+EiBZp17zsksDqTsdFQyQm
-rW3vO25rJcIqYlrZHoZ78BYWpk07XrKa56IcfD0K6XZMwAeXUmnQDRgtFI+2PTeagBBazTAMq8uU
-fCVcJwxsCI13dN+MLLKBIoDA32KcvdD3ey7COrJEPAz1rwgrO7Ufuud2Dm8385xzmsUdGzTaqupw
-7HhKvtaw0K1Nw5Bwn3Cr8xEavBlGhO/7kntPrUIIRq2GEeEXF+zZ9BNUeYVgecqPzBbYULn3FpT7
-j8w+7NwGEIogN4iBkFtA16yqzZl4mcj4CGG+TS2HobTD5kVKNzphte4IxJQOa/yq1uhV1e2wZ55a
-dGbn9MZKpAPbzIV9R2EBYut5Dts/6qNYiBmeEy5q9ecdE8yI36G9bdjqKsq9RktA3iqnG+uaWdID
-k11xqqtSGphtdnh47l294+f+qmt2rlfTIM7F41XS2Fy+RJP1+PTnyIMSoygsO5M9wFgVARKF/V50
-MnOqopJs495mI/Q/l8UgmcCtEW4bF6HOcYPggpT60PD0oeF5P6pldoTS9Eae24Cb8TIOedqyLp0Q
-Wi4htFwOvNZr7mqDLAkzPI9vF6y960JkRBciI97f75/3Ez+broG0cqPO/cvj182Pe3lTKkX0pslv
-Ol2V098MzU0ij0U72dNf/5d/+erm3U2fNJWTHqSjHXCOKeGhASI0hRLf6bia424cAks3P28dV0mU
-38r6A2Wf3LxvEvXfb5Lp36uO/v1t0jRDqf6lrIR/e3eT+Gm+2brJ2k8DkWShEME6z0QYrd1MpkIG
-0g+SyMuWp1UfsmdT0p3QI8elr+27xzKP9WnIaoJRuI4zz42DzToRaZTFmRtvhCuTdbiNRS5cT4oo
-8ARN8HmSuKnwcLr+ndGH1ftShvWWDtkfRX3z13RfFdlw880HUX+b0mVYpGMpuomvv4m2Se4qBu52
-HUeetw2kCJONGwV+ts5zGcaJ58kt8dUGqGjfGc0wnr6rV/G3WonYYlerl/zNePr5W133pUxLwr1e
-Nd1OsVPqD1FqDlX+7kZmt77T6waypufefGhjQ9zfrl0ZxdttImI/XudBsAnzXCS+m2/jOFxH642Q
-SbqhGVAXnJ2sKe+K1m2t01jVd32K/rSX1c178eHmm058WN2qf327q0RRTmsWx8KTvtpCItz423QT
-eFnsbbJtKuNN7IXeVqq1XG88/a5qRVb936nlHUX3q2LoHXFQxOgZP8kqzGOxjpNYvRF/vZXbjeuG
-eRR6+UZ6QRy4a5nLSLqaFbV10qWo73RmSPjumDZi/XqOpcap/v5O409u6ZuOxP3YyUPT3fxeVElJ
-+3rYmZ++TcQDIWvIae4viOXq6tEZHu9Ofo/QhCx+LKqbP3clmbDfDEWl5kI/f3vb1P1Y3jaYnE70
-IuAtcq3p7/6rp7anHEXiSUsW6LCXR8iN6vt7Ku397dgROt43tLirRP/jW9FVC8Qe2mbYy75Q70Gp
-ObHODTc/eK+e4WO3Xid9d6MvfH3S/9j0+1Hc/F0M6oT/8S/f/31PuVDdsz30ktR9VeoJ0dLHBhrj
-E7vwBYVKZ0cPVHmndMB35FbSaS7eBMr4qvepbIv24Z0JjZpvwatXq026dxSbosmszYO+ltLD8PHd
-CcPOfF+1TT94r3xMpeGlpU9hSC0+p61GM7S6Ll5SbbN7Z3ob051N39TZ/0/RDeLm/UOSfnyo+1tx
-801FI6vuNPLtw66Ttw8LhEfyLw3vbqaOXZ7JTrFcza6taKu5xx2nz1Wi9s/NfxFC8zdlIT/ui9WD
-+se35Gnq1D4/XlD5JvDTtVRSPYz8cJNlUZLmqUhzdVum3jqWMnDV9eVroV6Osu0KnUdbtUUpO1oH
-XwNN6I5Miv9/FOPNfxVZYfiOD9kqr/vh23z8oCTzODGVWRCJdB1mUvFIEi+P5EZx99xku5ZZ5uWu
-UibCVN+KGgc0k1Wj1p6QQt3p25LE50vjOFQ3mcxEniZbN/ACpUWpZXC3eSZzT0ovikUS5RuttLSF
-UsD1e9I7apE7Q55tvHwrRbpJUzfZJJ4vUhnE/lb4odwGSnNKN7nSotYpsZ0gz0wJlVoALZXVfz6D
-fRCnW0+xUO/XFxsRbaIwSdQdmIWuVC9esfYimbmS2Od51UoltTfmkG8NzLH1fVcqZUpfIq65lNSx
-KdK9kOXNn9tM1lqkqoNjxlbNaexbapRmnvLF8Rk/ftTrobfDRTZDsJFrKQLf89fhJpVqU66lv14n
-202yzkUWCD/LgiTQy7Jrd/RAU8W6b0yYPzT17n68+WOhZMBe/7z6UIjZeTsuSZGoA6FkPGmMDUlm
-soMD+rZm3otyvQnS3EvDyE1SGWZrP99G/6+9K+pt2wbCefavYJ+yPdgWJVKKVewhC7JgWIcFTfI0
-FIXjKIlR2fJkq2n263dH0g4VSyZpawG68R5itKZ0x/uOx++TbHkyugfGxDiLx3EwYsA5x726MnC0
-npWM0JRDSpaghhbignk5Xkzv8PkS2XsoAlAvsI9ms8VqIzpoSAKe0jgNEpA10NdXPy0r8QSu9+Rp
-mufwn3h1CXogJ3fj5x+WP4IuauHnipbr/ht8Qoix8HmShmzt8x4KpsIg6z6j4MWpIueKk1s6CWFi
-3DAx3Qny9m2ObnAG0k1kEVJPE8OMqJZGjaIrZm47qyTlJkf6rB7mbfzcODNZHyF1qo8NUZcE3ezk
-RBQEAz+m9FHNS43ES/JuRioSrnjKTWVB421XG4ovmb0ZLo7e+EkaUIO3cLTtbcPaFVk355EKd5G5
-OliDtw2tX5N5o79I+IP1QU3JDBsc6pQfyb5VNmE9B9qSbpleUzZRFkg5YHYkioQFWh7b5pVsO6qr
-ByUabCdHU6hQ98mBIJBCwLwARAfhNOXMtACa/IBcqKkE23mN0iDaYwm8qAmpIszuRElGURqNTO54
-g7uNzJDywnJ2VG+PDqgp8SFFh62vEDY1B18gTaQkMVeGSB2D4ghMXVhbzduSRCkRq24V4w5NTRWv
-uXsRI7tEiDmXYluLKCxyU5no24DQIO3qw3I3ZbAfmFKsFWddgrSLDzfex1TyQ1Phah1OqhGpQizn
-ygFeU6PR5opCBfdW27OfaG3FnEmlWtr1inmNBAJA6NKm9gJF/cK/UK5ImWJLUIDhGblQXCPHNTUj
-VYxVFuWOamLiWhbD0RA2/vXNFvHF5KV0hD8KPp1PymwGYYxzMoO+DQf8jN+cwiAeJhNSVnP8DeAl
-GQwGPUJuG94j90VJ/spm1beTuB8z0ygQZJ9n1TLvkdPr6/PfL6/J5enZb6cX5+Ti4x83l4QOw55+
-VTUlN+KODZ5vVahLq69GfCjk+9n867Qs5jgfGXBt1K/QvKcwTxHeI4ixApKFYf15/BL+8aeGIz9W
-c3w2JDlWTyNa30Q6thl7P51Pl49NQ2ULxsGbm1Lru1r1nDYce4biEg+tzWYvH2tEGo6+UU+4u7o5
-Ozu/uvrl5sM7cpln+JQh/HzAu1fDTytASC5Tgt8selgXTm3U1RgE8ALZMpbqHXS9CQafkuGy/Dpc
-FF+exZyG8jmAT0X5JSuH4+pR/maf+qtm03/MctAvQ6H8RkES8CDg0XCc50PN56CH9wNVYGKl3OJT
-+yAR4hl9BaQiz4snAoSaLIp8Onkmy2yF0a3EcfiEiUr+7ATBp+fUZ6RqMsUbjUUpCrHebNpKPdRL
-XVxwflXs4rLz1hBjtatxe9W7Otay4ttGN9a8Grxn1aujLere3k9z5deQsKl9dYCx+tW4N65/4fVf
-XAHi/LJUdy2Bq2wuqxZv5IDHFMrQ7rr98adDj77I5uJXY+AEmE6yGpe3kCKcXmc5H8BJBw9/C8SP
-/sP2qtKQgGR3w2594CcWEs7hlUY8DrTXjR1RHrKEsZAFMI4yltAjwrsNo9mqJSBNyNGmaFrGmd7/
-Tq2h03TuwwF/FnKK+Ac09vi/hZl2mi6qwQF/TiPEP+axx/9NzIi/2KI/L6vZbFw+7+cDAY4Zs8c/
-oknAjgh9FZwgH7A7dRqgx383/jox7+PzMPr3VZ4PVt9W1j4c8Id9PwL84xheLPE/MECP/278a//q
-SyGUFw8uBeCCP2Mx4J9ACdjif2CAHv/d+AM4tF/P8Vo4iU/Tib/RQAjgFh/O/Z+FNLLu/wcG6PF3
-7P9OrV+Ye/8XL/v2f7cAPf47rrR2owX34P9h4PX/m5gB/w7Y/z78P0ii0Lz+OwnQ478L/w7YvxP+
-0PkTwJ/HLLHD/+AAPf5O+Lvv/q74I/+PEmbB/zsJ0OO/C/8aucYPv6yptfxulHwJd7J/N/4nrv+y
-gIeW/f/gAD3+u/DXM7uX9kdzWv8g/KD/08By/R8c4P8cf2/evHnz5s2bN2/evHnz5s2bN2/evHnz
-5s2bN2/evHnz5s3b92//AF8KrqoAgAIA
+RnJvbSA1ZTgzNDdjNWQ5MGY0NjIyODY3MWMwZTdjODYzOWFhNGQzYTdlNThkIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgNyBTZXAgMjAyNiAwNToyMzozNiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMtbnVtcHk6IHVwZ3JhZGUgMi41LjIgLT4gMi41LjMKClNvdXJjZTogZG9jL2NoYW5nZWxv
+Zy8yLjUuMy1jaGFuZ2Vsb2cucnN0LCBkb2Mvc291cmNlL3JlbGVhc2UvMi41LjMtbm90ZXMucnN0
+CgpDb250cmlidXRvcnMKPT09PT09PT09PT09CgpBIHRvdGFsIG9mIDkgcGVvcGxlIGNvbnRyaWJ1
+dGVkIHRvIHRoaXMgcmVsZWFzZS4gIFBlb3BsZSB3aXRoIGEgIisiIGJ5IHRoZWlyCm5hbWVzIGNv
+bnRyaWJ1dGVkIGEgcGF0Y2ggZm9yIHRoZSBmaXJzdCB0aW1lLgoKKiBDaGFybGVzIEhhcnJpcwoq
+IElhc29uIEtyb21teWRhcwoqIEphbWVzIERhdmllcyArCiogSm9yZW4gSGFtbXVkb2dsdQoqIE1h
+YW5hcyBBcm9yYQoqIE1hdHRpIFBpY3VzCiogTmF0aGFuIEdvbGRiYXVtCiogU2hpa2hhciBHb2Vs
+ICsKKiBZZW9uaG8gS2ltICsKClB1bGwgcmVxdWVzdHMgbWVyZ2VkCj09PT09PT09PT09PT09PT09
+PT09CgpBIHRvdGFsIG9mIDI3IHB1bGwgcmVxdWVzdHMgd2VyZSBtZXJnZWQgZm9yIHRoaXMgcmVs
+ZWFzZS4KCiogYCMzMjIzNSA8aHR0cHM6Ly9naXRodWIuY29tL251bXB5L251bXB5L3B1bGwvMzIy
+MzU+YF9fOiBNQUlOVDogUHJlcGFyZSAyLjUueCBmb3IgZnVydGhlciBkZXZlbG9wbWVudAoqIGAj
+MzIyODkgPGh0dHBzOi8vZ2l0aHViLmNvbS9udW1weS9udW1weS9wdWxsLzMyMjg5PmBfXzogQlVH
+OiByYWlzZSBWYWx1ZUVycm9yIHdoZW4gcmVhZGluZyBpbnRvIHJlY29yZCBhcnJheSB3aXRoIHJl
+ZmVyZW5jZXMuLi4KKiBgIzMyMjkwIDxodHRwczovL2dpdGh1Yi5jb20vbnVtcHkvbnVtcHkvcHVs
+bC8zMjI5MD5gX186IEJVRzogYXZvaWQgdW5pbml0aWFsaXplZCBtZW1vcnkgYWNjZXNzIC8gTlVM
+TC1wb2ludGVyIGRlcmVmIGluLi4uCiogYCMzMjI5MSA8aHR0cHM6Ly9naXRodWIuY29tL251bXB5
+L251bXB5L3B1bGwvMzIyOTE+YF9fOiBUWVA6IGZpeCBgYG5wLnJhbmRvbS57Z2V0LHNldH1fYml0
+X2dlbmVyYXRvcmBgIGltcGxpY2l0IHJlLWV4cG9ydHMuLi4KKiBgIzMyMjkyIDxodHRwczovL2dp
+dGh1Yi5jb20vbnVtcHkvbnVtcHkvcHVsbC8zMjI5Mj5gX186IEJVRzogZG9uJ3QgYXNzdW1lIHN0
+cmlkZXMgYXJlIGEgbXVsdGlwbGUgb2YgaXRlbXNpemUgaW4gc3RyaW5nZHR5cGUuLi4KKiBgIzMy
+MjkzIDxodHRwczovL2dpdGh1Yi5jb20vbnVtcHkvbnVtcHkvcHVsbC8zMjI5Mz5gX186IENJOiBm
+aXggY2NhY2hlIENDIG92ZXJyaWRlLCBhZGQgQ1hYIGluIG1hYyBDb25kYSBDSSAoIzMyMjg1KQoq
+IGAjMzIzMDMgPGh0dHBzOi8vZ2l0aHViLmNvbS9udW1weS9udW1weS9wdWxsLzMyMzAzPmBfXzog
+QlVHOiBGaXggcmVmIGxlYWsgaW4gX2NvbnZlcnRfZnJvbV90eXBlIGZvciBjdXN0b20gc2NhbGFy
+IHR5cGVzLi4uCiogYCMzMjMwNCA8aHR0cHM6Ly9naXRodWIuY29tL251bXB5L251bXB5L3B1bGwv
+MzIzMDQ+YF9fOiBCVUc6IGZpeCBhIG51bWJlciBvZiBpc3N1ZXMgYXJvdW5kIGl0ZXJhdG9ycyBh
+bmQgU3RyaW5nRFR5cGUuLi4KKiBgIzMyMzI2IDxodHRwczovL2dpdGh1Yi5jb20vbnVtcHkvbnVt
+cHkvcHVsbC8zMjMyNj5gX186IFRTVDogYXZvaWQgYWxsb2NhdGluZyBodWdlIHR1cGxlIG9mIGFy
+cmF5cyBpbiBjb25jYXRlbmF0ZSB0ZXN0Li4uCiogYCMzMjMzOCA8aHR0cHM6Ly9naXRodWIuY29t
+L251bXB5L251bXB5L3B1bGwvMzIzMzg+YF9fOiBCVUc6IGF2b2lkIHBvc3NpYmxlIFVCIGluICdz
+YWZlJyBtdWx0aXBsaWNhdGlvbiBoZWxwZXJzICgjMzIyOTQpCiogYCMzMjMzOSA8aHR0cHM6Ly9n
+aXRodWIuY29tL251bXB5L251bXB5L3B1bGwvMzIzMzk+YF9fOiBNQUlOVDogdXNlIGBgUHlPYmpl
+Y3RfYGAgZnVuY3Rpb25zIGluc3RlYWQgb2YgcmF3IGBgUHlBcnJheV8gb25lc2BgICgjMzIzMzEp
+CiogYCMzMjM3OCA8aHR0cHM6Ly9naXRodWIuY29tL251bXB5L251bXB5L3B1bGwvMzIzNzg+YF9f
+OiBCVUc6IHZhbGlkYXRlIFVURi04IGFuZCBoYXJkZW4gU3RyaW5nRFR5cGUgYm91bmRzIGhhbmRs
+aW5nICgjMzIyOTYpCiogYCMzMjM4MCA8aHR0cHM6Ly9naXRodWIuY29tL251bXB5L251bXB5L3B1
+bGwvMzIzODA+YF9fOiBCVUc6IGZpeCB0d28gZXJyb3IgaGFuZGxpbmcgbWlzdGFrZXMgaW4gc3Ry
+aW5nZHR5cGUgcmVwbGFjZSBsb29wLi4uCiogYCMzMjM4MSA8aHR0cHM6Ly9naXRodWIuY29tL251
+bXB5L251bXB5L3B1bGwvMzIzODE+YF9fOiBCVUc6IGZpeCB2aXNpYmlsaXR5IGFubm90YXRpb25z
+IGZvciBmdW5jdGlvbnMgaW4gU3RyaW5nRFR5cGUuLi4KKiBgIzMyMzg0IDxodHRwczovL2dpdGh1
+Yi5jb20vbnVtcHkvbnVtcHkvcHVsbC8zMjM4ND5gX186IE1BSU5UOiBVcGRhdGUgbWxfZHR5cGVz
+IHBpbiB0byA4LzIxLzIwMjYuCiogYCMzMjM4NSA8aHR0cHM6Ly9naXRodWIuY29tL251bXB5L251
+bXB5L3B1bGwvMzIzODU+YF9fOiBNQUlOVDogVXBkYXRlIG51bXB5L19jb3JlL3NyYy91bWF0aC9z
+dm1sCiogYCMzMjQxMCA8aHR0cHM6Ly9naXRodWIuY29tL251bXB5L251bXB5L3B1bGwvMzI0MTA+
+YF9fOiBNQUlOVDogc2tpcCBmYWlsaW5nIGN5dGhvbiBsaW1pdGVkIEFQSSB0ZXN0cyBvbiBDeXRo
+b24gMy4zLjAuLi4KKiBgIzMyNDI3IDxodHRwczovL2dpdGh1Yi5jb20vbnVtcHkvbnVtcHkvcHVs
+bC8zMjQyNz5gX186IEJVRzogY2xvc2UgZHVwbGljYXRlZCBmaWxlIGRlc2NyaXB0b3IgaWYgZmRv
+cGVuIGZhaWxzICgjMzIzODYpCiogYCMzMjQyOCA8aHR0cHM6Ly9naXRodWIuY29tL251bXB5L251
+bXB5L3B1bGwvMzI0Mjg+YF9fOiBNQUlOVDogYWRkIG1pc3Npbmcgc3BhY2UgaW4gd2FybmluZyBh
+bmQgZXJyb3IgbWVzc2FnZXMgKCMzMjQwNSkKKiBgIzMyNDMwIDxodHRwczovL2dpdGh1Yi5jb20v
+bnVtcHkvbnVtcHkvcHVsbC8zMjQzMD5gX186IEJVRzogZml4IGVycm9yIGhhbmRsaW5nIGluIFN0
+cmluZ0RUeXBlIHRvIGZpeGVkLXdpZHRoIGJ5dGVzIGNhc2UuLi4KKiBgIzMyNDQxIDxodHRwczov
+L2dpdGh1Yi5jb20vbnVtcHkvbnVtcHkvcHVsbC8zMjQ0MT5gX186IE1BSU5UOiBPbmx5IHJ1biBu
+aWdodGx5IEJMQVMgdGVzdAoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQgZXhjZWVkcyAzMDAw
+IGNoYXJhY3RlcnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQgaW4gYW4gYXR0YWNo
+bWVudCB0byB0aGUgQVVIIGVtYWlsXQotLS0KIC4uLi9weXRob24ve3B5dGhvbjMtbnVtcHlfMi41
+LjIuYmIgPT4gcHl0aG9uMy1udW1weV8yLjUuMy5iYn0gICB8IDIgKy0KIDEgZmlsZSBjaGFuZ2Vk
+LCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0
+b29scy9weXRob24ve3B5dGhvbjMtbnVtcHlfMi41LjIuYmIgPT4gcHl0aG9uMy1udW1weV8yLjUu
+My5iYn0gKDk3JSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5
+dGhvbjMtbnVtcHlfMi41LjIuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhv
+bjMtbnVtcHlfMi41LjMuYmIKc2ltaWxhcml0eSBpbmRleCA5NyUKcmVuYW1lIGZyb20gbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLW51bXB5XzIuNS4yLmJiCnJlbmFtZSB0byBt
+ZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtbnVtcHlfMi41LjMuYmIKaW5kZXgg
+NDQwNjIwNDY4MS4uYzg4YjBiZjFhMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLW51bXB5XzIuNS4yLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29s
+cy9weXRob24vcHl0aG9uMy1udW1weV8yLjUuMy5iYgpAQCAtMTAsNyArMTAsNyBAQCBTUkNOQU1F
+ID0gIm51bXB5IgogU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9
+LyR7U1JDTkFNRX0tJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovL3J1bi1wdGVzdCBc
+CiAgICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJkNDgyZDE3MWM0MDZhZTg4YzVi
+MTljYWQzYjZhMWM0YzUyMDlmODg2YWI3NGJjNDRjMmM4NjVjMjNmNTJkODYwIgorU1JDX1VSSVtz
+aGEyNTZzdW1dID0gImRmMmQ1ODc0ZmYxODM1OTVhNGJhNDA0ZWRkMDRmNmJkOWI1NTA1YzFkNzcw
+ODU3M2Y2YTZjMTc0ODlhNjc1NjMiCiAKIEdJVEhVQl9CQVNFX1VSSSA9ICJodHRwczovL2dpdGh1
+Yi5jb20vbnVtcHkvbnVtcHkvcmVsZWFzZXMiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJyZWxl
+YXNlcy90YWcvdj8oP1A8cHZlcj5cZCsoXC5cZCspKykkIgotLSAKMi40Ny4xCgo=
 
---===============1162936331241049619==--
+--===============1409357017651697192==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-numpy/python3-numpy: FILELIST: directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/npysort/x86-simd-sort, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/sfc64 -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/sfc64, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/splitmix64 -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/splitmix64, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random -> /usr/lib/python3.14/site-packages/numpy-2.5.
+ 3.dist-info/licenses/numpy/random, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/distributions -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/distributions, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/src/multiarray -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/multiarray, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/linalg/lapack_lite -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/linalg/lapack_lite, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/src/common/pythoncapi-compat -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/sr
+ c/common/pythoncapi-compat, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/fft/pocketfft -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/fft/pocketfft, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/ma -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/ma, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/mt19937 -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/mt19937, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/include/numpy/libdivide -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/include/numpy/libdivide, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/src/umath/svml -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/num
+ py/_core/src/umath/svml, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/_core/src/highway -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/_core/src/highway, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/philox -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/philox, directory renamed /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info/licenses/numpy/random/src/pcg64 -> /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info/licenses/numpy/random/src/pcg64
+Changes to packages/x86-64-v3-poky-linux/python3-numpy (sysroot):
+  /usr/lib/python3.14/site-packages/numpy-2.5.2.dist-info moved to /usr/lib/python3.14/site-packages/numpy-2.5.3.dist-info
+
+--===============1409357017651697192==--
 
