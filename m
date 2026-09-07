@@ -1,188 +1,122 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C725FC79F89
-	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 07:41:50 +0000 (UTC)
-Received: from mail-pg1-f181.google.com (mail-pg1-f181.google.com [209.85.215.181])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.29626.1788766902646488573
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E265C79F9E
+	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 08:21:41 +0000 (UTC)
+Received: from alln-iport-6.cisco.com (alln-iport-6.cisco.com [173.37.142.93])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.30263.1788769295030624531
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2026 00:41:42 -0700
+ Mon, 07 Sep 2026 01:21:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Ds2se5iv;
- spf=pass (domain: mvista.com, ip: 209.85.215.181, mailfrom: hprajapati@mvista.com)
-Received: by mail-pg1-f181.google.com with SMTP id 41be03b00d2f7-cbb8b54fcf8so3452687a12.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 00:41:42 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=E278BTm8;
+ spf=pass (domain: cisco.com, ip: 173.37.142.93, mailfrom: hthakar@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1788766902; x=1789371702; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=k9Uc/bzwtfJiWsv7hBQdQwm0whjdzQ4JjjRUbUe1/sI=;
-        b=Ds2se5ivRfFpRf/CvTpFZuCWhQ5dGtySQ/N+zQh7NuQKTmm7xBiGofH49AYiU6GpPM
-         pdYYJJRBNH31xHEiZFg8UsUYLBJnRF1+CWdZaIAOw9sk9CbOI6eo3t8zWS4LrkKEaRfV
-         0LHSncbYmXjmFrUbsycUYQ/qVp9Xv91gFmCDg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788766902; x=1789371702;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=k9Uc/bzwtfJiWsv7hBQdQwm0whjdzQ4JjjRUbUe1/sI=;
-        b=kZGzM2a4nezU8WHyP0XGLxtiGVEK5s1SMQXBt+Gr3mPNAbbihRyqhzHVdQgvK3jnOp
-         lw+HgEus89SAOHjzFU3XbyjUh6r2nSYBmFpz1Su4jpOAz+nFhmKQPqJslMD+lYoUI7xC
-         A5wqZ2sjGJ1rVl5iCGEWce/J0Gxu0HKIAIO+7zqzH3eStNEztjLTuEq+DH56ADW51hPQ
-         Jmgq5+dDYd6XKcIHFYCzzC60Q5rhyPfNZVedfuKZJ5DADh5/62Od+CHV0IdsfLlrWiVm
-         9CJqmvy6r/7BaYtLnM/baAuToBrmryB5+hIM0nkqKMm32xNuaW9/MHUilPZ/NksC6Que
-         Uwbw==
-X-Gm-Message-State: AFuF++mKZ8JNY9pUFUqEAJR8QgNXd/LvmkPQBWrVpx9vycIFkWn0tyT1
-	udVxqdTyLMwN+2UocvtrKU8+6TetKDBW7skpg4r1mKHoglDD6lYfxdFmh8VXfCdxNNZ7cAbeyVz
-	4yDNs5ak=
-X-Gm-Gg: AYBFou11j21GkWlK7mJaSCkW9PD6eKfLJMfNUDklRCXdshuYk6bLrLD5quZgTynj6of
-	YA0m89BfqTVMOvayyG+zzscM6cx173AJOCxvfxGXb8RHOcQYDWSbOp0jabcZUdjfpecVGDR5iPU
-	oiIo1HS2qaRD12rZ3+CV7TbsOma/cXGFjBYI1btXX6ifsSNrzxEmKPTQLn/rfg0SKBoYyWPmlkH
-	sq9sS/SwhwwOg6XLZNE2WmhxMK9Y8sWSS/xMTT2irz2ewUk399f9G7RGabhMEvmns1mohy3MO9Z
-	7IjMH+DQqSPc45TXzbnkdENtknxpdMbesmKhNyEeUKLWl1+yeOngH6Ggf/lMcOGUILk0JfpQyDN
-	r9b4GtdO50dAUeWD/mbnP9qTqczHSbHNSTM+FiwF9UYu05zQSYStAh4Pa+w4rB4YRl2pOJV0VVM
-	cn3osrIIx/ZLfnL6mbk7S2PLa7GET+z7FEwsveIPakth+b6Wa4sVtgzgcJoZeJkFZWu24rPE7+H
-	Jk=
-X-Received: by 2002:a17:90b:3944:b0:392:b509:b1a5 with SMTP id 98e67ed59e1d1-39b261b19d9mr35651505a91.14.1788766901529;
-        Mon, 07 Sep 2026 00:41:41 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([103.250.136.170])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3339a62be87sm22577832eec.6.2026.09.07.00.41.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 00:41:40 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+  d=cisco.com; i=@cisco.com; l=1486; q=dns/txt;
+  s=iport01; t=1788769295; x=1789978895;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=zSlJCq1cq55UITEiXKXQ0CSJAmVV2Lz4H4C3FdrWbFQ=;
+  b=E278BTm83L553AvLLhcll3wvWFEN6GBc+lv2j29E8DSBgVOEIzFlQkxf
+   /YT2ITOOO8B6irBrpQAdgdzb+K4fR+POERX5I29S95aRchiud4MiQPMFV
+   rppau4P09rvTi0GYgyJ9mOwkuU5mPJnaD6jg+Jfu5z4sT0AuL2GA5FVq5
+   FKB+zE8ukZEnzDA0jdqN9+ogj7HVRPhahI3jAWkSs5cRHfEx53VylC0dF
+   vNvkEOyn21FNHOokYq1mCGYY9ACOL0MxrAA/LH0fMbtvUbdQ6u8dx0Bbb
+   UQjv5AunP8UCkvRpvy+zNAyZa4qkJS+HUO0L+31UffgnAs4DG8NyHcIcv
+   A==;
+X-CSE-ConnectionGUID: M6XF7WNKRGC0GuAjKOLC6w==
+X-CSE-MsgGUID: xwoh67YuQcaWq04oK9G3lw==
+X-IPAS-Result: =?us-ascii?q?A0BCAgA9c55q/4sQJK1aglmCV3RhQkmWSp4egX4PAQEBD?=
+ =?us-ascii?q?0QNBAEBhQWOBQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBD?=
+ =?us-ascii?q?hOGTw2QHzYBRjBcHQEmgwIBgnQCARHELoIsgQGEfdsxAQsUAQWBM4U/iCJ1A?=
+ =?us-ascii?q?YR8JxsbgXKEfoEFgVwBAYIthXgEgiKBDIQNj2VIgR4DWSwBVRMNCgsHBYFmA?=
+ =?us-ascii?q?zUSKhVuMh2BIz4XgQcbBgWBHYEngz8jGTZ6gQlegSspYAESF4EJgggCglSCA?=
+ =?us-ascii?q?QIBSUMOB0VTCSdBChIMCxgNSBEsNxUZBD5uB45tH4JWAWQqLIEbUhimHaEPC?=
+ =?us-ascii?q?iiDdowilToaM6ptC5h9jgqWUIRpgWg8gUcLB3AVgyIJShkPjjmDa4F/yjokN?=
+ =?us-ascii?q?QsyAQEHAgcOAwuBaJF+AQE?=
+IronPort-Data: A9a23:FaMHeKjwFtlpgRz0FJEmIc7YX161NxEKZh0ujC45NGQN5FlHY01je
+ htvWjvTO/iIN2P8Kt9yPITko05VuJTWm981HVdlrSE3Q3ljpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeCULOZ82QsaDxMuvrc8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqU9pNZZXl5o1
+ sY3A2giczmBpMWS6+ykH7wEasQLdKEHPasWvnVmiDWcBvE8TNWbGePB5MRT23E7gcUm8fT2P
+ pVCL2ExKk2eJUQUaz/7C7pm9AusrnnjczRboUi9rqss6G+Vxwt0uFToGIqOIIXWH5QKwS50o
+ ErW4GP5XE4rKeWUwAWcqi6rpb7gxifkDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
+ 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO+Q+7AfIzu/f5ByUQzBeCDVAc9ch8sQxQFTGy
+ 2O0oj8gPhQ32JX9dJ5X3u38Qe+aUcTNEVI/WA==
+IronPort-HdrOrdr: A9a23:KMROqasH4tBwkV+NflGU7MuA7skDWtV00zEX/kB9WHVpmwKj+P
+ xG+85rsCMc5wxxZJhNo7290cq7MBHhHOBOgbX5VI3KNGKNhILCFu9fBOXZrwEIMheOktK1rZ
+ 0QEJRWOZnXEUVwi9r87U2TFtYtx8TCzYWT7N2uqEuEiWpRGthdB8ATMHf8LnFL
+X-Talos-CUID: =?us-ascii?q?9a23=3ApLThYmvPPftneLmE8ct6Hpry6IsALE3zk0j2AHW?=
+ =?us-ascii?q?XIj5GVZSXani00/17xp8=3D?=
+X-Talos-MUID: 9a23:hPMkpAT60tMY/BWMRXT8mzZiaphZ/p2lAX8UyckBmJirbihvbmI=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,267,1779148800"; 
+   d="scan'208";a="832142977"
+Received: from alln-l-core-02.cisco.com ([173.36.16.139])
+  by alln-iport-6.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 07 Sep 2026 08:21:34 +0000
+Received: from sjc-ads-4178.cisco.com (sjc-ads-4178.cisco.com [171.70.54.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by alln-l-core-02.cisco.com (Postfix) with ESMTPS id DD60C18000200;
+	Mon,  7 Sep 2026 08:21:33 +0000 (GMT)
+Received: by sjc-ads-4178.cisco.com (Postfix, from userid 1887505)
+	id 7D52ECC1292; Mon,  7 Sep 2026 01:21:33 -0700 (PDT)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] perl: fix for CVE-2026-42496
-Date: Mon,  7 Sep 2026 13:11:27 +0530
-Message-ID: <20260907074128.234508-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
+Cc: xe-linux-external@cisco.com,
+	Hetvi Thakar <hthakar@cisco.com>
+Subject: [OE-core][scarthgap][PATCH] python3-pip: set status for CVE-2018-20225
+Date: Mon,  7 Sep 2026 01:21:27 -0700
+Message-Id: <20260907082127.471223-1-hthakar@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-4178.cisco.com [171.70.54.199];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.70.54.199, sjc-ads-4178.cisco.com
+X-Outbound-Node: alln-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 07:41:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245238
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 08:21:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245239
 
-Pick patch from [1] also mentioned at NVD report in [2]
+From: Hetvi Thakar <hthakar@cisco.com>
 
-[1] https://github.com/jib/archive-tar-new/commit/17c873492a05eddc0de18c1485e0b2cccd5a9158
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-42496
-[3] https://security-tracker.debian.org/tracker/CVE-2026-42496
+CVE-2018-20225 describes pip selecting the highest-version candidate
+across configured package indexes. Exploitation requires use of
+--extra-index-url with a private package absent from the public index,
+allowing an attacker to publish that package with an arbitrary version.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Commit [1] documents the dependency-confusion risk and recommends using
+--index-url for private packages. It does not change pip's candidate-
+selection behavior. This change records the CVE as disputed.
+
+[1] https://github.com/pypa/pip/commit/fe2721893636aa15ef04d02e9beb52f7fe9a0d27
+[2] https://nvd.nist.gov/vuln/detail/CVE-2018-20225
+
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
- .../perl/files/CVE-2026-42496.patch           | 86 +++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.38.4.bb     |  1 +
- 2 files changed, 87 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-42496.patch
+ meta/recipes-devtools/python/python3-pip_24.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2026-42496.patch b/meta/recipes-devtools/perl/files/CVE-2026-42496.patch
-new file mode 100644
-index 0000000000..34d59d9363
---- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2026-42496.patch
-@@ -0,0 +1,86 @@
-+From 17c873492a05eddc0de18c1485e0b2cccd5a9158 Mon Sep 17 00:00:00 2001
-+From: Stig Palmquist <stig@stig.io>
-+Date: Thu, 21 May 2026 19:59:21 +0100
-+Subject: [PATCH] Validate symlink and hardlink linkname in SECURE MODE
-+
-+Signed-off-by: Chris 'BinGOs' Williams <chris@bingosnet.co.uk>
-+
-+CVE: CVE-2026-42496
-+Upstream-Status: Backport [https://github.com/jib/archive-tar-new/commit/17c873492a05eddc0de18c1485e0b2cccd5a9158]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ cpan/Archive-Tar/lib/Archive/Tar.pm     | 30 +++++++++++++++++++++++++
-+ cpan/Archive-Tar/t/04_resolved_issues.t |  2 ++
-+ 2 files changed, 32 insertions(+)
-+
-+diff --git a/cpan/Archive-Tar/lib/Archive/Tar.pm b/cpan/Archive-Tar/lib/Archive/Tar.pm
-+index 476e646..4c73823 100644
-+--- a/cpan/Archive-Tar/lib/Archive/Tar.pm
-++++ b/cpan/Archive-Tar/lib/Archive/Tar.pm
-+@@ -944,6 +944,19 @@ sub _make_special_file {
-+     my $err;
-+ 
-+     if( $entry->is_symlink ) {
-++        if( !$INSECURE_EXTRACT_MODE ) {
-++            my $linkname = $entry->linkname;
-++            if( File::Spec->file_name_is_absolute($linkname) ) {
-++                $self->_error( qq[Symlink '] . $entry->full_path .
-++                    qq[' has absolute target. Not extracting under SECURE EXTRACT MODE] );
-++                return;
-++            }
-++            if( grep { $_ eq '..' } File::Spec->splitdir($linkname) ) {
-++                $self->_error( qq[Symlink '] . $entry->full_path .
-++                    qq[' target attempts traversal. Not extracting under SECURE EXTRACT MODE] );
-++                return;
-++            }
-++        }
-+         my $fail;
-+         if( ON_UNIX ) {
-+             symlink( $entry->linkname, $file ) or $fail++;
-+@@ -957,6 +970,23 @@ sub _make_special_file {
-+                 $entry->linkname .q[' failed] if $fail;
-+ 
-+     } elsif ( $entry->is_hardlink ) {
-++        if( !$INSECURE_EXTRACT_MODE ) {
-++            my $linkname = $entry->linkname;
-++            if( File::Spec->file_name_is_absolute($linkname) ) {
-++                $self->_error( qq[Hardlink '] . $entry->full_path .
-++                    qq[' has absolute target '$linkname'. Not extracting ] .
-++                    qq[under SECURE EXTRACT MODE: extraction itself chmods ] .
-++                    qq[the shared inode.] );
-++                return;
-++            }
-++            if( grep { $_ eq '..' } File::Spec->splitdir($linkname) ) {
-++                $self->_error( qq[Hardlink '] . $entry->full_path .
-++                    qq[' target '$linkname' attempts traversal. Not ] .
-++                    qq[extracting under SECURE EXTRACT MODE: extraction ] .
-++                    qq[itself chmods the shared inode.] );
-++                return;
-++            }
-++        }
-+         my $fail;
-+         if( ON_UNIX ) {
-+             link( $entry->linkname, $file ) or $fail++;
-+diff --git a/cpan/Archive-Tar/t/04_resolved_issues.t b/cpan/Archive-Tar/t/04_resolved_issues.t
-+index fc713cd..593501a 100644
-+--- a/cpan/Archive-Tar/t/04_resolved_issues.t
-++++ b/cpan/Archive-Tar/t/04_resolved_issues.t
-+@@ -219,6 +219,7 @@ SKIP: {
-+ 		}
-+ 
-+     { #use case 1 - in memory extraction
-++	        local $Archive::Tar::INSECURE_EXTRACT_MODE=1;
-+ 			my $t=Archive::Tar->new;
-+ 			$t->read( $archname );
-+ 			my $r = eval{ $t->extract };
-+@@ -230,6 +231,7 @@ SKIP: {
-+ 
-+ 		{ #use case 2 - iter extraction
-+ 		  #$DB::single = 2;
-++		local $Archive::Tar::INSECURE_EXTRACT_MODE=1;
-+ 			my $next=Archive::Tar->iter( $archname, 1 );
-+ 			my $failed = 0;
-+ 			#use Data::Dumper;
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-devtools/perl/perl_5.38.4.bb b/meta/recipes-devtools/perl/perl_5.38.4.bb
-index b86c58f540..f2a1b22b14 100644
---- a/meta/recipes-devtools/perl/perl_5.38.4.bb
-+++ b/meta/recipes-devtools/perl/perl_5.38.4.bb
-@@ -24,6 +24,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://CVE-2026-57432-01.patch \
-            file://CVE-2026-57432-02.patch \
-            file://CVE-2025-40909.patch \
-+           file://CVE-2026-42496.patch \
-            "
- SRC_URI:append:class-native = " \
-            file://perl-configpm-switch.patch \
+diff --git a/meta/recipes-devtools/python/python3-pip_24.0.bb b/meta/recipes-devtools/python/python3-pip_24.0.bb
+index 1b6281c81f..7107b1c8df 100644
+--- a/meta/recipes-devtools/python/python3-pip_24.0.bb
++++ b/meta/recipes-devtools/python/python3-pip_24.0.bb
+@@ -43,6 +43,7 @@ do_install:append() {
+ }
+ 
+ CVE_PRODUCT = "pypa:pip"
++CVE_STATUS[CVE-2018-20225] = "disputed: Exploitation requires use of --extra-index-url with a private package not present on the primary public index; pip intentionally selects the highest version across configured indexes"
+ 
+ do_install:append(){
+ 	# pip vendors distlib which ships Windows launcher templates (*.exe).
 -- 
-2.50.1
+2.35.6
 
 
