@@ -1,188 +1,461 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <anis.bougrine10@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B53C79F99
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46E98C79F9E
 	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 10:29:00 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.30521.1788770502592647711
+Received: from mail-ej1-f53.google.com (mail-ej1-f53.google.com [209.85.218.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.31770.1788776929657949461
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2026 01:41:44 -0700
+ Mon, 07 Sep 2026 03:28:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=fVaBCF/K;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=37101daba7=himaniramesh.barde@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68778gol3549577;
-	Mon, 7 Sep 2026 01:08:44 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=eLtmLx0JUkNI/prF0gAb1WMEg0RJxOytZtY4AbKGgCU=; b=
-	fVaBCF/K3SSw6mIiyV+lrnCxS9sY1GaYH2p+K+NcTKPPAaq1r33zkSyDZ/sFj4od
-	cYdBa0EECCSnGzjzI02L5d0pnSWiXJiLndZeM6CKsqzzcnmpqmSXb9Etjwtth4PC
-	oo3cEUNSP1faC1rcPFnOXrCevwotldgrlqgeQcl1+0II+BcW3tina4IWRsxKd8Kn
-	yc8r4HugyDG2ABYpqJtP9EiTsT3CkcfsrG2TvGgGjCoU8VOtRfFrTrZZqLUCJVDi
-	ZPkqaBl6XX2GY2V8gYC8IhmovFWyR1T2jRWnvP4REf2FB2tAysJJssOnO7YlnkMQ
-	i0ZH+oQNfo+fgX/sm18yBA==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ggec0sxwn-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Mon, 07 Sep 2026 01:08:44 -0700 (PDT)
-Received: from ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Mon, 7 Sep 2026 01:08:43 -0700
-Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Mon, 7 Sep 2026 01:08:43 -0700
-From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <Randy.MacLeod@windriver.com>, <ross.burton@arm.com>,
-        <jose.quaresma@oss.qualcomm.com>, <raj.khem@gmail.com>,
-        <richard.purdie@linuxfoundation.org>, <Shiva.Komati@windriver.com>,
-        "Himani
- Ramesh Barde" <HimaniRamesh.Barde@windriver.com>
-Subject: [OE-core][PATCH v2] systemd: re-enable ptest support
-Date: Mon, 7 Sep 2026 08:08:37 +0000
-Message-ID: <20260907080837.202307-1-HimaniRamesh.Barde@windriver.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260904080215.2501426-1-HimaniRamesh.Barde@windriver.com>
-References: <20260904080215.2501426-1-HimaniRamesh.Barde@windriver.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=jCKhIB6T;
+ spf=pass (domain: gmail.com, ip: 209.85.218.53, mailfrom: anis.bougrine10@gmail.com)
+Received: by mail-ej1-f53.google.com with SMTP id a640c23a62f3a-c2533d83e3bso557191266b.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 03:28:49 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1788776928; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Dc4u86ZOSlsHW5jx9K7wHSgD712yOGtcBONdvv8IAb+b60M2OOj+EvTGbVuvfDri7a
+         4RzTfkuB01GbdI2ITrfQ+zsHaLfzMC/9uPbzt28XhS34pSaknrQwk/RTSTTOWIQP6+bv
+         XsQqFli9fwjKuHhcImxGRj4uEca0fyRhqwPoYn6PrREil7hDz3661/lOT1F6oAkS0wsv
+         V1h7IescgMNyW/YBb+2yyEIY4nICZIA0r2T/1IbeM4wxmKyIplqr73Z44M6d6h67A0/+
+         0jbc6ryyQZphCw2rcKYjJ3LjvgipN4sxrwSZYqTgnngN5WXVrd4TaXORfQAXBSAVYZKp
+         U3WQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=JR6LfXjyc+zsk+/tulJkKJD+0oe4qq9CK1Gm+lzRNAo=;
+        fh=A5xWKNo3nsvxDj9/Ld9vhCIqE8TtZ2r83zO3+dev4EE=;
+        b=QCXbpYwniNe3nkkZVovBhISe39GIOhRAoRY3Z2E6n2m8EiheTEQ4/afj0Y36mEY847
+         EuYkFDTQXDFo7ST6Fm5mvVOmeMpxZ8JuZneHIHCush63YlcznItc38g6S2mDjztvmuQH
+         koeEDz74UqDRjJHFappZ3vqM/0vc65KmJEaZDGooN1fvxQHTgV2NJaM+3GWmHR3DBJat
+         LSYAscP+CDhb09C8Geu/w049v99FnES8UQAxlGDVF+KP7dYEDp5M9WoNfP++3MIYZc8B
+         33LQxQxy2OvbIUa4HDkSGAywiTpWei4koRqMdxWWnK5fSdtR00NczXwi3DofCqiwWOG8
+         lIow==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1788776928; x=1789381728; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=JR6LfXjyc+zsk+/tulJkKJD+0oe4qq9CK1Gm+lzRNAo=;
+        b=jCKhIB6Tf5Wny8Ib2vPSwgWfgyekMzaggojYtQniA60pC+o9LuPXCvtSwLRm8l0S4c
+         57ECfywNa33gOv+qugCJ1m1YK2Ik4ncYFzWd1KwWlu9pU5krYpm+dg419W6cSJBOxy4O
+         i3hxF+86t+xXIC+HLxrLBLLYKeDxYiurmlFo0nhoQi7yrXsqBOBmc1SlcdSwonfWWZjI
+         SKPEnuSJoJD/uvmGkOnkkBESCC9rKvcl6Bixo66SPlnF1SMOjn7VN1e8mb4r3oviaCf5
+         F6tD9MAay6tI1ipLF7NG1JpfKaRqrlOSwj6RbCaweJcPWpVnZO4xRjLY3Xve2CTKFABE
+         OfRw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788776928; x=1789381728;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=JR6LfXjyc+zsk+/tulJkKJD+0oe4qq9CK1Gm+lzRNAo=;
+        b=FQ+uMblIw1M0tXelo2W1pajxzx4TFFIm/sKRA8pvBeV3vhCwdjtpdYT/T09ds4qupm
+         SlQGNzE/QWH/EGVkHuzZnm+L0j3RiJJxwBX2HT4uIMVt3OgmUNKHzJRxBKzBDSsUJmbn
+         YOOpvhUzJHNNOpQHIIUzvrMp5efJIvYed+rbNjEKQwRh8AiphzOS/7ZpP+Jd9jbq+OLF
+         djaDWqKdiH7UWdI7b/rQyIx6SgId+Jw2McYichxACUTqAkinPFm0hI7990t8lTS/kjuv
+         BlF+IjwuB1pKfD8MkU+qNlH/l17SLxL+lonVUhgBn82s418VLw4lB7lZmizYO/xVPflN
+         xlWA==
+X-Gm-Message-State: AFuF++kBkdI+p+SyOht+X/TmINCxcKYSuudEExZUYF+fFOB+ZmMtCGcg
+	47fxa+EL8xuqTEB6673LuiFReFPL7WupEYvBe/PVgMlIHcgmkN6BpvUbAgUpLyJGqarNyVA8S38
+	TG0w597t1uXNdE6yxB4J+NGE0uouaEWZQfkSP
+X-Gm-Gg: AYBFou35IifylLgkFSG6qYm2ADyb8NeMhiAGSwHW2O+y0tMaELm02smIY/ytAUU0W2o
+	Bg5vjkdnZ6dERviehgJWjEEVvjCnHwoAJiPpk3L7vRlcD3IJpdtaeu4h6C6c8QDifxtsuBfYZa2
+	dlVOdrw8glcjTQ+GDgjGV1A+j214aMToSTrb7D6DB0QDO2a6JI6E8YyO0O6XorUeRiXEIBnmwU8
+	ZFNiOLkx1NmFUDjY97kXSdiSili0sdRbxU0LfTGarZvH5VawFPWm5elPZcnpCb3zrrqTzARKBeC
+	HE0jbDRSYWTH95kg8KxiaGaqOOfMdpOCOcCD3zE6spVF1zhd4SxzybdabvFIHGtQrcFL3vMml+K
+	no2tkQNMCpok6dZCYuqZfhPfXaqqgiSTin6sR3UmqUnO0M9jhMUpOXYevh9EKCUpJ
+X-Received: by 2002:a17:907:3f24:b0:c25:58e:83ff with SMTP id
+ a640c23a62f3a-c260c9f0348mr1451351566b.10.1788776927677; Mon, 07 Sep 2026
+ 03:28:47 -0700 (PDT)
 MIME-Version: 1.0
-X-Authority-Analysis: v=2.4 cv=E+v9Y6dl c=1 sm=1 tr=0 ts=6a9e710c cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=HK-ge7EqtdluswH-FwHe:22 a=GhQEx97vAAAA:20 a=t7CeM3EgAAAA:8
- a=tjuFXTvfhPsJCo5rsE0A:9 a=FdTzh2GWekK77mhwV6Dw:22 a=bA3UWDv6hWIuX7UZL3qL:22
-X-Proofpoint-ORIG-GUID: XxzmGG8y7B65kO6SKdmWFC50xaltKg8Y
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA3MDA4NyBTYWx0ZWRfX0JgdkB9MoBbb
- dYr/P7x33vv8oEbUNsyKZ7rnP568PWbPZu+1Fq6hLEaZ1fm1Tzb9/Jih3ZPw1G/Cze2DhnyxAVu
- qXFPM2KR+Txt5hgFXPZhM96jlvDLIhRGYkhs9ixdxh76mrN18j1E
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA3MDA4NyBTYWx0ZWRfX6X/C3k2icuKU
- CTQnG1iWbYBVNmUwqreVL0EQHySWxO+1rITtyudbC+8qphdJwZLDTVqV5BJVVTgGJwFYqgKclES
- yeMIT3uXG7M+RKqautVjIFyChezfKGqSASar/ARLBGk8bu6oG7hu4mKZdrmca2Mv/a2Dy9KjES7
- aDmushSoxCiMGpc3p1oL41/Lhm1AKjJF5KUgsItzCuOtvtdnyTXVzyVmwPcPRcGUPJestccxuSd
- WB/An5kLJcIepC6SR7cMfpnhplC7FTgSCEw4nHAZsVFQFiB7zLtMfj0zPef1KhJMhdVKSuMUDs9
- OXW9wnW/Q4ertsylfebjdqWAonKZGn0812CcCh2xFu4TiEhR+bakHDSIqWJooNY029F3gAf25R2
- 7DHyeha25T4Lwzb3JCOxw/jWITYOePm+NoOTa2l9Nvm5DsXaBBC5cJ2GJ5XsgNiHjOHEVTFH48i
- mniD+bZ7NAbVfsyR/Lg==
-X-Proofpoint-GUID: XxzmGG8y7B65kO6SKdmWFC50xaltKg8Y
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-07_02,2026-09-03_01,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- phishscore=0 impostorscore=0 clxscore=1011 adultscore=0 bulkscore=0
- spamscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
- priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
- definitions=main-2609070087
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+References: <20260826233416.37047-1-anis.bougrine10@gmail.com>
+ <20260826233416.37047-3-anis.bougrine10@gmail.com> <7f5c5ec971adc08fc5e2ca6e4b0c30840880cb3f.camel@linuxfoundation.org>
+In-Reply-To: <7f5c5ec971adc08fc5e2ca6e4b0c30840880cb3f.camel@linuxfoundation.org>
+From: Bougrine Anis <anis.bougrine10@gmail.com>
+Date: Mon, 7 Sep 2026 12:28:36 +0200
+X-Gm-Features: AcwNN1VBNhArLPoNNiZe7HDSrnnXsa6XX5hfF0LS8cAAsItHjtnETb_RCmZpLks
+Message-ID: <CAGgtUzYzD2RrBtRN6irANJX3L8qnsXjiB8LSWj_tR49J4T2GeA@mail.gmail.com>
+Subject: Re: [OE-core][PATCH v7 2/5] kernel: re-sign kernel modules after
+ package stripping process
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org, 
+	Ross Burton <ross.burton@arm.com>, Bruce Ashfield <bruce.ashfield@gmail.com>
+Content-Type: multipart/alternative; boundary="0000000000005b516b065ae215bc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 10:29:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245244
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245243
 
-ptest support for systemd was dropped in 2018 (commit 906230a73b3c) when the recipe switched to meson, as there was no easy way to install and run the test suite. Current systemd and meson resolve this: the meson 'install-tests' option installs the unit-test binaries and a run-unit-tests.py runner under ${prefix}/lib/systemd/tests, and run-unit-tests.py already emits PASS:/SKIP: results per test.
+--0000000000005b516b065ae215bc
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Add a 'tests' PACKAGECONFIG gated on PTEST_ENABLED that sets -Dtests and -Dinstall-tests and pulls in python3-pefile-native (needed to build the boot hwids test). do_install_ptest relocates the installed tests into ${PTEST_PATH} and drops the mkosi/integration-tests harness (which needs a booted system). A run-ptest wrapper drives run-unit-tests.py, and systemd is registered in ptest-packagelists.inc.
+Hello Richard,
 
-The test/units integration tests, which require a booted system, are out of scope here and can be addressed separately.
+Sorry to hear that, and sorry for making you debug this for hours.
 
-Verified on oe-core master (261.2, qemux86-64): with ptest enabled, 342 unit-test binaries plus run-unit-tests.py install into ${PTEST_PATH} and systemd-ptest packages cleanly with no QA errors.
+I just saw your patch, =E2=80=9Ckernel-module-split: Remove get_ext_mod=E2=
+=80=9D. I=E2=80=99m OK
+with that workaround.
 
-[YOCTO #16386]
+On my side, I=E2=80=99ll think about a better solution to cover all out-of-=
+tree
+module use cases.
 
-Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
----
-v2:
-- Gate tests via a PACKAGECONFIG on PTEST_ENABLED (Jose Quaresma).
-- Drop the redundant copy; relocate installed tests into ${PTEST_PATH}
-  (Jose Quaresma).
-- Register systemd in ptest-packagelists.inc, fixing the missing-ptest QA
-  error seen on the autobuilder (Khem Raj, Richard Purdie).
-- Add python3-pefile-native dependency (fixes boot hwids test build failure).
-- Exclude the mkosi/integration-test harness from the ptest package.
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-core/systemd/systemd/run-ptest   | 11 ++++++++++
- meta/recipes-core/systemd/systemd_261.2.bb    | 21 ++++++++++++++++++-
- 3 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-core/systemd/systemd/run-ptest
+I=E2=80=99m rebuilding my PC for an upgrade, so it will take a while.
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index ce6c0a2d76..4697843555 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -146,6 +146,7 @@ PTESTS_SLOW = "\
-     python3-numpy \
-     python3-xmltodict \
-     strace \
-+    systemd \
-     tar \
-     tcl \
-     tcl8 \
-diff --git a/meta/recipes-core/systemd/systemd/run-ptest b/meta/recipes-core/systemd/systemd/run-ptest
-new file mode 100755
-index 0000000000..b2204b96d4
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/run-ptest
-@@ -0,0 +1,11 @@
-+#!/bin/sh
-+# Run systemd's installed meson unit tests in ptest format.
-+# systemd's -Dinstall-tests=true installs run-unit-tests.py plus the
-+# unit-tests/test-* binaries; run-unit-tests.py already emits PASS:/SKIP: lines.
-+set -u
-+here="$(cd "$(dirname "$0")" && pwd)"
-+for cand in "$here/run-unit-tests.py" "$here/tests/run-unit-tests.py" /usr/lib/systemd/tests/run-unit-tests.py; do
-+    [ -f "$cand" ] && { python3 "$cand" 2>&1; exit 0; }
-+done
-+echo "FAIL: systemd-ptest (run-unit-tests.py not found)"
-+exit 1
-diff --git a/meta/recipes-core/systemd/systemd_261.2.bb b/meta/recipes-core/systemd/systemd_261.2.bb
-index 80e1aa07d1..3e04bd803c 100644
---- a/meta/recipes-core/systemd/systemd_261.2.bb
-+++ b/meta/recipes-core/systemd/systemd_261.2.bb
-@@ -9,7 +9,7 @@ DEPENDS:append:libc-musl = " libucontext"
- 
- SECTION = "base/shell"
- 
--inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives systemd gettext bash-completion manpages features_check mime
-+inherit useradd pkgconfig meson perlnative update-rc.d update-alternatives systemd gettext bash-completion manpages features_check mime ptest
- 
- # unmerged-usr support is deprecated upstream, taints the system and will be
- # removed in the near future. Fail the build if it is not enabled.
-@@ -37,6 +37,7 @@ SRC_URI += " \
-            file://systemd-pager.sh \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0003-Do-not-create-var-log-README.patch \
-+file://run-ptest \
-            "
- 
- PAM_PLUGINS = " \
-@@ -937,3 +938,21 @@ python do_warn_musl() {
-         bb.warn("Using systemd with musl is experimental, see https://github.com/systemd/systemd/blob/9ca4334/NEWS#L524 for details")
- }
- addtask warn_musl before do_configure
-+
-+# ptest support. systemd's meson 'install-tests' option installs the unit-test
-+# binaries and run-unit-tests.py under ${prefix}/lib/systemd/tests. Gate it on
-+# ptest being enabled and package the installed tree. [YOCTO #16386]
-+PACKAGECONFIG[tests] = "-Dtests=unsafe -Dinstall-tests=true,-Dtests=false -Dinstall-tests=false,python3-pefile-native"
-+PACKAGECONFIG:append = " ${@bb.utils.contains('PTEST_ENABLED', '1', 'tests', '', d)}"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}
-+    if [ -d ${D}${prefix}/lib/systemd/tests ]; then
-+        mv ${D}${prefix}/lib/systemd/tests/* ${D}${PTEST_PATH}/
-+        rm -rf ${D}${prefix}/lib/systemd/tests
-+    fi
-+    rm -rf ${D}${PTEST_PATH}/mkosi ${D}${PTEST_PATH}/integration-tests
-+}
-+
-+RDEPENDS:${PN}-ptest += "python3-core bash"
-+INSANE_SKIP:${PN}-ptest += "dev-deps debug-files"
--- 
-2.54.0
+Thank you.
 
+BR,
+Anis
+
+On Sat 5 Sep 2026 at 09:39, Richard Purdie <
+richard.purdie@linuxfoundation.org> wrote:
+
+> On Thu, 2026-08-27 at 01:34 +0200, Anis Bougrine wrote:
+> > Fixes [YOCTO #12927]
+> >
+> > Currently, signed kernel modules are not stripped in order to preserve
+> > their valid signatures. See commit 4c47e5f.
+> >
+> > Therefore, this commit makes kernel modules stripped and correctly
+> > signed. Two options are possible:
+> >
+> >     - Strip the kernel modules after installation and before signing.
+> >     - Re-sign the kernel modules after stripping and before package
+> splitting.
+> >
+> > The first option was rejected because debug symbols would be dropped
+> early
+> > in the build workflow, which may impact the SPDX process.
+> >
+> > The second option is adopted because it does not impact the build flow.
+> >
+> > Reported-by: Ross Burton <ross.burton@arm.com>
+> > Signed-off-by: Anis Bougrine <anis.bougrine10@gmail.com>
+> > ---
+> >  .../kernel-module-split.bbclass               | 25 +++++++++++++++++++
+> >  1 file changed, 25 insertions(+)
+> >
+> > diff --git a/meta/classes-recipe/kernel-module-split.bbclass
+> b/meta/classes-recipe/kernel-module-split.bbclass
+> > index ab2f0d1c37..2b40437cc2 100644
+> > --- a/meta/classes-recipe/kernel-module-split.bbclass
+> > +++ b/meta/classes-recipe/kernel-module-split.bbclass
+> > @@ -35,6 +35,11 @@ modprobedir ??=3D
+> "${@bb.utils.contains('DISTRO_FEATURES', 'systemd', '${nonarch_b
+> >
+> >  KERNEL_SPLIT_MODULES ?=3D "1"
+> >  PACKAGESPLITFUNCS =3D+ "split_kernel_module_packages"
+> > +# Order matters:
+> > +# 1. Strip the modules
+> > +# 2. Re-sign the modules (if enabled)
+> > +# 3. Split the packages
+> > +PACKAGESPLITFUNCS =3D+ "post_strip_kernel_modules_signing"
+> >
+> >  KERNEL_MODULES_META_PACKAGE ?=3D "${@ d.getVar("KERNEL_PACKAGE_NAME") =
+or
+> "kernel" }-modules"
+> >
+> > @@ -42,6 +47,26 @@ KERNEL_MODULE_PACKAGE_PREFIX ?=3D ""
+> >  KERNEL_MODULE_PACKAGE_SUFFIX ?=3D "-${KERNEL_VERSION}"
+> >  KERNEL_MODULE_PROVIDE_VIRTUAL ?=3D "1"
+> >
+> > +# This function supports both in-tree and out-of-tree modules.
+> > +post_strip_kernel_modules_signing(){
+> > +    # Read .config values to determine if module auto-signing is enabl=
+ed
+> > +    is_modules=3D"$(${STAGING_KERNEL_DIR}/scripts/config --file
+> ${KBUILD_OUTPUT}/.config --state MODULES)"
+> > +    is_module_sig=3D"$(${STAGING_KERNEL_DIR}/scripts/config --file
+> ${KBUILD_OUTPUT}/.config --state MODULE_SIG)"
+> > +    is_module_sig_all=3D"$(${STAGING_KERNEL_DIR}/scripts/config --file
+> ${KBUILD_OUTPUT}/.config --state MODULE_SIG_ALL)"
+> > +
+> > +    if [ "$is_modules" =3D "y" ] && [ "$is_module_sig" =3D "y" ] && [
+> "$is_module_sig_all" =3D "y" ]; then
+> > +        # Sign modules under ${PKGD}, with M=3D if out-of-tree module.
+> > +        # Out-of-tree module Makefiles invoke the kernel Makefile by
+> appending M=3D (the module directory) to MAKEFLAGS.
+> > +        # However, they usually do not provide a modules_sign target.
+> Therefore, the kernel modules_sign target has to
+> > +        # be invoked manually after retrieving M=3D variable from pack=
+age
+> source code Makefile.
+> > +        oe_runmake \
+> > +            -C ${KBUILD_OUTPUT}  \
+> > +
+> MODLIB=3D${PKGD}${nonarch_base_libdir}/modules/${KERNEL_VERSION} \
+> > +            ${@'M=3D%s' % oe.kernel_module.get_ext_mod(d) if not
+> "virtual/kernel" in d.getVar('PROVIDES') else ''} \
+> > +            modules_sign
+> > +    fi
+> > +}
+>
+> This has merged and I'm really happy to see the signing code improved.
+> There is a weird bug this as introduced though where the eSDK is
+> breaking in kernel module compile tests.
+>
+> This is an example failure:
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/builds/4551
+>
+> In the bad environment, you can source the test eSDK environment:
+>
+> .
+> /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-lin=
+ux/core-image-sato/1.0/testsdkext/environment-setup-core2-32-poky-linux
+>
+> Rerun the compile step:
+>
+>
+> /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-lin=
+ux/core-image-sato/1.0/testsdkext/tmp/work/qemux86-poky-linux/kernel-module=
+-hello-world/1.0+git/temp/run.do_compile
+>
+> where you see hello-world.ko get generated:
+>
+> make[2]: Entering directory
+> '/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-li=
+nux/core-image-sato/1.0/testsdkext/workspace/sources/kernel-module-hello-wo=
+rld'
+>   LD [M]  hello-world.ko
+> make[2]: Leaving directory
+> '/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-li=
+nux/core-image-sato/1.0/testsdkext/workspace/sources/kernel-module-hello-wo=
+rld'
+>
+> then watch:
+>
+> devtool build kernel-module-hello-world
+>
+> fail as above, noting that the hello-world.ko file disappears by the time
+> it runs.
+>
+> To cut a long story short (hours of debugging), this happens during
+> parsing of the kernel-module-hello-world recipe. If you add a
+> bb.warn("Executing make") to oe.kernel_module.get_ext_mod() in
+> meta/lib/oe/kernel_module.py, you will see it runs make during parsing
+> and that make command deletes the .ko file.
+>
+> This raises a few questions:
+>
+> a) why is make being run during parsing?
+>
+> The shell function is being expanded to work out dependencies
+> and that triggers the python function call. This should definitely not
+> be happening during parsing so that is a bug.
+>
+> b) why does calling --dry-run on the kernel makefile delete files?
+>
+> We need to fix this somehow to avoid the failures/bad behaviour. I at
+> least wanted to explain the issue now I'd found the underlying area of
+> the problem. I've not really had a chance to think about solutions yet.
+>
+> Cheers,
+>
+> Richard
+>
+>
+>
+>
+>
+
+--0000000000005b516b065ae215bc
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"></div><div style=3D"font-size:inherit">
+<div style=3D"font-size:inherit">
+<p>Hello Richard,</p>
+<p>Sorry to hear that, and sorry for making you debug this for hours.</p>
+<p>I just saw your patch, =E2=80=9Ckernel-module-split: Remove get_ext_mod=
+=E2=80=9D. I=E2=80=99m OK with that workaround.</p>
+<p>On my side, I=E2=80=99ll think about a better solution to cover all out-=
+of-tree module use cases.</p>
+<p>I=E2=80=99m rebuilding my PC for an upgrade, so it will take a while.</p=
+>
+<p>Thank you.</p>
+<p>BR,<br>
+Anis</p>
+</div>
+</div><div dir=3D"auto"></div><div><br><div class=3D"gmail_quote gmail_quot=
+e_container"><div dir=3D"ltr" class=3D"gmail_attr">On Sat 5 Sep 2026 at 09:=
+39, Richard Purdie &lt;<a href=3D"mailto:richard.purdie@linuxfoundation.org=
+">richard.purdie@linuxfoundation.org</a>&gt; wrote:<br></div><blockquote cl=
+ass=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left-width:1px=
+;border-left-style:solid;padding-left:1ex;border-left-color:rgb(204,204,204=
+)">On Thu, 2026-08-27 at 01:34 +0200, Anis Bougrine wrote:<br>
+&gt; Fixes [YOCTO #12927]<br>
+&gt; <br>
+&gt; Currently, signed kernel modules are not stripped in order to preserve=
+<br>
+&gt; their valid signatures. See commit 4c47e5f.<br>
+&gt; <br>
+&gt; Therefore, this commit makes kernel modules stripped and correctly<br>
+&gt; signed. Two options are possible:<br>
+&gt; <br>
+&gt; =C2=A0=C2=A0=C2=A0 - Strip the kernel modules after installation and b=
+efore signing.<br>
+&gt; =C2=A0=C2=A0=C2=A0 - Re-sign the kernel modules after stripping and be=
+fore package splitting.<br>
+&gt; <br>
+&gt; The first option was rejected because debug symbols would be dropped e=
+arly<br>
+&gt; in the build workflow, which may impact the SPDX process.<br>
+&gt; <br>
+&gt; The second option is adopted because it does not impact the build flow=
+.<br>
+&gt; <br>
+&gt; Reported-by: Ross Burton &lt;<a href=3D"mailto:ross.burton@arm.com" ta=
+rget=3D"_blank">ross.burton@arm.com</a>&gt;<br>
+&gt; Signed-off-by: Anis Bougrine &lt;<a href=3D"mailto:anis.bougrine10@gma=
+il.com" target=3D"_blank">anis.bougrine10@gmail.com</a>&gt;<br>
+&gt; ---<br>
+&gt; =C2=A0.../kernel-module-split.bbclass=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 25 ++++++++++++++++++=
++<br>
+&gt; =C2=A01 file changed, 25 insertions(+)<br>
+&gt; <br>
+&gt; diff --git a/meta/classes-recipe/kernel-module-split.bbclass b/meta/cl=
+asses-recipe/kernel-module-split.bbclass<br>
+&gt; index ab2f0d1c37..2b40437cc2 100644<br>
+&gt; --- a/meta/classes-recipe/kernel-module-split.bbclass<br>
+&gt; +++ b/meta/classes-recipe/kernel-module-split.bbclass<br>
+&gt; @@ -35,6 +35,11 @@ modprobedir ??=3D &quot;${@bb.utils.contains(&#39;D=
+ISTRO_FEATURES&#39;, &#39;systemd&#39;, &#39;${nonarch_b<br>
+&gt; =C2=A0<br>
+&gt; =C2=A0KERNEL_SPLIT_MODULES ?=3D &quot;1&quot;<br>
+&gt; =C2=A0PACKAGESPLITFUNCS =3D+ &quot;split_kernel_module_packages&quot;<=
+br>
+&gt; +# Order matters:<br>
+&gt; +# 1. Strip the modules<br>
+&gt; +# 2. Re-sign the modules (if enabled)<br>
+&gt; +# 3. Split the packages<br>
+&gt; +PACKAGESPLITFUNCS =3D+ &quot;post_strip_kernel_modules_signing&quot;<=
+br>
+&gt; =C2=A0<br>
+&gt; =C2=A0KERNEL_MODULES_META_PACKAGE ?=3D &quot;${@ d.getVar(&quot;KERNEL=
+_PACKAGE_NAME&quot;) or &quot;kernel&quot; }-modules&quot;<br>
+&gt; =C2=A0<br>
+&gt; @@ -42,6 +47,26 @@ KERNEL_MODULE_PACKAGE_PREFIX ?=3D &quot;&quot;<br>
+&gt; =C2=A0KERNEL_MODULE_PACKAGE_SUFFIX ?=3D &quot;-${KERNEL_VERSION}&quot;=
+<br>
+&gt; =C2=A0KERNEL_MODULE_PROVIDE_VIRTUAL ?=3D &quot;1&quot;<br>
+&gt; =C2=A0<br>
+&gt; +# This function supports both in-tree and out-of-tree modules.<br>
+&gt; +post_strip_kernel_modules_signing(){<br>
+&gt; +=C2=A0=C2=A0=C2=A0 # Read .config values to determine if module auto-=
+signing is enabled<br>
+&gt; +=C2=A0=C2=A0=C2=A0 is_modules=3D&quot;$(${STAGING_KERNEL_DIR}/scripts=
+/config --file ${KBUILD_OUTPUT}/.config --state MODULES)&quot;<br>
+&gt; +=C2=A0=C2=A0=C2=A0 is_module_sig=3D&quot;$(${STAGING_KERNEL_DIR}/scri=
+pts/config --file ${KBUILD_OUTPUT}/.config --state MODULE_SIG)&quot;<br>
+&gt; +=C2=A0=C2=A0=C2=A0 is_module_sig_all=3D&quot;$(${STAGING_KERNEL_DIR}/=
+scripts/config --file ${KBUILD_OUTPUT}/.config --state MODULE_SIG_ALL)&quot=
+;<br>
+&gt; +<br>
+&gt; +=C2=A0=C2=A0=C2=A0 if [ &quot;$is_modules&quot; =3D &quot;y&quot; ] &=
+amp;&amp; [ &quot;$is_module_sig&quot; =3D &quot;y&quot; ] &amp;&amp; [ &qu=
+ot;$is_module_sig_all&quot; =3D &quot;y&quot; ]; then<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Sign modules under ${PKG=
+D}, with M=3D if out-of-tree module.<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # Out-of-tree module Makef=
+iles invoke the kernel Makefile by appending M=3D (the module directory) to=
+ MAKEFLAGS.<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # However, they usually do=
+ not provide a modules_sign target. Therefore, the kernel modules_sign targ=
+et has to<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 # be invoked manually afte=
+r retrieving M=3D variable from package source code Makefile.<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 oe_runmake \<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 -C=
+ ${KBUILD_OUTPUT}=C2=A0 \<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 MO=
+DLIB=3D${PKGD}${nonarch_base_libdir}/modules/${KERNEL_VERSION} \<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 ${=
+@&#39;M=3D%s&#39; % oe.kernel_module.get_ext_mod(d) if not &quot;virtual/ke=
+rnel&quot; in d.getVar(&#39;PROVIDES&#39;) else &#39;&#39;} \<br>
+&gt; +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 mo=
+dules_sign<br>
+&gt; +=C2=A0=C2=A0=C2=A0 fi<br>
+&gt; +}<br>
+<br>
+This has merged and I&#39;m really happy to see the signing code improved.<=
+br>
+There is a weird bug this as introduced though where the eSDK is<br>
+breaking in kernel module compile tests.<br>
+<br>
+This is an example failure:<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/30/buil=
+ds/4551" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/30/builds/4551</a><br>
+<br>
+In the bad environment, you can source the test eSDK environment:<br>
+<br>
+. /srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-lin=
+ux/core-image-sato/1.0/testsdkext/environment-setup-core2-32-poky-linux<br>
+<br>
+Rerun the compile step:<br>
+<br>
+/srv/pokybuild/yocto-worker/qemux86/build/build/tmp/work/qemux86-poky-linux=
+/core-image-sato/1.0/testsdkext/tmp/work/qemux86-poky-linux/kernel-module-h=
+ello-world/1.0+git/temp/run.do_compile<br>
+<br>
+where you see hello-world.ko get generated:<br>
+<br>
+make[2]: Entering directory &#39;/srv/pokybuild/yocto-worker/qemux86/build/=
+build/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testsdkext/workspace/=
+sources/kernel-module-hello-world&#39;<br>
+=C2=A0 LD [M]=C2=A0 hello-world.ko<br>
+make[2]: Leaving directory &#39;/srv/pokybuild/yocto-worker/qemux86/build/b=
+uild/tmp/work/qemux86-poky-linux/core-image-sato/1.0/testsdkext/workspace/s=
+ources/kernel-module-hello-world&#39;<br>
+<br>
+then watch:<br>
+<br>
+devtool build kernel-module-hello-world<br>
+<br>
+fail as above, noting that the hello-world.ko file disappears by the time i=
+t runs.<br>
+<br>
+To cut a long story short (hours of debugging), this happens during<br>
+parsing of the kernel-module-hello-world recipe. If you add a<br>
+bb.warn(&quot;Executing make&quot;) to oe.kernel_module.get_ext_mod() in<br=
+>
+meta/lib/oe/kernel_module.py, you will see it runs make during parsing<br>
+and that make command deletes the .ko file.<br>
+<br>
+This raises a few questions:<br>
+<br>
+a) why is make being run during parsing?<br>
+<br>
+The shell function is being expanded to work out dependencies=C2=A0 <br>
+and=C2=A0that triggers the python function call. This should definitely not=
+<br>
+be happening during parsing so that is a bug.<br>
+<br>
+b) why does calling --dry-run on the kernel makefile delete files?<br>
+<br>
+We need to fix this somehow to avoid the failures/bad behaviour. I at<br>
+least wanted to explain the issue now I&#39;d found the underlying area of<=
+br>
+the problem. I&#39;ve not really had a chance to think about solutions yet.=
+<br>
+<br>
+Cheers,<br>
+<br>
+Richard<br>
+<br>
+<br>
+<br>
+<br>
+</blockquote></div></div>
+
+--0000000000005b516b065ae215bc--
 
