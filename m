@@ -2,51 +2,51 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 01D64C79FA7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E968C79FA9
 	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 13:36:03 +0000 (UTC)
-Received: from mail-wr1-f52.google.com (mail-wr1-f52.google.com [209.85.221.52])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34922.1788788159120239177
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.34921.1788788158656077410
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2026 06:35:59 -0700
+ Mon, 07 Sep 2026 06:35:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=DSmZMtR1;
- spf=pass (domain: smile.fr, ip: 209.85.221.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f52.google.com with SMTP id ffacd0b85a97d-4843e397f74so4423674f8f.1
+ dkim=pass header.i=@smile.fr header.s=google header.b=OSzqX9+i;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-499ae1c6471so35013995e9.3
         for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:35:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=smile.fr; s=google; t=1788788157; x=1789392957; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=zJgZMLX8ZA+2Wl0d4BeoaQVShEvOpQ3k8owcn1Dmk4Q=;
-        b=DSmZMtR141FptUyXeoRH3FF3FII9Y2B+PGI0p6Tjw+mO271hKJzAYq0hUQUmNY1mmr
-         CDA/748ypzjixL9oDG5+NZXJiAOBj9JtK85YRvecMkCsyGdS3jtIXX0UUu6iqtP1vZ+6
-         bfJ8kNB7+5305plVarlv/h3bFcheaEu+khj0o=
+        bh=TLBvTd0pSoKjNKRcjCXhBuwa5ER4z6N9VpJSmtBA9mY=;
+        b=OSzqX9+iyG8FH7IuxE49voTUe5xmyEiBl/jv/A+HXs7Uy2eHNnKaVa3DGd6q5E6svJ
+         2MrTrRUDUFvyQddaOmzkbdtCte4UV9UzyfpL5O7GbrOgGWZ9Msv3JHxIbaHBRL4JgpJI
+         yVFr8XDu03DuC6rTZj/9Yi5wLrj48GjV4LZjM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20251104; t=1788788157; x=1789392957;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=zJgZMLX8ZA+2Wl0d4BeoaQVShEvOpQ3k8owcn1Dmk4Q=;
-        b=TAALGbzgaWlAI9w+GwvIAjdn3nWJt5JXsh5jF6OpxKYfK50LSqtxeW7yzEfp2I6Wk5
-         Z3jhzp1gRrg+owzTiaoVGLqt+E09zHWdx5lOtcX0FMnk8emDiqUHZczJQBKAtK09A5dB
-         /tCRlqeJvt/3nlAQE1MdQmT4b9aPHNY3/AU6T4KE2Pr+B+t10tvXkeY1/HTV5hs7E0pI
-         NkWXgXv/iBBqIOI4zGI36kYs8Fh8xrN4yPEhKDAXxHcQmhD4+paEMfwSC45aR6s+dXQw
-         VOpvg/8sIwSn4ZRPd1MJsgDeg6shKXWRKTPactaioHjNFkLt32cyJXV44OpD/6oAPyWx
-         vP6w==
-X-Gm-Message-State: AFuF++lPd8xPPIKEPB3OgvuA96ItbnO/keOClMAkOPfHW2RUAVvwJO6G
-	PeiC8zBN0ZuCeoX+1gytswiHXYKeDW97jWAFsfVDpsP5Cpf7yddFj3k/oRSbSHSTi4I18+C8OPV
-	mWas3OIc=
-X-Gm-Gg: AYBFou0YNgFy591JGUsSOqDLBEQitmB/F+X8PXug6n3VTF3beVmJv6iRp0vvGSGP7t7
-	SQn0UU0N5FPYGlrpLnmQIQKeS8n12dywhvGBnVpEDApDDKCKWmfFS1TCbmlCRvLeh8OilQF40j+
-	/Cx+1b8Dyw3F4pqy1i7UR4WKIWEIG0PNIWkSPOUYLnK8CmL9Ljr4pDGfVG2ziHsEY+ZwxTukgvb
-	Os3FMGvOakm1Iwh0tUTFiCbX6UonzZ0jaYtkgvDHWULWXb5DTcbR6bJOH9X/tPVyg/5+idlK+9h
-	ly7GJ+R8FRTmQ+cuDwpYj8xF0Q1jC2jVpYt7whbXr2FwQE3iEDLYXbNYBmiYy02rTKeYfllmFEz
-	oPcydyfN6baho8UplYAByCNg8tum7VIibdHfNKItXintaDaCw4+aVOf1skml9+Iqj31qwvhRZrc
-	rKqwnGMXUlRps4dX7+/t/MGYm8riGl3xmtRiE2os4afeXOYzCk27FJmRZA/xYuGTmGxiwUlgtze
-	wF141V87P+lzWiOTlqeL44brcbUz1/wiDAmQ7q8ONzK/B5Ql+z/G1sOIXKPxKXz
-X-Received: by 2002:a5d:4902:0:b0:484:4817:dcb8 with SMTP id ffacd0b85a97d-4857e51b03dmr28223957f8f.12.1788788157303;
-        Mon, 07 Sep 2026 06:35:57 -0700 (PDT)
+        bh=TLBvTd0pSoKjNKRcjCXhBuwa5ER4z6N9VpJSmtBA9mY=;
+        b=dx1S5NTuNQO4Pfe6L9dtYfr3YUxM7XrFYR9wq/P1dz8YdtPJTXISgcoqNERYTpU+Qx
+         kiA4XIe5A2VOKI5MlYxpYw6KkiPnFV7F/kLN1zwhVpNCaGNhA4ASuhr3JUrsZb3m5LuS
+         lHlCW9tFm29de6HNpcQ3fTnCnMwaCeeEC8x4zKc5aO8l5cwkfQ+7aIxNniTnGlHfl+Re
+         1UobxTVMwsyXnaaDQmav7NT0l7skFFF8T4I4Ms1QTcDWK4wM32D8WnnW07iA5KsiDW0v
+         BF1MjcuV7yQaHChFE7Rtb1gV/bH5wsiOEu99LNyT0iKMa/WrhvLzYbAwdAVPgYGJDqvf
+         aJmA==
+X-Gm-Message-State: AFuF++nbW9whJjOV67jo4XIh4mSE0BcC1SRlCFyu6it6djCE+t692fll
+	W4skgB52BZB3IOJoUEhyQdgC6inYJxoSJwozVAmO28YUNLVk46C5thtsHuNTMUuhHWUNyDx/nq9
+	sQYKhzRI=
+X-Gm-Gg: AYBFou0DXijQ1TjN1IS+vtjJ6Qb0e2PNPU9ZLhiKrEovbPBKNF/BqpTEBM9Lp8Tc9eK
+	4J7Ywf83/vVt7rDrBobMMRviaN485bnarwNJ/5L3MlkvgGmd5ULeis7tG+05WVWAchaZjbHpr1J
+	Qrwt9PAOVyKi/ZcZjjTRuS032p1HPEjj94j2nf5N90k1d5lFRcEgiExxQmseKdoZ+ug7B9CcZej
+	UyZRKUFVjMLoICcF3yAxyS+Ks2oKhyzhKp4TCZqfEAci/iQ5MbvRW4UdxfIsquEedrbiNHxjlhI
+	r2qBK+tyTTkk4x89l9zrz5WPcumzJ9pRc/bh8rfrkQcwV6CpBCYfBDZCyX+24WYRrrk238A7Onw
+	LZgtKjQvBJPn/QEmaiLOuET4bcOYvixhlTRn6j02NsjDaBuVfb8+gGRLR1rIPFh4wLhaD0x9hOE
+	eZloV5kyzJIswbWMQh1GabaGAg5v1lEYcCCD695eOexKpy4Z0mSH0WK0zhsToBtwLOw6ab6oqTF
+	a9RZPr4CtBRGR9d4rhOSoz2WptuxUIQ5Gi5Zpe0ziNfmxG9RNI8GOE6GuX58O6w
+X-Received: by 2002:a05:600c:6214:b0:49c:dca4:94c with SMTP id 5b1f17b1804b1-49cf825115bmr464814815e9.13.1788788156784;
+        Mon, 07 Sep 2026 06:35:56 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588394fa1sm27523836f8f.8.2026.09.07.06.35.56
         for <openembedded-core@lists.openembedded.org>
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Mon, 07 Sep 2026 06:35:56 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 12/35] alsa-lib: patch CVE-2026-56109
-Date: Mon,  7 Sep 2026 15:35:08 +0200
-Message-ID: <1f7cd9a1c65bfc1a4dbba3830d7092acf02174fd.1788787321.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 11/35] libevent: set status for CVE-2026-63380
+Date: Mon,  7 Sep 2026 15:35:07 +0200
+Message-ID: <7447b6ffb1ef18cecd7d45d2e397018dfa54c78d.1788787321.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788787321.git.yoann.congal@smile.fr>
 References: <cover.1788787321.git.yoann.congal@smile.fr>
@@ -66,69 +66,30 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 13:36:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245270
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245269
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Pick patch listed in NVD CVE report.
+Per [1] this only affects 2.2.1-alpha.
+Also [2] markes their versions as not-affected.
+
+[1] https://github.com/libevent/libevent/security/advisories/GHSA-3rpf-frgx-xq34
+[2] https://security-tracker.debian.org/tracker/CVE-2026-63380
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../alsa/alsa-lib/CVE-2026-56109.patch        | 33 +++++++++++++++++++
- .../alsa/alsa-lib_1.2.11.bb                   |  1 +
- 2 files changed, 34 insertions(+)
- create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-56109.patch
+ meta/recipes-support/libevent/libevent_2.1.13.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-56109.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-56109.patch
-new file mode 100644
-index 00000000000..6189d46e5dc
---- /dev/null
-+++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-56109.patch
-@@ -0,0 +1,33 @@
-+From 536dd6f8affdf5197c12a63a71c92a70b2833cc0 Mon Sep 17 00:00:00 2001
-+From: Jaroslav Kysela <perex@perex.cz>
-+Date: Mon, 8 Jun 2026 14:33:19 +0200
-+Subject: [PATCH] conf: add missing return value check in parse_def()
+diff --git a/meta/recipes-support/libevent/libevent_2.1.13.bb b/meta/recipes-support/libevent/libevent_2.1.13.bb
+index b0de8637390..22894cc3bea 100644
+--- a/meta/recipes-support/libevent/libevent_2.1.13.bb
++++ b/meta/recipes-support/libevent/libevent_2.1.13.bb
+@@ -55,3 +55,5 @@ do_install_ptest() {
+         # handle multilib
+         sed -i s:@libdir@:${libdir}:g ${D}${PTEST_PATH}/run-ptest
+ }
 +
-+A malformed configuration may cause SIGSEGV.
-+
-+Link: https://lore.kernel.org/alsa-devel/CAGt8pqBU0p2voB+qHxWGcNJrKHAcBhAyHUUBPLBN-Yj_SiV6MQ@mail.gmail.com/
-+Reported-by: Luigino Camastra <luigino.camastra@aisle.com>
-+Signed-off-by: Jaroslav Kysela <perex@perex.cz>
-+
-+CVE: CVE-2026-56109
-+Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/536dd6f8affdf5197c12a63a71c92a70b2833cc0]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ src/conf.c | 4 ++++
-+ 1 file changed, 4 insertions(+)
-+
-+diff --git a/src/conf.c b/src/conf.c
-+index b0dd6298..e1dba23d 100644
-+--- a/src/conf.c
-++++ b/src/conf.c
-+@@ -1477,6 +1477,10 @@ static int parse_def(snd_config_t *parent, input_t *input, int skip, int overrid
-+ 			endchr = ']';
-+ 		}
-+ 		c = get_nonwhite(input);
-++		if (c < 0) {
-++			err = c;
-++			goto __end;
-++		}
-+ 		if (c != endchr) {
-+ 			if (n)
-+ 				snd_config_delete(n);
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-index e86239ff871..068a727c67a 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-@@ -12,6 +12,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
- SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
-            file://0001-topology-correct-version-script-path.patch \
-            file://CVE-2026-25068.patch \
-+           file://CVE-2026-56109.patch \
-            "
- SRC_URI[sha256sum] = "9f3f2f69b995f9ad37359072fbc69a3a88bfba081fc83e9be30e14662795bb4d"
- 
++CVE_STATUS[CVE-2026-63380] = "fixed-version: only affects 2.2.1-alpha"
 
