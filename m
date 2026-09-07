@@ -1,108 +1,150 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <adam.duskett@amarulasolutions.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4FDA2C79F9E
-	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 13:36:47 +0000 (UTC)
-Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com [209.85.208.170])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.35239.1788788201948875186
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F385DC79F89
+	for <webhook@archiver.kernel.org>; Mon,  7 Sep 2026 13:56:17 +0000 (UTC)
+Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.35391.1788789372980148902
  for <openembedded-core@lists.openembedded.org>;
- Mon, 07 Sep 2026 06:36:42 -0700
+ Mon, 07 Sep 2026 06:56:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=wLcuB9k/;
- spf=pass (domain: smile.fr, ip: 209.85.208.170, mailfrom: yoann.congal@smile.fr)
-Received: by mail-lj1-f170.google.com with SMTP id 38308e7fff4ca-3a1f628b1d1so27200461fa.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:36:41 -0700 (PDT)
+ dkim=pass header.i=@amarulasolutions.com header.s=google header.b=Ud4msu0B;
+ spf=pass (domain: amarulasolutions.com, ip: 74.125.228.76, mailfrom: adam.duskett@amarulasolutions.com)
+Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a8070899e8so112708a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 06:56:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788788200; x=1789393000; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=p3HmJtj8tMVwUo0AE7DusgCGvnLMX3wtOum6N4o0RlQ=;
-        b=wLcuB9k/VbaBjbfuL/4Fd/7GOzDp8Wyikdh9WPjtxQmSk/J6mTeZQZNmmA8ySAq/80
-         sanox9+XdHMSUDm9kRgo6QEE8s+0i9kP9fd9SrJL7atXimEgR3GDVEGcxv1j7dHAKFKO
-         UE68N4OW20/oJ4enjtVdPDjMgf8M+vv6rcZ5U=
+        d=amarulasolutions.com; s=google; t=1788789371; x=1789394171; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=YclwjwBIgLn0vAquUtCNzGHaLyUaDbVvZekdA/66thA=;
+        b=Ud4msu0BBgbreSO0ElxSYz1qIg6ozTVHSslIG0lbtaFL05HRrT2x8l5VI6mSmbWsoF
+         V38SWFMzkXT13+umI82cDKJuhIgNq+IOtZuORDDxcB0G2rHY7MHS+ZyM+arY5Qe5k+J3
+         /npZWyVVYA4guCv/EUmNEAoD3vMYY4O2XnGN4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788788200; x=1789393000;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=p3HmJtj8tMVwUo0AE7DusgCGvnLMX3wtOum6N4o0RlQ=;
-        b=Qn7WE8O1DqA5xX6TgqkGLDVfr6VDXVRVPfR9YMcnFW/zMUpisOx4YDjhN8v4ySAfzf
-         +JuboGjsmnos55P1cTzFHMbUuOv8BYHeiFdes5wjawtT8rAPAXr06RsROe5SqflsILTq
-         QEB1KVFu+AB/auBHxcy9KNSaal5Hr7CoA+KcZ9jct9t9WrhuENLFwIlhwLFzq6TTqSAf
-         ZwLfOd8ujVULtuNoGyy1Ph/tXAzYL/IrkRf4nGWx5X3892hCq7+J1QeAVdWJfahSQqs7
-         Lbd1WlZ7KScIOqNWuK12g6Oj7j8F9KO9jEz1uC/6RU4NrqOImUkgrU/411Bp2952bphg
-         ZX8g==
-X-Gm-Message-State: AFuF++mNHb9e4k9P3s6MLx6CBlHRzJ9R3RIoNPMdbJCQu7f8/cse3Nfe
-	0kLmbODRjGdqQBXr9o/CMEu4ujlHYVsJiruL6dS5NN9GTUujDC1wre4e2C/gax1j3+xpu+F4mgM
-	cvb69ax0=
-X-Gm-Gg: AYBFou0oL5N0N/zhowFLmkA8VCwBIuPlpTZnfqiKV2vFIx+3GXfiLDYjePKOv6Pd3WP
-	e8iPiDFZAk03rodYqy9L9PM+pEG/iicAO1AFwInbWGXPI5+N/Gc94ScZIK4orl4xbEyWIp6KBsG
-	vKm1SGgXlpRK0NE2AZsQy/G1sOYrFT16Mw7A1trlBHCy38vVEhfz+oqzgm/zjQLfWr9o030irqK
-	o4vYcXtQ48CDC24Os8EWj1vFXamtCD3jJT2gX6lgBmbPEsPKryAMgSSp3Tc8KeaSh01MkPlK83G
-	GKs5g6T+MDcllpWImc3MLoQwjIoYI+cWOg4VZ8dZS87FCTRe+pW4vfzQ8BNNIykbz54XGfe6JrL
-	PhtfQpvuiextAXCL9puJjs8Ht/ZGpM1TaUmtk+j39S43Y3RxIdxlZd1Kmu5byVddx3L5pxvb6ph
-	ii8x5Mg/nfa0qJq2PeNgL72UpIn+v4wBGuq4DkGU6dX6bw0ici6NnOZcby/qajIxdoMct9tXHt8
-	J/FfYRGCNyMmvPJZfhjcLIBTOI4hlYOTql0iDhSPXeD3BPJwnZ4acEAXn6K6UMD
-X-Received: by 2002:a05:600c:4513:b0:49d:17b7:fdda with SMTP id 5b1f17b1804b1-49d17b7fe34mr5112235e9.1.1788788165048;
-        Mon, 07 Sep 2026 06:36:05 -0700 (PDT)
-Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48588394fa1sm27523836f8f.8.2026.09.07.06.36.04
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1788789371; x=1789394171;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=YclwjwBIgLn0vAquUtCNzGHaLyUaDbVvZekdA/66thA=;
+        b=ZgVe9hvymyiK3bhQdS1b2a+1DKiHatz8lI/LXTARRH8VZ4hJrEPX/tHyvTz+b7Vkyn
+         K8MrNG/DF4BEfa85nMg3ti3DAahryP397ANlgTAVe6wYb4nujZ/mD8C3+L1fsuHbnF4k
+         o5KIdLCxcSpENJoaZ5cEeNry4lvsEjvRezVWFf582DcEY3CTrP0Eh2plIcHi9wc7Wv43
+         Pg/86bloqHJDuCuNK2s/a8PtVXD266tIXGNaLweYMpcmDmkpyNn5rSf8k4Lw4dbBsS7v
+         raVZaLTQOfWTiaSaLwZwQqct0o100M6rxKxU7hzLEodGOGNgY9azDO00iya26RT5g+jl
+         l/9w==
+X-Gm-Message-State: AFuF++l4JSfB+mWQvDNU6o32s1MQBIMa5cMBSLnZMDhhDehQygcp33u/
+	ciD3qOdcb+/EzfEwgRlbqgazk1bs6fMG9ZP4VaLJD5gfZfLx/DwBTegrV163IJWPrIji1MNWvYg
+	ciacJpbg=
+X-Gm-Gg: AYBFou2JgO/M5IjVxNTrX8xPB/3NXlHVa55B+84T8cOcn+EttxatqBQi/u+fgMo6LyX
+	Y6TOgn96SCCVh6o9xONRIihaFTJ71k4f8WmsZKVuKCd2Oc3l9fgcJ4eDsDYLhc+4xFOpyN9PkKH
+	gGxNxfn9ZWuiuKd9tLOGaVlLNeK9F08p5XUhb2FfVLPF2ozpvvN0KHKyHVyeuJwhYHrovs7wGcL
+	ORNVA7aDdoX3MZf8biEiLiJ+WWNtUF1mQGVwEjMcALV+E1TkJ9tS2Yvx1npUrmS/d2Qo95lcM5x
+	zD8u2pfGbAqn7uz0oLqn2HgW9I6i2PhafsROVTa67A7powPA6Zd1RmyLOBL1LXEsfDhRTgbQHpS
+	N1Pw6VVRZKiXzdjTxqXat5CgsaRRgYATXupPBTqzq/KaJSzcLC5Mv6+WyYmVKg5CJhsSDShIAN0
+	LSAFqVVwjiX5pmImtSMGlwZOrGW789HgdNgpfSYhC++lXCWv8r4hVXoMFB4l5MjRBZHVlL1rINS
+	57/s4L+a/lHaGVuMgBdbro263f2H3c5A89C0zi+ZK3wL2ntLHfRmYmaXwR8c2Ah9X0FkTicJ+/Z
+	v20yoAhYrJwaMFeYtXHoRNoVjO5y/mXkLJssXFgX3JjitlaedFEZDRQHVKVRX0l4HkC2TRL9Tqk
+	Wudg=
+X-Received: by 2002:a17:906:c115:b0:c25:3ec4:9e43 with SMTP id a640c23a62f3a-c2624d2422emr533622066b.0.1788789371060;
+        Mon, 07 Sep 2026 06:56:11 -0700 (PDT)
+Received: from adam-linux.tail032493.ts.net (2001-1c00-8181-e800-030c-182b-b2a8-e89d.cable.dynamic.v6.ziggo.nl. [2001:1c00:8181:e800:30c:182b:b2a8:e89d])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d5497cbsm478290566b.34.2026.09.07.06.56.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Sep 2026 06:36:04 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
+        Mon, 07 Sep 2026 06:56:10 -0700 (PDT)
+From: Adam Duskett <adam.duskett@amarulasolutions.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 26/35] expat: set CVE_STATUS for CVE-2026-72522
-Date: Mon,  7 Sep 2026 15:35:22 +0200
-Message-ID: <dbdc9e8d18374a2586c24e1ba41bfa1dcba3ef39.1788787321.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1788787321.git.yoann.congal@smile.fr>
-References: <cover.1788787321.git.yoann.congal@smile.fr>
+Cc: Adam Duskett <adam.duskett@amarulasolutions.com>
+Subject: [PATCH v9 1/5] json-c: add patch to fix compiling with a C++ compiler
+Date: Mon,  7 Sep 2026 15:56:00 +0200
+Message-ID: <20260907135607.4132821-1-adam.duskett@amarulasolutions.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 13:36:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245293
+ <openembedded-core@lists.openembedded.org>; Mon, 07 Sep 2026 13:56:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245294
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Backported from upstream commit aab792578b4f081af6ed7b993475bcb2dbca8912
 
-CVE-2026-72522 is an out-of-bounds read and infinite loop vulnerability in
-Expat's *_toUtf16 functions caused by mis-classifying low surrogates as
-high surrogates.
-
-Our Yocto configuration is not affected by this vulnerability:
-- Expat is compiled with EXPAT_CHAR_TYPE=char (8-bit character representation).
-- Neither XML_UNICODE nor XML_UNICODE_WCHAR_T is defined.
-- The vulnerable *_toUtf16 functions are only invoked when Expat's internal
-  character type is 16-bit (ushort or wchar_t).
-- In 8-bit mode, Expat handles conversion using *_toUtf8 functions even when
-  parsing UTF-16 encoded XML inputs, rendering the vulnerable code path
-  unreachable.
-
-Reference:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-72522
-[2] https://github.com/libexpat/libexpat/pull/1296/changes/8fbfb52fa88e040e8b0b7a9d39f260d6a9e8b6db
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: EXPAT_CHAR_TYPE=char is the default and we do not change it]
+Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
 ---
- meta/recipes-core/expat/expat_2.6.4.bb | 3 +++
- 1 file changed, 3 insertions(+)
+ ...rs-when-building-with-a-cpp-compiler.patch | 50 +++++++++++++++++++
+ meta/recipes-devtools/json-c/json-c_0.19.bb   |  1 +
+ 2 files changed, 51 insertions(+)
+ create mode 100644 meta/recipes-devtools/json-c/json-c/0001-fix-defined-but-not-used-errors-when-building-with-a-cpp-compiler.patch
 
-diff --git a/meta/recipes-core/expat/expat_2.6.4.bb b/meta/recipes-core/expat/expat_2.6.4.bb
-index 3387a7d7c1f..93f0622373e 100644
---- a/meta/recipes-core/expat/expat_2.6.4.bb
-+++ b/meta/recipes-core/expat/expat_2.6.4.bb
-@@ -99,3 +99,6 @@ do_install_ptest:class-target() {
- BBCLASSEXTEND += "native nativesdk"
- 
- CVE_PRODUCT = "expat libexpat"
+diff --git a/meta/recipes-devtools/json-c/json-c/0001-fix-defined-but-not-used-errors-when-building-with-a-cpp-compiler.patch b/meta/recipes-devtools/json-c/json-c/0001-fix-defined-but-not-used-errors-when-building-with-a-cpp-compiler.patch
+new file mode 100644
+index 0000000000..08e086f8a6
+--- /dev/null
++++ b/meta/recipes-devtools/json-c/json-c/0001-fix-defined-but-not-used-errors-when-building-with-a-cpp-compiler.patch
+@@ -0,0 +1,50 @@
++From aab792578b4f081af6ed7b993475bcb2dbca8912 Mon Sep 17 00:00:00 2001
++From: Eric Hawicz <erh+git@nimenees.com>
++Date: Sat, 11 Jul 2026 09:28:49 -0400
++Subject: [PATCH] Issue #941: fix "defined but not used" errors when building
++ with a c++ compiler.
 +
-+CVE_STATUS[CVE-2026-72522] = "not-applicable-config: Needs Expat compiled with 16bit character support , Issue only affects firefox/Windows. \
-+EXPAT_CHAR_TYPE:STRING=char is for Yocto builds"
++ 
++Upstream-Status: Backport [https://github.com/json-c/json-c/commit/aab792578b4f081af6ed7b993475bcb2dbca8912]
++Signed-off-by: Eric Hawicz <erh+git@nimenees.com>
++Signed-off-by: Adam Duskett <adam.duskett@amarulasolutions.com>
++---
++ json_object.h | 4 ++--
++ linkhash.h    | 2 +-
++ 2 files changed, 3 insertions(+), 3 deletions(-)
++
++diff --git a/json_object.h b/json_object.h
++index 7edb63d4f8..2cd94906e7 100644
++--- a/json_object.h
+++++ b/json_object.h
++@@ -488,7 +488,7 @@ JSON_EXPORT void json_object_object_del(struct json_object *obj, const char *key
++  * @param val the local name for the json_object* object variable defined in
++  *            the body
++  */
++-#if defined(__GNUC__) && !defined(__STRICT_ANSI__) && (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L)
+++#if defined(__GNUC__) && !defined(__STRICT_ANSI__) && (defined(__cplusplus) || (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L))
++ 
++ #define json_object_object_foreach(obj, key, val)                                \
++ 	char *key = NULL;                                                        \
++@@ -520,7 +520,7 @@ JSON_EXPORT void json_object_object_del(struct json_object *obj, const char *key
++ 	                 : 0);                                                 \
++ 	     entry##key = entry_next##key)
++ 
++-#endif /* defined(__GNUC__) && !defined(__STRICT_ANSI__) && (defined(__STDC_VERSION__) && __STDC_VERSION__ >= 199901L) */
+++#endif
++ 
++ /** Iterate through all keys and values of an object (ANSI C Safe)
++  * @param obj the json_object instance
++diff --git a/linkhash.h b/linkhash.h
++index 5ad17cf2d2..48fb7c0b0a 100644
++--- a/linkhash.h
+++++ b/linkhash.h
++@@ -345,7 +345,7 @@ int lh_table_resize(struct lh_table *t, int new_size);
++ /**
++  * @deprecated Don't use this outside of linkhash.h:
++  */
++-#if !defined (__STDC_VERSION__) || (__STDC_VERSION__ < 199901L)
+++#if !defined(__cplusplus) && (!defined (__STDC_VERSION__) || (__STDC_VERSION__ < 199901L))
++ /* C89 compilers like VS2010 can't handle inline funcs, so skip it there,
++    note: this also applies to -std=c89 in GCC! */
++ #define _LH_INLINE
+diff --git a/meta/recipes-devtools/json-c/json-c_0.19.bb b/meta/recipes-devtools/json-c/json-c_0.19.bb
+index e42d4f6f56..9271d56326 100644
+--- a/meta/recipes-devtools/json-c/json-c_0.19.bb
++++ b/meta/recipes-devtools/json-c/json-c_0.19.bb
+@@ -7,6 +7,7 @@ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=de54b60fbbc35123ba193fea8ee216f2"
+ 
+ SRC_URI = "https://s3.amazonaws.com/json-c_releases/releases/${BP}.tar.gz \
++           file://0001-fix-defined-but-not-used-errors-when-building-with-a-cpp-compiler.patch \
+            file://run-ptest \
+            "
+ SRC_URI[sha256sum] = "37ad0249902e301bd9052bf712e511fcc6acff4ecaad4b5900aad9ce564e26de"
+-- 
+2.55.0
+
 
