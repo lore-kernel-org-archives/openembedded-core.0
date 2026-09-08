@@ -1,83 +1,101 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ABABCC79FA1
-	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 09:58:53 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3681.1788861524397330831
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 07443C79FA1
+	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 10:20:14 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3855.1788862808241237658
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2026 02:58:44 -0700
+ Tue, 08 Sep 2026 03:20:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=miDir9nH;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id BC4111A1A56
-	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2026 09:58:42 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 8A062603C4
-	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2026 09:58:42 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 241C211C7AF51;
-	Tue,  8 Sep 2026 11:58:41 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1788861521; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=DevB5GvWSuVWjUPU7CA8ydR1dV0wcVh9OrBOL9Xr9rY=;
-	b=miDir9nHpw80sK3hR72hGZ8buJwOLngbX6xEc9szFpQJBUe10iTXNHOVOrbwo5CFJ9q2qJ
-	EUZoKAMm6mbM+u57tv7NhMFRVqhHMz7+7sOZFXCS6GKsJxytomR5grEkWFyx1NMJx878F9
-	p1AsEr+uA/GZHvbwOnSLsPJ1TUM7oamnyMfxDqkbGs1cHR0cEXtlnnyDiHInQe2JFuPoKX
-	jrXUg8i9iuE++EFSkK+/RyMhJ9rtRE/us3r8a/yExtYhoJZfQxm/leGdcfIk9xkBhizoqR
-	6z64M0OugauuaNUh+kVPihqDxodFs1fpWWCOIPKr1RbZnVVh7Oxb9XJmZOE4eQ==
-From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Date: Tue, 08 Sep 2026 11:58:32 +0200
-Subject: [PATCH 10/10] gstreamer1.0-rtsp-server: upgrade 1.28.6 -> 1.28.7
-MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-Message-Id: <20260908-mathieu-gstreamer-1-28-7-v1-10-9694738804f6@bootlin.com>
-References: <20260908-mathieu-gstreamer-1-28-7-v1-0-9694738804f6@bootlin.com>
-In-Reply-To: <20260908-mathieu-gstreamer-1-28-7-v1-0-9694738804f6@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-X-Mailer: b4 0.14.3
-X-Developer-Signature: v=1; a=ed25519-sha256; t=1788861512; l=1116;
- i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
- bh=7LVtxtOzY2H4RrsA/UU0tAqcXO3SNz/LvyhG9LglhF4=;
- b=oxP8puk+QW2khhEoMV6/jVpTQKZ3fISj/Dg/5h1Gkw6M1uDtuW9SsHHMv+FdpweyIQgSJnyen
- Zsuvccag0X/B2+LhBP3sM2XrP5PMuHNA3i9TwnQzq1julXZ2lknH9Go
-X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
- pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=jfZY+cMH;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fChzLaLF;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a080883ca4-5f5736f1-0349-4f06-901c-8536289614f8-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1788862807; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=6XCPUiBgOtfkRoayak6Mf+55wgvZ7/nn/Pi6OVM8dlY=;
+	b=jfZY+cMHRuiBr58zCq03tqSNOA60DaF7S4uLdKDk0rHNgxY2xN3djyrQEw+Jtjky
+	vwW++qR/W+LuTh0uahiefZuic1unpwHrM2K1nD7f3RpmU/oqPxO2atTSYoPOvguXJ21
+	CPTGOWL63xVcE9+L2lZ9Dbe2EqM9VX3cR7iQVTtY=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788862807;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=6XCPUiBgOtfkRoayak6Mf+55wgvZ7/nn/Pi6OVM8dlY=;
+	b=fChzLaLFnpFfCzt3hXoOe83yS5WogfR+/6stT4kZkVizKAZQXmotPgqDWXG6gCAh
+	7T+HsVwtjnthTq8UZziRfF3kqqompbMMPft826iLemXN3qVpjoG29WO4c2RQs/Z4UFB
+	hSate0ZTmrP5ODw2GJ0fgJ/YKNbKmBK/Io1euuis=
+From: patchtest@automation.yoctoproject.org
+To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH 02/10] gst-devtools: upgrade 1.28.6 -> 1.28.7
+In-Reply-To: <20260908-mathieu-gstreamer-1-28-7-v1-2-9694738804f6@bootlin.com>
+References: <20260908-mathieu-gstreamer-1-28-7-v1-2-9694738804f6@bootlin.com>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a080883ca4-5f5736f1-0349-4f06-901c-8536289614f8-000000@us-west-2.amazonses.com>
+Date: Tue, 8 Sep 2026 10:20:07 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.08-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 09:58:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245350
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 10:20:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245351
 
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+--NextPart
+Content-Type: text/plain
+
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...amer1.0-rtsp-server_1.28.6.bb => gstreamer1.0-rtsp-server_1.28.7.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Testing patch /home/patchtest/share/mboxes/02-10-gst-devtools-upgrade-1.28.6---1.28.7.patch
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.7.bb
-similarity index 90%
-rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.6.bb
-rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.7.bb
-index f775dd08e7cc..9c5ce9e59c0c 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.6.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-rtsp-server_1.28.7.bb
-@@ -10,7 +10,7 @@ PNREAL = "gst-rtsp-server"
- 
- SRC_URI = "https://gstreamer.freedesktop.org/src/${PNREAL}/${PNREAL}-${PV}.tar.xz"
- 
--SRC_URI[sha256sum] = "0cb725b1351f75e88803c55dddea1f27be09523ddcd7f29ab18270e182a2a463"
-+SRC_URI[sha256sum] = "de43a59a0c89a14eb1c14ae8e81e5b45c4e9d7b1f930b0ebaad360f9b5e0b5c4"
- 
- S = "${UNPACKDIR}/${PNREAL}-${PV}"
- 
+FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
--- 
-2.47.3
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
