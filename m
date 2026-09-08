@@ -2,39 +2,39 @@ Return-Path: <alhe@linux.microsoft.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDB41C79F9E
-	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 15:53:29 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9306C79F99
+	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 16:00:09 +0000 (UTC)
 Received: from linux.microsoft.com (linux.microsoft.com [13.77.154.182])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11014.1788882801441662184
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.11172.1788883208187459865
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2026 08:53:21 -0700
+ Tue, 08 Sep 2026 09:00:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=E3Dve5Fe;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@linux.microsoft.com header.s=default header.b=At86AjCH;
  spf=pass (domain: linux.microsoft.com, ip: 13.77.154.182, mailfrom: alhe@linux.microsoft.com)
 Received: from alhe-dev-ub.waqitnwczulubdoacjva2kqlvd.phxx.internal.cloudapp.net (unknown [134.33.52.9])
-	by linux.microsoft.com (Postfix) with ESMTPSA id 1993F20B712B
-	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2026 08:52:40 -0700 (PDT)
-DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com 1993F20B712B
+	by linux.microsoft.com (Postfix) with ESMTPSA id F33BF20B7128
+	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2026 08:59:26 -0700 (PDT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 linux.microsoft.com F33BF20B7128
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linux.microsoft.com;
-	s=default; t=1788882760;
-	bh=OHNwaclb0EptcfF8EP1G2v1TwzNidyjsrBNoLinfvU4=;
+	s=default; t=1788883167;
+	bh=LwAtUYCw/DZpVWSUKYwRVMDk3RrlrgiysttrK+JEo4I=;
 	h=From:To:Subject:Date:From;
-	b=E3Dve5Fe3DBWiEfbwDKGBJcuuyt/VZs+b2eK0MOeDbm8d5RTnIFDLFmx7GWhAQeCD
-	 uBwc7Khp2VWEdJ5o2SdJvKryVlUHCUCMTIKW/WU5PnDpyuLmFevfct3ysLltde50mr
-	 4bfC3qZt5LD6kpXgJvhIN3d4wng5DfFlbNalqIuE=
+	b=At86AjCHB4nHtHAJUSmKnsIIfr+tNm8Kl6zhaaeGWAKWZ7Wqa5yjEcNog32Oa1mkO
+	 YKpjSSL+KZRnQ9sWqnSV1BBCzeXGHBAUq+06xP8UddpGbOjLqOq8eBxUrIRa4fvT73
+	 Nzb76P/9/u4+XkYel416IXEEvNssrrCdgs+hiJPI=
 From: Alejandro Hernandez <alhe@linux.microsoft.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v4] rust: Avoid passing host-specific information to crates
-Date: Tue,  8 Sep 2026 15:53:15 +0000
-Message-ID: <20260908155315.2468903-1-alhe@linux.microsoft.com>
+Subject: [PATCH v5] rust: Avoid passing host-specific information to crates
+Date: Tue,  8 Sep 2026 16:00:05 +0000
+Message-ID: <20260908160005.2474299-1-alhe@linux.microsoft.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 15:53:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245378
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 16:00:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245379
 
 There were several build contamination issues found on our rust builds:
 
@@ -91,9 +91,9 @@ Signed-off-by: Alejandro Hernandez <alhe@linux.microsoft.com>
  ...ide-cfg-version-from-stable-crate-id.patch | 36 +++++++++++
  ...-host-triple-from-unit-metadata-hash.patch | 55 +++++++++++++++++
  ...oc-link-metadata-order-deterministic.patch | 36 +++++++++++
- ...hygiene-encoding-order-deterministic.patch | 60 +++++++++++++++++++
+ ...hygiene-encoding-order-deterministic.patch | 59 +++++++++++++++++++
  meta/recipes-devtools/rust/rust-source.inc    |  4 ++
- 5 files changed, 191 insertions(+)
+ 5 files changed, 190 insertions(+)
  create mode 100644 meta/recipes-devtools/rust/files/0006-rustc-span-add-=
 oe-knob-to-elide-cfg-version-from-stable-crate-id.patch
  create mode 100644 meta/recipes-devtools/rust/files/0007-cargo-omit-host=
@@ -290,11 +290,11 @@ diff --git a/meta/recipes-devtools/rust/files/0009-rustc-span-make-hygien=
 e-encoding-order-deterministic.patch b/meta/recipes-devtools/rust/files/0=
 009-rustc-span-make-hygiene-encoding-order-deterministic.patch
 new file mode 100644
-index 00000000000..93b0fcd68e1
+index 00000000000..40ebe10c276
 --- /dev/null
 +++ b/meta/recipes-devtools/rust/files/0009-rustc-span-make-hygiene-encod=
 ing-order-deterministic.patch
-@@ -0,0 +1,60 @@
+@@ -0,0 +1,59 @@
 +From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
 +From: Alejandro Hernandez <alhe@linux.microsoft.com>
 +Date: Mon, 7 Sep 2026 00:00:00 +0000
@@ -320,10 +320,9 @@ ns
 +Sort `latest_ctxts` and `latest_expns` prior to encoding so hygiene
 +payloads are written into metadata in deterministic ascending ID order.
 +
-+Upstream-Status: Submitted [https://github.com/rust-lang/rust/pull/...]
-+[YOCTO #15554]
-+
-+AI-Generated: Uses GitHub Copilot
++Upstream-Status: Inappropriate [OE-specific]
++Assisted-by: AI - OpenAI
++Signed-off-by: Alejandro Hernandez <alhe@linux.microsoft.com>
 +
 +--- a/compiler/rustc_span/src/hygiene.rs
 ++++ b/compiler/rustc_span/src/hygiene.rs
