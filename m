@@ -1,895 +1,204 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <SaiSireesha.T@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8C2B3C79F9E
-	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 14:46:07 +0000 (UTC)
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9194.1788878760783328102
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D06EC79F9E
+	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 14:59:59 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9539.1788879590993108558
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2026 07:46:01 -0700
+ Tue, 08 Sep 2026 07:59:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=KJnFlsw6;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.76, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6356256so553608f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 07:46:00 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1788878759; x=1789483559; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-type:date:cc:to:from:subject
-         :message-id:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=p4UUT5CtPqs7F5DBNBrGvujGJgllllUz+iCXyuUDqx8=;
-        b=KJnFlsw60YXK4+ONNO4QNViDx/rvjtK7RRgyptF9QDsq+NSMyfLKc6qEyjfw2JXd0t
-         qJzLsst4QvNYNJWX4nQtjlKRzHBN9a7Iyyweci5MZPQKY/JD0+Xzn2WP3odBM12v90Z3
-         9Fye2+DrpGOrhSqbqM8Pud1CV2KQx5N1LOOPI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788878759; x=1789483559;
-        h=mime-version:user-agent:content-type:date:cc:to:from:subject
-         :message-id:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=p4UUT5CtPqs7F5DBNBrGvujGJgllllUz+iCXyuUDqx8=;
-        b=D0tWC1Puh+fnxdykFSQpXijKcV8eO8A9OOS6nXH/iLVB01fD9+qwKy66YYw28kFDdK
-         LQ9Is0SdFcwtA1+QYCTnN8bFXqmjgj4s3iuMxh0S0VusxfK5uFIcSVwvk1dX5cvm5qg0
-         kWsKbnMxFtG2cL0hq7HZJa22gPB2eAAaMPPtZhpwY70UU+gAQJhfu5tCRsqS+MStaaUV
-         94QYZl76Oq0OgGFAbeP3rhd7jxs29WDkZKxCDI1uU+Dtj+aIdSNztqUEzB3MKboTWVPC
-         PtGWN6A1V/LHHml1u4aIqPjGRt2G1ur4s27OLByOmnCsoTREDRP29RT8VyzJJlni49hR
-         J3Bw==
-X-Forwarded-Encrypted: i=1; AKwUvBxWtv9mETFN6Iey5vJYk9/aNpVrvCPdjF5WiYgDC1BjyT5Yt2hVk4VDb8KeVATuY272ne5qr5k4kTYeKMzJa2VwKA==@lists.openembedded.org
-X-Gm-Message-State: AFuF++nim0x0HocW0hAcAqgvfW1CBoObD2NVPRyzn95vWLl0bavuaxlF
-	q2fixrMzWVMmwA6b1jSf+Kg2W1XDrz0Ic6VPreexoJ7kvs4IjqAEoqDebCzxiKdY1Dg=
-X-Gm-Gg: AYBFou1W6ClIIr8yqF9IutymLHitWPigULuUUDAipbz9Js0Gh4htsPBRjvQi7gDupem
-	bO2jAZa0QoI2AUWWfLIXpI3hM6TA5S7Oq06lsGA+h/i4Qn+qhUISyiA03NsNWxKV4bqkut9MQge
-	93cxvyWN9l8rEl4EIl7gfZooWEhgBU9LqPSvrgDaAzyt21MjNuWxRVje0mpDA/9ovHjTqrnRKKw
-	YrwIWy8CD+JanTBj8AmeBW9BXA+V6HoWbH7gxJL+2QbmzSq3jb0OTg54hhQ1zgx6j4L3rPbCOQs
-	kmAiXUN0UmRxHscKbHHoKWlGZBmPWwj4wJiSZ9La4tdh4R2+qyiUBHUhsKBwEJlXoz9E+3JabwF
-	lGuc8dvWlplMoH4F8VHbFkHvix6RiMflwQLi/Jq1ZU5ipISy9qHdARwolDSzNSiBKZWn4LUkpro
-	cSIIX8zoQW8XQGP2LlV9K6555/i1eqN5sAozHtpCyT7YGFv0yoDFXVoIndp/d4KInV/zTc+Cm9R
-	IhqLztZgxh5xizZh/z7z6DT7uayoItuMOCmgm4w0lQfDUptHbURtkhioXxm5iSW
-X-Received: by 2002:a05:600c:c084:b0:49c:f13e:e4e with SMTP id 5b1f17b1804b1-49d1757ab19mr349225e9.11.1788878758383;
-        Tue, 08 Sep 2026 07:45:58 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:3b52:472d:bd88:cdf3? ([2001:8b0:aba:5f3c:3b52:472d:bd88:cdf3])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49ce551bf7asm322373165e9.2.2026.09.08.07.45.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 08 Sep 2026 07:45:57 -0700 (PDT)
-Message-ID: <5c0a2b2c6c5d35b57eff6a75ce57a7acf625e34d.camel@linuxfoundation.org>
-Subject: Yocto Project Status 8 September 2026 (WW37)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: yocto@lists.yoctoproject.org, openembedded-core@lists.openembedded.org, 
- yocto-status <yocto-status@lists.yoctoproject.org>
-Cc: "Stephen K Jolley (via Google Docs)" <sjolley.yp.pm@gmail.com>
-Date: Tue, 08 Sep 2026 15:45:56 +0100
-Content-Type: multipart/alternative; boundary="=-F/EWUXt2taskR2Wy8jD4"
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=ciaRO897;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=371198a557=saisireesha.t@windriver.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 688EhVeQ2625010
+	for <openembedded-core@lists.openembedded.org>; Tue, 8 Sep 2026 07:59:50 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=NkJZ3k89tl99OGgA5UQW
+	ZRD8gME+7tb6VIh81TzkZCc=; b=ciaRO897a/JN+zHVzT38IQfI4pohJ+hRE3XJ
+	b9/xxhn7ndtcA/u9GPltJ4IxxNska8cvVxtJOQGIZ1Tm0hP7PxugU0QQwbYMBpJC
+	TQfxMSQI+WrjPalXyOZI9m+ahKMQFLIdPk+rj6nZG1PeHMnpmSBg+ZuylG0jvrn4
+	eqIQAY5XaNocJVtrDh7eMfzavc8veBQGdp3mKGSs0xr4Pc5WxwaRXGYPlgF+7+6j
+	V/DkuZgfCWZi5Yxkn/w+LFyLna6vK/J164qo7DivUV2THYNTUqTwmxdUfWT5nGmV
+	Fj7K6CJAgZBmi20r+icQTYLIjw8WwFMgkwdNkYp2E2qddl8RaQ==
+Received: from ph0pr06cu001.outbound.protection.outlook.com (mail-westus3azon11021128.outbound.protection.outlook.com [40.107.208.128])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4ggec0v4rn-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 07:59:50 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=M2EdJ65W7Esgx2zyvJInzgIgp6QKEC+LG+YDRBdxxdWvyYacj3opkRgVKiiDw9pwqZcM5b4hesqT3flywoWV256aDEwCx/eZUtEcEvHjSlkNBFIKaxexJ7C+4tJPpjZQr9rS6SNV6quW6LWH4DuOxeKBgi9rwpsRoS2Pgd+R3NPH5k1bsQNNsEBFq/AYKAv1QlfV4wITTIouzR8S5RjVWcnjN3XzykBpK7F35CbYfxxI+qELYco51LGlVH9dpZttBp4G4KOHD19PK4zTFHmwDJC/j8vHUnU73oFiGsb4teaNkAJT/KYRcb5RyfGEQbYyczy69wooPe7vb5Cg1ajXDg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=NkJZ3k89tl99OGgA5UQWZRD8gME+7tb6VIh81TzkZCc=;
+ b=B+4jacO4cW6N/ShS/HcnvcWPP5PArafQ8OCsyTzNtSyxLgDNy8uF8jjHvkoks8uckusb/MeCMKpKUimlIpOlC3FIQdtv/dwX0EwtoSuzD9LK5x6bJ1I1vW6iCx6/UqQgW2pHFVfCWAVF4j+W6/OWMkYPUct6VSbCISmOgY7kgcz2QWAWDdkADvrdwwgpjy7DU9niH196gVwqQc3LTaJHaYByzDiqMNhHeNFGNfuIYRCtHblnc2bAIdhCLdymxGWpOXOrIeJzScdiNPHN2T+KooiPz0ePPvFOV1QP4btzAp8/TRmFwqLYKUcZfLJ0gTqOg/HIh88VQM7l8q2juhNL2Q==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DM8PR11MB5590.namprd11.prod.outlook.com (2603:10b6:8:32::8) by
+ CHXPR11MB9673.namprd11.prod.outlook.com (2603:10b6:610:2fc::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Tue, 8 Sep 2026
+ 14:59:43 +0000
+Received: from DM8PR11MB5590.namprd11.prod.outlook.com
+ ([fe80::238d:9dcf:c2c7:75e6]) by DM8PR11MB5590.namprd11.prod.outlook.com
+ ([fe80::238d:9dcf:c2c7:75e6%6]) with mapi id 15.21.0406.005; Tue, 8 Sep 2026
+ 14:59:43 +0000
+From: Sai Sireesha T <saisireesha.t@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] maintainers.inc: Update maintainer for psplash and systemd recipes
+Date: Tue,  8 Sep 2026 09:59:26 -0500
+Message-ID: <20260908145926.5733-1-saisireesha.t@windriver.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: MN0PR05CA0010.namprd05.prod.outlook.com
+ (2603:10b6:208:52c::19) To DM8PR11MB5590.namprd11.prod.outlook.com
+ (2603:10b6:8:32::8)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM8PR11MB5590:EE_|CHXPR11MB9673:EE_
+X-MS-Office365-Filtering-Correlation-Id: aa0ceba3-38a0-43e3-2896-08df0db9d0a2
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|52116014|376014|23010399003|1800799024|10070799003|6133799003|18002099003|56012099006|11063799006|10067099003;
+X-Microsoft-Antispam-Message-Info: 
+	d+2AXK6ke5HqkxjkmP869DREouIQd99pMxCXQ1rZAuX9rOCgYpRCHko135Baiet8vKq6uModdaum0E/8SB8J/SC7Vyfn7jecAQhxk7m/aU4ugbakNSdhtH7+DFDX6ba1rIU54VeJI6Z/TWLm5ZtYi3LNFuT9VwO1M6TZ8qNPmAVohrsT4+ulQvxOnHIVGl2ns+lkyEJ8qUIxCErSojUaCm8z7OrMHPC1dAZhXCDUt0FDenD2Uvl+h42zDUfkLgy7+10EFgLQIAm0YVFIyEtkih3WYTCvKvbvmfS51SeaeJXg7s1vEuEztgaJhMyFPJAMyPZzE8j1esIQJxyHGGzYrBFqgh81iuEaWJXN97boicxpdLsDm0HsYiLhQsZ6PKx/MON4HCwdW12kNzlfAnz7FcJlguGhxek2Hhc9++yu0blf2y9X9VQWO6E0Fvas+Q/OJLCJV/v2lXtqhrzSPOSBeDxKldu75pNTo/Af3w9ADOL3K/Y7R922pSHCBXSWdcHELGZqbHMslr0pbB4o9kOKJyiWT47RcqPN0zo6grPFdrssV5ESjPJxEupa7HmPsUICjTBuqQL41GX5XSORZNDsubXJHlLIK313gB+Tob36mtnwsSCh9PlbnQWBDI8Gntfk9yVwcvd9qE4NFz1NHeUeP/DwJlBm4RQWTjvQioIt2zY=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM8PR11MB5590.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(23010399003)(1800799024)(10070799003)(6133799003)(18002099003)(56012099006)(11063799006)(10067099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?863C6MyokrC9QQK1ck+lYX7857iiK713i5mRtkKcV3bh9HayJM1gpanw7Fuk?=
+ =?us-ascii?Q?Dnh+o+u2d/0qYB+sacgaejjYiDihZyduXPXGGf9pD+8DlgGlwp2C7VG/B7rj?=
+ =?us-ascii?Q?yBcmDk2i4xOfNbmntKPBo9ZMDrRx6z1i8O8UyFEew6Ta2/jVB3M03S57WZMq?=
+ =?us-ascii?Q?p541Fnt/OiinG9NKGhge/BTG0MAsEtOkDyZEaJq8ZOp2qmuLFjY0Kc5dgY25?=
+ =?us-ascii?Q?V8aJ55tc0+mrddEK4PJmgX9TLvA+ugRB8w5HAI/pdu30AYnkUyIw+jTdrAL/?=
+ =?us-ascii?Q?1kAWIsJ4yx7YUxfzaY6tlrOHY2WNEP+Gk6u034vDQMXYxQLJqBKu3RMJtskV?=
+ =?us-ascii?Q?avNxc6A8XpbkAtHmFCc2/KIhKvWbRiTV48CJGFsTc+4XsBu7nI1Z4sfW1f19?=
+ =?us-ascii?Q?QLiMkrA6IPkGtuaLfySLkgdDI2Aidcp9ZeGEG3z9Xe7r7zZOArgOev3DBnDH?=
+ =?us-ascii?Q?/Jo/ADxOfB4LxhmcXQtujoWzv7umIm9vq4gIxboO7N/N9bLaTVOn9en1O4+1?=
+ =?us-ascii?Q?NW6ovZGvAj/jGm+N+NK+FpjHEU9BqijVmUkD68eckc38uG5CRK76C/o/ZmLj?=
+ =?us-ascii?Q?pma5qBi8iaeq8HGSen/wCt17yhrKyxGMymEKohVfJ7BLHMYoJv3XHK+TUJME?=
+ =?us-ascii?Q?l9HSCTGkvSyr9XvgeJ0KC9EiCHnP4/XFPGjeBkmVgypbtapW9KYWX0UdYzxF?=
+ =?us-ascii?Q?f/cB742uUVZxS+XtYnRpjgsz02oBfe1jLoAOf7mZNuyC93cGWK5L0b4nUaVW?=
+ =?us-ascii?Q?GshwMRY9/tgDRrOt7dE8YSUaDEn8aZpeEUAmQ45R5VJH2KrWmLt8VbAeb2KB?=
+ =?us-ascii?Q?qvH/hiLLLlAbV98Y344Q833O0uJ+CB/qJ8QH3ujIPLMiMTwgSGeQDRgMG6JW?=
+ =?us-ascii?Q?8/y0yfdS6ewvXeNrRD5+HVpSCUONg60HlA2O2MjbaeSueZ/IEjMhztTi//NM?=
+ =?us-ascii?Q?46TCneb95LI1vAKWpdE8IFSFHZ2fa33OBimX7CfMPGl2YOCTsnoJAtY2vwyg?=
+ =?us-ascii?Q?dLM4FiS/06bRgXaZPM4+SXPjRJGkJLQpNP4e6PQk49aOQspmeVVd49PlnC//?=
+ =?us-ascii?Q?AzW7qEBL5KESTwzxCaFBdVEa8UKlL7H9i04o6xPYCoZhIgYCpaYKV5RXuRt9?=
+ =?us-ascii?Q?o3mr8etMcPk5Z2xWLIIQ14NDwM7OnqUeifNDnRD9/ySoJXqcRjmwlpunLU6b?=
+ =?us-ascii?Q?zkebklzf4O93slGXYeyeuP4/WY65Mtro1Tmfb+x2Mo3zkesIFdlXxuePzSpt?=
+ =?us-ascii?Q?Y/1YaNcqTqAu1BztvKNaPPdrP11NUVmar+vJg5WVjnZ9Tkxj2cuWfo47WpRL?=
+ =?us-ascii?Q?Qhkx3WEQuidCV8a1pOe5TSyjwgMvTKGluM2UY1PYtt8WvJEb8XrGhqQllgxY?=
+ =?us-ascii?Q?AZ+kCtctGup51Rf/qug2h6ocnJ5nfosEyioj1xRKoKajA6lJON4roe7Cc6cU?=
+ =?us-ascii?Q?6uIBCs9Q5pv7XfquQioiIkOLVgEmZwaKu860q7/wxgiCcmSa931nl1Ufq7wg?=
+ =?us-ascii?Q?uxOUTeJEvNCcE4hKrwnNcZ4RMv1t6+qwBfwnjY5aTf4d4jpqfZXpLWTDsstN?=
+ =?us-ascii?Q?vnVcIqO2Q3lIES31DYCeSZ6PSI4qG7oajU1ZOWiEEhO07TuI2aABaaAZpaSQ?=
+ =?us-ascii?Q?SLJ2s8jdNJqDAS5zbTeHRDoo0nD1mw3p22DAttQrJOuQmBjgX9h9FiuUQI3E?=
+ =?us-ascii?Q?kp+L6UFXJ7JbH5KqhCoEYAr7nCRulRlNYKZ8RFGXmf7Cid7bkc6huhUYjjIQ?=
+ =?us-ascii?Q?OsVM0GrC5cjOQQOoRyQIzs1T7mS/YwdZz3AmN7OnAmO3GzGd1mwPCsQB27Qr?=
+X-MS-Exchange-AntiSpam-MessageData-1: RNdt+hbnHJNXikJ8FGqze36G0RBaF3fA1LM=
+X-Exchange-RoutingPolicyChecked: 
+	4He+5qpvAxh11uhz7l+8ws6gilfO2R+qqLHZuXM6xY5ZSiABx+AoIoE9SeE7ijrA6YuTmF7G9iTKYEdw5TQkFousG2bkFm0x66uSeiQSI9rr6RteZS3zzgkoJUfniBa4BGKL9Rorg++A/wexW6xD6eSi3A3RPCKsNRvzoG5k1k9ice8379tg3fS/Tr1P3/GNnELZmWO9NR+/0taQjK4Ykv9/UfPKRPFlRs9VvoGh+p7bueH9WeolN7fPzaX6ezZoAC8HU/V/v57j3gCh9GF0HQpRQaeq1EkxDFaEmwTZ6nMgE8KGf/kDY6HPLUuOr/Whuh/YKd/EJkDxspJOFAfT8w==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: aa0ceba3-38a0-43e3-2896-08df0db9d0a2
+X-MS-Exchange-CrossTenant-AuthSource: DM8PR11MB5590.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Sep 2026 14:59:43.2269
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: +vdRAe9L7l9UNkF0vB7TR0AmqvVR2+Tz9JbEuUd8cdXajBtRaK1cIdZDHqshlXh8Z1BCt3QpgdF7VMfLRBY1amWFxEJGZ7/XDDYhJsG1VUY=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CHXPR11MB9673
+X-Authority-Analysis: v=2.4 cv=E+v9Y6dl c=1 sm=1 tr=0 ts=6aa022e6 cx=c_pps
+ a=HH4JkQGtkLi2X7RbypODRQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8
+ a=iGHA9ds3AAAA:8 a=7CQSdrXTAAAA:8 a=COk6AnOGAAAA:8 a=pGLkceISAAAA:8
+ a=3KGv8BLWKtougNMjE7YA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=nM-MV4yxpKKO9kiQg6Ot:22
+ a=a-qgeE7W1pNrGK8U0ZQC:22 a=TjNXssC_j7lpFel5tvFf:22
+X-Proofpoint-ORIG-GUID: vsZzmAi-HJHY9yX0yL0Y3Xk9NWw62zf6
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA4MDE2MCBTYWx0ZWRfX5kd3nr1o9Ago
+ iKaYuOJoVTHh57svQbfcE8QbFgLxrAB88tZw6leISqLVJIhE105jAdcuPXWBQp6tMmyYbjWpTkc
+ pKEwkNYjIeKPrfajgzH49hbRrZfKCQJdDKcx8GdxjwX+9LY2aUfj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA4MDE2MCBTYWx0ZWRfX6hved7p5pLMT
+ C2NPAsGm6DimH23tnUagVaobjxIvntKQd+UAop3+0KsyuwsYO//TUkdeHvijCK70x9EQcWSkR3b
+ 2QIgjbIa+ZHBd3VIrtva8xc4UINGQF2WMOvJ3Ea9ym5t+4nsDeFWB6mebqrHhr8/sUVaYP2Yk47
+ iN+vZP94FD9wTzKNYcdA750nZj0lECXldctCiv/QDhuae6Qj/s9jHsrR9HLpO6Jj6EbY4HcsyFb
+ IWOg11v75dCDmtM2kcakXCrnmIHpr2owStkfPbWZsrQpgx6y9G8v1XBX8RFIPq/BO+ftRSRfg8J
+ jt3UjLrH0+7ndM8w2aaMSeeeqNPH2gLo00vFYu6mrEBWZzgCaThuDjZMhhU5++J2R1MspOMntx0
+ ayqPeHHs/kTHC8mqXi+fb6oKcE+B+FMhpIB43VIwp0AuX9lsAsKuY1u1Lr5rCt8jPfG/GbPTCfs
+ yBZ3RRaUQ9Bcd+jY2Rg==
+X-Proofpoint-GUID: vsZzmAi-HJHY9yX0yL0Y3Xk9NWw62zf6
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-08_03,2026-09-08_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ phishscore=0 impostorscore=0 clxscore=1011 adultscore=0 bulkscore=0
+ spamscore=0 malwarescore=0 suspectscore=0 lowpriorityscore=0
+ priorityscore=1501 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2606150000
+ definitions=main-2609080160
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 14:46:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245373
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 14:59:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245374
 
---=-F/EWUXt2taskR2Wy8jD4
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Take over maintenance of the following recipes:
+- psplash
+- systemd
+- systemd-boot
+- systemd-bootchart
+- systemd-bootconf
+- systemd-conf
+- systemd-machine-units
+- systemd-serailgetty.
 
-Current Dev Position: YP 6.1 M3 - Feature Freeze
-Next Deadline: YP 6.1 M3: w/c 2026-08-31
+Signed-off-by: Sai Sireesha T <saisireesha.t@windriver.com>
+---
+ meta/conf/distro/include/maintainers.inc | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Next Team Meetings:
- * Bug Triage meeting - Thursday 10th Sept. 7:30am PDT
-   (https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09)
- * Weekly Project Engineering Sync=C2=A0 - Tuesday 8th Sept. 8am PDT
-   (https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09)
-   [1]
- * Yocto Project Patch Review - Thursday 10th Sept. 10am GMT and Monday
-   14th Sept. 9am PDT
-   (https://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1
-   )
-
-Project data dashboard: https://dashboard.yoctoproject.org/=C2=A0
-
-Key Status/Updates:
- * YP 6.0.3 was released
- * YP 5.0.20 is under review.
- * YP 6.1 M3 is due to build and we are at feature freeze
- * There are issues with changes in bot/AI protection at github.com
-   which are affecting our CI.=C2=A0
- * Most M3 changes have merged, we want to mitigate the github issues
-   before building M3.
- * There is a new meta-openjdk layer:
-   https://github.com/amarula/meta-openjdk
-https://lore.kernel.org/yocto-patches/xBB4.1788187111192557019.ULaN@lists.y=
-octoproject.org/T/#u
- * AI scrapers and bots continue to impact the infrastructure, taking
-   huge amounts of time for our sysadmins and with a significant cost
-   impact to the project.
- * There are two AB-INT issues which are in a position where others
-   could now help, as detailed in
-   https://lists.openembedded.org/g/openembedded-core/message/242105:
-    - Matchbox-wm segfault/xserver restart
-    - aarch64/x86-64 build host contamination/reproducibility issue
-We get a lot of comments about these being hard to reproduce or work
-on, in both cases, these have specific well defined things which need
-to be done and a basic understanding of what the issue relates to, if
-not the actual fix.
- * Remaining intermittent build failures of concern:
-    - other qemu =E2=80=98hang=E2=80=99 type issues on ARM
-    - sometimes yocto-check-layer is showing checksum mismatch issues
-    - intermittent ptest failures in many recipes
-
-Want to contribute? We would appreciate help with the following areas:
- * We have several open issues for pseudo and limited maintainer time
-   to work on them. Help from someone familiar with systems programming
-   in C would be greatly appreciated.
-   https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D661406&priority=
-=3DHigh&priority=3DMedium%2B&product=3DPseudo&query_format=3Dadvanced&resol=
-ution=3D---
- * There are a large number of intermittent failures on our
-   autobuilder, any help with investigating, reproducing or solving
-   these issues would be welcome!
-   https://valkyrie.yocto.io/pub/non-release/abint/
- * Many recipes in openembedded-core would benefit from a new recipe
-   maintainer. Please look at
-   https://git.openembedded.org/openembedded-core/tree/meta/conf/distro/inc=
-lude/maintainers.inc
-   and see if you can adopt any of the unassigned recipes.
- * For more ways to contribute, see
-   https://docs.google.com/document/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuC=
-WbzgjOk/edit?usp=3Dsharing
-
-New to the project?
- * We have a list of issues we think are good places to start
-   contributing:
-   https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER
-
-Tracking Metrics:
- * WDD 2622 (last week 2612)
-   (https://wiki.yoctoproject.org/charts/combo.html)
- * OE-Core/Poky Patch Metrics
-    - Total patches found: 1050 (last week 1039)
-    - Patches in the Pending State: 136 (13%) [last week 139 (14%)]
-    - https://valkyrie.yocto.io/pub/non-release/patchmetrics/
-
-Upcoming development releases:
- * 6.1 M3:
-    - Build Date: w/c 2026-08-31
-    - Release Date: w/c 2026-09-14
- * 6.1.0:
-    - Build Date (M4): w/c 2026-10-12
-    - Release Date: w/c 2026-11-02
-
-Upcoming dot releases:
- * YP 6.0.3 is in review,
-    - Release Date w/c 2026-08-24
- * YP 5.0.20 is in QA.
-    - Release Date w/c 2026-08-31
- * YP 6.0.4
-    - Build Date w/c 2026-09-28
-    - Release Date w/c 2026-10-12
- * YP 5.0.21
-    - Build Date w/c 2026-10-05
-    - Release Date w/c 2026-10-19
- * For future release dates, see
-   https://wiki.yoctoproject.org/wiki/Release_calendar
-
-The Yocto Project=E2=80=99s technical governance is through its Technical
-Steering Committee, more information is available at:
-https://wiki.yoctoproject.org/wiki/TSC
-
-The Status reports are stored on the wiki at:
-https://wiki.yoctoproject.org/wiki/Weekly_Status
-
-[If anyone has suggestions for other information you=E2=80=99d like to see =
-on
-this weekly status update, let us know!]
-
-[1] ) https://zoom.us/j/990892712
-
---=-F/EWUXt2taskR2Wy8jD4
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<html><head><style>pre,code,address {
-  margin: 0px;
-}
-h1,h2,h3,h4,h5,h6 {
-  margin-top: 0.2em;
-  margin-bottom: 0.2em;
-}
-ol,ul {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-blockquote {
-  margin-top: 0em;
-  margin-bottom: 0em;
-}
-</style></head><body><pre></pre><pre style=3D"caret-color: rgb(46, 52, 54);=
- color: rgb(46, 52, 54);"></pre><pre><div><span style=3D"font-family: Arial=
-, sans-serif; font-size: 11pt; white-space: pre-wrap;">Current Dev Position=
-: YP 6.1 M3 - Feature Freeze</span></div><div><span style=3D"font-size: 11p=
-t; font-family: Arial, sans-serif; font-variant-ligatures: normal; font-var=
-iant-caps: normal; font-variant-alternates: normal; font-variant-numeric: n=
-ormal; font-variant-east-asian: normal; font-variant-position: normal; font=
--variant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">N=
-ext Deadline: YP 6.1 M3: w/c 2026-08-31</span></div><br><div><span style=3D=
-"font-size: 11pt; font-family: Arial, sans-serif; font-variant-ligatures: n=
-ormal; font-variant-caps: normal; font-variant-alternates: normal; font-var=
-iant-numeric: normal; font-variant-east-asian: normal; font-variant-positio=
-n: normal; font-variant-emoji: normal; vertical-align: baseline; white-spac=
-e: pre-wrap;">Next Team Meetings:</span></div><ul style=3D"margin-top:0;mar=
-gin-bottom:0;padding-inline-start:48px;"><li dir=3D"ltr" style=3D"list-styl=
-e-type: disc; font-size: 9.5pt; font-family: Arial, sans-serif; font-varian=
-t-ligatures: normal; font-variant-caps: normal; font-variant-alternates: no=
-rmal; font-variant-numeric: normal; font-variant-east-asian: normal; font-v=
-ariant-position: normal; font-variant-emoji: normal; vertical-align: baseli=
-ne;" aria-level=3D"1"><div><span style=3D"font-size: 11pt; font-variant-lig=
-atures: normal; font-variant-caps: normal; font-variant-alternates: normal;=
- font-variant-numeric: normal; font-variant-east-asian: normal; font-varian=
-t-position: normal; font-variant-emoji: normal; vertical-align: baseline; w=
-hite-space: pre-wrap;">Bug Triage meeting - Thursday 10th Sept. 7:30am PDT =
-(</span><a href=3D"https://zoom.us/j/454367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aV=
-pHVVZ6dz09" style=3D"text-decoration:none;"><span style=3D"font-size: 11pt;=
- color: rgb(17, 85, 204); font-variant-ligatures: normal; font-variant-caps=
-: normal; font-variant-alternates: normal; font-variant-numeric: normal; fo=
-nt-variant-east-asian: normal; font-variant-position: normal; font-variant-=
-emoji: normal; text-decoration-line: underline; text-decoration-skip-ink: n=
-one; vertical-align: baseline; white-space: pre-wrap;">https://zoom.us/j/45=
-4367603?pwd=3DZGxoa2ZXL3FkM3Y0bFd5aVpHVVZ6dz09</span></a><span style=3D"fon=
-t-size: 11pt; font-variant-ligatures: normal; font-variant-caps: normal; fo=
-nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
-ast-asian: normal; font-variant-position: normal; font-variant-emoji: norma=
-l; vertical-align: baseline; white-space: pre-wrap;">)</span></div></li><li=
- dir=3D"ltr" style=3D"list-style-type: disc; font-size: 9.5pt; font-family:=
- Arial, sans-serif; font-variant-ligatures: normal; font-variant-caps: norm=
-al; font-variant-alternates: normal; font-variant-numeric: normal; font-var=
-iant-east-asian: normal; font-variant-position: normal; font-variant-emoji:=
- normal; vertical-align: baseline;" aria-level=3D"1"><div><span style=3D"fo=
-nt-size: 11pt; font-variant-ligatures: normal; font-variant-caps: normal; f=
-ont-variant-alternates: normal; font-variant-numeric: normal; font-variant-=
-east-asian: normal; font-variant-position: normal; font-variant-emoji: norm=
-al; vertical-align: baseline; white-space: pre-wrap;">Weekly Project Engine=
-ering Sync&nbsp; - Tuesday 8th Sept. 8am PDT (</span><a href=3D"https://zoo=
-m.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81bkcrYjRrcmJsUT09" style=3D"text-deco=
-ration:none;"><span style=3D"font-size: 11pt; color: rgb(17, 85, 204); font=
--variant-ligatures: normal; font-variant-caps: normal; font-variant-alterna=
-tes: normal; font-variant-numeric: normal; font-variant-east-asian: normal;=
- font-variant-position: normal; font-variant-emoji: normal; text-decoration=
--line: underline; text-decoration-skip-ink: none; vertical-align: baseline;=
- white-space: pre-wrap;">https://zoom.us/j/990892712?pwd=3DcHU1MjhoM2x6ck81=
-bkcrYjRrcmJsUT09</span></a><a href=3D"https://zoom.us/j/990892712" style=3D=
-"text-decoration:none;"><span style=3D"font-size: 11pt; color: rgb(17, 85, =
-204); font-variant-ligatures: normal; font-variant-caps: normal; font-varia=
-nt-alternates: normal; font-variant-numeric: normal; font-variant-east-asia=
-n: normal; font-variant-position: normal; font-variant-emoji: normal; text-=
-decoration-line: underline; text-decoration-skip-ink: none; vertical-align:=
- baseline; white-space: pre-wrap;">)</span></a></div></li><li dir=3D"ltr" s=
-tyle=3D"list-style-type: disc; font-size: 9.5pt; font-family: Arial, sans-s=
-erif; font-variant-ligatures: normal; font-variant-caps: normal; font-varia=
-nt-alternates: normal; font-variant-numeric: normal; font-variant-east-asia=
-n: normal; font-variant-position: normal; font-variant-emoji: normal; verti=
-cal-align: baseline;" aria-level=3D"1"><div><span style=3D"font-size: 11pt;=
- font-variant-ligatures: normal; font-variant-caps: normal; font-variant-al=
-ternates: normal; font-variant-numeric: normal; font-variant-east-asian: no=
-rmal; font-variant-position: normal; font-variant-emoji: normal; vertical-a=
-lign: baseline; white-space: pre-wrap;">Yocto Project Patch Review - Thursd=
-ay 10th Sept. 10am GMT and Monday 14th Sept. 9am PDT (</span><a href=3D"htt=
-ps://zoom.us/j/97762397148?pwd=3D1xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1" style=
-=3D"text-decoration:none;"><span style=3D"font-size: 11pt; color: rgb(17, 8=
-5, 204); font-variant-ligatures: normal; font-variant-caps: normal; font-va=
-riant-alternates: normal; font-variant-numeric: normal; font-variant-east-a=
-sian: normal; font-variant-position: normal; font-variant-emoji: normal; te=
-xt-decoration-line: underline; text-decoration-skip-ink: none; vertical-ali=
-gn: baseline; white-space: pre-wrap;">https://zoom.us/j/97762397148?pwd=3D1=
-xk0iC9hp9SjEonaTaONwTb6iWry4Eb.1</span></a><span style=3D"font-size: 11pt; =
-font-variant-ligatures: normal; font-variant-caps: normal; font-variant-alt=
-ernates: normal; font-variant-numeric: normal; font-variant-east-asian: nor=
-mal; font-variant-position: normal; font-variant-emoji: normal; vertical-al=
-ign: baseline; white-space: pre-wrap;">)</span></div></li></ul><br><div><sp=
-an style=3D"font-size: 11pt; font-family: Arial, sans-serif; font-variant-l=
-igatures: normal; font-variant-caps: normal; font-variant-alternates: norma=
-l; font-variant-numeric: normal; font-variant-east-asian: normal; font-vari=
-ant-position: normal; font-variant-emoji: normal; vertical-align: baseline;=
- white-space: pre-wrap;">Project data dashboard: </span><a href=3D"https://=
-dashboard.yoctoproject.org/" style=3D"text-decoration:none;"><span style=3D=
-"font-size: 11pt; font-family: Arial, sans-serif; color: rgb(17, 85, 204); =
-font-variant-ligatures: normal; font-variant-caps: normal; font-variant-alt=
-ernates: normal; font-variant-numeric: normal; font-variant-east-asian: nor=
-mal; font-variant-position: normal; font-variant-emoji: normal; text-decora=
-tion-line: underline; text-decoration-skip-ink: none; vertical-align: basel=
-ine; white-space: pre-wrap;">https://dashboard.yoctoproject.org/</span></a>=
-<span style=3D"font-size: 11pt; font-family: Arial, sans-serif; font-varian=
-t-ligatures: normal; font-variant-caps: normal; font-variant-alternates: no=
-rmal; font-variant-numeric: normal; font-variant-east-asian: normal; font-v=
-ariant-position: normal; font-variant-emoji: normal; vertical-align: baseli=
-ne; white-space: pre-wrap;">&nbsp;</span></div><br><div><span style=3D"font=
--size: 11pt; font-family: Arial, sans-serif; font-variant-ligatures: normal=
-; font-variant-caps: normal; font-variant-alternates: normal; font-variant-=
-numeric: normal; font-variant-east-asian: normal; font-variant-position: no=
-rmal; font-variant-emoji: normal; vertical-align: baseline; white-space: pr=
-e-wrap;">Key Status/Updates:</span></div><ul style=3D"margin-top:0;margin-b=
-ottom:0;padding-inline-start:48px;"><li dir=3D"ltr" style=3D"list-style-typ=
-e: disc; font-size: 11pt; font-family: Arial, sans-serif; font-variant-liga=
-tures: normal; font-variant-caps: normal; font-variant-alternates: normal; =
-font-variant-numeric: normal; font-variant-east-asian: normal; font-variant=
--position: normal; font-variant-emoji: normal; vertical-align: baseline;" a=
-ria-level=3D"1"><div><span style=3D"font-size: 11pt; font-variant-ligatures=
-: normal; font-variant-caps: normal; font-variant-alternates: normal; font-=
-variant-numeric: normal; font-variant-east-asian: normal; font-variant-posi=
-tion: normal; font-variant-emoji: normal; vertical-align: baseline; white-s=
-pace: pre-wrap;">YP 6.0.3 was released</span></div></li><li dir=3D"ltr" sty=
-le=3D"list-style-type: disc; font-size: 11pt; font-family: Arial, sans-seri=
-f; font-variant-ligatures: normal; font-variant-caps: normal; font-variant-=
-alternates: normal; font-variant-numeric: normal; font-variant-east-asian: =
-normal; font-variant-position: normal; font-variant-emoji: normal; vertical=
--align: baseline;" aria-level=3D"1"><div><span style=3D"font-size: 11pt; fo=
-nt-variant-ligatures: normal; font-variant-caps: normal; font-variant-alter=
-nates: normal; font-variant-numeric: normal; font-variant-east-asian: norma=
-l; font-variant-position: normal; font-variant-emoji: normal; vertical-alig=
-n: baseline; white-space: pre-wrap;">YP 5.0.20 is under review.</span></div=
-></li><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; font=
--family: Arial, sans-serif; font-variant-ligatures: normal; font-variant-ca=
-ps: normal; font-variant-alternates: normal; font-variant-numeric: normal; =
-font-variant-east-asian: normal; font-variant-position: normal; font-varian=
-t-emoji: normal; vertical-align: baseline;" aria-level=3D"1"><div><span sty=
-le=3D"font-size: 11pt; font-variant-ligatures: normal; font-variant-caps: n=
-ormal; font-variant-alternates: normal; font-variant-numeric: normal; font-=
-variant-east-asian: normal; font-variant-position: normal; font-variant-emo=
-ji: normal; vertical-align: baseline; white-space: pre-wrap;">YP 6.1 M3 is =
-due to build and we are at feature freeze</span></div></li><li dir=3D"ltr" =
-style=3D"list-style-type: disc; font-size: 11pt; font-family: Arial, sans-s=
-erif; font-variant-ligatures: normal; font-variant-caps: normal; font-varia=
-nt-alternates: normal; font-variant-numeric: normal; font-variant-east-asia=
-n: normal; font-variant-position: normal; font-variant-emoji: normal; verti=
-cal-align: baseline;" aria-level=3D"1"><div><span style=3D"font-size: 11pt;=
- font-variant-ligatures: normal; font-variant-caps: normal; font-variant-al=
-ternates: normal; font-variant-numeric: normal; font-variant-east-asian: no=
-rmal; font-variant-position: normal; font-variant-emoji: normal; vertical-a=
-lign: baseline; white-space: pre-wrap;">There are issues with changes in bo=
-t/AI protection at github.com which are affecting our CI.&nbsp;</span></div=
-></li><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; font=
--family: Arial, sans-serif; font-variant-ligatures: normal; font-variant-ca=
-ps: normal; font-variant-alternates: normal; font-variant-numeric: normal; =
-font-variant-east-asian: normal; font-variant-position: normal; font-varian=
-t-emoji: normal; vertical-align: baseline;" aria-level=3D"1"><div><span sty=
-le=3D"font-size: 11pt; font-variant-ligatures: normal; font-variant-caps: n=
-ormal; font-variant-alternates: normal; font-variant-numeric: normal; font-=
-variant-east-asian: normal; font-variant-position: normal; font-variant-emo=
-ji: normal; vertical-align: baseline; white-space: pre-wrap;">Most M3 chang=
-es have merged, we want to mitigate the github issues before building M3.</=
-span></div></li><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: =
-11pt; font-family: Arial, sans-serif; font-variant-ligatures: normal; font-=
-variant-caps: normal; font-variant-alternates: normal; font-variant-numeric=
-: normal; font-variant-east-asian: normal; font-variant-position: normal; f=
-ont-variant-emoji: normal; vertical-align: baseline;" aria-level=3D"1"><div=
-><span style=3D"font-size: 11pt; font-variant-ligatures: normal; font-varia=
-nt-caps: normal; font-variant-alternates: normal; font-variant-numeric: nor=
-mal; font-variant-east-asian: normal; font-variant-position: normal; font-v=
-ariant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">The=
-re is a new meta-openjdk layer: </span><a href=3D"https://github.com/amarul=
-a/meta-openjdk" style=3D"text-decoration:none;"><span style=3D"font-size: 1=
-1pt; color: rgb(17, 85, 204); font-variant-ligatures: normal; font-variant-=
-caps: normal; font-variant-alternates: normal; font-variant-numeric: normal=
-; font-variant-east-asian: normal; font-variant-position: normal; font-vari=
-ant-emoji: normal; text-decoration-line: underline; text-decoration-skip-in=
-k: none; vertical-align: baseline; white-space: pre-wrap;">https://github.c=
-om/amarula/meta-openjdk</span></a></div></li></ul><div><a href=3D"https://l=
-ore.kernel.org/yocto-patches/xBB4.1788187111192557019.ULaN@lists.yoctoproje=
-ct.org/T/#u" style=3D"text-decoration:none;"><span style=3D"font-size: 11pt=
-; font-family: Arial, sans-serif; color: rgb(17, 85, 204); font-variant-lig=
-atures: normal; font-variant-caps: normal; font-variant-alternates: normal;=
- font-variant-numeric: normal; font-variant-east-asian: normal; font-varian=
-t-position: normal; font-variant-emoji: normal; text-decoration-line: under=
-line; text-decoration-skip-ink: none; vertical-align: baseline; white-space=
-: pre-wrap;">https://lore.kernel.org/yocto-patches/xBB4.1788187111192557019=
-.ULaN@lists.yoctoproject.org/T/#u</span></a></div><ul style=3D"margin-top:0=
-;margin-bottom:0;padding-inline-start:48px;"><li dir=3D"ltr" style=3D"list-=
-style-type: disc; font-size: 11pt; font-family: Arial, sans-serif; font-var=
-iant-ligatures: normal; font-variant-caps: normal; font-variant-alternates:=
- normal; font-variant-numeric: normal; font-variant-east-asian: normal; fon=
-t-variant-position: normal; font-variant-emoji: normal; vertical-align: bas=
-eline;" aria-level=3D"1"><div><span style=3D"font-size: 11pt; font-variant-=
-ligatures: normal; font-variant-caps: normal; font-variant-alternates: norm=
-al; font-variant-numeric: normal; font-variant-east-asian: normal; font-var=
-iant-position: normal; font-variant-emoji: normal; vertical-align: baseline=
-; white-space: pre-wrap;">AI scrapers and bots continue to impact the infra=
-structure, taking huge amounts of time for our sysadmins and with a signifi=
-cant cost impact to the project.</span></div></li><li dir=3D"ltr" style=3D"=
-list-style-type: disc; font-size: 11pt; font-family: Arial, sans-serif; fon=
-t-variant-ligatures: normal; font-variant-caps: normal; font-variant-altern=
-ates: normal; font-variant-numeric: normal; font-variant-east-asian: normal=
-; font-variant-position: normal; font-variant-emoji: normal; vertical-align=
-: baseline;" aria-level=3D"1"><div><span style=3D"font-size: 11pt; font-var=
-iant-ligatures: normal; font-variant-caps: normal; font-variant-alternates:=
- normal; font-variant-numeric: normal; font-variant-east-asian: normal; fon=
-t-variant-position: normal; font-variant-emoji: normal; vertical-align: bas=
-eline; white-space: pre-wrap;">There are two AB-INT issues which are in a p=
-osition where others could now help, as detailed in </span><a href=3D"https=
-://lists.openembedded.org/g/openembedded-core/message/242105" style=3D"text=
--decoration:none;"><span style=3D"font-size: 11pt; color: rgb(17, 85, 204);=
- font-variant-ligatures: normal; font-variant-caps: normal; font-variant-al=
-ternates: normal; font-variant-numeric: normal; font-variant-east-asian: no=
-rmal; font-variant-position: normal; font-variant-emoji: normal; text-decor=
-ation-line: underline; text-decoration-skip-ink: none; vertical-align: base=
-line; white-space: pre-wrap;">https://lists.openembedded.org/g/openembedded=
--core/message/242105</span></a><span style=3D"font-size: 11pt; font-variant=
--ligatures: normal; font-variant-caps: normal; font-variant-alternates: nor=
-mal; font-variant-numeric: normal; font-variant-east-asian: normal; font-va=
-riant-position: normal; font-variant-emoji: normal; vertical-align: baselin=
-e; white-space: pre-wrap;">:</span></div></li><ul style=3D"margin-top:0;mar=
-gin-bottom:0;padding-inline-start:48px;"><li dir=3D"ltr" style=3D"list-styl=
-e-type: circle; font-size: 11pt; font-family: Arial, sans-serif; font-varia=
-nt-ligatures: normal; font-variant-caps: normal; font-variant-alternates: n=
-ormal; font-variant-numeric: normal; font-variant-east-asian: normal; font-=
-variant-position: normal; font-variant-emoji: normal; vertical-align: basel=
-ine;" aria-level=3D"2"><div><span style=3D"font-size: 11pt; font-variant-li=
-gatures: normal; font-variant-caps: normal; font-variant-alternates: normal=
-; font-variant-numeric: normal; font-variant-east-asian: normal; font-varia=
-nt-position: normal; font-variant-emoji: normal; vertical-align: baseline; =
-white-space: pre-wrap;">Matchbox-wm segfault/xserver restart</span></div></=
-li><li dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11pt; font-=
-family: Arial, sans-serif; font-variant-ligatures: normal; font-variant-cap=
-s: normal; font-variant-alternates: normal; font-variant-numeric: normal; f=
-ont-variant-east-asian: normal; font-variant-position: normal; font-variant=
--emoji: normal; vertical-align: baseline;" aria-level=3D"2"><div><span styl=
-e=3D"font-size: 11pt; font-variant-ligatures: normal; font-variant-caps: no=
-rmal; font-variant-alternates: normal; font-variant-numeric: normal; font-v=
-ariant-east-asian: normal; font-variant-position: normal; font-variant-emoj=
-i: normal; vertical-align: baseline; white-space: pre-wrap;">aarch64/x86-64=
- build host contamination/reproducibility issue</span></div></li></ul></ul>=
-<div><span style=3D"font-size: 11pt; font-family: Arial, sans-serif; font-v=
-ariant-ligatures: normal; font-variant-caps: normal; font-variant-alternate=
-s: normal; font-variant-numeric: normal; font-variant-east-asian: normal; f=
-ont-variant-position: normal; font-variant-emoji: normal; vertical-align: b=
-aseline; white-space: pre-wrap;">We get a lot of comments about these being=
- hard to reproduce or work on, in both cases, these have specific well defi=
-ned things which need to be done and a basic understanding of what the issu=
-e relates to, if not the actual fix.</span></div><ul style=3D"margin-top:0;=
-margin-bottom:0;padding-inline-start:48px;"><li dir=3D"ltr" style=3D"list-s=
-tyle-type: disc; font-size: 11pt; font-family: Arial, sans-serif; font-vari=
-ant-ligatures: normal; font-variant-caps: normal; font-variant-alternates: =
-normal; font-variant-numeric: normal; font-variant-east-asian: normal; font=
--variant-position: normal; font-variant-emoji: normal; vertical-align: base=
-line;" aria-level=3D"1"><div><span style=3D"font-size: 11pt; font-variant-l=
-igatures: normal; font-variant-caps: normal; font-variant-alternates: norma=
-l; font-variant-numeric: normal; font-variant-east-asian: normal; font-vari=
-ant-position: normal; font-variant-emoji: normal; vertical-align: baseline;=
- white-space: pre-wrap;">Remaining intermittent build failures of concern:<=
-/span></div></li><ul style=3D"margin-top:0;margin-bottom:0;padding-inline-s=
-tart:48px;"><li dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11=
-pt; font-family: Arial, sans-serif; font-variant-ligatures: normal; font-va=
-riant-caps: normal; font-variant-alternates: normal; font-variant-numeric: =
-normal; font-variant-east-asian: normal; font-variant-position: normal; fon=
-t-variant-emoji: normal; vertical-align: baseline;" aria-level=3D"2"><div><=
-span style=3D"font-size: 11pt; font-variant-ligatures: normal; font-variant=
--caps: normal; font-variant-alternates: normal; font-variant-numeric: norma=
-l; font-variant-east-asian: normal; font-variant-position: normal; font-var=
-iant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">other=
- qemu =E2=80=98hang=E2=80=99 type issues on ARM</span></div></li><li dir=3D=
-"ltr" style=3D"list-style-type: circle; font-size: 11pt; font-family: Arial=
-, sans-serif; font-variant-ligatures: normal; font-variant-caps: normal; fo=
-nt-variant-alternates: normal; font-variant-numeric: normal; font-variant-e=
-ast-asian: normal; font-variant-position: normal; font-variant-emoji: norma=
-l; vertical-align: baseline;" aria-level=3D"2"><div><span style=3D"font-siz=
-e: 11pt; font-variant-ligatures: normal; font-variant-caps: normal; font-va=
-riant-alternates: normal; font-variant-numeric: normal; font-variant-east-a=
-sian: normal; font-variant-position: normal; font-variant-emoji: normal; ve=
-rtical-align: baseline; white-space: pre-wrap;">sometimes yocto-check-layer=
- is showing checksum mismatch issues</span></div></li><li dir=3D"ltr" style=
-=3D"list-style-type: circle; font-size: 11pt; font-family: Arial, sans-seri=
-f; font-variant-ligatures: normal; font-variant-caps: normal; font-variant-=
-alternates: normal; font-variant-numeric: normal; font-variant-east-asian: =
-normal; font-variant-position: normal; font-variant-emoji: normal; vertical=
--align: baseline;" aria-level=3D"2"><div><span style=3D"font-size: 11pt; fo=
-nt-variant-ligatures: normal; font-variant-caps: normal; font-variant-alter=
-nates: normal; font-variant-numeric: normal; font-variant-east-asian: norma=
-l; font-variant-position: normal; font-variant-emoji: normal; vertical-alig=
-n: baseline; white-space: pre-wrap;">intermittent ptest failures in many re=
-cipes</span></div></li></ul></ul><br><div><span style=3D"font-size: 11pt; f=
-ont-family: Arial, sans-serif; font-variant-ligatures: normal; font-variant=
--caps: normal; font-variant-alternates: normal; font-variant-numeric: norma=
-l; font-variant-east-asian: normal; font-variant-position: normal; font-var=
-iant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">Want =
-to contribute? We would appreciate help with the following areas:</span></d=
-iv><ul style=3D"margin-top:0;margin-bottom:0;padding-inline-start:48px;"><l=
-i dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; font-family:=
- Arial, sans-serif; font-variant-ligatures: normal; font-variant-caps: norm=
-al; font-variant-alternates: normal; font-variant-numeric: normal; font-var=
-iant-east-asian: normal; font-variant-position: normal; font-variant-emoji:=
- normal; vertical-align: baseline;" aria-level=3D"1"><div><span style=3D"fo=
-nt-size: 11pt; font-variant-ligatures: normal; font-variant-caps: normal; f=
-ont-variant-alternates: normal; font-variant-numeric: normal; font-variant-=
-east-asian: normal; font-variant-position: normal; font-variant-emoji: norm=
-al; vertical-align: baseline; white-space: pre-wrap;">We have several open =
-issues for pseudo and limited maintainer time to work on them. Help from so=
-meone familiar with systems programming in C would be greatly appreciated. =
-</span><a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D6=
-61406&amp;priority=3DHigh&amp;priority=3DMedium%2B&amp;product=3DPseudo&amp=
-;query_format=3Dadvanced&amp;resolution=3D---" style=3D"text-decoration:non=
-e;"><span style=3D"font-size: 11pt; color: rgb(17, 85, 204); font-variant-l=
-igatures: normal; font-variant-caps: normal; font-variant-alternates: norma=
-l; font-variant-numeric: normal; font-variant-east-asian: normal; font-vari=
-ant-position: normal; font-variant-emoji: normal; text-decoration-line: und=
-erline; text-decoration-skip-ink: none; vertical-align: baseline; white-spa=
-ce: pre-wrap;">https://bugzilla.yoctoproject.org/buglist.cgi?list_id=3D6614=
-06&amp;priority=3DHigh&amp;priority=3DMedium%2B&amp;product=3DPseudo&amp;qu=
-ery_format=3Dadvanced&amp;resolution=3D---</span></a></div></li><li dir=3D"=
-ltr" style=3D"list-style-type: disc; font-size: 11pt; font-family: Arial, s=
-ans-serif; font-variant-ligatures: normal; font-variant-caps: normal; font-=
-variant-alternates: normal; font-variant-numeric: normal; font-variant-east=
--asian: normal; font-variant-position: normal; font-variant-emoji: normal; =
-vertical-align: baseline;" aria-level=3D"1"><div><span style=3D"font-size: =
-11pt; font-variant-ligatures: normal; font-variant-caps: normal; font-varia=
-nt-alternates: normal; font-variant-numeric: normal; font-variant-east-asia=
-n: normal; font-variant-position: normal; font-variant-emoji: normal; verti=
-cal-align: baseline; white-space: pre-wrap;">There are a large number of in=
-termittent failures on our autobuilder, any help with investigating, reprod=
-ucing or solving these issues would be welcome! </span><a href=3D"https://v=
-alkyrie.yocto.io/pub/non-release/abint/" style=3D"text-decoration:none;"><s=
-pan style=3D"font-size: 11pt; color: rgb(17, 85, 204); font-variant-ligatur=
-es: normal; font-variant-caps: normal; font-variant-alternates: normal; fon=
-t-variant-numeric: normal; font-variant-east-asian: normal; font-variant-po=
-sition: normal; font-variant-emoji: normal; text-decoration-line: underline=
-; text-decoration-skip-ink: none; vertical-align: baseline; white-space: pr=
-e-wrap;">https://valkyrie.yocto.io/pub/non-release/abint/</span></a></div><=
-/li><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; font-f=
-amily: Arial, sans-serif; font-variant-ligatures: normal; font-variant-caps=
-: normal; font-variant-alternates: normal; font-variant-numeric: normal; fo=
-nt-variant-east-asian: normal; font-variant-position: normal; font-variant-=
-emoji: normal; vertical-align: baseline;" aria-level=3D"1"><div><span style=
-=3D"font-size: 11pt; font-variant-ligatures: normal; font-variant-caps: nor=
-mal; font-variant-alternates: normal; font-variant-numeric: normal; font-va=
-riant-east-asian: normal; font-variant-position: normal; font-variant-emoji=
-: normal; vertical-align: baseline; white-space: pre-wrap;">Many recipes in=
- openembedded-core would benefit from a new recipe maintainer. Please look =
-at </span><a href=3D"https://git.openembedded.org/openembedded-core/tree/me=
-ta/conf/distro/include/maintainers.inc" style=3D"text-decoration:none;"><sp=
-an style=3D"font-size: 11pt; color: rgb(17, 85, 204); font-variant-ligature=
-s: normal; font-variant-caps: normal; font-variant-alternates: normal; font=
--variant-numeric: normal; font-variant-east-asian: normal; font-variant-pos=
-ition: normal; font-variant-emoji: normal; text-decoration-line: underline;=
- text-decoration-skip-ink: none; vertical-align: baseline; white-space: pre=
--wrap;">https://git.openembedded.org/openembedded-core/tree/meta/conf/distr=
-o/include/maintainers.inc</span></a><span style=3D"font-size: 11pt; font-va=
-riant-ligatures: normal; font-variant-caps: normal; font-variant-alternates=
-: normal; font-variant-numeric: normal; font-variant-east-asian: normal; fo=
-nt-variant-position: normal; font-variant-emoji: normal; vertical-align: ba=
-seline; white-space: pre-wrap;"> and see if you can adopt any of the unassi=
-gned recipes.</span></div></li><li dir=3D"ltr" style=3D"list-style-type: di=
-sc; font-size: 11pt; font-family: Arial, sans-serif; font-variant-ligatures=
-: normal; font-variant-caps: normal; font-variant-alternates: normal; font-=
-variant-numeric: normal; font-variant-east-asian: normal; font-variant-posi=
-tion: normal; font-variant-emoji: normal; vertical-align: baseline;" aria-l=
-evel=3D"1"><div><span style=3D"font-size: 11pt; font-variant-ligatures: nor=
-mal; font-variant-caps: normal; font-variant-alternates: normal; font-varia=
-nt-numeric: normal; font-variant-east-asian: normal; font-variant-position:=
- normal; font-variant-emoji: normal; vertical-align: baseline; white-space:=
- pre-wrap;">For more ways to contribute, see </span><a href=3D"https://docs=
-.google.com/document/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?us=
-p=3Dsharing" style=3D"text-decoration:none;"><span style=3D"font-size: 11pt=
-; color: rgb(17, 85, 204); font-variant-ligatures: normal; font-variant-cap=
-s: normal; font-variant-alternates: normal; font-variant-numeric: normal; f=
-ont-variant-east-asian: normal; font-variant-position: normal; font-variant=
--emoji: normal; text-decoration-line: underline; text-decoration-skip-ink: =
-none; vertical-align: baseline; white-space: pre-wrap;">https://docs.google=
-.com/document/d/18oxKWxLorfF813h82mK6yKTIHeBp_-9owFuCWbzgjOk/edit?usp=3Dsha=
-ring</span></a></div></li></ul><br><div><span style=3D"font-size: 11pt; fon=
-t-family: Arial, sans-serif; font-variant-ligatures: normal; font-variant-c=
-aps: normal; font-variant-alternates: normal; font-variant-numeric: normal;=
- font-variant-east-asian: normal; font-variant-position: normal; font-varia=
-nt-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">New to =
-the project?</span></div><ul style=3D"margin-top:0;margin-bottom:0;padding-=
-inline-start:48px;"><li dir=3D"ltr" style=3D"list-style-type: disc; font-si=
-ze: 11pt; font-family: Arial, sans-serif; font-variant-ligatures: normal; f=
-ont-variant-caps: normal; font-variant-alternates: normal; font-variant-num=
-eric: normal; font-variant-east-asian: normal; font-variant-position: norma=
-l; font-variant-emoji: normal; vertical-align: baseline;" aria-level=3D"1">=
-<div><span style=3D"font-size: 11pt; font-variant-ligatures: normal; font-v=
-ariant-caps: normal; font-variant-alternates: normal; font-variant-numeric:=
- normal; font-variant-east-asian: normal; font-variant-position: normal; fo=
-nt-variant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;"=
->We have a list of issues we think are good places to start contributing: <=
-/span><a href=3D"https://bugzilla.yoctoproject.org/buglist.cgi?quicksearch=
-=3DNEWCOMER" style=3D"text-decoration:none;"><span style=3D"font-size: 11pt=
-; color: rgb(17, 85, 204); font-variant-ligatures: normal; font-variant-cap=
-s: normal; font-variant-alternates: normal; font-variant-numeric: normal; f=
-ont-variant-east-asian: normal; font-variant-position: normal; font-variant=
--emoji: normal; text-decoration-line: underline; text-decoration-skip-ink: =
-none; vertical-align: baseline; white-space: pre-wrap;">https://bugzilla.yo=
-ctoproject.org/buglist.cgi?quicksearch=3DNEWCOMER</span></a></div></li></ul=
-><br><div><span style=3D"font-size: 11pt; font-family: Arial, sans-serif; f=
-ont-variant-ligatures: normal; font-variant-caps: normal; font-variant-alte=
-rnates: normal; font-variant-numeric: normal; font-variant-east-asian: norm=
-al; font-variant-position: normal; font-variant-emoji: normal; vertical-ali=
-gn: baseline; white-space: pre-wrap;">Tracking Metrics:</span></div><ul sty=
-le=3D"margin-top:0;margin-bottom:0;padding-inline-start:48px;"><li dir=3D"l=
-tr" style=3D"list-style-type: disc; font-size: 11pt; font-family: Arial, sa=
-ns-serif; font-variant-ligatures: normal; font-variant-caps: normal; font-v=
-ariant-alternates: normal; font-variant-numeric: normal; font-variant-east-=
-asian: normal; font-variant-position: normal; font-variant-emoji: normal; v=
-ertical-align: baseline;" aria-level=3D"1"><div><span style=3D"font-size: 1=
-1pt; font-variant-ligatures: normal; font-variant-caps: normal; font-varian=
-t-alternates: normal; font-variant-numeric: normal; font-variant-east-asian=
-: normal; font-variant-position: normal; font-variant-emoji: normal; vertic=
-al-align: baseline; white-space: pre-wrap;">WDD 2622 (last week 2612) </spa=
-n><span style=3D"font-size: 11pt; font-family: Consolas, sans-serif; font-v=
-ariant-ligatures: normal; font-variant-caps: normal; font-variant-alternate=
-s: normal; font-variant-numeric: normal; font-variant-east-asian: normal; f=
-ont-variant-position: normal; font-variant-emoji: normal; vertical-align: b=
-aseline; white-space: pre-wrap;">(</span><a href=3D"https://wiki.yoctoproje=
-ct.org/charts/combo.html" style=3D"text-decoration:none;"><span style=3D"fo=
-nt-size: 11pt; color: rgb(17, 85, 204); font-variant-ligatures: normal; fon=
-t-variant-caps: normal; font-variant-alternates: normal; font-variant-numer=
-ic: normal; font-variant-east-asian: normal; font-variant-position: normal;=
- font-variant-emoji: normal; text-decoration-line: underline; text-decorati=
-on-skip-ink: none; vertical-align: baseline; white-space: pre-wrap;">https:=
-//wiki.yoctoproject.org/charts/combo.html</span></a><span style=3D"font-siz=
-e: 11pt; font-family: Consolas, sans-serif; font-variant-ligatures: normal;=
- font-variant-caps: normal; font-variant-alternates: normal; font-variant-n=
-umeric: normal; font-variant-east-asian: normal; font-variant-position: nor=
-mal; font-variant-emoji: normal; vertical-align: baseline; white-space: pre=
--wrap;">)</span></div></li><li dir=3D"ltr" style=3D"list-style-type: disc; =
-font-size: 11pt; font-family: Consolas, sans-serif; font-variant-ligatures:=
- normal; font-variant-caps: normal; font-variant-alternates: normal; font-v=
-ariant-numeric: normal; font-variant-east-asian: normal; font-variant-posit=
-ion: normal; font-variant-emoji: normal; vertical-align: baseline;" aria-le=
-vel=3D"1"><div><span style=3D"font-size: 11pt; font-family: Arial, sans-ser=
-if; font-variant-ligatures: normal; font-variant-caps: normal; font-variant=
--alternates: normal; font-variant-numeric: normal; font-variant-east-asian:=
- normal; font-variant-position: normal; font-variant-emoji: normal; vertica=
-l-align: baseline; white-space: pre-wrap;">OE-Core/Poky Patch Metrics</span=
-></div></li><ul style=3D"margin-top:0;margin-bottom:0;padding-inline-start:=
-48px;"><li dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11pt; f=
-ont-family: Arial, sans-serif; font-variant-ligatures: normal; font-variant=
--caps: normal; font-variant-alternates: normal; font-variant-numeric: norma=
-l; font-variant-east-asian: normal; font-variant-position: normal; font-var=
-iant-emoji: normal; vertical-align: baseline;" aria-level=3D"2"><div><span =
-style=3D"font-size: 11pt; font-variant-ligatures: normal; font-variant-caps=
-: normal; font-variant-alternates: normal; font-variant-numeric: normal; fo=
-nt-variant-east-asian: normal; font-variant-position: normal; font-variant-=
-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">Total patc=
-hes found: 1050 (last week 1039)</span></div></li><li dir=3D"ltr" style=3D"=
-list-style-type: circle; font-size: 11pt; font-family: Arial, sans-serif; f=
-ont-variant-ligatures: normal; font-variant-caps: normal; font-variant-alte=
-rnates: normal; font-variant-numeric: normal; font-variant-east-asian: norm=
-al; font-variant-position: normal; font-variant-emoji: normal; vertical-ali=
-gn: baseline;" aria-level=3D"2"><div><span style=3D"font-size: 11pt; font-v=
-ariant-ligatures: normal; font-variant-caps: normal; font-variant-alternate=
-s: normal; font-variant-numeric: normal; font-variant-east-asian: normal; f=
-ont-variant-position: normal; font-variant-emoji: normal; vertical-align: b=
-aseline; white-space: pre-wrap;">Patches in the Pending State: 136 (13%) [l=
-ast week 139 (14%)]</span></div></li><li dir=3D"ltr" style=3D"list-style-ty=
-pe: circle; font-size: 11pt; font-family: Consolas, sans-serif; font-varian=
-t-ligatures: normal; font-variant-caps: normal; font-variant-alternates: no=
-rmal; font-variant-numeric: normal; font-variant-east-asian: normal; font-v=
-ariant-position: normal; font-variant-emoji: normal; vertical-align: baseli=
-ne;" aria-level=3D"2"><div><a href=3D"https://valkyrie.yocto.io/pub/non-rel=
-ease/patchmetrics/" style=3D"text-decoration:none;"><span style=3D"font-siz=
-e: 11pt; font-family: Arial, sans-serif; color: rgb(17, 85, 204); font-vari=
-ant-ligatures: normal; font-variant-caps: normal; font-variant-alternates: =
-normal; font-variant-numeric: normal; font-variant-east-asian: normal; font=
--variant-position: normal; font-variant-emoji: normal; text-decoration-line=
-: underline; text-decoration-skip-ink: none; vertical-align: baseline; whit=
-e-space: pre-wrap;">https://valkyrie.yocto.io/pub/non-release/patchmetrics/=
-</span></a></div></li></ul></ul><br><div><span style=3D"font-size: 11pt; fo=
-nt-family: Arial, sans-serif; font-variant-ligatures: normal; font-variant-=
-caps: normal; font-variant-alternates: normal; font-variant-numeric: normal=
-; font-variant-east-asian: normal; font-variant-position: normal; font-vari=
-ant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">Upcomi=
-ng development releases:</span></div><ul style=3D"margin-top:0;margin-botto=
-m:0;padding-inline-start:48px;"><li dir=3D"ltr" style=3D"list-style-type: d=
-isc; font-size: 11pt; font-family: Arial, sans-serif; font-variant-ligature=
-s: normal; font-variant-caps: normal; font-variant-alternates: normal; font=
--variant-numeric: normal; font-variant-east-asian: normal; font-variant-pos=
-ition: normal; font-variant-emoji: normal; vertical-align: baseline;" aria-=
-level=3D"1"><div><span style=3D"font-size: 11pt; font-variant-ligatures: no=
-rmal; font-variant-caps: normal; font-variant-alternates: normal; font-vari=
-ant-numeric: normal; font-variant-east-asian: normal; font-variant-position=
-: normal; font-variant-emoji: normal; vertical-align: baseline; white-space=
-: pre-wrap;">6.1 M3:</span></div></li><ul style=3D"margin-top:0;margin-bott=
-om:0;padding-inline-start:48px;"><li dir=3D"ltr" style=3D"list-style-type: =
-circle; font-size: 11pt; font-family: Arial, sans-serif; font-variant-ligat=
-ures: normal; font-variant-caps: normal; font-variant-alternates: normal; f=
-ont-variant-numeric: normal; font-variant-east-asian: normal; font-variant-=
-position: normal; font-variant-emoji: normal; vertical-align: baseline;" ar=
-ia-level=3D"2"><div><span style=3D"font-size: 11pt; font-variant-ligatures:=
- normal; font-variant-caps: normal; font-variant-alternates: normal; font-v=
-ariant-numeric: normal; font-variant-east-asian: normal; font-variant-posit=
-ion: normal; font-variant-emoji: normal; vertical-align: baseline; white-sp=
-ace: pre-wrap;">Build Date: w/c 2026-08-31</span></div></li><li dir=3D"ltr"=
- style=3D"list-style-type: circle; font-size: 11pt; font-family: Arial, san=
-s-serif; font-variant-ligatures: normal; font-variant-caps: normal; font-va=
-riant-alternates: normal; font-variant-numeric: normal; font-variant-east-a=
-sian: normal; font-variant-position: normal; font-variant-emoji: normal; ve=
-rtical-align: baseline;" aria-level=3D"2"><div><span style=3D"font-size: 11=
-pt; font-variant-ligatures: normal; font-variant-caps: normal; font-variant=
--alternates: normal; font-variant-numeric: normal; font-variant-east-asian:=
- normal; font-variant-position: normal; font-variant-emoji: normal; vertica=
-l-align: baseline; white-space: pre-wrap;">Release Date: w/c 2026-09-14</sp=
-an></div></li></ul><li dir=3D"ltr" style=3D"list-style-type: disc; font-siz=
-e: 11pt; font-family: Arial, sans-serif; font-variant-ligatures: normal; fo=
-nt-variant-caps: normal; font-variant-alternates: normal; font-variant-nume=
-ric: normal; font-variant-east-asian: normal; font-variant-position: normal=
-; font-variant-emoji: normal; vertical-align: baseline;" aria-level=3D"1"><=
-div><span style=3D"font-size: 11pt; font-variant-ligatures: normal; font-va=
-riant-caps: normal; font-variant-alternates: normal; font-variant-numeric: =
-normal; font-variant-east-asian: normal; font-variant-position: normal; fon=
-t-variant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">=
-6.1.0:</span></div></li><ul style=3D"margin-top:0;margin-bottom:0;padding-i=
-nline-start:48px;"><li dir=3D"ltr" style=3D"list-style-type: circle; font-s=
-ize: 11pt; font-family: Arial, sans-serif; font-variant-ligatures: normal; =
-font-variant-caps: normal; font-variant-alternates: normal; font-variant-nu=
-meric: normal; font-variant-east-asian: normal; font-variant-position: norm=
-al; font-variant-emoji: normal; vertical-align: baseline;" aria-level=3D"2"=
-><div><span style=3D"font-size: 11pt; font-variant-ligatures: normal; font-=
-variant-caps: normal; font-variant-alternates: normal; font-variant-numeric=
-: normal; font-variant-east-asian: normal; font-variant-position: normal; f=
-ont-variant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;=
-">Build Date (M4): w/c 2026-10-12</span></div></li><li dir=3D"ltr" style=3D=
-"list-style-type: circle; font-size: 11pt; font-family: Arial, sans-serif; =
-font-variant-ligatures: normal; font-variant-caps: normal; font-variant-alt=
-ernates: normal; font-variant-numeric: normal; font-variant-east-asian: nor=
-mal; font-variant-position: normal; font-variant-emoji: normal; vertical-al=
-ign: baseline;" aria-level=3D"2"><div><span style=3D"font-size: 11pt; font-=
-variant-ligatures: normal; font-variant-caps: normal; font-variant-alternat=
-es: normal; font-variant-numeric: normal; font-variant-east-asian: normal; =
-font-variant-position: normal; font-variant-emoji: normal; vertical-align: =
-baseline; white-space: pre-wrap;">Release Date: w/c 2026-11-02</span></div>=
-</li></ul></ul><br><div><span style=3D"font-size: 11pt; font-family: Arial,=
- sans-serif; font-variant-ligatures: normal; font-variant-caps: normal; fon=
-t-variant-alternates: normal; font-variant-numeric: normal; font-variant-ea=
-st-asian: normal; font-variant-position: normal; font-variant-emoji: normal=
-; vertical-align: baseline; white-space: pre-wrap;">Upcoming dot releases:<=
-/span></div><ul style=3D"margin-top:0;margin-bottom:0;padding-inline-start:=
-48px;"><li dir=3D"ltr" style=3D"list-style-type: disc; font-size: 11pt; fon=
-t-family: Arial, sans-serif; color: rgb(34, 34, 34); font-variant-ligatures=
-: normal; font-variant-caps: normal; font-variant-alternates: normal; font-=
-variant-numeric: normal; font-variant-east-asian: normal; font-variant-posi=
-tion: normal; font-variant-emoji: normal; vertical-align: baseline;" aria-l=
-evel=3D"1"><div><span style=3D"font-size: 11pt; font-variant-ligatures: nor=
-mal; font-variant-caps: normal; font-variant-alternates: normal; font-varia=
-nt-numeric: normal; font-variant-east-asian: normal; font-variant-position:=
- normal; font-variant-emoji: normal; vertical-align: baseline; white-space:=
- pre-wrap;">YP 6.0.3 is in review,</span></div></li><ul style=3D"margin-top=
-:0;margin-bottom:0;padding-inline-start:48px;"><li dir=3D"ltr" style=3D"lis=
-t-style-type: circle; font-size: 11pt; font-family: Arial, sans-serif; colo=
-r: rgb(34, 34, 34); font-variant-ligatures: normal; font-variant-caps: norm=
-al; font-variant-alternates: normal; font-variant-numeric: normal; font-var=
-iant-east-asian: normal; font-variant-position: normal; font-variant-emoji:=
- normal; vertical-align: baseline;" aria-level=3D"2"><div><span style=3D"fo=
-nt-size: 11pt; font-variant-ligatures: normal; font-variant-caps: normal; f=
-ont-variant-alternates: normal; font-variant-numeric: normal; font-variant-=
-east-asian: normal; font-variant-position: normal; font-variant-emoji: norm=
-al; vertical-align: baseline; white-space: pre-wrap;">Release Date w/c 2026=
--08-24</span></div></li></ul><li dir=3D"ltr" style=3D"list-style-type: disc=
-; font-size: 11pt; font-family: Arial, sans-serif; color: rgb(34, 34, 34); =
-font-variant-ligatures: normal; font-variant-caps: normal; font-variant-alt=
-ernates: normal; font-variant-numeric: normal; font-variant-east-asian: nor=
-mal; font-variant-position: normal; font-variant-emoji: normal; vertical-al=
-ign: baseline;" aria-level=3D"1"><div><span style=3D"font-size: 11pt; font-=
-variant-ligatures: normal; font-variant-caps: normal; font-variant-alternat=
-es: normal; font-variant-numeric: normal; font-variant-east-asian: normal; =
-font-variant-position: normal; font-variant-emoji: normal; vertical-align: =
-baseline; white-space: pre-wrap;">YP 5.0.20 is in QA.</span></div></li><ul =
-style=3D"margin-top:0;margin-bottom:0;padding-inline-start:48px;"><li dir=
-=3D"ltr" style=3D"list-style-type: circle; font-size: 11pt; font-family: Ar=
-ial, sans-serif; color: rgb(34, 34, 34); font-variant-ligatures: normal; fo=
-nt-variant-caps: normal; font-variant-alternates: normal; font-variant-nume=
-ric: normal; font-variant-east-asian: normal; font-variant-position: normal=
-; font-variant-emoji: normal; vertical-align: baseline;" aria-level=3D"2"><=
-div><span style=3D"font-size: 11pt; font-variant-ligatures: normal; font-va=
-riant-caps: normal; font-variant-alternates: normal; font-variant-numeric: =
-normal; font-variant-east-asian: normal; font-variant-position: normal; fon=
-t-variant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">=
-Release Date w/c 2026-08-31</span></div></li></ul><li dir=3D"ltr" style=3D"=
-list-style-type: disc; font-size: 11pt; font-family: Arial, sans-serif; col=
-or: rgb(34, 34, 34); font-variant-ligatures: normal; font-variant-caps: nor=
-mal; font-variant-alternates: normal; font-variant-numeric: normal; font-va=
-riant-east-asian: normal; font-variant-position: normal; font-variant-emoji=
-: normal; vertical-align: baseline;" aria-level=3D"1"><div><span style=3D"f=
-ont-size: 11pt; font-variant-ligatures: normal; font-variant-caps: normal; =
-font-variant-alternates: normal; font-variant-numeric: normal; font-variant=
--east-asian: normal; font-variant-position: normal; font-variant-emoji: nor=
-mal; vertical-align: baseline; white-space: pre-wrap;">YP 6.0.4</span></div=
-></li><ul style=3D"margin-top:0;margin-bottom:0;padding-inline-start:48px;"=
-><li dir=3D"ltr" style=3D"list-style-type: circle; font-size: 11pt; font-fa=
-mily: Arial, sans-serif; color: rgb(34, 34, 34); font-variant-ligatures: no=
-rmal; font-variant-caps: normal; font-variant-alternates: normal; font-vari=
-ant-numeric: normal; font-variant-east-asian: normal; font-variant-position=
-: normal; font-variant-emoji: normal; vertical-align: baseline;" aria-level=
-=3D"2"><div><span style=3D"font-size: 11pt; font-variant-ligatures: normal;=
- font-variant-caps: normal; font-variant-alternates: normal; font-variant-n=
-umeric: normal; font-variant-east-asian: normal; font-variant-position: nor=
-mal; font-variant-emoji: normal; vertical-align: baseline; white-space: pre=
--wrap;">Build Date w/c 2026-09-28</span></div></li><li dir=3D"ltr" style=3D=
-"list-style-type: circle; font-size: 11pt; font-family: Arial, sans-serif; =
-color: rgb(34, 34, 34); font-variant-ligatures: normal; font-variant-caps: =
-normal; font-variant-alternates: normal; font-variant-numeric: normal; font=
--variant-east-asian: normal; font-variant-position: normal; font-variant-em=
-oji: normal; vertical-align: baseline;" aria-level=3D"2"><div><span style=
-=3D"font-size: 11pt; font-variant-ligatures: normal; font-variant-caps: nor=
-mal; font-variant-alternates: normal; font-variant-numeric: normal; font-va=
-riant-east-asian: normal; font-variant-position: normal; font-variant-emoji=
-: normal; vertical-align: baseline; white-space: pre-wrap;">Release Date w/=
-c 2026-10-12</span></div></li></ul><li dir=3D"ltr" style=3D"list-style-type=
-: disc; font-size: 11pt; font-family: Arial, sans-serif; color: rgb(34, 34,=
- 34); font-variant-ligatures: normal; font-variant-caps: normal; font-varia=
-nt-alternates: normal; font-variant-numeric: normal; font-variant-east-asia=
-n: normal; font-variant-position: normal; font-variant-emoji: normal; verti=
-cal-align: baseline;" aria-level=3D"1"><div><span style=3D"font-size: 11pt;=
- font-variant-ligatures: normal; font-variant-caps: normal; font-variant-al=
-ternates: normal; font-variant-numeric: normal; font-variant-east-asian: no=
-rmal; font-variant-position: normal; font-variant-emoji: normal; vertical-a=
-lign: baseline; white-space: pre-wrap;">YP 5.0.21</span></div></li><ul styl=
-e=3D"margin-top:0;margin-bottom:0;padding-inline-start:48px;"><li dir=3D"lt=
-r" style=3D"list-style-type: circle; font-size: 11pt; font-family: Arial, s=
-ans-serif; color: rgb(34, 34, 34); font-variant-ligatures: normal; font-var=
-iant-caps: normal; font-variant-alternates: normal; font-variant-numeric: n=
-ormal; font-variant-east-asian: normal; font-variant-position: normal; font=
--variant-emoji: normal; vertical-align: baseline;" aria-level=3D"2"><div><s=
-pan style=3D"font-size: 11pt; font-variant-ligatures: normal; font-variant-=
-caps: normal; font-variant-alternates: normal; font-variant-numeric: normal=
-; font-variant-east-asian: normal; font-variant-position: normal; font-vari=
-ant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">Build =
-Date w/c 2026-10-05</span></div></li><li dir=3D"ltr" style=3D"list-style-ty=
-pe: circle; font-size: 11pt; font-family: Arial, sans-serif; color: rgb(34,=
- 34, 34); font-variant-ligatures: normal; font-variant-caps: normal; font-v=
-ariant-alternates: normal; font-variant-numeric: normal; font-variant-east-=
-asian: normal; font-variant-position: normal; font-variant-emoji: normal; v=
-ertical-align: baseline;" aria-level=3D"2"><div><span style=3D"font-size: 1=
-1pt; font-variant-ligatures: normal; font-variant-caps: normal; font-varian=
-t-alternates: normal; font-variant-numeric: normal; font-variant-east-asian=
-: normal; font-variant-position: normal; font-variant-emoji: normal; vertic=
-al-align: baseline; white-space: pre-wrap;">Release Date w/c 2026-10-19</sp=
-an></div></li></ul><li dir=3D"ltr" style=3D"list-style-type: disc; font-siz=
-e: 11pt; font-family: Arial, sans-serif; font-variant-ligatures: normal; fo=
-nt-variant-caps: normal; font-variant-alternates: normal; font-variant-nume=
-ric: normal; font-variant-east-asian: normal; font-variant-position: normal=
-; font-variant-emoji: normal; vertical-align: baseline;" aria-level=3D"1"><=
-div><span style=3D"font-size: 11pt; font-variant-ligatures: normal; font-va=
-riant-caps: normal; font-variant-alternates: normal; font-variant-numeric: =
-normal; font-variant-east-asian: normal; font-variant-position: normal; fon=
-t-variant-emoji: normal; vertical-align: baseline; white-space: pre-wrap;">=
-For future release dates, see </span><a href=3D"https://wiki.yoctoproject.o=
-rg/wiki/Release_calendar" style=3D"text-decoration:none;"><span style=3D"fo=
-nt-size: 11pt; color: rgb(17, 85, 204); font-variant-ligatures: normal; fon=
-t-variant-caps: normal; font-variant-alternates: normal; font-variant-numer=
-ic: normal; font-variant-east-asian: normal; font-variant-position: normal;=
- font-variant-emoji: normal; text-decoration-line: underline; text-decorati=
-on-skip-ink: none; vertical-align: baseline; white-space: pre-wrap;">https:=
-//wiki.yoctoproject.org/wiki/Release_calendar</span></a></div></li></ul><br=
-><div><span style=3D"font-size: 11pt; font-family: Arial, sans-serif; font-=
-variant-ligatures: normal; font-variant-caps: normal; font-variant-alternat=
-es: normal; font-variant-numeric: normal; font-variant-east-asian: normal; =
-font-variant-position: normal; font-variant-emoji: normal; vertical-align: =
-baseline; white-space: pre-wrap;">The Yocto Project=E2=80=99s technical gov=
-ernance is through its Technical Steering Committee, more information is av=
-ailable at:</span></div><div><a href=3D"https://wiki.yoctoproject.org/wiki/=
-TSC" style=3D"text-decoration:none;"><span style=3D"font-size: 11pt; font-f=
-amily: Arial, sans-serif; color: rgb(17, 85, 204); font-variant-ligatures: =
-normal; font-variant-caps: normal; font-variant-alternates: normal; font-va=
-riant-numeric: normal; font-variant-east-asian: normal; font-variant-positi=
-on: normal; font-variant-emoji: normal; text-decoration-line: underline; te=
-xt-decoration-skip-ink: none; vertical-align: baseline; white-space: pre-wr=
-ap;">https://wiki.yoctoproject.org/wiki/TSC</span></a></div><br><div><span =
-style=3D"font-size: 11pt; font-family: Arial, sans-serif; font-variant-liga=
-tures: normal; font-variant-caps: normal; font-variant-alternates: normal; =
-font-variant-numeric: normal; font-variant-east-asian: normal; font-variant=
--position: normal; font-variant-emoji: normal; vertical-align: baseline; wh=
-ite-space: pre-wrap;">The Status reports are stored on the wiki at: </span>=
-<a href=3D"https://wiki.yoctoproject.org/wiki/Weekly_Status" style=3D"text-=
-decoration:none;"><span style=3D"font-size: 11pt; font-family: Arial, sans-=
-serif; color: rgb(17, 85, 204); font-variant-ligatures: normal; font-varian=
-t-caps: normal; font-variant-alternates: normal; font-variant-numeric: norm=
-al; font-variant-east-asian: normal; font-variant-position: normal; font-va=
-riant-emoji: normal; text-decoration-line: underline; text-decoration-skip-=
-ink: none; vertical-align: baseline; white-space: pre-wrap;">https://wiki.y=
-octoproject.org/wiki/Weekly_Status</span></a></div><br><div><span style=3D"=
-font-size: 11pt; font-family: Arial, sans-serif; font-variant-ligatures: no=
-rmal; font-variant-caps: normal; font-variant-alternates: normal; font-vari=
-ant-numeric: normal; font-variant-east-asian: normal; font-variant-position=
-: normal; font-variant-emoji: normal; vertical-align: baseline; white-space=
-: pre-wrap;">[If anyone has suggestions for other information you=E2=80=99d=
- like to see on this weekly status update, let us know!]</span></div></pre>=
-<div><span></span></div></body></html>
-
---=-F/EWUXt2taskR2Wy8jD4--
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 6acd953067..605ae9a161 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -613,7 +613,7 @@ RECIPE_MAINTAINER:pn-ppp-dialin = "Hongxu Jia <hongxu.jia@windriver.com>"
+ RECIPE_MAINTAINER:pn-procps = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-pseudo = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-psmisc = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-psplash = "Yi Zhao <yi.zhao@windriver.com>"
++RECIPE_MAINTAINER:pn-psplash = "Sai Sireesha T <saisireesha.t@windriver.com>"
+ RECIPE_MAINTAINER:pn-ptest-runner = "Ross Burton <ross.burton@arm.com>"
+ RECIPE_MAINTAINER:pn-pulseaudio = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-pulseaudio-client-conf-sato = "Unassigned <unassigned@yoctoproject.org>"
+@@ -826,14 +826,14 @@ RECIPE_MAINTAINER:pn-sysfsutils = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-sysklogd = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-syslinux = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-sysstat = "Karthik <karthik.gopal@windriver.com>"
+-RECIPE_MAINTAINER:pn-systemd = "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER:pn-systemd-boot = "Chen Qi <Qi.Chen@windriver.com>"
++RECIPE_MAINTAINER:pn-systemd = "Sai Sireesha T <saisireesha.t@windriver.com>"
++RECIPE_MAINTAINER:pn-systemd-boot = "Sai Sireesha T <saisireesha.t@windriver.com>"
+ RECIPE_MAINTAINER:pn-systemd-boot-native = "Viswanath Kraleti <quic_vkraleti@quicinc.com>"
+-RECIPE_MAINTAINER:pn-systemd-bootchart = "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER:pn-systemd-bootconf = "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER:pn-systemd-conf = "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER:pn-systemd-machine-units = "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER:pn-systemd-serialgetty = "Chen Qi <Qi.Chen@windriver.com>"
++RECIPE_MAINTAINER:pn-systemd-bootchart = "Sai Sireesha T <saisireesha.t@windriver.com>"
++RECIPE_MAINTAINER:pn-systemd-bootconf = "Sai Sireesha T <saisireesha.t@windriver.com>"
++RECIPE_MAINTAINER:pn-systemd-conf = "Sai Sireesha T <saisireesha.t@windriver.com>"
++RECIPE_MAINTAINER:pn-systemd-machine-units = "Sai Sireesha T <saisireesha.t@windriver.com>"
++RECIPE_MAINTAINER:pn-systemd-serialgetty = "Sai Sireesha T <saisireesha.t@windriver.com>"
+ RECIPE_MAINTAINER:pn-systemd-tools-native = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-systemtap = "Victor Kamensky <victor.kamensky7@gmail.com>"
+ RECIPE_MAINTAINER:pn-systemtap-native = "Victor Kamensky <victor.kamensky7@gmail.com>"
 
