@@ -1,119 +1,83 @@
-Return-Path: <devanshp@cisco.com>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C00BC79FA1
-	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 09:47:42 +0000 (UTC)
-Subject: Re: [wrynose][PATCH] vim: Fix CVE-2026-28417 hostname regression
-To: openembedded-core@lists.openembedded.org
-From: "Devansh Patel" <devanshp@cisco.com>
-X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
-X-Originating-Platform: Windows Edge 152
-User-Agent: GROUPS.IO Web Poster
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 81389C79F82
+	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 09:58:42 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3678.1788861520495390212
+ for <openembedded-core@lists.openembedded.org>;
+ Tue, 08 Sep 2026 02:58:40 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=VH/AOaCu;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id D82541A1A52
+	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2026 09:58:38 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id A7366603C4
+	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2026 09:58:38 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0CAA211C7AF4D;
+	Tue,  8 Sep 2026 11:58:38 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1788861518; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=aohP9WVDcVvvE6BFSdAnZjompLaE9BiLZjAkUFyT/Dk=;
+	b=VH/AOaCuVl57huVU/riyYNxY00wbXsJD5AtB/oW0kgKSMLyZPOpHTZ7B7hKnpQLlBpI6SA
+	jBUF2lwtEGdIZ5YNBP6SjwoJonNCIeTgZU6+NFsh4FpV0TXpAc2Jxq4zGWTU5xoPLSIC/p
+	m2bIQfk2mnm1KSdZ0ETSVOFJqCp0yMpvt6XVlrU5s3YVfflGDQTRXZJcVEEI+79CfPjWIz
+	XJ17v5WkcO8x0N/b/5FHJ5S5qG1LMjZ4VLPa2+AKcqOTiTwozbcUXXQ/fa0s+yKHE24PnL
+	ktKYhmidDx/DajlCXu4rOOCpTsC7JHpMgG2BdnhsqzAT7+DtUV21JaxniE64Uw==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Date: Tue, 08 Sep 2026 11:58:27 +0200
+Subject: [PATCH 05/10] gstreamer1.0-plugins-ugly: upgrade 1.28.6 -> 1.28.7
 MIME-Version: 1.0
-Date: Tue, 08 Sep 2026 02:47:31 -0700
-References: <20260826053017.51184-1-devanshp@cisco.com>
-In-Reply-To: <20260826053017.51184-1-devanshp@cisco.com>
-Message-ID: <256345.1788860851919782948@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="e6nbVD2c1PN1rbGA94Gc"
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260908-mathieu-gstreamer-1-28-7-v1-5-9694738804f6@bootlin.com>
+References: <20260908-mathieu-gstreamer-1-28-7-v1-0-9694738804f6@bootlin.com>
+In-Reply-To: <20260908-mathieu-gstreamer-1-28-7-v1-0-9694738804f6@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1788861512; l=1145;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=MuyanBWNtaOjKn+t2hW+r/rCbQbFS5B5aqm9eGnUQ/8=;
+ b=Hlhaut2TjmGRIGJp3jjwlwuvFo82zGP2JBPf7TIF1at79GsnlsHcgEgusrW67foLn10/3hPaZ
+ kJU03yEo+ThAMskNhCci9V0Iv4etzS8pkihB+iu7YPDpiGw5rYRrRpr
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 09:47:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245339
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 09:58:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245345
 
---e6nbVD2c1PN1rbGA94Gc
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+---
+ ...er1.0-plugins-ugly_1.28.6.bb => gstreamer1.0-plugins-ugly_1.28.7.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-On Wed, Aug 26, 2026 at 11:00 AM, Devansh Patel wrote:
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.6.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.7.bb
+similarity index 94%
+rename from meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.6.bb
+rename to meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.7.bb
+index 5650b9a3954c..15962c14e8c3 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.6.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-ugly_1.28.7.bb
+@@ -15,7 +15,7 @@ SRC_URI = " \
+             https://gstreamer.freedesktop.org/src/gst-plugins-ugly/gst-plugins-ugly-${PV}.tar.xz \
+             "
+ 
+-SRC_URI[sha256sum] = "ee279da13a740fd7f060d631a673223fa3bcc8c33d350c8d0264bd332a24ecd8"
++SRC_URI[sha256sum] = "2b681170ddc22b6b283cafeed48f427c30a17056974a6a9ed137c354e0f7730c"
+ 
+ S = "${UNPACKDIR}/gst-plugins-ugly-${PV}"
+ 
 
->=20
-> From: Devansh Patel <devanshp@cisco.com>
->=20
-> The older Vim patch 9.2.0073 fixed CVE-2026-28417 by tightening netrw
-> hostname validation. That CVE fix requires follow-up regression patches
-> because it rejects valid hostnames containing optional ports or
-> underscores.
->=20
-> Vim 9.2.0340 already contains that CVE fix and patch 9.2.0089, which
-> corrects optional-port handling. It still needs patch 9.2.0553 to accept
-> underscores, so backport that commit and retain its _gateway regression
-> test.
->=20
-> The netrw history hunk is adapted to preserve Wrynose's existing
-> multi-line history and append the upstream 2026 May 28 entry. The
-> src/version.c hunk is omitted because this backport does not change the
-> recipe version or Vim's upstream patch-number table.
->=20
-> [1] https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d6851=
-4fcc1
->=20
-> [2] https://github.com/vim/vim/commit/a6198523fb28a50d96945458792cdb4787d=
-3cdda
->=20
-> [3] https://github.com/vim/vim/commit/93d177cd2b69bac58fc51a5a514d7bc71e2=
-64b11
->=20
-> [4] https://github.com/vim/vim/security/advisories/GHSA-m3xh-9434-g336
->=20
-> Signed-off-by: Devansh Patel <devanshp@cisco.com>
-> ---
-> .../files/CVE-2026-28417-regression_p1.patch | 64 +++++++++++++++++++
-> meta/recipes-support/vim/vim.inc | 1 +
-> 2 files changed, 65 insertions(+)
-> create mode 100644
-> meta/recipes-support/vim/files/CVE-2026-28417-regression_p1.patch
+-- 
+2.47.3
 
-Hi Yoann,
-
-Gentle reminder to review the above Vim regression patch when convenient.
-
-Please share your feedback.
-
-Thanks,
-Devansh
-
---e6nbVD2c1PN1rbGA94Gc
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>On Wed, Aug 26, 2026 at 11:00 AM, Devansh Patel wrote:</div>
-<div>
-<blockquote>From: Devansh Patel &lt;devanshp@cisco.com&gt;<br /><br />The o=
-lder Vim patch 9.2.0073 fixed CVE-2026-28417 by tightening netrw<br />hostn=
-ame validation. That CVE fix requires follow-up regression patches<br />bec=
-ause it rejects valid hostnames containing optional ports or<br />underscor=
-es.<br /><br />Vim 9.2.0340 already contains that CVE fix and patch 9.2.008=
-9, which<br />corrects optional-port handling. It still needs patch 9.2.055=
-3 to accept<br />underscores, so backport that commit and retain its _gatew=
-ay regression<br />test.<br /><br />The netrw history hunk is adapted to pr=
-eserve Wrynose's existing<br />multi-line history and append the upstream 2=
-026 May 28 entry. The<br />src/version.c hunk is omitted because this backp=
-ort does not change the<br />recipe version or Vim's upstream patch-number =
-table.<br /><br />[1] <a href=3D"https://github.com/vim/vim/commit/79348dbb=
-c09332130f4c86045e1541d68514fcc1" target=3D"_blank" rel=3D"noopener">https:=
-//github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1</a><br=
- />[2] <a href=3D"https://github.com/vim/vim/commit/a6198523fb28a50d9694545=
-8792cdb4787d3cdda" target=3D"_blank" rel=3D"noopener">https://github.com/vi=
-m/vim/commit/a6198523fb28a50d96945458792cdb4787d3cdda</a><br />[3] <a href=
-=3D"https://github.com/vim/vim/commit/93d177cd2b69bac58fc51a5a514d7bc71e264=
-b11" target=3D"_blank" rel=3D"noopener">https://github.com/vim/vim/commit/9=
-3d177cd2b69bac58fc51a5a514d7bc71e264b11</a><br />[4] <a href=3D"https://git=
-hub.com/vim/vim/security/advisories/GHSA-m3xh-9434-g336" target=3D"_blank" =
-rel=3D"noopener">https://github.com/vim/vim/security/advisories/GHSA-m3xh-9=
-434-g336</a><br /><br />Signed-off-by: Devansh Patel &lt;devanshp@cisco.com=
-&gt;<br />---<br />.../files/CVE-2026-28417-regression_p1.patch | 64 ++++++=
-+++++++++++++<br />meta/recipes-support/vim/vim.inc | 1 +<br />2 files chan=
-ged, 65 insertions(+)<br />create mode 100644 meta/recipes-support/vim/file=
-s/CVE-2026-28417-regression_p1.patch</blockquote>
-<br />Hi Yoann,<br />
-<p data-start=3D"9" data-end=3D"75">Gentle reminder to review the above Vim=
- regression patch when convenient.</p>
-<p data-start=3D"178" data-end=3D"205">Please share your feedback.</p>
-<p data-start=3D"207" data-end=3D"224" data-is-last-node=3D"" data-is-only-=
-node=3D"">Thanks,<br data-start=3D"214" data-end=3D"217" />Devansh</p>
-</div>
-
---e6nbVD2c1PN1rbGA94Gc--
 
