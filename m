@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8AF87C79FB3
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BF7EC79FB1
 	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 10:20:15 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.3862.1788862814887890463
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4006.1788862813664130393
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2026 03:20:14 -0700
+ Tue, 08 Sep 2026 03:20:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BQxO0CxG;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bPapaXVZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a08088569b-edab1793-2be5-4a92-8391-6d35c41d88ca-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GMVZXHr1;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=V14GQGhd;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a080885323-0d84baed-2d02-4f6a-b929-55e1ab1ab1bf-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788862814; i=@automation.yoctoproject.org;
+	t=1788862813; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=ErmW8JCYNOOcrxv+FziRfyz+CEXVnGax5oNy0XBm800=;
-	b=BQxO0CxGYReX9DBgN9QLHSIuAlaxNnSznveldo35uxTc2YUjmU/8IWC+C6nBJOil
-	Q9BhKQMCEhVrUFNSNgck8TaEtuO2qy66LndPFFk8T3sZHQ/6EgG8UpiXkMMjl6Qyd3K
-	marE+f6HuWkCic/bQnO4TwOwb6rCtoZho4dJM8ZY=
+	bh=5CwkotCisvkR/Ffp4fYqWb7850+qPZPSgUaUca5qIFM=;
+	b=GMVZXHr1dCVE0YNJXV5e6/b7xa6tsJhGMlb9z1oygRTlpwlwP576mzBBRDM//jRG
+	O0fJTJyMOA7eFI4dMFJ2T/V96MSBjAguNFMAxDSxdVBZ5xuQJ2nDds+bCyUDAV1Pthk
+	DA7fblmPYAhROaWUCV8TJqLBUXIhpWpPzU9mhiOA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788862814;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788862813;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=ErmW8JCYNOOcrxv+FziRfyz+CEXVnGax5oNy0XBm800=;
-	b=bPapaXVZSUiZwxR47mnIkO8ntxgkYJgX7zDeF10z40IrFShlLiIplYK2X1/1Kcmh
-	513riRygpB31LMOsmED3YboPBtdX7sPpSEh4dP/EFdx7uHvaBL2pV1hL9dpQfZpj5xL
-	bPAg8lc2YPHkdhpg0Y3VEP4hOEjlUDl0Lg4EoyeY=
+	bh=5CwkotCisvkR/Ffp4fYqWb7850+qPZPSgUaUca5qIFM=;
+	b=V14GQGhdc3nTVGm1SpWexdVpaSm8LstG7SquBOh9lB59IWIpRJqQ8gVSuAb55Vkj
+	iU6ALkHLt5iZUjOXnn1Ju4yL2vVDs/QLVt0/fgtLhm6j+IEI4Jaj9k4ydhRJG0QQOd5
+	MW3FkDnBBrF1nuGHGP1RXP5yE/HbFwZcgEqH088Y=
 From: patchtest@automation.yoctoproject.org
 To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 10/10] gstreamer1.0-rtsp-server: upgrade 1.28.6 -> 1.28.7
-In-Reply-To: <20260908-mathieu-gstreamer-1-28-7-v1-10-9694738804f6@bootlin.com>
-References: <20260908-mathieu-gstreamer-1-28-7-v1-10-9694738804f6@bootlin.com>
+Subject: Patchtest results for [PATCH 09/10] gstreamer1.0-libav: upgrade 1.28.6 -> 1.28.7
+In-Reply-To: <20260908-mathieu-gstreamer-1-28-7-v1-9-9694738804f6@bootlin.com>
+References: <20260908-mathieu-gstreamer-1-28-7-v1-9-9694738804f6@bootlin.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a08088569b-edab1793-2be5-4a92-8391-6d35c41d88ca-000000@us-west-2.amazonses.com>
-Date: Tue, 8 Sep 2026 10:20:13 +0000
+Message-ID: <010101a080885323-0d84baed-2d02-4f6a-b929-55e1ab1ab1bf-000000@us-west-2.amazonses.com>
+Date: Tue, 8 Sep 2026 10:20:12 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.08-54.240.27.192
+X-SES-Outgoing: 2026.09.08-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 10:20:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245359
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245358
 
 --NextPart
 Content-Type: text/plain
@@ -53,34 +53,34 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/10-10-gstreamer1.0-rtsp-server-upgrade-1.28.6---1.28.7.patch
+Testing patch /home/patchtest/share/mboxes/09-10-gstreamer1.0-libav-upgrade-1.28.6---1.28.7.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
 PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
 PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
 PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
 SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
 SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
 SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
 SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
 SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
 SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
 SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
 SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
 SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
 
 ---
