@@ -1,141 +1,119 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <devanshp@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ECD4BC79FA0
-	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 09:26:11 +0000 (UTC)
-Received: from mail-wr1-f44.google.com (mail-wr1-f44.google.com [209.85.221.44])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3252.1788859563769973988
- for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2026 02:26:04 -0700
-Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=FoLbA0A/;
- spf=pass (domain: smile.fr, ip: 209.85.221.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f44.google.com with SMTP id ffacd0b85a97d-482f2ee53e7so3274695f8f.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 02:26:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788859562; x=1789464362; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=FzLECjdJY13O7Twf2diQendBHii+QBAtJDkpQ9abIs4=;
-        b=FoLbA0A/Y3S1+gKKUFNvRDCnFt/t7dkzOQUGKM+SZf9J4tD5TiMbwWtyAHAxumjcpI
-         x+gf9TOYqmmyqsDaXptfdhdSKMdF/lFAvlvuiraAWmO2atFpyAGvJMC4MsEcL0U6tsZT
-         RJHGBNl3W01aAbg1/TuUOsVMmTZFXaad4M3pY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788859562; x=1789464362;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=FzLECjdJY13O7Twf2diQendBHii+QBAtJDkpQ9abIs4=;
-        b=sWFKeCxhHH9d4Pkc57on00PeFekxcVIXJyhIvbrtGf5GV6La+5B7AQaDyeIl9PvQss
-         qJbAkyY/0CcZWGB5zbQbVUhwOjEkV2I2htPgeK5OO/koPMdaszAgCdjBb+lKC16DuA3M
-         dW4xh5KMzUO5Vms1mjeGy0I6uSETXj/R611LWn00vr1aBCX0e7kmgZ1yYwLzG9D53KD3
-         Hc65+SS8ah7nHrTu+fIjMVJwr6Z+DbwUOQNe2hmlqxsBpHHd4SvtnJtKqYbWriVGgBT+
-         T8grmfkkQrh6CU4BzhsM7Eku0jcDUDpxd77wTVsrsn/cfwnKZGrBUzIuGBD1k5YNAsUy
-         Nwzw==
-X-Gm-Message-State: AFuF++l9L5hsw/3+DH/HiaLEWgFzLIpOKxWPKy0rV9RLCee3j4liZ11o
-	ck6O9NDq18o+EoPtJSGVOlCTG9zBgn+gbiL/DeCxhjVu4kT4TuK6YZtRrfY2RTm4sWY=
-X-Gm-Gg: AYBFou0TahPNUpQnnLktb1Dzc97otMzQtCe1x9bQyq7heM+0M+HtBxuFSQdd4uQdVgq
-	3w7xrzdfbViF/mW3QcrlWNNavTKmY/fJldDygENO8cyGC8BCkQEBSB4WEnIPFsRPqddB0Timsvc
-	kZ4EI67DOKgWb+l9jCjXJ11xSgez0udOzxqETNctUOKYf1mafWmvva2hfkrsM/DxAENNyvw+0fj
-	mhc1/ZwjrETIg5YstgYzJLJIoL+CcR0gqBIhH8UthZbH1Zk9dNYXkTyCvUSJRfD4R+lDzhSMiXV
-	aoiouqE0pNcuvXXviW5wlinV3L2TB5omJiNMmUA54+yP5U4VrE0o4PepgkXjvZ8vV0oiyFe2fmV
-	3gdAnjpVfej8kfiyE/wYbdASrGdxvFRmUK4B1Clyr8Qe83Z+KdqsL/jyPjYlQZN0CWZqXPHT1CG
-	3rKtcR0l6UMe8Jk9kTeMU2aMaQZ5U4jBwmyA2pyH1qxu1rK7pq0CZgFrtQ6nxSP5tYdgsJ6qsLb
-	oo0bLNLn0Mvr78qGbGA7ljghAWG0v8S2/qNJiNp8hAKQQ8j
-X-Received: by 2002:a5d:6f11:0:b0:485:8c17:976d with SMTP id ffacd0b85a97d-4858c179a24mr26174368f8f.47.1788859561705;
-        Tue, 08 Sep 2026 02:26:01 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883a9234sm34670909f8f.14.2026.09.08.02.26.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 08 Sep 2026 02:26:01 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 08 Sep 2026 11:26:00 +0200
-Message-Id: <DL9TSH9C0F4T.4GBXSMFY7MTZ@smile.fr>
-Subject: Re: [OE-core] [PATCH 0/5] linux-yocto: -stable updates
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <openembedded-core@lists.openembedded.org>
-To: "Yoann Congal" <yoann.congal@smile.fr>, <bruce.ashfield@gmail.com>,
- <richard.purdie@linuxfoundation.org>
-X-Mailer: aerc 0.20.0
-References: <20260908011731.2895743-1-bruce.ashfield@gmail.com>
- <DL9SAQQDYUWN.DHAPJINZ988O@smile.fr>
-In-Reply-To: <DL9SAQQDYUWN.DHAPJINZ988O@smile.fr>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C00BC79FA1
+	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 09:47:42 +0000 (UTC)
+Subject: Re: [wrynose][PATCH] vim: Fix CVE-2026-28417 hostname regression
+To: openembedded-core@lists.openembedded.org
+From: "Devansh Patel" <devanshp@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
+X-Originating-Platform: Windows Edge 152
+User-Agent: GROUPS.IO Web Poster
+MIME-Version: 1.0
+Date: Tue, 08 Sep 2026 02:47:31 -0700
+References: <20260826053017.51184-1-devanshp@cisco.com>
+In-Reply-To: <20260826053017.51184-1-devanshp@cisco.com>
+Message-ID: <256345.1788860851919782948@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="e6nbVD2c1PN1rbGA94Gc"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 09:26:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245338
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 09:47:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245339
 
-On Tue Sep 8, 2026 at 10:15 AM CEST, Yoann Congal wrote:
-> On Tue Sep 8, 2026 at 3:17 AM CEST, Bruce Ashfield via lists.openembedded=
-.org wrote:
->> From: Bruce Ashfield <bruce.ashfield@gmail.com>
->>
->> Hi all,
->>
->> Since we are working through 7.2 integration, I wanted to get these
->> stable updates out while the older (6.18 and less) are still under
->> test (those -stable updates will follow).
->>
->> I did sneak a 6.18-rt update in, but it was trivial and tested
->> independently.
->>
->> (yes, the yocto-bsps update is in this series, even though it
->> is for the yocto-bsp repo)
->>
->> Cheers,
->>
->> Bruce
->>
->>
->> openembedded-core (4):
->>   linux-yocto/7.2: menuconfig,mconf-cfg: Fix broken menuconfig
->>   linux-yocto/7.2: rt: update to v7.2-rt5
->>   linux-yocto/6.18: rt: update to v6.18.37-rt6
->>   linux-yocto/7.2: update to v7.2.4
->>
->> meta-yocto (1):
->>   yocto-bsps: update to v7.2.4
->>
->>  openembedded-core:
->>  meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb   |  4 ++--
->>  meta/recipes-kernel/linux/linux-yocto-rt_7.2.bb    |  6 +++---
->>  meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb |  4 ++--
->>  meta/recipes-kernel/linux/linux-yocto-tiny_7.2.bb  |  6 +++---
->>  meta/recipes-kernel/linux/linux-yocto_6.18.bb      | 20 ++++++++++-----=
------
->>  meta/recipes-kernel/linux/linux-yocto_7.2.bb       | 24 ++++++++++++---=
----------
->>  6 files changed, 32 insertions(+), 32 deletions(-)
->>
->>  meta-yocto:
->>  meta-yocto-bsp/recipes-kernel/linux/linux-yocto_7.2.bbappend | 2 +-
->>  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> Hello,
->
-> Is there a chance that a fix for #16414 "AB-INT: testsdk:
-> kernel-module-hello-world build fail"[0] hides somewhere in this
-> upgrade?
->
-> [0]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16414
->
-> Thanks!
+--e6nbVD2c1PN1rbGA94Gc
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Answering myself:
-Richard just updated the bug, the fix is: "kernel-module-split: Remove get_=
-ext_mod"
-https://git.openembedded.org/openembedded-core/commit/?id=3D02890c1eff104de=
-94ad22023232fd36baaf228dc
+On Wed, Aug 26, 2026 at 11:00 AM, Devansh Patel wrote:
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+>=20
+> From: Devansh Patel <devanshp@cisco.com>
+>=20
+> The older Vim patch 9.2.0073 fixed CVE-2026-28417 by tightening netrw
+> hostname validation. That CVE fix requires follow-up regression patches
+> because it rejects valid hostnames containing optional ports or
+> underscores.
+>=20
+> Vim 9.2.0340 already contains that CVE fix and patch 9.2.0089, which
+> corrects optional-port handling. It still needs patch 9.2.0553 to accept
+> underscores, so backport that commit and retain its _gateway regression
+> test.
+>=20
+> The netrw history hunk is adapted to preserve Wrynose's existing
+> multi-line history and append the upstream 2026 May 28 entry. The
+> src/version.c hunk is omitted because this backport does not change the
+> recipe version or Vim's upstream patch-number table.
+>=20
+> [1] https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d6851=
+4fcc1
+>=20
+> [2] https://github.com/vim/vim/commit/a6198523fb28a50d96945458792cdb4787d=
+3cdda
+>=20
+> [3] https://github.com/vim/vim/commit/93d177cd2b69bac58fc51a5a514d7bc71e2=
+64b11
+>=20
+> [4] https://github.com/vim/vim/security/advisories/GHSA-m3xh-9434-g336
+>=20
+> Signed-off-by: Devansh Patel <devanshp@cisco.com>
+> ---
+> .../files/CVE-2026-28417-regression_p1.patch | 64 +++++++++++++++++++
+> meta/recipes-support/vim/vim.inc | 1 +
+> 2 files changed, 65 insertions(+)
+> create mode 100644
+> meta/recipes-support/vim/files/CVE-2026-28417-regression_p1.patch
 
+Hi Yoann,
+
+Gentle reminder to review the above Vim regression patch when convenient.
+
+Please share your feedback.
+
+Thanks,
+Devansh
+
+--e6nbVD2c1PN1rbGA94Gc
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>On Wed, Aug 26, 2026 at 11:00 AM, Devansh Patel wrote:</div>
+<div>
+<blockquote>From: Devansh Patel &lt;devanshp@cisco.com&gt;<br /><br />The o=
+lder Vim patch 9.2.0073 fixed CVE-2026-28417 by tightening netrw<br />hostn=
+ame validation. That CVE fix requires follow-up regression patches<br />bec=
+ause it rejects valid hostnames containing optional ports or<br />underscor=
+es.<br /><br />Vim 9.2.0340 already contains that CVE fix and patch 9.2.008=
+9, which<br />corrects optional-port handling. It still needs patch 9.2.055=
+3 to accept<br />underscores, so backport that commit and retain its _gatew=
+ay regression<br />test.<br /><br />The netrw history hunk is adapted to pr=
+eserve Wrynose's existing<br />multi-line history and append the upstream 2=
+026 May 28 entry. The<br />src/version.c hunk is omitted because this backp=
+ort does not change the<br />recipe version or Vim's upstream patch-number =
+table.<br /><br />[1] <a href=3D"https://github.com/vim/vim/commit/79348dbb=
+c09332130f4c86045e1541d68514fcc1" target=3D"_blank" rel=3D"noopener">https:=
+//github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1</a><br=
+ />[2] <a href=3D"https://github.com/vim/vim/commit/a6198523fb28a50d9694545=
+8792cdb4787d3cdda" target=3D"_blank" rel=3D"noopener">https://github.com/vi=
+m/vim/commit/a6198523fb28a50d96945458792cdb4787d3cdda</a><br />[3] <a href=
+=3D"https://github.com/vim/vim/commit/93d177cd2b69bac58fc51a5a514d7bc71e264=
+b11" target=3D"_blank" rel=3D"noopener">https://github.com/vim/vim/commit/9=
+3d177cd2b69bac58fc51a5a514d7bc71e264b11</a><br />[4] <a href=3D"https://git=
+hub.com/vim/vim/security/advisories/GHSA-m3xh-9434-g336" target=3D"_blank" =
+rel=3D"noopener">https://github.com/vim/vim/security/advisories/GHSA-m3xh-9=
+434-g336</a><br /><br />Signed-off-by: Devansh Patel &lt;devanshp@cisco.com=
+&gt;<br />---<br />.../files/CVE-2026-28417-regression_p1.patch | 64 ++++++=
++++++++++++++<br />meta/recipes-support/vim/vim.inc | 1 +<br />2 files chan=
+ged, 65 insertions(+)<br />create mode 100644 meta/recipes-support/vim/file=
+s/CVE-2026-28417-regression_p1.patch</blockquote>
+<br />Hi Yoann,<br />
+<p data-start=3D"9" data-end=3D"75">Gentle reminder to review the above Vim=
+ regression patch when convenient.</p>
+<p data-start=3D"178" data-end=3D"205">Please share your feedback.</p>
+<p data-start=3D"207" data-end=3D"224" data-is-last-node=3D"" data-is-only-=
+node=3D"">Thanks,<br data-start=3D"214" data-end=3D"217" />Devansh</p>
+</div>
+
+--e6nbVD2c1PN1rbGA94Gc--
 
