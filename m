@@ -1,103 +1,99 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F0BD0C79F82
-	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 17:16:28 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.566.1788887782799877526
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E245C79F82
+	for <webhook@archiver.kernel.org>; Tue,  8 Sep 2026 20:10:20 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.951.1788898212797377546
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2026 10:16:23 -0700
+ Tue, 08 Sep 2026 13:10:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=DOpx3hby;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=0LPfy5ja;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a0820551ab-35683de1-41d5-4c86-b6cd-eaa103179228-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788887782; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=Ec71vC5Be0lI+pcb77SpjseT72wya0eBddite1Mnj1k=;
-	b=DOpx3hby/Il5ZY57f4DgLjLycAz1YamDOpFgzycsBoTc7c7F1Hupc5I2Vf//dvKH
-	y6A5H6qaVt4atfASLSNvAfWdI4V8sMMy3M2yh+mVhwGNI919JjgCHXSsfnis/9p6AWD
-	KMaSTiq7MHnfiiVz2P8sixQE0S6BtHF7XYQBcfjc=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788887782;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=Ec71vC5Be0lI+pcb77SpjseT72wya0eBddite1Mnj1k=;
-	b=0LPfy5jaoEI/ImY6qEQqt3GaZehG2mPKdzzpzT1SJN2PsXHmhJJrYFgT9xtfEbG7
-	kr5kVCvnEBqe7w4yeR88e0phpbn+nJ5uGEzRXJt5JpaPW7fk6VE01qA9ve0PYEsH84F
-	UTOLyh2jFe8o/IBhbfw7IWtqJkDhNIRLjTEQidqI=
-From: patchtest@automation.yoctoproject.org
-To: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH v3 1/4] libfaketime: Import recipe from meta-oe
-In-Reply-To: 
- <20260908-mathieu-reproducible-faketime-v3-1-03a856c33239@bootlin.com>
-References: 
- <20260908-mathieu-reproducible-faketime-v3-1-03a856c33239@bootlin.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0820551ab-35683de1-41d5-4c86-b6cd-eaa103179228-000000@us-west-2.amazonses.com>
-Date: Tue, 8 Sep 2026 17:16:21 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.08-54.240.27.29
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=sH9tKZct;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6044D1476
+	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2026 13:10:08 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B9E723F7B4
+	for <openembedded-core@lists.openembedded.org>; Tue,  8 Sep 2026 13:10:11 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1788898212; bh=Fm/LZRx2vaDomUQ0SOU/HrxOhVz6aaCMPUCH8TRUhJg=;
+	h=From:To:Subject:Date:From;
+	b=sH9tKZctHSxsu70KEe6EZDusLnvbdEHm8TunyXdHK+KpPb/dFhx8bC3yEBOFjucok
+	 1W9eb0itGhP1mka6TWP3YZ54dQopsSWN7RFlpSCOkrG7qJ9Kv5CsA3SZ3T7gm4H1Uq
+	 FCaCzPQvdEkyF672alzBXfqRwv5OkK5Bsxhef36w=
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v2] classes/python_hatchling: remove empty site-packages workaround
+Date: Tue,  8 Sep 2026 21:10:08 +0100
+Message-ID: <20260908201008.3855510-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 17:16:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245387
+ <openembedded-core@lists.openembedded.org>; Tue, 08 Sep 2026 20:10:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245388
 
---NextPart
-Content-Type: text/plain
+Back in 2023 there were random failures from empty directories in the
+python site-packages directory, which at the time was believed to be
+specific to hatchling and so worked around in this build class[1]. This
+is not the case, but changes to hatchling and upgrades would result in
+rebuilds, which expose the issue if the build tree is not cleaned.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Since then fixes have been added to python3[2] and python3-build[3]
+which resolve this issue at a lower level, so the workaround in this
+class should be no longer needed.
 
+[1] oe-core 3ded8b83ceb ("python_hatchling: remove empty python sysroot d=
+irs")
+[2] oe-core 73de8daa629 ("python3: backport the full fix for importlib sc=
+anning invalid distributions")
+    oe-core 855d1111c3d ("python3: prefer valid dists when searching for =
+entry points")
+[3] oe-core bd7225f5b84 ("python3-build: verify that found dependencies a=
+re valid")
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
-Testing patch /home/patchtest/share/mboxes/v3-1-4-libfaketime-Import-recipe-from-meta-oe.patch
+ meta/classes-recipe/python_hatchling.bbclass | 18 ------------------
+ 1 file changed, 18 deletions(-)
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+diff --git a/meta/classes-recipe/python_hatchling.bbclass b/meta/classes-=
+recipe/python_hatchling.bbclass
+index 6765ddbe8ce..8ad3ac7fbbb 100644
+--- a/meta/classes-recipe/python_hatchling.bbclass
++++ b/meta/classes-recipe/python_hatchling.bbclass
+@@ -7,21 +7,3 @@
+ inherit python_pep517
+=20
+ DEPENDS +=3D "python3-hatchling-native"
+-
+-# delete nested, empty directories from the python site-packages path. M=
+ake
+-# sure that we remove the native ones for target builds as well
+-hatchling_rm_emptydirs:class-target () {
+-        find ${STAGING_LIBDIR}/${PYTHON_DIR}/site-packages/* -depth -typ=
+e d -empty -delete
+-        find ${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}/site-packages/* -dep=
+th -type d -empty -delete
+-}
+-
+-hatchling_rm_emptydirs:class-native () {
+-        find ${STAGING_LIBDIR_NATIVE}/${PYTHON_DIR}/site-packages/* -dep=
+th -type d -empty -delete
+-}
+-
+-# Define a default empty version of hatchling_rm_emptydirs to appease bi=
+tbake
+-hatchling_rm_emptydirs () {
+-        :
+-}
+-
+-do_prepare_recipe_sysroot[postfuncs] +=3D " hatchling_rm_emptydirs"
+--=20
+2.43.0
 
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum presence (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-PASS: test license presence (test_metadata.TestMetadata.test_license_presence)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test summary presence (test_metadata.TestMetadata.test_summary_presence)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
