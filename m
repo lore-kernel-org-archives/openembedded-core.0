@@ -2,62 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9B09CC79FB8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C5416C79FBC
 	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 07:30:23 +0000 (UTC)
-Received: from mail-wm1-f50.google.com (mail-wm1-f50.google.com [209.85.128.50])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6334.1788939018885887130
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6331.1788939015749062391
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 00:30:19 -0700
+ Wed, 09 Sep 2026 00:30:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=JuPKRRpR;
- spf=pass (domain: smile.fr, ip: 209.85.128.50, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f50.google.com with SMTP id 5b1f17b1804b1-49b8687630fso46277455e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:30:18 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=mPhuKP6u;
+ spf=pass (domain: smile.fr, ip: 209.85.128.47, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49d0d2d37ceso19280755e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:30:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788939017; x=1789543817; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1788939014; x=1789543814; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=SQVFAkc0LRgEfAgQZdw9j4YKAWZ4rNq+VtJOKM8D8PU=;
-        b=JuPKRRpR6R3y7Pn3Ib9YKdnrTJVtAL90IWNUZWYKdnT5hJKL2i4hmBWiiHy1kEifvt
-         P206dZU5v3TFIzzfwC0VQ0ueL8NB9+sDZfyrRKIfGqK4bYrodDaZ74fWPwqLEjcvml+i
-         Ni7j/C/AjLm9cx0McyBcBIqjNrak7RXfkELl0=
+        bh=Kfp8lqJ3JstFipffuTIP1j8eENGdtTGif0xjP5C84bk=;
+        b=mPhuKP6un7F0tN4omJ35+UG24jppzlTT1xcKB/gw0bj9xYGsjRZRf+2v+tRPP9TzBi
+         3LfnRmJZshR+gLq+ldxW6sObv8OY8Ois5EBRPjYj20cZ0jk20qMly4S/zbaVzquNjcqM
+         gguwbz1Rb02/EC8QYb5pKDBG/XsmkXs2dL6G0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788939017; x=1789543817;
+        d=1e100.net; s=20251104; t=1788939014; x=1789543814;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=SQVFAkc0LRgEfAgQZdw9j4YKAWZ4rNq+VtJOKM8D8PU=;
-        b=btEqUy5djWwVp7BDZgunN+60UW+48wSpXftNRe4Ps7j1cof3rTPTM9h8H1MgYNclqu
-         Gty72eIy5dK4pbq5vMX5HJ/MlJSc2zN6ZxMUJnN8kyyukfLBROcXgE8rHYEHVyQzUWEy
-         baqjDcM7KFsx2JrhOxM5UDNJCFCrQ3+7ymqBRGFBBNcRGqflzJnG6XIEjtpbxRZKDK9K
-         BUqAWhT2aKTMxPg0Q23uHAD1WBGP/VeC/Nu80uEFUnjjweCV1vwgXSy2urbgwMaodUNo
-         bYgOT1vUoDnGp84vp4o8z+q5oSmiIcuE+V1yDF3gtLnkSb9puxYMNmFXXoIRIqVYPeK+
-         1l0Q==
-X-Gm-Message-State: AFuF++mdkedfMqRUf88nQWpkyoYD1aE0T857KU0NHPPIWNPUJ/avMI7t
-	IBfoHE26NqRGmvfR9pqwuwImef7Y1OA4eWjEDWA2qVBVMq1M8cLVgu3RCRFrGqhTvulsTsYVZsE
-	DDW7BOrw=
-X-Gm-Gg: AYBFou1qpA5B9AgekK442QIM+18nRV9AzOeniKcUlya1R0pFSx25zjDcTp3puJ5hQ2q
-	bq81z/eTodiKKgfmtaN2SOuLYtwG4cJCpLJkexd+oTbGptPm+kNS0C9U8ecdWmNwZTi4KAynYbh
-	Q6JpYos2qv95ZGgHD9YEmjjzPKsFrmh48vcUmFfwxrOhKxDKnz5MEo24FPFgnaxBzNV9v9Th1Wk
-	dds73R8Fanrn4MECtj+FMtnhWcTpNZgPhbeKhmeQmHbWjPJVywTcUHDZ7ed6AAlTHpLD4EIxwRI
-	XwZf9NfD8qRPtD4lAzZkI37CUt0WauErIpOwF7SUpiWXhp3pqEPNQC5R3c2tCiRBdHDrMyhOvZu
-	GpKYxMTIvgzQwKyqn86Mk5glpnexcjVPpcCezae1AZocM/fnfDG64qBzSzy3K+7cDU1TmZeTYdz
-	NHHA8Yx4gPTfxwy+UA6AnoYDxg9MjOPyn7+5Ef5p8vuQ4Zn+HlgutwxcvDHlAZ4czVUYw3FWdXx
-	dYXAkLmhcei88SMWVyZU3QIsZmY/9mQG8t1YoBlOUn7YjbUvv1FgXKqiwtWzRAaPrpOwQWe1Qm7
-	vFOfFeRqUQ==
-X-Received: by 2002:a05:600c:350f:b0:499:b65d:124f with SMTP id 5b1f17b1804b1-49cf825d1dcmr336340165e9.11.1788939016984;
-        Wed, 09 Sep 2026 00:30:16 -0700 (PDT)
+        bh=Kfp8lqJ3JstFipffuTIP1j8eENGdtTGif0xjP5C84bk=;
+        b=tOaYRZKlXjuRg2YUVBOMGkLGT1Ru/dDJ5tMbVdlMTcx/XRWmLZRdBmNnvpJ4wyGVMU
+         UNiN7j32jsa2wpzYGVEddjBTX0doCgWp91LpZZsgCHuX6Ifawhf6Pf79naZQmuxaxxU9
+         RqheVK910X0C9yX8IjueEMLcHXKkmXaWK/DUebS/bJuJHkf8VBtIUCN9Oc8eI7QWtupP
+         MEXkgSUop6f1Ux+yVO3DNIsfeNpnbcdnGI+etYauacmALYWSzG4vTArs6m/xLZ2QMNF9
+         sOttHXMrlO6rPIfkh1mem8CHSQiG+KnNTKJnW5W4JLarcjJmb2Pi0w1BYgGM0LnmBXWc
+         /CGQ==
+X-Gm-Message-State: AFuF++l1gTozQL1hHqYCyojYeeEeTr5SBdy6yramQqeE6V0k/K/oIuMF
+	p+FNkvgfMyC3bt0PgmzIuy6Kxg8XF90Mr8eMaXcno7e0aCw2/pph8b3+SaFyd68iFF32f7w9CCT
+	Ejk9/PiE=
+X-Gm-Gg: AYBFou16lmJ7QKXURPzzHOV9iNumoowsVdzOMFYcSD26pOJRnVn50swFqkI1/fFpkfq
+	/Ye7T4xAQngj3sjpphB2arXXvjhfjYnJoI30e6eIZ7pt6+cW3n79l1MH8ktmRlAV3lYp2/2xxrb
+	fqkAB52yBNN5dwXGK086ohEXpBXydH9xVWeFQJYXKwGXBK2MJ6RypsqECJkqLLk0ZWNtek1EGZB
+	fZ5UMy6PYSnJKZhninalipUc5ifb2j/3Ir1N5rZWByfYPmXstDzDemuz2amNtBAjp6SVaQNfLGg
+	ymCNv6xOBA4eIJQ0LROYgKRsZvhvEzfMaW+JDYwfYT8kNzOrZir6Z09RZ4KPK1KYZHPoMCoYBmN
+	yzMdubVZ3+lq0fS9dCU17LQRbpAcd+IppaMiuAflRQM6kJgi2+vDZRTBHD6Pz8JKisCaonUlpGf
+	RQ/MmjGC420yorHVfiocsPttgwQom8bp9+7HhPKQdjCsOfFpQFvXddBLiSAWJ3s47zMUZUZGhI1
+	5TiL7cnQTKPbVQcqA3oEvuX9J+tO0JkugQQetE+1COkU3QrS7a0qzRG5EHMGb46Q1psIaxWr0GQ
+X-Received: by 2002:a05:600c:3b1f:b0:49c:ee06:9c58 with SMTP id 5b1f17b1804b1-49cf821eff7mr336208455e9.4.1788939013912;
+        Wed, 09 Sep 2026 00:30:13 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40624310f8f.16.2026.09.09.00.30.16
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40624310f8f.16.2026.09.09.00.30.13
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 00:30:16 -0700 (PDT)
+        Wed, 09 Sep 2026 00:30:13 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 32/38] curl: patch CVE-2026-11352
-Date: Wed,  9 Sep 2026 09:29:31 +0200
-Message-ID: <360087f55af6acb6c2325421208f9befc7d88589.1788938909.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 29/38] u-boot-tools: Ignore CVE-2026-29009
+Date: Wed,  9 Sep 2026 09:29:28 +0200
+Message-ID: <f9b3a060fe24d6282aa561c690800b34b4ebaae7.1788938909.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788938908.git.yoann.congal@smile.fr>
 References: <cover.1788938908.git.yoann.congal@smile.fr>
@@ -67,86 +66,34 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 07:30:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245441
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245438
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Hetvi Thakar <hthakar@cisco.com>
 
-Pick patch per [1].
+Analysis:
+- NVD identifies the vulnerable code as the NFS client implementation
+  enabled by CONFIG_CMD_NFS [1].
+- tools-only_defconfig disables networking, so net/nfs.c is not built
+  into u-boot-tools [2].
+- Hence ignoring the CVE for this recipe.
 
-[1] https://curl.se/docs/CVE-2026-11352.html
+Reference:
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-29009
+[2] https://github.com/u-boot/u-boot/blob/v2026.01/configs/tools-only_defconfig
 
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2026-11352.patch            | 48 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-11352.patch
+ meta/recipes-bsp/u-boot/u-boot-tools_2026.01.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-11352.patch b/meta/recipes-support/curl/curl/CVE-2026-11352.patch
-new file mode 100644
-index 00000000000..df414b9112b
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-11352.patch
-@@ -0,0 +1,48 @@
-+From 56eca2afb4806f1032872fa97d1834b3c1385276 Mon Sep 17 00:00:00 2001
-+From: Stefan Eissing <stefan@eissing.org>
-+Date: Fri, 5 Jun 2026 08:34:46 +0200
-+Subject: [PATCH] quic: count zero length packets against max
-+
-+With a flood of zero lenght UDP packets to curl, the receive loop might
-+run longer than intended to. Count such packets against the max to
-+terminate the loop as intended.
-+
-+URL: https://hackerone.com/reports/3783438
-+Reported-by: vectorqueue on hackerone
-+Closes #21869
-+
-+CVE: CVE-2026-11352
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/56eca2afb4806f1032872fa97d1834b3c1385276]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ lib/vquic/vquic.c | 8 ++++++--
-+ 1 file changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/vquic/vquic.c b/lib/vquic/vquic.c
-+index 2f0e072951..475f18e04a 100644
-+--- a/lib/vquic/vquic.c
-++++ b/lib/vquic/vquic.c
-+@@ -454,8 +454,10 @@ static CURLcode recvmmsg_packets(struct Curl_cfilter *cf,
-+     VERBOSE(++calls);
-+     for(i = 0; i < mcount; ++i) {
-+       /* A zero-length UDP packet is no QUIC packet. Ignore. */
-+-      if(!mmsg[i].msg_len)
-++      if(!mmsg[i].msg_len) {
-++        ++pkts;
-+         continue;
-++      }
-+       total_nread += mmsg[i].msg_len;
-+ 
-+       gso_size = vquic_msghdr_get_udp_gro(&mmsg[i].msg_hdr);
-+@@ -538,8 +540,10 @@ static CURLcode recvmsg_packets(struct Curl_cfilter *cf,
-+     ++calls;
-+ 
-+     /* A 0-length UDP packet is no QUIC packet */
-+-    if(!nread)
-++    if(!nread) {
-++      ++pkts;
-+       continue;
-++    }
-+ 
-+     gso_size = vquic_msghdr_get_udp_gro(&msg);
-+     if(gso_size == 0)
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 7497337cb95..6c9801f8792 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -27,6 +27,7 @@ SRC_URI = " \
-     file://CVE-2026-8927.patch \
-     file://CVE-2026-8932-dependent.patch \
-     file://CVE-2026-8932.patch \
-+    file://CVE-2026-11352.patch \
- "
+diff --git a/meta/recipes-bsp/u-boot/u-boot-tools_2026.01.bb b/meta/recipes-bsp/u-boot/u-boot-tools_2026.01.bb
+index 6b28718c54a..5e2ed063868 100644
+--- a/meta/recipes-bsp/u-boot/u-boot-tools_2026.01.bb
++++ b/meta/recipes-bsp/u-boot/u-boot-tools_2026.01.bb
+@@ -3,3 +3,4 @@ require u-boot-tools.inc
  
- SRC_URI:append:class-nativesdk = " \
+ CVE_STATUS[CVE-2026-29007] = "not-applicable-config: tools-only_defconfig disables networking; net/tcp.c is not compiled into u-boot-tools."
+ CVE_STATUS[CVE-2026-29008] = "not-applicable-config: tools-only_defconfig disables networking; net/tcp.c is not compiled into u-boot-tools."
++CVE_STATUS[CVE-2026-29009] = "not-applicable-config: tools-only_defconfig disables networking; net/nfs.c is not compiled into u-boot-tools."
 
