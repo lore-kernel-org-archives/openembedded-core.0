@@ -2,68 +2,68 @@ Return-Path: <hfranco@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 767C0C79FB6
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 13:28:18 +0000 (UTC)
-Received: from mail-vs2-f12.google.com (mail-vs2-f12.google.com [74.125.227.12])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12217.1788960488988818378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8014EC79FB7
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 13:30:38 +0000 (UTC)
+Received: from mail-vk1-f170.google.com (mail-vk1-f170.google.com [209.85.221.170])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.12277.1788960629167981921
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 06:28:09 -0700
+ Wed, 09 Sep 2026 06:30:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=Gu3pIgDM;
- spf=pass (domain: baylibre.com, ip: 74.125.227.12, mailfrom: hfranco@baylibre.com)
-Received: by mail-vs2-f12.google.com with SMTP id 71dfb90a1353d-5c7e8a176c1so86838e0c.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 06:28:08 -0700 (PDT)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=hFwP0ERf;
+ spf=pass (domain: baylibre.com, ip: 209.85.221.170, mailfrom: hfranco@baylibre.com)
+Received: by mail-vk1-f170.google.com with SMTP id 71dfb90a1353d-5c65093556aso4522067e0c.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 06:30:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1788960488; x=1789565288; darn=lists.openembedded.org;
+        d=baylibre.com; s=google; t=1788960628; x=1789565428; darn=lists.openembedded.org;
         h=cc:to:message-id:content-transfer-encoding:content-type
          :mime-version:subject:date:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=6oeixZrhWgT0fSufJYiade93leGhDm+YLWquOOZ/w4Y=;
-        b=Gu3pIgDMcrmg1WcXk6fBL/A0LJNRRYD8UjIJ/2RWjlVS9PbzXbAjGPxoloIbKmEXdr
-         tWScze5RGGU04YylK775iHlJ4Uaj0HGGjHV5WXskAEQ3Bi6w/skxCNarWe2WoDSsffMA
-         OW8PkihLQDS+IwJ3tB0DI3hKOb1LMvPxwal3m/HQyMqU3faS+EsGqtz84FEQzFWNf59R
-         hQc8UNIkfp2Tzm5Zt12Bi7kX0lRr3gUeaGinyXx3qzcJ6MNWWpk40YOIHjYfokduTCFZ
-         ig1nDcguNAsU2CoZsbHc26OfSMk2ZETFKTSd2OF4+vbOJBHfzJE25DCJnuiHTQ2Vkehs
-         k4UQ==
+        bh=nAylMiKRgB0SV7T9rf8ZL2ZAQQd61wyOgUJlufQbfR4=;
+        b=hFwP0ERff/KDA2uvPiXtWC2zAOrFL1gGR0SvTWOsl4lKloo+aKrxODgla7HilgRH6b
+         wmLlLBgp2lXlU6pZS/SlEgQT2o/qXAxtToS34eVCAlNIdTr9w2b/A94YtjRr7TENgEr4
+         2dcUjoP/g6otFEWv5L+gThLyqodDgB/jfP1/3/y8MWmlyercQMhrA9XQO1xgp3ih8/+9
+         lNE+ejnSmlstbyUtftjPpeR3s9yv0KuuU0MTA8JB9YoIFNWt7GOM/BS8NqYsNZLpwnxj
+         i/lAxKfHndmxzbTQQkYmYgKURJyWlD7Ky0vuFdy8E5OWZ3KPu22shXcEAZDYK1lWYgbU
+         OUQw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788960488; x=1789565288;
+        d=1e100.net; s=20251104; t=1788960628; x=1789565428;
         h=cc:to:message-id:content-transfer-encoding:content-type
          :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=6oeixZrhWgT0fSufJYiade93leGhDm+YLWquOOZ/w4Y=;
-        b=Rb33KJb9HM1hXEexhgYvb0OROQ/pEtUskYSPzfsiPQi78E7Y6tb1Qp4HbghwYGh0hc
-         pLKmv+kIdOs7JsOE1qztlqwCF+cT+zPQWWIhk2RzOV8RqWDaqZFhNEAantGXiM5X3UnM
-         8HAtmxt+ePIw/9Z91aY8o8Ap20k/VI+7MR6UFRzYb5TQsoP7XQkZpoJUT7KUzup2HuY1
-         WBkSAxYm9ELjo2cgBWaevI1ByMhFE8BybajPrDWeOEWOOTqyzurs0okV6rgfIaeSqZ5t
-         xjqfWvwICsi0sfNu8TkRJLfRZQ9A9KGQRj3LDZhwpu2Ugh0JXPnMGTamn0aleJZ8p7y0
-         DUwQ==
-X-Gm-Message-State: AFuF++lLLOPtiQbDenrlSSIB+BRGj2qPZMiTEVQKEDkFwSg+lg+B9/gx
-	P6UX1YseBGJVrM66+PYqVRxXibUjmd5mmI1oZlh7VYvK/F+Hy8ATLJKJtU4Ar1j6D20=
-X-Gm-Gg: AYBFou08+vmRSEdW0GSvJQuvrTphRnrAyUCtEYrPFh1M2Eo0Ao4JlChHOvd7Zb0Ad4b
-	bAuDN5cM+TxMZHV+uV0+DtxkAI+YrOemXUO3TExRVny6Gd4CARNwWfhRDch691+MWi/CiCG5NjR
-	Mb1RZ7jxoThVTCADEfR3V6tVFFr7kskdLn9/YSSZhA0JqOvmrzCrwkPwigVdffZtkqO8OQpHmRR
-	w4oipWJD2LuuKyKlB5Gtw3PRh8VQJAM8Iinc5G6rcuxc4vHZP/DzC1Gsh7eCSrb3jAnauiw5eVt
-	IfP4HQ0C5js5eG5YkVpJeyj72WTMvJjOQR342Tr0/e+MLSOKFCJArHcXx67yW6q9i8+zGp7GSmh
-	84T360gFDiM2PuuCWA6qDd7H4DmLRfq2rG4eRMykQtHRaMmqtqTJ9YcWEq6EBv8lcCkXQ6tNr6e
-	+1B8XHXzGeQDn4tKpqtMtRYPi66lF89H47+CiIUdq/qJNHofVE2qJgoG8q6TsvT56ZbTSo5sxk2
-	RmS4tyVGvV/QjgzQsjyCnhaEgayseEW+4coq6fe1tlAjcti5mI=
-X-Received: by 2002:a05:6123:2eb:b0:5c7:c666:ec22 with SMTP id 71dfb90a1353d-5c8336b2a5emr682933e0c.6.1788960482880;
-        Wed, 09 Sep 2026 06:28:02 -0700 (PDT)
+        bh=nAylMiKRgB0SV7T9rf8ZL2ZAQQd61wyOgUJlufQbfR4=;
+        b=bMXx7vETPjHZwDog9ajjffLXsBNYyN60SlJuQ8Ko+rKg96xgNhZDBbePxScjcsYPMG
+         cPQkqGsa60jsSdZNu/ItgwJyRME05pMkMv4XJ1K/6d0b1lA5pf5O9YuHpQWaZ4d15nEf
+         VC+uDHu0/MY8EzLLI+3QqMm3jL2GlgqqI5/PhxVAC0h2d4SGId0T0J23NPVnzL7EhQHg
+         z3WkCVYQ9H5r222EXy248zn+LO8z+hYqTD4+4yYhKaIKV8jWfpvjszqBe8mkgIhFHZcG
+         Dj5JCZn6DnBwf1GtBxNfUekmkYK3/DL4plAtk3IbNLDyMeZimFx3kB8eqAG/9WSRpSrA
+         NDRQ==
+X-Gm-Message-State: AFuF++krqu6cOo99mKB7J74vgTOOOmzaOJLuwphL4gCpW/VeGadKKxxj
+	vjBRzq93OvxHQww6ZoShK5IDJw0dygVS8x9VtRshys+IDdL0g+DXiobRWL3uYLbx438=
+X-Gm-Gg: AYBFou2VbcmUdtKQvOQ1mfp2cxJS/T90NWVYuQkc7i7AowE9vWgMDQF3snWfAxPoKPP
+	YOogNd53Y6bQDKthNC8u7RdUg8JYkQhIhPbQjf3XM93Po5kEdLMASLFqIdAx+Lj6RAx3UKFcb2W
+	9OQc7nK28uVqrxdGqRncPrvALHY5C6bpsfNll9IH7vJ+Us76ykWa/hkxYzmTQQxMOjHbDmggOJ+
+	zg+I120Z5KDehW9fRHtMfdWgfAnSt9AdFjpoWVjLlv5myRS+y4B7+iLkGOYvUEzfu00rHoigEST
+	8a2m7N2YzWc7on6Lb6sGcLLGkUxPm/iGDkhfQyup47DLAkU/84bjkHmJ5Des0PsGzoFLf0OS1A1
+	wlCtl7uq+N81t3aC9LmwDuUfgyIeYXf6DNLs4GWmCMzf/X8DL7XwVSZ+MuGi/3bxykKfV6sS9eJ
+	WN33l43Ykb30EpIJ1GqYzlf7aTAZg4LUJ2vs5EMCL78KVck+KpQwEzGi8LoqDAvrrz3nmMgqRg8
+	FDTgRw/AiafauyOJjD4FJ5T/H/Z8vdVVrEsbrU=
+X-Received: by 2002:a05:6122:e004:10b0:5bf:9461:91d with SMTP id 71dfb90a1353d-5c7ed7dd661mr7141460e0c.5.1788960627487;
+        Wed, 09 Sep 2026 06:30:27 -0700 (PDT)
 Received: from [127.0.1.1] ([2804:14c:4c5:9534::7f1c])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c7ec3874acsm11923748e0c.15.2026.09.09.06.28.00
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c827384808sm2508661e0c.8.2026.09.09.06.30.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 06:28:02 -0700 (PDT)
+        Wed, 09 Sep 2026 06:30:26 -0700 (PDT)
 From: Hiago De Franco <hfranco@baylibre.com>
-Date: Wed, 09 Sep 2026 10:27:28 -0300
-Subject: [wrynose][PATCH] u-boot: share CVE_PRODUCT with u-boot-tools
+Date: Wed, 09 Sep 2026 10:29:46 -0300
+Subject: [scarthgap][PATCH] u-boot: share CVE_PRODUCT with u-boot-tools
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260909-uboot-cve-product-wrynose-v1-1-072b994b426f@baylibre.com>
-X-B4-Tracking: v=1; b=H4sIAAAAAAAC/y3MTQ6CMBBA4auQWTtJpRFTr0JY0DLouOiQaYsaw
- t2tP8tv8d4GiZQpwaXZQGnlxBIrjocGwm2MV0KeqqE1bWeccVi8SMawEi4qUwkZH/qKkgitJXO
- eT86OvoPaL0ozP7/vfvg5FX+nkD/D/p8NsO9vR8HeZoYAAAA=
-X-Change-ID: 20260909-uboot-cve-product-wrynose-33e07f593ab6
+Message-Id: <20260909-uboot-cve-product-scarthgap-v1-1-043b5552f230@baylibre.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/z3MQQ6DIBBA0auYWXcSdKGlVzEuEAalCyEzYEyMd
+ y+1SZdv8f8JQhxI4NWcwLQHCXGraB8N2NVsC2Fw1dCprldaaSxzjBntTpg4umIzijWc18UkbHv
+ 99MbpQXsH9ZCYfDju+zj9LGV+k83f5fgPJ7iuDyHIl82KAAAA
+X-Change-ID: 20260909-uboot-cve-product-scarthgap-1698fad979fd
 To: openembedded-core@lists.openembedded.org
 Cc: Devansh Patel <devanshp@cisco.com>, 
  Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
@@ -72,8 +72,8 @@ X-Mailer: b4 0.15.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 13:28:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245461
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 13:30:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245462
 
 From: Devansh Patel <devanshp@cisco.com>
 
@@ -99,7 +99,7 @@ Signed-off-by: Hiago De Franco <hfranco@baylibre.com>
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/meta/recipes-bsp/u-boot/u-boot-common.inc b/meta/recipes-bsp/u-boot/u-boot-common.inc
-index 5e2ec08c30..88f6ee91b1 100644
+index 5f6bd44ab7..27e6ac9db5 100644
 --- a/meta/recipes-bsp/u-boot/u-boot-common.inc
 +++ b/meta/recipes-bsp/u-boot/u-boot-common.inc
 @@ -10,6 +10,8 @@ LICENSE = "GPL-2.0-or-later"
@@ -110,12 +110,12 @@ index 5e2ec08c30..88f6ee91b1 100644
 +
  # We use the revision in order to avoid having to fetch it from the
  # repo during parse
- SRCREV = "127a42c7257a6ffbbd1575ed1cbaa8f5408a44b3"
+ SRCREV = "866ca972d6c3cabeaf6dbac431e8e08bb30b3c8e"
 diff --git a/meta/recipes-bsp/u-boot/u-boot.inc b/meta/recipes-bsp/u-boot/u-boot.inc
-index a75948dfc3..8a084d8ac0 100644
+index 00dda93b4a..7935f2b4aa 100644
 --- a/meta/recipes-bsp/u-boot/u-boot.inc
 +++ b/meta/recipes-bsp/u-boot/u-boot.inc
-@@ -21,8 +21,6 @@ PACKAGECONFIG ??= "openssl"
+@@ -19,8 +19,6 @@ PACKAGECONFIG ??= "openssl"
  # a host build dependency.
  PACKAGECONFIG[openssl] = ",,openssl-native"
  
@@ -126,8 +126,8 @@ index a75948dfc3..8a084d8ac0 100644
  # file already exists it will not be overwritten.
 
 ---
-base-commit: 9da814ca3685ada3fce46b8987f04ed3d57247b7
-change-id: 20260909-uboot-cve-product-wrynose-33e07f593ab6
+base-commit: 048f2f8e8864ae5861afe95ea52efc0354bfc18c
+change-id: 20260909-uboot-cve-product-scarthgap-1698fad979fd
 
 Best regards,
 --  
