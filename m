@@ -1,108 +1,121 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5C71C79FAA
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 07:56:05 +0000 (UTC)
-Received: from mail-qt1-f178.google.com (mail-qt1-f178.google.com [209.85.160.178])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6605.1788940563915685865
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E0252C79F8C
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 08:10:35 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6760.1788941425432636865
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 00:56:04 -0700
+ Wed, 09 Sep 2026 01:10:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=INP/XAvd;
- spf=pass (domain: gmail.com, ip: 209.85.160.178, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-qt1-f178.google.com with SMTP id d75a77b69052e-52ff0eea420so53522451cf.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:56:03 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1788940563; cv=none;
-        d=google.com; s=arc-20260327;
-        b=l3KSzl7ZtzGEseqdH+F1bVKsv9O1xGvxYxZJk6yjeL9cyLiQKw/C8D7WQejYZtXKJD
-         DIsttldaRgvZqs5QzOdNyw10qhA/pXMhmOITgTZsI6hi5MEjlWdjfTcUjs/GtZ6AL3mi
-         gZf9+z+iqePjGaIGyfUqHJ8zIa3TzZBJgUTM0BOY/3yMdNJ91PXxrw0blBEmHhgltkDg
-         pkKi2v6AU9tToEoE7rvD6b0whUyD1KQuBoCaG38I1oPyRL34XdeybHdbV6UZ6sVOfzoU
-         vkfOpmBK1UhiM/J2B4CF+exok/6UZ6UXD6IJURtj1NJxdFiYS4lYneq4gISurzwlzOex
-         ElTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=kj3lQvoeqYgEGf/58PYUbBJJbljvlwTX9i1rEr1W/XQ=;
-        fh=Wqrx/CS5sdeIgND9qk4/+gMgwOawEnvIqc+docmpmzg=;
-        b=ZeyLPWM1+xhG7tVdn3CAf2IcQMtMrCm0kHiaYBRDCGWBaR6QR/CCOkAZlhJDftCIwL
-         9tP+uJ2U0330db7M4H3bJYzuMnYm1KyS0Q0e2/2D+VdS//oPuX1SxuVr/+idutN6TkhY
-         C0WAEV2YZWPI7Szx3bjeanUQVwh39QVPjbyGpC6Uhgdr3quP1NFIUUlUZTB5lcBqG7C+
-         egqcL0Ch40QNaawARWtCPys/Fa1AJWL1J5wKPAb4vGNU/MwrpP41o8bNtdGCuaJB6Sx4
-         XgwfIF3XDSl/rdQwojeXq6WW1MXcYbbbBQENbPl6O8epWKcbofO7KmmBine77cm09LWr
-         KlqQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=iLw5+INl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-4859245e493so2999791f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 01:10:25 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1788940563; x=1789545363; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=kj3lQvoeqYgEGf/58PYUbBJJbljvlwTX9i1rEr1W/XQ=;
-        b=INP/XAvdSgMeZnavrOnHUXSzm90DMMNPXEWtzkrzyzI/HwPcU49yueY9pMxdFhibAV
-         ewvC++2dNE007a1cKcAks3s/MZGqLLj0noV86H5nzO1JGY1l1LcCOhHGP/8MlUJMxfdg
-         GX5u95vpU8s/VqGLJ+8+BTiWPJua5Jj75Z0cLsTe/N7FUUEZHxp8ERA8zaqB+4egfJka
-         Q/qklI+ieCWEKTD1fxUDC6kmoUywvrShuSrWhq7jEZ4TU6m6DwsDDYMiZKD+Q2IP3DtR
-         slT1k2G6lhiqZGD9nxH5dOrF0PbJmb8ETjmen3szFuHXKxrX5jcfgbnNA0RButwOT3u9
-         B+aQ==
+        d=linuxfoundation.org; s=google; t=1788941424; x=1789546224; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=W7VZapwcr2cRoApj/daR8cBRhCX9H1bOufrtQX/4k7I=;
+        b=iLw5+INll32qartptr0ctKwGhTnt2fafdoEvIznO9Rfm/FYCLuK5TjE5czcW40hPoZ
+         isJy7qagCbT/9XfIxztYnTQVXw/Kam+sbm1uS6ZMzQmKPF/n5CxgkKTHMQy6NDF2Bcd+
+         /ImkcgAgmYfRwNreKGBwr2v7dQ3sBwdqXWlCI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788940563; x=1789545363;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=kj3lQvoeqYgEGf/58PYUbBJJbljvlwTX9i1rEr1W/XQ=;
-        b=qKkKwT7fUjNVc7J4xdK8Fvf798HN8QNXK/VDfX7GTndWdG0QxdA1W+ZcBsZ2xtCpBh
-         tzHL5FN94f1LpBpbFMmdYRR1BzquFThP9k/4I4uWSjux8YiKTmbQXUBcf4PJPZwUtVlM
-         8zNIVDnzzU8q9W+OK+3rHTIDygDG4kEvkQVspAkJVKxUPcBueaF5o/mTkgSkZKqKd5/w
-         x7CUh1puoVpdWY90UA+54T7toErot6eHOjqqaYnELee4K2ojOycZlPqH8G+mUdNMbCz1
-         zcW547hWueaiQCkLudWQkR9sx7mxWnjgcsVdKREMCnGktZ73nUi7RNZihdCuDEnAAQEI
-         dYbg==
-X-Gm-Message-State: AFuF++mhAjNj6wUv6LYfX+XsWNA0F2ZeAVP+b4GLxngUiDpb0COArWvI
-	rZWTdArOjJFCwzsGkNcQURDcuHcnPenYdLrJjMBecsOpJcMULuOB38WqCUBcGx8BI5RVYk3kiDw
-	lKSnUHWsf+JQhx3REn+d8cAnrsVhYF/s=
-X-Gm-Gg: AYBFou0DCI/Y3IfKptZmzpDRbbnQ4XWn8jcSKiJpmOxiXODtYHglqkYTtt/7KkajCEt
-	mBAIiv7StvbAdX0FEBYrm3JfDzzpN9ujzXGDaO4BsjPcxxLxoZObJbc0faVPx6n7l05YpLwVXSX
-	BB0DkHuXE9l4VV71hvEVe5fO+3v1dw1HhRyBZqYMD5tKyHyh2RYhQlDTkQXSUCByILTyledSS5H
-	RXhEEVnR9bN8Hsv5vuk/QH3C+cw/u5KZlzLPdPac+XzoUM/LcceLaYMt/HuDKIxT+0xO4L8ZcPL
-	PRjvoUhOSE6r1q7GmRWrPcI6hmELBex4hkJxOe5KhR1MfDes3yw/hjm6qjX3wA7fqza78yrUVf9
-	wRPW7PmvuHCak5A==
-X-Received: by 2002:a05:622a:507:b0:530:90c8:d04 with SMTP id
- d75a77b69052e-53090c81816mr113714841cf.45.1788940562697; Wed, 09 Sep 2026
- 00:56:02 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788941424; x=1789546224;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=W7VZapwcr2cRoApj/daR8cBRhCX9H1bOufrtQX/4k7I=;
+        b=fdOPzwYq5vA389SeCk7Wx0kaHssUqJ6f3gefL1ozrs+dpRnq6ZyTpz24HJK87Fd3+h
+         QVpWQHUoxF15/zOgpYbmh7kt77GV+uocg/e5bwkXCEJYVYBrmER8J5fd4ZH+hSQOlGEy
+         P5Hu6KN8xzbXWEn+1Ul9NloivMY4E5GlpOxugOBZIhB2xvY9IAoxWY6V2DZsKjDVdu39
+         N6mkcP64lz7dI09XlP9mMsVDY8jAjzC82ztkPPF5AWjxJW3EBVeW0QisxKVA4OY1uG1f
+         HKR1rBW+HVffbYEuElc3D+ok7duEwgLmxjI+ih0f3hHL1CXU2B4QYF45Q5JwFALcHwa9
+         RE9A==
+X-Gm-Message-State: AFuF++nxdrDysysVuSdCCgZ+IJ4PRNrXVT7+LrRZTuE23KsLMdrVlca0
+	NblpkdlL8wdrrfD4shXm6fWLgxK8ENJMimaFdrs68AGIN/PkezFa+Yvv9eE96YYhLgMsWU6BJed
+	3fTSBNjs=
+X-Gm-Gg: AYBFou2lFNIsX48VfgGEiKVXAGfYzG1Kkq6dfousp+Uo6JcJdn7Lkk8dgIEQgrBdp23
+	lx3pRvMG9lzFT541hvIVPI4g9rWMFX8EGFF2cOs/zlZCJz8GCXytZtTpepqk1Py3z3YN0ObN2zs
+	bpZtrysLk73DIaOp/5brBKRsDdxBprIL3K4jh8UL9MpfBf6CwTfPIEhcFzMeFBDfsojYFG1l9dJ
+	MQfd+/P5V8hMxQoWXBvolQv6QSBvyEMFKmg00KCbrI2Er8yEMd4J6IYxDnOu4Hk/f9xvb1d9MDs
+	rAc3RskatA7G2lr+e9m4PFg6+7sQBQIGFpQDxnB0JOMyeNz004YE+0HB57a65+skjFiKMxzYZSO
+	N/6p7DLCtgHDZw7FbIEX4ynGaLF4IFFR6fFDsqET78S823FQgO5QW4HaZ6l/5QGqZ2q2O8mMqO+
+	FoUbVAmkcUyDNp9mho5tk+gIsLdd5PgkrrUc9DxXBTa0fB0S23Q0i1w+hMOolGraPJMjRKw6pEM
+	UnVob9AVALD7dBFZ0+uTcUxtJX+
+X-Received: by 2002:a05:6000:41d8:b0:485:8a47:5b96 with SMTP id ffacd0b85a97d-4858a475cc1mr31745275f8f.51.1788941423629;
+        Wed, 09 Sep 2026 01:10:23 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:9d9a:c76e:7178:6165])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40855548f8f.16.2026.09.09.01.10.22
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 01:10:22 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] python3-numpy: upgrade 2.5.2 -> 2.5.3
+Date: Wed,  9 Sep 2026 09:10:20 +0100
+Message-ID: <20260909081020.2238149-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260909081020.2238149-1-richard.purdie@linuxfoundation.org>
+References: <20260909081020.2238149-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-References: <20260907-sstate-cache-management-sstate-dir-v1-1-ed1a8ad1be0d@bootlin.com>
-In-Reply-To: <20260907-sstate-cache-management-sstate-dir-v1-1-ed1a8ad1be0d@bootlin.com>
-From: Alexander Kanavin <alex.kanavin@gmail.com>
-Date: Wed, 9 Sep 2026 09:55:51 +0200
-X-Gm-Features: AcwNN1UiEvMLLLp3heT4cl_lo_vm1DvlUVAqV0KErGXMETNJbsUEw4QLFh4yCZM
-Message-ID: <CANNYZj9Q4XQSPnGFOiTzVDUXiaZnS3QXLTs8mc-sOrdrhefR6g@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] sstate-cache-management: check also SSTATE_DIR
- environment variable
-To: benjamin.robin@bootlin.com
-Cc: openembedded-core@lists.openembedded.org, 
-	mathieu.dubois-briand@bootlin.com, thomas.petazzoni@bootlin.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 07:56:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245450
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 08:10:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245452
 
-On Mon, 7 Sept 2026 at 17:27, Benjamin Robin via
-lists.openembedded.org
-<benjamin.robin=bootlin.com@lists.openembedded.org> wrote:
-> Support KAS users by recognizing the SSTATE_DIR environment variable for
-> configuring the sstate cache directory, as documented in [1]. Yocto
-> respects this variable since KAS includes it in
-> BB_ENV_PASSTHROUGH_ADDITIONS.
->
-> This improves usability for the many users relying on KAS.
->
-> [1] https://kas.readthedocs.io/en/latest/userguide/env-vars.html#variables-glossary
+The NumPy 2.5.3 is a patch release that fixes bugs discovered after the 2.5.2
+release. Apart from the usual bug and maintenance work, there are a number of
+StringDType related fixes for problems discovered during the ongoing string
+work in the main branch.
 
-It's still a non-standard way to set it. Shouldn't the script rather
-obtain the final value used by bitbake by calling bitbake-getvar?
+This release supports Python versions 3.12-3.15
 
-Alex
+Changes
+=======
+
+* Casting a fixed-width byte string array (``np.bytes_``) to ``StringDType``
+  now raises ``TypeError`` when the bytes are not valid UTF-8. Previously the
+  invalid bytes were stored as-is and later caused undefined behavior in
+  string operations.
+
+  (`gh-32296 <https://github.com/numpy/numpy/pull/32296>`__)
+
+* ``MaskedArray._fill_value`` would become stale when ufuncs that change dtype
+  left the result holding a fill_value typed for the old dtype. The mismatch
+  was silent until something later called ``_check_fill_value``, such as
+  ``.view()``, and then a ``TypeError`` would be raised.  Now, when the copied
+  fill_value is no longer valid for the new dtype, fall back to the
+  default fill_value for that dtype instead of propagating the stale value.
+  This may raise a ``ComplexWarning`` if the fill_value is complex and the
+  new dtype is real.
+
+  (`gh-32423 <https://github.com/numpy/numpy/pull/32423>`__)
+
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../python/{python3-numpy_2.5.2.bb => python3-numpy_2.5.3.bb}   | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-numpy_2.5.2.bb => python3-numpy_2.5.3.bb} (97%)
+
+diff --git a/meta/recipes-devtools/python/python3-numpy_2.5.2.bb b/meta/recipes-devtools/python/python3-numpy_2.5.3.bb
+similarity index 97%
+rename from meta/recipes-devtools/python/python3-numpy_2.5.2.bb
+rename to meta/recipes-devtools/python/python3-numpy_2.5.3.bb
+index 44062046810..c88b0bf1a29 100644
+--- a/meta/recipes-devtools/python/python3-numpy_2.5.2.bb
++++ b/meta/recipes-devtools/python/python3-numpy_2.5.3.bb
+@@ -10,7 +10,7 @@ SRCNAME = "numpy"
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${SRCNAME}-${PV}.tar.gz \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "d482d171c406ae88c5b19cad3b6a1c4c5209f886ab74bc44c2c865c23f52d860"
++SRC_URI[sha256sum] = "df2d5874ff183595a4ba404edd04f6bd9b5505c1d7708573f6a6c17489a67563"
+ 
+ GITHUB_BASE_URI = "https://github.com/numpy/numpy/releases"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v?(?P<pver>\d+(\.\d+)+)$"
 
