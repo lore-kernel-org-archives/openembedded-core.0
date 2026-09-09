@@ -1,203 +1,154 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C5EAC79FB6
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 15:19:15 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14843.1788967152751756578
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 489A0C79FBD
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 15:37:17 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.15569.1788968230592202613
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 08:19:12 -0700
+ Wed, 09 Sep 2026 08:37:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=eTr4XelC;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 97865176B
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 08:19:08 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 160983FA32
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 08:19:11 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788967152; bh=yjBGZBa7blXwNbve7MVLtRTUp1MLlWqVYVgehnNJc5k=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=eTr4XelCgzYtlFrb5nxsVeGz3g4qFBnB3j5/s8JbUHiN7AKywEiBHECS5rKnk1jHx
-	 xPLQVNXil8eamMitGRRzi6YkRpb02Hr1XdXMaJFNb+XlXcp08YwYzt3elJO9uZA6ID
-	 N2E81wcs20q8ibvrtRZ4+urmXpZoO6q+oRj2RObM=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=JhKyomRZ;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e64ccso2851495e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 08:37:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1788968229; x=1789573029; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=JNDdpYj9mJc7UFQFAyvWJoGaYe58BeUdEAKsaNsSu7c=;
+        b=JhKyomRZFlCYZkDtNG+lnobngf0FsiN248QPhfrb3Zfhi6wDebgyBvVG8iclLNOSiJ
+         NK/HQ+r/rVaUgtK47Wo4sOnkPkfeLj2rJW9jX2h+xoY4RoDLHyyIz6PF66SpIqJIBDPL
+         0MBgjS1MTPgXXLKAmtqg2Uij8oQGSlseXJfkE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788968229; x=1789573029;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=JNDdpYj9mJc7UFQFAyvWJoGaYe58BeUdEAKsaNsSu7c=;
+        b=fyJGpBHTkb6b3oBYn2qDPiP4k1wBPAxZWfWbNGGdEf2bkEwG5ULbtPsSeNF13PoMlX
+         DhOcsQR8NMF7FJjDZ/wrSj4xL8m+3vtD0Xf/2EQsoK50p7J+MWFkGbFaVOXSHPJDKo8Z
+         t8r9rkDQvV+DtozeZSiOjGLnisdYC6/DPB2oCQYe9TLZepJMuB//W7eZL7XQBp8Jl/P1
+         3P7aSMSGfaMmZTBMLlqpK9GB7nmUYNELPvziCv6KSgewUO6Wxu29SvhGZthdc1cfCzjP
+         Uee+8e2EJJtVm3zTJ+KTeVFsDPgZEtn7fP4LSm2ejVwpy6OEZjPaU0yZKScuIV/Rb6H3
+         3i2w==
+X-Gm-Message-State: AFuF++lPTs/iZKVX3GnDFFQwZLFNMrurzIYe+JzBAaRmOuaT3Jwed6SZ
+	fQ3WSVEC1vctoFmHaVCXNkgtNBv5Lvt6Zbjy2raDmstUrQI/cWz+N91SkUMExTkk8XB5ztIDSSg
+	7yoB7Y2U=
+X-Gm-Gg: AYBFou2zQKm0AW0tUCWiUeEINPqB0Me9++YQDyplsSseVuoCpA7wJpdEM9Dpghp4xw5
+	XPKu3ZANvanSInxqiKzR41UM5BO5dqWQMoOCG9hs6uMXQcwomYydoPMdWcObGHS77laNfc8ZvbB
+	LBFFyCoEiQ+KKk/HNoWOAe0ItpfSnZBQH4WGZtdZyzkjfMmZkOWjUABWCgI1rlQhUEhst+AvEVP
+	Y0uTFlcraEQOX3zD0QVCfEQqnrD41GS4Edavzy66x2uDyGJhFSDK12XV4YWo9qshT1mrEJnqek1
+	SNOgCyxYWW8YdzHjiEPayzd3hChdjDSlSi5R1ogg/wwoMWCOPh318j9BMu9YpLSCad/gRh0CxYc
+	qZWII8ysM1pYQ54WI5nTxocYDAw8B80HF39H9Flqq0j8Lw0mAuD2jfnylpx0veY29knoINmzenV
+	pri7W0baDqGNH3skdtT5sfyTlQ0LmfGTwa5XuqiRrW6G5nwulDz7/w+g1txURmW6sRyXbQsx64H
+	tMivwXpy3qb8D7sdwDY+F21GYk=
+X-Received: by 2002:a05:600c:630a:b0:49c:f89b:f82 with SMTP id 5b1f17b1804b1-49d2592c540mr38787215e9.12.1788968228677;
+        Wed, 09 Sep 2026 08:37:08 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a320:8b5c:de4:61f9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49cee6024a8sm591796395e9.6.2026.09.09.08.37.01
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 08:37:07 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] classes/cargo-update-recipe-crates: use tomllib directly
-Date: Wed,  9 Sep 2026 16:19:06 +0100
-Message-ID: <20260909151906.3417094-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260909151906.3417094-1-ross.burton@arm.com>
-References: <20260909151906.3417094-1-ross.burton@arm.com>
+Subject: [PATCH] systemd: Backport fix for python3-lxml 6.1.3
+Date: Wed,  9 Sep 2026 16:37:00 +0100
+Message-ID: <20260909153700.553520-1-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 15:19:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245479
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 15:37:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245480
 
-Now that BitBake vendors in a copy of tomli for when the host Python is
-too old to support tomllib, we can do the crate update logic directly
-in the task instead of passing an large inline script to python3-native.
+Backport a fix so that we can upgrade python3-lxml.
 
-The only changes are the removal of nativepython3 and not relying on
-bitbake's shell expansion to expand variable names.
-
-[1] bitbake 69810e0c0a ("lib/bb/_vendor: resync to add tomli")
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../cargo-update-recipe-crates.bbclass        | 101 ++++++++++--------
- 1 file changed, 54 insertions(+), 47 deletions(-)
+ ...396d2c5bc1adb6b044e7784a30b7187f6fbd.patch | 59 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_261.2.bb    |  1 +
+ 2 files changed, 60 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch
 
-diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/met=
-a/classes-recipe/cargo-update-recipe-crates.bbclass
-index 47e845c8221..e62039208c1 100644
---- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-+++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-@@ -14,7 +14,6 @@
- ## To perform the update: bitbake -c update_crates recipe-name
-=20
- addtask do_update_crates after do_patch
--do_update_crates[depends] =3D "python3-native:do_populate_sysroot"
- do_update_crates[nostamp] =3D "1"
- do_update_crates[doc] =3D "Update the recipe by reading Cargo.lock and w=
-rite in ${THISDIR}/${BPN}-crates.inc"
-=20
-@@ -23,58 +22,66 @@ RECIPE_UPGRADE_EXTRA_TASKS +=3D "do_update_crates"
- # The directory where to search for Cargo.lock files
- CARGO_LOCK_SRC_DIR ??=3D "${S}"
-=20
--do_update_crates() {
--    TARGET_FILE=3D"${THISDIR}/${BPN}-crates.inc"
-+python do_update_crates() {
-+    cargo_lock_src_dir =3D d.getVar("CARGO_LOCK_SRC_DIR")
-=20
--    nativepython3 - <<EOF
-+    def get_crates(filename):
-+        try:
-+            import tomllib
-+        except ImportError:
-+            import bb._vendor.tomli as tomllib
-=20
--def get_crates(f):
--    import tomllib
--    c_list =3D '# from %s' % os.path.relpath(f, '${CARGO_LOCK_SRC_DIR}')
--    c_list +=3D '\nSRC_URI +=3D " \\\'
--    crates =3D tomllib.load(open(f, 'rb'))
-+        c_list =3D '# from %s' % os.path.relpath(filename, cargo_lock_sr=
-c_dir)
-+        c_list +=3D '\nSRC_URI +=3D " \\'
-+        with open(filename, 'rb') as fp:
-+            crates =3D tomllib.load(fp)
-=20
--    # Build a list with crates info that have crates.io in the source
--    crates_candidates =3D list(filter(lambda c: 'crates.io' in c.get('so=
-urce', ''), crates['package']))
-+        # Build a list with crates info that have crates.io in the sourc=
-e
-+        crates_candidates =3D list(filter(lambda c: 'crates.io' in c.get=
-('source', ''), crates['package']))
-=20
--    if not crates_candidates:
--        print("WARNING: Unable to find any candidate crates that use cra=
-tes.io")
--        return None
-+        if not crates_candidates:
-+            print("WARNING: Unable to find any candidate crates that use=
- crates.io")
-+            return None
-=20
--    # Update crates uri and their checksum, to avoid name clashing on th=
-e checksum
--    # we need to rename crates with name and version to have a unique ke=
-y
--    cksum_list =3D ''
--    for c in crates_candidates:
--        rename =3D "%s-%s" % (c['name'], c['version'])
--        c_list +=3D '\n    crate://crates.io/%s/%s \\\' % (c['name'], c[=
-'version'])
--        if 'checksum' in c:
--            cksum_list +=3D '\nSRC_URI[%s.sha256sum] =3D "%s"' % (rename=
-, c['checksum'])
-+        # Update crates uri and their checksum, to avoid name clashing o=
-n the checksum
-+        # we need to rename crates with name and version to have a uniqu=
-e key
-+        cksum_list =3D ''
-+        for c in crates_candidates:
-+            rename =3D "%s-%s" % (c['name'], c['version'])
-+            c_list +=3D '\n    crate://crates.io/%s/%s \\' % (c['name'],=
- c['version'])
-+            if 'checksum' in c:
-+                cksum_list +=3D '\nSRC_URI[%s.sha256sum] =3D "%s"' % (re=
-name, c['checksum'])
-=20
--    c_list +=3D '\n"\n'
--    c_list +=3D cksum_list
--    c_list +=3D '\n'
--    return c_list
-+        c_list +=3D '\n"\n'
-+        c_list +=3D cksum_list
-+        c_list +=3D '\n'
-+        return c_list
-=20
--import os
--crates =3D "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n"
--found =3D False
--for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
--    # ignore git and patches directories
--    if root.startswith(os.path.join('${CARGO_LOCK_SRC_DIR}', '.pc')):
--        continue
--    if root.startswith(os.path.join('${CARGO_LOCK_SRC_DIR}', '.git')):
--        continue
--    for file in files:
--        if file =3D=3D 'Cargo.lock':
--            cargo_lock_path =3D os.path.join(root, file)
--            c =3D get_crates(cargo_lock_path)
--            if c is not None:
--                crates +=3D c
--if crates is None:
--    raise ValueError("Unable to find any Cargo.lock in ${CARGO_LOCK_SRC_=
-DIR}")
--with open("${TARGET_FILE}", 'w') as f:
--    f.write(crates)
--EOF
-+    import os
-=20
--    bbnote "Successfully update crates inside '${TARGET_FILE}'"
-+    pn =3D d.getVar("PN")
-+    crates =3D f"# Autogenerated with 'bitbake -c update_crates {pn}'\n\=
-n"
+diff --git a/meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch b/meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch
+new file mode 100644
+index 00000000000..8eb9f5c1641
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch
+@@ -0,0 +1,59 @@
++From a019396d2c5bc1adb6b044e7784a30b7187f6fbd Mon Sep 17 00:00:00 2001
++From: Luca Boccassi <luca.boccassi@gmail.com>
++Date: Wed, 2 Sep 2026 20:32:51 +0100
++Subject: [PATCH] tools: fix building manpages with lxml 6.1.3
 +
-+    found =3D False
-+    for root, dirs, files in os.walk(cargo_lock_src_dir):
-+        # ignore git and patches directories
-+        if root.startswith(os.path.join(cargo_lock_src_dir, '.pc')):
-+            continue
-+        if root.startswith(os.path.join(cargo_lock_src_dir, '.git')):
-+            continue
-+        for file in files:
-+            if file =3D=3D 'Cargo.lock':
-+                cargo_lock_path =3D os.path.join(root, file)
-+                c =3D get_crates(cargo_lock_path)
-+                if c is not None:
-+                    crates +=3D c
++manpages build fails on Arch with new lxml:
 +
-+    if crates is None:
-+        raise ValueError(f"Unable to find any Cargo.lock in {cargo_lock_=
-src_dir}")
++Traceback (most recent call last):
++  File "/work/src/tools/make-directive-index.py", line 169, in make_page
++    _extract_directives(directive_groups, formatting, page)
++    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++  File "/work/src/tools/make-directive-index.py", line 18, in _extract_directives
++    t = xml_parse(page)
++  File "/work/src/tools/xml_helper.py", line 25, in xml_parse
++    doc = tree.parse(page, _parser)
++  File "src/lxml/etree.pyx", line 3717, in lxml.etree.parse
++  File "src/lxml/parser.pxi", line 2045, in lxml.etree._parseDocument
++  File "src/lxml/parser.pxi", line 2071, in lxml.etree._parseDocumentFromURL
++  File "src/lxml/parser.pxi", line 1962, in lxml.etree._parseDocFromFile
++  File "src/lxml/parser.pxi", line 1231, in lxml.etree._BaseParser._parseDocFromFile
++  File "src/lxml/parser.pxi", line 647, in lxml.etree._ParserContext._handleParseResultDoc
++  File "src/lxml/parser.pxi", line 765, in lxml.etree._handleParseResult
++  File "src/lxml/parser.pxi", line 689, in lxml.etree._raiseParseError
++  File "../src/man/hostname.xml", line 5
++lxml.etree.XMLSyntaxError: Entity 'entities' not defined, line 5, column 11
 +
-+    target_file =3D d.expand("${THISDIR}/${BPN}-crates.inc")
-+    with open(target_file, 'w') as f:
-+        f.write(crates)
++The above exception was the direct cause of the following exception:
 +
-+    bb.note(f"Successfully updated crates inside {target_file}")
- }
---=20
-2.43.0
-
++Traceback (most recent call last):
++  File "/work/src/tools/make-directive-index.py", line 180, in <module>
++    _xml = make_page(_template_path, _xml_files)
++  File "/work/src/tools/make-directive-index.py", line 171, in make_page
++    raise ValueError('failed to process ' + page) from e
++ValueError: failed to process ../src/man/hostname.xml
++
++Relying on XMLParser() defaults leaves the external parameter entity
++used to load custom-entities.ent unresolved. Request entity resolution explicitly.
++
++Follow-up for 1a13e31d275430ffba713c8a68ee7f22093c29e0
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/a019396d2c5bc1adb6b044e7784a30b7187f6fbd]
++
++---
++ tools/xml_helper.py | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/tools/xml_helper.py b/tools/xml_helper.py
++index 87c24ab02a0f..e26ca92d9454 100755
++--- a/tools/xml_helper.py
+++++ b/tools/xml_helper.py
++@@ -16,7 +16,7 @@ def resolve(self, url, _id, context):
++         return None
++ 
++ 
++-_parser = tree.XMLParser()
+++_parser = tree.XMLParser(resolve_entities=True)
++ # pylint: disable=no-member
++ _parser.resolvers.add(CustomResolver())
++ 
+diff --git a/meta/recipes-core/systemd/systemd_261.2.bb b/meta/recipes-core/systemd/systemd_261.2.bb
+index 80e1aa07d17..68b894be9a3 100644
+--- a/meta/recipes-core/systemd/systemd_261.2.bb
++++ b/meta/recipes-core/systemd/systemd_261.2.bb
+@@ -37,6 +37,7 @@ SRC_URI += " \
+            file://systemd-pager.sh \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
+            file://0003-Do-not-create-var-log-README.patch \
++           file://a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch \
+            "
+ 
+ PAM_PLUGINS = " \
 
