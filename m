@@ -2,35 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1F7BC88E4D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B58CDC88E4C
 	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 21:53:52 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.76.1788990824405280225
+Received: from mta-65-227.siemens.flowmailer.net (mta-65-227.siemens.flowmailer.net [185.136.65.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.81.1788990824466403916
  for <openembedded-core@lists.openembedded.org>;
  Wed, 09 Sep 2026 14:53:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Nj+a5AYA;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-202609092153415d402edd8100020779-65sx_e@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 202609092153415d402edd8100020779
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=IecO6ffe;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.227, mailfrom: fm-1329275-202609092153410248cd2b2000020703-drectt@rts-flowmailer.siemens.com)
+Received: by mta-65-227.siemens.flowmailer.net with ESMTPSA id 202609092153410248cd2b2000020703
         for <openembedded-core@lists.openembedded.org>;
         Wed, 09 Sep 2026 23:53:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=ANLY7FwUIgeZ9HunGG6NOREtTYymk0rGtsfjGsAG4So=;
- b=Nj+a5AYADQYfcNhrmLx1kSqfcoofke9/UJfKQF3SpZ/VOMTE5Y8h8Xq5/+GZxpY4vEeqoQ
- B0Ldk0DGvHwH1X+N/lv9Igbd1spQ9/eWmBXWWzMvsYqg2aNSu4+am3zT4RzHq84/QV0d1b7a
- F5T2s66b3cIZ2/Ya/Vk2DFInmQ1zaFaYX3A97ZAQCOSfwHAV0isJromirrvzyjmpSC+tVMYO
- KJUl2GL58ohyFgF8fweoCpV2fdrh3eKNp2/ADEKiWdQagQpPWdRbJ7OrRMcZ2CrZfcgqOZb7
- 6NGExGV8O+a4rWDFSfWeQaRJdZydvIvrThkwhCggUPV5kV7/i2ImSIWQ==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=O7IWwCQMRREaU0LeaSkcHNCI0oYzO3tikgjpN9PThog=;
+ b=IecO6ffec3PpAeY2hM3lXKITPlv7ZbyU5ON0FJWRvsBuUnWDgDvT02Y31euQCvwFZwxBB8
+ iJZdenrjhGCOrSDWV4LnMEtcGZsoJbGC8evzPpur6Q7wkFM9o5lrgrl/6zmk4x6PMOHZ3Fz3
+ AUEoyCenWZbCa1Fl3RDWZP80E6YxYfUwEUM7N8T4HgkHuRkxtcctWH9QvAI1+1GomP7eyrml
+ L2O99pii/ywVktdvyHTsT4Zbfz+uXVmK6PayUgfa8aFJj7TjKzchTfv9pfwXBUPF5wAuEMPa
+ ElJWCVED6MkUAli2f81huUe1Jf0uuKOGE1OZeFE9AAUeWifbBHG5r+MQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 01/15] devtool: deploy: split ssh deployment into a separate function
-Date: Wed,  9 Sep 2026 23:53:01 +0200
-Message-ID: <20260909215337.89106-2-adrian.freihofer@siemens.com>
-In-Reply-To: <20260909215337.89106-1-adrian.freihofer@siemens.com>
-References: <20260909215337.89106-1-adrian.freihofer@siemens.com>
+Subject: [PATCH 00/15] devtool ide-sdk: support booting from NFS, VSCode clangd
+Date: Wed,  9 Sep 2026 23:53:00 +0200
+Message-ID: <20260909215337.89106-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -39,46 +37,66 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 21:53:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245509
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245502
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-This is a refactoring preparation for adding a new local deployment
-method that will be used for NFS rootfs deployments.
+devtool ide-sdk: support booting the debug rootfs over NFS, plus VSCode
+clangd integration (IntelliSense, non-clang toolchain support, and
+.clang-format-aware formatting).
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- scripts/lib/devtool/deploy.py | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+This series includes some commits already sent before, now reworked
+with independent ordering: first extract_sdk_rootfs() is implemented
+standalone, then runqemu-extract-sdk is rewritten in Python, and
+finally the new pseudo_rootfs_utils Python module is shared between
+runqemu-extract-sdk and devtool ide-sdk. This step-by-step split makes
+the Python rewrite optionally pickable on its own, independent of the
+NFS features.
 
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index 51a1944f38..ffca1269ef 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -353,6 +353,12 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
-             print('  %s' % item)
-         return 0
- 
-+    return _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files,
-+                       fakerootcmd, fakerootenv, path, recipe_outdir)
-+
-+def _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files,
-+                fakerootcmd, fakerootenv, path, recipe_outdir):
-+    """Copy files to target_dir over ssh/scp (user@hostname[:destdir])."""
-     extraoptions = ''
-     if args.no_host_check:
-         extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
-@@ -440,6 +446,10 @@ def undeploy(args, config, basepath, workspace):
-     elif not args.recipename and not args.all:
-         raise argparse_oe.ArgumentUsageError('If you don\'t specify a recipe, you must specify -a/--all', 'undeploy-target')
- 
-+    return _undeploy_ssh(args)
-+
-+def _undeploy_ssh(args):
-+    """Run the undeploy script on the target over ssh/scp (user@hostname[:destdir])."""
-     extraoptions = ''
-     if args.no_host_check:
-         extraoptions += '-o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no'
+Adrian Freihofer (15):
+  devtool: deploy: split ssh deployment into a separate function
+  devtool: deploy: allow deploying directly into a local rootfs
+    directory
+  oe-selftest: devtool deploy-target: test deploying into a local rootfs
+    path
+  devtool: ide-sdk: support NFS rootfs
+  oe-selftest: devtool ide-sdk: test NFS debug rootfs
+  runqemu-extract-sdk: refactor in Python
+  devtool: ide-sdk: reuse pseudo_rootfs_utils for SDK rootfs extraction
+  cpp-example: update formatting and code style
+  cpp-example: fix clang-tidy warnings
+  devtool: ide-sdk: add clangd support for VSCode IntelliSense
+  devtool: ide-sdk: support clangd for non-clang toolchain recipes
+  devtool: ide-sdk: format C/C++ with clangd when .clang-format is
+    present
+  devtool: ide-sdk: support LLDB ATTACH mode
+  devtool: ide-sdk: pin BBPATH in generated do_install script
+  buildstats: close proc/disk log files via weakref.finalize safety net
+
+ .../recipes-test/cpp/cpp-example.inc          |   2 +
+ .../recipes-test/cpp/files/.clang-format      |  42 +++
+ .../recipes-test/cpp/files/.clang-tidy        |  33 ++
+ .../cpp/files/cpp-example-lib.hpp             |   3 +-
+ .../recipes-test/cpp/files/cpp-example.cpp    |   5 +-
+ .../recipes-test/cpp/files/daemonize.cpp      |   2 +-
+ .../recipes-test/cpp/files/daemonize.hpp      |   2 +-
+ .../cpp/files/test-cpp-example.cpp            |  13 +-
+ meta/lib/oe/buildstats.py                     |  15 +-
+ meta/lib/oeqa/selftest/cases/devtool.py       | 320 +++++++++++++++++-
+ .../qemu/nativesdk-qemu-helper_1.0.bb         |   3 +
+ scripts/lib/devtool/__init__.py               |  22 +-
+ scripts/lib/devtool/deploy.py                 | 220 ++++++++++--
+ scripts/lib/devtool/ide_plugins/__init__.py   |  79 +++--
+ scripts/lib/devtool/ide_plugins/ide_code.py   | 108 ++++--
+ scripts/lib/devtool/ide_plugins/ide_none.py   |  17 +-
+ scripts/lib/devtool/ide_sdk.py                | 275 ++++++++++++++-
+ scripts/lib/pseudo_rootfs_utils.py            | 113 +++++++
+ scripts/runqemu-extract-sdk                   | 116 ++-----
+ 19 files changed, 1156 insertions(+), 234 deletions(-)
+ create mode 100644 meta-selftest/recipes-test/cpp/files/.clang-format
+ create mode 100644 meta-selftest/recipes-test/cpp/files/.clang-tidy
+ create mode 100644 scripts/lib/pseudo_rootfs_utils.py
+
 -- 
 2.55.0
 
