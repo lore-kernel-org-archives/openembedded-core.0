@@ -2,149 +2,99 @@ Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A9195C79FB9
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 20:33:43 +0000 (UTC)
-Received: from mail-pj1-f53.google.com (mail-pj1-f53.google.com [209.85.216.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.723.1788986015553047377
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDC83C79FB6
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 20:33:53 +0000 (UTC)
+Received: from mail-pj1-f47.google.com (mail-pj1-f47.google.com [209.85.216.47])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.753.1788986027543808802
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 13:33:35 -0700
+ Wed, 09 Sep 2026 13:33:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=VJdBev4+;
- spf=pass (domain: mvista.com, ip: 209.85.216.53, mailfrom: sdoshi@mvista.com)
-Received: by mail-pj1-f53.google.com with SMTP id 98e67ed59e1d1-3964dfb5b9aso7560118a91.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 13:33:35 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=RRz3eymY;
+ spf=pass (domain: mvista.com, ip: 209.85.216.47, mailfrom: sdoshi@mvista.com)
+Received: by mail-pj1-f47.google.com with SMTP id 98e67ed59e1d1-398c1101c1bso6072423a91.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 13:33:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1788986015; x=1789590815; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=H0lubS32xwR32MaMP51tzqIhvcp0FtZJ1FVxEUwQ+UE=;
-        b=VJdBev4+duvk6022rw+wC7JTq96IuIZW/2VMEgAHuZhoZe0ISUtLm8RzUhFK9z2PVv
-         tsZ9lD/cs5Np7oIt93zPB8v+SIj3FDEtc8qWQxlbFvDN2JWOXe/4dWQFxtxnBYdI3A9h
-         NrmfN9V/muQa81JcazaEnmplsnptd0vkAjz00=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788986015; x=1789590815;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=mvista.com; s=google; t=1788986027; x=1789590827; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=H0lubS32xwR32MaMP51tzqIhvcp0FtZJ1FVxEUwQ+UE=;
-        b=XYDo3Vkk9ixJO8tNyquI/SuJigX1Kuj+lFd//XnC5UxtNHsN5fwf6VDBuSSW9YkJm2
-         JvYvav+KsbLnGg5a+MV3Hyndi5vxkTBV8rprBhWcY/FSDxRI+MKcs4tZtDw1/Y63QQDJ
-         QkUVUZpxypCxtfX5mXRg1lxwTr79TalOIZN1y5gXYhG7jUmpirBQHgNzIE3+VtqE8O/M
-         lvlmHsNWCaXClXnjxI5dcX+qYwt256qKkmYxeKhB9ovbZ9tiRzuHFyZBYfwTEYu+SWvk
-         KGOiHFLmUhhZIhNsu2qQKraX6v7yuDLkhBWqWVPpA/msofXj6QwC5zlSRPxWIGuCTvaF
-         nhkA==
-X-Gm-Message-State: AFuF++k8o+4TZyxBeWosRFDXwDVPKwp8j92yd+3RiIf+ztHtDGJGeBLf
-	g2/fRemYZjzoLGahZWepSAhjJhNqslGVEkEey2xkdQAQq4vT2UoQ2AM0AWfRtUv8+/lZF1xPxz7
-	a15zZ
-X-Gm-Gg: AYBFou1c+zCSDIYApN3xs1/dKLfeQinyvkQb77FV2+VaRVLGxi85UfUsIs06Xci3UHj
-	UmVsCLoCrd6L+a6CxXMcNzpII7YzatUlBUGdMPiqnRfsnx84iGe1qKP8JDImc0hkRm2H4+A4MCP
-	U4inpuRCm3heLc//Yjg+B5lixNWq5QZEmCFn4+OLXprpCs4t4u5/z2hm+DkjNZp+QnqC8tmMpOH
-	oyjmVzUZK+zYAkM+Fxo6DJiPRx26rbQlP4PP7lfRKrzuzRtJD8aKoYu9CZ2D8IPmSaF1jQwVVcp
-	H7jdHckXl6FQDQfKg1xTH5YfxA+fMmJs+9341Eqsw4Gkf+mvJNFnwD1eFWDBPTn4dJbAclP9Cq1
-	x0py3MMigUaK9B3Cq4NQes2e/uXqCAPIfr7pmSOWVKhJDCFJBvL5qyQ0A6/knnfj5S0dyiFzAUQ
-	kG4KVdzlBGEsgjSqtNNZFxo1k3gqQVGy+kyCq87iSg7KW/3atTrEl0hppQ2/kDif4rLi4hzQ74P
-	bmCYL++/eyk4EDRfw==
-X-Received: by 2002:a17:90a:d644:b0:398:9c00:29ec with SMTP id 98e67ed59e1d1-39b26245cfcmr58131827a91.20.1788986014800;
-        Wed, 09 Sep 2026 13:33:34 -0700 (PDT)
+        bh=7tKcTJvvxst+yCS+eA60gLgVmiAFA0rAiCyluSFDnAM=;
+        b=RRz3eymYcEGjJvSRDZoB/YheIsKyIcaQxvnuh78nvGQYKR6KKOw03x4t8qiswsr6ed
+         4sM3MgcUrHuloBvgGB4jAgSivHLs83Jh4lXhsPMuwSn2dJM6xnv3ABKY6R8UYsOudKP6
+         1I8fMdc+ZZqK4TJCr15dWAJAMovQ2skjgfjp0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788986027; x=1789590827;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7tKcTJvvxst+yCS+eA60gLgVmiAFA0rAiCyluSFDnAM=;
+        b=pG96R0LLHHKMrzHrOgCZNfW2k4ISh3r/Yyx99XLN9AioMxQsHic/6ojTHxvOPFaqfM
+         iFFijiCc/W6CF24B5zW4O41xO+RHTyRX6m/+AK94Ox+Syr3IlZUKWOvyVpA/UPsEYib8
+         sfBGrytzGfgnbu02m3okhLGV7bpVBf0N5bAlmLH9ja0DU6vL/FUb4XbTaT6tbwUpwdV6
+         sE0oqtgFIrDoh+q9zwytgfrsZB0mJ9rG5Y+pikoZ1RVsW8obFPh5HEWstx9SgDcdBp+L
+         ydVWrYwjx5xglCw+funve56l8ARmqO5CU4eXeKtVrjiiGwmIBeTByH7NFhm0hoyCIhF1
+         g+ag==
+X-Gm-Message-State: AFuF++l+9B1o0xSOKgDf2Q4STMzVsT++w1zAMkqBSNExp8UZnUlusgSr
+	jOYvnWye1d/P/eXGj2w3kuGccX1kGYsciy7acN/TFCgKBSH6pVxa1YMwqCVorjbLim91rmmnPv2
+	mz/CN
+X-Gm-Gg: AYBFou01gxYHGNCUntlMKDRbcD7fitAc4Htlk1FjRcX4pgYnTpncNmCQ7bdpSpHbAU5
+	PGr7naP+5GCj7mY0uNzbsXEgo8dXy/h0EG5V74J+XUvgVOD/jn5qIiGNfsNoidQ6tnd9LaR5HZ8
+	AZ8kSYZdkJZyqDRCp7vcv7XStYaJWne09KZCGo9SF5vOjy9LQmRRsA4bAeZVk9FVtNZCv8TbKr+
+	Sk0VtqFH08qxS66ZJjwWnW8hs4HMxU1HL6Bail0qekwQzIzE5hyo/UTFB/Dt2LxOC6nF451DZkn
+	nlFSzQfcgtOs0V9/BDWZyop7MroDUsBA8bhv7rfFS4l2p6CqWDXGcMeYzmtAO0nxZYPzXxGFKFD
+	Q+ThSz85W1Ld4mlnK9+G1OZu84obLqzL5q2q0KdbfpjHIj8y6sHDOXNlRpAnn+nZ/E4my4q84FG
+	yLt+VAyalYRulnVGjDgdeKGkQKMtA8sX5WnTGVND5KmZE+q+cNmJfnMgXSbNMpCsquU4TltZhnP
+	Nt5WeM=
+X-Received: by 2002:a17:90a:fc47:b0:398:9c0c:7c72 with SMTP id 98e67ed59e1d1-39b2627fe24mr52132691a91.25.1788986026933;
+        Wed, 09 Sep 2026 13:33:46 -0700 (PDT)
 Received: from MVIN00030.mvista.com ([117.254.227.91])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1434c745a09sm14163385c88.7.2026.09.09.13.33.32
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1434c745a09sm14163385c88.7.2026.09.09.13.33.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 13:33:34 -0700 (PDT)
+        Wed, 09 Sep 2026 13:33:46 -0700 (PDT)
 From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][wrynose][PATCH 1/6] curl: Security Fix for CVE-2026-13608
-Date: Thu, 10 Sep 2026 02:03:19 +0530
-Message-Id: <20260909203324.765094-1-sdoshi@mvista.com>
+Subject: [OE-core][wrynose][PATCH 6/6] curl: set CVE_STATUS for CVE-2026-82209
+Date: Thu, 10 Sep 2026 02:03:24 +0530
+Message-Id: <20260909203324.765094-6-sdoshi@mvista.com>
 X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260909203324.765094-1-sdoshi@mvista.com>
+References: <20260909203324.765094-1-sdoshi@mvista.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 20:33:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245494
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 20:33:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245499
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
-Picking patch as per [1], and same patch is mentioned in [2]
+Analysis:
+- The problem only exists when curl is built with libpsl support enabled.[1]
+- The recipe is built with "--without-libpsl" option.
+- Hence, ignoring the CVE for this recipe.
 
-[1] https://curl.se/docs/CVE-2026-13608.html
-[2] https://security-tracker.debian.org/tracker/CVE-2026-13608
+Reference:
+[1] https://curl.se/docs/CVE-2026-82209.html
 
 Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../curl/curl/CVE-2026-13608.patch            | 48 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
- 2 files changed, 49 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-13608.patch
+ meta/recipes-support/curl/curl_8.19.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-13608.patch b/meta/recipes-support/curl/curl/CVE-2026-13608.patch
-new file mode 100644
-index 0000000000..4df7595c8f
---- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-13608.patch
-@@ -0,0 +1,48 @@
-+From 25df759f0f0c1aeaee066a4502bb36a8a86fb22e Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Mon, 29 Jun 2026 10:44:47 +0200
-+Subject: [PATCH 1/5] openldap: handle Curl_sasl_continue() returns better
-+
-+Similar to how it gets treated already in other protocol handlers.
-+
-+Follow-up to eeca818b1e8d1e61c2d4
-+
-+Reported-by: Eunsoo Kim
-+Closes #22213
-+
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/ea71c3b6b60e563651ea8596a975aef0c8199519]
-+CVE: CVE-2026-13608
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-+---
-+ lib/openldap.c | 15 +++++++++++++--
-+ 1 file changed, 13 insertions(+), 2 deletions(-)
-+
-+diff --git a/lib/openldap.c b/lib/openldap.c
-+index 95f7681..4a1e93a 100644
-+--- a/lib/openldap.c
-++++ b/lib/openldap.c
-+@@ -778,8 +778,19 @@ static CURLcode oldap_state_sasl_resp(struct Curl_easy *data,
-+   }
-+   else {
-+     result = Curl_sasl_continue(&li->sasl, data, code, &progress);
-+-    if(!result && progress != SASL_INPROGRESS)
-+-      oldap_state(data, li, OLDAP_STOP);
-++    if(!result) {
-++      switch(progress) {
-++      case SASL_DONE:
-++        oldap_state(data, li, OLDAP_STOP);   /* Authenticated */
-++        break;
-++      case SASL_IDLE:            /* No mechanism left after cancellation */
-++        failf(data, "Authentication cancelled");
-++        result = CURLE_LOGIN_DENIED;
-++        break;
-++      default:
-++        break;
-++      }
-++    }
-+   }
-+ 
-+   if(li->servercred)
-+-- 
-+2.34.1
-+
 diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 7497337cb9..c20987ca29 100644
+index 68baac1a15..2ba3708714 100644
 --- a/meta/recipes-support/curl/curl_8.19.0.bb
 +++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -27,6 +27,7 @@ SRC_URI = " \
-     file://CVE-2026-8927.patch \
-     file://CVE-2026-8932-dependent.patch \
-     file://CVE-2026-8932.patch \
-+    file://CVE-2026-13608.patch \
- "
+@@ -47,6 +47,7 @@ CVE_STATUS[CVE-2026-10536] = "${@bb.utils.contains('PACKAGECONFIG', 'nghttp2', '
+ CVE_STATUS[CVE-2026-9547] = "not-applicable-config: vulnerable libssh backend is not enabled by the recipe"
+ CVE_STATUS[CVE-2026-12064] = "${@bb.utils.contains('PACKAGECONFIG', 'libssh2', 'unpatched', 'not-applicable-config: SCP/SFTP support is not enabled in PACKAGECONFIG', d)}"
+ CVE_STATUS[CVE-2026-82208] = "not-applicable-config: vulnerable wolfSSL backend is not enabled by the recipe"
++CVE_STATUS[CVE-2026-82209] = "not-applicable-config: public suffix list support is disabled by the recipe with --without-libpsl"
  
- SRC_URI:append:class-nativesdk = " \
+ inherit autotools pkgconfig binconfig multilib_header ptest
+ 
 -- 
 2.34.1
 
