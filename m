@@ -2,272 +2,187 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D0F54C79FBE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E927AC79FBF
 	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 07:30:23 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6336.1788939021550095561
+Received: from mail-wr1-f50.google.com (mail-wr1-f50.google.com [209.85.221.50])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6328.1788939013462494502
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 00:30:21 -0700
+ Wed, 09 Sep 2026 00:30:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=2kBjFOdM;
- spf=pass (domain: smile.fr, ip: 209.85.221.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-485abf3b93aso226844f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:30:21 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=HYToUbRG;
+ spf=pass (domain: smile.fr, ip: 209.85.221.50, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f50.google.com with SMTP id ffacd0b85a97d-4843efcbdb2so3316326f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:30:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788939020; x=1789543820; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=peT+PEiFJL3SuN0Kc8nvFNtZJVxDdFKZkEt4sod1GeE=;
-        b=2kBjFOdMdGGjwfiGCiAOHSVeaDsuBRO6BfsdlTlLPkGu/tWBMHlvPMear1MSsSEhjW
-         CH9doy5+HET/wMEglVj00X+cExTl4UID7cmoRt1skQi94zY5bUO9OEHk//b+AImSXkwp
-         mgRFxnjGA2O4mFjwct1IrBMKFeiI07xTiWHRw=
+        d=smile.fr; s=google; t=1788939012; x=1789543812; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6frAlEchsV8FNh7hyjSCuiiUPhVzWBPzEgYDNuQ/H7g=;
+        b=HYToUbRGWb0keOD54oulDSR6pBa7nosjXLk4IpLvnxFE7lQdbrL+CFbQUa/JznEAXd
+         6ofoKy2wyzzeaKE1Q/ybeNgCq4/Q2CleItciRXXMXakUZWfScC4cZ7OsV0SWPdiEwEq8
+         M6ClJXxA0tiz/p3MbL5k85ufaX/Boq+beGur0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788939020; x=1789543820;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=peT+PEiFJL3SuN0Kc8nvFNtZJVxDdFKZkEt4sod1GeE=;
-        b=ZUhLLvQ0NBRHRrSy/7EcUr7Na81wCPxHMngFtMRdXoX5J7tjEx+gYb+t44WRoBh/IQ
-         KVmxNZ6yHxnicJyq8S8krRLeixyrGazzkrqTD5XVRp/sc3cwQklzdF5JXOSWpxdOUkp4
-         3vLocQyrpt3wWBVuudKjq1NQvDO8c+FS4nl5Gt4ZCsv0IG8it5+sV8YCKJjmaLl3IMvX
-         xwnfxuHkP0w9fZfJjF8h9kLPdlp0pUNLRzrlAe6TptZfP+tZb7EH8GAxm+s843sJUfFQ
-         ax/0J35WFxnWmYS3lP18o69TWiWCi6mIxruLU8WRyzM4mpYhkG50Hosk6hMJANdm4pzJ
-         ATCg==
-X-Gm-Message-State: AFuF++n7GFYEhOU3iTsEvjPNk2Gvnp6X0VOXHYDLxK1MCWu9JLG8aVQZ
-	8L0hbskPa0au1ndD4NKWNYZOirpJr8EEn/tfGofVQmbN2DVGatOEO4tfljFz14dkTeiNnp85SV9
-	oy5wuWBg=
-X-Gm-Gg: AYBFou2vav+4aw4XsY0KZEgR3ChmbL6T5iXpdCCbTwt4u0SnHLJzHF1Lb6SjUWVKHnk
-	kt55DQFPp63OVHvCcB+Q6O8hb0nXO41cgR7KvRr5vyXvVHSgjQb1YrZbDjyUAa8fCHslB7YnMN6
-	7IIyGmFUctvI7EdfGneCq3BY1JaJ+BI39ytomT7dP6Lkfhh+IYhubfTiW0SMuJELyOMLjOe+hRQ
-	jJBd63MYd0cVc/Ch8n7UIBTqQUQg1nqjqvIp8Exgov4HUteC3cLhT/FRE+93+0PykbnoSYEnAO6
-	DsuHvWuv+R9XizBI5lZxSlrwmg716NHGuHdIaGRXiKMvr5KlUd8z9W9UJv2uUR729boq13oSDVs
-	/TMRiroSxzPJWvNy8rjkripVXIHHnpkFxVpG1QPCTDGHPDqkLuzqtiDcpMDAlGyc7hM2z3LAWyB
-	61wNDclLI9YPr7MuPTRw3Dy9NPA8izEibayM4OL+nnHJNCCpUj8Bng/ibQ46dvmTlC2+kt4OVsU
-	JwNuMMg/uuttTqD/bJX1V9WBt1umNDBefRCJDjfSgxT5+0W1lHSvAyeo7YOEQcOca4haI0fv4xh
-X-Received: by 2002:a05:6000:2506:b0:485:9227:6bc8 with SMTP id ffacd0b85a97d-48592276c5dmr26329192f8f.24.1788939018418;
-        Wed, 09 Sep 2026 00:30:18 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788939012; x=1789543812;
+        h=content-transfer-encoding:content-type:mime-version:references
+         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=6frAlEchsV8FNh7hyjSCuiiUPhVzWBPzEgYDNuQ/H7g=;
+        b=d0zmLJJ5h9TRWGIEOcL0EP6e68/49+N9KjjpdZOSmMHEDv/vyVTs99j3iakuSY6aa2
+         WzXjSz3A073vxKJKXgMW6MppxefFEbJJ5WhYfyih9tzGJ1sa/Ca/1FcLkngRmJF+D5UM
+         onBB5127562dClngSHIldNDeHPQm+3XrssRFuAGbjJbYDtAk7HUNk0p8fHeCmN/HeLcT
+         IJcA/c/BYJXgjEZqdADfneCc5mxm7IWhZHBSVb1KhoPcTD6Xdc8GPzO1wCyQ6V3qPoRY
+         0PFrmzDCmgVjFApAdJ8s3UEIdZ1vYA7ET9BGFKj+Hxzuw2AhBANmiH+X8TJnvjlNb2DA
+         x/aw==
+X-Gm-Message-State: AFuF++lUhr3LL2DrO8LWh8D3krKriRoIqqdPIc67iElXwLiSGA8AD/nE
+	oe307LBBBC/NC9mM13mtY3Wo0DcfNs6iMPH73N7ic9e9SW4Bao9Ol6pqyRwtuTrBgHlvZgscX/v
+	pInvBJ4U=
+X-Gm-Gg: AYBFou1Kl017vLViwLF9RzAJz63Og02cQlaBkz4qV6zl1okL2I8g8SChR3fvFv3bnrC
+	JXdZaC6zDFj7xHf1sdaHCY2kbxNiGj1ZmGYeHpNGGM0guYAzqaYwHE/JqWWjJupQkP9qkugBWFg
+	pfUoOxgSg98GSiQsGzmgDSyZ0HYRlBQwRwZ+OlnAt1AMPUbHKFRTUT4kp453e+kLXLqR3LtNIxX
+	4hW56A9oBhIUGuVEFqShv22xGwTAJckATwDTl8GuETs/gnui8j3ycfUmhC480PJ5w69HwZw80zN
+	4lsRJybtqaOLn16b50zE9RvLC5aMYMIeQjpEWdDa0r/nEVP5OGckkF7miRqsy1NkedmsleY8tb0
+	XOUzuhsi+diydgjO8H133nOJCpcvLn9TlKpHRGbXHYbvP2/5I+jlNJ4uXnpxEHOHgnXq2YxAM7O
+	uFUQR4uiLzlZM3H8UmGYe4dVr+Q5XWYW5aW5xf4zlroN3EJug5mhoQ7GVp+ER/x/HN4NHrfY+x/
+	IgWN64/5TrmFACq/thTGikgwoiaO2YBuWptdAA3tYeyxEnBaFQ02lbkCNry0sA22u7tUJ51gj4=
+X-Received: by 2002:a05:6000:2dc4:b0:485:8a47:5b8d with SMTP id ffacd0b85a97d-4858ddea668mr29865996f8f.42.1788939010692;
+        Wed, 09 Sep 2026 00:30:10 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40624310f8f.16.2026.09.09.00.30.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40624310f8f.16.2026.09.09.00.30.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 00:30:18 -0700 (PDT)
+        Wed, 09 Sep 2026 00:30:10 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 34/38] gnutls: fix CVE-2026-33845
-Date: Wed,  9 Sep 2026 09:29:33 +0200
-Message-ID: <5d6ef998e1c61e5bf8a438b8856d0772d841b6a3.1788938909.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 25/38] wget: fix CVE-2026-16599
+Date: Wed,  9 Sep 2026 09:29:24 +0200
+Message-ID: <0c600b59a2f1625c5eeffc76ef0e048aa7534788.1788938909.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788938908.git.yoann.congal@smile.fr>
 References: <cover.1788938908.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 07:30:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245443
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245434
 
-From: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+From: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
 
-Backport patch to fix CVE-2026-33845.
+GNU wget is vulnerable to denial of service in its FTP OPIE/S-KEY
+authentication functionality.
+The server-supplied sequence number from the FTP challenge line is used
+as an iteration count for an MD5 key-derivation loop without any upper
+bound validation. A malicious FTP server or a network attacker
+positioned to intercept FTP traffic can send a crafted OPIE challenge
+with a sequence number near INT_MAX, causing wget to perform up to
+approximately 2.1 billion MD5 computations and suspend for some time.
+The --timeout option does not mitigate this because it applies only to
+network I/O, not CPU computation.
+This issue was fixed in commit e9697d98e7249b0f68a6be040a4f3dcc5bc101fa
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-33845
+Reference:
+https://nvd.nist.gov/vuln/detail/cve-2026-16599
 
-Upstream fix:
-  https://gitlab.com/gnutls/gnutls/-/commit/e5b72c53c7d789d19d1d1cd10b275e87d0415413
+Backport the patch to fix CVE-2026-16599.
+https://gitlab.com/gnuwget/wget/-/commit/e9697d98e7249b0f68a6be040a4f3dcc5bc101fa
 
-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+Signed-off-by: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: rewrapped commit message]
 ---
- .../gnutls/gnutls/CVE-2026-33845.patch        | 166 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   1 +
- 2 files changed, 167 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33845.patch
+ .../wget/wget/CVE-2026-16599.patch            | 68 +++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.25.0.bb     |  1 +
+ 2 files changed, 69 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-16599.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-33845.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-33845.patch
+diff --git a/meta/recipes-extended/wget/wget/CVE-2026-16599.patch b/meta/recipes-extended/wget/wget/CVE-2026-16599.patch
 new file mode 100644
-index 00000000000..004d3082c5a
+index 00000000000..fbe8c0566cd
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-33845.patch
-@@ -0,0 +1,166 @@
-+From 490bfb28002fc0253010243ac387c756014c06e5 Mon Sep 17 00:00:00 2001
-+From: Alexander Sosedkin <asosedkin@redhat.com>
-+Date: Mon, 23 Mar 2026 15:09:43 +0100
-+Subject: [PATCH] buffers: switch from end_offset over to frag_length
++++ b/meta/recipes-extended/wget/wget/CVE-2026-16599.patch
+@@ -0,0 +1,68 @@
++From e9697d98e7249b0f68a6be040a4f3dcc5bc101fa Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
++Date: Sat, 20 Jun 2026 14:39:54 +0200
++Subject: [PATCH] Fix server-controlled unbounded MD5 loop in FTP OPIE
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+Instead of maintaining an inclusive [start_offset, end_offset] range
-+when reassembling DTLS handshake,
-+track start_offset and a relative frag_length instead.
++* src/ftp-basic.c (ftp_login): Limit the skey sequence to 9999.
 +
-+You'd think it'd be a no-op, but it fixes:
++Report:
++wget accepts an unbounded server-controlled integer as the iteration
++count for its OPIE/S-KEY MD5 key-derivation loop. No upper bound is
++enforced on the sequence number supplied by the server in the FTP
++challenge line. The value is passed directly to skey_response() as a
++loop counter, causing wget to perform up to ~2.1 billion full MD5
++computations before responding to the authentication challenge.
 +
-+* 0-length fragments triggering completion if message was 1 byte long
-+* a remotely triggerable underflow and an ensuing heap overrun
++Reported-by: Michał Majchrowicz and Marcin Wyczechowski
 +
-+Reported-by: Joshua Rogers of AISLE Research Team <joshua@joshua.hu>
-+Fixes: #1811
-+Fixes: CVE-2026-33845
-+Fixes: GNUTLS-SA-2026-04-29-3
-+CVSS: 7.5 High CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:N/I:N/A:H
-+Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>
++CVE: CVE-2026-16599
 +
-+CVE: CVE-2026-33845
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/e5b72c53c7d789d19d1d1cd10b275e87d0415413]
-+Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
++Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/e9697d98e7249b0f68a6be040a4f3dcc5bc101fa]
++
++Signed-off-by: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
 +---
-+ lib/buffers.c    | 50 +++++++++++++++++++++++++-----------------------
-+ lib/gnutls_int.h |  4 ++--
-+ 2 files changed, 28 insertions(+), 26 deletions(-)
++ src/ftp-basic.c | 15 +++++++++++----
++ 1 file changed, 11 insertions(+), 4 deletions(-)
 +
-+diff --git a/lib/buffers.c b/lib/buffers.c
-+index 09779a8f3..02cc222c4 100644
-+--- a/lib/buffers.c
-++++ b/lib/buffers.c
-+@@ -919,10 +919,7 @@ static int parse_handshake_header(gnutls_session_t session, mbuffer_st *bufel,
-+ 	}
-+ 	data_size = _mbuffer_get_udata_size(bufel) - handshake_header_size;
++diff --git a/src/ftp-basic.c b/src/ftp-basic.c
++index 0f4bb821..af38a69a 100644
++--- a/src/ftp-basic.c
+++++ b/src/ftp-basic.c
++@@ -204,12 +204,11 @@ ftp_login (int csock, const char *acc, const char *pass)
++       "331 s/key ",
++       "331 opiekey "
++     };
++-    size_t i;
++     const char *seed = NULL;
 + 
-+-	if (frag_size > 0)
-+-		hsk->end_offset = hsk->start_offset + frag_size - 1;
-+-	else
-+-		hsk->end_offset = 0;
-++	hsk->frag_length = frag_size;
++-    for (i = 0; i < countof (skey_head); i++)
+++    for (size_t i = 0; i < countof (skey_head); i++)
++       {
++-        int l = strlen (skey_head[i]);
+++        size_t l = strlen (skey_head[i]);
++         if (0 == c_strncasecmp (skey_head[i], respline, l))
++           {
++             seed = respline + l;
++@@ -222,7 +221,15 @@ ftp_login (int csock, const char *acc, const char *pass)
 + 
-+ 	_gnutls_handshake_log(
-+ 		"HSK[%p]: %s (%u) was received. Length %d[%d], frag offset %d, frag length: %d, sequence: %d\n",
-+@@ -936,9 +933,10 @@ static int parse_handshake_header(gnutls_session_t session, mbuffer_st *bufel,
-+ 
-+ 	if (hsk->length > 0 &&
-+ 	    (frag_size > data_size ||
-+-	     (frag_size > 0 && hsk->end_offset >= hsk->length))) {
-++	     (frag_size > 0 && hsk->start_offset + frag_size > hsk->length))) {
-+ 		return gnutls_assert_val(GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
-+-	} else if (hsk->length == 0 && hsk->end_offset != 0 &&
-++	} else if (hsk->length == 0 &&
-++		   hsk->start_offset + frag_size != hsk->start_offset &&
-+ 		   hsk->start_offset != 0)
-+ 		return gnutls_assert_val(GNUTLS_E_UNEXPECTED_PACKET_LENGTH);
-+ 
-+@@ -1002,11 +1000,10 @@ static int merge_handshake_packet(gnutls_session_t session,
-+ 			hsk->data.length = hsk->length;
-+ 		}
-+ 
-+-		if (hsk->length > 0 && hsk->end_offset > 0 &&
-+-		    hsk->end_offset - hsk->start_offset + 1 != hsk->length) {
-++		if (hsk->length > 0 && hsk->frag_length > 0 &&
-++		    hsk->frag_length != hsk->length) {
-+ 			memmove(&hsk->data.data[hsk->start_offset],
-+-				hsk->data.data,
-+-				hsk->end_offset - hsk->start_offset + 1);
-++				hsk->data.data, hsk->frag_length);
-+ 		}
-+ 
-+ 		session->internals.handshake_recv_buffer_size++;
-+@@ -1040,20 +1037,27 @@ static int merge_handshake_packet(gnutls_session_t session,
-+ 		}
-+ 
-+ 		if (hsk->start_offset < recv_buf[pos].start_offset &&
-+-		    hsk->end_offset + 1 >= recv_buf[pos].start_offset) {
-++		    hsk->start_offset + hsk->frag_length >=
-++			    recv_buf[pos].start_offset) {
-+ 			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
-+ 			       hsk->data.data, hsk->data.length);
-+ 			recv_buf[pos].start_offset = hsk->start_offset;
-+-			recv_buf[pos].end_offset =
-+-				MIN(hsk->end_offset, recv_buf[pos].end_offset);
-+-		} else if (hsk->end_offset > recv_buf[pos].end_offset &&
-+-			   hsk->start_offset <= recv_buf[pos].end_offset + 1) {
-++			recv_buf[pos].frag_length = MIN(
-++				hsk->frag_length, recv_buf[pos].frag_length);
-++		} else if (hsk->start_offset + hsk->frag_length >
-++				   recv_buf[pos].start_offset +
-++					   recv_buf[pos].frag_length &&
-++			   hsk->start_offset <=
-++				   recv_buf[pos].start_offset +
-++					   recv_buf[pos].frag_length) {
-+ 			memcpy(&recv_buf[pos].data.data[hsk->start_offset],
-+ 			       hsk->data.data, hsk->data.length);
-+ 
-+-			recv_buf[pos].end_offset = hsk->end_offset;
-+ 			recv_buf[pos].start_offset = MIN(
-+ 				hsk->start_offset, recv_buf[pos].start_offset);
-++			recv_buf[pos].frag_length = hsk->start_offset +
-++						    hsk->frag_length -
-++						    recv_buf[pos].start_offset;
-+ 		}
-+ 		_gnutls_handshake_buffer_clear(hsk);
-+ 	}
-+@@ -1113,8 +1117,8 @@ static int get_last_packet(gnutls_session_t session,
-+ 		}
-+ 
-+ 		else if ((recv_buf[LAST_ELEMENT].start_offset == 0 &&
-+-			  recv_buf[LAST_ELEMENT].end_offset ==
-+-				  recv_buf[LAST_ELEMENT].length - 1) ||
-++			  recv_buf[LAST_ELEMENT].frag_length ==
-++				  recv_buf[LAST_ELEMENT].length) ||
-+ 			 recv_buf[LAST_ELEMENT].length == 0) {
-+ 			session->internals.dtls.hsk_read_seq++;
-+ 			_gnutls_handshake_buffer_move(hsk,
-+@@ -1125,8 +1129,9 @@ static int get_last_packet(gnutls_session_t session,
-+ 			/* if we don't have a complete handshake message, but we
-+ 			 * have queued data waiting, try again to reconstruct the
-+ 			 * handshake packet, using the queued */
-+-			if (recv_buf[LAST_ELEMENT].end_offset !=
-+-				    recv_buf[LAST_ELEMENT].length - 1 &&
-++			if ((recv_buf[LAST_ELEMENT].start_offset +
-++			     recv_buf[LAST_ELEMENT].frag_length) !=
-++				    recv_buf[LAST_ELEMENT].length &&
-+ 			    record_check_unprocessed(session) > 0)
-+ 				return gnutls_assert_val(
-+ 					GNUTLS_E_INT_CHECK_AGAIN);
-+@@ -1313,9 +1318,7 @@ int _gnutls_parse_record_buffered_msgs(gnutls_session_t session)
-+ 					&session->internals.record_buffer,
-+ 					bufel, ret);
-+ 
-+-				data_size = MIN(tmp.length,
-+-						tmp.end_offset -
-+-							tmp.start_offset + 1);
-++				data_size = MIN(tmp.length, tmp.frag_length);
-+ 
-+ 				ret = _gnutls_buffer_append_data(
-+ 					&tmp.data,
-+@@ -1331,7 +1334,6 @@ int _gnutls_parse_record_buffered_msgs(gnutls_session_t session)
-+ 				ret = merge_handshake_packet(session, &tmp);
-+ 				if (ret < 0)
-+ 					return gnutls_assert_val(ret);
-+-
-+ 			} while (_mbuffer_get_udata_size(bufel) > 0);
-+ 
-+ 			prev = bufel;
-+diff --git a/lib/gnutls_int.h b/lib/gnutls_int.h
-+index 54d3c9f67..283f25c07 100644
-+--- a/lib/gnutls_int.h
-++++ b/lib/gnutls_int.h
-+@@ -479,10 +479,10 @@ typedef struct {
-+ 	uint16_t sequence;
-+ 
-+ 	/* indicate whether that message is complete.
-+-	 * complete means start_offset == 0 and end_offset == length
-++	 * complete means start_offset == 0 and frag_length == length
-+ 	 */
-+ 	uint32_t start_offset;
-+-	uint32_t end_offset;
-++	uint32_t frag_length; /* used exclusively in DTLS reassembly */
-+ 
-+ 	uint8_t header[MAX_HANDSHAKE_HEADER_SIZE];
-+ 	int header_size;
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-index 51ef394dfcf..d513752072c 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb
-@@ -40,6 +40,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://CVE-2026-42011_p1.patch \
-            file://CVE-2026-42011_p2.patch \
-            file://CVE-2026-42010.patch \
-+           file://CVE-2026-33845.patch \
++         /* Extract the sequence from SEED.  */
++         for (; c_isdigit (*seed); seed++)
++-          skey_sequence = 10 * skey_sequence + *seed - '0';
+++          {
+++            skey_sequence = 10 * skey_sequence + *seed - '0';
+++            if (skey_sequence > 9999)
+++              {
+++                xfree (respline);
+++                return FTPLOGREFUSED;
+++              }
+++          }
+++
++         if (*seed == ' ')
++           ++seed;
++         else
++-- 
++GitLab
++
+diff --git a/meta/recipes-extended/wget/wget_1.25.0.bb b/meta/recipes-extended/wget/wget_1.25.0.bb
+index dc4903429be..95845d695a9 100644
+--- a/meta/recipes-extended/wget/wget_1.25.0.bb
++++ b/meta/recipes-extended/wget/wget_1.25.0.bb
+@@ -21,6 +21,7 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://CVE-2026-58471.patch \
+            file://CVE-2026-58472.patch \
+            file://CVE-2026-58472-regression.patch \
++           file://CVE-2026-16599.patch \
             "
  
- SRC_URI[sha256sum] = "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf470bea012b8e51"
+ SRC_URI[sha256sum] = "766e48423e79359ea31e41db9e5c289675947a7fcf2efdcedb726ac9d0da3784"
 
