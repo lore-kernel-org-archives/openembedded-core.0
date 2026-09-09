@@ -1,524 +1,128 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <Aravind.Bandari@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 599E7C79FB7
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 18:43:40 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20142.1788979410564817213
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11468C79FB7
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 18:47:09 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19938.1788979620588938953
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 11:43:31 -0700
+ Wed, 09 Sep 2026 11:47:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ejkLGuRK;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-4869b6f8629so260954f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 11:43:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788979409; x=1789584209; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=szhFCiXkO2aMFMpIqoDZBd01g+FNBvjSprFWZ09QwSY=;
-        b=ejkLGuRKCh+TvXC6yjfQM8mAN2mhfZD54gCHze9kBYSuW+rHkvUtkQDgvqaTQ91MCF
-         gPlO7YoEot+RcMFPcU21+L2ggqMxtb5hBt92xg7G7rkU51PvuPWoGDb/6CvWKACafCbg
-         ub/KgPAIdC5kDAD4tiFjwS4KR4Zx4biRDfPlM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788979409; x=1789584209;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=szhFCiXkO2aMFMpIqoDZBd01g+FNBvjSprFWZ09QwSY=;
-        b=Bv557ma/VOTDv6ylFHg1niXMCVSlt9h7i5UOkGT7U+NvgUw0pKG3LWhBp02PwcMkPa
-         n3MCXPBrbpDOv6lxxM42N6EH0JBPL3bH9uT26jBmopc5CrULifSkkMpYLqyZsmrlZDsL
-         5vU4CbgXydGjO7cj22ikdaii31KHGKakvJB1y4/26ELdw+fr4+gpfdlzMmCjsenBzuLc
-         Ph44B2xHJILxUn+vo9GPRD47fUj3pX4JBgcgJvS1JW2mvNq3Z5OfCMxA7fRrimxuJFZZ
-         eYZ3TfidJI5TXvNrbRHtsNunroImkTD3fUPQmlPA7CXCa8SnQLPq4kscjCplcAJFpYfo
-         /K7g==
-X-Forwarded-Encrypted: i=1; AKwUvBy4SHUO7uEKS4OGeIaSxgCrcEVVGygVrzbA6T1cLjQZf5SOWoPv1E5pK5+QFAuksu0mReUgB8XN4MOqw5dmvecavQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++nlZ0zlMsOqmJU1qoh7xUcGuNh5/nEddHtSM1IGE0hintTCS4P8
-	hBXeZle2zcE2AeHFwTSGI+MvZy0C+S9/y8MCaj4C9q987mb65mcaCfMjuwpuPzy3nqs=
-X-Gm-Gg: AYBFou2t3YfmDYZRtN5HXmGbgV+b4dpXrumV12OWvwdfHEMoLp1SN/T+zm/q2gthS32
-	7TWGdIyLRdQgxsLWch3TOnnLMQbptjhJDg3DZ3lA/Q7TXOj4K3PjIXuob3WACm4FOuDHt1HBgZR
-	+xESqgAtFRH+zG9uC3vBOCccFnqN4V7FZQ8Pm9awRJrC5MzpqDOnjcqeRQ45jPof91fliwqtmap
-	8iYDVucp7AIbWMh5YJpSTCuKptpsK3x5kHNp/llou3W1kBj0J9rZl0VbHJbG1KEOAU8G4sqcu1/
-	zvNKXcGS+mMxTQqzKR3xAX3uyKVOlt8Dtri/W/+qfKGaJk2RhrFb63ZNeJV3P4MRpD3qevyFgrC
-	oujtxewk5a0CRfgfotLh8IqY1/ZSeLE/8uwTt3ImicMTtDX7lObtECFaxZ9mlOtenkQUhvQX0yX
-	0K2lR/L0/RqCvvgH8eNf52DcV84DmE6/NgQ1QgjH/annKdqX7SbuUmDruvEor4uZ0HjfZaCLmNQ
-	Srm1g+rDVh2tfT8aB/8p+cgAf8WnIci5oDvRlNUYvfuV/O1JL4TPUfvBjaUiXk=
-X-Received: by 2002:a5d:64e5:0:b0:485:8c16:a351 with SMTP id ffacd0b85a97d-4858c16a7a7mr40223688f8f.41.1788979408564;
-        Wed, 09 Sep 2026 11:43:28 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485885b7bfasm45917578f8f.29.2026.09.09.11.43.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Sep 2026 11:43:28 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 09 Sep 2026 20:43:27 +0200
-Message-Id: <DLB09U6CYNI4.19B84RYR1UD62@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <xe-linux-external@cisco.com>
-To: <hthakar@cisco.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][PATCH 1/5] apr-util: Fix CVE-2025-49506
-X-Mailer: aerc 0.20.0
-References: <20260826053627.1798620-1-hthakar@cisco.com>
-In-Reply-To: <20260826053627.1798620-1-hthakar@cisco.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=aF9KWXpX;
+ spf=none, err=permanent DNS error (domain: oak-lpgbuild11.wrs.com, ip: 205.220.178.238, mailfrom: prvs=3712a3a885=abandari@oak-lpgbuild11.wrs.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689IkxCn1810547
+	for <openembedded-core@lists.openembedded.org>; Wed, 9 Sep 2026 18:46:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=TRb1k4D3O
+	siKpwPy29NL68ItN7E0adda/4PbwsZyrFk=; b=aF9KWXpXS7UxR654uZcU9tRq6
+	nQP+rVAlRyzGehuY5lxmFqwORFzj7m6l/bdCGNTq4/w27XtZ/Dn633A40NQxlf27
+	VLp2CnA3ggZ1T5l0Il59HhNs+azk5db7LwowcXOyJlLFNPDuhzD3OZayVXlULjct
+	J6ky3sVIKAdHTuUqspX4Xs+D4l/I9ZHKmRjf5CGJZMyZhZceU0vL1VdbQEHIWeob
+	xI9zzkcqHyo5Gd1o7f+J0WxVQsu6XdTuQESDmAQh5uzWT0hRK1w6b20vYX4g1j48
+	eUFvZfAX5WKNBhW7m5PdpabrumY/lJUTTQa8mKfzrQTmzEzkjDmcARKVNwIRg==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gkcypr06s-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 18:46:59 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 9 Sep 2026 11:46:58 -0700
+Received: from oak-lpgbuild11.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 9 Sep 2026 11:46:58 -0700
+Received: by oak-lpgbuild11.wrs.com (Postfix, from userid 1762445477)
+	id 4DF3D404033F; Wed,  9 Sep 2026 18:46:58 +0000 (UTC)
+From: Aravind Bandari <aravind.bandari@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Aravind Bandari <aravind.bandari@windriver.com>
+Subject: [PATCH] maintainers.inc: Update maintainer for autoconf, autoconf-archive, automake, libtool, libtool-native, libtool-cross, make
+Date: Wed, 9 Sep 2026 18:46:11 +0000
+Message-ID: <20260909184611.1022046-1-aravind.bandari@windriver.com>
+X-Mailer: git-send-email 2.53.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA5MDIxMCBTYWx0ZWRfX4f9lgFG3olDP
+ ri3bWIEu8ykvx8EQtXYaPmaAUv+3b+lyOhETU9m+I5a2V6s1pan3WlHz8AibKSz2Jrzggp/T28v
+ boZa7hyoyBdXrHVo1rjlt0MsAK30oRoy+FEasYCnrcwlHST5NgkL
+X-Authority-Analysis: v=2.4 cv=b40ncdGx c=1 sm=1 tr=0 ts=6aa1a9a3 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8 a=iGHA9ds3AAAA:8 a=k-42gJp3AAAA:8
+ a=pGLkceISAAAA:8 a=0gcC27t9AAAA:8 a=_iH6NxeTAAAA:8 a=iNOPiNP7n9lywY19YmYA:9
+ a=FdTzh2GWekK77mhwV6Dw:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=uCSXFHLys93vLW5PjgO_:22
+ a=f5sM90hAhNS9OGT-JDKn:22 a=zZzRKORMDKZaSe7LaTAy:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA5MDIxMCBTYWx0ZWRfXwPBLthSFn1iI
+ XUp0tqXUcT9Rv84tV6EZRN0SgdGTL7teEgw+xQ+sdCt4KhOqkyYvEk9ElSaE86szu+T1++AGgvx
+ sJtph80bBCY1JQaisdc8ISk7Bl0cvIYSQOU5KeLgB6OivubhU53NhzFfuc6xOd4IIHyryB14IPg
+ V7TMYl3EAZtwDc89L6AYdQ2b4jiwso7FvluvJFXl9ERDVky6AfG1y/10/x477TkSe7biESCzYt3
+ /15zMZyY65Aadjoaro01RD3Zv6ToY/DY0W9Q/zf+Df9A5NypWSlLaPZLAl55rNNEby2EbyfdTXB
+ Aa6oH9gU4AQZufRM/xtuf2otnNuQr8L18aGtQ02zuemklGZtVcji1fNtGYMIOIB6IjugR/u6Rfm
+ E7jSSBKFYAWopRk/Igy0WK5HyBVfpg==
+X-Proofpoint-GUID: C4icnW7eB0amI2uhJQoAnIj4L2AlALed
+X-Proofpoint-ORIG-GUID: C4icnW7eB0amI2uhJQoAnIj4L2AlALed
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-08_03,2026-09-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0 phishscore=0
+ suspectscore=0 bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609090210
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 18:43:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245486
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 18:47:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245487
 
-On Wed Aug 26, 2026 at 7:36 AM CEST, Hetvi Thakar -X (hthakar - E INFOCHIPS=
- PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> From: Hetvi Thakar <hthakar@cisco.com>
->
-> Backport the upstream timing-safe comparison fix [1] and its XLC
-> compatibility follow-up [2]. APR-util 1.6.4 identifies this issue as
-> fixed [3].
->
-> [1] https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5ea=
-fc534ae24b19e
-> [2] https://github.com/apache/apr-util/commit/e35eee2ea9e1f77bdec26c3bfdb=
-5caca457acd66
-> [3] https://nvd.nist.gov/vuln/detail/CVE-2025-49506
->
-> Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-> ---
->  .../apr/apr-util/CVE-2025-49506_p1.patch      | 310 ++++++++++++++++++
->  .../apr/apr-util/CVE-2025-49506_p2.patch      |  42 +++
->  meta/recipes-support/apr/apr-util_1.6.3.bb    |   2 +
->  3 files changed, 354 insertions(+)
->  create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506_p1.p=
-atch
->  create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506_p2.p=
-atch
->
-> diff --git a/meta/recipes-support/apr/apr-util/CVE-2025-49506_p1.patch b/=
-meta/recipes-support/apr/apr-util/CVE-2025-49506_p1.patch
-> new file mode 100644
-> index 0000000000..0ab5cf0648
-> --- /dev/null
-> +++ b/meta/recipes-support/apr/apr-util/CVE-2025-49506_p1.patch
-> @@ -0,0 +1,310 @@
-> +From f77a20761cb15686f8d4de5b5eafc534ae24b19e Mon Sep 17 00:00:00 2001
-> +From: Eric Covener <covener@apache.org>
-> +Date: Mon, 3 Aug 2026 12:10:13 +0000
-> +Subject: [PATCH] Merge r1936804 from aprutil 1.7.x:
-> +
-> +use timing safe comparison
-> +
-> +Submitted By: ylavic
-> +Reviewed By: ylavic, rpluem, covener
-> +
-> +
-> +
-> +
-> +git-svn-id: https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x=
-@1936805 13f79535-47bb-0310-9956-ffa450edef68
-> +
-> +CVE: CVE-2025-49506
-> +Upstream-Status: Backport [https://github.com/apache/apr-util/commit/f77=
-a20761cb15686f8d4de5b5eafc534ae24b19e]
-> +
-> +(cherry picked from commit f77a20761cb15686f8d4de5b5eafc534ae24b19e)
-> +Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-> +---
-> + crypto/apr_crypto.c |  60 +++++++++++++++++---
-> + crypto/apr_passwd.c | 135 ++++++++++++++++++++++++++++++++++++++++----
-> + 2 files changed, 176 insertions(+), 19 deletions(-)
-> +
-> +diff --git a/crypto/apr_crypto.c b/crypto/apr_crypto.c
-> +index 9ba190ef..ca3f0887 100644
-> +--- a/crypto/apr_crypto.c
-> ++++ b/crypto/apr_crypto.c
-> +@@ -21,6 +21,7 @@
-> + #include "apu.h"
-> + #include "apr_pools.h"
-> + #include "apr_dso.h"
-> ++#include "apr_version.h"
-> + #include "apr_strings.h"
-> + #include "apr_hash.h"
-> + #include "apr_thread_mutex.h"
-> +@@ -173,19 +174,64 @@ APU_DECLARE(apr_status_t) apr_crypto_memzero(void =
-*buffer, apr_size_t size)
-> +     return APR_SUCCESS;
-> + }
-> +=20
-> ++/* Borrow this from APR-1.8 if not available */
-> ++#if !APR_VERSION_AT_LEAST(1,8,0)
-> ++
-> ++/* A volatile variable which is always zero but allows to block the com=
-piler
-> ++ * from optimizing or eliding code using it. Volatile forces the compil=
-er to
-> ++ * emit a memory load for which no value can be assumed, so for instanc=
-e an
-> ++ * add/sub/xor/or with "optblocker" is a noop that will hide the result=
- to
-> ++ * the optimizer.
-> ++ */
-> ++static volatile const apr_uint32_t optblocker;
-> ++
-> ++/* Return whether x is not zero, with no branching controlled by x.
-> ++ *
-> ++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
-> ++ * which provides timing attacks safe integer operations/primitives.
-> ++ * Code:
-> ++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uin=
-t32.h
-> ++ * Paper:
-> ++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
-> ++ */
-> ++#if __has_attribute(always_inline)
-> ++__attribute__((always_inline))
-> ++#endif
-> ++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
-> ++{
-> ++    x |=3D -x; /* sets the most significant bit unless x =3D=3D 0 */
-> ++
-> ++    /* shift bit 31 (MSB) to bit 0 */
-> ++    x >>=3D 32-6;      /* keep 6 bits */
-> ++    x +=3D optblocker; /* lose the optimizer */
-> ++    x >>=3D 5;         /* keep the (original) MSB only */
-> ++
-> ++    /* x is now 0 or 1 */
-> ++    return x & INT_MAX;
-> ++}
-> ++
-> ++#endif /* !APR_VERSION_AT_LEAST(1,8,0) */
-> ++
-> + APU_DECLARE(int) apr_crypto_equals(const void *buf1, const void *buf2,
-> +                                    apr_size_t size)
-> + {
-> +-    const unsigned char *p1 =3D buf1;
-> +-    const unsigned char *p2 =3D buf2;
-> +-    unsigned char diff =3D 0;
-> +-    apr_size_t i;
-> ++#if APR_VERSION_AT_LEAST(1,8,0)
-> ++    return apr_memeq_timingsafe(buf1, buf2, size);
-> ++#else
-> ++    apr_uint32_t diff =3D 0;
-> ++    volatile apr_size_t count =3D size; /* prevent loop unrolling */
-> ++    apr_size_t i =3D 0;
-> +=20
-> +-    for (i =3D 0; i < size; ++i) {
-> +-        diff |=3D p1[i] ^ p2[i];
-> ++    for (; i < count; ++i) {
-> ++        const unsigned char c1 =3D ((volatile const unsigned char *)buf=
-1)[i];
-> ++        const unsigned char c2 =3D ((volatile const unsigned char *)buf=
-2)[i];
-> ++
-> ++        diff |=3D c1 ^ c2; /* sets diff to non-zero whenever c1 !=3D c2=
- */
-> +     }
-> +=20
-> +-    return 1 & ((diff - 1) >> 8);
-> ++    /* (diff =3D=3D 0) <=3D> (diff !=3D 0) ^ 1 */
-> ++    return test_nonzero_timingsafe(diff) ^ 1;
-> ++#endif
-> + }
-> +=20
-> + APU_DECLARE(apr_status_t) apr_crypto_get_driver(
-> +diff --git a/crypto/apr_passwd.c b/crypto/apr_passwd.c
-> +index c961de2b..74b5fc17 100644
-> +--- a/crypto/apr_passwd.c
-> ++++ b/crypto/apr_passwd.c
-> +@@ -14,6 +14,7 @@
-> +  * limitations under the License.
-> +  */
-> +=20
-> ++#include "apr_version.h"
-> + #include "apr_strings.h"
-> + #include "apr_md5.h"
-> + #include "apr_lib.h"
-> +@@ -39,6 +40,111 @@
-> +=20
-> + static const char * const apr1_id =3D "$apr1$";
-> +=20
-> ++#if APR_VERSION_AT_LEAST(1,8,0)
-> ++
-> ++#define streq_timingsafe    apr_streq_timingsafe
-> ++#define strneq_timingsafe   apr_strneq_timingsafe
-> ++
-> ++#else /* borrow code from APR-1.8 if not available */
-> ++
-> ++/* A volatile variable which is always zero but allows to block the com=
-piler
-> ++ * from optimizing or eliding code using it. Volatile forces the compil=
-er to
-> ++ * emit a memory load for which no value can be assumed, so for instanc=
-e an
-> ++ * add/sub/xor/or with "optblocker" is a noop that will hide the result=
- to
-> ++ * the optimizer.
-> ++ */
-> ++static volatile const apr_uint32_t optblocker;
-> ++
-> ++/* Return whether x is not zero, with no branching controlled by x.
-> ++ *
-> ++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
-> ++ * which provides timing attacks safe integer operations/primitives.
-> ++ * Code:
-> ++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uin=
-t32.h
-> ++ * Paper:
-> ++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
-> ++ */
-> ++#if __has_attribute(always_inline)
-> ++__attribute__((always_inline))
-> ++#endif
-> ++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
-> ++{
-> ++    x |=3D -x; /* sets the most significant bit unless x =3D=3D 0 */
-> ++
-> ++    /* shift bit 31 (MSB) to bit 0 */
-> ++    x >>=3D 32-6;      /* keep 6 bits */
-> ++    x +=3D optblocker; /* lose the optimizer */
-> ++    x >>=3D 5;         /* keep the (original) MSB only */
-> ++
-> ++    /* x is now 0 or 1 */
-> ++    return x & INT_MAX;
-> ++}
-> ++
-> ++static int streq_timingsafe(const char *sec1, const char *str2)
-> ++{
-> ++    apr_uint32_t diff =3D 0;
-> ++    apr_size_t i1 =3D 0, i2 =3D 0;
-> ++
-> ++    for (;; ++i2) {
-> ++        const unsigned char c1 =3D ((volatile const unsigned char *)sec=
-1)[i1];
-> ++        const unsigned char c2 =3D ((volatile const unsigned char *)str=
-2)[i2];
-> ++
-> ++        diff |=3D c1 ^ c2; /* sets diff to non-zero whenever c1 !=3D c2=
- */
-> ++
-> ++        /* Not a shortest/longest match because an attacker would usual=
-ly know
-> ++         * one of the strings and could then determine the length of th=
-e other.
-> ++         * So assume only sec1 and its length are secret and stop the l=
-oop at
-> ++         * the end of str2. If sec1 is shorter than str2 the loop will =
-continue
-> ++         * by comparing the rest of str2 with the trailing NUL byte of =
-sec1.
-> ++         * In any case since the diff above is computed up to and inclu=
-ding a
-> ++         * NUL byte, only the same content and length will raise match.
-> ++         */
-> ++        if (!c2) {
-> ++            break;
-> ++        }
-> ++
-> ++        /* Don't go above sec1's NUL byte */
-> ++        i1 +=3D test_nonzero_timingsafe(c1);
-> ++    }
-> ++
-> ++    /* (diff =3D=3D 0) <=3D> (diff !=3D 0) ^ 1 */
-> ++    return test_nonzero_timingsafe(diff) ^ 1;
-> ++}
-> ++
-> ++static int strneq_timingsafe(const char *sec1, const char *str2, apr_si=
-ze_t n)
-> ++{
-> ++    apr_uint32_t diff =3D 0;
-> ++    volatile apr_size_t count =3D n; /* prevent loop unrolling */
-> ++    apr_size_t i1 =3D 0, i2 =3D 0;
-> ++
-> ++    for (; i2 < count; ++i2) {
-> ++        const unsigned char c1 =3D ((volatile const unsigned char *)sec=
-1)[i1];
-> ++        const unsigned char c2 =3D ((volatile const unsigned char *)str=
-2)[i2];
-> ++
-> ++        diff |=3D c1 ^ c2; /* sets diff to non-zero whenever c1 !=3D c2=
- */
-> ++
-> ++        /* Not a shortest/longest match because an attacker would usual=
-ly know
-> ++         * one of the strings and could then determine the length of th=
-e other.
-> ++         * So assume only sec1 and its length are secret and stop the l=
-oop at
-> ++         * the end of str2. If sec1 is shorter than str2 the loop will =
-continue
-> ++         * by comparing the rest of str2 with the trailing NUL byte of =
-sec1.
-> ++         * In any case since the diff above is computed up to and inclu=
-ding a
-> ++         * NUL byte, only the same content and length will raise match.
-> ++         */
-> ++        if (!c2) {
-> ++            break;
-> ++        }
-> ++
-> ++        /* Don't go above sec1's NUL byte */
-> ++        i1 +=3D test_nonzero_timingsafe(c1);
-> ++    }
-> ++
-> ++    /* (diff =3D=3D 0) <=3D> (diff !=3D 0) ^ 1 */
-> ++    return test_nonzero_timingsafe(diff) ^ 1;
-> ++}
-> ++
-> ++#endif /* APR_VERSION_AT_LEAST(1,8,0) */
-> ++
-> + #if !defined(WIN32) && !defined(BEOS) && !defined(NETWARE)
-> + #if defined(APU_CRYPT_THREADSAFE) || !APR_HAS_THREADS || \
-> +     defined(CRYPT_R_CRYPTD) || defined(CRYPT_R_STRUCT_CRYPT_DATA)
-> +@@ -86,28 +192,33 @@ APU_DECLARE(apr_status_t) apr_password_validate(con=
-st char *passwd,
-> + #if !CRYPT_MISSING
-> +     char *crypt_pw;
-> + #endif
-> +-    if (hash[0] =3D=3D '$'
-> +-        && hash[1] =3D=3D '2'
-> +-        && (hash[2] =3D=3D 'a' || hash[2] =3D=3D 'y')
-> +-        && hash[3] =3D=3D '$') {
-> ++
-> ++    if ((strneq_timingsafe(hash, "$2a$", 4) | /* test both */
-> ++         strneq_timingsafe(hash, "$2y$", 4))) {
-> ++        /*
-> ++         * The hash was created using [apr_]bcrypt encoding.
-> ++         */
-> +         if (_crypt_blowfish_rn(passwd, hash, sample, sizeof(sample)) =
-=3D=3D NULL)
-> +             return APR_FROM_OS_ERROR(errno);
-> +     }
-> +-    else if (!strncmp(hash, apr1_id, strlen(apr1_id))) {
-> ++    else if (strneq_timingsafe(hash, apr1_id, strlen(apr1_id))) {
-> +         /*
-> +          * The hash was created using our custom algorithm.
-> +          */
-> +         apr_md5_encode(passwd, hash, sample, sizeof(sample));
-> +     }
-> +-    else if (!strncmp(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
-> +-         apr_sha1_base64(passwd, (int)strlen(passwd), sample);
-> ++    else if (strneq_timingsafe(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) =
-{
-> ++        /*
-> ++         * The hash is a (naked) SHA1.
-> ++         */
-> ++        apr_sha1_base64(passwd, (int)strlen(passwd), sample);
-> +     }
-> +     else {
-> +         /*
-> +          * It's not our algorithm, so feed it to crypt() if possible.
-> +          */
-> + #if CRYPT_MISSING
-> +-        return (strcmp(passwd, hash) =3D=3D 0) ? APR_SUCCESS : APR_EMIS=
-MATCH;
-> ++        return streq_timingsafe(hash, passwd) ? APR_SUCCESS : APR_EMISM=
-ATCH;
-> + #elif defined(CRYPT_R_CRYPTD)
-> +         apr_status_t rv;
-> +         CRYPTD *buffer =3D malloc(sizeof(*buffer));
-> +@@ -118,7 +229,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(cons=
-t char *passwd,
-> +         if (!crypt_pw)
-> +             rv =3D APR_EMISMATCH;
-> +         else
-> +-            rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : AP=
-R_EMISMATCH;
-> ++            rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR=
-_EMISMATCH;
-> +         free(buffer);
-> +         return rv;
-> + #elif defined(CRYPT_R_STRUCT_CRYPT_DATA)
-> +@@ -149,7 +260,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(cons=
-t char *passwd,
-> +         if (!crypt_pw)
-> +             rv =3D APR_EMISMATCH;
-> +         else
-> +-            rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : AP=
-R_EMISMATCH;
-> ++            rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR=
-_EMISMATCH;
-> +         free(buffer);
-> +         return rv;
-> + #else
-> +@@ -173,14 +284,14 @@ APU_DECLARE(apr_status_t) apr_password_validate(co=
-nst char *passwd,
-> +                 rv =3D APR_EMISMATCH;
-> +             }
-> +             else {
-> +-                rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS =
-: APR_EMISMATCH;
-> ++                rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS :=
- APR_EMISMATCH;
-> +             }
-> +             crypt_mutex_unlock();
-> +             return rv;
-> +         }
-> + #endif
-> +     }
-> +-    return (strcmp(sample, hash) =3D=3D 0) ? APR_SUCCESS : APR_EMISMATC=
-H;
-> ++    return streq_timingsafe(hash, sample) ? APR_SUCCESS : APR_EMISMATCH=
-;
-> + }
-> +=20
-> + static const char * const bcrypt_id =3D "$2y$";
-> diff --git a/meta/recipes-support/apr/apr-util/CVE-2025-49506_p2.patch b/=
-meta/recipes-support/apr/apr-util/CVE-2025-49506_p2.patch
-> new file mode 100644
-> index 0000000000..b2acaf52d4
-> --- /dev/null
-> +++ b/meta/recipes-support/apr/apr-util/CVE-2025-49506_p2.patch
-> @@ -0,0 +1,42 @@
-> +From e35eee2ea9e1f77bdec26c3bfdb5caca457acd66 Mon Sep 17 00:00:00 2001
-> +From: Eric Covener <covener@apache.org>
-> +Date: Mon, 3 Aug 2026 13:45:25 +0000
-> +Subject: [PATCH] Merge r1936827 from aprutil 1.7.x:
-> +
-> +hide __has_attribute on traditional xlc platforms
-> +
-> +The backport of 1917748 omitted this in apr.h on purpose,
-> +but this is a new/narrow usage and not in a header
-> +where it would taint anyones use of __has_attribute.
-> +
-> +
-> +
-> +
-> +git-svn-id: https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x=
-@1936828 13f79535-47bb-0310-9956-ffa450edef68
-> +
-> +CVE: CVE-2025-49506
-> +Upstream-Status: Backport [https://github.com/apache/apr-util/commit/e35=
-eee2ea9e1f77bdec26c3bfdb5caca457acd66]
-> +
-> +(cherry picked from commit e35eee2ea9e1f77bdec26c3bfdb5caca457acd66)
-> +Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-> +---
-> + crypto/apr_passwd.c | 6 ++++++
-> + 1 file changed, 6 insertions(+)
-> +
-> +diff --git a/crypto/apr_passwd.c b/crypto/apr_passwd.c
-> +index 74b5fc17..9231d312 100644
-> +--- a/crypto/apr_passwd.c
-> ++++ b/crypto/apr_passwd.c
-> +@@ -64,6 +64,12 @@ static volatile const apr_uint32_t optblocker;
-> +  * Paper:
-> +  *   https://cr.yp.to/papers/cryptoint-20250424.pdf
-> +  */
-> ++#if (defined(__xlc__) && !defined(__GNUC__))
-> ++#ifndef __has_attribute
-> ++#define __has_attribute(__x)    0
-> ++#endif
-> ++#endif
+Take over maintenance of autoconf, autoconf-archive, automake, libtool, libtool-native, libtool-cross, make.
 
-Hello,
+Signed-off-by: Aravind Bandari <aravind.bandari@windriver.com>
+---
+ meta/conf/distro/include/maintainers.inc | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-What is "xlc"?  Does this case happens for Yocto/OE-Core users?
-I do not want to carry code that can't be reached.
-
-Regards,
---=20
-Yoann Congal
-Smile ECS
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 5cbc60c1ce..40d62042bd 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -49,9 +49,9 @@ RECIPE_MAINTAINER:pn-aspell = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-at = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-at-spi2-core = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-attr = "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER:pn-autoconf = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER:pn-autoconf-archive = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER:pn-automake = "Robert Yang <liezhi.yang@windriver.com>"
++RECIPE_MAINTAINER:pn-autoconf = "Aravind Bandari <Aravind.Bandari@windriver.com>"
++RECIPE_MAINTAINER:pn-autoconf-archive = "Aravind Bandari <Aravind.Bandari@windriver.com>"
++RECIPE_MAINTAINER:pn-automake = "Aravind Bandari <Aravind.Bandari@windriver.com>"
+ RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-avahi-libnss-mdns = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-babeltrace2 = "Unassigned <unassigned@yoctoproject.org>"
+@@ -409,9 +409,9 @@ RECIPE_MAINTAINER:pn-libtest-warnings-perl = "Tim Orling <tim.orling@konsulko.co
+ RECIPE_MAINTAINER:pn-libtheora = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libtimedate-perl = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-libtirpc = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-libtool = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER:pn-libtool-cross = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER:pn-libtool-native = "Robert Yang <liezhi.yang@windriver.com>"
++RECIPE_MAINTAINER:pn-libtool = "Aravind Bandari <Aravind.Bandari@windriver.com>"
++RECIPE_MAINTAINER:pn-libtool-cross = "Aravind Bandari <Aravind.Bandari@windriver.com>"
++RECIPE_MAINTAINER:pn-libtool-native = "Aravind Bandari <Aravind.Bandari@windriver.com>"
+ RECIPE_MAINTAINER:pn-libtraceevent = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-libtracefs = "Jaipaul Cheernam <jaipaul.cheernam@est.tech>"
+ RECIPE_MAINTAINER:pn-libtry-tiny-perl = "Tim Orling <tim.orling@konsulko.com>"
+@@ -501,7 +501,7 @@ RECIPE_MAINTAINER:pn-lzo = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-lzop = "Marek Vasut <marex@denx.de>"
+ RECIPE_MAINTAINER:pn-m4 = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-m4-native = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER:pn-make = "Robert Yang <liezhi.yang@windriver.com>"
++RECIPE_MAINTAINER:pn-make = "Aravind Bandari <Aravind.Bandari@windriver.com>"
+ RECIPE_MAINTAINER:pn-make-mod-scripts = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-makedevs = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-makedumpfile = "Etienne Cordonnier <ecordonnier@snap.com>"
 
