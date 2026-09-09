@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D827DC88E40
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 21:53:51 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 684E0C88E48
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 21:53:52 +0000 (UTC)
 Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.95.1788990824826707821
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.77.1788990824405615363
  for <openembedded-core@lists.openembedded.org>;
  Wed, 09 Sep 2026 14:53:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=ePaI9cBc;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-20260909215343d525040fa000020753-_lxefr@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260909215343d525040fa000020753
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=DEm1404M;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-2026090921534175da5e0a8700020714-znjxbf@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2026090921534175da5e0a8700020714
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 09 Sep 2026 23:53:43 +0200
+        Wed, 09 Sep 2026 23:53:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=tWBgFYnnCkCw0nF7ViejA15m8nweKEV0YCuM5njyl+E=;
- b=ePaI9cBc38rcck7UathuvvsdK18tTh9OByvZqBlNtpJNZkvvqBrgOr622pmiOJi6LuMJrD
- 8oEvOZ24T2It98FKDXPeAbYSAkGhfzYfol0cKS76FBzSgQJnvl3P3vBR+6D1FrrsRp2DONUq
- 5i2r93tKkItGPV/DoFk5k33t0fUx5Naoqtjeu5YKxnKjvTXs45Ip8P251Z5NQeyE9l87j7vz
- CpAwJH9VlBTRfmWEhRpKZVrYMiw/uMMsGzFM4K/pwa8lHxEf8JcZa2T6Ujume00l9lDkn15D
- yOXAZb6c9kPZfokUeCrjzu2n3W/XlOxUov4FdaqQA8pqZXELJFIEkTNQ==;
+ bh=Ba97bilShWFgM64DS1I2GA+j79afIgNFQiHxCpqSTCk=;
+ b=DEm1404MSqa2YRC8EQeNv6/0ojlG70v4buA6h9PA8x+sPc6Lpw5SVq2nqzUEov4Uro2DGu
+ ztnvP/W5HuG7QELkqPrwPDI7vMCURtIXZAcBfdjtoVym8BixTw4TLB3h3xAVOsi4Ov9H/VX8
+ 3FJtNSEjtCweLQMJ1Ck1A7orTxEHp8VE9+OUFe8eoCGOKofG5h6Jshjy2fMUFxIuiNCNez56
+ G0YsIk3D/Dp5Pb1FCp4nhRUt9ClTeZb7rt1AUtB4N+rZu0qPjuazsHzjth11aUXbQOrnGwaH
+ eV/y1dlK/qaf1ZceLSGTn3ZQeGgi0pC0bqS77Zs0ExUV5gyuMw2rGW5g==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 11/15] devtool: ide-sdk: support clangd for non-clang toolchain recipes
-Date: Wed,  9 Sep 2026 23:53:11 +0200
-Message-ID: <20260909215337.89106-12-adrian.freihofer@siemens.com>
+Subject: [PATCH 03/15] oe-selftest: devtool deploy-target: test deploying into a local rootfs path
+Date: Wed,  9 Sep 2026 23:53:03 +0200
+Message-ID: <20260909215337.89106-4-adrian.freihofer@siemens.com>
 In-Reply-To: <20260909215337.89106-1-adrian.freihofer@siemens.com>
 References: <20260909215337.89106-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,191 +38,205 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 21:53:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245514
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 21:53:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245506
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Make the IntelliSense provider choice independent of TOOLCHAIN.
+Extract an image's rootfs tarball with runqemu-extract-sdk, boot it via
+NFS with runqemu, then deploy a devtool-modified recipe directly into
+that directory with plain 'devtool deploy-target <recipe> <path>' (no
+ssh) while the target has it mounted live, and confirm the target
+immediately sees the change. Deploying a second time covers replacing an
+existing deployment, a --file-glob deploy covers the filtered variant
+which packs an explicit file list, and 'devtool undeploy-target <recipe>
+<path>' covers removing the files again, all while the rootfs stays
+mounted.
 
-clangd ships in the clang recipe, whose "clang-native" is only pulled
-into RECIPE_SYSROOT_NATIVE via clang-cross-* when TOOLCHAIN == "clang".
-Introduce a new bitbake variable IDE_SDK_INTELLISENSE which can be set
-to "clangd" on a gcc (or other non-clang) recipe.
-
-This requires adding the clang-native recipe to the sysroots in addition
-to the recipes TOOLCHAIN. Add RecipeModified.update_bbappend(), mirroring
-RecipeImage's marker-section bbappend management: which adds
-DEPENDS:append = " clang-native" to the recipe's own workspace bbappend.
+Also deploy/undeploy the same recipe over ssh into the very same live
+directory and compare the resulting file ownership/permissions (captured
+via the same pseudo find/ls trick test_devtool_deploy_target uses)
+against the local-path deploy's result, to confirm the two independent
+code paths (_deploy_local's pseudo pipe vs _deploy_ssh's tar-over-ssh)
+produce identical output.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_plugins/ide_code.py |  3 +-
- scripts/lib/devtool/ide_sdk.py              | 99 ++++++++++++++++++++-
- 2 files changed, 98 insertions(+), 4 deletions(-)
+ meta/lib/oeqa/selftest/cases/devtool.py | 161 ++++++++++++++++++++++++
+ 1 file changed, 161 insertions(+)
 
-diff --git a/scripts/lib/devtool/ide_plugins/ide_code.py b/scripts/lib/devtool/ide_plugins/ide_code.py
-index acf3db7494..8a8ab8bf3d 100644
---- a/scripts/lib/devtool/ide_plugins/ide_code.py
-+++ b/scripts/lib/devtool/ide_plugins/ide_code.py
-@@ -291,7 +291,8 @@ class IdeVSCode(IdeBase):
-         recommendations = []
-         # clangd (matched to the recipe's real cross compiler via
-         # compile_commands.json) replaces cpptools as the IntelliSense provider
--        # if toolchain is clang. CodeLLDB/GDB debugging is unaffected either way.
-+        # when selected via IDE_SDK_INTELLISENSE (defaults to clangd for the
-+        # clang toolchain). CodeLLDB/GDB debugging is unaffected either way.
-         use_clangd = (modified_recipe.ide_sdk_intellisense == 'clangd'
-                       and modified_recipe.build_tool.is_c_cpp)
-         if use_clangd:
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index a3fbe7cdcb..f9a92ac5ca 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -752,9 +752,12 @@ class RecipeModified:
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index cf7b97fdda..8bfdd15552 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -2171,6 +2171,167 @@ class DevtoolDeployTargetTests(DevtoolBase):
+                     extra_args = ' '.join(a for a in (strip_opt, filter_args) if a)
+                     _deploy_and_check(extra_args, check_full_filelist=not filter_args, expected_files=expected_files)
  
-     VALID_BASH_ENV_NAME_CHARS = re.compile(r"^[a-zA-Z0-9_]*$")
- 
--    def __init__(self, name):
-+    MARKER = '# devtool ide-sdk: clangd toolchain support'
-+
-+    def __init__(self, name, orig_bbappend_content=None):
-         self.name = name
-         self.bootstrap_tasks = [name + ':do_install']
-+        self._orig_bbappend_content = orig_bbappend_content
-         self.debugger_cross = None
-         # workspace
-         self.real_srctree = None
-@@ -829,6 +832,73 @@ class RecipeModified:
-         self._installed_binaries = None
-         self._gdb_pretty_print_scripts = None
- 
-+    @staticmethod
-+    def _strip_marker_section(content, marker):
-+        """Remove one devtool ide-sdk marker section, if present"""
-+        return re.sub(
-+            r'^' + re.escape(marker) + r'\n(?:[^\n]+\n)*',
-+            '', content, flags=re.MULTILINE)
-+
-+    @classmethod
-+    def strip_bbappend_sections(cls, config, recipe_names):
-+        """Remove devtool ide-sdk's own bbappend section from earlier runs
-+
-+        Runs before setup_tinfoil() so that every parse in this session sees the
-+        original recipe content and only non standard flags can be bbappended later.
++    @OETestTag("runqemu")
++    def test_devtool_deploy_target_path(self):
++        """Verify 'devtool deploy-target/undeploy-target <recipe> <path>' deploy/remove straight into
++        a local pseudo-managed rootfs directory (no ssh), and that a target
++        booting that same directory via NFS immediately sees the change.
 +        """
-+        originals = {}
-+        appends_dir = os.path.join(config.workspace_path, 'appends')
-+        for name in recipe_names:
-+            bbappend = os.path.join(appends_dir, name + '.bbappend')
-+            if not os.path.exists(bbappend):
-+                continue
-+            with open(bbappend, 'r') as f:
-+                content = f.read()
-+            originals[name] = content
-+            stripped = cls._strip_marker_section(content, cls.MARKER)
-+            if stripped != content:
-+                with open(bbappend, 'w') as f:
-+                    f.write(stripped)
-+        return originals
++        self._check_runqemu_prerequisites()
++        self.assertTrue(not os.path.exists(self.workspacedir), 'This test cannot be run with a workspace directory under the build directory')
++        testrecipe = 'mdadm'
++        testfile = '/sbin/mdadm'
++        # mdmon is installed by the same do_install, used to check --file-glob filtering
++        otherfile = '/sbin/mdmon'
++        if "usrmerge" in get_bb_var('DISTRO_FEATURES'):
++            testfile = '/usr/sbin/mdadm'
++            otherfile = '/usr/sbin/mdmon'
++        testcommand = '/sbin/mdadm --help'
++        testimage = 'oe-selftest-image'
++        # Use the mdadm-doc package to check --package filtering excludes it
++        mandir = get_bb_var('mandir', testrecipe)
++        docfile = os.path.join(mandir, 'man8', '%s.8' % testrecipe)
 +
-+    def update_bbappend(self):
-+        """Add DEPENDS on clang-native when clangd is used as only the IntelliSense engine"""
-+        wants_clang_native = (
-+            self.build_tool.is_c_cpp
-+            and self.ide_sdk_intellisense == 'clangd'
-+            and self.toolchain != 'clang')
++        # A tar rootfs is needed both to extract a local copy of it (below)
++        # and for runqemu to NFS-boot straight from that extracted directory.
++        self.append_config('IMAGE_FSTYPES:append = " tar"\n')
++        bitbake("%s qemu-native qemu-helper-native" % testimage)
++        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME'], testimage)
++        deploy_dir_image = bb_vars['DEPLOY_DIR_IMAGE']
++        image_link_name = bb_vars['IMAGE_LINK_NAME']
++        self.add_command_to_tearDown('bitbake -c clean %s' % testimage)
++        self.add_command_to_tearDown('rm -f %s/%s*' % (deploy_dir_image, testimage))
 +
-+        original_content = self._orig_bbappend_content or ''
-+        if os.path.exists(self.bbappend):
-+            with open(self.bbappend, 'r') as f:
-+                parsed_content = f.read()
-+        else:
-+            parsed_content = ''
++        tempdir = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(tempdir)
++        self.track_for_cleanup(self.workspacedir)
++        self.add_command_to_tearDown('bitbake -c clean %s' % testrecipe)
++        self.add_command_to_tearDown('bitbake-layers remove-layer */workspace')
++        runCmd('devtool modify %s -x %s' % (testrecipe, tempdir))
++        runCmd('devtool build %s' % testrecipe)
 +
-+        if not wants_clang_native:
-+            if self.MARKER in original_content:
-+                logger.info(
-+                    "Removed clangd toolchain support from %s: no longer needed", self.bbappend)
-+            return False
++        # Extract a local pseudo-managed rootfs the same way
++        rootfs_tarball = os.path.join(deploy_dir_image, image_link_name + '.tar')
++        self.assertExists(rootfs_tarball)
++        extractdir = tempfile.mkdtemp(prefix='devtoolqa')
++        self.track_for_cleanup(extractdir)
++        nfs_rootfs = os.path.join(extractdir, 'rootfs')
++        runCmd('runqemu-extract-sdk %s %s' % (rootfs_tarball, nfs_rootfs))
++        self.assertExists(nfs_rootfs)
++        self.assertExists(nfs_rootfs + '.pseudo_state')
 +
-+        new_section = self.MARKER + '\nDEPENDS:append = " clang-native"\n'
-+        new_content = parsed_content
-+        if new_content and not new_content.endswith('\n'):
-+            new_content += '\n'
-+        new_content += new_section
++        # oe-selftest-image does not install mdadm by default, so the target must not see it yet.
++        self.assertNotExists(os.path.join(nfs_rootfs, testfile.lstrip('/')))
 +
-+        if new_content == original_content:
-+            return False
++        qemuboot = os.path.join(deploy_dir_image, image_link_name + '.qemuboot.conf')
++        self.assertExists(qemuboot)
++        launch_cmd = 'runqemu %s %s nographic' % (shlex.quote(qemuboot), shlex.quote(nfs_rootfs))
++        with runqemu(testimage, launch_cmd=launch_cmd) as qemu:
++            status, output = qemu.run("awk '$2 == \"/\" {print $3}' /proc/mounts")
++            self.assertEqual(status, 0)
++            self.assertEqual(output.strip(), 'nfs')
 +
-+        appends_dir = os.path.dirname(self.bbappend)
-+        os.makedirs(appends_dir, exist_ok=True)
-+        with open(self.bbappend, 'w') as f:
-+            f.write(new_content)
-+        logger.info(
-+            "Updated %s: added DEPENDS on clang-native, needed to stage clangd "
-+            "for IDE_SDK_INTELLISENSE=\"clangd\"", self.bbappend)
-+        return True
++            status, _ = qemu.run(testcommand)
++            self.assertNotEqual(status, 0, '%s should not be deployed yet' % testfile)
 +
-     def initialize(self, config, workspace, tinfoil):
-         recipe_d = parse_recipe(
-             config, tinfoil, self.name, appends=True, filter_workspace=False)
-@@ -885,7 +955,8 @@ class RecipeModified:
-         self.target_arch = recipe_d.getVar('TARGET_ARCH')
-         self.tmpdir = os.path.realpath(recipe_d.getVar('TMPDIR'))
-         self.toolchain = recipe_d.getVar('TOOLCHAIN')
--        self.ide_sdk_intellisense = 'clangd' if self.toolchain == 'clang' else 'cpptools'
-+        self.ide_sdk_intellisense = recipe_d.getVar('IDE_SDK_INTELLISENSE') or (
-+            'clangd' if self.toolchain == 'clang' else 'cpptools')
-         self.topdir = recipe_d.getVar('TOPDIR')
-         self.workdir = os.path.realpath(recipe_d.getVar('WORKDIR'))
++            # Deploy directly into the local rootfs path (no ssh) while the target has it NFS-mounted live
++            deploy_cmd = 'devtool deploy-target %s %s' % (testrecipe, nfs_rootfs)
++            if self.logger.isEnabledFor(logging.DEBUG):
++                deploy_cmd += ' -s'
++            result = runCmd(deploy_cmd)
++            self.assertEqual(result.status, 0)
++            self.assertExists(os.path.join(nfs_rootfs, testfile.lstrip('/')))
++            self.assertExists(os.path.join(nfs_rootfs, otherfile.lstrip('/')))
++
++            status, _ = qemu.run(testcommand)
++            self.assertEqual(status, 0, '%s was not deployed' % testfile)
++
++            # Deploying again while the target still has this directory NFS-mounted live must still succeed.
++            result = runCmd(deploy_cmd)
++            self.assertEqual(result.status, 0)
++
++            # Undeploy directly from the local rootfs path (no ssh) while the target still has it NFS-mounted live
++            undeploy_cmd = 'devtool undeploy-target %s %s' % (testrecipe, nfs_rootfs)
++            if self.logger.isEnabledFor(logging.DEBUG):
++                undeploy_cmd += ' -s'
++            result = runCmd(undeploy_cmd)
++            self.assertEqual(result.status, 0)
++            self.assertNotExists(os.path.join(nfs_rootfs, testfile.lstrip('/')))
++
++            status, _ = qemu.run(testcommand)
++            self.assertNotEqual(status, 0, 'undeploy-target did not remove %s as it should have' % testfile)
++
++            # Confirm the local-path deploy (dual-pseudo pipe) and the ssh deploy
++            # (tar over ssh) land identical files with identical ownership/perms
++            # into the very same live NFS-exported directory, for both an
++            # unfiltered deploy and a --package filtered one.
++            bb_vars = get_bb_vars(['FAKEROOTENV', 'FAKEROOTCMD', 'PATH'], testrecipe)
++            fakerootenv = bb_vars['FAKEROOTENV']
++            fakerootcmd = bb_vars['FAKEROOTCMD']
++            path = bb_vars['PATH']
++            state_dir = nfs_rootfs + '.pseudo_state'
++
++            def _get_rootfs_filelist():
++                # nfs_rootfs has its own pseudo database, distinct from the one
++                # FAKEROOTENV points at, so override it for this inspection.
++                cmd = 'PATH="%s" %s PSEUDO_LOCALSTATEDIR=%s PSEUDO_INCLUDE_PATHS=%s %s find . -type f -exec ls -l {} \\;' % (
++                    path, fakerootenv, shlex.quote(state_dir), shlex.quote(nfs_rootfs), fakerootcmd)
++                result = runCmd(cmd, cwd=nfs_rootfs)
++                filelist = self._process_ls_output(result.output)
++                filelist.sort(key=lambda item: item.split()[-1])
++                return filelist
++
++            def _compare_local_and_ssh_deploy(extra_args, expected_files):
++                """Deploy extra_args once locally and once over ssh into the same
++                live directory, and assert both leave identical files with
++                identical ownership/permissions (expected_files checks each path
++                was/wasn't deployed, on both sides)."""
++                local_cmd = ('%s %s' % (deploy_cmd, extra_args)).strip()
++                result = runCmd(local_cmd)
++                self.assertEqual(result.status, 0)
++                for filepath, expected in expected_files.items():
++                    exists = os.path.exists(os.path.join(nfs_rootfs, filepath.lstrip('/')))
++                    self.assertEqual(exists, expected, '%s: %s exists=%s after local deploy' % (extra_args, filepath, exists))
++                local_filelist = _get_rootfs_filelist()
++
++                result = runCmd(undeploy_cmd)
++                self.assertEqual(result.status, 0)
++                self.assertNotExists(os.path.join(nfs_rootfs, testfile.lstrip('/')))
++
++                ssh_cmd = ('devtool deploy-target -c %s root@%s %s' % (testrecipe, qemu.ip, extra_args)).strip()
++                result = runCmd(ssh_cmd)
++                self.assertEqual(result.status, 0)
++                for filepath, expected in expected_files.items():
++                    exists = os.path.exists(os.path.join(nfs_rootfs, filepath.lstrip('/')))
++                    self.assertEqual(exists, expected, '%s: %s exists=%s after ssh deploy' % (extra_args, filepath, exists))
++                ssh_filelist = _get_rootfs_filelist()
++
++                self.assertEqual(local_filelist, ssh_filelist,
++                                '%s: local-path deploy and ssh deploy produced different file ownership/permissions' % extra_args)
++
++                result = runCmd('devtool undeploy-target -c %s root@%s' % (testrecipe, qemu.ip))
++                self.assertEqual(result.status, 0)
++                self.assertNotExists(os.path.join(nfs_rootfs, testfile.lstrip('/')))
++
++            _compare_local_and_ssh_deploy('', {testfile: True, otherfile: True, docfile: True})
++            _compare_local_and_ssh_deploy('--package %s' % testrecipe, {testfile: True, otherfile: True, docfile: False})
++
++            # A --package/--file-glob filtered deploy hands tar an explicit file
++            # list instead of packing the whole tree, so cover that path as well.
++            filtered_deploy_cmd = deploy_cmd + ' --file-glob %s' % testfile
++            result = runCmd(filtered_deploy_cmd)
++            self.assertEqual(result.status, 0)
++            self.assertExists(os.path.join(nfs_rootfs, testfile.lstrip('/')))
++            self.assertNotExists(os.path.join(nfs_rootfs, otherfile.lstrip('/')))
++
++            status, _ = qemu.run(testcommand)
++            self.assertEqual(status, 0, '%s was not deployed' % testfile)
++
++            result = runCmd(undeploy_cmd)
++            self.assertEqual(result.status, 0)
++            self.assertNotExists(os.path.join(nfs_rootfs, testfile.lstrip('/')))
++
++
+ class DevtoolBuildImageTests(DevtoolBase):
  
-@@ -1650,6 +1721,8 @@ def ide_setup(args, config, basepath, workspace):
-     # ide-sdk section it is a no-op.
-     orig_bbappend_contents = RecipeImage.strip_bbappend_sections(
-         config, args.recipenames)
-+    orig_recipe_bbappend_contents = RecipeModified.strip_bbappend_sections(
-+        config, args.recipenames)
-     tinfoil = setup_tinfoil(config_only=False, basepath=basepath)
-     try:
-         # define mode depending on recipes which need to be processed
-@@ -1769,7 +1842,8 @@ def ide_setup(args, config, basepath, workspace):
-                         str(recipes_modified_names))
-             debuggers = {}
-             for recipe_name in recipes_modified_names:
--                recipe_modified = RecipeModified(recipe_name)
-+                recipe_modified = RecipeModified(
-+                    recipe_name, orig_recipe_bbappend_contents.get(recipe_name))
-                 recipe_modified.initialize(config, workspace, tinfoil)
-                 bootstrap_tasks += recipe_modified.bootstrap_tasks
-                 recipes_modified.append(recipe_modified)
-@@ -1797,7 +1871,26 @@ def ide_setup(args, config, basepath, workspace):
-     if args.bitbake_k:
-         bb_cmd += "-k "
- 
-+    # Add back the clangd toolchain support section stripped above, if still
-+    # needed. Runs even with --skip-bitbake, otherwise it would be lost (see
-+    # RecipeModified.strip_bbappend_sections()).
-+    recipe_bbappend_changed = False
-+    for recipe_modified in recipes_modified:
-+        if recipe_modified.update_bbappend():
-+            recipe_bbappend_changed = True
-+
-     if not args.skip_bitbake:
-+        if recipe_bbappend_changed:
-+            # The bbappend content just written differs from the one bitbake
-+            # parsed during the tinfoil session above. See update_image_bbappend()'s
-+            # matching reset for phase 2 for why this is needed.
-+            reparse_tinfoil = setup_tinfoil(config_only=True, basepath=basepath)
-+            try:
-+                reparse_tinfoil.run_command('resetCooker')
-+                reparse_tinfoil.parse_recipes()
-+            finally:
-+                reparse_tinfoil.shutdown()
-+
-         # Phase 1: build modified recipes and debug tools so that
-         # installed_binaries is populated and port numbers can be assigned.
-         # The image is built in phase 2, after the complete bbappend is written.
+     def test_devtool_build_image(self):
 -- 
 2.55.0
 
