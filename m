@@ -2,51 +2,49 @@ Return-Path: <jakub.szczudlo@nokia.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 944C2C79FB7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 861ABC79FB6
 	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 13:35:38 +0000 (UTC)
 Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.38])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.12382.1788960935098385025
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 06:35:36 -0700
+ Wed, 09 Sep 2026 06:35:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@nokia.com header.s=selector1 header.b=CsGMPssN;
+ dkim=pass header.i=@nokia.com header.s=selector1 header.b=EXkbS47J;
  spf=permerror, err=parse error for token &{10 18 %{i}._ip.%{h}._ehlo.%{d}._spf.vali.email}: invalid domain name (domain: nokia.com, ip: 52.101.72.38, mailfrom: jakub.szczudlo@nokia.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=xAE9NL3SIOSeWVPDml3r1snMZ+0WrS3M+5SHMELaDyvMM9jAfFnX+GdXWGd9rqwEK0c7c4MnI7A9bz++ugiyyr/puOUO3walyCrIaiJepT/sp5MX+ZWlqu3+jGFngGes9/ft09I6UqJH9oo2GrIN7tK1eMQQyWzFa4NJV619g5lFCIlnWIp29c13RRZqDnUvcuVoNAs89PB+/kDYz/BTc+3cvhjZw4GRlQpHBKJ46DGoQTes/paJ0JqTduNw2KTo5hH/HdwIhHVBgfEmDE9uBti4LDckYCOvrKfbKfcZrkn79P0h1+skW2B7V7tpZEU7S4WA/iK4Gx4x8QwQg03+GQ==
+ b=tGkIvPPpBNOF+arMxy3LsY8mjkTzqgSC+5BR/mHy/iRiFp8ozGhaoFDtvLKiRf/dzUU8jIyXac4S4eQ5vvLqPbeft6THVqtd9+PMSwnFfTbNRWZv+ph+SMMZ/x2uRL62ByEYiS0hJ7HqB8msAwz6wzsBHLz4gQJuXtFNxuRmAIg30UwNfWc7g6SI9kpqB88hFgDV9rpSHblj0nTBHVPToACfRZz+uupLfA05TEIlk43RVUjXjEWrocDWt2YtA1GZFUw0Bi+0/pYySbizeB8pSRmozUZ8PbWtr0+uAB3xc6PT7XWCIJhoxG0rked4tw3HlQ9xVyy+GuaDkrLocNe9Bw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nThAPvORKzEcFvIN4OF4IvMlggYlsSqBlPuT6JSa+Lk=;
- b=MsjkkU0R7n4K2q/AuIMDVePY3SwtQgbV6qok/eYS3Jay60TQxtKHnzKWo9EryXPesk5MWKI8Ioq7IRzW+txwKVpB9Z55dH4V7W+mnI5URI4/+wa7bn+eTJ7vGdadw2CEvgA0S74s0fovJQ/3CJ7jljwCxCnB4ZM+etTEKvnfJ5ex/qShJRdqLd053sslN4E7iIZSrgOLTwO/ZU7wIDu/YdsbF6qlbkY6gO2Xa6uCwcHiz2nOBmTcsyyJAzt9V28Hg4zriSXjyHT0XP7zs/V6f6offBh3gsG3mMI5Ur0AcTzOuhDk3HXd8FxdCxhdIVcdTzTLDi5AN6bBJKE9Rc92AQ==
+ bh=+qSzjwqHn89OeYq/y2zrVHCDO014JyYCC+Sg2hZnOd0=;
+ b=m8GmsEgKGHczHXSnwHmmaWWodK+DmrVn845LvkN1YtGcPazS0iiYS3Vhv/sMGWKLJHtwtYiVQvTmJfZRwKRrxwt6Cy9AhGvBIr5w2PC8m55ZVBadeYZ3hLAzrKpqlkafrdxz9JziRbn99U8VbPFgPfLWruTs71zjUSxRDvKuNMWlG9YjpV/lMNIoi4vJMAeRA6hIntBGmNfwTYhyhwI6823ktZlXFra2FQniLqH6WUlh+om/9WK+l/YA2i2YNeXYOhFQEtnIk8Sc8sjNUGY2CbuFXFwu+ZQPpxOq39no1P1dbkqHOtXX3OJeXIadFDEpYEK4ZEWNubZTuSkkZosqTA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=nokia.com; dmarc=pass action=none header.from=nokia.com;
  dkim=pass header.d=nokia.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nokia.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=nThAPvORKzEcFvIN4OF4IvMlggYlsSqBlPuT6JSa+Lk=;
- b=CsGMPssNcjmZWux9wIBzP0HLpeyUSLwDelCS/hVxGu2hbybX+hACO4619jVyKad3Pv3BFeEy/Cn3sTaI193JZo2XbOOsXP/YULQ0K8NcRFc11fPkgMYmUQ/lqi1g7fwNEbgPET5LWlIRbHfrqOp1fv4HtclCEkI20zMsTNR6ZtzlulLKJ8xLZ+h5VLbIzAbEUqpIW8Gv/f1Dl7LkV8QND6BF1FlFLfWiWyCtTP22EQpsx3dXL1W6OvgKnjvz/N8sNEedg3RD6ayQJIN4ewkAIdnq/ESA3ls158GX/BnDCXLLP+GpUoJ4N/Ld2B3EdNcpYJN9Imv9nkTQgB4sE6yk5A==
+ bh=+qSzjwqHn89OeYq/y2zrVHCDO014JyYCC+Sg2hZnOd0=;
+ b=EXkbS47JXBBdKZ/cHVojwR/hkw6SFIN1OxtOsvSvnlovHA8o3INPO3vMHbPJehT8lkgw2X2bnYSM9AXORaUQsaukfQI4mKmHWp8o0t7j6OA/adZSNJGM6lEDxF7w64i4YGFvXtSl3BM2E7YWoIDOQuLjyZ4Yi1G+54D1uku7QAaQyRAA33XgZSlB2Nq+pEEf6/BZNoP9VzCQgBiTP4WwgvB2g1CyDjdlPHhq+cUW7dO6DXS6xhgawjHCfi+ckoUGYYSMtmN7lMa0sxcaRzV/cvTHM2wU0f9b7bkf71919YjDVAh1KqK70WKvtDafzWKKBvIfPz1/DfVTwhoAtW9iiQ==
 Received: from GV2PR07MB11919.eurprd07.prod.outlook.com
  (2603:10a6:150:357::20) by VI0PR07MB12084.eurprd07.prod.outlook.com
  (2603:10a6:800:33b::16) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Wed, 9 Sep 2026
- 13:35:34 +0000
+ 13:35:30 +0000
 Received: from GV2PR07MB11919.eurprd07.prod.outlook.com
  ([fe80::159a:9a82:1362:e680]) by GV2PR07MB11919.eurprd07.prod.outlook.com
  ([fe80::159a:9a82:1362:e680%3]) with mapi id 15.21.0360.008; Wed, 9 Sep 2026
- 13:35:34 +0000
+ 13:35:29 +0000
 From: "Jakub Szczudlo (Nokia)" <jakub.szczudlo@nokia.com>
 To: "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
 CC: "yoann.congal@smile.fr" <yoann.congal@smile.fr>, "Jakub Szczudlo (Nokia)"
 	<jakub.szczudlo@nokia.com>
-Subject: [wrynose][PATCH 2/5] gnutls: fix CVE-2026-42013
-Thread-Topic: [wrynose][PATCH 2/5] gnutls: fix CVE-2026-42013
-Thread-Index: AQHdQGAX63mB9v3EOUq9c4+y3MP9Dg==
-Date: Wed, 9 Sep 2026 13:35:34 +0000
-Message-ID: <20260909133510.3286-2-jakub.szczudlo@nokia.com>
-References: <20260909133510.3286-1-jakub.szczudlo@nokia.com>
-In-Reply-To: <20260909133510.3286-1-jakub.szczudlo@nokia.com>
+Subject: [wrynose][PATCH 1/5] gnutls: fix CVE-2026-42012
+Thread-Topic: [wrynose][PATCH 1/5] gnutls: fix CVE-2026-42012
+Thread-Index: AQHdQGAUEIYZ2PsTu06uQUJr4RSawA==
+Date: Wed, 9 Sep 2026 13:35:29 +0000
+Message-ID: <20260909133510.3286-1-jakub.szczudlo@nokia.com>
 Accept-Language: en-US, en-150
 Content-Language: en-US
 X-MS-Has-Attach: 
@@ -55,189 +53,424 @@ authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=nokia.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: GV2PR07MB11919:EE_|VI0PR07MB12084:EE_
-x-ms-office365-filtering-correlation-id: 99ea616a-df76-4bf1-345f-08df0e7739ce
+x-ms-office365-filtering-correlation-id: c15a64b5-1a51-44d3-8993-08df0e7736fc
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|38070700021|11063799006|10067099003|56012099006|22082099003|18002099003|12006099003|3023799007|13003099007;
+ BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|38070700021|5023799004|11063799006|10067099003|56012099006|18002099003|6133799003|12006099003|3023799007|13003099007;
 x-microsoft-antispam-message-info: 
- gEz8ZM46dFjbVgA+8vfVUv3Q67uRepr7SOz8KBv2G27naeaDpj2oJHpxyXMYCTq1aDO896Fhv0Be4ynsUbqEXgI+BCmR5kIdaIk3fdxtquL+GIYfX3zfAokILxnEl72h/jfHRR2+g5OzEpXzS+YewoY/w7/37O/+t+Il/gOb2rOf5YHBuRQTTOUUMIqIbD/Me45FeuTzKxu/dbQuYUC49fEsVSzBf0gb2CiT5IHyxNXErxhL8mVZomgjy8BXTgoHRtX4TLWj7/Iv4iZ+HtGcGr5yPdz1oaqXUC9LEwnqjk1HbnYWa8xeOwx+rnbDip6rtU+7iot2C0+nyrRaBM1ggb+X/118Bks0WT+QHr4juJjbWqiTKKVBqynl/kq3ezuCw5R0jc5r7s9Vm/kfrhLUPy5C/jcdYLwlxStVRVslMoSxve5c2v9sHOX3m23lsPu9hPJKihivXl8Ji+tahGdWPEgIXeqSLNGp/5JMb+YUOchNgmoBfs2JqAnfkTzF4L3nefj08brSZdERtZgVzEv+EediN9lzS11LExxa04B1BSGk60KpdfSYzJuoSe7djEbtBDaoWZ3baLfwaVaNwCZcO1kuf7WUHRXvYyNaLGCzlYqGHvNcFgF5+VVLz2pY7ljQ3TlGufwAP3noXLemsObax4672i7tuXB0bJFPSdTsropeV64Twlq1cFy0Q3/C4UsKfRpwyIG9LvetF4qGiyUSMIrSRL4lLdtwaPPBQTZyliU=
+ Mhhf6l1Q55uMM+9ciDn7qvUka4JTEvQ1MC3vzAh1rcqOKac2bETAHCKSk83jxW+fdKRMbcgOTbIDSTMo6ohhMnpVeRUvHsVjA41dZqvjSv5QEgU+pOtMOAri2UzPZAlqaK2shwVEmW0gxg/p6QbEp75zQhInXH+NESWJEs+SAtLIqwILPmUt8iUomFJ1C5+n9fE0hxcA1mGPiNfW6+uw9bhgWUjT1TsNP8KQDaFZ9Ygix/DETl2CznmPD+dtiLZPzVCBtRms16S39phhkdvBHEqGJMpFgCvx3smAE+OJ4y7G9zHto8u/dNMSvJ0eacsoMDGOq43/OeNpI0NpxDG2ApV4C+rqilaUPUtrLpQMleLbhoyTL0eFYN4IY6yUzJxVi1X7y1xeNMUYvMf48iFfSUMvFEwnb3fENAjGM5FL1lMSa7COjuOvptiMMFGYt0eOdbc7zqESwlVoNaRwoFe4GYSxmv3cGGzzJO3zMaOZcQ/615ZNYrugis4YEXnHAnc+2HeWbSEfKBLvM3RTjrmwdzcwpu5/+AmflotaA9+/SbCnXwXWrCHDBpqaFoBwBcj2t4VAS/lMhq6oQ8LP+XqWcPVllWIsw1sUj4OnTkEHMbPsxo7RV8uH03wtDTzTXxOf95FIvYYBno5M2/q+ka+qdgRJCAZ/usCymjVDTa/QSJ5GeZjZUxo4Hh7CeoXlfk5mgi2m40/oJnYIFZVRUUH48RX5ZCirE9KSllVR1skn2hk=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR07MB11919.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(38070700021)(11063799006)(10067099003)(56012099006)(22082099003)(18002099003)(12006099003)(3023799007)(13003099007);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:GV2PR07MB11919.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(38070700021)(5023799004)(11063799006)(10067099003)(56012099006)(18002099003)(6133799003)(12006099003)(3023799007)(13003099007);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?OThLRW9RTklJd05vTGI4Q1NQQVRXRVR6YjFNZmlrT3lsem1zYjAvREkzZHJW?=
- =?utf-8?B?cFVQajBFSGZIYlBBMDNjZmUxNU9wd0JpbDNCUTB4eHhHSitSZEdLSERDOUJH?=
- =?utf-8?B?bEJ0Ukw5OU9QaVBZRy9COFIzRnpzc2JGZnBoSFhMbTVxcCtaY0xqVWp6L0Fr?=
- =?utf-8?B?bVUzVXpTckp5TTdsc2RERjJ3c2w4MzNNMjdXMjQ1SVR3V0g2TmthYmp2WVk3?=
- =?utf-8?B?bWZNa3BsOElMb2lWNlBLeUJIYS85eHBSSHR3a1d6eHJNZWxCVDF3bE5HbmF3?=
- =?utf-8?B?QkN5RGF3a3M4UVE0eU5jV2xHWHI5d00vNDQ1MWcwTU45UUUxNWVHYVJHRXVp?=
- =?utf-8?B?QnY3S0R5clFOR0NTKzdpM1VnbUxTcFNTK29kb2lVTzMzMklwQ3lOTU9RK0lJ?=
- =?utf-8?B?clgvS3JybFJ5SkIzWkdocDVQQ2wvbXdDMzlhZTdqOHVDNE5UNnZIMk5TMGZE?=
- =?utf-8?B?TW9KNFlaYnRzRmdrODJ4ZkRQRjdOa0ZMZHNTRjVuYzZUZmxLQ1B3YVJZVHY0?=
- =?utf-8?B?K2dSRDlac2V3K3gzNzU2VXJUM3I4WnpjRlg2VU9WL2dvNFlvMTFRL09BdkQx?=
- =?utf-8?B?ZkxaNTg0RVNIOTVXdW4yTXBjOHpES1BBVXRKc2xNVG5UTWpMZXQ4V2k3cW9j?=
- =?utf-8?B?TUpnWThaMUU2d0xoTUd2MzNITDZ0aklUd3ljYm9hNWZidC9CMVBaWk0wbU1V?=
- =?utf-8?B?cjlJVFNldXdlU0g5S0srVnR4NGF3d09XbXZVLzVIa1BzM1dLbnVCMEtGcHJT?=
- =?utf-8?B?QkF4cnlzUWI2bG1xdDNOYXVHNEhQbURGZTVEVzFWTlF4bTB0RElFU0FCNGNJ?=
- =?utf-8?B?Q3hGb0NSWHZSNitQZ1NLQjRTckRGTkhUZ2ZlZDlTWm1HK2JJRjk2VUx1R2R1?=
- =?utf-8?B?ckNmdS9mNi95bWNoY2N5bDBCOXFqMWVYSEQxU2Q1bGRYczhqSXh6NFN3VkxZ?=
- =?utf-8?B?SERRTC9KdzFzTGg2Y3hZekp1UjRZc3BndFhYeXhhb2JZSlB0VGVwSi83ZUVZ?=
- =?utf-8?B?S21MT3o3T1Bsa2M3eFgvZUo5bXJBUkMzVlFKMjlPZWwrTGZzb0M0d3B2bGFh?=
- =?utf-8?B?WUxVVHc4dkVJY0lWaXg3MXhwa1FMUVJzZ2ZpN3pXc3RiOTNDbjJWS2h6MmVQ?=
- =?utf-8?B?bDBBVnV0ZFFOMm40Mkcvcy9oOUZIQ0g4NXJldUl5emgvRjBOSU1MbG4yeloy?=
- =?utf-8?B?QTVyWDhveHZyWU9JNkVDK1ZEUlNFVFhNQnhxbzhnallhY2lEcFVIY0JRUkFO?=
- =?utf-8?B?UVBJYUJYRG5yN0I3NFE1ZHVxVUVBQjVtQWN2cmtDMmNodXVwTEZKd0N5UWdl?=
- =?utf-8?B?RjYwYXVOM2hOclcxMnpMSGxQajNBTzVIY1gwcDZFTmlQV3NQOVpGRE9WTElD?=
- =?utf-8?B?OENIeW9uN2NsVHVUUWZaZW1YTnBJbVUwNk9GWGJZditqb0dEQ0R3cHduc3Nm?=
- =?utf-8?B?dDJWWVRvYnJaL1cxalpURHMyUVN0dm02U050alNkNC9UNENhTjloV0d6N29U?=
- =?utf-8?B?V1hYZHNKUWcvRklwb1FYNG1rRml3Sk1jTGdYZ3h4MHhmYTJnVWp4ZlNNaVVH?=
- =?utf-8?B?eTZyVFVLc0ZTMzN6TWFhZm5iV2lEZ0xFK1ZJTlc0ejF6blN4ZWgxRTZpOXhZ?=
- =?utf-8?B?UmttOEF3OUFsanZVUWlvUnMxS3lrZGZGMXdGVEx1bkNtS0ZTOWhVdlRvYWNK?=
- =?utf-8?B?ek5tTEtNai9SWGtUNHQraTJwTlVWYjR1V2hBUk1UL0ZSN3hkYjA3ZlYwcVVM?=
- =?utf-8?B?bEwvbk1SSyt4K25kczh5NC93RlhMcnN3aWRBNW9RYVhEdk9UVXpmSDlHMW5p?=
- =?utf-8?B?TmJ3WWlxSitYOXZSa3NBTmlCVXBTMGp1NHFqZE5rTjF3aGZRdnpmNHFiR0tM?=
- =?utf-8?B?Rk85cWFMM3M4a0NXTlFRd0xpUXpFRVBsUEFWaE9FeGIyU1ZYOFlLMXlXenhu?=
- =?utf-8?B?SDE4MFNQUXVyeDFUSlY4bk9JakVBZjNLSUl4QU1XcmZhZDZGaFV0MWRSZDFO?=
- =?utf-8?B?Qktmenhnem5qbkcyWXlZQmhxT3N2ZTBDVXVwcHVrSDVhM1E2MmtlSjdvZkV5?=
- =?utf-8?B?Mng3c09QNDBUT3cxV1c0T2hFS3ZZRWJNdFZGTHFyZmxQMitHU1JLRTVBSGl0?=
- =?utf-8?B?OG84d1VDOEZrajNwS3dHTlY4cFQ4SnJ3OUN1L0RFNnprUzdQcTdjc2YrNUt3?=
- =?utf-8?B?RTUzaGtLTW4yMDk4K2tVeWVRdUhKT21WTWNyRXhoZjlHMXBvTktZdHZKaEU5?=
- =?utf-8?B?eUhoUG5HbUhEd1VRT1EzdGJ2aG42U2pITHg3djRHbHZOL0VSSEZLRmt0S1or?=
- =?utf-8?B?elJ2NUdXV0xjYmtleGZkWjY5emZzMk9BWG45aEF1N2R4eUhOc1Vqdz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <96352C724D201C4384F373CC82C09ABE@eurprd07.prod.outlook.com>
-Content-Transfer-Encoding: base64
+ =?iso-8859-1?Q?EIGo0Ps6kDEm+TVSI5su2hknpqSZ3MgVg5vQLRF+YLfn6eyx/TqIlPvOOR?=
+ =?iso-8859-1?Q?Nf/E/fUBQpCTfxVjsEI+prATFoOYetU5Z53PUFKkaG2tTTDsqWhf/v09MB?=
+ =?iso-8859-1?Q?qR5oy7u2hB7F1hT+2oWlHl/VDUZeJNhlP06X6AdphSYAhIiewE6Tuf/h3Y?=
+ =?iso-8859-1?Q?6vuWKWKo32Fu0PV+yap9dQWQBFrjhvPuzwVEC4y+mB1I6PHPprSpWuOzn3?=
+ =?iso-8859-1?Q?2FEp/fcvj8ASygoqsB1ZvTjBkcI4H1TJHFT+RA74G4S/pQWWoDnqhBt7ww?=
+ =?iso-8859-1?Q?5YSeHmZRVXwl14hcH/muj9tkMrUieZb0M8KoepBhEQzfbZhfDbyCCrHbqO?=
+ =?iso-8859-1?Q?mX15Y2bSEWUw1cOK5ndSTyMbp7JBJtUj4AbopHhKx1abAz/NczQMbMznr7?=
+ =?iso-8859-1?Q?brRT6PICgwcqjEzvUgxTJJDhOEwWuqwCHxanP1CEeK3xE4KhSduh5SlSUk?=
+ =?iso-8859-1?Q?m0xpn0Djm4cnM4uhCjXf2fBTbbT5SC9QiN3s2rlou7j+jmsbs4e7MPK5UN?=
+ =?iso-8859-1?Q?a4KASd0hN73d+mu+1ssBw4fbrVvF5MPuLrTtj8gmbO/cW1//ATW+okHs9W?=
+ =?iso-8859-1?Q?AwkRkdWX/n8RdvcTXQrvK6WNz7QpW6u2rVFAaw+q+Qsu2qGhiH/INRiax8?=
+ =?iso-8859-1?Q?ZRTLZ9kJCXzTv+bj32Zb3UIeanxgkFo211iIb4C936aJdfQh0EY2g6zgh9?=
+ =?iso-8859-1?Q?uoopMBKwlhw/y1yKly/DWehc7aJCaJkuByWzlIrLr82SqFLIkWsNW+Rax3?=
+ =?iso-8859-1?Q?LXgQgXXhZEh9mXY8KWywf2NzaKyP7B9K14B+IJVLwmFPPs6TA4d2nnX+ZG?=
+ =?iso-8859-1?Q?sxlqJ1wiNvIB+14Ak94aYmNmemNmLkQ7GWE+sAmgKHuPv48DMQ+7n3EVEw?=
+ =?iso-8859-1?Q?rzQvG6qzPbqrO0avTI22Kq3CFP4aEIa6UVNRUH9eP2V0VZuLlh9nwWmW+L?=
+ =?iso-8859-1?Q?fj1ybpbdWJJmDo54SiQHrwO1jhHBzw0VTxfR3RRUeSXCW/Dpwg+RAUAZ4U?=
+ =?iso-8859-1?Q?Y6Uk/CYgDQdkYQ7AGDJWJrjCNHadyylX5oXzhR7M4iUaVkAJB7xbY0JY6I?=
+ =?iso-8859-1?Q?jNauIRnGYLYz1t1+3Nh8lYwxbLo7zheGvrpExRhCF9hkGHwtVhFW3XUOPO?=
+ =?iso-8859-1?Q?scvozcQr6udXccut/hCLftELxM1QP8wAoJgrvQ/ZKFvLtMlayz4XSxkIzv?=
+ =?iso-8859-1?Q?exIO8M7LYHvJmVxe/ACqha4S6GItOO4s/A9MgfA3dI9maSJOIeAQlcyyMf?=
+ =?iso-8859-1?Q?EpBzE6ayXxuEmousXu6RglA/wyNBH+9zzGHHMrVYTzOsTmyZG/z/P5zQA1?=
+ =?iso-8859-1?Q?xcsOxT0ixOyDSmHlE9+DpuSTMCdkhjNRxqLxJq5zELJ966mIkiK1AzgGb9?=
+ =?iso-8859-1?Q?S+g3DdL28ddsuRkN1w7JKBlJJLTgKhm0Un7h6ipU0z5SEqdTkYiq9AR/Rg?=
+ =?iso-8859-1?Q?Rw1Yt0kR1G3BibF97k2LDyCSvxEMGCcOOPnANZs7eN0TGeylg1mYFvDSxP?=
+ =?iso-8859-1?Q?946zF+lhor6UQ+yV1fq1ygu7ujHtlB6qSfHOS2jfX5xCqVTg4nORn79nOy?=
+ =?iso-8859-1?Q?lRCe3gc9yZ1lj4Jhxaz4lxHTZfif9EF2iBtX+HyJYw8SoQouzufLTjBhRc?=
+ =?iso-8859-1?Q?oOrFkPx7z5e3qqRwLlKjTEbb/6wwkbyV5SpHupUAPtbFvRHmiwzF+YCQ1I?=
+ =?iso-8859-1?Q?jVWYUOZIv9dM8RSXlSR3U8fukWCg0/t+Lo34wUQ1hQMeQI0CEKslHEFSMG?=
+ =?iso-8859-1?Q?bev6LJAV7nByeXIw1Je0+9csW+FCkrw5n2oVZj4O6pKCZPTry10djlJWFD?=
+ =?iso-8859-1?Q?bG3SPIyQvw=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
 X-OriginatorOrg: nokia.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: GV2PR07MB11919.eurprd07.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 99ea616a-df76-4bf1-345f-08df0e7739ce
-X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2026 13:35:34.3522
+X-MS-Exchange-CrossTenant-Network-Message-Id: c15a64b5-1a51-44d3-8993-08df0e7736fc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 09 Sep 2026 13:35:29.5941
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 5d471751-9675-428d-917b-70f44f9630b0
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: izOAs4RWyMGKeP/9rgUX40BAZ3/S9DhFIo0etP8+omhRNoeVTIQ1om0sTlEIA0A5iFTojvqqlSBIQaXhmbzWSrFzNZ3k5+fafdYol6Ovs+I=
+X-MS-Exchange-CrossTenant-userprincipalname: LH0cGEmD20y3pn5EwyqbU5ct4VQ3chHaReiHxwVOx29xFE4AQCdUh08cVIsN+RyUqDLsvnafEDE+tmJ/WKpPHnf9UyUXG+x5mhkJF9TvBx4=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR07MB12084
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 13:35:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245464
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245463
 
-QmFja3BvcnQgcGF0Y2ggdG8gZml4IENWRS0yMDI2LTQyMDEzLgoKUmVmZXJlbmNlczoKICBodHRw
-czovL252ZC5uaXN0Lmdvdi92dWxuL2RldGFpbC9DVkUtMjAyNi00MjAxMwoKVXBzdHJlYW0gZml4
-OgogIGh0dHBzOi8vZ2l0bGFiLmNvbS9nbnV0bHMvZ251dGxzLy0vY29tbWl0LzI5ODAxYmVmMDBl
-Y2MwZjIzYzBiYWM0Y2QzMzNiMjY5Y2QyYzFhZjQKClRlc3RlZCB3aXRoIHB0ZXN0ClByZSBwYXRj
-aCB0YWtlbiBmcm9tIHVwc3RyZWFtIHNvIENWRSBmaXggd2lsbCBsYW5kIGNsZWFubHkKClNpZ25l
-ZC1vZmYtYnk6IEpha3ViIFN6Y3p1ZGxvIDxqYWt1Yi5zemN6dWRsb0Bub2tpYS5jb20+Ci0tLQog
-Li4uL2dudXRscy9nbnV0bHMvQ1ZFLTIwMjYtNDIwMTMtcHJlMS5wYXRjaCAgIHwgNTYgKysrKysr
-KysrKysrKysKIC4uLi9nbnV0bHMvZ251dGxzL0NWRS0yMDI2LTQyMDEzLnBhdGNoICAgICAgICB8
-IDc0ICsrKysrKysrKysrKysrKysrKysKIG1ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0
-bHNfMy44LjEyLmJiICB8ICAyICsKIDMgZmlsZXMgY2hhbmdlZCwgMTMyIGluc2VydGlvbnMoKykK
-IGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnV0bHMvZ251dGxzL0NW
-RS0yMDI2LTQyMDEzLXByZTEucGF0Y2gKIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3JlY2lwZXMt
-c3VwcG9ydC9nbnV0bHMvZ251dGxzL0NWRS0yMDI2LTQyMDEzLnBhdGNoCgpkaWZmIC0tZ2l0IGEv
-bWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251dGxzL2dudXRscy9DVkUtMjAyNi00MjAxMy1wcmUxLnBh
-dGNoIGIvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251dGxzL2dudXRscy9DVkUtMjAyNi00MjAxMy1w
-cmUxLnBhdGNoCm5ldyBmaWxlIG1vZGUgMTAwNjQ0CmluZGV4IDAwMDAwMDAwMDAuLjUzNjg3Y2I1
-M2IKLS0tIC9kZXYvbnVsbAorKysgYi9tZXRhL3JlY2lwZXMtc3VwcG9ydC9nbnV0bHMvZ251dGxz
-L0NWRS0yMDI2LTQyMDEzLXByZTEucGF0Y2gKQEAgLTAsMCArMSw1NiBAQAorRnJvbSAzZWUyY2I3
-MDcwMDJmNzU1ZTRiZGEzZjc1Mjg1Y2FhMGNiMzZjMjE0IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
-MQorRnJvbTogQWxleGFuZGVyIFNvc2Vka2luIDxhc29zZWRraW5AcmVkaGF0LmNvbT4KK0RhdGU6
-IFdlZCwgMTUgQXByIDIwMjYgMTU6MzU6NTkgKzAyMDAKK1N1YmplY3Q6IFtQQVRDSF0geDUwOS9l
-bWFpbC12ZXJpZnk6IGNhbGwgZmFsbGJhY2sgRE4gZmFsbGJhY2sKKworQSBjb21tZW50IHdhcyBp
-bmFjY3VyYXRlbHkgcmVmZXJyaW5nIHRvIEROIGVtYWlsIGZpZWxkIGZhbGxiYWNrCithcyBDTiBm
-YWxsYmFjay4KK1JlbmFtZSBhIGZldyB0aGluZ3MgYXMgd2VsbCB0byBtYXRjaCB4NTA5L2hvc3Ru
-YW1lLXZlcmlmeSBtb3JlIGNsb3NlbHkuCisKK1NpZ25lZC1vZmYtYnk6IEFsZXhhbmRlciBTb3Nl
-ZGtpbiA8YXNvc2Vka2luQHJlZGhhdC5jb20+CitDVkU6IENWRS0yMDI2LTQyMDEzCitVcHN0cmVh
-bS1TdGF0dXM6IEJhY2twb3J0IFtodHRwczovL2dpdGxhYi5jb20vZ251dGxzL2dudXRscy8tL2Nv
-bW1pdC8zZWUyY2I3MDcwMDJmNzU1ZTRiZGEzZjc1Mjg1Y2FhMGNiMzZjMjE0XQorCitTaWduZWQt
-b2ZmLWJ5OiBKYWt1YiBTemN6dWRsbyA8amFrdWIuc3pjenVkbG9Abm9raWEuY29tPgorLS0tCisg
-bGliL3g1MDkvZW1haWwtdmVyaWZ5LmMgfCAxMiArKysrKy0tLS0tLS0KKyAxIGZpbGUgY2hhbmdl
-ZCwgNSBpbnNlcnRpb25zKCspLCA3IGRlbGV0aW9ucygtKQorCitkaWZmIC0tZ2l0IGEvbGliL3g1
-MDkvZW1haWwtdmVyaWZ5LmMgYi9saWIveDUwOS9lbWFpbC12ZXJpZnkuYworaW5kZXggZGJlZjBi
-Yjg2ZS4uM2MyMmZmZWQzNyAxMDA2NDQKKy0tLSBhL2xpYi94NTA5L2VtYWlsLXZlcmlmeS5jCisr
-KysgYi9saWIveDUwOS9lbWFpbC12ZXJpZnkuYworQEAgLTQyLDcgKzQyLDcgQEAgdW5zaWduZWQg
-Z251dGxzX3g1MDlfY3J0X2NoZWNrX2VtYWlsKGdudXRsc194NTA5X2NydF90IGNlcnQsIGNvbnN0
-IGNoYXIgKmVtYWlsLAorIHsKKyAJY2hhciByZmM4MjJuYW1lW01BWF9DTl07CisgCXNpemVfdCBy
-ZmM4MjJuYW1lc2l6ZTsKKy0JaW50IGZvdW5kX3JmYzgyMm5hbWUgPSAwOworKwlib29sIGRuX2Zh
-bGxiYWNrX2FsbG93ZWQgPSB0cnVlOworIAlpbnQgcmV0ID0gMDsKKyAJaW50IGkgPSAwOworIAlj
-aGFyICphX2VtYWlsOworQEAgLTc2LDcgKzc2LDcgQEAgdW5zaWduZWQgZ251dGxzX3g1MDlfY3J0
-X2NoZWNrX2VtYWlsKGdudXRsc194NTA5X2NydF90IGNlcnQsIGNvbnN0IGNoYXIgKmVtYWlsLAor
-IAkJCWNlcnQsIGksIHJmYzgyMm5hbWUsICZyZmM4MjJuYW1lc2l6ZSwgTlVMTCk7CisgCisgCQlp
-ZiAocmV0ID09IEdOVVRMU19TQU5fUkZDODIyTkFNRSkgeworLQkJCWZvdW5kX3JmYzgyMm5hbWUg
-PSAxOworKwkJCWRuX2ZhbGxiYWNrX2FsbG93ZWQgPSBmYWxzZTsKKyAKKyAJCQlpZiAobWVtY2hy
-KHJmYzgyMm5hbWUsICdcMCcsIHJmYzgyMm5hbWVzaXplKSkgeworIAkJCQlfZ251dGxzX2RlYnVn
-X2xvZygKK0BAIC0xMDIsMTIgKzEwMiwxMCBAQCB1bnNpZ25lZCBnbnV0bHNfeDUwOV9jcnRfY2hl
-Y2tfZW1haWwoZ251dGxzX3g1MDlfY3J0X3QgY2VydCwgY29uc3QgY2hhciAqZW1haWwsCisgCQl9
-CisgCX0KKyAKKy0JaWYgKCFmb3VuZF9yZmM4MjJuYW1lKSB7CistCQkvKiBkaWQgbm90IGdldCB0
-aGUgbmVjZXNzYXJ5IGV4dGVuc2lvbiwgdXNlIENOIGluc3RlYWQKKy0JCSAqLworKwlpZiAoZG5f
-ZmFsbGJhY2tfYWxsb3dlZCkgeworKwkJLyogZGlkIG5vdCBnZXQgdGhlIG5lY2Vzc2FyeSBleHRl
-bnNpb24sIHVzZSBETiBlbWFpbCBpbnN0ZWFkICovCisgCistCQkvKiBlbmZvcmNlIHRoZSBSRkM2
-MTI1ICjCpzEuOCkgcmVxdWlyZW1lbnQgdGhhdCBvbmx5CistCQkgKiBhIHNpbmdsZSBDTiBtdXN0
-IGJlIHByZXNlbnQgKi8KKysJCS8qIG9ubHkgYSBzaW5nbGUgb25lIG11c3QgYmUgcHJlc2VudCAq
-LworIAkJcmZjODIybmFtZXNpemUgPSBzaXplb2YocmZjODIybmFtZSk7CisgCQlyZXQgPSBnbnV0
-bHNfeDUwOV9jcnRfZ2V0X2RuX2J5X29pZChjZXJ0LAorIAkJCQkJCSAgICBHTlVUTFNfT0lEX1BL
-Q1M5X0VNQUlMLCAxLApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZ251dGxzL2du
-dXRscy9DVkUtMjAyNi00MjAxMy5wYXRjaCBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9n
-bnV0bHMvQ1ZFLTIwMjYtNDIwMTMucGF0Y2gKbmV3IGZpbGUgbW9kZSAxMDA2NDQKaW5kZXggMDAw
-MDAwMDAwMC4uYzYzZTRkNzAzOQotLS0gL2Rldi9udWxsCisrKyBiL21ldGEvcmVjaXBlcy1zdXBw
-b3J0L2dudXRscy9nbnV0bHMvQ1ZFLTIwMjYtNDIwMTMucGF0Y2gKQEAgLTAsMCArMSw3NCBAQAor
-RnJvbSAyOTgwMWJlZjAwZWNjMGYyM2MwYmFjNGNkMzMzYjI2OWNkMmMxYWY0IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQorRnJvbTogQWxleGFuZGVyIFNvc2Vka2luIDxhc29zZWRraW5AcmVkaGF0
-LmNvbT4KK0RhdGU6IFdlZCwgMTUgQXByIDIwMjYgMTY6MDI6MTkgKzAyMDAKK1N1YmplY3Q6IFtQ
-QVRDSF0geDUwOTogcHJldmVudCBmYWxsYmFjayBvbiBvdmVyc2l6ZWQgU0FOCisKK1Bhc3Npbmcg
-b3ZlcnNpemVkIFNBTiBkaWQgbm90IHByZWNsdWRlIENOIChvciBETiBlbWFpbCkgZmFsbGJhY2sK
-K2R1cmluZyB2ZXJpZmljYXRpb24sIHdoaWNoIGlzIGFuIFJGQyA2MTI1IDYuNC40IHZpb2xhdGlv
-bi4KKworTm93IG92ZXJzaXplZCBTQU4gYXJlIHNraXBwZWQgb3ZlciwKK2J1dCBwcmV2ZW50IHRo
-ZSBmYWxsYmFjayBmcm9tIGhhcHBlbmluZy4KKworUmVwb3J0ZWQtYnk6IEhhcnV0byBLaW11cmEg
-KFN0ZWxsYSkKK1JlcG9ydGVkLWJ5OiBKb3NodWEgUm9nZXJzIG9mIEFJU0xFIFJlc2VhcmNoIFRl
-YW0gPGpvc2h1YUBqb3NodWEuaHU+CitGaXhlczogIzE4MjUKK0ZpeGVzOiAjMTg0OQorRml4ZXM6
-IENWRS0yMDI2LTQyMDEzCitGaXhlczogR05VVExTLVNBLTIwMjYtMDQtMjctOAorQ1ZTUzogNi41
-IE1vZGVyYXRlIENWU1M6My4xL0FWOk4vQUM6SC9QUjpOL1VJOk4vUzpVL0M6TC9JOkgvQTpOCitT
-aWduZWQtb2ZmLWJ5OiBBbGV4YW5kZXIgU29zZWRraW4gPGFzb3NlZGtpbkByZWRoYXQuY29tPgor
-Q1ZFOiBDVkUtMjAyNi00MjAxMworVXBzdHJlYW0tU3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9n
-aXRsYWIuY29tL2dudXRscy9nbnV0bHMvLS9jb21taXQvMjk4MDFiZWYwMGVjYzBmMjNjMGJhYzRj
-ZDMzM2IyNjljZDJjMWFmNF0KKworU2lnbmVkLW9mZi1ieTogSmFrdWIgU3pjenVkbG8gPGpha3Vi
-LnN6Y3p1ZGxvQG5va2lhLmNvbT4KKy0tLQorIGxpYi94NTA5L2VtYWlsLXZlcmlmeS5jICAgIHwg
-MTQgKysrKysrKysrKysrKysKKyBsaWIveDUwOS9ob3N0bmFtZS12ZXJpZnkuYyB8IDE0ICsrKysr
-KysrKysrKysrCisgMiBmaWxlcyBjaGFuZ2VkLCAyOCBpbnNlcnRpb25zKCspCisKKy0tLSBhL2xp
-Yi94NTA5L2VtYWlsLXZlcmlmeS5jCisrKysgYi9saWIveDUwOS9lbWFpbC12ZXJpZnkuYworQEAg
-LTc1LDYgKzc1LDIwIEBAIHVuc2lnbmVkIGdudXRsc194NTA5X2NydF9jaGVja19lbWFpbChnbnUK
-KyAJCXJldCA9IGdudXRsc194NTA5X2NydF9nZXRfc3ViamVjdF9hbHRfbmFtZSgKKyAJCQljZXJ0
-LCBpLCByZmM4MjJuYW1lLCAmcmZjODIybmFtZXNpemUsIE5VTEwpOworIAorKwkJaWYgKHJldCA8
-IDApIHsKKysJCQlpZiAocmV0ID09IEdOVVRMU19FX1NIT1JUX01FTU9SWV9CVUZGRVIpIHsKKysJ
-CQkJLyogb3ZlcnNpemVkIFNBTjsgcHJvY2VlZCB3aXRob3V0IEROIGZhbGxiYWNrICovCisrCQkJ
-CV9nbnV0bHNfZGVidWdfbG9nKCJvdmVyc2l6ZWQgU0FOIGlnbm9yZWQsICIKKysJCQkJCQkgICJk
-aXNhYmxpbmcgRE4gZmFsbGJhY2tcbiIpOworKwkJCQlkbl9mYWxsYmFja19hbGxvd2VkID0gZmFs
-c2U7CisrCQkJCXJldCA9IDA7CisrCQkJCWNvbnRpbnVlOworKwkJCX0KKysJCQlpZiAocmV0ICE9
-IEdOVVRMU19FX1JFUVVFU1RFRF9EQVRBX05PVF9BVkFJTEFCTEUpCisrCQkJCWdudXRsc19hc3Nl
-cnQoKTsKKysJCQlicmVhazsKKysJCX0KKysKKyAJCWlmIChyZXQgPT0gR05VVExTX1NBTl9SRkM4
-MjJOQU1FKSB7CisgCQkJZG5fZmFsbGJhY2tfYWxsb3dlZCA9IGZhbHNlOworIAorLS0tIGEvbGli
-L3g1MDkvaG9zdG5hbWUtdmVyaWZ5LmMKKysrKyBiL2xpYi94NTA5L2hvc3RuYW1lLXZlcmlmeS5j
-CitAQCAtMjEzLDYgKzIxMywyMCBAQCBob3N0bmFtZV9mYWxsYmFjazoKKyAJCXJldCA9IGdudXRs
-c194NTA5X2NydF9nZXRfc3ViamVjdF9hbHRfbmFtZShjZXJ0LCBpLCBkbnNuYW1lLAorIAkJCQkJ
-CQkgICAmZG5zbmFtZXNpemUsIE5VTEwpOworIAorKwkJaWYgKHJldCA8IDApIHsKKysJCQlpZiAo
-cmV0ID09IEdOVVRMU19FX1NIT1JUX01FTU9SWV9CVUZGRVIpIHsKKysJCQkJLyogb3ZlcnNpemVk
-IFNBTjsgcHJvY2VlZCB3aXRob3V0IENOIGZhbGxiYWNrICovCisrCQkJCV9nbnV0bHNfZGVidWdf
-bG9nKCJvdmVyc2l6ZWQgU0FOIGlnbm9yZWQsICIKKysJCQkJCQkgICJkaXNhYmxpbmcgQ04gZmFs
-bGJhY2tcbiIpOworKwkJCQljbl9mYWxsYmFja19hbGxvd2VkID0gZmFsc2U7CisrCQkJCXJldCA9
-IDA7CisrCQkJCWNvbnRpbnVlOworKwkJCX0KKysJCQlpZiAocmV0ICE9IEdOVVRMU19FX1JFUVVF
-U1RFRF9EQVRBX05PVF9BVkFJTEFCTEUpCisrCQkJCWdudXRsc19hc3NlcnQoKTsKKysJCQlicmVh
-azsKKysJCX0KKysKKyAJCWlmIChQUkVDTFVERVNfQ05fRkFMTEJBQ0socmV0KSkKKyAJCQljbl9m
-YWxsYmFja19hbGxvd2VkID0gZmFsc2U7CisgCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtc3Vw
-cG9ydC9nbnV0bHMvZ251dGxzXzMuOC4xMi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRs
-cy9nbnV0bHNfMy44LjEyLmJiCmluZGV4IDg3MTZjOTI5ZTcuLjJmNjcxYzQ4ODYgMTAwNjQ0Ci0t
-LSBhL21ldGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHNfMy44LjEyLmJiCisrKyBiL21l
-dGEvcmVjaXBlcy1zdXBwb3J0L2dudXRscy9nbnV0bHNfMy44LjEyLmJiCkBAIC00MCw2ICs0MCw4
-IEBAIFNSQ19VUkkgPSAiaHR0cHM6Ly93d3cuZ251cGcub3JnL2Z0cC9nY3J5cHQvZ251dGxzL3Yk
-e1NIUlRfVkVSfS9nbnV0bHMtJHtQVn0udGFyCiAgICAgICAgICAgIGZpbGU6Ly9DVkUtMjAyNi00
-MjAxMi1wcmUxLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL0NWRS0yMDI2LTQyMDEyLXByZTIu
-cGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMjYtNDIwMTIucGF0Y2ggXAorICAgICAg
-ICAgICBmaWxlOi8vQ1ZFLTIwMjYtNDIwMTMtcHJlMS5wYXRjaCBcCisgICAgICAgICAgIGZpbGU6
-Ly9DVkUtMjAyNi00MjAxMy5wYXRjaCBcCiAgICAgICAgICAgICIKIAogU1JDX1VSSVtzaGEyNTZz
-dW1dID0gImE3YjM0MTQyMWJmZDQ1OWFjZjdhMzc0Y2E0YWYzYjllMDY2MDhkY2Q3YmQ3OTJiMmJm
-NDcwYmVhMDEyYjhlNTEiCi0tIAoyLjM0LjEKCg==
+Backport patch to fix CVE-2026-42012.=0A=
+=0A=
+References:=0A=
+  https://nvd.nist.gov/vuln/detail/CVE-2026-42012=0A=
+=0A=
+Upstream fix:=0A=
+  https://gitlab.com/gnutls/gnutls/-/commit/8dcc6a1f48945997666ac9f10896819=
+edd01a03b=0A=
+=0A=
+Tested with ptest=0A=
+Pre patches taken from upstream so CVE fix will land cleanly=0A=
+=0A=
+Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>=0A=
+---=0A=
+ .../gnutls/gnutls/CVE-2026-42012-pre1.patch   |  70 ++++++++=0A=
+ .../gnutls/gnutls/CVE-2026-42012-pre2.patch   | 153 ++++++++++++++++++=0A=
+ .../gnutls/gnutls/CVE-2026-42012.patch        |  48 ++++++=0A=
+ meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   3 +=0A=
+ 4 files changed, 274 insertions(+)=0A=
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42012-pre1.=
+patch=0A=
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42012-pre2.=
+patch=0A=
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42012.patch=
+=0A=
+=0A=
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42012-pre1.patch b=
+/meta/recipes-support/gnutls/gnutls/CVE-2026-42012-pre1.patch=0A=
+new file mode 100644=0A=
+index 0000000000..1149dafef2=0A=
+--- /dev/null=0A=
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42012-pre1.patch=0A=
+@@ -0,0 +1,70 @@=0A=
++Backport of:=0A=
++=0A=
++From 6133fb459b74a9dcfa2d0ff010a4e03c56822d39 Mon Sep 17 00:00:00 2001=0A=
++From: Alexander Sosedkin <asosedkin@redhat.com>=0A=
++Date: Fri, 13 Mar 2026 17:00:03 +0100=0A=
++Subject: [PATCH] x509/hostname-verify: refactor and simplify CN fallback l=
+ogic=0A=
++=0A=
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>=0A=
++CVE: CVE-2026-42012=0A=
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/6133f=
+b459b74a9dcfa2d0ff010a4e03c56822d39]=0A=
++=0A=
++Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>=0A=
++---=0A=
++ lib/x509/hostname-verify.c | 15 ++++++---------=0A=
++ 1 file changed, 6 insertions(+), 9 deletions(-)=0A=
++=0A=
++--- a/lib/x509/hostname-verify.c=0A=
+++++ b/lib/x509/hostname-verify.c=0A=
++@@ -108,7 +108,7 @@ unsigned gnutls_x509_crt_check_ip(gnutls=0A=
++  * that we do not fallback to CN-ID if we encounter a supported name=0A=
++  * type.=0A=
++  */=0A=
++-#define IS_SAN_SUPPORTED(san) \=0A=
+++#define PRECLUDES_CN_FALLBACK(san) \=0A=
++ 	(san =3D=3D GNUTLS_SAN_DNSNAME || san =3D=3D GNUTLS_SAN_IPADDRESS)=0A=
++ =0A=
++ /**=0A=
++@@ -151,13 +151,12 @@ unsigned gnutls_x509_crt_check_hostname2=0A=
++ {=0A=
++ 	char dnsname[MAX_CN];=0A=
++ 	size_t dnsnamesize;=0A=
++-	int found_dnsname =3D 0;=0A=
++ 	int ret =3D 0;=0A=
++ 	int i =3D 0;=0A=
++ 	struct in_addr ipv4;=0A=
++ 	char *p =3D NULL;=0A=
++ 	char *a_hostname;=0A=
++-	unsigned have_other_addresses =3D 0;=0A=
+++	bool cn_fallback_allowed =3D true;=0A=
++ 	gnutls_datum_t out;=0A=
++ =0A=
++ 	/* check whether @hostname is an ip address */=0A=
++@@ -213,9 +212,10 @@ hostname_fallback:=0A=
++ 		ret =3D gnutls_x509_crt_get_subject_alt_name(cert, i, dnsname,=0A=
++ 							   &dnsnamesize, NULL);=0A=
++ =0A=
++-		if (ret =3D=3D GNUTLS_SAN_DNSNAME) {=0A=
++-			found_dnsname =3D 1;=0A=
+++		if (PRECLUDES_CN_FALLBACK(ret))=0A=
+++			cn_fallback_allowed =3D false;=0A=
++ =0A=
+++		if (ret =3D=3D GNUTLS_SAN_DNSNAME) {=0A=
++ 			if (memchr(dnsname, '\0', dnsnamesize)) {=0A=
++ 				_gnutls_debug_log(=0A=
++ 					"certificate has %s with embedded null in name\n",=0A=
++@@ -236,13 +236,10 @@ hostname_fallback:=0A=
++ 				ret =3D 1;=0A=
++ 				goto cleanup;=0A=
++ 			}=0A=
++-		} else {=0A=
++-			if (IS_SAN_SUPPORTED(ret))=0A=
++-				have_other_addresses =3D 1;=0A=
++ 		}=0A=
++ 	}=0A=
++ =0A=
++-	if (!have_other_addresses && !found_dnsname &&=0A=
+++	if (cn_fallback_allowed &&=0A=
++ 	    _gnutls_check_key_purpose(cert, GNUTLS_KP_TLS_WWW_SERVER, 0) !=3D 0)=
+ {=0A=
++ 		/* did not get the necessary extension, use CN instead, if the=0A=
++ 		 * certificate would have been acceptable for a TLS WWW server purpose.=
+=0A=
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42012-pre2.patch b=
+/meta/recipes-support/gnutls/gnutls/CVE-2026-42012-pre2.patch=0A=
+new file mode 100644=0A=
+index 0000000000..c192a144c0=0A=
+--- /dev/null=0A=
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42012-pre2.patch=0A=
+@@ -0,0 +1,153 @@=0A=
++Backport of:=0A=
++=0A=
++From 5cc003b9688378f6c7934b1df0aa147e80006be4 Mon Sep 17 00:00:00 2001=0A=
++From: Alexander Sosedkin <asosedkin@redhat.com>=0A=
++Date: Fri, 13 Mar 2026 17:41:33 +0100=0A=
++Subject: [PATCH] x509: add bare-bones awareness of SRV virtual SAN=0A=
++=0A=
++There's no support for constraints, no certtool support, no nothing.=0A=
++Just added what's easy to add because I needed a virtual SAN for them.=0A=
++=0A=
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>=0A=
++CVE: CVE-2026-42012=0A=
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/5cc00=
+3b9688378f6c7934b1df0aa147e80006be4]=0A=
++=0A=
++Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>=0A=
++---=0A=
++ lib/includes/gnutls/gnutls.h.in |  4 +++-=0A=
++ lib/x509/common.h               |  1 +=0A=
++ lib/x509/name_constraints.c     |  3 ++-=0A=
++ lib/x509/output.c               |  6 ++++++=0A=
++ lib/x509/virt-san.c             | 23 +++++++++++++++++++++++=0A=
++ lib/x509/x509.c                 |  3 ++-=0A=
++ 6 files changed, 37 insertions(+), 3 deletions(-)=0A=
++=0A=
++--- a/lib/includes/gnutls/gnutls.h.in=0A=
+++++ b/lib/includes/gnutls/gnutls.h.in=0A=
++@@ -2698,6 +2698,7 @@ void gnutls_psk_set_server_params_functi=0A=
++  * @GNUTLS_SAN_OTHERNAME_XMPP: Virtual SAN, used by certain functions for=
+ convenience.=0A=
++  * @GNUTLS_SAN_OTHERNAME_KRB5PRINCIPAL: Virtual SAN, used by certain func=
+tions for convenience.=0A=
++  * @GNUTLS_SAN_OTHERNAME_MSUSERPRINCIPAL: Virtual SAN, used by certain fu=
+nctions for convenience.=0A=
+++ * @GNUTLS_SAN_OTHERNAME_SRV: Virtual SAN, used by certain functions for =
+convenience.=0A=
++  *=0A=
++  * Enumeration of different subject alternative names types.=0A=
++  */=0A=
++@@ -2715,7 +2716,8 @@ typedef enum gnutls_x509_subject_alt_nam=0A=
++ 	   Used by gnutls_x509_crt_get_subject_alt_othername_oid.  */=0A=
++ 	GNUTLS_SAN_OTHERNAME_XMPP =3D 1000,=0A=
++ 	GNUTLS_SAN_OTHERNAME_KRB5PRINCIPAL,=0A=
++-	GNUTLS_SAN_OTHERNAME_MSUSERPRINCIPAL=0A=
+++	GNUTLS_SAN_OTHERNAME_MSUSERPRINCIPAL,=0A=
+++	GNUTLS_SAN_OTHERNAME_SRV=0A=
++ } gnutls_x509_subject_alt_name_t;=0A=
++ =0A=
++ struct gnutls_openpgp_crt_int;=0A=
++--- a/lib/x509/common.h=0A=
+++++ b/lib/x509/common.h=0A=
++@@ -107,6 +107,7 @@=0A=
++ #define XMPP_OID "1.3.6.1.5.5.7.8.5"=0A=
++ #define KRB5_PRINCIPAL_OID "1.3.6.1.5.2.2"=0A=
++ #define MSUSER_PRINCIPAL_NAME_OID "1.3.6.1.4.1.311.20.2.3"=0A=
+++#define SRV_OID "1.3.6.1.5.5.7.8.7"=0A=
++ #define PKIX1_RSA_PSS_MGF1_OID "1.2.840.113549.1.1.8"=0A=
++ #define PKIX1_RSA_OAEP_P_SPECIFIED_OID "1.9"=0A=
++ =0A=
++--- a/lib/x509/name_constraints.c=0A=
+++++ b/lib/x509/name_constraints.c=0A=
++@@ -516,7 +516,8 @@ static int validate_name_constraints_nod=0A=
++ 	if (type !=3D GNUTLS_SAN_DNSNAME && type !=3D GNUTLS_SAN_RFC822NAME &&=
+=0A=
++ 	    type !=3D GNUTLS_SAN_DN && type !=3D GNUTLS_SAN_URI &&=0A=
++ 	    type !=3D GNUTLS_SAN_IPADDRESS &&=0A=
++-	    type !=3D GNUTLS_SAN_OTHERNAME_MSUSERPRINCIPAL) {=0A=
+++	    type !=3D GNUTLS_SAN_OTHERNAME_MSUSERPRINCIPAL &&=0A=
+++	    type !=3D GNUTLS_SAN_OTHERNAME_SRV) {=0A=
++ 		return gnutls_assert_val(GNUTLS_E_X509_UNKNOWN_SAN);=0A=
++ 	}=0A=
++ =0A=
++--- a/lib/x509/output.c=0A=
+++++ b/lib/x509/output.c=0A=
++@@ -121,6 +121,7 @@ static void print_name(gnutls_buffer_st=0A=
++ 	if ((type =3D=3D GNUTLS_SAN_DNSNAME || type =3D=3D GNUTLS_SAN_OTHERNAME_=
+XMPP ||=0A=
++ 	     type =3D=3D GNUTLS_SAN_OTHERNAME_KRB5PRINCIPAL ||=0A=
++ 	     type =3D=3D GNUTLS_SAN_OTHERNAME_MSUSERPRINCIPAL ||=0A=
+++	     type =3D=3D GNUTLS_SAN_OTHERNAME_SRV ||=0A=
++ 	     type =3D=3D GNUTLS_SAN_RFC822NAME || type =3D=3D GNUTLS_SAN_URI) &&=
+=0A=
++ 	    sname !=3D NULL && strlen(sname) !=3D name->size) {=0A=
++ 		adds(str, _("warning: SAN contains an embedded NUL, "=0A=
++@@ -180,6 +181,11 @@ static void print_name(gnutls_buffer_st=0A=
++ 		     name->size, NON_NULL(name->data));=0A=
++ 		break;=0A=
++ =0A=
+++	case GNUTLS_SAN_OTHERNAME_SRV:=0A=
+++		addf(str, _("%sSRVName: %.*s\n"), prefix, name->size,=0A=
+++		     NON_NULL(name->data));=0A=
+++		break;=0A=
+++=0A=
++ 	default:=0A=
++ 		addf(str, _("%sUnknown name: "), prefix);=0A=
++ 		_gnutls_buffer_hexprint(str, name->data, name->size);=0A=
++--- a/lib/x509/virt-san.c=0A=
+++++ b/lib/x509/virt-san.c=0A=
++@@ -45,6 +45,9 @@ static int san_othername_to_virtual(cons=0A=
++ 			 memcmp(oid, MSUSER_PRINCIPAL_NAME_OID,=0A=
++ 				sizeof(MSUSER_PRINCIPAL_NAME_OID) - 1) =3D=3D 0)=0A=
++ 			return GNUTLS_SAN_OTHERNAME_MSUSERPRINCIPAL;=0A=
+++		else if ((unsigned)size =3D=3D (sizeof(SRV_OID) - 1) &&=0A=
+++			 memcmp(oid, SRV_OID, sizeof(SRV_OID) - 1) =3D=3D 0)=0A=
+++			return GNUTLS_SAN_OTHERNAME_SRV;=0A=
++ 	}=0A=
++ =0A=
++ 	return GNUTLS_SAN_OTHERNAME;=0A=
++@@ -59,6 +62,8 @@ static const char *virtual_to_othername_=0A=
++ 		return KRB5_PRINCIPAL_OID;=0A=
++ 	case GNUTLS_SAN_OTHERNAME_MSUSERPRINCIPAL:=0A=
++ 		return MSUSER_PRINCIPAL_NAME_OID;=0A=
+++	case GNUTLS_SAN_OTHERNAME_SRV:=0A=
+++		return SRV_OID;=0A=
++ 	default:=0A=
++ 		return NULL;=0A=
++ 	}=0A=
++@@ -126,6 +131,15 @@ int _gnutls_alt_name_assign_virt_type(st=0A=
++ 			name->type =3D GNUTLS_SAN_OTHERNAME;=0A=
++ 			break;=0A=
++ =0A=
+++		case GNUTLS_SAN_OTHERNAME_SRV:=0A=
+++			ret =3D _gnutls_x509_encode_string(ASN1_ETYPE_IA5_STRING,=0A=
+++							 san->data, san->size,=0A=
+++							 &encoded);=0A=
+++			if (ret < 0)=0A=
+++				return gnutls_assert_val(ret);=0A=
+++			name->san =3D _gnutls_steal_datum(&encoded);=0A=
+++			break;=0A=
+++=0A=
++ 		default:=0A=
++ 			return gnutls_assert_val(GNUTLS_E_INVALID_REQUEST);=0A=
++ 		}=0A=
++@@ -187,6 +201,15 @@ int gnutls_x509_othername_to_virtual(con=0A=
++ 						 othername->data,=0A=
++ 						 othername->size, virt, 0);=0A=
++ 		if (ret < 0) {=0A=
+++			gnutls_assert();=0A=
+++			return ret;=0A=
+++		}=0A=
+++		return 0;=0A=
+++	case GNUTLS_SAN_OTHERNAME_SRV:=0A=
+++		ret =3D _gnutls_x509_decode_string(ASN1_ETYPE_IA5_STRING,=0A=
+++						 othername->data,=0A=
+++						 othername->size, virt, 0);=0A=
+++		if (ret < 0) {=0A=
++ 			gnutls_assert();=0A=
++ 			return ret;=0A=
++ 		}=0A=
++--- a/lib/x509/x509.c=0A=
+++++ b/lib/x509/x509.c=0A=
++@@ -1562,7 +1562,8 @@ inline static int is_type_printable(int=0A=
++ {=0A=
++ 	if (type =3D=3D GNUTLS_SAN_DNSNAME || type =3D=3D GNUTLS_SAN_RFC822NAME =
+||=0A=
++ 	    type =3D=3D GNUTLS_SAN_URI || type =3D=3D GNUTLS_SAN_OTHERNAME_XMPP =
+||=0A=
++-	    type =3D=3D GNUTLS_SAN_OTHERNAME || type =3D=3D GNUTLS_SAN_REGISTERE=
+D_ID)=0A=
+++	    type =3D=3D GNUTLS_SAN_OTHERNAME_SRV || type =3D=3D GNUTLS_SAN_OTHER=
+NAME ||=0A=
+++	    type =3D=3D GNUTLS_SAN_REGISTERED_ID)=0A=
++ 		return 1;=0A=
++ 	else=0A=
++ 		return 0;=0A=
+diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-42012.patch b/meta=
+/recipes-support/gnutls/gnutls/CVE-2026-42012.patch=0A=
+new file mode 100644=0A=
+index 0000000000..1f43efc122=0A=
+--- /dev/null=0A=
++++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-42012.patch=0A=
+@@ -0,0 +1,48 @@=0A=
++From 8dcc6a1f48945997666ac9f10896819edd01a03b Mon Sep 17 00:00:00 2001=0A=
++From: Alexander Sosedkin <asosedkin@redhat.com>=0A=
++Date: Fri, 13 Mar 2026 17:02:07 +0100=0A=
++Subject: [PATCH] x509/hostname-verify: make URI/SRV SAN preclude CN fallba=
+ck=0A=
++=0A=
++URI/SRV SAN did not suppress CN fallback as required by RFC 6125 6.4.4:=0A=
++> a client MUST NOT seek a match for a reference identifier of CN-ID=0A=
++> if the presented identifiers include a DNS-ID, *SRV-ID*, *URI-ID*,=0A=
++> or any application-specific identifier types supported by the client.=0A=
++=0A=
++With this change, certificates containing URI or SRV SAN=0A=
++no longer pass DNS hostname checks via CN fallback=0A=
++to avoid potential misuse of such certificates=0A=
++beyond their original purpose.=0A=
++=0A=
++Reported-by: Oleh Konko <security@1seal.org>=0A=
++Fixes: #1802=0A=
++Fixes: CVE-2026-42012=0A=
++Fixes: GNUTLS-SA-2026-04-29-7=0A=
++CVSS: 6.5 Medium CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:H/A:N=0A=
++Signed-off-by: Alexander Sosedkin <asosedkin@redhat.com>=0A=
++CVE: CVE-2026-42012=0A=
++Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/8dcc6=
+a1f48945997666ac9f10896819edd01a03b]=0A=
++=0A=
++Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>=0A=
++---=0A=
++ lib/x509/hostname-verify.c | 5 +++--=0A=
++ 1 file changed, 3 insertions(+), 2 deletions(-)=0A=
++=0A=
++diff --git a/lib/x509/hostname-verify.c b/lib/x509/hostname-verify.c=0A=
++index e7597ad3b0..d989bb1abc 100644=0A=
++--- a/lib/x509/hostname-verify.c=0A=
+++++ b/lib/x509/hostname-verify.c=0A=
++@@ -108,8 +108,9 @@ unsigned gnutls_x509_crt_check_ip(gnutls_x509_crt_t ce=
+rt,=0A=
++  * that we do not fallback to CN-ID if we encounter a supported name=0A=
++  * type.=0A=
++  */=0A=
++-#define PRECLUDES_CN_FALLBACK(san) \=0A=
++-	(san =3D=3D GNUTLS_SAN_DNSNAME || san =3D=3D GNUTLS_SAN_IPADDRESS)=0A=
+++#define PRECLUDES_CN_FALLBACK(san)                                   \=0A=
+++	(san =3D=3D GNUTLS_SAN_DNSNAME || san =3D=3D GNUTLS_SAN_IPADDRESS || \=
+=0A=
+++	 san =3D=3D GNUTLS_SAN_URI || san =3D=3D GNUTLS_SAN_OTHERNAME_SRV)=0A=
++ =0A=
++ /**=0A=
++  * gnutls_x509_crt_check_hostname2:=0A=
++-- =0A=
++GitLab=0A=
++=0A=
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.12.bb b/meta/recipes-su=
+pport/gnutls/gnutls_3.8.12.bb=0A=
+index 3ad011742e..8716c929e7 100644=0A=
+--- a/meta/recipes-support/gnutls/gnutls_3.8.12.bb=0A=
++++ b/meta/recipes-support/gnutls/gnutls_3.8.12.bb=0A=
+@@ -37,6 +37,9 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v${S=
+HRT_VER}/gnutls-${PV}.tar=0A=
+            file://CVE-2026-42009_p1.patch \=0A=
+            file://CVE-2026-42009_p2.patch \=0A=
+            file://CVE-2026-3833.patch \=0A=
++           file://CVE-2026-42012-pre1.patch \=0A=
++           file://CVE-2026-42012-pre2.patch \=0A=
++           file://CVE-2026-42012.patch \=0A=
+            "=0A=
+ =0A=
+ SRC_URI[sha256sum] =3D "a7b341421bfd459acf7a374ca4af3b9e06608dcd7bd792b2bf=
+470bea012b8e51"=0A=
+-- =0A=
+2.34.1=0A=
+=0A=
 
