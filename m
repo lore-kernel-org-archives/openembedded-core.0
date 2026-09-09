@@ -1,203 +1,116 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F347C79FBB
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 21:55:43 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.118.1788990942401512518
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 953F4C79FB6
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 22:40:53 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1083.1788993651599666609
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 14:55:42 -0700
+ Wed, 09 Sep 2026 15:40:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=GCLWG9L0;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34EE71576
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 14:55:38 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 69BC93F7B4
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 14:55:41 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788990941; bh=yjBGZBa7blXwNbve7MVLtRTUp1MLlWqVYVgehnNJc5k=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=GCLWG9L0PCOIB1HZ+kWrmhv+RbkOPeWLcyTxH30xB1ijkmszXddq7kcBmIfAKf/EZ
-	 vy3LndKJsqGeEp/vWy473AAeukbLdsyjFh7thcxmMh0gaF5g1ma9EWEzN9F8u9Nxos
-	 Rry9meulUQKN0g2IimK0m7K6kiefR8pNidqNK0jo=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 2/2] classes/cargo-update-recipe-crates: use tomllib directly
-Date: Wed,  9 Sep 2026 22:55:37 +0100
-Message-ID: <20260909215537.51943-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260909215537.51943-1-ross.burton@arm.com>
-References: <20260909215537.51943-1-ross.burton@arm.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TUi1Y5Bc;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd6185db7so16083285e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 15:40:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1788993650; x=1789598450; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Td22BP6npIJybLc0+OO2QX4CABeDbABZVrZ1rTW9Eds=;
+        b=TUi1Y5Bc1ucosyWh84AXH8Q9n1HWg1hXYmZIE+WM26I0yAoKIax8b7dDaMqH0UgGXJ
+         pSjJg1PvtECygsUa4hD9TTLhn9S+CKQawUvwyGGDBTPACyWr3wyCTbkGnAq5u4OtIvvu
+         rCnCaKns/7Uu4m0ZepXUNcOWi7PxvT4B+AYQ0=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788993650; x=1789598450;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=Td22BP6npIJybLc0+OO2QX4CABeDbABZVrZ1rTW9Eds=;
+        b=erOdMsnMp577I1ZByvpJCHzXpu5jdr1SQ6/6K67/jF/0eRPeNfNYwVJwYA01/OGSiE
+         cM69v2Bqb2AzJyb8l64HTvWzVlxojkEhhIsjC0ZzBq24mUwJmwpxBMKMa/AP3L3WFOlt
+         FQXVc6/VslbPgCYUHj5D2EuA2LO99QRnc4WN7YJukE6PQMNxZG+GMtQaPKfFeBUR543m
+         2GkKrHEShZ2vN8jwxdXH/580L4JN3tuRmKaEpo7GKX9rDeqM4WtruyQZx18q6roaUWT0
+         bkr+wpDyVzdwHZLmj2ZZHOXMLC0TZpBbcWg/UyzGpL0fUj6YdIgkviRB2UTHqGqr+vU3
+         BQvA==
+X-Forwarded-Encrypted: i=1; AKwUvBxCiNz5n9Ra041oUL8nwCcl8NZaErQwPCStb789mG/8++8Mf8xtC4qM4ZdLnU4P6xOuPiBbovgp61TmLWDQvTvKTA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++lqionJ9igCXTxanc5EWfFIqfRQt9rWPT3zvuPdItxOW8xzqrjr
+	FEyYtUqbxex2JG/iwmNUYqPBDqSvnqWN2sO5VLZk/8HOiDM9aEte8bBbf/g/cJZuf1I=
+X-Gm-Gg: AYBFou3K1CmKNaASJ3gS433Vni89ZLROePGWwUnzKGIXycl8svTjVlz+PXpnH5+Ec16
+	y2PWl5048RuVN65+wJbKiWQIg4GLHlv73ek0n/zf3xyEEBVRO8tLHcstiF0SioqGcs1HCL72FLx
+	1vQ/WV88EZA7FPL9mv+doAdtuKX5FlOdAiZccZNkw2imuwJh67EbC3JkflurO9TXyA6GRTz3pgi
+	015wiFKIVaUgBFjQLPdbRl1g5mVllMv3G2FrtUcNYEmgDzIJmB71fVa536sVswsnSzL5GNQij+f
+	Fd07JINQhueCzqbxlZIs3+JbmpwjKQ+AXMU6k3Wdm1HqAD7PtQhCkW0pV33jRRhVol4hOD6jWBV
+	0ikFhfXI8TXESOAE/S6AMgrWGjXPFcwdGvSJpfkCMSDUZKYEDLlcjnZcaKvA0JY0bL6G8fFt6WG
+	4QrO+2pN7/Y4K3qZrrtkhrzAfQvtl7/ZtGeGf8CRO/YWm9IjRI2Z9j0Vh1e6vbL8SolexXq9Ysy
+	Rv2unGtD90XTXjRdOL7oCoDVIQq9qZaHxlFa+61D8b6CPOUm4OfcIY8dLNjGw==
+X-Received: by 2002:a05:600c:8b10:b0:49d:1e79:35d6 with SMTP id 5b1f17b1804b1-49d26dcaa22mr14457245e9.14.1788993649747;
+        Wed, 09 Sep 2026 15:40:49 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:a320:8b5c:de4:61f9? ([2001:8b0:aba:5f3c:a320:8b5c:de4:61f9])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c2985dsm42197865e9.6.2026.09.09.15.40.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 15:40:48 -0700 (PDT)
+Message-ID: <cb88917248190287dcd8ec498180258f2dcb7a5c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] sstate: allow marking a cached object as in
+ use without touching mtime
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: michael.haener@siemens.com, openembedded-core@lists.openembedded.org
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>, Peter Marko
+	 <peter.marko@siemens.com>
+Date: Wed, 09 Sep 2026 23:40:46 +0100
+In-Reply-To: <20260909212205.50713-1-michael.haener@siemens.com>
+References: <20260909212205.50713-1-michael.haener@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 21:55:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245519
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 22:40:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245520
 
-Now that BitBake vendors in a copy of tomli for when the host Python is
-too old to support tomllib, we can do the crate update logic directly
-in the task instead of passing an large inline script to python3-native.
-
-The only changes are the removal of nativepython3 and not relying on
-bitbake's shell expansion to expand variable names.
-
-[1] bitbake 69810e0c0a ("lib/bb/_vendor: resync to add tomli")
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+On Wed, 2026-09-09 at 23:22 +0200, Michael Haener via lists.openembedded.or=
+g wrote:
+> Every access to an object in the sstate cache is recorded with a plain
+> touch, which writes both the modification time and the access time.
+>=20
+> Add SSTATE_ATIME_UPDATE_AFTER. When it is set, the modification time is n=
+o
+> longer written, and the access time is refreshed only once the existing
+> one is at least that many seconds old.
+>=20
+> This reduces the number of write cycles a build causes on the cache, whic=
+h
+> matters most where many build servers share one sstate cache: each of the=
+m
+> would otherwise refresh the access time of every object it looks at.
+>=20
+> With mtime and atime kept apart, a cache can also be measured for reuse
+> and age.
+>=20
+> When the variable is unset the behaviour is unchanged.
+>=20
+> Signed-off-by: Michael Haener <michael.haener@siemens.com>
+> Reviewed-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+> Reviewed-by: Peter Marko <peter.marko@siemens.com>
+> ---
+> =C2=A0meta/classes-global/sstate.bbclass | 59 ++++++++++++++++++++++-----=
 ---
- .../cargo-update-recipe-crates.bbclass        | 101 ++++++++++--------
- 1 file changed, 54 insertions(+), 47 deletions(-)
+> =C2=A01 file changed, 43 insertions(+), 16 deletions(-)
 
-diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/met=
-a/classes-recipe/cargo-update-recipe-crates.bbclass
-index 47e845c8221..e62039208c1 100644
---- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-+++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
-@@ -14,7 +14,6 @@
- ## To perform the update: bitbake -c update_crates recipe-name
-=20
- addtask do_update_crates after do_patch
--do_update_crates[depends] =3D "python3-native:do_populate_sysroot"
- do_update_crates[nostamp] =3D "1"
- do_update_crates[doc] =3D "Update the recipe by reading Cargo.lock and w=
-rite in ${THISDIR}/${BPN}-crates.inc"
-=20
-@@ -23,58 +22,66 @@ RECIPE_UPGRADE_EXTRA_TASKS +=3D "do_update_crates"
- # The directory where to search for Cargo.lock files
- CARGO_LOCK_SRC_DIR ??=3D "${S}"
-=20
--do_update_crates() {
--    TARGET_FILE=3D"${THISDIR}/${BPN}-crates.inc"
-+python do_update_crates() {
-+    cargo_lock_src_dir =3D d.getVar("CARGO_LOCK_SRC_DIR")
-=20
--    nativepython3 - <<EOF
-+    def get_crates(filename):
-+        try:
-+            import tomllib
-+        except ImportError:
-+            import bb._vendor.tomli as tomllib
-=20
--def get_crates(f):
--    import tomllib
--    c_list =3D '# from %s' % os.path.relpath(f, '${CARGO_LOCK_SRC_DIR}')
--    c_list +=3D '\nSRC_URI +=3D " \\\'
--    crates =3D tomllib.load(open(f, 'rb'))
-+        c_list =3D '# from %s' % os.path.relpath(filename, cargo_lock_sr=
-c_dir)
-+        c_list +=3D '\nSRC_URI +=3D " \\'
-+        with open(filename, 'rb') as fp:
-+            crates =3D tomllib.load(fp)
-=20
--    # Build a list with crates info that have crates.io in the source
--    crates_candidates =3D list(filter(lambda c: 'crates.io' in c.get('so=
-urce', ''), crates['package']))
-+        # Build a list with crates info that have crates.io in the sourc=
-e
-+        crates_candidates =3D list(filter(lambda c: 'crates.io' in c.get=
-('source', ''), crates['package']))
-=20
--    if not crates_candidates:
--        print("WARNING: Unable to find any candidate crates that use cra=
-tes.io")
--        return None
-+        if not crates_candidates:
-+            print("WARNING: Unable to find any candidate crates that use=
- crates.io")
-+            return None
-=20
--    # Update crates uri and their checksum, to avoid name clashing on th=
-e checksum
--    # we need to rename crates with name and version to have a unique ke=
-y
--    cksum_list =3D ''
--    for c in crates_candidates:
--        rename =3D "%s-%s" % (c['name'], c['version'])
--        c_list +=3D '\n    crate://crates.io/%s/%s \\\' % (c['name'], c[=
-'version'])
--        if 'checksum' in c:
--            cksum_list +=3D '\nSRC_URI[%s.sha256sum] =3D "%s"' % (rename=
-, c['checksum'])
-+        # Update crates uri and their checksum, to avoid name clashing o=
-n the checksum
-+        # we need to rename crates with name and version to have a uniqu=
-e key
-+        cksum_list =3D ''
-+        for c in crates_candidates:
-+            rename =3D "%s-%s" % (c['name'], c['version'])
-+            c_list +=3D '\n    crate://crates.io/%s/%s \\' % (c['name'],=
- c['version'])
-+            if 'checksum' in c:
-+                cksum_list +=3D '\nSRC_URI[%s.sha256sum] =3D "%s"' % (re=
-name, c['checksum'])
-=20
--    c_list +=3D '\n"\n'
--    c_list +=3D cksum_list
--    c_list +=3D '\n'
--    return c_list
-+        c_list +=3D '\n"\n'
-+        c_list +=3D cksum_list
-+        c_list +=3D '\n'
-+        return c_list
-=20
--import os
--crates =3D "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n"
--found =3D False
--for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
--    # ignore git and patches directories
--    if root.startswith(os.path.join('${CARGO_LOCK_SRC_DIR}', '.pc')):
--        continue
--    if root.startswith(os.path.join('${CARGO_LOCK_SRC_DIR}', '.git')):
--        continue
--    for file in files:
--        if file =3D=3D 'Cargo.lock':
--            cargo_lock_path =3D os.path.join(root, file)
--            c =3D get_crates(cargo_lock_path)
--            if c is not None:
--                crates +=3D c
--if crates is None:
--    raise ValueError("Unable to find any Cargo.lock in ${CARGO_LOCK_SRC_=
-DIR}")
--with open("${TARGET_FILE}", 'w') as f:
--    f.write(crates)
--EOF
-+    import os
-=20
--    bbnote "Successfully update crates inside '${TARGET_FILE}'"
-+    pn =3D d.getVar("PN")
-+    crates =3D f"# Autogenerated with 'bitbake -c update_crates {pn}'\n\=
-n"
-+
-+    found =3D False
-+    for root, dirs, files in os.walk(cargo_lock_src_dir):
-+        # ignore git and patches directories
-+        if root.startswith(os.path.join(cargo_lock_src_dir, '.pc')):
-+            continue
-+        if root.startswith(os.path.join(cargo_lock_src_dir, '.git')):
-+            continue
-+        for file in files:
-+            if file =3D=3D 'Cargo.lock':
-+                cargo_lock_path =3D os.path.join(root, file)
-+                c =3D get_crates(cargo_lock_path)
-+                if c is not None:
-+                    crates +=3D c
-+
-+    if crates is None:
-+        raise ValueError(f"Unable to find any Cargo.lock in {cargo_lock_=
-src_dir}")
-+
-+    target_file =3D d.expand("${THISDIR}/${BPN}-crates.inc")
-+    with open(target_file, 'w') as f:
-+        f.write(crates)
-+
-+    bb.note(f"Successfully updated crates inside {target_file}")
- }
---=20
-2.43.0
+Whilst I can understand the motivation, I can't say I'm thrilled by
+complicating this code again. I'd recently tried to simplify it as the
+different access patterns were causing various problems in their own
+right. This adds a new variable, two implementations (shell and python)
+of an algorithm and it just makes the code more complex and hard to
+understand.
 
+Cheers,
+
+Richard
+
+=20
 
