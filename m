@@ -2,152 +2,201 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F307C79FB6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F347C79FBB
 	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 21:55:43 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.151.1788990942035727871
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.118.1788990942401512518
  for <openembedded-core@lists.openembedded.org>;
  Wed, 09 Sep 2026 14:55:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=qMYVYkvH;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=GCLWG9L0;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9637B1570
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 14:55:37 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34EE71576
+	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 14:55:38 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C9D5E3F7B4
-	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 14:55:40 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 69BC93F7B4
+	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 14:55:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1788990941; bh=EvPeJf15Waj3kWSgqzW2SDnnm6qoOm5uvbCUx4rpIHo=;
-	h=From:To:Subject:Date:From;
-	b=qMYVYkvHNiU6sM9peWVHsyIsrZgCx9/uVsT37ua2JZoLeiIXeOlNfptw8sP0Vpmnw
-	 InAWn9KtxEOyXhwSFfytIS8E0u4FzBMEQjXAyrMYH0M0oqiT48gc7CCOME5g/2tYPd
-	 uCk9Hp4mSZNgbHO0NE8fifxpOqkUQ4qJGTsOIS4o=
+	t=1788990941; bh=yjBGZBa7blXwNbve7MVLtRTUp1MLlWqVYVgehnNJc5k=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=GCLWG9L0PCOIB1HZ+kWrmhv+RbkOPeWLcyTxH30xB1ijkmszXddq7kcBmIfAKf/EZ
+	 vy3LndKJsqGeEp/vWy473AAeukbLdsyjFh7thcxmMh0gaF5g1ma9EWEzN9F8u9Nxos
+	 Rry9meulUQKN0g2IimK0m7K6kiefR8pNidqNK0jo=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/2] classes/setuptools: use tomllib instead of regex to parse pyproject.toml
-Date: Wed,  9 Sep 2026 22:55:36 +0100
-Message-ID: <20260909215537.51943-1-ross.burton@arm.com>
+Subject: [PATCH v2 2/2] classes/cargo-update-recipe-crates: use tomllib directly
+Date: Wed,  9 Sep 2026 22:55:37 +0100
+Message-ID: <20260909215537.51943-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260909215537.51943-1-ross.burton@arm.com>
+References: <20260909215537.51943-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 21:55:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245518
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245519
 
-BitBake now vendors in tomli[1] for when the host Python is older than
-3.11 so doesn't have tomllib. Rewrite the pyproject.toml parsing from
-regexs to tomllib.
+Now that BitBake vendors in a copy of tomli for when the host Python is
+too old to support tomllib, we can do the crate update logic directly
+in the task instead of passing an large inline script to python3-native.
 
-Also ensure that the functions in setuptools3 and setuptools_legacy are
-identical, as they had diverged.
+The only changes are the removal of nativepython3 and not relying on
+bitbake's shell expansion to expand variable names.
 
 [1] bitbake 69810e0c0a ("lib/bb/_vendor: resync to add tomli")
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/classes-recipe/setuptools3.bbclass       | 24 +++++++++++----
- .../classes-recipe/setuptools3_legacy.bbclass | 29 ++++++++++++++-----
- 2 files changed, 40 insertions(+), 13 deletions(-)
+ .../cargo-update-recipe-crates.bbclass        | 101 ++++++++++--------
+ 1 file changed, 54 insertions(+), 47 deletions(-)
 
-diff --git a/meta/classes-recipe/setuptools3.bbclass b/meta/classes-recip=
-e/setuptools3.bbclass
-index b0e4ab5208c..d64e5bdba3a 100644
---- a/meta/classes-recipe/setuptools3.bbclass
-+++ b/meta/classes-recipe/setuptools3.bbclass
-@@ -13,19 +13,31 @@ SETUPTOOLS_BUILD_ARGS ?=3D ""
- SETUPTOOLS_SETUP_PATH ?=3D "${S}"
+diff --git a/meta/classes-recipe/cargo-update-recipe-crates.bbclass b/met=
+a/classes-recipe/cargo-update-recipe-crates.bbclass
+index 47e845c8221..e62039208c1 100644
+--- a/meta/classes-recipe/cargo-update-recipe-crates.bbclass
++++ b/meta/classes-recipe/cargo-update-recipe-crates.bbclass
+@@ -14,7 +14,6 @@
+ ## To perform the update: bitbake -c update_crates recipe-name
 =20
- python do_check_backend() {
-+    """
-+    Check if this package has a pyproject.toml that specifies a PEP517 b=
-uild backend, so should be
-+    using a different build class.
-+    """
-+
-     if "pep517-backend" in (d.getVar("INSANE_SKIP") or "").split():
-         return
+ addtask do_update_crates after do_patch
+-do_update_crates[depends] =3D "python3-native:do_populate_sysroot"
+ do_update_crates[nostamp] =3D "1"
+ do_update_crates[doc] =3D "Update the recipe by reading Cargo.lock and w=
+rite in ${THISDIR}/${BPN}-crates.inc"
 =20
--    import re
-+    try:
-+        import tomllib
-+    except ImportError:
-+        import bb._vendor.tomli as tomllib
-+
-     filename =3D d.expand("${SETUPTOOLS_SETUP_PATH}/pyproject.toml")
-     if os.path.exists(filename):
--        for line in open(filename):
--            match =3D re.match(r"build-backend\s*=3D\s*\W([\w.]+)\W", li=
-ne)
--            if not match: continue
-+        with open(filename, "rb") as f:
-+            toml =3D tomllib.load(f)
+@@ -23,58 +22,66 @@ RECIPE_UPGRADE_EXTRA_TASKS +=3D "do_update_crates"
+ # The directory where to search for Cargo.lock files
+ CARGO_LOCK_SRC_DIR ??=3D "${S}"
 =20
--            msg =3D f"inherits setuptools3 but has pyproject.toml with {=
-match[1]}, use the correct class"
+-do_update_crates() {
+-    TARGET_FILE=3D"${THISDIR}/${BPN}-crates.inc"
++python do_update_crates() {
++    cargo_lock_src_dir =3D d.getVar("CARGO_LOCK_SRC_DIR")
+=20
+-    nativepython3 - <<EOF
++    def get_crates(filename):
 +        try:
-+            backend =3D toml["build-system"]["build-backend"]
-+            msg =3D f"inherits setuptools3 but has pyproject.toml specif=
-ying backend {backend}, use the correct class"
-             oe.qa.handle_error("pep517-backend", msg, d)
--    oe.qa.exit_if_errors(d)
-+            oe.qa.exit_if_errors(d)
-+        except KeyError:
-+            return
++            import tomllib
++        except ImportError:
++            import bb._vendor.tomli as tomllib
+=20
+-def get_crates(f):
+-    import tomllib
+-    c_list =3D '# from %s' % os.path.relpath(f, '${CARGO_LOCK_SRC_DIR}')
+-    c_list +=3D '\nSRC_URI +=3D " \\\'
+-    crates =3D tomllib.load(open(f, 'rb'))
++        c_list =3D '# from %s' % os.path.relpath(filename, cargo_lock_sr=
+c_dir)
++        c_list +=3D '\nSRC_URI +=3D " \\'
++        with open(filename, 'rb') as fp:
++            crates =3D tomllib.load(fp)
+=20
+-    # Build a list with crates info that have crates.io in the source
+-    crates_candidates =3D list(filter(lambda c: 'crates.io' in c.get('so=
+urce', ''), crates['package']))
++        # Build a list with crates info that have crates.io in the sourc=
+e
++        crates_candidates =3D list(filter(lambda c: 'crates.io' in c.get=
+('source', ''), crates['package']))
+=20
+-    if not crates_candidates:
+-        print("WARNING: Unable to find any candidate crates that use cra=
+tes.io")
+-        return None
++        if not crates_candidates:
++            print("WARNING: Unable to find any candidate crates that use=
+ crates.io")
++            return None
+=20
+-    # Update crates uri and their checksum, to avoid name clashing on th=
+e checksum
+-    # we need to rename crates with name and version to have a unique ke=
+y
+-    cksum_list =3D ''
+-    for c in crates_candidates:
+-        rename =3D "%s-%s" % (c['name'], c['version'])
+-        c_list +=3D '\n    crate://crates.io/%s/%s \\\' % (c['name'], c[=
+'version'])
+-        if 'checksum' in c:
+-            cksum_list +=3D '\nSRC_URI[%s.sha256sum] =3D "%s"' % (rename=
+, c['checksum'])
++        # Update crates uri and their checksum, to avoid name clashing o=
+n the checksum
++        # we need to rename crates with name and version to have a uniqu=
+e key
++        cksum_list =3D ''
++        for c in crates_candidates:
++            rename =3D "%s-%s" % (c['name'], c['version'])
++            c_list +=3D '\n    crate://crates.io/%s/%s \\' % (c['name'],=
+ c['version'])
++            if 'checksum' in c:
++                cksum_list +=3D '\nSRC_URI[%s.sha256sum] =3D "%s"' % (re=
+name, c['checksum'])
+=20
+-    c_list +=3D '\n"\n'
+-    c_list +=3D cksum_list
+-    c_list +=3D '\n'
+-    return c_list
++        c_list +=3D '\n"\n'
++        c_list +=3D cksum_list
++        c_list +=3D '\n'
++        return c_list
+=20
+-import os
+-crates =3D "# Autogenerated with 'bitbake -c update_crates ${PN}'\n\n"
+-found =3D False
+-for root, dirs, files in os.walk('${CARGO_LOCK_SRC_DIR}'):
+-    # ignore git and patches directories
+-    if root.startswith(os.path.join('${CARGO_LOCK_SRC_DIR}', '.pc')):
+-        continue
+-    if root.startswith(os.path.join('${CARGO_LOCK_SRC_DIR}', '.git')):
+-        continue
+-    for file in files:
+-        if file =3D=3D 'Cargo.lock':
+-            cargo_lock_path =3D os.path.join(root, file)
+-            c =3D get_crates(cargo_lock_path)
+-            if c is not None:
+-                crates +=3D c
+-if crates is None:
+-    raise ValueError("Unable to find any Cargo.lock in ${CARGO_LOCK_SRC_=
+DIR}")
+-with open("${TARGET_FILE}", 'w') as f:
+-    f.write(crates)
+-EOF
++    import os
+=20
+-    bbnote "Successfully update crates inside '${TARGET_FILE}'"
++    pn =3D d.getVar("PN")
++    crates =3D f"# Autogenerated with 'bitbake -c update_crates {pn}'\n\=
+n"
++
++    found =3D False
++    for root, dirs, files in os.walk(cargo_lock_src_dir):
++        # ignore git and patches directories
++        if root.startswith(os.path.join(cargo_lock_src_dir, '.pc')):
++            continue
++        if root.startswith(os.path.join(cargo_lock_src_dir, '.git')):
++            continue
++        for file in files:
++            if file =3D=3D 'Cargo.lock':
++                cargo_lock_path =3D os.path.join(root, file)
++                c =3D get_crates(cargo_lock_path)
++                if c is not None:
++                    crates +=3D c
++
++    if crates is None:
++        raise ValueError(f"Unable to find any Cargo.lock in {cargo_lock_=
+src_dir}")
++
++    target_file =3D d.expand("${THISDIR}/${BPN}-crates.inc")
++    with open(target_file, 'w') as f:
++        f.write(crates)
++
++    bb.note(f"Successfully updated crates inside {target_file}")
  }
- addtask check_backend after do_patch before do_configure
-=20
-diff --git a/meta/classes-recipe/setuptools3_legacy.bbclass b/meta/classe=
-s-recipe/setuptools3_legacy.bbclass
-index 6b51b9796bc..a70b80cb973 100644
---- a/meta/classes-recipe/setuptools3_legacy.bbclass
-+++ b/meta/classes-recipe/setuptools3_legacy.bbclass
-@@ -31,16 +31,31 @@ SETUPTOOLS_PYTHON:class-native =3D "nativepython3"
- SETUPTOOLS_SETUP_PATH ?=3D "${S}"
-=20
- python do_check_backend() {
--    import re
-+    """
-+    Check if this package has a pyproject.toml that specifies a PEP517 b=
-uild backend, so should be
-+    using a different build class.
-+    """
-+
-+    if "pep517-backend" in (d.getVar("INSANE_SKIP") or "").split():
-+        return
-+
-+    try:
-+        import tomllib
-+    except ImportError:
-+        import bb._vendor.tomli as tomllib
-+
-     filename =3D d.expand("${SETUPTOOLS_SETUP_PATH}/pyproject.toml")
-     if os.path.exists(filename):
--        for line in open(filename):
--            match =3D re.match(r"build-backend\s*=3D\s*\W([\w.]+)\W", li=
-ne)
--            if not match: continue
-+        with open(filename, "rb") as f:
-+            toml =3D tomllib.load(f)
-=20
--            msg =3D f"inherits setuptools3_legacy but has pyproject.toml=
- with {match[1]}, use the correct class"
--            if "pep517-backend" not in (d.getVar("INSANE_SKIP") or "").s=
-plit():
--                oe.qa.handle_error("pep517-backend", msg, d)
-+        try:
-+            backend =3D toml["build-system"]["build-backend"]
-+            msg =3D f"inherits setuptools3_legacy but has pyproject.toml=
- specifying backend {backend}, use the correct class"
-+            oe.qa.handle_error("pep517-backend", msg, d)
-+            oe.qa.exit_if_errors(d)
-+        except KeyError:
-+            return
- }
- addtask check_backend after do_patch before do_configure
-=20
 --=20
 2.43.0
 
