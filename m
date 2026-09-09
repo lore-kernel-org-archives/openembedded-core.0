@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F40D6C88E4F
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 21:53:52 +0000 (UTC)
-Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.94.1788990824703066965
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C7B1C88E51
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 21:53:53 +0000 (UTC)
+Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.78.1788990824405656244
  for <openembedded-core@lists.openembedded.org>;
  Wed, 09 Sep 2026 14:53:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=fVfm2/xm;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-202609092153425b0f44b7890002079c-wccjll@rts-flowmailer.siemens.com)
-Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 202609092153425b0f44b7890002079c
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=SrgsV1Sd;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202609092153416949377d8000020721-ciia4o@rts-flowmailer.siemens.com)
+Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202609092153416949377d8000020721
         for <openembedded-core@lists.openembedded.org>;
-        Wed, 09 Sep 2026 23:53:42 +0200
+        Wed, 09 Sep 2026 23:53:41 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=swIIop4HE5gLWTFBh/A5sjz/Y/KPx3eNHSMKyyvqnXU=;
- b=fVfm2/xmPWTnSziFamxGTB6CovLnldDiWmTZvEd4QgZDbwRGK3m+kfE9VUQBdWcelxAtr+
- 6fue2QMYuZpHoO3azXT2702lyegcbGfKgnWknzQD2JWwsqWAgV/8RQ+YLNZMwDiBioLkitFV
- mYKQP3DHw3PFdEtaIKBW9gGhsvDXaxfyH5D6DSRxISiZganSBed2RahGpTT8HqjI/tcxFaEL
- 3E8Ncd94hugNyeKeeaFUHLTR0aP6WqmN+3XPrmNdMxU3MX80dB/dPasA1W0dKAK0PVMZiq5g
- pr+O99VNSlmPtjc9jJjUhultoV32B7BiIraeWi59rjuwTxgb4vLfOgQw==;
+ bh=jCVXzLMjKJd8BHi/VGM577Uy2/hebzjy4CNHyxBgO6s=;
+ b=SrgsV1Sd+AkbCZEAD2bFRpIK3Ehj/xDti/lu130b5TPzl2fReuP3d/kx4WzX7wK2aXAYo5
+ f/LQzENl0kwhiv/cQReYOvp6YLzSK3m5MRgN5k4IhtYsA5OKHaonMEEwX4briddxjrVRt+bO
+ GgXttXLf+a13s8S/CK2/rHCqXLGvmJDzK6f7E4i9P6upzVNVKC+WbjRnCWNwQ01indBYa1nt
+ dm68d8GaL7PZU3stMlL2/bIdm7Ru1zoobjyo/DL4dGJWg/wSeSVV8rxcurBgYWg4oXxcInNK
+ nSSAnxL7LvTX8D7x9KsAGhhdBZf1DoskV9CIw+iSzT259v+zr5xcDLzQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 09/15] cpp-example: fix clang-tidy warnings
-Date: Wed,  9 Sep 2026 23:53:09 +0200
-Message-ID: <20260909215337.89106-10-adrian.freihofer@siemens.com>
+Subject: [PATCH 02/15] devtool: deploy: allow deploying directly into a local rootfs directory
+Date: Wed,  9 Sep 2026 23:53:02 +0200
+Message-ID: <20260909215337.89106-3-adrian.freihofer@siemens.com>
 In-Reply-To: <20260909215337.89106-1-adrian.freihofer@siemens.com>
 References: <20260909215337.89106-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,197 +38,359 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 21:53:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245513
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 21:53:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245503
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Just run clang-tidy, fixing warnings and applying the configured checks.
-Add also the .clang-tidy configuration file.
+Add support for deploy-target/undeploy-target to write into a local
+pseudo-managed rootfs directory (e.g. one extracted by
+runqemu-extract-sdk for NFS booting) instead of requiring an ssh
+connection to a live target.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+If the 'target' argument is an absolute path, _deploy_local and
+_undeploy_local run the same tar/manifest based copy/removal as the ssh
+path, but locally: the file transfer is piped between two pseudo
+instances (one scoped to the recipe's own PSEUDO_INCLUDE_PATHS, one
+scoped to the target rootfs's own PSEUDO_LOCALSTATEDIR/PSEUDO_INCLUDE_PATHS)
+instead of over ssh/scp.
 
-cmake-example: add .clang-tidy configuration file
+exec_fakeroot_no_d()'s environment-building code is factored out into
+build_fakeroot_env_no_d() so _deploy_local can assemble its own pseudo
+environment without exec_fakeroot_no_d's implicit single-command
+prefixing, which doesn't compose with the dual-pseudo pipeline.
+
+This is a prerequisite for adding NFS export support to devtool
+ide-sdk.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .../recipes-test/cpp/cpp-example.inc          |  1 +
- .../recipes-test/cpp/files/.clang-tidy        | 33 +++++++++++++++++++
- .../cpp/files/cpp-example-lib.hpp             |  3 +-
- .../recipes-test/cpp/files/cpp-example.cpp    |  1 +
- .../cpp/files/test-cpp-example.cpp            |  2 +-
- meta/lib/oeqa/selftest/cases/devtool.py       | 20 +++++------
- 6 files changed, 48 insertions(+), 12 deletions(-)
- create mode 100644 meta-selftest/recipes-test/cpp/files/.clang-tidy
+ scripts/lib/devtool/__init__.py |  22 ++--
+ scripts/lib/devtool/deploy.py   | 210 ++++++++++++++++++++++++++++----
+ 2 files changed, 201 insertions(+), 31 deletions(-)
 
-diff --git a/meta-selftest/recipes-test/cpp/cpp-example.inc b/meta-selftest/recipes-test/cpp/cpp-example.inc
-index 603040d123..5800f804e1 100644
---- a/meta-selftest/recipes-test/cpp/cpp-example.inc
-+++ b/meta-selftest/recipes-test/cpp/cpp-example.inc
-@@ -23,6 +23,7 @@ SRC_URI = "\
-     file://cpp-example.service \
-     file://cpp-example.init \
-     file://.clang-format \
-+    file://.clang-tidy \
-     file://run-ptest \
- "
+diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
+index 32a7bc0098..9d227e2032 100644
+--- a/scripts/lib/devtool/__init__.py
++++ b/scripts/lib/devtool/__init__.py
+@@ -77,6 +77,18 @@ def exec_watch(cmd, **options):
  
-diff --git a/meta-selftest/recipes-test/cpp/files/.clang-tidy b/meta-selftest/recipes-test/cpp/files/.clang-tidy
-new file mode 100644
-index 0000000000..d1cafb1fe6
---- /dev/null
-+++ b/meta-selftest/recipes-test/cpp/files/.clang-tidy
-@@ -0,0 +1,33 @@
-+---
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+Checks: >
-+  -*,
-+  bugprone-*,
-+  -bugprone-easily-swappable-parameters,
-+  clang-analyzer-*,
-+  modernize-*,
-+  -modernize-use-trailing-return-type,
-+  performance-*,
-+  -performance-avoid-endl,
-+  readability-*,
-+  -readability-magic-numbers,
-+  -readability-identifier-length,
-+  -readability-implicit-bool-conversion,
-+  -readability-convert-member-functions-to-static,
-+  -readability-isolate-declaration
+     return buf, None
+ 
++def build_fakeroot_env_no_d(fakerootenv, path, env_overrides=None):
++    """Build the environment for running a command under pseudo (see exec_fakeroot_no_d)."""
++    newenv = dict(os.environ)
++    newenv['PATH'] = path
++    for varvalue in fakerootenv.split():
++        if '=' in varvalue:
++            splitval = varvalue.split('=', 1)
++            newenv[splitval[0]] = splitval[1]
++    if env_overrides:
++        newenv.update(env_overrides)
++    return newenv
 +
-+WarningsAsErrors: ''
-+HeaderFilterRegex: '.*'
-+FormatStyle: file
+ def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, env_overrides=None, **kwargs):
+     """Run cmd under pseudo using a recipe's own FAKEROOTCMD/FAKEROOTENV.
+ 
+@@ -88,15 +100,7 @@ def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, env_overrides=None,
+     if not os.path.exists(fakerootcmd):
+         logger.error('pseudo executable %s could not be found - have you run a build yet? pseudo-native should install this and if you have run any build then that should have been built')
+         return 2
+-    # Set up the appropriate environment
+-    newenv = dict(os.environ)
+-    newenv['PATH'] = path
+-    for varvalue in fakerootenv.split():
+-        if '=' in varvalue:
+-            splitval = varvalue.split('=', 1)
+-            newenv[splitval[0]] = splitval[1]
+-    if env_overrides:
+-        newenv.update(env_overrides)
++    newenv = build_fakeroot_env_no_d(fakerootenv, path, env_overrides)
+     return subprocess.call("%s %s" % (fakerootcmd, cmd), env=newenv, **kwargs)
+ 
+ def setup_tinfoil(config_only=False, basepath=None, tracking=False):
+diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
+index ffca1269ef..e3890a0113 100644
+--- a/scripts/lib/devtool/deploy.py
++++ b/scripts/lib/devtool/deploy.py
+@@ -19,7 +19,7 @@ import argparse_oe
+ import oe.types
+ import oe.package
+ 
+-from devtool import exec_fakeroot_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
++from devtool import exec_fakeroot_no_d, build_fakeroot_env_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
+ 
+ logger = logging.getLogger('devtool')
+ 
+@@ -257,14 +257,18 @@ def deploy(args, config, basepath, workspace):
+ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args, file_globs=None, packages_files=None):
+     import math
+ 
+-    try:
+-        host, destdir = args.target.split(':')
+-    except ValueError:
+-        destdir = '/'
++    if os.path.isabs(args.target):
++        # A local pseudo-managed rootfs directory (e.g. NFS-exported)
++        destdir = os.path.realpath(args.target)
+     else:
+-        args.target = host
+-    if not destdir.endswith('/'):
+-        destdir += '/'
++        try:
++            host, destdir = args.target.split(':')
++        except ValueError:
++            destdir = '/'
++        else:
++            args.target = host
++    # Canonical form used throughout: no trailing slash (except root itself).
++    destdir = destdir.rstrip('/') or '/'
+ 
+     recipe_outdir = srcdir
+     if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
+@@ -353,9 +357,107 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
+             print('  %s' % item)
+         return 0
+ 
++    if os.path.isabs(args.target):
++        # A local directory (e.g. an NFS-exported rootfs) rather than a
++        # user@host ssh target: copy the files in directly, no network needed.
++        return _deploy_local(args, destdir, filelist, ftotalsize, tar_relpaths,
++                            allowed_files, fakerootcmd, fakerootenv, path, recipe_outdir)
 +
-+CheckOptions:
-+  - key: readability-identifier-naming.VariableCase
-+    value: lower_case
-+  - key: readability-identifier-naming.FunctionCase
-+    value: lower_case
-+  - key: readability-identifier-naming.StructCase
-+    value: CamelCase
-+  - key: readability-identifier-naming.ClassCase
-+    value: CamelCase
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
-index 5af30e2a79..7318d4db84 100644
---- a/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example-lib.hpp
-@@ -12,13 +12,14 @@
+     return _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files,
+                        fakerootcmd, fakerootenv, path, recipe_outdir)
  
- struct CppExample
- {
-+    // NOLINTNEXTLINE(bugprone-throwing-static-initialization) -- exercises debugger handling of a lazy-init static member, see devtool ide-sdk tests
-     inline static const std::string test_string = "cpp-example-lib Magic: 123456789";
++def _deploy_local(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files,
++                fakerootcmd, fakerootenv, path, recipe_outdir):
++    """Copy files directly into destdir instead of over ssh/scp.
++
++    destdir is the local pseudo-managed rootfs directory itself (no trailing
++    slash), not the real filesystem root.
++    """
++    if not os.path.isdir(destdir):
++        raise DevtoolError('Target directory %s does not exist' % destdir)
++    state_dir = destdir + '.pseudo_state'
++    if not os.path.isdir(state_dir):
++        raise DevtoolError(
++            '%s does not exist - %s does not look like a pseudo-managed rootfs '
++            '(e.g. one extracted by runqemu-extract-sdk).' % (state_dir, destdir))
++
++    if not args.no_check_space:
++        freespace = shutil.disk_usage(destdir).free // 1024
++        if ftotalsize > freespace:
++            raise DevtoolError('Deploy failed - insufficient space on target '
++                            '(available %d, needed %d)' % (freespace, ftotalsize))
++
++    shellscript = _prepare_remote_script(deploy=True,
++                                        destdir=destdir,
++                                        verbose=args.show_status,
++                                        nopreserve=args.no_preserve,
++                                        nocheckspace=True)
++
++    tmpdir = tempfile.mkdtemp(prefix='devtool')
++    tar_send_filelist_path = None
++    try:
++        script_path = os.path.join(tmpdir, 'devtool_deploy.sh')
++        with open(script_path, 'w') as f:
++            f.write(shellscript)
++        filelist_path = os.path.join(tmpdir, 'devtool_deploy.list')
++        with open(filelist_path, 'w') as f:
++            f.write('%d\n' % ftotalsize)
++            for fpath, fsize in filelist:
++                f.write('%s %d\n' % (fpath, fsize))
++
++        # tar_send_* builds up the sending side of the pipe: the plain tar
++        # invocation, then wrapped to capture its own exit status (only the
++        # last stage of a shell pipeline is visible to subprocess), then
++        # wrapped again to run under its own pseudo instance.
++        if allowed_files is not None:
++            tar_send_fd, tar_send_filelist_path = tempfile.mkstemp(prefix='devtool-deploy-filelist-')
++            with os.fdopen(tar_send_fd, 'w') as f:
++                for relpath in tar_relpaths:
++                    f.write('./' + relpath + '\n')
++            tar_send_argv = 'tar cf - -T %s' % shlex.quote(tar_send_filelist_path)
++        else:
++            tar_send_argv = 'tar cf - .'
++
++        tar_send_status_path = os.path.join(tmpdir, 'devtool_deploy.tar_status')
++        tar_send_script = 'sh -c %s' % shlex.quote(
++            '%s; echo $? > %s' % (tar_send_argv, shlex.quote(tar_send_status_path)))
++        tar_send_cmd = 'PSEUDO_INCLUDE_PATHS=%s %s %s' % (
++            shlex.quote(recipe_outdir), shlex.quote(fakerootcmd), tar_send_script)
++
++        # tar_receive_cmd is the other side of the pipe: extracts into destdir
++        # under the target rootfs's own pseudo database (state_dir/destdir,
++        # not the recipe's).
++        # $2 needs a trailing slash: the script's manifest substitution
++        # (sed 's!^./!$2!') turns tar's './relative' entries into absolute paths.
++        tar_receive_cmd = 'PSEUDO_LOCALSTATEDIR=%s PSEUDO_INCLUDE_PATHS=%s %s sh %s %s %s %s' % (
++            shlex.quote(state_dir), shlex.quote(destdir), shlex.quote(fakerootcmd),
++            shlex.quote(script_path), shlex.quote(args.recipename),
++            shlex.quote(destdir.rstrip('/') + '/'), shlex.quote(filelist_path))
++
++        if not os.path.exists(fakerootcmd):
++            logger.error('pseudo executable %s could not be found - have you run a build '
++                        'yet? pseudo-native should install this and if you have run any '
++                        'build then that should have been built' % fakerootcmd)
++            ret = 2
++        else:
++            shell_env = build_fakeroot_env_no_d(fakerootenv, path)
++            ret = subprocess.call('%s | %s' % (tar_send_cmd, tar_receive_cmd), env=shell_env,
++                                cwd=recipe_outdir, shell=True)
++            if ret == 0 and os.path.exists(tar_send_status_path):
++                with open(tar_send_status_path) as f:
++                    ret = int(f.read().strip() or 0)
++    finally:
++        if tar_send_filelist_path:
++            os.remove(tar_send_filelist_path)
++        shutil.rmtree(tmpdir)
++
++    if ret != 0:
++        raise DevtoolError('Deploy failed - rerun with -s to get a complete '
++                        'error message')
++
++    logger.info('Successfully deployed %s to %s' % (recipe_outdir, destdir))
++    return 0
++
+ def _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files,
+                 fakerootcmd, fakerootenv, path, recipe_outdir):
+     """Copy files to target_dir over ssh/scp (user@hostname[:destdir])."""
+@@ -423,9 +525,11 @@ def _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files
+             tar_cmd = 'tar cf - -T %s' % shlex.quote(tar_filelist_path)
+         else:
+             tar_cmd = 'tar cf - .'
++        # $2 needs a trailing slash: the script's manifest substitution
++        # (sed 's!^./!$2!') turns tar's './relative' entries into absolute paths.
+         remote_cmd = '%s | %s  %s %s %s \'sh %s %s %s %s\'' % (
+             tar_cmd, ssh_sshexec, ssh_port, extraoptions, args.target,
+-            tmpscript, args.recipename, destdir, tmpfilelist)
++            tmpscript, args.recipename, destdir.rstrip('/') + '/', tmpfilelist)
+         ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, remote_cmd, cwd=recipe_outdir,
+                                 env_overrides={'PSEUDO_INCLUDE_PATHS': recipe_outdir}, shell=True)
+     finally:
+@@ -446,8 +550,64 @@ def undeploy(args, config, basepath, workspace):
+     elif not args.recipename and not args.all:
+         raise argparse_oe.ArgumentUsageError('If you don\'t specify a recipe, you must specify -a/--all', 'undeploy-target')
  
-     /* Header-only function, to exercise breakpoint resolution against
-      * header-only debug info. volatile prevents compiler optimization from
-      * eliminating the function body, ensuring a concrete code location exists
-      * for debugger breakpoints. */
--    inline static int scale_number(int n)
-+    static int scale_number(int n)
-     {
-         volatile int scaled = n * 7;
-         std::cout << "scale_number(" << n << ") = " << scaled << std::endl;
-diff --git a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-index af7a8c2d73..c14def288c 100644
---- a/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-+++ b/meta-selftest/recipes-test/cpp/files/cpp-example.cpp
-@@ -113,6 +113,7 @@ int main(int argc, char *argv[])
-     log_info(std::string("Linking json-c version ") + cpp_example.get_json_c_version());
-     cpp_example.print_json();
++    if os.path.isabs(args.target):
++        # A local directory (e.g. an NFS-exported rootfs) rather than a
++        # user@host ssh target: remove the files in directly, no network needed.
++        tinfoil = setup_tinfoil(config_only=True, basepath=basepath)
++        try:
++            fakerootcmd = tinfoil.config_data.getVar('FAKEROOTCMD')
++            fakerootenv = tinfoil.config_data.getVar('FAKEROOTENV')
++            path = tinfoil.config_data.getVar('PATH')
++        finally:
++            tinfoil.shutdown()
++        return _undeploy_local(args, os.path.realpath(args.target), fakerootcmd, fakerootenv, path)
++
+     return _undeploy_ssh(args)
  
-+    // NOLINTNEXTLINE(bugprone-infinite-loop) -- intentionally endless when requested; stopped externally (e.g. systemd stop/SIGTERM)
-     do {
-         // Read and print message from config file
-         std::string config_message = cpp_example.read_config_message();
-diff --git a/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp b/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
-index d8f2547e88..69dc2fe6d5 100644
---- a/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
-+++ b/meta-selftest/recipes-test/cpp/files/test-cpp-example.cpp
-@@ -17,7 +17,7 @@ int main()
- {
-     auto cpp_example = CppExample();
-     auto ret_string = cpp_example.get_string();
--    if (0 == ret_string.compare(CppExample::test_string + FAIL_COMPARISON_STR)) {
-+    if (ret_string == CppExample::test_string + FAIL_COMPARISON_STR) {
-         std::cout << "PASS: " << ret_string << " = " << CppExample::test_string << std::endl;
-     } else {
-         std::cout << "FAIL: " << ret_string << " != " << CppExample::test_string << std::endl;
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 38eb9b3905..1cc9843a72 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -3312,8 +3312,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
-             cpp_code = file.read()
-             cpp_code = cpp_code.replace(DevtoolIdeSdkTests.MAGIC_STRING_ORIG, MAGIC_STRING_NEW)
-             cpp_code = cpp_code.replace(
--                "    inline static int scale_number(int n)",
--                extra_lines + "    inline static int scale_number(int n)")
-+                "    static int scale_number(int n)",
-+                extra_lines + "    static int scale_number(int n)")
-         with open(cpp_example_lib_hpp, 'w') as file:
-             file.write(cpp_code)
++def _undeploy_local(args, target_dir, fakerootcmd, fakerootenv, path):
++    """Remove files directly from target_dir instead of over ssh."""
++    if not os.path.isdir(target_dir):
++        raise DevtoolError('Target directory %s does not exist' % target_dir)
++    state_dir = target_dir + '.pseudo_state'
++    if not os.path.isdir(state_dir):
++        raise DevtoolError(
++            '%s does not exist - %s does not look like a pseudo-managed rootfs '
++            '(e.g. one extracted by runqemu-extract-sdk).' % (state_dir, target_dir))
++
++    # deploy=False here: the generated script never touches $2, so target_dir
++    # doesn't need the trailing slash _with_trailing_slash() adds for deploy.
++    shellscript = _prepare_remote_script(deploy=False, destdir=target_dir, dryrun=args.dry_run, undeployall=args.all)
++
++    tmpdir = tempfile.mkdtemp(prefix='devtool')
++    try:
++        script_path = os.path.join(tmpdir, 'devtool_undeploy.sh')
++        with open(script_path, 'w') as f:
++            f.write(shellscript)
++
++        environment = dict(os.environ)
++        environment['PATH'] = path
++        for varvalue in (fakerootenv or '').split():
++            if '=' in varvalue:
++                key, value = varvalue.split('=', 1)
++                environment[key] = value
++        # Use target_dir's own pseudo database, not the ambient one from FAKEROOTENV,
++        # so file removals stay consistent with what was recorded on deploy/extract.
++        environment['PSEUDO_LOCALSTATEDIR'] = state_dir
++        environment['PSEUDO_INCLUDE_PATHS'] = target_dir
++        command = [fakerootcmd, 'sh', script_path, args.recipename or '']
++        ret = subprocess.call(command, env=environment)
++    finally:
++        shutil.rmtree(tmpdir)
++
++    if ret != 0:
++        # Unlike the ssh case there is nothing -s could add here, the script
++        # runs locally and its output is already on the console.
++        raise DevtoolError('Undeploy failed - see the output above for details')
++
++    if not args.all and not args.dry_run:
++        logger.info('Successfully undeployed %s' % args.recipename)
++    return 0
++
+ def _undeploy_ssh(args):
+     """Run the undeploy script on the target over ssh/scp (user@hostname[:destdir])."""
+     extraoptions = ''
+@@ -473,8 +633,6 @@ def _undeploy_ssh(args):
+         destdir = '/'
+     else:
+         args.target = host
+-    if not destdir.endswith('/'):
+-        destdir += '/'
  
-@@ -3362,8 +3362,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
-         # the first _gdb_cross_debugging_multi call above.
-         self._gdb_cross_debugging_multi(
-             qemu, recipe_name, example_exe, MAGIC_STRING_NEW,
--            exe_break_line=136 + LINE_SHIFT, exe_list_line=128 + LINE_SHIFT,
--            hpp_break_line=21 + LINE_SHIFT, lib_break_line=31 + LINE_SHIFT)
-+            exe_break_line=136 + LINE_SHIFT, exe_list_line=129 + LINE_SHIFT,
-+            hpp_break_line=24 + LINE_SHIFT, lib_break_line=31 + LINE_SHIFT)
+     tmpdir = tempfile.mkdtemp(prefix='devtool')
+     try:
+@@ -508,17 +666,20 @@ def register_commands(subparsers, context):
+     parser_deploy = subparsers.add_parser('deploy-target',
+                                           help='Deploy recipe output files to live target machine',
+                                           description='Deploys a recipe\'s build output (i.e. the output of '
+-                                                       'the do_install task) to a live target machine over ssh. '
+-                                                       'By default, any existing files will be preserved instead '
+-                                                       'of being overwritten and will be restored if you run '
+-                                                       'devtool undeploy-target. Note: this only deploys the '
+-                                                       'recipe itself and not any runtime dependencies, so it is '
+-                                                       'assumed that those have been installed on the target '
+-                                                       'beforehand. Use --package/--file-glob to deploy only a '
+-                                                       'subset of the recipe\'s installed files.',
++                                                      'the do_install task) to a live target machine over ssh, '
++                                                      'or directly into a local pseudo-managed rootfs directory '
++                                                      '(e.g. one extracted for NFS booting). Existing files are '
++                                                      'preserved by default and restored by devtool '
++                                                      'undeploy-target. Only the recipe itself is deployed, not '
++                                                      'its runtime dependencies. Use --package/--file-glob to '
++                                                      'deploy only a subset of the recipe\'s installed files.',
+                                           group='testbuild')
+     parser_deploy.add_argument('recipename', help='Recipe to deploy')
+-    parser_deploy.add_argument('target', help='Live target machine running an ssh server: user@hostname[:destdir]')
++    parser_deploy.add_argument('target',
++                               help='Either a live target machine running an ssh server: '
++                               'user@hostname[:destdir]; or an absolute path to a local '
++                               'pseudo-managed rootfs directory (e.g. one extracted by '
++                               'runqemu-extract-sdk) to copy the files into directly, without ssh.')
+     parser_deploy.add_argument('-c', '--no-host-check', help='Disable ssh host key checking', action='store_true')
+     parser_deploy.add_argument('-s', '--show-status', help='Show progress/status output', action='store_true')
+     parser_deploy.add_argument('-n', '--dry-run', help='List files to be deployed only', action='store_true')
+@@ -552,10 +713,15 @@ def register_commands(subparsers, context):
  
-     def _verify_cmake_preset(self, tempdir):
-         """Verify the generated cmake preset works as expected
-@@ -3532,14 +3532,14 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-         self.assertIn("GNU gdb", r.output)
- 
-     def _gdb_debug_cpp_example(self, magic_string, gdb_start_cmd="run",
--                              exe_break_line=136, exe_list_line=128, hpp_break_line=21,
-+                              exe_break_line=136, exe_list_line=129, hpp_break_line=24,
-                               lib_break_line=31):
-         """Get a series of gdb commands to debug the cpp-example-lib example"""
-         gdb_batch_cmd = " -ex 'break main' -ex '%s'" % gdb_start_cmd
-         gdb_batch_cmd += " -ex 'break CppExample::print_json()' -ex 'continue'"
-         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %s\")'" % magic_string
-         gdb_batch_cmd += " -ex 'print CppExample::test_string.compare(\"cpp-example-lib %saaa\")'" % magic_string
--        gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:15,15'"
-+        gdb_batch_cmd += " -ex 'list cpp-example-lib.hpp:16,16'"
- 
-         # Break inside the library's own .cpp file by file:line (not by
-         # symbol), while still inside the print_json() call reached above.
-@@ -3578,7 +3578,7 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-         gdb_batch_cmd += " -ex 'continue'"
-         return gdb_batch_cmd
- 
--    def _gdb_debug_cpp_example_check(self, gdb_output, magic_string, exe_list_line=128, lib_break_line=31):
-+    def _gdb_debug_cpp_example_check(self, gdb_output, magic_string, exe_list_line=129, lib_break_line=31):
-         self.assertIn("Breakpoint 1, main", gdb_output)
-         self.assertIn("$1 = 0", gdb_output)  # test.string.compare equal
-         self.assertIn("$2 = -3", gdb_output)  # test.string.compare longer
-@@ -3606,7 +3606,7 @@ class DevtoolIdeSdkGccTests(DevtoolIdeSdkTests):
-         self.assertIn("exited normally", gdb_output)
- 
-     def _gdb_cross_debugging_multi(self, qemu, recipe_name, example_exe, magic_string,
--                                   exe_break_line=136, exe_list_line=128, hpp_break_line=21,
-+                                   exe_break_line=136, exe_list_line=129, hpp_break_line=24,
-                                    lib_break_line=31):
-         """Verify gdb-cross is working
- 
-@@ -4814,8 +4814,8 @@ class DevtoolIdeSdkClangTests(DevtoolIdeSdkTests):
-             cpp_code = file.read()
-         cpp_code = cpp_code.replace(DevtoolIdeSdkTests.MAGIC_STRING_ORIG, magic_string_new)
-         cpp_code = cpp_code.replace(
--            "    inline static int scale_number(int n)",
--            extra_lines + "    inline static int scale_number(int n)")
-+            "    static int scale_number(int n)",
-+            extra_lines + "    static int scale_number(int n)")
-         with open(cpp_example_lib_hpp, 'w') as file:
-             file.write(cpp_code)
- 
+     parser_undeploy = subparsers.add_parser('undeploy-target',
+                                             help='Undeploy recipe output files in live target machine',
+-                                            description='Un-deploys recipe output files previously deployed to a live target machine by devtool deploy-target.',
++                                            description='Un-deploys recipe output files previously deployed to a live target machine or local '
++                                                        'pseudo-managed rootfs directory by devtool deploy-target.',
+                                             group='testbuild')
+     parser_undeploy.add_argument('recipename', help='Recipe to undeploy (if not using -a/--all)', nargs='?')
+-    parser_undeploy.add_argument('target', help='Live target machine running an ssh server: user@hostname')
++    parser_undeploy.add_argument('target',
++                               help='Either a live target machine running an ssh server: '
++                               'user@hostname; or an absolute path to the local pseudo-managed '
++                               'rootfs directory previously used with deploy-target, to remove '
++                               'the files directly, without ssh.')
+     parser_undeploy.add_argument('-c', '--no-host-check', help='Disable ssh host key checking', action='store_true')
+     parser_undeploy.add_argument('-s', '--show-status', help='Show progress/status output', action='store_true')
+     parser_undeploy.add_argument('-a', '--all', help='Undeploy all recipes deployed on the target', action='store_true')
 -- 
 2.55.0
 
