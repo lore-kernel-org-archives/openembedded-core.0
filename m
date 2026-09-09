@@ -2,255 +2,146 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87867C79FB8
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 07:29:59 +0000 (UTC)
-Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com [209.85.128.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6415.1788938993101473931
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 409D8C79FAA
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 07:30:01 +0000 (UTC)
+Received: from mail-wm1-f46.google.com (mail-wm1-f46.google.com [209.85.128.46])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6431.1788938997446498474
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 00:29:53 -0700
+ Wed, 09 Sep 2026 00:29:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=lnpvXeaP;
- spf=pass (domain: smile.fr, ip: 209.85.128.45, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f45.google.com with SMTP id 5b1f17b1804b1-49b392ccaacso80324105e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:29:52 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=R0OsdtKQ;
+ spf=pass (domain: smile.fr, ip: 209.85.128.46, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f46.google.com with SMTP id 5b1f17b1804b1-49556f97a9dso46080655e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:29:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788938991; x=1789543791; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=fli0XgIQG3e1onTOcQnsvRxFcAkVQcbQLDWEonnGUPM=;
-        b=lnpvXeaP+ApgXF3t8qMcAvL7G6OJjZLnejXmi/o7VbKueq3LH59Qe21rX1scNMcJXu
-         JKvMoOEyAUeYWBKQTQ7A0fCDf2oaeA5q6CI44s720WXOnLNJxR5jF6O6DVCL1idOJw6W
-         Q6u+GMikUA/DBIa82Bp87SFY7Csl4h5ZiO/FE=
+        d=smile.fr; s=google; t=1788938996; x=1789543796; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=KxYbtkq4AnTA3YBcl5OKTYJ83o4iiNy9+ZHhyTPPmZ4=;
+        b=R0OsdtKQE4o0zW1GDTvTs/34TjtAAcHb4dTk9QmD6bejVbmawd1k70fb3yElsTjQPT
+         /jEgbl6Mk01VbHT+FfFqhF4RQlRJTqCS09CqpMfSpMJT78GdnK4SfmB7Ehl7niTz3yjE
+         KTnCKRNh5aep0xApgZt/h70kI/lxnX1t/7vhc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788938991; x=1789543791;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=fli0XgIQG3e1onTOcQnsvRxFcAkVQcbQLDWEonnGUPM=;
-        b=cPqc8tIx2e6qh0LyDJbXIvlMDFS4bVZZujwNaI0eW1P+VmFWlcD3RpvQ67eLi75O+h
-         rPRz958QD5y260dy4gNeNR7wYP+yjVsFFPbfOzUaDvERafi7FczqjRfEj7zEyEKzzMWc
-         dbrESRAN3sh/LQHU373s9A0jChqvN7vPq9WHjFXMOYTSWepsWwqyWdapTdi5bi86R6J5
-         Zorj9JS6Amc71wAjDVb5CKf5eQfEaAId1Ox/+uGnNDZeSHVLxly2f+SyoJoLv05xRwzd
-         AuTO1W0JhGSpqIkKwLQxpkos7sPiV4Sbe3G0YgTBXE8ranDbnkI0brv+Li/x0LKWXnoC
-         j8JQ==
-X-Gm-Message-State: AFuF++lgDcCLTFdPUn18EBgpqiaIJFROySw1OnGx+9gVyVz14lm4zgEA
-	QATwoTHKIHu7KLwexytYizo5q+ilIAg5biFmKogT+f4gHvNHl2GBltF6kA4RI5ODa4NiIRV7vra
-	Z4wl1Oy0=
-X-Gm-Gg: AYBFou2dBnQ9OX+m5sBFXF9pqnB4teXixdqbED1qMEBKPr4UmKtl5BZUbCSNzj7D1Ek
-	l1L8MOewolLpFsgWpwNe0ugGxIp/Mhts+zjvABmFn4Y6k7x55WGzrGTl+rXBM5cr/7elB+jAqT0
-	GzbjMw+cN0hBrO6TYPMdY9agNJzFChG0xD4lC4cuKp45KdPckdTKuR/Bwh/Sjx6+WDU2B1dTWxJ
-	q8q/HXiIb49/CejW1T7NYcGlcJ/mS1q1yzE/F6WDpbLPK1YxJST3i5eJ+OhfaAB/AkwaoaWaIJx
-	n/0RU7UBbl/h+OS7Z/PwdfdmQFiHiG4sfIt66F/dT23LTa8C6FXptgNSWjhveaqhRMydEaR3+iL
-	uxE6A48n8cOxv3iHw/T9EhDxBKVo/YWbRXmOqh0iTA/CMrVtIn7X5EsNArTfJjFFjXOQtv2558L
-	Grs8+kyb8leBDPW+EOH7de62Fd4t6B3MkF8CZ/yQmE4TO/uiVr2+Moh2xD6nVAkrsjiahIYg/sK
-	J9y7MdB7ALliKv7++CtWfCdVQ4cLKaz96JAEvd5GpyM8Olegb0yZimk2HYiHr+MKKR/aCLbze0=
-X-Received: by 2002:a05:6000:41ed:b0:485:8ef9:325f with SMTP id ffacd0b85a97d-4858ef93304mr30164895f8f.42.1788938991002;
-        Wed, 09 Sep 2026 00:29:51 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1788938996; x=1789543796;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=KxYbtkq4AnTA3YBcl5OKTYJ83o4iiNy9+ZHhyTPPmZ4=;
+        b=oDovkTNSlb3IN0OnCK98X6izHAwHJa/6ChTnS+8z2mKtmIOp+mYH8ReYyu7AJwhtB1
+         g0oLK27ar3Pvc6XoBFc53sIiPQAWR3Sz+RAv5GdQB54XZzt1kEd17hqZG1tEN/xZkjC6
+         NnH+72mSCsdzDwVpFXxtmpS7oLdjkFGR+X4QfErI/Enj1yTe8eBbuzRgRR3XX9C1clQp
+         gCKbdY/Mkg1vRS+GilUTryyus2zu+G5GIQXWGab4cDcpP1MvlHJ/hgJz0uHzp1bd134b
+         KFyHWLRWzEf2CRAHkH3c1iRAP8TS6BjdyXFGtySTcZjxJ1XdPYmSodjonfBSb/Zc/f26
+         mExg==
+X-Gm-Message-State: AFuF++lWIDzxs5UPfKe41JTXk+momqEqQVmEUQqjA1UYsIfwORmSEwBY
+	Nkk1meqK/etu1qQikgjVzVrDQycGuwV9/OvPgDFmDYwkcKj40MOAkRVCcfaYZOhxcnJNU4L2a5J
+	uS3jMR0s=
+X-Gm-Gg: AYBFou2KFoX2QZWzKFLXUQ0hUg0JPuTu9Qo1vRORvmAUanjK9c1erS1mdx5XuSHmNJ9
+	5neg034fIByRDLLPuTWCudzdLPAEDcgNPptqpIJM7ITXONWuZse9LkylydxsgAjuqUIB9/TLkz4
+	FIYOm5d7E1Alah1Qflp8A3Ln0zunjl9yGxXAUiPkNleFA/DjX5Z/jmdGrK6nFeAlCtbFMgHqkrp
+	RcggNDQujNGJitwxHFoWFhy/3SR9hM6x/g0y0659+TxQXmP6KdZaL5L+TDW1XLHRv9JeEgt3xPq
+	m3aGn1Uu73Hh50Umg04bXvH4Iu9RxWE/D2o48ME7V/KXXMOv9Hg1HZW7OVh1BpMsg+PQNAeEFAt
+	s7gph8H1HaJrCTqWzr4JlvD1tiFasDziIy6ppbLlf25eI7ohYR8adkNqubiUhs5f7XZTanzivQh
+	QcBTwif1nFGBurMZ4Y9kbpFwj45t4Izk9oIeJFkwuSsd9s3ngjVBTseePlQ7FKd9zB7bLsw/YhF
+	ZPD3hD8mHMJoN7FU1pqspp5KfbyVBaL7atyEjjDMD2RlaT4nj6nrADvXTTXfp7zXMbDMg5tAice
+	TJ3wJwzQbw==
+X-Received: by 2002:a05:600c:138d:b0:49d:243a:e4f9 with SMTP id 5b1f17b1804b1-49d243ae71fmr8930405e9.10.1788938995504;
+        Wed, 09 Sep 2026 00:29:55 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40624310f8f.16.2026.09.09.00.29.50
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40624310f8f.16.2026.09.09.00.29.55
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 00:29:50 -0700 (PDT)
+        Wed, 09 Sep 2026 00:29:55 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 00/38] Patch review
-Date: Wed,  9 Sep 2026 09:28:59 +0200
-Message-ID: <cover.1788938908.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 05/38] testimage: handle bootlog variants on failed qemu tests
+Date: Wed,  9 Sep 2026 09:29:04 +0200
+Message-ID: <e9cdd45e1c8769650b70965f99780670e219cae9.1788938909.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1788938908.git.yoann.congal@smile.fr>
+References: <cover.1788938908.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 07:29:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245409
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 07:30:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245413
 
-Please review this set of changes for wrynose and have comments back by
-end of day Friday, September 11.
+From: Peter Tatrai <peter.tatrai.ext@siemens.com>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/builds/4697
+The failure summary path assumed the unsuffixed bootlog file always
+exists and unconditionally opened it.
 
-The following changes since commit 31def396136be047e10c507a50264aad52ba6b0f:
+This is not guaranteed when SERIAL_CONSOLES has fewer than two
+entries (including empty), where qemurunner can produce only
+bootlog suffix variants (for example .2 or .stdout).
 
-  scripts/install-buildtools: Update to 6.0.3 (2026-09-04 16:21:55 +0200)
+On test failures, collect snippets from all existing files matching
+bootlog and bootlog.* and prefix each snippet with its filename.
+Also skip creating a symlink for a missing bootlog path.
 
-are available in the Git repository at:
+This prevents FileNotFoundError from masking the original test
+failure and improves diagnostics across qemu serial configurations.
 
-  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-nut
+(From OE-Core rev: 7a6596925cb0eb8dd48a0362a51875cdd60152bc)
 
-for you to fetch changes up to 4ce10a99a44924dd629fbd79268207b145ccfc62:
+Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ meta/classes-recipe/testimage.bbclass | 27 +++++++++++++++++++++++----
+ 1 file changed, 23 insertions(+), 4 deletions(-)
 
-  gawk: skip randtest in ptest suite (2026-09-09 00:58:52 +0200)
-
-----------------------------------------------------------------
-
-Adarsh Jagadish Kamini (1):
-  gnutls: fix CVE-2026-33845
-
-Ankur Tyagi (1):
-  wpa-supplicant: patch CVE-2026-58374
-
-Bruce Ashfield (4):
-  linux-yocto/6.18: update to v6.18.41
-  linux-yocto/6.18: update to v6.18.43
-  linux-yocto/6.18: update to v6.18.44
-  linux-yocto/6.18: update to v6.18.48
-
-Daniel Turull (1):
-  libarchive: mark CVE-2026-14164 as fixed-version
-
-Darsh Kelaiya (1):
-  python3-lxml: fix CVE-2026-41066
-
-Ghanshyam Banait (1):
-  wget: fix CVE-2026-16599
-
-Harish Sadineni (1):
-  glibc: fix CVE-2026-19542
-
-Hetvi Thakar (7):
-  python3-pip: Fix CVE-2026-13346
-  u-boot-tools: Ignore CVE-2026-29007
-  u-boot-tools: Ignore CVE-2026-29008
-  u-boot-tools: Ignore CVE-2026-29009
-  u-boot, u-boot-tools: Correct CVE-2026-46728 attribution for FIT fix
-  wget: Fix CVE-2026-58470
-  python3-pip: Fix CVE-2026-8643
-
-Hiago De Franco (1):
-  improve_kernel_cve_report: fix backported-patch check
-
-Himani Ramesh Barde (1):
-  gawk: skip randtest in ptest suite
-
-Himanshu Jadon (1):
-  grub: disable grub-protect for native builds
-
-Hitendra Prajapati (6):
-  vim: Fix for CVE-2026-73072
-  vim: Fix for CVE-2026-73073
-  vim: Fix for CVE-2026-73074
-  vim: Fix for CVE-2026-73076
-  vim: Fix for CVE-2026-73077
-  vim: Fix for CVE-2026-73078
-
-Jaipaul Cheernam (1):
-  p11-kit: upgrade 0.26.4 -> 0.26.5
-
-Peter Marko (4):
-  openssl: upgrade 3.5.7 -> 3.5.8
-  apr-util: upgrade 1.6.3 -> 1.6.5
-  curl: patch CVE-2026-11352
-  curl: patch CVE-2026-11586
-
-Peter Tatrai (2):
-  testimage: handle bootlog variants on failed qemu tests
-  time64: enable 64-bit time/file-offset flags for 32-bit nativesdk
-
-Pratik Farkase (1):
-  procps: ptest: skip flaky pgrep full process name match test
-
-Vijay Anusuri (4):
-  libxfont: Fix CVE-2026-56001
-  libxfont: Fix CVE-2026-56002
-  libxfont: Fix CVE-2026-56003
-  perl: Fix CVE-2026-57433
-
- meta/classes-recipe/testimage.bbclass         |  27 +-
- meta/conf/distro/include/time64.inc           |  10 +
- meta/recipes-bsp/grub/grub2.inc               |   2 +
- ...-2026-33243.patch => CVE-2026-46728.patch} |  11 +-
- .../u-boot/u-boot-tools_2026.01.bb            |   8 +
- meta/recipes-bsp/u-boot/u-boot_2026.01.bb     |   4 +-
- .../{openssl_3.5.7.bb => openssl_3.5.8.bb}    |   2 +-
- .../wpa-supplicant/CVE-2026-58374-1.patch     |  52 +++
- .../wpa-supplicant/CVE-2026-58374-2.patch     |  47 +++
- .../wpa-supplicant/CVE-2026-58374-3.patch     |  55 +++
- .../wpa-supplicant/CVE-2026-58374-4.patch     |  46 +++
- .../wpa-supplicant/CVE-2026-58374-5.patch     |  47 +++
- .../wpa-supplicant/wpa-supplicant_2.11.bb     |   5 +
- .../glibc/glibc/0023-CVE-2026-19542.patch     |  98 +++++
- meta/recipes-core/glibc/glibc_2.43.bb         |   1 +
- .../perl/files/CVE-2026-57433.patch           |  32 ++
- meta/recipes-devtools/perl/perl_5.42.0.bb     |   1 +
- .../python/python3-lxml/CVE-2026-41066.patch  | 349 ++++++++++++++++++
- .../python/python3-lxml_6.0.2.bb              |   4 +-
- .../python/python3-pip/CVE-2026-13346.patch   | 206 +++++++++++
- .../CVE-2026-8643-regression_p1.patch         |  35 ++
- .../CVE-2026-8643-regression_p2.patch         |  69 ++++
- .../python/python3-pip/CVE-2026-8643.patch    |  80 ++++
- .../python/python3-pip_26.0.1.bb              |   7 +-
- meta/recipes-extended/gawk/gawk_5.4.0.bb      |   5 +-
- .../libarchive/libarchive_3.8.7.bb            |   4 +
- ...p-pgrep-full-process-name-match-test.patch |  39 ++
- meta/recipes-extended/procps/procps_4.0.6.bb  |   1 +
- .../wget/wget/CVE-2026-16599.patch            |  68 ++++
- .../wget/wget/CVE-2026-58470-regression.patch |  48 +++
- .../wget/wget/CVE-2026-58470.patch            |  79 ++++
- meta/recipes-extended/wget/wget_1.25.0.bb     |   3 +
- .../xorg-lib/libxfont/CVE-2026-56001.patch    |  87 +++++
- .../xorg-lib/libxfont/CVE-2026-56002.patch    | 150 ++++++++
- .../xorg-lib/libxfont/CVE-2026-56003.patch    | 114 ++++++
- .../xorg-lib/libxfont_1.5.4.bb                |   5 +
- .../linux/linux-yocto-rt_6.18.bb              |   6 +-
- .../linux/linux-yocto-tiny_6.18.bb            |   6 +-
- meta/recipes-kernel/linux/linux-yocto_6.18.bb |  24 +-
- ...le-function-prototype-warning-with-c.patch | 130 -------
- ...ion-Check-if-transform-is-supported-.patch |  37 --
- .../apr/apr-util/configfix.patch              |   4 +-
- .../{apr-util_1.6.3.bb => apr-util_1.6.5.bb}  |   4 +-
- .../curl/curl/CVE-2026-11352.patch            |  48 +++
- .../curl/curl/CVE-2026-11586.patch            | 203 ++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   2 +
- .../gnutls/gnutls/CVE-2026-33845.patch        | 166 +++++++++
- meta/recipes-support/gnutls/gnutls_3.8.12.bb  |   1 +
- .../{p11-kit_0.26.4.bb => p11-kit_0.26.5.bb}  |   2 +-
- .../vim/files/CVE-2026-73072.patch            |  64 ++++
- .../vim/files/CVE-2026-73073.patch            | 105 ++++++
- .../vim/files/CVE-2026-73074.patch            | 115 ++++++
- .../vim/files/CVE-2026-73076.patch            | 167 +++++++++
- .../vim/files/CVE-2026-73077.patch            | 105 ++++++
- .../vim/files/CVE-2026-73078.patch            |  94 +++++
- meta/recipes-support/vim/vim.inc              |   6 +
- scripts/contrib/improve_kernel_cve_report.py  |   4 +-
- 57 files changed, 2889 insertions(+), 205 deletions(-)
- rename meta/recipes-bsp/u-boot/files/{CVE-2026-33243.patch => CVE-2026-46728.patch} (98%)
- rename meta/recipes-connectivity/openssl/{openssl_3.5.7.bb => openssl_3.5.8.bb} (99%)
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2026-58374-1.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2026-58374-2.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2026-58374-3.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2026-58374-4.patch
- create mode 100644 meta/recipes-connectivity/wpa-supplicant/wpa-supplicant/CVE-2026-58374-5.patch
- create mode 100644 meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-57433.patch
- create mode 100644 meta/recipes-devtools/python/python3-lxml/CVE-2026-41066.patch
- create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-13346.patch
- create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-8643-regression_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-8643-regression_p2.patch
- create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-8643.patch
- create mode 100644 meta/recipes-extended/procps/procps/0001-testsuite-skip-pgrep-full-process-name-match-test.patch
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-16599.patch
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58470.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56002.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56003.patch
- delete mode 100644 meta/recipes-support/apr/apr-util/0001-sdbm-Fix-old-style-function-prototype-warning-with-c.patch
- delete mode 100644 meta/recipes-support/apr/apr-util/0001-test_transformation-Check-if-transform-is-supported-.patch
- rename meta/recipes-support/apr/{apr-util_1.6.3.bb => apr-util_1.6.5.bb} (93%)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-11352.patch
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-11586.patch
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33845.patch
- rename meta/recipes-support/p11-kit/{p11-kit_0.26.4.bb => p11-kit_0.26.5.bb} (97%)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73072.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73073.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73074.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73076.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73077.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73078.patch
-
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+index 9902b8a5682..0f34d551e99 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -186,6 +186,7 @@ def get_testimage_boot_patterns(d):
+ 
+ def testimage_main(d):
+     import os
++    import glob
+     import json
+     import signal
+     import logging
+@@ -409,15 +410,33 @@ def testimage_main(d):
+     # Copy additional logs to tmp/log/oeqa so it's easier to find them
+     targetdir = os.path.join(get_json_result_dir(d), d.getVar("PN"))
+     os.makedirs(targetdir, exist_ok=True)
+-    os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
++    if os.path.exists(bootlog):
++        os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
++    else:
++        bb.note("testimage: boot log not found at %s" % bootlog)
++
+     os.symlink(d.getVar("BB_LOGFILE"), os.path.join(targetdir, os.path.basename(d.getVar("BB_LOGFILE") + "." + d.getVar('DATETIME'))))
+ 
+     if not results or not complete:
+         bb.error('%s - FAILED - tests were interrupted during execution, check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
+     if results and not results.wasSuccessful():
+-        with open(bootlog, 'r') as bootlogfile:
+-            bootlines = "".join(bootlogfile.readlines()[-20:])
+-        bb.plain('%s - FAILED - Last lines of QEMU boot log:\n%s' % (pn, bootlines))
++        bootlog_files = []
++        for candidate in [bootlog] + sorted(glob.glob(bootlog + ".*")):
++            if os.path.exists(candidate) and candidate not in bootlog_files:
++                bootlog_files.append(candidate)
++
++        if bootlog_files:
++            snippets = []
++            for bootlog_file in bootlog_files:
++                try:
++                    with open(bootlog_file, 'r') as bootlogfile:
++                        bootlines = "".join(bootlogfile.readlines()[-20:])
++                except OSError as err:
++                    bootlines = "<failed to read %s: %s>\n" % (bootlog_file, err)
++                snippets.append("--- %s ---\n%s" % (os.path.basename(bootlog_file), bootlines))
++            bb.plain('%s - FAILED - Last lines of QEMU boot logs:\n%s' % (pn, "\n".join(snippets)))
++        else:
++            bb.plain('%s - FAILED - QEMU boot logs not available at %s or %s.*' % (pn, bootlog, bootlog))
+         bb.error('%s - FAILED - also check the logs in %s' % (pn, d.getVar("LOG_DIR")), forcelog=True)
+ 
+ def get_runtime_paths(d):
 
