@@ -1,128 +1,136 @@
-Return-Path: <Aravind.Bandari@windriver.com>
+Return-Path: <devanshp@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 11468C79FB7
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 18:47:09 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19938.1788979620588938953
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B51C79FB6
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 19:00:49 +0000 (UTC)
+Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20279.1788980446642694867
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 11:47:01 -0700
+ Wed, 09 Sep 2026 12:00:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=aF9KWXpX;
- spf=none, err=permanent DNS error (domain: oak-lpgbuild11.wrs.com, ip: 205.220.178.238, mailfrom: prvs=3712a3a885=abandari@oak-lpgbuild11.wrs.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 689IkxCn1810547
-	for <openembedded-core@lists.openembedded.org>; Wed, 9 Sep 2026 18:46:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=TRb1k4D3O
-	siKpwPy29NL68ItN7E0adda/4PbwsZyrFk=; b=aF9KWXpXS7UxR654uZcU9tRq6
-	nQP+rVAlRyzGehuY5lxmFqwORFzj7m6l/bdCGNTq4/w27XtZ/Dn633A40NQxlf27
-	VLp2CnA3ggZ1T5l0Il59HhNs+azk5db7LwowcXOyJlLFNPDuhzD3OZayVXlULjct
-	J6ky3sVIKAdHTuUqspX4Xs+D4l/I9ZHKmRjf5CGJZMyZhZceU0vL1VdbQEHIWeob
-	xI9zzkcqHyo5Gd1o7f+J0WxVQsu6XdTuQESDmAQh5uzWT0hRK1w6b20vYX4g1j48
-	eUFvZfAX5WKNBhW7m5PdpabrumY/lJUTTQa8mKfzrQTmzEzkjDmcARKVNwIRg==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gkcypr06s-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 18:46:59 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 9 Sep 2026 11:46:58 -0700
-Received: from oak-lpgbuild11.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 9 Sep 2026 11:46:58 -0700
-Received: by oak-lpgbuild11.wrs.com (Postfix, from userid 1762445477)
-	id 4DF3D404033F; Wed,  9 Sep 2026 18:46:58 +0000 (UTC)
-From: Aravind Bandari <aravind.bandari@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Aravind Bandari <aravind.bandari@windriver.com>
-Subject: [PATCH] maintainers.inc: Update maintainer for autoconf, autoconf-archive, automake, libtool, libtool-native, libtool-cross, make
-Date: Wed, 9 Sep 2026 18:46:11 +0000
-Message-ID: <20260909184611.1022046-1-aravind.bandari@windriver.com>
-X-Mailer: git-send-email 2.53.0
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=fNkJ2+ot;
+ spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: devanshp@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=2523; q=dns/txt;
+  s=iport01; t=1788980446; x=1790190046;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=6Rz2wuLtKeJnCXqnR59hj8HzS+xgjsqb1rcZ/ihM6u4=;
+  b=fNkJ2+othTBfpDW9qquYjwetmy5Tkvq0vSUs0UrOcWghDjTr0DxC3zQ5
+   7w8Z8ddfHalSA2s9TEOHVdBKmx//C4drDTtz+HQ6mSZMF1s6hFCtW+6tk
+   MuEn89XKRNfqVXtJuOx8kluo8ZlPvX3DBR8lL4Rbv9nLKwSBSg5yAwjRj
+   sjogkRZLM09JDWnIA7F2W83mzXF3VYDtJl1pPpDInOXQ2UxgshPji8AzB
+   5S5utKPyw3Oava7/wrxJsEU0H9VrGZODFumN06s80KX7lP5AYNRLZdJS1
+   +kzKfC1NC9qXG0yIeBXQZSB61iQ7hdFnXbrmDBlnnGJnQteB4+0C5nLcI
+   A==;
+X-CSE-ConnectionGUID: 3NORECX/TcCNIhfrk+twsw==
+X-CSE-MsgGUID: rMPK2fA9SFqOlFqtDNCCeA==
+X-IPAS-Result: =?us-ascii?q?A0BCAgAgrKFq/5MQJK1aglmCV3RgQ0mWSp4egX4PAQEBD?=
+ =?us-ascii?q?0QNBAEBhQWOBwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBD?=
+ =?us-ascii?q?hOGTw2QFTYBGAEtMFxEG4JnAYJ0AxEGwTaCLIEBgygBPwICQAFQ2zEBCxQBB?=
+ =?us-ascii?q?YEzhT+IInUBhHwnGxuBcoEVg2mBBYFcAgGCLIV4BIIiehKBeG5HkQFIgR4DW?=
+ =?us-ascii?q?SwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQcbBgWBHYEngz8jGTZ6gQlegSspY?=
+ =?us-ascii?q?AESF4EHgggCglSCAQIBSUMOB0VTCSdBChJTKQQLGA1IESw3FRkEPm4HjyIfg?=
+ =?us-ascii?q?lhhLSoBAYIFJxGTOJAMgiGhDwoog3aMIpU6GjOqbS6YWo4KlTZKUIRpgWg8g?=
+ =?us-ascii?q?VlwFTuCZwkWNBkPjjmDa4ZAxXknMgIJMgEBBwIHDgMLgWiRfgEB?=
+IronPort-Data: A9a23:We/trKygConBruWfOLt6t+dhxyrEfRIJ4+MujC+fZmUNrF6WrkUGy
+ 2VMWGrQOPuJamuhftBxbovjpxkFvJTVxtQ1TlE/rVhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 46aT/H3Ygf/hWYlajNMsMpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJBoQGrc10dYwPWpl0
+ 90YJioOLQycnP3jldpXSsE07igiBMDvOIVavjRryivUSK9+B5vCWK7No9Rf2V/chOgXQq2YP
+ JRfMGQpNUifC/FMEg9/5JYWkOq2j3/kcyVwo1OOrq1x6G/WpOB0+OixaYSFIoPTG625mG6Cg
+ 1rlpWrQUyo0Lfub5yOZ3lSHreLmyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NUF+t/7ESGzbDZpl/BQGMFVTVGLtchsafaWAAX6
+ 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
+IronPort-HdrOrdr: A9a23:jC1dQq6fzSSgkgHn2gPXwOTXdLJyesId70hD6qm+c3Nom6uj5q
+ WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBKLZslnd8lXFh41g/J
+ YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
+X-Talos-CUID: =?us-ascii?q?9a23=3AeuKBuGjj0WifTn0IyvGXv25soDJuKVv69lr7Ewi?=
+ =?us-ascii?q?EAk1Pab2bU1zT5Lx/jJ87?=
+X-Talos-MUID: =?us-ascii?q?9a23=3Afe+Jtg1GyG1WhOSS8kdFgUr+PjUj+YGWKxoDuMQ?=
+ =?us-ascii?q?9ldCjMQJpJxu7px+6a9py?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.25,270,1779148800"; 
+   d="scan'208";a="841680716"
+Received: from alln-l-core-10.cisco.com ([173.36.16.147])
+  by alln-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Sep 2026 19:00:45 +0000
+Received: from sjc-ads-5197.cisco.com (sjc-ads-5197.cisco.com [10.28.35.211])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by alln-l-core-10.cisco.com (Postfix) with ESMTPS id 992F718000580;
+	Wed,  9 Sep 2026 19:00:45 +0000 (GMT)
+Received: by sjc-ads-5197.cisco.com (Postfix, from userid 1887503)
+	id 3EFB4CC12A7; Wed,  9 Sep 2026 12:00:45 -0700 (PDT)
+From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com
+Subject: [OE-core][wrynose][PATCH] curl: set CVE_STATUS for CVE-2026-8458
+Date: Wed,  9 Sep 2026 12:00:45 -0700
+Message-Id: <20260909190045.5000-1-devanshp@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTA5MDIxMCBTYWx0ZWRfX4f9lgFG3olDP
- ri3bWIEu8ykvx8EQtXYaPmaAUv+3b+lyOhETU9m+I5a2V6s1pan3WlHz8AibKSz2Jrzggp/T28v
- boZa7hyoyBdXrHVo1rjlt0MsAK30oRoy+FEasYCnrcwlHST5NgkL
-X-Authority-Analysis: v=2.4 cv=b40ncdGx c=1 sm=1 tr=0 ts=6aa1a9a3 cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8 a=iGHA9ds3AAAA:8 a=k-42gJp3AAAA:8
- a=pGLkceISAAAA:8 a=0gcC27t9AAAA:8 a=_iH6NxeTAAAA:8 a=iNOPiNP7n9lywY19YmYA:9
- a=FdTzh2GWekK77mhwV6Dw:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=uCSXFHLys93vLW5PjgO_:22
- a=f5sM90hAhNS9OGT-JDKn:22 a=zZzRKORMDKZaSe7LaTAy:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTA5MDIxMCBTYWx0ZWRfXwPBLthSFn1iI
- XUp0tqXUcT9Rv84tV6EZRN0SgdGTL7teEgw+xQ+sdCt4KhOqkyYvEk9ElSaE86szu+T1++AGgvx
- sJtph80bBCY1JQaisdc8ISk7Bl0cvIYSQOU5KeLgB6OivubhU53NhzFfuc6xOd4IIHyryB14IPg
- V7TMYl3EAZtwDc89L6AYdQ2b4jiwso7FvluvJFXl9ERDVky6AfG1y/10/x477TkSe7biESCzYt3
- /15zMZyY65Aadjoaro01RD3Zv6ToY/DY0W9Q/zf+Df9A5NypWSlLaPZLAl55rNNEby2EbyfdTXB
- Aa6oH9gU4AQZufRM/xtuf2otnNuQr8L18aGtQ02zuemklGZtVcji1fNtGYMIOIB6IjugR/u6Rfm
- E7jSSBKFYAWopRk/Igy0WK5HyBVfpg==
-X-Proofpoint-GUID: C4icnW7eB0amI2uhJQoAnIj4L2AlALed
-X-Proofpoint-ORIG-GUID: C4icnW7eB0amI2uhJQoAnIj4L2AlALed
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-08_03,2026-09-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- spamscore=0 malwarescore=0 adultscore=0 lowpriorityscore=0 phishscore=0
- suspectscore=0 bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc=
- route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609090210
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-5197.cisco.com [10.28.35.211];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.28.35.211, sjc-ads-5197.cisco.com
+X-Outbound-Node: alln-l-core-10.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 18:47:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245487
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 19:00:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245488
 
-Take over maintenance of autoconf, autoconf-archive, automake, libtool, libtool-native, libtool-cross, make.
+From: Devansh Patel <devanshp@cisco.com>
 
-Signed-off-by: Aravind Bandari <aravind.bandari@windriver.com>
+CVE-2026-8458 allows a Negotiate-authenticated connection to be
+incorrectly reused for a request using a different SASL service name.
+
+Wrynose uses curl 8.19.0, which is within the affected version range.
+The vulnerable code path on Linux requires both Negotiate authentication
+and GSSAPI support, represented by the negotiate-auth and krb5
+PACKAGECONFIG options.
+
+The upstream fix [1] stores the SASL service name in struct Curl_creds
+and includes it in connection-reuse comparisons. However, struct
+Curl_creds was introduced by the credential-management rework in [2],
+after curl 8.19.0. Therefore, the security fix cannot be cleanly
+backported without introducing a substantial credential-management
+refactor.
+
+Use a conditional CVE_STATUS as the least invasive solution. Report the
+CVE as unpatched when both krb5 and negotiate-auth are enabled. Otherwise,
+mark it not-applicable-config because the vulnerable GSSAPI-backed
+Negotiate implementation is not built. The default Wrynose configuration
+enables negotiate-auth but does not enable krb5.
+
+References:
+[1] https://github.com/curl/curl/commit/5e99b73cf441d9c369768b9cd48b5389b9a2503d
+[2] https://github.com/curl/curl/commit/8f71d0fde515aa4c68002477356c35bd79927729
+[3] https://curl.se/docs/CVE-2026-8458.html
+
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
 ---
- meta/conf/distro/include/maintainers.inc | 14 +++++++-------
- 1 file changed, 7 insertions(+), 7 deletions(-)
+ meta/recipes-support/curl/curl_8.19.0.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index 5cbc60c1ce..40d62042bd 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -49,9 +49,9 @@ RECIPE_MAINTAINER:pn-aspell = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-at = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-at-spi2-core = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-attr = "Chen Qi <Qi.Chen@windriver.com>"
--RECIPE_MAINTAINER:pn-autoconf = "Robert Yang <liezhi.yang@windriver.com>"
--RECIPE_MAINTAINER:pn-autoconf-archive = "Robert Yang <liezhi.yang@windriver.com>"
--RECIPE_MAINTAINER:pn-automake = "Robert Yang <liezhi.yang@windriver.com>"
-+RECIPE_MAINTAINER:pn-autoconf = "Aravind Bandari <Aravind.Bandari@windriver.com>"
-+RECIPE_MAINTAINER:pn-autoconf-archive = "Aravind Bandari <Aravind.Bandari@windriver.com>"
-+RECIPE_MAINTAINER:pn-automake = "Aravind Bandari <Aravind.Bandari@windriver.com>"
- RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
- RECIPE_MAINTAINER:pn-avahi-libnss-mdns = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-babeltrace2 = "Unassigned <unassigned@yoctoproject.org>"
-@@ -409,9 +409,9 @@ RECIPE_MAINTAINER:pn-libtest-warnings-perl = "Tim Orling <tim.orling@konsulko.co
- RECIPE_MAINTAINER:pn-libtheora = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-libtimedate-perl = "Tim Orling <tim.orling@konsulko.com>"
- RECIPE_MAINTAINER:pn-libtirpc = "Unassigned <unassigned@yoctoproject.org>"
--RECIPE_MAINTAINER:pn-libtool = "Robert Yang <liezhi.yang@windriver.com>"
--RECIPE_MAINTAINER:pn-libtool-cross = "Robert Yang <liezhi.yang@windriver.com>"
--RECIPE_MAINTAINER:pn-libtool-native = "Robert Yang <liezhi.yang@windriver.com>"
-+RECIPE_MAINTAINER:pn-libtool = "Aravind Bandari <Aravind.Bandari@windriver.com>"
-+RECIPE_MAINTAINER:pn-libtool-cross = "Aravind Bandari <Aravind.Bandari@windriver.com>"
-+RECIPE_MAINTAINER:pn-libtool-native = "Aravind Bandari <Aravind.Bandari@windriver.com>"
- RECIPE_MAINTAINER:pn-libtraceevent = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-libtracefs = "Jaipaul Cheernam <jaipaul.cheernam@est.tech>"
- RECIPE_MAINTAINER:pn-libtry-tiny-perl = "Tim Orling <tim.orling@konsulko.com>"
-@@ -501,7 +501,7 @@ RECIPE_MAINTAINER:pn-lzo = "Denys Dmytriyenko <denis@denix.org>"
- RECIPE_MAINTAINER:pn-lzop = "Marek Vasut <marex@denx.de>"
- RECIPE_MAINTAINER:pn-m4 = "Robert Yang <liezhi.yang@windriver.com>"
- RECIPE_MAINTAINER:pn-m4-native = "Robert Yang <liezhi.yang@windriver.com>"
--RECIPE_MAINTAINER:pn-make = "Robert Yang <liezhi.yang@windriver.com>"
-+RECIPE_MAINTAINER:pn-make = "Aravind Bandari <Aravind.Bandari@windriver.com>"
- RECIPE_MAINTAINER:pn-make-mod-scripts = "Bruce Ashfield <bruce.ashfield@gmail.com>"
- RECIPE_MAINTAINER:pn-makedevs = "Chen Qi <Qi.Chen@windriver.com>"
- RECIPE_MAINTAINER:pn-makedumpfile = "Etienne Cordonnier <ecordonnier@snap.com>"
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index 7497337cb9..dec9d7a3eb 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -42,6 +42,7 @@ CVE_STATUS[CVE-2026-8924] = "not-applicable-config: public suffix list support i
+ CVE_STATUS[CVE-2026-10536] = "${@bb.utils.contains('PACKAGECONFIG', 'nghttp2', 'unpatched', 'not-applicable-config: applicable only with HTTP/2', d)}"
+ CVE_STATUS[CVE-2026-9547] = "not-applicable-config: vulnerable libssh backend is not enabled by the recipe"
+ CVE_STATUS[CVE-2026-12064] = "${@bb.utils.contains('PACKAGECONFIG', 'libssh2', 'unpatched', 'not-applicable-config: SCP/SFTP support is not enabled in PACKAGECONFIG', d)}"
++CVE_STATUS[CVE-2026-8458] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotiate-auth', 'unpatched', 'not-applicable-config: applicable only with GSS-API-backed Negotiate authentication', d)}"
+ 
+ inherit autotools pkgconfig binconfig multilib_header ptest
+ 
+-- 
+2.35.6
+
 
