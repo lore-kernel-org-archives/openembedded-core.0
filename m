@@ -1,102 +1,141 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EF3EBC79FB7
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 19:18:19 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20970.1788981493238707312
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47815C79FB7
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 20:33:43 +0000 (UTC)
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.749.1788986020004622459
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 12:18:13 -0700
+ Wed, 09 Sep 2026 13:33:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=gsAkQ9jI;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=NUTKkp7j;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a0879b3a11-be4f25d8-5951-4875-bf44-4d50498333a6-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788981492; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=QdaEzTG+pmTRbwuWMoIMWStXPF2aYoOygdZSNQtMP0w=;
-	b=gsAkQ9jIZMhNsTIu+I0yt9vWmiCUo7AVL1EC077ouy9/e65YxGtgKxOJqT/uo/En
-	tDsDpIVGxx0Ed6cAIc8cbLJwblDBSdrHwhgMup3/SLmbecJfQCi0U5am14cwm51y3CG
-	Iair8Vb7iNkSuM1CPzN78jHznv00C2MlGjJG7yjw=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788981492;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=QdaEzTG+pmTRbwuWMoIMWStXPF2aYoOygdZSNQtMP0w=;
-	b=NUTKkp7jw21a50RC3u6JUsG5EN55ASkqSpfPpooXJGHRU/T3zec2UF/Ax8+p8vw2
-	L4MhCmpVyr9jGsq3+RwIXZrC7LUVUZRUQio23Akv1xPPkUb7PHh8zWksyjs6xqFReQI
-	hNFTVaHUjMf4My80hQfNZfq2JuzFlUImfz0bVgiI=
-From: patchtest@automation.yoctoproject.org
-To: Aravind Bandari <aravind.bandari@windriver.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] maintainers.inc: Update maintainer for autoconf,
- autoconf-archive, automake, libtool, libtool-native, libtool-cross, make
-In-Reply-To: <20260909184611.1022046-1-aravind.bandari@windriver.com>
-References: <20260909184611.1022046-1-aravind.bandari@windriver.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0879b3a11-be4f25d8-5951-4875-bf44-4d50498333a6-000000@us-west-2.amazonses.com>
-Date: Wed, 9 Sep 2026 19:18:12 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.09-54.240.27.33
+ dkim=pass header.i=@mvista.com header.s=google header.b=HqMXMcoK;
+ spf=pass (domain: mvista.com, ip: 74.125.227.140, mailfrom: sdoshi@mvista.com)
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396ccafb751so1510253a91.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 13:33:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1788986019; x=1789590819; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=cVuC3ZW5JZcXgRAxBzE0vqO/7/A75EZVN650LNuqKLg=;
+        b=HqMXMcoKhQN+FYnst3RTUIBwaYDDKJ0n4ZaV9W7kfouUkfEYqdC2tf4VwWyTDa3EHk
+         Ipb76+jGyXHmIhvRLtyT+ONIlnbzfB6YJ/35hMDolQ8txYVfsC3+ds77H6XCe7h0IW05
+         ssX7XD//YCWtjXgSEqKa7H2xDBCIucpT+NZq8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1788986019; x=1789590819;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=cVuC3ZW5JZcXgRAxBzE0vqO/7/A75EZVN650LNuqKLg=;
+        b=gUgW6rLM+5T+W0IMDH8AmrRgTw755hd6Mi+aTOgnBW3NnoNHP+VabnvDBHakWEbxk/
+         dxx0OIrTXfbzKgrMA4fAM9rl1sbV8GLWCp3EoywCCZ7eivBt55v0RayDTyKX2TYsE/un
+         SQ+Vw1N1CrPZvW0WFg4yJ2T9SBz5Ik5q6Cc5DshqAWLWrN/7MO4fCbS9r3BA7z9FZsYE
+         W1y18j2Vjs2q1auwVQTajs3aWNWQN7eFmiMdrArzycYYoBL3cu9JYzjZ/W1Xo4SkMlkw
+         mZHOHdgk5+tOyOt5118VaMDFE6UsKKwWqI93G0H4UL1hiy52rr1s1qywBmZfBn0+eRBN
+         omfg==
+X-Gm-Message-State: AFuF++n+P7SnggPjofA5ChRJkf/LAjqSgysFh+ZrB2ylyK4aee9N8cZM
+	0jB0P1TCkAfu/8mogknpc09c/bu17spX3L3u7UWCzglXVXopUOidIRxYZk/rqPH26MtFC1fqbkK
+	7dQSZlj8=
+X-Gm-Gg: AYBFou0W8HpTe8ISgzzX2TFeqIQmfCTjn5aKzU8wf50H3STU/AcLVbtGaf4LNPRnLQB
+	l6/5td2PR3ta0WaVwmeeZmbvbwkzbPm7sX1oRQ8pHjk6TNioP4DYN6c1ua8Ickp1eSBxjgR3CsO
+	i0t9o2b6+opE9Kat7Jwkqj/rttbI4u+QqANtl7YMPRGxVzQILDCKTucoQAOBQ9CCtFF9khCVqtR
+	XjC1LVisH6GtY5VpyNVESN2xlsdl/b5HXZrYvkP4poJVxLa9TiKo/HMFTcDzHB+1Sobpso8Uwp9
+	sn/rk2a3OuD7meWP5mFnuL9NlOusnvezlYtL7gsLNYZQRe2vTJwkhfxG04oABm9FceTwRzbPyyJ
+	kmov5A3WJsyFZBbRMTurhBOCZmj2paLriGvGfeQh+2xDL8+6AFtYUWByYyjkCxJ174mnDAsLUjI
+	gdZM93RPJ/GYe194eZuGR7OmLNYOFevz27A9mUU5CF8dhEa2dlsO6E52yXe1egGQYG2fI7QtoLC
+	UaUrLQ=
+X-Received: by 2002:a17:90b:2e86:b0:398:9be8:ea64 with SMTP id 98e67ed59e1d1-39bac3b0c7emr12100634a91.17.1788986019372;
+        Wed, 09 Sep 2026 13:33:39 -0700 (PDT)
+Received: from MVIN00030.mvista.com ([117.254.227.91])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-1434c745a09sm14163385c88.7.2026.09.09.13.33.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 13:33:39 -0700 (PDT)
+From: Siddharth <sdoshi@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Siddharth Doshi <sdoshi@mvista.com>
+Subject: [OE-core][wrynose][PATCH 3/6] curl: Security Fix for CVE-2026-80229
+Date: Thu, 10 Sep 2026 02:03:21 +0530
+Message-Id: <20260909203324.765094-3-sdoshi@mvista.com>
+X-Mailer: git-send-email 2.34.1
+In-Reply-To: <20260909203324.765094-1-sdoshi@mvista.com>
+References: <20260909203324.765094-1-sdoshi@mvista.com>
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 19:18:19 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245493
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 20:33:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245496
 
---NextPart
-Content-Type: text/plain
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Picking patch as per [1], and same patch is mentioned in [2]
 
+[1] https://curl.se/docs/CVE-2026-80229.html
+[2] https://security-tracker.debian.org/tracker/CVE-2026-80229
+
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
-Testing patch /home/patchtest/share/mboxes/maintainers.inc-Update-maintainer-for-autoconf-autoconf-archive-automake-libtool-libtool-native-libtool-cross-make.patch
+ .../curl/curl/CVE-2026-80229.patch            | 35 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
+ 2 files changed, 36 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-80229.patch
 
-FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 121 characters) (test_mbox.TestMbox.test_shortlog_length)
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-80229.patch b/meta/recipes-support/curl/curl/CVE-2026-80229.patch
+new file mode 100644
+index 0000000000..74be963fa4
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-80229.patch
+@@ -0,0 +1,35 @@
++From 272d5928188bc2171fdeba81027b24145a033fb2 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Tue, 25 Aug 2026 11:14:30 +0200
++Subject: [PATCH 3/5] openssl: avoid conn reuse if provider is used
++
++Reported-by: Stanislav Fort
++
++Closes #22665
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/7ea37abc6ac0120ba5f6d94be8d196f7cf1506bb]
++CVE: CVE-2026-80229
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ lib/vtls/openssl.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/lib/vtls/openssl.c b/lib/vtls/openssl.c
++index 9cbab14..1d0f7b7 100644
++--- a/lib/vtls/openssl.c
+++++ b/lib/vtls/openssl.c
++@@ -3753,6 +3753,11 @@ CURLcode Curl_ossl_ctx_init(struct ossl_ctx *octx,
++           ossl_strerror(ERR_peek_error(), error_buffer, sizeof(error_buffer)));
++     return CURLE_OUT_OF_MEMORY;
++   }
+++#ifdef OPENSSL_HAS_PROVIDERS
+++  if(data->state.libctx)
+++    /* forbid connection reuse with provider/engine use */
+++    connclose(data->conn, "forbid connection reuse with provider/engine use");
+++#endif
++ 
++   if(cb_setup) {
++     result = cb_setup(cf, data, cb_user_data);
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index c466132ca4..a55cea4e31 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -29,6 +29,7 @@ SRC_URI = " \
+     file://CVE-2026-8932.patch \
+     file://CVE-2026-13608.patch \
+     file://CVE-2026-18924.patch \
++    file://CVE-2026-80229.patch \
+ "
+ 
+ SRC_URI:append:class-nativesdk = " \
+-- 
+2.34.1
 
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: pretest src uri left files: No modified recipes, skipping pretest (test_metadata.TestMetadata.pretest_src_uri_left_files)
-SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test src uri left files: No modified recipes, skipping test (test_metadata.TestMetadata.test_src_uri_left_files)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
