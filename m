@@ -1,397 +1,154 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1C7B1C88E51
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 21:53:53 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.78.1788990824405656244
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F307C79FB6
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 21:55:43 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.151.1788990942035727871
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 14:53:46 -0700
+ Wed, 09 Sep 2026 14:55:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=SrgsV1Sd;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-1329275-202609092153416949377d8000020721-ciia4o@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 202609092153416949377d8000020721
-        for <openembedded-core@lists.openembedded.org>;
-        Wed, 09 Sep 2026 23:53:41 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=jCVXzLMjKJd8BHi/VGM577Uy2/hebzjy4CNHyxBgO6s=;
- b=SrgsV1Sd+AkbCZEAD2bFRpIK3Ehj/xDti/lu130b5TPzl2fReuP3d/kx4WzX7wK2aXAYo5
- f/LQzENl0kwhiv/cQReYOvp6YLzSK3m5MRgN5k4IhtYsA5OKHaonMEEwX4briddxjrVRt+bO
- GgXttXLf+a13s8S/CK2/rHCqXLGvmJDzK6f7E4i9P6upzVNVKC+WbjRnCWNwQ01indBYa1nt
- dm68d8GaL7PZU3stMlL2/bIdm7Ru1zoobjyo/DL4dGJWg/wSeSVV8rxcurBgYWg4oXxcInNK
- nSSAnxL7LvTX8D7x9KsAGhhdBZf1DoskV9CIw+iSzT259v+zr5xcDLzQ==;
-From: AdrianF <adrian.freihofer@siemens.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=qMYVYkvH;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9637B1570
+	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 14:55:37 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C9D5E3F7B4
+	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 14:55:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1788990941; bh=EvPeJf15Waj3kWSgqzW2SDnnm6qoOm5uvbCUx4rpIHo=;
+	h=From:To:Subject:Date:From;
+	b=qMYVYkvHNiU6sM9peWVHsyIsrZgCx9/uVsT37ua2JZoLeiIXeOlNfptw8sP0Vpmnw
+	 InAWn9KtxEOyXhwSFfytIS8E0u4FzBMEQjXAyrMYH0M0oqiT48gc7CCOME5g/2tYPd
+	 uCk9Hp4mSZNgbHO0NE8fifxpOqkUQ4qJGTsOIS4o=
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 02/15] devtool: deploy: allow deploying directly into a local rootfs directory
-Date: Wed,  9 Sep 2026 23:53:02 +0200
-Message-ID: <20260909215337.89106-3-adrian.freihofer@siemens.com>
-In-Reply-To: <20260909215337.89106-1-adrian.freihofer@siemens.com>
-References: <20260909215337.89106-1-adrian.freihofer@siemens.com>
+Subject: [PATCH v2 1/2] classes/setuptools: use tomllib instead of regex to parse pyproject.toml
+Date: Wed,  9 Sep 2026 22:55:36 +0100
+Message-ID: <20260909215537.51943-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 21:53:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245503
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 21:55:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245518
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+BitBake now vendors in tomli[1] for when the host Python is older than
+3.11 so doesn't have tomllib. Rewrite the pyproject.toml parsing from
+regexs to tomllib.
 
-Add support for deploy-target/undeploy-target to write into a local
-pseudo-managed rootfs directory (e.g. one extracted by
-runqemu-extract-sdk for NFS booting) instead of requiring an ssh
-connection to a live target.
+Also ensure that the functions in setuptools3 and setuptools_legacy are
+identical, as they had diverged.
 
-If the 'target' argument is an absolute path, _deploy_local and
-_undeploy_local run the same tar/manifest based copy/removal as the ssh
-path, but locally: the file transfer is piped between two pseudo
-instances (one scoped to the recipe's own PSEUDO_INCLUDE_PATHS, one
-scoped to the target rootfs's own PSEUDO_LOCALSTATEDIR/PSEUDO_INCLUDE_PATHS)
-instead of over ssh/scp.
+[1] bitbake 69810e0c0a ("lib/bb/_vendor: resync to add tomli")
 
-exec_fakeroot_no_d()'s environment-building code is factored out into
-build_fakeroot_env_no_d() so _deploy_local can assemble its own pseudo
-environment without exec_fakeroot_no_d's implicit single-command
-prefixing, which doesn't compose with the dual-pseudo pipeline.
-
-This is a prerequisite for adding NFS export support to devtool
-ide-sdk.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- scripts/lib/devtool/__init__.py |  22 ++--
- scripts/lib/devtool/deploy.py   | 210 ++++++++++++++++++++++++++++----
- 2 files changed, 201 insertions(+), 31 deletions(-)
+ meta/classes-recipe/setuptools3.bbclass       | 24 +++++++++++----
+ .../classes-recipe/setuptools3_legacy.bbclass | 29 ++++++++++++++-----
+ 2 files changed, 40 insertions(+), 13 deletions(-)
 
-diff --git a/scripts/lib/devtool/__init__.py b/scripts/lib/devtool/__init__.py
-index 32a7bc0098..9d227e2032 100644
---- a/scripts/lib/devtool/__init__.py
-+++ b/scripts/lib/devtool/__init__.py
-@@ -77,6 +77,18 @@ def exec_watch(cmd, **options):
- 
-     return buf, None
- 
-+def build_fakeroot_env_no_d(fakerootenv, path, env_overrides=None):
-+    """Build the environment for running a command under pseudo (see exec_fakeroot_no_d)."""
-+    newenv = dict(os.environ)
-+    newenv['PATH'] = path
-+    for varvalue in fakerootenv.split():
-+        if '=' in varvalue:
-+            splitval = varvalue.split('=', 1)
-+            newenv[splitval[0]] = splitval[1]
-+    if env_overrides:
-+        newenv.update(env_overrides)
-+    return newenv
-+
- def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, env_overrides=None, **kwargs):
-     """Run cmd under pseudo using a recipe's own FAKEROOTCMD/FAKEROOTENV.
- 
-@@ -88,15 +100,7 @@ def exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, cmd, env_overrides=None,
-     if not os.path.exists(fakerootcmd):
-         logger.error('pseudo executable %s could not be found - have you run a build yet? pseudo-native should install this and if you have run any build then that should have been built')
-         return 2
--    # Set up the appropriate environment
--    newenv = dict(os.environ)
--    newenv['PATH'] = path
--    for varvalue in fakerootenv.split():
--        if '=' in varvalue:
--            splitval = varvalue.split('=', 1)
--            newenv[splitval[0]] = splitval[1]
--    if env_overrides:
--        newenv.update(env_overrides)
-+    newenv = build_fakeroot_env_no_d(fakerootenv, path, env_overrides)
-     return subprocess.call("%s %s" % (fakerootcmd, cmd), env=newenv, **kwargs)
- 
- def setup_tinfoil(config_only=False, basepath=None, tracking=False):
-diff --git a/scripts/lib/devtool/deploy.py b/scripts/lib/devtool/deploy.py
-index ffca1269ef..e3890a0113 100644
---- a/scripts/lib/devtool/deploy.py
-+++ b/scripts/lib/devtool/deploy.py
-@@ -19,7 +19,7 @@ import argparse_oe
- import oe.types
- import oe.package
- 
--from devtool import exec_fakeroot_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
-+from devtool import exec_fakeroot_no_d, build_fakeroot_env_no_d, setup_tinfoil, check_workspace_recipe, DevtoolError
- 
- logger = logging.getLogger('devtool')
- 
-@@ -257,14 +257,18 @@ def deploy(args, config, basepath, workspace):
- def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_process, fakerootcmd, fakerootenv, args, file_globs=None, packages_files=None):
-     import math
- 
--    try:
--        host, destdir = args.target.split(':')
--    except ValueError:
--        destdir = '/'
-+    if os.path.isabs(args.target):
-+        # A local pseudo-managed rootfs directory (e.g. NFS-exported)
-+        destdir = os.path.realpath(args.target)
-     else:
--        args.target = host
--    if not destdir.endswith('/'):
--        destdir += '/'
-+        try:
-+            host, destdir = args.target.split(':')
-+        except ValueError:
-+            destdir = '/'
-+        else:
-+            args.target = host
-+    # Canonical form used throughout: no trailing slash (except root itself).
-+    destdir = destdir.rstrip('/') or '/'
- 
-     recipe_outdir = srcdir
-     if not os.path.exists(recipe_outdir) or not os.listdir(recipe_outdir):
-@@ -353,9 +357,107 @@ def deploy_no_d(srcdir, workdir, path, strip_cmd, libdir, base_libdir, max_proce
-             print('  %s' % item)
-         return 0
- 
-+    if os.path.isabs(args.target):
-+        # A local directory (e.g. an NFS-exported rootfs) rather than a
-+        # user@host ssh target: copy the files in directly, no network needed.
-+        return _deploy_local(args, destdir, filelist, ftotalsize, tar_relpaths,
-+                            allowed_files, fakerootcmd, fakerootenv, path, recipe_outdir)
-+
-     return _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files,
-                        fakerootcmd, fakerootenv, path, recipe_outdir)
- 
-+def _deploy_local(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files,
-+                fakerootcmd, fakerootenv, path, recipe_outdir):
-+    """Copy files directly into destdir instead of over ssh/scp.
-+
-+    destdir is the local pseudo-managed rootfs directory itself (no trailing
-+    slash), not the real filesystem root.
+diff --git a/meta/classes-recipe/setuptools3.bbclass b/meta/classes-recip=
+e/setuptools3.bbclass
+index b0e4ab5208c..d64e5bdba3a 100644
+--- a/meta/classes-recipe/setuptools3.bbclass
++++ b/meta/classes-recipe/setuptools3.bbclass
+@@ -13,19 +13,31 @@ SETUPTOOLS_BUILD_ARGS ?=3D ""
+ SETUPTOOLS_SETUP_PATH ?=3D "${S}"
+=20
+ python do_check_backend() {
 +    """
-+    if not os.path.isdir(destdir):
-+        raise DevtoolError('Target directory %s does not exist' % destdir)
-+    state_dir = destdir + '.pseudo_state'
-+    if not os.path.isdir(state_dir):
-+        raise DevtoolError(
-+            '%s does not exist - %s does not look like a pseudo-managed rootfs '
-+            '(e.g. one extracted by runqemu-extract-sdk).' % (state_dir, destdir))
++    Check if this package has a pyproject.toml that specifies a PEP517 b=
+uild backend, so should be
++    using a different build class.
++    """
 +
-+    if not args.no_check_space:
-+        freespace = shutil.disk_usage(destdir).free // 1024
-+        if ftotalsize > freespace:
-+            raise DevtoolError('Deploy failed - insufficient space on target '
-+                            '(available %d, needed %d)' % (freespace, ftotalsize))
-+
-+    shellscript = _prepare_remote_script(deploy=True,
-+                                        destdir=destdir,
-+                                        verbose=args.show_status,
-+                                        nopreserve=args.no_preserve,
-+                                        nocheckspace=True)
-+
-+    tmpdir = tempfile.mkdtemp(prefix='devtool')
-+    tar_send_filelist_path = None
+     if "pep517-backend" in (d.getVar("INSANE_SKIP") or "").split():
+         return
+=20
+-    import re
 +    try:
-+        script_path = os.path.join(tmpdir, 'devtool_deploy.sh')
-+        with open(script_path, 'w') as f:
-+            f.write(shellscript)
-+        filelist_path = os.path.join(tmpdir, 'devtool_deploy.list')
-+        with open(filelist_path, 'w') as f:
-+            f.write('%d\n' % ftotalsize)
-+            for fpath, fsize in filelist:
-+                f.write('%s %d\n' % (fpath, fsize))
++        import tomllib
++    except ImportError:
++        import bb._vendor.tomli as tomllib
 +
-+        # tar_send_* builds up the sending side of the pipe: the plain tar
-+        # invocation, then wrapped to capture its own exit status (only the
-+        # last stage of a shell pipeline is visible to subprocess), then
-+        # wrapped again to run under its own pseudo instance.
-+        if allowed_files is not None:
-+            tar_send_fd, tar_send_filelist_path = tempfile.mkstemp(prefix='devtool-deploy-filelist-')
-+            with os.fdopen(tar_send_fd, 'w') as f:
-+                for relpath in tar_relpaths:
-+                    f.write('./' + relpath + '\n')
-+            tar_send_argv = 'tar cf - -T %s' % shlex.quote(tar_send_filelist_path)
-+        else:
-+            tar_send_argv = 'tar cf - .'
-+
-+        tar_send_status_path = os.path.join(tmpdir, 'devtool_deploy.tar_status')
-+        tar_send_script = 'sh -c %s' % shlex.quote(
-+            '%s; echo $? > %s' % (tar_send_argv, shlex.quote(tar_send_status_path)))
-+        tar_send_cmd = 'PSEUDO_INCLUDE_PATHS=%s %s %s' % (
-+            shlex.quote(recipe_outdir), shlex.quote(fakerootcmd), tar_send_script)
-+
-+        # tar_receive_cmd is the other side of the pipe: extracts into destdir
-+        # under the target rootfs's own pseudo database (state_dir/destdir,
-+        # not the recipe's).
-+        # $2 needs a trailing slash: the script's manifest substitution
-+        # (sed 's!^./!$2!') turns tar's './relative' entries into absolute paths.
-+        tar_receive_cmd = 'PSEUDO_LOCALSTATEDIR=%s PSEUDO_INCLUDE_PATHS=%s %s sh %s %s %s %s' % (
-+            shlex.quote(state_dir), shlex.quote(destdir), shlex.quote(fakerootcmd),
-+            shlex.quote(script_path), shlex.quote(args.recipename),
-+            shlex.quote(destdir.rstrip('/') + '/'), shlex.quote(filelist_path))
-+
-+        if not os.path.exists(fakerootcmd):
-+            logger.error('pseudo executable %s could not be found - have you run a build '
-+                        'yet? pseudo-native should install this and if you have run any '
-+                        'build then that should have been built' % fakerootcmd)
-+            ret = 2
-+        else:
-+            shell_env = build_fakeroot_env_no_d(fakerootenv, path)
-+            ret = subprocess.call('%s | %s' % (tar_send_cmd, tar_receive_cmd), env=shell_env,
-+                                cwd=recipe_outdir, shell=True)
-+            if ret == 0 and os.path.exists(tar_send_status_path):
-+                with open(tar_send_status_path) as f:
-+                    ret = int(f.read().strip() or 0)
-+    finally:
-+        if tar_send_filelist_path:
-+            os.remove(tar_send_filelist_path)
-+        shutil.rmtree(tmpdir)
-+
-+    if ret != 0:
-+        raise DevtoolError('Deploy failed - rerun with -s to get a complete '
-+                        'error message')
-+
-+    logger.info('Successfully deployed %s to %s' % (recipe_outdir, destdir))
-+    return 0
-+
- def _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files,
-                 fakerootcmd, fakerootenv, path, recipe_outdir):
-     """Copy files to target_dir over ssh/scp (user@hostname[:destdir])."""
-@@ -423,9 +525,11 @@ def _deploy_ssh(args, destdir, filelist, ftotalsize, tar_relpaths, allowed_files
-             tar_cmd = 'tar cf - -T %s' % shlex.quote(tar_filelist_path)
-         else:
-             tar_cmd = 'tar cf - .'
-+        # $2 needs a trailing slash: the script's manifest substitution
-+        # (sed 's!^./!$2!') turns tar's './relative' entries into absolute paths.
-         remote_cmd = '%s | %s  %s %s %s \'sh %s %s %s %s\'' % (
-             tar_cmd, ssh_sshexec, ssh_port, extraoptions, args.target,
--            tmpscript, args.recipename, destdir, tmpfilelist)
-+            tmpscript, args.recipename, destdir.rstrip('/') + '/', tmpfilelist)
-         ret = exec_fakeroot_no_d(fakerootcmd, fakerootenv, path, remote_cmd, cwd=recipe_outdir,
-                                 env_overrides={'PSEUDO_INCLUDE_PATHS': recipe_outdir}, shell=True)
-     finally:
-@@ -446,8 +550,64 @@ def undeploy(args, config, basepath, workspace):
-     elif not args.recipename and not args.all:
-         raise argparse_oe.ArgumentUsageError('If you don\'t specify a recipe, you must specify -a/--all', 'undeploy-target')
- 
-+    if os.path.isabs(args.target):
-+        # A local directory (e.g. an NFS-exported rootfs) rather than a
-+        # user@host ssh target: remove the files in directly, no network needed.
-+        tinfoil = setup_tinfoil(config_only=True, basepath=basepath)
+     filename =3D d.expand("${SETUPTOOLS_SETUP_PATH}/pyproject.toml")
+     if os.path.exists(filename):
+-        for line in open(filename):
+-            match =3D re.match(r"build-backend\s*=3D\s*\W([\w.]+)\W", li=
+ne)
+-            if not match: continue
++        with open(filename, "rb") as f:
++            toml =3D tomllib.load(f)
+=20
+-            msg =3D f"inherits setuptools3 but has pyproject.toml with {=
+match[1]}, use the correct class"
 +        try:
-+            fakerootcmd = tinfoil.config_data.getVar('FAKEROOTCMD')
-+            fakerootenv = tinfoil.config_data.getVar('FAKEROOTENV')
-+            path = tinfoil.config_data.getVar('PATH')
-+        finally:
-+            tinfoil.shutdown()
-+        return _undeploy_local(args, os.path.realpath(args.target), fakerootcmd, fakerootenv, path)
++            backend =3D toml["build-system"]["build-backend"]
++            msg =3D f"inherits setuptools3 but has pyproject.toml specif=
+ying backend {backend}, use the correct class"
+             oe.qa.handle_error("pep517-backend", msg, d)
+-    oe.qa.exit_if_errors(d)
++            oe.qa.exit_if_errors(d)
++        except KeyError:
++            return
+ }
+ addtask check_backend after do_patch before do_configure
+=20
+diff --git a/meta/classes-recipe/setuptools3_legacy.bbclass b/meta/classe=
+s-recipe/setuptools3_legacy.bbclass
+index 6b51b9796bc..a70b80cb973 100644
+--- a/meta/classes-recipe/setuptools3_legacy.bbclass
++++ b/meta/classes-recipe/setuptools3_legacy.bbclass
+@@ -31,16 +31,31 @@ SETUPTOOLS_PYTHON:class-native =3D "nativepython3"
+ SETUPTOOLS_SETUP_PATH ?=3D "${S}"
+=20
+ python do_check_backend() {
+-    import re
++    """
++    Check if this package has a pyproject.toml that specifies a PEP517 b=
+uild backend, so should be
++    using a different build class.
++    """
 +
-     return _undeploy_ssh(args)
- 
-+def _undeploy_local(args, target_dir, fakerootcmd, fakerootenv, path):
-+    """Remove files directly from target_dir instead of over ssh."""
-+    if not os.path.isdir(target_dir):
-+        raise DevtoolError('Target directory %s does not exist' % target_dir)
-+    state_dir = target_dir + '.pseudo_state'
-+    if not os.path.isdir(state_dir):
-+        raise DevtoolError(
-+            '%s does not exist - %s does not look like a pseudo-managed rootfs '
-+            '(e.g. one extracted by runqemu-extract-sdk).' % (state_dir, target_dir))
++    if "pep517-backend" in (d.getVar("INSANE_SKIP") or "").split():
++        return
 +
-+    # deploy=False here: the generated script never touches $2, so target_dir
-+    # doesn't need the trailing slash _with_trailing_slash() adds for deploy.
-+    shellscript = _prepare_remote_script(deploy=False, destdir=target_dir, dryrun=args.dry_run, undeployall=args.all)
-+
-+    tmpdir = tempfile.mkdtemp(prefix='devtool')
 +    try:
-+        script_path = os.path.join(tmpdir, 'devtool_undeploy.sh')
-+        with open(script_path, 'w') as f:
-+            f.write(shellscript)
++        import tomllib
++    except ImportError:
++        import bb._vendor.tomli as tomllib
 +
-+        environment = dict(os.environ)
-+        environment['PATH'] = path
-+        for varvalue in (fakerootenv or '').split():
-+            if '=' in varvalue:
-+                key, value = varvalue.split('=', 1)
-+                environment[key] = value
-+        # Use target_dir's own pseudo database, not the ambient one from FAKEROOTENV,
-+        # so file removals stay consistent with what was recorded on deploy/extract.
-+        environment['PSEUDO_LOCALSTATEDIR'] = state_dir
-+        environment['PSEUDO_INCLUDE_PATHS'] = target_dir
-+        command = [fakerootcmd, 'sh', script_path, args.recipename or '']
-+        ret = subprocess.call(command, env=environment)
-+    finally:
-+        shutil.rmtree(tmpdir)
-+
-+    if ret != 0:
-+        # Unlike the ssh case there is nothing -s could add here, the script
-+        # runs locally and its output is already on the console.
-+        raise DevtoolError('Undeploy failed - see the output above for details')
-+
-+    if not args.all and not args.dry_run:
-+        logger.info('Successfully undeployed %s' % args.recipename)
-+    return 0
-+
- def _undeploy_ssh(args):
-     """Run the undeploy script on the target over ssh/scp (user@hostname[:destdir])."""
-     extraoptions = ''
-@@ -473,8 +633,6 @@ def _undeploy_ssh(args):
-         destdir = '/'
-     else:
-         args.target = host
--    if not destdir.endswith('/'):
--        destdir += '/'
- 
-     tmpdir = tempfile.mkdtemp(prefix='devtool')
-     try:
-@@ -508,17 +666,20 @@ def register_commands(subparsers, context):
-     parser_deploy = subparsers.add_parser('deploy-target',
-                                           help='Deploy recipe output files to live target machine',
-                                           description='Deploys a recipe\'s build output (i.e. the output of '
--                                                       'the do_install task) to a live target machine over ssh. '
--                                                       'By default, any existing files will be preserved instead '
--                                                       'of being overwritten and will be restored if you run '
--                                                       'devtool undeploy-target. Note: this only deploys the '
--                                                       'recipe itself and not any runtime dependencies, so it is '
--                                                       'assumed that those have been installed on the target '
--                                                       'beforehand. Use --package/--file-glob to deploy only a '
--                                                       'subset of the recipe\'s installed files.',
-+                                                      'the do_install task) to a live target machine over ssh, '
-+                                                      'or directly into a local pseudo-managed rootfs directory '
-+                                                      '(e.g. one extracted for NFS booting). Existing files are '
-+                                                      'preserved by default and restored by devtool '
-+                                                      'undeploy-target. Only the recipe itself is deployed, not '
-+                                                      'its runtime dependencies. Use --package/--file-glob to '
-+                                                      'deploy only a subset of the recipe\'s installed files.',
-                                           group='testbuild')
-     parser_deploy.add_argument('recipename', help='Recipe to deploy')
--    parser_deploy.add_argument('target', help='Live target machine running an ssh server: user@hostname[:destdir]')
-+    parser_deploy.add_argument('target',
-+                               help='Either a live target machine running an ssh server: '
-+                               'user@hostname[:destdir]; or an absolute path to a local '
-+                               'pseudo-managed rootfs directory (e.g. one extracted by '
-+                               'runqemu-extract-sdk) to copy the files into directly, without ssh.')
-     parser_deploy.add_argument('-c', '--no-host-check', help='Disable ssh host key checking', action='store_true')
-     parser_deploy.add_argument('-s', '--show-status', help='Show progress/status output', action='store_true')
-     parser_deploy.add_argument('-n', '--dry-run', help='List files to be deployed only', action='store_true')
-@@ -552,10 +713,15 @@ def register_commands(subparsers, context):
- 
-     parser_undeploy = subparsers.add_parser('undeploy-target',
-                                             help='Undeploy recipe output files in live target machine',
--                                            description='Un-deploys recipe output files previously deployed to a live target machine by devtool deploy-target.',
-+                                            description='Un-deploys recipe output files previously deployed to a live target machine or local '
-+                                                        'pseudo-managed rootfs directory by devtool deploy-target.',
-                                             group='testbuild')
-     parser_undeploy.add_argument('recipename', help='Recipe to undeploy (if not using -a/--all)', nargs='?')
--    parser_undeploy.add_argument('target', help='Live target machine running an ssh server: user@hostname')
-+    parser_undeploy.add_argument('target',
-+                               help='Either a live target machine running an ssh server: '
-+                               'user@hostname; or an absolute path to the local pseudo-managed '
-+                               'rootfs directory previously used with deploy-target, to remove '
-+                               'the files directly, without ssh.')
-     parser_undeploy.add_argument('-c', '--no-host-check', help='Disable ssh host key checking', action='store_true')
-     parser_undeploy.add_argument('-s', '--show-status', help='Show progress/status output', action='store_true')
-     parser_undeploy.add_argument('-a', '--all', help='Undeploy all recipes deployed on the target', action='store_true')
--- 
-2.55.0
+     filename =3D d.expand("${SETUPTOOLS_SETUP_PATH}/pyproject.toml")
+     if os.path.exists(filename):
+-        for line in open(filename):
+-            match =3D re.match(r"build-backend\s*=3D\s*\W([\w.]+)\W", li=
+ne)
+-            if not match: continue
++        with open(filename, "rb") as f:
++            toml =3D tomllib.load(f)
+=20
+-            msg =3D f"inherits setuptools3_legacy but has pyproject.toml=
+ with {match[1]}, use the correct class"
+-            if "pep517-backend" not in (d.getVar("INSANE_SKIP") or "").s=
+plit():
+-                oe.qa.handle_error("pep517-backend", msg, d)
++        try:
++            backend =3D toml["build-system"]["build-backend"]
++            msg =3D f"inherits setuptools3_legacy but has pyproject.toml=
+ specifying backend {backend}, use the correct class"
++            oe.qa.handle_error("pep517-backend", msg, d)
++            oe.qa.exit_if_errors(d)
++        except KeyError:
++            return
+ }
+ addtask check_backend after do_patch before do_configure
+=20
+--=20
+2.43.0
 
 
