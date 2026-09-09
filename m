@@ -2,27 +2,27 @@ Return-Path: <deeratho@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56454C79F8C
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 06:07:46 +0000 (UTC)
-Subject: Re: [scarthgap][PATCH v3 4/5] curl: fix CVE-2026-6429
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D996C79F8C
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 06:08:46 +0000 (UTC)
+Subject: Re: [scarthgap][PATCH v3 5/5] curl: fix CVE-2026-7168
 To: openembedded-core@lists.openembedded.org
 From: "Deepak Rathore" <deeratho@cisco.com>
 X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.21)
 X-Originating-Platform: Windows Edge 152
 User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Date: Tue, 08 Sep 2026 23:07:44 -0700
-References: <20260804103305.1180770-4-deeratho@cisco.com> <20260824094620.2189899-1-deeratho@cisco.com>
-In-Reply-To: <20260824094620.2189899-1-deeratho@cisco.com>
-Message-ID: <280196.1788934064753767175@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="h6y4zvu9rnWRZK9XfMMN"
+Date: Tue, 08 Sep 2026 23:08:37 -0700
+References: <20260804103305.1180770-5-deeratho@cisco.com> <20260824094720.2194782-1-deeratho@cisco.com>
+In-Reply-To: <20260824094720.2194782-1-deeratho@cisco.com>
+Message-ID: <280546.1788934117186328631@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="v5sT21rK4NFJWrJz3ed8"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 06:07:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245404
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 06:08:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245405
 
---h6y4zvu9rnWRZK9XfMMN
+--v5sT21rK4NFJWrJz3ed8
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
@@ -32,356 +32,328 @@ Can you please review below curl patch?
 
 Regards,
 Deepak
-On Mon, Aug 24, 2026 at 03:16 PM, Deepak Rathore wrote:
+On Mon, Aug 24, 2026 at 03:17 PM, Deepak Rathore wrote:
 
 >=20
 > From: Deepak Rathore <deeratho@cisco.com>
 >=20
-> This patch applies the upstream backport for CVE-2026-6429.
+> This patch applies the upstream backport for CVE-2026-7168.
 > The upstream fix commit is referenced in [1], and the public
 > CVE advisory is referenced in [2].
 >=20
-> [1] https://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f19=
-9ace306
+> [1] https://github.com/curl/curl/commit/c1cfdf59acbaf9504c4578d4cf56cdd7c=
+8594507
 >=20
-> [2] https://curl.se/docs/CVE-2026-6429.html
-> [3] https://nvd.nist.gov/vuln/detail/CVE-2026-6429
+> [2] https://curl.se/docs/CVE-2026-7168.html
 >=20
 > Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 > ---
 > Changes in v3:
-> - Preserve URL parsing semantics for URLs containing spaces.
-> - Treat unsupported redirect schemes as a different origin.
-> - Restore the truncated lib2506 cleanup and return path.
-> - Correct embedded patch hunk counts and statistics.
+> - Rebase on top of the revised CVE-2026-6429 patch.
 >=20
-> .../curl/curl/CVE-2026-6429.patch | 376 ++++++++++++++++++
+> Changes from v1 to v2:
+> - Rebase the patches on top of the latest Scarthgap branch.
+>=20
+> .../curl/curl/CVE-2026-7168.patch | 425 ++++++++++++++++++
 > meta/recipes-support/curl/curl_8.7.1.bb | 1 +
-> 2 files changed, 377 insertions(+)
-> create mode 100644 meta/recipes-support/curl/curl/CVE-2026-6429.patch
+> 2 files changed, 426 insertions(+)
+> create mode 100644 meta/recipes-support/curl/curl/CVE-2026-7168.patch
 >=20
-> diff --git a/meta/recipes-support/curl/curl/CVE-2026-6429.patch
-> b/meta/recipes-support/curl/curl/CVE-2026-6429.patch
+> diff --git a/meta/recipes-support/curl/curl/CVE-2026-7168.patch
+> b/meta/recipes-support/curl/curl/CVE-2026-7168.patch
 > new file mode 100644
-> index 0000000000..5f99318c8a
+> index 0000000000..0669be6546
 > --- /dev/null
-> +++ b/meta/recipes-support/curl/curl/CVE-2026-6429.patch
-> @@ -0,0 +1,376 @@
-> +From 8191fd6d5677c30579c09a8d0988b47bbf33f65f Mon Sep 17 00:00:00 2001
+> +++ b/meta/recipes-support/curl/curl/CVE-2026-7168.patch
+> @@ -0,0 +1,425 @@
+> +From 0f0bb5efbd1e4f2199eeb98e6c62a7a67242cad2 Mon Sep 17 00:00:00 2001
 > +From: Daniel Stenberg <daniel@haxx.se>
-> +Date: Fri, 5 Jun 2026 01:20:50 -0700
-> +Subject: [PATCH] http: clear credentials better on redirect
+> +Date: Fri, 5 Jun 2026 01:22:37 -0700
+> +Subject: [PATCH] setopt: clear proxy auth properties when switching
 > +
-> +Verify with test 2506: netrc with redirect using proxy
+> +Verify with test 1588
 > +
-> +Updated test 998 which was wrong.
+> +Closes #21453
 > +
-> +Reported-by: Muhamad Arga Reksapati
-> +
-> +Closes #21345
-> +
-> +CVE: CVE-2026-6429
-> +Upstream-Status: Backport [ https://github.com/curl/curl/commit/b4024bf8=
-08bd558026fdc6096e8457f199ace306
+> +CVE: CVE-2026-7168
+> +Upstream-Status: Backport [ https://github.com/curl/curl/commit/c1cfdf59=
+acbaf9504c4578d4cf56cdd7c8594507
 > ]
 > +
 > +Backport Changes:
-> +- The upstream lib/http.c hunk adds the same-origin credential clearing
-> to
-> + Curl_http_follow(). curl-8.7.1 predates that protocol-specific redirect
-> + handler and carries the equivalent redirect logic in lib/transfer.c via
-> + Curl_follow(), so the full upstream lib/http.c hunk was adapted there.
-> +- The inline same-origin comparison preserves upstream URL parsing
-> semantics:
-> + the previous URL is encoded while allowing spaces, and scheme/host are
-> + compared before resolving default ports so unsupported redirect schemes
-> + are treated as a different origin rather than as a fatal parsing error.
+> +- The upstream lib/setopt.c hunk reuses Curl_auth_digest_cleanup() from
+> the
+> + newer tree. curl-8.7.1 does not expose that helper to setopt.c in the
+> same
+> + way, so this backport adds the vauth/vauth.h include before applying th=
+e
+>=20
+> + upstream setproxy() cleanup logic.
+> +- The upstream tree already provides a CURL_DISABLE_DIGEST_AUTH fallback
+> for
+> + Curl_auth_digest_cleanup(). curl-8.7.1 does not, so this backport adds
+> the
+> + equivalent no-op macro in lib/vauth/vauth.h.
 > +- curl-8.7.1 uses tests/data/Makefile.inc and tests/libtest/Makefile.inc
 > + instead of the upstream tests/data/Makefile.am and
 > + tests/libtest/Makefile.am lists.
-> +- curl-8.7.1 does not contain test2504/lib2504, so the new
-> + test2506/lib2506 entries were registered after the nearest existing
-> + test2503/lib2502 entries in the target-version test lists.
 > +- curl-8.7.1 uses the older libtest harness, so first.h,
-> + test_lib2506(), and CURLcode result handling were adapted to test.h,
-> + test(), and int res.
-> +- Scarthgap curl-8.7.1 keeps the same incorrect redirected-request
-> + Authorization expectation in tests/data/test998, so this backport
-> removes
-> + that expectation with an equivalent target-version hunk.
+> + test_lib1588(), libtest_arg4, and CURLcode result handling were adapted
+> to
+> + test.h, test(), test_argv[4], and int res.
+> +- curl-8.7.1 does not define the newer digest test feature in
+> runtests.pl.
+> + This backport defines the target harness feature as digest-auth,
+> matching
+> + tests/server/disabled.c, and makes test 1588 require digest-auth.
+> +- The curl-8.7.1 server harness does not handle crlf=3D"headers" correct=
+ly
+> on
+> + response data sections for this test, so those attributes were removed
+> from
+> + the two server response blocks and datacheck. The protocol block keeps
+> + crlf=3D"headers" because runtests.pl normalizes protocol verification w=
+hen
+> any
+> + crlf attribute is present.
 > +
-> +(cherry picked from commit b4024bf808bd558026fdc6096e8457f199ace306)
+> +(cherry picked from commit c1cfdf59acbaf9504c4578d4cf56cdd7c8594507)
 > +Signed-off-by: Deepak Rathore <deeratho@cisco.com>
 > +---
-> + lib/transfer.c | 108 ++++++++++++++++++++++++++------------------
-> + tests/data/Makefile.inc | 2 +-
-> + tests/data/test2506 | 64 +++++++++++++++++++++++
-> + tests/data/test998 | 1 -
+> + lib/setopt.c | 18 ++++-
+> + lib/vauth/vauth.h | 2 +
+> + tests/data/Makefile.inc | 1 +
+> + tests/data/test1588 | 106 ++++++++++++++++++++++++++
 > + tests/libtest/Makefile.inc | 5 +-
-> + tests/libtest/lib2506.c | 71 +++++++++++++++++++++++++++++
-> + 6 files changed, 203 insertions(+), 48 deletions(-)
-> + create mode 100644 tests/data/test2506
-> + create mode 100644 tests/libtest/lib2506.c
+> + tests/libtest/lib1588.c | 152 +++++++++++++++++++++++++++++++++++++
+> + tests/runtests.pl | 2 +
+> + 7 files changed, 283 insertions(+), 3 deletions(-)
+> + create mode 100644 tests/data/test1588
+> + create mode 100644 tests/libtest/lib1588.c
 > +
-> +diff --git a/lib/transfer.c b/lib/transfer.c
-> +index a73462928d..0f5bd8ce59 100644
-> +--- a/lib/transfer.c
-> ++++ b/lib/transfer.c
-> +@@ -865,49 +865,67 @@ CURLcode Curl_follow(struct Curl_easy *data,
-> + if(uc)
-> + return Curl_uc_to_curlcode(uc);
+> +diff --git a/lib/setopt.c b/lib/setopt.c
+> +index 8a5a5d7..7eaf309 100644
+> +--- a/lib/setopt.c
+> ++++ b/lib/setopt.c
+> +@@ -51,6 +51,7 @@
+> + #include "altsvc.h"
+> + #include "hsts.h"
+> + #include "tftp.h"
+> ++#include "vauth/vauth.h"
+> + #include "strdup.h"
+> + /* The last 3 #include files should be in this order */
+> + #include "curl_printf.h"
+> +@@ -76,6 +77,20 @@ CURLcode Curl_setstropt(char **charp, const char *s)
+> + return CURLE_OK;
+> + }
 > +
-> +- /* Clear auth if this redirects to a different port number or protocol=
-,
->=20
-> +- unless permitted */
-> +- if(!data->set.allow_auth_to_other_hosts && (type !=3D FOLLOW_FAKE)) {
-> +- char *portnum;
-> +- int port;
-> +- bool clear =3D FALSE;
-> +-
-> +- if(data->set.use_port && data->state.allow_port)
-> +- /* a custom port is used */
-> +- port =3D (int)data->set.use_port;
-> +- else {
-> +- uc =3D curl_url_get(data->state.uh, CURLUPART_PORT, &portnum,
-> +- CURLU_DEFAULT_PORT);
-> +- if(uc) {
-> +- free(newurl);
-> +- return Curl_uc_to_curlcode(uc);
-> +- }
-> +- port =3D atoi(portnum);
-> +- free(portnum);
-> +- }
-> +- if(port !=3D data->info.conn_remote_port) {
-> +- infof(data, "Clear auth, redirects to port from %u to %u",
-> +- data->info.conn_remote_port, port);
-> +- clear =3D TRUE;
-> ++ {
-> ++ bool same_origin =3D FALSE;
-> ++ CURLU *u;
-> ++ char *oldscheme =3D NULL;
-> ++ char *oldhost =3D NULL;
-> ++ char *oldport =3D NULL;
-> ++ char *newscheme =3D NULL;
-> ++ char *newhost =3D NULL;
-> ++ char *newport =3D NULL;
+> ++#ifndef CURL_DISABLE_PROXY
+> ++static CURLcode setproxy(struct Curl_easy *data, const char *proxy)
+> ++{
+> ++ if((data->set.str[STRING_PROXY] && proxy) &&
+> ++ /* there was one set, is this a new one? */
+> ++ !strcmp(data->set.str[STRING_PROXY], proxy))
+> ++ return CURLE_OK; /* same one as before */
 > ++
-> ++ u =3D curl_url();
-> ++ if(!u) {
-> ++ free(newurl);
-> ++ return CURLE_OUT_OF_MEMORY;
-> + }
-> +- else {
-> +- char *scheme;
-> +- const struct Curl_handler *p;
-> +- uc =3D curl_url_get(data->state.uh, CURLUPART_SCHEME, &scheme, 0);
-> +- if(uc) {
-> +- free(newurl);
-> +- return Curl_uc_to_curlcode(uc);
-> +- }
-> +
-> +- p =3D Curl_get_scheme_handler(scheme);
-> +- if(p && (p->protocol !=3D data->info.conn_protocol)) {
-> +- infof(data, "Clear auth, redirects scheme from %s to %s",
-> +- data->info.conn_scheme, scheme);
-> +- clear =3D TRUE;
-> +- }
-> +- free(scheme);
-> ++ uc =3D curl_url_set(u, CURLUPART_URL, data->state.url,
-> ++ CURLU_URLENCODE | CURLU_ALLOW_SPACE);
-> ++ if(!uc)
-> ++ uc =3D curl_url_get(u, CURLUPART_SCHEME, &oldscheme, 0);
-> ++ if(!uc)
-> ++ uc =3D curl_url_get(u, CURLUPART_HOST, &oldhost, 0);
-> ++ if(!uc)
-> ++ uc =3D curl_url_get(data->state.uh, CURLUPART_SCHEME, &newscheme, 0);
-> ++ if(!uc)
-> ++ uc =3D curl_url_get(data->state.uh, CURLUPART_HOST, &newhost, 0);
-> ++ if(!uc) {
-> ++ same_origin =3D strcasecompare(oldscheme, newscheme) &&
-> ++ strcasecompare(oldhost, newhost);
-> ++ if(same_origin) {
-> ++ uc =3D curl_url_get(u, CURLUPART_PORT, &oldport,
-> ++ CURLU_DEFAULT_PORT);
-> ++ if(!uc)
-> ++ uc =3D curl_url_get(data->state.uh, CURLUPART_PORT, &newport,
-> ++ CURLU_DEFAULT_PORT);
-> ++ if(!uc)
-> ++ same_origin =3D !strcmp(oldport, newport);
-> ++ }
-> ++ }
-> ++ if(uc) {
-> ++ curl_url_cleanup(u);
-> ++ free(oldscheme);
-> ++ free(oldhost);
-> ++ free(oldport);
-> ++ free(newscheme);
-> ++ free(newhost);
-> ++ free(newport);
-> ++ free(newurl);
-> ++ return Curl_uc_to_curlcode(uc);
-> + }
-> +- if(clear) {
+> ++ Curl_auth_digest_cleanup(&data->state.proxydigest);
+> ++ memset(&data->state.authproxy, 0, sizeof(data->state.authproxy));
+> ++ return Curl_setstropt(&data->set.str[STRING_PROXY], proxy);
+> ++}
+> ++#endif
 > ++
-> ++ curl_url_cleanup(u);
-> ++ free(oldscheme);
-> ++ free(oldhost);
-> ++ free(oldport);
-> ++ free(newscheme);
-> ++ free(newhost);
-> ++ free(newport);
-> ++
-> ++ if((!same_origin && !data->set.allow_auth_to_other_hosts) ||
-> ++ !data->set.str[STRING_USERNAME]) {
-> + result =3D Curl_reset_userpwd(data);
-> + if(result) {
-> + free(newurl);
-> +@@ -917,12 +935,12 @@ CURLcode Curl_follow(struct Curl_easy *data,
-> + Curl_safefree(data->state.aptr.passwd);
-> + }
-> + }
-> +- }
+> + CURLcode Curl_setblobopt(struct curl_blob **blobp,
+> + const struct curl_blob *blob)
+> + {
+> +@@ -1139,8 +1154,7 @@ CURLcode Curl_vsetopt(struct Curl_easy *data,
+> CURLoption option, va_list param)
+> + * Setting it to NULL, means no proxy but allows the environment
+> variables
+> + * to decide for us (if CURLOPT_SOCKS_PROXY setting it to NULL).
+> + */
+> +- result =3D Curl_setstropt(&data->set.str[STRING_PROXY],
+> +- va_arg(param, char *));
+> ++ result =3D setproxy(data, va_arg(param, char *));
+> + break;
 > +
-> +- result =3D Curl_reset_proxypwd(data);
-> +- if(result) {
-> +- free(newurl);
-> +- return result;
-> ++ result =3D Curl_reset_proxypwd(data);
-> ++ if(result) {
-> ++ free(newurl);
-> ++ return result;
-> ++ }
-> + }
+> + case CURLOPT_PRE_PROXY:
+> +diff --git a/lib/vauth/vauth.h b/lib/vauth/vauth.h
+> +index 9da0540..bf5c7a3 100644
+> +--- a/lib/vauth/vauth.h
+> ++++ b/lib/vauth/vauth.h
+> +@@ -119,6 +119,8 @@ CURLcode Curl_auth_create_digest_http_message(struct
+> Curl_easy *data,
 > +
-> + if(type =3D=3D FOLLOW_FAKE) {
+> + /* This is used to clean up the digest specific data */
+> + void Curl_auth_digest_cleanup(struct digestdata *digest);
+> ++#else
+> ++#define Curl_auth_digest_cleanup(x)
+> + #endif /* !CURL_DISABLE_DIGEST_AUTH */
+> +
+> + #ifdef USE_GSASL
 > +diff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc
-> +index aafd309a9d..f673f86384 100644
+> +index f673f86..461eb37 100644
 > +--- a/tests/data/Makefile.inc
 > ++++ b/tests/data/Makefile.inc
-> +@@ -251,7 +251,7 @@ test2300 test2301 test2302 test2303 test2304 test230=
+> +@@ -200,6 +200,7 @@ test1540 test1541 test1542 test1543 test1544 test154=
 5
-> test2306 test2307 \
+> \
+> + test1550 test1551 test1552 test1553 test1554 test1555 test1556 test1557
+> \
+> + test1558 test1559 test1560 test1561 test1562 test1563 test1564 test1565
+> \
+> + test1566 test1567 test1568 test1569 test1570 \
+> ++test1588 \
 > + \
-> + test2400 test2401 test2402 test2403 test2404 \
-> + \
-> +-test2500 test2501 test2502 test2503 \
-> ++test2500 test2501 test2502 test2503 test2506 \
-> + \
-> + test2600 test2601 test2602 test2603 \
-> + \
-> +diff --git a/tests/data/test2506 b/tests/data/test2506
+> + test1590 test1591 test1592 test1593 test1594 test1595 test1596 test1597
+> \
+> + test1598 \
+> +diff --git a/tests/data/test1588 b/tests/data/test1588
 > +new file mode 100644
-> +index 0000000000..9c65002496
+> +index 0000000..8a3bf81
 > +--- /dev/null
-> ++++ b/tests/data/test2506
-> +@@ -0,0 +1,64 @@
+> ++++ b/tests/data/test1588
+> +@@ -0,0 +1,106 @@
 > ++<?xml version=3D"1.0" encoding=3D"US-ASCII"?>
 > ++<testcase>
 > ++<info>
 > ++<keywords>
 > ++HTTP
-> ++cookies
+> ++HTTP GET
+> ++HTTP proxy
+> ++HTTP proxy Digest auth
+> ++multi
 > ++</keywords>
 > ++</info>
 > ++
+> ++# Server-side
 > ++<reply>
-> ++<data crlf=3D"headers" nocheck=3D"yes">
-> ++HTTP/1.1 301 redirect
-> ++Date: Tue, 09 Nov 2010 14:49:00 GMT
-> ++Content-Length: 3
-> ++Location: http://numbertwo.example/%TESTNUMBER0002
 > ++
-> ++ok
+> ++# this is returned first since we get no proxy-auth
+> ++<data>
+> ++HTTP/1.1 407 Authorization Required to proxy me my dear
+> ++Proxy-Authenticate: Digest realm=3D"weirdorealm", nonce=3D"12345"
+> ++Content-Length: 33
+> ++
+> ++And you should ignore this data.
 > ++</data>
-> ++<data2 crlf=3D"headers" nocheck=3D"yes">
-> ++HTTP/1.1 200 OK
-> ++Date: Tue, 09 Nov 2010 14:49:00 GMT
-> ++Content-Length: 4
 > ++
-> ++yes
-> ++</data2>
+> ++# then this is returned when we get proxy-auth
+> ++<data1000>
+> ++HTTP/1.1 200 OK
+> ++Content-Length: 21
+> ++Server: no
+> ++
+> ++Nice proxy auth sir!
+> ++</data1000>
+> ++
+> ++<datacheck>
+> ++HTTP/1.1 407 Authorization Required to proxy me my dear
+> ++Proxy-Authenticate: Digest realm=3D"weirdorealm", nonce=3D"12345"
+> ++Content-Length: 33
+> ++
+> ++HTTP/1.1 200 OK
+> ++Content-Length: 21
+> ++Server: no
+> ++
+> ++Nice proxy auth sir!
+> ++HTTP/1.1 407 Authorization Required to proxy me my dear
+> ++Proxy-Authenticate: Digest realm=3D"weirdorealm", nonce=3D"12345"
+> ++Content-Length: 33
+> ++
+> ++HTTP/1.1 200 OK
+> ++Content-Length: 21
+> ++Server: no
+> ++
+> ++Nice proxy auth sir!
+> ++</datacheck>
 > ++</reply>
 > ++
+> ++# Client-side
 > ++<client>
 > ++<server>
 > ++http
 > ++</server>
-> ++<features>
-> ++proxy
-> ++</features>
+> ++# tool is what to use instead of 'curl'
 > ++<tool>
 > ++lib%TESTNUMBER
 > ++</tool>
+> ++<features>
+> ++!SSPI
+> ++crypto
+> ++proxy
+> ++digest-auth
+> ++</features>
 > ++<name>
-> ++netrc with redirect using proxy
+> ++HTTP proxy auth Digest, then change proxy and do it again
 > ++</name>
-> ++<file name=3D"%LOGDIR/netrc2506">
-> ++machine site.example login batman password robin
-> ++</file>
 > ++<command>
-> ++http://%HOSTIP:%HTTPPORT http://site.example/ %LOGDIR/netrc2506
+> ++ http://test.remote.example.com/path/%TESTNUMBER %HOSTIP %HTTPPORT
+> silly:person custom.set.host.name
 > ++</command>
 > ++</client>
 > ++
+> ++# Verify data after the test has been "shot"
 > ++<verify>
 > ++<protocol crlf=3D"headers">
-> ++GET http://site.example/ HTTP/1.1
-> ++Host: site.example
-> ++Authorization: Basic %b64[batman:robin]b64%
+> ++GET http://test.remote.example.com/path/1588 HTTP/1.1
+> ++Host: test.remote.example.com
 > ++Accept: */*
 > ++Proxy-Connection: Keep-Alive
 > ++
-> ++GET http://numbertwo.example/25060002 HTTP/1.1
-> ++Host: numbertwo.example
+> ++GET http://test.remote.example.com/path/1588 HTTP/1.1
+> ++Host: test.remote.example.com
+> ++Proxy-Authorization: Digest username=3D"silly", realm=3D"weirdorealm",
+> nonce=3D"12345", uri=3D"/path/1588",
+> response=3D"d0b2f000c7e3fca24452b5810713404a"
+> ++Accept: */*
+> ++Proxy-Connection: Keep-Alive
+> ++
+> ++GET http://test.remote.example.com/path/1588 HTTP/1.1
+> ++Host: test.remote.example.com
+> ++Accept: */*
+> ++Proxy-Connection: Keep-Alive
+> ++
+> ++GET http://test.remote.example.com/path/1588 HTTP/1.1
+> ++Host: test.remote.example.com
+> ++Proxy-Authorization: Digest username=3D"silly", realm=3D"weirdorealm",
+> nonce=3D"12345", uri=3D"/path/1588",
+> response=3D"d0b2f000c7e3fca24452b5810713404a"
 > ++Accept: */*
 > ++Proxy-Connection: Keep-Alive
 > ++
 > ++</protocol>
 > ++</verify>
 > ++</testcase>
-> +diff --git a/tests/data/test998 b/tests/data/test998
-> +index 0969d4704b..17c0a0e150 100644
-> +--- a/tests/data/test998
-> ++++ b/tests/data/test998
-> +@@ -82,7 +82,6 @@ Proxy-Connection: Keep-Alive
-> +
-> + GET http://somewhere.else.example/a/path/9980002 HTTP/1.1
-> + Host: somewhere.else.example
-> +- Authorization: Basic YWxiZXJ0bzplaW5zdGVpbg=3D=3D
-> + User-Agent: curl/%VERSION
-> + Accept: */*
-> + Proxy-Connection: Keep-Alive
 > +diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
-> +index 9f7cec6027..9d3356aaf5 100644
+> +index 9d3356a..4c42d34 100644
 > +--- a/tests/libtest/Makefile.inc
 > ++++ b/tests/libtest/Makefile.inc
-> +@@ -75,7 +75,7 @@ noinst_PROGRAMS =3D chkhostname libauthretry
+> +@@ -62,7 +62,7 @@ noinst_PROGRAMS =3D chkhostname libauthretry
 > libntlmconnect libprereq \
-> + lib1970 lib1971 lib1972 lib1973 lib1974 lib1975 \
-> + lib2301 lib2302 lib2304 lib2305 lib2306 \
-> + lib2402 lib2404 \
-> +- lib2502 \
-> ++ lib2502 lib2506 \
-> + lib3010 lib3025 lib3026 lib3027 \
-> + lib3100 lib3101 lib3102 lib3103
+> + lib1540 lib1541 lib1542 lib1543 lib1545 \
+> + lib1550 lib1551 lib1552 lib1553 lib1554 lib1555 lib1556 lib1557 \
+> + lib1558 lib1559 lib1560 lib1564 lib1565 lib1567 lib1568 lib1569 \
+> +- lib1591 lib1592 lib1593 lib1594 lib1596 lib1597 lib1598 \
+> ++ lib1588 lib1591 lib1592 lib1593 lib1594 lib1596 lib1597 lib1598 \
+> + \
+> + lib1662 \
+> + \
+> +@@ -687,6 +687,9 @@ lib2502_LDADD =3D $(TESTUTIL_LIBS)
+> + lib2506_SOURCES =3D lib2506.c $(SUPPORTFILES) $(TESTUTIL) $(WARNLESS)
+> + lib2506_LDADD =3D $(TESTUTIL_LIBS)
 > +
-> +@@ -684,6 +684,9 @@ lib2404_LDADD =3D $(TESTUTIL_LIBS)
-> + lib2502_SOURCES =3D lib2502.c $(SUPPORTFILES) $(TESTUTIL) $(WARNLESS)
-> + lib2502_LDADD =3D $(TESTUTIL_LIBS)
-> +
-> ++lib2506_SOURCES =3D lib2506.c $(SUPPORTFILES) $(TESTUTIL) $(WARNLESS)
-> ++lib2506_LDADD =3D $(TESTUTIL_LIBS)
+> ++lib1588_SOURCES =3D lib1588.c $(SUPPORTFILES) $(TESTUTIL) $(WARNLESS)
+> ++lib1588_LDADD =3D $(TESTUTIL_LIBS)
 > ++
 > + lib3010_SOURCES =3D lib3010.c $(SUPPORTFILES) $(TESTUTIL) $(WARNLESS)
 > + lib3010_LDADD =3D $(TESTUTIL_LIBS)
 > +
-> +diff --git a/tests/libtest/lib2506.c b/tests/libtest/lib2506.c
+> +diff --git a/tests/libtest/lib1588.c b/tests/libtest/lib1588.c
 > +new file mode 100644
-> +index 0000000000..e6dde18507
+> +index 0000000..00c6b35
 > +--- /dev/null
-> ++++ b/tests/libtest/lib2506.c
-> +@@ -0,0 +1,71 @@
+> ++++ b/tests/libtest/lib1588.c
+> +@@ -0,0 +1,152 @@
 > ++/**********************************************************************=
 *****
 >=20
@@ -391,7 +363,7 @@ On Mon, Aug 24, 2026 at 03:16 PM, Deepak Rathore wrote:
 > ++ * | (__| |_| | _ <| |___
 > ++ * \___|\___/|_| \_\_____|
 > ++ *
-> ++ * Copyright (C) Linus Nielsen Feltzing <linus@haxx.se>
+> ++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
 > ++ *
 > ++ * This software is licensed as described in the file COPYING, which
 > ++ * you should have received as part of this distribution. The terms
@@ -413,26 +385,99 @@ F
 > *************************************************************************=
 **/
 >=20
+> ++/*
+> ++ * argv1 =3D URL
+> ++ * argv2 =3D proxy host
+> ++ * argv3 =3D proxy port
+> ++ * argv4 =3D proxyuser:password
+> ++ */
+> ++
 > ++#include "test.h"
+> ++#include "testutil.h"
 > ++
-> ++#include "testtrace.h"
-> ++
-> ++static size_t sink2506(char *ptr, size_t size, size_t nmemb, void *ud)
+> ++static CURLcode init1588(CURL *curl, const char *url,
+> ++ const char *userpwd, const char *proxy)
 > ++{
-> ++ (void)ptr;
-> ++ (void)ud;
-> ++ return size * nmemb;
+> ++ int res =3D CURLE_OK;
+> ++
+> ++ res_easy_setopt(curl, CURLOPT_URL, url);
+> ++ if(res)
+> ++ goto init_failed;
+> ++
+> ++ res_easy_setopt(curl, CURLOPT_PROXY, proxy);
+> ++ if(res)
+> ++ goto init_failed;
+> ++
+> ++ res_easy_setopt(curl, CURLOPT_PROXYUSERPWD, userpwd);
+> ++ if(res)
+> ++ goto init_failed;
+> ++
+> ++ res_easy_setopt(curl, CURLOPT_PROXYAUTH, CURLAUTH_DIGEST);
+> ++ if(res)
+> ++ goto init_failed;
+> ++
+> ++ res_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+> ++ if(res)
+> ++ goto init_failed;
+> ++#if 0
+> ++ res_easy_setopt(curl, CURLOPT_HTTPPROXYTUNNEL, 1L);
+> ++ if(res)
+> ++ goto init_failed;
+> ++#endif
+> ++
+> ++ res_easy_setopt(curl, CURLOPT_HEADER, 1L);
+> ++ if(res)
+> ++ goto init_failed;
+> ++
+> ++ return CURLE_OK; /* success */
+> ++
+> ++init_failed:
+> ++ return (CURLcode)res; /* failure */
+> ++}
+> ++
+> ++static CURLcode run1588(CURL *curl, const char *url, const char
+> *userpwd,
+> ++ const char *proxy)
+> ++{
+> ++ CURLcode res =3D CURLE_OK;
+> ++
+> ++ res =3D init1588(curl, url, userpwd, proxy);
+> ++ if(res)
+> ++ return res;
+> ++
+> ++ return curl_easy_perform(curl);
 > ++}
 > ++
 > ++int test(char *URL)
 > ++{
-> ++ CURL *curl;
-> ++ int res =3D CURLE_OUT_OF_MEMORY;
+> ++ int res =3D CURLE_OK;
+> ++ CURL *curl =3D NULL;
+> ++ const char *proxyuserpws;
+> ++ struct curl_slist *host =3D NULL;
+> ++ struct curl_slist *host2 =3D NULL;
+> ++ char proxy1_resolve[128];
+> ++ char proxy2_resolve[128];
+> ++ char proxy1_connect[128];
+> ++ char proxy2_connect[128];
 > ++
-> ++ if(curl_global_init(CURL_GLOBAL_ALL) !=3D CURLE_OK) {
-> ++ curl_mfprintf(stderr, "curl_global_init() failed\n");
+> ++ if(test_argc < 5)
 > ++ return TEST_ERR_MAJOR_BAD;
-> ++ }
+> ++ proxyuserpws =3D test_argv[4];
+> ++
+> ++ curl_msnprintf(proxy1_resolve, sizeof(proxy1_resolve),
+> ++ "firstproxy:%s:%s", libtest_arg3, libtest_arg2);
+> ++ curl_msnprintf(proxy2_resolve, sizeof(proxy2_resolve),
+> ++ "secondproxy:%s:%s", libtest_arg3, libtest_arg2);
+> ++
+> ++ /* we connect to the fake host name but the right port number */
+> ++ curl_msnprintf(proxy1_connect, sizeof(proxy1_connect),
+> ++ "firstproxy:%s", libtest_arg3);
+> ++ curl_msnprintf(proxy2_connect, sizeof(proxy2_connect),
+> ++ "secondproxy:%s", libtest_arg3);
+> ++
+> ++ res_global_init(CURL_GLOBAL_ALL);
+> ++ if(res)
+> ++ return res;
 > ++
 > ++ curl =3D curl_easy_init();
 > ++ if(!curl) {
@@ -441,271 +486,316 @@ F
 > ++ return TEST_ERR_MAJOR_BAD;
 > ++ }
 > ++
-> ++ test_setopt(curl, CURLOPT_WRITEFUNCTION, sink2506);
-> ++ test_setopt(curl, CURLOPT_PROXY, URL);
-> ++ test_setopt(curl, CURLOPT_URL, libtest_arg2);
-> ++ test_setopt(curl, CURLOPT_NETRC, CURL_NETRC_OPTIONAL);
-> ++ test_setopt(curl, CURLOPT_NETRC_FILE, libtest_arg3);
-> ++ test_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);
-> ++ test_setopt(curl, CURLOPT_VERBOSE, 1L);
+> ++ host =3D curl_slist_append(NULL, proxy1_resolve);
+> ++ if(!host)
+> ++ goto test_cleanup;
+> ++ host2 =3D curl_slist_append(host, proxy2_resolve);
+> ++ if(!host2)
+> ++ goto test_cleanup;
+> ++ host =3D host2;
 > ++
-> ++ /* CURLOPT_UNRESTRICTED_AUTH should not make a difference because the
-> ++ credentials come from netrc */
-> ++ test_setopt(curl, CURLOPT_UNRESTRICTED_AUTH, 1L);
+> ++ start_test_timing();
 > ++
-> ++ res =3D curl_easy_perform(curl);
+> ++ easy_setopt(curl, CURLOPT_RESOLVE, host);
+> ++
+> ++ res =3D run1588(curl, URL, proxyuserpws, proxy1_connect);
+> ++ if(res)
+> ++ goto test_cleanup;
+> ++
+> ++ curl_mfprintf(stderr, "lib1588: now we do the request again\n");
+> ++
+> ++ res =3D run1588(curl, URL, proxyuserpws, proxy2_connect);
 > ++
 > ++test_cleanup:
+> ++
+> ++ /* proper cleanup sequence - type PB */
+> ++
 > ++ curl_easy_cleanup(curl);
 > ++ curl_global_cleanup();
-> ++
+> ++ curl_slist_free_all(host);
 > ++ return res;
 > ++}
+> +diff --git a/tests/runtests.pl b/tests/runtests.pl
+> +index ddfab20..b40df55 100755
+> +--- a/tests/runtests.pl
+> ++++ b/tests/runtests.pl
+> +@@ -637,6 +637,8 @@ sub checksystemfeatures {
+> + $feature{"Kerberos"} =3D $feat =3D~ /Kerberos/i;
+> + # SPNEGO enabled
+> + $feature{"SPNEGO"} =3D $feat =3D~ /SPNEGO/i;
+> ++ # Digest auth enabled unless disabled by build
+> ++ $feature{"digest-auth"} =3D 1;
+> + # CharConv enabled
+> + $feature{"CharConv"} =3D $feat =3D~ /CharConv/i;
+> + # TLS-SRP enabled
+> +--
+> +2.35.6
 > diff --git a/meta/recipes-support/curl/curl_8.7.1.bb
 > b/meta/recipes-support/curl/curl_8.7.1.bb
-> index 781b37c5ad..4f828ffd79 100644
+> index 882ab67aae..6b7f6f6f51 100644
 > --- a/meta/recipes-support/curl/curl_8.7.1.bb
 > +++ b/meta/recipes-support/curl/curl_8.7.1.bb
-> @@ -41,6 +41,7 @@ SRC_URI =3D " \
-> file://CVE-2026-4873.patch \
+> @@ -42,6 +42,7 @@ SRC_URI =3D " \
 > file://CVE-2026-5545.patch \
 > file://CVE-2026-6253.patch \
-> + file://CVE-2026-6429.patch \
+> file://CVE-2026-6429.patch \
+> + file://CVE-2026-7168.patch \
 > "
 >=20
 > SRC_URI:append:class-nativesdk =3D " \
 > --
 > 2.35.6
 
---h6y4zvu9rnWRZK9XfMMN
+--v5sT21rK4NFJWrJz3ed8
 Content-Type: text/html; charset="utf-8"
 Content-Transfer-Encoding: quoted-printable
 
-<div>Hi Yoann,</div>
-<div>&nbsp;</div>
-<div>Can you please review below curl patch?</div>
-<div>&nbsp;</div>
-<div>Regards,<br />Deepak</div>
-<div>On Mon, Aug 24, 2026 at 03:16 PM, Deepak Rathore wrote:</div>
+<div>Hi Yoann,<br /><br />Can you please review below curl patch?<br /><br =
+/>Regards,<br />Deepak</div>
+<div>On Mon, Aug 24, 2026 at 03:17 PM, Deepak Rathore wrote:</div>
 <div>
 <blockquote>From: Deepak Rathore &lt;deeratho@cisco.com&gt;<br /><br />This=
- patch applies the upstream backport for CVE-2026-6429.<br />The upstream f=
+ patch applies the upstream backport for CVE-2026-7168.<br />The upstream f=
 ix commit is referenced in [1], and the public<br />CVE advisory is referen=
-ced in [2].<br /><br />[1] <a href=3D"https://github.com/curl/curl/commit/b=
-4024bf808bd558026fdc6096e8457f199ace306" target=3D"_blank" rel=3D"noopener"=
->https://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f199ace3=
-06</a><br />[2] <a href=3D"https://curl.se/docs/CVE-2026-6429.html" target=
-=3D"_blank" rel=3D"noopener">https://curl.se/docs/CVE-2026-6429.html</a><br=
- />[3] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-6429" target=3D=
-"_blank" rel=3D"noopener">https://nvd.nist.gov/vuln/detail/CVE-2026-6429</a=
-><br /><br />Signed-off-by: Deepak Rathore &lt;deeratho@cisco.com&gt;<br />=
----<br />Changes in v3:<br />- Preserve URL parsing semantics for URLs cont=
-aining spaces.<br />- Treat unsupported redirect schemes as a different ori=
-gin.<br />- Restore the truncated lib2506 cleanup and return path.<br />- C=
-orrect embedded patch hunk counts and statistics.<br /><br />.../curl/curl/=
-CVE-2026-6429.patch | 376 ++++++++++++++++++<br />meta/recipes-support/curl=
-/curl_8.7.1.bb | 1 +<br />2 files changed, 377 insertions(+)<br />create mo=
-de 100644 meta/recipes-support/curl/curl/CVE-2026-6429.patch<br /><br />dif=
-f --git a/meta/recipes-support/curl/curl/CVE-2026-6429.patch b/meta/recipes=
--support/curl/curl/CVE-2026-6429.patch<br />new file mode 100644<br />index=
- 0000000000..5f99318c8a<br />--- /dev/null<br />+++ b/meta/recipes-support/=
-curl/curl/CVE-2026-6429.patch<br />@@ -0,0 +1,376 @@<br />+From 8191fd6d567=
-7c30579c09a8d0988b47bbf33f65f Mon Sep 17 00:00:00 2001<br />+From: Daniel S=
-tenberg &lt;daniel@haxx.se&gt;<br />+Date: Fri, 5 Jun 2026 01:20:50 -0700<b=
-r />+Subject: [PATCH] http: clear credentials better on redirect<br />+<br =
-/>+Verify with test 2506: netrc with redirect using proxy<br />+<br />+Upda=
-ted test 998 which was wrong.<br />+<br />+Reported-by: Muhamad Arga Reksap=
-ati<br />+<br />+Closes #21345<br />+<br />+CVE: CVE-2026-6429<br />+Upstre=
-am-Status: Backport [<a href=3D"https://github.com/curl/curl/commit/b4024bf=
-808bd558026fdc6096e8457f199ace306" target=3D"_blank" rel=3D"noopener">https=
-://github.com/curl/curl/commit/b4024bf808bd558026fdc6096e8457f199ace306</a>=
-]<br />+<br />+Backport Changes:<br />+- The upstream lib/http.c hunk adds =
-the same-origin credential clearing to<br />+ Curl_http_follow(). curl-8.7.=
-1 predates that protocol-specific redirect<br />+ handler and carries the e=
-quivalent redirect logic in lib/transfer.c via<br />+ Curl_follow(), so the=
- full upstream lib/http.c hunk was adapted there.<br />+- The inline same-o=
-rigin comparison preserves upstream URL parsing semantics:<br />+ the previ=
-ous URL is encoded while allowing spaces, and scheme/host are<br />+ compar=
-ed before resolving default ports so unsupported redirect schemes<br />+ ar=
-e treated as a different origin rather than as a fatal parsing error.<br />=
-+- curl-8.7.1 uses tests/data/Makefile.inc and tests/libtest/Makefile.inc<b=
-r />+ instead of the upstream tests/data/Makefile.am and<br />+ tests/libte=
-st/Makefile.am lists.<br />+- curl-8.7.1 does not contain test2504/lib2504,=
- so the new<br />+ test2506/lib2506 entries were registered after the neare=
-st existing<br />+ test2503/lib2502 entries in the target-version test list=
-s.<br />+- curl-8.7.1 uses the older libtest harness, so first.h,<br />+ te=
-st_lib2506(), and CURLcode result handling were adapted to test.h,<br />+ t=
-est(), and int res.<br />+- Scarthgap curl-8.7.1 keeps the same incorrect r=
-edirected-request<br />+ Authorization expectation in tests/data/test998, s=
-o this backport removes<br />+ that expectation with an equivalent target-v=
-ersion hunk.<br />+<br />+(cherry picked from commit b4024bf808bd558026fdc6=
-096e8457f199ace306)<br />+Signed-off-by: Deepak Rathore &lt;deeratho@cisco.=
-com&gt;<br />+---<br />+ lib/transfer.c | 108 ++++++++++++++++++++++++++---=
----------------<br />+ tests/data/Makefile.inc | 2 +-<br />+ tests/data/tes=
-t2506 | 64 +++++++++++++++++++++++<br />+ tests/data/test998 | 1 -<br />+ t=
-ests/libtest/Makefile.inc | 5 +-<br />+ tests/libtest/lib2506.c | 71 ++++++=
-+++++++++++++++++++++++<br />+ 6 files changed, 203 insertions(+), 48 delet=
-ions(-)<br />+ create mode 100644 tests/data/test2506<br />+ create mode 10=
-0644 tests/libtest/lib2506.c<br />+<br />+diff --git a/lib/transfer.c b/lib=
-/transfer.c<br />+index a73462928d..0f5bd8ce59 100644<br />+--- a/lib/trans=
-fer.c<br />++++ b/lib/transfer.c<br />+@@ -865,49 +865,67 @@ CURLcode Curl_=
-follow(struct Curl_easy *data,<br />+ if(uc)<br />+ return Curl_uc_to_curlc=
-ode(uc);<br />+ <br />+- /* Clear auth if this redirects to a different por=
-t number or protocol,<br />+- unless permitted */<br />+- if(!data-&gt;set.=
-allow_auth_to_other_hosts &amp;&amp; (type !=3D FOLLOW_FAKE)) {<br />+- cha=
-r *portnum;<br />+- int port;<br />+- bool clear =3D FALSE;<br />+-<br />+-=
- if(data-&gt;set.use_port &amp;&amp; data-&gt;state.allow_port)<br />+- /* =
-a custom port is used */<br />+- port =3D (int)data-&gt;set.use_port;<br />=
-+- else {<br />+- uc =3D curl_url_get(data-&gt;state.uh, CURLUPART_PORT, &a=
-mp;portnum,<br />+- CURLU_DEFAULT_PORT);<br />+- if(uc) {<br />+- free(newu=
-rl);<br />+- return Curl_uc_to_curlcode(uc);<br />+- }<br />+- port =3D ato=
-i(portnum);<br />+- free(portnum);<br />+- }<br />+- if(port !=3D data-&gt;=
-info.conn_remote_port) {<br />+- infof(data, "Clear auth, redirects to port=
- from %u to %u",<br />+- data-&gt;info.conn_remote_port, port);<br />+- cle=
-ar =3D TRUE;<br />++ {<br />++ bool same_origin =3D FALSE;<br />++ CURLU *u=
-;<br />++ char *oldscheme =3D NULL;<br />++ char *oldhost =3D NULL;<br />++=
- char *oldport =3D NULL;<br />++ char *newscheme =3D NULL;<br />++ char *ne=
-whost =3D NULL;<br />++ char *newport =3D NULL;<br />++<br />++ u =3D curl_=
-url();<br />++ if(!u) {<br />++ free(newurl);<br />++ return CURLE_OUT_OF_M=
-EMORY;<br />+ }<br />+- else {<br />+- char *scheme;<br />+- const struct C=
-url_handler *p;<br />+- uc =3D curl_url_get(data-&gt;state.uh, CURLUPART_SC=
-HEME, &amp;scheme, 0);<br />+- if(uc) {<br />+- free(newurl);<br />+- retur=
-n Curl_uc_to_curlcode(uc);<br />+- }<br />+ <br />+- p =3D Curl_get_scheme_=
-handler(scheme);<br />+- if(p &amp;&amp; (p-&gt;protocol !=3D data-&gt;info=
-.conn_protocol)) {<br />+- infof(data, "Clear auth, redirects scheme from %=
-s to %s",<br />+- data-&gt;info.conn_scheme, scheme);<br />+- clear =3D TRU=
-E;<br />+- }<br />+- free(scheme);<br />++ uc =3D curl_url_set(u, CURLUPART=
-_URL, data-&gt;state.url,<br />++ CURLU_URLENCODE | CURLU_ALLOW_SPACE);<br =
-/>++ if(!uc)<br />++ uc =3D curl_url_get(u, CURLUPART_SCHEME, &amp;oldschem=
-e, 0);<br />++ if(!uc)<br />++ uc =3D curl_url_get(u, CURLUPART_HOST, &amp;=
-oldhost, 0);<br />++ if(!uc)<br />++ uc =3D curl_url_get(data-&gt;state.uh,=
- CURLUPART_SCHEME, &amp;newscheme, 0);<br />++ if(!uc)<br />++ uc =3D curl_=
-url_get(data-&gt;state.uh, CURLUPART_HOST, &amp;newhost, 0);<br />++ if(!uc=
-) {<br />++ same_origin =3D strcasecompare(oldscheme, newscheme) &amp;&amp;=
-<br />++ strcasecompare(oldhost, newhost);<br />++ if(same_origin) {<br />+=
-+ uc =3D curl_url_get(u, CURLUPART_PORT, &amp;oldport,<br />++ CURLU_DEFAUL=
-T_PORT);<br />++ if(!uc)<br />++ uc =3D curl_url_get(data-&gt;state.uh, CUR=
-LUPART_PORT, &amp;newport,<br />++ CURLU_DEFAULT_PORT);<br />++ if(!uc)<br =
-/>++ same_origin =3D !strcmp(oldport, newport);<br />++ }<br />++ }<br />++=
- if(uc) {<br />++ curl_url_cleanup(u);<br />++ free(oldscheme);<br />++ fre=
-e(oldhost);<br />++ free(oldport);<br />++ free(newscheme);<br />++ free(ne=
-whost);<br />++ free(newport);<br />++ free(newurl);<br />++ return Curl_uc=
-_to_curlcode(uc);<br />+ }<br />+- if(clear) {<br />++<br />++ curl_url_cle=
-anup(u);<br />++ free(oldscheme);<br />++ free(oldhost);<br />++ free(oldpo=
-rt);<br />++ free(newscheme);<br />++ free(newhost);<br />++ free(newport);=
-<br />++<br />++ if((!same_origin &amp;&amp; !data-&gt;set.allow_auth_to_ot=
-her_hosts) ||<br />++ !data-&gt;set.str[STRING_USERNAME]) {<br />+ result =
-=3D Curl_reset_userpwd(data);<br />+ if(result) {<br />+ free(newurl);<br /=
->+@@ -917,12 +935,12 @@ CURLcode Curl_follow(struct Curl_easy *data,<br />+=
- Curl_safefree(data-&gt;state.aptr.passwd);<br />+ }<br />+ }<br />+- }<br =
-/>+ <br />+- result =3D Curl_reset_proxypwd(data);<br />+- if(result) {<br =
-/>+- free(newurl);<br />+- return result;<br />++ result =3D Curl_reset_pro=
-xypwd(data);<br />++ if(result) {<br />++ free(newurl);<br />++ return resu=
-lt;<br />++ }<br />+ }<br />+ <br />+ if(type =3D=3D FOLLOW_FAKE) {<br />+d=
-iff --git a/tests/data/Makefile.inc b/tests/data/Makefile.inc<br />+index a=
-afd309a9d..f673f86384 100644<br />+--- a/tests/data/Makefile.inc<br />++++ =
-b/tests/data/Makefile.inc<br />+@@ -251,7 +251,7 @@ test2300 test2301 test2=
-302 test2303 test2304 test2305 test2306 test2307 \<br />+ \<br />+ test2400=
- test2401 test2402 test2403 test2404 \<br />+ \<br />+-test2500 test2501 te=
-st2502 test2503 \<br />++test2500 test2501 test2502 test2503 test2506 \<br =
-/>+ \<br />+ test2600 test2601 test2602 test2603 \<br />+ \<br />+diff --gi=
-t a/tests/data/test2506 b/tests/data/test2506<br />+new file mode 100644<br=
- />+index 0000000000..9c65002496<br />+--- /dev/null<br />++++ b/tests/data=
-/test2506<br />+@@ -0,0 +1,64 @@<br />++&lt;?xml version=3D"1.0" encoding=
-=3D"US-ASCII"?&gt;<br />++&lt;testcase&gt;<br />++&lt;info&gt;<br />++&lt;k=
-eywords&gt;<br />++HTTP<br />++cookies<br />++&lt;/keywords&gt;<br />++&lt;=
-/info&gt;<br />++<br />++&lt;reply&gt;<br />++&lt;data crlf=3D"headers" noc=
-heck=3D"yes"&gt;<br />++HTTP/1.1 301 redirect<br />++Date: Tue, 09 Nov 2010=
- 14:49:00 GMT<br />++Content-Length: 3<br />++Location: <a href=3D"http://n=
-umbertwo.example/%TESTNUMBER0002" target=3D"_blank" rel=3D"noopener">http:/=
-/numbertwo.example/%TESTNUMBER0002</a><br />++<br />++ok<br />++&lt;/data&g=
-t;<br />++&lt;data2 crlf=3D"headers" nocheck=3D"yes"&gt;<br />++HTTP/1.1 20=
-0 OK<br />++Date: Tue, 09 Nov 2010 14:49:00 GMT<br />++Content-Length: 4<br=
- />++<br />++yes<br />++&lt;/data2&gt;<br />++&lt;/reply&gt;<br />++<br />+=
-+&lt;client&gt;<br />++&lt;server&gt;<br />++http<br />++&lt;/server&gt;<br=
- />++&lt;features&gt;<br />++proxy<br />++&lt;/features&gt;<br />++&lt;tool=
-&gt;<br />++lib%TESTNUMBER<br />++&lt;/tool&gt;<br />++&lt;name&gt;<br />++=
-netrc with redirect using proxy<br />++&lt;/name&gt;<br />++&lt;file name=
-=3D"%LOGDIR/netrc2506"&gt;<br />++machine site.example login batman passwor=
-d robin<br />++&lt;/file&gt;<br />++&lt;command&gt;<br />++http://%HOSTIP:%=
-HTTPPORT <a href=3D"http://site.example/" target=3D"_blank" rel=3D"noopener=
-">http://site.example/</a> %LOGDIR/netrc2506<br />++&lt;/command&gt;<br />+=
-+&lt;/client&gt;<br />++<br />++&lt;verify&gt;<br />++&lt;protocol crlf=3D"=
-headers"&gt;<br />++GET <a href=3D"http://site.example/" target=3D"_blank" =
-rel=3D"noopener">http://site.example/</a> HTTP/1.1<br />++Host: site.exampl=
-e<br />++Authorization: Basic %b64[batman:robin]b64%<br />++Accept: */*<br =
-/>++Proxy-Connection: Keep-Alive<br />++<br />++GET <a href=3D"http://numbe=
-rtwo.example/25060002" target=3D"_blank" rel=3D"noopener">http://numbertwo.=
-example/25060002</a> HTTP/1.1<br />++Host: numbertwo.example<br />++Accept:=
- */*<br />++Proxy-Connection: Keep-Alive<br />++<br />++&lt;/protocol&gt;<b=
-r />++&lt;/verify&gt;<br />++&lt;/testcase&gt;<br />+diff --git a/tests/dat=
-a/test998 b/tests/data/test998<br />+index 0969d4704b..17c0a0e150 100644<br=
- />+--- a/tests/data/test998<br />++++ b/tests/data/test998<br />+@@ -82,7 =
-+82,6 @@ Proxy-Connection: Keep-Alive<br />+ <br />+ GET <a href=3D"http://=
-somewhere.else.example/a/path/9980002" target=3D"_blank" rel=3D"noopener">h=
-ttp://somewhere.else.example/a/path/9980002</a> HTTP/1.1<br />+ Host: somew=
-here.else.example<br />+- Authorization: Basic YWxiZXJ0bzplaW5zdGVpbg=3D=3D=
-<br />+ User-Agent: curl/%VERSION<br />+ Accept: */*<br />+ Proxy-Connectio=
-n: Keep-Alive<br />+diff --git a/tests/libtest/Makefile.inc b/tests/libtest=
-/Makefile.inc<br />+index 9f7cec6027..9d3356aaf5 100644<br />+--- a/tests/l=
-ibtest/Makefile.inc<br />++++ b/tests/libtest/Makefile.inc<br />+@@ -75,7 +=
-75,7 @@ noinst_PROGRAMS =3D chkhostname libauthretry libntlmconnect libprer=
-eq \<br />+ lib1970 lib1971 lib1972 lib1973 lib1974 lib1975 \<br />+ lib230=
-1 lib2302 lib2304 lib2305 lib2306 \<br />+ lib2402 lib2404 \<br />+- lib250=
-2 \<br />++ lib2502 lib2506 \<br />+ lib3010 lib3025 lib3026 lib3027 \<br /=
->+ lib3100 lib3101 lib3102 lib3103<br />+ <br />+@@ -684,6 +684,9 @@ lib240=
-4_LDADD =3D $(TESTUTIL_LIBS)<br />+ lib2502_SOURCES =3D lib2502.c $(SUPPORT=
-FILES) $(TESTUTIL) $(WARNLESS)<br />+ lib2502_LDADD =3D $(TESTUTIL_LIBS)<br=
- />+ <br />++lib2506_SOURCES =3D lib2506.c $(SUPPORTFILES) $(TESTUTIL) $(WA=
-RNLESS)<br />++lib2506_LDADD =3D $(TESTUTIL_LIBS)<br />++<br />+ lib3010_SO=
-URCES =3D lib3010.c $(SUPPORTFILES) $(TESTUTIL) $(WARNLESS)<br />+ lib3010_=
-LDADD =3D $(TESTUTIL_LIBS)<br />+ <br />+diff --git a/tests/libtest/lib2506=
-.c b/tests/libtest/lib2506.c<br />+new file mode 100644<br />+index 0000000=
-000..e6dde18507<br />+--- /dev/null<br />++++ b/tests/libtest/lib2506.c<br =
-/>+@@ -0,0 +1,71 @@<br />++/***********************************************=
-****************************<br />++ * _ _ ____ _<br />++ * Project ___| | =
-| | _ \| |<br />++ * / __| | | | |_) | |<br />++ * | (__| |_| | _ &lt;| |__=
-_<br />++ * \___|\___/|_| \_\_____|<br />++ *<br />++ * Copyright (C) Linus=
- Nielsen Feltzing &lt;linus@haxx.se&gt;<br />++ *<br />++ * This software i=
-s licensed as described in the file COPYING, which<br />++ * you should hav=
-e received as part of this distribution. The terms<br />++ * are also avail=
-able at <a href=3D"https://curl.se/docs/copyright.html" target=3D"_blank" r=
-el=3D"noopener">https://curl.se/docs/copyright.html</a>.<br />++ *<br />++ =
-* You may opt to use, copy, modify, merge, publish, distribute and/or sell<=
-br />++ * copies of the Software, and permit persons to whom the Software i=
-s<br />++ * furnished to do so, under the terms of the COPYING file.<br />+=
-+ *<br />++ * This software is distributed on an "AS IS" basis, WITHOUT WAR=
-RANTY OF ANY<br />++ * KIND, either express or implied.<br />++ *<br />++ *=
- SPDX-License-Identifier: curl<br />++ *<br />++ **************************=
-*************************************************/<br />++#include "test.h"=
-<br />++<br />++#include "testtrace.h"<br />++<br />++static size_t sink250=
-6(char *ptr, size_t size, size_t nmemb, void *ud)<br />++{<br />++ (void)pt=
-r;<br />++ (void)ud;<br />++ return size * nmemb;<br />++}<br />++<br />++i=
-nt test(char *URL)<br />++{<br />++ CURL *curl;<br />++ int res =3D CURLE_O=
-UT_OF_MEMORY;<br />++<br />++ if(curl_global_init(CURL_GLOBAL_ALL) !=3D CUR=
-LE_OK) {<br />++ curl_mfprintf(stderr, "curl_global_init() failed\n");<br /=
->++ return TEST_ERR_MAJOR_BAD;<br />++ }<br />++<br />++ curl =3D curl_easy=
-_init();<br />++ if(!curl) {<br />++ curl_mfprintf(stderr, "curl_easy_init(=
-) failed\n");<br />++ curl_global_cleanup();<br />++ return TEST_ERR_MAJOR_=
-BAD;<br />++ }<br />++<br />++ test_setopt(curl, CURLOPT_WRITEFUNCTION, sin=
-k2506);<br />++ test_setopt(curl, CURLOPT_PROXY, URL);<br />++ test_setopt(=
-curl, CURLOPT_URL, libtest_arg2);<br />++ test_setopt(curl, CURLOPT_NETRC, =
-CURL_NETRC_OPTIONAL);<br />++ test_setopt(curl, CURLOPT_NETRC_FILE, libtest=
-_arg3);<br />++ test_setopt(curl, CURLOPT_FOLLOWLOCATION, 1L);<br />++ test=
-_setopt(curl, CURLOPT_VERBOSE, 1L);<br />++<br />++ /* CURLOPT_UNRESTRICTED=
-_AUTH should not make a difference because the<br />++ credentials come fro=
-m netrc */<br />++ test_setopt(curl, CURLOPT_UNRESTRICTED_AUTH, 1L);<br />+=
-+<br />++ res =3D curl_easy_perform(curl);<br />++<br />++test_cleanup:<br =
-/>++ curl_easy_cleanup(curl);<br />++ curl_global_cleanup();<br />++<br />+=
-+ return res;<br />++}<br />diff --git a/meta/recipes-support/curl/curl_8.7=
-.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb<br />index 781b37c5ad..4f82=
-8ffd79 100644<br />--- a/meta/recipes-support/curl/curl_8.7.1.bb<br />+++ b=
-/meta/recipes-support/curl/curl_8.7.1.bb<br />@@ -41,6 +41,7 @@ SRC_URI =3D=
- " \<br />file://CVE-2026-4873.patch \<br />file://CVE-2026-5545.patch \<br=
- />file://CVE-2026-6253.patch \<br />+ file://CVE-2026-6429.patch \<br />"<=
-br /><br />SRC_URI:append:class-nativesdk =3D " \<br />-- <br />2.35.6</blo=
-ckquote>
+ced in [2].<br /><br />[1] <a href=3D"https://github.com/curl/curl/commit/c=
+1cfdf59acbaf9504c4578d4cf56cdd7c8594507" target=3D"_blank" rel=3D"noopener"=
+>https://github.com/curl/curl/commit/c1cfdf59acbaf9504c4578d4cf56cdd7c85945=
+07</a><br />[2] <a href=3D"https://curl.se/docs/CVE-2026-7168.html" target=
+=3D"_blank" rel=3D"noopener">https://curl.se/docs/CVE-2026-7168.html</a><br=
+ /><br />Signed-off-by: Deepak Rathore &lt;deeratho@cisco.com&gt;<br />---<=
+br />Changes in v3:<br />- Rebase on top of the revised CVE-2026-6429 patch=
+.<br /><br />Changes from v1 to v2:<br />- Rebase the patches on top of the=
+ latest Scarthgap branch.<br /><br />.../curl/curl/CVE-2026-7168.patch | 42=
+5 ++++++++++++++++++<br />meta/recipes-support/curl/curl_8.7.1.bb | 1 +<br =
+/>2 files changed, 426 insertions(+)<br />create mode 100644 meta/recipes-s=
+upport/curl/curl/CVE-2026-7168.patch<br /><br />diff --git a/meta/recipes-s=
+upport/curl/curl/CVE-2026-7168.patch b/meta/recipes-support/curl/curl/CVE-2=
+026-7168.patch<br />new file mode 100644<br />index 0000000000..0669be6546<=
+br />--- /dev/null<br />+++ b/meta/recipes-support/curl/curl/CVE-2026-7168.=
+patch<br />@@ -0,0 +1,425 @@<br />+From 0f0bb5efbd1e4f2199eeb98e6c62a7a6724=
+2cad2 Mon Sep 17 00:00:00 2001<br />+From: Daniel Stenberg &lt;daniel@haxx.=
+se&gt;<br />+Date: Fri, 5 Jun 2026 01:22:37 -0700<br />+Subject: [PATCH] se=
+topt: clear proxy auth properties when switching<br />+<br />+Verify with t=
+est 1588<br />+<br />+Closes #21453<br />+<br />+CVE: CVE-2026-7168<br />+U=
+pstream-Status: Backport [<a href=3D"https://github.com/curl/curl/commit/c1=
+cfdf59acbaf9504c4578d4cf56cdd7c8594507" target=3D"_blank" rel=3D"noopener">=
+https://github.com/curl/curl/commit/c1cfdf59acbaf9504c4578d4cf56cdd7c859450=
+7</a>]<br />+<br />+Backport Changes:<br />+- The upstream lib/setopt.c hun=
+k reuses Curl_auth_digest_cleanup() from the<br />+ newer tree. curl-8.7.1 =
+does not expose that helper to setopt.c in the same<br />+ way, so this bac=
+kport adds the vauth/vauth.h include before applying the<br />+ upstream se=
+tproxy() cleanup logic.<br />+- The upstream tree already provides a CURL_D=
+ISABLE_DIGEST_AUTH fallback for<br />+ Curl_auth_digest_cleanup(). curl-8.7=
+.1 does not, so this backport adds the<br />+ equivalent no-op macro in lib=
+/vauth/vauth.h.<br />+- curl-8.7.1 uses tests/data/Makefile.inc and tests/l=
+ibtest/Makefile.inc<br />+ instead of the upstream tests/data/Makefile.am a=
+nd<br />+ tests/libtest/Makefile.am lists.<br />+- curl-8.7.1 uses the olde=
+r libtest harness, so first.h,<br />+ test_lib1588(), libtest_arg4, and CUR=
+Lcode result handling were adapted to<br />+ test.h, test(), test_argv[4], =
+and int res.<br />+- curl-8.7.1 does not define the newer digest test featu=
+re in runtests.pl.<br />+ This backport defines the target harness feature =
+as digest-auth, matching<br />+ tests/server/disabled.c, and makes test 158=
+8 require digest-auth.<br />+- The curl-8.7.1 server harness does not handl=
+e crlf=3D"headers" correctly on<br />+ response data sections for this test=
+, so those attributes were removed from<br />+ the two server response bloc=
+ks and datacheck. The protocol block keeps<br />+ crlf=3D"headers" because =
+runtests.pl normalizes protocol verification when any<br />+ crlf attribute=
+ is present.<br />+<br />+(cherry picked from commit c1cfdf59acbaf9504c4578=
+d4cf56cdd7c8594507)<br />+Signed-off-by: Deepak Rathore &lt;deeratho@cisco.=
+com&gt;<br />+---<br />+ lib/setopt.c | 18 ++++-<br />+ lib/vauth/vauth.h |=
+ 2 +<br />+ tests/data/Makefile.inc | 1 +<br />+ tests/data/test1588 | 106 =
+++++++++++++++++++++++++++<br />+ tests/libtest/Makefile.inc | 5 +-<br />+ =
+tests/libtest/lib1588.c | 152 +++++++++++++++++++++++++++++++++++++<br />+ =
+tests/runtests.pl | 2 +<br />+ 7 files changed, 283 insertions(+), 3 deleti=
+ons(-)<br />+ create mode 100644 tests/data/test1588<br />+ create mode 100=
+644 tests/libtest/lib1588.c<br />+<br />+diff --git a/lib/setopt.c b/lib/se=
+topt.c<br />+index 8a5a5d7..7eaf309 100644<br />+--- a/lib/setopt.c<br />++=
+++ b/lib/setopt.c<br />+@@ -51,6 +51,7 @@<br />+ #include "altsvc.h"<br />+=
+ #include "hsts.h"<br />+ #include "tftp.h"<br />++#include "vauth/vauth.h"=
+<br />+ #include "strdup.h"<br />+ /* The last 3 #include files should be i=
+n this order */<br />+ #include "curl_printf.h"<br />+@@ -76,6 +77,20 @@ CU=
+RLcode Curl_setstropt(char **charp, const char *s)<br />+ return CURLE_OK;<=
+br />+ }<br />+ <br />++#ifndef CURL_DISABLE_PROXY<br />++static CURLcode s=
+etproxy(struct Curl_easy *data, const char *proxy)<br />++{<br />++ if((dat=
+a-&gt;set.str[STRING_PROXY] &amp;&amp; proxy) &amp;&amp;<br />++ /* there w=
+as one set, is this a new one? */<br />++ !strcmp(data-&gt;set.str[STRING_P=
+ROXY], proxy))<br />++ return CURLE_OK; /* same one as before */<br />++<br=
+ />++ Curl_auth_digest_cleanup(&amp;data-&gt;state.proxydigest);<br />++ me=
+mset(&amp;data-&gt;state.authproxy, 0, sizeof(data-&gt;state.authproxy));<b=
+r />++ return Curl_setstropt(&amp;data-&gt;set.str[STRING_PROXY], proxy);<b=
+r />++}<br />++#endif<br />++<br />+ CURLcode Curl_setblobopt(struct curl_b=
+lob **blobp,<br />+ const struct curl_blob *blob)<br />+ {<br />+@@ -1139,8=
+ +1154,7 @@ CURLcode Curl_vsetopt(struct Curl_easy *data, CURLoption option=
+, va_list param)<br />+ * Setting it to NULL, means no proxy but allows the=
+ environment variables<br />+ * to decide for us (if CURLOPT_SOCKS_PROXY se=
+tting it to NULL).<br />+ */<br />+- result =3D Curl_setstropt(&amp;data-&g=
+t;set.str[STRING_PROXY],<br />+- va_arg(param, char *));<br />++ result =3D=
+ setproxy(data, va_arg(param, char *));<br />+ break;<br />+ <br />+ case C=
+URLOPT_PRE_PROXY:<br />+diff --git a/lib/vauth/vauth.h b/lib/vauth/vauth.h<=
+br />+index 9da0540..bf5c7a3 100644<br />+--- a/lib/vauth/vauth.h<br />++++=
+ b/lib/vauth/vauth.h<br />+@@ -119,6 +119,8 @@ CURLcode Curl_auth_create_di=
+gest_http_message(struct Curl_easy *data,<br />+ <br />+ /* This is used to=
+ clean up the digest specific data */<br />+ void Curl_auth_digest_cleanup(=
+struct digestdata *digest);<br />++#else<br />++#define Curl_auth_digest_cl=
+eanup(x)<br />+ #endif /* !CURL_DISABLE_DIGEST_AUTH */<br />+ <br />+ #ifde=
+f USE_GSASL<br />+diff --git a/tests/data/Makefile.inc b/tests/data/Makefil=
+e.inc<br />+index f673f86..461eb37 100644<br />+--- a/tests/data/Makefile.i=
+nc<br />++++ b/tests/data/Makefile.inc<br />+@@ -200,6 +200,7 @@ test1540 t=
+est1541 test1542 test1543 test1544 test1545 \<br />+ test1550 test1551 test=
+1552 test1553 test1554 test1555 test1556 test1557 \<br />+ test1558 test155=
+9 test1560 test1561 test1562 test1563 test1564 test1565 \<br />+ test1566 t=
+est1567 test1568 test1569 test1570 \<br />++test1588 \<br />+ \<br />+ test=
+1590 test1591 test1592 test1593 test1594 test1595 test1596 test1597 \<br />=
++ test1598 \<br />+diff --git a/tests/data/test1588 b/tests/data/test1588<b=
+r />+new file mode 100644<br />+index 0000000..8a3bf81<br />+--- /dev/null<=
+br />++++ b/tests/data/test1588<br />+@@ -0,0 +1,106 @@<br />++&lt;?xml ver=
+sion=3D"1.0" encoding=3D"US-ASCII"?&gt;<br />++&lt;testcase&gt;<br />++&lt;=
+info&gt;<br />++&lt;keywords&gt;<br />++HTTP<br />++HTTP GET<br />++HTTP pr=
+oxy<br />++HTTP proxy Digest auth<br />++multi<br />++&lt;/keywords&gt;<br =
+/>++&lt;/info&gt;<br />++<br />++# Server-side<br />++&lt;reply&gt;<br />++=
+<br />++# this is returned first since we get no proxy-auth<br />++&lt;data=
+&gt;<br />++HTTP/1.1 407 Authorization Required to proxy me my dear<br />++=
+Proxy-Authenticate: Digest realm=3D"weirdorealm", nonce=3D"12345"<br />++Co=
+ntent-Length: 33<br />++<br />++And you should ignore this data.<br />++&lt=
+;/data&gt;<br />++<br />++# then this is returned when we get proxy-auth<br=
+ />++&lt;data1000&gt;<br />++HTTP/1.1 200 OK<br />++Content-Length: 21<br /=
+>++Server: no<br />++<br />++Nice proxy auth sir!<br />++&lt;/data1000&gt;<=
+br />++<br />++&lt;datacheck&gt;<br />++HTTP/1.1 407 Authorization Required=
+ to proxy me my dear<br />++Proxy-Authenticate: Digest realm=3D"weirdorealm=
+", nonce=3D"12345"<br />++Content-Length: 33<br />++<br />++HTTP/1.1 200 OK=
+<br />++Content-Length: 21<br />++Server: no<br />++<br />++Nice proxy auth=
+ sir!<br />++HTTP/1.1 407 Authorization Required to proxy me my dear<br />+=
++Proxy-Authenticate: Digest realm=3D"weirdorealm", nonce=3D"12345"<br />++C=
+ontent-Length: 33<br />++<br />++HTTP/1.1 200 OK<br />++Content-Length: 21<=
+br />++Server: no<br />++<br />++Nice proxy auth sir!<br />++&lt;/datacheck=
+&gt;<br />++&lt;/reply&gt;<br />++<br />++# Client-side<br />++&lt;client&g=
+t;<br />++&lt;server&gt;<br />++http<br />++&lt;/server&gt;<br />++# tool i=
+s what to use instead of 'curl'<br />++&lt;tool&gt;<br />++lib%TESTNUMBER<b=
+r />++&lt;/tool&gt;<br />++&lt;features&gt;<br />++!SSPI<br />++crypto<br /=
+>++proxy<br />++digest-auth<br />++&lt;/features&gt;<br />++&lt;name&gt;<br=
+ />++HTTP proxy auth Digest, then change proxy and do it again<br />++&lt;/=
+name&gt;<br />++&lt;command&gt;<br />++<a href=3D"http://test.remote.exampl=
+e.com/path/%TESTNUMBER" target=3D"_blank" rel=3D"noopener">http://test.remo=
+te.example.com/path/%TESTNUMBER</a> %HOSTIP %HTTPPORT silly:person custom.s=
+et.host.name<br />++&lt;/command&gt;<br />++&lt;/client&gt;<br />++<br />++=
+# Verify data after the test has been "shot"<br />++&lt;verify&gt;<br />++&=
+lt;protocol crlf=3D"headers"&gt;<br />++GET <a href=3D"http://test.remote.e=
+xample.com/path/1588" target=3D"_blank" rel=3D"noopener">http://test.remote=
+.example.com/path/1588</a> HTTP/1.1<br />++Host: test.remote.example.com<br=
+ />++Accept: */*<br />++Proxy-Connection: Keep-Alive<br />++<br />++GET <a =
+href=3D"http://test.remote.example.com/path/1588" target=3D"_blank" rel=3D"=
+noopener">http://test.remote.example.com/path/1588</a> HTTP/1.1<br />++Host=
+: test.remote.example.com<br />++Proxy-Authorization: Digest username=3D"si=
+lly", realm=3D"weirdorealm", nonce=3D"12345", uri=3D"/path/1588", response=
+=3D"d0b2f000c7e3fca24452b5810713404a"<br />++Accept: */*<br />++Proxy-Conne=
+ction: Keep-Alive<br />++<br />++GET <a href=3D"http://test.remote.example.=
+com/path/1588" target=3D"_blank" rel=3D"noopener">http://test.remote.exampl=
+e.com/path/1588</a> HTTP/1.1<br />++Host: test.remote.example.com<br />++Ac=
+cept: */*<br />++Proxy-Connection: Keep-Alive<br />++<br />++GET <a href=3D=
+"http://test.remote.example.com/path/1588" target=3D"_blank" rel=3D"noopene=
+r">http://test.remote.example.com/path/1588</a> HTTP/1.1<br />++Host: test.=
+remote.example.com<br />++Proxy-Authorization: Digest username=3D"silly", r=
+ealm=3D"weirdorealm", nonce=3D"12345", uri=3D"/path/1588", response=3D"d0b2=
+f000c7e3fca24452b5810713404a"<br />++Accept: */*<br />++Proxy-Connection: K=
+eep-Alive<br />++<br />++&lt;/protocol&gt;<br />++&lt;/verify&gt;<br />++&l=
+t;/testcase&gt;<br />+diff --git a/tests/libtest/Makefile.inc b/tests/libte=
+st/Makefile.inc<br />+index 9d3356a..4c42d34 100644<br />+--- a/tests/libte=
+st/Makefile.inc<br />++++ b/tests/libtest/Makefile.inc<br />+@@ -62,7 +62,7=
+ @@ noinst_PROGRAMS =3D chkhostname libauthretry libntlmconnect libprereq \=
+<br />+ lib1540 lib1541 lib1542 lib1543 lib1545 \<br />+ lib1550 lib1551 li=
+b1552 lib1553 lib1554 lib1555 lib1556 lib1557 \<br />+ lib1558 lib1559 lib1=
+560 lib1564 lib1565 lib1567 lib1568 lib1569 \<br />+- lib1591 lib1592 lib15=
+93 lib1594 lib1596 lib1597 lib1598 \<br />++ lib1588 lib1591 lib1592 lib159=
+3 lib1594 lib1596 lib1597 lib1598 \<br />+ \<br />+ lib1662 \<br />+ \<br /=
+>+@@ -687,6 +687,9 @@ lib2502_LDADD =3D $(TESTUTIL_LIBS)<br />+ lib2506_SOU=
+RCES =3D lib2506.c $(SUPPORTFILES) $(TESTUTIL) $(WARNLESS)<br />+ lib2506_L=
+DADD =3D $(TESTUTIL_LIBS)<br />+ <br />++lib1588_SOURCES =3D lib1588.c $(SU=
+PPORTFILES) $(TESTUTIL) $(WARNLESS)<br />++lib1588_LDADD =3D $(TESTUTIL_LIB=
+S)<br />++<br />+ lib3010_SOURCES =3D lib3010.c $(SUPPORTFILES) $(TESTUTIL)=
+ $(WARNLESS)<br />+ lib3010_LDADD =3D $(TESTUTIL_LIBS)<br />+ <br />+diff -=
+-git a/tests/libtest/lib1588.c b/tests/libtest/lib1588.c<br />+new file mod=
+e 100644<br />+index 0000000..00c6b35<br />+--- /dev/null<br />++++ b/tests=
+/libtest/lib1588.c<br />+@@ -0,0 +1,152 @@<br />++/************************=
+***************************************************<br />++ * _ _ ____ _<br=
+ />++ * Project ___| | | | _ \| |<br />++ * / __| | | | |_) | |<br />++ * |=
+ (__| |_| | _ &lt;| |___<br />++ * \___|\___/|_| \_\_____|<br />++ *<br />+=
++ * Copyright (C) Daniel Stenberg, &lt;daniel@haxx.se&gt;, et al.<br />++ *=
+<br />++ * This software is licensed as described in the file COPYING, whic=
+h<br />++ * you should have received as part of this distribution. The term=
+s<br />++ * are also available at <a href=3D"https://curl.se/docs/copyright=
+.html" target=3D"_blank" rel=3D"noopener">https://curl.se/docs/copyright.ht=
+ml</a>.<br />++ *<br />++ * You may opt to use, copy, modify, merge, publis=
+h, distribute and/or sell<br />++ * copies of the Software, and permit pers=
+ons to whom the Software is<br />++ * furnished to do so, under the terms o=
+f the COPYING file.<br />++ *<br />++ * This software is distributed on an =
+"AS IS" basis, WITHOUT WARRANTY OF ANY<br />++ * KIND, either express or im=
+plied.<br />++ *<br />++ * SPDX-License-Identifier: curl<br />++ *<br />++ =
+***************************************************************************=
+/<br />++/*<br />++ * argv1 =3D URL<br />++ * argv2 =3D proxy host<br />++ =
+* argv3 =3D proxy port<br />++ * argv4 =3D proxyuser:password<br />++ */<br=
+ />++<br />++#include "test.h"<br />++#include "testutil.h"<br />++<br />++=
+static CURLcode init1588(CURL *curl, const char *url,<br />++ const char *u=
+serpwd, const char *proxy)<br />++{<br />++ int res =3D CURLE_OK;<br />++<b=
+r />++ res_easy_setopt(curl, CURLOPT_URL, url);<br />++ if(res)<br />++ got=
+o init_failed;<br />++<br />++ res_easy_setopt(curl, CURLOPT_PROXY, proxy);=
+<br />++ if(res)<br />++ goto init_failed;<br />++<br />++ res_easy_setopt(=
+curl, CURLOPT_PROXYUSERPWD, userpwd);<br />++ if(res)<br />++ goto init_fai=
+led;<br />++<br />++ res_easy_setopt(curl, CURLOPT_PROXYAUTH, CURLAUTH_DIGE=
+ST);<br />++ if(res)<br />++ goto init_failed;<br />++<br />++ res_easy_set=
+opt(curl, CURLOPT_VERBOSE, 1L);<br />++ if(res)<br />++ goto init_failed;<b=
+r />++#if 0<br />++ res_easy_setopt(curl, CURLOPT_HTTPPROXYTUNNEL, 1L);<br =
+/>++ if(res)<br />++ goto init_failed;<br />++#endif<br />++<br />++ res_ea=
+sy_setopt(curl, CURLOPT_HEADER, 1L);<br />++ if(res)<br />++ goto init_fail=
+ed;<br />++<br />++ return CURLE_OK; /* success */<br />++<br />++init_fail=
+ed:<br />++ return (CURLcode)res; /* failure */<br />++}<br />++<br />++sta=
+tic CURLcode run1588(CURL *curl, const char *url, const char *userpwd,<br /=
+>++ const char *proxy)<br />++{<br />++ CURLcode res =3D CURLE_OK;<br />++<=
+br />++ res =3D init1588(curl, url, userpwd, proxy);<br />++ if(res)<br />+=
++ return res;<br />++<br />++ return curl_easy_perform(curl);<br />++}<br /=
+>++<br />++int test(char *URL)<br />++{<br />++ int res =3D CURLE_OK;<br />=
+++ CURL *curl =3D NULL;<br />++ const char *proxyuserpws;<br />++ struct cu=
+rl_slist *host =3D NULL;<br />++ struct curl_slist *host2 =3D NULL;<br />++=
+ char proxy1_resolve[128];<br />++ char proxy2_resolve[128];<br />++ char p=
+roxy1_connect[128];<br />++ char proxy2_connect[128];<br />++<br />++ if(te=
+st_argc &lt; 5)<br />++ return TEST_ERR_MAJOR_BAD;<br />++ proxyuserpws =3D=
+ test_argv[4];<br />++<br />++ curl_msnprintf(proxy1_resolve, sizeof(proxy1=
+_resolve),<br />++ "firstproxy:%s:%s", libtest_arg3, libtest_arg2);<br />++=
+ curl_msnprintf(proxy2_resolve, sizeof(proxy2_resolve),<br />++ "secondprox=
+y:%s:%s", libtest_arg3, libtest_arg2);<br />++<br />++ /* we connect to the=
+ fake host name but the right port number */<br />++ curl_msnprintf(proxy1_=
+connect, sizeof(proxy1_connect),<br />++ "firstproxy:%s", libtest_arg3);<br=
+ />++ curl_msnprintf(proxy2_connect, sizeof(proxy2_connect),<br />++ "secon=
+dproxy:%s", libtest_arg3);<br />++<br />++ res_global_init(CURL_GLOBAL_ALL)=
+;<br />++ if(res)<br />++ return res;<br />++<br />++ curl =3D curl_easy_in=
+it();<br />++ if(!curl) {<br />++ curl_mfprintf(stderr, "curl_easy_init() f=
+ailed\n");<br />++ curl_global_cleanup();<br />++ return TEST_ERR_MAJOR_BAD=
+;<br />++ }<br />++<br />++ host =3D curl_slist_append(NULL, proxy1_resolve=
+);<br />++ if(!host)<br />++ goto test_cleanup;<br />++ host2 =3D curl_slis=
+t_append(host, proxy2_resolve);<br />++ if(!host2)<br />++ goto test_cleanu=
+p;<br />++ host =3D host2;<br />++<br />++ start_test_timing();<br />++<br =
+/>++ easy_setopt(curl, CURLOPT_RESOLVE, host);<br />++<br />++ res =3D run1=
+588(curl, URL, proxyuserpws, proxy1_connect);<br />++ if(res)<br />++ goto =
+test_cleanup;<br />++<br />++ curl_mfprintf(stderr, "lib1588: now we do the=
+ request again\n");<br />++<br />++ res =3D run1588(curl, URL, proxyuserpws=
+, proxy2_connect);<br />++<br />++test_cleanup:<br />++<br />++ /* proper c=
+leanup sequence - type PB */<br />++<br />++ curl_easy_cleanup(curl);<br />=
+++ curl_global_cleanup();<br />++ curl_slist_free_all(host);<br />++ return=
+ res;<br />++}<br />+diff --git a/tests/runtests.pl b/tests/runtests.pl<br =
+/>+index ddfab20..b40df55 100755<br />+--- a/tests/runtests.pl<br />++++ b/=
+tests/runtests.pl<br />+@@ -637,6 +637,8 @@ sub checksystemfeatures {<br />=
++ $feature{"Kerberos"} =3D $feat =3D~ /Kerberos/i;<br />+ # SPNEGO enabled<=
+br />+ $feature{"SPNEGO"} =3D $feat =3D~ /SPNEGO/i;<br />++ # Digest auth e=
+nabled unless disabled by build<br />++ $feature{"digest-auth"} =3D 1;<br /=
+>+ # CharConv enabled<br />+ $feature{"CharConv"} =3D $feat =3D~ /CharConv/=
+i;<br />+ # TLS-SRP enabled<br />+--<br />+2.35.6<br />diff --git a/meta/re=
+cipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb<=
+br />index 882ab67aae..6b7f6f6f51 100644<br />--- a/meta/recipes-support/cu=
+rl/curl_8.7.1.bb<br />+++ b/meta/recipes-support/curl/curl_8.7.1.bb<br />@@=
+ -42,6 +42,7 @@ SRC_URI =3D " \<br />file://CVE-2026-5545.patch \<br />file=
+://CVE-2026-6253.patch \<br />file://CVE-2026-6429.patch \<br />+ file://CV=
+E-2026-7168.patch \<br />"<br /><br />SRC_URI:append:class-nativesdk =3D " =
+\<br />-- <br />2.35.6</blockquote>
 </div>
 
---h6y4zvu9rnWRZK9XfMMN--
+--v5sT21rK4NFJWrJz3ed8--
 
