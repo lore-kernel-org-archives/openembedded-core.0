@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4519C79FAD
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 05:42:33 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5153.1788932545211665751
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E26AC79FB7
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 05:42:34 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5154.1788932548112431192
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2026 22:42:25 -0700
+ Tue, 08 Sep 2026 22:42:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=T1yhoHJB;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=GSIVsAu3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a084b05557-929a07ec-29f5-46ae-be72-e4763bbafabf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=P/5I1GPg;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2fuomvj4;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a084b0606e-28ea74d0-f91e-49b1-83f7-7400c6ad8384-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788932544;
+	t=1788932547;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=xSUSHZAUhjAC0fD939UA9s1To1lf0Xw7IYerD/MXi6I=;
-	b=T1yhoHJBNR4cniPzMDxZ6Q/ZML1SDW3Uy50OLm/bNThDtmzzVQSY6ZxtP2eDyUPe
-	kOkkxw1no7dFORdDykpXJIYhG338dSgFLakuh1w9msIwjujwiM5tStYQzp/k+CGSwFR
-	txllmbWklwBwoL2fDzGRMbIM02NsKhk7swSaDhvI=
+	bh=xv1mUPJTxkjIr/9tvHUzI3osgEM46R6WdoFofZCsCDk=;
+	b=P/5I1GPgxK09XEHkz0oSeWkrIrhWRUPN8GwI9PSEkGssSoVfi99049zjdp/51w53
+	obqAumhgMsZUBjh0qBoSh4C+BImQ6NBlemho18i8RE7Bt1aw95ty2wha0XbBrU7uiHk
+	8uRzj6KPdv//tKxKEAfdt8dwBqgecQgSRF+eWKVA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788932544;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788932547;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=xSUSHZAUhjAC0fD939UA9s1To1lf0Xw7IYerD/MXi6I=;
-	b=GSIVsAu3ulBpOa1uDQ6Lj/yuPZn8Zn9pL1ezAYAhuD12Bi8Ka96AZXOCgAmBNgJ8
-	5CPUph2G+JvlRpZKd1Z6UQ1dwvdX9UqmLUvJtbvJ1647NtxrhfhSDQX1s3k6AYYITI9
-	asMtAUoLhgmed63qaploJQODODUySNtWrLLNY4YU=
-Content-Type: multipart/mixed; boundary="===============7769724934876288695=="
+	bh=xv1mUPJTxkjIr/9tvHUzI3osgEM46R6WdoFofZCsCDk=;
+	b=2fuomvj4gBCiRD+tHW0ALBy1vCQgk9Q/OO2TRWFJD/wTuewcjOyEO6FWsnDrDYy6
+	lnBdKhedkoEDdpsMqzxtGRTKhQKbn7exFSzt+E8mUWy7t74v2S0TVez5cq9gk2d33wN
+	LMp3NgNWBEKAiw/VpYJ3dUz4vv1EMYudp8Lv0C1U=
+Content-Type: multipart/mixed; boundary="===============3650295947839553257=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Daniel Turull <daniel.turull@ericsson.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] llvm-project-source-23.1.0: upgrading to 23.1.1 FAILED
-Message-ID: <010101a084b05557-929a07ec-29f5-46ae-be72-e4763bbafabf-000000@us-west-2.amazonses.com>
-Date: Wed, 9 Sep 2026 05:42:23 +0000
+Subject: [AUH] python3-kirk: upgrading to 4.2.0 SUCCEEDED
+Message-ID: <010101a084b0606e-28ea74d0-f91e-49b1-83f7-7400c6ad8384-000000@us-west-2.amazonses.com>
+Date: Wed, 9 Sep 2026 05:42:26 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.09-54.240.27.33
+X-SES-Outgoing: 2026.09.09-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 05:42:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245394
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 05:42:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245399
 
---===============7769724934876288695==
+--===============3650295947839553257==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,90 +51,125 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *llvm-project-source-23.1.0* to *23.1.1* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *python3-kirk* to *4.2.0* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-python3-kirk-upgrade-4.1.0-4.2.0.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-The following devtool command failed:  finish -f llvm-project-source-23.1.0 /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 1990 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 959 .bb files complete (957 cached, 2 parsed). 1991 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-
-ERROR: Unable to parse /srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 145, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/conf/layer.conf not found
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 170, in wrapped
-    return func(fn, *args)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 187, in parse_config_file
-    return bb.parse.handle(fn, data, include, baseconfig=True)
-           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 119, in handle
-    return h['handle'](fn, data, include, baseconfig)
-           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 121, in handle
-    abs_fn = resolve_file(fn, data)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 145, in resolve_file
-    raise IOError(errno.ENOENT, "file %s not found" % fn)
-FileNotFoundError: [Errno 2] file /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/clang/conf/layer.conf not found
-
-During handling of the above exception, another exception occurred:
-
-Traceback (most recent call last):
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 352, in <module>
-    ret = main()
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/devtool", line 338, in main
-    ret = args.func(args, config, basepath, workspace)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 2217, in finish
-    updated, appendfile, removed = _update_recipe(args.recipename, workspace, rd, args.mode, appendlayerdir, wildcard_version=True, no_remove=False, no_report_remove=removing_original, initial_rev=args.initial_rev, dry_run_outdir=dry_run_outdir, no_overrides=args.no_overrides, force_patch_refresh=args.force_patch_refresh)
-                                   ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1906, in _update_recipe
-    updated, appendf, removed = _update_recipe_patch(recipename, workspace, srctree, crd, appendlayerdir, wildcard_version, no_remove, no_report_remove, initial_rev, dry_run_outdir, force_patch_refresh)
-                                ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/scripts/lib/devtool/standard.py", line 1728, in _update_recipe_patch
-    appendfile, destpath = oe.recipeutils.bbappend_recipe(
-                           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
-                    rd, appendlayerdir, files,
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^
-    ...<2 lines>...
-                    redirect_output=dry_run_outdir,
-                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-                    params=params)
-                    ^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 721, in bbappend_recipe
-    appendpath, pathok = get_bbappend_path(rd, destlayerdir, wildcardver)
-                         ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/lib/oe/recipeutils.py", line 630, in get_bbappend_path
-    confdata = bb.cookerdata.parse_config_file(destlayerconf, confdata)
-  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 182, in wrapped
-    raise bb.BBHandledException()
-bb.BBHandledException
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============7769724934876288695==
+
+-- >8 --
+From 8d7359f85c75ae85b106b4a8057de4d8232429c0 Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Wed, 9 Sep 2026 05:33:22 +0000
+Subject: [PATCH] python3-kirk: upgrade 4.1.0 -> 4.2.0
+
+---
+ .../{python3-kirk_4.1.0.bb => python3-kirk_4.2.0.bb}            | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/python3-kirk/{python3-kirk_4.1.0.bb => python3-kirk_4.2.0.bb} (85%)
+
+diff --git a/meta/recipes-extended/python3-kirk/python3-kirk_4.1.0.bb b/meta/recipes-extended/python3-kirk/python3-kirk_4.2.0.bb
+similarity index 85%
+rename from meta/recipes-extended/python3-kirk/python3-kirk_4.1.0.bb
+rename to meta/recipes-extended/python3-kirk/python3-kirk_4.2.0.bb
+index f9b478ca8d..d612829255 100644
+--- a/meta/recipes-extended/python3-kirk/python3-kirk_4.1.0.bb
++++ b/meta/recipes-extended/python3-kirk/python3-kirk_4.2.0.bb
+@@ -7,7 +7,7 @@ SECTION = "console/utils"
+ LICENSE = "GPL-2.0-only"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=39bba7d2cf0ba1036f2a6e2be52fe3f0"
+ 
+-SRC_URI[sha256sum] = "dc4dc4fa8994b14565a3d4f31bb79d6d27102ecbbd4feaef4ebc1e10e9cbace3"
++SRC_URI[sha256sum] = "92007f840a2a0af387b6f0d88f51f5c710853238ff3bd9d2b91a34f731739c06"
+ 
+ inherit pypi python_setuptools_build_meta
+ 
+-- 
+2.47.1
+
+
+--===============3650295947839553257==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-kirk-upgrade-4.1.0-4.2.0.patch"
+
+RnJvbSA4ZDczNTlmODVjNzVhZTg1YjEwNmI0YTgwNTdkZTRkODIzMjQyOWMwIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgOSBTZXAgMjAyNiAwNTozMzoyMiArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHB5
+dGhvbjMta2lyazogdXBncmFkZSA0LjEuMCAtPiA0LjIuMAoKLS0tCiAuLi4ve3B5dGhvbjMta2ly
+a180LjEuMC5iYiA9PiBweXRob24zLWtpcmtfNC4yLjAuYmJ9ICAgICAgICAgICAgfCAyICstCiAx
+IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
+L3JlY2lwZXMtZXh0ZW5kZWQvcHl0aG9uMy1raXJrL3tweXRob24zLWtpcmtfNC4xLjAuYmIgPT4g
+cHl0aG9uMy1raXJrXzQuMi4wLmJifSAoODUlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1l
+eHRlbmRlZC9weXRob24zLWtpcmsvcHl0aG9uMy1raXJrXzQuMS4wLmJiIGIvbWV0YS9yZWNpcGVz
+LWV4dGVuZGVkL3B5dGhvbjMta2lyay9weXRob24zLWtpcmtfNC4yLjAuYmIKc2ltaWxhcml0eSBp
+bmRleCA4NSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3B5dGhvbjMta2lyay9w
+eXRob24zLWtpcmtfNC4xLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9weXRo
+b24zLWtpcmsvcHl0aG9uMy1raXJrXzQuMi4wLmJiCmluZGV4IGY5YjQ3OGNhOGQuLmQ2MTI4Mjky
+NTUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9weXRob24zLWtpcmsvcHl0aG9u
+My1raXJrXzQuMS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC9weXRob24zLWtpcmsv
+cHl0aG9uMy1raXJrXzQuMi4wLmJiCkBAIC03LDcgKzcsNyBAQCBTRUNUSU9OID0gImNvbnNvbGUv
+dXRpbHMiCiBMSUNFTlNFID0gIkdQTC0yLjAtb25seSIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmls
+ZTovL0xJQ0VOU0U7bWQ1PTM5YmJhN2QyY2YwYmExMDM2ZjJhNmUyYmU1MmZlM2YwIgogCi1TUkNf
+VVJJW3NoYTI1NnN1bV0gPSAiZGM0ZGM0ZmE4OTk0YjE0NTY1YTNkNGYzMWJiNzlkNmQyNzEwMmVj
+YmJkNGZlYWVmNGViYzFlMTBlOWNiYWNlMyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI5MjAwN2Y4
+NDBhMmEwYWYzODdiNmYwZDg4ZjUxZjVjNzEwODUzMjM4ZmYzYmQ5ZDJiOTFhMzRmNzMxNzM5YzA2
+IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX3NldHVwdG9vbHNfYnVpbGRfbWV0YQogCi0tIAoyLjQ3
+LjEKCg==
+
+--===============3650295947839553257==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="llvm-project-source-23.1.0-changelog.txt"
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Changelog for llvm-project-source-23.1.0: 23.1.0 -> 23.1.1
-Source: clang/docs/ReleaseNotes.md
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk: FILELIST: directory renamed /usr/lib/python3.14/site-packages/kirk-4.1.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/kirk-4.2.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/kirk-4.1.0.dist-info -> /usr/lib/python3.14/site-packages/kirk-4.2.0.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-kirk (sysroot):
+  /usr/lib/python3.14/site-packages/kirk-4.1.0.dist-info moved to /usr/lib/python3.14/site-packages/kirk-4.2.0.dist-info
 
-- Fixed `-Wunused-parameter` to diagnose coroutine parameters that are only
-  considered during allocation function lookup or promise object
-  initialization, while not diagnosing parameters passed to the selected
-  allocation function or promise constructor. (#GH217501)
+--===============3650295947839553257==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
---===============7769724934876288695==--
+packages/x86-64-v3-poky-linux/python3-kirk: SRC_URI changed from "https://files.pythonhosted.org/packages/source/k/kirk/kirk-4.1.0.tar.gz" to "https://files.pythonhosted.org/packages/source/k/kirk/kirk-4.2.0.tar.gz"
+packages/x86-64-v3-poky-linux/python3-kirk: PKGV changed from 4.1.0 [default] to 4.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-kirk: PV changed from "4.1.0" to "4.2.0"
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-dbg: PKGV changed from 4.1.0 [default] to 4.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-dbg: PV changed from "4.1.0" to "4.2.0"
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-dev: PKGV changed from 4.1.0 [default] to 4.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-dev: PV changed from "4.1.0" to "4.2.0"
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-doc: PKGV changed from 4.1.0 [default] to 4.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-doc: PV changed from "4.1.0" to "4.2.0"
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-locale: PKGV changed from 4.1.0 [default] to 4.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-locale: PV changed from "4.1.0" to "4.2.0"
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-src: PKGV changed from 4.1.0 [default] to 4.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-src: PV changed from "4.1.0" to "4.2.0"
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-staticdev: PKGV changed from 4.1.0 [default] to 4.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk-staticdev: PV changed from "4.1.0" to "4.2.0"
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk: PKGV changed from 4.1.0 [default] to 4.2.0 [default]
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk: PKGSIZE changed from 665187 to 675811 (+2%)
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk: PV changed from "4.1.0" to "4.2.0"
+packages/x86-64-v3-poky-linux/python3-kirk/python3-kirk: FILELIST: directory renamed /usr/lib/python3.14/site-packages/kirk-4.1.0.dist-info -> /usr/lib/python3.14/site-packages/kirk-4.2.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/kirk-4.1.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/kirk-4.2.0.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-kirk (sysroot):
+  /usr/lib/python3.14/site-packages/kirk-4.1.0.dist-info moved to /usr/lib/python3.14/site-packages/kirk-4.2.0.dist-info
+
+--===============3650295947839553257==--
 
