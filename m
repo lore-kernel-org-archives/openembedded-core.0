@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A7EF1C88E42
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 07:30:12 +0000 (UTC)
-Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6326.1788939010332403075
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A0D5C88E45
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 07:30:13 +0000 (UTC)
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6445.1788939011736981609
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 00:30:10 -0700
+ Wed, 09 Sep 2026 00:30:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=FWgriBjC;
- spf=pass (domain: smile.fr, ip: 209.85.128.52, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49d0da752ffso34584945e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:30:10 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=FdkGLVOa;
+ spf=pass (domain: smile.fr, ip: 209.85.221.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-4843efcbdb2so3316301f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:30:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788939008; x=1789543808; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1788939010; x=1789543810; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=TNvhUlOorZ08iyUXpiv1XvjTbMXxVanPtdMnuhMpkE0=;
-        b=FWgriBjCztCIUHefYIH3c/2IS+kkQp/EcqlZBHzl/LmvypWTicSf5auBj8uP65XZND
-         wvihbxfpw1rSwOcQv8aAgUG1eiKqjbqBz27OqaYEhl4p3A6fJRVDwspkLH94Ljmq8R/4
-         zlschzIHC72oJAqM0ovac5MS2W9JJGfwYdG0g=
+        bh=lOn8cCIJ9Xz5xKUhydfcUQ/TFOOMJ/2bMNujRV1NfTM=;
+        b=FdkGLVOaa1+A4iDvjQ+WU/44bkzYYYOanF/v1eqFzdhvE2JkOZ83K0D46x3UiX05iG
+         Bvnv1mRmYR+GuqoZYgMH1tao8SJTp1cUO8Z3lXQD+xB/zjt44fIzn5p104Sudp1uMtgL
+         mTeODrjwcSfZAbJ9LAdzPPo7/nuNAuNRAcykY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788939008; x=1789543808;
+        d=1e100.net; s=20251104; t=1788939010; x=1789543810;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=TNvhUlOorZ08iyUXpiv1XvjTbMXxVanPtdMnuhMpkE0=;
-        b=OVuiZ5dGaKFHyyqXMNKVDXLM9cM6ZBbAlXpyWpKzNPuqOg+xf/vm5D+91O2LmrbSVM
-         neUMZ3e+nu0D9ppgPVVMqC6m9B8CJE+tqx3DgY8f3yxEE81HZbQfSoAM2ZeoLwIfsMhf
-         k7BHb1d52UdzckgRbWtMcVhV5/V71+FgnVJrfIkllJsY7+6e9CBOJOMHdpgIGw4r+DRa
-         eZ6J6MBaIC7XVLTFvcbHVMzvbrgaFQciXJwsB8K9e/S71ReQG0Ly/dV3wSy7QwkIzFo2
-         JsHLJov3mSQE5EBF2BO9r450rL4ptKeKEkNAzwUz34GSHWX+QIMH+Ab/aklb9DFjO/F7
-         u+tQ==
-X-Gm-Message-State: AFuF++naE4K1TFLFH+qjQ406w00mCLHohWh8jWm3gJ2+bu3ppsM3BML7
-	zLdwqLPFcS/Bg7QbxVbFHktqIrwxVy52A1xJCQPxyikteXrPTzZML7AzMcW9441NPb5R1YruJP5
-	+We3uCqE=
-X-Gm-Gg: AYBFou19B2kxKunCZrtZsOh9sTlifhw/7m550wsKq61wlSU5mk7RAPppz0I1aJ6XdPv
-	ApY24G2P5ynXE08oMcjeaDjvMyBLed0wEtdM/1Pwav/AWnJV3qz3RbScAxarYVIlukJDV01pHpN
-	tD6gcNvBkaiF8inSftBQpzR2SFJ5jLHOdFGIKse/ojxDzpV9SuicV7akWnzusILNoQQEKbGpSzN
-	NaV3UQBC7nD9p1PWiAdrJ0nNnG+u4tdClZrWH6wC2Le0E3XdKRm4pqCwv40b6O7A2FPPVPbcIax
-	mnNGbiNP0WkVCacGI2VmDS2d95Tb1BFLLmfXDbeeuY72zH4iy9xGDIag6m11B21h5MXVtUvEi7K
-	X0VoWqvlAdRx92BjO8nlf24p0c67JlpuM1++XaHUaDjrQjUFu1QHhWqOosD+t+4e1Bp0eQIl5lW
-	0dos29ZWIZ09xo/dixilg2CSCuHZRGBPVEF1ceQ+XaNyMBUaB/7jkTWCIsr8B+UpTLRoRJQTcdN
-	UM8jG/KIo+sVmUjHOETq9nmwHeObvGJ8732exAAPdzdZMqULlcvnVUMyjfbIh9F90vKKBTmU74=
-X-Received: by 2002:a05:600c:4714:b0:49d:462:6eda with SMTP id 5b1f17b1804b1-49d04627387mr242148775e9.28.1788939008005;
-        Wed, 09 Sep 2026 00:30:08 -0700 (PDT)
+        bh=lOn8cCIJ9Xz5xKUhydfcUQ/TFOOMJ/2bMNujRV1NfTM=;
+        b=LuxVd27NYjt+Vhz9Bg2zYEaYd5N8dRvTWhz0u9NdvR1bfd709zlqpmzxsHMWJRa5hP
+         3B0gxU/J6YNGt0HCWxsrjMLb4Zz0ETh3d5fh/eMZeXxaVJuEXqKtxSgGOA/qItx6wCKP
+         ya6T2Oy/K801k6hxeminY+0JJvPdlZP6EYOg98TNqIGGX3zYpi1sX7Oty3cEVIA8ObOF
+         qyxqFf0ulZ9uokmczm7S/spJPeh5KW4n0CSOqMJCTHftdq0d6Hur7cPcyrD6cAYvcUc7
+         5W179boikvy7BT9nw4G2e/YQug01EQIHJeSoDkFfKlnGD5X0sbxr9lbQ73Ib5PN9gtwj
+         OkJQ==
+X-Gm-Message-State: AFuF++nciVB131lUv1GHUvpzUeImAT31LNVxZYF4rqomk7qqyXptDkBr
+	rNGUX/XOZdRQ1ZK0P9bGHYiZWoVedonAwVBhwxGdqSalwprukuu+FEVoG14gz2U28QZ3S8DEJSx
+	6fCigVHw=
+X-Gm-Gg: AYBFou33+2hFnoSLTeCPfq+HWMUtFl1rFvHLCW9vL7VObCrK1oI8fe5vZGbpyhKBVN/
+	QGISWNtsL72oRiUJAe2ieJVSECx/lq1zDtpP5CLBGYhpVe+ZGyYwJsCLcLx2EpORMQGzN36atHF
+	fIZZQ/W/qpuQA5XjgQh2NRa+liLPufsES81rof1RUY4FbAyfrKOlsiuUhzS7atQBn5kjE58gDCp
+	PH4h+eaaU8TWSmBaHkfMTNwDz0aaQRlPOH6fWmGqP154r6ktRs2//dtbg0ZJZnPpW08S2LiNH6V
+	dqWrrUn5VDS5vC+Ae9UJGonCFepCS1I/Z2cP192aVyJL/KKGlMdqeU5+XlcJs1qoiIBqLwv75WO
+	O6NY1GCTl7tN5InA/Yu4fCNykWLiaoCFt9JUbBXl5rbaWuZG2IjzBpjw5e0MxzHaj0NIdz99Y1A
+	2OHEdaM+TvgLh02rdUY/3VQ7Obbfm6OKsfxlnJbQsib+RIkjtYv2RLMq9l8ZugKphMjtZyw/Jqi
+	IuPNiWg1VUmWPw09TZA/Q6OmOCMp+Gbav5w7QRuS9taawVKVwF1F7/pc2eIooHeoBIS6hziHgo=
+X-Received: by 2002:adf:e007:0:10b0:485:ac0e:6fa6 with SMTP id ffacd0b85a97d-485ac0e7071mr2184212f8f.14.1788939009897;
+        Wed, 09 Sep 2026 00:30:09 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40624310f8f.16.2026.09.09.00.30.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40624310f8f.16.2026.09.09.00.30.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 00:30:07 -0700 (PDT)
+        Wed, 09 Sep 2026 00:30:09 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 21/38] glibc: fix CVE-2026-19542
-Date: Wed,  9 Sep 2026 09:29:20 +0200
-Message-ID: <11fef7c21845e03c044305ba57e289831e7518c9.1788938909.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 24/38] libxfont: Fix CVE-2026-56003
+Date: Wed,  9 Sep 2026 09:29:23 +0200
+Message-ID: <287aff0bef289587df0c4ebcf9ca155efb652c80.1788938909.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788938908.git.yoann.congal@smile.fr>
 References: <cover.1788938908.git.yoann.congal@smile.fr>
@@ -65,148 +65,154 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 07:30:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245430
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 07:30:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245433
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Allocate the maximum array sizes directly, instead of resizing
-the arrays as needed.  This eliminates alloca usage from the
-function, and fixes the out-of-bounds accesses.  The asserts
-guard against the bug coming back if the balancing of the tree
-turns out not to work correctly.
+Pick patch according to [2]
 
-Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3]
-CVE: CVE-2026-19542
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-56003
+[2] https://security-tracker.debian.org/tracker/CVE-2026-56003
 
-Reference:
-[1]https://security-tracker.debian.org/tracker/CVE-2026-19542
-[2]https://sourceware.org/bugzilla/show_bug.cgi?id=34506
-[3]https://sourceware.org/git/?p=glibc.git;a=commit;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3
-
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: fixed CVE: tag in patch]
 ---
- .../glibc/glibc/0023-CVE-2026-19542.patch     | 98 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.43.bb         |  1 +
- 2 files changed, 99 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch
+ .../xorg-lib/libxfont/CVE-2026-56003.patch    | 114 ++++++++++++++++++
+ .../xorg-lib/libxfont_1.5.4.bb                |   1 +
+ 2 files changed, 115 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56003.patch
 
-diff --git a/meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch b/meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56003.patch b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56003.patch
 new file mode 100644
-index 00000000000..094a50919dc
+index 00000000000..0092c712d44
 --- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch
-@@ -0,0 +1,98 @@
-+From e2789c46e3bfdcd67a82bea9946b315c179e83d3 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <fweimer@redhat.com>
-+Date: Fri, 14 Aug 2026 13:41:16 +0200
-+Subject: [PATCH] misc: Fix out-of-bounds array write in tdelete (bug 34506)
++++ b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56003.patch
+@@ -0,0 +1,114 @@
++From dff957a5158da038a282a59a31fe736702732939 Mon Sep 17 00:00:00 2001
++From: Peter Hutterer <peter.hutterer@who-t.net>
++Date: Mon, 1 Jun 2026 16:49:55 +1000
++Subject: [PATCH] bitscale: add bounds check to computeProps for property
++ buffer
 +
-+Allocate the maximum array sizes directly, instead of resizing
-+the arrays as needed.  This eliminates alloca usage from the
-+function, and fixes the out-of-bounds accesses.  The asserts
-+guard against the bug coming back if the balancing of the tree
-+turns out not to work correctly.
++ComputeScaledProperties allocates a fixed-size property buffer of 70
++slots. computeProps iterates the source font's properties and writes 1
++slot for unscaled properties or 2 slots for scaledX/scaledY properties,
++with no bounds check. A malicious font with many duplicate properties
++matching fontPropTable entries can overflow the allocated buffer.
 +
-+CVE: CVE-2026-19542
-+Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3]
++Fix this by passing the remaining buffer capacity to computeProps and
++checking it before each write. Properties that would exceed the buffer
++are silently skipped.
 +
-+Reviewed-by: Adhemerval Zanella <adhemerval.zanella@linaro.org>
-+Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
++The function is also restructured to handle the buffer writes for
++scaledX/scaledY inside the switch cases directly, rather than in a
++separate block after the switch. This makes the control flow clearer and
++ensures the bounds check covers all writes.
++
++This vulnerability was discovered by:
++Anonymous working with TrendAI Zero Day Initiative
++
++CVE-2026-56003/ZDI-CAN-30560
++
++Assisted-by: Claude:claude-opus-4-6
++Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
++Part-of: <https://gitlab.freedesktop.org/xorg/lib/libxfont/-/merge_requests/34>
++
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/dff957a5158da038a282a59a31fe736702732939]
++CVE: CVE-2026-56003
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ misc/tsearch.c | 31 +++++++++++--------------------
-+ 1 file changed, 11 insertions(+), 20 deletions(-)
++ src/bitmap/bitscale.c | 39 ++++++++++++++++++++-------------------
++ 1 file changed, 20 insertions(+), 19 deletions(-)
 +
-+diff --git a/misc/tsearch.c b/misc/tsearch.c
-+index 9b2eb34b25..e517dfa712 100644
-+--- a/misc/tsearch.c
-++++ b/misc/tsearch.c
-+@@ -85,6 +85,7 @@
-+ #include <assert.h>
-+ #include <stdalign.h>
-+ #include <stddef.h>
-++#include <stdint.h>
-+ #include <stdlib.h>
-+ #include <string.h>
-+ #include <search.h>
-+@@ -406,12 +407,13 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+   int cmp;
-+   node *rootp = (node *) vrootp;
-+   node root, unchained;
-+-  /* Stack of nodes so we remember the parents without recursion.  It's
-+-     _very_ unlikely that there are paths longer than 40 nodes.  The tree
-+-     would need to have around 250.000 nodes.  */
-+-  int stacksize = 40;
-++  /* Stack of nodes so we remember the parents without recursion.  The
-++     stack size is a conservative approximation of the maximum height
-++     of a red-black tree, based on size of the address space.
-++     Actual numbers are closer to 57 (32 bit) and 117 (63 bit).  */
-++  enum { stacksize = 2 * UINTPTR_WIDTH };
-+   int sp = 0;
-+-  node **nodestack = alloca (sizeof (node *) * stacksize);
-++  node *nodestack[stacksize];
++diff --git a/src/bitmap/bitscale.c b/src/bitmap/bitscale.c
++index 32144d6..2affc11 100644
++--- a/src/bitmap/bitscale.c
+++++ b/src/bitmap/bitscale.c
++@@ -513,7 +513,8 @@ static int
++ computeProps(FontPropPtr pf, char *wasStringProp,
++ 	     FontPropPtr npf, char *isStringProp,
++ 	     unsigned int nprops, double xfactor, double yfactor,
++-	     double sXfactor, double sYfactor)
+++	     double sXfactor, double sYfactor,
+++	     int maxprops)
++ {
++     int         n;
++     int         count;
++@@ -528,14 +529,26 @@ computeProps(FontPropPtr pf, char *wasStringProp,
 + 
-+   if (rootp == NULL)
-+     return NULL;
-+@@ -424,14 +426,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+   root = DEREFNODEPTR(rootp);
-+   while ((cmp = (*compar) (key, root->key)) != 0)
-+     {
-+-      if (sp == stacksize)
++ 	switch (t->type) {
++ 	case scaledX:
++-	    npf->value = doround(xfactor * (double)pf->value);
++-	    rawfactor = sXfactor;
++-	    break;
++ 	case scaledY:
++-	    npf->value = doround(yfactor * (double)pf->value);
++-	    rawfactor = sYfactor;
+++	    if (count + 2 > maxprops)
+++		continue;
+++	    npf->value = (t->type == scaledX)
+++		? doround(xfactor * (double)pf->value)
+++		: doround(yfactor * (double)pf->value);
+++	    rawfactor = (t->type == scaledX) ? sXfactor : sYfactor;
+++	    npf->name = pf->name;
+++	    npf++;
+++	    count++;
+++	    npf->value = doround(rawfactor * (double)pf->value);
+++	    npf->name = rawFontPropTable[t - fontPropTable].atom;
+++	    npf++;
+++	    count++;
+++	    *isStringProp++ = *wasStringProp;
+++	    *isStringProp++ = *wasStringProp;
++ 	    break;
++ 	case unscaled:
+++	    if (count + 1 > maxprops)
+++		continue;
++ 	    npf->value = pf->value;
++ 	    npf->name = pf->name;
++ 	    npf++;
++@@ -545,18 +558,6 @@ computeProps(FontPropPtr pf, char *wasStringProp,
++ 	default:
++ 	    break;
++ 	}
++-	if (t->type != unscaled)
 +-	{
-+-	  node **newstack;
-+-	  stacksize += 20;
-+-	  newstack = alloca (sizeof (node *) * stacksize);
-+-	  nodestack = memcpy (newstack, nodestack, sp * sizeof (node *));
++-	    npf->name = pf->name;
++-	    npf++;
++-	    count++;
++-	    npf->value = doround(rawfactor * (double)pf->value);
++-	    npf->name = rawFontPropTable[t - fontPropTable].atom;
++-	    npf++;
++-	    count++;
++-	    *isStringProp++ = *wasStringProp;
++-	    *isStringProp++ = *wasStringProp;
 +-	}
-+-
-++      assert (sp < stacksize);
-+       nodestack[sp++] = rootp;
-+       p = DEREFNODEPTR(rootp);
-+       if (cmp < 0)
-+@@ -470,13 +465,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+       node upn;
-+       for (;;)
-+ 	{
-+-	  if (sp == stacksize)
-+-	    {
-+-	      node **newstack;
-+-	      stacksize += 20;
-+-	      newstack = alloca (sizeof (node *) * stacksize);
-+-	      nodestack = memcpy (newstack, nodestack, sp * sizeof (node *));
-+-	    }
-++	  assert (sp < stacksize);
-+ 	  nodestack[sp++] = parentp;
-+ 	  parentp = up;
-+ 	  upn = DEREFNODEPTR(up);
-+@@ -541,6 +530,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+ 		  SETNODEPTR(pp,q);
-+ 		  /* Make sure pp is right if the case below tries to use
-+ 		     it.  */
-++		  assert (sp < stacksize);
-+ 		  nodestack[sp++] = pp = LEFTPTR(q);
-+ 		  q = RIGHT(p);
-+ 		}
-+@@ -625,6 +615,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+ 		  SETLEFT(p,RIGHT(q));
-+ 		  SETRIGHT(q,p);
-+ 		  SETNODEPTR(pp,q);
-++		  assert (sp < stacksize);
-+ 		  nodestack[sp++] = pp = RIGHTPTR(q);
-+ 		  q = LEFT(p);
-+ 		}
-diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
-index 9f3a3814d0a..3ef2301191d 100644
---- a/meta/recipes-core/glibc/glibc_2.43.bb
-+++ b/meta/recipes-core/glibc/glibc_2.43.bb
-@@ -55,6 +55,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            file://0020-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
-            file://0021-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
-            file://0022-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch \
-+           file://0023-CVE-2026-19542.patch \
- "
- B = "${WORKDIR}/build-${TARGET_SYS}"
++     }
++     return count;
++ }
++@@ -671,7 +672,7 @@ ComputeScaledProperties(FontInfoPtr sourceFontInfo, /* the font to be scaled */
++     n = NPROPS;
++     n += computeProps(sourceFontInfo->props, sourceFontInfo->isStringProp,
++ 		      fp, isStringProp, sourceFontInfo->nprops, dx, dy,
++-		      sdx, sdy);
+++		      sdx, sdy, nProps - NPROPS);
++     return n;
++ }
++ 
++-- 
++2.43.0
++
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+index 08c96fdac87..e254516fcf9 100644
+--- a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
++++ b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+@@ -21,6 +21,7 @@ BBCLASSEXTEND = "native"
  
+ SRC_URI += "file://CVE-2026-56001.patch \
+             file://CVE-2026-56002.patch \
++            file://CVE-2026-56003.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "1a7f7490774c87f2052d146d1e0e64518d32e6848184a18654e8d0bb57883242"
 
