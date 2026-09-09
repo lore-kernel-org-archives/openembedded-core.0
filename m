@@ -1,375 +1,131 @@
-Return-Path: <bhavesh.maheshwari@einfochips.com>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C502C79F8C
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 10:33:35 +0000 (UTC)
-Received: from naesa06.arrow.com (naesa06.arrow.com [216.150.161.27])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8788.1788950007318519324
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F1425C79FB6
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 11:52:25 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10263.1788954738597355833
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 03:33:27 -0700
+ Wed, 09 Sep 2026 04:52:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=j6LBll6m;
- spf=pass (domain: einfochips.com, ip: 216.150.161.27, mailfrom: bhavesh.maheshwari@einfochips.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=einfochips.com; i=@einfochips.com; l=9584; q=dns/txt;
-  s=NAESA-Selector1; t=1788950007; x=1820486007;
-  h=from:to:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=jtOg03GvtAw4MqmEmOKZaVRdOIuzL9GOU6fmA4tjoqI=;
-  b=j6LBll6mZ/T+53tlYkomQpGAcwVXYR1NPBTc+HLmdoN/Gul76Cr2+TIt
-   LfyfRq0RegW1S6Wo1YcWpg5ayM9uKNBb/pEX28Hr+WC51XaeYf8OqLtTB
-   btmsukUpv7n+NusnDvNHaHUupeGOuy+vSXud8wPl+vnO6vVm+J2M6T/z9
-   HL323HhTy9lVezlIl7QopXS51R/YzQA7WBzAQhA6FFepnNaNe89efQmDU
-   TMLkuZkcxsEOk7iDcgQt+vmvoIZu0TiT+G1gTOMRW3ScD1GYF+qQL/gQ7
-   2Xk/5K2j4782j8HzcTXiBsPMk+DpOEYYW0CCSxoxyEomqB9dzCxLf9DNX
-   A==;
-X-CSE-ConnectionGUID: Rmn3aknLR1mNyNL2vWHgpg==
-X-CSE-MsgGUID: zLhLs6ppQiC7AOwakXnDDg==
-X-IronPort-AV: E=Sophos;i="6.25,270,1779170400"; 
-   d="scan'208";a="62987355"
-Received: from unknown (HELO 6T8J9X2.ap.corp.arrow.com) ([10.126.18.101])
-  by naesa06out.arrow.com with ESMTP; 09 Sep 2026 04:33:26 -0600
-From: bhavesh.maheshwari@einfochips.com
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=twfPbwEB;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 196E11477
+	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 04:52:14 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 5F6673F528
+	for <openembedded-core@lists.openembedded.org>; Wed,  9 Sep 2026 04:52:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1788954737; bh=7BS/43A1FdsQe+9GxeawZJv277nQ1meLCuy1DaH2JEQ=;
+	h=From:To:Subject:Date:From;
+	b=twfPbwEBZiHJ4KlRDi0FTFvhrSKTb8Y2lCpjkrEk1MFB8FyAEwxNk+pAVnNTjUFqf
+	 yMIglI1wK8WH5xJ6DV2WROPJcFXkD16HzCDDEUIYWJj7uUJ1T57eff+QLZRtkr5qoY
+	 2h+tGm1XkYxsGbG4jtZphTjvDxBOTD+9Prv4aNDs=
+From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [wrynose][oe-core][PATCH v2] curl: Fix for CVE-2026-9079
-Date: Wed,  9 Sep 2026 16:02:58 +0530
-Message-ID: <20260909103322.3534578-1-bhavesh.maheshwari@einfochips.com>
+Subject: [PATCH] glib: backport patch to fix compile warnings with clang
+Date: Wed,  9 Sep 2026 12:52:13 +0100
+Message-ID: <20260909115213.3002439-1-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 10:33:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245457
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 11:52:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245458
 
-From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+clang 23 added -Wunused-but-set-global, which fires on the
+type_name##_parent_class variable that _G_DEFINE_TYPE_EXTENDED_BEGIN_PRE
+emits whenever a type never chains up to its parent:
 
-Pick patch from [1] mentioned in [2] taken from NVD report in [3].
+As this causes warnings in all builds which some projects (eg, pango)
+then make fatal, backport the patch to silence this warning.
 
-[1] https://github.com/curl/curl/commit/88c7e16cceec816a2df45c89
-[2] https://curl.se/docs/CVE-2026-9079.html
-[3] https://nvd.nist.gov/vuln/detail/CVE-2026-9079
-
-Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
-changes in v2:
-Rebase on the top of new CVE's 
----
- .../curl/curl/CVE-2026-9079.patch             | 289 ++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
- 2 files changed, 290 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-9079.patch
+ ..._DEFINE_TYPE-parent_class-variable-a.patch | 44 +++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib.inc           |  1 +
+ 2 files changed, 45 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/files/0001-gtype-Mark-the-=
+G_DEFINE_TYPE-parent_class-variable-a.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-9079.patch b/meta/recipes-support/curl/curl/CVE-2026-9079.patch
+diff --git a/meta/recipes-core/glib-2.0/files/0001-gtype-Mark-the-G_DEFIN=
+E_TYPE-parent_class-variable-a.patch b/meta/recipes-core/glib-2.0/files/0=
+001-gtype-Mark-the-G_DEFINE_TYPE-parent_class-variable-a.patch
 new file mode 100644
-index 0000000000..c62914d586
+index 00000000000..642e02550bd
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-9079.patch
-@@ -0,0 +1,289 @@
-+From a9140d59cfb67394656d400e0f5f511d3b312b09 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 20 May 2026 13:39:25 +0200
-+Subject: [PATCH] setopt: clear proxy auth properly on NULL
++++ b/meta/recipes-core/glib-2.0/files/0001-gtype-Mark-the-G_DEFINE_TYPE-=
+parent_class-variable-a.patch
+@@ -0,0 +1,44 @@
++From 1567250294e9666747ee63f5c6364bbceadd300b Mon Sep 17 00:00:00 2001
++From: Sunil Dora <sunilkumar.dora@windriver.com>
++Date: Sun, 30 Aug 2026 11:39:28 +0530
++Subject: [PATCH] gtype: Mark the G_DEFINE_TYPE parent_class variable as =
+unused
 +
-+Verify NULLed proxy credentials with test1648
++clang 23 added -Wunused-but-set-global, which fires on the
++type_name##_parent_class variable that _G_DEFINE_TYPE_EXTENDED_BEGIN_PRE
++emits whenever a type never chains up to its parent:
 +
-+Closes #21696
++  error: variable 'my_thing_parent_class' set but not used
++  [-Werror,-Wunused-but-set-global]
 +
-+CVE: CVE-2026-9079
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/88c7e16cceec816a2df45c89]
++Projects that promote the unused-but-set group to an error (pango, for
++one) now fail to build with clang 23, and they cannot fix it on their
++side because the variable comes from this macro.
 +
-+Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
++Annotate it G_GNUC_UNUSED, the same treatment the adjacent
++get_instance_private helper already gets.
++
++Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
++Fixes: #4038
++
++Upstream-Status: Backport [1567250294e9666747ee63f5c6364bbceadd300b]
++Signed-off-by: Ross Burton <ross.burton@arm.com>
 +---
-+ lib/setopt.c               |  12 ++--
-+ tests/data/Makefile.am     |   2 +-
-+ tests/data/test1648        |  63 +++++++++++++++++
-+ tests/libtest/Makefile.inc |   2 +-
-+ tests/libtest/lib1648.c    | 135 +++++++++++++++++++++++++++++++++++++
-+ 5 files changed, 206 insertions(+), 8 deletions(-)
-+ create mode 100644 tests/data/test1648
-+ create mode 100644 tests/libtest/lib1648.c
++ gobject/gtype.h | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/lib/setopt.c b/lib/setopt.c
-+index a7f8a7071f..02e9a23094 100644
-+--- a/lib/setopt.c
-++++ b/lib/setopt.c
-+@@ -1694,16 +1694,16 @@ static CURLcode setopt_cptr_proxy(struct Curl_easy *data, CURLoption option,
-+     result = setstropt_userpwd(ptr, &u, &p);
-+ 
-+     /* URL decode the components */
-+-    if(!result && u) {
-++    if(!result) {
-+       Curl_safefree(s->str[STRING_PROXYUSERNAME]);
-+-      result = Curl_urldecode(u, 0, &s->str[STRING_PROXYUSERNAME], NULL,
-+-                              REJECT_ZERO);
-+-    }
-+-    if(!result && p) {
-+       Curl_safefree(s->str[STRING_PROXYPASSWORD]);
-++      if(u)
-++        result = Curl_urldecode(u, 0, &s->str[STRING_PROXYUSERNAME], NULL,
-++                                REJECT_ZERO);
-++    }
-++    if(!result && p)
-+       result = Curl_urldecode(p, 0, &s->str[STRING_PROXYPASSWORD], NULL,
-+                               REJECT_ZERO);
-+-    }
-+     curlx_free(u);
-+     curlx_free(p);
-+     break;
-+diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
-+index f9d20a9cc8..2c74a975df 100644
-+--- a/tests/data/Makefile.am
-++++ b/tests/data/Makefile.am
-+@@ -218,7 +218,7 @@ test1620 test1621 test1622 test1623 test1624 \
++diff --git a/gobject/gtype.h b/gobject/gtype.h
++index 1d383a8ea..de5188f9f 100644
++--- a/gobject/gtype.h
+++++ b/gobject/gtype.h
++@@ -2295,7 +2295,7 @@ static void     type_name##_class_intern_init (gpo=
+inter klass) \
++ static void     type_name##_init              (TypeName        *self); =
+\
++ static void     type_name##_class_init        (TypeName##Class *klass);=
+ \
++ static GType    type_name##_get_type_once     (void); \
++-static gpointer type_name##_parent_class =3D NULL; \
+++G_GNUC_UNUSED static gpointer type_name##_parent_class =3D NULL; \
++ static gint     TypeName##_private_offset; \
 + \
-+ test1630 test1631 test1632 test1633 test1634 test1635 test1636 test1637 \
-+ \
-+-test1640 test1641 test1642 test1643 test1647 \
-++test1640 test1641 test1642 test1643 test1647 test1648 \
-+ \
-+ test1650 test1651 test1652 test1653 test1654 test1655 test1656 test1657 \
-+ test1658 \
-+diff --git a/tests/data/test1648 b/tests/data/test1648
-+new file mode 100644
-+index 0000000000..623f3c9a81
-+--- /dev/null
-++++ b/tests/data/test1648
-+@@ -0,0 +1,63 @@
-++<?xml version="1.0" encoding="US-ASCII"?>
-++<testcase>
-++<info>
-++<keywords>
-++HTTP
-++HTTP GET
-++HTTP proxy
-++HTTP proxy auth
-++</keywords>
-++</info>
-++
-++# Server-side
-++<reply>
-++
-++# this is returned first since we get no proxy-auth
-++<data crlf="headers" nocheck="yes">
-++HTTP/1.1 407 Authorization Required to proxy me my dear
-++Proxy-Authenticate: Digest realm="weirdorealm", nonce="12345"
-++Content-Length: 33
-++
-++And you should ignore this data.
-++</data>
-++
-++</reply>
-++
-++# Client-side
-++<client>
-++<server>
-++http
-++</server>
-++# tool is what to use instead of 'curl'
-++<tool>
-++lib%TESTNUMBER
-++</tool>
-++<features>
-++proxy
-++</features>
-++<name>
-++HTTP proxy with auth, change proxy, clear auth
-++</name>
-++<command>
-++%HOSTIP %HTTPPORT
-++</command>
-++</client>
-++
-++# Verify data after the test has been "shot"
-++<verify>
-++<protocol crlf="headers">
-++GET http://example.com/ HTTP/1.1
-++Host: example.com
-++Proxy-Authorization: Basic %b64[victim:secret]b64%
-++Accept: */*
-++Proxy-Connection: Keep-Alive
-++
-++GET http://example.com/ HTTP/1.1
-++Host: example.com
-++Accept: */*
-++Proxy-Connection: Keep-Alive
-++
-++</protocol>
-++
-++</verify>
-++</testcase>
-+diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
-+index e938b87bc5..0803825e45 100644
-+--- a/tests/libtest/Makefile.inc
-++++ b/tests/libtest/Makefile.inc
-+@@ -100,7 +100,7 @@ TESTS_C = \
-+   lib1582.c lib1588.c \
-+   lib1591.c lib1592.c lib1593.c lib1594.c                     lib1597.c \
-+   lib1598.c lib1599.c \
-+-  lib1647.c \
-++  lib1647.c lib1648.c \
-+   lib1662.c \
-+   lib1900.c lib1901.c lib1902.c lib1903.c lib1905.c lib1906.c lib1907.c \
-+   lib1908.c           lib1910.c lib1911.c lib1912.c lib1913.c \
-+diff --git a/tests/libtest/lib1648.c b/tests/libtest/lib1648.c
-+new file mode 100644
-+index 0000000000..e97b2bdc88
-+--- /dev/null
-++++ b/tests/libtest/lib1648.c
-+@@ -0,0 +1,135 @@
-++/***************************************************************************
-++ *                                  _   _ ____  _
-++ *  Project                     ___| | | |  _ \| |
-++ *                             / __| | | | |_) | |
-++ *                            | (__| |_| |  _ <| |___
-++ *                             \___|\___/|_| \_\_____|
-++ *
-++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
-++ *
-++ * This software is licensed as described in the file COPYING, which
-++ * you should have received as part of this distribution. The terms
-++ * are also available at https://curl.se/docs/copyright.html.
-++ *
-++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
-++ * copies of the Software, and permit persons to whom the Software is
-++ * furnished to do so, under the terms of the COPYING file.
-++ *
-++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
-++ * KIND, either express or implied.
-++ *
-++ * SPDX-License-Identifier: curl
-++ *
-++ ***************************************************************************/
-++/*
-++ * URL = host
-++ * arg2 = port
-++ */
-++
-++#include "first.h"
-++
-++/* this is meant to pick up the proxy from the environment variable */
-++static CURLcode init1648(CURL *curl, const char *url, const char *proxy)
-++{
-++  CURLcode result = CURLE_OK;
-++
-++  res_easy_setopt(curl, CURLOPT_URL, url);
-++  if(result)
-++    goto init_failed;
-++
-++  res_easy_setopt(curl, CURLOPT_PROXY, proxy);
-++  if(result)
-++    goto init_failed;
-++
-++  res_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
-++  if(result)
-++    goto init_failed;
-++
-++  return CURLE_OK; /* success */
-++
-++init_failed:
-++  return result; /* failure */
-++}
-++
-++static CURLcode run1648(CURL *curl, const char *url, const char *userpwd)
-++{
-++  CURLcode result = CURLE_OK;
-++
-++  result = init1648(curl, url, userpwd);
-++  if(result)
-++    return result;
-++
-++  return curl_easy_perform(curl);
-++}
-++
-++#define GET_THIS "http://example.com/"
-++
-++/*
-++ * First get the URL over 'firstproxy' with auth.
-++ * Then clear the auth and get the URL again over 'secondproxy'.
-++ */
-++static CURLcode test_lib1648(const char *hostip)
-++{
-++  CURLcode result = CURLE_OK;
-++  CURL *curl = NULL;
-++  struct curl_slist *host = NULL;
-++  struct curl_slist *host2 = NULL;
-++  char proxy1_resolve[128];
-++  char proxy2_resolve[128];
-++  char proxy1_connect[128];
-++  char proxy2_connect[128];
-++
-++  curl_msnprintf(proxy1_resolve, sizeof(proxy1_resolve),
-++                 "firstproxy:%s:%s", libtest_arg2, hostip);
-++  curl_msnprintf(proxy2_resolve, sizeof(proxy2_resolve),
-++                 "secondproxy:%s:%s", libtest_arg2, hostip);
-++
-++  /* we connect to the fake host name but the right port number */
-++  curl_msnprintf(proxy1_connect, sizeof(proxy1_connect),
-++                 "firstproxy:%s", libtest_arg2);
-++  curl_msnprintf(proxy2_connect, sizeof(proxy2_connect),
-++                 "secondproxy:%s", libtest_arg2);
-++
-++  res_global_init(CURL_GLOBAL_ALL);
-++  if(result)
-++    return result;
-++
-++  curl = curl_easy_init();
-++  if(!curl) {
-++    curl_mfprintf(stderr, "curl_easy_init() failed\n");
-++    curl_global_cleanup();
-++    return TEST_ERR_MAJOR_BAD;
-++  }
-++
-++  host = curl_slist_append(NULL, proxy1_resolve);
-++  if(!host)
-++    goto test_cleanup;
-++  host2 = curl_slist_append(host, proxy2_resolve);
-++  if(!host2)
-++    goto test_cleanup;
-++  host = host2;
-++
-++  start_test_timing();
-++
-++  easy_setopt(curl, CURLOPT_RESOLVE, host);
-++  easy_setopt(curl, CURLOPT_PROXYUSERPWD, "victim:secret");
-++
-++  curl_mprintf("--- First get over %s\n", proxy1_connect);
-++  result = run1648(curl, GET_THIS, proxy1_connect);
-++  if(result)
-++    goto test_cleanup;
-++
-++  easy_setopt(curl, CURLOPT_PROXYUSERPWD, NULL);
-++
-++  curl_mprintf("--- Then over '%s'\n", proxy2_connect);
-++  result = run1648(curl, GET_THIS, proxy2_connect);
-++
-++test_cleanup:
-++
-++  /* proper cleanup sequence - type PB */
-++
-++  curl_easy_cleanup(curl);
-++  curl_global_cleanup();
-++  curl_slist_free_all(host);
-++  return result;
-++}
-+-- 
++ _G_DEFINE_TYPE_EXTENDED_CLASS_INIT(TypeName, type_name) \
++--=20
 +2.43.0
 +
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index a964868d87..e0a6eba07d 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -29,6 +29,7 @@ SRC_URI = " \
-     file://CVE-2026-8932.patch \
-     file://CVE-2026-11352.patch \
-     file://CVE-2026-11586.patch \
-+    file://CVE-2026-9079.patch \
- "
- 
- SRC_URI:append:class-nativesdk = " \
--- 
+diff --git a/meta/recipes-core/glib-2.0/glib.inc b/meta/recipes-core/glib=
+-2.0/glib.inc
+index 903d56e05fb..d80cf6f2671 100644
+--- a/meta/recipes-core/glib-2.0/glib.inc
++++ b/meta/recipes-core/glib-2.0/glib.inc
+@@ -239,6 +239,7 @@ SRC_URI +=3D "\
+            file://CVE-2026-58016-1.patch \
+            file://CVE-2026-58016-2.patch \
+            file://0001-gio-tests-services-Fix-installed-service-file-usi=
+ng-.patch \
++           file://0001-gtype-Mark-the-G_DEFINE_TYPE-parent_class-variabl=
+e-a.patch \
+            "
+ SRC_URI:append:class-native =3D " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pi=
+dfd-features-on-native-g.patch \
+--=20
 2.43.0
 
 
