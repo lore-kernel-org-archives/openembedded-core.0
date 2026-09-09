@@ -1,154 +1,101 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 35D8EC79FB7
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 15:37:47 +0000 (UTC)
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15344.1788968263538224867
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 97A64C79FB7
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 16:02:07 +0000 (UTC)
+Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16322.1788969724580327737
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 08:37:43 -0700
+ Wed, 09 Sep 2026 09:02:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hQdTfbQj;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.76, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48583cc7ab1so211302f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 08:37:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1788968261; x=1789573061; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=JNDdpYj9mJc7UFQFAyvWJoGaYe58BeUdEAKsaNsSu7c=;
-        b=hQdTfbQjKZqSnBc5pdjjzVF0ixQp10hXK80D5m/mZioD7R1C6NhmjEcPMl8sVIsM7N
-         jKPHnEORvNE1X1eGGvX4yOoQS2JB/DRsaWDFQR2h7iFIkSK2g4iWy7jje48WGG2eVzwA
-         44XVRiU/bUDRPdSQ0af/6heXQQzjcxgrNVMFQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788968261; x=1789573061;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=JNDdpYj9mJc7UFQFAyvWJoGaYe58BeUdEAKsaNsSu7c=;
-        b=Kxk80A6614ix8HWw/V/CRZGgA3hTQImp4q9OKB0Vi257v3oU7s2HIr1EIqfdn6UStD
-         +zonRMulY9TgoMqoLkUOeBBIVoW1S5qsgapRj7a98OQqA3jNoQCoepPRz57WJYdyeXDm
-         h7flCgzYeJWvc9I7QW4bfNPWnKfkWeh501YIZbz8zmyuCA5s1r9dld+R1TvydV1+x9lm
-         WuaOtAUbh3L/VXPNyxIxHpJO+4s1yoT9d3JJ2AALpGrBPycCCADtSwjafrVE4e0s3o8E
-         dUMLV3w6lN9/SB+cSNvv2a5xGSG+t7nGNBl7QKnXW1DJhX9dnfwk282PtIr+GI1mdqK8
-         reqw==
-X-Gm-Message-State: AFuF++ld452l7PKtDU6UvZ4Bo9Zn2hUsxWXeet368CHlClFvEX5QH5zs
-	DAuCRhaX2L165iwF1b2fNQi4g9/qXwkyEMi/MiUMhj6ryEd2PpOoAjMsFu5fOerovY9Jr9T80EJ
-	PefPFQ1E=
-X-Gm-Gg: AYBFou12h27Oo6RFKBFbw+mXe6QIaXrGQF1PvmqeIyCZZNZdC3g4c8K8b/v9j+1H5yo
-	2JieT0S2ram6QYDl70NnsWdm4cCVHzDlABwlk+G24DSjNlKN+FpN5/lF/NIWcIw4K7fTVUzCHyw
-	9nEis+mtBM8r9QjnDIzZNPlnc4Z1Uu/ypOdsDV0tQoznTV1cZgXMKagKnHhxzadXS+A9kza1X/s
-	BWXNfPvy1afEVbYCyu5jaYyJiGleOYrIZk6lJalwjflRMLdmaq6z9yiB3bM1tFNXfB5boRk3mVg
-	r5GUO2pjzkvfyJLEi3KsWqgz10qb0wWeGeSCiAcF4Ej9mOAIuZvgOkxVpuGAKtxwpuLOPgQ1PSM
-	muyhWmxEERjrONxUrMm4B+7cKhqDad5kNCPPQDiFU5lcY5Xh1erZRO7JkmBhT2AAlMVlCPdJRK2
-	zYYkn8kOFZtglcoqCI70ioDFFEszSIXt48mz/vaFmEAzCWFxFId+a6ce6+MC70h97iy45JNVWzu
-	iYlVE1F8GFYbwyruR2kACgaeBk=
-X-Received: by 2002:a05:6000:240b:b0:485:b0bb:aea0 with SMTP id ffacd0b85a97d-485ba5ae88bmr2159598f8f.8.1788968261184;
-        Wed, 09 Sep 2026 08:37:41 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a320:8b5c:de4:61f9])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-485883927a3sm34648099f8f.11.2026.09.09.08.35.56
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 08:35:56 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] systemd: Backport fix for python3-lxml 6.1.3
-Date: Wed,  9 Sep 2026 16:35:55 +0100
-Message-ID: <20260909153555.551520-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Y7HYjfRs;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ysPXEilQ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a086e7a723-80ee702e-2e3f-4c56-8f46-e61485aa4e89-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1788969723; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=eKTiqfvoPUuYTCnMpVNAOh4aX+jg3cqi5RX69uoSOVA=;
+	b=Y7HYjfRsJwk7cv/HHMmVxi+8gY05VAALyvvigmCEGGv7GTm6SSxMzuTKe9Z+bBbR
+	HYPeymVqaGuqRGnJZfd7dFtXWp2/PIy4PYwg5PqjUFYTxgktHZRO/a6tVjxe5RQKsam
+	xLqtaGApy8SxK+jruzmZqjrEYoTj/emBVTJOCvFA=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788969723;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=eKTiqfvoPUuYTCnMpVNAOh4aX+jg3cqi5RX69uoSOVA=;
+	b=ysPXEilQGqQaWOmqRhpwlks73Wb6ncchJ+fwHcx8wkZK37764T5g8h/WV6kRWfhJ
+	xNXnuajA+6OdBYnp9JsT+FmcUlUX3rlLglShqLwVF5SZkjDlDygUGaId7WFA/5CHeZP
+	HUWwIaaxQbr26Okf0FF9EJNfih2x7xkkBqmjwYZ8=
+From: patchtest@automation.yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [PATCH] systemd: Backport fix for python3-lxml 6.1.3
+In-Reply-To: <20260909153555.551520-1-richard.purdie@linuxfoundation.org>
+References: <20260909153555.551520-1-richard.purdie@linuxfoundation.org>
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a086e7a723-80ee702e-2e3f-4c56-8f46-e61485aa4e89-000000@us-west-2.amazonses.com>
+Date: Wed, 9 Sep 2026 16:02:03 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.09-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 15:37:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245481
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 16:02:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245482
 
-Backport a fix so that we can upgrade python3-lxml.
+--NextPart
+Content-Type: text/plain
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
+
 ---
- ...396d2c5bc1adb6b044e7784a30b7187f6fbd.patch | 59 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_261.2.bb    |  1 +
- 2 files changed, 60 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch
+Testing patch /home/patchtest/share/mboxes/systemd-Backport-fix-for-python3-lxml-6.1.3.patch
 
-diff --git a/meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch b/meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch
-new file mode 100644
-index 00000000000..8eb9f5c1641
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch
-@@ -0,0 +1,59 @@
-+From a019396d2c5bc1adb6b044e7784a30b7187f6fbd Mon Sep 17 00:00:00 2001
-+From: Luca Boccassi <luca.boccassi@gmail.com>
-+Date: Wed, 2 Sep 2026 20:32:51 +0100
-+Subject: [PATCH] tools: fix building manpages with lxml 6.1.3
-+
-+manpages build fails on Arch with new lxml:
-+
-+Traceback (most recent call last):
-+  File "/work/src/tools/make-directive-index.py", line 169, in make_page
-+    _extract_directives(directive_groups, formatting, page)
-+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-+  File "/work/src/tools/make-directive-index.py", line 18, in _extract_directives
-+    t = xml_parse(page)
-+  File "/work/src/tools/xml_helper.py", line 25, in xml_parse
-+    doc = tree.parse(page, _parser)
-+  File "src/lxml/etree.pyx", line 3717, in lxml.etree.parse
-+  File "src/lxml/parser.pxi", line 2045, in lxml.etree._parseDocument
-+  File "src/lxml/parser.pxi", line 2071, in lxml.etree._parseDocumentFromURL
-+  File "src/lxml/parser.pxi", line 1962, in lxml.etree._parseDocFromFile
-+  File "src/lxml/parser.pxi", line 1231, in lxml.etree._BaseParser._parseDocFromFile
-+  File "src/lxml/parser.pxi", line 647, in lxml.etree._ParserContext._handleParseResultDoc
-+  File "src/lxml/parser.pxi", line 765, in lxml.etree._handleParseResult
-+  File "src/lxml/parser.pxi", line 689, in lxml.etree._raiseParseError
-+  File "../src/man/hostname.xml", line 5
-+lxml.etree.XMLSyntaxError: Entity 'entities' not defined, line 5, column 11
-+
-+The above exception was the direct cause of the following exception:
-+
-+Traceback (most recent call last):
-+  File "/work/src/tools/make-directive-index.py", line 180, in <module>
-+    _xml = make_page(_template_path, _xml_files)
-+  File "/work/src/tools/make-directive-index.py", line 171, in make_page
-+    raise ValueError('failed to process ' + page) from e
-+ValueError: failed to process ../src/man/hostname.xml
-+
-+Relying on XMLParser() defaults leaves the external parameter entity
-+used to load custom-entities.ent unresolved. Request entity resolution explicitly.
-+
-+Follow-up for 1a13e31d275430ffba713c8a68ee7f22093c29e0
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/commit/a019396d2c5bc1adb6b044e7784a30b7187f6fbd]
-+
-+---
-+ tools/xml_helper.py | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/tools/xml_helper.py b/tools/xml_helper.py
-+index 87c24ab02a0f..e26ca92d9454 100755
-+--- a/tools/xml_helper.py
-++++ b/tools/xml_helper.py
-+@@ -16,7 +16,7 @@ def resolve(self, url, _id, context):
-+         return None
-+ 
-+ 
-+-_parser = tree.XMLParser()
-++_parser = tree.XMLParser(resolve_entities=True)
-+ # pylint: disable=no-member
-+ _parser.resolvers.add(CustomResolver())
-+ 
-diff --git a/meta/recipes-core/systemd/systemd_261.2.bb b/meta/recipes-core/systemd/systemd_261.2.bb
-index 80e1aa07d17..68b894be9a3 100644
---- a/meta/recipes-core/systemd/systemd_261.2.bb
-+++ b/meta/recipes-core/systemd/systemd_261.2.bb
-@@ -37,6 +37,7 @@ SRC_URI += " \
-            file://systemd-pager.sh \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0003-Do-not-create-var-log-README.patch \
-+           file://a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch \
-            "
- 
- PAM_PLUGINS = " \
+FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch' (test_patch.TestPatch.test_signed_off_by_presence)
+
+PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
+PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
