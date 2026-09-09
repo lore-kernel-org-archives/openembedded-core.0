@@ -2,199 +2,122 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6193EC79FBE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31B9BC79F8C
 	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 07:30:12 +0000 (UTC)
-Received: from mail-wr1-f41.google.com (mail-wr1-f41.google.com [209.85.221.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6323.1788939005934420540
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6324.1788939006705575568
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 00:30:06 -0700
+ Wed, 09 Sep 2026 00:30:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=BysmqlFP;
- spf=pass (domain: smile.fr, ip: 209.85.221.41, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f41.google.com with SMTP id ffacd0b85a97d-485850cf499so3709356f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:30:05 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ndRyPrlE;
+ spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f62ccdb1so659103f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 00:30:06 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1788939004; x=1789543804; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=e4SqjNdYNF3UgyV0BvL531GgOYR48jRkirnJcvwQQYc=;
-        b=BysmqlFPoEmLflib4ZZodtCI4A2tDSeSUkh9MQd6UdVKAQUt+PW0RCblzMbhShR5gT
-         yqMLjQnGfuN2uCyG6tZ6A8lQ5fe/SeQtxSrTGtJVyfhwu4ijSja54otSKGb2yz6Knoyo
-         CuyQWPr2hielqG8beqpB1B3qytAADON5km1D0=
+        d=smile.fr; s=google; t=1788939005; x=1789543805; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=bbArBX4HetqxVJjoJY154xuSgKYocpRWjv4fOr1V2M4=;
+        b=ndRyPrlEQbCIOwsHIs/OJMjqqO3VKWtOvkLIrXI6hfs9M3RBrE2kGA8KtN1b0VGE0o
+         S92/xEtcVyyB8Ia42+ll6M8Fh2T0vOsVaa5Vxepopli55wjlNAUbg0Ffm3EkjFS5Bf13
+         wXF2N/XTrk6J3jvfnmqVO3dPekKTA2HHBez8w=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788939004; x=1789543804;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=e4SqjNdYNF3UgyV0BvL531GgOYR48jRkirnJcvwQQYc=;
-        b=bCIoeTFt4ChKqrMglpJhjLlvRPr/QmaIGvKqCsnod7IT+EqYJI93lsx4Z/KtVZlG2p
-         RO4iByrCk8tb88OLN50436s2OFk3XkiuRnqwyz52lTLESszs6svaMnkvF2rU28YpZ1x6
-         HJ4TwvzHLv7aSd1ymexQBI265BKPFOzYP857e8EJw885GfrMnJ9hrurswNJEux9zRGkj
-         cD6bFdWZSQglTL0RnjhIhQ6mHG5E0Hl7QjNCbvG9ciXE+O0WtVMx8VPBsMj7hXz3fT1x
-         zwX9Eq5otf4kVSsk/D+XkjJkN9K8ajYo2XF8Y56WNd8AGX123WuA56OTl9X9ze8jPzqb
-         9sfg==
-X-Gm-Message-State: AFuF++ksTpBlTYVkKK2V1K+YQ3XracDJETjboR2mPu/zRWk33bAvLXOJ
-	81SFCwNwO0+GKlRmOQlO6rPpyQEUwZxxBdoDRtGTuvX9yr0RLVA8MGJcZadPsHdDXY2eAXzmgzA
-	fy5Za1a0=
-X-Gm-Gg: AYBFou2Ag09gH7f3MyKuzzPj7tioIP6GiCyS1BNbYGQl8gdtYzoKtW4xflfmjdzVr4x
-	ZTkPUsqMZ2fltNT5GMp+WjaRpuE7sBtJjuO9LEKFpoLzMhRg5KRkIy1hLLTE2pVqldeqEG9RXes
-	GfftIM1w1YvnHN4UibgJUMzfliOqVPtfkEQpTW0QvJg2X5BmwmSzjfHxrc0omQZyUplO0x7wh3X
-	KxupxW92vahsqXhnsmoiLwT7J2mEc8vJu+oPNGMBvg9gkacfsbVTqrRU1HvwfNlGoo7Pf5XQiCa
-	/JVOlUhHNLKzRH55xJ4oigaWH7IzZhRZ6eAVA/iPtDGL9Ou/6KjwdFI/Udy5Rf/y/d3y1tH+JB2
-	pBqrIvYTSxE4aeuWTbknsja+1OxoPjL+t1ALxAflGD3gTCHkRVpUvgoDRiNhhlqUbbfExV99rfa
-	0Z3cB/pELz7fCuwQZN1dO+4PBF/eEXNSimW0I1dZrpteG7ka5nT8rdPvKD3jzGZGKlWSYWZulGq
-	IWyRx6rUNNmZFIdWjyRtxwb649A5HJ6E5I7/UchChquLgTMeWIikhLUuA3uusttMG6VZhQdyp4=
-X-Received: by 2002:adf:fa81:0:b0:484:3317:a19 with SMTP id ffacd0b85a97d-485872b896dmr29799512f8f.26.1788939004070;
+        d=1e100.net; s=20251104; t=1788939005; x=1789543805;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=bbArBX4HetqxVJjoJY154xuSgKYocpRWjv4fOr1V2M4=;
+        b=ZAXTXn6qefFMwFJUF5eN1tMKuvtMPh+H2xrIPMj4vC//s+gu1cJXOuilGTKlbT3GLC
+         S8cYKqv4oRJSCuDOop7aUOBHLvAbDhDwu50i7Y03m2G6CgZ4ueTKEjn2UQCyOSzIRxVV
+         RD0BbHqVEaJ0Q9CoWaFMaMAlb3cEY8xV+rDQXKAs9zmE0zzyvdSZ4lfUkMm/ny+nA7Ti
+         7VbRlq1vHV9W9hV68JW6wFbth/LmMjQDZG1TjylcHiPZ/Ta4uGEznav5wkAhIbvtJOV4
+         W1x9onVxv5Xtme55kVdcWTPTuXSjtHM5ZxlxtoTlHkbEV8zrEFibAuC66vHVZH+WKbHU
+         BXwg==
+X-Gm-Message-State: AFuF++kx4UlPHMu8LnuMeCufPEx9yg7bHDXziMNvjoxJN8amvobyflPn
+	AAlpNqtJbozzleGuwkCQPh6+eqXQ0V38vVk4JfTP6cP/VlVhrvTznc5gupjHVNLgLrBfUmp9Vu8
+	PxvvUb8M=
+X-Gm-Gg: AYBFou3l6dNZ45iUamUaIcHBO+tv3hzjTBUN0HMoxhXj/Sxcd8dNuJk4szTVmn+4HLO
+	IkVJdogFlJe6y7E1SAw52dzJkrU2FGtsB3YLBp/VmkAa760xwSaWBo/Lv2vML7ratVrJyLQJUo9
+	ehB9hJKzDHG6OKuItbJJFaxTy25EnjDL0/fEF3ou+UF9Bx0nz41YImNJ96w3K1le/HWJT0A8o6X
+	knIfscwVnTU4ma2z+2irodzXkR4hP97sjhw42/XADrcntzY6ipjU7Qu/EXG1SIgN6XkYMdBZoOC
+	VyCYlnTI/UC4vJlPI+jjTSkJEHawtuUtBkdm3cI3SPC6SsfTWQcfIedI6J3Di4et2F35crlCfKn
+	Sl/c+5ya1as8/3bsxyKoPjgOTiuSzZlhaCxDd7SB5AS5KcHs0vJ/oh5J+J6a6YQW3e5kjukpfrC
+	nImcpI7POCJLuoa6hAjspw9GWiHDfcCsbo+UFbtm9fK08si3RJhd3xY4iPMm1Dbn5FkC96WP5qF
+	rZ3yPIjoosWQFl0WOFbFGqy9WY7icRcHGBGbthge4tLp9KCkr75i1nJNwNwXAn3JQ54hCB7+qk=
+X-Received: by 2002:adf:e007:0:10b0:484:42d7:50fe with SMTP id ffacd0b85a97d-485a23c686amr10005417f8f.4.1788939004863;
         Wed, 09 Sep 2026 00:30:04 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40624310f8f.16.2026.09.09.00.30.03
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4858ac2b4cdsm40624310f8f.16.2026.09.09.00.30.04
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 00:30:03 -0700 (PDT)
+        Wed, 09 Sep 2026 00:30:04 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 17/38] vim: Fix for CVE-2026-73078
-Date: Wed,  9 Sep 2026 09:29:16 +0200
-Message-ID: <fa91bf0f6ee7da2f5ff6418d1f27ab5a7398f402.1788938909.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 18/38] improve_kernel_cve_report: fix backported-patch check
+Date: Wed,  9 Sep 2026 09:29:17 +0200
+Message-ID: <d77fb5d4e6e8a1c956b16f00005337faf5068ebb.1788938909.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1788938908.git.yoann.congal@smile.fr>
 References: <cover.1788938908.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 07:30:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245426
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245427
 
-From: Hitendra Prajapati <hprajapati@mvista.com>
+From: Hiago De Franco <hfranco@baylibre.com>
 
-Pick the patch from [1], also referenced in the NVD report [2].
+The guard added in 80ff4903ea tests "detail" in cve_data, but cve_data is
+keyed by CVE id, so it asks whether a CVE literally named "detail" was
+scanned. That is never true, the condition short-circuits, and the guard
+never runs: a CVE_STATUS[CVE-...] = "backported-patch" set for a vendor
+cherry-picked patch is silently overwritten to Unpatched by the CNA.
 
-[1] https://github.com/vim/vim/commit/29c6fd090d4520592f8be7d9ec81190edf25ef69
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73078
+Use .get() on the entry instead. Guard the fallthrough warning the same
+way, it makes the same assumption.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+Tested against a qemuarm64 linux-yocto report (6.6.142+git, 16221 entries,
+4313 of them with no detail). Current master and this version produce
+identical output, 18773 entries with no difference. Adding
+CVE_STATUS[CVE-2024-42067] = "backported-patch" to that report then makes
+the only difference between them: master overwrites it to Unpatched, this
+version keeps it Patched. The pre-80ff4903ea code aborts on the same
+report with "KeyError: 'detail'".
+
+(cherry picked from commit f5da16b0d3c8f889dab061ba1d8808aba95d4c67)
+
+AI-Generated: Uses Claude (claude-opus-5)
+Fixes: 80ff4903ea1b ("improve_kernel_cve_report: validate that cve details field exists")
+Signed-off-by: Hiago De Franco <hfranco@baylibre.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-73078.patch            | 94 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 95 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73078.patch
+ scripts/contrib/improve_kernel_cve_report.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-73078.patch b/meta/recipes-support/vim/files/CVE-2026-73078.patch
-new file mode 100644
-index 00000000000..62d156f5680
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-73078.patch
-@@ -0,0 +1,94 @@
-+From 29c6fd090d4520592f8be7d9ec81190edf25ef69 Mon Sep 17 00:00:00 2001
-+From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-+Date: Mon, 6 Jul 2026 13:54:03 +0900
-+Subject: [PATCH] patch 9.2.0840: [security]: code injection in netrw via
-+ bookmarks
-+
-+Problem:  [security]: code injection in netrw via bookmarks and history
-+          (David Carliez)
-+Solution: Escape the '|' explicitly (Yasuhiro Matsumoto)
-+
-+The bookmark and history menu builders interpolate paths into :execute'd
-+:menu commands using g:netrw_menu_escape, which did not escape the Ex
-+command separator '|'. A crafted path could break out of the :menu command
-+and run arbitrary Ex/shell commands when the menu was built or triggered.
-+
-+Add '|' to g:netrw_menu_escape for the menu names, escape the :e right-hand
-+side with fnameescape(), and quote the netrw#MakeTgt() argument with
-+string() instead of raw single-quote interpolation.
-+
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-rcr7-f3wr-22r2
-+
-+Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+CVE: CVE-2026-73078
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/29c6fd090d4520592f8be7d9ec81190edf25ef69]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ runtime/pack/dist/opt/netrw/autoload/netrw.vim | 16 +++++++++-------
-+ 1 file changed, 9 insertions(+), 7 deletions(-)
-+
-+diff --git a/runtime/pack/dist/opt/netrw/autoload/netrw.vim b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+index d7eca30e45..c240bbd13f 100644
-+--- a/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-++++ b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+@@ -398,7 +398,7 @@ if has("win32")
-+ else
-+   call s:NetrwInit("g:netrw_glob_escape",'*[]?`{~$\')
-+ endif
-+-call s:NetrwInit("g:netrw_menu_escape",'.&? \')
-++call s:NetrwInit("g:netrw_menu_escape",'.&? \|')
-+ call s:NetrwInit("s:netrw_map_escape","<|\n\r\\\<C-V>\"")
-+ if has("gui_running") && (&enc == 'utf-8' || &enc == 'utf-16' || &enc == 'ucs-4')
-+   let s:treedepthstring= "│ "
-+@@ -3752,13 +3752,14 @@ function s:NetrwBookmarkMenu()
-+         if exists("g:netrw_bookmarklist") && g:netrw_bookmarklist != [] && g:netrw_dirhistmax > 0
-+             let cnt= 1
-+             for bmd in g:netrw_bookmarklist
-+-                let bmd= escape(bmd,g:netrw_menu_escape)
-++                let ebmd= escape(bmd,g:netrw_menu_escape)
-++                let fbmd= escape(fnameescape(bmd),'|')
-+ 
-+                 " show bookmarks for goto menu
-+-                exe 'sil! menu '.g:NetrwMenuPriority.".2.".cnt." ".g:NetrwTopLvlMenu.'Bookmarks.'.bmd.'    :e '.bmd."\<cr>"
-++                exe 'sil! menu '.g:NetrwMenuPriority.".2.".cnt." ".g:NetrwTopLvlMenu.'Bookmarks.'.ebmd.'    :e '.fbmd."\<cr>"
-+ 
-+                 " show bookmarks for deletion menu
-+-                exe 'sil! menu '.g:NetrwMenuPriority.".8.2.".cnt." ".g:NetrwTopLvlMenu.'Bookmarks\ and\ History.Bookmark\ Delete.'.bmd.'   '.cnt."mB"
-++                exe 'sil! menu '.g:NetrwMenuPriority.".8.2.".cnt." ".g:NetrwTopLvlMenu.'Bookmarks\ and\ History.Bookmark\ Delete.'.ebmd.'   '.cnt."mB"
-+                 let cnt= cnt + 1
-+             endfor
-+ 
-+@@ -3774,7 +3775,8 @@ function s:NetrwBookmarkMenu()
-+                 let priority = g:netrw_dirhistcnt + histcnt
-+                 if exists("g:netrw_dirhist_{cnt}")
-+                     let histdir= escape(g:netrw_dirhist_{cnt},g:netrw_menu_escape)
-+-                    exe 'sil! menu '.g:NetrwMenuPriority.".3.".priority." ".g:NetrwTopLvlMenu.'History.'.histdir.'    :e '.histdir."\<cr>"
-++                    let ehistdir= escape(fnameescape(g:netrw_dirhist_{cnt}),'|')
-++                    exe 'sil! menu '.g:NetrwMenuPriority.".3.".priority." ".g:NetrwTopLvlMenu.'History.'.histdir.'    :e '.ehistdir."\<cr>"
-+                 endif
-+                 let first = 0
-+                 let cnt   = ( cnt - 1 ) % g:netrw_dirhistmax
-+@@ -7119,7 +7121,7 @@ function s:NetrwTgtMenu()
-+                 let tgtdict[bmd]= cnt
-+                 let ebmd= escape(bmd,g:netrw_menu_escape)
-+                 " show bookmarks for goto menu
-+-                exe 'sil! menu <silent> '.g:NetrwMenuPriority.".19.1.".cnt." ".g:NetrwTopLvlMenu.'Targets.'.ebmd." :call netrw#MakeTgt('".bmd."')\<cr>"
-++                exe 'sil! menu <silent> '.g:NetrwMenuPriority.".19.1.".cnt." ".g:NetrwTopLvlMenu.'Targets.'.ebmd." :call netrw#MakeTgt(".escape(string(bmd),'|').")\<cr>"
-+                 let cnt= cnt + 1
-+             endfor
-+         endif
-+@@ -7137,7 +7139,7 @@ function s:NetrwTgtMenu()
-+                     endif
-+                     let tgtdict[histentry] = histcnt
-+                     let ehistentry         = escape(histentry,g:netrw_menu_escape)
-+-                    exe 'sil! menu <silent> '.g:NetrwMenuPriority.".19.2.".priority." ".g:NetrwTopLvlMenu.'Targets.'.ehistentry."     :call netrw#MakeTgt('".histentry."')\<cr>"
-++                    exe 'sil! menu <silent> '.g:NetrwMenuPriority.".19.2.".priority." ".g:NetrwTopLvlMenu.'Targets.'.ehistentry."     :call netrw#MakeTgt(".escape(string(histentry),'|').")\<cr>"
-+                 endif
-+                 let histcnt = histcnt + 1
-+             endwhile
-+-- 
-+2.34.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index c132444040a..77f681410a9 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -44,6 +44,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-73074.patch \
-            file://CVE-2026-73076.patch \
-            file://CVE-2026-73077.patch \
-+           file://CVE-2026-73078.patch \
-            "
+diff --git a/scripts/contrib/improve_kernel_cve_report.py b/scripts/contrib/improve_kernel_cve_report.py
+index b386c9383a7..f0e471be459 100755
+--- a/scripts/contrib/improve_kernel_cve_report.py
++++ b/scripts/contrib/improve_kernel_cve_report.py
+@@ -363,7 +363,7 @@ def cve_update(cve_data, cve, entry):
+     if entry['status'] == "Unpatched" and cve_data[cve]['status'] == "Patched":
+         # Backported-patch (e.g. vendor kernel repo with cherry-picked CVE patch)
+         # has priority over unpatch from CNA
+-        if "detail" in cve_data and cve_data[cve]['detail'] == "backported-patch":
++        if cve_data[cve].get('detail') == "backported-patch":
+             return
+         logging.warning("CVE entry %s update from Patched to Unpatched from the scan result", cve)
+         cve_data[cve] = copy_data(cve_data[cve], entry)
+@@ -382,7 +382,7 @@ def cve_update(cve_data, cve, entry):
+         logging.debug("CVE entry %s updated from Unpatched to Ignored", cve)
+         return
+     logging.warning("Unhandled CVE entry update for %s %s from %s %s to %s",
+-        cve, cve_data[cve]['status'], cve_data[cve]['detail'],  entry['status'], entry['detail'])
++        cve, cve_data[cve]['status'], cve_data[cve].get('detail'),  entry['status'], entry['detail'])
  
- PV .= ".0340"
+ def main():
+     parser = argparse.ArgumentParser(
 
