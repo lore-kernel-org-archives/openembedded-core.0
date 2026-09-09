@@ -1,119 +1,375 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <bhavesh.maheshwari@einfochips.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AC604C79FAD
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 10:33:05 +0000 (UTC)
-Received: from mail-ej1-f47.google.com (mail-ej1-f47.google.com [209.85.218.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8781.1788949982763636056
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C502C79F8C
+	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 10:33:35 +0000 (UTC)
+Received: from naesa06.arrow.com (naesa06.arrow.com [216.150.161.27])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8788.1788950007318519324
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 03:33:03 -0700
+ Wed, 09 Sep 2026 03:33:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=cIEz6cfP;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.218.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej1-f47.google.com with SMTP id a640c23a62f3a-c2544ff970dso835055366b.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 03:33:02 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=j6LBll6m;
+ spf=pass (domain: einfochips.com, ip: 216.150.161.27, mailfrom: bhavesh.maheshwari@einfochips.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1788949981; x=1789554781; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type:date
-         :to:from:subject:message-id:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=mhbDPM8tA86M3Q2mgJTU50P3pGIezTwJQ5jK4aLgIt8=;
-        b=cIEz6cfPdMQOeUvYnJl/k8XtM3BXDkEwTbOXH9Am9TCE2i37Lzl9qrrTC7rOsx7NIM
-         BrbfNLyiNCRkOxlLgCu2inRg9zxCwbcdWb/P5AInqEQWlluBx+WmUSuBqwdKBUb/PyZF
-         t+EJyYZXEiPFmOxJj/FZM0Sy033TVmSTfSedU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788949981; x=1789554781;
-        h=mime-version:user-agent:content-transfer-encoding:content-type:date
-         :to:from:subject:message-id:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=mhbDPM8tA86M3Q2mgJTU50P3pGIezTwJQ5jK4aLgIt8=;
-        b=tDBEBcos7AWjHpcbn+9GzIGoXjv0bdgwRcMGoIDiGNdSO/rz5FnR7ab5TNgHs/uVJ9
-         1JtfjDtRYKIB3xGrlbp5MGgQyrDkcGQVPbH9p9yzrfV+OEFQIjAYDyZbMT988rfwYbrL
-         1KgK37aldGFgy5uiCj35F3Fy1XmFQAftxsDhd1SLYUaEzk2WWefD2aOESyg5PulTcCUo
-         rfyFVct/7cFIRv8H/2M+vlvQGfigVH51y7vmvJe079h9lzDQX4vYsY8I9m5nhDcAgdag
-         v+AtOQZ3DGZHc1YXLjL/qktGCC3bmB9Zz1re8KVsmeMFZeZYTeZCkLdf2tPqIKbPOFGK
-         MkVg==
-X-Gm-Message-State: AFuF++nZb1n/R7Hbs3Su7H0DxGYOgJtGwfGQTyUOEYmLTbYxXLIF+BLE
-	sbC7BLCUL2xBV50xz21dxEwJ2ED+hFA/d+eastfUDEK8RQJEekrf7joa/YmpDAMoQaybhu+QRWa
-	yBwv/6k8=
-X-Gm-Gg: AYBFou0FPvkjWMbtwFyt5A8ZjrHACNcOaAuf97i6v9MQ8uZjEqB8tMxX+xIVktJ8oB8
-	BvmJCjGn2KH4ZZR6hZFRiXAacQ9Ibb8hgYUI3RmWz/UdMc1ww7lA+K1kBnAGS5t5GnODYOy5fi6
-	ntPNqBLEsADBZRGqE4glxpoKLSVa1xUWrmbAOqodlSFZneaprWP0skViW0exw05DLluHETNCMW8
-	p97+aFbFxjQsAM7D0AvKewgZDViiejV/PnuKM2Stgj7Cf+0upE9iumkLAvj3iVhC1V5U/KHQbqr
-	zEc9E+ws5UP3RZLM5EseQjpUQSN7TIFXVh4HZlaotjVq6MLQADTamlVZkyV7FEE3e06YBrfi8sI
-	+QWM8WsWgOmlboM82feme7cFD4OjlWL6zb+nLWy8VE4YWNoYNtWLneaX7C1wurvyAB+pvwdk5ow
-	7djmVftSFgL9dHhVkApx13X8U3jeC9XIREw9ZKkgWLvQ+CmZkUJp/u2cQZ4D1ytstQ4IGA4S1if
-	fUq+4tc0ypqxxyYhZBV1Kflvy8zqAIA742ed0y5s+UtQZKaxDgtFGz4O546PlfWOfhLhnhRyU0=
-X-Received: by 2002:a17:907:ea90:b0:c26:1649:47ab with SMTP id a640c23a62f3a-c26164956dcmr1152325666b.33.1788949980443;
-        Wed, 09 Sep 2026 03:33:00 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:9d9a:c76e:7178:6165? ([2001:8b0:aba:5f3c:9d9a:c76e:7178:6165])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c260d4aa0b9sm747721166b.11.2026.09.09.03.32.59
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 03:32:59 -0700 (PDT)
-Message-ID: <db81c3f01f75899c8eed72fbfe8776321572e3c9.camel@linuxfoundation.org>
-Subject: Areas we could do with assistance
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core <openembedded-core@lists.openembedded.org>
-Date: Wed, 09 Sep 2026 11:32:58 +0100
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+  d=einfochips.com; i=@einfochips.com; l=9584; q=dns/txt;
+  s=NAESA-Selector1; t=1788950007; x=1820486007;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=jtOg03GvtAw4MqmEmOKZaVRdOIuzL9GOU6fmA4tjoqI=;
+  b=j6LBll6mZ/T+53tlYkomQpGAcwVXYR1NPBTc+HLmdoN/Gul76Cr2+TIt
+   LfyfRq0RegW1S6Wo1YcWpg5ayM9uKNBb/pEX28Hr+WC51XaeYf8OqLtTB
+   btmsukUpv7n+NusnDvNHaHUupeGOuy+vSXud8wPl+vnO6vVm+J2M6T/z9
+   HL323HhTy9lVezlIl7QopXS51R/YzQA7WBzAQhA6FFepnNaNe89efQmDU
+   TMLkuZkcxsEOk7iDcgQt+vmvoIZu0TiT+G1gTOMRW3ScD1GYF+qQL/gQ7
+   2Xk/5K2j4782j8HzcTXiBsPMk+DpOEYYW0CCSxoxyEomqB9dzCxLf9DNX
+   A==;
+X-CSE-ConnectionGUID: Rmn3aknLR1mNyNL2vWHgpg==
+X-CSE-MsgGUID: zLhLs6ppQiC7AOwakXnDDg==
+X-IronPort-AV: E=Sophos;i="6.25,270,1779170400"; 
+   d="scan'208";a="62987355"
+Received: from unknown (HELO 6T8J9X2.ap.corp.arrow.com) ([10.126.18.101])
+  by naesa06out.arrow.com with ESMTP; 09 Sep 2026 04:33:26 -0600
+From: bhavesh.maheshwari@einfochips.com
+To: openembedded-core@lists.openembedded.org
+Subject: [wrynose][oe-core][PATCH v2] curl: Fix for CVE-2026-9079
+Date: Wed,  9 Sep 2026 16:02:58 +0530
+Message-ID: <20260909103322.3534578-1-bhavesh.maheshwari@einfochips.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 10:33:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245456
+ <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 10:33:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245457
 
-Hi Everyone,
+From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 
-There are a few areas we could do with some help at the moment:
+Pick patch from [1] mentioned in [2] taken from NVD report in [3].
 
-a) ptest in util-linux failing for qemuriscv64:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2369
+[1] https://github.com/curl/curl/commit/88c7e16cceec816a2df45c89
+[2] https://curl.se/docs/CVE-2026-9079.html
+[3] https://nvd.nist.gov/vuln/detail/CVE-2026-9079
 
-b) Finding better tests for the github related bitbake-selftests. I've
-made good progress at removing github.com references from
-https://git.openembedded.org/bitbake/tree/lib/bb/tests/fetch.py but
-some still remain. I also have not rewritten all the submodules to not
-use github for the underlying submodules in all cases. The ones that
-are left are:
+Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+---
+changes in v2:
+Rebase on the top of new CVE's 
+---
+ .../curl/curl/CVE-2026-9079.patch             | 289 ++++++++++++++++++
+ meta/recipes-support/curl/curl_8.19.0.bb      |   1 +
+ 2 files changed, 290 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-9079.patch
 
-test_gomod_url
-test_gomod_url_go_mod_only
-test_gomodgit_url_subdir
-test_git_submodule_iotedge
-
-You can also now see timing data on:
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/builds/4848/ste=
-ps/14/logs/stdio
-
-and help with speeding any of these up would also be welcome!
-
-c) The xserver startup issues:
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D13908
-
-d) Reproducibility on x86 vs arm hosts. Alejandro has made good
-progress with identifying many of the rust related issues but there are
-some non-rust issues remaining. One key set of diffs are these:
-
-https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260908-sv8uww77/=
-packages/diff-html/
-
-Particularly the perl issue, the locale change and numpy config issues.
-
-Any help on these welcome, just let us know if you're working on
-anything to avoid duplication.
-
-Cheers,
-
-Richard
-
-
-
-
-
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-9079.patch b/meta/recipes-support/curl/curl/CVE-2026-9079.patch
+new file mode 100644
+index 0000000000..c62914d586
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-9079.patch
+@@ -0,0 +1,289 @@
++From a9140d59cfb67394656d400e0f5f511d3b312b09 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 20 May 2026 13:39:25 +0200
++Subject: [PATCH] setopt: clear proxy auth properly on NULL
++
++Verify NULLed proxy credentials with test1648
++
++Closes #21696
++
++CVE: CVE-2026-9079
++Upstream-Status: Backport [https://github.com/curl/curl/commit/88c7e16cceec816a2df45c89]
++
++Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
++---
++ lib/setopt.c               |  12 ++--
++ tests/data/Makefile.am     |   2 +-
++ tests/data/test1648        |  63 +++++++++++++++++
++ tests/libtest/Makefile.inc |   2 +-
++ tests/libtest/lib1648.c    | 135 +++++++++++++++++++++++++++++++++++++
++ 5 files changed, 206 insertions(+), 8 deletions(-)
++ create mode 100644 tests/data/test1648
++ create mode 100644 tests/libtest/lib1648.c
++
++diff --git a/lib/setopt.c b/lib/setopt.c
++index a7f8a7071f..02e9a23094 100644
++--- a/lib/setopt.c
+++++ b/lib/setopt.c
++@@ -1694,16 +1694,16 @@ static CURLcode setopt_cptr_proxy(struct Curl_easy *data, CURLoption option,
++     result = setstropt_userpwd(ptr, &u, &p);
++ 
++     /* URL decode the components */
++-    if(!result && u) {
+++    if(!result) {
++       Curl_safefree(s->str[STRING_PROXYUSERNAME]);
++-      result = Curl_urldecode(u, 0, &s->str[STRING_PROXYUSERNAME], NULL,
++-                              REJECT_ZERO);
++-    }
++-    if(!result && p) {
++       Curl_safefree(s->str[STRING_PROXYPASSWORD]);
+++      if(u)
+++        result = Curl_urldecode(u, 0, &s->str[STRING_PROXYUSERNAME], NULL,
+++                                REJECT_ZERO);
+++    }
+++    if(!result && p)
++       result = Curl_urldecode(p, 0, &s->str[STRING_PROXYPASSWORD], NULL,
++                               REJECT_ZERO);
++-    }
++     curlx_free(u);
++     curlx_free(p);
++     break;
++diff --git a/tests/data/Makefile.am b/tests/data/Makefile.am
++index f9d20a9cc8..2c74a975df 100644
++--- a/tests/data/Makefile.am
+++++ b/tests/data/Makefile.am
++@@ -218,7 +218,7 @@ test1620 test1621 test1622 test1623 test1624 \
++ \
++ test1630 test1631 test1632 test1633 test1634 test1635 test1636 test1637 \
++ \
++-test1640 test1641 test1642 test1643 test1647 \
+++test1640 test1641 test1642 test1643 test1647 test1648 \
++ \
++ test1650 test1651 test1652 test1653 test1654 test1655 test1656 test1657 \
++ test1658 \
++diff --git a/tests/data/test1648 b/tests/data/test1648
++new file mode 100644
++index 0000000000..623f3c9a81
++--- /dev/null
+++++ b/tests/data/test1648
++@@ -0,0 +1,63 @@
+++<?xml version="1.0" encoding="US-ASCII"?>
+++<testcase>
+++<info>
+++<keywords>
+++HTTP
+++HTTP GET
+++HTTP proxy
+++HTTP proxy auth
+++</keywords>
+++</info>
+++
+++# Server-side
+++<reply>
+++
+++# this is returned first since we get no proxy-auth
+++<data crlf="headers" nocheck="yes">
+++HTTP/1.1 407 Authorization Required to proxy me my dear
+++Proxy-Authenticate: Digest realm="weirdorealm", nonce="12345"
+++Content-Length: 33
+++
+++And you should ignore this data.
+++</data>
+++
+++</reply>
+++
+++# Client-side
+++<client>
+++<server>
+++http
+++</server>
+++# tool is what to use instead of 'curl'
+++<tool>
+++lib%TESTNUMBER
+++</tool>
+++<features>
+++proxy
+++</features>
+++<name>
+++HTTP proxy with auth, change proxy, clear auth
+++</name>
+++<command>
+++%HOSTIP %HTTPPORT
+++</command>
+++</client>
+++
+++# Verify data after the test has been "shot"
+++<verify>
+++<protocol crlf="headers">
+++GET http://example.com/ HTTP/1.1
+++Host: example.com
+++Proxy-Authorization: Basic %b64[victim:secret]b64%
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++GET http://example.com/ HTTP/1.1
+++Host: example.com
+++Accept: */*
+++Proxy-Connection: Keep-Alive
+++
+++</protocol>
+++
+++</verify>
+++</testcase>
++diff --git a/tests/libtest/Makefile.inc b/tests/libtest/Makefile.inc
++index e938b87bc5..0803825e45 100644
++--- a/tests/libtest/Makefile.inc
+++++ b/tests/libtest/Makefile.inc
++@@ -100,7 +100,7 @@ TESTS_C = \
++   lib1582.c lib1588.c \
++   lib1591.c lib1592.c lib1593.c lib1594.c                     lib1597.c \
++   lib1598.c lib1599.c \
++-  lib1647.c \
+++  lib1647.c lib1648.c \
++   lib1662.c \
++   lib1900.c lib1901.c lib1902.c lib1903.c lib1905.c lib1906.c lib1907.c \
++   lib1908.c           lib1910.c lib1911.c lib1912.c lib1913.c \
++diff --git a/tests/libtest/lib1648.c b/tests/libtest/lib1648.c
++new file mode 100644
++index 0000000000..e97b2bdc88
++--- /dev/null
+++++ b/tests/libtest/lib1648.c
++@@ -0,0 +1,135 @@
+++/***************************************************************************
+++ *                                  _   _ ____  _
+++ *  Project                     ___| | | |  _ \| |
+++ *                             / __| | | | |_) | |
+++ *                            | (__| |_| |  _ <| |___
+++ *                             \___|\___/|_| \_\_____|
+++ *
+++ * Copyright (C) Daniel Stenberg, <daniel@haxx.se>, et al.
+++ *
+++ * This software is licensed as described in the file COPYING, which
+++ * you should have received as part of this distribution. The terms
+++ * are also available at https://curl.se/docs/copyright.html.
+++ *
+++ * You may opt to use, copy, modify, merge, publish, distribute and/or sell
+++ * copies of the Software, and permit persons to whom the Software is
+++ * furnished to do so, under the terms of the COPYING file.
+++ *
+++ * This software is distributed on an "AS IS" basis, WITHOUT WARRANTY OF ANY
+++ * KIND, either express or implied.
+++ *
+++ * SPDX-License-Identifier: curl
+++ *
+++ ***************************************************************************/
+++/*
+++ * URL = host
+++ * arg2 = port
+++ */
+++
+++#include "first.h"
+++
+++/* this is meant to pick up the proxy from the environment variable */
+++static CURLcode init1648(CURL *curl, const char *url, const char *proxy)
+++{
+++  CURLcode result = CURLE_OK;
+++
+++  res_easy_setopt(curl, CURLOPT_URL, url);
+++  if(result)
+++    goto init_failed;
+++
+++  res_easy_setopt(curl, CURLOPT_PROXY, proxy);
+++  if(result)
+++    goto init_failed;
+++
+++  res_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+++  if(result)
+++    goto init_failed;
+++
+++  return CURLE_OK; /* success */
+++
+++init_failed:
+++  return result; /* failure */
+++}
+++
+++static CURLcode run1648(CURL *curl, const char *url, const char *userpwd)
+++{
+++  CURLcode result = CURLE_OK;
+++
+++  result = init1648(curl, url, userpwd);
+++  if(result)
+++    return result;
+++
+++  return curl_easy_perform(curl);
+++}
+++
+++#define GET_THIS "http://example.com/"
+++
+++/*
+++ * First get the URL over 'firstproxy' with auth.
+++ * Then clear the auth and get the URL again over 'secondproxy'.
+++ */
+++static CURLcode test_lib1648(const char *hostip)
+++{
+++  CURLcode result = CURLE_OK;
+++  CURL *curl = NULL;
+++  struct curl_slist *host = NULL;
+++  struct curl_slist *host2 = NULL;
+++  char proxy1_resolve[128];
+++  char proxy2_resolve[128];
+++  char proxy1_connect[128];
+++  char proxy2_connect[128];
+++
+++  curl_msnprintf(proxy1_resolve, sizeof(proxy1_resolve),
+++                 "firstproxy:%s:%s", libtest_arg2, hostip);
+++  curl_msnprintf(proxy2_resolve, sizeof(proxy2_resolve),
+++                 "secondproxy:%s:%s", libtest_arg2, hostip);
+++
+++  /* we connect to the fake host name but the right port number */
+++  curl_msnprintf(proxy1_connect, sizeof(proxy1_connect),
+++                 "firstproxy:%s", libtest_arg2);
+++  curl_msnprintf(proxy2_connect, sizeof(proxy2_connect),
+++                 "secondproxy:%s", libtest_arg2);
+++
+++  res_global_init(CURL_GLOBAL_ALL);
+++  if(result)
+++    return result;
+++
+++  curl = curl_easy_init();
+++  if(!curl) {
+++    curl_mfprintf(stderr, "curl_easy_init() failed\n");
+++    curl_global_cleanup();
+++    return TEST_ERR_MAJOR_BAD;
+++  }
+++
+++  host = curl_slist_append(NULL, proxy1_resolve);
+++  if(!host)
+++    goto test_cleanup;
+++  host2 = curl_slist_append(host, proxy2_resolve);
+++  if(!host2)
+++    goto test_cleanup;
+++  host = host2;
+++
+++  start_test_timing();
+++
+++  easy_setopt(curl, CURLOPT_RESOLVE, host);
+++  easy_setopt(curl, CURLOPT_PROXYUSERPWD, "victim:secret");
+++
+++  curl_mprintf("--- First get over %s\n", proxy1_connect);
+++  result = run1648(curl, GET_THIS, proxy1_connect);
+++  if(result)
+++    goto test_cleanup;
+++
+++  easy_setopt(curl, CURLOPT_PROXYUSERPWD, NULL);
+++
+++  curl_mprintf("--- Then over '%s'\n", proxy2_connect);
+++  result = run1648(curl, GET_THIS, proxy2_connect);
+++
+++test_cleanup:
+++
+++  /* proper cleanup sequence - type PB */
+++
+++  curl_easy_cleanup(curl);
+++  curl_global_cleanup();
+++  curl_slist_free_all(host);
+++  return result;
+++}
++-- 
++2.43.0
++
+diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
+index a964868d87..e0a6eba07d 100644
+--- a/meta/recipes-support/curl/curl_8.19.0.bb
++++ b/meta/recipes-support/curl/curl_8.19.0.bb
+@@ -29,6 +29,7 @@ SRC_URI = " \
+     file://CVE-2026-8932.patch \
+     file://CVE-2026-11352.patch \
+     file://CVE-2026-11586.patch \
++    file://CVE-2026-9079.patch \
+ "
+ 
+ SRC_URI:append:class-nativesdk = " \
+-- 
+2.43.0
 
 
