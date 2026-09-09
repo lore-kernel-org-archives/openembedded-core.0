@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE66C79FB9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C977C79FB5
 	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 05:42:35 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5179.1788932547861822213
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5174.1788932545097174775
  for <openembedded-core@lists.openembedded.org>;
- Tue, 08 Sep 2026 22:42:27 -0700
+ Tue, 08 Sep 2026 22:42:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=KGJe9B3e;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=2Zax2ZZZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a084b0603a-147a983b-5bf9-4883-a389-f391136505e2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=L1OrBm7o;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CP7bFTLE;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a084b05416-4eaf6664-d511-4675-98b2-9ea506c52392-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1788932547;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=hbA4tgqxdiSOkoJTFsqOYxCi04oNhEEmlW28jAGe3LE=;
-	b=KGJe9B3eWjcmepAxbcJPvRy2U0xChgC3PYhAAfqMByy2/jrP5M2NnT4BkssgE1ix
-	b7JdUHb0+gJb859rwoLP732qPUkfWQeZTGtilIOyyZPI4zTF6pUWJTMOjOT4raICmsI
-	LrWYuvIjfdIqXBfwlfr0Fn+XX1+Nh8PdS0MZs5KY=
+	t=1788932544;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=gomhd+/7PG3J0PwyBuqdwCO8tdIDa3oZGhfU8w0oyyo=;
+	b=L1OrBm7ocX+xf5s7lX1rYCy7cptEcjTzc7+U+BfcCQ9yU3/kgqDd7DWFSQdnzfha
+	9lkrPocMYmQj7TVHmWQNWjIbqo67iALFHWNA4683KUS/fDLdSjmkwXojHXJ91jpDZKk
+	F9oW4dT/QmNBmnHiEEzdgTRC2Z3pWqXlqJza8YCE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788932547;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=hbA4tgqxdiSOkoJTFsqOYxCi04oNhEEmlW28jAGe3LE=;
-	b=2Zax2ZZZa1R+UerW3o2lTf1Zaain6LfhBoXzaIMNGpX4RVZsWX+RI3XcVOy8M7lK
-	3kgYLKZLjIQq5ubhSqnlAPit3Oh6IrxviWTDYFA7ekwOnzoyF8SGmhEyQj8Fsplu/Mw
-	rkfb6YxqX6BJU1ADB7+5lleb9pdVU7rKBXXzEJ4o=
-Content-Type: multipart/mixed; boundary="===============2766084119217058620=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1788932544;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=gomhd+/7PG3J0PwyBuqdwCO8tdIDa3oZGhfU8w0oyyo=;
+	b=CP7bFTLECQjxsxCyMFJzbDZpF5FUMNPDiN+bbSkmJOE18cyZjKzYFpH5S4ZUe9Ds
+	sMb/vdvYnr2zvbWBaw+9JP1vxf70Z8dWQY3z1AjbO6ltp8GRqN5igsZiVkcCUeZPVfH
+	Vh37fONVrC2NOy/foYIeDnja8bBUFSES0Yq9W+AI=
+Content-Type: multipart/mixed; boundary="===============2332201052410870919=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] repo: upgrading to 2.67 SUCCEEDED
-Message-ID: <010101a084b0603a-147a983b-5bf9-4883-a389-f391136505e2-000000@us-west-2.amazonses.com>
-Date: Wed, 9 Sep 2026 05:42:26 +0000
+To: Khem Raj <raj.khem@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] bindgen-cli: upgrading to 0.73.2 FAILED
+Message-ID: <010101a084b05416-4eaf6664-d511-4675-98b2-9ea506c52392-000000@us-west-2.amazonses.com>
+Date: Wed, 9 Sep 2026 05:42:23 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.09-54.240.27.31
+X-SES-Outgoing: 2026.09.09-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 05:42:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245398
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245395
 
---===============2766084119217058620==
+--===============2332201052410870919==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,188 +51,315 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *repo* to *2.67* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *bindgen-cli* to *0.73.2* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-repo-upgrade-2.66.1-2.67.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe bindgen-cli failed.
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 1991 entries from dependency cache.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-e31479ddbaf58d5c2eda2b0051e1a821d46e6f7c"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:e31479ddbaf58d5c2eda2b0051e1a821d46e6f7c"
+meta-yocto-bsp       
+meta-poky            = "master:7e41504cd63b099b214f10d92cfdaf358ab98c5f"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 18 Local 18 Mirrors 0 Missed 0 Current 12 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-e31479ddbaf58d5c2eda2b0051e1a821d46e6f7c"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:e31479ddbaf58d5c2eda2b0051e1a821d46e6f7c"
+meta-yocto-bsp       
+meta-poky            = "master:7e41504cd63b099b214f10d92cfdaf358ab98c5f"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 47 Local 47 Mirrors 0 Missed 0 Current 40 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 292 tasks of which 291 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Rebasing devtool onto 73c69d681eec90b84ffba4f993b5fb2f19580781
+WARNING: Command 'git rebase 73c69d681eec90b84ffba4f993b5fb2f19580781' failed:
+Auto-merging CHANGELOG.md
+CONFLICT (content): Merge conflict in CHANGELOG.md
+Auto-merging Cargo.lock
+CONFLICT (content): Merge conflict in Cargo.lock
+Auto-merging Cargo.toml
+CONFLICT (content): Merge conflict in Cargo.toml
+Auto-merging bindgen-cli/Cargo.toml
+CONFLICT (content): Merge conflict in bindgen-cli/Cargo.toml
+Auto-merging bindgen/Cargo.toml
+CONFLICT (content): Merge conflict in bindgen/Cargo.toml
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Running extra recipe upgrade task: do_update_crates
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/bindgen-cli
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/bindgen-cli/bindgen-cli_0.73.2.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/bindgen-cli.txt
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 69081737e11a8c4a455f4ccd040bb7146a2397ac Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 9 Sep 2026 05:25:47 +0000
-Subject: [PATCH] repo: upgrade 2.66.1 -> 2.67
-
-d27d682 project: check upstream ref ancestry for non-shallow clones
-0ea57e2 project: gate the default-branch query by Git version
-ba8ddf3 git_superproject: resolve one negotiation ref directly
-d88ce8d upload: reuse the worker current-branch result
-5e8d2a6 version: read describe and date in one Git call
-e59c9cd cherry_pick: resolve and read commits in one process
-83428a9 rebase: delegate automatic stashing to Git
-948abc8 git_config: recognize only complete object IDs
-c63a2f9 sync: tell apart same-path submanifest projects
-0039e39 project: carry current state from the ref snapshot
-5f37845 project: reuse ref OIDs in branch maintenance
-d27034b project: centralize safe branch and commit resolution
-6541729 project: reuse loaded refs when resolving HEAD
-b85e76a git_refs: load HEAD with the ref snapshot on Git 2.45
-e5bbb5c upload: prune ref scans for untouched projects and specific branches
-4fe8761 project: read HEAD directly in-memory to avoid subprocesses
-d729942 sync: skip submodules removed from their parent
-3f087a8 sync: fetch submodules after their parent repository
-3a6e25a sync: check out submodules at the parent's new revision
-41c2597 project: don't use dest-branch or tags as SHA-1 upstream fallback
-e6ad708 hooks: add --fix option to auto-apply hook fixes
-09914bc Add detailed upload context to Trace2 telemetry
-3f17756 project: allow re-reading submodule gitlinks
----
- meta/recipes-devtools/repo/{repo_2.66.1.bb => repo_2.67.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/repo/{repo_2.66.1.bb => repo_2.67.bb} (94%)
-
-diff --git a/meta/recipes-devtools/repo/repo_2.66.1.bb b/meta/recipes-devtools/repo/repo_2.67.bb
-similarity index 94%
-rename from meta/recipes-devtools/repo/repo_2.66.1.bb
-rename to meta/recipes-devtools/repo/repo_2.67.bb
-index 32c7a38a94..948a9a775c 100644
---- a/meta/recipes-devtools/repo/repo_2.66.1.bb
-+++ b/meta/recipes-devtools/repo/repo_2.67.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
- 
- SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v${PV} \
-            "
--SRCREV = "b85886fa9f5b4e2189cc5b2f40bd0a80459d4c77"
-+SRCREV = "d27d6829a84f488b7253ea693dcc429076c33914"
- 
- MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
- 
--- 
-2.47.1
-
-
---===============2766084119217058620==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-repo-upgrade-2.66.1-2.67.patch"
-
-RnJvbSA2OTA4MTczN2UxMWE4YzRhNDU1ZjRjY2QwNDBiYjcxNDZhMjM5N2FjIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgOSBTZXAgMjAyNiAwNToyNTo0NyArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHJl
-cG86IHVwZ3JhZGUgMi42Ni4xIC0+IDIuNjcKCmQyN2Q2ODIgcHJvamVjdDogY2hlY2sgdXBzdHJl
-YW0gcmVmIGFuY2VzdHJ5IGZvciBub24tc2hhbGxvdyBjbG9uZXMKMGVhNTdlMiBwcm9qZWN0OiBn
-YXRlIHRoZSBkZWZhdWx0LWJyYW5jaCBxdWVyeSBieSBHaXQgdmVyc2lvbgpiYThkZGYzIGdpdF9z
-dXBlcnByb2plY3Q6IHJlc29sdmUgb25lIG5lZ290aWF0aW9uIHJlZiBkaXJlY3RseQpkODhjZThk
-IHVwbG9hZDogcmV1c2UgdGhlIHdvcmtlciBjdXJyZW50LWJyYW5jaCByZXN1bHQKNWU4ZDJhNiB2
-ZXJzaW9uOiByZWFkIGRlc2NyaWJlIGFuZCBkYXRlIGluIG9uZSBHaXQgY2FsbAplNTljOWNkIGNo
-ZXJyeV9waWNrOiByZXNvbHZlIGFuZCByZWFkIGNvbW1pdHMgaW4gb25lIHByb2Nlc3MKODM0Mjhh
-OSByZWJhc2U6IGRlbGVnYXRlIGF1dG9tYXRpYyBzdGFzaGluZyB0byBHaXQKOTQ4YWJjOCBnaXRf
-Y29uZmlnOiByZWNvZ25pemUgb25seSBjb21wbGV0ZSBvYmplY3QgSURzCmM2M2EyZjkgc3luYzog
-dGVsbCBhcGFydCBzYW1lLXBhdGggc3VibWFuaWZlc3QgcHJvamVjdHMKMDAzOWUzOSBwcm9qZWN0
-OiBjYXJyeSBjdXJyZW50IHN0YXRlIGZyb20gdGhlIHJlZiBzbmFwc2hvdAo1ZjM3ODQ1IHByb2pl
-Y3Q6IHJldXNlIHJlZiBPSURzIGluIGJyYW5jaCBtYWludGVuYW5jZQpkMjcwMzRiIHByb2plY3Q6
-IGNlbnRyYWxpemUgc2FmZSBicmFuY2ggYW5kIGNvbW1pdCByZXNvbHV0aW9uCjY1NDE3MjkgcHJv
-amVjdDogcmV1c2UgbG9hZGVkIHJlZnMgd2hlbiByZXNvbHZpbmcgSEVBRApiODVlNzZhIGdpdF9y
-ZWZzOiBsb2FkIEhFQUQgd2l0aCB0aGUgcmVmIHNuYXBzaG90IG9uIEdpdCAyLjQ1CmU1YmJiNWMg
-dXBsb2FkOiBwcnVuZSByZWYgc2NhbnMgZm9yIHVudG91Y2hlZCBwcm9qZWN0cyBhbmQgc3BlY2lm
-aWMgYnJhbmNoZXMKNGZlODc2MSBwcm9qZWN0OiByZWFkIEhFQUQgZGlyZWN0bHkgaW4tbWVtb3J5
-IHRvIGF2b2lkIHN1YnByb2Nlc3NlcwpkNzI5OTQyIHN5bmM6IHNraXAgc3VibW9kdWxlcyByZW1v
-dmVkIGZyb20gdGhlaXIgcGFyZW50CjNmMDg3YTggc3luYzogZmV0Y2ggc3VibW9kdWxlcyBhZnRl
-ciB0aGVpciBwYXJlbnQgcmVwb3NpdG9yeQozYTZlMjVhIHN5bmM6IGNoZWNrIG91dCBzdWJtb2R1
-bGVzIGF0IHRoZSBwYXJlbnQncyBuZXcgcmV2aXNpb24KNDFjMjU5NyBwcm9qZWN0OiBkb24ndCB1
-c2UgZGVzdC1icmFuY2ggb3IgdGFncyBhcyBTSEEtMSB1cHN0cmVhbSBmYWxsYmFjawplNmFkNzA4
-IGhvb2tzOiBhZGQgLS1maXggb3B0aW9uIHRvIGF1dG8tYXBwbHkgaG9vayBmaXhlcwowOTkxNGJj
-IEFkZCBkZXRhaWxlZCB1cGxvYWQgY29udGV4dCB0byBUcmFjZTIgdGVsZW1ldHJ5CjNmMTc3NTYg
-cHJvamVjdDogYWxsb3cgcmUtcmVhZGluZyBzdWJtb2R1bGUgZ2l0bGlua3MKLS0tCiBtZXRhL3Jl
-Y2lwZXMtZGV2dG9vbHMvcmVwby97cmVwb18yLjY2LjEuYmIgPT4gcmVwb18yLjY3LmJifSB8IDIg
-Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3tyZXBvXzIuNjYuMS5iYiA9PiByZXBvXzIuNjcu
-YmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVwb18y
-LjY2LjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNjcuYmIKc2ltaWxh
-cml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3JlcG8vcmVw
-b18yLjY2LjEuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9yZXBvL3JlcG9fMi42
-Ny5iYgppbmRleCAzMmM3YTM4YTk0Li45NDhhOWE3NzVjIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcmVwby9yZXBvXzIuNjYuMS5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
-bHMvcmVwby9yZXBvXzIuNjcuYmIKQEAgLTExLDcgKzExLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9
-ICJmaWxlOi8vTElDRU5TRTttZDU9M2I4M2VmOTYzODdmMTQ2NTVmYzg1NGRkYzNjNmJkNTciCiAK
-IFNSQ19VUkkgPSAiZ2l0Oi8vZ2Vycml0Lmdvb2dsZXNvdXJjZS5jb20vZ2l0LXJlcG8uZ2l0O3By
-b3RvY29sPWh0dHBzO2JyYW5jaD1tYWluO3RhZz12JHtQVn0gXAogICAgICAgICAgICAiCi1TUkNS
-RVYgPSAiYjg1ODg2ZmE5ZjViNGUyMTg5Y2M1YjJmNDBiZDBhODA0NTlkNGM3NyIKK1NSQ1JFViA9
-ICJkMjdkNjgyOWE4NGY0ODhiNzI1M2VhNjkzZGNjNDI5MDc2YzMzOTE0IgogCiBNSVJST1JTICs9
-ICJnaXQ6Ly9nZXJyaXQuZ29vZ2xlc291cmNlLmNvbS9naXQtcmVwby5naXQgZ2l0Oi8vZ2l0aHVi
-LmNvbS9HZXJyaXRDb2RlUmV2aWV3L2dpdC1yZXBvLmdpdCIKIAotLSAKMi40Ny4xCgo=
-
---===============2766084119217058620==
+--===============2332201052410870919==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Content-Disposition: attachment; filename="bindgen-cli-changelog.txt"
 
-packages/x86-64-v3-poky-linux/repo: PKGV changed from 2.66.1 [default] to 2.67 [default]
-packages/x86-64-v3-poky-linux/repo: SRC_URI changed from "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v2.66.1" to "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v2.67"
-packages/x86-64-v3-poky-linux/repo: PV changed from "2.66.1" to "2.67"
-packages/x86-64-v3-poky-linux/repo/repo-dbg: PKGV changed from 2.66.1 [default] to 2.67 [default]
-packages/x86-64-v3-poky-linux/repo/repo-dbg: PV changed from "2.66.1" to "2.67"
-packages/x86-64-v3-poky-linux/repo/repo-dev: PKGV changed from 2.66.1 [default] to 2.67 [default]
-packages/x86-64-v3-poky-linux/repo/repo-dev: PV changed from "2.66.1" to "2.67"
-packages/x86-64-v3-poky-linux/repo/repo-doc: PKGV changed from 2.66.1 [default] to 2.67 [default]
-packages/x86-64-v3-poky-linux/repo/repo-doc: PV changed from "2.66.1" to "2.67"
-packages/x86-64-v3-poky-linux/repo/repo-locale: PKGV changed from 2.66.1 [default] to 2.67 [default]
-packages/x86-64-v3-poky-linux/repo/repo-locale: PV changed from "2.66.1" to "2.67"
-packages/x86-64-v3-poky-linux/repo/repo-src: PKGV changed from 2.66.1 [default] to 2.67 [default]
-packages/x86-64-v3-poky-linux/repo/repo-src: PV changed from "2.66.1" to "2.67"
-packages/x86-64-v3-poky-linux/repo/repo-staticdev: PKGV changed from 2.66.1 [default] to 2.67 [default]
-packages/x86-64-v3-poky-linux/repo/repo-staticdev: PV changed from "2.66.1" to "2.67"
-packages/x86-64-v3-poky-linux/repo/repo: PKGV changed from 2.66.1 [default] to 2.67 [default]
-packages/x86-64-v3-poky-linux/repo/repo: PV changed from "2.66.1" to "2.67"
+Changelog for bindgen-cli: 0.72.1 -> 0.73.2
+Source: CHANGELOG.md
 
---===============2766084119217058620==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="repo-changelog.txt"
+- [0.73.2 (2026-09-08)](#0732-2026-09-08)
+- [0.73.1 (2026-09-05)](#0731-2026-09-05)
+  - [Security](#security-2)
+- [0.73.0 (2026-09-05)](#0730-2026-09-05)
+  - [Fixed](#fixed-3)
+  - [Security](#security-3)
+- [0.72.1 (2025-08-31)](#0721-2025-08-31)
+- [0.72.0 (2025-06-08)](#0720-2025-06-08)
+- [v0.71.1 (2024-12-09)](#v0711-2024-12-09)
+  - [Fixed](#fixed-6)
+- [0.71.0 (2024-12-06)](#0710-2024-12-06)
+  - [Fixed](#fixed-7)
+- [0.70.1 (2024-08-20)](#0701-2024-08-20)
+  - [Fixed](#fixed-8)
+- [0.70.0 (2024-08-16)](#0700-2024-08-16)
+  - [Fixed](#fixed-9)
+- [0.69.4 (2024-02-04)](#0694-2024-02-04)
+  - [Security](#security-6)
+- [0.69.3 (2024-02-04)](#0693-2024-02-04)
+- [0.69.2 (2024-01-13)](#0692-2024-01-13)
+  - [Fixed](#fixed-12)
+  - [Security](#security-8)
+- [0.69.1 (2023-11-02)](#0691-2023-11-02)
+- [0.69.0 (2023-11-01)](#0690-2023-11-01)
+  - [Removed](#removed-11)
+  - [Security](#security-9)
+- [0.68.1](#0681)
+  - [Fixed](#fixed-15)
+- [0.68.0](#0680)
+  - [Removed](#removed-12)
+  - [Fixed](#fixed-16)
+- [0.67.0](#0670)
+- [0.66.1](#0661)
+- [0.66.0](#0660)
+  - [Removed](#removed-14)
+- [0.65.1](#0651)
+  - [Fixed](#fixed-17)
+- [0.65.0](#0650)
+  - [Removed](#removed-15)
+- [0.64.0](#0640)
+- [0.63.0](#0630)
+  - [Removed](#removed-16)
+- [0.62.0](#0620)
+  - [Fixed](#fixed-18)
+- [0.61.0](#0610)
+  - [Fixed](#fixed-19)
+- [0.60.1](#0601)
+  - [Fixed](#fixed-20)
+- [0.60.0](#0600)
+  - [Removed](#removed-17)
+- [0.59.2](#0592)
+- [0.59.1](#0591)
+- [0.59.0](#0590)
+  - [Added](#added-20)
+- [0.58.1](#0581)
+  - [Added](#added-21)
+- [0.58.0](#0580)
+  - [Added](#added-22)
+  - [Changed](#changed-21)
+  - [Deprecated](#deprecated)
+  - [Removed](#removed-18)
+  - [Security](#security-10)
+- [0.57.0](#0570)
+- [0.56.0](#0560)
+- [0.55.1](#0551)
+  - [Fixed](#fixed-28)
+- [0.55.0](#0550)
+  - [Removed](#removed-19)
+- [0.54.1](#0541)
+  - [Added](#added-26)
+  - [Fixed](#fixed-30)
+- [0.54.0](#0540)
+- [0.53.3](#0533)
+  - [Added](#added-28)
+- [0.53.2](#0532)
+  - [Changed](#changed-26)
+- [0.53.1](#0531)
+  - [Added](#added-29)
+- [0.53.0](#0530)
+  - [Added](#added-30)
+- [0.52.0](#0520)
+  - [Added](#added-31)
+  - [Fixed](#fixed-34)
+- [0.51.1](#0511)
+  - [Fixed](#fixed-35)
+  - [Changed](#changed-29)
+- [0.51.0](#0510)
+  - [Fixed](#fixed-36)
+  - [Changed](#changed-30)
+  - [Added](#added-32)
+  - [Added](#added-33)
+  - [Added](#added-34)
+  - [Changed](#changed-31)
+  - [Fixed](#fixed-37)
+  - [Changed](#changed-32)
+  - [Added](#added-35)
+  - [Fixed](#fixed-38)
+  - [Changed](#changed-33)
+  - [Fixed](#fixed-39)
+  - [Changed](#changed-34)
+  - [Fixed](#fixed-40)
+  - [Added](#added-36)
+  - [Changed](#changed-35)
+  - [Fixed](#fixed-41)
+  - [Changed](#changed-36)
+  - [Fixed](#fixed-42)
+  - [Changed](#changed-37)
+  - [Fixed](#fixed-43)
+  - [Added](#added-37)
+  - [Removed](#removed-20)
+  - [Changed](#changed-38)
+  - [Fixed](#fixed-44)
+  - [Fixed](#fixed-45)
+  - [Fixed](#fixed-46)
+  - [Fixed](#fixed-47)
+  - [Added](#added-38)
+  - [Changed](#changed-39)
+  - [Fixed](#fixed-48)
+  - [Added](#added-39)
+  - [Changed](#changed-40)
+  - [Removed](#removed-21)
+  - [Fixed](#fixed-49)
+  - [Added](#added-40)
+  - [Changed](#changed-41)
+  - [Fixed](#fixed-50)
+  - [Added](#added-41)
+  - [Changed](#changed-42)
+  - [Fixed](#fixed-51)
+# 0.73.2 (2026-09-08)
 
-Changelog for repo: 2.66.1 -> 2.67
+- Fixed various regressions with over/underaligned types with respect to 0.72 (#3449,#3453,#3458).
+- Fixed a codegen regression with bitfields with enum types in some circumstances (#3455).
 
-d27d682 project: check upstream ref ancestry for non-shallow clones
-0ea57e2 project: gate the default-branch query by Git version
-ba8ddf3 git_superproject: resolve one negotiation ref directly
-d88ce8d upload: reuse the worker current-branch result
-5e8d2a6 version: read describe and date in one Git call
-e59c9cd cherry_pick: resolve and read commits in one process
-83428a9 rebase: delegate automatic stashing to Git
-948abc8 git_config: recognize only complete object IDs
-c63a2f9 sync: tell apart same-path submanifest projects
-0039e39 project: carry current state from the ref snapshot
-5f37845 project: reuse ref OIDs in branch maintenance
-d27034b project: centralize safe branch and commit resolution
-6541729 project: reuse loaded refs when resolving HEAD
-b85e76a git_refs: load HEAD with the ref snapshot on Git 2.45
-e5bbb5c upload: prune ref scans for untouched projects and specific branches
-4fe8761 project: read HEAD directly in-memory to avoid subprocesses
-d729942 sync: skip submodules removed from their parent
-3f087a8 sync: fetch submodules after their parent repository
-3a6e25a sync: check out submodules at the parent's new revision
-41c2597 project: don't use dest-branch or tags as SHA-1 upstream fallback
-e6ad708 hooks: add --fix option to auto-apply hook fixes
-09914bc Add detailed upload context to Trace2 telemetry
-3f17756 project: allow re-reading submodule gitlinks
+# 0.73.1 (2026-09-05)
+## Added
+## Changed
+- Widened acceptable prettyplease / syn dependency versions (#3447).
+## Removed
+## Fixed
+## Security
 
---===============2766084119217058620==--
+# 0.73.0 (2026-09-05)
+## Added
+- Add `Debug`, `Clone` and `Eq` traits to `ParseCallbacks` info types (#3233).
+- Include the source location in discovery `ParseCallbacks` (#3244).
+- Report constants and variables in `ParseCallbacks::new_item_found` (#3249).
+- Allow adding custom attributes to `extern` function blocks (#3257).
+- Support new-type-alias constants (#3288, #3390).
+- Support nested flexible array members (#3306).
+- Add support for custom per-field attributes (#3307).
+- Add const-generic bitfield accessors for compile-time optimization (#3325,
+  #3374).
+- Allow renaming struct and union fields (#3358).
+- Add a `libcpp` feature to link `libclang` against `libc++` (#3375).
+- Prebuilt binaries for aarch64 Linux (#3217).
+## Changed
+- Guarantee opaque type layout across all architectures (#3280).
+- Use `NonNull` for C++ references (#3292).
+- `Bindings::write` now takes `impl Write` instead of `Box<dyn Write>`
+  (#3317, #3324).
+- Optimize bitfield unit get/set with byte-wise operations (#3325).
+- Emit `const` `__BindgenUnionField` accessors and comply with Rust 2024
+  `unsafe_op_in_unsafe_fn` (#3337).
+- Generate a doc comment pointing at the aliased type when a type alias is
+  hidden (#3122).
+- dyngen: convert the library path to `OsStr` before opening it (#3315).
+- Return a `NoHeadersProvided` error instead of generating empty bindings
+  when no input headers are provided (#3391).
+- Bump the MSRV to 1.71 (#3401).
+- Bump `syn` to v3 (#3401) and `shlex` to v2 (#3380).
+## Removed
+- Removed support for generating code for rustc versions < 1.51, along with
+  the corresponding `RustTarget` constants (#3281).
+- Removed the dependency on `itertools` (#3408).
+## Fixed
+- Fix a typo in the handling of `--rustified-non-exhaustive-enums` (#3266).
+- Apply the same mangling rule to `C` and `C-unwind` function types (#3156).
+- Fix alignment of bitfields in some edge cases (#3247).
+- Fix typedefs inside constified modules (#3284).
+- Fix generation of `f32` `NAN`, `INFINITY` and `NEG_INFINITY` constants
+  (#3300).
+- Allow constant expressions that don't fit in `i64` (#3301).
+- Deduplicate derive traits added by the `add_derives` callback (#3296).
+- Fix packed structs with flexible array members (#3305).
+- Remove incorrect `size_t_is_usize` check (#3313).
+- Prevent default derives for forward-declared types (#3110).
+- Handle rustc version strings like `1.71.1-beta` and `1.71.1-nightly`
+  (#3329).
+- Centralize comment generation checks so comment options are respected
+  everywhere (#445, #3330).
+- Fix unnecessary transmute and unsafe warnings in bitfield codegen (#3335,
+  #3388).
+- Do not use the canonical declaration for enum type building (#3346).
+- Allow zero-sized unions to be defined (#3348).
+- Consolidate the `extern` block for functions and statics so shared symbols
+  are only declared once (#3367, #3371).
+- Propagate the implicit target to the macro fallback (#3382).
+- Avoid an IR cycle for compiler-builtin ObjC typedefs shadowing themselves
+  (#3387).
+- Generate a `Debug` impl for new-type alias wrappers when the inner type
+  only has a manual impl (#3411).
+- Do not insert dummy fields into bitfields in cases where this would cause
+  misalignment (#3431).
+- Newtype aliases to c_void don't derive traits now (#3432).
+## Security
+
+# 0.72.1 (2025-08-31)
+
+## Fixed
+
+ * Fixed a bad interaction with upcoming clang 22 (#3278).
+
+- Add the `--rust-edition` flag which allows to select which Rust edition to target. (#3002, #3013)
+- Use `unsafe extern` instead of `extern` in blocks for any Rust target after 1.82. (#3015)
+* Add the `ParseCallbacks::field_visibility` method to modify field visibility.
+  actual visibility of the bitfields within the unit.
+
+--===============2332201052410870919==--
 
