@@ -2,134 +2,222 @@ Return-Path: <devanshp@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A6B51C79FB6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A3DD7C79FB9
 	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 19:00:49 +0000 (UTC)
-Received: from alln-iport-1.cisco.com (alln-iport-1.cisco.com [173.37.142.88])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.20279.1788980446642694867
+Received: from alln-iport-3.cisco.com (alln-iport-3.cisco.com [173.37.142.90])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20559.1788980448159778338
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 12:00:46 -0700
+ Wed, 09 Sep 2026 12:00:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=fNkJ2+ot;
- spf=pass (domain: cisco.com, ip: 173.37.142.88, mailfrom: devanshp@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=YVOI8IWJ;
+ spf=pass (domain: cisco.com, ip: 173.37.142.90, mailfrom: devanshp@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=2523; q=dns/txt;
-  s=iport01; t=1788980446; x=1790190046;
+  d=cisco.com; i=@cisco.com; l=5912; q=dns/txt;
+  s=iport01; t=1788980448; x=1790190048;
   h=from:to:cc:subject:date:message-id:mime-version:
    content-transfer-encoding;
-  bh=6Rz2wuLtKeJnCXqnR59hj8HzS+xgjsqb1rcZ/ihM6u4=;
-  b=fNkJ2+othTBfpDW9qquYjwetmy5Tkvq0vSUs0UrOcWghDjTr0DxC3zQ5
-   7w8Z8ddfHalSA2s9TEOHVdBKmx//C4drDTtz+HQ6mSZMF1s6hFCtW+6tk
-   MuEn89XKRNfqVXtJuOx8kluo8ZlPvX3DBR8lL4Rbv9nLKwSBSg5yAwjRj
-   sjogkRZLM09JDWnIA7F2W83mzXF3VYDtJl1pPpDInOXQ2UxgshPji8AzB
-   5S5utKPyw3Oava7/wrxJsEU0H9VrGZODFumN06s80KX7lP5AYNRLZdJS1
-   +kzKfC1NC9qXG0yIeBXQZSB61iQ7hdFnXbrmDBlnnGJnQteB4+0C5nLcI
-   A==;
-X-CSE-ConnectionGUID: 3NORECX/TcCNIhfrk+twsw==
-X-CSE-MsgGUID: rMPK2fA9SFqOlFqtDNCCeA==
-X-IPAS-Result: =?us-ascii?q?A0BCAgAgrKFq/5MQJK1aglmCV3RgQ0mWSp4egX4PAQEBD?=
- =?us-ascii?q?0QNBAEBhQWOBwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBD?=
- =?us-ascii?q?hOGTw2QFTYBGAEtMFxEG4JnAYJ0AxEGwTaCLIEBgygBPwICQAFQ2zEBCxQBB?=
- =?us-ascii?q?YEzhT+IInUBhHwnGxuBcoEVg2mBBYFcAgGCLIV4BIIiehKBeG5HkQFIgR4DW?=
- =?us-ascii?q?SwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQcbBgWBHYEngz8jGTZ6gQlegSspY?=
- =?us-ascii?q?AESF4EHgggCglSCAQIBSUMOB0VTCSdBChJTKQQLGA1IESw3FRkEPm4HjyIfg?=
- =?us-ascii?q?lhhLSoBAYIFJxGTOJAMgiGhDwoog3aMIpU6GjOqbS6YWo4KlTZKUIRpgWg8g?=
- =?us-ascii?q?VlwFTuCZwkWNBkPjjmDa4ZAxXknMgIJMgEBBwIHDgMLgWiRfgEB?=
-IronPort-Data: A9a23:We/trKygConBruWfOLt6t+dhxyrEfRIJ4+MujC+fZmUNrF6WrkUGy
- 2VMWGrQOPuJamuhftBxbovjpxkFvJTVxtQ1TlE/rVhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 46aT/H3Ygf/hWYlajNMsMpvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJBoQGrc10dYwPWpl0
- 90YJioOLQycnP3jldpXSsE07igiBMDvOIVavjRryivUSK9+B5vCWK7No9Rf2V/chOgXQq2YP
- JRfMGQpNUifC/FMEg9/5JYWkOq2j3/kcyVwo1OOrq1x6G/WpOB0+OixaYSFIoPTG625mG6Cg
- 1rlpWrQUyo0Lfub5yOZ3lSHreLmyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NUF+t/7ESGzbDZpl/BQGMFVTVGLtchsafaWAAX6
- 7NApPuxbRQHjVFfYSv1Gmu8xd9qBRUoEA==
-IronPort-HdrOrdr: A9a23:jC1dQq6fzSSgkgHn2gPXwOTXdLJyesId70hD6qm+c3Nom6uj5q
- WTdZsgtCMc5Ax9ZJhCo6HjBED/exPhHPdOiOF7V4tKNzOJhILHFu1fBKLZslnd8lXFh41g/J
- YlVbRiA9vtClU/p8P77A6kV+sE+rC8gceVbSO09QYVcemsAJsQiTtENg==
-X-Talos-CUID: =?us-ascii?q?9a23=3AeuKBuGjj0WifTn0IyvGXv25soDJuKVv69lr7Ewi?=
- =?us-ascii?q?EAk1Pab2bU1zT5Lx/jJ87?=
-X-Talos-MUID: =?us-ascii?q?9a23=3Afe+Jtg1GyG1WhOSS8kdFgUr+PjUj+YGWKxoDuMQ?=
- =?us-ascii?q?9ldCjMQJpJxu7px+6a9py?=
+  bh=H0cewbD4eOXlQXKYMHznJfG8ecklZfvU1GJtwX1QNSg=;
+  b=YVOI8IWJHRl9B7/G4DFQgrgkfTGqmUFu5OgM6MHzxMPVbkACIAHd242N
+   3QoYnwUOxJ9RQbzzejNx5tShpkFQxp5J4/1fge4sf4jS9DFeyi8hZ+kns
+   Lj36y55O94EFwr+5eIrBw97LJuzt/uiDdzZtV0Hd4s+Y3HgaXv4eJ+NAJ
+   HSJOUAaSIAAhCTPYcGI1m9N/qHDgpMO0fgRRtn29d0lOw57U0FXYyeqHy
+   lylxVnC09rwNBXh4/If9S6zGtHHOdWTo1H8WbBIaLETl5yRjUndItAgl+
+   DxXwaaDIaLccyZjRrF8yPrWxLeDpbAfzU8QiCg88qqq+PygVXneYmr+Eo
+   Q==;
+X-CSE-ConnectionGUID: h9veP66kRLSeXTTzltlQlA==
+X-CSE-MsgGUID: 7nbJo3ISRGWIjrinzBwg2Q==
+X-IPAS-Result: =?us-ascii?q?A0BFAgAgrKFq/5UQJK1aHgEBCxIMggULgld0YENJA5ZHi?=
+ =?us-ascii?q?2eSN4F+DwEBAQ9EDQQBAYUFjgcCJjQJDgECBAMCAwEBAQEBAQEBAQEBAQoBA?=
+ =?us-ascii?q?QUBAQECAQcFgQ4Thk8NkBIBAgE1ATQSLAMBAk8LIyEbgmcBgjoDNwMRwTyCL?=
+ =?us-ascii?q?IEBhH3YSw2CWQELFAEFgTOFP4J/hSNdGYR8JxsbgXKBFYNpgQUBgRlCAoglB?=
+ =?us-ascii?q?IIigQyBWpJUSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EHGwYFgR2BJ?=
+ =?us-ascii?q?4M/Ixk2eoEJXoErKWABEheBB4IIAoJUggECAUlDDgdFUwknQQoSUykECxgNS?=
+ =?us-ascii?q?BEsNxUZBD5uB48iH4JYFmUTAQckgRgtRiERpWWgHnEKKIN2jCKPPoV8GjOFW?=
+ =?us-ascii?q?6USmQiLN4JThAmSR4RpgWg8gVlwFYMiCUoZD445g2vMOScyCwMvAQEHAgcOA?=
+ =?us-ascii?q?wuBaJF+AQE?=
+IronPort-Data: A9a23:5fzpEqgh6wf4RYWU/HpWVvDUX161NhEKZh0ujC45NGQN5FlHY01je
+ htvX2CCP66CNGrwLoxxat/ioUlXu8KGmIRhSFM/rCw1FSJjpJueD7x1DKtf0wB+jyHnZBg6h
+ ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
+ vus5ZeCULOZ82QsaDxMuvrS8EgHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
+ 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
+ Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUYq/h6OT8Q9
+ sY8Ez09UiyRg/6y+baSH7wEasQLdKEHPasWvnVmiDWcBvE8TNWaGePB5MRT23E7gcUm8fT2P
+ pVCL2ExKk2eJUQTaz/7C7pm9AusrnXybTRes1KNjaE2+GPUigd21dABNfKFJ4fRFJ0FxhfwS
+ mTuoGLzIBZBFeel5gWk8GitgP3lgiyhYddHfFG/3rsw6LGJ/UQUEBAQWF6xrPW1h0L7UNVFJ
+ mQQ+zEytu417EGtQ9z3UhG0rXLCuQQTM+e8CMUz7AWLj66R6AGDCy1dFHhKaccts4k9QjlCO
+ kK1ou4FzAdH6NW9IU9xPJ/Oxd9uEUD59VM/WBI=
+IronPort-HdrOrdr: A9a23:y4HBkqCcYMKNXxrlHemA55DYdb4zR+YMi2TDGXofdfUzSL38qy
+ nAppUmPHPP5Qr5O0tQ++xoRpPhfZq0z/cciuMs1NyZMjUO1lHFEGhK1/qH/9SZIVycysdtkY
+ F9bqN5FNr8SXJ+jcr8/U2ENuxI+qjhzEht7t2utkuEimpRGsdd0zs=
+X-Talos-CUID: 9a23:/oAAYGAxwmwyFH36Eyk26kMsRJ4mSFnmwUfsH128FWJQTJTAHA==
+X-Talos-MUID: =?us-ascii?q?9a23=3AjW7xxQ1nORMoIYt/V1dWQQcyPzUjvKKkKkdWsK4?=
+ =?us-ascii?q?8lPalNzZxPSW3kzvte9py?=
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.25,270,1779148800"; 
-   d="scan'208";a="841680716"
-Received: from alln-l-core-10.cisco.com ([173.36.16.147])
-  by alln-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Sep 2026 19:00:45 +0000
+   d="scan'208";a="853390809"
+Received: from alln-l-core-12.cisco.com ([173.36.16.149])
+  by alln-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 09 Sep 2026 19:00:47 +0000
 Received: from sjc-ads-5197.cisco.com (sjc-ads-5197.cisco.com [10.28.35.211])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
 	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
 	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by alln-l-core-10.cisco.com (Postfix) with ESMTPS id 992F718000580;
-	Wed,  9 Sep 2026 19:00:45 +0000 (GMT)
+	by alln-l-core-12.cisco.com (Postfix) with ESMTPS id 125C81800014F;
+	Wed,  9 Sep 2026 19:00:47 +0000 (GMT)
 Received: by sjc-ads-5197.cisco.com (Postfix, from userid 1887503)
-	id 3EFB4CC12A7; Wed,  9 Sep 2026 12:00:45 -0700 (PDT)
+	id AE92BCC12A6; Wed,  9 Sep 2026 12:00:46 -0700 (PDT)
 From: "Devansh Patel -X (devanshp - E INFOCHIPS PRIVATE LIMITED at Cisco)" <devanshp@cisco.com>
 To: openembedded-core@lists.openembedded.org
 Cc: xe-linux-external@cisco.com
-Subject: [OE-core][wrynose][PATCH] curl: set CVE_STATUS for CVE-2026-8458
-Date: Wed,  9 Sep 2026 12:00:45 -0700
-Message-Id: <20260909190045.5000-1-devanshp@cisco.com>
+Subject: [OE-core][scarthgap][PATCH] vim: Fix CVE-2026-52858 regression
+Date: Wed,  9 Sep 2026 12:00:46 -0700
+Message-Id: <20260909190046.5167-1-devanshp@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Auto-Response-Suppress: DR, OOF, AutoReply
 X-Outbound-Client-TLS: VERIFIED;sjc-ads-5197.cisco.com [10.28.35.211];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
 X-Outbound-SMTP-Client: 10.28.35.211, sjc-ads-5197.cisco.com
-X-Outbound-Node: alln-l-core-10.cisco.com
+X-Outbound-Node: alln-l-core-12.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 19:00:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245488
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245491
 
 From: Devansh Patel <devanshp@cisco.com>
 
-CVE-2026-8458 allows a Negotiate-authenticated connection to be
-incorrectly reused for a request using a different SASL service name.
+This patch fixes a regression introduced by the CVE-2026-52858 fix
+already carried by OE-Core in commit [1]. The original security fix
+added the g:pythoncomplete_allow_import opt-in, but the documented
+behavior was broken because vim was not imported in the completion
+class scope. This patch applies upstream Vim patch 9.2.0568 to restore
+that behavior.
 
-Wrynose uses curl 8.19.0, which is within the affected version range.
-The vulnerable code path on Linux requires both Negotiate authentication
-and GSSAPI support, represented by the negotiate-auth and krb5
-PACKAGECONFIG options.
-
-The upstream fix [1] stores the SASL service name in struct Curl_creds
-and includes it in connection-reuse comparisons. However, struct
-Curl_creds was introduced by the credential-management rework in [2],
-after curl 8.19.0. Therefore, the security fix cannot be cleanly
-backported without introducing a substantial credential-management
-refactor.
-
-Use a conditional CVE_STATUS as the least invasive solution. Report the
-CVE as unpatched when both krb5 and negotiate-auth are enabled. Otherwise,
-mark it not-applicable-config because the vulnerable GSSAPI-backed
-Negotiate implementation is not built. The default Wrynose configuration
-enables negotiate-auth but does not enable krb5.
-
-References:
-[1] https://github.com/curl/curl/commit/5e99b73cf441d9c369768b9cd48b5389b9a2503d
-[2] https://github.com/curl/curl/commit/8f71d0fde515aa4c68002477356c35bd79927729
-[3] https://curl.se/docs/CVE-2026-8458.html
+[1] https://github.com/openembedded/openembedded-core/commit/1c08fa48b6765ace24a261ecf43f871e850cee88
+[2] https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d
+[3] https://github.com/vim/vim/commit/868ad62cb8bf8038322eab2badd31bd98b02b9df
+[4] https://github.com/vim/vim/security/advisories/GHSA-52mc-rq6p-rc7c
 
 Signed-off-by: Devansh Patel <devanshp@cisco.com>
 ---
- meta/recipes-support/curl/curl_8.19.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ .../vim/files/CVE-2026-52858-regression.patch | 94 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 95 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858-regression.patch
 
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 7497337cb9..dec9d7a3eb 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -42,6 +42,7 @@ CVE_STATUS[CVE-2026-8924] = "not-applicable-config: public suffix list support i
- CVE_STATUS[CVE-2026-10536] = "${@bb.utils.contains('PACKAGECONFIG', 'nghttp2', 'unpatched', 'not-applicable-config: applicable only with HTTP/2', d)}"
- CVE_STATUS[CVE-2026-9547] = "not-applicable-config: vulnerable libssh backend is not enabled by the recipe"
- CVE_STATUS[CVE-2026-12064] = "${@bb.utils.contains('PACKAGECONFIG', 'libssh2', 'unpatched', 'not-applicable-config: SCP/SFTP support is not enabled in PACKAGECONFIG', d)}"
-+CVE_STATUS[CVE-2026-8458] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotiate-auth', 'unpatched', 'not-applicable-config: applicable only with GSS-API-backed Negotiate authentication', d)}"
- 
- inherit autotools pkgconfig binconfig multilib_header ptest
- 
+diff --git a/meta/recipes-support/vim/files/CVE-2026-52858-regression.patch b/meta/recipes-support/vim/files/CVE-2026-52858-regression.patch
+new file mode 100644
+index 0000000000..d3b11a6262
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-52858-regression.patch
+@@ -0,0 +1,94 @@
++From 8075209bb1e721ca89c2e7fd5d216d7fe2bd3ea6 Mon Sep 17 00:00:00 2001
++From: thinca <thinca@gmail.com>
++Date: Sun, 31 May 2026 12:33:07 +0000
++Subject: [PATCH] patch 9.2.0568: pythoncomplete: g:pythoncomplete_allow_import
++ had no effect
++
++Problem:  The security patch 9.2.0561 added a vim.eval() call inside
++          Completer.evalsource() to honor g:pythoncomplete_allow_import.
++          But the 'vim' module is only imported inside the outer
++          vimcomplete() / vimpy3complete() function, not at the script's
++          top level, so referring to it from a Completer method raises
++          NameError.  The surrounding bare 'except' silently swallows
++          the error and leaves allow_imports at 0, meaning the opt-in
++          never takes effect -- 'import os' (and any other
++          buffer-level import) is always skipped, no candidates are
++          produced for 'os.<...>' and
++          Test_popup_and_preview_autocommand() fails on the Windows
++          CI matrix (Linux skips the test because Python 2 is absent).
++Solution: Re-import 'vim' at the top of evalsource() in both
++          pythoncomplete.vim and python3complete.vim so the eval reads
++          the global, and set g:pythoncomplete_allow_import = 1 in the
++          test (it is the opt-in intended for callers that trust the
++          buffer contents) (thinca).
++
++closes: #20386
++
++CVE: CVE-2026-52858
++Upstream-Status: Backport [https://github.com/vim/vim/commit/868ad62cb8bf8038322eab2badd31bd98b02b9df]
++
++Backport Changes:
++- Omitted src/version.c because the Scarthgap recipe remains at Vim 9.1.1683;
++  the upstream version-table hunk targets Vim 9.2 and conflicted during
++  cherry-pick, while the runtime and test changes applied unchanged.
++
++Signed-off-by: thinca <thinca@gmail.com>
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++(cherry picked from commit 868ad62cb8bf8038322eab2badd31bd98b02b9df)
++Signed-off-by: Devansh Patel <devanshp@cisco.com>
++---
++ runtime/autoload/python3complete.vim | 3 +++
++ runtime/autoload/pythoncomplete.vim  | 3 +++
++ src/testdir/test_popup.vim           | 4 ++++
++ 3 files changed, 10 insertions(+)
++
++diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
++index a0314242b..bdabf62c8 100644
++--- a/runtime/autoload/python3complete.vim
+++++ b/runtime/autoload/python3complete.vim
++@@ -158,6 +158,9 @@ class Completer(object):
++        self.parser = PyParser()
++ 
++     def evalsource(self,text,line=0):
+++        # vim is imported locally in vimpy3complete(); re-import here so the
+++        # vim.eval() below works (otherwise NameError, silently caught).
+++        import vim
++         sc = self.parser.parse(text,line)
++         try: allow_imports = int(
++           vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
++diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
++index 39b1efd29..761488244 100644
++--- a/runtime/autoload/pythoncomplete.vim
+++++ b/runtime/autoload/pythoncomplete.vim
++@@ -172,6 +172,9 @@ class Completer(object):
++        self.parser = PyParser()
++ 
++     def evalsource(self,text,line=0):
+++        # vim is imported locally in vimcomplete(); re-import here so the
+++        # vim.eval() below works (otherwise NameError, silently caught).
+++        import vim
++         sc = self.parser.parse(text,line)
++         try: allow_imports = int(
++           vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
++diff --git a/src/testdir/test_popup.vim b/src/testdir/test_popup.vim
++index fac2a7592..55c2f232d 100644
++--- a/src/testdir/test_popup.vim
+++++ b/src/testdir/test_popup.vim
++@@ -723,6 +723,9 @@ func Test_popup_and_preview_autocommand()
++     au!
++     au BufAdd * nested tab sball
++   augroup END
+++  " Let pythoncomplete follow the buffer's 'import os' (off by default
+++  " since v9.2.0561) so 'os.' can be completed.
+++  let g:pythoncomplete_allow_import = 1
++   set omnifunc=pythoncomplete#Complete
++   call setline(1, 'import os')
++   " make the line long
++@@ -745,6 +748,7 @@ func Test_popup_and_preview_autocommand()
++   augroup END
++   augroup! MyBufAdd
++   bw!
+++  unlet g:pythoncomplete_allow_import
++ endfunc
++ 
++ func s:run_popup_and_previewwindow_dump(lines, dumpfile)
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index a4f8162d31..ced48eb0c1 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -34,6 +34,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-46483.patch \
+            file://CVE-2026-28420.patch \
+            file://CVE-2026-52858.patch \
++           file://CVE-2026-52858-regression.patch \
+            file://CVE-2026-52859.patch \
+            file://CVE-2026-52860.patch \
+            file://CVE-2026-28422.patch \
 -- 
 2.35.6
 
