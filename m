@@ -1,131 +1,97 @@
-Return-Path: <bhavesh.maheshwari@einfochips.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E1103C88E42
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 13:34:24 +0000 (UTC)
-Received: from naesa03.arrow.com (naesa03.arrow.com [216.150.161.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14218.1789047242011078389
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52789C79F9F
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 13:35:35 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14205.1789047333751710921
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2026 06:34:16 -0700
+ Thu, 10 Sep 2026 06:35:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=SyN7ALI8;
- spf=pass (domain: einfochips.com, ip: 216.150.161.23, mailfrom: bhavesh.maheshwari@einfochips.com)
+ dkim=pass header.i=@smile.fr header.s=google header.b=hXkp/NZy;
+ spf=pass (domain: smile.fr, ip: 209.85.128.53, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4956869750eso64055675e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:35:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=einfochips.com; i=@einfochips.com; l=3090; q=dns/txt;
-  s=NAESA-Selector1; t=1789047257; x=1820583257;
-  h=from:to:subject:date:message-id:in-reply-to:references:
-   mime-version:content-transfer-encoding;
-  bh=TzeqR2uO1SvOpb0Reg/G/YfYgon9qgXw7++PyTvfyfk=;
-  b=SyN7ALI85S0pz2hgKypEPx3/nPWD054N8DryqKICh/6HEs36sV8ws1yZ
-   m7BQ17aHD0bETzhDBuCn2jGufJGhs+y8vU63Yvu9c1nhUM2aLfl9TAjkH
-   qv43EDqcO3Pj1JYCNDbUhTBjnA1IiW8oWzhbZQGmPtkmeHZLJn0d2FoFh
-   qlPcaEkAPCbo9IFt5tDKUPmumd6qx52cMylcMUZajwso1dwHXD4a/N04e
-   Ynsx+RCZQIyxbubIWrCLvuBiNjtnreS7xfli0R/TGDyWgKy1/1vGDsyrj
-   +Bbk1jsirGn8sqFMjRk2SXxIhFEV30J5b34OzDczqz47WHnBC2nnwHzPn
-   g==;
-X-CSE-ConnectionGUID: eSx63tzJSOiOKOMzxwamIw==
-X-CSE-MsgGUID: 8kPpfTIzS8KJLnsiHY70dA==
-X-IronPort-AV: E=Sophos;i="6.27,95,1787032800"; 
-   d="scan'208";a="122105813"
-Received: from unknown (HELO 6T8J9X2.ap.corp.arrow.com) ([10.126.18.101])
-  by naesa03out.arrow.com with ESMTP; 10 Sep 2026 07:34:15 -0600
-From: bhavesh.maheshwari@einfochips.com
-To: openembedded-core@lists.openembedded.org
-Subject: [wrynose][oe-core][PATCH 07/10] ffmpeg: Fix for CVE-2026-65703
-Date: Thu, 10 Sep 2026 19:01:41 +0530
-Message-ID: <20260910133357.452394-7-bhavesh.maheshwari@einfochips.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260910133357.452394-1-bhavesh.maheshwari@einfochips.com>
-References: <20260910133357.452394-1-bhavesh.maheshwari@einfochips.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=smile.fr; s=google; t=1789047332; x=1789652132; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=2bPk4rCZk+PdbXqdWpCzHZw1iD9rXwK4VGRDgb0sMlQ=;
+        b=hXkp/NZyIn3feLXR4w8TLzfQ2lkCHIWs930biirqq2sokFabME2WPzCqh2hrPEA3/0
+         M/M8V1+zgbY7WP4BAkJZIur/viTryc2Nm5PJ3O4p76U/d0cZ0/tjEB/6UG9LyC7HOovZ
+         5IeirGh1BcFZqFvpoCp2aiQrVbhwqlWp9dYws=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789047332; x=1789652132;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=2bPk4rCZk+PdbXqdWpCzHZw1iD9rXwK4VGRDgb0sMlQ=;
+        b=itHK/fw1lcygWdMvbzSl+kn02r+jJ0S5q3XzYjoLlFbGPFmKKUCNT7wg3ZoVw2W+s+
+         0rPXaF75g4XbTw1O60c5A5ocZPltueGVl5f3FgGqf+7Rn0MxvC8YJKHfVq/wnWHa46t2
+         1+m8hYt+kJRG+oF+QpI7ViQflktHDBjDNqjgjNj8qfLK4nhPh92vkNTuds/37TBzk+gV
+         ORpJzKGUPPM/RrZnejbG584gQfTEWberZrRLndlJl3wRLXvmMpEvpDzHYxUw0Yz3hjTJ
+         dym6AO12tHgUGnHP4Qd7pyUkSkZZ0CKPntmclRAq6UZ3IfEt16ide2ORIfp4u2aBxE2N
+         cAIQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz9n/IhKkcBLvrcGcLq2EwzUNGEAj9LvSKhj/DaoNQPJsqW0ENElQth/2gEVlGY2DCEeoTlAJG3rXFx0/VAw7ddig==@lists.openembedded.org
+X-Gm-Message-State: AFuF++l12zhvVrZdzatXTJhnmuuKrcVveZPbgHBWxG30qYk7karxzuWw
+	/2Pus3aGXlPAjGMQra8Q2OePttb+bX7Uncc0ror1J2fM+je4trx38ggKwDm8VEeliSYm7dU8VVl
+	cFmse7Hc=
+X-Gm-Gg: AYBFou1pb94+LrH77t6YOfD4uCiAhsAqwYeThDMqCrARVMZ0TUIenvE78FXMMdE8BoQ
+	SYBW5qT1r9qw/Z24IyErIuXbFqmieC9dolfUsT/u2GJRhOFAzfCa9JDPVGitrRCibIvGJIEbQGG
+	2fKIwQZwSPS4jJ1wW2Jpu2nu9OVhaWgGp/hYw6B2X0ZwBEmmD7lstb5T+DFfc0kbSeTIUZn5WFq
+	PlsfOSwKYzlh8xWe8+nDRwyrIcZKE1Wn5S/1xhWYB2oS2p983tCSRavjmYzO3P4GWrWvmYLzJJ/
+	74WtGrazzb3529Dp82on29lVDrsaykRlp2bjwseZLvFYmeFTCB7kIDG3rpIE9rGcX5+2nRSoW5I
+	dJXYT4L5jEBHqBaQPr+YlJbn/EYAIFvl4zMcV7YUO4L81Z7688oR+oS0wWrcHNhAHvucC1qTbtJ
+	jaVd2UlfFEVsCpI0yba9Qn9h88sNPl5zB1Z7MM9CDUNM6D5fgifBttKCxp5BUzsb0qFqAzStKbK
+	pBCtlfkWAgjkfc71rWdjcAxxJsWpQH94qxANf/7YtYwPXIeA1RAFXtpjOkRGEQ=
+X-Received: by 2002:a05:600c:4e49:b0:49c:fa20:cc05 with SMTP id 5b1f17b1804b1-49cfa20ccd2mr397317805e9.28.1789047331970;
+        Thu, 10 Sep 2026 06:35:31 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c39086sm66785745e9.10.2026.09.10.06.35.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Sep 2026 06:35:31 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 10 Sep 2026 15:35:31 +0200
+Message-Id: <DLBOCLWG1J13.1WBXFUN9BLUJW@smile.fr>
+Subject: Re: [OE-core] [poky][scarthgap][PATCH] libgcrypt: Update license
+ for dbg package
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Sana Kazi" <Kazi.S@bmwtechworks.in>
+To: <UpStream_IP-SK@bmwtechworks.in>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260910084801.2582462-1-UpStream_IP-SK@bmwtechworks.in>
+In-Reply-To: <20260910084801.2582462-1-UpStream_IP-SK@bmwtechworks.in>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 13:34:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245576
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 13:35:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245580
 
-From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+On Thu Sep 10, 2026 at 10:48 AM CEST, Sana Kazi via lists.openembedded.org =
+wrote:
+> From: Sana Kazi <Kazi.S@bmwtechworks.in>
+>
+> Set LICENSE for libgcrypt-dbg as "LGPL-2.1-or-later"
+>
+> Signed-off-by: Sana Kazi <Kazi.S@bmwtechworks.in>
 
-Pick the patch from [1], also referenced in the NVD report [2].
+Hello,
 
-[1] https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/fd3ee52fab34d98a95b787d0b5ff45685766200c
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-65703
+As fas as I can tell, this patch is also needed on master and wrynose. I
+can't merge here until this is fixed there.
 
-Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
----
- .../ffmpeg/ffmpeg/CVE-2026-65703.patch        | 47 +++++++++++++++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-65703.patch
+Can you send a patch to fix this on these branches and then, ping back
+here?
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-65703.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-65703.patch
-new file mode 100644
-index 0000000000..67c319f17e
---- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-65703.patch
-@@ -0,0 +1,47 @@
-+From d15f021e27bd2eb4b7aaeb4cc4f2f49ec3435f48 Mon Sep 17 00:00:00 2001
-+From: Cloud-LHY <security@clouditera.com>
-+Date: Fri, 10 Jul 2026 04:07:04 +0200
-+Subject: [PATCH 5/9] avcodec/tdsc: unref the reference frame before
-+ reallocating on size change
-+
-+Fixes: out of array access
-+Fixes: tdsc_poc/ffmpeg-tdsc-linesize-report/poc.avi / gen_poc.py
-+Fixes: tdsc_resize_jpeg_oob.avi / tdsc-resize-stale-linesize-jpeg-oob-generate-poc.py
-+Fixes: p9xG4xGf9P7H
-+Fixes: HQL7a1WgTdHZ
-+Found-by: Cloud-LHY / Clouditera Security, Z.ai Security, NSFOCUS
-+Found-by: Adrian Junge (vurlo)
-+
-+CVE: CVE-2026-65703
-+Upstream-Status: Backport [https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/fd3ee52fab34d98a95b787d0b5ff45685766200c]
-+
-+Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
-+---
-+ libavcodec/tdsc.c | 8 ++++++--
-+ 1 file changed, 6 insertions(+), 2 deletions(-)
-+
-+diff --git a/libavcodec/tdsc.c b/libavcodec/tdsc.c
-+index 8baf8e9..ecd67da 100644
-+--- a/libavcodec/tdsc.c
-++++ b/libavcodec/tdsc.c
-+@@ -482,11 +482,15 @@ static int tdsc_parse_tdsf(AVCodecContext *avctx, int number_tiles)
-+             return ret;
-+         init_refframe = 1;
-+     }
-+-    ctx->refframe->width  = ctx->width  = w;
-+-    ctx->refframe->height = ctx->height = h;
-++    ctx->width  = w;
-++    ctx->height = h;
-+ 
-+     /* Allocate the reference frame if not already done or on size change */
-+     if (init_refframe) {
-++        av_frame_unref(ctx->refframe);
-++        ctx->refframe->format = avctx->pix_fmt;
-++        ctx->refframe->width  = w;
-++        ctx->refframe->height = h;
-+         ret = av_frame_get_buffer(ctx->refframe, 0);
-+         if (ret < 0)
-+             return ret;
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
-index 8d9e975721..7f0cdd4577 100644
---- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
-@@ -30,6 +30,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://CVE-2026-64833.patch \
-            file://CVE-2026-64834.patch \
-            file://CVE-2026-64835.patch \
-+           file://CVE-2026-65703.patch \
-            "
- 
- SRC_URI[sha256sum] = "6136812ea6d4e68bdba27e33c2a94382711cdf4f8602ffef056ff792bd6f9818"
--- 
-2.43.0
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
 
