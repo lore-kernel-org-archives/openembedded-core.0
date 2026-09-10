@@ -1,541 +1,238 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 79E59C79FB7
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 06:29:43 +0000 (UTC)
-Received: from mail-ed1-f51.google.com (mail-ed1-f51.google.com [209.85.208.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7785.1789021779563370957
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A4F53C79FB9
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 06:47:33 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7949.1789022842080886739
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 23:29:40 -0700
+ Wed, 09 Sep 2026 23:47:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=Ueh03rzr;
- spf=pass (domain: mvista.com, ip: 209.85.208.51, mailfrom: vanusuri@mvista.com)
-Received: by mail-ed1-f51.google.com with SMTP id 4fb4d7f45d1cf-6a173ad7cf4so11012247a12.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 23:29:39 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789021778; cv=none;
-        d=google.com; s=arc-20260327;
-        b=syusmT3rjMO1LagktrYS/SXGBnpuIx4HupVd0nTnlTO5koLetD2cBOPAMcVC33igGg
-         BVexmt13f7A1d/mWm4I8vLzyV5Tz9bFbQa0RlIZSMSR4LLsWfVTrbLGeSmYAlvJKBZGB
-         JrtMx2E5CPBExKvRsEkyy/gROXNgULymwYgVc72r59C3RgeEMftAsLFqoCU8parlHE+y
-         EbhpfK95/dChPrjhdFD7aGRdzrvqYKqfeZ1YbtYbwM9FZlvdy0iFZg581MtCj+syNzP7
-         hPGC1EXTEv8nTrJ62wgvu+H3zdTOoaOT2xVfJT5rWH//xg/YvP+SrcrxJJhfFz2BAguM
-         u6wA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=r+6RTDmKlLLSMSh+sciG58sFovRZy5FPfcraWYQcNx0=;
-        fh=5VpxgiaFCw99hmUxvV+/er63fRX0UWM338mat0ljUv0=;
-        b=TFfe7oImcB40BhqDsyUsxCJQ4OtiR7mgC2eDCVBhzKsm9zYFhUeeh5DGvovFzKzA0w
-         D86QNRWxgCv4WsGCxf25XpZcWF5r4hjkCGrfn82DV3BQPqsr2HNYG+wtulm87up/R6oN
-         pxeURQ3qPolbYlsW39mBuFzWQVHrzvKC4wDoUGR+DSW7dc4Hr5yXqQS7G491MHt7r3Hy
-         WGeXjJKfHDq+hhSRDIGPouw1/aKJg0YBLCurQnRv+nZzWlz2ZabYRvG7Yok7T40ju0c+
-         bLMfMuh6t0BX1vMdRhDJVeNAY2CyIWV33d+dVICsbfoWJk24kf1hFZ9Fekbf1VM8pYjH
-         cwqQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@smile.fr header.s=google header.b=nYq/Rz8v;
+ spf=pass (domain: smile.fr, ip: 209.85.128.43, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49b965570d7so74745025e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 23:47:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1789021778; x=1789626578; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+        d=smile.fr; s=google; t=1789022840; x=1789627640; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=r+6RTDmKlLLSMSh+sciG58sFovRZy5FPfcraWYQcNx0=;
-        b=Ueh03rzrq0qyd0MXN9AismEPzVToUFTHUTNlT7z3XrN7/oRQvjX7LUCfWPbZds507a
-         Ip2vpU14ZI3tUBsZKy1yrm4haZ7FXGo5Z39U5FpXR30InSZuLs1kc4d11yUl8a9Eb6P3
-         Mc6pOME0F1Gyt+EsJ5dzCuiZ5IdRt3C0ai568=
+        bh=doHansnN3sw7iarvX5yM0dzxDSe3W+bNNjWov9H7JPM=;
+        b=nYq/Rz8vOGcSAmsPRXs2+I12kmX0fW+82HXinIPxKhFFhwE4iRVXESjzoZbsENlZuY
+         xe2KEVmS4E5tfVbNgv/eH1rDAN4HhgCh1GK6UzwpZsOXDImScN69M9iEcRotov79yzT6
+         V1ZtcgJtDve7rJnZKz0S447VuwyXnZuhJBlSQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789021778; x=1789626578;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=r+6RTDmKlLLSMSh+sciG58sFovRZy5FPfcraWYQcNx0=;
-        b=T5M07IZnpeScxlilI1Irr9zNnUr+K+XARthHpD6tCZRki2eIya037BkWXxJXBqrOx4
-         2UNJ/ACTjiJ0tgRjVsfayPgLGYzkF+DT6PCo+Rm1+VdUmjUP7AHPksqxrXGXUqtyHZ4Y
-         MQpqNb8OWLS9BXGeYnkPLeYp4gAWdnpDR0KEizTAHni48cDGPKinFZFc9QogSHmkDqpw
-         aynWPzPYnBt1xpiFUr0Ad5SZgVQHy/Zf0qkmiTuIACyN3+DAhkcxrI+Ec3qH9U2A3Tf+
-         zbOgViSfjPLcr+7O71cHaxqqCOHXsgkXkiKIAffyhF+7t/1rbZII5TDO4xuzif4JaN7q
-         4Hwg==
-X-Gm-Message-State: AFuF++mu+9tITw/IiKy4Ghs5813YUUZsb9+D6hZVYjjAjC3pyfO77Cqd
-	DrL8v/VqlqzKU4noaefkHc9XxFK7ix224jYoJ3RzNw3e4U3fOetROBKyrxTSW8sQbW6AriEqdn0
-	/fU9gKTe1CLZ4zFPmQMoYgaiWmmWUJ8Si5maZV/JyHQ==
-X-Gm-Gg: AYBFou3ZcVkoRGm1mh/GAzFstlN0L5xdWxyM+EjYGYeqdxFsCmdU/sUDO5JyKc6O31K
-	Wi7933SzAl55o1F7dOTraijTfot4rFo0l7SzFku889FaA+5c7UpmtHtUavbZws4DN2n63fUBLlQ
-	2xhyUYv6tCUX/UUfNuo7FqX/HIU3kobAsek+/K/87gKetw3X22tIsEYmH7ZiupWEvJeHZS+MQg+
-	9N3PEz9rMg6vHK/kxxUnIaHEfyf55c4olYKS/Q6zOC/2tHta+YTa9JHcXyhNCJRxCFTVkzhO7Ds
-	AC6b/QqLinJ+I6pMm4jMDcXksqHrz34F/ICTOwezJvO0Fut+aRH1Cw4=
-X-Received: by 2002:a05:6402:428a:b0:6a8:372:edbd with SMTP id
- 4fb4d7f45d1cf-6a80372f234mr10411653a12.10.1789021776598; Wed, 09 Sep 2026
- 23:29:36 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789022840; x=1789627640;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=doHansnN3sw7iarvX5yM0dzxDSe3W+bNNjWov9H7JPM=;
+        b=O576IQcvzbtFA3ufXBIqpANySKA46DxXDd3ZmZu+KAi0zK3S5xhnbI8I1c4k7rZBQO
+         EAaj2TKlt1GIOuUatyBABB1DhMIQTr+DXfpuALhdjYO8l7ZUv4xd0Q6AP12A8Zu+GU/t
+         KDw9FQ9CKtRw7WCBIwKKCIkg6i0aZDZltFpb+yeVlu4RXx6J1BBP3BCtn0zr3D3bQ/4I
+         h1NDfO9Xn3qB/4b2STcZrw9L7ZkwY4W1soXVqG7zWOSxyJE0sm6Pir0m7cU/04gqDV5f
+         Z9UOdkvY4/wRUVrSCRN+BjochHzvHIAJ6T5bw+eXZacm4vw7zwJ4a88q1nQfkLKAak/o
+         QI0w==
+X-Gm-Message-State: AFuF++logcfm5CrFhtkEX3A6uYJlpsYGQdaOdLU+RqLK4SGgF8KPuc1q
+	fUm/hR0Ez5Om4hmFI4A+jJkecg9gWWDw23QQ+D4h3NxVohdEF+eX3z6JoGtCngXEuGzlaziIo6u
+	4KfTNmw8=
+X-Gm-Gg: AYBFou25t/iZfO+or2NsHztX8M54gLFddnSRtqKbCF5tzXoR73RMNY2a21rVYp1t0ZZ
+	5MPfAFlMDCwiuXyBch/fO4HPYXI5C5+i3Cn5KfPPK+Oy1PpWuu0PsV2C09SZj+eFP6P62BjHRoI
+	Ig4xCm0BpWk+pJnhvUz0BL2auXj4KTn0O2ofJpt5icYD5tOh/nKxSKSypsplYVtflGmeI2ZlyKU
+	hglYlTf5aZYRB5/ZQl6eX3N92AfGkZkqxSiRbxyRjArv/DSgeMx75Pk9Q+gwbE2+zcaIjsoPLgm
+	t3xQNjEKIUM91mGciPIKUT7RHzHzVTYaXFbrwHzwPVpZdSD5fXifvnErJ54Cs+afzacbXMZBYkZ
+	8iawAhg+jdagV9e+oEyhpFjPzpw3ZgmRsFUBxD9gkwFQd+tLiXXJVJX2vIYvCwuel9pXnfRDzpd
+	wTyaNYeJP0eyVvn6IGzQJ4BHhLyD72Zi2Y4xQEOvSQ3fJHExSCZaeC3KsJ6Vkt6GPV85HYM37Ts
+	YU+fGLAfDgR307ICJ6wpWEhScTLgnMxvvOAaR9VpWOcTWU+qpsPlYrkJlob91Iry66hpcf2sNw=
+X-Received: by 2002:a05:600c:4714:b0:49d:462:6eda with SMTP id 5b1f17b1804b1-49d04627387mr299842155e9.28.1789022840148;
+        Wed, 09 Sep 2026 23:47:20 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d20daed90sm22253445e9.2.2026.09.09.23.47.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 09 Sep 2026 23:47:19 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>,
+	Richard Purdie <richard.purdie@linuxfoundation.org>
+Subject: [OE-core][scarthgap 00/35] Pull request (cover letter only)
+Date: Thu, 10 Sep 2026 08:47:01 +0200
+Message-ID: <cover.1789022713.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-References: <20260826081324.65559-1-vanusuri@mvista.com> <DLA00SM0KMT2.1CWHEJAO2J870@smile.fr>
-In-Reply-To: <DLA00SM0KMT2.1CWHEJAO2J870@smile.fr>
-From: Vijay Anusuri <vanusuri@mvista.com>
-Date: Thu, 10 Sep 2026 11:59:24 +0530
-X-Gm-Features: AcwNN1Wk74YZrnNAqlnovJI5agm8iDkSzqPB1S3B_ik4IcANWCLP7JXdB50poF8
-Message-ID: <CANQUz1807YxnBxVQMeJn8N1mhC698-NEk_tE8XQqRxwa8ke9Vw@mail.gmail.com>
-Subject: Re: [OE-core][wrynose][patch] kbd: Fix CVE-2026-72693
-To: Yoann Congal <yoann.congal@smile.fr>
-Cc: openembedded-core@lists.openembedded.org
-Content-Type: multipart/alternative; boundary="0000000000007d68ab065b1b17dd"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:29:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245539
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:47:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245540
 
---0000000000007d68ab065b1b17dd
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Those are the patches from the last patch review:
+https://lore.kernel.org/all/cover.1788787321.git.yoann.congal@smile.fr/
+(No review, no changes)
 
-Hi Yoann,
+Passed a-full on autobuilder (Same as patch review request):
+* qemuppc (AB disk space issue) retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/31/builds/1662
+* pkgman-non-rpm (AB disk space issue) retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/67/builds/4598
+* oe-selftest-debian: AB disk space issue in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/4777
+  but "Bitbake Selftest" passed.
+  Retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/35/builds/4779
+  but, here, "Bitbake Selftest" failed on github infra issue (see #16415 – AB-INT: github infrastructure issues)
+* oe-selftest-fedora failed with 16206 – [scarthgap] AB-INT: runtime_test.SystemTap.test_crosstap_* failures
+  retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/48/builds/4594
 
-Thanks for reviewing the patch.
+(TL;DR: No new bug seen in test with this series.)
 
-Yes, the fix intentionally makes the process matching in openvt -u more
-restrictive. The upstream change updates the matching logic so that both of
-the following conditions are satisfied:
+The following changes since commit 048f2f8e8864ae5861afe95ea52efc0354bfc18c:
 
-   - The process owner matches the current VT owner.
-   - The process has the current VT as its controlling terminal.
+  build-appliance-image: Update to scarthgap head revision (2026-09-04 10:39:17 +0100)
 
-It also prevents root from being selected as the pre-authenticated target.
+are available in the Git repository at:
 
-This behavior change is intended to address the security issue in the
-previous implementation, where an unprivileged process holding an inherited
-file descriptor for the VT could potentially be incorrectly identified as
-the VT owner. In certain privileged kbrequest/init configurations, this
-could lead to passwordless root login.
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-next
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-next
 
-I also checked how this CVE has been handled downstream. Redhat & Oracle
-Linux has backported the same fix to kbd 2.4.0 and 2.6.4 .
+for you to fetch changes up to 5b4292b3fc1586709dcdc27d7cfa3d880e6f338a:
 
-I agree that this changes the behavior of openvt -u. However, the change
-appears to be directly related to preventing the privilege escalation
-rather than being an unrelated behavioral change.
+  gnutls: Backport fix for CVE-2026-33846 (2026-09-06 01:25:16 +0200)
 
-Thanks & Regards,
+----------------------------------------------------------------
 
-Vijay
+Anil Dongare (1):
+  apt: mark CVE-2011-3374 as not-applicable-config
 
+Bruce Ashfield (3):
+  linux-yocto/6.6: update to v6.6.150
+  linux-yocto/6.6: update to v6.6.151
+  linux-yocto/6.6: fix tiny build
 
-On Tue, Sep 8, 2026 at 7:49=E2=80=AFPM Yoann Congal <yoann.congal@smile.fr>=
- wrote:
+Darsh Kelaiya (3):
+  python3-git: fix CVE-2026-42284
+  python3-git: fix CVE-2026-44243
+  python3-git: fix CVE-2026-44244
 
-> On Wed Aug 26, 2026 at 10:13 AM CEST, Vijay Anusuri via
-> lists.openembedded.org wrote:
-> > Pick patch according to [1]
-> >
-> > [1] https://security-tracker.debian.org/tracker/CVE-2026-72693
-> > [2] https://nvd.nist.gov/vuln/detail/CVE-2026-72693
-> > [3] https://access.redhat.com/security/cve/cve-2026-72693
-> >
-> > Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > ---
-> >  .../recipes-core/kbd/kbd/CVE-2026-72693.patch | 155 ++++++++++++++++++
-> >  meta/recipes-core/kbd/kbd_2.9.0.bb            |   1 +
-> >  2 files changed, 156 insertions(+)
-> >  create mode 100644 meta/recipes-core/kbd/kbd/CVE-2026-72693.patch
-> >
-> > diff --git a/meta/recipes-core/kbd/kbd/CVE-2026-72693.patch
-> b/meta/recipes-core/kbd/kbd/CVE-2026-72693.patch
-> > new file mode 100644
-> > index 0000000000..06b8c195a5
-> > --- /dev/null
-> > +++ b/meta/recipes-core/kbd/kbd/CVE-2026-72693.patch
-> > @@ -0,0 +1,155 @@
-> > +From 78d5ae119742e87baa7dbe0f5c4107e7533fd698 Mon Sep 17 00:00:00 2001
-> > +From: Alexey Gladkov <legion@kernel.org>
-> > +Date: Tue, 12 May 2026 10:20:50 +0200
-> > +Subject: [PATCH] openvt: make -u process matching more conservative
-> > +
-> > +The -u mode relies on the current VT owner to decide which user should
-> > +be used for the new login session. Make that check stricter by requiri=
-ng
-> > +a matching process owner and controlling terminal instead of relying o=
-n
-> > +the ownership of an inherited file descriptor.
-> > +
-> > +Also reject root as a pre-authenticated target and document the tighte=
-r
-> > +behavior in the man page.
-> > +
-> > +Signed-off-by: Alexey Gladkov <legion@kernel.org>
-> > +
-> > +Upstream-Status: Backport [
-> https://github.com/legionus/kbd/commit/78d5ae119742e87baa7dbe0f5c4107e753=
-3fd698
-> ]
-> > +CVE: CVE-2026-72693
-> > +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> > +---
-> > + docs/man/man1/openvt.1 | 10 +++++++
-> > + src/openvt.c           | 64 +++++++++++++++++++++++++++++++++++++----=
--
-> > + 2 files changed, 67 insertions(+), 7 deletions(-)
-> > +
-> > +diff --git a/docs/man/man1/openvt.1 b/docs/man/man1/openvt.1
-> > +index 8f1244f..404e4a0 100644
-> > +--- a/docs/man/man1/openvt.1
-> > ++++ b/docs/man/man1/openvt.1
-> > +@@ -36,6 +36,8 @@ will be made the new current VT.
-> > + \fB\-u\fR, \fB\-\-user\fR
-> > + Figure out the owner of the current VT, and run login as that user.
-> > + Suitable to be called by init. Shouldn't be used with \fI\-c\fR or
-> \fI\-l\fR.
-> > ++This option refuses to pre-authenticate root and requires a process
-> owned by
-> > ++the VT owner whose controlling terminal is the current VT.
-> > + .TP
-> > + \fB\-l\fR, \fB\-\-login\fR
-> > + Make the command a login shell. A \- is prepended to the name of the
-> command
-> > +@@ -64,6 +66,14 @@ If
-> > + is compiled with a getopt_long() and you wish to set
-> > + options to the command to be run, then you must supply
-> > + the end of options \-\- flag before the command.
-> > ++.PP
-> > ++The
-> > ++.B \-u
-> > ++option uses
-> > ++.BR "login -f"
-> > ++and therefore bypasses normal password authentication for the detecte=
-d
-> user.
-> > ++It is intended only for controlled init or keyboard-request
-> configurations.
-> > ++Use a normal authenticated login command when authentication is
-> required.
-> > + .SH EXAMPLES
-> > + .B openvt
-> > + can be used to start a shell on the next free VT, by using the comman=
-d:
-> > +diff --git a/src/openvt.c b/src/openvt.c
-> > +index a94392b..ddd9239 100644
-> > +--- a/src/openvt.c
-> > ++++ b/src/openvt.c
-> > +@@ -57,6 +57,51 @@ usage(int rc, const struct kbd_help *options)
-> > +     exit(rc);
-> > + }
-> > +
-> > ++static int
-> > ++proc_pid_stat(const char *pid, uid_t *uid, dev_t *tty)
-> > ++{
-> > ++    char filename[NAME_MAX + 12];
-> > ++    char line[BUFSIZ];
-> > ++    char *lp, *rp;
-> > ++    FILE *fp;
-> > ++    struct stat st;
-> > ++    long tty_nr;
-> > ++
-> > ++    snprintf(filename, sizeof(filename), "/proc/%s/stat", pid);
-> > ++    fp =3D fopen(filename, "r");
-> > ++    if (!fp)
-> > ++            return -1;
-> > ++
-> > ++    if (fstat(fileno(fp), &st)) {
-> > ++            fclose(fp);
-> > ++            return -1;
-> > ++    }
-> > ++
-> > ++    if (!fgets(line, sizeof(line), fp)) {
-> > ++            fclose(fp);
-> > ++            return -1;
-> > ++    }
-> > ++    fclose(fp);
-> > ++
-> > ++    rp =3D strrchr(line, ')');
-> > ++    if (!rp)
-> > ++            return -1;
-> > ++
-> > ++    /*
-> > ++     * /proc/<pid>/stat fields after comm are:
-> > ++     * state ppid pgrp session tty_nr ...
-> > ++     */
-> > ++    if (!rp || sscanf(rp + 1, " %*c %*d %*d %*d %ld", &tty_nr) !=3D 1=
-)
-> > ++            return -1;
-> > ++
-> > ++    if (tty_nr <=3D 0)
-> > ++            return -1;
-> > ++
-> > ++    *uid =3D st.st_uid;
-> > ++    *tty =3D (dev_t) tty_nr;
-> > ++    return 0;
-> > ++}
-> > ++
-> > + /*
-> > +  * Support for Spawn_Console: openvt running from init
-> > +  * added by Joshua Spoerri, Thu Jul 18 21:13:16 EDT 1996
-> > +@@ -88,8 +133,7 @@ authenticate_user(int curvt)
-> > +     DIR *dp;
-> > +     struct dirent *dentp;
-> > +     struct stat buf;
-> > +-    dev_t console_dev;
-> > +-    ino_t console_ino;
-> > ++    dev_t console_rdev;
-> > +     uid_t console_uid;
-> > +     char filename[NAME_MAX + 12];
-> > +     struct passwd *pwnam;
-> > +@@ -109,10 +153,12 @@ authenticate_user(int curvt)
-> > +                     kbd_error(EXIT_FAILURE, errsv, "%s", filename);
-> > +             }
-> > +     }
-> > +-    console_dev =3D buf.st_dev;
-> > +-    console_ino =3D buf.st_ino;
-> > ++    console_rdev =3D buf.st_rdev;
-> > +     console_uid =3D buf.st_uid;
-> > +
-> > ++    if (console_uid =3D=3D 0)
-> > ++            kbd_error(EXIT_FAILURE, 0, _("Refusing to pre-authenticat=
-e
-> root on current tty."));
->
-> Hello,
->
-> Isn't this a change in befavior that might break some use-case?
-> I don't know how legitimate and/or unsafe it is though...
-> Do you know?
->
-> I'll hold this in the meantime.
->
-> Regards,
-> --
-> Yoann Congal
-> Smile ECS
->
->
+Eilís 'pidge' Ní Fhlannagáin (1):
+  ovmf: fix tpm PACKAGECONFIG to use TPM2_ENABLE
 
---0000000000007d68ab065b1b17dd
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Hetvi Thakar (3):
+  python3-idna: Fix CVE-2026-45409
+  python3-mako: Fix CVE-2026-41205
+  libssh2: Fix CVE-2026-58051
 
-<div dir=3D"ltr">Hi=C2=A0Yoann,<br><br><p><span>Thanks for reviewing the pa=
-tch.</span></p><p><span>Yes, the fix intentionally makes the process matchi=
-ng in openvt -u=C2=A0</span><span>more restrictive. The upstream change upd=
-ates the matching logic so that both of the following conditions are satisf=
-ied:</span></p><ul><li><span>The process owner matches the current VT owner=
-.</span></li><li><span>The process has the current VT as its controlling te=
-rminal.</span></li></ul><p><span>It also prevents root from being selected =
-as the pre-authenticated target.</span></p><p><span>This behavior change is=
- intended to address the security issue in the previous implementation, whe=
-re an unprivileged process holding an inherited file descriptor for the VT =
-could potentially be incorrectly identified as the VT owner. In certain pri=
-vileged </span><code dir=3D"ltr"><span>kbrequest</span></code><span>/init c=
-onfigurations, this could lead to passwordless root login.</span></p><p><sp=
-an>I also checked how this CVE has been handled downstream. Redhat &amp; Or=
-acle Linux has backported the same fix to kbd 2.4.0 and 2.6.4 .</span></p><=
-p><span>I agree that this changes the behavior of openvt -u.</span><span>=
-=C2=A0However, the change appears to be directly related to preventing the =
-privilege escalation rather than being an unrelated behavioral change.<br><=
-br></span></p><p><span>Thanks &amp; Regards,<br></span></p><p><span>Vijay</=
-span></p><br></div><br><div class=3D"gmail_quote gmail_quote_container"><di=
-v dir=3D"ltr" class=3D"gmail_attr">On Tue, Sep 8, 2026 at 7:49=E2=80=AFPM Y=
-oann Congal &lt;<a href=3D"mailto:yoann.congal@smile.fr">yoann.congal@smile=
-.fr</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D"marg=
-in:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1e=
-x">On Wed Aug 26, 2026 at 10:13 AM CEST, Vijay Anusuri via <a href=3D"http:=
-//lists.openembedded.org" rel=3D"noreferrer" target=3D"_blank">lists.openem=
-bedded.org</a> wrote:<br>
-&gt; Pick patch according to [1]<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://security-tracker.debian.org/tracker/CVE-2026-72=
-693" rel=3D"noreferrer" target=3D"_blank">https://security-tracker.debian.o=
-rg/tracker/CVE-2026-72693</a><br>
-&gt; [2] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-72693" rel=3D=
-"noreferrer" target=3D"_blank">https://nvd.nist.gov/vuln/detail/CVE-2026-72=
-693</a><br>
-&gt; [3] <a href=3D"https://access.redhat.com/security/cve/cve-2026-72693" =
-rel=3D"noreferrer" target=3D"_blank">https://access.redhat.com/security/cve=
-/cve-2026-72693</a><br>
-&gt;<br>
-&gt; Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.com=
-" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 .../recipes-core/kbd/kbd/CVE-2026-72693.patch | 155 ++++++++++++=
-++++++<br>
-&gt;=C2=A0 meta/recipes-core/kbd/<a href=3D"http://kbd_2.9.0.bb" rel=3D"nor=
-eferrer" target=3D"_blank">kbd_2.9.0.bb</a>=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=
-=A0 =C2=A0 |=C2=A0 =C2=A01 +<br>
-&gt;=C2=A0 2 files changed, 156 insertions(+)<br>
-&gt;=C2=A0 create mode 100644 meta/recipes-core/kbd/kbd/CVE-2026-72693.patc=
-h<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/kbd/kbd/CVE-2026-72693.patch b/meta/rec=
-ipes-core/kbd/kbd/CVE-2026-72693.patch<br>
-&gt; new file mode 100644<br>
-&gt; index 0000000000..06b8c195a5<br>
-&gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-core/kbd/kbd/CVE-2026-72693.patch<br>
-&gt; @@ -0,0 +1,155 @@<br>
-&gt; +From 78d5ae119742e87baa7dbe0f5c4107e7533fd698 Mon Sep 17 00:00:00 200=
-1<br>
-&gt; +From: Alexey Gladkov &lt;<a href=3D"mailto:legion@kernel.org" target=
-=3D"_blank">legion@kernel.org</a>&gt;<br>
-&gt; +Date: Tue, 12 May 2026 10:20:50 +0200<br>
-&gt; +Subject: [PATCH] openvt: make -u process matching more conservative<b=
-r>
-&gt; +<br>
-&gt; +The -u mode relies on the current VT owner to decide which user shoul=
-d<br>
-&gt; +be used for the new login session. Make that check stricter by requir=
-ing<br>
-&gt; +a matching process owner and controlling terminal instead of relying =
-on<br>
-&gt; +the ownership of an inherited file descriptor.<br>
-&gt; +<br>
-&gt; +Also reject root as a pre-authenticated target and document the tight=
-er<br>
-&gt; +behavior in the man page.<br>
-&gt; +<br>
-&gt; +Signed-off-by: Alexey Gladkov &lt;<a href=3D"mailto:legion@kernel.org=
-" target=3D"_blank">legion@kernel.org</a>&gt;<br>
-&gt; +<br>
-&gt; +Upstream-Status: Backport [<a href=3D"https://github.com/legionus/kbd=
-/commit/78d5ae119742e87baa7dbe0f5c4107e7533fd698" rel=3D"noreferrer" target=
-=3D"_blank">https://github.com/legionus/kbd/commit/78d5ae119742e87baa7dbe0f=
-5c4107e7533fd698</a>]<br>
-&gt; +CVE: CVE-2026-72693<br>
-&gt; +Signed-off-by: Vijay Anusuri &lt;<a href=3D"mailto:vanusuri@mvista.co=
-m" target=3D"_blank">vanusuri@mvista.com</a>&gt;<br>
-&gt; +---<br>
-&gt; + docs/man/man1/openvt.1 | 10 +++++++<br>
-&gt; + src/openvt.c=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0| 64 ++++++++++=
-+++++++++++++++++++++++++++-----<br>
-&gt; + 2 files changed, 67 insertions(+), 7 deletions(-)<br>
-&gt; +<br>
-&gt; +diff --git a/docs/man/man1/openvt.1 b/docs/man/man1/openvt.1<br>
-&gt; +index 8f1244f..404e4a0 100644<br>
-&gt; +--- a/docs/man/man1/openvt.1<br>
-&gt; ++++ b/docs/man/man1/openvt.1<br>
-&gt; +@@ -36,6 +36,8 @@ will be made the new current VT.<br>
-&gt; + \fB\-u\fR, \fB\-\-user\fR<br>
-&gt; + Figure out the owner of the current VT, and run login as that user.<=
-br>
-&gt; + Suitable to be called by init. Shouldn&#39;t be used with \fI\-c\fR =
-or \fI\-l\fR.<br>
-&gt; ++This option refuses to pre-authenticate root and requires a process =
-owned by<br>
-&gt; ++the VT owner whose controlling terminal is the current VT.<br>
-&gt; + .TP<br>
-&gt; + \fB\-l\fR, \fB\-\-login\fR<br>
-&gt; + Make the command a login shell. A \- is prepended to the name of the=
- command<br>
-&gt; +@@ -64,6 +66,14 @@ If<br>
-&gt; + is compiled with a getopt_long() and you wish to set<br>
-&gt; + options to the command to be run, then you must supply<br>
-&gt; + the end of options \-\- flag before the command.<br>
-&gt; ++.PP<br>
-&gt; ++The<br>
-&gt; ++.B \-u<br>
-&gt; ++option uses<br>
-&gt; ++.BR &quot;login -f&quot;<br>
-&gt; ++and therefore bypasses normal password authentication for the detect=
-ed user.<br>
-&gt; ++It is intended only for controlled init or keyboard-request configur=
-ations.<br>
-&gt; ++Use a normal authenticated login command when authentication is requ=
-ired.<br>
-&gt; + .SH EXAMPLES<br>
-&gt; + .B openvt<br>
-&gt; + can be used to start a shell on the next free VT, by using the comma=
-nd:<br>
-&gt; +diff --git a/src/openvt.c b/src/openvt.c<br>
-&gt; +index a94392b..ddd9239 100644<br>
-&gt; +--- a/src/openvt.c<br>
-&gt; ++++ b/src/openvt.c<br>
-&gt; +@@ -57,6 +57,51 @@ usage(int rc, const struct kbd_help *options)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0exit(rc);<br>
-&gt; + }<br>
-&gt; + <br>
-&gt; ++static int<br>
-&gt; ++proc_pid_stat(const char *pid, uid_t *uid, dev_t *tty)<br>
-&gt; ++{<br>
-&gt; ++=C2=A0 =C2=A0 char filename[NAME_MAX + 12];<br>
-&gt; ++=C2=A0 =C2=A0 char line[BUFSIZ];<br>
-&gt; ++=C2=A0 =C2=A0 char *lp, *rp;<br>
-&gt; ++=C2=A0 =C2=A0 FILE *fp;<br>
-&gt; ++=C2=A0 =C2=A0 struct stat st;<br>
-&gt; ++=C2=A0 =C2=A0 long tty_nr;<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 snprintf(filename, sizeof(filename), &quot;/proc/%s/st=
-at&quot;, pid);<br>
-&gt; ++=C2=A0 =C2=A0 fp =3D fopen(filename, &quot;r&quot;);<br>
-&gt; ++=C2=A0 =C2=A0 if (!fp)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 if (fstat(fileno(fp), &amp;st)) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fclose(fp);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 if (!fgets(line, sizeof(line), fp)) {<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 fclose(fp);<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-&gt; ++=C2=A0 =C2=A0 }<br>
-&gt; ++=C2=A0 =C2=A0 fclose(fp);<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 rp =3D strrchr(line, &#39;)&#39;);<br>
-&gt; ++=C2=A0 =C2=A0 if (!rp)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 /*<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0* /proc/&lt;pid&gt;/stat fields after comm are:<=
-br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0* state ppid pgrp session tty_nr ...<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0*/<br>
-&gt; ++=C2=A0 =C2=A0 if (!rp || sscanf(rp + 1, &quot; %*c %*d %*d %*d %ld&q=
-uot;, &amp;tty_nr) !=3D 1)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 if (tty_nr &lt;=3D 0)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 return -1;<br>
-&gt; ++<br>
-&gt; ++=C2=A0 =C2=A0 *uid =3D st.st_uid;<br>
-&gt; ++=C2=A0 =C2=A0 *tty =3D (dev_t) tty_nr;<br>
-&gt; ++=C2=A0 =C2=A0 return 0;<br>
-&gt; ++}<br>
-&gt; ++<br>
-&gt; + /*<br>
-&gt; +=C2=A0 * Support for Spawn_Console: openvt running from init<br>
-&gt; +=C2=A0 * added by Joshua Spoerri, Thu Jul 18 21:13:16 EDT 1996<br>
-&gt; +@@ -88,8 +133,7 @@ authenticate_user(int curvt)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0DIR *dp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct dirent *dentp;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct stat buf;<br>
-&gt; +-=C2=A0 =C2=A0 dev_t console_dev;<br>
-&gt; +-=C2=A0 =C2=A0 ino_t console_ino;<br>
-&gt; ++=C2=A0 =C2=A0 dev_t console_rdev;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0uid_t console_uid;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0char filename[NAME_MAX + 12];<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0struct passwd *pwnam;<br>
-&gt; +@@ -109,10 +153,12 @@ authenticate_user(int curvt)<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=
- =C2=A0kbd_error(EXIT_FAILURE, errsv, &quot;%s&quot;, filename);<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0}<br>
-&gt; +-=C2=A0 =C2=A0 console_dev =3D buf.st_dev;<br>
-&gt; +-=C2=A0 =C2=A0 console_ino =3D buf.st_ino;<br>
-&gt; ++=C2=A0 =C2=A0 console_rdev =3D buf.st_rdev;<br>
-&gt; +=C2=A0 =C2=A0 =C2=A0console_uid =3D buf.st_uid;<br>
-&gt; + <br>
-&gt; ++=C2=A0 =C2=A0 if (console_uid =3D=3D 0)<br>
-&gt; ++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 kbd_error(EXIT_FAILURE, 0,=
- _(&quot;Refusing to pre-authenticate root on current tty.&quot;));<br>
-<br>
-Hello,<br>
-<br>
-Isn&#39;t this a change in befavior that might break some use-case?<br>
-I don&#39;t know how legitimate and/or unsafe it is though...<br>
-Do you know?<br>
-<br>
-I&#39;ll hold this in the meantime.<br>
-<br>
-Regards,<br>
--- <br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</blockquote></div>
+Jaipaul Cheernam (2):
+  util-linux: Fix CVE-2026-3184
+  expat: set CVE_STATUS for CVE-2026-72522
 
---0000000000007d68ab065b1b17dd--
+Jakub Szczudlo (Nokia) (2):
+  gnutls: fix CVE-2026-42010
+  gnutls: fix for CVE-2026-42011
+
+Peter Marko (3):
+  libevent: set status for CVE-2026-63380
+  alsa-lib: patch CVE-2026-56109
+  busybox: patch CVE-2024-58251
+
+Pratik Farkase (1):
+  libevent: merge inherit statements
+
+Roland Kovacs (1):
+  gnutls: Backport fix for CVE-2026-33846
+
+Ross Burton (2):
+  libevent: use libtool to install test binaries
+  libevent: upgrade 2.1.12 -> 2.1.13
+
+Tim Orling (9):
+  python3-babel: fix CVE_PRODUCT
+  python3-click: fix CVE_PRODUCT
+  python3-dbusmock: fix CVE_PRODUCT
+  python3-attrs: fix CVE_PRODUCT
+  python3-numpy: fix CVE_PRODUCT
+  python3-pycryptodome: fix CVE_PRODUCT
+  python3-wheel: fix CVE_PRODUCT
+  python3-pycryptodomex: fix CVE_PRODUCT
+  python3-git: fix CVE_PRODUCT
+
+Vijay Anusuri (4):
+  p11-kit: Fix CVE-2026-13757
+  libxfont2: Fix CVE-2026-56001
+  libxfont2: Fix CVE-2026-56002
+  libxfont2: Fix CVE-2026-56003
+
+ .../busybox/busybox/CVE-2024-58251.patch      |  51 ++++
+ meta/recipes-core/busybox/busybox_1.36.1.bb   |   1 +
+ meta/recipes-core/expat/expat_2.6.4.bb        |   3 +
+ meta/recipes-core/ovmf/ovmf_git.bb            |   2 +-
+ meta/recipes-core/util-linux/util-linux.inc   |   1 +
+ .../util-linux/util-linux/CVE-2026-3184.patch |  61 ++++
+ meta/recipes-devtools/apt/apt_2.6.1.bb        |   3 +
+ .../python/python3-attrs_23.2.0.bb            |   2 +
+ .../python/python3-babel_2.14.0.bb            |   2 +
+ .../python/python3-click_8.1.7.bb             |   2 +
+ .../python/python3-dbusmock_0.31.1.bb         |   2 +
+ .../python/python3-git/CVE-2026-42284.patch   |  37 +++
+ .../python3-git/CVE-2026-44243_p1.patch       | 136 +++++++++
+ .../python3-git/CVE-2026-44243_p2.patch       |  86 ++++++
+ .../python3-git/CVE-2026-44244_p1.patch       | 104 +++++++
+ .../python3-git/CVE-2026-44244_p2.patch       |  30 ++
+ .../python/python3-git_3.1.42.bb              |   8 +
+ .../python3-idna/CVE-2026-45409_p1.patch      |  75 +++++
+ .../python3-idna/CVE-2026-45409_p2.patch      |  48 ++++
+ .../python3-idna/CVE-2026-45409_p3.patch      |  72 +++++
+ .../python/python3-idna_3.7.bb                |   5 +
+ .../python/python3-mako/CVE-2026-41205.patch  | 110 ++++++++
+ .../python/python3-mako_1.3.2.bb              |   2 +
+ .../python/python3-numpy_1.26.4.bb            |   2 +
+ .../python/python3-pycryptodome_3.20.0.bb     |   1 +
+ .../python/python3-pycryptodomex_3.20.0.bb    |   2 +
+ .../python/python3-wheel_0.42.0.bb            |   2 +
+ .../xorg-lib/libxfont2/CVE-2026-56001.patch   |  75 +++++
+ .../xorg-lib/libxfont2/CVE-2026-56002.patch   | 138 +++++++++
+ .../xorg-lib/libxfont2/CVE-2026-56003.patch   | 114 ++++++++
+ .../xorg-lib/libxfont2_2.0.6.bb               |   5 +
+ .../linux/linux-yocto-rt_6.6.bb               |   6 +-
+ .../linux/linux-yocto-tiny_6.6.bb             |   6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.6.bb  |  28 +-
+ .../alsa/alsa-lib/CVE-2026-56109.patch        |  33 +++
+ .../alsa/alsa-lib_1.2.11.bb                   |   1 +
+ .../gnutls/gnutls/CVE-2026-33846.patch        |  66 +++++
+ .../gnutls/gnutls/CVE-2026-42010.patch        |  41 +++
+ .../gnutls/gnutls/CVE-2026-42011_p1.patch     |  43 +++
+ .../gnutls/gnutls/CVE-2026-42011_p2.patch     | 141 ++++++++++
+ meta/recipes-support/gnutls/gnutls_3.8.4.bb   |   4 +
+ ....c-patch-out-tests-that-require-a-wo.patch |   8 +-
+ ...ncrease-default-timeval-tolerance-50.patch |  10 +-
+ ...-monotonic_prc_fallback-as-retriable.patch |  11 +-
+ ...ts-are-marked-failed-only-when-all-a.patch |   9 +-
+ .../libevent/Makefile-missing-test-dir.patch  |  14 +-
+ ...{libevent_2.1.12.bb => libevent_2.1.13.bb} |  16 +-
+ .../libssh2/libssh2/CVE-2026-58051.patch      |  34 +++
+ .../recipes-support/libssh2/libssh2_1.11.1.bb |   1 +
+ .../p11-kit/files/CVE-2026-13757.patch        | 265 ++++++++++++++++++
+ .../recipes-support/p11-kit/p11-kit_0.25.3.bb |   1 +
+ 51 files changed, 1863 insertions(+), 57 deletions(-)
+ create mode 100644 meta/recipes-core/busybox/busybox/CVE-2024-58251.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-3184.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42284.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-44243_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-44243_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-44244_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-44244_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-idna/CVE-2026-45409_p3.patch
+ create mode 100644 meta/recipes-devtools/python/python3-mako/CVE-2026-41205.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-56001.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-56002.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-56003.patch
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-56109.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-33846.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42010.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42011_p1.patch
+ create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42011_p2.patch
+ rename meta/recipes-support/libevent/{libevent_2.1.12.bb => libevent_2.1.13.bb} (84%)
+ create mode 100644 meta/recipes-support/libssh2/libssh2/CVE-2026-58051.patch
+ create mode 100644 meta/recipes-support/p11-kit/files/CVE-2026-13757.patch
+
 
