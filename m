@@ -1,116 +1,129 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <Aravind.Bandari@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 953F4C79FB6
-	for <webhook@archiver.kernel.org>; Wed,  9 Sep 2026 22:40:53 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1083.1788993651599666609
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CB983C79FB7
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 03:38:33 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5783.1789011512123247992
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 15:40:52 -0700
+ Wed, 09 Sep 2026 20:38:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TUi1Y5Bc;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd6185db7so16083285e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 15:40:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1788993650; x=1789598450; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=Td22BP6npIJybLc0+OO2QX4CABeDbABZVrZ1rTW9Eds=;
-        b=TUi1Y5Bc1ucosyWh84AXH8Q9n1HWg1hXYmZIE+WM26I0yAoKIax8b7dDaMqH0UgGXJ
-         pSjJg1PvtECygsUa4hD9TTLhn9S+CKQawUvwyGGDBTPACyWr3wyCTbkGnAq5u4OtIvvu
-         rCnCaKns/7Uu4m0ZepXUNcOWi7PxvT4B+AYQ0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1788993650; x=1789598450;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=Td22BP6npIJybLc0+OO2QX4CABeDbABZVrZ1rTW9Eds=;
-        b=erOdMsnMp577I1ZByvpJCHzXpu5jdr1SQ6/6K67/jF/0eRPeNfNYwVJwYA01/OGSiE
-         cM69v2Bqb2AzJyb8l64HTvWzVlxojkEhhIsjC0ZzBq24mUwJmwpxBMKMa/AP3L3WFOlt
-         FQXVc6/VslbPgCYUHj5D2EuA2LO99QRnc4WN7YJukE6PQMNxZG+GMtQaPKfFeBUR543m
-         2GkKrHEShZ2vN8jwxdXH/580L4JN3tuRmKaEpo7GKX9rDeqM4WtruyQZx18q6roaUWT0
-         bkr+wpDyVzdwHZLmj2ZZHOXMLC0TZpBbcWg/UyzGpL0fUj6YdIgkviRB2UTHqGqr+vU3
-         BQvA==
-X-Forwarded-Encrypted: i=1; AKwUvBxCiNz5n9Ra041oUL8nwCcl8NZaErQwPCStb789mG/8++8Mf8xtC4qM4ZdLnU4P6xOuPiBbovgp61TmLWDQvTvKTA==@lists.openembedded.org
-X-Gm-Message-State: AFuF++lqionJ9igCXTxanc5EWfFIqfRQt9rWPT3zvuPdItxOW8xzqrjr
-	FEyYtUqbxex2JG/iwmNUYqPBDqSvnqWN2sO5VLZk/8HOiDM9aEte8bBbf/g/cJZuf1I=
-X-Gm-Gg: AYBFou3K1CmKNaASJ3gS433Vni89ZLROePGWwUnzKGIXycl8svTjVlz+PXpnH5+Ec16
-	y2PWl5048RuVN65+wJbKiWQIg4GLHlv73ek0n/zf3xyEEBVRO8tLHcstiF0SioqGcs1HCL72FLx
-	1vQ/WV88EZA7FPL9mv+doAdtuKX5FlOdAiZccZNkw2imuwJh67EbC3JkflurO9TXyA6GRTz3pgi
-	015wiFKIVaUgBFjQLPdbRl1g5mVllMv3G2FrtUcNYEmgDzIJmB71fVa536sVswsnSzL5GNQij+f
-	Fd07JINQhueCzqbxlZIs3+JbmpwjKQ+AXMU6k3Wdm1HqAD7PtQhCkW0pV33jRRhVol4hOD6jWBV
-	0ikFhfXI8TXESOAE/S6AMgrWGjXPFcwdGvSJpfkCMSDUZKYEDLlcjnZcaKvA0JY0bL6G8fFt6WG
-	4QrO+2pN7/Y4K3qZrrtkhrzAfQvtl7/ZtGeGf8CRO/YWm9IjRI2Z9j0Vh1e6vbL8SolexXq9Ysy
-	Rv2unGtD90XTXjRdOL7oCoDVIQq9qZaHxlFa+61D8b6CPOUm4OfcIY8dLNjGw==
-X-Received: by 2002:a05:600c:8b10:b0:49d:1e79:35d6 with SMTP id 5b1f17b1804b1-49d26dcaa22mr14457245e9.14.1788993649747;
-        Wed, 09 Sep 2026 15:40:49 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a320:8b5c:de4:61f9? ([2001:8b0:aba:5f3c:a320:8b5c:de4:61f9])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c2985dsm42197865e9.6.2026.09.09.15.40.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 09 Sep 2026 15:40:48 -0700 (PDT)
-Message-ID: <cb88917248190287dcd8ec498180258f2dcb7a5c.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] sstate: allow marking a cached object as in
- use without touching mtime
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: michael.haener@siemens.com, openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>, Peter Marko
-	 <peter.marko@siemens.com>
-Date: Wed, 09 Sep 2026 23:40:46 +0100
-In-Reply-To: <20260909212205.50713-1-michael.haener@siemens.com>
-References: <20260909212205.50713-1-michael.haener@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=hQPx4jzv;
+ spf=none, err=permanent DNS error (domain: oak-lpgbuild11.wrs.com, ip: 205.220.166.238, mailfrom: prvs=37134a2326=abandari@oak-lpgbuild11.wrs.com)
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68A3LndN2258103
+	for <openembedded-core@lists.openembedded.org>; Wed, 9 Sep 2026 20:38:31 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=gFi9vLy9H
+	Sf6qjmiyZDN7qb4n4PYgX6XC4hY5gRY27k=; b=hQPx4jzvgcNADGK9v3gn21t24
+	o9imBK3/DK74JKeOu2wsYHI6DUaTgOztdYBFVwiLeFsHNo1z4JvkFcTPa08KFmTM
+	/ovVBTLhK827wY1rpwbs7dMN2eGVeFg+C1/QDir7DZaSZeydyJZ8wynnsSRKtrXJ
+	vsRe+fFQ4qN8KBM3EVE1xblPbFADzWepiMFo73IeCto3pb4GGjXvUtvBChgfg4Mk
+	VNRA2jMPWgjBLhV+UudOTPzsd49+S7DeYS052UnsBwQ+RpZfLJ59sk5g13DCxGun
+	ooD3RmWXGpScSBMZo7PbIpoex3/YewvFI5g2tmFynkkmKy+KfTYBEDGK43eVA==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gkcypgt1r-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 20:38:31 -0700 (PDT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Wed, 9 Sep 2026 20:38:30 -0700
+Received: from oak-lpgbuild11.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Wed, 9 Sep 2026 20:38:30 -0700
+Received: by oak-lpgbuild11.wrs.com (Postfix, from userid 1762445477)
+	id 969F740403EF; Thu, 10 Sep 2026 03:38:30 +0000 (UTC)
+From: Aravind Bandari <aravind.bandari@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Aravind Bandari <aravind.bandari@windriver.com>
+Subject: [PATCH v2] maintainers.inc: update maintainer for autotools and make recipes
+Date: Thu, 10 Sep 2026 03:38:17 +0000
+Message-ID: <20260910033817.1330801-1-aravind.bandari@windriver.com>
+X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDAzNyBTYWx0ZWRfX71zJzICFseL0
+ o+IowDQzNKo6sa4u1QDNgJbFJOl/r99Tf6ehsSDW85gO3Kg4Y92wNDo2qLqQJzpHYZ6Uy01P8vN
+ roxtJ3RnMQPlsFcnBzVekQpuxRvXHHL4es+WYedWxGq3CWWM3wqDkcxGbTaCILW+ZRCfuFOHMeg
+ 7RZgk1C8aA158t7SC2rPN8nZpHyfKJaTZODqxFQBZozGwDJe3jlP5YeLGZ4N9hl5tROzbJKM6ai
+ SjjidhIrBr6EGBqhbDBUlIYdDAp2b0FJv+P3wfMMYMO7/rpENv8vrN9+PgqqduJMRIG8c9Z+krg
+ kNdC2OHURYCIUG3TY+vEdexcdmlkrIdsSJ6Uo0/mneRMnPQ6he5GHJco4zUYdVEWOD13OkwOkQM
+ pOTp/JesH5HIHCidYSAwdTFjQHvw9EQOvhf+zpV3kEHh2VtxUtJpnpervFJM0zdBpVFr7/PWKCI
+ ZjqzwfPwk4EVjxFYyqQ==
+X-Proofpoint-ORIG-GUID: eCcJ3SikARMTYGwToVbSgGthcsY-M3-x
+X-Proofpoint-GUID: eCcJ3SikARMTYGwToVbSgGthcsY-M3-x
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDAzNyBTYWx0ZWRfX7byjp13nMUk7
+ dmn6+EomFNbHqdFXa3BwGGci4W+UE5xpD9c4VJIZ6gqDnOPZ5SfU2VmuuuukimG1EjWRk1n675P
+ pSxdSFTrATjpiLTBOYdROhnviQH4g4HIpy1tIXtSlsfXiigp1p/x
+X-Authority-Analysis: v=2.4 cv=II+XmQvG c=1 sm=1 tr=0 ts=6aa22637 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=HK-ge7EqtdluswH-FwHe:22 a=t7CeM3EgAAAA:8 a=iGHA9ds3AAAA:8 a=k-42gJp3AAAA:8
+ a=pGLkceISAAAA:8 a=0gcC27t9AAAA:8 a=_iH6NxeTAAAA:8 a=iNOPiNP7n9lywY19YmYA:9
+ a=FdTzh2GWekK77mhwV6Dw:22 a=nM-MV4yxpKKO9kiQg6Ot:22 a=uCSXFHLys93vLW5PjgO_:22
+ a=f5sM90hAhNS9OGT-JDKn:22 a=zZzRKORMDKZaSe7LaTAy:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-10_01,2026-09-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 spamscore=0 clxscore=1011 adultscore=0 malwarescore=0
+ phishscore=0 suspectscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609100037
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 09 Sep 2026 22:40:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245520
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 03:38:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245521
 
-On Wed, 2026-09-09 at 23:22 +0200, Michael Haener via lists.openembedded.or=
-g wrote:
-> Every access to an object in the sstate cache is recorded with a plain
-> touch, which writes both the modification time and the access time.
->=20
-> Add SSTATE_ATIME_UPDATE_AFTER. When it is set, the modification time is n=
-o
-> longer written, and the access time is refreshed only once the existing
-> one is at least that many seconds old.
->=20
-> This reduces the number of write cycles a build causes on the cache, whic=
-h
-> matters most where many build servers share one sstate cache: each of the=
-m
-> would otherwise refresh the access time of every object it looks at.
->=20
-> With mtime and atime kept apart, a cache can also be measured for reuse
-> and age.
->=20
-> When the variable is unset the behaviour is unchanged.
->=20
-> Signed-off-by: Michael Haener <michael.haener@siemens.com>
-> Reviewed-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> Reviewed-by: Peter Marko <peter.marko@siemens.com>
-> ---
-> =C2=A0meta/classes-global/sstate.bbclass | 59 ++++++++++++++++++++++-----=
+Take over maintenance of autoconf, autoconf-archive, automake, libtool, libtool-cross, libtool-native, and make.
+
+Signed-off-by: Aravind Bandari <aravind.bandari@windriver.com>
 ---
-> =C2=A01 file changed, 43 insertions(+), 16 deletions(-)
+ meta/conf/distro/include/maintainers.inc | 14 +++++++-------
+ 1 file changed, 7 insertions(+), 7 deletions(-)
 
-Whilst I can understand the motivation, I can't say I'm thrilled by
-complicating this code again. I'd recently tried to simplify it as the
-different access patterns were causing various problems in their own
-right. This adds a new variable, two implementations (shell and python)
-of an algorithm and it just makes the code more complex and hard to
-understand.
-
-Cheers,
-
-Richard
-
-=20
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 5cbc60c1ce..40d62042bd 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -49,9 +49,9 @@ RECIPE_MAINTAINER:pn-aspell = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-at = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-at-spi2-core = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-attr = "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER:pn-autoconf = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER:pn-autoconf-archive = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER:pn-automake = "Robert Yang <liezhi.yang@windriver.com>"
++RECIPE_MAINTAINER:pn-autoconf = "Aravind Bandari <Aravind.Bandari@windriver.com>"
++RECIPE_MAINTAINER:pn-autoconf-archive = "Aravind Bandari <Aravind.Bandari@windriver.com>"
++RECIPE_MAINTAINER:pn-automake = "Aravind Bandari <Aravind.Bandari@windriver.com>"
+ RECIPE_MAINTAINER:pn-avahi = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-avahi-libnss-mdns = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-babeltrace2 = "Unassigned <unassigned@yoctoproject.org>"
+@@ -409,9 +409,9 @@ RECIPE_MAINTAINER:pn-libtest-warnings-perl = "Tim Orling <tim.orling@konsulko.co
+ RECIPE_MAINTAINER:pn-libtheora = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libtimedate-perl = "Tim Orling <tim.orling@konsulko.com>"
+ RECIPE_MAINTAINER:pn-libtirpc = "Unassigned <unassigned@yoctoproject.org>"
+-RECIPE_MAINTAINER:pn-libtool = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER:pn-libtool-cross = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER:pn-libtool-native = "Robert Yang <liezhi.yang@windriver.com>"
++RECIPE_MAINTAINER:pn-libtool = "Aravind Bandari <Aravind.Bandari@windriver.com>"
++RECIPE_MAINTAINER:pn-libtool-cross = "Aravind Bandari <Aravind.Bandari@windriver.com>"
++RECIPE_MAINTAINER:pn-libtool-native = "Aravind Bandari <Aravind.Bandari@windriver.com>"
+ RECIPE_MAINTAINER:pn-libtraceevent = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-libtracefs = "Jaipaul Cheernam <jaipaul.cheernam@est.tech>"
+ RECIPE_MAINTAINER:pn-libtry-tiny-perl = "Tim Orling <tim.orling@konsulko.com>"
+@@ -501,7 +501,7 @@ RECIPE_MAINTAINER:pn-lzo = "Denys Dmytriyenko <denis@denix.org>"
+ RECIPE_MAINTAINER:pn-lzop = "Marek Vasut <marex@denx.de>"
+ RECIPE_MAINTAINER:pn-m4 = "Robert Yang <liezhi.yang@windriver.com>"
+ RECIPE_MAINTAINER:pn-m4-native = "Robert Yang <liezhi.yang@windriver.com>"
+-RECIPE_MAINTAINER:pn-make = "Robert Yang <liezhi.yang@windriver.com>"
++RECIPE_MAINTAINER:pn-make = "Aravind Bandari <Aravind.Bandari@windriver.com>"
+ RECIPE_MAINTAINER:pn-make-mod-scripts = "Bruce Ashfield <bruce.ashfield@gmail.com>"
+ RECIPE_MAINTAINER:pn-makedevs = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-makedumpfile = "Etienne Cordonnier <ecordonnier@snap.com>"
 
