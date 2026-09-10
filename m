@@ -1,143 +1,111 @@
-Return-Path: <philip@balister.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2B33C79F9F
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 15:21:45 +0000 (UTC)
-Received: from mail-qk2-f12.google.com (mail-qk2-f12.google.com [74.125.230.204])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16664.1789052928721746564
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2BE5C79F9F
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 15:39:36 +0000 (UTC)
+Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17521.1789054774280444874
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2026 08:08:49 -0700
+ Thu, 10 Sep 2026 08:39:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=D+xHf44Y;
- spf=pass (domain: baylibre.com, ip: 74.125.230.204, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qk2-f12.google.com with SMTP id d75a77b69052e-52fb766bfd3so15780871cf.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 08:08:48 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=E8GW5cwR;
+ spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4956869750eso65385705e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 08:39:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1789052928; x=1789657728; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BB6XTWiA7d0PRr2bH5p46rEh38GwksFRpnCdp7AsVMk=;
-        b=D+xHf44Yb6sOoqb3OP+7wctZEHvDJkrau+Y3UBGHx3SJsfQins9xfy5y9ASs9/ynVZ
-         xkBhDFfcMyN546jV04iDqzHt+oDhkDDMMloL2mZYxnJocokgjTs4wCajhKS0x/mE3hPU
-         Ot6PqtOGC1asklEnfr50DFQd02Qw/Afm7H0HuKW9Q5hqd7G9ma/PO9wpVqmrqHPEu14l
-         y2WcoHcc4FNdUNV3KYl0TiZjgNtN0K2MRNZBSh0HC50Wj/0l7Oj/qhXY7BN/RKT8V0zU
-         oWzJz3FoLipnphQ5G4XWXL1SNoRm86HsA6/HdpiS6Ifs2ycXEQ+6DmgouRW/J78RMnJ7
-         vHzA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789052928; x=1789657728;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1789054772; x=1789659572; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=BB6XTWiA7d0PRr2bH5p46rEh38GwksFRpnCdp7AsVMk=;
-        b=F5TvkZ4ETnW1kpnPZM33zen4DJFh/r8KZgrzqEomj3W+IIDdWxl8b2Bci8MQdgX7nX
-         idjqs50F7pxX8O4MkcL7rdo9Qvk3NWCvSKezV8UAQDZ73Z34oFUKonMEk3H4zBhU3myI
-         omxLyRjd3fTJIBDhETzq1mQD/SW1Nm+UEmNmkKcQN8+WUo3mnnvAhGJy1HAd/KCvD/8C
-         sRiCuJvHINxGXXkWf0Jey+Dzj+shfFxSjNNRNpidz2hrjG7QThgRFRCHDoxYe1GXbOzK
-         2XF0ujL17Y01/Gjy5WYuECCdaENWYk25PGkS1gvriGzkvxJa8XOeiDlxIJ0s9xy3eiP2
-         JQRg==
-X-Gm-Message-State: AFuF++lVW6GMb5hMe4svvVjXpZ1pflfGqRLSxZbf/aIYnkzEdW0UsDY6
-	D5lG9LttGlxDFP6AEZTWq8QFDEZ+dp5mO1ua97O4ZE45m1T2o4Z2YkSuGfhgnS6S7Ju7Q9mKpRi
-	B2WFZ
-X-Gm-Gg: AYBFou3T0+K7vgZPwwFr9GXXtWkkPN3SEwIxBJjIS6yGjvvs3zWvceGpI73bwqOghwM
-	L7F9biuF+Fje9mL90Q8exf50RkCZMwSxmbq3s8SdSNEXSzf0wl1X62paUGdnFO+tKRLdV74UjBD
-	bRKDPlisn3xOWnoPhOF8XDPE6hzKqmvpVdFj4XpdBQdnic5HrZENc2ODit1SAMyhkZDfsOM7Jyx
-	Uz6NBPekw5QCM7JmmWUkpsXCcuhsDe/oTVdpJ41wSB46SlaHshgGlmM32cuKHN2niOpzP8xNeA4
-	Ahf7C8KrEekuEBKUSltjiK3rzsggybT3zA/60hKJvgG1v5SUDgz3reISpDqN5IUpMGbutW+20yW
-	HZVaEeXfkoKhn6UyisMlpLcJ3Hct8lUFB+XJNWuv2GHw2ihh1B0w9hGOYw0wu+IZ7TPssLPR79X
-	WJU3DYJj9BVN4QEyTpcOj2+5DsrfXJgpF0/02Ogq4ukaepKdZmIwUGlDI4rybCtuqI8PHOY3k7Z
-	BDalItlx7gTrqFzcAKDhajUnw6xgSQPYg==
-X-Received: by 2002:a05:622a:646:b0:530:430e:8125 with SMTP id d75a77b69052e-530aefba436mr117691381cf.46.1789052927436;
-        Thu, 10 Sep 2026 08:08:47 -0700 (PDT)
-Received: from localhost ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-910406af144sm172237426d6.40.2026.09.10.08.08.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 08:08:45 -0700 (PDT)
-From: "Trevor Gamblin" <tgamblin@baylibre.com>
-To: openembedded-core@lists.openembedded.org
-Cc: mark.hatle@kernel.crashing.org
-Subject: [OE-core][PATCH 1/2] opensbi: patch Makefile for zicsr, zifencei extension check
-Date: Thu, 10 Sep 2026 11:08:42 -0400
-Message-ID: <20260910150843.1531415-1-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.55.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        bh=DMsQRqtLTboHOMKAx0ZRRfdSAJUJ91dZHVg6Oqyu628=;
+        b=E8GW5cwRUYBhugYirEmkWiQLD85ceCA44zgWiAC6OsqGiYh8PNfXuSB4UWCUHcLL1C
+         2nCAPIMQbuvpFRUXMGXqeukX/V2z2CUkJ4I8oNpU2bJO0TFa8hDbYdUfBuSldnGUWCHg
+         jB65N07EtQSs4g7dC1XdwBdo6jqusT/wzCUCE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789054772; x=1789659572;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=DMsQRqtLTboHOMKAx0ZRRfdSAJUJ91dZHVg6Oqyu628=;
+        b=FlOLnApV4xfbouW4JHjRBiCsHw18eelo2q9Y5qNTXvoKV2pQRD1/HyVIg+I1RrhXSQ
+         85Zft3C1YhCu00lES2kqyQ0skm3Pj1t6AGLoElZ7PJA+Er/VMYq2sEVk3+vQjZAXK9ye
+         VumQkIYaPLwpNClX8ggBFs9uJdTp7E8iY7yuC6iG2Mqz/pCX6F7+0J9MveuFhzzJ6GfZ
+         ku0eGZeYkUKxxS1ruQ+QMx3gjUzvr16jRxSf4CYUslwUgswu+/irG51kwrhRPYXVpXE+
+         Rvd3TBzeLgvLTkZvX8kBMKUqbLFe8Jbri4tQONS24OYjEQLykLO7MZ7JnqWnX2pbUY6a
+         EgYA==
+X-Forwarded-Encrypted: i=1; AKwUvByr03GjzV72Jnz5cvPwiyqDxhqVckIE41mvhA73OzrBXo7EOSvcfZZWXcKiNjuQVsE7BVEe3H6CnbPmM4awEkAftA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++n5dPACBICDs28p4mp5A5fO03l1jscWga2Npet/uQs/k7tOJAz/
+	xuoRtLtMP6slO1rmW5nSzQd4TQjHTJQiObpq50xH83KB/P4Q69Od9fLIOIzVqlISSlY=
+X-Gm-Gg: AYBFou1UD2a00sXeSnvvp9M2BvtIHHt8f6X+JOV3KA7RCIF6vWZMT7uIavNuuHaFXZd
+	O+uVra4CcjW2CTEiESzz9ltVmsS1h9gvasOBGb1ahITnchSxSuYF3iJKnXbnGQyLTStNGkA9iwV
+	tQcNb9UAeaCU1fP0k1Z9KSiGiBPXEmCaZulXSMMB/DDAet6PFYlvDymasqpnLIrRcvM6+PAS9RP
+	Hn18wAjqRdR+JMvkW6c97sZRUn4zjFusEBYIppZE2Nlf75+HtZLGBnHfzRXsd6+b97INu8liyjt
+	zdwmHCM1OIKon+Zcll/KZECXHLTs5DKkwKl6YGi95AyrtXCgWHCK9j3AABqfMYjacf8CbMfrDxb
+	9mkYfddV5cfhpv1SHt5RrTIQwt5ksY9fLiVqBk65mnxjc816k3Oc1Czl2hgB04EU0qXrFiPrtvg
+	sFjnNJ2GDR5uKOfwISNwd2VOZs2YVtxI9wyhgd6bprBmMlIWNg/EciaQvqTdJxVFYhjscxVLI91
+	uHS73v7hp3sGrK24+Y49aqjONy/EsowriO4HPw1bMOS6mYj2RYA0gFPqZO8zDtcYeo4pQMZHQ==
+X-Received: by 2002:a05:600c:3587:b0:49d:17d8:abec with SMTP id 5b1f17b1804b1-49d17d8abf5mr188413505e9.21.1789054772452;
+        Thu, 10 Sep 2026 08:39:32 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c2985dsm138646075e9.6.2026.09.10.08.39.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 10 Sep 2026 08:39:32 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 10 Sep 2026 17:39:31 +0200
+Message-Id: <DLBQZJYT26YH.23YA0N3PX5036@smile.fr>
+To: <hfranco@baylibre.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [scarthgap][PATCH] improve_kernel_cve_report: fix
+ crash on entries without detail
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260901-fix-kernel-cve-scarthgap-v1-1-405f5d7a8957@baylibre.com>
+In-Reply-To: <20260901-fix-kernel-cve-scarthgap-v1-1-405f5d7a8957@baylibre.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 15:21:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245587
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 15:39:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245589
 
-Backport a patch from upstream to fix the way OpenSBI's Makefile checks
-for zicsr and zifencei extension support. The use of grep incorrectly
-matches against build paths generated by Yocto, so the patch directly
-checks the exit status from the assignment instead.
+On Tue Sep 1, 2026 at 9:42 PM CEST, Hiago De Franco via lists.openembedded.=
+org wrote:
+> When the CNA reports Unpatched and the scan reports Patched, cve_update()
+> reads cve_data[cve]['detail'] unguarded. cve-check only writes 'detail'
+> for CVEs carrying a CVE_STATUS varflag, so an entry marked Patched by an
+> NVD version comparison has no such key and the script aborts with
+> KeyError: 'detail' on ordinary cve-check output. The unhandled-update
+> warning below makes the same assumption.
+>
+> Use .get() in both places. A missing detail falls through to the CNA
+> verdict, and only an explicit CVE_STATUS =3D "backported-patch" outranks
+> it, which is what the guard was added for.
+>
+> Tested by calling cve_update() with a Patched entry carrying no detail:
+> before it raises KeyError, after it takes the CNA's Unpatched verdict,
+> while an entry with detail =3D "backported-patch" stays Patched either wa=
+y.
+>
+> AI-Generated: Uses Claude (claude-opus-5)
+> Fixes: d317e2a52bd2 ("improve_kernel_cve_report: do not override backport=
+ed-patch")
+> Signed-off-by: Hiago De Franco <hfranco@baylibre.com>
+> ---
+>  scripts/contrib/improve_kernel_cve_report.py | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 
-[YOCTO #15897]
+Hello,
 
-Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
----
- ...rep-when-setting-CC_SUPPORT_ZICSR_ZI.patch | 33 +++++++++++++++++++
- meta/recipes-bsp/opensbi/opensbi_1.9.bb       |  5 ++-
- 2 files changed, 37 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-bsp/opensbi/files/0001-Makefile-don-t-grep-when-setting-CC_SUPPORT_ZICSR_ZI.patch
+If I'm not mistaken, this patch is the squash of 80ff4903ea1 and
+f5da16b0d3c. I'd rather have 2 clean cherry-picks, this make tracking
+which patch is needed or not easier.
 
-diff --git a/meta/recipes-bsp/opensbi/files/0001-Makefile-don-t-grep-when-setting-CC_SUPPORT_ZICSR_ZI.patch b/meta/recipes-bsp/opensbi/files/0001-Makefile-don-t-grep-when-setting-CC_SUPPORT_ZICSR_ZI.patch
-new file mode 100644
-index 0000000000..db93d69e7c
---- /dev/null
-+++ b/meta/recipes-bsp/opensbi/files/0001-Makefile-don-t-grep-when-setting-CC_SUPPORT_ZICSR_ZI.patch
-@@ -0,0 +1,33 @@
-+From b4ea30a4e46fa6fe4293f86c601394052e5e2b43 Mon Sep 17 00:00:00 2001
-+From: Trevor Gamblin <tgamblin@baylibre.com>
-+Date: Wed, 9 Sep 2026 14:33:24 -0400
-+Subject: [PATCH 1/3] Makefile: don't grep when setting
-+ CC_SUPPORT_ZICSR_ZIFENCEI
-+
-+Upstream-Status: Submitted [https://lists.infradead.org/pipermail/opensbi/2026-September/010606.html]
-+
-+Check exit status from the compiler/linker check directly (similar to
-+OPENSBI_LD_PIE), rather than using grep to search for a pattern. This
-+avoids potential unrelated matches in the command.
-+
-+Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
-+---
-+ Makefile | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/Makefile b/Makefile
-+index aebaa98c..07ac7e30 100644
-+--- a/Makefile
-++++ b/Makefile
-+@@ -204,7 +204,7 @@ CC_SUPPORT_SAVE_RESTORE := $(shell $(CC) $(CLANG_TARGET) $(RELAX_FLAG) -nostdlib
-+ CC_SUPPORT_STRICT_ALIGN := $(shell $(CC) $(CLANG_TARGET) $(RELAX_FLAG) -nostdlib -mstrict-align -x c /dev/null -o /dev/null 2>&1 | grep -e "-mstrict-align" -e "-mno-unaligned-access" >/dev/null && echo n || echo y)
-+ 
-+ # Check whether the assembler and the compiler support the Zicsr and Zifencei extensions
-+-CC_SUPPORT_ZICSR_ZIFENCEI := $(shell $(CC) $(CLANG_TARGET) $(RELAX_FLAG) -nostdlib -march=rv$(OPENSBI_CC_XLEN)imafd_zicsr_zifencei -x c /dev/null -o /dev/null 2>&1 | grep -e "zicsr" -e "zifencei" > /dev/null && echo n || echo y)
-++CC_SUPPORT_ZICSR_ZIFENCEI := $(shell $(CC) $(CLANG_TARGET) $(RELAX_FLAG) -nostdlib -march=rv$(OPENSBI_CC_XLEN)imafd_zicsr_zifencei -x c /dev/null -o /dev/null >/dev/null 2>&1 && echo y || echo n)
-+ 
-+ # Check whether the assembler and the compiler support the Vector extension
-+ CC_SUPPORT_VECTOR := $(shell $(CC) $(CLANG_TARGET) $(RELAX_FLAG) -nostdlib -march=rv$(OPENSBI_CC_XLEN)gv -dM -E -x c /dev/null 2>&1 | grep -q riscv.*vector && echo y || echo n)
-+-- 
-+2.55.0
-+
-diff --git a/meta/recipes-bsp/opensbi/opensbi_1.9.bb b/meta/recipes-bsp/opensbi/opensbi_1.9.bb
-index 0142ef6787..954753d97e 100644
---- a/meta/recipes-bsp/opensbi/opensbi_1.9.bb
-+++ b/meta/recipes-bsp/opensbi/opensbi_1.9.bb
-@@ -9,7 +9,10 @@ require opensbi-payloads.inc
- inherit deploy
- 
- SRCREV = "cbf9f6734dd85a982c63e3cb5db7ffe09da839ca"
--SRC_URI = "git://github.com/riscv/opensbi.git;branch=master;protocol=https;tag=v${PV}"
-+SRC_URI = " \
-+            git://github.com/riscv/opensbi.git;branch=master;protocol=https;tag=v${PV} \
-+            file://0001-Makefile-don-t-grep-when-setting-CC_SUPPORT_ZICSR_ZI.patch \
-+            "
- 
- TARGET_DBGSRC_DIR = "/share/opensbi/*/generic/firmware/"
- 
--- 
-2.55.0
+Can you send the 2 cherry-picks as a series?
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
 
