@@ -2,202 +2,112 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E33CFC79FB9
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 10:35:00 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10815.1789036493298196540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F11F0C79FB9
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 10:38:10 +0000 (UTC)
+Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10876.1789036688547008417
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2026 03:34:53 -0700
+ Thu, 10 Sep 2026 03:38:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ZF+Srd4/;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cc9f581c4so11499175e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 03:34:53 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=f6A7Z9pe;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.51, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49cd77e0f95so54129835e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 03:38:08 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789036491; x=1789641291; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=NlYxIGRiE+5ZL/Kz33lbJGCYAkrB47u/T1ES9L37rvo=;
-        b=ZF+Srd4/ET8VyZV3vWYsW+cOJ8LjDRiHNDXx2Aa7QP+bWF9MHGX6/Xg5JKg1gr8pu8
-         wN6sFRcDJzYQOqGRZKgfybAICdibm0YpFbnOcOZeEW+oMLfovQbd63y0iCqkF/9vVgUc
-         YI55oiR4nT8TgBsLzn1+wvxsEe1wId292mwDM=
+        d=linuxfoundation.org; s=google; t=1789036687; x=1789641487; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=UzNFqdDpixwNfysGnjHgBLSG1Rb1IMxqHHBfsHq625c=;
+        b=f6A7Z9peKeAsZiCXYXOwik5Q02Cudz4yxWbPjTAmMA/8QKV+4WB4UXKLN4RY8NPWRa
+         2DyOZgDHh9KnCWc/gxC/wTgl3xrmWXK2yHWmf+GT3o3SzsIIGB1+Vgov8nFteoserSGZ
+         4f4VRQ+0UEbDDCPFbW5MCHO4bqbMIabPXKYM8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789036491; x=1789641291;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=NlYxIGRiE+5ZL/Kz33lbJGCYAkrB47u/T1ES9L37rvo=;
-        b=gp5o59Dyf4uKMU6fHmRmuEdQea1tU7gKtqXw5zlz6mOfxO/jw7vzraCmzDJZ5WyAX3
-         6l0+7TtJQiV6Wh55mCUSiOiSGjaZ4TSSESiTJOHUnmTrdzOSav4RqRsgWBwG0ma3+mQb
-         llPEHMfp5BzyZ74XSv8m0pLXVdl84/8P6ijBIwuncnzX0e8mvhHjA/ttQWk4TBD2VywV
-         J50k/qOUx6Ohk2eq3/CY6Kxgn5GxD+xNww4Sdo/z9j/XuIjLWjJiUI0K2GRaRg0KDuRz
-         osNsRsSg01v4sgxp/t2fdogxVwXF/yX3ft88Wb6hD9df0D8zFhasNCHFtuB2G5uKTxwl
-         VU7A==
-X-Gm-Message-State: AFuF++nItQ0q+oIDX+BEDx/V7KhDcWf+SrtcB5y9BQ91gy7iOUM8gxXQ
-	n9cm5+FiqvD8duBfySyBm12NVqbrcybkoK+2jobvTw/G+IBbppx8oMUU33P+9tkahG/Jf7nDYz4
-	LavEcgvk=
-X-Gm-Gg: AYBFou3g6LP7a4SGKohS4HfAD0z2w1vxiXjNCx4MXnO2BtaPU/Zk31Qw4jVYzP+AIBQ
-	9GN5P4hN7HpR3+Lqjx7SHIqakBlixYxMab1O/ejBT+2POZEVG/7WQNsEaXkiSQcg54aWWKDTQJX
-	DkzmFacOguawFoZOsS3kGctB50iDmd1abQo8Ag7GBSfe9oF9AmaWPIlYNxe8lyHAjm6zQ/0zUrH
-	u9WqR9Sg+06Q0dJdyJXQmECClTukCkXRH0Fp0kIkjaq/37/dlZkF4xIRS2l2DANN2XzlDNlwtpa
-	/RrNP1aHyUjRtKWpZoO9MHE7/Z7uNegmWHcYFF9yB+93uAnDFRs95qz/5wfi181Ae97f1EhMQ2Y
-	EvoZeKn/lXlUayoaLltPFT/e8CeSLVX0sd4HgV4w1rKhzuWK3FvmUBmPpo8qt/pcKgJlC+gaLGL
-	rYZVOzA5+yRI4YBz3gcx/OMToBsHDFLC8rhRATyCAQSEyS+QAKmB67Sf48HvvnFTpqyJQ4btyoh
-	Pn3OnQxyhrtHBVLRQsLzPUR04oF
-X-Received: by 2002:a05:600c:3786:b0:49c:f13e:e50 with SMTP id 5b1f17b1804b1-49d26dc1012mr31488465e9.13.1789036491318;
-        Thu, 10 Sep 2026 03:34:51 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:788a:18da:6c2a:9f16])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26bf9490sm57395075e9.9.2026.09.10.03.34.50
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20251104; t=1789036687; x=1789641487;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=UzNFqdDpixwNfysGnjHgBLSG1Rb1IMxqHHBfsHq625c=;
+        b=kWURIk2REKDrpLJUMYmcSfZbt7xh3TYsDMMOq1W3+icJLNsvkUKnI4SM8OROSSvk/8
+         qPhTb1Pvwg1ZcNz471iQ6ct/9vyW78JK3J1ADyvUexs6g9hECwauu1pHxtNk3aYBuZj9
+         32eRu80LNYuYBXLQCGQkioocYtznMDqU2xVCAHqoaN3xyG3t+S5v8ibmD1sr10XI4KKm
+         AKPPZaB8IBRR3uJiaaELORC/qAAQnflotmuhQiFpH7zJrP/KqLHyf8CSmQkzOVpuj/sO
+         wP7JvpDfbf5fWMQEaxgrSiPf8sE554ITJ27HcSBUQfzHXu7PC86io6CJwwjPKim1R8pO
+         aufw==
+X-Forwarded-Encrypted: i=1; AKwUvBw2Qkxbq6CpwpLWHdYElzm9cwT5a4yJVkDKc5jmc3ipL1ERa4M/l5d43HyVbch4xlUlt5TtkG/h8acKzJpE0GdG4w==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kHKtCs6UBy+OGr6ADN77uWvAXvxPmxzmNjPDFePnpCkHbHxnEf
+	AhVehDYp0t6fno4+XIyYdvJIs4bTtICZb9/Oi+lNReEiZCzjUbBKQtljA30G//LiSo47LA+sa9a
+	ovvlnl1U=
+X-Gm-Gg: AYBFou1j9mMtwi5vvwH5d4JMYWWAqBrCvr5f+XmnnQhdO/NuFTO6oR/Vq7x5kakNwrY
+	v4avn73TED0uA0I2US6u7JJicFDA4rGwHmrx4cQJ1hf1YRFqrAIKr/a8OrdZbc4pNwJx9ORMP/1
+	RiJuYI/2YQ+WDrcPefNPplMXP7FqS/ChzegDUGgxnkhFW17X84c32bv2CPR5mM9McvjpFW0kFg4
+	hfSaJi4MjpJSP6w8m1ZPU1X1fXTQFlSkxd8RsYQNxPGAPl/BeMw4skJALGDup1s4nqi8FOkt7RW
+	O8VlDgi9eTR4cWcWLw7ad5T1K4EdcIlmQsBCwinoi/83/SW0hjEFg1jF+j1rjFUGPMbUe0Ns1y/
+	wAQ3+eyefPkHrCn2hIE5uFVNA+bDwhvNO1xOaRcDf/c/T2BHM1sR1D3JPkE2XJcj5edX6X3cLM7
+	l93lDXgTz7BliLD5HcTnTm86NajVTJHhIh/EG5UcfW5UZeRS0SuZ1XKRdgMhw5/6Dy6Y/rppjf2
+	I2hxGEGzcKmeSGylbSTO7jUhx/qjRLUPjWPkoBmElYfWXghpP1xGYyL76UUbVznMQ==
+X-Received: by 2002:a05:600c:46d1:b0:493:bd2a:93be with SMTP id 5b1f17b1804b1-49cf820c992mr420531745e9.6.1789036686797;
+        Thu, 10 Sep 2026 03:38:06 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:788a:18da:6c2a:9f16? ([2001:8b0:aba:5f3c:788a:18da:6c2a:9f16])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26bdb789sm74735735e9.1.2026.09.10.03.38.05
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 03:34:50 -0700 (PDT)
+        Thu, 10 Sep 2026 03:38:05 -0700 (PDT)
+Message-ID: <50f193055b9887a99bab6d90ce6a499ac7fab1ff.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] maintainers.inc: Update owner for strace pigz
+ libcap-ng popt
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 5/5] xz: upgrade 5.8.3 -> 5.8.4
-Date: Thu, 10 Sep 2026 11:34:44 +0100
-Message-ID: <20260910103444.1413539-5-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260910103444.1413539-1-richard.purdie@linuxfoundation.org>
-References: <20260910103444.1413539-1-richard.purdie@linuxfoundation.org>
+To: Kris.Gavvala@windriver.com, openembedded-core@lists.openembedded.org
+Date: Thu, 10 Sep 2026 11:38:04 +0100
+In-Reply-To: <20260902001329.31484-1-kris.gavvala@windriver.com>
+References: <20260902001329.31484-1-kris.gavvala@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 10:35:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245548
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 10:38:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245549
 
-5.8.4 (2026-09-09)
+Hi,
 
-    IMPORTANT: This includes a fix for a security issue that affects all
-    XZ Utils versions since 5.0.0. This and a few other fixes have also
-    been committed to the old stable branches (v5.2, v5.4, and v5.6) in
-    the xz Git repository. Those fixes are marked below. No new 5.2.x,
-    5.4.x, or 5.6.x releases will be made.
+On Tue, 2026-09-01 at 19:13 -0500, Gavvala, Kris via lists.openembedded.org=
+ wrote:
+> I offer to take ownership for the following recipes:
+>=20
+> - strace
+> - pigz
+> - libcap-ng
+> - popt
+>=20
+> Signed-off-by: Kris Gavvala <kris.gavvala@windriver.com>
+> ---
+> =C2=A0meta/conf/distro/include/maintainers.inc | 8 ++++----
+> =C2=A01 file changed, 4 insertions(+), 4 deletions(-)
+>=20
+> diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+> index 2966cddc05..7532f6173a 100644
+> --- a/meta/conf/distro/include/maintainers.inc
+> +++ b/meta/conf/distro/include/maintainers.inc
+> @@ -323,7 +323,7 @@ RECIPE_MAINTAINER:pn-libatomic-ops =3D "Unassigned <u=
+nassigned@yoctoproject.org>"
+> =C2=A0RECIPE_MAINTAINER:pn-libbsd =3D "Yi Zhao <yi.zhao@windriver.com>"
+> =C2=A0RECIPE_MAINTAINER:pn-libc-test =3D "Unassigned <unassigned@yoctopro=
+ject.org>"
+> =C2=A0RECIPE_MAINTAINER:pn-libcap =3D "Yi Zhao <yi.zhao@windriver.com>"
+> -RECIPE_MAINTAINER:pn-libcap-ng =3D "Yi Zhao <yi.zhao@windriver.com>"
+> +RECIPE_MAINTAINER:pn-libcap-ng =3D "Kris Gavvala <kris.gavvala@windriver=
+.com>"
+> =C2=A0RECIPE_MAINTAINER:pn-libcap-ng-python =3D "Yi Zhao <yi.zhao@windriv=
+er.com>"
 
-    * liblzma:
+I just realised you should take libcap-ng-python as well as they're
+paired to the same source tarball.
 
-        - lzma_alone_decoder(), lzma_lzip_decoder(),
-          lzma_auto_decoder(), and lzma_microlzma_decoder(): Fix an
-          invalid memory access after memory allocation has failed and
-          the application reinitializes the existing decoder to decode
-          a different file. This bug could at least result in a crash.
-          This is tracked as GHSA-5qpq-xqfv-j9pg. CVE number is pending.
-          (Also in v5.2, v5.4, and v5.6.)
+Cheers,
 
-        - lzma_stream_buffer_decode(): Fix wrong error code and,
-          in debug builds, assertion failure. LZMA_BUF_ERROR could
-          be returned with truncated inputs while LZMA_DATA_ERROR
-          is the correct one in this function.
-          (Also in v5.2, v5.4, and v5.6.)
-
-        - Fix a performance issue in the typical use case of
-          lzma_index_cat(). Internally liblzma calls it from
-          lzma_file_info_decoder(), so that was affected too. The
-          problem occurred if the input .xz file was created by
-          concatenating a large number of .xz files. A crafted file
-          could make "xz --list" very slow or effectively hang.
-          Normal decompression doesn't use these functions and
-          thus wasn't affected.
-          (Also in v5.2, v5.4, and v5.6.)
-
-        - Fix a theoretical integer overflow in lzma_index_cat().
-          (Also in v5.2, v5.4, and v5.6.)
-
-        - Fix bogus memory usage report in lzma_index_decoder() when
-          the .xz Index is obviously invalid. A huge bogus value could
-          cause an integer overflow in lzma_file_info_decoder()'s
-          memory usage reporting due to a missing overflow check,
-          making lzma_memused() report an incorrect tiny value. This
-          bug didn't affect the memory usage limiter in these two
-          decoders; only the reporting via lzma_memused() was affected.
-          (Also in v5.2, v5.4, and v5.6.)
-
-        - Fix a too low memory usage report in lzma_index_decoder()
-          if lzma_memused() is called after a part of the Index has
-          already been decoded. The typical use case is to call
-          lzma_memused() immediately after LZMA_MEMLIMIT_ERROR,
-          which did work correctly.
-
-        - Fix copying of check type in lzma_index_dup(). Calling
-          lzma_index_checks() on the duplicated lzma_index returned
-          return garbage a result. lzma_index_dup() is rarely used;
-          liblzma doesn't use it internally and xz itself doesn't use
-          it either.
-          (Also in v5.2, v5.4, and v5.6.)
-
-        - lzma_file_info_decoder() and lzma_index_decoder(): Reject
-          an obviously-invalid Number of Records field earlier.
-          (Partially also in v5.2, v5.4, and v5.6.)
-
-        - Fix a missing synchronization in the threaded .xz decoder. It
-          could make lzma_get_progress() return incorrect progress info.
-          (Also in v5.4 and v5.6.)
-
-        - Detect certain kinds of corrupt inputs slightly earlier in
-          the LZMA2 decoder.
-
-        - ARM64 and LoongArch: Don't use aligned reads on unaligned
-          buffers. This makes the code work on strict-align processors
-          and fixes a sanitizer error in other cases. (Since 5.7.1alpha)
-
-    * xz:
-
-        - Fix a use-after-free when showing an error message if --files
-          or --files0 was specified in the environment variables XZ_OPT
-          or XZ_DEFAULTS.
-          (Also in v5.2, v5.4, and v5.6.)
-
-        - Fix a use-after-free bug when --verbose is used and
-          standard error isn't a terminal. (Since 5.7.1alpha)
-
-        - Make it an error if the totals in "xz --list" exceed the range
-          of 64-bit integers.
-          (Also in v5.2, v5.4, and v5.6.)
-
-    * xz and xzdec on Linux:
-
-        - Add support for Landlock ABI version 9.
-
-        - Use fallback macros for Landlock ABI version 2, 3, and 5
-          (but not 4) if <linux/landlock.h> is older than ABI version 5.
-          This makes the binary slightly more protected if it is run on
-          a kernel that supports newer ABIs than <linux/landlock.h>.
-
-    * Scripts:
-
-        - xzgrep: Fix handling of the ' char at the end of a command
-          line option. For example, the following tricked xzgrep to
-          run "id": xzgrep "-e'" "-e;id;'" somefile
-          (Also in v5.2, v5.4, and v5.6.)
-
-        - xzdiff: Use the C locale (LC_ALL=C) with "sed" and "expr"
-          to ensure safe behavior with invalid multibyte sequences.
-          An equivalent improvement was made in xzgrep in 5.2.6
-          (2022-08-12), but it was forgotten from xzdiff.
-          (Also in v5.2, v5.4, and v5.6.)
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-extended/xz/{xz_5.8.3.bb => xz_5.8.4.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/xz/{xz_5.8.3.bb => xz_5.8.4.bb} (97%)
-
-diff --git a/meta/recipes-extended/xz/xz_5.8.3.bb b/meta/recipes-extended/xz/xz_5.8.4.bb
-similarity index 97%
-rename from meta/recipes-extended/xz/xz_5.8.3.bb
-rename to meta/recipes-extended/xz/xz_5.8.4.bb
-index 0735696011f..cfb0574f0df 100644
---- a/meta/recipes-extended/xz/xz_5.8.3.bb
-+++ b/meta/recipes-extended/xz/xz_5.8.4.bb
-@@ -30,7 +30,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d38d562f6112174de93a9677682231b2 \
- SRC_URI = "https://github.com/tukaani-project/xz/releases/download/v${PV}/xz-${PV}.tar.gz \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "3d3a1b973af218114f4f889bbaa2f4c037deaae0c8e815eec381c3d546b974a0"
-+SRC_URI[sha256sum] = "0014c7886930454fe8bd4228665b51af55eeae560ea135c9c4cd33f55b2591d9"
- UPSTREAM_CHECK_REGEX = "releases/tag/v(?P<pver>\d+(\.\d+)+)"
- UPSTREAM_CHECK_URI = "https://github.com/tukaani-project/xz/releases/"
- 
+Richard
 
