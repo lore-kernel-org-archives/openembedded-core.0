@@ -1,111 +1,225 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C2BE5C79F9F
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 15:39:36 +0000 (UTC)
-Received: from mail-wm1-f42.google.com (mail-wm1-f42.google.com [209.85.128.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.17521.1789054774280444874
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E458C79FBF
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 17:46:01 +0000 (UTC)
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20794.1789062358827322473
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2026 08:39:35 -0700
+ Thu, 10 Sep 2026 10:45:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=E8GW5cwR;
- spf=pass (domain: smile.fr, ip: 209.85.128.42, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f42.google.com with SMTP id 5b1f17b1804b1-4956869750eso65385705e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 08:39:34 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NNAbnTix;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4957eefd361so736705e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 10:45:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789054772; x=1789659572; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=DMsQRqtLTboHOMKAx0ZRRfdSAJUJ91dZHVg6Oqyu628=;
-        b=E8GW5cwRUYBhugYirEmkWiQLD85ceCA44zgWiAC6OsqGiYh8PNfXuSB4UWCUHcLL1C
-         2nCAPIMQbuvpFRUXMGXqeukX/V2z2CUkJ4I8oNpU2bJO0TFa8hDbYdUfBuSldnGUWCHg
-         jB65N07EtQSs4g7dC1XdwBdo6jqusT/wzCUCE=
+        d=linuxfoundation.org; s=google; t=1789062357; x=1789667157; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=y9x7stnwkxBIFIJmpYVepNvqPTfVT/4yu1s1EvR39Pk=;
+        b=NNAbnTixXOy1dXx0tAmukekyBJIW06PMoW0krAXamY8/U67djUTQmfPCfg8yT5nhjg
+         b9FHOhriVx2SHCwQQSBA/UBnhjKjePg9A3FdNbac+P5VuvhAf80VZONPK5nZqrDljmVa
+         qr6OtJfhtg07gbWwDpDALIOVruuZZ2MhIFP7A=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789054772; x=1789659572;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=DMsQRqtLTboHOMKAx0ZRRfdSAJUJ91dZHVg6Oqyu628=;
-        b=FlOLnApV4xfbouW4JHjRBiCsHw18eelo2q9Y5qNTXvoKV2pQRD1/HyVIg+I1RrhXSQ
-         85Zft3C1YhCu00lES2kqyQ0skm3Pj1t6AGLoElZ7PJA+Er/VMYq2sEVk3+vQjZAXK9ye
-         VumQkIYaPLwpNClX8ggBFs9uJdTp7E8iY7yuC6iG2Mqz/pCX6F7+0J9MveuFhzzJ6GfZ
-         ku0eGZeYkUKxxS1ruQ+QMx3gjUzvr16jRxSf4CYUslwUgswu+/irG51kwrhRPYXVpXE+
-         Rvd3TBzeLgvLTkZvX8kBMKUqbLFe8Jbri4tQONS24OYjEQLykLO7MZ7JnqWnX2pbUY6a
-         EgYA==
-X-Forwarded-Encrypted: i=1; AKwUvByr03GjzV72Jnz5cvPwiyqDxhqVckIE41mvhA73OzrBXo7EOSvcfZZWXcKiNjuQVsE7BVEe3H6CnbPmM4awEkAftA==@lists.openembedded.org
-X-Gm-Message-State: AFuF++n5dPACBICDs28p4mp5A5fO03l1jscWga2Npet/uQs/k7tOJAz/
-	xuoRtLtMP6slO1rmW5nSzQd4TQjHTJQiObpq50xH83KB/P4Q69Od9fLIOIzVqlISSlY=
-X-Gm-Gg: AYBFou1UD2a00sXeSnvvp9M2BvtIHHt8f6X+JOV3KA7RCIF6vWZMT7uIavNuuHaFXZd
-	O+uVra4CcjW2CTEiESzz9ltVmsS1h9gvasOBGb1ahITnchSxSuYF3iJKnXbnGQyLTStNGkA9iwV
-	tQcNb9UAeaCU1fP0k1Z9KSiGiBPXEmCaZulXSMMB/DDAet6PFYlvDymasqpnLIrRcvM6+PAS9RP
-	Hn18wAjqRdR+JMvkW6c97sZRUn4zjFusEBYIppZE2Nlf75+HtZLGBnHfzRXsd6+b97INu8liyjt
-	zdwmHCM1OIKon+Zcll/KZECXHLTs5DKkwKl6YGi95AyrtXCgWHCK9j3AABqfMYjacf8CbMfrDxb
-	9mkYfddV5cfhpv1SHt5RrTIQwt5ksY9fLiVqBk65mnxjc816k3Oc1Czl2hgB04EU0qXrFiPrtvg
-	sFjnNJ2GDR5uKOfwISNwd2VOZs2YVtxI9wyhgd6bprBmMlIWNg/EciaQvqTdJxVFYhjscxVLI91
-	uHS73v7hp3sGrK24+Y49aqjONy/EsowriO4HPw1bMOS6mYj2RYA0gFPqZO8zDtcYeo4pQMZHQ==
-X-Received: by 2002:a05:600c:3587:b0:49d:17d8:abec with SMTP id 5b1f17b1804b1-49d17d8abf5mr188413505e9.21.1789054772452;
-        Thu, 10 Sep 2026 08:39:32 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c2985dsm138646075e9.6.2026.09.10.08.39.31
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2026 08:39:32 -0700 (PDT)
-Mime-Version: 1.0
+        d=1e100.net; s=20251104; t=1789062357; x=1789667157;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=y9x7stnwkxBIFIJmpYVepNvqPTfVT/4yu1s1EvR39Pk=;
+        b=pRP5NZREFCQohvw6TUeSWWpw1DWCQQ/xJgEpUQjNJPamb8HEGcIsPiDW06zNZ49eXj
+         KpKg9ELRZbngUzAM4krIsn0vPPR6XXGrPwvDuzrXWUr9jTF24xQXXPXkENSO3XMyegL2
+         hGYoMgcLyyBTIxqwkphaQZQS1+0WbfnkWQ9JZxdsZ5YF4sQtuTeIeFHdmhGRJ6Q6bzH7
+         ZtHlVG5NnmV2M35jrpsENMj8fefmhPCpMN0aFZRJabi74ZqPMAYrV52VDS1ruOJqw45v
+         HzHnUGWqCFYoszJGHKeKSwcnrzWbSb4ju+Ntqv8xrgRNxAfDnG6qV54r2/6KeWSamp5N
+         0wiw==
+X-Forwarded-Encrypted: i=1; AKwUvByRw517RhVQkwRigxSoakjSpvLMa9okSdM4hU5VwjbuCDCm3/7fJuV3S1NbPz6miVKuK/wiDRAi+cWfTc0cFS/TpQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nHfAWAJKkWivQ6BcDtb/Z993QXJB+DussKcs9VFeRKt8icQMO4
+	EPWirizX2nl6Ep04YJIp3NaqLlsfSVv4bIZ5kTvTrarOAi3dsVAgAJ0Df4DnWH3+eqM=
+X-Gm-Gg: AYBFou1ML2PZxgQSZ9TcPJ17jk9hlVXIUEYKEzxe5CzyzvUmtBM8SjdHJg5V6J0uyOQ
+	9NftH2YGCMhw49tkht9kHa6JV0qu06tfZDGTG87VAwevOcodC4KKuoKrK3bP6TzO1wigUe/hze4
+	kOEqlCqz0BefMGalfSJCgksGIWacVGOo0AyOtd8UAbFz7hS3hG5QjjZv/598CI+ANrztMu44sYM
+	bqJLs8m1aN4nlevnw9nTj+fVL8hv9a88IFHau8xIQ1d75MjbWxFhQVRH2it1e/CROCGQuM0t0kd
+	HmY7yT58nQXTGD+Cw80bGVPVsiIgzrZrDIe0Tn/grPjI0lqZdiKgmytU/bXhag6Zr2vt759LjtZ
+	L0iRoCDLQVBgYGLd1PZ9prO+RjEY7VDfiitb6eI+aTHxJbbQJcxb/BvF9J32zB1I1UoVn/eeX6a
+	AxPxyaOrKdztxI6s1L26TUCuM7aR+oOT4likLIE9K0vDvNWEc+atLT9/OaBJKoBgHVNGm7Krukr
+	IivRsFWLMVWRNyI2em7QlKHrmlDhreKkh52kr59A6XcbXC2S8a+59x3GmZtRXK2
+X-Received: by 2002:a05:600c:8a1a:10b0:49c:ee22:364c with SMTP id 5b1f17b1804b1-49e6198d0a6mr1684335e9.9.1789062356946;
+        Thu, 10 Sep 2026 10:45:56 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:788a:18da:6c2a:9f16? ([2001:8b0:aba:5f3c:788a:18da:6c2a:9f16])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d20fce7a7sm316313565e9.4.2026.09.10.10.45.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 10:45:56 -0700 (PDT)
+Message-ID: <e96a5c72b21a10328862ebfd760d16a57cdc2d71.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH 06/15] runqemu-extract-sdk: refactor in Python
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: adrian.freihofer@siemens.com, openembedded-core@lists.openembedded.org
+Date: Thu, 10 Sep 2026 18:45:55 +0100
+In-Reply-To: <20260909215337.89106-7-adrian.freihofer@siemens.com>
+References: <20260909215337.89106-1-adrian.freihofer@siemens.com>
+	 <20260909215337.89106-7-adrian.freihofer@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 10 Sep 2026 17:39:31 +0200
-Message-Id: <DLBQZJYT26YH.23YA0N3PX5036@smile.fr>
-To: <hfranco@baylibre.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] improve_kernel_cve_report: fix
- crash on entries without detail
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260901-fix-kernel-cve-scarthgap-v1-1-405f5d7a8957@baylibre.com>
-In-Reply-To: <20260901-fix-kernel-cve-scarthgap-v1-1-405f5d7a8957@baylibre.com>
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 15:39:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245589
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 17:46:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245590
 
-On Tue Sep 1, 2026 at 9:42 PM CEST, Hiago De Franco via lists.openembedded.=
+On Wed, 2026-09-09 at 23:53 +0200, Adrian Freihofer via lists.openembedded.=
 org wrote:
-> When the CNA reports Unpatched and the scan reports Patched, cve_update()
-> reads cve_data[cve]['detail'] unguarded. cve-check only writes 'detail'
-> for CVEs carrying a CVE_STATUS varflag, so an entry marked Patched by an
-> NVD version comparison has no such key and the script aborts with
-> KeyError: 'detail' on ordinary cve-check output. The unhandled-update
-> warning below makes the same assumption.
->
-> Use .get() in both places. A missing detail falls through to the CNA
-> verdict, and only an explicit CVE_STATUS =3D "backported-patch" outranks
-> it, which is what the guard was added for.
->
-> Tested by calling cve_update() with a Patched entry carrying no detail:
-> before it raises KeyError, after it takes the CNA's Unpatched verdict,
-> while an entry with detail =3D "backported-patch" stays Patched either wa=
-y.
->
-> AI-Generated: Uses Claude (claude-opus-5)
-> Fixes: d317e2a52bd2 ("improve_kernel_cve_report: do not override backport=
-ed-patch")
-> Signed-off-by: Hiago De Franco <hfranco@baylibre.com>
+> From: Adrian Freihofer <adrian.freihofer@siemens.com>
+>=20
+> Move the pseudo-backed rootfs extraction logic into a reusable Python
+> module while preserving the existing command interface.
+> Install the module with qemu-helper so the wrapper also works from an SDK=
+.
+>=20
+> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 > ---
->  scripts/contrib/improve_kernel_cve_report.py | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+> =C2=A0.../qemu/nativesdk-qemu-helper_1.0.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
+> =C2=A0scripts/lib/pseudo_rootfs_utils.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 113 +++++++++++++++++
+> =C2=A0scripts/runqemu-extract-sdk=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 116=
+ ++++--------------
+> =C2=A03 files changed, 137 insertions(+), 95 deletions(-)
+> =C2=A0create mode 100644 scripts/lib/pseudo_rootfs_utils.py
+>=20
+> diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/me=
+ta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+> index e1f343989a..0558a564bb 100644
+> --- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+> +++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
+> @@ -9,6 +9,7 @@ RDEPENDS:${PN} =3D "nativesdk-qemu nativesdk-unfs3 native=
+sdk-pseudo \
+> =C2=A0LIC_FILES_CHKSUM =3D "file://${COREBASE}/scripts/runqemu;beginline=
+=3D5;endline=3D10;md5=3Dac2b489a58739c7628a2604698db5e7f"
+> =C2=A0
+> =C2=A0SRC_URI =3D "file://${COREBASE}/scripts/runqemu \
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://${CO=
+REBASE}/scripts/lib/pseudo_rootfs_utils.py \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
+/${COREBASE}/scripts/runqemu-addptable2image \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
+/${COREBASE}/scripts/runqemu-gen-tapdevs \
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
+/${COREBASE}/scripts/runqemu-ifup \
+> @@ -30,4 +31,6 @@ do_install() {
+> =C2=A0	install -d ${D}${bindir}
+> =C2=A0	install -m 0755 ${S}${COREBASE}/scripts/oe-* ${D}${bindir}/
+> =C2=A0	install -m 0755 ${S}${COREBASE}/scripts/runqemu* ${D}${bindir}/
+> +	# The runqemu-* wrappers import this module from their own directory.
+> +	install -m 0644 ${S}${COREBASE}/scripts/lib/pseudo_rootfs_utils.py ${D}=
+${bindir}/
+> =C2=A0}
+> diff --git a/scripts/lib/pseudo_rootfs_utils.py b/scripts/lib/pseudo_root=
+fs_utils.py
+> new file mode 100644
+> index 0000000000..89d082f672
+> --- /dev/null
+> +++ b/scripts/lib/pseudo_rootfs_utils.py
+> @@ -0,0 +1,113 @@
+> +#!/usr/bin/env python3
+> +#
+> +# Helpers for preparing pseudo-managed rootfs trees (NFS booting, SDK/ro=
+otfs
+> +# extraction, target deploy).
+> +#
+> +# SPDX-License-Identifier: GPL-2.0-only
+> +
+> +"""Extract rootfs tarballs and locate their pseudo state for NFS booting=
+."""
+> +
+> +import os
+> +import subprocess
+> +from pathlib import Path
+> +
+> +
+> +class PseudoRootfsError(Exception):
+> +=C2=A0=C2=A0=C2=A0 """Raised when a pseudo-managed rootfs cannot be prep=
+ared or exported."""
+> +
+> +
+> +def pseudo_native_environment():
+> +=C2=A0=C2=A0=C2=A0 """Return the pseudo native environment (PSEUDO and O=
+ECORE_NATIVE_SYSROOT), from the
+> +=C2=A0=C2=A0=C2=A0 qemu-helper-native recipe which provides a pseudo bin=
+ary usable outside a recipe sysroot."""
+> +=C2=A0=C2=A0=C2=A0 native_sysroot =3D os.environ.get('OECORE_NATIVE_SYSR=
+OOT')
+> +=C2=A0=C2=A0=C2=A0 if not native_sysroot:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 impor=
+t bb.tinfoil
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except ImportError as exc:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise=
+ PseudoRootfsError(
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 'Unable to import bitbake.\n'
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 'Did you forget to source your build system environment =
+setup script?') from exc
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 with =
+bb.tinfoil.Tinfoil() as tinfoil:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 tinfoil.prepare(quiet=3D2)
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0 native_sysroot =3D tinfoil.parse_recipe('qemu-helper-nat=
+ive').getVar('STAGING_DIR_NATIVE')
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except Exception as exc:
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise=
+ PseudoRootfsError('Unable to set up the qemu-helper-native sysroot') from =
+exc
+> +
+> +=C2=A0=C2=A0=C2=A0 if not native_sysroot or not os.path.exists(native_sy=
+sroot):
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise PseudoRootfsError("%s d=
+oesn't exist" % native_sysroot)
+> +
+> +=C2=A0=C2=A0=C2=A0 environment =3D {'OECORE_NATIVE_SYSROOT': native_sysr=
+oot}
+> +=C2=A0=C2=A0=C2=A0 environment['PSEUDO'] =3D os.path.join(native_sysroot=
+, 'usr', 'bin', 'pseudo')
+> +=C2=A0=C2=A0=C2=A0 return environment
+> +
+> +
+> +def _tar_options(rootfs_tarball):
+> +=C2=A0=C2=A0=C2=A0 tar_extract_options =3D {
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '.tar.xz': '-xJf',
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '.tar.bz2': '-xjf',
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '.tar.gz': '-xzf',
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '.tar.zst': '--zstd -xf',
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '.tar': '-xf',
+> +=C2=A0=C2=A0=C2=A0 }
+> +=C2=A0=C2=A0=C2=A0 for extension, option in tar_extract_options.items():
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if rootfs_tarball.endswith(ex=
+tension):
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
+n ['--numeric-owner', *option.split()]
+> +=C2=A0=C2=A0=C2=A0 raise PseudoRootfsError(
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'Unable to determine sdk tarb=
+all format\n'
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'Accepted types: .tar / .tar.=
+gz / .tar.bz2 / .tar.xz / .tar.zst')
 
-Hello,
+This is breaking on RHEL8 era hosts, e.g.:
 
-If I'm not mistaken, this patch is the squash of 80ff4903ea1 and
-f5da16b0d3c. I'd rather have 2 clean cherry-picks, this make tracking
-which patch is needed or not easier.
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/4591
 
-Can you send the 2 cherry-picks as a series?
+"tar: unrecognized option '--zstd'"
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+:(
+
+Cheers,
+
+Richard
+
 
 
