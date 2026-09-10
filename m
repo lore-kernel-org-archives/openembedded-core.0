@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D25C8C88E45
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD5B5C88E42
 	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 06:00:32 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7481.1789020028707574540
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7480.1789020026337524909
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 23:00:28 -0700
+ Wed, 09 Sep 2026 23:00:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VIelsyOb;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=wTyf2DnV;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a089e73be7-49c46523-1ef5-4937-b706-2a621f0e86a7-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=esNTZatQ;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=a7raYhhh;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a089e7308c-22d2b757-342e-4217-a8c5-08f4841923b0-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789020028;
+	t=1789020025;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=Jcy0SbQSw+Ubpa4i2WsPlx8Xx+/khPcwLGK9ybh5rNc=;
-	b=VIelsyOb/AG06u+ne39UYdtZb0iQ1AZdhH5UK6s8fEizoJWat578shRlWC0m1eFf
-	1bBOrrrUaXXw0E5TSnl98f8M2mTZcEewtcR6hPaZLz46fNWZ7WwYgHhMkLgPoTkOxBP
-	g++MrsCrnoIeyNUWTvHhBAPT6S0Meo7D4Tpy4tsY=
+	bh=JB4DTSWZl5KL1E6BNaZ2E6S3ghP5UGfwQZoga74d/qw=;
+	b=esNTZatQmLdCJfi7UwCNAOBWN26cwDynmb5BIFXYuKsUyh5Uftm7Y6jgTrTDzhQx
+	BnCytIQMgynmpYMumgdsOm96P9g3GxjePIdsQDnBmKBTfuWPcTAjnR1l3Rjx5+COb+3
+	keXlyJ7AwThmqynWIvAmoz4YuF4YJEyviL7/lNMg=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789020028;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789020025;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=Jcy0SbQSw+Ubpa4i2WsPlx8Xx+/khPcwLGK9ybh5rNc=;
-	b=wTyf2DnVcQqgKRP0gHDlqQlZQUWYFA2DX2kKFkY3mUEOpMed8r0c6IJeC83ZwB79
-	UK10DOIE5CxlMfV5iFtyEemwugS0dB+jRahmzUA56X2U2DrAlvsHacpwgtO/U2FJfrI
-	qbFBS/HMcGn+c1PVsbL4Z+oo3J9aIfB3M2gC4LWU=
-Content-Type: multipart/mixed; boundary="===============1487197996129348314=="
+	bh=JB4DTSWZl5KL1E6BNaZ2E6S3ghP5UGfwQZoga74d/qw=;
+	b=a7raYhhhfaI1AgInmNMRoZIs0mkThXFB70+Ox8oCf9C6DM5u/xJ1xiKbw8gsdLO2
+	rQkmKwdEOs/+k8ZwYs34rIFkqUwJ1bdgJl4ItiZNAB80KJEWTClgnYRAMhu6MIaYYFD
+	wcwwUm3ArkyiPz1eviOxuVbo4GaG9seLRK7RwkQA=
+Content-Type: multipart/mixed; boundary="===============4212368731090165971=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] orc: upgrading to 0.4.44 SUCCEEDED
-Message-ID: <010101a089e73be7-49c46523-1ef5-4937-b706-2a621f0e86a7-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Sep 2026 06:00:27 +0000
+Subject: [AUH] glib-2.0-initial,glib-2.0: upgrading to 2.90.0,2.90.0 FAILED
+Message-ID: <010101a089e7308c-22d2b757-342e-4217-a8c5-08f4841923b0-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Sep 2026 06:00:24 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.10-54.240.27.45
+X-SES-Outgoing: 2026.09.10-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:00:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245534
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245533
 
---===============1487197996129348314==
+--===============4212368731090165971==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,142 +50,373 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *orc* to *0.4.44* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *glib-2.0-initial,glib-2.0* to *2.90.0,2.90.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-orc-upgrade-0.4.43-0.4.44.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe glib-2.0-initial failed.
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 958 .bb files complete (0 cached, 958 parsed). 1990 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-81e6a2d411908a1c2aedadb48fc889d4c93e5a83"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:81e6a2d411908a1c2aedadb48fc889d4c93e5a83"
+meta-yocto-bsp       
+meta-poky            = "master:7e41504cd63b099b214f10d92cfdaf358ab98c5f"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 959 .bb files complete (0 cached, 959 parsed). 1991 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-81e6a2d411908a1c2aedadb48fc889d4c93e5a83"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:81e6a2d411908a1c2aedadb48fc889d4c93e5a83"
+meta-yocto-bsp       
+meta-poky            = "master:7e41504cd63b099b214f10d92cfdaf358ab98c5f"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  41% |##############                      | ETA:  0:00:00
+Adding changed files:  82% |#############################       | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
+INFO: Extracting current version source...
+INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
+INFO: Extracting upgraded version source...
+INFO: Fetching https://download.gnome.org/sources//glib/2.90/glib-2.90.0.tar.xz;name=archive...
+INFO: Rebasing devtool onto 409d649d75a1f219ac8c27c565f416a0d860d603
+WARNING: Command 'git rebase 409d649d75a1f219ac8c27c565f416a0d860d603' failed:
+Auto-merging gio/gdbusintrospection.c
+Auto-merging gio/tests/gdbus-introspection.c
+CONFLICT (content): Merge conflict in gio/tests/gdbus-introspection.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Rebasing devtool-override-class-native onto 409d649d75a1f219ac8c27c565f416a0d860d603
+WARNING: Command 'git rebase 409d649d75a1f219ac8c27c565f416a0d860d603' failed:
+Auto-merging gio/gdbusintrospection.c
+Auto-merging gio/tests/gdbus-introspection.c
+CONFLICT (content): Merge conflict in gio/tests/gdbus-introspection.c
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/glib-2.0-initial
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/glib-2.0-initial/glib-2.0-initial_2.90.0.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/glib-2.0-initial.txt
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 8a1f3dbffbce865b28fa1cd257fc0d320bb822d5 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 10 Sep 2026 05:35:19 +0000
-Subject: [PATCH] orc: upgrade 0.4.43 -> 0.4.44
-
----
- meta/recipes-devtools/orc/{orc_0.4.43.bb => orc_0.4.44.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/orc/{orc_0.4.43.bb => orc_0.4.44.bb} (95%)
-
-diff --git a/meta/recipes-devtools/orc/orc_0.4.43.bb b/meta/recipes-devtools/orc/orc_0.4.44.bb
-similarity index 95%
-rename from meta/recipes-devtools/orc/orc_0.4.43.bb
-rename to meta/recipes-devtools/orc/orc_0.4.44.bb
-index db7f5023b3..98e2291532 100644
---- a/meta/recipes-devtools/orc/orc_0.4.43.bb
-+++ b/meta/recipes-devtools/orc/orc_0.4.44.bb
-@@ -5,7 +5,7 @@ LICENSE = "BSD-2-Clause AND BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://COPYING;md5=1400bd9d09e8af56b9ec982b3d85797e"
- 
- SRC_URI = "http://gstreamer.freedesktop.org/src/orc/orc-${PV}.tar.xz"
--SRC_URI[sha256sum] = "82394e20e5c4dffe8b45ea8525c62dd4e3e8be7f253ac11c19297ba7ea5473e0"
-+SRC_URI[sha256sum] = "4aeb97aea2b58224029dc2b23d7d064cfa990cb4fb8c4da440bcbe9c95bc5d2d"
- 
- inherit meson pkgconfig
- 
--- 
-2.47.1
-
-
---===============1487197996129348314==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.43.0", added "/usr/lib/liborc-0.4.so.0.44.0"
-packages/x86-64-v3-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.43.0", added "/usr/lib/liborc-test-0.4.so.0.44.0"
-Changes to packages/x86-64-v3-poky-linux/orc (sysroot):
-  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.43.0 to liborc-0.4.so.0.44.0
-  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.43.0 to liborc-test-0.4.so.0.44.0
-  /usr/lib/liborc-0.4.so.0.43.0 moved to /usr/lib/liborc-0.4.so.0.44.0
-  /usr/lib/liborc-test-0.4.so.0.43.0 moved to /usr/lib/liborc-test-0.4.so.0.44.0
-
---===============1487197996129348314==
-Content-Type: application/octet-stream
+--===============4212368731090165971==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-orc-upgrade-0.4.43-0.4.44.patch"
+Content-Disposition: attachment; filename="glib-2.0-initial-changelog.txt"
 
-RnJvbSA4YTFmM2RiZmZiY2U4NjViMjhmYTFjZDI1N2ZjMGQzMjBiYjgyMmQ1IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTAgU2VwIDIwMjYgMDU6MzU6MTkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBv
-cmM6IHVwZ3JhZGUgMC40LjQzIC0+IDAuNC40NAoKLS0tCiBtZXRhL3JlY2lwZXMtZGV2dG9vbHMv
-b3JjL3tvcmNfMC40LjQzLmJiID0+IG9yY18wLjQuNDQuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
-ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL29yYy97b3JjXzAuNC40My5iYiA9PiBvcmNfMC40LjQ0LmJifSAoOTUlKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC40My5iYiBiL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC40NC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5h
-bWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18wLjQuNDMuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9vcmMvb3JjXzAuNC40NC5iYgppbmRleCBkYjdmNTAyM2Iz
-Li45OGUyMjkxNTMyIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvb3JjL29yY18w
-LjQuNDMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL29yYy9vcmNfMC40LjQ0LmJiCkBA
-IC01LDcgKzUsNyBAQCBMSUNFTlNFID0gIkJTRC0yLUNsYXVzZSBBTkQgQlNELTMtQ2xhdXNlIgog
-TElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9MTQwMGJkOWQwOWU4YWY1NmI5
-ZWM5ODJiM2Q4NTc5N2UiCiAKIFNSQ19VUkkgPSAiaHR0cDovL2dzdHJlYW1lci5mcmVlZGVza3Rv
-cC5vcmcvc3JjL29yYy9vcmMtJHtQVn0udGFyLnh6IgotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjgy
-Mzk0ZTIwZTVjNGRmZmU4YjQ1ZWE4NTI1YzYyZGQ0ZTNlOGJlN2YyNTNhYzExYzE5Mjk3YmE3ZWE1
-NDczZTAiCitTUkNfVVJJW3NoYTI1NnN1bV0gPSAiNGFlYjk3YWVhMmI1ODIyNDAyOWRjMmIyM2Q3
-ZDA2NGNmYTk5MGNiNGZiOGM0ZGE0NDBiY2JlOWM5NWJjNWQyZCIKIAogaW5oZXJpdCBtZXNvbiBw
-a2djb25maWcKIAotLSAKMi40Ny4xCgo=
+Q2hhbmdlbG9nIGZvciBnbGliLTIuMC1pbml0aWFsOiAyLjg4LjMgLT4gMi45MC4wClNvdXJjZTog
+TkVXUwoKT3ZlcnZpZXcgb2YgY2hhbmdlcyBpbiBHTGliIDIuOTAuMCwgMjAyNi0wOS0wOQo9PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CgoqIEJ1Z3MgZml4ZWQ6
+CiAgLSAjNDAzOCBHX0RFRklORV9UWVBFIHBhcmVudF9jbGFzcyB2YXJpYWJsZSB0cmlwcyBjbGFu
+ZyAyMydzIC1XdW51c2VkLWJ1dC1zZXQtCiAgICBnbG9iYWwgKFN1bmlsIERvcmEpCiAgLSAjNDA0
+MCBgLVd0eXBlZGVmLXJlZGVmaW5pdGlvbmAgd2FybmluZ3MgZnJvbSBgR0RCdXNBY3Rpb25Hcm91
+cGAgd2hlbgogICAgYnVpbGRpbmcgMi44OS40IHdpdGggY2xhbmcgKEh5dW5zaWsgUGFya2VyKQog
+IC0gITUzMTEgZml4OiBoYW5kbGUgbG9uZyBmaWxlbmFtZXMgaW4gdHJhc2ggYnkgdHJ1bmNhdGlu
+ZyBmcm9tIGZyb250CiAgLSAhNTMxOSBVcGRhdGUgTm9yd2VnaWFuIEJva23DpWwgdHJhbnNsYXRp
+b24KICAtICE1MzI1IFVwZGF0ZSBQb2xpc2ggdHJhbnNsYXRpb24KICAtICE1MzI2IFVwZGF0ZSBD
+emVjaCB0cmFuc2xhdGlvbgogIC0gITUzMjcgVXBkYXRlIEhlYnJldyB0cmFuc2xhdGlvbgogIC0g
+ITUzMjggdGVzdHM6IGFsbG9jYXRlIGFuIGFkZXF1YXRlIGFsdGVybmF0ZSBzaWduYWwgc3RhY2sK
+ICAtICE1MzI5IFVwZGF0ZSBUdXJraXNoIHRyYW5zbGF0aW9uCiAgLSAhNTMzMSBVcGRhdGUgRnJl
+bmNoIHRyYW5zbGF0aW9uCiAgLSAhNTMzMyBVcGRhdGUgVWlnaHVyIHRyYW5zbGF0aW9uCiAgLSAh
+NTMzNCBVcGRhdGUgS29yZWFuIHRyYW5zbGF0aW9uCiAgLSAhNTMzOSBVcGRhdGUgUnVzc2lhbiB0
+cmFuc2xhdGlvbgogIC0gITUzNDIgVXBkYXRlIFNlcmJpYW4gdHJhbnNsYXRpb24KICAtICE1MzQz
+IFVwZGF0ZSBIdW5nYXJpYW4gdHJhbnNsYXRpb24KICAtICE1MzQ0IFVwZGF0ZSBEYW5pc2ggdHJh
+bnNsYXRpb24KICAtICE1MzQ2IGd0ZXN0dXRpbHM6IE1hcmsgYSBUTFMgdmFyaWFibGUgYXMgbm90
+IHJlYWxseSBhIGxlYWsKICAtICE1MzQ3IGdvdXRwdXRzdHJlYW06IEZpeCBhbiB1bnVzZWQtdmFy
+aWFibGUgd2FybmluZyB3aXRoIEdfRElTQUJMRV9BU1NFUlQKCiogVHJhbnNsYXRpb24gdXBkYXRl
+czoKICAtIEN6ZWNoIChEYW5pZWwgUnVzZWspCiAgLSBEYW5pc2ggKEFzayBIam9ydGggTGFyc2Vu
+KQogIC0gRnJlbmNoIChHdWlsbGF1bWUgQmVybmFyZCkKICAtIEhlYnJldyAoWWFyb24gU2hhaHJh
+YmFuaSkKICAtIEh1bmdhcmlhbiAoQmFsw6F6cyDDmnIpCiAgLSBLb3JlYW4gKENoYW5nd29vIFJ5
+dSkKICAtIE5vcndlZ2lhbiBCb2ttw6VsIChLamFydGFuIE1hcmFhcykKICAtIFBvbGlzaCAoVmlj
+dG9yaWEgTmllZHppZWxza2EpCiAgLSBSdXNzaWFuIChBcnR1ciBTMCkKICAtIFNlcmJpYW4gKNCc
+0LDRgNC60L4g0JrQvtGB0YLQuNGbKQogIC0gVHVya2lzaCAoRW1pbiBUdWZhbiDDh2V0aW4pCiAg
+LSBVaWdodXIgKEFiZHVxYWRpciBBYmxpeikKCk92ZXJ2aWV3IG9mIGNoYW5nZXMgaW4gR0xpYiAy
+Ljg5LjQsIDIwMjYtMDgtMjMKPT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09
+PT09PT09PQoKIC0gSW1wcm92ZSBzdXBwb3J0IGZvciBuYW5vc2Vjb25kIHNvdXJjZSB0aW1lb3V0
+cyAoIzQwMTIsICM0MDE4LCAjNDAyNSwKICAgR05PTUUvbXV0dGVyIzQ5OTQsIHdvcmsgYnkgQmVu
+amFtaW4gT3R0ZSkKCiAtIEZpeCBpbnN0YWxsZWQgc2VydmljZSBmaWxlIGNvbnRhaW5pbmcgYnVp
+bGQgcGF0aCAoIzQwMTEsIHdvcmsgYnkKICAgSmFpcGF1bCBDaGVlcm5hbSkKCiAtIFN1cHBvcnQg
+Y2xpY2tpbmcgbm90aWZpY2F0aW9uIGljb25zIG9uIFdpbmRvd3MgKCE1MDE5LCB3b3JrIGJ5IG90
+YXhodSkKCiAtIEltcHJvdmUgc3RyZWFtIHNwbGljZSBwZXJmb3JtYW5jZSBieSBpbmNyZWFzaW5n
+IGJ1ZmZlciBzaXplICghNTMxNiwgd29yayBieQogICBDaHJpc3RpYW4gSGVyZ2VydCkKCiogQnVn
+cyBmaXhlZDoKICAtICMxOTM2IFBvdGVudGlhbGx5IGVuYWJsZSBnYml0bG9jayBVU0VfQVNNX0dP
+VE8gd2l0aCBjbGFuZzkrID8gKEx1Y2EgQmFjY2kpCiAgLSAjMzM1OSAxYml0LWVtdWZ1dGV4IHRl
+c3QgZmFpbHMgdW5kZXIgQVNBTiAvIFRTQU4gKEx1Y2EgQmFjY2kpCiAgLSAjMzY5NSBUU2FuIGRh
+dGEgcmFjZSBpbiBnb2JqZWN0IC8gYmluZGluZyB0ZXN0IChMdWNhIEJhY2NpKQogIC0gIzM4MzYg
+ZmlsZW5hbWVjb21wbGV0ZXIgdGVzdCBmYWlscyBvbiBIdXJkIChQaGlsaXAgV2l0aG5hbGwpCiAg
+LSAjMzk5MiAoQ1ZFLTIwMjYtMTYxMTgpICgjWVdILVBHTTk4NjctMjMzKSBIZWFwIE92ZXJmbG93
+IG9uIEdMaWIgdGhyb3VnaAogICAgX3hkZ19taW1lX21hZ2ljX3BhcnNlX21hZ2ljX2xpbmUoKSBp
+biBnaW8veGRnbWltZS94ZGdtaW1lbWFnaWMuYyB2aWEKICAgIEluY29ycmVjdCBCeXRlLVN3YXAg
+UG9pbnRlciBBcml0aG1ldGljIG9uIE1JTUUgbWFnaWMgY29udGVudCBpbiB1c2VyLQogICAgd3Jp
+dGFibGUgWERHIGRhdGEgbG9jYXRpb24KICAtICM0MDAzIEdEZXNrdG9wQXBwSW5mbyBzaG91bGQg
+dmFsaWRhdGUgZGVza3RvcCBmaWxlIHBhdGggc25pcHBldHMgKFBoaWxpcAogICAgV2l0aG5hbGwp
+CiAgLSAjNDAxMSBnaW8vdGVzdHMvc2VydmljZXM6IEluc3RhbGxlZCBzZXJ2aWNlIGZpbGUgY29u
+dGFpbnMgYnVpbGQgcGF0aCBhZnRlcgogICAgITUyNTkgKEphaXBhdWwgQ2hlZXJuYW0pCiAgLSAj
+NDAxMiBnbGliOm1vbm90b25pYy10aW1lLW5zL3NpbWlsYXIgcmFuZG9tIGZhaWx1cmVzIG9uIHJp
+c2N2NjQgKEJlbmphbWluCiAgICBPdHRlKQogIC0gIzQwMTggbWFpbmxvb3AgdGVzdCBmYWlscyB3
+aXRoIHRlc3RfdGltZW91dHNfbnMoKSBhc3NlcnRpb24gZmFpbHVyZQogICAgKEJlbmphbWluIE90
+dGUpCiAgLSAjNDAxOSBkb2N1bWVudHBvcnRhbCB0ZXN0IGZhaWxzIG9uIEh1cmQgYXMgZ191bml4
+X2ZkX3F1ZXJ5X3BhdGgoKSBpcyBub3QKICAgIHN1cHBvcnRlZCAoS2FzaHlhcCBFa2JvdGUpCiAg
+LSAjNDAyMCDigJhUTFMgY2FsbGJhY2sgbm90IGludm9rZWTigJkgZXJyb3Igb24gbXN5czItY2xh
+bmc2NCBDSSBqb2IgKEx1Y2EgQmFjY2kpCiAgLSAjNDAyMyBwb2xsYWJsZSB0ZXN0IGZhaWxzIG9u
+IEZyZWVCU0QgKFRpbmctV2VpIExhbikKICAtICM0MDI1IHRlc3RzL21vbm90b25pYy10aW1lOiB0
+ZXN0X3NpbWlsYXIgaXMgcmFjeSB1bmRlciBzY2hlZHVsaW5nIGppdHRlcgogICAgKEJlbmphbWlu
+IE90dGUpCiAgLSBHTk9NRS9tdXR0ZXIjNDk5NCBUZXN0IHRpbWVvdXQ6IGNvcmUrbXV0dGVyL2Jh
+Y2tlbmRzL25hdGl2ZSAtIG11dHRlcjp0aHJlYWQKICAgIChCZW5qYW1pbiBPdHRlKQogIC0gITUw
+MTkgZ25vdGlmaWNhdGlvbi13aW4zMjogSGFuZGxpbmcgbm90aWZpY2F0aW9uIGljb24gY2xpY2sK
+ICAtICE1MDIyIGdub3RpZmljYXRpb24tYmFja2VuZDogU2V0dGluZyBhcHBsaWNhdGlvbiBhcyBh
+IEdPYmplY3QgcHJvcGVydHkKICAtICE1MjYwIGRvY3M6IFVwZGF0ZSBwYXRoIHRvIGluZm9ybWF0
+aW9uIGFib3V0IGluc3RhbGxpbmcgR0xpYgogIC0gITUyNjMgTWlub3IgdGVzdCBhbmQgR0tleUZp
+bGUgZml4ZXMKICAtICE1MjY2IGRvY3M6IEZpeCBnaW8gZ2ktZG9jZ2VuIGRvY3NfdXJsCiAgLSAh
+NTI2NyBidWlsZDogZml4IGdyYWItZ2lvLWRsbC1wYXRocy5weSBpbnZvY2F0aW9uIGluIGNhc2Ug
+Z2xpYiBpcyBhCiAgICBzdWJwcm9qZWN0CiAgLSAhNTI2OCBVcGRhdGUgQ3plY2ggdHJhbnNsYXRp
+b24KICAtICE1MjY5IFVwZGF0ZSBHZW9yZ2lhbiB0cmFuc2xhdGlvbgogIC0gITUyNzAgZ2xvY2Fs
+ZmlsZTogSG9ub3VyIHgtZ3Zmcy10cmFzaC94LWd2ZnMtbm90cmFzaCBmcm9tIGZzdGFiIG1vdW50
+IHBvaW50cwogIC0gITUyNzEgVXBkYXRlIFVrcmFpbmlhbiB0cmFuc2xhdGlvbgogIC0gITUyNzIg
+VXBkYXRlIENoaW5lc2UgKENoaW5hKSB0cmFuc2xhdGlvbgogIC0gITUyNzQgVXBkYXRlIFNsb3Zl
+bmlhbiB0cmFuc2xhdGlvbgogIC0gITUyNzUgVXBkYXRlIEdlb3JnaWFuIHRyYW5zbGF0aW9uCiAg
+LSAhNTI3NiBVcGRhdGUgVWtyYWluaWFuIHRyYW5zbGF0aW9uCiAgLSAhNTI3NyBjaTogQWRkIGEg
+dWJzYW4gam9iCiAgLSAhNTI4MCBVcGRhdGUgQ2hpbmVzZSAoQ2hpbmEpIHRyYW5zbGF0aW9uCiAg
+LSAhNTI4MSBVcGRhdGUgUm9tYW5pYW4gdHJhbnNsYXRpb24KICAtICE1MjgyIFVwZGF0ZSBQZXJz
+aWFuIHRyYW5zbGF0aW9uCiAgLSAhNTI4NCBVcGRhdGUgT2NjaXRhbiB0cmFuc2xhdGlvbgogIC0g
+ITUyODggVXBkYXRlIEJhc3F1ZSB0cmFuc2xhdGlvbgogIC0gITUyOTAgVXBkYXRlIEJyYXppbGlh
+biBQb3J0dWd1ZXNlIHRyYW5zbGF0aW9uCiAgLSAhNTI5MSBVcGRhdGUgQ2F0YWxhbiB0cmFuc2xh
+dGlvbgogIC0gITUyOTMgVXBkYXRlIEdhbGljaWFuIHRyYW5zbGF0aW9uCiAgLSAhNTI5NCBVcGRh
+dGUgTGl0aHVhbmlhbiB0cmFuc2xhdGlvbgogIC0gITUyOTUgVXBkYXRlIEhlYnJldyB0cmFuc2xh
+dGlvbgogIC0gITUyOTYgZml4IGEgcG90ZW50aWFsbHkgcXVhZHJhdGljLXRpbWUgcmVnZXggdG8g
+YmUgbGluZWFyLgogIC0gITUyOTcgRml4IHV0aWxzLWlzb2xhdGVkIHRlc3QgZmFpbHVyZSB3aGVu
+IHJ1bm5pbmcgYXMgcm9vdAogIC0gITUyOTkgVXBkYXRlIEJlbGFydXNpYW4gdHJhbnNsYXRpb24K
+ICAtICE1MzAxIGxvY2FsZmlsZWluZm86IEZpeCBzd2FwcGVkIHNlbGludXggY29udGV4dCBzeW1s
+aW5rIGxvZ2ljCiAgLSAhNTMwNSBVcGRhdGUgQnVsZ2FyaWFuIHRyYW5zbGF0aW9uCiAgLSAhNTMw
+OCBidWlsZDogU29tZSB0ZXN0IGRlcGVuZGVuY2llcyBmaXhlcwogIC0gITUzMDkgSGFuZGxlIHNv
+bWUgdGhyZWFkIHNhbml0aXplciByYWNlcwogIC0gITUzMTAgZ2JzZWFyY2hhcnJheTogRml4IGEg
+LVdzaWduLWNvbnZlcnNpb24gd2FybmluZyBpbgogICAgR19CU0VBUkNIX1VQUEVSX1BPV0VSMgog
+IC0gITUzMTIgbWtlbnVtczogcmVtb3ZlIHVzZSBvZiBkZXByZWNhdGVkIG9zLnBhdGguY29tbW9u
+cHJlZml4KCkKICAtICE1MzEzIGRvY3M6IFJlbW92ZSBKb25hdGhhbiBNYXR0aGV3IGFzIGEgY28t
+bWFpbnRhaW5lcgogIC0gITUzMTUgVXBkYXRlIEthemFraCB0cmFuc2xhdGlvbgogIC0gITUzMTYg
+Z2lvL291dHB1dHN0cmVhbTogaW5jcmVhc2Ugc3BsaWNlIGJ1ZmZlciBzaXplCiAgLSAhNTMxNyBV
+cGRhdGUgT2NjaXRhbiB0cmFuc2xhdGlvbgogIC0gITUzMTggVXBkYXRlIFN3ZWRpc2ggdHJhbnNs
+YXRpb24KCiogVHJhbnNsYXRpb24gdXBkYXRlczoKICAtIEJhc3F1ZSAoQXNpZXIgU2FyYXRzdWEg
+R2FybWVuZGlhKQogIC0gQmVsYXJ1c2lhbiAoVmFzaWwgUHVwa2luKQogIC0gQnVsZ2FyaWFuIChB
+bGV4YW5kZXIgQWxleGFuZHJvdiBTaG9wb3YpCiAgLSBDYXRhbGFuIChYYXZpIEl2YXJzKQogIC0g
+Q2hpbmVzZSAoQ2hpbmEpIChsdW1pbmcgemgpCiAgLSBDemVjaCAoRGFuaWVsIFJ1c2VrKQogIC0g
+R2FsaWNpYW4gKEZyYW5jaXNjbyBEacOpZ3VleiBTb3V0bykKICAtIEdlb3JnaWFuIChFa2F0ZXJp
+bmUgUGFwYXZhKQogIC0gSGVicmV3IChZYXJvbiBTaGFocmFiYW5pKQogIC0gS2F6YWtoIChCYXVy
+emhhbiBNdWZ0YWtoaWRpbm92KQogIC0gTGl0aHVhbmlhbiAoQXVyaW1hcyDEjGVybml1cykKICAt
+IE9jY2l0YW4gKHBvc3QgMTUwMCkgKFF1ZW50aW4gUEFHw4hTKQogIC0gUGVyc2lhbiAoRGFuaWFs
+IEJlaHphZGkpCiAgLSBQb3J0dWd1ZXNlIChCcmF6aWwpIChMdWlnZ2kgQ2FyZG9zbykKICAtIFJv
+bWFuaWFuIChBbnRvbmlvIE1hcmluKQogIC0gU2xvdmVuaWFuIChNYXJ0aW4pCiAgLSBTd2VkaXNo
+IChBbmRlcnMgSm9uc3NvbikKICAtIFVrcmFpbmlhbiAoWXVyaSBDaG9ybm9pdmFuKQoKT3ZlcnZp
+ZXcgb2YgY2hhbmdlcyBpbiBHTGliIDIuODkuMywgMjAyNi0wNy0yOQo9PT09PT09PT09PT09PT09
+PT09PT09PT09PT09PT09PT09PT09PT09PT09PT09CgoqIFN1cHBvcnQgc3lzdGVtZC1zdHlsZSBV
+QVBJIGZpbGUgbWFza2luZyBhbmQgZHJvcC1pbnMgZm9yIGBHS2V5RmlsZWAgKCMzNjIyLAogIHdv
+cmsgYnkgU3RlZmFuIFNjaHViZXJ0KQoKKiBBZGQgc29tZSBzdHJpbmcgYW5kIGRhdGUgY29udmVu
+aWVuY2UgQVBJLCBgZ19zdHJpbmdfZnJlZV9kZWVwKClgIGFuZAogIGBnX3NldF9kYXRlX3RpbWUo
+KWAgKCE0OTE5LCAhNTE5Mywgd29yayBieSBQZXRlciBFaXNlbm1hbm4pCgoqIEFkZCBzb21lIGNv
+bnZlbmllbmNlIEFQSSB0byBgR1VuaXhGRExpc3RgICghNTIzMywgd29yayBieSBTZWJhc3RpYW4g
+V2ljaykKCiogQnVncyBmaXhlZDoKICAtICMzNjIyIFN1cHBvcnQgVUFQSSBmaWxlIG1hc2tpbmcg
+YW5kIGRyb3AtaW5zIGluIEdLZXlGaWxlCiAgLSAjMzk5NCBnaW8vdGVzdHM6IGlwdG9zbWVzc2Fn
+ZSBkb2VzIG5vdCBjb21waWxlIG9uIFNvbGFyaXMKICAtICMzOTk5IGZkIGxlYWsgaW4gYGdfZmls
+ZV9zZXRfY29udGVudHNfZnVsbCgpYCBvbiBlcnJvcj8gKEtvbmRvciBEw6FuaWVsKQogIC0gIzQw
+MDcgZ2lvLXRvb2w6IGNyYXNoIChhc3NlcnRpb24gZmFpbGVkKSB3aGVuIHJ1bm5pbmcgJ2dpbyBo
+ZWxwIGhlbHAnIChKb3NlCiAgICBDYXJsb3MgTGVpdmEpCiAgLSAhNDkxOSBBZGQgZ19zdHJpbmdf
+ZnJlZV9kZWVwCiAgLSAhNTE5MyBkYXRldGltZTogQWRkIGdfc2V0X2RhdGVfdGltZQogIC0gITUy
+MzAgZ2lvc3RyZWFtOiBDbGFyaWZ5IGlzX2Nsb3NlZCgpIG1ldGhvZCBkb2NzIGZvciBzdHJlYW1z
+CiAgLSAhNTIzMyBndW5peGZkbGlzdDogQWRkIGdfdW5peF9mZF9saXN0X2FwcGVuZF90YWtlLCBn
+X3VuaXhfZmRfbGlzdF9wZWVrLAogICAgZ191bml4X2ZkX2xpc3RfbG9va3VwLCBnX3VuaXhfZmRf
+bGlzdF9sb29rdXBfcGVlawogIC0gITUyNDYgZ3Rlc3R1dGlsczogRml4IGEgbWlub3IgdHlwbyBp
+biBhIGRvY3VtZW50YXRpb24gY29tbWVudAogIC0gITUyNDggdGVzdHM6IE1pbm9yIGNvbXBpbGVy
+IHdhcm5pbmcgZml4ZXMgZm9yIEdDQzE2CiAgLSAhNTI0OSBidWlsZDogRml4IGEgZGVwcmVjYXRp
+b24gd2FybmluZyBmcm9tIE1lc29uIDEuMTIKICAtICE1MjUxIGRvY3M6IFVzZSBkZWRpY2F0ZWQg
+ZG9jYmxvY2tzIGZvciBuZXcgZW51bSBtZW1iZXJzCiAgLSAhNTI1MiBkb2NzOiBBbm5vdGF0ZSBj
+YWxsYmFja3MgcmF0aGVyIHRoYW4gdXNlcl9kYXRhCiAgLSAhNTI1NCBBZGQgZmluZXIgYWNjdXJh
+Y3kgZ190aW1lb3V0IEFQSXMKICAtICE1MjU1IGdkYnVzbmFtZW93bmluZzogRG9uJ3QgcHJpbnQg
+YW55IGxvZ3Mgd2hlbiBjb25uZWN0aW9uIGlzIGNsb3NlZAogIC0gITUyNTcgQXZvaWQgcmVzZXJ2
+ZWQgaWRlbnRpZmllcnMgaW4gcHVibGljIG1hY3JvcwoKT3ZlcnZpZXcgb2YgY2hhbmdlcyBpbiBH
+TGliIDIuODkuMiwgMjAyNi0wNy0xNAoqIFVwZGF0ZSB0b29sY2hhaW4gcmVxdWlyZW1lbnQgdG8g
+QzExOyBwcmV2aW91c2x5IHRoaXMgd2FzIGp1c3Qgc3Ryb25nbHkKICByZWNvbW1lbmRlZCAoITM1
+NzQsIHdvcmsgYnkgRW1tYW51ZWxlIEJhc3NpKQoKICAtICMyOTMxIEdNZW1vcnlNb25pdG9yIHNo
+b3VsZCBoYXZlIGEgYmFja2VuZCBmb3Igc3lzdGVtZCBNRU1PUllfUFJFU1NVUkVfV0FUQ0gKICAg
+IEFQSSAoS2F0ZSBIc3VhbikKICAtICMzNzE5IGdzcGF3bi13aW4zMi1oZWxwZXItY29uc29sZS5l
+eGUgZmFpbHMgb24gV2luZG93cyB3aXRoIFVOQyBwYXRoIChBbmRyZXcKICAgIFppZW0pCiAgLSAj
+Mzk4NSBTZWN1cml0eSByZXBvcnQ6IEdEQnVzU2VydmVyIHByZS1hdXRoZW50aWNhdGlvbiBEb1Mg
+dmlhIHVuYm91bmRlZCBTQVNMCiAgICBsaW5lIGJ1ZmZlcmluZyAoUGhpbGlwIFdpdGhuYWxsKQog
+IC0gIzM5ODYgR0RCdXNBY3Rpb25Hcm91cENsYXNzIGZhaWx1cmUgKFBoaWxpcCBXaXRobmFsbCkK
+ICAtICEzNTc0IFVwZGF0ZSB0b29sY2hhaW4gcmVxdWlyZW1lbnQgdG8gQzExCiAgLSAhNTIyMiBH
+TmV0d29ya01vbml0b3I6IFN0b3AgcHVsbGluZyByb3V0ZSB0YWJsZSBvbiBzZC1uZXR3b3JrZCBo
+b3N0cwogIC0gITUyMjQgZ3F1YXJrOiBGaXggYW4gaW5jb3JyZWN0IEdfR05VQ19DT05TVCBhbm5v
+dGF0aW9uIG9uCiAgICBnX3F1YXJrX3RvX3N0cmluZygpCiAgLSAhNTIyNiBmdXp6aW5nOiBTa2lw
+IGJ1aWxkIGlmIG9zcy1mdXp6IGFuZCB0ZXN0cyBhcmUgYm90aCBvbWl0dGVkCiAgLSAhNTIzMiBn
+bmV0d29ya21vbml0b3JuZXRsaW5rOiBQZXJmb3JtYW5jZSBpbXByb3ZlbWVudHMgYnkgZm9sbG93
+aW5nIGlwcm91dGUyCiAgICBiZWhhdmlvcgogIC0gITUyMzQgZ21haW46IGZpeCBwb2xsLmggaW5j
+bHVkZSBvcmRlciBvbiBBSVgKICAtICE1MjM1IHRlc3RzOiBGaXggZ2ktaW5zcGVjdC10eXBlbGli
+LnB5IG9uIFZpc3VhbCBTdHVkaW8KICAtICE1MjM2IGdpby90ZXN0czogc2tpcCB1bnN1cHBvcnRl
+ZCBJUCBUT1MgdGVzdHMgb24gQUlYCiAgLSAhNTIzNyBnZGJ1cy1zZXJpYWxpemF0aW9uLmM6IEF2
+b2lkIGdfYXV0b2ZyZWUKICAtICE1MjM4IGdwb2xsOiBDb3JyZWN0bHkgemVyby1vdXQgaGVhcC1h
+bGxvY2F0ZWQgZmRfc2V0cyBvbiBtYWNPUwogIC0gITUyNDQgVXBkYXRlIFJvbWFuaWFuIHRyYW5z
+bGF0aW9uCiAgLSAhNTI0NSBVcGRhdGUgU2xvdmVuaWFuIHRyYW5zbGF0aW9uCiAgLSAhNTI0NyBn
+ZGJ1c25hbWVvd25pbmc6IERvd25ncmFkZSBSZWxlYXNlTmFtZSB3YXJuaW5nIG9uIGNsb3NlZCBj
+b25uZWN0aW9uIHRvCiAgICBkZWJ1ZwoKKiBUcmFuc2xhdGlvbiB1cGRhdGVzOgogIC0gUm9tYW5p
+YW4gKEFudG9uaW8gTWFyaW4pCiAgLSBTbG92ZW5pYW4gKE1hcnRpbikKCk92ZXJ2aWV3IG9mIGNo
+YW5nZXMgaW4gR0xpYiAyLjg5LjEsIDIwMjYtMDYtMjUKICAtICMzOTcyIGdfdGhyZWFkX3lpZWxk
+KCkgbWF5IG5vdCB5aWVsZCBjb250cm9sIHRvIGFub3RoZXIgdGhyZWFkIGFzIGV4cGVjdGVkCiAg
+ICBvbiBMaW51eC4KICAtICE1MDg2IGdpbzogZ21lbW9yeW1vbml0b3JkYnVzOiBGaXggZmFsbGJh
+Y2sgYmFja2VuZHMgY2FuJ3QgYmUgcHJvcGVybHkKICAgIGxvYWRlZCB3aGVuLi4uCiAgLSAhNTE4
+NCBncmVnZXg6IFJlbW92ZSAiYXJyYXkgbGVuZ3RoIiBhbm5vdGF0aW9ucwogIC0gITUxOTAgd2lu
+MzItYnVpbGQubWQ6IFVwZGF0ZSBWaXN1YWwgU3R1ZGlvIGJ1aWxkIGluZm8KICAtICE1MTkxIERv
+bid0IHVzZSBzbG93IGNvbnRlbnQgdHlwZSBmb3IgaWNvbnMgd2hlbiBvbmx5IGZhc3QgY29udGVu
+dCBpcwogICAgcXVlcmllZAogIC0gITUxOTIgVXBkYXRlIFJvbWFuaWFuIHRyYW5zbGF0aW9uCiAg
+LSAhNTE5NSBVcGRhdGUgU2xvdmVuaWFuIHRyYW5zbGF0aW9uCiAgLSAhNTE5NiBQZXJmb3JtYW5j
+ZSBpbXByb3ZlbWVudHMgdG8gR1ZhcmlhbnQvR0RCdXNNZXNzYWdlCiAgLSAhNTE5NyBkb2NzOiBm
+aXggd3JvbmcgcmVmZXJlbmNlIHRvIGdpbnQxNiBmb3IgZ2ludDMyIHR5cGVzIGluIGdsaWIvdHlw
+ZXMubWQKICAtICE1MTk4IEFkZCBtaXNzaW5nIGZpbmlzaC1mdW5jIGFubm90YXRpb25zCiAgLSAh
+NTE5OSBncmVnZXg6IGdfbWF0Y2hfaW5mb19mZXRjaF9wb3MoKSBhbmQgZ19tYXRjaF9pbmZvX2Zl
+dGNoX2FsbCgpIHdpbGwgbm93CiAgICB3b3JrIGFmdGVyIHBhcnRpYWwgbWF0Y2hlcyBhcyB3ZWxs
+CiAgLSAhNTIwMCBnZGF0ZXRpbWU6IENsYXJpZnkgZG9jcyBhcm91bmQgY29tcGFyaXNvbnMgYWNy
+b3NzIHRpbWUgem9uZXMKICAtICE1MjAxIGRvY3M6IEdJIGFubm90YXRpb24gZml4ZXMgZm9yIEdD
+YW5jZWxsYWJsZQogIC0gITUyMDIgVXBkYXRlIFNsb3ZlbmlhbiB0cmFuc2xhdGlvbgogIC0gITUy
+MDUgdGVzdHM6IEZpeCB2YXJpb3VzIGxlYWtzIHNwb3R0ZWQgYnkgQVNBTgogIC0gITUyMDYgZG9j
+cyArIHRlc3RzOiBmaXggZG9jcyBhbmQgYWRkIHVuaXQgdGVzdCBhYm91dCBnX3RyeV9uZXcgd2l0
+aCB6ZXJvCiAgICBuX3N0cnVjdHMKICAtICE1MjA3IFVwZGF0ZSBSb21hbmlhbiB0cmFuc2xhdGlv
+bgogIC0gITUyMDkgQ0k6IFNldCBtc3lzMi1jbGFuZzY0IGFzIGRlZmF1bHQgam9iIGZvciBtZXJn
+ZXMKICAtICE1MjEwIGRvY3M6IGFkZCBtaXNzaW5nIHJlZmVyZW5jZSB0byBnX3JjX2JveF9uZXcw
+IGFuZCBnX2F0b21pY19yY19ib3hfbmV3MAogICAgYW5kIG90aGVycyBpbiBSZWZlcmVuY2UgQ291
+bnRpbmcgcGFnZQogIC0gITUyMTEgZ3V0Zjg6IEVsaW1pbmF0ZSByZWR1bmRhbnQgZG91YmxlLXRy
+YXZlcnNhbCBpbiBnX3V0Zjhfc3Vic3RyaW5nCiAgLSAhNTIxMyBnc29ja2V0OiBJbXByb3ZlIGRv
+Y3MgZm9yIGdfc29ja2V0X2dldF9mZCgpCiAgLSAhNTIxNCBnZXJyb3I6IEFkZCBtaXNzaW5nIGlu
+dHJvc3BlY3Rpb24gYW5ub3RhdGlvbnMKICAtICE1MjE2IFVzZSBkbG9wZW4gdG8gYWNjZXNzIGVu
+dmlyb24gb24gRnJlZUJTRAogIC0gITUyMTggZ3ZhcmlhbnQ6IENoZWNrIGZvciBvdmVyZmxvdyBp
+biBnX3ZhcmlhbnRfbmV3X2ZpeGVkX2FycmF5KCkKICAtICE1MjIxIG1lc29uOiBPdmVycmlkZSBn
+aXJlcG9zaXRvcnktMi4wIHdoZW4gZ2xpYiBpcyB1c2VkIGFzIHN1YnByb2plY3QKICAtIFJvbWFu
+aWFuIChBbnRvbmlvIE1hcmluKQogIC0gU2xvdmVuaWFuIChNYXJ0aW4pCk92ZXJ2aWV3IG9mIGNo
+YW5nZXMgaW4gR0xpYiAyLjg5LjAsIDIwMjYtMDUtMjAKKiBJbnRlZ3JhdGUgYmV0dGVyIHdpdGgg
+dGhlIFN5c3RlbSBUcmFzaCBvbiBtYWNPUyAoIzExNjEsIHdvcmsgYnkgQnlvdW5nY2hhbiBMZWUp
+CgoqIEFkZCBgZ19zZXRfc3RydigpYCwgYGdfc2V0X3N0cnZfdGFrZSgpYCBhbmQgYGdfc2V0X3N0
+cl90YWtlKClgIGNvbnZlbmllbmNlCiAgZnVuY3Rpb25zICgjMzkwNywgITUxMTgsIHdvcmsgYnkg
+Q2hyaXN0aWFuIEhlcmdlcnQgYW5kIFBoaWxpcCBXaXRobmFsbCkKCiogQWRkIHN1cHBvcnQgZm9y
+IGBHVHlwZUluc3RhbmNlYC1kZXJpdmVkIHR5cGVzIGluIGdlbmVyaWMgbWFyc2hhbGxlciAoIzM5
+NTQsCiAgd29yayBieSBDaHJpc3RpYW4gSGVyZ2VydCkKCiogQ2hhbmdlIGBnX2dldF9udW1fcHJv
+Y2Vzc29ycygpYCB0byByZXBvcnQgbnVtYmVyIG9mIHBlcmZvcm1hbmNlIGNvcmVzLCByYXRoZXIK
+ICB0aGFuIG51bWJlciBvZiBwZXJmb3JtYW5jZStsb3ctcG93ZXIgY29yZXMgb24gbWFjT1MgKCE1
+MTUzLCB3b3JrIGJ5IEpvaG4gQ3VwaXR0KQoKKiBBZGQgc3VwcG9ydCBmb3IgYFhER19QUk9KRUNU
+U19ESVJgIHNwZWNpYWwgZGlyZWN0b3J5ICghNTE0MSwgd29yayBieQogIEVtbWFudWVsZSBCYXNz
+aSBhbmQgSmFrdWIgU3RlaW5lcikKCiAgLSAjMTE2MSBnX2ZpbGVfdHJhc2goKSBGaWxlcyBub3Qg
+bW92ZWQgdG8gU3lzdGVtIFRyYXNoIG9uIE1hYyBPU1gKICAtICMxODUzIERCdXMgYWN0aXZhdGVk
+IEdBcHBsaWNhdGlvbnMgYW5kIEdfQVBQTElDQVRJT05fSEFORExFU19PUEVOIChHdWlkbwogICAg
+R8O8bnRoZXIpCiAgLSAjMjE3MyBnX2FzY2lpX3N0cnRvZCgpIHNwZWMgZG9lc24ndCBtYXRjaCBD
+OTkvQzExIHN0YW5kYXJkIGZvciB1bmRlcmZsb3cKICAgIGJlaGF2aW9yIChkZXB1YzgpCiAgLSAj
+MzA2OSBnaW8vdHJhc2ggdGVzdCBmYWlscyBvbiBtYWNPUwogIC0gIzM3OTEgZ19lcnJvciBjYXVz
+ZXMgLVdhbmFseXplci1pbmZpbml0ZS1sb29wIHdhcm5pbmdzIGluIGRvd25zdHJlYW0gY29kZQog
+ICAgKGNvcnJlY3Rtb3N0KQogIC0gIzM4NTQgR1JlZ2V4IHVzZXMgaW50IGZvciBzdHJpbmcgbGVu
+Z3RoIChQaGlsaXAgV2l0aG5hbGwpCiAgLSAjMzkwNyBBZGQgZ19zZXRfc3RydigpIGhlbHBlciBz
+aW1pbGFyIHRvIGdfc2V0X3N0cigpIChDaHJpc3RpYW4gSGVyZ2VydCkKICAtICMzOTExIEdNYXJr
+dXAgY2hva2VzIG9uIEJPTQogIC0gIzM5MzIgKCNZV0gtUEdNOTg2Ny0yMDQpIEludGVnZXIgVW5k
+ZXJmbG93IChDV0UtMTkxKSBvbiBHTGliIHRocm91Z2gKICAgIGdpby9nZGJ1c2ludHJvc3BlY3Rp
+b24uYyB2aWEgImdfZGJ1c19ub2RlX2luZm9fbmV3X2Zvcl94bWwiIChQaGlsaXAKICAgIFdpdGhu
+YWxsKQogIC0gIzM5NTQgR2VuZXJpYyBtYXJzaGFsbGVyIGxhY2tzIHN1cHBvcnQgZm9yIEdUeXBl
+SW5zdGFuY2UgZGVyaXZlZCB0eXBlcwogICAgKENocmlzdGlhbiBIZXJnZXJ0KQogIC0gIzM5NTgg
+RlRCRlMgZm9yIHZzMjAxOS1hcm02NCBpbiBsaWJjaGFyc2V0IGR1ZSB0byB1bmRlZmluZWQgX0Nv
+dW50T25lQml0czY0CiAgLSAhNDk5MCBnZGJ1c2F1dGhtZWNoYW5pc21zaGExOiBJZ25vcmUgR19E
+QlVTX0NPT0tJRV9TSEExX0tFWVJJTkdfRElSIHdoZW4KICAgIHN1aWQKICAtICE1MDk0IGd0ZXN0
+ZGJ1czogS2VlcCBjb25maWcgZmlsZSBhcm91bmQgdW50aWwgYnVzIGRhZW1vbiBleGl0cwogIC0g
+ITUwOTkgbGlzdHN0b3JlOiBNaWNyby1vcHRpbWl6ZSBuby1vcCBidWxrIG9wZXJhdGlvbnMKICAt
+ICE1MTAyIGdfYmFzZTY0X2RlY29kZV9zdGVwOiBmaXggZG9jdW1lbnRlZCB0eXBlIG9mIGluCiAg
+LSAhNTEwMyBnZGJ1c21lc3NhZ2U6IERvY3VtZW50YXRpb24gaW1wcm92ZW1lbnRzCiAgLSAhNTEw
+NiBnbWFya3VwOiBBZGQgYXBpIHRvIGdldCBhdHRyaWJ1dGUgbG9jYXRpb25zCiAgLSAhNTEwNyBn
+bWVzc2FnZXM6IFJlbW92ZSBpbmNvcnJlY3QgY2FsbGJhY2sgYW5ub3RhdGlvbnMKICAtICE1MTEy
+IGRvY3M6IENsYXJpZnkgZGVmYXVsdC91c2VyIHNpZ25hbCBoYW5kbGVycwogIC0gITUxMTUgYnVp
+bGQ6IFBvc3QtcmVsZWFzZSB2ZXJzaW9uIGJ1bXAKICAtICE1MTE2IFVwZGF0ZSBTbG92ZW5pYW4g
+dHJhbnNsYXRpb24KICAtICE1MTE3IGZ1enppbmc6IEFkZCBhIGZ1enogdGVzdCBmb3IgZ19tYXJr
+dXBfZXNjYXBlX3RleHQoKQogIC0gITUxMTggZ3N0cmZ1bmNzOiBBZGQgZ19zZXRfc3RyX3Rha2Uo
+KSBoZWxwZXIgZnVuY3Rpb24KICAtICE1MTE5IHRlc3RzOiBDaGVjayB0aGF0IGdfbWFya3VwX2Vz
+Y2FwZV90ZXh0KCkgcmV0dXJucyBzb21ldGhpbmcgcGFyc2VhYmxlCiAgLSAhNTEyMCBVcGRhdGUg
+Q2hpbmVzZSAoQ2hpbmEpIHRyYW5zbGF0aW9uCiAgLSAhNTEyMSBnaW86IEFwcGx5IHByb3BlcnR5
+IGFjY2Vzc29yIGFubm90YXRpb25zIHRvIEdEQnVzIHR5cGVzCiAgLSAhNTEyMyBVcGRhdGUgUm9t
+YW5pYW4gdHJhbnNsYXRpb24KICAtICE1MTI0IGd2YXJpYW50OiBUd2VhayBHVmFyaWFudEl0ZXIg
+aGVhcCBhbGxvY2F0aW9uIGNhc3RpbmcKICAtICE1MTI1IGdyZWdleDogRml4IHNvbWUgbWlzc2lu
+ZyBNYXJrZG93biBmb3JtYXR0aW5nIGluIGRvY3MKICAtICE1MTI2IEFkZCBtaXNzaW5nIGFubm90
+YXRpb25zCiAgLSAhNTEyNyBsaWJmZmk6IGRvbid0IGJ1aWxkIHRlc3RzdWl0ZSB3aGVuIGJ1aWxk
+aW5nIGFzIHN1YnByb2plY3QKICAtICE1MTI4IGdtYXJrdXA6IFN3YXAgdGhlIGFyZ3VtZW50IG9y
+ZGVyIGZvciBnX3JlYWxsb2NfbigpCiAgLSAhNTEzNiBkb2NzOiBDbGFyaWZ5IFVURi04IHZhbGlk
+aXR5IGZvciBmdW5jdGlvbnMgd2hpY2ggYWNjZXB0IGEgbGVuZ3RoCiAgLSAhNTEzOCBVcGRhdGUg
+U2xvdmVuaWFuIHRyYW5zbGF0aW9uCiAgLSAhNTE0MCBVcGRhdGUgUm9tYW5pYW4gdHJhbnNsYXRp
+b24KICAtICE1MTQxIFN1cHBvcnQgWERHX1BST0pFQ1RTX0RJUgogIC0gITUxNDIgZ3NvY2tldGNv
+bm5lY3Rpb246IEZpeCBhbm5vdGF0aW9ucyBmb3IgZ2V0X3NvY2tldCgpCiAgLSAhNTE0NSBndmFy
+aWFudHR5cGU6IHVzZSBwdXJlIGF0dHJpYnV0ZSwgbm90IGluYXBwcm9wcmlhdGUgY29uc3QKICAt
+ICE1MTQ2IGdtZXNzYWdlczogQWRkIG1pc3Npbmcgc3RkbGliLmggaW5jbHVkZSBmb3IgYWJvcnQo
+KQogIC0gITUxNDggcmVnaXN0cnlzZXR0aW5nc2JhY2tlbmQ6IENoYWluIHVwIHZmdW5jcwogIC0g
+ITUxNDkgZ3R5cGU6IEltcHJvdmUgR19ERUZJTkUgYW5kIEdfREVDTEFSRSBkb2NzCiAgLSAhNTE1
+MyBnX2dldF9udW1fcHJvY2Vzc29ycygpOiBvbiBtYWNPUywgcmVwb3J0IG5fcGNvcmUKICAtICE1
+MTU1IFVwZGF0ZSBHZXJtYW4gdHJhbnNsYXRpb24KICAtICE1MTU3IFVwZGF0ZSBEdXRjaCB0cmFu
+c2xhdGlvbgogIC0gITUxNTggZ3NvY2tldDogRml4IGdfc29ja2V0X25ld19mcm9tX2ZkKCkgb24g
+dW5ib3VuZCBzb2NrZXRzIG9uIHdpbmRvd3MKICAtICE1MTU5IGd2YXJpYW50OiBUd2VhayBHVmFy
+aWFudEl0ZXIgaGVhcCBhbGxvY2F0aW9uIHNpemUKICAtICE1MTYxIFtkb2NzXSBHaW8uTWVudU1v
+ZGVsOiBGaXggYnVsbGV0ZWQgbGlzdAogIC0gITUxNjIgZ3ZhcmlhbnQ6IE1hdGNoIGFsbG9jYXRp
+b24gc2l6ZSBvZiBnX3NsaWNlX25ldyB0byBnX3NsaWNlX2ZyZWUKICAtICE1MTYzIGd2YXJpYW50
+IHRlc3Q6IEZpeCBhIGxlYWsKICAtICE1MTY0IHRlc3RzOiBBdm9pZCB1bmRlZmluZWQgc2lnbmVk
+IGxlZnQtc2hpZnQgaW4gYml0bG9jayB0ZXN0CiAgLSAhNTE2NyBkb2NzOiBBZGQgZG9jcyBmb3Ig
+R19HTlVDX0ZMQUdfRU5VTQogIC0gITUxNzYgZ251bGliOiBGaXggdW51c2VkIGZsYWdzIHZhcmlh
+YmxlIHdhcm5pbmcKICAtICE1MTc3IGdpby90ZXN0cy9wb2xsYWJsZS5jOiBGaXggdGVzdCBvbiBG
+cmVlQlNECiAgLSAhNTE4MCBtZXNvbjogQWRkIHZhbGdyaW5kIHN1cHByZXNzaW9uIGZpbGUgdG8g
+VkFMR1JJTkRfT1BUUyBpbiBkZXZlbnYKICAtICE1MTgyIE1lc29uOiBEb24ndCBoYXJkY29kZSBG
+RklfU1RBVElDX0JVSUxEIC8gR19JTlRMX1NUQVRJQ19DT01QSUxBVElPTgogIC0gITUxODMgZ2lv
+L3Rlc3RzL3BvbGxhYmxlLmM6IENvbmRpdGlvbmFsaXplIG9uIEZyZWVCU0QgdmVyc2lvbiBpbiB0
+aGUKICAgIC9kZXYvbnVsbCB0ZXN0IGNhc2UKICAtICE1MTg1IGdpby9nZGVza3RvcGFwcGluZm86
+IEFkZCBwcmVjb25kaXRpb24gYXNzZXJ0aW9ucwogIC0gITUxODcgQWRkIHNhZmV0eSBkb2N1bWVu
+dGF0aW9uIHJlZ2FyZGluZyB1c2Ugb2YgZ19zaGVsbF9xdW90ZSgpCiAgLSAhNTE4OCBJbXByb3Zl
+IHBlcmZvcm1hbmNlIG9mIGdfYXJyYXlfbWF5YmVfZXhwYW5kKCkKICAtIENoaW5lc2UgKENoaW5h
+KSAobHVtaW5nIHpoKQogIC0gRHV0Y2ggKE5hdGhhbiBGb2xsZW5zKQogIC0gUm9tYW5pYW4gKEFu
+dG9uaW8gTWFyaW4pCiAgLSBTbG92ZW5pYW4gKE1hcnRpbikK
 
---===============1487197996129348314==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/orc: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc: SRC_URI changed from "http://gstreamer.freedesktop.org/src/orc/orc-0.4.43.tar.xz" to "http://gstreamer.freedesktop.org/src/orc/orc-0.4.44.tar.xz"
-packages/x86-64-v3-poky-linux/orc: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-packages/x86-64-v3-poky-linux/orc/liborc-0.4: FILELIST: removed "/usr/lib/liborc-0.4.so.0.43.0", added "/usr/lib/liborc-0.4.so.0.44.0"
-packages/x86-64-v3-poky-linux/orc/liborc-0.4: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc/liborc-0.4: FILES: removed "/usr/lib/liborc-0.4.so.0.43.0", added "/usr/lib/liborc-0.4.so.0.44.0"
-packages/x86-64-v3-poky-linux/orc/liborc-0.4: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-packages/x86-64-v3-poky-linux/orc/liborc-test-0.4: FILELIST: removed "/usr/lib/liborc-test-0.4.so.0.43.0", added "/usr/lib/liborc-test-0.4.so.0.44.0"
-packages/x86-64-v3-poky-linux/orc/liborc-test-0.4: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc/liborc-test-0.4: FILES: removed "/usr/lib/liborc-test-0.4.so.0.43.0", added "/usr/lib/liborc-test-0.4.so.0.44.0"
-packages/x86-64-v3-poky-linux/orc/liborc-test-0.4: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-packages/x86-64-v3-poky-linux/orc/orc-dbg: FILELIST: removed "/usr/lib/.debug/liborc-test-0.4.so.0.43.0 /usr/lib/.debug/liborc-0.4.so.0.43.0", added "/usr/lib/.debug/liborc-test-0.4.so.0.44.0 /usr/lib/.debug/liborc-0.4.so.0.44.0"
-packages/x86-64-v3-poky-linux/orc/orc-dbg: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc/orc-dbg: PKGSIZE changed from 3914632 to 3914384 (-0%)
-packages/x86-64-v3-poky-linux/orc/orc-dbg: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-packages/x86-64-v3-poky-linux/orc/orc-dev: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc/orc-dev: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-packages/x86-64-v3-poky-linux/orc/orc-doc: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc/orc-doc: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-packages/x86-64-v3-poky-linux/orc/orc-examples: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc/orc-examples: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-packages/x86-64-v3-poky-linux/orc/orc-locale: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc/orc-locale: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-packages/x86-64-v3-poky-linux/orc/orc-src: FILELIST: directory renamed /usr/src/debug/orc/0.4.43/orc/riscv -> /usr/src/debug/orc/0.4.44/orc/riscv, directory renamed /usr/src/debug/orc/0.4.43/orc/avx512 -> /usr/src/debug/orc/0.4.44/orc/avx512, directory renamed /usr/src/debug/orc/0.4.43/orc -> /usr/src/debug/orc/0.4.44/orc, directory renamed /usr/src/debug/orc/0.4.43/orc-test -> /usr/src/debug/orc/0.4.44/orc-test, directory renamed /usr/src/debug/orc/0.4.43/orc/loongarch -> /usr/src/debug/orc/0.4.44/orc/loongarch, directory renamed /usr/src/debug/orc/0.4.43/tools -> /usr/src/debug/orc/0.4.44/tools
-packages/x86-64-v3-poky-linux/orc/orc-src: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc/orc-src: PKGSIZE changed from 2991526 to 2991436 (-0%)
-packages/x86-64-v3-poky-linux/orc/orc-src: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-packages/x86-64-v3-poky-linux/orc/orc-staticdev: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc/orc-staticdev: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-packages/x86-64-v3-poky-linux/orc/orc: PV changed from "0.4.43" to "0.4.44"
-packages/x86-64-v3-poky-linux/orc/orc: PKGV changed from 0.4.43 [default] to 0.4.44 [default]
-Changes to packages/x86-64-v3-poky-linux/orc (sysroot):
-  /usr/lib/liborc-0.4.so.0 changed symlink target from liborc-0.4.so.0.43.0 to liborc-0.4.so.0.44.0
-  /usr/lib/liborc-test-0.4.so.0 changed symlink target from liborc-test-0.4.so.0.43.0 to liborc-test-0.4.so.0.44.0
-  /usr/lib/liborc-0.4.so.0.43.0 moved to /usr/lib/liborc-0.4.so.0.44.0
-  /usr/lib/liborc-test-0.4.so.0.43.0 moved to /usr/lib/liborc-test-0.4.so.0.44.0
-
---===============1487197996129348314==--
+--===============4212368731090165971==--
 
