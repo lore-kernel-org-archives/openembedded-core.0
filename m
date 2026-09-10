@@ -1,234 +1,154 @@
-Return-Path: <debal.ghosh@intel.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F3189C79FB9
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 13:05:23 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.18])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13456.1789045521193408330
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 341C3C79F9F
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 13:06:44 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9569.1789031772146537609
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2026 06:05:21 -0700
+ Thu, 10 Sep 2026 02:16:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=FPVTAMEq;
- spf=pass (domain: intel.com, ip: 198.175.65.18, mailfrom: debal.ghosh@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1789045521; x=1820581521;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=S4XVtNa0r0B+p0W2SDayjK3pOh4SyP08Ex73MrKyqps=;
-  b=FPVTAMEqfI9bFwXYyhihm0rQUR1VyJVVAzOZhoHC7qzdNVPN8tIu8MZO
-   oPRhCr5nb977n/QzgIccxlRh+XMK1by+r2n47MEXTNGiQe4MYemU5g+xN
-   2T+llBT3T/qt23dM9raVpdHlCKZoV32tvgiA5iTxuT7+1h2WIrSBuVsQ7
-   F9hZiQzRI94UEr6+5Tvqv8G/0YYDOxdO7IgKMOGcrwc+mF3Ukyw8ZuQ6H
-   joFHjN43XE7Nnj+XoOxNO8sjb5bfdA8zg18Q894AFiCSSqLofU39Xgb3J
-   E7kaYy4zVAWG6fEDVOTE0DFId0NTywAObu4jp2R5nfGrbtMqKcq6o6+cL
-   g==;
-X-CSE-ConnectionGUID: IgkQve0VQbe57t5KWX3itw==
-X-CSE-MsgGUID: Zf5QsTQHQlit0nsSluGcTg==
-X-IronPort-AV: E=McAfee;i="6800,10657,11900"; a="89534644"
-X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="89534644"
-Received: from orviesa008.jf.intel.com ([10.64.159.148])
-  by orvoesa110.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 06:05:21 -0700
-X-CSE-ConnectionGUID: Tqm/PCzyQyubFtaDJeCegQ==
-X-CSE-MsgGUID: efaFCdS2R7KQSvVV5T97Tw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,95,1787036400"; 
-   d="scan'208";a="271150225"
-Received: from fmsmsx902.amr.corp.intel.com ([10.18.126.91])
-  by orviesa008.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Sep 2026 06:05:21 -0700
-Received: from FMSMSX901.amr.corp.intel.com (10.18.126.90) by
- fmsmsx902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Thu, 10 Sep 2026 06:05:20 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46 via Frontend Transport; Thu, 10 Sep 2026 06:05:20 -0700
-Received: from MW6PR02CU001.outbound.protection.outlook.com (52.101.48.61) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Thu, 10 Sep 2026 06:05:20 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=eCSJVMKr00hDZuXXFTznMpmaVYWrDmPem9198+M8F92dE0692vyv299DdkKVGD3GHrv2L0EUb1jt6+rVou8/FpO7UMqLW6ECCSwoHuaDNqqyIrsmZSX7poId3hIzBs8+QQep74ra2V6Ju1Pzd/YdofwV2/LiTbLXjQZ2wlB7MAV8Io7CGKj9e5rmPNKxXcidzVNyLFIJ+xXswnpLKivTqK4Jnfia8TSSRsWort2fvHwwqb6jPIFTS/I52n8yDBYwMOYbW7ojytSp/YBJvUHJM+45+JeVTuUz0tcFhJce5sdiRdoT4T1NiGTDtqrebMYykdaiCwXzyTbB2+vkTqEROA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Ko06IVJUufmRVP7Ji3LgcTc+nQxGpuyx4wjstJl3Mec=;
- b=rl8q9d+OzyHY5rbTOj7S+tNavEp4NKJyI+rVRKG/M9j3R6aX73sy5Q4Q/6Ys9zidJw4pePMW2aEONb2cKsvzis1qj9dbE4P/9gyamZtJ6FFVvoBt9vQlL93hCQNRILGYMeUw/fS3XPyNrd6Qv4YE8BfKe/8ZYiMEA+AcJAJRzeZyuddK3mqhBhpXovZ5heBoTNBitTRGPrmeQPj1IILbLOxiFdQnm9avf0S3mhzg3NJWP3LieswiF9ChOWDzQp6IajqDkyDHF9Eo3EFqYFnHvLAz6dmUprLTaMnN/T5RwlPRMRJY/YS9E1gv+3YdsoxayiiqFBWJCUFFVBmrrsrmLQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SN7PR11MB7018.namprd11.prod.outlook.com (2603:10b6:806:2ad::14)
- by BL4PR11MB8870.namprd11.prod.outlook.com (2603:10b6:208:5a8::5) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Thu, 10 Sep
- 2026 13:05:13 +0000
-Received: from SN7PR11MB7018.namprd11.prod.outlook.com
- ([fe80::bc48:bc16:39d:b43]) by SN7PR11MB7018.namprd11.prod.outlook.com
- ([fe80::bc48:bc16:39d:b43%2]) with mapi id 15.21.0382.012; Thu, 10 Sep 2026
- 13:05:13 +0000
-From: "Ghosh, Debal" <debal.ghosh@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>, Yocto-mailing-list
-	<yocto@lists.yoctoproject.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, Pokybuild User
-	<pokybuild@yoctoproject.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-6.1_M3.rc1)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-6.1_M3.rc1)
-Thread-Index: AQHdQF5En5O3RBTRZkyCCVJGUNFjDbbHn6aw
-Date: Thu, 10 Sep 2026 13:05:13 +0000
-Message-ID: <SN7PR11MB7018754CAD789474C30B026DF4BF2@SN7PR11MB7018.namprd11.prod.outlook.com>
-References: <010101a086555523-a038a5bc-9dfd-4244-be4d-20771adeff60-000000@us-west-2.amazonses.com>
-In-Reply-To: <010101a086555523-a038a5bc-9dfd-4244-be4d-20771adeff60-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR11MB7018:EE_|BL4PR11MB8870:EE_
-x-ms-office365-filtering-correlation-id: df1342dd-cc93-456a-778c-08df0f3c26f3
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|366016|23010399003|1800799024|4022899009|38070700021|56012099006|6133799003|11063799006|22082099003|10067099003|18002099003;
-x-microsoft-antispam-message-info: 8Y3hwhHLIOCs7GvjyK3KCGXkYr1fJxkCkzWWgUoIRIx6qMsdniI/fZy5LPvuJZy6NSIW43w4yV5x9iq1UzZO0dEE8SwxxZ0APbbVsQ0lzALo1PqaX/dJk9LFmit0zsTY3rAsrnDGF5y2eQ/+V81dpsqcyefcCiK9h0N7j4mhBek255lUJLjjGKcXSDz7RZbOtWkfczgnFtr15CWK9e9sOSKlCyrK7O4xKb76/PbOGK39ugElmnvaXKKw7zhfgW9qj+5uKZfDIpeqrY97mHRKMsbcsIrilqllwgkZEZ5Z0nFmRKxZcCUPSKTUxVu/4aM+SrXSoJWjmoJMUXu/qqQAkg7sywC/tiR1h5/1zwCwVSHeZENsu1LvxtRQh+P5HRoYA+JOrA1w6HgjoCP32t7wiLUX9DdVlmQUyzUXql+g5IMEQdwVhp68/R5vwQbQeWTMDjT07LucQPd7xEu9CCe0Tnead6/rmTfSxO1FnaB7pedeQ23d3m4lM0A9h9s8dZAicMHtnyhM6FlZOXgMQU9Dv3yPWVgKfDX0ihYD4qocW9s7nQL/fQ3BPf1awkZQRY7sYg8FnQmOGg2AtA7waFeS50N979gSXmKzC6xI7utnkuIMZFY2b6tlt5XU0jg7q0g25VfMav59qIN1Uitzz+SAD4H0lzaFIZCt57zdHqXQP6w=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7018.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(366016)(23010399003)(1800799024)(4022899009)(38070700021)(56012099006)(6133799003)(11063799006)(22082099003)(10067099003)(18002099003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?COI+W+pupMTW9xM0P/1U/5wkSGWBMH+r6AtgK93Tc1NVrTa8O6mhQeB7/QZ3?=
- =?us-ascii?Q?o5zyzExIXbF/E/8dBICR6p0NLh9dO+i9g2xLrpou/gcORsTi27R0M4FnuRYL?=
- =?us-ascii?Q?QgtVnQ+LkqDwxLdjzI6GxZp0t3IIbdlfPxYfUfgIKIdPzeuNupqtbPewSvNr?=
- =?us-ascii?Q?FSnco8OroTeIfLqlafKWR3cWB15OU7EkF04CVoS6vhqbqV+qOFW7+gF+FNfk?=
- =?us-ascii?Q?hSZ8SCxgpm0cN4pftTQo8nVCTXAaWtcX6V+3fIzO3dBID43G7zyvOi5DJ373?=
- =?us-ascii?Q?T1rmM9C6pBlq/W2+aeo5Io2A6Xzahzy60vIkwYP4lQb+ksoNw11h4yeEfkfC?=
- =?us-ascii?Q?SWJCXzemYSl5WmpXS5qKS3tO30sRmXkE9Eb2c6tYhe1nA3Yk0+KxKKsHtM22?=
- =?us-ascii?Q?dBy5omcI0UuTY1j4fKupWCS+FS2YoVj11J5lj+1P245995kGJpSGsih6DVYY?=
- =?us-ascii?Q?AGdp9EZ+R7d3PtsqhHMA5v7f5e+4SnXRk/jRwFaMq3wvcdO82CsWuAT9M+TB?=
- =?us-ascii?Q?vu8SKQYV7GJotsEUUdmvQ588nqkcjr+LhqHWrmBWzVYKavdixGmF8++zLSYV?=
- =?us-ascii?Q?JvXRoSA+9NvkXIFQ3UJ8ah/RQwCwzRlXNRAeDzGYsKMaTR2/kwjeggVwqZcR?=
- =?us-ascii?Q?f8FMLnGm16WUp4eNusEFiS5PBu85u3rhd3yFgIZMizikKwYnttHh4wmrbmaQ?=
- =?us-ascii?Q?B1VYQ8+xTWYqk/GUCSBOxAaCUfnDG8Q+wBT3h7PXSSUUejKCNZfMtEWLqayg?=
- =?us-ascii?Q?/qVImcQIA9IpvBWtTRywOHCCFFuCqaM7+NE8EO4+JgBLpQUOsMTZvDe91CF/?=
- =?us-ascii?Q?Elr+yebJc/ozpjbQUozJvYs0oDTsqlTaw5KFfqqPbgbzfwYtGrv68m+Ay4+5?=
- =?us-ascii?Q?ACHEwg4HGRPx8kNX5HTRVwiw2KdL7IcB4SWFVcDXIalz/eNI6i/ZtVDHuMcS?=
- =?us-ascii?Q?hODw3teFE3THxg6NDTo0CzO3Fz7KcIDcO53aJCBGtSIr2iFWC2pQsWxZQ0Nv?=
- =?us-ascii?Q?/Zp6VGARhWiWUUiePw5/zC3BxtbIKgfqrONtB1dlxvzKeHZw0vSNKZuX5H5Z?=
- =?us-ascii?Q?wBIt4G2KQ/w9DLPHftU5ATxoMk1XqP1oQHwc2CjVXdRmk4ec5yrXkzTzLG07?=
- =?us-ascii?Q?5HLxfwpAMi/1pe67ypGlPg5UDKnH7Px1EA5z9UVipIUxkIJLliKITwgdje9S?=
- =?us-ascii?Q?ThLHOmKGmnTmaUQZGkMxQiceDYnQSftz6sXXzmueZyikCq3iM5VpoLFKK3Vq?=
- =?us-ascii?Q?IHh6CjAHJ5/c4sZJV4oZmvpqbtnEKPMzfaoQ9yjY4CWUBToYmoyXrQ8ewP1T?=
- =?us-ascii?Q?KLUS44d4Wusi2GjLA608ZElOrwmyPWVuQdIZAqmnhrAHVPeP9xzdpllAs9Np?=
- =?us-ascii?Q?uxUZjZFIkQWTDP+EDq6t/LYOkPn7SGSaDZulsImtjlXrCGJBKwAnmukp1i5E?=
- =?us-ascii?Q?BmSLZfdIWaoZxJ6E/jkYGQw+46v0D0OWh1LDvsrG0sHhhNmJE5HOZDMkEynt?=
- =?us-ascii?Q?Qk1Oe8j4pbZH9sFhm21bUd4C7UUGCKMmT/pKG8HijH2AhdgBu5tQaH1gN4eX?=
- =?us-ascii?Q?sp3acihn5R/wxKoTTli0VdsXnEDsUis+gsI2wF6ne/le2Xe9/anzPHtKWVju?=
- =?us-ascii?Q?3jZAU6L8xB2H8hQK3vV3se4AP0GSgaHWrgamPjkLntDbmTj0GkhRqERwE6kO?=
- =?us-ascii?Q?OoFK1rXtbnasSQ9oaKWzB+eNya6QW5Mb+lXIgqSEFJSqmEzC?=
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=siNUU32U;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3713535800=himaniramesh.barde@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68A8qbaA3208448
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 02:03:57 -0700
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=RDrowVMRI
+	9gKxhlUb272vuO16ZsNi2XWnM59wzIhmYU=; b=siNUU32UDoQ9s9rpw5VZiyDuq
+	ls+ZD4+r5ssQixxztxatZu9cP40OtwbckPndrouiCepW3S7L14lT5+KcUkOquQ7M
+	ND8eYnrHqgKR+c3qmNpbJjxdXxp/v087i9L0BntvO4e824B4DTTFvS87rY2eMjhB
+	oIdtLe0A7Re3U8oIrCAr1yG/NKjihWQ2BNhtXUmV16NzwX85r5gLctXBTky9o56c
+	NBwjgj3VJaMJZmkNaXBeudUxcfy3FbCBe5iLRwTP1cPlQzun1GaBmu+nA9nuWxM2
+	zlOpOMydJTJPGJZu83j3GwKwW2JinxoqW6tnpOmOx4UHhdYjet9VxFtqoDPMA==
+Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gkcyq15qf-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 02:03:57 -0700 (PDT)
+Received: from ala-p2exch01.corp.ad.wrs.com (10.11.226.101) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Thu, 10 Sep 2026 02:03:56 -0700
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ala-p2exch01.corp.ad.wrs.com (10.11.226.101) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.2.2562.46; Thu, 10 Sep 2026 02:03:56 -0700
+Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Thu, 10 Sep 2026 02:03:55 -0700
+From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: Randy MacLeod <Randy.MacLeod@windriver.com>,
+        Shiva Komati
+	<Shiva.Komati@windriver.com>,
+        Himani Ramesh Barde
+	<HimaniRamesh.Barde@windriver.com>
+Subject: [PATCH] python3-six: add ptest support
+Date: Thu, 10 Sep 2026 09:03:51 +0000
+Message-ID: <20260910090351.2723224-1-HimaniRamesh.Barde@windriver.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: iVfjTtO66elYVtJlT96W59LOABwG1N0lAlz1Tq9/vT6UPyT1B/CE/yaG9/zhxgv6lfEZD1/UBeK5NGW9Xsu/48q1n+xWC/7b2EHr67u/1jXn15MZZcc7tZ6YCCtRzeILNoAKxCGKJaOJ5XhrJ+pZfZJL9dkHMEIHBLou7JrBx/HqidG+8B1Zn5InrBi32tJ0NGiErlupdqRBHCdgcV65BEjsKspp4rOijM6yCdCKC3f7BLTZL6YHiXW724lRWrSwsp0HEfpFiAG86vwwG3mtYVo0qoXTss0ywlB4Zax5TQRVMM1+1q5rmXSOiBplFCtzWxjUfvhBMwAr9pCV0pjg+w==
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7018.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: df1342dd-cc93-456a-778c-08df0f3c26f3
-X-MS-Exchange-CrossTenant-originalarrivaltime: 10 Sep 2026 13:05:13.5549
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7QKtlkPvvmdACZH/YI5UOAH8g+1xKWXu3T6JMB2toFBjeyDKEEVG+DuyLrJtP/G8k14YWkOx9olZcAvzqpeKrA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL4PR11MB8870
-X-OriginatorOrg: intel.com
+X-Proofpoint-ORIG-GUID: KQrG2oLhzUTyPNYfze5udt6yCynJRsfa
+X-Proofpoint-GUID: KQrG2oLhzUTyPNYfze5udt6yCynJRsfa
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDEwMSBTYWx0ZWRfX9yfzHEp1oyi2
+ VsMO/NGLVJuBjnMXJIWUFjd5tAaDOsqFzT49A5EsIRhCYhpNbScxuAtil2y86PvCmGXJLRsLhsd
+ /42VYNzheDS8oTkttzcTSq2gUK7LQY964l6/83LoViC3yPrEhJL5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDEwMSBTYWx0ZWRfX/L/MhbhDsM/x
+ 5WQraIy0ZKdOsgDioHiZBCcQPW2S0vZzARAz829nsB2oUVqCz0EmXccCGIelBvWZOHXTL5bzOnk
+ HtfOtM9nYncTVcHzzBA1uuIajqyv4uAX2NH6PUvQFsAIfkqkFJtiAyuGKqOvqD8tjkUKneMnaO3
+ ghKQQhEW/rk55ndzwohm3n5gekeeq2SAl7T50Jyw26IeC9Do1nOx2wzVwB8dY2bH+b1C8m6UJ8c
+ 7MOSaRqUBaNL9A/l3wk0qOV5gYEiih63gT89RbB5I4El1QZ9V9o8Zt/AjEPzudVhirObt+4Yah6
+ i/LRXqnUyLAvoT2vFdIepE/MRzNZ4JwQcDtyhJQjzj8XfWe5/QgHKVuK+e8EV2ZL3meps9gFNkL
+ WpIzfM2K3R1DVM+G42OMHfZT+DHDrNVCp6UeDuKeuqWyImGmcoFL3nveMzjsokP3/Ftnghk45BZ
+ oQu9n56wqX08gxbm1uQ==
+X-Authority-Analysis: v=2.4 cv=UaDE26SN c=1 sm=1 tr=0 ts=6aa2727d cx=c_pps
+ a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8 a=SxBEEmZeVwMitjH2rcUA:9
+ a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-10_03,2026-09-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ priorityscore=1501 lowpriorityscore=0 suspectscore=0 adultscore=0 bulkscore=0
+ clxscore=1015 malwarescore=0 phishscore=0 spamscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609100101
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 13:05:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245562
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 13:06:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245563
 
-Hi all,
+Enable ptest for python3-six using the ptest-python-pytest class, which
+runs the upstream test_six.py suite via pytest and emits automake-style
+PASS/FAIL results.
 
-Intel YP QA is planning for QA execution for YP build yocto-6.1_M3.rc1. We =
-are planning to execute the following tests for this cycle:
+six ships its test at the sdist root, so PTEST_PYTEST_DIR is set to "."
+and do_install_ptest is extended to install only test_six.py plus the
+generated run-ptest, dropping the packaged library sources and bytecode
+cache so the ptest package stays minimal and reproducible.
 
-OEQA-manual tests for following module:
+test_six.py exercises the six.moves mappings, which import the html,
+http.server and xmlrpc modules that oe-core packages separately, so
+python3-html, python3-netclient and python3-xmlrpc are added to
+RDEPENDS:${PN}-ptest. The recipe is also registered in
+ptest-packagelists.inc.
 
-OE-Core
-BSP-hw
+Validated on qemux86-64: 183 passed, 17 skipped, 0 failed.
 
-Runtime auto test for following platforms:
+Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
+---
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../python/python3-six_1.17.0.bb              | 21 ++++++++++++++++++-
+ 2 files changed, 21 insertions(+), 1 deletion(-)
 
-1. Alder Lake-S
-2. Meteor Lake-P
-3. Arrow lake
-4. Bartlett lake-S
-5. Amston lake
-6. Twin lake
-
-ETA for completion: 14/09/2026.
-
-Best regards,
-Debal Ghosh
-
------Original Message-----
-From: qa-build-notification@lists.yoctoproject.org <qa-build-notification@l=
-ists.yoctoproject.org> On Behalf Of Pokybuild User via lists.yoctoproject.o=
-rg
-Sent: 09 September 2026 18:52
-To: yocto@lists.yoctoproject.org
-Cc: qa-build-notification@lists.yoctoproject.org
-Subject: [qa-build-notification] QA notification for completed autobuilder =
-build (yocto-6.1_M3.rc1)
-
-
-    A build flagged for QA (yocto-6.1_M3.rc1) was completed on the autobuil=
-der and is available at:
-
-
-        https://valkyrie.yocto.io/pub/releases/yocto-6.1_M3.rc1
-
-
-    Build URL: https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/=
-builds/4701
-
-    Build hash information:=20
-
-    bitbake: 046a90b0e9b7b914b7a95aec579cdc3fc9c7617a
-meta-agl: 3c55b45bf920bec93938af02f2452cd698d3bacc
-meta-arm: b0ff16aba48a197070daff28ef7ad67067fd3d88
-meta-aws: 3ab2281500fbf683cfbf4fd43e449e0ef14c1164
-meta-clang: 5e16f9749e210fe9d17f1302b089ee98f8b71a47
-meta-intel: 8877caca6b1fe6efe33c756698ce6ecdcaea2238
-meta-mingw: bab5f06f3f4ea50185a8ddbf5d61b46dad9aafed
-meta-openembedded: cbec9a20d78add94235042c601e991574151e36e
-meta-qcom: 2832e2bbabf9a71755e031d396f17652e95bbde1
-meta-virtualization: fd4fa494c9878346e913ca9a7788bac0063a3ba6
-meta-yocto: 7e41504cd63b099b214f10d92cfdaf358ab98c5f
-oecore: 544846662cdac370497d7c13a125d8730c7ebd47
-yocto-docs: e35e86e9aea4e4ae12e8e0ba8a6391f2b2555b63
-
-
-   =20
-This is an automated message from the Yocto Project Autobuilder
-Git: git://git.yoctoproject.org/yocto-autobuilder2
-Email: richard.purdie@linuxfoundation.org
-
-
-    =20
-
-
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#747): https://lists.yoctoproject.org/g/qa-build-notific=
-ation/message/747
-Mute This Topic: https://lists.yoctoproject.org/mt/121162005/9976127
-Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-Unsubscribe: https://lists.yoctoproject.org/g/qa-build-notification/leave/1=
-4426999/9976127/44033455/xyzzy [debal.ghosh@intel.com]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 4012be5..2b5d665 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -90,6 +90,7 @@ PTESTS_FAST = "\
+     python3-pytz \
+     python3-pyyaml \
+     python3-rpds-py \
++    python3-six \
+     python3-trove-classifiers \
+     python3-vcs-versioning \
+     python3-uritools \
+diff --git a/meta/recipes-devtools/python/python3-six_1.17.0.bb b/meta/recipes-devtools/python/python3-six_1.17.0.bb
+index 693f181..ca120e0 100644
+--- a/meta/recipes-devtools/python/python3-six_1.17.0.bb
++++ b/meta/recipes-devtools/python/python3-six_1.17.0.bb
+@@ -1,4 +1,23 @@
+-inherit setuptools3
++inherit setuptools3 ptest-python-pytest
+ require python-six.inc
+ 
+ SRC_URI[sha256sum] = "ff70335d468e7eb6ec65b95b99d3a2836546063f63acc5171de367e834932a81"
++
++PTEST_PYTEST_DIR = "."
++
++# test_six.py exercises the six.moves mappings, which import these stdlib
++# modules that are packaged separately in oe-core.
++RDEPENDS:${PN}-ptest += " \
++    python3-html \
++    python3-netclient \
++    python3-xmlrpc \
++"
++
++do_install_ptest:append() {
++    # six ships its test at the sdist root; keep only test_six.py plus the
++    # generated run-ptest, and drop the packaged library sources / bytecode.
++    rm -f  ${D}${PTEST_PATH}/six.py
++    rm -f  ${D}${PTEST_PATH}/setup.py ${D}${PTEST_PATH}/setup.cfg ${D}${PTEST_PATH}/MANIFEST.in
++    rm -f  ${D}${PTEST_PATH}/CHANGES ${D}${PTEST_PATH}/README.rst ${D}${PTEST_PATH}/PKG-INFO ${D}${PTEST_PATH}/LICENSE
++    rm -rf ${D}${PTEST_PATH}/build ${D}${PTEST_PATH}/documentation ${D}${PTEST_PATH}/six.egg-info ${D}${PTEST_PATH}/__pycache__
++}
+-- 
+2.54.0
 
 
