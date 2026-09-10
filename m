@@ -1,149 +1,93 @@
-Return-Path: <michael.haener@siemens.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93542C88E41
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 21:18:41 +0000 (UTC)
-Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.25589.1789075112780888906
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A142EC88E41
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 21:23:41 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.25735.1789075410852154189
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2026 14:18:34 -0700
+ Thu, 10 Sep 2026 14:23:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=michael.haener@siemens.com header.s=fm1 header.b=Tzwsiyqf;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-664519-20260910211828a153fa9f1e00020792-a9cx99@rts-flowmailer.siemens.com)
-Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20260910211828a153fa9f1e00020792
-        for <openembedded-core@lists.openembedded.org>;
-        Thu, 10 Sep 2026 23:18:29 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=michael.haener@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=jyIHgiy1dvV+zMVYvoOigtZzRTAsrFZmtICQEWvnD38=;
- b=Tzwsiyqf+at29QA4AsnZ1m6VD01PlDpQVR3kWmVvYcveKg7eMTMCePS86rPOMYCCdPKv5+
- BTPUDfZ976vcmuOrMJpltQlL/NWO1TRk9FnMy6hV1ltnH1cOqNNjfnmF4WWxGCF7ATAnelyn
- ykvKDVR3Gl4hoqM0cX3BLycZcD1ovpYK9nHIFmaFTdJbM8comwjRRhJu7Mf3piHI/Twc1BDm
- YRSzfJgMs/b6ZF4fdP30Emv44mOohRV3ftpI2/Fg5qHqftvB9tTeuoc0DMmH1l3fiiuqwDDb
- 4CvC8BTBqVYlye1FTyXJaOhii/IFTYpB/rpSbjhAeN7gllq6U/0fmefg==;
-From: Michael Haener <michael.haener@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Michael Haener <michael.haener@siemens.com>,
-	Adrian Freihofer <adrian.freihofer@siemens.com>,
-	Peter Marko <peter.marko@siemens.com>
-Subject: [PATCH v2] sstate: fix access to a cached object rewriting its modification time
-Date: Thu, 10 Sep 2026 23:18:21 +0200
-Message-Id: <20260910211821.48424-1-michael.haener@siemens.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NY+vxMXZ;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cc9f581c4so1005935e9.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 14:23:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1789075409; x=1789680209; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=SEF/Ja6E6u4JC/mMyC6ibT+aH1xt/+QxRnSpd9tGrYI=;
+        b=NY+vxMXZesYnWOtECGHSvmRWuGEJYKajwZntUyIDcKHaWEl/vhXJtt6xwUgtjg/mGZ
+         9oqFPtaeQgV8edBUazweeyS1wQlSglejI3XcaVc5fhEP5OV00s+W+/c3JT2yXY2bXEPv
+         fpR1l2X8RFm3RluCIubcv6S0GtWai14sLoriI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789075409; x=1789680209;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=SEF/Ja6E6u4JC/mMyC6ibT+aH1xt/+QxRnSpd9tGrYI=;
+        b=EwoQ0M+VXACPxrWN60xKl7I1jCZjtSe8pJ/KB1Y5wE3nk2WCfenrq+rcuRhY/oCVxT
+         tlyIwhINrHKDT9J8jzqBUcaOVcCEv65FDwJgicHmiBn6cKVjpYoU31dU1amVG8vIUa4R
+         gOczHWSHDV2iVq/p2oMCxRpAQgS3TWOIFxnz5X5LQZaLw3NzWzi5zS2bSusL7Nm98FjS
+         T1jOyQXAFtdmL3i9VUR6NCn7KUzgDameccsrQvfCp7BsaLi4g4QPl06BRYYy/sqQ+XJl
+         ZTDfiCKSLF6tKu6QdzXsfDffyEvMWB4lik837J6m91d4WqlhK5jp3Q1W/wcsenM2nnbw
+         iEeQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz/j4vOBddQY2kCUZDWX0yjKKxctvcqowqA8TOsR9iPaayj7/HSmZDdxQsStGGOWcRkGXfGmbruRRfgRR/JIqehCw==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kBtfrBkFul9oIbIUY/RMJOVvWBbPmsWfULJfgIRkVVjBwzY4Br
+	Z9oju8yNi6SA2mJCbMMewjbkZds3kGBSz3wZFLeU/VUxy5w1Ke1C+cNSowZv+NHjhos=
+X-Gm-Gg: AYBFou1MzMEq38LycZeEHuXNopLYDyb++E0Obc6Jze48AnU7F+mzA+dEesNm65MNBOz
+	ukdGgLYObAzgCG8FJEbyGCmq+HcCSurqy97N6MAHGhysNCPYOt4w0ro772/4hHKJzE3hJ81LxRy
+	YKWbork5QM5AkuxZKJXhP2YmRRpufS6yL4pA1QPPY2iKYftpj2Y+UccbpndJIlHLo6fJPuoV1y+
+	q7Q3bPPcb6IzBRhhEzVQHEBdhcxuK1QH0Wm01pLVFa6mYJZSivtBXFcgwwPx2TGUK3biPijxSZE
+	xq3ZromHzTU3yo5a1+RM8sGTx2mlCPdXVg4mQM3av/2r8o70BjsSZF9pXoMDJB23NAmItRKqYWf
+	Hi9CZc4ZqLtaRH7+wxD6kDzZ756Dfv8ru/L9fAZQS2icr3MLxyXT2qzXOuPAOznJWyXhfd3rW7w
+	5geVtSOufImKBbl9eTXTapyL9AQM/kZ/8A6r4c4gdvp+Y7HXCZXsnxO9ecnLGeb6Nw7s+/rMAMr
+	nIkg4ZVhfGLY96//2D3Wn4FJ1VTlfXGstVwclbjjrkbaqGmgNPyDOmpVcEXDw34
+X-Received: by 2002:a05:600c:3b1f:b0:49c:e37e:4389 with SMTP id 5b1f17b1804b1-49e60f6955cmr16098825e9.4.1789075408960;
+        Thu, 10 Sep 2026 14:23:28 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:788a:18da:6c2a:9f16? ([2001:8b0:aba:5f3c:788a:18da:6c2a:9f16])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6221ffb0sm4435845e9.3.2026.09.10.14.23.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Sep 2026 14:23:28 -0700 (PDT)
+Message-ID: <3facea2f77d3688b16d187414ffb62b2eee1eead.camel@linuxfoundation.org>
+Subject: Re: [OE-core] Areas we could do with assistance
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>, openembedded-core
+	 <openembedded-core@lists.openembedded.org>
+Date: Thu, 10 Sep 2026 22:23:26 +0100
+In-Reply-To: <9e7b33da-c8be-4a77-893c-37c7afa4701b@est.tech>
+References: 
+	<db81c3f01f75899c8eed72fbfe8776321572e3c9.camel@linuxfoundation.org>
+	 <9e7b33da-c8be-4a77-893c-37c7afa4701b@est.tech>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-664519:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 21:18:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245602
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 21:23:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245603
 
-Marking an object in the sstate cache as in use is done with a plain
-touch, which writes the modification time along with the access time.
-Every build that merely reads an object therefore makes it look newly
-created, so its age can no longer be told from the cache itself.
+On Thu, 2026-09-10 at 23:06 +0200, Jaipaul Cheernam wrote:
+>=20
+> On 2026-09-09 12:32, Richard Purdie via lists.openembedded.org wrote:
+> > a) ptest in util-linux failing for qemuriscv64:
+> > https://autobuilder.yoctoproject.org/valkyrie/#/builders/56/builds/2369
+>
+> I send a patch for util-linux and reported issue to respective
+> upstream=20
+> as well.
 
-Refresh only the access time and leave the modification time alone. The
-modification time then tells when an object was created, the access time
-when it was last used.
+I've merged it, this is great, thanks!
 
-Signed-off-by: Michael Haener <michael.haener@siemens.com>
-Reviewed-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-Reviewed-by: Peter Marko <peter.marko@siemens.com>
----
-v2:
-- dropped SSTATE_ATIME_UPDATE_AFTER, refreshing only the access time is now
-  unconditional
-- renamed the helper to sstate_touch_atime()
-- reduced the scope to the timestamp fix
+It is important as it means when we see warnings, we don't just blindly
+assume it is util-linux still failing or have to check each time.
 
- meta/classes-global/sstate.bbclass | 34 +++++++++++++++++-------------
- 1 file changed, 19 insertions(+), 15 deletions(-)
+Cheers,
 
-diff --git a/meta/classes-global/sstate.bbclass b/meta/classes-global/sstate.bbclass
-index b2fa93650a..921b83d888 100644
---- a/meta/classes-global/sstate.bbclass
-+++ b/meta/classes-global/sstate.bbclass
-@@ -699,15 +699,7 @@ def sstate_package(ss, d):
-     if not os.path.exists(siginfo):
-         bb.siggen.dump_this_task(siginfo, d)
-     else:
--        try:
--            os.utime(siginfo, None)
--        except PermissionError:
--            pass
--        except OSError as e:
--            # Handle read-only file systems gracefully
--            import errno
--            if e.errno != errno.EROFS:
--                raise e
-+        sstate_touch_atime(siginfo)
- 
-     return
- 
-@@ -802,7 +794,10 @@ python sstate_create_and_sign_package () {
-     # Best effort touch
-     def touch(file):
-         try:
--            file.touch()
-+            if file.exists():
-+                sstate_touch_atime(file)
-+            else:
-+                file.touch()
-         except:
-             pass
- 
-@@ -936,13 +931,22 @@ sstate_unpack_package () {
- 	# Update both any file and any symlink pointing to the file for sigs as well as the file
- 	for file in ${SSTATE_PKG} ${SSTATE_PKG}.sig ${SSTATE_PKG}.siginfo
- 	do
--		[ ! -e $file ] || touch $file 2>/dev/null || true
--		[ ! -e $file ] || touch --no-dereference $file 2>/dev/null || true
-+		[ ! -e $file ] || touch -a $file 2>/dev/null || true
-+		[ ! -e $file ] || touch -a --no-dereference $file 2>/dev/null || true
- 	done
- }
- 
- BB_HASHCHECK_FUNCTION = "sstate_checkhashes"
- 
-+def sstate_touch_atime(path):
-+    # Refresh the access time and leave the modification time alone.
-+    import time
-+    try:
-+        stat_info = os.stat(path)
-+        os.utime(path, (time.time(), stat_info.st_mtime))
-+    except OSError:
-+        pass
-+
- def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True, **kwargs):
-     import itertools
- 
-@@ -978,10 +982,10 @@ def sstate_checkhashes(sq_data, d, siginfo=False, currentcount=0, summary=True,
-         sstatefile = d.expand("${SSTATE_DIR}/" + getsstatefile(tid, siginfo, d))
- 
-         if os.path.exists(sstatefile):
--            oe.utils.touch(sstatefile)
-+            sstate_touch_atime(sstatefile)
-             for ext in ['.sig', '.siginfo']:
-                 if os.path.exists(sstatefile + ext):
--                    oe.utils.touch(sstatefile + ext)
-+                    sstate_touch_atime(sstatefile + ext)
-             found.add(tid)
-             bb.debug(2, "SState: Found valid sstate file %s" % sstatefile)
-         else:
-@@ -1223,7 +1227,7 @@ python sstate_eventhandler() {
-         if not os.path.exists(siginfo):
-             bb.siggen.dump_this_task(siginfo, d)
-         else:
--            oe.utils.touch(siginfo)
-+            sstate_touch_atime(siginfo)
- }
- 
- SSTATE_PRUNE_OBSOLETEWORKDIR ?= "1"
--- 
-2.34.1
-
+Richard
 
