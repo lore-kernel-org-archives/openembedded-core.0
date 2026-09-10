@@ -1,130 +1,147 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <bhavesh.maheshwari@einfochips.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9D026C79FB9
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 13:33:34 +0000 (UTC)
-Received: from mail-wm1-f51.google.com (mail-wm1-f51.google.com [209.85.128.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14155.1789047204281915019
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83FABC88E40
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 13:34:04 +0000 (UTC)
+Received: from naesa03.arrow.com (naesa03.arrow.com [216.150.161.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.14218.1789047242011078389
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2026 06:33:24 -0700
+ Thu, 10 Sep 2026 06:34:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Fvst6GEj;
- spf=pass (domain: smile.fr, ip: 209.85.128.51, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f51.google.com with SMTP id 5b1f17b1804b1-49a97714f5dso67857125e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:33:24 -0700 (PDT)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=ChxsoyMQ;
+ spf=pass (domain: einfochips.com, ip: 216.150.161.23, mailfrom: bhavesh.maheshwari@einfochips.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789047202; x=1789652002; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=uo+NblPRAMZ5mzfFNrm3LloeC9+9/ejSeLvlaTjmoxc=;
-        b=Fvst6GEjm2xCHObQ3xMNAA9K15dir36izdZegjQRpC6PAgQXB2UgxWmPTUgU+IceFC
-         t1ZjD12pL729O/2hzoaYK6zUwUIz6lr5OIxocwblbP/urvbXNJ/x0hJ5janRgaddSf/j
-         P51k91VSZkOeKIFE6iixGdp+GcII1/DlVBq6g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789047202; x=1789652002;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=uo+NblPRAMZ5mzfFNrm3LloeC9+9/ejSeLvlaTjmoxc=;
-        b=A3j170F01nScdN7XmHDnQc2ZlHvPwwRalqv0BtyUyWaiEjJzCF240YyTSn9/vep7+x
-         IDUpRzuS4xGkW4fGXIf99H5FlDmEC0b1zS8j9K4haMJTBNPp+Xd+o8y6jUI/cTD9DbfI
-         SdO3jQjaRvn55kwcBbl08uJGSJ1l1rAMkFUoVfY5Eyj04O2H3zh89Nx1IS56XwB3z2oH
-         +JasyZXdLnT7ZmrHCK7YTgJ9aGKMBYuVbp++HlotJP87ByJ26mLmKRjqwPgIpZ18vZyF
-         4Gk/CZMN5hZcHMRDGeTbIHJNMbXJ5iYCBrSD1BrP6h6uZz2t2DZVk06n+ZRbrGEU2Tkc
-         CHAg==
-X-Forwarded-Encrypted: i=1; AKwUvBzTrjyD8d5A78Lq/TpaoiOj+/0YsOs+L1dED5RJZgYAt3PpU0y3LAGC61lJdODWLhxAphmfsBPEBdQBQoTDw1kIcA==@lists.openembedded.org
-X-Gm-Message-State: AFuF++nM1RuKPVQaX/IZf8IOWAYO/yA9p/jzZ0NYnHJl04PjOaK7wb5+
-	7UBCmIEMdIFiLSs3Mm8z/pX8GI1N87FeUHu7kp0RUQYReDxQIn4yuHqvbSqqbLH2f2g=
-X-Gm-Gg: AYBFou3V6ZdCxzUwk16VJELlgXjFdW8pS/SnDWWpibhq0XU8D2Bm1xZ4FnCsRJOgNOH
-	No1h7FyXpTgoLl1Sr06wle8hEXJ8eUE9MJzPvM/xt1Bnr8dVPvYl6c/BTdSwN2x2rt866sRY17P
-	ea7dafhxI98rgRpYkJ5HXi/hdiunYZdZX7/8hzWtBgH1YdotzWLrroUdhj/MbJl4FYSj1lTL0yw
-	Yg1u3+yNQWdGnusWtn/tHrZNsAYIErq19S9V9rovDbHwwz/vYK+2AONHJppKsOEdtE0pAux+JDD
-	v3CChG6kxESP/c+PNjNGpAvk1mp//9194IWCHZo1MULU0SSHs4om2zTuJ2cp2eLgM/8T+DutSZF
-	y+3sGfvhm/1Enx5tDiH/GrRfBGLte6WDYWRH2Pkk2DJeQ8ugBZDjk2P0/BwBrfnvq3KZZoJb1a+
-	kbzj/9s1HmFv7KvHsouIe9dlrAqFxAvK5zG70HAiyNt9s+t5zL96z1o96v5XBI7/RxvjCxoLh+j
-	WovcAL4bx9+9Rf10KEcFUwI6naf8yY6NsAw1qpz3g0XG2vYcf1H0K0Ky2hxgOo=
-X-Received: by 2002:a05:600c:3b0e:b0:49c:eb04:1c49 with SMTP id 5b1f17b1804b1-49cf8254d53mr402187955e9.13.1789047202498;
-        Thu, 10 Sep 2026 06:33:22 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d20fc1be3sm63657495e9.4.2026.09.10.06.33.21
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Sep 2026 06:33:21 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 10 Sep 2026 15:33:20 +0200
-Message-Id: <DLBOAXWM0XB3.I2UNWZWB9X75@smile.fr>
-To: <emzei.j@gmail.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [BUG][scarthgap] SPDX 3.0: NameError when
- SPDX_CUSTOM_ANNOTATION_VARS is set
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <ED0527D7-E28C-432C-99E2-D8AF19330D85@gmail.com>
-In-Reply-To: <ED0527D7-E28C-432C-99E2-D8AF19330D85@gmail.com>
+  d=einfochips.com; i=@einfochips.com; l=3695; q=dns/txt;
+  s=NAESA-Selector1; t=1789047242; x=1820583242;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=tdvFdVfuN1sCUmj2I3J81WbeQNikyEPa7zpw8sRwmkk=;
+  b=ChxsoyMQBZW/unOAegs60iT5j/IRr2XMF+Zu7N2dBs8mTrKLmcnxYH1w
+   NM32bFigfGj8bpsIVtuz/xX6ZBeZ6D4dCk7xgcVLUZPort1DahdAbd+x2
+   /ZKmpCFqq86kVoidn4Dsyqqns4UOKt/ZiVX2Nex83AxfgwdWptP4jKdFE
+   0m6k1LK0ShR40n1Y3jvgvjDKsGQSzqzFMBS3nc8IVHK7GQQKWcswZM8Jy
+   uxD5uxaZHnRnuHLaabnSiCYwm3h51hbAkQpStExDbQq9vNJTF5PPLDeaC
+   K4E63LrsBlZTLMkpl7EKKTVJFdsPTPkhGzIXUvCxra+A9Q3cAnpMzcWZD
+   A==;
+X-CSE-ConnectionGUID: q0uS2uexT4yF4Cq3/zbEzg==
+X-CSE-MsgGUID: Ku5o5SJUT1WOUiUmJp0PyQ==
+X-IronPort-AV: E=Sophos;i="6.27,95,1787032800"; 
+   d="scan'208";a="122105797"
+Received: from unknown (HELO 6T8J9X2.ap.corp.arrow.com) ([10.126.18.101])
+  by naesa03out.arrow.com with ESMTP; 10 Sep 2026 07:34:00 -0600
+From: bhavesh.maheshwari@einfochips.com
+To: openembedded-core@lists.openembedded.org
+Subject: [wrynose][oe-core][PATCH 01/10] ffmpeg: Fix for CVE-2026-64830
+Date: Thu, 10 Sep 2026 19:01:35 +0530
+Message-ID: <20260910133357.452394-1-bhavesh.maheshwari@einfochips.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 13:33:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245569
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 13:34:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245570
 
-On Thu Sep 10, 2026 at 10:39 AM CEST, =EC=A0=84=EB=AF=BC=EC=A7=80 via lists=
-.openembedded.org wrote:
->
->
-> Hello,
->
-> While investigating SPDX 3.0 annotation generation on the scarthgap
-> branch, I noticed a difference between scarthgap and master in how
-> SPDX_CUSTOM_ANNOTATION_VARS is handled in spdx30_tasks.py.
->
-> In scarthgap (meta/lib/oe/spdx30_tasks.py, around line 520):
->
-> new_annotation(
->     d,
->     build_objset,
->     build,
->     "%s=3D%s" % (var, d.getVar(var)),
->     oe.spdx30.AnnotationType.other,
-> )
->
-> In master (meta/lib/oe/spdx30_tasks.py, around line 549):
->
-> objset.new_annotation(
->     build,
->     "%s=3D%s" % (var, d.getVar(var)),
->     oe.spdx30.AnnotationType.other,
-> )
->
-> When SPDX_CUSTOM_ANNOTATION_VARS is set on scarthgap, do_create_spdx
-> fails with:
->
-> Exception: NameError: name 'new_annotation' is not defined
->
-> The failure occurs at meta/lib/oe/spdx30_tasks.py:520 while processing SP=
-DX_CUSTOM_ANNOTATION_VARS.
->
-> I could not determine whether this difference is intentional or whether t=
-he corresponding fix was missed when changes were backported to scarthgap.
->
-> Would it be appropriate to backport the master implementation to scarthga=
-p?
->
-> Thanks,
-> Minji Jeon
+From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 
-Hello,
+Pick the patch from [1], also referenced in the NVD report [2].
 
-We decided to backport the SPDX3 generation feature from master to
-scarthgap, so any fix done on master would be also acceptable on
-scarthgap.
+[1] https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/dbd495f066a85ba96b17433f4306582aa37c3951
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-64830
 
-So, yes, it would be appropriate (albeit with some care as to not be too
-intrusive...)
+Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+---
+ .../ffmpeg/ffmpeg/CVE-2026-64830.patch        | 65 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-64830.patch
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-64830.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-64830.patch
+new file mode 100644
+index 0000000000..79ed6a45f1
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-64830.patch
+@@ -0,0 +1,65 @@
++From 0ae68ee7e1bc6e2bfde10c78ccc59aa9d99f4d43 Mon Sep 17 00:00:00 2001
++From: Pavel Kohout <disclosure@aisle.com>
++Date: Mon, 29 Jun 2026 23:30:41 +0200
++Subject: [PATCH 1/9] avformat/vobsub: reuse subtitle streams and bound the
++ stream count
++
++Fixes: heap buffer overflow
++Fixes: lqaO5R1BaZGO
++Fixes: dbfe61100b (avformat/vobsub: fix several issues.)
++Found-by: Pavel Kohout (Aisle Research)
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++
++CVE: CVE-2026-64830
++Upstream-Status: Backport [https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/dbd495f066a85ba96b17433f4306582aa37c3951]
++
++Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
++---
++ libavformat/mpeg.c | 18 ++++++++++++++++--
++ 1 file changed, 16 insertions(+), 2 deletions(-)
++
++diff --git a/libavformat/mpeg.c b/libavformat/mpeg.c
++index a7a2ef7..1ce4bf9 100644
++--- a/libavformat/mpeg.c
+++++ b/libavformat/mpeg.c
++@@ -841,6 +841,20 @@ static int vobsub_read_header(AVFormatContext *s)
++             }
++ 
++             if (!st || st->id != stream_id) {
+++                st = NULL;
+++                for (i = 0; i < s->nb_streams; i++) {
+++                    if (s->streams[i]->id == stream_id) {
+++                        st = s->streams[i];
+++                        break;
+++                    }
+++                }
+++            }
+++            if (!st) {
+++                if (s->nb_streams >= FF_ARRAY_ELEMS(vobsub->q)) {
+++                    av_log(s, AV_LOG_ERROR, "Maximum number of subtitle streams reached\n");
+++                    ret = AVERROR_INVALIDDATA;
+++                    goto end;
+++                }
++                 st = avformat_new_stream(s, NULL);
++                 if (!st) {
++                     ret = AVERROR(ENOMEM);
++@@ -865,14 +879,14 @@ static int vobsub_read_header(AVFormatContext *s)
++             timestamp = (hh*3600LL + mm*60LL + ss) * 1000LL + ms + delay;
++             timestamp = av_rescale_q(timestamp, av_make_q(1, 1000), st->time_base);
++ 
++-            sub = ff_subtitles_queue_insert(&vobsub->q[s->nb_streams - 1], "", 0, 0);
+++            sub = ff_subtitles_queue_insert(&vobsub->q[st->index], "", 0, 0);
++             if (!sub) {
++                 ret = AVERROR(ENOMEM);
++                 goto end;
++             }
++             sub->pos = pos;
++             sub->pts = timestamp;
++-            sub->stream_index = s->nb_streams - 1;
+++            sub->stream_index = st->index;
++ 
++         } else if (!strncmp(line, "alt:", 4)) {
++             const char *p = line + 4;
++-- 
++2.43.0
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+index 8a6eb4eb86..8c1969369b 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch \
+            file://0001-ffbuild-commonmak-Consolidate-pattern-rules-for-comp.patch \
+            file://0002-ffbuild-common.mak-ensure-target-directories-are-cre.patch \
++           file://CVE-2026-64830.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "6136812ea6d4e68bdba27e33c2a94382711cdf4f8602ffef056ff792bd6f9818"
+-- 
+2.43.0
+
 
