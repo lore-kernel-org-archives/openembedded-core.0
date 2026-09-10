@@ -2,61 +2,61 @@ Return-Path: <sdoshi@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D0E4C79FBB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BD3DC88E46
 	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 20:05:59 +0000 (UTC)
-Received: from mail-pj1-f51.google.com (mail-pj1-f51.google.com [209.85.216.51])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24036.1789070752655672286
+Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24017.1789070757832536805
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2026 13:05:52 -0700
+ Thu, 10 Sep 2026 13:05:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=EOqOYzGk;
- spf=pass (domain: mvista.com, ip: 209.85.216.51, mailfrom: sdoshi@mvista.com)
-Received: by mail-pj1-f51.google.com with SMTP id 98e67ed59e1d1-381b831d535so259981a91.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 13:05:52 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=hfHokb1p;
+ spf=pass (domain: mvista.com, ip: 209.85.214.176, mailfrom: sdoshi@mvista.com)
+Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2dd020a2e44so920665ad.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 13:05:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1789070752; x=1789675552; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1789070757; x=1789675557; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=I2xbkRFJ+t4cH3nqfYPROH/fI0loMSAqyPMFqmJ/oxI=;
-        b=EOqOYzGkftYjshuH/2VGYvGIGPFGKmNs1PQs/fCAIGnoz/50EbXkPV7E7r51H7yfgT
-         b/JJ5pOoVZQ6uK1J7GuM1irf3IY+opsiYj2oCXexBh24ygs48+TA+IGOYOa7fnkPtlUm
-         eBVwt7d9VDy6Mtg7W2KwRz3uakqz9oI4Hn3J8=
+        bh=IIkH1K0tEFvgxyp5qco6ihUlviFhr74aWqT3GK7LF5E=;
+        b=hfHokb1pUcSLRHFfz8wouBbHaqUUtGiDUiLbhH+sddqb72mebOXqjtPg2e6xEx/RlY
+         9ZFTbIY6cO5CJStN+rSRcXWjO7nhCsoO4iVmL/vEBZVcteZ98oylJ6iwcmn3kreck2ot
+         q6/2reYznqGvl7qS9Pfi73VuVXH5R4NM31BH4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789070752; x=1789675552;
+        d=1e100.net; s=20251104; t=1789070757; x=1789675557;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=I2xbkRFJ+t4cH3nqfYPROH/fI0loMSAqyPMFqmJ/oxI=;
-        b=R88Rqc9MuVZPSCihkcldBdbkf1MTXUXAawUvyjuZe22bdnWU+eRXyp7Dw/0+JrSNwJ
-         Dsp6hSRo6oUYaurEvv+FAMuIZ38vmzQUS+isbIaY30PRnhNXN2ScHz1/mOUz2gSHBGDB
-         xc0gOcbiA6tdb0hXTPPU6TWZH9I+h4AaQCcb/EePc6d/XcY+PcVV+TgsobI7O9zIv1AX
-         DQ6Q6YLJVufE+JkRJhQGmF04zFaPXXsyDI01GYLHJwfhDWjmn5gl5DU3feFvR95kTBBA
-         DAqpm2zbn+T4+jmira0+ewB+tk4aa8t7PhOUPZEy2jccJWELvJtnprwDpew3E4Gcaooy
-         5tAg==
-X-Gm-Message-State: AFuF++krNhc/JlCYio9tCKSk0Uup72UI+5ftMXCymhwB0EYL7z47H0FL
-	DfAW0dDGdX+CBK4nvXtiE5P7iC7WHKWgoUH+SJiocrPkJEg5EAjUETGa4RgWkZbmbXK7rVowvLM
-	D0Xqp
-X-Gm-Gg: AYBFou2oBn1ncpBMWwrz9zMz55wJsRGezYVHffl3LK5J+Q2yW+MWitz4ONeoa67vv3C
-	MDEqKPXAj7ONh71J5mL95KlTK12DY/aCFxoLpMJXDOv2xZjDRP2CUy6FHqFJ0HWQ1T1trVOIqPf
-	zjZLXjUcetG3b0dNRBojgGs8wWDOl5e2QZdShvUDpF7nG4EwAxmoDhRY/BZxGgMbnm1KG6nlLlG
-	L973Zc5obsFUywztHXxubBvCvhtr2lOk4vkjUFRMPebEPly3HOm/8rv73aI8eMT+H2iDfe6Vmu7
-	lQBRNviFeccF8kAmn5xe67G8waQNyX4CTR/6Tt/J2CiNVfWgc5UsUshoorN37JKQQAFQFx2VUA1
-	tiegfO5Mc52dOKHhuCnng+HRbAli6PCmQLfhZDXLchS9nwui/4l3roqkUJOkHoOfk2VhAuBZodE
-	386/9Vh9IW1qCKfrS9BwieAT6NLZYmbGzL/bJYHUQ95rzTzyKBVTTiRZLYbMfP7jckkau5FzJUN
-	x5GF6t7DA==
-X-Received: by 2002:a17:90a:38c4:b0:399:ecd:d68d with SMTP id 98e67ed59e1d1-39d9c342654mr364991a91.22.1789070751973;
-        Thu, 10 Sep 2026 13:05:51 -0700 (PDT)
+        bh=IIkH1K0tEFvgxyp5qco6ihUlviFhr74aWqT3GK7LF5E=;
+        b=VhN9RmA2ahGSbsAtq5cpT+QdioRb5wUuGYN30MSL+jf+nz+NArTGZ3ix5H7T0TTl5Z
+         s1bvaAOWMe2qt4g1IuH+64y5XyvXNPpyFXaeFO/X43k5VAHsroIW6jDsJABmtSdVg3mL
+         fyn5UVmyvW0Kl+tX0j33ylpecCKG7ncvNyPxd8rr2mWQxZrvhDhIP7o6VzQeJfRa+Da4
+         JpK8K+fIR2kpSiRClK/1i32q3pliKjZO3kRDFay2U+AKfwe6PYHbrWF7AdHsb0OCum+y
+         fiWFEgEPwxbp85qGlnDTdblE4zh5CXYR+ubGP9HMie1DPJ/DPkzlPwxuYO8B5d3YBCws
+         Jalg==
+X-Gm-Message-State: AFuF++l5p5xziMMOQX2Z6Bfy0vrD4sqgc6arVVYgjWJNJTvvSIBVR5d/
+	bHQHDCmu66sP3E564cLEKZlN99H4uGtvxf0w/VxTlSuVjVyvW1mz+ij87ZwzB8hC6YSrBqwO9oV
+	H+GR6
+X-Gm-Gg: AYBFou3r1CMIwPygmSYUZlly8J9x28b+jgmAF8Oe2E1Ki0qr7oOCwtTkiA4K1QDZ/m5
+	nJHZb5yh8c5jaswH3SOoHngA2RckbFJMOS/8uh8PpOYLGAVL/dqlDHoy5U2dk6d5wtbkXecHnB3
+	p3qtbFdYN5A1k/P/Knm1Nl2xCp3boqoSM0YuHPJ9Z07zQSwnR0YpCPk9gB5Fefh5ZS/huKH8ILF
+	74mdf8yZY3K6O+xo5LH8zBenlUOYZtFw5bC1FvkdlKFWr5L8Q/Q1Gqd4RuXkSuYA9eLtbWHyryN
+	MUTbEK8E69eiBe98euEEoVZXynx4Nd4QRfd635vaiFhqkGzNhG1WZt/J//ggotGXp+Z7K4Xl/oq
+	CZnVhTk74seew1Yb6szjL3FFd+6fYwSx23D7G2pT0rbh5k8TfLf/UZUfET71MD5JRLkDt/FiEv+
+	aJZ//iPNcQZahOAoB6zKPnZi8XcmYaV5N6igIXR0CrDW8Yf/ar8D7i/w8oRoZ/C/Z7b5s6YzqE9
+	GPoCre8P4mO9TNP1Avx
+X-Received: by 2002:a17:90a:da8f:b0:398:d6e8:f84e with SMTP id 98e67ed59e1d1-39d9bd6976amr522095a91.9.1789070757113;
+        Thu, 10 Sep 2026 13:05:57 -0700 (PDT)
 Received: from MVIN00030.mvista.com ([157.32.46.196])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm527974eec.3.2026.09.10.13.05.49
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4cf72dbsm527974eec.3.2026.09.10.13.05.55
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 13:05:51 -0700 (PDT)
+        Thu, 10 Sep 2026 13:05:56 -0700 (PDT)
 From: Siddharth <sdoshi@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Siddharth Doshi <sdoshi@mvista.com>
-Subject: [OE-core][scarthgap][PATCH 2/6] libxml2: Security Fix for CVE-2026-86138
-Date: Fri, 11 Sep 2026 01:33:25 +0530
-Message-Id: <20260910200329.842463-2-sdoshi@mvista.com>
+Subject: [OE-core][scarthgap][PATCH 4/6] libxml2: Security Fix for CVE-2026-86140
+Date: Fri, 11 Sep 2026 01:33:27 +0530
+Message-Id: <20260910200329.842463-4-sdoshi@mvista.com>
 X-Mailer: git-send-email 2.34.1
 In-Reply-To: <20260910200329.842463-1-sdoshi@mvista.com>
 References: <20260910200329.842463-1-sdoshi@mvista.com>
@@ -66,91 +66,95 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 20:05:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245594
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245596
 
 From: Siddharth Doshi <sdoshi@mvista.com>
 
 Picking patch as per [1], and same patch is mentioned in [2]
 
 References:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-86138
-[2] https://security-tracker.debian.org/tracker/CVE-2026-86138
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-86140
+[2] https://security-tracker.debian.org/tracker/CVE-2026-86140
 
 Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 ---
- .../libxml/libxml2/CVE-2026-86138.patch       | 53 +++++++++++++++++++
+ .../libxml/libxml2/CVE-2026-86140.patch       | 57 +++++++++++++++++++
  meta/recipes-core/libxml/libxml2_2.12.10.bb   |  1 +
- 2 files changed, 54 insertions(+)
- create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-86138.patch
+ 2 files changed, 58 insertions(+)
+ create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-86140.patch
 
-diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-86138.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-86138.patch
+diff --git a/meta/recipes-core/libxml/libxml2/CVE-2026-86140.patch b/meta/recipes-core/libxml/libxml2/CVE-2026-86140.patch
 new file mode 100644
-index 0000000000..14ddff8215
+index 0000000000..c7b6ace560
 --- /dev/null
-+++ b/meta/recipes-core/libxml/libxml2/CVE-2026-86138.patch
-@@ -0,0 +1,53 @@
-+From 6261b1ca983717c71a9c0409ff045ee9c81ff3b6 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-core/libxml/libxml2/CVE-2026-86140.patch
+@@ -0,0 +1,57 @@
++From 9a21b9dbb096f9e612f37ba72df6a2fb6a60c60c Mon Sep 17 00:00:00 2001
 +From: mohammadmseet-hue <mohammadmseet@gmail.com>
-+Date: Thu, 16 Apr 2026 02:54:24 +0200
-+Subject: [PATCH 2/6] fix: add overflow checks to xmlDictAddQString in dict.c
++Date: Thu, 16 Apr 2026 02:54:37 +0200
++Subject: [PATCH 3/6] fix: add bounds checks to xmlSnprintfElements in valid.c
 +
-+xmlDictAddString has overflow guards for pool size calculations, but its
-+sibling xmlDictAddQString lacks these entirely. The namelen + plen + 1
-+addition can overflow unsigned int, and 4 * (overflowed_value) produces
-+a small allocation, leading to heap buffer overflow when memcpy writes
-+the prefix and name.
++CVE-2025-24928 fixed xmlSnprintfElementContent for unchecked strcat()
++writes, but the sibling function xmlSnprintfElements has the identical
++unfixed pattern. The strcat(buf, "(") before the while loop and
++strcat(buf, ")") after the loop exit have no bounds checks.
 +
-+Add the same SIZE_MAX-based overflow guards and safe size_t cast.
++Add remaining-space checks before both strcat calls, with early return
++and ellipsis when space is insufficient.
 +
-+Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/a4cba4b5b5a8c42e155ed42d2d2a44955465a2e4]
-+CVE: CVE-2026-86138
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/libxml2/-/commit/d1686f91dbda141a752200419d35639fd6b38340]
++CVE: CVE-2026-86140
 +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 +---
-+ dict.c | 19 +++++++++++++++----
-+ 1 file changed, 15 insertions(+), 4 deletions(-)
++ valid.c | 16 ++++++++++++++--
++ 1 file changed, 14 insertions(+), 2 deletions(-)
 +
-+diff --git a/dict.c b/dict.c
-+index d7156ed..ae0210e 100644
-+--- a/dict.c
-++++ b/dict.c
-+@@ -225,10 +225,21 @@ xmlDictAddQString(xmlDictPtr dict, const xmlChar *prefix, unsigned int plen,
-+             return(NULL);
-+         }
++diff --git a/valid.c b/valid.c
++index ae4bb82..718e6d8 100644
++--- a/valid.c
+++++ b/valid.c
++@@ -5047,7 +5047,15 @@ xmlSnprintfElements(char *buf, int size, xmlNodePtr node, int glob) {
++     int len;
 + 
-+-        if (size == 0) size = 1000;
-+-	else size *= 4; /* exponential growth */
-+-        if (size < 4 * (namelen + plen + 1))
-+-	    size = 4 * (namelen + plen + 1); /* just in case ! */
-++        if (size == 0) {
-++            size = 1000;
-++        } else {
-++            if (size < (SIZE_MAX - sizeof(xmlDictStrings)) / 4)
-++                size *= 4; /* exponential growth */
-++            else
-++                size = SIZE_MAX - sizeof(xmlDictStrings);
++     if (node == NULL) return;
++-    if (glob) strcat(buf, "(");
+++    len = strlen(buf);
+++    if (glob) {
+++        if (size - len < 50) {
+++            if ((size - len > 4) && (buf[len - 1] != '.'))
+++                strcat(buf, " ...");
+++            return;
 ++        }
-++        if (size / 4 < namelen + plen + 1) {
-++            if ((size_t) namelen + plen + 1 <
-++                    (SIZE_MAX - sizeof(xmlDictStrings)) / 4)
-++                size = 4 * ((size_t) namelen + plen + 1); /* just in case ! */
-++            else
-++                return(NULL);
-++        }
-+ 	pool = (xmlDictStringsPtr) xmlMalloc(sizeof(xmlDictStrings) + size);
-+ 	if (pool == NULL)
-+ 	    return(NULL);
+++        strcat(buf, "(");
+++    }
++     cur = node;
++     while (cur != NULL) {
++ 	len = strlen(buf);
++@@ -5111,7 +5119,11 @@ xmlSnprintfElements(char *buf, int size, xmlNodePtr node, int glob) {
++ 	}
++ 	cur = cur->next;
++     }
++-    if (glob) strcat(buf, ")");
+++    if (glob) {
+++        len = strlen(buf);
+++        if (size - len > 1)
+++            strcat(buf, ")");
+++    }
++ }
++ 
++ /**
 +-- 
 +2.34.1
 +
 diff --git a/meta/recipes-core/libxml/libxml2_2.12.10.bb b/meta/recipes-core/libxml/libxml2_2.12.10.bb
-index e4db345af4..28ae601118 100644
+index 581f38197f..b3f6a482d2 100644
 --- a/meta/recipes-core/libxml/libxml2_2.12.10.bb
 +++ b/meta/recipes-core/libxml/libxml2_2.12.10.bb
-@@ -33,6 +33,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
-            file://CVE-2026-1757.patch \
+@@ -34,6 +34,7 @@ SRC_URI += "http://www.w3.org/XML/Test/xmlts20130923.tar;subdir=${BP};name=testt
             file://CVE-2026-11979.patch \
             file://CVE-2026-86137.patch \
-+           file://CVE-2026-86138.patch \
+            file://CVE-2026-86138.patch \
++           file://CVE-2026-86140.patch \
             "
  
  SRC_URI[archive.sha256sum] = "c3d8c0c34aa39098f66576fe51969db12a5100b956233dc56506f7a8679be995"
