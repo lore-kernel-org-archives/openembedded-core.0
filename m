@@ -1,519 +1,174 @@
-Return-Path: <Hemanth.KumarMD@windriver.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B10AC79FB7
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 04:42:58 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6534.1789015369063690441
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C370C79FB7
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 05:12:08 +0000 (UTC)
+Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.68])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6892.1789017120475080008
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 21:42:49 -0700
+ Wed, 09 Sep 2026 22:12:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=TdH1kleT;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3713762c97=hemanth.kumarmd@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68A42wV72329033
-	for <openembedded-core@lists.openembedded.org>; Wed, 9 Sep 2026 21:42:48 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=PPS06212021; bh=nhjMKtSYi07PLZEv0Yat86
-	Joo2DyT1+2AB/r+MLhASY=; b=TdH1kleTUc2y1iV9qxMgqCWQ0144jiEGe/VIqB
-	wMC7sL0GURmwi2GQlACMHHM/DDh8v/RzR6guXBcDR7j9cey21gqQe4azbwADWDx/
-	K4oX2LS2X0cky4erfY/LEB6QjcStWBels+W8lZCnm/RAoJBJnTGj4PLonLjs0zmk
-	xcDiSVeBjRd2S5PH1hRrdNQ/pZsusfdbEPBqC8knL6bHuV5KWBkOgdTLoQfWu4hu
-	XIokKHIcidaq93++8aVOuPb3wLBySz161F5KtYH62eIiZOj7cFCGuUAVn0+T3JgW
-	4evyArvGl416FDeYgRy1TAOuYZTFuKcp+N6AduyoOy+YAzyQ==
-Received: from sj2pr03cu001.outbound.protection.outlook.com (mail-westusazon11022083.outbound.protection.outlook.com [52.101.43.83])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gkcypguvg-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 09 Sep 2026 21:42:47 -0700 (PDT)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Ux5BmX9m;
+ spf=pass (domain: est.tech, ip: 40.107.159.68, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pMLVmKzDIaCjqcCmt8UJh2D6U4aN6DTdG6t/cAwNS/kLuLIOKn8o8aTHHY3NIDUxLVTTYpch1wUgQNnK7/QNMWyiKzegLzKhpJgREQKRLNuqZaudgXirmcmgZ9hMEVTEiUyj+wcJ5Fsw3nsWd54+7WCCPgWPJ82BfdnkrJJ4UXz8ilFnHousODPmVNaEVk63wmWXpiEkNngI2qocGVhTqoQNDKFgtzSrUZ3zYuClmXApRNHyHi/LQ2N4hL0BANUtF933UY5HEmqxd5nahoLVjrqEAmp4xodpnfG5p0igGwsr85yNYOUU9UDYKy3j2kOE3VnMtw97dSfcYLFxfTCzvg==
+ b=o6OM7+9xta8P5uc3uN9dJ0bmH16T+iiAKjp43FklpEOWji7u4Er6U+UCRDRRf9LKQ2WwDp6TkKHrSHWzwJyHuAZBnAVI8gfxR5rd4BKhwAOAikD/ecAqbNIuGLh6otBBl9lFPDQKZM0IzUVHzFAkQp6Ohbiip7cndFXmz+Qvz8iVjYa6SHqoIeaEUfHR6WXfyExUvtT21veB8D1iIeRFMqLlAu8uKSmJbTXxc3D5dZnyD/Q42xPneS8x+aeN0ClT5ozKh15DRKaV8wCrPU/f/xm7yEADyMsUtAo4c6rju89dPDSpA+MlgYYRFPvr3MNeuL8a7gB56DWjL7BbhfMFWw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=nhjMKtSYi07PLZEv0Yat86Joo2DyT1+2AB/r+MLhASY=;
- b=htuC8zpZfo0bpZmdHr03Qtarejl9V/fDQ5vGsim2GRoPQFQbncFjGlvUHOLDQ/L/0fbs9cIcbX9pYWkuzkzJSluFlOEY3Ppi1nAi88/8SFEwYOqPpX1ylpHCkz7xIJRuTUxDUwCe3T8vQhkdQRVDKvWjBciZM602moGvNhgEN3z4kXpUhUjBx+CAn48/1UWJuawsc9685qb6xrJgEH61ITx5qwfwNYdY7QLPz2yQor8q90uiGAYUksXjzo2vs+7d5G5+C/AZjBAL6k0pNJk7tlmU0arD5J/BQXwX2Lcf0f5Ij7Qk9wlh/sCfcE3PV/D62vWwzwYxhuwJDdgx+Tvayw==
+ bh=eqkGNEE+uYAeRhA8/+HnMrhSVQy2tktadNWaGV6g4dg=;
+ b=kWZPvaA3UhH2W/UPlKHFMr+ScWr6uCCIlTGvx8Xn5KxI1RoRev0ep1Ay356/hvsOuTvNDOETLJOje68nilXCsYF4lnczdX4gu/XhRwa9rkTpVWNGL00ViIwtSN1pQrydqP5Vm9bGAhbI82m7SGLJ9ciA1Y+fBkmwnQ8AbpD/ww2zW4s9X7zkwLNUKjjPkX/xRzKjei+TowZG/qbfifhlSQtK8mH/kkvX8HtRfbne8FbtC5V6pBl+cIOdFvmfe0VsqwnhUgikZfjZ9diZ8RJkTbZeIPBlMo3v/UlEJG+pcHifBhr5TS5YHdv97v/b4cW3c2LTTRyc1Ukt38LfWzlI6g==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com (2603:10b6:5:2a0::7) by
- LV2PR11MB556157.namprd11.prod.outlook.com (2603:10b6:408:410::15) with
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=eqkGNEE+uYAeRhA8/+HnMrhSVQy2tktadNWaGV6g4dg=;
+ b=Ux5BmX9mvc4c2Q7jLySMH7VzvXghQtF83PCBAM2gyp4p9KUsmJ7euJ5Z8WZy6W3z0jHEJngEmupHN0lPKBT8usVw+OpcxdfyXWpMucf83Ejo71a/Kkf9TGW3iILk2Ei+4cVMsZKCnYAUuoJUMzOuq88Afqi5YvrIYRJq6rNS9cQZffRzh24YDR9+s8FZRIfAXKzw1Q3UA0CCO31GronnIqv//doJTk/RIbk52hBmD6fyi4R/IoAqY2gawS2RcDIOfTd69gRk4EFGjdZhJLTFfKOb6reA6gfXLUVSUoIXDvqBsDqvtwz7nstkyzGC6aeZUK1NQl8mxMQzF/YPVjphHw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by AS4P189MB2085.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:514::15) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.7; Thu, 10 Sep
- 2026 04:42:45 +0000
-Received: from DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe]) by DM6PR11MB4564.namprd11.prod.outlook.com
- ([fe80::21dd:5cab:fc47:1dfe%4]) with mapi id 15.21.0406.007; Thu, 10 Sep 2026
- 04:42:44 +0000
-Content-Type: multipart/alternative;
- boundary="------------QcaNqbojmXV9Dwa03c0CaDjl"
-Message-ID: <e17b296b-ad39-4059-be9b-7f551b822933@windriver.com>
-Date: Thu, 10 Sep 2026 10:12:39 +0530
-User-Agent: Mozilla Thunderbird
-Subject: Re: [OE-core][wrynose 21/38] glibc: fix CVE-2026-19542
-To: openembedded-core@lists.openembedded.org,
-        Yoann Congal <yoann.congal@smile.fr>
-References: <cover.1788938908.git.yoann.congal@smile.fr>
- <11fef7c21845e03c044305ba57e289831e7518c9.1788938909.git.yoann.congal@smile.fr>
-Content-Language: en-US
-From: Hemanth Kumar M D <Hemanth.KumarMD@windriver.com>
-In-Reply-To: <11fef7c21845e03c044305ba57e289831e7518c9.1788938909.git.yoann.congal@smile.fr>
-X-ClientProxiedBy: PN3PR01CA0041.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:98::10) To DM6PR11MB4564.namprd11.prod.outlook.com
- (2603:10b6:5:2a0::7)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Thu, 10 Sep
+ 2026 05:11:55 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bf0:7714:72e:1666]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bf0:7714:72e:1666%7]) with mapi id 15.21.0406.005; Thu, 10 Sep 2026
+ 05:11:55 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [wrynose][PATCH 0/7] libpcap: backport seven CVE fixes from 1.10.7
+Date: Thu, 10 Sep 2026 07:11:47 +0200
+Message-ID: <20260910051154.30595-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DU2PR04CA0330.eurprd04.prod.outlook.com
+ (2603:10a6:10:2b5::35) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM6PR11MB4564:EE_|LV2PR11MB556157:EE_
-X-MS-Office365-Filtering-Correlation-Id: 16966dc1-5587-45f2-1b6a-08df0ef5f4a2
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AS4P189MB2085:EE_
+X-MS-Office365-Filtering-Correlation-Id: 21fe5d09-ba17-42d0-16a4-08df0efa083f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|4022899009|10067099003|4143699003|8096899003|22082099003|18002099003|11063799006|56012099006|13003099007;
+	BCL:0;ARA:13230040|366016|10070799003|1800799024|23010399003|376014|10067099003|18002099003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info: 
-	2JlfBVn2BJi7Ofv0YPF7U+YiHhQT8I9qM1tR8cufZnzPqOIFOeCKXr5pF3MmgJSBi2HKPItgGojjHJyMkR3Q+TlV57TcyZ1VM6kX6hVG/RuNyhj52y36OMM2DCm7+4tjDk/wHFBktsmpyAGyAiElBw2HZa7jfJGqZlpS5mi0/Y7B2oxWCOG1nJuTUHR+usTpMBDv6wDecdwO0IbcFxBUUPie+uZMVq/EPDpnlYu2FRl0xZ7G/JunUh1N0jFOlFKjV2pmeGCi5JChXUBL6LWfYO5g0snI6kpxeDCqIGwfy91T1qoDZ1zNdOC4Kem9zQLOce+hc84868xCo02V/xk0i3kVDUYWHSL8Yx16/L+GDFlfNtx1qK3h+bd80Owtk2Bka7NNTz60Y5NkBAgOilcd5tLhZaCpEDYNvp26XWoI4L+yE2qZhuCTuzNA6x/J4EAJqXFit1Wggwp7cIxSPVpf2hXFbpyfmTBefhYM92mSzrG3RthxiYw/eL4R67zlK4mYhrgzOIPm2mwZFKrOd3qfk9BzcAvunl8wvR4avX1LSss3ZuxNW4EM9sntWEr2W79rNjMWsh7l01ozHHQyBUp8p8C7BBD8eMTi+JK5hAbo2RZ4XMkQ3zKJoslb5JmS7aL+
+	e45LDdMRDShqO6vmwi1CYPT9c26/G6kZIYjRaxRDy+GzdOyW5Lu2KHzWbplp5UKw+ziDBaGzwE6BX6lZjjXpFkTHmCgE/AfazMC+DQJR+Z4o8hRgqNCQj40ZoBJazWAVrwnuNk1HWAmpXsPpp0Pg8NhT2yroA/R+2CpU8h6A8n4snQantMt2zrN2+VlWHcqhlDNj3ACqV59z2YdFj/lMdG/AmZ+Y7h+7b5HVzZ750Nfm/c5+gM6N5ae9A+DWB0yfD+FvMq4LU1ia2TSbbvJNZMAk9jDm4Dgr+pwqIMqo8ol5+F165LnyzfmcQhq+2I1a5Tjd7s7gB7fq4C2Xky7nIcQPK5yVhmImSrCjFvnbZowqqrEXLR4kOR3YWzFAJkEs53tzc1jCEHoDN5QS0bHlJ7oWeXxVaTpEYhhXQd8NClY7WVUib0Jv1NVOdCS0lL+DWHoAzFkzfWERGWiFK0nZKE4fqFCUsR71e7V5HBVDR6UMomlf3ypmm6zQf498rLIrS4wKXdDJC91w5vuh2ShwsH6ttt0lPZVyVdDDjJL7KYN7ZIkh19d/JvR73Vu8eHPTeL3zFS617Pvds07oXQAA+1hjJnXucXcAZuJKvKZlFK95L+x5nCBdK+muLJJH7n9S5zFRPiN9SrfWT1BMMXq14oKqI3HwLuqlOCB/c2C4o3I=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB4564.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(4022899009)(10067099003)(4143699003)(8096899003)(22082099003)(18002099003)(11063799006)(56012099006)(13003099007);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(23010399003)(376014)(10067099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?utf-8?B?RWJ4M3lTN010K0x6YUdZckRZK3BFNldZaU5tcUM5RmFGUnBTWjcrcjQ2a0Fl?=
- =?utf-8?B?Mml2OXE1VXZSaEIvak5nWlZHU3g2WWQzQUtKYkNFcDhhU1hXNnh5QWJ4SXZR?=
- =?utf-8?B?c3ZBS1lySUViZTh3ekFQQ1dkRk5qZ3NoakJrWjFWdmVXM1RhdGRyRlgvc214?=
- =?utf-8?B?MkpnR081WnBOeCtyYW1BQTNpL0dIZTRKRUVUTklJOUZWTWMwSzBRdWFWbGt5?=
- =?utf-8?B?bCtyQmxFY0JEc0REbzRZZnBJM001d2tCMlp2THFBZmN2SDJncFI2aWVZa0hF?=
- =?utf-8?B?VkJxb0FINWVWMjdoajR0dW9BTkQ4SksyYVA0MURZczNQNXhCb0FDZElJNmF2?=
- =?utf-8?B?N3hjSlVzbUk2U2pYVGJsUmJuem5TZ0ZybE9Pd24zOE1lVEFIRTZIOHJ4YmJ6?=
- =?utf-8?B?ZWJpVk9CWG5IMUY0eWpBVlBKZGJoSGJ0MWgyYnNxSUVWakFTaWNVSzA2WTNK?=
- =?utf-8?B?WTlJSzJ6YUhaSE5KVHZFamdOWFVUTGkrUjhrWmx4NjRTWE8zUTVMeVNvU1hQ?=
- =?utf-8?B?cWpKWEliKy85QzhveVRHQWZsQ1dNNW5wc0NFQ3UrTm1XNnI3ZTVWYURIWEtn?=
- =?utf-8?B?R1JTOEtDa1VnbGY5REpBSEJ4QmlYZmdWczc5SVZFVEZXMk1hb2RjbUVJc1VU?=
- =?utf-8?B?N3lmK3l0aEp0ajA4YnYzUTZmcUUrcVphN2UwWm9PK005WkJucnBOQUY2a0VH?=
- =?utf-8?B?YVhxUVhFK1hsY05Nc0kvYXlEOUtrRURoSjlXS21ORmFTY0VIdFRoa1oxQ2Nr?=
- =?utf-8?B?L1E4NHliNHdWa3c0ZjZ1a1BpaFVxVjNPREVNN1lPejZLVzFWakY0N3pIM1du?=
- =?utf-8?B?Tm4rQUFrTVR4dE5jRDlwc2doaDhCcWRFVnhWN0NZcGpsdmwyY3EydWM2T1Bh?=
- =?utf-8?B?T2NZRXBocWNaMjQ3MGo4VGFsdi80MFhFeGVnM0NhUzloSnhqNjhudjhFdWZt?=
- =?utf-8?B?UXhRS2tnbkcvZ093bEFJa0xIM0Q0bzRCNVVWZU1yUm85dTFYc1NyelFaRFhu?=
- =?utf-8?B?M3BBd3VIOTZYMlJXSlJMckJuaFdPcUozd0FmZ2Y4dHZWT010NGJ4cmUvRmZs?=
- =?utf-8?B?alZMSUcvV0pnSmk4OXBNaS9sVlBnQVo5Y2EzUDQ4aXE2aHVwdThOSFdqcS9I?=
- =?utf-8?B?eUphU2NtUkNQYUlLUlVNK25Lbk9XK2liWkVDREd4YU1BZDM2WTdpMU42eEcx?=
- =?utf-8?B?L2h0RFpueVRJV1dJcG1kT2JXY3pkaFFkSzRFTytmaFVMM1M4MTM4dkdCMWsw?=
- =?utf-8?B?a3BEeEIrMnQvWDQ5Q3hPbFNvR1lHbExna3lLNGl0NVNOdXEvWTdkSDdCbXJ5?=
- =?utf-8?B?N05QZFZ3WjRwZSs1STZ2UWhMa0VMRWNzWW9TVnBUNWdLM3FQMXMwSm11cldH?=
- =?utf-8?B?ODlDaU9xOE44ZytnNkFxN001OGFYTFJ0N1QyMEpybWxKZFRsZVA2dTVtMVpP?=
- =?utf-8?B?ZWRnUGowSy9nRlpMcXVHcWlFTUludHlpdUNMcnBNTjZjUGVxRzI3elA0VzEz?=
- =?utf-8?B?bkdrc0Q0QUl6QzlwNGxlNGtQczJvZGdQTGFCMGZMZkY2cE9XaTRaZ3U3cTB5?=
- =?utf-8?B?dGN2aGZhenYyNzNpQk1QWmhPdjFWTUlOblJ6VGRmQW9SYkpjbU56R1EzV1d2?=
- =?utf-8?B?TDhlWUtxL2l4eFZVSE5FblZvVElyZlNYV3lUUGJ1cVM0MVJVNjhXOThZZk1L?=
- =?utf-8?B?MEVkcDZtQ29JeElHRG02YnhCVU5WbElOUkp0V2xGZ0ZKcEdPUVgydzVIbWta?=
- =?utf-8?B?NDlMdTJTWEdyUFo3bFFnQmxZemRMVzArMWpYVGlMSGxISnlJWHRXRmhnMVpE?=
- =?utf-8?B?cUtNR1FHZ1BDcWFXMFRqUWhPOWVhZlQ4cjJpR3I1R0Y0TTJDZE1QK1grNW5h?=
- =?utf-8?B?Y21SN2x4Qm5ZV2pMcXBYRklqdXIrRGgrWHRwNXNONTJ6N2lSelhNWTErNjRD?=
- =?utf-8?B?a3YvRUlIek5OOTJyTjlMT3B0cE94L3JMa04xc0NwWVVESitLbmNJUWY2eVJD?=
- =?utf-8?B?SnNEejBld0tHOENDWlg1M2pWUnBUMkdtVXRvQ3M3Rlc4Rmp0OG0rU0FvTGh6?=
- =?utf-8?B?ZnN1Q2FEQlJ0TldIMldxekFnRFBLdVU5ZHVaMlZnU2lwQWNqRXA3QXY1T1pj?=
- =?utf-8?B?dzNuU2REa1NiaWJwdGFzQnRvWG5IZDBZZ2J6L0VuMlFGejB3UXZBK0d6RkFw?=
- =?utf-8?B?TGg3aFpkUUJXUUlIWjZLdG5qcFRpNzRQSWJlOGVXL1RpaEw5ZDJCUUNvK21Y?=
- =?utf-8?B?clBjd09QLzg4VWRFQlFmODlVcFNkOUQ1UjVqWDdna0JLS0NHNTlhekNtRUhS?=
- =?utf-8?B?dGUwSHNjdVROQnNEUHMrelk1NUNQdm1wZmxiaWR6M1VneGhISnFicmJsWUVB?=
- =?utf-8?Q?/DSrjLahoinmg/YE=3D?=
-X-Exchange-RoutingPolicyChecked: 
-	JlPmCOW7D3RjVG4ePktTEjzfGivkKp+Xdui3tqyzaIgxNbu9EtLTuqCQMkHacTQmvMswPUmp+lJMlcLutgRpVAOb4RjaBCQufuecSe5nOT067SNtYRNzk3TK1pMh4vFIKRFM+T0ulR6EgZcUEx0IqjumbxtAnDQXT4eQPgJEogSxWYshxO4nY6zyzEXCKNoeEbHRJ2hzJZ9YvWQdt6ubmTSNQ512jLj+Syn6zFKTDWWusnWvQRmLZDPhyGm9tLi5OBBYzWxTqPeSkMd9rGT2729CGW00jtEf6E7FDrJA85YULeABqtmuujXQsCroKuOqAVlE78EMKM7z8euRvJdvpQ==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 16966dc1-5587-45f2-1b6a-08df0ef5f4a2
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB4564.namprd11.prod.outlook.com
+	=?us-ascii?Q?efYv/C/fTABFZ4ctd8TxPftH9sNdE5doMVgMsg0RhnD9VFFR1N+6reZ1tsNS?=
+ =?us-ascii?Q?OPgWPvBh8UvXcTAlVTpPPbbuO39d4ts5SDwRr2W96WuIL5ItMM3NgE6fw5aF?=
+ =?us-ascii?Q?45JcCN9gYjQIYjCUxYhgpxppOSB3j1XK7NswgJ/uT01Y2ZNvksD8vSj4rfST?=
+ =?us-ascii?Q?iSsnkvNu23cc15K2fU/GLYElcp20fqp3s/CruY/Q6JmjshCwi40+yZOEWZ9l?=
+ =?us-ascii?Q?BczqdBsYaRh9tEXJuiu0BMq2bVCsR9HSgVUwL/S+u5vG/lfM2buqk7tC2/19?=
+ =?us-ascii?Q?e3nsplF8paKOJ0ahc2hptnC8/pctFypzmDTMNXXQIVlwuBnZL/9VWJOA8vza?=
+ =?us-ascii?Q?Sw6/wLABiGwUT1zQ0ll7xX4uwCLmh22r0bWUSytE+XGYlpGAlDnt5poZd4XI?=
+ =?us-ascii?Q?O6iSrIjxrtJrCN7wgkG58FTkzyJ//aPCsUZ24s7y+pHGKXpR/dw8VfllgKhu?=
+ =?us-ascii?Q?PQFlPjN+83Cyn2VCUUcm24okOyU1I3GGo8MxlM5TOcMc5YuOsaXcgCIonfyT?=
+ =?us-ascii?Q?ud9qGeGhZwcOvBn/SpL9pYje8Y+CB66jAgcdhdNSXa9N02CUHEP/yOFjqp5P?=
+ =?us-ascii?Q?EDzbyKxmC42FgNqzi3KoFRMgQo/91V6oMMDIgAy7cX8shX7k9AHpzcftgsv/?=
+ =?us-ascii?Q?PcMj0B+eQyvTw+mZFmPHec3SxOQat7nUdRWFE1Cx1ne3YRxHELXSaas92F2V?=
+ =?us-ascii?Q?H6gTlV8Lvoh47maTMWrDI4juMESmajH9cgMzqLq1omolXiSG0uO7LhFk6MsV?=
+ =?us-ascii?Q?diPU64OT5Ll4xZKyoIbwTWTmAk9P+6fFWicUG5/tHjGvc/ArojtoqD2aU1HA?=
+ =?us-ascii?Q?ZMAg4RmVL1w512fFCW/owg0xWEJ6i/YK7Si9jQyoePwKuhpbw/8UF6zVMzwn?=
+ =?us-ascii?Q?xpR8rxA594NM/zanz2USw/OJmh6H8mTPCSk353DXdqp7gH75Mv4O2d01AGmx?=
+ =?us-ascii?Q?dUjHu243S8cEkHoQL1XrvelnxglI/DCspXwoBh00NArhsv6VDHWUXRltwemH?=
+ =?us-ascii?Q?vxZheR0TM8gPWXBu/ExFmhQJYdkzZZLw9kZZm0HkuMI0MF0DWDK7mKVO+hep?=
+ =?us-ascii?Q?nfdxV5XuJM/+1bKdjR0W9q98Iv6mxu4vxLK2By1rXPQaxusC8TqcwND/x0tO?=
+ =?us-ascii?Q?73uFQOiCoj/EYRiYUZSes7v4S8IwRBLCIsTzlp+f0JwIMaBwFMmMD5uhWWE7?=
+ =?us-ascii?Q?helc0usCLOQgamNdcgyekDH6nHusUI5c3YRgExMDAJqzyWZbMmsAMS25ByCB?=
+ =?us-ascii?Q?7eHcJum95plwRHkJVYVALrJ8GjkP/BYCIXc95AyVRLlYgMbtDLVal1qBx2Tz?=
+ =?us-ascii?Q?844/4R4bIJ90G3Es6lt6ZIJeFfuLc+2TZDdUIcZudjwMDj+bWk5VxYZZa6Kt?=
+ =?us-ascii?Q?KkRAYrNFk8wP+esQg6ffEmIgxVesKhT0CfFkEtgjxsUZNiVVjOenb5cjoXNc?=
+ =?us-ascii?Q?6UV8BxNVSY5tqHzkTuxlcQo6YoZikVxC4ZrkENdejqNeVmqWWNP1COqysw/3?=
+ =?us-ascii?Q?BrdyQ0QzCSfKZVmQDZTpOL09abs1FnHRXycfJPNsdscrnntwQZBDppkoJTnp?=
+ =?us-ascii?Q?BdI5arrBpgngTaqGdtt42qDV8SrC9aPE3kPBgAcc7J/dzJd/Li4nYaS685Cv?=
+ =?us-ascii?Q?8ehzP2J5zy7M3TBER8NGU7tehB5NfpGYVbeK5KMfNEKhzD6M6+HBWNTD9IQP?=
+ =?us-ascii?Q?1eIcivhKUiT2zNSOH4BB0ETy1MwCm3Zmn3PP4xtSjjWmyWBscg8WkD7kCdNb?=
+ =?us-ascii?Q?RgIfRlDwfQdnCw/aEyoma4Wot1LVrwCX5QBXSv2HwBSScndon1/JYFk/D4rM?=
+X-MS-Exchange-AntiSpam-MessageData-1: bR8ji+NlPS0zkaSC4PmAn1BoQiThjyiYL3k=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 21fe5d09-ba17-42d0-16a4-08df0efa083f
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 04:42:44.7380
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 05:11:55.4028
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: JLS6VObM9u+/kyCrcHNlkgiVmYUpnI8u8ggOGMr9UYpvn1b1W66TTcjetzSbYIpCjpnYDQlS/ZrRmMnJcQf/LXvX7kW/HnHw9f0lnXm1QFY=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: LV2PR11MB556157
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDA0OCBTYWx0ZWRfX7+SwMnwuWSdj
- 2dubNjv6ATnvxeEYW6zt4NGw2PmXwdidP2NBNK6slAOGjJrFRCzky59rlVyAAQ06iAFApovCpKS
- ax4htWrGbHYxX98XN1tYaBjL3QC+3UwrH1fQk5ANVsza7VVSDgpUKH7KK0XKfWNwrUDF3v9B/TI
- Mk5fBRi+H3NjepKX7jiGXUFk5gJFiAqEXZsllFN/iXzm5BKTE30oGl+0iw6fYCbbxiBFY6Mn6PV
- mDdG1umknAnxxKMODVY+NGNZO4ob3anuo0g/I7J4j4pOjJIHa6oARmriTl2db24hHjkIVii4mv8
- AywsOYoOuzKj3mh6+HipNHxE8SKdAdQ4mmQpoiAP+M6bvjaWxwHEiiVNhQ0guj58VvZxbAmUEnp
- jqSb8/sXj5/9ccHnUIaLWzOqi11jrEYBRGR7Cjh0i3/1/deO5gnrgvZMR4soRDp3oS0r9Fc7sMi
- YJXHU5gkLbO9Qhxr8tQ==
-X-Proofpoint-ORIG-GUID: Eh9NK4IcWLq-sw_m5SuIeRy5jQJuVHjV
-X-Proofpoint-GUID: 4dfVkOvyMCPoB-Nls60HuhF6ResM5PpF
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDA0OCBTYWx0ZWRfXzcSdo5GUZZgd
- aBDfOUpSvAG/dJA9mWTsRNGgW+28g++7FxF/mvc43H6BOFDKrjdzEI2tQ2A4Y/xHAqQwXB8V/w2
- JKYfbDXIPZxQGhG6aNGRQbIBYK0TN3jVddfZJ9WEqSPIdGR0qOCl
-X-Authority-Analysis: v=2.4 cv=II+XmQvG c=1 sm=1 tr=0 ts=6aa23548 cx=c_pps
- a=z4sgpIVFmn7gf/JJ24wZvw==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=Q4-j1AaZAAAA:8
- a=CCpqsmhAAAAA:8 a=xNf9USuDAAAA:8 a=t7CeM3EgAAAA:8 a=20KFwNOVAAAA:8
- a=KKAkSRfTAAAA:8 a=qO58wOtuGLZjxOho26QA:9 a=QEXdDO2ut3YA:10
- a=TGWRFvGZnzJx6LKCTUUA:9 a=g-0Z09uUVgBb7zww:21 a=_W_S_7VecoQA:10
- a=lqcHg5cX4UMA:10 a=9H3Qd4_ONW2Ztcrla5EB:22 a=ul9cdbp4aOFLsgKbc677:22
- a=FdTzh2GWekK77mhwV6Dw:22 a=cvBusfyB2V15izCimMoJ:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-10_01,2026-09-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 clxscore=1015 adultscore=0 malwarescore=0
- phishscore=0 suspectscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609100048
+X-MS-Exchange-CrossTenant-UserPrincipalName: m+v3Ri+Y7ckRaBAqK1rAPZEbRnEVnHn75tYlb+8WPFQ76hCarco0twi3z6Q0R3xOMOK/L0NOmPWyt2ZNrt04Wd/SSBZybI3LUMDNFt7QXLE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB2085
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 04:42:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245522
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 05:12:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245523
 
---------------QcaNqbojmXV9Dwa03c0CaDjl
-Content-Type: text/plain; charset=UTF-8; format=flowed
-Content-Transfer-Encoding: 7bit
+This series backports the seven security fixes that were released in
+libpcap 1.10.7 to the 1.10.6 recipe.
 
-Hi Yoann,
+The same set of fixes has already been addressed on master by upgrading
+libpcap to 1.10.7.
 
-This CVE patch will come with the glibc 2.43 stable branch updates:
-https://lists.openembedded.org/g/openembedded-core/message/245453 
-<https://lists.openembedded.org/g/openembedded-core/message/245453>
+CVEs addressed (see the upstream 1.10.7 CHANGES):
 
-Please drop this patch.
+  CVE-2026-0799  - Access M[] safely in the BPF interpreter.
+  CVE-2026-31912 - Mind the program bounds in pcap_offline_filter().
+  CVE-2026-31911 - Fail opcodes safely in the BPF interpreter.
+  CVE-2026-6244  - Avoid division by zero via pcap_offline_filter().
+  CVE-2026-6554  - Limit "ja L" looping in pcap_offline_filter().
+  CVE-2026-18313 - Fix a memory leak in rpcapd.
+  CVE-2026-18238 - Fix RPCAP_MSG_PACKET validation.
 
-On 09-09-2026 12:59 pm, Yoann Congal via lists.openembedded.org wrote:
-> CAUTION: This email comes from a non Wind River email account!
-> Do not click links or open attachments unless you recognize the sender and know the content is safe.
->
-> From: Harish Sadineni<Harish.Sadineni@windriver.com>
->
-> Allocate the maximum array sizes directly, instead of resizing
-> the arrays as needed.  This eliminates alloca usage from the
-> function, and fixes the out-of-bounds accesses.  The asserts
-> guard against the bug coming back if the balancing of the tree
-> turns out not to work correctly.
->
-> Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3]
-> CVE: CVE-2026-19542
->
-> Reference:
-> [1]https://security-tracker.debian.org/tracker/CVE-2026-19542
-> [2]https://sourceware.org/bugzilla/show_bug.cgi?id=34506
-> [3]https://sourceware.org/git/?p=glibc.git;a=commit;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3
->
-> Signed-off-by: Harish Sadineni<Harish.Sadineni@windriver.com>
-> Signed-off-by: Yoann Congal<yoann.congal@smile.fr>
-> [YC: fixed CVE: tag in patch]
-> ---
->   .../glibc/glibc/0023-CVE-2026-19542.patch     | 98 +++++++++++++++++++
->   meta/recipes-core/glibc/glibc_2.43.bb         |  1 +
->   2 files changed, 99 insertions(+)
->   create mode 100644 meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch
->
-> diff --git a/meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch b/meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch
-> new file mode 100644
-> index 00000000000..094a50919dc
-> --- /dev/null
-> +++ b/meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch
-> @@ -0,0 +1,98 @@
-> +From e2789c46e3bfdcd67a82bea9946b315c179e83d3 Mon Sep 17 00:00:00 2001
-> +From: Florian Weimer<fweimer@redhat.com>
-> +Date: Fri, 14 Aug 2026 13:41:16 +0200
-> +Subject: [PATCH] misc: Fix out-of-bounds array write in tdelete (bug 34506)
-> +
-> +Allocate the maximum array sizes directly, instead of resizing
-> +the arrays as needed.  This eliminates alloca usage from the
-> +function, and fixes the out-of-bounds accesses.  The asserts
-> +guard against the bug coming back if the balancing of the tree
-> +turns out not to work correctly.
-> +
-> +CVE: CVE-2026-19542
-> +Upstream-Status: Backport [https://sourceware.org/git/?p=glibc.git;a=patch;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3]
-> +
-> +Reviewed-by: Adhemerval Zanella<adhemerval.zanella@linaro.org>
-> +Signed-off-by: Harish Sadineni<Harish.Sadineni@windriver.com>
-> +---
-> + misc/tsearch.c | 31 +++++++++++--------------------
-> + 1 file changed, 11 insertions(+), 20 deletions(-)
-> +
-> +diff --git a/misc/tsearch.c b/misc/tsearch.c
-> +index 9b2eb34b25..e517dfa712 100644
-> +--- a/misc/tsearch.c
-> ++++ b/misc/tsearch.c
-> +@@ -85,6 +85,7 @@
-> + #include <assert.h>
-> + #include <stdalign.h>
-> + #include <stddef.h>
-> ++#include <stdint.h>
-> + #include <stdlib.h>
-> + #include <string.h>
-> + #include <search.h>
-> +@@ -406,12 +407,13 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-> +   int cmp;
-> +   node *rootp = (node *) vrootp;
-> +   node root, unchained;
-> +-  /* Stack of nodes so we remember the parents without recursion.  It's
-> +-     _very_ unlikely that there are paths longer than 40 nodes.  The tree
-> +-     would need to have around 250.000 nodes.  */
-> +-  int stacksize = 40;
-> ++  /* Stack of nodes so we remember the parents without recursion.  The
-> ++     stack size is a conservative approximation of the maximum height
-> ++     of a red-black tree, based on size of the address space.
-> ++     Actual numbers are closer to 57 (32 bit) and 117 (63 bit).  */
-> ++  enum { stacksize = 2 * UINTPTR_WIDTH };
-> +   int sp = 0;
-> +-  node **nodestack = alloca (sizeof (node *) * stacksize);
-> ++  node *nodestack[stacksize];
-> +
-> +   if (rootp == NULL)
-> +     return NULL;
-> +@@ -424,14 +426,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-> +   root = DEREFNODEPTR(rootp);
-> +   while ((cmp = (*compar) (key, root->key)) != 0)
-> +     {
-> +-      if (sp == stacksize)
-> +-      {
-> +-        node **newstack;
-> +-        stacksize += 20;
-> +-        newstack = alloca (sizeof (node *) * stacksize);
-> +-        nodestack = memcpy (newstack, nodestack, sp * sizeof (node *));
-> +-      }
-> +-
-> ++      assert (sp < stacksize);
-> +       nodestack[sp++] = rootp;
-> +       p = DEREFNODEPTR(rootp);
-> +       if (cmp < 0)
-> +@@ -470,13 +465,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-> +       node upn;
-> +       for (;;)
-> +       {
-> +-        if (sp == stacksize)
-> +-          {
-> +-            node **newstack;
-> +-            stacksize += 20;
-> +-            newstack = alloca (sizeof (node *) * stacksize);
-> +-            nodestack = memcpy (newstack, nodestack, sp * sizeof (node *));
-> +-          }
-> ++        assert (sp < stacksize);
-> +         nodestack[sp++] = parentp;
-> +         parentp = up;
-> +         upn = DEREFNODEPTR(up);
-> +@@ -541,6 +530,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-> +                 SETNODEPTR(pp,q);
-> +                 /* Make sure pp is right if the case below tries to use
-> +                    it.  */
-> ++                assert (sp < stacksize);
-> +                 nodestack[sp++] = pp = LEFTPTR(q);
-> +                 q = RIGHT(p);
-> +               }
-> +@@ -625,6 +615,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-> +                 SETLEFT(p,RIGHT(q));
-> +                 SETRIGHT(q,p);
-> +                 SETNODEPTR(pp,q);
-> ++                assert (sp < stacksize);
-> +                 nodestack[sp++] = pp = RIGHTPTR(q);
-> +                 q = LEFT(p);
-> +               }
-> diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
-> index 9f3a3814d0a..3ef2301191d 100644
-> --- a/meta/recipes-core/glibc/glibc_2.43.bb
-> +++ b/meta/recipes-core/glibc/glibc_2.43.bb
-> @@ -55,6 +55,7 @@ SRC_URI =  "${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
->              file://0020-fix-create-thread-failed-in-unprivileged-process-BZ-.patch \
->              file://0021-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch \
->              file://0022-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch \
-> +file://0023-CVE-2026-19542.patch \
->   "
->   B = "${WORKDIR}/build-${TARGET_SYS}"
->
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#245430):https://lists.openembedded.org/g/openembedded-core/message/245430
-> Mute This Topic:https://lists.openembedded.org/mt/121158859/10244482
-> Group Owner:openembedded-core+owner@lists.openembedded.org
-> Unsubscribe:https://lists.openembedded.org/g/openembedded-core/unsub [Hemanth.KumarMD@windriver.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
+Each CVE is a separate file:// patch, ordered so they apply on top of each
+other. Some didn't apply as-is since upstream made them over unrelated
+1.10.7 changes; those prerequisites are dropped and only the CVE fix is
+adapted to 1.10.6. Such patches carry a backport note.
 
--- 
-Regards,
-Hemanth Kumar M D
+The CHANGES entries are recorded under a downstream "1.10.6 + backported
+CVE fixes" heading instead of the 1.10.7 block; the first patch explains
+why.
 
---------------QcaNqbojmXV9Dwa03c0CaDjl
-Content-Type: text/html; charset=UTF-8
-Content-Transfer-Encoding: 7bit
+Verified by applying all seven patches in order onto a pristine libpcap
+1.10.6 tree and building successfully, including with --enable-remote
+(rpcapd).
 
-<!DOCTYPE html><html><head>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  </head>
-  <body>
-    <p><span>Hi Yoann,</span></p>
-    <p class="isSelectedEnd"><span>This CVE patch will come with the
-        glibc 2.43 stable branch updates:</span><br>
-      <a href="https://lists.openembedded.org/g/openembedded-core/message/245453" data-rich-text-autolink=""><span>https://lists.openembedded.org/g/openembedded-core/message/245453</span></a></p>
-    <p><span>Please drop this patch.</span></p>
-    <div class="moz-cite-prefix">On 09-09-2026 12:59 pm, Yoann Congal
-      via lists.openembedded.org wrote:<br>
-    </div>
-    <blockquote type="cite" cite="mid:11fef7c21845e03c044305ba57e289831e7518c9.1788938909.git.yoann.congal@smile.fr">
-      <pre wrap="" class="moz-quote-pre">CAUTION: This email comes from a non Wind River email account!
-Do not click links or open attachments unless you recognize the sender and know the content is safe.
+Jaipaul Cheernam (7):
+  libpcap: Fix CVE-2026-0799
+  libpcap: Fix CVE-2026-31912
+  libpcap: Fix CVE-2026-31911
+  libpcap: Fix CVE-2026-6244
+  libpcap: Fix CVE-2026-6554
+  libpcap: Fix CVE-2026-18313
+  libpcap: Fix CVE-2026-18238
 
-From: Harish Sadineni <a class="moz-txt-link-rfc2396E" href="mailto:Harish.Sadineni@windriver.com">&lt;Harish.Sadineni@windriver.com&gt;</a>
+ .../libpcap/libpcap/01-CVE-2026-0799.patch    |  87 +++
+ .../libpcap/libpcap/02-CVE-2026-31912.patch   | 630 ++++++++++++++++++
+ .../libpcap/libpcap/03-CVE-2026-31911.patch   |  57 ++
+ .../libpcap/libpcap/04-CVE-2026-6244.patch    |  62 ++
+ .../libpcap/libpcap/05-CVE-2026-6554.patch    | 108 +++
+ .../libpcap/libpcap/06-CVE-2026-18313.patch   | 104 +++
+ .../libpcap/libpcap/07-CVE-2026-18238.patch   | 234 +++++++
+ .../libpcap/libpcap_1.10.6.bb                 |   7 +
+ 8 files changed, 1289 insertions(+)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/01-CVE-2026-0=
+799.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-3=
+1912.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/03-CVE-2026-3=
+1911.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/04-CVE-2026-6=
+244.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/05-CVE-2026-6=
+554.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/06-CVE-2026-1=
+8313.patch
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/07-CVE-2026-1=
+8238.patch
 
-Allocate the maximum array sizes directly, instead of resizing
-the arrays as needed.  This eliminates alloca usage from the
-function, and fixes the out-of-bounds accesses.  The asserts
-guard against the bug coming back if the balancing of the tree
-turns out not to work correctly.
-
-Upstream-Status: Backport [<a class="moz-txt-link-freetext" href="https://sourceware.org/git/?p=glibc.git;a=patch;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3">https://sourceware.org/git/?p=glibc.git;a=patch;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3</a>]
-CVE: CVE-2026-19542
-
-Reference:
-[1]<a class="moz-txt-link-freetext" href="https://security-tracker.debian.org/tracker/CVE-2026-19542">https://security-tracker.debian.org/tracker/CVE-2026-19542</a>
-[2]<a class="moz-txt-link-freetext" href="https://sourceware.org/bugzilla/show_bug.cgi?id=34506">https://sourceware.org/bugzilla/show_bug.cgi?id=34506</a>
-[3]<a class="moz-txt-link-freetext" href="https://sourceware.org/git/?p=glibc.git;a=commit;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3">https://sourceware.org/git/?p=glibc.git;a=commit;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3</a>
-
-Signed-off-by: Harish Sadineni <a class="moz-txt-link-rfc2396E" href="mailto:Harish.Sadineni@windriver.com">&lt;Harish.Sadineni@windriver.com&gt;</a>
-Signed-off-by: Yoann Congal <a class="moz-txt-link-rfc2396E" href="mailto:yoann.congal@smile.fr">&lt;yoann.congal@smile.fr&gt;</a>
-[YC: fixed CVE: tag in patch]
----
- .../glibc/glibc/0023-CVE-2026-19542.patch     | 98 +++++++++++++++++++
- meta/recipes-core/glibc/glibc_2.43.bb         |  1 +
- 2 files changed, 99 insertions(+)
- create mode 100644 meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch
-
-diff --git a/meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch b/meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch
-new file mode 100644
-index 00000000000..094a50919dc
---- /dev/null
-+++ b/meta/recipes-core/glibc/glibc/0023-CVE-2026-19542.patch
-@@ -0,0 +1,98 @@
-+From e2789c46e3bfdcd67a82bea9946b315c179e83d3 Mon Sep 17 00:00:00 2001
-+From: Florian Weimer <a class="moz-txt-link-rfc2396E" href="mailto:fweimer@redhat.com">&lt;fweimer@redhat.com&gt;</a>
-+Date: Fri, 14 Aug 2026 13:41:16 +0200
-+Subject: [PATCH] misc: Fix out-of-bounds array write in tdelete (bug 34506)
-+
-+Allocate the maximum array sizes directly, instead of resizing
-+the arrays as needed.  This eliminates alloca usage from the
-+function, and fixes the out-of-bounds accesses.  The asserts
-+guard against the bug coming back if the balancing of the tree
-+turns out not to work correctly.
-+
-+CVE: CVE-2026-19542
-+Upstream-Status: Backport [<a class="moz-txt-link-freetext" href="https://sourceware.org/git/?p=glibc.git;a=patch;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3">https://sourceware.org/git/?p=glibc.git;a=patch;h=e2789c46e3bfdcd67a82bea9946b315c179e83d3</a>]
-+
-+Reviewed-by: Adhemerval Zanella <a class="moz-txt-link-rfc2396E" href="mailto:adhemerval.zanella@linaro.org">&lt;adhemerval.zanella@linaro.org&gt;</a>
-+Signed-off-by: Harish Sadineni <a class="moz-txt-link-rfc2396E" href="mailto:Harish.Sadineni@windriver.com">&lt;Harish.Sadineni@windriver.com&gt;</a>
-+---
-+ misc/tsearch.c | 31 +++++++++++--------------------
-+ 1 file changed, 11 insertions(+), 20 deletions(-)
-+
-+diff --git a/misc/tsearch.c b/misc/tsearch.c
-+index 9b2eb34b25..e517dfa712 100644
-+--- a/misc/tsearch.c
-++++ b/misc/tsearch.c
-+@@ -85,6 +85,7 @@
-+ #include &lt;assert.h&gt;
-+ #include &lt;stdalign.h&gt;
-+ #include &lt;stddef.h&gt;
-++#include &lt;stdint.h&gt;
-+ #include &lt;stdlib.h&gt;
-+ #include &lt;string.h&gt;
-+ #include &lt;search.h&gt;
-+@@ -406,12 +407,13 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+   int cmp;
-+   node *rootp = (node *) vrootp;
-+   node root, unchained;
-+-  /* Stack of nodes so we remember the parents without recursion.  It's
-+-     _very_ unlikely that there are paths longer than 40 nodes.  The tree
-+-     would need to have around 250.000 nodes.  */
-+-  int stacksize = 40;
-++  /* Stack of nodes so we remember the parents without recursion.  The
-++     stack size is a conservative approximation of the maximum height
-++     of a red-black tree, based on size of the address space.
-++     Actual numbers are closer to 57 (32 bit) and 117 (63 bit).  */
-++  enum { stacksize = 2 * UINTPTR_WIDTH };
-+   int sp = 0;
-+-  node **nodestack = alloca (sizeof (node *) * stacksize);
-++  node *nodestack[stacksize];
-+
-+   if (rootp == NULL)
-+     return NULL;
-+@@ -424,14 +426,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+   root = DEREFNODEPTR(rootp);
-+   while ((cmp = (*compar) (key, root-&gt;key)) != 0)
-+     {
-+-      if (sp == stacksize)
-+-      {
-+-        node **newstack;
-+-        stacksize += 20;
-+-        newstack = alloca (sizeof (node *) * stacksize);
-+-        nodestack = memcpy (newstack, nodestack, sp * sizeof (node *));
-+-      }
-+-
-++      assert (sp &lt; stacksize);
-+       nodestack[sp++] = rootp;
-+       p = DEREFNODEPTR(rootp);
-+       if (cmp &lt; 0)
-+@@ -470,13 +465,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+       node upn;
-+       for (;;)
-+       {
-+-        if (sp == stacksize)
-+-          {
-+-            node **newstack;
-+-            stacksize += 20;
-+-            newstack = alloca (sizeof (node *) * stacksize);
-+-            nodestack = memcpy (newstack, nodestack, sp * sizeof (node *));
-+-          }
-++        assert (sp &lt; stacksize);
-+         nodestack[sp++] = parentp;
-+         parentp = up;
-+         upn = DEREFNODEPTR(up);
-+@@ -541,6 +530,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+                 SETNODEPTR(pp,q);
-+                 /* Make sure pp is right if the case below tries to use
-+                    it.  */
-++                assert (sp &lt; stacksize);
-+                 nodestack[sp++] = pp = LEFTPTR(q);
-+                 q = RIGHT(p);
-+               }
-+@@ -625,6 +615,7 @@ __tdelete (const void *key, void **vrootp, __compar_fn_t compar)
-+                 SETLEFT(p,RIGHT(q));
-+                 SETRIGHT(q,p);
-+                 SETNODEPTR(pp,q);
-++                assert (sp &lt; stacksize);
-+                 nodestack[sp++] = pp = RIGHTPTR(q);
-+                 q = LEFT(p);
-+               }
-diff --git a/meta/recipes-core/glibc/glibc_2.43.bb b/meta/recipes-core/glibc/glibc_2.43.bb
-index 9f3a3814d0a..3ef2301191d 100644
---- a/meta/recipes-core/glibc/glibc_2.43.bb
-+++ b/meta/recipes-core/glibc/glibc_2.43.bb
-@@ -55,6 +55,7 @@ SRC_URI =  &quot;${GLIBC_GIT_URI};branch=${SRCBRANCH};name=glibc \
-            <a class="moz-txt-link-freetext" href="file://0020-fix-create-thread-failed-in-unprivileged-process-BZ-.patch">file://0020-fix-create-thread-failed-in-unprivileged-process-BZ-.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://0021-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch">file://0021-tests-Skip-2-qemu-tests-that-can-hang-in-oe-selftest.patch</a> \
-            <a class="moz-txt-link-freetext" href="file://0022-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch">file://0022-Propagate-ffile-prefix-map-from-CFLAGS-to-ASFLAGS.patch</a> \
-+           <a class="moz-txt-link-freetext" href="file://0023-CVE-2026-19542.patch">file://0023-CVE-2026-19542.patch</a> \
- &quot;
- B = &quot;${WORKDIR}/build-${TARGET_SYS}&quot;
-</pre>
-      <br>
-      <fieldset class="moz-mime-attachment-header"></fieldset>
-      <pre wrap="" class="moz-quote-pre">
--=-=-=-=-=-=-=-=-=-=-=-
-Links: You receive all messages sent to this group.
-View/Reply Online (#245430): <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/message/245430">https://lists.openembedded.org/g/openembedded-core/message/245430</a>
-Mute This Topic: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/mt/121158859/10244482">https://lists.openembedded.org/mt/121158859/10244482</a>
-Group Owner: <a class="moz-txt-link-abbreviated" href="mailto:openembedded-core+owner@lists.openembedded.org">openembedded-core+owner@lists.openembedded.org</a>
-Unsubscribe: <a class="moz-txt-link-freetext" href="https://lists.openembedded.org/g/openembedded-core/unsub">https://lists.openembedded.org/g/openembedded-core/unsub</a> [<a class="moz-txt-link-abbreviated" href="mailto:Hemanth.KumarMD@windriver.com">Hemanth.KumarMD@windriver.com</a>]
--=-=-=-=-=-=-=-=-=-=-=-
-</pre>
-    </blockquote>
-    <pre class="moz-signature" cols="72">-- 
-Regards,
-Hemanth Kumar M D</pre>
-  </body>
-</html>
-
---------------QcaNqbojmXV9Dwa03c0CaDjl--
 
