@@ -2,173 +2,258 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C370C79FB7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3162C79FB9
 	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 05:12:08 +0000 (UTC)
 Received: from OSPPR02CU001.outbound.protection.outlook.com (OSPPR02CU001.outbound.protection.outlook.com [40.107.159.68])
  by mx.groups.io with SMTP id smtpd.msgproc02-g2.6892.1789017120475080008
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 22:12:00 -0700
+ Wed, 09 Sep 2026 22:12:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Ux5BmX9m;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=vpMpv+7D;
  spf=pass (domain: est.tech, ip: 40.107.159.68, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=o6OM7+9xta8P5uc3uN9dJ0bmH16T+iiAKjp43FklpEOWji7u4Er6U+UCRDRRf9LKQ2WwDp6TkKHrSHWzwJyHuAZBnAVI8gfxR5rd4BKhwAOAikD/ecAqbNIuGLh6otBBl9lFPDQKZM0IzUVHzFAkQp6Ohbiip7cndFXmz+Qvz8iVjYa6SHqoIeaEUfHR6WXfyExUvtT21veB8D1iIeRFMqLlAu8uKSmJbTXxc3D5dZnyD/Q42xPneS8x+aeN0ClT5ozKh15DRKaV8wCrPU/f/xm7yEADyMsUtAo4c6rju89dPDSpA+MlgYYRFPvr3MNeuL8a7gB56DWjL7BbhfMFWw==
+ b=E7O4a6TRwT1SSHBL0wADQHF7HtRkjVtEqMnHBy55coqcYakmW1vVazM9wpzVQxNXlD+mndYFs2VmLdZ377xYG+0wVcm3fsd+Kmw/QnHJijJ+1WTiCCTw8Aw8iVgXeMtJQYRnptYBp7oDpEEEFZKD1M/SxWLDlN1hr/uHm88unBpd+ITHYagoyKYDfGT1ZgPxxQd9izpF/WBAmDLRrSAJXsGkyd40NaHB4PoPUFVjR2RUcA0h2HjQILML53JyxXIMqT8fh431OhjKJve2UmsU7rkrbkAr78M1lyl/cqAE0mn9jhzChuEOiMK9Qjr7HSApLHi5cCD1ZY79L54erF+a+A==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eqkGNEE+uYAeRhA8/+HnMrhSVQy2tktadNWaGV6g4dg=;
- b=kWZPvaA3UhH2W/UPlKHFMr+ScWr6uCCIlTGvx8Xn5KxI1RoRev0ep1Ay356/hvsOuTvNDOETLJOje68nilXCsYF4lnczdX4gu/XhRwa9rkTpVWNGL00ViIwtSN1pQrydqP5Vm9bGAhbI82m7SGLJ9ciA1Y+fBkmwnQ8AbpD/ww2zW4s9X7zkwLNUKjjPkX/xRzKjei+TowZG/qbfifhlSQtK8mH/kkvX8HtRfbne8FbtC5V6pBl+cIOdFvmfe0VsqwnhUgikZfjZ9diZ8RJkTbZeIPBlMo3v/UlEJG+pcHifBhr5TS5YHdv97v/b4cW3c2LTTRyc1Ukt38LfWzlI6g==
+ bh=MP1e4XgY9jEJpu0v67fq7maVEuUuQ7iyc6ULTbE4WyI=;
+ b=ZPIth6I0AqsZ/P9QSxgxtZhAQHTtCp4jBGwGN1ULEa4ldj73Bog1guYJRWVRdt3xmtKsQVFAwg3UZuIIybxtf9Pnb25psCZcUlqqGy8L1VvfTidR6cKhq3ZLxH5VJryKOc2uunzm1ZMPSDyPbkrXh9XGo5v3OYs3lvN0XzbZC5cUCEPW2+mZ3wP8WY2JqxXwmyGo6qex4D90MujzTSoPj4sfg0r0ZdDP5JqgyIA+f9TO+pwlT0oRVXnhoBiwJdgHomTSHroHuGjod+pEXMljzvPeTfsT4vYAC72XeJJ4PHkZzNxrkiMUWA/XB77R/LD265cO6x0Fz1x6iembwK8iBg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=eqkGNEE+uYAeRhA8/+HnMrhSVQy2tktadNWaGV6g4dg=;
- b=Ux5BmX9mvc4c2Q7jLySMH7VzvXghQtF83PCBAM2gyp4p9KUsmJ7euJ5Z8WZy6W3z0jHEJngEmupHN0lPKBT8usVw+OpcxdfyXWpMucf83Ejo71a/Kkf9TGW3iILk2Ei+4cVMsZKCnYAUuoJUMzOuq88Afqi5YvrIYRJq6rNS9cQZffRzh24YDR9+s8FZRIfAXKzw1Q3UA0CCO31GronnIqv//doJTk/RIbk52hBmD6fyi4R/IoAqY2gawS2RcDIOfTd69gRk4EFGjdZhJLTFfKOb6reA6gfXLUVSUoIXDvqBsDqvtwz7nstkyzGC6aeZUK1NQl8mxMQzF/YPVjphHw==
+ bh=MP1e4XgY9jEJpu0v67fq7maVEuUuQ7iyc6ULTbE4WyI=;
+ b=vpMpv+7DIs2sPzxA4E3ph93/K/qb5eWO+UFybuQ9QG6mHYiGRE0dmmS+49gavfG/BE/4ASegg5SgNEPzAtlo67VE/isg5/tzF9WVRMejhTwkJisT8ChJ2qELGPnQqfPUIP8+zXKYMpLNH+3Go2ejkkTGsoBe48Q7GNaiQ7PCNXZ6nd3v44bOw6/avoCrpy5s2DKnWuUipCzfBvKryvc3QQlluuc4IZwRmeLnihJGRI1EabMDZM0M5akAmwLe0antQdCLpbPxaZ1CoSd5YhDTYCklJeIir6vCRveuZt5eOXKtvgddJS8nmUkXQ3D3Q/evMVvNiwvdIEoowqRvOMFz5A==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by AS4P189MB2085.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:514::15) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Thu, 10 Sep
- 2026 05:11:55 +0000
+ 2026 05:12:01 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::bf0:7714:72e:1666]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::bf0:7714:72e:1666%7]) with mapi id 15.21.0406.005; Thu, 10 Sep 2026
- 05:11:55 +0000
+ 05:12:01 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [wrynose][PATCH 0/7] libpcap: backport seven CVE fixes from 1.10.7
-Date: Thu, 10 Sep 2026 07:11:47 +0200
-Message-ID: <20260910051154.30595-1-jaipaul.cheernam@est.tech>
+Subject: [wrynose][PATCH 6/7] libpcap: Fix CVE-2026-18313
+Date: Thu, 10 Sep 2026 07:11:53 +0200
+Message-ID: <20260910051154.30595-7-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20260910051154.30595-1-jaipaul.cheernam@est.tech>
+References: <20260910051154.30595-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0330.eurprd04.prod.outlook.com
- (2603:10a6:10:2b5::35) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU6P191CA0031.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:53f::10) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AS4P189MB2085:EE_
-X-MS-Office365-Filtering-Correlation-Id: 21fe5d09-ba17-42d0-16a4-08df0efa083f
+X-MS-Office365-Filtering-Correlation-Id: 798c40bf-c7fe-43ec-efcc-08df0efa0bee
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|10070799003|1800799024|23010399003|376014|10067099003|18002099003|56012099006|11063799006;
+	BCL:0;ARA:13230040|366016|10070799003|1800799024|23010399003|376014|10067099003|6133799003|3023799007|22082099003|18002099003|12006099003|56012099006|11063799006|13003099007;
 X-Microsoft-Antispam-Message-Info: 
-	e45LDdMRDShqO6vmwi1CYPT9c26/G6kZIYjRaxRDy+GzdOyW5Lu2KHzWbplp5UKw+ziDBaGzwE6BX6lZjjXpFkTHmCgE/AfazMC+DQJR+Z4o8hRgqNCQj40ZoBJazWAVrwnuNk1HWAmpXsPpp0Pg8NhT2yroA/R+2CpU8h6A8n4snQantMt2zrN2+VlWHcqhlDNj3ACqV59z2YdFj/lMdG/AmZ+Y7h+7b5HVzZ750Nfm/c5+gM6N5ae9A+DWB0yfD+FvMq4LU1ia2TSbbvJNZMAk9jDm4Dgr+pwqIMqo8ol5+F165LnyzfmcQhq+2I1a5Tjd7s7gB7fq4C2Xky7nIcQPK5yVhmImSrCjFvnbZowqqrEXLR4kOR3YWzFAJkEs53tzc1jCEHoDN5QS0bHlJ7oWeXxVaTpEYhhXQd8NClY7WVUib0Jv1NVOdCS0lL+DWHoAzFkzfWERGWiFK0nZKE4fqFCUsR71e7V5HBVDR6UMomlf3ypmm6zQf498rLIrS4wKXdDJC91w5vuh2ShwsH6ttt0lPZVyVdDDjJL7KYN7ZIkh19d/JvR73Vu8eHPTeL3zFS617Pvds07oXQAA+1hjJnXucXcAZuJKvKZlFK95L+x5nCBdK+muLJJH7n9S5zFRPiN9SrfWT1BMMXq14oKqI3HwLuqlOCB/c2C4o3I=
+	P9KAWn1H3OD4I1FuGQNt7JYAuKYfJnhshdcgUtl9XR1msjV6Oj5jocrrfkv7Z+Hnl2QUEy6H4Lm00acOARiscv6jF8q1IhTaUga4xH1UEVL6gwxIRoo8/jFODZZluJ08u/enyn8SitwgohpHPhu18gfpPNMdF9581WqvGyylqiqQTbEht8rx9/RHyRskmfApwfvUjEcU1yyExpHw9dCGZOpdg172vYFllmU6jDi7RjcKMqMzoXFZhlcl4VZw54BcTN3U2qtCaFob+bz6eZ+ZuXkjrOBQKYdC/E2cg2BZ7fFPHCe37QCUWfI48fCjbTVHi1cigepd1rolY+yaZT4LL6BfdEupE+z06gEZqogeNmllsMHKXbrfReEatwDvDlDHM6W8X2AXgZt1KULgjlDFJFu1m4SgYq7JuSdgT4/jP1IIJaGg3+aJhMgMvatUAplIxvqDb1jagDqrNYPpNLf+vBsBzhxQlrCYjLxeoVydlh77oV8fYg3AZ5exa/CtQJAEBXN33SjIU7qdMs8Ln2fxTqvcXQ56StWZEQH21vLPW2WwvG6B9Z/Kx5JlwyYGEAYxhDeF9gMHC0pus5Z3f61/+clgj6Blh2/K5bAAnLC/AxhzcIP8YC6W5On7yTOIFlxe
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(23010399003)(376014)(10067099003)(18002099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(10070799003)(1800799024)(23010399003)(376014)(10067099003)(6133799003)(3023799007)(22082099003)(18002099003)(12006099003)(56012099006)(11063799006)(13003099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?efYv/C/fTABFZ4ctd8TxPftH9sNdE5doMVgMsg0RhnD9VFFR1N+6reZ1tsNS?=
- =?us-ascii?Q?OPgWPvBh8UvXcTAlVTpPPbbuO39d4ts5SDwRr2W96WuIL5ItMM3NgE6fw5aF?=
- =?us-ascii?Q?45JcCN9gYjQIYjCUxYhgpxppOSB3j1XK7NswgJ/uT01Y2ZNvksD8vSj4rfST?=
- =?us-ascii?Q?iSsnkvNu23cc15K2fU/GLYElcp20fqp3s/CruY/Q6JmjshCwi40+yZOEWZ9l?=
- =?us-ascii?Q?BczqdBsYaRh9tEXJuiu0BMq2bVCsR9HSgVUwL/S+u5vG/lfM2buqk7tC2/19?=
- =?us-ascii?Q?e3nsplF8paKOJ0ahc2hptnC8/pctFypzmDTMNXXQIVlwuBnZL/9VWJOA8vza?=
- =?us-ascii?Q?Sw6/wLABiGwUT1zQ0ll7xX4uwCLmh22r0bWUSytE+XGYlpGAlDnt5poZd4XI?=
- =?us-ascii?Q?O6iSrIjxrtJrCN7wgkG58FTkzyJ//aPCsUZ24s7y+pHGKXpR/dw8VfllgKhu?=
- =?us-ascii?Q?PQFlPjN+83Cyn2VCUUcm24okOyU1I3GGo8MxlM5TOcMc5YuOsaXcgCIonfyT?=
- =?us-ascii?Q?ud9qGeGhZwcOvBn/SpL9pYje8Y+CB66jAgcdhdNSXa9N02CUHEP/yOFjqp5P?=
- =?us-ascii?Q?EDzbyKxmC42FgNqzi3KoFRMgQo/91V6oMMDIgAy7cX8shX7k9AHpzcftgsv/?=
- =?us-ascii?Q?PcMj0B+eQyvTw+mZFmPHec3SxOQat7nUdRWFE1Cx1ne3YRxHELXSaas92F2V?=
- =?us-ascii?Q?H6gTlV8Lvoh47maTMWrDI4juMESmajH9cgMzqLq1omolXiSG0uO7LhFk6MsV?=
- =?us-ascii?Q?diPU64OT5Ll4xZKyoIbwTWTmAk9P+6fFWicUG5/tHjGvc/ArojtoqD2aU1HA?=
- =?us-ascii?Q?ZMAg4RmVL1w512fFCW/owg0xWEJ6i/YK7Si9jQyoePwKuhpbw/8UF6zVMzwn?=
- =?us-ascii?Q?xpR8rxA594NM/zanz2USw/OJmh6H8mTPCSk353DXdqp7gH75Mv4O2d01AGmx?=
- =?us-ascii?Q?dUjHu243S8cEkHoQL1XrvelnxglI/DCspXwoBh00NArhsv6VDHWUXRltwemH?=
- =?us-ascii?Q?vxZheR0TM8gPWXBu/ExFmhQJYdkzZZLw9kZZm0HkuMI0MF0DWDK7mKVO+hep?=
- =?us-ascii?Q?nfdxV5XuJM/+1bKdjR0W9q98Iv6mxu4vxLK2By1rXPQaxusC8TqcwND/x0tO?=
- =?us-ascii?Q?73uFQOiCoj/EYRiYUZSes7v4S8IwRBLCIsTzlp+f0JwIMaBwFMmMD5uhWWE7?=
- =?us-ascii?Q?helc0usCLOQgamNdcgyekDH6nHusUI5c3YRgExMDAJqzyWZbMmsAMS25ByCB?=
- =?us-ascii?Q?7eHcJum95plwRHkJVYVALrJ8GjkP/BYCIXc95AyVRLlYgMbtDLVal1qBx2Tz?=
- =?us-ascii?Q?844/4R4bIJ90G3Es6lt6ZIJeFfuLc+2TZDdUIcZudjwMDj+bWk5VxYZZa6Kt?=
- =?us-ascii?Q?KkRAYrNFk8wP+esQg6ffEmIgxVesKhT0CfFkEtgjxsUZNiVVjOenb5cjoXNc?=
- =?us-ascii?Q?6UV8BxNVSY5tqHzkTuxlcQo6YoZikVxC4ZrkENdejqNeVmqWWNP1COqysw/3?=
- =?us-ascii?Q?BrdyQ0QzCSfKZVmQDZTpOL09abs1FnHRXycfJPNsdscrnntwQZBDppkoJTnp?=
- =?us-ascii?Q?BdI5arrBpgngTaqGdtt42qDV8SrC9aPE3kPBgAcc7J/dzJd/Li4nYaS685Cv?=
- =?us-ascii?Q?8ehzP2J5zy7M3TBER8NGU7tehB5NfpGYVbeK5KMfNEKhzD6M6+HBWNTD9IQP?=
- =?us-ascii?Q?1eIcivhKUiT2zNSOH4BB0ETy1MwCm3Zmn3PP4xtSjjWmyWBscg8WkD7kCdNb?=
- =?us-ascii?Q?RgIfRlDwfQdnCw/aEyoma4Wot1LVrwCX5QBXSv2HwBSScndon1/JYFk/D4rM?=
-X-MS-Exchange-AntiSpam-MessageData-1: bR8ji+NlPS0zkaSC4PmAn1BoQiThjyiYL3k=
+	=?us-ascii?Q?gVdoUhKC7k0RvdjswsD4AkHKSGMct/Fhj9EmGxmBedmldQYlckew/NG5QJeu?=
+ =?us-ascii?Q?sdh10bTSersq0kBmZ19YGjgujjaUYm/Lzn+k1LemBTqalOsRAV68jJlESJ6i?=
+ =?us-ascii?Q?Y5CmX7Izzkj5NGLtiLqiKpI5uQ4JYWrdxmlx33/mER+81J28d2TAoxC+Sg6t?=
+ =?us-ascii?Q?5epCICMO5F9EwBX0ggI4chWtT2kiDPTPh3T5MQM8eJ2gsEzqpB/fqpsO9fPx?=
+ =?us-ascii?Q?/QVMvI+YK0VWzbaCOoSNsD8PM6L/ka74ECww7AdU7tDBPZPAGoY1QR3cUbUD?=
+ =?us-ascii?Q?SjBa/JKtRpx5VBp4o4uOXr9jvgjCdAX80bhz/azkZPpCJDXcixnCwcrspqsv?=
+ =?us-ascii?Q?5JWab/2H4WQVraewLhq0b36zKjvMo8V9W6XXmPqQ8SrpX0DiQhCzHZAt8e2Q?=
+ =?us-ascii?Q?OaOIa9YZrVh+lhjwFq4Vx0a3q2/rwwFsO8k2ng8si8ooYotAxoN4ePqG+bvJ?=
+ =?us-ascii?Q?rusjt/0WbBQ/5UBFr+rpZvws+GNhgmVVCUTGEooK5xaOsnkbH0A/OJdqK+QT?=
+ =?us-ascii?Q?UY+/RdaWZd+jcNKI16VdYp+u95WY/eW5aAaMbaGYFPd6u62wcfJ2Tj30cPtM?=
+ =?us-ascii?Q?cwu/lA93xy4mO1RCSDaplaht5Y0mrDhAFuKMWUYlLpHDPkX6RJzf17a5C9d3?=
+ =?us-ascii?Q?KSIrjpmtotBM5jSKJzj+6HWxF+hkSYeb5Md0iLTvSdqx7LwKAG6cGuPi+ka6?=
+ =?us-ascii?Q?pxP7ABIzYGKwFqvHKfMRVRX5aI6YiLOOoe8A7LsFZHF1BaUyne9qXz4Oka5J?=
+ =?us-ascii?Q?QAE8EhjO4/C01IwoSaIH9rKVCVfzHWHcg3OLzNxVZpXoYcHKDLwlQO2eYD7m?=
+ =?us-ascii?Q?aLBk6L6i0RsLR8YplitUkpKIzzPsJyJ/G5AkNdKF4JL6J/X+cSCYE5YyF0Xo?=
+ =?us-ascii?Q?Loqr7SkPeuo+j5TtuNYzAzvnfwbWhP0aHoprwgmjDQHrjyRJopZmy3q9FOEW?=
+ =?us-ascii?Q?6013X+pu0zDMfoN/SjV/T6O/F9lMrtB4A8t/QAj7FQuSTdqhE1YddW9iYKZ0?=
+ =?us-ascii?Q?H9+ge80JQzWNh4URVwzsGxw3/cZOr9ob50102aXjBmyDrYa8b5rB5iCt5vk3?=
+ =?us-ascii?Q?6mgGvjY7VUG8E3Zgwn4jnSTMw0btuot3jS6RXmHv7jvIVrUIfL00J6fIvzDh?=
+ =?us-ascii?Q?hoh05Acx62gIXAoRjIQX7GIkidQVleHl0VhcinCgHRROeMSZZtsOrp/qUJcR?=
+ =?us-ascii?Q?YZKesF6hIlpvBdXkgpWrPD09rx1pYZtbwIX5DnOpSjxlQrLDXA+LZUWpycJU?=
+ =?us-ascii?Q?lSToBKb5JvEzq77xBwx/wjjxjeNWxcolsQwzDr7XLImewfGusVk6xkEX7Yg1?=
+ =?us-ascii?Q?AjZ6/45/OckiUIhQArCwFoO4CjdaanJP/KTOJUiwHC7Dmq1Ir3g+kLlUeM1i?=
+ =?us-ascii?Q?w9zj0lT8R8xzBu0D2xeFXDp4OGRuT1AquMqlKMDEYlKV+7T8zwxnGVjK0Z0g?=
+ =?us-ascii?Q?gABMyFw7rkJVRC2CNdg7GgtB3JKlHRUW2GdJj4Hb9u5it1Ux9p50B9VL1fFR?=
+ =?us-ascii?Q?MVAqk6Z6/XK3KxE/JER9a6555S0cXRXWW2WS9M9o0cYuvL2VafeVu31jz2AX?=
+ =?us-ascii?Q?PbJczpupNZY0X+DgWZQxDvRS+e4gr08HmE3iF/JrnYelinvJzX9eMGyTsb3I?=
+ =?us-ascii?Q?vCp+JeNagEROkuln7RAzS/a6VrUdFsUNPhfKHvtULu0RkRSs2jfbARxij7Hd?=
+ =?us-ascii?Q?0pnphi8IZ38Q2Otub/chS+YUXa5WVm7l2T2t9BUQeyslJJ7jGJXYJ31hildN?=
+ =?us-ascii?Q?vtsSp88OQqk9kaOJ71Ddbw7ytgHwGkfuPdgddu64WtFFQLV/Ou8gGbxPUQ2F?=
+X-MS-Exchange-AntiSpam-MessageData-1: 9/BtyXdnN4283+uVIDGhYyPXCwtMXsCyhKA=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 21fe5d09-ba17-42d0-16a4-08df0efa083f
+X-MS-Exchange-CrossTenant-Network-Message-Id: 798c40bf-c7fe-43ec-efcc-08df0efa0bee
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 05:11:55.4028
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 05:12:01.5571
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: m+v3Ri+Y7ckRaBAqK1rAPZEbRnEVnHn75tYlb+8WPFQ76hCarco0twi3z6Q0R3xOMOK/L0NOmPWyt2ZNrt04Wd/SSBZybI3LUMDNFt7QXLE=
+X-MS-Exchange-CrossTenant-UserPrincipalName: rvWIcRBFFupQIBZf8oODdblwmFz68e55JpkIiU48xPuL5yAvWP4r/p3AiqHQ5Xn3+ow5tRCS3NzqNeU/y4bbUb3586RuFNYUFIBaEES2rVI=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB2085
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 05:12:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245523
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245529
 
-This series backports the seven security fixes that were released in
-libpcap 1.10.7 to the 1.10.6 recipe.
-
-The same set of fixes has already been addressed on master by upgrading
-libpcap to 1.10.7.
-
-CVEs addressed (see the upstream 1.10.7 CHANGES):
-
-  CVE-2026-0799  - Access M[] safely in the BPF interpreter.
-  CVE-2026-31912 - Mind the program bounds in pcap_offline_filter().
-  CVE-2026-31911 - Fail opcodes safely in the BPF interpreter.
-  CVE-2026-6244  - Avoid division by zero via pcap_offline_filter().
-  CVE-2026-6554  - Limit "ja L" looping in pcap_offline_filter().
-  CVE-2026-18313 - Fix a memory leak in rpcapd.
-  CVE-2026-18238 - Fix RPCAP_MSG_PACKET validation.
-
-Each CVE is a separate file:// patch, ordered so they apply on top of each
-other. Some didn't apply as-is since upstream made them over unrelated
-1.10.7 changes; those prerequisites are dropped and only the CVE fix is
-adapted to 1.10.6. Such patches carry a backport note.
-
-The CHANGES entries are recorded under a downstream "1.10.6 + backported
-CVE fixes" heading instead of the 1.10.7 block; the first patch explains
-why.
-
-Verified by applying all seven patches in order onto a pristine libpcap
-1.10.6 tree and building successfully, including with --enable-remote
-(rpcapd).
-
-Jaipaul Cheernam (7):
-  libpcap: Fix CVE-2026-0799
-  libpcap: Fix CVE-2026-31912
-  libpcap: Fix CVE-2026-31911
-  libpcap: Fix CVE-2026-6244
-  libpcap: Fix CVE-2026-6554
-  libpcap: Fix CVE-2026-18313
-  libpcap: Fix CVE-2026-18238
-
- .../libpcap/libpcap/01-CVE-2026-0799.patch    |  87 +++
- .../libpcap/libpcap/02-CVE-2026-31912.patch   | 630 ++++++++++++++++++
- .../libpcap/libpcap/03-CVE-2026-31911.patch   |  57 ++
- .../libpcap/libpcap/04-CVE-2026-6244.patch    |  62 ++
- .../libpcap/libpcap/05-CVE-2026-6554.patch    | 108 +++
- .../libpcap/libpcap/06-CVE-2026-18313.patch   | 104 +++
- .../libpcap/libpcap/07-CVE-2026-18238.patch   | 234 +++++++
- .../libpcap/libpcap_1.10.6.bb                 |   7 +
- 8 files changed, 1289 insertions(+)
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/01-CVE-2026-0=
-799.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-3=
-1912.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/03-CVE-2026-3=
-1911.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/04-CVE-2026-6=
-244.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/05-CVE-2026-6=
-554.patch
+NVD: https://nvd.nist.gov/vuln/detail/CVE-2026-18313
+Upstream-commit: https://github.com/the-tcpdump-group/libpcap/commit/f9775a=
+f1a0ec76db60c7213241e6b48f1be10ac7
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ .../libpcap/libpcap/06-CVE-2026-18313.patch   | 104 ++++++++++++++++++
+ .../libpcap/libpcap_1.10.6.bb                 |   1 +
+ 2 files changed, 105 insertions(+)
  create mode 100644 meta/recipes-connectivity/libpcap/libpcap/06-CVE-2026-1=
 8313.patch
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/07-CVE-2026-1=
-8238.patch
 
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/06-CVE-2026-18313.pa=
+tch b/meta/recipes-connectivity/libpcap/libpcap/06-CVE-2026-18313.patch
+new file mode 100644
+index 0000000000..7e6868898a
+--- /dev/null
++++ b/meta/recipes-connectivity/libpcap/libpcap/06-CVE-2026-18313.patch
+@@ -0,0 +1,104 @@
++From b039b8b66616852673c21ec5c7e0bad3190eae59 Mon Sep 17 00:00:00 2001
++From: Denis Ovsienko <denis@ovsienko.info>
++Date: Sat, 1 Aug 2026 18:24:48 +0100
++Subject: [PATCH] CVE-2026-18313: Fix a memory leak in rpcapd.
++
++This vulnerability was originally reported publicly, hence no credit is
++given.
++
++daemon_unpackapplyfilter() can allocate a temporary buffer for up to
++RPCAP_BPF_MAXINSNS (8192) BPF instructions (65536 bytes) per each
++received RPCAP_MSG_UPDATEFILTER_REQ or RPCAP_MSG_STARTCAP_REQ message.
++It never frees the memory, so repeated messages from a client will
++eventually leak enough memory on the server to cause problems.  This
++holds for all connections that pass the validation and some connections
++that do not.
++
++48 bytes in 1 blocks are definitely lost in loss record 2 of 2
++   at 0x4844818: malloc (vg_replace_malloc.c:446)
++   by 0x111AAB: daemon_unpackapplyfilter (daemon.c:2372)
++   by 0x113279: daemon_msg_startcap_req.constprop.0 (daemon.c:2139)
++   by 0x114808: daemon_serviceloop (daemon.c:901)
++   by 0x115BC7: accept_connection (rpcapd.c:1321)
++   by 0x115BC7: accept_connections (rpcapd.c:1118)
++   by 0x115BC7: main_startup (rpcapd.c:709)
++   by 0x1112BD: main (rpcapd.c:567)
++
++To fix this, after a successful malloc() return exactly once, after the
++free() call.
++
++(backported from commit 26a1c75702b105ac8788014f35f1b5c57fa6043b)
++
++(cherry picked from commit f9775af1a0ec76db60c7213241e6b48f1be10ac7)
++
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/co=
+mmit/f9775af1a0ec76db60c7213241e6b48f1be10ac7]
++CVE: CVE-2026-18313
++
++Notes on backporting to 1.10.6:
++ - The upstream commit was made after the "bogus instructions" -> "invalid
++   instructions" message change (commit 836d0fd0), which is not backported=
+.
++   The 1.10.6 wording ("The filter contains bogus instructions") is theref=
+ore
++   kept; only the memory-leak fix (goto free_and_return_status / free()) i=
+s
++   applied.
++
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++---
++ CHANGES                  | 2 ++
++ rpcapd/daemon.c | 19 ++++++++-----------
++ 2 files changed, 10 insertions(+), 11 deletions(-)
++diff --git a/CHANGES b/CHANGES
++index ff9bac3..4f24f94 100644
++--- a/CHANGES
+++++ b/CHANGES
++@@ -5,6 +5,7 @@
++     CVE-2026-31911: Fail opcodes safely in the BPF interpreter.
++     CVE-2026-6244: Avoid division by zero via pcap_offline_filter().
++     CVE-2026-6554: Limit "ja L" looping in pcap_offline_filter().
+++    CVE-2026-18313: Fix a memory leak in rpcapd.
++=20
++ Tuesday, December 30, 2025 / The Tcpdump Group
++   Summary for 1.10.6 libpcap release
++diff --git a/rpcapd/daemon.c b/rpcapd/daemon.c
++index 87274665..b720cc45 100644
++--- a/rpcapd/daemon.c
+++++ b/rpcapd/daemon.c
++@@ -2380,14 +2380,8 @@ daemon_unpackapplyfilter(PCAP_SOCKET sockctrl, SSL =
+*ctrl_ssl, struct session *se
++ 	{
++ 		status =3D rpcapd_recv(sockctrl, ctrl_ssl, (char *) &insn,
++ 		    sizeof(struct rpcap_filterbpf_insn), plenp, errmsgbuf);
++-		if (status =3D=3D -1)
++-		{
++-			return -1;
++-		}
++-		if (status =3D=3D -2)
++-		{
++-			return -2;
++-		}
+++		if (status =3D=3D -1 || status =3D=3D -2)
+++			goto free_and_return_status;
++=20
++ 		bf_insn->code =3D ntohs(insn.code);
++ 		bf_insn->jf =3D insn.jf;
++@@ -2403,16 +2397,19 @@ daemon_unpackapplyfilter(PCAP_SOCKET sockctrl, SSL=
+ *ctrl_ssl, struct session *se
++ 	if (bpf_validate(bf_prog.bf_insns, bf_prog.bf_len) =3D=3D 0)
++ 	{
++ 		snprintf(errmsgbuf, PCAP_ERRBUF_SIZE, "The filter contains bogus instru=
+ctions");
++-		return -2;
+++		status =3D -2;
+++		goto free_and_return_status;
++ 	}
++=20
++ 	if (pcap_setfilter(session->fp, &bf_prog))
++ 	{
++ 		snprintf(errmsgbuf, PCAP_ERRBUF_SIZE, "RPCAP error: %s", pcap_geterr(se=
+ssion->fp));
++-		return -2;
+++		status =3D -2;
++ 	}
++=20
++-	return 0;
+++free_and_return_status:
+++	free(bf_prog.bf_insns);
+++	return status;
++ }
++=20
++ static int
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb b/meta/rec=
+ipes-connectivity/libpcap/libpcap_1.10.6.bb
+index 6ca75117e1..859897acc5 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
+@@ -17,6 +17,7 @@ SRC_URI =3D "https://www.tcpdump.org/release/${BP}.tar.xz=
+ \
+ 	   file://03-CVE-2026-31911.patch \
+ 	   file://04-CVE-2026-6244.patch \
+ 	   file://05-CVE-2026-6554.patch \
++	   file://06-CVE-2026-18313.patch \
+           "
+ SRC_URI[sha256sum] =3D "ec97d1206bdd19cb6bdd043eaa9f0037aa732262ec68e070fd=
+7c7b5f834d5dfc"
+=20
 
