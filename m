@@ -2,96 +2,114 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2577EC79FBB
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 42897C79F9F
 	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 13:07:14 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13537.1789045630013857287
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13494.1789045630561247346
  for <openembedded-core@lists.openembedded.org>;
  Thu, 10 Sep 2026 06:07:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=qCq9+mNM;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=tLTl/3Uf;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B242C1570
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:07:05 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 64501153B
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:07:06 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 0C8353F528
-	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:07:08 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id AFA4A3F528
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:07:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789045629; bh=VqVaxIKZiAA6Tit+40trsHNPK+I5klaZK2KoH9EApm4=;
-	h=From:To:Subject:Date:From;
-	b=qCq9+mNMaAph92mHLH3sbq18H4lbykhjiJrPCvMMgtFF7OwPSfGLM43O2BQnVc44M
-	 2aiD9DhrkXdneBWEl+ZSHmxJsklBN4OeebGYi/jiWabb00BnIOj6H6JcmftpRfdUf+
-	 99HWFeQd1YSMwOzglT+TOZUQsqNy44YITshc1uYg=
+	t=1789045630; bh=RJb9hgsEHI6oyrnI/AXyoOogcfgMCq5+1Zew2Tm2Esc=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=tLTl/3UfrOBroMMHlbWyuhFSfrVv1EjvcCEx/jMfCrEZk5D/htsCW3JOGawr9kYmc
+	 fRRLO5eQybAoYUGFX0d1MQ0TphHLt7XZAUYhNFiOwb4brbNGZRv3dCgPZ6dslRfcNe
+	 WS79IcdP5rdsURzUwSeLEePAXXpuf+2y2SIQd/Z4=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] conf/bitbake.conf: fix GNU mirror URL
-Date: Thu, 10 Sep 2026 14:06:59 +0100
-Message-ID: <20260910130700.2587601-1-ross.burton@arm.com>
+Subject: [PATCH 2/2] automake: 1.18.1 -> 1.19
+Date: Thu, 10 Sep 2026 14:07:00 +0100
+Message-ID: <20260910130700.2587601-2-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260910130700.2587601-1-ross.burton@arm.com>
+References: <20260910130700.2587601-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 13:07:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245565
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245566
 
-Previously we moved GNU_MIRROR from ftp.gnu.org to ftpmirror.gnu.org[1],
-however for reasons whilst ftp.gnu.org puts the content under a /gnu/
-subdirectory, ftpmirror.gnu.org redirects to inside /gnu/.
+Summary of the release notes:
 
-This can be verified with curl. With /gnu/ included in the URL:
+* New features added
 
-$ curl -vL https://ftpmirror.gnu.org/gnu/automake/automake-1.19.tar.gz
-* Connected to ftpmirror.gnu.org (2001:470:142:5::200) port 443 (#0)
-< HTTP/1.1 302 Moved Temporarily
-< Location: https://mirror.cs.odu.edu/gnu//gnu/automake/automake-1.19.tar=
-.gz
-* Connected to mirror.cs.odu.edu (128.82.4.140) port 443 (#1)
-> GET /gnu//gnu/automake/automake-1.19.tar.gz HTTP/1.1
-< HTTP/1.1 404 Not Found
+  - New autoconf macro AM_OPTIONAL_AUTOMAKE.
 
-However, removing it:
+* Bugs fixed
 
-$ curl -vL https://ftpmirror.gnu.org/automake/automake-1.19.tar.gz
-* Connected to ftpmirror.gnu.org (2001:470:142:5::200) port 443 (#0)
-< HTTP/1.1 302 Moved Temporarily
-< Location: https://mirror.ibcp.fr/pub/gnu//automake/automake-1.19.tar.gz
-* Connected to mirror.ibcp.fr (2001:660:500b:245::145) port 443 (#1)
-> GET /pub/gnu//automake/automake-1.19.tar.gz HTTP/2
-< HTTP/2 200
-< content-length: 2517494
-< content-type: application/x-gzip
+  - Recognize COPYINGv2, COPYINGv3, COPYING.LESSERv2 and COPYING.LESSERv3
+    as license files; distribute them automatically, similarly to COPYING=
+.
 
-This wasn't noticed as we have a default mirrors.bbclass which uses the
-kernel.org mirror network.
+  - `make dist' no longer propagates its internal distribution-directory
+    cleanup override to recursive makes run while constructing distdir.
 
-It's also interesting that ftpmirror's attempt at providing local
-mirrors is far from optimal: in testing this from the UK I was given
-mirrors in the USA and China as often as Europe.
+  - `make dist-bzip2 dist-xz' now succeeds.
 
-[1] oe-core d8c6f01d746 ("conf/bitbake.conf: use gnu mirror instead of ma=
-in server")
+  - Non-zero exit codes of compressors for the dist tarballs no longer ab=
+ort
+    the job in a state where the empty files are left behind.
+
+  - Busybox tar no longer assumed to be GNU tar just because it
+    supports --version.
+
+  - `make dist' now fails when tar fails, instead of exiting
+    successfully with a truncated archive.
+
+  - The filename-length-max=3DN option no longer rejects file names of
+    exactly N characters.
+
+  - A file that is not currently present is still a part of the distribut=
+ion
+    if a `Makefile.am' rule can build it.
+
+  - Objective C and Objective C++ sources built with Libtool are now
+    compiled and linked with `--tag=3DOBJC' and `--tag=3DOBJCXX'.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../automake/{automake_1.18.1.bb =3D> automake_1.19.bb}          | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+ rename meta/recipes-devtools/automake/{automake_1.18.1.bb =3D> automake_=
+1.19.bb} (92%)
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index a21223e216a..8a102d5e8f1 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -709,7 +709,7 @@ DEBIAN_MIRROR =3D "http://deb.debian.org/debian/pool"
- GENTOO_MIRROR =3D "http://distfiles.gentoo.org/distfiles"
- GNOME_GIT =3D "git://gitlab.gnome.org/GNOME"
- GNOME_MIRROR =3D "https://download.gnome.org/sources/"
--GNU_MIRROR =3D "https://ftpmirror.gnu.org/gnu"
-+GNU_MIRROR =3D "https://ftpmirror.gnu.org/"
- GNUPG_MIRROR =3D "https://www.gnupg.org/ftp/gcrypt"
- KERNELORG_MIRROR =3D "https://cdn.kernel.org/pub"
- SAMBA_MIRROR =3D "http://samba.org/samba/ftp"
+diff --git a/meta/recipes-devtools/automake/automake_1.18.1.bb b/meta/rec=
+ipes-devtools/automake/automake_1.19.bb
+similarity index 92%
+rename from meta/recipes-devtools/automake/automake_1.18.1.bb
+rename to meta/recipes-devtools/automake/automake_1.19.bb
+index 4544f7d5395..0ee4d8facfa 100644
+--- a/meta/recipes-devtools/automake/automake_1.18.1.bb
++++ b/meta/recipes-devtools/automake/automake_1.19.bb
+@@ -1,4 +1,5 @@
+ require automake.inc
++
+ LICENSE =3D "GPL-2.0-only"
+ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D751419260aa954499f7abaabaa882=
+bbe"
+ DEPENDS:class-native =3D "autoconf-native"
+@@ -24,7 +25,7 @@ SRC_URI +=3D "\
+            file://0006-automake-Remove-delays-in-configure-scripts-using=
+-au.patch \
+            "
+=20
+-SRC_URI[sha256sum] =3D "63e585246d0fc8772dffdee0724f2f988146d1a3f1c756a3=
+dc5cfbefa3c01915"
++SRC_URI[sha256sum] =3D "79e8b1f7a967e87ce8a9ded76bee7f793d0ce1886ab2002f=
+eb1b0510f578b75a"
+=20
+ PERL =3D "${USRBINPATH}/perl"
+ PERL:class-native =3D "${USRBINPATH}/env perl"
 --=20
 2.43.0
 
