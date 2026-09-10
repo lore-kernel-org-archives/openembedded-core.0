@@ -1,225 +1,188 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <enoch.ng@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E458C79FBF
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 17:46:01 +0000 (UTC)
-Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20794.1789062358827322473
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 140E6C79FBB
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 19:17:52 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.22972.1789067865401694311
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2026 10:45:59 -0700
+ Thu, 10 Sep 2026 12:17:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=NNAbnTix;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.53, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f53.google.com with SMTP id 5b1f17b1804b1-4957eefd361so736705e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 10:45:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789062357; x=1789667157; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=y9x7stnwkxBIFIJmpYVepNvqPTfVT/4yu1s1EvR39Pk=;
-        b=NNAbnTixXOy1dXx0tAmukekyBJIW06PMoW0krAXamY8/U67djUTQmfPCfg8yT5nhjg
-         b9FHOhriVx2SHCwQQSBA/UBnhjKjePg9A3FdNbac+P5VuvhAf80VZONPK5nZqrDljmVa
-         qr6OtJfhtg07gbWwDpDALIOVruuZZ2MhIFP7A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789062357; x=1789667157;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=y9x7stnwkxBIFIJmpYVepNvqPTfVT/4yu1s1EvR39Pk=;
-        b=pRP5NZREFCQohvw6TUeSWWpw1DWCQQ/xJgEpUQjNJPamb8HEGcIsPiDW06zNZ49eXj
-         KpKg9ELRZbngUzAM4krIsn0vPPR6XXGrPwvDuzrXWUr9jTF24xQXXPXkENSO3XMyegL2
-         hGYoMgcLyyBTIxqwkphaQZQS1+0WbfnkWQ9JZxdsZ5YF4sQtuTeIeFHdmhGRJ6Q6bzH7
-         ZtHlVG5NnmV2M35jrpsENMj8fefmhPCpMN0aFZRJabi74ZqPMAYrV52VDS1ruOJqw45v
-         HzHnUGWqCFYoszJGHKeKSwcnrzWbSb4ju+Ntqv8xrgRNxAfDnG6qV54r2/6KeWSamp5N
-         0wiw==
-X-Forwarded-Encrypted: i=1; AKwUvByRw517RhVQkwRigxSoakjSpvLMa9okSdM4hU5VwjbuCDCm3/7fJuV3S1NbPz6miVKuK/wiDRAi+cWfTc0cFS/TpQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++nHfAWAJKkWivQ6BcDtb/Z993QXJB+DussKcs9VFeRKt8icQMO4
-	EPWirizX2nl6Ep04YJIp3NaqLlsfSVv4bIZ5kTvTrarOAi3dsVAgAJ0Df4DnWH3+eqM=
-X-Gm-Gg: AYBFou1ML2PZxgQSZ9TcPJ17jk9hlVXIUEYKEzxe5CzyzvUmtBM8SjdHJg5V6J0uyOQ
-	9NftH2YGCMhw49tkht9kHa6JV0qu06tfZDGTG87VAwevOcodC4KKuoKrK3bP6TzO1wigUe/hze4
-	kOEqlCqz0BefMGalfSJCgksGIWacVGOo0AyOtd8UAbFz7hS3hG5QjjZv/598CI+ANrztMu44sYM
-	bqJLs8m1aN4nlevnw9nTj+fVL8hv9a88IFHau8xIQ1d75MjbWxFhQVRH2it1e/CROCGQuM0t0kd
-	HmY7yT58nQXTGD+Cw80bGVPVsiIgzrZrDIe0Tn/grPjI0lqZdiKgmytU/bXhag6Zr2vt759LjtZ
-	L0iRoCDLQVBgYGLd1PZ9prO+RjEY7VDfiitb6eI+aTHxJbbQJcxb/BvF9J32zB1I1UoVn/eeX6a
-	AxPxyaOrKdztxI6s1L26TUCuM7aR+oOT4likLIE9K0vDvNWEc+atLT9/OaBJKoBgHVNGm7Krukr
-	IivRsFWLMVWRNyI2em7QlKHrmlDhreKkh52kr59A6XcbXC2S8a+59x3GmZtRXK2
-X-Received: by 2002:a05:600c:8a1a:10b0:49c:ee22:364c with SMTP id 5b1f17b1804b1-49e6198d0a6mr1684335e9.9.1789062356946;
-        Thu, 10 Sep 2026 10:45:56 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:788a:18da:6c2a:9f16? ([2001:8b0:aba:5f3c:788a:18da:6c2a:9f16])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d20fce7a7sm316313565e9.4.2026.09.10.10.45.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Sep 2026 10:45:56 -0700 (PDT)
-Message-ID: <e96a5c72b21a10328862ebfd760d16a57cdc2d71.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 06/15] runqemu-extract-sdk: refactor in Python
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: adrian.freihofer@siemens.com, openembedded-core@lists.openembedded.org
-Date: Thu, 10 Sep 2026 18:45:55 +0100
-In-Reply-To: <20260909215337.89106-7-adrian.freihofer@siemens.com>
-References: <20260909215337.89106-1-adrian.freihofer@siemens.com>
-	 <20260909215337.89106-7-adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=oDXrzv7h;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=3713e747d9=enoch.ng@windriver.com)
+Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68AIS0rf3535720
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 19:17:44 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=LxDaSduM+dOkPUvmDFXI
+	fqperUKQvw7Q7jwILhjHvIs=; b=oDXrzv7hSgfiSZv8jOfa8KeIjijoyXd74+tT
+	OiA3+wTUV6BL46IreYHVeOloSlIwufuKkfIPXiTOYhcTpjzhqEtAgc+C7VuES3lI
+	0mYjZTa/1w4hBSQ08S6DLQwaYhOsTexGE05Q+nh/ZkJoMbn8RheOPlc/7w2nh26l
+	iIFfFCYYYZ81hhJiLPW2nS4FYARRM1VDpa8HlY3Z2p07yftg05IqNdlw5J80CUEm
+	9/corkbrFTSVFPR+XFrii9pklUe2wNIWKdoBYNvETp6j2hjxiaTpWOmc4O4V1zoR
+	h/zOzhSU2VMk1wnPbfThxqaTn5S0OkiZGANNXcICseFNqvo7Iw==
+Received: from sa9pr02cu001.outbound.protection.outlook.com (mail-southcentralusazon11023111.outbound.protection.outlook.com [40.93.196.111])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gkcyra3yx-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 19:17:43 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=BI20c9t3aYSv+ReMlUxtDg9NssJJTdyJnAp2D+4DTPXTj9MFLL4EbUy4LFzsCsalzcP8XG2RxqgSH+XgZCOP5h/wgCQqzkKw82Gps4QHP1GuhLy2dI03hctSblW4woiJgHc3lEGLm4Xy0TeEtotebZlkhaGSN1xJXiGo89Aqs7ri4fkLJMi4SeQjB2hbduo58pxK6A9rh4pzCMo21xQvDDILb12IW54znr4U0SrzYxbXhBl/CNUFVU28pFvj5RneYSY1w2EkXWW8quDEqe34/4GnmtBaIgo8l6YGiBVIYhsBCzVFWkCTGYHfFnBxofam2Asbg4k9tjv2JIcrM7xN+A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=LxDaSduM+dOkPUvmDFXIfqperUKQvw7Q7jwILhjHvIs=;
+ b=NAMn5hCoDmI8p/c1s+XZE3oWrinYrjHeEZgENmWtZcIyslN1suuIPe661u8Qw50Hj25FbMp4OoWP9nc1RedZ4tf/INW0ewLB4d+01Ka6wPhoC56ezZDWKl99j+RQGP9Rwfd5z5iB2s6oMeKLDuougM2Q4jl4ELNe7tSWEuLipOH88UZ3NVbGfe6kYwhfZTQOOk5Le51ubAPgB/rpKRmdCQQvtVDlb/m7QzbZP+X32rXik4YZ5I8kT7xEW9V3ARuHohsWNS9D6qF2BW6WPfqqbF4Q01rL7UrpjTwJZovAbKERFB0k2avAYkLNlC8Dor/0qo59PA1iIyAczrId/aLl+g==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Received: from DS4PPF10012BF96.namprd11.prod.outlook.com (2603:10b6:f:fc02::a)
+ by SA1PR11MB9614.namprd11.prod.outlook.com (2603:10b6:806:4c4::11) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Thu, 10 Sep
+ 2026 19:17:40 +0000
+Received: from DS4PPF10012BF96.namprd11.prod.outlook.com
+ ([fe80::3dc1:8afd:aab9:763e]) by DS4PPF10012BF96.namprd11.prod.outlook.com
+ ([fe80::3dc1:8afd:aab9:763e%3]) with mapi id 15.21.0382.014; Thu, 10 Sep 2026
+ 19:17:40 +0000
+From: Enoch Ng <enoch.ng@windriver.com>
+To: openembedded-core@lists.openembedded.org
+Subject: maintainers.inc: Update maintainer for apr* and fmt
+Date: Thu, 10 Sep 2026 14:17:28 -0500
+Message-ID: <20260910191728.1928198-1-enoch.ng@windriver.com>
+X-Mailer: git-send-email 2.43.0
+Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: BY5PR03CA0020.namprd03.prod.outlook.com
+ (2603:10b6:a03:1e0::30) To DS4PPF10012BF96.namprd11.prod.outlook.com
+ (2603:10b6:f:fc02::a)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DS4PPF10012BF96:EE_|SA1PR11MB9614:EE_
+X-MS-Office365-Filtering-Correlation-Id: d5bac21f-efc1-4aba-deb2-08df0f702eb7
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|366016|52116014|376014|23010399003|1800799024|10070799003|10067099003|11063799006|56012099006|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	ke9JXzBQapdlK/reJ5+akuw8m8Q4kwR9dBgsmUJ4ZpvzFnmSb3zmDNh4EVbCoLVzUU2fE2GAOivGIDV1l5YA3deVCPLy9VAcsdTQ3JOILcVq8hqQM8sc0K7yNFNHLN5Xiu5GzuDK7peZ1B1Eh3yW/Sx5sT84Jv3FkQPo7RhQRj2AF51owHNNzIiACPGE8T5b7hiSbUZdRv7vnBXKo9LqqHr4G9guePvqjcRy9Y7BagT2WMC5foGsKdFbGeX+DTgC5yy+cAXwDnatJ12585Jq6c+jb/l9KElVnf3mxnk9/zPH6FUJ20oE189+dMg87JFRZbvwv+U/XEfJJ/X/S0SL67re4iqwJ3KWmrnWqrHFBu2DJiPLW1VI5WC99tNCDfeKoDr1RxUB+QzAQYJXFFLYVNM12+mstqdoLsb/VQ/vHRXG/OwLjt1doFpt4vmTl8f8SjvmPr74xgdomKjnjSx6Nuh/Zijt1U3m/tjKOa5q07HqxHvsjxvGNMtZmQvXCfPevDhU4pPsFR0OA1LIXtJ1SCNNO9RS+PhBsoE05Qqw2LzIa5lDQvhkZBkDjciC994siBsYJfDJt8Pz/w5QnlUQ+Xz/gPO/Z9m6mETaPiqn7akTG0QCkw88+ycOMFdAPjkLRfJjQVjQ638dPwo20c+kzCZ5hR/JdKA1Cph4NGayzEQ=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS4PPF10012BF96.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(23010399003)(1800799024)(10070799003)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?PdHt7hESaIQZaggD+NWxq1l5GKkMCrTVWbhOawkdDPeDJkKtY535d40655ck?=
+ =?us-ascii?Q?HMRKiZgBE2WcnllicTS263pm6vu2dO0GAi5e8WFHn24MRk9/Yu8gcoI3yZK1?=
+ =?us-ascii?Q?PQZIBXcRd7aFPpQSmXJolrleX9R9whLhEFu0IsoiNXjuBHIpwLrCEDlPl2Qz?=
+ =?us-ascii?Q?diaDNXLHHlhQrzIdg1sJ2ForzskK8Ljay401A7IwkPcgEP/9HbAgEwhp2bTp?=
+ =?us-ascii?Q?WiR/m6pkkD6+O7785d4XdIG8zV8ugRIyDj11qAQIGFsXdZ4Kmx4AXnVP82rW?=
+ =?us-ascii?Q?ESmb8XiGIqo50rUlH1bSuDl9SD8L6AHpTeOkI9YX+y3ObXg+4aEnAO3GuDNQ?=
+ =?us-ascii?Q?HDig1OQO5AWvChW60ho/RrDzdCZ3/xp06h9Uf9ZBlFGQmRsCiMV1sLeAsezn?=
+ =?us-ascii?Q?kqf6uTzx+FwLMFCjktTelpGW5EaO5O0guPClD0TiSqRamyuRKz9OI2jEKQVF?=
+ =?us-ascii?Q?9HHK6XJfw+PTqQ27yjepWG+Vc/VVqWyes8tdEP8nnjV4EJz1Ll29DUnWtSgj?=
+ =?us-ascii?Q?1kcfqL2kRvKeKHAayqAY2SvJr3rYpde6sAxmg1ig9Ub4CvZMSeEhRPemk+J/?=
+ =?us-ascii?Q?RlrPsiPlKlMYroo51YSln8mzxo+7O+VCTeoNdf7oMklXCy0Q+XM9uf5L9riK?=
+ =?us-ascii?Q?aAmzJCKPDfPpO+GdhhxxWwVcIlTtTvxMEckTqOqEFHB/6I4axbHneL0h/8Se?=
+ =?us-ascii?Q?/mk4P5oxc7iLUlhL/qxsfuK89KhlWZl/pNAAqbu6BTVOsqAdi8El3dEC8aJq?=
+ =?us-ascii?Q?KnMfoLLYpGZw7oWA+9pLmDeKJrixMZuXjBJuzxFelFfSDWBiI4BoROk1fhZ9?=
+ =?us-ascii?Q?IfJF7jIQ9yh6Dm8vTiIygygHWmcAPVGcekKv89PMEnnczqDMRoNL8b5ETA3P?=
+ =?us-ascii?Q?p0olnP9wAtw2fgz66KddJzTZEfVCkiPPloDPs7/t5/Rl4hZK6mUc47fKzqxw?=
+ =?us-ascii?Q?TdDd8C4FWW5M5ICJ4kKPtBJzgZ60L+88HK8slVOw9+G88zBdlDXJn/wMPF+Z?=
+ =?us-ascii?Q?KEDpRtUCnAjeHAbQExq5f7ZNUhjPx5X4h9rzAeyXQrUw2xodOAPCut3GnhZi?=
+ =?us-ascii?Q?Ni8YYZG9wavFjvKLRvOIcz3BCxiy4INhtW+Vvbyx/6xvTo9KB/hBC+jpoQLE?=
+ =?us-ascii?Q?e/URX8/LGqiBEau86Yho5eIeMnviZobxkZ6XzPSQ1Ze65fUisFouS9/ulnYu?=
+ =?us-ascii?Q?GqOkQGgcCoyxxXtVStbJ3t5cCBbbiNSquWbdBMR89U17UgD2aqqikqL0L9Mu?=
+ =?us-ascii?Q?66WEgf81HDKKXh6LI+igKZyxm8gm27+uP99u2DN1X2nkTbDWGQHkKZfnL2QG?=
+ =?us-ascii?Q?vMtbLUGqWCffK9JCFAZTKBJ4cBCcqHel2/GRto7dcbiA0SO/djZbfUSuKT51?=
+ =?us-ascii?Q?PxN82i2hOti/xud0hvb556U3sEcMte2n5ctD3AYchDHT2r+HivbdPpBUnVP1?=
+ =?us-ascii?Q?Woh0g9VH4NhwT9vBR7dJFC8Sowv1QIbKCych/+ZoZMC7JerWWrGeWxgzYH1d?=
+ =?us-ascii?Q?WTFq3Io5987bC/UnO6PMxOibrtUpEXtBfTi2B6jQIT4MzGBpeQAHxLENRulY?=
+ =?us-ascii?Q?yY6PX91bn1JqS0cFF87MYuIMmsN/saX0Jiq2U4VnTGO+UGicKqRB4O2H9GqC?=
+ =?us-ascii?Q?1+007TAdOd8SP6SivMU5rbzwaFFS89AflCaCWJfaIYa9i3nN1ryZAEG7ry9+?=
+ =?us-ascii?Q?0YYKH/dMpmuzWR8zCAQKNquAQuYr4+GhXvOQenDA+RRsC6JyIhUCpGR/okg6?=
+ =?us-ascii?Q?Vc1smCod4UcLi2fysf64SDlP/Ro1Ngv/vnAXFKj+WWm/sLaxWgX2NUDW4zsY?=
+X-MS-Exchange-AntiSpam-MessageData-1: 6H2YtYeMVRTKTQ==
+X-Exchange-RoutingPolicyChecked: 
+	K/HUhC/kgz8NgqRA7BhAIWMRzzEmQiw30+eofox1zV+WUT9FKP/Usv7TEAnvpoLqewG9tJLkANZaX50dXzQHYz5osWW3JeZOp0VZD1YhYrI/tjpEMM4EEPU00AUGGS/eEWgGru+jrXHXdqJ2YYl2havzegJyvjg6vk38bTxEhcOhEWyLwVLhk+ef71lKeJTAechlm39tWXhk34GUVTLoYYUah0MqclfFSFH5SqxeDOnFsqlrwvvdKfkdVWKOxSUtyU6U/Gl2EVsua2hycwOcCor35rkih1y3uy/ooxc+EXD/0B6y8ERFpMgSSU2G4g74twqlHM19W+SZetBQw8idzA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d5bac21f-efc1-4aba-deb2-08df0f702eb7
+X-MS-Exchange-CrossTenant-AuthSource: DS4PPF10012BF96.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Sep 2026 19:17:40.6629
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: vf5oWiUAx2oQkmdaBsLT/5MCA+2jct4cng3aDTjYeBJT4Reud8cRDCro0qxtk6H+UTA+IG4XDsPpi8RqGhPL0Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SA1PR11MB9614
+X-Proofpoint-GUID: rW7oI2KkZNs9VSGDzS-ZnJVkvOyLE4z0
+X-Proofpoint-ORIG-GUID: rW7oI2KkZNs9VSGDzS-ZnJVkvOyLE4z0
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEwMDIzOSBTYWx0ZWRfX17iWMwCtI4S1
+ INNGfdHJx0z8sz2qpgkUAmYuWgx9UXp6+cWlYJlD88ajns2GbYkRdceMLut03++ih9OBKUjbMKY
+ 6moz70wOi72zaHKXnHBx/xnCEf95cvEeItEA/5KtWMN1swnHW2XwaA4rD2WNoI0Bf95v8/W7nP9
+ cB0+3EYw+fetKCMiXbjkER48onXVA6K/Hyr+cqQxpyAd+24HeVckanJPQWRTQ2uq5iUnSFsTrIq
+ a9N5vL+1c9Fkf5QPZPYnwGgSRqVxyVp7y4d8IISmHr4L3dr8G7rycC7DyrPJDq5OQffWOBeXGp/
+ J//m/JLilH8/feUawc+WyO0FCh28W75vPmEU9bJp770wXwy/Z5LYKVKZzJ4iGAk6/HUOyHaBRez
+ voexVnFXRuCQn91SatgWKedGKsS+WCMUyFBqGYbtSI5ok05EkVr45O16LuDlTNUfHqBB/Lcq+vL
+ arYRTS0ZevBUtrYKvvw==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEwMDIzOSBTYWx0ZWRfX9e4bbqShicE4
+ O4VQayKgBejM0fGz48uHqwW86A5a9o0Y5GiDSc2RQzWLScsoYORbLFB4vBzN8N+OG7noXQYy4C0
+ xN+acYZNPCiy78vFZbC8jr0iI0dUiB2IdQiw+rxvtqlBolu51w3n
+X-Authority-Analysis: v=2.4 cv=NtRE4MdJ c=1 sm=1 tr=0 ts=6aa30257 cx=c_pps
+ a=xKt9kXuiMwQaJDL2paq1FQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=t7CeM3EgAAAA:8
+ a=d70CFdQeAAAA:8 a=iGHA9ds3AAAA:8 a=pGLkceISAAAA:8 a=7CQSdrXTAAAA:8
+ a=w7VepgM5cCr8LUPBtRcA:9 a=FdTzh2GWekK77mhwV6Dw:22 a=NcxpMcIZDGm-g932nG_k:22
+ a=nM-MV4yxpKKO9kiQg6Ot:22 a=a-qgeE7W1pNrGK8U0ZQC:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-10_06,2026-09-09_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 malwarescore=0 lowpriorityscore=0 spamscore=0
+ priorityscore=1501 clxscore=1015 adultscore=0 impostorscore=0 phishscore=0
+ bulkscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
+ adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609100239
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 17:46:01 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245590
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 19:17:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245591
 
-On Wed, 2026-09-09 at 23:53 +0200, Adrian Freihofer via lists.openembedded.=
-org wrote:
-> From: Adrian Freihofer <adrian.freihofer@siemens.com>
->=20
-> Move the pseudo-backed rootfs extraction logic into a reusable Python
-> module while preserving the existing command interface.
-> Install the module with qemu-helper so the wrapper also works from an SDK=
-.
->=20
-> Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-> ---
-> =C2=A0.../qemu/nativesdk-qemu-helper_1.0.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 |=C2=A0=C2=A0 3 +
-> =C2=A0scripts/lib/pseudo_rootfs_utils.py=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 113 +++++++++++++++++
-> =C2=A0scripts/runqemu-extract-sdk=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 | 116=
- ++++--------------
-> =C2=A03 files changed, 137 insertions(+), 95 deletions(-)
-> =C2=A0create mode 100644 scripts/lib/pseudo_rootfs_utils.py
->=20
-> diff --git a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb b/me=
-ta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-> index e1f343989a..0558a564bb 100644
-> --- a/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-> +++ b/meta/recipes-devtools/qemu/nativesdk-qemu-helper_1.0.bb
-> @@ -9,6 +9,7 @@ RDEPENDS:${PN} =3D "nativesdk-qemu nativesdk-unfs3 native=
-sdk-pseudo \
-> =C2=A0LIC_FILES_CHKSUM =3D "file://${COREBASE}/scripts/runqemu;beginline=
-=3D5;endline=3D10;md5=3Dac2b489a58739c7628a2604698db5e7f"
-> =C2=A0
-> =C2=A0SRC_URI =3D "file://${COREBASE}/scripts/runqemu \
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://${CO=
-REBASE}/scripts/lib/pseudo_rootfs_utils.py \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
-/${COREBASE}/scripts/runqemu-addptable2image \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
-/${COREBASE}/scripts/runqemu-gen-tapdevs \
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file:/=
-/${COREBASE}/scripts/runqemu-ifup \
-> @@ -30,4 +31,6 @@ do_install() {
-> =C2=A0	install -d ${D}${bindir}
-> =C2=A0	install -m 0755 ${S}${COREBASE}/scripts/oe-* ${D}${bindir}/
-> =C2=A0	install -m 0755 ${S}${COREBASE}/scripts/runqemu* ${D}${bindir}/
-> +	# The runqemu-* wrappers import this module from their own directory.
-> +	install -m 0644 ${S}${COREBASE}/scripts/lib/pseudo_rootfs_utils.py ${D}=
-${bindir}/
-> =C2=A0}
-> diff --git a/scripts/lib/pseudo_rootfs_utils.py b/scripts/lib/pseudo_root=
-fs_utils.py
-> new file mode 100644
-> index 0000000000..89d082f672
-> --- /dev/null
-> +++ b/scripts/lib/pseudo_rootfs_utils.py
-> @@ -0,0 +1,113 @@
-> +#!/usr/bin/env python3
-> +#
-> +# Helpers for preparing pseudo-managed rootfs trees (NFS booting, SDK/ro=
-otfs
-> +# extraction, target deploy).
-> +#
-> +# SPDX-License-Identifier: GPL-2.0-only
-> +
-> +"""Extract rootfs tarballs and locate their pseudo state for NFS booting=
-."""
-> +
-> +import os
-> +import subprocess
-> +from pathlib import Path
-> +
-> +
-> +class PseudoRootfsError(Exception):
-> +=C2=A0=C2=A0=C2=A0 """Raised when a pseudo-managed rootfs cannot be prep=
-ared or exported."""
-> +
-> +
-> +def pseudo_native_environment():
-> +=C2=A0=C2=A0=C2=A0 """Return the pseudo native environment (PSEUDO and O=
-ECORE_NATIVE_SYSROOT), from the
-> +=C2=A0=C2=A0=C2=A0 qemu-helper-native recipe which provides a pseudo bin=
-ary usable outside a recipe sysroot."""
-> +=C2=A0=C2=A0=C2=A0 native_sysroot =3D os.environ.get('OECORE_NATIVE_SYSR=
-OOT')
-> +=C2=A0=C2=A0=C2=A0 if not native_sysroot:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 impor=
-t bb.tinfoil
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except ImportError as exc:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise=
- PseudoRootfsError(
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 'Unable to import bitbake.\n'
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 'Did you forget to source your build system environment =
-setup script?') from exc
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 try:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 with =
-bb.tinfoil.Tinfoil() as tinfoil:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 tinfoil.prepare(quiet=3D2)
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0 native_sysroot =3D tinfoil.parse_recipe('qemu-helper-nat=
-ive').getVar('STAGING_DIR_NATIVE')
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 except Exception as exc:
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise=
- PseudoRootfsError('Unable to set up the qemu-helper-native sysroot') from =
-exc
-> +
-> +=C2=A0=C2=A0=C2=A0 if not native_sysroot or not os.path.exists(native_sy=
-sroot):
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 raise PseudoRootfsError("%s d=
-oesn't exist" % native_sysroot)
-> +
-> +=C2=A0=C2=A0=C2=A0 environment =3D {'OECORE_NATIVE_SYSROOT': native_sysr=
-oot}
-> +=C2=A0=C2=A0=C2=A0 environment['PSEUDO'] =3D os.path.join(native_sysroot=
-, 'usr', 'bin', 'pseudo')
-> +=C2=A0=C2=A0=C2=A0 return environment
-> +
-> +
-> +def _tar_options(rootfs_tarball):
-> +=C2=A0=C2=A0=C2=A0 tar_extract_options =3D {
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '.tar.xz': '-xJf',
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '.tar.bz2': '-xjf',
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '.tar.gz': '-xzf',
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '.tar.zst': '--zstd -xf',
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 '.tar': '-xf',
-> +=C2=A0=C2=A0=C2=A0 }
-> +=C2=A0=C2=A0=C2=A0 for extension, option in tar_extract_options.items():
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 if rootfs_tarball.endswith(ex=
-tension):
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 retur=
-n ['--numeric-owner', *option.split()]
-> +=C2=A0=C2=A0=C2=A0 raise PseudoRootfsError(
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'Unable to determine sdk tarb=
-all format\n'
-> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 'Accepted types: .tar / .tar.=
-gz / .tar.bz2 / .tar.xz / .tar.zst')
+Volunteer to maintain the following packages:
+    - apr
+    - apr-util
+    - fmt
 
-This is breaking on RHEL8 era hosts, e.g.:
+Signed-off-by: Enoch Ng <enoch.ng@windriver.com>
+---
+ meta/conf/distro/include/maintainers.inc | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/42/builds/4591
-
-"tar: unrecognized option '--zstd'"
-
-:(
-
-Cheers,
-
-Richard
-
-
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
+index 5cbc60c1ce..473561cffa 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -40,8 +40,8 @@ RECIPE_MAINTAINER:pn-alsa-topology-conf = "Michael Opdenacker <michael.opdenacke
+ RECIPE_MAINTAINER:pn-alsa-ucm-conf = "Michael Opdenacker <michael.opdenacker@rootcommit.com>"
+ RECIPE_MAINTAINER:pn-alsa-utils = "Michael Opdenacker <michael.opdenacker@rootcommit.com>"
+ RECIPE_MAINTAINER:pn-appstream = "Markus Volk <f_l_k@t-online.de>"
+-RECIPE_MAINTAINER:pn-apr = "Hongxu Jia <hongxu.jia@windriver.com>"
+-RECIPE_MAINTAINER:pn-apr-util = "Hongxu Jia <hongxu.jia@windriver.com>"
++RECIPE_MAINTAINER:pn-apr = "Enoch Ng <enoch.ng@windriver.com>"
++RECIPE_MAINTAINER:pn-apr-util = "Enoch Ng <enoch.ng@windriver.com>"
+ RECIPE_MAINTAINER:pn-apt = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-argp-standalone = "Khem Raj <raj.khem@gmail.com>"
+ RECIPE_MAINTAINER:pn-asciidoc = "Yi Zhao <yi.zhao@windriver.com>"
+@@ -186,7 +186,7 @@ RECIPE_MAINTAINER:pn-file = "Yi Zhao <yi.zhao@windriver.com>"
+ RECIPE_MAINTAINER:pn-findutils = "Chen Qi <Qi.Chen@windriver.com>"
+ RECIPE_MAINTAINER:pn-flac = "Michael Opdenacker <michael.opdenacker@rootcommit.com>"
+ RECIPE_MAINTAINER:pn-flex = "Chen Qi <Qi.Chen@windriver.com>"
+-RECIPE_MAINTAINER:pn-fmt = "Robert Yang <liezhi.yang@windriver.com>"
++RECIPE_MAINTAINER:pn-fmt = "Enoch Ng <enoch.ng@windriver.com>"
+ RECIPE_MAINTAINER:pn-font-alias = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-font-util = "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-fontconfig = "Ross Burton <ross.burton@arm.com>"
 
