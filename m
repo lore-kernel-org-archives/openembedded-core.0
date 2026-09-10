@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 726DAC88E40
-	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 06:00:31 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7479.1789020026003389434
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02CC7C88E41
+	for <webhook@archiver.kernel.org>; Thu, 10 Sep 2026 06:00:33 +0000 (UTC)
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7458.1789020028921149251
  for <openembedded-core@lists.openembedded.org>;
- Wed, 09 Sep 2026 23:00:26 -0700
+ Wed, 09 Sep 2026 23:00:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=kXoE6xe5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=FDriKBfE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a089e730c8-df88a9cd-dad2-4917-aa95-248c84470a2d-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=nGZz6Q7z;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=E1ZS3wtZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a089e73c93-b97aaf06-babe-4b15-8491-b0ae867b25fe-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789020025;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=43JszsFyV6xKbL79Is6T3wqQ9RBWF0zZtQlo/3UcfmM=;
-	b=kXoE6xe5E4d0wIchXoh72q2KvONMrqdxJsS97VukKvzuLOfO7E6pEF1eTp5Csm1x
-	dM9RKLluwuh5sdXi65ZfxueHScF1PySLedjZhS5fQQNLpWSQdRlMkbxjpzwda/43/gy
-	orwU4lIvbGbpB+UxpgvTu+xTCN79Auu+92njD3aA=
+	t=1789020028;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=s3m4uWSQUJF9BgxhMpr/nwzEPNB1S5ogrTAA2j9s8uU=;
+	b=nGZz6Q7zuZXvFLKk2j0IFB5vWlND4nh38vJtyjCZJsgFNuND8SHjLci7HuuFsPu+
+	yosm+0in6RzMjvsvIAyZUZwvWHGiY4Rzz1S9IMgAJDMI+uWSjaJAW1XKV6i3sJ6F4rZ
+	xcBbALfR9VBnnuEWtLp3nZxg9RZsMA7JfXIgo5Ys=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789020025;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=43JszsFyV6xKbL79Is6T3wqQ9RBWF0zZtQlo/3UcfmM=;
-	b=FDriKBfEmgJe45zazWxy75Vet37Ubr6c5bbdLKiaf4P57ZakBq+uTnrt+MVcIo00
-	VBMdkKS/6tDAh3zv5zFv8QQ1q6FMKz0jzLqCrjmy+AP3SJClugZiRAn/hhncBB1eiQM
-	1cUq5chJUGdsHJpWU2sMqracJLTzIys2tkdto6o8=
-Content-Type: multipart/mixed; boundary="===============5888620752414087667=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789020028;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=s3m4uWSQUJF9BgxhMpr/nwzEPNB1S5ogrTAA2j9s8uU=;
+	b=E1ZS3wtZ0/u7SxX50EkHRNKMD07Lo28qNq9GpG4GK+FOAOaEDsv/M356CyJLI25K
+	OYCEStqDuKRQjAzCxzWVxjFCjmrJ27if1VrCTsUpoFesyCpbq20YoNL/V4V+VLT2/vl
+	GjImgwJS8oKMa158gsDchlGePK0OTnL1zcJN9yQk=
+Content-Type: multipart/mixed; boundary="===============2430244094621967206=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] dpkg: upgrading to 1.23.11 FAILED
-Message-ID: <010101a089e730c8-df88a9cd-dad2-4917-aa95-248c84470a2d-000000@us-west-2.amazonses.com>
-Date: Thu, 10 Sep 2026 06:00:25 +0000
+To: Denys Dmytriyenko <denis@denix.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] xz: upgrading to 5.8.4 SUCCEEDED
+Message-ID: <010101a089e73c93-b97aaf06-babe-4b15-8491-b0ae867b25fe-000000@us-west-2.amazonses.com>
+Date: Thu, 10 Sep 2026 06:00:28 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.10-54.240.27.30
+X-SES-Outgoing: 2026.09.10-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:00:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245532
+ <openembedded-core@lists.openembedded.org>; Thu, 10 Sep 2026 06:00:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245535
 
---===============5888620752414087667==
+--===============2430244094621967206==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,502 +51,486 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *dpkg* to *1.23.11* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *xz* to *5.8.4* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-xz-upgrade-5.8.3-5.8.4.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe dpkg failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 958 .bb files complete (0 cached, 958 parsed). 1990 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-b65abe004105ab344e983b73f54282698d50a9a5"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:b65abe004105ab344e983b73f54282698d50a9a5"
-meta-yocto-bsp       
-meta-poky            = "master:7e41504cd63b099b214f10d92cfdaf358ab98c5f"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting current version source...
-INFO: SRC_URI contains some conditional appends/prepends - will create branches to represent these
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto c32c7e899b28627a2b2e9aa260ff09ca585141c3
-WARNING: Command 'git rebase c32c7e899b28627a2b2e9aa260ff09ca585141c3' failed:
-Auto-merging src/main/script.c
-CONFLICT (content): Merge conflict in src/main/script.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Rebasing devtool-override-class-native onto c32c7e899b28627a2b2e9aa260ff09ca585141c3
-WARNING: Command 'git rebase c32c7e899b28627a2b2e9aa260ff09ca585141c3' failed:
-Auto-merging src/main/script.c
-CONFLICT (content): Merge conflict in src/main/script.c
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/dpkg
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/dpkg/dpkg_1.23.11.bb
-INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/dpkg.txt
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============5888620752414087667==
-Content-Type: text/plain; charset="utf-8"
+
+-- >8 --
+From 814fffc75f24ce9ab49ceae29ba4be2cae8ef9ba Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Thu, 10 Sep 2026 06:00:21 +0000
+Subject: [PATCH] xz: upgrade 5.8.3 -> 5.8.4
+
+Source: NEWS
+
+5.8.4 (2026-09-09)
+
+    IMPORTANT: This includes a fix for a security issue that affects all
+    XZ Utils versions since 5.0.0. This and a few other fixes have also
+    been committed to the old stable branches (v5.2, v5.4, and v5.6) in
+    the xz Git repository. Those fixes are marked below. No new 5.2.x,
+    5.4.x, or 5.6.x releases will be made.
+
+    * liblzma:
+
+        - lzma_alone_decoder(), lzma_lzip_decoder(),
+          lzma_auto_decoder(), and lzma_microlzma_decoder(): Fix an
+          invalid memory access after memory allocation has failed and
+          the application reinitializes the existing decoder to decode
+          a different file. This bug could at least result in a crash.
+          This is tracked as GHSA-5qpq-xqfv-j9pg. CVE number is pending.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - lzma_stream_buffer_decode(): Fix wrong error code and,
+          in debug builds, assertion failure. LZMA_BUF_ERROR could
+          be returned with truncated inputs while LZMA_DATA_ERROR
+          is the correct one in this function.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - Fix a performance issue in the typical use case of
+          lzma_index_cat(). Internally liblzma calls it from
+          lzma_file_info_decoder(), so that was affected too. The
+          problem occurred if the input .xz file was created by
+          concatenating a large number of .xz files. A crafted file
+          could make "xz --list" very slow or effectively hang.
+          Normal decompression doesn't use these functions and
+          thus wasn't affected.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - Fix a theoretical integer overflow in lzma_index_cat().
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - Fix bogus memory usage report in lzma_index_decoder() when
+          the .xz Index is obviously invalid. A huge bogus value could
+          cause an integer overflow in lzma_file_info_decoder()'s
+          memory usage reporting due to a missing overflow check,
+          making lzma_memused() report an incorrect tiny value. This
+          bug didn't affect the memory usage limiter in these two
+          decoders; only the reporting via lzma_memused() was affected.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - Fix a too low memory usage report in lzma_index_decoder()
+          if lzma_memused() is called after a part of the Index has
+          already been decoded. The typical use case is to call
+          lzma_memused() immediately after LZMA_MEMLIMIT_ERROR,
+          which did work correctly.
+
+        - Fix copying of check type in lzma_index_dup(). Calling
+          lzma_index_checks() on the duplicated lzma_index returned
+          return garbage a result. lzma_index_dup() is rarely used;
+          liblzma doesn't use it internally and xz itself doesn't use
+          it either.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - lzma_file_info_decoder() and lzma_index_decoder(): Reject
+          an obviously-
+
+[Changelog truncated as it exceeds 3000 characters;
+the full changelog can be found in an attachment to the AUH email]
+---
+ meta/recipes-extended/xz/{xz_5.8.3.bb => xz_5.8.4.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-extended/xz/{xz_5.8.3.bb => xz_5.8.4.bb} (97%)
+
+diff --git a/meta/recipes-extended/xz/xz_5.8.3.bb b/meta/recipes-extended/xz/xz_5.8.4.bb
+similarity index 97%
+rename from meta/recipes-extended/xz/xz_5.8.3.bb
+rename to meta/recipes-extended/xz/xz_5.8.4.bb
+index 0735696011..cfb0574f0d 100644
+--- a/meta/recipes-extended/xz/xz_5.8.3.bb
++++ b/meta/recipes-extended/xz/xz_5.8.4.bb
+@@ -30,7 +30,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=d38d562f6112174de93a9677682231b2 \
+ SRC_URI = "https://github.com/tukaani-project/xz/releases/download/v${PV}/xz-${PV}.tar.gz \
+            file://run-ptest \
+            "
+-SRC_URI[sha256sum] = "3d3a1b973af218114f4f889bbaa2f4c037deaae0c8e815eec381c3d546b974a0"
++SRC_URI[sha256sum] = "0014c7886930454fe8bd4228665b51af55eeae560ea135c9c4cd33f55b2591d9"
+ UPSTREAM_CHECK_REGEX = "releases/tag/v(?P<pver>\d+(\.\d+)+)"
+ UPSTREAM_CHECK_URI = "https://github.com/tukaani-project/xz/releases/"
+ 
+-- 
+2.47.1
+
+
+--===============2430244094621967206==
+Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="dpkg-changelog.txt"
+Content-Disposition: attachment; filename="0001-xz-upgrade-5.8.3-5.8.4.patch"
 
-Q2hhbmdlbG9nIGZvciBkcGtnOiAxLjIzLjcgLT4gMS4yMy4xMQpTb3VyY2U6IGRlYmlhbi9jaGFu
-Z2Vsb2cKCmRwa2cgKDEuMjMuMTEpIHVuc3RhYmxlOyB1cmdlbmN5PW1lZGl1bQoKICBbIEd1aWxs
-ZW0gSm92ZXIgXQogICogZHBrZzogSW1wcm92ZSBtYWludHNjcmlwdCBhYm9ydC0qIGV4ZWN1dGlv
-biBkaWFnbm9zdGljcy4gQ2xvc2VzOiAjMTEwOTU2NAogICogZHBrZy1zaGxpYmRlcHM6IERvIG5v
-dCB2YWxpZGF0ZSBleGlzdGVuY2Ugb2YgLWwgb3B0aW9uIGFyZ3VtZW50LgogICogQ29kZSBpbnRl
-cm5hbHM6CiAgICAtIGRwa2c6IFVzZSBhIHByb3BlciBjb25kaXRpb25hbCBpbnN0ZWFkIG9mIGEg
-dGVybmFyeSBvcGVyYXRvciBmb3IKICAgICAgZl90cmlnZ2Vycy4KICAgIC0gZHBrZzogUmVmYWN0
-b3IgdGFyb2JqZWN0X2Rlc2NyaWJlX3R5cGUoKSBpbnRvIGEgbmV3IGZ1bmN0aW9uLgogICAgLSBk
-cGtnLXNwbGl0OiBSZWZhY3RvciBkZXBvdCBoYW5kbGluZyBmdW5jdGlvbnMgb3V0IG9mIGRvX2F1
-dG8oKS4KCiAtLSBHdWlsbGVtIEpvdmVyIDxndWlsbGVtQGRlYmlhbi5vcmc+ICBXZWQsIDA5IFNl
-cCAyMDI2IDE2OjIxOjA4ICswMjAwCgpkcGtnICgxLjIzLjEwKSB1bnN0YWJsZTsgdXJnZW5jeT1t
-ZWRpdW0KCiAgWyBHdWlsbGVtIEpvdmVyIF0KICAqIE91dHB1dCBtZXNzYWdlczoKICAgIC0gZHNl
-bGVjdDogUmVtb3ZlIHNwdXJpb3VzIGRvdWJsZWQgbmV3bGluZSBmcm9tIGhlbHAgb3V0cHV0IG1l
-c3NhZ2UuCiAgKiBQZXJsIG1vZHVsZXM6CiAgICAtIERwa2c6OkZpbGU6IERvIG5vdCBmYWlsIHdo
-ZW4gdG91Y2hpbmcgYSBub24tZmlsZSBpbiBmaWxlX3RvdWNoKCkuCiAgKiBDb2RlIGludGVybmFs
-czoKICAgIC0gc3RhcnQtc3RvcC1kYWVtb246IFBhcmFtZXRyaXplIHByb2dyYW0gbmFtZSBpbnRv
-IGEgbmV3IG1hY3JvLgogICAgLSBsaWJkcGtnOiBNb3ZlIFVSTCBvdXQgb2YgdHJhbnNsYXRlZCBz
-dHJpbmcgKHJvdW5kIHR3bykuCiAgICAtIGRzZWxlY3Q6IE1vdmUgbGVhZGluZyBkb3VibGUgbmV3
-bGluZXMgb3V0c2lkZSBvZiB0cmFuc2xhdGVkIHN0cmluZy4KICAgIC0gTW92ZSBwYXJhZ3JhcGgg
-c2VwYXJhdG9yIG5ld2xpbmVzIGludG8gdGhlaXIgb3duIHByaW50IGNhbGxzLgogICogUGFja2Fn
-aW5nOgogICAgLSBVcGRhdGUgbGludGlhbiBvdmVycmlkZXMuCiAgKiBUZXN0IHN1aXRlOgogICAg
-LSBTa2lwIHQudG1wIHBhdGhuYW1lcyBpbiBjb2Rlc3BlbGwgY2hlY2tzLgoKIC0tIEd1aWxsZW0g
-Sm92ZXIgPGd1aWxsZW1AZGViaWFuLm9yZz4gIFdlZCwgMDkgU2VwIDIwMjYgMDA6Mjc6MDUgKzAy
-MDAKCmRwa2cgKDEuMjMuOSkgdW5zdGFibGU7IHVyZ2VuY3k9bWVkaXVtCgogIFsgR3VpbGxlbSBK
-b3ZlciBdCiAgKiBQZXJsIG1vZHVsZXM6CiAgICAtIERwa2c6OkVtYWlsOjpBZGRyZXNzOiBNYXRj
-aCBlbWFpbCBhZGRyZXNzZXMgcmVnZXhlcyBpbiBBU0NJSS1yYW5nZS4KICAgICAgQ2xvc2VzOiAj
-MTE0NzEzNAogICAgLSBEc2VsZWN0OjpNZXRob2Q6OkZ0cDogQWRkIG1pc3NpbmcgaW1wb3J0IGZv
-ciBEc2VsZWN0OjpNZXRob2QuCiAgICAtIERzZWxlY3Q6Ok1ldGhvZDo6RnRwOiBSZW1vdmUgdW51
-c2VkIGltcG9ydHMuCiAgICAtIERzZWxlY3Q6Ok1ldGhvZDo6RnRwOiBSZW1vdmUgdW51c2VkIFBB
-U1YgY29kZSBoYW5kbGVkIGVsc2V3aGVyZS4KICAgIC0gRHNlbGVjdDo6TWV0aG9kOjpGdHA6IFVz
-ZSBOZXQ6OkZUUC0+c3VwcG9ydGVkKCkgaW5zdGVhZCBvZiBvcGVuIGNvZGluZwogICAgICBpdC4K
-ICAgIC0gRHNlbGVjdDo6TWV0aG9kOjpGdHA6IERvIG5vdCBydW4gdGhlIE1EVE0gY29tbWFuZCBp
-ZiB1bnN1cHBvcnRlZC4KICAgIC0gRHNlbGVjdDo6TWV0aG9kOjpGdHA6IFJld29yayBkZWJ1ZyBz
-dXBwb3J0LgogICAgLSBEc2VsZWN0OjpNZXRob2Q6OkZ0cDogRmFjdG9yIG91dCBjb25uZWN0X29u
-Y2UoKSB0byBzaW1wbGlmeSBkb19jb25uZWN0KCkKICAgICAgbG9naWMuCiAgICAtIERzZWxlY3Q6
-Ok1ldGhvZDo6RnRwOiBSZWR1Y2Ugc2NvcGUgb2YgJGZ0cCB2YXJpYWJsZSBpbiBjb25uZWN0X29u
-Y2UoKS4KICAgIC0gRHNlbGVjdDo6TWV0aG9kOjpGdHA6IFJlbmFtZSAkcnBhc3MgdG8gJHJlbW90
-ZXBhc3MuCiAgICAtIERzZWxlY3Q6Ok1ldGhvZDo6RnRwOiBTd2l0Y2ggbW9kdWxlIHRvIGJlIGEg
-Y2xhc3MgZGVyaXZlZCBmcm9tIE5ldDo6RlRQLgogICogQ29kZSBpbnRlcm5hbHM6CiAgICAtIGRw
-a2c6IE1vdmUgdGhlIFVSTCBvdXQgb2YgdGhlIHRyYW5zbGF0ZWQgc3RyaW5nLgogICAgLSBkc2Vs
-ZWN0OiBSZW5hbWUgbWVkaWEgbW91bnQgYW5kIHVubW91bnQgZnVuY3Rpb25zLgogICAgLSBsaWJk
-cGtnOiBSZW5hbWUgZG9faW50ZXJuZXJyKCkgdG8gaW1wbF9pbnRlcm5lcnIoKS4KCiAtLSBHdWls
-bGVtIEpvdmVyIDxndWlsbGVtQGRlYmlhbi5vcmc+ICBUdWUsIDA4IFNlcCAyMDI2IDEyOjUyOjA1
-ICswMjAwCgpkcGtnICgxLjIzLjgpIHVuc3RhYmxlOyB1cmdlbmN5PW1lZGl1bQoKICBbIEd1aWxs
-ZW0gSm92ZXIgXQogICogZHBrZy1tYWludHNjcmlwdC1oZWxwZXI6IE1vdmUgdmVyc2lvbiBjb21w
-YXJpc29uIGFmdGVyIGl0cyBhcmd1bWVudCBjaGVjay4KICAqIGRwa2c6IFRyYW5zbGF0ZSAtLWFz
-c2VydCBmZWF0dXJlIGRlc2NyaXB0aW9uIG9uIGZhaWx1cmUgbWVzc2FnZS4KICAqIGRwa2ctZ2Vu
-Y29udHJvbDogUmVtb3ZlIGFuZCB3YXJuIGFib3V0IE11bHRpLUFyY2ggZmllbGQgb24gdWRlYiBw
-YWNrYWdlcy4KICAgIFNlZSAjMTEzNjE2MC4KICAqIGRwa2ctYnVpbGRwYWNrYWdlOiBDaGVjayB0
-aGF0IHRoZSBPcGVuUEdQIGtleSBJRCBoYXMgYSBrbm93biBsZW5ndGguCiAgKiBkcGtnLWJ1aWxk
-cGFja2FnZTogRGVwcmVjYXRlIC0tc2lnbi1rZXkgYXMgYW4gYWxpYXMgZm9yIC0tc2lnbi1rZXlp
-ZC4KICAqIGRwa2ctZGViOiBEbyBub3QgZmFpbCBvbiBub24tc2Vla2FibGUgYXJjaGl2ZXMuIENs
-b3NlczogIzExMzIwNTEKICAqIGRwa2c6IERvIG5vdCBmaWx0ZXIgbm90LWluc3RhbGxlZCBwYWNr
-YWdlcyBmcm9tIC0tZ2V0LXNlbGVjdGlvbnMuCiAgKiBkcGtnLWJ1aWxkcGFja2FnZTogRml4IHN5
-c2VycigpIGZ1bmN0aW9uIG5hbWUgaW4gY2FsbCBzaXRlLgogICogZHBrZy1idWlsZHBhY2thZ2U6
-IFJlbW92ZSB0ZW1wb3JhcnkgKi5kc2MuYXNjIGZpbGUgYmVmb3JlIGFuZCBhZnRlcgogICAgc2ln
-bmluZy4gQ2xvc2VzOiAjMTE0MDc4OAogICogc3RhcnQtc3RvcC1kYWVtb246IEFkZCBuZXcgLS1w
-aWRvZiBjb21tYW5kIHRvIHByaW50IHRoZSBQSURzIGZvdW5kLgogICAgU2VlICM4MTAwMTguCiAg
-KiBzdGFydC1zdG9wLWRhZW1vbjogRm9yY2UgbGluZSBidWZmZXJpbmcgZm9yIHN0ZG91dCBpbiAt
-LXN0YXJ0LgogICAgQ2xvc2VzOiAjMTA5OTA5NwogICogZHBrZy1idWlsZHBhY2thZ2U6IFBhcmFt
-ZXRyaXplIGRlZmF1bHQgYW5kIHN1cHBvcnRlZCBzb3VyY2UgY29tcHJlc3NvcnMuCiAgICBQcm9t
-cHRlZCBieSBKb2huIFNjb3R0IDxqc2NvdHRAcG9zdGVvLm5ldD4uCiAgKiBkcGtnLXNvdXJjZTog
-TWFyayAtLWhlbHAgZHluYW1pYyBzZWN0aW9uIHN0cmluZ3MgZm9yIHRyYW5zbGF0aW9uLgogICog
-ZHBrZy1uYW1lOiBGaXggLS1zdWJkaXIgd2l0aCBhIG5vbi1leGlzdGVudCBkaXJlY3RvcnkgYXJn
-dW1lbnQuCiAgKiBkcGtnLXF1ZXJ5OiBEZXRlcm1pbmUgdGhlIG1pbmltdW0gLS1saXN0IGNvbHVt
-biB3aWR0aCBmcm9tIHRoZSB0aXRsZXMuCiAgKiBkcGtnLXF1ZXJ5OiBNYWtlIC0tbGlzdCB0aXRs
-ZSBzZXBhcmF0b3IgZmlsbCB1cCB0byB0aGUgdGVybWluYWwgd2lkdGguCiAgKiBkcGtnLXF1ZXJ5
-OiBJbXByb3ZlIC0tbGlzdCBjb2x1bW4gcGFkZGluZy4KICAqIGRwa2ctbmFtZTogQWRkIHN1cHBv
-cnQgZm9yIG5vbi1mcmVlLWZpcm13YXJlIHBhY2thZ2Ugc2VjdGlvbi4KICAqIEZpeCBtZW1vcnkg
-bGVha3Mgb24gZmlsZV9zbHVycCgpIGZhaWx1cmVzIGZvciBFTk9FTlQuCiAgKiBkcGtnOiBGaXgg
-bWVtb3J5IGxlYWtzIGZvciB2YXJidWZzIGR1cmluZyBjb25mZmlsZSB1cGdyYWRlIGhhbmRsaW5n
-LgogICogZHBrZzogRGVwcmVjYXRlIC0teWV0LXRvLXVucGFjay4KICAqIGRwa2c6IFNpbXBsaWZ5
-IC0teWV0LXRvLXVucGFjayBhZnRlciBkZXByZWNhdGlvbi4KICAqIGRwa2ctc2NhbnBhY2thZ2Vz
-OiBQYXJhbWV0cml6ZSBjb21tYW5kIG5hbWVzIGZvciBzeXN0ZW0gZXJyb3JzIG1lc3NhZ2VzLgog
-ICogZHBrZy1idWlsZHBhY2thZ2U6IFJlbW92ZSBvYnNvbGV0ZSBuby1vcCAtcyhncGd8cGdwKSBv
-cHRpb24uCiAgKiBPdXRwdXQgbWVzc2FnZXM6CiAgICAtIFJlbW92ZSBhbmFjaHJvbmlzdGljIHR3
-byBzcGFjZSBzZW50ZW5jZSBzZXBhcmF0aW9uIGluIG91dHB1dCBtZXNzYWdlcy4KICAgIC0gQXZv
-aWQgInBsZWFzZSIgYW5kICJ0aGFua3MiIGluIG91dHB1dCBtZXNzYWdlcy4KICAgIC0gQXZvaWQg
-InlvdSIgb3IgInlvdXIiIG9uIG91dHB1dCBtZXNzYWdlcyB1bmxlc3MgcHJvbXB0aW5nIGZvciBz
-b21ldGhpbmcuCiAgICAtIGRwa2c6IFN3aXRjaCAtLWFzc2VydCBvdXRwdXQgbWVzc2FnZSBpbnRv
-IGEgbm90aWNlKCkgYW5kIGhpbnQoKS4KICAgIC0gZHBrZzogU2F5ICJwYWNrYWdlIGRpc3RyaWJ1
-dG9yIiBpbnN0ZWFkIG9mICJwYWNrYWdlIG1haW50YWluZXIiIGZvcgogICAgICBjb25mZmlsZXMu
-CiAgICAtIGRwa2c6IENsYXJpZnkgdGhhdCB0aGUgbW9kaWZpZWQgY29uZmZpbGUgaGFzIGJlZW4g
-ZG9uZSBsb2NhbGx5LgogICAgLSBkc2VsZWN0OiBEZWNhcGl0YWxpemUgd2FybmluZyBhbmQgZXJy
-b3IgbWVzc2FnZXMuCiAgICAtIGRzZWxlY3Q6IFJlbW92ZSB0cmFpbGluZyBuZXdsaW5lIGZyb20g
-ZXJyb3IgbWVzc2FnZS4KICAgIC0gU3RhbmRhcmRpemUgZXJyb3Ivd2FybmluZyBtZXNzYWdlcyBv
-biAiY2Fubm90IC4uLiIuCiAgICAtIEltcHJvdmUgInVuZXhwZWN0ZWQgZW5kIG9mIGZpbGUiIGVy
-cm9yIG1lc3NhZ2VzLgogICAgLSBBdm9pZCAidGhlIiB3aGVuIHVubmVjZXNzYXJ5IGluIGVycm9y
-IG91dHB1dCBtZXNzYWdlcy4KICAgIC0gc3RhcnQtc3RvcC1kYWVtb246IFJld29yZCBwc2VsZWN0
-KCkgZXJyb3IgbWVzc2FnZS4KICAgIC0gVXNlICJyZWFwIiBpbnN0ZWFkIG9mICJ3YWl0IiBpbiBz
-dWJwcm9jZXNzIGVycm9yIG1lc3NhZ2VzLgogICAgLSBJbXByb3ZlIHN1YnByb2Nlc3MgZXJyb3Ig
-bWVzc2FnZXMuCiAgICAtIFVzZSAicmVmcmVzaCB3aW5kb3ciIGluc3RlYWQgb2YgImRvdXBkYXRl
-IiBpbiBvdXRwdXQgbWVzc2FnZS4KICAgIC0gVXNlICJzZXQvdW5zZXQgYnVmZmVyaW5nIGZvciIg
-Zm9yIHNldHZidWYgZXJyb3IgbWVzc2FnZXMuCiAgICAtIFVzZSAiZXhlY3V0ZSIgaW5zdGVhZCBv
-ZiAiZXhlYyIgaW4gb3V0cHV0IG1lc3NhZ2VzLgogICAgLSBVc2UgImludmFsaWQgc3ludGF4IC4u
-LiIgaW5zdGVhZCBvZiAic3ludGF4IGVycm9yIiBpbiBlcnJvciBtZXNzYWdlcy4KICAgIC0gVXNl
-ICJzeW1ib2xpYyBsaW5rIiBpbnN0ZWFkIG9mICJzeW1saW5rIi8ibGluayIgaW4gb3V0cHV0IG1l
-c3NhZ2VzLgogICAgLSBVc2UgImNyZWF0ZSBkaXJlY3RvcnkiIGluc3RlYWQgb2YgIm1rZGlyIiBp
-biBvdXRwdXQgbWVzc2FnZXMuCiAgICAtIFVzZSAiY2hhbmdlIGRpcmVjdG9yeSIgaW5zdGVhZCBv
-ZiAiY2hkaXIiIGluIG91dHB1dCBtZXNzYWdlcy4KICAgIC0gVXNlICJjaGFuZ2Ugcm9vdCBkaXJl
-Y3RvcnkiIGluc3RlYWQgb2YgImNocm9vdCIgaW4gb3V0cHV0IG1lc3NhZ2VzLgogICAgLSBVc2Ug
-InNldCBvd25lcnNoaXAiIGluc3RlYWQgb2YgImNob3duIiBpbiBvdXRwdXQgbWVzc2FnZXMuCiAg
-ICAtIFVzZSAic2V0IGVudmlyb25tZW50IiBpbnN0ZWFkIG9mICJzZXRlbnYiIGluIG91dHB1dCBt
-ZXNzYWdlcy4KICAgIC0gVXNlICJvcGVuIGRpcmVjdG9yeSIgaW5zdGVhZCBvZiAib3BlbmRpciIv
-InJlYWQiIGluIG91dHB1dCBtZXNzYWdlcy4KICAgIC0gVXNlICJzY2FuIGRpcmVjdG9yeSIgZm9y
-IHNjYW5kaXIoKSBlcnJvciBtZXNzYWdlcy4KICAgIC0gVXNlICJnZXQgY3VycmVudCB0aW1lIiBp
-bnN0ZWFkIG9mIHRoZSBmdW5jdGlvbiBuYW1lIGluIG91dHB1dCBtZXNzYWdlcy4KICAgIC0gVXNl
-ICJjcmVhdGUgY2hpbGQgcHJvY2VzcyIgaW5zdGVhZCBvZiAiZm9yayIgaW4gb3V0cHV0IG1lc3Nh
-Z2VzLgogICAgLSBVc2UgInN5bmMiIGluc3RlYWQgb2YgImZzeW5jIiBpbiBvdXRwdXQgbWVzc2Fn
-ZXMuCiAgICAtIFVzZSAiaW5pdGlhbGl6ZSB1c2VyIGdyb3VwcyIgaW5zdGVhZCBvZiAiaW5pdGdy
-b3VwcygpIiBpbiBvdXRwdXQgbWVzc2FnZS4KICAgIC0gVXNlICJnZXQgaW5wdXQgY2hhcmFjdGVy
-IiBmb3IgcHJvbXB0IGVycm9ycyBpbiBvdXRwdXQgbWVzc2FnZXMuCiAgICAtIFVzZSAibGlicmFy
-aWVzIiBpbnN0ZWFkIG9mICJsaWJzIiBpbiBvdXRwdXQgbWVzc2FnZXMuCiAgICAtIFVzZSAicGFy
-c2UgZmlsZSIgaW5zdGVhZCBvZiAiZXZhbCIgaW4gb3V0cHV0IG1lc3NhZ2VzLgogICAgLSBJbXBy
-b3ZlIGZpbGUgZGVzY3JpcHRvciByZWxhdGVkIG91dHB1dCBtZXNzYWdlcy4KICAgIC0gVXNlICJw
-cmVzcyIgaW5zdGVhZCBvZiAiaGl0Ii8idXNlIiBmb3Iga2V5Ym9hcmQga2V5cyBpbiBvdXRwdXQg
-bWVzc2FnZXMuCiAgICAtIGRwa2ctZ2VuY29udHJvbDogQ2xhcmlmeSBwYWNrYWdlIHR5cGUgaW4g
-d2FybmluZyBtZXNzYWdlLgogICAgLSBVc2UgInN1YnN0dmFycyBmaWxlIiBpbnN0ZWFkIG9mICJ2
-YXJsaXN0IGZpbGUiIGluIGVycm9yIG1lc3NhZ2UuCiAgICAtIFNheSAiPHN0YW5kYXJkIGlucHV0
-fG91dHB1dHxlcnJvcj4iIGluc3RlYWQgb2YgInN0ZGlufHN0ZG91dHxzdGRlcnIiLgogICAgLSBk
-cGtnLXNvdXJjZTogU2VwYXJhdGUgc3VwcG9ydGVkIGNvbXByZXNzb3JzIGluIC0taGVscCB3aXRo
-IGEgY29tbWEgYW5kCiAgICAgIHNwYWNlLgogICAgLSBkcGtnLWRlYjogUHJpbnQgZGlyZWN0b3J5
-IHBhdGhuYW1lIGluc3RlYWQgb2Ygbm90aGluZyBvciAiZGlyZWN0b3J5Ii4KICAgIC0gQXZvaWQg
-dXNpbmcgIm15IiBpbiBvdXRwdXQgbWVzc2FnZXMuCiAgICAtIFVzZSBwcmVzZW50IGZvcm0gZm9y
-ICJjb250YWlucyIgaW4gZXJyb3IgbWVzc2FnZXMuCiAgICAtIENsYXJpZnkgc3RhdHVzLWZkIGVy
-cm9yIG1lc3NhZ2UuCiAgICAtIENsYXJpZnkgdmVyeSBjb25mdXNpbmcgInVuLWNhdGNoIHNpZ25h
-bCIgZXJyb3IgbWVzc2FnZS4KICAgIC0gQ2xhcmlmeSBlcnJvciBtZXNzYWdlIGFib3V0IHJlbW92
-aW5nIGRpcmVjdG9yeSB3aXRoICdybSAtcmYnLgogICAgLSBDbGFyaWZ5IGVycm9yIG1lc3NhZ2Ug
-YWJvdXQgY2hlY2tpbmcgYSBmaWxlIHdpdGhpbiBhIHdyaXRhYmxlIGRpcmVjdG9yeS4KICAgIC0g
-Q2xhcmlmeSBlcnJvciBtZXNzYWdlIGFib3V0IG5vdCBiZWluZyBhYmxlIHRvIHJlbW92ZSBhIGRp
-cmVjdG9yeS4KICAgIC0gRG8gbm90IHByaW50IGZpbGVuYW1lIGFzIGVycm9yIGNvbmRpdGlvbiBp
-biBlcnJvciBtZXNzYWdlLgogICAgLSBkcGtnLWdlbmNoYW5nZXM6IEFkZCAtLWJ1aWxkIGFsaWFz
-ZXMgZm9yIHNob3J0IG9wdGlvbnMgdG8gLS1oZWxwIG91dHB1dC4KICAgIC0gUmVtb3ZlIHNwYWNl
-cyBiZWZvcmUgc29tZSByZXBldGl0aW9uIG1hcmtlcnMgKCIuLi4iKSBpbiAtLWhlbHAgb3V0cHV0
-LgogICAgLSBkcGtnOiBSZWZhY3RvciBhcmNoaXZlLXNwZWMgYW5kIHBhY2thZ2Utc3BlYyBmb3Ig
-LS1oZWxwIGNvbW1hbmRzLgogICAgLSBzdGFydC1zdG9wLWRhZW1vbjogUmV3b3JkIG1hdGNoIG9w
-dGlvbnMgdG8gc2F5ICJtYXRjaCIgaW5zdGVhZCBvZgogICAgICAiY2hlY2siLgogICAgLSBzdGFy
-dC1zdG9wLWRhZW1vbjogVXNlICJjaGFuZ2Ugcm9vdCIgaW5zdGVhZCBvZiAiY2hyb290IiBpbiAt
-LWhlbHAKICAgICAgb3V0cHV0LgogICAgLSBkcGtnLXNobGliZGVwczogTWFrZSAtZSBkZXNjcmlw
-dGlvbiBpbiAtLWhlbHAgb3V0cHV0IHN0YW5kIG9uIGl0cyBvd24uCiAgICAtIGRwa2ctZ2VuY29u
-dHJvbDogUmVtb3ZlIGRlcHJlY2F0ZWQgLWlzLy1pcC8taXNwLy1pcHMgZnJvbSAtLWhlbHAgb3V0
-cHV0LgogICAgLSBDYXBpdGFsaXplIGFsbCBvcHRpb24gZGVzY3JpcHRpb25zIGluIC0taGVscCBv
-dXRwdXQuIENsb3NlczogIzEwODg3NTgKICAgIC0gZHBrZzogU3BsaXQgLS1uby1hY3QgYWxpYXNl
-cyBpbnRvIHRoZWlyIG93biBsaW5lcyBpbiAtLWhlbHAgb3V0cHV0LgogICAgICBDbG9zZXM6ICMx
-MTM3NTQ1CiAgICAtIFN0YW5kYXJkaXplIGNvbW1hbmQgbGluZSBvcHRpb24gaGVscCBtZXNzYWdl
-cy4KICAgIC0gU3Vycm91bmQgcmVwbGFjZWFibGUgYXJndW1lbnRzIHdpdGggYW5nbGUgYnJhY2tl
-dHMgaW4gLS1oZWxwIG91dHB1dC4KICAgIC0gU3BsaXQgZGVzY3JpcHRpb24gZm9yIC0tbm8tPG9w
-dD4gZnJvbSAtLTxvcHQ+IGluIC0taGVscCBvdXRwdXQuCiAgICAtIFVzZSBwcmludF9vcHRpb24o
-KSB0byBwcmludCBlYWNoIGluZGl2aWR1YWwgb3B0aW9uIGluIC0taGVscCBvdXRwdXQuCiAgICAt
-IGRwa2ctc2NhbnNvdXJjZXM6IFJlbW92ZSByZWZlcmVuY2UgdG8gbWFuIHBhZ2UgZnJvbSAtLWhl
-bHAgb3V0cHV0LgogICAgLSBSZW1vdmUgc3B1cmlvdXMgYmxhbmsgbGluZXMgZnJvbSBwcm9ncmFt
-J3MgLS1oZWxwIG91dHB1dC4KICAgIC0gRG8gbm90IG1hcmsgwqt8wrsgaW4gYm9sZCBpbiB0aGUg
-b3B0aW9uIHNwZWNpZmljYXRpb24gb24gLS1oZWxwIG91dHB1dC4KICAgIC0gQWRkIG1pc3Npbmcg
-ZnVsbCBzdG9wIHRvIGFsbCBvcHRpb24gZGVzY3JpcHRpb25zIGluIC0taGVscCBvdXRwdXQuCiAg
-ICAtIEltcHJvdmUgY2xhcml0eSBmb3IgYXJndW1lbnQgc3BlY2lmaWVycyBpbiAtLWhlbHAgb3V0
-cHV0LgogICAgLSBEbyBub3QgbWFyayDCqygpwrsgaW4gYm9sZCBpbiBvcHRpb24gc3BlY2lmaWNh
-dGlvbiBvbiAtLWhlbHAgb3V0cHV0LgogICAgLSBkcGtnLXNobGliZGVwczogTWVyZ2UgPGV4ZWN1
-dGFibGU+IHNwZWNpZmljYXRpb25zIGluIC0taGVscCB1c2FnZSBvdXRwdXQuCiAgICAtIFVzZSDC
-q0FsaWFzIGZvciA8b3B0aW9uPi7CuyBpbnN0ZWFkIG9mIMKrRGl0dG8uwrsgaW4gLS1oZWxwIG91
-dHB1dC4KICAgIC0gVXNlICJFbnRlciIgb3IgIjxFbnRlcj4iIHRvIHJlZmVyIHRvIHRoZSBrZXli
-b2FyZCBrZXkgbmFtZS4KICAgIC0gVXNlICI8U3BhY2U+IiB0byByZWZlciB0byB0aGUga2V5Ym9h
-cmQga2V5IG5hbWUuCiAgICAtIGRzZWxlY3Q6IFJlbW92ZSBzdXBlcmZsdW91cyAicmVtZW1iZXI6
-ICIgaW4gaGVscCBzY3JlZW4uCiAgICAtIGRzZWxlY3Q6IFJlcGxhY2UgYSBzdHJheSBwcmludGYo
-KSBpbnRvIGRlYnVnKCkgd2hlbiBpbml0aWFsaXppbmcgY29sb3IKICAgICAgcGFpcnMuCiAgICAt
-IGRzZWxlY3Q6IFNheSAiY29sb3IgaW5pdGlhbGl6YXRpb24iIGluc3RlYWQgb2YgImNvbG9yIGFs
-bG9jYXRpb24iLgogICAgLSBkc2VsZWN0OiBVc2UgQ3RybCtrZXkgaW5zdGVhZCBvZiBea2V5IGZv
-ciBrZXlib2FyZCBzaG9ydGN1dHMuCiAgICAtIEltcHJvdmUgbWVtb3J5IGFsbG9jYXRpb24gZXJy
-b3IgbWVzc2FnZXMgKHJvdW5kIHR3bykuCiAgICAtIGRwa2ctc291cmNlOiBDaGFuZ2UgInJlcHJl
-c2VudCBjaGFuZ2UiIGVycm9yIHRvIHBsdXJhbC4KICAgIC0gZHBrZy1idWlsZHBhY2thZ2U6IEZp
-eCAtLWhlbHAgb3V0cHV0IGRlZmF1bHQgdmFsdWUgZm9yIC0tc2lnbi1jb21tYW5kLgogICAgLSBk
-cGtnLWJ1aWxkcGFja2FnZTogVXNlICI8cnVsZXM+IiBpbnN0ZWFkIG9mICJkZWJpYW4vcnVsZXMi
-IGluIC0taGVscAogICAgICBvdXRwdXQuCiAgICAtIGRwa2ctYnVpbGRwYWNrYWdlOiBVc2UgbG9u
-ZyBvcHRpb24gbmFtZXMgaW4gLS1oZWxwIG91dHB1dCByZWZlcmVuY2VzLgogICAgLSBJbXByb3Zl
-IG9wdGlvbnMgc29ydGluZyBpbiAtLWhlbHAgb3V0cHV0LgogICAgLSBVc2UgIjxwYWNrYWdlLWJ1
-aWxkLWRpcj4vREVCSUFOLyIgaW5zdGVhZCBvICIuLi4vREVCSUFOLyIgaW4gLS1oZWxwCiAgICAg
-IG91dHB1dC4KICAgIC0gVXNlICI8b3ZlcnJpZGUtZmlsZT4uc3JjIiBpbnN0ZWFkIG9mIGRlc2Ny
-aWJpbmcgdGhlIHZhbHVlIGluIC0taGVscAogICAgICBvdXRwdXQuCiAgICAtIEFkZCBzdXBwb3J0
-IGZvciBkZWZhdWx0cyBhbmQgZW52aXJvbm1lbnQgdmFyaWFibGUgcHJpbnRpbmcgaW4gLS1oZWxw
-CiAgICAgIG91dHB1dC4KICAgIC0gUmVtb3ZlIG1lbnRpb25zIG9mIG9wdGlvbnMgd2l0aCBubyBk
-ZWZhdWx0IHZhbHVlIGZyb20gLS1oZWxwIG91dHB1dC4KICAgIC0gTW92ZSBkZWZhdWx0IHZhbHVl
-IGZyb20gb3B0aW9uIGRlc2NyaXB0aW9ucyB0byBpdHMgb3duIC0taGVscCBvdXRwdXQKICAgICAg
-bGluZXMuCiAgICAtIFByaW50IG1pc3NpbmcgZGVmYXVsdCB2YWx1ZXMgYW5kIGVudmlyb25tZW50
-IHZhcmlhYmxlcyBpbiAtLWhlbHAgb3V0cHV0LgogICAgLSBJbXByb3ZlIGFuZCB1bmlmeSBvcHRp
-b24gZGVzY3JpcHRpb25zIGluIC0taGVscCBvdXRwdXQuCiAgICAtIGRwa2ctcXVlcnk6IENsYXJp
-ZnkgU3RhdHVzIGhlYWRlciBsaW5lIGluIC0tbGlzdCBvdXRwdXQgbWVzc2FnZS4KICAgICAgUHJv
-bXB0ZWQgYnkgQWRlb2RhdG8gU2ltw7MgPGRhdG9AbmV0LmNvbS5vcmcuZXM+LgogICogUG9ydGFi
-aWxpdHk6CiAgICAtIGRwa2c6IFVzZSB1dGltZW5zYXQoKSBpZiBhdmFpbGFibGUgYW5kIGluIHBy
-ZWZlcmVuY2Ugb2YgbHV0aW1lcy91dGltZXMuCiAgKiBQZXJsIG1vZHVsZXM6CiAgICAtIERwa2c6
-OlZlcnNpb246IEFkZCBwcm90b3R5cGVzIGZvciBzb3J0IGZ1bmN0aW9ucy4KICAgICAgQW5hbHlz
-aXMgYnkgT3JvbiBQZWxlZCA8T3Jvbi5QZWxlZEBoYXJtb25pY2luYy5jb20+LiBDbG9zZXM6ICMx
-MTMxNTU2CiAgICAtIERwa2c6OkRlcHM6IEFkZCBhIHByb3RvdHlwZSB0byBkZXBzX2NvbXBhcmUo
-KS4KICAgIC0gRHBrZzo6U291cmNlOjpQYXRjaDogUmVtb3ZlIGNoZWNrIGZvciBwYXRjaGluZyB2
-aWEgYSBzeW1saW5rLgogICAgICBSZXBvcnRlZCBieSBKb25hdGhhbiBEb3dsYW5kIDxqbXRkQGRl
-Ymlhbi5vcmc+LgogICAgICBTZWUgaHR0cHM6Ly9saXN0cy5kZWJpYW4ub3JnL2RlYmlhbi1kZXZl
-bC8yMDI2LzAzL21zZzAwMjUwLmh0bWwuCiAgICAtIERwa2c6OlNvdXJjZTo6UGF0Y2g6IEltcHJv
-dmUgdW5yZXByZXNlbnRhYmxlIGNoYW5nZSBlcnJvciB0byBoaW50IGdpdAogICAgICB1c2FnZS4K
-ICAgIC0gRHBrZzo6Q29tcHJlc3Npb246IE1vdmUgZ3ppcCAtLXJzeW5jYWJsZSBoYW5kbGluZyB0
-byB0aGUgZ2V0IGNtZGxpbmUKICAgICAgZnVuY3Rpb24uCiAgICAtIERwa2c6OlZlbmRvcjo6UHVy
-ZU9TOiBVc2UgLnBncCBrZXlyaW5ncyBpbnN0ZWFkIG9mIC5ncGcgb25lcy4KICAgICAgU2VlCiAg
-ICAgIGh0dHBzOi8vc291cmNlLnB1cmkuc20vcHVyZW9zL2NvcmUvcHVyZW9zLWFyY2hpdmUta2V5
-cmluZy8tL21lcmdlX3JlcXVlc3RzLzEuCiAgICAtIERwa2c6OkNoYW5nZWxvZzogUmVuYW1lIHZh
-cmlhYmxlcyBmcm9tICRjIHRvICRjaGxvZyBvciAkY3RybC4KICAgIC0gRHBrZzo6U291cmNlOjpQ
-YWNrYWdlOiBTd2l0Y2ggQ1VSUkVOVF9NSU5PUl9WRVJTSU9OIGZyb20gc2NhbGFyIHRvIHN1Yi4K
-ICAgIC0gRHBrZzo6U291cmNlOjpQYXRjaDogUmVmYWN0b3IgX2dlbl9oaXJlc19kaWZmX2xhYmVs
-KCkgZnVuY3Rpb24uCiAgICAtIERwa2c6OkNoZWNrc3VtczogVXNlIC1zIF8gaW5zdGVhZCBvZiB0
-aGUgZGlyZWN0IHJlc3VsdCBmcm9tIHN0YXQuCiAgICAtIERwa2c6OlNvdXJjZTo6UGF0Y2g6IFVz
-ZSBUaW1lOjpIaVJlczo6c3RhdCBvbmx5IHdoZW4gbmVlZGVkLgogICAgLSBEcGtnOjpJUEM6IEFk
-ZCBtaXNzaW5nIHZlcmJzIHRvIGVycm9yIG1lc3NhZ2VzLgogICAgLSBEc2VsZWN0OjpNZXRob2Q6
-OkZ0cDogTG9hZCBUaW1lOjpMb2NhbCB3aXRoIMKrdXNlwrsgaW5zdGVhZCBvZgogICAgICDCq3Jl
-cXVpcmXCuy4KICAgIC0gRHNlbGVjdDo6TWV0aG9kOjpGdHA6IFN3aXRjaCBmcm9tIGRlcHJlY2F0
-ZWQgdGltZWdtKCkgdG8gdGltZWdtX3Bvc2l4KCkuCiAgICAtIERwa2c6OkNvbXByZXNzaW9uOjpG
-aWxlSGFuZGxlOiBTd2l0Y2ggc2V0X2ZpbGVuYW1lKCkgd2FybmluZyBpbnRvIGNyb2FrLgogICAg
-LSBEcGtnOjpBcmNoOiBVc2Ugc3VicHJvY2VycigpIGluc3RlYWQgb2Ygc3lzZXJyKCkgZm9yIHN1
-YnByb2Nlc3MgZXJyb3IKICAgICAgaGFuZGxpbmcuCiAgICAtIERwa2c6OlZlbmRvcjo6RGViaWFu
-OiBBZGQgc3BhY2UgYWZ0ZXIgPSBvcGVyYXRvci4KICAgIC0gRHBrZzo6RW1haWw6OkFkZHJlc3M6
-IFJlamVjdCBhbGwgY29udHJvbCBjaGFyYWN0ZXJzIGluIGVtYWlsIGFkZHJlc3Nlcy4KICAgIC0g
-RHBrZzo6RW1haWw6OkFkZHJlc3M6IFJlamVjdCBjb21tYXMgaW4gdGhlIGVtYWlsIGxvY2FsIGFu
-ZCBkb21haW4gcGFydHMuCiAgICAtIERwa2c6OkJ1aWxkSW5mbzogQWxsb3cgZHBrZy1kZWIgY29t
-cHJlc3NvciB2YXJpYWJsZXMuCiAgICAgIFRoYW5rcyB0byBTZXJnZSBTY2huZWlkZXIgPHNlcmdl
-QHJhc3BiZXJyeXBpLmNvbT4uIENsb3NlczogIzExNDA2MTMKICAgIC0gRHBrZzo6QnVpbGRQcm9m
-aWxlczogTW92ZSBleGNsYW1hdGlvbiBtYXJrIGludG8gcmVzdHJpY3Rpb24gbGlzdCByZWdleC4K
-ICAgIC0gRHBrZzo6QnVpbGRQcm9maWxlczogTW92ZSByZWdleCB2YXJpYWJsZXMgYXQgdGhlIHRv
-cCBvZiB0aGUgZmlsZS4KICAgIC0gRHBrZzo6QnVpbGRQcm9maWxlczogVmFsaWRhdGUgcHJvZmls
-ZSBuYW1lcyBvbiBnZXQgYW5kIHNldC4KICAgIC0gRHBrZzo6SVBDOiBGaXggZXJyb3IgbWVzc2Fn
-ZSB0byByZWZlciB0byAic3RkZXJyIiBpbnN0ZWFkIG9mICJzdGRvdXQiLgogICAgLSBEc2VsZWN0
-OjpNZXRob2Q6OkZ0cDogQ2xhcmlmeSB0aGF0IExJU1QgaXMgYW4gRlRQIGNvbW1hbmQgaW4gZXJy
-b3IKICAgICAgbWVzc2FnZS4KICAgIC0gRHBrZzo6U2hsaWJzOjpTeW1ib2w6IFVzZSAibWF0Y2gi
-IGluc3RlYWQgb2YgImNhdGNoIiBpbiBlcnJvciBtZXNzYWdlLgogICAgLSBEcGtnOjpDb2xvcjog
-UmVmYWN0b3IgY29sb3IgaGFuZGxpbmcgaW50byB0aGlzIG5ldyBtb2R1bGUuCiAgICAtIERwa2c6
-OkdldG9wdDogUmVmYWN0b3IgZm9ybWF0X29wdGlvbl9wYXJ0cygpIGZyb20gZHBrZy1zb3VyY2UK
-ICAgICAgcHJpbnRfb3B0aW9uKCkuCiAgICAtIERwa2c6OkdldG9wdDogQWRkIG9wdGlvbiBmb3Jt
-YXR0aW5nIGFuZCBwcmludGluZyBmdW5jdGlvbnMuCiAgICAtIERwa2c6OkdldG9wdDogQWRkIG5l
-dyBwcmludF92ZXJzaW9uKCkgZnVuY3Rpb24uCiAgICAtIERwa2c6OkdldG9wdDogQWRkIG5ldyBw
-YXJzZV9vcHRpb25fZGlyKCkuCiAgICAtIERwa2c6Ok9wZW5QR1A6OkJhY2tlbmQ6OlNPUDogQWRk
-IGhvcCBhcyBhbiBhbHRlcm5hdGl2ZSBTT1AKICAgICAgaW1wbGVtZW50YXRpb24uCiAgICAtIERw
-a2c6OlNvdXJjZTo6UGFja2FnZTo6VjM6OkdpdDogVXNlIGdpdCAtLWVuZC1vZi1vcHRpb25zIGJl
-Zm9yZSBVUkxzLgogICAgICBQcm9tcHRlZCBieSBBZGVvZGF0byBTaW3DsyA8ZGF0b0BuZXQuY29t
-Lm9yZy5lcz4uCiAgICAgIFNlZSBodHRwczovL25lc2JpdHQuaW8vMjAyNi8wNy8yMS9lbmQtb2Yt
-b3B0aW9ucy5odG1sLgogICAgLSBEcGtnOjpTb3VyY2U6OlBhY2thZ2U6IE1vdmUgZnVsbCBzdG9w
-IGZyb20gb3B0aW9uIGZvcm1hdHRlciB0byBzdHJpbmdzLgogICAgLSBEc2VsZWN0OjpNZXRob2Q6
-OkNvbmZpZzogRG8gbm90IHVzZSBQZXJsIDUuMzggLy89IGluIHN1YiBzaWduYXR1cmUuCiAgICAt
-IERwa2c6OkZpbGU6IENoYW5nZSBmaWxlX3RvdWNoKCkgdG8gb3BlbiBmb3IgYXBwZW5kaW5nLgog
-ICAgLSBEcGtnOjpGaWxlOiBGaXggZmlsZV90b3VjaCgpIHRvIHVwZGF0ZSBleGlzdGluZyBmaWxl
-IHRpbWVzdGFtcHMuCiAgICAtIERwa2c6OlZlcnNpb246IEZpeCBhbmQgaW1wcm92ZSBpc19uYXRp
-dmUoKSBkZXByZWNhdGlvbiB3YXJuaW5nLgogICAgICBDbG9zZXM6ICMxMTQ1MTgxCiAgICAtIERw
-a2c6OkdldHRleHQ6IEZpeCBDXygpIGNvbnRleHQgc3RyaW5nIGhhbmRsaW5nIG9uIG1pc3Npbmcg
-dHJhbnNsYXRpb25zLgogICAgLSBEcGtnOjpHZXR0ZXh0OiBFeHBvcnQgQ18oKSBieSBkZWZhdWx0
-LgogICogTWFrZSBmcmFnbWVudHM6CiAgICAtIEFkZCBzdXBwb3J0ZWQgc2luY2UgdmVyc2lvbnMg
-dG8gdmFyaWFibGVzLgogICogU2hlbGwgbGlicmFyeToKICAgIC0gQWRkIGFuIEFOU0kgcmVzZXQg
-ZXNjYXBlIGNvbW1lbnQgYWZ0ZXIgdGhlIGNvbG9yIGNvbnN0YW50cy4KICAgIC0gQWRkIGNvbnN0
-YW50cyBmb3IgYWxsIGNvbW1vbiBBTlNJIGNoYXJhY3RlciBjb2xvciBhdHRyaWJ1dGVzLgogICog
-U2hlbGwgY29tcGxldGlvbjoKICAgIC0gSW1wb3J0IGNvbXBsZXRpb24gZmlsZXMgZnJvbSBiYXNo
-LWNvbXBsZXRpb24uCiAgICAgIFNlZSBodHRwczovL2dpdGh1Yi5jb20vc2NvcC9iYXNoLWNvbXBs
-ZXRpb24vcHVsbC8xNjM5LgogICAgLSBTcGxpdCBjb21wbGV0aW9ucyBmb3IgZHBrZy1kZWIgYW5k
-IGRwa2ctcXVlcnkuCiAgICAtIFNvcnQgYW5kIGdyb3VwIGRwa2cgY29tcGxldGlvbiBvcHRpb25z
-LgogICAgLSBTd2l0Y2ggd29yZCBsaXN0cyBpbnRvIGJhc2ggYXJyYXlzLgogICAgLSBGaXggZHBr
-Zy1zb3VyY2UgLUYgYXJndW1lbnQgY29tcGxldGlvbi4KICAgIC0gRml4IGNvbXBsZXRpb24gZm9y
-IGRzZWxlY3QgLS1kZWJ1Zy4KICAgIC0gVXNlIHVwZGF0ZS1hbHRlcm5hdGl2ZXMgLS1nZXQtc2Vs
-ZWN0aW9ucyBpbnN0ZWFkIG9mIGFjY2Vzc2luZyB0aGUKICAgICAgYWRtaW5kaXIuCiAgICAtIFJl
-bHkgb25seSBvbiBfY29tcF9jb21wZ2VuX2hlbHAgZm9yIHVwZGF0ZS1hbHRlcm5hdGl2ZXMgLS1o
-ZWxwIHBhcnNpbmcuCiAgICAtIEltcHJvdmUgZHBrZyBzdGF0dXMgcGFyc2luZyB0byBiZSBtb3Jl
-IHJvYnVzdC4KICAgIC0gUmVtb3ZlIHVuc3VwcG9ydGVkIC1XIGFuZCAtRSBjb21wbGV0aW9uIGZv
-ciBkcGtnLXNvdXJjZS4KICAgIC0gQWRkIG1pc3NpbmcgZmllbGRzIHRvIGRwa2ctc291cmNlIGNv
-bXBsZXRpb24uCiAgICAtIEFkZCBoYW5kbGluZyBmb3IgbWlzc2luZyBvcHRpb25zLgogICAgLSBB
-ZGQgbmV3IHN0YXJ0LXN0b3AtZGFlbW9uIGJhc2ggY29tcGxldGlvbi4KICAqIERvY3VtZW50YXRp
-b246CiAgICAtIG1hbjogQ2xhcmlmeSB0aGF0IGdpdC1zdHlsZSBwYXRjaGVzIGNhbiByZXByZXNl
-bnQgY2hhbmdlcyB0aGF0IEdOVSBkaWZmCiAgICAgIGNhbm5vdC4KICAgIC0gbWFuOiBJdGVtaXpl
-IGF0dHJpYnV0ZSBrZXl3b3JkcyBpbiBkZWItc3JjLWZpbGVzKDUpLgogICAgLSBtYW46IERvY3Vt
-ZW50IHRoYXQgZ2V0Y29uZigxKSBtdXN0IG5vdCBiZSB1c2VkIGZvciBMRlMgc3VwcG9ydC4KICAg
-ICAgQ2xvc2VzOiAjMTEzMzI3MgogICAgLSBkb2M6IFJlZmVyIHRvIGRlYjgyMiBpbnN0ZWFkIG9m
-IFJGQzgyMi4KICAgIC0gbWFuOiBSZW1vdmUgdHJhaWxpbmcgZnVsbCBzdG9wcyBmcm9tIGRpYWdu
-b3N0aWMgaXRlbXMuCiAgICAtIG1hbjogRml4IG1hcmt1cCBmb3IgQzw+IGFuZCBCPD4gdG8gaW5j
-bHVkZSB0aGUgcmVsZXZhbnQgdGV4dC4KICAgIC0gbWFuOiBEb2N1bWVudCB0aGUgZnVsbCBhciBh
-cmNoaXZlIG1hZ2ljIHZhbHVlLgogICAgLSBtYW46IFVzZSBzZW1hbnRpYyBsaW5lIGJyZWFrcyAo
-bXVzdCByZXF1aXJlbWVudHMsIHJvdW5kIHR3bykuCiAgICAtIGRvYzogUmVtb3ZlIGFuYWNocm9u
-aXN0aWMgdHdvIHNwYWNlIHNlbnRlbmNlIHNlcGFyYXRpb24uCiAgICAtIGRvYzogQXZvaWQgInBs
-ZWFzZSIgYW5kICJ0aGFua3MiIGluIG1hbiBwYWdlcyBhbmQgY29kZSBjb21tZW50cy4KICAgIC0g
-ZG9jOiBGaXggZm9ybWF0dGluZyBmb3IgdmVyc2lvbiBpbnRyb2R1Y2luZyBmZWF0dXJlcy4KICAg
-IC0gbWFuOiBBZGQgc3VwcG9ydGVkIHNpbmNlIHZlcnNpb24gaW5mb3JtYXRpb24gZm9yIFJ1bGVz
-LVJlcXVpcmVzLVJvb3QKICAgICAgZmllbGQuCiAgICAtIG1hbjogU3BsaXQgZHBrZy1kZWIgLS1b
-bm8tXXVuaWZvcm0tY29tcHJlc3Npb24gZGVzY3JpcHRpb24gaW50byB0d28KICAgICAgaXRlbXMu
-CiAgICAtIG1hbjogUmVtb3ZlICJvciIgZnJvbSBlbmQgb2YgPWl0ZW0gaW4gRklMRVMgc2VjdGlv
-bi4KICAgIC0gbWFuOiBNb3ZlIGJ1aWxkIGZsYWdzIGVuYWJsZWQvZGlzYWJsZWQgc3RhdGUgb24g
-aXRzIG93biBwYXJhZ3JhcGguCiAgICAtIG1hbjogSW1wcm92ZSBzdXBwb3J0ZWQgc2luY2UgdmVy
-c2lvbiBpbmZvcm1hdGlvbi4KICAgIC0gbWFuOiBBZGQgbmV3IGRlYi1lbWFpbCg3KSBtYW4gcGFn
-ZS4gQ2xvc2VzOiAjMTEyNjUwMgogICAgLSBtYW46IE1vdmUgdGhlICNDVVJWRVIjIG1ldGF2YXJp
-YWJsZSBmcm9tID1oZWFkMiB0byA9aGVhZDMuCiAgICAtIG1hbjogRG9jdW1lbnQgd2hlcmUgdG8g
-c2hpcCBzaGxpYnMgYW5kIHN5bWJvbHMgZmlsZXMuCiAgICAgIFNlZSAjMTAwOTMwMC4KICAgIC0g
-bWFuOiBEb2N1bWVudCB0aGF0IERQS0dfUEFHRVIgb25seSBvdmVycmlkZXMgUEFHRVIgd2hlbiBu
-b24tZW1wdHkuCiAgICAgIENsb3NlczogIzkzMTA5NAogICAgLSBtYW46IERvY3VtZW50IHRoYXQg
-dXNpbmcgImNhdCIgaW4gRFBLR19QQUdFUiBvciBQQUdFUiBkaXNhYmxlcyBpdC4KICAgICAgU2Vl
-ICM5MzEwOTQuCiAgICAtIG1hbjogQ2xhcmlmeSBndWFyYW50ZWVzIGZvciBub24tc2Vla2FibGUg
-aW5wdXRzIHRvIGRwa2ctZGViLgogICAgLSBtYW46IENsYXJpZnkgdGhhdCBidWlsZCBwcm9maWxl
-IG5hbWVzIGRvIG5vdCBpbmNsdWRlIGV4Y2xhbWF0aW9uIG1hcmtzLgogICAgLSBtYW46IEFkZCBz
-dXBwb3J0ZWQgc2luY2UgdmVyc2lvbiBmb3Igc29tZSBkcGtnLWJ1aWxkcGFja2FnZSBsb25nIG9w
-dGlvbnMuCiAgICAtIG1hbjogTWFyayBpbiBib2xkIGRwa2ctc2hsaWJkZXBzIC0td2FybmluZyB2
-YWx1ZXMuCiAgICAtIG1hbjogTWFyayBpbiBib2xkIHRoZSBsaXRlcmFsIGNvbW1hcyBuZWVkZWQg
-Ynkgb3B0aW9uIGFyZ3VtZW50cy4KICAgIC0gbWFuOiBTcGxpdCBtdWx0aXBsZSBsb25nIG9wdGlv
-biBhbGlhc2VzIGludG8gdGhlaXIgb3duIGl0ZW1zLgogICAgLSBtYW46IFJlbW92ZSBubyBsb25n
-ZXIgcmVsZXZhbnQgU0VFIEFMU08gcmVmZXJlbmNlcyBmb3IgZHBrZy1uYW1lKDEpLgogICAgLSBk
-b2M6IFVwZGF0ZSBsaXN0IG9mIG9wdGlvbmFsIFNPUCBidWlsZCBkZXBlbmRlbmNpZXMuCiAgICAt
-IGRvYzogUmVtb3ZlIHVzYWdlIG9mIGNvbmRlc2NlbmRpbmcgd29yZGluZyAib2J2aW91c2x5Ii4K
-ICAgIC0gZG9jOiBSZW1vdmUgdXNhZ2Ugb2YgY29uZGVzY2VuZGluZyB3b3JkaW5nICJvZiBjb3Vy
-c2UiLgogICAgLSBkb2M6IFJlbW92ZSB1c2FnZSBvZiBjb25kZXNjZW5kaW5nIHdvcmRpbmcgImNs
-ZWFybHkiLgogICAgLSBkb2M6IFJlbW92ZSB1c2FnZSBvZiB3ZWFzZWwgd29yZGluZyAic2ltcGx5
-Ii4KICAgIC0gZG9jOiBSZW1vdmUgdXNhZ2Ugb2Ygd2Vhc2VsIHdvcmRpbmcgImluIGZhY3QiLgog
-ICAgLSBkb2M6IFJlbW92ZSB1c2FnZSBvZiB3ZWFzZWwgd29yZGluZyAidGhlIGZhY3QgdGhhdCIu
-CiAgICAtIGRvYzogUmVtb3ZlIHVzYWdlIG9mIHdlYXNlbCB3b3JkaW5nICJiYXNpY2FsbHkiLgog
-ICAgLSBkb2M6IFJlbW92ZSB1c2FnZSBvZiB3ZWFzZWwgd29yZGluZyAiaW4gb3JkZXIiLgogICAg
-LSBkb2M6IEltcHJvdmUgZmVhdHVyZS1yZW1vdmFsLXNjaGVkdWxlIG1hY2hpbmUgcmVhZGFibGUg
-YW5ub3RhdGlvbiBmb3JtYXQuCiAgKiBDb2RlIGludGVybmFsczoKICAgIC0gc2NyaXB0czogRG8g
-bm90IGZhaWwgb24gZW1wdHkgTWFpbnRhaW5lciBmaWVsZCBmcm9tIHBhcnNlZCBjaGFuZ2Vsb2cu
-CiAgICAgIENsb3NlczogIzExMzAxMTkKICAgIC0gc3JjLCBsaWI6IFJlZHVjZSB2YXJpYWJsZXMg
-c2NvcGUuCiAgICAtIGxpYmRwa2c6IFVwZGF0ZSBzdXBwcmVzc2lvbnMgZm9yIGNwcGNoZWNrIDIu
-MjAuMC4KICAgIC0gc2hlbGw6IEFkZCBtaXNzaW5nIDs7IGZvciBzd2l0Y2ggY2FzZXMuCiAgICAt
-IHNoZWxsOiBSZW1vdmUgdW5uZWVkZWQgdHJhaWxpbmcgwqs7wrsgYW5kIMKrXMK7LgogICAgLSBz
-aGVsbDogUmVmb3JtYXQgc2hlbGwgc2NyaXB0cy4KICAgIC0gcGVybDogSW1wcm92ZSBQT0QgZm9y
-IGZ1bmN0aW9ucy4KICAgIC0gbGliZHBrZzogUmVuYW1lIGRwa2dfYXJfbWVtYmVyX2dldF9zaXpl
-KCkgdG8gZHBrZ19hcl9tZW1iZXJfcGFyc2Vfc2l6ZSgpLgogICAgLSB1cGRhdGUtYWx0ZXJuYXRp
-dmVzOiBBZGQgYW4gYXNzZXJ0IG9uIHZhbHVlIHJldHVybmVkIGJ5CiAgICAgIGFsdGVybmF0aXZl
-X21hcF9maW5kKCkuCiAgICAtIGxpYmNvbXBhdDogUmVtb3ZlIHNwdXJpb3VzIHNwYWNlIGluICNp
-ZiBjb25kaXRpb25hbC4KICAgIC0gbGliY29tcGF0OiBBZGQgY291bnRvZigpIHN1cHBvcnQuCiAg
-ICAtIFVzZSBjb3VudG9mKCkgaW5zdGVhZCBvZiBhcnJheV9jb3VudCgpLgogICAgLSBSZW5hbWUg
-c2NhbmRpcigpIGZpbHRlciBmdW5jdGlvbnMuCiAgICAtIGxpYmRwa2c6IE1ha2UgdGhlIHByZS1h
-bGxvY2F0ZWQgdXBkYXRlIGZpbGUgc2l6ZSBiZSBhIHBvd2VyIG9mIHR3by4KICAgIC0gcGVybDog
-U3dpdGNoIHRvIHVzZSBGaWxlOjpzdGF0IHdoZW4gd2UgbmVlZCB0byBhY2Nlc3MgaXRzIG1lbWJl
-cnMuCiAgICAtIHNjcmlwdHM6IFVzZSBTX0lNT0RFIHRvIGdldCB0aGUgbW9kZSBiaXRzIGZyb20g
-c3RfbW9kZS4KICAgIC0gbGliZHBrZzogU3BlbGwgb3V0IHN0YW5kYXJkIGRlc2NyaXB0b3IgbmFt
-ZXMgaW4gZXJyb3IgbWVzc2FnZS4KICAgIC0gbGliZHBrZzogT24gbWVtb3J5IGFsbG9jYXRpb24g
-ZmFpbHVyZXMgcHJpbnQgdGhlIHJlcXVlc3RlZCBzaXplLgogICAgLSBsaWJkcGtnOiBVbmlmeSBh
-Ym9ydCBlcnJvciBmb3JtYXQgc3RyaW5nIHdpdGggZmF0YWwgZXJyb3IgZm9ybWF0IHN0cmluZy4K
-ICAgIC0gbGliZHBrZzogQ2xhcmlmeSBhbmQgc3dpdGNoICJvdXRzaWRlIGVycm9yIGNvbnRleHQi
-IGVycm9yIGludG8KICAgICAgaW50ZXJuZXJyKCkuCiAgICAtIGxpYmRwa2c6IEZpeCB0YXIgbG9u
-ZyBuYW1lL2xpbmsgZW50cnkgcGFyc2luZyB0byBhdm9pZCB0cnVuY2F0aW9uLgogICAgICBSZXBv
-cnRlZCBieSBUcmlzdGFuIDxUcmlzdGFuSW5TZWNAZ21haWwuY29tPi4KICAgIC0gbGliZHBrZzog
-RG8gbm90IGFsbG93IHRhciBsb25nIG5hbWUvbGluayBlbnRyaWVzIGxvbmdlciB0aGFuIFNTSVpF
-X01BWC4KICAgICAgUmVwb3J0ZWQgYnkgVHJpc3RhbiA8VHJpc3RhbkluU2VjQGdtYWlsLmNvbT4u
-CiAgICAtIHNjcmlwdHM6IE1ha2UgbGljZW5zZSBncmFudCB0ZXh0IGludGVybmFsbHkgY29uc2lz
-dGVudC4KICAgIC0gQ29sbGFwc2UgY29uc2VjdXRpdmUgc3BhY2VzIGludG8gYSBzaW5nbGUgc3Bh
-Y2UgaW4gY29kZS4KICAgIC0gbGliZHBrZzogQWRkIG1pc3NpbmcgYmxhbmsgYWZ0ZXIgY29tbWEu
-CiAgICAtIGRzZWxlY3Q6IE1vdmUgbmV3bGluZSBhdCBlbmQgb2Ygc3RyaW5nIGxpdGVyYWwgcGFy
-YWdyYXBoIG9uIGl0cyBvd24gbGluZS4KICAgIC0gZHNlbGVjdDogVXNlIHN1YnByb2NlcnIoKSBp
-biBtZXRob2RzIGluc3RlYWQgb2Ygb3Blbi1jb2RpbmcgaXQuCiAgICAtIGRzZWxlY3Q6IFJld29y
-ayBtZXRob2RzIHRvIHVzZSBEcGtnOjpFcnJvckhhbmRsaW5nIGZvciByZXBvcnRpbmcuCiAgICAt
-IGRzZWxlY3Q6IFJlZmFjdG9yIHNjcmVlbiBwYWQgYW5kIHdpbmRvdyBuYW1lcyBpbnRvIGFuIHVu
-dHJhbnNsYXRlZAogICAgICBhcmd1bWVudC4KICAgIC0gbGliZHBrZzogUmV3b3JrIGNvbXByZXNz
-aW9uIGVycm9yIG1lc3NhZ2VzLgogICAgLSBzY3JpcHRzOiBNYXJrIHN0cmluZ3MgZm9yIHRyYW5z
-bGF0aW9uLgogICAgLSBkcGtnLWJ1aWxkcGFja2FnZTogUmVmYWN0b3Igc2lnbmVyIGtleSBJRCBs
-ZW5ndGggY29tcHV0YXRpb24uCiAgICAtIGRzZWxlY3Q6IEFkZCBhIHNwYWNlIGFmdGVyIG9wZXJh
-dG9yIGtleXdvcmQuCiAgICAtIHN0YXJ0LXN0b3AtZGFlbW9uOiBSZWZhY3RvciBleGl0X3N0YXR1
-cygpIGZ1bmN0aW9uLgogICAgLSBzdGFydC1zdG9wLWRhZW1vbjogU3dpdGNoIGFjdGlvbiBoYW5k
-bGluZyBpbiBtYWluKCkgZnJvbSBjYXNjYWRpbmcKICAgICAgaWYvZWxzZSB0byBzd2l0Y2guCiAg
-ICAtIHN0YXJ0LXN0b3AtZGFlbW9uOiBGbHVzaCBzdGRvdXQgYmVmb3JlIGZvcmsoKSB0byBhdm9p
-ZCBhbnkgcG90ZW50aWFsCiAgICAgIG91dHB1dCBkdXBsaWNhdGlvbi4KICAgIC0gdXBkYXRlLWFs
-dGVybmF0aXZlcywgbGliZHBrZzogRm9yY2UgbGluZSBpbnN0ZWFkIG9mIG5vIGJ1ZmZlcmluZyBm
-b3IKICAgICAgc3Rkb3V0IGV2ZW4gb24gYSB0dHkuCiAgICAtIGRzZWxlY3Q6IEFkZCBUUkFOU0xB
-VE9SUyBjb21tZW50IHRvIGhlbHAgZGVzY3JpYmUgd2hhdCB0aGUgc3RyaW5nIGlzCiAgICAgIGFi
-b3V0LgogICAgLSBsaWJkcGtnOiBBZGQgbWFjcm9zIGZvciBhbGwgY29tbW9uIEFOU0kgY2hhcmFj
-dGVyIGNvbG9yIGF0dHJpYnV0ZXMuCiAgICAtIGxpYmRwa2c6IEFkZCBuZXcgc3RyX3ZmbXQoKSBm
-dW5jdGlvbi4KICAgIC0gbGliZHBrZywgdXRpbHM6IEFkZCBuZXcgcHJpbnRfb3B0aW9uX3NlcCgp
-IGZ1bmN0aW9uLgogICAgLSBkcGtnLXNvdXJjZTogQ2FsbCBwcmludF9vcHRpb24oKSBvbmNlIGlu
-c3RlYWQgb2Ygb25jZSBwZXIgb3B0aW9uIHNlY3Rpb24uCiAgICAtIHNjcmlwdHM6IFN3aXRjaCB0
-byB1c2UgcHJpbnRfdmVyc2lvbigpIGZyb20gRHBrZzo6R2V0b3B0LgogICAgLSBTd2l0Y2ggdG8g
-dXNlIGFuIGV4cGxpY2l0IHByaW50X29wdGlvbl9zZXAoKSBpbnN0ZWFkIG9mICJcbiIuCiAgICAt
-IHNjcmlwdHM6IFJlcHJlc2VudCAtLWhlbHAgb3V0cHV0IHN0cmluZ3MgYXMgbGluZSBsaXRlcmFs
-cy4KICAgIC0gbGliZHBrZywgdXRpbHM6IEFkZCBuZXcgcHJpbnRfb3B0aW9uKCkgZnVuY3Rpb24u
-CiAgICAtIGxpYmRwa2c6IE1hcmsgwqs9wrsgaW4gYm9sZCBpbiB0aGUgb3B0aW9uIHNwZWNpZmlj
-YXRpb24gb24gLS1oZWxwIG91dHB1dC4KICAgIC0gc2NyaXB0czogUGFyc2UgZGlyZWN0b3J5IG9w
-dGlvbnMgd2l0aCBwYXJzZV9vcHRpb25fZGlyKCkuCiAgICAgIFNlZSAjMTE0Mzg3MS4KICAgIC0g
-bGliZHBrZzogQWRkIG5ldyB0ZXJtX2dldF93aWR0aCgpIGZ1bmN0aW9uLgogICAgLSBkcGtnLW5h
-bWU6IFJlZmFjdG9yIHN1cHBvcnRlZCBwYWNrYWdlIHNlY3Rpb25zIGludG8gYW4gYXJyYXkuCiAg
-ICAtIEZpeCB3YXJuaW5ncyBkdWUgdG8gbmV3IGxpYmMgY29uc3QtcHJlc2VydmluZyBzdHJpbmcg
-ZnVuY3Rpb25zLgogICAgLSBsaWJkcGtnOiBOZXN0IGZpbGVfc2x1cnAoKSBFTk9FTlQgY2hlY2sg
-aW5zaWRlIGlmIGNvbmRpdGlvbmFsLgogICAgLSBsaWJkcGtnOiBSZXNldCB0aGUgYXIgc2l6ZSB0
-byAwIG9uIG5vbi1zZWVrYWJsZSBmaWxlIGRlc2NyaXB0b3JzLgogICAgLSBsaWJkcGtnOiBDaGFu
-Z2UgbXVzdF9hbGxvYygpIHRvIG11c3RfYWxsb2Nfc3RyaW5nKCkuCiAgICAtIGRwa2c6IENoYW5n
-ZSAtLWNvbW1hbmQtZmQgZmlsZSBkZXNjcmlwdG9yIHRvIGFuIGludC4KICAgIC0gbGliZHBrZzog
-QWRkIGxvZ19zZXRfZmlsZSgpIGZ1bmN0aW9uIGluc3RlYWQgb2YgZXhwb3NpbmcgbG9nX2ZpbGUK
-ICAgICAgdmFyaWFibGUuCiAgICAtIGxpYmRwa2c6IEFkZCBwdXNoL3BvcF9mYXRhbF9lcnJvcnNf
-c2VjdGlvbigpIGluc3RlYWQgb2Ygb25lcnJfYWJvcnQKICAgICAgdmFyaWFibGUuCiAgICAtIGRw
-a2c6IEFkZCBuZXcgY2xlYXJfY2xlYW51cF9zdGF0ZSgpIGluc3RlYWQgb2YgZXhwb3NpbmcgY2xl
-YW51cAogICAgICB2YXJpYWJsZXMuCiAgICAtIGxpYmRwa2c6IERvIG5vdCBza2lwIHZhcmJ1ZiBh
-bGxvY2F0aW9ucyBvbiBhZGRpdGlvbnMgd2l0aCB6ZXJvIHNpemVzLgogICAgICBSZXBvcnRlZCBi
-eSBFbGlhcyBIYXNhcyAoemVyMGQ0eTUpIDxlbGlhc2g5NzdAZ21haWwuY29tPiAoZW1wdHkgZmly
-c3QKICAgICAgZmllbGQpLiBDbG9zZXM6ICMxMTQ3MTIxCiAgKiBCdWlsZCBzeXN0ZW06CiAgICAt
-IFVwZGF0ZSAuZWRpdG9yY29uZmlnIHNoZWxsIGRpcmVjdGl2ZXMgZm9yIHNoZm10LgogICAgLSBS
-ZW1vdmUgLVdwcmUtYzJ4LWNvbXBhdCBmbGFnLgogICAgLSBSZW5hbWUgYzJ4IHdhcm5pbmcgb3B0
-aW9ucyB0byB1c2UgYzIzIGluc3RlYWQuCiAgICAtIEFkZCBuZXcgZ2NjLTE1IHdhcm5pbmdzLgog
-ICAgLSBBZGQgLS10YWdzIHRvIMKrZ2l0IGRlc2NyaWJlwrsuCiAgICAtIEFkZCBnZW5lcmF0ZWQg
-Y29uZmlndXJlIGZpbGUgYXJ0aWZhY3RzIHRvIC5naXRpZ25vcmUuCiAgICAtIEFkZCBtYXhfbGlu
-ZV9sZW5ndGggdG8gLmVkaXRvcmNvbmZpZy4KICAgIC0gU2V0IFRBUl9PUFRJT05TIHRvIGF2b2lk
-IGxlYWtpbmcgbWFpbnRhaW5lciBpbmZvcm1hdGlvbiBvbiBkaXN0LgogICAgLSBNb3ZlIG1heF9s
-aW5lX2xlbmd0aCBmcm9tIHRoZSBjYXRjaC1hbGwgZ2xvYiB0byBlYWNoIHNlY3Rpb24uCiAgICAt
-IEFkZCBBQ19TWVNfWUVBUjIwMzggc3VwcG9ydCB0byBjb25maWd1cmUuIENsb3NlczogIzEwNTQ1
-NTIKICAgIC0gQWRkIHN1cHBvcnQgZm9yIGJhc2ggc2NyaXB0cyBpbiB0aGUgc291cmNlIHRyZWUu
-CiAgICAtIFF1b3RlIHNoZWxsIHZhcmlhYmxlcyB0aGF0IG1pZ2h0IGNvbnRhaW4gc3BhY2VzIGlu
-IFRBUCB0ZXN0IHJ1bm5lci4KICAgIC0gSW1wcm92ZSBnZW4tY2hhbmdlbG9nIHNlY3Rpb24gZmls
-dGVyaW5nIGFuZCBncm91cGluZy4KICAqIFBhY2thZ2luZzoKICAgIC0gQnVtcCBTdGFuZGFyZHMt
-VmVyc2lvbiB0byA0LjcuNCAobm8gY2hhbmdlcyBuZWVkZWQpLgogICAgLSBSZW1vdmUgYnVpbGQg
-ZGVwZW5kZW5jeSBvbiBkZWJoZWxwZXIgKD49IDEzLjEwKS4KICAgIC0gUmVtb3ZlIG9ic29sZXRl
-IEJyZWFrcyBzYXRpc2ZpZWQgc2luY2UgRGViaWFuIG9sZHN0YWJsZSBvciBzdGFibGUuCiAgICAt
-IFJlbW92ZSBvYnNvbGV0ZSB2ZXJzaW9uZWQgZGVwZW5kZW5jaWVzIG9uIGVzc2VudGlhbCBwYWNr
-YWdlcy4KICAgIC0gUmVtb3ZlIHRyYWlsaW5nIHNwYWNlcyBmcm9tIGNvbmZmaWxlcy4KICAgIC0g
-RG8gbm90IHVzZSB1bmJhbGFuY2VkIHF1b3RlcyBpbiBkcGtnL2RzZWxlY3QgY29uZmZpbGVzLgog
-ICAgLSBJbXByb3ZlIGRlc2NyaXB0aW9uIGZvciBkcGtnIGFuZCBkc2VsZWN0IGNvbmZpZyBmaWxl
-cy4KICAgIC0gU2hpcCBhbiAvZXRjL2Rwa2cvYnVpbGRwYWNrYWdlLmNvbmYgZmlsZSBpbiBkcGtn
-LWRldi4KICAgIC0gUmVtb3ZlIHBhY2thZ2UgcHJlZml4IGZyb20gbGludGlhbi1vdmVycmlkZXMu
-CiAgKiBUZXN0IHN1aXRlOgogICAgLSBJbXByb3ZlIHVuaXQgdGVzdCBkZXNjcmlwdGlvbiBtZXNz
-YWdlIHRvIGluY2x1ZGUgZGlyZWN0b3J5LgogICAgLSBSZW1vdmUgVEFSX09QVElPTlMgZnJvbSBl
-bnZpcm9ubWVudCBiZWZvcmUgY2FsbGluZyAkRHBrZzo6UFJPR1RBUi4KICAgIC0gVXBkYXRlIGNw
-cGNoZWNrIHN1cHByZXNzaW9ucyBmb3IgMi4yMS4wLgogICAgLSBNYWtlIG1rbm9kKDEpIHRlc3Rz
-IGNvbmRpdGlvbmFsIGFuZCBkaXNhYmxlZCBieSBkZWZhdWx0LgogICAgICBBbmFseXNpcyBieSBB
-cm5hdWQgUmViaWxsb3V0IDxhcm5hdWRyQGRlYmlhbi5vcmc+LiBDbG9zZXM6ICMxMTQyMTAwLAog
-ICAgICAjMTE0NDc4MQogICogTG9jYWxpemF0aW9uOgogICAgLSBBZGQgVWtyYWluaWFuIHRyYW5z
-bGF0aW9ucy4KICAgICAgVGhhbmtzIHRvIEFuZHJpeSBQeXN5ayA8ZXAubmVzdG9yQGdtYWlsLmNv
-bT4uIENsb3NlczogIzExMzA5ODAKICAgIC0gVXBkYXRlIC5naXRpZ25vcmUgZmlsZXMgZm9yIG5l
-dyBnZXR0ZXh0LgogICAgLSBVcGRhdGUgRHV0Y2ggdHJhbnNsYXRpb25zLgogICAgICBUaGFua3Mg
-dG8gRnJhbnMgU3BpZXNzY2hhZXJ0IDxGcmFucy5TcGllc3NjaGFlcnRAeXVjb20uYmU+LgogICAg
-ICBDbG9zZXM6ICMxMTMxMjExLCAjMTEzMjU0MSwgIzExMzI1NDIKICAgIC0gVXBkYXRlIFBvcnR1
-Z3Vlc2UgdHJhbnNsYXRpb25zLgogICAgICBUaGFua3MgdG8gQW3DqXJpY28gTW9udGVpcm8gPGFf
-bW9udGVpcm9AZ214LmNvbT4uIENsb3NlczogIzExMjczOTQKICAgIC0gVXBkYXRlIFJvbWFuaWFu
-IGRzZWxlY3QgdHJhbnNsYXRpb24uCiAgICAgIFRoYW5rcyB0byBSZW11cy1HYWJyaWVsIENoZWx1
-IDxyZW11c2dhYnJpZWwuY2hlbHVAZGlzcm9vdC5vcmc+LgogICAgICBDbG9zZXM6ICMxMTM5MzMy
-CiAgICAtIFVwZGF0ZSBSb21hbmlhbiBwcm9ncmFtcyB0cmFuc2xhdGlvbi4KICAgICAgVGhhbmtz
-IHRvIFJlbXVzLUdhYnJpZWwgQ2hlbHUgPHJlbXVzZ2FicmllbC5jaGVsdUBkaXNyb290Lm9yZz4u
-CiAgICAgIENsb3NlczogIzExMzkzMzQKICAgIC0gVXBkYXRlIFN3ZWRpc2ggdHJhbnNsYXRpb25z
-LgogICAgICBUaGFua3MgdG8gUGV0ZXIgS3JlZnRpbmcgPHBldGVyQHNvZnR3b2x2ZXMucHAuc2U+
-LiBDbG9zZXM6ICMxMTMwNTM2CgogLS0gR3VpbGxlbSBKb3ZlciA8Z3VpbGxlbUBkZWJpYW4ub3Jn
-PiAgTW9uLCAwNyBTZXAgMjAyNiAyMzo1NToxOSArMDIwMAo=
+RnJvbSA4MTRmZmZjNzVmMjRjZTlhYjQ5Y2VhZTI5YmE0YmUyY2FlOGVmOWJhIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFRodSwgMTAgU2VwIDIwMjYgMDY6MDA6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSB4
+ejogdXBncmFkZSA1LjguMyAtPiA1LjguNAoKU291cmNlOiBORVdTCgo1LjguNCAoMjAyNi0wOS0w
+OSkKCiAgICBJTVBPUlRBTlQ6IFRoaXMgaW5jbHVkZXMgYSBmaXggZm9yIGEgc2VjdXJpdHkgaXNz
+dWUgdGhhdCBhZmZlY3RzIGFsbAogICAgWFogVXRpbHMgdmVyc2lvbnMgc2luY2UgNS4wLjAuIFRo
+aXMgYW5kIGEgZmV3IG90aGVyIGZpeGVzIGhhdmUgYWxzbwogICAgYmVlbiBjb21taXR0ZWQgdG8g
+dGhlIG9sZCBzdGFibGUgYnJhbmNoZXMgKHY1LjIsIHY1LjQsIGFuZCB2NS42KSBpbgogICAgdGhl
+IHh6IEdpdCByZXBvc2l0b3J5LiBUaG9zZSBmaXhlcyBhcmUgbWFya2VkIGJlbG93LiBObyBuZXcg
+NS4yLngsCiAgICA1LjQueCwgb3IgNS42LnggcmVsZWFzZXMgd2lsbCBiZSBtYWRlLgoKICAgICog
+bGlibHptYToKCiAgICAgICAgLSBsem1hX2Fsb25lX2RlY29kZXIoKSwgbHptYV9semlwX2RlY29k
+ZXIoKSwKICAgICAgICAgIGx6bWFfYXV0b19kZWNvZGVyKCksIGFuZCBsem1hX21pY3JvbHptYV9k
+ZWNvZGVyKCk6IEZpeCBhbgogICAgICAgICAgaW52YWxpZCBtZW1vcnkgYWNjZXNzIGFmdGVyIG1l
+bW9yeSBhbGxvY2F0aW9uIGhhcyBmYWlsZWQgYW5kCiAgICAgICAgICB0aGUgYXBwbGljYXRpb24g
+cmVpbml0aWFsaXplcyB0aGUgZXhpc3RpbmcgZGVjb2RlciB0byBkZWNvZGUKICAgICAgICAgIGEg
+ZGlmZmVyZW50IGZpbGUuIFRoaXMgYnVnIGNvdWxkIGF0IGxlYXN0IHJlc3VsdCBpbiBhIGNyYXNo
+LgogICAgICAgICAgVGhpcyBpcyB0cmFja2VkIGFzIEdIU0EtNXFwcS14cWZ2LWo5cGcuIENWRSBu
+dW1iZXIgaXMgcGVuZGluZy4KICAgICAgICAgIChBbHNvIGluIHY1LjIsIHY1LjQsIGFuZCB2NS42
+LikKCiAgICAgICAgLSBsem1hX3N0cmVhbV9idWZmZXJfZGVjb2RlKCk6IEZpeCB3cm9uZyBlcnJv
+ciBjb2RlIGFuZCwKICAgICAgICAgIGluIGRlYnVnIGJ1aWxkcywgYXNzZXJ0aW9uIGZhaWx1cmUu
+IExaTUFfQlVGX0VSUk9SIGNvdWxkCiAgICAgICAgICBiZSByZXR1cm5lZCB3aXRoIHRydW5jYXRl
+ZCBpbnB1dHMgd2hpbGUgTFpNQV9EQVRBX0VSUk9SCiAgICAgICAgICBpcyB0aGUgY29ycmVjdCBv
+bmUgaW4gdGhpcyBmdW5jdGlvbi4KICAgICAgICAgIChBbHNvIGluIHY1LjIsIHY1LjQsIGFuZCB2
+NS42LikKCiAgICAgICAgLSBGaXggYSBwZXJmb3JtYW5jZSBpc3N1ZSBpbiB0aGUgdHlwaWNhbCB1
+c2UgY2FzZSBvZgogICAgICAgICAgbHptYV9pbmRleF9jYXQoKS4gSW50ZXJuYWxseSBsaWJsem1h
+IGNhbGxzIGl0IGZyb20KICAgICAgICAgIGx6bWFfZmlsZV9pbmZvX2RlY29kZXIoKSwgc28gdGhh
+dCB3YXMgYWZmZWN0ZWQgdG9vLiBUaGUKICAgICAgICAgIHByb2JsZW0gb2NjdXJyZWQgaWYgdGhl
+IGlucHV0IC54eiBmaWxlIHdhcyBjcmVhdGVkIGJ5CiAgICAgICAgICBjb25jYXRlbmF0aW5nIGEg
+bGFyZ2UgbnVtYmVyIG9mIC54eiBmaWxlcy4gQSBjcmFmdGVkIGZpbGUKICAgICAgICAgIGNvdWxk
+IG1ha2UgInh6IC0tbGlzdCIgdmVyeSBzbG93IG9yIGVmZmVjdGl2ZWx5IGhhbmcuCiAgICAgICAg
+ICBOb3JtYWwgZGVjb21wcmVzc2lvbiBkb2Vzbid0IHVzZSB0aGVzZSBmdW5jdGlvbnMgYW5kCiAg
+ICAgICAgICB0aHVzIHdhc24ndCBhZmZlY3RlZC4KICAgICAgICAgIChBbHNvIGluIHY1LjIsIHY1
+LjQsIGFuZCB2NS42LikKCiAgICAgICAgLSBGaXggYSB0aGVvcmV0aWNhbCBpbnRlZ2VyIG92ZXJm
+bG93IGluIGx6bWFfaW5kZXhfY2F0KCkuCiAgICAgICAgICAoQWxzbyBpbiB2NS4yLCB2NS40LCBh
+bmQgdjUuNi4pCgogICAgICAgIC0gRml4IGJvZ3VzIG1lbW9yeSB1c2FnZSByZXBvcnQgaW4gbHpt
+YV9pbmRleF9kZWNvZGVyKCkgd2hlbgogICAgICAgICAgdGhlIC54eiBJbmRleCBpcyBvYnZpb3Vz
+bHkgaW52YWxpZC4gQSBodWdlIGJvZ3VzIHZhbHVlIGNvdWxkCiAgICAgICAgICBjYXVzZSBhbiBp
+bnRlZ2VyIG92ZXJmbG93IGluIGx6bWFfZmlsZV9pbmZvX2RlY29kZXIoKSdzCiAgICAgICAgICBt
+ZW1vcnkgdXNhZ2UgcmVwb3J0aW5nIGR1ZSB0byBhIG1pc3Npbmcgb3ZlcmZsb3cgY2hlY2ssCiAg
+ICAgICAgICBtYWtpbmcgbHptYV9tZW11c2VkKCkgcmVwb3J0IGFuIGluY29ycmVjdCB0aW55IHZh
+bHVlLiBUaGlzCiAgICAgICAgICBidWcgZGlkbid0IGFmZmVjdCB0aGUgbWVtb3J5IHVzYWdlIGxp
+bWl0ZXIgaW4gdGhlc2UgdHdvCiAgICAgICAgICBkZWNvZGVyczsgb25seSB0aGUgcmVwb3J0aW5n
+IHZpYSBsem1hX21lbXVzZWQoKSB3YXMgYWZmZWN0ZWQuCiAgICAgICAgICAoQWxzbyBpbiB2NS4y
+LCB2NS40LCBhbmQgdjUuNi4pCgogICAgICAgIC0gRml4IGEgdG9vIGxvdyBtZW1vcnkgdXNhZ2Ug
+cmVwb3J0IGluIGx6bWFfaW5kZXhfZGVjb2RlcigpCiAgICAgICAgICBpZiBsem1hX21lbXVzZWQo
+KSBpcyBjYWxsZWQgYWZ0ZXIgYSBwYXJ0IG9mIHRoZSBJbmRleCBoYXMKICAgICAgICAgIGFscmVh
+ZHkgYmVlbiBkZWNvZGVkLiBUaGUgdHlwaWNhbCB1c2UgY2FzZSBpcyB0byBjYWxsCiAgICAgICAg
+ICBsem1hX21lbXVzZWQoKSBpbW1lZGlhdGVseSBhZnRlciBMWk1BX01FTUxJTUlUX0VSUk9SLAog
+ICAgICAgICAgd2hpY2ggZGlkIHdvcmsgY29ycmVjdGx5LgoKICAgICAgICAtIEZpeCBjb3B5aW5n
+IG9mIGNoZWNrIHR5cGUgaW4gbHptYV9pbmRleF9kdXAoKS4gQ2FsbGluZwogICAgICAgICAgbHpt
+YV9pbmRleF9jaGVja3MoKSBvbiB0aGUgZHVwbGljYXRlZCBsem1hX2luZGV4IHJldHVybmVkCiAg
+ICAgICAgICByZXR1cm4gZ2FyYmFnZSBhIHJlc3VsdC4gbHptYV9pbmRleF9kdXAoKSBpcyByYXJl
+bHkgdXNlZDsKICAgICAgICAgIGxpYmx6bWEgZG9lc24ndCB1c2UgaXQgaW50ZXJuYWxseSBhbmQg
+eHogaXRzZWxmIGRvZXNuJ3QgdXNlCiAgICAgICAgICBpdCBlaXRoZXIuCiAgICAgICAgICAoQWxz
+byBpbiB2NS4yLCB2NS40LCBhbmQgdjUuNi4pCgogICAgICAgIC0gbHptYV9maWxlX2luZm9fZGVj
+b2RlcigpIGFuZCBsem1hX2luZGV4X2RlY29kZXIoKTogUmVqZWN0CiAgICAgICAgICBhbiBvYnZp
+b3VzbHktCgpbQ2hhbmdlbG9nIHRydW5jYXRlZCBhcyBpdCBleGNlZWRzIDMwMDAgY2hhcmFjdGVy
+czsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBiZSBmb3VuZCBpbiBhbiBhdHRhY2htZW50IHRvIHRo
+ZSBBVUggZW1haWxdCi0tLQogbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6L3t4el81LjguMy5iYiA9
+PiB4el81LjguNC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEg
+ZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHove3h6XzUuOC4zLmJi
+ID0+IHh6XzUuOC40LmJifSAoOTclKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1leHRlbmRl
+ZC94ei94el81LjguMy5iYiBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC94ei94el81LjguNC5iYgpz
+aW1pbGFyaXR5IGluZGV4IDk3JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQveHov
+eHpfNS44LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1leHRlbmRlZC94ei94el81LjguNC5i
+YgppbmRleCAwNzM1Njk2MDExLi5jZmIwNTc0ZjBkIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMt
+ZXh0ZW5kZWQveHoveHpfNS44LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3h6L3h6
+XzUuOC40LmJiCkBAIC0zMCw3ICszMCw3IEBAIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0NP
+UFlJTkc7bWQ1PWQzOGQ1NjJmNjExMjE3NGRlOTNhOTY3NzY4MjIzMWIyIFwKIFNSQ19VUkkgPSAi
+aHR0cHM6Ly9naXRodWIuY29tL3R1a2FhbmktcHJvamVjdC94ei9yZWxlYXNlcy9kb3dubG9hZC92
+JHtQVn0veHotJHtQVn0udGFyLmd6IFwKICAgICAgICAgICAgZmlsZTovL3J1bi1wdGVzdCBcCiAg
+ICAgICAgICAgICIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIzZDNhMWI5NzNhZjIxODExNGY0Zjg4
+OWJiYWEyZjRjMDM3ZGVhYWUwYzhlODE1ZWVjMzgxYzNkNTQ2Yjk3NGEwIgorU1JDX1VSSVtzaGEy
+NTZzdW1dID0gIjAwMTRjNzg4NjkzMDQ1NGZlOGJkNDIyODY2NWI1MWFmNTVlZWFlNTYwZWExMzVj
+OWM0Y2QzM2Y1NWIyNTkxZDkiCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJyZWxlYXNlcy90YWcv
+dig/UDxwdmVyPlxkKyhcLlxkKykrKSIKIFVQU1RSRUFNX0NIRUNLX1VSSSA9ICJodHRwczovL2dp
+dGh1Yi5jb20vdHVrYWFuaS1wcm9qZWN0L3h6L3JlbGVhc2VzLyIKIAotLSAKMi40Ny4xCgo=
 
---===============5888620752414087667==--
+--===============2430244094621967206==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.8.3", added "/usr/lib/liblzma.so.5.8.4"
+Changes to packages/x86-64-v3-poky-linux/xz (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.3 to liblzma.so.5.8.4
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.3 to liblzma.so.5.8.4
+  /usr/lib/liblzma.so.5.8.3 moved to /usr/lib/liblzma.so.5.8.4
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt-br: PKGSIZE changed from 15660 to 29048 (+85%)
+packages/x86-64-v3-poky-linux/xz/xz-ptest: PKGSIZE changed from 477088 to 533487 (+12%)
+packages/x86-64-v3-poky-linux/xz/xz-ptest: FILELIST: added "/usr/lib/xz/ptest/tests/files/bad-1-index-huge-uncomp.xz /usr/lib/xz/ptest/tests/files/bad-0-index-1.xz /usr/lib/xz/ptest/tests/test_alone_decoder /usr/lib/xz/ptest/tests/test_stream_buffer_decode /usr/lib/xz/ptest/tests/test_stream_buffer_encode"
+Changes to packages/x86_64-linux/elfutils-native (sysroot):
+  /usr/bin/eu-stackprof was added
+Changes to packages/x86_64-linux/xz-native (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.3 to liblzma.so.5.8.4
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.3 to liblzma.so.5.8.4
+  /usr/lib/liblzma.so.5.8.3 moved to /usr/lib/liblzma.so.5.8.4
+
+--===============2430244094621967206==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="xz-changelog.txt"
+
+Changelog for xz: 5.8.3 -> 5.8.4
+Source: NEWS
+
+5.8.4 (2026-09-09)
+
+    IMPORTANT: This includes a fix for a security issue that affects all
+    XZ Utils versions since 5.0.0. This and a few other fixes have also
+    been committed to the old stable branches (v5.2, v5.4, and v5.6) in
+    the xz Git repository. Those fixes are marked below. No new 5.2.x,
+    5.4.x, or 5.6.x releases will be made.
+
+    * liblzma:
+
+        - lzma_alone_decoder(), lzma_lzip_decoder(),
+          lzma_auto_decoder(), and lzma_microlzma_decoder(): Fix an
+          invalid memory access after memory allocation has failed and
+          the application reinitializes the existing decoder to decode
+          a different file. This bug could at least result in a crash.
+          This is tracked as GHSA-5qpq-xqfv-j9pg. CVE number is pending.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - lzma_stream_buffer_decode(): Fix wrong error code and,
+          in debug builds, assertion failure. LZMA_BUF_ERROR could
+          be returned with truncated inputs while LZMA_DATA_ERROR
+          is the correct one in this function.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - Fix a performance issue in the typical use case of
+          lzma_index_cat(). Internally liblzma calls it from
+          lzma_file_info_decoder(), so that was affected too. The
+          problem occurred if the input .xz file was created by
+          concatenating a large number of .xz files. A crafted file
+          could make "xz --list" very slow or effectively hang.
+          Normal decompression doesn't use these functions and
+          thus wasn't affected.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - Fix a theoretical integer overflow in lzma_index_cat().
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - Fix bogus memory usage report in lzma_index_decoder() when
+          the .xz Index is obviously invalid. A huge bogus value could
+          cause an integer overflow in lzma_file_info_decoder()'s
+          memory usage reporting due to a missing overflow check,
+          making lzma_memused() report an incorrect tiny value. This
+          bug didn't affect the memory usage limiter in these two
+          decoders; only the reporting via lzma_memused() was affected.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - Fix a too low memory usage report in lzma_index_decoder()
+          if lzma_memused() is called after a part of the Index has
+          already been decoded. The typical use case is to call
+          lzma_memused() immediately after LZMA_MEMLIMIT_ERROR,
+          which did work correctly.
+
+        - Fix copying of check type in lzma_index_dup(). Calling
+          lzma_index_checks() on the duplicated lzma_index returned
+          return garbage a result. lzma_index_dup() is rarely used;
+          liblzma doesn't use it internally and xz itself doesn't use
+          it either.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - lzma_file_info_decoder() and lzma_index_decoder(): Reject
+          an obviously-invalid Number of Records field earlier.
+          (Partially also in v5.2, v5.4, and v5.6.)
+
+        - Fix a missing synchronization in the threaded .xz decoder. It
+          could make lzma_get_progress() return incorrect progress info.
+          (Also in v5.4 and v5.6.)
+
+        - Detect certain kinds of corrupt inputs slightly earlier in
+          the LZMA2 decoder.
+
+        - ARM64 and LoongArch: Don't use aligned reads on unaligned
+          buffers. This makes the code work on strict-align processors
+          and fixes a sanitizer error in other cases. (Since 5.7.1alpha)
+
+    * xz:
+
+        - Fix a use-after-free when showing an error message if --files
+          or --files0 was specified in the environment variables XZ_OPT
+          or XZ_DEFAULTS.
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - Fix a use-after-free bug when --verbose is used and
+          standard error isn't a terminal. (Since 5.7.1alpha)
+
+        - Make it an error if the totals in "xz --list" exceed the range
+          of 64-bit integers.
+          (Also in v5.2, v5.4, and v5.6.)
+
+    * xz and xzdec on Linux:
+
+        - Add support for Landlock ABI version 9.
+
+        - Use fallback macros for Landlock ABI version 2, 3, and 5
+          (but not 4) if <linux/landlock.h> is older than ABI version 5.
+          This makes the binary slightly more protected if it is run on
+          a kernel that supports newer ABIs than <linux/landlock.h>.
+
+    * Scripts:
+
+        - xzgrep: Fix handling of the ' char at the end of a command
+          line option. For example, the following tricked xzgrep to
+          run "id": xzgrep "-e'" "-e;id;'" somefile
+          (Also in v5.2, v5.4, and v5.6.)
+
+        - xzdiff: Use the C locale (LC_ALL=C) with "sed" and "expr"
+          to ensure safe behavior with invalid multibyte sequences.
+          An equivalent improvement was made in xzgrep in 5.2.6
+          (2022-08-12), but it was forgotten from xzdiff.
+          (Also in v5.2, v5.4, and v5.6.)
+
+    * Tests:
+
+        - Improve a few tests and fuzz targets.
+
+        - Add new test files:
+            * bad-0-index-1.xz (32 bytes)
+            * bad-1-index-huge-uncomp.xz (72 bytes)
+
+    * Man pages:
+
+        - Improve the rendering with OpenBSD's mandoc(1).
+
+        - Reduce indentation of the tables to avoid overlong lines
+          in translated versions of the xz man page.
+
+    * Translations:
+
+        - In translated man pages, workaround an issue with non-ASCII
+          characters in tables.
+
+        - Fix syntax errors in a few man page translations.
+
+        - Update Arabic and German man page translations.
+
+        - Update Brazilian Portuguese, Croatian, Dutch, German, Italian,
+          Korean, Polish, Portuguese, Romanian, and Ukrainian message
+          translations.
+
+        - Fix a buffer overflow in lzma_index_append() (CVE-2026-34743):
+          If lzma_index_decoder() was used to decode an Index that
+
+--===============2430244094621967206==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/xz: SRC_URI changed from "https://github.com/tukaani-project/xz/releases/download/v5.8.3/xz-5.8.3.tar.gz file://run-ptest" to "https://github.com/tukaani-project/xz/releases/download/v5.8.4/xz-5.8.4.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/xz: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/liblzma: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/liblzma: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/liblzma: PKGSIZE changed from 207096 to 211192 (+2%)
+packages/x86-64-v3-poky-linux/xz/liblzma: FILELIST: removed "/usr/lib/liblzma.so.5.8.3", added "/usr/lib/liblzma.so.5.8.4"
+Changes to packages/x86-64-v3-poky-linux/xz (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.3 to liblzma.so.5.8.4
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.3 to liblzma.so.5.8.4
+  /usr/lib/liblzma.so.5.8.3 moved to /usr/lib/liblzma.so.5.8.4
+packages/x86-64-v3-poky-linux/xz/xz-dbg: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-dbg: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-dbg: PKGSIZE changed from 2293848 to 2473640 (+8%)
+packages/x86-64-v3-poky-linux/xz/xz-dbg: FILELIST: removed "/usr/lib/.debug/liblzma.so.5.8.3", added "/usr/lib/xz/ptest/tests/.debug/test_stream_buffer_decode /usr/lib/.debug/liblzma.so.5.8.4 /usr/lib/xz/ptest/tests/.debug/test_alone_decoder /usr/lib/xz/ptest/tests/.debug/test_stream_buffer_encode"
+packages/x86-64-v3-poky-linux/xz/xz-dev: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-dev: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-dev: PKGSIZE changed from 229942 to 229971 (+0%)
+packages/x86-64-v3-poky-linux/xz/xz-doc: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-doc: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-doc: PKGSIZE changed from 1517047 to 1524024 (+0%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-ca: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-ca: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-cs: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-cs: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-da: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-da: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-de: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-de: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-de: PKGSIZE changed from 29882 to 30057 (+1%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-eo: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-eo: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-es: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-es: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-fi: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-fi: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-fr: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-fr: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-hr: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-hr: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-hr: PKGSIZE changed from 28799 to 28975 (+1%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-hu: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-hu: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-it: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-it: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-it: PKGSIZE changed from 28688 to 29139 (+2%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-ka: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-ka: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-ko: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-ko: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-ko: PKGSIZE changed from 29850 to 30007 (+1%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-nl: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-nl: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-nl: PKGSIZE changed from 28532 to 28711 (+1%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-pl: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-pl: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-pl: PKGSIZE changed from 29090 to 29253 (+1%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt-br: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt-br: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt-br: PKGSIZE changed from 15660 to 29048 (+85%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-pt: PKGSIZE changed from 28796 to 28957 (+1%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-ro: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-ro: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-ro: PKGSIZE changed from 30418 to 30596 (+1%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-sr: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-sr: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-sv: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-sv: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-tr: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-tr: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-uk: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-uk: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-uk: PKGSIZE changed from 39005 to 39235 (+1%)
+packages/x86-64-v3-poky-linux/xz/xz-locale-vi: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-vi: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-zh-cn: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-zh-cn: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-locale-zh-tw: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-locale-zh-tw: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-ptest: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-ptest: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-ptest: PKGSIZE changed from 477088 to 533487 (+12%)
+packages/x86-64-v3-poky-linux/xz/xz-ptest: FILELIST: added "/usr/lib/xz/ptest/tests/test_alone_decoder /usr/lib/xz/ptest/tests/files/bad-1-index-huge-uncomp.xz /usr/lib/xz/ptest/tests/files/bad-0-index-1.xz /usr/lib/xz/ptest/tests/test_stream_buffer_decode /usr/lib/xz/ptest/tests/test_stream_buffer_encode"
+packages/x86-64-v3-poky-linux/xz/xz-src: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-src: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz-src: PKGSIZE changed from 1698866 to 1723485 (+1%)
+packages/x86-64-v3-poky-linux/xz/xz-src: FILELIST: directory renamed /usr/src/debug/xz/5.8.3/src/common -> /usr/src/debug/xz/5.8.4/src/common, directory renamed /usr/src/debug/xz/5.8.3/src/liblzma/api/lzma -> /usr/src/debug/xz/5.8.4/src/liblzma/api/lzma, directory renamed /usr/src/debug/xz/5.8.3/src/liblzma/lzma -> /usr/src/debug/xz/5.8.4/src/liblzma/lzma, directory renamed /usr/src/debug/xz/5.8.3/src/xzdec -> /usr/src/debug/xz/5.8.4/src/xzdec, directory renamed /usr/src/debug/xz/5.8.3/src/liblzma/check -> /usr/src/debug/xz/5.8.4/src/liblzma/check, directory renamed /usr/src/debug/xz/5.8.3/src/liblzma/common -> /usr/src/debug/xz/5.8.4/src/liblzma/common, directory renamed /usr/src/debug/xz/5.8.3/src/liblzma/rangecoder -> /usr/src/debug/xz/5.8.4/src/liblzma/rangecoder, directory renamed /usr/src/debug/xz/5.8.3/src/liblzma/simple -> /usr/src/debug/xz/5.8.4/src/liblzma/simple, directory renamed /usr/src/debug/xz/5.8.3/src/lzmainfo -> /usr/src/debug/xz/5.8.4/src/lzmainfo, directory renam
+ ed /usr/src/debug/xz/5.8.3/src/xz -> /usr/src/debug/xz/5.8.4/src/xz, directory renamed /usr/src/debug/xz/5.8.3/src/liblzma/delta -> /usr/src/debug/xz/5.8.4/src/liblzma/delta, directory renamed /usr/src/debug/xz/5.8.3/src/liblzma/lz -> /usr/src/debug/xz/5.8.4/src/liblzma/lz, removed "/usr/src/debug/xz/5.8.3/tests/tuktest.h /usr/src/debug/xz/5.8.3/tests/test_filter_flags.c /usr/src/debug/xz/5.8.3/tests/test_index_hash.c /usr/src/debug/xz/5.8.3/tests/test_lzip_decoder.c /usr/src/debug/xz/5.8.3/tests/create_compress_files.c /usr/src/debug/xz/5.8.3/tests/test_bcj_exact_size.c /usr/src/debug/xz/5.8.3/tests/test_stream_flags.c /usr/src/debug/xz/5.8.3/tests/test_filter_str.c /usr/src/debug/xz/5.8.3/tests/test_vli.c /usr/src/debug/xz/5.8.3/tests/tests.h /usr/src/debug/xz/5.8.3/tests/test_check.c /usr/src/debug/xz/5.8.3/tests/test_index.c /usr/src/debug/xz/5.8.3/tests/test_hardware.c /usr/src/debug/xz/5.8.3/tests/test_microlzma.c /usr/src/debug/xz/5.8.3/tests/test_memlimit.c /usr/src/debug/xz
+ /5.8.3/tests/test_block_header.c", added "/usr/src/debug/xz/5.8.4/tests/test_filter_str.c /usr/src/debug/xz/5.8.4/tests/test_lzip_decoder.c /usr/src/debug/xz/5.8.4/tests/create_compress_files.c /usr/src/debug/xz/5.8.4/tests/test_bcj_exact_size.c /usr/src/debug/xz/5.8.4/tests/test_vli.c /usr/src/debug/xz/5.8.4/tests/test_hardware.c /usr/src/debug/xz/5.8.4/tests/tuktest.h /usr/src/debug/xz/5.8.4/tests/test_filter_flags.c /usr/src/debug/xz/5.8.4/tests/test_stream_flags.c /usr/src/debug/xz/5.8.4/tests/test_alone_decoder.c /usr/src/debug/xz/5.8.4/tests/test_check.c /usr/src/debug/xz/5.8.4/tests/test_index.c /usr/src/debug/xz/5.8.4/tests/test_index_hash.c /usr/src/debug/xz/5.8.4/tests/test_microlzma.c /usr/src/debug/xz/5.8.4/tests/test_block_header.c /usr/src/debug/xz/5.8.4/tests/test_stream_buffer_decode.c /usr/src/debug/xz/5.8.4/tests/test_stream_buffer_encode.c /usr/src/debug/xz/5.8.4/tests/tests.h /usr/src/debug/xz/5.8.4/tests/test_memlimit.c"
+packages/x86-64-v3-poky-linux/xz/xz-staticdev: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz-staticdev: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz: PV changed from "5.8.3" to "5.8.4"
+packages/x86-64-v3-poky-linux/xz/xz: PKGV changed from 5.8.3 [default] to 5.8.4 [default]
+packages/x86-64-v3-poky-linux/xz/xz: PKGSIZE changed from 175560 to 175622 (+0%)
+Changes to packages/x86_64-linux/elfutils-native (sysroot):
+  /usr/bin/eu-stackprof was added
+Changes to packages/x86_64-linux/xz-native (sysroot):
+  /usr/lib/liblzma.so.5 changed symlink target from liblzma.so.5.8.3 to liblzma.so.5.8.4
+  /usr/lib/liblzma.so changed symlink target from liblzma.so.5.8.3 to liblzma.so.5.8.4
+  /usr/lib/liblzma.so.5.8.3 moved to /usr/lib/liblzma.so.5.8.4
+
+--===============2430244094621967206==--
 
