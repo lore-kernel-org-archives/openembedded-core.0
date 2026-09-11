@@ -2,1124 +2,628 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 659BDC88E42
-	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 06:54:21 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.33923.1789109658099383662
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D82F3C88E45
+	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 06:54:31 +0000 (UTC)
+Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33715.1789109661525288669
  for <openembedded-core@lists.openembedded.org>;
- Thu, 10 Sep 2026 23:54:18 -0700
+ Thu, 10 Sep 2026 23:54:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=fFK5YQN5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=Vd3WLGSC;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a08f3ede0c-7bb57ee9-86f3-4eb8-8855-b5e10e8719d2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=mDkByTuX;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=k8QreKlu;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a08f3eebfc-50ba5ee6-6145-4f44-b8ca-c2bbc61dbc90-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789109657;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=9KUZ4+pWabOWq6dhNjFdDClFBpHuTBSjcoeQAaRMLRE=;
-	b=fFK5YQN5cedIgD9Ehgx7XElsJDbNB/9ZtV8D/EOWKKLM1bWrYpfhKDvVV3liSHkG
-	TUMtj6g4pbLrYXyrq7Eq7QEvVA0h/XOQfZrv9CBYHHMj554qT8jNuNySJabna/1tmlG
-	K/IgZJIOFcOFC4qjV0NEheCN+5mLJwPj+uPf0m68=
+	t=1789109660;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=Wdk75Npm6jC9pDUbeau38LCfciLOG0EIR5PiMUSLopQ=;
+	b=mDkByTuXGC87Oi7wpHkkNAULPg2cJ3y8XS71L8POR6PYoqMBDtRYApogaHm++L0k
+	Vdn3FOI1QwR614cyx+wqoShimcbmD2K6s89gCzRM4YZO8LLCAtrL9rIlKmaD4+iLt2D
+	mv6vZ3EADDEVXWs2n+BR1gIPbG8A7iVPU+bI1n1g=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789109657;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=9KUZ4+pWabOWq6dhNjFdDClFBpHuTBSjcoeQAaRMLRE=;
-	b=Vd3WLGSCj9eaDwYOLlI8wJyKLFSpkB0BpFbig54GToGRZqJKUNINxiCySX2cITjI
-	EfFQ+Eoh7FEiNw5w3Hh0zi9XM4TnQ6V8gqud4pU0uAyKQfXsRCIBdb7RZ3huTDbk/IG
-	RwS9a675y1Qqk+0xoLMddNXAb+ScQsjqOD7L4UEE=
-Content-Type: multipart/mixed; boundary="===============7421859077018539915=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789109660;
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=Wdk75Npm6jC9pDUbeau38LCfciLOG0EIR5PiMUSLopQ=;
+	b=k8QreKluttAcnR0uCQErfwRySZvhbcOU2mWzcdHZ4+3aUX9zVXlijlOr5c+H0hyF
+	WZnJwxYPnQCOtS07B7ZzQ1SmoH5BkSM6LyJjYraKIoAi5wn39J4ulblCqZTWbcS7u05
+	df6tl57ldeIEGa6f4q1qpjD7u6h6D88UYSIWCeHY=
+Content-Type: multipart/mixed; boundary="===============1105164357508354760=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Sai Sireesha T <saisireesha.t@windriver.com>, 
-	Chen Qi <Qi.Chen@windriver.com>, 
-	Sai Sireesha T <saisireesha.t@windriver.com>, 
-	Viswanath Kraleti <quic_vkraleti@quicinc.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] systemd,systemd-tools-native,systemd-boot,systemd-boot-native:
- upgrading to 261.3,261.3,261.3,261.3 FAILED
-Message-ID: <010101a08f3ede0c-7bb57ee9-86f3-4eb8-8855-b5e10e8719d2-000000@us-west-2.amazonses.com>
-Date: Fri, 11 Sep 2026 06:54:17 +0000
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] epiphany: upgrading to 51.0 FAILED
+Message-ID: <010101a08f3eebfc-50ba5ee6-6145-4f44-b8ca-c2bbc61dbc90-000000@us-west-2.amazonses.com>
+Date: Fri, 11 Sep 2026 06:54:20 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.11-54.240.27.23
+X-SES-Outgoing: 2026.09.11-54.240.27.193
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 06:54:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245609
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 06:54:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245613
 
---===============7421859077018539915==
-Content-Type: text/plain; charset="us-ascii"
+--===============1105164357508354760==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICplcGlwaGFueSogdG8gKjUxLjAqIGhhcyBGYWlsZWQoZG9fY29tcGlsZSkuCgpEZXRhaWxl
+ZCBlcnJvciBpbmZvcm1hdGlvbjoKCmRvX2NvbXBpbGUgZmFpbGVkCgoKCk5leHQgc3RlcHM6CiAg
+ICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtZXBpcGhhbnktdXBncmFkZS01MC42LTUx
+LjAucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBhbmQg
+c3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAgLSBjb21waWxlIGFuIGlt
+YWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9ybSBzb21lIGJhc2ljIHNh
+bml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQgY29t
+bWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBpdCB0byB0aGUgYXBwcm9w
+cmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUgcmVj
+aXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwgUkVD
+SVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0CmF1
+dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNlIHJl
+dmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1aWxk
+L3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0cHM6
+Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRvbWF0
+ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFkZSBIZWxwZXIKCi0tID44
+IC0tCkZyb20gMTZhNTQwNzUzZTk4NTRhZDcxMTU2NTkzNjU0Mzg3MTkxNGFlOGI5NiBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2plY3Qu
+b3JnPgpEYXRlOiBGcmksIDExIFNlcCAyMDI2IDA2OjM1OjA5ICswMDAwClN1YmplY3Q6IFtQQVRD
+SF0gZXBpcGhhbnk6IHVwZ3JhZGUgNTAuNiAtPiA1MS4wCk1JTUUtVmVyc2lvbjogMS4wCkNvbnRl
+bnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApDb250ZW50LVRyYW5zZmVyLUVuY29k
+aW5nOiA4Yml0CgpTb3VyY2U6IE5FV1MKCjUxLjAgLSBTZXB0ZW1iZXIgMTAsIDIwMjYKPT09PT09
+PT09PT09PT09PT09PT09PT09PQogIC0gIzI2MTcgc2Vzc2lvbjogQXBwZW5kIGNsb3NlZCB0YWIg
+YXQgZW5kIGlmIHJlY29yZGVkIHBvc2l0aW9uIGlzIG91dCBvZiBib3VuZHMKICAgIChKb2huIENh
+cmR1bGxvKQogIC0gIzI4OTcgKENWRS0yMDI2LTE4NDg3KSBBZGRyZXNzIEJhciAvIEhvc3QgU3Bv
+b2ZpbmcgdmlhIHVzZXJpbmZvIGluCiAgICBlcGh5X3VyaV9nZXRfZGVjb2RlZF9ob3N0IChNaWNo
+YWVsIENhdGFuemFybykKICAtICMyOTMxIENvZGUgSW5qZWN0aW9uIHZpYSBlcGh5X3dlYl92aWV3
+X2dldF9iZXN0X3dlYl9hcHBfaWNvbiBpbiBgZGF0YTpgIFVSSQogICAgKE1pY2hhZWwgQ2F0YW56
+YXJvKQogIC0gIzI5MzQgYGRhdGFgIFVSSSBwcmV0dGlmaWNhdGlvbiByZXR1cm5zIGludmFsaWQg
+ZG9tYWluIChNaWNoYWVsIENhdGFuemFybykKICAtICEyMTQ0IFNvbWUgZml4ZXMgZm9yIEVwaHlI
+aXN0b3J5RGlhbG9nUm93IChNaWNoYWVsIENhdGFuemFybykKKiBUcmFuc2xhdGlvbiB1cGRhdGVz
+OgogIC0gQmFzcXVlIChBc2llciBTYXJhdHN1YSBHYXJtZW5kaWEpCiAgLSBEYW5pc2ggKEFsYW4g
+TW9ydGVuc2VuKQogIC0gRW5nbGlzaCAoVW5pdGVkIEtpbmdkb20pIChCcnVjZSBDb3dhbikKICAt
+IEZyZW5jaCAoR3VpbGxhdW1lIEJlcm5hcmQpCiAgLSBIdW5nYXJpYW4gKEJhbMOhenMgw5pyKQog
+IC0gS29yZWFuIChDaGFuZ1Nlb2sgT2gpCiAgLSBOb3J3ZWdpYW4gQm9rbcOlbCAoS2phcnRhbiBN
+YXJhYXMpCiAgLSBTZXJiaWFuICjQnNCw0YDQutC+INCa0L7RgdGC0LjRmykKICAtIFNwYW5pc2gg
+KERhbmllbCBNdXN0aWVsZXMgR2FyY8OtYSkKICAtIFR1cmtpc2ggKEVtaW4gVHVmYW4gw4dldGlu
+KQoKNTEucmMgLSBBdWd1c3QgMjcsIDIwMjYKPT09PT09PT09PT09PT09PT09PT09PT0KICAtICMy
+ODk4IEludmFsaWQgYm9va21hcmsgaW1wb3J0IGNyYXNoZXMgYnJvd3NlciAoRmVybmFuZG8gTXXD
+sW96KQogIC0gIzI5MDMgWFNTL0hUTUwgaW5qZWN0aW9uIGluIGVycm9yIHBhZ2UgKE1pY2hhZWwg
+Q2F0YW56YXJvKQogIC0gIzI5MjEgKENWRS0yMDI2LTc3NjgyKSBBdXRvZmlsbCBKUyBDb2RlIElu
+amVjdGlvbiB2aWEgQ1NTIFNlbGVjdG9yIChNaWNoYWVsCiAgICBDYXRhbnphcm8pCiAgLSAjMjky
+MiAoQ1ZFLTIwMjYtNzc2NzkpIFdlYkV4dGVuc2lvbiBYUEkgUGF0aCBUcmF2ZXJzYWwgWklQU0xJ
+UCAoRmVybmFuZG8KICAgIE11w7FveikKICAtICMyOTI4IExpbmsgY2xpY2tlZCBpbiBhbm90aGVy
+IGFwcCBvcGVucyBpbiB0aGUgZnVsbHNjcmVlbiB3aW5kb3cgZHVyaW5nCiAgICBmdWxsc2NyZWVu
+IHZpZGVvIChTZW1lbiBGb21jaGVua292KQogIC0gIzI5MjkgQ2FyZXQgaW4gdGhlIGFkZHJlc3Mg
+YmFyIGp1bXBzIHRvIHRoZSBzdGFydCB3aGVuIEkgc3dpdGNoIGtleWJvYXJkCiAgICBsYXlvdXQg
+KFNlbWVuIEZvbWNoZW5rb3YpCiAgLSAjMjkzOCAiTm90IFNlY3VyZSIgbGFiZWwgaW4gdGhlIGFk
+ZHJlc3MgYmFyIGlzIHRydW5jYXRlZCBhbmQgZ2x1ZWQgdG8gdGhlCiAgICBkb21haW4gaW4gdHJh
+bnNsYXRlZCBsb2NhbGVzIChTZW1lbiBGb21jaGVua292KQogIC0gIzI5NDAgRXBpcGhhbnkgb2Zm
+ZXJzIHRvIHNhdmUgYSBwYXNzd29yZCB0aGF0IGl0IGp1c3QgYXV0b2ZpbGxlZCBpdHNlbGYKICAg
+IChhZnRlciBDU1YgaW1wb3J0KSAoU2VtZW4gRm9tY2hlbmtvdikKICAtICEyMTQ1IFVwZGF0ZSB0
+byBoaWdobGlnaHQuanMgMTEuMi4wIChNaWNoYWVsIENhdGFuemFybykKICAtICEyMTQ4IHdlYi1w
+cm9jZXNzLWV4dGVuc2lvbjogVGFyZ2V0IGFjdGl2ZSBmcmFtZSB3aGVuIGdlbmVyYXRpbmcgcGFz
+c3dvcmQKICAgIGZyb20gY29udGV4dCBtZW51IChKb2huIENhcmR1bGxvKQogIC0gITIxNTIgQ2Fu
+YXJ5OiBGaXggV2ViS2l0R1RLIGluamVjdGVkIGJ1bmRsZSBwYXRoIChQaGlsaXBwZSBOb3JtYW5k
+KQogIC0gITIxNTkgRG8gbm90IHRyaWdnZXIgZG93bmxvYWRzIG9uIG1pc3NpbmcgTUlNRSB0eXBl
+IG9yIGZhaWxlZCBIVFRQIHJlc3BvbnNlcwogICAgKEpvaG4gQ2FyZHVsbG8pCgoqIFRyYW5zbGF0
+aW9uIHVwZGF0ZXM6CiAgLSBCdWxnYXJpYW4gKEFsZXhhbmRlciBBbGV4YW5kcm92IFNob3BvdikK
+ICAtIENhdGFsYW4gKFhhdmkgSXZhcnMpCiAgLSBDaGluZXNlIChUYWl3YW4pIChDaGFvLUhzaXVu
+ZyBMaWFvKQogIC0gRmlubmlzaCAoSmlyaSBHcsO2bnJvb3MpCiAgLSBLYXpha2ggKEJhdXJ6aGFu
+IE11ZnRha2hpZGlub3YpCiAgLSBMaXRodWFuaWFuIChBdXJpbWFzIEF1cmltYXMgxIxlcm5pdXMp
+CiAgLSBQb3J0dWd1ZXNlIChCcmF6aWwpIChMdWlnZ2kgQ2FyZG9zbykKICAtIFJvbWFuaWFuIChB
+bnRvbmlvIE1hcmluKQogIC0gU3dlZGlzaCAoQW5kZXJzIEpvbnNzb24pCiAgLSBVaWdodXIgKEFi
+ZHVxYWRpciBBYmxpeikKCjUxLmJldGEgLSBBdWd1c3QgMTAsIDIwMjYKPT09PT09PT09PT09PT09
+PT09PT09PT09PQoKKiBCdWdzIGZpeGVkOgogIC0gIzE2NzEgQ29sb25zIGluIFVSTCBmb3IgRXBp
+cGhhbnkncyBhcHAgbW9kZSBhcmUgY29udmVydGVkIHRvICJBIiAoSm9obgogICAgQ2FyZHVsbG8p
+CiAgLSAjMjg5MiBDb21waWxlIGZhaWx1cmVzIGFnYWluc3QgbGlibmV0dGxlIDQuMCAoRmVybmFu
+ZG8gTXXDsW96KQogICAgKE1pY2hhZWwgQ2F0YW56YXJvKQogIC0gIzI5MDIgT3V0LW9mLWJvdW5k
+cyBjcmFzaC9hc3NlcnQgZmFpbHVyZSBpbgogICAgZXBoeV9qc29uX2FycmF5X2dldF9zdHJpbmdf
+d2l0aF9kZWZhdWx0IChNaWNoYWVsIENhdGFuemFybykKICAtICMyOTA0IEludmFsaWQgdmlldy1z
+b3VyY2U6IGNyYXNoZXMgYnJvd3NlciAoSm9obiBDYXJkdWxsbykKICAtICEyMDc5IENJOiBBZGQg
+Z29iamVjdC1saW50ZXIgKEphbi1NaWNoYWVsIEJydW1tZXIpCiAgLSAhMjEwOSBhZGQgcGlubmlu
+ZyBzdXBwb3J0IGZvciBVUkxzIGluIGhpc3RvcnkgYW5kIG92ZXJ2aWV3IG1vZGVsIChKb2huCiAg
+ICBDYXJkdWxsbykKCltDaGFuZ2Vsb2cgdHJ1bmNhdGVkIGFzIGl0IGV4Y2VlZHMgMzAwMCBjaGFy
+YWN0ZXJzOwp0aGUgZnVsbCBjaGFuZ2Vsb2cgY2FuIGJlIGZvdW5kIGluIGFuIGF0dGFjaG1lbnQg
+dG8gdGhlIEFVSCBlbWFpbF0KLS0tCiAuLi4vZXBpcGhhbnkve2VwaXBoYW55XzUwLjYuYmIgPT4g
+ZXBpcGhhbnlfNTEuMC5iYn0gICAgICAgICB8IDIgKy0KIC4uLi8wMDAyLWhlbHAtbWVzb24uYnVp
+bGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAucGF0Y2ggICAgIHwgMiArLQogbWV0YS9yZWNpcGVz
+LWdub21lL2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoICAgICAgICAgfCA0ICsrLS0K
+IG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaCAgICAgICAg
+ICAgIHwgNiArKystLS0KIDQgZmlsZXMgY2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCA3IGRlbGV0
+aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS97ZXBpcGhhbnlfNTAu
+Ni5iYiA9PiBlcGlwaGFueV81MS4wLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
+cy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV81MC42LmJiIGIvbWV0YS9yZWNpcGVzLWdub21lL2Vw
+aXBoYW55L2VwaXBoYW55XzUxLjAuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUKcmVuYW1lIGZyb20g
+bWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzUwLjYuYmIKcmVuYW1lIHRvIG1l
+dGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV81MS4wLmJiCmluZGV4IGFkMGZhZDFh
+NjUuLmU1NDQ1N2E3NzQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9l
+cGlwaGFueV81MC42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFu
+eV81MS4wLmJiCkBAIC0zMSw3ICszMSw3IEBAIFNSQ19VUkkgKz0gIlwKICAgICAgICAgICAgZmls
+ZTovL21pZ3JhdG9yLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL2Rpc3RyaWJ1dG9yLnBhdGNo
+IFwKICAgICAgICAgICAgIgotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiNDU4MjIyYTg2
+OTRjZmM5MTRlN2EyZDZkZTk4NzkwNjcwMDFhOGQ2NWUwMGE5MDdkOTYxMTIwNTljNjdhZDQ0NiIK
+K1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImFiYWYzMzU3NjQ2MjAzMGM2NWJiOTYzYTU2
+MzAwYTc3ODZlN2Q3NTgzNGYxYzkwYTlkZmZkYTg3MzgzNWMzM2QiCiAKIGV4cG9ydCBHSV9UWVBF
+TElCX1BBVEggPSAiJHtTVEFHSU5HX0xJQkRJUn0vZ2lyZXBvc2l0b3J5LTEuMC8iCiAKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy8wMDAyLWhlbHAtbWVzb24u
+YnVpbGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ25vbWUv
+ZXBpcGhhbnkvZmlsZXMvMDAwMi1oZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15
+ZWxwLnBhdGNoCmluZGV4IDEyZTlkOTgyMzMuLmJkYjA2ZTQwN2IgMTAwNjQ0Ci0tLSBhL21ldGEv
+cmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy8wMDAyLWhlbHAtbWVzb24uYnVpbGQtZGlzYWJs
+ZS10aGUtdXNlLW9mLXllbHAucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55
+L2ZpbGVzLzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNhYmxlLXRoZS11c2Utb2YteWVscC5wYXRj
+aApAQCAtMSw0ICsxLDQgQEAKLUZyb20gOWU1MWNhNDdlZmM3NGZlZGI0MjBlNmI2NjQzNjU2OWQ1
+NjYyM2UyZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMmJiNTJiZTFlODBkMWY0Njkz
+YTM4M2JlODI3MGU4MGVmMWQ5NTg2YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEFs
+ZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0ZTogV2VkLCAzMSBK
+YW4gMjAxOCAxNTo1MDozOCArMDIwMAogU3ViamVjdDogW1BBVENIXSBoZWxwL21lc29uLmJ1aWxk
+OiBkaXNhYmxlIHRoZSB1c2Ugb2YgeWVscApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21l
+L2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdub21lL2Vw
+aXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoCmluZGV4IGIxNjU1MmJmYzYuLjg2NzdmMTU1
+OGMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmli
+dXRvci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvZGlzdHJp
+YnV0b3IucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGNjMGI5YTY5MDQyOTczODcwNjgyNzRj
+ODAyNzg0ZWVhNzQwNzgyYTEgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDJmNTI2NzI1
+OTdhYjc0Y2IxN2U0MWQzMDhmOGQ5OTM0YzI1ZDhmYzAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAx
+CiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9y
+Zz4KIERhdGU6IEZyaSwgMjYgRmViIDIwMjEgMTA6MTc6NTIgKzAwMDAKIFN1YmplY3Q6IFtQQVRD
+SF0gRG9uJ3QgZW5jb2RlIHRoZSBkaXN0cm8gZnJvbSAvZXRjL29zLXJlbGVhc2UgaW50byB0aGUK
+QEAgLTExLDcgKzExLDcgQEAgUlAgMjAyMS8yLzI2CiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0
+aW9uKCspCiAKIGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1aWxkCi1pbmRleCBj
+MDJiNTkxLi44YWY5ZmU3IDEwMDY0NAoraW5kZXggOGFlYzNjZi4uNGEwNmFiNiAxMDA2NDQKIC0t
+LSBhL21lc29uLmJ1aWxkCiArKysgYi9tZXNvbi5idWlsZAogQEAgLTE1LDYgKzE1LDcgQEAgaWYg
+ci5yZXR1cm5jb2RlKCkgPT0gMApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBo
+YW55L2ZpbGVzL21pZ3JhdG9yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2Zp
+bGVzL21pZ3JhdG9yLnBhdGNoCmluZGV4IGIyMGNjMzA1OGIuLmRjYzE2MjA0MGEgMTAwNjQ0Ci0t
+LSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaAorKysg
+Yi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvbWlncmF0b3IucGF0Y2gKQEAgLTEs
+NCArMSw0IEBACi1Gcm9tIDEyZWFkMmFmYmRhYjk2ZWViNmJhYzgyMGMzOWMxZTk1MWEwNDdjOGIg
+TW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIGUzMzZjMmRkMTM2OGFmZjQ5NmE2YmEwMWUy
+Y2E5Y2E3ZTg4ODYwYTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBSaWNoYXJkIFB1
+cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KIERhdGU6IFRodSwgMjUg
+RmViIDIwMjEgMTQ6NTI6MzIgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXBpcGhhbnk6IEZpeCBy
+ZXByb2R1Y2liaWxpdHkgaXNzdWUKQEAgLTE0LDEwICsxNCwxMCBAQCBSUCAyMDIxLzIvMjUKICAx
+IGZpbGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0t
+Z2l0IGEvbGliL2VwaHktcHJvZmlsZS11dGlscy5jIGIvbGliL2VwaHktcHJvZmlsZS11dGlscy5j
+Ci1pbmRleCBlYTJlYTk5Li4xM2MyN2M4IDEwMDY0NAoraW5kZXggMTk2NjEwOC4uMjRkNDM2NCAx
+MDA2NDQKIC0tLSBhL2xpYi9lcGh5LXByb2ZpbGUtdXRpbHMuYwogKysrIGIvbGliL2VwaHktcHJv
+ZmlsZS11dGlscy5jCi1AQCAtMTMwLDEwICsxMzAsMTAgQEAgZXBoeV9wcm9maWxlX3V0aWxzX2Rv
+X21pZ3JhdGlvbiAoY29uc3QgY2hhciAqcHJvZmlsZV9kaXJlY3RvcnksCitAQCAtMTMxLDEwICsx
+MzEsMTAgQEAgZXBoeV9wcm9maWxlX3V0aWxzX2RvX21pZ3JhdGlvbiAoY29uc3QgY2hhciAqcHJv
+ZmlsZV9kaXJlY3RvcnksCiAgICBhcmd2W2krK10gPSBOVUxMOwogIAogICNpZiBERVZFTE9QRVJf
+TU9ERQotLSAKMi40Ny4xCgo=
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *systemd,systemd-tools-native,systemd-boot,systemd-boot-native* to *261.3,261.3,261.3,261.3* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
-
-Next steps:
-    - apply the patch: git am 0001-systemd-systemd-tools-native-systemd-boot-systemd-bo.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From b223a62dd23dabc009256ca2b8d07aa6b4af183d Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 11 Sep 2026 05:13:51 +0000
-Subject: [PATCH] 
- systemd,systemd-tools-native,systemd-boot,systemd-boot-native: upgrade 261.2
- -> 261.3,261.2 -> 261.3,261.2 -> 261.3,261.2 -> 261.3
-
-Source: NEWS
-
-* The resolvconf compatibility mode now rejects malformed stdin input
-          and leaves the existing per-link DNS configuration unchanged.
-
-Source: NEWS
-
-* The resolvconf compatibility mode now rejects malformed stdin input
-          and leaves the existing per-link DNS configuration unchanged.
-
-Source: NEWS
-
-* The resolvconf compatibility mode now rejects malformed stdin input
-          and leaves the existing per-link DNS configuration unchanged.
-
-Source: NEWS
-
-* The resolvconf compatibility mode now rejects malformed stdin input
-          and leaves the existing per-link DNS configuration unchanged.
----
- ..._261.2.bb => systemd-boot-native_261.3.bb} |   0
- ...md-boot_261.2.bb => systemd-boot_261.3.bb} |   0
- ...261.2.bb => systemd-tools-native_261.3.bb} |   0
- meta/recipes-core/systemd/systemd.inc         |   2 +-
- ...tall-dependency-links-at-install-tim.patch |  15 +--
- .../0003-Do-not-create-var-log-README.patch   |   6 +-
- ...issing-STATX_MNT_ID-on-older-kernels.patch | 112 +++++++++---------
- ...396d2c5bc1adb6b044e7784a30b7187f6fbd.patch |  59 ---------
- .../{systemd_261.2.bb => systemd_261.3.bb}    |   4 +-
- 9 files changed, 69 insertions(+), 129 deletions(-)
- rename meta/recipes-core/systemd/{systemd-boot-native_261.2.bb => systemd-boot-native_261.3.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-boot_261.2.bb => systemd-boot_261.3.bb} (100%)
- rename meta/recipes-core/systemd/{systemd-tools-native_261.2.bb => systemd-tools-native_261.3.bb} (100%)
- delete mode 100644 meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch
- rename meta/recipes-core/systemd/{systemd_261.2.bb => systemd_261.3.bb} (99%)
-
-diff --git a/meta/recipes-core/systemd/systemd-boot-native_261.2.bb b/meta/recipes-core/systemd/systemd-boot-native_261.3.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot-native_261.2.bb
-rename to meta/recipes-core/systemd/systemd-boot-native_261.3.bb
-diff --git a/meta/recipes-core/systemd/systemd-boot_261.2.bb b/meta/recipes-core/systemd/systemd-boot_261.3.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-boot_261.2.bb
-rename to meta/recipes-core/systemd/systemd-boot_261.3.bb
-diff --git a/meta/recipes-core/systemd/systemd-tools-native_261.2.bb b/meta/recipes-core/systemd/systemd-tools-native_261.3.bb
-similarity index 100%
-rename from meta/recipes-core/systemd/systemd-tools-native_261.2.bb
-rename to meta/recipes-core/systemd/systemd-tools-native_261.3.bb
-diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/systemd/systemd.inc
-index 70c5ac758d..3ee898958f 100644
---- a/meta/recipes-core/systemd/systemd.inc
-+++ b/meta/recipes-core/systemd/systemd.inc
-@@ -15,7 +15,7 @@ LICENSE:libsystemd = "LGPL-2.1-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE.GPL2;md5=c09786363500a9acc29b147e6e72d2c6 \
-                     file://LICENSE.LGPL2.1;md5=be0aaf4a380f73f7e00b420a007368f2"
- 
--SRCREV = "4925d9f07fc697efccd98a93046ff535b8832445"
-+SRCREV = "3255daee1572366b74fe92f002a3d60ecbb27103"
- SRCBRANCH = "v261-stable"
- SRC_URI = "git://github.com/systemd/systemd.git;protocol=https;branch=${SRCBRANCH};tag=v${PV}"
- 
-diff --git a/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch b/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-index 8061ff1000..b83803aa08 100644
---- a/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-+++ b/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch
-@@ -1,8 +1,8 @@
--From b1ab58d3b4a8164e5978409706d6769f5cfde404 Mon Sep 17 00:00:00 2001
-+From 451af4755f0c1da552498682d910f4f4c5209639 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 21 Feb 2019 16:23:24 +0800
--Subject: [PATCH 01/16] binfmt: Don't install dependency links at install time
-- for the binfmt services
-+Subject: [PATCH] binfmt: Don't install dependency links at install time for
-+ the binfmt services
- 
- use [Install] blocks so that they get created when the service is enabled
- like a traditional service.
-@@ -25,10 +25,10 @@ Signed-off-by: Scott Murray <scott.murray@konsulko.com>
-  3 files changed, 7 insertions(+), 2 deletions(-)
- 
- diff --git a/units/meson.build b/units/meson.build
--index 4f47a3b2bd..237870025b 100644
-+index 27d8ef2f72..864caa44bb 100644
- --- a/units/meson.build
- +++ b/units/meson.build
--@@ -154,7 +154,6 @@ units = [
-+@@ -168,7 +168,6 @@ units = [
-          {
-            'file' : 'proc-sys-fs-binfmt_misc.automount',
-            'conditions' : ['ENABLE_BINFMT'],
-@@ -36,7 +36,7 @@ index 4f47a3b2bd..237870025b 100644
-          },
-          {
-            'file' : 'proc-sys-fs-binfmt_misc.mount',
--@@ -263,7 +262,6 @@ units = [
-+@@ -279,7 +278,6 @@ units = [
-          {
-            'file' : 'systemd-binfmt.service.in',
-            'conditions' : ['ENABLE_BINFMT'],
-@@ -74,6 +74,3 @@ index 318bf8efc2..6ef684861d 100644
- +
- +[Install]
- +WantedBy=sysinit.target
---- 
--2.34.1
--
-diff --git a/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-README.patch b/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-README.patch
-index 0128c83d9f..175ec7955b 100644
---- a/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-README.patch
-+++ b/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-README.patch
-@@ -1,4 +1,4 @@
--From a7f6a296707642d05463aec22ea3dfce7d06c989 Mon Sep 17 00:00:00 2001
-+From 0d4a5976056387ff3801fdb7f53e6d0760df0475 Mon Sep 17 00:00:00 2001
- From: Peter Kjellerstedt <pkj@axis.com>
- Date: Tue, 21 Jan 2025 05:02:00 +0100
- Subject: [PATCH] Do not create /var/log/README
-@@ -15,7 +15,7 @@ Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
-  1 file changed, 3 deletions(-)
- 
- diff --git a/tmpfiles.d/legacy.conf.in b/tmpfiles.d/legacy.conf.in
--index cdef21fa9b..7890abcdef 100644
-+index 7036c12b7c..80120b04b4 100644
- --- a/tmpfiles.d/legacy.conf.in
- +++ b/tmpfiles.d/legacy.conf.in
- @@ -13,6 +13,3 @@
-@@ -25,5 +25,3 @@ index cdef21fa9b..7890abcdef 100644
- -{% if CREATE_LOG_DIRS %}
- -L$ /var/log/README - - - - ../..{{DOC_DIR}}/README.logs
- -{% endif %}
---- 
--2.34.1
-diff --git a/meta/recipes-core/systemd/systemd/Handle-missing-STATX_MNT_ID-on-older-kernels.patch b/meta/recipes-core/systemd/systemd/Handle-missing-STATX_MNT_ID-on-older-kernels.patch
-index 9d74872034..7e96550dd3 100644
---- a/meta/recipes-core/systemd/systemd/Handle-missing-STATX_MNT_ID-on-older-kernels.patch
-+++ b/meta/recipes-core/systemd/systemd/Handle-missing-STATX_MNT_ID-on-older-kernels.patch
-@@ -1,6 +1,6 @@
--From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From 4f04acacb42d410d7002cae3e2bb6c51d47331d6 Mon Sep 17 00:00:00 2001
- From: Daniel Turull <daniel.turull@ericsson.com>
--Date: Mon, 23 Jun 2026 12:00:00 +0200
-+Date: Tue, 23 Jun 2026 12:00:00 +0200
- Subject: [PATCH] Handle missing STATX_MNT_ID on older kernels
- 
- On hosts lacking STATX_MNT_ID (kernel < 5.8, e.g. RHEL 8), native tools
-@@ -22,24 +22,55 @@ Upstream-Status: Inappropriate [oe specific]
- Assisted-by: kiro:claude-opus-4.6
- Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
- ---
-- src/basic/chase.c   | 20 ++++++++++++++-
-- src/basic/fd-util.c | 63 +++++++++++++++++++++++++++++++++++++++++++--
-+ src/basic/chase.c   | 21 +++++++++++++++-
-+ src/basic/fd-util.c | 61 +++++++++++++++++++++++++++++++++++++++++++--
-  src/basic/fd-util.h |  1 +
-- 3 files changed, 82 insertions(+), 2 deletions(-)
-+ 3 files changed, 80 insertions(+), 3 deletions(-)
- 
----- a/src/basic/fd-util.h	2026-06-25 14:01:12.009875526 +0200
--+++ b/src/basic/fd-util.h	2026-06-25 14:01:20.909060415 +0200
--@@ -188,6 +188,7 @@ static inline int dir_fd_is_root_or_cwd(
-- }
-- 
-- int fds_inode_and_mount_same(int fd1, int fd2);
--+int fd_get_mount_id(int fd, uint64_t *ret);
-+diff --git a/src/basic/chase.c b/src/basic/chase.c
-+index 23a523798e..08ef95b3dd 100644
-+--- a/src/basic/chase.c
-++++ b/src/basic/chase.c
-+@@ -40,7 +40,9 @@
-+         (CHASE_MUST_BE_DIRECTORY|CHASE_MUST_BE_REGULAR|CHASE_MUST_BE_SOCKET)
-  
-- int resolve_xat_fdroot(int *fd, const char **path, char **ret_buffer);
-+ static int chase_statx(int fd, struct statx *ret) {
-+-        return xstatx_full(fd,
-++        int r;
-++
-++        r = xstatx_full(fd,
-+                         /* path= */ NULL,
-+                         /* statx_flags= */ 0,
-+                         XSTATX_MNT_ID_BEST,
-+@@ -48,6 +50,23 @@ static int chase_statx(int fd, struct statx *ret) {
-+                         /* optional_mask= */ 0,
-+                         /* mandatory_attributes= */ 0,
-+                         ret);
-++        if (r == -EUNATCH) {
-++                uint64_t mnt_id;
-++
-++                /* Kernel lacks STATX_MNT_ID; fall back to /proc/self/fdinfo. */
-++                r = xstatx(fd, /* path= */ NULL, /* statx_flags= */ 0,
-++                           STATX_TYPE|STATX_UID|STATX_INO,
-++                           ret);
-++                if (r < 0)
-++                        return r;
-++                r = fd_get_mount_id(fd, &mnt_id);
-++                if (r < 0)
-++                        return r;
-++                ret->stx_mnt_id = mnt_id;
-++                ret->stx_mask |= STATX_MNT_ID;
-++        }
-++
-++        return r;
-+ }
-  
----- a/src/basic/fd-util.c	2026-06-25 14:01:12.011875567 +0200
--+++ b/src/basic/fd-util.c	2026-06-25 14:01:40.007456905 +0200
--@@ -1082,6 +1082,38 @@ int path_is_root_at(int dir_fd, const ch
-+ static int chase_openat2(int root_fd, int dir_fd, const char *path, ChaseFlags chase_flags) {
-+diff --git a/src/basic/fd-util.c b/src/basic/fd-util.c
-+index c6e78c59b6..7f33d900e5 100644
-+--- a/src/basic/fd-util.c
-++++ b/src/basic/fd-util.c
-+@@ -1082,6 +1082,38 @@ int path_is_root_at(int dir_fd, const char *path) {
-          return fds_inode_and_mount_same(dir_fd, XAT_FDROOT);
-  }
-  
-@@ -78,7 +109,7 @@ Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-  int fds_inode_and_mount_same(int fd1, int fd2) {
-          struct statx sx1, sx2;
-          int r;
--@@ -1092,7 +1124,20 @@ int fds_inode_and_mount_same(int fd1, in
-+@@ -1092,7 +1124,20 @@ int fds_inode_and_mount_same(int fd1, int fd2) {
-          r = xstatx(fd1, /* path = */ NULL, AT_EMPTY_PATH,
-                     STATX_TYPE|STATX_INO|STATX_MNT_ID,
-                     &sx1);
-@@ -100,7 +131,7 @@ Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-                  return r;
-  
-          if (fd1 == fd2) /* Shortcut things if fds are the same (only after validating the fd) */
--@@ -1101,7 +1146,19 @@ int fds_inode_and_mount_same(int fd1, in
-+@@ -1101,7 +1146,19 @@ int fds_inode_and_mount_same(int fd1, int fd2) {
-          r = xstatx(fd2, /* path = */ NULL, AT_EMPTY_PATH,
-                     STATX_TYPE|STATX_INO|STATX_MNT_ID,
-                     &sx2);
-@@ -121,40 +152,15 @@ Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-                  return r;
-  
-          r = statx_mount_same(&sx1, &sx2);
----- a/src/basic/chase.c	2026-06-25 14:01:12.013875609 +0200
--+++ b/src/basic/chase.c	2026-06-25 14:01:47.117604514 +0200
--@@ -40,7 +40,9 @@
--         (CHASE_MUST_BE_DIRECTORY|CHASE_MUST_BE_REGULAR|CHASE_MUST_BE_SOCKET)
-- 
-- static int chase_statx(int fd, struct statx *ret) {
---        return xstatx_full(fd,
--+        int r;
--+
--+        r = xstatx_full(fd,
--                         /* path= */ NULL,
--                         /* statx_flags= */ 0,
--                         XSTATX_MNT_ID_BEST,
--@@ -48,6 +50,23 @@ static int chase_statx(int fd, struct st
--                         /* optional_mask= */ 0,
--                         /* mandatory_attributes= */ 0,
--                         ret);
--+        if (r == -EUNATCH) {
--+                uint64_t mnt_id;
--+
--+                /* Kernel lacks STATX_MNT_ID; fall back to /proc/self/fdinfo. */
--+                r = xstatx(fd, /* path= */ NULL, /* statx_flags= */ 0,
--+                           STATX_TYPE|STATX_UID|STATX_INO,
--+                           ret);
--+                if (r < 0)
--+                        return r;
--+                r = fd_get_mount_id(fd, &mnt_id);
--+                if (r < 0)
--+                        return r;
--+                ret->stx_mnt_id = mnt_id;
--+                ret->stx_mask |= STATX_MNT_ID;
--+        }
--+
--+        return r;
-+diff --git a/src/basic/fd-util.h b/src/basic/fd-util.h
-+index 86bddb6dac..34370c8943 100644
-+--- a/src/basic/fd-util.h
-++++ b/src/basic/fd-util.h
-+@@ -188,6 +188,7 @@ static inline int dir_fd_is_root_or_cwd(int dir_fd) {
-  }
-  
-- static int chase_openat2(int root_fd, int dir_fd, const char *path, ChaseFlags chase_flags) {
-+ int fds_inode_and_mount_same(int fd1, int fd2);
-++int fd_get_mount_id(int fd, uint64_t *ret);
-+ 
-+ int resolve_xat_fdroot(int *fd, const char **path, char **ret_buffer);
-+ 
-diff --git a/meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch b/meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch
-deleted file mode 100644
-index 8eb9f5c164..0000000000
---- a/meta/recipes-core/systemd/systemd/a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch
-+++ /dev/null
-@@ -1,59 +0,0 @@
--From a019396d2c5bc1adb6b044e7784a30b7187f6fbd Mon Sep 17 00:00:00 2001
--From: Luca Boccassi <luca.boccassi@gmail.com>
--Date: Wed, 2 Sep 2026 20:32:51 +0100
--Subject: [PATCH] tools: fix building manpages with lxml 6.1.3
--
--manpages build fails on Arch with new lxml:
--
--Traceback (most recent call last):
--  File "/work/src/tools/make-directive-index.py", line 169, in make_page
--    _extract_directives(directive_groups, formatting, page)
--    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
--  File "/work/src/tools/make-directive-index.py", line 18, in _extract_directives
--    t = xml_parse(page)
--  File "/work/src/tools/xml_helper.py", line 25, in xml_parse
--    doc = tree.parse(page, _parser)
--  File "src/lxml/etree.pyx", line 3717, in lxml.etree.parse
--  File "src/lxml/parser.pxi", line 2045, in lxml.etree._parseDocument
--  File "src/lxml/parser.pxi", line 2071, in lxml.etree._parseDocumentFromURL
--  File "src/lxml/parser.pxi", line 1962, in lxml.etree._parseDocFromFile
--  File "src/lxml/parser.pxi", line 1231, in lxml.etree._BaseParser._parseDocFromFile
--  File "src/lxml/parser.pxi", line 647, in lxml.etree._ParserContext._handleParseResultDoc
--  File "src/lxml/parser.pxi", line 765, in lxml.etree._handleParseResult
--  File "src/lxml/parser.pxi", line 689, in lxml.etree._raiseParseError
--  File "../src/man/hostname.xml", line 5
--lxml.etree.XMLSyntaxError: Entity 'entities' not defined, line 5, column 11
--
--The above exception was the direct cause of the following exception:
--
--Traceback (most recent call last):
--  File "/work/src/tools/make-directive-index.py", line 180, in <module>
--    _xml = make_page(_template_path, _xml_files)
--  File "/work/src/tools/make-directive-index.py", line 171, in make_page
--    raise ValueError('failed to process ' + page) from e
--ValueError: failed to process ../src/man/hostname.xml
--
--Relying on XMLParser() defaults leaves the external parameter entity
--used to load custom-entities.ent unresolved. Request entity resolution explicitly.
--
--Follow-up for 1a13e31d275430ffba713c8a68ee7f22093c29e0
--
--Upstream-Status: Backport [https://github.com/systemd/systemd/commit/a019396d2c5bc1adb6b044e7784a30b7187f6fbd]
--
-----
-- tools/xml_helper.py | 2 +-
-- 1 file changed, 1 insertion(+), 1 deletion(-)
--
--diff --git a/tools/xml_helper.py b/tools/xml_helper.py
--index 87c24ab02a0f..e26ca92d9454 100755
----- a/tools/xml_helper.py
--+++ b/tools/xml_helper.py
--@@ -16,7 +16,7 @@ def resolve(self, url, _id, context):
--         return None
-- 
-- 
---_parser = tree.XMLParser()
--+_parser = tree.XMLParser(resolve_entities=True)
-- # pylint: disable=no-member
-- _parser.resolvers.add(CustomResolver())
-- 
-diff --git a/meta/recipes-core/systemd/systemd_261.2.bb b/meta/recipes-core/systemd/systemd_261.3.bb
-similarity index 99%
-rename from meta/recipes-core/systemd/systemd_261.2.bb
-rename to meta/recipes-core/systemd/systemd_261.3.bb
-index 68b894be9a..1a256a598a 100644
---- a/meta/recipes-core/systemd/systemd_261.2.bb
-+++ b/meta/recipes-core/systemd/systemd_261.3.bb
-@@ -27,8 +27,7 @@ CONFLICT_DISTRO_FEATURES += "sysvinit"
- # so that systemctl can be used in postinst scripts
- PACKAGE_WRITE_DEPS += "systemd-tools-native"
- 
--SRC_URI += " \
--           file://touchscreen.rules \
-+SRC_URI += "file://touchscreen.rules \
-            file://00-create-volatile.conf \
-            file://org.freedesktop.hostname1_no_polkit.conf \
-            file://00-hostnamed-network-user.conf \
-@@ -37,7 +36,6 @@ SRC_URI += " \
-            file://systemd-pager.sh \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch \
-            file://0003-Do-not-create-var-log-README.patch \
--           file://a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch \
-            "
- 
- PAM_PLUGINS = " \
--- 
-2.47.1
-
-
---===============7421859077018539915==
-Content-Type: text/plain; charset="us-ascii"
+--===============1105164357508354760==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="systemd-tools-native-changelog.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="epiphany-changelog.txt"
 
-Changelog for systemd-tools-native: 261.2 -> 261.3
-Source: NEWS
+Q2hhbmdlbG9nIGZvciBlcGlwaGFueTogNTAuNiAtPiA1MS4wClNvdXJjZTogTkVXUwoKNTEuMCAt
+IFNlcHRlbWJlciAxMCwgMjAyNgo9PT09PT09PT09PT09PT09PT09PT09PT09CiAgLSAjMjYxNyBz
+ZXNzaW9uOiBBcHBlbmQgY2xvc2VkIHRhYiBhdCBlbmQgaWYgcmVjb3JkZWQgcG9zaXRpb24gaXMg
+b3V0IG9mIGJvdW5kcwogICAgKEpvaG4gQ2FyZHVsbG8pCiAgLSAjMjg5NyAoQ1ZFLTIwMjYtMTg0
+ODcpIEFkZHJlc3MgQmFyIC8gSG9zdCBTcG9vZmluZyB2aWEgdXNlcmluZm8gaW4KICAgIGVwaHlf
+dXJpX2dldF9kZWNvZGVkX2hvc3QgKE1pY2hhZWwgQ2F0YW56YXJvKQogIC0gIzI5MzEgQ29kZSBJ
+bmplY3Rpb24gdmlhIGVwaHlfd2ViX3ZpZXdfZ2V0X2Jlc3Rfd2ViX2FwcF9pY29uIGluIGBkYXRh
+OmAgVVJJCiAgICAoTWljaGFlbCBDYXRhbnphcm8pCiAgLSAjMjkzNCBgZGF0YWAgVVJJIHByZXR0
+aWZpY2F0aW9uIHJldHVybnMgaW52YWxpZCBkb21haW4gKE1pY2hhZWwgQ2F0YW56YXJvKQogIC0g
+ITIxNDQgU29tZSBmaXhlcyBmb3IgRXBoeUhpc3RvcnlEaWFsb2dSb3cgKE1pY2hhZWwgQ2F0YW56
+YXJvKQoqIFRyYW5zbGF0aW9uIHVwZGF0ZXM6CiAgLSBCYXNxdWUgKEFzaWVyIFNhcmF0c3VhIEdh
+cm1lbmRpYSkKICAtIERhbmlzaCAoQWxhbiBNb3J0ZW5zZW4pCiAgLSBFbmdsaXNoIChVbml0ZWQg
+S2luZ2RvbSkgKEJydWNlIENvd2FuKQogIC0gRnJlbmNoIChHdWlsbGF1bWUgQmVybmFyZCkKICAt
+IEh1bmdhcmlhbiAoQmFsw6F6cyDDmnIpCiAgLSBLb3JlYW4gKENoYW5nU2VvayBPaCkKICAtIE5v
+cndlZ2lhbiBCb2ttw6VsIChLamFydGFuIE1hcmFhcykKICAtIFNlcmJpYW4gKNCc0LDRgNC60L4g
+0JrQvtGB0YLQuNGbKQogIC0gU3BhbmlzaCAoRGFuaWVsIE11c3RpZWxlcyBHYXJjw61hKQogIC0g
+VHVya2lzaCAoRW1pbiBUdWZhbiDDh2V0aW4pCgo1MS5yYyAtIEF1Z3VzdCAyNywgMjAyNgo9PT09
+PT09PT09PT09PT09PT09PT09PQogIC0gIzI4OTggSW52YWxpZCBib29rbWFyayBpbXBvcnQgY3Jh
+c2hlcyBicm93c2VyIChGZXJuYW5kbyBNdcOxb3opCiAgLSAjMjkwMyBYU1MvSFRNTCBpbmplY3Rp
+b24gaW4gZXJyb3IgcGFnZSAoTWljaGFlbCBDYXRhbnphcm8pCiAgLSAjMjkyMSAoQ1ZFLTIwMjYt
+Nzc2ODIpIEF1dG9maWxsIEpTIENvZGUgSW5qZWN0aW9uIHZpYSBDU1MgU2VsZWN0b3IgKE1pY2hh
+ZWwKICAgIENhdGFuemFybykKICAtICMyOTIyIChDVkUtMjAyNi03NzY3OSkgV2ViRXh0ZW5zaW9u
+IFhQSSBQYXRoIFRyYXZlcnNhbCBaSVBTTElQIChGZXJuYW5kbwogICAgTXXDsW96KQogIC0gIzI5
+MjggTGluayBjbGlja2VkIGluIGFub3RoZXIgYXBwIG9wZW5zIGluIHRoZSBmdWxsc2NyZWVuIHdp
+bmRvdyBkdXJpbmcKICAgIGZ1bGxzY3JlZW4gdmlkZW8gKFNlbWVuIEZvbWNoZW5rb3YpCiAgLSAj
+MjkyOSBDYXJldCBpbiB0aGUgYWRkcmVzcyBiYXIganVtcHMgdG8gdGhlIHN0YXJ0IHdoZW4gSSBz
+d2l0Y2gga2V5Ym9hcmQKICAgIGxheW91dCAoU2VtZW4gRm9tY2hlbmtvdikKICAtICMyOTM4ICJO
+b3QgU2VjdXJlIiBsYWJlbCBpbiB0aGUgYWRkcmVzcyBiYXIgaXMgdHJ1bmNhdGVkIGFuZCBnbHVl
+ZCB0byB0aGUKICAgIGRvbWFpbiBpbiB0cmFuc2xhdGVkIGxvY2FsZXMgKFNlbWVuIEZvbWNoZW5r
+b3YpCiAgLSAjMjk0MCBFcGlwaGFueSBvZmZlcnMgdG8gc2F2ZSBhIHBhc3N3b3JkIHRoYXQgaXQg
+anVzdCBhdXRvZmlsbGVkIGl0c2VsZgogICAgKGFmdGVyIENTViBpbXBvcnQpIChTZW1lbiBGb21j
+aGVua292KQogIC0gITIxNDUgVXBkYXRlIHRvIGhpZ2hsaWdodC5qcyAxMS4yLjAgKE1pY2hhZWwg
+Q2F0YW56YXJvKQogIC0gITIxNDggd2ViLXByb2Nlc3MtZXh0ZW5zaW9uOiBUYXJnZXQgYWN0aXZl
+IGZyYW1lIHdoZW4gZ2VuZXJhdGluZyBwYXNzd29yZAogICAgZnJvbSBjb250ZXh0IG1lbnUgKEpv
+aG4gQ2FyZHVsbG8pCiAgLSAhMjE1MiBDYW5hcnk6IEZpeCBXZWJLaXRHVEsgaW5qZWN0ZWQgYnVu
+ZGxlIHBhdGggKFBoaWxpcHBlIE5vcm1hbmQpCiAgLSAhMjE1OSBEbyBub3QgdHJpZ2dlciBkb3du
+bG9hZHMgb24gbWlzc2luZyBNSU1FIHR5cGUgb3IgZmFpbGVkIEhUVFAgcmVzcG9uc2VzCiAgICAo
+Sm9obiBDYXJkdWxsbykKCiogVHJhbnNsYXRpb24gdXBkYXRlczoKICAtIEJ1bGdhcmlhbiAoQWxl
+eGFuZGVyIEFsZXhhbmRyb3YgU2hvcG92KQogIC0gQ2F0YWxhbiAoWGF2aSBJdmFycykKICAtIENo
+aW5lc2UgKFRhaXdhbikgKENoYW8tSHNpdW5nIExpYW8pCiAgLSBGaW5uaXNoIChKaXJpIEdyw7Zu
+cm9vcykKICAtIEthemFraCAoQmF1cnpoYW4gTXVmdGFraGlkaW5vdikKICAtIExpdGh1YW5pYW4g
+KEF1cmltYXMgQXVyaW1hcyDEjGVybml1cykKICAtIFBvcnR1Z3Vlc2UgKEJyYXppbCkgKEx1aWdn
+aSBDYXJkb3NvKQogIC0gUm9tYW5pYW4gKEFudG9uaW8gTWFyaW4pCiAgLSBTd2VkaXNoIChBbmRl
+cnMgSm9uc3NvbikKICAtIFVpZ2h1ciAoQWJkdXFhZGlyIEFibGl6KQoKNTEuYmV0YSAtIEF1Z3Vz
+dCAxMCwgMjAyNgo9PT09PT09PT09PT09PT09PT09PT09PT09CgoqIEJ1Z3MgZml4ZWQ6CiAgLSAj
+MTY3MSBDb2xvbnMgaW4gVVJMIGZvciBFcGlwaGFueSdzIGFwcCBtb2RlIGFyZSBjb252ZXJ0ZWQg
+dG8gIkEiIChKb2huCiAgICBDYXJkdWxsbykKICAtICMyODkyIENvbXBpbGUgZmFpbHVyZXMgYWdh
+aW5zdCBsaWJuZXR0bGUgNC4wIChGZXJuYW5kbyBNdcOxb3opCiAgICAoTWljaGFlbCBDYXRhbnph
+cm8pCiAgLSAjMjkwMiBPdXQtb2YtYm91bmRzIGNyYXNoL2Fzc2VydCBmYWlsdXJlIGluCiAgICBl
+cGh5X2pzb25fYXJyYXlfZ2V0X3N0cmluZ193aXRoX2RlZmF1bHQgKE1pY2hhZWwgQ2F0YW56YXJv
+KQogIC0gIzI5MDQgSW52YWxpZCB2aWV3LXNvdXJjZTogY3Jhc2hlcyBicm93c2VyIChKb2huIENh
+cmR1bGxvKQogIC0gITIwNzkgQ0k6IEFkZCBnb2JqZWN0LWxpbnRlciAoSmFuLU1pY2hhZWwgQnJ1
+bW1lcikKICAtICEyMTA5IGFkZCBwaW5uaW5nIHN1cHBvcnQgZm9yIFVSTHMgaW4gaGlzdG9yeSBh
+bmQgb3ZlcnZpZXcgbW9kZWwgKEpvaG4KICAgIENhcmR1bGxvKQogIC0gITIxMTAgd2luZG93OiB1
+cGRhdGUgbWVzc2FnZSB3aGVuIHNhdmluZyBhIHBhc3N3b3JkIChNaWNoYWVsIENhdGFuemFybykK
+ICAtICEyMTExIFJlbW92ZSBpbmNvcnJlY3QgdXNlIG9mIEdfR05VQ19DT05TVCBmb3IgZ2V0X3R5
+cGUoKSBmdW5jdGlvbnMgKE1pY2hhZWwKICAgIENhdGFuemFybykKICAtICEyMTEyIFVwZGF0ZSBo
+aWdobGlnaHQuanMgdG8gMTEuMTEuMiAoTWljaGFlbCBDYXRhbnphcm8pCiAgLSAhMjExMyBBZGQg
+bGlicHdxdWFsaXR5IHRvIENhbmFyeSBtYW5pZmVzdCAoTWljaGFlbCBDYXRhbnphcm8pCiAgLSAh
+MjExNCBoaXN0b3J5LXNlcnZpY2U6IHVzZSBHX1NPVVJDRV9SRU1PVkUgKE1pY2hhZWwgQ2F0YW56
+YXJvKQogIC0gITIxMTcgZml4OiBjaGVjayBmb3IgaW52YWxpZCBpY29uIChGZXJuYW5kbyBNdW5v
+eikKICAtICEyMTIxIEZpeCBjb2RlIHN0eWxlIGNoZWNrIChNaWNoYWVsIENhdGFuemFybykKICAt
+ICEyMTI1IEFkanVzdCBSZWFkZXIgTW9kZSBMaW5lIFNwYWNpbmcgKEpvaG4gQ2FyZHVsbG8pCiAg
+LSAhMjEzMCB2aWV3LXNvdXJjZS1oYW5kbGVyOiBmaXggY3Jhc2ggd2hlbiBsb2FkaW5nIGludmFs
+aWQgVVJJIChqY2FyZHVsbG8pCiAgLSAhMjEzNCBGaXggQ0kgZmFpbHVyZXMgKEphbi1NaWNoYWVs
+IEJydW1tZXIpCiAgLSAhMjEzNiBDYW5hcnk6IERpc2FibGUgV2ViUlRDIGZvciBub3cgKFBoaWxp
+cHBlIE5vcm1hbmQpCiAgLSAhMjEzOCBSZWxhbmQgcHJvcGVydHkgcmVnaXN0cmF0aW9uIGNvZGUg
+c3R5bGUgY2hhbmdlcyAoTWljaGFlbCBDYXRhbnphcm8pCiAgLSAhMjEzOSBjaTogbW92ZSBjaGVj
+ay1wb3RmaWxlcyB0byBsaW50IHN0YWdlIChNaWNoYWVsIENhdGFuemFybykKICAtICEyMTQwIGNp
+OiBpZ25vcmUgYmx1ZXByaW50LWNvbXBpbGVyIGZhaWx1cmVzIGR1cmluZyBzdHlsZSBjaGVjayAo
+TWljaGFlbAogICAgQ2F0YW56YXJvKQogIC0gITIxNDEgQ2FuYXJ5OiBSZS1lbmFibGUgV2ViUlRD
+IChQaGlsaXBwZSBOb3JtYW5kKQogIC0gQmFzcXVlIChBc2llciBTYXJhdHN1YSBHYXJtZW5kaWEp
+CiAgLSBDYXRhbGFuIChYYXZpIEl2YXJzKQogIC0gQ2hpbmVzZSAoQ2hpbmEpIChsdW1pbmcgemgp
+CiAgLSBDemVjaCAoRGFuaWVsIFJ1c2VrLCBQYXRyaWsgU2l2ZWspCiAgLSBEdXRjaCAoTmF0aGFu
+IEZvbGxlbnMpCiAgLSBHYWxpY2lhbiAoRnJhbmNpc2NvIERpw6lndWV6IFNvdXRvKQogIC0gR2Vv
+cmdpYW4gKEVrYXRlcmluZSBQYXBhdmEpCiAgLSBIZWJyZXcgKFlhcm9uIFNoYWhyYWJhbmkpCiAg
+LSBJdGFsaWFuIChEYXZpZGUgRmVycmFjaW4pCiAgLSBLYXpha2ggKEJhdXJ6aGFuIE11ZnRha2hp
+ZGlub3YpCiAgLSBPY2NpdGFuIChwb3N0IDE1MDApIChRdWVudGluIFBBR8OIUykKICAtIFBlcnNp
+YW4gKERhbmlhbCBCZWh6YWRpKQogIC0gUm9tYW5pYW4gKEFudG9uaW8gTWFyaW4pCiAgLSBSdXNz
+aWFuIChBcnR1ciBTMCkKICAtIFNsb3ZlbmlhbiAoTWFydGluKQogIC0gVWtyYWluaWFuIChZdXJp
+IENob3Jub2l2YW4pCgo1MS5hbHBoYSAtIEp1bmUgMjUsIDIwMjYKPT09PT09PT09PT09PT09PT09
+PT09PT09CgoqIEJ1Z3MgZml4ZWQ6CiAgLSAjMjcxMiBDcmFzaCB3aGVuIG9wZW5pbmcgcHJlZmVy
+ZW5jZXMgZGlhbG9nIGFmdGVyIGRlbGV0aW5nIGRlZmF1bHQgc2VhcmNoCiAgICBlbmdpbmUgKE1p
+Y2hhZWwgQ2F0YW56YXJvKQogIC0gIzI3NjkgW0ZlYXR1cmUgUmVxdWVzdF0gS2V5Ym9hcmQgc2hv
+cnRjdXQgdG8gY29weSB0aGUgY3VycmVudCBwYWdlIFVSTAogICAgKEF5Z3l1bikKICAtICMyODM0
+IFNlYXJjaCBlbmdpbmUgc3VnZ2VzdGlvbnMgaW4gYWRkcmVzc2JhciBhdXRvY29tcGxldGlvbiBk
+cm9wZG93biBhcmUKICAgIHZpc3VhbGx5IG92ZXJsb2FkaW5nIGR1ZSB0byB0aGVpciBVUkxzIGJl
+aW5nIHNob3duIChBUkFLSE5JRCkKICAtICMyODY4IEFkZHJlc3NiYXIgVVJMIHByZXR0aWZpY2F0
+aW9uIGRvZXMgbm90IHVuZGVyc3RhbmQgSVB2NiBhZGRyZXNzZXMKICAgIChBY2h1OTQpCiAgLSAj
+Mjg3NSBFZGl0aW5nIHBhc3N3b3JkIHVzZXJuYW1lIGNyZWF0ZXMgZHVwbGljYXRlIGVudHJpZXMg
+KE1pY2hhZWwKICAgIENhdGFuemFybykKICAtICExOTg3IHdlYmV4dGVuc2lvbjogUmVwbGFjZSBF
+cGh5V2ViRXh0ZW5zaW9uIHdpdGggV2ViS2l0V2ViRXh0ZW5zaW9uIChKYW1pZQogICAgTXVycGh5
+KQogIC0gITIwNTIgRmlyZWZveCBzeW5jIE9BdXRoIHRva2VuIGZsb3cgKER5ZWdvIEF1csOpbGlv
+KQogIC0gITIwNzcgVXNlIGxpYnBvcnRhbCBBUEkgdG8gZGV0ZWN0IHNhbmRib3ggKEFSQUtITklE
+KQogIC0gITIwODIgd2luZG93LWNvbW1hbmRzOiBpbXByb3ZlIG5vdGlmaWNhdGlvbiB3aGVuIGZh
+aWxpbmcgdG8gaW5zdGFsbCAoU2ltb24KICAgIFBlbmEpCiAgLSAhMjA4NSBDaGFuZ2UgZGVmYXVs
+dCBhZGJsb2NrIGZpbHRlcnMgYmFjayB0byBibmVtYSAoTWljaGFlbCBDYXRhbnphcm8pCiAgLSAh
+MjA4NiB3aW5kb3c6IFNldCBkZXZlbCBDU1MgYWxzbyBmb3IgQ2FuYXJ5IGJ1aWxkcyAoUGhpbGlw
+cGUgTm9ybWFuZCkKICAtICEyMDg5IGNhbmFyeTogRGlzYWJsZSBWdWxrYW4gc3VwcG9ydCAoUGhp
+bGlwcGUgTm9ybWFuZCkKICAtICEyMDkwIHNpdGUtbWVudS1idXR0b246IGFkZCBydWRpbWVudGFy
+eSBkZWJ1ZyBsb2dnaW5nIChNaWNoYWVsIENhdGFuemFybykKICAtICEyMDkxIHBhc3N3b3JkLW1h
+bmFnZXI6IGZpeCBjcmFzaCB3aGVuIGRlbGV0aW5nIHBhc3N3b3JkIHJlY29yZCAoTWljaGFlbAog
+ICAgQ2F0YW56YXJvKQogIC0gITIwOTQgUXVvdGUgY29tbWFuZCBsaW5lIGlucHV0IGJlZm9yZSBw
+YXNzaW5nIHRvIHNoZWxsIChNaWNoYWVsIENhdGFuemFybykKICAtICEyMDk4IHBhc3N3b3JkLW1h
+bmFnZXI6IGF2b2lkIGR1cGxpY2F0ZSByZWNvcmQgd2hlbiBjaGFuZ2luZyB1c2VybmFtZQogICAg
+KE1pY2hhZWwgQ2F0YW56YXJvKQogIC0gITIwOTkgRml4IGNyYXNoIHdoZW4gb3BlbmluZyBwcmVm
+ZXJlbmNlcyBkaWFsb2cgYWZ0ZXIgZGVsZXRpbmcgYSBzZWFyY2gKICAgIGVuZ2luZSAoTWljaGFl
+bCBDYXRhbnphcm8pCiAgLSAhMjEwMCBib29rbWFyay1wcm9wczogU2F2ZSBib29rbWFyayBvbiBD
+dHJsICsgRW50ZXIgKFpvZXkgQWhtZWQpCiAgLSAhMjEwMSBib29rbWFyay1wcm9wczogU2VsZWN0
+IHRhZyB3aGVuIHJvdyBpcyBjbGlja2VkIG9uIChab2V5IEFobWVkKQogIC0gITIxMDIgd2ViLXZp
+ZXc6IGZpeCBtZW1vcnkgY29ycnVwdGlvbiBjYXVzZWQgYnkgcHJldmlvdXMgbWVtb3J5IGNvcnJ1
+cHRpb24KICAgIGZpeCAoTWljaGFlbCBDYXRhbnphcm8pCiAgLSAhMjEwMyBkb2NzOiBjbGFyaWZ5
+IEhpRFBJIHNuYXBzaG90IHNpemluZyByZXF1aXJlbWVudHMgYW5kIHJlZmFjdG9yCiAgICBhYm91
+dC5jc3MgZm9yIHJlYWRhYmlsaXR5IChJR1NfR0lUKQogIC0gITIxMDQgRml4IGNyYXNoIGFmdGVy
+IGFkZGluZyBhIG5ldyBPcGVuU2VhcmNoIGVuZ2luZSAoTWljaGFlbCBDYXRhbnphcm8pCiAgLSAh
+MjEwNSBmZWF0OiBhZGQgdW5kbyBmdW5jdGlvbmFsaXR5IHRvIG92ZXJ2aWV3IGl0ZW0gcmVtb3Zh
+bCB2aWEgdG9hc3QKICAgIG5vdGlmaWNhdGlvbnMgKElHU19HSVQpCiAgLSAhMjEwNiBzaXRlLW1l
+bnUtYnV0dG9uOiByZW1vdmUgdW51c2VkIGZ1bmN0aW9uIChNaWNoYWVsIENhdGFuemFybykKICAt
+ICEyMTA3IHNob3J0Y3V0czogZG9jdW1lbnQgRjYgc2hvcnRjdXQgKFl1a2lDb2RlcHRoKQogIC0g
+ITIxMDggQWxsb3cgdXNlciB0byBnZW5lcmF0ZSBzZWN1cmUgcGFzc3dvcmRzIHdpdGggbGlicHdx
+dWFsaXR5IChNaWNoYWVsCiAgICBDYXRhbnphcm8sIElHU19HSVQsIEpvaG4gQ2FyZHVsbG8pCgoq
+IFRyYW5zbGF0aW9uIHVwZGF0ZXM6CiAgLSBCZWxhcnVzaWFuIChWYXNpbCBQdXBraW4pCiAgLSBD
+emVjaCAoUGF0cmlrIFNpdmVrKQogIC0gTGFvIChTYWlrZW8gS2F2aGFueGF5KQogIC0gUm9tYW5p
+YW4gKEFudG9uaW8gTWFyaW4pCiAgLSBTbG92ZW5pYW4gKE1hcnRpbikK
 
-* The resolvconf compatibility mode now rejects malformed stdin input
-          and leaves the existing per-link DNS configuration unchanged.
-
---===============7421859077018539915==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/qemux86_64-poky-linux/systemd-boot: SRC_URI changed from "git://github.com/systemd/systemd.git;protocol=https;branch=v261-stable;tag=v261.2" to "git://github.com/systemd/systemd.git;protocol=https;branch=v261-stable;tag=v261.3"
-packages/qemux86_64-poky-linux/systemd-boot: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/qemux86_64-poky-linux/systemd-boot: PV changed from "261.2" to "261.3"
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-dbg: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-dbg: PV changed from "261.2" to "261.3"
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-dev: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-dev: PV changed from "261.2" to "261.3"
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-doc: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-doc: PV changed from "261.2" to "261.3"
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-locale: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-locale: PV changed from "261.2" to "261.3"
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-src: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-src: PV changed from "261.2" to "261.3"
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-staticdev: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot-staticdev: PV changed from "261.2" to "261.3"
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/qemux86_64-poky-linux/systemd-boot/systemd-boot: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd: SRC_URI changed from "git://github.com/systemd/systemd.git;protocol=https;branch=v261-stable;tag=v261.2 file://touchscreen.rules file://00-create-volatile.conf file://org.freedesktop.hostname1_no_polkit.conf file://00-hostnamed-network-user.conf file://init file://99-default.preset file://systemd-pager.sh file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch file://0003-Do-not-create-var-log-README.patch file://a019396d2c5bc1adb6b044e7784a30b7187f6fbd.patch" to "git://github.com/systemd/systemd.git;protocol=https;branch=v261-stable;tag=v261.3 file://touchscreen.rules file://00-create-volatile.conf file://org.freedesktop.hostname1_no_polkit.conf file://00-hostnamed-network-user.conf file://init file://99-default.preset file://systemd-pager.sh file://0001-binfmt-Don-t-install-dependency-links-at-install-tim.patch file://0003-Do-not-create-var-log-README.patch"
-packages/x86-64-v3-poky-linux/systemd: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/libnss-myhostname: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/libnss-myhostname: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/libnss-mymachines: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/libnss-mymachines: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/libnss-resolve: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/libnss-resolve: PKGSIZE changed from 1698784 to 1702880 (+0%)
-packages/x86-64-v3-poky-linux/systemd/libnss-resolve: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/libnss-systemd: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/libnss-systemd: PKGSIZE changed from 2075704 to 2079800 (+0%)
-packages/x86-64-v3-poky-linux/systemd/libnss-systemd: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/libsystemd-shared: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/libsystemd-shared: PKGSIZE changed from 5279968 to 5288160 (+0%)
-packages/x86-64-v3-poky-linux/systemd/libsystemd-shared: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/libsystemd: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/libsystemd: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/libudev: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/libudev: PV changed from "261.2" to "261.3"
-Changes to packages/x86-64-v3-poky-linux/systemd (sysroot):
-  /usr/lib/systemd/boot/hwids/aa64/glymur-asus-zenbook-a14-ux3407na.json was added
-  /usr/lib/systemd/boot/hwids/aa64/glymur-asus-zenbook-a16-ux3607oa.json was added
-  /usr/lib/systemd/boot/hwids/aa64/glymur-crd.json was added
-  /usr/lib/systemd/boot/hwids/aa64/glymur-hp-elitebook-x-g2q.json was added
-  /usr/lib/systemd/boot/hwids/aa64/glymur-lenovo-yoga-slim7x.json was added
-  /usr/lib/systemd/boot/hwids/aa64/purwa-lenovo-ideacentre-mini-01q8x10.json was added
-  /usr/lib/systemd/boot/hwids/aa64/sc7180-ecs-liva-qc710.json was added
-  /usr/lib/systemd/boot/hwids/aa64/sc8280xp-radxa-dragon-q8b.json was added
-  /usr/lib/systemd/boot/hwids/aa64/x126100-lenovo-ideapad-slim3.json was added
-  /usr/lib/systemd/boot/hwids/aa64/x1e80100-honor-magicbook-art-14.json was added
-  /usr/lib/systemd/boot/hwids/aa64/x1p42100-hp-elitebook-6-g1q.json was added
-  /usr/lib/systemd/boot/hwids/aa64/x1p64100-dell-latitude-5455.json was added
-  /usr/lib/udev/rules.d/60-tpm2-id.rules was removed
-packages/x86-64-v3-poky-linux/systemd/systemd-analyze: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-analyze: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-bash-completion: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-bash-completion: PKGSIZE changed from 142265 to 142528 (+0%)
-packages/x86-64-v3-poky-linux/systemd/systemd-bash-completion: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-binfmt: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-binfmt: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-container: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-container: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-crypt: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-crypt: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-dbg: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-dbg: PKGSIZE changed from 105435608 to 105592976 (+0%)
-packages/x86-64-v3-poky-linux/systemd/systemd-dbg: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-dev: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-dev: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-doc: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-doc: PKGSIZE changed from 1414348 to 1414499 (+0%)
-packages/x86-64-v3-poky-linux/systemd/systemd-doc: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-extra-utils: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-extra-utils: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-gui: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-gui: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-initramfs: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-initramfs: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-journal-gatewayd: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-journal-gatewayd: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-journal-remote: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-journal-remote: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-journal-upload: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-journal-upload: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-kernel-install: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-kernel-install: PKGSIZE changed from 83154 to 83704 (+1%)
-packages/x86-64-v3-poky-linux/systemd/systemd-kernel-install: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ar: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ar: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-be+latin: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-be+latin: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-be: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-be: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-bg: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-bg: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-bo: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-bo: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ca: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ca: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-cs: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-cs: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-da: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-da: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-de: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-de: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-el: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-el: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-eo: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-eo: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-es: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-es: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-et: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-et: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-eu: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-eu: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-fi: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-fi: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-fr: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-fr: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-gl: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-gl: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-he: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-he: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-hi: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-hi: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-hr: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-hr: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-hu: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-hu: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ia: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ia: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-id: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-id: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-it: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-it: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ja: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ja: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ka: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ka: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-kab: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-kab: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-kk: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-kk: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-km: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-km: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-kn: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-kn: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ko: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ko: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-kw: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-kw: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-lo: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-lo: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-lt: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-lt: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-nb-no: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-nb-no: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-nl: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-nl: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-pa: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-pa: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-pl: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-pl: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-pt-br: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-pt-br: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-pt: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-pt: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ro: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ro: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ru: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ru: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-si: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-si: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-sk: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-sk: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-sl: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-sl: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-sr+latin: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-sr+latin: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-sr: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-sr: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-sv: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-sv: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-tr: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-tr: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ug: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-ug: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-uk: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-uk: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-zh-cn: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-zh-cn: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-zh-tw: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-locale-zh-tw: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-mime: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-mime: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-networkd: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-networkd: PKGSIZE changed from 2508815 to 2517007 (+0%)
-packages/x86-64-v3-poky-linux/systemd/systemd-networkd: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-rpm-macros: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-rpm-macros: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-src: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-src: FILELIST: directory renamed /usr/src/debug/systemd/261.2/src/network/generator -> /usr/src/debug/systemd/261.3/src/network/generator, directory renamed /usr/src/debug/systemd/261.2/src/udev/scsi_id -> /usr/src/debug/systemd/261.3/src/udev/scsi_id, directory renamed /usr/src/debug/systemd/261.2/src/libc -> /usr/src/debug/systemd/261.3/src/libc, directory renamed /usr/src/debug/systemd/261.2/src/udev/cdrom_id -> /usr/src/debug/systemd/261.3/src/udev/cdrom_id, directory renamed /usr/src/debug/systemd/261.2/src/run -> /usr/src/debug/systemd/261.3/src/run, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-login -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-login, directory renamed /usr/src/debug/systemd/261.2/src/journal -> /usr/src/debug/systemd/261.3/src/journal, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-netlink -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-netlink, directory renamed /usr/sr
- c/debug/systemd/261.2/src/reply-password -> /usr/src/debug/systemd/261.3/src/reply-password, directory renamed /usr/src/debug/systemd/261.2/src/mount -> /usr/src/debug/systemd/261.3/src/mount, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-event -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-event, directory renamed /usr/src/debug/systemd/261.2/src/bootctl -> /usr/src/debug/systemd/261.3/src/bootctl, directory renamed /usr/src/debug/systemd/261.2/src/tmpfiles -> /usr/src/debug/systemd/261.3/src/tmpfiles, directory renamed /usr/src/debug/systemd/261.2/src/socket-activate -> /usr/src/debug/systemd/261.3/src/socket-activate, directory renamed /usr/src/debug/systemd/261.2/src/rfkill -> /usr/src/debug/systemd/261.3/src/rfkill, directory renamed /usr/src/debug/systemd/261.2/src/nss-resolve -> /usr/src/debug/systemd/261.3/src/nss-resolve, directory renamed /usr/src/debug/systemd/261.2/src/hostname -> /usr/src/debug/systemd/261.3/src/hostname, directory renamed /usr/src
- /debug/systemd/261.2/src/getty-generator -> /usr/src/debug/systemd/261.3/src/getty-generator, directory renamed /usr/src/debug/systemd/261.2/src/environment-d-generator -> /usr/src/debug/systemd/261.3/src/environment-d-generator, directory renamed /usr/src/debug/systemd/261.2/src/timedate -> /usr/src/debug/systemd/261.3/src/timedate, directory renamed /usr/src/debug/systemd/261.2/src/timesync -> /usr/src/debug/systemd/261.3/src/timesync, directory renamed /usr/src/debug/systemd/261.2/src/vconsole -> /usr/src/debug/systemd/261.3/src/vconsole, directory renamed /usr/src/debug/systemd/261.2/src/creds -> /usr/src/debug/systemd/261.3/src/creds, directory renamed /usr/src/debug/systemd/261.2/src/user-sessions -> /usr/src/debug/systemd/261.3/src/user-sessions, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-bus -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-bus, directory renamed /usr/src/debug/systemd/261.2/src/include/uapi/linux/netfilter -> /usr/src/debug/systemd/261
- .3/src/include/uapi/linux/netfilter, directory renamed /usr/src/debug/systemd/261.2/src/login -> /usr/src/debug/systemd/261.3/src/login, directory renamed /usr/src/debug/systemd/261.2/src/system-update-generator -> /usr/src/debug/systemd/261.3/src/system-update-generator, directory renamed /usr/src/debug/systemd/261.2/src/storage -> /usr/src/debug/systemd/261.3/src/storage, directory renamed /usr/src/debug/systemd/261.2/src/udev/fido_id -> /usr/src/debug/systemd/261.3/src/udev/fido_id, directory renamed /usr/src/debug/systemd/261.2/src/busctl -> /usr/src/debug/systemd/261.3/src/busctl, directory renamed /usr/src/debug/systemd/261.2/src/fsck -> /usr/src/debug/systemd/261.3/src/fsck, directory renamed /usr/src/debug/systemd/261.2/src/sleep -> /usr/src/debug/systemd/261.3/src/sleep, directory renamed /usr/src/debug/systemd/261.2/src/growfs -> /usr/src/debug/systemd/261.3/src/growfs, directory renamed /usr/src/debug/systemd/261.2/src/userdb -> /usr/src/debug/systemd/261.3/src/userdb, di
- rectory renamed /usr/src/debug/systemd/261.2/src/udev/iocost -> /usr/src/debug/systemd/261.3/src/udev/iocost, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-journal -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-journal, directory renamed /usr/src/debug/systemd/261.2/src/stdio-bridge -> /usr/src/debug/systemd/261.3/src/stdio-bridge, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-common -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-common, directory renamed /usr/src/debug/systemd/261.2/src/include/override -> /usr/src/debug/systemd/261.3/src/include/override, directory renamed /usr/src/debug/systemd/261.2/src/ssh-generator -> /usr/src/debug/systemd/261.3/src/ssh-generator, directory renamed /usr/src/debug/systemd/261.2/src/kernel-install -> /usr/src/debug/systemd/261.3/src/kernel-install, directory renamed /usr/src/debug/systemd/261.2/src/hwdb -> /usr/src/debug/systemd/261.3/src/hwdb, directory renamed /usr/src/debug/systemd/261.2/src/libsys
- temd/sd-json -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-json, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-id128 -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-id128, directory renamed /usr/src/debug/systemd/261.2/src/sulogin-shell -> /usr/src/debug/systemd/261.3/src/sulogin-shell, directory renamed /usr/src/debug/systemd/261.2/src/journal-remote -> /usr/src/debug/systemd/261.3/src/journal-remote, directory renamed /usr/src/debug/systemd/261.2/src/locale -> /usr/src/debug/systemd/261.3/src/locale, directory renamed /usr/src/debug/systemd/261.2/src/quotacheck -> /usr/src/debug/systemd/261.3/src/quotacheck, directory renamed /usr/src/debug/systemd/261.2/src/vpick -> /usr/src/debug/systemd/261.3/src/vpick, directory renamed /usr/src/debug/systemd/261.2/src/systemd -> /usr/src/debug/systemd/261.3/src/systemd, directory renamed /usr/src/debug/systemd/261.2/src/udev -> /usr/src/debug/systemd/261.3/src/udev, directory renamed /usr/src/debug/systemd/261.2/src/u
- dev/dmi_memory_id -> /usr/src/debug/systemd/261.3/src/udev/dmi_memory_id, directory renamed /usr/src/debug/systemd/261.2/src/machine -> /usr/src/debug/systemd/261.3/src/machine, directory renamed /usr/src/debug/systemd/261.2/src/nspawn -> /usr/src/debug/systemd/261.3/src/nspawn, directory renamed /usr/src/debug/systemd/261.2/src/include/override/sys -> /usr/src/debug/systemd/261.3/src/include/override/sys, directory renamed /usr/src/debug/systemd/261.2/src/network/netdev -> /usr/src/debug/systemd/261.3/src/network/netdev, directory renamed /usr/src/debug/systemd/261.2/src/bless-boot -> /usr/src/debug/systemd/261.3/src/bless-boot, directory renamed /usr/src/debug/systemd/261.2/src/delta -> /usr/src/debug/systemd/261.3/src/delta, directory renamed /usr/src/debug/systemd/261.2/src/gpt-auto-generator -> /usr/src/debug/systemd/261.3/src/gpt-auto-generator, directory renamed /usr/src/debug/systemd/261.2/src/include/uapi/linux/sched -> /usr/src/debug/systemd/261.3/src/include/uapi/linux/sc
- hed, directory renamed /usr/src/debug/systemd/261.2/src/update-done -> /usr/src/debug/systemd/261.3/src/update-done, directory renamed /usr/src/debug/systemd/261.2/src/ptyfwd -> /usr/src/debug/systemd/261.3/src/ptyfwd, directory renamed /usr/src/debug/systemd/261.2/src/varlinkctl -> /usr/src/debug/systemd/261.3/src/varlinkctl, directory renamed /usr/src/debug/systemd/261.2/src/sysinstall -> /usr/src/debug/systemd/261.3/src/sysinstall, directory renamed /usr/src/debug/systemd/261.2/src/nss-myhostname -> /usr/src/debug/systemd/261.3/src/nss-myhostname, directory renamed /usr/src/debug/systemd/261.2/src/fundamental -> /usr/src/debug/systemd/261.3/src/fundamental, directory renamed /usr/src/debug/systemd/261.2/src/machine-id-setup -> /usr/src/debug/systemd/261.3/src/machine-id-setup, directory renamed /usr/src/debug/systemd/261.2/src/include/override/linux -> /usr/src/debug/systemd/261.3/src/include/override/linux, directory renamed /usr/src/debug/systemd/261.2/src/network/tc -> /usr/sr
- c/debug/systemd/261.3/src/network/tc, directory renamed /usr/src/debug/systemd/261.2/src/storagetm -> /usr/src/debug/systemd/261.3/src/storagetm, directory renamed /usr/src/debug/systemd/261.2/src/systemctl -> /usr/src/debug/systemd/261.3/src/systemctl, directory renamed /usr/src/debug/systemd/261.2/src/include/uapi/linux/can -> /usr/src/debug/systemd/261.3/src/include/uapi/linux/can, directory renamed /usr/src/debug/systemd/261.2/src/random-seed -> /usr/src/debug/systemd/261.3/src/random-seed, directory renamed /usr/src/debug/systemd/261.2/src/backlight -> /usr/src/debug/systemd/261.3/src/backlight, directory renamed /usr/src/debug/systemd/261.2/src/ac-power -> /usr/src/debug/systemd/261.3/src/ac-power, directory renamed /usr/src/debug/systemd/261.2/src/sysusers -> /usr/src/debug/systemd/261.3/src/sysusers, directory renamed /usr/src/debug/systemd/261.2/src/coredump -> /usr/src/debug/systemd/261.3/src/coredump, directory renamed /usr/src/debug/systemd/261.2/src/id128 -> /usr/src/de
- bug/systemd/261.3/src/id128, directory renamed /usr/src/debug/systemd/261.2/src/shutdown -> /usr/src/debug/systemd/261.3/src/shutdown, directory renamed /usr/src/debug/systemd/261.2/src/udev/ata_id -> /usr/src/debug/systemd/261.3/src/udev/ata_id, directory renamed /usr/src/debug/systemd/261.2/src/udev/net -> /usr/src/debug/systemd/261.3/src/udev/net, directory renamed /usr/src/debug/systemd/261.2/src/hibernate-resume -> /usr/src/debug/systemd/261.3/src/hibernate-resume, directory renamed /usr/src/debug/systemd/261.2/src/udev/v4l_id -> /usr/src/debug/systemd/261.3/src/udev/v4l_id, directory renamed /usr/src/debug/systemd/261.2/src/include/override/net -> /usr/src/debug/systemd/261.3/src/include/override/net, directory renamed /usr/src/debug/systemd/261.2/src/debug-generator -> /usr/src/debug/systemd/261.3/src/debug-generator, directory renamed /usr/src/debug/systemd/261.2/src/fstab-generator -> /usr/src/debug/systemd/261.3/src/fstab-generator, directory renamed /usr/src/debug/systemd
- /261.2/src/network -> /usr/src/debug/systemd/261.3/src/network, directory renamed /usr/src/debug/systemd/261.2/src/factory-reset -> /usr/src/debug/systemd/261.3/src/factory-reset, directory renamed /usr/src/debug/systemd/261.2/src/escape -> /usr/src/debug/systemd/261.3/src/escape, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-future -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-future, directory renamed /usr/src/debug/systemd/261.2/src/report -> /usr/src/debug/systemd/261.3/src/report, directory renamed /usr/src/debug/systemd/261.2/src/mstack -> /usr/src/debug/systemd/261.3/src/mstack, directory renamed /usr/src/debug/systemd/261.2/src/path -> /usr/src/debug/systemd/261.3/src/path, directory renamed /usr/src/debug/systemd/261.2/src/libudev -> /usr/src/debug/systemd/261.3/src/libudev, directory renamed /usr/src/debug/systemd/261.2/src/battery-check -> /usr/src/debug/systemd/261.3/src/battery-check, directory renamed /usr/src/debug/systemd/261.2/src/notify -> /u
- sr/src/debug/systemd/261.3/src/notify, directory renamed /usr/src/debug/systemd/261.2/src/validatefs -> /usr/src/debug/systemd/261.3/src/validatefs, directory renamed /usr/src/debug/systemd/261.2/src/analyze -> /usr/src/debug/systemd/261.3/src/analyze, directory renamed /usr/src/debug/systemd/261.2/src/binfmt -> /usr/src/debug/systemd/261.3/src/binfmt, directory renamed /usr/src/debug/systemd/261.2/src/ask-password -> /usr/src/debug/systemd/261.3/src/ask-password, directory renamed /usr/src/debug/systemd/261.2/src/detect-virt -> /usr/src/debug/systemd/261.3/src/detect-virt, directory renamed /usr/src/debug/systemd/261.2/src/cgtop -> /usr/src/debug/systemd/261.3/src/cgtop, directory renamed /usr/src/debug/systemd/261.2/src/include/uapi/linux/hdlc -> /usr/src/debug/systemd/261.3/src/include/uapi/linux/hdlc, directory renamed /usr/src/debug/systemd/261.2/src/nss-systemd -> /usr/src/debug/systemd/261.3/src/nss-systemd, directory renamed /usr/src/debug/systemd/261.2/src/run-generator -> 
- /usr/src/debug/systemd/261.3/src/run-generator, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-resolve -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-resolve, directory renamed /usr/src/debug/systemd/261.2/src/include/override/netinet -> /usr/src/debug/systemd/261.3/src/include/override/netinet, directory renamed /usr/src/debug/systemd/261.2/src/udev/mtd_probe -> /usr/src/debug/systemd/261.3/src/udev/mtd_probe, directory renamed /usr/src/debug/systemd/261.2/src/modules-load -> /usr/src/debug/systemd/261.3/src/modules-load, directory renamed /usr/src/debug/systemd/261.2/src/dissect -> /usr/src/debug/systemd/261.3/src/dissect, directory renamed /usr/src/debug/systemd/261.2/src/nss-mymachines -> /usr/src/debug/systemd/261.3/src/nss-mymachines, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-daemon -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-daemon, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-hwdb -> /usr/src/debug/systemd
- /261.3/src/libsystemd/sd-hwdb, directory renamed /usr/src/debug/systemd/261.2/src/sysctl -> /usr/src/debug/systemd/261.3/src/sysctl, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-path -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-path, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-device -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-device, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-varlink -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-varlink, directory renamed /usr/src/debug/systemd/261.2/src/core -> /usr/src/debug/systemd/261.3/src/core, directory renamed /usr/src/debug/systemd/261.2/src/cgls -> /usr/src/debug/systemd/261.3/src/cgls, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd/sd-network -> /usr/src/debug/systemd/261.3/src/libsystemd/sd-network, directory renamed /usr/src/debug/systemd/261.2/src/socket-proxy -> /usr/src/debug/systemd/261.3/src/socket-proxy, directory renamed /usr/src/debug/s
- ystemd/261.2/src/shared -> /usr/src/debug/systemd/261.3/src/shared, directory renamed /usr/src/debug/systemd/261.2/src/resolve -> /usr/src/debug/systemd/261.3/src/resolve, directory renamed /usr/src/debug/systemd/261.2/src/update-utmp -> /usr/src/debug/systemd/261.3/src/update-utmp, directory renamed /usr/src/debug/systemd/261.2/src/mute-console -> /usr/src/debug/systemd/261.3/src/mute-console, directory renamed /usr/src/debug/systemd/261.2/src/remount-fs -> /usr/src/debug/systemd/261.3/src/remount-fs, directory renamed /usr/src/debug/systemd/261.2/src/volatile-root -> /usr/src/debug/systemd/261.3/src/volatile-root, directory renamed /usr/src/debug/systemd/261.2/src/libsystemd-network -> /usr/src/debug/systemd/261.3/src/libsystemd-network, directory renamed /usr/src/debug/systemd/261.2/src/network/wait-online -> /usr/src/debug/systemd/261.3/src/network/wait-online, directory renamed /usr/src/debug/systemd/261.2/src/basic -> /usr/src/debug/systemd/261.3/src/basic, directory renamed /
- usr/src/debug/systemd/261.2/src/tty-ask-password-agent -> /usr/src/debug/systemd/261.3/src/tty-ask-password-agent, removed "/usr/src/debug/systemd/261.2/src/include/uapi/linux/nexthop.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/socket.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/vm_sockets.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/in.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/if_vlan.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/neighbour.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/if_bridge.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/nl80211.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/fs.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/if_addr.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/if_packet.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/netfilter_ipv4.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/auto_dev-ioctl.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/gen
- etlink.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/rtnetlink.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/openat2.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/mempolicy.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/btrfs_tree.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/capability.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/if_link.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/if_arp.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/netlink.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/input.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/liveupdate.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/mount.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/fib_rules.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/auto_fs.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/dm-ioctl.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/bpf.h /usr/src/debug/systemd/261.2/src/include/uapi/linux
- /btrfs.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/fou.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/if_tunnel.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/if.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/in6.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/wireguard.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/xattr.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/ioprio.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/net_namespace.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/loop.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/batman_adv.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/ethtool.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/stat.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/veth.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/ipv6.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/fsverity.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/if_addrlabel.h /usr/
- src/debug/systemd/261.2/src/include/uapi/linux/netfilter.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/pkt_sched.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/if_macsec.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/l2tp.h /usr/src/debug/systemd/261.2/src/include/uapi/linux/filter.h", added "/usr/src/debug/systemd/261.3/src/include/uapi/linux/nexthop.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/socket.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/vm_sockets.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/in.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/if_vlan.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/neighbour.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/if_bridge.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/nl80211.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/pidfd.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/fs.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/if_addr.h /usr/
- src/debug/systemd/261.3/src/include/uapi/linux/if_packet.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/netfilter_ipv4.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/auto_dev-ioctl.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/genetlink.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/rtnetlink.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/openat2.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/mempolicy.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/btrfs_tree.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/capability.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/if_link.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/if_arp.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/netlink.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/input.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/liveupdate.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/mount.h /usr/src/debug/systemd/261.3/src/include/uapi/
- linux/fib_rules.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/auto_fs.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/dm-ioctl.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/bpf.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/btrfs.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/fou.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/if_tunnel.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/if.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/in6.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/wireguard.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/xattr.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/ioprio.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/net_namespace.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/loop.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/batman_adv.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/ethtool.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/stat.h /
- usr/src/debug/systemd/261.3/src/include/uapi/linux/veth.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/ipv6.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/fsverity.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/if_addrlabel.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/netfilter.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/pkt_sched.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/if_macsec.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/l2tp.h /usr/src/debug/systemd/261.3/src/include/uapi/linux/filter.h"
-packages/x86-64-v3-poky-linux/systemd/systemd-src: PKGSIZE changed from 30436569 to 30519050 (+0%)
-packages/x86-64-v3-poky-linux/systemd/systemd-src: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-staticdev: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-staticdev: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-udev-rules: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-udev-rules: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-ukify: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-ukify: PKGSIZE changed from 93602 to 93708 (+0%)
-packages/x86-64-v3-poky-linux/systemd/systemd-ukify: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-vconsole-setup: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-vconsole-setup: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd-zsh-completion: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd-zsh-completion: PKGSIZE changed from 134178 to 134528 (+0%)
-packages/x86-64-v3-poky-linux/systemd/systemd-zsh-completion: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/systemd: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/systemd: FILELIST: added "/usr/lib/systemd/boot/hwids/aa64/glymur-lenovo-yoga-slim7x.json /usr/lib/systemd/boot/hwids/aa64/glymur-asus-zenbook-a14-ux3407na.json /usr/lib/systemd/boot/hwids/aa64/glymur-asus-zenbook-a16-ux3607oa.json /usr/lib/systemd/boot/hwids/aa64/x1e80100-honor-magicbook-art-14.json /usr/lib/systemd/boot/hwids/aa64/purwa-lenovo-ideacentre-mini-01q8x10.json /usr/lib/systemd/boot/hwids/aa64/glymur-hp-elitebook-x-g2q.json /usr/lib/systemd/boot/hwids/aa64/sc8280xp-radxa-dragon-q8b.json /usr/lib/systemd/boot/hwids/aa64/glymur-crd.json /usr/lib/systemd/boot/hwids/aa64/x1p42100-hp-elitebook-6-g1q.json /usr/lib/systemd/boot/hwids/aa64/x1p64100-dell-latitude-5455.json /usr/lib/systemd/boot/hwids/aa64/x126100-lenovo-ideapad-slim3.json /usr/lib/systemd/boot/hwids/aa64/sc7180-ecs-liva-qc710.json"
-packages/x86-64-v3-poky-linux/systemd/systemd: PKGSIZE changed from 11480667 to 11511017 (+0%)
-packages/x86-64-v3-poky-linux/systemd/systemd: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/udev-bash-completion: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/udev-bash-completion: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/udev-hwdb: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/udev-hwdb: PKGSIZE changed from 9531054 to 9611374 (+1%)
-packages/x86-64-v3-poky-linux/systemd/udev-hwdb: PV changed from "261.2" to "261.3"
-packages/x86-64-v3-poky-linux/systemd/udev: PKGV changed from 261.2 [default] to 261.3 [default]
-packages/x86-64-v3-poky-linux/systemd/udev: FILELIST: removed "/usr/lib/udev/rules.d/60-tpm2-id.rules"
-packages/x86-64-v3-poky-linux/systemd/udev: PKGSIZE changed from 1093297 to 1092983 (-0%)
-packages/x86-64-v3-poky-linux/systemd/udev: PV changed from "261.2" to "261.3"
-
---===============7421859077018539915==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="systemd-boot-changelog.txt"
-
-Changelog for systemd-boot: 261.2 -> 261.3
-Source: NEWS
-
-* The resolvconf compatibility mode now rejects malformed stdin input
-          and leaves the existing per-link DNS configuration unchanged.
-
---===============7421859077018539915==
+--===============1105164357508354760==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-systemd-systemd-tools-native-systemd-boot-systemd-bo.patch"
+ filename="0001-epiphany-upgrade-50.6-51.0.patch"
 
-RnJvbSBiMjIzYTYyZGQyM2RhYmMwMDkyNTZjYTJiOGQwN2FhNmI0YWYxODNkIE1vbiBTZXAgMTcg
+RnJvbSAxNmE1NDA3NTNlOTg1NGFkNzExNTY1OTM2NTQzODcxOTE0YWU4Yjk2IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMTEgU2VwIDIwMjYgMDU6MTM6NTEgKzAwMDAKU3ViamVjdDogW1BBVENIXSAK
-IHN5c3RlbWQsc3lzdGVtZC10b29scy1uYXRpdmUsc3lzdGVtZC1ib290LHN5c3RlbWQtYm9vdC1u
-YXRpdmU6IHVwZ3JhZGUgMjYxLjIKIC0+IDI2MS4zLDI2MS4yIC0+IDI2MS4zLDI2MS4yIC0+IDI2
-MS4zLDI2MS4yIC0+IDI2MS4zCgpTb3VyY2U6IE5FV1MKCiogVGhlIHJlc29sdmNvbmYgY29tcGF0
-aWJpbGl0eSBtb2RlIG5vdyByZWplY3RzIG1hbGZvcm1lZCBzdGRpbiBpbnB1dAogICAgICAgICAg
-YW5kIGxlYXZlcyB0aGUgZXhpc3RpbmcgcGVyLWxpbmsgRE5TIGNvbmZpZ3VyYXRpb24gdW5jaGFu
-Z2VkLgoKU291cmNlOiBORVdTCgoqIFRoZSByZXNvbHZjb25mIGNvbXBhdGliaWxpdHkgbW9kZSBu
-b3cgcmVqZWN0cyBtYWxmb3JtZWQgc3RkaW4gaW5wdXQKICAgICAgICAgIGFuZCBsZWF2ZXMgdGhl
-IGV4aXN0aW5nIHBlci1saW5rIEROUyBjb25maWd1cmF0aW9uIHVuY2hhbmdlZC4KClNvdXJjZTog
-TkVXUwoKKiBUaGUgcmVzb2x2Y29uZiBjb21wYXRpYmlsaXR5IG1vZGUgbm93IHJlamVjdHMgbWFs
-Zm9ybWVkIHN0ZGluIGlucHV0CiAgICAgICAgICBhbmQgbGVhdmVzIHRoZSBleGlzdGluZyBwZXIt
-bGluayBETlMgY29uZmlndXJhdGlvbiB1bmNoYW5nZWQuCgpTb3VyY2U6IE5FV1MKCiogVGhlIHJl
-c29sdmNvbmYgY29tcGF0aWJpbGl0eSBtb2RlIG5vdyByZWplY3RzIG1hbGZvcm1lZCBzdGRpbiBp
-bnB1dAogICAgICAgICAgYW5kIGxlYXZlcyB0aGUgZXhpc3RpbmcgcGVyLWxpbmsgRE5TIGNvbmZp
-Z3VyYXRpb24gdW5jaGFuZ2VkLgotLS0KIC4uLl8yNjEuMi5iYiA9PiBzeXN0ZW1kLWJvb3QtbmF0
-aXZlXzI2MS4zLmJifSB8ICAgMAogLi4ubWQtYm9vdF8yNjEuMi5iYiA9PiBzeXN0ZW1kLWJvb3Rf
-MjYxLjMuYmJ9IHwgICAwCiAuLi4yNjEuMi5iYiA9PiBzeXN0ZW1kLXRvb2xzLW5hdGl2ZV8yNjEu
-My5iYn0gfCAgIDAKIG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC5pbmMgICAgICAg
-ICB8ICAgMiArLQogLi4udGFsbC1kZXBlbmRlbmN5LWxpbmtzLWF0LWluc3RhbGwtdGltLnBhdGNo
-IHwgIDE1ICstLQogLi4uLzAwMDMtRG8tbm90LWNyZWF0ZS12YXItbG9nLVJFQURNRS5wYXRjaCAg
-IHwgICA2ICstCiAuLi5pc3NpbmctU1RBVFhfTU5UX0lELW9uLW9sZGVyLWtlcm5lbHMucGF0Y2gg
-fCAxMTIgKysrKysrKysrLS0tLS0tLS0tCiAuLi4zOTZkMmM1YmMxYWRiNmIwNDRlNzc4NGEzMGI3
-MTg3ZjZmYmQucGF0Y2ggfCAgNTkgLS0tLS0tLS0tCiAuLi4ve3N5c3RlbWRfMjYxLjIuYmIgPT4g
-c3lzdGVtZF8yNjEuMy5iYn0gICAgfCAgIDQgKy0KIDkgZmlsZXMgY2hhbmdlZCwgNjkgaW5zZXJ0
-aW9ucygrKSwgMTI5IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1jb3JlL3N5c3Rl
-bWQve3N5c3RlbWQtYm9vdC1uYXRpdmVfMjYxLjIuYmIgPT4gc3lzdGVtZC1ib290LW5hdGl2ZV8y
-NjEuMy5iYn0gKDEwMCUpCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC97c3lzdGVt
-ZC1ib290XzI2MS4yLmJiID0+IHN5c3RlbWQtYm9vdF8yNjEuMy5iYn0gKDEwMCUpCiByZW5hbWUg
-bWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC97c3lzdGVtZC10b29scy1uYXRpdmVfMjYxLjIuYmIg
-PT4gc3lzdGVtZC10b29scy1uYXRpdmVfMjYxLjMuYmJ9ICgxMDAlKQogZGVsZXRlIG1vZGUgMTAw
-NjQ0IG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC9hMDE5Mzk2ZDJjNWJjMWFkYjZi
-MDQ0ZTc3ODRhMzBiNzE4N2Y2ZmJkLnBhdGNoCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvc3lz
-dGVtZC97c3lzdGVtZF8yNjEuMi5iYiA9PiBzeXN0ZW1kXzI2MS4zLmJifSAoOTklKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290LW5hdGl2ZV8yNjEu
-Mi5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290LW5hdGl2ZV8yNjEu
-My5iYgpzaW1pbGFyaXR5IGluZGV4IDEwMCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUv
-c3lzdGVtZC9zeXN0ZW1kLWJvb3QtbmF0aXZlXzI2MS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lw
-ZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQtYm9vdC1uYXRpdmVfMjYxLjMuYmIKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290XzI2MS4yLmJiIGIvbWV0YS9y
-ZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLWJvb3RfMjYxLjMuYmIKc2ltaWxhcml0eSBpbmRl
-eCAxMDAlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC1ib290
-XzI2MS4yLmJiCnJlbmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQtYm9v
-dF8yNjEuMy5iYgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1k
-LXRvb2xzLW5hdGl2ZV8yNjEuMi5iYiBiL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVt
-ZC10b29scy1uYXRpdmVfMjYxLjMuYmIKc2ltaWxhcml0eSBpbmRleCAxMDAlCnJlbmFtZSBmcm9t
-IG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC10b29scy1uYXRpdmVfMjYxLjIuYmIK
-cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC10b29scy1uYXRpdmVf
-MjYxLjMuYmIKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC5p
-bmMgYi9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQuaW5jCmluZGV4IDcwYzVhYzc1
-OGQuLjNlZTg5ODk1OGYgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lz
-dGVtZC5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLmluYwpAQCAt
-MTUsNyArMTUsNyBAQCBMSUNFTlNFOmxpYnN5c3RlbWQgPSAiTEdQTC0yLjEtb3ItbGF0ZXIiCiBM
-SUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLkdQTDI7bWQ1PWMwOTc4NjM2MzUwMGE5
-YWNjMjliMTQ3ZTZlNzJkMmM2IFwKICAgICAgICAgICAgICAgICAgICAgZmlsZTovL0xJQ0VOU0Uu
-TEdQTDIuMTttZDU9YmUwYWFmNGEzODBmNzNmN2UwMGI0MjBhMDA3MzY4ZjIiCiAKLVNSQ1JFViA9
-ICI0OTI1ZDlmMDdmYzY5N2VmY2NkOThhOTMwNDZmZjUzNWI4ODMyNDQ1IgorU1JDUkVWID0gIjMy
-NTVkYWVlMTU3MjM2NmI3NGZlOTJmMDAyYTNkNjBlY2JiMjcxMDMiCiBTUkNCUkFOQ0ggPSAidjI2
-MS1zdGFibGUiCiBTUkNfVVJJID0gImdpdDovL2dpdGh1Yi5jb20vc3lzdGVtZC9zeXN0ZW1kLmdp
-dDtwcm90b2NvbD1odHRwczticmFuY2g9JHtTUkNCUkFOQ0h9O3RhZz12JHtQVn0iCiAKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC8wMDAxLWJpbmZtdC1Eb24t
-dC1pbnN0YWxsLWRlcGVuZGVuY3ktbGlua3MtYXQtaW5zdGFsbC10aW0ucGF0Y2ggYi9tZXRhL3Jl
-Y2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQvMDAwMS1iaW5mbXQtRG9uLXQtaW5zdGFsbC1kZXBl
-bmRlbmN5LWxpbmtzLWF0LWluc3RhbGwtdGltLnBhdGNoCmluZGV4IDgwNjFmZjEwMDAuLmI4Mzgw
-M2FhMDggMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZC8wMDAx
-LWJpbmZtdC1Eb24tdC1pbnN0YWxsLWRlcGVuZGVuY3ktbGlua3MtYXQtaW5zdGFsbC10aW0ucGF0
-Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLzAwMDEtYmluZm10LURv
-bi10LWluc3RhbGwtZGVwZW5kZW5jeS1saW5rcy1hdC1pbnN0YWxsLXRpbS5wYXRjaApAQCAtMSw4
-ICsxLDggQEAKLUZyb20gYjFhYjU4ZDNiNGE4MTY0ZTU5Nzg0MDk3MDZkNjc2OWY1Y2ZkZTQwNCBN
-b24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gNDUxYWY0NzU1ZjBjMWRhNTUyNDk4NjgyZDkx
-MGY0ZjRjNTIwOTYzOSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IENoZW4gUWkgPFFp
-LkNoZW5Ad2luZHJpdmVyLmNvbT4KIERhdGU6IFRodSwgMjEgRmViIDIwMTkgMTY6MjM6MjQgKzA4
-MDAKLVN1YmplY3Q6IFtQQVRDSCAwMS8xNl0gYmluZm10OiBEb24ndCBpbnN0YWxsIGRlcGVuZGVu
-Y3kgbGlua3MgYXQgaW5zdGFsbCB0aW1lCi0gZm9yIHRoZSBiaW5mbXQgc2VydmljZXMKK1N1Ympl
-Y3Q6IFtQQVRDSF0gYmluZm10OiBEb24ndCBpbnN0YWxsIGRlcGVuZGVuY3kgbGlua3MgYXQgaW5z
-dGFsbCB0aW1lIGZvcgorIHRoZSBiaW5mbXQgc2VydmljZXMKIAogdXNlIFtJbnN0YWxsXSBibG9j
-a3Mgc28gdGhhdCB0aGV5IGdldCBjcmVhdGVkIHdoZW4gdGhlIHNlcnZpY2UgaXMgZW5hYmxlZAog
-bGlrZSBhIHRyYWRpdGlvbmFsIHNlcnZpY2UuCkBAIC0yNSwxMCArMjUsMTAgQEAgU2lnbmVkLW9m
-Zi1ieTogU2NvdHQgTXVycmF5IDxzY290dC5tdXJyYXlAa29uc3Vsa28uY29tPgogIDMgZmlsZXMg
-Y2hhbmdlZCwgNyBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQogCiBkaWZmIC0tZ2l0IGEv
-dW5pdHMvbWVzb24uYnVpbGQgYi91bml0cy9tZXNvbi5idWlsZAotaW5kZXggNGY0N2EzYjJiZC4u
-MjM3ODcwMDI1YiAxMDA2NDQKK2luZGV4IDI3ZDhlZjJmNzIuLjg2NGNhYTQ0YmIgMTAwNjQ0CiAt
-LS0gYS91bml0cy9tZXNvbi5idWlsZAogKysrIGIvdW5pdHMvbWVzb24uYnVpbGQKLUBAIC0xNTQs
-NyArMTU0LDYgQEAgdW5pdHMgPSBbCitAQCAtMTY4LDcgKzE2OCw2IEBAIHVuaXRzID0gWwogICAg
-ICAgICAgewogICAgICAgICAgICAnZmlsZScgOiAncHJvYy1zeXMtZnMtYmluZm10X21pc2MuYXV0
-b21vdW50JywKICAgICAgICAgICAgJ2NvbmRpdGlvbnMnIDogWydFTkFCTEVfQklORk1UJ10sCkBA
-IC0zNiw3ICszNiw3IEBAIGluZGV4IDRmNDdhM2IyYmQuLjIzNzg3MDAyNWIgMTAwNjQ0CiAgICAg
-ICAgICB9LAogICAgICAgICAgewogICAgICAgICAgICAnZmlsZScgOiAncHJvYy1zeXMtZnMtYmlu
-Zm10X21pc2MubW91bnQnLAotQEAgLTI2Myw3ICsyNjIsNiBAQCB1bml0cyA9IFsKK0BAIC0yNzks
-NyArMjc4LDYgQEAgdW5pdHMgPSBbCiAgICAgICAgICB7CiAgICAgICAgICAgICdmaWxlJyA6ICdz
-eXN0ZW1kLWJpbmZtdC5zZXJ2aWNlLmluJywKICAgICAgICAgICAgJ2NvbmRpdGlvbnMnIDogWydF
-TkFCTEVfQklORk1UJ10sCkBAIC03NCw2ICs3NCwzIEBAIGluZGV4IDMxOGJmOGVmYzIuLjZlZjY4
-NDg2MWQgMTAwNjQ0CiArCiArW0luc3RhbGxdCiArV2FudGVkQnk9c3lzaW5pdC50YXJnZXQKLS0t
-IAotMi4zNC4xCi0KZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVt
-ZC8wMDAzLURvLW5vdC1jcmVhdGUtdmFyLWxvZy1SRUFETUUucGF0Y2ggYi9tZXRhL3JlY2lwZXMt
-Y29yZS9zeXN0ZW1kL3N5c3RlbWQvMDAwMy1Eby1ub3QtY3JlYXRlLXZhci1sb2ctUkVBRE1FLnBh
-dGNoCmluZGV4IDAxMjhjODNkOWYuLjE3NWVjNzk1NWIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBl
-cy1jb3JlL3N5c3RlbWQvc3lzdGVtZC8wMDAzLURvLW5vdC1jcmVhdGUtdmFyLWxvZy1SRUFETUUu
-cGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kLzAwMDMtRG8tbm90
-LWNyZWF0ZS12YXItbG9nLVJFQURNRS5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gYTdmNmEy
-OTY3MDc2NDJkMDU0NjNhZWMyMmVhM2RmY2U3ZDA2Yzk4OSBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKK0Zyb20gMGQ0YTU5NzYwNTYzODdmZjM4MDFmZGI3ZjUzZTZkMDc2MGRmMDQ3NSBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFBldGVyIEtqZWxsZXJzdGVkdCA8cGtqQGF4aXMuY29t
-PgogRGF0ZTogVHVlLCAyMSBKYW4gMjAyNSAwNTowMjowMCArMDEwMAogU3ViamVjdDogW1BBVENI
-XSBEbyBub3QgY3JlYXRlIC92YXIvbG9nL1JFQURNRQpAQCAtMTUsNyArMTUsNyBAQCBTaWduZWQt
-b2ZmLWJ5OiBQZXRlciBLamVsbGVyc3RlZHQgPHBldGVyLmtqZWxsZXJzdGVkdEBheGlzLmNvbT4K
-ICAxIGZpbGUgY2hhbmdlZCwgMyBkZWxldGlvbnMoLSkKIAogZGlmZiAtLWdpdCBhL3RtcGZpbGVz
-LmQvbGVnYWN5LmNvbmYuaW4gYi90bXBmaWxlcy5kL2xlZ2FjeS5jb25mLmluCi1pbmRleCBjZGVm
-MjFmYTliLi43ODkwYWJjZGVmIDEwMDY0NAoraW5kZXggNzAzNmMxMmI3Yy4uODAxMjBiMDRiNCAx
-MDA2NDQKIC0tLSBhL3RtcGZpbGVzLmQvbGVnYWN5LmNvbmYuaW4KICsrKyBiL3RtcGZpbGVzLmQv
-bGVnYWN5LmNvbmYuaW4KIEBAIC0xMyw2ICsxMywzIEBACkBAIC0yNSw1ICsyNSwzIEBAIGluZGV4
-IGNkZWYyMWZhOWIuLjc4OTBhYmNkZWYgMTAwNjQ0CiAteyUgaWYgQ1JFQVRFX0xPR19ESVJTICV9
-CiAtTCQgL3Zhci9sb2cvUkVBRE1FIC0gLSAtIC0gLi4vLi57e0RPQ19ESVJ9fS9SRUFETUUubG9n
-cwogLXslIGVuZGlmICV9Ci0tLSAKLTIuMzQuMQpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNv
-cmUvc3lzdGVtZC9zeXN0ZW1kL0hhbmRsZS1taXNzaW5nLVNUQVRYX01OVF9JRC1vbi1vbGRlci1r
-ZXJuZWxzLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kL0hhbmRsZS1t
-aXNzaW5nLVNUQVRYX01OVF9JRC1vbi1vbGRlci1rZXJuZWxzLnBhdGNoCmluZGV4IDlkNzQ4NzIw
-MzQuLjdlOTY1NTBkZDMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lz
-dGVtZC9IYW5kbGUtbWlzc2luZy1TVEFUWF9NTlRfSUQtb24tb2xkZXIta2VybmVscy5wYXRjaAor
-KysgYi9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQvSGFuZGxlLW1pc3NpbmctU1RB
-VFhfTU5UX0lELW9uLW9sZGVyLWtlcm5lbHMucGF0Y2gKQEAgLTEsNiArMSw2IEBACi1Gcm9tIDAw
-MDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAwMDAgTW9uIFNlcCAxNyAwMDowMDow
-MCAyMDAxCitGcm9tIDRmMDRhY2FjYjQyZDQxMGQ3MDAyY2FlM2UyYmI2YzUxZDQ3MzMxZDYgTW9u
-IFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9tOiBEYW5pZWwgVHVydWxsIDxkYW5pZWwudHVydWxs
-QGVyaWNzc29uLmNvbT4KLURhdGU6IE1vbiwgMjMgSnVuIDIwMjYgMTI6MDA6MDAgKzAyMDAKK0Rh
-dGU6IFR1ZSwgMjMgSnVuIDIwMjYgMTI6MDA6MDAgKzAyMDAKIFN1YmplY3Q6IFtQQVRDSF0gSGFu
-ZGxlIG1pc3NpbmcgU1RBVFhfTU5UX0lEIG9uIG9sZGVyIGtlcm5lbHMKIAogT24gaG9zdHMgbGFj
-a2luZyBTVEFUWF9NTlRfSUQgKGtlcm5lbCA8IDUuOCwgZS5nLiBSSEVMIDgpLCBuYXRpdmUgdG9v
-bHMKQEAgLTIyLDI0ICsyMiw1NSBAQCBVcHN0cmVhbS1TdGF0dXM6IEluYXBwcm9wcmlhdGUgW29l
-IHNwZWNpZmljXQogQXNzaXN0ZWQtYnk6IGtpcm86Y2xhdWRlLW9wdXMtNC42CiBTaWduZWQtb2Zm
-LWJ5OiBEYW5pZWwgVHVydWxsIDxkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbT4KIC0tLQotIHNy
-Yy9iYXNpYy9jaGFzZS5jICAgfCAyMCArKysrKysrKysrKysrKy0KLSBzcmMvYmFzaWMvZmQtdXRp
-bC5jIHwgNjMgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tCisg
-c3JjL2Jhc2ljL2NoYXNlLmMgICB8IDIxICsrKysrKysrKysrKysrKy0KKyBzcmMvYmFzaWMvZmQt
-dXRpbC5jIHwgNjEgKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0t
-CiAgc3JjL2Jhc2ljL2ZkLXV0aWwuaCB8ICAxICsKLSAzIGZpbGVzIGNoYW5nZWQsIDgyIGluc2Vy
-dGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCisgMyBmaWxlcyBjaGFuZ2VkLCA4MCBpbnNlcnRpb25z
-KCspLCAzIGRlbGV0aW9ucygtKQogCi0tLS0gYS9zcmMvYmFzaWMvZmQtdXRpbC5oCTIwMjYtMDYt
-MjUgMTQ6MDE6MTIuMDA5ODc1NTI2ICswMjAwCi0rKysgYi9zcmMvYmFzaWMvZmQtdXRpbC5oCTIw
-MjYtMDYtMjUgMTQ6MDE6MjAuOTA5MDYwNDE1ICswMjAwCi1AQCAtMTg4LDYgKzE4OCw3IEBAIHN0
-YXRpYyBpbmxpbmUgaW50IGRpcl9mZF9pc19yb290X29yX2N3ZCgKLSB9Ci0gCi0gaW50IGZkc19p
-bm9kZV9hbmRfbW91bnRfc2FtZShpbnQgZmQxLCBpbnQgZmQyKTsKLStpbnQgZmRfZ2V0X21vdW50
-X2lkKGludCBmZCwgdWludDY0X3QgKnJldCk7CitkaWZmIC0tZ2l0IGEvc3JjL2Jhc2ljL2NoYXNl
-LmMgYi9zcmMvYmFzaWMvY2hhc2UuYworaW5kZXggMjNhNTIzNzk4ZS4uMDhlZjk1YjNkZCAxMDA2
-NDQKKy0tLSBhL3NyYy9iYXNpYy9jaGFzZS5jCisrKysgYi9zcmMvYmFzaWMvY2hhc2UuYworQEAg
-LTQwLDcgKzQwLDkgQEAKKyAgICAgICAgIChDSEFTRV9NVVNUX0JFX0RJUkVDVE9SWXxDSEFTRV9N
-VVNUX0JFX1JFR1VMQVJ8Q0hBU0VfTVVTVF9CRV9TT0NLRVQpCiAgCi0gaW50IHJlc29sdmVfeGF0
-X2Zkcm9vdChpbnQgKmZkLCBjb25zdCBjaGFyICoqcGF0aCwgY2hhciAqKnJldF9idWZmZXIpOwor
-IHN0YXRpYyBpbnQgY2hhc2Vfc3RhdHgoaW50IGZkLCBzdHJ1Y3Qgc3RhdHggKnJldCkgeworLSAg
-ICAgICAgcmV0dXJuIHhzdGF0eF9mdWxsKGZkLAorKyAgICAgICAgaW50IHI7CisrCisrICAgICAg
-ICByID0geHN0YXR4X2Z1bGwoZmQsCisgICAgICAgICAgICAgICAgICAgICAgICAgLyogcGF0aD0g
-Ki8gTlVMTCwKKyAgICAgICAgICAgICAgICAgICAgICAgICAvKiBzdGF0eF9mbGFncz0gKi8gMCwK
-KyAgICAgICAgICAgICAgICAgICAgICAgICBYU1RBVFhfTU5UX0lEX0JFU1QsCitAQCAtNDgsNiAr
-NTAsMjMgQEAgc3RhdGljIGludCBjaGFzZV9zdGF0eChpbnQgZmQsIHN0cnVjdCBzdGF0eCAqcmV0
-KSB7CisgICAgICAgICAgICAgICAgICAgICAgICAgLyogb3B0aW9uYWxfbWFzaz0gKi8gMCwKKyAg
-ICAgICAgICAgICAgICAgICAgICAgICAvKiBtYW5kYXRvcnlfYXR0cmlidXRlcz0gKi8gMCwKKyAg
-ICAgICAgICAgICAgICAgICAgICAgICByZXQpOworKyAgICAgICAgaWYgKHIgPT0gLUVVTkFUQ0gp
-IHsKKysgICAgICAgICAgICAgICAgdWludDY0X3QgbW50X2lkOworKworKyAgICAgICAgICAgICAg
-ICAvKiBLZXJuZWwgbGFja3MgU1RBVFhfTU5UX0lEOyBmYWxsIGJhY2sgdG8gL3Byb2Mvc2VsZi9m
-ZGluZm8uICovCisrICAgICAgICAgICAgICAgIHIgPSB4c3RhdHgoZmQsIC8qIHBhdGg9ICovIE5V
-TEwsIC8qIHN0YXR4X2ZsYWdzPSAqLyAwLAorKyAgICAgICAgICAgICAgICAgICAgICAgICAgIFNU
-QVRYX1RZUEV8U1RBVFhfVUlEfFNUQVRYX0lOTywKKysgICAgICAgICAgICAgICAgICAgICAgICAg
-ICByZXQpOworKyAgICAgICAgICAgICAgICBpZiAociA8IDApCisrICAgICAgICAgICAgICAgICAg
-ICAgICAgcmV0dXJuIHI7CisrICAgICAgICAgICAgICAgIHIgPSBmZF9nZXRfbW91bnRfaWQoZmQs
-ICZtbnRfaWQpOworKyAgICAgICAgICAgICAgICBpZiAociA8IDApCisrICAgICAgICAgICAgICAg
-ICAgICAgICAgcmV0dXJuIHI7CisrICAgICAgICAgICAgICAgIHJldC0+c3R4X21udF9pZCA9IG1u
-dF9pZDsKKysgICAgICAgICAgICAgICAgcmV0LT5zdHhfbWFzayB8PSBTVEFUWF9NTlRfSUQ7Cisr
-ICAgICAgICB9CisrCisrICAgICAgICByZXR1cm4gcjsKKyB9CiAgCi0tLS0gYS9zcmMvYmFzaWMv
-ZmQtdXRpbC5jCTIwMjYtMDYtMjUgMTQ6MDE6MTIuMDExODc1NTY3ICswMjAwCi0rKysgYi9zcmMv
-YmFzaWMvZmQtdXRpbC5jCTIwMjYtMDYtMjUgMTQ6MDE6NDAuMDA3NDU2OTA1ICswMjAwCi1AQCAt
-MTA4Miw2ICsxMDgyLDM4IEBAIGludCBwYXRoX2lzX3Jvb3RfYXQoaW50IGRpcl9mZCwgY29uc3Qg
-Y2gKKyBzdGF0aWMgaW50IGNoYXNlX29wZW5hdDIoaW50IHJvb3RfZmQsIGludCBkaXJfZmQsIGNv
-bnN0IGNoYXIgKnBhdGgsIENoYXNlRmxhZ3MgY2hhc2VfZmxhZ3MpIHsKK2RpZmYgLS1naXQgYS9z
-cmMvYmFzaWMvZmQtdXRpbC5jIGIvc3JjL2Jhc2ljL2ZkLXV0aWwuYworaW5kZXggYzZlNzhjNTli
-Ni4uN2YzM2Q5MDBlNSAxMDA2NDQKKy0tLSBhL3NyYy9iYXNpYy9mZC11dGlsLmMKKysrKyBiL3Ny
-Yy9iYXNpYy9mZC11dGlsLmMKK0BAIC0xMDgyLDYgKzEwODIsMzggQEAgaW50IHBhdGhfaXNfcm9v
-dF9hdChpbnQgZGlyX2ZkLCBjb25zdCBjaGFyICpwYXRoKSB7CiAgICAgICAgICByZXR1cm4gZmRz
-X2lub2RlX2FuZF9tb3VudF9zYW1lKGRpcl9mZCwgWEFUX0ZEUk9PVCk7CiAgfQogIApAQCAtNzgs
-NyArMTA5LDcgQEAgU2lnbmVkLW9mZi1ieTogRGFuaWVsIFR1cnVsbCA8ZGFuaWVsLnR1cnVsbEBl
-cmljc3Nvbi5jb20+CiAgaW50IGZkc19pbm9kZV9hbmRfbW91bnRfc2FtZShpbnQgZmQxLCBpbnQg
-ZmQyKSB7CiAgICAgICAgICBzdHJ1Y3Qgc3RhdHggc3gxLCBzeDI7CiAgICAgICAgICBpbnQgcjsK
-LUBAIC0xMDkyLDcgKzExMjQsMjAgQEAgaW50IGZkc19pbm9kZV9hbmRfbW91bnRfc2FtZShpbnQg
-ZmQxLCBpbgorQEAgLTEwOTIsNyArMTEyNCwyMCBAQCBpbnQgZmRzX2lub2RlX2FuZF9tb3VudF9z
-YW1lKGludCBmZDEsIGludCBmZDIpIHsKICAgICAgICAgIHIgPSB4c3RhdHgoZmQxLCAvKiBwYXRo
-ID0gKi8gTlVMTCwgQVRfRU1QVFlfUEFUSCwKICAgICAgICAgICAgICAgICAgICAgU1RBVFhfVFlQ
-RXxTVEFUWF9JTk98U1RBVFhfTU5UX0lELAogICAgICAgICAgICAgICAgICAgICAmc3gxKTsKQEAg
-LTEwMCw3ICsxMzEsNyBAQCBTaWduZWQtb2ZmLWJ5OiBEYW5pZWwgVHVydWxsIDxkYW5pZWwudHVy
-dWxsQGVyaWNzc29uLmNvbT4KICAgICAgICAgICAgICAgICAgcmV0dXJuIHI7CiAgCiAgICAgICAg
-ICBpZiAoZmQxID09IGZkMikgLyogU2hvcnRjdXQgdGhpbmdzIGlmIGZkcyBhcmUgdGhlIHNhbWUg
-KG9ubHkgYWZ0ZXIgdmFsaWRhdGluZyB0aGUgZmQpICovCi1AQCAtMTEwMSw3ICsxMTQ2LDE5IEBA
-IGludCBmZHNfaW5vZGVfYW5kX21vdW50X3NhbWUoaW50IGZkMSwgaW4KK0BAIC0xMTAxLDcgKzEx
-NDYsMTkgQEAgaW50IGZkc19pbm9kZV9hbmRfbW91bnRfc2FtZShpbnQgZmQxLCBpbnQgZmQyKSB7
-CiAgICAgICAgICByID0geHN0YXR4KGZkMiwgLyogcGF0aCA9ICovIE5VTEwsIEFUX0VNUFRZX1BB
-VEgsCiAgICAgICAgICAgICAgICAgICAgIFNUQVRYX1RZUEV8U1RBVFhfSU5PfFNUQVRYX01OVF9J
-RCwKICAgICAgICAgICAgICAgICAgICAgJnN4Mik7CkBAIC0xMjEsNDAgKzE1MiwxNSBAQCBTaWdu
-ZWQtb2ZmLWJ5OiBEYW5pZWwgVHVydWxsIDxkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbT4KICAg
-ICAgICAgICAgICAgICAgcmV0dXJuIHI7CiAgCiAgICAgICAgICByID0gc3RhdHhfbW91bnRfc2Ft
-ZSgmc3gxLCAmc3gyKTsKLS0tLSBhL3NyYy9iYXNpYy9jaGFzZS5jCTIwMjYtMDYtMjUgMTQ6MDE6
-MTIuMDEzODc1NjA5ICswMjAwCi0rKysgYi9zcmMvYmFzaWMvY2hhc2UuYwkyMDI2LTA2LTI1IDE0
-OjAxOjQ3LjExNzYwNDUxNCArMDIwMAotQEAgLTQwLDcgKzQwLDkgQEAKLSAgICAgICAgIChDSEFT
-RV9NVVNUX0JFX0RJUkVDVE9SWXxDSEFTRV9NVVNUX0JFX1JFR1VMQVJ8Q0hBU0VfTVVTVF9CRV9T
-T0NLRVQpCi0gCi0gc3RhdGljIGludCBjaGFzZV9zdGF0eChpbnQgZmQsIHN0cnVjdCBzdGF0eCAq
-cmV0KSB7Ci0tICAgICAgICByZXR1cm4geHN0YXR4X2Z1bGwoZmQsCi0rICAgICAgICBpbnQgcjsK
-LSsKLSsgICAgICAgIHIgPSB4c3RhdHhfZnVsbChmZCwKLSAgICAgICAgICAgICAgICAgICAgICAg
-ICAvKiBwYXRoPSAqLyBOVUxMLAotICAgICAgICAgICAgICAgICAgICAgICAgIC8qIHN0YXR4X2Zs
-YWdzPSAqLyAwLAotICAgICAgICAgICAgICAgICAgICAgICAgIFhTVEFUWF9NTlRfSURfQkVTVCwK
-LUBAIC00OCw2ICs1MCwyMyBAQCBzdGF0aWMgaW50IGNoYXNlX3N0YXR4KGludCBmZCwgc3RydWN0
-IHN0Ci0gICAgICAgICAgICAgICAgICAgICAgICAgLyogb3B0aW9uYWxfbWFzaz0gKi8gMCwKLSAg
-ICAgICAgICAgICAgICAgICAgICAgICAvKiBtYW5kYXRvcnlfYXR0cmlidXRlcz0gKi8gMCwKLSAg
-ICAgICAgICAgICAgICAgICAgICAgICByZXQpOwotKyAgICAgICAgaWYgKHIgPT0gLUVVTkFUQ0gp
-IHsKLSsgICAgICAgICAgICAgICAgdWludDY0X3QgbW50X2lkOwotKwotKyAgICAgICAgICAgICAg
-ICAvKiBLZXJuZWwgbGFja3MgU1RBVFhfTU5UX0lEOyBmYWxsIGJhY2sgdG8gL3Byb2Mvc2VsZi9m
-ZGluZm8uICovCi0rICAgICAgICAgICAgICAgIHIgPSB4c3RhdHgoZmQsIC8qIHBhdGg9ICovIE5V
-TEwsIC8qIHN0YXR4X2ZsYWdzPSAqLyAwLAotKyAgICAgICAgICAgICAgICAgICAgICAgICAgIFNU
-QVRYX1RZUEV8U1RBVFhfVUlEfFNUQVRYX0lOTywKLSsgICAgICAgICAgICAgICAgICAgICAgICAg
-ICByZXQpOwotKyAgICAgICAgICAgICAgICBpZiAociA8IDApCi0rICAgICAgICAgICAgICAgICAg
-ICAgICAgcmV0dXJuIHI7Ci0rICAgICAgICAgICAgICAgIHIgPSBmZF9nZXRfbW91bnRfaWQoZmQs
-ICZtbnRfaWQpOwotKyAgICAgICAgICAgICAgICBpZiAociA8IDApCi0rICAgICAgICAgICAgICAg
-ICAgICAgICAgcmV0dXJuIHI7Ci0rICAgICAgICAgICAgICAgIHJldC0+c3R4X21udF9pZCA9IG1u
-dF9pZDsKLSsgICAgICAgICAgICAgICAgcmV0LT5zdHhfbWFzayB8PSBTVEFUWF9NTlRfSUQ7Ci0r
-ICAgICAgICB9Ci0rCi0rICAgICAgICByZXR1cm4gcjsKK2RpZmYgLS1naXQgYS9zcmMvYmFzaWMv
-ZmQtdXRpbC5oIGIvc3JjL2Jhc2ljL2ZkLXV0aWwuaAoraW5kZXggODZiZGRiNmRhYy4uMzQzNzBj
-ODk0MyAxMDA2NDQKKy0tLSBhL3NyYy9iYXNpYy9mZC11dGlsLmgKKysrKyBiL3NyYy9iYXNpYy9m
-ZC11dGlsLmgKK0BAIC0xODgsNiArMTg4LDcgQEAgc3RhdGljIGlubGluZSBpbnQgZGlyX2ZkX2lz
-X3Jvb3Rfb3JfY3dkKGludCBkaXJfZmQpIHsKICB9CiAgCi0gc3RhdGljIGludCBjaGFzZV9vcGVu
-YXQyKGludCByb290X2ZkLCBpbnQgZGlyX2ZkLCBjb25zdCBjaGFyICpwYXRoLCBDaGFzZUZsYWdz
-IGNoYXNlX2ZsYWdzKSB7CisgaW50IGZkc19pbm9kZV9hbmRfbW91bnRfc2FtZShpbnQgZmQxLCBp
-bnQgZmQyKTsKKytpbnQgZmRfZ2V0X21vdW50X2lkKGludCBmZCwgdWludDY0X3QgKnJldCk7Cisg
-CisgaW50IHJlc29sdmVfeGF0X2Zkcm9vdChpbnQgKmZkLCBjb25zdCBjaGFyICoqcGF0aCwgY2hh
-ciAqKnJldF9idWZmZXIpOworIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVt
-ZC9zeXN0ZW1kL2EwMTkzOTZkMmM1YmMxYWRiNmIwNDRlNzc4NGEzMGI3MTg3ZjZmYmQucGF0Y2gg
-Yi9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5c3RlbWQvYTAxOTM5NmQyYzViYzFhZGI2YjA0
-NGU3Nzg0YTMwYjcxODdmNmZiZC5wYXRjaApkZWxldGVkIGZpbGUgbW9kZSAxMDA2NDQKaW5kZXgg
-OGViOWY1YzE2NC4uMDAwMDAwMDAwMAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9zeXN0ZW1kL3N5
-c3RlbWQvYTAxOTM5NmQyYzViYzFhZGI2YjA0NGU3Nzg0YTMwYjcxODdmNmZiZC5wYXRjaAorKysg
-L2Rldi9udWxsCkBAIC0xLDU5ICswLDAgQEAKLUZyb20gYTAxOTM5NmQyYzViYzFhZGI2YjA0NGU3
-Nzg0YTMwYjcxODdmNmZiZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKLUZyb206IEx1Y2EgQm9j
-Y2Fzc2kgPGx1Y2EuYm9jY2Fzc2lAZ21haWwuY29tPgotRGF0ZTogV2VkLCAyIFNlcCAyMDI2IDIw
-OjMyOjUxICswMTAwCi1TdWJqZWN0OiBbUEFUQ0hdIHRvb2xzOiBmaXggYnVpbGRpbmcgbWFucGFn
-ZXMgd2l0aCBseG1sIDYuMS4zCi0KLW1hbnBhZ2VzIGJ1aWxkIGZhaWxzIG9uIEFyY2ggd2l0aCBu
-ZXcgbHhtbDoKLQotVHJhY2ViYWNrIChtb3N0IHJlY2VudCBjYWxsIGxhc3QpOgotICBGaWxlICIv
-d29yay9zcmMvdG9vbHMvbWFrZS1kaXJlY3RpdmUtaW5kZXgucHkiLCBsaW5lIDE2OSwgaW4gbWFr
-ZV9wYWdlCi0gICAgX2V4dHJhY3RfZGlyZWN0aXZlcyhkaXJlY3RpdmVfZ3JvdXBzLCBmb3JtYXR0
-aW5nLCBwYWdlKQotICAgIH5+fn5+fn5+fn5+fn5+fn5+fn5eXl5eXl5eXl5eXl5eXl5eXl5eXl5e
-Xl5eXl5eXl5eXl5eXl4KLSAgRmlsZSAiL3dvcmsvc3JjL3Rvb2xzL21ha2UtZGlyZWN0aXZlLWlu
-ZGV4LnB5IiwgbGluZSAxOCwgaW4gX2V4dHJhY3RfZGlyZWN0aXZlcwotICAgIHQgPSB4bWxfcGFy
-c2UocGFnZSkKLSAgRmlsZSAiL3dvcmsvc3JjL3Rvb2xzL3htbF9oZWxwZXIucHkiLCBsaW5lIDI1
-LCBpbiB4bWxfcGFyc2UKLSAgICBkb2MgPSB0cmVlLnBhcnNlKHBhZ2UsIF9wYXJzZXIpCi0gIEZp
-bGUgInNyYy9seG1sL2V0cmVlLnB5eCIsIGxpbmUgMzcxNywgaW4gbHhtbC5ldHJlZS5wYXJzZQot
-ICBGaWxlICJzcmMvbHhtbC9wYXJzZXIucHhpIiwgbGluZSAyMDQ1LCBpbiBseG1sLmV0cmVlLl9w
-YXJzZURvY3VtZW50Ci0gIEZpbGUgInNyYy9seG1sL3BhcnNlci5weGkiLCBsaW5lIDIwNzEsIGlu
-IGx4bWwuZXRyZWUuX3BhcnNlRG9jdW1lbnRGcm9tVVJMCi0gIEZpbGUgInNyYy9seG1sL3BhcnNl
-ci5weGkiLCBsaW5lIDE5NjIsIGluIGx4bWwuZXRyZWUuX3BhcnNlRG9jRnJvbUZpbGUKLSAgRmls
-ZSAic3JjL2x4bWwvcGFyc2VyLnB4aSIsIGxpbmUgMTIzMSwgaW4gbHhtbC5ldHJlZS5fQmFzZVBh
-cnNlci5fcGFyc2VEb2NGcm9tRmlsZQotICBGaWxlICJzcmMvbHhtbC9wYXJzZXIucHhpIiwgbGlu
-ZSA2NDcsIGluIGx4bWwuZXRyZWUuX1BhcnNlckNvbnRleHQuX2hhbmRsZVBhcnNlUmVzdWx0RG9j
-Ci0gIEZpbGUgInNyYy9seG1sL3BhcnNlci5weGkiLCBsaW5lIDc2NSwgaW4gbHhtbC5ldHJlZS5f
-aGFuZGxlUGFyc2VSZXN1bHQKLSAgRmlsZSAic3JjL2x4bWwvcGFyc2VyLnB4aSIsIGxpbmUgNjg5
-LCBpbiBseG1sLmV0cmVlLl9yYWlzZVBhcnNlRXJyb3IKLSAgRmlsZSAiLi4vc3JjL21hbi9ob3N0
-bmFtZS54bWwiLCBsaW5lIDUKLWx4bWwuZXRyZWUuWE1MU3ludGF4RXJyb3I6IEVudGl0eSAnZW50
-aXRpZXMnIG5vdCBkZWZpbmVkLCBsaW5lIDUsIGNvbHVtbiAxMQotCi1UaGUgYWJvdmUgZXhjZXB0
-aW9uIHdhcyB0aGUgZGlyZWN0IGNhdXNlIG9mIHRoZSBmb2xsb3dpbmcgZXhjZXB0aW9uOgotCi1U
-cmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6Ci0gIEZpbGUgIi93b3JrL3NyYy90b29s
-cy9tYWtlLWRpcmVjdGl2ZS1pbmRleC5weSIsIGxpbmUgMTgwLCBpbiA8bW9kdWxlPgotICAgIF94
-bWwgPSBtYWtlX3BhZ2UoX3RlbXBsYXRlX3BhdGgsIF94bWxfZmlsZXMpCi0gIEZpbGUgIi93b3Jr
-L3NyYy90b29scy9tYWtlLWRpcmVjdGl2ZS1pbmRleC5weSIsIGxpbmUgMTcxLCBpbiBtYWtlX3Bh
-Z2UKLSAgICByYWlzZSBWYWx1ZUVycm9yKCdmYWlsZWQgdG8gcHJvY2VzcyAnICsgcGFnZSkgZnJv
-bSBlCi1WYWx1ZUVycm9yOiBmYWlsZWQgdG8gcHJvY2VzcyAuLi9zcmMvbWFuL2hvc3RuYW1lLnht
-bAotCi1SZWx5aW5nIG9uIFhNTFBhcnNlcigpIGRlZmF1bHRzIGxlYXZlcyB0aGUgZXh0ZXJuYWwg
-cGFyYW1ldGVyIGVudGl0eQotdXNlZCB0byBsb2FkIGN1c3RvbS1lbnRpdGllcy5lbnQgdW5yZXNv
-bHZlZC4gUmVxdWVzdCBlbnRpdHkgcmVzb2x1dGlvbiBleHBsaWNpdGx5LgotCi1Gb2xsb3ctdXAg
-Zm9yIDFhMTNlMzFkMjc1NDMwZmZiYTcxM2M4YTY4ZWU3ZjIyMDkzYzI5ZTAKLQotVXBzdHJlYW0t
-U3RhdHVzOiBCYWNrcG9ydCBbaHR0cHM6Ly9naXRodWIuY29tL3N5c3RlbWQvc3lzdGVtZC9jb21t
-aXQvYTAxOTM5NmQyYzViYzFhZGI2YjA0NGU3Nzg0YTMwYjcxODdmNmZiZF0KLQotLS0tCi0gdG9v
-bHMveG1sX2hlbHBlci5weSB8IDIgKy0KLSAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyks
-IDEgZGVsZXRpb24oLSkKLQotZGlmZiAtLWdpdCBhL3Rvb2xzL3htbF9oZWxwZXIucHkgYi90b29s
-cy94bWxfaGVscGVyLnB5Ci1pbmRleCA4N2MyNGFiMDJhMGYuLmUyNmNhOTJkOTQ1NCAxMDA3NTUK
-LS0tLSBhL3Rvb2xzL3htbF9oZWxwZXIucHkKLSsrKyBiL3Rvb2xzL3htbF9oZWxwZXIucHkKLUBA
-IC0xNiw3ICsxNiw3IEBAIGRlZiByZXNvbHZlKHNlbGYsIHVybCwgX2lkLCBjb250ZXh0KToKLSAg
-ICAgICAgIHJldHVybiBOb25lCi0gCi0gCi0tX3BhcnNlciA9IHRyZWUuWE1MUGFyc2VyKCkKLStf
-cGFyc2VyID0gdHJlZS5YTUxQYXJzZXIocmVzb2x2ZV9lbnRpdGllcz1UcnVlKQotICMgcHlsaW50
-OiBkaXNhYmxlPW5vLW1lbWJlcgotIF9wYXJzZXIucmVzb2x2ZXJzLmFkZChDdXN0b21SZXNvbHZl
-cigpKQotIApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kXzI2
-MS4yLmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1kXzI2MS4zLmJiCnNpbWls
-YXJpdHkgaW5kZXggOTklCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lz
-dGVtZF8yNjEuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvc3lzdGVtZC9zeXN0ZW1k
-XzI2MS4zLmJiCmluZGV4IDY4Yjg5NGJlOWEuLjFhMjU2YTU5OGEgMTAwNjQ0Ci0tLSBhL21ldGEv
-cmVjaXBlcy1jb3JlL3N5c3RlbWQvc3lzdGVtZF8yNjEuMi5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-Y29yZS9zeXN0ZW1kL3N5c3RlbWRfMjYxLjMuYmIKQEAgLTI3LDggKzI3LDcgQEAgQ09ORkxJQ1Rf
-RElTVFJPX0ZFQVRVUkVTICs9ICJzeXN2aW5pdCIKICMgc28gdGhhdCBzeXN0ZW1jdGwgY2FuIGJl
-IHVzZWQgaW4gcG9zdGluc3Qgc2NyaXB0cwogUEFDS0FHRV9XUklURV9ERVBTICs9ICJzeXN0ZW1k
-LXRvb2xzLW5hdGl2ZSIKIAotU1JDX1VSSSArPSAiIFwKLSAgICAgICAgICAgZmlsZTovL3RvdWNo
-c2NyZWVuLnJ1bGVzIFwKK1NSQ19VUkkgKz0gImZpbGU6Ly90b3VjaHNjcmVlbi5ydWxlcyBcCiAg
-ICAgICAgICAgIGZpbGU6Ly8wMC1jcmVhdGUtdm9sYXRpbGUuY29uZiBcCiAgICAgICAgICAgIGZp
-bGU6Ly9vcmcuZnJlZWRlc2t0b3AuaG9zdG5hbWUxX25vX3BvbGtpdC5jb25mIFwKICAgICAgICAg
-ICAgZmlsZTovLzAwLWhvc3RuYW1lZC1uZXR3b3JrLXVzZXIuY29uZiBcCkBAIC0zNyw3ICszNiw2
-IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgICAgICAgIGZpbGU6Ly9zeXN0ZW1kLXBhZ2VyLnNoIFwK
-ICAgICAgICAgICAgZmlsZTovLzAwMDEtYmluZm10LURvbi10LWluc3RhbGwtZGVwZW5kZW5jeS1s
-aW5rcy1hdC1pbnN0YWxsLXRpbS5wYXRjaCBcCiAgICAgICAgICAgIGZpbGU6Ly8wMDAzLURvLW5v
-dC1jcmVhdGUtdmFyLWxvZy1SRUFETUUucGF0Y2ggXAotICAgICAgICAgICBmaWxlOi8vYTAxOTM5
-NmQyYzViYzFhZGI2YjA0NGU3Nzg0YTMwYjcxODdmNmZiZC5wYXRjaCBcCiAgICAgICAgICAgICIK
-IAogUEFNX1BMVUdJTlMgPSAiIFwKLS0gCjIuNDcuMQoK
+CkRhdGU6IEZyaSwgMTEgU2VwIDIwMjYgMDY6MzU6MDkgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+cGlwaGFueTogdXBncmFkZSA1MC42IC0+IDUxLjAKTUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1U
+eXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6
+IDhiaXQKClNvdXJjZTogTkVXUwoKNTEuMCAtIFNlcHRlbWJlciAxMCwgMjAyNgo9PT09PT09PT09
+PT09PT09PT09PT09PT09CiAgLSAjMjYxNyBzZXNzaW9uOiBBcHBlbmQgY2xvc2VkIHRhYiBhdCBl
+bmQgaWYgcmVjb3JkZWQgcG9zaXRpb24gaXMgb3V0IG9mIGJvdW5kcwogICAgKEpvaG4gQ2FyZHVs
+bG8pCiAgLSAjMjg5NyAoQ1ZFLTIwMjYtMTg0ODcpIEFkZHJlc3MgQmFyIC8gSG9zdCBTcG9vZmlu
+ZyB2aWEgdXNlcmluZm8gaW4KICAgIGVwaHlfdXJpX2dldF9kZWNvZGVkX2hvc3QgKE1pY2hhZWwg
+Q2F0YW56YXJvKQogIC0gIzI5MzEgQ29kZSBJbmplY3Rpb24gdmlhIGVwaHlfd2ViX3ZpZXdfZ2V0
+X2Jlc3Rfd2ViX2FwcF9pY29uIGluIGBkYXRhOmAgVVJJCiAgICAoTWljaGFlbCBDYXRhbnphcm8p
+CiAgLSAjMjkzNCBgZGF0YWAgVVJJIHByZXR0aWZpY2F0aW9uIHJldHVybnMgaW52YWxpZCBkb21h
+aW4gKE1pY2hhZWwgQ2F0YW56YXJvKQogIC0gITIxNDQgU29tZSBmaXhlcyBmb3IgRXBoeUhpc3Rv
+cnlEaWFsb2dSb3cgKE1pY2hhZWwgQ2F0YW56YXJvKQoqIFRyYW5zbGF0aW9uIHVwZGF0ZXM6CiAg
+LSBCYXNxdWUgKEFzaWVyIFNhcmF0c3VhIEdhcm1lbmRpYSkKICAtIERhbmlzaCAoQWxhbiBNb3J0
+ZW5zZW4pCiAgLSBFbmdsaXNoIChVbml0ZWQgS2luZ2RvbSkgKEJydWNlIENvd2FuKQogIC0gRnJl
+bmNoIChHdWlsbGF1bWUgQmVybmFyZCkKICAtIEh1bmdhcmlhbiAoQmFsw6F6cyDDmnIpCiAgLSBL
+b3JlYW4gKENoYW5nU2VvayBPaCkKICAtIE5vcndlZ2lhbiBCb2ttw6VsIChLamFydGFuIE1hcmFh
+cykKICAtIFNlcmJpYW4gKNCc0LDRgNC60L4g0JrQvtGB0YLQuNGbKQogIC0gU3BhbmlzaCAoRGFu
+aWVsIE11c3RpZWxlcyBHYXJjw61hKQogIC0gVHVya2lzaCAoRW1pbiBUdWZhbiDDh2V0aW4pCgo1
+MS5yYyAtIEF1Z3VzdCAyNywgMjAyNgo9PT09PT09PT09PT09PT09PT09PT09PQogIC0gIzI4OTgg
+SW52YWxpZCBib29rbWFyayBpbXBvcnQgY3Jhc2hlcyBicm93c2VyIChGZXJuYW5kbyBNdcOxb3op
+CiAgLSAjMjkwMyBYU1MvSFRNTCBpbmplY3Rpb24gaW4gZXJyb3IgcGFnZSAoTWljaGFlbCBDYXRh
+bnphcm8pCiAgLSAjMjkyMSAoQ1ZFLTIwMjYtNzc2ODIpIEF1dG9maWxsIEpTIENvZGUgSW5qZWN0
+aW9uIHZpYSBDU1MgU2VsZWN0b3IgKE1pY2hhZWwKICAgIENhdGFuemFybykKICAtICMyOTIyIChD
+VkUtMjAyNi03NzY3OSkgV2ViRXh0ZW5zaW9uIFhQSSBQYXRoIFRyYXZlcnNhbCBaSVBTTElQIChG
+ZXJuYW5kbwogICAgTXXDsW96KQogIC0gIzI5MjggTGluayBjbGlja2VkIGluIGFub3RoZXIgYXBw
+IG9wZW5zIGluIHRoZSBmdWxsc2NyZWVuIHdpbmRvdyBkdXJpbmcKICAgIGZ1bGxzY3JlZW4gdmlk
+ZW8gKFNlbWVuIEZvbWNoZW5rb3YpCiAgLSAjMjkyOSBDYXJldCBpbiB0aGUgYWRkcmVzcyBiYXIg
+anVtcHMgdG8gdGhlIHN0YXJ0IHdoZW4gSSBzd2l0Y2gga2V5Ym9hcmQKICAgIGxheW91dCAoU2Vt
+ZW4gRm9tY2hlbmtvdikKICAtICMyOTM4ICJOb3QgU2VjdXJlIiBsYWJlbCBpbiB0aGUgYWRkcmVz
+cyBiYXIgaXMgdHJ1bmNhdGVkIGFuZCBnbHVlZCB0byB0aGUKICAgIGRvbWFpbiBpbiB0cmFuc2xh
+dGVkIGxvY2FsZXMgKFNlbWVuIEZvbWNoZW5rb3YpCiAgLSAjMjk0MCBFcGlwaGFueSBvZmZlcnMg
+dG8gc2F2ZSBhIHBhc3N3b3JkIHRoYXQgaXQganVzdCBhdXRvZmlsbGVkIGl0c2VsZgogICAgKGFm
+dGVyIENTViBpbXBvcnQpIChTZW1lbiBGb21jaGVua292KQogIC0gITIxNDUgVXBkYXRlIHRvIGhp
+Z2hsaWdodC5qcyAxMS4yLjAgKE1pY2hhZWwgQ2F0YW56YXJvKQogIC0gITIxNDggd2ViLXByb2Nl
+c3MtZXh0ZW5zaW9uOiBUYXJnZXQgYWN0aXZlIGZyYW1lIHdoZW4gZ2VuZXJhdGluZyBwYXNzd29y
+ZAogICAgZnJvbSBjb250ZXh0IG1lbnUgKEpvaG4gQ2FyZHVsbG8pCiAgLSAhMjE1MiBDYW5hcnk6
+IEZpeCBXZWJLaXRHVEsgaW5qZWN0ZWQgYnVuZGxlIHBhdGggKFBoaWxpcHBlIE5vcm1hbmQpCiAg
+LSAhMjE1OSBEbyBub3QgdHJpZ2dlciBkb3dubG9hZHMgb24gbWlzc2luZyBNSU1FIHR5cGUgb3Ig
+ZmFpbGVkIEhUVFAgcmVzcG9uc2VzCiAgICAoSm9obiBDYXJkdWxsbykKCiogVHJhbnNsYXRpb24g
+dXBkYXRlczoKICAtIEJ1bGdhcmlhbiAoQWxleGFuZGVyIEFsZXhhbmRyb3YgU2hvcG92KQogIC0g
+Q2F0YWxhbiAoWGF2aSBJdmFycykKICAtIENoaW5lc2UgKFRhaXdhbikgKENoYW8tSHNpdW5nIExp
+YW8pCiAgLSBGaW5uaXNoIChKaXJpIEdyw7Zucm9vcykKICAtIEthemFraCAoQmF1cnpoYW4gTXVm
+dGFraGlkaW5vdikKICAtIExpdGh1YW5pYW4gKEF1cmltYXMgQXVyaW1hcyDEjGVybml1cykKICAt
+IFBvcnR1Z3Vlc2UgKEJyYXppbCkgKEx1aWdnaSBDYXJkb3NvKQogIC0gUm9tYW5pYW4gKEFudG9u
+aW8gTWFyaW4pCiAgLSBTd2VkaXNoIChBbmRlcnMgSm9uc3NvbikKICAtIFVpZ2h1ciAoQWJkdXFh
+ZGlyIEFibGl6KQoKNTEuYmV0YSAtIEF1Z3VzdCAxMCwgMjAyNgo9PT09PT09PT09PT09PT09PT09
+PT09PT09CgoqIEJ1Z3MgZml4ZWQ6CiAgLSAjMTY3MSBDb2xvbnMgaW4gVVJMIGZvciBFcGlwaGFu
+eSdzIGFwcCBtb2RlIGFyZSBjb252ZXJ0ZWQgdG8gIkEiIChKb2huCiAgICBDYXJkdWxsbykKICAt
+ICMyODkyIENvbXBpbGUgZmFpbHVyZXMgYWdhaW5zdCBsaWJuZXR0bGUgNC4wIChGZXJuYW5kbyBN
+dcOxb3opCiAgICAoTWljaGFlbCBDYXRhbnphcm8pCiAgLSAjMjkwMiBPdXQtb2YtYm91bmRzIGNy
+YXNoL2Fzc2VydCBmYWlsdXJlIGluCiAgICBlcGh5X2pzb25fYXJyYXlfZ2V0X3N0cmluZ193aXRo
+X2RlZmF1bHQgKE1pY2hhZWwgQ2F0YW56YXJvKQogIC0gIzI5MDQgSW52YWxpZCB2aWV3LXNvdXJj
+ZTogY3Jhc2hlcyBicm93c2VyIChKb2huIENhcmR1bGxvKQogIC0gITIwNzkgQ0k6IEFkZCBnb2Jq
+ZWN0LWxpbnRlciAoSmFuLU1pY2hhZWwgQnJ1bW1lcikKICAtICEyMTA5IGFkZCBwaW5uaW5nIHN1
+cHBvcnQgZm9yIFVSTHMgaW4gaGlzdG9yeSBhbmQgb3ZlcnZpZXcgbW9kZWwgKEpvaG4KICAgIENh
+cmR1bGxvKQoKW0NoYW5nZWxvZyB0cnVuY2F0ZWQgYXMgaXQgZXhjZWVkcyAzMDAwIGNoYXJhY3Rl
+cnM7CnRoZSBmdWxsIGNoYW5nZWxvZyBjYW4gYmUgZm91bmQgaW4gYW4gYXR0YWNobWVudCB0byB0
+aGUgQVVIIGVtYWlsXQotLS0KIC4uLi9lcGlwaGFueS97ZXBpcGhhbnlfNTAuNi5iYiA9PiBlcGlw
+aGFueV81MS4wLmJifSAgICAgICAgIHwgMiArLQogLi4uLzAwMDItaGVscC1tZXNvbi5idWlsZC1k
+aXNhYmxlLXRoZS11c2Utb2YteWVscC5wYXRjaCAgICAgfCAyICstCiBtZXRhL3JlY2lwZXMtZ25v
+bWUvZXBpcGhhbnkvZmlsZXMvZGlzdHJpYnV0b3IucGF0Y2ggICAgICAgICB8IDQgKystLQogbWV0
+YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9yLnBhdGNoICAgICAgICAgICAg
+fCA2ICsrKy0tLQogNCBmaWxlcyBjaGFuZ2VkLCA3IGluc2VydGlvbnMoKyksIDcgZGVsZXRpb25z
+KC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L3tlcGlwaGFueV81MC42LmJi
+ID0+IGVwaXBoYW55XzUxLjAuYmJ9ICg5NCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWdu
+b21lL2VwaXBoYW55L2VwaXBoYW55XzUwLjYuYmIgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhh
+bnkvZXBpcGhhbnlfNTEuMC5iYgpzaW1pbGFyaXR5IGluZGV4IDk0JQpyZW5hbWUgZnJvbSBtZXRh
+L3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZXBpcGhhbnlfNTAuNi5iYgpyZW5hbWUgdG8gbWV0YS9y
+ZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzUxLjAuYmIKaW5kZXggYWQwZmFkMWE2NS4u
+ZTU0NDU3YTc3NCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBo
+YW55XzUwLjYuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzUx
+LjAuYmIKQEAgLTMxLDcgKzMxLDcgQEAgU1JDX1VSSSArPSAiXAogICAgICAgICAgICBmaWxlOi8v
+bWlncmF0b3IucGF0Y2ggXAogICAgICAgICAgICBmaWxlOi8vZGlzdHJpYnV0b3IucGF0Y2ggXAog
+ICAgICAgICAgICAiCi1TUkNfVVJJW2FyY2hpdmUuc2hhMjU2c3VtXSA9ICI0NTgyMjJhODY5NGNm
+YzkxNGU3YTJkNmRlOTg3OTA2NzAwMWE4ZDY1ZTAwYTkwN2Q5NjExMjA1OWM2N2FkNDQ2IgorU1JD
+X1VSSVthcmNoaXZlLnNoYTI1NnN1bV0gPSAiYWJhZjMzNTc2NDYyMDMwYzY1YmI5NjNhNTYzMDBh
+Nzc4NmU3ZDc1ODM0ZjFjOTBhOWRmZmRhODczODM1YzMzZCIKIAogZXhwb3J0IEdJX1RZUEVMSUJf
+UEFUSCA9ICIke1NUQUdJTkdfTElCRElSfS9naXJlcG9zaXRvcnktMS4wLyIKIApkaWZmIC0tZ2l0
+IGEvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzLzAwMDItaGVscC1tZXNvbi5idWls
+ZC1kaXNhYmxlLXRoZS11c2Utb2YteWVscC5wYXRjaCBiL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlw
+aGFueS9maWxlcy8wMDAyLWhlbHAtbWVzb24uYnVpbGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAu
+cGF0Y2gKaW5kZXggMTJlOWQ5ODIzMy4uYmRiMDZlNDA3YiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWdub21lL2VwaXBoYW55L2ZpbGVzLzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNhYmxlLXRo
+ZS11c2Utb2YteWVscC5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmls
+ZXMvMDAwMi1oZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoCkBA
+IC0xLDQgKzEsNCBAQAotRnJvbSA5ZTUxY2E0N2VmYzc0ZmVkYjQyMGU2YjY2NDM2NTY5ZDU2NjIz
+ZTJkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSAyYmI1MmJlMWU4MGQxZjQ2OTNhMzgz
+YmU4MjcwZTgwZWYxZDk1ODZhIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQogRnJvbTogQWxleGFu
+ZGVyIEthbmF2aW4gPGFsZXgua2FuYXZpbkBnbWFpbC5jb20+CiBEYXRlOiBXZWQsIDMxIEphbiAy
+MDE4IDE1OjUwOjM4ICswMjAwCiBTdWJqZWN0OiBbUEFUQ0hdIGhlbHAvbWVzb24uYnVpbGQ6IGRp
+c2FibGUgdGhlIHVzZSBvZiB5ZWxwCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBp
+cGhhbnkvZmlsZXMvZGlzdHJpYnV0b3IucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhh
+bnkvZmlsZXMvZGlzdHJpYnV0b3IucGF0Y2gKaW5kZXggYjE2NTUyYmZjNi4uODY3N2YxNTU4YyAx
+MDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9y
+LnBhdGNoCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9kaXN0cmlidXRv
+ci5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gY2MwYjlhNjkwNDI5NzM4NzA2ODI3NGM4MDI3
+ODRlZWE3NDA3ODJhMSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMmY1MjY3MjU5N2Fi
+NzRjYjE3ZTQxZDMwOGY4ZDk5MzRjMjVkOGZjMCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZy
+b206IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgog
+RGF0ZTogRnJpLCAyNiBGZWIgMjAyMSAxMDoxNzo1MiArMDAwMAogU3ViamVjdDogW1BBVENIXSBE
+b24ndCBlbmNvZGUgdGhlIGRpc3RybyBmcm9tIC9ldGMvb3MtcmVsZWFzZSBpbnRvIHRoZQpAQCAt
+MTEsNyArMTEsNyBAQCBSUCAyMDIxLzIvMjYKICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KykKIAogZGlmZiAtLWdpdCBhL21lc29uLmJ1aWxkIGIvbWVzb24uYnVpbGQKLWluZGV4IGMwMmI1
+OTEuLjhhZjlmZTcgMTAwNjQ0CitpbmRleCA4YWVjM2NmLi40YTA2YWI2IDEwMDY0NAogLS0tIGEv
+bWVzb24uYnVpbGQKICsrKyBiL21lc29uLmJ1aWxkCiBAQCAtMTUsNiArMTUsNyBAQCBpZiByLnJl
+dHVybmNvZGUoKSA9PSAwCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkv
+ZmlsZXMvbWlncmF0b3IucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMv
+bWlncmF0b3IucGF0Y2gKaW5kZXggYjIwY2MzMDU4Yi4uZGNjMTYyMDQwYSAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9yLnBhdGNoCisrKyBiL21l
+dGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRvci5wYXRjaApAQCAtMSw0ICsx
+LDQgQEAKLUZyb20gMTJlYWQyYWZiZGFiOTZlZWI2YmFjODIwYzM5YzFlOTUxYTA0N2M4YiBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gZTMzNmMyZGQxMzY4YWZmNDk2YTZiYTAxZTJjYTlj
+YTdlODg4NjBhMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IFJpY2hhcmQgUHVyZGll
+IDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5kYXRpb24ub3JnPgogRGF0ZTogVGh1LCAyNSBGZWIg
+MjAyMSAxNDo1MjozMiArMDAwMAogU3ViamVjdDogW1BBVENIXSBlcGlwaGFueTogRml4IHJlcHJv
+ZHVjaWJpbGl0eSBpc3N1ZQpAQCAtMTQsMTAgKzE0LDEwIEBAIFJQIDIwMjEvMi8yNQogIDEgZmls
+ZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiAKIGRpZmYgLS1naXQg
+YS9saWIvZXBoeS1wcm9maWxlLXV0aWxzLmMgYi9saWIvZXBoeS1wcm9maWxlLXV0aWxzLmMKLWlu
+ZGV4IGVhMmVhOTkuLjEzYzI3YzggMTAwNjQ0CitpbmRleCAxOTY2MTA4Li4yNGQ0MzY0IDEwMDY0
+NAogLS0tIGEvbGliL2VwaHktcHJvZmlsZS11dGlscy5jCiArKysgYi9saWIvZXBoeS1wcm9maWxl
+LXV0aWxzLmMKLUBAIC0xMzAsMTAgKzEzMCwxMCBAQCBlcGh5X3Byb2ZpbGVfdXRpbHNfZG9fbWln
+cmF0aW9uIChjb25zdCBjaGFyICpwcm9maWxlX2RpcmVjdG9yeSwKK0BAIC0xMzEsMTAgKzEzMSwx
+MCBAQCBlcGh5X3Byb2ZpbGVfdXRpbHNfZG9fbWlncmF0aW9uIChjb25zdCBjaGFyICpwcm9maWxl
+X2RpcmVjdG9yeSwKICAgIGFyZ3ZbaSsrXSA9IE5VTEw7CiAgCiAgI2lmIERFVkVMT1BFUl9NT0RF
+Ci0tIAoyLjQ3LjEKCg==
 
---===============7421859077018539915==
+--===============1105164357508354760==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemuarm_musl.txt"
+Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
 Parsing recipes...done.
-Parsing of 958 .bb files complete (0 cached, 958 parsed). 1990 targets, 66 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the allarch sysroot...done.
+Parsing of 958 .bb files complete (0 cached, 958 parsed). 1990 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the qemux86_64 sysroot...done.
+Removing 1 recipes from the x86-64-v3 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: Nothing PROVIDES 'systemd'
-systemd was skipped: using DISTRO 'poky', which is missing required DISTRO_FEATURES: 'systemd usrmerge'
-systemd was skipped: using DISTRO 'poky', which is missing required DISTRO_FEATURES: 'systemd usrmerge'
+Build Configuration:
+BB_VERSION           = "2.19.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-d61d83291d89d255078ae92395330a98b83f8ae5"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:d61d83291d89d255078ae92395330a98b83f8ae5"
+meta-yocto-bsp       
+meta-poky            = "master:7e41504cd63b099b214f10d92cfdaf358ab98c5f"
+workspace            = "<unknown>:<unknown>"
 
---===============7421859077018539915==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="systemd-boot-native-changelog.txt"
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 717 Local 703 Mirrors 0 Missed 14 Current 1311 (98% match, 99% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Setscene tasks completed
+NOTE: Running task 4215 of 4754 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_recipe_qa)
+NOTE: Running task 4491 of 4754 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_write_config)
+NOTE: recipe epiphany-51.0-r0: task do_recipe_qa: Started
+NOTE: Running task 4715 of 4754 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_create_recipe_spdx)
+NOTE: recipe epiphany-51.0-r0: task do_write_config: Started
+NOTE: recipe epiphany-51.0-r0: task do_write_config: Succeeded
+NOTE: recipe epiphany-51.0-r0: task do_create_recipe_spdx: Started
+NOTE: recipe epiphany-51.0-r0: task do_recipe_qa: Succeeded
+NOTE: Running task 4736 of 4754 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_fetch)
+NOTE: recipe epiphany-51.0-r0: task do_fetch: Started
+NOTE: recipe epiphany-51.0-r0: task do_fetch: Succeeded
+NOTE: Running task 4737 of 4754 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_unpack)
+NOTE: Running task 4738 of 4754 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_prepare_recipe_sysroot)
+NOTE: recipe epiphany-51.0-r0: task do_unpack: Started
+NOTE: recipe epiphany-51.0-r0: task do_create_recipe_spdx: Succeeded
+NOTE: recipe epiphany-51.0-r0: task do_prepare_recipe_sysroot: Started
+NOTE: recipe epiphany-51.0-r0: task do_unpack: Succeeded
+NOTE: Running task 4739 of 4754 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_patch)
+NOTE: recipe epiphany-51.0-r0: task do_patch: Started
+NOTE: recipe epiphany-51.0-r0: task do_patch: Succeeded
+NOTE: Running task 4740 of 4754 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_deploy_source_date_epoch)
+NOTE: Running task 4741 of 4754 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_populate_lic)
+NOTE: recipe epiphany-51.0-r0: task do_deploy_source_date_epoch: Started
+NOTE: recipe epiphany-51.0-r0: task do_populate_lic: Started
+NOTE: recipe epiphany-51.0-r0: task do_populate_lic: Succeeded
+NOTE: recipe epiphany-51.0-r0: task do_deploy_source_date_epoch: Succeeded
+NOTE: recipe epiphany-51.0-r0: task do_prepare_recipe_sysroot: Succeeded
+NOTE: Running task 4742 of 4754 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_configure)
+NOTE: recipe epiphany-51.0-r0: task do_configure: Started
+Log data follows:
+| DEBUG: Executing python function extend_recipe_sysroot
+| NOTE: Direct dependencies are ['/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glibc/glibc_2.44.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-cross_16.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/gcc/gcc-runtime_16.2.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/qemu/qemu-native_11.1.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/quilt/quilt-native_0.69.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/libarchive/libarchive_3.8.9.bb:do_populate_sysroot', '/srv/pokybuild/
+ yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gcr/gcr_4.4.0.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gdk-pixbuf/gdk-pixbuf_2.44.8.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gsettings-desktop-schemas/gsettings-desktop-schemas_50.1.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/hicolor-icon-theme/hicolor-icon-theme_0.18.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/json-glib/json-glib_1.10.8.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/libadwaita/libadwaita_1.9.3.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build
+ /layers/openembedded-core/meta/recipes-gnome/libportal/libportal_0.10.0.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-sato/webkit/webkitgtk_2.52.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/libsoup/libsoup_3.6.6.bb:do_populate_sysroot', '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-support/nettle/nettle_4.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/coreutils/coreutils_9.11.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/gettext/gettext_1.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/glib-2.0/glib-2.0_2.88.3.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded
+ -core/meta/recipes-devtools/desktop-file-utils/desktop-file-utils_0.28.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/meson/meson_1.12.0.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/ninja/ninja_1.13.2.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/patch/patch_2.8.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pkgconf/pkgconf_3.0.7.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/pseudo/pseudo_git.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/python/python3_3.14.7.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuil
+ d/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/blueprint-compiler/blueprint-compiler_0.20.4.bb:do_populate_sysroot', 'virtual:native:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/gtk+/gtk+3_3.24.52.bb:do_populate_sysroot']
+| NOTE: Installed into sysroot: []
+| NOTE: Skipping as already exists in sysroot: ['bluez5', 'openssl', 'base-files', 'base-passwd', 'dbus', 'expat', 'gettext-minimal-native', 'glib-2.0', 'glibc', 'libxcrypt', 'libxml2', 'ncurses', 'readline', 'systemd', 'util-linux-libuuid', 'util-linux', 'zlib', 'binutils-cross-x86_64', 'llvm-tblgen-native', 'llvm', 'cmake-native', 'desktop-file-utils', 'elfutils', 'file', 'gcc-cross-x86_64', 'gcc-runtime', 'libgcc', 'json-c', 'libedit', 'libtool-native', 'm4-native', 'opkg-utils', 'orc', 'python3', 'qemu-native', 'quilt-native', 'libstd-rs', 'vala', 'bzip2', 'libarchive', 'libidn2', 'lzlib', 'libpam', 'shadow-sysroot', 'shadow', 'texinfo-dummy-native', 'xz', 'zstd', 'gcr', 'gdk-pixbuf', 'gobject-introspection', 'gsettings-desktop-schemas', 'gtk+3', 'gtk4', 'hicolor-icon-theme', 'json-glib', 'libadwaita', 'libgudev', 'libnotify', 'libportal', 'librsvg', 'libsecret', 'libxmlb', 'cairo', 'libdrm', 'fontconfig', 'freetype', 'graphene', 'harfbuzz', 'libjpeg-turbo', 'libepoxy', 'libglu',
+  'mesa', 'pango', 'vulkan-headers', 'vulkan-loader', 'wayland-protocols', 'wayland', 'xrandr', 'libice', 'libpciaccess', 'libpthread-stubs', 'libsm', 'libx11', 'libxau', 'libxcb', 'libxcomposite', 'libxcursor', 'libxdamage', 'libxdmcp', 'libxext', 'libxfixes', 'libxft', 'libxi', 'libxinerama', 'libxkbcommon', 'libxrandr', 'libxrender', 'libxshmfence', 'libxt', 'libxtst', 'libxv', 'libxxf86vm', 'pixman', 'xkeyboard-config', 'xtrans', 'xcb-proto', 'xorgproto', 'kmod', 'linux-libc-headers', 'alsa-lib', 'flac', 'gstreamer1.0-plugins-bad', 'gstreamer1.0-plugins-base', 'gstreamer1.0', 'libogg', 'libpng', 'libsndfile1', 'libtheora', 'tiff', 'libvorbis', 'sbc', 'libwebp', 'libwpe', 'webkitgtk', 'wpebackend-fdo', 'appstream', 'aspell', 'at-spi2-core', 'acl', 'attr', 'bash-completion', 'curl', 'enchant2', 'fribidi', 'gdbm', 'gmp', 'gnutls', 'libtasn1', 'icu', 'iso-codes', 'libcap-ng', 'libcap', 'libffi', 'libfyaml', 'libgcrypt', 'libgpg-error', 'libical', 'libmicrohttpd', 'libpcre2', 'libpsl'
+ , 'libseccomp', 'libsoup', 'libunistring', 'libusb1', 'libxslt', 'nettle', 'nghttp2', 'p11-kit', 'shared-mime-info', 'sqlite3', 'openssl-native', 'coreutils-native', 'dbus-native', 'expat-native', 'gettext-native', 'glib-2.0-native', 'libxml2-native', 'ncurses-native', 'util-linux-libuuid-native', 'util-linux-native', 'zlib-native', 'cargo-c-native', 'llvm-native', 'desktop-file-utils-native', 'flex-native', 'gnu-config-native', 'libedit-native', 'make-native', 'meson-native', 'ninja-native', 'patch-native', 'patchelf-native', 'perl-native', 'pkgconf-native', 'pseudo-native', 'python3-build-native', 'python3-docutils-native', 'python3-flit-core-native', 'python3-installer-native', 'python3-packaging-native', 'python3-pygobject-native', 'python3-pyproject-hooks-native', 'python3-setuptools-native', 'python3-native', 'cargo-native', 'rust-native', 'vala-native', 'bzip2-native', 'shadow-native', 'unzip-native', 'xz-native', 'zstd-native', 'blueprint-compiler-native', 'gdk-pixbuf-native
+ ', 'gobject-introspection-native', 'gtk+3-native', 'librsvg-native', 'cairo-native', 'fontconfig-native', 'freetype-native', 'harfbuzz-native', 'libjpeg-turbo-native', 'pango-native', 'libpthread-stubs-native', 'libx11-native', 'libxau-native', 'libxcb-native', 'libxcomposite-native', 'libxcursor-native', 'libxdamage-native', 'libxdmcp-native', 'libxext-native', 'libxfixes-native', 'libxft-native', 'libxi-native', 'libxrandr-native', 'libxrender-native', 'libxtst-native', 'pixman-native', 'xtrans-native', 'xcb-proto-native', 'xorgproto-native', 'util-macros-native', 'libpng-native', 'at-spi2-core-native', 'acl-native', 'attr-native', 'ca-certificates-native', 'curl-native', 'fribidi-native', 'gdbm-native', 'gmp-native', 'icu-native', 'libcap-ng-native', 'libcap-native', 'libffi-native', 'libgcrypt-native', 'libgit2-native', 'libgpg-error-native', 'libmpc-native', 'libpcre2-native', 'libssh2-native', 'mpfr-native', 're2c-native', 'shared-mime-info-native', 'sqlite3-native']
+| DEBUG: Python function extend_recipe_sysroot finished
+| DEBUG: Executing shell function do_configure
+| NOTE: Executing meson -Ddeveloper_mode=false...
+| The Meson build system
+| Version: 1.12.0
+| Source dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/sources/epiphany-51.0
+| Build dir: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/build
+| Build type: cross build
+| Project name: epiphany
+| Project version: 51.0
+| C compiler for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/recipe-sysroot (gcc 16.2.0 "x86_64-poky-linux-gcc (GCC) 16.2.0")
+| C linker for the host machine: x86_64-poky-linux-gcc -m64 -march=x86-64-v3 -fstack-protector-strong -O2 -D_FORTIFY_SOURCE=2 -Wformat -Wformat-security -Werror=format-security --sysroot=/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/recipe-sysroot ld.bfd 2.47.20260726
+| C compiler for the build machine: gcc (gcc 14.2.0 "gcc (GCC) 14.2.0")
+| C linker for the build machine: gcc ld.bfd 2.43.1.20241111
+| Build machine cpu family: x86_64
+| Build machine cpu: x86_64
+| Host machine cpu family: x86_64
+| Host machine cpu: x86_64
+| Target machine cpu family: x86_64
+| Target machine cpu: x86_64
+| Found pkg-config: YES (/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/recipe-sysroot-native/usr/bin/pkg-config) 3.0.7
+| Run-time dependency iso-codes found: YES 4.20.1
+| Run-time dependency cairo found: YES 1.18.4
+| Run-time dependency gck-2 found: YES 4.4.0.1
+| Run-time dependency gcr-4 found: YES 4.4.0.1
+| Run-time dependency gdk-pixbuf-2.0 found: YES 2.44.8
+| Run-time dependency gio-2.0 found: YES 2.88.3
+| Run-time dependency gio-unix-2.0 found: YES 2.88.3
+| Run-time dependency glib-2.0 found: YES 2.88.3
+| Dependency granite-7 for host machine skipped: feature granite disabled
+| Run-time dependency gsettings-desktop-schemas found: YES 50.1
+| Run-time dependency gstreamer-1.0 found: YES 1.28.7
+| Run-time dependency gtk4 found: YES 4.22.4
+| Run-time dependency gtk4-unix-print found: YES 4.22.4
+| Run-time dependency hogweed found: YES 4.0
+| Dependency iso-codes for host machine found: YES 4.20.1 (cached)
+| Run-time dependency json-glib-1.0 found: YES 1.10.8
+| Run-time dependency libarchive found: YES 3.8.9
+| Run-time dependency libadwaita-1 found: YES 1.9.3
+| Run-time dependency libsecret-1 found: YES 0.21.7
+| Run-time dependency libsoup-3.0 found: YES 3.6.6
+| Run-time dependency libxml-2.0 found: YES 2.15.4
+| Run-time dependency nettle found: YES 4.0
+| Run-time dependency libportal-gtk4 found: YES 0.10.0
+| Found CMake: NO
+| Run-time dependency pwquality found: NO  (tried pkg-config)
+| 
+| ../sources/epiphany-51.0/meson.build:109:16: ERROR: Dependency "pwquality" not found (tried pkg-config)
+| 
+| A full log can be found at /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/build/meson-logs/meson-log.txt
+| 
+| Last 10 lines of meson-log.txt:
+| Package 'pwquality' not found
+| -----------
+| CMake binary for host machine is not cached
+| CMake binary missing from cross or native file, or env var undefined.
+| Default target is not allowed for cross use
+| Found CMake: NO
+| Dependency lookup for pwquality with method 'cmake' failed: CMake binary for machine host machine not found. Giving up.
+| Run-time dependency pwquality found: NO  (tried pkg-config)
+| 
+| ../sources/epiphany-51.0/meson.build:109:16: ERROR: Dependency "pwquality" not found (tried pkg-config)
+| 
+| ERROR: meson setup failed
+| WARNING: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/temp/run.do_configure.1052367:172 exit 1 from 'exit 1'
+| WARNING: Backtrace (BB generated script):
+| 	#1: bbfatal_log, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/temp/run.do_configure.1052367, line 172
+| 	#2: meson_do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/temp/run.do_configure.1052367, line 161
+| 	#3: do_configure, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/temp/run.do_configure.1052367, line 148
+| 	#4: main, /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/temp/run.do_configure.1052367, line 185
+NOTE: recipe epiphany-51.0-r0: task do_configure: Failed
+NOTE: Tasks Summary: Attempted 4742 tasks of which 4732 didn't need to be rerun and 1 failed.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260911063449.txt
+You can send the errors to a reports server by running:
+  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260911063449.txt [-s server]
+NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
 
-Changelog for systemd-boot-native: 261.2 -> 261.3
-Source: NEWS
+Summary: 1 task failed:
+  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_configure
+    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/temp/log.do_configure.1052367
+Summary: There were 2 ERROR messages, returning a non-zero exit code.
+ERROR: epiphany-51.0-r0 do_configure: meson setup failed
+ERROR: epiphany-51.0-r0 do_configure: Execution of '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/temp/run.do_configure.1052367' failed with exit code 1
+ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/epiphany/51.0/temp/log.do_configure.1052367
+ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-gnome/epiphany/epiphany_51.0.bb:do_configure) failed with exit code '1'
 
-* The resolvconf compatibility mode now rejects malformed stdin input
-          and leaves the existing per-link DNS configuration unchanged.
-
---===============7421859077018539915==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-Changes to packages/x86-64-v3-poky-linux/systemd (sysroot):
-  /usr/lib/systemd/boot/hwids/aa64/glymur-asus-zenbook-a14-ux3407na.json was added
-  /usr/lib/systemd/boot/hwids/aa64/glymur-asus-zenbook-a16-ux3607oa.json was added
-  /usr/lib/systemd/boot/hwids/aa64/glymur-crd.json was added
-  /usr/lib/systemd/boot/hwids/aa64/glymur-hp-elitebook-x-g2q.json was added
-  /usr/lib/systemd/boot/hwids/aa64/glymur-lenovo-yoga-slim7x.json was added
-  /usr/lib/systemd/boot/hwids/aa64/purwa-lenovo-ideacentre-mini-01q8x10.json was added
-  /usr/lib/systemd/boot/hwids/aa64/sc7180-ecs-liva-qc710.json was added
-  /usr/lib/systemd/boot/hwids/aa64/sc8280xp-radxa-dragon-q8b.json was added
-  /usr/lib/systemd/boot/hwids/aa64/x126100-lenovo-ideapad-slim3.json was added
-  /usr/lib/systemd/boot/hwids/aa64/x1e80100-honor-magicbook-art-14.json was added
-  /usr/lib/systemd/boot/hwids/aa64/x1p42100-hp-elitebook-6-g1q.json was added
-  /usr/lib/systemd/boot/hwids/aa64/x1p64100-dell-latitude-5455.json was added
-  /usr/lib/udev/rules.d/60-tpm2-id.rules was removed
-packages/x86-64-v3-poky-linux/systemd/systemd: FILELIST: added "/usr/lib/systemd/boot/hwids/aa64/glymur-asus-zenbook-a14-ux3407na.json /usr/lib/systemd/boot/hwids/aa64/glymur-asus-zenbook-a16-ux3607oa.json /usr/lib/systemd/boot/hwids/aa64/glymur-crd.json /usr/lib/systemd/boot/hwids/aa64/x1p42100-hp-elitebook-6-g1q.json /usr/lib/systemd/boot/hwids/aa64/glymur-hp-elitebook-x-g2q.json /usr/lib/systemd/boot/hwids/aa64/x1e80100-honor-magicbook-art-14.json /usr/lib/systemd/boot/hwids/aa64/x1p64100-dell-latitude-5455.json /usr/lib/systemd/boot/hwids/aa64/glymur-lenovo-yoga-slim7x.json /usr/lib/systemd/boot/hwids/aa64/purwa-lenovo-ideacentre-mini-01q8x10.json /usr/lib/systemd/boot/hwids/aa64/sc7180-ecs-liva-qc710.json /usr/lib/systemd/boot/hwids/aa64/sc8280xp-radxa-dragon-q8b.json /usr/lib/systemd/boot/hwids/aa64/x126100-lenovo-ideapad-slim3.json"
-packages/x86-64-v3-poky-linux/systemd/udev: FILELIST: removed "/usr/lib/udev/rules.d/60-tpm2-id.rules"
-
---===============7421859077018539915==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="systemd-changelog.txt"
-
-Changelog for systemd: 261.2 -> 261.3
-Source: NEWS
-
-* The resolvconf compatibility mode now rejects malformed stdin input
-          and leaves the existing per-link DNS configuration unchanged.
-
---===============7421859077018539915==--
+--===============1105164357508354760==--
 
