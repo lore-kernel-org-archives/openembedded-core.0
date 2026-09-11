@@ -2,143 +2,218 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D748BC88E4C
-	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 08:51:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F704C88E56
+	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 08:51:34 +0000 (UTC)
 Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.69])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.35180.1789116684266431753
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2026 01:51:24 -0700
+ Fri, 11 Sep 2026 01:51:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Pn07P76J;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=emBgeKWj;
  spf=pass (domain: est.tech, ip: 52.101.70.69, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=rMIJ5uPC5geTUdsk8G7FxIWv2CeqxTDIj/K78qG/lkhnsPQ4iDiFKJZM/esc4K55kry4Z91dwSDo3weAel0tRoxdYEwo8Y5UlCmOXj2molPuIq9XWkTQPkGM9IYvRi3PoGKKihtYvnOoyanwiMEzObMbjsRrztATKfAVfufu8eZfE6VoWywzgUAPsKRorGNqhtPhRScw3Rt1RFPF4G+NPrpDWbH6ruyQVs53yxqX7VDnt7uWjJUVg7UUNE6uVovADZp5JANXWYhOuMGIXEV3mItWLAUn1XryoZUFuqWPFbvudrumMiVIhwD9R4IYBcRF9w4RjoW82Rx0RL08jU2Dqg==
+ b=UeLkKLTaBl947L5oKLZw6YyBZmz5k/gXoPVZ2V5q5ANKf9WhkLnG44jNUB1L95QabR4Y9zXnvAGIzLB8fSjYS/+uyWC3hWi77dcqPdPByIYqgj41F/zslTT2yU9fyJSOEdHs2z1GDgJZqY9rUQAuEu27wf8pzScFuSfZOqngQb0ouIKkRsXeb0uxdqkvu827WdyV1rjrlZxXPo7AsYrL1+zIcTK7FGtJSqTaKXUaRahW3hR1UuanlPETybargSWpfLAxUK+JVLZk30xh0J77X+x1de5ED4hcbx6xyguzhXmbKKsbDWjzH0eUUaDM7VJPabfcua+7wIAdgz50H0FLNg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=9p9GcyFf0MUTP08zjK+ZI6TinpfGt9ID9NBqXhADIWs=;
- b=xkJ6xD+SGCYewzD0raevdVgW5j7IwdlLdf7ddTqCj+1DfEM0sUBgY9UOdqg6tQbp6fwBClUxpbMLCNtqV9CKOVFhq29aEzQ1Rw5yedmHJOPAoEr8zD8ffo86gfdEx4P181tOAfQqkF4N096/mN+kSH6V0+b2vJCNsdEEPCNE+7z9gRb+QKk4y4zvp0vYMARd17amXX85nHZvsUvXyLSc+SKUo1fOQbNdjatY7sNcq/KV+KcrDlULBppOJEs4iJ3/NCR4Ahd1a2JWgHlrlQXWDRc9+dtgTdUYbOul9YHxEF9j/dWvR5iAdKEGOnotMoLuW+nuBKwQJvoBIl2YuGp4qQ==
+ bh=jly2rS8O8ZIVIW6Gtd9IW0CnCDvmIQ7QrhXwFwZHXwQ=;
+ b=R+r2dVRlmTstFw3ULT/jaUFCTW6W0UBh+aiteqeWhnRZoplyQkOBKbEqPEqcb2gNTsJmFprGlGh4Ef6qED/2mDMBvxq9siL8qDP4Y7obW5jyOuFSintmgJ6l9+KuAEMFKsdvbBf2jrmVplxRRrDBetV/S3IWL9KTO3z6PrGz96j7lfFXELptzZnrgu/BvWVld88FwTltXykkmms6Jl1wfWLJ5uNQ78e5ykkMgJgvifi6Iemef/DKiV02KrnmDwOa+tmDYlhK5LqUA1B9uyfMHZ/DaF4YsBVhWPOROh18UP+yud0QyCmipKTONy9ofjZ/FAc1sQWOlmo8OUch4zth0w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=9p9GcyFf0MUTP08zjK+ZI6TinpfGt9ID9NBqXhADIWs=;
- b=Pn07P76JFjL3jQDda2aoZYkMMTYwMV6uxy2HBPShVevwn3uThcJAW2wNkPHab/fhKMLBNgLF+Y+H5YIDjGptzWJLiBagW9GKWvuS9tEkcO0RqUhO3UZTEWy1YucS1QFsZg/9CQaSinzJdVsQ4O/gohQ2uLaBK7GLPwd4LsqHIhFrI65TdqxNBAcuqXZjEiIWmqCggLZaJFzHR8WndNKoh3BEKEUPgyYCGvVJLABmNsGRjcXvGTlrcrtlYSkjk8TUyvFb23wganwMeOK1TOVIAeKYoBNUmnLoB2lMoVwIMsEX6Xm1GA+nlAn4qmlrAQeE63ByJmOEbpiZJfn1e/1YKw==
+ bh=jly2rS8O8ZIVIW6Gtd9IW0CnCDvmIQ7QrhXwFwZHXwQ=;
+ b=emBgeKWjFFBWsO4AUqkfzHDpvWiJtASJhIP1TDG3chQShJzJJKKneB2XAdzm5E3+vqB1nOVaEQJysH0M9OioSvO4Xj3JOcZ1ixowEsY8BP6VmeJqgQ9N5FziLs7LiYxWWojC2XFfSJZcdyAozadO7yeVGVlGdTxE3Xkb7fuxEr+93R+r6EE5IvmA/LMymhgOxUM6IW9H362vXILA/uizLF9pMRWxWieCawJRYVnZXDzVLM325XGX+Vgr9ez+OYqzk9ULPLxiIOSX95vtrlYIj/pLRq0o6gmjP2Z6KLtwIUF7EqtZSEs7CN28uCkdrk+vecHVVrxHwXzgR57IYHv24Q==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by MMZP189MB736094.EURP189.PROD.OUTLOOK.COM (2603:10a6:190:51::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Fri, 11 Sep
- 2026 08:51:19 +0000
+ 2026 08:51:21 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::bf0:7714:72e:1666]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::bf0:7714:72e:1666%7]) with mapi id 15.21.0406.007; Fri, 11 Sep 2026
- 08:51:19 +0000
+ 08:51:21 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 0/2] epiphany: upgrade to 51.0 and import libpwquality
-Date: Fri, 11 Sep 2026 10:51:15 +0200
-Message-ID: <cover.1789116540.git.jaipaul.cheernam@est.tech>
+Subject: [PATCH 2/2] epiphany: upgrade 50.6 -> 51.0
+Date: Fri, 11 Sep 2026 10:51:17 +0200
+Message-ID: <7617622fbf8dc6a97c32605ef2e408d77d1c2599.1789116540.git.jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <cover.1789116540.git.jaipaul.cheernam@est.tech>
+References: <cover.1789116540.git.jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DUZPR01CA0314.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4ba::21) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DUZPR01CA0053.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:469::11) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|MMZP189MB736094:EE_
-X-MS-Office365-Filtering-Correlation-Id: 211cbbca-0bd9-4247-b2f3-08df0fe1d8e1
+X-MS-Office365-Filtering-Correlation-Id: 3ace5c6e-f8be-4e0f-69cd-08df0fe1da47
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|10070799003|366016|376014|1800799024|23010399003|6133799003|10067099003|56012099006|11063799006|18002099003;
+	BCL:0;ARA:13230040|10070799003|366016|376014|1800799024|23010399003|10067099003|56012099006|11063799006|22082099003|18002099003|10062099007;
 X-Microsoft-Antispam-Message-Info: 
-	q/exP6j4AkbQre/I9ccMRhtfClRemdvbI55jVNm8mwDVbdTn7j3SKbkRrWfe6ETOfsF8auZb+5J992e2AknDgC4RNBZctuy0b273yXnBSrQweKGBAzTSbkBTKxlgg5AdDDtRVXp4H0ey8Je8IpfYnqpS/2H52uGiWcuJigSXkmFvFFUsvOgeSLFvNZ4F0XlAVerxpYkJ1UZ0SlS/RFZiD4M2UG+cdX6LjUeodAx0fib3moxCOpZpnHAYgEUjyFlLkKvobp7G4mbOQea/XQM/Jpsj4U14N0gqMCEfKj+KJUg9NksC2sR+JjcZ7+iXGse3MVxw+TK7bShu0L8Vldo13JkZ/O0GXY/iuTjT9roZ3Y8OjGgFtkY7K9qdZGJQDR5mmaskU0z8u7CTFCeCY+3zooVHR5AAMJGRR6gg+V1jl7+JZJV5P1qmuet4SHNTuJRkR9LPaVf/WTtEEkJyAMoi65wBtMehpxds0yJk0+iPXgpV7cwYEbGFNt1lXNRDKTERtNXFIuJ1qKBvhl/gscJQ85+jdhWZ67N0f8rU+Q8L/1atarVH4R9s8cCb0l8pykK97K26Zop9nJrieiVPIkf0pS2xcn3srGwwzP4csB3stgOkxiVGtjInFNC3yee8cGrfwOKj9Hl6TMV4YUNCnDQlE9poPWUKX5KrUZfJEL8gJzw=
+	GRTVBFy8P6rRUc1fsuV8/8CDzYdCF8TYpz5NWYEdOqmtoNSdaFyIsKCSub0hoU/lioeywC8aEPLW7gT1z4QTkRFJW3r4DDH8R+cVkkOYkBKvXrEmHRgrE1vwEMnLG5ylDl2Mqw8q1u1O7iK7Nfds3Yt1KSaQiEH1Z8N1bS93JpxB8MTn80NWcY1a0RN9zqrmfUUeCUtRDpvElVt9EBeQG9HyBGGoacCQry38Xu6FQm2eS5L6JzGyGnmH93kODke4cDsRhAbnJxWXqfESkH7H5JOex5FZWTGkxhfqz6PJGkdoaStroZjzEijQMnRzaUsAdGCX+aC35/DUaxaC4f892xBz4ZZBAXA6LTB6mjNcZxtdSAZ6S5fwSDRqPfVuxdLqz56tAYsL0t4MDG2FL3Ha6LW+hWyre31pVtisZHA3N1vhGkLoCMea3rHBcM41gymQQJWfJQMWsJSfqAbYzh97h5LXv7rh5YGNdvd5om5TVLiDRTAdRN37aOpm1ySya4D42MPi3jRYR1QICzKMqG07HX7a0Zo9TdfJ+UEkkbrU+loetkqxtcjcT9HWE48cN9KMEv2I3jvNjv6FwgXtNG+3/j2XPinkEqb83T1xvZTuVY1v3lsQIgE3I2mrQKNZXEX7PmIwAfjF2QhhRvLRcqiJ54ysfiUSag1XgYvZGNHiP8g=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(376014)(1800799024)(23010399003)(6133799003)(10067099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(376014)(1800799024)(23010399003)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003)(10062099007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?x/pfoV8sao29Soc/IR7w17w60t11TPgzRh69v9KhfRsUBzupMFZy3rGkwXZB?=
- =?us-ascii?Q?+48hgp5kpEQZMgGwKQeuivwJj5XKFS0X47pqJj4K/vGgzndxIsCdtyGE/yxH?=
- =?us-ascii?Q?QBKCIl5Mv1CPSOXOhLgp4zXAVU7TCvNaaL1MzegS00lHKQK9vWqVsrkjaxNo?=
- =?us-ascii?Q?YQiGAuVWOnKNS9OFL3a1sPVstDFHjKGgfj2/d34Gf1pZt2XHRg7XGCJjsvB3?=
- =?us-ascii?Q?Vjn5fj2Qs151P5iaNIuHvCGP+FS2XHBDZ5aeqRvIEVJ510nNPNklZoCwlnyz?=
- =?us-ascii?Q?CAsdOf5xndDEWcJ+JhaQ6qGe5YlRNokZjaNKqdkil25ff7iMgm9/8AhelNuD?=
- =?us-ascii?Q?OsZXdDu/bFGdVlgEvz8ZNl8aq/viWRtJYGWHMJOlvJ5oyBO0Ibk0ZBzXgamT?=
- =?us-ascii?Q?AHkdhx6PBfHIMnXeySnxihy6JTpG0k3ChL0qAp7i+un2+Fa3UXufAjrpN4o8?=
- =?us-ascii?Q?sv7OPju0ZrKVA5PukMks9yYJWYgkADBM4c69i3kRljWsAru6EQwZRVD9Vw4N?=
- =?us-ascii?Q?on3jo2ARs6HDOW3COCiVstJ3mqLVoTF8tlW3ukIzbaxB2aWIAi7wN5t8Ohmh?=
- =?us-ascii?Q?Npeee/i4bw1Tq/vARj42/OjBzlvzHogEHkoHVdgCCRHFP3ItqZmK9pUXsQho?=
- =?us-ascii?Q?nVgarpGIWFSmZ0drSjFe2aVIJ1k/P3NcJz+hg8S9NaIhpRVJMZmx7K3S4e2l?=
- =?us-ascii?Q?g41eaqnvbmNgR6g1rRpZ9Hk0M1TPr7s4tIqBZHSq8mHVeyIlSbTW0DPm+mOK?=
- =?us-ascii?Q?UNTyS9IMdSdKJir8NTdxXAWglyCuAgWuyKsBEsd032MR/v/9bXIJcL+Hj510?=
- =?us-ascii?Q?oySRdHQPfWkoY6QqHw3OhUbIo7E2dCfRatpYahYbBt5F/iWISueaDe0IAbDC?=
- =?us-ascii?Q?X7hXvJlJv6BUK2OboxcLJ2zCA0qp0ZINct505Wu1Y4KxEezSgfyOgQx5LaPl?=
- =?us-ascii?Q?NpX8TxD//BVIJ0Bl6lBBD6ZoHtkc2LCA3TVatjnPWWhOdD87sv9jZVcsuGI3?=
- =?us-ascii?Q?QrkUvncSO9NoktEIGsx+1TU9Bkw6oKZ15lhAW0AwuCm+5nBTZHk2WyJL9abY?=
- =?us-ascii?Q?gHyVVQG/p8HNZNJ+yRQ4Ob9tg63OPijtcpvyhli/+KdnBc7CXABhyv083oFH?=
- =?us-ascii?Q?DV9qF9f329GlPuUjqDUfBcMlMSrUWLrW7P6foPpkJV1ASgU4D5OMhc+1df8J?=
- =?us-ascii?Q?kWkVaSy7yC3SfZeaJ+gwVh/EVrP5v5kBGxFt/ZmVRAXavOrzd5BMi8/vZTwZ?=
- =?us-ascii?Q?7bBkce69XaW+Xt/wPhdniaWLmfiGOT6HM899DFZOWcMu1+thofrcMRMIXyXg?=
- =?us-ascii?Q?dbx9Lyjb/xwhPTuxBFfsgdXi2x9fOvQSzKdoQ3ehbQ6Sh6Qr2bdVkbY5sPpe?=
- =?us-ascii?Q?UIiMCxZ/dbRjhPH3H04/rwC+Rbsihr7ja9HpRQ17rFa4g/XWoPs5r7ec8NtQ?=
- =?us-ascii?Q?wEqirHnN5d8mhsivt9kmo3DyjOl9my9I+PegODsH7QdtLIaFNQygAeKYZAxZ?=
- =?us-ascii?Q?n2Cz9ErXURmd1ltIOEdtFq6ksWL0oJVGVhC2AraOElhLzW/iWxw4HkECiifP?=
- =?us-ascii?Q?M4mF3Yd8JMuguJ3PzkL+k1V15Bytr7OhJOXUR/USevowP73dPVSZAmGjRe2A?=
- =?us-ascii?Q?NlE0CMxxtdASIf3flhTk3IFZgm2MzP4HOirwTtzzcVMFp1breDxcig9NjMkj?=
- =?us-ascii?Q?R0uykTe3avLPl8V1HevSf4huRva8AEXW4uc/jXYfKkh5NMgWhawaY/biKsLr?=
- =?us-ascii?Q?PAPt0Rx7ZUpF44XwOoydu/w7DGIg4TxQ7a8iKShjPMXgk7Qt6+IOWRDDoC7T?=
-X-MS-Exchange-AntiSpam-MessageData-1: ka/+/3GZitEkuakJfQRs1r57PopqTlT2t+E=
+	=?us-ascii?Q?jEhfQYmuaEwqI7ZU36w2s25S9pGqlVrtOCchdjRm42paEVU5rCBtPhVaYxix?=
+ =?us-ascii?Q?hr2WZmBkSgbb1jfZyTzciG36XCsj8TG/a09bVhxHZ4vWtj+KBEpiwzCDYSDH?=
+ =?us-ascii?Q?eEt67AZBFinTCsad+Ylrm3TqLzH5j8PabUzSZIcQNOg/cpLpK5Lx2/9qVVyb?=
+ =?us-ascii?Q?dpnVwg7bGjgEdP4yEHaIyb7bu3QoFtBsa4T2klffjoIVPacp50Ef5+hEi2W2?=
+ =?us-ascii?Q?12tpRrA3zxdj8pscnHY4Ma+WjGUIj+aMkSSwWOGbf9MOlRJiYtSKyZ7tUiWc?=
+ =?us-ascii?Q?vHqz3lxGvkndP/CmPVphsDmNzT8WLwhbAiDUkcuFqOobaPiy//TtZXD4XM1r?=
+ =?us-ascii?Q?oucFljY57C38qHuUNG/lNB8A37TdGs3tDgWH+W4uOI7msO0hR6u5/p/1YiuH?=
+ =?us-ascii?Q?943BH38RfazGaLjeo8viY1gQnz3jrS5rAwBaRuIsdZASSJbPYs2HLPW/nWCf?=
+ =?us-ascii?Q?T0V2eBA99+JDXLA3CffFmixr/ZRhIBxbCXCFCybzQPxnfJLUtvnDcBvEDdrS?=
+ =?us-ascii?Q?OG4zBPk335qW4rmFqX+jY4oWDnUq9W/2kcSxk96FwUaO2ZoXzBSqKRmSm8K6?=
+ =?us-ascii?Q?z9+P2tqMY0RTB9iZuyii2Vp7JWbvbIb5wlKxWKclNKPHJtdFB1kdPER/2T+/?=
+ =?us-ascii?Q?kpwXLB5MonvsGWc+2Zl53N+YApbP7lEin7e09uP9hFif9oqlf1P4/JtMc4Zy?=
+ =?us-ascii?Q?Fl9solERtLwPH+qYP48/ZkCRvM1wexiy+v+N/jvq81X9xM6VYm+46p7bPdmY?=
+ =?us-ascii?Q?n/FTyMJUQ0d4oXi8MEnbkGrL4xaNxss++7sBF24nvdAxFms9NvGHJ/tLRZgX?=
+ =?us-ascii?Q?h7SA6lc1KBTiViH5tw+Py52kHcZKOttHIvVkT5ZSDbIWTkvumucIsktIaiut?=
+ =?us-ascii?Q?qTovICJoCdhW0I3opL3a+18ouDl1ENq+LhB4a+lIL2Hr64tUjcIznmNye3an?=
+ =?us-ascii?Q?V05wsftv0Ck9X+LpDg/Le0ZzZMmifL9R6wolBs5C1hkqOFKY2A4fLskB+Fqn?=
+ =?us-ascii?Q?4vN92FHJK6HKD/KGCrWwl6BsLoJr+O0gXPdwiAXZQDrKvm0ZSi6NCLVx43D6?=
+ =?us-ascii?Q?JcLb4hjBr0YTnzsk0zlXtfn5AKXX8I9hUeukTlU2DZzbg7GbkINSBg24gumj?=
+ =?us-ascii?Q?Mtrkzm70GxLowGX4XmUK8YNp/jKm+Mnj/948eMJu7q5z3Y4mujJSPOhJDdek?=
+ =?us-ascii?Q?S2UefwB9krs/EbQWa3t8GiMu3OK3qwOFJE+MalaIx7/kdL2vWTypD5N4KMqi?=
+ =?us-ascii?Q?RUTsFJcngsf3zY8Y7lojMAhyEJE+nhYswuDHEENaeUqCd+LPYMEX/8dWAuay?=
+ =?us-ascii?Q?HtWUM6Aa/VU5FqjTmzUU+w2x36JXwrG2WXGZLKdmQqTIP2Hq2MUhU8FIPoix?=
+ =?us-ascii?Q?J22g6u27DEcJ/Siy6EHXTydbocgKhoqqAKux7TrhccQgk2GnHSeoSCoqp0mp?=
+ =?us-ascii?Q?q1dTJRpoE9rfnlisHq1aYE7elzhXVGgI9ZAUSCcDWetDm0obQC7ZIEG4aUBi?=
+ =?us-ascii?Q?8rX7tJS1eJxsd6DZOXnvFoFD8i8CNKqd2SfgWX9ALFNfEfGQIA1+EDQi8Mux?=
+ =?us-ascii?Q?2QMuryQuhRzGwXliPqsX6xYS+bLByXNbjsu3g/U5HcH4IkIKlznw8w14ZPdH?=
+ =?us-ascii?Q?N60UqemRcRqKDwNKthd5fZXBu4FCcBUfB6/01C8e0bjvhmlLNctXrPKz5QzR?=
+ =?us-ascii?Q?ctGJqnHuIxrzgt+xy67+BFv86QcdOaEfvBBiUK255zzzrxL3CYS/9A5qnBc+?=
+ =?us-ascii?Q?n5w24JcG52oxRrPN06fMELbdDJwBL5U0Aw5FqrMkMQqHBhiW/4+gIKoeq4IJ?=
+X-MS-Exchange-AntiSpam-MessageData-1: J+OlaPprEL6ySbvrlmaUFwlbHQQK2WHRTHw=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 211cbbca-0bd9-4247-b2f3-08df0fe1d8e1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3ace5c6e-f8be-4e0f-69cd-08df0fe1da47
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 08:51:19.1838
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 08:51:21.5338
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: xL6txFAGw9alJGa5+55u5wzjdwW5Qs5zwTD1/aStmbbxIqIjO4/mOn+uFqhz3dKSWgsqUrBrmE1oJwkZElMW1bYIgpE8vf6t2wD6J0ngdmg=
+X-MS-Exchange-CrossTenant-UserPrincipalName: u5Fa3lPDuWWmFzgizbwzK3cOYR91vgrRQ56SYmYdLPoRwgZJB/VpaZMzeq92FI8DQFAfRz03Tij1H05Ysy5dkdaDJGDy+y5bakJb60s9hRw=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MMZP189MB736094
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 08:51:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245621
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 08:51:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245623
 
-epiphany 51.0 adds an unconditional dependency on pwquality, provided
-by libpwquality which until now in meta-oe. and libpwquality's only
-dependency (cracklib) is already in OE-Core, this series imports
-libpwquality into OE-Core first and then does the epiphany upgrade,
-adding libpwquality to its DEPENDS.
+CompareLog: https://github.com/GNOME/epiphany/compare/50.6...51.0
 
-The libpwquality import must be merged before the epiphany upgrade
+- 51.0 adds a new mandatory dependency on pwquality [1] so add
+  libpwquality to DEPENDS.
+  libpwquality was imported into OE-Core in the preceding patch.
 
-Separate commit will send to meta-oe for removal of libpwquality
+[1] https://github.com/GNOME/epiphany/commit/683e9a076fa3
 
-Jaipaul Cheernam (2):
-  libpwquality: import recipe from meta-oe
-  epiphany: upgrade 50.6 -> 51.0
-
- meta/conf/distro/include/maintainers.inc      |  1 +
- ...-Use-setuptools-instead-of-distutils.patch | 78 +++++++++++++++++++
- ...02-Makefile.am-respect-PYTHONSITEDIR.patch | 26 +++++++
- .../libpwquality/libpwquality_1.4.5.bb        | 40 ++++++++++
- .../{epiphany_50.6.bb =3D> epiphany_51.0.bb}    |  3 +-
- ...-meson.build-disable-the-use-of-yelp.patch |  2 +-
- .../epiphany/files/distributor.patch          |  4 +-
- .../epiphany/files/migrator.patch             |  6 +-
- 8 files changed, 153 insertions(+), 7 deletions(-)
- create mode 100644 meta/recipes-extended/libpwquality/files/0001-Use-setup=
-tools-instead-of-distutils.patch
- create mode 100644 meta/recipes-extended/libpwquality/files/0002-Makefile.=
-am-respect-PYTHONSITEDIR.patch
- create mode 100644 meta/recipes-extended/libpwquality/libpwquality_1.4.5.b=
-b
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ .../epiphany/{epiphany_50.6.bb =3D> epiphany_51.0.bb}         | 3 ++-
+ .../0002-help-meson.build-disable-the-use-of-yelp.patch     | 2 +-
+ meta/recipes-gnome/epiphany/files/distributor.patch         | 4 ++--
+ meta/recipes-gnome/epiphany/files/migrator.patch            | 6 +++---
+ 4 files changed, 8 insertions(+), 7 deletions(-)
  rename meta/recipes-gnome/epiphany/{epiphany_50.6.bb =3D> epiphany_51.0.bb=
 } (92%)
 
+diff --git a/meta/recipes-gnome/epiphany/epiphany_50.6.bb b/meta/recipes-gn=
+ome/epiphany/epiphany_51.0.bb
+similarity index 92%
+rename from meta/recipes-gnome/epiphany/epiphany_50.6.bb
+rename to meta/recipes-gnome/epiphany/epiphany_51.0.bb
+index ad0fad1a65..63ec9bb100 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_50.6.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_51.0.bb
+@@ -15,6 +15,7 @@ DEPENDS =3D " \
+           libadwaita \
+           libarchive \
+           libportal \
++          libpwquality \
+           libsoup \
+           glib-2.0-native \
+           coreutils-native \
+@@ -31,7 +32,7 @@ SRC_URI +=3D "\
+            file://migrator.patch \
+            file://distributor.patch \
+            "
+-SRC_URI[archive.sha256sum] =3D "458222a8694cfc914e7a2d6de9879067001a8d65e0=
+0a907d96112059c67ad446"
++SRC_URI[archive.sha256sum] =3D "abaf33576462030c65bb963a56300a7786e7d75834=
+f1c90a9dffda873835c33d"
+=20
+ export GI_TYPELIB_PATH =3D "${STAGING_LIBDIR}/girepository-1.0/"
+=20
+diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disabl=
+e-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson=
+.build-disable-the-use-of-yelp.patch
+index 12e9d98233..bdb06e407b 100644
+--- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-u=
+se-of-yelp.patch
++++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-u=
+se-of-yelp.patch
+@@ -1,4 +1,4 @@
+-From 9e51ca47efc74fedb420e6b66436569d56623e2d Mon Sep 17 00:00:00 2001
++From 2bb52be1e80d1f4693a383be8270e80ef1d9586a Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 31 Jan 2018 15:50:38 +0200
+ Subject: [PATCH] help/meson.build: disable the use of yelp
+diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/rec=
+ipes-gnome/epiphany/files/distributor.patch
+index b16552bfc6..8677f1558c 100644
+--- a/meta/recipes-gnome/epiphany/files/distributor.patch
++++ b/meta/recipes-gnome/epiphany/files/distributor.patch
+@@ -1,4 +1,4 @@
+-From cc0b9a6904297387068274c802784eea740782a1 Mon Sep 17 00:00:00 2001
++From 2f52672597ab74cb17e41d308f8d9934c25d8fc0 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Fri, 26 Feb 2021 10:17:52 +0000
+ Subject: [PATCH] Don't encode the distro from /etc/os-release into the
+@@ -11,7 +11,7 @@ RP 2021/2/26
+  1 file changed, 1 insertion(+)
+=20
+ diff --git a/meson.build b/meson.build
+-index c02b591..8af9fe7 100644
++index 8aec3cf..4a06ab6 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -15,6 +15,7 @@ if r.returncode() =3D=3D 0
+diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipe=
+s-gnome/epiphany/files/migrator.patch
+index b20cc3058b..dcc162040a 100644
+--- a/meta/recipes-gnome/epiphany/files/migrator.patch
++++ b/meta/recipes-gnome/epiphany/files/migrator.patch
+@@ -1,4 +1,4 @@
+-From 12ead2afbdab96eeb6bac820c39c1e951a047c8b Mon Sep 17 00:00:00 2001
++From e336c2dd1368aff496a6ba01e2ca9ca7e88860a2 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Thu, 25 Feb 2021 14:52:32 +0000
+ Subject: [PATCH] epiphany: Fix reproducibility issue
+@@ -14,10 +14,10 @@ RP 2021/2/25
+  1 file changed, 2 insertions(+), 2 deletions(-)
+=20
+ diff --git a/lib/ephy-profile-utils.c b/lib/ephy-profile-utils.c
+-index ea2ea99..13c27c8 100644
++index 1966108..24d4364 100644
+ --- a/lib/ephy-profile-utils.c
+ +++ b/lib/ephy-profile-utils.c
+-@@ -130,10 +130,10 @@ ephy_profile_utils_do_migration (const char *profile=
+_directory,
++@@ -131,10 +131,10 @@ ephy_profile_utils_do_migration (const char *profile=
+_directory,
+    argv[i++] =3D NULL;
+ =20
+  #if DEVELOPER_MODE
 
