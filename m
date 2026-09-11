@@ -1,235 +1,165 @@
-Return-Path: <othacehe@gnu.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A177C88E50
-	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 22:02:08 +0000 (UTC)
-Received: from eggs.gnu.org (eggs.gnu.org [209.51.188.92])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50712.1789164120771440678
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 54988C88E50
+	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 22:15:48 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.50968.1789164945469387799
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2026 15:02:01 -0700
+ Fri, 11 Sep 2026 15:15:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gnu.org header.s=fencepost-gnu-org header.b=g0y1kYFY;
- spf=pass (domain: gnu.org, ip: 209.51.188.92, mailfrom: othacehe@gnu.org)
-Received: from fencepost.gnu.org ([2001:470:142:3::e])
-	by eggs.gnu.org with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-	(Exim 4.90_1)
-	(envelope-from <othacehe@gnu.org>)
-	id 1x59Jn-0001WB-Fr; Fri, 11 Sep 2026 18:01:59 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=gnu.org;
-	s=fencepost-gnu-org; h=MIME-Version:References:In-Reply-To:Date:Subject:To:
-	From; bh=pX5yXkIWvHPbpoEdBjE4Ez6Y/WoiTt7QNG+jKF3zgnA=; b=g0y1kYFYFt5RRZXOsFq3
-	HZIzU6CX3A+tmoM+BiGr638T4JAXO4nfkbLuMwKAZfmHwT6rd08jSax2OtQZndCrdVgILoh33dqtE
-	jUzRdDiznPxx+p/bMiydVFK9BtiItRdJxszdRrzbu3QsND/ycLqdt3d7yo6cpRZvSZt9w5P2WlrOp
-	z0r4hD9hqEI/la61Ts7yfjzjfLlHtnwr68jL0RB8N+zS1AKwq/OB0MzuTbIKBz7d8THwAhn7Gl7Zf
-	jrhfINFO6LJbI8wOEPgSj+Y1Ia28Gr3Y5fvT7Sv72x9QxXu5ephjJytpuD8pNlsG7e1KnU7pX5Lia
-	SHtvJTK8bBvQ6A==;
-From: Mathieu Othacehe <othacehe@gnu.org>
+ dkim=pass header.i=@smile.fr header.s=google header.b=ZJCKCs75;
+ spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d822dso470045e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 15:15:45 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1789164943; x=1789769743; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=HBg2Gob3qAfOu19sELEQUyjLeE3yPkEZe12OaFxbaOo=;
+        b=ZJCKCs75MHRBnHMuXXAecLPZ24Se9snViMUpW3h9WU5igFggDGMW3JbDNc5pfLesqb
+         SjIy25Bpfei0q6rXfs3muTQk3Yv3w2GoLshwK2xwsTN8Q3BYpk4CIw5IVeys4jNGx9RQ
+         19yxUrhAUjSjZ+c3U/BzAOiz1jHppl6AYulbE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789164943; x=1789769743;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=HBg2Gob3qAfOu19sELEQUyjLeE3yPkEZe12OaFxbaOo=;
+        b=XU2nYTMb0Myu9YN4yHWyILPLYs45+2bDfyTp1u9l4UxIWDOupqkle3UtBnlHeZvqWo
+         Hk0OP9uy65Fj8/5yBW4N5ZxqFcnLLi47NhZEloXo+xSp2TUHt25hPzuzZW/oKY/k4ckD
+         71m0IjLb2Vyzo/AD0XFv7WT0txfmkzvYWbM2jzjUp+y9GeFTW3HOlW52pFRQWqYDsMTb
+         oc0aRYTXlSh6Rjk8SFrq0/pEfWCIK8p1Sg5XqIi/d5NLu86q0UluBcPAVNDFzMaq1sot
+         hV+JEo5r7MTMcBn8gYpsRFOHijP33th/kqFy5ST6Y0Wt7P8Jv6xG21KTXvLGaGXJfR1C
+         jvOQ==
+X-Gm-Message-State: AFuF++kXPzR82WrZa/JqyPX3LLxsDl563KZnTSFtr3L/wbXTBgLE1mFT
+	MwKAafEKRP53Kz6vS4+qotpOKyOzpxDYGfiqzPvebgMqao8UMgNiUiGPynN7jZ99of25BmvnkgE
+	5Rk+a6pI=
+X-Gm-Gg: AYBFou395YL2SzM/Ky0ZzsuBNLEK2S29fABGNlFXMICznfBZJJhmYBLajAs4hxnTqdj
+	boxYJS0B2ejuAok6ej5ePm98XnbSveNf5bYY+y1PDnAzzI/Hn5qIH2xxRokD6QJJ+mAFK4/chzl
+	bgQKTKP71tYOxEWsuyLZZzjgUvKkMyWmDgTEc92BrrL2MJcjp1DTrIV0MF4+sL6RNK+2uF2ZrSq
+	nIurkKY2lCDbtvum4/uL8zbMMzxHBgwLW8p0lM2Zysdp0mbLIkrfoEJCIlHKVzLpyI2pdtvK/rA
+	x+sFMVliC+FImLFet8ToOqRCrJyHyUYW4grHB7Al0KpSoI1vTVgxMKm/Rw0Zel557XKEViG3/7G
+	KjVILJgNKkIZQQ1p+yI9bxvOw5ng8b8JzzquhayX9dI/RTCVj34kL+oJHXYiQKEF8qCvSP1HXN2
+	NNWw7uN51RwBoHFrxpbPyd5pX5iiYFHPdZxb85wbCECyAu6HqarSqhMtOjT9hhyn7kxSO7yD6Ij
+	RKayL3oG2niQimX3f/bWA8poHOE8c/+kMLuFpgvTqDfruGB4YB6UEVMN4h/lf5NGQS+U9JFCTE=
+X-Received: by 2002:a05:600c:3491:b0:49c:cee0:f383 with SMTP id 5b1f17b1804b1-49e6cbfc8c1mr1088455e9.16.1789164943278;
+        Fri, 11 Sep 2026 15:15:43 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6c566bdbsm8434045e9.11.2026.09.11.15.15.42
+        for <openembedded-core@lists.openembedded.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 15:15:42 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex.kanavin@gmail.com>,
-	Khem Raj <raj.khem@gmail.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Mathieu Othacehe <othacehe@gnu.org>
-Subject: [PATCH 1/1] lib/oe/package: Add strip keep-section support
-Date: Sat, 12 Sep 2026 00:01:38 +0200
-Message-ID: <20260911220138.32414-2-othacehe@gnu.org>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260911220138.32414-1-othacehe@gnu.org>
-References: <20260911220138.32414-1-othacehe@gnu.org>
+Subject: [OE-core][scarthgap 00/13] Patch review
+Date: Sat, 12 Sep 2026 00:14:54 +0200
+Message-ID: <cover.1789163914.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 22:02:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245669
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 22:15:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245670
 
-On 32-bit Arm, the .ARM.extab and .ARM.exidx unwinding sections do not
-always provide enough information to get a full backtrace on C++
-exceptions:
+Please review this set of changes for scarthgap and have comments back by
+end of day Tuesday, September 15.
 
-  https://gcc.gnu.org/bugzilla/show_bug.cgi?id=117941
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4718
+* oe-selftest-fedora fails with 16415 – AB-INT: github infrastructure issues
+  I still need to backport fixes from master to wrynose, and then,
+  scarthgap.
+* qemuarm64-ptest failed with 16267 – [scarthgap] AB-INT PTEST: python3 failure (test_wrong_cert_tls13)
+  retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/4516
+Note: this build was not rebased on the latest build-appliance update.
 
-In addition to those unwinding sections, GCC also emits unwinding
-instructions in DWARF format under the .debug_frame section. By
-instructing 'strip' not to remove that section, libunwind can use it
-to produce a full backtrace, for example when an unhandled C++
-exception is thrown.
 
-Add a PACKAGE_KEEP_SECTIONS variable, listing space separated ELF
-section names that should be kept around instead of stripped, for
-example:
+The following changes since commit bb166ac536daa43602ce8962cd3eb137783b8dc9:
 
-  PACKAGE_KEEP_SECTIONS:pn-myrecipe = ".debug_frame"
+  build-appliance-image: Update to scarthgap head revision (2026-09-11 14:32:15 +0100)
 
-This variable is never applied to kernel modules, which are covered
-by CONFIG_UNWINDER_* instead.
+are available in the Git repository at:
 
-Add a oe-selftest case building core-image-minimal for qemuarm, and
-checking with readelf that busybox loses its .debug_frame section by
-default, but keeps it once PACKAGE_KEEP_SECTIONS is set.
+  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
 
-Signed-off-by: Mathieu Othacehe <othacehe@gnu.org>
----
- meta/classes-global/staging.bbclass     |  4 +-
- meta/lib/oe/package.py                  | 19 +++++++--
- meta/lib/oeqa/selftest/cases/package.py | 52 ++++++++++++++++++++++++-
- 3 files changed, 69 insertions(+), 6 deletions(-)
+for you to fetch changes up to e85367ebf673225c69694ee63679ea7620c4b420:
 
-diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/staging.bbclass
-index 5833abebc8..9ea4c644db 100644
---- a/meta/classes-global/staging.bbclass
-+++ b/meta/classes-global/staging.bbclass
-@@ -91,10 +91,12 @@ python sysroot_strip () {
-     base_libdir = d.getVar("base_libdir")
-     qa_already_stripped = 'already-stripped' in (d.getVar('INSANE_SKIP:' + pn) or "").split()
-     strip_cmd = d.getVar("STRIP")
-+    keep_sections = d.getVar('PACKAGE_KEEP_SECTIONS') or ""
- 
-     max_process = oe.utils.get_bb_number_threads(d)
-     oe.package.strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process,
--                           qa_already_stripped=qa_already_stripped)
-+                           qa_already_stripped=qa_already_stripped,
-+                           keep_sections=keep_sections)
- }
- 
- do_populate_sysroot[dirs] = "${SYSROOT_DESTDIR}"
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index b7030643d2..620f9fefc8 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -19,7 +19,7 @@ import shutil
- import bb.parse
- import oe.cachedpath
- 
--def runstrip(file, elftype, strip, extra_strip_sections=''):
-+def runstrip(file, elftype, strip, extra_strip_sections='', keep_sections=''):
-     # Function to strip a single file, called from split_and_strip_files below
-     # A working 'file' (one which works on the target architecture)
-     #
-@@ -49,6 +49,10 @@ def runstrip(file, elftype, strip, extra_strip_sections=''):
-             for section in extra_strip_sections.split():
-                 stripcmd.extend(["--remove-section=" + section])
- 
-+    if keep_sections != '' and not elftype & 16:
-+        for section in keep_sections.split():
-+            stripcmd.extend(["--keep-section=" + section])
-+
-     stripcmd.append(file)
-     bb.debug(1, "runstrip: %s" % stripcmd)
- 
-@@ -96,7 +100,8 @@ def is_static_lib(path):
-             return start == magic
-     return False
- 
--def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process, qa_already_stripped=False):
-+def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process,
-+                qa_already_stripped=False, keep_sections=''):
-     """
-     Strip executable code (like executables, shared libraries) _in_place_
-     - Based on sysroot_strip in staging.bbclass
-@@ -107,6 +112,9 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process, qa_alre
-     :param max_process: number of stripping processes started in parallel
-     :param qa_already_stripped: Set to True if already-stripped' in ${INSANE_SKIP}
-     This is for proper logging and messages only.
-+    :param keep_sections: Space separated list of ELF sections to keep even
-+    though the file is being stripped, for example ".debug_frame" so that
-+    libunwind can use it to generate backtraces.
-     """
-     import stat, errno, oe.path, oe.utils
- 
-@@ -175,7 +183,8 @@ def strip_execs(pn, dstdir, strip_cmd, libdir, base_libdir, max_process, qa_alre
-         elf_file = int(elffiles[file])
-         sfiles.append((file, elf_file, strip_cmd))
- 
--    oe.utils.multiprocess_launch_mp(runstrip, sfiles, max_process)
-+    oe.utils.multiprocess_launch_mp(runstrip, sfiles, max_process,
-+                                    extraargs=('', keep_sections))
- 
- TRANSLATE = (
-     ("@", "@at@"),
-@@ -1359,7 +1368,9 @@ def process_split_and_strip_files(d):
-             for f in staticlibs:
-                 sfiles.append((f, 16, strip))
- 
--        oe.utils.multiprocess_launch(oe.package.runstrip, sfiles, d)
-+        keep_sections = d.getVar('PACKAGE_KEEP_SECTIONS') or ""
-+        oe.utils.multiprocess_launch(oe.package.runstrip, sfiles, d,
-+                                     extraargs=('', keep_sections))
- 
-     # Build "minidebuginfo" and reinject it back into the stripped binaries
-     if bb.utils.contains('DISTRO_FEATURES', 'minidebuginfo', True, False, d):
-diff --git a/meta/lib/oeqa/selftest/cases/package.py b/meta/lib/oeqa/selftest/cases/package.py
-index 38ed7173fe..96aee21177 100644
---- a/meta/lib/oeqa/selftest/cases/package.py
-+++ b/meta/lib/oeqa/selftest/cases/package.py
-@@ -5,10 +5,12 @@
- #
- 
- from oeqa.selftest.case import OESelftestTestCase
--from oeqa.utils.commands import bitbake, get_bb_vars, get_bb_var, runqemu
-+from oeqa.utils.commands import bitbake, get_bb_vars, get_bb_var, runqemu, runCmd
- import subprocess, os
- import oe.path
- import re
-+import tempfile
-+import tarfile
- 
- class VersionOrdering(OESelftestTestCase):
-     # version1, version2, sort order
-@@ -208,3 +210,51 @@ class PackageTests(OESelftestTestCase):
-                           sysconfdir + "/selftest-chown/symlink",
-                           sysconfdir + "/selftest-chown/fifotest/fifo"]:
-                 check_ownership(qemu, "test", "test", path)
-+
-+class PackageKeepSections(OESelftestTestCase):
-+    def test_package_keep_sections(self):
-+        """
-+        Verify that PACKAGE_KEEP_SECTIONS prevents 'strip' from removing the
-+        listed ELF sections, and that they are removed as usual when the
-+        variable isn't set.
-+        """
-+        # GCC only emits .debug_frame on targets that don't already rely on
-+        # .eh_frame for unwinding, which in practice means 32-bit Arm: use
-+        # qemuarm so the section actually exists before strip runs. Do this
-+        # before querying any other variable below, as they all depend on
-+        # MACHINE.
-+        self.write_config("""
-+MACHINE = "qemuarm"
-+IMAGE_FSTYPES = "tar.bz2"
-+""")
-+
-+        target_sys = get_bb_var("TARGET_SYS")
-+        bb_vars = get_bb_vars(['DEPLOY_DIR_IMAGE', 'IMAGE_LINK_NAME', 'READELF'], 'core-image-minimal')
-+        binutils = "binutils-cross-{}".format(get_bb_var("TARGET_ARCH"))
-+        bitbake("{}:do_addto_recipe_sysroot".format(binutils))
-+        native_sysroot = get_bb_var("RECIPE_SYSROOT_NATIVE", binutils)
-+
-+        def has_section(section):
-+            with tempfile.TemporaryDirectory(prefix = "unpackfs-") as unpackedfs:
-+                filename = os.path.join(bb_vars['DEPLOY_DIR_IMAGE'], "{}.tar.bz2".format(bb_vars['IMAGE_LINK_NAME']))
-+                with tarfile.open(filename) as tar:
-+                    tar.extract("./usr/bin/busybox.nosuid", path=unpackedfs)
-+
-+                r = runCmd([bb_vars['READELF'], "-W", "-S", os.path.join(unpackedfs, "usr", "bin", "busybox.nosuid")],
-+                        native_sysroot = native_sysroot, target_sys = target_sys)
-+                return section in r.output
-+
-+        bitbake("core-image-minimal")
-+        self.assertFalse(has_section(".debug_frame"),
-+                          "busybox should not carry a .debug_frame section by default")
-+
-+        self.write_config("""
-+MACHINE = "qemuarm"
-+IMAGE_FSTYPES = "tar.bz2"
-+PACKAGE_KEEP_SECTIONS:pn-busybox = ".debug_frame"
-+""")
-+        bitbake("busybox -c package -f")
-+        bitbake("core-image-minimal")
-+        self.assertTrue(has_section(".debug_frame"),
-+                         "busybox should carry a .debug_frame section when "
-+                         "PACKAGE_KEEP_SECTIONS is set")
--- 
-2.34.1
+  u-boot, u-boot-tools: Fix CVE-2026-46728 (2026-09-11 17:32:37 +0200)
+
+----------------------------------------------------------------
+
+Daniel Turull (1):
+  libarchive: mark CVE-2026-14164 as fixed-version
+
+Darsh Kelaiya (1):
+  python3-lxml: fix CVE-2026-41066
+
+Deepak Rathore (2):
+  binutils: fix CVE-2026-3441 and CVE-2026-3442
+  binutils: fix CVE-2026-4647
+
+Devansh Patel (1):
+  u-boot: share CVE_PRODUCT with u-boot-tools
+
+Gyorgy Sarvari (1):
+  python3-py: set CVE_PRODUCT
+
+Hetvi Thakar (4):
+  python3-pip: Fix CVE-2026-8643
+  go: Fix CVE-2026-33814
+  go: Fix CVE-2026-39823
+  u-boot, u-boot-tools: Fix CVE-2026-46728
+
+Peter Marko (1):
+  openssl: upgrade 3.5.7 -> 3.5.8
+
+Vijay Anusuri (1):
+  p11-kit: Fix CVE-2026-18938
+
+Yoann Congal (1):
+  linux-yocto/6.6: update CVE exclusions (6.6.151)
+
+ .../u-boot/files/CVE-2026-46728.patch         |  379 ++
+ meta/recipes-bsp/u-boot/u-boot-common.inc     |    2 +
+ .../u-boot/u-boot-tools_2024.01.bb            |    2 +
+ meta/recipes-bsp/u-boot/u-boot.inc            |    2 -
+ meta/recipes-bsp/u-boot/u-boot_2024.01.bb     |    1 +
+ .../{openssl_3.5.7.bb => openssl_3.5.8.bb}    |    2 +-
+ .../binutils/binutils-2.42.inc                |    2 +
+ .../CVE-2026-3441_CVE-2026-3442.patch         |   51 +
+ .../binutils/binutils/CVE-2026-4647.patch     |  228 +
+ meta/recipes-devtools/go/go-1.22.12.inc       |    2 +
+ .../go/go/CVE-2026-33814.patch                |   44 +
+ .../go/go/CVE-2026-39823.patch                |  100 +
+ .../python/python3-lxml/CVE-2026-41066.patch  |  262 +
+ .../python/python3-lxml_5.0.2.bb              |    4 +-
+ .../CVE-2026-8643-regression_p1.patch         |   34 +
+ .../CVE-2026-8643-regression_p2.patch         |   69 +
+ .../python/python3-pip/CVE-2026-8643.patch    |   79 +
+ .../python/python3-pip_24.0.bb                |    3 +
+ .../python/python3-py_1.11.0.bb               |    2 +
+ .../libarchive/libarchive_3.7.9.bb            |    5 +
+ .../linux/cve-exclusion_6.6.inc               | 4540 ++++++++++++++++-
+ .../p11-kit/files/CVE-2026-18938.patch        |   52 +
+ .../recipes-support/p11-kit/p11-kit_0.25.3.bb |    1 +
+ 23 files changed, 5787 insertions(+), 79 deletions(-)
+ create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2026-46728.patch
+ rename meta/recipes-connectivity/openssl/{openssl_3.5.7.bb => openssl_3.5.8.bb} (99%)
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-3441_CVE-2026-3442.patch
+ create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-4647.patch
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-33814.patch
+ create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39823.patch
+ create mode 100644 meta/recipes-devtools/python/python3-lxml/CVE-2026-41066.patch
+ create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-8643-regression_p1.patch
+ create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-8643-regression_p2.patch
+ create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-8643.patch
+ create mode 100644 meta/recipes-support/p11-kit/files/CVE-2026-18938.patch
 
 
