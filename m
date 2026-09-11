@@ -1,85 +1,128 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BEE46C88E50
-	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 13:50:10 +0000 (UTC)
-Received: from mail-pl1-f172.google.com (mail-pl1-f172.google.com [209.85.214.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.39174.1789132415445428233
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02D30C88E50
+	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 14:13:54 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.40351.1789136032552755179
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2026 06:13:35 -0700
+ Fri, 11 Sep 2026 07:13:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=g66EPV3X;
- spf=pass (domain: gmail.com, ip: 209.85.214.172, mailfrom: zhanxusheng1024@gmail.com)
-Received: by mail-pl1-f172.google.com with SMTP id d9443c01a7336-2d9520b9155so9025815ad.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 06:13:35 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TKAPYl7n;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd38e0e5dso11853895e9.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 07:13:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789132415; x=1789737215; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1789136031; x=1789740831; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=vUYg3HowryQAuO27DfEqiXTAxLwY1WzNGpT1wKHulbI=;
-        b=g66EPV3X9WOf02VVTyElNYLn3ex6yJB/1gW5YHMRYBJDlIl+ABVt0lkjWx7Q7SJN95
-         6qUBUyRnaXgH9BUmGNwRa42c56JBuNbz1sXcd4YUlRnQJwBN4jQbfVG9xe6qSXWp78Hy
-         9lYhHmSRE8ZMLp0qzC4MybZ0q6qxpxfzUEiRLNfZNDLerynO8D2Qq0bmYXJNjeHKuZQS
-         MMw2h+rHCq2eR5T4Wlk8UygEwHThds5LZwQ9XM+3jyHssC+Ltf2LtSRJveEkji0baKZK
-         oduK7rcBkmJSLuR3c5RnRu2EEJy5Lwk71QHBfdcHiTqVvOVDFcg/4NjBBFDnTz9syt+8
-         qdGQ==
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=vy+BiNE/fHvvfLNFW0nWPgFj7MUzpwsFGA/rjhiDMss=;
+        b=TKAPYl7nxEU2r/rPIWyaPdEC2OEyH8OuHmuGzlGnslMP3IW0wuyfbyp40PRNGZOMf1
+         B807eP/T8xlqq7MJYGg6fpQxVvVu7gY9LVwfBai2wsqYE4KLz2CXeV7MEOKYbCPs96oQ
+         Stf/EMCKZVz1cYyJ/lZ2BsDQq3g+DZQEr0LQQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789132415; x=1789737215;
+        d=1e100.net; s=20251104; t=1789136031; x=1789740831;
         h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=vUYg3HowryQAuO27DfEqiXTAxLwY1WzNGpT1wKHulbI=;
-        b=UQEBR1NNJS8kW73bdIUG23ofNyR3sVzWidSLcfB856tZhIwcEAM8UTS/reArFzPmzc
-         vINqQ3z7Vv/IRIVP0bfh8nRhDke5Z/s1qi6d99rxlGrnfHjgHOw7X5vl0kdux5GTCPtj
-         MRRUqEwUfXQye6nzLrLNn+qrOmUnTAxVQxd1eGVKj3D9uFy3DyhY/KJPz+ky0dmfeisv
-         +SUxazJqbwq8+zgSKOw+FDqQzq5EQ/oDYJGGYcQx6AjepCBebra0u6dPDM8KZfP203sz
-         O3CS6QM2uCGU0UgKN4qBDmv0V4j6WwffEOeEhj8+T2H+8XkDs9aLT6tvFtQVZMUulOQ1
-         atZQ==
-X-Forwarded-Encrypted: i=1; AKwUvBzN5tl+MPyJP9J4xvPki1emf3kaYbfngosSCKfyKvYo8BDqeNGZKNJ+fS4Qt9bI5YzswNV16Cu4VisCUHNIr2lcig==@lists.openembedded.org
-X-Gm-Message-State: AFuF++nwOzRNLCy2M4nBBcGFI+LjhHHP1XZt03kh7yE3xT5gLEG2CzyY
-	fCO2IYcm6V7PRYEvCflqtWvichUCVjmd/wYMqgsznv0h4oNYR5laGlL3
-X-Gm-Gg: AYBFou3q9K+wct7ZTgLBhe4qMeH6aUsL182Os/AeGc9Wfyhc3NGEJ0VkwSEgm7vNBoI
-	KqyamfsmPWATDrI8nWLtLREpM8Z8L3po0L7hs8TsUT2YbdwrUkCVdFyck22Fsm5GXrvqetxSjAM
-	PNg8QVb4eWBEqWVeVrEFCsN95At6HUHUbF6KyZ5sZgmfnYTnd5pqh45a2xSR4jfDojDfarEAaoR
-	SMztzL1/8n91eDSv/dT2RAhOvz9jFGIUzLPhYv6YHavHdu8zivlkfR69/cFhaJATrzaj2eFJLoo
-	i20LhaMRttD51MMZAIw683enGT2N5nCx9YzQX/+f4kzq9da3jKRvLEZpiMwN3KN6R3kDQX/KZcB
-	UaovbpWihQGGZMTOrqzbEk3yzKtx4COl5pxrjcqUrDtlUAsNJJbOxkX48TvpIieiLki1fph2U9h
-	KDkdQYjHqpw4vey362BPnc3OzPKJ1TdIjBY1BGM0+xw02Y5XHVHV6qE8sBPUdJFhybBkLpb/fiY
-	/VCKNg0/u0=
-X-Received: by 2002:a17:903:fa4:b0:2db:210f:c111 with SMTP id d9443c01a7336-2dd2a1c4529mr84464195ad.2.1789132414804;
-        Fri, 11 Sep 2026 06:13:34 -0700 (PDT)
-Received: from osman.mioffice.cn ([43.224.245.178])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2dd2cfda68esm11232165ad.64.2026.09.11.06.13.31
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=vy+BiNE/fHvvfLNFW0nWPgFj7MUzpwsFGA/rjhiDMss=;
+        b=QxfnkB5C4t0dhSQxvKV4yWealfgmuaPlNFaAB3e/oBlPgfetuUMtVAMj7orHSLKgZl
+         ZBoDmG3ROFOuB4mg7Nl45FM8N8U+5mLwhISMO7RxsTKkkRxe18jPFbQ4Q8fFOIrK+6EK
+         uHAiUvoF2N7u/vHPlc4h37h76+L5vzhTOTdaFghb2JPHo9uFXuwwX7/I4hDPJ+SF6Gws
+         +MVODFcjwFAQaPwwaAF0fASD2cjGlioYmZ+4fEspJzUHkPoPwxixWBYZpkbdBs2o+5Wa
+         IGsy9hTeuy9ZoiUcBQpzOtbh14V0CXZXlYa9zsW/AGT7LcswkQqFXI0vmUDemzdU5CXj
+         hgSA==
+X-Gm-Message-State: AFuF++meJDmYz6Oc6NXfdrGn1EcSYiEcJjYGVJxuTO8umsHzF2k6c8it
+	kN+gDFKeWJpWRTly+9x+wyepAf+30pFSFhjcxDXpq2rEHltTXryJ46R6Ng7p3Zb+ENOAd8dMCzB
+	k8BX051I=
+X-Gm-Gg: AYBFou02f/ZciBhwRAAjE0aqEky5zRu7338PdFpPwWpyEUjsXEjjR/eEKJF31QwnBe+
+	hi5Aa+cGWdGRybsx2/2iAtDhigATKikEp8YZrSnH08XnzDxJsr4kZam1y/Mo1gVp7o7LrSgpeLS
+	/c0JIIfCGPmHva0YaiiZD/G6wwo0kJ/QqWF8gk03nV7SXrKn8I54eOhkbbixetPzJnbXDmjQUIM
+	rK+OhALA0FVLRpy5Dq2zw/hq6SrL0u7IL/2IwE4TnG9YLgTH5jedMDRYiVvfyNcCDhPKONTiIwC
+	5q0NOM6DbBJWRo75aRezcSzXopYqkjnDXN37vjegoGZGbrOtWiuF1f2ismN06W2D98x76vqHHdv
+	riJEr8CO+6ePc+x13+YjPcj0WSpJJtLrVCB9byER840fDnKemimqJ4g2hyGEZ8VypRpdimnYpS3
+	QuYH7BnXbS38qIkthakc9lFoWDjpRl8Jh/QyyVk9cOpI3q2clMV/FrPp7y9hlr6C7IWuG5OnSBb
+	H+5qji2c3GCmxHt6h31DZ8DsRU7
+X-Received: by 2002:a05:600c:3d8b:b0:49d:1cc7:5ec3 with SMTP id 5b1f17b1804b1-49e619e81bfmr106989545e9.9.1789136030734;
+        Fri, 11 Sep 2026 07:13:50 -0700 (PDT)
+Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:c0d0:78c1:8753:128b])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c2985dsm267851205e9.6.2026.09.11.07.13.49
+        for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 06:13:33 -0700 (PDT)
-From: Zhan Xusheng <zhanxusheng1024@gmail.com>
-X-Google-Original-From: Zhan Xusheng <zhanxusheng@xiaomi.com>
-To: Michael Haener <michael.haener@siemens.com>
-Cc: Zhan Xusheng <zhanxusheng@xiaomi.com>,
-	openembedded-core@lists.openembedded.org,
-	Adrian Freihofer <adrian.freihofer@siemens.com>,
-	Peter Marko <peter.marko@siemens.com>
-Subject: Re: [PATCH v3] sstate: fix access to a cached object rewriting its modification time
-Date: Fri, 11 Sep 2026 21:13:24 +0800
-Message-ID: <20260911131325.3262532-1-zhanxusheng@xiaomi.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260911070121.39436-1-michael.haener@siemens.com>
-References: <20260910211821.48424-1-michael.haener@siemens.com> <20260911070121.39436-1-michael.haener@siemens.com>
+        Fri, 11 Sep 2026 07:13:50 -0700 (PDT)
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 2/2] ffmpeg: Fix makefile directory creation race
+Date: Fri, 11 Sep 2026 15:13:47 +0100
+Message-ID: <20260911141348.3434533-2-richard.purdie@linuxfoundation.org>
+X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260911141348.3434533-1-richard.purdie@linuxfoundation.org>
+References: <20260911141348.3434533-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 13:50:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245650
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 14:13:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245652
 
-On Fri, Sep 11, 2026 at 09:01:21AM +0200, Michael Haener wrote:
-> +        os.utime(path, ns=(time.time_ns(), stat_info.st_mtime_ns))
+The recent upgrade exposed another make race in ffmpeg. Add a patch which
+resolves it, submitted upstream (pending moderator approval).
 
-0 ns difference here.  ENOENT still comes out of the helper, from
-os.stat() now instead of os.utime().
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+---
+ .../ffmpeg/ffmpeg/makerace.patch              | 29 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_9.0.1.bb |  1 +
+ 2 files changed, 30 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/makerace.patch
 
-Reviewed-by: Zhan Xusheng <zhanxusheng@xiaomi.com>
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/makerace.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/makerace.patch
+new file mode 100644
+index 00000000000..c2f87b25fb5
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/makerace.patch
+@@ -0,0 +1,29 @@
++An easy to reproduce make race:
++
++$ make libswscale/x86/uops_macros.gen.asm
++HOSTCC	libswscale/x86/uops_macros.gen.asm
++cc1: fatal error: opening output file libswscale/x86/uops_macros.gen.asm: No such file or directory
++
++It needs the missing directory creation dependency adding.
++
++Upstream-Status: Submitted [Sent to https://lists.ffmpeg.org/archives/list/ffmpeg-devel@ffmpeg.org/ 2026/9/11]
++Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
++ 
++Index: ffmpeg-9.0.1/libswscale/x86/Makefile
++===================================================================
++--- ffmpeg-9.0.1.orig/libswscale/x86/Makefile
+++++ ffmpeg-9.0.1/libswscale/x86/Makefile
++@@ -1,3 +1,5 @@
+++OUTDIRS += $(SUBDIR)x86
+++
++ OBJS                            += x86/rgb2rgb.o                        \
++                                    x86/swscale.o                        \
++                                    x86/yuv2rgb.o                        \
++@@ -31,6 +33,6 @@ $(SUBDIR)x86/ops_common.o: $(SUBDIR)x86/
++ $(SUBDIR)x86/ops_int.o: $(SUBDIR)x86/uops_macros.gen.asm
++ $(SUBDIR)x86/ops_float.o: $(SUBDIR)x86/uops_macros.gen.asm
++ $(SUBDIR)x86/uops_macros.gen.asm: $(SRC_PATH)/libswscale/x86/uops_macros.asm.h \
++-                                  $(SRC_PATH)/libswscale/uops_macros.h
+++                                  $(SRC_PATH)/libswscale/uops_macros.h | $(SUBDIR)x86
++ 	$(HOSTCC) $(HOSTCC_E) $(CPPFLAGS) $<
++ endif
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_9.0.1.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_9.0.1.bb
+index a954234e7f1..07eff2a4e5e 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_9.0.1.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_9.0.1.bb
+@@ -24,6 +24,7 @@ LIC_FILES_CHKSUM = "file://COPYING.GPLv2;md5=b234ee4d69f5fce4486a80fdaf4a4263 \
+ 
+ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://0002-ffbuild-common.mak-ensure-target-directories-are-cre.patch \
++           file://makerace.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "cf38e0e28c7e5605942c4a77755349b0145804a397af37eb1fb4c77cb237f635"
 
