@@ -1,287 +1,93 @@
-Return-Path: <vpuar@qti.qualcomm.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7E01C88E4A
-	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 11:27:17 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.37422.1789126029727888448
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AEB7BC88E4C
+	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 11:27:27 +0000 (UTC)
+Received: from mailout03.t-online.de (mailout03.t-online.de [194.25.134.81])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.37143.1789126042305176524
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2026 04:27:09 -0700
+ Fri, 11 Sep 2026 04:27:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=cVpeyar2;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: vpuar@qti.qualcomm.com)
-Received: from pps.filterd (m0279862.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68BAq8ol3433472
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 11:27:09 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=tf1IqtbdhRBqr25yMZlTnP
-	4M9LFIKX3S2kXcZy7x4AI=; b=cVpeyar2EsHH29uL2iJx+Cy2j1KD0K5rDlez+Z
-	vKKTf53TMUopxeKjGQB7G+zIPq7M1khR45oAhKRpsHdZzaqodWUy0jzlY/SP5rW3
-	/JqB83Z7XMOk0I1DXtoVpIsC2jA4n7AqQimWagb/X/nSS8+CDTX1rfXZO7R4LOxs
-	qQycS8LlJ7645WADEKkZzgGd6yku4WA0SeyAmun9OFdPt/uGJSIDFxDZUfc++y2S
-	K6wLUblIxRp8KnNA3vW48ZDzkC9BZJrd3Gsq2VnaSiyYdcn3Kl1yOfO+5v3Q8GsD
-	CDUwo7G7N6ECTcdNyEljw7zh3aaLhT18MY4b53nVNsatFszA==
-Received: from nasanppmta05.qualcomm.com (i-global254.qualcomm.com [199.106.103.254])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gmfbbge39-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 11:27:09 +0000 (GMT)
-Received: from nasanex01a.na.qualcomm.com (nasanex01a.na.qualcomm.com [10.52.223.231])
-	by NASANPPMTA05.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTPS id 68BBR8Xj1589164
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 11:27:08 GMT
-Received: from hyd-e160-a01-2-03.qualcomm.com (10.80.80.8) by
- nasanex01a.na.qualcomm.com (10.52.223.231) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Fri, 11 Sep 2026 04:27:07 -0700
-From: Vivek Puar <vpuar@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <vpuar@qti.qualcomm.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v2] linux-firmware: upgrade 20260810 -> 20260910
-Date: Fri, 11 Sep 2026 16:56:50 +0530
-Message-ID: <20260911112650.1374309-1-vpuar@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=fail reason="dkim: body hash did not verify" header.i=f_l_k@t-online.de header.s=20260216 header.b=s+EWF3XM;
+ spf=pass (domain: t-online.de, ip: 194.25.134.81, mailfrom: f_l_k@t-online.de)
+Received: from fwd83.aul.t-online.de (fwd83.aul.t-online.de [10.223.144.109])
+	by mailout03.t-online.de (Postfix) with SMTP id DB775E295
+	for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 13:27:19 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([79.219.228.20]) by fwd83.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1x4zPZ-3o6gaG0; Fri, 11 Sep 2026 13:27:17 +0200
+From: Markus Volk <f_l_k@t-online.de>
+To: openembedded-core@lists.openembedded.org
+Subject: [oe-core][PATCH] cargo_common: map the cargo vendoring directory for the C compiler
+Date: Fri, 11 Sep 2026 13:27:08 +0200
+Message-ID: <20260911112708.719078-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01a.na.qualcomm.com (10.52.223.231) To
- nasanex01a.na.qualcomm.com (10.52.223.231)
-X-QCInternal: smtphost
-X-Proofpoint-GUID: Jd3XuUjq1mxFJ6u4mY8Ol77Eq9OkhNfC
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTExMDE2MSBTYWx0ZWRfXy1ou35qnEYNZ
- kwCtPou463XAdMDU5lkL/gyw5gaPztQIUDgLUJKBk++wVNyiZ3emoRSU5IR3RiEE03mtorDBLeB
- 9nZCc55k18FzNONIC1V+JUXfB0a16RHNhApAqZzCJlvQhASVFxefZYaQpGQaxtqsfhskRJQF27n
- cVxXlsYV8t3ihO6uC8odRSaIIRq6e4qGfHqxExJD3YaZVkB1xs0rq1yfyscF96mDczuX35xepyw
- /Nm0nd2kLckHKiapqatyzaz4lXIaOdYqe15ZUYafxSur40YW1mAXF+1zUqaqnsdwMeFKIrejTxW
- DbTMZKnssE6YtJC6hznvaGm/RAh/v//Xa++r5kaVUlWLK9LK4wiWUWO2/eW8fkDF+v7yK8e0fnD
- kfrKcheoBUSl+25ogTbWMdVhJ9vMEd8BeVan0Xb8GO2EPFEe1NelcqSrr9qI+Z6kJYF9yVnPXFP
- anbqDuEL6KGeDk/iWRg==
-X-Authority-Analysis: v=2.4 cv=X6jHu2Te c=1 sm=1 tr=0 ts=6aa3e58d cx=c_pps
- a=JYp8KDb2vCoCEuGobkYCKw==:117 a=JYp8KDb2vCoCEuGobkYCKw==:17
- a=GEpy-HfZoHoA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=_K5XuSEh1TEqbUxoQ0s3:22 a=EUspDBNiAAAA:8
- a=VwQbUJbxAAAA:8 a=jpfudPgQk0bfl78LqagA:9
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTExMDE2MSBTYWx0ZWRfX0VcJYnjIvxZW
- HqOp/3XTa8EE8MUnotcAyeAO4D14iJ26Y2lDsA4mz9UvKAuiRuKQTVxzb5TRC2JRxcCtMa35EHu
- z/qIyUfrlYAv7GvEBxOZBKVqhxqwuLc=
-X-Proofpoint-ORIG-GUID: Jd3XuUjq1mxFJ6u4mY8Ol77Eq9OkhNfC
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-11_04,2026-09-09_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 adultscore=0 malwarescore=0 clxscore=1015
- suspectscore=0 priorityscore=1501 bulkscore=0 lowpriorityscore=0 phishscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609110161
+X-TOI-EXPURGATEID: 150726::1789126037-33FFC839-5E71626A/0/0 CLEAN NORMAL
+X-TOI-MSGID: 42a20d15-8522-4ba3-931e-df5941048852
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-online.de;
+	s=20260216; t=1789126039; i=f_l_k@t-online.de;
+	bh=ZwyLXUSfNfHACA0EXQF+Gpsxsiz08z7SRzT6Q4wzqBQ=;
+	h=From:To:Subject:Date;
+	b=s+EWF3XMM92PPMk6Jnhm4HltiQWUuSOdx62b2Yw8sOsKzNvFkseVOD6/d22vYoqAa
+	 TLcpvRaHMHXpFzG8TXZTp96u/iIOX9hzAy2EWdAuZZs8MAnJLQ4Q1Yl/Qw3RNgqhKT
+	 ziWlRJ3zP577cfipyDhIQeBBrwYMXT4hBU1iv1UMjzAFz0mGfgYbDrghxotCjEZ8FW
+	 9G7748QY4tXzW70B6KkHwgdBSZEmzk95Xq+6d2hguLozb6kKfrXFSe3DXeebMYMDsG
+	 AyexU0sasPvbRY1eCXdSTjU+ZqImrEB8zr8yI/puLo/5T+gZtS00oIft22g/kWWOQa
+	 WLdZ9c0ads9+g==
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 11:27:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245636
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 11:27:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245637
 
-Upgrade the firmware package to latest release. Add firmware
-for tas2573 stereo, add Bluetooth firmware for WCN7850, add CS42L45
-SDCA codec firmware for Samsung laptops. Add audio, compute and qupv3
-firmware for Qualcomm Nord Platform, add compute firmware for Qualcomm
-Eliza Platform. Add ADSP firmware for Radxa Dragon Q8B and add GPU
-firmware for SHIFT6mq. Add 'primer' files to cirrus CS42L45 as they
-are common to all SKUs.
+Crates that ship C or assembly sources, ring being a prominent one,
+compile them through the cc crate rather than rustc. RUST_DEBUG_REMAP
+only passes --remap-path-prefix to rustc, and DEBUG_PREFIX_MAP covers
+S, B and the sysroots, so nothing rewrites the paths below CARGO_HOME.
+The build directory of every vendored crate therefore ends up in the
+debug symbols, which trips the buildpaths QA check and leaves recipes
+working around it by dropping their -dbg package.
 
-Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+Add the vendoring directory to DEBUG_PREFIX_MAP so those objects are
+remapped like the rest.
+
+Tested on corei7-64 with yazi and eilmeldung, both of which had dropped
+their -dbg package for this reason: after the change they package the
+debug symbols with no reference to the build tree left.
+
+AI-Generated: Uses Claude Code (Claude Opus 5)
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- ...20260810.bb => linux-firmware_20260910.bb} | 36 ++++++++++++++++---
- 1 file changed, 32 insertions(+), 4 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260810.bb => linux-firmware_20260910.bb} (98%)
+ meta/classes-recipe/cargo_common.bbclass | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260810.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
-similarity index 98%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20260810.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
-index 2a0d3980b7..2f61bb3d21 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260810.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
-@@ -277,7 +277,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/LICENCE.Abilis;md5=b5ee3f410780e56711ad48ead
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "de47d58e10797eae2ccc753ab8d69bd7"
-+WHENCE_CHKSUM  = "fe7960bbe2eb0922168c3434c8d125d0"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -416,7 +416,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "ac17c34fe73756926a961fbafadf8d8f07a3bd2dd2f4ea31a0fb5d50c714a49a"
-+SRC_URI[sha256sum] = "f3937ca282ba256242e2b6dbe523df8a80007d29ffd61f56d270190865492ea8"
- 
- inherit allarch
- 
-@@ -693,11 +693,12 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-adreno-g800 ${PN}-qcom-adreno-g801 ${PN}-qcom-adreno-g802 \
-              ${PN}-qcom-apq8016-modem ${PN}-qcom-apq8016-wifi \
-              ${PN}-qcom-apq8096-adreno ${PN}-qcom-apq8096-audio ${PN}-qcom-apq8096-modem \
--             ${PN}-qcom-eliza-adreno \
-+             ${PN}-qcom-eliza-adreno ${PN}-qcom-eliza-compute \
-              ${PN}-qcom-glymur-adreno ${PN}-qcom-glymur-audio ${PN}-qcom-glymur-compute \
-              ${PN}-qcom-hawi-audio \
-              ${PN}-qcom-kaanapali-adreno ${PN}-qcom-kaanapali-audio \
-              ${PN}-qcom-kaanapali-compute ${PN}-qcom-kaanapali-soccp \
-+             ${PN}-qcom-nord-audio ${PN}-qcom-nord-compute ${PN}-qcom-nord-qupv3fw \
-              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
-              ${PN}-qcom-qcm6490-adreno ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute \
-              ${PN}-qcom-qcm6490-ipa ${PN}-qcom-qcm6490-wifi ${PN}-qcom-qcm6490-qupv3fw \
-@@ -717,8 +718,9 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-compute \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-sensors \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-vpu \
-+             ${PN}-qcom-sc8280xp-radxa-dragon-q8b-audio \
-              ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
--             ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
-+             ${PN}-qcom-sdm845-shift6mq-adreno ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
-              ${PN}-qcom-sdx35-foxconn-firehose ${PN}-qcom-sdx61-foxconn-firehose \
-              ${PN}-qcom-shikra-adreno ${PN}-qcom-shikra-compute ${PN}-qcom-shikra-audio \
-              ${PN}-qcom-shikra-modem ${PN}-qcom-shikra-qupv3fw \
-@@ -1039,8 +1041,11 @@ FILES:${PN}-qca-qca6698 = " \
-   ${firmwaredir}/qca/QCA6698/hpnv21.bin* \
- "
- FILES:${PN}-qca-qcc2072 = " \
-+  ${firmwaredir}/qca/ornbcscal10.bin* \
-   ${firmwaredir}/qca/ornbcscal11.bin* \
-+  ${firmwaredir}/qca/ornbtfw10.tlv* \
-   ${firmwaredir}/qca/ornbtfw11.tlv* \
-+  ${firmwaredir}/qca/ornnv10.bin* \
-   ${firmwaredir}/qca/ornnv11.bin* \
- "
- FILES:${PN}-qca-wcn3950 = " \
-@@ -1082,6 +1087,8 @@ FILES:${PN}-qca-wcn7850 = " \
-   ${firmwaredir}/qca/hmtbtfw20.tlv* \
-   ${firmwaredir}/qca/hmtnv20.b10f* \
-   ${firmwaredir}/qca/hmtnv20.b112* \
-+  ${firmwaredir}/qca/hmtnv20.b201* \
-+  ${firmwaredir}/qca/hmtnv20.b202* \
-   ${firmwaredir}/qca/hmtnv20.bin* \
- "
- ALLOW_EMPTY:${PN}-qca = "1"
-@@ -1833,6 +1840,7 @@ FILES:${PN}-ti-tas257x = "\
-     ${firmwaredir}/tas2572-2-1amp-reg.bin* \
-     ${firmwaredir}/tas2572-3amp-reg.bin* \
-     ${firmwaredir}/tas2572-3-1amp-reg.bin* \
-+    ${firmwaredir}/tas2573-2amp-reg.bin* \
-     ${firmwaredir}/ti/audio/tas257x/* \
- "
- RDEPENDS:${PN}-ti-tas257x = "${PN}-ti-tspa-license"
-@@ -2120,7 +2128,9 @@ FILES:${PN}-cirrus = " \
-     ${firmwaredir}/cirrus/* \
- "
- FILES:${PN}-cirrus-cs42l45 = " \
-+    ${firmwaredir}/sdca/1fa/cs42l45_primer*.bin* \
-     ${firmwaredir}/sdca/1fa/1028/* \
-+    ${firmwaredir}/sdca/1fa/144d/* \
-     ${firmwaredir}/sdca/1fa/17aa/* \
- "
- FILES:${PN}-cirrus-license = "${firmwaredir}/LICENSE.cirrus"
-@@ -2384,6 +2394,7 @@ LICENSE:${PN}-qcom-apq8096-audio = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-apq8096-modem = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-eliza-adreno = "LicenseRef-Firmware-qcom"
-+LICENSE:${PN}-qcom-eliza-compute = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-glymur-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-glymur-audio = "LicenseRef-Firmware-qcom-2 AND LicenseRef-Firmware-linaro"
- LICENSE:${PN}-qcom-glymur-compute = "LicenseRef-Firmware-qcom-2"
-@@ -2392,6 +2403,9 @@ LICENSE:${PN}-qcom-kaanapali-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-kaanapali-audio = "LicenseRef-Firmware-qcom-2 AND LicenseRef-Firmware-linaro"
- LICENSE:${PN}-qcom-kaanapali-compute = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-kaanapali-soccp = "LicenseRef-Firmware-qcom-2"
-+LICENSE:${PN}-qcom-nord-audio = "LicenseRef-Firmware-qcom-2"
-+LICENSE:${PN}-qcom-nord-compute = "LicenseRef-Firmware-qcom-2"
-+LICENSE:${PN}-qcom-nord-qupv3fw = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-qcm2290-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-qcm2290-audio = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-qcm2290-modem = "LicenseRef-Firmware-qcom"
-@@ -2429,10 +2443,12 @@ LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "LicenseRef-Firmware-qcom"
-+LICENSE:${PN}-qcom-sc8280xp-radxa-dragon-q8b-audio = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-audio = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-compute = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-modem = "LicenseRef-Firmware-qcom"
-+LICENSE:${PN}-qcom-sdm845-shift6mq-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdx35-foxconn-firehose = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdx61-foxconn-firehose = "LicenseRef-Firmware-qcom"
-@@ -2523,6 +2539,7 @@ FILES:${PN}-qcom-apq8096-adreno = "${firmwaredir}/qcom/apq8096/a530_zap.mbn* ${f
- FILES:${PN}-qcom-apq8096-audio = "${firmwaredir}/qcom/apq8096/adsp*.*"
- FILES:${PN}-qcom-apq8096-modem = "${firmwaredir}/qcom/apq8096/mba.mbn* ${firmwaredir}/qcom/apq8096/modem*.* ${firmwaredir}/qcom/apq8096/wlanmdsp.mbn*"
- FILES:${PN}-qcom-eliza-adreno = "${firmwaredir}/qcom/eliza/gen71700_zap.mbn*"
-+FILES:${PN}-qcom-eliza-compute = "${firmwaredir}/qcom/eliza/cdsp*.*"
- FILES:${PN}-qcom-glymur-adreno = "${firmwaredir}/qcom/glymur/gen80100_zap.mbn*"
- FILES:${PN}-qcom-glymur-audio = " \
-     ${firmwaredir}/qcom/glymur/adsp*.* \
-@@ -2537,6 +2554,9 @@ FILES:${PN}-qcom-kaanapali-audio = " \
- "
- FILES:${PN}-qcom-kaanapali-compute = "${firmwaredir}/qcom/kaanapali/cdsp*.*"
- FILES:${PN}-qcom-kaanapali-soccp = "${firmwaredir}/qcom/kaanapali/soccp*.*"
-+FILES:${PN}-qcom-nord-audio = "${firmwaredir}/qcom/nord/adsp*.*"
-+FILES:${PN}-qcom-nord-compute = "${firmwaredir}/qcom/nord/cdsp*.*"
-+FILES:${PN}-qcom-nord-qupv3fw = "${firmwaredir}/qcom/nord/qupv3fw.elf*"
- FILES:${PN}-qcom-qcm2290-adreno = "${firmwaredir}/qcom/qcm2290/a702_zap.mbn*"
- FILES:${PN}-qcom-qcm2290-audio = "${firmwaredir}/qcom/qcm2290/adsp*.*"
- FILES:${PN}-qcom-qcm2290-modem = "${firmwaredir}/qcom/qcm2290/modem*.*"
-@@ -2599,11 +2619,13 @@ FILES:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${firmwaredir}/qcom/sc8280xp/LEN
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${firmwaredir}/qcom/sc8280xp/LENOVO/21BX/*cdsp*.*"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${firmwaredir}/qcom/sc8280xp/LENOVO/21BX/*slpi*.*"
- FILES:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "${firmwaredir}/qcom/sc8280xp/LENOVO/21BX/qcvss8280.mbn*"
-+FILES:${PN}-qcom-sc8280xp-radxa-dragon-q8b-audio = "${firmwaredir}/qcom/sc8280xp/radxa/dragon-q8b/qcadsp8280.mbn*"
- FILES:${PN}-qcom-sdm845-adreno = "${firmwaredir}/qcom/sdm845/a630*.*"
- FILES:${PN}-qcom-sdm845-audio = "${firmwaredir}/qcom/sdm845/adsp*.*"
- FILES:${PN}-qcom-sdm845-compute = "${firmwaredir}/qcom/sdm845/cdsp*.*"
- FILES:${PN}-qcom-sdm845-modem = "${firmwaredir}/qcom/sdm845/mba.mbn* ${firmwaredir}/qcom/sdm845/modem*.* ${firmwaredir}/qcom/sdm845/wlanmdsp.mbn* ${firmwaredir}/qcom/sdm845/notice.txt_wlanmdsp* \
-                                  ${firmwaredir}/ath10k/WCN3990/hw1.0/wlanmdsp.mbn* ${firmwaredir}/ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp"
-+FILES::${PN}-qcom-sdm845-shift6mq-adreno = "${firmwaredir}/qcom/sdm845/SHIFT/axolotl/a630_zap.mbn*"
- FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${firmwaredir}/qcom/sdm845/Thundercomm/db845c/slpi*.*"
- FILES:${PN}-qcom-sdx35-foxconn-firehose = "${firmwaredir}/qcom/sdx35/foxconn/xbl_s_devprg_ns.melf*"
- FILES:${PN}-qcom-sdx61-foxconn-firehose = "${firmwaredir}/qcom/sdx61/foxconn/prog_firehose_lite.elf*"
-@@ -2721,6 +2743,7 @@ RDEPENDS:${PN}-qcom-apq8096-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-apq8096-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-apq8096-modem = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-eliza-adreno = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-eliza-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-glymur-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-glymur-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-glymur-compute = "${PN}-qcom-2-license"
-@@ -2729,6 +2752,9 @@ RDEPENDS:${PN}-qcom-kaanapali-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-kaanapali-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-kaanapali-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-kaanapali-soccp = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-nord-audio = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-nord-compute = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-nord-qupv3fw = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcm2290-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcm2290-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-qcm2290-modem = "${PN}-qcom-license"
-@@ -2772,10 +2798,12 @@ RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-compute = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-sensors = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sc8280xp-lenovo-x13s-vpu = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-sc8280xp-radxa-dragon-q8b-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-sdm845-shift6mq-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdx35-foxconn-firehose = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdx61-foxconn-firehose = "${PN}-qcom-license"
--- 
-2.34.1
+diff --git a/meta/classes-recipe/cargo_common.bbclass b/meta/classes-reci=
+pe/cargo_common.bbclass
+index 2e1df9d9d3..37ae729ea6 100644
+--- a/meta/classes-recipe/cargo_common.bbclass
++++ b/meta/classes-recipe/cargo_common.bbclass
+@@ -51,6 +51,11 @@ CARGO_TARGET_SUBDIR =3D "${RUST_HOST_SYS}/${BUILD_DIR}=
+"
+ # Where we download our registry and dependencies to
+ export CARGO_HOME =3D "${UNPACKDIR}/cargo_home"
+=20
++# Crates that compile C or assembly sources do so through the cc crate, =
+which
++# is not covered by the rustc specific RUST_DEBUG_REMAP, so map the vend=
+oring
++# directory for the C compiler as well.
++DEBUG_PREFIX_MAP +=3D "-ffile-prefix-map=3D${CARGO_HOME}=3D${TARGET_DBGS=
+RC_DIR}"
++
+ # Don't instruct cargo to use crates downloaded by bitbake. Some rust pa=
+ckages,
+ # for example the rust compiler itself, come with their own vendored sou=
+rces.
+ # Specifying two [source.crates-io] will not work.
+--=20
+2.55.0
 
 
