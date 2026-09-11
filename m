@@ -1,151 +1,90 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56E20C88E45
-	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 14:29:56 +0000 (UTC)
-Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.40833.1789136995537923377
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 350F1C88E50
+	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 14:48:07 +0000 (UTC)
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.41230.1789138083856135134
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2026 07:29:55 -0700
+ Fri, 11 Sep 2026 07:48:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=x0z4AmKI;
- spf=pass (domain: smile.fr, ip: 209.85.221.53, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-47de0093c42so959978f8f.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 07:29:55 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1789136994; cv=none;
-        d=google.com; s=arc-20260327;
-        b=npG943XFpbPiM3LQeGGR8u0WL3zTRVxuJo8iW7qasz5VN6PqhDNxExniqEmxGmvh8T
-         2x24HvYLLS0YTNDEdQv+qFJCoo8dfpCTA4c0uVUGnQe9vn4Rx43pPpnm0ELCgaFzd4dT
-         XwrxOV/DMyUZKddVLPotx/gMdIeKoMAx6HZxwntC6qD6krNO91ZyfjMbMR91JEh4qIC0
-         6moZDqki7uUIVhxhckXO0IB6T8rduYTj3oH6tnUN/dIH0dUhUbnbHSHSHhWNYjXuzgKr
-         5UZGkMnupNu/klygRwM6nLMWoDm5oH/pynilKQufsr6v7LN3aX+20gM4a+Mvpzd5Krzt
-         Llig==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=eNWqjk2x3J/g77mIHnSG41oLZFIxyeAX8N8Rfi7L680=;
-        fh=2GiB8L8Ds2LL5OFLTByqVAPQa5/VoBBTxS6+WZX38Qg=;
-        b=jT3DFN/uRweKxT1xmKYjTo2/gEcQWp8w8ua+U7ZKYZhxXRu16ERT0RzpXIk0HOH1ud
-         DFO7drsnNTij+Dq8Qd0QC+44rgNS6FFRYOfHm1zzbcgiQ6j5K73mY6oqv3wl83TTY9j3
-         fPR9cavemDo084Vvp6P36vefqm4Cb1l+lMmGc5fDxHDif9gjuFvGBi0y/LkOSo81OwqH
-         XS4GDZrh92oNz4q7h2iayreUyWEMaiyjsAHGMIOmRM6UE2KxSpQPLW+0TJmsnNANcB1D
-         A7900LVYj3ySPi7ooXfGNffgiqv7shfpdSqb0bf+T6/M39i82IUQeuTOlExJr5Yxdo6Z
-         QOTQ==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Aw7WIKaI;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.228.140, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c29703cb796so82151766b.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 07:48:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789136994; x=1789741794; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eNWqjk2x3J/g77mIHnSG41oLZFIxyeAX8N8Rfi7L680=;
-        b=x0z4AmKI6+n1dL2D1hFi3SC0MLjidtV9QVPR/mZil49toh5gVbjs8BWIo/Tfvnd3uy
-         wC0r5VRvpcgRsq9CesoLVmOi5Ys0UENLtvRNXpiI95+8qDgI9/ERWu3eTWZ2XZ/5NHjo
-         eEINeQWargX3blPyll9a2ZaVggbBYU5BRB3SA=
+        d=linuxfoundation.org; s=google; t=1789138082; x=1789742882; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=5kKRsDzgsqlyja4PYYf+BCx/1uMCIWqA37EzEtfQG+8=;
+        b=Aw7WIKaIOrsnWBdqwsMLmFpKtMTohMGbUKUewSpDvw4SDRrNtajlLt2FXIxEKp5Ffi
+         Jm8/Cp8d5EcmfMrfkwLrPxEQlwKXowKe3Cgs0bz/ATmqv8XZDY6VnTgLM7NuwAAEBv9k
+         ufrWDpNvVU5sOA2TsPGj8LJmQeBYaGOmkWobk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789136994; x=1789741794;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=eNWqjk2x3J/g77mIHnSG41oLZFIxyeAX8N8Rfi7L680=;
-        b=TUvQH5UtCUHV2nY3yqz/8CYMW1Mc8sEXcWO64Jz/6LLVkanSN8eoosjNKD4lwFjOrE
-         x+2DeUnmgOFD6J/U1DMyHt1kKS3Mmj5sPHwAk3trQIuIW5njS2C67cbj0jAhTPARfZaQ
-         XStOnm5ZmobXkmlKyJzlysX1xrb1k1M2mEOL0x1aWUzA89EEFJrjF6ANMsWTlYQSMdgS
-         /lPhTdKzlGULBhhAevkaQYY8S9adQMrdJr8oLnQIJK4B8UMmrinHbYMRuzBuVhnJEMDZ
-         Z3tTdEGNmX8jJiVtagU/ou4eC98EZpk6eotPbhFXw7zYvWdK2Kax2A/4zzAf6pL94c5i
-         Aefg==
-X-Gm-Message-State: AFuF++lfj7KfWvnEZh+uUZVPE29AYWooUhhmAlRMrnKFgqrubxASwnr9
-	Mj1EMfHIU3NPrEqL9oezlT9rm1WaF1RuiLe5dnzeE02Ls0/8xs8iT3aaDI64bH/BDO98Tewh8Sk
-	oCdl0jawgGDnUO5+vrSbNz3fa8riPL4f+LhhGxpzmGoTP8WDYE/ww
-X-Gm-Gg: AYBFou0TzSMuIe9i0jsfC/CpVRR5I4hoCla6rSCC2gYfH6+UQCRCBBk3YY1pOqoDLGq
-	Eh5mVufnCOOKqdTziY7UTa5VzRQlRrcVb5nntDs9KyMBgeAPVqmYr2AIMOUEAavYQw74nUgOOkF
-	KOTvxEQBak4uGaqwNTOo9O344X+Lou4jD1lkpMLrbloCHt5gbilfDAqX4p4P2slATLSJ9Tqa/Qy
-	rxBJyxXOsF8wNMskBPqp1xBK77N1B0QgRZDUoqrm9NaPi2fawTWsz2W4yRQ66430p9ik7Jc63pS
-	080EF6slCMgPdhCpzLqOmwZ+FYkEm6UgDz9/jZrxyazo9hHwUdDNkNgXpdxVhU/deb9YIjczcqH
-	fcg==
-X-Received: by 2002:a05:6000:2005:b0:486:f4dc:7ffc with SMTP id
- ffacd0b85a97d-486f4dc80c9mr20146f8f.17.1789136993394; Fri, 11 Sep 2026
- 07:29:53 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789138082; x=1789742882;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5kKRsDzgsqlyja4PYYf+BCx/1uMCIWqA37EzEtfQG+8=;
+        b=tZ0RZRTqOpy8jFoT4EQK+wk2clLri/GB7tUgd8lWO+a1wDuGX9897Gh+4uIuMKtfbo
+         3sOk9GifhP9afM/lXj/KczIGkzP8xoAEjnGmE+OrqhnoUYxJAj2Lx+qWCU+KW5k0hJ25
+         hEG9gGEYuzZcGieIo0xDj+lj7tgnsb3HmDmishb0ZJoY4e661qLcHU4HfaslnWISDUeV
+         DH5yS2GgYYDz1T13TdpgUK5Jovl950mcRyF4HkzMOf7+XczSitZPFV8pio8GxPZutPG1
+         LNQL6P3vCUoF3Qf7dlRSEJf+nS3wURYfS1asUUGbn+PaHrfPCKIJ9BW+g1mnxn7K8ZPz
+         PQmg==
+X-Forwarded-Encrypted: i=1; AKwUvBw3NWzQ+MRbhecHawJa/0ueBRa+ERcJiMmzAPsGp3r6ypQ3XdKW/SxwJHZmOVY1LH4/UzeholivHirnSYdwTvFHbQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++kmo4jSQVUyLgmMqGivqPxwn3OSBQsivRoLyyeY11i69SRG7T7s
+	34VHYTp6HOndaw0HLk4kxPXhFzxPcpHZn9gshMGISzD4jDsKed+bjLI8QGOFK52WO1wFdSKz9I/
+	hgJsGGbU=
+X-Gm-Gg: AYBFou2fISi0PG5tGNILeIAP+ztLCNzYifd/piinKTgswFzjBefsL/wI0WRsvqZHhcJ
+	zKjppsXHJnYxlXvF7KU3yagRCMyDIgDPvfRDS2vq0cSV/LhB6cWo8jAJuwtbXee5Zu1X5S7ONQy
+	YjKDyBhzuZ1AT+KwofkzXlgv9LPK3Bm7ubfQUFa5NiYHyrTRKiqsqi90KCrSY1a+EVbCOTzNqqn
+	2E5CIpR99zGKX4o/ufLaxNeuhNrBl24s1etvTIIgqtEoo8zDIDRRmLSGWIw1SBGIgQhMCTtuKkD
+	XQbDaWSxcIRBySMHDCVUNcyAaqlcc8FRSEKV/DGT5KsyX+QGP1LIyVQc42rPGpbwSXtHAEXc69E
+	BYEw3TasbY50E2rno2wGWMQv0YlPeK0y/BaF7/1k9umiKz3QHUX6ykW9kamz+OTiOF2ggDmSIXK
+	Ox5oiMyHG7XOaXBSwq6qq/V/eJxOfN/dsAFKtOrT6NLWba32c1HvdK9fcN5DnxvPnYKJ/ixcEjo
+	468skkGu7H78aGdyF/wszJH+iUK0Ec0KpTUCAF96sBok62moXY64v9OU8EWQLpY
+X-Received: by 2002:a17:907:3cd4:b0:c26:1648:a062 with SMTP id a640c23a62f3a-c2966671768mr193550666b.29.1789137675724;
+        Fri, 11 Sep 2026 07:41:15 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:c0d0:78c1:8753:128b? ([2001:8b0:aba:5f3c:c0d0:78c1:8753:128b])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2966147b46sm85008766b.60.2026.09.11.07.41.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Sep 2026 07:41:14 -0700 (PDT)
+Message-ID: <57b22a197440f052d86c5199f694d008e811db2c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] clang/llvm: Upgrade to 23.1.1 release
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: SunilKumar.Dora@windriver.com, openembedded-core@lists.openembedded.org
+Cc: raj.khem@gmail.com, sundeep.kokkonda@windriver.com
+Date: Fri, 11 Sep 2026 15:41:14 +0100
+In-Reply-To: <20260911115237.1538030-1-sunilkumar.dora@windriver.com>
+References: <20260911115237.1538030-1-sunilkumar.dora@windriver.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-References: <20260910200329.842463-1-sdoshi@mvista.com> <DLCIC1493YTD.2KR894JSU7SKE@smile.fr>
- <308852.1789133041123096150@lists.openembedded.org>
-In-Reply-To: <308852.1789133041123096150@lists.openembedded.org>
-From: Yoann Congal <yoann.congal@smile.fr>
-Date: Fri, 11 Sep 2026 16:29:40 +0200
-X-Gm-Features: AcwNN1XeCwpZ6EWRHRB1nSHbCtjLf-yeaIxiIV51-owXTuUVPGdrHOL83X7FrCE
-Message-ID: <CAMSfU+7VRnqq7Tkjb1U0emGyND2vNEc6MEO5d4ObVyHDu7B-zg@mail.gmail.com>
-Subject: Re: [OE-core] [scarthgap][PATCH 1/6] libxml2: Security Fix for CVE-2026-86137
-To: Siddharth Doshi <sdoshi@mvista.com>
-Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="000000000000f237e5065b35ea32"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 14:29:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245656
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 14:48:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245657
 
---000000000000f237e5065b35ea32
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+On Fri, 2026-09-11 at 17:22 +0530, Dora, Sunil Kumar via lists.openembedded=
+.org wrote:
+> From: Sunil Dora <sunilkumar.dora@windriver.com>
+>=20
+> https://discourse.llvm.org/t/llvm-23-1-1-released/91760
+>=20
+> Drop 0035-libc-Disable-float16-on-32-bit-x86-without-SSE2.patch and
+> mark the musl ssp_nonshared driver patch as a backport: both fixes
+> are included in this release.
 
-Le ven. 11 sept. 2026, 15:24, Siddharth Doshi via lists.openembedded.org
-<sdoshi=3Dmvista.com@lists.openembedded.org> a =C3=A9crit :
+Sorry, I don't quite follow. Why are we marking it as a backport if it
+is included in the release?
 
-> Hello Yoann,
->
-> Richard sent a patch to master for libxml2--> libxml2: upgrade 2.15.3 ->
-> 2.15.4 which fixes these CVE's
-> (ref: https://lists.openembedded.org/g/openembedded-core/message/245203)
->
-> The same patch sent by Richard is applicable to wrynose too and
-> considering that i didn't send a patch to version upgrade libxml2 for
-> wrynose.
-> However, if you still feel i should send the same thing for wrynose, i
-> would do it.
->
-> Could you let me know i should proceed for it according to you ?
->
+Cheers,
 
-
-In general, I'd like a backport, please (it's way easier to track & manage)
-
-In this particular case, have you checked that the upgrade is ok for stable
-inclusion? I also seem to remember a recent libxml2 upgrade breaking
-systemd. Is it this one?
-
-Regards,
---=20
-Yoann Congal
-
---000000000000f237e5065b35ea32
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div dir=3D"auto"><div dir=3D"auto"><br></div><br><div class=3D"gmail_quote=
- gmail_quote_container" dir=3D"auto"><div dir=3D"ltr" class=3D"gmail_attr">=
-Le ven. 11 sept. 2026, 15:24, Siddharth Doshi via <a href=3D"http://lists.o=
-penembedded.org">lists.openembedded.org</a> &lt;sdoshi=3D<a href=3D"mailto:=
-mvista.com@lists.openembedded.org">mvista.com@lists.openembedded.org</a>&gt=
-; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=3D"m=
-argin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left=
-:1ex"><div>Hello Yoann,<br><br>Richard sent a patch to master for libxml2--=
-&gt; libxml2: upgrade 2.15.3 -&gt; 2.15.4 which fixes these CVE&#39;s<br>(r=
-ef: <a href=3D"https://lists.openembedded.org/g/openembedded-core/message/2=
-45203" rel=3D"noopener noreferrer" target=3D"_blank">https://lists.openembe=
-dded.org/g/openembedded-core/message/245203</a>)<br><br>The same patch sent=
- by Richard is applicable to wrynose too and considering that i didn&#39;t =
-send a patch to version upgrade libxml2 for wrynose.<br>However, if you sti=
-ll feel i should send the same thing for wrynose, i would do it.<br><br>Cou=
-ld you let me know i should proceed for it according to you ?<br></div></bl=
-ockquote></div><div dir=3D"auto"><br></div><div dir=3D"auto"><br></div><div=
- dir=3D"auto">In general, I&#39;d like a backport, please (it&#39;s way eas=
-ier to track &amp; manage)</div><div dir=3D"auto"><br></div><div dir=3D"aut=
-o">In this particular case, have you checked that the upgrade is ok for sta=
-ble inclusion? I also seem to remember a recent libxml2 upgrade breaking sy=
-stemd. Is it this one?</div><div dir=3D"auto"><br></div><div dir=3D"auto">R=
-egards,</div><div dir=3D"auto">--=C2=A0</div><div dir=3D"auto">Yoann Congal=
-</div></div>
-
---000000000000f237e5065b35ea32--
+Richard
 
