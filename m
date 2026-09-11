@@ -2,164 +2,156 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54988C88E50
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FC15C88E4D
 	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 22:15:48 +0000 (UTC)
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50968.1789164945469387799
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.50971.1789164946266791435
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2026 15:15:45 -0700
+ Fri, 11 Sep 2026 15:15:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ZJCKCs75;
+ dkim=pass header.i=@smile.fr header.s=google header.b=y+BtR1bx;
  spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d822dso470045e9.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 15:15:45 -0700 (PDT)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d097b4939so1471735e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 15:15:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789164943; x=1789769743; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=HBg2Gob3qAfOu19sELEQUyjLeE3yPkEZe12OaFxbaOo=;
-        b=ZJCKCs75MHRBnHMuXXAecLPZ24Se9snViMUpW3h9WU5igFggDGMW3JbDNc5pfLesqb
-         SjIy25Bpfei0q6rXfs3muTQk3Yv3w2GoLshwK2xwsTN8Q3BYpk4CIw5IVeys4jNGx9RQ
-         19yxUrhAUjSjZ+c3U/BzAOiz1jHppl6AYulbE=
+        d=smile.fr; s=google; t=1789164944; x=1789769744; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=yaopoIeE/hIwqJaTaQEE0BPVMa5mcd1EYCSb+HLhDNQ=;
+        b=y+BtR1bxcdNIjcO2r67p9hx7MKe8Csf2WNCPfahQNtGfwBLX5W7QeRuyQbHZIJcmzo
+         F0kTMjv9OCAociOwOAaCdbZOGmBoDGgHXk9kvTAPP7+h/cySHUekjMG+zxR8ihksrqb7
+         XLyW33C0FNJhC177UDz92meceJoqidBuf2rp8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789164943; x=1789769743;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=HBg2Gob3qAfOu19sELEQUyjLeE3yPkEZe12OaFxbaOo=;
-        b=XU2nYTMb0Myu9YN4yHWyILPLYs45+2bDfyTp1u9l4UxIWDOupqkle3UtBnlHeZvqWo
-         Hk0OP9uy65Fj8/5yBW4N5ZxqFcnLLi47NhZEloXo+xSp2TUHt25hPzuzZW/oKY/k4ckD
-         71m0IjLb2Vyzo/AD0XFv7WT0txfmkzvYWbM2jzjUp+y9GeFTW3HOlW52pFRQWqYDsMTb
-         oc0aRYTXlSh6Rjk8SFrq0/pEfWCIK8p1Sg5XqIi/d5NLu86q0UluBcPAVNDFzMaq1sot
-         hV+JEo5r7MTMcBn8gYpsRFOHijP33th/kqFy5ST6Y0Wt7P8Jv6xG21KTXvLGaGXJfR1C
-         jvOQ==
-X-Gm-Message-State: AFuF++kXPzR82WrZa/JqyPX3LLxsDl563KZnTSFtr3L/wbXTBgLE1mFT
-	MwKAafEKRP53Kz6vS4+qotpOKyOzpxDYGfiqzPvebgMqao8UMgNiUiGPynN7jZ99of25BmvnkgE
-	5Rk+a6pI=
-X-Gm-Gg: AYBFou395YL2SzM/Ky0ZzsuBNLEK2S29fABGNlFXMICznfBZJJhmYBLajAs4hxnTqdj
-	boxYJS0B2ejuAok6ej5ePm98XnbSveNf5bYY+y1PDnAzzI/Hn5qIH2xxRokD6QJJ+mAFK4/chzl
-	bgQKTKP71tYOxEWsuyLZZzjgUvKkMyWmDgTEc92BrrL2MJcjp1DTrIV0MF4+sL6RNK+2uF2ZrSq
-	nIurkKY2lCDbtvum4/uL8zbMMzxHBgwLW8p0lM2Zysdp0mbLIkrfoEJCIlHKVzLpyI2pdtvK/rA
-	x+sFMVliC+FImLFet8ToOqRCrJyHyUYW4grHB7Al0KpSoI1vTVgxMKm/Rw0Zel557XKEViG3/7G
-	KjVILJgNKkIZQQ1p+yI9bxvOw5ng8b8JzzquhayX9dI/RTCVj34kL+oJHXYiQKEF8qCvSP1HXN2
-	NNWw7uN51RwBoHFrxpbPyd5pX5iiYFHPdZxb85wbCECyAu6HqarSqhMtOjT9hhyn7kxSO7yD6Ij
-	RKayL3oG2niQimX3f/bWA8poHOE8c/+kMLuFpgvTqDfruGB4YB6UEVMN4h/lf5NGQS+U9JFCTE=
-X-Received: by 2002:a05:600c:3491:b0:49c:cee0:f383 with SMTP id 5b1f17b1804b1-49e6cbfc8c1mr1088455e9.16.1789164943278;
-        Fri, 11 Sep 2026 15:15:43 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789164944; x=1789769744;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=yaopoIeE/hIwqJaTaQEE0BPVMa5mcd1EYCSb+HLhDNQ=;
+        b=Nce9hATXVjX99t1mXlEG26Yuh9GkMgvMYPZ632nsrxkEvuSDHSr9AfGwRR9Sp6MfxO
+         +qDnUCKHbkKOO4XjkpK5qUBSDXyDB3TswbcG9CDv6twac/g+CP3/t50zYC8XaVmjdEv1
+         QmYz7RqkW8ph+veYFKxIcgcB4QSzo8wz3C7CG9TpO4eLmwtvpTNvzJUDMkbJamnpvQbY
+         Wsyfgk3E5TEoaag/uFthOcAov7K+sloiVXhI+I54pFcUWzrFbpB2xT+h/LdkyLlcZGG8
+         IhI7cazlKx2tqZjukJRSyKPHGMns9VI99KminvjrZLyXQHXeVcSZ2VpGyPrJmTECwCU6
+         yelg==
+X-Gm-Message-State: AFuF++mYfdCws1H4tYCa7tkWiRl+Z321fFlrI2Mktl9aUBAlzUSf+EK/
+	8CbNaRQg2yilfY9EG78GkJYZBxYivXz+iHVAPCjzVVG10sWkfMivTd967DRN5OXlSY6B40JjrPY
+	m9RX6OAg=
+X-Gm-Gg: AYBFou2OfBZJFLU8GHemFrii1CKFX9jHEzpiw7QQaMkydmGL4Dra9y8EA8nwfJ+Rvih
+	0ovye9tPF3Ogkt7vpm4vDKXhWLQsu1lL+7gG1fr1Lv4KsJ3BQqGGmgg++U9o2MZzbZlTdVWzNmb
+	CE49nUpx9enMEEFLR3FE5t1RVSz1HrFSCYNO6TMLG2dB+pzyAYJ16QzHlhzc4+S7VDO2apXliV+
+	A6DJS8Rp5T5NflCEfOU/2fEdYqWO4qqhJCc7yRhS2J5l2eFvTKCBIRYiU/vrzdRu4cp4FXaQD8u
+	geePLzydMKmqB1KOH5+7Z8VLCsaGIigBC0peTGtqbOl2lH0K0zd89TvS4RU2AVXPhUH0aBYyhEK
+	nwLDwI1uwyVDqgrHVtWBJ5yBStFKa6+lYvtoXUbGf/M2eoee+UbSWnHPG9Cvl5y9OOomNMIF1Vc
+	yu+nK3TYSHfheCvMebeu11jub7A9qFfJvVqOJNLcFfB3Fpe3KSSE05si8rCJClZwP0dUp9W2BPE
+	EVPZe5Rx4Fn72zzRSjGkqjG9iocSG3GN5zl0RAA3lzm7oRhRXhx0y4VJfXdAMT1U0mzBsmCB6IX
+	471j7xlDyA==
+X-Received: by 2002:a05:600d:8646:20b0:49d:1fd8:b874 with SMTP id 5b1f17b1804b1-49e619c079cmr51882855e9.19.1789164944545;
+        Fri, 11 Sep 2026 15:15:44 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6c566bdbsm8434045e9.11.2026.09.11.15.15.42
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e6c566bdbsm8434045e9.11.2026.09.11.15.15.44
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 15:15:42 -0700 (PDT)
+        Fri, 11 Sep 2026 15:15:44 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 00/13] Patch review
-Date: Sat, 12 Sep 2026 00:14:54 +0200
-Message-ID: <cover.1789163914.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 02/13] p11-kit: Fix CVE-2026-18938
+Date: Sat, 12 Sep 2026 00:14:56 +0200
+Message-ID: <65db9618c3e80ca3fb6d87bea1153de554144165.1789163914.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
+In-Reply-To: <cover.1789163914.git.yoann.congal@smile.fr>
+References: <cover.1789163914.git.yoann.congal@smile.fr>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 22:15:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245670
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245671
 
-Please review this set of changes for scarthgap and have comments back by
-end of day Tuesday, September 15.
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4718
-* oe-selftest-fedora fails with 16415 – AB-INT: github infrastructure issues
-  I still need to backport fixes from master to wrynose, and then,
-  scarthgap.
-* qemuarm64-ptest failed with 16267 – [scarthgap] AB-INT PTEST: python3 failure (test_wrong_cert_tls13)
-  retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/4516
-Note: this build was not rebased on the latest build-appliance update.
+Pick patch according to [2]
 
+[1] https://nvd.nist.gov/vuln/detail/cve-2026-18938
+[2] https://ubuntu.com/security/CVE-2026-18938
 
-The following changes since commit bb166ac536daa43602ce8962cd3eb137783b8dc9:
-
-  build-appliance-image: Update to scarthgap head revision (2026-09-11 14:32:15 +0100)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/scarthgap-nut
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/scarthgap-nut
-
-for you to fetch changes up to e85367ebf673225c69694ee63679ea7620c4b420:
-
-  u-boot, u-boot-tools: Fix CVE-2026-46728 (2026-09-11 17:32:37 +0200)
-
-----------------------------------------------------------------
-
-Daniel Turull (1):
-  libarchive: mark CVE-2026-14164 as fixed-version
-
-Darsh Kelaiya (1):
-  python3-lxml: fix CVE-2026-41066
-
-Deepak Rathore (2):
-  binutils: fix CVE-2026-3441 and CVE-2026-3442
-  binutils: fix CVE-2026-4647
-
-Devansh Patel (1):
-  u-boot: share CVE_PRODUCT with u-boot-tools
-
-Gyorgy Sarvari (1):
-  python3-py: set CVE_PRODUCT
-
-Hetvi Thakar (4):
-  python3-pip: Fix CVE-2026-8643
-  go: Fix CVE-2026-33814
-  go: Fix CVE-2026-39823
-  u-boot, u-boot-tools: Fix CVE-2026-46728
-
-Peter Marko (1):
-  openssl: upgrade 3.5.7 -> 3.5.8
-
-Vijay Anusuri (1):
-  p11-kit: Fix CVE-2026-18938
-
-Yoann Congal (1):
-  linux-yocto/6.6: update CVE exclusions (6.6.151)
-
- .../u-boot/files/CVE-2026-46728.patch         |  379 ++
- meta/recipes-bsp/u-boot/u-boot-common.inc     |    2 +
- .../u-boot/u-boot-tools_2024.01.bb            |    2 +
- meta/recipes-bsp/u-boot/u-boot.inc            |    2 -
- meta/recipes-bsp/u-boot/u-boot_2024.01.bb     |    1 +
- .../{openssl_3.5.7.bb => openssl_3.5.8.bb}    |    2 +-
- .../binutils/binutils-2.42.inc                |    2 +
- .../CVE-2026-3441_CVE-2026-3442.patch         |   51 +
- .../binutils/binutils/CVE-2026-4647.patch     |  228 +
- meta/recipes-devtools/go/go-1.22.12.inc       |    2 +
- .../go/go/CVE-2026-33814.patch                |   44 +
- .../go/go/CVE-2026-39823.patch                |  100 +
- .../python/python3-lxml/CVE-2026-41066.patch  |  262 +
- .../python/python3-lxml_5.0.2.bb              |    4 +-
- .../CVE-2026-8643-regression_p1.patch         |   34 +
- .../CVE-2026-8643-regression_p2.patch         |   69 +
- .../python/python3-pip/CVE-2026-8643.patch    |   79 +
- .../python/python3-pip_24.0.bb                |    3 +
- .../python/python3-py_1.11.0.bb               |    2 +
- .../libarchive/libarchive_3.7.9.bb            |    5 +
- .../linux/cve-exclusion_6.6.inc               | 4540 ++++++++++++++++-
- .../p11-kit/files/CVE-2026-18938.patch        |   52 +
- .../recipes-support/p11-kit/p11-kit_0.25.3.bb |    1 +
- 23 files changed, 5787 insertions(+), 79 deletions(-)
- create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2026-46728.patch
- rename meta/recipes-connectivity/openssl/{openssl_3.5.7.bb => openssl_3.5.8.bb} (99%)
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-3441_CVE-2026-3442.patch
- create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-4647.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-33814.patch
- create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39823.patch
- create mode 100644 meta/recipes-devtools/python/python3-lxml/CVE-2026-41066.patch
- create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-8643-regression_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-8643-regression_p2.patch
- create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-8643.patch
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+ .../p11-kit/files/CVE-2026-18938.patch        | 52 +++++++++++++++++++
+ .../recipes-support/p11-kit/p11-kit_0.25.3.bb |  1 +
+ 2 files changed, 53 insertions(+)
  create mode 100644 meta/recipes-support/p11-kit/files/CVE-2026-18938.patch
 
+diff --git a/meta/recipes-support/p11-kit/files/CVE-2026-18938.patch b/meta/recipes-support/p11-kit/files/CVE-2026-18938.patch
+new file mode 100644
+index 00000000000..9439a4da318
+--- /dev/null
++++ b/meta/recipes-support/p11-kit/files/CVE-2026-18938.patch
+@@ -0,0 +1,52 @@
++From 3e64244e538550c6a7fcf826fa8c50a4604416dc Mon Sep 17 00:00:00 2001
++From: Zoltan Fridrich <zfridric@redhat.com>
++Date: Thu, 6 Aug 2026 11:39:22 +0200
++Subject: [PATCH] rpc: guard against overflow when decoding nested attributes
++ (CVE-2026-18938)
++
++A local attacker, or one with equivalent access to a reachable RPC channel,
++could exploit an integer overflow vulnerability. By sending specially crafted
++messages, the attacker can cause the system to miscalculate memory allocation
++for nested attributes. This leads to a memory corruption issue, specifically
++a heap out-of-bounds write, which can crash the p11-kit RPC parsing process,
++resulting in a Denial of Service (DoS). This vulnerability is only exploitable
++on 32 bit systems.
++
++Signed-off-by: Zoltan Fridrich <zfridric@redhat.com>
++
++Upstream-Status: Backport [https://github.com/p11-glue/p11-kit/commit/3e64244e538550c6a7fcf826fa8c50a4604416dc]
++CVE: CVE-2026-18938
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++---
++ p11-kit/rpc-message.c | 8 ++++++++
++ 1 file changed, 8 insertions(+)
++
++diff --git a/p11-kit/rpc-message.c b/p11-kit/rpc-message.c
++index d6f0aad..105a4f1 100644
++--- a/p11-kit/rpc-message.c
+++++ b/p11-kit/rpc-message.c
++@@ -1160,6 +1160,10 @@ p11_rpc_buffer_get_attribute_array_value (p11_buffer *buffer,
++ 	if (!p11_rpc_buffer_get_uint32 (buffer, offset, &count))
++ 		return false;
++ 
+++	/* Guard against overflow */
+++	if (count != 0 && (SIZE_MAX / count) < sizeof (CK_ATTRIBUTE))
+++		return false;
+++
++ 	if (!value) {
++ 		memset (&temp, 0, sizeof (CK_ATTRIBUTE));
++ 		attr = &temp;
++@@ -1191,6 +1195,10 @@ p11_rpc_buffer_get_mechanism_type_array_value (p11_buffer *buffer,
++ 	if (!p11_rpc_buffer_get_uint32 (buffer, offset, &count))
++ 		return false;
++ 
+++	/* Guard against overflow */
+++	if (count != 0 && (SIZE_MAX / count) < sizeof (CK_MECHANISM_TYPE))
+++		return false;
+++
++ 	if (!value) {
++ 		memset (&temp, 0, sizeof (CK_MECHANISM_TYPE));
++ 		mech = &temp;
++-- 
++2.43.0
++
+diff --git a/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb b/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
+index 6c5b82e6bc9..ca10bbc6acf 100644
+--- a/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
++++ b/meta/recipes-support/p11-kit/p11-kit_0.25.3.bb
+@@ -13,6 +13,7 @@ DEPENDS:append = "${@' glib-2.0' if d.getVar('GTKDOC_ENABLED') == 'True' else ''
+ SRC_URI = "gitsm://github.com/p11-glue/p11-kit;branch=master;protocol=https \
+            file://fix-parallel-build-failures.patch \
+            file://CVE-2026-13757.patch \
++           file://CVE-2026-18938.patch \
+            "
+ SRCREV = "917e02a3211dabbdea4b079cb598581dce84fda1"
+ S = "${WORKDIR}/git"
 
