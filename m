@@ -2,105 +2,127 @@ Return-Path: <hfranco@baylibre.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7293DC88E4D
-	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 13:24:30 +0000 (UTC)
-Received: from mail-vk1-f176.google.com (mail-vk1-f176.google.com [209.85.221.176])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.39253.1789133062712546618
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 11C6AC88E56
+	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 13:24:31 +0000 (UTC)
+Received: from mail-ua1-f42.google.com (mail-ua1-f42.google.com [209.85.222.42])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.39258.1789133069643898547
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2026 06:24:23 -0700
+ Fri, 11 Sep 2026 06:24:29 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=NO4sUXQ9;
- spf=pass (domain: baylibre.com, ip: 209.85.221.176, mailfrom: hfranco@baylibre.com)
-Received: by mail-vk1-f176.google.com with SMTP id 71dfb90a1353d-5c65093556aso922774e0c.2
-        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 06:24:22 -0700 (PDT)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=ZR9VFQJR;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.42, mailfrom: hfranco@baylibre.com)
+Received: by mail-ua1-f42.google.com with SMTP id a1e0cc1a2514c-97e9fb0fc58so327963241.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 06:24:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1789133061; x=1789737861; darn=lists.openembedded.org;
+        d=baylibre.com; s=google; t=1789133068; x=1789737868; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Rkr2wdK68veaiTa9+G8bM43l463U2aLyvAqtO4M5ciw=;
-        b=NO4sUXQ9bscqFBwpyeHCnEkeY323ysBzS2GiD4GgeYmnwVuqwX8RQ/c2uRRn4NkmhN
-         OEfGRtSp+xUVM4bbDglh1XwLLsogb/NL7gTH0u54jq1SQrLObqkFtisViDuohnGyinI+
-         baaTXNJqcdY7xlLhBV+jxASYCnMTKxQn6jC2lhKizcNaEE18vOZJtOp6gzUcGzi+D7jE
-         X34YGBeSczUz+Yefc0/X9bwJljlfs2la0e72jfE5BW4JSmYgCHQcsMVafDbTBjYAnrkV
-         AgKUmGQxNKcit45vU+1pIrcI3q/u0vc/26ipoc2f8bWWe0Gvui1LiCFCUz4CzUgIL9zj
-         lSwA==
+        bh=ikBCgHOTbpg+EwUDxrkPkAalk+JdRA64i6HIQcvH2ds=;
+        b=ZR9VFQJRgg4bUaM6ju1zNqJLPKsPVMo7z5moNXFlVbd77Bkf4N7Uzj8wE8tCZUry3W
+         ca8zebDE8PY1tHea1LprW7vYKMXFeq30ZqoyxejzSztzXySrb6WFF+GpKp7g/tmjAFNV
+         Ah58TTNFYTkzoCQMYKaGeIabaz+quikCUVUHA3O1Zwy55k9DFzYH40h7Z34tEJb3MaHH
+         20s7WKAZVJFCn3euoZQ2cvlqkoEBsndCL+/mqrioZPBdEeGfaLszdWvSLV1kOXKgNU+o
+         sgwe7Xql1YfohKz/+j0B1KA4UWSbQu2c8Hg5LQAKYm1Y483RK5y0pYpVR+dne9r/NT/9
+         LP6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789133061; x=1789737861;
+        d=1e100.net; s=20251104; t=1789133068; x=1789737868;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=Rkr2wdK68veaiTa9+G8bM43l463U2aLyvAqtO4M5ciw=;
-        b=ZzoGWm5ovCUvbOgXpQj5MnROxIzvgcIHyH4y8CTJVEgYiuMa+g02nAKu526VxJudSv
-         EEIkKSkNu++Y00UFvveMTh0MbESrmy4Fh74l3rCPzqENZyG1ANt2cu8ncfiLs+I/cZ+n
-         YRwJYJ1lUVfhDzpUIUb0Dke3/q0JZ5f9u1wmFUDmrJqwtYHSQhPHX+jnLW4vxLIDcAWU
-         vCCTqr2kIr0eKGzH7z7v5JIInjmbDzDSxMIyoQtMcFBEKti1WM2XE9WolngE+tI7Q2Nw
-         LkB9l+rMTAo9JMMfu16qpJDUwLPLI9oCYYd02LVIUTcuXY9fmDA79QhbizfdsJPsb/RZ
-         2YwQ==
-X-Gm-Message-State: AFuF++kgBrn6Hy/dKN2ZnuoDXQzl61VUW4CXpMPDv6q3rXTMycfFBKP9
-	w7ww6rXpSSP11YhQR3GgEgSVLufasfq/Dw/iGU05RLeXtw71F5Gr0q4FNk9WYf9COjc=
-X-Gm-Gg: AYBFou2BWrgJLsoKr8pcnW9zbXsfgTGCeVn339COPhyxg1NPl320CPvt51ur27im13S
-	Rhteq6FwNwqlPqIkOY3w+UtbdGqfye6/azDLpPt5WqJoZPlQ/Y4BJRMFQtETXbz5H2UOe1FWQt8
-	Tgpa/4Zn60yG2vVSJaxrHqFK9wuPzgdtPB62dx1sVhdw4l9dejFfZU8LbpbxeK03cWw50sJtumv
-	t/9H/K/QXE5NYMebFKiukY/OfHdIhFNUr74m6Pmz3eJ2PFjNb6KLhFrJx73zXi2vd/ROlI78wSa
-	JW6VaCPOxYBUZKbf8M/YTvRidnKPZOKF1K1bdvKCWQe26ZDHhnPBb+mtl7Agt0W8a6fTwKG9aX9
-	ki2BdtDHsgXauCsPRozOLgmDdSTv3TyVohzl4yVF1jSm6qP/FPtlO25LQTxOm3ERNDmvqdwz12V
-	Yn+rSxoTmj7k9LItEhvCxa5hm4B4ygJnB1ZJnc3PCCg2NxzM12vhxYk3wR+AjGCMUgEKCRKqp1M
-	YaNOSdnfSuco8UDyQeXRa2YqM3STdv08EnX4nQgVOdAsu2fcw==
-X-Received: by 2002:a05:6122:21a4:b0:5c8:3a2f:a497 with SMTP id 71dfb90a1353d-5c845d7d798mr5436125e0c.0.1789133061664;
-        Fri, 11 Sep 2026 06:24:21 -0700 (PDT)
+        bh=ikBCgHOTbpg+EwUDxrkPkAalk+JdRA64i6HIQcvH2ds=;
+        b=Y+AEgkVzhflPNy0Pz8j47961Q2+E+iDGyg7S09WEQ2mg7DHQSFYxh7SDfOGaD86kTE
+         HP3NFe5NBLOWGCalUUoYTAW4lTVK6R5j2ORF8njNor872Vgt6NQ2tgLrZ2Qm3fYWJYO3
+         66Vru6D3qOgammyhOv90pcJZSVwGItKETo9K0pIQAFdx7ajRoyYDNHysjqFC194kCPRC
+         2XCdWxcw2ypUDHKEOMSe23aqDwOyz2Ux2mzha1Mko44em5vqlrFPvbdyngcRAaTc96/3
+         1zKtr6Dr6lLbcKQCVZqmhmKJmsuqy2lqFGiNSrtm0qghR9czWU89MaWx7xdUQkXEx83U
+         p4pw==
+X-Gm-Message-State: AFuF++ny658Bj9yHbypglMgcFcReBq/KPnfYNj1lSkCJpacdD01d7vXO
+	QiqNyka9Ncy/HSCUfh2PM23IjvdWPbQIUXEW6D9mPmTcfsNQK99GQWh2Owv4ePZjzMySw35CBc4
+	SjVM3
+X-Gm-Gg: AYBFou3ZsHkyay0ldrqXLCCee3tqcsl8SqAxESbULIcz7TNNyIytJakf2aSyjimSBeT
+	qW3dkZLCDPyrIs6UvmMoaN0FDdkkBBaOYr14IWzQ+3dIM84esfm/VhF20Nd+NHGN1pfde2LWOTO
+	4K2Q2nE43hOHXYfFnJ2j24QbsYSUzMQNyuj6EOkuUDgmwIYJwCQRB1CBmhc+v7xI6GwWtxSJAnK
+	ncfADYYbqXaISZlayHjy/vmQZUQEPquSAVhISpE6ce/LrUN6hDcz/sGX55TV0kYD8jIFhHqhLeo
+	osu18a8K8egIL0JvsfL21l6lTdFB+lZbFEmKTLaZUUfXpbd303i+9YY+U/alHbjadeKgyOjVvaN
+	EA5YZVq+Wrq29kkexT5aPhKtHaqxuQMt0HUM/hd/rWaxjf5GR3WP0kJnfUv3CGiJM3KF5IIA6UX
+	gD3qGWroR5qtP/PPj39G0H6qpXi3dDvuhPKvvk0MHw2/takGh05hn3vSouTtFAnoMz1WbjB3krh
+	S1VsFS9ZD9GKIo7Ho4Wrdmi9XKI5UuRRXlef58=
+X-Received: by 2002:a05:6122:3783:b0:5c8:44fa:7230 with SMTP id 71dfb90a1353d-5c845f4e527mr5572023e0c.2.1789133063675;
+        Fri, 11 Sep 2026 06:24:23 -0700 (PDT)
 Received: from [127.0.1.1] ([2804:14c:4c5:9534::7f1c])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c8470add08sm2596621e0c.3.2026.09.11.06.24.19
+        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c8470add08sm2596621e0c.3.2026.09.11.06.24.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Sep 2026 06:24:21 -0700 (PDT)
+        Fri, 11 Sep 2026 06:24:23 -0700 (PDT)
 From: Hiago De Franco <hfranco@baylibre.com>
-Date: Fri, 11 Sep 2026 10:23:45 -0300
-Subject: [scarthgap][PATCH 1/2] improve_kernel_cve_report: validate that
- cve details field exists
+Date: Fri, 11 Sep 2026 10:23:46 -0300
+Subject: [scarthgap][PATCH 2/2] improve_kernel_cve_report: fix
+ backported-patch check
 MIME-Version: 1.0
 Content-Type: text/plain; charset="utf-8"
 Content-Transfer-Encoding: 7bit
-Message-Id: <20260911-fix-cve-scarth-cherry-v1-1-c9d04f8c9b08@baylibre.com>
+Message-Id: <20260911-fix-cve-scarth-cherry-v1-2-c9d04f8c9b08@baylibre.com>
 References: <20260911-fix-cve-scarth-cherry-v1-0-c9d04f8c9b08@baylibre.com>
 In-Reply-To: <20260911-fix-cve-scarth-cherry-v1-0-c9d04f8c9b08@baylibre.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Yoann Congal <yoann.congal@smile.fr>, 
- Daniel Turull <daniel.turull@ericsson.com>, 
- Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>, 
  Richard Purdie <richard.purdie@linuxfoundation.org>
 X-Mailer: b4 0.15.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 13:24:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245646
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 13:24:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245647
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+The guard added in 80ff4903ea tests "detail" in cve_data, but cve_data is
+keyed by CVE id, so it asks whether a CVE literally named "detail" was
+scanned. That is never true, the condition short-circuits, and the guard
+never runs: a CVE_STATUS[CVE-...] = "backported-patch" set for a vendor
+cherry-picked patch is silently overwritten to Unpatched by the CNA.
 
-Check if the cve information has the details field to avoid crashing
+Use .get() on the entry instead. Guard the fallthrough warning the same
+way, it makes the same assumption.
 
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Tested against a qemuarm64 linux-yocto report (6.6.142+git, 16221 entries,
+4313 of them with no detail). Current master and this version produce
+identical output, 18773 entries with no difference. Adding
+CVE_STATUS[CVE-2024-42067] = "backported-patch" to that report then makes
+the only difference between them: master overwrites it to Unpatched, this
+version keeps it Patched. The pre-80ff4903ea code aborts on the same
+report with "KeyError: 'detail'".
+
+AI-Generated: Uses Claude (claude-opus-5)
+Fixes: 80ff4903ea1b ("improve_kernel_cve_report: validate that cve details field exists")
+Signed-off-by: Hiago De Franco <hfranco@baylibre.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 80ff4903ea1b839f9cd9393b314c3adfbb80b765)
+(cherry picked from commit f5da16b0d3c8f889dab061ba1d8808aba95d4c67)
 ---
- scripts/contrib/improve_kernel_cve_report.py | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ scripts/contrib/improve_kernel_cve_report.py | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/contrib/improve_kernel_cve_report.py b/scripts/contrib/improve_kernel_cve_report.py
-index 3a15b1ed26..dc961d5938 100755
+index dc961d5938..dd59d93146 100755
 --- a/scripts/contrib/improve_kernel_cve_report.py
 +++ b/scripts/contrib/improve_kernel_cve_report.py
 @@ -362,7 +362,7 @@ def cve_update(cve_data, cve, entry):
      if entry['status'] == "Unpatched" and cve_data[cve]['status'] == "Patched":
          # Backported-patch (e.g. vendor kernel repo with cherry-picked CVE patch)
          # has priority over unpatch from CNA
--        if cve_data[cve]['detail'] == "backported-patch":
-+        if "detail" in cve_data and cve_data[cve]['detail'] == "backported-patch":
+-        if "detail" in cve_data and cve_data[cve]['detail'] == "backported-patch":
++        if cve_data[cve].get('detail') == "backported-patch":
              return
          logging.warning("CVE entry %s update from Patched to Unpatched from the scan result", cve)
          cve_data[cve] = copy_data(cve_data[cve], entry)
+@@ -381,7 +381,7 @@ def cve_update(cve_data, cve, entry):
+         logging.debug("CVE entry %s updated from Unpatched to Ignored", cve)
+         return
+     logging.warning("Unhandled CVE entry update for %s %s from %s %s to %s",
+-        cve, cve_data[cve]['status'], cve_data[cve]['detail'],  entry['status'], entry['detail'])
++        cve, cve_data[cve]['status'], cve_data[cve].get('detail'),  entry['status'], entry['detail'])
+ 
+ def main():
+     parser = argparse.ArgumentParser(
 
 -- 
 2.53.0
