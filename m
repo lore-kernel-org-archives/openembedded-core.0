@@ -2,218 +2,343 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3F704C88E56
-	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 08:51:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E5620C88E53
+	for <webhook@archiver.kernel.org>; Fri, 11 Sep 2026 08:51:33 +0000 (UTC)
 Received: from AS8PR04CU009.outbound.protection.outlook.com (AS8PR04CU009.outbound.protection.outlook.com [52.101.70.69])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.35180.1789116684266431753
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2026 01:51:26 -0700
+ Fri, 11 Sep 2026 01:51:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=emBgeKWj;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=j6tl4jP1;
  spf=pass (domain: est.tech, ip: 52.101.70.69, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=UeLkKLTaBl947L5oKLZw6YyBZmz5k/gXoPVZ2V5q5ANKf9WhkLnG44jNUB1L95QabR4Y9zXnvAGIzLB8fSjYS/+uyWC3hWi77dcqPdPByIYqgj41F/zslTT2yU9fyJSOEdHs2z1GDgJZqY9rUQAuEu27wf8pzScFuSfZOqngQb0ouIKkRsXeb0uxdqkvu827WdyV1rjrlZxXPo7AsYrL1+zIcTK7FGtJSqTaKXUaRahW3hR1UuanlPETybargSWpfLAxUK+JVLZk30xh0J77X+x1de5ED4hcbx6xyguzhXmbKKsbDWjzH0eUUaDM7VJPabfcua+7wIAdgz50H0FLNg==
+ b=XEAlvQJPwInTv4MDPFYULaO9wHg1jaFcu8nMC/YTG18dHexd4I1NeZICKW6kJUx92g4L+f+EBqebR59mN0RirNvld2EHOG1CHZc6oMP9fD+NyBUrBHEoyz6/H6cE0Ce8ti20NtLwPdD6der03MbfswhrH1z7FlyZKdTK4sVXPZGnL1YgQwvl1hPvw7BGi42nWyaLSk+SZaeoNq72bzYn5RR81KwK23HXyo8fSKJ+bm/5ZSW40B+51SNLk1qfV9o8MgzCuZL1aYkhObshZGv8afQnYsxATQE3lMl/mz8tBpYdn9AucMiNzijxWGhMo1VwGixxAmu8Q5ntMUjkZwNTaA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=jly2rS8O8ZIVIW6Gtd9IW0CnCDvmIQ7QrhXwFwZHXwQ=;
- b=R+r2dVRlmTstFw3ULT/jaUFCTW6W0UBh+aiteqeWhnRZoplyQkOBKbEqPEqcb2gNTsJmFprGlGh4Ef6qED/2mDMBvxq9siL8qDP4Y7obW5jyOuFSintmgJ6l9+KuAEMFKsdvbBf2jrmVplxRRrDBetV/S3IWL9KTO3z6PrGz96j7lfFXELptzZnrgu/BvWVld88FwTltXykkmms6Jl1wfWLJ5uNQ78e5ykkMgJgvifi6Iemef/DKiV02KrnmDwOa+tmDYlhK5LqUA1B9uyfMHZ/DaF4YsBVhWPOROh18UP+yud0QyCmipKTONy9ofjZ/FAc1sQWOlmo8OUch4zth0w==
+ bh=1cFpZGXTFZe5TclOsBrP3jNWAR6GX7DG46IQ05bKxlk=;
+ b=eYWlcnfdrRGA+H8dfpoyIc0plHCMfpiiGGes6/6e4Po/ZEMV5NoqwO8lFv00j0V953/67DmPylxwO3RpP1avQ8njOQHqqv8LpPGtLry6uVooWR1dVSrv8W0nvmK17W96O8uQDEFHs/gTGJQpLOhqnswWa8t+F1ubxvnnx4pnaIm8e/2wTJm5eLzuQH1kxx0hEvylA50pQCJX0ZDf18VIJxhfpA8Ox91SQPdiW/xWhupENUYE3l6PYF1I1BQrMSVKKhKxwTNEuWE+LPzebz2AbLbGES1E/Ar0LY+V9ZS7K0XFpTX+IuWwYG/OIS0Hp52BQfjt9YmPvYpZk00Z2Znvpw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=jly2rS8O8ZIVIW6Gtd9IW0CnCDvmIQ7QrhXwFwZHXwQ=;
- b=emBgeKWjFFBWsO4AUqkfzHDpvWiJtASJhIP1TDG3chQShJzJJKKneB2XAdzm5E3+vqB1nOVaEQJysH0M9OioSvO4Xj3JOcZ1ixowEsY8BP6VmeJqgQ9N5FziLs7LiYxWWojC2XFfSJZcdyAozadO7yeVGVlGdTxE3Xkb7fuxEr+93R+r6EE5IvmA/LMymhgOxUM6IW9H362vXILA/uizLF9pMRWxWieCawJRYVnZXDzVLM325XGX+Vgr9ez+OYqzk9ULPLxiIOSX95vtrlYIj/pLRq0o6gmjP2Z6KLtwIUF7EqtZSEs7CN28uCkdrk+vecHVVrxHwXzgR57IYHv24Q==
+ bh=1cFpZGXTFZe5TclOsBrP3jNWAR6GX7DG46IQ05bKxlk=;
+ b=j6tl4jP1Ta4xQb0BH+aA26Np4e9/PRHaPob3Edte5BiDTqqftkuM4Mfkmqt5FD8aHq4XwYfDKhwlHl6WDT+bbV8z2QCAosjnwxAHrczdbVsERoXv7R2exAQEtoelKH7jEz5PbGYFZCJUaEg9l+2oIIrgCmDThv3+aPwp5f/Ev++Ua1WHNxhNL7PCg1GzNfHdQA5TkrEjmLo2267zPqU+Ir8jgBGFAuIpxKs9PYeW3VtulNn3gsrxOFtWwBL2htZstGRD8Q84jajG/0Uku0mvV5N+QZXrv1F96Xvd79rf4VuXa2PpPDdxGe5PkNfeLvMPTD7S/vDl+y4CypY8Tftqag==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by MMZP189MB736094.EURP189.PROD.OUTLOOK.COM (2603:10a6:190:51::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.9; Fri, 11 Sep
- 2026 08:51:21 +0000
+ 2026 08:51:20 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::bf0:7714:72e:1666]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::bf0:7714:72e:1666%7]) with mapi id 15.21.0406.007; Fri, 11 Sep 2026
- 08:51:21 +0000
+ 08:51:20 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/2] epiphany: upgrade 50.6 -> 51.0
-Date: Fri, 11 Sep 2026 10:51:17 +0200
-Message-ID: <7617622fbf8dc6a97c32605ef2e408d77d1c2599.1789116540.git.jaipaul.cheernam@est.tech>
+Subject: [PATCH 1/2] libpwquality: import recipe from meta-oe
+Date: Fri, 11 Sep 2026 10:51:16 +0200
+Message-ID: <e1d67ecc9f9f0acf2c15207475576d8cb192ad01.1789116540.git.jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <cover.1789116540.git.jaipaul.cheernam@est.tech>
 References: <cover.1789116540.git.jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DUZPR01CA0053.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:469::11) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DUZP191CA0014.EURP191.PROD.OUTLOOK.COM
+ (2603:10a6:10:4f9::18) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|MMZP189MB736094:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3ace5c6e-f8be-4e0f-69cd-08df0fe1da47
+X-MS-Office365-Filtering-Correlation-Id: f4112e92-ec79-490c-185a-08df0fe1d989
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|10070799003|366016|376014|1800799024|23010399003|10067099003|56012099006|11063799006|22082099003|18002099003|10062099007;
+	BCL:0;ARA:13230040|10070799003|366016|376014|1800799024|23010399003|3023799007|6133799003|10067099003|56012099006|11063799006|13003099007|22082099003|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	GRTVBFy8P6rRUc1fsuV8/8CDzYdCF8TYpz5NWYEdOqmtoNSdaFyIsKCSub0hoU/lioeywC8aEPLW7gT1z4QTkRFJW3r4DDH8R+cVkkOYkBKvXrEmHRgrE1vwEMnLG5ylDl2Mqw8q1u1O7iK7Nfds3Yt1KSaQiEH1Z8N1bS93JpxB8MTn80NWcY1a0RN9zqrmfUUeCUtRDpvElVt9EBeQG9HyBGGoacCQry38Xu6FQm2eS5L6JzGyGnmH93kODke4cDsRhAbnJxWXqfESkH7H5JOex5FZWTGkxhfqz6PJGkdoaStroZjzEijQMnRzaUsAdGCX+aC35/DUaxaC4f892xBz4ZZBAXA6LTB6mjNcZxtdSAZ6S5fwSDRqPfVuxdLqz56tAYsL0t4MDG2FL3Ha6LW+hWyre31pVtisZHA3N1vhGkLoCMea3rHBcM41gymQQJWfJQMWsJSfqAbYzh97h5LXv7rh5YGNdvd5om5TVLiDRTAdRN37aOpm1ySya4D42MPi3jRYR1QICzKMqG07HX7a0Zo9TdfJ+UEkkbrU+loetkqxtcjcT9HWE48cN9KMEv2I3jvNjv6FwgXtNG+3/j2XPinkEqb83T1xvZTuVY1v3lsQIgE3I2mrQKNZXEX7PmIwAfjF2QhhRvLRcqiJ54ysfiUSag1XgYvZGNHiP8g=
+	SMygF5OZXQCVBFxhZy2+K1ZozR1har+7ediNMmSdGmxYp+ATNhmZYreqzXsOzim6btRczmF/KDmlrv0mseMrGxtvQdk9LakrbrDimwMMbyrKlZkvk0l5s2w1SCapzRMgQdIN9Y3aHdx1DJOYGcoafxokmntVgJUi+VOoX5fWpONVWQzLrQijWlQXfWBUwNLNhyWvVbeEMZXYSdFaE1uqCtIKfPE2iNOQkEcByjj5wc75Dkbtq/2h/MGKxpnru1KCL8FtVRTB8omA3nD1JO1VZSzOwlPYkStQhALSdKZohJ5RbVPgb2gs2UzcW9E4MmMcf7OnDpnAdWQn7QabdIPuOMsF7CGQAG7hQcJM4DBObVJkDOJsKPkGvhphepGhn3NZvb8xSUVM0jHTKxhv2hjqPmWhTO+qRAJSvrtKAsm5pDft8wNSgfv1kFgVjredRLV2JasCH5TapMZNsCsQtQ8exKIQtICkL26MXgwa7OG2mp96Rjp+iixf9GAHhoVhJ02lmYW0wowhUHFYLIBiSzxfKSgHuLmVuR7Dpa1zpQP8FGsMd2zsPbJ6HFZvYZ0o3J+la31EmnNydRNQhXDYSVx0WzTw9hEv4KR8ZiwotRwy+JLGyvrlseg1qrOVZ4J/85s7DHVWkeCfcUMj/sChuvgRBzGh0Y41QmJsFFBl/8FG3yI=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(376014)(1800799024)(23010399003)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003)(10062099007);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(10070799003)(366016)(376014)(1800799024)(23010399003)(3023799007)(6133799003)(10067099003)(56012099006)(11063799006)(13003099007)(22082099003)(18002099003);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 2
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?jEhfQYmuaEwqI7ZU36w2s25S9pGqlVrtOCchdjRm42paEVU5rCBtPhVaYxix?=
- =?us-ascii?Q?hr2WZmBkSgbb1jfZyTzciG36XCsj8TG/a09bVhxHZ4vWtj+KBEpiwzCDYSDH?=
- =?us-ascii?Q?eEt67AZBFinTCsad+Ylrm3TqLzH5j8PabUzSZIcQNOg/cpLpK5Lx2/9qVVyb?=
- =?us-ascii?Q?dpnVwg7bGjgEdP4yEHaIyb7bu3QoFtBsa4T2klffjoIVPacp50Ef5+hEi2W2?=
- =?us-ascii?Q?12tpRrA3zxdj8pscnHY4Ma+WjGUIj+aMkSSwWOGbf9MOlRJiYtSKyZ7tUiWc?=
- =?us-ascii?Q?vHqz3lxGvkndP/CmPVphsDmNzT8WLwhbAiDUkcuFqOobaPiy//TtZXD4XM1r?=
- =?us-ascii?Q?oucFljY57C38qHuUNG/lNB8A37TdGs3tDgWH+W4uOI7msO0hR6u5/p/1YiuH?=
- =?us-ascii?Q?943BH38RfazGaLjeo8viY1gQnz3jrS5rAwBaRuIsdZASSJbPYs2HLPW/nWCf?=
- =?us-ascii?Q?T0V2eBA99+JDXLA3CffFmixr/ZRhIBxbCXCFCybzQPxnfJLUtvnDcBvEDdrS?=
- =?us-ascii?Q?OG4zBPk335qW4rmFqX+jY4oWDnUq9W/2kcSxk96FwUaO2ZoXzBSqKRmSm8K6?=
- =?us-ascii?Q?z9+P2tqMY0RTB9iZuyii2Vp7JWbvbIb5wlKxWKclNKPHJtdFB1kdPER/2T+/?=
- =?us-ascii?Q?kpwXLB5MonvsGWc+2Zl53N+YApbP7lEin7e09uP9hFif9oqlf1P4/JtMc4Zy?=
- =?us-ascii?Q?Fl9solERtLwPH+qYP48/ZkCRvM1wexiy+v+N/jvq81X9xM6VYm+46p7bPdmY?=
- =?us-ascii?Q?n/FTyMJUQ0d4oXi8MEnbkGrL4xaNxss++7sBF24nvdAxFms9NvGHJ/tLRZgX?=
- =?us-ascii?Q?h7SA6lc1KBTiViH5tw+Py52kHcZKOttHIvVkT5ZSDbIWTkvumucIsktIaiut?=
- =?us-ascii?Q?qTovICJoCdhW0I3opL3a+18ouDl1ENq+LhB4a+lIL2Hr64tUjcIznmNye3an?=
- =?us-ascii?Q?V05wsftv0Ck9X+LpDg/Le0ZzZMmifL9R6wolBs5C1hkqOFKY2A4fLskB+Fqn?=
- =?us-ascii?Q?4vN92FHJK6HKD/KGCrWwl6BsLoJr+O0gXPdwiAXZQDrKvm0ZSi6NCLVx43D6?=
- =?us-ascii?Q?JcLb4hjBr0YTnzsk0zlXtfn5AKXX8I9hUeukTlU2DZzbg7GbkINSBg24gumj?=
- =?us-ascii?Q?Mtrkzm70GxLowGX4XmUK8YNp/jKm+Mnj/948eMJu7q5z3Y4mujJSPOhJDdek?=
- =?us-ascii?Q?S2UefwB9krs/EbQWa3t8GiMu3OK3qwOFJE+MalaIx7/kdL2vWTypD5N4KMqi?=
- =?us-ascii?Q?RUTsFJcngsf3zY8Y7lojMAhyEJE+nhYswuDHEENaeUqCd+LPYMEX/8dWAuay?=
- =?us-ascii?Q?HtWUM6Aa/VU5FqjTmzUU+w2x36JXwrG2WXGZLKdmQqTIP2Hq2MUhU8FIPoix?=
- =?us-ascii?Q?J22g6u27DEcJ/Siy6EHXTydbocgKhoqqAKux7TrhccQgk2GnHSeoSCoqp0mp?=
- =?us-ascii?Q?q1dTJRpoE9rfnlisHq1aYE7elzhXVGgI9ZAUSCcDWetDm0obQC7ZIEG4aUBi?=
- =?us-ascii?Q?8rX7tJS1eJxsd6DZOXnvFoFD8i8CNKqd2SfgWX9ALFNfEfGQIA1+EDQi8Mux?=
- =?us-ascii?Q?2QMuryQuhRzGwXliPqsX6xYS+bLByXNbjsu3g/U5HcH4IkIKlznw8w14ZPdH?=
- =?us-ascii?Q?N60UqemRcRqKDwNKthd5fZXBu4FCcBUfB6/01C8e0bjvhmlLNctXrPKz5QzR?=
- =?us-ascii?Q?ctGJqnHuIxrzgt+xy67+BFv86QcdOaEfvBBiUK255zzzrxL3CYS/9A5qnBc+?=
- =?us-ascii?Q?n5w24JcG52oxRrPN06fMELbdDJwBL5U0Aw5FqrMkMQqHBhiW/4+gIKoeq4IJ?=
-X-MS-Exchange-AntiSpam-MessageData-1: J+OlaPprEL6ySbvrlmaUFwlbHQQK2WHRTHw=
+	=?us-ascii?Q?YI8+7U3Bx0sC5gj/+cQYGboGYwkKqJauHl1S3QSkm+B2wGHGHYDPJ7DdmHA3?=
+ =?us-ascii?Q?YNW22VMl9ubpsQZ82Th9pzh9YxPNgm1uf7crrIMUZiYfXSoLefwA1lyyN579?=
+ =?us-ascii?Q?ryekhhyCF8zbzhcHP/Z6h3XxCAX6mbcM7gVenzHwXrbVQa0yVID/D0MeCOJR?=
+ =?us-ascii?Q?iV62L/spZdCDO9PRXO+oBUuZAMJA1uLuVJokgfPRxzWSI1WoeCE3cpmvGNVV?=
+ =?us-ascii?Q?+/cF3HmTMXy9CcivN5B7azt65+3yJBrdL+P+kiYXw6D+bHUGispvAksSe1tp?=
+ =?us-ascii?Q?OP6TZ1eVDlPn/cCUbKc9PJ29Bh9uvlUnoZoZ8/wUeZEke6EdXGw38gz5NSbe?=
+ =?us-ascii?Q?tmksXxWtqxWiX8EGoNYA6MJG1ITeqWH1DJP2S6QM51pSAO7D7Yf3pL60MBq7?=
+ =?us-ascii?Q?EjANt1+YTWNcA4US+wFwV49A7nrDsda9Op/5dr6Nddo8HyFLPDrNOg9ML8hV?=
+ =?us-ascii?Q?FSP3YdqPRBypb4L/mdBffK7L9xdR6GR9ayKy4qi/IxMbY2v8BltdZL3uP1HW?=
+ =?us-ascii?Q?nOmnyL+sstZSWZC6DIVZyQRjvq3ajleTOms1WonGNHxMNiVJ9ZweXV2yd41q?=
+ =?us-ascii?Q?Y2y5K5HS7XwFUmi1ykUGGCWIFik0vhGS0wioFfHH+o18p0SkKfxhPCErB4iF?=
+ =?us-ascii?Q?RtDHIjAL32um5HaPoKf2tq5WMAD9kfNexiVlqWmomO1fik8GCDdmwIafmO1V?=
+ =?us-ascii?Q?9Ev4vzO5P87q4eTKSSjl6AJi0P5MPXSBI0PAjm9IQppEZV4iXiBo74QKsWPB?=
+ =?us-ascii?Q?wnYN1bO2xAm2MmHUo0d7fjc3eu57gXxNKEolENFVKE0Iu6LQl1auJVoKyUP+?=
+ =?us-ascii?Q?NdRr4vMVh5uxqHIgcq18/Wko/roWRr1zlIGibFmn+FCtu47BgQUcYwjkGWVp?=
+ =?us-ascii?Q?xrCArLP5V7dn8xkbw9h0p+GlLUn768NIGDSTN6xab6Dd3qKFiBMF4wyPuP+N?=
+ =?us-ascii?Q?hctbx/z6qurAtpbX3pPL5dPfhV3n3gPZnRFAfFKG7YQpCKVcmaP0VUxOUav7?=
+ =?us-ascii?Q?qrXYrFweG13eCLGX99OshQ3zf1o+3MsaUzEr2ZhJJSqGHu7FP+owYDLVjMIR?=
+ =?us-ascii?Q?2nuR1HGEPavcLKZ07dpIKusYk06qZw9gIsxE8oMbRWoSrkni9oyYnF865trJ?=
+ =?us-ascii?Q?P35vEeZOsiY0SJrTr/Zl7H2rwOvsmvwVanXPG90XmqjB7pipOk27MJzGforc?=
+ =?us-ascii?Q?MrL4WtbS+Ba1bbMTuLe74SDcBWkIqpGVwKRrU2pjdk71K4BPQDK2qurrtsis?=
+ =?us-ascii?Q?m6L68wxe0+nLWXApdoL8vpzUsF82URGoBJqByksrK56dMuSy4P1d8N4L67Ie?=
+ =?us-ascii?Q?+0vIY/XUincybgj489en1RFJcpUQ8d0G6fU1j7+7OXiq2JzdXxbyIFXzSPrH?=
+ =?us-ascii?Q?3efcBdq131YJVyOaxS0TaeW1YjY7JbWWNko8pxWuVrcNMGDo7GVLmiLvgLZr?=
+ =?us-ascii?Q?+nfAZM3jQXIuHC3tUrM9Acdh4YOniTrCoRV89hH4tPwhTM7dhtggtd2KFosm?=
+ =?us-ascii?Q?TJSDBnRRFGszeyaBiMfdnlq5I0htFBcqGQaBenRb7E5HPcCD4o8VtCLmNAln?=
+ =?us-ascii?Q?KKEN5S/VIW+KmEKH1w1HaFgkwhPJWDaLCeI0gIb6WltY1oazHVoQmqmyprsr?=
+ =?us-ascii?Q?Qs0WXJO/BWMtNGZpzPydR/LtQMmUgq+9SwB/7xF9YbVA9PHOh6HRfhOrFEwo?=
+ =?us-ascii?Q?ih8JDVoFvNaZ0HkoAr6nDiT8FNlYiScAYNAQ+IPngGD9bxU5zQTmZBN3Zq9c?=
+ =?us-ascii?Q?29AyJr4+xPQjRER4IB9hgcgjZSJaAFyZF6rokuv1LdKrGejJk+hOhW23XuWL?=
+X-MS-Exchange-AntiSpam-MessageData-1: 4Iqu5t5hoBx9i/Du2lDrAMmKjtDkZWxQMj0=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3ace5c6e-f8be-4e0f-69cd-08df0fe1da47
+X-MS-Exchange-CrossTenant-Network-Message-Id: f4112e92-ec79-490c-185a-08df0fe1d989
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 08:51:21.5338
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 11 Sep 2026 08:51:20.3394
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: u5Fa3lPDuWWmFzgizbwzK3cOYR91vgrRQ56SYmYdLPoRwgZJB/VpaZMzeq92FI8DQFAfRz03Tij1H05Ysy5dkdaDJGDy+y5bakJb60s9hRw=
+X-MS-Exchange-CrossTenant-UserPrincipalName: BzJA3ORWBIr+I2RNFml75nRKhyfwhp1UPVKOZSxSP4l48qZ3GHkhrb3Z3aEBdcfqkbAdA8lCtK+ONMabbLiTchGLOeJ+drXn3lpzdQg8bME=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: MMZP189MB736094
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 08:51:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245623
+ <openembedded-core@lists.openembedded.org>; Fri, 11 Sep 2026 08:51:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245622
 
-CompareLog: https://github.com/GNOME/epiphany/compare/50.6...51.0
+epiphany 51.0 adds an unconditional dependency on pwquality [1]
 
-- 51.0 adds a new mandatory dependency on pwquality [1] so add
-  libpwquality to DEPENDS.
-  libpwquality was imported into OE-Core in the preceding patch.
+Changes from the meta-oe version:
+- add SUMMARY (required by recipe QA in OE-Core)
+- add maintainer entry
 
 [1] https://github.com/GNOME/epiphany/commit/683e9a076fa3
 
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../epiphany/{epiphany_50.6.bb =3D> epiphany_51.0.bb}         | 3 ++-
- .../0002-help-meson.build-disable-the-use-of-yelp.patch     | 2 +-
- meta/recipes-gnome/epiphany/files/distributor.patch         | 4 ++--
- meta/recipes-gnome/epiphany/files/migrator.patch            | 6 +++---
- 4 files changed, 8 insertions(+), 7 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_50.6.bb =3D> epiphany_51.0.bb=
-} (92%)
+ meta/conf/distro/include/maintainers.inc      |  1 +
+ ...-Use-setuptools-instead-of-distutils.patch | 78 +++++++++++++++++++
+ ...02-Makefile.am-respect-PYTHONSITEDIR.patch | 26 +++++++
+ .../libpwquality/libpwquality_1.4.5.bb        | 40 ++++++++++
+ 4 files changed, 145 insertions(+)
+ create mode 100644 meta/recipes-extended/libpwquality/files/0001-Use-setup=
+tools-instead-of-distutils.patch
+ create mode 100644 meta/recipes-extended/libpwquality/files/0002-Makefile.=
+am-respect-PYTHONSITEDIR.patch
+ create mode 100644 meta/recipes-extended/libpwquality/libpwquality_1.4.5.b=
+b
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_50.6.bb b/meta/recipes-gn=
-ome/epiphany/epiphany_51.0.bb
-similarity index 92%
-rename from meta/recipes-gnome/epiphany/epiphany_50.6.bb
-rename to meta/recipes-gnome/epiphany/epiphany_51.0.bb
-index ad0fad1a65..63ec9bb100 100644
---- a/meta/recipes-gnome/epiphany/epiphany_50.6.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_51.0.bb
-@@ -15,6 +15,7 @@ DEPENDS =3D " \
-           libadwaita \
-           libarchive \
-           libportal \
-+          libpwquality \
-           libsoup \
-           glib-2.0-native \
-           coreutils-native \
-@@ -31,7 +32,7 @@ SRC_URI +=3D "\
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] =3D "458222a8694cfc914e7a2d6de9879067001a8d65e0=
-0a907d96112059c67ad446"
-+SRC_URI[archive.sha256sum] =3D "abaf33576462030c65bb963a56300a7786e7d75834=
-f1c90a9dffda873835c33d"
-=20
- export GI_TYPELIB_PATH =3D "${STAGING_LIBDIR}/girepository-1.0/"
-=20
-diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disabl=
-e-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson=
-.build-disable-the-use-of-yelp.patch
-index 12e9d98233..bdb06e407b 100644
---- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-u=
-se-of-yelp.patch
-+++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-u=
-se-of-yelp.patch
-@@ -1,4 +1,4 @@
--From 9e51ca47efc74fedb420e6b66436569d56623e2d Mon Sep 17 00:00:00 2001
-+From 2bb52be1e80d1f4693a383be8270e80ef1d9586a Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 31 Jan 2018 15:50:38 +0200
- Subject: [PATCH] help/meson.build: disable the use of yelp
-diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/rec=
-ipes-gnome/epiphany/files/distributor.patch
-index b16552bfc6..8677f1558c 100644
---- a/meta/recipes-gnome/epiphany/files/distributor.patch
-+++ b/meta/recipes-gnome/epiphany/files/distributor.patch
-@@ -1,4 +1,4 @@
--From cc0b9a6904297387068274c802784eea740782a1 Mon Sep 17 00:00:00 2001
-+From 2f52672597ab74cb17e41d308f8d9934c25d8fc0 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Fri, 26 Feb 2021 10:17:52 +0000
- Subject: [PATCH] Don't encode the distro from /etc/os-release into the
-@@ -11,7 +11,7 @@ RP 2021/2/26
-  1 file changed, 1 insertion(+)
-=20
- diff --git a/meson.build b/meson.build
--index c02b591..8af9fe7 100644
-+index 8aec3cf..4a06ab6 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -15,6 +15,7 @@ if r.returncode() =3D=3D 0
-diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipe=
-s-gnome/epiphany/files/migrator.patch
-index b20cc3058b..dcc162040a 100644
---- a/meta/recipes-gnome/epiphany/files/migrator.patch
-+++ b/meta/recipes-gnome/epiphany/files/migrator.patch
-@@ -1,4 +1,4 @@
--From 12ead2afbdab96eeb6bac820c39c1e951a047c8b Mon Sep 17 00:00:00 2001
-+From e336c2dd1368aff496a6ba01e2ca9ca7e88860a2 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Thu, 25 Feb 2021 14:52:32 +0000
- Subject: [PATCH] epiphany: Fix reproducibility issue
-@@ -14,10 +14,10 @@ RP 2021/2/25
-  1 file changed, 2 insertions(+), 2 deletions(-)
-=20
- diff --git a/lib/ephy-profile-utils.c b/lib/ephy-profile-utils.c
--index ea2ea99..13c27c8 100644
-+index 1966108..24d4364 100644
- --- a/lib/ephy-profile-utils.c
- +++ b/lib/ephy-profile-utils.c
--@@ -130,10 +130,10 @@ ephy_profile_utils_do_migration (const char *profile=
-_directory,
-+@@ -131,10 +131,10 @@ ephy_profile_utils_do_migration (const char *profile=
-_directory,
-    argv[i++] =3D NULL;
- =20
-  #if DEVELOPER_MODE
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/in=
+clude/maintainers.inc
+index 40d62042bd..4773df92fd 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -387,6 +387,7 @@ RECIPE_MAINTAINER:pn-libproxy =3D "Unassigned <unassign=
+ed@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libpsl =3D "Unassigned <unassigned@yoctoproject.org>"
+ RECIPE_MAINTAINER:pn-libpthread-stubs =3D "Unassigned <unassigned@yoctopro=
+ject.org>"
+ RECIPE_MAINTAINER:pn-libptytty =3D "Unassigned <unassigned@yoctoproject.or=
+g>"
++RECIPE_MAINTAINER:pn-libpwquality =3D "Unassigned <unassigned@yoctoproject=
+.org>"
+ RECIPE_MAINTAINER:pn-librepo =3D "Wang Mingyu <wangmy@fujitsu.com>"
+ RECIPE_MAINTAINER:pn-librsvg =3D "Unassigned <unassigned@yoctoproject.org>=
+"
+ RECIPE_MAINTAINER:pn-libsamplerate0 =3D "Unassigned <unassigned@yoctoproje=
+ct.org>"
+diff --git a/meta/recipes-extended/libpwquality/files/0001-Use-setuptools-i=
+nstead-of-distutils.patch b/meta/recipes-extended/libpwquality/files/0001-U=
+se-setuptools-instead-of-distutils.patch
+new file mode 100644
+index 0000000000..7eaca66b5c
+--- /dev/null
++++ b/meta/recipes-extended/libpwquality/files/0001-Use-setuptools-instead-=
+of-distutils.patch
+@@ -0,0 +1,78 @@
++From ad95b7684365dea8335c34527d4c1463c1668af0 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Miro=3D20Hron=3DC4=3D8Dok?=3D <miro@hroncok.cz>
++Date: Fri, 31 Mar 2023 14:52:19 +0200
++Subject: [PATCH] Use setuptools instead of distutils
++
++distutils is removed from Python 3.12+:
++https://peps.python.org/pep-0632/
++
++Upstream-Status: Backport [https://github.com/libpwquality/libpwquality/co=
+mmit/7b5e0f0097faebdcc6a8b783237bbba7a983147a]
++Signed-off-by: Alexander Kanavin <alex@linutronix.de>
++---
++ libpwquality.spec.in | 11 ++---------
++ python/Makefile.am   |  2 +-
++ python/setup.py.in   |  6 +++---
++ 3 files changed, 6 insertions(+), 13 deletions(-)
++
++diff --git a/libpwquality.spec.in b/libpwquality.spec.in
++index 70a6f53..0809126 100644
++--- a/libpwquality.spec.in
+++++ b/libpwquality.spec.in
++@@ -33,9 +33,11 @@ BuildRequires: gettext
++ BuildRequires: pam-devel
++ %if %{with python2}
++ BuildRequires: python2-devel
+++BuildRequires: python2-setuptools
++ %endif
++ %if %{with python3}
++ BuildRequires: python3-devel
+++BuildRequires: python3-setuptools
++ %endif
++=20
++ URL: https://github.com/libpwquality/libpwquality/
++@@ -103,15 +105,6 @@ cp -a . %{py3dir}
++ pushd %{py3dir}
++ %endif
++ %if %{with python3}
++-# setuptools >=3D 60 changes the environment to use its bundled copy of d=
+istutils
++-# by default, not the Python-bundled one. To run the Python's standard li=
+brary
++-# distutils, the environment variable must be set.
++-# Although technically setuptools is not needed for this package, if it's
++-# pulled by another package, it changes the environment and consequently,
++-# the build fails. This was reported in:
++-# https://github.com/pypa/setuptools/issues/3143
++-export SETUPTOOLS_USE_DISTUTILS=3Dstdlib
++-
++ %configure \
++ 	--with-securedir=3D%{_moduledir} \
++ 	--with-pythonsitedir=3D%{python3_sitearch} \
++diff --git a/python/Makefile.am b/python/Makefile.am
++index 1d00c0c..6e51744 100644
++--- a/python/Makefile.am
+++++ b/python/Makefile.am
++@@ -14,7 +14,7 @@ all-local:
++ 	CFLAGS=3D"${CFLAGS} -fno-strict-aliasing" @PYTHONBINARY@ setup.py build =
+--build-base py$(PYTHONREV)
++=20
++ install-exec-local:
++-	CFLAGS=3D"${CFLAGS} -fno-strict-aliasing" @PYTHONBINARY@ setup.py build =
+--build-base py$(PYTHONREV) install --prefix=3D${DESTDIR}${prefix}
+++	CFLAGS=3D"${CFLAGS} -fno-strict-aliasing" @PYTHONBINARY@ setup.py build =
+--build-base py$(PYTHONREV) install --root ${DESTDIR} --prefix=3D${prefix}
++=20
++ clean-local:
++ 	rm -rf py$(PYTHONREV)
++diff --git a/python/setup.py.in b/python/setup.py.in
++index a741b91..f934c50 100755
++--- a/python/setup.py.in
+++++ b/python/setup.py.in
++@@ -6,9 +6,9 @@
++=20
++ import os
++=20
++-from distutils.core import setup, Extension
++-from distutils.command.build_ext import build_ext as _build_ext
++-from distutils.command.sdist import sdist as _sdist
+++from setuptools import setup, Extension
+++from setuptools.command.build_ext import build_ext as _build_ext
+++from setuptools.command.sdist import sdist as _sdist
++=20
++ def genconstants(headerfile, outputfile):
++     hf =3D open(headerfile, 'r')
+diff --git a/meta/recipes-extended/libpwquality/files/0002-Makefile.am-resp=
+ect-PYTHONSITEDIR.patch b/meta/recipes-extended/libpwquality/files/0002-Mak=
+efile.am-respect-PYTHONSITEDIR.patch
+new file mode 100644
+index 0000000000..cd59a6d887
+--- /dev/null
++++ b/meta/recipes-extended/libpwquality/files/0002-Makefile.am-respect-PYT=
+HONSITEDIR.patch
+@@ -0,0 +1,26 @@
++From edc51ba1b446913232cdf2945f485392bca72dc7 Mon Sep 17 00:00:00 2001
++From: Hongxu Jia <hongxu.jia@windriver.com>
++Date: Mon, 3 Aug 2015 13:43:14 +0800
++Subject: [PATCH] Makefile.am: respect ${PYTHONSITEDIR}
++
++Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
++Signed-off-by: Martin Jansa <martin.jansa@gmail.com>
++---
++Upstream-Status: Backport [https://github.com/libpwquality/libpwquality/co=
+mmit/5192eab011ada47b0157f8d0524bf5b18bba3bd0]
++
++ python/Makefile.am | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/python/Makefile.am b/python/Makefile.am
++index 6e51744..0a3bad5 100644
++--- a/python/Makefile.am
+++++ b/python/Makefile.am
++@@ -14,7 +14,7 @@ all-local:
++ 	CFLAGS=3D"${CFLAGS} -fno-strict-aliasing" @PYTHONBINARY@ setup.py build =
+--build-base py$(PYTHONREV)
++=20
++ install-exec-local:
++-	CFLAGS=3D"${CFLAGS} -fno-strict-aliasing" @PYTHONBINARY@ setup.py build =
+--build-base py$(PYTHONREV) install --root ${DESTDIR} --prefix=3D${prefix}
+++	CFLAGS=3D"${CFLAGS} -fno-strict-aliasing" @PYTHONBINARY@ setup.py build =
+--build-base py$(PYTHONREV) install --root ${DESTDIR} --prefix=3D${prefix} =
+--install-lib=3D$(pythonsitedir)
++=20
++ clean-local:
++ 	rm -rf py$(PYTHONREV)
+diff --git a/meta/recipes-extended/libpwquality/libpwquality_1.4.5.bb b/met=
+a/recipes-extended/libpwquality/libpwquality_1.4.5.bb
+new file mode 100644
+index 0000000000..a303b9e758
+--- /dev/null
++++ b/meta/recipes-extended/libpwquality/libpwquality_1.4.5.bb
+@@ -0,0 +1,40 @@
++SUMMARY =3D "Password quality checking and random password generation libr=
+ary"
++DESCRIPTION =3D "Library for password quality checking and generating rand=
+om passwords"
++HOMEPAGE =3D "https://github.com/libpwquality/libpwquality"
++SECTION =3D "devel/lib"
++
++LICENSE =3D "GPL-2.0-or-later"
++LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D6bd2f1386df813a459a0c34fde676fc=
+2"
++
++DEPENDS =3D "cracklib"
++
++SRC_URI =3D "git://github.com/libpwquality/libpwquality;branch=3Dmaster;pr=
+otocol=3Dhttps \
++    file://0001-Use-setuptools-instead-of-distutils.patch \
++    file://0002-Makefile.am-respect-PYTHONSITEDIR.patch \
++"
++SRCREV =3D "5490e96a3dd6ed7371435ca5b3ccef98bdb48b5a"
++
++
++inherit autotools-brokensep gettext
++inherit_defer ${@bb.utils.contains('PACKAGECONFIG', 'python3', 'setuptools=
+3-base', '', d)}
++
++do_configure:prepend() {
++    cp ${STAGING_DATADIR_NATIVE}/gettext/ABOUT-NLS ${AUTOTOOLS_AUXDIR}/
++}
++
++export PYTHON_DIR
++export BUILD_SYS
++export HOST_SYS
++
++EXTRA_OECONF +=3D "--libdir=3D${libdir} \
++                 --with-securedir=3D${base_libdir}/security \
++"
++
++PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'pam', 'pam',=
+ '', d)} python3"
++PACKAGECONFIG[pam] =3D "--enable-pam,--disable-pam,libpam"
++PACKAGECONFIG[python3] =3D "--enable-python-bindings --with-python-rev=3D$=
+{PYTHON_BASEVERSION} --with-python-binary=3D${STAGING_BINDIR_NATIVE}/python=
+3-native/python3 --with-pythonsitedir=3D${PYTHON_SITEPACKAGES_DIR},--disabl=
+e-python-bindings,python3-setuptools-native"
++
++FILES:${PN} +=3D "${base_libdir}/security/pam_pwquality.so"
++FILES:${PN}-dbg +=3D "${base_libdir}/security/.debug"
++FILES:${PN}-staticdev +=3D "${base_libdir}/security/pam_pwquality.a"
++FILES:${PN}-dev +=3D "${base_libdir}/security/pam_pwquality.la"
 
