@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76C9CC88E56
-	for <webhook@archiver.kernel.org>; Sat, 12 Sep 2026 06:46:08 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1971.1789195563695910844
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BEB05C88E5E
+	for <webhook@archiver.kernel.org>; Sat, 12 Sep 2026 06:46:09 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1969.1789195560464376977
  for <openembedded-core@lists.openembedded.org>;
- Fri, 11 Sep 2026 23:46:03 -0700
+ Fri, 11 Sep 2026 23:46:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=cS4sPQZ/;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=nBbAeZUi;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a0945dad62-a33db34b-2f77-4277-9be1-8bd4992b6a3b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=F2HPitck;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=r+jEC5Xk;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a0945da34c-3ca5666d-b850-48fb-b627-1762eeb7419e-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789195562;
+	t=1789195559;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=Ly4mvfyNEhxlYSPpyL4rY1S2LTEImXkk2NawrPDXZbk=;
-	b=cS4sPQZ/GuePVymjb5hNS9VK6YpPBMOEw7uVpFU0dNcavARwMhwvQY9KHe9qR4v0
-	shqpIxb4kBPCoe5pt1MBaQBHsJRAeI+YXONb7BFN4wNDMSvzgsFXhnVNLypW03692Aq
-	QC3ul+C9A83vIj+mnEAcIq+d2Zag/8QaLTogQC6w=
+	bh=12duxkatGTzTMU7s5zdmfWuIE0ZD/wjqHEuEpBKUNJw=;
+	b=F2HPitckaVa9MzGq3II9YRgRkxJBK/AorjuBpKG7O3yLA2SThFObRWRMwZZCdunt
+	0m4EPwUTIaUvHZ2LhFYMizeKq31/xrNE1PSy/lDxoHl68ypxDl7kpMaapBxpWY3qphR
+	LQLbnshRx3b+iUB9hoQUlspHyV8730H4MWyaH/Mk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789195562;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789195559;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=Ly4mvfyNEhxlYSPpyL4rY1S2LTEImXkk2NawrPDXZbk=;
-	b=nBbAeZUiAAao27XvpacAxfAsWV0uc8+PHt7Yi6cu+Hm96iGfF0vLBURW0USdTSGG
-	aoVmXkeJHZ8WG5fkujO0mhgsFBvBGDB6AgXMEmWuGqWBrkxcGO2VONmvUScmy3qfmrM
-	9Cn4uKyleS16C8yoq/euFEJw412FlXYXiTytOjPY=
-Content-Type: multipart/mixed; boundary="===============6767091867909005791=="
+	bh=12duxkatGTzTMU7s5zdmfWuIE0ZD/wjqHEuEpBKUNJw=;
+	b=r+jEC5Xk9TuoJHKir4wYFn1rLUf5aX5TpIm4LcV0ZyvI1Uslp1eBj/UJSg+Aaa+3
+	cjoWKeP6sLlmxyt609YMI/ZmkBECCVByi/4fKqi2NilDewfjsGsQO3m7AsQafcMq9Ni
+	SHERKucNT3vugU0Deib4ERjbTI9p67edLjg6vsCw=
+Content-Type: multipart/mixed; boundary="===============5553669808884486487=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Wang Mingyu <wangmy@fujitsu.com>
+To: Jose Quaresma <quaresma.jose@gmail.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] liburcu: upgrading to 0.15.7 SUCCEEDED
-Message-ID: <010101a0945dad62-a33db34b-2f77-4277-9be1-8bd4992b6a3b-000000@us-west-2.amazonses.com>
-Date: Sat, 12 Sep 2026 06:46:02 +0000
+Subject: [AUH] shaderc: upgrading to 2026.4 SUCCEEDED
+Message-ID: <010101a0945da34c-3ca5666d-b850-48fb-b627-1762eeb7419e-000000@us-west-2.amazonses.com>
+Date: Sat, 12 Sep 2026 06:45:59 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.12-54.240.27.29
+X-SES-Outgoing: 2026.09.12-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 06:46:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245693
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 06:46:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245688
 
---===============6767091867909005791==
+--===============5553669808884486487==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *liburcu* to *0.15.7* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *shaderc* to *2026.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-liburcu-upgrade-0.15.6-0.15.7.patch
+    - apply the patch: git am 0001-shaderc-upgrade-2026.3-2026.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,185 +72,155 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e7baa4ba2191f4b74d4b6ab6cddb3ffc16ece709 Mon Sep 17 00:00:00 2001
+From cb00a33fa6078fda9706bb7ca96a19dc03f32fb5 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Sat, 12 Sep 2026 06:45:52 +0000
-Subject: [PATCH] liburcu: upgrade 0.15.6 -> 0.15.7
+Date: Sat, 12 Sep 2026 06:28:13 +0000
+Subject: [PATCH] shaderc: upgrade 2026.3 -> 2026.4
 
-Source: ChangeLog
+Source: CHANGES
 
-2026-09-11 Userspace RCU 0.15.7
-	* call-rcu worker: set CPU affinity on first non-empty dequeue
-	* Fix: leaky wfcq tests
-	* Fix: test_build.c: Test output mismatch
-	* Fix: workqueue leaks mutexes on FreeBSD
-	* Fix: call-rcu leaks mutexes on FreeBSD
-	* call_rcu: pin per-CPU worker at thread startup
-	* urcu-pointer: Add rcu_dereference_sym2() taking the pointer address
-	* urcu-pointer: Fix missing memory ordering in rcu_dereference_sym()
+v2026.4 2026-09-11
+ - Use Glslang 16.6.0, SPIRV-Tools v2026.4.rc2
+ - Incorporate fixes for SPV_KHR_abort abortEXT(...)
+ - glslc:
+     option -fshader-stage now accepts all shader
+     stage names as allowed in #pragma shader_stage(<stage>)>
+     This includes ray tracing, task, and mesh shader
+     stages.
+ - Fixes an assert
 ---
- .../liburcu/{liburcu_0.15.6.bb => liburcu_0.15.7.bb}            | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/liburcu/{liburcu_0.15.6.bb => liburcu_0.15.7.bb} (91%)
+ .../0001-cmake-disable-building-external-dependencies.patch     | 2 +-
+ .../shaderc/{shaderc_2026.3.bb => shaderc_2026.4.bb}            | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-graphics/shaderc/{shaderc_2026.3.bb => shaderc_2026.4.bb} (95%)
 
-diff --git a/meta/recipes-support/liburcu/liburcu_0.15.6.bb b/meta/recipes-support/liburcu/liburcu_0.15.7.bb
-similarity index 91%
-rename from meta/recipes-support/liburcu/liburcu_0.15.6.bb
-rename to meta/recipes-support/liburcu/liburcu_0.15.7.bb
-index 140488eaa3..0aa51903be 100644
---- a/meta/recipes-support/liburcu/liburcu_0.15.6.bb
-+++ b/meta/recipes-support/liburcu/liburcu_0.15.7.bb
-@@ -13,7 +13,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=c2a92498b6e88e276f986877995425b8 \
+diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+index bc324b5c0d..57fff1340e 100644
+--- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
++++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+@@ -1,4 +1,4 @@
+-From b2d321b9c493a6e36203c50ad20adb655485c951 Mon Sep 17 00:00:00 2001
++From c7ebd558e5d62af7723ba804df4f0887ce7a83fd Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 13 Feb 2021 00:45:56 +0000
+ Subject: [PATCH] cmake: disable building external dependencies
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2026.3.bb b/meta/recipes-graphics/shaderc/shaderc_2026.4.bb
+similarity index 95%
+rename from meta/recipes-graphics/shaderc/shaderc_2026.3.bb
+rename to meta/recipes-graphics/shaderc/shaderc_2026.4.bb
+index d2a62a4cd4..5ff3a63086 100644
+--- a/meta/recipes-graphics/shaderc/shaderc_2026.3.bb
++++ b/meta/recipes-graphics/shaderc/shaderc_2026.4.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
  
- SRC_URI = "http://lttng.org/files/urcu/userspace-rcu-${PV}.tar.bz2"
- 
--SRC_URI[sha256sum] = "850b192096eb11ebf2c70e8f97bc7da7479ee41da1bebeb44e3986908bac414f"
-+SRC_URI[sha256sum] = "2556b83adc0f9b3ac8024e613e17d014d04c4c49110604ce55fcb14eae32edd3"
- 
- S = "${UNPACKDIR}/userspace-rcu-${PV}"
- inherit autotools multilib_header
+-SRCREV = "82757e4f72af8518fb679604d352623450cb761f"
++SRCREV = "d393a813c9b67c709d37b329203d72beb69d719e"
+ SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v${PV} \
+            file://0001-cmake-disable-building-external-dependencies.patch \
+            "
 -- 
 2.47.1
 
 
---===============6767091867909005791==
+--===============5553669808884486487==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="shaderc-changelog.txt"
+
+Changelog for shaderc: 2026.3 -> 2026.4
+Source: CHANGES
+
+v2026.4 2026-09-11
+ - Use Glslang 16.6.0, SPIRV-Tools v2026.4.rc2
+ - Incorporate fixes for SPV_KHR_abort abortEXT(...)
+ - glslc:
+     option -fshader-stage now accepts all shader
+     stage names as allowed in #pragma shader_stage(<stage>)>
+     This includes ray tracing, task, and mesh shader
+     stages.
+ - Fixes an assert
+
+--===============5553669808884486487==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-liburcu-upgrade-0.15.6-0.15.7.patch"
+ filename="0001-shaderc-upgrade-2026.3-2026.4.patch"
 
-RnJvbSBlN2JhYTRiYTIxOTFmNGI3NGQ0YjZhYjZjZGRiM2ZmYzE2ZWNlNzA5IE1vbiBTZXAgMTcg
+RnJvbSBjYjAwYTMzZmE2MDc4ZmRhOTcwNmJiN2NhOTZhMTlkYzAzZjMyZmI1IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFNhdCwgMTIgU2VwIDIwMjYgMDY6NDU6NTIgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ1cmN1OiB1cGdyYWRlIDAuMTUuNiAtPiAwLjE1LjcKClNvdXJjZTogQ2hhbmdlTG9nCgoyMDI2
-LTA5LTExIFVzZXJzcGFjZSBSQ1UgMC4xNS43CgkqIGNhbGwtcmN1IHdvcmtlcjogc2V0IENQVSBh
-ZmZpbml0eSBvbiBmaXJzdCBub24tZW1wdHkgZGVxdWV1ZQoJKiBGaXg6IGxlYWt5IHdmY3EgdGVz
-dHMKCSogRml4OiB0ZXN0X2J1aWxkLmM6IFRlc3Qgb3V0cHV0IG1pc21hdGNoCgkqIEZpeDogd29y
-a3F1ZXVlIGxlYWtzIG11dGV4ZXMgb24gRnJlZUJTRAoJKiBGaXg6IGNhbGwtcmN1IGxlYWtzIG11
-dGV4ZXMgb24gRnJlZUJTRAoJKiBjYWxsX3JjdTogcGluIHBlci1DUFUgd29ya2VyIGF0IHRocmVh
-ZCBzdGFydHVwCgkqIHVyY3UtcG9pbnRlcjogQWRkIHJjdV9kZXJlZmVyZW5jZV9zeW0yKCkgdGFr
-aW5nIHRoZSBwb2ludGVyIGFkZHJlc3MKCSogdXJjdS1wb2ludGVyOiBGaXggbWlzc2luZyBtZW1v
-cnkgb3JkZXJpbmcgaW4gcmN1X2RlcmVmZXJlbmNlX3N5bSgpCi0tLQogLi4uL2xpYnVyY3Uve2xp
-YnVyY3VfMC4xNS42LmJiID0+IGxpYnVyY3VfMC4xNS43LmJifSAgICAgICAgICAgIHwgMiArLQog
-MSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0
-YS9yZWNpcGVzLXN1cHBvcnQvbGlidXJjdS97bGlidXJjdV8wLjE1LjYuYmIgPT4gbGlidXJjdV8w
-LjE1LjcuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvbGlidXJj
-dS9saWJ1cmN1XzAuMTUuNi5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVyY3UvbGlidXJj
-dV8wLjE1LjcuYmIKc2ltaWxhcml0eSBpbmRleCA5MSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGlidXJjdS9saWJ1cmN1XzAuMTUuNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVz
-LXN1cHBvcnQvbGlidXJjdS9saWJ1cmN1XzAuMTUuNy5iYgppbmRleCAxNDA0ODhlYWEzLi4wYWE1
-MTkwM2JlIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9saWJ1cmN1L2xpYnVyY3Vf
-MC4xNS42LmJiCisrKyBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2xpYnVyY3UvbGlidXJjdV8wLjE1
-LjcuYmIKQEAgLTEzLDcgKzEzLDcgQEAgTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5T
-RS5tZDttZDU9YzJhOTI0OThiNmU4OGUyNzZmOTg2ODc3OTk1NDI1YjggXAogCiBTUkNfVVJJID0g
-Imh0dHA6Ly9sdHRuZy5vcmcvZmlsZXMvdXJjdS91c2Vyc3BhY2UtcmN1LSR7UFZ9LnRhci5iejIi
-CiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI4NTBiMTkyMDk2ZWIxMWViZjJjNzBlOGY5N2JjN2Rh
-NzQ3OWVlNDFkYTFiZWJlYjQ0ZTM5ODY5MDhiYWM0MTRmIgorU1JDX1VSSVtzaGEyNTZzdW1dID0g
-IjI1NTZiODNhZGMwZjliM2FjODAyNGU2MTNlMTdkMDE0ZDA0YzRjNDkxMTA2MDRjZTU1ZmNiMTRl
-YWUzMmVkZDMiCiAKIFMgPSAiJHtVTlBBQ0tESVJ9L3VzZXJzcGFjZS1yY3UtJHtQVn0iCiBpbmhl
-cml0IGF1dG90b29scyBtdWx0aWxpYl9oZWFkZXIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFNhdCwgMTIgU2VwIDIwMjYgMDY6Mjg6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBz
+aGFkZXJjOiB1cGdyYWRlIDIwMjYuMyAtPiAyMDI2LjQKClNvdXJjZTogQ0hBTkdFUwoKdjIwMjYu
+NCAyMDI2LTA5LTExCiAtIFVzZSBHbHNsYW5nIDE2LjYuMCwgU1BJUlYtVG9vbHMgdjIwMjYuNC5y
+YzIKIC0gSW5jb3Jwb3JhdGUgZml4ZXMgZm9yIFNQVl9LSFJfYWJvcnQgYWJvcnRFWFQoLi4uKQog
+LSBnbHNsYzoKICAgICBvcHRpb24gLWZzaGFkZXItc3RhZ2Ugbm93IGFjY2VwdHMgYWxsIHNoYWRl
+cgogICAgIHN0YWdlIG5hbWVzIGFzIGFsbG93ZWQgaW4gI3ByYWdtYSBzaGFkZXJfc3RhZ2UoPHN0
+YWdlPik+CiAgICAgVGhpcyBpbmNsdWRlcyByYXkgdHJhY2luZywgdGFzaywgYW5kIG1lc2ggc2hh
+ZGVyCiAgICAgc3RhZ2VzLgogLSBGaXhlcyBhbiBhc3NlcnQKLS0tCiAuLi4vMDAwMS1jbWFrZS1k
+aXNhYmxlLWJ1aWxkaW5nLWV4dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaCAgICAgfCAyICstCiAu
+Li4vc2hhZGVyYy97c2hhZGVyY18yMDI2LjMuYmIgPT4gc2hhZGVyY18yMDI2LjQuYmJ9ICAgICAg
+ICAgICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlv
+bnMoLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy97c2hhZGVyY18yMDI2
+LjMuYmIgPT4gc2hhZGVyY18yMDI2LjQuYmJ9ICg5NSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMS1jbWFrZS1kaXNhYmxlLWJ1aWxkaW5nLWV4
+dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaCBiL21ldGEvcmVjaXBlcy1ncmFwaGljcy9zaGFkZXJj
+L2ZpbGVzLzAwMDEtY21ha2UtZGlzYWJsZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNpZXMu
+cGF0Y2gKaW5kZXggYmMzMjRiNWMwZC4uNTdmZmYxMzQwZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3NoYWRlcmMvZmlsZXMvMDAwMS1jbWFrZS1kaXNhYmxlLWJ1aWxkaW5nLWV4
+dGVybmFsLWRlcGVuZGVuY2llcy5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hh
+ZGVyYy9maWxlcy8wMDAxLWNtYWtlLWRpc2FibGUtYnVpbGRpbmctZXh0ZXJuYWwtZGVwZW5kZW5j
+aWVzLnBhdGNoCkBAIC0xLDQgKzEsNCBAQAotRnJvbSBiMmQzMjFiOWM0OTNhNmUzNjIwM2M1MGFk
+MjBhZGI2NTU0ODVjOTUxIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQorRnJvbSBjN2ViZDU1OGU1
+ZDYyYWY3NzIzYmE4MDRkZjRmMDg4N2NlN2E4M2ZkIE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAwMQog
+RnJvbTogSm9zZSBRdWFyZXNtYSA8cXVhcmVzbWEuam9zZUBnbWFpbC5jb20+CiBEYXRlOiBTYXQs
+IDEzIEZlYiAyMDIxIDAwOjQ1OjU2ICswMDAwCiBTdWJqZWN0OiBbUEFUQ0hdIGNtYWtlOiBkaXNh
+YmxlIGJ1aWxkaW5nIGV4dGVybmFsIGRlcGVuZGVuY2llcwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNp
+cGVzLWdyYXBoaWNzL3NoYWRlcmMvc2hhZGVyY18yMDI2LjMuYmIgYi9tZXRhL3JlY2lwZXMtZ3Jh
+cGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjYuNC5iYgpzaW1pbGFyaXR5IGluZGV4IDk1JQpyZW5h
+bWUgZnJvbSBtZXRhL3JlY2lwZXMtZ3JhcGhpY3Mvc2hhZGVyYy9zaGFkZXJjXzIwMjYuMy5iYgpy
+ZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWdyYXBoaWNzL3NoYWRlcmMvc2hhZGVyY18yMDI2LjQuYmIK
+aW5kZXggZDJhNjJhNGNkNC4uNWZmM2E2MzA4NiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWdy
+YXBoaWNzL3NoYWRlcmMvc2hhZGVyY18yMDI2LjMuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWdyYXBo
+aWNzL3NoYWRlcmMvc2hhZGVyY18yMDI2LjQuYmIKQEAgLTYsNyArNiw3IEBAIEhPTUVQQUdFID0g
+Imh0dHBzOi8vZ2l0aHViLmNvbS9nb29nbGUvc2hhZGVyYyIKIExJQ0VOU0UgPSAiQXBhY2hlLTIu
+MCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PTg2ZDNmM2E5NWMzMjRj
+OTQ3OWJkODk4Njk2OGY0MzI3IgogCi1TUkNSRVYgPSAiODI3NTdlNGY3MmFmODUxOGZiNjc5NjA0
+ZDM1MjYyMzQ1MGNiNzYxZiIKK1NSQ1JFViA9ICJkMzkzYTgxM2M5YjY3YzcwOWQzN2IzMjkyMDNk
+NzJiZWI2OWQ3MTllIgogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL2dvb2dsZS9zaGFkZXJj
+LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFpbjt0YWc9diR7UFZ9IFwKICAgICAgICAgICAg
+ZmlsZTovLzAwMDEtY21ha2UtZGlzYWJsZS1idWlsZGluZy1leHRlcm5hbC1kZXBlbmRlbmNpZXMu
+cGF0Y2ggXAogICAgICAgICAgICAiCi0tIAoyLjQ3LjEKCg==
 
---===============6767091867909005791==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/liburcu/liburcu: FILELIST: removed "/usr/lib/liburcu.so.8.1.0 /usr/lib/liburcu-memb.so.8.1.0 /usr/lib/liburcu-qsbr.so.8.1.0 /usr/lib/liburcu-bp.so.8.1.0 /usr/lib/liburcu-mb.so.8.1.0 /usr/lib/liburcu-cds.so.8.1.0 /usr/lib/liburcu-common.so.8.1.0", added "/usr/lib/liburcu-common.so.8.2.0 /usr/lib/liburcu.so.8.2.0 /usr/lib/liburcu-bp.so.8.2.0 /usr/lib/liburcu-cds.so.8.2.0 /usr/lib/liburcu-memb.so.8.2.0 /usr/lib/liburcu-qsbr.so.8.2.0 /usr/lib/liburcu-mb.so.8.2.0"
-Changes to packages/x86-64-v3-poky-linux/liburcu (sysroot):
-  /usr/lib/liburcu-bp.so.8 changed symlink target from liburcu-bp.so.8.1.0 to liburcu-bp.so.8.2.0
-  /usr/lib/liburcu-bp.so changed symlink target from liburcu-bp.so.8.1.0 to liburcu-bp.so.8.2.0
-  /usr/lib/liburcu-cds.so.8 changed symlink target from liburcu-cds.so.8.1.0 to liburcu-cds.so.8.2.0
-  /usr/lib/liburcu-cds.so changed symlink target from liburcu-cds.so.8.1.0 to liburcu-cds.so.8.2.0
-  /usr/lib/liburcu-common.so.8 changed symlink target from liburcu-common.so.8.1.0 to liburcu-common.so.8.2.0
-  /usr/lib/liburcu-common.so changed symlink target from liburcu-common.so.8.1.0 to liburcu-common.so.8.2.0
-  /usr/lib/liburcu-mb.so.8 changed symlink target from liburcu-mb.so.8.1.0 to liburcu-mb.so.8.2.0
-  /usr/lib/liburcu-mb.so changed symlink target from liburcu-mb.so.8.1.0 to liburcu-mb.so.8.2.0
-  /usr/lib/liburcu-memb.so.8 changed symlink target from liburcu-memb.so.8.1.0 to liburcu-memb.so.8.2.0
-  /usr/lib/liburcu-memb.so changed symlink target from liburcu-memb.so.8.1.0 to liburcu-memb.so.8.2.0
-  /usr/lib/liburcu-qsbr.so.8 changed symlink target from liburcu-qsbr.so.8.1.0 to liburcu-qsbr.so.8.2.0
-  /usr/lib/liburcu-qsbr.so changed symlink target from liburcu-qsbr.so.8.1.0 to liburcu-qsbr.so.8.2.0
-  /usr/lib/liburcu.so.8 changed symlink target from liburcu.so.8.1.0 to liburcu.so.8.2.0
-  /usr/lib/liburcu.so changed symlink target from liburcu.so.8.1.0 to liburcu.so.8.2.0
-  /usr/lib/liburcu-bp.so.8.1.0 moved to /usr/lib/liburcu-bp.so.8.2.0
-  /usr/lib/liburcu-cds.so.8.1.0 moved to /usr/lib/liburcu-cds.so.8.2.0
-  /usr/lib/liburcu-common.so.8.1.0 moved to /usr/lib/liburcu-common.so.8.2.0
-  /usr/lib/liburcu-mb.so.8.1.0 moved to /usr/lib/liburcu-mb.so.8.2.0
-  /usr/lib/liburcu-memb.so.8.1.0 moved to /usr/lib/liburcu-memb.so.8.2.0
-  /usr/lib/liburcu-qsbr.so.8.1.0 moved to /usr/lib/liburcu-qsbr.so.8.2.0
-  /usr/lib/liburcu.so.8.1.0 moved to /usr/lib/liburcu.so.8.2.0
-
---===============6767091867909005791==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="liburcu-changelog.txt"
-
-Changelog for liburcu: 0.15.6 -> 0.15.7
-Source: ChangeLog
-
-2026-09-11 Userspace RCU 0.15.7
-	* call-rcu worker: set CPU affinity on first non-empty dequeue
-	* Fix: leaky wfcq tests
-	* Fix: test_build.c: Test output mismatch
-	* Fix: workqueue leaks mutexes on FreeBSD
-	* Fix: call-rcu leaks mutexes on FreeBSD
-	* call_rcu: pin per-CPU worker at thread startup
-	* urcu-pointer: Add rcu_dereference_sym2() taking the pointer address
-	* urcu-pointer: Fix missing memory ordering in rcu_dereference_sym()
-
---===============6767091867909005791==
+--===============5553669808884486487==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/liburcu: PV changed from "0.15.6" to "0.15.7"
-packages/x86-64-v3-poky-linux/liburcu: PKGV changed from 0.15.6 [default] to 0.15.7 [default]
-packages/x86-64-v3-poky-linux/liburcu: SRC_URI changed from "http://lttng.org/files/urcu/userspace-rcu-0.15.6.tar.bz2" to "http://lttng.org/files/urcu/userspace-rcu-0.15.7.tar.bz2"
-packages/x86-64-v3-poky-linux/liburcu/liburcu-dbg: PV changed from "0.15.6" to "0.15.7"
-packages/x86-64-v3-poky-linux/liburcu/liburcu-dbg: PKGV changed from 0.15.6 [default] to 0.15.7 [default]
-packages/x86-64-v3-poky-linux/liburcu/liburcu-dbg: FILELIST: removed "/usr/lib/.debug/liburcu-bp.so.8.1.0 /usr/lib/.debug/liburcu-cds.so.8.1.0 /usr/lib/.debug/liburcu.so.8.1.0 /usr/lib/.debug/liburcu-mb.so.8.1.0 /usr/lib/.debug/liburcu-memb.so.8.1.0 /usr/lib/.debug/liburcu-common.so.8.1.0 /usr/lib/.debug/liburcu-qsbr.so.8.1.0", added "/usr/lib/.debug/liburcu-mb.so.8.2.0 /usr/lib/.debug/liburcu-qsbr.so.8.2.0 /usr/lib/.debug/liburcu-common.so.8.2.0 /usr/lib/.debug/liburcu-memb.so.8.2.0 /usr/lib/.debug/liburcu-bp.so.8.2.0 /usr/lib/.debug/liburcu-cds.so.8.2.0 /usr/lib/.debug/liburcu.so.8.2.0"
-packages/x86-64-v3-poky-linux/liburcu/liburcu-dbg: PKGSIZE changed from 976864 to 976880 (+0%)
-packages/x86-64-v3-poky-linux/liburcu/liburcu-dev: PV changed from "0.15.6" to "0.15.7"
-packages/x86-64-v3-poky-linux/liburcu/liburcu-dev: PKGV changed from 0.15.6 [default] to 0.15.7 [default]
-packages/x86-64-v3-poky-linux/liburcu/liburcu-dev: PKGSIZE changed from 365958 to 366977 (+0%)
-packages/x86-64-v3-poky-linux/liburcu/liburcu-doc: PV changed from "0.15.6" to "0.15.7"
-packages/x86-64-v3-poky-linux/liburcu/liburcu-doc: PKGV changed from 0.15.6 [default] to 0.15.7 [default]
-packages/x86-64-v3-poky-linux/liburcu/liburcu-locale: PV changed from "0.15.6" to "0.15.7"
-packages/x86-64-v3-poky-linux/liburcu/liburcu-locale: PKGV changed from 0.15.6 [default] to 0.15.7 [default]
-packages/x86-64-v3-poky-linux/liburcu/liburcu-src: PV changed from "0.15.6" to "0.15.7"
-packages/x86-64-v3-poky-linux/liburcu/liburcu-src: PKGV changed from 0.15.6 [default] to 0.15.7 [default]
-packages/x86-64-v3-poky-linux/liburcu/liburcu-src: FILELIST: directory renamed /usr/src/debug/liburcu/0.15.6/include/urcu -> /usr/src/debug/liburcu/0.15.7/include/urcu, directory renamed /usr/src/debug/liburcu/0.15.6/include/urcu/uatomic -> /usr/src/debug/liburcu/0.15.7/include/urcu/uatomic, directory renamed /usr/src/debug/liburcu/0.15.6/include/urcu/static -> /usr/src/debug/liburcu/0.15.7/include/urcu/static, directory renamed /usr/src/debug/liburcu/0.15.6/src -> /usr/src/debug/liburcu/0.15.7/src
-packages/x86-64-v3-poky-linux/liburcu/liburcu-src: PKGSIZE changed from 428659 to 431441 (+1%)
-packages/x86-64-v3-poky-linux/liburcu/liburcu-staticdev: PV changed from "0.15.6" to "0.15.7"
-packages/x86-64-v3-poky-linux/liburcu/liburcu-staticdev: PKGV changed from 0.15.6 [default] to 0.15.7 [default]
-packages/x86-64-v3-poky-linux/liburcu/liburcu: PV changed from "0.15.6" to "0.15.7"
-packages/x86-64-v3-poky-linux/liburcu/liburcu: PKGV changed from 0.15.6 [default] to 0.15.7 [default]
-packages/x86-64-v3-poky-linux/liburcu/liburcu: FILELIST: removed "/usr/lib/liburcu-common.so.8.1.0 /usr/lib/liburcu-cds.so.8.1.0 /usr/lib/liburcu-qsbr.so.8.1.0 /usr/lib/liburcu-memb.so.8.1.0 /usr/lib/liburcu-bp.so.8.1.0 /usr/lib/liburcu-mb.so.8.1.0 /usr/lib/liburcu.so.8.1.0", added "/usr/lib/liburcu-bp.so.8.2.0 /usr/lib/liburcu-cds.so.8.2.0 /usr/lib/liburcu-memb.so.8.2.0 /usr/lib/liburcu-common.so.8.2.0 /usr/lib/liburcu-qsbr.so.8.2.0 /usr/lib/liburcu.so.8.2.0 /usr/lib/liburcu-mb.so.8.2.0"
-Changes to packages/x86-64-v3-poky-linux/liburcu (sysroot):
-  /usr/lib/liburcu-bp.so.8 changed symlink target from liburcu-bp.so.8.1.0 to liburcu-bp.so.8.2.0
-  /usr/lib/liburcu-bp.so changed symlink target from liburcu-bp.so.8.1.0 to liburcu-bp.so.8.2.0
-  /usr/lib/liburcu-cds.so.8 changed symlink target from liburcu-cds.so.8.1.0 to liburcu-cds.so.8.2.0
-  /usr/lib/liburcu-cds.so changed symlink target from liburcu-cds.so.8.1.0 to liburcu-cds.so.8.2.0
-  /usr/lib/liburcu-common.so.8 changed symlink target from liburcu-common.so.8.1.0 to liburcu-common.so.8.2.0
-  /usr/lib/liburcu-common.so changed symlink target from liburcu-common.so.8.1.0 to liburcu-common.so.8.2.0
-  /usr/lib/liburcu-mb.so.8 changed symlink target from liburcu-mb.so.8.1.0 to liburcu-mb.so.8.2.0
-  /usr/lib/liburcu-mb.so changed symlink target from liburcu-mb.so.8.1.0 to liburcu-mb.so.8.2.0
-  /usr/lib/liburcu-memb.so.8 changed symlink target from liburcu-memb.so.8.1.0 to liburcu-memb.so.8.2.0
-  /usr/lib/liburcu-memb.so changed symlink target from liburcu-memb.so.8.1.0 to liburcu-memb.so.8.2.0
-  /usr/lib/liburcu-qsbr.so.8 changed symlink target from liburcu-qsbr.so.8.1.0 to liburcu-qsbr.so.8.2.0
-  /usr/lib/liburcu-qsbr.so changed symlink target from liburcu-qsbr.so.8.1.0 to liburcu-qsbr.so.8.2.0
-  /usr/lib/liburcu.so.8 changed symlink target from liburcu.so.8.1.0 to liburcu.so.8.2.0
-  /usr/lib/liburcu.so changed symlink target from liburcu.so.8.1.0 to liburcu.so.8.2.0
-  /usr/lib/liburcu-bp.so.8.1.0 moved to /usr/lib/liburcu-bp.so.8.2.0
-  /usr/lib/liburcu-cds.so.8.1.0 moved to /usr/lib/liburcu-cds.so.8.2.0
-  /usr/lib/liburcu-common.so.8.1.0 moved to /usr/lib/liburcu-common.so.8.2.0
-  /usr/lib/liburcu-mb.so.8.1.0 moved to /usr/lib/liburcu-mb.so.8.2.0
-  /usr/lib/liburcu-memb.so.8.1.0 moved to /usr/lib/liburcu-memb.so.8.2.0
-  /usr/lib/liburcu-qsbr.so.8.1.0 moved to /usr/lib/liburcu-qsbr.so.8.2.0
-  /usr/lib/liburcu.so.8.1.0 moved to /usr/lib/liburcu.so.8.2.0
+packages/x86-64-v3-poky-linux/shaderc: SRC_URI changed from "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v2026.3 file://0001-cmake-disable-building-external-dependencies.patch" to "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v2026.4 file://0001-cmake-disable-building-external-dependencies.patch"
+packages/x86-64-v3-poky-linux/shaderc: PKGV changed from 2026.3 [default] to 2026.4 [default]
+packages/x86-64-v3-poky-linux/shaderc: PV changed from "2026.3" to "2026.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dbg: PKGV changed from 2026.3 [default] to 2026.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dbg: PKGSIZE changed from 5169728 to 5169864 (+0%)
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dbg: PV changed from "2026.3" to "2026.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dev: PKGV changed from 2026.3 [default] to 2026.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-dev: PV changed from "2026.3" to "2026.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-doc: PKGV changed from 2026.3 [default] to 2026.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-doc: PV changed from "2026.3" to "2026.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-locale: PKGV changed from 2026.3 [default] to 2026.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-locale: PV changed from "2026.3" to "2026.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-src: PKGV changed from 2026.3 [default] to 2026.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-src: FILELIST: directory renamed /usr/src/debug/shaderc/2026.3/glslc/src -> /usr/src/debug/shaderc/2026.4/glslc/src, directory renamed /usr/src/debug/shaderc/2026.3/libshaderc_util/src -> /usr/src/debug/shaderc/2026.4/libshaderc_util/src, directory renamed /usr/src/debug/shaderc/2026.3/libshaderc/src -> /usr/src/debug/shaderc/2026.4/libshaderc/src, directory renamed /usr/src/debug/shaderc/2026.3/libshaderc_util/include/libshaderc_util -> /usr/src/debug/shaderc/2026.4/libshaderc_util/include/libshaderc_util, directory renamed /usr/src/debug/shaderc/2026.3/libshaderc/include/shaderc -> /usr/src/debug/shaderc/2026.4/libshaderc/include/shaderc
+packages/x86-64-v3-poky-linux/shaderc/shaderc-src: PKGSIZE changed from 328635 to 329114 (+0%)
+packages/x86-64-v3-poky-linux/shaderc/shaderc-src: PV changed from "2026.3" to "2026.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc-staticdev: PKGV changed from 2026.3 [default] to 2026.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc-staticdev: PKGSIZE changed from 3810066 to 3810098 (+0%)
+packages/x86-64-v3-poky-linux/shaderc/shaderc-staticdev: PV changed from "2026.3" to "2026.4"
+packages/x86-64-v3-poky-linux/shaderc/shaderc: PKGV changed from 2026.3 [default] to 2026.4 [default]
+packages/x86-64-v3-poky-linux/shaderc/shaderc: PV changed from "2026.3" to "2026.4"
 
---===============6767091867909005791==--
+--===============5553669808884486487==--
 
