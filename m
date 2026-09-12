@@ -1,383 +1,175 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2C2CEC88E59
-	for <webhook@archiver.kernel.org>; Sat, 12 Sep 2026 14:01:33 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7029.1789220699719191639
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D4C4C88E53
+	for <webhook@archiver.kernel.org>; Sat, 12 Sep 2026 14:38:03 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.44])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7883.1789223881170796934
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Sep 2026 06:44:59 -0700
+ Sat, 12 Sep 2026 07:38:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=WkfBrAhs;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.168.131, mailfrom: wenwfu@qti.qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68CBdxoV1708061;
-	Sat, 12 Sep 2026 12:55:17 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	content-type:date:from:in-reply-to:message-id:mime-version
-	:references:subject:to; s=qcppdkim1; bh=eHMcHVhZ0Ml+VEsR33x/EcaI
-	CdP8ObIMsG4RoWCtCTI=; b=WkfBrAhsOrrvPJxWgKNgdFfGKajBafpLme3eABLy
-	TXOODtcfgZ0mTx2k+tThIGIBrWX6E7Tm58DFOwTWvEF1gVouxoKEJBbgEbk3h0JR
-	Q98+8GmUtjIHt9hc4Nxf8KVyDG3bDx24X05miGzo3TPSlr/oUH/EC2EbiylvWkE1
-	Furn267P8sBMO0OgX2Jo86AYCtJC4gKj/X1NOCm+OL2scRwaqy4tQqdWZUZSntWX
-	H956UlcDA66dvZMgcKt1zecQ8/Y7+g0Qszz5PRRV0L2GXvScrZPKBdhR3RfY5sge
-	usfKdmad5rE4TAzyfr3zOD1OSLMefCvR6atGT9miKo/qhA==
-Received: from byapr08cu003.outbound.protection.outlook.com (mail-byapr08cu00302.outbound.protection.outlook.com [40.93.1.106])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gmywh0vgh-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sat, 12 Sep 2026 12:55:16 +0000 (GMT)
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=ZgfXl7sn;
+ spf=pass (domain: siemens.com, ip: 52.101.72.44, mailfrom: peter.marko@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=r9kR/z8vLza4gkovTWEwZkGeYzOqoztfokuiE8UTkVJ1ieiQCZKBP8dGghU1C9d2Av/HHgHeT6rRthJ4xTAs0hEAmLhszGqo/vE/3OePDX3qbabWFSBIjDW5hJg/Lv0kkmjRJIyKI+I9sTGXV7CAQrOspQHhR5VkV5XVppbuUPHou+EsmIUaSdqe0Gpjr+WiTqvldoqDEeqeEV+yft2VE6rLWl3jnPjf0B1j3dTMss5E9oZSKjQOMdFLnQNb5zF7iUZEmLDvr0PqGEq5ebe6jJJJvZCLmpnGiX/zZxzGvjtNY/butNnvkm4FfXACtl6uCHM8TW0JmuuMGBIC4X100g==
+ b=wWbNF76kricsZoCXmLsV/WE13c6iF8fPUcc1uiVfKJ7xcY4ioCLkn78NabpKsQ3X0rOdsY7/zyjDvt+2nZqHUCM1BDDu9Vmq3yuxxDA4uQowcbGaCcg9LOR2TGooOkW46rhpQaGbbZNpeSGW9xh9UKVm+zbz0yJQb0656vRAr+08C22UV6BcdiuqY5tQ9YBl3mwz7ktimTx3HqZHVomFXcyVcXefiDhk0yGwR9t0LyhgI3jLfJC/FUQtjjeuQY2Sua2O04ZeVw9rUC70hdGmLQdrY/KfQBXjvvMdZc7nTKITnnmv28ljlPYj/pb/sLGU5ulqTeLBDCVJWyLYALGprQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=eHMcHVhZ0Ml+VEsR33x/EcaICdP8ObIMsG4RoWCtCTI=;
- b=pvp0IFmh+9atLIPg56cnXM8K/IH+KSd3RGJ+7Ls6KVVmoPmt2UlM+BTDTkaEeZeLWQGjaLi6esaaoLZXqtvSJc7GALGTdnz0qInyU7Y1w63QsqnskOijW7b0RsqVjSimORW1s9lyAzq+DjufCJePoriaOI002U3SaXvn9OzIwh5ZgDuLLxohcXRygymVFGbhnADNLZPFGgoV8RB59OPLhoTZBxH+pd1bz2k7xk5At1dM1a2KplRrCFx90R6T6aSQfp5C+sdFBtCLDM8BM9e0aFVlMQ3OgL9NQZHA3bFX6rVqingAaKDBlDeqOTM9GGtBQdfkgCeCbhXmLff9m1kEpQ==
+ bh=ddzGUVm2b9/OVqVOSDcaBt6Irh27byVFmU36SzRMH4E=;
+ b=R7QMKQobGwveVz6WUZlXt3j122d5uQsUlhcmxnYApnU27FYlSVZGI+dVloPB0a/XpNjj+iVExQzVNa9wxFog6gAuKbRKzUx2+lcuFzcsQKhLdB9A0XyG/kqfaRwV/s/78kR9f2RXKzZ+1N8Wi5EzLQCn0+jZd+7arremFROXjxQd+eHaSd80FtPhis4UlUiYdKXkEXkILB4fjJepQI2QDwb2jg7YJuEdhW5Y+4wGMo91iymLdmwyNKg6fIM3Q7moUtnauR9kk6HNfFnzrRkOp+LRZy14uY5IZZAS0TBc/bZXMKeG6FdnrSwIwXv1/wzxDd4AXcb+Kyfh98jSH0u/Wg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=qti.qualcomm.com; dmarc=pass action=none
- header.from=qti.qualcomm.com; dkim=pass header.d=qti.qualcomm.com; arc=none
-Received: from DS0PR02MB9197.namprd02.prod.outlook.com (2603:10b6:8:13e::9) by
- DM8PR02MB8007.namprd02.prod.outlook.com (2603:10b6:8:18::12) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.406.10; Sat, 12 Sep 2026 12:55:14 +0000
-Received: from DS0PR02MB9197.namprd02.prod.outlook.com
- ([fe80::d5b6:c39c:5293:54f8]) by DS0PR02MB9197.namprd02.prod.outlook.com
- ([fe80::d5b6:c39c:5293:54f8%4]) with mapi id 15.21.0406.007; Sat, 12 Sep 2026
- 12:55:14 +0000
-From: Wenwen Fu <wenwfu@qti.qualcomm.com>
-To: Yoann Congal <yoann.congal@smile.fr>,
-        "openembedded-core@lists.openembedded.org"
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ddzGUVm2b9/OVqVOSDcaBt6Irh27byVFmU36SzRMH4E=;
+ b=ZgfXl7snh3Esm410XCg31WZu2srySjgWVjnjLYsbTn2USmviZNrM+yVXwA51tX0llKRkE5EV9XmnKVkdSVG+zbOOEPvGChnz5Ur9shYrAaJUmjt3QVk1mPp76HJUox8pQEHZSvGfpyN23Ye+pZQXqevb2yrqGkLejG/fxk/4/58iPQGAWM+S1e/h6o02LJVY6tT9VH4PqHIytM4CK2VxlbaVGVVutyKbf2EKEUxfT+9qeHmaIc9ienY53gKbYWTViVJTvk9urk0w+a7xIYXbmdJKquZGBNK+fM7lYqDN/EVNUuAK8EQX44D3yZPX7GIwqwsheIIMBqtNyUn6FViQuQ==
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
+ by PA1PR10MB8972.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:448::6) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.11; Sat, 12 Sep
+ 2026 14:37:56 +0000
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0406.007; Sat, 12 Sep 2026
+ 14:37:56 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "yoann.congal@smile.fr" <yoann.congal@smile.fr>, "hthakar@cisco.com"
+	<hthakar@cisco.com>, "openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] initramfs-framework: avoid processes when parsing cmdline
-Thread-Topic: [OE-core] [PATCH] initramfs-framework: avoid processes when
- parsing cmdline
-Thread-Index: AQHdQgA7+Z1IkEOjU0CQ1tzfBu/b77bJupuAgAEsm8M=
-Date: Sat, 12 Sep 2026 12:55:13 +0000
+CC: "xe-linux-external@cisco.com" <xe-linux-external@cisco.com>
+Subject: RE: [OE-core][scarthgap][PATCH] python3-ply: set status for
+ CVE-2025-56005
+Thread-Topic: [OE-core][scarthgap][PATCH] python3-ply: set status for
+ CVE-2025-56005
+Thread-Index: AQHdO2PKgRG1+z1+O0ijXlri31Xo5LbJIgMAgAHvGNA=
+Date: Sat, 12 Sep 2026 14:37:56 +0000
 Message-ID: 
- <DS0PR02MB91976FA8F50BB0E0568B0248EABD2@DS0PR02MB9197.namprd02.prod.outlook.com>
-References: <20260911151416.1946900-1-wenwfu@qti.qualcomm.com>
- <DLCPT6JMUAFL.3O5FRF4W086BP@smile.fr>
-In-Reply-To: <DLCPT6JMUAFL.3O5FRF4W086BP@smile.fr>
-Accept-Language: en-US, zh-CN
+ <AS8PR10MB507315C1FA2936B1B4EF91D8FDBD2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260903051903.3667481-1-hthakar@cisco.com>
+ <DLCD6S1OFYVG.1UJ6XDWKX8OJ6@smile.fr>
+In-Reply-To: <DLCD6S1OFYVG.1UJ6XDWKX8OJ6@smile.fr>
+Accept-Language: en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
 msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=43a38481-ed9a-4690-a530-d5f76f15fa17;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-09-12T14:35:23Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: DS0PR02MB9197:EE_|DM8PR02MB8007:EE_
-x-ms-office365-filtering-correlation-id: 45568e01-d590-4dcd-54f6-08df10cd1661
+x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|PA1PR10MB8972:EE_
+x-ms-office365-filtering-correlation-id: 58914104-e876-4d10-0555-08df10db6f71
+x-ms-exchange-atpmessageproperties: SA
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|38070700021|6133799003|3023799007|10067099003|18002099003|56012099006|11063799006|4143699003|22082099003|8096899003;
+ BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|10067099003|4143699003|6133799003|22082099003|18002099003|55112099003|56012099006|11063799006|38070700021;
 x-microsoft-antispam-message-info: 
- ZzpscV+OGlf4XYT+QvJH2wJ5+83O8FeJVKl1bQrx+dghZG1b67vKh3QbT2mvUEJse3/lxJGlwT/nm8aHobF+YZ8lSpYf8e+E3Yx8zDP8K2yTw/Cmg1kyWb8sCVoXPv8VptIPuwqtdw/biKz7CQLMYglqn44Q6JwbJY+/kM1xCMhurFGGBFD/j/Rarng4TvFZ+N/4+qdkigEqEbcfosBUH7dFuZVLYSpN8VnCb1UHTcUud/h1YKe7QP1445gniArnHCCLhuQGViq5COh2+Bq9yXriF+vmCy7NSVKotn8jboB+w13WhP8nXsBm7dPhaQ9irzCVjWLImO8mpFoZt80wPLjKo/dmdLLarWZ6+VvpcD9RWE4rjCI1v+J2DouMTyM6gQ56zEsOcHUexMOvjIDVTH8BoqP8WscVB83fz0ZaftwrwdQCXzw2Fl+HUo3rgATbD2JKbLEPBNZqduGPsipyrkdIVy+zE0K44r6bTqkk4gxLA6OjV5JhbnN2kkEa74G7cB8Q7BrIKX5LbwTcyjDmpf6ySG5ll53JqxcXbTYG0diuNOD/50LsWuwfpbLObtmBvoNC9jKa3n9vWSNX6dv06CPQsUfTta9Lz1uGkgOTwaEGWbjPITGUsmHQco8HF7oH2onwotdr9T2rJmnBgWrKNIb/4Tj5Gz//FUT+PjzOy5QN4iPIkJ/pZmzwiXAetnd7MX+TwfqVFOOV7OvTXq7Ft17Hp6+25NHnSNPa4QFewRo=
+ ABRvNRJFs6W7W1/9/Qt7wGwPtBxNCHnRydaX18iTbhE/y4mN/1hwm5PmbM+Xp2chVSDWOYt299Pl2827FInEAb5ceFCxcJu/8mQjua4puSUdRg9TvN+KEI0fhWqB1PNxaW93cOwFFOBWi3QBSNxQQK3on9rOqlV+2W89tdNww+4O0+9TV7c2XnOSSoLEwh99ej8PQzxh2yGFCVS/K/qfjjp0v5F37Ku95K677LlO3EXc4rnz3kE8/7q4isOwnCSvZ0CWLafTBSAZx3MLW5APqyuKN7eR7cETl34EufQEnjWqsJn8hBZzuVF/kp5nwhYL6wQ1KlcsXBeo1kFrFR21pbbCZ4YsCbeg6SvHvJeWjoazyj11R7VFDzUOXr14JmB1bpxAA7IcXXWBAaDl6FOW2GVUG0eqyfpMPUfvSs9/zoVmtJGrf4LsZmqSEYiaxy+j6CT7cD4r7KkX20Z+T/Ncb3rVG4rWw4BMAPqDVAek6uL+l6Z0M31OapU9xUsgNZOg809/JwcCnpvYoV0TGl/SCTDqXGrwZduvfqpmY9al3oaKexOIOO5W0dlNI2X3yk4pqB2BIfaLfuuc6Fl2KFKIy2F93RWLRCCytyDy2yYBFe0wDq4Q5WHYDH9mg54EcAnKUaqR/N5IK/1yKT0KEQQB6cOcUR10qgo+2gAtTxe8QVqNbQGRpMv9dFGp/SI3K2Oylfiijf6QrFzzFYKP71WaX7L1ER3IhrYfrWjotIBr3Zc=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR02MB9197.namprd02.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(38070700021)(6133799003)(3023799007)(10067099003)(18002099003)(56012099006)(11063799006)(4143699003)(22082099003)(8096899003);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(10067099003)(4143699003)(6133799003)(22082099003)(18002099003)(55112099003)(56012099006)(11063799006)(38070700021);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?uJQb166EEcLM5DX2XuPhDTxJ5OC8RwGaC61AW3iN8nQpDJ6lHxVbMVNyLbqy?=
- =?us-ascii?Q?VJRaXgZ43mKkNrz22iH2C3B+ZZ+SoTThxTinqYb/lw41bHyAxKiVPF8G7yZr?=
- =?us-ascii?Q?H4VmXQILuFzDDwts7imOpsik2bEfytBPlivwYnLR9u5/N4hwIuNfNpfvGdZ0?=
- =?us-ascii?Q?5flhS4SjMbgoo/fLCEMq54ojcsCst1n+MqCaJxVo9+vIm/5/zjq+ETAv8X8Z?=
- =?us-ascii?Q?myzs3Pz7FeEdE73w9SoDG9u7XlqFiFIvsEVwpQthZQRasSMrttMn1wcnMw0a?=
- =?us-ascii?Q?clDXcDZVhP/t1+X52QAh2HCzTrHHm7dFdz2vkRBLwiKAegk5sLhGJb74vOOx?=
- =?us-ascii?Q?pkMpNeJuJweeAlRlC6Yvpj4BI0WqCtMpY6wOuciL3uX1lVlO+OGkvGtRThio?=
- =?us-ascii?Q?/anQoDweZVMvVFmh55frXMoZvwZQIMyLc3YOVqH/xQMeN6qhQunEPhzXozj3?=
- =?us-ascii?Q?AjDtWK4A3kM1Xhezs9g3OGN/tXCbatfI/LzjNkkdE3vr/hP8NFpq66WYI7oo?=
- =?us-ascii?Q?q910Qckbp2tU9F5nwyh2nnF8ktTgBPmaqb+gGlRgJIyL2FHobWPqtraIzT/H?=
- =?us-ascii?Q?l/99Zg9JQYuJuHsCUYVU5SVxY0WVP8Zstv/TZHTWEwuIMzdHPq0X4jds+UjV?=
- =?us-ascii?Q?i6MAYVob29h89UVevo65xob9Ksav0shWvSCEwIY6FmcXm2RhL7MhKIJ3uAkB?=
- =?us-ascii?Q?AjHbfBtF6YGYyYub/XK3pyrAuQL6uBpIXIMoyFmjc3QPXiiHAwrPcxNE3YAZ?=
- =?us-ascii?Q?QOuzaiFy61se7gncjHTguFjvc3dBXAGBgzePsdlWqMyMAgJNgwJr8XsrlXok?=
- =?us-ascii?Q?cATE1af9riI8azIbt3SK5v2RA11qEqLrn5HVzJ1n6+oz9Kqgd4sKSqQyXh2p?=
- =?us-ascii?Q?ADSNvBkBUYdFBVkf0BirG+zAI0Y/StuaPxDsX1OJQv+0dlKH11hZYi4R2B5z?=
- =?us-ascii?Q?4RhttukzDlTfnDt9rG8ap2x1JKNIdg7yK/cw3Kh+uancja8jlmHJ+VnigVSp?=
- =?us-ascii?Q?AuEWXP75IUGmn/nF9U4D79g16SSE6XFF5c8mOE2ElStQER0gzjRo3YY8jVJi?=
- =?us-ascii?Q?eqE2Rwk+ER9F77Jrieahd2MQrzRb9gj/m1LDSKpOZA6Rqg/ebzAIwxk9d+j2?=
- =?us-ascii?Q?AWM2UvUs0njuyuZEyBNPQZnbM9kmojUAoUSq+SWapQcCp1nFTVwrO1g1BE68?=
- =?us-ascii?Q?+FFnMfqFZMA1cCDoER8x/9P47ipjmTwYLV87WKnU9HpCWYSTv6ecGNIy802K?=
- =?us-ascii?Q?LOG6aHO0qKExmG6vIXUCnlsv3fJlGhsJWkAQipJfe+mh8n4VHJyhBcDPfxMY?=
- =?us-ascii?Q?+lJ34hl+2TCvlfwgs4l1l76S+3O1NUOaisob27SPM+GGFDBsnmQDsT8DHJlr?=
- =?us-ascii?Q?FTXUcRaZHE/1/uwCH0GcKzzZNtn2xmNXoR3BQr+9t5RbB9Vu/nC7WfXRhL/P?=
- =?us-ascii?Q?HNfSNSPulo53/ILQZSEwFLpqHUIfBkuNXS9BvetysBf2os9CAiNZvuiTFX5Q?=
- =?us-ascii?Q?qsxu3UIhxCnSZSc/eB7Mwx0zEPGxfEIPs+hWjpFBzCQTObjJeZr/7Hq030Sn?=
- =?us-ascii?Q?YGZzZJ8l5LSFjE0nC/IvPY7elXayuFZ4mp2gnQux7moGRAW82C+jVbWXqBsL?=
- =?us-ascii?Q?0icRMyK2MDLUbtRz94A4MgcHyzzF0+w7dn6xYe8qx2enHT2JoiSlJb64/giR?=
- =?us-ascii?Q?aMmSZNsPZ3fNZyOYcOwvMyo0qOnYujfhAYzBadL4/gbiSUjjrSBIRzS5B620?=
- =?us-ascii?Q?btoIO7RIuw=3D=3D?=
+ =?utf-8?B?K2p3MDNwazV3R1J4UFZIOGNhYm5jWU5VZFlmV2NCZS9tUHQ5ck41Y1ZxbCtJ?=
+ =?utf-8?B?YWhJUzdqbXpXZkViMG5xbWVvRzN6U05QRXBrM1JrUnRVWHhSekw0bzZEM1dS?=
+ =?utf-8?B?dU5CM2ZHbVJBYjNXNmNReWpReHNkNkdSZkJGZ1FkOTBFbGRqN2ZzVU9nbkZu?=
+ =?utf-8?B?c0c3R3hMNkVKMDd2Q2RzZDNiUjhROHNucFpPbFkzbjhRWHZxMFVTOFozM0Y1?=
+ =?utf-8?B?c2MzR3JCZDlLWUZpZXVsWXlnbnVWWkdGV01PdjI2cVlSUU55L3pCZkRqemRx?=
+ =?utf-8?B?emt0ZTNTR2ZuZjdaZHJGejhSQ2M0di90d09qQ0pzbU52b1cxTVpIejNhdmM4?=
+ =?utf-8?B?bXZMUnpjaWRFVDh4WU1rdytibEhHT2tNZW9BcEE3MTZ3OGdoTnRkVXR2RFZx?=
+ =?utf-8?B?QndwY2NyRHdqK2kyR3drVjF2Q0JRRjUxL3hxMVdzOHA5cHo3ZXlnTksxQVJu?=
+ =?utf-8?B?WVY3bFlHVnlvTUlRVjJJUy9FdUlzUnZUTTRIQ1U0d2Jjck1FSzdzSW5MTWdB?=
+ =?utf-8?B?cW5SU2hUdWs3dis3QWIrMmloeXJUODVhN1d0b1UvWU56SnVRWHR4MUtiREhQ?=
+ =?utf-8?B?RnAyam83QWQyUHg3RkFoV3ZkdjRERmFERnZhNVNTSWZZWWIzeXZFTy9Ic04r?=
+ =?utf-8?B?R3FsY0NlNkUvRmJJWmxmdnk0ZnpnNVNaNFpwYzZieVZzcEFodFFyaU1zcUk5?=
+ =?utf-8?B?NEQrOXRmYVoyZk9oSUZSY2UzNXJXbzQ0UlB1YlkyTm5oM2JNaG5ySDI3UW8y?=
+ =?utf-8?B?cnpCTkloR0F2SytYb1NzMDlsK3lBeTdXNUZKRHc3N1JDc1EvOHJzdng4TVBu?=
+ =?utf-8?B?QTNwcmEvL2R3c0pJaEJJZkxVcUoyUGxQRWpZa05Obkp6QUVRZ3BwdnFBV3pE?=
+ =?utf-8?B?cUF0bStuL3FQaHNsTEFWODlUY3BKUkYzOVpOOGh2c0M5MlRHd2dnRFU3bWVi?=
+ =?utf-8?B?NHlhQS9SRWlzSG9iOFljMDVnSFllc0dpMHBaWkI3RHNhK1R0czdYNzhvSk9v?=
+ =?utf-8?B?Q3RRY2p6TnF2SjVTcWZsVUkxZkhwcjloQVA2bWJLbHhXM1NLN3Rta2NlQ3ZV?=
+ =?utf-8?B?Vi9nWThwVWROWHNyLzVzSmhFWllVMWFtNWh4cU5GckxsWE5LOTgzUU1kalNV?=
+ =?utf-8?B?a2IyU25McDBoNjBrcWZab2NlVC81Nm4xUjhzT21JWHZ0Z1RYN2llK3hwdC9F?=
+ =?utf-8?B?NnlKdGdPb0VCcjFFLzFVcTVZZHhEMDhxVUZzWFdJUFk0elAvMmZSVXlPczdV?=
+ =?utf-8?B?U1o0OGhPdFg5Q0xjRE9BOVpXNm5KdHFMZHMwejV2NnF0Yk1ucnB3NVdxZnR5?=
+ =?utf-8?B?VU5EZ3p4Q3BWbkV4QzFiSEUyQkxMc1FZR3FTNzlTNmdaOGVBaDYzS0U3ZUMy?=
+ =?utf-8?B?MkxQRjBxSmJaOHRzRmxHVm5wSUdKeUJscVZ2ZkZxdys1K0x2VmxGYWE1ZEx2?=
+ =?utf-8?B?bUpSYzB0YVE2c3BFblRONmErd2RjMmVhQ3daWURMWWEzN3ZIS0VxaWwyVXFZ?=
+ =?utf-8?B?elVVdGRaWEp5RjJCOXlnYjBaT2JpcUJtb2VyUGs2TUhGQnRJbFp3K0JYL3dW?=
+ =?utf-8?B?b1JoVkVKR21QZ2FsQm9wdkVFREZOVmpDUTY2MlBKaXNEallOUWprMDRIVHJY?=
+ =?utf-8?B?NWl1ckNlZWVDYzI5emp2cmZHcXY1a05EdzJWUUlJKzMzUEc2S1QvMXBXbktw?=
+ =?utf-8?B?bkdvQ3lkZ0E5NFdja0NOM0U5VGl4U3Y5eHBjN2NSanQyNll6T3VBNUNwVEJv?=
+ =?utf-8?B?NWM4TXhldmlpYVcxUm1FUnZua0Nab0FISklXRU9FMlcxUllzOXFFTnhZSzlp?=
+ =?utf-8?B?WXBDSzB4OFpVNzhYeGR1ckRVWnF3OHFzUkpBcEtwWFQ2elV6UVBmZmh5WVBN?=
+ =?utf-8?B?dXVOYzVldUZ2ZjFiQkx4eXVBWllpWkRGd09Jemt4bkk3SXVvY3UrYUhBMkNy?=
+ =?utf-8?B?THpiWklnVFZoK01qVVpzc0JTbFpVSjZuM2t0ajd2Y2pwM2VGbXh5aVJFWS9w?=
+ =?utf-8?B?aGVIM3BsYU9GQlV0SEt6dGgrOGR6aGtRNGh1OTRRREYrL3lGSUdKMytiSGdD?=
+ =?utf-8?B?TXF5dURyY0ZQd1pnWVRYU2xWdDJiYU5TM204VmdwajFOaS9GVXpJOWQzclFh?=
+ =?utf-8?B?bm84K08vejRReUV3MGd3Zk9IcjBwRWptK3hHSGJwMlFTazIybDJMRVdvZFo2?=
+ =?utf-8?B?dFRXWkpJU2FTVkRjejdmRi82OFZYczlxVnpUOVdhNFhGamhkK1ExMUhzemdv?=
+ =?utf-8?B?QWJvQjNiSWZtMXZUa3FnQUFKd1hZcXE4N25QaVFwZzVmcHNzNFpsZUFCMnFJ?=
+ =?utf-8?B?YkxUOWhLdGk2MHBqQlhXZlJUM3o1TGZXSStYU1JpUERnemFnSml3dz09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	yjK39QWW78LGUbYkRKFfxyX9xeGhEYHcwqS/b0lbfc/MkCevLHW3+CoJGQ05THZhGeyIEALRM88qIR8GbC+T9uculH6beREJ4dCDTTLLTh7UURUKvM0HIyzY7UsOTXKFIfNYq8jAk+mfNzhSPjz4bT7QqCFhiK7LXRSJvcR8yIkcm/zAoIULVGUhJYc3ggmECDc92LtsGopwSdJW/3cIKFiIfMSp/6Uz1QnGU7HC6Cpl2JWwQKTfGQQzOATaaVfOxOY50hvyq06lVMNu0pGqnCTSfzatl3hVrQlRitpF8T/9M7g72D6cADpKEM1p32J1TeCA8hBapiiPwBQqHTQ2Rg==
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-ExternalHop-MessageData-0: 
-	Dj7IagbKRd026zxLiHh5HcZGnhqKl8uKTbH0ZD05u+zt30sqtbpvqJ4YTwUPtN58Wjblh6+mDQCsHrIevfqnDW9uHaemH+7+Xms6oKms+PFO7m/C/nYdNugLi7dHYrnCxJ+2EU2Pb0FPlp/K0WKkeVHoSJQJOm2rMz6on6BSHAOTgSkvOCqV8GeaisXi9YGRxcW4t3Ci3SdOguC4uyxMgAknhwCYEiNy00P2dyfnHyaVCLMfqPArrgpqUZVPSMWpuhkKkZaex3IlQGS+6RaJPmACqrtomtGeDVu3/dmTz1cCtJo/6gh0ASYezaK6R33mPY3S8Ve5m8odVpYJ6lBWapYzIZwHRx8a7sOIA8QxCKimnIBIpGf02a8/ALuC/MiAaVnKw0BHw5lTDh7jwDhMRuumCy+U9zx81spdtaSiA5lpWnN0bFgNQ00Qu8/mTWEGTA3c4rETV4Z+pzLC+O6ZeaEt/z04oqTrzfhi5AOwXN9QPdBFej981bVkrSaXcGSaxwvERZ6HZqnYopIGmsodvRYUzzIItk3JbbrEvc2/5M4ep2H+LDALukWq5faJAtDewyXto8bc5XhFUjoGt6UZS0M/zbRzGy2mY+iiQfHSk2qnrdQ3P03cWpQliVtsaYLL
-X-OriginatorOrg: qti.qualcomm.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DS0PR02MB9197.namprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 45568e01-d590-4dcd-54f6-08df10cd1661
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2026 12:55:13.9656
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 58914104-e876-4d10-0555-08df10db6f71
+X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2026 14:37:56.3385
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 98e9ba89-e1a1-4e38-9007-8bdabc25de1d
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: u7jQSt4UtXX7A3/WuFtZx5HKhwWArhtZvJKzs0jzF7l05si9Z3jmGOY9WQwpjHlSAAQ8bo8DcS98+nmCyJg8nw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM8PR02MB8007
-X-Proofpoint-GUID: w5bhncI4756rp9tDVf8YRY49nYwYe9wd
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEyMDE4NiBTYWx0ZWRfX+IU1KEciBm1V
- GzKGjSu5ntYq/QUPQ+s+gYQdzzl41pUkCr5jVEuU4ulloVi8dqyHLcQxxr/yoimhVBL2MvUa5TO
- OYf5LDps0yxMHqokiycj1U8jt+jJffnKABaYQyW87rKbfKiMJtx1oN3JwWI8hmcxqR/x1Q8Vjzg
- GZpWXfOqNpT5esv/i7aFwIqTiDiwaTljzBG3KQLcBHUC9TjNg6aEzFY8rHyStUbHLSc9eaLoyuA
- 6mK/ULGPszmCXBD34HlVa2IFMz1660HMHejwuxfBChR5NnhyWTfreX5nCcEaAopDK07fVSrVSVs
- Okr4MamnS4ITM+pQhHz5wa3cjzkoW5+6xiGbyxRrwkNW9jERI/hTrK56oS1RxxumADAx82ONxRS
- UKSy4WYMnSmRlemlmu9wN8xy3UwmBVPNk1jeTul1XYWE38olOzBSd9pE352NJdMnSjhNd97LyYH
- YgwtODCyb7RBZ6Sy8KA==
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEyMDE4NiBTYWx0ZWRfX9Em41lidORTg
- UX0UjSzCv+kAShugn1grKABw0PZvIvxRa59kX6Dd5MzmanCB0dktrpy60Itg2kaRpDN8nt8KRSb
- BB6iv/u0kkwvEVhP2OVYzuFYK90Rw1I=
-X-Proofpoint-ORIG-GUID: w5bhncI4756rp9tDVf8YRY49nYwYe9wd
-X-Authority-Analysis: v=2.4 cv=PsUG/AM3 c=1 sm=1 tr=0 ts=6aa54bb4 cx=c_pps
- a=3CRHu18DflYqj82tS/m+pw==:117 a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19
- a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19 a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10
- a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22
- a=EUspDBNiAAAA:8 a=Q4-j1AaZAAAA:8 a=-Vs_vnAgWPAzHEljbMoA:9 a=CjuIK1q_8ugA:10
- a=imtL2w1T9PQdu27p:21 a=frz4AuCg-hUA:10 a=_W_S_7VecoQA:10
- a=9H3Qd4_ONW2Ztcrla5EB:22
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-12_04,2026-09-11_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 priorityscore=1501 suspectscore=0 bulkscore=0 spamscore=0
- malwarescore=0 lowpriorityscore=0 phishscore=0 adultscore=0 clxscore=1011
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609120186
-Content-Language: en-US
-Content-Type: multipart/alternative;
-	boundary="_000_DS0PR02MB91976FA8F50BB0E0568B0248EABD2DS0PR02MB9197namp_"
+X-MS-Exchange-CrossTenant-userprincipalname: pxglJ//rXmeJeZh99er8h3cUFuI5Z2T3seeBduFwgVWETauSQfI7ad5AvHuNpuMEGy3Zht2xC5BgBTllIriUBA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1PR10MB8972
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 14:01:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245702
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 14:38:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245703
 
---_000_DS0PR02MB91976FA8F50BB0E0568B0248EABD2DS0PR02MB9197namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-Hello Yoann,
-
-Thanks for pointing this out. You are right.
-The ${var//pattern/replacement} syntax is provided by BusyBox ash only
-when CONFIG_ASH_BASH_COMPAT is enabled, so the current patch is not
-compatible with minimal BusyBox configurations.
-I will rework the character replacement using POSIX-compatible shell
-parameter expansion and send a v2 patch. I will also test it with
-CONFIG_ASH_BASH_COMPAT disabled.
-
-Regards,
-Wenwen
-
-________________________________
-From: Yoann Congal <yoann.congal@smile.fr>
-Sent: Saturday, September 12, 2026 2:56
-To: Wenwen Fu <wenwfu@qti.qualcomm.com>; openembedded-core@lists.openembedd=
-ed.org <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH] initramfs-framework: avoid processes when pa=
-rsing cmdline
-
-WARNING: This email originated from outside of Qualcomm. Please be wary of =
-any links or attachments, and do not enable macros.
-
-On Fri Sep 11, 2026 at 5:14 PM CEST, Wenwen Fu via lists.openembedded.org w=
-rote:
-> Use shell parameter expansion rather than external cut and sed commands
-> while parsing kernel command-line parameters in the initramfs.
->
-> On the target initramfs, 100 command-line parser runs took 13.48 s
-> before this change and 0.51 s afterwards. This reduces the per-run
-> cost from 134.8 ms to 5.1 ms.
->
-> Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
-> ---
->  meta/recipes-core/initrdscripts/initramfs-framework/init | 9 +++++----
->  1 file changed, 5 insertions(+), 4 deletions(-)
->
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/m=
-eta/recipes-core/initrdscripts/initramfs-framework/init
-> index 67590ad765..62d8ccfd0c 100755
-> --- a/meta/recipes-core/initrdscripts/initramfs-framework/init
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
-> @@ -104,13 +104,14 @@ for p in `cat /proc/cmdline`; do
->               continue
->       fi
->
-> -     opt=3D`echo $p | cut -d'=3D' -f1`
-> -     opt=3D`echo $opt | sed -e 'y/.-/__/'`
-> -     if [ "`echo $p | cut -d'=3D' -f1`" =3D "$p" ]; then
-> +     key=3D${p%%=3D*}
-> +     opt=3D${key//./_}
-
-Hello,
-
-Isn't this only available in busybox if and only if it was compiled
-with CONFIG_ASH_BASH_COMPAT? Can you check if that works with more
-minimal busybox?
-
-> +     opt=3D${opt//-/_}
-> +     if [ "$key" =3D "$p" ]; then
->               # opt parameter
->               eval "bootparam_${opt}=3Dtrue"
->       else
-> -             value=3D"`echo $p | cut -d'=3D' -f2-`"      # Option value
-> +             value=3D${p#*=3D}   # Option value
->               value_lstripped=3D${value#\"}
->               value_rstripped=3D${value%\"}
->
-
-Regards,
---
-Yoann Congal
-Smile ECS
-
-
---_000_DS0PR02MB91976FA8F50BB0E0568B0248EABD2DS0PR02MB9197namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
-ttom:0;} </style>
-</head>
-<body dir=3D"ltr">
-<pre class=3D"elementToProof"><div class=3D"elementToProof" style=3D"font-f=
-amily: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, =
-sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">Hello Yoann,</div><div c=
-lass=3D"elementToProof" style=3D"white-space: normal; font-family: Aptos, A=
-ptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; fon=
-t-size: 12pt; color: rgb(0, 0, 0);"><br></div><div class=3D"elementToProof"=
- style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Cali=
-bri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">Thanks f=
-or pointing this out. You are right.</div><div class=3D"elementToProof" sty=
-le=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri,=
- Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">The ${var//p=
-attern/replacement} syntax is provided by BusyBox ash only</div><div class=
-=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_=
-MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(=
-0, 0, 0);">when CONFIG_ASH_BASH_COMPAT is enabled, so the current patch is =
-not</div><div class=3D"elementToProof" style=3D"white-space: normal; font-f=
-amily: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, =
-sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">compatible with minimal =
-BusyBox configurations.&nbsp;</div><div class=3D"elementToProof" style=3D"f=
-ont-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvet=
-ica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">I will rework the c=
-haracter replacement using POSIX-compatible shell</div><div class=3D"elemen=
-tToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontServ=
-ice, Calibri, Helvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);"=
->parameter expansion and send a v2 patch. I will also test it with</div><di=
-v class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFont,=
- Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; colo=
-r: rgb(0, 0, 0);">CONFIG_ASH_BASH_COMPAT disabled.&nbsp;</div><div class=3D=
-"elementToProof" style=3D"white-space: normal; font-family: Aptos, Aptos_Em=
-beddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size:=
- 12pt; color: rgb(0, 0, 0);"><br></div><div class=3D"elementToProof" style=
-=3D"font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, H=
-elvetica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">Regards,</div>=
-<div class=3D"elementToProof" style=3D"white-space: pre; font-family: Aptos=
-, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; =
-font-size: 12pt; color: rgb(0, 0, 0);">Wenwen&nbsp;</div></pre>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"appendonsend"></div>
-<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
-<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Yoann Congal &lt;yoan=
-n.congal@smile.fr&gt;<br>
-<b>Sent:</b> Saturday, September 12, 2026 2:56<br>
-<b>To:</b> Wenwen Fu &lt;wenwfu@qti.qualcomm.com&gt;; openembedded-core@lis=
-ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt;<br>
-<b>Subject:</b> Re: [OE-core] [PATCH] initramfs-framework: avoid processes =
-when parsing cmdline</font>
-<div>&nbsp;</div>
-</div>
-<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
-">
-<div class=3D"PlainText">WARNING: This email originated from outside of Qua=
-lcomm. Please be wary of any links or attachments, and do not enable macros=
-.<br>
-<br>
-On Fri Sep 11, 2026 at 5:14 PM CEST, Wenwen Fu via lists.openembedded.org w=
-rote:<br>
-&gt; Use shell parameter expansion rather than external cut and sed command=
-s<br>
-&gt; while parsing kernel command-line parameters in the initramfs.<br>
-&gt;<br>
-&gt; On the target initramfs, 100 command-line parser runs took 13.48 s<br>
-&gt; before this change and 0.51 s afterwards. This reduces the per-run<br>
-&gt; cost from 134.8 ms to 5.1 ms.<br>
-&gt;<br>
-&gt; Signed-off-by: Wenwen Fu &lt;wenwfu@qti.qualcomm.com&gt;<br>
-&gt; ---<br>
-&gt;&nbsp; meta/recipes-core/initrdscripts/initramfs-framework/init | 9 +++=
-++----<br>
-&gt;&nbsp; 1 file changed, 5 insertions(+), 4 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init =
-b/meta/recipes-core/initrdscripts/initramfs-framework/init<br>
-&gt; index 67590ad765..62d8ccfd0c 100755<br>
-&gt; --- a/meta/recipes-core/initrdscripts/initramfs-framework/init<br>
-&gt; +++ b/meta/recipes-core/initrdscripts/initramfs-framework/init<br>
-&gt; @@ -104,13 +104,14 @@ for p in `cat /proc/cmdline`; do<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp; continue<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; fi<br>
-&gt;<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp; opt=3D`echo $p | cut -d'=3D' -f1`<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp; opt=3D`echo $opt | sed -e 'y/.-/__/'`<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp; if [ &quot;`echo $p | cut -d'=3D' -f1`&quot;=
- =3D &quot;$p&quot; ]; then<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; key=3D${p%%=3D*}<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; opt=3D${key//./_}<br>
-<br>
-Hello,<br>
-<br>
-Isn't this only available in busybox if and only if it was compiled<br>
-with CONFIG_ASH_BASH_COMPAT? Can you check if that works with more<br>
-minimal busybox?<br>
-<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; opt=3D${opt//-/_}<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; if [ &quot;$key&quot; =3D &quot;$p&quot; ]; =
-then<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp; # opt parameter<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp; eval &quot;bootparam_${opt}=3Dtrue&quot;<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
-&gt; -&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; value=3D&quot;`echo $p | cut -d'=3D' -f2-`&quot;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp; # Option value<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nb=
-sp; value=3D${p#*=3D}&nbsp;&nbsp; # Option value<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp; value_lstripped=3D${value#\&quot;}<br>
-&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp; value_rstripped=3D${value%\&quot;}<br>
-&gt;<br>
-<br>
-Regards,<br>
---<br>
-Yoann Congal<br>
-Smile ECS<br>
-<br>
-</div>
-</span></font></div>
-</body>
-</html>
-
---_000_DS0PR02MB91976FA8F50BB0E0568B0248EABD2DS0PR02MB9197namp_--
+DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogb3BlbmVtYmVkZGVkLWNv
+cmVAbGlzdHMub3BlbmVtYmVkZGVkLm9yZyA8b3BlbmVtYmVkZGVkLQ0KPiBjb3JlQGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmc+IE9uIEJlaGFsZiBPZiBZb2FubiBDb25nYWwgdmlhDQo+IGxpc3RzLm9w
+ZW5lbWJlZGRlZC5vcmcNCj4gU2VudDogRnJpZGF5LCBTZXB0ZW1iZXIgMTEsIDIwMjYgMTE6MDMg
+QU0NCj4gVG86IGh0aGFrYXJAY2lzY28uY29tOyBvcGVuZW1iZWRkZWQtY29yZUBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnDQo+IENjOiB4ZS1saW51eC1leHRlcm5hbEBjaXNjby5jb20NCj4gU3ViamVj
+dDogUmU6IFtPRS1jb3JlXVtzY2FydGhnYXBdW1BBVENIXSBweXRob24zLXBseTogc2V0IHN0YXR1
+cyBmb3IgQ1ZFLTIwMjUtDQo+IDU2MDA1DQo+IA0KPiBPbiBUaHUgU2VwIDMsIDIwMjYgYXQgNzox
+OSBBTSBDRVNULCBIZXR2aSBUaGFrYXIgLVggKGh0aGFrYXIgLSBFIElORk9DSElQUw0KPiBQUklW
+QVRFIExJTUlURUQgYXQgQ2lzY28pIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnIHdyb3RlOg0K
+PiA+IEZyb206IEhldHZpIFRoYWthciA8aHRoYWthckBjaXNjby5jb20+DQo+ID4NCj4gPiBQTFkg
+My4xMSBjb250YWlucyB0aGUgcGlja2xlZmlsZSBwYXJhbWV0ZXIgZGVzY3JpYmVkIGJ5DQo+ID4g
+Q1ZFLTIwMjUtNTYwMDUsIGJ1dCBleHBsb2l0YXRpb24gcmVxdWlyZXMgYW4gYXBwbGljYXRpb24g
+dG8NCj4gPiBleHBsaWNpdGx5IHBhc3MgYW4gYXR0YWNrZXItY29udHJvbGxlZCBwaWNrbGUgZmls
+ZSB0byB5YWNjKCkuDQo+ID4NCj4gPiBObyBPRS1Db3JlIGNvbnN1bWVyIHVzZXMgdGhpcyBwYXJh
+bWV0ZXIuIFVidW50dSBpZ25vcmVzIHRoZSBpc3N1ZSBmb3INCj4gPiB0aGUgc2FtZSByZWFzb24g
+WzFdLCBhbmQgTlZEIHJlY29yZHMgdGhlIENWRSBhcyBkaXNwdXRlZCBbMl0uDQo+ID4NCj4gPiBb
+MV0gaHR0cHM6Ly91YnVudHUuY29tL3NlY3VyaXR5L0NWRS0yMDI1LTU2MDA1DQo+ID4gWzJdIGh0
+dHBzOi8vbnZkLm5pc3QuZ292L3Z1bG4vZGV0YWlsL0NWRS0yMDI1LTU2MDA1DQo+ID4NCj4gPiBT
+aWduZWQtb2ZmLWJ5OiBIZXR2aSBUaGFrYXIgPGh0aGFrYXJAY2lzY28uY29tPg0KPiA+IC0tLQ0K
+PiA+ICBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcGx5XzMuMTEuYmIgfCAx
+ICsNCj4gPiAgMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspDQo+ID4NCj4gPiBkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBseV8zLjExLmJiIGIv
+bWV0YS9yZWNpcGVzLQ0KPiBkZXZ0b29scy9weXRob24vcHl0aG9uMy1wbHlfMy4xMS5iYg0KPiA+
+IGluZGV4IDA4NTVjODcxY2YuLjViZWQ5NzcxNTggMTAwNjQ0DQo+ID4gLS0tIGEvbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBseV8zLjExLmJiDQo+ID4gKysrIGIvbWV0YS9y
+ZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBseV8zLjExLmJiDQo+ID4gQEAgLTE2LDUg
+KzE2LDYgQEAgUkRFUEVORFM6JHtQTn06Y2xhc3MtdGFyZ2V0ICs9ICJcDQo+ID4gICINCj4gPg0K
+PiA+ICBDVkVfUFJPRFVDVCA9ICJkYWJlYXo6cGx5Ig0KPiA+ICtDVkVfU1RBVFVTW0NWRS0yMDI1
+LTU2MDA1XSA9ICJkaXNwdXRlZDogRXhwbG9pdGF0aW9uIHJlcXVpcmVzIGFwcGxpY2F0aW9uLQ0K
+PiBzcGVjaWZpYyB1c2Ugb2YgUExZJ3MgcGlja2xlZmlsZSBwYXJhbWV0ZXIgd2l0aCBhdHRhY2tl
+ci1jb250cm9sbGVkIHBpY2tsZSBkYXRhIg0KPiA+DQo+ID4gIEJCQ0xBU1NFWFRFTkQgPSAibmF0
+aXZlIG5hdGl2ZXNkayINCj4gDQo+IEhlbGxvLA0KPiANCj4gQXMgZmFzIGFzIEkgY2FuIHRlbGws
+IHRoaXMgcGF0Y2ggaXMgYWxzbyBuZWVkZWQgb24gd3J5bm9zZS4NCj4gSSBjYW4ndCBtZXJnZSBo
+ZXJlIHVudGlsIHRoaXMgaXMgZml4ZWQgdGhlcmUuDQo+IA0KPiBDYW4geW91IHNlbmQgYSBwYXRj
+aCB0byBmaXggdGhpcyBvbiB0aGlzIGJyYW5jaCBhbmQgdGhlbiwgcGluZyBiYWNrDQo+IGhlcmU/
+DQoNCkhlbGxvIFlvYW5uLA0KDQpJbiB3cnlub3NlIHRoaXMgd2lsbCBiZSBmaXhlZCBieSB1cGRh
+dGUgb2Ygc2JvbS1jdmUtY2hlY2sgdG9vbGluZy4NCg0KUGV0ZXINCg0KPiANCj4gVGhhbmtzIQ0K
+PiAtLQ0KPiBZb2FubiBDb25nYWwNCj4gU21pbGUgRUNTDQoNCg==
 
