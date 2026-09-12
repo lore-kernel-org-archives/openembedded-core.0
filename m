@@ -2,61 +2,61 @@ Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8BAE4C88E53
-	for <webhook@archiver.kernel.org>; Sat, 12 Sep 2026 11:44:52 +0000 (UTC)
-Received: from mail-pl1-f176.google.com (mail-pl1-f176.google.com [209.85.214.176])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5176.1789213490975424493
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6ACFEC79FB6
+	for <webhook@archiver.kernel.org>; Sat, 12 Sep 2026 11:45:02 +0000 (UTC)
+Received: from mail-pl1-f175.google.com (mail-pl1-f175.google.com [209.85.214.175])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5082.1789213500839950710
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Sep 2026 04:44:51 -0700
+ Sat, 12 Sep 2026 04:45:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=eQWdDzFf;
- spf=pass (domain: mvista.com, ip: 209.85.214.176, mailfrom: vanusuri@mvista.com)
-Received: by mail-pl1-f176.google.com with SMTP id d9443c01a7336-2cfbbdfa60bso18010595ad.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 04:44:50 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=BbmcnnNG;
+ spf=pass (domain: mvista.com, ip: 209.85.214.175, mailfrom: vanusuri@mvista.com)
+Received: by mail-pl1-f175.google.com with SMTP id d9443c01a7336-2dd4b3c752fso8089295ad.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 04:45:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1789213490; x=1789818290; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1789213500; x=1789818300; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=NcccRXowwmnU1rPmY/+Ps/CYvntu/L65eo463ydbtnQ=;
-        b=eQWdDzFfUunOZw6k5lLPXRC/OGYJPCHh1JTVm7EqbrgzAkbyqLcTVatCqm0NUnYtwD
-         6qly74pWIhGwMssmU8aYZyH33O7bUJR0lCj2VxajDnRYlbCfKA9Bw8U7kSAzOZHkgPY+
-         pZzkPoqGY7xKaCVMI6f+FfzjWmry+XgiG5Fk4=
+        bh=3mwRbOG4QfQ6ffFbg3rxgn/ypSlSKdmtay4w52zhy0c=;
+        b=BbmcnnNGMt5Hso3gtgHOBncLiOk+ETrsDngT2vninouhnkF6VMFRqSyPKK9U/mSkDF
+         Jjx7DwP/6tVGNYTj69xwe00XBFDUhJ/T2Rl99Hvm5WHHtfpVfLbWsR/prtnGgxT/wB8m
+         IBaZZcwXGS3KIL5mca32Oyl2RqKR4JQBA8ZIE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789213490; x=1789818290;
+        d=1e100.net; s=20251104; t=1789213500; x=1789818300;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=NcccRXowwmnU1rPmY/+Ps/CYvntu/L65eo463ydbtnQ=;
-        b=OaawDE8rRK66/n4MtL5voCW47WcvS/eYRZ+s/FtDmFYNhRpQZfWRB3KZVBI2Wd1fuL
-         88OFP50agYPEmRF4EJ7R9SWFuCTTbcXRKsQGFACRV8mztIW1kunWLCcDlIWDmpa9dxBh
-         ca6IOXtCkfvVaROuAyJzCKJInRxuLEML/TQdky9I8Ls8Z5DKBEYrJKaeotsjfBkCam7V
-         VkGreYxeHIbJcZfkijlLGnDSW+vSojuT1BEbfatsxqH9mAB1BeSQbmbWkFB333ul2U4R
-         ZKO/JR9GMG6IM4PrwH82ZtBJVaQPWDa9jPz4sJCNQTRsY749+QnGXmHMMV59CCrzeoTN
-         /Wtg==
-X-Gm-Message-State: AFuF++kmljsHuArGLjDAvKH6FojjclXx1XbGgVMSDbb8v9tWNNR+6obp
-	jsxoKAES5i2/96FYY2vZ3T7FOflQ5P3BZU+7tyR7MITK0LmNCyDoOgWjCQurPaZ3EMkIdl0BXUc
-	sqKbl
-X-Gm-Gg: AYBFou0K4qDn7fiAJI4vHaS2D6vvNOrkfT+pwL2WpPM6zTLDyVgGTwR2a6QedhQjvQ4
-	uDZM61E6mvqaJHcdqGdP6KoK1NayeEr3fY3GGGloSfrXbfmoSuWb23mVXZ9KBeJdL0U3nXo/MDZ
-	5XZEQvL488as/UCoeKsN8j2Out+ke+S1eyYmFViqjH6NsLd3PbnxBXOLg4tzFy0eWii+T724qJ1
-	Hu09ypkYwgLy67R11carma26nqXlwkIUZgVICGn2b5ERzWgYAz5xW8SQokTaRdgLFx8ejjrQNvy
-	7UEUShU2Z80Vz8qm9E8BZiPOXEWDyb/c1ii+MgWuPhS/awG0ic9t1o5iDVoQBXWoXSwJIkRR0Ay
-	182lZxGrsHongGqSyktAkCSBZtsPu19TPsmRff11SSoUcWAc5KfrnoitVDMtsKgSXZgPeLojtV1
-	KEDmzAX+Clh7Hkz8pgqShBSi1z4oRPRoB2+Gw/AQylkxkDIbaV9kwvjnnmuJEfDXFg7ULw7LS7+
-	bi2EvmRHYAUAw==
-X-Received: by 2002:a17:902:ecd2:b0:2db:5ea1:8b04 with SMTP id d9443c01a7336-2dd2a1c3e4fmr144802025ad.5.1789213490270;
-        Sat, 12 Sep 2026 04:44:50 -0700 (PDT)
+        bh=3mwRbOG4QfQ6ffFbg3rxgn/ypSlSKdmtay4w52zhy0c=;
+        b=HlXhku4HCsaKNuFGPpEcXmOIzBjQI3VZp5pQ+41n4yRgCzdJaeeL72Eg4dKBSeN+r0
+         LqB4RWk+yXWU71BBnBi/7RGz7noQoNefoG/m/tmkf70xON++xwMA3eVpXn8B7UvbzqG7
+         5y0crlZXBIf2oFDh4+OLUEiHBhCXnfuKHMyrHciIJjcf56ISCyPH/cs1mh/AAAXuv8TU
+         ZRGS4f5eIfOKZF3Gn5UgMf9Zm1LSPM2+QIf3GMBhwzr45wvnyRZvpVmqucuiIUGrMWGH
+         sp5nRhVNPAsukjxQCAz9rlPbA9L0Fd++7Sog9Q0Fox5IjTwUn0S4bRws6PwVN20peUKt
+         3kxw==
+X-Gm-Message-State: AFuF++mR08zJouMA5OhA0jTCTCEnad3BwrcSdisaZpE1AjosYfmIWrLX
+	sCKGnlu+7OuDaaPWIUec8JnsIG1SEu4siw6BdQCn1oVbMILukclP43WS5XOHMElPuwip8yg7eSQ
+	uyODd
+X-Gm-Gg: AYBFou2N83OyzgmdHm0pKC+8GPIt7GLAFymUlP+dd1W5cD4XKuDMdvO8nOthqS97/rn
+	hoew9a7JpcTw9sNfP8i9/bG0atdGXgGti1NGMcctbF5pkhbtbWfZ797el859MqAWLvfc26xerze
+	lU3byY8M+ttCrAfbSw1mXTUUHlqQ+dmqNLvYI/e6bbmI7LwXLDqoTNgaly4LEvdKN8+65ISAQTw
+	mYFb1FChiwTXl73IiWs/u0VPoagpJaoKNzQZo4X0YeSz4eWNflIKFYsTiu0uM0BgvAEi2czgjuj
+	K1/WoVrD3firc/ZO6dKYKSRgPtBZkrHvOqZX5ErxhFfofEFJHW1Hn6otOX33CQNFxALVyar7YlU
+	3Emyhhh5xXa9YVaSS8t4PMDVfGdFx5TaV6EgMEbWax4Fb6jh06GWcKs/RK2nwTdwF3xoitMJMf2
+	aUT7YTwkcjftD6gb3JneNFUNnLEcKfV9xYWn282BjUm9+FBAixG+8CrV9SdwvxYdneSpDO8c8tw
+	LkvMBiw9XGuEQ==
+X-Received: by 2002:a17:902:ecc5:b0:2d6:ffa1:429b with SMTP id d9443c01a7336-2dd2a1dda3emr159639995ad.7.1789213500063;
+        Sat, 12 Sep 2026 04:45:00 -0700 (PDT)
 Received: from MVIN00352.mvista.com ([2401:4900:1cc4:2919:ff34:c674:1b5:9893])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4ed295esm15044987eec.15.2026.09.12.04.44.48
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33ba4ed295esm15044987eec.15.2026.09.12.04.44.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 12 Sep 2026 04:44:49 -0700 (PDT)
+        Sat, 12 Sep 2026 04:44:59 -0700 (PDT)
 From: Vijay Anusuri <vanusuri@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch v2 2/4] libxfont: Fix CVE-2026-56001
-Date: Sat, 12 Sep 2026 17:14:28 +0530
-Message-ID: <20260912114431.357816-2-vanusuri@mvista.com>
+Subject: [OE-core][scarthgap][patch v2 4/4] libxfont: Fix CVE-2026-56003
+Date: Sat, 12 Sep 2026 17:14:30 +0530
+Message-ID: <20260912114431.357816-4-vanusuri@mvista.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260912114431.357816-1-vanusuri@mvista.com>
 References: <20260912114431.357816-1-vanusuri@mvista.com>
@@ -65,128 +65,153 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 11:44:52 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245697
+ <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 11:45:02 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245699
 
 Pick patch according to [2]
 
-[1] https://nvd.nist.gov/vuln/detail/CVE-2026-56001
-[2] https://security-tracker.debian.org/tracker/CVE-2026-56001
+[1] https://nvd.nist.gov/vuln/detail/CVE-2026-56003
+[2] https://security-tracker.debian.org/tracker/CVE-2026-56003
 
 Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 ---
- .../xorg-lib/libxfont/CVE-2026-56001.patch    | 87 +++++++++++++++++++
- .../xorg-lib/libxfont_1.5.4.bb                |  3 +
- 2 files changed, 90 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch
+ .../xorg-lib/libxfont/CVE-2026-56003.patch    | 114 ++++++++++++++++++
+ .../xorg-lib/libxfont_1.5.4.bb                |   1 +
+ 2 files changed, 115 insertions(+)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56003.patch
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch
+diff --git a/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56003.patch b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56003.patch
 new file mode 100644
-index 0000000000..1de7f3e037
+index 0000000000..0092c712d4
 --- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56001.patch
-@@ -0,0 +1,87 @@
-+From be0b08e2d354138d3222b4490e2a77c6ee42f778 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-graphics/xorg-lib/libxfont/CVE-2026-56003.patch
+@@ -0,0 +1,114 @@
++From dff957a5158da038a282a59a31fe736702732939 Mon Sep 17 00:00:00 2001
 +From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Mon, 1 Jun 2026 16:46:10 +1000
-+Subject: [PATCH] bitscale: fix integer overflow in BitmapScaleBitmaps
-+ bytestoalloc
++Date: Mon, 1 Jun 2026 16:49:55 +1000
++Subject: [PATCH] bitscale: add bounds check to computeProps for property
++ buffer
 +
-+bytestoalloc is declared as unsigned int (32-bit). When the sum of
-+per-glyph byte counts exceeds 2^32, the value wraps around and calloc()
-+allocates a buffer that is too small. The subsequent ScaleBitmap loop
-+then writes past the end of the allocated buffer.
++ComputeScaledProperties allocates a fixed-size property buffer of 70
++slots. computeProps iterates the source font's properties and writes 1
++slot for unscaled properties or 2 slots for scaledX/scaledY properties,
++with no bounds check. A malicious font with many duplicate properties
++matching fontPropTable entries can overflow the allocated buffer.
 +
-+Change bytestoalloc from unsigned int to size_t to match the actual
-+allocation size type, and add an explicit overflow check in the
-+accumulation loop to bail out if the total would exceed SIZE_MAX.
++Fix this by passing the remaining buffer capacity to computeProps and
++checking it before each write. Properties that would exceed the buffer
++are silently skipped.
++
++The function is also restructured to handle the buffer writes for
++scaledX/scaledY inside the switch cases directly, rather than in a
++separate block after the switch. This makes the control flow clearer and
++ensures the bounds check covers all writes.
 +
 +This vulnerability was discovered by:
 +Anonymous working with TrendAI Zero Day Initiative
 +
-+CVE-2026-56001/ZDI-CAN-30558
++CVE-2026-56003/ZDI-CAN-30560
 +
 +Assisted-by: Claude:claude-opus-4-6
 +Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
 +Part-of: <https://gitlab.freedesktop.org/xorg/lib/libxfont/-/merge_requests/34>
 +
-+Note: 'SIZE_MAX' is defined in header '<stdint.h>'. Add '#include
-+<stdint.h>' to fix build failure.
-+
-+Upstream-Status: Backport [import from debian libxfont1 1.5.2-4+deb9u1
-+Upstream commit https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/be0b08e2d354138d3222b4490e2a77c6ee42f778]
-+CVE: CVE-2026-56001
++Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/dff957a5158da038a282a59a31fe736702732939]
++CVE: CVE-2026-56003
 +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ src/bitmap/bitscale.c | 24 +++++++++++++++++++++---
-+ 1 file changed, 21 insertions(+), 3 deletions(-)
++ src/bitmap/bitscale.c | 39 ++++++++++++++++++++-------------------
++ 1 file changed, 20 insertions(+), 19 deletions(-)
 +
 +diff --git a/src/bitmap/bitscale.c b/src/bitmap/bitscale.c
-+index 13ed924..32144d6 100644
++index 32144d6..2affc11 100644
 +--- a/src/bitmap/bitscale.c
 ++++ b/src/bitmap/bitscale.c
-+@@ -38,6 +38,7 @@ from The Open Group.
-+ #include <X11/fonts/bitmap.h>
-+ #include <X11/fonts/fontutil.h>
-+ #include <math.h>
-++#include <stdint.h>
++@@ -513,7 +513,8 @@ static int
++ computeProps(FontPropPtr pf, char *wasStringProp,
++ 	     FontPropPtr npf, char *isStringProp,
++ 	     unsigned int nprops, double xfactor, double yfactor,
++-	     double sXfactor, double sYfactor)
+++	     double sXfactor, double sYfactor,
+++	     int maxprops)
++ {
++     int         n;
++     int         count;
++@@ -528,14 +529,26 @@ computeProps(FontPropPtr pf, char *wasStringProp,
 + 
-+ #ifndef MAX
-+ #define   MAX(a,b)    (((a)>(b)) ? a : b)
-+@@ -1459,7 +1460,7 @@ BitmapScaleBitmaps(FontPtr pf,          /* scaled font */
-+ 		opci;
-+     FontInfoPtr pfi;
-+     int         glyph;
-+-    unsigned    bytestoalloc = 0;
-++    size_t      bytestoalloc = 0;
-+     int		firstCol, lastCol, firstRow, lastRow;
-+ 
-+     double	xform[4], inv_xform[4];
-+@@ -1486,8 +1487,25 @@ BitmapScaleBitmaps(FontPtr pf,          /* scaled font */
-+     glyph = pf->glyph;
-+     for (i = 0; i < nchars; i++)
-+     {
-+-	if ((pci = ACCESSENCODING(bitmapFont->encoding, i)))
-+-	    bytestoalloc += BYTES_FOR_GLYPH(pci, glyph);
-++	if ((pci = ACCESSENCODING(bitmapFont->encoding, i))) {
-++	    size_t glyphsize = BYTES_FOR_GLYPH(pci, glyph);
-++	    if (bytestoalloc > SIZE_MAX - glyphsize) {
-++		fprintf(stderr,
-++			"Error: bitmap allocation overflow for scaled font\n");
-++		goto bail;
-++	    }
-++	    bytestoalloc += glyphsize;
-++	}
-++    }
-++
-++    /* Reject unreasonably large bitmap allocations that could result
-++     * from malicious fonts with extreme scale factors.  256 MiB is
-++     * far beyond any legitimate scaled bitmap font. */
-++#define BITMAP_SCALE_MAX_ALLOC	(256 * 1024 * 1024)
-++    if (bytestoalloc > BITMAP_SCALE_MAX_ALLOC) {
-++	fprintf(stderr,
-++		"Error: scaled bitmap size %zu exceeds limit\n", bytestoalloc);
-++	goto bail;
++ 	switch (t->type) {
++ 	case scaledX:
++-	    npf->value = doround(xfactor * (double)pf->value);
++-	    rawfactor = sXfactor;
++-	    break;
++ 	case scaledY:
++-	    npf->value = doround(yfactor * (double)pf->value);
++-	    rawfactor = sYfactor;
+++	    if (count + 2 > maxprops)
+++		continue;
+++	    npf->value = (t->type == scaledX)
+++		? doround(xfactor * (double)pf->value)
+++		: doround(yfactor * (double)pf->value);
+++	    rawfactor = (t->type == scaledX) ? sXfactor : sYfactor;
+++	    npf->name = pf->name;
+++	    npf++;
+++	    count++;
+++	    npf->value = doround(rawfactor * (double)pf->value);
+++	    npf->name = rawFontPropTable[t - fontPropTable].atom;
+++	    npf++;
+++	    count++;
+++	    *isStringProp++ = *wasStringProp;
+++	    *isStringProp++ = *wasStringProp;
++ 	    break;
++ 	case unscaled:
+++	    if (count + 1 > maxprops)
+++		continue;
++ 	    npf->value = pf->value;
++ 	    npf->name = pf->name;
++ 	    npf++;
++@@ -545,18 +558,6 @@ computeProps(FontPropPtr pf, char *wasStringProp,
++ 	default:
++ 	    break;
++ 	}
++-	if (t->type != unscaled)
++-	{
++-	    npf->name = pf->name;
++-	    npf++;
++-	    count++;
++-	    npf->value = doround(rawfactor * (double)pf->value);
++-	    npf->name = rawFontPropTable[t - fontPropTable].atom;
++-	    npf++;
++-	    count++;
++-	    *isStringProp++ = *wasStringProp;
++-	    *isStringProp++ = *wasStringProp;
++-	}
 +     }
++     return count;
++ }
++@@ -671,7 +672,7 @@ ComputeScaledProperties(FontInfoPtr sourceFontInfo, /* the font to be scaled */
++     n = NPROPS;
++     n += computeProps(sourceFontInfo->props, sourceFontInfo->isStringProp,
++ 		      fp, isStringProp, sourceFontInfo->nprops, dx, dy,
++-		      sdx, sdy);
+++		      sdx, sdy, nProps - NPROPS);
++     return n;
++ }
 + 
-+     /* Do we add the font malloc stuff for VALUE ADDED ? */
 +-- 
 +2.43.0
 +
 diff --git a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
-index 9ec7cc30f5..59c489b785 100644
+index 08c96fdac8..e254516fcf 100644
 --- a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
 +++ b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
-@@ -19,6 +19,9 @@ XORG_EXT = "tar.bz2"
+@@ -21,6 +21,7 @@ BBCLASSEXTEND = "native"
  
- BBCLASSEXTEND = "native"
+ SRC_URI += "file://CVE-2026-56001.patch \
+             file://CVE-2026-56002.patch \
++            file://CVE-2026-56003.patch \
+            "
  
-+SRC_URI += "file://CVE-2026-56001.patch \
-+           "
-+
  SRC_URI[sha256sum] = "1a7f7490774c87f2052d146d1e0e64518d32e6848184a18654e8d0bb57883242"
- 
- PACKAGECONFIG ??= "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
 -- 
 2.43.0
 
