@@ -1,167 +1,227 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90868C88E56
-	for <webhook@archiver.kernel.org>; Sat, 12 Sep 2026 19:15:34 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.62])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12395.1789240531448051614
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E1961C88E56
+	for <webhook@archiver.kernel.org>; Sun, 13 Sep 2026 00:12:51 +0000 (UTC)
+Received: from mail-oo2-f41.google.com (mail-oo2-f41.google.com [74.125.231.169])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.17046.1789258371313979330
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Sep 2026 12:15:32 -0700
+ Sat, 12 Sep 2026 17:12:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=L4ZGKran;
- spf=pass (domain: siemens.com, ip: 52.101.84.62, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=iVVQJ6QnQIpro28tT5UtsHePHEYhsw/pFYeTwmBt/YCn6dipJdD68VPQo9Y2QfIAnmJkx85zG+FTYasCbfCmqZM0ym0nKlTiqkt1b0iu0cYFuDH5B8UMVw7sqnCFZmgbr25eB4n3ONOXKWo8I2Du4I42NXqGH0QhlaDA1w8/YY7qKHiIRKMIG+opmzX6ofobAjFFa5btBJttjgigHcMjUwYbHlSpEmlrYlvOoz/pMP5UUoAnZNd840i6wbhn9/9DZbloJKqetMZvokVvB4ewNrAj+B7A8QnhDEg+prf0IyGJHCHvQNfOCCrYJR6ZbdUKUAxQNpXNNqjNkOy2P7fNcQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=TIUMUjn43ISdfyAH7qPRpy6AHx9I4OFt9mK2/4y3xxw=;
- b=FmwlE0EbfNpQcNI8Xo6PjzLHaEzxatweHRTJSXqbFLV6aoytSP+B6fVeooOTY5jj6zqJ91ETqsYuu0UZc/ZI1urO06R5Uy649umgY3K9wZyHzVBBLMSk9qEOcLkOJRDjgFuPj2TiFiS4l8Z+mJ+Fc3Ks06Q7jwNkuknh3JSzNG+ufB7jeqKi3NsYDmpHz+xjbCNWTxWkpmL31CJJpMPUDjKLWW+unzVmGUG6qwP9YZfJ/s+IMf+xpUfgPbBMYA0LEWj1ABbhFk+2x1KnEQJi2nhebLtmROmFuHC6fqo9bTNWY/mmZisnuVQ5r3yX7v30YWJ2Pqaq8dvT30Q+hppWMQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=TIUMUjn43ISdfyAH7qPRpy6AHx9I4OFt9mK2/4y3xxw=;
- b=L4ZGKranaQnAMmBYxJoX4gqEbUnejICAGNgjxJk1xJnjANHPTqBUdpsqVbjTdqR8Mwm+eBTWrZLIwzzYOIYF5DSQUlmn8pDMdF2QUno4TrefbWolVGTv+hiOexvMo8Fm1oKhElpNwQ4aLD77Un2OtWzBT2UzZHTFYTONfnjuP+Tn7/nnz6MKtsJKGxAzYA1nGi2an+TrqyuP54Ipuc6jL5TaLuo0RmVJvOPjkzo6nT8UNjVWeicVTdkzA62fxONjOk+hObCk2ac5IRggBkWzImyDvXy+oK1X489Rz8F0k4CyfEqIJOmYRpMo7pSvUI5coZJrXuEIo1roJl/XXikc0Q==
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
- by PAWPR10MB8187.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:391::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.10; Sat, 12 Sep
- 2026 19:15:27 +0000
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0406.007; Sat, 12 Sep 2026
- 19:15:26 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Yoann Congal <yoann.congal@smile.fr>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [scarthgap][PATCH 1/3] cpio: patch CVE-2026-66485
-Thread-Topic: [OE-core] [scarthgap][PATCH 1/3] cpio: patch CVE-2026-66485
-Thread-Index: AQHdLOl3UAdWHYZC8U2us4tepxuYUbazM7EAgBhHcLA=
-Date: Sat, 12 Sep 2026 19:15:26 +0000
-Message-ID: 
- <AS8PR10MB50730917F166A3CF95DA25CEFDBD2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-References: <20260815190824.2980891-1-peter.marko@siemens.com>
- <DL0FM099GEIW.TMGQI3PXEOAU@smile.fr>
-In-Reply-To: <DL0FM099GEIW.TMGQI3PXEOAU@smile.fr>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=8926f3b5-e50e-42c3-babc-b137924a05b3;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-09-12T19:11:13Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|PAWPR10MB8187:EE_
-x-ms-office365-filtering-correlation-id: 193c782a-1d13-4bf7-2d46-08df110233f5
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|6133799003|55112099003|22082099003|18002099003|38070700021|11063799006|4143699003|10067099003|56012099006;
-x-microsoft-antispam-message-info: 
- TkdfmWJ1wfGEk+f6ep7t7Gv+ViA2NX70B/I3urbM/vBniTZ3SyJmVFLZOtp9JM1F69pCeV3IENH3PgeuOid2qJFEqGiP0RQq+g7MTbcVtfUjtt+QFSfHJzItl6rVTkZjNWkRRp7vMnjRkTq703zHDAnSP8LX8qAEnMUfmiZ9H/cmwIPuuCeg2rufFnnylHSCEgPV/ridUO1ACFLngcmb49Or3utB4nR6F1ttbbfXdMoDNK2j3G5hcez7+GVw9T+ieqhER/wTNcawQ25DiJElXfZG7eX6+uq6qlEyk0cjyXY+R1NFCNLZHH172jn34od/h2NWq9qrT+ZDn6a3g7y9fvex/+NkoxxS2FEiQfXPzsyko4tbigiI42/BLg6fNPE1P1uQwGzSULYPiKvrlbbOcX9e8y+Oi3+JY8Sj1xHOEi9zZ+qyS/lVLPSwoiAK5bh+XuL8Jc+2M+2NJeZVruKWJz7bXX/4dhREi9Yu8oDy6uUcF79g/9e1V+q6T/GBd1mCQ55EmwpeKnYUa9YC41rC63KFl3zTXiVvrADhLdvt+RSlKjOcb74qxcSpttzqm3hYM9e/BokoLgf19fJr2daD28lNIoPFdUnJmahif/rWzc2LJ1/qvAtskU2uOpfvlPqWcNh59EkcBnbOOWNHLXxNvnw3pbYoPsyxQK3pBYiL1+M=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(6133799003)(55112099003)(22082099003)(18002099003)(38070700021)(11063799006)(4143699003)(10067099003)(56012099006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?utf-8?B?bmlSMjk2Z0NjcXJYSms0NjJuYUNZL1dpQ3BCRXFXanNoVWxBaHI2ZGtxVE4r?=
- =?utf-8?B?SVIxNDJCSHJSbzVwSDhwelQ2cjZRa3VlS0JzNWFGUXJ5VnFyb3FSVW1VczBa?=
- =?utf-8?B?U2hrcmhsVm4rcGd1Um85eENwWFFycEc1TnF3a3pVdWxMam5PNHI0VDVweWRw?=
- =?utf-8?B?dWdHVm1OcmlwM3RJY09vOUozZU5JWG5MSEFOd0padENDQkg1ZTI3WDgrZ1BP?=
- =?utf-8?B?TVRrU2xCSFA1Y2ZkSTZQdUQrc0wyVmpFU2tlTmVwblJmT1ErU0pROUNyaGI3?=
- =?utf-8?B?SnBQWjNCK3llSHZ3VStJVTJUTGtqSFNxSjI4WFp2LzZWUEdUU3A5czdaQ1hq?=
- =?utf-8?B?QjB6SE1zaCtPWGpqZjF1blljbWJTRGFLT083Q1lFS2xoaWZvRnUzc04ycHNQ?=
- =?utf-8?B?Wk9tZDBoV3FkbzYwRVN2ZUp2Tkh0akpFZzBWbk0raU1udFlrQURMQTU3QmVW?=
- =?utf-8?B?QnVCVW1laHdJaDdkVVhkRVRGWHhJOXByVUZlMzlBcmZSV1YvOEVPRnp0Tk1o?=
- =?utf-8?B?eUNOZVFRK04xQy81U0tHd2FSa2EwT2ZCbGUveVhWblZGVnU1YmoxM2tjKy9a?=
- =?utf-8?B?N0MxT3FsUjI3clcxMEtVVExZTU9tZVlmMk9FTGU3N21DalhrV3d4YWEvbWxX?=
- =?utf-8?B?SDUrTzRNMkFhZ0pVZHhYZkRTbzZrb3Mxb1cxNXNTVmd6NDhJOGNLRTZHdi9n?=
- =?utf-8?B?N0J2ZVplNVFWTFU0cDB4bWNhS2xUTXZkR09BcTY1djU2Rjh2Z1haZEhqR3Bw?=
- =?utf-8?B?SC9lWHVHZWFOdDBjY1dQZ2FxZll4UHM1YVNVcU9ZK2NzcDdEVVJ2eEttZVBJ?=
- =?utf-8?B?dXpCU1g5Y2szNFFtMVhaZENDVlJYNTRuaGJ1WnhPQ3JKYVRrb0FZSkVUSSs2?=
- =?utf-8?B?Mm5FZVByUFlrY3p1aTNMbnBhckhEYlBJekx6dnJtcTYvdW1zZU9HZlJ6Qm5J?=
- =?utf-8?B?Q2R1bE5lRk5HZVlnaXUvVVJVVXg3cnJSTGFTdGNwcU54SXluRjhEMVkySU5T?=
- =?utf-8?B?SW52Sy9ycTNJcXo1RnBMMG16aGRRekt0Y05mWnNWZEdPZkJDdU53UWpYUUJi?=
- =?utf-8?B?dzNNcmxQSUVBRUU4dEE4Y1ZqdkJTLzdERHJNSGx5MzZXQ0lHNGJjaVA2azNS?=
- =?utf-8?B?YlErMElLdEt5bEJ5dGlwWDAvcCtBc1FZbTBER2liWVkwdXQvdjNHa01KWFlW?=
- =?utf-8?B?L2VRcTdha2syL3ZHdUk5ZGhPWmdvNHdDMDVlMUtCS1lKUzdPMU5Vdms1R3FY?=
- =?utf-8?B?dnRDUFdjWkNVTlNIcHpMS1BjM3VYbWI2Y2N5YkQxU085RlFWQXRsOHJTb04r?=
- =?utf-8?B?KzlUS3drTzNheUdNcm1WVXJta3djOVVleU1GUE45L0pLeldUOXZRbDJ5d08y?=
- =?utf-8?B?VTBYVFZCeGhna2Q1RmZUcFRsWlIvbjdQM2xvTHByeENvK0tTWmY1QzFkUjhs?=
- =?utf-8?B?Wkc4Z0paa1g2ZTZQSjRCV2VjaVRSYkN0cEtvNlcvbXZjNFJTNWpxUmxFYjkw?=
- =?utf-8?B?OWd3U2NVSWhtMlQyYkRNSHRSZ0FFR0FrQ0puN1ZBRUZpVnlvT29mMmhOTnZm?=
- =?utf-8?B?aWRTSXp5OHhXaFc3Ri9teDRqZVJRUHUxSC9iWjhBMkY4TFhNWmUyVDZibzJ5?=
- =?utf-8?B?MmxSQW11L0FEbEJjUVhzQVdPMmJsSmJpU0FjeG0xMnVnOUJHcHMrU0hVUVQ5?=
- =?utf-8?B?UzYyL3E4dis0NHJPMFZzSzJ0WWFNUWx6MnVwZHN6YUVxaE5lWko4UWYwM1BJ?=
- =?utf-8?B?dmdFcjRtdEJ2ZWxJMCtBS0dLZVBtRkxzamt2OXYyUmx1bGRsWGNuN3hUeGNQ?=
- =?utf-8?B?ZnpIWkthZGRSMzhla3pKL3BwNXNFWGVxSy8rMlNJa2hqSys3UGhkQzFRNXNL?=
- =?utf-8?B?NEhLNlBFSGVhQXFtYkRwMEdEMVVGYVdQUmVDOGRVaVMzWWJkbUdPL25CMVNO?=
- =?utf-8?B?MGNJbnRmTkdPNG1HTi9lUEhqTmJMM0dTejYvMFJwdklPdnRFcXAraGxBWFpW?=
- =?utf-8?B?eHJlZmloMXJidk9sdTNjMWZ0MkZrVUNsenVRY0txaW14NXQyNDBRTk1kQkVp?=
- =?utf-8?B?TC9uMFpDZS8xMXMvWldzWWx0dE8vYkNWSFU3WU0yaHFrbm9tYnBiL2l5RXN5?=
- =?utf-8?B?MzdQbHp6dyt1aitLdFBZa1VQcXdWd2xBOUxsNGhWa1NPK3NGcGZXRXdLT2JP?=
- =?utf-8?B?RTkzcGJsUGVlQnhsYU05ZlgxUFBNaEIwY0JJK1Z4azI5dlFQZHA2RGtIUnhi?=
- =?utf-8?B?MGgxczVaYkdETWdubVBjeWRiQ0puUEROdyt1MWdUckw3SU1KWVpFWHBQK0Fh?=
- =?utf-8?B?dnFSQ3RPNzZodUY5WmxuamVIMU5GQVpuK0RsUDVocGtGSjMwWnplZz09?=
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: base64
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=OH1V0PY/;
+ spf=pass (domain: gmail.com, ip: 74.125.231.169, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-oo2-f41.google.com with SMTP id 006d021491bc7-6beed321ad9so641048eaf.3
+        for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 17:12:51 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789258370; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bNXz2mGSoLXtX+vYHSc8kKd2LQkrDkoaSOI0ekrQFdIWMv3i+jJoYl1kY7d7heg4sF
+         cnRStjStBgz1HAPnED5bYIGtiqRY6cJsWpIyKVmBmPprtNbF9qmxbaBBlejeXasSkMK3
+         Gh/UUGMUKBiQ6lv5s0EAKxFL4ePIFMJkFPX0QAKxKwMMf+KNEpwskm09ffUPQRX85Sg8
+         W0Pkb8YRu2gdcj7FK5EQrr7y/RAEBG5/nREn8d0kSbAL1ONHBAR5b/7KLRr+XITSXc7y
+         X5m9ow/wmtj/U7W1O4u+mhTlJKgyN337JG+uQV16IlMLtwJJAjHB2Q8NaGt68pVX6EA/
+         a9Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=RrDkGMoRwvfj2g3E32E2x8QKUXHCAVJ2EFu50m+wFKY=;
+        fh=BfsWvjZvgXaStClBpDNu35+4JHSxlBx4uH6yv+xp1+s=;
+        b=kSq4C28Cd1XiKfQZg8yF/35f+3hl2Y9LetyPO6vHdk91rO2ynPsztm1wHOvRzq4P9F
+         DOz/tNzNzCVSJ9ag9bJ4t9JAi8uBnGPhFMTqtu5i4y7/F6CrF9SuB0PKip5aQtiWKwPT
+         QsQTkiQECuasuY6E062CEUSCiC1W22e+4SSW7+H2w5VZVe4XWdfPsSCnIqgNCBppSSVs
+         NT2XQsVU0qLP4cgMhSszPk7lX/fw5XeKH6qIcDNsUciy+B7U65RswPzGikSo7ZKv5NLS
+         o/VCUMFlTFMqqoATN4W2FeHGGO9artoHg8RljDesXRWagc57WagZzeFj7wn29ElbzzLH
+         b55g==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789258370; x=1789863170; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=RrDkGMoRwvfj2g3E32E2x8QKUXHCAVJ2EFu50m+wFKY=;
+        b=OH1V0PY/QI22p716ClykMpb8ZwmDE849TwV1BW66H8sZu5X/Ro6oHgZWA3IH/dghnU
+         uxhyMuREoZO0tJoA+STpGI9zucFQqoAs24O2oNtBHdjTQUTW2SjBTre0DqfKss6+TzzN
+         UEkjirn8Sp6r4nDcxFBCCl74jgwci9BbmHpiaKhermPWyOv6JmFmNJpKpnBEKN0d6lGH
+         5bxE8QOiAajFZztoaurFPPMLfewr33cfqwLeF9ljIc2oSAaBl+pAOoTR5ICFj+J9x0TJ
+         dtDln1kZ9m3khqSloIzh0TeLBycQpPNQWrN0sAnJUEoIZWu9TQ8qRHOy99IJc+XaWJfd
+         RIjg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789258370; x=1789863170;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=RrDkGMoRwvfj2g3E32E2x8QKUXHCAVJ2EFu50m+wFKY=;
+        b=XGjwFS9AuVLrh0ypugJcwuRQTsmEuL8TRedVEsksMW7/j1tZMaC+AM8XeJf7UfeIr8
+         kgMkTVd1bm0dDXxQByGxmstI5A8bmmLCW40o53ug58fa6CkQuBTOuOK0gGwsQsHJDu3o
+         iirsDoMT4ftPlOvrKq4E8qeR91XcjZNbDQFxcARfjYzOumTWQoLckGI/+kCWU8Wh8+kY
+         Uv8hkedArgMG/UDQslyACaILPT2phZ1SVeQQDKRqeI0yr7i/tCAr0InKnHFGCiBuTDSI
+         bL+x22a1uVs4YWvMVM1a8eL2MxhjBZoqDjZi9Xdw/zGSF7VDN+7CCKrUvTvc7OLrb3CX
+         yr4A==
+X-Gm-Message-State: AFuF++naufrL0QMmu4y3qFagwyns5diPp39e4lNB5myC/KluNga+k+JR
+	K/PkWyLw7mAnuIepC11GfsAOJLzqBZhDN1AP4iIHN/9Cs4C7YM4AIVvGcsxdm45uNbs0KNUlwtf
+	OOT3ddXaDisD1NFc43z7OUiXdyUZ4qY7IKtJL
+X-Gm-Gg: AYBFou2RRJX92nPp0VieCm6AlV6PcC2RL9DF/Ndxil2dgF+1HuLBYnq1Hpk3dfb9mX+
+	mkRtIDS8IlGipo8mM1dOixbT2IAlRswqMcZ63CBolQubg8yPRLKqrCKKPOl3ULP6BZ/gUtPjuxO
+	JutRcRnFZi52c7ooMk8MX+g645M6vY/4GZNdSCRQNY1wZzHf6osD+zGjb/c41qb+uAjv0izXyjZ
+	/z0lqRhFSDbADR0Ow3gTglhWzoThsCdu4BaNKQCwf2fiKgTbMm0JJgGKBIjqzrGBpk+l1RjWeP4
+	0+ml375oeEuZ6PFXY5EODBpOZ7N2s6RaNCxZ2MuJPzCHGaByjVG4McPuTRBtru28id1/NICsUXy
+	mSmrG
+X-Received: by 2002:a05:6820:4b8b:b0:6c3:42eb:ec22 with SMTP id
+ 006d021491bc7-6c342ec1f4cmr1055048eaf.23.1789258370354; Sat, 12 Sep 2026
+ 17:12:50 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 193c782a-1d13-4bf7-2d46-08df110233f5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 12 Sep 2026 19:15:26.9160
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 7GJ7wRdLo3xqN7RcEUHFSmGs9p5hfdAEhBPR3LocyoD6C/72TkuY5CZ0sDzTHTjqXuLqMYvdScsckE7Yf6+3QA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAWPR10MB8187
+References: <cover.1789163914.git.yoann.congal@smile.fr>
+In-Reply-To: <cover.1789163914.git.yoann.congal@smile.fr>
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Date: Sun, 13 Sep 2026 12:12:39 +1200
+X-Gm-Features: AcwNN1WIM6UXGpM3XqFckpRDpxIZF8gL7ir9KGHWz34b3RbGPegJ1-BCjYkc5wQ
+Message-ID: <CADySD0GdXN1DPdYv0oy-rZ0r-EB7RoU8waJOAD4jrG-t1tEgmg@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap 00/13] Patch review
+To: yoann.congal@smile.fr
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 19:15:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245706
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 00:12:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245707
 
-DQoNCj4gLS0tLS1PcmlnaW5hbCBNZXNzYWdlLS0tLS0NCj4gRnJvbTogWW9hbm4gQ29uZ2FsIDx5
-b2Fubi5jb25nYWxAc21pbGUuZnI+DQo+IFNlbnQ6IEZyaWRheSwgQXVndXN0IDI4LCAyMDI2IDEw
-OjI1IEFNDQo+IFRvOiBNYXJrbywgUGV0ZXIgKEZUIEQgRVUgU0sgQkZTMSkgPFBldGVyLk1hcmtv
-QHNpZW1lbnMuY29tPjsNCj4gb3BlbmVtYmVkZGVkLWNvcmVAbGlzdHMub3BlbmVtYmVkZGVkLm9y
-Zw0KPiBTdWJqZWN0OiBSZTogW09FLWNvcmVdIFtzY2FydGhnYXBdW1BBVENIIDEvM10gY3Bpbzog
-cGF0Y2ggQ1ZFLTIwMjYtNjY0ODUNCj4gDQo+IE9uIFNhdCBBdWcgMTUsIDIwMjYgYXQgOTowOCBQ
-TSBDRVNULCBQZXRlciBNYXJrbyB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZw0KPiB3cm90ZToN
-Cj4gPiBGcm9tOiBQZXRlciBNYXJrbyA8cGV0ZXIubWFya29Ac2llbWVucy5jb20+DQo+ID4NCj4g
-PiBQaWNrIHBhdGNoIG1lbnRpb25lZCBpbiBOVkQgQ1ZFIGRlc2NyaXB0aW9uLg0KPiA+DQo+ID4g
-U2lnbmVkLW9mZi1ieTogUGV0ZXIgTWFya28gPHBldGVyLm1hcmtvQHNpZW1lbnMuY29tPg0KPiA+
-IFNpZ25lZC1vZmYtYnk6IFJpY2hhcmQgUHVyZGllIDxyaWNoYXJkLnB1cmRpZUBsaW51eGZvdW5k
-YXRpb24ub3JnPg0KPiA+IChGcm9tIE9FLUNvcmUgcmV2OiBjMTA1ZmJmODJlMmY1MGIwNWRjNjgw
-ZTA2MDFiZjBlYTMxOThlNThjKQ0KPiA+IFNpZ25lZC1vZmYtYnk6IFBldGVyIE1hcmtvIDxwZXRl
-ci5tYXJrb0BzaWVtZW5zLmNvbT4NCj4gPiAtLS0NCj4gPiAgbWV0YS9yZWNpcGVzLWV4dGVuZGVk
-L2NwaW8vY3Bpb18yLjE1LmJiICAgICAgIHwgICAxICsNCj4gPiAgLi4uL2NwaW8vZmlsZXMvQ1ZF
-LTIwMjYtNjY0ODUucGF0Y2ggICAgICAgICAgIHwgMjEwICsrKysrKysrKysrKysrKysrKw0KPiA+
-ICAyIGZpbGVzIGNoYW5nZWQsIDIxMSBpbnNlcnRpb25zKCspDQo+ID4gIGNyZWF0ZSBtb2RlIDEw
-MDY0NCBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvY3Bpby9maWxlcy9DVkUtMjAyNi02NjQ4NS5wYXRj
-aA0KPiANCj4gSGVsbG8sDQo+IA0KPiBJdCBsb29rcyBsaWtlIHRoaXMgc2VyaWVzIHRyaWdnZXJz
-IHB0ZXN0cyBpc3N1ZXM6DQo+IGh0dHBzOi8vYXV0b2J1aWxkZXIueW9jdG9wcm9qZWN0Lm9yZy92
-YWxreXJpZS8/Iy9idWlsZGVycy82MS9idWlsZHMvNDM2Mg0KPiBodHRwczovL2F1dG9idWlsZGVy
-LnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvPyMvYnVpbGRlcnMvNzMvYnVpbGRzLzQzNzgNCj4g
-DQo+IGh0dHBzOi8vdmFsa3lyaWUueW9jdG8uaW8vcHViL25vbi1yZWxlYXNlLzIwMjYwODI0LTg4
-L3Rlc3RyZXN1bHRzL3FlbXV4ODYtNjQtDQo+IHB0ZXN0L2NvcmUtaW1hZ2UtcHRlc3QtY3Bpby9s
-b2cuZG9fdGVzdGltYWdlLjMxMTMzOC4yMDI2MDgyNDIxNDk0MA0KPiB8IEZBSUw6IENWRS0yMDE5
-LTE0ODY2ICh0YXIgaGVhZGVyIHNpemUgb3ZlcmZsb3cpDQo+IA0KPiBDYW4geW91IGxvb2sgaW50
-byB0aGlzPw0KDQpJIHJlYWxseSBoYXRlIHRoZSBleHBlY3RmYWlsIGRlZmF1bHQgc2V0dGluZywg
-c29tZXRpbWVzIEkgbWlzcyB0aGUgZmFpbHVyZS4uLg0KDQpDb3VsZCB5b3UgcGxlYXNlIHRha2Ug
-dGhlIGZpcnN0IHR3byBwYXRjaGVzIGZyb20gdGhpcyBzZXJpZXM/DQpPbmx5IHRoZSB0aGlyZCBv
-bmUgaXMgY2F1c2luZyB0aGUgZXJyb3IuDQpBZnRlciB0d28gd2Vla3Mgb2YgdmFjYXRpb24gbG90
-IG9mIHRoaW5ncyBwaWxlZCB1cCBzbyBpdCB3aWxsIHRha2UgbWUgc29tZSB0aW1lIHRvIGNsZWFy
-IG15IGJhY2tsb2cgdG8gYmUgYWJsZSB0byBsb29rIGF0IHRoaXMgaXNzdWUuDQoNClRoYW5rcywN
-CiAgUGV0ZXINCg0KPiANCj4gVGhhbmtzIQ0KPiAtLQ0KPiBZb2FubiBDb25nYWwNCj4gU21pbGUg
-RUNTDQoNCg==
+Hello Yoann,
+
+Any reason why the following were not included?
+
+https://lists.openembedded.org/g/openembedded-core/message/245310
+https://lists.openembedded.org/g/openembedded-core/message/245311
+
+cheers
+Ankur
+
+On Sat, Sep 12, 2026 at 10:15=E2=80=AFAM Yoann Congal via
+lists.openembedded.org <yoann.congal=3Dsmile.fr@lists.openembedded.org>
+wrote:
+>
+> Please review this set of changes for scarthgap and have comments back by
+> end of day Tuesday, September 15.
+>
+> Passed a-full on autobuilder:
+> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4718
+> * oe-selftest-fedora fails with 16415 =E2=80=93 AB-INT: github infrastruc=
+ture issues
+>   I still need to backport fixes from master to wrynose, and then,
+>   scarthgap.
+> * qemuarm64-ptest failed with 16267 =E2=80=93 [scarthgap] AB-INT PTEST: p=
+ython3 failure (test_wrong_cert_tls13)
+>   retried in https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61=
+/builds/4516
+> Note: this build was not rebased on the latest build-appliance update.
+>
+>
+> The following changes since commit bb166ac536daa43602ce8962cd3eb137783b8d=
+c9:
+>
+>   build-appliance-image: Update to scarthgap head revision (2026-09-11 14=
+:32:15 +0100)
+>
+> are available in the Git repository at:
+>
+>   https://git.openembedded.org/openembedded-core-contrib stable/scarthgap=
+-nut
+>   https://git.openembedded.org/openembedded-core-contrib/log/?h=3Dstable/=
+scarthgap-nut
+>
+> for you to fetch changes up to e85367ebf673225c69694ee63679ea7620c4b420:
+>
+>   u-boot, u-boot-tools: Fix CVE-2026-46728 (2026-09-11 17:32:37 +0200)
+>
+> ----------------------------------------------------------------
+>
+> Daniel Turull (1):
+>   libarchive: mark CVE-2026-14164 as fixed-version
+>
+> Darsh Kelaiya (1):
+>   python3-lxml: fix CVE-2026-41066
+>
+> Deepak Rathore (2):
+>   binutils: fix CVE-2026-3441 and CVE-2026-3442
+>   binutils: fix CVE-2026-4647
+>
+> Devansh Patel (1):
+>   u-boot: share CVE_PRODUCT with u-boot-tools
+>
+> Gyorgy Sarvari (1):
+>   python3-py: set CVE_PRODUCT
+>
+> Hetvi Thakar (4):
+>   python3-pip: Fix CVE-2026-8643
+>   go: Fix CVE-2026-33814
+>   go: Fix CVE-2026-39823
+>   u-boot, u-boot-tools: Fix CVE-2026-46728
+>
+> Peter Marko (1):
+>   openssl: upgrade 3.5.7 -> 3.5.8
+>
+> Vijay Anusuri (1):
+>   p11-kit: Fix CVE-2026-18938
+>
+> Yoann Congal (1):
+>   linux-yocto/6.6: update CVE exclusions (6.6.151)
+>
+>  .../u-boot/files/CVE-2026-46728.patch         |  379 ++
+>  meta/recipes-bsp/u-boot/u-boot-common.inc     |    2 +
+>  .../u-boot/u-boot-tools_2024.01.bb            |    2 +
+>  meta/recipes-bsp/u-boot/u-boot.inc            |    2 -
+>  meta/recipes-bsp/u-boot/u-boot_2024.01.bb     |    1 +
+>  .../{openssl_3.5.7.bb =3D> openssl_3.5.8.bb}    |    2 +-
+>  .../binutils/binutils-2.42.inc                |    2 +
+>  .../CVE-2026-3441_CVE-2026-3442.patch         |   51 +
+>  .../binutils/binutils/CVE-2026-4647.patch     |  228 +
+>  meta/recipes-devtools/go/go-1.22.12.inc       |    2 +
+>  .../go/go/CVE-2026-33814.patch                |   44 +
+>  .../go/go/CVE-2026-39823.patch                |  100 +
+>  .../python/python3-lxml/CVE-2026-41066.patch  |  262 +
+>  .../python/python3-lxml_5.0.2.bb              |    4 +-
+>  .../CVE-2026-8643-regression_p1.patch         |   34 +
+>  .../CVE-2026-8643-regression_p2.patch         |   69 +
+>  .../python/python3-pip/CVE-2026-8643.patch    |   79 +
+>  .../python/python3-pip_24.0.bb                |    3 +
+>  .../python/python3-py_1.11.0.bb               |    2 +
+>  .../libarchive/libarchive_3.7.9.bb            |    5 +
+>  .../linux/cve-exclusion_6.6.inc               | 4540 ++++++++++++++++-
+>  .../p11-kit/files/CVE-2026-18938.patch        |   52 +
+>  .../recipes-support/p11-kit/p11-kit_0.25.3.bb |    1 +
+>  23 files changed, 5787 insertions(+), 79 deletions(-)
+>  create mode 100644 meta/recipes-bsp/u-boot/files/CVE-2026-46728.patch
+>  rename meta/recipes-connectivity/openssl/{openssl_3.5.7.bb =3D> openssl_=
+3.5.8.bb} (99%)
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-3441=
+_CVE-2026-3442.patch
+>  create mode 100644 meta/recipes-devtools/binutils/binutils/CVE-2026-4647=
+.patch
+>  create mode 100644 meta/recipes-devtools/go/go/CVE-2026-33814.patch
+>  create mode 100644 meta/recipes-devtools/go/go/CVE-2026-39823.patch
+>  create mode 100644 meta/recipes-devtools/python/python3-lxml/CVE-2026-41=
+066.patch
+>  create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-864=
+3-regression_p1.patch
+>  create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-864=
+3-regression_p2.patch
+>  create mode 100644 meta/recipes-devtools/python/python3-pip/CVE-2026-864=
+3.patch
+>  create mode 100644 meta/recipes-support/p11-kit/files/CVE-2026-18938.pat=
+ch
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#245670): https://lists.openembedded.org/g/openembedde=
+d-core/message/245670
+> Mute This Topic: https://lists.openembedded.org/mt/121207001/3619737
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [an=
+kur.tyagi85@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
