@@ -1,126 +1,141 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 338E5C88E56
-	for <webhook@archiver.kernel.org>; Sun, 13 Sep 2026 09:49:07 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7814.1789223871068689026
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F9D8C88E66
+	for <webhook@archiver.kernel.org>; Sun, 13 Sep 2026 14:23:19 +0000 (UTC)
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.25630.1789309392122211992
  for <openembedded-core@lists.openembedded.org>;
- Sat, 12 Sep 2026 07:37:51 -0700
+ Sun, 13 Sep 2026 07:23:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=QpWVrhEi;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: wenwfu@qualcomm.com)
-Received: from pps.filterd (m0279863.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68CBdTVI2933486
-	for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 14:37:50 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=/4sTYQbm5Pu77QelkMaXKnqJYAwAW5DrlUc
-	5O34qVfs=; b=QpWVrhEiH4lLcnR/kYHb5EfMQt5mBTwtO6s9Z9IbtMx8AFgmT86
-	RrUaOXaDWEFeypa6I6oc9C9+JSnrdrVozjkYuP2cnGu4UaDLstBZC2TnUmZ/Bahl
-	s95zeg/+s5aysYfyOFdy83T6Wz96G29dHJ21sX5ad4WVA3M5etO7wLLJePC5WIu+
-	NEiZljl4tfEF9SJzCfh+XDtXJA84xEIx0tBhfm/EbVFGVk3olJzpZEQ1fv4DQx6T
-	jKXM5a0kZnxxogSnf9ZZzSFeMLq/tyCQ9YXBHUDt5vSabzKqvQCE7CP1Ku6cijNQ
-	5VPpMeIenVNy2TxLYndkZ54R5zOSk1YEgXQ==
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gmy9d15ck-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 14:37:50 +0000 (GMT)
-Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 68CEbmN92817721
-	for <openembedded-core@lists.openembedded.org>; Sat, 12 Sep 2026 14:37:48 GMT
-Received: from perf-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 68CEbm0e2817711
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Sat, 12 Sep 2026 14:37:48 +0000 (GMT)
-Received: by perf-sh02-lnx.ap.qualcomm.com (Postfix, from userid 3975139)
-	id 482B6AC1; Sat, 12 Sep 2026 22:37:47 +0800 (CST)
-From: Wenwen Fu <wenwfu@qti.qualcomm.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Wenwen Fu <wenwfu@qti.qualcomm.com>
-Subject: [PATCH v2 2/2] initramfs-framework: avoid external commands in module loop
-Date: Sat, 12 Sep 2026 22:37:45 +0800
-Message-ID: <20260912143745.3722559-1-wenwfu@qti.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=cE3d3Sz7;
+ spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485933b2522so1072766f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 07:23:11 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789309390; cv=none;
+        d=google.com; s=arc-20260327;
+        b=GJ5/IE/B6CvV0mwtxpKCoRTXjYBKSkIntrfP+fy1ITio1vvsliMfjufrDNJdvShwMM
+         yYJrPMmwvrfLgTRiXtiLx4ScJXBZhnCNgDt4IVS4YCqhSJc0EOcr1gF3Ahg9/MtF8TyZ
+         XXFph6ghn/RfovX8Zw/xqM25tX4cT8KlOen/SregYIN91mgjrMAFwqz1Cq/fz6bRdDXB
+         4k3G8gjg0cYbf+zrRQqugyEF4yoNySOwPob1jnS+5hkEkKArDB4hdXpSqofHVK0/bzEL
+         nv4Kqle07moo1v3Q9xHH7673bohEqrC9j1h3evaO7wB4PQvi25YSWj12smQsC7xAmjA8
+         i2Xw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=+8kp2P1vhFHAWmWH0q+4Zkl2nnk9o4Fr7kBrVfcJtno=;
+        fh=6yK+pdLSbMffDp9TkgbXbwHUjQylhLGvM2uEL0py9B4=;
+        b=W7RTfxJT2iM9xpXOh6kstXIxqBFyU4mCDhR3Jp+iFxqcsdL47PrkYBdyo041XFTMgA
+         ljdxrGGJ+EuyGKJHJDnguprE03DIZfqYp9W8Lc29VO2IoKHQeDZMv7CwYja2R2TKRhH/
+         bd5/9BAId8pAHo3F9E8CednWTI9nm6a8d7pH59wy2EWnpn5vW06B/Bn+W2475uaVAbev
+         DwLIEQvzbfaHa9AeICOjpSSkpT6zwkXnbY0yQZ1pVNLcNavirscr1ebLlF//gYIoXjYj
+         Lh0GgTetTZAr5By7EdIH2n6MUI2TYSPlS4/6RysRg9SpyPHwj5+PaFAkbDt2T2oECqls
+         doUw==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1789309390; x=1789914190; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=+8kp2P1vhFHAWmWH0q+4Zkl2nnk9o4Fr7kBrVfcJtno=;
+        b=cE3d3Sz7y2g0PuF5YBtGNq8am76nVYs/zvJFDbp+h/5sLSGzSch6HJFi7UryEhUMxg
+         Wahx36Umpphus4ymU4pyeZ0ffJGYaNBCaIq2BMKetHUMchZpdnZ+kxg5+C080GeZJmrM
+         Lwsy1rhvJX22SwwI1TnjQPLeHU37wUCMPM70c=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789309390; x=1789914190;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=+8kp2P1vhFHAWmWH0q+4Zkl2nnk9o4Fr7kBrVfcJtno=;
+        b=reflGmuT12pV5RWVdGYzehDuyBiDksLhaGhZwhwBbTtxY1tPmXr76Fy+tD6SOGmN+J
+         Mq1vjEVb7fwvXgdQWuaXFvpFyZACr4JXuHLbu2IJzbeUwTRwdcvMjB3VDYLtP9kMhL86
+         Z1VTjnnh5drHIBqZQcB2bCQCtFFyaKUs9ZpIlEMIaxtqoSLaTApSPJ4geuCiJhJb3YfE
+         d+Ma7Q0U794TTvAuI1vWzz+G3+ecdi0GjcUNwpPs+z9pTOukhL8FON1AXNxzsSY/BZG2
+         XcL7yISV9UCZDuZxgtQ0J//qBU7J9L1vLrWqRw+ou+4Q0urfwHlJT/0sE2V3qixxA7t0
+         ztIg==
+X-Gm-Message-State: AFuF++lEhUxaMxn+lGwHByDvB12nP3RpdBWkFyLh0+Toe1qSyRCdSQM9
+	6u+i5oc2p7kJ99DVv8Xv1JyYCiYebXoE8THRC3i3DBwjHOyh1pBIpdn/yxbwJLa1xxilQfAVgLT
+	LPN0cfcy3YgXPg0dgDX8w50/PhZFqskYWx4aIep1trw==
+X-Gm-Gg: AYBFou0L9rSbWTw19VxkScdwZsc/AqQwqXuaDXdcj8MYifykbgqtAsLOGsDRTz0l80n
+	MuUPL9dkEWXP1nOakSk/vkTy9m/UX3JufgspHJpawi9vZbh63rCZUB31oS0JE2z75zLL/o8OhWu
+	2Dix34+vr3t01gsYbNAfVtLVClSPPm5e+WQidqPbeuKw+5oGDOxr9XI5U3kO/lVF5pl+Rph8NAy
+	Ojr+bOTH9wFylQrKRb5bhayPVVP58cHlQnRRvXRzeVSP38OilHqYMEVLKy/ZUMjC2de4KDdyWX2
+	aqhw1GEv/V6XJOnhtdZOuA5T8QNl9VA+3PPGd2jZkWVwYay2u45HqQ7I
+X-Received: by 2002:a05:6000:1885:b0:486:f770:9e87 with SMTP id
+ ffacd0b85a97d-486f7709f02mr13142343f8f.5.1789309390117; Sun, 13 Sep 2026
+ 07:23:10 -0700 (PDT)
 MIME-Version: 1.0
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTEyMDIxMSBTYWx0ZWRfXzhJE9R8imTr+
- schpSddpi8zv0Ds1QgAOvv3dnJP+bW7VDlwHGegrvHbPhHw+C1n8DNwxd44UJWMzhkp3P9VDJsJ
- DEKciCZi3uf8jUw11IyizO9/CIMd/Ro=
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTEyMDIxMSBTYWx0ZWRfXwdNkxNZLKI/g
- kKy3s08TlQbz/UdYrvtsm5xT5/XU26Kx+XSXZHnZhEA80liXxOj5eo1aMmTP8MrPAZtbZq0A2nK
- 1O2J19obykDQzMKjC+lvrVMy/jSYP0afKMbu9tEiMeWkso3lUQlU9S65CFpCZH6t1pNBcugXh1b
- QixspXmztz68jggjdEFO5m46C56JgKm5tEQqP1q9B5BWt02RKM9BNegy/dm/Ha8iUdqTaGsuflt
- upIqIF+OCjAwEAydLZ2cZp9xCYb4j/ElflN75yKMAv019XhrrAQ8K137wl2wLCWzU0k4mN5SW2P
- PgGvIaqNRmqGrhFs+j4DmIiPtLm1qehnG7DMyXSBVkGwPKljvfHWaV8MKFogBX1tXzbKebW0Hes
- 3yOm3Ti+ot3MdwLjiuXREAjgJ22vsR3oTjdnoYwHigcZXBAVsvw4D+Id06BOkHVx3aVI9uvFPVb
- jKXKjoZ6/uiok2DhMRQ==
-X-Authority-Analysis: v=2.4 cv=IOSXmQvG c=1 sm=1 tr=0 ts=6aa563be cx=c_pps
- a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=yOCtJkima9RkubShWh1s:22 a=EUspDBNiAAAA:8 a=TUV-FE7MVKuhXN5Lm6EA:9
-X-Proofpoint-ORIG-GUID: koyCAb_ULC49LpeicIoljq1g6Hd90gBJ
-X-Proofpoint-GUID: koyCAb_ULC49LpeicIoljq1g6Hd90gBJ
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-12_04,2026-09-11_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- bulkscore=0 malwarescore=0 phishscore=0 adultscore=0 suspectscore=0
- priorityscore=1501 lowpriorityscore=0 impostorscore=0 clxscore=1015
- spamscore=0 classifier=typeunknown authscore=0 authtc= authcc= route=outbound
- adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
- definitions=main-2609120211
-Content-Transfer-Encoding: 8bit
+References: <cover.1789163914.git.yoann.congal@smile.fr> <CADySD0GdXN1DPdYv0oy-rZ0r-EB7RoU8waJOAD4jrG-t1tEgmg@mail.gmail.com>
+In-Reply-To: <CADySD0GdXN1DPdYv0oy-rZ0r-EB7RoU8waJOAD4jrG-t1tEgmg@mail.gmail.com>
+From: Yoann Congal <yoann.congal@smile.fr>
+Date: Sun, 13 Sep 2026 16:22:59 +0200
+X-Gm-Features: AcwNN1XG89uV2IYRykJRHznDRSzduxvzAXEQeUh1II0wiqDamoVcwjcnzqPEv_8
+Message-ID: <CAMSfU+4k9CX9QfCFWrRegM8Hn9GdFWyiMNSCw2AMnnUryts5Ow@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap 00/13] Patch review
+To: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Cc: Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000009773f0065b5e0e3d"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 09:49:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245713
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 14:23:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245714
 
-Use shell pattern matching and parameter expansion to skip backup
-modules and derive module names without invoking sed, basename, or cut
-during initramfs module loading.
+--0000000000009773f0065b5e0e3d
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-On QEMU, backup filtering decreased from 104.529 ms to 3.731 ms,
-and module name parsing decreased from 115.657 ms to 4.071 ms.
-Together, these stages decreased from 220.186 ms to 7.802 ms.
+Le dim. 13 sept. 2026, 02:12, Ankur Tyagi <ankur.tyagi85@gmail.com> a
+=C3=A9crit :
 
-Tested with dash and BusyBox sh syntax checks and QEMU.
+> Hello Yoann,
+>
+> Any reason why the following were not included?
+>
+> https://lists.openembedded.org/g/openembedded-core/message/245310
+> https://lists.openembedded.org/g/openembedded-core/message/245311
 
-AI-Generated: OpenAI Codex
-Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
----
- .../initrdscripts/initramfs-framework/init           | 12 ++++++++----
- 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/init b/meta/recipes-core/initrdscripts/initramfs-framework/init
-index e560d25d53..e2da3511b8 100755
---- a/meta/recipes-core/initrdscripts/initramfs-framework/init
-+++ b/meta/recipes-core/initrdscripts/initramfs-framework/init
-@@ -152,11 +152,15 @@ mkdir $ROOTFS_DIR
- # Load and run modules
- for m in $MODULES_DIR/*; do
- 	# Skip backup files
--	if [ "`echo $m | sed -e 's/\~$//'`" != "$m" ]; then
--		continue
--	fi
-+	case "$m" in
-+		*~)
-+			continue
-+			;;
-+	esac
- 
--	module=`basename $m | cut -d'-' -f 2`
-+	module=${m##*/}
-+	module=${module#*-}
-+	module=${module%%-*}
- 	debug "Loading module $module"
- 
- 	# pre hooks
--- 
-2.43.0
+Hello,
 
+Yes, the reason being that I need to merge those to wrynose first.
+
+These should go in the next review cycle (this week).
+
+Thanks!
+
+>
+
+--0000000000009773f0065b5e0e3d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto"><div><div class=3D"gmail_quote gmail_quote_container"><di=
+v dir=3D"ltr" class=3D"gmail_attr">Le dim. 13 sept. 2026, 02:12, Ankur Tyag=
+i &lt;<a href=3D"mailto:ankur.tyagi85@gmail.com">ankur.tyagi85@gmail.com</a=
+>&gt; a =C3=A9crit=C2=A0:<br></div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">Hello Yoann,<br>
+<br>
+Any reason why the following were not included?<br>
+<br>
+<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/24531=
+0" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembedd=
+ed.org/g/openembedded-core/message/245310</a><br>
+<a href=3D"https://lists.openembedded.org/g/openembedded-core/message/24531=
+1" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openembedd=
+ed.org/g/openembedded-core/message/245311</a></blockquote></div></div><div =
+dir=3D"auto"><br></div><div dir=3D"auto">Hello,</div><div dir=3D"auto"><br>=
+</div><div dir=3D"auto">Yes, the reason being that I need to merge those to=
+ wrynose first.</div><div dir=3D"auto"><br></div><div dir=3D"auto">These sh=
+ould go in the next review cycle (this week).</div><div dir=3D"auto"><br></=
+div><div dir=3D"auto">Thanks!</div><div dir=3D"auto"><div class=3D"gmail_qu=
+ote gmail_quote_container"><blockquote class=3D"gmail_quote" style=3D"margi=
+n:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-left:1ex=
+">
+</blockquote></div></div></div>
+
+--0000000000009773f0065b5e0e3d--
 
