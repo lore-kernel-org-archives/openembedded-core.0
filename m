@@ -2,155 +2,146 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 90710C88E63
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 91A4DC88E65
 	for <webhook@archiver.kernel.org>; Sun, 13 Sep 2026 20:12:05 +0000 (UTC)
-Received: from mail-wm1-f48.google.com (mail-wm1-f48.google.com [209.85.128.48])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5893.1789330324290064991
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5998.1789330322120551258
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Sep 2026 13:12:04 -0700
+ Sun, 13 Sep 2026 13:12:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Iuz12fuL;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.128.48, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm1-f48.google.com with SMTP id 5b1f17b1804b1-49b965570d7so34550885e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 13:12:04 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RHQUOMhQ;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccff31419so10943535e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 13:12:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789330322; x=1789935122; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=W0Y/cfpzwbf9Wiz5mVfw/cihMSMHpRMNDNwP/+X1R/M=;
-        b=Iuz12fuLxCWMdmqdoG6w+bbloKnUrqMJk88NztxGdPyl0DB5h0v97/yoA9Agjwr+E+
-         6zBH9cHkYa+tBE3DD55+OMZDAhRUwhm74D8J8Nv+BijHRJzDAaHcSKXjl3+TGr11AYFw
-         KvvIMWCxtjlsImpBgKBEwq8Wen4Vl3nA3dvLc=
+        d=linuxfoundation.org; s=google; t=1789330320; x=1789935120; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WBzj5Dkpua9fvLKs8RduWNo9AAi/1V+qxAbjjasiBjE=;
+        b=RHQUOMhQx3alVyf7Ht1HUkpMbx+CHqHf8u6zSpmkcGcl3N6Z1dybq/iDiFv+BM7JY1
+         SBt3ivG9h3XwFvqXkF7hh3dE/YX0GvJFn4ATMLEbHVB4oMB5m74PmQ4eaiHWK7qgn3vZ
+         UD0Ava6w0PsMC1jgR2ZPHWVdLUQ1SoJUhDgT4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789330322; x=1789935122;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=W0Y/cfpzwbf9Wiz5mVfw/cihMSMHpRMNDNwP/+X1R/M=;
-        b=ddsZPnPXHj3U1xedX0aWu2GG5tkQBHhYKMDcOaCByqOE5wsapRSca4zfHc31QTDwvh
-         kqUY0HTtZU1orgu1EzXHnd0GZq4n6u9Lp+bp1ztS77PnltfUiqNzBYC22pp2xpGvY4gk
-         1lw6elrF02yVO9n5XoHCwPBzZ08waGZxe9Vo/wdaSA+Dz7F7G/dmCtjyZO1jqkn0tGuV
-         3/tE0ldqoV9AWKGR0kS/phzLjV4WES+0x62KWMstqw22EVg/ycR3quIShXd2yCER64pN
-         V+Amkxer+R7vtqEP3OneKVd13y29uQO1djWNG4DNazZsQgdp80mx78Rn41ZdjKy/R5Qc
-         Qxqg==
-X-Gm-Message-State: AFuF++klQZaj+Of6Zs18wewFsd3qkk5q5+spxPR/Tp84qEFDGRLRg7Fp
-	0gFYTjHbqvRUjqsyq+yuY5nbGmW29ASCudpyo4vpn3N/ctk/nvVxb3sXMtr9ENtmz9j4NEth22G
-	lw4y8OZw=
-X-Gm-Gg: AYBFou1ZwNfAs//hHC/ABH+UL+k2HLF/8P8cLvdh3oucQLJWKhtlsfgp7R+7i02sXnz
-	Pfm/V8kMJk9z6MTKngX7ZJvkDJkWSFsF+6fzOthefS9W02TS2rqrFI0c5rzrvL1LwO9ayIB42Ig
-	/+VWYlr1XbwSfb30wYIkHoP+nQiNItMY8286O/ok2YUkxFRtF+L9NqXw57vockkMvASM07aeL3e
-	6H43hNJ/ibZoYPBOnWlbQoHVSnCZ4Mi6WEqcU0B5zSv5rPnvRfkO4TgUYNvxTbNxpgXvKXpSTgY
-	adzSHQRtX4ydmeYdHaMNCqnh8ci+3hkcgkBVmb01tpRjeAeN5lJJLesO73L2uTxzPS4/Lekz5Ue
-	G8UsUG5qOuSdatwPhQ8HGFGJ0hOYTWoNsLANxHg8uQQmbWiwha86YNl4E3Ocfaz5gRa5u5poDLr
-	gW3V2fmQzlz5PoXofzqWjkTGUxZ+y8APsnas5ZDu3eN2+DrfZAk54QRbcraoYC4FycCq0nr/rOK
-	Y3juxm0C9Y1wotPLCn3NDOILuPL
-X-Received: by 2002:a05:6000:25fe:b0:487:1e3:9496 with SMTP id ffacd0b85a97d-48701e3959fmr201274f8f.29.1789330322262;
-        Sun, 13 Sep 2026 13:12:02 -0700 (PDT)
+        d=1e100.net; s=20251104; t=1789330320; x=1789935120;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:to
+         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=WBzj5Dkpua9fvLKs8RduWNo9AAi/1V+qxAbjjasiBjE=;
+        b=T7luJcyhmpb0tvV3xTvWwGohKR5K7b66R3eOrUBvfhVhkJhYFGjSmDqzcY/8YVc/FX
+         hnbxfFtpvkrg6fkFdOZkSjVZhoTzuSgOstIrh/X2dfBL0gjWx2I4qQjttLJ77ClnSGdh
+         DGWsyuaAIgL1VpQzFZ9GvwrNlkv/lW0UIgaNH6Repx5VTGFNyakl2SZElphLxIRSF7Dq
+         TSE7WyrMYdpEy+KooC5nmSCQHlwZzSkQ9q8G1AqabznXjYdIx5zm45VdS/kDIKrYf7x/
+         kMSy+EiC0VL9WNGJ1qSVIuCrS2q3LaNMxbuwp1K2LmOOaefuY90QAX+2Y2IyQ8SShbw4
+         sDFA==
+X-Gm-Message-State: AFuF++kWrSbXleF6C1rYO/I7jaFN+VrS8BbRPszCsSqBlq4unbArVOo3
+	Qnv1oftJtAI8Bw2L8UA0RoNXNsqU0681wtWpcKCQtA61n7PmBtmuj6XOEa3PphKAVOKCEegIj/5
+	kkbhNpIs=
+X-Gm-Gg: AYBFou1sX5K9D0Z3Xf1/qjtS2GiJqe3tC2f17hL9DT6WXZeCycUhb9XWb/RHVZ+gIZO
+	JQo/qiLGZybmH1TgPETKU03SeXTclOA82Dm9dHEToVnrpCGBUbIg2M3sw/EZ9cPfSgQoVirUE1E
+	wOucEyUVqiyUsrDaQhqQ/p8MBSTf3dS6r0iumnyPu/5pO3j7iotQXYtVCoTcCCzPRczRQpEjPQU
+	Ppaao8YRfHfakNGam5vmoiJ9IWrEApKuupFVHIKJcOo/o4sKV6Vl+D9Btbzl2cLLiqBwnL3mdTT
+	ZUcaZYPPMk9ctPicK07EKTgLR+ct50khbAjoiC4OPG8k1RJ74QT6neE0Grt5euWb2ptf8iJfd2q
+	Yc2A/XovLudaLJFJeHqxlMtb2kcM6gP0z6o15XJ64CAGKDW2TAOz4Rg2SZvYaZVkFrKOvenN6g+
+	QcYMzWXtMiOzylKLk0mVIJEkmh3MoOtelP7Nv3UAf4/ezo6N6ill5O8730zdKw2JGVEeFa8Ip3e
+	HIJsiYQejo7tknnjqQPtxZAaMXz
+X-Received: by 2002:a05:600c:3f16:b0:49d:25b0:cc60 with SMTP id 5b1f17b1804b1-49e6cc13c99mr88225245e9.29.1789330320276;
+        Sun, 13 Sep 2026 13:12:00 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:16aa:3c0b:49da:7be3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33fd3bsm21613916f8f.19.2026.09.13.13.12.00
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33fd3bsm21613916f8f.19.2026.09.13.13.11.59
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 13:12:01 -0700 (PDT)
+        Sun, 13 Sep 2026 13:11:59 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 02/11] libgcrypt: upgrade 1.12.3 -> 1.12.4
-Date: Sun, 13 Sep 2026 21:11:49 +0100
-Message-ID: <20260913201158.687889-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 01/11] gn: upgrade to latest revision
+Date: Sun, 13 Sep 2026 21:11:48 +0100
+Message-ID: <20260913201158.687889-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260913201158.687889-1-richard.purdie@linuxfoundation.org>
-References: <20260913201158.687889-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 20:12:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245729
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245728
 
-Changes:
-	Release 1.12.4.
-	cipher:keccak: Fix padding in cSHAKE.
-	sm4: add separate configure check for AVX512 SM4 instructions.
-	cipher:rsa:pss: Fix SALT-LENGTH handling.
-	cipher:rsa:pss: Validate the length of hashed input.
-	cipher:rsa:oaep: Validate all-zero PS.
+cfcd774b Header check: avoid interning paths during include lookup
+0625da07 Improve heuristic to disambiguate recommended dependency to add.
+f9997211 No longer automatically add files to public.
+e095a1af Deduplicate deps/public_deps and sources/public in gn edit
+c0e4aae6 Preserve toolchain when generating suggestions in gn check
+5df47e55 Use ReachabilityCache to improve performance of loop detection
+28fc4470 Support `target(target_type, name)` in `gn edit`
+3163718c Cache reverse dependencies for dependency exposure.
+8288110a Skip attempting to resolve known files as module names.
+5b0f8830 Cache file path -> target lookup in `gn suggest`.
+4f6a76b6 Make `gn edit move` idempotent.
+356ee8a8 When re-running build/gen.py from ninja, preserve environment variables.
+7e0a9f67 Implement pretty for several more types
+16d3d2e2 Ensure `gn edit` follows the style guide for variable ordering.
+7826279d Simplify code produced by gn edit.
+1c73f622 Support setting expressions in `gn edit`
+f73e445a Revert "Write to ninja files via a standard API"
+8e99cccd Write to ninja files via a standard API
+02564b48 Use move instead of add where suitable when suggesting fixes.
+a99d46a9 Fix EditCommandTest.ShardSubcommand
+a6f2c97a Support public_inputs in gn desc
+4cf50b37 Update `gn format` to always insert newlines before targets.
+150a9d6b run_formatter.sh: Warn if `rustfmt` is not installed.
+d71c4a70 docs: Document that copy() uses the toolchain's copy tool
+c1b66378 standard_out.h: Add ScopedBufferedOuptut class.
+664f3e63 Support public_inputs in group targets
+deecdc59 Run benchmarks serially.
+07014ca3 Write benchmarks to out/before and out/after instead of out/
+a6473d48 Add jj subcommands to easily compare revisions.
+e10143e8 Add `build/gen.py --gen ~/chromium/src=out/Default`
+d0aec586 Create a trace comparison tool to evaluate the performance impact of a change.
+c7ffaf80 Allow host_os and host_cpu to be accessed in .gn files
+e0a6ab04 Implement `gn edit "shard"` subcommand
+b1da1218 Hint about --fix/--apply when running without them
+2fc5f9e5 Add support for creating new targets in `gn edit`
+58933a7c Support cloning of nodes in the AST.
+f3d7a0c8 Mark NOTREACHED as [[noreturn]]
+2481edf5 Implement `gn check --fix`
+f0be464b Fix gn suggest adding self-dependency loops.
+d2e84fac Add a `gn suggest --apply` option.
+39e3f7ad Add `gn edit` suggestions to `gn suggest`
+c6cffd45 Implement `gn edit "rename attr attr"`
+bc1914cf Implement `gn edit "move attr attr value(s)"`
+167116e0 Implement `gn edit "add attribute value(s)"`
+1c79e13d Implement `gn edit "remove attr value(s)"`
+e8a8e093 Refactor parse nodes to support non-const access.
+24800a7f Implement `gn edit delete` and `gn edit remove attr`
+0db00fc0 Implement `gn edit` command, and implement a simple subcommand "set"
+d5594ca8 Add features to test framework
+152bfad2 Implement a Result<T> type.
+6b0190f7 Fix formatter on main branch
+73243639 Fix path to build/gen.py.
+d1996a79 Add pre-upload checks into ninja targets
+64cfb834 Add --exclude-type command-line argument
+925dd782 Add CQ to starlark branch
+a01a5a9b Refactor main.star to support multiple branches.
+f9cea148 Implement rule implementation execution.
+3a817c2e Create a simple session type and create a test for it.
+37ab73c2 Fix lifetime of starlark struct keys passed to C++.
+4ac29005 Rename .bzl to .scl in accordance with design doc guidance.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../files/0001-libgcrypt-fix-m4-file-for-oe-core.patch          | 2 +-
- .../files/0001-tests-Fix-link-errors-for-t-thread-local.patch   | 2 +-
- ...4-tests-Makefile.am-fix-undefined-reference-to-pthread.patch | 2 +-
- meta/recipes-support/libgcrypt/files/no-bench-slope.patch       | 2 +-
- meta/recipes-support/libgcrypt/files/no-native-gpg-error.patch  | 2 +-
- .../libgcrypt/{libgcrypt_1.12.3.bb => libgcrypt_1.12.4.bb}      | 2 +-
- 6 files changed, 6 insertions(+), 6 deletions(-)
- rename meta/recipes-support/libgcrypt/{libgcrypt_1.12.3.bb => libgcrypt_1.12.4.bb} (95%)
+ meta/recipes-devtools/gn/gn_git.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch b/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch
-index ad071e07f5a..1000bfdec4a 100644
---- a/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch
-+++ b/meta/recipes-support/libgcrypt/files/0001-libgcrypt-fix-m4-file-for-oe-core.patch
-@@ -1,4 +1,4 @@
--From 4f27b68f509c94739d8d7c5e5c8bc1b0b17259ad Mon Sep 17 00:00:00 2001
-+From 647eb747057fc56104eeae7108ac772612725326 Mon Sep 17 00:00:00 2001
- From: Trevor Gamblin <trevor.gamblin@windriver.com>
- Date: Tue, 29 Oct 2019 14:08:32 -0400
- Subject: [PATCH] libgcrypt: fix m4 file for oe-core
-diff --git a/meta/recipes-support/libgcrypt/files/0001-tests-Fix-link-errors-for-t-thread-local.patch b/meta/recipes-support/libgcrypt/files/0001-tests-Fix-link-errors-for-t-thread-local.patch
-index 6200ac0a312..51d310317ae 100644
---- a/meta/recipes-support/libgcrypt/files/0001-tests-Fix-link-errors-for-t-thread-local.patch
-+++ b/meta/recipes-support/libgcrypt/files/0001-tests-Fix-link-errors-for-t-thread-local.patch
-@@ -1,4 +1,4 @@
--From 4a8d31b6e1af1d2764e159d5825ad2241a74fe7b Mon Sep 17 00:00:00 2001
-+From 322faef0418e345d012b9fd6d0bc2b2e3655621a Mon Sep 17 00:00:00 2001
- From: Collin Funk <collin.funk1@gmail.com>
- Date: Wed, 27 Aug 2025 11:49:06 +0800
- Subject: [PATCH] tests: Fix link errors for t-thread-local.
-diff --git a/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch b/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-index 924ece8b8ec..cd63c5486ec 100644
---- a/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-+++ b/meta/recipes-support/libgcrypt/files/0004-tests-Makefile.am-fix-undefined-reference-to-pthread.patch
-@@ -1,4 +1,4 @@
--From 6322f759b58ba78d5b01c09c19d91571e999334c Mon Sep 17 00:00:00 2001
-+From 7394a5bf89760822515ea5b153c83f6d90ef95ab Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Wed, 27 Aug 2025 11:46:17 +0800
- Subject: [PATCH] tests/Makefile.am: fix undefined reference to
-diff --git a/meta/recipes-support/libgcrypt/files/no-bench-slope.patch b/meta/recipes-support/libgcrypt/files/no-bench-slope.patch
-index 849f8b0361c..907aa0999d2 100644
---- a/meta/recipes-support/libgcrypt/files/no-bench-slope.patch
-+++ b/meta/recipes-support/libgcrypt/files/no-bench-slope.patch
-@@ -1,4 +1,4 @@
--From 50bfe58f1ffa6a8519377f4c10e5d41133d8782a Mon Sep 17 00:00:00 2001
-+From 24172e2cac95d2f4d66ce55575ff14bd23e48674 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Fri, 9 Sep 2022 11:13:37 +0100
- Subject: [PATCH] libgcrypt: disable bench-slope test case
-diff --git a/meta/recipes-support/libgcrypt/files/no-native-gpg-error.patch b/meta/recipes-support/libgcrypt/files/no-native-gpg-error.patch
-index f22f6993a24..e5e3b7cfff3 100644
---- a/meta/recipes-support/libgcrypt/files/no-native-gpg-error.patch
-+++ b/meta/recipes-support/libgcrypt/files/no-native-gpg-error.patch
-@@ -1,4 +1,4 @@
--From a7778057e08273041c48e10ff2f4c7dcce9220c1 Mon Sep 17 00:00:00 2001
-+From d757657cfecf9d1268b4a004546cf15562d58a49 Mon Sep 17 00:00:00 2001
- From: Ross Burton <ross.burton@arm.com>
- Date: Fri, 26 Aug 2022 15:23:37 +0100
- Subject: [PATCH] libgcrypt: rewrite ptest
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.12.3.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.12.4.bb
-similarity index 95%
-rename from meta/recipes-support/libgcrypt/libgcrypt_1.12.3.bb
-rename to meta/recipes-support/libgcrypt/libgcrypt_1.12.4.bb
-index a7f81472280..1b2b1dc13b2 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.12.3.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.12.4.bb
-@@ -26,7 +26,7 @@ SRC_URI = "${GNUPG_MIRROR}/libgcrypt/libgcrypt-${PV}.tar.bz2 \
-            file://no-bench-slope.patch \
-            file://run-ptest \
-            "
--SRC_URI[sha256sum] = "98d1b0b3202d2b03fa754a35aa3cbbfcf526a3260d8d2ee213748001b1043006"
-+SRC_URI[sha256sum] = "d77f68f48879510e79a2f65977ccc68981781ea0923e5bdffac2a193ea3d660e"
+diff --git a/meta/recipes-devtools/gn/gn_git.bb b/meta/recipes-devtools/gn/gn_git.bb
+index eddbbcdf7fb..6e8626dc32c 100644
+--- a/meta/recipes-devtools/gn/gn_git.bb
++++ b/meta/recipes-devtools/gn/gn_git.bb
+@@ -8,7 +8,7 @@ UPSTREAM_CHECK_COMMITS = "1"
  
- BINCONFIG = "${bindir}/libgcrypt-config"
+ SRC_URI = "git://gn.googlesource.com/gn;protocol=https;branch=main \
+ "
+-SRCREV = "17b0057970fa2b07a20cbb4289ab78cf93565f35"
++SRCREV = "cfcd774b98f3433e18b722f9a7ff06119825b8eb"
+ PV = "0+git"
  
+ BB_GIT_SHALLOW = ""
 
