@@ -2,132 +2,156 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F26BAC88E63
-	for <webhook@archiver.kernel.org>; Sun, 13 Sep 2026 20:12:25 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6006.1789330335769707073
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2397FC88E63
+	for <webhook@archiver.kernel.org>; Sun, 13 Sep 2026 20:21:36 +0000 (UTC)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com [209.85.128.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6050.1789330885166120969
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Sep 2026 13:12:16 -0700
+ Sun, 13 Sep 2026 13:21:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RmAwrUY/;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ce364488dso3954885e9.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 13:12:15 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CzucGntl;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f43.google.com with SMTP id 5b1f17b1804b1-49e717c9841so6936575e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 13:21:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789330334; x=1789935134; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=50VlN5b4H8v7rUEBEboVbAr0MG61TecJOUgmBrJzTBg=;
-        b=RmAwrUY/Y41nDfPnntj9T8WayjyKGSBq5osxlvnQnLnMN36HBLaWb8K+7DurZ8GL+g
-         afpFzdYGOrrj1owHGwMhWZFrc6iwQPtMEIu+VgimyIEcBRrtjaVe8nGrsrpUJk4Zllcp
-         YrQXXvjD/r7MYcsnJzWN4ccBC8ooGBEyeHSvg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789330334; x=1789935134;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+        d=linuxfoundation.org; s=google; t=1789330883; x=1789935683; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=50VlN5b4H8v7rUEBEboVbAr0MG61TecJOUgmBrJzTBg=;
-        b=Sv713PGyzDVtgBaswHTVSrMMUxsqGvdFvhWZtuWWm005JoHMVcWtRyzOHfcf2qxQZc
-         /cf+PNaYegs1CHxaVHk18wxq7bIstOGOcDwdNyhcUXzjzQnfdhDpjeH1pNY0Ilx1aeNF
-         g4oyrgPyUw1WDL5XVudp81Etj0EPrawYHhGOLvNZl77IdHhMo5Sl4LWg27gobXB48Ee1
-         fBKXKB/Qut8qDrRSxenpty8to6nnZsyGZTkM6ieIiPzD9JnuON/1P+QydeCGUkzB1Hcf
-         NmVdZpzeXGawUdLS7eGb7U2+8FO7ITsmuWZlf7hMTXISIHS55JF0g9+mNN0wxlTyVNHA
-         lxAQ==
-X-Gm-Message-State: AFuF++ni/OW1xX97mK6hgEAUKT0ArtIaQI/Jw2/D5Bf15f1/EojBRlBW
-	13j8iUEwTGTmhQ1UJkEgRr0YwL3tStQEy/Y2DRzYnN1zkHKJSu0Qwbx6Ngyb2T3QB9mwJMnVVDC
-	1zI/R+CQ=
-X-Gm-Gg: AYBFou0fCrJSuvNOsb8/5yifTEUa/JxsYFI/b9ViQoWY76k0hR/kAIAapikgTRQkBMo
-	v7cuAqYQLSe8Zzrnz6tLHX27Y9PQZ7JKnhXcfDhcBlWwHxiUzUeATrD0hLwxN0W1icB4vjjbtOj
-	dB4efAtFToMg5AE/ErcD9lWObTUOJS1E85/mdwz/78I2dd3AM0HipnLHsbkexRZJ2+XPjmbQtf5
-	oGu2Aa6yurT6QkfJIDUuoDks3hmuvkP3W/HuVsqX1o+TMBnA7pEMfJaYE5aVfx/zAX5F52IleHG
-	rmdxHVgp+CeIdEcajG+uJ6kDcA4+cLo6gDRMETf+AqZQrCdKOebRK4xYrME0woXQw098GCTcyv+
-	wUvMax+ku1AVhJa+UW8szizAlgRGniaodfVmSrHIVN2vB0ELK41u0Bh8zvLvtqZbbmVb3mkHFpJ
-	NVuDrmQZ5rJQH3AL3CJU99rlQb39xqIj2OGCBR0FWeDsNAKynE+4Fgfc05C7EgwW+jMEDMXCBIp
-	S8yyMjkrPwt6JG+fPnCb2DJeaC5hQ==
-X-Received: by 2002:a05:600c:1f91:b0:49e:63cc:6324 with SMTP id 5b1f17b1804b1-49e7602cd63mr40530775e9.6.1789330333965;
-        Sun, 13 Sep 2026 13:12:13 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:16aa:3c0b:49da:7be3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33fd3bsm21613916f8f.19.2026.09.13.13.12.11
-        for <openembedded-core@lists.openembedded.org>
+        bh=rJ+LqRvrsORtnLZWnaB8FQ4QP6osiCm3u2N2c8VzeMc=;
+        b=CzucGntlUBwHgfQid3MYQSgsz9NxWqtDGeFodik79pnLL7+v1cB/zVH3Jkt9iBvZSn
+         XXXGYnyeGAUyM+DdZfOFSL8R1lI/a/wCGTajEwbhgsJ984IAN0KIp6SP/xMmrPD+HkJs
+         rMSJ9WkjkvsfqI7mvozdr03Aa7mUWbfGFD/6o=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789330883; x=1789935683;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rJ+LqRvrsORtnLZWnaB8FQ4QP6osiCm3u2N2c8VzeMc=;
+        b=rF+xVrLfpsDLECNyroWyBGT0Og63uukZm0Xfmt0k6dxc5RtBPLjYg/ty5Z8yO7OfUM
+         s9dpoq345YRgRacvS/QkbfEah4MNZQCF80wwpW+jHEM+kLb2+nZxCItLcpIIt1pDB+FS
+         cruHuGZHCs9Cy7cXVPU12q5J1BJG7O33ExcYgiUaqvUBWEuDXHWY8zWErp4FUDmJ0KHF
+         5aoSuvEz486DwpCapqXnXC7rAxdaVVXk/AN6NKYUyvwGgtQZa5g4gXfR3Bx0nJTynOkd
+         Ovpg3aVeggIQPiVaB+v6tYYrSiM+aDL/zjtWYQVKwWha8vB6BioqZb9rF824/jZ88Tgl
+         lZ/w==
+X-Forwarded-Encrypted: i=1; AKwUvBzNiGOmhzvgzoklejID4i6hBtcMc8d31G9Opy4zDQxUNUC3dtqF4MjIp5NbzIoQgStY6WHZC3HFkgHKhJpdBzYj5Q==@lists.openembedded.org
+X-Gm-Message-State: AFuF++mwI4df6ZOQ9IDJGFiUfH0SsXUxe7sR0/dpcvDt8UTNzjXNhxSZ
+	WCc3LB7k+2Yb1DRYXkbaqwmeDNsDrvBD3JGOWfaU5v9W0NjwIpTjE1T1V81ZAcXzdXc=
+X-Gm-Gg: AYBFou2U2ucwzO12uqPLkE08BeZ4yXh3AreqsCFclQPSIalK6PVKp7tA4cnTUtj/k7s
+	ttIL7f2nsaK+fRdTN50kOWjBG/2+vRyIc/OttRvkgzzy9AiIjJJqNkAKgJQ4B59x0Y/Jggux0T4
+	4dd45Kj8qRVbpN7acnVkLl8QwBAynlT8c0nPoNrHtBSkbFp3xJQwa6WqKYIK4T8ZgxpmIS8ehCa
+	lDS+7689qMTO6jWT9vVoectH+cGWWoK6qsyEanAJI5uagaC+Bdwbp/dxZn8AfCtk2jjTx8F6DP3
+	pPlcCsBce4VnUUU6/ON7SCIu6CbVEcONJ805LgWuphLzX+5XqNfmUT7XgnE/Fsh4rvV4icp2pG0
+	9hAoRKufRf0lskUwoqT4uZaMc2gr7lOunO65nGtWEX/ygSs5sDdzs1F8Tf8b+gPOWhql0Gmi//Z
+	1f72uPNdwQIQChEIwQYyZByCXe8SbUoVTNoE25q60v667Kk1Zn8hpC6xsvyksE02TJLmrHF3db0
+	p6wZEZA/O3DA0z867oVxgdAFwliWokvYe3GZ/Vt/Pf1CxFTjE8+r6CrLoArowt40A==
+X-Received: by 2002:a05:600c:3513:b0:49c:fc6e:a3d2 with SMTP id 5b1f17b1804b1-49e619bfdc8mr142633155e9.17.1789330883242;
+        Sun, 13 Sep 2026 13:21:23 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:16aa:3c0b:49da:7be3? ([2001:8b0:aba:5f3c:16aa:3c0b:49da:7be3])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb34f1f7sm21571677f8f.24.2026.09.13.13.21.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 13:12:13 -0700 (PDT)
+        Sun, 13 Sep 2026 13:21:22 -0700 (PDT)
+Message-ID: <3d12110d88ce771519ccedb12e7b6d0d24d7d17a.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] flex: fix stage1flex build under a C23 default
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/11] gtk4: upgrade 4.22.4 -> 4.22.5
-Date: Sun, 13 Sep 2026 21:11:57 +0100
-Message-ID: <20260913201158.687889-10-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260913201158.687889-1-richard.purdie@linuxfoundation.org>
-References: <20260913201158.687889-1-richard.purdie@linuxfoundation.org>
+To: aurelien@hackers.camp, openembedded-core@lists.openembedded.org
+Cc: aurelien.desbrieres@gmail.com
+Date: Sun, 13 Sep 2026 21:21:21 +0100
+In-Reply-To: <20260913160558.2569053-1-aurelien@hackers.camp>
+References: <20260913160558.2569053-1-aurelien@hackers.camp>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 20:12:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245737
+ <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 20:21:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245739
 
-Overview of Changes in 4.22.5, 09-09 2026
-=========================================
+On Sun, 2026-09-13 at 18:05 +0200, Aurelien DESBRIERES via lists.openembedd=
+ed.org wrote:
+> lib/malloc.c declares "void *malloc ();" with an empty parameter list
+> and calls it with one argument. That meant "unspecified" in C89 and
+> means "none" in C23, so the call is rejected:
+>=20
+> =C2=A0 lib/malloc.c:16:15: error: too many arguments to function 'malloc'=
+;
+> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 expected 0, have 1
+>=20
+> It is the language mode that decides, not the compiler version: the
+> same GCC 16 compiles the file with -std=3Dgnu17 and rejects it with
+> -std=3Dgnu23. GCC 15 made gnu23 the default, so every host from that
+> release on hits it while GCC 14 does not.
+>=20
+> The file is compiled by stage1flex -- the bootstrap scanner flex builds
+> with the host compiler before it can build itself -- so neither CFLAGS
+> nor BUILD_CFLAGS reaches that command line and no flag in the recipe
+> can silence it.
+>=20
+> stdlib.h has the right declaration and the file already includes
+> sys/types.h for size_t. lib/realloc.c includes stdlib.h already and
+> needs no change.
+>=20
+> Signed-off-by: Aurelien DESBRIERES <aurelien@hackers.camp>
+> ---
+> =C2=A0...b-malloc-declare-malloc-via-stdlib.h.patch | 38 ++++++++++++++++=
++++
+> =C2=A0meta/recipes-devtools/flex/flex_2.6.4.bb=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0 |=C2=A0 1 +
+> =C2=A02 files changed, 39 insertions(+)
+> =C2=A0create mode 100644 meta/recipes-devtools/flex/flex/0001-lib-malloc-=
+declare-malloc-via-stdlib.h.patch
+>=20
+> diff --git a/meta/recipes-devtools/flex/flex/0001-lib-malloc-declare-mall=
+oc-via-stdlib.h.patch b/meta/recipes-devtools/flex/flex/0001-lib-malloc-dec=
+lare-malloc-via-stdlib.h.patch
+> new file mode 100644
+> index 0000000000..a64d6220a8
+> --- /dev/null
+> +++ b/meta/recipes-devtools/flex/flex/0001-lib-malloc-declare-malloc-via-=
+stdlib.h.patch
+> @@ -0,0 +1,38 @@
+> +From: Aurelien Desbrieres <aurelien@hackers.camp>
+> +Date: Sat, 13 Sep 2026 00:00:00 +0200
+> +Subject: [PATCH] lib/malloc.c: declare malloc via stdlib.h
+> +
+> +The gnulib fallback declares "void *malloc ();" with an empty parameter
+> +list and calls it with one argument. That meant "unspecified" in C89 and
+> +means "none" in C23, which GCC 14 and later implement by default, so the
+> +call is rejected:
+> +
+> +=C2=A0 lib/malloc.c:16:15: error: too many arguments to function 'malloc=
+';
+> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 expected 0, have 1
+> +
+> +stdlib.h has the right declaration and the file already includes
+> +sys/types.h for size_t, so the local one has nothing to add.
+> +lib/realloc.c includes stdlib.h already and needs no change.
+> +
+> +The file is dead code wherever malloc(0) returns non-NULL -- glibc
+> +included -- since AC_FUNC_MALLOC substitutes rpl_malloc only where it
+> +does not, but it is compiled regardless and the build stops there.
+> +
+> +Upstream-Status: Inappropriate [flex 2.6.4 is the last release, 2017]
 
-* Bugs fixed:
-  - #8098 Crashes with SIGSEGV in `gdk_wayland_toplevel_remove_from_session()`
-    (Philip Withnall)
-  - #8222 gtk 4.22.4 fails to build on 32-bit arm (oreo639)
-  - #8304 Css text-decoration rule requires a resize to take effect (regression)
-    (Matthias Clasen)
-  - !9538 window: Fixup pointer focus when unmapping a popover (Alessandro
-    Astone)
-  - !9886 Update Slovak translation
-  - !9893 Update Persian translation
-  - !9905 [4.22] gpu: Trigger cache GC from dmabuf downloading code (Benjamin
-    Otte)
-  - !9912 Update Lithuanian translation
-  - !9989 gskvulkanimage: fix building on 32-bit (oreo639)
-  - !10011 Update Basque translation
-  - !10073 Update Belarusian translation
-  - !10078 Update Polish translation
-  - !10080 Revert "filechooserutils: Stop using pixbufs" (Julian Orth)
-  - !10081 Update Polish translation
-  - !10086 Fix the build with pango main (Matthias Clasen)
-  - !10090 gl: Actually report partial damage (Benjamin Otte)
-  - !10092 gl: Actually report partial damage (Benjamin Otte)
-  - !10101 gtkapplication-wayland: Add a missing NULL check when forgetting a
-    window (Philip Withnall)
-  - !10129 css: Fix invalidation for text decorations (Matthias Clasen)
-  - !10135 Update French translation
-  - !10136 Update French translation
-  - !10166 wayland: Fix munmap() of the wrong pointer in the dmabuf format table
-    (Benjamin Otte)
-  - !10305 wayland: Fix munmap() of the wrong pointer in the dmabuf format table
-    (Benjamin Otte)
-  - !10326 4.22: Fix CI (Benjamin Otte)
-  - !10327 android: Fix other XML file, too (Benjamin Otte)
-  - !10346 memoryconvert: Pass the correct pointer address (Benjamin Otte)
-  - !10347 memoryconvert: Pass the correct pointer address (Benjamin Otte)
-  - !10355 ci: Allow macos-arm64 to fail (Matthias Clasen)
+I'm not sure I follow that reasoning. It might be better to follow what
+upstream did:
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-gnome/gtk+/{gtk4_4.22.4.bb => gtk4_4.22.5.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-gnome/gtk+/{gtk4_4.22.4.bb => gtk4_4.22.5.bb} (97%)
+https://github.com/westes/flex/commit/bf254c75b1e0d2641ebbd7fc85fb183f36a62=
+ea7
 
-diff --git a/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb b/meta/recipes-gnome/gtk+/gtk4_4.22.5.bb
-similarity index 97%
-rename from meta/recipes-gnome/gtk+/gtk4_4.22.4.bb
-rename to meta/recipes-gnome/gtk+/gtk4_4.22.5.bb
-index 1d2e4bf9b82..5d7385d29ad 100644
---- a/meta/recipes-gnome/gtk+/gtk4_4.22.4.bb
-+++ b/meta/recipes-gnome/gtk+/gtk4_4.22.5.bb
-@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM = " \
-     file://tests/testgtk.c;endline=25;md5=49d06770681b8322466b52ed19d29fb2 \
- "
- 
--SRC_URI[archive.sha256sum] = "51bd9f60c7d23a665a556c7364c21fb2e4e282566b3e7e092455e8f910330893"
-+SRC_URI[archive.sha256sum] = "7fd725deb2cb3f8dc218ad862c5056ff8548f49d3b0e4081796e444c22d19686"
- 
- S = "${UNPACKDIR}/${GNOMEBN}-${PV}"
- 
+so this patch is then a backport and will fall out if/as/when we do see
+another release of flex?
+
+Cheers,
+
+Richard
+
+
 
