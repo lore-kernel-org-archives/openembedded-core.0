@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CE4C88E65
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E60D6C88E6B
 	for <webhook@archiver.kernel.org>; Sun, 13 Sep 2026 20:12:15 +0000 (UTC)
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5897.1789330329309064964
+Received: from mail-wm1-f47.google.com (mail-wm1-f47.google.com [209.85.128.47])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6003.1789330331527985292
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Sep 2026 13:12:09 -0700
+ Sun, 13 Sep 2026 13:12:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J/twc8GL;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.76, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843c3ea1f6so503369f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 13:12:09 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J6ca0Tv1;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.128.47, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm1-f47.google.com with SMTP id 5b1f17b1804b1-49d0da752ffso32322725e9.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 13:12:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789330327; x=1789935127; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1789330330; x=1789935130; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=41wvxuhG2xTDmm5MLVxvYmMySdcAp6oAEqbTqyMPa9o=;
-        b=J/twc8GLpnkExxv8P+4GBhmpvtT+Ez1F9SUVPG4khyNH+A0ce/L92Ns2ItW1seesSo
-         3J+Fvtk/Gc4i8DPZKxaHiZgmBXM8jdTKNYe7mATIcpcZCAC/A8QvM8mGnMELJHxike/O
-         wtvhFLk5YWuP36bT/emNlNY8jSY5gpIa6lRlA=
+        bh=IBWzs4BWoKNpv8SA7ACSzjM+7+LDWhiNGD3pMx0dO+U=;
+        b=J6ca0Tv11j/+EVM1rdz2lU1JBTXjpWPqSpwG4F1GAuP+uflGqyX9dWkd3h+I90+TtI
+         qBRax86kQvoIw1AYLGJ+IttgStWuzHWVGsfhhlc8JpaHlInqlpsolzD8iLJrWvIh7IV2
+         8rdUMOcfj1aVSGbLd/bBqUzVDkVg2pUe74kUA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789330327; x=1789935127;
+        d=1e100.net; s=20251104; t=1789330330; x=1789935130;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=41wvxuhG2xTDmm5MLVxvYmMySdcAp6oAEqbTqyMPa9o=;
-        b=VeTGq0/ZV8Lzp5wW1x4Q2VBetZ+9peBgK6IUgTHh6vm5l2lCEUh5QYeCN5ii/mIk48
-         Xf/2W8cBFQcJtG7AEFHh79Vz003oSpOq8IDiUA783JebQaOtrThFg5IktxSGgrbv5r+7
-         kjPoh6eBNyWlaJ/G4chDUSp9fyxSOPvhq6U/6S5Dk+rMUd1MHLpi7sGdhkEwf0GIH+Uq
-         y74vHFsxA9BvKQNBKaxVVgCKbbfrLSSVG4gFOR9jvaONerkYG0wVMlGxjB88X6imH5zd
-         T9Ru+plDcI3js/QxV6Bp4Q0tsVmqTFSy7d+WC+ktSSKjbqQkQw4hw+0mH3mhD0l3XIc7
-         2mPw==
-X-Gm-Message-State: AFuF++nud6LZ31xhS/VbFQiFf72VniGkV8JSM99q7KW+gUuivbO8d7Ms
-	fsLJZPL/z9I6WAw24nPYpAdLkers5Rt+kM5PdkRnAajc2CyGldHD/oBWUHa7IAyUhwdpVIDXdq2
-	v6kIoM30=
-X-Gm-Gg: AYBFou2XFrAnouXTDKzold+rdNcrBdUo8Yq+faw05ps4WOuF9EH637hsG6vzN8/ltUR
-	zWSyNNhgAmI7DnlZEFtPwNtpK1C/omCSCyH0mhK8d0zwfp50xFXvzLjq0xaZ2wwavpjekP/8Ff0
-	jH9k0EV5LgQtlyUs+y0AYXaLftn21iMn2dnf2tOsFyfc1TCn3KYSByZwGWWcDoO5NIbTHdBKrKu
-	eo0WEcDkhaJHnOZQKJ82ONTseOPn1WDipLL2A7187svTLCCt9PtDIKaywv8F/Do2X3AsZb+74mD
-	wncAkaOG5NL95tQxBXjT1rI5bdx1YdGFtp0zngVW9+sgk8GYPskj0jc/ghCLnVV12cvNOY45+OX
-	0SNj1AU0lYXKOxzxLIduNTNIEygYvLNxNFYrTyavP7JXg9Kn+zo0pBU+WKEFCZicfpFxTb/MIpZ
-	DWJhiBi4n3WWrky6/hacqBaGhz8ZFmg1F3P2piOFZF0IlBRLj09Syc+h3Lg7ubzOyjFmRAyCaIu
-	TGmc9KBBAVeslo+IrqHPjV1SVUp
-X-Received: by 2002:a05:6000:25c7:b0:485:ac3b:4a79 with SMTP id ffacd0b85a97d-486f6d4b3f4mr6901321f8f.43.1789330327524;
-        Sun, 13 Sep 2026 13:12:07 -0700 (PDT)
+        bh=IBWzs4BWoKNpv8SA7ACSzjM+7+LDWhiNGD3pMx0dO+U=;
+        b=MAjImcEs5x02NEGFwoLaJtoGSbsy0RqciaZ6ze1m3HBEpV5U4ewiokID67j5DqFTe+
+         PMhWa2zWWpCqD4/dvx4ZenqmnzGMDI/pvN/5mknPlN0x+yQLWWYGJopcmHNW7o0EF70l
+         xjEdcB6jgJobY5S7tNAz/aTFPP4swO2f9C7R7FKnv0EqZrI2rgH/iqm9sw749Vnexv8n
+         ERK7Sw4tsFGgjLIqa0X9GguxEDFWtuX1n9/iThtKYUvYU4sGvYQvxYZcndp3anYWqCzt
+         AJZd4Wpti23JwqKTjoZTtIlAJzt5Of7vYrMkY0KNpk6J7KHLFcF/TvTj4qt9duovZsVl
+         qJLQ==
+X-Gm-Message-State: AFuF++k5JO7BIxcORr/9mZ3+NDK/WySz6L9o4r6zVH4DPC+Kwu/Dgc8J
+	lKx0TrlB/fKX9XH5HQNDJFzj2a6xLkK//pk8KXfBd4/V8a+Apq7QyvoHz1MERYG9pCTbP/U7wvj
+	rQcyKZX0=
+X-Gm-Gg: AYBFou3N6FrpfpNUQnfJ+erxJuT82HUEy5+qv22cxGzKDRgKeT83L0ejlN3YG1JfSAO
+	frKzci2IUG0eWi8ojvJY4HclpJ92P7E1viP/xlMSrtbOk1GwYjBvW8RDe7vj477oekCSsvJuF0u
+	exUILSyT1UHfF8KY+g+m/t2YZWwOeXpZTezZroniVZ9wsqX8wRerYUbbe5ZPaYnyTP28MWjM1Gn
+	eDwnTZrNotQOYv2ObJksxbyiK2mzLLBQO+rnMhcUM7D4KDPdtjY0NjP5o1VWJK+oTgyBr+n2xAe
+	C3s/lSBaSHFiMJ5FjrycolHuQ9t4BsbcRKcyR1pG09zqoT2dUvwDnd1VMr+mY5W8bG81hh73K82
+	wmYo7ID4VIZulHP5wpD4nq6Km2eLWeTv+5peMUdS5WdJ2LNQ0yui30j2ter9V/uWFte9RBG4i5K
+	xRCyBpKM0vuCvkrs1sUTRe5VbuGuRf7JHWCXIyIQ794OloKyEkzRIJQxUMzl5pzhqtRH4fIchvG
+	zKwIZ2HtHkJp82amqYaVHzIz6mS
+X-Received: by 2002:a05:600c:8b23:b0:49c:e27c:6b10 with SMTP id 5b1f17b1804b1-49e619804dcmr153874195e9.3.1789330329748;
+        Sun, 13 Sep 2026 13:12:09 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:16aa:3c0b:49da:7be3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33fd3bsm21613916f8f.19.2026.09.13.13.12.06
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33fd3bsm21613916f8f.19.2026.09.13.13.12.07
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 13:12:06 -0700 (PDT)
+        Sun, 13 Sep 2026 13:12:07 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 06/11] sbom-cve-check-update-{nvd-native,cvelist-native}: upgrade 2026.08.25 -> 2026.09.12
-Date: Sun, 13 Sep 2026 21:11:53 +0100
-Message-ID: <20260913201158.687889-6-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 07/11] shaderc: upgrade 2026.3 -> 2026.4
+Date: Sun, 13 Sep 2026 21:11:54 +0100
+Message-ID: <20260913201158.687889-7-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260913201158.687889-1-richard.purdie@linuxfoundation.org>
 References: <20260913201158.687889-1-richard.purdie@linuxfoundation.org>
@@ -66,48 +66,49 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 20:12:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245733
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245734
 
-Update to newer database versions.
+v2026.4 2026-09-11
+ - Use Glslang 16.6.0, SPIRV-Tools v2026.4.rc2
+ - Incorporate fixes for SPV_KHR_abort abortEXT(...)
+ - glslc:
+     option -fshader-stage now accepts all shader
+     stage names as allowed in #pragma shader_stage(<stage>)>
+     This includes ray tracing, task, and mesh shader
+     stages.
+ - Fixes an assert
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...25.bb => sbom-cve-check-update-cvelist-native_2026-09-12.bb} | 2 +-
- ...bb => sbom-cve-check-update-nvd-native_2026.09.12-000023.bb} | 2 +-
+ .../0001-cmake-disable-building-external-dependencies.patch     | 2 +-
+ .../shaderc/{shaderc_2026.3.bb => shaderc_2026.4.bb}            | 2 +-
  2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-cvelist-native_2026-08-25.bb => sbom-cve-check-update-cvelist-native_2026-09-12.bb} (89%)
- rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-nvd-native_2026.08.25-000009.bb => sbom-cve-check-update-nvd-native_2026.09.12-000023.bb} (89%)
+ rename meta/recipes-graphics/shaderc/{shaderc_2026.3.bb => shaderc_2026.4.bb} (95%)
 
-diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-25.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-09-12.bb
-similarity index 89%
-rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-25.bb
-rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-09-12.bb
-index 75b2ad8257f..b29be0d46f6 100644
---- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-25.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-09-12.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/CVEProject/cvelistV5"
- SRC_URI = "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https;destsuffix=;tag=${PV}_baseline"
- SBOM_CVE_CHECK_DB_NAME = "cvelist"
+diff --git a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+index bc324b5c0db..57fff1340ed 100644
+--- a/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
++++ b/meta/recipes-graphics/shaderc/files/0001-cmake-disable-building-external-dependencies.patch
+@@ -1,4 +1,4 @@
+-From b2d321b9c493a6e36203c50ad20adb655485c951 Mon Sep 17 00:00:00 2001
++From c7ebd558e5d62af7723ba804df4f0887ce7a83fd Mon Sep 17 00:00:00 2001
+ From: Jose Quaresma <quaresma.jose@gmail.com>
+ Date: Sat, 13 Feb 2021 00:45:56 +0000
+ Subject: [PATCH] cmake: disable building external dependencies
+diff --git a/meta/recipes-graphics/shaderc/shaderc_2026.3.bb b/meta/recipes-graphics/shaderc/shaderc_2026.4.bb
+similarity index 95%
+rename from meta/recipes-graphics/shaderc/shaderc_2026.3.bb
+rename to meta/recipes-graphics/shaderc/shaderc_2026.4.bb
+index d2a62a4cd45..5ff3a630868 100644
+--- a/meta/recipes-graphics/shaderc/shaderc_2026.3.bb
++++ b/meta/recipes-graphics/shaderc/shaderc_2026.4.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/google/shaderc"
+ LICENSE = "Apache-2.0"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=86d3f3a95c324c9479bd8986968f4327"
  
--SRCREV = "ce11dbdcf79189e965d64b29161af93993619281"
-+SRCREV = "9b9889cfd98306bf29b91df076c5118aae80b63f"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>.+)_baseline"
- 
- require sbom-cve-check-update-db.inc
-diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.25-000009.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.09.12-000023.bb
-similarity index 89%
-rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.25-000009.bb
-rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.09.12-000023.bb
-index 43f077e267f..70e09050b97 100644
---- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.25-000009.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.09.12-000023.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/fkie-cad/nvd-json-data-feeds"
- SRC_URI = "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=main;protocol=https;destsuffix=;tag=v${PV}"
- SBOM_CVE_CHECK_DB_NAME = "nvd-fkie"
- 
--SRCREV = "08cb7bde86fe9057c2338d7d61a705e642775bfd"
-+SRCREV = "82336c26ab85706ae56efaa36ef5851ab92dd32c"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.+)"
- 
- require sbom-cve-check-update-db.inc
+-SRCREV = "82757e4f72af8518fb679604d352623450cb761f"
++SRCREV = "d393a813c9b67c709d37b329203d72beb69d719e"
+ SRC_URI = "git://github.com/google/shaderc.git;protocol=https;branch=main;tag=v${PV} \
+            file://0001-cmake-disable-building-external-dependencies.patch \
+            "
 
