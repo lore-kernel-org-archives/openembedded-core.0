@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 95C2DC88E69
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C0CE4C88E65
 	for <webhook@archiver.kernel.org>; Sun, 13 Sep 2026 20:12:15 +0000 (UTC)
-Received: from mail-wr1-f47.google.com (mail-wr1-f47.google.com [209.85.221.47])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6002.1789330328161796072
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5897.1789330329309064964
  for <openembedded-core@lists.openembedded.org>;
- Sun, 13 Sep 2026 13:12:08 -0700
+ Sun, 13 Sep 2026 13:12:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=O0pbLsHw;
- spf=pass (domain: linuxfoundation.org, ip: 209.85.221.47, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr1-f47.google.com with SMTP id ffacd0b85a97d-4858303de5dso2665062f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 13:12:07 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=J/twc8GL;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.76, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843c3ea1f6so503369f8f.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 13:12:09 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789330326; x=1789935126; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1789330327; x=1789935127; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=gfQzkwwRG9B5D8He0Pfck+fBlx25waFfhO6YRLFsGSE=;
-        b=O0pbLsHwzBbEzgMkiyauYo5OSxyWfC37QtYx+tyTfRSHbq6GVo4NX6cHu6L32+a9fO
-         i7s3WgKGPT34ZfebUrRgf9Imc6i1ceaP3+EFXMNs4+99j/DFSsBwweeePXFK19VgBOeZ
-         oTpIMJ2de5eYqYVWif0RHdx8L/A43bYYPAvtQ=
+        bh=41wvxuhG2xTDmm5MLVxvYmMySdcAp6oAEqbTqyMPa9o=;
+        b=J/twc8GLpnkExxv8P+4GBhmpvtT+Ez1F9SUVPG4khyNH+A0ce/L92Ns2ItW1seesSo
+         3J+Fvtk/Gc4i8DPZKxaHiZgmBXM8jdTKNYe7mATIcpcZCAC/A8QvM8mGnMELJHxike/O
+         wtvhFLk5YWuP36bT/emNlNY8jSY5gpIa6lRlA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789330326; x=1789935126;
+        d=1e100.net; s=20251104; t=1789330327; x=1789935127;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=gfQzkwwRG9B5D8He0Pfck+fBlx25waFfhO6YRLFsGSE=;
-        b=B/2t1VgqBiho/6Sftn3GsuKMCl/RuaFUEOlYpIaLFze+3FjFP40jozZZNPJ+T0ODEs
-         WWGmHQ/PtiFZMAxKghzDtm8lbIHS1uHbhKr7mCWdbQeI4zLxO9+6akPyFdKv+GDm1Npq
-         2hDH43fQ7DxG8ImQs0eqrOhdDVNdfhT0J7wLIPcR+OUVFiNOwhJOBxRbWykXc5skNVGO
-         OasHW6WzaBkgG2KhwUqFcgWZsTLdTc/2sLedMAmo6zTfuayBPfe90gjpUA3/t08B/J3j
-         9iwhQz/fa+7i7+oPmGwvomPlFg/fb/tvB8X6i1DiPIDjJvavmu2swz036R46vS/G45ko
-         MPDQ==
-X-Gm-Message-State: AFuF++mhFJeGDkKp+khOIUtvEdubMN2xgd2Hkw+qts7TIjZ8hdxY1cSh
-	oCIgLwNIbZRGXRTBdfIC5pS+wb8xITYFRgnjfP5iYje1Xeshp/thfB6W/CciQk9LC6tRTpL9iS9
-	v8wBFV3U=
-X-Gm-Gg: AYBFou2R1X9BdGCUwmRrrfLpQD1+C88MN7rPzrxBfJ8sRzcZ9ftmYnXIazq8EFq8vfZ
-	flxOFkhMJRbE/O4KyrUeIkEE4sZYE/n18sVRYu31FmBF/8ScooW2MTQ1g5qsdyuMwfSEmlRBmEG
-	Q2USxlO0ET8MziGXHTMlIJ6zGT5Qzv/zBWkeG9/y8RiGz+6OHcQNQIYtEiwVTXozKxvtv5GwUxZ
-	R8MBlJZUgAlefxkYDlKXf9JAIWR7i6FYT+JN5kdrltgI/MWhVGZoqDQe1p5XaR3vyZm4lNBkyZD
-	OG3Von3RIouDyInhtOz7zxGhZgBjpadk5Xw5DTo2S47HZUdy5OrunJEwUl/o59iXDs9WBjW0KO8
-	V2VdemP0NudFjHvVeKUJezdQZGAuOUIAOHouB3AfXPnwyxeChaMCuREWpSkfrv8QPY/96V9gVed
-	Pqroc0KLl9k9i1rx4qbwyfEngJqRCySQ9y9qRTaKko00XoGyozszZu3aCKk38FCi6tsRmKxIFzF
-	HxyodIwfVDUPNxFb1xDoarueVx1K18IxfVaT00=
-X-Received: by 2002:a05:6000:26cd:b0:486:e949:532c with SMTP id ffacd0b85a97d-486eb33953dmr15995418f8f.43.1789330326386;
-        Sun, 13 Sep 2026 13:12:06 -0700 (PDT)
+        bh=41wvxuhG2xTDmm5MLVxvYmMySdcAp6oAEqbTqyMPa9o=;
+        b=VeTGq0/ZV8Lzp5wW1x4Q2VBetZ+9peBgK6IUgTHh6vm5l2lCEUh5QYeCN5ii/mIk48
+         Xf/2W8cBFQcJtG7AEFHh79Vz003oSpOq8IDiUA783JebQaOtrThFg5IktxSGgrbv5r+7
+         kjPoh6eBNyWlaJ/G4chDUSp9fyxSOPvhq6U/6S5Dk+rMUd1MHLpi7sGdhkEwf0GIH+Uq
+         y74vHFsxA9BvKQNBKaxVVgCKbbfrLSSVG4gFOR9jvaONerkYG0wVMlGxjB88X6imH5zd
+         T9Ru+plDcI3js/QxV6Bp4Q0tsVmqTFSy7d+WC+ktSSKjbqQkQw4hw+0mH3mhD0l3XIc7
+         2mPw==
+X-Gm-Message-State: AFuF++nud6LZ31xhS/VbFQiFf72VniGkV8JSM99q7KW+gUuivbO8d7Ms
+	fsLJZPL/z9I6WAw24nPYpAdLkers5Rt+kM5PdkRnAajc2CyGldHD/oBWUHa7IAyUhwdpVIDXdq2
+	v6kIoM30=
+X-Gm-Gg: AYBFou2XFrAnouXTDKzold+rdNcrBdUo8Yq+faw05ps4WOuF9EH637hsG6vzN8/ltUR
+	zWSyNNhgAmI7DnlZEFtPwNtpK1C/omCSCyH0mhK8d0zwfp50xFXvzLjq0xaZ2wwavpjekP/8Ff0
+	jH9k0EV5LgQtlyUs+y0AYXaLftn21iMn2dnf2tOsFyfc1TCn3KYSByZwGWWcDoO5NIbTHdBKrKu
+	eo0WEcDkhaJHnOZQKJ82ONTseOPn1WDipLL2A7187svTLCCt9PtDIKaywv8F/Do2X3AsZb+74mD
+	wncAkaOG5NL95tQxBXjT1rI5bdx1YdGFtp0zngVW9+sgk8GYPskj0jc/ghCLnVV12cvNOY45+OX
+	0SNj1AU0lYXKOxzxLIduNTNIEygYvLNxNFYrTyavP7JXg9Kn+zo0pBU+WKEFCZicfpFxTb/MIpZ
+	DWJhiBi4n3WWrky6/hacqBaGhz8ZFmg1F3P2piOFZF0IlBRLj09Syc+h3Lg7ubzOyjFmRAyCaIu
+	TGmc9KBBAVeslo+IrqHPjV1SVUp
+X-Received: by 2002:a05:6000:25c7:b0:485:ac3b:4a79 with SMTP id ffacd0b85a97d-486f6d4b3f4mr6901321f8f.43.1789330327524;
+        Sun, 13 Sep 2026 13:12:07 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:16aa:3c0b:49da:7be3])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33fd3bsm21613916f8f.19.2026.09.13.13.12.04
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33fd3bsm21613916f8f.19.2026.09.13.13.12.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 13 Sep 2026 13:12:04 -0700 (PDT)
+        Sun, 13 Sep 2026 13:12:06 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 05/11] python3-meson-python: upgrade 0.21.0 -> 0.21.1
-Date: Sun, 13 Sep 2026 21:11:52 +0100
-Message-ID: <20260913201158.687889-5-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 06/11] sbom-cve-check-update-{nvd-native,cvelist-native}: upgrade 2026.08.25 -> 2026.09.12
+Date: Sun, 13 Sep 2026 21:11:53 +0100
+Message-ID: <20260913201158.687889-6-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260913201158.687889-1-richard.purdie@linuxfoundation.org>
 References: <20260913201158.687889-1-richard.purdie@linuxfoundation.org>
@@ -66,33 +66,48 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 13 Sep 2026 20:12:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245732
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245733
 
-0.21.1
-======
-
-- Restore compatibility with Python interpreters not implementing PEP 3149.
+Update to newer database versions.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- ...n3-meson-python_0.21.0.bb => python3-meson-python_0.21.1.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-meson-python_0.21.0.bb => python3-meson-python_0.21.1.bb} (85%)
+ ...25.bb => sbom-cve-check-update-cvelist-native_2026-09-12.bb} | 2 +-
+ ...bb => sbom-cve-check-update-nvd-native_2026.09.12-000023.bb} | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
+ rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-cvelist-native_2026-08-25.bb => sbom-cve-check-update-cvelist-native_2026-09-12.bb} (89%)
+ rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-nvd-native_2026.08.25-000009.bb => sbom-cve-check-update-nvd-native_2026.09.12-000023.bb} (89%)
 
-diff --git a/meta/recipes-devtools/python/python3-meson-python_0.21.0.bb b/meta/recipes-devtools/python/python3-meson-python_0.21.1.bb
-similarity index 85%
-rename from meta/recipes-devtools/python/python3-meson-python_0.21.0.bb
-rename to meta/recipes-devtools/python/python3-meson-python_0.21.1.bb
-index 69fb461c1fe..2c86f7fed41 100644
---- a/meta/recipes-devtools/python/python3-meson-python_0.21.0.bb
-+++ b/meta/recipes-devtools/python/python3-meson-python_0.21.1.bb
-@@ -13,7 +13,7 @@ DEPENDS = " \
- PYPI_PACKAGE = "meson_python"
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-25.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-09-12.bb
+similarity index 89%
+rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-25.bb
+rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-09-12.bb
+index 75b2ad8257f..b29be0d46f6 100644
+--- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-25.bb
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-09-12.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/CVEProject/cvelistV5"
+ SRC_URI = "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https;destsuffix=;tag=${PV}_baseline"
+ SBOM_CVE_CHECK_DB_NAME = "cvelist"
  
- inherit pypi python_mesonpy
--SRC_URI[sha256sum] = "595c2f40b76692c78274c87b733379d86562583e9ffb975487b9eafada03055b"
-+SRC_URI[sha256sum] = "78b3345dcbc0fed7b939e7e37a9faab35bddaae07bf62e7542c8ad479c395af5"
+-SRCREV = "ce11dbdcf79189e965d64b29161af93993619281"
++SRCREV = "9b9889cfd98306bf29b91df076c5118aae80b63f"
+ UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>.+)_baseline"
  
- DEPENDS:remove:class-native = "python3-meson-python-native"
+ require sbom-cve-check-update-db.inc
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.25-000009.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.09.12-000023.bb
+similarity index 89%
+rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.25-000009.bb
+rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.09.12-000023.bb
+index 43f077e267f..70e09050b97 100644
+--- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.25-000009.bb
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.09.12-000023.bb
+@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/fkie-cad/nvd-json-data-feeds"
+ SRC_URI = "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=main;protocol=https;destsuffix=;tag=v${PV}"
+ SBOM_CVE_CHECK_DB_NAME = "nvd-fkie"
  
+-SRCREV = "08cb7bde86fe9057c2338d7d61a705e642775bfd"
++SRCREV = "82336c26ab85706ae56efaa36ef5851ab92dd32c"
+ UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.+)"
+ 
+ require sbom-cve-check-update-db.inc
 
