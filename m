@@ -1,247 +1,131 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C6FDBC88E50
-	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 12:08:24 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18492.1789387695044150545
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 591BAC88E64
+	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 12:09:35 +0000 (UTC)
+Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com [209.85.128.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18759.1789387773358899213
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2026 05:08:15 -0700
+ Mon, 14 Sep 2026 05:09:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=ksFYMFZm;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EF3321576
-	for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 05:08:10 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 39DA83F86F
-	for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 05:08:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789387694; bh=MgjXOlIuqwvKD4X7/SSXSGVf37KgW7PTW8e432vB9To=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=ksFYMFZmEcZuWqHWdv5hvZeI8iIiqOy5IGe9Lz5zLDNhv+EWZDD2Yc39gybf1oFWG
-	 JM5g5eQP1W5+iD6QdDKtrh1Dpl6Hm7ksA4xZPk4V5FnisDshrp2uuYNQFbH1cQzBiE
-	 UEqIzrsgOLEDTUkPkZrlNvj0jSU3xJq3q/cJN978=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Wg22wjKE;
+ spf=pass (domain: gmail.com, ip: 209.85.128.54, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-wm1-f54.google.com with SMTP id 5b1f17b1804b1-49cd77e0f95so23347865e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 05:09:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789387771; x=1789992571; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=qEZMdC/RfVcrCu2wkI/PCB+A68PrEq8oLD98RQC5FTc=;
+        b=Wg22wjKEQoXBB+Lm/rG/jSjfF8nbXiFR3pZi3o+eOazGJThosNS+tMYRjJKXADiqqa
+         sKBdFs1v1m8wrcPHHOckTM77BDHB0LNoD49QQD+Ov5xQBSfK70Rda1ZTUOxr7JqAGMCb
+         rGq/DRjA0PwClBcFd2xNWnLJyxowKsvam5f+5QjKO7BUKrOW4w2zbSwhD4ripVZZEKJy
+         6+PSTMkEGNEEP/e/hBe9N4V6e/+5gztobA8uu2tB4o0A+HXO3t/3NAC5JfdfYegrcvnO
+         cgTTP6kaSnMwT2AW0ltsP3CaLuxkY1IifztGfREnntroanCnXMQx1qpOw+NfMKWwW7xs
+         LiPA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789387771; x=1789992571;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=qEZMdC/RfVcrCu2wkI/PCB+A68PrEq8oLD98RQC5FTc=;
+        b=k8Dt8O+UTSpF0TNqGxr/7k9AfWoVcz2Xx2YgpN+q2F00FUAScnvl9aUNma01h5uX4o
+         UTHWK/IJhAcpr4qJ4/DuEIlmAfpKAS/MMCR5nQYDrzpD5lKzxx30NCmh2aEIUy+3yn7M
+         fUkFzNx2qGyDSvdM+QAvs186jHJh+8LDzR606+drCTg1CQ1mEavUBPvEzjSnHk5sqBgn
+         Urj1TBToyg0jdwNm8n+WqEWMRpbaKfo5BIPYIzWnHO7Am0Vyle2zzMozvQ1JWYRAMH4g
+         y+2NqqZrOWK0CRb3Uqvs/fYLdJVGgUeo/3lqUud3SWv0PSBfLxh3sa6tmOcl539yqu9k
+         7wsw==
+X-Gm-Message-State: AFuF++lyOX9CvgAOQ6p8r2NBGgnjVLqmH+HgjpgUq3nxeTD8IF3ez/ny
+	fcHLIJ1hQH9TY8vL6+qH6VJvFG04tspwNVo0lsiXxxJ4VUWXmOfeQQpBXaAOAA==
+X-Gm-Gg: AYBFou3c+BuOcNwIZTU84YMp0t7JhYbfgFK8VM6VzrW6gV0veQOd3/CIvcJndIUg4fM
+	cjbJUpwhZLGrHWJXzoVcE8EJWr8w2LDcLfEsIWcauJWJX4Z+86htL/h73J/rAE/62Gdb1iZI8N9
+	DnHEJchKBm1AUBMBvsNJ4zmVh8/2EJ/ZD01S0uqRDhM78BE2w9ajtnnfjVLdZi/uO0LFQMDOM1g
+	MCl0ojj6LHsv2BksWiAv5LdpVLh19wmM1oqvk/g37AoKSiUkTQOxGNQTYxJy4oAIHWJvtVAMQzU
+	3jm+wyc3jmqyDkHAAPpKz2ZegJYiWHDNuu+W3B9COwaKioD4cjnhd3HhEri/eLK/mxc9vLctT/8
+	fOt8w2AKiAFlgrAVl5qDyllLrE8vqnzAeE5RE4bkMRNMXNuhyLG9M2jqViMN1XaDLvVoIi2YQvD
+	gryli5GVvcqvk1t6lQMsETEeon1WkzTaVsMwrhH/+Xp01JKR6g8F5EtGePpKVLxhx7gmoaCK8oN
+	+s6cF7LO5LXI2EeTagvAaqyzH6TZLaRyUk=
+X-Received: by 2002:a05:600c:468d:b0:49b:2796:be30 with SMTP id 5b1f17b1804b1-49e7a64ec14mr26879285e9.11.1789387771387;
+        Mon, 14 Sep 2026 05:09:31 -0700 (PDT)
+Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33ee5csm26590821f8f.20.2026.09.14.05.09.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 05:09:31 -0700 (PDT)
+From: Alexander Kanavin <alex.kanavin@gmail.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/4] xdg-utils: upgrade 1.1.3 -> 1.2.1
-Date: Mon, 14 Sep 2026 13:08:06 +0100
-Message-ID: <20260914120807.2162673-4-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260914120807.2162673-1-ross.burton@arm.com>
-References: <20260914120807.2162673-1-ross.burton@arm.com>
+Cc: Alexander Kanavin <alex@linutronix.de>
+Subject: [PATCH 3/4] tcl: update domain: tcl.tk -> tcl-lang.org
+Date: Mon, 14 Sep 2026 14:09:24 +0200
+Message-ID: <20260914120925.1153614-3-alex.kanavin@gmail.com>
+X-Mailer: git-send-email 2.47.3
+In-Reply-To: <20260914120925.1153614-1-alex.kanavin@gmail.com>
+References: <20260914120925.1153614-1-alex.kanavin@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 12:08:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245769
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 12:09:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245772
 
-Upstream release notes:
-* xdg-icon-resource: Fix for incorrect syntax
-* better support for Plasma6, Deepin, LXQt
-* partial support for WSL / flatpak's
-* Numerous other fixes and improvements
+From: Alexander Kanavin <alex@linutronix.de>
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+tcl.tk is no longer accessible (and .tk is generally problematic:
+https://en.wikipedia.org/wiki/.tk ).
+
+Signed-off-by: Alexander Kanavin <alex@linutronix.de>
 ---
- .../xdg-utils/xdg-utils/CVE-2022-4055.patch   | 76 ++++++++++---------
- ...{xdg-utils_1.1.3.bb =3D> xdg-utils_1.2.1.bb} |  4 +-
- 2 files changed, 41 insertions(+), 39 deletions(-)
- rename meta/recipes-extended/xdg-utils/{xdg-utils_1.1.3.bb =3D> xdg-util=
-s_1.2.1.bb} (90%)
+ meta/recipes-devtools/tcltk/tcl_9.0.4.bb    | 4 ++--
+ meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb | 4 ++--
+ 2 files changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patc=
-h b/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
-index 85f32035fcd..6adce1fa40b 100644
---- a/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
-+++ b/meta/recipes-extended/xdg-utils/xdg-utils/CVE-2022-4055.patch
-@@ -15,12 +15,14 @@ Upstream-Status: Submitted [https://gitlab.freedeskto=
-p.org/xdg/xdg-utils/-/issue
- Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-=20
- CVE: CVE-2022-4055
-+---
-+ scripts/xdg-email.in | 89 --------------------------------------------
-+ 1 file changed, 89 deletions(-)
-=20
--
--diff --git c/scripts/xdg-email.in w/scripts/xdg-email.in
--index 3614776..8bdb5a9 100644
----- c/scripts/xdg-email.in
--+++ w/scripts/xdg-email.in
-+diff --git a/scripts/xdg-email.in b/scripts/xdg-email.in
-+index 73898a4..4fe901e 100644
-+--- a/scripts/xdg-email.in
-++++ b/scripts/xdg-email.in
- @@ -30,58 +30,6 @@ _USAGE
- =20
-  #@xdg-utils-common@
-@@ -29,21 +31,21 @@ index 3614776..8bdb5a9 100644
- -{
- -    local THUNDERBIRD MAILTO NEWMAILTO TO CC BCC SUBJECT BODY ATTACH
- -    THUNDERBIRD=3D"$1"
---    MAILTO=3D$(echo "$2" | sed 's/^mailto://')
-+-    MAILTO=3D"$(echo "$2" | sed 's/^mailto://')"
- -    echo "$MAILTO" | grep -qs "^?"
- -    if [ "$?" =3D "0" ] ; then
---        MAILTO=3D$(echo "$MAILTO" | sed 's/^?//')
-+-        MAILTO=3D"$(echo "$MAILTO" | sed 's/^?//')"
- -    else
---        MAILTO=3D$(echo "$MAILTO" | sed 's/^/to=3D/' | sed 's/?/\&/')
-+-        MAILTO=3D"$(echo "$MAILTO" | sed 's/^/to=3D/' | sed 's/?/\&/')"
- -    fi
- -
---    MAILTO=3D$(echo "$MAILTO" | sed 's/&/\n/g')
---    TO=3D$(/bin/echo -e $(echo "$MAILTO" | grep '^to=3D' | sed 's/^to=3D=
-//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }'))
---    CC=3D$(/bin/echo -e $(echo "$MAILTO" | grep '^cc=3D' | sed 's/^cc=3D=
-//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }'))
---    BCC=3D$(/bin/echo -e $(echo "$MAILTO" | grep '^bcc=3D' | sed 's/^bc=
-c=3D//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }'))
---    SUBJECT=3D$(echo "$MAILTO" | grep '^subject=3D' | tail -n 1)
---    BODY=3D$(echo "$MAILTO" | grep '^body=3D' | tail -n 1)
---    ATTACH=3D$(/bin/echo -e $(echo "$MAILTO" | grep '^attach=3D' | sed =
-'s/^attach=3D//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }' | sed 's/,=
-$//'))
-+-    MAILTO=3D"$(echo "$MAILTO" | sed 's/&/\n/g')"
-+-    TO=3D"$(/bin/echo -e "$(echo "$MAILTO" | grep '^to=3D' | sed 's/^to=
-=3D//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }')")"
-+-    CC=3D"$(/bin/echo -e "$(echo "$MAILTO" | grep '^cc=3D' | sed 's/^cc=
-=3D//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }')")"
-+-    BCC=3D"$(/bin/echo -e "$(echo "$MAILTO" | grep '^bcc=3D' | sed 's/^=
-bcc=3D//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }')")"
-+-    SUBJECT=3D"$(echo "$MAILTO" | grep '^subject=3D' | tail -n 1)"
-+-    BODY=3D"$(echo "$MAILTO" | grep '^body=3D' | tail -n 1)"
-+-    ATTACH=3D"$(/bin/echo -e "$(echo "$MAILTO" | grep '^attach=3D' | se=
-d 's/^attach=3D//;s/%\(..\)/\\x\1/g' | awk '{ printf "%s,",$0 }' | sed 's=
-/,$//')")"
- -
- -    if [ -z "$TO" ] ; then
- -        NEWMAILTO=3D
-@@ -79,54 +81,51 @@ index 3614776..8bdb5a9 100644
- -
-  open_kde()
-  {
--     if [ -n "$KDE_SESSION_VERSION" ] && [ "$KDE_SESSION_VERSION" -ge 5 =
-]; then
--@@ -135,15 +83,6 @@ open_kde()
-+     local kreadconfig profile client
-+@@ -139,14 +87,6 @@ open_kde()
- =20
-  open_gnome3()
-  {
- -    local client
- -    local desktop
---    desktop=3D`xdg-mime query default "x-scheme-handler/mailto"`
---    client=3D`desktop_file_to_binary "$desktop"`
---    echo $client | grep -E 'thunderbird|icedove' > /dev/null 2>&1
---    if [ $? -eq 0 ] ; then
-+-    desktop=3D"$(xdg-mime query default "x-scheme-handler/mailto")"
-+-    client=3D"$(desktop_file_to_binary "$desktop")"
-+-    case "$client" in *thunderbird*|*icedove*)
- -        run_thunderbird "$client" "$1"
---    fi
-+-    esac
- -
-      if gio help open 2>/dev/null 1>&2; then
-          DEBUG 1 "Running gio open \"$1\""
-          gio open "$1"
--@@ -164,13 +103,6 @@ open_gnome3()
-+@@ -167,12 +107,6 @@ open_gnome3()
- =20
-  open_gnome()
-  {
- -    local client
---    client=3D`gconftool-2 --get /desktop/gnome/url-handlers/mailto/comm=
-and | cut -d ' ' -f 1` || ""
---    echo $client | grep -E 'thunderbird|icedove' > /dev/null 2>&1
---    if [ $? -eq 0 ] ; then
-+-    client=3D"$(gconftool-2 --get /desktop/gnome/url-handlers/mailto/co=
-mmand | cut -d ' ' -f 1)"
-+-    case "$client" in *thunderbird*|*icedove*)
- -        run_thunderbird "$client" "$1"
---    fi
-+-    esac
- -
-      if gio help open 2>/dev/null 1>&2; then
-          DEBUG 1 "Running gio open \"$1\""
-          gio open "$1"
--@@ -236,15 +168,6 @@ open_flatpak()
-+@@ -263,14 +197,6 @@ open_flatpak()
- =20
-  open_generic()
-  {
- -    local client
- -    local desktop
---    desktop=3D`xdg-mime query default "x-scheme-handler/mailto"`
---    client=3D`desktop_file_to_binary "$desktop"`
---    echo $client | grep -E 'thunderbird|icedove' > /dev/null 2>&1
---    if [ $? -eq 0 ] ; then
-+-    desktop=3D"$(xdg-mime query default "x-scheme-handler/mailto")"
-+-    client=3D"$(desktop_file_to_binary "$desktop")"
-+-    case "$client" in *thunderbird*|*icedove*)
- -        run_thunderbird "$client" "$1"
---    fi
-+-    esac
- -
-      xdg-open "$1"
--     local ret=3D$?
--=20
--@@ -369,21 +292,6 @@ while [ $# -gt 0 ] ; do
-+     exit $?
-+ }
-+@@ -372,21 +298,6 @@ while [ $# -gt 0 ] ; do
-          shift
-          ;;
- =20
-@@ -135,7 +134,7 @@ index 3614776..8bdb5a9 100644
- -            exit_failure_syntax "file argument missing for --attach opt=
-ion"
- -        fi
- -        check_input_file "$1"
---        file=3D`readlink -f "$1"` # Normalize path
-+-        file=3D"$(xdg_realpath "$1")" # Normalize path
- -        if [ -z "$file" ] || [ ! -f "$file" ] ; then
- -            exit_failure_file_missing "file '$1' does not exist"
- -        fi
-@@ -148,3 +147,6 @@ index 3614776..8bdb5a9 100644
-        -*)
-          exit_failure_syntax "unexpected option '$parm'"
-          ;;
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb b/meta/re=
-cipes-extended/xdg-utils/xdg-utils_1.2.1.bb
-similarity index 90%
-rename from meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-rename to meta/recipes-extended/xdg-utils/xdg-utils_1.2.1.bb
-index 7141a72dd53..f76735a91ba 100644
---- a/meta/recipes-extended/xdg-utils/xdg-utils_1.1.3.bb
-+++ b/meta/recipes-extended/xdg-utils/xdg-utils_1.2.1.bb
-@@ -7,13 +7,13 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Da5367a909340=
-98d6b05af3b746405014"
-=20
- DEPENDS =3D "xmlto-native libxslt-native"
-=20
--SRC_URI =3D "git://gitlab.freedesktop.org/xdg/xdg-utils.git;protocol=3Dh=
-ttps;branch=3Dmaster;tag=3Dv${PV} \
-+SRC_URI =3D "git://gitlab.freedesktop.org/xdg/xdg-utils.git;protocol=3Dh=
-ttps;branch=3Dv1.2.X;tag=3Dv${PV} \
-            file://0001-Reinstate-xdg-terminal.patch \
-            file://0001-Don-t-build-the-in-script-manual.patch \
-            file://CVE-2022-4055.patch \
-           "
-=20
--SRCREV =3D "159fc37075db2decf446f453fe1a796da6921aad"
-+SRCREV =3D "356c380ad6fecc9ce6bea1f6a77986ba67402c80"
-=20
- # Needs brokensep as this doesn't use automake
- inherit autotools-brokensep
---=20
-2.43.0
+diff --git a/meta/recipes-devtools/tcltk/tcl_9.0.4.bb b/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
+index 5b4809ed6bf..97ba82d5fa1 100644
+--- a/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
++++ b/meta/recipes-devtools/tcltk/tcl_9.0.4.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://tcl.sourceforge.net"
+ DESCRIPTION = "Tool Command Language, is an open-source multi-purpose C library which includes a powerful dynamic scripting language. Together they provide ideal cross-platform development environment for any programming project."
+ SECTION = "devel/tcltk"
+ 
+-# http://www.tcl.tk/software/tcltk/license.html
++# http://www.tcl-lang.org/software/tcltk/license.html
+ LICENSE = "BSD-3-Clause AND TCL"
+ LIC_FILES_CHKSUM = "file://license.terms;md5=058f6229798281bbcac4239c788cfa38 \
+     file://compat/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
+@@ -24,7 +24,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/tcl/tcl-core${PV}-src.tar.gz \
+            "
+ SRC_URI[sha256sum] = "5d265f3499b588681825d8093177830707b7035ad866b17189a3a6ab6dade0ff"
+ 
+-UPSTREAM_CHECK_URI = "https://www.tcl.tk/software/tcltk/download.html"
++UPSTREAM_CHECK_URI = "https://www.tcl-lang.org/software/tcltk/download.html"
+ UPSTREAM_CHECK_REGEX = "tcl(?P<pver>\d+(\.\d+)+)-src"
+ 
+ S = "${UNPACKDIR}/${BPN}${PV}"
+diff --git a/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
+index 0382d4239cb..2094c9935ab 100644
+--- a/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
++++ b/meta/recipes-devtools/tcltk8/tcl8_8.6.18.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "http://tcl.sourceforge.net"
+ DESCRIPTION = "Tool Command Language, is an open-source multi-purpose C library which includes a powerful dynamic scripting language. Together they provide ideal cross-platform development environment for any programming project."
+ SECTION = "devel/tcltk"
+ 
+-# http://www.tcl.tk/software/tcltk/license.html
++# http://www.tcl-lang.org/software/tcltk/license.html
+ LICENSE = "BSD-3-Clause AND TCL"
+ LIC_FILES_CHKSUM = "file://license.terms;md5=058f6229798281bbcac4239c788cfa38 \
+     file://compat/license.terms;md5=058f6229798281bbcac4239c788cfa38 \
+@@ -28,7 +28,7 @@ SRC_URI[sha256sum] = "1880b6337de72431174511419550bb4cf1327b7c8200a5466d1c4eb3ec
+ 
+ SRC_URI:class-native = "${BASE_SRC_URI}"
+ 
+-UPSTREAM_CHECK_URI = "https://www.tcl.tk/software/tcltk/download.html"
++UPSTREAM_CHECK_URI = "https://www.tcl-lang.org/software/tcltk/download.html"
+ UPSTREAM_CHECK_REGEX = "tcl(?P<pver>8(\.\d+)+)-src"
+ 
+ S = "${UNPACKDIR}/tcl${PV}"
+-- 
+2.47.3
 
 
