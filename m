@@ -1,141 +1,131 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <dwagenknecht@emlix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 85598C88E64
-	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 10:52:14 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16127.1789376001772865060
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF8AC88E64
+	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 11:46:04 +0000 (UTC)
+Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.18332.1789386356924373859
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2026 01:53:22 -0700
+ Mon, 14 Sep 2026 04:45:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=none (message not signed); spf=pass (domain: gmail.com, ip: 74.125.225.140, mailfrom: aurelien.desbrieres@gmail.com)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-499db1a5b5eso664315e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 01:53:21 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789376000; x=1789980800;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=KaKEgHevzbsTWLPqZt+7BBPzayhBYBaGhAGmM45fu8g=;
-        b=BE7NfMhiI9zIp6fKAIR7SGOPfTtWgGgU5E2d2wmrYixLEH7lFqcCZbTjZBZ0h4+kyo
-         tIlDg6Y7GVU5JorBS5NvQBtQe0XNfZt7cqsRjhYa8k01HLZX2getACkfEUB27vl6iR9N
-         7ZO/F1Q5sGYCcbiOvqEPbZU0ltWrwLIsfflFcdXol3OclUYdwe3fJE5QS4EPHkgn+k/1
-         hQPJue3FiJcVLtYb6jNSWp27r4dVAL4/gGKNQ2y2DnRehYjbMkjs+kC3D1Q6xOYfaVgI
-         KSrr5+FsOMkC2zVZvcBO/OqYke91YsxSIj09JnehXLRojp4S4Pm6Ma8fRvTD7+Tq3VUS
-         SF5A==
-X-Gm-Message-State: AFuF++kjr6cmBbWbEO+MYe5vDqYaK7+vWHBjdZQExppA7k+hrfsJvolJ
-	R9+JjRntVLHuo4OoXV7NuKhbn1obSkvdK+Q7STeS8DP/beimnFyAeNDRVE9yLQ==
-X-Gm-Gg: AYBFou1KsUaS94rBbdcfomWSumdw4y8xiXJhbeGZU3QyIxtvAoOA5mc/zbVBY+ydatg
-	wbqNG3f6vYlHs0vtrqID0Y6TZVZgblmVSxf0+nh11LvRM2KJ8dQKvxyO9XQyCQpuTdRDuYaEbcH
-	GEVcsne8gTFLYD2hUYnhtxzPEPkO0wnXQjMPm6j4fy/RoIX/4toXB11gdAKtg1TO/rjywYLrghW
-	2mHni6IJzIFDqodiTCPoWlTt3hL5nVVtQNJQQXvB/gykJjp5BtSdIHp9lbObS3A9xJKMaXmGPDe
-	w+5s1fSe9JFOYrnt0+TvN9r9KosTPIlj4Jlp5bpNNex8iH3zRbFcVpvol0TqoDT4NW6ItFiw0id
-	09xjj01WSrRWSDslkh/8JdOGf7QMltmjecB6PJuapXRanvI0h6Q5I+g0v31kSr69/guPss87dD3
-	uEm9k90jZt26+kJW+R6WhfP/zQMmcP8XB/y7ayFaDd2jroGQ2M9xEW6bBAQfpBLsK/69DmUzKg2
-	lto48v5bHW2cSqev+Hwb/FpbZJSi4Hu8ba0
-X-Received: by 2002:a05:600c:35cb:b0:49e:479b:c13b with SMTP id 5b1f17b1804b1-49e7a66b723mr19765735e9.1.1789375999837;
-        Mon, 14 Sep 2026 01:53:19 -0700 (PDT)
-Received: from spartian.home ([2a01:cb1c:76:ed00:602f:c5f4:d108:b925])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e61a81943sm200873905e9.1.2026.09.14.01.53.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 01:53:19 -0700 (PDT)
-From: Aurelien DESBRIERES <aurelien@hackers.camp>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=Uj6Dgdrc;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=AxgNMKp+;
+ spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: dwagenknecht@emlix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
+	s=20250930; t=1789386354;
+	bh=vxb8P0Pc//rxdwMQnsUig4n1OSHFWtzOmR71HlA9rX8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=Uj6DgdrcSLYS1Rr7M5ody2HK7Mwvt4tFAPKWwt0fMXWvIWtAIoNuFMf2rMdk3HR11
+	 OdbrMVa0saFwsOAc7SoKCpnAzy84w9xH3iSkKCkzJ9ubGwqJooLfsMHSjs4TO6zi9Y
+	 IaNM0MIGOHTJPKbbRk0B1FwpPPPSebbYqEEA6TS58J9qBodp2+7w8Arcs8qVwOEl2G
+	 WDc8/e/VkHHeY5/VPCu0s4BD/2Qs3fMHbym6RiTWRK/xbwztaT3p8VFp4TLdoXRI+t
+	 FagueUxBHrul0BV2OGREc7GRJeFW+3tw1wygyxWmOkO32YSJiRM8N/WE1sjX0edYSx
+	 7UA4ynsuEO2sw==
+Received: from mx1.emlix.com (localhost [127.0.0.1])
+	by mx1.emlix.com (Postfix) with ESMTP id 0BB8C5FA92
+	for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 13:45:54 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
+	s=20250930; t=1789386353;
+	bh=vxb8P0Pc//rxdwMQnsUig4n1OSHFWtzOmR71HlA9rX8=;
+	h=From:To:Cc:Subject:Date:From;
+	b=AxgNMKp+JW7FuqV8KAKFyfne39Zpqyzkl9nCdaB0LEyUpjNZLzvw1GkvwHSVFfZhu
+	 TEDGtSin7g1CC1Ixd1X4wxqYdPi3N0LWeoG96kcaNlWfu8dxuneJh1gYNwKyJAGXLg
+	 4Fl9nXNriATg8TTlezTTBCYTMkBlp9u6CZHIoJ0wfB3+JLFEWR4Vzj8/X4fJByj2kK
+	 OW5JE99ucHSma8/aLaquQlJBH3i2DOBs/kKVl0PCLZSbDvUlNSEw9Jt67/F96Xh/je
+	 6mMGJhVmWc/tCvHZIFUbAa74GhjcXwX+ZKXQ+wRjUutdiPU17fqjRN9BuVeeGdL9sT
+	 JJ2t3Qxw102LA==
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.emlix.com (Postfix) with ESMTPS id EB5E05F82B
+	for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 13:45:53 +0200 (CEST)
+From: Daniel Wagenknecht <dwagenknecht@emlix.com>
 To: openembedded-core@lists.openembedded.org
-Cc: aurelien.desbrieres@gmail.com
-Subject: [PATCH v2] flex: backport the upstream malloc prototype fix
-Date: Mon, 14 Sep 2026 10:53:18 +0200
-Message-ID: <20260914085318.67139-1-aurelien@hackers.camp>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <3d12110d88ce771519ccedb12e7b6d0d24d7d17a.camel@linuxfoundation.org>
-References: <3d12110d88ce771519ccedb12e7b6d0d24d7d17a.camel@linuxfoundation.org>
+Cc: Daniel Wagenknecht <dwagenknecht@emlix.com>
+Subject: [PATCH 0/2] Add meta layer information to spdx
+Date: Mon, 14 Sep 2026 13:44:19 +0200
+Message-ID: <20260914114526.2646773-1-dwagenknecht@emlix.com>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 10:52:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245762
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 11:46:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245763
 
-lib/malloc.c declares "void *malloc ();" with an empty parameter list
-and calls it with one argument. That meant "unspecified" in C89 and
-means "none" in C23, so a host compiler defaulting to C23 -- GCC 15 and
-later -- rejects the call:
+Hello,
 
-  lib/malloc.c:16:15: error: too many arguments to function 'malloc';
-                             expected 0, have 1
+as discussed before here
+https://lists.openembedded.org/g/openembedded-core/message/226131
+and here
+https://lists.openembedded.org/g/openembedded-core/message/225774
 
-The file is built by stage1flex with the build host's compiler before
-flex can build itself, so neither CFLAGS nor BUILD_CFLAGS reaches that
-command line and no flag in the recipe can silence it.
+it would be good to include information about the layers used in a build =
+in the
+generated spdx documents.
 
-Upstream fixed it in bf254c75b1e0 and the patch falls out when flex
-next releases. Gentoo carries the same backport as
-flex-2.6.4-fix-malloc-prototype.patch.
+My primary goal is to track where all the configuration files added via f=
+ile
+protocol in `SRC_URI` originate from, but the approach could be extended =
+to
+track recipes, classes, machine config etc.
 
-Signed-off-by: Aurelien DESBRIERES <aurelien@hackers.camp>
----
- ....c-match-malloc-signature-to-its-use.patch | 37 +++++++++++++++++++
- meta/recipes-devtools/flex/flex_2.6.4.bb      |  1 +
- 2 files changed, 38 insertions(+)
- create mode 100644 meta/recipes-devtools/flex/flex/0001-lib-malloc.c-match-malloc-signature-to-its-use.patch
+These patches are meant as a basis to discuss the approach and should be
+considered draft status.
 
-diff --git a/meta/recipes-devtools/flex/flex/0001-lib-malloc.c-match-malloc-signature-to-its-use.patch b/meta/recipes-devtools/flex/flex/0001-lib-malloc.c-match-malloc-signature-to-its-use.patch
-new file mode 100644
-index 0000000000..7adeedcaa6
---- /dev/null
-+++ b/meta/recipes-devtools/flex/flex/0001-lib-malloc.c-match-malloc-signature-to-its-use.patch
-@@ -0,0 +1,37 @@
-+From bf254c75b1e0d2641ebbd7fc85fb183f36a62ea7 Mon Sep 17 00:00:00 2001
-+From: Richard Barnes <rbarnes@umn.edu>
-+Date: Wed, 2 Oct 2024 10:35:09 -0700
-+Subject: [PATCH] Match `malloc` signature to its use
-+
-+The gnulib fallback declares "void *malloc ();" with an empty parameter
-+list and calls it with one argument. That meant "unspecified" in C89 and
-+means "none" in C23, so a compiler defaulting to C23 -- GCC 15 and later
-+-- rejects the call:
-+
-+  lib/malloc.c:16:15: error: too many arguments to function 'malloc';
-+                             expected 0, have 1
-+
-+The file is built by stage1flex with the build host's compiler before
-+flex can build itself, so neither CFLAGS nor BUILD_CFLAGS reaches that
-+command line and no flag in the recipe can silence it.
-+
-+Upstream-Status: Backport [https://github.com/westes/flex/commit/bf254c75b1e0d2641ebbd7fc85fb183f36a62ea7]
-+
-+Signed-off-by: Aurelien DESBRIERES <aurelien@hackers.camp>
-+---
-+ lib/malloc.c | 2 +-
-+ 1 file changed, 1 insertion(+), 1 deletion(-)
-+
-+diff --git a/lib/malloc.c b/lib/malloc.c
-+index 75e8ef97c..701b9b39d 100755
-+--- a/lib/malloc.c
-++++ b/lib/malloc.c
-+@@ -3,7 +3,7 @@
-+      
-+      #include <sys/types.h>
-+      
-+-     void *malloc ();
-++     void *malloc (size_t n);
-+      
-+      /* Allocate an N-byte block of memory from the heap.
-+         If N is zero, allocate a 1-byte block.  */
-diff --git a/meta/recipes-devtools/flex/flex_2.6.4.bb b/meta/recipes-devtools/flex/flex_2.6.4.bb
-index 793a935962..3b652bda80 100644
---- a/meta/recipes-devtools/flex/flex_2.6.4.bb
-+++ b/meta/recipes-devtools/flex/flex_2.6.4.bb
-@@ -19,6 +19,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/flex-${PV}.tar.gz \
-            file://check-funcs.patch \
-            file://0001-Emit-no-line-directives-if-gen_line_dirs-is-false.patch \
-            file://0001-build-tests-add-missing-parser-scanner-dependencies.patch \
-+           file://0001-lib-malloc.c-match-malloc-signature-to-its-use.patch \
-            "
- 
- SRC_URI[md5sum] = "2882e3179748cc9f9c23ec593d6adc8d"
--- 
-2.55.0
+The approach is to generate a `layers.spdx.json` on each build invocation
+that lists each layer used in the build as a `softwarePackage` with versi=
+on
+and source information as well as - if can be reasonably deducted - the
+downloadLocation. Each source file added via file protocol is then linked=
+ to the
+containing meta layer via a `contains` relationship.
+
+Open Questions:
+- is the overall architecture reasonable/correct?
+- referring to layers is inconsistent across tooling. E.g. the core layer=
+ is
+  either named `core` as defined by `BBFILE_COLLECTIONS` or `meta` as tha=
+t is
+  the layer directory in the openembedded-core repository.
+  I chose the latter since that is what the utility function
+  `oe.buildcfg.get_layer_revisions` returns. The package URL (PURL)
+  implementation uses the other naming scheme though. Any thoughts on whi=
+ch
+  should be chosen and why?
+- I do not understand the alias linking yet. With the current implementat=
+ion
+  I see many hash mismatches like
+  WARNING: gcc-runtime-15.3.0-r0 do_create_spdx: Element http://spdx.org/=
+spdxdocs/layers-7ad0d8d7-57f9-5c3c-9411-49227dd50610/layers/layer/meta
+    has alias http://spdx.org/spdxdocs/UNIHASH-7ad0d8d7-57f9-5c3c-9411-49=
+227dd50610/UNIHASH/layer/meta, but it should have prefix
+    http://spdxdocs.org/openembedded-alias/by-doc-hash/e80f1d61f4749e663e=
+80a4dfb25ebb1127b5f50600d3065de7ed91030942a1ef/
+
+I've currently got some time available to work on this to get a proper so=
+lution
+integrated into openembedded-core.
+
+Best Wishes
+Daniel Wagenknecht=20
+
+
+
+Daniel Wagenknecht (2):
+  spdx: add entries for meta-layers
+  spdx: link files to the meta-layer providing them
+
+ meta/classes/create-spdx-3.0.bbclass |   1 +
+ meta/classes/spdx-common.bbclass     |   3 +
+ meta/lib/oe/sbom30.py                |  12 +++
+ meta/lib/oe/spdx30_tasks.py          | 118 ++++++++++++++++++++++++++-
+ 4 files changed, 130 insertions(+), 4 deletions(-)
+
+--=20
+2.54.0
 
 
