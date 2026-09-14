@@ -1,138 +1,87 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <benjamin.robin@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8CAE5C88E72
-	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 14:18:46 +0000 (UTC)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com [209.85.128.44])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.21379.1789395517044161236
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 38166C88E6F
+	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 16:49:38 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2310.1789404571591377635
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2026 07:18:37 -0700
+ Mon, 14 Sep 2026 09:49:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=PYQLL5cM;
- spf=pass (domain: smile.fr, ip: 209.85.128.44, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm1-f44.google.com with SMTP id 5b1f17b1804b1-49e6bad7b79so18996865e9.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 07:18:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789395515; x=1790000315; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=155BHvj4uJwckP7OX4YSdtHT0lxJFVGYoBhkNJ9O+7g=;
-        b=PYQLL5cMjEyV6ycxbRRXNEV39uCyIBCEi//YHkLXdW2guBXeroYi1T5zDmJx97/Kzi
-         j0INChgg5WsI6/ToDl3KuZQu8lrpzfMJoQFwUyE7x6L5y6NCVwSbaJMuEwmZIHBIQWm/
-         XsV/fQrffukUqUiDUJ2E+QZGfle1Hi2VWohmE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789395515; x=1790000315;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=155BHvj4uJwckP7OX4YSdtHT0lxJFVGYoBhkNJ9O+7g=;
-        b=ZkBhMevmST69gbMYiE9U9X+flM7QNrC4hhRJnT/BJcpE4GTdb3VbLOqtzxU6/UJAfX
-         +VsFJk3oRxosXY+SjA6bsK63eqiWd2bcqtBiSKGTKLrzQJfdNjA4P4I9FG7Z/R79rn86
-         3PR/DCSocMH9yP+dLHbexc6ricgKvTWAeud7rFS7Og4py72+0zOF0dFO8z4LG4p7FW1v
-         RK6NpHKVT1t+o2xJNKWEVc4AIGW2dblmkneH8R0nGvk38pr9zSYgxYcLDm7gIK0eY0KK
-         BM1Q/V7XhrqlMw+rHBcHvw8TVy5lQrzvJKJp8d3s+iRMAoHK+mVQNCxja1OAUcAqzufR
-         13HQ==
-X-Gm-Message-State: AFuF++lIs+ttk9blGQRqrqtaXIyXXjKXUx8hj+SUhZ6L+Xr2ZjZcL9Ww
-	ufAR5sH/At9bvrEHFAFzOiSdc9CqVOQBfvRp7JCNH51m0cFTjTzT8wYrnRc1rIl6at8=
-X-Gm-Gg: AYBFou3PUThyXuNjMJgg0Ul1Oon4ZWBJrd0MEA/t9T8uwcpUWyUHlDabKfxMWoWW1Wg
-	Ddom5GdLDfhXPdHR6CEqFUDHHCtfvpOHBwD0yxcK5oExK+n92Ry2tFuceeNPF1XJ3zrG1pZZnd6
-	4yHMWv1jian/m1y4QHmSG+c9f4JoEnIfKGE5yy8o9lO9qfmGe22OpJHMGVKKz1a0wqOszMulIeb
-	pAM5EiXfJByRKHcLU5lNCex7sFrPVxN4Jz8Igjnbti0S1yU+ElM0x6+cDGvfsgSLwnWy47EHeP8
-	QsrIZR/oqRDGdjJ6vxGPBWB2AV5tfFjF/RL5Mzhdvre74fOeMoXPcNgMq1R9TGRlnqIU/vSR9cP
-	n7FSkLVQXaukKtIglnjqoMU2VHOI2FIUuCx3u0h8M0GlScgFqIvFniPJK+R7pqSFhPF9yOL90Ah
-	JfzEvmGFyKCsDC0qp//CbEnwLaDydOrWHaRaDalhhDxRNI3t/vgCZURlgoWD92uSbu8MplHSQmy
-	4sHxDhGnOxC7VLLLHkEGy5E44f32XNQteBfzNVK1NyIO+qClfkcxBMZe0GJyQU=
-X-Received: by 2002:a05:600c:3511:b0:49d:1df8:156d with SMTP id 5b1f17b1804b1-49e7a66c9f9mr32504755e9.18.1789395515049;
-        Mon, 14 Sep 2026 07:18:35 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49db038401fsm488017765e9.13.2026.09.14.07.18.34
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 14 Sep 2026 07:18:34 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 14 Sep 2026 16:18:34 +0200
-Message-Id: <DLF3RQZ76CZK.C0FPH5HA196G@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "openembedded-core@lists.openembedded.org"
- <openembedded-core@lists.openembedded.org>, "Alexander Kanavin"
- <alex.kanavin@gmail.com>, "Paul Barker" <paul@pbarker.dev>
-To: "Marko, Peter" <Peter.Marko@siemens.com>
-Subject: Re: [OE-core] [wrynose][PATCH 1/3] libslirp: fix upstream version
- check
-X-Mailer: aerc 0.20.0
-References: <20260823155741.2091982-1-peter.marko@siemens.com>
- <DL5Z475KF36A.2GWHJC82115IA@smile.fr>
- <CANNYZj8F6OBVu=cnCnEbAnCGVNBrex9uaTvkqtzwCFg=nKaByg@mail.gmail.com>
- <AS8PR10MB507373EE139A44A2BC291050FDBD2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-In-Reply-To: <AS8PR10MB507373EE139A44A2BC291050FDBD2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=xkqI+Mzh;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: benjamin.robin@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 367FD4E404EB;
+	Mon, 14 Sep 2026 16:49:29 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id B050260323;
+	Mon, 14 Sep 2026 16:49:28 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7194811C7AFE0;
+	Mon, 14 Sep 2026 18:49:26 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789404567; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=WbXXeUvk3wf0Fet4S197neEN5sl1Z6KLf0Cgdrx3A+k=;
+	b=xkqI+Mzh/LWUPIUtYsNtoQ8aF4WYjLsVZcYrioVlpoIC/pASJpsGXP6+9TfpWP6kedR3v0
+	Cw9HTiRFK5iMrzfvR3TDZt7Hu1xsggZ8f/+luv+raL2ao2jc2Tn3BTzUuQQNoK2wGfAgJ7
+	i7YZU+g5/2Sr7VHPOE3hRakcoUUANXSd1AHg1VP4hrnvLCSC1HvZK/IjK6x/FC54cZ8rPe
+	rMVgmaFgY/9f+zH3FUL7KrkaXobgh0SVOQtjXjkbiIrXAIf61vFECJeQXj3NzICR1KzCg9
+	LKKT9VowubO12LgR/ztkOz9OVPkKbugX//sb6IzOQ+xqEZnWOKod05hxn420BQ==
+From: "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
+Date: Mon, 14 Sep 2026 18:49:26 +0200
+Subject: [PATCH] python3-sbom-cve-check: update to version 1.3.5
+MIME-Version: 1.0
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260914-sbom-cve-check-update-1-3-5-v1-1-5d2d69902368@bootlin.com>
+X-B4-Tracking: v=1; b=H4sIAAAAAAAC/yXMTQqDMBBA4avIrDuQpKZUr1JcmMm0TsUfMioF8
+ e6N7fKDx9tBOQkr1MUOiTdRmcYMeymAunZ8MUrMBmfczVS2RA3TgLQxUsfU4zrHdmG0eEWP7mx
+ 8GcPdeMiHOfFTPr/7o/lb1/BmWs4lHMcX+YjRWH8AAAA=
+X-Change-ID: 20260914-sbom-cve-check-update-1-3-5-2260954db805
+To: openembedded-core@lists.openembedded.org
+Cc: ross.burton@arm.com, Peter.Marko@siemens.com, 
+ olivier.benjamin@bootlin.com, mathieu.dubois-briand@bootlin.com, 
+ thomas.petazzoni@bootlin.com, 
+ "Benjamin Robin (Schneider Electric)" <benjamin.robin@bootlin.com>
+X-Mailer: b4 0.15.2
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 14:18:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245787
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 16:49:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245788
 
-On Sat Sep 12, 2026 at 6:12 PM CEST, Peter Marko wrote:
->
->
->> -----Original Message-----
->> From: Alexander Kanavin <alex.kanavin@gmail.com>
->> Sent: Friday, September 4, 2026 2:39 PM
->> To: yoann.congal@smile.fr
->> Cc: Marko, Peter (FT D EU SK BFS1) <Peter.Marko@siemens.com>;
->> openembedded-core@lists.openembedded.org
->> Subject: Re: [OE-core] [wrynose][PATCH 1/3] libslirp: fix upstream versi=
-on check
->>=20
->> On Thu, 3 Sept 2026 at 22:45, Yoann Congal via lists.openembedded.org
->> <yoann.congal=3Dsmile.fr@lists.openembedded.org> wrote:
->> > Thanks for the series. But, with regrets, I don't think it is acceptab=
-le
->> > under the policy:
->> > * 1&3/3 are not bug fixes (UPSTREAM_CHECK_GITTAGREGEX is not used righ=
-t
->> >   now on stables)
->
-> I don't really insist on this commit being backported.
-> However, it would be very beneficial for future cherry-picks.
-> Since this line is next to both SRC_URI and SRCREV, any cherry-pick resul=
-ts in hard conflict.
->
-> I'd like to keep the series as is, but I can also send it without this co=
-mmit if requested.
-> Please let me know Yoann.
+For details on this new release, see:
+https://github.com/bootlin/sbom-cve-check/releases/tag/v1.3.5
 
-Hello,
+Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
+---
+ ...{python3-sbom-cve-check_1.3.4.bb => python3-sbom-cve-check_1.3.5.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-I've discussed this with Paul and we are goind to take this series
-through review: Every changes are low-risks and have value, so, in this
-case I was overly cautious.
+diff --git a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.4.bb b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.bb
+similarity index 82%
+rename from meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.4.bb
+rename to meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.bb
+index c26ce6e6b309..83d420835daf 100644
+--- a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.4.bb
++++ b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.bb
+@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=570a9b3749dd0463a1778803b12a6dce"
+ 
+ PYPI_PACKAGE = "sbom_cve_check"
+-SRC_URI[sha256sum] = "aa2f4e183b600fdad7ce6eb67f7d642bd3e7c67293ae9ffda7d3a2fde433e02b"
++SRC_URI[sha256sum] = "9ed8b0e9c46015444cd3e30332d9558e0be5f5fec97f6df47c6760166a314167"
+ 
+ inherit pypi python_hatchling
+ 
 
-Expect this in the next wrynose series (this week).
+---
+base-commit: f94ae3d6ba49aef86f497998c0e0232a5039510a
+change-id: 20260914-sbom-cve-check-update-1-3-5-2260954db805
 
-Regards,
-
->
-> Peter
->
->>=20
->> Being able to check upstream versions is a valid use case for stable
->> branches too, even if the functionality is not currently used by Yocto
->> project itself. Users can check what the latest (or latest stable,
->> if/when that support is backported) version is, and make their own
->> decision about updating it downstream.
->>=20
->> It's a *very* low risk change as well, as it is used only in the
->> version check and nowhere in actual builds.
->>=20
->> Alex
-
-
---=20
-Yoann Congal
-Smile ECS
+Best regards,
+--  
+Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 
 
