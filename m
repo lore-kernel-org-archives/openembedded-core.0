@@ -1,152 +1,365 @@
-Return-Path: <peter.tatrai.ext@siemens.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B477EC88E64
-	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 09:03:38 +0000 (UTC)
-Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.5])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.16249.1789376604334886979
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 95112C88E6A
+	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 09:09:58 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.70])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16302.1789376988676100369
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2026 02:03:24 -0700
+ Mon, 14 Sep 2026 02:09:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=nIiGOM6o;
- spf=pass (domain: siemens.com, ip: 52.101.65.5, mailfrom: peter.tatrai.ext@siemens.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=gu2UiOu4;
+ spf=pass (domain: est.tech, ip: 52.101.72.70, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=TeVklT3oSNP2WbbsKdNv9Hx4Pfz2BtkUsuAuLG1DxJPtwG0Wwov3YX0i+oXoNArcYlgVBL2Vw+UoidDbSVy70peJy7teeQFma7WSVSg8KdA+LFp6pu5NzS7Y/9Chs6BI8y704GMiTnJQvzwbIQkOwF9xM/ZOZTyrnO3ujbIl3lWD0rbiCXpN1u3ec28UVdzpJBwebfnCwEdZ/xViI3FBM3uHVbYigRN4DQZ6I+TWCNLgzuPVEdK/ldpCr73vEtj9foilaeF+c9z09H5XOIIp+bhJsTqqifWj7kgW+G8gui4WKCPT6GmBwRcnPcd+oweoF+U8tqEI1qRWI1kLyobxkw==
+ b=qnqFnInZGUd8Ok3eHj9b+suJ+dUpkxnktIu8pllUYFK+RRZ5QXL4TQBCq9LBbpUqOaG81w8hl/xtejOsObIWF2jiybBg+3eOsEw+dpvSAd6B7UbPM/sXidGj1v7HPJZSOAAM7tGbcYYSiAxo/BD3YqFASZkhw0UQYoO6kAshwVZE5j+HBIG2Y/xU1Bo7SRvj+f/SwTukaooFhJiu8zA7WL5+ungaIrh/ZNgy9RwWrh2grfkN9y42Qidh5Zqu3fBG1qiqBVRkfJmbXwdnPHHM25evWpsCYbdVBtNKqZGzpTqL87YBf1Nip9xErYF/gyr9qt8h0YgZs/idPJeoybflcg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3q9j2gkRJgivGUgPoKXscGD7TEIoCGE7xw3RiwbUxfA=;
- b=MpnTbbpIAcMhW4TqUz7WK9HhhD7Pem8rme9Iw5OsFrU7OOZN/xt3I59wbV7GBMOugLH1zTVTr/HgJTxx2fJWyoFVxIlrfzAEOS54j1hoZIb/D5czn0+FHELHVhgADpdNjswtsXYAgzaMfeBhL1XpGUOzbavw+1VGGe8bPRa1jRc+Fb1S//ze00wSIXg5TvdwnCTh4M8E1O+K/Wp0+A6leBVWTdKgWE3V06pejoLVY82j/NRmLtDuZAQq9fIKP//TzPQEyZktrwLzTyHpPjKIqTEl67W4kKuPVUcpZRrFbJYNwE6qn/D9ECpeR4rfwSbLG0hl3uHbW3xxmGC0+mrbUA==
+ bh=X76QCchA/yAEWwk4sUXbl9b47+TqVz/+10G4uMEAlKA=;
+ b=EoIZuVvpqXb7WqNgaZA0k/qLIm+Z9Z1mHULGqRAK5zZFfec3Omu99afP6i+F8KP3k9vDGGLTXAQCDhWPl1CO4o9jvqXD6sTm0TqaIm0YtFlf/IeMURvbwkQU5ZA885M7ItTdS1DtzFmoFTR7lYUicKloKO63YAgPQknM5cgqDVRaHVFK2wA4N5XuWzKisgMsNETLB+M3Fnjjd2IIbwFKcnUfmS8l0NnEhxYhnTtCog6m1WiX3blHvn3TTGDuH1291/ZeGo7hfn4XO+CD71/bFAFkwXbXp65a0PH5wqTa+9gbkgdiZya3t3Oq/YY+FZbHaA9zLRVOY5ZFE0FKm2McrQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=3q9j2gkRJgivGUgPoKXscGD7TEIoCGE7xw3RiwbUxfA=;
- b=nIiGOM6obrVB2cMgDyzyhvcsIGrbJvbw7TqvlPpiXHk82gwIzdttfquldszNscmAVnTGncjf4KJ6lw60291pFtP7LkYGNnZXVagOigCOR/rfN0U/cLks/oTDKvjbUWW7Y+awf4e1GJJLZgKJZ7G6fb3EVJ4/AjdyOLcY6jC4NqWZIKblI7KZ6b88iyU0x7dBw1QYFP25Qkrixobeos+FvPoNTQb50WsuK/QgKaXEHs0I3srMsBJ8IDuO7J2bl3Ju7E9xmpiWqFTsy11eS2jZ+KtODih1LqBHINAllpV1ZaXfDjP2NQAwjgt3oue1VfpgoccqiHp1CMWJU/v8G9gA9g==
-Received: from AM0PR10MB3570.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:144::19)
- by VI0PR10MB8866.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:800:234::11) with
+ bh=X76QCchA/yAEWwk4sUXbl9b47+TqVz/+10G4uMEAlKA=;
+ b=gu2UiOu42Zl64sP6vPHrbmZlQKfac0BNm0e6W9VMHRAaTalwfVBBt5NOgCUKh5gPRyep4EEIIVLKIQwjfOev7hsvoIS3Q5jSaiCaWfrjLjC/VxenleB3CHgoi+8h+rJx7rxOHi8Zjyxkr3GowoDfY53ZupoIdXZkuyM6bAaqevdpWc/t4+jXRV3uvhl3G2Ja5VRahVXQ7KGT00dE8k9ave3HeV1nygLxYTUrZIBRJLNJe6zSDHPNZ9FIbKj/EfBks1AHnMHIiAZRtoF3OfS+coVGPZW8p5Lv3vF3MfYzKqrEe6Qvy8k1+XDHXR1BA1yyBpd7xNYNQSf9dpzHS8lorA==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by GV1P189MB2292.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:97::5) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
- 2026 09:03:20 +0000
-Received: from AM0PR10MB3570.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::8a06:addd:5bcd:c7b8]) by AM0PR10MB3570.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::8a06:addd:5bcd:c7b8%3]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
- 09:03:20 +0000
-From: "Tatrai, Peter" <peter.tatrai.ext@siemens.com>
-To: Yoann Congal <yoann.congal@smile.fr>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: RE: [OE-core] [scarthgap][PATCH v2] testimage: avoid symlinking
- missing qemu boot log
-Thread-Topic: [OE-core] [scarthgap][PATCH v2] testimage: avoid symlinking
- missing qemu boot log
-Thread-Index: AQHdPvnmIk2nALrdMUyTWDRvnfonWbbJVWOAgAR6yaA=
-Date: Mon, 14 Sep 2026 09:03:20 +0000
-Message-ID: 
- <AM0PR10MB3570E8E68B19FAFE5DBD942BDBBB2@AM0PR10MB3570.EURPRD10.PROD.OUTLOOK.COM>
-References: <20260825125617.192989-1-peter.tatrai.ext@siemens.com>
- <20260907185127.493115-1-peter.tatrai.ext@siemens.com>
- <DLCHN8AZBSON.6FA3PJWOP4EM@smile.fr>
-In-Reply-To: <DLCHN8AZBSON.6FA3PJWOP4EM@smile.fr>
-Accept-Language: en-US, sk-SK
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=6ec53bdd-9802-4b42-bad1-2456d7e7a7c2;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-09-14T08:57:25Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AM0PR10MB3570:EE_|VI0PR10MB8866:EE_
-x-ms-office365-filtering-correlation-id: 2efdd9d7-f913-4fb3-36e3-08df123f060c
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|376014|366016|23010399003|55112099003|22082099003|18002099003|38070700021|11063799006|4143699003|10067099003|56012099006;
-x-microsoft-antispam-message-info: 
- sQd+LhQOjxqKWQ5SShbZJr83GTu6485rIfgMDP3JfLz7Bl+VOctd/XQ0FlklfwcBTOJGxpRMUak7huj0RTjBsEo1InO5XaT1+wTJ0yty/3fvLpofgQj5UwhNDMFZWesX1VV5iSIiM0QCgai3GazmLmHLzl0viEv85I/OTy7SEQpeB09kO8dmHS4xjPMXANX7s1J1Dxyl5fRRs7Tn3ap0eg0+NHnc2S70XbFt9Or3+PUq9+OGg27WPxg/OPRntzGx9qlk9jyYdBVnLj3brdnOd2LYBW4yO8qVwJ0KULo+pmtojPHzueYq8StJigbGi98+5naJ/er/Ot2YouyIscUKFQyfo2n136h2L6Q9o8+MeTGftIFS1e1B1u9CpBGFtlDyOkJhZQS/oNqpGihN/G33ScYH2eFjem/e73TWYfkscZjQ9KFZneg24qqwti5ZwSnSJYRN/dnxLmAsaFBNomOrZZZ8xlLms+VrpuoxiRekoHJOo4fA4GeFB96zMupMOC0t4OVAw80w1OlXxoc7b5y5E40Kk21Vm2HFhockXH19CvTR9aAR5hTgG6eAPdZq4hLuUK4APJ62NcDKBiinRx0w8LdMMCnRaNajYO9L0Ddnqz6MZPj1K9rKVKbA1UPuf4BY76bz4uVr7ye7tqKf25RUyssopCIBFXWo9tY5mB0PLZF84c4M6sMqJs82UzSQZul3tcYEUNMfSsiw0c6WjpARjEb+nFh1eFVpr4aINIQNDKw=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM0PR10MB3570.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(366016)(23010399003)(55112099003)(22082099003)(18002099003)(38070700021)(11063799006)(4143699003)(10067099003)(56012099006);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?Q5MznW8meyOKOnnpM6KI6NlWxUeYoZLLYdVbsdj9UzM7Rap2DOxtozOcYjBz?=
- =?us-ascii?Q?VajP57fLCzE7ExHc951xKhq6v9bByRgnfgOTiYJVLpv3ckVKwSedDxOc5qps?=
- =?us-ascii?Q?HgLiGY0LXrAdrLErKCHHQOjhZWw0tcx5jmqvHAL5a/UhaOhsDGHiNaAWjJV+?=
- =?us-ascii?Q?VLsMAdjUqaRPAzl+dPnafWFnMaBBUCMj97tmHmDa/aw2dJ6/bNF5U3RYKki6?=
- =?us-ascii?Q?hS1AgNkNmXHsIMd9QFCdbRYiMJdP/Re4Ti0xxPLVjFrenrbGyeb3qNFOFMIC?=
- =?us-ascii?Q?K/xX/tcoxFsErpIy3YUzoNa/y86ns0IRtkRiIK7HbBByYgX3LZmYcltSHfKC?=
- =?us-ascii?Q?Bt/dotVmtnT9dptP8Wsaan0Z/C5AIHzsyR+uIbIaRK9TETckjEF8kOZqBnfM?=
- =?us-ascii?Q?CHpoogae2QO4im+/Qia4q0vRRnSY9o5Lt0PSsOKiI7IP2IUK4jB45BljjQXW?=
- =?us-ascii?Q?U7jhei9sdA0LzfsWoa6bWjWj/yrFBWhe6E0ZfL9/AmuNAw5YXKnx85zxhG1W?=
- =?us-ascii?Q?4O1Q+rJVXlCYAG4nEgE64+r/JpP7BKepoYccELmePO7xPoAabvmclhKcFSYx?=
- =?us-ascii?Q?6mQfoNd9OR9BEphvg8PV8Z/LIy/Bx/etWmh88ntXcPMKH2MCS8PFHBKa3RSl?=
- =?us-ascii?Q?J2huAw+VmangU9AKfe3dWJI/gzPnKs0NVhlxExFHdqw0LvT/nE/XEiBLiT38?=
- =?us-ascii?Q?UjVHFRFphaECEXMWy3cf0tKzov3qS9XVAtQRvq5ILqTQsn8RbB7vtzfyBtkI?=
- =?us-ascii?Q?iGtV/L4fdg+PzEunwm3UCob2QnoyhSnKPF3munaFphRg+QRIskoDQ3Qc9gyK?=
- =?us-ascii?Q?msqZT9hzTXYqxgzO5N+kLykD/JLBvsatBTYQ1OeEnQRGlnntCkS7+JT/QNOE?=
- =?us-ascii?Q?nelg2TDbzsz5UBSfJWKkcl+Fpf8p6ybH48purWQ9QuboO0yZCEdgOE5l0A7e?=
- =?us-ascii?Q?a7x8HFTrtu6uVpE/+SCWFbrCL9S+FoixQ7L+Rjr+Atg2sEZj1SNZQcXCtGnw?=
- =?us-ascii?Q?CRhLa2SJ9ckIk2VtUyVAo0osQXG/NMStSWg5ZiZFpplLlDGNfGxM96NIUG6+?=
- =?us-ascii?Q?QeW8TEr8W1daY8bpPgcGnVb9vjwNPwbJoeaBmKC4cw+/3U8HWL7fs7mFzE9B?=
- =?us-ascii?Q?hFwBPhRlvTy8gE7xDB8z0wGxuuXmlBq6qdR9uQOD4ROkHd8FRUhfVDlXlmop?=
- =?us-ascii?Q?KOHsIv/AZQ7tw65VCY24skMJsXUxKO/mIEBnVBcwCOGJd3njeSv9YxxerUyO?=
- =?us-ascii?Q?R2b6fSlHz3MGoC+5rMeKDkNPAvVTVA729zU4/+98zQyIz+81QeCQQBww/aLD?=
- =?us-ascii?Q?sLca6tf4S3f6iWfKYUkGiKhTuPMT8wFSipYyrmTohNMYsvRI2r90vibZnaU0?=
- =?us-ascii?Q?l1Jh4rzBNsjsgwyjNuw4VGfcJWJTco5SmIneJ5Tcko/oBcdZ8xC5evE/PEpH?=
- =?us-ascii?Q?mHW83MPiVmtKVZxdtRnCuw+RgEJA4L5PZIF3/3ApvwE2ZWcMBi0mELruc6Iv?=
- =?us-ascii?Q?E92U/kW2gC51iz4xppje2qbggi33h5T01hcq/NdI1bFLo+o/6qGiAUVtX5mg?=
- =?us-ascii?Q?jflTTNB0HzKzIplLJaKbLfXJQyG0abwYnhARHKmu3Z+GIj+mLgT1dZONca3+?=
- =?us-ascii?Q?EmPw5g1SalRfhx8gjO3WNaxEMVMHmF3jNDrXwgY34GZDw6WDZr+MC0Ya5iji?=
- =?us-ascii?Q?KHkqBKGNZI4ksGGG2K3L9NxhIg4FJeEChMwb5NsoP4MvjEhxRGi13qEpnn+i?=
- =?us-ascii?Q?dBGjClaOMg=3D=3D?=
-Content-Type: text/plain; charset="us-ascii"
+ 2026 09:09:42 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bf0:7714:72e:1666]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bf0:7714:72e:1666%7]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
+ 09:09:41 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] libpcap: upgrade 1.10.7 -> 1.11.0
+Date: Mon, 14 Sep 2026 11:09:40 +0200
+Message-ID: <20260914090940.57818-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0062.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:153::13) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|GV1P189MB2292:EE_
+X-MS-Office365-Filtering-Correlation-Id: 01caaf00-184e-466d-fb2f-08df123fe93b
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|376014|1800799024|366016|6133799003|12006099003|18002099003|13003099007|10067099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	Jj4LgkQVkum9d9bNg3ONRGF9NC9TY5snVtGN8IHRmJ+T392oLyD4MgvbBcEDq4eVZNDMiu4kShMTZnGb4O1gbzITwrKe15W4K38Chhj4KWlESRK11Q7qxgWIEo+kaceQuFfylV4auuYPBhZy4/AnhAHdP32IoxKx01ep5XG87xP6KgLO3D9thtAI6PChYammXYM+fYBwf51sxRdbiTEGTxQ2BinGVqgm/WglGAVfl1/ZCCkYLK63Ee6ddNMI1690/FHjvyO1/FR52CLhwHFGk/0HNAn2du5Z/pnjnt5OBiZ3G7MKoFdf2lxsOusCyBtd1brRb538t1YdnUwOYcqJY/0kdIxZev/sFZ/LebUz8SDdRHUT1BF/WeoVD9sNqOOK31cQ7mJndurXkxoWEl4R5d0T2FbCa/mZx/UmG3R+NH48nYXdQzKHbPJUGZ2piBwdxiHoW0yA0H3BiX0nM1iSgtOOFpA8CmYdb3RPFyDLW1IbAlxudiSe0EYlXzOWipsVb262dTkcD687Mqdmj71/EDz1coeGSBJlN8yKgg/JUefAFUYseGvNuYSPw6nD472TCWggnynQttV9lzuXk8RZR8lwTruQ0TVQTocKrpgQO4bxw1vgfh8aVj8IBJfM16l0
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(366016)(6133799003)(12006099003)(18002099003)(13003099007)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?uab6qSqDi14sQ8njy2XclS5JE86Oe2WDHlE4oGv+sdfvgEmfkpnIjv8SddFa?=
+ =?us-ascii?Q?3d3UYge1yQnhAj+/sG7OC0C81SFSRYYw54oyK3pFKpShLRIF9J/wZ7ta30IJ?=
+ =?us-ascii?Q?xCYcNJC/oY98PXhe2t5eX7vLZBRsOJ5YZ4ufOd1MgcNCoOE+ELsfgpy6uxBw?=
+ =?us-ascii?Q?f/3CZ81klZ7U5OhXz5f5xN3+D7ECYYFPSoaRuWHS8GOVeIutJ/8bz/afO7fs?=
+ =?us-ascii?Q?DNtUbi4CWqi3pXEgfh7qYHnCbrKPrgK+kgXODx2yowWr9mULXk+DPPcbYt5e?=
+ =?us-ascii?Q?GdoSDlRdJ7mlM8euDTe93FhWIWpkzrKPmX8xZyTzUbClZO34HRpD7wMS8NXe?=
+ =?us-ascii?Q?zENu8DkEdbBsiJKou2qps7QL03QDSXx66qTDUd7YWfjxq0CYlvi1jR/5p7YC?=
+ =?us-ascii?Q?UMhiKuRdEHaLtglt9zKBRBk/oyFzcJXktgYpCNkLx78uaANGFfNF1fLSqL3+?=
+ =?us-ascii?Q?m1J/SyHM83Glx7Yfd2JVqyy2igoRssafM3UwVcawhrAH9G1i3aryaP+Rycqg?=
+ =?us-ascii?Q?kpHtDg5W04ujPYIOWVJh6bjetEeH6NK3VxVJ/Vs5JTzH/OxZlkeAipx3bdgt?=
+ =?us-ascii?Q?E4KJ6ngERy7nLlBB2Kb6faXIFWtI3xG/ubZJQS6WYh0AaBtx7LFL2sLPQzO+?=
+ =?us-ascii?Q?sLvdpavp4DyR0OUYTWu0MW6uRdbQGMAvWF8YlFQwsYaH4DISALHH6K09wGW0?=
+ =?us-ascii?Q?uQ0l9D17fKWFMBqATjYXNyUY8BXPWIX0EfNstkaz1EB7vqcRPM4EXOKy+ZTa?=
+ =?us-ascii?Q?bmoAS9G1N58CqRmqgwuxBYY7txsuwQaxNilf6b+0SCwcFasUkzZB4b2s8WtB?=
+ =?us-ascii?Q?1rpu3qqPAF3WdX1bFTIAUUnm9DYqNtrA9MqBv1rdQ0AFAZxhoZd5sRwrlLPX?=
+ =?us-ascii?Q?VPK9AjkVIV6DKS+QjhAk34jpBVFDxXMjwLLRaTqlxUBZgXHGAFSB1oFoWMiD?=
+ =?us-ascii?Q?4QDnLqt0iLUAJ0VEWeQFyDZa2i/lXi+5E8FuWi63s1PxKdqJZjdkkYhy3Qs2?=
+ =?us-ascii?Q?zXIxM0rdjdYAyU4udcarDUpCiv7IIiFTAX2Hhbkj3ITfLgzbCshOyq3DSc3V?=
+ =?us-ascii?Q?6ISJc+UAo4RFI0evM/0rNGLeiHlhWoES+qi/IwZkXDtPVVAuKUdqGPHprjlM?=
+ =?us-ascii?Q?7zHo18UuWyPWZuTxuM/JoXWPUt11WflEvL7ikHpCvrDt5pbZiDT9Pu2cIXQ2?=
+ =?us-ascii?Q?h8rbAArZMIYNd9dzKi5P7m7kWuHZNrFOerhmLrbGkp4fLRTS7PTSoX59lhnk?=
+ =?us-ascii?Q?KPEF6nY53plWYkxOJsYYzNvA5A7163oDrNiwxMqsmiBdOWz9zW3W9HARW8Wr?=
+ =?us-ascii?Q?ibaRQB+1c2WFLKGYgeDSrfu0gRUJyReAjNbzMBKPX9evbQbJwpiIwmRMh8Bf?=
+ =?us-ascii?Q?CfoJNGWmUTttEQrk6htl6aqx/mu4wh+73Earn4QgvWSri4FLfGVnW4vCGBE8?=
+ =?us-ascii?Q?aYx/JTuKwz2JvO3+7D8x8KLpKf1J9VM1a0m0r2aZ19lf+czUwcgrvOLXFhDw?=
+ =?us-ascii?Q?axTOBvElgCs3CucLXr7rvPT+fSa2ZN9CY0W3pyFIo3r/lOpkH9f9Vqm1mpVA?=
+ =?us-ascii?Q?+qSWTYIDV1isYKoVjcF0t1jpsd6DRM1TKWQhoGNEpBiV/oSk5+v/d1x9HpOr?=
+ =?us-ascii?Q?7zOvPccIVuRhK1u8i4N3XIMvieQhTXZIsRzJFbFNl0cICp2PIxqAcq7DGvh9?=
+ =?us-ascii?Q?8iVOFtDCP7XnswosFyT6QPcD04oCkX6iuY7kFG/TbOAH9bnEa1GE2OJPD+oK?=
+ =?us-ascii?Q?CHn/e7ey4g=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 01caaf00-184e-466d-fb2f-08df123fe93b
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM0PR10MB3570.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2efdd9d7-f913-4fb3-36e3-08df123f060c
-X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Sep 2026 09:03:20.3500
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 09:09:41.7219
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 0335cuG4JAZgSBV6sIfSagCjjsgsDzbhbgV+JXhwknUnBQmAFTcE/m8ODaJxNz8xRQrLrCeHyaOk55CKLPJJeWm/zqsqb4uVi+KiI/outnM=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR10MB8866
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: kc6zywZKaX517AIlP8n0vfDT9duOc6jlpFaHw2Dlk9NOiZwmXkS6Thew2Rs/HsC+QnvwT4Hz686OZ2X9ocejzrEm3+lvZIL+etTlXL8Vls8=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB2292
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 09:03:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245760
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 09:09:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245761
 
-Hello Yoann,
+Changes: https://github.com/the-tcpdump-group/libpcap/blob/libpcap-1.11.0/C=
+HANGES
 
-> Where does this FileNotFoundError happen in scarthgap?
-> os.symlink() has no problem creating a symlink to a non existing file and=
- I don't see
-> where we would open bootlog (we do open bootlog in wrynose/master though)=
-. Are
-> you sure we need this fix on scarthgap? Or maybe we need something else?
+- Remove backport patch as its part of release
+- Remove the "disable IPv6" build option. inline with upstream release
+  (Refer: [1])
+- Remove unmaintained DPDK capture backend (was disabled by default). (Refe=
+r: [2])
 
-You are right, thanks for catching that.
+[1] https://github.com/the-tcpdump-group/libpcap/blob/libpcap-1.11.0/CHANGE=
+S#L115
+[2] https://github.com/the-tcpdump-group/libpcap/blob/libpcap-1.11.0/CHANGE=
+S#L21
 
-In scarthgap this does not fail in os.symlink() itself: it creates a
-dangling symlink when the base bootlog is missing. The FileNotFoundError
-then happens later in our CI pipeline when collecting/copying the oeqa
-log artifacts.
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+ ...ssages-about-32-bit-integer-overflow.patch | 155 ------------------
+ .../{libpcap_1.10.7.bb =3D> libpcap_1.11.0.bb}  |  11 +-
+ 2 files changed, 3 insertions(+), 163 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/libpcap/libpcap/0001-Fix-erro=
+r-messages-about-32-bit-integer-overflow.patch
+ rename meta/recipes-connectivity/libpcap/{libpcap_1.10.7.bb =3D> libpcap_1=
+.11.0.bb} (76%)
 
-So, the issue is narrower than the v2 commit message says: the patch
-avoids creating a misleading dangling bootlog symlink in the result log
-directory. If that still sounds acceptable for scarthgap, I can send a
-v3 with the commit message updated accordingly and without implying that
-testimage itself raises FileNotFoundError.
-
-Regards,
-Peter
-
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-error-messa=
+ges-about-32-bit-integer-overflow.patch b/meta/recipes-connectivity/libpcap=
+/libpcap/0001-Fix-error-messages-about-32-bit-integer-overflow.patch
+deleted file mode 100644
+index 5c14e189f0..0000000000
+--- a/meta/recipes-connectivity/libpcap/libpcap/0001-Fix-error-messages-abo=
+ut-32-bit-integer-overflow.patch
++++ /dev/null
+@@ -1,155 +0,0 @@
+-From 936de20fdc8475d3627986ff5525198332cf2b0a Mon Sep 17 00:00:00 2001
+-From: Denis Ovsienko <denis@ovsienko.info>
+-Date: Thu, 9 Oct 2025 20:51:45 +0100
+-Subject: [PATCH] Fix error messages about 32-bit integer overflow.
+-
+-Since commit a5cac25 stoulen() takes a pointer to a string and a
+-length of the string and uses the length to report a problem about the
+-string.  However, by that time it has already modified the length, so
+-the error message does not match the input:
+-
+-$ filtertest RAW '123456789012345'
+-filtertest: number 1234 overflows 32 bits
+-$ filtertest RAW '12345678901234567890'
+-filtertest: number 123456789 overflows 32 bits
+-$ filtertest RAW '123456789012345678901234567890'
+-filtertest: number 1234567890123456789 overflows 32 bits
+-$ filtertest RAW '0123456701234'
+-filtertest: number  overflows 32 bits
+-$ filtertest RAW '0x100000000'
+-filtertest: number  overflows 32 bits
+-
+-Consequently, if more than one number in the filter expression is out of
+-range, it can be not immediately obvious which one it is:
+-
+-$ filtertest RAW '4294967296 !=3D 4294967297'
+-filtertest: number  overflows 32 bits
+-
+-To fix this, in stoulen() keep a copy of the original string length and
+-use it for the error reporting.  Ibid., factor the format string out and
+-show the base in the message.  Simplify the forward declaration.  Add
+-two comments to outline the clash space between certain MAC-48 addresses
+-and certain octal integers.  Document this syntax peculiarity in the man
+-page and add a few basic reject tests.
+-
+-Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/co=
+mmit/0d8bd2f67c16637c4d25d81fb24cdcebc35afce6]
+-Signed-off-by: Adarsh Jagadish Kamini <adarsh.jagadish.kamini@est.tech>
+----
+- pcap-filter.manmisc.in |  9 ++++++++-
+- scanner.l              | 33 ++++++++++++++++++++++++---------
+- 2 files changed, 32 insertions(+), 10 deletions(-)
+-
+-diff --git a/pcap-filter.manmisc.in b/pcap-filter.manmisc.in
+-index 2444ff7..3c8a190 100644
+---- a/pcap-filter.manmisc.in
+-+++ b/pcap-filter.manmisc.in
+-@@ -18,7 +18,7 @@
+- .\" WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
+- .\" MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
+- .\"
+--.TH PCAP-FILTER @MAN_MISC_INFO@ "13 June 2023"
+-+.TH PCAP-FILTER @MAN_MISC_INFO@ "9 October 2025"
+- .SH NAME
+- pcap-filter \- packet filter syntax
+- .br
+-@@ -885,6 +885,13 @@ integer constants (expressed in standard C syntax), t=
+he normal binary operators
+- a length operator, and special packet data
+- accessors.  Note that all comparisons are unsigned, so that, for example,
+- 0x80000000 and 0xffffffff are > 0.
+-+.LP
+-+Note that 32-bit octal integer constants in the [010000000000 .. 03777777=
+7777]
+-+interval, which includes 75% of all 32-bit integers, are interpreted as M=
+AC-48
+-+addresses when prepended with a single zero (e.g., 012345670123 means
+-+01:23:45:67:01:23).  To disambiguate the expression, prepend such an octa=
+l
+-+number with more zeroes (0012345670123) or represent the same value using=
+ a
+-+decimal (1402433619) or hexadecimal (0x53977053) number.
+- .IP
+- The
+- .B %
+-diff --git a/scanner.l b/scanner.l
+-index 405d331..bd708c9 100644
+---- a/scanner.l
+-+++ b/scanner.l
+-@@ -48,8 +48,8 @@ typedef enum {
+- 	STOULEN_ERROR
+- } stoulen_ret;
+-=20
+--stoulen_ret stoulen(const char *string, size_t stringlen, bpf_u_int32 *va=
+l,
+--    compiler_state_t *cstate);
+-+stoulen_ret stoulen(const char *, const size_t, bpf_u_int32 *,
+-+    compiler_state_t *);
+- }
+-=20
+- /*
+-@@ -244,6 +244,12 @@ V6004		::{N}\.{N}\.{N}\.{N}
+-=20
+- V6		({V680}|{V670}|{V671}|{V672}|{V673}|{V674}|{V675}|{V676}|{V677}|{V660=
+}|{V661}|{V662}|{V663}|{V664}|{V665}|{V666}|{V650}|{V651}|{V652}|{V653}|{V6=
+54}|{V655}|{V640}|{V641}|{V642}|{V643}|{V644}|{V630}|{V631}|{V632}|{V633}|{=
+V620}|{V621}|{V622}|{V610}|{V611}|{V600}|{V6604}|{V6504}|{V6514}|{V6524}|{V=
+6534}|{V6544}|{V6554}|{V6404}|{V6414}|{V6424}|{V6434}|{V6444}|{V6304}|{V631=
+4}|{V6324}|{V6334}|{V6204}|{V6214}|{V6224}|{V6104}|{V6114}|{V6004})
+-=20
+-+	/*
+-+	 * In the regexp below the "{B2}{3}" form matches all octal numbers in
+-+	 * the [010000000000 .. 077777777777] interval that use a single leading
+-+	 * zero.  The interval includes both integer values that fit into 32
+-+	 * bits and values that don't.
+-+	 */
+- MAC		({B}:{B}:{B}:{B}:{B}:{B}|{B}\-{B}\-{B}\-{B}\-{B}\-{B}|{B}\.{B}\.{B}\=
+.{B}\.{B}\.{B}|{B2}\.{B2}\.{B2}|{B2}{3})
+-=20
+-=20
+-@@ -486,13 +492,16 @@ tcp-cwr			{ yylval->h =3D 0x80; return NUM; }
+-  */
+- DIAG_ON_FLEX
+-=20
+-+#define FORMAT_OVERFLOWS_32_BITS "%s number %.*s overflows 32 bits"
+-+
+- stoulen_ret
+--stoulen(const char *string, size_t string_len, bpf_u_int32 *val,
+-+stoulen(const char *string, const size_t orig_string_len, bpf_u_int32 *va=
+l,
+-     compiler_state_t *cstate)
+- {
+- 	bpf_u_int32 n =3D 0;
+- 	unsigned int digit;
+- 	const char *s =3D string;
+-+	size_t string_len =3D orig_string_len;
+-=20
+- 	/*
+- 	 * string is guaranteed either to be a string of decimal digits
+-@@ -538,8 +547,8 @@ stoulen(const char *string, size_t string_len, bpf_u_i=
+nt32 *val,
+- 					 * in 32 bits.
+- 					 */
+- 					bpf_set_error(cstate,
+--					    "number %.*s overflows 32 bits",
+--					   (int)string_len, string);
+-+					    FORMAT_OVERFLOWS_32_BITS,
+-+					    "hexadecimal", (int)orig_string_len, string);
+- 					return STOULEN_ERROR;
+- 				}
+- 				n =3D (n << 4) + digit;
+-@@ -573,10 +582,16 @@ stoulen(const char *string, size_t string_len, bpf_u=
+_int32 *val,
+- 					 * number, and are about to add
+- 					 * 3 more; that won't fit in
+- 					 * 32 bits.
+-+					 *
+-+					 * This code path depends on using more
+-+					 * than one leading zero for all values
+-+					 * in the [040000000000 .. 077777777777]
+-+					 * interval, otherwise the MAC regexp
+-+					 * above consumes the string first.
+- 					 */
+- 					bpf_set_error(cstate,
+--					    "number %.*s overflows 32 bits",
+--					   (int)string_len, string);
+-+					    FORMAT_OVERFLOWS_32_BITS,
+-+					    "octal", (int)orig_string_len, string);
+- 					return STOULEN_ERROR;
+- 				}
+- 				n =3D (n << 3) + digit;
+-@@ -609,8 +624,8 @@ stoulen(const char *string, size_t string_len, bpf_u_i=
+nt32 *val,
+- 				 * number that won't fit in 32 bits.
+- 				 */
+- 				bpf_set_error(cstate,
+--				    "number %.*s overflows 32 bits",
+--				   (int)string_len, string);
+-+				    FORMAT_OVERFLOWS_32_BITS,
+-+				    "decimal", (int)orig_string_len, string);
+- 				return STOULEN_ERROR;
+- 			}
+- 			n =3D (n * 10) + digit;
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.7.bb b/meta/rec=
+ipes-connectivity/libpcap/libpcap_1.11.0.bb
+similarity index 76%
+rename from meta/recipes-connectivity/libpcap/libpcap_1.10.7.bb
+rename to meta/recipes-connectivity/libpcap/libpcap_1.11.0.bb
+index fcbac2dc26..df63ab68b8 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.10.7.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.11.0.bb
+@@ -10,10 +10,8 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5eb289217c160=
+e2920d2e35bddc36453 \
+                     file://pcap.h;beginline=3D1;endline=3D32;md5=3D39af351=
+0e011f34b8872f120b1dc31d2"
+ DEPENDS =3D "flex-native bison-native"
+=20
+-SRC_URI =3D "https://www.tcpdump.org/release/${BP}.tar.xz \
+-	   file://0001-Fix-error-messages-about-32-bit-integer-overflow.patch \
+-          "
+-SRC_URI[sha256sum] =3D "68fa62cffb974f4275641ce14c2e2d75739251f30e00e6a090=
+0903b247d76a03"
++SRC_URI =3D "https://www.tcpdump.org/release/${BP}.tar.xz"
++SRC_URI[sha256sum] =3D "9237f5bae9dcf3a91823d9963ec43b7c0e2e3374ef2ad57d92=
+c8cd39530f4723"
+=20
+ inherit autotools binconfig-disabled pkgconfig
+=20
+@@ -21,19 +19,16 @@ BINCONFIG =3D "${bindir}/pcap-config"
+=20
+ # Explicitly disable dag support. We don't have recipe for it and if enabl=
+ed here,
+ # configure script poisons the include dirs with /usr/local/include even w=
+hen the
+-# support hasn't been detected. Do the same thing for DPDK.
++# support hasn't been detected.
+ EXTRA_OECONF =3D " \
+                  --with-pcap=3Dlinux \
+                  --without-dag \
+-                 --without-dpdk \
+                  "
+=20
+ PACKAGECONFIG ??=3D "${@bb.utils.contains('DISTRO_FEATURES', 'bluetooth', =
+'bluez5', '', d)} \
+-                   ${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)} \
+ "
+ PACKAGECONFIG[bluez5] =3D "--enable-bluetooth,--disable-bluetooth,bluez5"
+ PACKAGECONFIG[dbus] =3D "--enable-dbus,--disable-dbus,dbus"
+-PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6,"
+ PACKAGECONFIG[libnl] =3D "--with-libnl,--without-libnl,libnl"
+=20
+ do_configure:prepend () {
 
