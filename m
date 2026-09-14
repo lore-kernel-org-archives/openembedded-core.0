@@ -2,136 +2,206 @@ Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A67AC88E50
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E319C88E66
 	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 12:11:36 +0000 (UTC)
 Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.60])
  by mx.groups.io with SMTP id smtpd.msgproc01-g2.18563.1789387889938555241
  for <openembedded-core@lists.openembedded.org>;
  Mon, 14 Sep 2026 05:11:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Bt3MwcnH;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=0xj0b6jd;
  spf=pass (domain: est.tech, ip: 52.101.84.60, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=SZpd02M38kTd7QUvb8ZhCAN8zPE/o7qHFdRVqiw1mACcvF1SxYHPtWSIjmFFfKKzj6q6Rj5Bo+riURwn40kNKBI8NwYO9Uc3CJ1gpfA/buyLDd0zTvs9K3B4bHJE7kedCMES8egIhfbinYfgqdo9EsEMpQc4GjKQpdUDhg9IXOjA5fTeHtzfw/TfGjUk1fPDRfJBD0u1ZF1tzs/sFt2lzC+rFZ0QGXavCg+0QOyYGRyJkXgUS3CZlYQ24mfxrsy6zO4LKQ3pPvRN3FCJPpTjNw2VzDqQ4TAcJ9PMH3g8jQZziEWIfcdIVrDxXprxXtzMkOp2RUQdlMI/UwKo4Bf92Q==
+ b=C0nJ7UVtflwoBV6W0jQpDrmg9B5qOx6pg97wPeUuMbbl69E6zTvjRrE6pPfceyxa+kbRtTdntZE1PKIII4Z77/PDBzuc12iveNrZRV1W431A65elp8US2NUjrl/Epxnp+bcRkFRwNYOW2qWtKhotPEvIs5KcnB+zg0v9U572rvZEaz1lG3ict1rIfavphOLW+uBazYx6/1C3c2vQnZ2OYw+Cnnr7jpvwWB0UM9sX2yNXkm3Nd7BNepLDBgUSucgmOcl1KFpcvPaoNkJlB1ArrQKfp58K4cy9hkJFM1MKGvxqkU9EL8gY0NcGn+USx2nk2/BrW99SEGtnp/3ESYpK4Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=m6gSDZAIlkG+lCqQTQ7S4cPV5upfSJ2M3TXOCSMfNUk=;
- b=UoPgtX7u/DFanhdSEhtdjIY0uCXA/Bo9hw6aMpV6fPc0DInO/b4/3MvzAX8g+qy7qH0abDlTInWgqkByCw0nWe7hUXqLpCbU2rxs2Lv8jp1ERVQkv+6EFsJAw5XIcpYiijDP9jqTRreJAR1PyTDk6gWrPU1ikYcj9QMVVVxBc2TnSiHbypdtLkpw875zgDQcr5TRdpagStbVMSxW2p+DCCXo4YTlxxusO4Pt16AD3mFiX5vG1sLiZpMqCkfDmNGNmOkJY8/qoKIYnPla5LPtgRgWCZjNofi946EFuO44s2x9bACQ8hmkVLkmbmZPpaH/grOTKFj9n8r086Ro5QFlog==
+ bh=vldCB7Tfb/6Vz1Qks0bGpDmIQMIWvF7OyTqnuQePsLo=;
+ b=hSda9U2krZhLgBGxW8vSY5qwtKYgudQztJ4s2Oz/wdL5KakgPvnUWJvJ7fxvadlmSCVUA2ti1ARKDEd7YGe5QTOPdPv1uRw+RKafJ2NAgTae1ZJ75E1Phmpm3Qpa0jiBuK+aWaj9Ono7TYTGvUaTtG8WifNQraBPJwYNPGdY/H4wD6lTyrd6UQ4oVVN05Xqg4EawHGHTE3N6aSY2I5Ur8MjsD51vZ45TQtA0jXuqJuG0ktc8/YWsit9W0LoSn8N93W4Z0npfBzZUh6dSAb2rtZVcuIUXmwAr7C1kpBxC3WrVvI4ZlDAuCOp9GOOoJrURB9g9rbtVv3JTye5IrUSazA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
  dkim=pass header.d=est.tech; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=m6gSDZAIlkG+lCqQTQ7S4cPV5upfSJ2M3TXOCSMfNUk=;
- b=Bt3MwcnHajJhNMFJrkRxYZaheOvIb4mKTSqDPGGwzekJpg2tj5tVo3MrZo4YQnF56VTs1p40jS+VcwnmxGENPT/WTQBz1Y3Or5zJB7XXxnCpvxoJ2Dpakod0fjkwlAsV5NuDjJHTM5kiA7PxyeFm/iwjueLVcZ1jBG5PvIHlDpBAmTqlO/PTO5+9FM3AIu/FUur2DFjbGkloQZSAqk28kA8n4PTJfbS/wpvxEauhf4uVme3WEEBHx6Lc3JoZEhGcMXUGfiXH3tEzGTGjzyW9XJYGECpCYgfngi6hJhAl13tKYi+Pxpc06UEn3NXJxI2tVGG74CUcPrO17+zpRB6pWw==
+ bh=vldCB7Tfb/6Vz1Qks0bGpDmIQMIWvF7OyTqnuQePsLo=;
+ b=0xj0b6jdpnQqBoeyPSbtOyBvbBSBkbvP/EVgA5TWiDn4Rp6+KbvlohKvoc7IoOBBB+Dsmrr6DWDehGicb0WttNk4BBz8ZMGdIoY7H2J/rBCxk1Bf3R4BA8gBzp23600q3vqr8ZFq78x4A0o46YJulVpujikgZ59nzdlC8v6OKZbXlYemlrc2MvTVpaVHbhp8CGh11Y3vezuyHqUlnsTKfKkj8Xzbk/lTv+opnHe6m1fFepjYizxY/90+4kOAf6jCwQ4ZKpV/MvOJP9cIDqZbJYCBXXGyt31oQyO8zINyycMncSw7S9YVMYRvTyw8Zu2czmUf7qAFO65vgrZiVJgkkA==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=est.tech;
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
  by AS8P189MB2444.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5a7::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
- 2026 12:11:25 +0000
+ 2026 12:11:26 +0000
 Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::bf0:7714:72e:1666]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  ([fe80::bf0:7714:72e:1666%7]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
- 12:11:25 +0000
+ 12:11:26 +0000
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [wrynose][PATCH 1/2] dhcpcd: remove obsolete explicit debug packaging
-Date: Mon, 14 Sep 2026 14:11:20 +0200
-Message-ID: <20260914121121.81692-2-jaipaul.cheernam@est.tech>
+Subject: [wrynose][PATCH 2/2] dhcpcd: upgrade 10.3.1 -> 10.3.2
+Date: Mon, 14 Sep 2026 14:11:21 +0200
+Message-ID: <20260914121121.81692-3-jaipaul.cheernam@est.tech>
 X-Mailer: git-send-email 2.39.5 (Apple Git-154)
 In-Reply-To: <20260914121121.81692-1-jaipaul.cheernam@est.tech>
 References: <20260914121121.81692-1-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
-X-ClientProxiedBy: DUZPR01CA0201.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b6::12) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-ClientProxiedBy: DU2PR04CA0317.eurprd04.prod.outlook.com
+ (2603:10a6:10:2b5::22) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
  (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AS8P189MB2444:EE_
-X-MS-Office365-Filtering-Correlation-Id: 20b0b8cf-a1a2-431c-1aea-08df12594c24
+X-MS-Office365-Filtering-Correlation-Id: 51267f50-002c-4e79-cc2a-08df12594cf7
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|11063799006|56012099006|10067099003|22082099003|18002099003;
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|11063799006|56012099006|10067099003|22082099003|18002099003|6133799003|3023799007;
 X-Microsoft-Antispam-Message-Info: 
-	zAjGJjLQDswkeqfYEMIFGvnqap9MWcLNInVXsAxb/M/wLa3xlS7bZMfXnpC712t1nA/I01e72CDtWADP7zk++0coMvTBP6PRqFVtSuF9sxqHGhiRXrqm9umnD3z90eeu71SOPURyu43hcmNS7sEprdCKmVKlNydK/ncUNPsJnzknROW5ZYIbaBM9z+WE6cPD3RNQenqGUzWd+/c69faVClq1NBpvw4214yoJynwJI8hi+C0CtSnvJQyGJANAchSAtfYLx4lcxZXJygM+BCncnkohPnXcILXCIZlxaDwImnc06y+GwbDG1tos9urIZr4i5hmX6jqX5MV2R78D9kjh33BNzPoIZbI86WpQ2P7vDFyytcaBp7VFD+xGrMpKnJ41mAEinJ8N99Simss2iNTF7K2sHb64E5SlM0jR7G6pi3qjOsjpjLdgYXpcmKFdIB+Mo9CtFo/a4MyXGjUmWQqke1cYX6iXSV0tcVjHwmtp65lZuGqbIcGEO4j9uOC7YVfmvTnhCWP5Zx8m4evdRvfnQecrBaCAsiguZFQTGyObWloSldbLVcuZ5/iTD/PFyM5eaEh7+PMEH2wvnvMu7EtgytFfYWeFbfAWOG9rk/1M0FpIh7D2VOZoMIjHv6n2dx52d1hXRWjzFD+G7Qyib42wDfgHtwaFJSpj9mMMlezccSI=
+	isvPxWjOhrV9XY5PdsGnRyCjWRcHVBZJlXW9QM9hK/V5Sg05muoU3Mh8rhLis4xyyxi9FH2W/bHhGDZqWzcZQZxjp7SK//CFY5r7YrGG+CrR1IUM78QevJEr5HXIS3y0RvIDJbO0kpj7vSTNOVXqT/VQWpYOUnl1pRjZWT2lbgJUidKjt+cs5pkz7NLMBRyuSLf7xyNY0TkJHhgyvcU4jfQAC37tFn0q0w8jRX2vcGe0Nzu5jk6MV5jXnVf3c/d6SKCP9M+HzPmmy4S1UZqKYDo+jS5938O7+HwgbT1o2i4VwQfRvEUe2AfAMHmqo/eB/MMI+Uh+62xJsfRGrQg3SkgnKOlu5AbVTeudQXNk2beyhh0EaIRPhi0um3fDXWdOLA/tOjgfJABupt92xxmf8Vn9eEKjiSyzlXKNyodr9GXvn10ToF3pn04rcdOgyl9l8dRAhwWYYyjMomwlFCNJJQ3jTJhSUkiqwCRSoafcJUujuKaUFdtUNewO077//pm2r4+KRpRyttywDU8Kfmc2tnbY+Es5eTCZewGmyQE2U7BTrzu9T8+YgzhbZAroZH55XGji3g5m+CAC+gQL94xYw73glTIcnk3TyLuEQ/iN9xSNhfjVkeiJ6v5qTMsJyOTeZxqWgqb5juoxHh+ljgrV+I39fOfYU3xAwzCr5IVJx9w=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?TyKrhqw9kPlmLh/nX+ZD5UGSwkxP9CS87bbsJr2gRYGJ6uCQoOPpQitzLhVC?=
- =?us-ascii?Q?eun4GrRAFdCAnCTBnzof5iRNNxspzmA3SPGxR0WWMJ6Un++ZqOwvugxkHptt?=
- =?us-ascii?Q?XhARCVEXsI1UIDZdRIBizLLlU4IXhDBqW86mEK0hRbIl/izsBhFjWoD59SGG?=
- =?us-ascii?Q?H5a+MyBrm8wlhhUGImlxvJJHHQJ0kf4mbLcHI06KyBnqrlx/uhQoEtsM28+E?=
- =?us-ascii?Q?FP3/3XEwka7vRPQ0m3Lkke5VlFxErrMCAqg/DQv/0S+6lxq/dUbv/R72F0CU?=
- =?us-ascii?Q?8/yk4c1r1Qepg45qDQ95yePYS82DwFIe6jLAzRHWKH5BUoDCUW0FZ0RmMuBL?=
- =?us-ascii?Q?/Yud6Cn5dBFqbW41oDlLNSKlf6CFfHOHEUxEW06uTEaCf2w2LBhsMIsuU+Ek?=
- =?us-ascii?Q?75IcqgTQIKIl2LzbsO/Uorv+o1bAWNquC+nH7wTI1WwGo4vmtlg5I/5sFRHw?=
- =?us-ascii?Q?n+F1PkRBashlhstvPpRUXhAPHw8iGGRU9Hq/oB+cBbk+smhqGT7Mg/AzpKqM?=
- =?us-ascii?Q?GUIBzFmQ0xmgo+6eH+DK0yH3ZHGNaX6njJsTcIszteBTTfsKElZsErGF+zpf?=
- =?us-ascii?Q?0h0p+k8Km5NzyASsBu9RDurE+O9AY2MWcP8QJa8c+9X+jQbtItAdFuatB516?=
- =?us-ascii?Q?CmFRGmeJFYisLxQDDd5iG7LdwrqQWsHwVYRxwJ/skSX0sH/sBvltqthh6YIZ?=
- =?us-ascii?Q?me066A/iEwmMAT/zHWNOrhYxhgDAl1d5CS8IFHuOj8TXZVItj/ESGqEORO/D?=
- =?us-ascii?Q?u+Vx66uGVLukp8zDJcqkwDDR5EsrOYwrnLaS7tEnQTL5qrzk6JDsd2K4VkEC?=
- =?us-ascii?Q?dj5F6xG1VUUKkN0ESUnGPACchy3o4D77uUU129BxDTyZkd4ZTKeBTFJ6Saan?=
- =?us-ascii?Q?HLMWIU+4XQekkrQ/qvh8VEPbylr7z12Q5P/HJ0drQqqhKEauSL3+QnXTP4BL?=
- =?us-ascii?Q?PQbSTgS0VaAx5V5SrWHV3kDq3zGBy5S/F12h/Z5E2Gr8vZXqODDhT0mGviZP?=
- =?us-ascii?Q?RKU7gLzgCNyEWnKQqzWZlCmhjjfLGfAMVm7TOVnuPJTyY2yq/KPSdpAOfQW/?=
- =?us-ascii?Q?8LJwBc/I6RgwBvE5X1xr8xMHb38ggjCVO+hfijSYughMqQbUJtiTZIFZAIoH?=
- =?us-ascii?Q?DpNnobLwY+ZYr5C68WwwRqXyYvX0klQ/8LjX5j5LY4TJ80l9Jh2InGWpiTrU?=
- =?us-ascii?Q?ibxdEz8FnX8vFo0c2Ips9V+HU1pYsCWDgdFcUBkdyZkfw+2U085e6i4xS/Rg?=
- =?us-ascii?Q?KM0Nrsdj7qG/ecV6j5B84K8WEoKKmyEgm9AyfhLYZ5qpI0vg7Ft34VT8I6bP?=
- =?us-ascii?Q?IELad44NjlD4wtrwM1u5FvhzrmoFIk0hT/yL1Omz7T2RU83o++F0mEU9ptLo?=
- =?us-ascii?Q?ekiBj11tznTWrrJn0iWO/D3SG98lWZtsdSJGs+1XNOYpNvhRMtp5/qztLi+n?=
- =?us-ascii?Q?WwrYICVYvSeMzjgtBO2VDGd0yob6A2peqAcLG8worMAq6kZquY7YDL0snbtW?=
- =?us-ascii?Q?8QQWEKXj3QGNwiY73Cbz87bNyBs8+kA45HvT40sKbLW1O9oUB0USVfIlFuou?=
- =?us-ascii?Q?O534vX+7TbYa7m58Qk74HJsb3Nm5duOJJJBL8aO8CnZZs3T3F0kcP2syGvmb?=
- =?us-ascii?Q?4+3sAwXl8EMOUziesgo5Zcw1NsmVDs15ygNjv2Nq05YQlPo5n7L5y4KdJIyE?=
- =?us-ascii?Q?HKYQZwYwsyuP96z0yppnlY9k/VFN4ME14trSneSaDIEsIbuWxkTlYgexY4Bc?=
- =?us-ascii?Q?r5QhEPx7ow=3D=3D?=
+	=?us-ascii?Q?Md9iVtZBjd/Xo6Vn1rSFeaHUfUBGxt2wcMEWiTBS0+H5k32mBYY3KA5w7pAa?=
+ =?us-ascii?Q?Bjw1Tve+4NSZtL4R1m3um0NCau5fZkIqWohmp4TExS8zIDbXFP6ZOKYlThJH?=
+ =?us-ascii?Q?TpEw6lC04ZsG9XBK3CChw7uAzX1x4hDmH/J/23DyE3y4ja6UNeT19BaYSTDQ?=
+ =?us-ascii?Q?/fzycTqXwzyIfytDteC0aEPfSnzzsxW1nt6qyI+oWBlwgDl8dCL3xsgIOyHl?=
+ =?us-ascii?Q?QXDyCvagsav8Ja7bfGydnFwZxyKy6U7kkovod05TJUknm2/vX8AcWGycIs1h?=
+ =?us-ascii?Q?rULJtZ/+kaiCdlV99v4/4oFfd9aS4VquUXjLY9tG4dGUExIi/EO1DgQpjT7c?=
+ =?us-ascii?Q?zQSwKNKe4WDNeU8d05Bt4sa/XxRLY5KQ/QjZ+qRhf3sqDFa6ByA7tUf0Ihpy?=
+ =?us-ascii?Q?zB5yqubA0E9K7XOGBuJ2elQWyvcQiL+b2zBoHaN0xVcrJPNqHvI3bi0ne2fD?=
+ =?us-ascii?Q?tsUHIcyRGX37AzAyZ+wrZW5T4LcjnXu7RF8S8LVkKSWhTlfokeMWIUAQVRJz?=
+ =?us-ascii?Q?C7zBpLwdaKja9tGl/5b3D5SqXLzIgpyRj00GMiS39x6U4GHnxRYi+9S9lBpl?=
+ =?us-ascii?Q?8/N94+tApeyyLsTTv0slNIWOZFGSqgU6q8toB90BXnvX5oaznksBa23qs/yW?=
+ =?us-ascii?Q?3J8g7s0X5kzhNvNEEZgXyccVel1QU8ilF0Jv81pSqjtKqn88wZdqeUnBMOgN?=
+ =?us-ascii?Q?+afun8X9OS58TanCBq/2uLVjj0eqPbMbVQ1WaHYY0sKG+BT4T8YU3hwvF0V5?=
+ =?us-ascii?Q?JSDdtSlqHEEfeajKIJS47rwtAIQsQQfLWXnvszKRx9GDUm+mUrSYvBAZBzRg?=
+ =?us-ascii?Q?nHtWW6ZpVDMMklMyNmO2FpB7MoR98m+q7B2Ywr3ym2/qUopaGcY7o9dEpodB?=
+ =?us-ascii?Q?V3QpGxkazORCvrFRroBO5k/9cLDwIw701d4MquXlY8Y5FpSQsH161WQR1cc3?=
+ =?us-ascii?Q?UhJWJHkh1w9eGJ8TuCixkxfoiYOk3ct6f6197SxLMS5IoNpg8r/PRc0ysmi5?=
+ =?us-ascii?Q?NuHqZlOH8VKsL2Z6opKOVYooyLqdV8BMKILw+Sxv7qJl0X0zdHcuzO1PDQW5?=
+ =?us-ascii?Q?v/zBmEzclCCvBXA6rjCxXjwbZ3cXMPWoIFKUDiJq22V3PQxqxnc9v2xdEfwB?=
+ =?us-ascii?Q?PQOLnduYuGKNaCUSaYLr/Cyh0uhT3ZdvMGkZXB0FK2RK+jXdN1kCsP4ugaas?=
+ =?us-ascii?Q?9U3sycKQ3X7djVpHMHSYlzePNgQM6oxlXau3bTwv1a3yZEUX7ofHdLuUahUg?=
+ =?us-ascii?Q?QhQlRud+omiPfPJdAb+NwmmUkfBO4d9VzxJYvBCQK3qkUKDqs7d0BT3rKaBt?=
+ =?us-ascii?Q?O7VO7TqgAwPuoZAycKAMTLpWuVF3bcDUMwlkLsGGhe3yBdRybS26goqs80of?=
+ =?us-ascii?Q?GkuhG5W8jgvuArZQRfCSqXdkR3ufsrab0coyEPbOyn/YK6amOPatE8HGJkcs?=
+ =?us-ascii?Q?bihooUY7+O49WOKYs6uqS06Gf77cbThAR9zmFDDbZ+ev7gavr1XqV9mIFkfX?=
+ =?us-ascii?Q?0KL1Bh8sKjaSO/re5PECwKBVdbQQdld8hxybqbTSSI2wrLicb2+3Q7P4fHEY?=
+ =?us-ascii?Q?jKCDi7a+63tEEKNK6+tsN+WDgIv/vw41zT+mB7y5cdttTLxZ3m4qGklD7qey?=
+ =?us-ascii?Q?vyVqxcawWIutrclF3/fugJc2nANQPnLl1drdYue5UhHK/aoZIT0dceOgydbk?=
+ =?us-ascii?Q?JvWw1trljmGeTPvrX0MwCIf+yH9dHYnTPp9Duup7Y0S4vtcj3xMoRUxj1QHs?=
+ =?us-ascii?Q?KoPM3ZYcXQ=3D=3D?=
 X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 20b0b8cf-a1a2-431c-1aea-08df12594c24
+X-MS-Exchange-CrossTenant-Network-Message-Id: 51267f50-002c-4e79-cc2a-08df12594cf7
 X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 12:11:24.9990
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 12:11:26.4207
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: rbN8wb49SApTrFQK3FVUnspOOPaQVHHcqYrycY4DatMIm+iMyJryHlYavjL3o7Pl28bmW/iaNUvNy0M+zS9yKSmOg+6buYijUSNF3hmrE5E=
+X-MS-Exchange-CrossTenant-UserPrincipalName: VTrhGYhZzWnkcqKSc0bcD8OYEZ29qShc1dKJO3km96RwiXMLlGjxQwVm0YHU23ofEPaE/NVrYgntM8ofBaVYu07MzyU4ySPdMjwPI3x3WPE=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB2444
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 12:11:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245775
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245776
 
-From: Ross Burton <ross.burton@arm.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-The .debug directories are packaged automatically by default, so this is
-redundant.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 8c3e8394c53581fd6b1d69669f6e0668c5af9d13)
+(cherry picked from commit 1e61572f9a24839a1a2386a51d40b561f340f78f)
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb | 2 --
- 1 file changed, 2 deletions(-)
+ .../dhcpcd/{dhcpcd_10.3.1.bb =3D> dhcpcd_10.3.2.bb}             | 2 +-
+ ...20-resolv.conf-improve-the-sitation-of-working-with-.patch | 2 +-
+ ...001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch | 4 ++--
+ .../0001-remove-INCLUDEDIR-to-prevent-build-issues.patch      | 4 ++--
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.3.1.bb =3D> dhcpcd_10.3=
+.2.bb} (97%)
 
 diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb b/meta/recip=
-es-connectivity/dhcpcd/dhcpcd_10.3.1.bb
-index eb257cb27c..065451c065 100644
+es-connectivity/dhcpcd/dhcpcd_10.3.2.bb
+similarity index 97%
+rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
+rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.2.bb
+index 065451c065..b86c249704 100644
 --- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
-@@ -67,5 +67,3 @@ do_install:append () {
-     chmod 700 ${D}${DBDIR}
-     chown dhcpcd:dhcpcd ${D}${DBDIR}
- }
--
--FILES:${PN}-dbg +=3D "${libdir}/dhcpcd/dev/.debug"
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.2.bb
+@@ -21,7 +21,7 @@ SRC_URI =3D "git://github.com/NetworkConfiguration/dhcpcd=
+;protocol=3Dhttps;branch=3Dma
+            file://CVE-2026-56117.patch \
+            "
+=20
+-SRCREV =3D "42ff6d2548209af3185473e6cb6f9d235c48bbf4"
++SRCREV =3D "243ad84ac67a87d631ff7eb83b2eed2727acebb5"
+=20
+ # Doesn't use automake so we can't do out-of-tree builds
+ inherit pkgconfig autotools-brokensep systemd useradd
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-imp=
+rove-the-sitation-of-working-with-.patch b/meta/recipes-connectivity/dhcpcd=
+/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
+index 512e33aebf..7e04b5c303 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-th=
+e-sitation-of-working-with-.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-th=
+e-sitation-of-working-with-.patch
+@@ -1,4 +1,4 @@
+-From d1581ce103db0a5db0b1761907fff9ddd6b55a8a Mon Sep 17 00:00:00 2001
++From c91f9cdc0ef56fa64f6ffdd811cc5b0e41991b2e Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Wed, 9 Nov 2022 16:33:18 +0800
+ Subject: [PATCH] 20-resolv.conf: improve the sitation of working with syst=
+emd
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-confl=
+ict-error-when-enable-multilib.patch b/meta/recipes-connectivity/dhcpcd/fil=
+es/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+index 484b84f94a..9d3065a48b 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-err=
+or-when-enable-multilib.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-err=
+or-when-enable-multilib.patch
+@@ -1,4 +1,4 @@
+-From e9b1376c59b15e7b03611429187d9d89167154b5 Mon Sep 17 00:00:00 2001
++From dd892eba0147120efdcae923746c444a9d2a76d2 Mon Sep 17 00:00:00 2001
+ From: Lei Maohui <leimaohui@fujitsu.com>
+ Date: Fri, 10 Mar 2023 03:48:46 +0000
+ Subject: [PATCH] dhcpcd.8: Fix conflict error when enable multilib.
+@@ -29,7 +29,7 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+=20
+ diff --git a/src/dhcpcd.8.in b/src/dhcpcd.8.in
+-index 91fdde2c..b467dc3b 100644
++index ebbf06c0..c7ffee6b 100644
+ --- a/src/dhcpcd.8.in
+ +++ b/src/dhcpcd.8.in
+ @@ -826,7 +826,7 @@ Configuration file for dhcpcd.
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-=
+to-prevent-build-issues.patch b/meta/recipes-connectivity/dhcpcd/files/0001=
+-remove-INCLUDEDIR-to-prevent-build-issues.patch
+index fd3fae7e7e..bebc79831d 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prev=
+ent-build-issues.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prev=
+ent-build-issues.patch
+@@ -1,4 +1,4 @@
+-From c2ebc32112e0cd29390b4dc951b65efae36d607b Mon Sep 17 00:00:00 2001
++From 0775eb1b965bbf9b0efb0b1c42c3adf3d8cd31cb Mon Sep 17 00:00:00 2001
+ From: Stefano Cappa <stefano.cappa.ks89@gmail.com>
+ Date: Sun, 13 Jan 2019 01:50:52 +0100
+ Subject: [PATCH] remove INCLUDEDIR to prevent build issues
+@@ -11,7 +11,7 @@ Signed-off-by: Stefano Cappa <stefano.cappa.ks89@gmail.co=
+m>
+  1 file changed, 5 deletions(-)
+=20
+ diff --git a/configure b/configure
+-index a60da137..3673de8b 100755
++index e9c08f18..3f0770b7 100755
+ --- a/configure
+ +++ b/configure
+ @@ -26,7 +26,6 @@ BUILD=3D
 
