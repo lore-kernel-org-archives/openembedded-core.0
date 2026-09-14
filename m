@@ -1,228 +1,302 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <leon.anavi@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40830C88E64
-	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 13:05:06 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.1])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19751.1789391099418192276
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 611E6C88E64
+	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 13:36:06 +0000 (UTC)
+Received: from mail-wm1-f52.google.com (mail-wm1-f52.google.com [209.85.128.52])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20429.1789392965138718507
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2026 06:04:59 -0700
+ Mon, 14 Sep 2026 06:36:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=HC78bdjx;
- spf=pass (domain: est.tech, ip: 52.101.66.1, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=pCJofQ/mNHMpDhtCJDJiv8Vg9CZ9dGo+l9rOfdol2HtuA9qOwEKEZzepSCFf4tS86jv9rXrdFSbf1UcGDfNk9KMaZrNENe99IHeuNbckQN8z3eDTmc7Yz2L3VdJIalgVG4uHfXW7um15+MPVPzlESIJECBxgUGPAV9KW4m5I7omyeDrm47yAtBZHWHfXlq1jSSmEAmhF06yjj1neByrd5vWq7F8zL8FXDVe6fVWv5p0/kmXfGB8Q1kq3VPM0hJBbqYNGzyOLyofwCIK3WnwSL429zobjQgbXsAYtBeZoOX1r4vTRHBnvxdsfclnl1aCVfnR5grG12HexQPFyxO3/bg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=BrLMsL6XEUak2Zs59/FYU1hLCCt5n4cZUC4jr2vWCM8=;
- b=dv9XWbLBJEF/tXjRGcouSED0D6i4TvDabwSMl/3FoPNztGaf/09gIC+4aTe0SNV4OmEcHw0dk4vreA++9RG0BLKtfwJqXQ5DLKhXYVRcKntQ+Rm6dMR8pvLuR9TrIwEaj5B1vK7zDBP9xQMNzSUrT0yzm19b1ZdQXBw0E2Ro43us04m0w2v2u6BwlUBmzkuRUAPAEfOSp8/r4fEbNS6f5+f/zDx1wc6ASl9wQ51Fdg3cI9m9h/4UAyLxdqRRxzkIdHWxNX+T4D8T9hM1dUq2mgpMDWaxN1aKpGh6pdKuCF0Gixs1X0t/K48Pv+0nGCjMhtuN/KSXt4EeOxl16j4Hsw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BrLMsL6XEUak2Zs59/FYU1hLCCt5n4cZUC4jr2vWCM8=;
- b=HC78bdjxKKpR8rQiRV+M1v+a7CVdNXJXt1N+iBjKacGUQB85AiZ2dsrvLOlk3LOGcZtqg69XVqicu9tM/60JllwtT6Dmtb3p3tVVYjZfXOGG+uqCmRxIpusTjd7tyjO8Hm5ArUkUwzghrAH4TNf1tgMdCJTf1ulo+ySU5cA4QcudbBwkJ/EEGu9b8eq0taYMPKZ2AenR57pR6FKEtSb/lYyavcDgY1uMgeVIYXnQhLKgoKS11q6umSo9RLQsk57tmqIMkatlmjrrvVxRrVuTZCxAD0PkXo2+Ywpz2FV+1gY9fycKfmowwTvw9okcgpOpQ9VtsVo/FkrcxfnwgRU4YA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by AS4P189MB1968.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:4ba::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
- 2026 13:04:55 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
- 13:04:55 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
+ dkim=pass header.i=@konsulko.com header.s=google header.b=qXfLCCRm;
+ spf=pass (domain: konsulko.com, ip: 209.85.128.52, mailfrom: leon.anavi@konsulko.com)
+Received: by mail-wm1-f52.google.com with SMTP id 5b1f17b1804b1-49e6deb520eso26550885e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 06:36:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1789392963; x=1789997763; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=0v4ELJ/bVVDguEtl4IEEsIeT/nj3iauNiV+nPcPCIFQ=;
+        b=qXfLCCRmGrY/1ckQ/ZctQxMomK/qKm7OFjwMneHRdykuqnfl/YJoSCzrXWfP5SafPH
+         NK0TSniAOqNhgfJ1hYEh15PaFQ1F9LH2Tp8eS2eIWt09klmzRU2KSqn5w9DIjnXmqp2g
+         xy0mwMzP9UajvII4i5Aw/4BFqV9yF8ilwPrlE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789392963; x=1789997763;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=0v4ELJ/bVVDguEtl4IEEsIeT/nj3iauNiV+nPcPCIFQ=;
+        b=I46cmVGp1Sbq0E0xaCyrPrMmIAaDu+0xnPI/z5YBkcW/Zt3QuYllAQMeXhjE9TUXMQ
+         3SluHiD4Hekzlc7BRIVrlOviXkIjFizJ3u8Zq5ZuC+k6LznxUChnHYDeHVPQTS6aMskh
+         EURPpS4GS65oZw9AO3NW0ZYOF2Vtgj89WnpP4+nkG49ub+RDEikIeZRN9x0W263MIi4l
+         i3chf+l0ACsrffmcJrUYyGEm87L0riZHcwt1YUqANFdA/zRbXPFflvgPq4yfVxRhpiHf
+         oPTAn4BRE4qGexjrDiET50oNe5kVjb9dXXWBLhhmZWbxuPVSZP+hXP8B3ZnpqLeNEun7
+         /HvA==
+X-Gm-Message-State: AFuF++kJdEy5yjR8GgMKq9gC5UaEr1+EFoxBQFzfB+Ht4Bs/0PPBpzbD
+	KRZN0eK9JlhU0THds+e0lbkCTHnGX88AW9Aj2YxTug8YDqRzvymCTblglPrWcc08kfdq9VUl0pO
+	Fuvfh
+X-Gm-Gg: AYBFou1RonbwV1zAtpUt8IjO3DtmzoAJiAR6Dz26AjuDNwFi04KiM0CjzMEuPxtI+NC
+	i7cWRNv3IY1nNA+cT5WU3A4Vm+LxS3sFy/R5PwAE5wmXhPY+a2SuSJYtXbZUib9SXjaEbfLoWNT
+	uQ39iMIRZnUZPFi3K/rg1X1LV/QIrmajd4Bwm+iOyx8TMgBwerjbhpky1SuyZYieoXY5SGcU6Ya
+	6JM/1boPrLsL1bV7avxHiwoaSXyoUZvNe1JojZZztMt42Itoqku89q/VvPNWcwfbAdGa3Qi4R+J
+	z3lByYa4F2wxBUORMSt99N7fhTsbxftOk2as7HQqk1Io6wefQhabYIC8GBvaYkU6i5EtjdJqpKw
+	lYsw/SvuG2Du2fVcMVGTspht1NGp+N8B9Ldk+plSgA/Xkjl/m5G+U2qVyfdwiHxKqXwFqZ8uVSw
+	Pm1cMuA+rcimsgSSVqght6uc7n4FcABlqiZlqWH7NiTq8kQdIR+J+hA1PQCQ1CQXz9GNoUT/R2b
+	U2q1WIk1/xJyRfkiHyXrkPNfXcWXt4Bwe4z8bQY6H6W7WVX5uF/bFMy75q5hmr6IcG+tkkVM3vg
+	mLulLBxQij7rYRtX3UTkXbOtkmBOBqsXe7wU
+X-Received: by 2002:a05:600c:1c19:b0:49c:fc6c:be19 with SMTP id 5b1f17b1804b1-49e7a691a5amr41506705e9.31.1789392963161;
+        Mon, 14 Sep 2026 06:36:03 -0700 (PDT)
+Received: from tone.k.g (lan.nucleusys.com. [92.247.61.126])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49d26c300e2sm450883555e9.8.2026.09.14.06.36.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Sep 2026 06:36:02 -0700 (PDT)
+From: Leon Anavi <leon.anavi@konsulko.com>
 To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v1] psmisc: add ptest support
-Date: Mon, 14 Sep 2026 15:04:46 +0200
-Message-ID: <20260914130447.107189-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0360.eurprd04.prod.outlook.com
- (2603:10a6:10:2b4::28) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
+Cc: Leon Anavi <leon.anavi@konsulko.com>
+Subject: [PATCH] lame: Upgrade 3.100 -> 4.0
+Date: Mon, 14 Sep 2026 16:35:54 +0300
+Message-ID: <20260914133558.2695215-1-leon.anavi@konsulko.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|AS4P189MB1968:EE_
-X-MS-Office365-Filtering-Correlation-Id: 7c168ec5-9aed-430d-28a9-08df1260c599
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|5023799004|11063799006|56012099006|10067099003|20052099010|18002099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	Q4BA7P0CYKRHSmTulvXoffwoSMAErzz4q54gYdeYXyJKMZTz0NJ68kU5fCdIxuB6YiK/t6A7FKp3HXMMNj/KH7XqlrRaYPr2z4T9twlEg7m/WYLL1XclNT7QaI7jqyNgjEtS10LSn3UGqomI2Mhhx2RPtpfSalQrVCf3JjEDWlenhR/xkE9KwfJsDKqjyEOTllxVJ6a/O1D4Twn5N9kgS/4j1vqeaL5Bd6XD70ogig28Ia8vS04zaabDqFMgZvMUUrvSkTFPZKS0x0kHrkSqDDtJR0jKHBub3XRQIsT6HdBUeEGIF/Mn0/7qGsHuEGOQ2k4wz6v5ELCMVi52EP925ZmroOnKWyizEby/qlt6wYBLW4AodvVHfqAU6otvcmsY9CvBb1dwypwMRsSZZDEXqeG7QnMgtdLwbFsmdHWhevxvD6ruIIRi4nFXjq5v2a4P+8MWnV6KjYN0baRcTAotqaGAf3HrBxGE5Wanhl9USmhzKww4ihGjigEaplPtow5cUBbdTlszSPI/LY5FskK2vgYRugEEVCFi0XvuD7/0/KZm6FYB8vrv7hgyd9ZD5csGdV1zIuJfZrUau7462JTv2UBkU48LhSn9rze0E5Y9YgDhOdjmylcSaiJn6pjltifoU41fE5eqEKbEgnHsD6qNjUCT9F293GdMZHfJ3Vj3UAs=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(5023799004)(11063799006)(56012099006)(10067099003)(20052099010)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?/aQar5CeDrRBS3SFihtk6CuNUn7YWod03dMfbFdWYWniLPB0nXF3eqvw/HVr?=
- =?us-ascii?Q?4Izgs6RPD1MEBms1XmyNGdF+7mncztseXM9p/UFOt2E3nB9IH/skCN6sv/68?=
- =?us-ascii?Q?LjLvymIOgI9egmj3k/yQM+Pp06eYJKgprDXz1XgaButD5uiKHmF9fExVWViu?=
- =?us-ascii?Q?m1Muwk9YomdQzIZIeZ23n9YyWUSSqipqSgEIOgTSb+jteYpjyBLCu7iEOllu?=
- =?us-ascii?Q?M2FWgg3WhG4QZrK2rzps62os3nHYdrUw/FIwA/eGHAZ9IfKMjLqaOVVrsp9C?=
- =?us-ascii?Q?8CYSWNkYjFt3oHXruKvlFc0/btnTd+xEELuGCrlWdaQfucSulNLnxvhnoNfb?=
- =?us-ascii?Q?NFQDRvmmRWWlLXC0t5BjL2L0LmIhlSt8V5FJNrBQBzDU+EvzjgsfXcBxKVaK?=
- =?us-ascii?Q?RPDbeLT5OPlmKfmGXmoMm2AhGNnpaGj/nZtJCUFGnd+3kgby4vhuQZwgZuqN?=
- =?us-ascii?Q?BzAQgXutcrYQKANnl58SnRgDRMTnsbXlMuwTHdANDva9606OzGod1D1f32T8?=
- =?us-ascii?Q?l6KNzv4R8pXF9ZaqJWW6f/NGIr8+MUI//3eUhH0HFr0Xv3+jhfaMcHd+T/FO?=
- =?us-ascii?Q?4JJvwAUMuGo6gqpf+Vv0aSsZxAxD4T7mDxJjrHBccRVm/ChlzJSY3OrylwR8?=
- =?us-ascii?Q?ShL6GqZST4G0k9QDI4/MHRN5HxphYuHRtP/liick2q6cZylPIQgycC6/EOQ/?=
- =?us-ascii?Q?JVUExy+KyCWEM2jf4lRBKWo8aLbmlD1D90gQUdK1NjVA7jnocu6xJIsrf8YD?=
- =?us-ascii?Q?Q1FbJzXgGSXtYfwK+YFZJJgotElJoZHu3Hutx1/GFrVZg6/Qs1qFJ6FMRWPB?=
- =?us-ascii?Q?kI5lN1Ds/ovv/GtNVq08mdh637jt+1k9P9bqml0e5j2m2QvoSpBT3kEpzP2Q?=
- =?us-ascii?Q?kBXPAo3m25z1lZDmtqpOrDmMEdUtjwvOeuTqVVjija+NxjEoiTJ09RGDzu9f?=
- =?us-ascii?Q?9pNJsEUirPRdtzon515EV++mrx4QXNJo1Jr/CjIpG/ev58Kza769D+AloXqI?=
- =?us-ascii?Q?Bxv5L3GOQkdeqqT5KAADbdz8GjRYEazjxkjZzoI/RS2kKWFyHq6N09Sx9aqI?=
- =?us-ascii?Q?EMlXMDQRWIBkarYgXwunws4TPj3dj+8If0pDeUaRA9InRIVSOLjbawgfVMVy?=
- =?us-ascii?Q?Ka++HkkpckZJBA5aC7DeNYp7UZFPTafv0zlK8mBGFXGLmxnToVkuUg+L+Iov?=
- =?us-ascii?Q?jtqO1gWtozwyx807rwHdKVSpBd3+6HWwbziRqovAPeX2orOxuHRiXqx+cgFz?=
- =?us-ascii?Q?2FhMwUWAZTDt5LVgAjWGeusug/G+HWiJktPl//CR9UYy7rITq2+Lp+rdXUFB?=
- =?us-ascii?Q?ozXjKGaRB6UG+iOsSdFyrwN2xZJHw3/qvF39ovG26bV1FdrjbjJn3EQ/W2ZW?=
- =?us-ascii?Q?80r8HhrmHElYCb5gClrrQWEMaIcH0StP7izYTqKZHZSq6D4TANSFtHX03+Bo?=
- =?us-ascii?Q?cIZmV9ZM6DDhWJTZ1YcYsRM7Sh3YPYIovGpSSStuM0Rq9BANRFmiPMclYPM6?=
- =?us-ascii?Q?mMrgQ0VmXlWukjHWNX5cvqTfvqxRGHPbuYQ7RjnavEA/BiNRF+vlCun7C0DR?=
- =?us-ascii?Q?F3rbdpBdInXP8SfJXQ5tJgHeh5frwYhJ0RI9D211ONW11o3fYdD7k7t6M/pK?=
- =?us-ascii?Q?Hkv9aCkNpfvPouWJJM1clqcIrCtagGUSUx6ef4h3aXS5bhZ3Dn6Z9HHlBU9P?=
- =?us-ascii?Q?dqnX5rSqVjDcpu9JKw7HCVUyFFkUzDGvsRPQwC8t18p5yLnuyKrIwOKf/ZvM?=
- =?us-ascii?Q?0P05bpiFgA=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 7c168ec5-9aed-430d-28a9-08df1260c599
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 13:04:55.3000
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: fHrSA1ahpZQ+yD5N803rjeoZ3S1lagkYR/nFKU38favy73APuqz0lmVigNLqbln5FmQJGWXkw2hoCjA5vmbl8g==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB1968
+Content-Type: text/plain; charset=y
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 13:05:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245780
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 13:36:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245781
 
-Add ptest support using psmisc's upstream DejaGnu testsuite, which
-exercises killall, pslog and fuser via their .exp scripts. The tools and
-the testsuite helper programs (socket_test, test-listen) are installed
-under a src/ layout so the scripts' ${topdir}src/<tool> paths resolve on
-target.
+Upgrade to release 4.0:
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+- Fixed a stack buffer overflow in the Blade-style encoder DLL
+  (lame_enc.dll): beInitStream() copied a caller-supplied
+  configuration structure using an unchecked, caller-controlled
+  size, so an oversized or compiler-mismatched size could
+  overwrite the stack. The size is now bounds-checked and the
+  packed structure layout is consistent across MSVC and GCC/MinGW
+  builds. [CVSS 8.4, Blade DLL]. Fix by Alexander Leidinger.
+- Fixed an integer underflow in the AIFF header parser
+  (parse_aiff_header()): a crafted file with a FORM chunk size
+  below 4 wrapped the unsigned chunk-size counter to a huge value,
+  sending the chunk-scanning loop into an effectively unbounded
+  spin (a hang) on a tiny malicious input. The size is now
+  validated before it is decremented. [CVSS 5.5, AIFF frontend].
+  Fix by Alexander Leidinger.
+- Bump the major version to 4.0 (minor reset to 0). The LAME tag
+  embedded in every encoded MP3 has a fixed 9-byte field for the
+  encoder version string; since 3.100 the 3-digit minor version
+  left no room for the trailing alpha/beta/release marker
+  character, which was silently dropped.
+- Export the UTF-8 ID3 tag functions id3tag_set_textinfo_utf8 and
+  id3tag_set_comment_utf8 from the shared library, and fix a
+  possible crash on out-of-memory in the ID3v2 user-defined tag
+  setters.
+
+Add id3tags.patch from the mailing list to fix issues with
+id3tag_set_textinfo_utf8:
+https://sourceforge.net/p/lame/mailman/message/59358795/
+
+This has been also fixed in the dev tree and will be included in
+LAME release 4.1.
+
+License-Update: Correct the address of the FSF.
+
+Signed-off-by: Leon Anavi <leon.anavi@konsulko.com>
 ---
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-extended/psmisc/psmisc/run-ptest |  7 +++
- meta/recipes-extended/psmisc/psmisc_23.7.bb   | 45 ++++++++++++++++++-
- 3 files changed, 52 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/psmisc/psmisc/run-ptest
+ meta/recipes-multimedia/lame/lame/clang.patch | 32 ++++++------
+ .../lame/lame/id3tags.patch                   | 49 +++++++++++++++++++
+ .../lame/lame/no-gtk1.patch                   | 10 ++--
+ .../lame/{lame_3.100.bb => lame_4.0.bb}       |  7 +--
+ 4 files changed, 74 insertions(+), 24 deletions(-)
+ create mode 100644 meta/recipes-multimedia/lame/lame/id3tags.patch
+ rename meta/recipes-multimedia/lame/{lame_3.100.bb => lame_4.0.bb} (76%)
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 4012be5f49..f01abc4a57 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -68,6 +68,7 @@ PTESTS_FAST =3D "\
-     opkg \
-     popt \
-     procps \
-+    psmisc \
-     python3-atomicwrites \
-     python3-attrs \
-     python3-bcrypt \
-diff --git a/meta/recipes-extended/psmisc/psmisc/run-ptest b/meta/recipes-e=
-xtended/psmisc/psmisc/run-ptest
+diff --git a/meta/recipes-multimedia/lame/lame/clang.patch b/meta/recipes-multimedia/lame/lame/clang.patch
+index 116000c577..9e434fcbe7 100644
+--- a/meta/recipes-multimedia/lame/lame/clang.patch
++++ b/meta/recipes-multimedia/lame/lame/clang.patch
+@@ -16,18 +16,18 @@ so resolves the build failure.
+ Upstream-Status: Pending
+ Signed-off-by: Ross Burton <ross.burton@arm.com>
+ 
+-diff --git i/configure.in w/configure.in
+-index 5e43179..d51b017 100644
+---- i/configure.in
+-+++ w/configure.in
+-@@ -960,45 +960,43 @@ if test "x$HAVE_GCC" = "xyes" -o "x$HAVE_CLANG" = "xyes"; then
++diff --git i/configure.ac w/configure.ac
++index 1111111..2222222 100644
++--- i/configure.ac
+++++ w/configure.ac
++@@ -1021,45 +1021,43 @@ if test "x$HAVE_GCC" = "xyes" -o "x$HAVE_CLANG" = "xyes"; then
+  				;;
+  			esac
+  		fi
+ +
+ +		if test "x${HAVE_CLANG}" = "xyes"; then
+ +			case "${CLANG_VERSION}" in
+-+			3.[89]*|[45].*)
+++			3.[[89]]*|[[45]].*|1[[0-9]].*)
+ +				OPTIMIZATION="-Ofast"
+ +				;;
+ +			*)
+@@ -48,23 +48,23 @@ index 5e43179..d51b017 100644
+ +				OPTIMIZATION="${OPTIMIZATION} -march=i686 \
+ +					-mtune=native"
+ +				;;
+-+			*86)
+-+				OPTIMIZATION="${OPTIMIZATION} -march=native \
+-+					-mtune=native"
+-+				;;
+ +			esac
+ +
+++			# if someone supplies own CFLAGS, we don't add our own
+++			if test "x${ac_save_CFLAGS}" != "x"; then
+++				OPTIMIZATION=""
+++			fi
+ +		fi
+  		;;
+  	*)
+  		AC_MSG_ERROR(bad value �${CONFIG_EXPOPT}� for expopt option)
+  		;;
+  	esac
+- 
++
+ -
+ -	if test "x${HAVE_CLANG}" = "xyes"; then
+ -		case "${CLANG_VERSION}" in
+--		3.[89]*|[45].*)
++-		3.[[89]]*|[[45]].*|1[[0-9]].*)
+ -			OPTIMIZATION="-Ofast"
+ -			;;
+ -		*)
+@@ -85,12 +85,12 @@ index 5e43179..d51b017 100644
+ -			OPTIMIZATION="${OPTIMIZATION} -march=i686 \
+ -				-mtune=native"
+ -			;;
+--		*86)
+--			OPTIMIZATION="${OPTIMIZATION} -march=native \
+--				-mtune=native"
+--			;;
+ -		esac
+ -
++-		# if someone supplies own CFLAGS, we don't add our own
++-		if test "x${ac_save_CFLAGS}" != "x"; then
++-			OPTIMIZATION=""
++-		fi
+ -	fi
+ -
+ -
+diff --git a/meta/recipes-multimedia/lame/lame/id3tags.patch b/meta/recipes-multimedia/lame/lame/id3tags.patch
 new file mode 100644
-index 0000000000..f4e79f5ae3
+index 0000000000..1df79b0b8f
 --- /dev/null
-+++ b/meta/recipes-extended/psmisc/psmisc/run-ptest
-@@ -0,0 +1,7 @@
-+#!/bin/sh
++++ b/meta/recipes-multimedia/lame/lame/id3tags.patch
+@@ -0,0 +1,49 @@
++Upstream-Status: Pending
 +
-+cd ./testsuite
-+for tool in @DEJATOOL@; do
-+    runtest -a --tool $tool --outdir ../log
-+done
-+cd -
-diff --git a/meta/recipes-extended/psmisc/psmisc_23.7.bb b/meta/recipes-ext=
-ended/psmisc/psmisc_23.7.bb
-index ad57c49ffe..3c768f4a86 100644
---- a/meta/recipes-extended/psmisc/psmisc_23.7.bb
-+++ b/meta/recipes-extended/psmisc/psmisc_23.7.bb
-@@ -13,10 +13,11 @@ LICENSE =3D "GPL-2.0-only"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c317bb=
-3"
-=20
- SRC_URI =3D "git://gitlab.com/psmisc/psmisc.git;protocol=3Dhttps;branch=3D=
-master;tag=3Dv${PV} \
-+           file://run-ptest \
++diff --git a/frontend/parse.c b/frontend/parse.c
++index 4a6b660..2ae7eb2 100644
++--- a/frontend/parse.c
+++++ b/frontend/parse.c
++@@ -402,6 +402,10 @@ static int getIntValue(char const* token, char const* arg, int* ptr)
++ }
++ 
++ #ifdef ID3TAGS_EXTENDED
+++extern int
+++id3tag_set_comment_ucs2(lame_t gfp, char const *lang, unsigned short const *desc, unsigned short const *text);
+++extern int
+++id3tag_set_fieldvalue_ucs2(lame_t gfp, const unsigned short *fieldvalue);
++ static int
++ set_id3v2tag(lame_global_flags* gfp, TextEncoding enc, int type, unsigned short const* str)
++ {
++@@ -410,13 +414,13 @@ set_id3v2tag(lame_global_flags* gfp, TextEncoding enc, int type, unsigned short
++         case TENC_UTF8:
++             switch (type)
++             {
++-                case 'a': return id3tag_set_textinfo_utf8(gfp, "TPE1", str);
++-                case 't': return id3tag_set_textinfo_utf8(gfp, "TIT2", str);
++-                case 'l': return id3tag_set_textinfo_utf8(gfp, "TALB", str);
++-                case 'g': return id3tag_set_textinfo_utf8(gfp, "TCON", str);
+++                case 'a': return id3tag_set_textinfo_utf8(gfp, "TPE1", (const char *)str);
+++                case 't': return id3tag_set_textinfo_utf8(gfp, "TIT2", (const char *)str);
+++                case 'l': return id3tag_set_textinfo_utf8(gfp, "TALB", (const char *)str);
+++                case 'g': return id3tag_set_textinfo_utf8(gfp, "TCON", (const char *)str);
++                 case 'c': return id3tag_set_comment_ucs2(gfp, 0, 0, str);
++-                case 'n': return id3tag_set_textinfo_utf8(gfp, "TRCK", str);
++-                case 'y': return id3tag_set_textinfo_utf8(gfp, "TYER", str);
+++                case 'n': return id3tag_set_textinfo_utf8(gfp, "TRCK", (const char *)str);
+++                case 'y': return id3tag_set_textinfo_utf8(gfp, "TYER", (const char *)str);
++                 case 'v': return id3tag_set_fieldvalue_ucs2(gfp, str);
++             }
++             ;;
++diff --git a/include/libmp3lame.sym b/include/libmp3lame.sym
++index 7651fb3..77657ab 100644
++--- a/include/libmp3lame.sym
+++++ b/include/libmp3lame.sym
++@@ -193,6 +193,7 @@ hip_decode_headers
++ hip_decode1
++ hip_decode1_headers
++ hip_decode1_headersB
+++hip_finish_pinfo
++ lame_decode_init
++ lame_decode
++ lame_decode_headers
+diff --git a/meta/recipes-multimedia/lame/lame/no-gtk1.patch b/meta/recipes-multimedia/lame/lame/no-gtk1.patch
+index e88d7f1bb4..1d7527e180 100644
+--- a/meta/recipes-multimedia/lame/lame/no-gtk1.patch
++++ b/meta/recipes-multimedia/lame/lame/no-gtk1.patch
+@@ -2,12 +2,12 @@ Upstream-Status: Inappropriate [configuration]
+ 
+ # Acquired from OpenEmbedded
+ 
+---- lame-3.96.1/configure.in~no-gtk1.patch	2004-07-25 15:52:12.000000000 +0100
+-+++ lame-3.96.1/configure.in	2004-09-10 15:54:39.000000000 +0100
+-@@ -363,7 +363,12 @@
+- 
++--- lame-4.0/configure.ac~no-gtk1.patch
+++++ lame-4.0/configure.ac
++@@ -477,7 +477,12 @@
++
+  dnl configure use of features
+- 
++
+ -AM_PATH_GTK(1.2.0, HAVE_GTK="yes", HAVE_GTK="no")
+ +#AM_PATH_GTK(1.2.0, HAVE_GTK="yes", HAVE_GTK="no")
+ +HAVE_GTK="no"
+diff --git a/meta/recipes-multimedia/lame/lame_3.100.bb b/meta/recipes-multimedia/lame/lame_4.0.bb
+similarity index 76%
+rename from meta/recipes-multimedia/lame/lame_3.100.bb
+rename to meta/recipes-multimedia/lame/lame_4.0.bb
+index 42689df351..0dd94e9d25 100644
+--- a/meta/recipes-multimedia/lame/lame_3.100.bb
++++ b/meta/recipes-multimedia/lame/lame_4.0.bb
+@@ -4,18 +4,19 @@ HOMEPAGE = "https://lame.sourceforge.io/"
+ BUGTRACKER = "http://sourceforge.net/tracker/?group_id=290&atid=100290"
+ SECTION = "console/utils"
+ LICENSE = "LGPL-2.0-or-later"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=c46bda00ffbb0ba1dac22f8d087f54d9 \
++LIC_FILES_CHKSUM = "file://COPYING;md5=a03aed0afc52dd24ed99db06d64a9fa3 \
+                     file://include/lame.h;beginline=1;endline=20;md5=a2258182c593c398d15a48262130a92b \
+ "
+ 
+-DEPENDS = "ncurses gettext-native"
++DEPENDS = "ncurses mpg123 gettext-native"
+ 
+ SRC_URI = "${SOURCEFORGE_MIRROR}/lame/lame-${PV}.tar.gz \
+            file://no-gtk1.patch \
+            file://clang.patch \
++           file://id3tags.patch \
             "
- SRCREV =3D "9091d6dbcce3d8fb87adf9249a2eb346d25a562c"
-=20
--inherit autotools gettext
-+inherit autotools gettext ptest
-=20
- # Upstream has a custom autogen.sh which invokes po/update-potfiles as the=
-y
- # don't ship a po/POTFILES.in (which is silly).  Without that file gettext
-@@ -25,6 +26,48 @@ do_configure:prepend() {
-     ( cd ${S} && po/update-potfiles )
- }
-=20
-+do_compile_ptest() {
-+    for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS); do
-+        oe_runmake $p
-+    done
-+    oe_runmake -C testsuite site.exp
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/testsuite
-+    install -d ${D}${PTEST_PATH}/src
-+    install -d ${D}${PTEST_PATH}/log
-+
-+    cp -r ${S}/testsuite/* ${D}${PTEST_PATH}/testsuite/
-+    install -m 0644 ${B}/testsuite/site.exp ${D}${PTEST_PATH}/testsuite/
-+
-+    # Tools exercised by the .exp scripts.
-+    for p in killall pslog prtstat fuser; do
-+        if [ -x ${B}/src/$p ]; then
-+            install -m 0755 ${B}/src/$p ${D}${PTEST_PATH}/src/
-+        fi
-+    done
-+
-+    # Helper programs (check_PROGRAMS) used by the fuser tests.
-+    for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS); do
-+        install -m 0755 ${B}/$p ${D}${PTEST_PATH}/src/
-+    done
-+
-+    sed -i -e "s#@DEJATOOL@#$(makefile-getvar ${B}/testsuite/Makefile DEJA=
-TOOL)#" \
-+        ${D}${PTEST_PATH}/run-ptest
-+
-+    sed -i -e "/set srcdir/c\\set srcdir ${PTEST_PATH}/testsuite" \
-+           -e "/set objdir/c\\set objdir ${PTEST_PATH}/testsuite" \
-+        ${D}${PTEST_PATH}/testsuite/site.exp
-+}
-+
-+do_install_ptest_base:append() {
-+    sed -i -e 's/^set \([a-zA-Z_]*\)$/set \1 ""/' \
-+        ${D}${PTEST_PATH}/testsuite/site.exp
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D "dejagnu"
-+
- PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6,"
- PACKAGECONFIG[selinux] =3D "--enable-selinux,--disable-selinux,libselinux"
---=20
-2.43.0
+ 
+-SRC_URI[sha256sum] = "ddfe36cab873794038ae2c1210557ad34857a4b6bdc515785d1da9e175b1da1e"
++SRC_URI[sha256sum] = "3df5124d5ad3a98312ffd7ba6a9b36230e4f8a3e66d3ce0f425e336c32d216eb"
+ 
+ inherit autotools pkgconfig sourceforge-releases
+ 
+-- 
+2.47.3
 
 
