@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 24C9BC88E67
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3C0ECC88E50
 	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 05:40:45 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13723.1789364442220361769
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13648.1789364441909641572
  for <openembedded-core@lists.openembedded.org>;
  Sun, 13 Sep 2026 22:40:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=eABXHwXW;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=0Xd6knen;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a09e6e905f-ba4aec7c-5bc9-4205-978f-f7ef0bab803f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Fm+7UEBP;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UyCGRvMD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a09e6e8fac-994bf23b-9efb-4c5d-b718-08389058b051-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1789364441;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=AMum/paZgRQTzJPcZSeT0Wpr5A7yBnBd9wkZX2mNNsQ=;
-	b=eABXHwXWPIbPDW5NfxuUTGrLElVzTwoGmc0QQ9bZ9HuAw5c4jtlGrjCyinFr1GUU
-	jTEVIwWZ3tKpxguw1W1ut2FPpvLPMqTIG/9gdV+4PsYvc7Mn0oz0oaSpGVkJnTgmeJO
-	Nn3H+XMjNWETx2YbIJVic/hQ0p4EI9CjohDTxKGA=
+	bh=ctmiL1Pn/SkTFtZRgGgyQOQriV8ItZEIsEvXxvPHEMs=;
+	b=Fm+7UEBP7o03lf0z9lETWEjSV1yNLeMh9oIqIe5k+eBQeanjeREneNuIYKJeI9Oy
+	4Fz3MyvukUyUs3dkKAZN7StxdqxP9tbRVxr13BDe+bVUS2pKcf7IxPPyyIiGs59g1y1
+	U0KO2jn2RPztjJBRWMqk2BA1WbfV30RnNZoZZPtk=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789364441;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=AMum/paZgRQTzJPcZSeT0Wpr5A7yBnBd9wkZX2mNNsQ=;
-	b=0Xd6knenWoVqdw4q1bqsidsbORCE5qAG3S/WhxGw/E03FGjruOYy5IRZjmj8S7Em
-	P+PlJV0zkGeAPh8iFHwCm+drDXkI7/aYQ+prSsDPsPSVzRuIOC5pNNQmy9vCaphKHvp
-	FrxryNebUiPfTUyLX88eI/oOlCAjwuRVh2ydKc5c=
-Content-Type: multipart/mixed; boundary="===============8453561346291479598=="
+	bh=ctmiL1Pn/SkTFtZRgGgyQOQriV8ItZEIsEvXxvPHEMs=;
+	b=UyCGRvMD4NYFO7wNaQrAbWtySUkZ1HmczYRMOTHWg5K7GiJm6oNrwux2VreCWgde
+	V2upHraflR2wFpkYy7/Neis14K/cv1fFtLk+6I67DN80khrr3f3TlguXCoEr9snwUCL
+	UgMcTgc9F3G8mUaYJR8fI8bYSMocNPqi7wL5n7xM=
+Content-Type: multipart/mixed; boundary="===============2577883241597252972=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Khem Raj <raj.khem@gmail.com>
+To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pdm: upgrading to 2.29.1 SUCCEEDED
-Message-ID: <010101a09e6e905f-ba4aec7c-5bc9-4205-978f-f7ef0bab803f-000000@us-west-2.amazonses.com>
+Subject: [AUH] libpcap: upgrading to 1.11.0 FAILED
+Message-ID: <010101a09e6e8fac-994bf23b-9efb-4c5d-b718-08389058b051-000000@us-west-2.amazonses.com>
 Date: Mon, 14 Sep 2026 05:40:41 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.14-54.240.27.45
+X-SES-Outgoing: 2026.09.14-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 05:40:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245750
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245749
 
---===============8453561346291479598==
+--===============2577883241597252972==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,209 +51,272 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pdm* to *2.29.1* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *libpcap* to *1.11.0* has Failed (devtool error).
 
-Next steps:
-    - apply the patch: git am 0001-python3-pdm-upgrade-2.29.0-2.29.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+Detailed error information:
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
+Running 'devtool upgrade' for recipe libpcap failed.
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 958 .bb files complete (0 cached, 958 parsed). 1990 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-f94ae3d6ba49aef86f497998c0e0232a5039510a"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:f94ae3d6ba49aef86f497998c0e0232a5039510a"
+meta-yocto-bsp       
+meta-poky            = "master:7e41504cd63b099b214f10d92cfdaf358ab98c5f"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 959 .bb files complete (0 cached, 959 parsed). 1991 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-f94ae3d6ba49aef86f497998c0e0232a5039510a"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:f94ae3d6ba49aef86f497998c0e0232a5039510a"
+meta-yocto-bsp       
+meta-poky            = "master:7e41504cd63b099b214f10d92cfdaf358ab98c5f"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  40% |##############                      | ETA:  0:00:00
+Adding changed files:  80% |#############################       | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://www.tcpdump.org/release/libpcap-1.11.0.tar.xz...
+INFO: Rebasing devtool onto 0c5a3e4ceb1dd9e690ed0b2c42c5a137dd2c0cee
+WARNING: Command 'git rebase 0c5a3e4ceb1dd9e690ed0b2c42c5a137dd2c0cee' failed:
+Auto-merging pcap-filter.manmisc.in
+CONFLICT (content): Merge conflict in pcap-filter.manmisc.in
+Auto-merging scanner.l
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/libpcap
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/libpcap/libpcap_1.11.0.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/libpcap.txt
+
+
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
-
--- >8 --
-From 1fb10767a188eb0e3af20f5aa2e8fe544f342dbf Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 14 Sep 2026 05:17:08 +0000
-Subject: [PATCH] python3-pdm: upgrade 2.29.0 -> 2.29.1
-
-Source: CHANGELOG.md
-
-## Release v2.29.1 (2026-09-14)
-
-### Features & Improvements
-
-- Explain missing lockfile groups and provide group-selection recovery guidance when installing, syncing, or updating groups. ([#2682](https://github.com/pdm-project/pdm/issues/2682))
-- Allow package-specific overrides for `exclude-newer` resolution limits. ([#3809](https://github.com/pdm-project/pdm/issues/3809))
-
-### Bug Fixes
-
-- Keep the separating comma out of the operator and accept a `v` prefix when converting Poetry version constraints. ([#3860](https://github.com/pdm-project/pdm/issues/3860))
-- Escape glob characters in the virtualenv lookup prefix, so a project whose directory name contains `[` or `]` can find its own virtualenv. ([#3869](https://github.com/pdm-project/pdm/issues/3869))
-- Write `pyproject.toml` and lockfiles atomically to prevent interrupted writes from truncating them. ([#3870](https://github.com/pdm-project/pdm/issues/3870))
-- Resolve the workspace root before making member paths relative, so a root given as a relative path or reached through a symlink no longer raises `ValueError`. ([#3874](https://github.com/pdm-project/pdm/issues/3874))
-- Replace the destination of an atomic write instead of unlinking it first, so an interrupted write can no longer destroy `pyproject.toml` or the lockfile. ([#3878](https://github.com/pdm-project/pdm/issues/3878))
-- Report the version part that could not be read, instead of blaming a postrelease for every parse failure. ([#3880](https://github.com/pdm-project/pdm/issues/3880))
-- Keep quoted local paths that contain `` - `` when parsing requirements files. ([#3885](https://github.com/pdm-project/pdm/issues/3885))
-
-### Documentation
-
-- Clarify dependency command effects on project declarations, lock metadata, and installed packages in the guide and CLI help. ([#2681](https://github.com/pdm-project/pdm/issues/2681))
----
- .../python/{python3-pdm_2.29.0.bb => python3-pdm_2.29.1.bb}     | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pdm_2.29.0.bb => python3-pdm_2.29.1.bb} (80%)
-
-diff --git a/meta/recipes-devtools/python/python3-pdm_2.29.0.bb b/meta/recipes-devtools/python/python3-pdm_2.29.1.bb
-similarity index 80%
-rename from meta/recipes-devtools/python/python3-pdm_2.29.0.bb
-rename to meta/recipes-devtools/python/python3-pdm_2.29.1.bb
-index faf9b63a3d..4520e677ee 100644
---- a/meta/recipes-devtools/python/python3-pdm_2.29.0.bb
-+++ b/meta/recipes-devtools/python/python3-pdm_2.29.1.bb
-@@ -4,7 +4,7 @@ LICENSE = "MIT"
- SECTION = "devel/python"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=2eb31a2cc1a758c34b499f287dd04ef2"
- 
--SRC_URI[sha256sum] = "28c520267a15d7a3921b934ec4bfc2d1dc18379fbb653bb20d8e840b2788be6b"
-+SRC_URI[sha256sum] = "6bb5d893d301edb2b83d46042039634bf36c96c57cc7edad22a59521a41df9f8"
- 
- inherit pypi python_pdm
- 
--- 
-2.47.1
-
-
---===============8453561346291479598==
+--===============2577883241597252972==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+Content-Disposition: attachment; filename="libpcap-changelog.txt"
 
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pdm-2.29.0.dist-info -> /usr/lib/python3.14/site-packages/pdm-2.29.1.dist-info, directory renamed /usr/lib/python3.14/site-packages/pdm-2.29.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pdm-2.29.1.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.14/site-packages/pdm-2.29.0.dist-info moved to /usr/lib/python3.14/site-packages/pdm-2.29.1.dist-info
+Changelog for libpcap: 1.10.7 -> 1.11.0
+Source: CHANGES
 
---===============8453561346291479598==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+Sunday, September 13, 2026 / The Tcpdump Group
+  Summary for 1.11.0 libpcap release
+    Source code:
+      Use C99 fixed-width integer types, rather than self-defined
+        fixed-width integer types, in rpcap code.
+      Clean up DECnet address handling.
+      struct pcap: Update buffer type from "void *" to "u_char *".
+      Remove dead code that supported SITA ACN devices.
+      Remove the TODO file.
+      Merge four header files into gencode.c.
+      Remove DAG card support on Windows as Linux is the only
+        platform currently supported.
+      Remove code related to Riverbed TurboCap card.
+        Riverbed TurboCap hardware has reached EOA as of Jun 30 2014.
+      Remove dead code that supported Septel devices.
+      Remove outdated code related to AirPcap HW.
+        The Riverbed AirPcap Product has reached End of Availability
+        (EOA) as of December 31, 2017
+      Make pcap_compile() error messages more uniform and consistent.
+      Deprecate pcap_compile_nopcap().
+      Remove unmaintained DPDK capture backend (was disabled by default).
+      Return more useful strings from pcap_statustostr().
+      Rename SWAPSHORT(), SWAPLONG(), SWAPLL() to PCAP_BSWAP_({16,32,64}).
+      Replace EXTRACT_SHORT by EXTRACT_BE_U_2, EXTRACT_LONG by EXTRACT_BE_U_4.
+      Add a comment to pcap-npf.c describing what pcap_stats() returns
+          as ps_recv and ps_drop.
+    Link-layer types:
+      Add LINKTYPE_DECT_NR_TAP/DLT_DECT_NR_TAP.
+    Packet filtering:
+      Add support for Block Ack Req and Block Ack frame types (pull
+        request #1039).
+      Add support for filtering packets encapsulated with VXLAN (pull
+        request #1273).
+      Eliminate trailing space in bpf_image() result.
+      Fix DECnet packet filtering on big-endian hosts.
+      Fix various failures to reject invalid DECnet primitives.
+      Require "vpi" and "vci" argument to be within valid ranges.
+      Require "[wlan] dir" integer argument to be within range.
+      Fix the != comparison for ATM and MTP field values.
+      Require a live capture for all Linux BPF extensions.
+      Have "outbound" mean Tx only for DLT_SLIP.
+      Filter Linux SocketCAN frames in userland if necessary.
+      Enable "[wlan] dir/type/subtype" for DLT_PPI.
+      Require "(iso|isis) proto" argument to be within valid ranges.
+      Use the correct IS-IS PDU type offset for DLT_C_HDLC.
+      Use the correct bit mask for IS-IS PDU type value.
+      Fix the "|" and "&" operators of the "byte" primitive.
+      Require "byte" argument to be within range.
+      Require "link proto" argument to be within range.
+      Require "(ip|ip6) proto" argument to be within range.
+      Require "protochain" argument to be within range.
+      Always enable the "gateway" primitive.
+      Properly reject "link proto" for DLT_BACNET_MS_TP.
+      Extend "link (host|broadcast)" support onto DLT_BACNET_MS_TP.
+      Do not try matching RFC 1051 system codes for ARCnet.
+      Enable various primitives for DLT_DSA_TAG_BRCM and DLT_DSA_TAG_DSA.
+      Test link protocol once per AF, not per address.
+      Sort resolved IPv4 and IPv6 addresses.
+      In "gateway" negate the host(s), but not the protocol.
+      Reject "gateway" within MPLS, VXLAN or Geneve.
+      Match both byte orders for the AF_ value when filtering DLT_NULL
+        and DLT_ENC savefiles. (issue #74)
+      Match all AF_INET6 values when filtering DLT_PFLOG savefiles.
+      Fix optimization of "jset #0xffffffff".
+      Produce cleaner DOT in the optimizer debugging code.
+    Capture file reading:
+      Fix misaligned accesses in processing Linux USB captures (issue
+        #1634, reported by FuzzAnything Organization
+        (https://github.com/FuzzAnything-ORG) (fuzzanything@gmail.com).
+    rpcap:
+      Add a -t flag to rpcapd to specify the data channel port; from
+        another incorporate-remote-capture project. (issue #1120)
+      rpcapd: Refine SSL options in printusage().
+      Fix parameter name validation in the configuration file.
+    Documentation:
+      Add a README.hurd.md file.
+      Cross-reference some man pages better.
+      Actualize README.dag and make it Markdown.
+      Add a README.snf.md file.
+      pcap-filter(7): Make a number of assorted improvements.
+      pcap_lib_version(3PCAP): Add details and examples.
+      Discuss Linux BPF extensions in the man pages.
+      Note endianness in pcap_compile(3PCAP) and pcap_lookupnet(3PCAP).
+      man: Document devices, interfaces and "any" better.
+      Add a README.qnx.md file.
+      Improve documentation of TLS support in rpcapd man page.
+      man: Use "null pointer" rather than "NULL" and fix some other
+        issues.
+    Building and testing:
+      Apply GNU Hurd support patch from the Debian package.
+      CI: Introduce and use LIBPCAP_CMAKE_TAINTED.
+      Remove all remaining support for AOS (4.3BSD Unix), BSD/OS, DOS,
+        HP-UX before 10.20, IRIX, {OSF/1, Digital Unix, Tru64 Unix}, SINIX,
+        SunOS 3.x, 4.x and 5.x before 5.3.2, and Ultrix.
+      Add a new test program for pcap_activate().
+      Make FreeBSD, Linux, macOS, NetBSD, QNX and Sun C builds warning-free.
+      Print MAC addresses in findalldevstest.
+      Parameterize the interface name in reactivatetest.
+      When necessary, trust the OS to implement ffs().
+      At build time require a proof of suitable snprintf(3) implementation in
+        libc (and document Solaris 9 and MinGW as unsupported because of that).
+      Makefile.in: Update the .c.o build rule (Remove hacks for old SunOS 4).
+      CMake: Skip snprintf(3) tests when cross-compiling; test whether
+        check_c_source_runs() with a trivial program and, if it doesn't
+        work, don't run tests that use it.
+      Autoconf: Add support for libnl-tiny with pkg-config.
+      Autoconf: Fix building of something-only libpcap.
+      CI: Implement "make check".
+      Fix autotools and CMake issues with snprintf test and sanitizers.
+        Fixes issue #1396.
+      filtertest: Add "-l" flag to use Linux BPF extensions.
+      filtertest: Use ntohl() on the netmask to fix the -m option.
+      filtertest: Add support for stdin as "-" to the -F option.
+      Rename CMake option to ENABLE_PROTOCHAIN to match Autoconf.
+      Remove the "disable IPv6" build option.
+      translatetest: Add a test program for various translation functions.
+      Autoconf: Fix detection of crypt() on QNX.
+      Autoconf: Update config.{guess,sub}, timestamps 2025-07-10.
+      CMake: Fix getaddrinfo() detection on QNX.
+      enumeratetest: Add a new test program.
+      Fix building libpcap with CMake without libnl-genl-3-dev.
+    Hurd:
+      Support network capture devices too.
+      Fix a few device activation bugs.
+      Count and timestamp packets better.
+      Add kernel filtering, fix userland filtering.
+    FreeBSD:
+      Handle USB devices correctly on FreeBSD-CURRENT as of 2025-12.
+    OpenBSD:
+      Use getprotobyname_r() correctly on OpenBSD.
+    Linux:
+      Do not use ether_hostton() from musl libc.
+      Fix propagation of getprotobyname_r() errors.
+      Don't treat permission failures trying to fetch connection status
+        as errors, just indicate connection status unknown.
+    Linux Bluetooth monitor:
+      Report permission failures as PCAP_ERROR_PERM_DENIED and indicate
+        what privileges may be required.
+    Linux nflog:
+      Report permission failures as PCAP_ERROR_PERM_DENIED and indicate
+        what privileges may be required.
+    Haiku:
+      Look for ethers(5) in /boot/system/settings/network/.
+    DAG:
+      Always set PCAP_IF_CONNECTION_STATUS_NOT_APPLICABLE.
+      In dag_findalldevs() handle known errors better.
+      Trust dag_get_stream_erf_types() to be available.
+      Require the API to have 64-bit streams support.
+      Make device descriptions more useful, make dagN conditional.
+      Use PCAP_ERROR_NO_SUCH_DEVICE more in dag_activate().
+      Validate capture device names better.
+      Enumerate streams without trying to lock them.
+      If the environment variable ERF_FCS_BITS is set, require it to be either
+        0 or 16 or 32.  Likewise for ERF_DONT_STRIP_FCS (either 0 or 1).
+      Remove FCS quirks specific to 4.2S and 4.23S.
+      Fix ps_drop for stream drop counters.
+      Add experimental packet transmit support.
+    SNF:
+      Require SNF_VERSION_API >= 0x0003.
+      Improve device descriptions and flags.
+      Fill pcap_if_t in more consistently.
+    QNX:
+      Use "unix.h" instead of the missing <sysexits.h>.
+      Fix promiscuous mode for netmap.
+    RDMA:
+      Fix some resource freeing issues. (issues #1532 and #1300)
+      Improve error messages for activate and findalldevs failures.
 
-packages/x86-64-v3-poky-linux/python3-pdm: PKGV changed from 2.29.0 [default] to 2.29.1 [default]
-packages/x86-64-v3-poky-linux/python3-pdm: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.29.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pdm/pdm-2.29.1.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pdm: PV changed from "2.29.0" to "2.29.1"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PKGV changed from 2.29.0 [default] to 2.29.1 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dbg: PV changed from "2.29.0" to "2.29.1"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PKGV changed from 2.29.0 [default] to 2.29.1 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-dev: PV changed from "2.29.0" to "2.29.1"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PKGV changed from 2.29.0 [default] to 2.29.1 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-doc: PV changed from "2.29.0" to "2.29.1"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PKGV changed from 2.29.0 [default] to 2.29.1 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-locale: PV changed from "2.29.0" to "2.29.1"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PKGV changed from 2.29.0 [default] to 2.29.1 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-src: PV changed from "2.29.0" to "2.29.1"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PKGV changed from 2.29.0 [default] to 2.29.1 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm-staticdev: PV changed from "2.29.0" to "2.29.1"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pdm-2.29.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pdm-2.29.1.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pdm-2.29.0.dist-info -> /usr/lib/python3.14/site-packages/pdm-2.29.1.dist-info
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGV changed from 2.29.0 [default] to 2.29.1 [default]
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PV changed from "2.29.0" to "2.29.1"
-packages/x86-64-v3-poky-linux/python3-pdm/python3-pdm: PKGSIZE changed from 2537026 to 2554566 (+1%)
-Changes to packages/x86-64-v3-poky-linux/python3-pdm (sysroot):
-  /usr/lib/python3.14/site-packages/pdm-2.29.0.dist-info moved to /usr/lib/python3.14/site-packages/pdm-2.29.1.dist-info
-
---===============8453561346291479598==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-pdm-changelog.txt"
-
-Changelog for python3-pdm: 2.29.0 -> 2.29.1
-Source: CHANGELOG.md
-
-## Release v2.29.1 (2026-09-14)
-
-### Features & Improvements
-
-- Explain missing lockfile groups and provide group-selection recovery guidance when installing, syncing, or updating groups. ([#2682](https://github.com/pdm-project/pdm/issues/2682))
-- Allow package-specific overrides for `exclude-newer` resolution limits. ([#3809](https://github.com/pdm-project/pdm/issues/3809))
-
-### Bug Fixes
-
-- Keep the separating comma out of the operator and accept a `v` prefix when converting Poetry version constraints. ([#3860](https://github.com/pdm-project/pdm/issues/3860))
-- Escape glob characters in the virtualenv lookup prefix, so a project whose directory name contains `[` or `]` can find its own virtualenv. ([#3869](https://github.com/pdm-project/pdm/issues/3869))
-- Write `pyproject.toml` and lockfiles atomically to prevent interrupted writes from truncating them. ([#3870](https://github.com/pdm-project/pdm/issues/3870))
-- Resolve the workspace root before making member paths relative, so a root given as a relative path or reached through a symlink no longer raises `ValueError`. ([#3874](https://github.com/pdm-project/pdm/issues/3874))
-- Replace the destination of an atomic write instead of unlinking it first, so an interrupted write can no longer destroy `pyproject.toml` or the lockfile. ([#3878](https://github.com/pdm-project/pdm/issues/3878))
-- Report the version part that could not be read, instead of blaming a postrelease for every parse failure. ([#3880](https://github.com/pdm-project/pdm/issues/3880))
-- Keep quoted local paths that contain `` - `` when parsing requirements files. ([#3885](https://github.com/pdm-project/pdm/issues/3885))
-
-### Documentation
-
-- Clarify dependency command effects on project declarations, lock metadata, and installed packages in the guide and CLI help. ([#2681](https://github.com/pdm-project/pdm/issues/2681))
-
---===============8453561346291479598==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pdm-upgrade-2.29.0-2.29.1.patch"
-
-RnJvbSAxZmIxMDc2N2ExODhlYjBlM2FmMjBmNWFhMmU4ZmU1NDRmMzQyZGJmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTQgU2VwIDIwMjYgMDU6MTc6MDggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXBkbTogdXBncmFkZSAyLjI5LjAgLT4gMi4yOS4xCgpTb3VyY2U6IENIQU5HRUxPRy5t
-ZAoKIyMgUmVsZWFzZSB2Mi4yOS4xICgyMDI2LTA5LTE0KQoKIyMjIEZlYXR1cmVzICYgSW1wcm92
-ZW1lbnRzCgotIEV4cGxhaW4gbWlzc2luZyBsb2NrZmlsZSBncm91cHMgYW5kIHByb3ZpZGUgZ3Jv
-dXAtc2VsZWN0aW9uIHJlY292ZXJ5IGd1aWRhbmNlIHdoZW4gaW5zdGFsbGluZywgc3luY2luZywg
-b3IgdXBkYXRpbmcgZ3JvdXBzLiAoWyMyNjgyXShodHRwczovL2dpdGh1Yi5jb20vcGRtLXByb2pl
-Y3QvcGRtL2lzc3Vlcy8yNjgyKSkKLSBBbGxvdyBwYWNrYWdlLXNwZWNpZmljIG92ZXJyaWRlcyBm
-b3IgYGV4Y2x1ZGUtbmV3ZXJgIHJlc29sdXRpb24gbGltaXRzLiAoWyMzODA5XShodHRwczovL2dp
-dGh1Yi5jb20vcGRtLXByb2plY3QvcGRtL2lzc3Vlcy8zODA5KSkKCiMjIyBCdWcgRml4ZXMKCi0g
-S2VlcCB0aGUgc2VwYXJhdGluZyBjb21tYSBvdXQgb2YgdGhlIG9wZXJhdG9yIGFuZCBhY2NlcHQg
-YSBgdmAgcHJlZml4IHdoZW4gY29udmVydGluZyBQb2V0cnkgdmVyc2lvbiBjb25zdHJhaW50cy4g
-KFsjMzg2MF0oaHR0cHM6Ly9naXRodWIuY29tL3BkbS1wcm9qZWN0L3BkbS9pc3N1ZXMvMzg2MCkp
-Ci0gRXNjYXBlIGdsb2IgY2hhcmFjdGVycyBpbiB0aGUgdmlydHVhbGVudiBsb29rdXAgcHJlZml4
-LCBzbyBhIHByb2plY3Qgd2hvc2UgZGlyZWN0b3J5IG5hbWUgY29udGFpbnMgYFtgIG9yIGBdYCBj
-YW4gZmluZCBpdHMgb3duIHZpcnR1YWxlbnYuIChbIzM4NjldKGh0dHBzOi8vZ2l0aHViLmNvbS9w
-ZG0tcHJvamVjdC9wZG0vaXNzdWVzLzM4NjkpKQotIFdyaXRlIGBweXByb2plY3QudG9tbGAgYW5k
-IGxvY2tmaWxlcyBhdG9taWNhbGx5IHRvIHByZXZlbnQgaW50ZXJydXB0ZWQgd3JpdGVzIGZyb20g
-dHJ1bmNhdGluZyB0aGVtLiAoWyMzODcwXShodHRwczovL2dpdGh1Yi5jb20vcGRtLXByb2plY3Qv
-cGRtL2lzc3Vlcy8zODcwKSkKLSBSZXNvbHZlIHRoZSB3b3Jrc3BhY2Ugcm9vdCBiZWZvcmUgbWFr
-aW5nIG1lbWJlciBwYXRocyByZWxhdGl2ZSwgc28gYSByb290IGdpdmVuIGFzIGEgcmVsYXRpdmUg
-cGF0aCBvciByZWFjaGVkIHRocm91Z2ggYSBzeW1saW5rIG5vIGxvbmdlciByYWlzZXMgYFZhbHVl
-RXJyb3JgLiAoWyMzODc0XShodHRwczovL2dpdGh1Yi5jb20vcGRtLXByb2plY3QvcGRtL2lzc3Vl
-cy8zODc0KSkKLSBSZXBsYWNlIHRoZSBkZXN0aW5hdGlvbiBvZiBhbiBhdG9taWMgd3JpdGUgaW5z
-dGVhZCBvZiB1bmxpbmtpbmcgaXQgZmlyc3QsIHNvIGFuIGludGVycnVwdGVkIHdyaXRlIGNhbiBu
-byBsb25nZXIgZGVzdHJveSBgcHlwcm9qZWN0LnRvbWxgIG9yIHRoZSBsb2NrZmlsZS4gKFsjMzg3
-OF0oaHR0cHM6Ly9naXRodWIuY29tL3BkbS1wcm9qZWN0L3BkbS9pc3N1ZXMvMzg3OCkpCi0gUmVw
-b3J0IHRoZSB2ZXJzaW9uIHBhcnQgdGhhdCBjb3VsZCBub3QgYmUgcmVhZCwgaW5zdGVhZCBvZiBi
-bGFtaW5nIGEgcG9zdHJlbGVhc2UgZm9yIGV2ZXJ5IHBhcnNlIGZhaWx1cmUuIChbIzM4ODBdKGh0
-dHBzOi8vZ2l0aHViLmNvbS9wZG0tcHJvamVjdC9wZG0vaXNzdWVzLzM4ODApKQotIEtlZXAgcXVv
-dGVkIGxvY2FsIHBhdGhzIHRoYXQgY29udGFpbiBgYCAtIGBgIHdoZW4gcGFyc2luZyByZXF1aXJl
-bWVudHMgZmlsZXMuIChbIzM4ODVdKGh0dHBzOi8vZ2l0aHViLmNvbS9wZG0tcHJvamVjdC9wZG0v
-aXNzdWVzLzM4ODUpKQoKIyMjIERvY3VtZW50YXRpb24KCi0gQ2xhcmlmeSBkZXBlbmRlbmN5IGNv
-bW1hbmQgZWZmZWN0cyBvbiBwcm9qZWN0IGRlY2xhcmF0aW9ucywgbG9jayBtZXRhZGF0YSwgYW5k
-IGluc3RhbGxlZCBwYWNrYWdlcyBpbiB0aGUgZ3VpZGUgYW5kIENMSSBoZWxwLiAoWyMyNjgxXSho
-dHRwczovL2dpdGh1Yi5jb20vcGRtLXByb2plY3QvcGRtL2lzc3Vlcy8yNjgxKSkKLS0tCiAuLi4v
-cHl0aG9uL3tweXRob24zLXBkbV8yLjI5LjAuYmIgPT4gcHl0aG9uMy1wZG1fMi4yOS4xLmJifSAg
-ICAgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkK
-IHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXBkbV8yLjI5LjAu
-YmIgPT4gcHl0aG9uMy1wZG1fMi4yOS4xLmJifSAoODAlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVj
-aXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wZG1fMi4yOS4wLmJiIGIvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8yLjI5LjEuYmIKc2ltaWxhcml0eSBpbmRleCA4
-MCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXBkbV8y
-LjI5LjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1w
-ZG1fMi4yOS4xLmJiCmluZGV4IGZhZjliNjNhM2QuLjQ1MjBlNjc3ZWUgMTAwNjQ0Ci0tLSBhL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wZG1fMi4yOS4wLmJiCisrKyBiL21l
-dGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1wZG1fMi4yOS4xLmJiCkBAIC00LDcg
-KzQsNyBAQCBMSUNFTlNFID0gIk1JVCIKIFNFQ1RJT04gPSAiZGV2ZWwvcHl0aG9uIgogTElDX0ZJ
-TEVTX0NIS1NVTSA9ICJmaWxlOi8vTElDRU5TRTttZDU9MmViMzFhMmNjMWE3NThjMzRiNDk5ZjI4
-N2RkMDRlZjIiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICIyOGM1MjAyNjdhMTVkN2EzOTIxYjkz
-NGVjNGJmYzJkMWRjMTgzNzlmYmI2NTNiYjIwZDhlODQwYjI3ODhiZTZiIgorU1JDX1VSSVtzaGEy
-NTZzdW1dID0gIjZiYjVkODkzZDMwMWVkYjJiODNkNDYwNDIwMzk2MzRiZjM2Yzk2YzU3Y2M3ZWRh
-ZDIyYTU5NTIxYTQxZGY5ZjgiCiAKIGluaGVyaXQgcHlwaSBweXRob25fcGRtCiAKLS0gCjIuNDcu
-MQoK
-
---===============8453561346291479598==--
+--===============2577883241597252972==--
 
