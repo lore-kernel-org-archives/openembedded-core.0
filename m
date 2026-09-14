@@ -1,103 +1,137 @@
-Return-Path: <alex.kanavin@gmail.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E53E9C88E70
-	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 12:09:35 +0000 (UTC)
-Received: from mail-wr1-f45.google.com (mail-wr1-f45.google.com [209.85.221.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18522.1789387771953848980
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9A67AC88E50
+	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 12:11:36 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.60])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18563.1789387889938555241
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2026 05:09:32 -0700
+ Mon, 14 Sep 2026 05:11:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=SreSCU5p;
- spf=pass (domain: gmail.com, ip: 209.85.221.45, mailfrom: alex.kanavin@gmail.com)
-Received: by mail-wr1-f45.google.com with SMTP id ffacd0b85a97d-48586861639so1295766f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 05:09:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789387770; x=1789992570; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1z4ixGgY2Pl+/5mAK5ZQE+uuyXr4HMlfr04dqBENeAg=;
-        b=SreSCU5pEa1YYssBRCXTmgyO0hvtXUl1fhwG4p/XynUwOaMlLd+Wzi0dAoNGErTEsI
-         EJAuRDdDtowPd0wyYQO5p+Foi7wI5xzBCCSHSx6f72d0xrCfk94n3f4xzN1rq/x66BvS
-         ajmDikarMbS2NwYbqG6GvciJ2dFJPxmuiqL/cGYyS6hNFNuzW/bZzKcJ07MzgyQnzV9A
-         EsDyil7co+U/CE3BGZuzlznj9AaT3pa9UmWcnaqjHpshoslLUJa+WCQPDdnPBOsP2+AB
-         j3DWY2tO2vQ/qIx8h3IgbMfjmSWiuAQLQ4BcCMOfuAbFt0NuUlGz8gOEK/bM26lVfFEj
-         Ox/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20251104; t=1789387770; x=1789992570;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1z4ixGgY2Pl+/5mAK5ZQE+uuyXr4HMlfr04dqBENeAg=;
-        b=orUoKpUUCSHVWXGQq1NlsXJPddjptumUn9UhO5kOWkDrtUcf0pxFhDlq4bM6qgHjXA
-         AgXcRz9nk+e85n6dKbiRI44Oy/117/VWbAgw3HhlpaeHSAf/JizW+7cA6j8NYHZBEBxx
-         8St+jKvNpr7oQFXUCnDLIcXwwvr0fRiNUhJXoKR3dk+W/kA/WbuWp/iMXYqsP18OBKts
-         Q8/xF8htXOzu9AlgTrmMrXQI9a0hOvwC9AlHCscXxC4Eqeg8TwPAdPaWTrh7LbrsXTBy
-         Rqyve+Ns2+3BbM7HRsUMdGbWbPlikWB/oox/V4MvvFJfXKqdof/6l3howmTQl77FEdMO
-         iZig==
-X-Gm-Message-State: AFuF++kfihTrS6ybk/dWRt6XUCh1T1GYguNzs/49/2d3JMrsnGFZLEFh
-	Jqf4HmjzDfpyERIiU0l7JwFS7DIetzHARILojAMwJZD8fXdsxIvPelur/g20xQ==
-X-Gm-Gg: AYBFou25oXLri+L2mi5fGzXS0K2WHF2mIfe+B9lKpQAvjHeY6W6fTD1rAWrRgC8rd4n
-	C9PupozwwpR2Pt3D4fH5VtGXplpru5SASCWyAhn31a2TEr1cXEuVRE+yp8ENHMEJleNq72xvxv9
-	vsFZkitwOJv1OTu94VJNKv+5jOoxDGKpfpUstvZ41mFGV0TVdRO3i63POnO7hVOIMrqzmRr5OwJ
-	9QYsHEN67qwVD/gcuSyLCbH8NjPW9XTbbTHk/KiXM5rZP/SN6O5RYIgwBNaenXfzmzVGwcYDU1K
-	x799ZwZguudPwk4LvUnfP2f9ovYXlHWNO+IDGMFkh6kJywQsafbXqUx6SCHaXRTyXQsJayQ/mKG
-	GsdNk/RMOMfbqXkhJzA8Th9TG+DgK5RPxbRf3Zi8zibtttMPdczvlzpCwaMJ9GEJSR3+M3P2vrH
-	xio41ynKJP7dwePiXem9QB4PyHolVNAbBq3AQNpyDR9XmzPUtWgpyaOsa9kmeKLGEL5kVrdHZ1u
-	syk4DjbtXaw0tlna1yMXdJUXzF8sUlCk4MchSGdt1NJiQ==
-X-Received: by 2002:a05:6000:29d2:b0:486:fdd9:a0d9 with SMTP id ffacd0b85a97d-486fdd9a116mr4602232f8f.20.1789387769938;
-        Mon, 14 Sep 2026 05:09:29 -0700 (PDT)
-Received: from Zen2.lab.linutronix.de. (drugstore.linutronix.de. [80.153.143.164])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-486eb33ee5csm26590821f8f.20.2026.09.14.05.09.29
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Sep 2026 05:09:29 -0700 (PDT)
-From: Alexander Kanavin <alex.kanavin@gmail.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=Bt3MwcnH;
+ spf=pass (domain: est.tech, ip: 52.101.84.60, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=SZpd02M38kTd7QUvb8ZhCAN8zPE/o7qHFdRVqiw1mACcvF1SxYHPtWSIjmFFfKKzj6q6Rj5Bo+riURwn40kNKBI8NwYO9Uc3CJ1gpfA/buyLDd0zTvs9K3B4bHJE7kedCMES8egIhfbinYfgqdo9EsEMpQc4GjKQpdUDhg9IXOjA5fTeHtzfw/TfGjUk1fPDRfJBD0u1ZF1tzs/sFt2lzC+rFZ0QGXavCg+0QOyYGRyJkXgUS3CZlYQ24mfxrsy6zO4LKQ3pPvRN3FCJPpTjNw2VzDqQ4TAcJ9PMH3g8jQZziEWIfcdIVrDxXprxXtzMkOp2RUQdlMI/UwKo4Bf92Q==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=m6gSDZAIlkG+lCqQTQ7S4cPV5upfSJ2M3TXOCSMfNUk=;
+ b=UoPgtX7u/DFanhdSEhtdjIY0uCXA/Bo9hw6aMpV6fPc0DInO/b4/3MvzAX8g+qy7qH0abDlTInWgqkByCw0nWe7hUXqLpCbU2rxs2Lv8jp1ERVQkv+6EFsJAw5XIcpYiijDP9jqTRreJAR1PyTDk6gWrPU1ikYcj9QMVVVxBc2TnSiHbypdtLkpw875zgDQcr5TRdpagStbVMSxW2p+DCCXo4YTlxxusO4Pt16AD3mFiX5vG1sLiZpMqCkfDmNGNmOkJY8/qoKIYnPla5LPtgRgWCZjNofi946EFuO44s2x9bACQ8hmkVLkmbmZPpaH/grOTKFj9n8r086Ro5QFlog==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=m6gSDZAIlkG+lCqQTQ7S4cPV5upfSJ2M3TXOCSMfNUk=;
+ b=Bt3MwcnHajJhNMFJrkRxYZaheOvIb4mKTSqDPGGwzekJpg2tj5tVo3MrZo4YQnF56VTs1p40jS+VcwnmxGENPT/WTQBz1Y3Or5zJB7XXxnCpvxoJ2Dpakod0fjkwlAsV5NuDjJHTM5kiA7PxyeFm/iwjueLVcZ1jBG5PvIHlDpBAmTqlO/PTO5+9FM3AIu/FUur2DFjbGkloQZSAqk28kA8n4PTJfbS/wpvxEauhf4uVme3WEEBHx6Lc3JoZEhGcMXUGfiXH3tEzGTGjzyW9XJYGECpCYgfngi6hJhAl13tKYi+Pxpc06UEn3NXJxI2tVGG74CUcPrO17+zpRB6pWw==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM (2603:10a6:18:3::ad4)
+ by AS8P189MB2444.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5a7::9) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Mon, 14 Sep
+ 2026 12:11:25 +0000
+Received: from DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bf0:7714:72e:1666]) by DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bf0:7714:72e:1666%7]) with mapi id 15.21.0406.007; Mon, 14 Sep 2026
+ 12:11:25 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Alexander Kanavin <alex@linutronix.de>
-Subject: [PATCH 1/4] gstreamer1.0-plugins-rs: fix upstream tag check
-Date: Mon, 14 Sep 2026 14:09:22 +0200
-Message-ID: <20260914120925.1153614-1-alex.kanavin@gmail.com>
-X-Mailer: git-send-email 2.47.3
+Subject: [wrynose][PATCH 1/2] dhcpcd: remove obsolete explicit debug packaging
+Date: Mon, 14 Sep 2026 14:11:20 +0200
+Message-ID: <20260914121121.81692-2-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20260914121121.81692-1-jaipaul.cheernam@est.tech>
+References: <20260914121121.81692-1-jaipaul.cheernam@est.tech>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DUZPR01CA0201.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b6::12) To DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:18:3::ad4)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DU7PPF66507B2D7:EE_|AS8P189MB2444:EE_
+X-MS-Office365-Filtering-Correlation-Id: 20b0b8cf-a1a2-431c-1aea-08df12594c24
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|23010399003|1800799024|366016|11063799006|56012099006|10067099003|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	zAjGJjLQDswkeqfYEMIFGvnqap9MWcLNInVXsAxb/M/wLa3xlS7bZMfXnpC712t1nA/I01e72CDtWADP7zk++0coMvTBP6PRqFVtSuF9sxqHGhiRXrqm9umnD3z90eeu71SOPURyu43hcmNS7sEprdCKmVKlNydK/ncUNPsJnzknROW5ZYIbaBM9z+WE6cPD3RNQenqGUzWd+/c69faVClq1NBpvw4214yoJynwJI8hi+C0CtSnvJQyGJANAchSAtfYLx4lcxZXJygM+BCncnkohPnXcILXCIZlxaDwImnc06y+GwbDG1tos9urIZr4i5hmX6jqX5MV2R78D9kjh33BNzPoIZbI86WpQ2P7vDFyytcaBp7VFD+xGrMpKnJ41mAEinJ8N99Simss2iNTF7K2sHb64E5SlM0jR7G6pi3qjOsjpjLdgYXpcmKFdIB+Mo9CtFo/a4MyXGjUmWQqke1cYX6iXSV0tcVjHwmtp65lZuGqbIcGEO4j9uOC7YVfmvTnhCWP5Zx8m4evdRvfnQecrBaCAsiguZFQTGyObWloSldbLVcuZ5/iTD/PFyM5eaEh7+PMEH2wvnvMu7EtgytFfYWeFbfAWOG9rk/1M0FpIh7D2VOZoMIjHv6n2dx52d1hXRWjzFD+G7Qyib42wDfgHtwaFJSpj9mMMlezccSI=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(1800799024)(366016)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?TyKrhqw9kPlmLh/nX+ZD5UGSwkxP9CS87bbsJr2gRYGJ6uCQoOPpQitzLhVC?=
+ =?us-ascii?Q?eun4GrRAFdCAnCTBnzof5iRNNxspzmA3SPGxR0WWMJ6Un++ZqOwvugxkHptt?=
+ =?us-ascii?Q?XhARCVEXsI1UIDZdRIBizLLlU4IXhDBqW86mEK0hRbIl/izsBhFjWoD59SGG?=
+ =?us-ascii?Q?H5a+MyBrm8wlhhUGImlxvJJHHQJ0kf4mbLcHI06KyBnqrlx/uhQoEtsM28+E?=
+ =?us-ascii?Q?FP3/3XEwka7vRPQ0m3Lkke5VlFxErrMCAqg/DQv/0S+6lxq/dUbv/R72F0CU?=
+ =?us-ascii?Q?8/yk4c1r1Qepg45qDQ95yePYS82DwFIe6jLAzRHWKH5BUoDCUW0FZ0RmMuBL?=
+ =?us-ascii?Q?/Yud6Cn5dBFqbW41oDlLNSKlf6CFfHOHEUxEW06uTEaCf2w2LBhsMIsuU+Ek?=
+ =?us-ascii?Q?75IcqgTQIKIl2LzbsO/Uorv+o1bAWNquC+nH7wTI1WwGo4vmtlg5I/5sFRHw?=
+ =?us-ascii?Q?n+F1PkRBashlhstvPpRUXhAPHw8iGGRU9Hq/oB+cBbk+smhqGT7Mg/AzpKqM?=
+ =?us-ascii?Q?GUIBzFmQ0xmgo+6eH+DK0yH3ZHGNaX6njJsTcIszteBTTfsKElZsErGF+zpf?=
+ =?us-ascii?Q?0h0p+k8Km5NzyASsBu9RDurE+O9AY2MWcP8QJa8c+9X+jQbtItAdFuatB516?=
+ =?us-ascii?Q?CmFRGmeJFYisLxQDDd5iG7LdwrqQWsHwVYRxwJ/skSX0sH/sBvltqthh6YIZ?=
+ =?us-ascii?Q?me066A/iEwmMAT/zHWNOrhYxhgDAl1d5CS8IFHuOj8TXZVItj/ESGqEORO/D?=
+ =?us-ascii?Q?u+Vx66uGVLukp8zDJcqkwDDR5EsrOYwrnLaS7tEnQTL5qrzk6JDsd2K4VkEC?=
+ =?us-ascii?Q?dj5F6xG1VUUKkN0ESUnGPACchy3o4D77uUU129BxDTyZkd4ZTKeBTFJ6Saan?=
+ =?us-ascii?Q?HLMWIU+4XQekkrQ/qvh8VEPbylr7z12Q5P/HJ0drQqqhKEauSL3+QnXTP4BL?=
+ =?us-ascii?Q?PQbSTgS0VaAx5V5SrWHV3kDq3zGBy5S/F12h/Z5E2Gr8vZXqODDhT0mGviZP?=
+ =?us-ascii?Q?RKU7gLzgCNyEWnKQqzWZlCmhjjfLGfAMVm7TOVnuPJTyY2yq/KPSdpAOfQW/?=
+ =?us-ascii?Q?8LJwBc/I6RgwBvE5X1xr8xMHb38ggjCVO+hfijSYughMqQbUJtiTZIFZAIoH?=
+ =?us-ascii?Q?DpNnobLwY+ZYr5C68WwwRqXyYvX0klQ/8LjX5j5LY4TJ80l9Jh2InGWpiTrU?=
+ =?us-ascii?Q?ibxdEz8FnX8vFo0c2Ips9V+HU1pYsCWDgdFcUBkdyZkfw+2U085e6i4xS/Rg?=
+ =?us-ascii?Q?KM0Nrsdj7qG/ecV6j5B84K8WEoKKmyEgm9AyfhLYZ5qpI0vg7Ft34VT8I6bP?=
+ =?us-ascii?Q?IELad44NjlD4wtrwM1u5FvhzrmoFIk0hT/yL1Omz7T2RU83o++F0mEU9ptLo?=
+ =?us-ascii?Q?ekiBj11tznTWrrJn0iWO/D3SG98lWZtsdSJGs+1XNOYpNvhRMtp5/qztLi+n?=
+ =?us-ascii?Q?WwrYICVYvSeMzjgtBO2VDGd0yob6A2peqAcLG8worMAq6kZquY7YDL0snbtW?=
+ =?us-ascii?Q?8QQWEKXj3QGNwiY73Cbz87bNyBs8+kA45HvT40sKbLW1O9oUB0USVfIlFuou?=
+ =?us-ascii?Q?O534vX+7TbYa7m58Qk74HJsb3Nm5duOJJJBL8aO8CnZZs3T3F0kcP2syGvmb?=
+ =?us-ascii?Q?4+3sAwXl8EMOUziesgo5Zcw1NsmVDs15ygNjv2Nq05YQlPo5n7L5y4KdJIyE?=
+ =?us-ascii?Q?HKYQZwYwsyuP96z0yppnlY9k/VFN4ME14trSneSaDIEsIbuWxkTlYgexY4Bc?=
+ =?us-ascii?Q?r5QhEPx7ow=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 20b0b8cf-a1a2-431c-1aea-08df12594c24
+X-MS-Exchange-CrossTenant-AuthSource: DU7PPF66507B2D7.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 14 Sep 2026 12:11:24.9990
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: rbN8wb49SApTrFQK3FVUnspOOPaQVHHcqYrycY4DatMIm+iMyJryHlYavjL3o7Pl28bmW/iaNUvNy0M+zS9yKSmOg+6buYijUSNF3hmrE5E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8P189MB2444
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 12:09:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245770
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 12:11:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245775
 
-From: Alexander Kanavin <alex@linutronix.de>
+From: Ross Burton <ross.burton@arm.com>
 
-Upstream maintains two sets of tags: one of the actual
-releases and another to align with and match
-gstreamer C versions:
-https://gitlab.freedesktop.org/gstreamer/gst-plugins-rs/-/tags
+The .debug directories are packaged automatically by default, so this is
+redundant.
 
-Somewhat counter-intuitively, the latter is intended
-only for gstreamer's own use (to make binary releases),
-and distributions and packagers should use the former.
-The regex tweak ensures that, as aligned versions sort higher
-and need to be excluded.
-
-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 8c3e8394c53581fd6b1d69669f6e0668c5af9d13)
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../gstreamer/gstreamer1.0-plugins-rs_0.15.3.bb                  | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb | 2 --
+ 1 file changed, 2 deletions(-)
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.3.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.3.bb
-index 1800dfc5439..5f4db41c136 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.3.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-rs_0.15.3.bb
-@@ -7,6 +7,7 @@ SRC_URI += "\
- git://gitlab.freedesktop.org/gstreamer/gst-plugins-rs;protocol=https;tag=${PV};nobranch=1;name=default \
- "
- SRCREV = "6302bea23b53e6461c104f9543df887a63b2d6ec"
-+UPSTREAM_CHECK_GITTAGREGEX = "^(?P<pver>\d+(\.\d+)+)"
- 
- LIC_FILES_CHKSUM =  " \
-     file://${BPN}-${PV}/LICENSE-MPL-2.0;md5=815ca599c9df247a0c7f619bab123dad \
--- 
-2.47.3
-
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb b/meta/recip=
+es-connectivity/dhcpcd/dhcpcd_10.3.1.bb
+index eb257cb27c..065451c065 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
+@@ -67,5 +67,3 @@ do_install:append () {
+     chmod 700 ${D}${DBDIR}
+     chown dhcpcd:dhcpcd ${D}${DBDIR}
+ }
+-
+-FILES:${PN}-dbg +=3D "${libdir}/dhcpcd/dev/.debug"
 
