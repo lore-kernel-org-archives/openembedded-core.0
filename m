@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 775F0C88E69
-	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 05:40:45 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 175A9C88E6C
+	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 05:40:46 +0000 (UTC)
 Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.13649.1789364445024101933
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13725.1789364445331283161
  for <openembedded-core@lists.openembedded.org>;
  Sun, 13 Sep 2026 22:40:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GRrbm6RD;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=yIBG7bb3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a09e6e9c23-0beecf16-cab6-4076-84d3-72264e79523f-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=p328ZZLR;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=UYuYnGcL;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a09e6e9cf7-a69a3cbc-564d-4285-95ab-a4099e18523f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1789364444;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=OQP37Fw8kJZ47LzzaI+7I/KV8xBngk46oQkedrWDpVs=;
-	b=GRrbm6RDcHAi6gyPozLVxLxDRM3AMN+OSTsADebKPR2PijSQ56U14F+QEFs0oy0s
-	WPLq9AiyXnp0RuQhht520nEFZZwf+sLjPmll7Mr3BUMTuau2Pst5uqQnyJgGD3DMH5Q
-	dTed0pSAwV/nd1XBQkun3vUrfQPr+xdKQcHmb46g=
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=FIEnEETVGN1/IGZdqFExWFH9CfoUjSAHlEc/IvuC5zU=;
+	b=p328ZZLR+ZX1uwNFTEo6nanLim5QLWOLiKYszD5o7rD7x9YQJFqc5yX0Mi2iEqtj
+	29U9IkkcmUDb+LHvCm7utmIKn+iy56v05+ojo0us0QMVdOeuoQffZAZgwpiUn6vYuxi
+	M/GDb1jiLtNmQPMN6CkGQ+lb4V1A9SCTcIlMZ4Tc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789364444;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=OQP37Fw8kJZ47LzzaI+7I/KV8xBngk46oQkedrWDpVs=;
-	b=yIBG7bb3HmFEs1GAGdl+xNj4Biyl7y+5yUskSrIXuuwSUvOh/cLw92L5fzDj1xgx
-	+H1ao0LWf1eQ4KDkmaqxg3+AbFZjE9cXL5uUF4etGNfRH2PBBhGBJYZLWIpL63v9uEH
-	cQLoSp6IDLKfREz2A73hzTLSPBvxhnhOG1hYsKkM=
-Content-Type: multipart/mixed; boundary="===============3441873538364033705=="
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=FIEnEETVGN1/IGZdqFExWFH9CfoUjSAHlEc/IvuC5zU=;
+	b=UYuYnGcLnJkSWi98jOaeLW+05rhD1F98XElZY8IHSENuC2anDLp1P922CbU9vbjc
+	iARHTKgpDG/R5uZCPpflgcYgyCDPhNyR3l1XHDISdWm2sjtLrIOEWdrYM5QzrrqBIDE
+	NG34U4sNr1jBcs9kGwF3YWTobt5oXjnGMxuHhTmA=
+Content-Type: multipart/mixed; boundary="===============4479275268467151917=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libtirpc: upgrading to 1.3.8 SUCCEEDED
-Message-ID: <010101a09e6e9c23-0beecf16-cab6-4076-84d3-72264e79523f-000000@us-west-2.amazonses.com>
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-vcs-versioning: upgrading to 2.4.0 SUCCEEDED
+Message-ID: <010101a09e6e9cf7-a69a3cbc-564d-4285-95ab-a4099e18523f-000000@us-west-2.amazonses.com>
 Date: Mon, 14 Sep 2026 05:40:44 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.09.14-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 05:40:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245752
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 05:40:46 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245755
 
---===============3441873538364033705==
+--===============4479275268467151917==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libtirpc* to *1.3.8* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *python3-vcs-versioning* to *2.4.0* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libtirpc-upgrade-1.3.7-1.3.8.patch
+    - apply the patch: git am 0001-python3-vcs-versioning-upgrade-2.3.4-2.4.0.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,119 +72,174 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6c1b07a9b43aa5f61e1bc78bb1c22763c3401ae2 Mon Sep 17 00:00:00 2001
+From 8e9c7b4238086925e620dd5574e93fa943ef2066 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 14 Sep 2026 05:29:50 +0000
-Subject: [PATCH] libtirpc: upgrade 1.3.7 -> 1.3.8
+Date: Mon, 14 Sep 2026 05:26:43 +0000
+Subject: [PATCH] python3-vcs-versioning: upgrade 2.3.4 -> 2.4.0
 
+Source: CHANGELOG.md
+
+## 2.4.0 (2026-09-12)
+
+### Added
+
+- Add `scm.git.distance_scope` and `scm.git.distance_count`, restricting the distance count to the commits that touch a monorepo project (and optionally further shared directories) instead of every commit in the repository. Counting uses `--full-history` by default, or `--first-parent`; git's default history simplification is not offered because it can make the distance shrink across a merge. Git only. ([#1056](https://github.com/pypa/setuptools-scm/issues/1056))
+
+### Fixed
+
+- Select file finders by the VCS marker their entry point is named for (`.git`, `.hg`, `.jj`) instead of running every backend's command in turn. A tree with no VCS marker -- an unpacked sdist, say -- now spawns no subprocess at all, so a slow `hg` on `PATH` can no longer fail an unrelated build.
+
+  The finders also survive a subprocess timeout: `subprocess.TimeoutExpired` was uncaught and aborted the build, and is now treated like any other failed probe. ([#1212](https://github.com/pypa/setuptools-scm/issues/1212))
+- Prefer the fallback metadata nearest the project directory. A `.git_archival.txt` or `PKG-INFO` at the VCS root no longer shadows a monorepo project's own, which silently produced the root project's version. ([#1522](https://github.com/pypa/setuptools-scm/issues/1522))
 ---
- ...0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch | 2 +-
- .../libtirpc/{libtirpc_1.3.7.bb => libtirpc_1.3.8.bb}           | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-extended/libtirpc/{libtirpc_1.3.7.bb => libtirpc_1.3.8.bb} (93%)
+ ...-vcs-versioning_2.3.4.bb => python3-vcs-versioning_2.4.0.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-vcs-versioning_2.3.4.bb => python3-vcs-versioning_2.4.0.bb} (91%)
 
-diff --git a/meta/recipes-extended/libtirpc/libtirpc/0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch b/meta/recipes-extended/libtirpc/libtirpc/0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch
-index 4e5844e18e..1d2a9bf287 100644
---- a/meta/recipes-extended/libtirpc/libtirpc/0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch
-+++ b/meta/recipes-extended/libtirpc/libtirpc/0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch
-@@ -1,4 +1,4 @@
--From 0ae4371ee63e25a48777a83c0601c85c5747cbac Mon Sep 17 00:00:00 2001
-+From 801ec3f723fcf6d531cb57c9f3c6ec1c51b5eb54 Mon Sep 17 00:00:00 2001
- From: Khem Raj <khem.raj@oss.qualcomm.com>
- Date: Tue, 31 Mar 2026 23:07:09 -0700
- Subject: [PATCH] libtirpc: fix bindresvport build with clang-22/C23
-diff --git a/meta/recipes-extended/libtirpc/libtirpc_1.3.7.bb b/meta/recipes-extended/libtirpc/libtirpc_1.3.8.bb
-similarity index 93%
-rename from meta/recipes-extended/libtirpc/libtirpc_1.3.7.bb
-rename to meta/recipes-extended/libtirpc/libtirpc_1.3.8.bb
-index cef541e3d0..6d95f3f69d 100644
---- a/meta/recipes-extended/libtirpc/libtirpc_1.3.7.bb
-+++ b/meta/recipes-extended/libtirpc/libtirpc_1.3.8.bb
-@@ -14,7 +14,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/${BPN}/${BP}.tar.bz2 \
-           "
- UPSTREAM_CHECK_URI = "https://sourceforge.net/projects/libtirpc/files/libtirpc/"
- UPSTREAM_CHECK_REGEX = "(?P<pver>\d+(\.\d+)+)/"
--SRC_URI[sha256sum] = "b47d3ac19d3549e54a05d0019a6c400674da716123858cfdb6d3bdd70a66c702"
-+SRC_URI[sha256sum] = "8839959bfcc7a0f4c609d8e4f53f1c67ae33de23775ec35beb39ff15adf11920"
+diff --git a/meta/recipes-devtools/python/python3-vcs-versioning_2.3.4.bb b/meta/recipes-devtools/python/python3-vcs-versioning_2.4.0.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-vcs-versioning_2.3.4.bb
+rename to meta/recipes-devtools/python/python3-vcs-versioning_2.4.0.bb
+index e358c722d7..e66a7ce7b0 100644
+--- a/meta/recipes-devtools/python/python3-vcs-versioning_2.3.4.bb
++++ b/meta/recipes-devtools/python/python3-vcs-versioning_2.4.0.bb
+@@ -5,7 +5,7 @@ library that can be used independently of setuptools."
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE.txt;md5=c9b06ad2ebd7e2e82d34b3caf353e7d5"
  
- inherit autotools pkgconfig
+-SRC_URI[sha256sum] = "f3443da15a34a32755b04324e33c6166add300c7661f45902225190c9337f711"
++SRC_URI[sha256sum] = "cc4b66c02ae4cfb51e843910024f7142464c3391bb1f7e04608578b45046891b"
  
+ SRC_URI += "\
+     file://run-ptest \
 -- 
 2.47.1
 
 
---===============3441873538364033705==
-Content-Type: application/octet-stream
+--===============4479275268467151917==
+Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libtirpc-upgrade-1.3.7-1.3.8.patch"
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-RnJvbSA2YzFiMDdhOWI0M2FhNWY2MWUxYmM3OGJiMWMyMjc2M2MzNDAxYWUyIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMTQgU2VwIDIwMjYgMDU6Mjk6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJ0aXJwYzogdXBncmFkZSAxLjMuNyAtPiAxLjMuOAoKLS0tCiAuLi4wMDAxLWxpYnRpcnBjLWZp
-eC1iaW5kcmVzdnBvcnQtYnVpbGQtd2l0aC1jbGFuZy0yMi1DMjMucGF0Y2ggfCAyICstCiAuLi4v
-bGlidGlycGMve2xpYnRpcnBjXzEuMy43LmJiID0+IGxpYnRpcnBjXzEuMy44LmJifSAgICAgICAg
-ICAgfCAyICstCiAyIGZpbGVzIGNoYW5nZWQsIDIgaW5zZXJ0aW9ucygrKSwgMiBkZWxldGlvbnMo
-LSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlidGlycGMve2xpYnRpcnBjXzEuMy43
-LmJiID0+IGxpYnRpcnBjXzEuMy44LmJifSAoOTMlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0aXJwYy8wMDAxLWxpYnRpcnBjLWZpeC1iaW5kcmVzdnBv
-cnQtYnVpbGQtd2l0aC1jbGFuZy0yMi1DMjMucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
-bGlidGlycGMvbGlidGlycGMvMDAwMS1saWJ0aXJwYy1maXgtYmluZHJlc3Zwb3J0LWJ1aWxkLXdp
-dGgtY2xhbmctMjItQzIzLnBhdGNoCmluZGV4IDRlNTg0NGUxOGUuLjFkMmE5YmYyODcgMTAwNjQ0
-Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0aXJwYy8wMDAxLWxpYnRp
-cnBjLWZpeC1iaW5kcmVzdnBvcnQtYnVpbGQtd2l0aC1jbGFuZy0yMi1DMjMucGF0Y2gKKysrIGIv
-bWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnRpcnBjL2xpYnRpcnBjLzAwMDEtbGlidGlycGMtZml4
-LWJpbmRyZXN2cG9ydC1idWlsZC13aXRoLWNsYW5nLTIyLUMyMy5wYXRjaApAQCAtMSw0ICsxLDQg
-QEAKLUZyb20gMGFlNDM3MWVlNjNlMjVhNDg3NzdhODNjMDYwMWM4NWM1NzQ3Y2JhYyBNb24gU2Vw
-IDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gODAxZWMzZjcyM2ZjZjZkNTMxY2I1N2M5ZjNjNmVjMWM1
-MWI1ZWI1NCBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKIEZyb206IEtoZW0gUmFqIDxraGVtLnJh
-akBvc3MucXVhbGNvbW0uY29tPgogRGF0ZTogVHVlLCAzMSBNYXIgMjAyNiAyMzowNzowOSAtMDcw
-MAogU3ViamVjdDogW1BBVENIXSBsaWJ0aXJwYzogZml4IGJpbmRyZXN2cG9ydCBidWlsZCB3aXRo
-IGNsYW5nLTIyL0MyMwpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnRpcnBj
-L2xpYnRpcnBjXzEuMy43LmJiIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL2xpYnRpcnBjL2xpYnRp
-cnBjXzEuMy44LmJiCnNpbWlsYXJpdHkgaW5kZXggOTMlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1leHRlbmRlZC9saWJ0aXJwYy9saWJ0aXJwY18xLjMuNy5iYgpyZW5hbWUgdG8gbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL2xpYnRpcnBjL2xpYnRpcnBjXzEuMy44LmJiCmluZGV4IGNlZjU0MWUzZDAu
-LjZkOTVmM2Y2OWQgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC9saWJ0aXJwYy9s
-aWJ0aXJwY18xLjMuNy5iYgorKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvbGlidGlycGMvbGli
-dGlycGNfMS4zLjguYmIKQEAgLTE0LDcgKzE0LDcgQEAgU1JDX1VSSSA9ICIke1NPVVJDRUZPUkdF
-X01JUlJPUn0vJHtCUE59LyR7QlB9LnRhci5iejIgXAogICAgICAgICAgICIKIFVQU1RSRUFNX0NI
-RUNLX1VSSSA9ICJodHRwczovL3NvdXJjZWZvcmdlLm5ldC9wcm9qZWN0cy9saWJ0aXJwYy9maWxl
-cy9saWJ0aXJwYy8iCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICIoP1A8cHZlcj5cZCsoXC5cZCsp
-KykvIgotU1JDX1VSSVtzaGEyNTZzdW1dID0gImI0N2QzYWMxOWQzNTQ5ZTU0YTA1ZDAwMTlhNmM0
-MDA2NzRkYTcxNjEyMzg1OGNmZGI2ZDNiZGQ3MGE2NmM3MDIiCitTUkNfVVJJW3NoYTI1NnN1bV0g
-PSAiODgzOTk1OWJmY2M3YTBmNGM2MDlkOGU0ZjUzZjFjNjdhZTMzZGUyMzc3NWVjMzViZWIzOWZm
-MTVhZGYxMTkyMCIKIAogaW5oZXJpdCBhdXRvdG9vbHMgcGtnY29uZmlnCiAKLS0gCjIuNDcuMQoK
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-ptest: FILELIST: added "/usr/lib/python3-vcs-versioning/ptest/testing_vcs/test_git_distance_scope.py"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning: FILELIST: directory renamed /usr/lib/python3.14/site-packages/vcs_versioning-2.3.4.dist-info -> /usr/lib/python3.14/site-packages/vcs_versioning-2.4.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/vcs_versioning-2.3.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/vcs_versioning-2.4.0.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-vcs-versioning (sysroot):
+  /usr/lib/python3.14/site-packages/vcs_versioning-2.3.4.dist-info moved to /usr/lib/python3.14/site-packages/vcs_versioning-2.4.0.dist-info
+Changes to packages/x86_64-linux/python3-vcs-versioning-native (sysroot):
+  /usr/lib/python3.14/site-packages/vcs_versioning-2.3.4.dist-info moved to /usr/lib/python3.14/site-packages/vcs_versioning-2.4.0.dist-info
 
---===============3441873538364033705==
+--===============4479275268467151917==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libtirpc: SRC_URI changed from "https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.7.tar.bz2 file://0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch" to "https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.8.tar.bz2 file://0001-libtirpc-fix-bindresvport-build-with-clang-22-C23.patch"
-packages/x86-64-v3-poky-linux/libtirpc: PKGV changed from 1.3.7 [default] to 1.3.8 [default]
-packages/x86-64-v3-poky-linux/libtirpc: PV changed from "1.3.7" to "1.3.8"
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-dbg: PKGV changed from 1.3.7 [default] to 1.3.8 [default]
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-dbg: PKGSIZE changed from 625736 to 626152 (+0%)
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-dbg: PV changed from "1.3.7" to "1.3.8"
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-dev: PKGV changed from 1.3.7 [default] to 1.3.8 [default]
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-dev: PV changed from "1.3.7" to "1.3.8"
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-doc: PKGV changed from 1.3.7 [default] to 1.3.8 [default]
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-doc: PV changed from "1.3.7" to "1.3.8"
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-locale: PKGV changed from 1.3.7 [default] to 1.3.8 [default]
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-locale: PV changed from "1.3.7" to "1.3.8"
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-src: FILELIST: directory renamed /usr/src/debug/libtirpc/1.3.7/src -> /usr/src/debug/libtirpc/1.3.8/src, directory renamed /usr/src/debug/libtirpc/1.3.7/tirpc -> /usr/src/debug/libtirpc/1.3.8/tirpc, directory renamed /usr/src/debug/libtirpc/1.3.7/tirpc/rpc -> /usr/src/debug/libtirpc/1.3.8/tirpc/rpc
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-src: PKGV changed from 1.3.7 [default] to 1.3.8 [default]
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-src: PKGSIZE changed from 671289 to 672098 (+0%)
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-src: PV changed from "1.3.7" to "1.3.8"
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-staticdev: PKGV changed from 1.3.7 [default] to 1.3.8 [default]
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc-staticdev: PV changed from "1.3.7" to "1.3.8"
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc: PKGV changed from 1.3.7 [default] to 1.3.8 [default]
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc: PKGSIZE changed from 171487 to 179679 (+5%)
-packages/x86-64-v3-poky-linux/libtirpc/libtirpc: PV changed from "1.3.7" to "1.3.8"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning: PV changed from "2.3.4" to "2.4.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning: PKGV changed from 2.3.4 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning: SRC_URI changed from "https://files.pythonhosted.org/packages/source/v/vcs_versioning/vcs_versioning-2.3.4.tar.gz file://run-ptest" to "https://files.pythonhosted.org/packages/source/v/vcs_versioning/vcs_versioning-2.4.0.tar.gz file://run-ptest"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-dbg: PV changed from "2.3.4" to "2.4.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-dbg: PKGV changed from 2.3.4 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-dev: PV changed from "2.3.4" to "2.4.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-dev: PKGV changed from 2.3.4 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-doc: PV changed from "2.3.4" to "2.4.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-doc: PKGV changed from 2.3.4 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-locale: PV changed from "2.3.4" to "2.4.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-locale: PKGV changed from 2.3.4 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-ptest: PKGSIZE changed from 278380 to 299016 (+7%)
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-ptest: FILELIST: added "/usr/lib/python3-vcs-versioning/ptest/testing_vcs/test_git_distance_scope.py"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-ptest: PV changed from "2.3.4" to "2.4.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-ptest: PKGV changed from 2.3.4 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-src: PV changed from "2.3.4" to "2.4.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-src: PKGV changed from 2.3.4 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-staticdev: PV changed from "2.3.4" to "2.4.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning-staticdev: PKGV changed from 2.3.4 [default] to 2.4.0 [default]
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning: PKGSIZE changed from 777583 to 815292 (+5%)
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning: FILELIST: directory renamed /usr/lib/python3.14/site-packages/vcs_versioning-2.3.4.dist-info -> /usr/lib/python3.14/site-packages/vcs_versioning-2.4.0.dist-info, directory renamed /usr/lib/python3.14/site-packages/vcs_versioning-2.3.4.dist-info/licenses -> /usr/lib/python3.14/site-packages/vcs_versioning-2.4.0.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning: PV changed from "2.3.4" to "2.4.0"
+packages/x86-64-v3-poky-linux/python3-vcs-versioning/python3-vcs-versioning: PKGV changed from 2.3.4 [default] to 2.4.0 [default]
+Changes to packages/x86-64-v3-poky-linux/python3-vcs-versioning (sysroot):
+  /usr/lib/python3.14/site-packages/vcs_versioning-2.3.4.dist-info moved to /usr/lib/python3.14/site-packages/vcs_versioning-2.4.0.dist-info
+Changes to packages/x86_64-linux/python3-vcs-versioning-native (sysroot):
+  /usr/lib/python3.14/site-packages/vcs_versioning-2.3.4.dist-info moved to /usr/lib/python3.14/site-packages/vcs_versioning-2.4.0.dist-info
 
---===============3441873538364033705==--
+--===============4479275268467151917==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-vcs-versioning-upgrade-2.3.4-2.4.0.patch"
+
+RnJvbSA4ZTljN2I0MjM4MDg2OTI1ZTYyMGRkNTU3NGU5M2ZhOTQzZWYyMDY2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMTQgU2VwIDIwMjYgMDU6MjY6NDMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXZjcy12ZXJzaW9uaW5nOiB1cGdyYWRlIDIuMy40IC0+IDIuNC4wCgpTb3VyY2U6IENI
+QU5HRUxPRy5tZAoKIyMgMi40LjAgKDIwMjYtMDktMTIpCgojIyMgQWRkZWQKCi0gQWRkIGBzY20u
+Z2l0LmRpc3RhbmNlX3Njb3BlYCBhbmQgYHNjbS5naXQuZGlzdGFuY2VfY291bnRgLCByZXN0cmlj
+dGluZyB0aGUgZGlzdGFuY2UgY291bnQgdG8gdGhlIGNvbW1pdHMgdGhhdCB0b3VjaCBhIG1vbm9y
+ZXBvIHByb2plY3QgKGFuZCBvcHRpb25hbGx5IGZ1cnRoZXIgc2hhcmVkIGRpcmVjdG9yaWVzKSBp
+bnN0ZWFkIG9mIGV2ZXJ5IGNvbW1pdCBpbiB0aGUgcmVwb3NpdG9yeS4gQ291bnRpbmcgdXNlcyBg
+LS1mdWxsLWhpc3RvcnlgIGJ5IGRlZmF1bHQsIG9yIGAtLWZpcnN0LXBhcmVudGA7IGdpdCdzIGRl
+ZmF1bHQgaGlzdG9yeSBzaW1wbGlmaWNhdGlvbiBpcyBub3Qgb2ZmZXJlZCBiZWNhdXNlIGl0IGNh
+biBtYWtlIHRoZSBkaXN0YW5jZSBzaHJpbmsgYWNyb3NzIGEgbWVyZ2UuIEdpdCBvbmx5LiAoWyMx
+MDU2XShodHRwczovL2dpdGh1Yi5jb20vcHlwYS9zZXR1cHRvb2xzLXNjbS9pc3N1ZXMvMTA1Nikp
+CgojIyMgRml4ZWQKCi0gU2VsZWN0IGZpbGUgZmluZGVycyBieSB0aGUgVkNTIG1hcmtlciB0aGVp
+ciBlbnRyeSBwb2ludCBpcyBuYW1lZCBmb3IgKGAuZ2l0YCwgYC5oZ2AsIGAuampgKSBpbnN0ZWFk
+IG9mIHJ1bm5pbmcgZXZlcnkgYmFja2VuZCdzIGNvbW1hbmQgaW4gdHVybi4gQSB0cmVlIHdpdGgg
+bm8gVkNTIG1hcmtlciAtLSBhbiB1bnBhY2tlZCBzZGlzdCwgc2F5IC0tIG5vdyBzcGF3bnMgbm8g
+c3VicHJvY2VzcyBhdCBhbGwsIHNvIGEgc2xvdyBgaGdgIG9uIGBQQVRIYCBjYW4gbm8gbG9uZ2Vy
+IGZhaWwgYW4gdW5yZWxhdGVkIGJ1aWxkLgoKICBUaGUgZmluZGVycyBhbHNvIHN1cnZpdmUgYSBz
+dWJwcm9jZXNzIHRpbWVvdXQ6IGBzdWJwcm9jZXNzLlRpbWVvdXRFeHBpcmVkYCB3YXMgdW5jYXVn
+aHQgYW5kIGFib3J0ZWQgdGhlIGJ1aWxkLCBhbmQgaXMgbm93IHRyZWF0ZWQgbGlrZSBhbnkgb3Ro
+ZXIgZmFpbGVkIHByb2JlLiAoWyMxMjEyXShodHRwczovL2dpdGh1Yi5jb20vcHlwYS9zZXR1cHRv
+b2xzLXNjbS9pc3N1ZXMvMTIxMikpCi0gUHJlZmVyIHRoZSBmYWxsYmFjayBtZXRhZGF0YSBuZWFy
+ZXN0IHRoZSBwcm9qZWN0IGRpcmVjdG9yeS4gQSBgLmdpdF9hcmNoaXZhbC50eHRgIG9yIGBQS0ct
+SU5GT2AgYXQgdGhlIFZDUyByb290IG5vIGxvbmdlciBzaGFkb3dzIGEgbW9ub3JlcG8gcHJvamVj
+dCdzIG93biwgd2hpY2ggc2lsZW50bHkgcHJvZHVjZWQgdGhlIHJvb3QgcHJvamVjdCdzIHZlcnNp
+b24uIChbIzE1MjJdKGh0dHBzOi8vZ2l0aHViLmNvbS9weXBhL3NldHVwdG9vbHMtc2NtL2lzc3Vl
+cy8xNTIyKSkKLS0tCiAuLi4tdmNzLXZlcnNpb25pbmdfMi4zLjQuYmIgPT4gcHl0aG9uMy12Y3Mt
+dmVyc2lvbmluZ18yLjQuMC5iYn0gfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24o
+KyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tw
+eXRob24zLXZjcy12ZXJzaW9uaW5nXzIuMy40LmJiID0+IHB5dGhvbjMtdmNzLXZlcnNpb25pbmdf
+Mi40LjAuYmJ9ICg5MSUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLXZjcy12ZXJzaW9uaW5nXzIuMy40LmJiIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xz
+L3B5dGhvbi9weXRob24zLXZjcy12ZXJzaW9uaW5nXzIuNC4wLmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy12Y3Mt
+dmVyc2lvbmluZ18yLjMuNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhv
+bi9weXRob24zLXZjcy12ZXJzaW9uaW5nXzIuNC4wLmJiCmluZGV4IGUzNThjNzIyZDcuLmU2NmE3
+Y2U3YjAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy12
+Y3MtdmVyc2lvbmluZ18yLjMuNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9u
+L3B5dGhvbjMtdmNzLXZlcnNpb25pbmdfMi40LjAuYmIKQEAgLTUsNyArNSw3IEBAIGxpYnJhcnkg
+dGhhdCBjYW4gYmUgdXNlZCBpbmRlcGVuZGVudGx5IG9mIHNldHVwdG9vbHMuIgogTElDRU5TRSA9
+ICJNSVQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFLnR4dDttZDU9YzliMDZh
+ZDJlYmQ3ZTJlODJkMzRiM2NhZjM1M2U3ZDUiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmMzQ0
+M2RhMTVhMzRhMzI3NTViMDQzMjRlMzNjNjE2NmFkZDMwMGM3NjYxZjQ1OTAyMjI1MTkwYzkzMzdm
+NzExIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gImNjNGI2NmMwMmFlNGNmYjUxZTg0MzkxMDAyNGY3
+MTQyNDY0YzMzOTFiYjFmN2UwNDYwODU3OGI0NTA0Njg5MWIiCiAKIFNSQ19VUkkgKz0gIlwKICAg
+ICBmaWxlOi8vcnVuLXB0ZXN0IFwKLS0gCjIuNDcuMQoK
+
+--===============4479275268467151917==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment;
+ filename="python3-vcs-versioning-changelog.txt"
+
+Changelog for python3-vcs-versioning: 2.3.4 -> 2.4.0
+Source: CHANGELOG.md
+
+## 2.4.0 (2026-09-12)
+
+### Added
+
+- Add `scm.git.distance_scope` and `scm.git.distance_count`, restricting the distance count to the commits that touch a monorepo project (and optionally further shared directories) instead of every commit in the repository. Counting uses `--full-history` by default, or `--first-parent`; git's default history simplification is not offered because it can make the distance shrink across a merge. Git only. ([#1056](https://github.com/pypa/setuptools-scm/issues/1056))
+
+### Fixed
+
+- Select file finders by the VCS marker their entry point is named for (`.git`, `.hg`, `.jj`) instead of running every backend's command in turn. A tree with no VCS marker -- an unpacked sdist, say -- now spawns no subprocess at all, so a slow `hg` on `PATH` can no longer fail an unrelated build.
+
+  The finders also survive a subprocess timeout: `subprocess.TimeoutExpired` was uncaught and aborted the build, and is now treated like any other failed probe. ([#1212](https://github.com/pypa/setuptools-scm/issues/1212))
+- Prefer the fallback metadata nearest the project directory. A `.git_archival.txt` or `PKG-INFO` at the VCS root no longer shadows a monorepo project's own, which silently produced the root project's version. ([#1522](https://github.com/pypa/setuptools-scm/issues/1522))
+
+--===============4479275268467151917==--
 
