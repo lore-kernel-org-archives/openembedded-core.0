@@ -2,129 +2,166 @@ Return-Path: <dwagenknecht@emlix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF8AC88E64
-	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 11:46:04 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9E258C88E64
+	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 11:46:14 +0000 (UTC)
 Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18332.1789386356924373859
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18099.1789386373603965570
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2026 04:45:57 -0700
+ Mon, 14 Sep 2026 04:46:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=Uj6Dgdrc;
- dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=AxgNMKp+;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=lZ8zPKnR;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=lZ8zPKnR;
  spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: dwagenknecht@emlix.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
-	s=20250930; t=1789386354;
-	bh=vxb8P0Pc//rxdwMQnsUig4n1OSHFWtzOmR71HlA9rX8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=Uj6DgdrcSLYS1Rr7M5ody2HK7Mwvt4tFAPKWwt0fMXWvIWtAIoNuFMf2rMdk3HR11
-	 OdbrMVa0saFwsOAc7SoKCpnAzy84w9xH3iSkKCkzJ9ubGwqJooLfsMHSjs4TO6zi9Y
-	 IaNM0MIGOHTJPKbbRk0B1FwpPPPSebbYqEEA6TS58J9qBodp2+7w8Arcs8qVwOEl2G
-	 WDc8/e/VkHHeY5/VPCu0s4BD/2Qs3fMHbym6RiTWRK/xbwztaT3p8VFp4TLdoXRI+t
-	 FagueUxBHrul0BV2OGREc7GRJeFW+3tw1wygyxWmOkO32YSJiRM8N/WE1sjX0edYSx
-	 7UA4ynsuEO2sw==
+	s=20250930; t=1789386360;
+	bh=550Jp7j7zKs9B35ZX4dePN6CYN/5n1/YudgSuwtwEIQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=lZ8zPKnRDFJ/D+S/oob12CdPAq8y/9Zggx2H0g377QZ+LqwTOZ1D0eigruqsMuJzO
+	 UOdWMTPxeNgt3YVYZRwq8/Cpsppj0K7Kt1JF8yeMP5h1WBGza/M3BqOJRYX2pPoZpo
+	 BhNvbYA1VRBtfkcMzF+geYu2aYyv3HHurh4IHspY97NU8LMw3tz7RtqbeTNdf7dQvL
+	 8fAaa3F/69jiPfS1r4kRiOLwUbOPrKyfyx62SpVHwWOZLFz7kAEpurQt3ev9G64f/M
+	 6xI3YDMJgDKAcJsmaMYaUf9WEYcww6LAl1wdCJiS0qzdoVbrXqPo6E/jRkvNslKpDg
+	 7Dd6f5tjFcQ4Q==
 Received: from mx1.emlix.com (localhost [127.0.0.1])
-	by mx1.emlix.com (Postfix) with ESMTP id 0BB8C5FA92
-	for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 13:45:54 +0200 (CEST)
+	by mx1.emlix.com (Postfix) with ESMTP id 4B2035FA92
+	for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 13:46:00 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
-	s=20250930; t=1789386353;
-	bh=vxb8P0Pc//rxdwMQnsUig4n1OSHFWtzOmR71HlA9rX8=;
-	h=From:To:Cc:Subject:Date:From;
-	b=AxgNMKp+JW7FuqV8KAKFyfne39Zpqyzkl9nCdaB0LEyUpjNZLzvw1GkvwHSVFfZhu
-	 TEDGtSin7g1CC1Ixd1X4wxqYdPi3N0LWeoG96kcaNlWfu8dxuneJh1gYNwKyJAGXLg
-	 4Fl9nXNriATg8TTlezTTBCYTMkBlp9u6CZHIoJ0wfB3+JLFEWR4Vzj8/X4fJByj2kK
-	 OW5JE99ucHSma8/aLaquQlJBH3i2DOBs/kKVl0PCLZSbDvUlNSEw9Jt67/F96Xh/je
-	 6mMGJhVmWc/tCvHZIFUbAa74GhjcXwX+ZKXQ+wRjUutdiPU17fqjRN9BuVeeGdL9sT
-	 JJ2t3Qxw102LA==
+	s=20250930; t=1789386360;
+	bh=550Jp7j7zKs9B35ZX4dePN6CYN/5n1/YudgSuwtwEIQ=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=lZ8zPKnRDFJ/D+S/oob12CdPAq8y/9Zggx2H0g377QZ+LqwTOZ1D0eigruqsMuJzO
+	 UOdWMTPxeNgt3YVYZRwq8/Cpsppj0K7Kt1JF8yeMP5h1WBGza/M3BqOJRYX2pPoZpo
+	 BhNvbYA1VRBtfkcMzF+geYu2aYyv3HHurh4IHspY97NU8LMw3tz7RtqbeTNdf7dQvL
+	 8fAaa3F/69jiPfS1r4kRiOLwUbOPrKyfyx62SpVHwWOZLFz7kAEpurQt3ev9G64f/M
+	 6xI3YDMJgDKAcJsmaMYaUf9WEYcww6LAl1wdCJiS0qzdoVbrXqPo6E/jRkvNslKpDg
+	 7Dd6f5tjFcQ4Q==
 Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
 	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
 	(No client certificate requested)
-	by mx1.emlix.com (Postfix) with ESMTPS id EB5E05F82B
-	for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 13:45:53 +0200 (CEST)
+	by mx1.emlix.com (Postfix) with ESMTPS id 3A8725F82B
+	for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 13:46:00 +0200 (CEST)
 From: Daniel Wagenknecht <dwagenknecht@emlix.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Daniel Wagenknecht <dwagenknecht@emlix.com>
-Subject: [PATCH 0/2] Add meta layer information to spdx
-Date: Mon, 14 Sep 2026 13:44:19 +0200
-Message-ID: <20260914114526.2646773-1-dwagenknecht@emlix.com>
+Subject: [PATCH 2/2] spdx: link files to the meta-layer providing them
+Date: Mon, 14 Sep 2026 13:44:21 +0200
+Message-ID: <20260914114526.2646773-3-dwagenknecht@emlix.com>
 X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260914114526.2646773-1-dwagenknecht@emlix.com>
+References: <20260914114526.2646773-1-dwagenknecht@emlix.com>
 MIME-Version: 1.0
 X-Virus-Scanned: ClamAV using ClamSMTP
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 11:46:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245763
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 11:46:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245765
 
-Hello,
+Many recipes ship files that originate from a meta-layer. Link each
+file added via the `file` protocol to the spdx entry of the meta-layer
+containing that file.
 
-as discussed before here
-https://lists.openembedded.org/g/openembedded-core/message/226131
-and here
-https://lists.openembedded.org/g/openembedded-core/message/225774
+Some files might not originate from a meta-layer (`file` protocol
+supports absolute paths), fail the build if SPDX_REQUIRE_LAYER_ASSERTION
+is set to true.
 
-it would be good to include information about the layers used in a build =
-in the
-generated spdx documents.
+Signed-off-by: Daniel Wagenknecht <dwagenknecht@emlix.com>
+---
+ meta/lib/oe/spdx30_tasks.py | 44 +++++++++++++++++++++++++++++++++----
+ 1 file changed, 40 insertions(+), 4 deletions(-)
 
-My primary goal is to track where all the configuration files added via f=
-ile
-protocol in `SRC_URI` originate from, but the approach could be extended =
-to
-track recipes, classes, machine config etc.
-
-These patches are meant as a basis to discuss the approach and should be
-considered draft status.
-
-The approach is to generate a `layers.spdx.json` on each build invocation
-that lists each layer used in the build as a `softwarePackage` with versi=
-on
-and source information as well as - if can be reasonably deducted - the
-downloadLocation. Each source file added via file protocol is then linked=
- to the
-containing meta layer via a `contains` relationship.
-
-Open Questions:
-- is the overall architecture reasonable/correct?
-- referring to layers is inconsistent across tooling. E.g. the core layer=
- is
-  either named `core` as defined by `BBFILE_COLLECTIONS` or `meta` as tha=
-t is
-  the layer directory in the openembedded-core repository.
-  I chose the latter since that is what the utility function
-  `oe.buildcfg.get_layer_revisions` returns. The package URL (PURL)
-  implementation uses the other naming scheme though. Any thoughts on whi=
-ch
-  should be chosen and why?
-- I do not understand the alias linking yet. With the current implementat=
-ion
-  I see many hash mismatches like
-  WARNING: gcc-runtime-15.3.0-r0 do_create_spdx: Element http://spdx.org/=
-spdxdocs/layers-7ad0d8d7-57f9-5c3c-9411-49227dd50610/layers/layer/meta
-    has alias http://spdx.org/spdxdocs/UNIHASH-7ad0d8d7-57f9-5c3c-9411-49=
-227dd50610/UNIHASH/layer/meta, but it should have prefix
-    http://spdxdocs.org/openembedded-alias/by-doc-hash/e80f1d61f4749e663e=
-80a4dfb25ebb1127b5f50600d3065de7ed91030942a1ef/
-
-I've currently got some time available to work on this to get a proper so=
-lution
-integrated into openembedded-core.
-
-Best Wishes
-Daniel Wagenknecht=20
-
-
-
-Daniel Wagenknecht (2):
-  spdx: add entries for meta-layers
-  spdx: link files to the meta-layer providing them
-
- meta/classes/create-spdx-3.0.bbclass |   1 +
- meta/classes/spdx-common.bbclass     |   3 +
- meta/lib/oe/sbom30.py                |  12 +++
- meta/lib/oe/spdx30_tasks.py          | 118 ++++++++++++++++++++++++++-
- 4 files changed, 130 insertions(+), 4 deletions(-)
-
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 0a8f4b0e1a0..f782ea1cadf 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -497,6 +497,7 @@ def add_download_files(d, objset):
+             primary_purpose =3D oe.spdx30.software_SoftwarePurpose.sourc=
+e
+=20
+         if fd.type =3D=3D "file":
++            (layer_path, layer_objset) =3D get_layer_info(d, fd.localpat=
+h)
+             if os.path.isdir(fd.localpath):
+                 walk_idx =3D 1
+                 for root, dirs, files in os.walk(fd.localpath, onerror=3D=
+walk_error):
+@@ -512,23 +513,36 @@ def add_download_files(d, objset):
+                             objset.new_spdxid(
+                                 "source", str(download_idx + 1), str(wal=
+k_idx)
+                             ),
+-                            os.path.join(
+-                                file_name, os.path.relpath(f_path, fd.lo=
+calpath)
+-                            ),
++                            os.path.relpath(f_path, layer_path),
+                             f_path,
+                             purposes=3D[primary_purpose],
+                         )
+=20
++                        if layer_objset is not None:
++                            objset.new_scoped_relationship(
++                                [oe.sbom30.get_element_link_id(layer_obj=
+set)],
++                                oe.spdx30.RelationshipType.contains,
++                                oe.spdx30.LifecycleScopeType.build,
++                                [file],
++                            )
++
+                         inputs.add(file)
+                         walk_idx +=3D 1
+=20
+             else:
+                 file =3D objset.new_file(
+                     objset.new_spdxid("source", str(download_idx + 1)),
+-                    file_name,
++                    os.path.relpath(fd.localpath, layer_path),
+                     fd.localpath,
+                     purposes=3D[primary_purpose],
+                 )
++                if layer_objset is not None:
++                    objset.new_scoped_relationship(
++                        [oe.sbom30.get_element_link_id(layer_objset)],
++                        oe.spdx30.RelationshipType.contains,
++                        oe.spdx30.LifecycleScopeType.build,
++                        [file],
++                    )
+                 inputs.add(file)
+=20
+         else:
+@@ -803,6 +817,28 @@ def load_recipe_spdx(d):
+         oe.spdx30.software_Package,
+     )
+=20
++def get_layer_info(d, path):
++    layer =3D None
++    path =3D Path(path)
++
++    layers =3D oe.buildcfg.get_layer_revisions(d)
++    for (l_path, l_name, l_branch, l_rev, l_ismodified) in layers:
++        l_path =3D Path(l_path)
++        if l_path in path.parents:
++            layer =3D l_name
++            break
++
++    if not l_path:
++        if oe.utils.vartrue("SPDX_REQUIRE_LAYER_ASSERTION", True, False,=
+ d):
++          bb.fatal(f"Path {path} does not originate from a meta-layer!")
++        return ("/", None)
++
++    deploy_dir_spdx =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
++    objset =3D oe.sbom30.load_jsonld(d, deploy_dir_spdx / "layers.spdx.j=
+son", required=3DTrue)
++    spdx_obj =3D objset.find_root(oe.spdx30.software_Package, name=3Dl_n=
+ame)
++
++    return (l_path, spdx_obj)
++
+=20
+ def create_spdx(d):
+     def set_var_field(var, obj, name, package=3DNone):
 --=20
 2.54.0
 
