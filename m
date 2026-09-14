@@ -1,101 +1,113 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 756FCC88E75
-	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 14:01:16 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20746.1789394466380195834
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A8A4C88E72
+	for <webhook@archiver.kernel.org>; Mon, 14 Sep 2026 14:02:36 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20778.1789394550933268636
  for <openembedded-core@lists.openembedded.org>;
- Mon, 14 Sep 2026 07:01:06 -0700
+ Mon, 14 Sep 2026 07:02:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CN03hJZk;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=O+HXYeJZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a0a038b2e4-6b479132-3ef9-43cf-a528-38ffd5d201ff-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789394465; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=oU3wnywoqD7oEqPKhIq5hBDnFuX0r2w19q4Kqy8cgMk=;
-	b=CN03hJZkaZ/t7TQL4XK1k8q7mTWjNciygodTPJNGpziRs7EncXjI+MybIPSAYTzA
-	6guSpiDNZ1gcCn0Vvyss6n025RIg1M+oAbpOwFK2R78nvIDBoLim8C+8gP9Dw1XVlH5
-	ZF2CC3T1Xzlo0G5UbBZmRDQVnVR4e5W5x6j9+yXA=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789394465;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=oU3wnywoqD7oEqPKhIq5hBDnFuX0r2w19q4Kqy8cgMk=;
-	b=O+HXYeJZsjI0Ya+7Ro+ovn31CiBtWQ9l1Q6fQY0T0T+ga6rYOJUO5PyJqDa8PxsT
-	+pDCKJ8D0kZAHZcB6VGKZs3KS4HLHUF2k62QT7e38cLiN7gt9POXlun/jJYWhevJqaX
-	cIHdX5xCAdt9WrXyk5E2jq9Wp4OUIz/QqRUt8LvM=
-From: patchtest@automation.yoctoproject.org
-To: Leon Anavi <leon.anavi@konsulko.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] lame: Upgrade 3.100 -> 4.0
-In-Reply-To: <20260914133558.2695215-1-leon.anavi@konsulko.com>
-References: <20260914133558.2695215-1-leon.anavi@konsulko.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0a038b2e4-6b479132-3ef9-43cf-a528-38ffd5d201ff-000000@us-west-2.amazonses.com>
-Date: Mon, 14 Sep 2026 14:01:05 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.14-54.240.27.45
+ dkim=pass header.i=@smile.fr header.s=google header.b=AMUtRoaF;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e79a408deso4285995e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 07:02:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1789394549; x=1789999349; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=hEpNI1BKAIzerPXUWh9eXzcGqQoTP3tA/jIgBYwOs3g=;
+        b=AMUtRoaFoVNcMNDdpwNuXI31Sv8YdYkyhGF2g2nWM9O0j62txxHYlSfF35p+OWtDcU
+         55k9mwkrvooWTlbkZ93yYmNcc2HbD5/GcCUizB+QmIM3kFT9lXLCXpkclFLG53Gpz21V
+         EH8iQVJpB0Y5aou2b0biQOZFiNFgj9qi4+Zyg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20251104; t=1789394549; x=1789999349;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=hEpNI1BKAIzerPXUWh9eXzcGqQoTP3tA/jIgBYwOs3g=;
+        b=XYFU2zDOx5jU09lzO7+1n3UJvPkwR2zsku/0ECL2l6h83+gADVv2Uch+gptj7QexzM
+         DlbLlAYPHnsTEAkEWzAUbbUTGDByP2t/wC5PdT+ncoB2Anq6Ku8Kn21v9xpshpcD4kdc
+         mQI/6XTKugQCbxmb8ZEtc65u7iUgYmVwl0BJAT7fE5e/8N7xtva9FcDrvyHOsO647zLt
+         MWUyKrztHESz+p8E79qlUu3Pxj6UYlK8xwQPu2ZEcdvRJ5P5tYXtZNNe6/OvN8cq842d
+         EFgesKpRJ5CdnZ+ONyuhmCK5lecz64sXqJu4a5/svzIs5qzR4wRI4+ndRuQnCWIoac/g
+         hRvA==
+X-Forwarded-Encrypted: i=1; AKwUvByGGHo29HC4k2QJr2D1yxnWxyPxt13miYkrfq2nXPFzCPE010oDtxmw7dhqwM42OK5B7NWFG2qUSCRTkk5BRNfzSA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++luLY3HP1C3LNoGxt0smUt2+rpPWAXurmF5MxwedYPSH4m7Zgln
+	oT4n1qCSQfsajunnwM9L/Xz1ArzkFkJ8N9XOdMda8x0nuUtfs+CfbcHi/SWTvxKEY5Q=
+X-Gm-Gg: AYBFou1l36TPc8Yf+vEi8y3gVxlQEaVqKDk4qAxHEKFtroAf98g+HH+xOyZSuOUS5Ze
+	gponHS3LWp32E5nNiA+DiKQsYqObfXnsdXg/aB9L2WVpym4KMifT0hci+u/5QyC0SoxH8jENs1e
+	lQoATcq8G8RicLPjMuC+uWweahmjylJCpZYSaZGDTgR1/X6ehaUg6zghSHNdIzWlY5ImzqO06Ld
+	N/7LgAhsZLy/LAZXoCB6A/Ohat9hLO5XnvQGaZQ9JC8YGPoePP8WZD1LWfMsrQZnqGRXcF21Wh3
+	d0q1cEoh0mpOQEvOouF7yDk1BYdVXkZ3L2OVETRUMkkXKXr533JArKMUZjuHqxRT6rrDjQ3wdQI
+	ecmoeLkCh7nfYwxBzenGx/+JeMCLj+rhHlxvNnvFgWg3wJkVVY9M5e++ThlbNg1ekHRnXl8Z/Fs
+	477a+s6pav6MRn07u5loznjaoPDkLwprqAvSbaA1ZVYuHFrKzMy6p2ZtztXa/WM6z3SByKglBUv
+	FL4+5ofdyTJXI5/Qp+DJckGvyOs3oa6Dh71jS40CB5bUgpAHlwBuIhPjh+BwrA=
+X-Received: by 2002:a05:600c:3b11:b0:49c:fa21:e73c with SMTP id 5b1f17b1804b1-49e7a6868b5mr28373735e9.18.1789394548943;
+        Mon, 14 Sep 2026 07:02:28 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49db038401fsm486804465e9.13.2026.09.14.07.02.28
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 14 Sep 2026 07:02:28 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 14 Sep 2026 16:02:28 +0200
+Message-Id: <DLF3FF58P4TN.2CQBWW4U3MHIO@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH v2] testimage: avoid symlinking
+ missing qemu boot log
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Tatrai, Peter" <peter.tatrai.ext@siemens.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260825125617.192989-1-peter.tatrai.ext@siemens.com>
+ <20260907185127.493115-1-peter.tatrai.ext@siemens.com>
+ <DLCHN8AZBSON.6FA3PJWOP4EM@smile.fr>
+ <AM0PR10MB3570E8E68B19FAFE5DBD942BDBBB2@AM0PR10MB3570.EURPRD10.PROD.OUTLOOK.COM>
+In-Reply-To: <AM0PR10MB3570E8E68B19FAFE5DBD942BDBBB2@AM0PR10MB3570.EURPRD10.PROD.OUTLOOK.COM>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 14:01:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245783
+ <openembedded-core@lists.openembedded.org>; Mon, 14 Sep 2026 14:02:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245784
 
---NextPart
-Content-Type: text/plain
+On Mon Sep 14, 2026 at 11:03 AM CEST, Peter Tatrai wrote:
+> Hello Yoann,
+>
+>> Where does this FileNotFoundError happen in scarthgap?
+>> os.symlink() has no problem creating a symlink to a non existing file an=
+d I don't see
+>> where we would open bootlog (we do open bootlog in wrynose/master though=
+). Are
+>> you sure we need this fix on scarthgap? Or maybe we need something else?
+>
+> You are right, thanks for catching that.
+>
+> In scarthgap this does not fail in os.symlink() itself: it creates a
+> dangling symlink when the base bootlog is missing. The FileNotFoundError
+> then happens later in our CI pipeline when collecting/copying the oeqa
+> log artifacts.
+>
+> So, the issue is narrower than the v2 commit message says: the patch
+> avoids creating a misleading dangling bootlog symlink in the result log
+> directory. If that still sounds acceptable for scarthgap, I can send a
+> v3 with the commit message updated accordingly and without implying that
+> testimage itself raises FileNotFoundError.
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Yes, I would take that :)
 
----
-Testing patch /home/patchtest/share/mboxes/lame-Upgrade-3.100---4.0.patch
+Thanks!
 
-FAIL: test Signed-off-by presence: A patch file has been added without a Signed-off-by tag: 'id3tags.patch' (test_patch.TestPatch.test_signed_off_by_presence)
-
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
+>
+> Regards,
+> Peter
 
 
---NextPart--
+--=20
+Yoann Congal
+Smile ECS
+
 
