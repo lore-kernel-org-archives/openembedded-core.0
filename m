@@ -2,153 +2,149 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 65CE6C88E7D
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84C7DC88E53
 	for <webhook@archiver.kernel.org>; Tue, 15 Sep 2026 09:40:59 +0000 (UTC)
 Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19379.1789465256539490252
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.19381.1789465257733457739
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2026 02:40:56 -0700
+ Tue, 15 Sep 2026 02:40:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=Zm++cdtp;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=WngVPqGU;
  spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
 Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 34C38169C
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 02:40:52 -0700 (PDT)
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9AC0D169C
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 02:40:53 -0700 (PDT)
 Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 6C7763F86F
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 02:40:55 -0700 (PDT)
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D335D3F86F
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 02:40:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789465255; bh=neaBkDK1KtO+EhRXcaHShtLuXVEtpLp2jNDue0HZDlg=;
-	h=From:To:Subject:Date:From;
-	b=Zm++cdtpfLGVDgmvfJxT4Ye2FHYY7xW1lP7aZtU5Fz516JEv04G+ExpQXzSJHS3ZJ
-	 JSKeAAK2b0s0Zq2jCPO3VPOBOEpmY+NKYBpN61M7oDy5P+uDZbUVGLoUCI5/H752Di
-	 +B23uXqz/zhXD2n4s+HfE3dXq9sUbI0eg1IN1A70=
+	t=1789465257; bh=LSiGMKrpVOdApyeEM3KUDUyhdj00Tv5i9oWHq9NuO18=;
+	h=From:To:Subject:Date:In-Reply-To:References:From;
+	b=WngVPqGUjVsqkZkX8CeG8kl4lEvtvCwV/98sQuJ6R9SfvtMdwFRb8HbGXJmR6ePNg
+	 RW2JG0VctXf3O4riecCJ6i08bwDzvtj3Sn7qtzIpHkzKzyBnc2wR5+um3dctkqrK6l
+	 2hHH6HBhUYhgArL58vCRR8DUGUDWsPRCwiDedXCY=
 From: Ross Burton <ross.burton@arm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2 1/3] python3-rfc3339-validator: remove usage of six
-Date: Tue, 15 Sep 2026 10:40:49 +0100
-Message-ID: <20260915094051.2553033-1-ross.burton@arm.com>
+Subject: [PATCH v2 3/3] python3-six: remove obsolete package
+Date: Tue, 15 Sep 2026 10:40:51 +0100
+Message-ID: <20260915094051.2553033-3-ross.burton@arm.com>
 X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260915094051.2553033-1-ross.burton@arm.com>
+References: <20260915094051.2553033-1-ross.burton@arm.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 09:40:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245828
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245830
 
-Six is only needed to support Python 2 and 3 in a single script, but
-Py2 was EOL six years ago now.  Patch out the need for six, and drop it
-as a dependency.
+Python 2 was end-of-lifed six years ago now, so I think it's time to
+retire the six module from core and move it to meta-python.
 
-Also remove a redundant FILESEXTRAPATHS from when there were python- and
-python3- versions of the recipe.
+A lot of recipes in meta-oe still claim to depend on it, but I expect
+the majority of those are redundant.
 
 Signed-off-by: Ross Burton <ross.burton@arm.com>
 ---
- .../0001-Remove-usage-of-six.patch            | 62 +++++++++++++++++++
- .../python/python3-rfc3339-validator_0.1.4.bb |  3 +-
- 2 files changed, 63 insertions(+), 2 deletions(-)
- create mode 100644 meta/recipes-devtools/python/python3-rfc3339-validato=
-r/0001-Remove-usage-of-six.patch
+ meta/conf/distro/include/maintainers.inc      |  1 -
+ .../distro/include/ptest-packagelists.inc     |  1 -
+ meta/recipes-devtools/python/python-six.inc   | 11 ---------
+ .../python/python3-six_1.17.0.bb              | 23 -------------------
+ 4 files changed, 36 deletions(-)
+ delete mode 100644 meta/recipes-devtools/python/python-six.inc
+ delete mode 100644 meta/recipes-devtools/python/python3-six_1.17.0.bb
 
-diff --git a/meta/recipes-devtools/python/python3-rfc3339-validator/0001-=
-Remove-usage-of-six.patch b/meta/recipes-devtools/python/python3-rfc3339-=
-validator/0001-Remove-usage-of-six.patch
-new file mode 100644
-index 00000000000..ad34b21edb1
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-rfc3339-validator/0001-Remove-=
-usage-of-six.patch
-@@ -0,0 +1,62 @@
-+From 9e74298b018d61f93768061800fa670de8e34dfe Mon Sep 17 00:00:00 2001
-+From: Ross Burton <ross.burton@arm.com>
-+Date: Mon, 14 Sep 2026 22:27:29 +0100
-+Subject: [PATCH] Remove usage of six
-+
-+The last release of Python 2 was 2.7.18, released in April 2020. Python
-+was officially end-of-life in 2020.  I think it's time to stop catering
-+for people using Python 2, so drop the usage of six.
-+
-+Closes #11.
-+
-+Upstream-Status: Submitted [https://github.com/naimetti/rfc3339-validato=
-r/pull/14]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ rfc3339_validator.py            | 7 +------
-+ setup.py                        | 4 +---
-+ tests/test_rfc3339_validator.py | 9 +--------
-+ 3 files changed, 3 insertions(+), 17 deletions(-)
-+
-+diff --git a/rfc3339_validator.py b/rfc3339_validator.py
-+index 4be5e87..efc9b7d 100644
-+--- a/rfc3339_validator.py
-++++ b/rfc3339_validator.py
-+@@ -6,11 +6,6 @@ __version__ =3D '0.1.4'
-+=20
-+ import re
-+ import calendar
-+-import six
-+-
-+-RFC3339_REGEX_FLAGS =3D 0
-+-if six.PY3:
-+-    RFC3339_REGEX_FLAGS |=3D re.ASCII
-+=20
-+ RFC3339_REGEX =3D re.compile(r"""
-+     ^
-+@@ -30,7 +25,7 @@ RFC3339_REGEX =3D re.compile(r"""
-+        | [+-](?:[01]\d|2[0123]):[0-5]\d # Offset
-+     )
-+     $
-+-""", re.VERBOSE | RFC3339_REGEX_FLAGS)
-++""", re.VERBOSE | re.ASCII)
-+=20
-+=20
-+ def validate_rfc3339(date_string):
-+diff --git a/setup.py b/setup.py
-+index 73186bd..b9936b0 100644
-+--- a/setup.py
-++++ b/setup.py
-+@@ -8,9 +8,7 @@ from setuptools import setup, find_packages
-+ with open('README.md') as readme_file:
-+     readme =3D readme_file.read()
-+=20
-+-requirements =3D [
-+-    'six',
-+-]
-++requirements =3D []
-+=20
-+ setup_requirements =3D []
-+=20
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4=
-.bb b/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
-index 242176dd757..06eb833f7a9 100644
---- a/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
-+++ b/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
-@@ -3,7 +3,7 @@ HOMEPAGE =3D "https://github.com/naimetti/rfc3339-validat=
-or"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Da21b13b5a996f08f7e0b088aa38ce=
-9c6"
-=20
--FILESEXTRAPATHS:prepend :=3D "${THISDIR}/python-rfc3339-validator:"
-+SRC_URI +=3D "file://0001-Remove-usage-of-six.patch"
-=20
- SRC_URI[sha256sum] =3D "138a2abdf93304ad60530167e51d2dfb9549521a836871b8=
-8d7f4695d0022f6b"
-=20
-@@ -14,7 +14,6 @@ inherit pypi setuptools3
- RDEPENDS:${PN} +=3D "\
-     python3-core \
-     python3-datetime \
+diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/=
+include/maintainers.inc
+index bded4bf6c7d..a41f2488089 100644
+--- a/meta/conf/distro/include/maintainers.inc
++++ b/meta/conf/distro/include/maintainers.inc
+@@ -723,7 +723,6 @@ RECIPE_MAINTAINER:pn-python3-setuptools =3D "Trevor G=
+amblin <tgamblin@baylibre.com
+ RECIPE_MAINTAINER:pn-python3-setuptools-rust =3D "Tim Orling <tim.orling=
+@konsulko.com>"
+ RECIPE_MAINTAINER:pn-python3-setuptools-scm =3D "Trevor Gamblin <tgambli=
+n@baylibre.com>"
+ RECIPE_MAINTAINER:pn-python3-shacl2code =3D "Benjamin Robin <benjamin.ro=
+bin@bootlin.com>"
+-RECIPE_MAINTAINER:pn-python3-six =3D "Trevor Gamblin <tgamblin@baylibre.=
+com>"
+ RECIPE_MAINTAINER:pn-python3-smartypants =3D "Trevor Gamblin <tgamblin@b=
+aylibre.com>"
+ RECIPE_MAINTAINER:pn-python3-smmap =3D "Trevor Gamblin <tgamblin@baylibr=
+e.com>"
+ RECIPE_MAINTAINER:pn-python3-snowballstemmer =3D "Tim Orling <tim.orling=
+@konsulko.com>"
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc
+index 2b5d665abe7..4012be5f499 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -90,7 +90,6 @@ PTESTS_FAST =3D "\
+     python3-pytz \
+     python3-pyyaml \
+     python3-rpds-py \
 -    python3-six \
- "
-=20
- BBCLASSEXTEND =3D "native nativesdk"
+     python3-trove-classifiers \
+     python3-vcs-versioning \
+     python3-uritools \
+diff --git a/meta/recipes-devtools/python/python-six.inc b/meta/recipes-d=
+evtools/python/python-six.inc
+deleted file mode 100644
+index f7a62b60688..00000000000
+--- a/meta/recipes-devtools/python/python-six.inc
++++ /dev/null
+@@ -1,11 +0,0 @@
+-SUMMARY =3D "Python 2 and 3 compatibility library"
+-HOMEPAGE =3D "https://pypi.org/project/six/"
+-SECTION =3D "devel/python"
+-LICENSE =3D "MIT"
+-LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3De50fab7e9501f3dfc920eafeb24b4=
+6ea"
+-
+-inherit pypi
+-
+-RDEPENDS:${PN} =3D "python3-io"
+-
+-BBCLASSEXTEND =3D "native nativesdk"
+diff --git a/meta/recipes-devtools/python/python3-six_1.17.0.bb b/meta/re=
+cipes-devtools/python/python3-six_1.17.0.bb
+deleted file mode 100644
+index ca120e03086..00000000000
+--- a/meta/recipes-devtools/python/python3-six_1.17.0.bb
++++ /dev/null
+@@ -1,23 +0,0 @@
+-inherit setuptools3 ptest-python-pytest
+-require python-six.inc
+-
+-SRC_URI[sha256sum] =3D "ff70335d468e7eb6ec65b95b99d3a2836546063f63acc517=
+1de367e834932a81"
+-
+-PTEST_PYTEST_DIR =3D "."
+-
+-# test_six.py exercises the six.moves mappings, which import these stdli=
+b
+-# modules that are packaged separately in oe-core.
+-RDEPENDS:${PN}-ptest +=3D " \
+-    python3-html \
+-    python3-netclient \
+-    python3-xmlrpc \
+-"
+-
+-do_install_ptest:append() {
+-    # six ships its test at the sdist root; keep only test_six.py plus t=
+he
+-    # generated run-ptest, and drop the packaged library sources / bytec=
+ode.
+-    rm -f  ${D}${PTEST_PATH}/six.py
+-    rm -f  ${D}${PTEST_PATH}/setup.py ${D}${PTEST_PATH}/setup.cfg ${D}${=
+PTEST_PATH}/MANIFEST.in
+-    rm -f  ${D}${PTEST_PATH}/CHANGES ${D}${PTEST_PATH}/README.rst ${D}${=
+PTEST_PATH}/PKG-INFO ${D}${PTEST_PATH}/LICENSE
+-    rm -rf ${D}${PTEST_PATH}/build ${D}${PTEST_PATH}/documentation ${D}$=
+{PTEST_PATH}/six.egg-info ${D}${PTEST_PATH}/__pycache__
+-}
 --=20
 2.43.0
 
