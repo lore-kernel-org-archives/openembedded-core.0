@@ -2,87 +2,88 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 02635C88E75
-	for <webhook@archiver.kernel.org>; Tue, 15 Sep 2026 14:20:26 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.24225.1789482023472802725
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E064AC88E75
+	for <webhook@archiver.kernel.org>; Tue, 15 Sep 2026 14:24:05 +0000 (UTC)
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24319.1789482241963561763
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2026 07:20:23 -0700
+ Tue, 15 Sep 2026 07:24:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=iHCJLERs;
- spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e6598dd44so13576415e9.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 07:20:23 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=s190XJ1P;
+ spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4858bc96fabso2298229f8f.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 07:24:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789482022; x=1790086822; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1789482240; x=1790087040; darn=lists.openembedded.org;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=4kYweK3XZeNCOQImAVb8oDzfFm2rymj5mlQr6hDIvX4=;
-        b=iHCJLERsomaYHPGVtFtLAxWgFSsKkYIWHrlt2+0+jghhYJ8PT0t1kaXv78FGZ1bq1y
-         Qf8HhZGpDjF4GOa9GW6rpffLeCMRKxB5JCDxNDqbqrMyoK15hJO/Hlx6U+zsOvLxets/
-         iI5L6Y80if22xOcnOSdCZotrMUgURipyTRlJw=
+        bh=AA/9NCJxFpeQlmAx/DPKxgZ+Bj4Bhi5yO8k/ZanWPiY=;
+        b=s190XJ1PuHWYNdKeU89nJAkRXq5Urxbsh1sp46FM+c6tE9HOftg4W/zNOx3EaerSbR
+         0dmehYjKAH0x6MCo0jxklql4DUBNIEklPSISvXS0JfGzahRzugpFm8ZPZkauxa7dUtB+
+         fkNTnAkT4IdUhb7VvkQl7HqdymtOOVVnnE/y8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789482022; x=1790086822;
+        d=1e100.net; s=20260707; t=1789482240; x=1790087040;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=4kYweK3XZeNCOQImAVb8oDzfFm2rymj5mlQr6hDIvX4=;
-        b=eVzmdDdDtK4+hTFwMlKeOlosBRZeg13Qa61qTxX90RX51q7GmwZWcuFUUgNqZRN/g3
-         SVeJk5nEHgPPiMlo23pgzbn1WFFPwnyvQv6uNIJq3SvdP+5RPygqnSzBLuL6MZbO+chr
-         ylT6m5uXyFIT2IZ0UDqvJsOdNvAtoik8ysjyvdrzEPZ8DZsWAJ993x8hbngyCqKYu7oe
-         c9cjZOjK6aGoPZRzNeKPw45oohOA6S43zXeEJxC23fd4zfWq9Z+fdudg7nGrESe4c9x8
-         29OSm4f4Q0WabZ9Wp8hJzZL1L5WFvOaRI7DyqevE7AmELl9FQTgQQ4cP8PvFVUmuhNYR
-         pt9A==
-X-Forwarded-Encrypted: i=1; AKwUvBy+uH+0vBRftYkxoslmXorQ/tI7q/mTq8sYKuiGq71iae4QGZ/FUkrNqMEpqV1goKGwbItx/K5tZh6fCXe8S1PCew==@lists.openembedded.org
-X-Gm-Message-State: AFuF++mWp2Cu5enIsgSLSk4P8rPdyRXaxoQytwHQG7br8xAevWwwzkzu
-	2Z0ofCjuw7C1OMECtqtr08mZyBuC2FGxma5Ux5e+4iNRpAKkrgiMQhb2SGM3tyBbE7I=
-X-Gm-Gg: AYBFou3iHnuTDEZTgOqRIF3xjSqXcosnAh4HgOqcJSoz12J4bq2FP3gDycVfcberCIS
-	sddUIOA6oy91flpZHacbdP35IjrSLfS1Qe51Y/k1tYryEhSGJx1GbhLl04cucf4CtfsW0QgZ3yF
-	wjrk2r6OVLVre9tIyAvtP1fLVu7IMWkDj8uoWduOjdvw+gaX90wLSyOLZ55JeWyPd3bUPhe5P0l
-	XnS52ZC8w7+mdpzrDvAlFITrRCP72SNLbT7z6unlVY/gSjQBmpaygi3ZRAVqqWVk/EpVBimwFLY
-	MF191xXahqTl5nKwTTiJ48YiEHqts7tUXTxVehyMlpGWNPxeEOt7SbDL5j5oQXwk4yBdh1AFR6a
-	bh7WEPo4cX3Rk526AM4sLBaeknpyALZDqE+egYQLZH1iKo40QBVNUnMrt4awoSedUiEQVj2sbBP
-	dw4syhvWuJTqgYlzwYMsYyqz6oDZDsxvsXWMOK5ol8r3PTVKQD9UvWXzxhks8GDhUriSn9pQ2EW
-	QVoKtSfr8sLU4huXbE8XEWukG6dxs81VSPCjgaCMicpaZ92AgQHPbYRJds=
-X-Received: by 2002:a05:600c:4e47:b0:49c:fa20:cc02 with SMTP id 5b1f17b1804b1-49e7a677cdbmr72493615e9.25.1789482021418;
-        Tue, 15 Sep 2026 07:20:21 -0700 (PDT)
+        bh=AA/9NCJxFpeQlmAx/DPKxgZ+Bj4Bhi5yO8k/ZanWPiY=;
+        b=Z6vfgOXmRa+B5g6AMQy7paRnTRr3iQldAOrAQTgd7c1CgZzHa3evmcKte4QEKeokmO
+         PX3swgzO36YDbHE4Bg0XEipoKRGPeaHbrPyUuMfBM2AOBd+Z05wVFThPQdoish+gqIQc
+         PAaB6x6KD7+O6nRy1gwldfTWmjZbEFcI7X1R8Zua78IG2xL9vadEwJU5WGqc4tgNnT9F
+         oJk5GLZbdmspUmirOBVwcYHNvi6w7sAATKXOQF3YG7xG2lIVJTRPRsLn9Z2lNsdz1l9H
+         TXLA3fbxr8nh6ARBb7Plwv5T6cGKAMkda0sxUTnWIh6vZlK3hTZoU5RkpU3DROGP6VTR
+         F1nQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwDoYhqRGR6jjIwS8tmvQ1DmCTPSn59PvOh+VmzWf3yqMxEUe1k3++meoc2CEqa3HDTBGaJEMoIDOQ5VFQU8ZYX2A==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nVgcNFm6xNUQHG/zyR9y4zvo5DLpuE75s2v0VYPT1hSxaXOWjP
+	gGrgtMvPAa/ybvj1x+xo3NGOaxJ9GdQyYr5qTElCI7+pjGEv6eeLwJzde/1pMG4SNGdivQZWwHj
+	kAl07KlQ=
+X-Gm-Gg: AYBFou09KK5QwbqRWv3BJT73kaBzxbk2+khQIT4sB3AJG/Ymgl9E0CUNkYDhBt5toi0
+	aykkgA1Rr9JH4R5wIWCMS/F0Q5YfrHb4pF/0FYuC5+D0DsVP/88QusITJdt3xMkW8QaY3rzMyCK
+	OYbtEzvb0Wm/XqkD3Tbyq6WGemn5dY2iU0nAeZ+eOSvZy8b6eYOyOkaGFosWDWlZCcBtkMidV1Q
+	3x8LY0fwA2FA4u/Lims1sj22de7sbCaXTN96FNs48PLoaP/imqM2l/5zDM9QghqThRbPlKSUpVb
+	4AQHOH/mXJ1Mmpco36DI6k1SBktN8gP6jCGOh9rUQyOJn1Iao2C2IHIneoX/oM0RigaKbasNR6s
+	EvxsvAeSpELxDersTDIUBTrlojjYBI3H0Pwd4tIufI5/AqiELuxCkZlh1jxIOZk+KrvGa69NCHi
+	SLBTFSTagqXhvutUgtU4xy8A/mq2/l7vhgcd+KL0L7Mtvtx1861r8ZGxjOa7FKGtWZlQpW8RRTU
+	gF5/sqHY9phdIsb9OWog0oKOIpjSTtBKLihHSwAGsU46sfbc32pDfNapNbYK9B75wfiog==
+X-Received: by 2002:a05:600c:4f43:b0:49e:6c27:d093 with SMTP id 5b1f17b1804b1-49e7a6704d3mr101619745e9.15.1789482239948;
+        Tue, 15 Sep 2026 07:23:59 -0700 (PDT)
 Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83a24c72sm144835e9.0.2026.09.15.07.20.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e7ef735cesm70024475e9.6.2026.09.15.07.23.59
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Sep 2026 07:20:20 -0700 (PDT)
+        Tue, 15 Sep 2026 07:23:59 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Tue, 15 Sep 2026 16:20:20 +0200
-Message-Id: <DLFYFNE7WFWL.3F3WFUFA1M1VX@smile.fr>
-Subject: Re: [wrynose][oe-core][PATCH 02/10] ffmpeg: set CVE_STATUS for
- CVE-2026-64831
+Date: Tue, 15 Sep 2026 16:23:59 +0200
+Message-Id: <DLFYIFTG2IKP.NGNVCLRC36D0@smile.fr>
+Subject: Re: [wrynose][oe-core][PATCH 03/10] ffmpeg: set CVE_STATUS for
+ CVE-2026-64832
 From: "Yoann Congal" <yoann.congal@smile.fr>
 To: <bhavesh.maheshwari@einfochips.com>,
  <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
 References: <20260910133357.452394-1-bhavesh.maheshwari@einfochips.com>
- <20260910133357.452394-2-bhavesh.maheshwari@einfochips.com>
-In-Reply-To: <20260910133357.452394-2-bhavesh.maheshwari@einfochips.com>
+ <20260910133357.452394-3-bhavesh.maheshwari@einfochips.com>
+In-Reply-To: <20260910133357.452394-3-bhavesh.maheshwari@einfochips.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 14:20:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245848
+ <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 14:24:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245849
 
 On Thu Sep 10, 2026 at 3:31 PM CEST, Bhavesh R Maheshwari via lists.openemb=
 edded.org wrote:
 > From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 >
 > Analysis:
-> - CVE-2026-64831 affects Vulkan HEVC hardware acceleration.[1]
-> - The ffmpeg recipe does not enable or build Vulkan HEVC hardware acceler=
-ation by default.
+> - CVE-2026-64832 affects NVIDIA NVDEC hardware acceleration.[1]
+> - The ffmpeg recipe does not enable or build NVIDIA NVDEC hardware accele=
+ration by default.
 > - Hence CVE is not applicable.
 >
 > Reference:
-> [1] https://nvd.nist.gov/vuln/detail/CVE-2026-64831
+> [1] https://nvd.nist.gov/vuln/detail/CVE-2026-64832
 >
 > Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 > ---
@@ -91,33 +92,23 @@ ation by default.
 >
 > diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb b/meta/recipe=
 s-multimedia/ffmpeg/ffmpeg_8.0.3.bb
-> index 8c1969369b..af05ab4af9 100644
+> index af05ab4af9..68f09c2bc4 100644
 > --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
 > +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
-> @@ -186,3 +186,4 @@ CVE_STATUS[CVE-2025-59729] =3D "fixed-version: this C=
+> @@ -187,3 +187,4 @@ CVE_STATUS[CVE-2025-59730] =3D "fixed-version: this C=
 VE are fixed since v8.0"
->  CVE_STATUS[CVE-2025-59730] =3D "fixed-version: this CVE are fixed since =
-v8.0"
 >  CVE_STATUS[CVE-2026-8461] =3D "cpe-stable-backport: this CVE are fixed s=
 ince v8.0.3"
 >  CVE_STATUS[CVE-2026-40962] =3D "cpe-stable-backport: this CVE are fixed =
 since v8.0.2"
-> +CVE_STATUS[CVE-2026-64831] =3D "not-applicable-config: Vulkan HEVC hardw=
+>  CVE_STATUS[CVE-2026-64831] =3D "not-applicable-config: Vulkan HEVC hardw=
 are acceleration is not enabled or built by this recipe."
+> +CVE_STATUS[CVE-2026-64832] =3D "not-applicable-config: NVIDIA NVDEC hard=
+ware acceleration is not enabled or built by this recipe."
 
-Hello,
+Same as 2/10.
 
-Nothing prevent a downstream layer from activating this feature.
-
-The CVE fix[0] (per NVD) is quite simple and does apply on the ffmpeg
-8.0.x branch. Can you send a backport of the fix instead?
-
-I'll keep reviewing the rest of the series.
-
-[0]: https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/23665/commits/ea8087200ce9=
-1f3f296a30541a89b19ae4af19a2
-
-Thanks!
+Regards,
 --=20
 Yoann Congal
 Smile ECS
