@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BF362C982C5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AD047C982C1
 	for <webhook@archiver.kernel.org>; Tue, 15 Sep 2026 19:55:07 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5556.1789502104173067797
+Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5792.1789502103321819103
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2026 12:55:04 -0700
+ Tue, 15 Sep 2026 12:55:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Z1/xFeG5;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=EpMaj50f;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a0a6a31fbc-6d11e255-b096-4efa-94fe-ef68b02c3edd-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=GsZ7cLqA;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=CNzP2NV/;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a0a6a31bda-a4a74e4f-10f0-4573-84c1-d87045005e53-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789502103; i=@automation.yoctoproject.org;
+	t=1789502102; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=6fhyGizeYziu9mrsZgaF/Styfjh7Rs0V8o8NfF1YnAw=;
-	b=Z1/xFeG57WaZl377jg7rqzuzRupV50vQIBeGQP/x07CypXsoxA+k1coh7OnxkmgF
-	jrcqjOSBeTm1riXUZ1a9dHNURJBk33w/pt+y8mJB1spZ+TBsKfpSB2zEvlFFUwCaPhE
-	tbzkFUfDRAbs/kFsnMRwhAiLmnkooYaGrMVXUwDo=
+	bh=QoehmpETZslUuWR0hvIx/vc7m1pV0QfSSqqfOgLWjwg=;
+	b=GsZ7cLqADrZfGxa0V0PEB1r3+7Ho/KnZB9XetU8jApkzTF4d0LK8A5umWzP682uh
+	yqZ3Fa/bwSHX52J8ItuTN7Cpd9dhIYsPf3FUosQhfCIaE/r4JLmuLxKn+YCjBjkRtl1
+	eNuX7J8TO7QswwhaExJOBHetRmjhK+J70qIduD8o=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789502103;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789502102;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=6fhyGizeYziu9mrsZgaF/Styfjh7Rs0V8o8NfF1YnAw=;
-	b=EpMaj50fWY4AGujauGXX5NLv3NODyQp1hNRdXKiBXaihi8ydqqTv9686+l04uNOx
-	pcQaIYKp/VHFcmyFWoKlksdNHbggOvO4WuB4Qa4bkXHx7fouHuo9FWEE1fefwUTK5ef
-	uh/cOkrJzjWJD1pYYZRdxvZJOkKWQ7ctanzB8QME=
+	bh=QoehmpETZslUuWR0hvIx/vc7m1pV0QfSSqqfOgLWjwg=;
+	b=CNzP2NV/UtdTkVGZTbcxBSAZe3npQLAFxOn3zVUAFOPPJUJMZnDa+x05HGIRk+dw
+	2BnWuWOkVKkPraXfipLejgZmGuWUEchTFEE01tQdY9D2iZqtfYFyUoGLYHlFv1u5xoS
+	ENfPC48fc/pVdQjQysfv+Nf1URnd8t/BiPrWnwC0=
 From: patchtest@automation.yoctoproject.org
 To: Trevor Gamblin <tgamblin@baylibre.com>
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [OE-core][RFC PATCH 10/14] meta/lib/oe/tune.py: add rva23u64 profile
-In-Reply-To: <20260915190244.2983746-11-tgamblin@baylibre.com>
-References: <20260915190244.2983746-11-tgamblin@baylibre.com>
+Subject: Patchtest results for [OE-core][RFC PATCH 08/14] tune-riscv.inc: add rva22u64 to AVAILTUNES
+In-Reply-To: <20260915190244.2983746-9-tgamblin@baylibre.com>
+References: <20260915190244.2983746-9-tgamblin@baylibre.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0a6a31fbc-6d11e255-b096-4efa-94fe-ef68b02c3edd-000000@us-west-2.amazonses.com>
-Date: Tue, 15 Sep 2026 19:55:03 +0000
+Message-ID: <010101a0a6a31bda-a4a74e4f-10f0-4573-84c1-d87045005e53-000000@us-west-2.amazonses.com>
+Date: Tue, 15 Sep 2026 19:55:02 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.15-54.240.27.45
+X-SES-Outgoing: 2026.09.15-54.240.27.192
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 19:55:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245902
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245901
 
 --NextPart
 Content-Type: text/plain
@@ -53,23 +53,22 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/RFC-10-14-meta-lib-oe-tune.py-add-rva23u64-profile.patch
+Testing patch /home/patchtest/share/mboxes/RFC-08-14-tune-riscv.inc-add-rva22u64-to-AVAILTUNES.patch
 
 FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
-FAIL: test max line length: Patch line too long (current length 307, maximum is 200) (test_metadata.TestMetadata.test_max_line_length)
 
-PASS: pretest pylint (test_python_pylint.PyLint.pretest_pylint)
 PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
 PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
 PASS: test author valid (test_mbox.TestMbox.test_author_valid)
 PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
 PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
 PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test pylint (test_python_pylint.PyLint.test_pylint)
 PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
 PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
 PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
 
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
 SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
 SKIP: test CVE check ignore: No modified recipes or older target branch, skipping test (test_metadata.TestMetadata.test_cve_check_ignore)
 SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
@@ -79,6 +78,7 @@ SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzi
 SKIP: test lic files chksum modified not mentioned: No modified recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
 SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
 SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
 SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
 SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
 SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
