@@ -2,39 +2,39 @@ Return-Path: <SunilKumar.Dora@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7CFB4C88E7B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8D492C88E53
 	for <webhook@archiver.kernel.org>; Tue, 15 Sep 2026 14:19:05 +0000 (UTC)
 Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24321.1789481941828137901
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.24190.1789481944466021183
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2026 07:19:01 -0700
+ Tue, 15 Sep 2026 07:19:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=W6+nv1VX;
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=byEALlyC;
  spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=371803a4be=sunilkumar.dora@windriver.com)
-Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FD0GVj3537089
-	for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 07:19:01 -0700
+Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FD1wme3120897
+	for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 07:19:04 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
 	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=LWN43iG0gpZL6tFeC8ZaofSoacOdulL2ksdiHk0aRiI=; b=
-	W6+nv1VXrbMDuA52tWRPMx1L5wfhB9lUE6wdLze1SiTz4/HswCV33Gg8U703hD5g
-	8R+bs9H41cGpnicPx2LklZO4qxAGaXJbEhifJRIf1dh9Wm/MubURd7JGA1yzDTJY
-	g4aSbfuS4LSpkKwr+16RGHL9v7SqgDlq6O/N5vjZTiTsNBSe0qu5j/ZUj4ASstqT
-	qPFp76iiK1ts8lGk7pxH1KecJUiRfsylALK6MASCjBYNX/aUuxZ+DwQZLdRQBv0d
-	VsPmev/dLLSuyXUtoqpOKYcdyiiTx5ZBKsaMsTS8oHkTOKwavWVPoslIwJWgCsTe
-	fNJRlZAtE66/OAzHNTvbyg==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022121.outbound.protection.outlook.com [52.101.48.121])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gn68g5a6b-2
+	PPS06212021; bh=jZ3iPyDLf9OnqucqpGZFeVkEHHDUz9uUHJNjKR3Gmvo=; b=
+	byEALlyCIKLCre9FWf+BQIlPr95oBZTMLOqyX8HyIXiOZrLqgKaMnwDuXGIswyWi
+	B7KfoJDvM358j5ylK4tUWxtwlL5d9U6nlF5JWLDyHTNAq0UEOJ2ZTv1qfEhLx93N
+	vg4NFhJdG0/kYhjkBd2AqMOmcZd/EawRoyFtKAuyUb+xf7TW1VANxYtsb8RqFonl
+	/O8n9CFRRJ9Rk3Vy7eusf0i5fUBKqFv6FX+r/bCMlvrWNmdPbbyCoqcfsLrZUT/V
+	+DQ3OPTpcYHAT0wctnixAs2cHz1eWOpJVZOPgimDs86j7pJUuBBGTlk2nVdpjqnu
+	FFJbwQZlvqyzFi56DcZJBw==
+Received: from byapr05cu005.outbound.protection.outlook.com (mail-westusazon11020124.outbound.protection.outlook.com [52.101.85.124])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gn210p3sg-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Tue, 15 Sep 2026 07:19:00 -0700 (PDT)
+	Tue, 15 Sep 2026 07:19:03 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Jf+TEONcVdaBG70XlrSHi5AxrrO/XgUDMQy0vLk/Y4PfsRZVrOmCslNY8NmKJvJnNPGc/aD5I4NSNe13gaMA3EKc7E7WvZ96FC8/eFOjJvCFWdPitzjr4aLNzJguXJQGuQ4aYhCNPntS0wNLeL/jljSY0oSCtmIc7A+vKfuaQ726v4/F+lV8Yn/xDIXhmGDporvKiH83rhvRrZdxfx0I+wVN884O7AHKAE4EzwblXd6UkXTZVKN0PWy4Y64zQmmBJz/RVK8rvGmueYFAfkW4PrG4rjw3UYnE2/Vdk10IH1p4mJeRYOrmQr+pcvDOwiM7XyZpFWOscC+c+5EK8WCrjw==
+ b=PBvJ5z3oHiU+wtMECPX5TBpUfluOQKO5ybhQxufxbWg/VQ1nOfZbQLFmNvOKUUxo9t/2yz/EbIat8eIVbRdooKbN45cKOiR64HZc7p9E2lRTNpXPQesTsj1PKrJrIoizvhUCUdfuiwY54vLLE/olWLIvExYKzGLx1+oLQC3eCOnoYh0fLnOf8gGORp01BJVhjKIFryjipzgqSIEqj08tvKGlvoV47E8MVLxOcQ5fAjkLJ8j7iPsR82dcFqwin/MxLo5fA2GnhGqKvo0T3f+mrjG/5Her0eHiw7eCaIdwhKq/9o9UBCC+qbRGdCGrjhFvS8ZeaqRESesUsKdE8D05qg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=LWN43iG0gpZL6tFeC8ZaofSoacOdulL2ksdiHk0aRiI=;
- b=jtP6tZ0P26B5s27hexqQAdRNFYd11e/h69yf306J2Blapdn4rjIx244OP+Wj1Ql/0qcJZTwiCpBafVxEdn7eykBJHYpCq/SNMh4+L+OxTxaBeIotQ7ZVbrA9xzKlmNNlk2O3yO4Jpt48fE9OXqMgK9iqkRERolCToImjt7+5iohGVcDUrRx3yPx0SNnXwjXDwHJcK3oE2+C8/lm5jm56wTA3q07hD7Yr+RlAULGATK6vP7nROHZWUWYla+NN3yHd+W0L/yh8pOVXCfGQhWtGxsOg57txTzM5zsIxLJ7dphZipuKOkzvbkquDiHdZvaDBlWudpt5ttL2v4QmxKQADFQ==
+ bh=jZ3iPyDLf9OnqucqpGZFeVkEHHDUz9uUHJNjKR3Gmvo=;
+ b=n02q8QUnT8iJFZZegCL0ZP8mmQRvm19VrrGZitc3uUsSLOqxihj/1zHh5rc0WVT6Cex+snIBAUFJPjC7RepBKEk7Iw4mlWflU/yqNQ4a5U5Xcw/UiiCmSK70sDfJleJlOji9OXg83kuh9R8fbe2hiZVLjgcrfSlcn1OR59p5PprlXzq66oTJFhycaMf/nMYigC4VU8jDyxYdBedo3vjNcicKGZlbkOwf2hUXNj/xo+qcG5aWTZCPSOeJFY4x0X8fnAtIZ8jg9U3Dblz0aX5IwUDe3Pey39K+sCwdI2AswXK4TwWUZwY+R1EWoJrk59vL7Guh4E8Xk5rEEwIcOdHqXw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
@@ -42,19 +42,19 @@ Received: from DS0PR11MB7901.namprd11.prod.outlook.com (2603:10b6:8:f4::20) by
  DS4PPFDB7809488.namprd11.prod.outlook.com (2603:10b6:f:fc02::56) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Tue, 15 Sep
- 2026 14:18:59 +0000
+ 2026 14:19:01 +0000
 Received: from DS0PR11MB7901.namprd11.prod.outlook.com
  ([fe80::4293:7c4b:a0b5:eb5f]) by DS0PR11MB7901.namprd11.prod.outlook.com
  ([fe80::4293:7c4b:a0b5:eb5f%3]) with mapi id 15.21.0406.007; Tue, 15 Sep 2026
- 14:18:59 +0000
+ 14:19:01 +0000
 From: sunilkumar.dora@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: richard.purdie@linuxfoundation.org, sundeep.kokkonda@windriver.com,
         sunilkumar.dora@windriver.com, Randy.Macleod@windriver.com,
         alejandro@enedino.org
-Subject: [PATCH 1/5] rust: drop the cc object-name reproducibility patch
-Date: Tue, 15 Sep 2026 19:48:30 +0530
-Message-ID: <20260915141834.1212812-2-sunilkumar.dora@windriver.com>
+Subject: [PATCH 2/5] rust: hash cc object names relative to their source roots
+Date: Tue, 15 Sep 2026 19:48:31 +0530
+Message-ID: <20260915141834.1212812-3-sunilkumar.dora@windriver.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260915141834.1212812-1-sunilkumar.dora@windriver.com>
 References: <20260915141834.1212812-1-sunilkumar.dora@windriver.com>
@@ -66,202 +66,162 @@ X-ClientProxiedBy: MA5PR01CA0162.INDPRD01.PROD.OUTLOOK.COM
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: DS0PR11MB7901:EE_|DS4PPFDB7809488:EE_
-X-MS-Office365-Filtering-Correlation-Id: 108484ba-c90c-4847-396b-08df13344899
+X-MS-Office365-Filtering-Correlation-Id: 4269074c-de85-4862-10b6-08df13344a25
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|23010399003|29003799003|6133799003|12006099003|25016099003|18002099003|22082099003|3023799007|13003099007|10067099003|11063799006|56012099006|38350700014;
+	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|23010399003|29003799003|6133799003|12006099003|25016099003|18002099003|22082099003|3023799007|10067099003|11063799006|56012099006|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	B/LgH6GSdMcHUupJQnVgBNes724P0obbk5p47DV6SJK/5e1v+IfRqMsTql338gcWq3v/celAOP+rZJs5kBREmuv8Vq73a2R33ix9JjmPGJU4HuFhYAMDF3MdYV1tcrDW90wG3RpMXlVqr0s50ThojviV5+4DOlysXgJgDj2HfbfDTc0WO3gKT2LF9z+N9nERATzkXIbrwN8kZYN7JYqsIV4z2Tkis2z6UHEAMyeL63cyx/71E9PwMZhXCpOEtZL1bBohMsUf4Qh5I3peVA0+9iVMMaLmHu5Z9pWmix/U2ek66UKo6GiwjKhAX2P2WsjbRd6SNPzZTc5hc8ChkuSaMvBL8+KP/9IOIBSmB1yQ9OYSFnLrdPGaEl/s42zyjcYOHVkOVP8YAuyQXd4T1ULrXhASkJd6eTzAPL0JRDSCEKbKCQiULDcaIkwZQ9KdTyrYyGXjtwqfCn9Y9KcmMygo5JNYX3lZQTz1TFr+b8+nG319aWV2BSIVsyX1Ve3coHgKvcsUeU0HtTLMb/4DsQ3e8yFr/uoLSsgnKphv1+ehqXyhiB5NrBpy29U0qG41ZDAGsInF2t2V20OsBT7xo0keCbNs+kQXrB6tSg6a6HiT5+2MC01dfupDQu1+enboK8ZL7yf36DwnO5NDhjAh/JbUy8aA0wzVuAl4tUXsxFCL98M=
+	nOi3ASFlJL695chTAiuK/q1O4lkML8tWU8sPy8jK6Jn1y4Ta6dFgjl+TglhyeD/QeYONOocrlh5Bj8NE00NWxKknfpditctod+Dzo+7yKR0vH+Np2nuorpnBtx50Nyn8rQZyBIYWF1HXJI3ou8Iw6O+Zoa7hnQ3OgRmMEAej6nvS0IPXujjPW7sC0BaKHX2uuEM5t4jj4mj8mFcnQIFxau3VY9zihL53dMxYyCwrkQAHd/zo1UUuNuh+K1EA6z8ahk2unjM7hl85yeG63s4XVtse9Ic5vQe5LI49RbY+Ie7Lh7wzSrJdbTTONkDMkrqTbxDX+ctizmQ+TCIa3rPUEiwbrMAFGqTX96a+4Yiywr6i6FR1uFpit0J+uA1OIJnrNxbd3ZLx9zQrFfVAl0ZVbu1eeVTUwTPNmXA6l+vmfO8nUMhErZ0lIQOEFOlfXvVcfrPcoah34bMQoJ9KEvkfAQaff4PQGiMtcSzlOfmHTaAR2bh5XdSQxJTGTibSYrcbRqZ0255032NDb6wyO7Kz/0+eY7Ca0L1Yw+llgd7djsK1d/pZcaJtayxy6m6ok5pmdMHzXv5bJx7gZxVVOB9gQz+K/Po+JtF3LAvP6oMWQeb40rtpwJYPRSb3F2TKIGBYkUKuFmryYWLNIyKR+yWqg9fWRKH3sEf05GwYECGNxog=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(23010399003)(29003799003)(6133799003)(12006099003)(25016099003)(18002099003)(22082099003)(3023799007)(13003099007)(10067099003)(11063799006)(56012099006)(38350700014);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DS0PR11MB7901.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(23010399003)(29003799003)(6133799003)(12006099003)(25016099003)(18002099003)(22082099003)(3023799007)(10067099003)(11063799006)(56012099006)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?/7LPOLE11Bs83SLOZoMx4yiP5Ma+8AyNuocsyWhqKUznPggpg5R5F5Dd/+yB?=
- =?us-ascii?Q?TWJoPlpM44x/i034jgaPeLew+2ahEgcUavoTF6L+pU/ITcKDu4znfImxzXLi?=
- =?us-ascii?Q?7Ex5ATFcRRAX8I3/cZJfczdg8WJTBrbezrgkNpfmxdAOj+GoG2Glfdw/yFbd?=
- =?us-ascii?Q?9jkuGRIZbMiuKrJMpE6J41nfwxk3KHrb4nLzMBPSAvCAy8FcGH4RvZqzUW07?=
- =?us-ascii?Q?jpTMSfijZ7RII9u7fzeQzKY3e8vvJjFPJJn4eOF4VMKlUFprvtebJOrtIXAD?=
- =?us-ascii?Q?whM9rbztsTkvBWPVsAcDiTJnbUleJVgzMhxRgTHSgI0yi+ziUqC1M5PFsN0k?=
- =?us-ascii?Q?9CcaM2FCFwQTFPCj8oW6hH0dUDFXRCY7G32D4CHwzhTvsssTVafULYolQDOx?=
- =?us-ascii?Q?rRdO/8JNmj5H058YAlflocdGz6b73docB5xzXCtmDHbmRBTGHzkmunOhA8m7?=
- =?us-ascii?Q?2c3+6SWYMSxmeOGOuIu4xFYhGaQeg+vKMrbRdZK7Cu3ApMcjxWNozrlSjNhA?=
- =?us-ascii?Q?CSGxbxcFDUsNlc3KHlkf3cZSquRRdpL5aA5BRalrTNYWGOMinWyaLEriEmsj?=
- =?us-ascii?Q?aBvYqbSV5XBk+ToG0zx5X72QlrLnR34Q/IVWdzOQjRkdr1m0KQbbyHKDxj3n?=
- =?us-ascii?Q?JBSGLcuTnq/qPBbG37+fbtxPG5eT6W1lYN65os61T138+Oa/X1po9THCmie0?=
- =?us-ascii?Q?pZXYTtutFXSEeFsBXpStKimClP7xXB52QotN9p/prv+dC4n/sPyEcQXaceQt?=
- =?us-ascii?Q?94rFTQTdChemNFz/C2u2vZc60JEiQlCqMpUiDqympUsmiUeiP7GXGBJgK6o+?=
- =?us-ascii?Q?hEWhhQuaGwahoMSP7YVxN4S2vL2+vOzSLyDKDe5JQHoZhC8hle/VtZbN93gS?=
- =?us-ascii?Q?vXB/uUliaBblyqd2L83In29KK/QnyIorRNc9jWsV7q4/YL8j1cfeu0iuTkUp?=
- =?us-ascii?Q?4eQaa5TyARbtuKz3FIbEToehEkcZ5wcKRHubu7IW5GTH4j7HRBXaeNUexBg7?=
- =?us-ascii?Q?zIlITcHEHBNIHmqbiDArsF5rsZBcwq2EtEX762URHwMYNf2Zk5tD+haN7iB4?=
- =?us-ascii?Q?cxJyT9Zke8oTwhao0Dp35XyPSTSHqf/KXc/AR2vOfebV+KFiMohFmxjX13ZZ?=
- =?us-ascii?Q?KSC0GnsIlYj3nXdjCwIheHKw5/tmwqbPDYY1wOhauelF3FKl0CPCDn6RK75N?=
- =?us-ascii?Q?QJQaZD2QPF7ulI7qH/ajmTfLoMIhJ6uHMZnyorMgwc1la5kgkBA9qOy+IzoK?=
- =?us-ascii?Q?c3x4oqlO0Zmaoa4YYBBY96xmUycJD5NaxA3MJHRB4Kx1QPZbLhSF5DAlQd8/?=
- =?us-ascii?Q?ATQBSOMWIfnyuaaH/aM4MIiPPW/VaaVpPQBP3D4rPxw5mgXQPcKJr4eOhEno?=
- =?us-ascii?Q?YYyF1twqIKb/xFP8RSkUtyLOipb8a4RyyU4cshHwHvSanJPPue06834TCsZF?=
- =?us-ascii?Q?W0lpFVSw28ztS1Sq3+UY6Ya5ggy4WhzQGpXKNgHDBS9Q4CCZ9BUvrFUnbZay?=
- =?us-ascii?Q?uC0thLIv0zFOMS4xeHIaJAzZuLrWvlsT2zlq/gQLL/zT1uK0PDJVpLOzlNAZ?=
- =?us-ascii?Q?yKOD2y2c02DIfhEkg5uSueuklyJ5jBpoMzDVjc7WgqyS7aLfRIaQorOrgzV0?=
- =?us-ascii?Q?ky2tiRwtU6oF8wt8Tlvyp8iW3BgTFQXBAxhs2XAPIKng3Xl/daQzyQPEr8VG?=
- =?us-ascii?Q?PW9hCPRwm743fUh8fpCbb0EQBv6yM3jM0P3dK3PyH4NaMdB6wnnjKxNOCC5P?=
- =?us-ascii?Q?ABcvxn6gu9a4wg/D8gBiCsCrUsrWzO4=3D?=
+	=?us-ascii?Q?BUU6ekoGTz5NTOSBxNtX9flc6N45p12e8yOSs2mq/5U9Yt4TpQzYCmsIoh9o?=
+ =?us-ascii?Q?+mTIZ57OLu9TbXVLFN+WcTbk5NySKB83vPaoDQXLiGnlq3T2p8VUC+ERRLsf?=
+ =?us-ascii?Q?xiKI0C/x/Z/3Ne4GmsFJ3hw7n+stYa/FGWp4Gm8iPWnAssg8lcYQ01bNp0HQ?=
+ =?us-ascii?Q?tZS61rD8geUdKqbqgMGIhWpA/QXVjU5gS5TJAqWNlAKRn1gYLjdfdQ3ukEwO?=
+ =?us-ascii?Q?mtJ10OQ8KRLkMF9k4kic0JPce6DApHAdY8MyNM1Ieb4JwqvsWhvZ/YnQYfaz?=
+ =?us-ascii?Q?yWnqEAPJAp5LbbRD9vhfbU5qih56dsYGxqrd7q/icaeTXMiXhSG6z2Wy2+Dt?=
+ =?us-ascii?Q?OGS3HoghLUrDdVZGVdVBgP0apUAvF9mkiI5g7/Q6921iJxBtShzEkeiLB2lB?=
+ =?us-ascii?Q?ZNXDEFJTp0ft6evIR6eEP9pGXC9o6CCeAinT4IPs/PIkHwHY5xY97bcKF/re?=
+ =?us-ascii?Q?6ZS7Z6cslEoWU02KKTdqUZknHHZJV4B5cDv6+jfMXUEUD7aAWfFaQFcKuShA?=
+ =?us-ascii?Q?dKXbGvqoKkEF/F+I1XYmnN1vuceF2u7fnXKr9zepbJZWuDIDCV7GZTV+DmZM?=
+ =?us-ascii?Q?ePy636zoJKer8GARLhKbxY2cIkh9wGVDbt/uea5Jjl2Tf71lVHQnywv3NZ4I?=
+ =?us-ascii?Q?tQa9maX8hSNuGkH1SKwAFFzKEqTeX2Uws3NqC2Iu/pVqU5xB+asU3tkygPKJ?=
+ =?us-ascii?Q?lFn5L2J/hsbMpHMKDyVnVCrOKfqSy0BlxtUdQTxnVa7siNqS0765AxfIWYOd?=
+ =?us-ascii?Q?issE5gO72/oErx3fCioTUMoj+yPqvXnDvOH2gpyhYOtrArlotXxLaSXioo7c?=
+ =?us-ascii?Q?odHhWthvve+U8kyTAssOEQnnGbEtpPF2tFeku54gujPL0jgsjccnDMMyskW8?=
+ =?us-ascii?Q?kVEvjEI+gjEoIcL7BCYT98PVc2crnvmE1xPeNCvxvQwaGyEAkOs3vw8jGBkp?=
+ =?us-ascii?Q?OJlfZ03Jvv/QjLSz3FCmf3tvIPbFXqYxuwYnlphOAiJQtPpm5sM/58kne+/3?=
+ =?us-ascii?Q?O4rLtHPYWRm1YozYNp16Ws9bZ6lv1EQEIoW2v6+du0KVxPMBO+C1GPCe6dIJ?=
+ =?us-ascii?Q?IK8Ym4anov7gI0z49GY+vlFVD1mZ8snx1KYDDCdsYSe1gR2jTTBCkyF+WKdu?=
+ =?us-ascii?Q?aYYB/+XPAhf4HZVdocj1OjYPqdpG2E6/pBp1DQUp90ZwMJKtHY1xpM8Pdevh?=
+ =?us-ascii?Q?w0MCQYTKS57MaidXl/+RXtLDHiEILIIQAnGQaCzaJKqfGMgWna23xcioeTEJ?=
+ =?us-ascii?Q?to7S6Bp/algMa8zyRfmHyFwhzfe4oHCOGGSk8D1YQixXG+sdc4p1zcZJ+MTp?=
+ =?us-ascii?Q?PMzyE/ex3nBf0k+kZCn35YSS40RzKZVhyitYjoTuoAHi5f3OhG1BlZjUSQqH?=
+ =?us-ascii?Q?ehNHFUh/XogfkN+6SlbbMxyMt6mK/VbObmd4On7/54Sq38daNz3ZDflf0obj?=
+ =?us-ascii?Q?QvDqgRkEb7B9JVnKBpOzzyc2xb6YcrnOYMfrxweJ5dZlQCT2CcpbIV8TpOOB?=
+ =?us-ascii?Q?9x+V4gZt7qbRzxhQ5OfLS8ITFR/yisdPtvmx5ADs7oGalRIEYzhKCGdE7jvN?=
+ =?us-ascii?Q?ss5aa+8S5M2A2UADxYPLFqu/ucABejv+1v9rzDKWSOy+5GnS7nKsrGiKD2RH?=
+ =?us-ascii?Q?skG4+wTE9NzeSS1n18jKk9Q29iMS82fRcre+OmVnbzNRRGFvtN+fC3eN/oab?=
+ =?us-ascii?Q?CDNXj7SVfXIBsdHNTRmAwZr0tZ3+lWPGKLbx75zTEc/UOL+t+ovnjQL7kxD/?=
+ =?us-ascii?Q?9e6/VowuVlGcDYvZZSuYad2U84W5tzk=3D?=
 X-Exchange-RoutingPolicyChecked: 
-	pFMIMRw6hTGQTdUDf/QrT4lvankjUsUCfBWrz1gvKsTi8T1M1uPXyhOaShGNwr20rkJJIQ9pK/xOvnHrjSI3Icpxjrgbn2ozGspZKBRx/xde3VkniUFrD0Cjn+obO/Wo6h+XHJDm1GnrtogvefAzK/ajJlegwUUtIxuZm+bxX0ESnOutJmzkT+UEcxVs7/V5u5K1Wutm7Iq3ZDyXf9VkTnRDecvd2iIhil1+/WZI438obOVgEgNPHtqETH8gcyjkGHJp/Iu8SPV0IU6q+QA1rIwdm0b/13wJJWApmOVlBBfrUlCaQPyEXyS9EuPZfs32BpqSqIW183DQuxudtvgbUg==
+	SNnO6Tw6oLdNtr+WJxnPS2W6tBMlTH7h0nUZ8BRXNOE2CJbG0a4dt1E4LyT/oRxabOxkdPPQcXXNqj0DKV1axSpaKgLbDfL668YDSf2OgbQTJfZDFMeCGmSG+HSeCmHx6Uwj4OEZ/y7dloLJmIuuP1Hl+56u3hqasZvG5P40qwKSS93VRbbBNH+tXprqK13BkSgf31zNwCFzRoZjEDXf9xIlmxk6R/CFcMsXSw/HhNjj1CJAJ21hPi+/Upmt4KnhI3r/pgN8XQcbCslFNVzL9nDf5NAl5P2ZD1Im8FoT9BSbH0ICzt+oOdL4ShwuRz1sIj9PMPl4J+UHDfAdw4wIaw==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 108484ba-c90c-4847-396b-08df13344899
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4269074c-de85-4862-10b6-08df13344a25
 X-MS-Exchange-CrossTenant-AuthSource: DS0PR11MB7901.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 14:18:59.0807
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Sep 2026 14:19:01.4234
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: jG5KyRphlbzZmH/ns7O4wUTUXZuKlX+Km+CcmvYw1WfdVlDwHYYUv93xeyIuHPpXC8ShbseVVnVzmg/8LOOUrYAKx+TW3sXeb8XSW1KCdeI=
+X-MS-Exchange-CrossTenant-UserPrincipalName: y2AovkpG+9hp+WLQooOSpqkFvypeR/328wF4eF20TjfyJb7KeEdj4+P1d823/MlQzf1mTrBT0++QECZO966Dxf+oI5gsfrWKf1eX+Z186xU=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PPFDB7809488
 X-Proofpoint-Reinject: loops=2 maxloops=12
-X-Proofpoint-ORIG-GUID: siGJyzWc5NagNuS2pcWAdI7sjrkWstvq
-X-Authority-Analysis: v=2.4 cv=cswOAF4i c=1 sm=1 tr=0 ts=6aa953d5 cx=c_pps
- a=jtibSCz00SxEcFhpBRTXcg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-Proofpoint-GUID: x2Ilj3vYC-HKO8bYlo0RDxKlx77ncKKE
+X-Proofpoint-ORIG-GUID: zTDefwCfAOmI53tCo8flRAuGc3UXZIGF
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDIwOCBTYWx0ZWRfX84hKjk2OG2Lm
+ cxVZh1nVF929tni4rYpfaGljYIxCGMNt8TmcmiW+SPNtmgYYR7ePtZ7hMGv23MAEkZll29JonBg
+ cFUaZPapeu9OXJZd2y66IOURXUMz8cF4bGOnxC9cwfHViSpwSj85lYxT4yGsVTTdsMSslyInJIc
+ lgSddzDm34MUoUYOXNENHxCOWCH/b7dsyeYMXTgDmCFNUDiLbpCKl7/AS4cneRBtSTCa4o608xI
+ kVuHqRXMx5kkRboArLaOo8aHHQ3tBM455iE7v9SCH3/A7G7XTTMR47k1SdqbGAedA2PLEAMyP/S
+ Y78LR2ALS9H5EnDfZbddF9mBcOlUUrMWqLVLWRXd+ZB0uuXVZidjUyKXF3d277VaNNusP7iN7ok
+ 8e+QitV+RsloQiKA2Go9n8VRirKCYq8tk42E7cgzfqX7TuHXIH322hv0ziuVsISTuVjDzHqRUTY
+ htTc6b+VYjNBTXCMTGg==
+X-Authority-Analysis: v=2.4 cv=J5Y/fwnS c=1 sm=1 tr=0 ts=6aa953d7 cx=c_pps
+ a=EXmEQszPLboQ/+r5oOSQfg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=NEAV23lmAAAA:8
- a=ei4SEBeUAAAA:8 a=t7CeM3EgAAAA:8 a=xZ-Vo6NjDGti9U_2Ia8A:9
+ a=bi6dqmuHe4P4UrxVR6um:22 a=HK-ge7EqtdluswH-FwHe:22 a=NEAV23lmAAAA:8
+ a=ei4SEBeUAAAA:8 a=t7CeM3EgAAAA:8 a=km4ZSH52QcTA4ai30IYA:9
  a=8zIOOLb7Ym0NljyPXbuS:22 a=FdTzh2GWekK77mhwV6Dw:22 a=Oq4Vy3458gLamwXu4UIl:22
-X-Proofpoint-GUID: xdrGStfyLJMEfE-No13N14sxBHeQRHhA
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDIwOCBTYWx0ZWRfXzmX5yFKq3PWb
- of1OCOwYNZMUcgvUuVb+5Y+8IsPcPuYfOJV/NG23ujsRRBeACoJzaL9Ed0ITPsK4MNXMWEDDy6Y
- ECadvs3XxrhrakX5cAuFLkIoH7m1E1++fGKOhJr84dHuUQEjuGBB
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE1MDIwOCBTYWx0ZWRfX+UgNz8v1O6z8
- YhV9+m8ltVVBOS0R3e4Dlpe3zuseLNhYa+ylmZ1fWVhmTE0w24OmIddVuUGOpGPf5MLWZTBu/TD
- 5nBqmQa0GXBu6DaVl7tS58ro+E3lb26nUAfKhT7wcqrR3jldM+zVEatTqRGOfbYWkmT3xLxsXEq
- HDqoczVwa0Yw87HEqYlfaudo0uXVknwMm1jpBgGqPR9OpXlbf1fO2RHqjyoo16DviV+RSQPL3Zk
- 3tEExQ3kxDuaEyhItN9RmZPz9tyn7uwQVezxLAA+VGX+35ojK8s1jJ8PpApYOMw8sp+y3AzMz7d
- Th3VfEoRk5GntMTyAH2eBXcr+8C0bswYB/YY0ifhg1DDy/YR1EjnDZkxg12YA+DdYuCueTBxVeT
- P21YhJhna4pVkejTQEkOY3CR/e0enbAR9sXYmV247I8ZSXsVpCX/VlrLvHZqijkzNPD7aDu6122
- RWEtMQm5nu58WdCoDIA==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE1MDIwOCBTYWx0ZWRfX7tHin742rdRR
+ P6r1Y6CVVcLqNlNsvnFrThE7KyMt5R93JrV6SmFtERaCr1C5ipbBOz8sDluQW7i8Hgcpa0xPP/n
+ jneuio3iQpSBXI0s5hNOo0zTL0elckLGUho4mQPRm/h3B1Fo8lXz
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-15_04,2026-09-14_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 phishscore=0 adultscore=0 clxscore=1015 spamscore=0
- malwarescore=0 priorityscore=1501 impostorscore=0 bulkscore=0
- lowpriorityscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ clxscore=1015 spamscore=0 phishscore=0 bulkscore=0 suspectscore=0
+ adultscore=0 malwarescore=0 priorityscore=1501 lowpriorityscore=0
+ impostorscore=0 classifier=typeunknown authscore=0 authtc= authcc=
  route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
  definitions=main-2609150208
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 14:19:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245842
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245844
 
 From: Sunil Dora <sunilkumar.dora@windriver.com>
 
-This patch trims the source directory at the string "rustc" before cc
-hashes it into the object file names. After the shared source rework the
-build no longer runs under rustc-*-src, so the sources that
-compiler-builtins generates into OUT_DIR are not trimmed and the build
-path ends up in their names.
+compiler-builtins compiles two sets of sources with cc: the
+outline-atomics files it generates into OUT_DIR and the compiler-rt
+intrinsics it reads from RUST_COMPILER_RT_ROOT. cc hashes the absolute
+source directory into each object file name, so the names change with
+the build location.
 
-Replaced by cc-hash-object-names-relative-to-source-roots.patch.
+The added patch strips OUT_DIR or RUST_COMPILER_RT_ROOT before hashing,
+falling back to CARGO_MANIFEST_DIR. It replaces
+repro-issue-fix-with-cc-crate-hashmap.patch and covers both sets of
+sources.
 
 [YOCTO #16376]
 
 Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
 ---
- ...epro-issue-fix-with-cc-crate-hashmap.patch | 67 -------------------
- meta/recipes-devtools/rust/rust-source.inc    |  1 -
- 2 files changed, 68 deletions(-)
- delete mode 100644 meta/recipes-devtools/rust/files/repro-issue-fix-with-c=
-c-crate-hashmap.patch
+ ...bject-names-relative-to-source-roots.patch | 71 +++++++++++++++++++
+ meta/recipes-devtools/rust/rust-source.inc    |  1 +
+ 2 files changed, 72 insertions(+)
+ create mode 100644 meta/recipes-devtools/rust/files/cc-hash-object-names-r=
+elative-to-source-roots.patch
 
-diff --git a/meta/recipes-devtools/rust/files/repro-issue-fix-with-cc-crate=
--hashmap.patch b/meta/recipes-devtools/rust/files/repro-issue-fix-with-cc-c=
-rate-hashmap.patch
-deleted file mode 100644
-index efb379acb9..0000000000
---- a/meta/recipes-devtools/rust/files/repro-issue-fix-with-cc-crate-hashma=
-p.patch
-+++ /dev/null
-@@ -1,67 +0,0 @@
--rust: reproducibility issue fix with v1.84
--
--A few crates are using the updated version of the 'cc' crate and this is c=
-ausing the generated object file names containing a unique hashmap id.
--By the following changes same hash values will be genarted even for diffre=
-nt build paths.
--
--Below are the links for detailed bug description & discusssion with upstre=
-am rust.
--https://github.com/rust-lang/cc-rs/pull/1277
--
--Upstream-Status: Submitted [https://github.com/rust-lang/cc-rs/pull/1277]
--Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
--Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
--diff --git a/vendor/cc-1.2.0/src/command_helpers.rs b/vendor/cc-1.2.0/src/=
-command_helpers.rs
--index fe919a5239..2b1f442019 100644
----- a/vendor/cc-1.2.0/src/command_helpers.rs
--+++ b/vendor/cc-1.2.0/src/command_helpers.rs
--@@ -289,6 +289,7 @@
-- /// and store them in the output Object.
-- pub(crate) fn objects_from_files(files: &[Arc<Path>], dst: &Path) -> Resu=
-lt<Vec<Object>, Error> {
--     let mut objects =3D Vec::with_capacity(files.len());
--+    let target_substring =3D ["rustc"];
--     for file in files {
--         let basename =3D file
--             .file_name()
--@@ -309,6 +310,26 @@
--             })?
--             .to_string_lossy();
--
--+        // Function to find the position of the first occurrence of the t=
-arget substring
--+        fn find_target_position(s: &str, targets: &[&str]) -> Option<usiz=
-e> {
--+            let mut pos =3D None;
--+            for target in targets {
--+                if let Some(index) =3D s.rfind(target) {
--+                    //If a target is found and pos is None, set it
--+                        if pos.is_none() || index < pos.unwrap() {
--+                            pos =3D Some(index);
--+                        }
--+                }
--+            }
--+            pos
--+        }
--+
--+        let filtered_dirname =3D if let Some(pos) =3D find_target_positio=
-n(&dirname, &target_substring) {
--+            dirname[pos..].to_string()  //Keep everything from the target=
- substring onwards
--+        }  else {
--+            dirname.to_string()  //If target substring is not found, keep=
- the original dirname
--+        };
--+
--         // Hash the dirname. This should prevent conflicts if we have mul=
-tiple
--         // object files with the same filename in different subfolders.
--         let mut hasher =3D hash_map::DefaultHasher::new();
--@@ -326,7 +347,7 @@
--             dirname
--         };
--
---        hasher.write(dirname.as_bytes());
--+        hasher.write(filtered_dirname.as_bytes());
--         let obj =3D dst
--             .join(format!("{:016x}-{}", hasher.finish(), basename))
--             .with_extension("o");
--diff --git a/vendor/cc-1.2.0/.cargo-checksum.json b/vendor/cc-1.2.0/.cargo=
+diff --git a/meta/recipes-devtools/rust/files/cc-hash-object-names-relative=
+-to-source-roots.patch b/meta/recipes-devtools/rust/files/cc-hash-object-na=
+mes-relative-to-source-roots.patch
+new file mode 100644
+index 0000000000..bd32c8cda0
+--- /dev/null
++++ b/meta/recipes-devtools/rust/files/cc-hash-object-names-relative-to-sou=
+rce-roots.patch
+@@ -0,0 +1,71 @@
++From afb2b50f588cc02042f50aadbd1c28f19bbcd586 Mon Sep 17 00:00:00 2001
++From: Sunil Dora <sunilkumar.dora@windriver.com>
++Date: Tue, 15 Sep 2026 17:05:37 +0530
++Subject: [PATCH] cc: hash object names relative to the root the source came
++ from
++
++compiler-builtins builds two sets of objects with the cc crate: the
++outline-atomics sources (lse_*.S) it generates into OUT_DIR, and the
++compiler-rt C intrinsics it reads from RUST_COMPILER_RT_ROOT. cc hashes the
++absolute source directory into each object file name, so the names change
++with the build location and the shipped rlib is not reproducible.
++
++Strip OUT_DIR or RUST_COMPILER_RT_ROOT before hashing, falling back to
++CARGO_MANIFEST_DIR as upstream already did.
++
++The OUT_DIR part is generic and is proposed upstream as
++rust-lang/cc-rs#1902. RUST_COMPILER_RT_ROOT is set by rust's own build
++system, so that part is not in the upstream submission.
++
++Upstream-Status: Submitted [https://github.com/rust-lang/cc-rs/pull/1902]
++
++Signed-off-by: Sunil Dora <sunilkumar.dora@windriver.com>
++---
++ vendor/cc-1.2.0/.cargo-checksum.json   |  2 +-
++ vendor/cc-1.2.0/src/command_helpers.rs | 18 +++++++++++++++---
++ 2 files changed, 16 insertions(+), 4 deletions(-)
++
++diff --git a/vendor/cc-1.2.0/.cargo-checksum.json b/vendor/cc-1.2.0/.cargo=
 -checksum.json
--index b070eeb322..ba768ff86f 100644
----- a/vendor/cc-1.2.0/.cargo-checksum.json
--+++ b/vendor/cc-1.2.0/.cargo-checksum.json
--@@ -1 +1 @@
---{"$comment":"This file only protects against accidental modifications. It=
++index 470ecbb..2ff8a08 100644
++--- a/vendor/cc-1.2.0/.cargo-checksum.json
+++++ b/vendor/cc-1.2.0/.cargo-checksum.json
++@@ -1 +1 @@
++-{"$comment":"This file only protects against accidental modifications. It=
  is not a security mechanism and does not protect against malicious changes=
 .","files":{".cargo_vcs_info.json":"d6e26674a9d7de87dab83262a14f2377988a1e0=
 87e4b514f3983f8dd141ea813","CHANGELOG.md":"fb0a3bcb34301d2578bef86feabe9305=
@@ -304,8 +264,8 @@ bec8","src/windows/vs_instances.rs":"946527cf8fd32c3472f6a2884dcdec29076310=
 ws/windows_targets.rs":"5b4648ebc22b028caca9f4b4bf8881fe2d094b7bec217264ba2=
 e6e2c49d1ccee"},"package":"1aeb932158bd710538c73702db6945cb68a8fb08c519e6e1=
 2706b94263b36db8"}
--\ No newline at end of file
--+{"$comment":"This file only protects against accidental modifications. It=
++\ No newline at end of file
+++{"$comment":"This file only protects against accidental modifications. It=
  is not a security mechanism and does not protect against malicious changes=
 .","files":{".cargo_vcs_info.json":"d6e26674a9d7de87dab83262a14f2377988a1e0=
 87e4b514f3983f8dd141ea813","CHANGELOG.md":"fb0a3bcb34301d2578bef86feabe9305=
@@ -317,8 +277,8 @@ eea817514531668d7e00765731449fe14d059d3249e0bc93b36de45f759f2","LICENSE-MIT=
 ":"378f5840b258e2779c39418f3f2d7b2ba96f1c7917dd6be0713f88305dbda397","READM=
 E.md":"f1ddbede208a5b78333a25dac0a7598e678e9b601a7d99a791069bddaf180dfe","c=
 lippy.toml":"aa7850db4350883c8f373bd0d6b4d19bf3b75f13c1c238e24368c109cb52fb=
-1d","src/command_helpers.rs":"174101852b2633a2478cef20d063fb9c2f1b092eac479=
-13a6e708c85663b8404","src/detect_compiler_family.c":"97ca4b021495611e828bec=
+1d","src/command_helpers.rs":"010873ba1ab0ea4b7e3b5eac72aed5f50e535d42cb94d=
+a943d2aa3d74904aa0f","src/detect_compiler_family.c":"97ca4b021495611e828bec=
 ea6187add37414186a16dfedd26c2947cbce6e8b2f","src/lib.rs":"221ba9475100303b5=
 c694b2a02e5353452ee08a29e4e4d4d67ea8fcbd87605df","src/parallel/async_execut=
 or.rs":"4ce24435fff6b6555b43fee042c16bd65d4150d0346567f246b9190d85b45983","=
@@ -348,19 +308,63 @@ bec8","src/windows/vs_instances.rs":"946527cf8fd32c3472f6a2884dcdec29076310=
 ws/windows_targets.rs":"5b4648ebc22b028caca9f4b4bf8881fe2d094b7bec217264ba2=
 e6e2c49d1ccee"},"package":"1aeb932158bd710538c73702db6945cb68a8fb08c519e6e1=
 2706b94263b36db8"}
++\ No newline at end of file
++diff --git a/vendor/cc-1.2.0/src/command_helpers.rs b/vendor/cc-1.2.0/src/=
+command_helpers.rs
++index adedab2..c911306 100644
++--- a/vendor/cc-1.2.0/src/command_helpers.rs
+++++ b/vendor/cc-1.2.0/src/command_helpers.rs
++@@ -315,13 +315,25 @@ pub(crate) fn objects_from_files(files: &[Arc<Path>]=
+, dst: &Path) -> Result<Vec<
++=20
++         // Make the dirname relative (if possible) to avoid full system p=
+aths influencing the sha
++         // and making the output system-dependent
+++        // compiler-builtins generates sources into OUT_DIR and reads the=
+ compiler-rt
+++        // intrinsics from RUST_COMPILER_RT_ROOT, so try those before the=
+ manifest dir
++         //
++         // NOTE: Here we allow using std::env::var (instead of Build::get=
+env) because
++         // CARGO_* variables always trigger a rebuild when changed
++         #[allow(clippy::disallowed_methods)]
++-        let dirname =3D if let Some(root) =3D std::env::var_os("CARGO_MAN=
+IFEST_DIR") {
++-            let root =3D root.to_string_lossy();
++-            Cow::Borrowed(dirname.strip_prefix(&*root).unwrap_or(&dirname=
+))
+++        let strip_root =3D |var: &str| {
+++            std::env::var_os(var).and_then(|root| {
+++                dirname
+++                    .strip_prefix(&*root.to_string_lossy())
+++                    .map(str::to_owned)
+++            })
+++        };
+++        let dirname =3D if let Some(rel) =3D strip_root("OUT_DIR") {
+++            Cow::Owned(rel)
+++        } else if let Some(rel) =3D strip_root("RUST_COMPILER_RT_ROOT") {
+++            Cow::Owned(rel)
+++        } else if let Some(rel) =3D strip_root("CARGO_MANIFEST_DIR") {
+++            Cow::Owned(rel)
++         } else {
++             dirname
++         };
++--=20
++2.43.0
 diff --git a/meta/recipes-devtools/rust/rust-source.inc b/meta/recipes-devt=
 ools/rust/rust-source.inc
-index 019e2585e2..28c6d0b1dc 100644
+index 28c6d0b1dc..54502ccc9e 100644
 --- a/meta/recipes-devtools/rust/rust-source.inc
 +++ b/meta/recipes-devtools/rust/rust-source.inc
-@@ -3,7 +3,6 @@ RUST_VERSION ?=3D "${@d.getVar('PV').split('-')[0]}"
+@@ -3,6 +3,7 @@ RUST_VERSION ?=3D "${@d.getVar('PV').split('-')[0]}"
  SRC_URI +=3D "https://static.rust-lang.org/dist/rustc-${RUST_VERSION}-src.=
 tar.xz;name=3Drust \
              file://0001-Define-more-ioctl-codes-on-riscv32gc-unknown-linux=
 -g.patch;patchdir=3D${RUSTSRC} \
              file://rust-oe-selftest.patch;patchdir=3D${RUSTSRC} \
--            file://repro-issue-fix-with-cc-crate-hashmap.patch;patchdir=3D=
-${RUSTSRC} \
++            file://cc-hash-object-names-relative-to-source-roots.patch;pat=
+chdir=3D${RUSTSRC} \
              file://0001-src-core-build_steps-tool.rs-switch-off-lto-for-ru=
 st.patch;patchdir=3D${RUSTSRC} \
              file://0002-Fix-rust-build-failure-with-unstable-options.patch=
