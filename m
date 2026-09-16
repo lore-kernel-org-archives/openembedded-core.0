@@ -1,100 +1,151 @@
-Return-Path: <antonin.godard@bootlin.com>
+Return-Path: <bhavesh.maheshwari@einfochips.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B239C88E77
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 11:49:17 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.12945.1789559346448441450
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 44F8AC88E77
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 12:13:07 +0000 (UTC)
+Received: from naesa06.arrow.com (naesa06.arrow.com [216.150.161.27])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13334.1789560785946635924
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 04:49:07 -0700
+ Wed, 16 Sep 2026 05:13:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=U0/PDz4i;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: antonin.godard@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 4992B1A0876;
-	Wed, 16 Sep 2026 11:49:04 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 1902860337;
-	Wed, 16 Sep 2026 11:49:04 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id CD14E11C7B026;
-	Wed, 16 Sep 2026 13:48:56 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1789559339; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=w/l5VhSVwZeTEodsvguto7XRjLbzjfE1UkE0H6qwKl0=;
-	b=U0/PDz4i+6TYxYzGPQezDLxxBZcqEf8oYMI9AtMCbfTYSOfgNfPcYqH9VVRhDaT/t7+dAV
-	k8/G7eXVLV0PuHQiW1yhIbK8MXNgdfRzbBUu5z2dKmAT3wDbpuTcI80uZWCFlQZ9sR0Vl3
-	evVilnJ9cpklURJ03uikl0iXNHypB2BmePCj73hml3aHl4IvyY71RcTZxj4e3/E5XRIbNs
-	yIaJKR3iA+VgxgmXnUdL4ehk2cDBEhJYrm0DQJno0ePbhUEmsvpmfIjhKWg+VXH8V2hPLl
-	Kv3kJaqkS1unlOQtiFD4rntDhscwRuuJ3mCIsLjg2XagtIGUbqWYbodpf4Iw9A==
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 16 Sep 2026 13:48:55 +0200
-Message-Id: <DLGPU9H3OWC3.O9CIGBIM0C0G@bootlin.com>
-Subject: Re: [OE-core][PATCH v4] systemd: re-enable ptest support
-Cc: <mathieu.dubois-briand@bootlin.com>, <jose.quaresma@oss.qualcomm.com>,
- <Randy.MacLeod@windriver.com>, <ross.burton@arm.com>, <raj.khem@gmail.com>,
- <richard.purdie@linuxfoundation.org>, <Shiva.Komati@windriver.com>
-From: "Antonin Godard" <antonin.godard@bootlin.com>
-To: <HimaniRamesh.Barde@windriver.com>,
- <openembedded-core@lists.openembedded.org>
-References: <20260909085518.640950-1-HimaniRamesh.Barde@windriver.com>
-In-Reply-To: <20260909085518.640950-1-HimaniRamesh.Barde@windriver.com>
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=glOqY0V4;
+ spf=pass (domain: einfochips.com, ip: 216.150.161.27, mailfrom: bhavesh.maheshwari@einfochips.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=einfochips.com; i=@einfochips.com; l=3863; q=dns/txt;
+  s=NAESA-Selector1; t=1789560784; x=1821096784;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=pY3nH7zdKuSqVDiH00XsD6za1yrrEKsjwwKsTsW3ONY=;
+  b=glOqY0V45jVCB0k80f24oi7XykHobl5R0n1phW5Bf4Aj1gbn5XO4UADn
+   SpgVLDFV17/p0uwlJigmjIlLzI7XHQq8svJqsauExkq58To9CL9Wxvqfh
+   Tj2rfU7598CDyE5qzVivpCI/t1cUKqGWatUSPNxCsnDp3We4uNBJeambJ
+   3pPeiCmDC8Wkf8GOxP4n6SP4rBK1+RwK5uXGz20OQnrvorO4/9zt4TlR8
+   xXDnt46sEdfctAsjE1tC6piexYRntmaBRoeTa2qGX3g7oJoPWMQcSa9jK
+   2RG5HfwkMEO+VO3NcHXP1oE9RhrKWtqixzhKVkyqFcJCjQI4nS52CS7J3
+   w==;
+X-CSE-ConnectionGUID: nmW014ubSVGjWCuGUJTAtA==
+X-CSE-MsgGUID: mCy1Qmm0RV+HgWdT4w8QTQ==
+X-IronPort-AV: E=Sophos;i="6.27,103,1787032800"; 
+   d="scan'208";a="63580008"
+Received: from unknown (HELO 6T8J9X2.ap.corp.arrow.com) ([10.126.18.101])
+  by naesa06out.arrow.com with ESMTP; 16 Sep 2026 06:13:03 -0600
+From: bhavesh.maheshwari@einfochips.com
+To: openembedded-core@lists.openembedded.org
+Subject: [wrynose,v2][oe-core][PATCH 01/10] ffmpeg: Fix for CVE-2026-64830
+Date: Wed, 16 Sep 2026 17:39:24 +0530
+Message-ID: <20260916121258.1699611-1-bhavesh.maheshwari@einfochips.com>
+X-Mailer: git-send-email 2.43.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 11:49:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245954
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 12:13:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245955
 
-Hi,
+From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 
-On Wed Sep 9, 2026 at 10:55 AM CEST, Himani Ramesh Barde via lists.openembe=
-dded.org wrote:
-> ptest support for systemd was dropped in 2018 (commit 906230a73b3c)
-> when the recipe switched to meson, as there was no easy way to install
-> and run the test suite. Current systemd and meson resolve this: the
-> meson 'install-tests' option installs the unit-test binaries and a
-> run-unit-tests.py runner under ${prefix}/lib/systemd/tests, and
-> run-unit-tests.py already emits PASS:/SKIP: results per test.
->
-> Add a 'tests' PACKAGECONFIG gated on PTEST_ENABLED that sets -Dtests
-> and -Dinstall-tests and pulls in python3-pefile-native (needed to build
-> the boot hwids test). do_install_ptest relocates the installed tests
-> into ${PTEST_PATH} and drops the mkosi/integration-tests harness (which
-> needs a booted system). A run-ptest wrapper drives run-unit-tests.py,
-> and systemd is registered in ptest-packagelists.inc.
->
-> The test/units integration tests, which require a booted system, are
-> out of scope here and can be addressed separately.
->
-> Verified on oe-core master (261.2, qemux86-64): with ptest enabled, 342
-> unit-test binaries plus run-unit-tests.py install into ${PTEST_PATH} and
-> systemd-ptest packages cleanly with no QA errors.
->
-> [YOCTO #16386]
+Pick the patch from [1], also referenced in the NVD report [2].
 
-I think this is triggering the following error on our test infra:
+[1] https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/dbd495f066a85ba96b17433f4306582aa37c3951
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-64830
 
-Parsing recipes...ERROR: /srv/pokybuild/yocto-worker/check-layer/build/laye=
-rs/openembedded-core/meta/recipes-core/systemd/systemd_261.3.bb: QA Issue: =
-Package systemd-ptest is skipping required QA tests. [debug-files]
-ERROR: /srv/pokybuild/yocto-worker/check-layer/build/layers/openembedded-co=
-re/meta/recipes-core/systemd/systemd_261.3.bb: Fatal QA errors were found, =
-failing task.
+Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+---
+changes in v2:
+- this patch does not have any changes, but later patches in this series
+  has some changes or are rebased. Hence created v2 for this patch also.
+---
+ .../ffmpeg/ffmpeg/CVE-2026-64830.patch        | 65 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |  1 +
+ 2 files changed, 66 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-64830.patch
 
-Full log: https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/8951661=
-/raw_inline
-Parent build: https://autobuilder.yoctoproject.org/valkyrie/#/builders/27/b=
-uilds/4717
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-64830.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-64830.patch
+new file mode 100644
+index 0000000000..79ed6a45f1
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-64830.patch
+@@ -0,0 +1,65 @@
++From 0ae68ee7e1bc6e2bfde10c78ccc59aa9d99f4d43 Mon Sep 17 00:00:00 2001
++From: Pavel Kohout <disclosure@aisle.com>
++Date: Mon, 29 Jun 2026 23:30:41 +0200
++Subject: [PATCH 1/9] avformat/vobsub: reuse subtitle streams and bound the
++ stream count
++
++Fixes: heap buffer overflow
++Fixes: lqaO5R1BaZGO
++Fixes: dbfe61100b (avformat/vobsub: fix several issues.)
++Found-by: Pavel Kohout (Aisle Research)
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++
++CVE: CVE-2026-64830
++Upstream-Status: Backport [https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/dbd495f066a85ba96b17433f4306582aa37c3951]
++
++Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
++---
++ libavformat/mpeg.c | 18 ++++++++++++++++--
++ 1 file changed, 16 insertions(+), 2 deletions(-)
++
++diff --git a/libavformat/mpeg.c b/libavformat/mpeg.c
++index a7a2ef7..1ce4bf9 100644
++--- a/libavformat/mpeg.c
+++++ b/libavformat/mpeg.c
++@@ -841,6 +841,20 @@ static int vobsub_read_header(AVFormatContext *s)
++             }
++ 
++             if (!st || st->id != stream_id) {
+++                st = NULL;
+++                for (i = 0; i < s->nb_streams; i++) {
+++                    if (s->streams[i]->id == stream_id) {
+++                        st = s->streams[i];
+++                        break;
+++                    }
+++                }
+++            }
+++            if (!st) {
+++                if (s->nb_streams >= FF_ARRAY_ELEMS(vobsub->q)) {
+++                    av_log(s, AV_LOG_ERROR, "Maximum number of subtitle streams reached\n");
+++                    ret = AVERROR_INVALIDDATA;
+++                    goto end;
+++                }
++                 st = avformat_new_stream(s, NULL);
++                 if (!st) {
++                     ret = AVERROR(ENOMEM);
++@@ -865,14 +879,14 @@ static int vobsub_read_header(AVFormatContext *s)
++             timestamp = (hh*3600LL + mm*60LL + ss) * 1000LL + ms + delay;
++             timestamp = av_rescale_q(timestamp, av_make_q(1, 1000), st->time_base);
++ 
++-            sub = ff_subtitles_queue_insert(&vobsub->q[s->nb_streams - 1], "", 0, 0);
+++            sub = ff_subtitles_queue_insert(&vobsub->q[st->index], "", 0, 0);
++             if (!sub) {
++                 ret = AVERROR(ENOMEM);
++                 goto end;
++             }
++             sub->pos = pos;
++             sub->pts = timestamp;
++-            sub->stream_index = s->nb_streams - 1;
+++            sub->stream_index = st->index;
++ 
++         } else if (!strncmp(line, "alt:", 4)) {
++             const char *p = line + 4;
++-- 
++2.43.0
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+index 8a6eb4eb86..8c1969369b 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+@@ -26,6 +26,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://0001-fftools-resources-Fix-double-build-by-disabling-.d-f.patch \
+            file://0001-ffbuild-commonmak-Consolidate-pattern-rules-for-comp.patch \
+            file://0002-ffbuild-common.mak-ensure-target-directories-are-cre.patch \
++           file://CVE-2026-64830.patch \
+            "
+ 
+ SRC_URI[sha256sum] = "6136812ea6d4e68bdba27e33c2a94382711cdf4f8602ffef056ff792bd6f9818"
+-- 
+2.43.0
 
-This is happening when checking the meta-mingw layer with check-layer thoug=
-h=E2=80=A6
-
-Do you mind looking into it?
-
-Thanks,
-Antonin
 
