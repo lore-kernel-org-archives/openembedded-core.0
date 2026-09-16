@@ -1,203 +1,210 @@
-Return-Path: <ankur.tyagi85@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BB011C88E77
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 00:44:15 +0000 (UTC)
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4572.1789519445983312602
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84470C88E77
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 03:09:56 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6487.1789526766927163369
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2026 17:44:06 -0700
+ Tue, 15 Sep 2026 19:46:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=W3hlcEp2;
- spf=pass (domain: gmail.com, ip: 74.125.228.43, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469e25187so208372b3a.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 17:44:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789519445; x=1790124245; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=eXIV9GSzys60igQw6GTgZOYelRbQVf/NYyDKx1lmx+U=;
-        b=W3hlcEp2GEisphYClPG128Bm7dKTu/92bdC6V9higVmuXdgPCtSmZPf+6RRJzGciD8
-         EGj5OCC0+1VrlIWFRyVRvzBy0hVM0DzwfI4u0us3u8RY1ETo54hXoJEI3DOsjb3J7NBc
-         hjnWsEYJGBdwtIF8YHa8kPZtmrogsG0NWr2sYw6f992atctYM8i7SuBFFS6hC4lrhm76
-         kJzrHE1A4eeNbUcPcROkHxeX3q2/GPpnYg4Nald+UzeOf4FqWiw7VYhJK9JHPzqJH+Pz
-         1iPZGDpykKe6ysTswx0foaq36wuSP5fPdRNTU80dXT15202k0PwTqsummwOuay2cOBrC
-         5mSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789519445; x=1790124245;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=eXIV9GSzys60igQw6GTgZOYelRbQVf/NYyDKx1lmx+U=;
-        b=ketdT/TDGYeWebnvsyW6e/ZApcgnfj7I412HoRKV+i5iN3WksavKv1qb1J2ah/9Azn
-         PpHw7RrlzHJj8AXcOlHH2R/2WvR36f+b1Cemvd5YZ73JejZuDIRqsR06XiIoEOFnYrUA
-         KFRte4ftqZDJ+WqoHju60h9HkI6jkryoAlpWNJkN3A0GXrKWjfI2ddnL3ex8EDUs1pbD
-         wUQH6kiy1nn+4wdXsVxYs+qbRw1MAqtMaXxwsLDC5kGjYwUG2JKd7RFCet5yO1S6e2ca
-         GLm9Cml4Myzu1qACEZTb460z3GQSVa0IHzm3rw0OtodyFG4XLlbOmwyDhJ2rfLVJRGTM
-         seng==
-X-Gm-Message-State: AFuF++nJYT3xMFQn66422FlMpYkKpf5bSTtGIqgcLvUFX3BGxTS/rstD
-	iH2Q9BA+QDNjsHQzILXKPZc2iT23jyh6F2/LyazqMZje/kLQnKEG9ftTHyMxdQ==
-X-Gm-Gg: AYBFou1c2hoANu/vXJqlSUGiMq/hf/b1gXIWP26HLs+yTScCm3eS7lm6qVuXGNVAqaQ
-	WKFN7QFaKWkopNRUhH5DAJbGgXz4uUiYY+y9AwsiGuAl8TflYiPZRRpMIU2nGuVEjRSvpbYNkCF
-	OACy3rQpSIWCOq3h3nn3QudQktuIEZl7mjpoi5Ox17ZZZWVrIghAXDulzvyotUAyDVSMhm8QOu6
-	eqznsiMeCSPALcycercyP78XqWwLmJU4WohBuLBBIundvUAjSjaXNtJXMofX3U+0MMfJtPOAZR2
-	unpTgwfgoZe61JgcqyVhJHZ0bYeEgCdmgFzoDDaKl3ts4ynD/kHwXAvhZ3IPfl1LNxd4+ELplOd
-	Z4y7R8ZF2ZYcq6bt89ASCkwcgHKi7XbuG8Q2aQDLl7WnUrlCMUK44Hkqumgi4XXkt3U5i2V+f+r
-	YYzmSU3s1O617dkwEev+bRkl/NZQVMHyiMb6CPMdyrHprJzGEMXcn1PCtQw4vQ4WEQUOVKd5xo7
-	asn1WUHBMkj2VpDjgBS2vk=
-X-Received: by 2002:a05:6a00:3317:b0:86a:c062:8af2 with SMTP id d2e1a72fcca58-872362fb364mr1180552b3a.3.1789519445318;
-        Tue, 15 Sep 2026 17:44:05 -0700 (PDT)
-Received: from NVAPF55DW0D-IPD.. ([203.211.104.195])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87200c58265sm314134b3a.14.2026.09.15.17.44.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 17:44:04 -0700 (PDT)
-From: ankur.tyagi85@gmail.com
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=VSh2VBv6;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: xshang@qualcomm.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FLYc5L3680381
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 02:46:06 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=yBq8KzGMHGNyq5b8ovulAFZa4S6Qd3RpIuz
+	eretN9i0=; b=VSh2VBv6kdpScua2vEoQCaKqr3MdDQ0CfbcTmIb5t9E2qEUjXw3
+	CCYX00CE0M+Brf7lrLLTJrtEaV55Qa+Q8VJA+UJPEAHLfpk/dq5vNpZbPRAmZo1w
+	IODYxApTLimo8AZENSFy0oyAmGkNR4hMZTZcG4ymReCNKOpG2pN9nCpWuHNirjmk
+	1mYFBS7+zy0GdTsnu3G1Wz7TyxBLQz3n3KOS2fksSmKlY8lIflaOsxzNPGMNhNWy
+	6ieXrcrJsVUvcixbrFWOn5HwZ2s4wrNxhaKbf/smtCuvlllb4ouroarXr7BIUL7/
+	NIVwGp+WovBmZUo1CyRLKNEUhdbjhbE6IVA==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gqe1r8wtn-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 02:46:05 +0000 (GMT)
+Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 68G2k450606552;
+	Wed, 16 Sep 2026 02:46:04 GMT
+Received: from bt-iot-sh03-lnx.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 68G2k3jc606536
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 16 Sep 2026 02:46:03 +0000 (GMT)
+Received: by bt-iot-sh03-lnx.qualcomm.com (Postfix, from userid 2385805)
+	id BB2D44C8E1; Wed, 16 Sep 2026 10:46:02 +0800 (CST)
+From: "Xiuzhuo Shang" <xiuzhuo.shang@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][wrynose][PATCH 3/3] libxfont2: patch CVE-2026-44950
-Date: Wed, 16 Sep 2026 12:43:53 +1200
-Message-ID: <20260916004353.478934-3-ankur.tyagi85@gmail.com>
+Cc: cheng.jiang@oss.qualcomm.com, quic_chezhou@quicinc.com,
+        wei.deng@oss.qualcomm.com, shuai.zhang@oss.qualcomm.com,
+        mengshi.wu@oss.qualcomm.com, jinwang.li@oss.qualcomm.com,
+        xiuzhuo.shang@oss.qualcomm.com
+Subject: [wrynose][PATCH] bluez5: restrict delta=0 RSSI to proximity filters
+Date: Wed, 16 Sep 2026 10:45:47 +0800
+Message-ID: <20260916024547.806958-1-xiuzhuo.shang@oss.qualcomm.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260916004353.478934-1-ankur.tyagi85@gmail.com>
-References: <20260916004353.478934-1-ankur.tyagi85@gmail.com>
 MIME-Version: 1.0
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE2MDAzNSBTYWx0ZWRfX+Gww2FIWtkhL
+ PCTJiiidyDXRDhjo6fho0Is9psVDAitgR/+Nt3MqmsDD0GBLWj8cN4jRi+XqkR7AeNoSZvPIYU+
+ iHPBkLjtWt5b6m0oIw76XYibqj+WiOE=
+X-Proofpoint-GUID: 9sYs9CVs5NBMiq123WU5uddr7HD1jzeA
+X-Proofpoint-ORIG-GUID: 9sYs9CVs5NBMiq123WU5uddr7HD1jzeA
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE2MDAzNSBTYWx0ZWRfX/iGg7A1U6XGt
+ YrA3SL77t6I4AWV0e1VyoWzq5lrpHnIH9ZNm24edhKflgAPM3QUzGrB70DFao9cyPcE91npZHCY
+ cuDtxCF9YGP4VyCT/3PgpYOQL0al4NXW61x1QgvMhg2hFnh93A8owfxWz6Fett1rBBdrxLsyzGs
+ DvmimDxHT+5EuEDHVokPn5EHViV4/cXvPY7ZwdrkzFjJ58O7cn+PqLZnJf4FQMg5Nje4osFHYB4
+ t+xINML8Bdip+huL2npdo4CnW63BHXRTC3jKjHvwlhDsBRsja2lqAyiHKyrd7Of0jqRv7F0ByTN
+ FXhtBeruMqS+ErDCDpL+rKERJgk0+Kr54lBCkk6wbNG9/ydUmupMGMMSrtAJcW3AJJ2nS1EzEDG
+ LTudWpxejzuedNAV6D+cOyyNOkF/pcD79a+PfKsIyDOiKM8t1FaSCWX10lZ2Jgfcu16VA3IbwdH
+ PBOjiR07kgUlgoTtD6Q==
+X-Authority-Analysis: v=2.4 cv=ZIhCCn7b c=1 sm=1 tr=0 ts=6aaa02ee cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8 a=Q3d3CrAPWoBhLKqdOAQA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-15_05,2026-09-15_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 priorityscore=1501 clxscore=1011 spamscore=0 phishscore=0
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 suspectscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609160035
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 00:44:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245912
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 03:09:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245913
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+When a discovery filter is active (filtered_discovery=true), BlueZ
+unconditionally calls device_set_rssi_with_delta(..., delta=0),
+causing every BLE advertisement to emit a PropertiesChanged(RSSI)
+signal regardless of whether the RSSI value changed.
 
-Debian[1] also identified the fix.
+delta=0 is only needed when a client has expressed explicit proximity
+interest by setting an RSSI or pathloss threshold in its discovery
+filter. Filters that specify only transport type or UUIDs do not
+require per-packet RSSI precision; for those, the standard
+RSSI_THRESHOLD=8 rate-limiting is both correct and desirable.
 
-[1]https://security-tracker.debian.org/tracker/CVE-2026-44950
-
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
 ---
- .../xorg-lib/libxfont2/CVE-2026-44950.patch   | 99 +++++++++++++++++++
- .../xorg-lib/libxfont2_2.0.7.bb               |  1 +
- 2 files changed, 100 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-44950.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ ...ct-delta-0-RSSI-to-proximity-filters.patch | 86 +++++++++++++++++++
+ 2 files changed, 87 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-44950.patch b/meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-44950.patch
-new file mode 100644
-index 0000000000..96e3c1f0a8
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-44950.patch
-@@ -0,0 +1,99 @@
-+From b48aa50f2ba02f74167492c1c3aa312a7590991a Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Mon, 13 Jul 2026 15:50:09 +1000
-+Subject: [PATCH] fserve: bounds-check cumulative glyph data writes in
-+ fs_read_glyphs
-+
-+fs_read_glyphs() copies each glyph's bitmap into a single allbits
-+buffer allocated to rep->nbytes bytes. The per-glyph guard validates
-+only that the source slice (position, length) lies within the pbitmaps
-+source buffer. It does not check whether the running destination cursor
-+has exceeded the allocation.
-+
-+A malicious font server can send overlapping source offsets (e.g. 1000
-+glyphs each referencing {position:0, length:64} with nbytes=64). Each
-+individual source range passes validation, but the cumulative writes
-+total 64000 bytes into a 64-byte destination buffer.
-+
-+Interestingly there was an unconditional debug printf in place that
-+sort-of warned about this but didn't prevent this. Let's remove that and
-+instead use the actual check to bail out before we run OOB.
-+
-+A regression test is included that sends 100 glyphs each referencing
-+the same 64-byte source slice into a 64-byte destination buffer, and
-+verifies the library rejects the overflow.
-+
-+CVE-2026-44950
-+
-+Found-by: Zhixi "Jace" Sun, independent security researcher
-+Assisted-by: Claude:claude-opus-4-6
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Part-of: <https://gitlab.freedesktop.org/xorg/lib/libxfont/-/merge_requests/36>
-+(cherry picked from commit c2d222bb22c623d8a40f3275077fc7e6617f2c8a)
-+
-+CVE: CVE-2026-44950
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/c2d222bb22c623d8a40f3275077fc7e6617f2c8a]
-+
-+Dropped test changes during the backport.
-+
-+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-+---
-+ src/fc/fserve.c | 23 ++++++++++++++---------
-+ 1 file changed, 14 insertions(+), 9 deletions(-)
-+
-+diff --git a/src/fc/fserve.c b/src/fc/fserve.c
-+index abf7d07..0fdc090 100644
-+--- a/src/fc/fserve.c
-++++ b/src/fc/fserve.c
-+@@ -1899,10 +1899,7 @@ fs_read_glyphs(FontPathElementPtr fpe, FSBlockDataPtr blockrec)
-+     fsOffset32		    local_off;
-+     char		    *off_adr;
-+     pointer		    pbitmaps;
-+-    char		    *bits, *allbits;
-+-#ifdef DEBUG
-+-    char		    *origallbits;
-+-#endif
-++    char		    *bits, *allbits, *origallbits;
-+     int			    i,
-+ 			    err;
-+     int			    nranges = 0;
-+@@ -1992,8 +1989,8 @@ fs_read_glyphs(FontPathElementPtr fpe, FSBlockDataPtr blockrec)
-+ 	goto bail;
-+     }
-+ 
-+-#ifdef DEBUG
-+     origallbits = allbits;
-++#ifdef DEBUG
-+     fprintf (stderr, "Reading %d glyphs in %d bytes for %s\n",
-+ 	     (int) rep->num_chars, (int) rep->nbytes, fsd->name);
-+ #endif
-+@@ -2014,6 +2011,18 @@ fs_read_glyphs(FontPathElementPtr fpe, FSBlockDataPtr blockrec)
-+ 		    (local_off.position < rep->nbytes) &&
-+ 		    (local_off.length <= (rep->nbytes - local_off.position)))
-+ 		{
-++		    /* Check that the destination buffer has enough room
-++		       for this glyph to prevent a heap overflow from
-++		       overlapping source offsets. */
-++		    if (local_off.length >
-++			rep->nbytes - (allbits - origallbits))
-++		    {
-++			ErrorF("fserve: glyph data overflow: "
-++			       "cumulative write exceeds nbytes (%u)\n",
-++			       (unsigned) rep->nbytes);
-++			err = AllocError;
-++			goto bail;
-++		    }
-+ 		    bits = allbits;
-+ 		    allbits += local_off.length;
-+ 		    memcpy(bits, (char *)pbitmaps + local_off.position,
-+@@ -2041,10 +2050,6 @@ fs_read_glyphs(FontPathElementPtr fpe, FSBlockDataPtr blockrec)
-+ 	}
-+ 	off_adr += SIZEOF(fsOffset32);
-+     }
-+-#ifdef DEBUG
-+-    fprintf (stderr, "Used %d bytes instead of %d\n",
-+-	     (int) (allbits - origallbits), (int) rep->nbytes);
-+-#endif
-+ 
-+     if (blockrec->type == FS_OPEN_FONT)
-+     {
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.7.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.7.bb
-index 8775d1cc13..17cfc133d6 100644
---- a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.7.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.7.bb
-@@ -19,6 +19,7 @@ SRC_URI += "file://CVE-2026-56001.patch \
-             file://CVE-2026-56002.patch \
-             file://CVE-2026-56003.patch \
-             file://CVE-2026-59679.patch \
-+            file://CVE-2026-44950.patch \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index ad07e0d3c4..d857c23a57 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -75,6 +75,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch \
+            file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
+            file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
++           file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
             "
+ S = "${UNPACKDIR}/bluez-${PV}"
  
- SRC_URI[sha256sum] = "8b7b82fdeba48769b69433e8e3fbb984a5f6bf368b0d5f47abeec49de3e58efb"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
+new file mode 100644
+index 0000000000..1bf35ed393
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
+@@ -0,0 +1,86 @@
++From d00dd99229bc9ce78b0e8bb3bb523a3cd504473c Mon Sep 17 00:00:00 2001
++From: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
++Date: Wed, 15 Jul 2026 17:06:35 +0800
++Subject: [PATCH] adapter: restrict delta=0 RSSI to proximity filters
++
++When a discovery filter is active (filtered_discovery=true), BlueZ
++unconditionally calls device_set_rssi_with_delta(..., delta=0),
++causing every BLE advertisement to emit a PropertiesChanged(RSSI)
++signal regardless of whether the RSSI value changed.
++
++delta=0 is only needed when a client has expressed explicit proximity
++interest by setting an RSSI or pathloss threshold in its discovery
++filter. Filters that specify only transport type or UUIDs do not
++require per-packet RSSI precision; for those, the standard
++RSSI_THRESHOLD=8 rate-limiting is both correct and desirable.
++
++The problem is triggered on dual-mode adapters by a transport-only
++filter (e.g. Transport=le). In merge_discovery_filters(), the
++transport-specific scan type (SCAN_TYPE_LE=6) does not equal the
++adapter scan type (SCAN_TYPE_DUAL=7), so has_filtered_discovery is
++set, filtered_discovery becomes true, and delta=0 is applied even
++though no proximity condition was requested. With hundreds of BLE
++devices advertising simultaneously this generates hundreds of
++unnecessary PropertiesChanged(RSSI) signals per second.
++
++Confirmed on QCS6490 (BlueZ 5.72) with Transport=le filter:
++
++  adapter.c: filtered_discovery=1 (current_discovery_filter=set)
++  device.c:  device_set_rssi_with_delta() rssi=-86 delta_threshold=0
++  device.c:  device_set_rssi_with_delta() rssi=-79 delta_threshold=0
++
++Add discovery_filter_has_proximity() which walks discovery_list and
++returns true only when at least one active filter carries a real
++proximity condition (rssi != DISTANCE_VAL_INVALID or pathloss !=
++DISTANCE_VAL_INVALID). Use this to gate the delta=0 path.
++
++Other filter fields (transport, uuids, duplicate, discoverable)
++express capability or content criteria and carry no proximity
++implication, so they are intentionally excluded from the check.
++
++Upstream-Status: Backport [e004414a1751d29216ccab976d6c7174ec48d11c]
++Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
++---
++ src/adapter.c | 19 ++++++++++++++++++-
++ 1 file changed, 18 insertions(+), 1 deletion(-)
++
++diff --git a/src/adapter.c b/src/adapter.c
++index fb95e8553..1023e43a2 100644
++--- a/src/adapter.c
+++++ b/src/adapter.c
++@@ -7255,6 +7255,22 @@ static void filter_duplicate_data(void *data, void *user_data)
++ 	*duplicate = client->discovery_filter->duplicate;
++ }
++
+++static bool discovery_filter_has_proximity(struct btd_adapter *adapter)
+++{
+++	GSList *l;
+++
+++	for (l = adapter->discovery_list; l; l = g_slist_next(l)) {
+++		struct discovery_client *client = l->data;
+++		struct discovery_filter *filter = client->discovery_filter;
+++
+++		if (filter && (filter->rssi != DISTANCE_VAL_INVALID ||
+++				filter->pathloss != DISTANCE_VAL_INVALID))
+++			return true;
+++	}
+++
+++	return false;
+++}
+++
++ static bool device_is_discoverable(struct btd_adapter *adapter,
++ 					struct eir_data *eir, const char *addr,
++ 					uint8_t bdaddr_type, bool *auto_connect)
++@@ -7451,7 +7467,8 @@ void btd_adapter_device_found(struct btd_adapter *adapter,
++ 	if (name_resolve_failed)
++ 		device_name_resolve_fail(dev);
++
++-	if (adapter->filtered_discovery)
+++	if (adapter->filtered_discovery &&
+++				discovery_filter_has_proximity(adapter))
++ 		device_set_rssi_with_delta(dev, rssi, 0);
++ 	else
++ 		device_set_rssi(dev, rssi);
++--
++2.43.0
++
+-- 
+2.43.0
+
 
