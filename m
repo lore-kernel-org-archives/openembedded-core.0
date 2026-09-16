@@ -1,146 +1,704 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E154DC88E5C
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 08:34:09 +0000 (UTC)
-Received: from mail-ed2-f12.google.com (mail-ed2-f12.google.com [74.125.228.76])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.10248.1789547639354293826
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CBFE0C88E77
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 08:40:19 +0000 (UTC)
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10296.1789548011762952576
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 01:33:59 -0700
+ Wed, 16 Sep 2026 01:40:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=hhnqBJaq;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.228.76, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ed2-f12.google.com with SMTP id 4fb4d7f45d1cf-6a6063d7daaso979244a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 01:33:59 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=fSTQoOh3;
+ spf=pass (domain: mvista.com, ip: 74.125.227.140, mailfrom: hprajapati@mvista.com)
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-39b5b07ec78so484266a91.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 01:40:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789547637; x=1790152437; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=PTxbATaVi1yrFwz3VoqlrGYnq2hwv12S69x2t1Yk9Iw=;
-        b=hhnqBJaqjzaDZIAwr1W4hd839gkkqIUzRdVg0s7GkYDdJkfunIptTsKTU13I86wDgO
-         QdC2LTzN54GoyMQNCgv7b9KCaGrMnt4Ut0z2dyVaHVoGaUGs1Nu5UNZno9EM/vcjOCyM
-         R4UjCn89HVE1/w+ptkiZZL/9rci1zCVlj93mE=
+        d=mvista.com; s=google; t=1789548011; x=1790152811; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6kGieQlzriTW4ZyOAxsjI2q7rzSgAi/tkyuM2VItuIc=;
+        b=fSTQoOh3LK8LD1Z7nEYEtMLhwXGoYOiM6dfs7U+CewQ5EOXcKS0BY7zh+VyL3Wj/Yr
+         5hRLKzCcp4BbASey+bIzzh5cKZgXs02g4Y6fnb9wF0D5AKghMZWr8wsrmPWwkpunnl1p
+         Q4YhRWNK3Kn3MYqSeb4bAOtgXTD7H74DFhZ6M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789547637; x=1790152437;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=PTxbATaVi1yrFwz3VoqlrGYnq2hwv12S69x2t1Yk9Iw=;
-        b=jR2uz0FGITwucuDMJWP7OdHS+1x7PfZyOrrdnTG0CjiButZ2J129czzonjCdgRlU+W
-         /REzwiX1K8MSdleWnkaa/lnrBaae3mhTqToyuWZ3+xo68mNDl4agYBFtHaeRsB3Rm4D/
-         zaIIGFxOiBJgHjqrU4Fwa0zsypWG1nWGB4iFLMlCyy/l+25++BHsYa5s6lZaWFcbUoFX
-         Ki6Cr/w7qmYwQv6weNBM5gnKxa9sjwjFbrPz1IN2WNjJZ0hPTXnU7MlH6wyj2oGy8ogl
-         hybDyot4ferzy/NoLGkdKNHnHlR7ZnM85J+Hf7U/LEQmmZqm7wl93M8VgHyfHRjSms9f
-         Mm+w==
-X-Forwarded-Encrypted: i=1; AKwUvBz++qoAZu6EgFtFnirqeOGEXz857Dinu94bn2O1QxfPZMXUNSGOF8QU3fnPA6u3+4O/mDHFTD3OzUQPTVRP4P/i8A==@lists.openembedded.org
-X-Gm-Message-State: AFuF++m2vFMME/WgqpUJl9KFPTBiOdRIt6TumGOP3aSAitmZyDwskN+o
-	gwFIl7t3pk+kX//xLCfTzcynGsn0l8qys8c+ZjXaFru1J08vZnIp6Dtq0LXnlyRqEHE=
-X-Gm-Gg: AYBFou37634HhUtijLoQv0WXA0pRBF6jPuK2rW+DGYyFhkhYGBTaOg1143827b1OwBC
-	MWhbL9ZTqo+bygdAfaqN7aO0K35nhmzZFNlelpeaxkIEdvXJnWuAGgpKHvd261Pu6hIpnLWPPVC
-	qY4p3HFoRvKv9L6bnLSKfvmV6/Q164ZGXGcFaJc2EDnhuODY+GV6q+wTs43Q4hcVpqF56ei2BtS
-	u0trYfVaFTnNkY6v576pvL3mIUDBhnLgsaJzx35N0LyQGUXNloeaeOLr4ffaBlRZ9YyFjYfjVh3
-	qUjGpID+lCw3ELLzuiQFDYgZZoKXASGMuKsX/DKOUlyti4f1FbaUeoeJ7O13l3yzVYYnr5mv151
-	63W77RgY7qeC7Ea3fXpqbnaOVX8fRktzc+la306CjqOBPU7OfCFGUqoD4L6ah6sYu/UN0H75vJz
-	PklslJlurh45SxC0rhTf+JesWdLihtGvG3TTP4SgRNL5KQ1AK/QoYQY/wBwIOc/Fj8jWrENLJK1
-	1O0tc6WFzfT2HTYP0kfjlYVxOA0mupkhmzmWIat8SyOUDc7CrIakWpwG6yVUzMV
-X-Received: by 2002:a17:907:a689:b0:c26:2a5:819 with SMTP id a640c23a62f3a-c29e533436cmr183531366b.18.1789547637502;
-        Wed, 16 Sep 2026 01:33:57 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:cd09:70e0:c6de:9b09? ([2001:8b0:aba:5f3c:cd09:70e0:c6de:9b09])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c29de48ce9csm85738966b.25.2026.09.16.01.33.56
+        d=1e100.net; s=20260707; t=1789548011; x=1790152811;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6kGieQlzriTW4ZyOAxsjI2q7rzSgAi/tkyuM2VItuIc=;
+        b=SoCkKTvyCsu0vvhcQxoA2TGRYLCOkzOo6B+SPuv4qux9/7lYDuEMHR4lo2tW4tAXSd
+         RPrnzNGt//rjBU5ZnJVF+xNf9eIciawIUwCF6z7F8euasNR0dvCKzDA9hgvywRgMkX14
+         VdeVRV6Msj3OxUUvBviFJVx9fkoxKWm+bdMRFoYDkiE2lljWY/gq51i37Ubv2uCWG3LC
+         ru6rYU3xa850gYAQJLMuz8pUwrg37STE54X0TjfyPH/gItqBA12ErmTeka0eusarOrod
+         MFv7gCJNNz/Qf44UsdIFuN4P+Syxl147HdWMgSCz4l6FsNqhbB4alRTKfg3uvwRCvHGM
+         uCEQ==
+X-Gm-Message-State: AFuF++nKTKIoDAG5f8meWaBnlQjbpskGmQaHyHtMI4FVilPRcPQGEkIi
+	RZLpE/GcfdcRjN9k7C6Q+EctaNrl7fMvn60OyPTZBUOSd2p9WbGZbYy1EgIalgk5nujxFzEIqGe
+	sc1HX
+X-Gm-Gg: AYBFou36eTvzoQ1WNHwtFGvOdqlN1ImU7tXMt8SlmHg8DvK1hC4MTZQTbhAQ151E8e4
+	ird8bhBGNYBujPCcrrkb/jvQtqNtoNadgCMJaC9RfuemDMo98+xkGWgBFobJZIpD89meQRniF7R
+	mypMDWMDDWqVOEQHZKGKuZe5Lz9ZnZ8/Oe3lj4KYHuMjVo03VhUfiSexdQgqM582EIu5dVgeaNV
+	Kpr5F7XHS1yF28oA5cIgqe/MIT1Bo9xtRNQQQ0MR6whgpDjz0Z4pUVa8KF762f2SlruGVkgWgI/
+	XIDpZlT/bsOLMJ4L3kWxDd0zbQG+78eI+N4NB1k28O7IBauRiGbOLD27iPN/fu7O5TJ8C/9hgiM
+	VNPC6v3X2cgx2BHqXpk2okeN6Ym0H5FQma377dUNuTuFkHxls+kVlM1bW3+24ODRzbcSrX2uQUg
+	8dmyrBqUufjUyEYESleIGjuhtBF5UDDsfZvvK0JmI5OkiZcxMHP7Q7VZ05EjDMDTn7pdkk/g/QU
+	HqEJ4pz4Yya
+X-Received: by 2002:a17:90b:390e:b0:39e:1c03:14c2 with SMTP id 98e67ed59e1d1-39e1e3898f0mr4090706a91.11.1789548010603;
+        Wed, 16 Sep 2026 01:40:10 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([103.250.136.175])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-33bf56d7e5bsm6108041eec.0.2026.09.16.01.40.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 01:33:56 -0700 (PDT)
-Message-ID: <233a6dcc8a610dd6e09031e619a2437c43b3dfb1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH v3] sstate: fix access to a cached object
- rewriting its modification time
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: adrian.freihofer@siemens.com, "Haener, Michael"
- <michael.haener@siemens.com>,  "openembedded-core@lists.openembedded.org"	
- <openembedded-core@lists.openembedded.org>
-Cc: "zhanxusheng@xiaomi.com" <zhanxusheng@xiaomi.com>, "Marko, Peter"
-	 <Peter.Marko@siemens.com>
-Date: Wed, 16 Sep 2026 09:33:55 +0100
-In-Reply-To: <14700b98da9c582f0c74951364179b091cb911df.camel@siemens.com>
-References: <20260910211821.48424-1-michael.haener@siemens.com>
-		 <20260911070121.39436-1-michael.haener@siemens.com>
-	 <14700b98da9c582f0c74951364179b091cb911df.camel@siemens.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Wed, 16 Sep 2026 01:40:10 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH] gstreamer1.0-plugins-good: Fix for CVE-2026-3083, CVE-2026-3085
+Date: Wed, 16 Sep 2026 14:10:01 +0530
+Message-ID: <20260916084001.193028-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 08:34:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245937
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 08:40:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245938
 
-On Wed, 2026-09-16 at 08:05 +0000, Adrian Freihofer via lists.openembedded.=
-org wrote:
-> Hi everyone,
->=20
-> Thank you for the discussion in the patch review meeting. After
-> discussing this further with Michael, I=E2=80=99m providing a summary of =
-the
-> technical details and the various perspectives shared:
->=20
-> =C2=A0* Release Timing: Given how close we are to the next release, we ha=
-ve
-> =C2=A0=C2=A0 decided to put this patch series on hold. Modifying these cr=
-ucial
-> =C2=A0=C2=A0 lines of code carries a risk that is not feasible at this st=
-age. We
-> =C2=A0=C2=A0 will revisit the implementation and timing immediately after=
- the
-> =C2=A0=C2=A0 release.
-> =C2=A0* Architectural Goal & Cache Management: Our primary objective is t=
-o
-> =C2=A0=C2=A0 move toward standard mtime and atime behavior. Currently, no=
-n-
-> =C2=A0=C2=A0 standard usage makes it difficult for different environments=
- to
-> =C2=A0=C2=A0 interact with the cache as expected. Adhering to standard be=
-havior
-> =C2=A0=C2=A0 allows for better cache management, as it for example provid=
-es the
-> =C2=A0=C2=A0 necessary telemetry to identify objects that are "old" but s=
-till
-> =C2=A0=C2=A0 actively "in use."
-> =C2=A0* We will have a look a the sstate-cache-management.py script and
-> =C2=A0=C2=A0 check if the script can be extended with some prune features=
- which
-> =C2=A0=C2=A0 we need on our infrastructure.
->=20
-> Follow-up Discussion: We also recognize the specific performance
-> challenges with Kubernetes CephFS (particularly the server-side
-> propagation of atime changes). While this is a key driver for these
-> improvements, we will address the specific CephFS optimizations and
-> related performance impacts in a follow-up discussion and dedicated
-> discussion to keep the current architectural changes focused.
+Pick the patch from [1], also referenced in the Debian report [2] & [3].
 
-Thanks for the summary Adrian.
+[1] https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/8349cdd35f85246e113b18e55fd11abf9cb248bf
+[2] https://security-tracker.debian.org/tracker/CVE-2026-3083
+[3] https://security-tracker.debian.org/tracker/CVE-2026-3085
 
-Just to expand on a couple of details:
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+---
+ .../CVE-2026-3083-CVE-2026-3085.patch         | 602 ++++++++++++++++++
+ .../gstreamer1.0-plugins-good_1.22.12.bb      |   1 +
+ 2 files changed, 603 insertions(+)
+ create mode 100644 meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2026-3083-CVE-2026-3085.patch
 
-* I did recently change some of this code with the intention of
-  making=C2=A0it consistent with atime, mtime, file extensions and=C2=A0
-  symlinks.=C2=A0The previous version was a horrible mix of=C2=A0
-  different=C2=A0behaviours and sstate=C2=A0cache=C2=A0management was strug=
-gling as=C2=A0
-  a=C2=A0result. This was likely a=C2=A0cause=C2=A0of some intermittent AB =
-failures.
-* Whilst this may improve cephfs, we're worried about how this=C2=A0
-  may=C2=A0interact with zfs+NFS or ext*+NFS and the possibility of
-  noatime, limited (re)write access=C2=A0and other mount options.
-
-We do limit the areas we interact with shared data usage but this is
-one of the areas we do and we need to be careful about changes here as
-a result.
-
-Cheers,
-
-Richard
-
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2026-3083-CVE-2026-3085.patch b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2026-3083-CVE-2026-3085.patch
+new file mode 100644
+index 0000000000..095b511e2f
+--- /dev/null
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good/CVE-2026-3083-CVE-2026-3085.patch
+@@ -0,0 +1,602 @@
++From 8349cdd35f85246e113b18e55fd11abf9cb248bf Mon Sep 17 00:00:00 2001
++From: =?UTF-8?q?Tim-Philipp=20M=C3=BCller?= <tim@centricular.com>
++Date: Sun, 8 Feb 2026 16:09:04 +0000
++Subject: [PATCH] rtpqdm2depay: remove element
++
++There is no plausible reason anyone should need this element in 2026
++seeing that this was a streaming format produced by Darwin Streaming Server
++ca 2009 which hasn't been in active use for well over a decade.
++
++It is a maintenance burden and a security liability and there's no
++good reason to keep it around.
++
++Fixes ZDI-CAN-28850, ZDI-CAN-28851, CVE-2026-3083, CVE-2026-3085, GST-SA-2026-0008.
++
++Part-of: <https://gitlab.freedesktop.org/gstreamer/gstreamer/-/merge_requests/10886>
++
++CVE: CVE-2026-3083 CVE-2026-3085
++Upstream-Status: Backport [import from ubuntu gst-plugins-good1.0_1.20.3-0ubuntu1.5.debian.tar.xz
++Upstream commit https://gitlab.freedesktop.org/gstreamer/gstreamer/-/commit/8349cdd35f85246e113b18e55fd11abf9cb248bf]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ docs/gst_plugins_cache.json |  28 ---
++ gst/rtp/gstrtp.c            |   1 -
++ gst/rtp/gstrtpqdmdepay.c    | 411 ------------------------------------
++ gst/rtp/gstrtpqdmdepay.h    |  83 --------
++ gst/rtp/meson.build         |   1 -
++ 5 files changed, 524 deletions(-)
++ delete mode 100644 gst/rtp/gstrtpqdmdepay.c
++ delete mode 100644 gst/rtp/gstrtpqdmdepay.h
++
++diff --git a/docs/gst_plugins_cache.json b/docs/gst_plugins_cache.json
++index 54633e6..3c6dc95 100644
++--- a/docs/gst_plugins_cache.json
+++++ b/docs/gst_plugins_cache.json
++@@ -15768,34 +15768,6 @@
++                 "properties": {},
++                 "rank": "secondary"
++             },
++-            "rtpqdm2depay": {
++-                "author": "Edward Hervey <bilboed@bilboed.com>",
++-                "description": "Extracts QDM2 audio from RTP packets (no RFC)",
++-                "hierarchy": [
++-                    "GstRtpQDM2Depay",
++-                    "GstRTPBaseDepayload",
++-                    "GstElement",
++-                    "GstObject",
++-                    "GInitiallyUnowned",
++-                    "GObject"
++-                ],
++-                "klass": "Codec/Depayloader/Network/RTP",
++-                "long-name": "RTP QDM2 depayloader",
++-                "pad-templates": {
++-                    "sink": {
++-                        "caps": "application/x-rtp:\n          media: audio\n  encoding-name: X-QDM\n",
++-                        "direction": "sink",
++-                        "presence": "always"
++-                    },
++-                    "src": {
++-                        "caps": "audio/x-qdm2:\n",
++-                        "direction": "src",
++-                        "presence": "always"
++-                    }
++-                },
++-                "properties": {},
++-                "rank": "secondary"
++-            },
++             "rtpreddec": {
++                 "author": "Hani Mustafa <hani@pexip.com>, Mikhail Fludkov <misha@pexip.com>",
++                 "description": "Decode Redundant Audio Data (RED)",
++diff --git a/gst/rtp/gstrtp.c b/gst/rtp/gstrtp.c
++index 9528ffb..4675776 100644
++--- a/gst/rtp/gstrtp.c
+++++ b/gst/rtp/gstrtp.c
++@@ -100,7 +100,6 @@ plugin_init (GstPlugin * plugin)
++   ret |= GST_ELEMENT_REGISTER (rtpmp4gdepay, plugin);
++   ret |= GST_ELEMENT_REGISTER (rtpmp4gpay, plugin);
++   ret |= GST_ELEMENT_REGISTER (rtpqcelpdepay, plugin);
++-  ret |= GST_ELEMENT_REGISTER (rtpqdm2depay, plugin);
++   ret |= GST_ELEMENT_REGISTER (rtpsbcdepay, plugin);
++   ret |= GST_ELEMENT_REGISTER (rtpsbcpay, plugin);
++   ret |= GST_ELEMENT_REGISTER (rtpsirenpay, plugin);
++diff --git a/gst/rtp/gstrtpqdmdepay.c b/gst/rtp/gstrtpqdmdepay.c
++deleted file mode 100644
++index 3edfb46..0000000
++--- a/gst/rtp/gstrtpqdmdepay.c
+++++ /dev/null
++@@ -1,411 +0,0 @@
++-/* GStreamer
++- * Copyright (C) <2009> Edward Hervey <bilboed@bilboed.com>
++- *
++- * This library is free software; you can redistribute it and/or
++- * modify it under the terms of the GNU Library General Public
++- * License as published by the Free Software Foundation; either
++- * version 2 of the License, or (at your option) any later version.
++- *
++- * This library is distributed in the hope that it will be useful,
++- * but WITHOUT ANY WARRANTY; without even the implied warranty of
++- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++- * Library General Public License for more details.
++- *
++- * You should have received a copy of the GNU Library General Public
++- * License along with this library; if not, write to the
++- * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
++- * Boston, MA 02110-1301, USA.
++- */
++-
++-#ifdef HAVE_CONFIG_H
++-#  include "config.h"
++-#endif
++-
++-#include <string.h>
++-
++-#include <gst/rtp/gstrtpbuffer.h>
++-#include <gst/audio/audio.h>
++-#include "gstrtpelements.h"
++-#include "gstrtpqdmdepay.h"
++-#include "gstrtputils.h"
++-
++-GST_DEBUG_CATEGORY (rtpqdm2depay_debug);
++-#define GST_CAT_DEFAULT rtpqdm2depay_debug
++-
++-static GstStaticPadTemplate gst_rtp_qdm2_depay_src_template =
++-GST_STATIC_PAD_TEMPLATE ("src",
++-    GST_PAD_SRC,
++-    GST_PAD_ALWAYS,
++-    GST_STATIC_CAPS ("audio/x-qdm2")
++-    );
++-
++-static GstStaticPadTemplate gst_rtp_qdm2_depay_sink_template =
++-GST_STATIC_PAD_TEMPLATE ("sink",
++-    GST_PAD_SINK,
++-    GST_PAD_ALWAYS,
++-    GST_STATIC_CAPS ("application/x-rtp, "
++-        "media = (string) \"audio\", " "encoding-name = (string)\"X-QDM\"")
++-    );
++-
++-#define gst_rtp_qdm2_depay_parent_class parent_class
++-G_DEFINE_TYPE (GstRtpQDM2Depay, gst_rtp_qdm2_depay,
++-    GST_TYPE_RTP_BASE_DEPAYLOAD);
++-#define _do_init \
++-  GST_DEBUG_CATEGORY_INIT (rtpqdm2depay_debug, "rtpqdm2depay", 0, \
++-      "RTP QDM2 depayloader"); \
++-  rtp_element_init (plugin)
++-GST_ELEMENT_REGISTER_DEFINE_WITH_CODE (rtpqdm2depay, "rtpqdm2depay",
++-    GST_RANK_SECONDARY, GST_TYPE_RTP_QDM2_DEPAY, _do_init);
++-
++-static const guint8 headheader[20] = {
++-  0x0, 0x0, 0x0, 0xc, 0x66, 0x72, 0x6d, 0x61,
++-  0x51, 0x44, 0x4d, 0x32, 0x0, 0x0, 0x0, 0x24,
++-  0x51, 0x44, 0x43, 0x41
++-};
++-
++-static void gst_rtp_qdm2_depay_finalize (GObject * object);
++-
++-static GstStateChangeReturn gst_rtp_qdm2_depay_change_state (GstElement *
++-    element, GstStateChange transition);
++-
++-static GstBuffer *gst_rtp_qdm2_depay_process (GstRTPBaseDepayload * depayload,
++-    GstRTPBuffer * rtp);
++-gboolean gst_rtp_qdm2_depay_setcaps (GstRTPBaseDepayload * filter,
++-    GstCaps * caps);
++-
++-static void
++-gst_rtp_qdm2_depay_class_init (GstRtpQDM2DepayClass * klass)
++-{
++-  GObjectClass *gobject_class;
++-  GstElementClass *gstelement_class;
++-  GstRTPBaseDepayloadClass *gstrtpbasedepayload_class;
++-
++-  gobject_class = (GObjectClass *) klass;
++-  gstelement_class = (GstElementClass *) klass;
++-  gstrtpbasedepayload_class = (GstRTPBaseDepayloadClass *) klass;
++-
++-  gstrtpbasedepayload_class->process_rtp_packet = gst_rtp_qdm2_depay_process;
++-  gstrtpbasedepayload_class->set_caps = gst_rtp_qdm2_depay_setcaps;
++-
++-  gobject_class->finalize = gst_rtp_qdm2_depay_finalize;
++-
++-  gstelement_class->change_state = gst_rtp_qdm2_depay_change_state;
++-
++-  gst_element_class_add_static_pad_template (gstelement_class,
++-      &gst_rtp_qdm2_depay_src_template);
++-  gst_element_class_add_static_pad_template (gstelement_class,
++-      &gst_rtp_qdm2_depay_sink_template);
++-
++-  gst_element_class_set_static_metadata (gstelement_class,
++-      "RTP QDM2 depayloader",
++-      "Codec/Depayloader/Network/RTP",
++-      "Extracts QDM2 audio from RTP packets (no RFC)",
++-      "Edward Hervey <bilboed@bilboed.com>");
++-}
++-
++-static void
++-gst_rtp_qdm2_depay_init (GstRtpQDM2Depay * rtpqdm2depay)
++-{
++-  rtpqdm2depay->adapter = gst_adapter_new ();
++-}
++-
++-static void
++-gst_rtp_qdm2_depay_finalize (GObject * object)
++-{
++-  GstRtpQDM2Depay *rtpqdm2depay;
++-
++-  rtpqdm2depay = GST_RTP_QDM2_DEPAY (object);
++-
++-  g_object_unref (rtpqdm2depay->adapter);
++-  rtpqdm2depay->adapter = NULL;
++-
++-  G_OBJECT_CLASS (parent_class)->finalize (object);
++-}
++-
++-/* only on the sink */
++-gboolean
++-gst_rtp_qdm2_depay_setcaps (GstRTPBaseDepayload * filter, GstCaps * caps)
++-{
++-  GstStructure *structure = gst_caps_get_structure (caps, 0);
++-  gint clock_rate;
++-
++-  if (!gst_structure_get_int (structure, "clock-rate", &clock_rate))
++-    clock_rate = 44100;         /* default */
++-  filter->clock_rate = clock_rate;
++-
++-  /* will set caps later */
++-
++-  return TRUE;
++-}
++-
++-static void
++-flush_data (GstRtpQDM2Depay * depay)
++-{
++-  guint i;
++-  guint avail;
++-
++-  if ((avail = gst_adapter_available (depay->adapter)))
++-    gst_adapter_flush (depay->adapter, avail);
++-
++-  GST_DEBUG ("Flushing %d packets", depay->nbpackets);
++-
++-  for (i = 0; depay->packets[i]; i++) {
++-    QDM2Packet *pack = depay->packets[i];
++-    guint32 crc = 0;
++-    int i = 0;
++-    GstBuffer *buf;
++-    guint8 *data;
++-
++-    /* CRC is the sum of everything (including first bytes) */
++-
++-    data = pack->data;
++-
++-    if (G_UNLIKELY (data == NULL))
++-      continue;
++-
++-    /* If the packet size is bigger than 0xff, we need 2 bytes to store the size */
++-    if (depay->packetsize > 0xff) {
++-      /* Expanded size 0x02 | 0x80 */
++-      data[0] = 0x82;
++-      GST_WRITE_UINT16_BE (data + 1, depay->packetsize - 3);
++-    } else {
++-      data[0] = 0x2;
++-      data[1] = depay->packetsize - 2;
++-    }
++-
++-    /* Calculate CRC */
++-    for (; i < depay->packetsize; i++)
++-      crc += data[i];
++-
++-    GST_DEBUG ("CRC is 0x%x", crc);
++-
++-    /* Write CRC */
++-    if (depay->packetsize > 0xff)
++-      GST_WRITE_UINT16_BE (data + 3, crc);
++-    else
++-      GST_WRITE_UINT16_BE (data + 2, crc);
++-
++-    GST_MEMDUMP ("Extracted packet", data, depay->packetsize);
++-
++-    buf = gst_buffer_new ();
++-    gst_buffer_append_memory (buf,
++-        gst_memory_new_wrapped (0, data, depay->packetsize, 0,
++-            depay->packetsize, data, g_free));
++-
++-    gst_adapter_push (depay->adapter, buf);
++-
++-    pack->data = NULL;
++-  }
++-}
++-
++-static void
++-add_packet (GstRtpQDM2Depay * depay, guint32 pid, guint32 len, guint8 * data)
++-{
++-  QDM2Packet *packet;
++-
++-  if (G_UNLIKELY (!depay->configured))
++-    return;
++-
++-  GST_DEBUG ("pid:%d, len:%d, data:%p", pid, len, data);
++-
++-  if (G_UNLIKELY (depay->packets[pid] == NULL)) {
++-    depay->packets[pid] = g_malloc0 (sizeof (QDM2Packet));
++-    depay->nbpackets = MAX (depay->nbpackets, pid + 1);
++-  }
++-  packet = depay->packets[pid];
++-
++-  GST_DEBUG ("packet:%p", packet);
++-  GST_DEBUG ("packet->data:%p", packet->data);
++-
++-  if (G_UNLIKELY (packet->data == NULL)) {
++-    packet->data = g_malloc0 (depay->packetsize);
++-    /* We leave space for the header/crc */
++-    if (depay->packetsize > 0xff)
++-      packet->offs = 5;
++-    else
++-      packet->offs = 4;
++-  }
++-
++-  /* Finally copy the data over */
++-  memcpy (packet->data + packet->offs, data, len);
++-  packet->offs += len;
++-}
++-
++-static GstBuffer *
++-gst_rtp_qdm2_depay_process (GstRTPBaseDepayload * depayload, GstRTPBuffer * rtp)
++-{
++-  GstRtpQDM2Depay *rtpqdm2depay;
++-  GstBuffer *outbuf = NULL;
++-  guint16 seq;
++-
++-  rtpqdm2depay = GST_RTP_QDM2_DEPAY (depayload);
++-
++-  {
++-    gint payload_len;
++-    guint8 *payload;
++-    guint avail;
++-    guint pos = 0;
++-
++-    payload_len = gst_rtp_buffer_get_payload_len (rtp);
++-    if (payload_len < 3)
++-      goto bad_packet;
++-
++-    payload = gst_rtp_buffer_get_payload (rtp);
++-    seq = gst_rtp_buffer_get_seq (rtp);
++-    if (G_UNLIKELY (seq != rtpqdm2depay->nextseq)) {
++-      GST_DEBUG ("GAP in sequence number, Resetting data !");
++-      /* Flush previous data */
++-      flush_data (rtpqdm2depay);
++-      /* And store new timestamp */
++-      rtpqdm2depay->ptimestamp = rtpqdm2depay->timestamp;
++-      rtpqdm2depay->timestamp = GST_BUFFER_PTS (rtp->buffer);
++-      /* And that previous data will be pushed at the bottom */
++-    }
++-    rtpqdm2depay->nextseq = seq + 1;
++-
++-    GST_DEBUG ("Payload size %d 0x%x sequence:%d", payload_len, payload_len,
++-        seq);
++-
++-    GST_MEMDUMP ("Incoming payload", payload, payload_len);
++-
++-    while (pos < payload_len) {
++-      switch (payload[pos]) {
++-        case 0x80:{
++-          GST_DEBUG ("Unrecognized 0x80 marker, skipping 12 bytes");
++-          pos += 12;
++-        }
++-          break;
++-        case 0xff:
++-          /* HEADERS */
++-          GST_DEBUG ("Headers");
++-          /* Store the incoming timestamp */
++-          rtpqdm2depay->ptimestamp = rtpqdm2depay->timestamp;
++-          rtpqdm2depay->timestamp = GST_BUFFER_PTS (rtp->buffer);
++-          /* flush the internal data if needed */
++-          flush_data (rtpqdm2depay);
++-          if (G_UNLIKELY (!rtpqdm2depay->configured)) {
++-            guint8 *ourdata;
++-            GstBuffer *codecdata;
++-            GstMapInfo cmap;
++-            GstCaps *caps;
++-
++-            /* First bytes are unknown */
++-            GST_MEMDUMP ("Header", payload + pos, 32);
++-            ourdata = payload + pos + 10;
++-            pos += 10;
++-            rtpqdm2depay->channs = GST_READ_UINT32_BE (payload + pos + 4);
++-            rtpqdm2depay->samplerate = GST_READ_UINT32_BE (payload + pos + 8);
++-            rtpqdm2depay->bitrate = GST_READ_UINT32_BE (payload + pos + 12);
++-            rtpqdm2depay->blocksize = GST_READ_UINT32_BE (payload + pos + 16);
++-            rtpqdm2depay->framesize = GST_READ_UINT32_BE (payload + pos + 20);
++-            rtpqdm2depay->packetsize = GST_READ_UINT32_BE (payload + pos + 24);
++-            /* 16 bit empty block (0x02 0x00) */
++-            pos += 30;
++-            GST_DEBUG
++-                ("channs:%d, samplerate:%d, bitrate:%d, blocksize:%d, framesize:%d, packetsize:%d",
++-                rtpqdm2depay->channs, rtpqdm2depay->samplerate,
++-                rtpqdm2depay->bitrate, rtpqdm2depay->blocksize,
++-                rtpqdm2depay->framesize, rtpqdm2depay->packetsize);
++-
++-            /* Caps */
++-            codecdata = gst_buffer_new_and_alloc (48);
++-            gst_buffer_map (codecdata, &cmap, GST_MAP_WRITE);
++-            memcpy (cmap.data, headheader, 20);
++-            memcpy (cmap.data + 20, ourdata, 28);
++-            gst_buffer_unmap (codecdata, &cmap);
++-
++-            caps = gst_caps_new_simple ("audio/x-qdm2",
++-                "samplesize", G_TYPE_INT, 16,
++-                "rate", G_TYPE_INT, rtpqdm2depay->samplerate,
++-                "channels", G_TYPE_INT, rtpqdm2depay->channs,
++-                "codec_data", GST_TYPE_BUFFER, codecdata, NULL);
++-            gst_pad_set_caps (GST_RTP_BASE_DEPAYLOAD_SRCPAD (depayload), caps);
++-            gst_caps_unref (caps);
++-            rtpqdm2depay->configured = TRUE;
++-          } else {
++-            GST_DEBUG ("Already configured, skipping headers");
++-            pos += 40;
++-          }
++-          break;
++-        default:{
++-          /* Shuffled packet contents */
++-          guint packetid = payload[pos++];
++-          guint packettype = payload[pos++];
++-          guint packlen = payload[pos++];
++-          guint hsize = 2;
++-
++-          GST_DEBUG ("Packet id:%d, type:0x%x, len:%d",
++-              packetid, packettype, packlen);
++-
++-          /* Packets bigger than 0xff bytes have a type with the high bit set */
++-          if (G_UNLIKELY (packettype & 0x80)) {
++-            packettype &= 0x7f;
++-            packlen <<= 8;
++-            packlen |= payload[pos++];
++-            hsize = 3;
++-            GST_DEBUG ("Packet id:%d, type:0x%x, len:%d",
++-                packetid, packettype, packlen);
++-          }
++-
++-          if (packettype > 0x7f) {
++-            GST_ERROR ("HOUSTON WE HAVE A PROBLEM !!!!");
++-          }
++-          add_packet (rtpqdm2depay, packetid, packlen + hsize,
++-              payload + pos - hsize);
++-          pos += packlen;
++-        }
++-      }
++-    }
++-
++-    GST_DEBUG ("final pos %d", pos);
++-
++-    avail = gst_adapter_available (rtpqdm2depay->adapter);
++-    if (G_UNLIKELY (avail)) {
++-      GST_DEBUG ("Pushing out %d bytes of collected data", avail);
++-      outbuf = gst_adapter_take_buffer (rtpqdm2depay->adapter, avail);
++-      GST_BUFFER_PTS (outbuf) = rtpqdm2depay->ptimestamp;
++-      GST_DEBUG ("Outgoing buffer timestamp %" GST_TIME_FORMAT,
++-          GST_TIME_ARGS (rtpqdm2depay->ptimestamp));
++-    }
++-  }
++-
++-  return outbuf;
++-
++-  /* ERRORS */
++-bad_packet:
++-  {
++-    GST_ELEMENT_WARNING (rtpqdm2depay, STREAM, DECODE,
++-        (NULL), ("Packet was too short"));
++-    return NULL;
++-  }
++-}
++-
++-static GstStateChangeReturn
++-gst_rtp_qdm2_depay_change_state (GstElement * element,
++-    GstStateChange transition)
++-{
++-  GstRtpQDM2Depay *rtpqdm2depay;
++-  GstStateChangeReturn ret;
++-
++-  rtpqdm2depay = GST_RTP_QDM2_DEPAY (element);
++-
++-  switch (transition) {
++-    case GST_STATE_CHANGE_NULL_TO_READY:
++-      break;
++-    case GST_STATE_CHANGE_READY_TO_PAUSED:
++-      gst_adapter_clear (rtpqdm2depay->adapter);
++-      break;
++-    default:
++-      break;
++-  }
++-
++-  ret = GST_ELEMENT_CLASS (parent_class)->change_state (element, transition);
++-
++-  switch (transition) {
++-    case GST_STATE_CHANGE_READY_TO_NULL:
++-      break;
++-    default:
++-      break;
++-  }
++-  return ret;
++-}
++diff --git a/gst/rtp/gstrtpqdmdepay.h b/gst/rtp/gstrtpqdmdepay.h
++deleted file mode 100644
++index d5d3756..0000000
++--- a/gst/rtp/gstrtpqdmdepay.h
+++++ /dev/null
++@@ -1,83 +0,0 @@
++-/* GStreamer
++- * Copyright (C) <2009> Edward Hervey <bilboed@bilboed.com>
++- *
++- * This library is free software; you can redistribute it and/or
++- * modify it under the terms of the GNU Library General Public
++- * License as published by the Free Software Foundation; either
++- * version 2 of the License, or (at your option) any later version.
++- *
++- * This library is distributed in the hope that it will be useful,
++- * but WITHOUT ANY WARRANTY; without even the implied warranty of
++- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
++- * Library General Public License for more details.
++- *
++- * You should have received a copy of the GNU Library General Public
++- * License along with this library; if not, write to the
++- * Free Software Foundation, Inc., 51 Franklin St, Fifth Floor,
++- * Boston, MA 02110-1301, USA.
++- */
++-
++-#ifndef __GST_RTP_QDM2_DEPAY_H__
++-#define __GST_RTP_QDM2_DEPAY_H__
++-
++-#include <gst/gst.h>
++-#include <gst/base/gstadapter.h>
++-#include <gst/rtp/gstrtpbasedepayload.h>
++-
++-G_BEGIN_DECLS
++-
++-#define GST_TYPE_RTP_QDM2_DEPAY \
++-  (gst_rtp_qdm2_depay_get_type())
++-#define GST_RTP_QDM2_DEPAY(obj) \
++-  (G_TYPE_CHECK_INSTANCE_CAST((obj),GST_TYPE_RTP_QDM2_DEPAY,GstRtpQDM2Depay))
++-#define GST_RTP_QDM2_DEPAY_CLASS(klass) \
++-  (G_TYPE_CHECK_CLASS_CAST((klass),GST_TYPE_RTP_QDM2_DEPAY,GstRtpQDM2DepayClass))
++-#define GST_IS_RTP_QDM2_DEPAY(obj) \
++-  (G_TYPE_CHECK_INSTANCE_TYPE((obj),GST_TYPE_RTP_QDM2_DEPAY))
++-#define GST_IS_RTP_QDM2_DEPAY_CLASS(klass) \
++-  (G_TYPE_CHECK_CLASS_TYPE((klass),GST_TYPE_RTP_QDM2_DEPAY))
++-
++-typedef struct _GstRtpQDM2Depay GstRtpQDM2Depay;
++-typedef struct _GstRtpQDM2DepayClass GstRtpQDM2DepayClass;
++-
++-typedef struct _QDM2Packet {
++-  guint8* data;
++-  guint offs;		/* Starts at 4 to give room for the prefix */
++-} QDM2Packet;
++-
++-#define MAX_SCRAMBLED_PACKETS 64
++-
++-struct _GstRtpQDM2Depay
++-{
++-  GstRTPBaseDepayload depayload;
++-
++-  GstAdapter *adapter;
++-
++-  guint16 nextseq;
++-  gboolean configured;
++-
++-  GstClockTime timestamp; /* Timestamp of current incoming data */
++-  GstClockTime ptimestamp; /* Timestamp of data stored in the adapter */
++-
++-  guint32 channs;
++-  guint32 samplerate;
++-  guint32 bitrate;
++-  guint32 blocksize;
++-  guint32 framesize;
++-  guint32 packetsize;
++-
++-  guint nbpackets;	/* Number of packets to unscramble */
++-
++-  QDM2Packet *packets[MAX_SCRAMBLED_PACKETS];
++-};
++-
++-struct _GstRtpQDM2DepayClass
++-{
++-  GstRTPBaseDepayloadClass parent_class;
++-};
++-
++-GType gst_rtp_qdm2_depay_get_type (void);
++-
++-G_END_DECLS
++-
++-#endif /* __GST_RTP_QDM2_DEPAY_H__ */
++diff --git a/gst/rtp/meson.build b/gst/rtp/meson.build
++index aa76523..2918f33 100644
++--- a/gst/rtp/meson.build
+++++ b/gst/rtp/meson.build
++@@ -75,7 +75,6 @@ rtp_sources = [
++   'gstrtpmp4adepay.c',
++   'gstrtpmp4apay.c',
++   'gstrtpqcelpdepay.c',
++-  'gstrtpqdmdepay.c',
++   'gstrtpsbcdepay.c',
++   'gstrtpsbcpay.c',
++   'gstrtpsirenpay.c',
++-- 
++2.50.1
++
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
+index 31bc8af015..8d36b70a14 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-plugins-good_1.22.12.bb
+@@ -41,6 +41,7 @@ SRC_URI = "https://gstreamer.freedesktop.org/src/gst-plugins-good/gst-plugins-go
+            file://CVE-2025-47183-001.patch \
+            file://CVE-2025-47183-002.patch \
+            file://CVE-2025-47219.patch \
++           file://CVE-2026-3083-CVE-2026-3085.patch \
+           "
+ 
+ SRC_URI[sha256sum] = "9c1913f981900bd8867182639b20907b28ed78ef7a222cfbf2d8ba9dab992fa7"
+-- 
+2.50.1
 
 
