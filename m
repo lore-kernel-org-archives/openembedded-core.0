@@ -1,237 +1,166 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 23A37C88E77
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 13:00:08 +0000 (UTC)
-Received: from mail-pz2-f42.google.com (mail-pz2-f42.google.com [74.125.228.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14214.1789563591246104941
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 288A5C88E5C
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 13:04:18 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14406.1789563854927444112
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 05:59:51 -0700
+ Wed, 16 Sep 2026 06:04:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=CUArCSuv;
- spf=pass (domain: mvista.com, ip: 74.125.228.42, mailfrom: hprajapati@mvista.com)
-Received: by mail-pz2-f42.google.com with SMTP id 41be03b00d2f7-cc4d04d73b8so713395a12.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 05:59:51 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ndLB1Jdu;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49ccf3ca626so4431345e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 06:04:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1789563590; x=1790168390; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=HCIAoHX4ephBj8w5A1slhiX1VcUcabSYN2wQO9WxXN8=;
-        b=CUArCSuvRsPIGqu5BeY7ojvif1lMcGRPqjXm+AuqtjadsVI8gQuptAw25wH27ZqK7h
-         hHmOEvwkIt15ECRrKiyvS6Tov1GuJYMLQejkD9bisnW1Kevh2DaG88rkwEKv//xcg6wi
-         nHlCxlYbmUReVWPkY+D2xX/1EzkwfbTzHemVE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789563590; x=1790168390;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=smile.fr; s=google; t=1789563853; x=1790168653; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=HCIAoHX4ephBj8w5A1slhiX1VcUcabSYN2wQO9WxXN8=;
-        b=Erp/Ra08UTsvMClQy8P65ofId9Hc+eYXrs9gz0SZ/1ove2EV09nxEeVcRpiH1tWx2P
-         pHrS+thtz8ZDbeCzr/Aje2ou38TEfm6eymDNNmuMTVdO4zpP3dGnJY/52oTURLzaRIIJ
-         Quwjk5+cpGFdBiQediyqx3qgWb3H0qW0vgd5eO8rDzIrUn5QG/D4aR3O8+M8uR7jGc7D
-         0nGmL85yeUKOaW+s7HdQEFNNRDzcagqz1zY1S/VbRYglf4mQxWgihqhdg8aChewn7mZ1
-         q81Aw3CSvSFkEizpJII0ud4CKIWa7MMjOC+5nO+H6s5htwW7Kgdm7XAp+YT4DjzplK/A
-         0Bhg==
-X-Gm-Message-State: AFuF++kVNNFOrvU8SFxwgvSiY3NWf1TkMO89mPOw229O8eI5+BmNSdZb
-	m6ZZSgIA45WBhJsFymDy2eedqa0oL1V5GzI0zpo2e1nnTV8qNjKc5Vo29rAanilPxIq95xjevYE
-	suOMPcrE=
-X-Gm-Gg: AYBFou36JMkyFdVEsvZOJwL29NgMUN/P4iboNtUAQDDbzsawVu6n8DA67yV+Qg0pngE
-	rW4BbE4/k0kY/yLWH7FOf/5mUUzy0AHGlIXDfSjzEY3mBqJ8VEdAhBhcHUoE+V8kutT/YprEm9l
-	9f5DQEPO9bpOrBaC2pBlNPXlylt6933ZD9e2F4FHlLTGCFOPe4yBm6bSKobBkpDS/6sstTM3C/j
-	2y2nIUKWiO/tAJgDpygPyEk08r3Ru+Db7SD0S7lHCN0lcLY47pOz8IIAniWqnxH2FewZRCdDU9u
-	YAJfPwnDbFq8l9uO7j7NGthdrZYVrOyLJn2s1vm6Tni2ShovkUMGQG+Cv2Wolpd1vks4owOOP2u
-	zN+glYxBReNjptNrHARNmnZeMBlL5fr+3VrDAdMg0Dim2PRKZq8VGs8Wf4kMnyR8hghnJf60o2u
-	FdNUy9GICZgtpgo3hYPCmFypAnxAHzMqFIyBx4NVfEYbx6ABYMuNEBlRNCPOFAI8evHY1QyOiLU
-	oxeF0n0TYcN
-X-Received: by 2002:a05:6a20:7355:b0:3d3:ae40:51e4 with SMTP id adf61e73a8af0-3dd5f73b6a9mr6423958637.24.1789563590618;
-        Wed, 16 Sep 2026 05:59:50 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([103.250.136.175])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14395d4a48fsm6640315c88.10.2026.09.16.05.59.48
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 05:59:50 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH] vim: Fix for CVE-2026-73076
-Date: Wed, 16 Sep 2026 18:29:25 +0530
-Message-ID: <20260916125925.241119-1-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        bh=5fSiCPMjJILPDM4zD6aiXbww0L3vL8B0ESmwyhv9GVk=;
+        b=ndLB1JduyQHUGCsh+L27RI2z+IWN/e9/bPFhWXqGzgO7RxLus6TfWDuIF5NLmDeNLs
+         C0Wm3qKk3c8Y7p05Q8kaYusurIwNy/5ZAIEGAVQqzN9drjKq86sXZhcFICcSKhhmSXBR
+         7xx8IYJ5eZ/jYkq54vef6XHtomhdeELPLDkSU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789563853; x=1790168653;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=5fSiCPMjJILPDM4zD6aiXbww0L3vL8B0ESmwyhv9GVk=;
+        b=KSZJgbmPwZvvOmNuje9T4Scg1l322P/jc+OcavIPTR+G1Dnj0yiOT8ZQ6BxKl3iMfR
+         sNHDnZrUpIBxCHssgWLhuAA6+NAhpKBMPFeFYnwEY9qRPIovdOZkextlBfuQqbCrVUKe
+         NIOSEw+Cu4a5mJtPTrFXWSvQD3UgnIZE7VRpbm33LIvANwg3vA9ZJclXPxb5YLgdFO4W
+         OZe0XK8YWE8CzOmLLNjGEhXPpYM4KMGyx3kjcsI6I/+wzA16yS6FO8KGQww2X1BDZrYO
+         WD7KjqMnsNH28q3o2NJmgugSCZ6GLZcn3A2KowhGmjRh9vFpK3NLBeDHXT5XxLWKLgt7
+         2Tjw==
+X-Forwarded-Encrypted: i=1; AKwUvByGacIEiO7DQNvUsQbDazMt/0P5YYDgY6/rEtMPrJsFcvy0lzyJCT/bdLeyYp4lH6gUJ1HYcv4Vp17S5GBJQ/VfZQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nRKd3fOrVMo5le+Se/W2PzUVqtaeOgsRqyYcH2tYfDLCb5a3NR
+	Ri+vBNoVmD4pmDbjVRYoHDF7a+gsLCWheP8i5uwpoQA61TRiB+lksEfug7r/vs7EDs0=
+X-Gm-Gg: AYBFou0iCYgRFQDWsWci4Zvro0f38BF012DBJN+8PzOe/8IOIHwparMeQ8BXIWPQSBv
+	uzDBFsNG/1Pm1i8CHhE0HxIsLCquT24Ic/HbLIGCf03k8it+f0jj/Y9CNU88+GzFtwlR8k/PVmc
+	iX59HhbSmEKJOM++kaJUXMZyRC2PIKwuKIrYzjBonLU22wTXukGjMZlWqDEdV/IjcXxxz/sEbjh
+	sdg+YP5eNDSCjyDPyx8lbFX3leoA3JCWzawnQcUhJRVkCUaA9sgrhyzlkEXrSDWA3aQvtrgdbBV
+	JHZZi8IAhm0v2ibXMuqehfqItY9R8A/XZx+d3TPYGOOyrEpnB+3WBQip4Am0B6Gy9mn+kkAhFZG
+	LxfWwhQnW9+/D73LJ/CMLxpcYydfhL7Ui/OGe7DgBFavr4Lm6OiDla1EexSg43oZN+qrt9mKPbB
+	IUmujS60oQYrOwPyVbNa8IABOTFgu6dDvk0iO3zaYJiv99yftXOVVutoPbXxEuUGa6xmgP40DMY
+	y69P4H0+HqpvEn6qUq6OBna2mwtEkGJNqZK5/OYwfF8IgyOQxkJlWqtwHU=
+X-Received: by 2002:a05:6000:41e3:b0:487:62d:37dc with SMTP id ffacd0b85a97d-4870cf36d6amr3458391f8f.32.1789563853004;
+        Wed, 16 Sep 2026 06:04:13 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bef7687sm8132872f8f.1.2026.09.16.06.04.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Sep 2026 06:04:12 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 16 Sep 2026 15:04:12 +0200
+Message-Id: <DLGRFWDPS373.3B9ZUABYX9HHK@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH] vim: Fix for CVE-2026-73071
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <bhavesh.maheshwari@einfochips.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260902085553.2299768-1-bhavesh.maheshwari@einfochips.com>
+In-Reply-To: <20260902085553.2299768-1-bhavesh.maheshwari@einfochips.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 13:00:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245971
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 13:04:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245972
 
-Pick the patch from [1], also referenced in the NVD report [2].
+On Wed Sep 2, 2026 at 10:55 AM CEST, Bhavesh R Maheshwari via lists.openemb=
+edded.org wrote:
+> From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+>
+> Pick the patch from [1], also referenced in the NVD report [2].
+>
+> [1] https://github.com/vim/vim/commit/f8126294a526aa80c5123eb3079e325daee=
+9ec75
+> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-73071
+>
+> Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+> ---
+>  .../vim/files/CVE-2026-73071.patch            | 128 ++++++++++++++++++
+>  meta/recipes-support/vim/vim.inc              |   1 +
+>  2 files changed, 129 insertions(+)
+>  create mode 100644 meta/recipes-support/vim/files/CVE-2026-73071.patch
+>
+> diff --git a/meta/recipes-support/vim/files/CVE-2026-73071.patch b/meta/r=
+ecipes-support/vim/files/CVE-2026-73071.patch
+> new file mode 100644
+> index 0000000000..6012bfd396
+> --- /dev/null
+> +++ b/meta/recipes-support/vim/files/CVE-2026-73071.patch
+> @@ -0,0 +1,128 @@
+> +From f09adcf1b1a876e8a9b00a7b3ea15865ff194aad Mon Sep 17 00:00:00 2001
+> +From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
+> +Date: Thu, 16 Jul 2026 18:39:24 +0900
+> +Subject: [PATCH] patch 9.2.0844: [security]: use-after-free on json deco=
+de
+> + error
+> +
+> +Problem:  [security]: use-after-free on json decode error
+> +          (@tdjackey)
+> +Solution: Report the position from the current reader
+> +          (Matsumoto Yasuhiro)
+> +
+> +json_decode_item() caches "p" into js_buf, but json_decode_string() can
+> +refill via channel_fill(), which frees the old js_buf. When the string
+> +parse then fails (e.g. an invalid \u escape), the shared error path pass=
+ed
+> +the now-dangling "p" to semsg(), a heap use-after-free read reachable
+> +pre-auth through the socketserver.
+> +
+> +Github Security Advisory:
+> +https://github.com/vim/vim/security/advisories/GHSA-69ch-22ch-r887
+> +
+> +Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
+> +Signed-off-by: Christian Brabandt <cb@256bit.org>
+> +
+> +Upstream-Status: Backport [https://github.com/vim/vim/commit/f8126294a52=
+6aa80c5123eb3079e325daee9ec75]
+> +CVE: CVE-2026-73071
+> +
+> +Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+> +---
+> + src/json.c                        |  4 ++-
+> + src/testdir/test_clientserver.vim | 53 +++++++++++++++++++++++++++++++
+> + src/version.c                     |  2 ++
+> + 3 files changed, 58 insertions(+), 1 deletion(-)
+> +
+> +diff --git a/src/version.c b/src/version.c
+> +index 92cd53129..43e4bb45b 100644
+> +--- a/src/version.c
+> ++++ b/src/version.c
+> +@@ -734,6 +734,8 @@ static char *(features[]) =3D
+> +=20
+> + static int included_patches[] =3D
+> + {   /* Add new patch number below this line */
+> ++/**/
+> ++    844,
 
-[1] https://github.com/vim/vim/commit/581a2f3ac9c6f96a26324f6b2c8c11415fd0d452
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73076
+Hello,
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
----
- .../vim/files/CVE-2026-73076.patch            | 136 ++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |   1 +
- 2 files changed, 137 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-73076.patch
+Looks like this patch does not apply cleanly:
+    NOTE: recipe vim-tiny-9.2.0340-r0: task do_patch: Started
+    ERROR: vim-9.2.0340-r0 do_patch: QA Issue: Fuzz detected:
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-73076.patch b/meta/recipes-support/vim/files/CVE-2026-73076.patch
-new file mode 100644
-index 0000000000..92c9e10c4a
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-73076.patch
-@@ -0,0 +1,136 @@
-+From 581a2f3ac9c6f96a26324f6b2c8c11415fd0d452 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Fri, 24 Jul 2026 17:43:51 +0200
-+Subject: [PATCH] patch 9.2.0847: [security]: vimball: code execution via
-+ .VimballRecord file
-+
-+Problem:  [security]: vimball: code execution via .VimballRecord file
-+          (tdjackey)
-+Solution: Forbid arbitrary commands, fix broken directory deletion code,
-+          refactor code
-+
-+Github Security Advisory:
-+https://github.com/vim/vim/security/advisories/GHSA-r22p-fhw4-84p2
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+
-+CVE: CVE-2026-73076
-+Upstream-Status: Backport from https://github.com/vim/vim/commit/581a2f3ac9c6f96a26324f6b2c8c11415fd0d452
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ runtime/autoload/vimball.vim | 58 ++++++++++++++++++++++--------------
-+ 1 file changed, 35 insertions(+), 23 deletions(-)
-+
-+diff --git a/runtime/autoload/vimball.vim b/runtime/autoload/vimball.vim
-+index 6456984411..b206abef10 100644
-+--- a/runtime/autoload/vimball.vim
-++++ b/runtime/autoload/vimball.vim
-+@@ -270,6 +270,13 @@ fun! vimball#Vimball(really,...)
-+    let fenc    = substitute(getline(linenr+1),'^\d\+\s*\(\S\{-}\)$','\1','')
-+    let filecnt = filecnt + 1
-+ "   call Decho("fname<".fname."> fsize=".fsize." filecnt=".filecnt. " fenc=".fenc)
-++   if fname =~? '\%(^\|/\)\.VimballRecord$'
-++     echomsg "(Vimball) Forbidding .VimballRecord filename, aborting..."
-++     exe "tabn ".curtabnr
-++     bw! Vimball
-++     call s:ChgDir(curdir)
-++     return
-++   endif
-+ 
-+    if a:really
-+     echomsg "extracted <".fname.">: ".fsize." lines"
-+@@ -309,7 +316,7 @@ fun! vimball#Vimball(really,...)
-+       else
-+        call mkdir(dirname)
-+       endif
-+-	  call s:RecordInVar(home,"rmdir('".dirname."')")
-++	  call s:RecordDirInVar(dirname)
-+      endif
-+     endwhile
-+    endif
-+@@ -343,7 +350,7 @@ fun! vimball#Vimball(really,...)
-+ 	 exe "silent w! ".fnameescape(fnamepath)
-+ 	endif
-+ 	echo "wrote ".fnameescape(fnamepath)
-+-	call s:RecordInVar(home,"call delete('".fnamepath."')")
-++	call s:RecordInVar(fnamepath)
-+     endif
-+ 
-+     " return to tab with vimball
-+@@ -464,11 +471,17 @@ fun! vimball#RmVimball(...)
-+     let s:VBRstring= substitute(exestring,'call delete(','','g')
-+     let s:VBRstring= substitute(s:VBRstring,"[')]",'','g')
-+ "	call Decho("exe ".exestring)
-+-	sil! keepalt keepjumps exe exestring
-++	let nr_files= 0
-++    for line in split(exestring, '|')
-++      if line !~ '^call delete(''[^'']\{-}''\(,"d"\)\?)$'
-++        echomsg "ignoring .VimballRecord entry: " line
-++      else
-++        sil! keepalt keepjumps exe line
-++        let nr_files+= 1
-++      endif
-++    endfor
-+ 	sil! keepalt keepjumps d
-+-	let exestring= strlen(substitute(exestring,'call delete(.\{-})|\=',"D","g"))
-+-"	call Decho("exestring<".exestring.">")
-+-	echomsg "removed ".exestring." files"
-++	 echomsg "removed ".nr_files." files"
-+    else
-+     let s:VBRstring= ''
-+ 	let curfile    = substitute(curfile,'\.vmb','','')
-+@@ -622,23 +635,22 @@ fun! s:ChgDir(newdir)
-+ endfun
-+ 
-+ " ---------------------------------------------------------------------
-+-" s:RecordInVar: record a un-vimball command in the .VimballRecord file {{{2
-+-fun! s:RecordInVar(home,cmd)
-+-"  call Dfunc("RecordInVar(home<".a:home."> cmd<".a:cmd.">)")
-+-  if a:cmd =~ '^rmdir'
-+-"   if !exists("s:recorddir")
-+-"    let s:recorddir= substitute(a:cmd,'^rmdir',"call s:Rmdir",'')
-+-"   else
-+-"    let s:recorddir= s:recorddir."|".substitute(a:cmd,'^rmdir',"call s:Rmdir",'')
-+-"   endif
-+-  elseif !exists("s:recordfile")
-+-   let s:recordfile= a:cmd
-+-  else
-+-   let s:recordfile= s:recordfile."|".a:cmd
-++" s:RecordInVar: record a un-vimball file deletion in the .VimballRecord file {{{2
-++fun! s:RecordInVar(file)
-++  if !exists("s:recordfile")
-++    let s:recordfile=[]
-+   endif
-+-"  call Dret("RecordInVar : s:recordfile<".(exists("s:recordfile")? s:recordfile : "")."> s:recorddir<".(exists("s:recorddir")? s:recorddir : "").">")
-++  call add(s:recordfile, $'call delete({string(a:file)})')
-+ endfun
-+ 
-++" s:RecordDirInVar: record a un-vimball dir deletion in the .VimballRecord file {{{2
-++fun! s:RecordDirInVar(dir)
-++  if !exists("s:recorddir")
-++    let s:recorddir = []
-++   endif
-++  call add(s:recorddir, $'call delete({string(a:dir)},"d")')
-++ endfun
-++
-+ " ---------------------------------------------------------------------
-+ " s:RecordInFile: {{{2
-+ fun! s:RecordInFile(home)
-+@@ -660,11 +672,11 @@ fun! s:RecordInFile(home)
-+    setlocal ma
-+    $
-+    if exists("s:recordfile") && exists("s:recorddir")
-+-   	let cmd= cmd.s:recordfile."|".s:recorddir
-++        let cmd= cmd.join(s:recordfile, '|')."|".join(s:recorddir, '|')
-+    elseif exists("s:recorddir")
-+-   	let cmd= cmd.s:recorddir
-++        let cmd= cmd.join(s:recorddir, '|')
-+    elseif exists("s:recordfile")
-+-   	let cmd= cmd.s:recordfile
-++        let cmd= cmd.join(s:recordfile, '|')
-+    else
-+ "    call Dret("s:RecordInFile : neither recordfile nor recorddir exist")
-+ 	return
-+-- 
-+2.50.1
-+
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 0acf8247b7..5a6520b078 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -55,6 +55,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-73074.patch \
-            file://CVE-2026-73077.patch \
-            file://CVE-2026-73078.patch \
-+           file://CVE-2026-73076.patch \
-            "
- 
- PV .= ".1683"
--- 
-2.50.1
+    Applying patch CVE-2026-73071.patch
+    patching file src/json.c
+    patching file src/testdir/test_clientserver.vim
+    patching file src/version.c
+    Hunk #1 succeeded at 734 with fuzz 2.
+
+Can you rebase/refresh and resend?
+
+In this case, do think you can drop the version.c update? Is this
+included_patches list used meaningfully? If not, let's drop it, this is
+bound to create conflicts...
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
 
