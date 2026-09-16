@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 96193C982C7
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B6FEC982C5
 	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 05:44:58 +0000 (UTC)
 Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8383.1789537494946980413
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8415.1789537492023160758
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2026 22:44:55 -0700
+ Tue, 15 Sep 2026 22:44:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PKbBQb/V;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=0q8TJuYE;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a0a8bf2495-f2b0eb3e-1d93-4de3-b2df-d4c6865d0ed9-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=VeNpFD+V;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=gzwkPDgi;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a0a8bf18b6-cd690a59-d107-477e-8f01-11b00701e5ea-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789537494;
+	t=1789537491;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=EdPfQOswSCdVU5egeTZWhk6fXw4FrS8YBu1qZdX99bA=;
-	b=PKbBQb/V7qwlEqy/8k8aXs2GyvU9WZ3Dz/llYl5aU3j0iCJ0oQ+M5vH26uE6R09R
-	aNw40lbSgt5uB+V0Ni2FHI/JoGDtdY1SB+bhUrXm4K7Su3tDfvCkrbjL40NyfDmrnUq
-	skAkpXsuw9P7xFoI8avFFP6KhjlzvYK5iI/otdjI=
+	bh=hFv3BhDuDAvyZh2pLC6vWF+bOIa3brNcAATouIJyHE4=;
+	b=VeNpFD+Vf/9AqZzWZGnt96SEcD+3xQSKmF5NLJK6bdEWHE8sU0RYmgL3P70co0kR
+	CO1h9W+3QHfTI51MR/mGtas/YTKU0/C1uu9GYsHkttQ0XXMhK1Q3vOsT5R89hiYmczj
+	M07l+Zue+Vo2tgbLoKbIQih4L2qdenIvkQI/MwVs=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789537494;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789537491;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=EdPfQOswSCdVU5egeTZWhk6fXw4FrS8YBu1qZdX99bA=;
-	b=0q8TJuYExDmr5tGuoI7RaFiGOwQiHHtbBiU+G4QnPXCjiBUPdIhDwKvcRnEtKbzz
-	3D0T7KbKxEj6GBN97klXH93PlWbIijQR4QBjSqedLk1+D5y0tdHHMioCSFz/DnwjB1j
-	qndENjuGBIfAPq6zzpZPN8iXZV7OO+dd/7/tHUSk=
-Content-Type: multipart/mixed; boundary="===============8053797304105894497=="
+	bh=hFv3BhDuDAvyZh2pLC6vWF+bOIa3brNcAATouIJyHE4=;
+	b=gzwkPDgikSfqbGDyWT1M+ot8jL6TSIWdOAjkzbBcKFMQj5lAq9FXs1Q9lV+DW+mE
+	zNkxby4jsb3Z+nHifSGdIXGEPOc9sulJt0ZyljnFqvBLuDDU/lcrfzk2CCD9reZteqB
+	O9+vA3lHqL86pOrY9YT97O7hH0g3Y5CqPIBhQDXg=
+Content-Type: multipart/mixed; boundary="===============2383127882095852197=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
+To: Hongxu Jia <hongxu.jia@windriver.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-pyproject-hooks: upgrading to 1.3.0 SUCCEEDED
-Message-ID: <010101a0a8bf2495-f2b0eb3e-1d93-4de3-b2df-d4c6865d0ed9-000000@us-west-2.amazonses.com>
-Date: Wed, 16 Sep 2026 05:44:54 +0000
+Subject: [AUH] ppp: upgrading to 2.5.4 SUCCEEDED
+Message-ID: <010101a0a8bf18b6-cd690a59-d107-477e-8f01-11b00701e5ea-000000@us-west-2.amazonses.com>
+Date: Wed, 16 Sep 2026 05:44:51 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
 X-SES-Outgoing: 2026.09.16-54.240.27.30
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 05:44:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245918
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245917
 
---===============8053797304105894497==
+--===============2383127882095852197==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,10 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-pyproject-hooks* to *1.3.0* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *ppp* to *2.5.4* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-python3-pyproject-hooks-upgrade-1.2.0-1.3.0.patch
+    - apply the patch: git am 0001-ppp-upgrade-2.5.3-2.5.4.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -72,195 +72,148 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 97b14fc957626a4ddd0dfd0bada53912ffe53fe0 Mon Sep 17 00:00:00 2001
+From 9ea63038b5edff7af1d4ebdc2129b49313b3fe55 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 16 Sep 2026 05:35:34 +0000
-Subject: [PATCH] python3-pyproject-hooks: upgrade 1.2.0 -> 1.3.0
+Date: Wed, 16 Sep 2026 05:13:25 +0000
+Subject: [PATCH] ppp: upgrade 2.5.3 -> 2.5.4
 
-Source: docs/changelog.rst
-
-v1.3
-----
-
-- Python 3.8 or above is now required (:pr:`214`).
-- UserWarnings from the backend are now captured and re-emitted in the frontend
-  process as a new category ``BuildBackendWarning``, so that frontends can
-  control how they are shown to users (:pr:`213`).
-- Show the traceback from the backend on a ``BackendUnavailable`` error (:pr:`219`).
-- Fix the return type annotation for ``prepare_metadata_for_build_wheel``
-  (:pr:`209`).
-- Fix removing the internal ``_in_process`` directory from ``sys.path`` where
-  the install location includes a symlink (:pr:`230`).
-- Use ``os.path.commonpath`` instead of the deprecated ``commonprefix`` to
-  validate the location of in-tree backends.
-- Fix in-tree backends in locations containing the path separator character -
-  ``:`` on Posix platforms, ``;`` on Windows (:pr:`232`).
-- Fix finding distribution metadata with ``importlib.metadata`` in the backend
-  when an in-tree backend is used (:pr:`212`).
-- ``pyproject_hooks`` can be built from source using flit_core 4.x (:pr:`233`).
-- Document that the ``hooks.subprocess_runner`` context manager API is not
-  thread-safe (:pr:227`)
-
-  in setuptools compatibility in 1.1 (PR :pr:`199`).
-  before imporing the backend (PR :pr:`193`).
-- Rely on preferred "files" API on Python 3.9 and later (:issue:`140`).
 ---
- ...yproject-hooks_1.2.0.bb => python3-pyproject-hooks_1.3.0.bb} | 2 +-
+ meta/recipes-connectivity/ppp/{ppp_2.5.3.bb => ppp_2.5.4.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyproject-hooks_1.2.0.bb => python3-pyproject-hooks_1.3.0.bb} (86%)
+ rename meta/recipes-connectivity/ppp/{ppp_2.5.3.bb => ppp_2.5.4.bb} (98%)
 
-diff --git a/meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb b/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.0.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb
-rename to meta/recipes-devtools/python/python3-pyproject-hooks_1.3.0.bb
-index cdb9fc78c9..fda19f2f8d 100644
---- a/meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb
-+++ b/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.0.bb
-@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/pyproject-hooks"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=aad69c93f605003e3342b174d9b0708c"
+diff --git a/meta/recipes-connectivity/ppp/ppp_2.5.3.bb b/meta/recipes-connectivity/ppp/ppp_2.5.4.bb
+similarity index 98%
+rename from meta/recipes-connectivity/ppp/ppp_2.5.3.bb
+rename to meta/recipes-connectivity/ppp/ppp_2.5.4.bb
+index 1815782169..6f7977ece3 100644
+--- a/meta/recipes-connectivity/ppp/ppp_2.5.3.bb
++++ b/meta/recipes-connectivity/ppp/ppp_2.5.4.bb
+@@ -25,7 +25,7 @@ SRC_URI = "https://download.samba.org/pub/${BPN}/${BP}.tar.gz \
+            file://ppp@.service \
+            "
  
--SRC_URI[sha256sum] = "1e859bd5c40fae9448642dd871adf459e5e2084186e8d2c2a79a824c970da1f8"
-+SRC_URI[sha256sum] = "26dfd4229ff1820b7964be33bd3eb64367eb7c841215defe11341450c219ce20"
+-SRC_URI[sha256sum] = "ddda28dec8aca99a403ab6070d94ffd2b17d63e9a4c5509158e99e148f572d4f"
++SRC_URI[sha256sum] = "379a630a40d858a1347f6592d671791dde12101697a743ef9900012f3765be31"
  
- inherit pypi python_flit_core
+ inherit autotools pkgconfig systemd
  
 -- 
 2.47.1
 
 
---===============8053797304105894497==
+--===============2383127882095852197==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="0001-ppp-upgrade-2.5.3-2.5.4.patch"
+
+RnJvbSA5ZWE2MzAzOGI1ZWRmZjdhZjFkNGViZGMyMTI5YjQ5MzEzYjNmZTU1IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFdlZCwgMTYgU2VwIDIwMjYgMDU6MTM6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+cHA6IHVwZ3JhZGUgMi41LjMgLT4gMi41LjQKCi0tLQogbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
+eS9wcHAve3BwcF8yLjUuMy5iYiA9PiBwcHBfMi41LjQuYmJ9IHwgMiArLQogMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNv
+bm5lY3Rpdml0eS9wcHAve3BwcF8yLjUuMy5iYiA9PiBwcHBfMi41LjQuYmJ9ICg5OCUpCgpkaWZm
+IC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNS4zLmJiIGIvbWV0
+YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNS40LmJiCnNpbWlsYXJpdHkgaW5kZXgg
+OTglCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb25uZWN0aXZpdHkvcHBwL3BwcF8yLjUuMy5i
+YgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9wcHAvcHBwXzIuNS40LmJiCmlu
+ZGV4IDE4MTU3ODIxNjkuLjZmNzk3N2VjZTMgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25u
+ZWN0aXZpdHkvcHBwL3BwcF8yLjUuMy5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
+L3BwcC9wcHBfMi41LjQuYmIKQEAgLTI1LDcgKzI1LDcgQEAgU1JDX1VSSSA9ICJodHRwczovL2Rv
+d25sb2FkLnNhbWJhLm9yZy9wdWIvJHtCUE59LyR7QlB9LnRhci5neiBcCiAgICAgICAgICAgIGZp
+bGU6Ly9wcHBALnNlcnZpY2UgXAogICAgICAgICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9
+ICJkZGRhMjhkZWM4YWNhOTlhNDAzYWI2MDcwZDk0ZmZkMmIxN2Q2M2U5YTRjNTUwOTE1OGU5OWUx
+NDhmNTcyZDRmIgorU1JDX1VSSVtzaGEyNTZzdW1dID0gIjM3OWE2MzBhNDBkODU4YTEzNDdmNjU5
+MmQ2NzE3OTFkZGUxMjEwMTY5N2E3NDNlZjk5MDAwMTJmMzc2NWJlMzEiCiAKIGluaGVyaXQgYXV0
+b3Rvb2xzIHBrZ2NvbmZpZyBzeXN0ZW1kCiAKLS0gCjIuNDcuMQoK
+
+--===============2383127882095852197==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info -> /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.0.dist-info
-Changes to packages/x86-64-v3-poky-linux/python3-pyproject-hooks (sysroot):
-  /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info moved to /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.0.dist-info
-Changes to packages/x86_64-linux/python3-pyproject-hooks-native (sysroot):
-  /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info moved to /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.0.dist-info
+packages/x86-64-v3-poky-linux/ppp/ppp-dhcpv6relay: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-l2tp: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-minconn: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-oa: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-oe: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-password: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-radius: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-winbind: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+Changes to packages/x86-64-v3-poky-linux/ppp (sysroot):
+  /usr/lib/pppd/2.5.3 moved to /usr/lib/pppd/2.5.4
 
---===============8053797304105894497==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-pyproject-hooks-upgrade-1.2.0-1.3.0.patch"
-
-RnJvbSA5N2IxNGZjOTU3NjI2YTRkZGQwZGZkMGJhZGE1MzkxMmZmZTUzZmUwIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMTYgU2VwIDIwMjYgMDU6MzU6MzQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXB5cHJvamVjdC1ob29rczogdXBncmFkZSAxLjIuMCAtPiAxLjMuMAoKU291cmNlOiBk
-b2NzL2NoYW5nZWxvZy5yc3QKCnYxLjMKLS0tLQoKLSBQeXRob24gMy44IG9yIGFib3ZlIGlzIG5v
-dyByZXF1aXJlZCAoOnByOmAyMTRgKS4KLSBVc2VyV2FybmluZ3MgZnJvbSB0aGUgYmFja2VuZCBh
-cmUgbm93IGNhcHR1cmVkIGFuZCByZS1lbWl0dGVkIGluIHRoZSBmcm9udGVuZAogIHByb2Nlc3Mg
-YXMgYSBuZXcgY2F0ZWdvcnkgYGBCdWlsZEJhY2tlbmRXYXJuaW5nYGAsIHNvIHRoYXQgZnJvbnRl
-bmRzIGNhbgogIGNvbnRyb2wgaG93IHRoZXkgYXJlIHNob3duIHRvIHVzZXJzICg6cHI6YDIxM2Ap
-LgotIFNob3cgdGhlIHRyYWNlYmFjayBmcm9tIHRoZSBiYWNrZW5kIG9uIGEgYGBCYWNrZW5kVW5h
-dmFpbGFibGVgYCBlcnJvciAoOnByOmAyMTlgKS4KLSBGaXggdGhlIHJldHVybiB0eXBlIGFubm90
-YXRpb24gZm9yIGBgcHJlcGFyZV9tZXRhZGF0YV9mb3JfYnVpbGRfd2hlZWxgYAogICg6cHI6YDIw
-OWApLgotIEZpeCByZW1vdmluZyB0aGUgaW50ZXJuYWwgYGBfaW5fcHJvY2Vzc2BgIGRpcmVjdG9y
-eSBmcm9tIGBgc3lzLnBhdGhgYCB3aGVyZQogIHRoZSBpbnN0YWxsIGxvY2F0aW9uIGluY2x1ZGVz
-IGEgc3ltbGluayAoOnByOmAyMzBgKS4KLSBVc2UgYGBvcy5wYXRoLmNvbW1vbnBhdGhgYCBpbnN0
-ZWFkIG9mIHRoZSBkZXByZWNhdGVkIGBgY29tbW9ucHJlZml4YGAgdG8KICB2YWxpZGF0ZSB0aGUg
-bG9jYXRpb24gb2YgaW4tdHJlZSBiYWNrZW5kcy4KLSBGaXggaW4tdHJlZSBiYWNrZW5kcyBpbiBs
-b2NhdGlvbnMgY29udGFpbmluZyB0aGUgcGF0aCBzZXBhcmF0b3IgY2hhcmFjdGVyIC0KICBgYDpg
-YCBvbiBQb3NpeCBwbGF0Zm9ybXMsIGBgO2BgIG9uIFdpbmRvd3MgKDpwcjpgMjMyYCkuCi0gRml4
-IGZpbmRpbmcgZGlzdHJpYnV0aW9uIG1ldGFkYXRhIHdpdGggYGBpbXBvcnRsaWIubWV0YWRhdGFg
-YCBpbiB0aGUgYmFja2VuZAogIHdoZW4gYW4gaW4tdHJlZSBiYWNrZW5kIGlzIHVzZWQgKDpwcjpg
-MjEyYCkuCi0gYGBweXByb2plY3RfaG9va3NgYCBjYW4gYmUgYnVpbHQgZnJvbSBzb3VyY2UgdXNp
-bmcgZmxpdF9jb3JlIDQueCAoOnByOmAyMzNgKS4KLSBEb2N1bWVudCB0aGF0IHRoZSBgYGhvb2tz
-LnN1YnByb2Nlc3NfcnVubmVyYGAgY29udGV4dCBtYW5hZ2VyIEFQSSBpcyBub3QKICB0aHJlYWQt
-c2FmZSAoOnByOjIyN2ApCgogIGluIHNldHVwdG9vbHMgY29tcGF0aWJpbGl0eSBpbiAxLjEgKFBS
-IDpwcjpgMTk5YCkuCiAgYmVmb3JlIGltcG9yaW5nIHRoZSBiYWNrZW5kIChQUiA6cHI6YDE5M2Ap
-LgotIFJlbHkgb24gcHJlZmVycmVkICJmaWxlcyIgQVBJIG9uIFB5dGhvbiAzLjkgYW5kIGxhdGVy
-ICg6aXNzdWU6YDE0MGApLgotLS0KIC4uLnlwcm9qZWN0LWhvb2tzXzEuMi4wLmJiID0+IHB5dGhv
-bjMtcHlwcm9qZWN0LWhvb2tzXzEuMy4wLmJifSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGlu
-c2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9w
-eXRob24ve3B5dGhvbjMtcHlwcm9qZWN0LWhvb2tzXzEuMi4wLmJiID0+IHB5dGhvbjMtcHlwcm9q
-ZWN0LWhvb2tzXzEuMy4wLmJifSAoODYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy1weXByb2plY3QtaG9va3NfMS4yLjAuYmIgYi9tZXRhL3JlY2lw
-ZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwcm9qZWN0LWhvb2tzXzEuMy4wLmJiCnNpbWls
-YXJpdHkgaW5kZXggODYlCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24v
-cHl0aG9uMy1weXByb2plY3QtaG9va3NfMS4yLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1k
-ZXZ0b29scy9weXRob24vcHl0aG9uMy1weXByb2plY3QtaG9va3NfMS4zLjAuYmIKaW5kZXggY2Ri
-OWZjNzhjOS4uZmRhMTlmMmY4ZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXB5cHJvamVjdC1ob29rc18xLjIuMC5iYgorKysgYi9tZXRhL3JlY2lwZXMt
-ZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwcm9qZWN0LWhvb2tzXzEuMy4wLmJiCkBAIC0zLDcg
-KzMsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vcHlwYS9weXByb2plY3QtaG9v
-a3MiCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7
-bWQ1PWFhZDY5YzkzZjYwNTAwM2UzMzQyYjE3NGQ5YjA3MDhjIgogCi1TUkNfVVJJW3NoYTI1NnN1
-bV0gPSAiMWU4NTliZDVjNDBmYWU5NDQ4NjQyZGQ4NzFhZGY0NTllNWUyMDg0MTg2ZThkMmMyYTc5
-YTgyNGM5NzBkYTFmOCIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICIyNmRmZDQyMjlmZjE4MjBiNzk2
-NGJlMzNiZDNlYjY0MzY3ZWI3Yzg0MTIxNWRlZmUxMTM0MTQ1MGMyMTljZTIwIgogCiBpbmhlcml0
-IHB5cGkgcHl0aG9uX2ZsaXRfY29yZQogCi0tIAoyLjQ3LjEKCg==
-
---===============8053797304105894497==
+--===============2383127882095852197==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyproject_hooks/pyproject_hooks-1.2.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyproject_hooks/pyproject_hooks-1.3.0.tar.gz"
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks: PV changed from "1.2.0" to "1.3.0"
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-dbg: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-dbg: PV changed from "1.2.0" to "1.3.0"
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-dev: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-dev: PV changed from "1.2.0" to "1.3.0"
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-doc: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-doc: PV changed from "1.2.0" to "1.3.0"
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-locale: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-locale: PV changed from "1.2.0" to "1.3.0"
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-src: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-src: PV changed from "1.2.0" to "1.3.0"
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-staticdev: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-staticdev: PV changed from "1.2.0" to "1.3.0"
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.0.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info -> /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.0.dist-info
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks: PKGV changed from 1.2.0 [default] to 1.3.0 [default]
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks: PKGSIZE changed from 70184 to 74129 (+6%)
-packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks: PV changed from "1.2.0" to "1.3.0"
-Changes to packages/x86-64-v3-poky-linux/python3-pyproject-hooks (sysroot):
-  /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info moved to /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.0.dist-info
-Changes to packages/x86_64-linux/python3-pyproject-hooks-native (sysroot):
-  /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info moved to /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.0.dist-info
+packages/x86-64-v3-poky-linux/ppp: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp: SRC_URI changed from "https://download.samba.org/pub/ppp/ppp-2.5.3.tar.gz file://pon file://poff file://init file://ip-up file://ip-down file://08setupdns file://92removedns file://pap file://ppp_on_boot file://provider file://ppp@.service" to "https://download.samba.org/pub/ppp/ppp-2.5.4.tar.gz file://pon file://poff file://init file://ip-up file://ip-down file://08setupdns file://92removedns file://pap file://ppp_on_boot file://provider file://ppp@.service"
+packages/x86-64-v3-poky-linux/ppp/ppp-dbg: FILELIST: directory renamed /usr/lib/pppd/2.5.3/.debug -> /usr/lib/pppd/2.5.4/.debug
+packages/x86-64-v3-poky-linux/ppp/ppp-dbg: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-dbg: PKGSIZE changed from 1625776 to 1642424 (+1%)
+packages/x86-64-v3-poky-linux/ppp/ppp-dbg: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-dev: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-dev: PKGSIZE changed from 96140 to 95779 (-0%)
+packages/x86-64-v3-poky-linux/ppp/ppp-dev: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-dhcpv6relay: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-dhcpv6relay: FILES: removed "/usr/lib/pppd/2.5.3/dhcpv6relay.so", added "/usr/lib/pppd/2.5.4/dhcpv6relay.so"
+packages/x86-64-v3-poky-linux/ppp/ppp-dhcpv6relay: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-dhcpv6relay: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-doc: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-doc: PKGSIZE changed from 125194 to 127673 (+2%)
+packages/x86-64-v3-poky-linux/ppp/ppp-doc: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-l2tp: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-l2tp: FILES: removed "/usr/lib/pppd/2.5.3/*l2tp.so", added "/usr/lib/pppd/2.5.4/*l2tp.so"
+packages/x86-64-v3-poky-linux/ppp/ppp-l2tp: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-l2tp: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-locale: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-locale: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-minconn: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-minconn: FILES: removed "/usr/lib/pppd/2.5.3/minconn.so", added "/usr/lib/pppd/2.5.4/minconn.so"
+packages/x86-64-v3-poky-linux/ppp/ppp-minconn: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-minconn: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-oa: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-oa: FILES: removed "/usr/lib/pppd/2.5.3/pppoatm.so", added "/usr/lib/pppd/2.5.4/pppoatm.so"
+packages/x86-64-v3-poky-linux/ppp/ppp-oa: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-oa: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-oe: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-oe: FILES: removed "/usr/lib/pppd/2.5.3/*pppoe.so", added "/usr/lib/pppd/2.5.4/*pppoe.so"
+packages/x86-64-v3-poky-linux/ppp/ppp-oe: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-oe: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-password: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-password: FILES: removed "/usr/lib/pppd/2.5.3/pass*.so", added "/usr/lib/pppd/2.5.4/pass*.so"
+packages/x86-64-v3-poky-linux/ppp/ppp-password: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-password: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-radius: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-radius: FILES: removed "/usr/lib/pppd/2.5.3/radattr.so /usr/lib/pppd/2.5.3/radrealms.so /usr/lib/pppd/2.5.3/radius.so", added "/usr/lib/pppd/2.5.4/radattr.so /usr/lib/pppd/2.5.4/radrealms.so /usr/lib/pppd/2.5.4/radius.so"
+packages/x86-64-v3-poky-linux/ppp/ppp-radius: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-radius: PKGSIZE changed from 98128 to 106320 (+8%)
+packages/x86-64-v3-poky-linux/ppp/ppp-radius: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-src: FILELIST: directory renamed /usr/src/debug/ppp/2.5.3/pppd/plugins/pppol2tp -> /usr/src/debug/ppp/2.5.4/pppd/plugins/pppol2tp, directory renamed /usr/src/debug/ppp/2.5.3/chat -> /usr/src/debug/ppp/2.5.4/chat, directory renamed /usr/src/debug/ppp/2.5.3/pppd/plugins/pppoatm -> /usr/src/debug/ppp/2.5.4/pppd/plugins/pppoatm, directory renamed /usr/src/debug/ppp/2.5.3/pppd/plugins/radius -> /usr/src/debug/ppp/2.5.4/pppd/plugins/radius, directory renamed /usr/src/debug/ppp/2.5.3/pppdump -> /usr/src/debug/ppp/2.5.4/pppdump, directory renamed /usr/src/debug/ppp/2.5.3/pppd/plugins/pppoe -> /usr/src/debug/ppp/2.5.4/pppd/plugins/pppoe, directory renamed /usr/src/debug/ppp/2.5.3/pppd/plugins/dhcpv6relay -> /usr/src/debug/ppp/2.5.4/pppd/plugins/dhcpv6relay, directory renamed /usr/src/debug/ppp/2.5.3/pppd/plugins -> /usr/src/debug/ppp/2.5.4/pppd/plugins, directory renamed /usr/src/debug/ppp/2.5.3/pppstats -> /usr/src/debug/ppp/2.5.4/pppstats, directory ren
+ amed /usr/src/debug/ppp/2.5.3/pppd -> /usr/src/debug/ppp/2.5.4/pppd
+packages/x86-64-v3-poky-linux/ppp/ppp-src: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-src: PKGSIZE changed from 1435148 to 1417444 (-1%)
+packages/x86-64-v3-poky-linux/ppp/ppp-src: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-staticdev: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-staticdev: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-tools: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-tools: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp-winbind: FILELIST: directory renamed /usr/lib/pppd/2.5.3 -> /usr/lib/pppd/2.5.4
+packages/x86-64-v3-poky-linux/ppp/ppp-winbind: FILES: removed "/usr/lib/pppd/2.5.3/winbind.so", added "/usr/lib/pppd/2.5.4/winbind.so"
+packages/x86-64-v3-poky-linux/ppp/ppp-winbind: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp-winbind: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+packages/x86-64-v3-poky-linux/ppp/ppp: PV changed from "2.5.3" to "2.5.4"
+packages/x86-64-v3-poky-linux/ppp/ppp: PKGSIZE changed from 441484 to 449964 (+2%)
+packages/x86-64-v3-poky-linux/ppp/ppp: PKGV changed from 2.5.3 [default] to 2.5.4 [default]
+Changes to packages/x86-64-v3-poky-linux/ppp (sysroot):
+  /usr/lib/pppd/2.5.3 moved to /usr/lib/pppd/2.5.4
 
---===============8053797304105894497==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
- filename="python3-pyproject-hooks-changelog.txt"
-
-Changelog for python3-pyproject-hooks: 1.2.0 -> 1.3.0
-Source: docs/changelog.rst
-
-v1.3
-----
-
-- Python 3.8 or above is now required (:pr:`214`).
-- UserWarnings from the backend are now captured and re-emitted in the frontend
-  process as a new category ``BuildBackendWarning``, so that frontends can
-  control how they are shown to users (:pr:`213`).
-- Show the traceback from the backend on a ``BackendUnavailable`` error (:pr:`219`).
-- Fix the return type annotation for ``prepare_metadata_for_build_wheel``
-  (:pr:`209`).
-- Fix removing the internal ``_in_process`` directory from ``sys.path`` where
-  the install location includes a symlink (:pr:`230`).
-- Use ``os.path.commonpath`` instead of the deprecated ``commonprefix`` to
-  validate the location of in-tree backends.
-- Fix in-tree backends in locations containing the path separator character -
-  ``:`` on Posix platforms, ``;`` on Windows (:pr:`232`).
-- Fix finding distribution metadata with ``importlib.metadata`` in the backend
-  when an in-tree backend is used (:pr:`212`).
-- ``pyproject_hooks`` can be built from source using flit_core 4.x (:pr:`233`).
-- Document that the ``hooks.subprocess_runner`` context manager API is not
-  thread-safe (:pr:227`)
-
-  in setuptools compatibility in 1.1 (PR :pr:`199`).
-  before imporing the backend (PR :pr:`193`).
-- Rely on preferred "files" API on Python 3.9 and later (:issue:`140`).
-
---===============8053797304105894497==--
+--===============2383127882095852197==--
 
