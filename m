@@ -2,171 +2,179 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 12FDCC88E77
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 12:42:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 13F6BC88E5C
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 12:46:58 +0000 (UTC)
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13990.1789562538479173371
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13994.1789562808085099944
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 05:42:18 -0700
+ Wed, 16 Sep 2026 05:46:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=v6EALM0G;
+ dkim=pass header.i=@smile.fr header.s=google header.b=FM3p6iSK;
  spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d822dso6766445e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 05:42:18 -0700 (PDT)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e4ad9so4826485e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 05:46:47 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789562536; x=1790167336; darn=lists.openembedded.org;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=eOuv35Tq0pAyenq0xugpez2TZJzAF3r3D6EIoTGSr+g=;
-        b=v6EALM0G1sanVDQY6VWY2ytjLxpnBKW1s7jtx0aXL8T6Nk0QQdqgUu+DN+cM2c+5nv
-         qY/zFU3v5vhy52LRj3VAkyWZm3sSdulObXtr+z6iWxNHvWsO/po4DuDcn75Sl9pb9pZH
-         gAwePpT7KCePPRRclqTS/JOQb/NLbutcjBQh4=
+        d=smile.fr; s=google; t=1789562806; x=1790167606; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=25J527rwlyAVpbtc4ynpDhWqNzvq8qQQN0yXwnF7BB4=;
+        b=FM3p6iSKlR1s+/v54wkFcUO/i0Qhdnis5giUb3BB60X1bRkQdLYlzYKuykxBqVXWJT
+         OkRcLHz13XqwzF6ySBnL1rvKNMqjoRtxMPVZOoLZcnIaD8hhMu+sWgRu6LsMr1eKhz9d
+         KBXWL0R96+POHQ2tbvLd92z8pvCsvOAHWUwo0=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789562536; x=1790167336;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=eOuv35Tq0pAyenq0xugpez2TZJzAF3r3D6EIoTGSr+g=;
-        b=FTPUddxidI5/IedxmQsRvwsqVMtlX7g4eTmwAtC8kE1COilk7feWBSut876C7SWsBK
-         4RW6OZEhFRK048aQhhxpy8goEaCZOq2YhVHANzENl725+DPXjAwpXFdaxxIQReVB3N2v
-         LArkYr6s57JMoqoTnZapcDm2zd/KYHkTpKIMXXfsk0s89RAw+mW93EhKv/f3RLx72tmF
-         k6RxDZOqb6g8wM0zO7BV9ygqj/ns3aY8ubkUVInt55UybFgjYjhU/IiZETaENJ5lPsHM
-         ZdbPU762A29KZgXLyz4R3c0BnH5GMkQrr+k56eYZT1auptaWEHL5N6VG9MIBixyPrSvX
-         ahVQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxpkagl4dI/V6ZmmAouqX/xGPUATTzJyKKILhm1iqQQhpH/geIyd3qdZlrvl0w7wz8W7a8WUw4DC1bFPtA7WWYlqQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++kapaKLd2bOIsDFo7PY1DfLO+AYULZshpKRU7MWQszV+ABG4qz1
-	CqFQWbzMVlCmUGK59BgFRc2rq8XWvzIdEIjlSViJv3f2wv89hGrp6OCE/U1pHr4qL64=
-X-Gm-Gg: AYBFou0uRhbs0Y1SOzJPTal99QXmt53WH+mORvTW53y404M9d9VhYDmt7neYLOs29FA
-	oR4+09MlNwN0R7DcySbwGeR/jgSzeLmcTl8hfGnEz0bKXJ2Mvm2j5xeD/N1IYrEe8go2fiABfwH
-	Apg0sxfdfT8JsfA4xGmQF/1fapksgQ8Mlum23cWEYcri+7ZNherckQ2xaBjtpikVEQr5RkheGP0
-	7o40SAQrUDeRDBL7E8J2JI8AMAaloS+EzrZ4kDtc/aRTq8dtXHz2QSuOyKAz7K17y43BW3LET/V
-	GFpxqbfNk9irlo+trs+k8F/XtUKiUY3ybM9KVWglspmViHGSJshFk0+jNIPw9rPVHteHyc2Uy1P
-	O0J4m9Yr6FbtRSoT2FNna3sYTB4VHpfFkmEpqb0f1NjLdXu6ix4RtrOYw3QoY7WumBzcNIQufTL
-	RaWGUj3O8Z5RDWVsJVvaYhOYTZSWoHQKJHCDlMLJCT7Tko5Pt0EMmNGMPEiAKp6g6kdv9Qeh2kf
-	OW+QDMZJzxjVfrFJGYB7/pMqbiYqfD4pKn8sXm9JyQ1H4s9oDN1D8PQY88=
-X-Received: by 2002:a05:600c:1f8f:b0:49c:dada:30b7 with SMTP id 5b1f17b1804b1-49eac45ba2cmr29652705e9.2.1789562535107;
-        Wed, 16 Sep 2026 05:42:15 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789562806; x=1790167606;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=25J527rwlyAVpbtc4ynpDhWqNzvq8qQQN0yXwnF7BB4=;
+        b=FyaREYzr1wyDZaleLS5Ln7WYNl0p/mbXQGVaYYm/ICOjeF9i23zdZEhgf2WtSS6xbU
+         r7rG/yC3OihSlxU+bKhJxpJIJbxrX+u2oYrs72AkrKqesrTEecO8jZ8WQbY24pDHS8m3
+         c5Tij/Xrfr5xDFUVf4ZXTv8VZ9TAyPQ0VaAI+gbsCEwtp4W7g5uhWfnQ9w2xQmndhYDj
+         HLhkWcZwx4Cb7FPBy0YvZg+wdLpAGxnfMaKJ4Oz+eGIJCMK8hyXFcRxL9R6kqztS5yAn
+         nu/62e3Lnqhax8D2RclexTrSq7fk15Ut+cWRhpcqM7qTZf8+LAWCSiRrZljPQo0lHEM+
+         kMnQ==
+X-Forwarded-Encrypted: i=1; AKwUvBwQqddsIuj5UHVa1P0zZ6LEWJe1eU0Sf8KJITExbLGe4mVALlbyIMyNDk4iYmRzKO4XTs1gOzt/U6xj9Ys/jqvLZg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++mDGTJNb6gqbNvc8VmgFgBvx0Bx5iOS/8dp6AEcP5yb1CDFoyGl
+	LK/n+gzEX8xy2G+wGZGdumR8/3/12oT5cX12nT+5iojIK5rBIABRzN4M5CkRzMopN6LOTfyinvS
+	zuWAt6/s=
+X-Gm-Gg: AYBFou0t+yCOW0gjky2ktgrLu5q3vNGG4WrJW95FkvZvTLLxJQJy5/aUHNsteGeiIUp
+	8rXOm0K6a0wB1r6a6NUKKfwilnJ9G4pSfvPQA4xzihZICwvnRITIi1ZA4h/p5NAt6k++y3EWi/c
+	lCCWkaaNPG0T+1UtCXDVYakVtnzWpq06+2SlFK0Kwqb4cm3TQaNgQhGCDBQHOkLyNLlTeLZH+8y
+	3SVTLBBlWumpxooqAxPZIL7AfrxsgrZUY0SJCQ6/Jh4a+aHKnViIJKxYRfnFMnLqxWmdLE1nElV
+	e7y4xVv+CMOwB6xuXKzPxdvjAE2XOvdNJPkxs3gRg4MZ55Lfi1ufXMpzA8w6ABMhg49uvFldDOj
+	7KopHN6X/bErlOsCIewwdenjpcUdoV7caDfAZuJxZJSMHBWsIxJ4sxzJMMPQnVC4jOyVYQ9svuP
+	l3y7E5UmVcDo3en6VjyH2UM5Oq+uMUBHqdmXasvReQ1030/fl/jqHmKsJNYVRHNlC7Km9rwjJ6Y
+	lLOpSdgCh1cAlTBYZ2EgALcT7dwtxosgPNnVzvDUiqjOjK/Dy2biBrYQcY=
+X-Received: by 2002:a05:600c:8b30:b0:49e:7862:c09e with SMTP id 5b1f17b1804b1-49eb72fd676mr29110825e9.14.1789562806249;
+        Wed, 16 Sep 2026 05:46:46 -0700 (PDT)
 Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83a8d6e2sm79456815e9.1.2026.09.16.05.42.14
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e847ecf52sm52274405e9.2.2026.09.16.05.46.45
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2026 05:42:14 -0700 (PDT)
+        Wed, 16 Sep 2026 05:46:45 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 16 Sep 2026 14:42:14 +0200
-Message-Id: <DLGQZ2Y90AYV.JQCTYY5WT1PY@smile.fr>
-To: <devanshp@cisco.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][wrynose][PATCH] vim: Fix CVE-2026-28417 hostname
- regression
+Date: Wed, 16 Sep 2026 14:46:45 +0200
+Message-Id: <DLGR2JIHPMVI.2TQKCJ9Y7QLHZ@smile.fr>
+Subject: Re: [wrynose][PATCH 1/3] expat: fix CVE-2026-50219
 From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <xe-linux-external@cisco.com>
+To: "Jakub Szczudlo (Nokia)" <jakub.szczudlo@nokia.com>,
+ "openembedded-core@lists.openembedded.org"
+ <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260826053017.51184-1-devanshp@cisco.com>
-In-Reply-To: <20260826053017.51184-1-devanshp@cisco.com>
+References: <20260824152023.19501-1-jakub.szczudlo@nokia.com>
+In-Reply-To: <20260824152023.19501-1-jakub.szczudlo@nokia.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 12:42:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245968
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 12:46:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245969
 
-On Wed Aug 26, 2026 at 7:30 AM CEST, Devansh Patel via lists.openembedded.o=
-rg wrote:
-> From: Devansh Patel <devanshp@cisco.com>
+On Mon Aug 24, 2026 at 5:20 PM CEST, Jakub Szczudlo (Nokia) wrote:
+> Expat does not track whether its public parser APIs are called from insid=
+e
+> a user handler. Re-entering the parser through XML_GetBuffer(),
+> XML_Parse(), XML_ParseBuffer(), XML_ParserFree() or XML_ParserReset() can
+> therefore result in use-after-free and memory corruption.
+> The 32 upstream commits are divided as follows:
+> * 01 introduces the handler call depth counter and the helper functions
+>   used to enter, leave and detect handler execution.
+> * 02-04 are preparation patches. They extract handler calls from compound
+>   expressions so that depth tracking can be placed before and after each
+>   invocation without changing handler return-value semantics.
+> * 05-26 instrument the individual handler types. Each patch covers a
+>   distinct callback path; omitting one would leave a route around the
+>   API guards.
+> * 27-31 add the actual policy enforcement to XML_GetBuffer(), XML_Parse()=
+,
+>   XML_ParseBuffer(), XML_ParserFree() and XML_ParserReset().
+> * 32 adds regression coverage for all five rejected calls.
+> Documentation and Changes-file commits from the upstream
+> series are dropped because they do not affect the fix or its test
+> coverage.
+> An explicit XML_Parser cast is added to the regression-test handler
+> because handlers.c is also included by handlers_cxx.cpp and compiled as
+> C++ in the OE build.
+> Upstream pull request:
+> https://github.com/libexpat/libexpat/pull/1246
 >
-> The older Vim patch 9.2.0073 fixed CVE-2026-28417 by tightening netrw
-> hostname validation. That CVE fix requires follow-up regression patches
-> because it rejects valid hostnames containing optional ports or
-> underscores.
->
-> Vim 9.2.0340 already contains that CVE fix and patch 9.2.0089, which
-> corrects optional-port handling. It still needs patch 9.2.0553 to accept
-> underscores, so backport that commit and retain its _gateway regression
-> test.
->
-> The netrw history hunk is adapted to preserve Wrynose's existing
-> multi-line history and append the upstream 2026 May 28 entry. The
-> src/version.c hunk is omitted because this backport does not change the
-> recipe version or Vim's upstream patch-number table.
->
-> [1] https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d6851=
-4fcc1
-> [2] https://github.com/vim/vim/commit/a6198523fb28a50d96945458792cdb4787d=
-3cdda
-> [3] https://github.com/vim/vim/commit/93d177cd2b69bac58fc51a5a514d7bc71e2=
-64b11
-> [4] https://github.com/vim/vim/security/advisories/GHSA-m3xh-9434-g336
->
-> Signed-off-by: Devansh Patel <devanshp@cisco.com>
+> Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
 > ---
->  .../files/CVE-2026-28417-regression_p1.patch  | 64 +++++++++++++++++++
->  meta/recipes-support/vim/vim.inc              |  1 +
->  2 files changed, 65 insertions(+)
->  create mode 100644 meta/recipes-support/vim/files/CVE-2026-28417-regress=
-ion_p1.patch
->
-> diff --git a/meta/recipes-support/vim/files/CVE-2026-28417-regression_p1.=
-patch b/meta/recipes-support/vim/files/CVE-2026-28417-regression_p1.patch
-> new file mode 100644
-> index 0000000000..e6b81cc0ae
-> --- /dev/null
-> +++ b/meta/recipes-support/vim/files/CVE-2026-28417-regression_p1.patch
-> @@ -0,0 +1,64 @@
-> +From 2a49c9624cdd552ec975ee8b4f1853a0e4c2a78e Mon Sep 17 00:00:00 2001
-> +From: Christian Brabandt <cb@256bit.org>
-> +Date: Thu, 28 May 2026 20:53:53 +0000
-> +Subject: [PATCH] patch 9.2.0553: runtime(netrw): netrw rejects hostnames
-> + containing _
-> +
-> +Problem:  runtime(netrw): netrw rejects hostnames containing _
-> +          (lilydjwg)
-> +Solution: Relax the restriction and allow the underscore
-> +
-> +fixes: #20344
-> +
-> +CVE: CVE-2026-28417
-> +Upstream-Status: Backport [https://github.com/vim/vim/commit/93d177cd2b6=
-9bac58fc51a5a514d7bc71e264b11]
-> +
-> +Backport Changes:
-> +- Preserved Wrynose's multi-line netrw change history and appended the
-> +  upstream 2026 May 28 change instead of replacing it with a single date=
-.
-> +- Omitted src/version.c because this backport does not change the recipe=
-'s
-> +  Vim version or its upstream patch-number table.
-> +
-> +Signed-off-by: Christian Brabandt <cb@256bit.org>
-> +(cherry picked from commit 93d177cd2b69bac58fc51a5a514d7bc71e264b11)
-> +Signed-off-by: Devansh Patel <devanshp@cisco.com>
-> +---
-> + runtime/pack/dist/opt/netrw/autoload/netrw.vim | 5 +++--
-> + src/testdir/test_plugin_netrw.vim              | 1 +
-> + 2 files changed, 4 insertions(+), 2 deletions(-)
+>  .../expat/expat/CVE-2026-50219-01.patch       |  61 +++++++
+>  .../expat/expat/CVE-2026-50219-02.patch       |  84 ++++++++++
+>  .../expat/expat/CVE-2026-50219-03.patch       |  92 +++++++++++
+>  .../expat/expat/CVE-2026-50219-04.patch       |  34 ++++
+>  .../expat/expat/CVE-2026-50219-05.patch       |  48 ++++++
+>  .../expat/expat/CVE-2026-50219-06.patch       | 154 ++++++++++++++++++
+>  .../expat/expat/CVE-2026-50219-07.patch       |  32 ++++
+>  .../expat/expat/CVE-2026-50219-08.patch       |  44 +++++
+>  .../expat/expat/CVE-2026-50219-09.patch       |  44 +++++
+>  .../expat/expat/CVE-2026-50219-10.patch       |  35 ++++
+>  .../expat/expat/CVE-2026-50219-11.patch       |  32 ++++
+>  .../expat/expat/CVE-2026-50219-12.patch       |  42 +++++
+>  .../expat/expat/CVE-2026-50219-13.patch       |  49 ++++++
+>  .../expat/expat/CVE-2026-50219-14.patch       |  74 +++++++++
+>  .../expat/expat/CVE-2026-50219-15.patch       |  82 ++++++++++
+>  .../expat/expat/CVE-2026-50219-16.patch       |  46 ++++++
+>  .../expat/expat/CVE-2026-50219-17.patch       |  64 ++++++++
+>  .../expat/expat/CVE-2026-50219-18.patch       |  32 ++++
+>  .../expat/expat/CVE-2026-50219-19.patch       |  87 ++++++++++
+>  .../expat/expat/CVE-2026-50219-20.patch       |  62 +++++++
+>  .../expat/expat/CVE-2026-50219-21.patch       |  46 ++++++
+>  .../expat/expat/CVE-2026-50219-22.patch       |  48 ++++++
+>  .../expat/expat/CVE-2026-50219-23.patch       |  36 ++++
+>  .../expat/expat/CVE-2026-50219-24.patch       |  33 ++++
+>  .../expat/expat/CVE-2026-50219-25.patch       |  35 ++++
+>  .../expat/expat/CVE-2026-50219-26.patch       |  33 ++++
+>  .../expat/expat/CVE-2026-50219-27.patch       |  30 ++++
+>  .../expat/expat/CVE-2026-50219-28.patch       |  30 ++++
+>  .../expat/expat/CVE-2026-50219-29.patch       |  31 ++++
+>  .../expat/expat/CVE-2026-50219-30.patch       |  31 ++++
+>  .../expat/expat/CVE-2026-50219-31.patch       |  31 ++++
+>  .../expat/expat/CVE-2026-50219-32.patch       | 100 ++++++++++++
+>  meta/recipes-core/expat/expat_2.7.5.bb        |  32 ++++
+>  33 files changed, 1714 insertions(+)
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-01.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-02.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-03.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-04.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-05.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-06.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-07.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-08.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-09.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-10.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-11.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-12.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-13.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-14.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-15.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-16.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-17.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-18.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-19.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-20.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-21.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-22.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-23.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-24.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-25.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-26.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-27.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-28.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-29.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-30.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-31.patch
+>  create mode 100644 meta/recipes-core/expat/expat/CVE-2026-50219-32.patch
 
 Hello,
 
-Sorry, but this patch now fails to apply:
-    ERROR: vim-9.2.0340-r0 do_patch: Applying patch 'meta/recipes-support/v=
-im/files/CVE-2026-28417-regression_p1.patch' on target directory 'bitbake-b=
-uilds/wrynose/tmp/work/x86-64-v3-oe-linux/vim/9.2.0340/sources/vim-9.2.0340=
-'
-    CmdError('quilt --quiltrc bitbake-builds/wrynose/tmp/work/x86-64-v3-oe-=
-linux/vim/9.2.0340/recipe-sysroot-native/etc/quiltrc push', 0, 'stdout: App=
-lying patch CVE-2026-28417-regression_p1.patch
-    patching file runtime/pack/dist/opt/netrw/autoload/netrw.vim
-    Hunk #1 FAILED at 24.
-    Hunk #2 succeeded at 2604 (offset 1 line).
-    1 out of 2 hunks FAILED -- rejects in file runtime/pack/dist/opt/netrw/=
-autoload/netrw.vim
-    patching file src/testdir/test_plugin_netrw.vim
-    Patch CVE-2026-28417-regression_p1.patch does not apply (enforce with -=
-f)
-
-    stderr: ')
-
-Can you refresh and resend?
+This whole series has been superseded by the upgrade that has been
+discussed since:
+https://patchwork.yoctoproject.org/project/oe-core/patch/20260828110314.762=
+756-1-adarsh.jagadish.kamini@est.tech/
+In this case, the upgrade looks like the sane thing to do.
 
 Thanks!
 --=20
