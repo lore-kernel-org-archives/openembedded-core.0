@@ -1,101 +1,129 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1085FC982C1
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 21:16:40 +0000 (UTC)
-Received: from a27-193.smtp-out.us-west-2.amazonses.com (a27-193.smtp-out.us-west-2.amazonses.com [54.240.27.193])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.25751.1789593392428053297
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83F0DC982C9
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 21:44:10 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.26233.1789595040873511314
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 14:16:32 -0700
+ Wed, 16 Sep 2026 14:44:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Jqc+VtC2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=RSjmM4fa;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.193, mailfrom: 010101a0ac1411b1-4824bb2f-74d2-49d3-b55d-9ade599967a9-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789593391; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=juVvPV5XzbLQqKaxrD+pXJXYBSVfKPsc/+2xs6gKIME=;
-	b=Jqc+VtC2MlAeWj1xQNNev5a/3eq5nyvvKF1qGTip0pV6ohmzldbxYkgWCkd1h0Ft
-	4/T2P5i4oBQGVRZcUQiQfGUptml6VshnrOwJFI/sGbMFfxunD1mgUzoqYOE+kq02b4X
-	Mg2HyPbBrbLhi7niKSoX/EHVjaMs2NFVLPiLqbOI=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789593391;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=juVvPV5XzbLQqKaxrD+pXJXYBSVfKPsc/+2xs6gKIME=;
-	b=RSjmM4fa6a2l4sIKDSYmve/u4kgKovPhuKWlMLat5wakzpEKJkkRoUFVlFREp17L
-	meCu6k1YHkYY5mdgX9ump15YjPLuAs40tUl8DtElzoKfbXFxNDsfFzWPmevPDsChmkJ
-	cC7GQcZamSaFKdN7V/jVMEePKmevkTueMC1HFZc0=
-From: patchtest@automation.yoctoproject.org
-To: Ross Burton <ross.burton@arm.com>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH 1/2] python3-bcrypt: enable native builds
-In-Reply-To: <20260916210141.1080593-1-ross.burton@arm.com>
-References: <20260916210141.1080593-1-ross.burton@arm.com>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0ac1411b1-4824bb2f-74d2-49d3-b55d-9ade599967a9-000000@us-west-2.amazonses.com>
-Date: Wed, 16 Sep 2026 21:16:31 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.16-54.240.27.193
+ dkim=pass header.i=@smile.fr header.s=google header.b=IPQ9+aoL;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e721b5503so1773155e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 14:44:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1789595039; x=1790199839; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=Jm7xVieTby1W1y44fhIVYUiIa7cmjq3UAq4wpEyOrIc=;
+        b=IPQ9+aoLA9XvIA1Nh8KJrrKge4+dykCD1drVOuNaZPmefVxi1u0lf8/uOCdjnEJUk1
+         J69vhfTfn/M9DkXM4kNFNc106pxwYP2iAxeElJEmwrxt9pSWGKkLG1IcRX+8KShMMkKd
+         cX6nbjgiT+AW6ysl9favkVulB4k0ZeJCiWpYc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789595039; x=1790199839;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=Jm7xVieTby1W1y44fhIVYUiIa7cmjq3UAq4wpEyOrIc=;
+        b=uiu2r7Er7ah8K74KahPvri/cPLc6j+0ustqPs1A4eWPkvi1FCB1my2soay4AqR2EXl
+         Y+wkxXaECkKGu52iFLggw5emNg/LT/rTCRZ7WFCaLc0nEJVpqTNeKSfYNlldiG5qDgMn
+         EmwC3A8MmeIf9IEIPEQRJgE/iOokUaXVb1dtnacU46HGRZjygCbbSqT0K+K/YmJFULp8
+         al1TjENZGLVt+Pp6oY+L7q6rx1etLVGfDioEA8rwTA7tKUNSG2hiTkFN10HsVNQqKkGa
+         FFVYk/3mo1VPwvv2ubG1wHjpxZCzxqL/ja7hflnmUNeVtW4qkED0vFC6ICTCdicWmqnD
+         tchQ==
+X-Forwarded-Encrypted: i=1; AKwUvBx8TWr4t4+cH7d2bi80B8clvc+NB+dtqg4m+00yyZWx3Ls5ZnRbPdi0vhUWmBu+sSOABeNq6em61TevbaPobMGhpg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++mx/aQUV4qulag0UHVkqD5y478/0m5D/IqqxHg5TYPJk+qWUWX2
+	di2qXla/bUue6Lbpfka9VWj05lHXEJM0JP7bQ5JH5fZp4HE1DialFiU1j/Ch5J52b40=
+X-Gm-Gg: AYBFou1zxSAYaVv9r6tSYLsADqhu0HDxFu9wCYeVh+7u39afpW+P/JlZsSfKILeILVe
+	Bg2/d99Zaz7TmLi/2g8yycfyFbR0PqE6qsPQrUIOy2DDHantHjl6pUaXZ20bwY5GKbdwzMgWo4h
+	Ej7GRAOSiXwjUR718XquSfV0CgviWsY/U3xDIFpa3u0fiHtBkuQdz/YDQ8HNo5LJnk647wr7hgz
+	MTeaPQ1LBNuW0H1dRgCxRJUupSRi/330A+EEMCyAE6nVDq8Rk7swk8RdzNVjfhQPQCu98v7YexX
+	WH7wJJA4UPmVzj3Ggd2GZWtX/W2kti4/ALzAr61JaJ8vWyF4BAZ4iHMjZRkPmwAv1AuM5Z2mbyp
+	WWAO5m0KDarDqy4374gz6QfFABerRgUvRk/0k+AYh1y6zwYHWWdj8T4GosCCUYTSf7qTCF4oFiL
+	6WTJ7WOT6hGiF8QJ78hqVYG9SwiLBTanXM0DBpdekHcqx4GoiBSFjmRaAgU6CkgNMm9mrcR6yGv
+	+2R97xi8EteyDXT009SJlRMgZsonIiiiUAN6gAK2lDM6tULn7C19AXgsWIFZVg=
+X-Received: by 2002:a05:600c:1f83:b0:49e:84bf:6121 with SMTP id 5b1f17b1804b1-49eb7306be1mr47908725e9.13.1789595039046;
+        Wed, 16 Sep 2026 14:43:59 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bef766dsm9537191f8f.4.2026.09.16.14.43.58
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Sep 2026 14:43:58 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 16 Sep 2026 23:43:58 +0200
+Message-Id: <DLH2HV018OZJ.26NTHUR16MZSH@smile.fr>
+Subject: Re: [OE-core][wrynose][PATCH 5/6] curl: set CVE_STATUS for
+ CVE-2026-82208
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <sdoshi@mvista.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260909203324.765094-1-sdoshi@mvista.com>
+ <20260909203324.765094-5-sdoshi@mvista.com>
+In-Reply-To: <20260909203324.765094-5-sdoshi@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 21:16:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246001
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 21:44:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246002
 
---NextPart
-Content-Type: text/plain
+On Wed Sep 9, 2026 at 10:33 PM CEST, Siddharth Doshi via lists.openembedded=
+.org wrote:
+> From: Siddharth Doshi <sdoshi@mvista.com>
+>
+> Analysis:
+> - The problem only exists when curl is built to use the wolfSSL TLS backe=
+nd.[1]
+> - The recipe is built with OpenSSL and not wolfSSL.
+> - Hence, ignoring the CVE for this recipe.
+>
+> Reference:
+> [1] https://curl.se/docs/CVE-2026-82208.html
+>
+> Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+> ---
+>  meta/recipes-support/curl/curl_8.19.0.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-supp=
+ort/curl/curl_8.19.0.bb
+> index a5606c5eb1..68baac1a15 100644
+> --- a/meta/recipes-support/curl/curl_8.19.0.bb
+> +++ b/meta/recipes-support/curl/curl_8.19.0.bb
+> @@ -46,6 +46,7 @@ CVE_STATUS[CVE-2026-8924] =3D "not-applicable-config: p=
+ublic suffix list support i
+>  CVE_STATUS[CVE-2026-10536] =3D "${@bb.utils.contains('PACKAGECONFIG', 'n=
+ghttp2', 'unpatched', 'not-applicable-config: applicable only with HTTP/2',=
+ d)}"
+>  CVE_STATUS[CVE-2026-9547] =3D "not-applicable-config: vulnerable libssh =
+backend is not enabled by the recipe"
+>  CVE_STATUS[CVE-2026-12064] =3D "${@bb.utils.contains('PACKAGECONFIG', 'l=
+ibssh2', 'unpatched', 'not-applicable-config: SCP/SFTP support is not enabl=
+ed in PACKAGECONFIG', d)}"
+> +CVE_STATUS[CVE-2026-82208] =3D "not-applicable-config: vulnerable wolfSS=
+L backend is not enabled by the recipe"
+> =20
+>  inherit autotools pkgconfig binconfig multilib_header ptest
+> =20
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+Hello,
 
----
-Testing patch /home/patchtest/share/mboxes/1-2-python3-bcrypt-enable-native-builds.patch
+We can't do that, as there are users of the wolfssl backend in the OE
+ecosystem: https://github.com/wolfSSL/meta-wolfssl/blob/master/recipes-supp=
+ort/curl/curl_%25.bbappend
 
-FAIL: test commit message presence: Please include a commit message on your patch explaining the change (test_mbox.TestMbox.test_commit_message_presence)
+The fix does not seem very complex, can we backport it instead?
+https://github.com/curl/curl/commit/ed0338befd1d865a8ea1fbaa90
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+Maybe CC meta-wolfssl maintainers on the patch so that they are
+aware/have a chance to review/test it.
 
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
-SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
-SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
 
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
