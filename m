@@ -1,98 +1,101 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <antonin.godard@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2A4BEC88E5C
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 06:46:29 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8996.1789541187900856789
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 257B8C88E77
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 06:49:09 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9021.1789541340333155569
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2026 23:46:28 -0700
+ Tue, 15 Sep 2026 23:49:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=ICqv9FHd;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d097b4939so2498845e9.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 23:46:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789541186; x=1790145986; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=YXEuxWP5UnSjLRGrbOHfD3a/YilfAW/moqGerch0Jdg=;
-        b=ICqv9FHdWhFokp33FqYCaTVdCpDs/AtQxiO+FDrGV9Xq6BFTg/XxzjBsjukxxlht0K
-         pKvkujRSLCZLMO5m1N+qCaQ8nYiJNjqlRNtk69xQXHXNvynnTgP6ZtT9WY2VAzZ73X7q
-         JxvZjIxyTedSZ0ISenJSNwG4VNR62q9k2Mnm4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789541186; x=1790145986;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=YXEuxWP5UnSjLRGrbOHfD3a/YilfAW/moqGerch0Jdg=;
-        b=IUWap6/tYpLvxrd6L3/arEX9efcJQwU2bFjQFeC3yVS9nObkTEZ1DHR6n96hBp3v0F
-         tmevmFn8jDzX7LcQVH73Waf28iMKXXzcxNNs+/psM0NmaGzFawhFL3bA9ZzKbTN508dP
-         fb/J4EX3oY7y6zsddRiwVBhkrJRGORmvR4ko2WlR6bfoyGIWlOqywDDiy9DCHAMR4tn0
-         W2nQ19+bf+LLMtBVRqEgR4c3QKdcDZhqxH+ySe6EQrjVbiobAGRx62qO2L8ZjEcAmV10
-         R2cSHjyXs+RItH3y8tfx+lov9v93mp+dArJqz/w6KUqJH8RfUWuUba5mScQoMwK82YOq
-         YzmQ==
-X-Forwarded-Encrypted: i=1; AKwUvBxRLjVH+JXfhaBZV/PxXpu29cP0fGt8gVRaymsKMsW4PocEpQPGFMGhKibkQ3k2viSYgeMq75lR4urCa6Wku/qCeA==@lists.openembedded.org
-X-Gm-Message-State: AFuF++lp0F/ngJkNyLvSiriIvMcWU+aIqa/Xlc1OvBLShAeblewL9q13
-	2cL+V2f2ZqaqloK9ssi+3K+XvyMl3t5vudX9EP1oufAnjJT7LeG2cvcJQ9VjpgHlciE=
-X-Gm-Gg: AYBFou1qeVPw8giW8nTECGEwr2oyP0O4Zt+HaLgh57Sl6Nj8qrww02MQdfoJP5rMRVl
-	SH95wzHvY1rjyMr9Xkzngg/KcQPexuBRdxAcaEL2ArnFEctUqsG6goT9QmfuVMUnPGgbGouVm6l
-	KdKEtKBMLHladvn2Vlrjlq4iChR87TNuvtKo1M0xofPlfkNftvUqC+m4+rAxMZ7FnAEtQlolT+U
-	pDWk0XxRGa4U7yPjrIjN/+q39x6s2FEsvGJSu6CsybfD84wHUHVVdxY4PE0ARWiKw7ML8IJKFzG
-	7mGqdxz1v0CGCm2DsIQXH9aRgn26ctsY1oFH1VKxAs7iym0vd46HHu3a0/WpT2FJ7jBRB5OLrtk
-	/Su0jOQD0TYfanqtV8B+hPYlnCKFNLhZjtbTk9k4TmeL8YkXuw+VRUeFXNLFwQHub1PRtkcqLgU
-	gkiRSscqH6WPKNaABTxT9nJ+XL7d8IkXVbMSu5wVBkCrFs2ZWC6zWHPDXD3aWnU+e4uXHBXvD3Z
-	xKy+w9BUiNdUzlufFhko60Ro2Ju4mKJZaxyUGym+fkkp9NpKoEjQzbBbuay+yyU
-X-Received: by 2002:a05:600c:5394:b0:49c:fa21:e746 with SMTP id 5b1f17b1804b1-49eb7337437mr11023785e9.28.1789541185986;
-        Tue, 15 Sep 2026 23:46:25 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:cd09:70e0:c6de:9b09? ([2001:8b0:aba:5f3c:cd09:70e0:c6de:9b09])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83da071asm65993615e9.8.2026.09.15.23.46.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 23:46:25 -0700 (PDT)
-Message-ID: <518e926c64922a9536e8cefda7ab96c27a05b190.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] python3-cython: upgrade 3.2.9 -> 3.3.0
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: ross.burton@arm.com, openembedded-core@lists.openembedded.org
-Date: Wed, 16 Sep 2026 07:46:23 +0100
-In-Reply-To: <20260915142632.589500-1-ross.burton@arm.com>
-References: <20260915142632.589500-1-ross.burton@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=2KV2ced2;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: antonin.godard@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id D89C0C5CD56
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 06:49:41 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id EA73A60337;
+	Wed, 16 Sep 2026 06:48:57 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 89EEB11C7AFD8;
+	Wed, 16 Sep 2026 08:48:56 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789541337; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=JOdF4iiUFXl62hssLmAdy6w5vPOMm+VKNgdocMRf+mU=;
+	b=2KV2ced2DRY1OZys3QFfHB+r4Ke3eJfDdLrPhMLCGuhAWlMd0NUVPILQGszHAy/8YOu0UQ
+	OLvfQFmpVKV7K6eIep9Q+XpH+MVL4ZEWpDQmXW9pJoC9oPHKEkxD2N/n0JCohoNmngd65c
+	7brnrB9SMFfaxjclamw9dLyQJaNl5C84eCDaGJPBxccyubc6TYrQEm14g6yRE13fZg7X8K
+	9ViOR820qC0CyFtESeBmrcOj+ZWbCalyS5Pf6usbjEufU5e2LGdQH0qLdPl8pMdMrry8GA
+	bWzZnhu+Xizf/auIz22kaL1kBje8bAO4ol7E1ZcHzoquoS4tMX7Conlx8gtDoQ==
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 16 Sep 2026 08:48:55 +0200
+Message-Id: <DLGJGK7BLL8S.3CPNDSZM9ZQZD@bootlin.com>
+Subject: Re: [OE-core] [PATCH 0/6] devtool ide-sdk: cleanups for the
+ upcoming release
+From: "Antonin Godard" <antonin.godard@bootlin.com>
+To: <adrian.freihofer@siemens.com>,
+ <openembedded-core@lists.openembedded.org>
+References: <20260913200624.331753-1-adrian.freihofer@siemens.com>
+In-Reply-To: <20260913200624.331753-1-adrian.freihofer@siemens.com>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 06:46:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245928
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 06:49:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245929
 
-On Tue, 2026-09-15 at 15:26 +0100, Ross Burton via lists.openembedded.org w=
-rote:
-> Lots of upstream changes, see the full release notes at
-> https://github.com/cython/cython/blob/master/CHANGES.rst
->=20
-> Disable parallel builds because there's a race which causes occasional
-> build failures. This has a non-trivial implication to build time (89.1s
-> to 243.1s on my machine), but it builds.
->=20
-> Signed-off-by: Ross Burton <ross.burton@arm.com>
-> ---
-> =C2=A0...place-not-predictable-build-path-prefix-with-hardc.patch | 4 ++-=
--
-> =C2=A0.../{python3-cython_3.2.9.bb =3D> python3-cython_3.3.0.bb}=C2=A0=C2=
-=A0=C2=A0 | 6 +++++-
-> =C2=A02 files changed, 7 insertions(+), 3 deletions(-)
-> =C2=A0rename meta/recipes-devtools/python/{python3-cython_3.2.9.bb =3D> p=
-ython3-cython_3.3.0.bb} (85%)
+Hi,
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/4993
+On Sun Sep 13, 2026 at 10:05 PM CEST, Adrian Freihofer via lists.openembedd=
+ed.org wrote:
+> From: Adrian Freihofer <adrian.freihofer@siemens.com>
+>
+> - Fix: opt-out of automatic IMAGE_INSTALL for recipes providing
+>   virtual/kernel or virtual/bootloader (deployed via do_deploy, not
+>   installed into the rootfs).
+> - Feature: --ide now accepts a comma-separated plugin list
+>   (--ide code,none), generating multiple IDE configs from one build -
+>   this is what enables the test refactoring below.
+> - Test overhaul: consolidate the GCC/Clang, ide=3Dcode/none and NFS/slirp
+>   oe-selftest variants into one shared flow per toolchain, cutting qemu
+>   boots/image builds while keeping the same coverage, plus dead-code
+>   cleanup.
+>
+> Adrian Freihofer (6):
+>   oe-selftest: devtool update: recipe drop dead code
+>   devtool: ide-sdk: support opt-out from auto IMAGE_INSTALL
+>   devtool: ide-sdk: add initialize_modified_recipe() plugin hook
+>   devtool: ide-sdk: allow --ide to select multiple plugins
+>   oe-selftest: devtool ide-sdk: consolidate GCC/Clang ide-sdk tests
+>   devtool: ide-sdk: trim _add_broken_srctree_prefix_map docstring
+>
+>  meta/lib/oeqa/selftest/cases/devtool.py     | 1028 ++++++++-----------
+>  scripts/lib/devtool/ide_plugins/__init__.py |    4 +
+>  scripts/lib/devtool/ide_sdk.py              |  117 +--
+>  3 files changed, 475 insertions(+), 674 deletions(-)
 
-:(
+I've hit this issue at different occasion now:
+https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/8936796/raw_inlin=
+e
+Parent build: https://autobuilder.yoctoproject.org/valkyrie/#/builders/23/b=
+uilds/4895
 
-Cheers,
+Also:
+https://autobuilder.yoctoproject.org/valkyrie/api/v2/logs/8936698/raw_inlin=
+e
 
-Richard
+I'm on this branch:
+https://git.openembedded.org/openembedded-core-contrib/log/?id=3D2b273bd92e=
+22d31b751d9c0f06df3f73182ae00b
+
+To me there's nothing that stands out that could be related to these issues=
+,
+apart from this serie which was already merged to master.
+
+Can you have a look?
+
+Antonin
 
