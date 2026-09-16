@@ -1,244 +1,590 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <bhavesh.maheshwari@einfochips.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEEB8C88E5C
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 09:15:45 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.16])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.10735.1789550140081745598
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B9FAAC88E5C
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 09:22:55 +0000 (UTC)
+Received: from MW6PR02CU001.outbound.protection.outlook.com (MW6PR02CU001.outbound.protection.outlook.com [52.101.48.55])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.10832.1789550572136873734
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 02:15:40 -0700
+ Wed, 16 Sep 2026 02:22:52 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=k4WWr2Lk;
- spf=pass (domain: est.tech, ip: 52.101.72.16, mailfrom: pratik.farkase@est.tech)
+ dkim=pass header.i=@einfochips.com header.s=selector1 header.b=MHRZT551;
+ spf=pass (domain: einfochips.com, ip: 52.101.48.55, mailfrom: bhavesh.maheshwari@einfochips.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wOKZcgRjwWiv6XrmyJll69ZGsWakYEHrS0/XzbEjUmrcp6XJ2liE3SgbvFDsvC91AWNesYhK3GKtgpGjv4zTErT0uBlAmPnRnW+t8izGyzvamwkKgZpoM8Ynaf0W7NLZaX9GK08CAb9tmqHIAvRsQYsVkBZgw6H0bDxUh4r0BDrBnrYYFx0h9EAto9EWAueubobU2tyFZjZSh2Hs2PcOfMKHsYFmtWWKSXsO+TuYeqsqYzwsed86K0NjcnIZnmrIlXnUZ/VBOm1hNzeK0VOx6NG52uf55nkbINy/MVYeGha5hvMuh/IldVfzf41Ru06WOMoIyPdHnXMjK/Xr0Cl10g==
+ b=C8TQyBpuFM3Sr5ZNHn7/DPJO8GB39guC6SWLYGJh5aPj+zUpjyiz9xkyK1HiFrDK3L1r7x2e/AjqXaoNDiA3zypU1P22Z8KP72gtJOiEoVOkr8maqMS0/7r9EE5R/F7tvhHTsvgNcMwv4BefXcDAYVVlks41DNI1InLIlQ128znw+r3D+p7tEeUhW6w5SRylYmPGQJ3CYsnnz19LMhx5YGwHzzJiQ2SMQr+KJyJezIg2f5RSGqX9EzzWt2S+/BW9PtPrAKub8vnYR8AikqfO1I1PP4eMgDC7U+niI82YHwdUksjqUGgmrnIcyFEg08KKFrwVg1ruB9ijxfdvybY+Xg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=UzwG5LQ6LToiN8BkeQ2JN9NVMP6KdA7t3SRQ9uGB+X4=;
- b=T0KmdTTm2oGS0zESoRmF3ensjRBU96PHjwfRsFKQdMQAgJG3RIyJYGOQkMYyDbreeT9QhUG6p32qvxeL3owizgJlXCFuyhM7s++44vsYmAiap2yjb3acVSJ64pB2LE21QWvTJ61zn6jgjv59cqmsL6krJjpeyhCFwQ980KHKMPVQIzqsQVjACLpr7hatTyODyeIfmSNRskgOJMtLcwZt88VJvC9vcFhYEXUmSTlCR7iu3JfyjgntSKmlogvVnt4QdWpeNXNUqk/Z3JNvJMJjLCywuGF3KxKCgvFFaJz+uWxvxwiMIXRZPW/k/vQAN11UCOfWH5hlTFdFYcym8gqsTQ==
+ bh=MeYoSW1x6joHBC9Bgsp5aRTZjp5FSeagoTpQRmG+1YQ=;
+ b=uNa7VLmBmeSE6y858SNE7kbuhz62EE5AYQAsEmCNEo9TtLObGfOl2V5f7ufNrvZiJ/OVwU5GyRbqKmGqGWyLSTVMTl66HO8/oXuSn1Pf5D2SxAJTNrJAIp/ShZ7v44QHPQ0dF0itwyvxFlvtt3iDX6kitTUMntRthvEuMEUtA39PYoSkcvq8quadEyRGeidWFQiGI64plhWs7rpt3xwhM+ATZ7C15DPJ0BmISjXnuIsFCU9CQ7NUou+SCLIjw1Th3nHKFxzRtImYSIA1l4qXzJu5z3gBJf5LizyyR93qaPzERtbI8aC04RCtRL+2MX85hlQHaSm6YPAa4ItD09dBFg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ smtp.mailfrom=einfochips.com; dmarc=pass action=none
+ header.from=einfochips.com; dkim=pass header.d=einfochips.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=einfochips.com;
+ s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=UzwG5LQ6LToiN8BkeQ2JN9NVMP6KdA7t3SRQ9uGB+X4=;
- b=k4WWr2LkjikSUWyGFJ5MNLyj1FKwMRw+waRnPRtkJ3Jq2HkS4noKCx42hJyK/2pP+sAUhiWAr/Vze0r1kLkYc+bH69907omr8OqF71f/OVDCfx5xk55+dgpig5Mq/A1uf9gtwGoqNAKqepmXbuRgx+JFN2dSM4mvS+3tA02dTvO8hIWAAfoet5x/R7/ax8i0QGNXXsvwuABjiRqKroTbB1lQaolPYzHK98kyH0XNzO5KXYmMK8oQfo4rNfyRuXI/yJJJlLxgkyAQ7wEOL3swodmMXvLhFYG6X7WesepgvEkcr/tJZKpSfLDuJIAVHycJL/T6dF2m9p+2QBqf7IJoLA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by DB9P189MB1932.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:337::11) with
+ bh=MeYoSW1x6joHBC9Bgsp5aRTZjp5FSeagoTpQRmG+1YQ=;
+ b=MHRZT55138K0jRzI3qVPgiET7uky46yFu4YFKcnjQaS1FZUX7x/0W8voJXzcuxFJWy3sbNQxe9TdCNwfChg0pWfaCtZVnHbu8ciCBnMKhOajCrh2QJ9xrtq9cD1nL68IbAj3kptzuG8MBysLTcRZfyAi3UOGRstxaVM3egxUeBc=
+Received: from SN4SPRMB0003.namprd04.prod.outlook.com (2603:10b6:806:211::12)
+ by CH8PR04MB994358.namprd04.prod.outlook.com (2603:10b6:610:35c::17) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.9; Wed, 16 Sep
- 2026 09:15:35 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0406.007; Wed, 16 Sep 2026
- 09:15:35 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v2] psmisc: add ptest support
-Date: Wed, 16 Sep 2026 11:15:31 +0200
-Message-ID: <20260916091531.14596-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260914130447.107189-1-pratik.farkase@est.tech>
-References: <20260914130447.107189-1-pratik.farkase@est.tech>
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO0P123CA0001.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:354::10) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.11; Wed, 16 Sep
+ 2026 09:22:49 +0000
+Received: from SN4SPRMB0003.namprd04.prod.outlook.com
+ ([fe80::5b09:d102:984d:f086]) by SN4SPRMB0003.namprd04.prod.outlook.com
+ ([fe80::5b09:d102:984d:f086%6]) with mapi id 15.21.0428.009; Wed, 16 Sep 2026
+ 09:22:49 +0000
+From: Bhavesh Rajesh Maheshwari <Bhavesh.Maheshwari@einfochips.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
+	<yoann.congal@smile.fr>
+Subject: Re: [External] Re: [wrynose][oe-core][PATCH 02/10] ffmpeg: set
+ CVE_STATUS for CVE-2026-64831
+Thread-Topic: [External] Re: [wrynose][oe-core][PATCH 02/10] ffmpeg: set
+ CVE_STATUS for CVE-2026-64831
+Thread-Index: AQHdRR1d/pXbFWJ/M0mLHRNP2ef2jbbQ72j1
+Date: Wed, 16 Sep 2026 09:22:49 +0000
+Message-ID: 
+ <SN4SPRMB000391CFE6AF13DFA30508BBE5B92@SN4SPRMB0003.namprd04.prod.outlook.com>
+References: <20260910133357.452394-1-bhavesh.maheshwari@einfochips.com>
+ <20260910133357.452394-2-bhavesh.maheshwari@einfochips.com>
+ <DLFYFNE7WFWL.3F3WFUFA1M1VX@smile.fr>
+In-Reply-To: <DLFYFNE7WFWL.3F3WFUFA1M1VX@smile.fr>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach: yes
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_Enabled=True;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_SiteId=0beb0c35-9cbb-4feb-99e5-589e415c7944;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_SetDate=2026-09-16T09:22:48.448Z;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_Name=Public;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_ContentBits=1;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_Method=Standard;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=einfochips.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: SN4SPRMB0003:EE_|CH8PR04MB994358:EE_
+x-ms-office365-filtering-correlation-id: b59731e2-ceb6-41de-4e0f-08df13d41387
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|376014|31052699007|39142699007|366016|23010399003|6049299003|4013099003|4053099003|13003099007|38070700021|6133799003|4133799003|10067099003|4143699003|56012099006|5023799004|11063799006|18002099003|22082099003|8096899003|55112099003;
+x-microsoft-antispam-message-info: 
+ 3riH6Jep6RwknZSeP50CCaQJdZKCoUqfPe86aYOHVUz7TbjeQmNYozhMtIp18uh2BygCn+ZPUYy1r6z8xHt/8DX+6BgylJR5wjn7J/lAR3oCC2LbmF6PLnFkn5oh1puPhC32KwCOw5H7dgyp5asj01Zojlxa/6GTVRIuNH1i4Fhz9C4SFe5P17AWKSSKTrgO/krcvPVpKMh7q1b9gECoNnywtBmmv9b2LwQMRB2Z48NgxF/lwhNwfOiV9yvg47DiI9U637naJ0WUj1AJFcxH41pQbQBQps1r4SpfYGRYIwngBTMxI+mNVfCOGicTTZD3W9xSi7HVjT3nhdT6Y8dLSKnm5+5bzm8KyGvWlMG/522NtL9PCPwPgiGWwoKC73Y85s0xN2fu0DCl/uXMcbf5v0aKJbaI5eYKej1OmuqWtqeR/0frC+Pd5hIhK1BT7e5n+qgegnMtaS3NaakZXrn6+YqAtzHcRRCJUTGWkb9zX146iqUWOduDCXAF7tHdJDwtqprCIJgfzkHpNo0OxzHXMTZeE+9Tnq4LebG/KBGtQaFhHIj4mOFqI0Ys+W6sCMJJaFLB2QgKey3aGg6XDpHMeuU1iYu2NLZnxfY3fNRRtgRQHjaTpCTf6ne0BGGh6ULboSXNmM3A0lwjDKqFzhgXvB9WlDrzLk4wxlHvS49dh/Y=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4SPRMB0003.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(376014)(31052699007)(39142699007)(366016)(23010399003)(6049299003)(4013099003)(4053099003)(13003099007)(38070700021)(6133799003)(4133799003)(10067099003)(4143699003)(56012099006)(5023799004)(11063799006)(18002099003)(22082099003)(8096899003)(55112099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?12gahJm7oyIwJY58l64PTq36HQeVf+HkKDt4Dfq+iM94/ej0AHkwfBCAXrST?=
+ =?us-ascii?Q?zB5Lb8maOWv/eSW+dM4MLVuIty3GeS8hD80s+JVP8i/LcdOutWqHoBwb8xdU?=
+ =?us-ascii?Q?Yg1XGmPhw6VJs0ipziEIrw+ERY0nO7CkJ7Ye4KSKEcS/lmXJBajCtqDjgoZk?=
+ =?us-ascii?Q?oMizOKS5euoptAh89DpoQc+T3HVLBeWgpHfqvEPhw5nDrvcRc+hDPnp/8Upg?=
+ =?us-ascii?Q?FTw+US+Sj29q0OH9EPmmgqE/1OcTShhb0qHgo+ytMHno74EjzPAZnWyoZGit?=
+ =?us-ascii?Q?pfHS+Jkk2feT86nJo+F3YGDcHYvV+l7JAFNam+TwOLfUqQ0v5pSS31r5y1+f?=
+ =?us-ascii?Q?S1CiluWN37elO89XxfaIc/0zIIGu+LJ6jywfasOmoAFIfN6YlclvEN8px9HR?=
+ =?us-ascii?Q?WxlMklPh7a7zTxoisjs+nYqmcn5+ECLGS71CN8qqqllhWK0/w7Eq0PLiF0Rk?=
+ =?us-ascii?Q?OJi4lo+aNqa16bCabWExA0sEDrO82xqVET1MY3OaEzPR3d8XZitPdrXzNfQL?=
+ =?us-ascii?Q?oOOeeW7xTUoiStMFTlIt+AzVCmzr/WsiXZaXpXuNDZFoJJEjg0ZTbs4Rcs5G?=
+ =?us-ascii?Q?fCvab+6PiuwG5aa+mSbdrdaV+vNkSgHK3btIG7xjszddDVerfmh9EU97cBSJ?=
+ =?us-ascii?Q?Oe43d0ihs4AS1GLAkozuGzCoWiEgiuM48iWNjWkF7I9md2GVBYBiLOvnZQaW?=
+ =?us-ascii?Q?wPZhRf3UjSu/bRsHdtUx0gp2PkuBcm7iMDaxJg5yFU+tyWfWOgW74hIWJt2k?=
+ =?us-ascii?Q?c5GxukG0Os6/A6DRpMbKV3wl8uaEyfoE7waQj4sflXXqducSqSEDvbeFl8Ff?=
+ =?us-ascii?Q?uWbqcDvDkB7elLBs+4opI1CF3E6YeS0O6yQ5Ikd6oYI+f9JPkIWCr9uAbKYB?=
+ =?us-ascii?Q?GHAXcecUTR2HqtbuaJher7kdtM32/2IjZHelxQjbO/CqL1/hhTy4R5zzwABg?=
+ =?us-ascii?Q?NvcniZUsbKZpLnU6V8/5fgiraGj75OrR6NJVPcVYIbieBlG9TR8mq4NG0y3Z?=
+ =?us-ascii?Q?7k5fu12JIu3dvTnfjCeEixJgGZ0ofk/n7062/JMKGeFEN8vKuoQEiBF/b3+9?=
+ =?us-ascii?Q?fWOdYmGIDTkh6Y/x4Y8KbvoP6ZtgwGEONYEZQWUbs57uwH6MDl/uBkWCyPs2?=
+ =?us-ascii?Q?KCmCwkBDCzM/bJtAErL3r0iL7aImck2XVEHUmmeLwexC2mhfKxK5x6+oH0A0?=
+ =?us-ascii?Q?E8gc7BqYYNMW4gFdF87bV9lzwIGq7fcoArVJJy0Yd4GFUhyTWi9hl4oztNid?=
+ =?us-ascii?Q?xeNAWCVTB+zW3yTVKczhehXnwKUByePAqhDoKgz5kbskIxnBEMlEYz1jKudY?=
+ =?us-ascii?Q?Vq9U5NgKrnQ+8y8pRG2Ibz/2jxlrVGLF4PqHV0UeUmucVilE7Kz9oH66FEfd?=
+ =?us-ascii?Q?2I+hIGJKtjHF0HzJ/5MEtD8Xh91qLilYHFuZ7bC1IMCkJi1ytu4a8XLneDUv?=
+ =?us-ascii?Q?ioeTMtNPf0zSlbpGQmPIwlICuLmz+dnwDY+aT77hOANI4QZlFlyeK5DWn5NX?=
+ =?us-ascii?Q?38Mz9chHDT6gi3cHAzFs2T7bOtUxL/mlqT7keWNYB4fl6NvVwH6j2+0Q8m1K?=
+ =?us-ascii?Q?O4O7CfP2/QWe9qM1jPymg5Q1Dh30w+WSzBmaxZNixTyaVbnM6J+9fXyxpcZ0?=
+ =?us-ascii?Q?di1PvNSNVliaRAvWpyGVAcGB0GSufd1LBq0+Po8vnd8eIQR4ZyHvEAYpzBaU?=
+ =?us-ascii?Q?y9+XzsZFs/q5Rj2J28QoQ1qwJZjmNqkkerEAaKDCuf5qhSMCU6trTqjaxqg4?=
+ =?us-ascii?Q?1xpCGbwBIg1Y39wau50BLnOycw3KYYA=3D?=
+Content-Type: multipart/related;
+	boundary="_004_SN4SPRMB000391CFE6AF13DFA30508BBE5B92SN4SPRMB0003namprd_";
+	type="multipart/alternative"
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|DB9P189MB1932:EE_
-X-MS-Office365-Filtering-Correlation-Id: 5a777560-04f7-4c67-d6d8-08df13d310ad
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|56012099006|5023799004|11063799006|10067099003|20052099010|22082099003|18002099003|6133799003|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	KBo8MrBHYaLEm6yUDYDhuRQ7b3fdpT+N1u1KQaWPF0SE2E5Cn+1Uev0s7gUKxClUh9EKYfp2VFPDWdwSH9W/z/zn45mx0Sw+B5/k4tkrcYxrtn6BmQtB/5p8GkI+1IcpV87O7Za60LCu0+vzhm+ok9w+uCCrtjZDnVU/7v+o8iTQEtKs9FNt5aGNxiNCJdGCaxx4ETwyfk6KNhMA35kEEfKZqX7z2HsRnH07GnXIsbYjiHIp8QAK5g1XPRncv474lPa5vP5fAM9Agd2TCW04uwyuGshNcidk4bmP/5octNeZOixtzUQybX+310kDwY6TUQp3zkNOFMWMUzETAeVlcj1+JgygZ9DcBfCN/ot9Ch9YNqCQ04Afx200L4jORYjhbVjXA4Xjd4mfQJI1K3dFkGwqaV18KpmY0Des3+f5BP7n0wZX2ogdBjQ1lGEgaop0jJqVz1eNlIPN9qSs8kqdpsaQBqM3AVdU+a3OAnUnMiRM0WEdO6rW66k6BWsiy+J3/FbBHQHiRDXO8+gsBc8nadq319b1UVpg1diZkfcLrHnSm0TxSrxm3pFCEBSatmBw9OXDzfgwB3fjbtLwPTRQhnQgnOWiisR8LoToHvxfBbffT3RHU29aX6+QcZa9XHbzqis1rI9nTS/hzwASadVfDqjIT+kUEl2d9GG/hSdatQg=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(56012099006)(5023799004)(11063799006)(10067099003)(20052099010)(22082099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?wd5ESp6Bc4kQVYfM0gSPpPJeRFI621fEjG7yv5JernRQID9syYUD3aR5fmIz?=
- =?us-ascii?Q?1A2xtlSXRObU+iVtus8F8gWz7Rzex2nUzZktnhuNhj0hJ4d7bsWAC2tPkiMN?=
- =?us-ascii?Q?wROmvBW2Mf44YyraOU4TE4SwAFbaAF4JndpjMXcDqNtFW8qZBEFD+hIWYPAK?=
- =?us-ascii?Q?lFBbWAi9WGInIHDD3IMIH3iQDOIZf3FiUXdVuEUpAMdwjLFdXQ3IW4ibugfj?=
- =?us-ascii?Q?/jYAPGhaJMYjd2g5zrDnQhcilPep6+da9HiiULUGO2PF/ud1Dlk295enmWp4?=
- =?us-ascii?Q?5SzTPb/e8hh2ARkcQLYsMsPTrwoSq+YRa+dVZSIpxcc8U3gCeFWIYQGXZEq/?=
- =?us-ascii?Q?AtWh4aD5afzVi1UkDsYQ8NmiujTsvb0OE+RcBGCtYwpmCXhV04enXo2v5U9w?=
- =?us-ascii?Q?m8t1bcjZ/1Cw9yECB9gUdjaIzEwMbYKbBCZfszHoc+prvxo8v9VnqNX9iOub?=
- =?us-ascii?Q?Pv6+JccMGn/3XYrjCoDXUHOQP9lhi/oKRCmQwQVhm4cnUfI6NHPrbv+Agbdg?=
- =?us-ascii?Q?RLetncU1JsMu8GFKiBUZPcQp/6JQT8H+5FEcFrVbZ1lDEDg2ta9XT7J9PN/Z?=
- =?us-ascii?Q?csZe1W0UKQdmNTUT+dVbhv7JYbWdDBQ9/x6og1vmmafQ1+3xuuOBIialeCy/?=
- =?us-ascii?Q?XHd0CsPAC1okywmqK4F+g8L6ODqkWpdL9jifckq5Te0pjtvFrnZldQLFpc74?=
- =?us-ascii?Q?HjImTp94nf2kFIxNAXJpZJeDAK9TB/x1AqUlQiOYRqNZO8tfupu0zXLceYwZ?=
- =?us-ascii?Q?SzgWYIs2CKlK4qwzzHE3tixG/jrIk1Jt08lrS7H9y+Yx2sfY9NwIWHyaUQXv?=
- =?us-ascii?Q?yfmQmKDUwskQNdiBXKDPnkluW4k7ZBhM4Eklz5Xwg103hf7nULjqw4kdtCzW?=
- =?us-ascii?Q?DyWyDipVzv6A1jiw/kyxW6uV/+pIWiuXh6gHzYS/nzHRVGs2aZxU0e2u3jwe?=
- =?us-ascii?Q?2x0NgMFLKxIADCWu5OEimTqP4NtdCjAMADvpFrCyS+c1yi+baKvKKlKW2fFl?=
- =?us-ascii?Q?KLrifrnIAi0hGVYGmniSBy7IffKnv46CMtuFg22wTxKiaTdfyS1HhItE40bj?=
- =?us-ascii?Q?pSjMSHRqpTcFVPExki3dRMohGEU8De3Nxo30ZKJSYA0SYp7CXh7MzP4IWWuO?=
- =?us-ascii?Q?zm4LWdKaVigqzx73IF+g47LJgO1aszaYYACXwvMus9bCN4BMPLq7Zf7i2oY1?=
- =?us-ascii?Q?OXybqBUmpp4sKLvtWHs+9xXJlEROO+WLGnoJW/BapxDqdiE4dVxDojNrhfdX?=
- =?us-ascii?Q?Ltawo5g82zahTmRkQ0om0lFBy+JNslL+R65/eWvPNnLtvouiqz5eZ5HsXPWP?=
- =?us-ascii?Q?Sbr/GYNxokAfP7CoPCQWrnztv3vzEfckFap5n6t8Klpd4fmIXCn7ZRqQZkeA?=
- =?us-ascii?Q?QvaSntyWxNCXBO7vHpw0cohwE+qZoBuI1LOg4h0uK8++cn3j7lT7BdwN5aXk?=
- =?us-ascii?Q?qt7KyBQbMXJSoO9k2l84l0fa1LjQmKfBLaeyx60VdqkDAXd9zTPU8kFKEYPj?=
- =?us-ascii?Q?Sh4TxcjVxXWrD2hmqSVqPdYNfd2tv3qBLV2OzEoX14NCt7pKUGqK/2UL1Cs+?=
- =?us-ascii?Q?6NetLoojXEDLIFmicbNTwmyRotdJxIaKahTHsbu/kyCOb37/Qim6st6OeA6n?=
- =?us-ascii?Q?4QqM9qUs4fSTV5oa/3Krszv7RkaQp4MHxm0GAOUnpreIKd1bF0BPZloO9H8r?=
- =?us-ascii?Q?gV1BvUaUSOuBkMz0XlN2HZQHq+E24g7dhq2VeHa4ImFwcFUaYbfDY3u3ooGV?=
- =?us-ascii?Q?aPidVTvyHw=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: 5a777560-04f7-4c67-d6d8-08df13d310ad
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+X-OriginatorOrg: einfochips.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Sep 2026 09:15:34.9968
+X-MS-Exchange-CrossTenant-AuthSource: SN4SPRMB0003.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: b59731e2-ceb6-41de-4e0f-08df13d41387
+X-MS-Exchange-CrossTenant-originalarrivaltime: 16 Sep 2026 09:22:49.1003
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Lna6ig2N1RUYgh9NvJZvggPbndw+5WhFMWPIxqnJncg5q/MK+kFJOLN5/84dPYLHrOdTKBZ7RNdVi0KSJcoihw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DB9P189MB1932
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 0beb0c35-9cbb-4feb-99e5-589e415c7944
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: 5pXc2U3Ig1hERJm9T+5L1jHV5ilFmMjo5ZT8wE99Ylfm2f0qFYJs4BT8wK7F7KmMR6fW3JfHJ//xTZ4BAoD/9A5tRVT0bPhXOhHfpYJf/yZYkUey/ylhQd3O+YES2ZPq
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH8PR04MB994358
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 09:15:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245945
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 09:22:55 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245946
 
-Add ptest support using psmisc's upstream DejaGnu testsuite, which
-exercises killall, pslog and fuser via their .exp scripts. The tools and
-the testsuite helper programs (socket_test, test-listen) are installed
-under a src/ layout so the scripts' ${topdir}src/<tool> paths resolve on
-target.
+--_004_SN4SPRMB000391CFE6AF13DFA30508BBE5B92SN4SPRMB0003namprd_
+Content-Type: multipart/alternative;
+	boundary="_000_SN4SPRMB000391CFE6AF13DFA30508BBE5B92SN4SPRMB0003namprd_"
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
+--_000_SN4SPRMB000391CFE6AF13DFA30508BBE5B92SN4SPRMB0003namprd_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Notes:
-    Changes in v2:
-    - Point mktemp at a private, symlink-resolved TMPDIR in run-ptest so th=
-e
-      fuser -a/-av/-va tests do not fail intermittently on the autobuilder
-      when /tmp is a symlink or on a different mount.
+Hello Yoann,
+Thanks for the review.
+I agree that a downstream layer could enable Vulkan HEVC hardware accelerat=
+ion. However, by default this configuration is not enabled or built by the =
+ffmpeg recipe.
+Since the affected Vulkan HEVC code is not built with the default recipe co=
+nfiguration, the proposed fix would not be compiled or exercised in our def=
+ault build.
+Could we instead handle this using a conditional CVE_STATUS, so that the CV=
+E is marked as not applicable when Vulkan HEVC hardware acceleration is not=
+ enabled, while still allowing the CVE to be reported when the relevant con=
+figuration is enabled by a downstream layer?
 
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-extended/psmisc/psmisc/run-ptest | 13 ++++++
- meta/recipes-extended/psmisc/psmisc_23.7.bb   | 45 ++++++++++++++++++-
- 3 files changed, 58 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/psmisc/psmisc/run-ptest
+Thanks,
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 4012be5f49..f01abc4a57 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -68,6 +68,7 @@ PTESTS_FAST =3D "\
-     opkg \
-     popt \
-     procps \
-+    psmisc \
-     python3-atomicwrites \
-     python3-attrs \
-     python3-bcrypt \
-diff --git a/meta/recipes-extended/psmisc/psmisc/run-ptest b/meta/recipes-e=
-xtended/psmisc/psmisc/run-ptest
-new file mode 100644
-index 0000000000..53f7521ac1
---- /dev/null
-+++ b/meta/recipes-extended/psmisc/psmisc/run-ptest
-@@ -0,0 +1,13 @@
-+#!/bin/sh
-+
-+cd ./testsuite
-+
-+tmpdir=3D"$(pwd)/tmp"
-+mkdir -p "$tmpdir"
-+TMPDIR=3D"$(cd "$tmpdir" && pwd -P)"
-+export TMPDIR
-+
-+for tool in @DEJATOOL@; do
-+    runtest -a --tool $tool --outdir ../log
-+done
-+cd -
-diff --git a/meta/recipes-extended/psmisc/psmisc_23.7.bb b/meta/recipes-ext=
-ended/psmisc/psmisc_23.7.bb
-index ad57c49ffe..3c768f4a86 100644
---- a/meta/recipes-extended/psmisc/psmisc_23.7.bb
-+++ b/meta/recipes-extended/psmisc/psmisc_23.7.bb
-@@ -13,10 +13,11 @@ LICENSE =3D "GPL-2.0-only"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c317bb=
-3"
-=20
- SRC_URI =3D "git://gitlab.com/psmisc/psmisc.git;protocol=3Dhttps;branch=3D=
-master;tag=3Dv${PV} \
-+           file://run-ptest \
-            "
- SRCREV =3D "9091d6dbcce3d8fb87adf9249a2eb346d25a562c"
-=20
--inherit autotools gettext
-+inherit autotools gettext ptest
-=20
- # Upstream has a custom autogen.sh which invokes po/update-potfiles as the=
-y
- # don't ship a po/POTFILES.in (which is silly).  Without that file gettext
-@@ -25,6 +26,48 @@ do_configure:prepend() {
-     ( cd ${S} && po/update-potfiles )
- }
-=20
-+do_compile_ptest() {
-+    for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS); do
-+        oe_runmake $p
-+    done
-+    oe_runmake -C testsuite site.exp
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/testsuite
-+    install -d ${D}${PTEST_PATH}/src
-+    install -d ${D}${PTEST_PATH}/log
-+
-+    cp -r ${S}/testsuite/* ${D}${PTEST_PATH}/testsuite/
-+    install -m 0644 ${B}/testsuite/site.exp ${D}${PTEST_PATH}/testsuite/
-+
-+    # Tools exercised by the .exp scripts.
-+    for p in killall pslog prtstat fuser; do
-+        if [ -x ${B}/src/$p ]; then
-+            install -m 0755 ${B}/src/$p ${D}${PTEST_PATH}/src/
-+        fi
-+    done
-+
-+    # Helper programs (check_PROGRAMS) used by the fuser tests.
-+    for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS); do
-+        install -m 0755 ${B}/$p ${D}${PTEST_PATH}/src/
-+    done
-+
-+    sed -i -e "s#@DEJATOOL@#$(makefile-getvar ${B}/testsuite/Makefile DEJA=
-TOOL)#" \
-+        ${D}${PTEST_PATH}/run-ptest
-+
-+    sed -i -e "/set srcdir/c\\set srcdir ${PTEST_PATH}/testsuite" \
-+           -e "/set objdir/c\\set objdir ${PTEST_PATH}/testsuite" \
-+        ${D}${PTEST_PATH}/testsuite/site.exp
-+}
-+
-+do_install_ptest_base:append() {
-+    sed -i -e 's/^set \([a-zA-Z_]*\)$/set \1 ""/' \
-+        ${D}${PTEST_PATH}/testsuite/site.exp
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D "dejagnu"
-+
- PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6,"
- PACKAGECONFIG[selinux] =3D "--enable-selinux,--disable-selinux,libselinux"
---=20
-2.43.0
+Bhavesh Maheshwari
+Engineer
++91 8827543501
+Bhavesh.Maheshwari@einfochips.com<mailto:Bhavesh.Maheshwari@einfochips.com>
+[cid:d82e07d2-bdd2-4ad9-b5ee-cc155ce89991]<https://www.einfochips.com/>
+________________________________
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoann.=
+congal=3Dsmile.fr@lists.openembedded.org>
+Sent: 15 September 2026 19:50
+To: Bhavesh Rajesh Maheshwari <bhavesh.maheshwari@einfochips.com>; openembe=
+dded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org>
+Subject: [External] Re: [wrynose][oe-core][PATCH 02/10] ffmpeg: set CVE_STA=
+TUS for CVE-2026-64831
 
+
+CAUTION: This email originated from outside of the organization. This messa=
+ge might not be safe, use caution in opening it. If in doubt, do not open t=
+he attachment nor links in the message.
+
+
+On Thu Sep 10, 2026 at 3:31 PM CEST, Bhavesh R Maheshwari via lists.openemb=
+edded.org wrote:
+> From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+>
+> Analysis:
+> - CVE-2026-64831 affects Vulkan HEVC hardware acceleration.[1]
+> - The ffmpeg recipe does not enable or build Vulkan HEVC hardware acceler=
+ation by default.
+> - Hence CVE is not applicable.
+>
+> Reference:
+> [1] https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fn=
+vd.nist.gov%2Fvuln%2Fdetail%2FCVE-2026-64831&data=3D05%7C02%7Cbhavesh.mahes=
+hwari%40einfochips.com%7C41484021a46a4dfe47bf08df13347c8e%7C0beb0c359cbb4fe=
+b99e5589e415c7944%7C1%7C0%7C639250788317922015%7CUnknown%7CTWFpbGZsb3d8eyJF=
+bXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIld=
+UIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DyrPdD%2BheY4S%2BI%2Blk9W25PQl%2B48IbR6hD=
+qkjhzHwdD38%3D&reserved=3D0<https://nvd.nist.gov/vuln/detail/CVE-2026-64831=
+>
+>
+> Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+> ---
+>  meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb | 1 +
+>  1 file changed, 1 insertion(+)
+>
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb b/meta/recipe=
+s-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+> index 8c1969369b..af05ab4af9 100644
+> --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+> @@ -186,3 +186,4 @@ CVE_STATUS[CVE-2025-59729] =3D "fixed-version: this C=
+VE are fixed since v8.0"
+>  CVE_STATUS[CVE-2025-59730] =3D "fixed-version: this CVE are fixed since =
+v8.0"
+>  CVE_STATUS[CVE-2026-8461] =3D "cpe-stable-backport: this CVE are fixed s=
+ince v8.0.3"
+>  CVE_STATUS[CVE-2026-40962] =3D "cpe-stable-backport: this CVE are fixed =
+since v8.0.2"
+> +CVE_STATUS[CVE-2026-64831] =3D "not-applicable-config: Vulkan HEVC hardw=
+are acceleration is not enabled or built by this recipe."
+
+Hello,
+
+Nothing prevent a downstream layer from activating this feature.
+
+The CVE fix[0] (per NVD) is quite simple and does apply on the ffmpeg
+8.0.x branch. Can you send a backport of the fix instead?
+
+I'll keep reviewing the rest of the series.
+
+[0]: https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fco=
+de.ffmpeg.org%2FFFmpeg%2FFFmpeg%2Fpulls%2F23665%2Fcommits%2Fea8087200ce91f3=
+f296a30541a89b19ae4af19a2&data=3D05%7C02%7Cbhavesh.maheshwari%40einfochips.=
+com%7C41484021a46a4dfe47bf08df13347c8e%7C0beb0c359cbb4feb99e5589e415c7944%7=
+C1%7C0%7C639250788317952327%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWU=
+sIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7=
+C%7C%7C&sdata=3DSvy41Azt9Tq9hacdbW%2BYKDW6HUUQGxDJ7n%2FWQKoUaus%3D&reserved=
+=3D0<https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/23665/commits/ea8087200ce9=
+1f3f296a30541a89b19ae4af19a2>
+
+Thanks!
+--
+Yoann Congal
+Smile ECS
+
+
+--_000_SN4SPRMB000391CFE6AF13DFA30508BBE5B92SN4SPRMB0003namprd_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+<style type=3D"text/css" style=3D"display:none;"> P {margin-top:0;margin-bo=
+ttom:0;} </style>
+</head>
+<body dir=3D"ltr">
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Hello Yoann,</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Thanks for the review.</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+I agree that a downstream layer could enable Vulkan HEVC hardware accelerat=
+ion. However, by default this configuration is not enabled or built by the =
+ffmpeg recipe.</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Since the affected Vulkan HEVC code is not built with the default recipe co=
+nfiguration, the proposed fix would not be compiled or exercised in our def=
+ault build.</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Could we instead handle this using a conditional <code>CVE_STATUS</code>, s=
+o that the CVE is marked as not applicable when Vulkan HEVC hardware accele=
+ration is not enabled, while still allowing the CVE to be reported when the=
+ relevant configuration is enabled
+ by a downstream layer?</div>
+<div id=3D"Signature" class=3D"elementToProof">
+<p class=3D"elementToProof" style=3D"margin: 0in; font-family: Calibri, san=
+s-serif; font-size: 11pt;">
+<span style=3D"font-size: 12pt; color: gray;">Thanks,</span><span style=3D"=
+font-size: 12pt; color: black;"><br>
+</span></p>
+<table style=3D"text-align: left; background-color: rgb(255, 255, 255); col=
+or: rgb(33, 37, 41); box-sizing: border-box; border-collapse: collapse; bor=
+der-spacing: 0px;" id=3D"table_0">
+<tbody>
+<tr>
+<td colspan=3D"2" style=3D"text-align: left; color: rgb(0, 75, 118); box-si=
+zing: border-box;">
+<div class=3D"elementToProof" style=3D"text-align: left;"><span style=3D"fo=
+nt-family: Calibri, sans-serif; font-size: 15px; color: rgb(0, 0, 0);"><b>B=
+havesh Maheshwari</b></span><span style=3D"font-family: Calibri, sans-serif=
+; font-size: 14px;"><br>
+</span><span style=3D"font-family: Calibri; font-size: 15px; color: rgb(85,=
+ 85, 85);">Engineer</span><span style=3D"font-family: Calibri, sans-serif; =
+font-size: 14px;"><br>
+</span><span style=3D"font-family: Calibri; font-size: 15px; color: rgb(85,=
+ 85, 85);">+91 8827543501</span></div>
+<div class=3D"elementToProof" style=3D"text-align: left; margin: 0px; paddi=
+ng-bottom: 10px; font-family: Calibri; font-size: 15px;">
+<a href=3D"mailto:Bhavesh.Maheshwari@einfochips.com"><u>Bhavesh.Maheshwari@=
+einfochips.com</u></a></div>
+</td>
+</tr>
+</tbody>
+</table>
+<div class=3D"elementToProof" style=3D"margin: 0in; font-family: Calibri, s=
+ans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
+<a href=3D"https://www.einfochips.com/" title=3D"https://www.einfochips.com=
+/" style=3D"text-decoration: none;"><img id=3D"x_image_0" style=3D"max-widt=
+h: 780px;" size=3D"9472" data-outlook-trace=3D"F:1|T:1" src=3D"cid:d82e07d2=
+-bdd2-4ad9-b5ee-cc155ce89991"></a></div>
+</div>
+<div id=3D"appendonsend"></div>
+<hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
+<div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
+alf of Yoann Congal via lists.openembedded.org &lt;yoann.congal=3Dsmile.fr@=
+lists.openembedded.org&gt;<br>
+<b>Sent:</b> 15 September 2026 19:50<br>
+<b>To:</b> Bhavesh Rajesh Maheshwari &lt;bhavesh.maheshwari@einfochips.com&=
+gt;; openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.o=
+penembedded.org&gt;<br>
+<b>Subject:</b> [External] Re: [wrynose][oe-core][PATCH 02/10] ffmpeg: set =
+CVE_STATUS for CVE-2026-64831</font>
+<div>&nbsp;</div>
+</div>
+<div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
+">
+<div class=3D"PlainText"><br>
+CAUTION: This email originated from outside of the organization. This messa=
+ge might not be safe, use caution in opening it. If in doubt, do not open t=
+he attachment nor links in the message.<br>
+<br>
+<br>
+On Thu Sep 10, 2026 at 3:31 PM CEST, Bhavesh R Maheshwari via lists.openemb=
+edded.org wrote:<br>
+&gt; From: Bhavesh R Maheshwari &lt;bhavesh.maheshwari@einfochips.com&gt;<b=
+r>
+&gt;<br>
+&gt; Analysis:<br>
+&gt; - CVE-2026-64831 affects Vulkan HEVC hardware acceleration.[1]<br>
+&gt; - The ffmpeg recipe does not enable or build Vulkan HEVC hardware acce=
+leration by default.<br>
+&gt; - Hence CVE is not applicable.<br>
+&gt;<br>
+&gt; Reference:<br>
+&gt; [1] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2026-64831">https:=
+//nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fnvd.nist.gov%=
+2Fvuln%2Fdetail%2FCVE-2026-64831&amp;data=3D05%7C02%7Cbhavesh.maheshwari%40=
+einfochips.com%7C41484021a46a4dfe47bf08df13347c8e%7C0beb0c359cbb4feb99e5589=
+e415c7944%7C1%7C0%7C639250788317922015%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1h=
+cGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%=
+3D%3D%7C0%7C%7C%7C&amp;sdata=3DyrPdD%2BheY4S%2BI%2Blk9W25PQl%2B48IbR6hDqkjh=
+zHwdD38%3D&amp;reserved=3D0</a><br>
+&gt;<br>
+&gt; Signed-off-by: Bhavesh R Maheshwari &lt;bhavesh.maheshwari@einfochips.=
+com&gt;<br>
+&gt; ---<br>
+&gt;&nbsp; meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb | 1 +<br>
+&gt;&nbsp; 1 file changed, 1 insertion(+)<br>
+&gt;<br>
+&gt; diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb b/meta/rec=
+ipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb<br>
+&gt; index 8c1969369b..af05ab4af9 100644<br>
+&gt; --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb<br>
+&gt; +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb<br>
+&gt; @@ -186,3 +186,4 @@ CVE_STATUS[CVE-2025-59729] =3D &quot;fixed-version=
+: this CVE are fixed since v8.0&quot;<br>
+&gt;&nbsp; CVE_STATUS[CVE-2025-59730] =3D &quot;fixed-version: this CVE are=
+ fixed since v8.0&quot;<br>
+&gt;&nbsp; CVE_STATUS[CVE-2026-8461] =3D &quot;cpe-stable-backport: this CV=
+E are fixed since v8.0.3&quot;<br>
+&gt;&nbsp; CVE_STATUS[CVE-2026-40962] =3D &quot;cpe-stable-backport: this C=
+VE are fixed since v8.0.2&quot;<br>
+&gt; +CVE_STATUS[CVE-2026-64831] =3D &quot;not-applicable-config: Vulkan HE=
+VC hardware acceleration is not enabled or built by this recipe.&quot;<br>
+<br>
+Hello,<br>
+<br>
+Nothing prevent a downstream layer from activating this feature.<br>
+<br>
+The CVE fix[0] (per NVD) is quite simple and does apply on the ffmpeg<br>
+8.0.x branch. Can you send a backport of the fix instead?<br>
+<br>
+I'll keep reviewing the rest of the series.<br>
+<br>
+[0]: <a href=3D"https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/23665/commits/e=
+a8087200ce91f3f296a30541a89b19ae4af19a2">
+https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fcode.ff=
+mpeg.org%2FFFmpeg%2FFFmpeg%2Fpulls%2F23665%2Fcommits%2Fea8087200ce91f3f296a=
+30541a89b19ae4af19a2&amp;data=3D05%7C02%7Cbhavesh.maheshwari%40einfochips.c=
+om%7C41484021a46a4dfe47bf08df13347c8e%7C0beb0c359cbb4feb99e5589e415c7944%7C=
+1%7C0%7C639250788317952327%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUs=
+IlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C=
+%7C%7C&amp;sdata=3DSvy41Azt9Tq9hacdbW%2BYKDW6HUUQGxDJ7n%2FWQKoUaus%3D&amp;r=
+eserved=3D0</a><br>
+<br>
+Thanks!<br>
+--<br>
+Yoann Congal<br>
+Smile ECS<br>
+<br>
+</div>
+</span></font></div>
+</body>
+</html>
+
+--_000_SN4SPRMB000391CFE6AF13DFA30508BBE5B92SN4SPRMB0003namprd_--
+
+--_004_SN4SPRMB000391CFE6AF13DFA30508BBE5B92SN4SPRMB0003namprd_
+Content-Type: image/png; name="image.png"
+Content-Description: image.png
+Content-Disposition: inline; filename="image.png"; size=9472;
+	creation-date="Wed, 16 Sep 2026 09:21:57 GMT";
+	modification-date="Wed, 16 Sep 2026 09:21:57 GMT"
+Content-ID: <d82e07d2-bdd2-4ad9-b5ee-cc155ce89991>
+Content-Transfer-Encoding: base64
+
+iVBORw0KGgoAAAANSUhEUgAAAaIAAABaCAYAAAD6vVKvAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
+bWFnZVJlYWR5ccllPAAAAyZpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdp
+bj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6
+eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDkuMS1jMDAyIDc5LmE2
+YTYzOTY4YSwgMjAyNC8wMy8wNi0xMTo1MjowNSAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRm
+PSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNj
+cmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8x
+LjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6
+c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHht
+cDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIDI1LjkgKFdpbmRvd3MpIiB4bXBNTTpJbnN0
+YW5jZUlEPSJ4bXAuaWlkOkIwQjkyNkM5Mzg0MTExRUY5Q0I1QTY1Njg3MUI5OUFBIiB4bXBNTTpE
+b2N1bWVudElEPSJ4bXAuZGlkOkIwQjkyNkNBMzg0MTExRUY5Q0I1QTY1Njg3MUI5OUFBIj4gPHht
+cE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6QjBCOTI2QzczODQxMTFF
+RjlDQjVBNjU2ODcxQjk5QUEiIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6QjBCOTI2QzgzODQx
+MTFFRjlDQjVBNjU2ODcxQjk5QUEiLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94
+OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6C+n3FAAAhcElEQVR42uxdMYwsSXmuQ08yweGb
+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
+AABJRU5ErkJggg==
+
+--_004_SN4SPRMB000391CFE6AF13DFA30508BBE5B92SN4SPRMB0003namprd_--
 
