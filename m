@@ -1,166 +1,144 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 288A5C88E5C
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 13:04:18 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14406.1789563854927444112
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3D0D7C88E5C
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 13:24:48 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14891.1789565085678111076
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 06:04:15 -0700
+ Wed, 16 Sep 2026 06:24:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=ndLB1Jdu;
- spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49ccf3ca626so4431345e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 06:04:14 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=V44gRTRl;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e4ad9so5096645e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 06:24:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789563853; x=1790168653; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=5fSiCPMjJILPDM4zD6aiXbww0L3vL8B0ESmwyhv9GVk=;
-        b=ndLB1JduyQHUGCsh+L27RI2z+IWN/e9/bPFhWXqGzgO7RxLus6TfWDuIF5NLmDeNLs
-         C0Wm3qKk3c8Y7p05Q8kaYusurIwNy/5ZAIEGAVQqzN9drjKq86sXZhcFICcSKhhmSXBR
-         7xx8IYJ5eZ/jYkq54vef6XHtomhdeELPLDkSU=
+        d=linuxfoundation.org; s=google; t=1789565084; x=1790169884; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=iLDq9aD0aTUeLKf8LLMopObLlFaBQftvG9uyrIoraco=;
+        b=V44gRTRlV3lHbltEvRh+7JgFKfBUbSQmE0XU6LKYnuJ2exfeEWzpdTmS+Gv7ttI/0a
+         B5Ys19UbtFVe7Hj+7ZKwgrD+O7ekr7xpQ97vdTGnYfK86+U4UqOLcz6RvveDx1Ggu6fo
+         M0m9bJX9Rrr7+06Gt8tqipOsmhoqrwkcKs46c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789563853; x=1790168653;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=5fSiCPMjJILPDM4zD6aiXbww0L3vL8B0ESmwyhv9GVk=;
-        b=KSZJgbmPwZvvOmNuje9T4Scg1l322P/jc+OcavIPTR+G1Dnj0yiOT8ZQ6BxKl3iMfR
-         sNHDnZrUpIBxCHssgWLhuAA6+NAhpKBMPFeFYnwEY9qRPIovdOZkextlBfuQqbCrVUKe
-         NIOSEw+Cu4a5mJtPTrFXWSvQD3UgnIZE7VRpbm33LIvANwg3vA9ZJclXPxb5YLgdFO4W
-         OZe0XK8YWE8CzOmLLNjGEhXPpYM4KMGyx3kjcsI6I/+wzA16yS6FO8KGQww2X1BDZrYO
-         WD7KjqMnsNH28q3o2NJmgugSCZ6GLZcn3A2KowhGmjRh9vFpK3NLBeDHXT5XxLWKLgt7
-         2Tjw==
-X-Forwarded-Encrypted: i=1; AKwUvByGacIEiO7DQNvUsQbDazMt/0P5YYDgY6/rEtMPrJsFcvy0lzyJCT/bdLeyYp4lH6gUJ1HYcv4Vp17S5GBJQ/VfZQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++nRKd3fOrVMo5le+Se/W2PzUVqtaeOgsRqyYcH2tYfDLCb5a3NR
-	Ri+vBNoVmD4pmDbjVRYoHDF7a+gsLCWheP8i5uwpoQA61TRiB+lksEfug7r/vs7EDs0=
-X-Gm-Gg: AYBFou0iCYgRFQDWsWci4Zvro0f38BF012DBJN+8PzOe/8IOIHwparMeQ8BXIWPQSBv
-	uzDBFsNG/1Pm1i8CHhE0HxIsLCquT24Ic/HbLIGCf03k8it+f0jj/Y9CNU88+GzFtwlR8k/PVmc
-	iX59HhbSmEKJOM++kaJUXMZyRC2PIKwuKIrYzjBonLU22wTXukGjMZlWqDEdV/IjcXxxz/sEbjh
-	sdg+YP5eNDSCjyDPyx8lbFX3leoA3JCWzawnQcUhJRVkCUaA9sgrhyzlkEXrSDWA3aQvtrgdbBV
-	JHZZi8IAhm0v2ibXMuqehfqItY9R8A/XZx+d3TPYGOOyrEpnB+3WBQip4Am0B6Gy9mn+kkAhFZG
-	LxfWwhQnW9+/D73LJ/CMLxpcYydfhL7Ui/OGe7DgBFavr4Lm6OiDla1EexSg43oZN+qrt9mKPbB
-	IUmujS60oQYrOwPyVbNa8IABOTFgu6dDvk0iO3zaYJiv99yftXOVVutoPbXxEuUGa6xmgP40DMY
-	y69P4H0+HqpvEn6qUq6OBna2mwtEkGJNqZK5/OYwfF8IgyOQxkJlWqtwHU=
-X-Received: by 2002:a05:6000:41e3:b0:487:62d:37dc with SMTP id ffacd0b85a97d-4870cf36d6amr3458391f8f.32.1789563853004;
-        Wed, 16 Sep 2026 06:04:13 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bef7687sm8132872f8f.1.2026.09.16.06.04.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 16 Sep 2026 06:04:12 -0700 (PDT)
-Mime-Version: 1.0
+        d=1e100.net; s=20260707; t=1789565084; x=1790169884;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iLDq9aD0aTUeLKf8LLMopObLlFaBQftvG9uyrIoraco=;
+        b=oVPwwqO4Ley3XjXQ8Rp7TjiWSZxBq3+Yyx7HtT7DMEXSStlW/rodhA3+ucNfv/x6Lt
+         +FMh4wfc82IGF/vyEG0b+f28Ycsw/KhCINYvYni8UF3CGxZl6mqFyDNOHm1aCGAkOsEo
+         H1orro3Rh7OauMmgYNdm5NXMl81klXuI7JDqihnBOVRVyngMuTXYFHUlU9UJZKtB+KBY
+         JRia5vmWCvBHyG7SSBJIKQ0oMv4j2puiHKNSm0dbn5AcYI6VsTdHsAv9rkWt/ufij1mI
+         KNWFtWKfdJNDaML6GHRJa41NYxwJTQU6BOhCygb4TCCGanRCfm4VV5Dns9c4pX8kBtni
+         ZArw==
+X-Forwarded-Encrypted: i=1; AKwUvBzKgK8/1Vu/+JQDxgtzKq3c15pCYJfjvS69jVr+Mp82DQd72mWdK17kCx7F9RVgcBZlh8U7KdGAF4DHPO8ytd6frQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++lUFUkueh8xlfIhD+5N7Tq6firQCwmpM94zf4CsWDVlj+Tmeaoy
+	oVNZ7V2CpfWPn7bvKAIFUvqconVI4jkNUI6eOVTklmwtUb6IjlVz7LsivnH5N+zkuqM=
+X-Gm-Gg: AYBFou20/zW15C2F6CJNpvY6ZSb3jdMSpSfxi7H9sEGg2JHF9yRiX3RvhmlgpRSbMpg
+	akii2qa0biiKVyT5+ym2wSHBaA/clgdJXa8sM+8QSYz/6p5grfHVcP0Q1s1JH+A2yuTU9K0XFZN
+	HM9YoJsg/1TQ+21xhG2C3HctC7EfVj8arjPaZ4iEgJY3ZpPEI24COETzkt5ppGNleBQmFkei/Nk
+	bMuYwDfIAaXOy70d6Y0KGN466rLpbCNMhQ4HWO+hV7BiKXkR5hQHBUyKgq2Xbb6P8ZsSSnkws0B
+	/2IE3lj9GLwMFh0Gknf061EiqBiD7PZTN6tkpzjva2Abqo4wQc+sTWIF0jRk62WaQVIDOLzEhKJ
+	6bYLzQbV6R5LyMIxW9UjPEa3LVr+hGtcqXkHDn8TuCoeLGf6hLrfrnX6q4Kh+AMkz6TTgKPh0Te
+	zmF6NfahwyYb0AN0lPoRvPwVnS4zBhOd5tDBrvSCZ7DzuXsi9Idob3NqW9XfQMmwPpX4LeyzMgs
+	PQGViV02M2DhfRH2HhMH36uiNS/5rhL+Qlszj0x1o3M1pxZKjf8zwOLxdiDgIph
+X-Received: by 2002:a05:600c:1986:b0:49e:70b2:66ab with SMTP id 5b1f17b1804b1-49eac40f67emr32993515e9.0.1789565083648;
+        Wed, 16 Sep 2026 06:24:43 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:cd09:70e0:c6de:9b09? ([2001:8b0:aba:5f3c:cd09:70e0:c6de:9b09])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83b11691sm88476865e9.12.2026.09.16.06.24.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 06:24:41 -0700 (PDT)
+Message-ID: <5e2534d7886c69c5f47a71f2e03951b29489d04c.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH v3] sstate: fix access to a cached object
+ rewriting its modification time
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Freihofer, Adrian" <adrian.freihofer@siemens.com>, "Haener, Michael"
+	 <michael.haener@siemens.com>, "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: "zhanxusheng@xiaomi.com" <zhanxusheng@xiaomi.com>, "Marko, Peter"
+	 <Peter.Marko@siemens.com>
+Date: Wed, 16 Sep 2026 14:24:40 +0100
+In-Reply-To: <e524024743400d16118921d688ad46c4204d3e60.camel@siemens.com>
+References: <20260910211821.48424-1-michael.haener@siemens.com>
+				 <20260911070121.39436-1-michael.haener@siemens.com>
+			 <14700b98da9c582f0c74951364179b091cb911df.camel@siemens.com>
+		 <233a6dcc8a610dd6e09031e619a2437c43b3dfb1.camel@linuxfoundation.org>
+	 <e524024743400d16118921d688ad46c4204d3e60.camel@siemens.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Wed, 16 Sep 2026 15:04:12 +0200
-Message-Id: <DLGRFWDPS373.3B9ZUABYX9HHK@smile.fr>
-Subject: Re: [OE-core][wrynose][PATCH] vim: Fix for CVE-2026-73071
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <bhavesh.maheshwari@einfochips.com>,
- <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260902085553.2299768-1-bhavesh.maheshwari@einfochips.com>
-In-Reply-To: <20260902085553.2299768-1-bhavesh.maheshwari@einfochips.com>
+User-Agent: Evolution 3.56.2-9 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 13:04:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245972
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 13:24:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245973
 
-On Wed Sep 2, 2026 at 10:55 AM CEST, Bhavesh R Maheshwari via lists.openemb=
-edded.org wrote:
-> From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
->
-> Pick the patch from [1], also referenced in the NVD report [2].
->
-> [1] https://github.com/vim/vim/commit/f8126294a526aa80c5123eb3079e325daee=
-9ec75
-> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-73071
->
-> Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
-> ---
->  .../vim/files/CVE-2026-73071.patch            | 128 ++++++++++++++++++
->  meta/recipes-support/vim/vim.inc              |   1 +
->  2 files changed, 129 insertions(+)
->  create mode 100644 meta/recipes-support/vim/files/CVE-2026-73071.patch
->
-> diff --git a/meta/recipes-support/vim/files/CVE-2026-73071.patch b/meta/r=
-ecipes-support/vim/files/CVE-2026-73071.patch
-> new file mode 100644
-> index 0000000000..6012bfd396
-> --- /dev/null
-> +++ b/meta/recipes-support/vim/files/CVE-2026-73071.patch
-> @@ -0,0 +1,128 @@
-> +From f09adcf1b1a876e8a9b00a7b3ea15865ff194aad Mon Sep 17 00:00:00 2001
-> +From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-> +Date: Thu, 16 Jul 2026 18:39:24 +0900
-> +Subject: [PATCH] patch 9.2.0844: [security]: use-after-free on json deco=
-de
-> + error
-> +
-> +Problem:  [security]: use-after-free on json decode error
-> +          (@tdjackey)
-> +Solution: Report the position from the current reader
-> +          (Matsumoto Yasuhiro)
-> +
-> +json_decode_item() caches "p" into js_buf, but json_decode_string() can
-> +refill via channel_fill(), which frees the old js_buf. When the string
-> +parse then fails (e.g. an invalid \u escape), the shared error path pass=
-ed
-> +the now-dangling "p" to semsg(), a heap use-after-free read reachable
-> +pre-auth through the socketserver.
-> +
-> +Github Security Advisory:
-> +https://github.com/vim/vim/security/advisories/GHSA-69ch-22ch-r887
-> +
-> +Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
-> +Signed-off-by: Christian Brabandt <cb@256bit.org>
-> +
-> +Upstream-Status: Backport [https://github.com/vim/vim/commit/f8126294a52=
-6aa80c5123eb3079e325daee9ec75]
-> +CVE: CVE-2026-73071
-> +
-> +Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
-> +---
-> + src/json.c                        |  4 ++-
-> + src/testdir/test_clientserver.vim | 53 +++++++++++++++++++++++++++++++
-> + src/version.c                     |  2 ++
-> + 3 files changed, 58 insertions(+), 1 deletion(-)
-> +
-> +diff --git a/src/version.c b/src/version.c
-> +index 92cd53129..43e4bb45b 100644
-> +--- a/src/version.c
-> ++++ b/src/version.c
-> +@@ -734,6 +734,8 @@ static char *(features[]) =3D
-> +=20
-> + static int included_patches[] =3D
-> + {   /* Add new patch number below this line */
-> ++/**/
-> ++    844,
+On Wed, 2026-09-16 at 11:39 +0000, Freihofer, Adrian wrote:
+> Some time ago, Michael came to the exact same conclusion as you
+> regarding this patch, but you were quicker to the
+> list!=C2=A0
+> https://git.openembedded.org/openembedded-core/commit/?id=3Dcc07895f951
+> 140dbbffcf32d3eabf65788cc4d00
+> To me, this is a great sign that we=E2=80=99re working toward the same go=
+al
+> and share a common understanding. :-)
+>=20
+> One point we are still looking to clarify, however, is the reasoning
+> behind writing to mtime when a read access occurs. According to
+> standards, this should be handled via atime (provided the sstate
+> directory is mounted with -o atime). In most cases, -o relatime is
+> even sufficient and less costly. We=E2=80=99d argue that an NFS+ZFS serve=
+r
+> setup should work perfectly fine with standard atime and mtime
+> updates on the Yocto side.
 
-Hello,
+From a theoretical standpoint you can argue this. Real world experience
+suggests things aren't this straightforward. The code was a mix and in
+the end I just standardised it to do everything consistently. I know
+there have been requests and code for mtime in the past, at least
+partially. Whether this was a bug with atime handling is unclear.
 
-Looks like this patch does not apply cleanly:
-    NOTE: recipe vim-tiny-9.2.0340-r0: task do_patch: Started
-    ERROR: vim-9.2.0340-r0 do_patch: QA Issue: Fuzz detected:
+We don't currently document you must have sstate mounted with atime, or
+working atime. Perhaps we should, I don't know. I do know just atime at
+the filesystem level alone hasn't been enough in the past.
 
-    Applying patch CVE-2026-73071.patch
-    patching file src/json.c
-    patching file src/testdir/test_clientserver.vim
-    patching file src/version.c
-    Hunk #1 succeeded at 734 with fuzz 2.
+>=20
+> We can leave Ceph and other cluster filesystems for a separate follow-
+> up discussion. Our immediate goal is to improve sstate.bbclass in
+> general; moving toward standard-compliant behavior should naturally
+> benefit NFS, but also Ceph in the long run.
+>=20
+> However, cluster filesystems introduce unique challenges: atime must be
+> handled carefully on the client side to avoid the massive overhead of
+> synchronizing metadata across all nodes. In contrast, a simple single-
+> node filesystem can afford to be more "relaxed," potentially dropping
+> or deferring metadata updates at various points in the chain from the
+> application to the physical medium.
+>=20
+> Do you think sstate.bbclass should stick to touching both mtime and
+> atime, or do you agree that moving toward atime only for cache
+> management would be the right next step for bare-metal and NFS
+> filesystems?
 
-Can you rebase/refresh and resend?
+Touching mtime and atime was the least worst option last time I worked
+on the code. If we want to drop mtime, we need to have a pretty good
+feeling that usecases won't break. I've therefore tried to at least
+articulate what some of those are. We'd need to look at what the
+autobuilder is doing, how some of our other users use things in CI and
+so on to see what impact that would have. Getting people to do this
+kind of review is hard work :/. Just saying it should work in theory
+and talking about standards isn't really enough in this case.
 
-In this case, do think you can drop the version.c update? Is this
-included_patches list used meaningfully? If not, let's drop it, this is
-bound to create conflicts...
+So I guess I'm saying it may be possible to change but we do need a bit
+more analysis and buy in from others for the change than what we have
+right now.
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+Cheers,
 
+Richard
 
