@@ -1,210 +1,248 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <dwagenknecht@emlix.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84470C88E77
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 03:09:56 +0000 (UTC)
-Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6487.1789526766927163369
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA5DC88E77
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 05:39:37 +0000 (UTC)
+Received: from mx1.emlix.com (mx1.emlix.com [178.63.209.131])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8311.1789537172941309483
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2026 19:46:07 -0700
+ Tue, 15 Sep 2026 22:39:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=VSh2VBv6;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.168.131, mailfrom: xshang@qualcomm.com)
-Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68FLYc5L3680381
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 02:46:06 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:date:from:message-id:mime-version
-	:subject:to; s=qcppdkim1; bh=yBq8KzGMHGNyq5b8ovulAFZa4S6Qd3RpIuz
-	eretN9i0=; b=VSh2VBv6kdpScua2vEoQCaKqr3MdDQ0CfbcTmIb5t9E2qEUjXw3
-	CCYX00CE0M+Brf7lrLLTJrtEaV55Qa+Q8VJA+UJPEAHLfpk/dq5vNpZbPRAmZo1w
-	IODYxApTLimo8AZENSFy0oyAmGkNR4hMZTZcG4ymReCNKOpG2pN9nCpWuHNirjmk
-	1mYFBS7+zy0GdTsnu3G1Wz7TyxBLQz3n3KOS2fksSmKlY8lIflaOsxzNPGMNhNWy
-	6ieXrcrJsVUvcixbrFWOn5HwZ2s4wrNxhaKbf/smtCuvlllb4ouroarXr7BIUL7/
-	NIVwGp+WovBmZUo1CyRLKNEUhdbjhbE6IVA==
-Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gqe1r8wtn-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 02:46:05 +0000 (GMT)
-Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
-	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 68G2k450606552;
-	Wed, 16 Sep 2026 02:46:04 GMT
-Received: from bt-iot-sh03-lnx.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
-	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 68G2k3jc606536
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
-	Wed, 16 Sep 2026 02:46:03 +0000 (GMT)
-Received: by bt-iot-sh03-lnx.qualcomm.com (Postfix, from userid 2385805)
-	id BB2D44C8E1; Wed, 16 Sep 2026 10:46:02 +0800 (CST)
-From: "Xiuzhuo Shang" <xiuzhuo.shang@oss.qualcomm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=P5Ab2A//;
+ dkim=fail reason="dkim: body hash did not verify" header.i=@emlix.com header.s=20250930 header.b=P5Ab2A//;
+ spf=pass (domain: emlix.com, ip: 178.63.209.131, mailfrom: dwagenknecht@emlix.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
+	s=20250930; t=1789537170;
+	bh=u/jvFDI+EB3TS0vuCX0+fxabnuGW5luSgoKFmuG5bWw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=P5Ab2A//Zq5jyxzni4vugI782zOEFdyVC3bZycAZ6tFmxYdGcr2T/QaYQd67RROyT
+	 4A30iJk7gvlSpzN/5EZtM8lcjk/ZWuwU72rkKjJE0xH2LR5RBN16itkYm7H3oTX3tz
+	 B6isj9fFTi/ETT/g5YMhJCGKrv/6QfFX4fkmaZF7idbLMegbTwn0Zn1sC4YUyYraO4
+	 CBXsy1eNU/pbWLwGoFjIWrOVltOk4WwkzMhWZWYB9IqcOf7kvwzMuiY5aEw9tcTRoS
+	 4YBQxSn8wvGWa9Sm5646OlZXmZTAroqlADUEk8QJG6szc/Pt274yATtA8dnzz73Gr6
+	 BsWcyqVBkmbTg==
+Received: from mx1.emlix.com (localhost [127.0.0.1])
+	by mx1.emlix.com (Postfix) with ESMTP id 4F9235F8F9
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 07:39:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=emlix.com;
+	s=20250930; t=1789537170;
+	bh=u/jvFDI+EB3TS0vuCX0+fxabnuGW5luSgoKFmuG5bWw=;
+	h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+	b=P5Ab2A//Zq5jyxzni4vugI782zOEFdyVC3bZycAZ6tFmxYdGcr2T/QaYQd67RROyT
+	 4A30iJk7gvlSpzN/5EZtM8lcjk/ZWuwU72rkKjJE0xH2LR5RBN16itkYm7H3oTX3tz
+	 B6isj9fFTi/ETT/g5YMhJCGKrv/6QfFX4fkmaZF7idbLMegbTwn0Zn1sC4YUyYraO4
+	 CBXsy1eNU/pbWLwGoFjIWrOVltOk4WwkzMhWZWYB9IqcOf7kvwzMuiY5aEw9tcTRoS
+	 4YBQxSn8wvGWa9Sm5646OlZXmZTAroqlADUEk8QJG6szc/Pt274yATtA8dnzz73Gr6
+	 BsWcyqVBkmbTg==
+Received: from mailer.emlix.com (p5098be52.dip0.t-ipconnect.de [80.152.190.82])
+	(using TLSv1.2 with cipher ADH-AES256-GCM-SHA384 (256/256 bits))
+	(No client certificate requested)
+	by mx1.emlix.com (Postfix) with ESMTPS id 365EC5F749
+	for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 07:39:30 +0200 (CEST)
+From: Daniel Wagenknecht <dwagenknecht@emlix.com>
 To: openembedded-core@lists.openembedded.org
-Cc: cheng.jiang@oss.qualcomm.com, quic_chezhou@quicinc.com,
-        wei.deng@oss.qualcomm.com, shuai.zhang@oss.qualcomm.com,
-        mengshi.wu@oss.qualcomm.com, jinwang.li@oss.qualcomm.com,
-        xiuzhuo.shang@oss.qualcomm.com
-Subject: [wrynose][PATCH] bluez5: restrict delta=0 RSSI to proximity filters
-Date: Wed, 16 Sep 2026 10:45:47 +0800
-Message-ID: <20260916024547.806958-1-xiuzhuo.shang@oss.qualcomm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Daniel Wagenknecht <dwagenknecht@emlix.com>
+Subject: [PATCH v2 1/2] spdx: add entries for meta-layers
+Date: Wed, 16 Sep 2026 07:39:07 +0200
+Message-ID: <20260916053927.2198761-1-dwagenknecht@emlix.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <DLFQEDRDYFEW.1N7Q1KDCOBXUD@bootlin.com>
+References: <DLFQEDRDYFEW.1N7Q1KDCOBXUD@bootlin.com>
 MIME-Version: 1.0
-X-Proofpoint-Reinject: loops=2 maxloops=12
-X-QCInternal: smtphost
-X-QCInternal: smtphost
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTE2MDAzNSBTYWx0ZWRfX+Gww2FIWtkhL
- PCTJiiidyDXRDhjo6fho0Is9psVDAitgR/+Nt3MqmsDD0GBLWj8cN4jRi+XqkR7AeNoSZvPIYU+
- iHPBkLjtWt5b6m0oIw76XYibqj+WiOE=
-X-Proofpoint-GUID: 9sYs9CVs5NBMiq123WU5uddr7HD1jzeA
-X-Proofpoint-ORIG-GUID: 9sYs9CVs5NBMiq123WU5uddr7HD1jzeA
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTE2MDAzNSBTYWx0ZWRfX/iGg7A1U6XGt
- YrA3SL77t6I4AWV0e1VyoWzq5lrpHnIH9ZNm24edhKflgAPM3QUzGrB70DFao9cyPcE91npZHCY
- cuDtxCF9YGP4VyCT/3PgpYOQL0al4NXW61x1QgvMhg2hFnh93A8owfxWz6Fett1rBBdrxLsyzGs
- DvmimDxHT+5EuEDHVokPn5EHViV4/cXvPY7ZwdrkzFjJ58O7cn+PqLZnJf4FQMg5Nje4osFHYB4
- t+xINML8Bdip+huL2npdo4CnW63BHXRTC3jKjHvwlhDsBRsja2lqAyiHKyrd7Of0jqRv7F0ByTN
- FXhtBeruMqS+ErDCDpL+rKERJgk0+Kr54lBCkk6wbNG9/ydUmupMGMMSrtAJcW3AJJ2nS1EzEDG
- LTudWpxejzuedNAV6D+cOyyNOkF/pcD79a+PfKsIyDOiKM8t1FaSCWX10lZ2Jgfcu16VA3IbwdH
- PBOjiR07kgUlgoTtD6Q==
-X-Authority-Analysis: v=2.4 cv=ZIhCCn7b c=1 sm=1 tr=0 ts=6aaa02ee cx=c_pps
- a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
- a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
- a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8 a=Q3d3CrAPWoBhLKqdOAQA:9
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-15_05,2026-09-15_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 priorityscore=1501 clxscore=1011 spamscore=0 phishscore=0
- impostorscore=0 lowpriorityscore=0 bulkscore=0 adultscore=0 suspectscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609160035
-Content-Transfer-Encoding: 8bit
+X-Virus-Scanned: ClamAV using ClamSMTP
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 03:09:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245913
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 05:39:37 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245914
 
-When a discovery filter is active (filtered_discovery=true), BlueZ
-unconditionally calls device_set_rssi_with_delta(..., delta=0),
-causing every BLE advertisement to emit a PropertiesChanged(RSSI)
-signal regardless of whether the RSSI value changed.
+This adds support for determining the revision and downloadLocation of
+meta-layers and adds them to the OE generated SPDX document.
 
-delta=0 is only needed when a client has expressed explicit proximity
-interest by setting an RSSI or pathloss threshold in its discovery
-filter. Filters that specify only transport type or UUIDs do not
-require per-packet RSSI precision; for those, the standard
-RSSI_THRESHOLD=8 rate-limiting is both correct and desirable.
+This downloadLocation will result in a NOASSERTION entry if
+- the meta-layer is not in a git repo
+- the git repo is dirty
+- the git remote does not have a valid URL
+- the git remote does not contain the used revision as far as can be
+  eluded from the local repo
 
-Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
+Variables to configure the behavior:
+- SPDX_LAYER_REMOTE (default: origin): select the name of the git remote
+  to use for layers. Set to an empty string to always return NOASSERTION
+- SPDX_LAYER_REMOTE_layername: override SPDX_LAYER_REMOTE for a specific
+  layer
+- SPDX_REQUIRE_LAYER_ASSERTION: set to true to fail a build if
+  determining downloadLocation fails for any layer
+
+Signed-off-by: Daniel Wagenknecht <dwagenknecht@emlix.com>
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...ct-delta-0-RSSI-to-proximity-filters.patch | 86 +++++++++++++++++++
- 2 files changed, 87 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
+ meta/classes/create-spdx-3.0.bbclass |  1 +
+ meta/classes/spdx-common.bbclass     |  3 ++
+ meta/lib/oe/sbom30.py                | 12 +++++
+ meta/lib/oe/spdx30_tasks.py          | 72 ++++++++++++++++++++++++++++
+ 4 files changed, 88 insertions(+)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index ad07e0d3c4..d857c23a57 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -75,6 +75,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch \
-            file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
-            file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
-+           file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
-            "
- S = "${UNPACKDIR}/bluez-${PV}"
- 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
-new file mode 100644
-index 0000000000..1bf35ed393
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
-@@ -0,0 +1,86 @@
-+From d00dd99229bc9ce78b0e8bb3bb523a3cd504473c Mon Sep 17 00:00:00 2001
-+From: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
-+Date: Wed, 15 Jul 2026 17:06:35 +0800
-+Subject: [PATCH] adapter: restrict delta=0 RSSI to proximity filters
+diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-s=
+pdx-3.0.bbclass
+index 56fd01fd533..9e4f737f85d 100644
+--- a/meta/classes/create-spdx-3.0.bbclass
++++ b/meta/classes/create-spdx-3.0.bbclass
+@@ -286,6 +286,7 @@ python spdx30_build_started_handler () {
+     import oe.spdx30_tasks
+     d =3D e.data.createCopy()
+     oe.spdx30_tasks.write_bitbake_spdx(d)
++    oe.spdx30_tasks.write_layers_spdx(d)
+ }
+=20
+ addhandler spdx30_build_started_handler
+diff --git a/meta/classes/spdx-common.bbclass b/meta/classes/spdx-common.=
+bbclass
+index 40701730a69..b64537dfb48 100644
+--- a/meta/classes/spdx-common.bbclass
++++ b/meta/classes/spdx-common.bbclass
+@@ -89,6 +89,9 @@ SPDX_FILE_EXCLUDE_PATTERNS[doc] =3D "Space-separated li=
+st of Python regular \
+     (no filtering). Example: \
+     SPDX_FILE_EXCLUDE_PATTERNS =3D '\\.patch$ \\.diff$ /test/ \\.pyc$ \\=
+.o$'"
+=20
++SPDX_REQUIRE_LAYER_ASSERTION ??=3D "0"
++SPDX_LAYER_REMOTE ??=3D "origin"
 +
-+When a discovery filter is active (filtered_discovery=true), BlueZ
-+unconditionally calls device_set_rssi_with_delta(..., delta=0),
-+causing every BLE advertisement to emit a PropertiesChanged(RSSI)
-+signal regardless of whether the RSSI value changed.
+ python () {
+     from oe.cve_check import extend_cve_status
+     extend_cve_status(d)
+diff --git a/meta/lib/oe/sbom30.py b/meta/lib/oe/sbom30.py
+index e02382c3cc7..46dae429ffb 100644
+--- a/meta/lib/oe/sbom30.py
++++ b/meta/lib/oe/sbom30.py
+@@ -762,6 +762,16 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+=20
+         return bb_objset
+=20
++    def import_layers_objset(self):
++        deploy_dir_spdx =3D Path(self.d.getVar("DEPLOY_DIR_SPDX"))
++        layers_objset =3D load_jsonld(
++            self.d, deploy_dir_spdx / "layers.spdx.json", required=3DTru=
+e
++        )
++        self.doc.import_.extend(layers_objset.doc.import_)
++        self.update(layers_objset.objects)
 +
-+delta=0 is only needed when a client has expressed explicit proximity
-+interest by setting an RSSI or pathloss threshold in its discovery
-+filter. Filters that specify only transport type or UUIDs do not
-+require per-packet RSSI precision; for those, the standard
-+RSSI_THRESHOLD=8 rate-limiting is both correct and desirable.
++        return layers_objset
 +
-+The problem is triggered on dual-mode adapters by a transport-only
-+filter (e.g. Transport=le). In merge_discovery_filters(), the
-+transport-specific scan type (SCAN_TYPE_LE=6) does not equal the
-+adapter scan type (SCAN_TYPE_DUAL=7), so has_filtered_discovery is
-+set, filtered_discovery becomes true, and delta=0 is applied even
-+though no proximity condition was requested. With hundreds of BLE
-+devices advertising simultaneously this generates hundreds of
-+unnecessary PropertiesChanged(RSSI) signals per second.
+     def import_bitbake_build(self):
+         def find_bitbake_build(objset):
+             return objset.find_filter(
+@@ -803,6 +813,8 @@ class ObjectSet(oe.spdx30.SHACLObjectSet):
+                 [build],
+             )
+=20
++        layers =3D self.import_layers_objset()
 +
-+Confirmed on QCS6490 (BlueZ 5.72) with Transport=le filter:
+         if self.d.getVar("SPDX_INCLUDE_BUILD_VARIABLES") =3D=3D "1":
+             for varname in sorted(self.d.keys()):
+                 if varname.startswith("__"):
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index 9978ae731ca..9094a6cbd64 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -1205,6 +1205,78 @@ def create_package_spdx(d):
+     oe.sbom30.write_recipe_jsonld_doc(d, common_objset, "common-package"=
+, deploydir)
+=20
+=20
++def git_remote_has_rev(path, remote, rev):
++    try:
++        branchlist, _ =3D bb.process.run(f"git branch --remotes --list '=
+{remote}/*' --contains {rev}", cwd=3Dpath)
++    except bb.process.ExecutionError:
++        return False
++    return len(branchlist) > 0
 +
-+  adapter.c: filtered_discovery=1 (current_discovery_filter=set)
-+  device.c:  device_set_rssi_with_delta() rssi=-86 delta_threshold=0
-+  device.c:  device_set_rssi_with_delta() rssi=-79 delta_threshold=0
++def get_layer_downloadLocation(d, l_path, l_name, l_branch, l_rev, l_ism=
+odified):
++    from urllib.parse import urlparse, urlunparse
 +
-+Add discovery_filter_has_proximity() which walks discovery_list and
-+returns true only when at least one active filter carries a real
-+proximity condition (rssi != DISTANCE_VAL_INVALID or pathloss !=
-+DISTANCE_VAL_INVALID). Use this to gate the delta=0 path.
++    repo =3D oe.buildcfg.get_metadata_git_toplevel(l_path)
 +
-+Other filter fields (transport, uuids, duplicate, discoverable)
-+express capability or content criteria and carry no proximity
-+implication, so they are intentionally excluded from the check.
++    if not repo or not l_name or l_ismodified:
++        return "NOASSERTION"
 +
-+Upstream-Status: Backport [e004414a1751d29216ccab976d6c7174ec48d11c]
-+Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
-+---
-+ src/adapter.c | 19 ++++++++++++++++++-
-+ 1 file changed, 18 insertions(+), 1 deletion(-)
++    remoteName =3D d.getVar(f"SPDX_LAYER_REMOTE_{l_name}") or d.getVar(f=
+"SPDX_LAYER_REMOTE")
++    if not remoteName:
++        return "NOASSERTION"
 +
-+diff --git a/src/adapter.c b/src/adapter.c
-+index fb95e8553..1023e43a2 100644
-+--- a/src/adapter.c
-++++ b/src/adapter.c
-+@@ -7255,6 +7255,22 @@ static void filter_duplicate_data(void *data, void *user_data)
-+ 	*duplicate = client->discovery_filter->duplicate;
-+ }
++    # parse and reconstruct the url to drop potentially present username=
+ and password
++    remoteUrl =3D urlparse(oe.buildcfg.get_metadata_git_remote_url(repo,=
+ remoteName))
++    if not remoteUrl or remoteUrl.scheme not in ["https", "http", "git",=
+ "ssh"]:
++        return "NOASSERTION"
++    remoteUrl =3D urlunparse(remoteUrl)
 +
-++static bool discovery_filter_has_proximity(struct btd_adapter *adapter)
-++{
-++	GSList *l;
-++
-++	for (l = adapter->discovery_list; l; l = g_slist_next(l)) {
-++		struct discovery_client *client = l->data;
-++		struct discovery_filter *filter = client->discovery_filter;
-++
-++		if (filter && (filter->rssi != DISTANCE_VAL_INVALID ||
-++				filter->pathloss != DISTANCE_VAL_INVALID))
-++			return true;
-++	}
-++
-++	return false;
-++}
-++
-+ static bool device_is_discoverable(struct btd_adapter *adapter,
-+ 					struct eir_data *eir, const char *addr,
-+ 					uint8_t bdaddr_type, bool *auto_connect)
-+@@ -7451,7 +7467,8 @@ void btd_adapter_device_found(struct btd_adapter *adapter,
-+ 	if (name_resolve_failed)
-+ 		device_name_resolve_fail(dev);
++    revision =3D l_rev
++    if revision =3D=3D "<unknown>" or not git_remote_has_rev(repo, remot=
+eName, revision):
++        return "NOASSERTION"
 +
-+-	if (adapter->filtered_discovery)
-++	if (adapter->filtered_discovery &&
-++				discovery_filter_has_proximity(adapter))
-+ 		device_set_rssi_with_delta(dev, rssi, 0);
-+ 	else
-+ 		device_set_rssi(dev, rssi);
-+--
-+2.43.0
++    relpath =3D os.path.relpath(l_path, repo)
 +
--- 
-2.43.0
++    return f"git+{remoteUrl}@{revision}{'#' + relpath if relpath else ''=
+}"
++
++
++def write_layers_spdx(d):
++    d.setVar("PN", "layers")
++    d.setVar("BB_TASKHASH", "layers")
++    oe.spdx_common.load_spdx_license_data(d)
++    deploy_dir_spdx =3D Path(d.getVar("DEPLOY_DIR_SPDX"))
++
++    layer_objset =3D oe.sbom30.ObjectSet.new_objset(d, "layers")
++
++    layers =3D oe.buildcfg.get_layer_revisions(d)
++    for (l_path, l_name, l_branch, l_rev, l_ismodified) in layers:
++        downloadLocation =3D get_layer_downloadLocation(d, l_path, l_nam=
+e, l_branch, l_rev, l_ismodified)
++
++
++        if oe.utils.vartrue("SPDX_REQUIRE_LAYER_ASSERTION", True, False,=
+ d) and downloadLocation =3D=3D "NOASSERTION":
++            bb.fatal(f"Layer {l_name} does not have a valid downloadLoca=
+tion")
++        layer =3D oe.spdx30.software_Package(
++            _id=3Dlayer_objset.new_spdxid("layer", l_name),
++            creationInfo=3Dlayer_objset.doc.creationInfo,
++            name=3Dl_name,
++            software_packageVersion=3Dl_rev,
++            software_primaryPurpose=3Doe.spdx30.software_SoftwarePurpose=
+.specification,
++            software_downloadLocation=3DdownloadLocation,
++            software_sourceInfo=3Djson.dumps(
++                {
++                    "branch": l_branch,
++                    "is-modified": (len(l_ismodified) > 0),
++                },
++                separators=3D(",", ":"),
++            ),
++        )
++
++        layer_objset.add_root(layer)
++        layer_objset.set_element_alias(layer)
++
++    oe.sbom30.write_jsonld_doc(d, layer_objset, deploy_dir_spdx / "layer=
+s.spdx.json")
++
++
++
+ def write_bitbake_spdx(d):
+     # Set PN to "bitbake" so that SPDX IDs can be generated
+     d.setVar("PN", "bitbake")
+--=20
+2.54.0
 
 
