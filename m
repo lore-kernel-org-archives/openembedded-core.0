@@ -1,119 +1,122 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 63C50C88E77
-	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 13:57:58 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.15677.1789567076845010685
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C3927C88E5C
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 14:05:18 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15890.1789567513872083338
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 06:57:57 -0700
+ Wed, 16 Sep 2026 07:05:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=F+X6jiMB;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 6E57C152B
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 06:57:52 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id A37CE3F86F
-	for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 06:57:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789567076; bh=zwqCz8ty0a65sOvSUWoxtafMnFFzRqoc8dvdK39bt3Y=;
-	h=From:To:Subject:Date:From;
-	b=F+X6jiMBTrQPtMT6w3uSc6j7hja82L/EzmytMPM7G7SEBimsjXhJKo0nrtKnXpejO
-	 GS2XM63IY7IzoWJFfJTsIShPTxG3f03sQXz46MI8dFaewh0ctUTh7HU/rk6UFBOMPV
-	 UqcJVDcnv+pM0iWFfShHnYloM2vqfH9+rd3gZIfU=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] python3-packaging: fix rare failures in tests/property/test_specifier_matching.py
-Date: Wed, 16 Sep 2026 14:57:51 +0100
-Message-ID: <20260916135751.3526459-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=RRTfiLah;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e7bcb94d3so7638495e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 07:05:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1789567512; x=1790172312; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=qC02JZ6z1JapbY0UR3wORvs+ZLaXm7DN94DQAx6YQA4=;
+        b=RRTfiLahnXQ8AK6YZfflELSLiHt4o+VKmefAF4o6ThINHT+jB5JSYaHai1j7LWdiAe
+         BHryPZpGOrM0HvdOc+hXBRh11PnSSHKzPRIP7zGhsp6ZYULtCGDwzTLC9CoOoNLVE1/D
+         LwnxdZElNFg1/+/7zUTDmKw5UILvOnowKVPWo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789567512; x=1790172312;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=qC02JZ6z1JapbY0UR3wORvs+ZLaXm7DN94DQAx6YQA4=;
+        b=cdGtTLK4XLOfZsvfRIF6WpZGeAkQdRg9neVqWNCLoa9ItTcmdTbSzTUIKlWr/Cpqqm
+         FjBE+f58gNDc/9/R3yOPJLaBlDTN//nCfU9p9Jk47sYY6or+ZirnWuuFg3QMG+htc/CS
+         DyYL5LzbzNIEURkWidovKCSycr6+8VL6hU3f+49PjycykIJecV2xDMKfhIP1TFb2pnVn
+         Gc0q+MVikWBB9HAzhE9/QgHAibzTUtais6oYw0v30yOOG6zzgRGlLW5A5wwPX/4AYqQ5
+         sWjfyabDAqItUTrwxzFyFYrKOmGdveBWzB50M/tynWWHCyVnsU77dsq+M8tlg2njnw46
+         x3Tg==
+X-Forwarded-Encrypted: i=1; AKwUvBxTCRXxIHrNSUhvA1az/SrnZx8poiqMB7XolfEdmO9i0okvFZa61FMR8MXEirwyGAq8/+aspUKW+kz+ZVjxX5/rBA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++ll+shkPAr/0KX9Bt0UqGsOiYytqHd1HmfmBCc98JNhJxQHDz6n
+	TqobeUugM18OoJqoutJV54zDO3+FdNOb6UyzPCZSX0XVvBmjUMcqpCD/V/jnHDCjsUE=
+X-Gm-Gg: AYBFou1vWwpDSBfk2s3a4Z17D9pvAj9aOwi2f+S2S2+MlrVMmJRwaifmFI4hzRU7Lvw
+	mTr/e6FmSAg6rsARpP1ibt4MbALM6sWdB9+zKpmaGvykzpD0f94XXbtY2T9ydJrwdokz2y0QL0H
+	wFg2yAjtGcu7QiT8quH8zDjTI/+3uGcSDGTOiIzNwX08aUNlRTqqOjyoEVkHQZUADiEcUttwO9z
+	GNj/mYANMH2BeU+2cQ/oSfsxuk8udKt0HjsjJ0IzeOdv/4Owf16GXPJwHM32uhVLSvdrbnDUpDT
+	wwH57gTHyvrRDBrg1GflOrtsOD+a0FWuz2Hx1HULfmfpsdjht+808K18rCIW9KZ9hDIilpesCVI
+	KR7GXC5/y/xBHMAREDzATGEBQwGnJjD2HGhW1gEfz/kYfPJg+EWVP8+B5DoqRODriSyeTs8FFFz
+	FaO4ZU5+iFhKTOGjR96/74qqQZiB8bJPqCYIv9i6yxVcRjJnXMqCpx/bwI+m9aAulFvgY5wIKa+
+	3iM5M/mriDpB+Ua8D8TO7b391nrS4HLoOVVWVkoA2Y0vRs7WEff8L36utE=
+X-Received: by 2002:a05:600c:698c:b0:49e:79c5:ee93 with SMTP id 5b1f17b1804b1-49eb731eccbmr30937445e9.8.1789567511923;
+        Wed, 16 Sep 2026 07:05:11 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49e83aead50sm91841185e9.7.2026.09.16.07.05.11
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 16 Sep 2026 07:05:11 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Wed, 16 Sep 2026 16:05:11 +0200
+Message-Id: <DLGSQL5WVBRG.2R6OMWQMQSRTS@smile.fr>
+Subject: Re: [OE-core] [wrynose][PATCH 01/20] recipeutils: add optional
+ stable_upgrade parameter to get_recipe_upgrade_status
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: "Chen Qi" <Qi.Chen@windriver.com>, "Antonin Godard"
+ <antonin.godard@bootlin.com>, "Richard Purdie"
+ <richard.purdie@linuxfoundation.org>
+To: <daniel.turull@ericsson.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260902095920.2840293-1-daniel.turull@ericsson.com>
+ <20260902095920.2840293-2-daniel.turull@ericsson.com>
+In-Reply-To: <20260902095920.2840293-2-daniel.turull@ericsson.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 13:57:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245974
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 14:05:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245975
 
-The packaging test suite uses Hypothesis, which generates data for test
-suites dynamically. However there's a small chance that the test suite
-fails as the generated data isn't usable, so apply a patch that has been
-submitted upstream to improve the reliability of the data.
+On Wed Sep 2, 2026 at 11:59 AM CEST, Daniel Turull via lists.openembedded.o=
+rg wrote:
+> From: Chen Qi <Qi.Chen@windriver.com>
+>
+> We want the ability to do stable version upgrades for recipes.
+> To this end, add an optional stable_upgrade parameter to the
+> get_recipe_upgrade_status function, which defaults to False and
+> when enabled will try to get the latest stable version of the recipe.
+>
+> The UPSTREAM_STABLE_RELEASE_REGEX is respected. If a recipe sets
+> it, it will be used as the filter_regex. If it's not set explicitly,
+> it means that there's no stable updates or the recipe hasn't been
+> checked yet.
+>
+> Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
+> Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> (cherry picked from commit 1ed8fdda035dcc21f3df71c0c996973224f4f683)
+> Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+> ---
+>  meta/lib/oe/recipeutils.py | 23 +++++++++++++++++------
+>  1 file changed, 17 insertions(+), 6 deletions(-)
+>
+> diff --git a/meta/lib/oe/recipeutils.py b/meta/lib/oe/recipeutils.py
+> index c6604f536d..7c1df518a8 100644
+> --- a/meta/lib/oe/recipeutils.py
+> +++ b/meta/lib/oe/recipeutils.py
+> @@ -1009,7 +1009,7 @@ def get_recipe_pv_with_pfx_sfx(pv, uri_type):
+> =20
+>      return (pv, pfx, sfx)
+> =20
+> -def get_recipe_upstream_version(rd):
+> +def get_recipe_upstream_version(rd, stable_upgrade):
 
-[ YOCTO #16403 ]
+I plan to backport the follow-up as well:
+6f8ae1ecf38 (lib/oe/recipeutils: make stable_upgrade argument optional in g=
+et_recipe_upstream_version(), 2026-06-08)
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- .../python3-packaging/reliable-test.patch     | 30 +++++++++++++++++++
- .../python/python3-packaging_26.3.bb          |  3 +-
- 2 files changed, 32 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-packaging/reliab=
-le-test.patch
+What do you think?
 
-diff --git a/meta/recipes-devtools/python/python3-packaging/reliable-test=
-.patch b/meta/recipes-devtools/python/python3-packaging/reliable-test.pat=
-ch
-new file mode 100644
-index 00000000000..1746c1d21e5
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-packaging/reliable-test.patch
-@@ -0,0 +1,30 @@
-+From 47b0db5b7b9a5fd9f4d1d3236e90f205c8b34625 Mon Sep 17 00:00:00 2001
-+From: Christopher Pruijsen <christopher.pruijsen@gmail.com>
-+Date: Fri, 11 Sep 2026 02:32:41 +0100
-+Subject: [PATCH] test(specifiers): stop filtering compatible-release exa=
-mples
-+ by epoch
-+
-+assume() dropped most draws when the specifier and candidate epochs
-+differed, so Hypothesis intermittently failed HealthCheck.filter_too_muc=
-h.
-+
-+Upstream-Status: Submitted [https://github.com/pypa/packaging/pull/1409]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ tests/property/test_specifier_matching.py | 4 +++-
-+ 1 file changed, 3 insertions(+), 1 deletion(-)
-+
-+diff --git a/tests/property/test_specifier_matching.py b/tests/property/=
-test_specifier_matching.py
-+index 4552ce8ce..4aedafe56 100644
-+--- a/tests/property/test_specifier_matching.py
-++++ b/tests/property/test_specifier_matching.py
-+@@ -205,7 +205,9 @@ def test_compatible_release_matches_expected_compati=
-ble(
-+     ) -> None:
-+         """~=3DV matches candidate iff candidate >=3D V and candidate m=
-atches the
-+         prefix wildcard derived from V."""
-+-        assume(spec_ver.epoch =3D=3D candidate.epoch)
-++        # Share an epoch without assume(), which rejects most draws and=
- trips
-++        # Hypothesis HealthCheck.filter_too_much.
-++        candidate =3D candidate.__replace__(epoch=3Dspec_ver.epoch)
-+         spec =3D Specifier(f"~=3D{spec_ver}")
-+         result =3D candidate in spec
-+         # Also check via the expanded form
-diff --git a/meta/recipes-devtools/python/python3-packaging_26.3.bb b/met=
-a/recipes-devtools/python/python3-packaging_26.3.bb
-index 424ee12ceed..628d8d7aa14 100644
---- a/meta/recipes-devtools/python/python3-packaging_26.3.bb
-+++ b/meta/recipes-devtools/python/python3-packaging_26.3.bb
-@@ -5,7 +5,8 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dfaadaedca9251a=
-90b205c9167578ce91"
-=20
- SRC_URI[sha256sum] =3D "94edc256424af38762eb31306eed28beb9f0efc50a883749=
-2c9d6fd6004aed79"
-=20
--SRC_URI +=3D "file://run-ptest.in"
-+SRC_URI +=3D "file://run-ptest.in \
-+            file://reliable-test.patch"
-=20
- inherit pypi python_flit_core ptest
-=20
+Thanks!
 --=20
-2.43.0
+Yoann Congal
+Smile ECS
 
 
