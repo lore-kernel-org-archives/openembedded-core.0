@@ -1,115 +1,109 @@
-Return-Path: <freseenzo@gmail.com>
+Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19AFEC88E77
-	for <webhook@archiver.kernel.org>; Tue, 15 Sep 2026 22:17:55 +0000 (UTC)
-Received: from mail-vs2-f20.google.com (mail-vs2-f20.google.com [74.125.227.20])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2130.1789510668918335476
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DB4BFC88E75
+	for <webhook@archiver.kernel.org>; Wed, 16 Sep 2026 00:44:05 +0000 (UTC)
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4579.1789519441611675131
  for <openembedded-core@lists.openembedded.org>;
- Tue, 15 Sep 2026 15:17:49 -0700
+ Tue, 15 Sep 2026 17:44:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=XFe450YE;
- spf=pass (domain: gmail.com, ip: 74.125.227.20, mailfrom: freseenzo@gmail.com)
-Received: by mail-vs2-f20.google.com with SMTP id 71dfb90a1353d-5c67e4fff62so99145e0c.2
-        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 15:17:48 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=PxVZvMuJ;
+ spf=pass (domain: gmail.com, ip: 74.125.228.43, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-8674704dab1so433628b3a.2
+        for <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 17:44:01 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789510668; x=1790115468; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1789519441; x=1790124241; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=A3EOU9VoEfbR22zjm9/uVn0mS5Eh01RsK7lXX3YvTtc=;
-        b=XFe450YEvDpiPvNLG24VmZ76pTGI0gN3spFeOZXfPQtxC/u0kl/m0uoFxpjQHxKpOR
-         MD8eoIiTxu/ib6kDN2n3KgTAA1uSnSqnodmfhhi7TwV7KulkRfA4AcLod6R2TKUDhKUv
-         FcnIuWjfLp+FWIUQE6E8R39nN+8a5ywg/9AbGMsYUFUCOV6BQiWtVZwBK2LFXSp301dc
-         Y7a3/LcBYBup5JWQ1q1snp6Hx1QVsbMXyYsPGSTJKKzE+y2ujNA0b9jWibxiCgC6oGD6
-         FHAlSnnJJKI9sZNHVR5dbWtDc3ziCJiZfjI2Ol5RGOvVo+Z6lyVJQl0XgSECDIbWJD+N
-         N4LQ==
+        bh=yZjtJ/L8EAHhiRYYFq5QwpvH7azXz2lfbybh8BNEq4A=;
+        b=PxVZvMuJ/t3g/GlLEfox0x29lUdfC77N6TVaOSYBFNHVHB2jtLYCBVzYkp/vcjaf6E
+         g4jMxRzs0J1AGnvm+alghHfJ2hcRAVtx8s9m8BXOZFvTR6VQm/vR8lflIp6y91NJQe2n
+         c1qp9ErylhojuUnLcY0Bpr0l8eI1rAXhkkOvoFas9O3ekDYqzTovjkrQ/EL2D315/GYk
+         kycWe7E0aJXpnGfdmX/Oa+ATx31X9gl2zEsp2RbWdM0JM5+vFeT3giZblCACugDzyvJZ
+         W4Tg+L7C7rorUrezT8rjHa2y14QnDuRXoYGPPgW8g83p4l+fehu+xrrzuiIMzcnKyavu
+         Xuhw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789510668; x=1790115468;
+        d=1e100.net; s=20260707; t=1789519441; x=1790124241;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=A3EOU9VoEfbR22zjm9/uVn0mS5Eh01RsK7lXX3YvTtc=;
-        b=zO7/P6q03Vzw8S9LLLC7zXVSF3hhzlnLQ5xWXqsN4QX/7Mh80ZoyFr2d7Giue8Iqp8
-         qtVhziXzjBsYghtkh9yy8IGsjY51Ysor1o+m900nQn69gtWA1dTT691HITg5dBc6FY1v
-         5bCbBancoSHR+CpyjUjibTuXeKZvmHlREd0aSvl8QAT454p3b3a1T1c+oQgeLL/hkzem
-         cmoLc/SJ61YI/YxW6A3+p9AJToX1ZNOfMNv3M9DLAB0yioB5wLE99pxJlPkGK0BxpNlh
-         IyiKa1OoyFHYE7QfPicRUgsUcyeiNGhhbUGOUVrI4i5cBFkuj5pNmFnhlLaTmDwZksPj
-         q/fg==
-X-Gm-Message-State: AFuF++lqn0d7RsCN3T+hIBI5QI0QlJN4qfRJQ8w4EjDiZ6hRu4fjt8wn
-	yHuxHCEDAqoT7PkqzLgCqR12SXiDqGoRgMFMu8owhYfqY8hMUI4cHdyQ3MtL7FtVtWLwBw==
-X-Gm-Gg: AYBFou0FXGCVwZDT45ojokr8WyicrMvaZlkrXxwcE/OJ4z9SsciIe+M4OdOu9Io6le1
-	IfbiUZ2YtldDXq51LU/VoNVh0S4imIemEylT3M2jRiXgHEbJLpoUug1kkAIV+46L2sMAlaTCV1O
-	21fRFZgfn6Vd1FWzb0OpgaXTvSvL3pUA9sj0levzGPITVd9xIcja4wPHZfjJ3UsnH3MYMcCdEK3
-	VnDeNDju8psrI3xlQv+vMvnHc0PeEGygbw4Zr668kTa5qu0OMnF2xpZ0+nFz+aTQBmGYb1MJOiY
-	OD9HWvCie2/4zfsPprJrWDVH1o+xM0WBKJLXKN2N4Xvmmm1MwRsiMDqYQdeQAmTcgQP9p26lTPq
-	HouaY0lSHuirGqg8sDT7EdJhezQtd1Hwr64Qj0VQxwEQeJXXvHo4AAjZRPxEpRtyqtFuzKaHanE
-	NJqPm5DG5Zy+y2zhm0OTpcvptOfInsVAawgiG2i8nYB1nel0P3WKFPOIQtfo0t0G+R
-X-Received: by 2002:a05:6102:c8d:b0:77a:d089:3dd8 with SMTP id ada2fe7eead31-7a02a00d1acmr572609137.12.1789510667634;
-        Tue, 15 Sep 2026 15:17:47 -0700 (PDT)
-Received: from frese.. ([189.60.169.129])
-        by smtp.gmail.com with ESMTPSA id 71dfb90a1353d-5c9989fc476sm958741e0c.3.2026.09.15.15.17.46
+        bh=yZjtJ/L8EAHhiRYYFq5QwpvH7azXz2lfbybh8BNEq4A=;
+        b=n6J07Nms4TJZgotliLxyWquiWMNNKw7hNcBMZzvhz++SwgesR8039yYbcBXlOyPED3
+         ApMQX7LhiM7N05RqHwsxw1DVSb+2Ils22SzzwKzutxnoXhWH8ufacNPC9w2ChMwpY3Jv
+         w/SKzp1fxnmWtNv7OeWE3LvleZ4mTtTy2EONmuDhgEh9LQ0pcEpEi0BrfZFIVLQiyIbN
+         p5xqkChELGiQj2KxbgWRF74koxJ5OWktC9IqLrAkDSlXILl6Iohn1NyhRVaKMOkm4og6
+         RjNn4c7wurQ2IrrtV7GjCK4U5CZy7FZatvBPddsmqHEnOx4TBKlsLV63VTOe1WxwLFpq
+         Egmg==
+X-Gm-Message-State: AFuF++kjMVRnI528b06AfsJxtUDN9rpybCHVJI0j5W1aA9SGhM1GqVg3
+	0urWSKRrBZoTJrveKZsOeSMcJRMx9GeUZL4O1LHPD50NxUMqMjRPpzM0aBn6LA==
+X-Gm-Gg: AYBFou2Gu0zn5Q7TdHXRUwzeANlS0EiODKCirDz6AccfQOb+Wt0resV/ddf/6BSHyqc
+	Ag7XgeXldZ8e1dVt+fxpMqgqhB/owDbYXhzPC8C4xQ3KgOxJFyIHflVfgJiEZkIXHLl3Jv9zmqs
+	6yBgb9y+nIMPvkU4kv0nOxD/SJFU5QaXHLpvU3DyYMZ5xc49/kJRnIfD4gTCAxOWXlhU0DXa2Ox
+	jUJwpmAvUSaMiueqdmIS/E1CDx9EXwCcb/qilfrRvaEFm/daPKFCIz6E+hxfp9mBzNWRHqwv07o
+	q5E8KYpFQQHfFveKAAQiZo0CIRvYYDGFFBWL/fV/am3Cyg5xKb2rAGrY3tCPmq9gRtUSqY+MdLb
+	RdrmCVShxPxIs2kVTkFwlck6Y1JPoD3DurIg98o74Art1L4LsMFdMAggsjAWpJeuBsrJ3nuUnyo
+	jz1U70sRwjbZay+pMfLw/tX7qyro4GoY3aVoiAlZ89Nher7OO22pL0pRZyblqE58hYQMvlT899p
+	oS48jGMziX5AdXCgi3o00I=
+X-Received: by 2002:a05:6a00:10d0:b0:82f:50cd:e586 with SMTP id d2e1a72fcca58-8723cf31d94mr773413b3a.13.1789519440925;
+        Tue, 15 Sep 2026 17:44:00 -0700 (PDT)
+Received: from NVAPF55DW0D-IPD.. ([203.211.104.195])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-87200c58265sm314134b3a.14.2026.09.15.17.43.59
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 15 Sep 2026 15:17:47 -0700 (PDT)
-From: Enzo Frese <freseenzo@gmail.com>
+        Tue, 15 Sep 2026 17:44:00 -0700 (PDT)
+From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
-Cc: Enzo Frese <freseenzo@gmail.com>
-Subject: [OE-core][PATCH] tar: skip sparse05 ptest which needs ~10 GiB of disk
-Date: Tue, 15 Sep 2026 19:17:38 -0300
-Message-ID: <20260915221738.2889201-1-freseenzo@gmail.com>
+Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
+Subject: [OE-core][wrynose][PATCH 1/3] ffmpeg: mark CVE-2026-52295, CVE-2026-52296 and CVE-2026-52297 fixed
+Date: Wed, 16 Sep 2026 12:43:51 +1200
+Message-ID: <20260916004353.478934-1-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 15 Sep 2026 22:17:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245909
+ <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 00:44:05 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/245910
 
-The "listing sparse files bigger than 2^33 B" test (sparse05) generates
-a file with 1000 data fragments of 10 MiB each, i.e. about 10 GiB of
-real data, which cannot fit in the ptest image (1.4 GB rootfs).
+From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
-Normally genfile fails with ENOSPC and the test is reported as skipped,
-but the filesystem stays full until the test directory is cleaned up.
-When the autotest bookkeeping (status files, mkdir for the next test
-group) hits that window, the test is reported as FAIL and the next test
-cannot even start, matching the intermittent autobuilder failure.
+CVE-2026-52295:
+Debian[1] identified the fix[2] which exists[3] in the upstream version.
 
-Skip sparse05 explicitly and print the available disk space at the
-start of the run to make similar failures easier to diagnose.
+CVE-2026-52296:
+Debian[4] identified the fix[5] which exists[6] in the upstream version.
 
-Tested on qemux86-64 with musl: 200 tests passed, 46 skipped, 0 failed,
-no ENOSPC errors.
+CVE-2026-52297:
+Debian[7] identified the fix[8] which exists[9] in the upstream version.
 
-[YOCTO #16419]
+[1]https://security-tracker.debian.org/tracker/CVE-2026-52295
+[2]https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/016a241102250372a9c2e96f6e8dca67ec01d3f7
+[3]https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/ff43ef5219ad543e57ed56d065e9d4a3b0426468
 
-Signed-off-by: Enzo Frese <freseenzo@gmail.com>
+[4]https://security-tracker.debian.org/tracker/CVE-2026-52296
+[5]https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/23227a444de4a8f7696f46660cdd044b460f7e47
+[6]https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/d18354f8d4bd018eb486d18079ff0afb3b84c506
+
+[7]https://security-tracker.debian.org/tracker/CVE-2026-52297
+[8]https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/8439e0203744a30d280668fcd086f74ed5001da1
+[9]https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/ebff1abbad8b036bfc0f52a4785433b06e865e3b
+
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- meta/recipes-extended/tar/tar/run-ptest | 12 +++++++++++-
- 1 file changed, 11 insertions(+), 1 deletion(-)
+ meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/meta/recipes-extended/tar/tar/run-ptest b/meta/recipes-extended/tar/tar/run-ptest
-index b4ccbbcb46..b5aa80ddab 100644
---- a/meta/recipes-extended/tar/tar/run-ptest
-+++ b/meta/recipes-extended/tar/tar/run-ptest
-@@ -5,4 +5,14 @@ cd @PTEST_PATH@/tests/
- # Clear old data
- rm -rf testsuite.dir testsuite.log
- 
--./testsuite --am-fmt
-+# Report free space: the sparse tests create multi-GB files and the
-+# ptest image is small, so this helps diagnose ENOSPC failures.
-+df -h .
-+
-+# sparse05 (listing sparse files bigger than 2^33 B) writes ~10 GiB of
-+# real data (1000 fragments of 10 MiB each), which cannot fit in the
-+# ptest image. When genfile hits ENOSPC the test is normally reported
-+# as skipped, but the filesystem is left full for a moment and the
-+# autotest bookkeeping (status files, mkdir of the next test group)
-+# intermittently fails instead, taking the next test down with it.
-+./testsuite --am-fmt -k '!sparse05'
--- 
-2.43.0
-
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+index 8a6eb4eb86..e84a29ac87 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+@@ -185,3 +185,6 @@ CVE_STATUS[CVE-2025-59729] = "fixed-version: this CVE are fixed since v8.0"
+ CVE_STATUS[CVE-2025-59730] = "fixed-version: this CVE are fixed since v8.0"
+ CVE_STATUS[CVE-2026-8461] = "cpe-stable-backport: this CVE are fixed since v8.0.3"
+ CVE_STATUS[CVE-2026-40962] = "cpe-stable-backport: this CVE are fixed since v8.0.2"
++CVE_STATUS[CVE-2026-52295] = "fixed-version: fixed since v8.0.2"
++CVE_STATUS[CVE-2026-52297] = "fixed-version: fixed since v8.0.2"
++CVE_STATUS[CVE-2026-52297] = "fixed-version: fixed since v8.0.2"
 
