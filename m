@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A803C982D8
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 22:08:16 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 56A1FC982E6
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 22:08:17 +0000 (UTC)
 Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1690.1789682894928114525
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1585.1789682892409158591
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 15:08:15 -0700
+ Thu, 17 Sep 2026 15:08:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=osjxu1Ut;
+ dkim=pass header.i=@smile.fr header.s=google header.b=WaSLOXln;
  spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912e64ccso1006445e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:14 -0700 (PDT)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d3920so876105e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789682893; x=1790287693; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1789682891; x=1790287691; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=/mynyi+jqbESn6LtPwFNdECTVYiQOm98OP4ssLDlvyw=;
-        b=osjxu1UttzbIxLsME0BFStUL+R2vx94Og1/gcPxrRy51/01pHJsI5LKxN/zQU1oZ3e
-         aAp6ukLcdB/fNpy4pmHheA3+47zSnJX3f1cKunsQ4ThdOC5po4M19tXBJFxESIjz/ecF
-         liX/Z/ipERa+ik/yJi9x9I9ta5wCzFeTF+6+c=
+        bh=CH84+mS+ZEteQFJctfhr9XygkFnuDlQGvzI1Qlxdia0=;
+        b=WaSLOXlnVVVDiU29CMk7gFbXC4sMCyPTc/Jt7xUTadlI3i+aRYpLdnt4SCOuEBHtEv
+         khJoMXDIxpmKz04KnSJrM0eTYRYHG5P5ouYf43guYMfgIh1hly5QcZcKpxFxRb44TJdW
+         M5rti6if/DcbKauCH+wmBr9A0YcOMk8Uo+F0Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789682893; x=1790287693;
+        d=1e100.net; s=20260707; t=1789682891; x=1790287691;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=/mynyi+jqbESn6LtPwFNdECTVYiQOm98OP4ssLDlvyw=;
-        b=ne9SjhqXmN0D4I6SV0QNW+MGtyG0eJIr2p8CbAAtGHXUXBhXMBvQPBxnfuBBTM+xIu
-         jv7c922DYbeWQkMzNOkhVxTnPMTL05T/fGuLvnb8q9dscBBhcC6mAMkbfgXS3CKjGy/x
-         A+c9+5Dx9xL2V0Ssa5YOPbYrd5NsVNPh7ElMP1A7qzHRcYyhG7tdeHuiQKTTxTeSBlAI
-         Ws+N+JVHOaCafdKS05w/poviFpLh56y2zQEtB30gR7tuJXB4F2d+X317MN+wmkASnbzU
-         6SWvcI3jhwveP10JtOv75+iGPKlvrmODtIb3//fYbEc5/9q67M4PK19zdS7nJNkJP1Vj
-         0Ytg==
-X-Gm-Message-State: AFuF++l1QMMbsE/tkHAZdWeYz2z+WtL/WrwYehlIkGvH3lbggpYPTS6c
-	jHSFCJ7jpRcZ448tg7HtbYDZ0ZC7Cr52XYA6aTqHlbb79PgEiNvbszKPVR6aIQc08PiXDZm0Hnl
-	mT4RYDI0=
-X-Gm-Gg: AYBFou20mQs0HOQGsBfTd/Uo6M4aohbYUlQtFey/57NExR39bTyBXRi317F8b7Eajt/
-	GQLcY8mAVFAyGw2YwvN+cZWtsHAsWVmKeCdxKFzKywTCtug9X3ISdV3OOVeUGT4pWEC9wmKPwrQ
-	bkBltSSnn7fvWJyBhX9reUN9wfWvX4YgDHncmnpss5RWi+1iQrI8tfwFZkEliTN7Bxe9r2NVush
-	iST6uWYVKOoWTE+abmgy3KCSVi4ZnxqK6WRxteBzJxW6ZFezGxJpESj+q2Rvp/vaaD0pdvHDnkI
-	u0JNupUqLAR1BTSC8Slltf0xyGQoOHakrNo4hVVi6chBZaUzBpt16moLwm2YJbP2ZFEi3XvNmRG
-	G/TaVBOj/DyXbIVXmz9Zgor+hkLLmO1s4t4oA347EqUlETFLewNctz6qUacIahtByMJOU0QA9bd
-	85WfjZSvHIZoPccMWtf2GKuOPUENUMgbo5rDwaF+mgk0kmQUAGFThRz+56swPt8rqEwXNLrZF0j
-	dRObQWf0v+jm2trScCYxpNno9TTLaTGpS1YiR78GcNrqrZR98+M3O2j3m2D0oVjoDYBBWXX0mgo
-X-Received: by 2002:a05:600c:4e86:b0:49c:d52e:d0ea with SMTP id 5b1f17b1804b1-49fc566e6efmr3231465e9.4.1789682893209;
-        Thu, 17 Sep 2026 15:08:13 -0700 (PDT)
+        bh=CH84+mS+ZEteQFJctfhr9XygkFnuDlQGvzI1Qlxdia0=;
+        b=gqtKYX3fcatX7oMW78tvU6DV3dQeq8V3ywgmmiSc8n79ivEo+U4wYnwTgh9zBrRLxa
+         5j1VZtibe5wgLaSWWaw8z8nMCrBFBmcvlrTFeW5+nuKv+upo5Ci6Wf5qf2/vURc1sQaR
+         zodugHReTmXVUriNI9Xoy0PLfIC2UT3J2p0MRegVetzxt1ZT+8ZLwBldYutBOQ5xR+zL
+         CRKnu2nrACTlU5rQK/0paLI6x0l1wE02Nu2Nuu5fOR6Vp2EnY+hz5aY0XVWwvtZfjq+g
+         5srLZVuZDFC1djfLTxTbp8fGPBh8r1l+FVZZFOQeEgEElF7KGK98jBNGiqf0JH6lAHgM
+         FcYQ==
+X-Gm-Message-State: AFuF++kKVKZAplvAZuupgd1Jn2A5MoERzA4HlG3fdsZGD6ab+tZHyFYm
+	lXT9fPcbj9VIp1UW3pPKlM4+SuKxja8jvfJ3Qtjgw1ETWSGFpV1lEZ0aY5ZQhVQQisMGa/hdPpj
+	3xANbX50=
+X-Gm-Gg: AYBFou0AJnuBznC1Atc3OmDUzOiOpzSCuvxMQPHJ0XOB8wj90g1IEDW/O3JOAinMTnk
+	Yeu6dH7C/QZFRk3v8NSiy7mUVqlsM2dXd89oB1uvbOVz1p0gNTHsqi5+kbEFK6KzTidqtDQq70n
+	3WoTNXt2SRB2AW3MC1ygbVkOakocILBpYI2NsTg0iA3IDlivNL6bvgk4BcE5VhZCO6JajcQ+D3M
+	ubUkqIFUB08u1UVCpO6BQoU6GaQEjHgohGiHtYI9xvH/vJ4ama4yoqsB11Aky8dnWmpPwfQld/h
+	pdBrw14CcjpfOgQPjPLdC4TeoPLXZKI5gUUSeuSTq5CeVwrPzIaXXj4EdgLvSSICsffGxwl2Rxu
+	kbCp8onKkiBXuGB3CcPFzfkB6qEpt1LtvAg/cPxYnMKEp/jOvvmN7rwIU7PQMxYTyNMyFmnEAEs
+	ueG9n19sJu0eLn895Cd0l6trer+Qq3ZXVXpxDcmdNcv6af6iiGD7qFQTr9YM1vYZg3shR94d1ld
+	dvXTKfyrBbx0seWD79HVJOOHVEjFPoqSANFju/frDfup3F+t+BqkFUfvEs3ozwbO1j606UVOs8=
+X-Received: by 2002:a05:600c:34c1:b0:49e:799a:8951 with SMTP id 5b1f17b1804b1-49fc56aba0dmr3628615e9.11.1789682890660;
+        Thu, 17 Sep 2026 15:08:10 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.10
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 15:08:12 -0700 (PDT)
+        Thu, 17 Sep 2026 15:08:10 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 45/79] babeltrace2: inherit upstream-stable-release-point
-Date: Fri, 18 Sep 2026 00:06:30 +0200
-Message-ID: <dcb1db441180ec1b904c00567d2180ec4edd5cd7.1789681419.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 40/79] libgcrypt: inherit upstream-stable-release-point
+Date: Fri, 18 Sep 2026 00:06:25 +0200
+Message-ID: <761295ea203dca54399137c9458b19b4590e4699.1789681419.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1789681419.git.yoann.congal@smile.fr>
 References: <cover.1789681419.git.yoann.congal@smile.fr>
@@ -65,53 +65,65 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 22:08:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246140
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 22:08:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246135
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-babeltrace2 maintains a branch per minor series (stable-2.0, stable-2.1)
-and keeps the older one alive: 2.0.7 and 2.1.2 were released the same day
-in July 2025, with 2.1.1 already out since April. So upgrades within a
-major.minor are stable point upgrades per the OE-Core stable release
-policy (ref-manual, "Stable Point Release Upgrades"). There is no written
-policy document, so qualification rests on that branch structure and the
-release contents below.
+libgcrypt keeps a long-lived maintenance branch per minor version,
+LIBGCRYPT-1.12-BRANCH matching the current PV with equivalents back to
+1.2, and releases from several in parallel: in one week of April 2026 it
+released into four of them, 1.12.2 and 1.8.13 on the 15th, 1.11.3 and
+1.10.4 on the 21st. So upgrades within a major.minor are stable point
+upgrades per the OE-Core stable release policy (ref-manual, "Stable Point
+Release Upgrades").
 
   https://docs.yoctoproject.org/dev/ref-manual/release-process.html#stable-point-release-upgrades
-  https://github.com/efficios/babeltrace/tree/stable-2.1
+  https://github.com/gpg/libgcrypt/tree/LIBGCRYPT-1.12-BRANCH
 
-Upstream keeps a ChangeLog with a per-release entry list. Both point
-releases in the current series are fixes, tests and documentation: 2.1.2
-(Jul 22 2025) is 13 commits, and 2.1.1 (Apr 14 2025) 10.
+NEWS separates "Bug fixes" from "New and extended interfaces", and neither
+point release in the current series has the latter section at all: 1.12.2
+(Apr 15 2026) is four fixes, including an ECDH buffer overwrite and a
+missing Dilithium bounds check, and 1.12.1 (Feb 20 2026) four build or
+arithmetic regressions. 1.12.0 (Jan 29 2026) opens the series and does add
+features, confirming X.Y.0 bumps must stay outside the regex.
+
+The libtool version-info in each NEWS heading is upstream's own ABI
+record, and across the current series only the revision moves. One
+deviation is worth disclosing from the previous series: 1.11.2 adds a
+single enum constant, GCRY_KEM_RAW_P256R1, with current and age
+incremented together so it stays backward compatible. Point releases here
+are fixes-focused rather than absolutely fixes-only, with the deviation
+bounded to additive constants.
 
 Already tracked this way on the OE stable branches, counting only bumps
-since each branch forked: kirkstone took 2.0.4 -> 2.0.5 and scarthgap
-2.0.5 -> 2.0.6. wrynose has taken none and sits at 2.1.2.
+since each branch forked: scarthgap took 1.10.3 -> 1.10.4, which needed a
+build fix backported alongside it because 1.10.4 broke building with -O2
+in the sysroot path. kirkstone has taken no in-series bump and stays at
+1.9.4.
 
 AI-Generated: Kiro with Claude Opus 5
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 3d742fa47d795b6b013d5ca3d78f0dd601432832)
+
+Adapted for wrynose: applied to libgcrypt_1.12.1.bb (upstream: libgcrypt_1.12.2.bb).
+(cherry picked from commit 97caf8a110281becde5d888338712d71627cbf98)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb b/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
-index b0cd6efde18..5b9c02b0c21 100644
---- a/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
-+++ b/meta/recipes-kernel/lttng/babeltrace2_2.1.2.bb
-@@ -19,7 +19,9 @@ SRC_URI = "git://git.efficios.com/babeltrace.git;branch=stable-2.1;protocol=http
- SRCREV = "d0e946a71faf5f0c2d7f1fb5b92a369983e9cf10"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>2(\.\d+)+)$"
+diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb b/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb
+index d7f8563ae6e..d7b3e182cd2 100644
+--- a/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb
++++ b/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb
+@@ -32,7 +32,7 @@ SRC_URI[sha256sum] = "7df5c08d952ba33f9b6bdabdb06a61a78b2cf62d2122c2d1d03a91a798
  
--inherit autotools pkgconfig ptest setuptools3-base
-+# babeltrace2 publishes bugfix/security-only releases on its per-minor
-+# stable-X.Y branches.
-+inherit autotools pkgconfig ptest setuptools3-base upstream-stable-release-point
+ BINCONFIG = "${bindir}/libgcrypt-config"
  
- EXTRA_OECONF = "--disable-debug-info --disable-Werror --enable-python-plugins --enable-python-bindings"
+-inherit autotools texinfo binconfig-disabled pkgconfig ptest
++inherit autotools texinfo binconfig-disabled pkgconfig ptest upstream-stable-release-point
+ 
+ require recipes-support/gnupg/drop-unknown-suffix.inc
  
 
