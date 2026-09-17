@@ -1,119 +1,227 @@
-Return-Path: <alperyasinak1@gmail.com>
+Return-Path: <peter.tatrai.ext@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE50C982D2
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 08:27:00 +0000 (UTC)
-Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.34723.1789633611282096705
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 61027C982D0
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 08:46:30 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34934.1789634781024881152
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 01:26:51 -0700
+ Thu, 17 Sep 2026 01:46:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Q/lQQyly;
- spf=pass (domain: gmail.com, ip: 74.125.229.204, mailfrom: alperyasinak1@gmail.com)
-Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b76462aae9so348781e87.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 01:26:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789633609; x=1790238409; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1L2chlVEyaguijJTitVF12qmGigcg9wAPJM2X0ldHnU=;
-        b=Q/lQQylywAJvTPKxHrSRdT7XTs7AnlTcmu/2VX/sPhMbn8Ycw4ghzUWWz3mrWeIjdB
-         MyZ9mzepzzOHEj11bHHGJYyreOmb1Xwocb28BFESIaSto+vZY8ipq1rKAcEPv1ycPqFF
-         O5TzEBp31vJbnu67m2X1WsOpZCkZbCc+lcvP4al67Xjtv5q9rjlT6YE57jmMpmOdAKmh
-         tXwRucBBrFbatX5IlquF857IUUlaOgCnfOHsA/jb5gvOyvnUtYzWwKYdvqXqdyMfrA74
-         v3+VJy4xQ+Ycq4qpfDf454CNUO0jGBC6oMR+8K2Xd0+aLi6lg6jruEpDMNzERFzn/HQ4
-         dgbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789633609; x=1790238409;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=1L2chlVEyaguijJTitVF12qmGigcg9wAPJM2X0ldHnU=;
-        b=QeaeS4Re8kDP55zZ30twgA1Wzvf5gE5X+18Ge7vlpANnbB6FmFuD5u3H/wR5iV4Hrl
-         8sz3ZkECk/DJV+jnP5DdnyYb/bj2nax+KYq6xSOI6HTCkv8+Z91u7gjcKX4qgXyryB/h
-         4w9lgy1jrIu+2A0XFKlvc7iFJxsXWLzk8wSGh+KZB/D0ZyGroXm5QO83Q3U+BOHtPNHC
-         Oj61l6LkmAFVSJ2+n3PbqagUXYyR1KwdnkPXrXlLM5mVEramOjRvyQFpQWyDEKMoDGlj
-         TSFS2Rtjsgd5n7jyOdtaUJhS9+3G6dqOB5eQgJ6jhx7dqxKq2kkXCPV5R3BKRsEjm+si
-         2yqg==
-X-Gm-Message-State: AFuF++mdcMWauvC4hkPXlWSIucZaJpM4T4SaD3QssqfLYyvNTg4ygfd5
-	cGdquRtIo8iu0gZ7b7EuzzHe4u2UktKnh+FvlmZXTkl27wU/EglmxQjvUeMKEg==
-X-Gm-Gg: AYBFou1WTNMN+9o90o+v9XXQN4f/37XMyx4JRPC+H1pgKHb+UrAMhq8KMDEOSmk4bX0
-	rgq1frq0UHPSkXyZKTaBcz2flGY+DESN+WvnfbE3HWaxIFSUAgVwM3+7TF3o5zFQXvlH3dea8ol
-	PX7r1lDmDeCdorowS+lQeq0Sa0H90S5kSbN9LF0XEhc5H55kdtX3dc4uhWq/2jTRvl63MlL6YBE
-	stN3M5d9n/4kWYXzGB5YLSPupWTMGBBMuuuOENvBiEumFRxYH5sG91pyGTuQRhl8dLXJrsCxq39
-	fC4zIBeX7zBD8v93CTW2/2Y9QSWxgPIr2TwnxIIfux3IazUivVHUxo8zCLZctZZr4bxBy1kNrd2
-	GeNvU2XbYiAbNW+YiqDhusc2i3fhL28zhGmctjGzCstQXSWNhZioZhPxJcSEgeZqrqJHBcuQBEV
-	mbzfnzmhEhobC08ziSvnoZkgT6dSF+7JX/QYwtqX9f4QmxEo79lzPj3KTu8pYSfgaGKWMpCv9bL
-	LPo67W+R0X1Rx8Z0FKQUaumMnV+5EWdp74Feww8tgQl3xhLtGaY+aRon4zKgNfhcs98XM965DK5
-	OI5O2L8AB3I=
-X-Received: by 2002:a05:6512:3d02:b0:5b6:1a7c:32 with SMTP id 2adb3069b0e04-5b8b6656a6cmr1655139e87.53.1789633608641;
-        Thu, 17 Sep 2026 01:26:48 -0700 (PDT)
-Received: from localhost.localdomain ([176.40.225.86])
-        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8b5789c31sm1632161e87.9.2026.09.17.01.26.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 01:26:48 -0700 (PDT)
-From: Alper Ak <alperyasinak1@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Alper Ak <alperyasinak1@gmail.com>
-Subject: [PATCH] rm_work: Keep do_populate_lic_deploy stamps
-Date: Thu, 17 Sep 2026 11:26:32 +0300
-Message-ID: <20260917082632.1006708-1-alperyasinak1@gmail.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=C04eWca5;
+ spf=pass (domain: siemens.com, ip: 52.101.72.43, mailfrom: peter.tatrai.ext@siemens.com)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=iThWO4034gI6zCPV4KYAuf9OoPjRevDfCDT6ZNWbT2l2PH7jX3Q4H8/JQbPlKrYd/Bi9prwCSg6cluBkdn47BUqlm8gJdzDni908/dfiQuG+klnDlX4+bVRBiztf/FtOK2I4z2i83PLl53hlJ0orEIV1DyZJR7j6tr1AnlypjcKehqKS/f2qw3gJcSFPUhDsujrTt42iBIIBv0P79AL/QTEp1B39eur8fvLULp4m3ew8yvjyY3miEn6Thl78gg39syjtpXcw6LAwym7HkSqlNhaanQJhCrtAXAHrrT/F/Y3WJ/Zj80uHUU/NBJJjC3z//tJcRfwaWPUCRtctgh6pUA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oH75tleMkEHr6B5BNkzt/0qmhL0uClrmN6S0JhRGjUA=;
+ b=LGGv7w/K8sQe156BfR0Yapgp+9OAeqUoVkZt53UBq5TnQQedHcNOATd7gnwJvmZYBxzKinE6jvXabCUUDHClpP31MibOsy6ziNyVjTm2BB75YHhbQe2D5NSwNBb6Nzk/GPBmQ2dnj29jnMhy/0Dks144xNtLygCHReKwmLW4m4nbUwdo2HCuQlY2yAxqR2fFnh0hoOpBwRX3cSZ6YitUt1y2CZ3UXDic9rOIN2zgVOJs0qCQOIIsNenFeeMK7G9qj8uZO3ecl+GI7Hvqim963edxyLxjQmsf/EcFCpG3KaaZZlMld0n+24/7w7EcdTA5OJ3R0nwKBG80DtHDkkOEJA==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=oH75tleMkEHr6B5BNkzt/0qmhL0uClrmN6S0JhRGjUA=;
+ b=C04eWca5jEat96V6EH6313i6UGCJxZP33hUZted5mT9yaKVt4YKF8qErTGO4Ys5kFURqWX3GCFxxejL82/E60FK1bdTeV75ufecJwdyXlBC1AOe2Z15gxgwmDvq0bFgs3Wq21emIPlADraZrARhBb01Vj2eHfmgfJETAFQXiEE0oDwSZOiInsAWpp9y1rizfevvSR78HFw6Q/N+Yd9eeWpcFeBvDyloHaX8wNUNg1wl1gV3wQgQf1PyTsTWGyhWvyTm7sVVyPs4oSTEpxOfscRxBKgCeDw/208uEC1Q7EUsz7KQXcGyEbXq1Ut3mDDj75DyOpXiKdP+W+m7QxJBbAw==
+Received: from DB8PR10MB3577.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:10:139::12)
+ by AS8PR10MB6628.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:562::5) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.11; Thu, 17 Sep
+ 2026 08:46:16 +0000
+Received: from DB8PR10MB3577.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::182f:6c2a:62bb:9509]) by DB8PR10MB3577.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::182f:6c2a:62bb:9509%6]) with mapi id 15.21.0428.011; Thu, 17 Sep 2026
+ 08:46:16 +0000
+From: "Tatrai, Peter" <peter.tatrai.ext@siemens.com>
+To: "deepesh.varatharajan@windriver.com" <deepesh.varatharajan@windriver.com>,
+	"openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "Sundeep.Kokkonda@windriver.com" <Sundeep.Kokkonda@windriver.com>
+Subject: RE: [OE-core] [PATCH 0/3 v7] Oe-selftest for Clang, LLVM, LLD
+Thread-Topic: [OE-core] [PATCH 0/3 v7] Oe-selftest for Clang, LLVM, LLD
+Thread-Index: AQHdIv8vu3oGOS6rJ0qYcmsIWklQLLbSooBw
+Date: Thu, 17 Sep 2026 08:46:16 +0000
+Message-ID: 
+ <DB8PR10MB357753630876B4588389D372DBB82@DB8PR10MB3577.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260803041741.790019-1-Deepesh.Varatharajan@windriver.com>
+In-Reply-To: <20260803041741.790019-1-Deepesh.Varatharajan@windriver.com>
+Accept-Language: en-US, sk-SK
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=6134db7c-45f5-4911-b385-1eb6f86728ae;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-09-17T07:14:58Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: DB8PR10MB3577:EE_|AS8PR10MB6628:EE_
+x-ms-office365-filtering-correlation-id: 1238f4ee-61b1-4e63-b5c7-08df149822d8
+x-ms-exchange-atpmessageproperties: SA
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|11063799006|56012099006|3023799007|38070700021|10067099003|55112099003|18002099003|22082099003|6133799003;
+x-microsoft-antispam-message-info: 
+ AK/0D1Wlzk+0464P2L0fh5xQFKQu6zMnE4cAofN8xYcTXyWeLkHXkelYk+2dT4fJrgb4CFY356XJB5MfCepMCnk4xih/yCYQQnlyjOZ+AW1bdPwL2k1Yv7w7IBi8+azN+2EwvHIljW4V1Dn+ufjVTG/1tCpaDXgknR78hQQFquC9K52vwhLF4rfLJUNmXXYC3yGoBp5ZwbMkD7yZNI1MbIN4Tkbp3SaA24ZDLU9W75qDBBxJSpEiVcOZbbhk1mnPZfVaKoam7pyx7gSh2dqqBm70jy8ngIerBelTbhqGRGanzbPtmxS5JS2TTdOUkmeS2Ic56b+0ANIrc7IXsswfdE+Jr274eqo2bo9HmqFRN9P3+FnynvapnmxUGwlrZ52ovHduZWOptEmSlD+s1aDjDThqqDRUGj8AdX3XqzUgQZXDa8/qzFTzBkSZ9Y82te6RYHfwQUdEKJ+i5H/2T3aBonEtGTbkaQH5fz2vo6LVCSnIgXTp/uNdpNknHRAadKNb9MZy5G6tCAbfNaw9Ua4Gf+B0O/erhbj+lYabXry0Cyhb9LhyQMiIB7lsugjBIJOXFqvPIA7LkDwb19kTpde8+hVwFs8m3Z3h+xNfKQdzjBdoKcmRPxo6+Ex91fbqmaV4dHCo9WW2RND8Nk7k0wBJrBYyIta49HlDe7yzOrT9tg4=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DB8PR10MB3577.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(11063799006)(56012099006)(3023799007)(38070700021)(10067099003)(55112099003)(18002099003)(22082099003)(6133799003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?iso-8859-1?Q?Qq3oGBUSgaYq+tkBOMS+UIrHgpylaZfL4HIaAxtFR6AxQfGcV4QGu2majF?=
+ =?iso-8859-1?Q?DT7MrmtdDk4NOpg30YmxuSg10YHeeW9G6oMPEFihTqmSLm0zRmqcGRayWj?=
+ =?iso-8859-1?Q?VoaErp2QbWv8ASVkgjwLXY9yiY+OtYtfNJe/PS1ykc7sbkMGU5yBJND3x2?=
+ =?iso-8859-1?Q?a+oC5NpQkswa3tD74lFgI8s3hO21ScyU9vrLXug2Oj80PN53EMDijfF441?=
+ =?iso-8859-1?Q?qT1Xf3TPXB+RPwAWqzLwnfj6DG+VL25M2/NMWaw72ClsLGrGsReEzwTKlp?=
+ =?iso-8859-1?Q?9DSq+v0QEqtBPYIKgLwra8MjOfmxn07uFPIACp7ahwegs1tSH9Rpc+5fjI?=
+ =?iso-8859-1?Q?ucmak8ZxY9kBGAEiVjg6qBm6CdtYdf3nJ5EVbiHrjX+tLf6hHfNYh6Doc9?=
+ =?iso-8859-1?Q?ZZlXD3h8lzQiuoqYq3IAbqx9Kk5yjem5TUdFB7lJcG+JcKYQTuooRhw2sw?=
+ =?iso-8859-1?Q?6JubsyWxxSQhyYFYprk6krbiWH/LwZzUOEIJsD4K46lhWzKe15R4jvjtM9?=
+ =?iso-8859-1?Q?rE9hfmRsocTW1EpD/tdHpXT4dxRzfqyoiF6pP+j+amNUzF6Cz2x1h7+S35?=
+ =?iso-8859-1?Q?Uj9bDD9XrQvvWoaz8aLhXz/0ZWb8mIqWrgvB0z97kGTIEKMFomLuZP3Ssi?=
+ =?iso-8859-1?Q?oSdgIn2i5IgtnXR+BIfaNjeda7z/3RQT9YBZjlDhXyjZsb/lW7KGCM/1Uo?=
+ =?iso-8859-1?Q?L3lMwRbAYgtQNdyEI0mD1bRsysiJlhhLDU3wWw1gr46YpiTN/fbSQnWEH7?=
+ =?iso-8859-1?Q?UaMd8HsHA/6f4iBfN9vJngNjRiT0TpgzPh3TsmmYCfX+0oGHEXHXDQNtUa?=
+ =?iso-8859-1?Q?I94+kIoPSzSV7O3Z1qakV92KddHcxHzztwkMlCCydorfycysgxW10h8z0O?=
+ =?iso-8859-1?Q?W990q0Ux8nkX1o9kMvaOk8Dz0/fMypmZEInJBmjonC6sP8BC89gRPJwPLU?=
+ =?iso-8859-1?Q?f53WDrfhUm56B/Bp4CZ81+7lhx0apH7wYbmlKPOJJLgkx/ShgkS89LTtIq?=
+ =?iso-8859-1?Q?kC2Cr35UvN/a0lKFdpDNfHO9R9p1K6kgVrW/LQbyoP43Uuho74xIm2p8pU?=
+ =?iso-8859-1?Q?2Me2NHF6BtqKhhuYXTssOj3oaJiKoKC8MSWq3zCKWFq8vAoAVPam5Csjv3?=
+ =?iso-8859-1?Q?nTYk57CLE1ecMbLpBzuqby4vQjX2ka4oU3JiBf/S0xiWpUWh/fUu4qWPuI?=
+ =?iso-8859-1?Q?Lxu5R3YbzlkXOpP9wUPJ6p/CWYbyXjfQaWbNHsTkRDN+p97qUQcm+ocRlX?=
+ =?iso-8859-1?Q?bfLQwIHt8G0lCpl2pyJBihn/U2fHqSFLep/UOGQKvyt+8HfSEMfBjFjxmF?=
+ =?iso-8859-1?Q?RHwzxxadUuryoU265QNmsZ7UOMr2E4AOnmeFIchY9/PHE+6ml7pCsfIsJJ?=
+ =?iso-8859-1?Q?5GjN86CjSo5VoFctB58X79bj5hlgJdEKAorAhurEPGe3B03kHP2s4BYL4K?=
+ =?iso-8859-1?Q?j5lwSE/xSqpH0uXUACs59SAWVM/Xmek+EQslfpLHOevFlPDxMRD0LkStEF?=
+ =?iso-8859-1?Q?Sq+Db1fn1ScHk4NZWuAQN8wZOQqVBT7KooNREAI3lJ0ZQgNd4zoF5A3yNL?=
+ =?iso-8859-1?Q?3bN85gZYyVrbmyykOaEZG4j02McT1vgQ8Fpd0CsJfuHp2m/9/KwVlCMxa+?=
+ =?iso-8859-1?Q?4iTc/CMljOJ+ScXi5ANjlN0lAf48WAaEHoPgW3IHTzqJ4w5gg7VWKd0RHe?=
+ =?iso-8859-1?Q?NKlsVpwbd76hWYSgGfwPwDgpG6QgkXBAQqzDddZjO6Ttk2KhWIc7ceXTA/?=
+ =?iso-8859-1?Q?OItlr5fk1TgEaQehDRQxEpBs+KdUV1Fs1/y1eLbEGoHoknJrxfegTz5jKx?=
+ =?iso-8859-1?Q?M/ypHlGvyA=3D=3D?=
+Content-Type: text/plain; charset="iso-8859-1"
+Content-Transfer-Encoding: quoted-printable
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: siemens.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: DB8PR10MB3577.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 1238f4ee-61b1-4e63-b5c7-08df149822d8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Sep 2026 08:46:16.1493
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: WSscXorSUsGKa7Z6i3DXxGovo3V+LOQo66WTszpobw5saqVt4oSfM7rvCKStdfqveGr8IllES0tGhbHSf2p+r7+dQ39WbqdiFyYfym44y3w=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS8PR10MB6628
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 08:27:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246046
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 08:46:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246047
 
-Fixes [YOCTO #14946]
+> From: Deepesh Varatharajan <Deepesh.Varatharajan@...>
+>=20
+> This patch series introduces a test framework to run selftests for
+> target builds of Clang, LLVM, and LLD.
 
-rm_work removes the do_populate_lic_deploy stamp of an image and the
-task runs again on every build. Because IMAGE_NAME contains DATETIME,
-it writes image_license.manifest to a new directory and moves the
-IMAGE_LINK_NAME symlink there. license.manifest and package.manifest
-are written by do_rootfs, which does not run again, so they are missing
-from the new directory.
+Hi Deepesh,
 
-do_populate_lic_deploy does not use WORKDIR, so keep its stamp like the
-other image task stamps.
+I ran into several issues specifically on 32-bit PowerPC (MACHINE=3Dqemuppc=
+, TUNE=3Dppc7400)
+that I'd like to report:
 
-Rebuild of core-image-minimal with INHERIT += "rm_work":
+1. QEMU boot fails outright with the hardcoded =A0-smp 4=A0:
+        qemu-system-ppc: Invalid SMP CPUs 4. The max CPUs supported by mach=
+ine 'mac99' is 1
 
-Before:
-NOTE: Tasks Summary: Attempted 6025 tasks of which 6021 didn't need to be rerun and all succeeded.
-./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917071112/image_license.manifest
-./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917071112/license.manifest
-./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917071112/package.manifest
-./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917074853/image_license.manifest
+    The "mac99" QEMU machine model used for qemuppc only supports a single =
+vCPU, so,
+    start_qemu_nfs()=A0needs to special-case the CPU (and RAM, mac99 also c=
+aps at 2GiB)
+    count per target arch instead of hardcoding -m 8192 -smp 4=A0.
 
-After:
-NOTE: Tasks Summary: Attempted 6025 tasks of which 6025 didn't need to be rerun and all succeeded.
-./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917075639/image_license.manifest
-./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917075639/license.manifest
-./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917075639/package.manifest
+2. Building clang with the default PACKAGECONFIG (which includes "clangd") =
+fails on ppc32
+    while compiling clang-tools-extra/clangd's CompletionModel.cpp:
+       {standard input}:177591: Error: operand out of range (0x81f8 is not =
+between 0xffffffffffff8000 and 0x7fff)
+  =20
+    CompletionModel.cpp embeds a large static ML-model lookup table; codege=
+n the compiler emits
+    displacement relocations exceeding the assembler's 16-bit signed immedi=
+ate range. This is
+    a long-standing, unresolved LLVM/GCC ppc32 codegen issue, not specific =
+to this recipe:
+        https://bugs.gentoo.org/829602
+        https://reviews.llvm.org/D136283
+        https://reviews.llvm.org/D139107
 
-Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
----
- meta/classes/rm_work.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+    All of them resolve it the same way: don't build clangd on ppc32. I'll =
+send this as a separate patch
+    against clang_git.bb (disabling "clangd" in PACKAGECONFIG for the power=
+pc/powerpcle overrides),
+    since it's independent of the selftest changes and affects the recipe r=
+egardless of whether these tests
+    are run.
 
-diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
-index 52ecfafb72..7cb8a325b2 100644
---- a/meta/classes/rm_work.bbclass
-+++ b/meta/classes/rm_work.bbclass
-@@ -77,7 +77,7 @@ do_rm_work () {
-                 # Promote do_image_qa stamps to setscene versions (ahead of *do_image* below)
-                 mv $i `echo $i | sed -e "s#do_image_qa#do_image_qa_setscene#"`
-                 ;;
--            *do_package_write*|*do_rootfs*|*do_image*|*do_bootimg*|*do_write_qemuboot_conf*|*do_build*)
-+            *do_package_write*|*do_rootfs*|*do_image*|*do_bootimg*|*do_write_qemuboot_conf*|*do_populate_lic_deploy*|*do_build*)
-                 ;;
-             *do_addto_recipe_sysroot*)
-                 # Preserve recipe-sysroot-native if do_addto_recipe_sysroot has been used
--- 
-2.43.0
+3. Even once the above are fixed and the test suite runs on qemuppc
+    ClangSelfTestSystemEmulated.test_clang takes about 16 hours (Testing Ti=
+me: 59358.78s).
+    That's a very long pole for a CI job on this target.
 
+4. With the above fixed, the run still reports the following consistent fai=
+lures on qemuppc:
+
+Failed Tests (11):
+  LLVM :: ExecutionEngine/Orc/global-ctor-order.ll
+  LLVM :: ExecutionEngine/Orc/global-ctor-with-cast.ll
+  LLVM :: ExecutionEngine/Orc/global-variable-alignment.ll
+  LLVM :: ExecutionEngine/Orc/trivial-call-to-function.ll
+  LLVM :: ExecutionEngine/Orc/trivial-call-to-internal-function.ll
+  LLVM :: ExecutionEngine/Orc/trivial-reference-to-global-variable.ll
+  LLVM :: ExecutionEngine/Orc/trivial-reference-to-internal-variable-nonzer=
+oinit.ll
+  LLVM :: ExecutionEngine/Orc/trivial-reference-to-internal-variable-zeroin=
+it.ll
+  LLVM :: ExecutionEngine/Orc/trivial-return-zero.ll
+  LLVM :: ExecutionEngine/Orc/weak-comdat.ll
+  LLVM-Unit :: ExecutionEngine/Orc/./OrcJITTests/0/1
+
+Failed Tests (21):
+  Clang :: Interpreter/access.cpp
+  Clang :: Interpreter/assignment-with-implicit-ctor.cpp
+  Clang :: Interpreter/bad_percent_command.cpp
+  Clang :: Interpreter/code-undo.cpp
+  Clang :: Interpreter/const.cpp
+  Clang :: Interpreter/dynamic-library-bad-args.cpp
+  Clang :: Interpreter/execute-pch.cpp
+  Clang :: Interpreter/execute-stmts.cpp
+  Clang :: Interpreter/execute-weak.cpp
+  Clang :: Interpreter/execute.c
+  Clang :: Interpreter/execute.cpp
+  Clang :: Interpreter/fail.cpp
+  Clang :: Interpreter/global-dtor.cpp
+  Clang :: Interpreter/help.cpp
+  Clang :: Interpreter/incremental-mode.cpp
+  Clang :: Interpreter/inline-virtual.cpp
+  Clang :: Interpreter/lambda.cpp
+  Clang :: Interpreter/multiline.cpp
+  Clang :: Interpreter/pretty-print.c
+  Clang :: Interpreter/pretty-print.cpp
+  Clang :: Interpreter/simple-exception.cpp
+
+  All of these are clang-repl / ORC JIT related, which suggests the JIT bac=
+kend may simply
+  not support ppc32 (or not reliably in this emulated environment).
+
+Given the combination of (3) the very long runtime and (4) a consistent set=
+ of JIT-related failures,
+I'd like to ask: would it be acceptable to disable this test suite entirely=
+ for 32-bit PowerPC, or
+would you prefer patches that make the tests pass on ppc32?
+
+Regards, Peter
 
