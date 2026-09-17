@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC01AC982E7
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 22:08:28 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1461DC982E8
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 22:08:29 +0000 (UTC)
 Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1695.1789682899349705927
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1706.1789682907540708641
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 15:08:19 -0700
+ Thu, 17 Sep 2026 15:08:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=XSlQKLXU;
+ dkim=pass header.i=@smile.fr header.s=google header.b=MZlNNOwc;
  spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d3931so840975e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:19 -0700 (PDT)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b965f447cso895385e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:27 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789682898; x=1790287698; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1789682906; x=1790287706; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=RTDYOGo1DFVuvQSs89yWnCEF2bGlL8qBuIFdAl57Now=;
-        b=XSlQKLXU4ggvY04pvaEaK9rU+k7Hd7b+HTvJgUtj8rfJs5PzV9ZaL8NfmQFjnIOgUb
-         PGZCRqsmTD3s3ugye5OaUkirTMp1kGIQiY070S8IPjFB4Jd7TQaIQjSVjcIjKGEfTmBg
-         HwyA9jZqol7CqRU9DFd7Rm/xzfzKzsZj/I/aQ=
+        bh=VDnTLCfR8jUVeChMzhH25soy8TKlLpe/oTHCDfePfUk=;
+        b=MZlNNOwcYCY2v40Hf1iYDoR5zO+5zXNfjhxxZX4nL+LVkhBfXUuG85lPlkPz5OCnhU
+         NqAoIJmDE+7/EUwNWdm8OGe6UC1mvdlg8ytSi6QzeMwlgP42Hp+aX2oNWLVCiKqihIu9
+         QS7yceliLtPFw6nCdL+3+js3cKfkWOvRTax08=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789682898; x=1790287698;
+        d=1e100.net; s=20260707; t=1789682906; x=1790287706;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=RTDYOGo1DFVuvQSs89yWnCEF2bGlL8qBuIFdAl57Now=;
-        b=ZrXaru9pLlAfJD1Jv+ACp0aZvIwE0nq4CA8fEkMK6eH5yMhuVWH7JmxVqlGEgdOvHT
-         OzTid4fqP5YLeTu3ypzUR55k5DXYB//pA2kt+t8hJ77mqKGMsRzqu1/HyYavjoGN9PoC
-         ryrPCP7ctcQzKJhKPSUdWpwY9azXlael3yYAj5cNpcmispPLNZldApGuQ3dtVMu4PO+6
-         dWTVcOWKXSJmZtUvwzI9JKoQPQ+4+kZQI5VPuaGeptTUelVz6N+NXwXOaGB53vIxagNa
-         c/lZoQa3VAqX3Lmv/ZAYp2UXP7pJewVxyQv59BSZ2J9DBNxMAIll/YoAEp2YPKP04bLi
-         Ircw==
-X-Gm-Message-State: AFuF++n0S47HSWxcSO2FuCMChIJJJ1bYaafJ78BnAQXa2qm5eYjEZ60q
-	cuXNESk5etgNkuuiNnFPQ6k6gyEmXWh/B+Hu+RMUEVzW2h31eqStOYyUNxOMra7Kg1Lf7nK18Ug
-	4QuJ/sIo=
-X-Gm-Gg: AYBFou0IK3qrPSz/f+xwU/JM+qGMmpqfynYlimqlb9sV3PfqbkEeZRj9T61VTabGWQo
-	3zrfq/vTh77EJwMQ7je8gAnkiCpG0T9Vi/9E94Y5yEZ2k5YX0sPkLcCzQcWz+oRw53d+usczO83
-	B+swGeFeh6+loMszSkmnD4vxsordPah4Nd90hGjxecTKx2CYJoYOpciiDaXAYlufeEjZXenoNYW
-	E2ozGpZX8+rCTAHDUIJmq9GFBqlhUi84RDQBlWOka/8lr5lCvJ7rkVAOjLz16jRmoOEK5DaqZsv
-	kkiR2hpC+Oa9zn6n9lGS6S+RBsC2yUPx6qvLkUrl1Z53AqaHCXlGDZxw5oUxlCDIm2Y6OYRPrpD
-	Zk/vFA6B6jgg8kR8l4IObpfCT7/6cVAKH4/M3jm/2PLMnGtiwOix/BBjNAegIH5GQ3Jh8q0G+M9
-	D5E1aFLjEYIbOStFvpeNlxc+4oX4hdoc0Mk9RkdHK0kjLhWBTHsY+c4HzEir7zFrrFxaNqLX+d+
-	0XchEGNrFhbKqFWhBn+jDyyeb89evME9IiGCnvqh62iUKzF3O8FyM18OusiK1h329JXRq/AzcM=
-X-Received: by 2002:a05:600c:4e4a:b0:49e:6e94:7cae with SMTP id 5b1f17b1804b1-49fc5741495mr2853085e9.28.1789682897627;
-        Thu, 17 Sep 2026 15:08:17 -0700 (PDT)
+        bh=VDnTLCfR8jUVeChMzhH25soy8TKlLpe/oTHCDfePfUk=;
+        b=bum0ncGkzVGSt4oBsQTXTLwDKaLpxxhecakHqMIFkkS+qEUAfmTlshVs/IeYuggGMZ
+         9WRg+T18ZJZHm7vsaUb5QHUJyRRn12lduKutuI5aghBtVYteM/wJaXqfz5HRM/sr21Ot
+         FQk1kLftvZi0Np7hkUWxdbvlMckjPjrWV+3x8DtmRY/Q6vvZ1x5nHa7dbzv3OWlplOLb
+         oKPtwrlnIx+VVov40EAg937TJk4A+nwB7XaPGkKXHeamPypiFNguqwyw6O+bvYA7OAU5
+         xQ2EkTDV56RxncOcgZuYGcLKxHkTwKX9l3Uol1hm+gDY8JLvg4whVW6NU7Azo3KYEu5Z
+         ceag==
+X-Gm-Message-State: AFuF++kCzTcvNN41+9A58H4sx27q0VVoHJkXXs3Twh4Wygpe3q/1nekt
+	Bx7jsVqd1FkV2c3bms/1fZgyv8wDyRzPfEpIYbeCt95URZzZiZYihMyLrDJMLcYr0TZSBwt94Mh
+	aGv2mfFo=
+X-Gm-Gg: AYBFou3WM8PnEd7sgdOQAn7YHNYttAmrNnx/OsGy+9guu/3sJqORfh7KpOOPCZBHDoG
+	rxSGu6Iv15uBBm/gKbOcdNBuP5mZIz/2Z7xvlMT3jdldjqJ7/wJhkaT3D90bWvrung2F9cLRdXW
+	C5OGQbIEVuVUOa/YsZWKYByXjNUpShF24itrHH1eMj9N2jAuH53aF2aD7nIgN4l2VBs21Ctkb/e
+	86o+aL5DMitqrmn1vxPbZQ0ZYtBmBoL3mU1wcjAHFVoSro1TKSi1rx6AGiM2uMW0xmXB9IE2qkm
+	+q+GZavA6TFiOaab9JkejjIk325TXH1KvI9h8dC7snFCKQEppzHOxhFd5j6T+ZM41D5EGzXvORI
+	hIk5JC2YlTf2j/uNVkyEAlRxD02KmKBL7MNMWrZkUFkh0Tjqhz3Bf3K043mb8cEtuzXlinN5bQR
+	e2DY1QhhMKKfJ7kWrmZdiRWWbeBOwj3Btxzx2rJ03mf23XRM4Qfvtffik1hWVt+yZ8nLIZDa4Fd
+	StQRgsC4YT+UjcvtWEf4uSvdqTAki231FFRBryvUlD9B87Wed/EZT1wbgkmpvLHyk+wraeH8yg=
+X-Received: by 2002:a05:600c:6819:b0:49c:fa20:cbfc with SMTP id 5b1f17b1804b1-49fc5728f8fmr3223925e9.19.1789682905822;
+        Thu, 17 Sep 2026 15:08:25 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.17
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.25
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 15:08:17 -0700 (PDT)
+        Thu, 17 Sep 2026 15:08:25 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 52/79] curl: patch CVE-2026-8925
-Date: Fri, 18 Sep 2026 00:06:37 +0200
-Message-ID: <e1b4c3cba47e8894fede985947b5683c1f9902ea.1789681419.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 67/79] libpcap: Fix CVE-2026-18313
+Date: Fri, 18 Sep 2026 00:06:52 +0200
+Message-ID: <42cbcfa507c1ecc140d2c9a62af48ab47385279d.1789681419.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1789681419.git.yoann.congal@smile.fr>
 References: <cover.1789681419.git.yoann.congal@smile.fr>
@@ -65,96 +65,127 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 22:08:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246146
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 22:08:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246162
 
-From: Peter Marko <peter.marko@siemens.com>
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-Pick patch per [1].
-
-[1] https://curl.se/docs/CVE-2026-8925.html
-
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+NVD: https://nvd.nist.gov/vuln/detail/CVE-2026-18313
+Upstream-commit: https://github.com/the-tcpdump-group/libpcap/commit/f9775af1a0ec76db60c7213241e6b48f1be10ac7
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2026-8925.patch             | 57 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.19.0.bb      |  1 +
- 2 files changed, 58 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-8925.patch
+ .../libpcap/libpcap/06-CVE-2026-18313.patch   | 90 +++++++++++++++++++
+ .../libpcap/libpcap_1.10.6.bb                 |  1 +
+ 2 files changed, 91 insertions(+)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/06-CVE-2026-18313.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-8925.patch b/meta/recipes-support/curl/curl/CVE-2026-8925.patch
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/06-CVE-2026-18313.patch b/meta/recipes-connectivity/libpcap/libpcap/06-CVE-2026-18313.patch
 new file mode 100644
-index 00000000000..da486e6ac16
+index 00000000000..eae9aaa989b
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-8925.patch
-@@ -0,0 +1,57 @@
-+From 3da249e1f0716c06644ed3522a37a8bf81808012 Mon Sep 17 00:00:00 2001
-+From: Viktor Szakats <commit@vsz.me>
-+Date: Thu, 14 May 2026 14:35:21 +0200
-+Subject: [PATCH] gsasl: fix potential double free
++++ b/meta/recipes-connectivity/libpcap/libpcap/06-CVE-2026-18313.patch
+@@ -0,0 +1,90 @@
++From b039b8b66616852673c21ec5c7e0bad3190eae59 Mon Sep 17 00:00:00 2001
++From: Denis Ovsienko <denis@ovsienko.info>
++Date: Sat, 1 Aug 2026 18:24:48 +0100
++Subject: [PATCH] CVE-2026-18313: Fix a memory leak in rpcapd.
 +
-+Also:
-+- require libgsasl 1.6.0+ (2010-12-14) for a `gsasl_finish()` that
-+  handles a NULL argument.
-+  Ref: https://gitlab.com/gsasl/gsasl/-/commit/b550032df8488a9ceaa3cfd4c634947d8f219717
++This vulnerability was originally reported publicly, hence no credit is
++given.
 +
-+Reported-by: Joshua Rogers (Aisle Research)
++daemon_unpackapplyfilter() can allocate a temporary buffer for up to
++RPCAP_BPF_MAXINSNS (8192) BPF instructions (65536 bytes) per each
++received RPCAP_MSG_UPDATEFILTER_REQ or RPCAP_MSG_STARTCAP_REQ message.
++It never frees the memory, so repeated messages from a client will
++eventually leak enough memory on the server to cause problems.  This
++holds for all connections that pass the validation and some connections
++that do not.
 +
-+Closes #21609
++48 bytes in 1 blocks are definitely lost in loss record 2 of 2
++   at 0x4844818: malloc (vg_replace_malloc.c:446)
++   by 0x111AAB: daemon_unpackapplyfilter (daemon.c:2372)
++   by 0x113279: daemon_msg_startcap_req.constprop.0 (daemon.c:2139)
++   by 0x114808: daemon_serviceloop (daemon.c:901)
++   by 0x115BC7: accept_connection (rpcapd.c:1321)
++   by 0x115BC7: accept_connections (rpcapd.c:1118)
++   by 0x115BC7: main_startup (rpcapd.c:709)
++   by 0x1112BD: main (rpcapd.c:567)
 +
-+CVE: CVE-2026-8925
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/3da249e1f0716c06644ed3522a37a8bf81808012]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
++To fix this, after a successful malloc() return exactly once, after the
++free() call.
++
++(backported from commit 26a1c75702b105ac8788014f35f1b5c57fa6043b)
++
++(cherry picked from commit f9775af1a0ec76db60c7213241e6b48f1be10ac7)
++
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/f9775af1a0ec76db60c7213241e6b48f1be10ac7]
++CVE: CVE-2026-18313
++
++Notes on backporting to 1.10.6:
++ - The upstream commit was made after the "bogus instructions" -> "invalid
++   instructions" message change (commit 836d0fd0), which is not backported.
++   The 1.10.6 wording ("The filter contains bogus instructions") is therefore
++   kept; only the memory-leak fix (goto free_and_return_status / free()) is
++   applied.
++ - The upstream CHANGES/changelog hunk is not backported.
++
++Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
-+ docs/INTERNALS.md | 1 +
-+ lib/vauth/gsasl.c | 5 +++++
-+ 2 files changed, 6 insertions(+)
-+
-+diff --git a/docs/INTERNALS.md b/docs/INTERNALS.md
-+index c145690a2c..77f2e43735 100644
-+--- a/docs/INTERNALS.md
-++++ b/docs/INTERNALS.md
-+@@ -30,6 +30,7 @@ We aim to support these or later versions.
-+ - c-ares       1.6.0 (2008-12-09)
-+ - GnuTLS       3.6.5 (2018-12-01)
-+ - libidn2      2.0.0 (2017-03-29)
-++- libgsasl     1.6.0 (2010-12-14)
-+ - LibreSSL     2.9.1 (2019-04-22)
-+ - libssh       0.9.0 (2019-06-28)
-+ - libssh2      1.9.0 (2019-06-20)
-+diff --git a/lib/vauth/gsasl.c b/lib/vauth/gsasl.c
-+index 3ea77eecd1..10a83fdb09 100644
-+--- a/lib/vauth/gsasl.c
-++++ b/lib/vauth/gsasl.c
-+@@ -32,6 +32,10 @@
++diff --git a/rpcapd/daemon.c b/rpcapd/daemon.c
++index 87274665..b720cc45 100644
++--- a/rpcapd/daemon.c
+++++ b/rpcapd/daemon.c
++@@ -2380,14 +2380,8 @@ daemon_unpackapplyfilter(PCAP_SOCKET sockctrl, SSL *ctrl_ssl, struct session *se
++ 	{
++ 		status = rpcapd_recv(sockctrl, ctrl_ssl, (char *) &insn,
++ 		    sizeof(struct rpcap_filterbpf_insn), plenp, errmsgbuf);
++-		if (status == -1)
++-		{
++-			return -1;
++-		}
++-		if (status == -2)
++-		{
++-			return -2;
++-		}
+++		if (status == -1 || status == -2)
+++			goto free_and_return_status;
 + 
-+ #include <gsasl.h>
++ 		bf_insn->code = ntohs(insn.code);
++ 		bf_insn->jf = insn.jf;
++@@ -2403,16 +2397,19 @@ daemon_unpackapplyfilter(PCAP_SOCKET sockctrl, SSL *ctrl_ssl, struct session *se
++ 	if (bpf_validate(bf_prog.bf_insns, bf_prog.bf_len) == 0)
++ 	{
++ 		snprintf(errmsgbuf, PCAP_ERRBUF_SIZE, "The filter contains bogus instructions");
++-		return -2;
+++		status = -2;
+++		goto free_and_return_status;
++ 	}
 + 
-++#if GSASL_VERSION_NUMBER < 0x010600
-++#error "requires libgsasl 1.6.0+"
-++#endif
-++
-+ bool Curl_auth_gsasl_is_supported(struct Curl_easy *data,
-+                                   const char *mech,
-+                                   struct gsasldata *gsasl)
-+@@ -47,6 +51,7 @@ bool Curl_auth_gsasl_is_supported(struct Curl_easy *data,
-+   res = gsasl_client_start(gsasl->ctx, mech, &gsasl->client);
-+   if(res != GSASL_OK) {
-+     gsasl_done(gsasl->ctx);
-++    gsasl->ctx = NULL;
-+     return FALSE;
-+   }
++ 	if (pcap_setfilter(session->fp, &bf_prog))
++ 	{
++ 		snprintf(errmsgbuf, PCAP_ERRBUF_SIZE, "RPCAP error: %s", pcap_geterr(session->fp));
++-		return -2;
+++		status = -2;
++ 	}
 + 
-diff --git a/meta/recipes-support/curl/curl_8.19.0.bb b/meta/recipes-support/curl/curl_8.19.0.bb
-index 2a27fd4d5bf..bed11141ea6 100644
---- a/meta/recipes-support/curl/curl_8.19.0.bb
-+++ b/meta/recipes-support/curl/curl_8.19.0.bb
-@@ -30,6 +30,7 @@ SRC_URI = " \
-     file://CVE-2026-11352.patch \
-     file://CVE-2026-11586.patch \
-     file://CVE-2026-7009.patch \
-+    file://CVE-2026-8925.patch \
- "
++-	return 0;
+++free_and_return_status:
+++	free(bf_prog.bf_insns);
+++	return status;
++ }
++ 
++ static int
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb b/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
+index 6ca75117e17..859897acc56 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
+@@ -17,6 +17,7 @@ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.xz \
+ 	   file://03-CVE-2026-31911.patch \
+ 	   file://04-CVE-2026-6244.patch \
+ 	   file://05-CVE-2026-6554.patch \
++	   file://06-CVE-2026-18313.patch \
+           "
+ SRC_URI[sha256sum] = "ec97d1206bdd19cb6bdd043eaa9f0037aa732262ec68e070fd7c7b5f834d5dfc"
  
- SRC_URI:append:class-nativesdk = " \
 
