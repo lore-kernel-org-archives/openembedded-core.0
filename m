@@ -2,47 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E3690C982D0
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 07:10:18 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.33831.1789629013475259428
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 52AA1C982D6
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 07:10:19 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33966.1789629010940299901
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 00:10:13 -0700
+ Thu, 17 Sep 2026 00:10:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=sH0uFsJs;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=otICV25U;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a0ae339a45-ebae6b73-b5c8-4ddf-9e2f-5ad064c91dae-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=aAXZZd0v;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1FzqAtIf;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a0ae3390a6-b5260702-4712-4d27-8f95-35045717f873-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789629012;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=ssbWTEd9dEP6Hfwir6akSGNP7xSEhDQ9jx5kfQokhBg=;
-	b=sH0uFsJsU3MGZ8vjQ5fx7WhKTtms5CWijmaC0Lp4G3LC7WiGvh28PX4H7ecELORq
-	VgZGTOXleBvvDGdkAx3p9CZgoYIJ04HCubpp0recj0081M6yzxiqvCt1EVBDH0yPEdL
-	FxrB0CXhxqO+Nq37myamUk6bBUb2/8cPLmxt7Sh4=
+	t=1789629010;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=g8+TTWDrfvbnURKHfnszzVmMCmlSIySFt60avmwDf6M=;
+	b=aAXZZd0vuBbK3WWIfMDKdYYYdIZGnQwA91IsJQOtwWYRbbZqk0QVxkdgEpU+BcY6
+	bLih2DEVzAsKyG3PEUwIOSUUEMuTdWIu6jGdpTTRRlYLq+YYWcP9fL6YrsoQ9fGJF3T
+	dQG2TN3koA8kE9gJ25tZYj6o5b+63Y8bgTf8WwRw=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789629012;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=ssbWTEd9dEP6Hfwir6akSGNP7xSEhDQ9jx5kfQokhBg=;
-	b=otICV25UoI1jZVW/q50aUTzoXNhU42hs9/tlbdJ4NlbpOy7n5NfjCLZ6nHxE4oDW
-	TXtx+xjt3cdzwTSwuWF4dEeVjHepDxcLDdB/wq9OKptg7II9ePCGfxmIfqavM1Md6Uy
-	xaErgMHnmXeahEKjxBTXWR/rb3dqkbFp8RVNUmg4=
-Content-Type: multipart/mixed; boundary="===============1342208508213181476=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789629010;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=g8+TTWDrfvbnURKHfnszzVmMCmlSIySFt60avmwDf6M=;
+	b=1FzqAtIfeX/+bF56Ttp9vQzD1d8oZP6r4LwuZ15yOe07DPbJ6uTxkmGEBoqG9tt8
+	TcvIgJsH/fKvtflYZsgZ2TbjNRkA+p6dOxLbtibbVvja7Z2W6Zrl1V5lNLKedmf6+KK
+	1OJ8c/r9kzV/uM9Xm+ctfZV28Z8Mv7YUSe0GEIZc=
+Content-Type: multipart/mixed; boundary="===============1073271969744264761=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] tcf-agent: upgrading to 1.11.1 FAILED
-Message-ID: <010101a0ae339a45-ebae6b73-b5c8-4ddf-9e2f-5ad064c91dae-000000@us-west-2.amazonses.com>
-Date: Thu, 17 Sep 2026 07:10:12 +0000
+To: Ross Burton <ross.burton@arm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-pyproject-hooks: upgrading to 1.3.3 SUCCEEDED
+Message-ID: <010101a0ae3390a6-b5260702-4712-4d27-8f95-35045717f873-000000@us-west-2.amazonses.com>
+Date: Thu, 17 Sep 2026 07:10:10 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.17-54.240.27.31
+X-SES-Outgoing: 2026.09.17-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 07:10:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246036
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 07:10:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246034
 
---===============1342208508213181476==
+--===============1073271969744264761==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,16 +51,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *tcf-agent* to *1.11.1* has Failed(do_compile).
-
-Detailed error information:
-
-do_compile failed
-
-
+that the automatic attempt to upgrade the recipe(s) *python3-pyproject-hooks* to *1.3.3* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-tcf-agent-upgrade-1.11.0-1.11.1.patch
+    - apply the patch: git am 0001-python3-pyproject-hooks-upgrade-1.2.0-1.3.3.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -77,259 +72,219 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From e730a83da3fc3569f66aa30ba9b4329001ebce15 Mon Sep 17 00:00:00 2001
+From 02a620366f5d0dabcd8d83c2a43141bedbe23134 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 17 Sep 2026 06:23:24 +0000
-Subject: [PATCH] tcf-agent: upgrade 1.11.0 -> 1.11.1
+Date: Thu, 17 Sep 2026 06:13:36 +0000
+Subject: [PATCH] python3-pyproject-hooks: upgrade 1.2.0 -> 1.3.3
 
-8e23af30 TCF Agent: fixed possible NULL pointer dereference in Processes.getCapabilities
+Source: docs/changelog.rst
+
+v1.3.3
+------
+
+- No code changes from 1.3. The git tags and the version number got out of sync
+  while fixing an issue with the Github actions workflow to publish the release.
+  1.3.3 exists only to get them back in sync without reassigning any tags.
+
+v1.3
+----
+
+- Python 3.8 or above is now required (:pr:`214`).
+- UserWarnings from the backend are now captured and re-emitted in the frontend
+  process as a new category ``BuildBackendWarning``, so that frontends can
+  control how they are shown to users (:pr:`213`).
+- Show the traceback from the backend on a ``BackendUnavailable`` error (:pr:`219`).
+- Fix the return type annotation for ``prepare_metadata_for_build_wheel``
+  (:pr:`209`).
+- Fix removing the internal ``_in_process`` directory from ``sys.path`` where
+  the install location includes a symlink (:pr:`230`).
+- Use ``os.path.commonpath`` instead of the deprecated ``commonprefix`` to
+  validate the location of in-tree backends.
+- Fix in-tree backends in locations containing the path separator character -
+  ``:`` on Posix platforms, ``;`` on Windows (:pr:`232`).
+- Fix finding distribution metadata with ``importlib.metadata`` in the backend
+  when an in-tree backend is used (:pr:`212`).
+- ``pyproject_hooks`` can be built from source using flit_core 4.x (:pr:`233`).
+- Document that the ``hooks.subprocess_runner`` context manager API is not
+  thread-safe (:pr:227`)
+
+  in setuptools compatibility in 1.1 (PR :pr:`199`).
+  before imporing the backend (PR :pr:`193`).
+- Rely on preferred "files" API on Python 3.9 and later (:issue:`140`).
 ---
- .../recipes-devtools/tcf-agent/tcf-agent/ldflags.patch | 10 +++++-----
- .../{tcf-agent_1.11.0.bb => tcf-agent_1.11.1.bb}       |  6 +++---
- 2 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-devtools/tcf-agent/{tcf-agent_1.11.0.bb => tcf-agent_1.11.1.bb} (96%)
+ ...yproject-hooks_1.2.0.bb => python3-pyproject-hooks_1.3.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pyproject-hooks_1.2.0.bb => python3-pyproject-hooks_1.3.3.bb} (86%)
 
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
-index 9a911051e6..338d88d4bc 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch
-@@ -1,4 +1,4 @@
--From 2132bc5206b5d619c74caa391bc00d6f91d6ebe2 Mon Sep 17 00:00:00 2001
-+From 918ddcbb890e91e7683493115d919313c92931ad Mon Sep 17 00:00:00 2001
- From: Abdur Rehman <abdur_rehman@mentor.com>
- Date: Wed, 26 Aug 2015 19:18:11 +0500
- Subject: [PATCH] tcf-agent: obey LDFLAGS
-@@ -15,13 +15,13 @@ Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
+diff --git a/meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb b/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb
+rename to meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.bb
+index cdb9fc78c9..5f1507a034 100644
+--- a/meta/recipes-devtools/python/python3-pyproject-hooks_1.2.0.bb
++++ b/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pypa/pyproject-hooks"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=aad69c93f605003e3342b174d9b0708c"
  
- Signed-off-by: Mark hatle <mark.hatle@amd.com>
- ---
-- Makefile.inc | 2 +-
-+ agent/Makefile.inc | 2 +-
-  1 file changed, 1 insertion(+), 1 deletion(-)
+-SRC_URI[sha256sum] = "1e859bd5c40fae9448642dd871adf459e5e2084186e8d2c2a79a824c970da1f8"
++SRC_URI[sha256sum] = "defda19b854fa0d3bd4f76ea4ddcba8abd7dcfcdd585a6690ade050744fc5f43"
  
--diff --git a/Makefile.inc b/Makefile.inc
-+diff --git a/agent/Makefile.inc b/agent/Makefile.inc
- index 63f062b2..5da23c02 100644
----- a/Makefile.inc
--+++ b/Makefile.inc
-+--- a/agent/Makefile.inc
-++++ b/agent/Makefile.inc
- @@ -111,7 +111,7 @@ NO_LINK_F   ?= -c
-  # Linker definition and flags
-  
-diff --git a/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb b/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb
-similarity index 96%
-rename from meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
-rename to meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb
-index 01e4b7df49..5798426971 100644
---- a/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.0.bb
-+++ b/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb
-@@ -6,14 +6,14 @@ BUGTRACKER = "https://bugs.eclipse.org/bugs/"
- LICENSE = "BSD-3-Clause OR EPL-1.0"
- LIC_FILES_CHKSUM = "file://edl-v10.html;md5=522a390a83dc186513f0500543ad3679"
+ inherit pypi python_flit_core
  
--SRCREV = "3051a4806ac4b041ec7c49ffc6d07f0014b8480c"
-+SRCREV = "8e23af30895e085e3e6a9d694f2c5b521d844742"
- 
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>(\d+(\.\d+)+))"
--SRC_URI = "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=https;branch=master;tag=${PV} \
-+SRC_URI = "git://gitlab.eclipse.org/eclipse/tcf/tcf.agent.git;protocol=https;branch=1.11;tag=${PV} \
-            file://ldflags.patch \
-            file://tcf-agent.init \
-            file://tcf-agent.service \
--          "
-+           "
- 
- DEPENDS = "util-linux openssl"
- RDEPENDS:${PN} = "bash"
 -- 
 2.47.1
 
 
---===============1342208508213181476==
+--===============1073271969744264761==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="tcf-agent-changelog.txt"
+Content-Disposition: attachment;
+ filename="python3-pyproject-hooks-changelog.txt"
 
-Changelog for tcf-agent: 1.11.0 -> 1.11.1
+Changelog for python3-pyproject-hooks: 1.2.0 -> 1.3.3
+Source: docs/changelog.rst
 
-8e23af30 TCF Agent: fixed possible NULL pointer dereference in Processes.getCapabilities
+v1.3.3
+------
 
---===============1342208508213181476==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
+- No code changes from 1.3. The git tags and the version number got out of sync
+  while fixing an issue with the Github actions workflow to publish the release.
+  1.3.3 exists only to get them back in sync without reassigning any tags.
 
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 959 .bb files complete (0 cached, 959 parsed). 1993 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the qemux86_64 sysroot...done.
-Removing 1 recipes from the x86-64-v3 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
+v1.3
+----
 
-Build Configuration:
-BB_VERSION           = "2.19.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-ad651706eb8ed7d489071ad6a448017f3135292d"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:ad651706eb8ed7d489071ad6a448017f3135292d"
-meta-yocto-bsp       
-meta-poky            = "master:7e41504cd63b099b214f10d92cfdaf358ab98c5f"
-workspace            = "<unknown>:<unknown>"
+- Python 3.8 or above is now required (:pr:`214`).
+- UserWarnings from the backend are now captured and re-emitted in the frontend
+  process as a new category ``BuildBackendWarning``, so that frontends can
+  control how they are shown to users (:pr:`213`).
+- Show the traceback from the backend on a ``BackendUnavailable`` error (:pr:`219`).
+- Fix the return type annotation for ``prepare_metadata_for_build_wheel``
+  (:pr:`209`).
+- Fix removing the internal ``_in_process`` directory from ``sys.path`` where
+  the install location includes a symlink (:pr:`230`).
+- Use ``os.path.commonpath`` instead of the deprecated ``commonprefix`` to
+  validate the location of in-tree backends.
+- Fix in-tree backends in locations containing the path separator character -
+  ``:`` on Posix platforms, ``;`` on Windows (:pr:`232`).
+- Fix finding distribution metadata with ``importlib.metadata`` in the backend
+  when an in-tree backend is used (:pr:`212`).
+- ``pyproject_hooks`` can be built from source using flit_core 4.x (:pr:`233`).
+- Document that the ``hooks.subprocess_runner`` context manager API is not
+  thread-safe (:pr:227`)
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 192 Local 178 Mirrors 0 Missed 14 Current 404 (92% match, 97% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Running setscene task 525 of 596 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 526 of 596 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/bash/bash_5.3.bb:do_create_spdx_setscene)
-NOTE: Running setscene task 531 of 596 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-connectivity/openssl/openssl_4.0.2.bb:do_create_spdx_setscene)
-NOTE: Running task 734 of 1515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb:do_recipe_qa)
-NOTE: recipe tcf-agent-1.11.1-r0: task do_recipe_qa: Started
-NOTE: recipe openssl-4.0.2-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe util-linux-2.42.3-r0: task do_create_spdx_setscene: Started
-NOTE: recipe bash-5.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe openssl-4.0.2-r0: task do_create_spdx_setscene: Succeeded
-NOTE: recipe util-linux-2.42.3-r0: task do_create_spdx_setscene: Succeeded
-NOTE: Running setscene task 575 of 596 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-core/util-linux/util-linux_2.42.3.bb:do_create_recipe_spdx_setscene)
-NOTE: recipe util-linux-2.42.3-r0: task do_create_recipe_spdx_setscene: Started
-NOTE: recipe util-linux-2.42.3-r0: task do_create_recipe_spdx_setscene: Succeeded
-NOTE: Setscene tasks completed
-NOTE: Running task 1494 of 1515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb:do_create_recipe_spdx)
-NOTE: recipe tcf-agent-1.11.1-r0: task do_create_recipe_spdx: Started
-NOTE: recipe tcf-agent-1.11.1-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 1497 of 1515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb:do_fetch)
-NOTE: recipe tcf-agent-1.11.1-r0: task do_fetch: Started
-NOTE: recipe tcf-agent-1.11.1-r0: task do_create_recipe_spdx: Succeeded
-NOTE: recipe tcf-agent-1.11.1-r0: task do_fetch: Succeeded
-NOTE: Running task 1498 of 1515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb:do_unpack)
-NOTE: Running task 1499 of 1515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb:do_prepare_recipe_sysroot)
-NOTE: recipe tcf-agent-1.11.1-r0: task do_unpack: Started
-NOTE: recipe tcf-agent-1.11.1-r0: task do_prepare_recipe_sysroot: Started
-NOTE: recipe tcf-agent-1.11.1-r0: task do_prepare_recipe_sysroot: Succeeded
-NOTE: recipe tcf-agent-1.11.1-r0: task do_unpack: Succeeded
-NOTE: Running task 1500 of 1515 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb:do_patch)
-NOTE: recipe tcf-agent-1.11.1-r0: task do_patch: Started
-NOTE: recipe tcf-agent-1.11.1-r0: task do_patch: Failed
-NOTE: Tasks Summary: Attempted 1500 tasks of which 1494 didn't need to be rerun and 1 failed.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260917062309.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260917062309.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+  in setuptools compatibility in 1.1 (PR :pr:`199`).
+  before imporing the backend (PR :pr:`193`).
+- Rely on preferred "files" API on Python 3.9 and later (:issue:`140`).
 
-Summary: 1 task failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb:do_patch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/tcf-agent/1.11.1/temp/log.do_patch.1502830
-Summary: There was 1 ERROR message, returning a non-zero exit code.
-ERROR: tcf-agent-1.11.1-r0 do_patch: Applying patch '/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/tcf-agent/tcf-agent/ldflags.patch' on target directory '/srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/tcf-agent/1.11.1/sources/tcf-agent-1.11.1/agent'
-CmdError('quilt --quiltrc /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/tcf-agent/1.11.1/recipe-sysroot-native/etc/quiltrc push', 1, "stdout: Applying patch ldflags.patch
-can't find file to patch at input line 25
-Perhaps you used the wrong -p or --strip option?
-The text leading up to this was:
---------------------------
-|From 918ddcbb890e91e7683493115d919313c92931ad Mon Sep 17 00:00:00 2001
-|From: Abdur Rehman <abdur_rehman@mentor.com>
-|Date: Wed, 26 Aug 2015 19:18:11 +0500
-|Subject: [PATCH] tcf-agent: obey LDFLAGS
-|
-|We need LDFLAGS to be respected otherwise there are QA warnings as the right
-|flags don't get used.
-|
-|Upstream-Status: Inappropriate [oe-core specific]
-|Signed-off-by: Ross Burton <ross.burton@arm.com>
-|
-|Signed-off-by: Abdur Rehman <abdur_rehman@mentor.com>
-|
-|Rebased to 4a2c4baaccbc8c29ce0297705de9a4e096d57ce5 version
-|
-|Signed-off-by: Mark hatle <mark.hatle@amd.com>
-|---
-| agent/Makefile.inc | 2 +-
-| 1 file changed, 1 insertion(+), 1 deletion(-)
-|
-|diff --git a/agent/Makefile.inc b/agent/Makefile.inc
-|index 63f062b2..5da23c02 100644
-|--- a/agent/Makefile.inc
-|+++ b/agent/Makefile.inc
---------------------------
-No file to patch.  Skipping patch.
-1 out of 1 hunk ignored
-Patch ldflags.patch does not apply (enforce with -f)
-
-stderr: ")
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86-64-v3-poky-linux/tcf-agent/1.11.1/temp/log.do_patch.1502830
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-devtools/tcf-agent/tcf-agent_1.11.1.bb:do_patch) failed with exit code '1'
-
---===============1342208508213181476==
+--===============1073271969744264761==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-tcf-agent-upgrade-1.11.0-1.11.1.patch"
+ filename="0001-python3-pyproject-hooks-upgrade-1.2.0-1.3.3.patch"
 
-RnJvbSBlNzMwYTgzZGEzZmMzNTY5ZjY2YWEzMGJhOWI0MzI5MDAxZWJjZTE1IE1vbiBTZXAgMTcg
+RnJvbSAwMmE2MjAzNjZmNWQwZGFiY2Q4ZDgzYzJhNDMxNDFiZWRiZTIzMTM0IE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMTcgU2VwIDIwMjYgMDY6MjM6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
-Y2YtYWdlbnQ6IHVwZ3JhZGUgMS4xMS4wIC0+IDEuMTEuMQoKOGUyM2FmMzAgVENGIEFnZW50OiBm
-aXhlZCBwb3NzaWJsZSBOVUxMIHBvaW50ZXIgZGVyZWZlcmVuY2UgaW4gUHJvY2Vzc2VzLmdldENh
-cGFiaWxpdGllcwotLS0KIC4uLi9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnQv
-bGRmbGFncy5wYXRjaCB8IDEwICsrKysrLS0tLS0KIC4uLi97dGNmLWFnZW50XzEuMTEuMC5iYiA9
-PiB0Y2YtYWdlbnRfMS4xMS4xLmJifSAgICAgICB8ICA2ICsrKy0tLQogMiBmaWxlcyBjaGFuZ2Vk
-LCA4IGluc2VydGlvbnMoKyksIDggZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWRl
-dnRvb2xzL3RjZi1hZ2VudC97dGNmLWFnZW50XzEuMTEuMC5iYiA9PiB0Y2YtYWdlbnRfMS4xMS4x
-LmJifSAoOTYlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2YtYWdlbnQv
-dGNmLWFnZW50L2xkZmxhZ3MucGF0Y2ggYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50
-L3RjZi1hZ2VudC9sZGZsYWdzLnBhdGNoCmluZGV4IDlhOTExMDUxZTYuLjMzOGQ4OGQ0YmMgMTAw
-NjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2YtYWdlbnQvdGNmLWFnZW50L2xkZmxh
-Z3MucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnQv
-bGRmbGFncy5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMjEzMmJjNTIwNmI1ZDYxOWM3NGNh
-YTM5MWJjMDBkNmY5MWQ2ZWJlMiBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gOTE4ZGRj
-YmI4OTBlOTFlNzY4MzQ5MzExNWQ5MTkzMTNjOTI5MzFhZCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
-MDEKIEZyb206IEFiZHVyIFJlaG1hbiA8YWJkdXJfcmVobWFuQG1lbnRvci5jb20+CiBEYXRlOiBX
-ZWQsIDI2IEF1ZyAyMDE1IDE5OjE4OjExICswNTAwCiBTdWJqZWN0OiBbUEFUQ0hdIHRjZi1hZ2Vu
-dDogb2JleSBMREZMQUdTCkBAIC0xNSwxMyArMTUsMTMgQEAgUmViYXNlZCB0byA0YTJjNGJhYWNj
-YmM4YzI5Y2UwMjk3NzA1ZGU5YTRlMDk2ZDU3Y2U1IHZlcnNpb24KIAogU2lnbmVkLW9mZi1ieTog
-TWFyayBoYXRsZSA8bWFyay5oYXRsZUBhbWQuY29tPgogLS0tCi0gTWFrZWZpbGUuaW5jIHwgMiAr
-LQorIGFnZW50L01ha2VmaWxlLmluYyB8IDIgKy0KICAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRp
-b24oKyksIDEgZGVsZXRpb24oLSkKIAotZGlmZiAtLWdpdCBhL01ha2VmaWxlLmluYyBiL01ha2Vm
-aWxlLmluYworZGlmZiAtLWdpdCBhL2FnZW50L01ha2VmaWxlLmluYyBiL2FnZW50L01ha2VmaWxl
-LmluYwogaW5kZXggNjNmMDYyYjIuLjVkYTIzYzAyIDEwMDY0NAotLS0tIGEvTWFrZWZpbGUuaW5j
-Ci0rKysgYi9NYWtlZmlsZS5pbmMKKy0tLSBhL2FnZW50L01ha2VmaWxlLmluYworKysrIGIvYWdl
-bnQvTWFrZWZpbGUuaW5jCiBAQCAtMTExLDcgKzExMSw3IEBAIE5PX0xJTktfRiAgID89IC1jCiAg
-IyBMaW5rZXIgZGVmaW5pdGlvbiBhbmQgZmxhZ3MKICAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBl
-cy1kZXZ0b29scy90Y2YtYWdlbnQvdGNmLWFnZW50XzEuMTEuMC5iYiBiL21ldGEvcmVjaXBlcy1k
-ZXZ0b29scy90Y2YtYWdlbnQvdGNmLWFnZW50XzEuMTEuMS5iYgpzaW1pbGFyaXR5IGluZGV4IDk2
-JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2VudF8x
-LjExLjAuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy90Y2YtYWdlbnQvdGNmLWFn
-ZW50XzEuMTEuMS5iYgppbmRleCAwMWU0YjdkZjQ5Li41Nzk4NDI2OTcxIDEwMDY0NAotLS0gYS9t
-ZXRhL3JlY2lwZXMtZGV2dG9vbHMvdGNmLWFnZW50L3RjZi1hZ2VudF8xLjExLjAuYmIKKysrIGIv
-bWV0YS9yZWNpcGVzLWRldnRvb2xzL3RjZi1hZ2VudC90Y2YtYWdlbnRfMS4xMS4xLmJiCkBAIC02
-LDE0ICs2LDE0IEBAIEJVR1RSQUNLRVIgPSAiaHR0cHM6Ly9idWdzLmVjbGlwc2Uub3JnL2J1Z3Mv
-IgogTElDRU5TRSA9ICJCU0QtMy1DbGF1c2UgT1IgRVBMLTEuMCIKIExJQ19GSUxFU19DSEtTVU0g
-PSAiZmlsZTovL2VkbC12MTAuaHRtbDttZDU9NTIyYTM5MGE4M2RjMTg2NTEzZjA1MDA1NDNhZDM2
-NzkiCiAKLVNSQ1JFViA9ICIzMDUxYTQ4MDZhYzRiMDQxZWM3YzQ5ZmZjNmQwN2YwMDE0Yjg0ODBj
-IgorU1JDUkVWID0gIjhlMjNhZjMwODk1ZTA4NWUzZTZhOWQ2OTRmMmM1YjUyMWQ4NDQ3NDIiCiAK
-IFVQU1RSRUFNX0NIRUNLX0dJVFRBR1JFR0VYID0gIig/UDxwdmVyPihcZCsoXC5cZCspKykpIgot
-U1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZWNsaXBzZS5vcmcvZWNsaXBzZS90Y2YvdGNmLmFnZW50
-LmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyO3RhZz0ke1BWfSBcCitTUkNfVVJJID0g
-ImdpdDovL2dpdGxhYi5lY2xpcHNlLm9yZy9lY2xpcHNlL3RjZi90Y2YuYWdlbnQuZ2l0O3Byb3Rv
-Y29sPWh0dHBzO2JyYW5jaD0xLjExO3RhZz0ke1BWfSBcCiAgICAgICAgICAgIGZpbGU6Ly9sZGZs
-YWdzLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL3RjZi1hZ2VudC5pbml0IFwKICAgICAgICAg
-ICAgZmlsZTovL3RjZi1hZ2VudC5zZXJ2aWNlIFwKLSAgICAgICAgICAiCisgICAgICAgICAgICIK
-IAogREVQRU5EUyA9ICJ1dGlsLWxpbnV4IG9wZW5zc2wiCiBSREVQRU5EUzoke1BOfSA9ICJiYXNo
-IgotLSAKMi40Ny4xCgo=
+CkRhdGU6IFRodSwgMTcgU2VwIDIwMjYgMDY6MTM6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLXB5cHJvamVjdC1ob29rczogdXBncmFkZSAxLjIuMCAtPiAxLjMuMwoKU291cmNlOiBk
+b2NzL2NoYW5nZWxvZy5yc3QKCnYxLjMuMwotLS0tLS0KCi0gTm8gY29kZSBjaGFuZ2VzIGZyb20g
+MS4zLiBUaGUgZ2l0IHRhZ3MgYW5kIHRoZSB2ZXJzaW9uIG51bWJlciBnb3Qgb3V0IG9mIHN5bmMK
+ICB3aGlsZSBmaXhpbmcgYW4gaXNzdWUgd2l0aCB0aGUgR2l0aHViIGFjdGlvbnMgd29ya2Zsb3cg
+dG8gcHVibGlzaCB0aGUgcmVsZWFzZS4KICAxLjMuMyBleGlzdHMgb25seSB0byBnZXQgdGhlbSBi
+YWNrIGluIHN5bmMgd2l0aG91dCByZWFzc2lnbmluZyBhbnkgdGFncy4KCnYxLjMKLS0tLQoKLSBQ
+eXRob24gMy44IG9yIGFib3ZlIGlzIG5vdyByZXF1aXJlZCAoOnByOmAyMTRgKS4KLSBVc2VyV2Fy
+bmluZ3MgZnJvbSB0aGUgYmFja2VuZCBhcmUgbm93IGNhcHR1cmVkIGFuZCByZS1lbWl0dGVkIGlu
+IHRoZSBmcm9udGVuZAogIHByb2Nlc3MgYXMgYSBuZXcgY2F0ZWdvcnkgYGBCdWlsZEJhY2tlbmRX
+YXJuaW5nYGAsIHNvIHRoYXQgZnJvbnRlbmRzIGNhbgogIGNvbnRyb2wgaG93IHRoZXkgYXJlIHNo
+b3duIHRvIHVzZXJzICg6cHI6YDIxM2ApLgotIFNob3cgdGhlIHRyYWNlYmFjayBmcm9tIHRoZSBi
+YWNrZW5kIG9uIGEgYGBCYWNrZW5kVW5hdmFpbGFibGVgYCBlcnJvciAoOnByOmAyMTlgKS4KLSBG
+aXggdGhlIHJldHVybiB0eXBlIGFubm90YXRpb24gZm9yIGBgcHJlcGFyZV9tZXRhZGF0YV9mb3Jf
+YnVpbGRfd2hlZWxgYAogICg6cHI6YDIwOWApLgotIEZpeCByZW1vdmluZyB0aGUgaW50ZXJuYWwg
+YGBfaW5fcHJvY2Vzc2BgIGRpcmVjdG9yeSBmcm9tIGBgc3lzLnBhdGhgYCB3aGVyZQogIHRoZSBp
+bnN0YWxsIGxvY2F0aW9uIGluY2x1ZGVzIGEgc3ltbGluayAoOnByOmAyMzBgKS4KLSBVc2UgYGBv
+cy5wYXRoLmNvbW1vbnBhdGhgYCBpbnN0ZWFkIG9mIHRoZSBkZXByZWNhdGVkIGBgY29tbW9ucHJl
+Zml4YGAgdG8KICB2YWxpZGF0ZSB0aGUgbG9jYXRpb24gb2YgaW4tdHJlZSBiYWNrZW5kcy4KLSBG
+aXggaW4tdHJlZSBiYWNrZW5kcyBpbiBsb2NhdGlvbnMgY29udGFpbmluZyB0aGUgcGF0aCBzZXBh
+cmF0b3IgY2hhcmFjdGVyIC0KICBgYDpgYCBvbiBQb3NpeCBwbGF0Zm9ybXMsIGBgO2BgIG9uIFdp
+bmRvd3MgKDpwcjpgMjMyYCkuCi0gRml4IGZpbmRpbmcgZGlzdHJpYnV0aW9uIG1ldGFkYXRhIHdp
+dGggYGBpbXBvcnRsaWIubWV0YWRhdGFgYCBpbiB0aGUgYmFja2VuZAogIHdoZW4gYW4gaW4tdHJl
+ZSBiYWNrZW5kIGlzIHVzZWQgKDpwcjpgMjEyYCkuCi0gYGBweXByb2plY3RfaG9va3NgYCBjYW4g
+YmUgYnVpbHQgZnJvbSBzb3VyY2UgdXNpbmcgZmxpdF9jb3JlIDQueCAoOnByOmAyMzNgKS4KLSBE
+b2N1bWVudCB0aGF0IHRoZSBgYGhvb2tzLnN1YnByb2Nlc3NfcnVubmVyYGAgY29udGV4dCBtYW5h
+Z2VyIEFQSSBpcyBub3QKICB0aHJlYWQtc2FmZSAoOnByOjIyN2ApCgogIGluIHNldHVwdG9vbHMg
+Y29tcGF0aWJpbGl0eSBpbiAxLjEgKFBSIDpwcjpgMTk5YCkuCiAgYmVmb3JlIGltcG9yaW5nIHRo
+ZSBiYWNrZW5kIChQUiA6cHI6YDE5M2ApLgotIFJlbHkgb24gcHJlZmVycmVkICJmaWxlcyIgQVBJ
+IG9uIFB5dGhvbiAzLjkgYW5kIGxhdGVyICg6aXNzdWU6YDE0MGApLgotLS0KIC4uLnlwcm9qZWN0
+LWhvb2tzXzEuMi4wLmJiID0+IHB5dGhvbjMtcHlwcm9qZWN0LWhvb2tzXzEuMy4zLmJifSB8IDIg
+Ky0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1l
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtcHlwcm9qZWN0LWhvb2tzXzEu
+Mi4wLmJiID0+IHB5dGhvbjMtcHlwcm9qZWN0LWhvb2tzXzEuMy4zLmJifSAoODYlKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXByb2plY3QtaG9v
+a3NfMS4yLjAuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwcm9q
+ZWN0LWhvb2tzXzEuMy4zLmJiCnNpbWlsYXJpdHkgaW5kZXggODYlCnJlbmFtZSBmcm9tIG1ldGEv
+cmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXByb2plY3QtaG9va3NfMS4yLjAuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1weXByb2plY3Qt
+aG9va3NfMS4zLjMuYmIKaW5kZXggY2RiOWZjNzhjOS4uNWYxNTA3YTAzNCAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXB5cHJvamVjdC1ob29rc18xLjIu
+MC5iYgorKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtcHlwcm9qZWN0
+LWhvb2tzXzEuMy4zLmJiCkBAIC0zLDcgKzMsNyBAQCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1
+Yi5jb20vcHlwYS9weXByb2plY3QtaG9va3MiCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19D
+SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWFhZDY5YzkzZjYwNTAwM2UzMzQyYjE3NGQ5YjA3
+MDhjIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiMWU4NTliZDVjNDBmYWU5NDQ4NjQyZGQ4NzFh
+ZGY0NTllNWUyMDg0MTg2ZThkMmMyYTc5YTgyNGM5NzBkYTFmOCIKK1NSQ19VUklbc2hhMjU2c3Vt
+XSA9ICJkZWZkYTE5Yjg1NGZhMGQzYmQ0Zjc2ZWE0ZGRjYmE4YWJkN2RjZmNkZDU4NWE2NjkwYWRl
+MDUwNzQ0ZmM1ZjQzIgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2ZsaXRfY29yZQogCi0tIAoyLjQ3
+LjEKCg==
 
---===============1342208508213181476==--
+--===============1073271969744264761==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.3.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info -> /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.3.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-pyproject-hooks (sysroot):
+  /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info moved to /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.3.dist-info
+Changes to packages/x86_64-linux/python3-pyproject-hooks-native (sysroot):
+  /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info moved to /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.3.dist-info
+
+--===============1073271969744264761==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/all-poky-linux/ca-certificates/ca-certificates-dev: FILES: removed "/lib/*.la /lib/*.o /lib/lib*.so"
+packages/all-poky-linux/ca-certificates/ca-certificates-staticdev: FILES: removed "/lib/*.a"
+packages/all-poky-linux/ca-certificates/ca-certificates: FILES: removed "/bin/* /sbin/* /lib/*.so.*", added "/usr/lib/*.so.*"
+packages/all-poky-linux/tzdata/tzdata: FILES: removed "/bin/* /sbin/* /lib/*.so.*", added "/usr/lib/*.so.*"
+packages/x86-64-v3-poky-linux/gcc-runtime/gcc-runtime-src: PKGSIZE changed from 11341250 to 11141818 (-2%)
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks: PKGV changed from 1.2.0 [default] to 1.3.3 [default]
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks: SRC_URI changed from "https://files.pythonhosted.org/packages/source/p/pyproject_hooks/pyproject_hooks-1.2.0.tar.gz" to "https://files.pythonhosted.org/packages/source/p/pyproject_hooks/pyproject_hooks-1.3.3.tar.gz"
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks: PV changed from "1.2.0" to "1.3.3"
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-dbg: PKGV changed from 1.2.0 [default] to 1.3.3 [default]
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-dbg: PV changed from "1.2.0" to "1.3.3"
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-dev: PKGV changed from 1.2.0 [default] to 1.3.3 [default]
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-dev: PV changed from "1.2.0" to "1.3.3"
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-doc: PKGV changed from 1.2.0 [default] to 1.3.3 [default]
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-doc: PV changed from "1.2.0" to "1.3.3"
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-locale: PKGV changed from 1.2.0 [default] to 1.3.3 [default]
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-locale: PV changed from "1.2.0" to "1.3.3"
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-src: PKGV changed from 1.2.0 [default] to 1.3.3 [default]
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-src: PV changed from "1.2.0" to "1.3.3"
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-staticdev: PKGV changed from 1.2.0 [default] to 1.3.3 [default]
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks-staticdev: PV changed from "1.2.0" to "1.3.3"
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks: FILELIST: directory renamed /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info -> /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.3.dist-info, directory renamed /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info/licenses -> /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.3.dist-info/licenses
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks: PKGV changed from 1.2.0 [default] to 1.3.3 [default]
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks: PKGSIZE changed from 70184 to 74129 (+6%)
+packages/x86-64-v3-poky-linux/python3-pyproject-hooks/python3-pyproject-hooks: PV changed from "1.2.0" to "1.3.3"
+Changes to packages/x86-64-v3-poky-linux/python3-pyproject-hooks (sysroot):
+  /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info moved to /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.3.dist-info
+Changes to packages/x86_64-linux/python3-pyproject-hooks-native (sysroot):
+  /usr/lib/python3.14/site-packages/pyproject_hooks-1.2.0.dist-info moved to /usr/lib/python3.14/site-packages/pyproject_hooks-1.3.3.dist-info
+
+--===============1073271969744264761==--
 
