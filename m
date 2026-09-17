@@ -2,50 +2,50 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15FF0C982DA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7F42DC982DB
 	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 22:07:54 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1555.1789682873200990348
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1557.1789682873691947474
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 15:07:53 -0700
+ Thu, 17 Sep 2026 15:07:54 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Q9DtB+T5;
- spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d1fb0cf5eso866645e9.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:07:52 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=EgfpE7WP;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49ccfd61ecaso1011145e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:07:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789682871; x=1790287671; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1789682872; x=1790287672; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=w8mCTDQIkb5Tu25Elw1GbAxfMnSsKJTMce7Unioq8uo=;
-        b=Q9DtB+T5OJ5Nnt80i2V+4Rgiv7Pxsk1s5fQYluNyP9aCsrJAgBJkzddlbaPmm27SLD
-         EnqXggsNUiTX2yA/UxgXg04tIigk6DNG35CJRCV+MvyVsL3uIH0ZE9meGfd22NAwd44w
-         QV6XbhIlqrsykXDCP2iYAHcBChk1a7Dwk1L2M=
+        bh=8NpdUPWZVOVoZohSSzSKanPFI/K8WGLTavl6xcsnf2Q=;
+        b=EgfpE7WPcyf5FB537h5sG2FprDQtmFNFx1U1Lnk4tWB2rjKrCpKCBCjHTPeSX1Bw2j
+         pVpv33PfiuXYDu9BnFcKv1wjDGx0Scrl5SngSwmu3mNIj2WEKBuFl5lkhyVOZ0jnNYCh
+         SHIrweqrFFWjZFwjCeQR70IIT2tWl7908s9/I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789682871; x=1790287671;
+        d=1e100.net; s=20260707; t=1789682872; x=1790287672;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=w8mCTDQIkb5Tu25Elw1GbAxfMnSsKJTMce7Unioq8uo=;
-        b=hzNghjOsvtsCQ2Vgm1c+YXuqkE2OCrO1ddx6WIkspy++9Lx0OCer4310+MafcOzoZZ
-         5ctjclwUPcd2e/eHjYhKrM2o5buoKXYma4obHrOxT77RgmNJeWvjcxJWI7FCyZPBQHa2
-         pU2OfhpvBVGit1uE04a0paSs/M8t6AS3rMvTDDVMyIo2/DS5xLq9CYtVmxMQzc2DDe4K
-         n03hK5RZ2Dlpq4pxRGlT2JlvJlNY/1P2dwalC+UcopdD5lfIVxrlKfABDgN0kZLro4GA
-         VH8y2JINlj1kqC6b5Q8Qy4kkjjVZq+plUsAEwZbeIehpTqb3YrG/fv0nj6cLhJHzi/KV
-         u/+g==
-X-Gm-Message-State: AFuF++nRNydA5a1/HAy8580hWgJyKJQ92OEg7eAo5otnDxc4fVgMeiyr
-	YcOqMXCttXIAXDqe8JrmgG42X2T3DCLRlgO1gW/dfzC7PwrjV9xuHQ76qquzu9SqNnlDJ1MCNHR
-	S4OZouek=
-X-Gm-Gg: AYBFou3bIb+uO8mI+CkMWSqB6lB9KPWoF4GKSbzciJPxkYHhfT7XPnp2NORUT78QV7L
-	3+/SAmoSrpSxL4dEqvVE2MzNwPsXnCd55RVxPwGMbywsMr29Ll1LhqqrZI92ynWCy7wO1H8+O2k
-	S7RUmYsK6TFjnjhc38Tl9ZqITbj0grPD5K8kw6noapYCNMxMJV9cVxzhzRs8TIutOLYY1jS5Nql
-	TaSPQtg1Dcs8X80ClVAOIUVsI7TolKL3VdAHMqjWkfENC3fBRJXrKIcHpw3n4IRr9gDcsyjCQ4d
-	J0GsFStCfZ49iov8RGGn1xm3R3Gv55hhtDz7RTgzMrIXj2pLlN7OzfPIp8niCE04500uyQ3/8TM
-	eDc+4n1LccTcnNDdunr+Jt4sM1B3ebig6Iwn3vmLpgQ3+rOJxgmjUbSurhJEHaeHQZ8P//l3X+R
-	41phUI05lMpX+I8qMgEzVwdz/GD8EbhAW1BNW0MUPLsPOj0idXI7bBLj6TYVQofpAfH60xAqa/Z
-	WsDNMOu+VyZAFav9rp3TQZT3uAGpopQwlhYvQkRZawD81x2tFgW8XiAA6qVJamTSWTIIAs0qr8=
-X-Received: by 2002:a05:600c:8b03:b0:499:a277:e8b5 with SMTP id 5b1f17b1804b1-49fc566e609mr3143925e9.3.1789682871415;
+        bh=8NpdUPWZVOVoZohSSzSKanPFI/K8WGLTavl6xcsnf2Q=;
+        b=nWGl7DAcxATXIeUERM1NksHYnH4RqHgdwlTBkmUQl4Xszx3ndffe8desU4Yz02FIhA
+         T+uyRZa2VmuXSxNcOP8Nyh5nTm/lijs/VwTM9UYcypsQnFXRxYpTUpsas9RheCIIL5EN
+         fIA2/0MbhrBng/1ikwI14O9BuovLFMP1Cm1oNv72fYOxT3l98wdSxsay2cckhxNgomQY
+         +HMimorIc1BMMOpG8/yvuBa0uWcqfmyhhffc9lU0CIYNSrK5sg1x5jMTJ3lx/u9b12Z+
+         TmJ7TeF2m0PPByNtOivE+Lm2mQdammbYCrlV+uGE/l14DbJ+l7LaLsY/OrHNm9DG4w36
+         2vtA==
+X-Gm-Message-State: AFuF++kn6y3X+xskiWtmJZKzJ8XqTA4PQASiIEo5la/ocjAIXdEFUZpA
+	CP1m0ncffGPjjHsZ0zFWirKT25f9XrnUOuiNBAiSgWGShSHBfAM6tAEtsv9d9Z5iWwoFCl3i3pH
+	8OZIgbKA=
+X-Gm-Gg: AYBFou0xqhmLARTzLjoBwrGX3Wt3nGox8A36dFCuZdLiKw3VwfhZvuqqwca++X3dh5b
+	3iiRhqqFHkAqxdVJGRS/dtvei5onckA1V5jSkyYaawM3zkojQvrdd024xEE/t5Ry0phbP828hRt
+	7P4HSSofFYhRyb5+Xd+QZgcAoUKeWBZT5Xsi+k9S09ETobXaonr8cXeE4wovfkpuxp3MBKltuNz
+	pVE8bbgimv8ADu1UiCn/a18v4W410G9U8ilzL2Ud+y5KgWkodl+AJ9adz27g0HkKmmwbaU+Tvwg
+	ugE1L58qgiz+cCUe0SWWix8LvVNIsC8ElcS51dtRY/rUpGEWhTb2HLCyarPzOv6T0Cfux3NqNHk
+	ZAAaFgWqc6XDmzHvZrN/SYW2Eq9T53jryYsaVWq0DXZYxSdLL8Fqpq0+IZY2uhUUwnc0XT0U8m9
+	Sd8Tc5qdk1/054lc5tOLmUSY5G1hAesz4as115aCM4SZKTddrs/QrioTzPx10mVcGW5cYQpSTnD
+	KMJHcx7qWuzPBRHyI5s1HwQAY8fmYbudHulkbLRicGY0/OZKXhWQgeAJ6yKtSlKs7ksLWP4JAQ=
+X-Received: by 2002:a05:600c:1391:b0:49d:1fd8:b874 with SMTP id 5b1f17b1804b1-49fc574114fmr2979915e9.19.1789682871851;
         Thu, 17 Sep 2026 15:07:51 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
         by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.07.51
@@ -54,9 +54,9 @@ Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wan
         Thu, 17 Sep 2026 15:07:51 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 04/79] cmake-native: use bundled nghttp2 with bundled curl
-Date: Fri, 18 Sep 2026 00:05:49 +0200
-Message-ID: <8553003ffbed5f3f16d10373dae9672db9bfa417.1789681419.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 05/79] vim: Fix CVE-2026-52858 regression
+Date: Fri, 18 Sep 2026 00:05:50 +0200
+Message-ID: <7a78c67a15aecd7c455196419103a83b9ce12c4e.1789681419.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1789681419.git.yoann.congal@smile.fr>
 References: <cover.1789681419.git.yoann.congal@smile.fr>
@@ -66,61 +66,139 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 22:07:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246098
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246100
 
-From: Himanshu Jadon <hjadon@cisco.com>
+From: Devansh Patel <devanshp@cisco.com>
 
-cmake.inc enables system library lookup through
-CMAKE_USE_SYSTEM_LIBRARIES=1. cmake-native already keeps curl bundled,
-but it did not also disable system nghttp2 lookup. With CMake 4.3.1,
-the bundled cmcurl configure can enable nghttp2 when headers are found
-on the host. The later compile uses only the OE native sysroot, so the
-build can fail with:
+This patch fixes a regression introduced by the CVE-2026-52858 fix
+already carried by OE-Core in commit [1]. The original security fix
+added the g:pythoncomplete_allow_import opt-in, but the documented
+behavior was broken because vim was not imported in the completion
+class scope. This patch applies upstream Vim patch 9.2.0568 to restore
+that behavior.
 
-  fatal error: nghttp2/nghttp2.h: No such file or directory
+[1] https://github.com/openembedded/openembedded-core/commit/24ef5a9dfffe7b3d96fb62c0d3248348696c9115
+[2] https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d
+[3] https://github.com/vim/vim/commit/868ad62cb8bf8038322eab2badd31bd98b02b9df
+[4] https://github.com/vim/vim/security/advisories/GHSA-52mc-rq6p-rc7c
 
-Disable system nghttp2 lookup for cmake-native also. This keeps it
-consistent with the existing bundled curl setting instead of adding a
-new native dependency because the host happened to expose nghttp2
-during configure.
-
-Add the bundled cmnghttp2 license checksum because the native build now
-uses that copy explicitly.
-
-Signed-off-by: Himanshu Jadon <hjadon@cisco.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 0b20ba549d6f17af40b9877eb9ab0c52ca62a18c)
-Backport note:
-CMake 4.3.1 used by Wrynose has the same behavior: with
-CMAKE_USE_SYSTEM_LIBRARIES=1 and system curl disabled,
-CMAKE_USE_SYSTEM_NGHTTP2 defaults to ON. If the host provides nghttp2,
-configure records the host include and library paths, while do_compile
-uses only the OE native sysroot. Therefore this setting is needed for
-Wrynose as well.
-Signed-off-by: Deepak Rathore <deeratho@cisco.com>
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/cmake/cmake-native_4.3.1.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../vim/files/CVE-2026-52858-regression.patch | 93 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 94 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858-regression.patch
 
-diff --git a/meta/recipes-devtools/cmake/cmake-native_4.3.1.bb b/meta/recipes-devtools/cmake/cmake-native_4.3.1.bb
-index a859cef1517..911155773cc 100644
---- a/meta/recipes-devtools/cmake/cmake-native_4.3.1.bb
-+++ b/meta/recipes-devtools/cmake/cmake-native_4.3.1.bb
-@@ -15,6 +15,7 @@ LIC_FILES_CHKSUM:append = " \
-     file://Utilities/cmlibrhash/COPYING;md5=a8c2a557a5c53b1c12cddbee98c099af \
-     file://Utilities/cmlibuv/LICENSE;md5=ad93ca1fffe931537fcf64f6fcce084d \
-     file://Utilities/cmcurl/COPYING;md5=72f4e9890e99e68d77b7e40703d789b8 \
-+    file://Utilities/cmnghttp2/COPYING;md5=764abdf30b2eadd37ce47dcbce0ea1ec \
-     file://Utilities/cmcppdap/LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57 \
- "
- 
-@@ -34,6 +35,7 @@ EXTRA_OECMAKE += "\
-     -DCMAKE_DISABLE_FIND_PACKAGE_Libidn2=ON \
-     -DENABLE_ACL=0 -DHAVE_ACL_LIBACL_H=0 \
-     -DHAVE_SYS_ACL_H=0 \
-+    -DCMAKE_USE_SYSTEM_LIBRARY_NGHTTP2=0 \
- "
- 
- # Ensure e2fsprogs isn't found on the host to remove a build dependency and reproducible builds.
+diff --git a/meta/recipes-support/vim/files/CVE-2026-52858-regression.patch b/meta/recipes-support/vim/files/CVE-2026-52858-regression.patch
+new file mode 100644
+index 00000000000..50392fb76f1
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-52858-regression.patch
+@@ -0,0 +1,93 @@
++From 8075209bb1e721ca89c2e7fd5d216d7fe2bd3ea6 Mon Sep 17 00:00:00 2001
++From: thinca <thinca@gmail.com>
++Date: Sun, 31 May 2026 12:33:07 +0000
++Subject: [PATCH] patch 9.2.0568: pythoncomplete: g:pythoncomplete_allow_import
++ had no effect
++
++Problem:  The security patch 9.2.0561 added a vim.eval() call inside
++          Completer.evalsource() to honor g:pythoncomplete_allow_import.
++          But the 'vim' module is only imported inside the outer
++          vimcomplete() / vimpy3complete() function, not at the script's
++          top level, so referring to it from a Completer method raises
++          NameError.  The surrounding bare 'except' silently swallows
++          the error and leaves allow_imports at 0, meaning the opt-in
++          never takes effect -- 'import os' (and any other
++          buffer-level import) is always skipped, no candidates are
++          produced for 'os.<...>' and
++          Test_popup_and_preview_autocommand() fails on the Windows
++          CI matrix (Linux skips the test because Python 2 is absent).
++Solution: Re-import 'vim' at the top of evalsource() in both
++          pythoncomplete.vim and python3complete.vim so the eval reads
++          the global, and set g:pythoncomplete_allow_import = 1 in the
++          test (it is the opt-in intended for callers that trust the
++          buffer contents) (thinca).
++
++closes: #20386
++
++CVE: CVE-2026-52858
++Upstream-Status: Backport [https://github.com/vim/vim/commit/868ad62cb8bf8038322eab2badd31bd98b02b9df]
++
++Backport Changes:
++- Omitted src/version.c because the Wrynose recipe remains at Vim 9.2.0340;
++  the upstream version-table hunk is not needed for this backport.
++
++Signed-off-by: thinca <thinca@gmail.com>
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++(cherry picked from commit 868ad62cb8bf8038322eab2badd31bd98b02b9df)
++Signed-off-by: Devansh Patel <devanshp@cisco.com>
++---
++ runtime/autoload/python3complete.vim | 3 +++
++ runtime/autoload/pythoncomplete.vim  | 3 +++
++ src/testdir/test_popup.vim           | 4 ++++
++ 3 files changed, 10 insertions(+)
++
++diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
++index a0314242b..bdabf62c8 100644
++--- a/runtime/autoload/python3complete.vim
+++++ b/runtime/autoload/python3complete.vim
++@@ -158,6 +158,9 @@ class Completer(object):
++        self.parser = PyParser()
++ 
++     def evalsource(self,text,line=0):
+++        # vim is imported locally in vimpy3complete(); re-import here so the
+++        # vim.eval() below works (otherwise NameError, silently caught).
+++        import vim
++         sc = self.parser.parse(text,line)
++         try: allow_imports = int(
++           vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
++diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
++index 39b1efd29..761488244 100644
++--- a/runtime/autoload/pythoncomplete.vim
+++++ b/runtime/autoload/pythoncomplete.vim
++@@ -172,6 +172,9 @@ class Completer(object):
++        self.parser = PyParser()
++ 
++     def evalsource(self,text,line=0):
+++        # vim is imported locally in vimcomplete(); re-import here so the
+++        # vim.eval() below works (otherwise NameError, silently caught).
+++        import vim
++         sc = self.parser.parse(text,line)
++         try: allow_imports = int(
++           vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
++diff --git a/src/testdir/test_popup.vim b/src/testdir/test_popup.vim
++index fac2a7592..55c2f232d 100644
++--- a/src/testdir/test_popup.vim
+++++ b/src/testdir/test_popup.vim
++@@ -723,6 +723,9 @@ func Test_popup_and_preview_autocommand()
++     au!
++     au BufAdd * nested tab sball
++   augroup END
+++  " Let pythoncomplete follow the buffer's 'import os' (off by default
+++  " since v9.2.0561) so 'os.' can be completed.
+++  let g:pythoncomplete_allow_import = 1
++   set omnifunc=pythoncomplete#Complete
++   call setline(1, 'import os')
++   " make the line long
++@@ -745,6 +748,7 @@ func Test_popup_and_preview_autocommand()
++   augroup END
++   augroup! MyBufAdd
++   bw!
+++  unlet g:pythoncomplete_allow_import
++ endfunc
++ 
++ func s:run_popup_and_previewwindow_dump(lines, dumpfile)
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 77f681410a9..b3732cb780e 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -21,6 +21,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
+            file://CVE-2026-45130.patch \
+            file://CVE-2026-46483.patch \
+            file://CVE-2026-52858.patch \
++           file://CVE-2026-52858-regression.patch \
+            file://CVE-2026-52859.patch \
+            file://CVE-2026-52860.patch \
+            file://CVE-2026-42307.patch \
 
