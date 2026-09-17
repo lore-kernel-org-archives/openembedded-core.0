@@ -1,119 +1,178 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 22454C982D0
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 20:07:49 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2563.1789675664973729071
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 116BFC982D0
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 21:13:03 +0000 (UTC)
+Received: from mail-qv2-f43.google.com (mail-qv2-f43.google.com [74.125.230.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.42738.1789659646079058085
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 13:07:45 -0700
+ Thu, 17 Sep 2026 08:40:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=E+S1VqGo;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.141, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d37b5so201005e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 13:07:44 -0700 (PDT)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=oiKwf+/n;
+ spf=pass (domain: baylibre.com, ip: 74.125.230.171, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv2-f43.google.com with SMTP id 6a1803df08f44-90cdfcbe207so9925756d6.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 08:40:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789675663; x=1790280463; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+        d=baylibre.com; s=google; t=1789659645; x=1790264445; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=tNfVGNvb7hiszsY2j44g6Z5qHJbI7D/8nxsVBddQHjI=;
-        b=E+S1VqGokwkFNhXYMwbaqOF7yD7dg9RORif8yRu2D2fTguZQkGyEMJmFNhO6TJwsEC
-         V4Xy5pa7OA91tL8LufGOdMP4cWE6+QAwMYPEnbJDQ7ioOmFe10DyvGOd+Zzpk5+07Iua
-         tEnaSIT4wpUXCht19Q+2D4X0zaSJlkjTRaACc=
+        bh=yh7pCc8Tr6vnfm80joedj2xy+61aRzzCx1i1elLG9sE=;
+        b=oiKwf+/nolTTgpVkw3jZ/Z/FL/90vlCusFxK/SwaRimET6SIyE8tWBvgQMC7rxf9BF
+         wIf8k2F0j8LKvvnq/2tmsp9904VO2Aip6zWN4oJeuUUK0GVDojZ4kXFIPKBK2k7yjsJ0
+         9DnAv7pbBGUIHoMrrzTyDaolJTMC9jE295mX2DznK96rFjnPZVQ0o8hPpPWqYXFDguTd
+         wtJ3OL0CTwNuotje+PF6P6oYx4bjRaS9SgC8hDaLVAC9dyPh4UaGTqOwrGn90k9ifIL2
+         Af6Ie1GjjPQVcTHXbLlsnCUomV0TBHdHvKfc6UUh2g5X9F54oB5KvlSrr2Ipb1ClonGn
+         T9OA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789675663; x=1790280463;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+        d=1e100.net; s=20260707; t=1789659645; x=1790264445;
+        h=in-reply-to:references:to:from:subject:cc:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=tNfVGNvb7hiszsY2j44g6Z5qHJbI7D/8nxsVBddQHjI=;
-        b=MVyIU4ACbz08xixm/vJnqP4f0fLBYVYWVkL+peuy2CnrmPAKr5T8rKbgyxSweEWQxz
-         Z6iwrJkSkHa9Lu9bFqAkRou2ShclDNZQRQ8u/46+vwkKSY1sDm7OjWop2Fu7JKziV14w
-         9IoDc7IpiT7wDEUZ2sCG3w4HsIYNLLpJeI5yEalwVKILIwUlxAPhhbu0la4wLI8hkg8s
-         sPXCivhNvHRX9ILp6TdnW0Bh4iMjHgXjXgczpH+We7tPBXodV26NidrWWey2UV8P3UNF
-         JSyuG3Yhx63fb0gGsnM9IuSv00mDe2UozynDG0r7V8CzjQPrR1rUqM2rNbItzd4GKF40
-         1Hzw==
-X-Forwarded-Encrypted: i=1; AKwUvBz2zLgGGV+Af5EnGkmoufuWvESCtkGic72Yv6A+1eEowoPoxQSNhi9FTxxDUzPZ74lf2nNToceI/YzORxuJfhrWRg==@lists.openembedded.org
-X-Gm-Message-State: AFuF++lVTxh4S911dn5mL97ODZTapQ7G8ZkYNTmD2tVJ0TdrbS73sDUn
-	Gb+FtHaxsWXkwiRs24wYxS3WqGgZpq5BYukIM9A3c1uWLDP5bHjV99AM0m2WYXvWc/I=
-X-Gm-Gg: AYBFou0+pDPEToxj/BIZ68+HTieX3MH1j6n1YTLm8EaeFHxIVQ/9ZkedqaZXXYykFzk
-	NwH24F1X6dMjaxkFAoF9d0NU/uWNVAfIKujGJp2OucbNuoASjNoxlTlInrPtjfYAGb/3/jr/1EP
-	nEfc2mMQIjymJAOZbefn1gj9X0zKPdJfDqfOXcLCiDJ7jB/pieG6z8RD0rv9aLaFh5/7mBIp3dS
-	rL/FET18zAp1xdOdQProsycSE701cVv8U90Z7NY6ZSM1TtAg1NugPBAl3RNMYDNx6OxefB6S9XQ
-	gudRH5rNCnwb7q/rK9XH9rgMShbxPGCm/iPEjC47L1V7BCHM1Encjpd0YCpf+A+v3nhvEkxGnrz
-	l31802jQp63720ufIQmiicXH0rTG9kUOK5aZbdaF0qK1DMISGXUI94idUWdFo3lj11gaBBvtSoB
-	+Fg9RGzW4jxQOKwNmGPaic4NVAqRX0EOktMM4zCnUkgp2EPRZbUSgZRFRwqq301/mj/vh4Idlw2
-	WCcPUpugqBmo9ZRKFsvsSONZJY2/pKlPRFe/tbRU0Im8UNgztA2tgrhVfq0KhVF
-X-Received: by 2002:a05:600c:8b72:b0:49e:6692:27fd with SMTP id 5b1f17b1804b1-49fc566458cmr1003505e9.2.1789675663091;
-        Thu, 17 Sep 2026 13:07:43 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:c29e:2252:2a50:5c93? ([2001:8b0:aba:5f3c:c29e:2252:2a50:5c93])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd216ec7sm95899405e9.8.2026.09.17.13.07.41
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 13:07:41 -0700 (PDT)
-Message-ID: <71c2e47fa714ca48052d175ebc205e59803bf8d1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH 2/2] libsecret: upgrade 0.21.7 -> 0.21.8.2
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: jaipaul.cheernam@est.tech, openembedded-core@lists.openembedded.org
-Date: Thu, 17 Sep 2026 21:07:39 +0100
-In-Reply-To: <20260917074956.22252-3-jaipaul.cheernam@est.tech>
-References: <20260917074956.22252-1-jaipaul.cheernam@est.tech>
-	 <20260917074956.22252-3-jaipaul.cheernam@est.tech>
-Content-Type: text/plain; charset="UTF-8"
+        bh=yh7pCc8Tr6vnfm80joedj2xy+61aRzzCx1i1elLG9sE=;
+        b=D7h88o0hZEe8MHsHY9IHvpOEXxhqU1WEhFVJhZQERF3+CPZZeRPqOwsIzR4im2e9Wv
+         ygBNGlDHRnNVPnbp4daDJC5KkYl151cXe4CswOZJv+DuMIEd6eJqQNloMAaxPEngSAW4
+         0k2DZxnOv5prNzFyhGJ+brycfSpiILvrPWyxcuPszluTpyBG6kgMZ1+nBWfPrdUfhlEV
+         tjO6lo7XV2uoVA3w0+2yEsrmhgzUo7zlkc2RMXX8ntn6WNsL4ihTv1IGVDAHae7hnNRW
+         cTi7d6VQUKUc4ycCuznC+2WC6onZKXAd3gn7YkgdBe+XQwDgpDzbXYJ7wgUpJwxKk6kz
+         M/MA==
+X-Forwarded-Encrypted: i=1; AKwUvBx2E8wsUz3Ll9bcLjf2frFuIzO3TsNdY4WKfof93/hKKvvlaQzF7WDe4sik3wH2SwrsYeP5v5iT5iNyjCOE/N/eVA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++l9JHDoi6svn/0g8bOyEeUHIaQmHkH8MQrIMf0v6AMTmfedAtyl
+	8rGLxeO0FzdX8K3QfsUdCk0uJwmAD8Q+CcOX5qc1eCtsdu35oa/Cpq3ZXUXcKNQ1CMfVbqPO21w
+	RXeln
+X-Gm-Gg: AYBFou19RFfnznc8GoI54PIKIVsKcG+lALjp+m4AZ+JQ6aa21QnaBHNxP/ZSlMfZpdV
+	X2LGze7+otBImYopp0O+VH7Vg4yxBGlkBU9AaqtRlL94A3TeoojtMFgF5855Rc1CI2WywjOB5iK
+	FS4HgI6wlI+iyvp0JAKx9xVTUhr6d1KBj2AZoEdoiF06SrDD6/loYT8Ix8LcRX7qaKEKo4RJQcn
+	p3GW6KRS1v1vUp3UDPysJkk1P5EQ4ebqq489LFGaGqdeUWHzMxtqwyLpiC2dBtipLoib3BcT6iw
+	il32LKRSRPvfV5mj0YEax3HX1XZSgYd5aeN1+pos7iv9R3fhw+LFtN7sryU7K0yKBlgZEG9ljYf
+	aNNfV/wz4l17FBXxosrJ+3mqap6YU6xjvSQJVrUMSJ0RRpdlmGexufSIPANhdE1PJBUacE9UuYS
+	pQW6aufQOTn2INSpR5YGVRq/JHH6cbvgaxlUXXCWeznGt2Bm9WwHMFyAItukyX4CqLE3dSLSegV
+	rgro2HlODiqt6VCotiqaSkl/RQprFWcYw==
+X-Received: by 2002:a05:6214:627:b0:910:3453:505d with SMTP id 6a1803df08f44-9125244dac8mr6973826d6.31.1789659644719;
+        Thu, 17 Sep 2026 08:40:44 -0700 (PDT)
+Received: from localhost ([2001:1970:3847:e000:1977:be2f:4a71:2892])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91252c9377esm612766d6.24.2026.09.17.08.40.43
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Sep 2026 08:40:44 -0700 (PDT)
+Mime-Version: 1.0
+Date: Thu, 17 Sep 2026 11:40:42 -0400
+Message-Id: <DLHPE9Y2I92C.377RLG9OUQJQS@baylibre.com>
+Cc: <pratik.farkase@ericsson.com>
+Subject: Re: [OE-core][PATCH v1] util-linux: ptest: fix flock test timeout on slow targets
+From: "Trevor Gamblin" <tgamblin@baylibre.com>
+To: "Pratik Farkase" <pratik.farkase@est.tech>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.22.0
+References: <20260917144042.10045-1-pratik.farkase@est.tech>
+In-Reply-To: <20260917144042.10045-1-pratik.farkase@est.tech>
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 20:07:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246088
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 21:13:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246089
 
-On Thu, 2026-09-17 at 09:49 +0200, Jaipaul Cheernam via lists.openembedded.=
-org wrote:
-> NEWS: https://github.com/GNOME/libsecret/blob/0.21.8.2/NEWS
->=20
-> 0.21.8.2
-> =C2=A0* Release to bump meson.build version
->=20
-> 0.21.8.1
-> =C2=A0* Make secret_item_load_secrets_sync match async behavior [!180]
->=20
-> 0.21.8
-> =C2=A0* Allow the content type to have additional parameters [#114, !175]
-> =C2=A0* Support individually encrypted items [!174]
-> =C2=A0* Ensure we return chained up GTask [!179]
-> =C2=A0* Ensure length of DH shared secret match length of prime on GnuTLS=
- [!170]
-> =C2=A0* file-backend: Add thread safety and file-based locking to prevent=
- concurrent write races [!171]
-> =C2=A0* file-backend: Fix possible memory leak in error path of secret_fi=
-le_backend_real_search() [!173]
-> =C2=A0* file-collection: Fix memory leaks on repeated calls [!173]
-> =C2=A0* Replace some SecretSync with a sync implementation [!108]
-> =C2=A0* Add linker version script to hide private symbols [#70, !159]
-> =C2=A0* Stop using CONST annotations on non-const fns [!176]
-> =C2=A0* secret-tool: align behavior for collection option [!164]
-> =C2=A0* secret-tool: document --collection option [#31, !164]
-> =C2=A0* meson: Put test setup behind a feature option [#101, !162]
-> =C2=A0* Several test and CI improvements [!172, !177, !178]
-> =C2=A0* Updated translations
->=20
-> =C2=A0- Refresh the pam-tests patch for the new release.
->=20
-> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+On Thu Sep 17, 2026 at 10:40 AM EDT, Pratik Farkase wrote:
+> The flock ptest starts flock in the background and waits only 1 second
+> (hardcoded "timeout 1s") for flock to spawn its child, polling with
+> "pgrep -P". That budget only covers process startup, so it depends on
+> host speed. Under emulation (qemuriscv64 under TCG) spawning bash and
+> flock can exceed 1s, so the child is not seen in time and the test
+> aborts with "timeout waiting for flock child", failing intermittently on
+> the autobuilder.
+>
+> Backport a test fix that raises the timeout to 30s. The poll loop exits
+> as soon as the child appears, so fast hosts are unaffected; it only adds
+> headroom on slow/emulated targets.
+>
+> [YOCTO #16425]
+
+Thanks for this. Hopefully, upstream takes the patch. Out of curiosity, why=
+ did
+you choose 30s? Did you test with shorter timeouts (e.g. 10s)?
+
+Trevor
+>
+> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
 > ---
-> =C2=A0...meson-add-option-to-disable-pam-tests.patch | 18 +++++++++++----=
----
-> =C2=A0...bsecret_0.21.7.bb =3D> libsecret_0.21.8.2.bb} |=C2=A0 2 +-
-> =C2=A02 files changed, 12 insertions(+), 8 deletions(-)
-> =C2=A0rename meta/recipes-gnome/libsecret/{libsecret_0.21.7.bb =3D> libse=
-cret_0.21.8.2.bb} (92%)
+>  meta/recipes-core/util-linux/util-linux.inc   |  1 +
+>  ...ncrease-wait-for-flock-child-timeout.patch | 38 +++++++++++++++++++
+>  2 files changed, 39 insertions(+)
+>  create mode 100644 meta/recipes-core/util-linux/util-linux/0001-tests-fl=
+ock-increase-wait-for-flock-child-timeout.patch
+>
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
+ore/util-linux/util-linux.inc
+> index b30fb04e05..249ae09545 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -23,6 +23,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linux=
+/v${MAJOR_VERSION}/util-lin
+>             file://0004-libmount-use-USE_LIBMOUNT_MOUNTFD_SUPPORT-for-idm=
+ap-h.patch \
+>             file://0005-tools-add-non-newmount.conf-config-gen-profile.pa=
+tch \
+>             file://0006-tests-lsfd-accept-rw-mode-for-mmap-ed-packet-sock=
+et-.patch \
+> +           file://0001-tests-flock-increase-wait-for-flock-child-timeout=
+.patch \
+>             "
+> =20
+>  SRC_URI[sha256sum] =3D "66ac7c0e725278eb2b039e3104f2c91119341d941b41bac7=
+a285c695f940bd57"
+> diff --git a/meta/recipes-core/util-linux/util-linux/0001-tests-flock-inc=
+rease-wait-for-flock-child-timeout.patch b/meta/recipes-core/util-linux/uti=
+l-linux/0001-tests-flock-increase-wait-for-flock-child-timeout.patch
+> new file mode 100644
+> index 0000000000..60b6c86eeb
+> --- /dev/null
+> +++ b/meta/recipes-core/util-linux/util-linux/0001-tests-flock-increase-w=
+ait-for-flock-child-timeout.patch
+> @@ -0,0 +1,38 @@
+> +From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+> +From: Pratik Farkase <pratik.farkase@est.tech>
+> +Date: Wed, 17 Sep 2026 12:00:00 +0000
+> +Subject: [PATCH] tests: flock: increase "wait for flock child" timeout
+> +
+> +The flock test launches "flock ... bash -c '... sleep 3 ...'" in the
+> +background and then waits for flock to spawn its child using a hardcoded
+> +"timeout 1s" around a pgrep poll loop. That 1 second only covers process
+> +startup, so it is purely a function of host speed. Under emulation (e.g.
+> +qemuriscv64 under TCG) spawning the shell and flock can exceed 1s, so
+> +pgrep does not see the child in time and the test aborts with "timeout
+> +waiting for flock child", failing intermittently.
+> +
+> +Increase the timeout to 30s. The loop exits as soon as the child
+> +appears, so this does not slow down fast hosts; it only adds headroom on
+> +slow/emulated targets.
+> +
+> +Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pul=
+l/4639]
+> +
+> +Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+> +---
+> + tests/ts/flock/flock | 2 +-
+> + 1 file changed, 1 insertion(+), 1 deletion(-)
+> +
+> +diff --git a/tests/ts/flock/flock b/tests/ts/flock/flock
+> +--- a/tests/ts/flock/flock
+> ++++ b/tests/ts/flock/flock
+> +@@ -65,7 +65,7 @@
+> + 		ts_die "unable to run flock"
+> + 	fi
+> + 	# the lock should be established when flock has a child
+> +-	timeout 1s bash -c "while ! pgrep -P $pid >/dev/null; do sleep 0.1 ;do=
+ne" \
+> ++	timeout 30s bash -c "while ! pgrep -P $pid >/dev/null; do sleep 0.1 ;d=
+one" \
+> + 		|| ts_die "timeout waiting for flock child"
+> +=20
+> + 	ts_init_subtest "${subtest_prefix}non-block"
+> +--
+> +2.43.0
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/111/builds/3394
 
-Cheers,
-
-Richard
 
