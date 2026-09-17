@@ -2,48 +2,48 @@ Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 03252C982D1
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 05:34:48 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32903.1789623284799424922
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EA82FC982D0
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 05:34:47 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33020.1789623284045212510
  for <openembedded-core@lists.openembedded.org>;
  Wed, 16 Sep 2026 22:34:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=V0qYLKaf;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=y+RplBAz;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a0addc30a2-c1b6f130-626f-4cb2-a0f6-eb23aed21297-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=Jg+fNv5W;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1mDOEM+T;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a0addc2d4e-3f335bd3-5286-4d5f-b6c6-06950699ecd2-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789623284; i=@automation.yoctoproject.org;
+	t=1789623283; i=@automation.yoctoproject.org;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=lmzrHHjTRQtf8a0LZxlp3XBCaxcZUrLCjSDMh+eSyy0=;
-	b=V0qYLKafQOIFRldtIfP3Rx/SFbU9dLltqwV5Uks4jMPZA618AA2ECsyEayTL6hp6
-	yU0K2eGPMVwGRTn6acNpddxufIpDl52CgHqAghkJbstmDe4eec2UqWqsh7z5IqC5ORj
-	KnfUB+Fn++q/qyf5eNuRye34bkhwdJc01Tgdt3CA=
+	bh=s2yv+z9TaRflCA5We/OHlkG2BG/HQDq3jOZR83k5gSM=;
+	b=Jg+fNv5WvCXZA/IU+XZ8EqizW9XV4CrkMthqOav4Uq9c7tTe1oTFsJDlRTRDkQvv
+	6CJ9sMo9tmEfW1IdOGOoAZixeJlcb1OfNwmnOe2tt1kmk2UaLaltRNGh0qQC71p+nmt
+	lrhOfdCeaWt+lfipj7aXuYikUyAU/drCxw1u6bUI=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789623284;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789623283;
 	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=lmzrHHjTRQtf8a0LZxlp3XBCaxcZUrLCjSDMh+eSyy0=;
-	b=y+RplBAzshsdZF22qVRCNDmjzmpScj740lXSVxTPZiTyviPK098cPIv6aXpIVtyE
-	+9GSQJiYuk59fuXMVabN5iKe5d5FvrdL5nHUcr/pRm+zfdctBV5DbLwfEvOwq09CXAv
-	8p2hrsORiXV8HErBnCYgtXICnQlOGXXhY6NClF/Y=
+	bh=s2yv+z9TaRflCA5We/OHlkG2BG/HQDq3jOZR83k5gSM=;
+	b=1mDOEM+TtzPDKEs9HdiMepPY4jB1mqzVG57iBUx6d9LgLQVkTHIyvmvG1b5YJowj
+	Peap6LLjKCuABtO0RW3dFzZLbLPPfcLZT6Fm3G/YP9CszZEDZBbCaKkcnE5BESG3lYh
+	1LWSAPnwXNckHWZxof3Hzg2gNDS5lSMn56pGmFoE=
 From: patchtest@automation.yoctoproject.org
 To: bruce.ashfield@gmail.com
 CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [meta-yocto-bsp][PATCH 06/06] yocto-bsps: update to v6.18.52
-In-Reply-To: <20260917051340.1472139-7-bruce.ashfield@gmail.com>
-References: <20260917051340.1472139-7-bruce.ashfield@gmail.com>
+Subject: Patchtest results for [meta-yocto-bsp][PATCH 05/06] yocto-bsps: update to v6.18.50
+In-Reply-To: <20260917051340.1472139-6-bruce.ashfield@gmail.com>
+References: <20260917051340.1472139-6-bruce.ashfield@gmail.com>
 MIME-Version: 1.0" +         "
 Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0addc30a2-c1b6f130-626f-4cb2-a0f6-eb23aed21297-000000@us-west-2.amazonses.com>
+Message-ID: <010101a0addc2d4e-3f335bd3-5286-4d5f-b6c6-06950699ecd2-000000@us-west-2.amazonses.com>
 Date: Thu, 17 Sep 2026 05:34:43 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.17-54.240.27.23
+X-SES-Outgoing: 2026.09.17-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 05:34:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246020
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 05:34:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246019
 
 --NextPart
 Content-Type: text/plain
@@ -53,7 +53,7 @@ or more issues with the patch. Please see the log below for
 more information:
 
 ---
-Testing patch /home/patchtest/share/mboxes/meta-yocto-bsp-06-06-yocto-bsps-update-to-v6.18.52.patch
+Testing patch /home/patchtest/share/mboxes/meta-yocto-bsp-05-06-yocto-bsps-update-to-v6.18.50.patch
 
 FAIL: test target mailing list: Series sent to the wrong mailing list or some patches from the series correspond to different mailing lists (test_mbox.TestMbox.test_target_mailing_list)
 
