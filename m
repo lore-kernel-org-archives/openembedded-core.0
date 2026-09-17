@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8E358C982DC
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ADE3AC982DF
 	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 22:08:16 +0000 (UTC)
 Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1589.1789682894470389806
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1689.1789682891896821593
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 15:08:14 -0700
+ Thu, 17 Sep 2026 15:08:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=XEnpcUdH;
+ dkim=pass header.i=@smile.fr header.s=google header.b=wpIAtODL;
  spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6c0fce17so585435e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:14 -0700 (PDT)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b965f447cso894015e9.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:11 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789682893; x=1790287693; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1789682890; x=1790287690; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=y2yxohL04FaC66ic1nHPsxZggE9jbCHoXmyxbJ+7ZOg=;
-        b=XEnpcUdHuyv/E9oSBnkVffjZUz5+M0cO3oFO0LuwweRNsZN0Fb1tqpjYaRqnJB9D+P
-         Og3DU3DUk5NADnCrDJkC/yR6pDJ5znTjggZJF7xvjJcPihuBgsRbzcp7/ySJrHROzkII
-         kilhmO9/vaQ2D/arDsxsnI9Cijm7JwtRgrSkg=
+        bh=QuOMrV6qV0AU1BjFW6uJsF3h+4UCZ1gxFxCs6bMggMw=;
+        b=wpIAtODL9TIv3mXF77MgxDWFRPZeRs65aG3rnOmHMeYfFqQHjV3I1BD70ghvsfLT3Z
+         KuoLYRG6QjsVWP8t1cRp1eGPKM4ZV6Tyq8yqjiVEhL5ffJIWgqWdckgirYYU7JkfUjYQ
+         Vyad155DA1hCvN45DdpA8OxUug9c7BC5JisDE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789682893; x=1790287693;
+        d=1e100.net; s=20260707; t=1789682890; x=1790287690;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=y2yxohL04FaC66ic1nHPsxZggE9jbCHoXmyxbJ+7ZOg=;
-        b=kh37/7LZIG7FHLEiQeuCvWb+rzzjmvfE112Z1AZftjEa+DcF2BI+CWAG9uoMisOI24
-         c103WuPetfXacUKdktwISXfSEk3FYeD2LzZWyrsPFigUn+wogPrPoaqpHLzuF7quoBF6
-         pvuDSKr6nxmkEK6uYmEKwt5UuXU6qzyMfM/WheqUW/DGYINyGuYkXoGOXcAoXUFMdGjA
-         c0YreS5XUgJw1RcFa82wBGHqFV78fMQWjV+Kf7+z4LzDfEPObRQdpzAHwl/wZ+ur0fkv
-         yJKbBZU8JMIv1qK5IuxjDkxnvH8cecMNKUM7xbLrDUwUOdLEbb0AVViGsORRPvROYoSL
-         zhkA==
-X-Gm-Message-State: AFuF++lDyy6/z/0adXgyGPe08A+b68XgJAa/6obS5SZ1tOmxc0Yjq3uE
-	4iBDaTJnzEtw0tPhxukzghdEvQIIHL8tVCICzgeG6VB6pf7OSn5/6q0T8KkbNTmQKPZ+YCy+qT5
-	WEZ/5kdw=
-X-Gm-Gg: AYBFou3bGVHYwf768uEJ5Jy47xZY52p48+DbYtDHql1eocU/NKTN7K09CYewohjZAgI
-	AcdiCo7ryxIIVksu5zgeDswlNFkoeBevu9LHOsmp9Eb8BZ+4m8h3QXKVVp9uYyjaJmctDCB8SIv
-	4yYnqdQVpehni/s1mhctx/HgIng1dap0xjGwQaaTLyTAtAgI2XUZeaKufnPD3RvK7HN6VjSVYrW
-	j2f2EB6Hh9eiL2yDxPyAU/c9gkDPFs6GHhbdtrH9JD1u6nEycWxUtvX6XGhxSdyaqwuxu7N22BH
-	7kg25Kczg9mWixLsJQi6iDBpgP0M2lVFFWdUZYi1N9xik5v25v2U3AaQIPglMajbQlIqmoLXL1v
-	rDgiYv8275s8mGZdyQPE7BPtLyU8O42eOSnwYnVffi2wognUGng0b/VhrkEm4m5fbS6pUyHvmYw
-	n2FnNMe/Vyuwrxng2wKhW2o5LKxAdcvNSFL2DIs6AW7dcSGd9hSYPW12L4Q9jYBFBEtSFgnhm7w
-	t3fSUTm+8xcGMIGdZ5ZaeoAWe4qoArf7hcx+ygtr43nXfTIPqFQOaUqDCgs4qsFbmqP3VG3yTc=
-X-Received: by 2002:a05:600c:8b21:b0:49d:1df8:156d with SMTP id 5b1f17b1804b1-49fc574f001mr2975365e9.18.1789682892745;
-        Thu, 17 Sep 2026 15:08:12 -0700 (PDT)
+        bh=QuOMrV6qV0AU1BjFW6uJsF3h+4UCZ1gxFxCs6bMggMw=;
+        b=1Gv81LxTktX9THwH/eb1hJV31H097MryLtFtYIWkEOoJbTmb8xpMFMIoe7Ek7CoIEU
+         BZ5pqGLLxLBy3C7aQmX9cFOq1IMP3WXUXgaUb3vs1cxrjYZAULYfM5G6rduaiHTGMjrC
+         mgBB7pFp2AuZF+FKfKgAl3Do+mf1HzBAImAclJ5PQVGB91hMWaMCKrY4H0SmjR4JYbZN
+         BSw8kupDtXq+bzyGmg0oSFpImaaPYBOKhTYRNj9lU43WvvZHinXENqj1H3nlxTVM0GN8
+         I7xniw6VNtTARLP+KWLIRPbROGhKsFqGWjq4V9CFz/Ix3h9kd4wjshwK1ETwamn8VDfw
+         Irnw==
+X-Gm-Message-State: AFuF++nfFduajN+tQS5lz6tejoxwxp1TbP2udYy8ZTnPk9J6ZaPEqlyE
+	90J6xUoel/UJRDGBqc2pi2xT98JX8tq1xgW8u+mP/2262s+iU44aRfmtDoCrT6BElTTv94jDUeQ
+	xhSGGR3s=
+X-Gm-Gg: AYBFou2U7x8+zFEBoi9rs0Fc0Be4K+4y+MKsbyI3ISQ/Xvhtd1ToBLnUkK0qnVvj5o5
+	s9CYGB5dmUaTP0PecHYaP7laM+xPpc/n3kx0hYAYKpVRvWKA+jmhQ6eE+xcwERbTU3IsmU2GId3
+	HPIda8PyeIw7EMSjts3AEWPipjmq4aZjQeqUhwNulx8Z7OdzZutIzhKSnc1s10IpHKFq6XGRiql
+	A3PExjgQtnvYLWwbTr18TOzPUVvuDEwLkEfBlhZ3MNJJEAyvZKWAhClqzrcqbyfuFe/p6cuTeC4
+	/iu6Tw4t4L9ANnEPfLpGPwZYifmKg4mouzAcC2L6FXMRJCDriyLnWABiavU+TMyV8hJfknVT2Zj
+	6TBASRewIO3ECVuiXekHVv8mkWNPc0SEe/eQjmlF81eZynHY2g4stmfu/U6hWVh/bhvfPzHQOEl
+	Kq/nA8G81HMPw0tRalr3I0rGlW/2L+sc5dLbo8ZxYrcCY5UJrurkrp63KwA5kH/AV4yT8v305ti
+	tCe63Ez7Sjzd/MOWP0Lf8cIWDfqMEQrTMzTysB3gy/MBtPAejdn6UdMFzwe29fMT7Mkilhwryw=
+X-Received: by 2002:a05:600c:3ba9:b0:49c:f504:2af5 with SMTP id 5b1f17b1804b1-49fc566939emr3570535e9.1.1789682890171;
+        Thu, 17 Sep 2026 15:08:10 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.12
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.09
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 15:08:12 -0700 (PDT)
+        Thu, 17 Sep 2026 15:08:09 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 44/79] lttng-ust: inherit upstream-stable-release-point
-Date: Fri, 18 Sep 2026 00:06:29 +0200
-Message-ID: <767c3921cdd88f0709731a9c46b59ed5b8479044.1789681419.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 39/79] binutils: inherit upstream-stable-release-point
+Date: Fri, 18 Sep 2026 00:06:24 +0200
+Message-ID: <14700798446c6f9809d33ffc4e1c4b3ef22e00c5.1789681419.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1789681419.git.yoann.congal@smile.fr>
 References: <cover.1789681419.git.yoann.congal@smile.fr>
@@ -66,80 +66,59 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 22:08:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246139
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246134
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-lttng-ust maintains a branch per minor series (stable-2.13 through
-stable-2.16) and releases from several at once: 2.14.2 and 2.15.1 went out
-the same day in May 2026, and three series together in February, 2.13.10,
-2.14.1 and 2.15.0. So upgrades within a major.minor are stable point
-upgrades per the OE-Core stable release policy (ref-manual, "Stable Point
-Release Upgrades"). There is no written policy document, so qualification
-rests on that branch structure and the release contents below.
+binutils cuts a per-X.Y stable branch, binutils-2_46-branch for the
+current series, that takes only bugfixes and backported CVE fixes, and
+tags X.Y.Z (Z>0) releases from it. Superseded branches stay alive: one x86
+MODRM fix landed on the 2.40, 2.42 and 2.43 branches on the same day in
+May 2025. So upgrades within a major.minor are stable point upgrades per
+the OE-Core stable release policy (ref-manual, "Stable Point Release
+Upgrades"). This is not spelled out in a policy document, so qualification
+rests on the branch structure and the release contents below.
 
   https://docs.yoctoproject.org/dev/ref-manual/release-process.html#stable-point-release-upgrades
-  https://github.com/lttng/lttng-ust/tree/stable-2.15
+  https://sourceware.org/git/?p=binutils-gdb.git;a=shortlog;h=refs/heads/binutils-2_46-branch
 
-Upstream keeps a ChangeLog with a per-release entry list, and every entry
-for the one point release in the current series is labelled a fix. 2.15.1
-(May 22 2026) covers a negative error code on incorrect message size, a
-shmp() return value checked before dereference, an underflow warning in
-zero_file, uninitialised LTTNG_UST_LFILE and sigevent structs, close_range
-inefficiency and excessive fd-tracker memory use, and a NULL check in
-ustctl. The one non-fix entry changes a likely to unlikely branch hint.
-
-Only one point release exists in the 2.15 series so far, so this also
-rests on the 2.13 series' record, which ran to ten.
+Checked the last two point releases. 2.46.1 (Jun 08 2026) is 137 commits,
+mostly automatic version-string date bumps, with six substantive changes,
+all fixes: gprof testsuite, build warnings, an sframe encoder/decoder
+call-site fix, a DOS-filesystem fix and two linker fixes. 2.45.1 (Nov 10
+2025) is aarch64/gas fixes to incorrectly restricted instruction
+encodings, linker metadata fixes adding GLIBC_ABI_*_TLS version
+dependencies to match glibc's own ABI tags, and libctf, strip and warning
+fixes. Neither adds options or instruction support.
 
 Already tracked this way on the OE stable branches, counting only bumps
-since each branch forked: kirkstone took 2.13.5 -> 2.13.6 and scarthgap
-2.13.7 -> 2.13.8 -> 2.13.10. wrynose has taken none and sits at 2.14.0.
+since each branch forked: kirkstone has five or more "binutils: stable
+2.38 branch update(s)" commits staying within 2.38.x, scarthgap the same
+for 2.42.x, and wrynose has already taken 2.46.1.
 
 AI-Generated: Kiro with Claude Opus 5
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-
-Adapted for wrynose: applied to lttng-ust_2.14.0.bb (upstream: lttng-ust_2.15.1.bb).
-(cherry picked from commit a5dcaef20fc91539efa08b47607c4c91f4f49849)
+(cherry picked from commit e61767b8d9486c1a13f505563919654af5955a23)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: lttng-ust stable policy:
-https://github.com/lttng/lttng-tools/blob/stable-2.15/README.adoc#supported-versions:
-|Supported versions
-|------------------
-|
-|The LTTng project supports the last two released stable versions
-|(e.g. stable-2.13 and stable-2.12).
-|
-|Fixes are backported from the master branch to the last stable version
-|unless those fixes would break the ABI or API. Those fixes may be backported
-|to the second-last stable version, depending on complexity and ABI/API
-|compatibility.
-|
-|Security fixes are backported from the master branch to both of the last stable
-|version and the the second-last stable version.
-|
-|New features are integrated into the master branch and not backported to the
-|last stable branch.
-]
 ---
- meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/binutils/binutils.inc | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb b/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
-index 1a15c5b4201..4285a445d67 100644
---- a/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
-+++ b/meta/recipes-kernel/lttng/lttng-ust_2.14.0.bb
-@@ -11,7 +11,9 @@ PYTHON_OPTION = "am_cv_python_pyexecdir='${PYTHON_SITEPACKAGES_DIR}' \
-                  PYTHON_INCLUDE='-I${STAGING_INCDIR}/python${PYTHON_BASEVERSION}${PYTHON_ABI}' \
- "
+diff --git a/meta/recipes-devtools/binutils/binutils.inc b/meta/recipes-devtools/binutils/binutils.inc
+index b3d0728e4b2..29c05b1a279 100644
+--- a/meta/recipes-devtools/binutils/binutils.inc
++++ b/meta/recipes-devtools/binutils/binutils.inc
+@@ -15,6 +15,11 @@ DEPENDS = "flex-native bison-native zlib-native gnu-config-native autoconf-nativ
  
--inherit autotools lib_package manpages python3native pkgconfig
-+# lttng-ust publishes bugfix/security-only releases on its per-minor
-+# stable-X.Y branches, the same upstream and release model as lttng-tools.
-+inherit autotools lib_package manpages python3native pkgconfig upstream-stable-release-point
+ inherit autotools gettext multilib_header pkgconfig texinfo
  
- include lttng-platforms.inc
- 
++# binutils maintains a stable branch per X.Y release (e.g. binutils-2_46-branch)
++# that only takes bugfixes and backported CVE fixes; X.Y.Z (Z>0) releases are
++# cut from that branch.
++inherit upstream-stable-release-point
++
+ FILES:${PN} = " \
+ 	${bindir}/${TARGET_PREFIX}* \
+ 	${libdir}/lib*.so.* \
 
