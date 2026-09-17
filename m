@@ -2,61 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 54218C982D0
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 473A4C982D2
 	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 22:08:04 +0000 (UTC)
 Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1558.1789682873972723271
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1576.1789682883881137942
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 15:07:54 -0700
+ Thu, 17 Sep 2026 15:08:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=AW+sY6ls;
+ dkim=pass header.i=@smile.fr header.s=google header.b=fcXmtem7;
  spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cd38e0e5dso1333695e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:07:53 -0700 (PDT)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6c0fce17so584995e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789682872; x=1790287672; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1789682882; x=1790287682; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=nNFCD13pJmmp7e6u36VRMOS6G1vTlHQsNkX7Jck2Vwg=;
-        b=AW+sY6lsKFoAG5eRqpJuAgmQK8UHo1f8RtMIwhbZD5hywM+1uRWZ9zYeGNTVTC2aeS
-         69XuXVVwAYuQu0rIdsCcAGSWPuN8rFVSaPuxTjbK8hfgqOeONnDIJ1Fac2i5EXBPtkO+
-         q7eRoK4UoBFJGVhtxhSt5sazy2XSA14Dh430o=
+        bh=IUtyKV6f29lo29VlsDpRewdngBnzoZNi97G/PcnO8bg=;
+        b=fcXmtem7IR/hJ/hjHBh3QJir9OqmPvGRr/LK4bP/47gXp7B8mIPcSdOZuwvKjf9V50
+         EuCbWd+SzV7CMKrsS4H2QXV2jculTaTXeaOztF2oBSKgp3hxD9lksy0PfR+eKlnPFRVO
+         3+wTKk6ncSKklEkaxlaleV8Qu0m4BE4rVQr5g=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789682872; x=1790287672;
+        d=1e100.net; s=20260707; t=1789682882; x=1790287682;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=nNFCD13pJmmp7e6u36VRMOS6G1vTlHQsNkX7Jck2Vwg=;
-        b=twx6Fv4ka6gz2pir40D6R5SQypXw8XCYjlyN4OKWsxbpFFUNBM/vkAvjn1IG720abe
-         ycVcYe3/jPBKpeTiUMUvVSH0q4ktWHW0UeD5SvM1VB3fBZvoY5dw/fjpGF8/QeCn3LQV
-         cjQRPzjX8gPX9v9ZwQDluPFQ0w4yEW/Z8LwghHzdo6Fdjd3XYSplCwSy/RcV2ZgjpbfX
-         UzK/Q8wTwB9oXbegfUN/i1j8ausPt/+nlycnh8tJvw8/mcuZDa1EUy3lX1XkEB69cI1r
-         52UoheTSvDf5c4xuB0Od4BsL2dtGV8UylqBZBZ/sWXE6BkpgXPvrnwhsb0HkSW+uDfBu
-         Tkgg==
-X-Gm-Message-State: AFuF++mAw+XNiifK58NS1bqtDmYw0Q+8V2AqSsNVhytKV3mmUd8f5PPc
-	yYyz1bD0gjr3PRTQp35tXddTyP7EJDzGB3V+OSyclyZHCbu24XSxA47HxEq/nWO/4MFH4wPuQ8k
-	DWCbauJw=
-X-Gm-Gg: AYBFou1+B3Dn23rMdfBgFOhnJmc7T0ph+XEBH2Ji8O70lxypUIADaflSZlhY1rDQhGs
-	2U53Vca2z41A4W5raViRRnnQoGkbDmJBBntk8kkHhS6CbI8xNqyowUAO3ggY9MHaQZdyHTIOqCm
-	Jn1EoBcbC+ying0+tQ2ZCus3nN0aErlaV4iP7qROuylzW7V7OjMCVSj7N+r0Wq3N8ugjL2m0Ngr
-	sspUnlB92pqC2PdK05k5Yj0dRgicpAXjz6vUUlJKSy9EB4PdWjdVe7LIgxzydMX0FPVrSFnHSBX
-	+UwscII4+aWiAsDL4ixcm6QoASzfjk27xOK51usTFhN7eSua9nFnq7R7z8kWQEtyf7VrhjXZN50
-	bWz0RjuYNRmqrL2HMP5m88gm8JuhBurxY/1VwLZetX908SlIXEsf5faIFc4nRAv1gv+UfIMJtk7
-	wpMHmEYP222iLaYUGUa100xXzvsRczLehbiEWF8jD8uQkIXO7AXzKux/tkE9qGBpQnSFRKhOCXa
-	LDyiX3Di+DTL3y+uyXONfjE/ydta39X1q88Nc/lD/Lz3k712fVw+IrFSUHc4hXqHDlUSDgDpI0=
-X-Received: by 2002:a05:600c:3492:b0:49c:cee0:e7c1 with SMTP id 5b1f17b1804b1-49fc572f645mr2826115e9.16.1789682872297;
-        Thu, 17 Sep 2026 15:07:52 -0700 (PDT)
+        bh=IUtyKV6f29lo29VlsDpRewdngBnzoZNi97G/PcnO8bg=;
+        b=u2i0cAS9+n8xUSYTqi1I5ZqZnvIr2T5JZyULgf4/05CV3siPV8iqJSq9Pj8mNUOdjz
+         3LJ4TNlr+dAQkwEWP3zjCz3CG4Yt0L+LWxkX2SBQCxzOygtxdUtsL2OBm3a7YSlxmZq6
+         rerVP4HCFwJbqReITSKDDA0/kqWD4d6D1qiWVO1TnSk1kZHoTed3LU3audMO5rzyFbOc
+         relgto3PPJ+SeiElyb/AyCoz0rhk/iz4NH0ojlkrEPmnRU63OI9YH4ykpl/1kU7e64HC
+         135AtiVUjjDLcJIfbznIaY5Nbt0f100cHh2kjtYNkTdE1FyZtw0jFeG3K3V3G0mZ/bQ7
+         UUVg==
+X-Gm-Message-State: AFuF++mbb/kHwMJ65hkioldJbD97B0Hb5Ls+aypUjy1V8nACGjwvwObg
+	dKXkoKF07XCtUFvQ6f/6p8ukgn7Ol+xEkI6yLyOUxTbllx2q+YMGDg7mH7C9jfG1p6H9TPYzLlg
+	WpBQhF5c=
+X-Gm-Gg: AYBFou0Bz0o6r4S7dRqi5F12fhqB3YXOQY9B9KNESr58Ya0QAiJavzaGl8nkVotNMzI
+	l/7IKHrnGBuetPub01yOd5pwdUrMyYnxTFofH/OPgIxFRpRAcWF99pTSpgFujBbR9Qh4XIVxsLw
+	ysyc9uqxqbSjhMD1w76nrcFdP02E6VUTWjr8nOpf2q+D1XcXf30ubYuPaYGxZ9iPxzexYpf3hHv
+	2oMrtL+hIKajacsW0zYZrvteKsE7/gYopznG8QAKNTCbSBlRNVZLh8fAsgqO8rl052KQaN/G/AL
+	HZRBJ+Mq0eES9q25IjGtP0I5354rynPbugFXFO7XO5eZQuFZVSr7LnP1zuGY2IMGcMU/57BeykJ
+	HNCkLMHaEZlBlhTN3Ci5sAPWilzMeMH38ZMI6jtzkTre3AqZsCrZzCgkE+r0CqQvsdmmIaa+Ufo
+	9bDqK5Na8JA0iha4J744lt8Z1SRFzSWd1bmQhbheVKC6idG5UgnrMqixUEBu5Z9Rqwf3lptuNet
+	sD2CTN63pymCGLWT06t4ij88AneczrbrKw6dwKJGlcPcwPilGD2FbBSy9KMVBdshfdC1AkDs7DK
+	pnTrCQ82xQ==
+X-Received: by 2002:a05:600c:4e48:b0:49e:6bce:b0f9 with SMTP id 5b1f17b1804b1-49fc574f4d7mr3110725e9.16.1789682882173;
+        Thu, 17 Sep 2026 15:08:02 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.07.51
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 15:07:52 -0700 (PDT)
+        Thu, 17 Sep 2026 15:08:01 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 06/79] kernel-yocto-rust: Add clang toolchain check for riscv64
-Date: Fri, 18 Sep 2026 00:05:51 +0200
-Message-ID: <8256d2c19680fb8111471cdefc99fb89839d23ab.1789681419.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 25/79] python3-mako: correct CVE_PRODUCT mapping
+Date: Fri, 18 Sep 2026 00:06:10 +0200
+Message-ID: <a754d6397e13f88726154dd42e1bc2988d2ccd2f.1789681419.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1789681419.git.yoann.congal@smile.fr>
 References: <cover.1789681419.git.yoann.congal@smile.fr>
@@ -66,40 +67,40 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 22:08:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246101
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246120
 
-From: Harish Sadineni <Harish.Sadineni@windriver.com>
+From: Devansh Patel <devanshp@cisco.com>
 
-Kernel Rust support on riscv64 requires Clang. Wrynose doesn't
-provide a Clang toolchain for kernel builds, but downstream layers
-may add this support via a linux-yocto_%.bbappend. Rather than
-unconditionally skipping riscv64, check whether a Clang toolchain
-is available and only error out with a clear message when it isn't,
-so that users with Clang-enabled downstream configurations aren't broken.
+The inherited "python:mako" mapping is not used for the packaged Mako
+source and causes its vulnerability records to be missed.
 
-Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+Use "makotemplates:mako" for its historical NVD configuration identity
+and "sqlalchemy:mako" for the current NVD dictionary CPE, NVD
+configuration, and CNA affected-data identity.
+
+Backport note: this applies the metadata to Wrynose Mako 1.3.10 rather
+than master 1.4.1; the older release exposes applicable unpatched records.
+
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 76fc2046d3f251af34dd04f8fdcfc0c1d6016380)
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: fixed a typo in message. This matches master commit 2b228490b7ef]
 ---
- meta/classes-recipe/kernel-yocto-rust.bbclass | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ meta/recipes-devtools/python/python3-mako_1.3.12.bb | 2 ++
+ 1 file changed, 2 insertions(+)
 
-diff --git a/meta/classes-recipe/kernel-yocto-rust.bbclass b/meta/classes-recipe/kernel-yocto-rust.bbclass
-index 49f2bfc1ae8..4c0b7231e6a 100644
---- a/meta/classes-recipe/kernel-yocto-rust.bbclass
-+++ b/meta/classes-recipe/kernel-yocto-rust.bbclass
-@@ -25,3 +25,13 @@ do_kernel_configme:append () {
- # More details in: https://lists.openembedded.org/g/openembedded-core/message/229336
- # Disable ccache for kernel build if kernel rust support is enabled to workaround this.
- CCACHE_DISABLE ?= "1"
+diff --git a/meta/recipes-devtools/python/python3-mako_1.3.12.bb b/meta/recipes-devtools/python/python3-mako_1.3.12.bb
+index b2c1a8dad8d..48f660870e7 100644
+--- a/meta/recipes-devtools/python/python3-mako_1.3.12.bb
++++ b/meta/recipes-devtools/python/python3-mako_1.3.12.bb
+@@ -10,6 +10,8 @@ inherit pypi python_setuptools_build_meta ptest-python-pytest
+ 
+ SRC_URI[sha256sum] = "9f778e93289bd410bb35daadeb4fc66d95a746f0b75777b942088b7fd7af550a"
+ 
++CVE_PRODUCT = "makotemplates:mako sqlalchemy:mako"
 +
-+python () {
-+    if d.getVar('TARGET_ARCH') == 'riscv64' and d.getVar('TOOLCHAIN') != 'clang':
-+        raise bb.parse.SkipRecipe(
-+            "Rust support in the kernel on riscv64 requires kernel to be build with clang "
-+            "toolchain, but the kernel is built with toolchain '%s'. See "
-+            "https://docs.kernel.org/rust/arch-support.html for details."
-+            % d.getVar('TOOLCHAIN')
-+        )
-+}
+ RDEPENDS:${PN} = "python3-html \
+                   python3-markupsafe \
+                   python3-misc \
 
