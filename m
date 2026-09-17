@@ -2,177 +2,189 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 116BFC982D0
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 21:13:03 +0000 (UTC)
-Received: from mail-qv2-f43.google.com (mail-qv2-f43.google.com [74.125.230.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.42738.1789659646079058085
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 31DA0C88E72
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 21:13:13 +0000 (UTC)
+Received: from mail-qv2-f12.google.com (mail-qv2-f12.google.com [74.125.230.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3143.1789677517758166103
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 08:40:46 -0700
+ Thu, 17 Sep 2026 13:38:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=oiKwf+/n;
- spf=pass (domain: baylibre.com, ip: 74.125.230.171, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv2-f43.google.com with SMTP id 6a1803df08f44-90cdfcbe207so9925756d6.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 08:40:45 -0700 (PDT)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=eSiDGn1k;
+ spf=pass (domain: baylibre.com, ip: 74.125.230.140, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qv2-f12.google.com with SMTP id 6a1803df08f44-910531ea7feso1180516d6.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 13:38:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1789659645; x=1790264445; darn=lists.openembedded.org;
+        d=baylibre.com; s=google; t=1789677516; x=1790282316; darn=lists.openembedded.org;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=yh7pCc8Tr6vnfm80joedj2xy+61aRzzCx1i1elLG9sE=;
-        b=oiKwf+/nolTTgpVkw3jZ/Z/FL/90vlCusFxK/SwaRimET6SIyE8tWBvgQMC7rxf9BF
-         wIf8k2F0j8LKvvnq/2tmsp9904VO2Aip6zWN4oJeuUUK0GVDojZ4kXFIPKBK2k7yjsJ0
-         9DnAv7pbBGUIHoMrrzTyDaolJTMC9jE295mX2DznK96rFjnPZVQ0o8hPpPWqYXFDguTd
-         wtJ3OL0CTwNuotje+PF6P6oYx4bjRaS9SgC8hDaLVAC9dyPh4UaGTqOwrGn90k9ifIL2
-         Af6Ie1GjjPQVcTHXbLlsnCUomV0TBHdHvKfc6UUh2g5X9F54oB5KvlSrr2Ipb1ClonGn
-         T9OA==
+        bh=eKhTiYYFTq9CrUbZrpk/axjfuZ7eCNHtLdWeXrgni7M=;
+        b=eSiDGn1khLn2kPG74AS6aw/lV5RXPPwfzKS/9oQspgWCYzitcicJrTuiAKnzlHlPNk
+         +guosvA3yyoqsHQmOJcSr3Pgur5o/t8nF4orJVb9Lx5joliahyLVNLg7kQgFrHHeZ1RE
+         TgVEviQ9psK5LViP1WDtvGs4CKouN5nxBu4arxW53XvQInlBWxFaJ5s6M0K3x/1pV7yV
+         +QcnEUtw305kXdPLPPveILvo9DcHwtza1FNwwQ2vx7wZzlf1h2J/8IaQEinPFYtTj/Qg
+         WZKH7jUzMLreN3DjkASMMKKv0jfXJuM4p80x0UKEBbalF7LRxzckGkR9ASlEvGvAuhEi
+         kqew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789659645; x=1790264445;
+        d=1e100.net; s=20260707; t=1789677516; x=1790282316;
         h=in-reply-to:references:to:from:subject:cc:message-id:date
          :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=yh7pCc8Tr6vnfm80joedj2xy+61aRzzCx1i1elLG9sE=;
-        b=D7h88o0hZEe8MHsHY9IHvpOEXxhqU1WEhFVJhZQERF3+CPZZeRPqOwsIzR4im2e9Wv
-         ygBNGlDHRnNVPnbp4daDJC5KkYl151cXe4CswOZJv+DuMIEd6eJqQNloMAaxPEngSAW4
-         0k2DZxnOv5prNzFyhGJ+brycfSpiILvrPWyxcuPszluTpyBG6kgMZ1+nBWfPrdUfhlEV
-         tjO6lo7XV2uoVA3w0+2yEsrmhgzUo7zlkc2RMXX8ntn6WNsL4ihTv1IGVDAHae7hnNRW
-         cTi7d6VQUKUc4ycCuznC+2WC6onZKXAd3gn7YkgdBe+XQwDgpDzbXYJ7wgUpJwxKk6kz
-         M/MA==
-X-Forwarded-Encrypted: i=1; AKwUvBx2E8wsUz3Ll9bcLjf2frFuIzO3TsNdY4WKfof93/hKKvvlaQzF7WDe4sik3wH2SwrsYeP5v5iT5iNyjCOE/N/eVA==@lists.openembedded.org
-X-Gm-Message-State: AFuF++l9JHDoi6svn/0g8bOyEeUHIaQmHkH8MQrIMf0v6AMTmfedAtyl
-	8rGLxeO0FzdX8K3QfsUdCk0uJwmAD8Q+CcOX5qc1eCtsdu35oa/Cpq3ZXUXcKNQ1CMfVbqPO21w
-	RXeln
-X-Gm-Gg: AYBFou19RFfnznc8GoI54PIKIVsKcG+lALjp+m4AZ+JQ6aa21QnaBHNxP/ZSlMfZpdV
-	X2LGze7+otBImYopp0O+VH7Vg4yxBGlkBU9AaqtRlL94A3TeoojtMFgF5855Rc1CI2WywjOB5iK
-	FS4HgI6wlI+iyvp0JAKx9xVTUhr6d1KBj2AZoEdoiF06SrDD6/loYT8Ix8LcRX7qaKEKo4RJQcn
-	p3GW6KRS1v1vUp3UDPysJkk1P5EQ4ebqq489LFGaGqdeUWHzMxtqwyLpiC2dBtipLoib3BcT6iw
-	il32LKRSRPvfV5mj0YEax3HX1XZSgYd5aeN1+pos7iv9R3fhw+LFtN7sryU7K0yKBlgZEG9ljYf
-	aNNfV/wz4l17FBXxosrJ+3mqap6YU6xjvSQJVrUMSJ0RRpdlmGexufSIPANhdE1PJBUacE9UuYS
-	pQW6aufQOTn2INSpR5YGVRq/JHH6cbvgaxlUXXCWeznGt2Bm9WwHMFyAItukyX4CqLE3dSLSegV
-	rgro2HlODiqt6VCotiqaSkl/RQprFWcYw==
-X-Received: by 2002:a05:6214:627:b0:910:3453:505d with SMTP id 6a1803df08f44-9125244dac8mr6973826d6.31.1789659644719;
-        Thu, 17 Sep 2026 08:40:44 -0700 (PDT)
+        bh=eKhTiYYFTq9CrUbZrpk/axjfuZ7eCNHtLdWeXrgni7M=;
+        b=aGbPUHt+MsXhbeBXfOns/rjWuKPbXzODmDCn/ojw4afxkRS0eYCGNcEKpxTfrkmuxh
+         oDJHK5PVIfSvy6905tvO8kx0qa5ySd6ip9RhCCZGET55ToMTc/dSROxBI3newVjnasCL
+         /rv86BufXLRNdz1O5XRESgQKebs7KueVsIe0HFrTajxDq9Uk+4rqdOM3V64yPISAAZR2
+         THmmy6e5KzoZrxnmdrp2KvuLaY/ppjjVXn7AkPhoSOGLKZdWb6eEbxfzmrTX4baKKI30
+         XaWyeO6Xxzurz94fIyKzmGqZFVoecM4wlXEVkaBmopG6dNHyNC8vD82ZSw1L/+9RFKI8
+         wcZQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzu1i7uE6y6/S5aw8op0WwHDcqEjvSg6Opy5GeSky6NuE3c+rRdlxqrnCnCT/AvYBSlgOD4UoBOwpU+c9WgHxFrlQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++n0Q/tus47lnF4Aghu6TseHeza+wVjJxzb6od92KVzr4WMWBWbn
+	4ixVj4pcE4pgq+NWrffMmCzNIjcuNRyAaNaddP8739KAYzlBaS/PulfG73oPfSCpmwY=
+X-Gm-Gg: AYBFou0pjAHynh+9ytp5K+7e8hP1I4eHzhx0KxxXjaw8x/MxSlTm6bSgmqBnP1Olcod
+	cOf0jPLUF04+W23tQJ7YwXOEFQ60OSL9PrxouNH9q2G6nRD2crMKgA8R1YjgCE6bBeRs6mqzy9A
+	Et0BfTCzvC/6YuU7Prf/xtNEb5lOCAdS2+GhskBShljd1OaCTvQZAegr+BMQQq4e9IjrarGXYX0
+	eOhTgrh9UCLUxelQYNFTXm/p01rBOQkOKOghkWBGFeWIkmT63BRpe4iKN4B1yT/qmJK1EmAAjm0
+	y23IYgbG130syadOQXhKLmBh36J3O52Ssq9KY70k12Uk3hJRJhf8iCbqyyLoKxlr+PjVUcpwSI9
+	nGuy681h/0Etgn9f1J4Fe+OHD0OApWzFCMIQs/Mw8blelb/N83HHMXBGuwFI1HNrx4voYbL4Moa
+	HPSiFfT4W+39zvN5z6XedyA+9l1rDHktbyH30PqzDIHc8vUvlwjvu6odhjanOSgPTTeAOJeVC3n
+	7v2xpM09mlU7MYzArcPwL+/M+FNRRUrSQ==
+X-Received: by 2002:a0c:ef02:0:b0:912:518f:5150 with SMTP id 6a1803df08f44-91254cae691mr5977596d6.59.1789677516484;
+        Thu, 17 Sep 2026 13:38:36 -0700 (PDT)
 Received: from localhost ([2001:1970:3847:e000:1977:be2f:4a71:2892])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91252c9377esm612766d6.24.2026.09.17.08.40.43
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-91252d2b826sm6268376d6.47.2026.09.17.13.38.35
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 17 Sep 2026 08:40:44 -0700 (PDT)
+        Thu, 17 Sep 2026 13:38:35 -0700 (PDT)
 Mime-Version: 1.0
-Date: Thu, 17 Sep 2026 11:40:42 -0400
-Message-Id: <DLHPE9Y2I92C.377RLG9OUQJQS@baylibre.com>
-Cc: <pratik.farkase@ericsson.com>
-Subject: Re: [OE-core][PATCH v1] util-linux: ptest: fix flock test timeout on slow targets
+Date: Thu, 17 Sep 2026 16:38:33 -0400
+Message-Id: <DLHVQBRWWOF1.2PKU3CWY21S6J@baylibre.com>
+Cc: <Randy.MacLeod@windriver.com>, <Sundeep.Kokkonda@windriver.com>
+Subject: Re: [OE-core] [wrynose][PATCH] qemuriscv.inc: use fw_dynamic.elf as BIOS when KERNEL_DEBUG is enabled
 From: "Trevor Gamblin" <tgamblin@baylibre.com>
-To: "Pratik Farkase" <pratik.farkase@est.tech>,
- <openembedded-core@lists.openembedded.org>
+To: "Yoann Congal" <yoann.congal@smile.fr>, <tgamblin@baylibre.com>,
+ <Harish.Sadineni@windriver.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.22.0
-References: <20260917144042.10045-1-pratik.farkase@est.tech>
-In-Reply-To: <20260917144042.10045-1-pratik.farkase@est.tech>
+References: <20260916121517.1513695-1-Harish.Sadineni@windriver.com>
+ <DLH071QT0TBB.7KZL5MFA90WQ@baylibre.com>
+ <DLHEG7H935N8.2JKMAZRCTBS17@smile.fr>
+In-Reply-To: <DLHEG7H935N8.2JKMAZRCTBS17@smile.fr>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 21:13:03 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246089
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 21:13:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246090
 
-On Thu Sep 17, 2026 at 10:40 AM EDT, Pratik Farkase wrote:
-> The flock ptest starts flock in the background and waits only 1 second
-> (hardcoded "timeout 1s") for flock to spawn its child, polling with
-> "pgrep -P". That budget only covers process startup, so it depends on
-> host speed. Under emulation (qemuriscv64 under TCG) spawning bash and
-> flock can exceed 1s, so the child is not seen in time and the test
-> aborts with "timeout waiting for flock child", failing intermittently on
-> the autobuilder.
+On Thu Sep 17, 2026 at 3:06 AM EDT, Yoann Congal wrote:
+> On Wed Sep 16, 2026 at 9:55 PM CEST, Trevor Gamblin via lists.openembedde=
+d.org wrote:
+>> On Wed Sep 16, 2026 at 8:15 AM EDT, Harish.Sadineni wrote:
+>>> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>>>
+>>> QEMU RISC-V hangs (qemu hang-up) when using fw_jump.elf as the
+>>> default BIOS while kernel debugging is enabled. This has been
+>>> observed with the 6.18 kernel (exact version where it was
+>>> introduced is not known).
+>>>
+>>> As a workaround, switch to fw_dynamic.elf when KERNEL_DEBUG is
+>>> enabled, which avoids the hang and works correctly with debug
+>>> builds. The default behaviour is unchanged and continues to use
+>>> fw_jump.elf when KERNEL_DEBUG is not set.
+>>
+>> It'd be good to understand exactly why this doesn't work and what change=
+d
+>> upstream. I'm looking into it in a local checkout, but I probably won't =
+have an
+>> answer for a day or two.
 >
-> Backport a test fix that raises the timeout to 30s. The poll loop exits
-> as soon as the child appears, so fast hosts are unaffected; it only adds
-> headroom on slow/emulated targets.
+> Thanks Trevor!
 >
-> [YOCTO #16425]
+> Harish, this patch is for master isn't it?
+> If that's the case, would you mind resending it witout the [wrynose] tag
+> so it can be picked-up there?
 
-Thanks for this. Hopefully, upstream takes the patch. Out of curiosity, why=
- did
-you choose 30s? Did you test with shorter timeouts (e.g. 10s)?
+One of my colleagues recently ran into a similar issue working on meta-cher=
+i,
+and remedied it in the same way:
 
-Trevor
+https://github.com/CHERI-Alliance/meta-cheri/commit/c81a323888357acc1ee244f=
+bf8f23df4b1c1288b
+
+I went and compared kernel image sizes across four configurations:
+
+|6.18:
+|
+|lrwxrwxrwx. 2 tgamblin tgamblin  1M Sep 17 13:51 Image -> Image--6.18.52+g=
+it0+9e9d8b1f91_08edce0ecd-r0-qemuriscv64-20260917173344.bin
+|-rw-r--r--. 2 tgamblin tgamblin 27M Sep 17 13:51 Image--6.18.52+git0+9e9d8=
+b1f91_08edce0ecd-r0-qemuriscv64-20260917173344.bin
+|
+|6.18, KERNEL_DEBUG =3D "True":
+|
+|lrwxrwxrwx. 2 tgamblin tgamblin  1M Sep 17 14:08 Image -> Image--6.18.52+g=
+it0+9e9d8b1f91_08edce0ecd-r0-qemuriscv64-20260917180541.bin
+|-rw-r--r--. 2 tgamblin tgamblin 33M Sep 17 14:08 Image--6.18.52+git0+9e9d8=
+b1f91_08edce0ecd-r0-qemuriscv64-20260917180541.bin
+|
+|7.2:
+|
+|lrwxrwxrwx. 2 tgamblin tgamblin  1M Sep 17 14:33 Image -> Image--7.2.6+git=
+0+b5d69636e3_d8a1ec518a-r0-qemuriscv64-20260917183100.bin
+|-rw-r--r--. 2 tgamblin tgamblin 27M Sep 17 14:33 Image--7.2.6+git0+b5d6963=
+6e3_d8a1ec518a-r0-qemuriscv64-20260917183100.bin
+|
+|7.2, KERNEL_DEBUG =3D "True":
+|
+|lrwxrwxrwx. 2 tgamblin tgamblin  1M Sep 17 14:15 Image -> Image--7.2.6+git=
+0+b5d69636e3_d8a1ec518a-r0-qemuriscv64-20260917181151.bin
+|-rw-r--r--. 2 tgamblin tgamblin 33M Sep 17 14:15 Image--7.2.6+git0+b5d6963=
+6e3_d8a1ec518a-r0-qemuriscv64-20260917181151.bin
+
+It's no surprise that turning on debug increases the image size, but it's a
+little weird that 7.2 is fine when 6.18 isn't. My guess is that the content
+where the FDT would overlap is different. I took the time to try a memory
+dump from the QEMU monitor in the hanging case, and I could see the FDT mag=
+ic
+string where some kernel data should be:
+
+1. Do 'runqemu nographic snapshot'
+2. CTRL+A then 'c'
+3. Do 'pmemsave 0x82200000 0x2000 dtb_dump.bin'
+4. Inspect it like:
+
+|tgamblin@megalith ~/workspace/ypbuilds/poky-qemuriscv64/build $ od -An -tx=
+1 -N16 dtb_dump.bin
+|d0 0d fe ed 00 00 35 ec 00 00 00 38 00 00 23 e8
+
+'d0 0d fe ed' is in the kernel's scripts/dtc/libfdt/fdt.h:
+
+|#define FDT_MAGIC       0xd00dfeed      /* 4: version, 4: total size */
+
+The debug case (or other kernel customizations) may increase the kernel ima=
+ge
+size to the point where we risk this overlap. I could dig a bit further, bu=
+t I
+think it's safer to use fw_dynamic.elf in general, starting with master. Th=
+ere
+needs to be more info explaining why we did it though, both in the commit
+message and as a comment near the change.
 >
-> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-> ---
->  meta/recipes-core/util-linux/util-linux.inc   |  1 +
->  ...ncrease-wait-for-flock-child-timeout.patch | 38 +++++++++++++++++++
->  2 files changed, 39 insertions(+)
->  create mode 100644 meta/recipes-core/util-linux/util-linux/0001-tests-fl=
-ock-increase-wait-for-flock-child-timeout.patch
+> Thanks!
 >
-> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
-ore/util-linux/util-linux.inc
-> index b30fb04e05..249ae09545 100644
-> --- a/meta/recipes-core/util-linux/util-linux.inc
-> +++ b/meta/recipes-core/util-linux/util-linux.inc
-> @@ -23,6 +23,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linux=
-/v${MAJOR_VERSION}/util-lin
->             file://0004-libmount-use-USE_LIBMOUNT_MOUNTFD_SUPPORT-for-idm=
-ap-h.patch \
->             file://0005-tools-add-non-newmount.conf-config-gen-profile.pa=
-tch \
->             file://0006-tests-lsfd-accept-rw-mode-for-mmap-ed-packet-sock=
-et-.patch \
-> +           file://0001-tests-flock-increase-wait-for-flock-child-timeout=
-.patch \
->             "
-> =20
->  SRC_URI[sha256sum] =3D "66ac7c0e725278eb2b039e3104f2c91119341d941b41bac7=
-a285c695f940bd57"
-> diff --git a/meta/recipes-core/util-linux/util-linux/0001-tests-flock-inc=
-rease-wait-for-flock-child-timeout.patch b/meta/recipes-core/util-linux/uti=
-l-linux/0001-tests-flock-increase-wait-for-flock-child-timeout.patch
-> new file mode 100644
-> index 0000000000..60b6c86eeb
-> --- /dev/null
-> +++ b/meta/recipes-core/util-linux/util-linux/0001-tests-flock-increase-w=
-ait-for-flock-child-timeout.patch
-> @@ -0,0 +1,38 @@
-> +From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-> +From: Pratik Farkase <pratik.farkase@est.tech>
-> +Date: Wed, 17 Sep 2026 12:00:00 +0000
-> +Subject: [PATCH] tests: flock: increase "wait for flock child" timeout
-> +
-> +The flock test launches "flock ... bash -c '... sleep 3 ...'" in the
-> +background and then waits for flock to spawn its child using a hardcoded
-> +"timeout 1s" around a pgrep poll loop. That 1 second only covers process
-> +startup, so it is purely a function of host speed. Under emulation (e.g.
-> +qemuriscv64 under TCG) spawning the shell and flock can exceed 1s, so
-> +pgrep does not see the child in time and the test aborts with "timeout
-> +waiting for flock child", failing intermittently.
-> +
-> +Increase the timeout to 30s. The loop exits as soon as the child
-> +appears, so this does not slow down fast hosts; it only adds headroom on
-> +slow/emulated targets.
-> +
-> +Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pul=
-l/4639]
-> +
-> +Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
-> +---
-> + tests/ts/flock/flock | 2 +-
-> + 1 file changed, 1 insertion(+), 1 deletion(-)
-> +
-> +diff --git a/tests/ts/flock/flock b/tests/ts/flock/flock
-> +--- a/tests/ts/flock/flock
-> ++++ b/tests/ts/flock/flock
-> +@@ -65,7 +65,7 @@
-> + 		ts_die "unable to run flock"
-> + 	fi
-> + 	# the lock should be established when flock has a child
-> +-	timeout 1s bash -c "while ! pgrep -P $pid >/dev/null; do sleep 0.1 ;do=
-ne" \
-> ++	timeout 30s bash -c "while ! pgrep -P $pid >/dev/null; do sleep 0.1 ;d=
-one" \
-> + 		|| ts_die "timeout waiting for flock child"
-> +=20
-> + 	ts_init_subtest "${subtest_prefix}non-block"
-> +--
-> +2.43.0
+>>
+>> Trevor
+>>>
+>>> [YOCTO #16409]
+> FYI, I have not seen this specific error on wrynose (kernel 6.18).
+>
+>>>
+>>> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+>>> ---
+>>>  meta/conf/machine/include/riscv/qemuriscv.inc | 5 ++++-
+>>>  1 file changed, 4 insertions(+), 1 deletion(-)
+>
+> Regards,
 
 
 
