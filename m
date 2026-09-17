@@ -2,61 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1302DC982D2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 24A3EC982D0
 	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 22:08:16 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1680.1789682886138291106
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1684.1789682888147890687
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 15:08:06 -0700
+ Thu, 17 Sep 2026 15:08:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=iRfcJvhk;
- spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd38e0e5dso1335365e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:05 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=1lQKyLzy;
+ spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6356256so13540f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789682884; x=1790287684; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1789682886; x=1790287686; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=ciD5AUiLNycPEI7ZpDiXJigUru3nXJ3Bi3lJmE3hwgY=;
-        b=iRfcJvhkxJKcze1dwjNi9uo9zFQcQkWYYEnZGTaTCT2fNe65UhFYZm4S7v9FCEbXXq
-         pMm/HCLhHCjdfHXo7XriOIsFiN8QxAq5/9DlstXxbQEpZJg7/Yvn/XNqy3ikGIe6Fdl/
-         52xTvlCtP7Rem3BA4EgIFi/Hhl/WgAaMfgw2U=
+        bh=sx5VEyQ8rwdvYdJ0qPc7noa8vHmysM5ALhBMD2Ld7aU=;
+        b=1lQKyLzy8OvlEzdl1eLota7Y6XES+JB7a1rZ3IMLoDdhVcW0icu7tHnB0dNaBtwwpD
+         HSSQzioz7B4rlD/ua6V+NBXneVRuzVSLe61y6uVohRanahBESYbKqZ1OBLa/HNv/aL2h
+         K5y9uyjskal3pD3KDk5RqBO07LxmjkP2vcmjw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789682884; x=1790287684;
+        d=1e100.net; s=20260707; t=1789682886; x=1790287686;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=ciD5AUiLNycPEI7ZpDiXJigUru3nXJ3Bi3lJmE3hwgY=;
-        b=ih4Le6NG2ralfOsYw2AYSuZPlkrgPkSb9iZ2pl44Xhg55jALx5UgdXbajyc+vMw5wE
-         nArOFHLWUGAZu8nzSh9+3omNulDmX8IIhkkKb6XBURPooqf3+xaQW15axfvA3dpmPfGH
-         /1f/d492lImvxkh0rCdeC2JsZtpp1NdMSpb/9OBAMiRwWd3pPto+0P6Qk3/oib3gz9Ea
-         o/4UJ+2V/UD1g+rcyS3JfM7czQiB9BtvVgJzZpcg5LiiaqzsYnc/JZbr7RL8eOh/2tHO
-         kuwSNugPmnYhAp2cWYFGBnTddOv3vX0YOojX/4NrSEv4IDg6WziV7AH1JR8EV5uqZCOJ
-         T/Sw==
-X-Gm-Message-State: AFuF++ngBXfB5B/qGgrGHLzDK/E+OHLTdN/ZRGjb6G53nQCUgtHMt3kp
-	ELZxwG1PKmJ7jHcZH67j4YTU1SQAb1OlZUcrfiwksukCMmf6CVFoAd4rq2AJiHCEGCVox8qhU33
-	t+DU7nU0=
-X-Gm-Gg: AYBFou3ohNY7xyqzjswkcqMUKEjFMOucw5ghfMaZFYT3Fy3AC9UlIuE+yxpLAmJqvpz
-	PqpV279nQ/dZu2COgJ+dQ245mslBWSyqsPTby6Tw0Iq+aDedvuvbF/OAXBNkLcMyqQQMT0MF90G
-	AQu0DTrR7yw9mb+gpLRJk+IOqbWvUg3DzJ7po6Qzj50n0+zATO37zyb39PEbAptUXSehMdI34mE
-	O2+a7TJmQvu1a76aXnolrb/CkyX9apeMLZPlnYD5Ieb2sqcT+dReQRJBdKP38c0okOxY8Jnn5hY
-	lPvBQUarkB3uUACPPgwzUPsmXamdu/lPhHJ3Q6GU+FVz/Ak8UT5hurX2Mn16e4Up1qd0gWnoyX0
-	gfZBcaQc8rqm4O7f3fDqQw/zjUT8SN3VV7csGXcpvW0iOY3sIvsIj7j6sb8qAkWxjYTX8dLU1R0
-	QjhwlBp6Wm2cKwTH8nLzgAhWcySOm0a3QeBWlfDRjiva0xsIsw0/TarOf65ET+WfwocsRTQNKJW
-	vF4MgE+wlliYdfTfQwnyye9vdeAauiy6fuvHJzzzCfbkEIzy1hJBq1F4uFWSwWKizjQiQeMnoc=
-X-Received: by 2002:a05:600c:4f86:b0:49f:bd3c:bc25 with SMTP id 5b1f17b1804b1-49fc574e7d3mr3345185e9.32.1789682884397;
-        Thu, 17 Sep 2026 15:08:04 -0700 (PDT)
+        bh=sx5VEyQ8rwdvYdJ0qPc7noa8vHmysM5ALhBMD2Ld7aU=;
+        b=yqiSJhmsNsaGK9kjDtZdlL9NHoIIDsmN0NbuR+/cI4QJpGrQxJUJyoJpcPMAWrAwFB
+         /d/6FgwCRCzIMolOwLYarOIYuMDIoAJGL35+VGtoI8gyZeGEUFSPa5n7KQaceZ+ap07O
+         WqQ0mzDbxy4EMDShORlcQt4ZdtNaD4H5ICaEWy6SM9I6x80g5jrVbuYApyHc63m+zTFy
+         QOvcMQKoqbe7ulinym+aoanOyG0R6rBCnpn8l49o5THB8CRJHI86+Uekz3d0nhbA3ems
+         wpnrPgK1s8+BgtbbtVeZsIm0k1pxu8i8OKn2cRBApmqLwP6YtIPw/xo3flseokAaVc2s
+         eXCQ==
+X-Gm-Message-State: AFuF++nNsfaDkJhTRGmhsRG6WyhvEcysXWuoQSOauI1xeZ3j1wFozGXH
+	84pqcrY0hajU9zgRebmirx3T3Iyc8P8Pnc/O9/C2CI+kw4ngvxbZ2ouQ1TfDOccbLC4YIKyMZun
+	sFnkK5Fg=
+X-Gm-Gg: AYBFou3UMwLcXagZ3BJ6u+sdOxUk3QHBEbtScaRrQcmL1BvzTuxP5X8zMP60lBAtGht
+	cH91E8MOOhC++YPy8cJoIt6qSHTOfwiCCBaetbhEe8PcsSki8SFwF0Nm8QbD5aR1jIOcd+MmvR3
+	eNLF9IVoH8PQe2awnlMW0PmRKJj/Qn1vv3ZPaale/tNbdlcnyUtrQSjGZwCFyy9L9iSyUoccUTj
+	4UOs13/TMVmp2t/fDHcYRCCOfIOwtTtuDR4GNg8YZjnzuJBiN+qX5Ps3zjmCpA5oc+8dP9OKco3
+	1mNSyEDdksQrCTn1JVjnN2LAJIN4Dwnk6OeN0H3/haKWFz39eS8YV8SpxdaWQPrHxIw238zOeza
+	rBphV8rbi8wl5EpPPvfYfH7CDLzQuMqsMCld83jbj7SI9qmnogcfZ9LX4CZlaU0uvSAXLc0/Na4
+	xxrD90U/kD4E9vN8mm/ez3Rj9JL/GowY+6s0RWAfT9lDkRznsmAYB0ifRzHFaNJ4HsYWL3X97By
+	RInsRiBglI+OQm8ic38bhLrr1uvdbThIHvdYKZCCNs65HSF6rYI+gd2bRwP5oNNDn26J6NR/s2E
+	I6DAcYW5PA==
+X-Received: by 2002:a05:600c:a49:b0:49e:6865:904e with SMTP id 5b1f17b1804b1-49fc500055cmr6239265e9.12.1789682886332;
+        Thu, 17 Sep 2026 15:08:06 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.06
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 15:08:03 -0700 (PDT)
+        Thu, 17 Sep 2026 15:08:06 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 28/79] upstream-stable-release-point.bbclass: add bbclass for stable point upgrade
-Date: Fri, 18 Sep 2026 00:06:13 +0200
-Message-ID: <976e9d7fe13f8e8534de26a47a75c3d355437e84.1789681419.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 32/79] dbus: inherit upstream-stable-release-point
+Date: Fri, 18 Sep 2026 00:06:17 +0200
+Message-ID: <64c67ca44405f9757ec94c79477dd21a16e17227.1789681419.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1789681419.git.yoann.congal@smile.fr>
 References: <cover.1789681419.git.yoann.congal@smile.fr>
@@ -66,64 +67,58 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 22:08:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246123
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246127
 
-From: Chen Qi <Qi.Chen@windriver.com>
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-If a recipe can do stable version upgrade and the stable parts of the version
-is seperated by '.', then it can inherit this bbclass.
+D-Bus's CONTRIBUTING.md documents even-minor stable branches, currently
+dbus-1.16.x, that receive only cherry-picked bug fixes, so upgrades
+within a major.minor are stable point upgrades per the OE-Core stable
+release policy (ref-manual, "Stable Point Release Upgrades"). It also
+states that odd-minor development branches such as 1.17.x are not
+supported at all and receive no bug fixes, not even for security
+vulnerabilities, so only the even-minor stable series should be tracked.
 
-By default, the stable parts number is 2, which means the following upgrades
-are stable version upgrades:
-x.y.z -> x.y.z+1
-x.y.z+1 -> x.y.z+1.zz
-x.y.z+1.zz -> x.y.z+2
+  https://docs.yoctoproject.org/dev/ref-manual/release-process.html#stable-point-release-upgrades
+  https://gitlab.freedesktop.org/dbus/dbus/-/blob/dbus-1.16.2/CONTRIBUTING.md#L65
 
-Recipes that have different stable version parts can also inherit this bbclass
-and set STABLE_VERSION_PARTS. For example, systemd sets this variable to "1".
+Checked the only point release in the series so far for feature creep,
+the 1.16.x series having just one non-.0 release to date:
 
-For recipes whose stable version part is not separated by '.', they should not
-inherit this bbclass and intead set UPSTREAM_STABLE_RELEASE_REGEX themselves.
-For example, openssh's stable part is separted by 'p' and should not inherit
-this bbclass.
+  1.16.2 (Feb 27 2025): two items -- one build-regression fix for
+  verbose-mode builds against libselinux >= 3.8, and a documentation
+  update. No API or behaviour changes.
 
-Signed-off-by: Chen Qi <Qi.Chen@windriver.com>
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
+Already tracked this way on the OE stable branches, counting only bumps
+made since each branch forked from master: kirkstone 1.14.0 -> 1.14.8.
+scarthgap has had zero point-release bumps since its fork and remains at
+1.14.10; wrynose ships 1.16.2 as its initial version with no bump yet.
+
+AI-Generated: Kiro with Claude Opus 5
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-(cherry picked from commit a1e069d04cb13e990b362804bd56a4935338ef96)
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+(cherry picked from commit 63948049e50abeda630fb716ea0ba97e71b4f7cd)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../upstream-stable-release-point.bbclass     | 21 +++++++++++++++++++
- 1 file changed, 21 insertions(+)
- create mode 100644 meta/classes-recipe/upstream-stable-release-point.bbclass
+ meta/recipes-core/dbus/dbus_1.16.2.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/meta/classes-recipe/upstream-stable-release-point.bbclass b/meta/classes-recipe/upstream-stable-release-point.bbclass
-new file mode 100644
-index 00000000000..98fdb5b808e
---- /dev/null
-+++ b/meta/classes-recipe/upstream-stable-release-point.bbclass
-@@ -0,0 +1,21 @@
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: MIT
-+#
+diff --git a/meta/recipes-core/dbus/dbus_1.16.2.bb b/meta/recipes-core/dbus/dbus_1.16.2.bb
+index 7425bd23642..1102a8660ee 100644
+--- a/meta/recipes-core/dbus/dbus_1.16.2.bb
++++ b/meta/recipes-core/dbus/dbus_1.16.2.bb
+@@ -5,6 +5,12 @@ SECTION = "base"
+ 
+ inherit meson pkgconfig gettext upstream-version-is-even ptest-gnome
+ 
++# D-Bus publishes bugfix/security-only micro releases on its stable
++# (even-minor) branches. Odd-minor development branches (e.g. 1.17.x) are
++# not supported at all and receive no bug fixes, not even for security
++# vulnerabilities, so only the even-minor stable series is tracked here.
++inherit upstream-stable-release-point
 +
-+#
-+# This bbclass is expected to be inherited by recipes explicitly.
-+# If a recipe's version is separated by point and we know for sure
-+# which parts of the version represent the stable part, then the
-+# recipe could inherit this bbclass.
-+#
-+
-+STABLE_VERSION_PARTS ?= "2"
-+def get_majmin_version_regex(d):
-+    pv = d.getVar('PV')
-+    stable_parts = pv.split('.')[:int(d.getVar('STABLE_VERSION_PARTS'))]
-+    return r'\.'.join(stable_parts)
-+
-+STABLE_VERSION_REGEX = "${@get_majmin_version_regex(d)}"
-+UPSTREAM_STABLE_RELEASE_REGEX ?= "^${STABLE_VERSION_REGEX}(\.\d+)*$"
+ LICENSE = "AFL-2.1 | GPL-2.0-or-later"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=eb0ffc69a965797a3d6686baa153ef05 \
+                     file://dbus/dbus.h;beginline=6;endline=22;md5=df4251a6c6e15e6a9e3c77b2ac30065d \
 
