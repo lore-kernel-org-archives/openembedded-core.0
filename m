@@ -1,141 +1,121 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DF9BC982CD
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 07:00:18 +0000 (UTC)
-Received: from MA0PR01CU009.outbound.protection.outlook.com (MA0PR01CU009.outbound.protection.outlook.com [52.101.227.51])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.33648.1789627998563353354
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4F709C982C1
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 07:06:08 +0000 (UTC)
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33793.1789628764848921363
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 23:53:19 -0700
+ Thu, 17 Sep 2026 00:06:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=zm4D8vA2;
- spf=pass (domain: bmwtechworks.in, ip: 52.101.227.51, mailfrom: upstream_ip-sk@bmwtechworks.in)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=wNPHyHZTo2xyNOAmIVV0yuJxzYCs1KudbR/aI8Cjd64P/QTyDbNzR/jvCgc+ByUh6Qvcfy6JbUopHf5T74yJwt9EBsajNsjV0JIfvhZAca27jxPaoNFP4BwmkGRtoe8m0K5zGZ9QoGUXlJsoPT9aLrblkfH4x5m5dg0juhX1ahqLgkx77CaRe57UoCJHktvDnTuk90qVaP7LBBSThsjWVkVB22YZryK00bbbRhiudLpoqZjrkwjQxC0nkHggyLiZaR28U/jsvnt2rV446K8NCjCd6zV4FwiJgmNUQUOnfUGv7kK3yicDrRghmbGVvVYqkteeI/e7KXCbMCRk7Ek33w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ffBxrIzQnRYbQ3uedtBKCQHEQqRsF+Yn+c9zJ61gyWQ=;
- b=pOBQ3UHdVfxxWf2nCAeMMTaRvAQPJIz/FwA8d+zTUdg8RxEaVMH7JdKGJGYm0Pon3pHh5PeSyGw20lbz4dlXjDxgKJbeORTUJ3HouwkPvwQqeBQ4xgG8B4tzSPCazOynEMC2pckKqpXR6YHwMf/Z/2fVktiSTu7ap6JWNJN8o0igNXR4rW0FSFq9lOMOw8/4YAkUGzPish5BAncxNkM8yNuXRIwIDQ6lpt81hPrqHhTJ2rnyTkQY/phIFAJ1dcuxp/UN1iPQFohWsoLonQ7C21J9qL8nM/H3/uFLQA3f734UU1IN5xh5jLfYSyhOYuixBC+1TxrVu8A0ge+GLMq31Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
- header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
- s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ffBxrIzQnRYbQ3uedtBKCQHEQqRsF+Yn+c9zJ61gyWQ=;
- b=zm4D8vA2IOPDcA2EQNsMdtXPVPvGkUuANY0bxLt2/Gf3i2hqdKkqn6v7mSciSBh1PxGc3AbSLAwxNiS5XuFF/3yfGe357f/2Ca3Zo2c7HFi7rmRwSnMFiO1IStt2cZTV2ilFNxIhZjPCWhm7WwLDV1McaFF+BLmqP0Po2Y4k/X2N5vDOXR+B7fj3idy+YrxTL084yjjB29fN2uyHzeFPh85f5x5QEIufk+3tPaZXd8oz8j7czG9M7+Stdz9k4+E6xeaDcmOGfpEt20bZBD1BHy6tGkEtD4Bk8l3ygh5PHlSfFw6dlJS5UQ73GfcmfLf63u9hieyu3jEsMeFWWycjzw==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
-Received: from PN2PPFE40D44641.INDP287.PROD.OUTLOOK.COM (2603:1096:c04:1::156)
- by MAUP287MB4908.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:1a1::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.12; Thu, 17 Sep
- 2026 06:38:35 +0000
-Received: from PN2PPFE40D44641.INDP287.PROD.OUTLOOK.COM
- ([fe80::a44:7591:bce5:fd12]) by PN2PPFE40D44641.INDP287.PROD.OUTLOOK.COM
- ([fe80::a44:7591:bce5:fd12%4]) with mapi id 15.21.0428.011; Thu, 17 Sep 2026
- 06:38:35 +0000
-From: Sana Kazi <UpStream_IP-SK@bmwtechworks.in>
-To: openembedded-core@lists.openembedded.org
-CC: Sana Kazi <Kazi.S@bmwtechworks.in>
-Subject: [oe-core][wrynose][PATCH] libgcrypt: Update license for dbg package
-Date: Thu, 17 Sep 2026 12:08:26 +0530
-Message-ID: <20260917063826.1037229-1-UpStream_IP-SK@bmwtechworks.in>
-X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: PN5P287CA0008.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c01:262::15) To PN2PPFE40D44641.INDP287.PROD.OUTLOOK.COM
- (2603:1096:c04:1::156)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PN2PPFE40D44641:EE_|MAUP287MB4908:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a15d625-8e6b-47f7-1b9c-08df14864c74
-X-MS-Exchange-AtpMessageProperties: SA
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|52116014|38350700014|11063799006|56012099006|55112099003|18002099003|10067099003;
-X-Microsoft-Antispam-Message-Info: 
-	NXAxNiMtoaAeQsP5Of788KFta1eaXbxgk8tUcgL/mM7ROnLpuRFG/oRVY4qG1Fiiwx3JZSdhZ8NEgV6e8ZL0sgTc7kp7HL4fMj8yNrNbDAzrwT9aIPh5edlEAOvCNx5ZTYPT9X3Z+tNBVkfthtRyZAdd7L0619lqqmQNl44SLW6gX6m5LgBzkdZRxoQYxzPEKHmA8z5fol5Dvp4YcNl7PPqTu98eWP22iQAVotZmlcqKBOmzWUbs9LARSS5JOgx6T1rqvaMLyld/raiiCcnskCYLs0fcGvD0VVQhEaymtYVbLBJVRdEAlQvxlWNDYO4w04YnIRSSZ93yASFlTxYVYTAojo3ILo26wbwA08QPhEQBnfHAHoM8UyoKfPARaY83YM067PACjEG5ohFJQDw937cBaZiVsWcLckIWsvuniwt83ACMzQFR3tXDagk21usOxQksRUiDdWAU5YUQY22xLfIDUD1Jt5MZiWH6qM1/1I6TQeQZ+1v9CyxumS9HSkrN4DMWWqfq2eZauRVFy6GrDHJP4VQ3M7zjDBX8mgw3QllVMiqi+8zjhJPE3NN3AE3A/ZzyNVqIgHfOJl4rL2eKLToW+vK4sFQb62wZDdl/D6cMs8YLAlOajjEIkB67MJtGhRkLbXwkmVOyB0a/CFZXRNZrrqTr8/eY1HVPh7b56kNfZ1BDDmUai9TFpPbfYEQSts/yPlcfCgVUCPka8IOq+IyLR/nWiFJX4SYuEYLDrlE=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PN2PPFE40D44641.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(52116014)(38350700014)(11063799006)(56012099006)(55112099003)(18002099003)(10067099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?wlYmFZwFW+We8QYFlw/hysDMW2W5BaJzdd9AFDnsjowSmsPleZlUPN0Ythwr?=
- =?us-ascii?Q?CeMhTtnvOqpObd9yQDHG+/dvnoEbwlQ1nwby25F654eJ+rNjzt5zYQLkHNk+?=
- =?us-ascii?Q?ybr5Aw3cMbIZWrNY6IAJ3ti8xFXDmpQvG4Yz0a7efCcNCxPz9YPFZOhEYlvX?=
- =?us-ascii?Q?5QGEtfay+uvhfCeLO1qiw295ALeGNQJxbPmOIXjR8ysjLxrG0nMDDbE+I95n?=
- =?us-ascii?Q?gt0M+h4aVZGk+1GZRniHJkKNrKXHcWL+G9cGfWac1x0AKvUaWzNWtb2dzX+H?=
- =?us-ascii?Q?kv2wTkcPIIUCIIbyvc0EUlBC2p3X0UaaMSBczKNOy8ZjXKuRJyZxWKNWuojn?=
- =?us-ascii?Q?XZ6KsUxS97M5NzqmumXSRD68Goo+cevUsCl/8GunrQ57cDmQSmZn8+ZCDlDP?=
- =?us-ascii?Q?l+ii3AhkDWlms1DSZuBR28akj5J0R3y9pQNEfi7BUFGpgWpvjAfGGtRX5fkQ?=
- =?us-ascii?Q?8eDMHD59srHus9u4nTwYMKAcugCUsujHkdXMInJJRjsmJn0PWg1nsZU+rVpg?=
- =?us-ascii?Q?C8+9VTy9ewe5jqPiZ9mQOvI65MWFjpA2ogZSfSsrJjiI9u4Hnzee7W8RoWdt?=
- =?us-ascii?Q?sgshoCi4grwWRQuIBvcRT72dqveYb4gkJhCE/Uk04NJ/tQ+Y/s/4deqKC6Va?=
- =?us-ascii?Q?kIzjcGAi1FAABVKhu4sKm6dRplpkRi5F2vqpoKEfRHwvt0rELa/s3BOTteP5?=
- =?us-ascii?Q?bFSD7N3IF/p8HSIJJw5GoaOtyn+7NydPQwBJ7ds9sMbYexV9qNvogz7UhtRu?=
- =?us-ascii?Q?iW7L1Q8Mij98/zy9jXHNrccWZM0PhhRFOlSzS2oiV0J3BxP6CBuHxzIu2ZYl?=
- =?us-ascii?Q?KJK2MfmDrH9f+UMW6PZ1IuUn8OCJ4JuVZSPsMCGnaHVZboUyzy1EpavYltRY?=
- =?us-ascii?Q?e+K0d1Tn12mlUC2oMUkQbVQ/DKlgVsP+qGS9Zl6+BYlk7vr0Fsm+IWNzRO0z?=
- =?us-ascii?Q?VnlO5jDQ2HpgBdqt+GjYS8DYUwWu6G8mUZCfDBuNYFPQvz2vUvfatDP03bX5?=
- =?us-ascii?Q?30Mxf2+nDhc4pV5B3YAHZO/1FA3t9ojRo/cfCNoxbEdZlJ4VcywlVzq+MiHg?=
- =?us-ascii?Q?JhPbE4B8qaU+c0Sc4JrBaFjTKg4Pn8Tf8XvZVAGV6o4UgDLn9LFw/SJJe4wR?=
- =?us-ascii?Q?/gYxtJ4h2cQsXzXhxMK8PvnzMsjJI5MmxkRNpXpaDnO+xjVtNavskjhdtTZX?=
- =?us-ascii?Q?R6djiIME+LsseidwK/1N5QO8lTQRDYZ9QMDHWRU3TebekeLciRaE9jmJNo31?=
- =?us-ascii?Q?UYphtzD1KQ8v+lVlfc0v423YQNxahgatIu8dHyPIva9+5rfSL3MNh2hwKl4X?=
- =?us-ascii?Q?7T88ReYjdv5UpIze/xIFW0t5PEQWZTj3kmUIzNmcHbaMN6qjY/GY70C/aNds?=
- =?us-ascii?Q?F7cYrTYdX1T8Um3NhTGnrcd3JHzUGb9gDUPo3qvra2a0OQtJPOIIG0CIkgj9?=
- =?us-ascii?Q?8In8rxetYpAvVxWYXj7Neqklm5QZ/EvGlwDIEeuNTxcag5nbKgPC/eoiwR7i?=
- =?us-ascii?Q?TMXstYwG/qD2qjucjJOhdRfOSWnVDjKbfuPHeum8FWjBlTjz9v9AS0fsB+cb?=
- =?us-ascii?Q?/rCAjuwkiK/agDPzK0FEdPhDEZMu/Uv+FAmksMiA+ureW5h4J0o0k8pJ9qTm?=
- =?us-ascii?Q?J3bS1dD396wmkPZdQcty0Z37XdVHmIaFjJSa5ZN42q3tNCkgjWWwAkq1a7aE?=
- =?us-ascii?Q?xjVWzM14UsrIyNPR0LekUevTlxQ+yGA3KqdgUrhuPGGEa/2ZGBZzotyFwLr5?=
- =?us-ascii?Q?pr41BZBL8+gEcwbYy8pi7ZKzCOVMQJ0=3D?=
-X-OriginatorOrg: bmwtechworks.in
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a15d625-8e6b-47f7-1b9c-08df14864c74
-X-MS-Exchange-CrossTenant-AuthSource: PN2PPFE40D44641.INDP287.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 06:38:35.1749
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: g5RpzRtPmzPqSdP+2x2RBVpCcZzcHUuIAVXzpq+017jNFw5NZOfr2jwj4HewAbjqmfahOavG+0V2PPr8xagBOEZShu+9PnEqnGzhQrYibw8=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MAUP287MB4908
+ dkim=pass header.i=@smile.fr header.s=google header.b=QTfceO0c;
+ spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843c2790ccso269508f8f.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 00:06:04 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1789628763; x=1790233563; darn=lists.openembedded.org;
+        h=in-reply-to:references:cc:from:subject:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=NKS1x/j2G9FF7I3fqu/pg3JnrW6XwXN9O/rSP/rsoVY=;
+        b=QTfceO0cDUQymwG7IAqca6PYByXGxUgIqeYOCcUjNUTaBMLAisYHhwtBupm6Vxh4r5
+         RvSTc0M3Yc3kp9pGJTKuqcRzAuy8+fhaEMXIERC40xZSNiDktgLVpepGiJ3NKHa6UDmD
+         bjKglOo8nFYquYi5yxI4rfZaFo7LPHGAQsze8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789628763; x=1790233563;
+        h=in-reply-to:references:cc:from:subject:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NKS1x/j2G9FF7I3fqu/pg3JnrW6XwXN9O/rSP/rsoVY=;
+        b=EyTZ97HvYODIvOX8GOAx8jwTSFZkWaf0cjw40qs5SXw+uyCJ0iG37QzIozL/TIWuK8
+         1pUEaWf6e59GudPDNl+q/11MOGT+XvlCRAX4gpK85QkYkqsvRdyBC//rTXDY0UjnwN4f
+         TB8gILYRvpznXPASsPfl/NilCxUSvF4xlpRDyZFhSr6y9cwJrfmoWZ952I8Um0w+n/BC
+         PdnAVwUSEJGvmmwjHgt5FUsCfUcffVLatNTiO9M3Imhg9cfZ+oUXg6/SuD035imJGlvS
+         XEfwFdNNEw+9ut8N2fr5zjIhza+gjEiGksML2F+fPFdISsuxN+P7p72oT0CoCWLuG/SE
+         DiBA==
+X-Forwarded-Encrypted: i=1; AKwUvBybqD58s+OUioSj3C70ZT0yMAS4V16NNAJzDfkvTfzazP7x0P9kuovp1sDQL6QHOMgNLwdy/ZuJ+mYrKDtqKGHCPA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nnxhfR5gyXhvZM4GEk56UiZlHJymCpSrQrD+9toWrbaGVjVaTM
+	TWtSCo/VSKSMdyKJLs9NgYn65cKvAQR9T2/25GPsuXX5DG8/NYkVUuN7VvE2tdFIiaU=
+X-Gm-Gg: AYBFou2VGAC7mwpwAuG6jk3/pHvnyesiytf2c/uVbMKcog3GL/4fKjIWEHADkEyT/nA
+	lbo54lRxl0bCe7mij8u7cGtMneD938LRJJwBk/dEs0QkT1D+sfIdJS3PE3kV/Y7Z20/jZUm/ODD
+	PCrR8lrgWVW/EbinuaRjeT/6kM1VA5kHb2tLcB1wjhxJB9SXetJtJnp8c4y2AmeEoJjvGE5Y+rj
+	WKxgWuufumtnapSbOSrav6rc0AQRrB1IgZ1dh2CMRuUzFzNOkRzt81arOygUarCxaq1/hgJs4Oe
+	k9li6DrH7CMbSaEC32ME3bqH7iuHFTBAOhs9BWuy4+zYcvzIPgniqA2S38XKlBodWqJoRofAUzn
+	dyX6EnhMuFE44BvMfd6x+q7OuWyPBdRIjzRfQDtAU7kj4clOK/k0PmU6JsZTIEm/mFH9wfVeF2k
+	/tBLd/w3nt6iENckyYrr1U4gZdsiX2M5my/tLlLRyetGQIO69LOUBW2mhP0Z3TaJkFs6cM79Od8
+	4nvT88kLaZ2Qd2GfHOm3SIhC4oKvu6m5kSNS/Dt0tmHp6DMLr4A7Nhq0Ql8m2M=
+X-Received: by 2002:a05:6000:1868:b0:487:980:b42c with SMTP id ffacd0b85a97d-4870cef14b3mr11171768f8f.11.1789628762786;
+        Thu, 17 Sep 2026 00:06:02 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bf344fcsm13570016f8f.26.2026.09.17.00.06.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 17 Sep 2026 00:06:02 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 17 Sep 2026 09:06:02 +0200
+Message-Id: <DLHEG7H935N8.2JKMAZRCTBS17@smile.fr>
+To: <tgamblin@baylibre.com>, <Harish.Sadineni@windriver.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [wrynose][PATCH] qemuriscv.inc: use fw_dynamic.elf as
+ BIOS when KERNEL_DEBUG is enabled
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <Randy.MacLeod@windriver.com>, <Sundeep.Kokkonda@windriver.com>
+X-Mailer: aerc 0.20.0
+References: <20260916121517.1513695-1-Harish.Sadineni@windriver.com>
+ <DLH071QT0TBB.7KZL5MFA90WQ@baylibre.com>
+In-Reply-To: <DLH071QT0TBB.7KZL5MFA90WQ@baylibre.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 07:00:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246025
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 07:06:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246026
 
-From: Sana Kazi <Kazi.S@bmwtechworks.in>
+On Wed Sep 16, 2026 at 9:55 PM CEST, Trevor Gamblin via lists.openembedded.=
+org wrote:
+> On Wed Sep 16, 2026 at 8:15 AM EDT, Harish.Sadineni wrote:
+>> From: Harish Sadineni <Harish.Sadineni@windriver.com>
+>>
+>> QEMU RISC-V hangs (qemu hang-up) when using fw_jump.elf as the
+>> default BIOS while kernel debugging is enabled. This has been
+>> observed with the 6.18 kernel (exact version where it was
+>> introduced is not known).
+>>
+>> As a workaround, switch to fw_dynamic.elf when KERNEL_DEBUG is
+>> enabled, which avoids the hang and works correctly with debug
+>> builds. The default behaviour is unchanged and continues to use
+>> fw_jump.elf when KERNEL_DEBUG is not set.
+>
+> It'd be good to understand exactly why this doesn't work and what changed
+> upstream. I'm looking into it in a local checkout, but I probably won't h=
+ave an
+> answer for a day or two.
 
-Set LICENSE for libgcrypt-dbg as "LGPL-2.1-or-later"
+Thanks Trevor!
 
-Signed-off-by: Sana Kazi <Kazi.S@bmwtechworks.in>
----
- meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb | 1 +
- 1 file changed, 1 insertion(+)
+Harish, this patch is for master isn't it?
+If that's the case, would you mind resending it witout the [wrynose] tag
+so it can be picked-up there?
 
-diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb b/meta/reci=
-pes-support/libgcrypt/libgcrypt_1.12.1.bb
-index d7f8563ae6..50c4fda7e9 100644
---- a/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb
-+++ b/meta/recipes-support/libgcrypt/libgcrypt_1.12.1.bb
-@@ -9,6 +9,7 @@ SECTION =3D "libs"
- LICENSE =3D "GPL-2.0-or-later & LGPL-2.1-or-later & BSD-3-Clause"
- LICENSE:${PN} =3D "LGPL-2.1-or-later & BSD-3-Clause"
- LICENSE:${PN}-dev =3D "GPL-2.0-or-later & LGPL-2.1-or-later"
-+LICENSE:${PN}-dbg =3D "LGPL-2.1-or-later"
-=20
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D570a9b3749dd0463a1778803b12a6dc=
-e \
-                     file://COPYING.LIB;md5=3D4bf661c1e3793e55c8d1051bc5e0a=
-e21 \
+Thanks!
+
+>
+> Trevor
+>>
+>> [YOCTO #16409]
+FYI, I have not seen this specific error on wrynose (kernel 6.18).
+
+>>
+>> Signed-off-by: Harish Sadineni <Harish.Sadineni@windriver.com>
+>> ---
+>>  meta/conf/machine/include/riscv/qemuriscv.inc | 5 ++++-
+>>  1 file changed, 4 insertions(+), 1 deletion(-)
+
+Regards,
 --=20
-2.43.0
+Yoann Congal
+Smile ECS
 
 
