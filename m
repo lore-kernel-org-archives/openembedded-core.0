@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CCA9FC982D0
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 18:38:47 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1A174C982DA
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 18:38:48 +0000 (UTC)
 Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.641.1789670320498030187
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.644.1789670320670501724
  for <openembedded-core@lists.openembedded.org>;
  Thu, 17 Sep 2026 11:38:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=kC+Ciklf;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-202609171838388c8ec9cf850002073b-wmbivh@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202609171838388c8ec9cf850002073b
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=hxHA9oKH;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-20260917183838b9bb64f11e00020763-7eloik@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260917183838b9bb64f11e00020763
         for <openembedded-core@lists.openembedded.org>;
         Thu, 17 Sep 2026 20:38:38 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=DRuH3dLDFEe1I1uA4yUjsBBSeZaif4vhGMIfVNpqFiU=;
- b=kC+Ciklf3cIA4orQh20qOQwW/dY5HtRdLpVajceNTMMa5e18okjqxxxqZtah7BoE2Z+srE
- TjTDH/bffOld2MQDRlNfYlmgSEyb01LijIMjgpvxAq3WsVtQgx3/lDcfCoV4U+q3lK0h/Vhz
- iJQ8xmg8/vMGzAOpg5aegakpEGSW8FGzQ2g/y+M/IzOFRhZjir2qO8EoHfmYCCAPLwwer3zR
- EmEgMV/d7CJ97jhQo7yTrXfqQc6VXqV3Ca0BPd1O2q9f7TGcb5qCfTBbUV6opOd44al2bn6U
- e8huQutlhVKehX9dHzXw3Gy9o/tnHZf0ZC6mRMM2g5uIP1rDJA6sYcOA==;
+ bh=goaqqBNm5D0ir7dqkBQRzoVfAJxxIbl9oNOv+n2VvFU=;
+ b=hxHA9oKHKg2CPzfNISnQzfsi1ZwzJzGFOIIZyp0me3ZGSPhTD11wPoiPAAryqEcICN76sK
+ 72AHUD604R+Pj6ru+jYtCqmjcQditZlHCwsQXV5a1/c0X6EnikzWeJHf21KGI++81H1Y86mM
+ 7KyYPyojWSSw2dVFTb8XORqvELL8CE4E9gJf4AH8Mvs/iqz5tsp1Vy5pqYdLOvMOaBmFU76q
+ bm5EjBIEVNHxWQ7TYcR0MFZSkpv4OeQKxlaRe64jaffPDHMdsquDtnNvtC1GdMxxGseZ2a39
+ zdgL3x+6qk6x1SfK1CRiWwQ4/GumWmdFU0Vs8i6K5snMHWDcuVse4wqA==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 2/7] devtool: ide-sdk: add real hardware NFS export helper
-Date: Thu, 17 Sep 2026 20:37:54 +0200
-Message-ID: <20260917183832.998361-3-adrian.freihofer@siemens.com>
+Subject: [PATCH 7/7] oe-selftest: devtool ide-sdk: make slirp tests port collision proof
+Date: Thu, 17 Sep 2026 20:37:59 +0200
+Message-ID: <20260917183832.998361-8-adrian.freihofer@siemens.com>
 In-Reply-To: <20260917183832.998361-1-adrian.freihofer@siemens.com>
 References: <20260917183832.998361-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -38,79 +38,154 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 18:38:47 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246085
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 18:38:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246087
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Generate a helper for NFS-enabled IDE SDK images that exports the rootfs
-with runqemu-export-rootfs and serves the deploy directory over HTTP. This
-allows real hardware targets to boot the generated rootfs and retrieve the
-kernel from the deploy directory over HTTP.
+The hostfwd=tcp: entries in QB_SLIRP_OPT are only a wishlist for the
+debug server ports: runqemu moves forward to the next free host port
+whenever the wished-for one is already taken, e.g. by a parallel
+oe-selftest worker's qemu. Only the ssh port can be recovered afterwards.
+The debug server ones silently pointed the debugger at nothing instead.
+lldb-server's spawned gdbserver cannot cope with a moved port at all:
+its client is told the target port to reconnect to and there is no hook
+to tell it about a remapped host one.
 
-For some use cases like u-boot with wget command built-in this helper
-is expected to cover the typical scenario. For other use cases the
-generated script at least provides a starting point and can be adapted
-as needed for other scenarios.
+If the test allocates a pool of host ports that is free right beforehand
+and holds it for the debug servers, runqemu is expected to grant every
+wish in it 1:1, since nothing else can take one of them in between.
+Reserve such a block and pass it to the first devtool ide-sdk invocation,
+which bakes the ports into QB_SLIRP_OPT before the image is built.
+
+The debug server ports are therefore already final at that point, with
+no remapping left to resolve. devtool ide-sdk still has to be re-run
+once qemu is up regardless, and needs the same block passed again: not
+because of these ports, but because it is the only invocation that knows
+the live qemu IP and the ssh port, which is not covered by the
+reservation and can still be moved by runqemu's own port picking, e.g.
+against a second worker's default 2222.
+
+The reservation keeps its own lock directory rather than runqemu's,
+since holding runqemu's locks is exactly what would make it consider the
+reserved ports taken and move the forwards away again.
+
+Having the Linux kernel itself arbitrate the ports, by requesting them
+from qemu dynamically via QMP once it is running, would be a more
+robust fix and remove the need for this pool altogether, but that is a
+bigger refactoring of the runqemu/qemu integration than warranted here.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_sdk.py | 35 ++++++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+ meta/lib/oeqa/selftest/cases/devtool.py | 64 +++++++++++++++++++++++--
+ 1 file changed, 61 insertions(+), 3 deletions(-)
 
-diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index 20b03b2d40..a2b15ce440 100755
---- a/scripts/lib/devtool/ide_sdk.py
-+++ b/scripts/lib/devtool/ide_sdk.py
-@@ -360,6 +360,33 @@ class RecipeImage:
-         os.chmod(helper, os.stat(helper).st_mode | stat.S_IEXEC)
-         return helper
+diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
+index 490a1d0bf0..5bb191ff47 100644
+--- a/meta/lib/oeqa/selftest/cases/devtool.py
++++ b/meta/lib/oeqa/selftest/cases/devtool.py
+@@ -5,9 +5,11 @@
+ #
  
-+    def nfs_hw_helper(self, nfs_export_base_dir, nfs):
-+        """Create a helper that exports the selected rootfs and the kernel to a target.
+ import errno
++import fcntl
+ import os
+ import re
+ import shutil
++import socket
+ import subprocess
+ import tempfile
+ import threading
+@@ -3066,6 +3068,12 @@ class RunCmdBackground:
+ class DevtoolIdeSdkTests(DevtoolBase):
+ 
+     MAGIC_STRING_ORIG = "Magic: 123456789"
++    SLIRP_PORT_BLOCK_SIZE = 32
++    # runqemu locks /tmp/qemu-port-locks itself while picking the slirp host
++    # ports, so the reservation below needs a lock directory of its own:
++    # holding runqemu's locks would make it consider the reserved ports taken
++    # and move the forwards away again.
++    SLIRP_PORT_LOCK_DIR = '/tmp/oe-selftest-ide-sdk-port-locks'
+ 
+     def setUp(self):
+         super().setUp()
+@@ -3520,6 +3528,50 @@ class DevtoolIdeSdkTests(DevtoolBase):
+         self.assertIn('hostfwd=tcp:127.0.0.1:2222-:22', bbappend_content,
+                       'SSH slirp port forward missing from QB_SLIRP_OPT')
+ 
++    def _reserve_slirp_port_block(self):
++        """Reserve a block of host ports for this test's debug servers and return its first port.
 +
-+        The rootfs is exported over NFS with runqemu-export-rootfs
-+        The deploy directory (fitImage/kernel) is served over plain
-+        HTTP, e.g. for a U-Boot 'wget' in recovery/netboot mode.
++        runqemu moves a QB_SLIRP_OPT forward to the next host port whenever the
++        wished-for one is already taken, and lldb-server's spawned gdbserver
++        has no way to tell its client about a remapped host port, so the wishes
++        have to be granted 1:1. Every parallel oe-selftest worker otherwise
++        starts from the same default port, so claim a block that is free right
++        now and hold it for the rest of the test.
 +        """
-+        export_dir = os.path.join(nfs_export_base_dir, self.pn)
-+        rootfs_dir = self.nfs_rootfs_dir(nfs_export_base_dir, nfs)
++        os.makedirs(self.SLIRP_PORT_LOCK_DIR, exist_ok=True)
++        for start in range(1234, 20000, self.SLIRP_PORT_BLOCK_SIZE):
++            block = range(start, start + self.SLIRP_PORT_BLOCK_SIZE)
++            # runqemu forwards these for ssh/telnet, handing one of them to a
++            # debug server as well would collide.
++            if 2222 in block or 2323 in block:
++                continue
++            locks = []
++            for port in block:
++                lock = open(os.path.join(self.SLIRP_PORT_LOCK_DIR, '%d.lock' % port), 'w')
++                try:
++                    fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
++                except OSError:
++                    lock.close()
++                    break
++                locks.append(lock)
++                # The lock only coordinates with other ide-sdk selftests, so
++                # confirm nothing unrelated is holding the port either.
++                with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as probe:
++                    try:
++                        probe.bind(('127.0.0.1', port))
++                    except OSError:
++                        break
++            else:
++                for lock in locks:
++                    self.addCleanup(lock.close)
++                self.logger.debug('Reserved slirp host ports %d-%d',
++                                  start, start + self.SLIRP_PORT_BLOCK_SIZE - 1)
++                return start
++            for lock in locks:
++                lock.close()
++        self.fail('Could not reserve %d consecutive free host ports'
++                  % self.SLIRP_PORT_BLOCK_SIZE)
 +
-+        helper = os.path.join(export_dir, 'export-hw-' + nfs)
-+        with open(helper, 'w') as helper_file:
-+            helper_file.write('#!/bin/sh\n')
-+            helper_file.write('set -e\n')
-+            helper_file.write(
-+                'runqemu-export-rootfs start %s\n' % shlex.quote(rootfs_dir))
-+            helper_file.write(
-+                'trap \'runqemu-export-rootfs stop %s\' EXIT INT TERM\n' %
-+                shlex.quote(rootfs_dir))
-+            helper_file.write('cd %s\n' % shlex.quote(self.deploy_dir_image))
-+            helper_file.write(
-+                'echo "Serving %s over HTTP on port ${PORT:-8080}"\n' %
-+                self.deploy_dir_image)
-+            helper_file.write('python3 -m http.server "${PORT:-8080}"\n')
-+        os.chmod(helper, os.stat(helper).st_mode | stat.S_IEXEC)
-+        return helper
-+
-     def update_image_bbappend(self, recipes_modified, nfs=None):
-         """Write debug settings for modified-mode recipes into the image bbappend.
+     def _verify_nfs_debug_rootfs(self, testimage, nfs):
+         """Verify the NFS debug rootfs was extracted and its runqemu launch helper generated."""
+         nfs_rootfs = os.path.join(self.workspacedir, 'nfs-exports', testimage, nfs)
+@@ -3607,7 +3659,13 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             self._meson_recipe_name, "meson.build", testimage)
+         package_opts = self._ide_sdk_package_opts()
+         nfs_opts = ' --nfs=%s' % nfs_export if nfs else ''
+-        runCmd('devtool ide-sdk %s -c --ide=code --ide=none %s%s' % (testimage, package_opts, nfs_opts),
++        # runqemu only grants a QB_SLIRP_OPT wish while the host port is free,
++        # and lldb-server's spawned gdbserver needs host == target, so give the
++        # debug servers a block no parallel worker uses (see
++        # _reserve_slirp_port_block); both invocations must agree on it.
++        port_opts = ' -G %d' % self._reserve_slirp_port_block() if slirp else ''
++        runCmd('devtool ide-sdk %s -c --ide=code --ide=none %s%s%s' % (
++            testimage, package_opts, nfs_opts, port_opts),
+                output_log=self._cmd_logger)
  
-@@ -489,6 +516,14 @@ class RecipeImage:
-                 'Pass any additional runqemu options to this helper.',
-                 helper, opts)
+         if slirp:
+@@ -3651,8 +3709,8 @@ class DevtoolIdeSdkTests(DevtoolBase):
+             # not known at the time of the initial ide-sdk invocation.
+             # --skip-bitbake also skips the NFS rootfs (re-)extraction, which
+             # would otherwise wipe the directory the target has mounted.
+-            bitbake_sdk_cmd = 'devtool ide-sdk %s %s --skip-bitbake --ide=code --ide=none %s%s' % (
+-                testimage, target_options, package_opts, nfs_opts)
++            bitbake_sdk_cmd = 'devtool ide-sdk %s %s --skip-bitbake --ide=code --ide=none %s%s%s' % (
++                testimage, target_options, package_opts, nfs_opts, port_opts)
+             runCmd(bitbake_sdk_cmd, output_log=self._cmd_logger)
  
-+        hw_helper = self.nfs_hw_helper(nfs_export_base_dir, nfs)
-+        logger.info(
-+            'With the build environment sourced, export the rootfs (NFS) and '
-+            'the kernel (HTTP) for a real hardware target instead of QEMU:\n'
-+            '  %s\n'
-+            'Set PORT to override the HTTP port (default: 8080).',
-+            hw_helper)
-+
-     def update_qb_slirp_opt(self):
-         """Update QB_SLIRP_OPT in the image bbappend
- 
+             # Verify the debugger is available and functional on host
 -- 
 2.55.0
 
