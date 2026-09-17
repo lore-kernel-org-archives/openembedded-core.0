@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 171F0C982DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 00347C982DA
 	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 22:08:28 +0000 (UTC)
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1604.1789682906112728356
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1601.1789682905204942546
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 15:08:26 -0700
+ Thu, 17 Sep 2026 15:08:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=h7lD1Y8F;
+ dkim=pass header.i=@smile.fr header.s=google header.b=JbJEKRDa;
  spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccead2aecso578495e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:25 -0700 (PDT)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b5so688105e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 15:08:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789682904; x=1790287704; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1789682903; x=1790287703; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=dr/PAf8qCEVEQ2LamWbc+s7h3RHTEZ8S5+8GYhyF+xs=;
-        b=h7lD1Y8F84g6UtqQX6pGiHhb5SvD9M5PUtzrdyN9UBUJzVSGriF9ZvQFq2eI2O4IKj
-         Z9CN0FRORZ1P/cR7nfTpcqj2IgUpzF4GAJ8bAB0qSamY6rxhMq+4Atr2MGHXYPXyaDjq
-         GdvxLqjyzM84HgUFS+W2WSt57GBtI1p49wx8M=
+        bh=87IQbpy1xCaNO801R4JFoPhJQXuVT/8yHgZbHcuOPfU=;
+        b=JbJEKRDaljlYrbJBcGwrsXXfdR3IAddN4kQ2CWhpRFL1Bz8NEjTJA63oVsPWCuRxIO
+         u8rfrhagvRBfJtUQs+2lzECAHVkIvkvlw5SlvX4YgeF3JGa/vp+QTXO4NRXBSKhjz/tn
+         N7ClZzY3/Ct40OKAc2ft74N/bmlWdzGwg99xQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789682904; x=1790287704;
+        d=1e100.net; s=20260707; t=1789682903; x=1790287703;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=dr/PAf8qCEVEQ2LamWbc+s7h3RHTEZ8S5+8GYhyF+xs=;
-        b=UGvpYFWf5VFUTvhZZBE1QwkzD0emK0XaF3YzijKuW1XIpDcmXDIzn+Xfno+PfUOAdp
-         uqexSnkNXcwE+Pxw5gcnXozyMdWvIj20o6xI15xtYFFAC3ZFL9zeects+Aqnsug1jnPP
-         PAVwuRi5wgqMY2ScNYjGh2nMEl8WkZY0AYaThRtJ7FYrop7+MHUNhzghz5/nuXGIkPF8
-         WFEDxF9bm39FxKqzKewzuuMMZmlIQxnRW35KKRgrIyI/XBHELTJ0xaciMs1iuMFvJFae
-         yFDP2XR8DY1R1eujQLZ8T/1s9VpW7aXI2gAWm/00ZFfa5Yi+Gqt8OYtZeG9RCgGfuWSO
-         CnYA==
-X-Gm-Message-State: AFuF++llgq2azRcHsk8z9j8shQWwuPFr3v1FpT/zFmzjYhkfpIbqxlZ0
-	fRKED7XL7othsyrfBcRNazYWVnoZAfEsz+mPIqdEPyDb3qHIKMXubBICDIP85bxfOHhFkR9HV/G
-	1nENLRsw=
-X-Gm-Gg: AYBFou1HVvSWMRXa/PkCOB5QGGOnC65FnICv+vstn3RV7de61NtiVPXX5pfn9QFcFuf
-	3/B8Mgzb0K4KKj2LKvvbnYcqEVw88EdwMHanXV3Rxaub3I3Thw1HJHFBCbgD8yMbQg3oeryaetP
-	yxufARpvfcIH/5ZE/rOBS9dZsseT9mbzqWJW9PeyJdgaYdDQ22oZPXRrmECT4BCouXHnflbfdx1
-	WYHsvslA9fUS1ZaWlj9m/EIU7r1TYeAlO38YBiaykkG8fH4HUkvUi3xE6eYBLN0QVRTOQYE51n/
-	F66+SH0dVLZJH62Ox2xXllfaJz4wiDnY0druxAvGqSDJNhmNvuCfFlPT5qQdMAVcWPrs1mu4o++
-	LEjrluUWvFrC8FB6e6kIfGKjNsartT20yuHD2im+Syu3KngwkVT/9ejXrIX0v0v847GTnKKp+yE
-	di+lulJ675+N+EzLAKPxOC4FbxXtJ36gmSao3EDLuLUl3Mo/HHYmuXUpWoi1OsSi9X41AUjgayv
-	524w5qAr11c8hCCtrXSSGjJv51i6rjoR/M+udApQkHwK8SCh37H+RYtE3NZyrcoCMMYMNSR/RY=
-X-Received: by 2002:a05:600c:1382:b0:49d:1d7e:4085 with SMTP id 5b1f17b1804b1-49fc5750e24mr2590765e9.22.1789682904332;
-        Thu, 17 Sep 2026 15:08:24 -0700 (PDT)
+        bh=87IQbpy1xCaNO801R4JFoPhJQXuVT/8yHgZbHcuOPfU=;
+        b=JN3PL2dovdO1KUtZAqK0gCns0EPKQvnbWS8WgWr5YvZTGG9q8WCEmpKADJzMNTfj0P
+         clBBYkuCOTqDWhhK4EAO1EFO0FD8s/c/u6CJLf+pjtgqhNNRgg+7WsBzTAqVIA7SmDe5
+         4P1FsLmF10WoOP9HHjAa2aYAlV3hiY4LhuWXN/O15LzxSWoa30biJonYiIzbfbyizNNn
+         FsazybRg4r7iWDaLqLltcrp4BRmWWMpddWtrvMmesNWMOXMTyhLcfH5N2BBkb7Z7/xv3
+         aHEB1HxU6dYa8KsTr4oLqlSL546zyPBvY33Auq/CyRNEr02eEMLZd+/AqP2OZQih2tni
+         ccAA==
+X-Gm-Message-State: AFuF++kYOQcPdVagFb+j8pgp3zTKWYDclSkhKWh/YxYoHZ4IphDf3uWv
+	UQZsMkQIlAwA14tivaA+E84L76EQ6mqZcfAvLC0/tpeUHNo7vNh3Cz3TjtmSB+xrTeqDFT5jz7+
+	QtT2TmX0=
+X-Gm-Gg: AYBFou3DbtWqjFATS5IQGcSq1rilTd1ye5FYv3JTBTVoslUPdETcgG7BhIRwT/4ooKy
+	Dp3RVabltQ6NTOmqEG12CQNlhokFfA8VpV62XNAi3OQsKCCRNvkClCWv9OnF/zGn/Q8Da1l+Irs
+	xoYkeLsqhvjIyp5FGMmBZ6I3K0A+VKA+or3YNOrttUJCa5gA9DYum647UHDZdIWZfsf5gM9cWUi
+	PmFBMQT+C+MxgUrPKTfAPoghgSdjFQ+jmhKe2mWu0+qUWFl5pP6iCKlOa/hocPgkICjGW/yzwHD
+	4ZEPi4luQ3F0xT04b6W7n2UkiMuZbmvrNN5G4GKwYWJGgPhiwo2TXpHSR64b4JzRzpn9aipSMbz
+	TUmmycCk8TbZaylpLA3weqIzQ3G9TVNVpjUBBY2HJNs73lDiUq2HJz4LmzoVopRHHbX5mZLHgTl
+	sRlJFXAisNdeIWfPyudlPwrxYb7NsHZ+Pep1mRpVs9iY21VdtGJ29MOgzfCJ8T4jugqQDLLWRBE
+	3z7l30aylEw0fADlYbx9VI/okLkZxFFPG/vPWltWL6cDS0cZkWZDUn0dyk7+TJOzfUE/kNSCvY=
+X-Received: by 2002:a05:600c:3e0b:b0:49f:bc0d:2e9 with SMTP id 5b1f17b1804b1-49fc55954acmr8097805e9.0.1789682903210;
+        Thu, 17 Sep 2026 15:08:23 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.23
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc471b9a2sm8984075e9.0.2026.09.17.15.08.22
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 17 Sep 2026 15:08:23 -0700 (PDT)
+        Thu, 17 Sep 2026 15:08:22 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 65/79] libpcap: Fix CVE-2026-6244
-Date: Fri, 18 Sep 2026 00:06:50 +0200
-Message-ID: <bff5c99d67566080b34f35898655fb0122339a46.1789681419.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 63/79] libpcap: Fix CVE-2026-31912
+Date: Fri, 18 Sep 2026 00:06:48 +0200
+Message-ID: <39828b678d7d8cc19af941ff5c3ffd93e9e15a24.1789681419.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1789681419.git.yoann.congal@smile.fr>
 References: <cover.1789681419.git.yoann.congal@smile.fr>
@@ -65,86 +65,633 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 22:08:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246160
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 22:08:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246158
 
 From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-NVD: https://nvd.nist.gov/vuln/detail/CVE-2026-6244
-Upstream-commit: https://github.com/the-tcpdump-group/libpcap/commit/98bb921b141aa642faedbf2ac510541c76499a19
+NVD: https://nvd.nist.gov/vuln/detail/CVE-2026-31912
+Upstream-commit: https://github.com/the-tcpdump-group/libpcap/commit/d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9
 Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../libpcap/libpcap/04-CVE-2026-6244.patch    | 50 +++++++++++++++++++
- .../libpcap/libpcap_1.10.6.bb                 |  1 +
- 2 files changed, 51 insertions(+)
- create mode 100644 meta/recipes-connectivity/libpcap/libpcap/04-CVE-2026-6244.patch
+ .../libpcap/libpcap/02-CVE-2026-31912.patch   | 597 ++++++++++++++++++
+ .../libpcap/libpcap_1.10.6.bb                 |   1 +
+ 2 files changed, 598 insertions(+)
+ create mode 100644 meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch
 
-diff --git a/meta/recipes-connectivity/libpcap/libpcap/04-CVE-2026-6244.patch b/meta/recipes-connectivity/libpcap/libpcap/04-CVE-2026-6244.patch
+diff --git a/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch b/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch
 new file mode 100644
-index 00000000000..b7fec6b554d
+index 00000000000..ceae734ff7b
 --- /dev/null
-+++ b/meta/recipes-connectivity/libpcap/libpcap/04-CVE-2026-6244.patch
-@@ -0,0 +1,50 @@
-+From e2f4d78f71237c44f730fee11fa0497b756e9d81 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch
+@@ -0,0 +1,597 @@
++From 09e04074ddfbca5fa33693c6e2d4f01a74857f65 Mon Sep 17 00:00:00 2001
 +From: Denis Ovsienko <denis@ovsienko.info>
-+Date: Thu, 30 Jul 2026 13:34:21 +0100
-+Subject: [PATCH] CVE-2026-6244: Avoid division by zero via
++Date: Thu, 30 Jul 2026 13:33:55 +0100
++Subject: [PATCH] CVE-2026-31912: Mind the program bounds in
 + pcap_offline_filter().
 +
-+The current revision of pcapint_filter_with_aux_data() for "div x" and
-+"mod x" correctly rejects the packet if X is zero, but for "div #k" and
-+"mod #k" it assumes that k is never zero.  This holds for programs that
++The current revision of pcapint_filter_with_aux_data() does not know the
++number of instructions in the filter program, it assumes the program
++counter always remains within the bounds of the provided filter program
++and always reaches a return instruction.  This holds for programs that
 +have been generated or validated by libpcap.
 +
 +However, this does not necessarily hold for programs that come from an
 +external source via pcap_offline_filter() or [deprecated] bpf_filter()
 +and have not been explicitly validated.  If the interpreter executes
-+such a program, it can attempt a division by zero, which will typically
-+terminate the process via SIGFPE.
++such a program and advances the program counter beyond the last
++instruction, it will be interpreting memory space after the filter
++program as BPF instructions, which in the current implementation will
++eventually cause either abort() (another commit addresses that) or
++SIGSEGV.
 +
-+To fix this problem, in pcapint_filter_with_aux_data() treat "div #k"
-+and "mod #k" the same way as "div x" and "mod x".
++To fix the latter problem, in pcapint_filter_with_aux_data() add a
++parameter for the number of instructions in the program and reject the
++packet as soon as (or just before) the program counter goes out of
++bounds.  Update all incoming code paths to specify the length; also in
++pcap_offline_filter(3PCAP) make it clear the function now requires the
++'bf_len' member to be set correctly and uses it.
 +
-+(backported from commit 0b2b1ad4a1796513613ff68e9dc09049cc8e0af4)
++(backported from commit d1209988c74dd9330659898d3b676ee6bbe1c551)
 +
-+(cherry picked from commit 98bb921b141aa642faedbf2ac510541c76499a19)
++(cherry picked from commit d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9)
++
++Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9]
++CVE: CVE-2026-31912
 +
 +Notes on backporting to 1.10.6:
++ - Adjusted the pcapint_filter() call sites in pcap-dag.c, pcap-netmap.c and
++   pcap-snf.c to the 1.10.6 code base.  In 1.10.7 these were already touched by
++   the unrelated "low snaplen" fixes (commits d5192db3, fb87fdeb, b0caefe8),
++   which are not part of this CVE and are not backported here; only the new
++   bf_len argument is added to each call.
++ - In bpf_filter.c the scratch-memory-store zero-initialisation and the removal
++   of the stray BPF_S_ANC_* enum (1.10.7-only cleanups) are not present in
++   1.10.6, so only the new pc0 declaration and bounds checks from this commit
++   are added.
 + - The upstream CHANGES/changelog hunk is not backported.
 +
-+Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/commit/98bb921b141aa642faedbf2ac510541c76499a19]
-+CVE: CVE-2026-6244
 +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 +---
 +diff --git a/bpf_filter.c b/bpf_filter.c
-+index f8b842d6..0178aae5 100644
++index 510dbd9c..4f9adeea 100644
 +--- a/bpf_filter.c
 ++++ b/bpf_filter.c
-+@@ -420,10 +420,14 @@ DIAG_ON_DEFAULT_ONLY_SWITCH
++@@ -70,6 +70,24 @@ enum {
++         BPF_S_ANC_VLAN_TAG_PRESENT,
++ };
++ 
+++/*
+++ * Kernel BPF implementations tend to define BPF_MAXINSNS to 512 or 4096, the
+++ * userland interpreter in libpcap is meant to support much longer filter
+++ * programs.  In the latter case it is important that BPF_MAXINSNS does not
+++ * interfere with the safety checks in the validator and the interpreter:
+++ *   (BPF_MAXINSNS + UINT8_MAX) * sizeof(struct bpf_insn) < UINT32_MAX
+++ * It makes the most sense to be able to interpret as many instructions as
+++ * pcap_compile() can produce, without optimization, for a valid filter
+++ * expression before it consumes as much memory as the current definitions of
+++ * NCHUNKS and CHUNKSIZE() allow.  For some expressions this can be almost
+++ * 1.53 million instructions on a 64-bit machine and twice as many on a 32-bit
+++ * machine.
+++ */
+++#ifdef BPF_MAXINSNS
+++#undef BPF_MAXINSNS
+++#endif
+++#define BPF_MAXINSNS 3060000U
+++
++ /*
++  * Execute the filter program starting at pc on the packet p
++  * wirelen is the length of the original packet
++@@ -84,12 +102,14 @@ enum {
++  */
++ #if defined(SKF_AD_VLAN_TAG_PRESENT)
++ u_int
++-pcapint_filter_with_aux_data(const struct bpf_insn *pc, const u_char *p,
++-    u_int wirelen, u_int buflen, const struct pcap_bpf_aux_data *aux_data)
+++pcapint_filter_with_aux_data(const struct bpf_insn *pc, const u_int proglen,
+++    const u_char *p, const u_int wirelen, const u_int buflen,
+++    const struct pcap_bpf_aux_data *aux_data)
++ #else
++ u_int
++-pcapint_filter_with_aux_data(const struct bpf_insn *pc, const u_char *p,
++-    u_int wirelen, u_int buflen, const struct pcap_bpf_aux_data *aux_data _U_)
+++pcapint_filter_with_aux_data(const struct bpf_insn *pc, const u_int proglen,
+++    const u_char *p, const u_int wirelen, const u_int buflen,
+++    const struct pcap_bpf_aux_data *aux_data _U_)
++ #endif
++ {
++ 	register uint32_t A, X;
++@@ -99,13 +119,36 @@ pcapint_filter_with_aux_data(const struct bpf_insn *pc, const u_char *p,
++ 	if (pc == 0)
++ 		/*
++ 		 * No filter means accept all.
+++		 * In this case the value of 'proglen' is irrelevant.
++ 		 */
++ 		return (u_int)-1;
+++	if (proglen < 1 || proglen > BPF_MAXINSNS)
+++		return 0;
+++
+++	/*
+++	 * Require the current instruction pointer not to overflow for both the
+++	 * filter program (where the pointer will be dereferenced) and an
+++	 * immediately following margin (where it will be not).  So long as the
+++	 * margin is large enough to represent the destination of any single
+++	 * conditional [forward] jump from within the filter program, a single
+++	 * guard prevents all filter program over-read attempts that result
+++	 * from the program running out of instructions before a BPF_RET or a
+++	 * conditional jump directing the interpreter beyond the program end.
+++	 * Unconditional jumps mean a larger problem space, which the BPF_JA
+++	 * case below addresses separately.
+++	 */
+++	const struct bpf_insn *pcend = pc + proglen;
+++	if (pcend + UINT8_MAX < pc)
+++		return 0;
+++
++ 	A = 0;
++ 	X = 0;
+++	const struct bpf_insn *pc0 = pc;
++ 	--pc;
++ 	for (;;) {
++ 		++pc;
+++		if (pc >= pcend)
+++			return 0;
++ 		switch (pc->code) {
++ 
++ 		default:
++@@ -241,6 +284,40 @@ DIAG_ON_DEFAULT_ONLY_SWITCH
 + 			continue;
 + 
-+ 		case BPF_ALU|BPF_DIV|BPF_K:
-++			if (pc->k == 0)
++ 		case BPF_JMP|BPF_JA:
+++			/*
+++			 * The pointer (pc) decrements and increments in units
+++			 * of sizeof(struct bpf_insn) == 8 bytes.  The number
+++			 * of units is in the [INT32_MIN, INT32_MAX] interval,
+++			 * hence the result can point before the beginning or
+++			 * beyond the end of the filter program and can under-
+++			 * or overflow; also on 32-bit architectures it can
+++			 * under- or overflow more than once and can test
+++			 * negative for underflow, overflow and out-of-range
+++			 * conditions after under- or overflowing at least
+++			 * once.
+++			 *
+++			 * However, it has been verified above that the program
+++			 * length is sufficiently small and the pointer does
+++			 * not wrap within the bounds of the filter program, so
+++			 * there is a one-to-one correspondence between BPF
+++			 * program counter values [0, proglen) and all valid
+++			 * values of the pointer.  In other words, after this
+++			 * unconditional jump the pointer arithmetic result
+++			 * will be valid iff BPF program counter value will be
+++			 * valid.  For the latter problem the solution is
+++			 * almost the same as in the validator.
+++			 *
+++			 * The main difference is that here the current value
+++			 * of BPF program counter is not a 32-bit unsigned
+++			 * variable, but a ptrdiff_t expression, which is
+++			 * 64-bit signed on 64-bit architectures and 32-bit
+++			 * signed on 32-bit architectures.  However, the cast
+++			 * to 32-bit unsigned is safe in both cases because:
+++			 * pc0 <= pc < pc0 + proglen, therefore:
+++			 * 0 <= pc - pc0 < proglen <= BPF_MAXINSNS < INT32_MAX
+++			 */
+++			if ((bpf_u_int32)(pc - pc0) + 1 + pc->k >= proglen)
 ++				return 0;
-+ 			A /= pc->k;
-+ 			continue;
++ 			/*
++ 			 * XXX - we currently implement "ip6 protochain"
++ 			 * with backward jumps, so sign-extend pc->k.
++@@ -394,10 +471,10 @@ DIAG_ON_DEFAULT_ONLY_SWITCH
++ }
 + 
-+ 		case BPF_ALU|BPF_MOD|BPF_K:
-++			if (pc->k == 0)
-++				return 0;
-+ 			A %= pc->k;
-+ 			continue;
++ u_int
++-pcapint_filter(const struct bpf_insn *pc, const u_char *p, u_int wirelen,
++-    u_int buflen)
+++pcapint_filter(const struct bpf_insn *pc, const u_int proglen, const u_char *p,
+++    u_int wirelen, u_int buflen)
++ {
++-	return pcapint_filter_with_aux_data(pc, p, wirelen, buflen, NULL);
+++	return pcapint_filter_with_aux_data(pc, proglen, p, wirelen, buflen, NULL);
++ }
 + 
++ /*
++@@ -417,7 +494,7 @@ pcapint_validate_filter(const struct bpf_insn *f, int len)
++ 	u_int i, from;
++ 	const struct bpf_insn *p;
++ 
++-	if (len < 1)
+++	if (len < 1 || (u_int)len > BPF_MAXINSNS || f + len < f)
++ 		return 0;
++ 
++ 	for (i = 0; i < (u_int)len; ++i) {
++@@ -483,33 +560,45 @@ pcapint_validate_filter(const struct bpf_insn *f, int len)
++ 		case BPF_JMP:
++ 			/*
++ 			 * Check that jumps are within the code block,
++-			 * and that unconditional branches don't go
++-			 * backwards as a result of an overflow.
+++			 * regardless of the direction.  libpcap uses
+++			 * backward jumps to implement the "protochain"
+++			 * primitive.  All offsets that mean a backward
+++			 * jump in libpcap (whether in-range or not) in
+++			 * kernel BPF implementations mean out-of-range
+++			 * or overflow forward jumps -- kernel
+++			 * implementations must reject that.
+++			 *
++ 			 * Unconditional branches have a 32-bit offset,
++ 			 * so they could overflow; we check to make
++ 			 * sure they don't.  Conditional branches have
++ 			 * an 8-bit offset, and the from address is <=
++-			 * BPF_MAXINSNS, and we assume that BPF_MAXINSNS
+++			 * BPF_MAXINSNS, and we know that BPF_MAXINSNS
++ 			 * is sufficiently small that adding 255 to it
++ 			 * won't overflow.
++ 			 *
++ 			 * We know that len is <= BPF_MAXINSNS, and we
++-			 * assume that BPF_MAXINSNS is < the maximum size
+++			 * know that BPF_MAXINSNS is < the maximum value
++ 			 * of a u_int, so that i + 1 doesn't overflow.
++-			 *
++-			 * For userland, we don't know that the from
++-			 * or len are <= BPF_MAXINSNS, but we know that
++-			 * from <= len, and, except on a 64-bit system,
++-			 * it's unlikely that len, if it truly reflects
++-			 * the size of the program we've been handed,
++-			 * will be anywhere near the maximum size of
++-			 * a u_int.  We also don't check for backward
++-			 * branches, as we currently support them in
++-			 * userland for the protochain operation.
++ 			 */
++ 			from = i + 1;
++ 			switch (BPF_OP(p->code)) {
++ 			case BPF_JA:
+++				/*
+++				 * So long as both 'from' and bpf_insn.k are
+++				 * 32-bit unsigned, this check rejects any jump
+++				 * offset that points outside of the valid BPF
+++				 * address space of the filter program no
+++				 * matter whether signed interpretation of the
+++				 * offset is positive or negative.
+++				 *
+++				 * Note that this condition is necessary, but
+++				 * not sufficient to get correct results from
+++				 * respective pointer arithmetic in the process
+++				 * address space.  Other necessary conditions
+++				 * are that BPF_MAXINSNS is correctly defined
+++				 * and enforced, and that the pointer does not
+++				 * overflow.
+++				 */
++ 				if (from + p->k >= (u_int)len)
++ 					return 0;
++ 				break;
++@@ -537,12 +626,14 @@ pcapint_validate_filter(const struct bpf_insn *f, int len)
++ 
++ /*
++  * Exported because older versions of libpcap exported them.
+++ * This function is deprecated and unsafe, use pcap_offline_filter() instead.
++  */
++ u_int
++ bpf_filter(const struct bpf_insn *pc, const u_char *p, u_int wirelen,
++     u_int buflen)
++ {
++-	return pcapint_filter(pc, p, wirelen, buflen);
+++	// The actual length of the filter program is not known.
+++	return pcapint_filter(pc, BPF_MAXINSNS, p, wirelen, buflen);
++ }
++ 
++ int
++diff --git a/dlpisubs.c b/dlpisubs.c
++index d4310de5..19934059 100644
++--- a/dlpisubs.c
+++++ b/dlpisubs.c
++@@ -203,7 +203,8 @@ pcap_process_pkts(pcap_t *p, pcap_handler callback, u_char *user,
++ 		bufp += caplen;
++ #endif
++ 		++pd->stat.ps_recv;
++-		if (pcapint_filter(p->fcode.bf_insns, pk, origlen, caplen)) {
+++		if (pcapint_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++		                   pk, origlen, caplen)) {
++ #ifdef HAVE_SYS_BUFMOD_H
++ 			pkthdr.ts.tv_sec = sbp->sbh_timestamp.tv_sec;
++ 			pkthdr.ts.tv_usec = sbp->sbh_timestamp.tv_usec;
++diff --git a/pcap-bpf.c b/pcap-bpf.c
++index 49bb273d..13f83930 100644
++--- a/pcap-bpf.c
+++++ b/pcap-bpf.c
++@@ -1372,7 +1372,8 @@ pcap_read_bpf(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
++ #endif
++ 		 */
++ 		if (pb->filtering_in_kernel ||
++-		    pcapint_filter(p->fcode.bf_insns, datap, bhp->bh_datalen, caplen)) {
+++		    pcapint_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++		                   datap, bhp->bh_datalen, caplen)) {
++ 			struct pcap_pkthdr pkthdr;
++ #ifdef BIOCSTSTAMP
++ 			struct bintime bt;
++diff --git a/pcap-bt-linux.c b/pcap-bt-linux.c
++index 2fc51665..9f464e70 100644
++--- a/pcap-bt-linux.c
+++++ b/pcap-bt-linux.c
++@@ -396,7 +396,8 @@ DIAG_ON_SIGN_COMPARE
++ 	pkth.caplen+=sizeof(pcap_bluetooth_h4_header);
++ 	pkth.len = pkth.caplen;
++ 	if (handle->fcode.bf_insns == NULL ||
++-	    pcapint_filter(handle->fcode.bf_insns, pktd, pkth.len, pkth.caplen)) {
+++	    pcapint_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++	                   pktd, pkth.len, pkth.caplen)) {
++ 		callback(user, &pkth, pktd);
++ 		return 1;
++ 	}
++diff --git a/pcap-bt-monitor-linux.c b/pcap-bt-monitor-linux.c
++index dfba8051..cfe52498 100644
++--- a/pcap-bt-monitor-linux.c
+++++ b/pcap-bt-monitor-linux.c
++@@ -153,7 +153,8 @@ DIAG_ON_SIGN_COMPARE
++     bthdr->opcode = htons(hdr.opcode);
++ 
++     if (handle->fcode.bf_insns == NULL ||
++-        pcapint_filter(handle->fcode.bf_insns, pktd, pkth.len, pkth.caplen)) {
+++        pcapint_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++                       pktd, pkth.len, pkth.caplen)) {
++         callback(user, &pkth, pktd);
++         return 1;
++     }
++diff --git a/pcap-dag.c b/pcap-dag.c
++index 5ce15dd5..334a970c 100644
++--- a/pcap-dag.c
+++++ b/pcap-dag.c
++@@ -666,7 +666,9 @@ dag_read(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
++ 			caplen = p->snapshot;
++ 
++ 		/* Run the packet filter if there is one. */
++-		if ((p->fcode.bf_insns == NULL) || pcapint_filter(p->fcode.bf_insns, dp, packet_len, caplen)) {
+++		if ((p->fcode.bf_insns == NULL) ||
+++		    pcapint_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++		                   dp, packet_len, caplen)) {
++ 
++ 			/* convert between timestamp formats */
++ 			register unsigned long long ts;
++diff --git a/pcap-dbus.c b/pcap-dbus.c
++index d29fb81d..b0f30f6f 100644
++--- a/pcap-dbus.c
+++++ b/pcap-dbus.c
++@@ -90,7 +90,8 @@ dbus_read(pcap_t *handle, int max_packets _U_, pcap_handler callback, u_char *us
++ 
++ 		gettimeofday(&pkth.ts, NULL);
++ 		if (handle->fcode.bf_insns == NULL ||
++-		    pcapint_filter(handle->fcode.bf_insns, (u_char *)raw_msg, pkth.len, pkth.caplen)) {
+++		    pcapint_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++		                   (u_char *)raw_msg, pkth.len, pkth.caplen)) {
++ 			handlep->packets_read++;
++ 			callback(user, &pkth, (u_char *)raw_msg);
++ 			count++;
++diff --git a/pcap-dpdk.c b/pcap-dpdk.c
++index c78724e5..4fb8ffea 100644
++--- a/pcap-dpdk.c
+++++ b/pcap-dpdk.c
++@@ -405,7 +405,9 @@ static int pcap_dpdk_dispatch(pcap_t *p, int max_cnt, pcap_handler cb, u_char *c
++ 
++ 			}
++ 			if (bp){
++-				if (p->fcode.bf_insns==NULL || pcapint_filter(p->fcode.bf_insns, bp, pcap_header.len, pcap_header.caplen)){
+++				if (p->fcode.bf_insns==NULL ||
+++				    pcapint_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++				                   bp, pcap_header.len, pcap_header.caplen)){
++ 					cb(cb_arg, &pcap_header, bp);
++ 				}else{
++ 					pd->bpf_drop++;
++diff --git a/pcap-haiku.c b/pcap-haiku.c
++index 609f585a..7b994fee 100644
++--- a/pcap-haiku.c
+++++ b/pcap-haiku.c
++@@ -112,8 +112,8 @@ pcap_read_haiku(pcap_t* handle, int maxPackets _U_, pcap_handler callback,
++ 	if (handle->fcode.bf_insns) {
++ 		// NB: pcapint_filter() takes the wire length and the captured
++ 		// length, not the snapshot length of the pcap_t handle.
++-		if (pcapint_filter(handle->fcode.bf_insns, buffer, wireLength,
++-		                   captureLength) == 0)
+++		if (pcapint_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++		                   buffer, wireLength, captureLength) == 0)
++ 			goto drop;
++ 	}
++ 
++diff --git a/pcap-int.h b/pcap-int.h
++index ce0ac698..3d466946 100644
++--- a/pcap-int.h
+++++ b/pcap-int.h
++@@ -579,13 +579,15 @@ struct pcap_bpf_aux_data {
++  * Filtering routine that takes the auxiliary data as an additional
++  * argument.
++  */
++-u_int	pcapint_filter_with_aux_data(const struct bpf_insn *,
++-    const u_char *, u_int, u_int, const struct pcap_bpf_aux_data *);
+++u_int	pcapint_filter_with_aux_data(const struct bpf_insn *, const u_int,
+++    const u_char *, const u_int, const u_int,
+++    const struct pcap_bpf_aux_data *);
++ 
++ /*
++  * Filtering routine that doesn't.
++  */
++-u_int	pcapint_filter(const struct bpf_insn *, const u_char *, u_int, u_int);
+++u_int	pcapint_filter(const struct bpf_insn *, const u_int, const u_char *,
+++    u_int, u_int);
++ 
++ /*
++  * Routine to validate a BPF program.
++diff --git a/pcap-linux.c b/pcap-linux.c
++index 20802e43..7e04a041 100644
++--- a/pcap-linux.c
+++++ b/pcap-linux.c
++@@ -4279,6 +4279,7 @@ static int pcap_handle_packet_mmap(
++ 		aux_data.vlan_tag = tp_vlan_tci & 0x0fff;
++ 
++ 		if (pcapint_filter_with_aux_data(handle->fcode.bf_insns,
+++					      handle->fcode.bf_len,
++ 					      bp,
++ 					      tp_len,
++ 					      snaplen,
++diff --git a/pcap-netfilter-linux.c b/pcap-netfilter-linux.c
++index 344bae47..ade53ea6 100644
++--- a/pcap-netfilter-linux.c
+++++ b/pcap-netfilter-linux.c
++@@ -257,8 +257,8 @@ netfilter_read_linux(pcap_t *handle, int max_packets, pcap_handler callback, u_c
++ 
++ 				gettimeofday(&pkth.ts, NULL);
++ 				if (handle->fcode.bf_insns == NULL ||
++-						pcapint_filter(handle->fcode.bf_insns, payload, pkth.len, pkth.caplen))
++-				{
+++				    pcapint_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++				                   payload, pkth.len, pkth.caplen)) {
++ 					handlep->packets_read++;
++ 					callback(user, &pkth, payload);
++ 					count++;
++diff --git a/pcap-netmap.c b/pcap-netmap.c
++index f17f36ca..925f677f 100644
++--- a/pcap-netmap.c
+++++ b/pcap-netmap.c
++@@ -79,7 +79,8 @@ pcap_netmap_filter(u_char *arg, struct pcap_pkthdr *h, const u_char *buf)
++ 	const struct bpf_insn *pc = p->fcode.bf_insns;
++ 
++ 	++pn->rx_pkts;
++-	if (pc == NULL || pcapint_filter(pc, buf, h->len, h->caplen))
+++	if (pc == NULL ||
+++	    pcapint_filter(pc, p->fcode.bf_len, buf, h->len, h->caplen))
++ 		pn->cb(pn->cb_arg, h, buf);
++ }
++ 
++diff --git a/pcap-npf.c b/pcap-npf.c
++index f638bd80..38e985bd 100644
++--- a/pcap-npf.c
+++++ b/pcap-npf.c
++@@ -720,7 +720,8 @@ pcap_read_npf(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
++ 		 */
++ 		if (pw->filtering_in_kernel ||
++ 		    p->fcode.bf_insns == NULL ||
++-		    pcapint_filter(p->fcode.bf_insns, datap, bhp->bh_datalen, caplen)) {
+++		    pcapint_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++		                   datap, bhp->bh_datalen, caplen)) {
++ #ifdef ENABLE_REMOTE
++ 			switch (p->rmt_samp.method) {
++ 
++diff --git a/pcap-rdmasniff.c b/pcap-rdmasniff.c
++index fd6d6fa6..5f15d4c5 100644
++--- a/pcap-rdmasniff.c
+++++ b/pcap-rdmasniff.c
++@@ -170,7 +170,8 @@ rdmasniff_read(pcap_t *handle, int max_packets, pcap_handler callback, u_char *u
++ 		pktd = (u_char *) handle->buffer + wc.wr_id * RDMASNIFF_RECEIVE_SIZE;
++ 
++ 		if (handle->fcode.bf_insns == NULL ||
++-		    pcapint_filter(handle->fcode.bf_insns, pktd, pkth.len, pkth.caplen)) {
+++		    pcapint_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++		                   pktd, pkth.len, pkth.caplen)) {
++ 			callback(user, &pkth, pktd);
++ 			++priv->packets_recv;
++ 			++count;
++diff --git a/pcap-snf.c b/pcap-snf.c
++index d08275ac..8a57eadd 100644
++--- a/pcap-snf.c
+++++ b/pcap-snf.c
++@@ -190,7 +190,8 @@ snf_read(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
++ 			caplen = p->snapshot;
++ 
++ 		if ((p->fcode.bf_insns == NULL) ||
++-		     pcapint_filter(p->fcode.bf_insns, req.pkt_addr, req.length, caplen)) {
+++		     pcapint_filter(p->fcode.bf_insns, p->fcode.bf_len,
+++		                    req.pkt_addr, req.length, caplen)) {
++ 			hdr.ts = snf_timestamp_to_timeval(req.timestamp, p->opt.tstamp_precision);
++ 			hdr.caplen = caplen;
++ 			hdr.len = req.length;
++diff --git a/pcap-usb-linux.c b/pcap-usb-linux.c
++index bc39b1db..d219721a 100644
++--- a/pcap-usb-linux.c
+++++ b/pcap-usb-linux.c
++@@ -733,8 +733,8 @@ usb_read_linux_bin(pcap_t *handle, int max_packets _U_, pcap_handler callback, u
++ 	pkth.ts.tv_usec = info.hdr->ts_usec;
++ 
++ 	if (handle->fcode.bf_insns == NULL ||
++-	    pcapint_filter(handle->fcode.bf_insns, handle->buffer,
++-	      pkth.len, pkth.caplen)) {
+++	    pcapint_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++	                   handle->buffer, pkth.len, pkth.caplen)) {
++ 		handlep->packets_read++;
++ 		callback(user, &pkth, handle->buffer);
++ 		return 1;
++@@ -921,8 +921,8 @@ usb_read_linux_mmap(pcap_t *handle, int max_packets, pcap_handler callback, u_ch
++ 			pkth.ts.tv_usec = hdr->ts_usec;
++ 
++ 			if (handle->fcode.bf_insns == NULL ||
++-			    pcapint_filter(handle->fcode.bf_insns, (u_char*) hdr,
++-			      pkth.len, pkth.caplen)) {
+++			    pcapint_filter(handle->fcode.bf_insns, handle->fcode.bf_len,
+++			                   (u_char*) hdr, pkth.len, pkth.caplen)) {
++ 				handlep->packets_read++;
++ 				callback(user, &pkth, (u_char*) hdr);
++ 				packets++;
++diff --git a/pcap.c b/pcap.c
++index a076c5fb..6caa052b 100644
++--- a/pcap.c
+++++ b/pcap.c
++@@ -4349,7 +4349,7 @@ pcap_offline_filter(const struct bpf_program *fp, const struct pcap_pkthdr *h,
++ 	const struct bpf_insn *fcode = fp->bf_insns;
++ 
++ 	if (fcode != NULL)
++-		return (pcapint_filter(fcode, pkt, h->len, h->caplen));
+++		return (pcapint_filter(fcode, fp->bf_len, pkt, h->len, h->caplen));
++ 	else
++ 		return (0);
++ }
++diff --git a/pcap_offline_filter.3pcap b/pcap_offline_filter.3pcap
++index 94b9a719..c6d62dee 100644
++--- a/pcap_offline_filter.3pcap
+++++ b/pcap_offline_filter.3pcap
++@@ -17,7 +17,7 @@
++ .\" WARRANTIES, INCLUDING, WITHOUT LIMITATION, THE IMPLIED WARRANTIES OF
++ .\" MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE.
++ .\"
++-.TH PCAP_OFFLINE_FILTER 3PCAP "7 April 2014"
+++.TH PCAP_OFFLINE_FILTER 3PCAP "12 March 2026"
++ .SH NAME
++ pcap_offline_filter \- check whether a filter matches a packet
++ .SH SYNOPSIS
++@@ -45,10 +45,35 @@ points to the
++ structure for the packet, and
++ .I pkt
++ points to the data in the packet.
+++.PP
+++In the
+++.B \%bpf_program
+++structure the
+++.B \%bf_insns
+++member is either
+++.B NULL
+++(which means to reject all packets) or points to an array of one or more
+++.B \%struct bpf_insn
+++elements, in which case the
+++.B \%bf_len
+++member must be set to the number of elements (this is what
+++.BR \%pcap_compile ()
+++produces).
+++.PP
+++The filter program must have been compiled for a link-layer header type
+++that matches the packet data; also on Linux the filter must not use
+++BPF extensions, see
+++.BR \%pcap_compile ()
+++for more information.
++ .SH RETURN VALUE
++ .BR pcap_offline_filter ()
++ returns the return value of the filter program.  This will be zero if
++ the packet doesn't match the filter and non-zero if the packet matches
++ the filter.
+++.SH BACKWARD COMPATIBILITY
+++.PP
+++In libpcap releases before 1.10.7 this function ignored the provided
+++.B \%bf_len
+++value.
++ .SH SEE ALSO
++ .BR pcap (3PCAP)
++diff --git a/savefile.c b/savefile.c
++index c711a81c..49ef52b6 100644
++--- a/savefile.c
+++++ b/savefile.c
++@@ -685,7 +685,8 @@ pcapint_offline_read(pcap_t *p, int cnt, pcap_handler callback, u_char *user)
++ 		 * and, if it passes, process it.
++ 		 */
++ 		if ((fcode = p->fcode.bf_insns) == NULL ||
++-		    pcapint_filter(fcode, data, h.len, h.caplen)) {
+++		    pcapint_filter(fcode, p->fcode.bf_len,
+++		                   data, h.len, h.caplen)) {
++ 			(*callback)(user, &h, data);
++ 			n++;	/* count the packet */
++ 			if (n >= cnt)
 diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb b/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
-index da218bd87ba..258a15f5bac 100644
+index 265c46e3bd0..aa5265a54c7 100644
 --- a/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
 +++ b/meta/recipes-connectivity/libpcap/libpcap_1.10.6.bb
-@@ -15,6 +15,7 @@ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.xz \
+@@ -13,6 +13,7 @@ DEPENDS = "flex-native bison-native"
+ SRC_URI = "https://www.tcpdump.org/release/${BP}.tar.xz \
+ 	   file://0001-Fix-error-messages-about-32-bit-integer-overflow.patch \
  	   file://01-CVE-2026-0799.patch \
- 	   file://02-CVE-2026-31912.patch \
- 	   file://03-CVE-2026-31911.patch \
-+	   file://04-CVE-2026-6244.patch \
++	   file://02-CVE-2026-31912.patch \
            "
  SRC_URI[sha256sum] = "ec97d1206bdd19cb6bdd043eaa9f0037aa732262ec68e070fd7c7b5f834d5dfc"
  
