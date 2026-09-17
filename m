@@ -2,65 +2,65 @@ Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D882C982C1
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B70DC982D0
 	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 05:13:56 +0000 (UTC)
-Received: from mail-qt1-f175.google.com (mail-qt1-f175.google.com [209.85.160.175])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.32708.1789622032283655960
+Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.32707.1789622025768066283
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 22:13:52 -0700
+ Wed, 16 Sep 2026 22:13:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Uyea3HoC;
- spf=pass (domain: gmail.com, ip: 209.85.160.175, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qt1-f175.google.com with SMTP id d75a77b69052e-5306abbdccbso4875671cf.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 22:13:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=BWESUk1b;
+ spf=pass (domain: gmail.com, ip: 74.125.230.235, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk2-f43.google.com with SMTP id d75a77b69052e-52fb76906adso4581901cf.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 22:13:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1789622031; x=1790226831; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1789622025; x=1790226825; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=wjStvyb7OTK5o26HJ9385bk9aw2SpA+zKkxk1so6sxU=;
-        b=Uyea3HoC6bmjvm2hL0ha1rlQJBpL1mjJQ2E4iXUMyHdTam5OKjcN+xfFZWp6Hy+tVz
-         47tYFAsgxxh+xm01PrbeU/ZV9MB7lnQDc3+Iu7kMt0Al7iA4FoODy9j66i2+J507caae
-         Brc7Zg5SnXZia7PWHaamNgbOjwSvUGh+Hi/9h6STQBagbe0kdQFgeqsulvGJzVdmd4qp
-         h4DYT4IGApMEKMboKbu/YhKDXduqZKTMGjcyxYGUx0MaeLr9eTuyXNQcRMT0yz8/mZWU
-         jixJGzxyYTvyhO3mXuos1sod+YStXT+NOL8W6ulbU4HllrdhRJjUB2JTb8/ZMVstmFDE
-         9OwQ==
+        bh=1W6xxsJTFGUmF5vvPLNyL1ZPgNhJ5X/wiWKGSXiw5rc=;
+        b=BWESUk1bLYCWm+rhGEEEyFgCMwIoIqQvOLF4X3Go4FrUD7HzE2gb/fcBBVYPbvu2+Z
+         XDoC6SBoV1p5xpx5AKjOIgXZvvaB0YCRcb+Qt5sI95xjIgWW0DATMeIfG1Anj1P0pJFZ
+         gJjmMcEP3Sgb6BpMhpAckgROrL4mR/bR2x42lq7oYl6HYMh8wqvk7+0uooJk076dLs9c
+         gtfn6tsz/j2FCs5vZSzLKtPyzjs2+7i/HCVlkXQfh0/mLudcg/1fRh3XdPraqJV0vbdv
+         DiZDTXRu/hmfWxtNReQIzWG8Be++K78tf2RaLLbOcEuBF2ClAuSiLi808hOHB3U7pPP+
+         9kHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789622031; x=1790226831;
+        d=1e100.net; s=20260707; t=1789622025; x=1790226825;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wjStvyb7OTK5o26HJ9385bk9aw2SpA+zKkxk1so6sxU=;
-        b=sxTIoqcVoeaLH3cMVmR0kUolhl6STnrzJA3VYTkrLk1oP8ONCfYbaVQq8J+ywJROZx
-         K6jHVxe3vfRuTLx7C4rRqj4ixIjYTqiGoovg349+YN7Yp04H9i1r70kniP+91S95aOIx
-         SDeXemcOErtmrxdz+HxsgdoJUcggLl7kBMImC5yPe4jcCyLikjVwCKIrQg/M8uBHKJGV
-         CSNe+uFgk3FYt+Yss5Bny9klkhCAPA6sZ0r3uk7PEfA570kIZGOWVIkLOhABhROUiB0h
-         2qU4MuOG8s1YRcPRDp+IxC4Vom+jrG00/UpYIcCCBpYaRXKq3w8e1T9cwxxnhPmOCuuC
-         7vhQ==
-X-Gm-Message-State: AFuF++mpyHXZ0uBaruudIO2qA0S3byqPdlIxJuaH09QloQjNVzs4LckU
-	/Fz5Qu9q3XbGA8nAO2GeIvEuUSTkNJNZQ3CTi/pDXdVTgA8eHnCbowQqQZNEbGH7
-X-Gm-Gg: AYBFou3q4MvORwrja4Q3n37/CRDDHzz5vz3SbSlJea+jcrxy3JtP3x6q/cX+fNGHPzJ
-	sz/Cws6jorP4WIDgASM4Wh4MzFllYzJkp6HhjzC1SmzxHazbvlNf6bK6ukC59SQn0lXgvDcMhld
-	AST7eUpXuXjLJ/vKobgJZ2S6FjDC9N0s4IplKjjLTNck9EVKEZ5JkF0zLzY7MyU/qjYZj/Nez0V
-	x4gOhSQmdqVTcOiBRsAW9zIJGrv6zcRh+3UMFjrjZXtqY45MP38nRzDSQ3NyEuXpjLQmoEBg3Yc
-	Zxf493tjVnT1tEC1OdO1Ca/FfgI+iW2NmrUqGXynIvBgCErP3uS9+eRFYBJeDVBiRj2deWJr3nB
-	SS5u71bCBQNsTjCLGXFipAJhj6Lq6XqPyYRnYBl2FvTPhXqpSqR5Il9YYAnj9tOMHhqBUPcJ7VT
-	r5uKsZxEJpWndH+TxuR1bZ9nGW5QcssNGWN/p7mDeGRV7xIopq6ogRWYLjIaQPqRkT/HasI30sN
-	fD1a7msOYu7SU5LwC7s2Kr6J+7PEeraCzqz0zIHN1oPav+AcykaoSnfMGTTCjUEZpgGGRMokbOk
-	WLybeN2OZMDIhcPA6ChlfI19Z0WyqanxSb1ft6DZ6zYtWydB3S2hDAQI1Hxg3xaX4mZP/6lUE7H
-	Vt+6tza4i3m8vz2I=
-X-Received: by 2002:ac8:5fd6:0:b0:530:4773:114d with SMTP id d75a77b69052e-5328d12f0b8mr35278401cf.43.1789622030881;
-        Wed, 16 Sep 2026 22:13:50 -0700 (PDT)
+        bh=1W6xxsJTFGUmF5vvPLNyL1ZPgNhJ5X/wiWKGSXiw5rc=;
+        b=Fe+9yZnw9AEsaCmuQOWCw6T1q4kFcD+L8OydEKcV53CURxsBrggH9DH7t3lH/uL/FO
+         jADukOldvTGkOvH8Ok/aJjMCg9KvK09DJYI2TaAVu8isH5bsV4X468ceLIc8UmUwAhR7
+         KzK6lS53sOshq8bo5PIw4UYXFRlBtDbuHt+2oFLXI++irdCR0IloeVa8qGuoLD0hu65g
+         D4UdHPn76ALrG0r+6rfNZg53x59YjIdmQYZBW3zUVPB0XhaYmTQYKL508iIE9s4Z1mSM
+         bLdH18Tm9z6iav5/NbYs20iQDXELW4Wa6ZIxQOdktc0M9zz4ntt4bJ9zyG9oHoJap2Vc
+         HiOA==
+X-Gm-Message-State: AFuF++l16aUIzvWbfe3GPN/8CHSgbQRodNJTyA6dByo0xPcIJfNN9f7t
+	6RM1LQ7NAHYdGbdceOOeZeWzEXmw2fraRunitsGxPq+P2SOu+ndPSQla6oP5medn
+X-Gm-Gg: AYBFou0BR2epMk368VNCbzh3I7pjnfZJWzutTAB2B7zGMzL1LJK5A8yKBuw6mM2GrQt
+	nxwpVk3pYI6mN+16dbEJ/r+N1r1gmCaF9zSlsLvrZto9pan5MIW+TeTTtQvZfbzlKn42AmFiOLz
+	Hf2gpNWdm5Ts7RP5o5p7QMkaA8dzviRdtUKDRcglt7Z2LKgZyinR7BR2MAG16UeddK4Myjf7va9
+	04wba2u20TnZCYnKM9YKj3PrJ7JatlndiL/Pz6qES4av1OF+WyZrGTkdQGX9mVJ0s8YNhB6Q7K1
+	XGSpikyKVqlAQGRDc05mKZe7/HMOy3SYj5AGf/Am8rSQ47tMmFtkFBI0ULyohdxiNoioCPl3Rqo
+	449mQ92HB67dFtXwZvlXuWpeseY7N8np+juavIB7IGH85bHVjff4DMLfLhYEqitbkr0bxUH8zEL
+	JSoixSS4YA8seRF+Ae7GedMpKVVPaBBH7qhv1ndlyo83ehYqUFMC8DvKWC+0SXV5CHxKpMF+PHl
+	0+aavfi8bQ81oLEUzkx2NNv1Ud9XXf9Px4pjRS4v6oCA9A6jtOM4oCn9xf3AYQ4hOU+nDL9gv7K
+	kKUtmW11xnjQsmzo0nc++Oa+A5a+dVl3XMPx0juf8j9KVZGemSpIDVgagoSPB6A1NY+jsGonxzQ
+	M1HBBiyaU+vu2/R0UjMqNyiC9mg==
+X-Received: by 2002:a05:622a:2518:b0:530:80ba:effa with SMTP id d75a77b69052e-5327ef39200mr93857571cf.34.1789622024224;
+        Wed, 16 Sep 2026 22:13:44 -0700 (PDT)
 Received: from bruce-XPS-8940.localdomain (pool-174-112-62-108.cpe.net.cable.rogers.com. [174.112.62.108])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-53261fd4cc4sm39481161cf.6.2026.09.16.22.13.49
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-53261fd4cc4sm39481161cf.6.2026.09.16.22.13.42
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 16 Sep 2026 22:13:49 -0700 (PDT)
+        Wed, 16 Sep 2026 22:13:42 -0700 (PDT)
 From: bruce.ashfield@gmail.com
 To: richard.purdie@linuxfoundation.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [meta-yocto-bsp][PATCH 05/06] yocto-bsps: update to v6.18.50
-Date: Thu, 17 Sep 2026 01:13:38 -0400
-Message-ID: <20260917051340.1472139-6-bruce.ashfield@gmail.com>
+Subject: [meta][PATCH 01/06] linux-yocto/6.18: update to v6.18.50
+Date: Thu, 17 Sep 2026 01:13:34 -0400
+Message-ID: <20260917051340.1472139-2-bruce.ashfield@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260917051340.1472139-1-bruce.ashfield@gmail.com>
 References: <20260917051340.1472139-1-bruce.ashfield@gmail.com>
@@ -70,7 +70,7 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 05:13:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246015
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246011
 
 From: Bruce Ashfield <bruce.ashfield@gmail.com>
 
@@ -711,19 +711,106 @@ the following commits:
 
 Signed-off-by: Bruce Ashfield <bruce.ashfield@gmail.com>
 ---
- meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../linux/linux-yocto-rt_6.18.bb              |  6 ++---
+ .../linux/linux-yocto-tiny_6.18.bb            |  6 ++---
+ meta/recipes-kernel/linux/linux-yocto_6.18.bb | 24 +++++++++----------
+ 3 files changed, 18 insertions(+), 18 deletions(-)
 
-diff --git a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend
-index 3fd33fc..1b93ec2 100644
---- a/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend
-+++ b/meta-yocto-bsp/recipes-kernel/linux/linux-yocto_6.18.bbappend
-@@ -8,4 +8,4 @@ KMACHINE:genericx86 ?= "common-pc"
- KMACHINE:genericx86-64 ?= "common-pc-64"
+diff --git a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
+index 55f3fe8907..d4ca18a7b2 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-rt_6.18.bb
+@@ -15,13 +15,13 @@ python () {
+         raise bb.parse.SkipRecipe("Set PREFERRED_PROVIDER_virtual/kernel to linux-yocto-rt to enable it")
+ }
  
- KBRANCH:genericarm64 ?= "v6.18/standard/genericarm64"
--SRCREV_machine:genericarm64 ?= "5b1e83ae84e1bbe2ab8197bf2ea3c24302f7d1e3"
-+SRCREV_machine:genericarm64 ?= "ed4c9c267bfed1a73adf650106af110034b25e2f"
+-SRCREV_machine ?= "c82ff0cbda2a00b9073e06c9fe4ba550c9056d45"
+-SRCREV_meta ?= "c8484925c85ec1e6510c75d9e1b36e01d6e2e904"
++SRCREV_machine ?= "ed7481e8a1df4a3417915acd6bef5a72d6fa71bb"
++SRCREV_meta ?= "bf8faf1b184fcf6c555ee951f501e76f88eccf35"
+ 
+ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;branch=${KBRANCH};name=machine;protocol=https \
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
+ 
+-LINUX_VERSION ?= "6.18.48"
++LINUX_VERSION ?= "6.18.50"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
+index 3b1342d677..56a3d18ee5 100644
+--- a/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto-tiny_6.18.bb
+@@ -9,7 +9,7 @@ require recipes-kernel/linux/linux-yocto.inc
+ include recipes-kernel/linux/cve-exclusion.inc
+ include recipes-kernel/linux/cve-exclusion_6.18.inc
+ 
+-LINUX_VERSION ?= "6.18.48"
++LINUX_VERSION ?= "6.18.50"
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+ 
+ DEPENDS += "${@bb.utils.contains('ARCH', 'x86', 'elfutils-native', '', d)}"
+@@ -18,8 +18,8 @@ DEPENDS += "openssl-native util-linux-native"
+ KMETA = "kernel-meta"
+ KCONF_BSP_AUDIT_LEVEL = "2"
+ 
+-SRCREV_machine ?= "ad9d5e451874e64e4e51093f3c9c6ca4426d3b0a"
+-SRCREV_meta ?= "c8484925c85ec1e6510c75d9e1b36e01d6e2e904"
++SRCREV_machine ?= "aba8c69040fd3d5763477a733b4696a79c0514e1"
++SRCREV_meta ?= "bf8faf1b184fcf6c555ee951f501e76f88eccf35"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
+diff --git a/meta/recipes-kernel/linux/linux-yocto_6.18.bb b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
+index 8030143479..719c1fa51a 100644
+--- a/meta/recipes-kernel/linux/linux-yocto_6.18.bb
++++ b/meta/recipes-kernel/linux/linux-yocto_6.18.bb
+@@ -17,25 +17,25 @@ KBRANCH:qemux86-64 ?= "v6.18/standard/base"
+ KBRANCH:qemuloongarch64  ?= "v6.18/standard/base"
+ KBRANCH:qemumips64 ?= "v6.18/standard/mti-malta"
+ 
+-SRCREV_machine:qemuarm ?= "0f778c0a178fdc50063c212b5320b1f082f83f1a"
+-SRCREV_machine:qemuarm64 ?= "ad9d5e451874e64e4e51093f3c9c6ca4426d3b0a"
+-SRCREV_machine:qemuloongarch64 ?= "ad9d5e451874e64e4e51093f3c9c6ca4426d3b0a"
++SRCREV_machine:qemuarm ?= "dbe5ee845060d0b8ddf934a2e3d96627fdb1bd81"
++SRCREV_machine:qemuarm64 ?= "aba8c69040fd3d5763477a733b4696a79c0514e1"
++SRCREV_machine:qemuloongarch64 ?= "aba8c69040fd3d5763477a733b4696a79c0514e1"
+ SRCREV_machine:qemumips ?= "62ea92a539f58803a222be98b81118403074206e"
+-SRCREV_machine:qemuppc ?= "ad9d5e451874e64e4e51093f3c9c6ca4426d3b0a"
+-SRCREV_machine:qemuriscv64 ?= "ad9d5e451874e64e4e51093f3c9c6ca4426d3b0a"
+-SRCREV_machine:qemuriscv32 ?= "ad9d5e451874e64e4e51093f3c9c6ca4426d3b0a"
+-SRCREV_machine:qemux86 ?= "ad9d5e451874e64e4e51093f3c9c6ca4426d3b0a"
+-SRCREV_machine:qemux86-64 ?= "ad9d5e451874e64e4e51093f3c9c6ca4426d3b0a"
++SRCREV_machine:qemuppc ?= "aba8c69040fd3d5763477a733b4696a79c0514e1"
++SRCREV_machine:qemuriscv64 ?= "aba8c69040fd3d5763477a733b4696a79c0514e1"
++SRCREV_machine:qemuriscv32 ?= "aba8c69040fd3d5763477a733b4696a79c0514e1"
++SRCREV_machine:qemux86 ?= "aba8c69040fd3d5763477a733b4696a79c0514e1"
++SRCREV_machine:qemux86-64 ?= "aba8c69040fd3d5763477a733b4696a79c0514e1"
+ SRCREV_machine:qemumips64 ?= "9fb4ff0187c85426f21fd40d4c61b742800f65c4"
+-SRCREV_machine ?= "ad9d5e451874e64e4e51093f3c9c6ca4426d3b0a"
+-SRCREV_meta ?= "c8484925c85ec1e6510c75d9e1b36e01d6e2e904"
++SRCREV_machine ?= "aba8c69040fd3d5763477a733b4696a79c0514e1"
++SRCREV_meta ?= "bf8faf1b184fcf6c555ee951f501e76f88eccf35"
+ 
+ # set your preferred provider of linux-yocto to 'linux-yocto-upstream', and you'll
+ # get the <version>/base branch, which is pure upstream -stable, and the same
+ # meta SRCREV as the linux-yocto-standard builds. Select your version using the
+ # normal PREFERRED_VERSION settings.
+ BBCLASSEXTEND = "devupstream:target"
+-SRCREV_machine:class-devupstream ?= "5bbb9c9f8f808710e2123f2b30f0d61d7d698f52"
++SRCREV_machine:class-devupstream ?= "7cfc41f8e80f11ffa8382ed1a505154ceffb79c7"
+ PN:class-devupstream = "linux-yocto-upstream"
+ KBRANCH:class-devupstream = "v6.18/base"
+ 
+@@ -43,7 +43,7 @@ SRC_URI = "git://git.yoctoproject.org/linux-yocto.git;name=machine;branch=${KBRA
+            git://git.yoctoproject.org/yocto-kernel-cache;type=kmeta;name=meta;branch=yocto-6.18;destsuffix=${KMETA};protocol=https"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=6bc538ed5bd9a7fc9398086aedcd7e46"
+-LINUX_VERSION ?= "6.18.48"
++LINUX_VERSION ?= "6.18.50"
+ 
+ PV = "${LINUX_VERSION}+git"
+ 
 -- 
 2.43.0
 
