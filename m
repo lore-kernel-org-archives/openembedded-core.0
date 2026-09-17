@@ -1,140 +1,87 @@
-Return-Path: <ola.x.nilsson@axis.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D155C982D0
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 06:24:18 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.70])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.33387.1789626250840979173
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A6A0C982C1
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 06:28:38 +0000 (UTC)
+Received: from mail-wr1-f53.google.com (mail-wr1-f53.google.com [209.85.221.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.33516.1789626509817325494
  for <openembedded-core@lists.openembedded.org>;
- Wed, 16 Sep 2026 23:24:11 -0700
+ Wed, 16 Sep 2026 23:28:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@axis.com header.s=selector1 header.b=q4Q7qPJH;
- spf=pass (domain: axis.com, ip: 52.101.83.70, mailfrom: ola.x.nilsson@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=a/8U+T2D1lkTmtc/pLGUETkNoWYVbl089kGOmyBoo7i1ZDTLF/FQKp+E9SeaoipdzrZ8HYsFQtnzmByPhGV3D2Sqtemqn7IKo1f/gynk1U4WYgdu1ueBQTI5Lt6GhS7ghwsEBPDQmsjy373hg299tQft3VfX4bJRXWqgXWDM2AOZxcEfG5VpiUDJVzQKnZa8Y2D5ZM8+r/dHT5es8wj9FMfiu7Ii3tjNAImg8Y9tN/ciSz7dKs9/DAoP2IGKGQ0I5OB7UfnfIdWctbuOqpFZsCfbga77e4qX7emmeuhyqPhtzDpw1RFiObegaZMJoyU5ILSQRCMRD8IyFb35Yx9SOw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=xZGdiQHsrah1BICVZIZgECHqqNrBwD6mL27l51Npqis=;
- b=e6YG5qD8UJ3mvaKPMF8vMyKu0wCB2AKV/jRrSrl1t4nTVy/4T5O5A2mHbYPdYa8BP50r4QAeUjnU3MflQrPwyrNocr3CiD2Ji2oIhh4YLfP18Iuzh0OSjTeowxbDsgKaJsO8UWh519oXEuCEtxEogIc6gVuh3Hhx2rAyYKcjvBkck4gTzeq5zlzH0Dh+gvGbOUAmp+jPkZ/kOMf3Gd7O9XYb/6RWLcplI0h2IsF7+IuAekpH5K9s+dv9q9doZWlm0feHmNyFySCtVlPwAwRADJqaTtmbg9FSthrUzGDm05zPqHUBbeCoX9f2x8SHBpkpLL9xZBJDlCuitAcZqIgr7g==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=xZGdiQHsrah1BICVZIZgECHqqNrBwD6mL27l51Npqis=;
- b=q4Q7qPJHDL74wRS++vmQEXp9uP1viAYxhJKEKM8aEXJ60eVpDuSFX+jSqWD/LfK060r7B8lgXm+uzFVWeY7TJL6hKfwUeVza4dxzXuR6BmgoSz7nTbXtsW5paIituB5BGXXdfXsrAtkr9DRz1Wyd2xVb070wtxkc+R19dVwT9M4=
-Received: from DU2PR04CA0213.eurprd04.prod.outlook.com (2603:10a6:10:2b1::8)
- by PAVPR02MB9675.eurprd02.prod.outlook.com (2603:10a6:102:317::15) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.406.12; Thu, 17 Sep
- 2026 06:24:04 +0000
-Received: from DB3PEPF00008860.eurprd02.prod.outlook.com
- (2603:10a6:10:2b1:cafe::72) by DU2PR04CA0213.outlook.office365.com
- (2603:10a6:10:2b1::8) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.12 via Frontend Transport; Thu,
- 17 Sep 2026 06:24:04 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 195.60.68.100)
- smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- DB3PEPF00008860.mail.protection.outlook.com (10.167.242.11) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.428.7 via Frontend Transport; Thu, 17 Sep 2026 06:24:03 +0000
-Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail11w.axis.com
- (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Thu, 17 Sep
- 2026 08:24:03 +0200
-Received: from se-mail10w.axis.com (10.20.40.10) by SE-MAILARCH01W.axis.com
- (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Thu, 17 Sep
- 2026 08:24:03 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Thu, 17 Sep 2026 08:24:03 +0200
-Received: from pc58073-2410 (pc58073-2410.se.axis.com [10.88.67.1])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 72A082AA6
-	for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 08:24:03 +0200 (CEST)
-From: Ola x Nilsson <ola.x.nilsson@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: ASSUME_PROVIDED and pkg-config-native
-User-Agent: mu4e 1.12.13; emacs 32.0.50
-Date: Thu, 17 Sep 2026 08:24:03 +0200
-Message-ID: <jwqo6dwz98c.fsf@axis.com>
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SAHLppVj;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.53, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f53.google.com with SMTP id ffacd0b85a97d-48442ea8f59so178480f8f.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 16 Sep 2026 23:28:29 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linuxfoundation.org; s=google; t=1789626508; x=1790231308; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=05JbHThDWpRzRz2/5hK5P8vP5vIrpS83nMjtHRnpOFI=;
+        b=SAHLppVjio6Rl1sOQ4hKBD4BjyGkw040C2PVoYDloGTbFbXmUDEcR/ajWBlwYZkM4C
+         2LEDZ34Ab6GA3+s02zo/28HGf/Hp/G3jf0BArG+gtwsOe5CGAlxFxHjCdDKDmuuPxHNj
+         eYnt+FYLQ7jucC+5wNkRsNQ0F7Lo0oPQiJQYI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789626508; x=1790231308;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=05JbHThDWpRzRz2/5hK5P8vP5vIrpS83nMjtHRnpOFI=;
+        b=prh8pws0LgfMV8Hxe3y0MdlrWqgFzfwFj4hVYvV/sXEdRPO/3HO8qUl256o7MaepPS
+         4KzZbQokBOBUiYJVsyJqrvOVQ0z6RRR4KwEANVYUcgmvIvel3Sq5wDkuqoEGtUF4Uj56
+         2CyXMVFf6xB51r5BFutOWDYh9NSQyPlZ1g3pHi3f6A8rz7AxZSNSLQIhvtJtclTCGr19
+         2m1jSJZGn1rLSo/jvWJ8WE91SCgmkeEw1AYL0P8T4XvVlGQYK07RBAa80GN/v1l2C3jG
+         2UDOTfvKAr803M3LTG+aigHdS7h6OPosupfYXKZxjoUV6RwaM7l3zST2P1LZGuEuuhNF
+         mPkw==
+X-Forwarded-Encrypted: i=1; AKwUvBzkpImhZ1Y3jEJ4QGfg1veEC2HeA5/SMpOSHDSMpZrTYQMbrxoU3HbSVcUfAJPuzVl8q1tu2TgB9VqFlZpjxlxPYg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++mlrn7Jqw07B2KVmKdHe7r+w59FIkHoulWQUtD5FCQiR7heRcwP
+	iN5kKWlh5gZTzY+4/9KrW1ynaEQetQmu45UrtSQsDqFk0bHQsrB8003ECky9tBUxpEg=
+X-Gm-Gg: AYBFou2ZL2NU66MaVX09d82GA167shJPdTh1Z//muN0Gvts09ryL35JZVt1fOe7IUli
+	JxvQ+A9Weo1pZ2l/ciYLBBC7y8nu93iypn46f5ADnAAWjFskZ5+YQt2Odrem8NCxPdN8ZEDMMSq
+	yD6QDaR2cqKp535q25rawHHS5KKW3a9qybmvntKNV/9wgUTYjTijzjvAN6MR+sDogl5EilB/7v4
+	oYCCuzU0v7jXLhKFcNTbvJxyGdA4wnfOa/67J8ukNjloS0cdDX7yqG0e9teeu318jXz8OmNV3MK
+	NLcgQd5znYZey9g+7R6vsn19Z1JLlNN6CtLldMLvtbqA4x36hw6iuOK8ZdYJRVTkhR50OgvWT83
+	bieJzQ/+Zvcl/sh3JMYVechiIzvOOuaLt9HzV1d6XikVNz+IXLihY5elJQ13UV9wn0EmuTbo46N
+	syx2gwIacjG9RuZD8Glw6R/9TRGoZgF1JfP1q8bdMjhkUz1gCX6jEAXvFEkj82ED3bjoBaNHpeS
+	ejFoCZuFFXQe5kDBHGQGe+NVs0M3w0LzGQmrTyISnOKiHN7mc/pVS6DYPzJ1Pcv+M2FhasPR9c=
+X-Received: by 2002:a05:6000:478a:b0:487:3c8:9675 with SMTP id ffacd0b85a97d-48713c0081bmr1942121f8f.8.1789626508036;
+        Wed, 16 Sep 2026 23:28:28 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:4507:59aa:c79a:ecab? ([2001:8b0:aba:5f3c:4507:59aa:c79a:ecab])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4870bf27c65sm13157718f8f.21.2026.09.16.23.28.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 16 Sep 2026 23:28:27 -0700 (PDT)
+Message-ID: <2fccaa28bd123ecf4fd993d6e8afd1e2e1bd7f97.camel@linuxfoundation.org>
+Subject: Re: [OE-core] ASSUME_PROVIDED and pkg-config-native
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: ola.x.nilsson@axis.com, openembedded-core@lists.openembedded.org
+Date: Thu, 17 Sep 2026 07:28:26 +0100
+In-Reply-To: <jwqo6dwz98c.fsf@axis.com>
+References: <jwqo6dwz98c.fsf@axis.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB3PEPF00008860:EE_|PAVPR02MB9675:EE_
-X-MS-Office365-Filtering-Correlation-Id: 84849c74-e074-4631-dd08-08df14844545
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|1800799024|82310400026|36860700016|10067099003|18002099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	Kbd6tAQXHiVFur90lOS3Q1HbYOYTDKa9fBKShIAH8APDuzk2U3pRIOjfHhwbXVFoxkKfCE36jMPAzleguEi1nyF/rY5PHw+A3AgX2mWHL81qNNgZjbImwj9jofKaKaUUyTLsb0sgVKfU7OEOetM4vIFZbfsWn6lxAfuEuFER0z8KwF9mqI/WgKFwYFt+NssF9LhZxAq3gAWBIBkO+bwfcwrSLyJsKcu2G7d3jU2CmaVo0Bi2yG9rqiVeAN3jH/awhfe+mZac4Uz7yk5lNraoP71XWM+XQPusIX87OWSIh+kS18OoOrJzbgBRSrKioQmalMx9VaJV/tmd3/dLu0R1sYp8nO+8VtCVbc67iwoAHpo0I1iGWHF34lfbY3Z5AMYD+31LKj29hMp3Bpno6ZGu8d4u1Dk+WC+28PPxWcIKDmpILy8W6y12u/s7B/hs852pacavpKeVYQEqUkdtWdZfNFpLUiNHVxwI+CW15wXoOt9wJC2v1tagTKj+dspaQLRDVJhk4Fur+tp1ereiYCxJbRJZO2g11cMoBYbNG/VLU+wZjZgJab2L5cYZyTOVMR92Y1JEExK9hGUsbH2AVYwGcxK0LyUU5l832Mnpqf7M0X5JNwoZeDfyl9D5aF7TEwVVp+aInvmL3OW/qnHDLX3UdO5jCZTUsDGJTPKlNYZGqMkFRnnfkxPl5VHi8vDtTGixedz9kzfki2wEK7SnCo8+ZQ==
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(376014)(1800799024)(82310400026)(36860700016)(10067099003)(18002099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	Mdvd7+iUR3aBZ4dER/K+4z9fIYQFDqfDWtxgzanV3b+XbdKLI8gZpwlleXJJLo4z6iop5O8feQQUQBCV5CWPwPAkBS0SIAjHnyhLLFBd24C5n74q3R/z0IopyuSUVmRU4JcdNnPz3ftI5auZdWd4GQWSwbD3Y4HlzOZ1160NTfDd7YsvGkukyLNPg7T+k6MsKNmegDvj0PyQtag3TjFvXjc+ZLZVO5HxHlc6ip7NVtRVdgYH4lHxoOu0xT+H8qt3tBR9y4Ujll9MICnA8eV7gzil0jktJ4v6x+5nEGJ9W7zYjrSWg8kvDSnZXqbAb6AQXN+9CA5FiDaW6YBjc5FwJQXDJ0GPpIq/p4/TdbYrz8g9aWeY7kGMbvKO0jqt4cc5dMF+N1ZFYbpHhSBPuzwE5euc2VSoVGqEpLO05LAp6fgIEj93KTdyoJ8zZKIvBxf6
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 17 Sep 2026 06:24:03.9842
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 84849c74-e074-4631-dd08-08df14844545
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	DB3PEPF00008860.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAVPR02MB9675
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 06:24:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246022
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 06:28:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246023
 
-Hi,
+On Thu, 2026-09-17 at 08:24 +0200, Ola x Nilsson via lists.openembedded.org=
+ wrote:
+> It seems it's not possible to use pkg-config to find .pc files of
+> all native recipes that are in the ASSUME_PROVIDED list.=C2=A0 Is this
+> supposed to work and I'm doing something wrong?=C2=A0 I'd appreciate any
+> pointers.=20
 
-It seems it's not possible to use pkg-config to find .pc files of
-all native recipes that are in the ASSUME_PROVIDED list.  Is this
-supposed to work and I'm doing something wrong?  I'd appreciate any
-pointers. 
+It isn't meant to work. The only recipe that has logic to poke into the
+host's pkgconfig is qemu due to the graphics needs. We ideally keep the
+needed ASSUME_PROVIDED entries small. Where libraries are needed (e.g.
+libz), we tend to try and build them ourselves.
 
-Some background: 
+Cheers,
 
-I ran into a problem with a recipe using the Meson that had
-
-DEPENDS = "libxcrypt apr-util"
-BBCLASSEXTEND = "native"
-
-In the native case, libaprutil.so is linked against host
-libcrypt.so.1, but this recipe tries to link against libxcrypt.so.2
-from libxcrypt-native, causing a conflict.
-
-apr-util does not DEPENDS on virtual/crypt; for target builds,  it's
-pulled in via util-linux. Maybe virtual/crypt should be added to
-PACKAGECONFIG[crypto], but that's not really the core issue here.
-
-virtual/crypt-native is in ASSUME_PROVIDED.  When switching to DEPENDS =
-"virtual/crypt" Meson's dependency('libxcrypt') can no longer find the
-.pc file, neither in recipe-sysroot-native nor in
-/usr/lib/x86_64-linux-gnu/pkgconfig.  The pkg-config-native and
-pkg-config wrappers around pkgconf ensure that system library folders
-are not searched.
-
-I don't think EXTRA_NATIVE_PKGCONFIG_PATH can be used here.  We want the
-system folders to be searched last, and ideally only for packages listed
-in ASSUME_PROVIDED.  In my case the project depends on several libraries
-whose options are found using pkg-config.  I don't want to accidentaly
-find a system library for something that is not ASSUME_PROVIDED. 
-
--- 
-Ola Nilsson
+Richard
 
