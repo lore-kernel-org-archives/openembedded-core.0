@@ -1,102 +1,119 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <alperyasinak1@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2AA73C982C1
-	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 07:53:00 +0000 (UTC)
-Received: from fhigh-a8-smtp.messagingengine.com (fhigh-a8-smtp.messagingengine.com [103.168.172.159])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34280.1789631575397104532
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4AE50C982D2
+	for <webhook@archiver.kernel.org>; Thu, 17 Sep 2026 08:27:00 +0000 (UTC)
+Received: from mail-lf2-f12.google.com (mail-lf2-f12.google.com [74.125.229.204])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.34723.1789633611282096705
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 00:52:55 -0700
+ Thu, 17 Sep 2026 01:26:51 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=dQPqXoXa;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=wRL40kuP;
- spf=pass (domain: pbarker.dev, ip: 103.168.172.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-01.internal (phl-compute-01.internal [10.202.2.41])
-	by mailfhigh.phl.internal (Postfix) with ESMTP id 44F38140003C;
-	Thu, 17 Sep 2026 03:52:54 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-01.internal (MEProxy); Thu, 17 Sep 2026 03:52:54 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1789631574;
-	 x=1789717974; bh=X65nna6SJtk6fiXob76U/dDokVUROLSj+AlP6d3cTPo=; b=
-	dQPqXoXaz4XoWiKFpCuyzlJrw0s4JdLinabt7QKiQH2ujo8FsRMY40s2PIju0bSJ
-	/6MRp9iP3qM5FG4tpJ7I3oU563xnzcHj4Vyx816OlD4h1Nm6aCkmZbXcDqGBckRG
-	57KZ2rsoPuK2HK+XagCD5naw+VbDDN+l5KOi8kkoOZlrPNYE/ovPDqcWne/uGr3w
-	GIfCLm5QW+i9wS0weigwbkGBB7pXegw8khjfjBwgvRf/L4+Jy+r25IcRV7PKLIRI
-	fiOy3jbHOFzgi2ivMPyPeXd4+xZUX9wIIW19jKQ3AbJm4G+GPtI+IyuTl1UvWVho
-	aOw1vvrl0zhyEyNZ1xwo2A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1789631574; x=
-	1789717974; bh=X65nna6SJtk6fiXob76U/dDokVUROLSj+AlP6d3cTPo=; b=w
-	RL40kuPvKWpET9ZqyZPXkMLEYZsQgFiAlRHoRWsTOxOGW5o7+0zbwEX5cRTI96rd
-	q+OGSnnLq62AA3MV6VuionT1yTi7oKrH04FOe9xDBFGu1TufxyGBUnvUBxA7X+xQ
-	qBOpYEKMlIf5mze4FEmdJeu1zrGwOZHwv+9d456awtnhGXg43JvwDt70egPsiFD8
-	vNlfHnlwoH8UAhmABCs4RyMltzOgXdfmyrqbmxxdxRh/zM2y01xgrFWDSoDwxTpd
-	jFLYBIcTqxy3EyjQdqF/pgor29GWXXfMMSmU/unNU2UE9fQfdj8TZd7+HUmvGhKi
-	XIdB+ISvg0WWx6OOQjiYQ==
-X-ME-Sender: <xms:Vpyrag-5Y9mXNo0Y-wbqKQEil358v7p1cxYonMNoIE15tQ5SOq6imQ>
-    <xme:VpyragI9X3XBXftUEowjmhYdK8DiMOofs2UQqhLD_7yk9WN_4GnKDfDIVEQlmUrP9
-    BDsubYDFq0z1VgD7d-xMf8oJr00iTWSDoFbj7dNjchDT4nT68hAgQUyCQ>
-X-ME-Received: <xmr:VpyrajbOsrgXaN43xJDjJQ4mkSI1KHc_Aazt_czm1o0sSsn_KTj8jPAY4ATnLhW8b_7CgdiMFMabB-WrtRNtgpr96EJJPCdPAZhqihVV5M-Y>
-X-ME-Proxy-Cause: dmFkZTE9n+Iq3hVWvd+gZLFNKb2mzOSV3Q7aM3rAjOlBY4zQx8Fvel02FG6wPBzpxjLHZ3
-    3cBz2h3Kc74/shiSmj3ECATCaOGHYMg2T7VUBvAhv22fquhZd/gxQ1bne9J4xqnh3t7vSD
-    G89nmYtvbnSsCTpVGA8OHoIwYyyCZvljc0BuFOWSrdOmyVDtR/Dygi5sAi1q6//12o48QS
-    56FFVEcOd7e2Jj6tnuLf16Uv+vZbC6ONgYaINimngUbfVqXIHabgBckG48G8OI56DLPpC+
-    IG5WXaIJrDjfIGqeHEJi8Xkj8LeuT8hAKDtDYvlKzm8GANVDjMMEIko9h4Xam4Ss6NZOSu
-    Jz2AYcgvvxXuhtmpyfw34XlUuhIm3fQrsbyUONaRH6S1KgYhXDW3MU3m95f3jNIFQYIuWz
-    RYxZ42KnmCvJAG8Wivx+BLe4v/AVNxlIjfhbfdIX5Qj60QkcU7Mhct0zQ1U4nPiZHsMpzI
-    Y+3q91wBYmoES0H32prz9BpjRKgjCppUd5V2BuAgevyoFjZzdsd3iomUWlhVsnknVjhp+8
-    TecU8J6DRYIWWnSgQpYEDNuGl+b2iY1U3srQRhm8jI2H3V6zdzsKxVzhXaWOMKuABlQB1g
-    WVJ1iUSy7RbdDJl1X1CeG4Q7ns3FEj3BFJhGSwC9p8fqjb9hYFRpxfW5CHFA
-X-ME-Proxy: <xmx:VpyraqLU-B98r9yV26a4480AaKofBYtIa87XXfQAYVkhfpz1wSz1fA>
-    <xmx:VpyrapCQtRd3ougkdPn8t1QB1uYYlLLSFF3CWg2Z2JvMfxDLfuE9Hg>
-    <xmx:VpyranpugWeGWZ5pA1-oLPpx5ZwBZydJssuBIYjeJhYy2xg5GfXMBg>
-    <xmx:VpyrasivqG2aa83uyM9u3fUz4uemQiO1tJ3QMfkooQSmXQoDzhWwLg>
-    <xmx:VpyrauvH2tVfn99Bq_H6x9Zj6BHEufRRCOM2cklVrYi7eqxFU7Zp47lK>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 17 Sep 2026 03:52:53 -0400 (EDT)
-Message-ID: <5b8a0bd86988efd3ea73b38aa3e04a66a59d185a.camel@pbarker.dev>
-Subject: Re: [oe-core][master][PATCH] libgcrypt: Update license for dbg
- package
-From: Paul Barker <paul@pbarker.dev>
-To: Sana Kazi <UpStream_IP-SK@bmwtechworks.in>, 
-	openembedded-core@lists.openembedded.org
-Cc: Sana Kazi <Kazi.S@bmwtechworks.in>
-Date: Thu, 17 Sep 2026 08:52:52 +0100
-In-Reply-To: <20260917063747.1037155-1-UpStream_IP-SK@bmwtechworks.in>
-References: <20260917063747.1037155-1-UpStream_IP-SK@bmwtechworks.in>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=Q/lQQyly;
+ spf=pass (domain: gmail.com, ip: 74.125.229.204, mailfrom: alperyasinak1@gmail.com)
+Received: by mail-lf2-f12.google.com with SMTP id 2adb3069b0e04-5b76462aae9so348781e87.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 01:26:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1789633609; x=1790238409; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1L2chlVEyaguijJTitVF12qmGigcg9wAPJM2X0ldHnU=;
+        b=Q/lQQylywAJvTPKxHrSRdT7XTs7AnlTcmu/2VX/sPhMbn8Ycw4ghzUWWz3mrWeIjdB
+         MyZ9mzepzzOHEj11bHHGJYyreOmb1Xwocb28BFESIaSto+vZY8ipq1rKAcEPv1ycPqFF
+         O5TzEBp31vJbnu67m2X1WsOpZCkZbCc+lcvP4al67Xjtv5q9rjlT6YE57jmMpmOdAKmh
+         tXwRucBBrFbatX5IlquF857IUUlaOgCnfOHsA/jb5gvOyvnUtYzWwKYdvqXqdyMfrA74
+         v3+VJy4xQ+Ycq4qpfDf454CNUO0jGBC6oMR+8K2Xd0+aLi6lg6jruEpDMNzERFzn/HQ4
+         dgbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789633609; x=1790238409;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1L2chlVEyaguijJTitVF12qmGigcg9wAPJM2X0ldHnU=;
+        b=QeaeS4Re8kDP55zZ30twgA1Wzvf5gE5X+18Ge7vlpANnbB6FmFuD5u3H/wR5iV4Hrl
+         8sz3ZkECk/DJV+jnP5DdnyYb/bj2nax+KYq6xSOI6HTCkv8+Z91u7gjcKX4qgXyryB/h
+         4w9lgy1jrIu+2A0XFKlvc7iFJxsXWLzk8wSGh+KZB/D0ZyGroXm5QO83Q3U+BOHtPNHC
+         Oj61l6LkmAFVSJ2+n3PbqagUXYyR1KwdnkPXrXlLM5mVEramOjRvyQFpQWyDEKMoDGlj
+         TSFS2Rtjsgd5n7jyOdtaUJhS9+3G6dqOB5eQgJ6jhx7dqxKq2kkXCPV5R3BKRsEjm+si
+         2yqg==
+X-Gm-Message-State: AFuF++mdcMWauvC4hkPXlWSIucZaJpM4T4SaD3QssqfLYyvNTg4ygfd5
+	cGdquRtIo8iu0gZ7b7EuzzHe4u2UktKnh+FvlmZXTkl27wU/EglmxQjvUeMKEg==
+X-Gm-Gg: AYBFou1WTNMN+9o90o+v9XXQN4f/37XMyx4JRPC+H1pgKHb+UrAMhq8KMDEOSmk4bX0
+	rgq1frq0UHPSkXyZKTaBcz2flGY+DESN+WvnfbE3HWaxIFSUAgVwM3+7TF3o5zFQXvlH3dea8ol
+	PX7r1lDmDeCdorowS+lQeq0Sa0H90S5kSbN9LF0XEhc5H55kdtX3dc4uhWq/2jTRvl63MlL6YBE
+	stN3M5d9n/4kWYXzGB5YLSPupWTMGBBMuuuOENvBiEumFRxYH5sG91pyGTuQRhl8dLXJrsCxq39
+	fC4zIBeX7zBD8v93CTW2/2Y9QSWxgPIr2TwnxIIfux3IazUivVHUxo8zCLZctZZr4bxBy1kNrd2
+	GeNvU2XbYiAbNW+YiqDhusc2i3fhL28zhGmctjGzCstQXSWNhZioZhPxJcSEgeZqrqJHBcuQBEV
+	mbzfnzmhEhobC08ziSvnoZkgT6dSF+7JX/QYwtqX9f4QmxEo79lzPj3KTu8pYSfgaGKWMpCv9bL
+	LPo67W+R0X1Rx8Z0FKQUaumMnV+5EWdp74Feww8tgQl3xhLtGaY+aRon4zKgNfhcs98XM965DK5
+	OI5O2L8AB3I=
+X-Received: by 2002:a05:6512:3d02:b0:5b6:1a7c:32 with SMTP id 2adb3069b0e04-5b8b6656a6cmr1655139e87.53.1789633608641;
+        Thu, 17 Sep 2026 01:26:48 -0700 (PDT)
+Received: from localhost.localdomain ([176.40.225.86])
+        by smtp.gmail.com with ESMTPSA id 2adb3069b0e04-5b8b5789c31sm1632161e87.9.2026.09.17.01.26.47
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 17 Sep 2026 01:26:48 -0700 (PDT)
+From: Alper Ak <alperyasinak1@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Alper Ak <alperyasinak1@gmail.com>
+Subject: [PATCH] rm_work: Keep do_populate_lic_deploy stamps
+Date: Thu, 17 Sep 2026 11:26:32 +0300
+Message-ID: <20260917082632.1006708-1-alperyasinak1@gmail.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 07:53:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246045
+ <openembedded-core@lists.openembedded.org>; Thu, 17 Sep 2026 08:27:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246046
 
-Hi,
+Fixes [YOCTO #14946]
 
-On Thu, 2026-09-17 at 12:07 +0530, Sana Kazi wrote:
-> From: Sana Kazi <Kazi.S@bmwtechworks.in>
->=20
-> Set LICENSE for libgcrypt-dbg as "LGPL-2.1-or-later"
+rm_work removes the do_populate_lic_deploy stamp of an image and the
+task runs again on every build. Because IMAGE_NAME contains DATETIME,
+it writes image_license.manifest to a new directory and moves the
+IMAGE_LINK_NAME symlink there. license.manifest and package.manifest
+are written by do_rootfs, which does not run again, so they are missing
+from the new directory.
 
-The commit message here says what you are changing, but not why. Please
-include a brief explanation of why the -dbg package license is
-different.
+do_populate_lic_deploy does not use WORKDIR, so keep its stamp like the
+other image task stamps.
 
-Best regards,
+Rebuild of core-image-minimal with INHERIT += "rm_work":
 
---=20
-Paul Barker
+Before:
+NOTE: Tasks Summary: Attempted 6025 tasks of which 6021 didn't need to be rerun and all succeeded.
+./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917071112/image_license.manifest
+./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917071112/license.manifest
+./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917071112/package.manifest
+./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917074853/image_license.manifest
+
+After:
+NOTE: Tasks Summary: Attempted 6025 tasks of which 6025 didn't need to be rerun and all succeeded.
+./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917075639/image_license.manifest
+./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917075639/license.manifest
+./licenses/qemux86_64/core-image-minimal-qemux86-64.rootfs-20260917075639/package.manifest
+
+Signed-off-by: Alper Ak <alperyasinak1@gmail.com>
+---
+ meta/classes/rm_work.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/meta/classes/rm_work.bbclass b/meta/classes/rm_work.bbclass
+index 52ecfafb72..7cb8a325b2 100644
+--- a/meta/classes/rm_work.bbclass
++++ b/meta/classes/rm_work.bbclass
+@@ -77,7 +77,7 @@ do_rm_work () {
+                 # Promote do_image_qa stamps to setscene versions (ahead of *do_image* below)
+                 mv $i `echo $i | sed -e "s#do_image_qa#do_image_qa_setscene#"`
+                 ;;
+-            *do_package_write*|*do_rootfs*|*do_image*|*do_bootimg*|*do_write_qemuboot_conf*|*do_build*)
++            *do_package_write*|*do_rootfs*|*do_image*|*do_bootimg*|*do_write_qemuboot_conf*|*do_populate_lic_deploy*|*do_build*)
+                 ;;
+             *do_addto_recipe_sysroot*)
+                 # Preserve recipe-sysroot-native if do_addto_recipe_sysroot has been used
+-- 
+2.43.0
 
 
