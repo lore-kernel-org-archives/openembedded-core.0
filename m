@@ -1,89 +1,98 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 076EAC982D8
-	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 17:29:33 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16212.1789752570919333655
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F7E3C982D8
+	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 17:54:33 +0000 (UTC)
+Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.16709.1789754070714626605
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2026 10:29:31 -0700
+ Fri, 18 Sep 2026 10:54:30 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=C1rT4agI;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.141, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d37b6so5076225e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 10:29:30 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=cRNWY7DR;
+ spf=pass (domain: konsulko.com, ip: 74.125.228.43, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-85469a34907so1255305b3a.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 10:54:30 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789752569; x=1790357369; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1kRjghf7Bno5CUxX+NtNFuK/QeQt832SsHHDuNAgnzo=;
-        b=C1rT4agIdGCBJ0beSQ+w+mB/b5Ld2Sqi74QDEl02IolT0jfFzY7C037xd1h5BV1sPP
-         pcGziSka2ktVBDIkBcIiZtcmfiITMO1ogIIovYwar8bBBHac0skxhdL57AMM4AaVNs9Q
-         ZiQyz8Bpadn2Kfa2HePw0PLB7uiaQeyIAi3Jk=
+        d=konsulko.com; s=google; t=1789754070; x=1790358870; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=AHwSxw6qRuAxFuShXHx4ATEVaVNtS8uyjzJPXpblE14=;
+        b=cRNWY7DRwp7aopERK4PqN5LKAw0L7r5/JpBdArPEEaKGetXaN5XTxTkUVyTj3apkXM
+         ++AMMOBl1jaDmGcajFO04oknGzxp9P6McCDyaLUA5LhiCfAZ3l0mQVynVS7yrRgcBF/h
+         w7SJaIeJmvL9lWbUR7Otf7HS5kqTOrUjgBp0E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789752569; x=1790357369;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=1kRjghf7Bno5CUxX+NtNFuK/QeQt832SsHHDuNAgnzo=;
-        b=m/RkbX0rpfkPHexgi7XkqxM5zwTopH4aK2s+WHQYs+tCaYcLtJeLWEyg1OK3Z+9Yyk
-         9/3VTNXiXz6OHwznjOLldhZ2DoHLzGWcZOfpPNH+LaV0Zc4ctxU49LUmJx7fdGko/bMt
-         UFBcXhaJ9/NOxv1Kb+25zL7tG7Rjuqj0pLuHuEfRRh+vd6y6QU0QImv5vL/ngO6mbemS
-         Q0W+E2u/pXMrWrLyywxKGJOc8kKRtao/TeJjFPk+G+f0VZknmK3BrtO9SWOawhzGIUm0
-         aA+pcauZvM1uoihE3htwWiQJ/S6OYEpIILXkSp1ju3YRdEIRphAMk+hhlwJ5KQfUzgi/
-         TREw==
-X-Gm-Message-State: AFuF++ktlER2r6ZmNQHjnbC8V8eVAF+Y7fdeDivQCSWXJUtmxFh4yFH4
-	ruGAaXDYhzAzfjOspgDwOz3ndgU7NETYi081b4JJZv/fO0dpgUDYUthN82huufs3yGW7XTNwZi4
-	KrPrz3Po=
-X-Gm-Gg: AYBFou3qPyzA8KHxVROeLtDAlNPyLU9fyJuH+0ZrJQ1wwaJwyDDlo8G5dznNceqI9O5
-	kGuxniaHiWCFywwyFOVBrPcgE0pKEetXV7c5I7ywolAE66YWB++GsRAlRAeWTHBsyUS5kCRf3Kc
-	JXt8xrRCVqw/aj28Q1NuABJEfINyAIUhN0CSJ9yIZZB7paCA98puRw7p5MN0LpBTxZFiR8dxwYL
-	nBbzCdv63BL1FFS/Eprm7V/0ZTObfgypUqsGglDzm02iGZOpEgDLo5CyDAKzr1PA3+dSPSgiE5T
-	E9QdoSznYamvXZZdytbU/r3KKt8+KMJFVPv/3SabpiSXS8Mp6QJQmdojBTG4i30oBS5aSnGGcG1
-	LMF13WqxMhZnC+Ics7cJpdYd7vbrv2tdWvst83RwlqByV5fwJFMkXmqH59j0PS9kqjkBqL2tTFo
-	kFNwZlmROL8dsuKIaoeouLW+K7k7oFX8qp5UFdvj0OCqtC1CaTtRWE13EOvHymyB/yiuM+a1URM
-	oZc/75YgFn7NuNW/1QN9ouE7kA=
-X-Received: by 2002:a05:600c:5489:b0:49c:dca4:94c with SMTP id 5b1f17b1804b1-49fc573579amr91941025e9.13.1789752569008;
-        Fri, 18 Sep 2026 10:29:29 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:22f8:9184:5b80:7430])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48724593f5asm85760f8f.28.2026.09.18.10.29.28
-        for <openembedded-core@lists.openembedded.org>
+        d=1e100.net; s=20260707; t=1789754070; x=1790358870;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=AHwSxw6qRuAxFuShXHx4ATEVaVNtS8uyjzJPXpblE14=;
+        b=pRYBmDrOieBJeluOz6T4Jm0cDin+9+AwDfp59yUMES48/4qYeqJU6cPPBEabvSkgs2
+         A8tKZoXEejPT162JE6blO7dE8kCLSd0eb+kbeNfdhHG4cICCmD9P0iXnOi+zPFqIJTVb
+         G/rjKpjaRP3gPZb4I3Yk/PPtcwiCU1y8D2eGSvIxoZaPodS3vrX/c7bjFvH/ZA+fuq9a
+         z4nt1IQQVr/SVGkaCgB+f/+t1z2ledDXD9uXdejP58gYUVKQEP6xfFYImlbc8mgvFAc9
+         CzKENiRBZSdBhHBMu4kgGcoM3H3b6rXPP9RMvsSpoaCi7kVgYAY0Gp2xRn8Sj/cTqJIx
+         XilA==
+X-Gm-Message-State: AFuF++mYoWoUI66Cq39yS/dtHWFs8nl9EvJESVJA25TtVPxTAW9A1hc1
+	HWulwAEDnGjqcVweF0MI8SjMzhwNlNMHH8yE8jmMaK8qkehSWtbwki+/DGXdJpV3UOpIPyMMQFk
+	hFDCE
+X-Gm-Gg: AYBFou3cR/617nttKNY0S4qBhnqV170RrJcH/mWhK36EnIlompTls1vsH+qAZ80nUJW
+	OAup46JR02SgC5422tVxEgnQqeAIUJrTzW8m1fsfOPnwv+9VdnryoVYwMFvJi/FudadhpuZCdck
+	f4QpzO5voGF6LD/UtcywJtlcLOB6pe4OpuLE6Fs+bvXvn/hqRuBo6kQyg7S+1C8ACndq2B/zMPa
+	sv/+65K+eoV7jRZyOJ+ICxWNgDVSsVcoJOUezjr06w0glg1kFfKGEIqXwlGn8me1H1IPVXkO8KE
+	0GFaK6AB+bAve7fCPJl+EJhWmX2C5UfZ6dD+GAHPZ2dwGsno3pmP/3LvuYB8LkPAnbqAlvtI9Kb
+	v84BGc9/+A5F7PWrMQe7Apwk8Ej8Fuh7bsuzj2I92aFVVC00N2oboGhOOB+2r5MgdHuuDNRGKXZ
+	+9VgW2W8TGQ4uwWZrQdL8F219SoWLyzhrDgig2yN3hZpIIF0ZaMgHicrsx7VHtg1mgbEWHfy2ih
+	31vbajncP2sUc8=
+X-Received: by 2002:a05:6a00:2e20:b0:857:7337:5db8 with SMTP id d2e1a72fcca58-874dd9f1d6cmr6036525b3a.22.1789754069733;
+        Fri, 18 Sep 2026 10:54:29 -0700 (PDT)
+Received: from thetis.home.local ([2606:c800:6024:2000:a917:4af:eba4:93a9])
+        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-877a6bec90dsm152477b3a.8.2026.09.18.10.54.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 10:29:28 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+        Fri, 18 Sep 2026 10:54:29 -0700 (PDT)
+From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] lib/oe/__init__: Fix typo
-Date: Fri, 18 Sep 2026 18:29:27 +0100
-Message-ID: <20260918172927.2904454-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH] libtest-fatal-perl: upgrade 0.018 -> 0.019
+Date: Fri, 18 Sep 2026 10:54:19 -0700
+Message-ID: <20260918175419.2257904-1-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 17:29:32 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246223
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 17:54:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246224
 
-This should reference visitorcode in qa.py (spoted by Peter Kjellerstedt,
-thanks).
+From: Tim Orling <tim.orling@konsulko.com>
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+0.019     2026-09-13 16:06:25+10:00 Australia/Melbourne
+        - lower required Perl to v5.8
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
- meta/lib/oe/__init__.py | 2 +-
+ ...{libtest-fatal-perl_0.018.bb => libtest-fatal-perl_0.019.bb} | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/perl/{libtest-fatal-perl_0.018.bb => libtest-fatal-perl_0.019.bb} (92%)
 
-diff --git a/meta/lib/oe/__init__.py b/meta/lib/oe/__init__.py
-index 7357a71f27e..1e47934e6f7 100644
---- a/meta/lib/oe/__init__.py
-+++ b/meta/lib/oe/__init__.py
-@@ -7,7 +7,7 @@
- from pkgutil import extend_path
- __path__ = extend_path(__path__, __name__)
+diff --git a/meta/recipes-devtools/perl/libtest-fatal-perl_0.018.bb b/meta/recipes-devtools/perl/libtest-fatal-perl_0.019.bb
+similarity index 92%
+rename from meta/recipes-devtools/perl/libtest-fatal-perl_0.018.bb
+rename to meta/recipes-devtools/perl/libtest-fatal-perl_0.019.bb
+index 68940567ac..79d01fc430 100644
+--- a/meta/recipes-devtools/perl/libtest-fatal-perl_0.018.bb
++++ b/meta/recipes-devtools/perl/libtest-fatal-perl_0.019.bb
+@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=f7fc7d4b26ddae0843b09ba56109e65a"
  
--# Modules with vistorcode need to go first else anything depending on them won't be
-+# Modules with visitorcode need to go first else anything depending on them won't be
- # processed correctly (e.g. qa)
- BBIMPORTS = ["qa", "data", "path", "utils", "types", "package", "packagedata", \
-              "packagegroup", "sstatesig", "lsb", "cachedpath", "license", "qemu", \
+ SRC_URI = "${CPAN_MIRROR}/authors/id/R/RJ/RJBS/Test-Fatal-${PV}.tar.gz"
+ 
+-SRC_URI[sha256sum] = "b8d2cccf9ee467271bc478f9cf7eba49545452be9302ae359bc538b8bf687cd6"
++SRC_URI[sha256sum] = "d8f6b6c87bb399a7d60c295a94a4b741a85b23889cfd6b72f1ff62f0c55cf70b"
+ 
+ S = "${UNPACKDIR}/Test-Fatal-${PV}"
+ 
+-- 
+2.47.3
+
 
