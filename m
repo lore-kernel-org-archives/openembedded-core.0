@@ -1,76 +1,85 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0A02CC982D2
-	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 08:44:40 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6819.1789721074791029487
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 23B3BC982D9
+	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 09:07:50 +0000 (UTC)
+Received: from smtpout-04.galae.net (smtpout-04.galae.net [185.171.202.116])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6982.1789722464217441075
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2026 01:44:35 -0700
+ Fri, 18 Sep 2026 02:07:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=oC213xXB;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 89F82168F
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 01:44:30 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id B54C93F86F
-	for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 01:44:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1789721074; bh=hnTnLGaZ9yD/C77faCr2jvdZyybTauraWS5QCcDDBH0=;
-	h=From:To:Subject:Date:From;
-	b=oC213xXBF51Bp5y6YRJExI8pNaY4U4N33oQLRHK5IntMTZvnQa8Lozau+lyo81aKt
-	 7+K8ouGNMUQkwCWwVHQVsLSiesKyYfkkf9Fe0/FN5Lot1RQIz3iIwHi94ILKNjv2Gm
-	 TRhl8Vr7xdg9LvqKRqNgCts/QB5uprv41KiPQyTw=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=yliSl1yj;
+ spf=pass (domain: bootlin.com, ip: 185.171.202.116, mailfrom: joaomarcos.costa@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-04.galae.net (Postfix) with ESMTPS id A3EABC5846F
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 09:08:26 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id E324E60649
+	for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 09:07:41 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 0B49A10328E83;
+	Fri, 18 Sep 2026 11:07:36 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1789722457; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding; bh=lEN7SnkdLkHmCtHguSwl+nc7hy5lZyCZYK6PjDqn1Dw=;
+	b=yliSl1yjQJXSk3K5OC+cDAEp0+1h7aKrgmZySAq0UhsoyvTYOynCdcggSiwsExedG0Ko6/
+	MeoVgLxhtM6jyg0eMykwcD78xz1gaV8Yr404OZGbqKGCAgAtcuTkrVJsEOEJvN7n/k3gL8
+	CSQNUbVmNDDnKLH0H+hh5Y7m4OUgGSw72yvQci/wjkb8JQ8UfzEIlpBG7fMcYEF4KaRVQF
+	aqvPN9EdWj7Bs2njXTsu/kpjaH8v8fGmNhyiWJu9x8iIcE6klXHD2ebMGTp2eortaguXUS
+	DGYOizYYcfBlH/T7QKWPjEwxkDCdx9hanD/kd6NJ7ACnKV0JqTaXJ3HR5E8/Aw==
+From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v2] python3-hatchling: upgrade 1.32.0 -> 1.32.3
-Date: Fri, 18 Sep 2026 09:44:29 +0100
-Message-ID: <20260918084430.2076213-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: thomas.petazzoni@bootlin.com,
+	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
+Subject: [PATCH] ptest-packagelists.inc: disable gnutls for RISCV64
+Date: Fri, 18 Sep 2026 11:07:31 +0200
+Message-ID: <20260918090731.467954-1-joaomarcos.costa@bootlin.com>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+X-Last-TLS-Session-Version: TLSv1.3
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 08:44:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246200
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 09:07:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246201
 
-Upstream changes:
+Timeouts have been observed (very frequently in the past weeks)
+in the autobuilder, and a bug [1] was filed at Bugzilla.
 
-- Preserve the version string exactly as written in core metadata, so
-  stylized versions such as CalVer 2026.08.10 are no longer stripped of
-  leading zeros. Distribution file names and .dist-info directories
-  continue to use the PEP 440 normalized form.
+For now, it's not quite clear what specific test case is causing the time=
+out.
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162
+
+Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
 ---
- ...{python3-hatchling_1.32.0.bb =3D> python3-hatchling_1.32.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hatchling_1.32.0.bb =3D> py=
-thon3-hatchling_1.32.3.bb} (82%)
+ meta/conf/distro/include/ptest-packagelists.inc | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-hatchling_1.32.0.bb b/m=
-eta/recipes-devtools/python/python3-hatchling_1.32.3.bb
-similarity index 82%
-rename from meta/recipes-devtools/python/python3-hatchling_1.32.0.bb
-rename to meta/recipes-devtools/python/python3-hatchling_1.32.3.bb
-index e0c82ff3677..a6e683c1009 100644
---- a/meta/recipes-devtools/python/python3-hatchling_1.32.0.bb
-+++ b/meta/recipes-devtools/python/python3-hatchling_1.32.3.bb
-@@ -7,6 +7,6 @@ inherit pypi python_hatchling
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc
+index 79e27f617b..9b264657bb 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -163,8 +163,8 @@ PTESTS_PROBLEMS:append:riscv32 =3D " lttng-tools stra=
+ce"
+ PTESTS_SLOW:append:libc-musl =3D " libc-test"
 =20
- DEPENDS +=3D "python3-packaging-native python3-pathspec-native python3-p=
-luggy-native python3-tomlkit-native python3-trove-classifiers-native"
+ # These tests don't yet pass for riscv64
+-PTESTS_SLOW:remove:riscv64 =3D "tcl tcl8 python3-cffi strace lttng-tools=
+ python3-numpy perl glib-2.0 zstd"
+-PTESTS_PROBLEMS:append:riscv64 =3D " tcl tcl8 python3-cffi strace lttng-=
+tools python3-numpy perl glib-2.0 zstd"
++PTESTS_SLOW:remove:riscv64 =3D "tcl tcl8 python3-cffi strace lttng-tools=
+ python3-numpy perl glib-2.0 zstd gnutls"
++PTESTS_PROBLEMS:append:riscv64 =3D " tcl tcl8 python3-cffi strace lttng-=
+tools python3-numpy perl glib-2.0 zstd gnutls"
 =20
--SRC_URI[sha256sum] =3D "0bdbde4a52b06c37e3eca395f85a762bf0ef06fe374fd8ae=
-429dc6be10230f5f"
-+SRC_URI[sha256sum] =3D "acdd4436d84d829c6e7ae6df723241d8f0bca9c5bad5a614=
-8bd41f2ea6b8a792"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
+ # These tests don't yet pass for musl qemuarm64
+ PTESTS_SLOW:remove:libc-musl:qemuarm64 =3D "strace perl gnutls glib-2.0"
 --=20
-2.43.0
+2.55.0
 
 
