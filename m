@@ -1,109 +1,151 @@
-Return-Path: <joaomarcos.costa@bootlin.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 205B9C982DA
-	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 09:27:37 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7247.1789723650698540391
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A11C982DA
+	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 09:28:27 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7182.1789723706497666161
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2026 02:27:31 -0700
+ Fri, 18 Sep 2026 02:28:26 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=Rqo+ohE4;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 7B80C1A0983;
-	Fri, 18 Sep 2026 09:27:28 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 50BE460649;
-	Fri, 18 Sep 2026 09:27:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id EB8F910328F43;
-	Fri, 18 Sep 2026 11:27:22 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1789723643; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=8Q2B3mulw2GlP2BTvkg+Dms+q0eSxqYif5XZei23WDU=;
-	b=Rqo+ohE4mIi9eTHbulgiZ5W/KVBEcK8nN9dO2FT7FWYHaxoSwXWqHb7n3PUB6S5N3tEOgr
-	HeN5jwX5E4VWkP9c1Caci1E7ULLsxTE4sDUy+bgGArPIUTDVK1SCUuQScE2Gzrk6fc+5NB
-	FepuHihH48u5nP3g7rDQUfhKvHTDi1+A29i2xICSPX0hphvzB2vvlecuPT7LEuOlD62zeH
-	m1UB7hyIE8TOwxZ3wFA8iTCkfLpnYrKTVtoHOi5IL9OnHEjL8qfhpB3EvnS3W7cixSLYFu
-	/xVl/n5jKH78lX6HTDUdOjJ0gTWpRBvPuB5OsBCzhlrv7I0cS5R02yA9NMl0dg==
-From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-To: openembedded-core@lists.openembedded.org
-Cc: thomas.petazzoni@bootlin.com,
-	paul@pbarker.dev,
-	yoann.congal@smile.fr,
-	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-Subject: [PATCH v2 RESEND] classes/archiver: fix tarball content in "original" mode
-Date: Fri, 18 Sep 2026 11:27:11 +0200
-Message-ID: <20260918092711.471982-1-joaomarcos.costa@bootlin.com>
-X-Mailer: git-send-email 2.55.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-Last-TLS-Session-Version: TLSv1.3
+ dkim=pass header.i=@smile.fr header.s=google header.b=in1RtFew;
+ spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d3920so3670685e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 02:28:26 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1789723705; x=1790328505; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=RMgKg1eFqe+qtRldhSIt3SpeZH408nWNoAtu1vT/1aQ=;
+        b=in1RtFewLO7ItP9HDYFJMlDouQXON6/Hik+9SHor6y1WahfrGTeF5ddzMRre0N1lpA
+         iK7C7ZvWlTvCU+IFviISbghiElWGniFuIGeqbEIR3tF9g/p088kA4LW7m3IW2gO6uFsu
+         zUgQJr4xoTk8VPz5pIjEWxMgCvzp7WKG1j+dk=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789723705; x=1790328505;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=RMgKg1eFqe+qtRldhSIt3SpeZH408nWNoAtu1vT/1aQ=;
+        b=ArjdKbpez7BiHi7ahEOEoQukQi2NK76dtgVYgQO5IXr8A4wm5J22EQkIcfUaMGCWCb
+         +7iacjnMG7DBqzDtAZCS87HXnoup01LlrPW9+V5nZEJu2yq/+oAC/58b7mE4i59C3Iqg
+         kTPaoR6pWCMMkNwykJJzUhXOe3TLPQnf4TKG9hWAOJzxcnRX59XtvZQ3w7+gUYnixfUJ
+         m4IdR3SmTp7anrMFm2FSoRuTp9q/AKu3uUDBDaR/fQxpq20ra7+9l84RnzSpLYq0yYKO
+         EJ0zUW90aX5nphGd5jEwznxciqKQ+CFjhWPyIV7vxGJEi/ZNkx5MAmenQ/UZmP+qInFM
+         +JCA==
+X-Forwarded-Encrypted: i=1; AKwUvBzmvAQ1l8VuKPvOHk98ldx6u5v7VqCduRxb67w6RgY4hDXc4u2/xNAjnEsE5OdgWc+ZoY7NCJCAcfRKyp1TpdWhlw==@lists.openembedded.org
+X-Gm-Message-State: AFuF++lTdN/oh5C4zjw4R1TN3ElJUyclgZqP9Zd46jFuiv541WmzB6TX
+	fBi23XgTQfWZ57+CGMFwUdc643y+cUXfwKhA7vzlFrLVfqXRjURsugHeusQPqCCyzxk=
+X-Gm-Gg: AYBFou0PakBhSdyQUPugke2G+5PBwBaRB8I8zZVvDWyfOtI9/BJK+GjG17GEedv7hxs
+	KyHrvTqSY9TohUXaNfLxOa2yrW8Z4dIYnaFmdPlXAcGFazGpu4d8faahSmhhj95y3rkrVS3hrPD
+	/AQYUI7sZbjUNdoKgNqMU1h97faaNxyopRQXtnl20ZtPacCtSeq2Ox+PHUAeXJliY+8x7Jm/dtx
+	iNwtv/9zfC+LFbjWTzRkKTVCryJ8Tk3WN+BTfWbRc3ZOn2SOTJ923ihTNIxWjo5aOw/nNxvUy3k
+	FaBCYEmHRssCpcXwV/1pd6CacsIEO7zroKFD7eRbeAKcg0MhMQkhVaO9JD4pj6dYhw1F6RFMWAf
+	Z/MsvlqVB0OaqNY1Bovekeh149Ou0YkEKFUjF+MDNi11dzmJujeFUhO513J/DaET/UZg5Smsx38
+	9mgw5xQYkPJzUzLOJwsyPICHdpLEMzGsMR2g8zfqjQhFPRmzCKQlGbZJi3xky/hBjKoSCgl9zzT
+	W8wKGHVjoq640gonMKtgA50LaRRB0SH1i+w3PrQNgTxeLFIbI/mGk2FX9FhjqE=
+X-Received: by 2002:a05:600c:3f0b:b0:49b:d45:703e with SMTP id 5b1f17b1804b1-49fc56aa68amr20363045e9.8.1789723704682;
+        Fri, 18 Sep 2026 02:28:24 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fbd232d5bsm144011175e9.12.2026.09.18.02.28.24
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Sep 2026 02:28:24 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 18 Sep 2026 11:28:23 +0200
+Message-Id: <DLIC3R56WHV2.221JF28TY0KH7@smile.fr>
+To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core][scarthgap][PATCH] python3: fix CVE-2026-0864
+From: "Yoann Congal" <yoann.congal@smile.fr>
+X-Mailer: aerc 0.20.0
+References: <20260826052322.716321-1-dkelaiya@cisco.com>
+In-Reply-To: <20260826052322.716321-1-dkelaiya@cisco.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 09:27:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246204
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 09:28:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246205
 
-When ARCHIVER_MODE[src] is set to "original", a tarball is generated with
-the unpacked sources of a given recipe. Prior to it, a tmpdir
-(i.e. from tempfile.mkdtemp()) is created and the sources are unpacked in=
-side:
+On Wed Aug 26, 2026 at 7:23 AM CEST, Darsh Kelaiya -X (dkelaiya - E INFOCHI=
+PS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+> From: Darsh Kelaiya <dkelaiya@cisco.com>
+>
+> This patch applies the upstream fix as referenced in [2],
+> using the commit shown in [1].
+>
+> [1] https://github.com/python/cpython/commit/db4a157c790479710a1a840d7937=
+c5c815a6f8b6
+> [2] https://nvd.nist.gov/vuln/detail/CVE-2026-0864
+>
+> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+> ---
+>  .../python/python3/CVE-2026-0864.patch        | 72 +++++++++++++++++++
+>  .../python/python3_3.12.13.bb                 |  1 +
+>  2 files changed, 73 insertions(+)
+>  create mode 100644 meta/recipes-devtools/python/python3/CVE-2026-0864.pa=
+tch
+>
+> diff --git a/meta/recipes-devtools/python/python3/CVE-2026-0864.patch b/m=
+eta/recipes-devtools/python/python3/CVE-2026-0864.patch
+> new file mode 100644
+> index 0000000000..e39177bdcb
+> --- /dev/null
+> +++ b/meta/recipes-devtools/python/python3/CVE-2026-0864.patch
+> @@ -0,0 +1,72 @@
+> +From 1426c0d9d57a1ed19f95de0d461903e7cd6f6f64 Mon Sep 17 00:00:00 2001
+> +From: "Miss Islington (bot)"
+> + <31488909+miss-islington@users.noreply.github.com>
+> +Date: Tue, 4 Aug 2026 11:27:20 +0200
+> +Subject: [PATCH] [3.12] gh-143927: Normalize all line endings (CR, CRLF,=
+ and
+> + LF) in configparser (GH-143929) (#152005)
+> +
+> +gh-143927: Normalize all line endings (CR, CRLF, and LF) in configparser=
+ (GH-143929)
+> +
+> +CVE: CVE-2026-0864
+> +Upstream-Status: Backport [https://github.com/python/cpython/commit/db4a=
+157c790479710a1a840d7937c5c815a6f8b6]
+> +
+> +(cherry picked from commit 5858e42c539dac8394636a6e9b30472b8994851f)
+> +
+> +Co-authored-by: Seth Larson <seth@python.org>
+> +(cherry picked from commit db4a157c790479710a1a840d7937c5c815a6f8b6)
+> +Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+> +---
+> + Lib/configparser.py                                   |  4 +++-
+> + Lib/test/test_configparser.py                         | 11 +++++++++++
+> + .../2026-01-16-11-58-19.gh-issue-143927.aviFeG.rst    |  2 ++
+> + 3 files changed, 16 insertions(+), 1 deletion(-)
+> + create mode 100644 Misc/NEWS.d/next/Security/2026-01-16-11-58-19.gh-iss=
+ue-143927.aviFeG.rst
 
-(...)/vim/9.2.0340/archiver-work/tmp8pu2nsck
-`-- vim-9.2.0340
-    |-- READMEdir
-    |-- ci
-    |-- lang
+Hello,
 
-This tmpdir, however, ends up being shipped in the deployed tarball:
+That patch does not apply:
 
-$ tar -tf vim-9.2.0340-r0.tar.xz
-(...)
-tmp8pu2nsck/vim-9.2.0340/ci/config.mk.clang-12.sed
-tmp8pu2nsck/vim-9.2.0340/LICENSE
-tmp8pu2nsck/vim-9.2.0340/.git-blame-ignore-revs
-(...)
+    ERROR: python3-3.12.14-r0 do_patch: Applying patch 'CVE-2026-0864.patch=
+' on target directory 'bitbake-builds/scarthgap/tmp-glibc/work/core2-64-oe-=
+linux/python3/3.12.14/Python-3.12.14'
+    CmdError('quilt --quiltrc bitbake-builds/scarthgap/tmp-glibc/work/core2=
+-64-oe-linux/python3/3.12.14/recipe-sysroot-native/etc/quiltrc push', 0, 's=
+tdout: Applying patch CVE-2026-0864.patch
+    patching file Lib/configparser.py
+    Hunk #1 FAILED at 907.
+    1 out of 1 hunk FAILED -- rejects in file Lib/configparser.py
+    patching file Lib/test/test_configparser.py
+    Hunk #1 succeeded at 538 with fuzz 2 (offset 11 lines).
+    patching file Misc/NEWS.d/next/Security/2026-01-16-11-58-19.gh-issue-14=
+3927.aviFeG.rst
+    Patch CVE-2026-0864.patch does not apply (enforce with -f)
 
-This can be avoided by pointing to the subdir where the sources are
-unpacked, rather than to tmpdir, when calling create_tarball().
+Can you check please?
 
-The subdir's name can be inferred from 'BP', so we will use
-'tmp8pu2nsck/vim-9.2.0340/.' instead of 'tmp8pu2nsck/.' as input.
-
-e.g. and in the result:
-
-./
-./vim-9.2.0304/
-./vim-9.2.0304/SECURITY.md
-./vim-9.2.0304/.codecov.yml
-(...)
-
-Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
----
- meta/classes/archiver.bbclass | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/meta/classes/archiver.bbclass b/meta/classes/archiver.bbclas=
-s
-index b274c53e79..c824718a1d 100644
---- a/meta/classes/archiver.bbclass
-+++ b/meta/classes/archiver.bbclass
-@@ -230,7 +230,7 @@ python do_ar_original() {
-                     else:
-                         bb.fatal("Cannot determine archive names for ori=
-ginal source because 'name=3D' URL parameter '%s' is used twice. Make it =
-unique in: %s %s" % (tarball_suffix[name], url))
-             tarball_suffix[name] =3D url
--            create_tarball(d, tmpdir + '/.', name, ar_outdir)
-+            create_tarball(d, os.path.join(tmpdir, d.getVar('BP'), '.'),=
- name, ar_outdir)
-=20
-     # Emit patch series files for 'original'
-     bb.note('Writing patch series files...')
+Thanks,
 --=20
-2.55.0
+Yoann Congal
+Smile ECS
 
 
