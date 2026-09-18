@@ -2,47 +2,49 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CDA08C982D8
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBB07C982D2
 	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 05:47:15 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.4917.1789710432686680532
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4955.1789710433040885003
  for <openembedded-core@lists.openembedded.org>;
- Thu, 17 Sep 2026 22:47:12 -0700
+ Thu, 17 Sep 2026 22:47:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=QVR0T/JM;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=pQSrYrRl;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a0b30df610-a9c31ba3-cb65-4a05-b81d-a9cc3da1fdc0-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PBwfjnBH;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=DJ5Iwo0L;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a0b30df5c8-b391e95b-0159-4896-8699-bf46ed23b48c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789710431;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=cGOL5Cn6+XGZ7BLcJv/1zWHQBNZoIbUe00wiXHvV4gY=;
-	b=QVR0T/JMi5M2L8DKM9qjMuM7IugT6hDawMdsbMQCXPNHWU3reolr0aAo9ZB0VU2k
-	NHlM3zG8lvX1CBegasASBHYkA/L4D7cg7a6Yse3zDgXWmhvZigIzB85w1v0E2M9ciNp
-	B3m9BwT09gNNE+l8+Bdaqan23WKBlRH3HFC5CN5Q=
+	t=1789710432;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=LdfBbd+x1gTxWXWCeGuFK1W3b6PUNnzuvO96ZJsNNHg=;
+	b=PBwfjnBHkisa7GDescMPydyOD1TFcUCCLVes44Bpl9xZU3JxhjxLPm197OhFTh0o
+	1bCg0g7m2psSaaQ+Al3siH0Qh1AqPW3SXl2CezUQPsl8zSBp09G7nKugNvX+pkDHh9c
+	fFMZHFzkBdJfOlzTqwCG9lI8nXlVI8KDqiZXrqu4=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789710431;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=cGOL5Cn6+XGZ7BLcJv/1zWHQBNZoIbUe00wiXHvV4gY=;
-	b=pQSrYrRlffwadjem0tVpHrRpVu/l451W48gQOgBnrBkHYhIiKAyVS9YOTlP6uKVr
-	rgerjtaBYO7cqXNTqgH25vCnfZEDQBgeyRlNiGIl+q7o4ZiYypfqRSTMPOigHIlw/X5
-	Ed378uTfJFQw7/EapvmphvF/Uc1bC2NcE7/gvGAE=
-Content-Type: multipart/mixed; boundary="===============3676795653510150930=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789710432;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=LdfBbd+x1gTxWXWCeGuFK1W3b6PUNnzuvO96ZJsNNHg=;
+	b=DJ5Iwo0Lm4AaxRgz1yTDrRi4k0vMS8vnFqc0AoK8pFjQpWDEnLnWjGIkpyOGnnuP
+	LCn+H+3rWlPHxHoxxTAaLy/dL8fL300VqWg7PvIPbYxlmGZxdG+Qq2N5HQ7mvNm7rVM
+	CYSkOgEvB44WcDKA0sdTJY28LiZHKRaewy139eCs=
+Content-Type: multipart/mixed; boundary="===============5579943073012305326=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libdnf: upgrading to 0.76.0 FAILED
-Message-ID: <010101a0b30df610-a9c31ba3-cb65-4a05-b81d-a9cc3da1fdc0-000000@us-west-2.amazonses.com>
+To: Victor Kamensky <victor.kamensky7@gmail.com>, 
+	Victor Kamensky <victor.kamensky7@gmail.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] systemtap-native,systemtap: upgrading to 5.6,5.6 FAILED
+Message-ID: <010101a0b30df5c8-b391e95b-0159-4896-8699-bf46ed23b48c-000000@us-west-2.amazonses.com>
 Date: Fri, 18 Sep 2026 05:47:11 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.18-54.240.27.29
+X-SES-Outgoing: 2026.09.18-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 05:47:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246179
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246180
 
---===============3676795653510150930==
+--===============5579943073012305326==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,11 +52,11 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libdnf* to *0.76.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *systemtap-native,systemtap* to *5.6,5.6* has Failed (devtool error).
 
 Detailed error information:
 
-Running 'devtool upgrade' for recipe libdnf failed.
+The following devtool command failed:  upgrade systemtap-native -V 5.6 -S 211e84349504077f0c84f759601b02f946465d29
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 1993 entries from dependency cache.
@@ -76,24 +78,70 @@ meta-poky            = "master:d36c827e02ab138b446386792fd7588b5a041507"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 0 (0% match, 0% complete)
 done.
+NOTE: No setscene tasks
 NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
 NOTE: Writing buildhistory took: 1 seconds
+
 INFO: Extracting current version source...
 INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto 56370b044f6efdfd14240e3dccac62b833dbe027
-WARNING: Command 'git rebase 56370b044f6efdfd14240e3dccac62b833dbe027' failed:
-Auto-merging libdnf/hy-util.cpp
-CONFLICT (content): Merge conflict in libdnf/hy-util.cpp
+INFO: Rebasing devtool onto 211e84349504077f0c84f759601b02f946465d29
+WARNING: Command 'git rebase 211e84349504077f0c84f759601b02f946465d29' failed:
+Auto-merging python/Makefile.am
+CONFLICT (content): Merge conflict in python/Makefile.am
 
 You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/libdnf
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/libdnf/libdnf_0.76.0.bb
-INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/libdnf.txt
+ERROR: Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 93, in include_single_file
+    bb.parse.handle(fn, data, True)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 119, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 146, in handle
+    abs_fn = resolve_file(fn, d)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 139, in resolve_file
+    raise IOError(errno.ENOENT, "file %s not found in %s" % (fn, bbpath))
+FileNotFoundError: [Errno 2] file systemtap_5.6.bb not found in /srv/pokybuild/yocto-worker/auh/build/build/workspace:/srv/pokybuild/yocto-worker/auh/build/layers/meta-yocto/meta-poky:/srv/pokybuild/yocto-worker/auh/build/build:/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta:/srv/pokybuild/yocto-worker/auh/build/layers/meta-yocto/meta-yocto-bsp
 
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/command.py", line 92, in runCommand
+    result = command_method(self, commandline)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/command.py", line 597, in parseRecipeFile
+    envdata = command.cooker.databuilder.parseRecipe(virtualfn, appendfiles, layername)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 567, in parseRecipe
+    datastores = self.parseRecipeVariants(virtualfn, appends, virtonly=True, layername=layername)
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 541, in parseRecipeVariants
+    return self._parse_recipe(bb_data, bbfile, appends, mc, layername)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/cookerdata.py", line 529, in _parse_recipe
+    return bb.parse.handle(bbfile, bb_data)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/__init__.py", line 119, in handle
+    return h['handle'](fn, data, include, baseconfig)
+           ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/BBHandler.py", line 156, in handle
+    statements.eval(d)
+    ~~~~~~~~~~~~~~~^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/ast.py", line 20, in eval
+    statement.eval(data)
+    ~~~~~~~~~~~~~~^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/ast.py", line 42, in eval
+    bb.parse.ConfHandler.include(self.filename, s, self.lineno, data, "include required")
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 70, in include
+    include_single_file(parentfn, fn, lineno, data, error_out)
+    ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/auh/build/layers/bitbake/lib/bb/parse/parse_py/ConfHandler.py", line 97, in include_single_file
+    raise ParseError("Could not %s file %s" % (error_out, fn), parentfn, lineno)
+bb.parse.ParseError: ParseError at /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/systemtap-native/systemtap-native_5.6.bb:1: Could not include required file systemtap_5.6.bb
+
+ERROR: Parsing of upgraded recipe failed
 
 
 Please review the attached files for further information and build/update failures.
@@ -101,20 +149,5 @@ Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi
 
 Regards,
 The Upgrade Helper
---===============3676795653510150930==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="libdnf-changelog.txt"
-
-Changelog for libdnf: 0.75.0 -> 0.76.0
-Source: docs/hawkey/changes.rst
-
-GNU General Public License along with this program; if not, see
-  <https://www.gnu.org/licenses/>.  Any Red Hat trademarks that are
-  incorporated in the source code or documentation are not subject to the GNU
-  General Public License and may only be used or replicated with the express
-  permission of Red Hat, Inc.
-
---===============3676795653510150930==--
+--===============5579943073012305326==--
 
