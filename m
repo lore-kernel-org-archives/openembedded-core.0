@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 8B186C982DC
-	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 12:01:51 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.10])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9502.1789732906865116349
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FD68C982DC
+	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 12:02:21 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.53])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.9504.1789732937355967062
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2026 05:01:47 -0700
+ Fri, 18 Sep 2026 05:02:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=mqSFxacx;
- spf=pass (domain: ericsson.com, ip: 52.101.69.10, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=Q8vg3tY7;
+ spf=pass (domain: ericsson.com, ip: 40.107.130.53, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BPu6YNti+hUVAzNkjCcqcH+vEXBPKwik6VI6GbdC2NoKk1sq3m5o1+Z2IjTovYdLa2Oxi7CMuqC+SFOdFHHOeRPStIheQzzGEVNHMg1nVoKAG63O4Ea2JGNygSgPQPVCj/kYDby1bmVYs2bXeCIhZ0KNIsr1W7Ia5eyHAqJXmq46R1FhuhVLIN4pppZV3fGmIdH89LpnybjV6PT3dm08ON35JV+QVdabM8fUAAEeqQmsurRjCukytU3VQTYYwQNuiLQpJdOMwy7Iw+hAz6xruZjhQnjEPPHdLcQ5cyYzGU0GDOVGsVWwKPoY9wAYZWAFu1g0A719onejwRvb1FDSFg==
+ b=JaFFCR6jwXmfV3Pet94OgR5PkFvuWpvWnqDmihX5o9tGsLxMLwzP1tg+TXtxo0EBxLLLKSvporI5PXdHebRbC2tkOXGvDQxobPVj88efut25orp9H3pKhweSL9CYhsIYw4IBAAUPHCcGxeWjjaGGGLvyfuUPwMCnLeHqF4NQf5M/BUgSn9uGahoVrLS1LSoolG+tLvZ87loADtOxXjKQSRpxH2591lX+w8W47S/9ld4v9nqE0jBKcEe42kMRV/+4T9cAWZ7UlTbCEVeRIdp19oPlh93H+LoPYzcKQQbLoXtNQV9XrKe8neOTuhZs0yl7scm0QNMdP58tpEkdokjiDg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=vQc+M0cU0dz+wyPs7bMGMrdTUNhOQFUxpOxG34T1uDY=;
- b=hD2umA3POdRrVcbJrl1YdntNrqOsfANQfiD0eBA7e+CcoLf5Ldq0bXyOF/tRTjLeQG0JL7pGXgZ6PZD7XS03tKi4DRoZC+UlmIiw6gBSgMMQHoBg7FIgLSCXnQqkg3I6WL6BBpTCulu4siZvsS+ENiMZr0zhgz7bUsqXbc5GKZDxNR0NVmI1+xcmZ1aZNlvxzj6rGSq3ItfhWub3sByyfQFluupyIxQYJrjKV1DlajW17x3/mAMAIiMQo6UjPZLuwFVacaRQJhR+DLXo37USqlJlTYjnVlR/GJlG+UPddUIRx6+eF4rEULXvkfyl08emGdPQQuIKAX69UryP1FvUPQ==
+ bh=ZBKppCMfBRtfpYbTBAKbgFShevyS+8R66iuz8CMK6Ps=;
+ b=X1kZhiS0gqGRIwxkCN47bIFD2Tqq3/Qi9FeIvoeqxmuWPvw6cgKp7PGUorbaw6uN9CRAz1XM350V5j9q817JO4QxrRG94SM2h20Y5KSMtWXWE1CJGWq94dXA9xEHScXBatkqWCejMj6uDG3FIHZ03Hvx0sM9YmtyVY4SxQ/cMMbx4n/xUyHRRAS4hs9z21c0s6JPuWaaUh2bebTJAcvv2coLbsf5cWNqE5Da4D0/eZjQAVzuUYFkkyZqsYQaW1nNICEO4YrSQs3k6XM89Zgbn0SEr0o45+YA3eC6s6bPuqd0SNhLssHinyqgD7xbmdtgVKJ1bS8jJMcSVdvN+hhSeA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
  smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
@@ -26,18 +26,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=vQc+M0cU0dz+wyPs7bMGMrdTUNhOQFUxpOxG34T1uDY=;
- b=mqSFxacxE5u53E4ooyaU3DiFOt0niZwN8DHkMV0GhOs6izA5fUxWzI/PwwHEyh5OG9tKXj3OQmOBF9VDSVht9wsEDeYk6jAivoS1MyaF5ZqVu/KkbZzvmByozhImkstvF3LuhT4on414zJZtPBB5i6EaLjumH6/83QaKnT3Fy75NqGdeXJKaaVS8awBI5GZjeekiADujq256YRW0dWjaVHL3tNwtu4NKHWOD95KEisONL4uhvsMBcGUECLZp60gSJj2S7IqCKb7u+406kYrf2MMVxi7TJXqXMuUsoMwddNUwETThQEDl9RIErx5Tu3/gS0jf7OqzBeRi9T4/Ju5vMg==
-Received: from DUZPR01CA0187.eurprd01.prod.exchangelabs.com
- (2603:10a6:10:4b6::17) by VI1PR07MB6590.eurprd07.prod.outlook.com
- (2603:10a6:800:185::9) with Microsoft SMTP Server (version=TLS1_2,
+ bh=ZBKppCMfBRtfpYbTBAKbgFShevyS+8R66iuz8CMK6Ps=;
+ b=Q8vg3tY7wTOCWdJGlrjl6m2FHUxtuEW6WAxR9YdP/TWCcmtj3fxRfEWfSuhroOWk1wzhaHGKmWB6r3bP19gBZWvw7Pj1yq4MLcgHcUVFVe2ioH0HZFXT69A/dsl/85Xqy/x/T20RzXhCUyuq3vCJvfZb4hVyoRH+2XA58SwxIJPZ2/c1hjH5f+lrYIOst533bGM6MwdKpKlZbE7rgAH5dDTeBmj9MJDkhhmGlJCT0yj9uKgkuNd2em9Ts0726DOBllQ4yoxedYhO2/G/9/fkGYEd5G8zdA5oWP7cOz0aJShWW6eL9ZFPHJCE/1jlsnulkakQuCkaCULPxuwo+lWJqQ==
+Received: from PA7P264CA0137.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:377::6)
+ by PA4PR07MB7408.eurprd07.prod.outlook.com (2603:10a6:102:cc::10) with
+ Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.13; Fri, 18 Sep
- 2026 12:01:42 +0000
-Received: from DB1PEPF000509FD.eurprd03.prod.outlook.com
- (2603:10a6:10:4b6:cafe::28) by DUZPR01CA0187.outlook.office365.com
- (2603:10a6:10:4b6::17) with Microsoft SMTP Server (version=TLS1_3,
+ 2026 12:02:11 +0000
+Received: from MI3PEPF0000847F.eurprd02.prod.outlook.com
+ (2603:10a6:102:377:cafe::a6) by PA7P264CA0137.outlook.office365.com
+ (2603:10a6:102:377::6) with Microsoft SMTP Server (version=TLS1_3,
  cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.13 via Frontend Transport; Fri,
- 18 Sep 2026 12:01:42 +0000
+ 18 Sep 2026 12:02:11 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
  smtp.mailfrom=ericsson.com; dkim=none (message not signed)
  header.d=none;dmarc=pass action=none header.from=ericsson.com;
@@ -45,315 +45,218 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- DB1PEPF000509FD.mail.protection.outlook.com (10.167.242.39) with Microsoft
+ MI3PEPF0000847F.mail.protection.outlook.com (10.167.240.166) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.428.7 via Frontend Transport; Fri, 18 Sep 2026 12:01:42 +0000
-Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.61) with Microsoft SMTP Server
+ 15.21.451.8 via Frontend Transport; Fri, 18 Sep 2026 12:02:10 +0000
+Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.69) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 18 Sep 2026 14:01:41 +0200
+ 15.2.2562.37; Fri, 18 Sep 2026 14:01:33 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 6E86295816;
+	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 7F8A74020A8B;
 	Fri, 18 Sep 2026 14:01:31 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 40D41700CF25; Fri, 18 Sep 2026 14:01:31 +0200 (CEST)
+	id 43255700CF27; Fri, 18 Sep 2026 14:01:31 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH 1/2] devtool: upgrade: write changelog metadata as JSON sidecar
-Date: Fri, 18 Sep 2026 14:01:24 +0200
-Message-ID: <20260918120125.770604-1-daniel.turull@ericsson.com>
+Subject: [PATCH 2/2] devtool: upgrade: clean up changelog content for commit messages
+Date: Fri, 18 Sep 2026 14:01:25 +0200
+Message-ID: <20260918120125.770604-2-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260918120125.770604-1-daniel.turull@ericsson.com>
+References: <20260918120125.770604-1-daniel.turull@ericsson.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DB1PEPF000509FD:EE_|VI1PR07MB6590:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0e0999a0-c670-401c-bf5d-08df157c9a8a
+X-MS-TrafficTypeDiagnostic: MI3PEPF0000847F:EE_|PA4PR07MB7408:EE_
+X-MS-Office365-Filtering-Correlation-Id: b0a2e980-e179-4722-37ed-08df157cab91
 X-SMTP-Server: smtp-central.internal.ericsson.com
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|82310400026|36860700016|23010399003|1800799024|376014|56012099006|11063799006|3023799007|10067099003|6133799003|18002099003;
+	BCL:0;ARA:13230040|376014|1800799024|82310400026|23010399003|36860700016|18002099003|22082099003|6133799003|10067099003|11063799006|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	os2gHgt8QffUNHykFx+idMuc5FTcVYeqyJxPGZLn31PIdTRaF8XLessglpApjqPmw9IWQzNEbw9lOUAOXkF2qeDS0cHd4e4Em6K4E+vdXjolEp3Djb/j9MnGgrsyHrjcJZZV/LhwK9tFvgjVXYf1vsOa1+jHrBbHIMSj3JFNvyEhqZgBS89SAwYp+Nn5EIquSG6rp9bLmJUI6jSUGnMUtEaaoX18aOMwqQpUcUZ4Y5z+pVJaiKPy2oQjlWslc9F2Q7XpOEd3XzBYnKORsk350maTj+6EBvpPeHyD8plQuyXp9ZvFxzq0Yan90t3VYzvscPbu3fD9BPkCk8sWltdGPNsfrib/IysEkM401I78gs0li0TmhDyHNQNbF3wpBOPMLuTjciaAg8QAP9ZH86XRPXFctcEuDqtuLurfiHAxA5zEXfwGUgfENVsDyOh8685VVL15KEsxxrMcGa3DT31925a55sflya7X6H81yLlL41MDYr6f1DpW/XYeFFAIJu7oi/PQjLOI4PuhpkFugK52uR9sDE3JKN0+wx3V7NDwMc0j8I1vtXVZpJoZyxf419KaMbk4FE/DOI0SPV0O/UWOjZ5JrYA8OmebewSSJOni0nHQ7zgm9hQRbAw3VSecRKdJA1UO0D/0G/76CekzG82kEubdnsgNe29w6eTtkuRbvV44cewM1E0WQS1tKj7i7y3A5W4kGZh8u2cD/4BQRDofNw==
+	t9WdSGJTxQFJYijQJsNYd2nHv1SUB3zgehHrWsay8/0dFgEZIXcqXoKvN/mfLw5dEZRG2cf7byIEy+tK4waYs6geyxYx6ohaHsIoUkSEGR57V6kIPcgKMukWQK2leTBkOGwe8OzbJt2bbBmBueLe5IKv6eT/wQxmQZ+lb4vj7GzUdjKGS2sFDEKcR5CzPSBgP/VM+s5fUaaXLC5peEn5IPFRDBlN64qzCBP/tFwvWy6mm0jSTRMpHK88QGxzjwYsbkiQnc851HRMmiyj3+9HtVZsfr3HmBBYQE/hWVBjX2TTu4ww9u9c4sPOdX0D4RtU6+dVyIneFf7HFj/07GspFZC58yEB981s2ELyW3bUybFhJrN4QEvnkKond33EMTDvOPEFuvA0toSiwu83x715ItGCazUUn7kltg2cLqgGsrEANeJeOSmQRicrpI6UlYPJfgjxuOPwy1v09v9fwS+WwCATe4SwdfxXg+7Oq5wTPcCe+uKnkOeNGeIY6+Q3hXL6p2v9CONB3wuKv8gd474KL1ObWYRoF4cjREA0BupZos6Aws7QKtfGEsBdBy2jSn0P3S6GQ6mdk1p36tl3EF1HIwUS2MYjzVwUA91EC0jP/cebpcynHyDJgDXtC1VNk/Cw1XOR/ut2gUlfyqDVRHRHGb5eIDCuBxZF7JhkDf8SKcA8R05nQHZZVVJf45pa8ICRUxLpvyD3sNfbO8AC8eh+8Q==
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(82310400026)(36860700016)(23010399003)(1800799024)(376014)(56012099006)(11063799006)(3023799007)(10067099003)(6133799003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(23010399003)(36860700016)(18002099003)(22082099003)(6133799003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	uJorbJ3NRvCIQXrc0pfbZn11705j8wnxoNaoUScf3wV15WrpbcSpCMRij6yhVwIFyHh6Yl8EtdUtxmYNOC8/39xVhgw8qK8um/NSen9Eh1WxoTuE3MvbUYFzEp1q/Zl052p6X5r7Ejq+UEUlpWpbF6yPWu1UdlTrY46hVS/rtBd9DLJdYcuw03R/UGrC7PMe6+NpDNVHBaOK36poEVfArX5TVgfr3MB600bPRwJysPeot3JjUSOvO77tb1I0oZREBhOW6n9IhDauCcwfJX0GTyb+1afKyFEBNIbzZ5DMIYSdTJ5pjZf+r6DNMxl5MIkDJzEQ0+GkAFwf1N1agYCn/yb4AkqA1NDgathLK+3Co63aTq6VRk/3zwualJzJkTbDmZi69v7j05uaBrDgB7lIf+EX3hUz9a2CocpV3woPYPCyrZGrgiwL3pNFTzGC68Dq
+	sCWn4OtmYAKi+doosZybcJGH4G9bqaMnps6SAID08/s/5N1NkgmTasuvVtX+7syccE1p3v2ix1Vrr3LJzyDK+k3hJMRfiPypv85DpWzdT2AKDWtqdMl5tLkaLXPp4zWP1so2KCE0Ftqj8i2ve1LLDcTL7r0QA/nbq7R1XP8FpNtzWpD/HanKAY8h/4LxyZg/n5V55CXwE4IoweORTk4U9lrO5vmOnsl0wFCH2/bfcuSdc5Ql4FLNd1ZMAvWh/CUwHqqz2m7Uai/Xp95xXty9483SgH+V8asi/WvyAX1IHwMAB6AWK2bSAnSTZHi2aGfGodER++xxocdrk2C6/oTAuY+hevMdjlVSYmQf1bY12c8y2IWwovnQuXVd0CAIU1VlMfst6Bv0AFIwbRhIUk7FEAHJ8dwUsIoNlGgCx+x8sQXtFx8jU5VJ+DVcZTilF3dD
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 12:01:42.1959
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 12:02:10.7635
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0e0999a0-c670-401c-bf5d-08df157c9a8a
+X-MS-Exchange-CrossTenant-Network-Message-Id: b0a2e980-e179-4722-37ed-08df157cab91
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	DB1PEPF000509FD.eurprd03.prod.outlook.com
+	MI3PEPF0000847F.eurprd02.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR07MB6590
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR07MB7408
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 12:01:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246214
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 12:02:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246215
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-Add changelogs/<pn>.json alongside the existing changelogs/<pn>.txt,
-to include metadata. This makes the upgrade/changelog metadata
-machine-readable without having to parse it out of the .txt file.
+Strip noise that has no value in a commit message:
+- GitHub PR references: trailing "(#NNN)" and full pull/issue URLs.
+- Commit hash prefixes from "git log --oneline"-style content,
+  including the git-log fallback used when no changelog file exists.
+- GNU ChangeLog noise: "YYYY-MM-DD  Name  <email>" entry headers, and
+  "* file (func):" / "+ commit <hash>" bullets plus their wrapped
+  continuation lines, down to the next blank line, keeping only the
+  human-readable summary of each entry. Remaining tabs are stripped.
+- NEWS-style "Changes in X.Y.Z, DATE" release headers and their "=3D=3D=3D"
+  underline (libportal/glib-family projects).
 
-The .txt file no longer has the 'Changelog for ...'/'Source: ...'
-header lines, now containing just the changelog body; that
-information moved to the JSON file instead. devtool reset now cleans
-up both files.
+Lines exceeding 80 chars are wrapped, preserving existing indentation.
 
-AI-Generated: Uses Kiro with Claude-sonnet-5
+AI-Generated: Uses Kiro with Claude Sonnet 5
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- .../python3-guessing-game_git.bb.changelog    |  2 --
- .../devtool-upgrade-test1_1.5.3.bb.changelog  |  3 ---
- .../devtool-upgrade-test2_git.bb.changelog    |  2 --
- .../devtool-upgrade-test3_1.5.3.bb.changelog  |  3 ---
- .../devtool-upgrade-test4_1.5.3.bb.changelog  |  3 ---
- .../devtool-upgrade-test5_git.bb.changelog    |  2 --
- meta/lib/oeqa/selftest/cases/devtool.py       | 17 +++++++++++++--
- scripts/lib/devtool/standard.py               |  9 +++++---
- scripts/lib/devtool/upgrade.py                | 21 +++++++++++++++----
- 9 files changed, 38 insertions(+), 24 deletions(-)
+ .../python3-guessing-game_git.bb.changelog    |  2 +-
+ .../devtool-upgrade-test2_git.bb.changelog    |  2 +-
+ .../devtool-upgrade-test5_git.bb.changelog    |  2 +-
+ scripts/lib/devtool/upgrade.py                | 63 ++++++++++++++++++-
+ 4 files changed, 65 insertions(+), 4 deletions(-)
 
 diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game_gi=
 t.bb.changelog b/meta-selftest/recipes-devtools/python/python3-guessing-gam=
 e_git.bb.changelog
-index 571220b2a4..ef0052160b 100644
+index ef0052160b..6c7bf9f713 100644
 --- a/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.ch=
 angelog
 +++ b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.ch=
 angelog
-@@ -1,3 +1 @@
--Changelog for python3-guessing-game: 0.1.0 -> 0.2.0
--
- 40cf004 Sync with maturin tutorial source
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3=
-.bb.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.=
-5.3.bb.changelog
-index a37f796a0d..15d7baeeb4 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb.cha=
-ngelog
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test1_1.5.3.bb.cha=
-ngelog
-@@ -1,6 +1,3 @@
--Changelog for devtool-upgrade-test1: 1.5.3 -> 1.6.0
--Source: doc/NEWS
--
- 1.6.0 - 15 March 2015
-   - fix lstat64 support when unavailable - separate patches supplied by
-     Ganael Laplanche and Peter Korsgaard
+@@ -1 +1 @@
+-40cf004 Sync with maturin tutorial source
++Sync with maturin tutorial source
 diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.b=
 b.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.=
 bb.changelog
-index b7f0019d56..ac133c483f 100644
+index ac133c483f..4699b1e89e 100644
 --- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.chang=
 elog
 +++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.chang=
 elog
-@@ -1,3 +1 @@
--Changelog for devtool-upgrade-test2: 0.1+git -> 0.1+git
--
- 6cc6077 dbus-wait.c: Fix typo
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3=
-.bb.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.=
-5.3.bb.changelog
-index aaab809736..15d7baeeb4 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.cha=
-ngelog
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test3_1.5.3.bb.cha=
-ngelog
-@@ -1,6 +1,3 @@
--Changelog for devtool-upgrade-test3: 1.5.3 -> 1.6.0
--Source: doc/NEWS
--
- 1.6.0 - 15 March 2015
-   - fix lstat64 support when unavailable - separate patches supplied by
-     Ganael Laplanche and Peter Korsgaard
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3=
-.bb.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.=
-5.3.bb.changelog
-index 0ce6547c77..15d7baeeb4 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.cha=
-ngelog
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test4_1.5.3.bb.cha=
-ngelog
-@@ -1,6 +1,3 @@
--Changelog for devtool-upgrade-test4: 1.5.3 -> 1.6.0
--Source: doc/NEWS
--
- 1.6.0 - 15 March 2015
-   - fix lstat64 support when unavailable - separate patches supplied by
-     Ganael Laplanche and Peter Korsgaard
+@@ -1 +1 @@
+-6cc6077 dbus-wait.c: Fix typo
++dbus-wait.c: Fix typo
 diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.b=
 b.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.=
 bb.changelog
-index 7c5ecf3505..8077da3e21 100644
+index 8077da3e21..3196cc13bd 100644
 --- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.chang=
 elog
 +++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.chang=
 elog
-@@ -1,3 +1 @@
--Changelog for devtool-upgrade-test5: 0.1+git -> 0.1+git
--
- 0a60d6a Add dummy commit on tip for testing
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selfte=
-st/cases/devtool.py
-index 84e020cd3d..dda59a3459 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -2337,21 +2337,33 @@ class DevtoolUpgradeTests(DevtoolBase):
-         except:
-             self.skip("Git user.name and user.email must be set")
-=20
--    def _check_changelog(self, recipe, oldrecipefile):
-+    def _check_changelog(self, recipe, oldrecipefile, old_ver=3DNone, new_=
-ver=3DNone):
-         """Compare extracted changelog against reference data."""
-         changelog_ref =3D oldrecipefile + '.changelog'
-         self.assertExists(changelog_ref, 'Changelog reference file must ex=
-ist for %s' % recipe)
-         changelog_file =3D os.path.join(self.workspacedir, 'changelogs', '=
-%s.txt' % recipe)
-+        metadata_file =3D os.path.join(self.workspacedir, 'changelogs', '%=
-s.json' % recipe)
-         with open(changelog_ref, 'r') as f:
-             expected =3D f.read()
-         if not expected:
-             self.assertNotExists(changelog_file,
-                 'Changelog file should not exist when reference is empty')
-+            self.assertNotExists(metadata_file,
-+                'Changelog metadata file should not exist when reference i=
-s empty')
-         else:
-             self.assertExists(changelog_file, 'Changelog file should exist=
- after upgrade')
-             with open(changelog_file, 'r') as f:
-                 actual =3D f.read()
-             self.assertEqual(expected, actual)
-+            self.assertExists(metadata_file, 'Changelog metadata file shou=
-ld exist after upgrade')
-+            with open(metadata_file, 'r') as f:
-+                metadata =3D json.load(f)
-+            self.assertEqual(metadata.get('package'), recipe)
-+            if old_ver:
-+                self.assertEqual(metadata.get('old_version'), old_ver)
-+            if new_ver:
-+                self.assertEqual(metadata.get('new_version'), new_ver)
-+            self.assertEqual(metadata.get('changelog_file'), '%s.txt' % re=
-cipe)
-=20
-     def test_devtool_upgrade(self):
-         # Check preconditions
-@@ -2364,6 +2376,7 @@ class DevtoolUpgradeTests(DevtoolBase):
-             self.assertIn(param, result.output)
-         # For the moment, we are using a real recipe.
-         recipe =3D 'devtool-upgrade-test1'
-+        old_version =3D '1.5.3'
-         version =3D '1.6.0'
-         oldrecipefile =3D get_bb_var('FILE', recipe)
-         tempdir =3D tempfile.mkdtemp(prefix=3D'devtoolqa')
-@@ -2392,7 +2405,7 @@ class DevtoolUpgradeTests(DevtoolBase):
-             newlines =3D f.readlines()
-         self.assertEqual(desiredlines, newlines)
-         # Check changelog
--        self._check_changelog(recipe, oldrecipefile)
-+        self._check_changelog(recipe, oldrecipefile, old_version, version)
-         # Check devtool reset recipe
-         result =3D runCmd('devtool reset %s -n' % recipe)
-         result =3D runCmd('devtool status')
-diff --git a/scripts/lib/devtool/standard.py b/scripts/lib/devtool/standard=
-.py
-index ac9e7cd61a..0d933e68b1 100644
---- a/scripts/lib/devtool/standard.py
-+++ b/scripts/lib/devtool/standard.py
-@@ -2074,11 +2074,14 @@ def _reset(recipes, no_clean, remove_work, config, =
-basepath, workspace):
-=20
-         # Clean up changelog if present
-         changelog_file =3D os.path.join(config.workspace_path, 'changelogs=
-', '%s.txt' % pn)
-+        metadata_file =3D os.path.join(config.workspace_path, 'changelogs'=
-, '%s.json' % pn)
-         if os.path.exists(changelog_file):
-             os.remove(changelog_file)
--            changelog_dir =3D os.path.dirname(changelog_file)
--            if not os.listdir(changelog_dir):
--                os.rmdir(changelog_dir)
-+        if os.path.exists(metadata_file):
-+            os.remove(metadata_file)
-+        changelog_dir =3D os.path.join(config.workspace_path, 'changelogs'=
-)
-+        if os.path.exists(changelog_dir) and not os.listdir(changelog_dir)=
-:
-+            os.rmdir(changelog_dir)
-=20
- def reset(args, config, basepath, workspace):
-     """Entry point for the devtool 'reset' subcommand"""
+@@ -1 +1 @@
+-0a60d6a Add dummy commit on tip for testing
++Add dummy commit on tip for testing
 diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.p=
 y
-index 58165541f6..cdc85fe7ae 100644
+index cdc85fe7ae..ba7348664f 100644
 --- a/scripts/lib/devtool/upgrade.py
 +++ b/scripts/lib/devtool/upgrade.py
-@@ -9,6 +9,7 @@
- import os
- import sys
- import re
-+import json
- import shlex
+@@ -14,6 +14,7 @@ import shlex
  import shutil
  import subprocess
-@@ -730,13 +731,23 @@ def _extract_changelog(srctree, pn, old_ver, new_ver,=
- old_tag, new_tag, workspac
-     bb.utils.mkdirhier(changelog_dir)
-     changelog_path =3D os.path.join(changelog_dir, '%s.txt' % pn)
-     with open(changelog_path, 'w') as f:
--        f.write('Changelog for %s: %s -> %s\n' % (pn, old_ver, new_ver))
--        if changelog_fname:
--            f.write('Source: %s\n' % changelog_fname)
--        f.write('\n')
-         f.write(changelog_content)
-         f.write('\n')
+ import tempfile
++import textwrap
+ import logging
+ import argparse
+ import scriptutils
+@@ -634,6 +635,66 @@ def _diff_git_log_changelog(old_content, new_content):
+     return '\n'.join(subjects) if subjects else None
 =20
-+    # Metadata sidecar file: keeps upgrade/changelog details machine-reada=
-ble
-+    # while the changelog text itself stays in the .txt file.
-+    metadata =3D {
-+        'package': pn,
-+        'old_version': old_ver,
-+        'new_version': new_ver,
-+        'changelog_file': os.path.basename(changelog_path),
-+        'changelog_source': changelog_fname.split(', ') if changelog_fname=
- else None,
-+    }
-+    metadata_path =3D os.path.join(changelog_dir, '%s.json' % pn)
-+    with open(metadata_path, 'w') as f:
-+        json.dump(metadata, f, indent=3D4)
-+        f.write('\n')
+=20
++# GitHub PR references: trailing (#123) at end of line, or full URLs
++_GITHUB_PR_RE =3D re.compile(r'\s*\(#[0-9]+\)\s*$|\s*https?://github\.com/=
+[^/]+/[^/]+/(pull|issues)/[0-9]+\s*')
++# Commit hash prefixes from git log --oneline: "abc1234 "
++_COMMIT_HASH_RE =3D re.compile(r'^[0-9a-f]{7,40}\s+')
++# A GNU ChangeLog entry: starts at either an entry header
++# ("2026-08-24  Werner Koch  <wk@gnupg.org>") or a technical bullet
++# ("* file.c (func): text" or "+ commit <hash>"), and extends through all
++# wrapped continuation lines up to (but not including) the next blank line=
+.
++_GNU_CHANGELOG_ENTRY_RE =3D re.compile(
++    r'^(?:\d{4}-\d{2}-\d{2}\s+.+<.+@.+>|\s*(?:\*\s|\+ commit [0-9a-f]{7,40=
+}).*)'
++    r'(?:\n(?!\s*$).*)*\n?',
++    re.MULTILINE)
++# NEWS-style release header + underline (glib/gtk family):
++# "Changes in 0.11.0, 2026-09-12\n=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
+=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n"
++_NEWS_RELEASE_HEADER_RE =3D re.compile(r'^Changes in .+,\s*\d{4}-\d{2}-\d{=
+2}\s*\n=3D+\s*$', re.MULTILINE)
 +
-     return changelog_path
++def _join_single_line_paragraphs(text):
++    """Drop the blank line between two adjacent one-line paragraphs (each
++    surrounded by blank lines), so lines left behind by GNU ChangeLog entr=
+y
++    stripping read as one entry per line instead of double-spaced."""
++    paragraphs =3D text.split('\n\n')
++    out =3D [paragraphs[0]]
++    prev_is_single_line =3D '\n' not in paragraphs[0]
++    for para in paragraphs[1:]:
++        this_is_single_line =3D '\n' not in para
++        if prev_is_single_line and this_is_single_line:
++            out[-1] +=3D '\n' + para
++        else:
++            out.append(para)
++        prev_is_single_line =3D this_is_single_line
++    return '\n\n'.join(out)
++
++
++def _cleanup_changelog(content):
++    """Strip GitHub PR refs, commit hashes, GNU ChangeLog entries (headers
++    and file/function bullets, plus their wrapped continuation lines) and
++    NEWS-style 'Changes in X.Y.Z, DATE' release headers with their
++    underline. Wrap lines over 80 chars, preserving indentation."""
++    content =3D _NEWS_RELEASE_HEADER_RE.sub('', content)
++    content =3D _GNU_CHANGELOG_ENTRY_RE.sub('', content)
++    out =3D []
++    for line in content.splitlines():
++        line =3D _GITHUB_PR_RE.sub(' ', line)
++        line =3D _COMMIT_HASH_RE.sub('', line)
++        line =3D line.replace('\t', '').rstrip()
++        stripped =3D line.lstrip()
++        indent =3D line[:len(line) - len(stripped)]
++        if len(line) > 80:
++            if stripped.startswith('- '):
++                indent +=3D '  '
++            line =3D textwrap.fill(line, width=3D80, subsequent_indent=3Di=
+ndent)
++        out.append(line)
++    text =3D '\n'.join(out)
++    # Entries removed above can leave 3+ blank newlines where a blank-line
++    # separator butted up against a removed entry's own blank line;
++    # collapse any such run down to a single blank line (2 newlines).
++    text =3D re.sub(r'\n{3,}', '\n\n', text).strip()
++    return _join_single_line_paragraphs(text)
++
++
+ def _extract_changelog(srctree, pn, old_ver, new_ver, old_tag, new_tag, wo=
+rkspace_path, is_git_source):
+     """Extract changelog between old and new version using devtool git tag=
+s."""
+     changelog_content =3D None
+@@ -723,7 +784,7 @@ def _extract_changelog(srctree, pn, old_ver, new_ver, o=
+ld_tag, new_tag, workspac
+         changelog_content =3D ''.join(filtered)
 =20
- def upgrade(args, config, basepath, workspace):
-@@ -831,6 +842,8 @@ def upgrade(args, config, basepath, workspace):
-                                             config.workspace_path, is_git)
-         if changelog_file:
-             logger.info('Changelog extracted to %s' % changelog_file)
-+            metadata_file =3D os.path.join(os.path.dirname(changelog_file)=
-, '%s.json' % pn)
-+            logger.info('Changelog metadata written to %s' % metadata_file=
-)
+     # Clean up content for readability and commit message use
+-    changelog_content =3D re.sub(r'\n{3,}', '\n\n', changelog_content).str=
+ip()
++    changelog_content =3D _cleanup_changelog(changelog_content)
+     if not changelog_content:
+         return None
 =20
-         if license_diff:
-             logger.info('License checksums have been updated in the new re=
-cipe; please refer to it for the difference between the old and the new lic=
-ense texts.')
 
