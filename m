@@ -2,87 +2,91 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD685C982DD
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AC4F6C982D7
 	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 20:56:37 +0000 (UTC)
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.751.1789764993195950223
+Received: from mail-wr1-f43.google.com (mail-wr1-f43.google.com [209.85.221.43])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.779.1789764995014417078
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2026 13:56:33 -0700
+ Fri, 18 Sep 2026 13:56:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OxBeS781;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.76, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f633cd78so675899f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 13:56:32 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=MD69YBXs;
+ spf=pass (domain: linuxfoundation.org, ip: 209.85.221.43, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr1-f43.google.com with SMTP id ffacd0b85a97d-48442ea8f59so937801f8f.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 13:56:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789764991; x=1790369791; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Z93btWr2xMHgt6EHQMOPVOSKvkT2a+f41yvSvCqBbz0=;
-        b=OxBeS781N+pf4I5qyQOMS8Z8/SdASzWAg1EbvAPcGQ0L4u42ROFMXgBZl5FTLOTkWk
-         XxdRyncpplSZGIpGjQ7IE9s0WKRgUoIhcOT2pAExp3kO9AB8Pchcs2bQ4rxhEAxUUgTN
-         H2ZucewPKDAUGgOcqJ3pY9Cc/lSo32lkSOmOs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789764991; x=1790369791;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
+        d=linuxfoundation.org; s=google; t=1789764993; x=1790369793; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=Z93btWr2xMHgt6EHQMOPVOSKvkT2a+f41yvSvCqBbz0=;
-        b=jgT+T/l7PgeIzKSSI2arUPDb9p1/xSiNo/avEXwXfYBTPgr9Qsv9DX7jzNcq2rHFnW
-         24kcOGMvYMbbArcCube+E/pk08QpOLTXzVwKb6saBNuQxzmnEG2LyPQ4PLkozqJIU0OE
-         KmAS8XWVnfYAtzPSCiWJT8P06v21JJUiYWD9u79SDiamxVdX24HBIRhIOwyhhSEUnn0D
-         TqVs8PRsqXDedp/wVTGEiWr1PyhVdHCC0L0Gcj52vCp6H6kOomEMPnsvPnSR3XfGFRcU
-         qRBH4n1xlDxwtUvwrgfPLgRhjY6K8oGMrFTE1eg49QhvcFlWVoDmQbB8IlgR9SEil0OD
-         OAng==
-X-Gm-Message-State: AFuF++nvzOoSNQ09VMXkxpAJvbD4kWDyuE/Drh/dkwmniO+4pSh8kilu
-	WOBkL+S2m30ffwUE6b85R60L0oFO9mC6uI2zbS4SOtYE6sQsXxXk7GSmBM5e0WMKZmcG9vrmia5
-	PbAA3nw8=
-X-Gm-Gg: AYBFou2L5hrZV5qUUkoAal/wis+GODfyVbFkX3h4OSlGJp9BBeMvffZp8+aAz3s9Q+b
-	P6IXIHH0TStFgWtVZofmTN3NZMtgH7mMxrj2UwSl09h6pYB28+71g0yXPyMbA3byZGlTn40YMkE
-	7+Bf1XnuxyLCYRL+LjKF893Wef8CQ0BYPXeLoYTABIy0HO/wjdSD5XaqbGWn0u1DV7G/HR1WTfe
-	u5SWR38uRHj9ze7BxdiOgH/HYcz01uEZ9C8625j0JLc3q3LutOJgL8a+v44Bj2V9WYaPer4B7qf
-	kTRizuPFkyvp/kHh7V2W6xYubRkTbwr83I2RZy+wYpoSYqzFaRYFPIokMEtIJdwHq9B12JhsFKX
-	aTEo97r8iJxeZQiMIqcMXuIej8v4EIi5p/YpDQMVSewId6NPRlPiWNr+xXK4Uaq7jjnBcdQdBOs
-	8icK0RIq43gh5m2niFCM1VXcxxrePgK4zi3Mqs/+kJ3B3hOwfdYvR10OuhmtIKg5m0rQuQYVGNp
-	iHvREK4WFjWeCb8iG9TqA8wDdE=
-X-Received: by 2002:a05:6000:178c:b0:487:72f:fb41 with SMTP id ffacd0b85a97d-4871e36b7dcmr5240119f8f.39.1789764991179;
-        Fri, 18 Sep 2026 13:56:31 -0700 (PDT)
+        bh=wIXV7sURrxiO1bVR9poJ9yim6Uo4qb6wM7vwjB4GyIY=;
+        b=MD69YBXsHQFkOxzMnugcG/vB3QAguSCC5tCjngfGriI7MXG7V1rHbEs/oXyeVEMXFh
+         YjfIiP/UnKXALAeimcLqFq2LgXBBFN1XmfmKyokmMyFzhAecZUAQqn03yOh1bThJRlXL
+         CUZLGsxZJk8xyrvl6ihgHHPg22v+kKW1Eb++M=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789764993; x=1790369793;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=wIXV7sURrxiO1bVR9poJ9yim6Uo4qb6wM7vwjB4GyIY=;
+        b=yiYmBHRvS6ef83vKTivcNFSq6Cxg2hybTZivTuh0bgFzcqfoMfoIeeGhWWyI7smzfC
+         OV7hpTAV0aK8kIrhRr8Pg+hCpZpHEDiDSEHMwOmTYxQVMqJdxYSfo9Vm961EcWbnhfy7
+         Sdc6meGLVpl2Xx6sI0kD9Cv6Crt7mKaGM5AF5uj8XRwqgyZo4hIHUmbtbIlvzHWMyukb
+         hAQZx3/rafIPBltYLhU4Q3Apm2E1PFjx4UXyny2hd20aVh00zSAy3dnvROqPEMzfUqJd
+         4rtynZFAewKb/QisFUWiPAsdyjccUvqQMWzi2Jzg1nrdRRZSbzvMMzW8IMHycU3QilKM
+         hQYQ==
+X-Gm-Message-State: AFuF++kozwblqsZnl0o77y2qpXyEK82n/SY4ZQBTpg8w4dEbPsUl7IQX
+	Y9SbxPam8crQWDiIEyavmTc8uCGduPZajxdv1ILJPpmfDlW9bdHUrqSQ8JtLJpSkfqkYVM8CpeM
+	QJ26haoI=
+X-Gm-Gg: AYBFou1FdFsG1Kj2fo0RJkuO38bH2vEFM/s0k/7DmSzwsbSo0DxHIiM1a4YBJaNe0iu
+	OeIUoVKytCkI6zMcrxrnF3inhMo1QBJ3vAEC3SFIKw9Wh+3OA2HAaZiGSnZTFXr5PGcM9OrN1Dw
+	+zHwUAudwhCF2iEUkaOnY5apFXskXRhoN6jq+5WudbTreHJriipJxL9FE8owB3En7/AtvLi9BV4
+	Zca2r0ddk5a7lT1cctN/VYmL88EHO5q3p+Fh2/ZZjF+Cke2wNXJ2pUs7iElokwubgSTELyYdl+K
+	sgjg9O0GX5cAVmzYfMf+qjTO3lU1GeGvZyW9aN7nH71KqQl4onB0goieGH6SkGsRA+Eb+mkVcuq
+	vB2YNGlLWXOhHHjfwvv2O4Ly9a5r1QCDQNk5M7MxsLacen1oHIuXbxC4QOt//05UF08U/HNJLWl
+	revUOu8DH3zTj4RkUNXc4XqPU62/Yanvwiuw0wm+OpcTi0uuKtPE+InEUMpqn8RsNfR/pKkMcQh
+	x/+Om14T03o8hKiitOULieJiRz5KcVyIIzs6A==
+X-Received: by 2002:a05:600c:81c5:b0:49d:28fc:d6a0 with SMTP id 5b1f17b1804b1-49fbd200256mr121921835e9.18.1789764993131;
+        Fri, 18 Sep 2026 13:56:33 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:22f8:9184:5b80:7430])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4872459f446sm1229405f8f.35.2026.09.18.13.56.30
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4872459f446sm1229405f8f.35.2026.09.18.13.56.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 18 Sep 2026 13:56:30 -0700 (PDT)
+        Fri, 18 Sep 2026 13:56:31 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 1/2] libmodule-build-perl: Fix build arch contamination
-Date: Fri, 18 Sep 2026 21:56:28 +0100
-Message-ID: <20260918205629.3117092-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 2/2] openssl: Fix build arch contamination
+Date: Fri, 18 Sep 2026 21:56:29 +0100
+Message-ID: <20260918205629.3117092-2-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
+In-Reply-To: <20260918205629.3117092-1-richard.purdie@linuxfoundation.org>
+References: <20260918205629.3117092-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 20:56:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246225
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246226
 
 Ensure BUILD_ARCH doesn't leak into the ptest output package causing
 reproducibility to break cross build architecture.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/recipes-connectivity/openssl/openssl_4.0.2.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb b/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
-index 3ec712cb8e6..5eebe3c38d2 100644
---- a/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
-+++ b/meta/recipes-devtools/perl/libmodule-build-perl_0.4234.bb
-@@ -53,6 +53,7 @@ do_install_ptest() {
-                -e "s,${STAGING_BINDIR_NATIVE}/perl-native/\.\.,${bindir}/,g" \
-                -e "s,${S},,g" \
-                -e "s,${D},,g" \
-+               -e "s,/${BUILD_ARCH}-${BUILD_OS}',\',g" \
-                ${D}${PTEST_PATH}/_build/build_params \
-                ${D}${PTEST_PATH}/_build/runtime_params
-         rm -rf ${D}${PTEST_PATH}/blib/libhtml/site/lib/Module/
+diff --git a/meta/recipes-connectivity/openssl/openssl_4.0.2.bb b/meta/recipes-connectivity/openssl/openssl_4.0.2.bb
+index 740a2fc66e4..bb58c27fbc8 100644
+--- a/meta/recipes-connectivity/openssl/openssl_4.0.2.bb
++++ b/meta/recipes-connectivity/openssl/openssl_4.0.2.bb
+@@ -245,7 +245,7 @@ do_install_ptest() {
+ 	install -m755 ${S}/test/smcont*.txt ${D}${PTEST_PATH}/test/
+ 	install -m755 ${S}/test/ssl_test.tmpl ${D}${PTEST_PATH}/test/
+ 
+-	sed 's|${S}|${PTEST_PATH}|g' -i ${D}${PTEST_PATH}/configdata.pm ${D}${PTEST_PATH}/util/wrap.pl
++	sed -e 's|${S}|${PTEST_PATH}|g' -e 's|${BUILD_ARCH}-${BUILD_OS}|${TARGET_SYS}|g' -i ${D}${PTEST_PATH}/configdata.pm ${D}${PTEST_PATH}/util/wrap.pl
+ 
+ 	ln -s ${libdir}/ossl-modules/ ${D}${PTEST_PATH}/providers
+ }
 
