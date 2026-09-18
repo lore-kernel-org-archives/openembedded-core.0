@@ -1,262 +1,133 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6FD68C982DC
-	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 12:02:21 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.53])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9504.1789732937355967062
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DD3D1C982DA
+	for <webhook@archiver.kernel.org>; Fri, 18 Sep 2026 12:36:01 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10033.1789734957991942706
  for <openembedded-core@lists.openembedded.org>;
- Fri, 18 Sep 2026 05:02:17 -0700
+ Fri, 18 Sep 2026 05:35:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=Q8vg3tY7;
- spf=pass (domain: ericsson.com, ip: 40.107.130.53, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=JaFFCR6jwXmfV3Pet94OgR5PkFvuWpvWnqDmihX5o9tGsLxMLwzP1tg+TXtxo0EBxLLLKSvporI5PXdHebRbC2tkOXGvDQxobPVj88efut25orp9H3pKhweSL9CYhsIYw4IBAAUPHCcGxeWjjaGGGLvyfuUPwMCnLeHqF4NQf5M/BUgSn9uGahoVrLS1LSoolG+tLvZ87loADtOxXjKQSRpxH2591lX+w8W47S/9ld4v9nqE0jBKcEe42kMRV/+4T9cAWZ7UlTbCEVeRIdp19oPlh93H+LoPYzcKQQbLoXtNQV9XrKe8neOTuhZs0yl7scm0QNMdP58tpEkdokjiDg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ZBKppCMfBRtfpYbTBAKbgFShevyS+8R66iuz8CMK6Ps=;
- b=X1kZhiS0gqGRIwxkCN47bIFD2Tqq3/Qi9FeIvoeqxmuWPvw6cgKp7PGUorbaw6uN9CRAz1XM350V5j9q817JO4QxrRG94SM2h20Y5KSMtWXWE1CJGWq94dXA9xEHScXBatkqWCejMj6uDG3FIHZ03Hvx0sM9YmtyVY4SxQ/cMMbx4n/xUyHRRAS4hs9z21c0s6JPuWaaUh2bebTJAcvv2coLbsf5cWNqE5Da4D0/eZjQAVzuUYFkkyZqsYQaW1nNICEO4YrSQs3k6XM89Zgbn0SEr0o45+YA3eC6s6bPuqd0SNhLssHinyqgD7xbmdtgVKJ1bS8jJMcSVdvN+hhSeA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=ericsson.com; dmarc=pass (p=reject sp=reject pct=100)
- action=none header.from=ericsson.com; dkim=none (message not signed);
- arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ZBKppCMfBRtfpYbTBAKbgFShevyS+8R66iuz8CMK6Ps=;
- b=Q8vg3tY7wTOCWdJGlrjl6m2FHUxtuEW6WAxR9YdP/TWCcmtj3fxRfEWfSuhroOWk1wzhaHGKmWB6r3bP19gBZWvw7Pj1yq4MLcgHcUVFVe2ioH0HZFXT69A/dsl/85Xqy/x/T20RzXhCUyuq3vCJvfZb4hVyoRH+2XA58SwxIJPZ2/c1hjH5f+lrYIOst533bGM6MwdKpKlZbE7rgAH5dDTeBmj9MJDkhhmGlJCT0yj9uKgkuNd2em9Ts0726DOBllQ4yoxedYhO2/G/9/fkGYEd5G8zdA5oWP7cOz0aJShWW6eL9ZFPHJCE/1jlsnulkakQuCkaCULPxuwo+lWJqQ==
-Received: from PA7P264CA0137.FRAP264.PROD.OUTLOOK.COM (2603:10a6:102:377::6)
- by PA4PR07MB7408.eurprd07.prod.outlook.com (2603:10a6:102:cc::10) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.13; Fri, 18 Sep
- 2026 12:02:11 +0000
-Received: from MI3PEPF0000847F.eurprd02.prod.outlook.com
- (2603:10a6:102:377:cafe::a6) by PA7P264CA0137.outlook.office365.com
- (2603:10a6:102:377::6) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.428.13 via Frontend Transport; Fri,
- 18 Sep 2026 12:02:11 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 192.176.1.74)
- smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- MI3PEPF0000847F.mail.protection.outlook.com (10.167.240.166) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Fri, 18 Sep 2026 12:02:10 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.69) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.37; Fri, 18 Sep 2026 14:01:33 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 7F8A74020A8B;
-	Fri, 18 Sep 2026 14:01:31 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 43255700CF27; Fri, 18 Sep 2026 14:01:31 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH 2/2] devtool: upgrade: clean up changelog content for commit messages
-Date: Fri, 18 Sep 2026 14:01:25 +0200
-Message-ID: <20260918120125.770604-2-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260918120125.770604-1-daniel.turull@ericsson.com>
-References: <20260918120125.770604-1-daniel.turull@ericsson.com>
-MIME-Version: 1.0
+ dkim=pass header.i=@smile.fr header.s=google header.b=y04WYB66;
+ spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd4ba9f68so9488135e9.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 05:35:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1789734956; x=1790339756; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=9TkT5mb5Y/r2TYftL+QvrcW5yDbGGweg/MsQh2Qssfs=;
+        b=y04WYB66dBVDyUH6L+wYb4T1m2oQxilUFfCXVI0tczdb+fOi4WTshj+69FxeUBnNeQ
+         eyxVsWgjgsygcToZNpITw9Xfp5cm2fWRKJV+8RDkiAk2TuOlLdIKHHJr2YQjnX+3oMEH
+         CdYD0OKaBprfEHxFJw4ld818FYP8Rnc+FWs3U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789734956; x=1790339756;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=9TkT5mb5Y/r2TYftL+QvrcW5yDbGGweg/MsQh2Qssfs=;
+        b=H2vyfWv9WoyKyBiA8h6t1nro/WDSGesmh5goXQf06znPKEvgqZAc9d4Dvg/8W4mPj3
+         94BCGHFnImjUIFc4JpBvlMqd1gnkiDO/UeZ/iDWMdpnjI6wEuLfZkddQd25uvvyFppEz
+         6sGtkRwN80O5M7wptSHk/9iaL2LTcht0zg6pTgFdnSxpBDY1b6xOCZDhTSM7xQ3FggUX
+         GAZ7SJwmGTgJ+cnpQQuR3SRJsPBVtxqOQOMv2fllO74x6xQZbO4mkpBI8ptGRsOt3BRk
+         KppK+krKzgZU/4MxLQo7mdo69U+PkwcnoRGIvAzm/9cGsnN+JuuVnIRj2L6jhf04VCtE
+         bqQA==
+X-Forwarded-Encrypted: i=1; AKwUvBzf2Uhuwk22+SNWa+7mxhXaCmvC4FPb76ADqP+lRYSelV7qkeN9DLpaGfhahOIc94zwdLQ2ilZeISCPG3zPZ6dFbg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++mFVTTRBWkI1/cnD6lJVB7puOsc7v3FkTQQgIRo2LKdbs3QNdyf
+	1S5cL5aqBmoRoJJbKEADLpCpouAa2KMZE8tJoKL46SzpFBT4ItDYAhftmf+p8j1gMYQ=
+X-Gm-Gg: AYBFou27C6szZb1T9HfllbrsRj5XWEHid1QR+S0/68Jj57Cahn938KEMXaxzgECfUtw
+	Gb7lVrjgC8f3/4AUMbyH/2+UlE5yNJHcJI0wKTcs2NqQQADoimUVEsZaz7KLP7iF8eVQvaTQU65
+	ktw92g0fLuIOPRiF8FxYi4W9MbqH3mOPW+WBka3dhL1FKI0IduHIaPLA0aClPsP8RArbLRQEQ+F
+	eTXYQbITy/zI/ldPF5ZmeGWUJe9hpWmZ5GNITHXH0BnNVHdaRB/evH/j5ArA2+OO0d0arxNTpfS
+	gF6IpOs7Ih6b/KFnOvBUOK5Dps2cncwaXZIOBfOxW4KR34esMuUwt4J0KG0bNWRTgJN3O0St3Ye
+	KSaZL1sMlLhEAwPQhC/c5eiJMXpXZtYupfAIldd7vLsfORUYo5qMf4cCfv7TORlQyccQyRZRgxP
+	78YV103/h+A9R8YAokeq3Eu7dWUHyirDa/U0gjxqmDoc7hORMbqKknbiKFHrYSVTdsrVVrRMacw
+	FGT4HiOf/7ZtyWR3WINV18T2KN2iOWpri2ebDPzZslB2nqocHnZv2LlTYt4S5c=
+X-Received: by 2002:a05:600c:3ba0:b0:49e:73d3:78ab with SMTP id 5b1f17b1804b1-49fc55adc12mr36723535e9.0.1789734956007;
+        Fri, 18 Sep 2026 05:35:56 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc7d8cee0sm48225185e9.15.2026.09.18.05.35.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 18 Sep 2026 05:35:55 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MI3PEPF0000847F:EE_|PA4PR07MB7408:EE_
-X-MS-Office365-Filtering-Correlation-Id: b0a2e980-e179-4722-37ed-08df157cab91
-X-SMTP-Server: smtp-central.internal.ericsson.com
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|1800799024|82310400026|23010399003|36860700016|18002099003|22082099003|6133799003|10067099003|11063799006|56012099006;
-X-Microsoft-Antispam-Message-Info: 
-	t9WdSGJTxQFJYijQJsNYd2nHv1SUB3zgehHrWsay8/0dFgEZIXcqXoKvN/mfLw5dEZRG2cf7byIEy+tK4waYs6geyxYx6ohaHsIoUkSEGR57V6kIPcgKMukWQK2leTBkOGwe8OzbJt2bbBmBueLe5IKv6eT/wQxmQZ+lb4vj7GzUdjKGS2sFDEKcR5CzPSBgP/VM+s5fUaaXLC5peEn5IPFRDBlN64qzCBP/tFwvWy6mm0jSTRMpHK88QGxzjwYsbkiQnc851HRMmiyj3+9HtVZsfr3HmBBYQE/hWVBjX2TTu4ww9u9c4sPOdX0D4RtU6+dVyIneFf7HFj/07GspFZC58yEB981s2ELyW3bUybFhJrN4QEvnkKond33EMTDvOPEFuvA0toSiwu83x715ItGCazUUn7kltg2cLqgGsrEANeJeOSmQRicrpI6UlYPJfgjxuOPwy1v09v9fwS+WwCATe4SwdfxXg+7Oq5wTPcCe+uKnkOeNGeIY6+Q3hXL6p2v9CONB3wuKv8gd474KL1ObWYRoF4cjREA0BupZos6Aws7QKtfGEsBdBy2jSn0P3S6GQ6mdk1p36tl3EF1HIwUS2MYjzVwUA91EC0jP/cebpcynHyDJgDXtC1VNk/Cw1XOR/ut2gUlfyqDVRHRHGb5eIDCuBxZF7JhkDf8SKcA8R05nQHZZVVJf45pa8ICRUxLpvyD3sNfbO8AC8eh+8Q==
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(1800799024)(82310400026)(23010399003)(36860700016)(18002099003)(22082099003)(6133799003)(10067099003)(11063799006)(56012099006);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	sCWn4OtmYAKi+doosZybcJGH4G9bqaMnps6SAID08/s/5N1NkgmTasuvVtX+7syccE1p3v2ix1Vrr3LJzyDK+k3hJMRfiPypv85DpWzdT2AKDWtqdMl5tLkaLXPp4zWP1so2KCE0Ftqj8i2ve1LLDcTL7r0QA/nbq7R1XP8FpNtzWpD/HanKAY8h/4LxyZg/n5V55CXwE4IoweORTk4U9lrO5vmOnsl0wFCH2/bfcuSdc5Ql4FLNd1ZMAvWh/CUwHqqz2m7Uai/Xp95xXty9483SgH+V8asi/WvyAX1IHwMAB6AWK2bSAnSTZHi2aGfGodER++xxocdrk2C6/oTAuY+hevMdjlVSYmQf1bY12c8y2IWwovnQuXVd0CAIU1VlMfst6Bv0AFIwbRhIUk7FEAHJ8dwUsIoNlGgCx+x8sQXtFx8jU5VJ+DVcZTilF3dD
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Sep 2026 12:02:10.7635
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: b0a2e980-e179-4722-37ed-08df157cab91
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	MI3PEPF0000847F.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA4PR07MB7408
+Content-Type: text/plain; charset=UTF-8
+Date: Fri, 18 Sep 2026 14:35:55 +0200
+Message-Id: <DLIG3BZPRJ4C.32VDD64KCMMC3@smile.fr>
+Subject: Re: [OE-core][PATCH v1] core-image-ptest: raise ptest timeout for
+ openssl
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <pratik.farkase@ericsson.com>
+To: <pratik.farkase@est.tech>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260918102921.20511-1-pratik.farkase@est.tech>
+In-Reply-To: <20260918102921.20511-1-pratik.farkase@est.tech>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 12:02:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246215
+ <openembedded-core@lists.openembedded.org>; Fri, 18 Sep 2026 12:36:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246216
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+On Fri Sep 18, 2026 at 12:29 PM CEST, Pratik Farkase via lists.openembedded=
+.org wrote:
+> The openssl ptest suite passes but its total runtime can exceed the
+> default 450s ptest-runner timeout on loaded autobuilder workers
+> (observed DURATION 566s on qemux86-64-musl), so ptest-runner kills the
+> run with "Timeout!" and it is reported as a failure even though no
+> individual test failed.
+>
+> [YOCTO #16430]
+>
+> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+> ---
+>  meta/recipes-core/images/core-image-ptest.bb | 4 ++++
+>  1 file changed, 4 insertions(+)
+>
+> diff --git a/meta/recipes-core/images/core-image-ptest.bb b/meta/recipes-=
+core/images/core-image-ptest.bb
+> index 22bb23c0e7..f61399abe5 100644
+> --- a/meta/recipes-core/images/core-image-ptest.bb
+> +++ b/meta/recipes-core/images/core-image-ptest.bb
+> @@ -11,6 +11,10 @@ HOMEPAGE =3D "https://www.yoctoproject.org/"
+>  PTESTS =3D "${PTESTS_SLOW} ${PTESTS_FAST}"
+>  PTEST_RUNNER_TIMEOUT:virtclass-mcextend-python3-cffi =3D "600"
+>  PTEST_RUNNER_TIMEOUT:virtclass-mcextend-go =3D "4800"
+> +PTEST_RUNNER_TIMEOUT:virtclass-mcextend-openssl =3D "700"
+> =20
+>  IMAGE_INSTALL:append =3D " ${MCNAME}-ptest openssh"
+> =20
 
-Strip noise that has no value in a commit message:
-- GitHub PR references: trailing "(#NNN)" and full pull/issue URLs.
-- Commit hash prefixes from "git log --oneline"-style content,
-  including the git-log fallback used when no changelog file exists.
-- GNU ChangeLog noise: "YYYY-MM-DD  Name  <email>" entry headers, and
-  "* file (func):" / "+ commit <hash>" bullets plus their wrapped
-  continuation lines, down to the next blank line, keeping only the
-  human-readable summary of each entry. Remaining tabs are stripped.
-- NEWS-style "Changes in X.Y.Z, DATE" release headers and their "=3D=3D=3D"
-  underline (libportal/glib-family projects).
+Hello,
 
-Lines exceeding 80 chars are wrapped, preserving existing indentation.
+Thanks for looking at my bugs :)
 
-AI-Generated: Uses Kiro with Claude Sonnet 5
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
- .../python3-guessing-game_git.bb.changelog    |  2 +-
- .../devtool-upgrade-test2_git.bb.changelog    |  2 +-
- .../devtool-upgrade-test5_git.bb.changelog    |  2 +-
- scripts/lib/devtool/upgrade.py                | 63 ++++++++++++++++++-
- 4 files changed, 65 insertions(+), 4 deletions(-)
+FYI, the patchtest issue:
+  FAIL: test mbox format: Series has malformed diff lines.
+  Create the series again using git-format-patch and ensure it applies usin=
+g git am (test_mbox.TestMbox.test_mbox_format)
+is caused by "@@ -11,6 +11,10 @@":
+                           ^
+This means the chunck is expected to be 10 lines long after the patch (I
+think 7 should work here but - please - regenerate the patch from git,
+it will compute that.
 
-diff --git a/meta-selftest/recipes-devtools/python/python3-guessing-game_gi=
-t.bb.changelog b/meta-selftest/recipes-devtools/python/python3-guessing-gam=
-e_git.bb.changelog
-index ef0052160b..6c7bf9f713 100644
---- a/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.ch=
-angelog
-+++ b/meta-selftest/recipes-devtools/python/python3-guessing-game_git.bb.ch=
-angelog
-@@ -1 +1 @@
--40cf004 Sync with maturin tutorial source
-+Sync with maturin tutorial source
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.b=
-b.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.=
-bb.changelog
-index ac133c483f..4699b1e89e 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.chang=
-elog
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test2_git.bb.chang=
-elog
-@@ -1 +1 @@
--6cc6077 dbus-wait.c: Fix typo
-+dbus-wait.c: Fix typo
-diff --git a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.b=
-b.changelog b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.=
-bb.changelog
-index 8077da3e21..3196cc13bd 100644
---- a/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.chang=
-elog
-+++ b/meta-selftest/recipes-test/devtool/devtool-upgrade-test5_git.bb.chang=
-elog
-@@ -1 +1 @@
--0a60d6a Add dummy commit on tip for testing
-+Add dummy commit on tip for testing
-diff --git a/scripts/lib/devtool/upgrade.py b/scripts/lib/devtool/upgrade.p=
-y
-index cdc85fe7ae..ba7348664f 100644
---- a/scripts/lib/devtool/upgrade.py
-+++ b/scripts/lib/devtool/upgrade.py
-@@ -14,6 +14,7 @@ import shlex
- import shutil
- import subprocess
- import tempfile
-+import textwrap
- import logging
- import argparse
- import scriptutils
-@@ -634,6 +635,66 @@ def _diff_git_log_changelog(old_content, new_content):
-     return '\n'.join(subjects) if subjects else None
-=20
-=20
-+# GitHub PR references: trailing (#123) at end of line, or full URLs
-+_GITHUB_PR_RE =3D re.compile(r'\s*\(#[0-9]+\)\s*$|\s*https?://github\.com/=
-[^/]+/[^/]+/(pull|issues)/[0-9]+\s*')
-+# Commit hash prefixes from git log --oneline: "abc1234 "
-+_COMMIT_HASH_RE =3D re.compile(r'^[0-9a-f]{7,40}\s+')
-+# A GNU ChangeLog entry: starts at either an entry header
-+# ("2026-08-24  Werner Koch  <wk@gnupg.org>") or a technical bullet
-+# ("* file.c (func): text" or "+ commit <hash>"), and extends through all
-+# wrapped continuation lines up to (but not including) the next blank line=
-.
-+_GNU_CHANGELOG_ENTRY_RE =3D re.compile(
-+    r'^(?:\d{4}-\d{2}-\d{2}\s+.+<.+@.+>|\s*(?:\*\s|\+ commit [0-9a-f]{7,40=
-}).*)'
-+    r'(?:\n(?!\s*$).*)*\n?',
-+    re.MULTILINE)
-+# NEWS-style release header + underline (glib/gtk family):
-+# "Changes in 0.11.0, 2026-09-12\n=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=
-=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D\n"
-+_NEWS_RELEASE_HEADER_RE =3D re.compile(r'^Changes in .+,\s*\d{4}-\d{2}-\d{=
-2}\s*\n=3D+\s*$', re.MULTILINE)
-+
-+def _join_single_line_paragraphs(text):
-+    """Drop the blank line between two adjacent one-line paragraphs (each
-+    surrounded by blank lines), so lines left behind by GNU ChangeLog entr=
-y
-+    stripping read as one entry per line instead of double-spaced."""
-+    paragraphs =3D text.split('\n\n')
-+    out =3D [paragraphs[0]]
-+    prev_is_single_line =3D '\n' not in paragraphs[0]
-+    for para in paragraphs[1:]:
-+        this_is_single_line =3D '\n' not in para
-+        if prev_is_single_line and this_is_single_line:
-+            out[-1] +=3D '\n' + para
-+        else:
-+            out.append(para)
-+        prev_is_single_line =3D this_is_single_line
-+    return '\n\n'.join(out)
-+
-+
-+def _cleanup_changelog(content):
-+    """Strip GitHub PR refs, commit hashes, GNU ChangeLog entries (headers
-+    and file/function bullets, plus their wrapped continuation lines) and
-+    NEWS-style 'Changes in X.Y.Z, DATE' release headers with their
-+    underline. Wrap lines over 80 chars, preserving indentation."""
-+    content =3D _NEWS_RELEASE_HEADER_RE.sub('', content)
-+    content =3D _GNU_CHANGELOG_ENTRY_RE.sub('', content)
-+    out =3D []
-+    for line in content.splitlines():
-+        line =3D _GITHUB_PR_RE.sub(' ', line)
-+        line =3D _COMMIT_HASH_RE.sub('', line)
-+        line =3D line.replace('\t', '').rstrip()
-+        stripped =3D line.lstrip()
-+        indent =3D line[:len(line) - len(stripped)]
-+        if len(line) > 80:
-+            if stripped.startswith('- '):
-+                indent +=3D '  '
-+            line =3D textwrap.fill(line, width=3D80, subsequent_indent=3Di=
-ndent)
-+        out.append(line)
-+    text =3D '\n'.join(out)
-+    # Entries removed above can leave 3+ blank newlines where a blank-line
-+    # separator butted up against a removed entry's own blank line;
-+    # collapse any such run down to a single blank line (2 newlines).
-+    text =3D re.sub(r'\n{3,}', '\n\n', text).strip()
-+    return _join_single_line_paragraphs(text)
-+
-+
- def _extract_changelog(srctree, pn, old_ver, new_ver, old_tag, new_tag, wo=
-rkspace_path, is_git_source):
-     """Extract changelog between old and new version using devtool git tag=
-s."""
-     changelog_content =3D None
-@@ -723,7 +784,7 @@ def _extract_changelog(srctree, pn, old_ver, new_ver, o=
-ld_tag, new_tag, workspac
-         changelog_content =3D ''.join(filtered)
-=20
-     # Clean up content for readability and commit message use
--    changelog_content =3D re.sub(r'\n{3,}', '\n\n', changelog_content).str=
-ip()
-+    changelog_content =3D _cleanup_changelog(changelog_content)
-     if not changelog_content:
-         return None
-=20
+On the patch content itself, we don't usualy increase timeout without a
+good reason like high AB-INT frequency, analysis to show that this is
+the right solution.
+
+In this case, if you want to look at this bug, I think you should try to
+determine what happened. For exemple, which test triggered the timeout?
+Is this test prone to load related issues? Is there a related issue
+upstream? a fix? ...
+If you don't want to look at this, I'm fine with waiting to see if how
+opften it reproduces (if ever).
+
+Regards,
+--=20
+Yoann Congal
+Smile ECS
+
 
