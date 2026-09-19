@@ -2,119 +2,110 @@ Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6E079C982D8
-	for <webhook@archiver.kernel.org>; Sat, 19 Sep 2026 19:19:20 +0000 (UTC)
-Received: from mail-pz2-f43.google.com (mail-pz2-f43.google.com [74.125.228.43])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18032.1789845551236022545
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A065C982D7
+	for <webhook@archiver.kernel.org>; Sat, 19 Sep 2026 19:39:20 +0000 (UTC)
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18154.1789846754539710892
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Sep 2026 12:19:11 -0700
+ Sat, 19 Sep 2026 12:39:14 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=BmUrV8qK;
- spf=pass (domain: konsulko.com, ip: 74.125.228.43, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pz2-f43.google.com with SMTP id d2e1a72fcca58-868a9c48f9eso2265215b3a.3
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 12:19:11 -0700 (PDT)
+ dkim=pass header.i=@konsulko.com header.s=google header.b=K93CXKh+;
+ spf=pass (domain: konsulko.com, ip: 74.125.227.171, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-396ccd5cf03so1824306a91.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 12:39:14 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1789845550; x=1790450350; darn=lists.openembedded.org;
+        d=konsulko.com; s=google; t=1789846754; x=1790451554; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Bvjd+ZAzcxwFhlpAekL7AcvI7PuXZmMpnpVhvixlxxs=;
-        b=BmUrV8qKLEc0Ds2QMyvLaXitd043ore9U3y48KYDrL/Dwcp9//qQNCtpwAPp7Sm6DJ
-         K+Phz/T5MWfSLk6CcFso9ATbMRsm20u8OFVj35YuAwYTHRdSj1U7eiFVVDdCNIfVk0vu
-         CCTOWgMWm06m0VY9ZY7PuzcSyspvgNHMQ3wK8=
+        bh=mFvAj5C9G+nwtHH7zmAV19b2t+8fF5u0s0ib74P95mc=;
+        b=K93CXKh+qwcKfWpHJAhkhp1F91RVJ2hGA2hiDilidEeVI6ELcEC5YhZAvlld9EQDSm
+         nqEfs42w+X4c+Kcl/3DTRIVfj1GbQFwoxOaYokZhBbI483pmbpuV8+zsBQd7mLXyFRnM
+         mzV7O7jxi9OLFVExOv0HLYVsHfVrBBagorvwk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789845550; x=1790450350;
+        d=1e100.net; s=20260707; t=1789846754; x=1790451554;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Bvjd+ZAzcxwFhlpAekL7AcvI7PuXZmMpnpVhvixlxxs=;
-        b=AWpx3ruc8/WOA/Zsdft+5b8dYgBcwwt6EPGBkLWiBH4XARaOZBzw7rXnLf0PP1kRby
-         SWj4L2mEDEOlOZp5H8y1yqqz8+0kWucvqi8TQq1xpS6OSowruKiVymgtNyBXVk/RMhmA
-         apuPuLQLfM8QwNNkGuyfy2cDNxXL/9918hhTScHFZEQSaT06y1QhkcLQB7kNH0S0NqaD
-         yBGIk0pXLj8nZu17mP6f4emH2oxfbP/Vzw6Iob4w4FDwlcw39rpWjJx4cqooIgiIdj4c
-         9XshEW5jCeuEEr49gzhMuyINAoirv9jhmdXrqw/Qzvv5+rYNoN2DHYEirAGy0WdSvEzo
-         vkOQ==
-X-Gm-Message-State: AFuF++kswOhCOKgTnAfwnzCWVPF59OhjmFFRIEawPjq5I1fn4CZN5tiv
-	Rf75Cs33LLkFTcUl5+iIe57CunWnT1xJheIHbki3garStUm9QHXFtpgKvfM/oU1NIQRIXIu7yo4
-	tdaTj
-X-Gm-Gg: AYBFou0cfUp+PM6F8mbRaC/U9hpejIz2I3t9+rz/mPYkeqj6NRPWSri6GnTqI7kRKC9
-	sOA/pfK+Ttd6NwL4Mgl23TSapcehUVWb6F7m/yO3iMCnLdDmK598sQQFETNkmGRM5LiP++0E4aP
-	boanXST4NH+q9xlP4ikpKbRcuGwRpxGkn+MBnOVve/JMGdxH9/V/B42chyGX6K1RiXQVplPc82q
-	1qqzMHg+jaexNs1sAaEbywGf4+clTbBHv7ii8WTL9J6oP/lqup5X5EBDzAKr63GmadQ2PP9n0zb
-	ohMNdtSvE/CSSJh9e8MrfCmUJXNNnS87/DmSL3gK72g8H6E9u4Ksyw7ovQ8yKGDbGjqJ77+HYrh
-	+OJPveTDujD6YeWT4k7F+BwsKdzsoP8Hy+0zjeeAKNcSC42pWcfi2FPJusSPbzCSCxwtnDT8Y2I
-	SkOFZj8aLB3llD41QfDCcTQ7D12wQOq7CqHRfAH+4jOxvVTbarMAIFTByLCntQXtYH5Mo4VWQ6T
-	/+6XN9GVOdu6tlpoA==
-X-Received: by 2002:a05:6a00:2d0c:b0:871:41fa:d1d6 with SMTP id d2e1a72fcca58-874dceef795mr9550516b3a.14.1789845550530;
-        Sat, 19 Sep 2026 12:19:10 -0700 (PDT)
+        bh=mFvAj5C9G+nwtHH7zmAV19b2t+8fF5u0s0ib74P95mc=;
+        b=i91a3652WWWfCi3nrPPYFNCgf8UpRKdiyA1AB7/G6/0tZx7hsDdIQsjRnhgvrxyM31
+         dCva5Wc4T4nAgd27RjRsi3//H3rEiHw0YE40c7wySwyST/XO4R0jDE7NJd6bA10RVg7N
+         vgSCkHGE3gvAMfizuNWPSG1ipLfyqCXkZjoh2W63d/epfyloL3KjnQIJOHnBiixmYd5R
+         xaSxgCe/s+scgovHdwPuIcyf/VSltT/b1LhX0sLMjbrj6APdeCH4D1xxU79nG3HqFaEd
+         0RQj/50mjushFQhAiCR3U2ILgI+p3LrQ/AX7GL+cgDWvqmpyqeAmNr84SZM/1ZU7lJQi
+         705A==
+X-Gm-Message-State: AFuF++nfGvpE0vVYxjrGHfjIqExLqla1nSX5qASeLgh7rs7LIbUH7Agx
+	NhyQCHVuIQ1o/nTzjT3DcwTE9DPbJjvzYb1jonrmGDC0WsfhygVN7EPnDJNk9TYMLiNkmuOoyLl
+	9xQoN
+X-Gm-Gg: AYBFou0FUUDHe+QE9rPpfAAutqXbeg6CA7eoCfwzxwajDj4jihgTVPqeHiL7nROjszi
+	XrY9gaVEZhJWjWUM4iuPgbKfchXLQVmm+m2yZl+rt4fXbGcfmGMldSGVR/ph6WGoxE70s4qB9Jk
+	TMeUm4SQ/WqlagL4MSttSo3GeG+tcbTSb8PsesZWuY+mzmgRvbp96CtlSurBlxnr9hg0YP76G3f
+	Lwv3ZJqg7TeXXsAOjF0Thw2REq1ic75bXW02CApBofKDYSA5PpQ54mFcFO0XnttiEMWEFPluDJv
+	OWGNd5Gc4PnDf7yaiwOUepbE2REYU7hb10OQ41PJnRSZPMJW1LknhLLpEBJCzI+6LfiaPwRJ9GH
+	cj3lth85OGvRW3odMhNGUmokXC3nd6UDTSX4kGaBJZaDMJUNC7Ua31H6f+3G0mnplITKwlx5mmq
+	D4jI0teNXb9y3GD7mtv0BYIGUNNvLUNEcs9QLSZBL8mXRYoIJQzxCxDzvnm3eJItURpehqMvTHG
+	3jtCPiQ0aoSu5bS
+X-Received: by 2002:a17:90b:56c5:b0:395:5f43:4ec4 with SMTP id 98e67ed59e1d1-39e549787b4mr12163473a91.0.1789846753828;
+        Sat, 19 Sep 2026 12:39:13 -0700 (PDT)
 Received: from thetis.home.local ([2606:c800:6024:2000:6254:c727:61b4:dbb5])
-        by smtp.gmail.com with ESMTPSA id d2e1a72fcca58-877a3d3c104sm1243267b3a.0.2026.09.19.12.19.08
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e6c3145dasm5843038a91.4.2026.09.19.12.39.12
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 12:19:09 -0700 (PDT)
+        Sat, 19 Sep 2026 12:39:13 -0700 (PDT)
 From: tim.orling@konsulko.com
 To: openembedded-core@lists.openembedded.org
 Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-more-itertools: upgrade 10.6.0 -> 10.8.0
-Date: Sat, 19 Sep 2026 12:18:15 -0700
-Message-ID: <20260919191814.1147283-2-tim.orling@konsulko.com>
+Subject: [PATCH] python3-pytz: upgrade 2026.3 -> 2026.3.post1
+Date: Sat, 19 Sep 2026 12:38:20 -0700
+Message-ID: <20260919193819.1161800-2-tim.orling@konsulko.com>
 X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 19:19:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246244
+ <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 19:39:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246245
 
 From: Tim Orling <tim.orling@konsulko.com>
 
-This is the last release before flit_core 4+ is required.
-
-Add PYPI_PACKAGE for normalized PEP-625 'more_itertools' sdist.
-
-For upstream release notes see:
-https://github.com/more-itertools/more-itertools/blob/v10.8.0/docs/versions.rst
-
-For a full comparison of changes, see:
-https://github.com/more-itertools/more-itertools/compare/v10.6.0...v10.8.0
+For full comparison of changes, see:
+https://github.com/stub42/pytz/compare/release_2026.3...release_2026.3.post1
 
 Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-All ptests pass on core-image-ptest-python3-more-itertools for
-qemux86-64:
+
+All ptests pass for core-image-ptest-python3-pytz on qemux86-64
 
 Testsuite summary
-TOTAL: 20562
-PASS: 20561
-SKIP: 1
+TOTAL: 234
+PASS: 234
+SKIP: 0
 XFAIL: 0
 FAIL: 0
 XPASS: 0
 ERROR: 0
-DURATION: 9
-END: /usr/lib/python3-more-itertools/ptest
+DURATION: 1
+END: /usr/lib/python3-pytz/ptest
 
- ...e-itertools_10.6.0.bb => python3-more-itertools_10.8.0.bb} | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-more-itertools_10.6.0.bb => python3-more-itertools_10.8.0.bb} (77%)
+ .../{python3-pytz_2026.3.bb => python3-pytz_2026.3.post1.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pytz_2026.3.bb => python3-pytz_2026.3.post1.bb} (86%)
 
-diff --git a/meta/recipes-devtools/python/python3-more-itertools_10.6.0.bb b/meta/recipes-devtools/python/python3-more-itertools_10.8.0.bb
-similarity index 77%
-rename from meta/recipes-devtools/python/python3-more-itertools_10.6.0.bb
-rename to meta/recipes-devtools/python/python3-more-itertools_10.8.0.bb
-index 5447a7af8e..32fcc5694b 100644
---- a/meta/recipes-devtools/python/python3-more-itertools_10.6.0.bb
-+++ b/meta/recipes-devtools/python/python3-more-itertools_10.8.0.bb
-@@ -3,7 +3,9 @@ HOMEPAGE = "https://github.com/erikrose/more-itertools"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=3396ea30f9d21389d7857719816f83b5"
+diff --git a/meta/recipes-devtools/python/python3-pytz_2026.3.bb b/meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-pytz_2026.3.bb
+rename to meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb
+index 11d5c22c07..72a74db357 100644
+--- a/meta/recipes-devtools/python/python3-pytz_2026.3.bb
++++ b/meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb
+@@ -7,7 +7,7 @@ inherit pypi setuptools3 ptest-python-pytest
  
--SRC_URI[sha256sum] = "2cd7fad1009c31cc9fb6a035108509e6547547a7a738374f10bd49a09eb3ee3b"
-+SRC_URI[sha256sum] = "f638ddf8a1a0d134181275fb5d58b086ead7c6a72429ad725c67503f13ba30bd"
-+
-+PYPI_PACKAGE = "more_itertools"
+ PTEST_PYTEST_DIR = "pytz/tests"
  
- inherit pypi python_flit_core ptest-python-pytest
+-SRC_URI[sha256sum] = "3a30feb7a1a04cf0fa0be1624415930843b02f012eb800380f36f906a723e4ae"
++SRC_URI[sha256sum] = "2211d3fcf9a797d3405cac96ac7f61d80e6a644f72a3309607282fe8a2010c5d"
  
+ RDEPENDS:${PN}:class-target += "\
+     python3-datetime \
 -- 
 2.47.3
 
