@@ -1,101 +1,103 @@
-Return-Path: <patchtest@automation.yoctoproject.org>
+Return-Path: <tim.orling@konsulko.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B813C982D7
-	for <webhook@archiver.kernel.org>; Sat, 19 Sep 2026 14:16:09 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13112.1789827366125897945
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A0CD2C982D8
+	for <webhook@archiver.kernel.org>; Sat, 19 Sep 2026 16:23:49 +0000 (UTC)
+Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.15205.1789835019916351134
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Sep 2026 07:16:06 -0700
+ Sat, 19 Sep 2026 09:23:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=AUCiJXDt;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=n6Zu5vO3;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a0ba06395b-2e6fc467-1d1b-4a3b-834c-713bbaae90f3-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1789827365; i=@automation.yoctoproject.org;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
-	bh=K+52l6bZLwsZZHYRVHYuV3OQRXBxA+cIrWHn4pBSlfM=;
-	b=AUCiJXDtowjqwDEzphe1cW0G/4JF1TnZ1GSpovCZQ8XT9QVigAGgQyNSfjp06cur
-	ma5chK5e8oZvgoKj1HBNkOWifpJbZhIll9DyhMs+EPia1lOk2WGftHCFUp5Dr3BOn2v
-	WVv1uO2ZO2Td4PGnulX3cGFHwmkQ2GbyXRejFsYQ=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789827365;
-	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
-	bh=K+52l6bZLwsZZHYRVHYuV3OQRXBxA+cIrWHn4pBSlfM=;
-	b=n6Zu5vO38plLxCDpV2JAQ8clk3y3JEfTFKOGhYTI21cM/FZt5BxuYGLilA8Ehpbc
-	jjUwEjalXlbWhcGlV0MXDwFFlaCg5PDX4K6wchALPpPsMC7o3/2yKimxso/3pPKaW71
-	nhPGOd1lcAz+j4LEIEoeRLT0Mg5Sn0k19isRqyfM=
-From: patchtest@automation.yoctoproject.org
-To: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-CC: openembedded-core@lists.openembedded.org
-Subject: Patchtest results for [PATCH] systemtap: Upgrade 5.5 -> 5.6
-In-Reply-To: <20260919140957.80166-1-jaipaul.cheernam@est.tech>
-References: <20260919140957.80166-1-jaipaul.cheernam@est.tech>
-MIME-Version: 1.0" +         "
-Content-type: Multipart/Mixed;boundary="NextPart"
-Message-ID: <010101a0ba06395b-2e6fc467-1d1b-4a3b-834c-713bbaae90f3-000000@us-west-2.amazonses.com>
-Date: Sat, 19 Sep 2026 14:16:05 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.19-54.240.27.31
+ dkim=pass header.i=@konsulko.com header.s=google header.b=ZzZQF0un;
+ spf=pass (domain: konsulko.com, ip: 74.125.228.12, mailfrom: tim.orling@konsulko.com)
+Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea50dc1so1043489a12.0
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 09:23:39 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=konsulko.com; s=google; t=1789835019; x=1790439819; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=6FDJcQq0vvxjOzDt1OkhjEdg3QXbOZHcnwGzfDXB5Cw=;
+        b=ZzZQF0unxERS4ngPfq3fInZfODEEXFOAqUQpK3MUC1x9ZbfBlptQLqVtd9TKJfnzaf
+         IdGRvFlOmXb3QDfp6+znN3cvr5JzIDkd0ErLXU+l1NIR0rKWDe8/roVZPoDv66OTFwdF
+         E1ijSSXgwYe38xLQTCN/FB6ZzSstqfz9DqRJc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789835019; x=1790439819;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=6FDJcQq0vvxjOzDt1OkhjEdg3QXbOZHcnwGzfDXB5Cw=;
+        b=STwv8bOSZh0wDZapJtoTmM6Yc7bYvddh5l8k2A6jRTMh24//Q+J6mUHCIzuQdTrt79
+         sIBtahBm7QEwQA6y8dTtlIGp7LKdaFsW6hTMo1nBuLsPihWsKeMGdhdKKAdAsB8whAy5
+         QJ+nW4FPRrgwBrtO9qaaK7fEmxK/2U9YyBpfZxj9IFPgAmrLkATjLYdBRH9qjFScDjWX
+         Jr/wkTSexkaBT2CA1HQ5VVSmuYuEyIram5KfbCcRuwsWfmGVb5oZIrKjDNyz0C2CNv0B
+         0fqi1geZIKza1qCqfV8z1DyB5RGPZrgIN+lzP4N8zQcHINKs17H2bLmGqTUPV6Q2wLgJ
+         EFWA==
+X-Gm-Message-State: AFuF++kVrf7DH9cjJx76ORPKmBg8hkWFZA4PCqW47kT40bQMdFceVHoM
+	20slEY4Q5N7fo6GFevpTai6oPxrvA+fmmSqghZ7xSIYJJZVwB2YR25ZGBYkewz8/jYzTS2IT8A8
+	T4MDu
+X-Gm-Gg: AYBFou0HXO6cbzBbs5H2wP3zKl7RkaJReFnUuC7ZJ0dfxoZwUqjcLJCmpqWWSaVD+SU
+	tBfFf/VWDgEAmJgU01g1LjHI5cG+l6dhzY6Hmv1fPHTciLoao0TJVV4FE9TiLbZJdS6QS9mf9df
+	iA8cTwIiYJpxgQJO+0z4F+DG8FMfbHN9riiq/28V1r9sYxJbCm+vwJJKQuwFSw1CTVITpxqGy4I
+	JmizrErcyiDw0e0Pcay+dESnOtDoW7pE/gRIKfcWrOuGLLmM4ZAhGcmYL8OPOVKzn7mSjY1XMh8
+	YSk1/mGq0wNecEC8Cvi1RlnPpeaA+rM3OrcEgrJc0kKuq178e2w8vNOrlcvZKyDgOdNOc099JhW
+	fL20lJlI2xv/X6GwJmox295IOIPRZEtkZ+vJud+duu2qzL2hiXQ18lt8rm+SsXDpAYjsHUExwaM
+	NSw/8I/nVR4ht7rGQ46ZqacteCr2HeBqe50OYxBPpoHBiMq52J/QPH54i54ly65jq9uT20r5dZF
+	w8Rr6qDIKkT91MxkOxEraZhCRBi
+X-Received: by 2002:a17:90b:3912:b0:39e:6a7e:ee1e with SMTP id 98e67ed59e1d1-39e6a7eef95mr4832785a91.42.1789835019219;
+        Sat, 19 Sep 2026 09:23:39 -0700 (PDT)
+Received: from thetis.home.local ([2606:c800:6024:2000:6254:c727:61b4:dbb5])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e6cb3284asm5242632a91.14.2026.09.19.09.23.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 19 Sep 2026 09:23:38 -0700 (PDT)
+From: tim.orling@konsulko.com
+To: openembedded-core@lists.openembedded.org
+Cc: Tim Orling <tim.orling@konsulko.com>
+Subject: [PATCH 1/3] at-spi2-core: RDEPENDS on gsettings-desktop-schemas
+Date: Sat, 19 Sep 2026 09:23:22 -0700
+Message-ID: <20260919162323.3862788-2-tim.orling@konsulko.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 14:16:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246237
+ <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 16:23:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246238
 
---NextPart
-Content-Type: text/plain
+From: Tim Orling <tim.orling@konsulko.com>
 
-Thank you for your submission. Patchtest identified one
-or more issues with the patch. Please see the log below for
-more information:
+at-spi-bus-launcher aborts when no compiled GSettings schema is present.
 
+This has been a fatal error since [1]:
+"26f75dc0 bus: Abort if we cannot get the default GSettingsSchemaSource"
+
+[1] https://gitlab.gnome.org/GNOME/at-spi2-core/-/commit/26f75dc00eb16ccec89561aefe15f4036d45b4ec
+
+Signed-off-by: Tim Orling <tim.orling@konsulko.com>
 ---
-Testing patch /home/patchtest/share/mboxes/systemtap-Upgrade-5.5---5.6.patch
+ meta/recipes-support/atk/at-spi2-core_2.60.6.bb | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-FAIL: test commit message user tags: Mbox includes one or more GitHub-style username tags. Ensure that any "@" symbols are stripped out of usernames (test_mbox.TestMbox.test_commit_message_user_tags)
+diff --git a/meta/recipes-support/atk/at-spi2-core_2.60.6.bb b/meta/recipes-support/atk/at-spi2-core_2.60.6.bb
+index 1e7a16d747..5c676d639f 100644
+--- a/meta/recipes-support/atk/at-spi2-core_2.60.6.bb
++++ b/meta/recipes-support/atk/at-spi2-core_2.60.6.bb
+@@ -23,6 +23,13 @@ DEPENDS = " \
+ PROVIDES += "atk at-spi2-atk"
+ RPROVIDES:${PN} += "atk at-spi2-atk"
+ 
++# at-spi-bus-launcher calls g_error() -- which aborts -- when
++# g_settings_schema_source_get_default() returns NULL, which is what happens
++# when no gschemas.compiled exists anywhere in XDG_DATA_DIRS. It also reads and
++# writes org.gnome.desktop.interface's toolkit-accessibility key to persist the
++# accessibility enable/disable state across sessions.
++RDEPENDS:${PN}:append:class-target = " gsettings-desktop-schemas"
++
+ inherit gnomebase gi-docgen gettext systemd upstream-version-is-even gobject-introspection python3-dir
+ 
+ EXTRA_OEMESON = " -Dsystemd_user_dir=${systemd_user_unitdir} \
+-- 
+2.47.3
 
-PASS: pretest src uri left files (test_metadata.TestMetadata.pretest_src_uri_left_files)
-PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
-PASS: test CVE tag format (test_patch.TestPatch.test_cve_tag_format)
-PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
-PASS: test Signed-off-by presence (test_patch.TestPatch.test_signed_off_by_presence)
-PASS: test Upstream-Status presence (test_patch.TestPatch.test_upstream_status_presence_format)
-PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
-PASS: test author valid (test_mbox.TestMbox.test_author_valid)
-PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
-PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
-PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
-PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
-PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
-PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
-PASS: test shortlog length (test_mbox.TestMbox.test_shortlog_length)
-PASS: test src uri left files (test_metadata.TestMetadata.test_src_uri_left_files)
-PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
-
-SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
-SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
-SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
-SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
-SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
-SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
-SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
-
----
-
-Please address the issues identified and
-submit a new revision of the patch, or alternatively, reply to this
-email with an explanation of why the patch should be accepted. If you
-believe these results are due to an error in patchtest, please submit a
-bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
-under 'Yocto Project Subprojects'). For more information on specific
-failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
-you!
-
---NextPart
-
-
---NextPart--
 
