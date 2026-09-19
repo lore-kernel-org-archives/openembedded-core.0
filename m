@@ -1,112 +1,119 @@
-Return-Path: <tim.orling@konsulko.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7A065C982D7
-	for <webhook@archiver.kernel.org>; Sat, 19 Sep 2026 19:39:20 +0000 (UTC)
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.18154.1789846754539710892
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B3D9C982CC
+	for <webhook@archiver.kernel.org>; Sat, 19 Sep 2026 21:49:42 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20081.1789854572860366442
  for <openembedded-core@lists.openembedded.org>;
- Sat, 19 Sep 2026 12:39:14 -0700
+ Sat, 19 Sep 2026 14:49:33 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@konsulko.com header.s=google header.b=K93CXKh+;
- spf=pass (domain: konsulko.com, ip: 74.125.227.171, mailfrom: tim.orling@konsulko.com)
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-396ccd5cf03so1824306a91.1
-        for <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 12:39:14 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=OA5Bl2p+;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.141, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cd4ba9f68so25292765e9.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 14:49:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=konsulko.com; s=google; t=1789846754; x=1790451554; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=mFvAj5C9G+nwtHH7zmAV19b2t+8fF5u0s0ib74P95mc=;
-        b=K93CXKh+qwcKfWpHJAhkhp1F91RVJ2hGA2hiDilidEeVI6ELcEC5YhZAvlld9EQDSm
-         nqEfs42w+X4c+Kcl/3DTRIVfj1GbQFwoxOaYokZhBbI483pmbpuV8+zsBQd7mLXyFRnM
-         mzV7O7jxi9OLFVExOv0HLYVsHfVrBBagorvwk=
+        d=linuxfoundation.org; s=google; t=1789854571; x=1790459371; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=4YbJFMulYDfR/nWF0Tzpr7LddFocYWUyz6YEV+yP2lc=;
+        b=OA5Bl2p+Aqo4D9iPYujYrsExwCG2jpkymXN2GpSYZ6fY2yN/A2fMZS040E48mHM8fd
+         SGD7ViqP2ojtyRLi5DT8O6xXi5Es+n7O4/kkpqQNiRyfDS/9ZxMYL/8xjyBgRvHKhxjV
+         QEhWyqFxjf9o2kKnH+TKEynguPDePCz0HsYJU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789846754; x=1790451554;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=mFvAj5C9G+nwtHH7zmAV19b2t+8fF5u0s0ib74P95mc=;
-        b=i91a3652WWWfCi3nrPPYFNCgf8UpRKdiyA1AB7/G6/0tZx7hsDdIQsjRnhgvrxyM31
-         dCva5Wc4T4nAgd27RjRsi3//H3rEiHw0YE40c7wySwyST/XO4R0jDE7NJd6bA10RVg7N
-         vgSCkHGE3gvAMfizuNWPSG1ipLfyqCXkZjoh2W63d/epfyloL3KjnQIJOHnBiixmYd5R
-         xaSxgCe/s+scgovHdwPuIcyf/VSltT/b1LhX0sLMjbrj6APdeCH4D1xxU79nG3HqFaEd
-         0RQj/50mjushFQhAiCR3U2ILgI+p3LrQ/AX7GL+cgDWvqmpyqeAmNr84SZM/1ZU7lJQi
-         705A==
-X-Gm-Message-State: AFuF++nfGvpE0vVYxjrGHfjIqExLqla1nSX5qASeLgh7rs7LIbUH7Agx
-	NhyQCHVuIQ1o/nTzjT3DcwTE9DPbJjvzYb1jonrmGDC0WsfhygVN7EPnDJNk9TYMLiNkmuOoyLl
-	9xQoN
-X-Gm-Gg: AYBFou0FUUDHe+QE9rPpfAAutqXbeg6CA7eoCfwzxwajDj4jihgTVPqeHiL7nROjszi
-	XrY9gaVEZhJWjWUM4iuPgbKfchXLQVmm+m2yZl+rt4fXbGcfmGMldSGVR/ph6WGoxE70s4qB9Jk
-	TMeUm4SQ/WqlagL4MSttSo3GeG+tcbTSb8PsesZWuY+mzmgRvbp96CtlSurBlxnr9hg0YP76G3f
-	Lwv3ZJqg7TeXXsAOjF0Thw2REq1ic75bXW02CApBofKDYSA5PpQ54mFcFO0XnttiEMWEFPluDJv
-	OWGNd5Gc4PnDf7yaiwOUepbE2REYU7hb10OQ41PJnRSZPMJW1LknhLLpEBJCzI+6LfiaPwRJ9GH
-	cj3lth85OGvRW3odMhNGUmokXC3nd6UDTSX4kGaBJZaDMJUNC7Ua31H6f+3G0mnplITKwlx5mmq
-	D4jI0teNXb9y3GD7mtv0BYIGUNNvLUNEcs9QLSZBL8mXRYoIJQzxCxDzvnm3eJItURpehqMvTHG
-	3jtCPiQ0aoSu5bS
-X-Received: by 2002:a17:90b:56c5:b0:395:5f43:4ec4 with SMTP id 98e67ed59e1d1-39e549787b4mr12163473a91.0.1789846753828;
-        Sat, 19 Sep 2026 12:39:13 -0700 (PDT)
-Received: from thetis.home.local ([2606:c800:6024:2000:6254:c727:61b4:dbb5])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-39e6c3145dasm5843038a91.4.2026.09.19.12.39.12
+        d=1e100.net; s=20260707; t=1789854571; x=1790459371;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:to:from:subject:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=4YbJFMulYDfR/nWF0Tzpr7LddFocYWUyz6YEV+yP2lc=;
+        b=yBPjgcJHQ4JqZU+HtlTuUbhjFV8/Cxgv9t65NJIw6gcidM3Wv0Abhds/ISjU7MuZ88
+         i85xoO4fj0Ty6Rp9hLrRMoyQJc+OgGPs4n5C2uL5ImzST4vxl4P1NajjCX3aowsUhPUG
+         hNQl4tnJ7KFVpDsmo9Cs08wfH5LBtflCalyJdLOTxirqpfkuCmVvWRk3rwAuU3QfnGSJ
+         WG49IMqrlsIfUlJRjxd6J93Fu5QpEFcCSmHastpojovM1DUa9Dgg5uvoO/T5FGA5HuXH
+         GjYFFPFhEDAAfd54JBeH8JPFQtbGOQGoo41aLuRhNNKBNK9oGt3U++4cXjBiFNRlsBF5
+         YLhg==
+X-Forwarded-Encrypted: i=1; AKwUvBzz2DftpAr4EPVWFwpnOBURGTMRKUn6n2MPFzq+XT2Tud4I1jE/uhr2OzCj9eQXolqSKZwplXN30YkRffF5Okxyvg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nk/Du3IYu4Skcd4a5UgYpouY9bAwxHAMJY/XI6tjoseOBCrtJb
+	G1EL5dKxYe5iW+yUT37ggCYyJieCPACzYmf/tBmwAmtC8e3ucmT4QP+D9X2VWGYNMag=
+X-Gm-Gg: AYBFou0e3ZIWRG+G2/cMLPE1R46hJr0BPGpNuFGpe62VZ2VVSVRK05TviAyWxQphqjs
+	eRlv2Udof4549aJoBAvLqEHpZ5quqDbRhceIqRQwp6VvZ6/Jt8I+D7BK0ngUKM/HKRe8p0psMra
+	C+KwWBmKp6UGU3bfs2l0yivK7BKd6dUa8cuM5Pib+T9CKeIa75MzD5BDFrMnxp2kLo0BelDDKTi
+	MtmD86cbrViAgoP4b/Wms4gQDSqRU9mkUgYQI2exj+Ah0Hu7S00DcNqGkK1SyCNqJLEagyvUR5a
+	PxMnJs810rlEOk6Ru45FNvm/yVQEwYXa00fnB5vP80szg1cQ7I+jqa+AE+/n6bThjUupb3Om6By
+	g86eA+DIDk6PZ2QLmh+l+epnxsrmREZVMyByWF7b3wRm/9rhSR8X+p5FOA9cObpmN5dlQHZ1lgX
+	/3BAeRawV6VFNH4LIfZCK2MX0Y2UgHv6YwORlyIRcEaZp2tSSkHD1SjP+BuJ5Lv0POrdAkEvJgl
+	92Hg3KbPZ/kgD/XWfauE+VBEKCnR3i+YpsOyz4AgrS55T2sQRZVqZLRURziLQ0=
+X-Received: by 2002:a05:600c:8b81:b0:49d:15f8:2bdb with SMTP id 5b1f17b1804b1-49fc568125bmr80170245e9.7.1789854571001;
+        Sat, 19 Sep 2026 14:49:31 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:cf1d:93ec:a8bb:f81d? ([2001:8b0:aba:5f3c:cf1d:93ec:a8bb:f81d])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd0ece6esm145607435e9.2.2026.09.19.14.49.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 19 Sep 2026 12:39:13 -0700 (PDT)
-From: tim.orling@konsulko.com
-To: openembedded-core@lists.openembedded.org
-Cc: Tim Orling <tim.orling@konsulko.com>
-Subject: [PATCH] python3-pytz: upgrade 2026.3 -> 2026.3.post1
-Date: Sat, 19 Sep 2026 12:38:20 -0700
-Message-ID: <20260919193819.1161800-2-tim.orling@konsulko.com>
-X-Mailer: git-send-email 2.47.3
+        Sat, 19 Sep 2026 14:49:30 -0700 (PDT)
+Message-ID: <3dbfaacd3f9ee5656a5005daba1fa57b01419a12.camel@linuxfoundation.org>
+Subject: Re: [OE-core] [PATCH] systemtap: Upgrade 5.5 -> 5.6
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: jaipaul.cheernam@est.tech, openembedded-core@lists.openembedded.org
+Date: Sat, 19 Sep 2026 22:49:27 +0100
+In-Reply-To: <20260919140957.80166-1-jaipaul.cheernam@est.tech>
+References: <20260919140957.80166-1-jaipaul.cheernam@est.tech>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 19:39:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246245
+ <openembedded-core@lists.openembedded.org>; Sat, 19 Sep 2026 21:49:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246246
 
-From: Tim Orling <tim.orling@konsulko.com>
+On Sat, 2026-09-19 at 16:09 +0200, Jaipaul Cheernam via lists.openembedded.=
+org wrote:
+> NEWS: https://sourceware.org/git/?p=3Dsystemtap.git;a=3Dblob;f=3DNEWS;hb=
+=3Drelease-5.6
+>=20
+> - Clean up python2 support in recipe and clean up obsoloute patch
+> =C2=A0 More details [1], [2]
+>=20
+> - Added pip/wheel native to the python3-probes PACKAGECONFIG =E2=80=94 th=
+e new build uses pip/wheel
+>=20
+> - Added two patches to keep do_package_qa passing. The generated
+> =C2=A0 tapset/python3.stpm recorded the recipe-sysroot path of libpython,
+> =C2=A0 since it comes from sysconfig's LIBDIR and python3targetconfig poi=
+nts
+> =C2=A0 that at ${STAGING_LIBDIR}; @cast module names are resolved verbati=
+m
+> =C2=A0 with no --sysroot translation, so that path also made python3 prob=
+es
+> =C2=A0 unresolvable on the target. The pip-installed HelperSDT module shi=
+pped
+> =C2=A0 __pycache__/*.pyc naming ${D} and a dist-info/direct_url.json nami=
+ng
+> =C2=A0 the wheel in ${B}, both artifacts of "pip install --root".
+> =C2=A0 Reported upstream as PR34652 [3], patches posted to the systemtap
+> =C2=A0 list [4].
+>=20
+> [1] https://sourceware.org/git/?p=3Dsystemtap.git;a=3Dcommit;h=3D3c9c8a81=
+63e0a9c77bf9a3a7f87ceaf2d3de98b5
+> [2] https://sourceware.org/git/?p=3Dsystemtap.git;a=3Dcommit;h=3D55a01686=
+13e765f6be5257b0c4fb97678292716f
+> [3] https://sourceware.org/bugzilla/show_bug.cgi?id=3D34652
+> [4] https://inbox.sourceware.org/systemtap/20260919135744.78642-1-jaipaul=
+.cheernam@est.tech/
+>=20
+> Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 
-For full comparison of changes, see:
-https://github.com/stub42/pytz/compare/release_2026.3...release_2026.3.post1
+I think there may be a reproducibilty issue in there:
 
-Signed-off-by: Tim Orling <tim.orling@konsulko.com>
----
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/37/builds/5022
 
-All ptests pass for core-image-ptest-python3-pytz on qemux86-64
+https://valkyrie.yocto.io/pub/repro-fail/oe-reproducible-20260919-l3njlk0p/=
+packages/diff-html/
 
-Testsuite summary
-TOTAL: 234
-PASS: 234
-SKIP: 0
-XFAIL: 0
-FAIL: 0
-XPASS: 0
-ERROR: 0
-DURATION: 1
-END: /usr/lib/python3-pytz/ptest
+Cheers,
 
- .../{python3-pytz_2026.3.bb => python3-pytz_2026.3.post1.bb}    | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pytz_2026.3.bb => python3-pytz_2026.3.post1.bb} (86%)
-
-diff --git a/meta/recipes-devtools/python/python3-pytz_2026.3.bb b/meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb
-similarity index 86%
-rename from meta/recipes-devtools/python/python3-pytz_2026.3.bb
-rename to meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb
-index 11d5c22c07..72a74db357 100644
---- a/meta/recipes-devtools/python/python3-pytz_2026.3.bb
-+++ b/meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb
-@@ -7,7 +7,7 @@ inherit pypi setuptools3 ptest-python-pytest
- 
- PTEST_PYTEST_DIR = "pytz/tests"
- 
--SRC_URI[sha256sum] = "3a30feb7a1a04cf0fa0be1624415930843b02f012eb800380f36f906a723e4ae"
-+SRC_URI[sha256sum] = "2211d3fcf9a797d3405cac96ac7f61d80e6a644f72a3309607282fe8a2010c5d"
- 
- RDEPENDS:${PN}:class-target += "\
-     python3-datetime \
--- 
-2.47.3
-
+Richard
 
