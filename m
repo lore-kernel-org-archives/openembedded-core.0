@@ -2,87 +2,78 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6C7A8C982D8
-	for <webhook@archiver.kernel.org>; Sun, 20 Sep 2026 19:16:04 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.35014.1789931755106866435
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 41288C982D8
+	for <webhook@archiver.kernel.org>; Sun, 20 Sep 2026 19:16:14 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.35017.1789931764589105380
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Sep 2026 12:15:56 -0700
+ Sun, 20 Sep 2026 12:16:04 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=kA6x5uPw;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-20260920191551bc92c8c17300020734-u_hypb@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 20260920191551bc92c8c17300020734
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=UCBkyiVb;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-2026092019160269b9a3c8c100020760-ww9zec@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 2026092019160269b9a3c8c100020760
         for <openembedded-core@lists.openembedded.org>;
-        Sun, 20 Sep 2026 21:15:52 +0200
+        Sun, 20 Sep 2026 21:16:02 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=Mf3eUDuHb0IZgItgvxL6NIMo5zVZf2bS6G41uVx9C7w=;
- b=kA6x5uPw2WS/VNDESKPcn9ZzwE0MoOtQ+Ddx4NQp7kD0XxSGM9S7ZJde+sH0Ehn4IgZEjo
- +q22cf+/CDiwwAR7h+g57mm9a/WUnAh5b0QtsvaoqzdgjbJOIIRlw8OPrhZ8Xw+xMLHWHA5W
- dVHCV3FGNM+u5qH1lexpSUj8KiqtrEM6DF0EOXQxDctqAPANsZANQxZF/yH+o5w57wzSj45j
- vRK99mgEWR5rDUrv31we8mj9MR/dJr8PVhHHxNjzu+QRqJAW4cYyUXt3ZHRSL4QKepfqtKUz
- CPYjxiieV42Mos474ECkgiW7RGkla+8AF2xBZdHXHK0UimfVisY5xtyw==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=orCWDOMw1DwiZrfcX6uy/3rDjqLr2JlB7JA2a6c9y5o=;
+ b=UCBkyiVbKDVzqeBzH44XHAYOi3ArnXrfqd7BGEGjMckWMVPRY25fc5G/AYK+SEUXrnVyqe
+ cikXsGcXsFDLgvkbmV8LCpVR9GkeDUIcJ/vqCkQgaiTRgWl+1wCyx7YGXTvxJ37FWalShMLA
+ O/OpckaN591cEqJJ/fddwt/LQhk8dopnCe9MKcBfT5ZHPhsgfmiLIDbLvXSx2m1blMH1TiI6
+ RbKgHnWEM4/3QrV4k4cZJnKkVpv50kteIoP23rMzIwLI0nsFdsNaHX2fsYe0n4SF+oiY6wxG
+ tIzyTYMIyWaHDh6MBDBYTtofkOOojoFVoDH3VvunpoyQ+D37Dy0c70yA==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: peter.marko@siemens.com
-Subject: [wrynose][PATCH 1/5]  sbom-cve-check-update-nvd-native,sbom-cve-check-update-cvelist-native: upgrade 2026.08.03-000011 -> 2026.08.25-000009
-Date: Sun, 20 Sep 2026 21:15:27 +0200
-Message-ID: <20260920191531.113024-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH 2/5] sbom-cve-check-update-db: Exclude recipes from rm_work
+Date: Sun, 20 Sep 2026 21:15:28 +0200
+Message-ID: <20260920191531.113024-2-peter.marko@siemens.com>
+In-Reply-To: <20260920191531.113024-1-peter.marko@siemens.com>
+References: <20260920191531.113024-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 20 Sep 2026 19:16:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246263
+ <openembedded-core@lists.openembedded.org>; Sun, 20 Sep 2026 19:16:14 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246264
 
-From: Wang Mingyu <wangmy@fujitsu.com>
+From: Benjamin Robin <benjamin.robin@bootlin.com>
 
-Signed-off-by: Wang Mingyu <wangmy@fujitsu.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+If the "rm_work" task runs on these recipes, the next execution of the
+do_sbom_cve_check task would force the CVE databases to be extracted
+again. Excluding the recipes from "rm_work" allows the build system to
+remember that the unpack and patch tasks were already executed, so
+it does not run them a second time. Extracting the CVE databases is
+slow, and it also removes the database "index", which sbom-cve-check
+has to regenerate — an even slower step.
+
+Keeping WORKDIR around is cheap: for the recipes downloading the CVE
+databases, it stays below 400 kB (not counting the "temp" directory,
+which rm_work leaves in place anyway).
+
+Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 8d6b930f4d11627b90db3e902e382692c38cde15)
+(From OE-Core rev: 3b81e8bc30552359125f2ca40f36ad11ce8ee969)
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...03.bb => sbom-cve-check-update-cvelist-native_2026-08-25.bb} | 2 +-
- ...bb => sbom-cve-check-update-nvd-native_2026.08.25-000009.bb} | 2 +-
- 2 files changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-cvelist-native_2026-08-03.bb => sbom-cve-check-update-cvelist-native_2026-08-25.bb} (89%)
- rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-nvd-native_2026.08.03-000011.bb => sbom-cve-check-update-nvd-native_2026.08.25-000009.bb} (89%)
+ .../recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-03.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-25.bb
-similarity index 89%
-rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-03.bb
-rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-25.bb
-index aa21b06953..dcbd98396d 100644
---- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-03.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-cvelist-native_2026-08-25.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/CVEProject/cvelistV5"
- SRC_URI = "git://github.com/CVEProject/cvelistV5.git;branch=main;protocol=https;destsuffix="
- SBOM_CVE_CHECK_DB_NAME = "cvelist"
+diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
+index fbdc561e8c..2efc080b93 100644
+--- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
++++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-db.inc
+@@ -2,6 +2,7 @@
  
--SRCREV = "b160e6f2915ac726b29ee0689fc920f5016abef5"
-+SRCREV = "ce11dbdcf79189e965d64b29161af93993619281"
- UPSTREAM_CHECK_GITTAGREGEX = "(?P<pver>.+)_baseline"
+ INHIBIT_DEFAULT_DEPS = "1"
+ EXCLUDE_FROM_WORLD = "1"
++RM_WORK_EXCLUDE += "${PN}"
  
- require sbom-cve-check-update-db.inc
-diff --git a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.03-000011.bb b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.25-000009.bb
-similarity index 89%
-rename from meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.03-000011.bb
-rename to meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.25-000009.bb
-index 720b5ded0a..473e33411c 100644
---- a/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.03-000011.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/sbom-cve-check-update-nvd-native_2026.08.25-000009.bb
-@@ -6,7 +6,7 @@ HOMEPAGE = "https://github.com/fkie-cad/nvd-json-data-feeds"
- SRC_URI = "git://github.com/fkie-cad/nvd-json-data-feeds.git;branch=main;protocol=https;destsuffix="
- SBOM_CVE_CHECK_DB_NAME = "nvd-fkie"
- 
--SRCREV = "b9f52bb052695dac5cabbd58e049eaac73697161"
-+SRCREV = "08cb7bde86fe9057c2338d7d61a705e642775bfd"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>.+)"
- 
- require sbom-cve-check-update-db.inc
+ inherit native
+ require conf/sbom-cve-check-config.inc
 
