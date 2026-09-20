@@ -1,74 +1,103 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <patchtest@automation.yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 41CDFC982DA
-	for <webhook@archiver.kernel.org>; Sun, 20 Sep 2026 19:16:44 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.34767.1789931797434874674
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 83758C982DA
+	for <webhook@archiver.kernel.org>; Sun, 20 Sep 2026 19:47:54 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.35256.1789933670626484114
  for <openembedded-core@lists.openembedded.org>;
- Sun, 20 Sep 2026 12:16:37 -0700
+ Sun, 20 Sep 2026 12:47:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=ZUZbnC1q;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-20260920191635a980d90df40002075d-tlsyvk@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 20260920191635a980d90df40002075d
-        for <openembedded-core@lists.openembedded.org>;
-        Sun, 20 Sep 2026 21:16:35 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=Werjr/goA7oNV449HbavqZlkkUVNQuS4g0S+a9r0EQM=;
- b=ZUZbnC1qmbhl+pWfBbpkGNjT4xRioMpTloAvRUeWmhBLfgBEu/WvlLN3UcmvuAa7FmmR0e
- tEYUrtKB4Vp3bMcqUDHwLG3b/14M9ayk6tI04DZXlDRFyPyGwLSgbTecSWfNRLjg1W23ISP5
- TDXNHfq7ht0SkA8zKefGlVFf1iULRPFrNU/rR5pFL3Mu3lImZ1hZ4CmX3M9cUXDGAH9V1LJH
- 5TF46l8SGpGs3MDG+mOjtQAlnWgto19WaJDOPkSOF4UBc0qJS6SxxprOfFsnBc/c7+G9sCZR
- a79KR20JJEc6WSdxLOjMOkOukKvzlkRAidOVqUCr/1xKa7u+tK5OGtow==;
-From: Peter Marko <peter.marko@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: peter.marko@siemens.com
-Subject: [wrynose][PATCH 5/5] python3-sbom-cve-check: update to version 1.3.5
-Date: Sun, 20 Sep 2026 21:15:31 +0200
-Message-ID: <20260920191531.113024-5-peter.marko@siemens.com>
+ dkim=pass header.i=@automation.yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=r5qIUZ4V;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=c1tv+nPD;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a0c05c4d8f-27f69c48-61c2-42c6-8c01-12fa31664916-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1789933669; i=@automation.yoctoproject.org;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date;
+	bh=R3HvZH/HRyDdcgnHP9zstXNwXCEOWVhtqwbMIB9uMss=;
+	b=r5qIUZ4VmHteY06w//w9wAc4B+2PAp5NTKUK1buQy982kpWbyqpQr8IQrQsZK707
+	piqH4daZ/Y2jSqRyMixxtIN4Rpm65xpThGUqLiA1xKgeVD7BJ2euFojTCafw9ovf+Sw
+	uSizu2dCPtH/r2k/ZX/QqGwg0EgwaqWOHGVbNcBE=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789933669;
+	h=From:To:CC:Subject:In-Reply-To:References:MIME-Version:Content-type:Message-ID:Date:Feedback-ID;
+	bh=R3HvZH/HRyDdcgnHP9zstXNwXCEOWVhtqwbMIB9uMss=;
+	b=c1tv+nPDKl5wjaEovKE9vbcI9DgDp/K5BlI+JUXY5T/Hkr00n/Fg2K0sUJUSXHyN
+	4gag6TBr2DBcwgWLNq3dLQEVBzCOY/mesjMXDTioK4m56aUfE4cQNdbV872qhdbbNEu
+	o30cq6sOaEHF7aHrHkNxPFiyDRvGH2VicxPlWSF4=
+From: patchtest@automation.yoctoproject.org
+To: Peter Marko <peter.marko@siemens.com>
+CC: openembedded-core@lists.openembedded.org
+Subject: Patchtest results for [wrynose][PATCH 1/5]
+  sbom-cve-check-update-nvd-native,sbom-cve-check-update-cvelist-native:
+ upgrade 2026.08.03-000011 -> 2026.08.25-000009
 In-Reply-To: <20260920191531.113024-1-peter.marko@siemens.com>
 References: <20260920191531.113024-1-peter.marko@siemens.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
+MIME-Version: 1.0" +         "
+Content-type: Multipart/Mixed;boundary="NextPart"
+Message-ID: <010101a0c05c4d8f-27f69c48-61c2-42c6-8c01-12fa31664916-000000@us-west-2.amazonses.com>
+Date: Sun, 20 Sep 2026 19:47:49 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.20-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 20 Sep 2026 19:16:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246267
+ <openembedded-core@lists.openembedded.org>; Sun, 20 Sep 2026 19:47:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246268
 
-From: Benjamin Robin <benjamin.robin@bootlin.com>
+--NextPart
+Content-Type: text/plain
 
-For details on this new release, see:
-https://github.com/bootlin/sbom-cve-check/releases/tag/v1.3.5
+Thank you for your submission. Patchtest identified one
+or more issues with the patch. Please see the log below for
+more information:
 
-Signed-off-by: Benjamin Robin (Schneider Electric) <benjamin.robin@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 65804d3f2eec44a3bdba68d8865619818886a4d1)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- ...-sbom-cve-check_1.3.4.bb => python3-sbom-cve-check_1.3.5.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/sbom-cve-check/{python3-sbom-cve-check_1.3.4.bb => python3-sbom-cve-check_1.3.5.bb} (82%)
+Testing patch /home/patchtest/share/mboxes/wrynose-1-5-sbom-cve-check-update-nvd-native-sbom-cve-check-update-cvelist-native-upgrade-2026.08.03-000011---2026.08.25-000009.patch
 
-diff --git a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.4.bb b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.bb
-similarity index 82%
-rename from meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.4.bb
-rename to meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.bb
-index c26ce6e6b3..83d420835d 100644
---- a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.4.bb
-+++ b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.bb
-@@ -5,7 +5,7 @@ LICENSE = "GPL-2.0-or-later"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=570a9b3749dd0463a1778803b12a6dce"
- 
- PYPI_PACKAGE = "sbom_cve_check"
--SRC_URI[sha256sum] = "aa2f4e183b600fdad7ce6eb67f7d642bd3e7c67293ae9ffda7d3a2fde433e02b"
-+SRC_URI[sha256sum] = "9ed8b0e9c46015444cd3e30332d9558e0be5f5fec97f6df47c6760166a314167"
- 
- inherit pypi python_hatchling
- 
+FAIL: test shortlog length: Edit shortlog so that it is 90 characters or less (currently 118 characters) (test_mbox.TestMbox.test_shortlog_length)
+
+PASS: test CVE check ignore (test_metadata.TestMetadata.test_cve_check_ignore)
+PASS: test Signed-off-by presence (test_mbox.TestMbox.test_signed_off_by_presence)
+PASS: test auh changelog truncation notice (test_mbox.TestMbox.test_auh_changelog_truncation_notice)
+PASS: test author valid (test_mbox.TestMbox.test_author_valid)
+PASS: test commit message presence (test_mbox.TestMbox.test_commit_message_presence)
+PASS: test commit message user tags (test_mbox.TestMbox.test_commit_message_user_tags)
+PASS: test lic files chksum modified not mentioned (test_metadata.TestMetadata.test_lic_files_chksum_modified_not_mentioned)
+PASS: test max line length (test_metadata.TestMetadata.test_max_line_length)
+PASS: test mbox format (test_mbox.TestMbox.test_mbox_format)
+PASS: test non-AUH upgrade (test_mbox.TestMbox.test_non_auh_upgrade)
+PASS: test shortlog format (test_mbox.TestMbox.test_shortlog_format)
+PASS: test target mailing list (test_mbox.TestMbox.test_target_mailing_list)
+
+SKIP: pretest pylint: No python related patches, skipping test (test_python_pylint.PyLint.pretest_pylint)
+SKIP: pretest src uri left files: Patch cannot be merged (test_metadata.TestMetadata.pretest_src_uri_left_files)
+SKIP: test CVE tag format: No new source patches introduced (test_patch.TestPatch.test_cve_tag_format)
+SKIP: test Signed-off-by presence: No new source patches introduced (test_patch.TestPatch.test_signed_off_by_presence)
+SKIP: test Upstream-Status presence: No new source patches introduced (test_patch.TestPatch.test_upstream_status_presence_format)
+SKIP: test bugzilla entry format: No bug ID found (test_mbox.TestMbox.test_bugzilla_entry_format)
+SKIP: test lic files chksum presence: No added recipes, skipping test (test_metadata.TestMetadata.test_lic_files_chksum_presence)
+SKIP: test license presence: No added recipes, skipping test (test_metadata.TestMetadata.test_license_presence)
+SKIP: test pylint: No python related patches, skipping test (test_python_pylint.PyLint.test_pylint)
+SKIP: test series merge on head: Merge test is disabled for now (test_mbox.TestMbox.test_series_merge_on_head)
+SKIP: test src uri left files: Patch cannot be merged (test_metadata.TestMetadata.test_src_uri_left_files)
+SKIP: test summary presence: No added recipes, skipping test (test_metadata.TestMetadata.test_summary_presence)
+
+---
+
+Please address the issues identified and
+submit a new revision of the patch, or alternatively, reply to this
+email with an explanation of why the patch should be accepted. If you
+believe these results are due to an error in patchtest, please submit a
+bug at https://bugzilla.yoctoproject.org/ (use the 'Patchtest' category
+under 'Yocto Project Subprojects'). For more information on specific
+failures, see: https://wiki.yoctoproject.org/wiki/Patchtest. Thank
+you!
+
+--NextPart
+
+
+--NextPart--
 
