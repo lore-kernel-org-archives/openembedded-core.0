@@ -2,141 +2,258 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EA176C982D0
-	for <webhook@archiver.kernel.org>; Sun, 20 Sep 2026 05:18:35 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.24859.1789881508324503375
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1BE01C982CC
+	for <webhook@archiver.kernel.org>; Sun, 20 Sep 2026 05:18:36 +0000 (UTC)
+Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.24860.1789881508768312590
  for <openembedded-core@lists.openembedded.org>;
  Sat, 19 Sep 2026 22:18:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=JmkkohN8;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=sKrLuY+o;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a0bd405e17-51565d78-587f-4d30-8220-2f1b9650d195-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=SdC1Y9CW;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bEFz5wIZ;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a0bd405ff6-390c8d9d-d28f-4779-9366-741d24244867-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1789881507;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=7q8ORbK+uMdc/IeSycywdzIX5ggBQYzKVz9OWv/vrqw=;
-	b=JmkkohN8bnc+lGU8sb/L3MXKi4b2sDlY+5jv+WMA2jVhxoqg3Mc2UdbUS6dk8zmj
-	rbfkwKvzAS2af/1gaW5de68uJ0X2OTKA4OGaqRHpa5dd7t5tdXzlyaq52RfZm8yxZAO
-	eMDisir3goZGJ+EhJ/UD2XqqxgCN/ow4hF2ab+Ko=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=+LW2CmOvJ9tZtFVTnN7fu1uhIGZDNv4qGtNjKgpgEUo=;
+	b=SdC1Y9CWGXaVJckU8l0HFIgq/m1wM/0r2dkBWjEZZdZ5jHM0BLPy+X5XSeSutuM3
+	BdULb0jcycHUzCcnD7HV6TGDOfKikBSi+Fr/jOhQ2rjBRr2EEpW/d+MpbyHRDA2xI3I
+	Kf7zuy9J9CIAkIiJUXV9PH+4SUIIdMt0Yx0+bgFQ=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789881507;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=7q8ORbK+uMdc/IeSycywdzIX5ggBQYzKVz9OWv/vrqw=;
-	b=sKrLuY+oeaC5EVUlhqozqJlIswbj9A+7U7pf9GvZjRhq7rZ/DjPzF/B/XvmED26v
-	g/Ken4cuv1hKc+oL1ykkPD57pDsN8cAOwyU5n/huvdXNrmgewEuV0NuRWWznJsml6zP
-	jDGrg5HRki87d9Vh9PC0MFI8BQmXrT16K152U+18=
-Content-Type: multipart/mixed; boundary="===============0193149895622421660=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=+LW2CmOvJ9tZtFVTnN7fu1uhIGZDNv4qGtNjKgpgEUo=;
+	b=bEFz5wIZQud5tzl5iTCMxFQqkwP69dxH+DaUbTJPxDn6LmbuI3ZYJ2Ecdj6XMbkk
+	Ipk2zmcLlt1keriTmZ9xY5S8Q3RsqcG3c1Sxw4+6Pit9PnfWgX6SpmHeHTfmPqouNrM
+	/ha1cz5g6R2PXtr0qXS+rhY2yqtPPylUkIVybnBk=
+Content-Type: multipart/mixed; boundary="===============6994753204032748638=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Robert Yang <liezhi.yang@windriver.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] nfs-utils: upgrading to 3.1.1 FAILED
-Message-ID: <010101a0bd405e17-51565d78-587f-4d30-8220-2f1b9650d195-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] puzzles: upgrading to ea09098d71db949351437eba1920033d3a08f491
+ SUCCEEDED
+Message-ID: <010101a0bd405ff6-390c8d9d-d28f-4779-9366-741d24244867-000000@us-west-2.amazonses.com>
 Date: Sun, 20 Sep 2026 05:18:27 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.20-54.240.27.29
+X-SES-Outgoing: 2026.09.20-54.240.27.31
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 20 Sep 2026 05:18:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246256
+ <openembedded-core@lists.openembedded.org>; Sun, 20 Sep 2026 05:18:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246258
 
---===============0193149895622421660==
+--===============6994753204032748638==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpwdXp6bGVzKiB0byAqZWEwOTA5OGQ3MWRiOTQ5MzUxNDM3ZWJhMTkyMDAzM2QzYTA4ZjQ5
+MSogaGFzIFN1Y2NlZWRlZC4KCk5leHQgc3RlcHM6CiAgICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0
+IGFtIDAwMDEtcHV6emxlcy11cGdyYWRlLXRvLWxhdGVzdC1yZXZpc2lvbi5wYXRjaAogICAgLSBj
+aGVjayB0aGUgY2hhbmdlcyB0byB1cHN0cmVhbSBwYXRjaGVzIGFuZCBzdW1tYXJpemUgdGhlbSBp
+biB0aGUgY29tbWl0IG1lc3NhZ2UsCiAgICAtIGNvbXBpbGUgYW4gaW1hZ2UgdGhhdCBjb250YWlu
+cyB0aGUgcGFja2FnZQogICAgLSBwZXJmb3JtIHNvbWUgYmFzaWMgc2FuaXR5IHRlc3RzCiAgICAt
+IGFtZW5kIHRoZSBwYXRjaCBhbmQgc2lnbiBpdCBvZmY6IGdpdCBjb21taXQgLXMgLS1yZXNldC1h
+dXRob3IgLS1hbWVuZAogICAgLSBzZW5kIGl0IHRvIHRoZSBhcHByb3ByaWF0ZSBtYWlsaW5nIGxp
+c3QKCkFsdGVybmF0aXZlbHksIGlmIHlvdSBiZWxpZXZlIHRoZSByZWNpcGUgc2hvdWxkIG5vdCBi
+ZSB1cGdyYWRlZCBhdCB0aGlzIHRpbWUsCnlvdSBjYW4gZmlsbCBSRUNJUEVfTk9fVVBEQVRFX1JF
+QVNPTiBpbiByZXNwZWN0aXZlIHJlY2lwZSBmaWxlIHNvIHRoYXQKYXV0b21hdGljIHVwZ3JhZGVz
+IHdvdWxkIG5vIGxvbmdlciBiZSBhdHRlbXB0ZWQuCgpQbGVhc2UgcmV2aWV3IHRoZSBhdHRhY2hl
+ZCBmaWxlcyBmb3IgZnVydGhlciBpbmZvcm1hdGlvbiBhbmQgYnVpbGQvdXBkYXRlIGZhaWx1cmVz
+LgpBbnkgcHJvYmxlbSBwbGVhc2UgZmlsZSBhIGJ1ZyBhdCBodHRwczovL2J1Z3ppbGxhLnlvY3Rv
+cHJvamVjdC5vcmcvZW50ZXJfYnVnLmNnaT9wcm9kdWN0PUF1dG9tYXRlZCUyMFVwZGF0ZSUyMEhh
+bmRsZXIKClJlZ2FyZHMsClRoZSBVcGdyYWRlIEhlbHBlcgoKLS0gPjggLS0KRnJvbSA0YTU4OWI4
+YzIzOTgzODI0ZWE4YWM0YjAxNjE4ZjczZWIyNWYxOTE2IE1vbiBTZXAgMTcgMDA6MDA6MDAgMjAw
+MQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+CkRhdGU6IFN1biwg
+MjAgU2VwIDIwMjYgMDU6MTg6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBwdXp6bGVzOiB1cGdy
+YWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKZWEwOTA5OCBNaW5lczogcmV3cml0ZSB0aGUgYmx1cmIg
+Zm9yIHRoZSBKYXZhc2NyaXB0IHB1enpsZSBwYWdlLgo0Mjg5MTNjIE1pbmVzOiByZW5hbWUgJ2N5
+Y2xpYycgZ3JpZHMgdG8gJ3dyYXBwaW5nJy4KNzkxNDMzOCBNaW5lczogRml4IHRoZSBuZWVkbGVz
+c2x5IGxhcmdlIHJpZ2h0IG1hcmdpbiBmb3IgVHJpYW5ndWxhciBjeWNsaWMgZ3JpZC4KM2IxMTdh
+YiBNaW5lczogc2hvdyBhcnJvd3MgdG8gaW5kaWNhdGUgYSBjeWNsaWMgZ3JpZC4KYTMzZjQ1OCBN
+aW5lczogZml4IGEgdHlwbyBpbiBhIGRpYWdub3N0aWMuCjM4ZTdlYTMgR1RLOiBmaXggYnVpbGQg
+d2l0aCBHdGsyIChmb2N1c19vbl9jbGljaykuCjUxNWM4YTQgR1RLOiBmaXggR3RrMiB3YXJuaW5n
+L2Vycm9yIGZyb20gbWlzc2luZyBzdGF0aWMuCjQzZWVmZTggV2ViIHB1enpsZXM6IHByb3ZpZGUg
+c29tZSA8bm9zY3JpcHQ+IHRleHQuCmE2ODNkMjcgTWluZXM6IGZpeCBjdXJzb3IgY29udHJvbCBv
+biByZWN0YW5ndWxhciBzcXVhcmUgZ3JpZHMuCmQzODVhY2MgTWluZXM6IGFsbG93IG1pbmUgY291
+bnQgdG8gYmUgc3RvcmVkIGFzIGEgcHJvcG9ydGlvbi4KMjY1OTA4NSBEb21pbm9zYTogZW5zdXJl
+IGd1dHRlciBiZXR3ZWVuIGRvbWlub2VzIGlzIG5vbnplcm8uCmU2N2RhYWEgU3VwcG9ydCBDIGlt
+cGxlbWVudGF0aW9ucyB3aGVyZSBtYWxsb2MoMCkgcmV0dXJucyBOVUxMLgpiMzA4MzhhIFVzZSAv
+c3RkOmMxMSB3aGVuIGNvbXBpbGluZyB3aXRoIE1TVkMuCjhiMzYzMjUgQWRkIC1XZXJyb3I9dmxh
+IHdoZW4gYnVpbGRpbmcgd2l0aCAtRFNUUklDVD1PTi4KZDgyZGJiMSBNYWtlIGEgY2xpY2sgb3V0
+c2lkZSB0aGUgZ3JpZCBoaWRlIHRoZSBjdXJzb3IuCmQzMjRmZTkgTWluZXM6IHN1cHBvcnQgcGxh
+eSBvbiBhIHdpZGUgcmFuZ2Ugb2YgZ3JpZCBzaGFwZXMuCmFhNGNkNDggTmV3IGdyaWQgdHlwZSwg
+aW50ZXJuYWxseSBuYW1lZCAnT2N0YWdvbmFsMicuCjM4NTVhMzkgTWluZXM6IHByZWZlcmVuY2Ug
+dG8gaGlnaGxpZ2h0IGZsYWdzIHdoZW4gY2xpY2tpbmcgdG8gY2xlYXIuCmZjOWM0YWIgTWluZXM6
+IGZpeCBkb3VibGUtaW5jcmVtZW50IG9mIG5wZXJ0dXJicy4KN2M3OTYyMCBNaW5lczogcmVtb3Zl
+IHZhbGlkYXRpb24gY2hlY2sgb24gdGhlIG1pbmUgY291bnQuCi0tLQogbWV0YS9yZWNpcGVzLXNh
+dG8vcHV6emxlcy9wdXp6bGVzX2dpdC5iYiB8IDI2ICsrKysrKysrKysrKysrKysrKysrKystLQog
+MSBmaWxlIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0t
+Z2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dpdC5iYiBiL21ldGEvcmVj
+aXBlcy1zYXRvL3B1enpsZXMvcHV6emxlc19naXQuYmIKaW5kZXggNmUxZTJiODc0OS4uODEyMWVi
+YzZiMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dpdC5i
+YgorKysgYi9tZXRhL3JlY2lwZXMtc2F0by9wdXp6bGVzL3B1enpsZXNfZ2l0LmJiCkBAIC0xLDgg
+KzEsMzAgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVlcyBoYXZlIGJlZW4g
+dXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2luZyBpcyB0aGUgZGlm
+ZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0ZXh0LgorIyBQbGVh
+c2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1bW1hcml6ZSB0aGUg
+Y2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNlLVVwZGF0ZTonIHRh
+Zy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHllYXJzIHVwZGF0ZWQu
+JykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTkNFCisjICsrKyBMSUNFTkNFCisj
+IEBAIC0zLDcgKzMsNyBAQAorIyAgUG9ydGlvbnMgY29weXJpZ2h0IFJpY2hhcmQgQm91bHRvbiwg
+SmFtZXMgSGFydmV5LCBNaWtlIFBpbm5hLCBKb25hcworIyAgS8O2bGtlciwgRGFyaXVzeiBPbHN6
+ZXdza2ksIE1pY2hhZWwgU2NoaWVybCwgTGFtYnJvcyBMYW1icm91LCBCZXJuZAorIyAgU2NobWlk
+dCwgU3RlZmZlbiBCYXVlciwgTGVubmFyZCBTcHJvbmcsIFJvZ2llciBHb29zc2VucywgTWljaGFl
+bAorIyAtUXVldmlsbG9uLCBBc2hlciBHb3Jkb24sIERpZGkgS29oZW4gYW5kIEJlbiBIYXJyaXMu
+CisjICtRdWV2aWxsb24sIEFzaGVyIEdvcmRvbiwgRGlkaSBLb2hlbiwgQmVuIEhhcnJpcyBhbmQg
+QW5kZXJzIEjDtmdsdW5kLgorIyAgCisjICBQZXJtaXNzaW9uIGlzIGhlcmVieSBncmFudGVkLCBm
+cmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbgorIyAgb2J0YWluaW5nIGEgY29weSBvZiB0aGlz
+IHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMKKyMgCisjCisKIFNV
+TU1BUlkgPSAiU2ltb24gVGF0aGFtJ3MgUG9ydGFibGUgUHV6emxlIENvbGxlY3Rpb24iCiBERVND
+UklQVElPTiA9ICJDb2xsZWN0aW9uIG9mIHNtYWxsIGNvbXB1dGVyIHByb2dyYW1zIHdoaWNoIGlt
+cGxlbWVudCBvbmUtcGxheWVyIHB1enpsZSBnYW1lcy4iCiBIT01FUEFHRSA9ICJodHRwOi8vd3d3
+LmNoaWFyay5ncmVlbmVuZC5vcmcudWsvfnNndGF0aGFtL3B1enpsZXMvIgogTElDRU5TRSA9ICJN
+SVQiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTkNFO21kNT0xOTE1NDJiMzIzNzdi
+ZGUyNTRlOTc5OWUwYTQ2ZjE4YiIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmlsZTovL0xJQ0VOQ0U7
+bWQ1PTFiN2FhNGM3MjgzZmQ2MDBkMjMwMWFmOGQ5ZGY5NzJiIgogCiAjIGd0ayBzdXBwb3J0IGlu
+Y2x1ZGVzIGEgYnVuY2ggb2YgeDExIGhlYWRlcnMKIFJFUVVJUkVEX0RJU1RST19GRUFUVVJFUyA9
+ICJ4MTEiCkBAIC0xMCw3ICszMiw3IEBAIFJFUVVJUkVEX0RJU1RST19GRUFUVVJFUyA9ICJ4MTEi
+CiBTUkNfVVJJID0gImdpdDovL2dpdC50YXJ0YXJ1cy5vcmcvc2ltb24vcHV6emxlcy5naXQ7YnJh
+bmNoPW1haW47cHJvdG9jb2w9aHR0cHMiCiAKIFVQU1RSRUFNX0NIRUNLX0NPTU1JVFMgPSAiMSIK
+LVNSQ1JFViA9ICIzYzM2MzIyNTlkMjk4YWI2MmFhZmE4YTU4NTg4MjM1NjlhYjFhZjQ2IgorU1JD
+UkVWID0gImVhMDkwOThkNzFkYjk0OTM1MTQzN2ViYTE5MjAwMzNkM2EwOGY0OTEiCiBQRSA9ICIy
+IgogUFYgPSAiMC4wK2dpdCIKIAotLSAKMi40Ny4xCgo=
+
+--===============6994753204032748638==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-Hello,
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *nfs-utils* to *3.1.1* has Failed (devtool error).
+--===============6994753204032748638==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-puzzles-upgrade-to-latest-revision.patch"
 
-Detailed error information:
+RnJvbSA0YTU4OWI4YzIzOTgzODI0ZWE4YWM0YjAxNjE4ZjczZWIyNWYxOTE2IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFN1biwgMjAgU2VwIDIwMjYgMDU6MTg6MjQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+dXp6bGVzOiB1cGdyYWRlIHRvIGxhdGVzdCByZXZpc2lvbgoKZWEwOTA5OCBNaW5lczogcmV3cml0
+ZSB0aGUgYmx1cmIgZm9yIHRoZSBKYXZhc2NyaXB0IHB1enpsZSBwYWdlLgo0Mjg5MTNjIE1pbmVz
+OiByZW5hbWUgJ2N5Y2xpYycgZ3JpZHMgdG8gJ3dyYXBwaW5nJy4KNzkxNDMzOCBNaW5lczogRml4
+IHRoZSBuZWVkbGVzc2x5IGxhcmdlIHJpZ2h0IG1hcmdpbiBmb3IgVHJpYW5ndWxhciBjeWNsaWMg
+Z3JpZC4KM2IxMTdhYiBNaW5lczogc2hvdyBhcnJvd3MgdG8gaW5kaWNhdGUgYSBjeWNsaWMgZ3Jp
+ZC4KYTMzZjQ1OCBNaW5lczogZml4IGEgdHlwbyBpbiBhIGRpYWdub3N0aWMuCjM4ZTdlYTMgR1RL
+OiBmaXggYnVpbGQgd2l0aCBHdGsyIChmb2N1c19vbl9jbGljaykuCjUxNWM4YTQgR1RLOiBmaXgg
+R3RrMiB3YXJuaW5nL2Vycm9yIGZyb20gbWlzc2luZyBzdGF0aWMuCjQzZWVmZTggV2ViIHB1enps
+ZXM6IHByb3ZpZGUgc29tZSA8bm9zY3JpcHQ+IHRleHQuCmE2ODNkMjcgTWluZXM6IGZpeCBjdXJz
+b3IgY29udHJvbCBvbiByZWN0YW5ndWxhciBzcXVhcmUgZ3JpZHMuCmQzODVhY2MgTWluZXM6IGFs
+bG93IG1pbmUgY291bnQgdG8gYmUgc3RvcmVkIGFzIGEgcHJvcG9ydGlvbi4KMjY1OTA4NSBEb21p
+bm9zYTogZW5zdXJlIGd1dHRlciBiZXR3ZWVuIGRvbWlub2VzIGlzIG5vbnplcm8uCmU2N2RhYWEg
+U3VwcG9ydCBDIGltcGxlbWVudGF0aW9ucyB3aGVyZSBtYWxsb2MoMCkgcmV0dXJucyBOVUxMLgpi
+MzA4MzhhIFVzZSAvc3RkOmMxMSB3aGVuIGNvbXBpbGluZyB3aXRoIE1TVkMuCjhiMzYzMjUgQWRk
+IC1XZXJyb3I9dmxhIHdoZW4gYnVpbGRpbmcgd2l0aCAtRFNUUklDVD1PTi4KZDgyZGJiMSBNYWtl
+IGEgY2xpY2sgb3V0c2lkZSB0aGUgZ3JpZCBoaWRlIHRoZSBjdXJzb3IuCmQzMjRmZTkgTWluZXM6
+IHN1cHBvcnQgcGxheSBvbiBhIHdpZGUgcmFuZ2Ugb2YgZ3JpZCBzaGFwZXMuCmFhNGNkNDggTmV3
+IGdyaWQgdHlwZSwgaW50ZXJuYWxseSBuYW1lZCAnT2N0YWdvbmFsMicuCjM4NTVhMzkgTWluZXM6
+IHByZWZlcmVuY2UgdG8gaGlnaGxpZ2h0IGZsYWdzIHdoZW4gY2xpY2tpbmcgdG8gY2xlYXIuCmZj
+OWM0YWIgTWluZXM6IGZpeCBkb3VibGUtaW5jcmVtZW50IG9mIG5wZXJ0dXJicy4KN2M3OTYyMCBN
+aW5lczogcmVtb3ZlIHZhbGlkYXRpb24gY2hlY2sgb24gdGhlIG1pbmUgY291bnQuCi0tLQogbWV0
+YS9yZWNpcGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dpdC5iYiB8IDI2ICsrKysrKysrKysrKysr
+KysrKysrKystLQogMSBmaWxlIGNoYW5nZWQsIDI0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25z
+KC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXNhdG8vcHV6emxlcy9wdXp6bGVzX2dpdC5i
+YiBiL21ldGEvcmVjaXBlcy1zYXRvL3B1enpsZXMvcHV6emxlc19naXQuYmIKaW5kZXggNmUxZTJi
+ODc0OS4uODEyMWViYzZiMiAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLXNhdG8vcHV6emxlcy9w
+dXp6bGVzX2dpdC5iYgorKysgYi9tZXRhL3JlY2lwZXMtc2F0by9wdXp6bGVzL3B1enpsZXNfZ2l0
+LmJiCkBAIC0xLDggKzEsMzAgQEAKKyMgRklYTUU6IHRoZSBMSUNfRklMRVNfQ0hLU1VNIHZhbHVl
+cyBoYXZlIGJlZW4gdXBkYXRlZCBieSAnZGV2dG9vbCB1cGdyYWRlJy4KKyMgVGhlIGZvbGxvd2lu
+ZyBpcyB0aGUgZGlmZmVyZW5jZSBiZXR3ZWVuIHRoZSBvbGQgYW5kIHRoZSBuZXcgbGljZW5zZSB0
+ZXh0LgorIyBQbGVhc2UgdXBkYXRlIHRoZSBMSUNFTlNFIHZhbHVlIGlmIG5lZWRlZCwgYW5kIHN1
+bW1hcml6ZSB0aGUgY2hhbmdlcyBpbgorIyB0aGUgY29tbWl0IG1lc3NhZ2UgdmlhICdMaWNlbnNl
+LVVwZGF0ZTonIHRhZy4KKyMgKGV4YW1wbGU6ICdMaWNlbnNlLVVwZGF0ZTogY29weXJpZ2h0IHll
+YXJzIHVwZGF0ZWQuJykKKyMKKyMgVGhlIGNoYW5nZXM6CisjCisjIC0tLSBMSUNFTkNFCisjICsr
+KyBMSUNFTkNFCisjIEBAIC0zLDcgKzMsNyBAQAorIyAgUG9ydGlvbnMgY29weXJpZ2h0IFJpY2hh
+cmQgQm91bHRvbiwgSmFtZXMgSGFydmV5LCBNaWtlIFBpbm5hLCBKb25hcworIyAgS8O2bGtlciwg
+RGFyaXVzeiBPbHN6ZXdza2ksIE1pY2hhZWwgU2NoaWVybCwgTGFtYnJvcyBMYW1icm91LCBCZXJu
+ZAorIyAgU2NobWlkdCwgU3RlZmZlbiBCYXVlciwgTGVubmFyZCBTcHJvbmcsIFJvZ2llciBHb29z
+c2VucywgTWljaGFlbAorIyAtUXVldmlsbG9uLCBBc2hlciBHb3Jkb24sIERpZGkgS29oZW4gYW5k
+IEJlbiBIYXJyaXMuCisjICtRdWV2aWxsb24sIEFzaGVyIEdvcmRvbiwgRGlkaSBLb2hlbiwgQmVu
+IEhhcnJpcyBhbmQgQW5kZXJzIEjDtmdsdW5kLgorIyAgCisjICBQZXJtaXNzaW9uIGlzIGhlcmVi
+eSBncmFudGVkLCBmcmVlIG9mIGNoYXJnZSwgdG8gYW55IHBlcnNvbgorIyAgb2J0YWluaW5nIGEg
+Y29weSBvZiB0aGlzIHNvZnR3YXJlIGFuZCBhc3NvY2lhdGVkIGRvY3VtZW50YXRpb24gZmlsZXMK
+KyMgCisjCisKIFNVTU1BUlkgPSAiU2ltb24gVGF0aGFtJ3MgUG9ydGFibGUgUHV6emxlIENvbGxl
+Y3Rpb24iCiBERVNDUklQVElPTiA9ICJDb2xsZWN0aW9uIG9mIHNtYWxsIGNvbXB1dGVyIHByb2dy
+YW1zIHdoaWNoIGltcGxlbWVudCBvbmUtcGxheWVyIHB1enpsZSBnYW1lcy4iCiBIT01FUEFHRSA9
+ICJodHRwOi8vd3d3LmNoaWFyay5ncmVlbmVuZC5vcmcudWsvfnNndGF0aGFtL3B1enpsZXMvIgog
+TElDRU5TRSA9ICJNSVQiCi1MSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTkNFO21kNT0x
+OTE1NDJiMzIzNzdiZGUyNTRlOTc5OWUwYTQ2ZjE4YiIKK0xJQ19GSUxFU19DSEtTVU0gPSAiZmls
+ZTovL0xJQ0VOQ0U7bWQ1PTFiN2FhNGM3MjgzZmQ2MDBkMjMwMWFmOGQ5ZGY5NzJiIgogCiAjIGd0
+ayBzdXBwb3J0IGluY2x1ZGVzIGEgYnVuY2ggb2YgeDExIGhlYWRlcnMKIFJFUVVJUkVEX0RJU1RS
+T19GRUFUVVJFUyA9ICJ4MTEiCkBAIC0xMCw3ICszMiw3IEBAIFJFUVVJUkVEX0RJU1RST19GRUFU
+VVJFUyA9ICJ4MTEiCiBTUkNfVVJJID0gImdpdDovL2dpdC50YXJ0YXJ1cy5vcmcvc2ltb24vcHV6
+emxlcy5naXQ7YnJhbmNoPW1haW47cHJvdG9jb2w9aHR0cHMiCiAKIFVQU1RSRUFNX0NIRUNLX0NP
+TU1JVFMgPSAiMSIKLVNSQ1JFViA9ICIzYzM2MzIyNTlkMjk4YWI2MmFhZmE4YTU4NTg4MjM1Njlh
+YjFhZjQ2IgorU1JDUkVWID0gImVhMDkwOThkNzFkYjk0OTM1MTQzN2ViYTE5MjAwMzNkM2EwOGY0
+OTEiCiBQRSA9ICIyIgogUFYgPSAiMC4wK2dpdCIKIAotLSAKMi40Ny4xCgo=
 
-Running 'devtool upgrade' for recipe nfs-utils failed.
-NOTE: Reconnecting to bitbake server...
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 959 .bb files complete (0 cached, 959 parsed). 1993 targets, 43 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+--===============6994753204032748638==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="puzzles-changelog.txt"
 
-Build Configuration:
-BB_VERSION           = "2.19.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-4171f85bbc60cd8cbb95b768438b6b670cd276e0"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:4171f85bbc60cd8cbb95b768438b6b670cd276e0"
-meta-yocto-bsp       
-meta-poky            = "master:d36c827e02ab138b446386792fd7588b5a041507"
-workspace            = "<unknown>:<unknown>"
+Changelog for puzzles: 0.0+git -> 0.0+git
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 22 Local 22 Mirrors 0 Missed 0 Current 8 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 960 .bb files complete (0 cached, 960 parsed). 1994 targets, 43 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
+ea09098 Mines: rewrite the blurb for the Javascript puzzle page.
+428913c Mines: rename 'cyclic' grids to 'wrapping'.
+7914338 Mines: Fix the needlessly large right margin for Triangular cyclic grid.
+3b117ab Mines: show arrows to indicate a cyclic grid.
+a33f458 Mines: fix a typo in a diagnostic.
+38e7ea3 GTK: fix build with Gtk2 (focus_on_click).
+515c8a4 GTK: fix Gtk2 warning/error from missing static.
+43eefe8 Web puzzles: provide some <noscript> text.
+a683d27 Mines: fix cursor control on rectangular square grids.
+d385acc Mines: allow mine count to be stored as a proportion.
+2659085 Dominosa: ensure gutter between dominoes is nonzero.
+e67daaa Support C implementations where malloc(0) returns NULL.
+b30838a Use /std:c11 when compiling with MSVC.
+8b36325 Add -Werror=vla when building with -DSTRICT=ON.
+d82dbb1 Make a click outside the grid hide the cursor.
+d324fe9 Mines: support play on a wide range of grid shapes.
+aa4cd48 New grid type, internally named 'Octagonal2'.
+3855a39 Mines: preference to highlight flags when clicking to clear.
+fc9c4ab Mines: fix double-increment of nperturbs.
+7c79620 Mines: remove validation check on the mine count.
 
-Build Configuration:
-BB_VERSION           = "2.19.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-4171f85bbc60cd8cbb95b768438b6b670cd276e0"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:4171f85bbc60cd8cbb95b768438b6b670cd276e0"
-meta-yocto-bsp       
-meta-poky            = "master:d36c827e02ab138b446386792fd7588b5a041507"
-workspace            = "<unknown>:<unknown>"
+--===============6994753204032748638==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files:   0% |                                   | ETA:  --:--:--
-Adding changed files: 100% |####################################| Time: 0:00:00
-INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Fetching https://cdn.kernel.org/pub/linux/utils/nfs-utils/3.1.1/nfs-utils-3.1.1.tar.xz...
-INFO: Rebasing devtool onto 82b8f3690460274a65cd83814556f6fd75031d82
-WARNING: Command 'git rebase 82b8f3690460274a65cd83814556f6fd75031d82' failed:
-Auto-merging configure.ac
-CONFLICT (content): Merge conflict in configure.ac
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dbg: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dbg: PKGSIZE changed from 23686424 to 24208664 (+2%)
+packages/x86-64-v3-poky-linux/puzzles/puzzles-dev: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles-doc: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles-locale: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles-src: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles-src: PKGSIZE changed from 3892970 to 3987240 (+2%)
+packages/x86-64-v3-poky-linux/puzzles/puzzles-staticdev: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles: PKGV changed from 0.0+git0+3c3632259d to 0.0+git0+ea09098d71
+packages/x86-64-v3-poky-linux/puzzles/puzzles: PKGSIZE changed from 7552154 to 7744666 (+3%)
 
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Using source tree as build directory since recipe inherits autotools-brokensep
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/nfs-utils
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/nfs-utils/nfs-utils_3.1.1.bb
-
-
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
---===============0193149895622421660==--
+--===============6994753204032748638==--
 
