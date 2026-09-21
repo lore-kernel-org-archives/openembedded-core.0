@@ -1,144 +1,126 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D79A8C982ED
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 19:53:04 +0000 (UTC)
-Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5303.1790020382695952121
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D23BBC982EE
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 20:05:01 +0000 (UTC)
+Received: from mail-qk2-f21.google.com (mail-qk2-f21.google.com [74.125.230.213])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5145.1790019882743556162
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 12:53:03 -0700
+ Mon, 21 Sep 2026 12:44:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=GgSzutb+;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=MAUkM+i9;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.148, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
-	by mailfout.stl.internal (Postfix) with ESMTP id A8CAD1D0008D;
-	Mon, 21 Sep 2026 15:53:01 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-07.internal (MEProxy); Mon, 21 Sep 2026 15:53:01 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1790020381;
-	 x=1790106781; bh=dcwNZSDoXxybDrBfbocOA2CQn7e9+SjP8KMUjtk4++o=; b=
-	GgSzutb+9Jm/c3bAtrmZHdEDAQI6XZS5rOoI3HeG9hA1uXUf0e5HGzOp88MzK0Sd
-	l+NhvScqMkJ6/OAFQ/iL+9hYGf6mKhtkyFO0GCYxto3BLXiaMBxkd1m7R1otkpx1
-	CCsIxycb1r1HgjsP0ZFXh8r4LVrAVWmbV5oBQpdKqTt6ZW+9afGsAEQHUlJvXd5r
-	lQGQvGwjE+hhSYHrTN8XaHYruAJF8iRNv1nBRTBrtBieZ/0aUov92wWFRZyurSkp
-	IOFc4tai0x+T/Jj2o2P6OOEfmcAUxPANOCzdcz3Wz+QmP3FTjwJvHeJAM270rF9S
-	XRvRktapzYAY7r6YHkySJg==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790020381; x=
-	1790106781; bh=dcwNZSDoXxybDrBfbocOA2CQn7e9+SjP8KMUjtk4++o=; b=M
-	AUkM+i9R4iLPFICFqxaQfZvVgvcAavdEUifetLtwoueWToKQ8/1Hr2CJSi9AJut8
-	4pnPbHAWLOIWXp4Zj6TnhovQai5hN9MiR+sVh97GNJAsnQpJyksjxTO1zUVjWiCF
-	SeuKxZTKj5X6Du9qG1swbF7F06nRRGXrgKrxy++Zi6VEo1zKMX6G65UBeCkWHHxL
-	ifiLHZRAZ4bVFo1ia4G4MEOW82BY5QFTEHZCj8tis8zUdDjzhheuLwx6GMmrN3Wc
-	bWcNAIKK18rGVt322cPW/+h81LWNiEwtNYC9FWRzCkspvptUyDb9C5tApq7k8aQJ
-	4zp6MgjsSJYckIIFM+HNw==
-X-ME-Sender: <xms:HYuxaghaeFz0Pff6QopmYRaUx8VlBurai0t1wLU1G45tpZ_2RX42QA>
-    <xme:HYuxagBGsNI1zB-0hS0sSwl_kyqhVAcFX4vjvpm0Fhroz1yxsLCg2IJt2DzgVG7MV
-    H2pJXUNDcxp_sVTR_ntAdPW2QKHMkNrF6gpFEqZF4QLmBVVTslqipMY>
-X-ME-Received: <xmr:HYuxatHb2wnKTLYyXcYhFEoDptY7nnntXhxrKoCauHzBPD521FmjNZZMWyX91uoqX4wD>
-X-ME-Proxy-Cause: dmFkZTG3g2qmQ9/SKwNyiUIZ/lL1uX32hSLOMxvM6w5/88phBBLIFV7DrOZp2F0SzZbv45
-    oPoIwWw+o/IZPMa+mhpfjbxUkEB1f9vnIgeyOV2y0Uzd8qbyOguDw7O8jd+6aoSqeXV853
-    0WzfCRnX8YXsRAqYziJVOMFyzR4762lxUINlqHhluHD7WvaWUVy2LuUSPeaG1uR5ZKH1BK
-    9TxGucmI3amsB37T77JFUe6f13p3gHiYiwbUiEVczUB4p62XcolevIY9rTvprEFSIF/bAx
-    FvOCmGs2gW42CTIV5lJgI2kndv+7rLOS1zZ+Gmh5dTE23c5WJKWI2a8YL62uG5RUaXvsP6
-    fXIs8pDktUVCj/NrB9k/HK8kgc5dovZimkliHdWclCmT31LSGoNlstAFckzzPLAcgvpKjk
-    ZHmru4fEfOPj06hSgPh2T3+Sz6WcA6R3sgPcb9Y8OEIjfgJL/nyQg4hUkegZwL1IzWVo+r
-    kKnhmZ6+Jat8X/hcUhIYAtGRyUvtgY++hSBVBRWNXFC9ou7MfuqPl0stJq2mR2NGCJVZmI
-    E9kr63I5oQ0wC7XnC7pZsN2Nwn+ELGfstzVwV1rb86CXkSrPvpipYRHAyOJHGFrb3SSeOF
-    5c5dc52cqGUy201Kx11KbtGW8E5T/rmLTYFrKzfHX4RjBIdW/gGckB7kq2yg
-X-ME-Proxy: <xmx:HYuxagJs5nVBLtvj0ApsUaNBosKCbM93Gbo-1XkmPCJFg-LtCF55mw>
-    <xmx:HYuxapn-PjOOTSx7fQxVfuxiHevSNbvLTKX_8bUkeYW734g_lUX2Zw>
-    <xmx:HYuxagQrMhwcQ-uFGqLahjsX3K8mD0OSVywjqdxOOhIXOmfuAWrpkQ>
-    <xmx:HYuxajL8nLtrOnkW37TJAiCAkzbSWmeOp_yU4rHU3tvEcRjMkKe-ng>
-    <xmx:HYuxauN5LKl1FEv_6k-fzXv-zMFODYMUJyVsyd-w_4VQZVzBjkoHiIQz>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Sep 2026 15:52:59 -0400 (EDT)
-Message-ID: <4ccc62a34b7c0ff418951a62c873daa589e45683.camel@pbarker.dev>
-Subject: Re: [OE-core] [wrynose][patch] rsync: Security fixes from
- v3.4.1-sec-patches3
-From: Paul Barker <paul@pbarker.dev>
-To: Vijay Anusuri <vanusuri@mvista.com>, sdoshi@mvista.com
-Cc: openembedded-core@lists.openembedded.org, Yoann Congal
-	 <yoann.congal@smile.fr>
-Date: Mon, 21 Sep 2026 20:52:56 +0100
-In-Reply-To: <CANQUz19S86jm7H3aoNKvm3NwEZ_L=QEmt53g4i2j=fgOz=e8jw@mail.gmail.com>
-References: <20260917105551.76512-1-vanusuri@mvista.com>
-	 <DLHK8G1OWTE8.394FSK4TR0VS5@smile.fr> <DLHLDE6HLTRH.2AFGSZ80URG52@smile.fr>
-	 <9faaa5bbc70d619058d8abecda9cd235d210d422.camel@pbarker.dev>
-	 <CANQUz1_hMwrLp4tuVS4+cEXXaj71-L0Nijw6n+pjzGpAKh=prw@mail.gmail.com>
-	 <546192.1789655591562202413@lists.openembedded.org>
-	 <CANQUz19S86jm7H3aoNKvm3NwEZ_L=QEmt53g4i2j=fgOz=e8jw@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=pass header.i=@baylibre.com header.s=google header.b=eaS41GwG;
+ spf=pass (domain: baylibre.com, ip: 74.125.230.213, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk2-f21.google.com with SMTP id af79cd13be357-93910cadea0so210683885a.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 12:44:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre.com; s=google; t=1790019881; x=1790624681; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=iBrmzUL9tbMeYbbakUcIpFna9KFSPJJP7C+CmBUM2eU=;
+        b=eaS41GwGKjo3IhyuUZCqMEu/PqrJTbEmEjB4xXbNam38JjKunv9C6ZDZ6E4ajbhL6S
+         YaYROv3sQzGhDgdCQSne8oiDFWKq/ksMcvG1UVsucetIJNO4nVT04WyGXN+ZjiM44cVX
+         tkLlmqkxPY/titUjjR0jHfsLLD3AMRw502Y4RDce3cslEYjt6pAI4P7p2OgOex9eEwjN
+         xfTZbdoRmptlObpvZ1Eg5OdndKCrmbvZ4bL0jWdD+nGgtX+qQ3m/NfexiLpvafYlh3Uc
+         oPGadrsbheKNrIYvPOfor2I3G6NKJLOj6RGWu7zBBWvJhmyhr5K0h8DBAwYoTMfkIwJ0
+         91uw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790019881; x=1790624681;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=iBrmzUL9tbMeYbbakUcIpFna9KFSPJJP7C+CmBUM2eU=;
+        b=uxrvsUaC8SiWulXec+q8BAOqvd8b7sahvRMcn+m/Q35Z8uwZKryMQvaXS/D4sHFbo5
+         kXgPGAvN7kJ6uUXxgKynW/kYzigt2Nyuwco+cSpbt0FgdszaxeuaN4Yq8+30v9QWf3Jm
+         O1BmSv3u45/NmnOEyzofGuxGRxIcWUTbkiwGleWww2Wt+6KRMmmSXm+hr+7+7qdEDub7
+         iGEEP2+gtfW0ejNkbq4rv/bvPa/KaEhQvoYIdfU1cSmP9aumO8ubXqWxnjTIZWLEwhUj
+         gziVdwVI8ijd9gG9SNcdbGwdIHq16lC0pHwGg2hf+M69sQO+Hu/c5MIIxQTtZ2CRS0lS
+         UOUA==
+X-Forwarded-Encrypted: i=1; AKwUvByz5qPMYswdVklcHB5FHmNrs6lXjXoCMpZCUDVlfPR02jLDeH2KTFj7FlcJ5N8C1tTPPQ9bG8C9ie7UKh/CIXCs1Q==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nh6TvDm8bpr9Lf3/n6tnzGNsYRGQ9B/1VB/H+6Pl5iso5zeWcD
+	D+YjZZHT5Iia2IYodV1At6x5wD4NayYJaVpVpdTuX4Mou5+HaAglwQJzkEQG/Si8VLs=
+X-Gm-Gg: AYBFou139O+Q0g0CvMpAOUCsDkZowwP4WbT9YIfW2X6aXqO1N5duncCMra+ODQKxD3L
+	p7heje/4231cZ3jYY7QKGnzFSMsdfEOYT2TAZTqacon/U7BCzOKe9NIecfXi/wmyCoUU18EyNBg
+	7SYHs9eH8Clbxi2NbW3HYGhFoubweHdXFbqs6jiGaDhMaRCaEECZED8NQwGK9o8fM/2GogSm4Ki
+	x7vo33AntLYX5b6YsdEpdF5KDnnHrhfHeD6muAAH8rz4VoII9QI4YAZpgZ9U/+qPer/sIOVBM4e
+	BwrjJrvANJMv5C2F6G8LWDfWnkjo/nSTi9Spc3SIqAHFV2/nQGfCQZsGyvURzcOICeorkh/gwFz
+	ITnn7jK1MVI+R1JTt9psNJaCyWyVtbKywXcCy5lBibGqngXVk4MCwmaXn1Y1hXSZmKJwDDEx1fr
+	LRpU8A6qiqLchQ1jBSGVeGc5HaWG2Ug2rENNPn7TEaUhtptGKkfaKwSpG36DELZPxFTIzUMQIXD
+	UTzxUBPaRuZ2pUGupHNageKd1dJxcKQ8V4=
+X-Received: by 2002:a05:620a:2b8a:b0:93b:d7a2:dd27 with SMTP id af79cd13be357-93c15e89827mr219737485a.55.1790019881333;
+        Mon, 21 Sep 2026 12:44:41 -0700 (PDT)
+Received: from localhost ([2001:1970:3847:e000:1977:be2f:4a71:2892])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c197c0918sm2938785a.5.2026.09.21.12.44.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Sep 2026 12:44:40 -0700 (PDT)
+Mime-Version: 1.0
+Date: Mon, 21 Sep 2026 15:44:39 -0400
+Message-Id: <DLL938ATXJZ6.KL4GU5AB1OH0@baylibre.com>
+Subject: Re: [PATCH] ptest-packagelists.inc: disable gnutls for RISCV64
+Cc: <thomas.petazzoni@bootlin.com>
+To: =?utf-8?q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>,
+ <openembedded-core@lists.openembedded.org>
+From: "Trevor Gamblin" <tgamblin@baylibre.com>
+X-Mailer: aerc 0.22.0
+References: <20260918090731.467954-1-joaomarcos.costa@bootlin.com>
+In-Reply-To: <20260918090731.467954-1-joaomarcos.costa@bootlin.com>
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
-MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 19:53:04 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246346
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 20:05:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246347
 
-On Mon, 2026-09-21 at 15:56 +0530, Vijay Anusuri wrote:
-> Hi Yoann, Paul,
->=20
-> I checked with the rsync upstream maintainers regarding the security patc=
-h
-> branches and the possibility of an archive/tarball.
->=20
-> They confirmed that v3.4.1-sec-patches3 and v3.2.7-sec-patches3 are
-> official rsync security-maintenance branches. They have now also publishe=
-d:
->=20
->    - v3.4.1-sec-patches4
->    - v3.2.7-sec-patches4
->=20
-> These branches contain the security and compatibility fixes applicable to
-> the respective older release lines after *-sec-patches3. Both branches ha=
-ve
-> been tested against the refreshed stable testsuite.
->=20
-> Regarding the archive/tarball, the maintainer clarified that they do not
-> plan to provide release tarballs for these security branches. The branche=
-s
-> are intended to be used as reviewable Git sources from which downstream
-> maintainers can cherry-pick commits or construct their own patch series.
->=20
-> Based on this, can we switch the rsync recipe to Git and use the
-> v3.4.1-sec-patches4 & v3.2.7-sec-patches4 branches for Wrynose/Scarthgap?
->=20
-> This would allow us to consume the upstream security and compatibility
-> fixes directly from the maintained security branch instead of carrying th=
-e
-> large 34KLOC patch series.
->=20
->=20
-> The discussion with the rsync maintainers is here:
-> https://github.com/RsyncProject/rsync/discussions/1095
+On Fri Sep 18, 2026 at 5:07 AM EDT, Jo=C3=A3o Marcos Costa wrote:
+> Timeouts have been observed (very frequently in the past weeks)
+> in the autobuilder, and a bug [1] was filed at Bugzilla.
+>
+> For now, it's not quite clear what specific test case is causing the time=
+out.
+>
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162
 
-Hi Vijay,
+I think that this change is too aggressive given what we actually see in th=
+e AB
+issue - most of the logs seem to show a timeout at the same part of the pte=
+st
+run, after the 'mini-record' test. I'm doing some investigation locally to =
+see
+what the heaviest tests in the suite are, so that we can more surgically di=
+sable
+only the problematic ones instead.
 
-Thanks for checking with upstream. It seems a bit of a strange way of
-doing things to me - I am surprised these aren't further releases in the
-3.4.x and 3.2.x series. Or at least they could be 3.4.1.x and 3.2.7.x
-releases. But if this is the way upstream want to handle things then
-that's their call.
+Trevor
+>
+> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+> ---
+>  meta/conf/distro/include/ptest-packagelists.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc
+> index 79e27f617b..9b264657bb 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -163,8 +163,8 @@ PTESTS_PROBLEMS:append:riscv32 =3D " lttng-tools stra=
+ce"
+>  PTESTS_SLOW:append:libc-musl =3D " libc-test"
+> =20
+>  # These tests don't yet pass for riscv64
+> -PTESTS_SLOW:remove:riscv64 =3D "tcl tcl8 python3-cffi strace lttng-tools=
+ python3-numpy perl glib-2.0 zstd"
+> -PTESTS_PROBLEMS:append:riscv64 =3D " tcl tcl8 python3-cffi strace lttng-=
+tools python3-numpy perl glib-2.0 zstd"
+> +PTESTS_SLOW:remove:riscv64 =3D "tcl tcl8 python3-cffi strace lttng-tools=
+ python3-numpy perl glib-2.0 zstd gnutls"
+> +PTESTS_PROBLEMS:append:riscv64 =3D " tcl tcl8 python3-cffi strace lttng-=
+tools python3-numpy perl glib-2.0 zstd gnutls"
+> =20
+>  # These tests don't yet pass for musl qemuarm64
+>  PTESTS_SLOW:remove:libc-musl:qemuarm64 =3D "strace perl gnutls glib-2.0"
 
-We do need to discuss how this fits in with our policies on LTS
-maintenance. We will get back to you soon.
-
-Best regards,
-
---=20
-Paul Barker
 
 
