@@ -1,119 +1,139 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E8110C982EE
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 14:58:50 +0000 (UTC)
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50862.1790002721330372345
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1B07FC982E6
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 15:00:11 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.50888.1790002804762209079
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 07:58:41 -0700
+ Mon, 21 Sep 2026 08:00:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g5BtSWfJ;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.99, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4885d4825adso420363f8f.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 07:58:41 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Dp/O9K5/;
+ spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d391aso21014925e9.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 08:00:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790002719; x=1790607519; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=cAOKVlm3LrYMxEdejHpuAq3972MmvTj1U26nqyXaTMQ=;
-        b=g5BtSWfJGp2hBJLw+atETIfS7CfMOZJXaagHSi7gYYdnnm7GNUbVCsJV8/dUHjXeSP
-         venL0gFXym1J+t8ekQOdZF7X0eaRLR5YBymAsCVTAr4aXOpHrKyphvCGf8WbYGrnyZ8M
-         4izP+PT7b0gxvibNzYipOZWxMtzpk8aBCCKdw=
+        d=smile.fr; s=google; t=1790002803; x=1790607603; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=WrpE43V2nILH7FZtLDf0aB+3u5VX9XkybSgP0RRYJXo=;
+        b=Dp/O9K5/fCPfWwP/arEetTHqraaVpmA+nRdcENiLcIxBx5rRYSfMPZxbZfDrcWG1Nm
+         FG9Has5XzajInSoqxiQy1fpsWIEtoYU3xLhWPV6fjCkQm/Svz63f5q3k/2fp4EE3OKSV
+         6vMwrYJuIZDtz6S01BM1yPS6qrTKKAJk1vITs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790002719; x=1790607519;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=cAOKVlm3LrYMxEdejHpuAq3972MmvTj1U26nqyXaTMQ=;
-        b=aZvhcuSrf8C9vm5HtUzhkSApOWPsOk4I1mcyExvYI+FQAyh8/0XqAbQnSZexH7QrtY
-         a7NUKMs7O0Uhpy3hh5C0iesFH4+oK+Z/NsNoUz/D33PQHSdzlrymnW//lUD/m2bccyiQ
-         9Fn2Wd4BeQx4F5nvTxRJB164AGrZMU8ecY+v61mJ8yuddbq4YM7g/PlVgTUcxXUCRzUE
-         9cMYLk2KOvXbFS2vlbwSscYiCs5nRPmQWTL9aQc6hrlJZbSlvyG1wrcgKiM362QKwQb7
-         vAgHa1gy2LNSe2PWfETqhj61pUJgynfrHl0Mg6kQdizy7+6kAIcF9OiJW4uMcAUyRsn1
-         nPSg==
-X-Gm-Message-State: AFuF++ldZaqwE2jBJFRP4rOeUDgQDOEm/j8xi4LgiV8Y2XEn3caLVFa9
-	VzGtbwqJc4yCq+BvTXMCi2J45d/xyF0QL/klGrtWj3Ythy2x7ehFtahCtynpFZw2Or0ME9yiVxp
-	PzI17yeM=
-X-Gm-Gg: AYBFou3PQjsbFbX/wSv124n6NTr2Wweck8kJjsLYqcku4cO0OFhOf7W7dEG6JP5taIl
-	ACjcLyqu6HywssEvlZHY5Orv0fYG13SHxwgHrBsD22S5NClfPgqZ/j2zVTxfba62eFUssy/Sypt
-	TPEmyeWjWOGPIr7qu8FdXpzBtodEGAutNcnqv2kd3Mq08faAcWKzyNINNEBbPl1TPj2bEmfepi1
-	53MSQpbxyzV8r+RtPwkG4vx59HVcGAYgahy8n6LnkDsbmeUoTxQ6AErtf4G+7x8EUwWExrZmMPF
-	so0beGCLJyGI/DCZrZysy6Rq+ZkF5ljBzCn70hd052SA8JJASoKG+I3hqOL8j49VNAWecohjuig
-	3tVbg6rE2HDt4mb6KuXEyNgOlaaTfgCVr2fjraFDX5Tnb2rjBAAdK1Z5fSsR5rFnVJRTB63E149
-	MbjSmnZC3aW8IoAczijWkORazl3wxnlp1HMIwPIq2RQusFoo6UNAHzQTSemFJdu0Oql01Zw9DHQ
-	QkFu1jUOq7XQPmJaz1w42B+Lp+/F/4nxKeyN3w=
-X-Received: by 2002:a05:6000:4a18:b0:487:40d:af3a with SMTP id ffacd0b85a97d-4871e213673mr13878707f8f.2.1790002719539;
-        Mon, 21 Sep 2026 07:58:39 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a46d:d671:f81e:e5f1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48724596604sm23856287f8f.30.2026.09.21.07.58.38
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 07:58:38 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 3/5] python3-pyparsing: upgrade 3.3.2 -> 3.3.3
-Date: Mon, 21 Sep 2026 15:58:33 +0100
-Message-ID: <20260921145835.1106731-3-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260921145835.1106731-1-richard.purdie@linuxfoundation.org>
-References: <20260921145835.1106731-1-richard.purdie@linuxfoundation.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20260707; t=1790002803; x=1790607603;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=WrpE43V2nILH7FZtLDf0aB+3u5VX9XkybSgP0RRYJXo=;
+        b=ISCkosY4OgrJDgEQneBJ8LsnvOswM33vovLGQEZAkiYcc9BY+UVbRIfa9KnjTzphx4
+         Zn3FKiLC1DXyHbmC0YW3/wQrBMrMnadqg+3UPKW2vxZcyxf6ZJ/RY2A1CTieWpIb5xq/
+         xYbikj1EIl1Ozw6j5OoJBBjSAUjCcVkcuTxkLwwW+JCCgSC9RTAABhKWVjNu1PhUU6x5
+         0cJky8hJGZkvhjZtJqIFzVDmwWAArVq5Z5XL0nyxvJc/Lj5M4Op3QLNEss/g+IC0E0Et
+         qBB+y0NOT6TeuiuL/Ssh+zW+ILZeSxMXI/bN00jbSwxX/a1VL+zt9a5plc7xBBqCIjQu
+         gvIw==
+X-Forwarded-Encrypted: i=1; AKwUvBx23WIvwMplOtZbBBg1eEGT+h32AYSY87fYSCSAJw8Exfw4BlLeMiqPezyER6Z6VMBiCcH+K2YPKB6PYjrH94QHHg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++lOJdDGbYooe3wEH6STJElxaLSyYpnn63tLmkoij7Rxi4LEIjaD
+	omHimGxDz7WE9DOEbYeqAprzxLyXXKBZpSp8fmzE78y4e1pghgnonpQUGD5ZElfLwFMDp/NnsXE
+	gdZ5wRNU=
+X-Gm-Gg: AYBFou2Ap+UjhnlFZg+nLGzPGIPIpg1gpyrjEUOzQ1ExhipcVq4cS3kCMwyAMyDLvPV
+	/P8M/BXmIWVK0BW4Q0MdY5iRudvDl2K3RJmzM5mkdvrqHhWup56i1OH5vpQH3jGZ46aBDX9KUrK
+	7knNOFYxagCLebhk15/+MdFij4o0om7oNa4nuVATnTvvxDgR7JuthvDTf8C91CZlnfZzVbTKwX6
+	N2u2XSo4P5P1ZCrg4UT/pXiJG1wmfNqrl6G/5UnznyGHKZvcPhRwvP3CtfP2aHdIZgmzWz0LCN/
+	HMkX6R2Rjyw/JFa6jQ/q+AU2vE0G9K0X5k4cd7+pZXD3fjk3+loouywM+EvNhdqBPXtRISilxNw
+	ZMPj7N3D4Ku9MQ0q5RfXYzWecBE4aSs7t8aD+UI70N2m3t+l7gZbg2XqtF7WBVfWleyXOxOHSXm
+	ZTIFpnsDN9uCudZpKp2ImUzo+6L8LZJCi2zWRJZiUFU0gQDvLrkEuVWKz4KbshkAyIafPK4Jhyr
+	zof4QrTN67EbN72rn9ZzXHpf2oS6iDJpIhpXJtgYMCKzktlJ01/qwtvxilkPsCe/Jj86A==
+X-Received: by 2002:a05:600c:4e4a:b0:49e:6e94:7cae with SMTP id 5b1f17b1804b1-49fc5741495mr154615595e9.28.1790002802914;
+        Mon, 21 Sep 2026 08:00:02 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd07bc34sm227288555e9.10.2026.09.21.08.00.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Sep 2026 08:00:02 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 21 Sep 2026 17:00:02 +0200
+Message-Id: <DLL31B54TO1J.3LKIGPOKP14DW@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH 1/6] libxml2: Security Fix for
+ CVE-2026-86137
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: "Yoann Congal" <yoann.congal@smile.fr>, <sdoshi@mvista.com>,
+ <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260910200329.842463-1-sdoshi@mvista.com>
+ <DLL00OT9VKC9.JRZSZU4BMX6L@smile.fr>
+In-Reply-To: <DLL00OT9VKC9.JRZSZU4BMX6L@smile.fr>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 14:58:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246336
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 15:00:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246339
 
-Version 3.3.3 - September, 2026
--------------------------------
-- Added support for Python 3.15.
+On Mon Sep 21, 2026 at 2:38 PM CEST, Yoann Congal wrote:
+> On Thu Sep 10, 2026 at 10:03 PM CEST, Siddharth Doshi via lists.openembed=
+ded.org wrote:
+>> From: Siddharth Doshi <sdoshi@mvista.com>
+>>
+>> Picking patch as per [1], and same patch is mentioned in [2]
+>>
+>> References:
+>> [1] https://nvd.nist.gov/vuln/detail/CVE-2026-86137
+>> [2] https://security-tracker.debian.org/tracker/CVE-2026-86137
+>>
+>> Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+>> ---
+>>  .../libxml/libxml2/CVE-2026-86137.patch       | 48 +++++++++++++++++++
+>>  meta/recipes-core/libxml/libxml2_2.12.10.bb   |  1 +
+>>  2 files changed, 49 insertions(+)
+>>  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-86137.patc=
+h
+>
+> Hello,
+>
+> It looks like something in this series is breaking ptests:
+> https://autobuilder.yoctoproject.org/valkyrie/?#/builders/73/builds/4604
+> https://valkyrie.yocto.io/pub/non-release/20260921-71/testresults/qemux86=
+-64-ptest/core-image-ptest-libxml2/log.do_testimage.364096.20260921110838
+> |  1314	Running runtest
+> |  1315	Validation for ./test/VCM/21.xml failed
+> |  1316	Validation for ./test/VCM/AttributeNmtokens.xml failed
+> |  1317	Validation for ./test/VCM/v10.xml failed
+> |  1318	Validation for ./test/VCM/v11.xml failed
+> |  1319	Validation for ./test/VCM/v12.xml failed
+> |  1320	Validation for ./test/VCM/v13.xml failed
+> |  1321	Validation for ./test/VCM/v14.xml failed
+> |  1322	Validation for ./test/VCM/v15.xml failed
+> |  1323	Validation for ./test/VCM/v16.xml failed
+> |  1324	Validation for ./test/VCM/v17.xml failed
+> |  1325	Validation for ./test/VCM/v18.xml failed
+> |  1326	Validation for ./test/VCM/v19.xml failed
+> |  1327	Validation for ./test/VCM/v20.xml failed
+> |  1328	Validation for ./test/VCM/v21.xml failed
+> |  1329	Validation for ./test/VCM/v22.xml failed
+> |  1330	Validation for ./test/VCM/v23.xml failed
+> |  1331	Validation for ./test/VCM/v24.xml failed
+> |  1332	Validation for ./test/VCM/v4.xml failed
+> |  1333	Validation for ./test/VCM/v5.xml failed
+> |  1334	Validation for ./test/VCM/v6.xml failed
+> |  1335	Validation for ./test/VCM/v7.xml failed
+> |  1336	Validation for ./test/VCM/v8.xml failed
+> |  1337	Validation for ./test/VCM/v9.xml failed
+> |  1338	file result/VC/ElementValid2 is 111 bytes, result is 227 bytes
+> |  1339	Error for ./test/VC/ElementValid2 failed
+>
+> Can you look into it?
+>
+> Thanks!
 
-- Fixed CI unit test jobs selecting a tox environment with no test commands.
-  The matrix and fallback now select `py-unit`, as diagnosed and proposed by
-  glaziermag in issue #662; submitted by Neal Lin et AI.
+This also fails on arm64:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/61/builds/4577
 
-- Refactored recursive implementations in pyparsing, for improved performance and
-  reduced memory usage.
+Regards,
+--=20
+Yoann Congal
+Smile ECS
 
-  - repetition using a large upper bound with multiplication or slicing notation
-    has replaced a recursive `Optional` expression with a modified `ZeroOrMore`
-    expression, using a new `max` argument. PR #652, submitted by sudo.
-
-  - `nested_expr` now uses an internal class that maintains its own stack for
-    managing nesting levels.
-
-  - `infix_notation` replaced its recursive implementation with a shunting-yard
-    algorithm.
-
-  These changes should not cause any regressions in existing code, and tests
-  show significant performance improvements for some of the more complex examples.
-  Railroad diagrams may render differently, since they now no longer rely on
-  recursion using `Forward` expressions.
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- .../{python3-pyparsing_3.3.2.bb => python3-pyparsing_3.3.3.bb}  | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-pyparsing_3.3.2.bb => python3-pyparsing_3.3.3.bb} (90%)
-
-diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb b/meta/recipes-devtools/python/python3-pyparsing_3.3.3.bb
-similarity index 90%
-rename from meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb
-rename to meta/recipes-devtools/python/python3-pyparsing_3.3.3.bb
-index 2565751f287..fbb0d642936 100644
---- a/meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb
-+++ b/meta/recipes-devtools/python/python3-pyparsing_3.3.3.bb
-@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=9c8a9625037eff2407f8456010875183"
- 
--SRC_URI[sha256sum] = "c777f4d763f140633dcb6d8a3eda953bf7a214dc4eff598413c070bcdc117cbc"
-+SRC_URI[sha256sum] = "928ae7e20211f3b6f3915a72f06a0cfd29ab9d24279dd6346b6b1a7146397d36"
- 
- inherit pypi python_flit_core
- 
 
