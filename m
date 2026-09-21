@@ -1,185 +1,154 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4E39DC982DE
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 09:56:26 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.45631.1789984581765483318
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7427BC982E1
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 10:09:36 +0000 (UTC)
+Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.45787.1789985375664802309
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 02:56:22 -0700
+ Mon, 21 Sep 2026 03:09:36 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Nqrf/g/m;
- spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e79a408deso15327745e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 02:56:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1789984580; x=1790589380; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=XCODK0QKiZQ1KON+G/fEM+OEvIuSdec4K10ze0cLgNM=;
-        b=Nqrf/g/mHbpo1DFifIYxCqqCZ6d2vlMfo2ExpWIwEpMz9M/HL5/xjXm3ytAnpeD66z
-         npVTBbQMe8C25h6h/8Dq7EWnVPhm/hRktZxfvNjOlSCjjGOy8CBsWEWkwSJ+LgeLOE4c
-         pvVlzwLOUerhXDuf1y867MhSnUGmoME3mnR+c=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789984580; x=1790589380;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=XCODK0QKiZQ1KON+G/fEM+OEvIuSdec4K10ze0cLgNM=;
-        b=hgDqDK1hlwFjGYgsE4lnQX2kDfIG1wTYF9Knu1sdrg9Wr9QZZWE8ZQV9JciJ8KNGXz
-         lEcVE+24PL4wKgc8Pe6iNWzncDg1Ya+W+1e1spO2aJ2SDryg0j2yntErJ7MwzabXmzrY
-         94Eki9vXeOGApXKzDDGgEg2Dkw5ykjt54oTzFPfGgfsNOwwFW1cEVr+z8P4AkOV5K4Ut
-         mlBrEdD8E+/cIj7/hRCS+olUaq6py3BpIDBlhLlILpY0m+TjuvrJsSST9iBTIO9tOml/
-         upAPXd6J6qxeNF18ZafWxk7KfVv+zTY8VFR9++9M9rrUP1lGHs/x0aXtF3PnhKMnj+b6
-         zp1w==
-X-Forwarded-Encrypted: i=1; AKwUvBzV+bOG8lWMrJHbRJYl1pySso5h3xX7QwVJD90HOxn3GQC+6uKmNRoOKGxC9OEMMNjVdS5SM6Fo/opuwpvT8r1SmQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++n+8eV3Jh0cEq/ylT0pytR3G72QRABZLx1w3HHiFyPS6MplvHow
-	fTQG59CvfiVA3PzUm5nQe8oOGuwtT6x5Xmlrx+XJU/YxpVx/Cx4ZzZIqGr/N9APxG6Q=
-X-Gm-Gg: AYBFou1RjvHVkZIOrb0WtBJLP2El2cNDOdBeIxKgEyX0VrEOsQ4p2CK4qEiDUXu0unz
-	U/YbR8DNmAD94gAGxTJjoQWQ01BuhxPcsj+nmcR8fceOJR8H+DOKtQZOOtvU/JN9eezrSN84UZj
-	49gPjRMMirAKOKPPbdYI+WwQb46dETW7AnKeJRLVBQ8wdmrxT4k3ZUspdUcteARouUZ3BjhB6v7
-	aDMTlfMgjY0j/BYnMqdfF3euiCgTjb/E6GETFid67l0CYjArPY/Vy2VzueYua5KFYqd5olqVmEi
-	oX2ZVGtl4mZ5QCCgqLtjEx5v3rdBvQOkqvqsIAf52TAPTr5JKY2YVN4Yzclbo101zZBnN+Qq3Bf
-	O7GgMaiXksgi/vFpUGCaEDrH6Kgvu8UiDubY4E4c+ZWRtH8JXkIKpO4i5SWoxhjgMSGJrUAmu55
-	B/d129hkp7K4yN9ql8VTZQc2aHwqEu9JcHawa0fjowDvoX2TZ7N40VbPzUYcqmZh1F4Xq2TTOne
-	pWRuwvb7W022DOxTfADL3uNhIDh8/S7gqozeKPVb4VfdvuHHmJBJNrNIEo=
-X-Received: by 2002:a05:600c:a14:b0:49d:7f5:4cdd with SMTP id 5b1f17b1804b1-49fc574be1dmr139165805e9.27.1789984579762;
-        Mon, 21 Sep 2026 02:56:19 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48724460978sm21122457f8f.11.2026.09.21.02.56.19
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 02:56:19 -0700 (PDT)
-Mime-Version: 1.0
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=HhJeLb6U;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=pDhHoE+z;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.158, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id A8E577A0100;
+	Mon, 21 Sep 2026 06:09:34 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-02.internal (MEProxy); Mon, 21 Sep 2026 06:09:34 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:content-transfer-encoding:content-type:content-type:date:date
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1789985374;
+	 x=1790071774; bh=Bf1eT0poPwgib1nHDqPH3MLWDGG321XqAB6gKJ9s4gs=; b=
+	HhJeLb6UvtLIAc0YfV5U3YOuHOrIh+Qy2xU2PXdMofKQdTcxFn4QRacDM0kaROlM
+	K1vTXid1KCRx6JZJHxmjQArJoVdIqHBpSD3IoGVBolFr2rZbFyDH5Su0aHQF3Y4Z
+	gWoAqnV1KUF5ydL2abkLUHne9XviUshp9gY5MRqWn/p+wiMBHhzNNorCFReJROPC
+	bFKaE3+3KzD2fsBG9p0KL6slltOHjQaMRFwQKMEZDfd07HM+rdXCOyQhfL+VDE/R
+	fIi7RyJ1rukFaQ5+2s7KrCR+N00QUcg40Bhv2kNgXd4uSAWiDo80wu5OYXXxv86o
+	bx3ALcXnWECMpk0hj1YOEA==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:content-transfer-encoding:content-type
+	:content-type:date:date:feedback-id:feedback-id:from:from
+	:in-reply-to:in-reply-to:message-id:mime-version:references
+	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
+	:x-me-sender:x-sasl-enc; s=fm1; t=1789985374; x=1790071774; bh=B
+	f1eT0poPwgib1nHDqPH3MLWDGG321XqAB6gKJ9s4gs=; b=pDhHoE+zvT/roP3vq
+	kxOFh+35YbBCWnm0zC/iwdu3NYW9jGUwcS377gfAvb9DJdrz/hiiPHmuemc4kCM4
+	QofN6Hir1x2TRkyfahp3FwpBeSkM0uSKAbxjsj/jBhtvUAkp6xM/B0FpHbcpOqnR
+	JCKjA5Ipch11rU381KRCt2ydly0GC70p03ACLsdJOm+N6l9pAPcFkCcaztiM/ftb
+	cSPRBbKEzux6LLWQi3206jgJUal9YJz2Po2riAaJKth8p/91hK+TrzMPI5sGDchy
+	NeOcuvyTBzhqICLBhQuiYDZMyGGdyJK8N+paNSDlUPIv3zZksV+KJ28fLFFXEDVN
+	DzRJg==
+X-ME-Sender: <xms:XgKxajfnR1DohGsJmBzdMiSwwz0BOH7PzzoPAmJPHnKuIEIJA_GPug>
+    <xme:XgKxavN7oHmx4bItvnJm_2zWwlzZiSNPGLM8xRFT77_glPzJr8jTV2QNF1hlkZ9iG
+    aF5KmsqCg2AWixKy8cxBoevS45j9uXkMu_seHLXVOxpMTEqErxCV2fi_w>
+X-ME-Received: <xmr:XgKxaqIO_ipQ6rfVnr95LdJ_gAZOwkRVlosN-WB_6myAU6QAAFMN_NRivze2R2c5lLLV>
+X-ME-Proxy-Cause: dmFkZTEjXDH23i0XBRnpA+Qtk4KsMqIhrmnvPMJthRRzhu0eSsRuT14aEz1+/Z0i+PtnHO
+    IBTz9g0Cc1r7Kcek7pQojIvG97w9/wk+YK/hR0IQ3wnNZzDUTFEjYceQEaz4sGMprmt8pj
+    bQ7bZ3PfzZsvH9WSD3xAFAniVszImyv0VrfOPNz3B2n+HfihAiYasVO1mIVVx9YdFdOdVs
+    g3KMl/t6TGxr+Mxp2LhVHAVgBFL9QT9ZApveBOUz5zUcacdmAQm2lo20SSYp+wkOvlUVMs
+    X7sMaddvuQZCqACCRKnVtIJjinsq+RAVWrArvt6jeTsRdeY1GawK5zjBc1izr/5WDDjbRw
+    /QbZBo+N+3v6l3GcSvD+y2tSLghCZu0z38arMIxMd8CIz6kdNYPdHTfxC4MUAPQP1j27Q3
+    oSqSK8In7Pktnt9hwh5hjGZa0bKQTXoL6wKE41YevYfa2BhB6+ME7F1W3cbySg8ulxFYv8
+    zmznTBql0B20bcSYXZMyvo4kh9mhm7UAq2NN1YQ+EFGjHN7Lf2bmHue59F0qH5o8BsxIX/
+    FlVzfi5vJmaHdUyS5oWgiYzCiSnXxTteAAWpn/ZfGBN4DbMkAySO1S2LcRXNVhuAetAKki
+    OeHUJSCgVgmNCPKInxzC37k9wl50hlmsNIow+qBmSIxEJUgEKUuimyeJ8nIQ
+X-ME-Proxy: <xmx:XgKxagEQhLBZ7_3zx7Sj0fS5qD5NhnesrdbYS_uSfyqmfEUN4658Cw>
+    <xmx:XgKxaiQ0TlfsJ_tYKT_AtdutGMTphhhUuX11wsZlDluc_RnaIFZj9g>
+    <xmx:XgKxasF27FViN7FfdFm1og4PEZ2NjHO08uDvAHMRSmSeY8oDFoDMZg>
+    <xmx:XgKxau-o4LsUJhmM8rT_ziuIUnIFA2KZG5_R1tn8yK3dxxQtbseLzA>
+    <xmx:XgKxaot3Pk9l19WDQmHCmn_zy4YfNp_qnNDnIsOGwGqU7w_GD5Knlqne>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Sep 2026 06:09:33 -0400 (EDT)
+Message-ID: <01a751a4b7c8ef88a647674659aeffa6c3d3dd51.camel@pbarker.dev>
+Subject: Re: [meson.bbclass] bindgen_clang_arguments lacks C++ include
+ paths, breaks C++ bindgen (mesa rusticl)
+From: Paul Barker <paul@pbarker.dev>
+To: Royyan Zahir <royzah@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Mon, 21 Sep 2026 11:09:32 +0100
+In-Reply-To: <20260921091118.3545921-1-royzah@gmail.com>
+References: <20260919172851.1564760-1-royzah@gmail.com>
+	 <20260921091118.3545921-1-royzah@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Sep 2026 11:56:19 +0200
-Message-Id: <DLKWKRL5UB9I.DUNGYTI0Z9Y4@smile.fr>
-To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [scarthgap][PATCH] python3-click: fix CVE-2026-7246
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260821163206.882233-1-dkelaiya@cisco.com>
- <DL7RKML5YEK6.3MVF0E1O685WB@smile.fr>
- <199240.1788773192713715859@lists.openembedded.org>
-In-Reply-To: <199240.1788773192713715859@lists.openembedded.org>
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 09:56:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246312
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 10:09:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246313
 
-On Mon Sep 7, 2026 at 11:26 AM CEST, Darsh Kelaiya -X (dkelaiya - E INFOCHI=
-PS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> On Sun, Sep 6, 2026 at 04:46 AM, Yoann Congal wrote:
->
->>=20
->> On Fri Aug 21, 2026 at 6:32 PM CEST, Darsh Kelaiya -X (dkelaiya - E
->> INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
->>=20
->>> From: Darsh Kelaiya <dkelaiya@cisco.com>
->>>=20
->>> This patch applies the upstream fix for CVE-2026-7246 as referenced
->>> in [2], using the upstream commit identified in [1].
->>>=20
->>> The backport also adapts editor regression tests from the upstream
->>> test and documentation follow-up identified in [3]. This follow-up
->>> does not contain an additional production security fix.
->>>=20
->>> [1] https://github.com/pallets/click/commit/b96c2601af4e01341b4d2c0db49=
-4ebee4aef8f42
->>>=20
->>> [2] https://github.com/tsigouris007/security-advisories/security/adviso=
-ries/GHSA-47fr-3ffg-hgmw
->>>=20
->>> [3] https://github.com/pallets/click/commit/b55294797ef32e22eb41e7d9657=
-edb8faefa4976
->>>=20
->>>=20
->>> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
->>> ---
->>> .../python/python3-click/CVE-2026-7246.patch | 245 ++++++++++++++++++
->>> .../python/python3-click_8.1.7.bb | 5 +-
->>> 2 files changed, 249 insertions(+), 1 deletion(-)
->>> create mode 100644
->>> meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
->>>=20
->>> diff --git
->>> a/meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
->>> b/meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
->>> new file mode 100644
->>> index 0000000000..47ee1a551f
->>> --- /dev/null
->>> +++ b/meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
->>> @@ -0,0 +1,245 @@
->>> +From cb30f575b1a251e8698909bca2a443d41dad1824 Mon Sep 17 00:00:00 2001
->>> +From: Kevin Deldycke <kevin@deldycke.com>
->>> +Date: Wed, 4 Mar 2026 14:51:58 +0400
->>> +Subject: [PATCH] Document and fix command string sanitizing with
->>> `shlex.split`
->>> +
->>> +Removes last use of `shell=3DTrue` use for command invokation for
->>> defense-in-depth.
->>> +Refs: #1026, #1477 and #2775
->>> +
->>> +CVE: CVE-2026-7246
->>> +Upstream-Status: Backport [ https://github.com/pallets/click/commit/b9=
-6c2601af4e01341b4d2c0db494ebee4aef8f42
->>> ]
->>> +
->>> +Backport Changes:
->>> +- Click 8.1.7 uses Editor.edit_file(filename), not the newer
->>> + Editor.edit_files(filenames) API. Apply the argv-list change
->>> + to one filename without adding the multi-file API.
->>> +- Adapt editor tests from b96c2601 and follow-up b5529479 to
->>=20
->> Hello,
->>=20
->> This commit has both b96c2601 and b5529479 squashed. Please keep
->> upstream backport patches split.
->>=20
->> Can you send a v2 with as the CVE fix (b96c2601) and its followup
->> (b5529479)?
->>=20
->> Thanks!
->>=20
->> --
->> Yoann Congal
->> Smile ECS
->
-> Hi Yoann,
->
-> While preparing v2, I noticed that NVD now marks CVE-2026-7246 as dispute=
-d and states that the Pallets Click project does not consider it a valid vu=
-lnerability:
->
-> https://nvd.nist.gov/vuln/detail/CVE-2026-7246
->
-> However, the published advisory identifies upstream commit b96c2601 as th=
-e fix:
->
-> https://github.com/tsigouris007/security-advisories/security/advisories/G=
-HSA-47fr-3ffg-hgmw
->
-> Upstream describes the removal of shell=3DTrue as defense-in-depth, so I =
-wanted to confirm the preferred handling. Should I replace the backport pat=
-ches with a status entry such as:
->
-> CVE_STATUS[CVE-2026-7246] =3D "disputed: Pallets Click does not consider =
-this a valid vulnerability"
->
-> Or should I continue with the split v2 backport patches as hardening?
+On Mon, 2026-09-21 at 13:11 +0400, Royyan Zahir wrote:
+> Hi Paul,
+>=20
+> Thanks for looking. Versions first, then the trigger, then what I have no=
+t yet
+> established.
+>=20
+> Layers, all pinned:
+>=20
+>   openembedded-core  wrynose  f7397af248e1e338929d70a910b0fbc2341528ec
+>   bitbake            2.18     0ad6c1c34a5e07a5f8dd66ab248c1e7b37b69fa9
+>   meta-openembedded  wrynose  14282a02be9c74a1276a7cda7d6c89e054699a11
+>   meta-qcom          wrynose  ef0004df267743cc89d6a09bc724bc99ff541c01
+>=20
+> Target is aarch64, mesa 26.0.5, LLVM 22.1.3, bindgen from bindgen-cli-nat=
+ive.
+>=20
+> The trigger is only this:
+>=20
+>   DISTRO_FEATURES:append =3D " opencl"
+>=20
+> which selects mesa's PACKAGECONFIG[opencl], so -Dgallium-rusticl=3Dtrue, =
+and the
+> rusticl frontend runs bindgen over a C++ header. The failing command ends=
+ with
+> -x c++ -std=3Dc++17 on rusticl_llvm_bindings.hpp, and clang cannot find c=
+assert
+> from llvm/ADT/DenseMapInfo.h.
+>=20
+> What I cannot give you is a runnable command line: our DISTRO and MACHINE=
+ are
+> in a layer I cannot share, and I have not yet reduced this to stock poky.=
+ I
+> tried to on the shared builder this morning and it refused before parsing=
+ with
+>=20
+>   ERROR: User namespaces are not usable by BitBake, possibly due to AppAr=
+mor.
+>=20
+> so that attempt proved nothing. Our own builds go through a wrapper that
+> handles it.
+>=20
+> My reading is that nothing platform-specific is involved: bindgen_args() =
+in
+> meson.bbclass passes HOST_CC_ARCH, TOOLCHAIN_OPTIONS and --target, and no=
+ne of
+> those carry the libstdc++ include directories that clang needs when it
+> cross-compiles against a GCC sysroot. Any meson recipe running bindgen ov=
+er a
+> C++ header should hit it. If that reasoning is wrong I would rather know =
+than
+> have you chase our stack.
+>=20
+> Happy to build a stock qemuarm64 case with opencl in DISTRO_FEATURES on a
+> machine without the namespace restriction and report back, or to test a p=
+atch
+> on aarch64, whichever is more useful.
 
-Hello,
+Yes, I'd like you to confirm that the error happens on stock
+poky/qemuarm64 with just the DISTRO_FEATURES change to enable opencl.
 
-It depends on the patch complexity: If it is small and easely
-understandable let's backport it. If not, we can ignore it but I'd like
-to see the Pallets Click project reasonning for disputing it please.
+Also, please quote the email you're replying to so it's easier to follow
+the conversation.
 
-Thanks!
+Best regards,
+
 --=20
-Yoann Congal
-Smile ECS
+Paul Barker
 
 
