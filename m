@@ -2,125 +2,95 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 932D6C982E6
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 07:07:20 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7BE32C982E1
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 07:07:21 +0000 (UTC)
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.43671.1789974431439972763
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.43883.1789974436803155026
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 00:07:11 -0700
+ Mon, 21 Sep 2026 00:07:17 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=N0XwB7II;
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=RFOss4lW;
  spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd38e0e5dso35697235e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 00:07:11 -0700 (PDT)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d3920so17506855e9.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 00:07:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789974430; x=1790579230; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=/unR+YgTT3p9wb9h0XHsXzbGZxYNVk8Fzg6B8woU8gY=;
-        b=N0XwB7IIz5W3l0GntHOa8Ztl23bisaZuwtEVXoGxqCsAs/oawpVlbVcMcW6dKa4Pfh
-         bdZtN4tl5xnIDBAXlwdHGhyxQL6W6oPyLU1rwWNdOcNdS7wUejiPCceal8HZKYCzEmRV
-         FAsWM1t2WP23vJ7L3+vq5DXDeLm6eH2WDCc/c=
+        d=linuxfoundation.org; s=google; t=1789974435; x=1790579235; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=Hhvqeb2mVTomndsbxTZ9S8Sp/JTrNKN/ohukG48mnRk=;
+        b=RFOss4lW7jf4AEvkug7zOWqZnmUPUoHFSKYiWBMDQb/TVCbBNXNXPfS1pUQag7/sC7
+         Ky7GWXSYGybqHak5FPAjmk+p9eDfHiWrNYzw4koPiPAeyui4fJeMdPlRFqrDTuDWgiTQ
+         8+lsQso/VSNJHPQ1ZRbxFAg9wWlJSWIXi9sK8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789974430; x=1790579230;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/unR+YgTT3p9wb9h0XHsXzbGZxYNVk8Fzg6B8woU8gY=;
-        b=TTMCtC19stQUUDhXK5FeJviEwJVSAKOMDhsNZIHpQd5k/EyVEzqZ1oUosW01VDGihN
-         ABR9wABD2ee65s+ZsbzuT2A6nV1s+ZTDIqSqGWrH+af9mkES90PLjGyajFyi/iaglYdP
-         Vq5IYeX4ovGyRuwait58VZ10DaK7jYxNTJiVlw450lUIkOL8ls24zHeiNau0skeRyYsR
-         F5tm5yIeOWP9KB8Qg1/UxPnz4NpOfURKpg5CFLJmmJ41KObIImYjGnQY0o04fGYKbehA
-         zLL0Dpats1cyUHGi8qhqtMzLBvRuIZ/KCoKpMqKSb/ski4OucgQWl7q4yOko+ctIFiVo
-         nMVg==
-X-Gm-Message-State: AFuF++nWL4xuZLd9Pwtt4XC85pp9f3CclWVIF7742aRwdTzt1lA6rhOq
-	0sl+Ln2e2W6Y4oVz8X7J/YPMgGcbcyA7BbyIoiCrrlnMmq5ZvOe/61gIy4po0mmeGTZhvaTbjPn
-	82D0pqmc=
-X-Gm-Gg: AYBFou1141Kk9vCeakITsConkeWCwJd0rH2dWNCR5FU3u5wtXR5ltMnQFPXk5SOnFEF
-	03jdULHO26zgkQ+RFtn43Ao4jJWA1hb19xwN2IIKKmWrNy5Rbt07EQINLtnlEanPc7oXdv5Kwq4
-	A59+xfxWEr4lAOl78STt4Jp+4Z+Zye1jIxuj9YdjpUaYSCiEgoCIfDpHIhpX4AimYG4SEMzPcNc
-	w8/H1hrDWzPZ0Mp+aswb5yRPMn0sTbq0Daq3i6YchdQ3RTEdGECdWUhzCI1jzgHqTGmr4ayLwZU
-	+NNQZwF20YRuIKRnN7I9lJCrtO8mk48y50T+vqjLOtOPmmbKjSwy4C2avzeV9WBeDTvWTSS2euI
-	ytq1H5C4h/llQ+h2UYvD+4yktd8xUSLsjMApRI5ZkzDyXCCcAObkR12EjWaPoDsIrGknAq2xALW
-	MT+LLSqGrTBKWu2s4MxfH+Wu75555f6wbSNfAdq0x/id2uJdy5pdzEqe+Qb28orPndhKRH0fFUm
-	0g17YTulePORk4Js4e1Ov4iGNc=
-X-Received: by 2002:a05:600c:4ecf:b0:49f:bd3c:bc27 with SMTP id 5b1f17b1804b1-49fc574f074mr129828015e9.34.1789974429689;
-        Mon, 21 Sep 2026 00:07:09 -0700 (PDT)
+        d=1e100.net; s=20260707; t=1789974435; x=1790579235;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=Hhvqeb2mVTomndsbxTZ9S8Sp/JTrNKN/ohukG48mnRk=;
+        b=bgOKm/oKfoK97lFk2L3L6dEhy/3pZqD/1mJwtYpZuXcqG+MJElfQI92NzP03W+6wF1
+         I0oXZ3MRBoioFY83lYF1+lWvFixA896kV/N4VlHJIc7T8PUIexozw8t9dPyX0Pi1Ozk0
+         CzusilASePJoNxHFwqW/6tyvtwwTZmX5IuwkQnNTMNgt2c0lFhFO76kYma8xhWCYTcJr
+         6QtOHOWRnyFNWAyxH+RN8y1aTcqyBFE+oWH2Z0ML1yl2yCZUFnBcwthtDTs1Nj5K1g0y
+         mP3/d8xM66ImF6XUG6ncrz8xJ0KdK47yqpkpLUvC7RN1jBW/7X1wDUHWA2ztUtUODUIq
+         2Z1Q==
+X-Gm-Message-State: AFuF++kXFDx2OvcKlGdMR3bDozSjLIJm6uPMjig/QG/ixxaK0rbaGhxI
+	HH6Qi+Gz9Ro9xq8NvOMIa4yKCZWOFS+orX81MUWMC+Uht1OyWvHFbbvw2lKMwHq3oJH3K+3zBxI
+	epzkmdwM=
+X-Gm-Gg: AYBFou3Zqe/s3aZ7Xx1iNPJqrkITR7rHTs9f/Z5fMyMpvi+KhNPwjz8v6qQrXe9ZymM
+	Td8wrigRmTznCCqIJDyAGYOj4NWZsZfFAFwY9ZCdmyqP9JDDrzc7gTudl+XnJ+1yTi8/ZI1pv7U
+	jxyHHpPoCUuHmnq3SQ/YvRZdPKqryLWKmz7op/6esWhVlbgd54spepiN0if9zFHtv+nRkpEwcyN
+	/eYe8Es63grEK5hpmeiaK89sbdCdb+aZly4zXSrf7u2SWW/zIUmH2Xk7yne8+yiYh93VlpAxRpt
+	FRTooKWo2vz+ATWcReuOV/tft2MMcDUJ9qU8bwPwAZ0wdzrsod3BADQG7tLbgXxSghBTJoS2K/t
+	4kHi3iOnay1GcdYLpZbexA+drrakDWRAisWBgorMda7L0L1KmOHryeZX4drETx5UpkelfHAFi3f
+	7fa2v6sKbC6kTdOstyJrzZZe3K1+F5DlKpqK9RrFsk/be7ZpUw/DX56XhYVVRdhnzQSpZQoLf+o
+	gB9bgjERe57WgV/K0NhRAS5qX8=
+X-Received: by 2002:a05:600c:4712:b0:49d:34:420d with SMTP id 5b1f17b1804b1-49fc573621emr132079385e9.20.1789974434866;
+        Mon, 21 Sep 2026 00:07:14 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:481d:998f:15fb:95da])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc5755c40sm276492915e9.3.2026.09.21.00.07.07
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc5755c40sm276492915e9.3.2026.09.21.00.07.14
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 00:07:08 -0700 (PDT)
+        Mon, 21 Sep 2026 00:07:14 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 09/20] python3-wcwidth: upgrade 0.8.3 -> 0.8.4
-Date: Mon, 21 Sep 2026 08:06:45 +0100
-Message-ID: <20260921070656.521680-9-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 13/20] python3-pdm-build-locked: upgrade 0.3.7 -> 0.3.8
+Date: Mon, 21 Sep 2026 08:06:49 +0100
+Message-ID: <20260921070656.521680-13-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260921070656.521680-1-richard.purdie@linuxfoundation.org>
 References: <20260921070656.521680-1-richard.purdie@linuxfoundation.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 07:07:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246296
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 07:07:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246300
 
-0.8.4 *2026-09-17*
-  * **Bugfix** `clip()`_ hangs with OSC 8 hyperlinks in some conditions, `PR #252`_.
-  * **Bugfix** width of ITU T.416 colon-format SGR color parameters, `PR #243`_.
-  * **Bugfix** width of OSC 66 text sizing sequences without a text field, `PR #246`_.
-  * **Bugfix** `width()`_, `ljust()`_, `rjust()`_, `center()`_, `clip()`_ and `strip_sequences()`_
-    treated ``ESC ( LF`` as text instead of a character set designation (rare), `PR #259`_.
-  * **Bugfix** `clip()`_ painter's algorithm and "tab expansion" should be spaces, `PR #259`_.
-  * **Changed** `iter_graphemes()`_ clustering rule GB9c for Unicode 18.0, `PR #238`_.
-  * **Changed** ``ambiguous_width`` arguments are now clamped to allowed range (1, 2), `PR #246`_.
-  * **Changed** `wrap()`_ now raises ``ValueError`` for a width of zero or less, matching stdlib
-    ``textwrap``.  Previously ``wrap('女', 0)`` returned ``['女']``, `PR #246`_.
-  * **Changed** `clip()`_ arguments ``start=0`` and ``end=-1`` become optional, `PR #250`_.
-  * **Updated** tables for Unicode version 18.0, `PR #238`_.
-  * **Updated** ``ucs-detect`` data files used in some automatic tests are no longer
-    distributed, `PR #253`_.
-
-A typo meant the original do_install_ptest append wasn't used. The bin files aren't
-helpful in the tests anyway, they'd generate data but have dependency and network
-access challenges.
-
-Therefore drop that append but add one to ensure pyproject.toml is installed
-since one test accesses it.
+Bug-fixes:
+  Abort build when a locked dependency conflicts with declared requirements
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../{python3-wcwidth_0.8.3.bb => python3-wcwidth_0.8.4.bb} | 7 +++----
- 1 file changed, 3 insertions(+), 4 deletions(-)
- rename meta/recipes-devtools/python/{python3-wcwidth_0.8.3.bb => python3-wcwidth_0.8.4.bb} (65%)
+ ...-build-locked_0.3.7.bb => python3-pdm-build-locked_0.3.8.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-pdm-build-locked_0.3.7.bb => python3-pdm-build-locked_0.3.8.bb} (78%)
 
-diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.8.3.bb b/meta/recipes-devtools/python/python3-wcwidth_0.8.4.bb
-similarity index 65%
-rename from meta/recipes-devtools/python/python3-wcwidth_0.8.3.bb
-rename to meta/recipes-devtools/python/python3-wcwidth_0.8.4.bb
-index 3ba5b5b29b1..8ac99afc3ec 100644
---- a/meta/recipes-devtools/python/python3-wcwidth_0.8.3.bb
-+++ b/meta/recipes-devtools/python/python3-wcwidth_0.8.4.bb
-@@ -4,13 +4,12 @@ HOMEPAGE = "https://github.com/jquast/wcwidth"
+diff --git a/meta/recipes-devtools/python/python3-pdm-build-locked_0.3.7.bb b/meta/recipes-devtools/python/python3-pdm-build-locked_0.3.8.bb
+similarity index 78%
+rename from meta/recipes-devtools/python/python3-pdm-build-locked_0.3.7.bb
+rename to meta/recipes-devtools/python/python3-pdm-build-locked_0.3.8.bb
+index 8189bc7e56b..2b707a0a93b 100644
+--- a/meta/recipes-devtools/python/python3-pdm-build-locked_0.3.7.bb
++++ b/meta/recipes-devtools/python/python3-pdm-build-locked_0.3.8.bb
+@@ -3,7 +3,7 @@ HOMEPAGE = "https://github.com/pdm-project/pdm-build-locked"
  LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b15979c39a2543892fca8cd86b4b52cb"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=19382cdf9c143df4f00b9caa0b60c75a"
  
--SRC_URI[sha256sum] = "d128512515fbf4612e0ff21fd6380399210318b7b54a9af59dff8454cf9730eb"
-+SRC_URI[sha256sum] = "2dae09efa25253ae2874188e86d6861af3b1652aef4118cdf3f0bda288a957fb"
+-SRC_URI[sha256sum] = "53428268284125532413434ebfeb8e7a287525516cc5a0a055d63ba63b207165"
++SRC_URI[sha256sum] = "c2a608b288ed08618228880c2e6d6a616049c25eeb71786d06d1061d129764ba"
  
- inherit pypi python_hatchling ptest-python-pytest
+ inherit pypi python_pdm
  
--do_install_ptest:aapend() {
--      install -d ${D}${PTEST_PATH}/bin
--      cp -rf ${S}/bin/* ${D}${PTEST_PATH}/bin/
-+do_install_ptest:append() {
-+      cp ${S}/pyproject.toml ${D}${PTEST_PATH}/
- }
- 
- BBCLASSEXTEND = "native nativesdk"
 
