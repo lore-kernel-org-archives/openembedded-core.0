@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9F8B7C982F5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6120FC982ED
 	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 07:07:21 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.43881.1789974432709938100
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.43674.1789974436121513488
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 00:07:13 -0700
+ Mon, 21 Sep 2026 00:07:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=CfcL7vO6;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.141, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e721b5503so25895615e9.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 00:07:12 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=SELnCwJe;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccff31419so21922765e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 00:07:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1789974431; x=1790579231; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1789974434; x=1790579234; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=YVtp32L86Fyy9i8HIyRIwOFKQ9n5eAkSfJ7gGxWBf08=;
-        b=CfcL7vO6w3tYQa2XXNadQPsZWi63ugSoOvEKrvLe3XeIFapgG6pbxOlzusn62S7Qv9
-         NDzEp3X2Kyh70lu2fqe1+3oGm+gcbLWf4UcAZMIYyfr0wFlEwVePSsLInMLsCxQa1iaM
-         t0q5mDsEJD6gCOE3bjzaybKwhUvZvH9f9DmD8=
+        bh=+Fws4ZF+850ZApOhGgYBXIzIkVOyNzx2UoRsewFmR0w=;
+        b=SELnCwJeaLN20wDgFGhPaZfyP2Y6JxNVtPsIkqzUBVhuO08+qte3fRv1lkigIUu/Vj
+         HxTAjJte2WdsY8m0gFz3Z/qgwRqSSoKp2qGJIJ/bBF1Jsy6Ic9vOxcviSfFhDGGLp8Bn
+         jD9N9+cduxpfPQVWS0YiIOQ44rDH3UoHtHTJQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1789974431; x=1790579231;
+        d=1e100.net; s=20260707; t=1789974434; x=1790579234;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=YVtp32L86Fyy9i8HIyRIwOFKQ9n5eAkSfJ7gGxWBf08=;
-        b=yOI9X2UrKYLs9vvgd0CNrDl2f89dQQx3eKK3x+cWHGzicYCncnxj62teqYpg5EtVz7
-         1jm/04tX7/zZfsP0cnUORH8UedKQLeEqH4Q+NTwH4r6FZpW2SZcS2RyHhEDTG/pKJLGg
-         NJtkwR++ii/8+dPHvZFzKPYIoGYWp/b9gGkSZ9rsstqfPR/g6qJc2a4+ibzOY4dKf/TC
-         g70TTkDe/YOHNEOiFz0y/C3DvYToihS46S8u+nWH+CnJvygKKXVmZ5K+XV/2MStgo5xy
-         jWSRph7RFW9gpcmKuZ4udUwQlmnw8CQ92Kzg6o4ORpHbPFg6LRJxs7ETz/Kv6NstIo/O
-         REdw==
-X-Gm-Message-State: AFuF++n+1r/yXbq5cIh6LntABYnW0TkB+I9o8O7U+Oa5g+dkYFQ5iG0W
-	U5YoTymLVJUL0WIOxbVKgIpdv1lAvpz4W1SPoQSanaqCGQp0CbpCzX5Tvx4MLflJvULDKhyfGi7
-	UzmWzEcc=
-X-Gm-Gg: AYBFou1MLGdcJ+tpu0RcKJQh8IXyk1Kd0Pejcng7o5YX21CarXep3NegSyXPOgMJ12P
-	86gY4LfqL84DvEnZyLLJ1lbNuei4epXHV9C9ZhtRgOyA1u/OVNOJgzzZGiZAdW2QYx4nEWdUphO
-	vkDKNYuGj09lZGzlgmcQ348qY/Drg8DSUbZ5VM4xoTnNTf4t5i6VEVZxtXwUrxbOj610F9T6MqM
-	VILu7U52x/dsuDqt738iUVrzaxQd+1mO1P1CiDVHko3rm7ML/HO2G/mrzVAOSGFPjxc8ecLq8AL
-	FOOkoJGs8r7HgE7orprOgDONIdfRcFjW9Gfi5tdnvRSkrXBPA+CV75Zlt5u1jVaEvkVTQVrNDvr
-	p8/x9rhj9tTO6TXHHii+1V6E96CFhxn14msTnZdSV8ZVCOmsAral8GvX7snvQDau9LmfJdmezIa
-	FmZfx+MGAGVmrtkS4Flrpihca66KvoISz1tYsrGmX06V8sP46IQNrCteVnLV5+Wc8sM9f3/RtOm
-	H+kRYij8c2UkbY1bgSBKxUf7r0qHfW1GNeKNw==
-X-Received: by 2002:a05:600c:34d0:b0:49c:eb16:9fd with SMTP id 5b1f17b1804b1-49fc5671650mr132879675e9.3.1789974430809;
-        Mon, 21 Sep 2026 00:07:10 -0700 (PDT)
+        bh=+Fws4ZF+850ZApOhGgYBXIzIkVOyNzx2UoRsewFmR0w=;
+        b=xUgVv6Ze3Su22hpYl65SL7SiIelADfchzSx/6ilxtw1nN0Gm6E8iIS6nGSnD/iant/
+         r0JhC9uxkDkMe7PTMjL4owvVvLb5ICJmNff580cEzKssd/BWZ7KvARpvR86gvjZ+jf1w
+         62UXu1t5ux3nujAN9v/cRr+IX5EiSVyTQSsRuia6atmgKcpdANvEmobOe73k7ZKAf3IG
+         WetuRY9wa2uhp1Ptlm5nrBdmv1n1ePvthIJ1FD7JTkMEDIfE7KqlXAcmUk6s0lWvrR6t
+         8eFx8dX8VfSlbEBc4XYd/WXVBixFU+dAeZohDGNb4JF6o9+u2BtqpFn8QbmQpsMGrWZ0
+         IT8w==
+X-Gm-Message-State: AFuF++l1PUvt9PNSo5xKfc14E2BxiqOvaj4TrDgsQJAoZ4eChWD35Zap
+	0gZ3wJS7aFA6U2dj/wjp5Y40efPjXR3pyBwSd75/qadm6ocDEIiLgJPl3O/3WMIbJRptKMadXm8
+	eXq6C0kg=
+X-Gm-Gg: AYBFou0M/7m3zh164rn4ZG3/3WNJBT/wHTn8CVV/ZqL2TVEDwPbIH2ktXHbUY/06pq2
+	PyOgdOdzFr1Hjo4rzxSBRhshgxmaYvfl4eTjZvX/kRLLdoTBKpZR/ClHnp5z1U4xYjrCZ4KyW6q
+	IYi40tvY0NUnJsHdXvPJ76qPFu6dr2ZtBAp1mlMEoclc4zCWg5Uetec+5HDgmequkp9q0XB7OPg
+	RmNIfBopIc4K24SBj+bk6kwLQM2HjhaU+UgL4/pdNmsoV2J+1TMNu6qCQMov8VBt7TxNAu1kS38
+	xTbLunkyrcA/Clyi0DSWJ2eYq2Ge1ds1Sl4Gjh0GLoDO9LmOo7q92dWHMUM+zjA46soByoGkS3W
+	nJOBU0jD8+3/SXB+jC+1kMznd+WxJUz8ATgYDqC94RMAlm0/pV38XwXKYMT9loKq9yC5zfm2zir
+	YzBWg/n56/CvF+4JIycITL8xlL8gUbxc32kusF4WxFgoPoxpoXwsNbHm54cGYwztS3tkhNKPHE3
+	vPIxRIFDlIs3WrDjz6CzT9UK7lH8D0xkpjR+Q==
+X-Received: by 2002:a05:600c:3b05:b0:49f:c196:47b9 with SMTP id 5b1f17b1804b1-49fc567318bmr128992795e9.4.1789974434186;
+        Mon, 21 Sep 2026 00:07:14 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:481d:998f:15fb:95da])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc5755c40sm276492915e9.3.2026.09.21.00.07.09
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fc5755c40sm276492915e9.3.2026.09.21.00.07.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 00:07:10 -0700 (PDT)
+        Mon, 21 Sep 2026 00:07:12 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 10/20] barebox-tools: upgrade 2026.08.0 -> 2026.09.0
-Date: Mon, 21 Sep 2026 08:06:46 +0100
-Message-ID: <20260921070656.521680-10-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 12/20] mesa: upgrade 26.2.2 -> 26.2.3
+Date: Mon, 21 Sep 2026 08:06:48 +0100
+Message-ID: <20260921070656.521680-12-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260921070656.521680-1-richard.purdie@linuxfoundation.org>
 References: <20260921070656.521680-1-richard.purdie@linuxfoundation.org>
@@ -66,48 +66,93 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 07:07:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246297
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246299
 
-"""
-This release fixes vulnerabilities in the FIT image code. Most important
-one is fixed with "FIT: resolve FIT images case-sensitively". This
-vulnerability allowed to trick barebox into verifying one FIT image node
-while booting another. The issue showed up in a security audit and is
-fixed in this release, stable updates for v2026.04 and v2026.08 will
-follow shortly.
+Bug fixes
+---------
 
-Another issue fixed is that a hash node in a FIT image defines its
-algorithm. We used to look only at the first hash node. If that says
-crc32 then barebox would use that to verify the image data. This is
-changed to iterate over the available algos from strong to weak and
-see if one of them can verify the image data. crc32, md5 and sha1 are
-explicitly no longer allowed. Note that this vulnerability requires
-a signed FIT image with crc32 as hashing algorithm, something a properly
-signed FIT image shouldn't have, but as crc32 used to be the
-pre-secure-boot standard, it could well have leaked into images.
-
-On the brighter side this release adds support for the Novarq Tactical
-1000 board which is a switch built around the Microchip LAN9696. Also
-the PXA support has been revived, with the PXA3xx as a fully supported
-device tree platform.
-"""
+- 26.2.x build fails with armhf
+- Confidential issue #15052
+- GL stencil reference query does not update immediately
+- Mesa 26.2.1: radeonsi no longer loads for GCN1 / Pitcairn when using radeon driver.
+- Textures got swapped/glitched on Wuthering Waves game.
+- [Navi10][RadeonSI/RADV] NGG culling causes nondeterministic GPU hangs; nonggc fixes both OpenGL and Vulkan
+- [radv][bisected][regression] Broken rendering in Persona 3 Reload menu on RDNA2 in gamescope
+- radv ignores count of 0 in vkCmdDrawIndirect
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- meta/recipes-bsp/barebox/barebox-common.inc | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ ...-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch | 2 +-
+ ...0001-freedreno-don-t-encode-build-path-into-binaries.patch | 2 +-
+ .../0001-meson-misdetects-64bit-atomics-on-mips-clang.patch   | 2 +-
+ ...src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch | 2 +-
+ ...src-util-u_math.c-do-not-use-arm-fpu-instructions-if.patch | 2 +-
+ meta/recipes-graphics/mesa/mesa.inc                           | 4 ++--
+ 6 files changed, 7 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-bsp/barebox/barebox-common.inc b/meta/recipes-bsp/barebox/barebox-common.inc
-index a9f0593e27f..d94798193b3 100644
---- a/meta/recipes-bsp/barebox/barebox-common.inc
-+++ b/meta/recipes-bsp/barebox/barebox-common.inc
-@@ -3,6 +3,6 @@ SECTION = "bootloaders"
+diff --git a/meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch b/meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch
+index ac88417081a..12002a2c037 100644
+--- a/meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch
++++ b/meta/recipes-graphics/mesa/files/0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch
+@@ -1,4 +1,4 @@
+-From 229a8815750765d7125f0c7efe9c8d6216678bef Mon Sep 17 00:00:00 2001
++From 52293e90484f07b5186f2f1fa7de63da0f120122 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <khem.raj@oss.qualcomm.com>
+ Date: Thu, 13 Aug 2026 00:00:00 +0000
+ Subject: [PATCH] addrlib: avoid __builtin_cpu_supports for avx2 detection
+diff --git a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
+index 087930245f5..7a00acbed38 100644
+--- a/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
++++ b/meta/recipes-graphics/mesa/files/0001-freedreno-don-t-encode-build-path-into-binaries.patch
+@@ -1,4 +1,4 @@
+-From 44f9c60f2ca4ce212c8cc3ba19e5adc357ebdad4 Mon Sep 17 00:00:00 2001
++From fd5571e22fd18b855199f23731f035927067a2a2 Mon Sep 17 00:00:00 2001
+ From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+ Date: Wed, 10 Dec 2025 02:27:16 +0200
+ Subject: [PATCH] freedreno: don't encode build path into binaries
+diff --git a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+index 39ebd01e232..dc0957d8e2d 100644
+--- a/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
++++ b/meta/recipes-graphics/mesa/files/0001-meson-misdetects-64bit-atomics-on-mips-clang.patch
+@@ -1,4 +1,4 @@
+-From d0c3c71a0eebe72b822277e46ee2698bcc428d44 Mon Sep 17 00:00:00 2001
++From c1a89a08629f9e576e136dc044c0ed8a2b67d92f Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 13 Jan 2020 15:23:47 -0800
+ Subject: [PATCH] meson misdetects 64bit atomics on mips/clang
+diff --git a/meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch b/meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch
+index 1cee7ad4e0e..36456cc3b15 100644
+--- a/meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch
++++ b/meta/recipes-graphics/mesa/files/0001-src-intel-compiler-jay-jay_ir.h-do-not-used-typed-en.patch
+@@ -1,4 +1,4 @@
+-From 35ba9a2f6f5ffccca93aa430ef94cb174dd68ea5 Mon Sep 17 00:00:00 2001
++From f0c1b4e5480bb4118326a339a3a7084df1a6b0b7 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Sun, 14 Jun 2026 17:42:19 +0200
+ Subject: [PATCH] src/intel/compiler/jay/jay_ir.h: do not used typed enum
+diff --git a/meta/recipes-graphics/mesa/files/0001-src-util-u_math.c-do-not-use-arm-fpu-instructions-if.patch b/meta/recipes-graphics/mesa/files/0001-src-util-u_math.c-do-not-use-arm-fpu-instructions-if.patch
+index a697b4c774f..aac42083c46 100644
+--- a/meta/recipes-graphics/mesa/files/0001-src-util-u_math.c-do-not-use-arm-fpu-instructions-if.patch
++++ b/meta/recipes-graphics/mesa/files/0001-src-util-u_math.c-do-not-use-arm-fpu-instructions-if.patch
+@@ -1,4 +1,4 @@
+-From 80a8cc93b8a4dca53ed11f9fd9b8065a55845bc3 Mon Sep 17 00:00:00 2001
++From 56dbc838e42d920506f0f119a65a1faf0cf7b3cc Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex@linutronix.de>
+ Date: Wed, 1 Jul 2026 22:48:15 +0200
+ Subject: [PATCH] src/util/u_math.c: do not use arm fpu instructions if fpu is
+diff --git a/meta/recipes-graphics/mesa/mesa.inc b/meta/recipes-graphics/mesa/mesa.inc
+index 9927d80b227..1154d511d97 100644
+--- a/meta/recipes-graphics/mesa/mesa.inc
++++ b/meta/recipes-graphics/mesa/mesa.inc
+@@ -22,8 +22,8 @@ SRC_URI = "https://archive.mesa3d.org/mesa-${PV}.tar.xz \
+            file://0001-addrlib-avoid-builtin_cpu_supports-for-avx2-detecti.patch \
+            "
  
- LIC_FILES_CHKSUM = "file://COPYING;md5=f5125d13e000b9ca1f0d3364286c4192"
+-SRC_URI[sha256sum] = "eeb29ca7e56cfaa8e8a79538dcf834e3b18e501c31bef5145e959ea437cc4216"
+-PV = "26.2.2"
++SRC_URI[sha256sum] = "1628058a8d2c0615975de5a15ab7bbb9638c50000b5bed9456ff423ea034a81f"
++PV = "26.2.3"
  
--PV = "2026.08.0"
-+PV = "2026.09.0"
- SRC_URI = "https://barebox.org/download/barebox-${PV}.tar.bz2"
--SRC_URI[sha256sum] = "5b270cbde7f2fc6a78ff6e748eef788bbc04571682e2f2e964cd15a2e009774c"
-+SRC_URI[sha256sum] = "491b504c8a79b5a4e30c419b824916b7329bad8abfe34987ba066bafa1fbcfc5"
+ UPSTREAM_CHECK_GITTAGREGEX = "mesa-(?P<pver>\d+(\.\d+)+)"
+ 
 
