@@ -1,112 +1,103 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 07B3EC982EE
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 20:27:14 +0000 (UTC)
-Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6079.1790022425511580338
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 29FC4C982E6
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 21:03:00 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6927.1790024575197172250
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 13:27:06 -0700
+ Mon, 21 Sep 2026 14:02:55 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DdfJifWj;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.228.140, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254fa663bfso524036566b.1
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 13:27:05 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=GHLOrHfk;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e8185e037so19813005e9.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 14:02:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790022424; x=1790627224; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=T27WgmR3JJnuVwWkpYx9kaH2z4GFFxOs1yG8aaEhdxI=;
-        b=DdfJifWj/+/6D2nkQRkYSD2HPNtcZBQaxSpUQuxUCjIeAFmOMLaYG/VRL4o8sldDzJ
-         2OvqJG40eWVV8RNGHE9orWa7llLcP4WBHe76up1dC2HxBAi76FaXTa5zbft9zOY9Rwkm
-         zSMeb6i0wvlQIhT3oEVt/CzxggHnnksQjUAlo=
+        d=smile.fr; s=google; t=1790024573; x=1790629373; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1KCSeE5gfqNfK6ZBWyYcWyIy6C8ofYDLfn7nAdDF2Ok=;
+        b=GHLOrHfkwUO886jW7FdA3i2Ldkki/TIMCljfseH/WBNIm11jxNYQcRqVvxCljUnYpO
+         yZh7ZluY/dB6lzsPloCbxTA5yMjBRWmACdHhdJyZBOP+u/uojVKDqrowGsOCLf2mN2Sl
+         0iBo8M9JIHbQBLA9/UPCts+96T6dwtvgrR2Sw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790022424; x=1790627224;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=T27WgmR3JJnuVwWkpYx9kaH2z4GFFxOs1yG8aaEhdxI=;
-        b=oqWzYs/S7BxeFB6qxZO2YcXha3mvKiHyqAYoq6cTshTRM0gc+OA0WvZuubIf7YJ/ua
-         XiXyjlmHOCxkFHBShGhbAHtrUQpeZujsY/D+e7aefbA6dk0Rpk4zcOswyBn26+ckNG9f
-         iY01Oto8peVcsA4F6l90a96PqpxS81EolsaqIdjWaV9wRA60q3IXP8jsHVgSCxxd2hma
-         mOZFBbytHZBqdvtiyxHEIL/FRLi2g/L5Q+V0Zf8Eppu4kQs1ML/aoFZFVyUqRvL5B9lp
-         uCcAcy8Tw3NjOI8Yf/3IvtMI+Bg+bj/kfF1tsS6SyqKM6HiOlU/UAQF5BL2I3RN74NKk
-         s0Lw==
-X-Forwarded-Encrypted: i=1; AKwUvBynTkiduJ3fVYWhEPQVaXq0zdYkX6QyNBXi9zR/lwoI1FV/IvyMIlDxOs/C8Hx6luHop+6N/h1zmKb70uQwpO6oVA==@lists.openembedded.org
-X-Gm-Message-State: AFuF++lOykro8n475ElKiCfzQxMiQcnCo4ZQ3G991VCFuQpRJlL31ueR
-	2LP0GWb4MqESZ7Xgs/0H2v24zqvkh3RWcCXVx2wQfR9XAwA/iDaQXYttLMfEgzl9bXR8Xu5/R6Q
-	UyNIdKw4=
-X-Gm-Gg: AYBFou1VwQGXrDg/8z65hAX4d0gR+dK1zjBgcPMfCgUFsJ95nAvyQAlNcX6wb6PGmHf
-	ou1dhGa9IY3PBv00Pv8WKPcV8LmUImwRUJYMGeOd4f0jmImWj5s8sjbx6hCLrdeXQHB+4+3dfTh
-	dKZFn/uKZ1+wQyGaVKh5iSYrcmVgzHyAU4cQJexfV5SUICfKFm//ggom4+crwXK196GhkDprlTl
-	ah02s6VhFvvnakZCmBiWoTCq7SpRCV5f71DjYe3/ryirgaTA8SNHr+P/kbZs04Yx+tQXp+Uc41c
-	be15Wbrti80gtBFLW3+H5RpZoo0KWKAPsc44cWMeUWZ5LO5oF6tMNWGAOWBqti4O5Ee7vCGtqhA
-	y7SzYHoNe8KJLe+1UmBkq7M96Q8n/rMvWTNs+fMWMzx48i5ZRX7JBtz92RnGKG6+Jd8SPSwivu4
-	xnyBoBIMAXWYxBf6WbyxuC+SpxzUfX2IZ31loY3zOtIdtME9LJIOzzD0uCfWkP3qckht5kUm3Tg
-	lbGRJXk3VWTgRqpHfBhwkl8LkraSis3PhE2ugnPdLej/pM10sHQmiibSpG2lpg=
-X-Received: by 2002:a17:907:7296:b0:c16:84dc:9607 with SMTP id a640c23a62f3a-c2a156d8cd4mr860333466b.19.1790022423660;
-        Mon, 21 Sep 2026 13:27:03 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:a46d:d671:f81e:e5f1? ([2001:8b0:aba:5f3c:a46d:d671:f81e:e5f1])
-        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2a96318181sm1555966b.43.2026.09.21.13.27.02
+        d=1e100.net; s=20260707; t=1790024573; x=1790629373;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=1KCSeE5gfqNfK6ZBWyYcWyIy6C8ofYDLfn7nAdDF2Ok=;
+        b=UbPFRtNWBS5rIStXEsPdEG5W11tmFzeE2V3PbnIl36UNrVaKFPF3PWwcAzPVQNkEfb
+         klPWZROyJFbOkxXQ6WWdFQYEY5XiruH/pZj7o2rZkxpIMR5dtdxkCd1FykZG0ZHsLbFK
+         H2va7VF2wehblc8dqxC7j723SvS55Q+39wT4H6jOAhVjik2Yf59bRGEmkwF4gIQ6T0c0
+         urZns5CZIHPozCKnLhFRunnhWdrEEjYQPvzJ8pXW9fEyVxJa7SYkGQoMsh8j24/MSAc0
+         XOP7dzXn0l9A96YPAVZ99f086JnRIcf9+aniQNNP8JwBQi0sXicnmbnIy+VX/9DkqHMM
+         t8Tw==
+X-Gm-Message-State: AFuF++m4RxD+JtTDoPhCjS0O98MWhnXRNN+7tOtWSDG2MljLsTdi7aGv
+	cl7w8s/TaCITjvp1w2AIAloaiMJ74Bc+pwdhCorFsDldBy/PwwM+jTrgH9uOKM/5mC/2p1enQcN
+	T4uX1kc0=
+X-Gm-Gg: AYBFou1PVQmNlhILM84a9g9eB0XL+842H8HPF/+X5+yVN6VQjJUPvWzoXLSCb8sUfGz
+	huYZteBj4iufcM9LJh6utEbGBYTvPdcG6+B+qc8t4z1FVZjV46Nh1lOYNaup/LxzkU7TGVSkj6z
+	1l3Uz/2HrMmOqIyqYShF71aNDAE3FA6ARjcddZBYM+srrhZqP8iHfd8T2S5F6e82FfAUjBYyY6y
+	UXBr9IMcJ4rUeeR4KsN4T7dymH02f6evMjv9kRhCQuk41v8e6gf13Gt5dsNJIdF5985VjF3VhVm
+	+0WyHSALSYR6FNq9H1ln53UWsu26/QIlXEf5tv79r6LkuqP6Qewd0ifjVMoi5AMU5F9NNBTRrrx
+	XJ2AKC+c1lc7mNSGNMfstj8R8sPdUuJvJEfxX+ghA9UfOwYVVo2ikaHPrdBEE6mQhP/nXX1jyLs
+	jAhxlZ5vI1Y8KTohPJ1CMMrOcIbhI15Nj6ox0nqJOQkt5YffXF1BH/278OzWZ/a4DUkeyO6qUtz
+	lqlingCmvGc/nqTNUOht+y80ho90ZY5NGMICOqsXzgD+Q56hILr6H2s1+AXRjRAo9Z9wT4J1QUu
+X-Received: by 2002:a05:600c:3550:b0:49e:7d74:7b7a with SMTP id 5b1f17b1804b1-49fc56db8f3mr157220635e9.6.1790024573202;
+        Mon, 21 Sep 2026 14:02:53 -0700 (PDT)
+Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fd8cc061fsm19029445e9.4.2026.09.21.14.02.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 13:27:02 -0700 (PDT)
-Message-ID: <4c99bdf9c131457e45a054e74e4ef2d658a7cbaa.camel@linuxfoundation.org>
-Subject: Re: [oe-core][master][PATCH] libgcrypt: Update license for dbg
- package
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: UpStream_IP-SK@bmwtechworks.in, openembedded-core@lists.openembedded.org
-Cc: Sana Kazi <Kazi.S@bmwtechworks.in>
-Date: Mon, 21 Sep 2026 21:27:02 +0100
-In-Reply-To: <20260917080632.1039202-1-UpStream_IP-SK@bmwtechworks.in>
-References: <20260917080632.1039202-1-UpStream_IP-SK@bmwtechworks.in>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+        Mon, 21 Sep 2026 14:02:52 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Yoann Congal <yoann.congal@smile.fr>
+Subject: [scarthgap][PATCH v2] python3: skip ptest incompatible with ptest-runner >= 2.5.0
+Date: Mon, 21 Sep 2026 23:02:08 +0200
+Message-ID: <20260921210207.1127192-2-yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.47.3
 MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 20:27:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246356
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 21:03:00 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246357
 
-On Thu, 2026-09-17 at 13:36 +0530, Sana Kazi via lists.openembedded.org wro=
-te:
-> From: Sana Kazi <Kazi.S@bmwtechworks.in>
->=20
-> Set LICENSE for libgcrypt-dbg as "LGPL-2.1-or-later"
-> as the files used in dbg package use LGPL-2.1-or-later.
->=20
-> Signed-off-by: Sana Kazi <Kazi.S@bmwtechworks.in>
-> ---
-> =C2=A0meta/recipes-support/libgcrypt/libgcrypt_1.12.4.bb | 1 +
-> =C2=A01 file changed, 1 insertion(+)
->=20
-> diff --git a/meta/recipes-support/libgcrypt/libgcrypt_1.12.4.bb b/meta/re=
-cipes-support/libgcrypt/libgcrypt_1.12.4.bb
-> index 1b2b1dc13b..27b9d7fa15 100644
-> --- a/meta/recipes-support/libgcrypt/libgcrypt_1.12.4.bb
-> +++ b/meta/recipes-support/libgcrypt/libgcrypt_1.12.4.bb
-> @@ -9,6 +9,7 @@ SECTION =3D "libs"
-> =C2=A0LICENSE =3D "BSD-3-Clause AND GPL-2.0-or-later AND LGPL-2.1-or-late=
-r"
-> =C2=A0LICENSE:${PN} =3D "BSD-3-Clause AND LGPL-2.1-or-later"
-> =C2=A0LICENSE:${PN}-dev =3D "GPL-2.0-or-later AND LGPL-2.1-or-later"
-> +LICENSE:${PN}-dbg =3D "LGPL-2.1-or-later"
-> =C2=A0
-> =C2=A0LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D570a9b3749dd0463a1778803=
-b12a6dce=C2=A0\
-> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
-=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 file://COPYING.LIB;md5=3D4=
-bf661c1e3793e55c8d1051bc5e0ae21=C2=A0\
+From: Yoann Congal <yoann.congal@smile.fr>
 
-How are you deciding that none of the files in the -dbg package are
-under just that license? The cipher/sha* files are likely a issue on at
-least some architectures at the very least?
+With ptest-runner >= 2.5.0, ptests run with PYTHONUNBUFFERED="1" envvar
+to unbuffer the python output (to fix AB-INT timeout issues).
+A python3 test, "test_cmd_line.test_non_interactive_output_buffering",
+expects buffered output and fails on unbuffered output, skip it.
+See https://github.com/python/cpython/issues/128377.
 
-Cheers,
+Note: upstream fix also skip it on PYTHONUNBUFFERED!=0:
+https://github.com/python/cpython/commit/30268b5d2fbb1a5e6c876f0cdc4cbdb5d93315e6
 
-Richard
+Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+---
+v1->v2: use "--ignore <full test name>" that actually works
+---
+ meta/recipes-devtools/python/python3_3.12.14.bb | 6 ++++++
+ 1 file changed, 6 insertions(+)
+
+diff --git a/meta/recipes-devtools/python/python3_3.12.14.bb b/meta/recipes-devtools/python/python3_3.12.14.bb
+index 7ee32601cd3..14be125180b 100644
+--- a/meta/recipes-devtools/python/python3_3.12.14.bb
++++ b/meta/recipes-devtools/python/python3_3.12.14.bb
+@@ -260,6 +260,12 @@ SKIPPED_TESTS = " \
+     --ignore test.test_tracemalloc.TestCAPI.test_tracemalloc_track_race \
+ "
+ 
++# With ptest-runner >= 2.5.0, ptests run with PYTHONUNBUFFERED="1" envvar.
++# test_cmd_line.test_non_interactive_output_buffering expects buffered ouput,
++# skip it.
++# See: https://github.com/python/cpython/issues/128377
++SKIPPED_TESTS += "--ignore test.test_cmd_line.CmdLineTest.test_non_interactive_output_buffering"
++
+ SKIPPED_TESTS:append:class-target:libc-musl = " \
+     -x test__locale \
+     -x test_c_locale_coercion \
 
