@@ -2,48 +2,48 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7C5F4C982F0
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 05:40:17 +0000 (UTC)
-Received: from a27-31.smtp-out.us-west-2.amazonses.com (a27-31.smtp-out.us-west-2.amazonses.com [54.240.27.31])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.42911.1789969211027980883
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75337C982E1
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 05:40:16 +0000 (UTC)
+Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.42913.1789969211187786112
  for <openembedded-core@lists.openembedded.org>;
  Sun, 20 Sep 2026 22:40:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IbDoWkLH;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=fKN6ZsjO;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.31, mailfrom: 010101a0c27a9aba-98d51d43-06dd-46cd-ba77-02fbfe496271-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=IqhCgchp;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=qO85ifpM;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a0c27a9cb8-c815d337-7530-4b15-944f-a7859d327022-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1789969210;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=+ipwcItY9M+RJZ7L6HsWxhkTcbRON15b5wtrG//5DaU=;
-	b=IbDoWkLHL0G5nP4HtjFSFMwisuNfXBpnbqkmV4WtBSY11+x1gAlLnK/MVm8rKdWo
-	r5FmUSw5cDuD/2E7zLLJ1BM+lAs6ktJJWYDhGoQ13wtgPBQDWAzN/1kqk1lYdL1B8wp
-	3vaLe+NN92ry7qgcR/S0U81XODEzReIYc1mcmm9g=
+	bh=QE2WYclCgpegf6rxk4dZGHDUuD62ytq/ag/STHYv6LY=;
+	b=IqhCgchpORWELbNbKTAs6PSu2LZfTEJxGDjUR6NpXru/hTD/ertr7JMHeCHIBMqQ
+	aKANtlaMrsE6Pz6klXLUexsLpB9HU0i+X2wYI7ihtZtczXm2swifdtLdtaYSBrZbNO9
+	p4b4x6pijCe1QVSrqLjxo+TdjbmZyjiOBKk7x59U=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1789969210;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=+ipwcItY9M+RJZ7L6HsWxhkTcbRON15b5wtrG//5DaU=;
-	b=fKN6ZsjOQR/6CvKlnnvGYTHCim42cScHzSN+U7DDqjebGZlmcfcmJvqWzZ1feKLx
-	0B8lUPe0oFEtS4kV7Il7uZZZ0/vv/AGNc/uQXZdRrCnZkIy0hWL1LIml/Iaawg9qp9y
-	J5L2vJuJjGn8cNgXnE1U3dtEmyfmiEJgt+JJnULQ=
-Content-Type: multipart/mixed; boundary="===============5889079258632179768=="
+	bh=QE2WYclCgpegf6rxk4dZGHDUuD62ytq/ag/STHYv6LY=;
+	b=qO85ifpML/xop9BnFHNwz2H6qDjbSZ4+D+kagaSnkwADH5aaCwcXUq5BEuRerwOz
+	SPAYYJN2GhsFYlA9PGrzl5LWLBjNfrk7ZlqK/i3vv6yO7gsI6EVFAy5hxBw1CSRCtkB
+	Pwrnfd8VffZae4nM62WDWUdW46FHNCoqnxxLJM4E=
+Content-Type: multipart/mixed; boundary="===============2191562785685208148=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Sumanth Gavini <sumanth.gavini@windriver.com>
+To: Ross Burton <ross.burton@arm.com>
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] rpm: upgrading to 6.1.0 FAILED
-Message-ID: <010101a0c27a9aba-98d51d43-06dd-46cd-ba77-02fbfe496271-000000@us-west-2.amazonses.com>
+Subject: [AUH] fribidi: upgrading to 1.0.17 SUCCEEDED
+Message-ID: <010101a0c27a9cb8-c815d337-7530-4b15-944f-a7859d327022-000000@us-west-2.amazonses.com>
 Date: Mon, 21 Sep 2026 05:40:10 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.21-54.240.27.31
+X-SES-Outgoing: 2026.09.21-54.240.27.29
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 05:40:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246281
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 05:40:16 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246283
 
---===============5889079258632179768==
+--===============2191562785685208148==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -51,376 +51,745 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *rpm* to *6.1.0* has Failed (devtool error).
+that the automatic attempt to upgrade the recipe(s) *fribidi* to *1.0.17* has Succeeded.
 
-Detailed error information:
+Next steps:
+    - apply the patch: git am 0001-fribidi-upgrade-1.0.16-1.0.17.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
-Running 'devtool upgrade' for recipe rpm failed.
-NOTE: Reconnecting to bitbake server...
-Loading cache...done.
-Loaded 0 entries from dependency cache.
-Parsing recipes...done.
-Parsing of 959 .bb files complete (0 cached, 959 parsed). 1993 targets, 43 skipped, 0 masked, 0 errors.
-Removing 1 recipes from the x86_64 sysroot...done.
-NOTE: Resolving any missing task queue dependencies
-
-Build Configuration:
-BB_VERSION           = "2.19.1"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "universal"
-TARGET_SYS           = "x86_64-poky-linux"
-MACHINE              = "qemux86-64"
-SDKMACHINE           = "x86_64"
-DISTRO               = "poky"
-DISTRO_VERSION       = "6.0.99+snapshot-06cee827bd22979de556b1e62eed88747ef44413"
-TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:06cee827bd22979de556b1e62eed88747ef44413"
-meta-yocto-bsp       
-meta-poky            = "master:d36c827e02ab138b446386792fd7588b5a041507"
-workspace            = "<unknown>:<unknown>"
-
-Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 14 Local 14 Mirrors 0 Missed 0 Current 16 (100% match, 100% complete)
-done.
-NOTE: Executing Tasks
-NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
-NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-INFO: Extracting current version source...
-INFO: Extracting upgraded version source...
-INFO: Rebasing devtool onto f832c7e69945248dd5bcfcacfd10c176ee300fa2
-WARNING: Command 'git rebase f832c7e69945248dd5bcfcacfd10c176ee300fa2' failed:
-Auto-merging CMakeLists.txt
-CONFLICT (content): Merge conflict in CMakeLists.txt
-Auto-merging tests/pinned/rpmsigdig.txt
-CONFLICT (content): Merge conflict in tests/pinned/rpmsigdig.txt
-Auto-merging tests/pinned/rpmsigdig6.txt
-CONFLICT (content): Merge conflict in tests/pinned/rpmsigdig6.txt
-
-You will need to resolve conflicts in order to complete the upgrade.
-INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/rpm
-INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/rpm/rpm_6.1.0.bb
-INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/rpm.txt
-
-
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
 
 Please review the attached files for further information and build/update failures.
 Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
 Regards,
 The Upgrade Helper
---===============5889079258632179768==
+
+-- >8 --
+From 7962b90e04401e895b76e3063d4a96b1dd2b231f Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Mon, 21 Sep 2026 05:37:25 +0000
+Subject: [PATCH] fribidi: upgrade 1.0.16 -> 1.0.17
+
+Source: ChangeLog
+
+Bumped version to 1.0.17
+lib: resolve FSI base direction in one linear pass, not per-FSI rescan
+ci: capture the real test-suite.log from distcheck's nested rebuild
+lib: replace N0 bracket-pairing linked list with a flat sorted array
+lib: pool-allocate FriBidiRun nodes in embedding-level resolution
+fribidi_reorder_line: implement L2 reordering in linear time
+test: include stdbool.h in test-reorder-nsm.c
+meson: fix parallel build race for test-reorder-nsm
+gen-unicode-version: fix MSVC link failure by avoiding strncasecmp
+Fix fribidi_set_reorder_nsm()/fribidi_set_mirroring() not affecting
+gen-arabic-shaping-tab: fix remaining -Wformat= mismatch on
+gen-unicode-version: replace non-portable strcasestr with a portable
+Define _FRIBIDI_TYPE_SENTINEL/_FRIBIDI_PAR_SENTINEL in both enum
+gen-arabic-shaping-tab: fix -Wformat-overflow warning on GCC 14
+Update Unicode character databases to v18.0.0
+Fix quadratic behavior in N0 bracket pairing preceding-strong search
+Fix out-of-bounds read on trailing '_'
+fribidi-main: fix truncation of lines/output containing embedded
+Pair brackets by canonical equivalence only, per UAX #9 BD16
+Remove unused appveyor yaml file
+github actions: Use current python version
+Update old FSF address
+Remove unnecessary custom prototypes for getenv and getopt
+Remove unused travis file
+github actions: Install help2man to fix ubuntu build
+Update TODO - remove readme item
+Don't require help2man unless building docs
+Generate fribidi.1 man page
+Fix typos in docs: "an string" -> "a string"
+github actions: Update python version to 3.12
+Update github actions versions
+Add GNU Mailutils to USERS
+Fix typo
+Fix error handling for file operations
+Fix stack buffer overflow when parsing equivalence
+remove compiler flag "-ansi"
+debug: don't pass a comma "," in a #define
+Bump version to 1.0.16
+Fix CI failure
+Update Unicode character databases to v16.0.0
+Fix typo in fribidi-caprtl2utf8.c that caused compilation warning
+Bumped version to 1.0.15
+Bumped version to 1.0.14
+Update unicode character databases to v15.1.0.
+Update test cases to Unicode 15.1
+meson: fix build with -Dbin=false and -Dtests=true
+Bumped version to 1.0.13
+simplify visibility handling
+meson: fix two meson warnings
+Update test cases to Unicode 15.0
+meson: fix two meson warnings
+meson: Override dependencies to improve usage as a subproject
+ci: Upload logs on build failure
+ci: Update python version in github workflows
+meson: Override dependencies to improve usage as a subproject
+Update test cases to Unicode 15.0
+simplify visibility handling
+remove useless library arguments applied to executables
+Made fribidi_utf8_to_unicode() skip incomplete utf8 encoded code points
+Bumped version to 1.0.12
+Add -DFRIBIDI_LIB_STATIC to libfribidi_dep
+Fix SEGV issue in fribidi_remove_bidi_marks
+Protected against garbage in the CapRTL encoder
+Fix the stack buffer overflow issue
+Include -DFRIBIDI_LIB_STATIC in pkg-config output by default when
+meson:  Don't hardcode python3 in tests
+Update test
+
+[Changelog truncated as it exceeds 3000 characters;
+the full changelog can be found in an attachment to the AUH email]
+---
+ .../{fribidi_1.0.16.bb => fribidi_1.0.17.bb}  | 96 ++++++++++++++++++-
+ 1 file changed, 94 insertions(+), 2 deletions(-)
+ rename meta/recipes-support/fribidi/{fribidi_1.0.16.bb => fribidi_1.0.17.bb} (15%)
+
+diff --git a/meta/recipes-support/fribidi/fribidi_1.0.16.bb b/meta/recipes-support/fribidi/fribidi_1.0.17.bb
+similarity index 15%
+rename from meta/recipes-support/fribidi/fribidi_1.0.16.bb
+rename to meta/recipes-support/fribidi/fribidi_1.0.17.bb
+index 9f75446da2..636f6df220 100644
+--- a/meta/recipes-support/fribidi/fribidi_1.0.16.bb
++++ b/meta/recipes-support/fribidi/fribidi_1.0.17.bb
+@@ -1,3 +1,95 @@
++# FIXME: the LIC_FILES_CHKSUM values have been updated by 'devtool upgrade'.
++# The following is the difference between the old and the new license text.
++# Please update the LICENSE value if needed, and summarize the changes in
++# the commit message via 'License-Update:' tag.
++# (example: 'License-Update: copyright years updated.')
++#
++# The changes:
++#
++# --- COPYING
++# +++ COPYING
++# @@ -1,8 +1,8 @@
++# -		  GNU LESSER GENERAL PUBLIC LICENSE
++# -		       Version 2.1, February 1999
++# +                  GNU LESSER GENERAL PUBLIC LICENSE
++# +                       Version 2.1, February 1999
++#  
++#   Copyright (C) 1991, 1999 Free Software Foundation, Inc.
++# -     51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
++# + <https://fsf.org/>
++#   Everyone is permitted to copy and distribute verbatim copies
++#   of this license document, but changing it is not allowed.
++#  
++# @@ -10,7 +10,7 @@
++#   as the successor of the GNU Library Public License, version 2, hence
++#   the version number 2.1.]
++#  
++# -			    Preamble
++# +                            Preamble
++#  
++#    The licenses for most software are designed to take away your
++#  freedom to share and change it.  By contrast, the GNU General Public
++# @@ -112,7 +112,7 @@
++#  former contains code derived from the library, whereas the latter must
++#  be combined with the library in order to run.
++#  
++# -		  GNU LESSER GENERAL PUBLIC LICENSE
++# +                  GNU LESSER GENERAL PUBLIC LICENSE
++#     TERMS AND CONDITIONS FOR COPYING, DISTRIBUTION AND MODIFICATION
++#  
++#    0. This License Agreement applies to any software library or other
++# @@ -146,7 +146,7 @@
++#  on the Library (independent of the use of the Library in a tool for
++#  writing it).  Whether that is true depends on what the Library does
++#  and what the program that uses the Library does.
++# -  
++# +
++#    1. You may copy and distribute verbatim copies of the Library's
++#  complete source code as you receive it, in any medium, provided that
++#  you conspicuously and appropriately publish on each copy an
++# @@ -432,7 +432,7 @@
++#  of all derivatives of our free software and of promoting the sharing
++#  and reuse of software generally.
++#  
++# -			    NO WARRANTY
++# +                            NO WARRANTY
++#  
++#    15. BECAUSE THE LIBRARY IS LICENSED FREE OF CHARGE, THERE IS NO
++#  WARRANTY FOR THE LIBRARY, TO THE EXTENT PERMITTED BY APPLICABLE LAW.
++# @@ -455,7 +455,7 @@
++#  SUCH HOLDER OR OTHER PARTY HAS BEEN ADVISED OF THE POSSIBILITY OF SUCH
++#  DAMAGES.
++#  
++# -		     END OF TERMS AND CONDITIONS
++# +                     END OF TERMS AND CONDITIONS
++#  
++#             How to Apply These Terms to Your New Libraries
++#  
++# @@ -484,8 +484,7 @@
++#      Lesser General Public License for more details.
++#  
++#      You should have received a copy of the GNU Lesser General Public
++# -    License along with this library; if not, write to the Free Software
++# -    Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301  USA
++# +    License along with this library; if not, see <https://www.gnu.org/licenses/>.
++#  
++#  Also add information on how to contact you by electronic and paper mail.
++#  
++# @@ -496,9 +495,7 @@
++#    Yoyodyne, Inc., hereby disclaims all copyright interest in the
++#    library `Frob' (a library for tweaking knobs) written by James Random Hacker.
++#  
++# -  <signature of Ty Coon>, 1 April 1990
++# -  Ty Coon, President of Vice
++# +  <signature of Moe Ghoul>, 1 April 1990
++# +  Moe Ghoul, President of Vice
++#  
++#  That's all there is to it!
++# -
++# -
++# 
++#
++
+ SUMMARY = "Free Implementation of the Unicode Bidirectional Algorithm"
+ DESCRIPTION = "It provides utility functions to aid in the development \
+ of interactive editors and widgets that implement BiDi functionality. \
+@@ -7,11 +99,11 @@ SECTION = "libs"
+ HOMEPAGE = "http://fribidi.org/"
+ BUGTRACKER = "https://github.com/fribidi/fribidi/issues"
+ LICENSE = "LGPL-2.1-or-later"
+-LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
++LIC_FILES_CHKSUM = "file://COPYING;md5=4bf661c1e3793e55c8d1051bc5e0ae21"
+ 
+ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.xz \
+            "
+-SRC_URI[sha256sum] = "1b1cde5b235d40479e91be2f0e88a309e3214c8ab470ec8a2744d82a5a9ea05c"
++SRC_URI[sha256sum] = "6949dcde27d41cebad1fd741fcafc36d55a1020d2d872d4a6eb3914caabbada2"
+ 
+ inherit meson lib_package pkgconfig github-releases
+ 
+-- 
+2.47.1
+
+
+--===============2191562785685208148==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="fribidi-changelog.txt"
+
+Q2hhbmdlbG9nIGZvciBmcmliaWRpOiAxLjAuMTYgLT4gMS4wLjE3ClNvdXJjZTogQ2hhbmdlTG9n
+CgpCdW1wZWQgdmVyc2lvbiB0byAxLjAuMTcKbGliOiByZXNvbHZlIEZTSSBiYXNlIGRpcmVjdGlv
+biBpbiBvbmUgbGluZWFyIHBhc3MsIG5vdCBwZXItRlNJIHJlc2NhbgpjaTogY2FwdHVyZSB0aGUg
+cmVhbCB0ZXN0LXN1aXRlLmxvZyBmcm9tIGRpc3RjaGVjaydzIG5lc3RlZCByZWJ1aWxkCmxpYjog
+cmVwbGFjZSBOMCBicmFja2V0LXBhaXJpbmcgbGlua2VkIGxpc3Qgd2l0aCBhIGZsYXQgc29ydGVk
+IGFycmF5CmxpYjogcG9vbC1hbGxvY2F0ZSBGcmlCaWRpUnVuIG5vZGVzIGluIGVtYmVkZGluZy1s
+ZXZlbCByZXNvbHV0aW9uCmZyaWJpZGlfcmVvcmRlcl9saW5lOiBpbXBsZW1lbnQgTDIgcmVvcmRl
+cmluZyBpbiBsaW5lYXIgdGltZQp0ZXN0OiBpbmNsdWRlIHN0ZGJvb2wuaCBpbiB0ZXN0LXJlb3Jk
+ZXItbnNtLmMKbWVzb246IGZpeCBwYXJhbGxlbCBidWlsZCByYWNlIGZvciB0ZXN0LXJlb3JkZXIt
+bnNtCmdlbi11bmljb2RlLXZlcnNpb246IGZpeCBNU1ZDIGxpbmsgZmFpbHVyZSBieSBhdm9pZGlu
+ZyBzdHJuY2FzZWNtcApGaXggZnJpYmlkaV9zZXRfcmVvcmRlcl9uc20oKS9mcmliaWRpX3NldF9t
+aXJyb3JpbmcoKSBub3QgYWZmZWN0aW5nCmdlbi1hcmFiaWMtc2hhcGluZy10YWI6IGZpeCByZW1h
+aW5pbmcgLVdmb3JtYXQ9IG1pc21hdGNoIG9uCmdlbi11bmljb2RlLXZlcnNpb246IHJlcGxhY2Ug
+bm9uLXBvcnRhYmxlIHN0cmNhc2VzdHIgd2l0aCBhIHBvcnRhYmxlCkRlZmluZSBfRlJJQklESV9U
+WVBFX1NFTlRJTkVML19GUklCSURJX1BBUl9TRU5USU5FTCBpbiBib3RoIGVudW0KZ2VuLWFyYWJp
+Yy1zaGFwaW5nLXRhYjogZml4IC1XZm9ybWF0LW92ZXJmbG93IHdhcm5pbmcgb24gR0NDIDE0ClVw
+ZGF0ZSBVbmljb2RlIGNoYXJhY3RlciBkYXRhYmFzZXMgdG8gdjE4LjAuMApGaXggcXVhZHJhdGlj
+IGJlaGF2aW9yIGluIE4wIGJyYWNrZXQgcGFpcmluZyBwcmVjZWRpbmctc3Ryb25nIHNlYXJjaApG
+aXggb3V0LW9mLWJvdW5kcyByZWFkIG9uIHRyYWlsaW5nICdfJwpmcmliaWRpLW1haW46IGZpeCB0
+cnVuY2F0aW9uIG9mIGxpbmVzL291dHB1dCBjb250YWluaW5nIGVtYmVkZGVkClBhaXIgYnJhY2tl
+dHMgYnkgY2Fub25pY2FsIGVxdWl2YWxlbmNlIG9ubHksIHBlciBVQVggIzkgQkQxNgpSZW1vdmUg
+dW51c2VkIGFwcHZleW9yIHlhbWwgZmlsZQpnaXRodWIgYWN0aW9uczogVXNlIGN1cnJlbnQgcHl0
+aG9uIHZlcnNpb24KVXBkYXRlIG9sZCBGU0YgYWRkcmVzcwpSZW1vdmUgdW5uZWNlc3NhcnkgY3Vz
+dG9tIHByb3RvdHlwZXMgZm9yIGdldGVudiBhbmQgZ2V0b3B0ClJlbW92ZSB1bnVzZWQgdHJhdmlz
+IGZpbGUKZ2l0aHViIGFjdGlvbnM6IEluc3RhbGwgaGVscDJtYW4gdG8gZml4IHVidW50dSBidWls
+ZApVcGRhdGUgVE9ETyAtIHJlbW92ZSByZWFkbWUgaXRlbQpEb24ndCByZXF1aXJlIGhlbHAybWFu
+IHVubGVzcyBidWlsZGluZyBkb2NzCkdlbmVyYXRlIGZyaWJpZGkuMSBtYW4gcGFnZQpGaXggdHlw
+b3MgaW4gZG9jczogImFuIHN0cmluZyIgLT4gImEgc3RyaW5nIgpnaXRodWIgYWN0aW9uczogVXBk
+YXRlIHB5dGhvbiB2ZXJzaW9uIHRvIDMuMTIKVXBkYXRlIGdpdGh1YiBhY3Rpb25zIHZlcnNpb25z
+CkFkZCBHTlUgTWFpbHV0aWxzIHRvIFVTRVJTCkZpeCB0eXBvCkZpeCBlcnJvciBoYW5kbGluZyBm
+b3IgZmlsZSBvcGVyYXRpb25zCkZpeCBzdGFjayBidWZmZXIgb3ZlcmZsb3cgd2hlbiBwYXJzaW5n
+IGVxdWl2YWxlbmNlCnJlbW92ZSBjb21waWxlciBmbGFnICItYW5zaSIKZGVidWc6IGRvbid0IHBh
+c3MgYSBjb21tYSAiLCIgaW4gYSAjZGVmaW5lCkJ1bXAgdmVyc2lvbiB0byAxLjAuMTYKRml4IENJ
+IGZhaWx1cmUKVXBkYXRlIFVuaWNvZGUgY2hhcmFjdGVyIGRhdGFiYXNlcyB0byB2MTYuMC4wCkZp
+eCB0eXBvIGluIGZyaWJpZGktY2FwcnRsMnV0ZjguYyB0aGF0IGNhdXNlZCBjb21waWxhdGlvbiB3
+YXJuaW5nCkJ1bXBlZCB2ZXJzaW9uIHRvIDEuMC4xNQpCdW1wZWQgdmVyc2lvbiB0byAxLjAuMTQK
+VXBkYXRlIHVuaWNvZGUgY2hhcmFjdGVyIGRhdGFiYXNlcyB0byB2MTUuMS4wLgpVcGRhdGUgdGVz
+dCBjYXNlcyB0byBVbmljb2RlIDE1LjEKbWVzb246IGZpeCBidWlsZCB3aXRoIC1EYmluPWZhbHNl
+IGFuZCAtRHRlc3RzPXRydWUKQnVtcGVkIHZlcnNpb24gdG8gMS4wLjEzCnNpbXBsaWZ5IHZpc2li
+aWxpdHkgaGFuZGxpbmcKbWVzb246IGZpeCB0d28gbWVzb24gd2FybmluZ3MKVXBkYXRlIHRlc3Qg
+Y2FzZXMgdG8gVW5pY29kZSAxNS4wCm1lc29uOiBmaXggdHdvIG1lc29uIHdhcm5pbmdzCm1lc29u
+OiBPdmVycmlkZSBkZXBlbmRlbmNpZXMgdG8gaW1wcm92ZSB1c2FnZSBhcyBhIHN1YnByb2plY3QK
+Y2k6IFVwbG9hZCBsb2dzIG9uIGJ1aWxkIGZhaWx1cmUKY2k6IFVwZGF0ZSBweXRob24gdmVyc2lv
+biBpbiBnaXRodWIgd29ya2Zsb3dzCm1lc29uOiBPdmVycmlkZSBkZXBlbmRlbmNpZXMgdG8gaW1w
+cm92ZSB1c2FnZSBhcyBhIHN1YnByb2plY3QKVXBkYXRlIHRlc3QgY2FzZXMgdG8gVW5pY29kZSAx
+NS4wCnNpbXBsaWZ5IHZpc2liaWxpdHkgaGFuZGxpbmcKcmVtb3ZlIHVzZWxlc3MgbGlicmFyeSBh
+cmd1bWVudHMgYXBwbGllZCB0byBleGVjdXRhYmxlcwpNYWRlIGZyaWJpZGlfdXRmOF90b191bmlj
+b2RlKCkgc2tpcCBpbmNvbXBsZXRlIHV0ZjggZW5jb2RlZCBjb2RlIHBvaW50cwpCdW1wZWQgdmVy
+c2lvbiB0byAxLjAuMTIKQWRkIC1ERlJJQklESV9MSUJfU1RBVElDIHRvIGxpYmZyaWJpZGlfZGVw
+CkZpeCBTRUdWIGlzc3VlIGluIGZyaWJpZGlfcmVtb3ZlX2JpZGlfbWFya3MKUHJvdGVjdGVkIGFn
+YWluc3QgZ2FyYmFnZSBpbiB0aGUgQ2FwUlRMIGVuY29kZXIKRml4IHRoZSBzdGFjayBidWZmZXIg
+b3ZlcmZsb3cgaXNzdWUKSW5jbHVkZSAtREZSSUJJRElfTElCX1NUQVRJQyBpbiBwa2ctY29uZmln
+IG91dHB1dCBieSBkZWZhdWx0IHdoZW4KbWVzb246ICBEb24ndCBoYXJkY29kZSBweXRob24zIGlu
+IHRlc3RzClVwZGF0ZSB0ZXN0IGNhc2VzIHRvIFVuaWNvZGUgMTQuMAptZXNvbjogIERvbid0IGhh
+cmRjb2RlIHB5dGhvbjMgaW4gdGVzdHMKVXBkYXRlIHRlc3QgY2FzZXMgdG8gVW5pY29kZSAxNC4w
+CkJ1bXBlZCB2ZXJzaW9uIHRvIDEuMC4xMQpbY2ldIEZpeCBjMm1hbiBwYXRoCltjaV0gVXBsb2Fk
+IGRpc3QgdGFyYmFsbApPcGVuIEdpdEh1YiBDSTogYnVpbGQgd2l0aCBtYWtlClVwZGF0ZSB0byBV
+bmljb2RlIDE0LjAKZml4IHR5cG8gaW4gdHJhbnNwYXJlbnRfZ2VuZXJhbF9jYXRlZ29yaWVzW10K
+W2NpXSBmaXggZW52IHNldApbY2ldIGFkZCBjMm1hbiBidWlsZCBzdGVwCltjaV0gbWFrZSBpbml0
+Ck9wZW4gR2l0SHViIENJOiBidWlsZCB3aXRoIG1lc29uCltjaV0gYWRkIHNvbWUgY29tbWVudHMK
+W2NpXSBmaXggbXN2YyBzZXQgdXAKW2NpXSBtZXJnZSBpbnRvIG9uZSBqb2JzCltjaV0gdGVzdCBt
+c3ZjCltjaV0gYWRkIHdpbgpbY2ldIGFkZCBtYWNPUwpbY2ldIG5vdCBidWlsZCBkb2NzCltjaV0g
+aW5pdCBCdWlsZCB3aXRoIG1lc29uCk9ubHkgbWVyZ2UgcnVucyB3aXRoIHRoZSBzYW1lIGlzb2xh
+dGUgbGV2ZWwuClByZXZlbnQgaXNvbGF0ZSBsZXZlbCBmcm9tIGJlaW5nIGRlY3JlYXNlZCBpZiBp
+dCBpcyBhbHJlZHkgemVybwpbbWVzb25dIGZpeCBERVBSRUNBVElPTgpNZXJnZSBicmFuY2ggJ21h
+c3RlcicgaW50byBtZXNvbi13YXJuaW5nCmZyaWJpZGktY29tbW9uLmg6IGRlZmluZSBGUklCSURJ
+X0VOVFJZIHdoZW4gaXQgaXMgbm90IGRlZmluZWQKRG8gbm90IHBhc3MgYSBOVUxMIHN0cmluZyBw
+b2ludGVyIHRvIHByaW50ZigpIGluCm1lc29uOiBhZGQgZnJpYmlkaV9zdGF0aWNfY2FyZ3MgdG8g
+ZXh0cmFfY2ZsYWdzClttZXNvbi9mcmliaWRpXSBmaXggREVQUkVDQVRJT04KbWVzb246IGFkZCBm
+cmliaWRpX3N0YXRpY19jYXJncyB0byBleHRyYV9jZmxhZ3MKZnJpYmlkaS1jb21tb24uaDogZGVm
+aW5lIEZSSUJJRElfRU5UUlkgd2hlbiBpdCBpcyBub3QgZGVmaW5lZApTa2lwIGlzb2xhdGVzIGlu
+IGZyaWJpZGlfZ2V0X3Bhcl9kaXJlY3Rpb24KQWRkIGEgZnV6emVyIHRvIGZyaWJpZGkKRml4ZWQg
+ZGFuZ2xpbmcgcG9pbnRlciBwcm9ibGVtIGZvdW5kIGJ5IGZ1enppbmcKUmV2ZXJ0IHdoaXRlc3Bh
+Y2UgY2hhbmdlcy4KRG8gbm90IHBhc3MgYSBOVUxMIHN0cmluZyBwb2ludGVyIHRvIHByaW50Zigp
+IGluCkJ1bXBlZCB2ZXJzaW9uIHRvIDEuMC4xMApGaXggRlJJQklESV9FTlRSWSBvbiBXaW5kb3dz
+CmZyaWJpZGktY29tbW9uLmg6IGluIHN0YXRpYyBtb2RlLCBkZWZpbmUgRlJJQklESV9FTlRSWSBv
+bmx5IGlmIG5vdAptZXNvbjogcmVtb3ZlIHdyb25nIGFkZGl0aW9uYWwgJ2V4dGVybicgaW4gRlJJ
+QklESV9FTlRSWQpGaXggRlJJQklESV9FTlRSWSBvbiBXaW5kb3dzCkRyb3Agbm9uLWV4aXN0ZW50
+IC0tY2hhbmdlcyBmcm9tIGhlbHAgdGV4dAptZXNvbjogVXNlIHRoZSBgZGVidWdgIG9wdGlvbiBk
+aXJlY3RseSBpbnN0ZWFkIG9mIGBidWlsZHR5cGVgCm1lc29uOiBhbGxvdyB0byBkaXNhYmxlIGJ1
+aWxkaW5nIHRlc3RzIGFuZCBiaW5hcmllcwptZXNvbjogVXNlIHRoZSBgZGVidWdgIG9wdGlvbiBk
+aXJlY3RseSBpbnN0ZWFkIG9mIGBidWlsZHR5cGVgCm1lc29uOiBhbGxvdyB0byBkaXNhYmxlIGJ1
+aWxkaW5nIHRlc3RzIGFuZCBiaW5hcmllcwpCdW1wZWQgdmVyc2lvbiB0byAxLjAuOQpGaXhlZCBi
+dWcgaW4gYWxnb3JpdGhtIGNhdXNpbmcgZXJyb25lb3VzIGNvbm5lY3Rpb25zIGJldHdlZW4gaXNv
+bGF0ZQpDaGFuZ2VkIFwtMSB0byBcKG1pMSBpbiBmcmliaWRpX3JlbW92ZV9iaWRpX21hcmtzIGRv
+Y3MuIElzc3VlICMxMzUKVXNlIExERkxBR1NfRk9SX0JVSUxEIGZvciBjcm9zcyBjb21waWxhdGlv
+biAjMTE1Cldvcmthcm91bmQgZm9yIG1hbjJjIGVycm9yLiBJc3N1ZSAjMTI5LgpSZXN0b3JlZCBt
+aXN0YWtlbmx5IHJlbW92ZWQgZGVwcmVjYXRlZCBmdW5jdGlvbgphdXRvdG9vbHM6IGdlbmVyYXRl
+IHh6IGFyY2hpdmUgaW5zdGVhZCBvZiBiemlwMiBvbmUKQnVtcGVkIHZlcnNpb24gdG8gMS4wLjgK
+Rml4ZWQgYnVnIGluIHRoZSB0aGUgYWxnbyBmb3IgbXVsdGlwbGUgaXNvbGF0ZXMgYXQgZGlmZmVy
+ZW50IGxldmVscwpUcnVuY2F0ZSBpc29sYXRlX2xldmVsIHRvIEZSSUJJRElfQklESV9NQVhfRVhQ
+TElDSVRfTEVWRUwKRml4IG1pc3BsYWNlZCBleHRlcm5hbCAiQyIgcG9zaXRpb24gbmVjZXNzYXJ5
+IGZvciBDKysgY29tcGlsYXRpb24KVXBkYXRlZCB0aGUgZG9jdW1lbnRhdGlvbiBmb3IgdGhlIHVu
+ZGVwcmVjYXRlZCBmcmliaWRpX2xvZzJ2aXMoKQpTb21lIGNsZWFudXAgb2YgbXkgbGFzdCBkZWRl
+cHJlY2F0aW9uIGNoYW5nZXMuClVuZGVwcmVjYXRlZCBmcmliaWRpX3JlbW92ZV9iaWRpX21hcmtz
+KCkgYW5kIGZyaWJpZGlfbG9nMnZpcygpLgpBZGRlZCBSRUFETUUubWQgdG8gdGhlIGRpc3RyaWJ1
+dGlvbiB0YXJiYWxsIChmaXhlcyAjMTI1KQpCdW1wZWQgdmVyc2lvbiB0byAxLjAuNwpSZXBsYWNl
+IFJFQURNRSBzeW1saW5rIHdpdGggcGxhaW4gdGV4dCBmaWxlLgpCdW1wZWQgdmVyc2lvbiB0byAx
+LjAuNgphZGQgdGhlIEVGTCBhcyB1c2VycwpBdm9pZCB1c2Ugb2YgbGliYydzIGJzZWFyY2ggZm9y
+IHBlcmZvcm1hbmNlIGFuZCBwb3J0YWJpbGl0eSByZWFzb25zCk1ha2UgcGFyYW1ldGVyIHF1YWxp
+ZmllcnMgbWF0Y2ggYmV0d2VlbiBkZWNsYXJhdGlvbiBhbmQgZGVmaW5pdGlvbgpCbGluZCBmaXgg
+Zm9yIFBhbmdvIGJ1aWxkClByb3Blcmx5IGV4cG9ydCBmcmliaWRpX3VuaWNvZGVfdmVyc2lvbgpV
+cGRhdGVkIFRyYXZpcyBzZXR0aW5ncwpGaXhlZCB0eXBvClJlbW92ZWQgc3VkbwpSZXZlcnQgInRy
+YXZpcy55bWw6IFVzZSB0aGUgbWVzb24gc3RhYmxlIGJyYW5jaCB0byB3b3JrYXJvdW5kCk1pc2Mu
+IHNvdXJjZSBjb21tZW50IGFuZCBkb2N1bWVudGF0aW9uIHR5cG8gZml4ZXMKbWVzb246IFBhc3Mg
+dmlzaWJpbGl0eSBhcmdzIHRvIHRlc3QgZXhlY3V0YWJsZQptZXNvbjogUGFzcyB2aXNpYmlsaXR5
+IGFyZ3MgdG8gdGhlIGV4ZWN1dGFibGVzCkRlcGVuZCBvbiB0aGUgZ2VuZXJhdGVkIGhlYWRlcnMg
+ZXhwbGljaXRseQpBZGQgQXBwVmV5b3IgQ0kgc3VwcG9ydAp0cmF2aXMueW1sOiBVc2UgdGhlIG1l
+c29uIHN0YWJsZSBicmFuY2ggdG8gd29ya2Fyb3VuZCByZWdyZXNzaW9uCm1lc29uOiBEZWNsYXJl
+IGxpYmZyaWJpZGkgYXMgYSBkZXBlbmRlbmN5IGZvciB1c2FnZSBhcyBhIHN1YnByb2plY3QKdGVz
+dHM6IEZpeCBidWlsZCBvbiBwcmUtQzk5IGNvbXBpbGVycwpCdWlsZCBhbHNvIHdpdGggbWVzb24g
+b24gVHJhdmlzCkJ1aWxkIGdlbmVyYXRvciBleGVjdXRhYmxlcyBuYXRpdmVseQpSZW1vdmVkIEhB
+VkVfQ09ORklHX0ggZnJvbSBwdWJsaWMgQVBJCkZpeGVkIGJ1ZyBQRlJJQklESV9UWVBFX1BERl9M
+UkkgaXMgdW5kZWZpbmVkLiBJc3N1ZSAjNjkKVXBkYXRlZCBORVdTIGZpbGUuCkJ1bXBlZCB2ZXJz
+aW9uIHRvIDEuMC41CkZpeGVkIHJlbWFpbmluZyAxNiBjaGFyIHRlc3RzIGVycm9ycy4KUmVtb3Zl
+IHNraXBwaW5nIHRlc3RzIGFuZCBmaXhlZCB0d28gdGVzdCBlcnJvcnMuClJlZHVjZSBkeW5hbWlj
+IGFsbG9jYXRpb25zIGJ5IHVzaW5nIGFycmF5cyBmb3IgYWxsIHNtYWxsIGFycmF5cy4KQnVtcGVk
+IHZlcnNpb24gdG8gMS4wLjQuClVwZGF0ZSB0byBVbmljb2RlIDExCm1lc29uOiBkb2NzOiBkb24n
+dCByZXF1aXJlIGMybWFuIGZvciB0YXJiYWxsIHdpdGggcHJlLWdlbmVyYXRlZApVcGRhdGUgdG8g
+VW5pY29kZSAxMQpVcGRhdGVkIE5FV1MgZmlsZS4KQnVtcGVkIHZlcnNpb24gdG8gdjEuMC4zCkZp
+eGVkIHVuaW5pdGlhbGl6ZWQgbWVtb3J5IGFjY2Vzcy4gSXNzdWUgIzU4LgpGaXhlZCBjb21waWxh
+dGlvbiBlcnJvcnMgaW4gZGVidWcgbW9kZQpVcGRhdGUgLnRyYXZpcy55bWwKUmV2ZXJ0ICJBZGQg
+YW4gb3B0aW9uIHRvIGRpc2FibGUgYnVpbGRpbmcgZG9jdW1lbnRhdGlvbiIKQWRkIHRlc3RfQ2Fw
+UlRMX2lzb2xhdGUuKiB0byB0ZXN0L01ha2VmaWxlLmFtClZlcnNpb24gMS4wLjIgcmVsZWFzZSB1
+cGRhdGUKTWFkZSB0aGUgUkVBRE1FIGFuZCB0aGUgSElTVE9SWSBtb3JlIHVwIHRvIGRhdGUuCkdM
+aWIgaXMgZ29uZQpGaXggbWVtb3J5IGxlYWtzClJlbmFtZSBhdXRvdG9vbHMgdGVzdCBleGVjdXRh
+YmxlcyBhcyB3ZWxsClJlbmFtZSB0ZXN0LmMgYW5kIHRlc3QtY2hhcmFjdGVyLmMgdG8gbWF0Y2gg
+dW5pY29kZSB0ZXN0IG5hbWVzClR3byB0ZXN0IGZpeGVzIGZvciBtZXNvbi4KUmVtb3ZlIGdsaWIg
+ZGVwZW5kYW5jeSBmcm9tIHRlc3QuYyBhbmQgdGVzdC1jaGFyYWN0ZXIuYyAuCkZpeCBtZW1vcnkg
+bGVhawptZXNvbjogZml4IGRvY3MgaW5zdGFsbAp0ZXN0LXJ1bm5lci5weTogRml4IHJ1bm5pbmcg
+b24gVmlzdWFsIFN0dWRpbyBidWlsZHMKZ2VuLWJyYWNrZXRzLXRhYi5jOiBEZWNsYXJlIHZhcmlh
+YmxlcyBhdCB0b3Atb2YtYmxvY2sKcGFja3RhYi5jOiBEb24ndCB1c2UgcG93IGFzIHZhcmlhYmxl
+IG5hbWUKQWRkZWQgc29tZSBtb3JlIHRoYW5rcyEKVXBkYXRlZCBUSEFOS1MgZmlsZS4KVXBkYXRl
+IEFVVEhPUlMgZmlsZSB0byByZWZsZWN0IHRoZSBjdXJyZW50IHN0YXRlIG1vcmUgYWNjdXJhdGVs
+eS4KVXNlIHNhbWUgYzJtYW4gb3B0aW9ucyBpbiBtZXNvbiBhcyBpbiBhdXRvdG9vbHMKQWRkZWQg
+aW5mbyB0byBSRUFETUUgZmlsZSBhYm91dCBjb21tZXJjaWFsIGxpY2Vuc2luZyBvcHRpb25zLgpB
+ZGQgc3VwcG9ydCBmb3IgYnVpbGRpbmcgd2l0aCB0aGUgTWVzb24gYnVpbGQgc3lzdGVtCmJ1aWxk
+OiBkaXN0IE1lc29uIGJ1aWxkIGZpbGVzIGluIGF1dG90b29scyB0YXJiYWxsCm1lc29uOiBmaXgg
+YnVpbGQgd2l0aCBtc3ZjCmZyaWJpZGktY29uZmlnOiBhZGQgZGVmaW5lIGZvciB3aGVuIGZyaWJp
+ZGkgd2FzIGJ1aWx0IHdpdGggTVNWQwpBZGQgc3VwcG9ydCBmb3IgYnVpbGRpbmcgd2l0aCB0aGUg
+TWVzb24gYnVpbGQgc3lzdGVtCkZpeCBidWlsZCB3aXRoIERFQlVHIGRlZmluZWQKbGliOiBkZWNv
+cmF0ZSBmcmliaWRpX3ZlcnNpb25faW5mbyB3aXRoIEZSSUJJRElfRU5UUlkKRHJvcCBGUklCSURJ
+X05BTUVTUEFDRSBhbmQgaXRzIHZhcmlhbnRzCkZvbGQgY2hhcnNldCBpbnRvIGxpYgpEcm9wIC0t
+ZGlzYWJsZS1jaGFyc2V0cwpGaXggLS1kaXNhYmxlLWRlcHJlY2F0ZWQgYW5kIC0tZGlzYWJsZS1j
+aGFyc2V0cwpDVlMgaXMgbG9uZyBkZWFkIGFuZCBidXJpZWQgW2NpIHNraXBdCkZpeCBkb2N1bWVu
+dGF0aW9uIGluc3RhbGxhdGlvbiBvbiBGcmVlQlNEClNob3cgYWxsIGxvZ3Mgb24gZmFpbHVyZQpC
+dWlsZCBjMm1hbiBvbiBUcmF2aXMKQWRkIGFuIG9wdGlvbiB0byBkaXNhYmxlIGJ1aWxkaW5nIGRv
+Y3VtZW50YXRpb24KTWFrZSB0aGUgcnVsZXMgZm9yIGdlbmVyYXRlZCBmaWxlcyBsb29rIG5pY2Vy
+CkRyb3AgdGhlIHJlc3Qgb2YgI2lmIEZPTyswClJlcGxhY2UgYm9vdHN0cmFwIHdpdGggc2ltcGxl
+ciBhdXRvZ2VuLnNoCk1vdmUgZnJpYmlkaS12cy11bmljb2RlIHRvIHRlc3QgZGlyClRyeSBmaXhp
+bmcgcGFyYWxsZWwgYnVpbGQgZnJvbSBnaXQgY2hlY2tvdXQKUmVtb3ZlIG5vdGVzLm9yZwpLZWVw
+IG1pY3JvIHZlcnNpb24gaW4gZnVsbCB2ZXJzaW9uIGV2ZW4gaWYgMApSZWxlYXNlIDEuMC4xCkZp
+eCBvZiBtaW5vciByZWZlcmVuY2UgZXJyb3IuCk1pc2MuIHR5cG9zCkZpeCBwYXJhbGxlbCBidWls
+ZApNaXNjLiB0eXBvcwpVcGRhdGUgZ2l0Lm1rClRvd2FyZHMgZml4aW5nIG91dC1vZi10cmVlIGJ1
+aWxkcwpbZ2VuLnRhYl0gUmVtb3ZlIHJlbGlhbmNlIG9uIFZQQVRICkZpeCBub24tZGVidWcgYnVp
+bGQKUHJlcGFyaW5nIGZvciByZWxlYXNlIDEuMC4wLgpGaXggY2xhbmcgY3Jvc3MgY29tcGlsZXMK
+Rml4IGNsYW5nIGNvbXBpbGVzCkxlc3MgaGFja2lzaCBjcm9zcyBjb21waWxhdGlvbiBzdXBwb3J0
+LgpTaW1wbGlzdGljIGNyb3NzIGNvbXBpbGF0aW9uIHN1cHBvcnQgZnJvbSBhIGdjYyBiYXNlZCBz
+eXN0ZW0uCkRvIG5vdCBjYWxsIGJvb3RzdHJhcCBmcm9tIG1ha2UKVXBkYXRlIHN5bWJvbCBsaXN0
+CkZpeCBzb25hbWUKTWlzYyB3YXJuaW5nIGZpeGVzCkZpeCBidWlsZApEcm9wIENWUyBrZXl3b3Jk
+cyB0aGF0IG1ha2Ugbm8gc2Vuc2Ugbm93CkRvYyBmaXhlcwpEb2N1bWVudCBmcmliaWRpX2dldF9i
+cmFja2V0cwpGaXggZG9jIGJ1aWxkClRoaW5rbyEKRml4IGJ1aWxkaW5nIHdpdGggLVdlcnJvcj11
+bmRlZgpGaXggbWFrZSBkaXN0Y2hlY2sKU2hvdyB0ZXN0LXN1aXRlLmxvZyBvbiBmYWlsdXJlCkZp
+eCBtYWtlIGRpc3RjaGVjawpGaXggYnVpbGQgd2l0aCAtV2Vycm9yPXVuZGVmClNpbXBsaWZ5IGZy
+aWJpZGktdHlwZXMuaCBhIGJpdApGUklCSURJX0NIVU5LX1NJWkUgaXMgbm90IHVzZWQgYW55d2hl
+cmUKU2V0dXAgVHJhdmlzIENJIGJ1aWxkcwpVcGRhdGVkIHRoZSBDYXBSVEwgcmVmZXJlbmNlIHRl
+c3QuCkZpeGVkIGNyaXRpY2FsIGJ1ZyBpbiBmcmliaWRpX2dldF9icmFja2V0X3R5cGVzKCkuCkNs
+ZWFuIHVwIG9mIGRlYWQgY29kZS4KVXBkYXRlZCBsaWNlbnNpbmcgaW5saW5lIGRvY3VtZW50YXRp
+b24uClJ1biBmcmliaWRpLXZzLXVuaWNvZGUgdGVzdHMgd2l0aCBtYWtlIGNoZWNrCkRpc2FibGUg
+bWFrZSBkaXN0Y2hlY2sgb24gVHJhdmlzIGZvciBub3cKQWRkIFRyYXZpcyBDSSBzdXBwb3J0ClJl
+c3RvcmUgY2FsbCB0byBmcmliaWRpX3VuaWNvZGVfdG9fY2hhcnNldApUdXJuZWQgRnJpYmlkaUJy
+YWNrZXRUeXBlIGludG8gYSBzaW1wbGUgVUlOVDMyIGluc3RlYWQgb2YgYSBzdHJ1Y3QuCkZpeGVk
+IHJldmVyc2VkIGxvZ2ljcyBpbiBvcHRpbWl6YXRpb24gaW4gZnJpYmlkaS1icmFja2V0X3R5cGVz
+KCkuCkRyb3AgZ2xpYiBkZXBlbmRlbmN5ClJlbW92ZSBtb3JlIHJlbW5hbnRzIG9mIEdMaWIgc3Vw
+cG9ydApEcm9wIEdMaWIgdXNlIGluIHRoZSBsaWJyYXJ5IGFuZCBtYWluIHByb2dyYW0KVW51c2Vk
+IG1hY3JvCkNvcHkgQkVHSU4vRU5EX0lHTk9SRV9ERVBSRUNBVElPTlMgZnJvbSBHTGliCkp1c3Qg
+dXNlIHRoZSBHQ0MgYXR0cmlidXRlcyBoZXJlIGRpcmVjdGx5IGFzIHdlbGwKVGhlc2UgZGVmaW5p
+dGlvbnMgZG9u4oCZdCBkZXBlbmQgb24gR0xpYgpDb3B5IExJS0VMWS9VTkxJS0VMWSBmcm9tIEdM
+aWIKRml4ZWQgcG90ZW50aWFsIGNyYXNoIGluIHRoZSBnZW4tYnJhY2tldHMtdGFiIGNvZGUuCkdv
+dCByaWQgb2YgcmVtYWluaW5nIHdhcm5pbmdzLgpDaGFuZ2VkIGZyaWJpZGlfbG9nMnZpcyAoZGVw
+cmVjYXRlZCBidXQgdWJpcXVpdGl0b3VzKSB0byB1c2UgbmV3IGFwaS4KTWVyZ2UgcmVtb3RlLXRy
+YWNraW5nIGJyYW5jaCAnZnJpYmlkaS9tYXN0ZXInIGludG8gdW5pY29kZS0xMApSZXN0b3JlZCB0
+aGUgb2xkIEFQSSBhbmQgbWFkZSBpdCBkZXByZWNhdGVkLgpVcGRhdGUgUkVBRE1FLm1kClJlbW92
+ZSBnZW5lcmF0ZWQgTWFrZWZpbGUKTWVyZ2UgcmVtb3RlLXRyYWNraW5nIGJyYW5jaCAnZnJpYmlk
+aS91bmljb2RlLTEwJyBpbnRvIHVuaWNvZGUtMTAKRml4ZWQgY29tcGlsYXRpb24gZXJyb3JzLgpV
+c2UgdHJ1ZS9mYWxzZSBpbnN0ZWFkIG9mIFRSVUUvRkFMU0UgZm9yIGNvbnNpc3RlbmN5Ck1ha2Ug
+aXQgY29tcGlsZQpGaXggdHlwbwpBZGRlZCBVbmljb2RlIDYuMyBzdXBwb3J0IChhbmQgYmV5b25k
+KQpVcGRhdGVkIFVuaWNvZGUgZGF0YSB0YWJsZXMgdG8gdmVyc2lvbiAxMC4KRml4IGJ1aWxkIHdp
+dGhvdXQgZ2xpYgpBY3R1YWxseSBhZGQgZnJpYmlkaS12cy11bmljb2RlL01ha2VmaWxlLmFtClJl
+bW92ZSBiaXRyb3QgY29kZQpVbnVzZWQgdmFyaWFibGUgd2FybmluZ3MKSWdub3JlIG91ciBvd24g
+ZGVwcmVjYXRpb25zClJlbW92ZSBTQ29uc3RydWN0CkJ1aWxkIGZyaWJpZGktdnMtdW5pY29kZSBi
+aW5hcmllcwpNZXJnZSByZW1vdGUtdHJhY2tpbmcgYnJhbmNoICdkb3YvZG92LXVuaWNvZGU2MycK
+UmV2ZXJ0ICJBZGQgZnJpYmlkaV9yZW9yZGVyX3J1bnMoKSIKTW9zdGx5IG5vdGVzIGFuZCBzb21l
+IGNvbXBpbGF0aW9uIGlzc3Vlcy4KRG92J3Mgd29yayBhcmVhIGZvciB1bmljb2RlNjMgZGV2ZWxv
+cG1lbnQuCkZpeGVkIGFsbCByZW1haW5pbmcgQmlkaVRlc3QudHh0IGJ1Z3MuClNvbHZlZCBtYXgg
+bGV2ZWwgcmVsYXRlZCBidWcuCkluaXRpYWwgdW5pY29kZTYzIHN1cHBvcnQuClJlbW92ZSBjdXN0
+b20gbWVtb3J5IGFsbG9jYXRvcgpObyBuZWVkIGZvciB0aGUgd2FycHBlciBmdW5jdGlvbiBub3cK
+UmVtb3ZlIGN1c3RvbSBtZW1vcnkgYWxsb2NhdG9yCkFkZCBmcmliaWRpX3Jlb3JkZXJfcnVucygp
+Ck1pbm9yCjAuMTkuNwpGaXggbWlzYyBhdXRvdG9vbHMgd2FybmluZ3MKVXBkYXRlZCBteSBlbWFp
+bC4KaWdub3JlIENPTFVNTlMgZm9yIC0taGVscCBhbmQgLS10ZXN0Ck9ubHkgaW5jbHVkZSBwdWJs
+aWMgZ2xpYi5oCkZpeCB3YXJuaW5nClN1cHBvcnQgNC1ieXRlIFVURi04IHNlcXVlbmNlcwpEaXNh
+YmxlIG1lbW9yeSBwb29sIGJ5IGRlZmF1bHQKMC4xOS42ClBvcnQgdGVzdCBzdWl0ZSB0byBhdXRv
+bWFrZSAxLjEzClJldmVydCAiVHJ5IHRvIGhlbHAgc29tZSBidWlsZHMgKG9uIFdpbmRvd3MsIG5v
+IGxlc3MpIgpUcnkgdG8gaGVscCBzb21lIGJ1aWxkcyAob24gV2luZG93cywgbm8gbGVzcykKSW52
+b2tlIHBrZy1jb25maWcgbWFjcm9zIHByb3Blcmx5CkZpeCBtaXNwcmludApGaXggcnVsZSBYOCB3
+aGVuIHBhcmFncmFwaC1zZXBhcmF0b3IgaXMgcHJlc2VudApGaXggYnVnIHdpdGggcnVsZSBXNQpG
+aXggdGVzdCB3aGVuIEVYRUVYVCBpcyBub3QgZW1wdHkKUmVtb3ZlIG9sZCBjcnVmdApGaXggZXhw
+b3J0LXN5bWJvbHMgb24gV2luZG93cwpGaXggdGhlb3JldGljYWxseSBwb3NzaWJsZSBvdmVyZmxv
+dwowLjE5LjUKVXBkYXRlIHRvIFVuaWNvZGUgNi4yClVwZGF0ZSBGU0YgYWRkcmVzcwpCdWcgNTQx
+NDkgLSBGaXggdHlwbyBpbiBmcmliaWRpIGhlbHAgaW5mb3JtYXRpb24KTWlub3IKMC4xOS40CkFk
+ZCBnaXQubWsKVXBkYXRlIENoYW5nZUxvZyBnZW5lcmF0aW9uIHRvIGdpdApVcGRhdGUgVW5pY29k
+ZSBkYXRhIGZpbGVzIHRvIDYuMS4wCk1vZGVybml6ZSBhdXRvZm9vIGEgYml0Ck1pbm9yIG9wdGlt
+aXphdGlvbiBpbiBzdHJ1Y3QgbGF5b3V0IGZvciA2NGJpdCBzeXN0ZW1zClVwZGF0ZSB0byBVbmlj
+b2RlIDYuMC4wIGFuZCBidW1wIHZlcnNpb24gdG8gMC4xOS4zCkZpeCBidWlsZCB3aXRob3V0IGNo
+YXJzZXQgY29udmVydGVycwpJbmNsdWRlIHRvcGxldmVsIGdsaWIuaCBvbmx5ClN1cHBvcnQgd2lu
+MzIgYmVuY2htYXJraW5nCltkb2NdIE1ha2Ugc3VyZSBhIG1pbnVzIGlzIHVzZWQsIG5vdCBhIGh5
+cGhlbi4KTkVXUywgY29uZmlndXJlLmFjOiBSZWxlYXNlZCBHTlUgRnJpQmlkaSAwLjE5LjIuCkJ1
+Z3ppbGxhIOKAkyBCdWcgMjA4ODcgUHJvYmxlbSB3aXRoIGhhbmRsaW5nIGEgY2VydGFpbiBzZXF1
+ZW5jZSBvZgpBZGQgQWJzb2x1dGVUZWxuZXQuCkZpeCB0eXBvcy4KSGFuZGxlIFJMTS9MUk0gaW4g
+Q1AxMjU1IGNoYXJzZXQgY29udmVydGVyLiAgKCMxNTMyOCwgQXJ0eW9tKQpVcGRhdGUgdG8gVW5p
+Y29kZSBDaGFyYWN0ZXIgRGF0YWJhc2UgNS4xLjAKUmVsZWFzZWQgR05VIEZyaUJpZGkgMC4xOS4x
+LgpSZW1vdmUgUlBNIHZlcnNpb25pbmcgY3J1ZnQuClJlbW92ZSBzcGVjIGZpbGUuICBOb2JvZHkg
+dXNlcyB1cHN0cmVhbSBzcGVjIGZpbGVzIHRoZXNlIGRheXMuCkFkZCByZW1haW5pbmcgaXNzdWVz
+IGJlZm9yZSBhIHJlbGVhc2UgY2FuIGJlIG1hZGUuCkF2b2lkIG5vbi1jb25zdCBzdHJ1Y3QgaW5p
+dGlhbGl6ZXIuCk1ha2Ugc3VyZSB3ZSBlcnIgaWYgc3RyaW5naXplIGlzIG5vdCBhdmFpbGFibGUu
+CkNoZWNrIGZvciAoZGVmaW5lZChXSU4zMikpIHx8IChkZWZpbmVkKF9XSU4zMl9XQ0UpKSB0byBk
+ZXRlY3QgV2luQ0UgdG9vClNraXAgZXhwbGljaXRzLWxpc3QgcmVpbnNlcnRpb24gaWYgbGlzdCBp
+cyBlbXB0eS4KVXBkYXRlIHRvIFVuaWNvZGUgQ2hhcmFjdGVyIERhdGFiYXNlIDUuMC4wLgpBZGQg
+Tm9raWEgOTExMCBIZWJyZXcgU3VwcG9ydCBwYWNrYWdlLgpNb3JlIGNvbW1lbnRzLgpOb3RlIGFi
+b3V0IGxpbmUtYnJlYWtpbmcuClVzZSAtbm8tdW5kZWZpbmVkIHVuY29uZGl0aW9uYWxseS4KQWRk
+IGFuIG9wdGlvbiAtLWRpc2FibGUtZGVwcmVjYXRlZC4KQWRkIGV4dHJhIGJyYWNlcyB0byBzaHV0
+IGdjYyB3YXJuaW5ncyB1cC4KU2h1dCBnY2Mgd2FybmluZ3MgdXAuClVzZSBtZW1jcHkgZm9yIGR1
+cGxpY2F0aW5nIHN0ci4KSW5jbHVkZSBzdHJpbmcuaC4KQWRkZWQgSGVicmV3U2VydmljZS4KQWRk
+ZWQgZnJpYmlkaV9nZXRfdHlwZV9pbnRlcm5hbCBhcyBhIGRlcHJlY2F0ZWQgc3ltYm9sLgpBZGRl
+ZCBOYW5vLVguClNldCBURVNUU19FTlZJUk9OTUVOVD0vYmluL3NoIHRvIGF2b2lkIHByb2JsZW0g
+d2hlbiBydW5uaW5nIHdpdGgKQWRkZWQgYSBGSVhNRSBhYm91dCBub3QgaGFuZGxpbmcgRmlyc3Qu
+Lkxhc3QgcmFuZ2VzIGluIFVuaWNvZGVEYXRhLnR4dC4KQXJhYmljIHNoYXBpbmcgc3VwcG9ydCBh
+ZGRlZC4KUmVwbGFjZWQgYnVnIFVSTC4KVXNlIHNlZCBpbnN0ZWFkIG9mICQoU0VEKS4KVXBkYXRl
+ZCBhbmQgYW5ub3RhdGVkLgpNb3ZlZCBCaUNvbiB1cCwgc2luY2UgaXQncyBhbiBlYXN5IHNhbXBs
+ZSB0byBzdHVkeS4KQmV0dGVyIGhhbmRsaW5nIG9mIHN5cy90aW1lcy5oLiAgQWxzbywgZG9uJ3Qg
+cGFzcyAtcGVkYW50aWMgdG8gZ2NjLgpBZGRlZCBmcmliaWRpX3ZlcnNpb25faW5mby4KVXNlIGNh
+cGl0YWwgaGV4IGRpZ2l0cy4KU21hbGwgY2hhbmdlIHRvIG5vdCBydW4gbGlidG9vbCBpZiB0aGUg
+cGFja2FnZSBkb2Vzbid0IHVzZSBpdC4KTWlub3IuCkNvdXBsZSBpdGVtcyBhZGRlZCA7KS4KU21h
+bGwgY2hhbmdlcyB0byBzaHV0IGdjYyB3YXJuaW5ncyB1cC4KU21hbGwgZWRpdHMuCk1pc2MgZml4
+ZXMuCkluIFVuaWNvZGUgNC4xLjAsIHRoZSBSZWFkTWUudHh0IGRvZXNuJ3QgY29udGFpbiB0aGUg
+VW5pY29kZSB2ZXJzaW9uCkV4dHJhIHNwYWNlIHJlbW92ZWQhClNtYWxsIGZpeGVzLgpBbiBpbnRl
+Z3JhdGVkIENhcFJUTCB0byBVVEYtOCBjb252ZXJ0ZXIgYWRkZWQuCkFkZGVkLiAgRW51bWVyYXRl
+cyBiaWRpIGNoYXIgdHlwZXMgaW50byBzdGRvdXQuClVuaWNvZGUgNC4xIGNoYXJhY3RlciBkYXRh
+YmFzZSB1cGRhdGUuCkJldHRlciBjb252ZXJzaW9uIHRhYmxlIGZyb20gQ2FwUlRMIHRvIFVuaWNv
+ZGUuCk1hZGUgdGhlIHdvcmRpbmcgYSBsaXR0bGUgbW9yZSBmb3JtYWwsIHJlbW92ZWQgam9rZXMg
+YW5kIHNhZCBzdG9yaWVzLgpDb3JyZWN0aW5nIHRoZSB0YWJsZS4KQ2xlYXJpbmcgc29tZSB0eXBv
+cy4KQWRkaW5nIENhcFJUTCB0byBVbmljb2RlIChVVEYtOCkgY29udmVydG9yLgpBZGRlZCBHZXJl
+c2guCk1pbm9yIGNoYW5nZSBpbiBjb21tZW50czogIFVzaW5nICJBdXRob3JzKHMpIiBpbiB0aGUg
+ZmlsZSBoZWFkZXIuCkhlcmUgYW5kIHRoZXJlIHNtYWxsIGltcHJvdmVtZW50cy4KQWRkZWQuICBM
+aXN0IG9mIHByb2plY3RzIHVzaW5nIEZyaUJpZGkuCkFkZGVkIHRlc3RfVVRGLThfcmVvcmRlcm5z
+bSB0byBNYWtlZmlsZS4KSGVyZSBhbmQgdGhlcmUgZml4ZXMsIGZvdW5kIGJ5IHRyeWluZyB0byBj
+b21waWxlIG9uIHNmLm5ldCBDb21waWxlCldlbGwsIGp1c3QgdGVzdGluZyBuZXcgbWFpbGRpZmYg
+c2NyaXB0LgpBbm90aGVyIFRPRE8gaXRlbSBhZGRlZC4KQm9yaW5nIGFkZGl0aW9uIG9mIG5ldyBU
+T0RPIGl0ZW1zIDotKC4KVHdvIHNtYWxsIGZpeGVzIHRvIG1ha2UgY29tcGlsYXRpb24gd2l0aCAt
+RERPTlRfSEFWRV9GUklCSURJX0NPTkZJR19IClJlaW1wbGVtZW50ZWQgQXJhYmljIGpvaW5pbmcu
+ICBIb3BlZnVsbGx5IGl0J3MgY29uZm9ybWluZyB0byB0aGUKV2UgbmVlZCBiaWRpX3R5cGVzIGFs
+bCBvdmVyIHRoZSBwbGFjZSAoaW4gam9pbmluZywgaW4gc2hhcGluZywgLi4uKSwgc28KRml4ZWQg
+YSBidWcgaW4gZnJpYmlkaV9sb2cydmlzKCksIGFsc28gY2hhbmdlZCBmcmliaWRpX3Jlb3JkZXJf
+bGluZSgpClJldmVyIGJhY2sgdG8gb3VyIG9sZCBsZXZlbCBzZXR0aW5nIGZvciBCTiBhbmQgZXhw
+bGljaXRzLiAgVGhlIG5ldwpGaXhlZCBnb29kIGNhdGNoIGJ5IE1hcmsgRGF2aXMgdGhhdCBydWxl
+IEwxIGlzIHBhcnRseSBkb25lIGFmdGVyIGxpbmUKT2gsIG5vIG5lZWQgdG8gYWRkIHRhYmxlcyBm
+b3IgZ2VuZXJhbCBjYXRlZ29yeSBDZiwgaXQgY2FuIHJvdWdobHkKQXJhYmljIGpvaW5pbmcgaXMg
+YWxtb3N0IGNvbXBsZXRlLiAgR29pbmcgZm9yIFNoYXBpbmcuCk9vcHMsIEkgY2hhbmdlZCBQZXJz
+aWFuIFllaCB0byBBcmFiaWMgWWVoIGxhc3QgdGltZSA6Ij4uClJlcGxhY2UgQXJhYmljIFllaCB3
+aXRoIFBlcnNpYW4gWWVoLgpmcmliaWRpLWJpZGktdHlwZS5bY2hdIG1lcmdlZCBpbnRvIGZyaWJp
+ZGktYmlkaS10eXBlcy5bY2hdLgpmcmliaWRpX2dldF9iaWRpX3R5cGVzIGlzIGJhY2suICBBbGxv
+dyBwYXNzaW5nIGJpZGkgdHlwZXMgdG8KRmlyc3Qgam9pbmluZyBzdHVmZiBjaGVja2VkIGluLiAg
+R2VuZXJhdGUgam9pbmluZyB0YWJsZSB1c2luZwpXb3chISEgIEkgdXNlIHRoZSB3b25kZXJmdWwg
+cGFja3RhYiB0byBjb21wcmVzcyB0aGUgbWlycm9yaW5nClJlZHVuZGFudCBhbmQgY29tcGF0aWJp
+bGl0eSBzdHVmZiByZW1vdmVkLiAgQSBmZXcgbWFjcm9zIGFkZGVkLApOb3Qgc2VyaW91cyBjaGFu
+Z2VkLiAgR29pbmcgdG8gcmVtb3ZlIGVhc3ktdG8tcmVwbGFjZSBjb21wYXRpYmlsaXR5CkZpbmFs
+bHkgZG9uZSB3aXRoIHRoZSBjbGVhbiBBUEkgZm9yIGJpZGkgZnVuY3Rpb25hbGl0eS4gIFRoZSBB
+UEkgaXMKSXNvbGF0aW5nIGJpZGkgcmVvcmRlcmluZyBjYWxsLCB0YWtlIDEuCkFueW9uZSBzZWVu
+IG15IGxvZyA7LSkuCkNsZWFuaW5nIHVwIGhlcmUgYW5kIHRoZXJlLiAgTGFzdCBsaW5nZXJzIGJl
+Zm9yZSBhZGRpbmcgam9pbmluZy4KR05VIENvZGluZyBTdGFuZGFyZHMgYXBwbGllZCBhbmQgdHlw
+b3MgZml4ZWQuCkdOVSBDb2RpbmcgU3RhbmRhcmRzIGFwcGxpZWQgd2hlcmUgYXBwcm9wcmlhdGUu
+ClRvIGJlIG1vdmVkIHRvIGdlbi50YWIvCldlIG5lZWQgVW5pY29kZURhdGEudHh0IGZvciBzaGFw
+aW5nIHRhYmxlcywgc28gc2VlbXMgbGlrZSB3ZSBhcmUKVHdlYWtlZCB0aGUgaGVhZGVycyBhZ2Fp
+bi4gIEFjY29yZGluZyB0byBHTlUgR1BMIG5vdy4KT2ssIG5vdyBETEwgYnVpbGQgd29ya3Mgd2l0
+aCBDeWd3aW4uICBTdGlsbCByZW1haW5zIHRvIHRlc3Qgd2l0aCBNaW5ndy4KT2ssIHNlZW1zIGxp
+a2UgdGhlcmUgYXJlIGEgZmV3IGJpdHMgd3JvbmcgaW4gUGFuZ28sIGFuZCBJIHNpbXBseQpTZWVt
+cyBsaWtlIHVzaW5nICRidWlsZF9vcyBpbnN0ZWFkIG9mIGJyb2tlbiAkaG9zdCBzaG91bGQgZml4
+IHRoZQpUcnlpbmcgdG8gYnVpbGQgRExMIG9uIEN5Z3dpbi4KRGVmaW5lIGV4dHJhIEdOVSBmdW5j
+dGlvbiBhdHRyaWJ1dGVzIG9ubHkgaWYgdXNpbmcgR0xJQi4KQWRkZWQgYSBkdW1teSBnZXR0ZXh0
+LmggdGhhdCBzaW1wbHkgZGVmaW5lcyAiZ2V0dGV4dCIgdG8gbnVsbC4KQW5vdGhlciBvb3BzLiAg
+WW91IGtub3csIGl0J3MgNzozMCBpbiB0aGUgbW9ybmluZyEKTXkgb29wcy4gIFNvcnJ5LgpBZGRl
+ZCAkKEVYRUVYVCkgdG8gYmluYXJpZXMgd2UgYnVpbGQgYW5kIHJ1biwgdG8gbWFrZSBjeWd3aW4t
+c2FmZS4KTW92ZWQgZ2VuLnRhYiB0byB0aGUgZmlyc3Qgc3ViZGlyLgpTbWFsbCBmaXhlcy4KV2hl
+biByZWFkaW5nIERlcml2ZWRCaWRpQ2xhc3MudHh0LCBzaG91bGQgb25seSBkZWZhdWx0IHRvIEwu
+Ck1ha2UgZ2VuLW1pcnJvcmluZy10YWIgYW5kIGdlbi11bmljb2RlLXZlcnNpb24gd29yay4gIGdl
+bi50YWIvCk1ha2luZyBnZW4tYmlkaS10YWIgd29yaywgYW5kIG1vcmUgY2xlYW4gdXAuCmdlbi11
+bmljb2RlLXZlcnNpb24gaXMgb3BlcmF0aW9uYWwgbm93LgpCZXR0ZXIgaGFuZGxpbmcgd2l0aCBV
+bmljb2RlIGluZm8uClVwZGF0ZWQgLmN2c2lnbm9yZSBmaWxlcy4KVXBkYXRlZCB0aGUgZ2VuLnRh
+YiB0byB3b3JrIGFnYWluLiAgT3RoZXIgZml4ZXMgaGVyZSBhbmQgdGhlcmUuCkNsZWFuaW5nIGhl
+cmUgYW5kIHRoZXJlLiAgV2UgbWF5IGJlIHJlYWR5IGZvciBhIHJlbGVhc2UgdG9uaWdodCA6KS4K
+TW9yZSBUT0RPLiAgQW5kIGNoYW5nZSBhdXRvY29uZiByZXF1aXJlbWVudCB0byAyLjU2IGZyb20g
+Mi41OS4KQ2hhbmdlZCB0aGUgcnVuIGRhdGEgc3RydWN0dXJlIGZyb20gYSBkb3VibGUtdGVybWlu
+YXRlZCBkZXF1ZSwgdG8gYQpDbGVhbmluZyB1cCBleHBvcnRlZCBzeW1ib2xzLgpBZGRlZCBGcmlC
+aWRpUnVuIHR5cGUsIHByaXZhdGUgZm9yIG5vdy4gIE1vdmVkIGFsbCBsaWJyYXJ5LXdpZGUKTm90
+aGluZyByZWFsbHkgaW1wb3J0YW50LgpGaXJzdCB0cnkgdG8gaW50ZWdyYXRlIGMybWFuIG1hbnVh
+bCBnZW5lcmF0aW9uIGluIGJ1aWxkIHN5c3RlbS4KSGVhZGVyIGNoYW5nZWQgc28gUkNTIGhlYWRl
+ciBhbmQgQXV0aG9ycyBmb2xsb3cgdGhlIGNvcHlyaWdodCBub3RpY2UuCk5ldyBpdGVtcyBhZGRl
+ZC4gIFNob3VsZCBiZSBjbGVhcmVkIGJlZm9yZSB0aGUgcmVsZWFzZS4KTW9yZSAuY3ZzaWdub3Jl
+J3MgYWRkZWQuClJlbmFtZWQgc3ViZGlyIHRhYmxlZ2VuIHRvIGdlbnRhYmxlLgpNb3JlIHJlY292
+ZXJ5IGFmdGVyIHRoZSB1bmludGVudGlvbmFseSBybSAtZiAqLmMhCk5vICNpZmRlZiBvciAjaWZu
+ZGVmIHdoZW4gcG9zc2libGUuICAjaWYgb3IgI2lmICEgaXMgYSBiZXR0ZXIgd2F5ClRoZSBDaGFu
+Z2VMb2cgZnJvbSB0aGUgb2xkIGRheXMuCkluaXRpYWwgcmV2aXNpb24K
+
+--===============2191562785685208148==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="rpm-changelog.txt"
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-Changelog for rpm: 6.0.2 -> 6.1.0
+packages/x86-64-v3-poky-linux/fribidi/fribidi-bin: PV changed from "1.0.16" to "1.0.17"
+packages/x86-64-v3-poky-linux/fribidi/fribidi-bin: PKGV changed from 1.0.16 [default] to 1.0.17 [default]
+packages/x86-64-v3-poky-linux/fribidi/fribidi-dbg: PV changed from "1.0.16" to "1.0.17"
+packages/x86-64-v3-poky-linux/fribidi/fribidi-dbg: PKGV changed from 1.0.16 [default] to 1.0.17 [default]
+packages/x86-64-v3-poky-linux/fribidi/fribidi-dbg: PKGSIZE changed from 230688 to 239344 (+4%)
+packages/x86-64-v3-poky-linux/fribidi/fribidi-dev: PV changed from "1.0.16" to "1.0.17"
+packages/x86-64-v3-poky-linux/fribidi/fribidi-dev: PKGV changed from 1.0.16 [default] to 1.0.17 [default]
+packages/x86-64-v3-poky-linux/fribidi/fribidi-dev: PKGSIZE changed from 79915 to 80154 (+0%)
+packages/x86-64-v3-poky-linux/fribidi/fribidi-doc: FILELIST: added "/usr/share/man/man1/fribidi.1"
+packages/x86-64-v3-poky-linux/fribidi/fribidi-doc: PV changed from "1.0.16" to "1.0.17"
+packages/x86-64-v3-poky-linux/fribidi/fribidi-doc: PKGV changed from 1.0.16 [default] to 1.0.17 [default]
+packages/x86-64-v3-poky-linux/fribidi/fribidi-doc: PKGSIZE changed from 67822 to 70733 (+4%)
+packages/x86-64-v3-poky-linux/fribidi/fribidi-locale: PV changed from "1.0.16" to "1.0.17"
+packages/x86-64-v3-poky-linux/fribidi/fribidi-locale: PKGV changed from 1.0.16 [default] to 1.0.17 [default]
+packages/x86-64-v3-poky-linux/fribidi/fribidi-src: FILELIST: directory renamed /usr/src/debug/fribidi/1.0.16/lib -> /usr/src/debug/fribidi/1.0.17/lib, directory renamed /usr/src/debug/fribidi/1.0.16/bin -> /usr/src/debug/fribidi/1.0.17/bin
+packages/x86-64-v3-poky-linux/fribidi/fribidi-src: PV changed from "1.0.16" to "1.0.17"
+packages/x86-64-v3-poky-linux/fribidi/fribidi-src: PKGV changed from 1.0.16 [default] to 1.0.17 [default]
+packages/x86-64-v3-poky-linux/fribidi/fribidi-src: PKGSIZE changed from 827564 to 834827 (+1%)
+packages/x86-64-v3-poky-linux/fribidi/fribidi-staticdev: PV changed from "1.0.16" to "1.0.17"
+packages/x86-64-v3-poky-linux/fribidi/fribidi-staticdev: PKGV changed from 1.0.16 [default] to 1.0.17 [default]
+packages/x86-64-v3-poky-linux/fribidi/fribidi: PV changed from "1.0.16" to "1.0.17"
+packages/x86-64-v3-poky-linux/fribidi/fribidi: PKGV changed from 1.0.16 [default] to 1.0.17 [default]
+packages/x86-64-v3-poky-linux/fribidi/fribidi: PKGSIZE changed from 129099 to 129107 (+0%)
+packages/x86-64-v3-poky-linux/fribidi: SRC_URI changed from "https://github.com/fribidi/fribidi/releases//download/v1.0.16/fribidi-1.0.16.tar.xz" to "https://github.com/fribidi/fribidi/releases//download/v1.0.17/fribidi-1.0.17.tar.xz"
+packages/x86-64-v3-poky-linux/fribidi: PV changed from "1.0.16" to "1.0.17"
+packages/x86-64-v3-poky-linux/fribidi: PKGV changed from 1.0.16 [default] to 1.0.17 [default]
 
-f832c7e69 Preparing for 6.1.0 release
-1f159ae03 tests: Update tests to work with PQC-capable rpm-sequoia
-5a4cb7230 Preparing for 6.1.0 rc2
-6aaa1b0cd Harden the ndb implementation against integer overflows
-cc234f04f Add a test for CVE-2026-44605
-2503eccc1 rpmsign: handle _file_sign_key_id values greater than i32::MAX
-c54e0e4ba Use rpm's own allocator instead of malloc() almost everywhere
-864379ca2 Fix a dumb regression from introducing %define options
-90fcbd29b Fix typo in add_sysuser ternary
-54f3956e2 Add a test for the manual "%add_sysuser m" use
-852aa4baf Fix rubygem extract regression from b8b54f92c65bca7bfdd80c3ecf717d5c48b02e91
-661c1c7af Add a test for Ruby gem extraction
-694511944 Prevent command injection in rpmuncompress(1)
-3aa0d952d Workaround a broken %_passwd_path (and group) override in nss-altfiles
-54c6b4904 Fix installation of 7zip in Dockerfile
-e7f457f1f Revert file trigger STL refactoring for further investigation
-cce603f96 Preparing for 6.1.0 rc1
-c4d803c07 Bump CI to Fedora 44
-5dddf66d1 Add compat links for rpmuncompress and rpm-setup-autosign
-5c56e69e5 Bump rpm-sequoia requirement to >= 1.10.2
-f2ac80b80 Implement -e(xpand) and -g(lobal) options to %define
-85ec789b5 Fix regression when parsing macro define with an empty body
-7e0f77353 Fix regression running Lua scripts from non-rpm generated packages
-b6f2cc52f Prevent buffer overruns in findPreambleTag() for language string
-b186b739b rpmsign: enable signing files with PKCS11 tokens
-37636202f Implement a separate lock for the keystore
-1cef3bbf3 Refactor rpmtxn lock initialization a bit to make it more generic
-47c4ff980 Test actual regular user query instead of lock file presence
-7c7b9e50e Refactor rpmdb rebuild test to separate RPMTEST_CHECK cases for clarity
-efc1e0ba5 Add some tests for rpm access from scriptlets
-fdc5a6e41 Emit a specific error on modifiers incompatible with parametric macros
-abb90366d Implement one-shot macro modifier <o>
-9289453b5 Clarify the macro stack behavior in the manual
-5e3240a07 Render macro modifiers in --showrc output
-1dd828f02 Fix signature alignment in --info output
-0a45aefa0 Only execute psm_pre and psm_post for the main package operation
-bfefc137e Add + use an internal macro for determining script-only install goals
-9ae0c253c Fix rpmkeys result wrapping around, potentially returning 0 on fail
-099128396 Use a sane identity string for syslog
-bbba5b986 Fix wrong operation names used in the syslog plugin
-035a4f71c Document rpmkeys output and the overall verify policy in some detail
-9da412204 Use our central system.h include for Lua posix extension too
-0e2e0885b Remove upper bound on locale filename length
-a698d1b6b Move rpmuncompress to the standard binary directory
-1f554d12f Move rpm-setup-autosign to a standard path
-ab98d0a87 Use close_range() to set close-on-exec on all fds
-975fbf197 Fix missing TOOLCHAIN ARG in second image stage
-a29a78c42 Take advantage of literal modifier in our query format related macros
-ddcd6fae5 Support defining literal macros via new <l> modifier syntax
-827dc101f Use C++ string primitives for macro option parsing
-ab1991084 Refactor macro definition parsing to utilize C++ strings a bit
-976dab089 Minimally adjust doDefine() to take a C++ string as the string to parse
-fa8d131f1 Refactor doArgvDefine() to use a C++ string for formatting the args
-213adde18 Add a test for the "name { body }" macro syntax.
-cc0622091 Revert AI submissions
-47b005e67 Fix rpm --undefine and Lua rpm.undefine() bypassing sanity checks
-ecd797509 Add rpmUndefineMacro() for %undefine API counterpart
-fa336cbbf Fix/clarify rpmDefineMacro() documentation
-00059c1ec docs: document repeated -f option for %files
-50400a917 docs: add SHA3-256 header digest to signatures_digests
-cb45566ce docs: document %end marker for spec file sections
-f713e791c Fix some wording in sysusers man page
-02aca1603 Fix section reference in sysusers man page
-8019d9071 Add a man page for rpm sysusers integration
-e0a547b7a docs: fix SHA256 tag value from 272 to 273
-6475b0008 Fix user argument placeholder notation in rpm-lua(7) manual
-4ea8622a8 rpmuncompress: Add support for CAR files
-f838ef83a Validate the IO engine specified in Fdopen() mode string
-501526cf3 tests: Adjust policy for current sequoia
-2b937dbd4 tests: Add test case with unknown key type and signatures
-6f23918af tests: Add MLDSA87 key and signed RPM
-f8d680849 tests: Test case with untrusted signature type
-672982bb9 tests: Pull new rpm-sequoia to build image
-46fcf36b3 tests; Use quay containere registry
-d7611817d Enable -Werror in the dev-clang preset
-7936381dc Eliminate variable length array (VLA) use in spec %files parsing
-e1e1240b8 Eliminate variable length array (VLA) use in spec file addition
-6f4ea08c2 Eliminate variable length array (VLA) use in %files lang parsing
-0c8bf5ca4 Eliminate variable length array (VLA) use in rpmuncompress gem handling
-f556b1d80 Eliminate variable length array (VLA) use in cpio strntoul()
-c09593f61 Eliminate variable length array (VLA) use in cli query filter parsing
-554e2452c Eliminate variable length array (VLA) use in rpmdb label parsing
-f94b85764 Eliminate variable length array (VLA) use in rpmtriggers
-18a4d495e Eliminate variable length array (VLA) use in headerFormat()
-7b863abd3 Eliminate variable length array (VLA) use in various temp buffers
-7989767af Eliminate variable length array (VLA) use in rpmvercmp()
-6fcca9ee3 Eliminate variable length array (VLA) uses in the macro engine
-aaa94d345 Extend rpmdb query test to cover tag=value mire patterns
-480ad2864 Eliminate a pointless variable length array from cpio name reading
-e1851928e Eliminate an academic variable length array from cpio payload write
-6f8dee378 Fix an ancient & vs && issue lurking in selinux policy parsing
-1c2df419b Help Clang recognize a compile-time static value
-33ac20e4d Silence a Clang warning about unused return value in fsm
-e9136ae86 Fix leftover enum type mismatch in xml-formatting switch-case
-50c78caa8 Add a cmake preset for Clang and enable it in CI
-587d1a199 Add a cmake preset for GCC
-7369ea4de Parametrize the toolchain in mktree
-8ef1af91d Add a rudimentary cmake-presets(7) file
-9b439b2da ifdef out unused static inline functions in ndb
-b9348c339 Fix ndb-related double definition warnings from clang
-961023328 Fix delete_key_compat() friend definition
-cc6499701 Refactor file download out of the big install loop
-50dd5d2a4 Rework the rpm cli install and download routine for sanity
-a077677c5 Drop redundant relocations member from rpmEIU struct
-b82f32f21 Refactor argument globbing out of rpmInstall()
-24d9e902b Add some tests for installations from remote urls
-9296d05a3 Reflect pgpPubKeyLint() error code in rpmtxnImportPubkey() return
-8e9e7487f Add a test for rpmtsImportPubkey() return codes
-9bacc7960 COPYING: Add SPDX identifier clarification
-bb9397395 Add GitLeaks whitelist for our test-suite keys
-be09b776b Fix broken link to rpm-dependency-generators.7 man page
-4ce1359eb Add back support for NSS based user/group lookups
-e175a9a92 Fix regression in group name lookup
-37bed1c7c Update tests for user/group lookup via NSS
-6052d5060 Honor alternate root in system user/group provides
-2530a42e4 Fix "package X does not verify: (null)" output in some configurations
-a34f5cb11 Fix "No patch/source number X" not returning an error code regression
-3ce878e8b Add tests for missing patch/source errors in %prep
-5bb0e1884 Allow tag extensions to be used in db pattern matching
-6e1d59163 Add more database iterator pattern match tests
-428332d19 Eliminate the now redundant rpmtriggers wrapper struct
-15dfb472a Convert file trigger structures minimally to an STL set
-65212d915 Document that overriding declarative sections is possible and dangerous
-294b68b87 Fix transaction verification output as well
-349bb010d Move signature lints output to post-verification where we know the result
-8da92f9cf Introduce yet another variant of rpmKeyringVerifySig() for returning lints
-5db51df43 Split some tests to individual RPMTEST_CHECK cases for readability
-11dc680bd Drop NOTFOUNDs output for items that are disabled in rpm config
-9a68128a6 Fix bogus verify output in some order dependent cases
-6f56982a2 Split <corrupted signed> 4 test to separate CHECK cases for readability
-75f8c69d2 Add tests for non-verbose rpmkeys operation with multiple signatures
-dad07208a Verify all types in transaction verify again
-4a9b7b590 Add tests for user/group lookup via NSS
-524084c49 Fix RPM self-destruction in Dockerfile
-e7ed26032 Print shortened ftype in package color listing
-f55d5b829 Refactor the package color check
-0bdab1a03 Print outlier files not matching package color
-810352d6d Show NEVRA in package color mismatch log message
-f8f33d2ad Move package color checks to rpmfc module
-6bbbf823e Add tests for rpmbuild package color checks
-b5de0f8c7 Add generic program name handlers
-a62d8508e Add portability wrappers for program name handling
-a8ac96550 Standardize on stdin/stdout/stderr use in manuals
-54fd7a441 Add entry about %caps to spec manual
-3617d160e Let the system runtime environment provide users and groups
-b3d5f0aab Document that rpmtsOrder() output depends on package addition order
-afd90dc98 AIX: Fix compilation error due to __errno_location
-9db75f10d Fix up RPMVSF_ entries in man page
-759c696a2 Add some missing RPMVSF_ values to the manual and Python bindings
-49cc41439 Fix file triggers running twice from add/remove elements on upgrade
-470f5d683 Lift the transfiletrigger skip logic to a helper function
-0131b1183 Add tests for %transfiletriggerun as well, missing since 2017. Uff.
-2b334c3d6 Reproducer tests for #4030
-9900d729d Drop percent sign from mkbuilddir script name
-906db4228 Add BUILD PROCESS section to rpmbuild(1)
-8557f2303 Add remaining tunables to rpmbuild-config(5)
-d5cd89849 Fix some typos in rpmbuild-config(5)
-35099525e Fix a typo/thinko in verify element sorting per algorithms
-04799ffc5 Don't assume all digests we look for can be found during signing
-2e36269a9 Fix typo in tsort doc
-a594a1233 Ignore NOTTRUSTED returns in verification
-7760e5466 Explicitly require at least one success and no failures for verify pass
-cd525381d Add test cases for multi signature verification with disabled algos
-282e7af03 Refactor some install verify tests to separate RPMTEST_CHECK blocks
-d7fdc39b6 Dump the build environment info at beginning of a build
-9b874d090 Export build script environment information to a well known location
-cab027d1d Emit warning instead of error on failed key read
-75de4f3eb Improve error handling on keystore load
-08e30d8ab Bump CI to Fedora 43
-f5d60e431 Honor rpmtsSetScriptFd() in Lua scriptlets
-8470aa40a Add an internal API for (temporarily) overriding Lua output stream
-c0e3681d3 Add a testcase for scriptlet output redirection
-60ce7d140 Add a switch for redirecting script output to prpm.py
-ffdb9e73d docs/man: codespell fixes (all simple typos)
-dc1e8c763 manual: codespell judgement calls
-8884a8997 Codespell fixes in docs/manual/
-68b470cee manual: '32 bit' / '64 bit' => '32-bit' / '64-bit'
-5f072e81e Convert + rename philosophy.md to rpm-design(7) man page
-88a029728 Add extra tests to ensure all file-related arrays are the same size
-371673e1a Fix FILEDEPENDSX size regression in 6.0
-9cdd8a453 Add support for %check as a specific build stage in rpmbuild (-bk/-tk/-rk)
-299dfd15b Fix -bf --short-circuit to not execute %generate_buildrequires
-1100cb0d4 Add --short-circuit variants to the spec stepping test
-7216d453e Work around misleading indentation in if-block (cosmetic)
-3ef93e901 Fix CMake 3.31 normalized path warning
-2c66cbd47 Point obsolete rpm operation aliases to the right direction
-6f030d92b Add a BUGS section to rpm-common(8), noting some exceptions
-cad54d84a Honor rpm-common(8) options in rpmuncompress
-e360ca338 Use a friend function in delete_key()
-cdf390bdd Fix rpmkeys --delete regression for short keyids
-c66ec9ff5 Obtain fingerprint from rpmPubkey directly
-04c7e4ae7 Fix a relocation related crash in fingerprinting
-0c4faeb86 Update rpmdeps(1) to use the documented <operation> style
-e889f997c Document use of <operation> in the man template
-57a193e23 Add a man page for elfdeps(1)
-3cb5f661b Document our testing and documentation requirements
-7df09750e Chainsaw the coding bits out of CONTRIBUTING.md
-dd3fe7cad Don't run CI on any documentation update
-17940c254 Refactor path lists in YAML files
-81f91556a Drop -Wno-sign-compare from rpmio/ too while at it
-943b11192 Fix a bunch of signed/unsigned issues in string pool
-f083f2790 Drop -Wno-sign-compare from sign/ as well
-f674e996f Drop -Wno-sign-compare from tools/ as well
-68338a930 Drop -Wno-sign-compare from librpmbuild build options
-ac5589703 Add + use a helper function to make ptr distance strlen() compatible
-f3ef0fa31 Use unsigned integers for number of files, part II
-68b2d73b9 Fix mixed signedness comparisons in generateBuildIDs()
-357db4fdb Trivial signed/unsigned type fixups for Fread()/Fwrite() return
-b97328b8a Use unsigned int for the for-loop index
-eb6fe72cc Use unsigned integer for number of files
-08f5e8c65 Drop a redundant .resize() on vector before .insert()
-a485b71ef Move -Wno-sign-compare to individual target_compile_options()
-28daadde0 Fix wrong macro in rpmsign(1) example
-7c8745e00 Make EXAMPLE sections in man pages more consistent
-943b68fec Use proper man page references
-92068c4fb Pull manual.rb plugin when building site
-49e1e11f3 Fix a trivial documentation mistake
-4e3309e5b Fix a trivial documentation mistake
-502e7e88a Fix missing link to dependency generator documentation
-8d804bf4c Remove dot from docs
-eb404d827 Make rpm-plugins(8) more discoverable and drop outdated note from it
-213d79c8c Fix URL in rpm-queryformat(7)
-68d0c2dd7 Fix doubled words in man pages
-644829c76 Fix man page index filtering
-1584898f7 Update scriptlet terminology in rpm-queryformat(7)
-f1dde3c20 Use preferred terms as per man-pages(7)
-9d8fb82ea Fix layout field in man page redirects
-8b1b8b59c Fix broken redirects to man pages, volume II
-8ef270e81 Add an rpm-scriptlets(7) man page for all our scriptlet types
-c14f07c7d Add man page linter workflow file
-4e141c313 Don't run CI on docs-only changes
-467f62191 Fix broken redirects to man pages
-4d4a9b7ee Document that --rmsource does not affect NoSource and NoPatch
-b23190601 Add API docs for pgpDigParamsSalt()
-aadbe7d61 Fix build regression on WITH_SEQUOIA=OFF
-266bdeeaf rpmio/lposix.cc: remove LUALIB_API in luaopen_posix() definition
-08a1fa443 Add a man page for RPM dependency generators
-2a03180e0 Add support for "singlefile" depgen protocol name
-11b5715b9 Add lower version boundary to man template
-eb4998108 Rename _find_debuginfo_extra_opts to _find_debuginfo_vendor_opts
-6dfd4d2bb Add the ability for other macro files to pass options to the find_debuginfo script via a new variable: _find_debuginfo_extra_opts
-179f329af Drop the lone, leftover comment about rpm 3.0.2 built packages
-d9d615b29 Refactor rpmds rich dependency parsing to use C++ strings internally
-0530cfff3 Refactor rpmds to store DNEVR strings as C++ strings internally
-c829c96ca Refactor rpmdsNewDNEVR() to operate on an STL string internally
-abd4dec73 Simplify rpmdsFilterTi() a bit, no functional changes
-26cd2b208 Refactor rpmds N, EVR and Flags arrays to STL vectors
-dfc336728 Refactor rpmds trigger indices to an STL vector
-df0756624 Refactor rpmds Color array to an STL vector.
-acf804f57 Fix typos in man pages
-25f45d3e8 Fix typo in rpmsign man page
-50587eea1 Update po module again for the latest translations
-8cb3e63ef `rpmfcFileDep::operator<` should be `const`
-8f1aee58e Remove duplicated include
-094c78c6f Updating rpmbuild(1) man page to the new style
-b3b87f803 Fix rpmds segfault(s) + memleaks on incomplete header data
-db08639d0 Fix rpmdsTag*() to behave as per documentation on invalid values
-05836afcd Fix rpmdsTi() invalid value confusion
-62be8046e Fix rpmds trigger index to be optional as originally intended
-a27a30ec8 Add Python binding for rpmdsTi() and a test
-3de02de64 Add Python API tests for rpmds colors
-9f35a358c Specify overridden member functions as `override`
-daac712c8 Add a man page for rpmuncompress(1)
-66f2f8b92 Ignore legacy signature tags in v6 packages
-c00cdab05 Add hdrblobIsEntry() for testing tag presence from hdrblob level
-cd08363eb Refactor header blob entry finding to a helper function
-30ad28e0d Add test-cases for v3 signatures in v6 packages
-d63e1c5b9 Update rpmgraph(1) man page to the new style
-b0bb95db8 Update rpmdeps(1) man page to the new style, enchancing it a bit as well
-5163de00d Drop outdated --nodirtokens from rpmbuild
-1616b40d0 Match rpm2archive man page to what it really does
-fbf316149 Use `std::any_of` instead of a raw loop
-76cc20bc2 Use .cpio suffix for cpio output files
-c06fabc1a Add one space per line to --info format
-ff863b43b Fix the randomly failing dependency generator tests
-7d8280930 Close file on all paths to prevent resource leak
-d3ed13a97 Remember to update the po commit point on rpm side too
-470195da5 Add test cases for rpmgraph
-1ad1924f5 rpmgraph: Use our own argv code
-982ce6014 rpmgraph: Drop unnecessary variable and fix error message
-4db8dd386 rpmgraph: Prevent memory leaks in error handling
-be3f8d180 Fix segfault in rpmgraph
-5a66f4c2a Add --hash, --precent and --test for rpm --restore
-6b9690d2d Update gendiff(1) to the new man page style
-d877862a1 Minor tweaks to rpm2cpio(1) to better align with rpm2archive.
-427c05667 Convert rpm2archive man page to the new style + many other refinements
-ff7fc79af Add a bunch of examples to the rpm(8) man page.
-293ee5173 Make the #3890 %buildsubdir issue reproducer more realistic
-d145f9e47 Build the website manually, with native Jekyll
-56e924b3a Refactor WITH_WEBSITE and PODMAN handlers
-a90983e17 Fetch website template from rpm-web, don't bundle
-2d90f4ff3 Split the earlier --restore test in two to test for the result code too
-1f2cd8de4 Fix "--restore --all" regression when the rpmdb contains gpg-pubkey headers
-a0c78f5ca Add a rpm-version(7) man page for the rpm versioning system
-a8f256bde Elaborate a bit on our contribution acceptance criteria
-ba9ac3c8a Fix missing delimiter in tags page
-4743ea8fb Create transaction lock file after rebuilddb
-aeb410f0a rpmrc: Drop left over free()
-94fbe3ac1 Ignore macrofiles directives in rpmrc
-2c7933db5 Add E2K architecture support
-fe5445bc7 rpmrc.in: Move 'arch_compat: loongarch64' closer to similar lines
-d8b9bd44f Don't use heredoc in Dockerfile
-62c8462ec Bump version to 6.0.90 to begin the 6.1 devel cycle
-bb20c4218 Add a test-case for %buildsubdir in Buildsystem, expected to fail now
+--===============2191562785685208148==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-fribidi-upgrade-1.0.16-1.0.17.patch"
 
---===============5889079258632179768==--
+RnJvbSA3OTYyYjkwZTA0NDAxZTg5NWI3NmUzMDYzZDRhOTZiMWRkMmIyMzFmIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IE1vbiwgMjEgU2VwIDIwMjYgMDU6Mzc6MjUgKzAwMDAKU3ViamVjdDogW1BBVENIXSBm
+cmliaWRpOiB1cGdyYWRlIDEuMC4xNiAtPiAxLjAuMTcKClNvdXJjZTogQ2hhbmdlTG9nCgpCdW1w
+ZWQgdmVyc2lvbiB0byAxLjAuMTcKbGliOiByZXNvbHZlIEZTSSBiYXNlIGRpcmVjdGlvbiBpbiBv
+bmUgbGluZWFyIHBhc3MsIG5vdCBwZXItRlNJIHJlc2NhbgpjaTogY2FwdHVyZSB0aGUgcmVhbCB0
+ZXN0LXN1aXRlLmxvZyBmcm9tIGRpc3RjaGVjaydzIG5lc3RlZCByZWJ1aWxkCmxpYjogcmVwbGFj
+ZSBOMCBicmFja2V0LXBhaXJpbmcgbGlua2VkIGxpc3Qgd2l0aCBhIGZsYXQgc29ydGVkIGFycmF5
+CmxpYjogcG9vbC1hbGxvY2F0ZSBGcmlCaWRpUnVuIG5vZGVzIGluIGVtYmVkZGluZy1sZXZlbCBy
+ZXNvbHV0aW9uCmZyaWJpZGlfcmVvcmRlcl9saW5lOiBpbXBsZW1lbnQgTDIgcmVvcmRlcmluZyBp
+biBsaW5lYXIgdGltZQp0ZXN0OiBpbmNsdWRlIHN0ZGJvb2wuaCBpbiB0ZXN0LXJlb3JkZXItbnNt
+LmMKbWVzb246IGZpeCBwYXJhbGxlbCBidWlsZCByYWNlIGZvciB0ZXN0LXJlb3JkZXItbnNtCmdl
+bi11bmljb2RlLXZlcnNpb246IGZpeCBNU1ZDIGxpbmsgZmFpbHVyZSBieSBhdm9pZGluZyBzdHJu
+Y2FzZWNtcApGaXggZnJpYmlkaV9zZXRfcmVvcmRlcl9uc20oKS9mcmliaWRpX3NldF9taXJyb3Jp
+bmcoKSBub3QgYWZmZWN0aW5nCmdlbi1hcmFiaWMtc2hhcGluZy10YWI6IGZpeCByZW1haW5pbmcg
+LVdmb3JtYXQ9IG1pc21hdGNoIG9uCmdlbi11bmljb2RlLXZlcnNpb246IHJlcGxhY2Ugbm9uLXBv
+cnRhYmxlIHN0cmNhc2VzdHIgd2l0aCBhIHBvcnRhYmxlCkRlZmluZSBfRlJJQklESV9UWVBFX1NF
+TlRJTkVML19GUklCSURJX1BBUl9TRU5USU5FTCBpbiBib3RoIGVudW0KZ2VuLWFyYWJpYy1zaGFw
+aW5nLXRhYjogZml4IC1XZm9ybWF0LW92ZXJmbG93IHdhcm5pbmcgb24gR0NDIDE0ClVwZGF0ZSBV
+bmljb2RlIGNoYXJhY3RlciBkYXRhYmFzZXMgdG8gdjE4LjAuMApGaXggcXVhZHJhdGljIGJlaGF2
+aW9yIGluIE4wIGJyYWNrZXQgcGFpcmluZyBwcmVjZWRpbmctc3Ryb25nIHNlYXJjaApGaXggb3V0
+LW9mLWJvdW5kcyByZWFkIG9uIHRyYWlsaW5nICdfJwpmcmliaWRpLW1haW46IGZpeCB0cnVuY2F0
+aW9uIG9mIGxpbmVzL291dHB1dCBjb250YWluaW5nIGVtYmVkZGVkClBhaXIgYnJhY2tldHMgYnkg
+Y2Fub25pY2FsIGVxdWl2YWxlbmNlIG9ubHksIHBlciBVQVggIzkgQkQxNgpSZW1vdmUgdW51c2Vk
+IGFwcHZleW9yIHlhbWwgZmlsZQpnaXRodWIgYWN0aW9uczogVXNlIGN1cnJlbnQgcHl0aG9uIHZl
+cnNpb24KVXBkYXRlIG9sZCBGU0YgYWRkcmVzcwpSZW1vdmUgdW5uZWNlc3NhcnkgY3VzdG9tIHBy
+b3RvdHlwZXMgZm9yIGdldGVudiBhbmQgZ2V0b3B0ClJlbW92ZSB1bnVzZWQgdHJhdmlzIGZpbGUK
+Z2l0aHViIGFjdGlvbnM6IEluc3RhbGwgaGVscDJtYW4gdG8gZml4IHVidW50dSBidWlsZApVcGRh
+dGUgVE9ETyAtIHJlbW92ZSByZWFkbWUgaXRlbQpEb24ndCByZXF1aXJlIGhlbHAybWFuIHVubGVz
+cyBidWlsZGluZyBkb2NzCkdlbmVyYXRlIGZyaWJpZGkuMSBtYW4gcGFnZQpGaXggdHlwb3MgaW4g
+ZG9jczogImFuIHN0cmluZyIgLT4gImEgc3RyaW5nIgpnaXRodWIgYWN0aW9uczogVXBkYXRlIHB5
+dGhvbiB2ZXJzaW9uIHRvIDMuMTIKVXBkYXRlIGdpdGh1YiBhY3Rpb25zIHZlcnNpb25zCkFkZCBH
+TlUgTWFpbHV0aWxzIHRvIFVTRVJTCkZpeCB0eXBvCkZpeCBlcnJvciBoYW5kbGluZyBmb3IgZmls
+ZSBvcGVyYXRpb25zCkZpeCBzdGFjayBidWZmZXIgb3ZlcmZsb3cgd2hlbiBwYXJzaW5nIGVxdWl2
+YWxlbmNlCnJlbW92ZSBjb21waWxlciBmbGFnICItYW5zaSIKZGVidWc6IGRvbid0IHBhc3MgYSBj
+b21tYSAiLCIgaW4gYSAjZGVmaW5lCkJ1bXAgdmVyc2lvbiB0byAxLjAuMTYKRml4IENJIGZhaWx1
+cmUKVXBkYXRlIFVuaWNvZGUgY2hhcmFjdGVyIGRhdGFiYXNlcyB0byB2MTYuMC4wCkZpeCB0eXBv
+IGluIGZyaWJpZGktY2FwcnRsMnV0ZjguYyB0aGF0IGNhdXNlZCBjb21waWxhdGlvbiB3YXJuaW5n
+CkJ1bXBlZCB2ZXJzaW9uIHRvIDEuMC4xNQpCdW1wZWQgdmVyc2lvbiB0byAxLjAuMTQKVXBkYXRl
+IHVuaWNvZGUgY2hhcmFjdGVyIGRhdGFiYXNlcyB0byB2MTUuMS4wLgpVcGRhdGUgdGVzdCBjYXNl
+cyB0byBVbmljb2RlIDE1LjEKbWVzb246IGZpeCBidWlsZCB3aXRoIC1EYmluPWZhbHNlIGFuZCAt
+RHRlc3RzPXRydWUKQnVtcGVkIHZlcnNpb24gdG8gMS4wLjEzCnNpbXBsaWZ5IHZpc2liaWxpdHkg
+aGFuZGxpbmcKbWVzb246IGZpeCB0d28gbWVzb24gd2FybmluZ3MKVXBkYXRlIHRlc3QgY2FzZXMg
+dG8gVW5pY29kZSAxNS4wCm1lc29uOiBmaXggdHdvIG1lc29uIHdhcm5pbmdzCm1lc29uOiBPdmVy
+cmlkZSBkZXBlbmRlbmNpZXMgdG8gaW1wcm92ZSB1c2FnZSBhcyBhIHN1YnByb2plY3QKY2k6IFVw
+bG9hZCBsb2dzIG9uIGJ1aWxkIGZhaWx1cmUKY2k6IFVwZGF0ZSBweXRob24gdmVyc2lvbiBpbiBn
+aXRodWIgd29ya2Zsb3dzCm1lc29uOiBPdmVycmlkZSBkZXBlbmRlbmNpZXMgdG8gaW1wcm92ZSB1
+c2FnZSBhcyBhIHN1YnByb2plY3QKVXBkYXRlIHRlc3QgY2FzZXMgdG8gVW5pY29kZSAxNS4wCnNp
+bXBsaWZ5IHZpc2liaWxpdHkgaGFuZGxpbmcKcmVtb3ZlIHVzZWxlc3MgbGlicmFyeSBhcmd1bWVu
+dHMgYXBwbGllZCB0byBleGVjdXRhYmxlcwpNYWRlIGZyaWJpZGlfdXRmOF90b191bmljb2RlKCkg
+c2tpcCBpbmNvbXBsZXRlIHV0ZjggZW5jb2RlZCBjb2RlIHBvaW50cwpCdW1wZWQgdmVyc2lvbiB0
+byAxLjAuMTIKQWRkIC1ERlJJQklESV9MSUJfU1RBVElDIHRvIGxpYmZyaWJpZGlfZGVwCkZpeCBT
+RUdWIGlzc3VlIGluIGZyaWJpZGlfcmVtb3ZlX2JpZGlfbWFya3MKUHJvdGVjdGVkIGFnYWluc3Qg
+Z2FyYmFnZSBpbiB0aGUgQ2FwUlRMIGVuY29kZXIKRml4IHRoZSBzdGFjayBidWZmZXIgb3ZlcmZs
+b3cgaXNzdWUKSW5jbHVkZSAtREZSSUJJRElfTElCX1NUQVRJQyBpbiBwa2ctY29uZmlnIG91dHB1
+dCBieSBkZWZhdWx0IHdoZW4KbWVzb246ICBEb24ndCBoYXJkY29kZSBweXRob24zIGluIHRlc3Rz
+ClVwZGF0ZSB0ZXN0CgpbQ2hhbmdlbG9nIHRydW5jYXRlZCBhcyBpdCBleGNlZWRzIDMwMDAgY2hh
+cmFjdGVyczsKdGhlIGZ1bGwgY2hhbmdlbG9nIGNhbiBiZSBmb3VuZCBpbiBhbiBhdHRhY2htZW50
+IHRvIHRoZSBBVUggZW1haWxdCi0tLQogLi4uL3tmcmliaWRpXzEuMC4xNi5iYiA9PiBmcmliaWRp
+XzEuMC4xNy5iYn0gIHwgOTYgKysrKysrKysrKysrKysrKysrLQogMSBmaWxlIGNoYW5nZWQsIDk0
+IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLXN1cHBv
+cnQvZnJpYmlkaS97ZnJpYmlkaV8xLjAuMTYuYmIgPT4gZnJpYmlkaV8xLjAuMTcuYmJ9ICgxNSUp
+CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLXN1cHBvcnQvZnJpYmlkaS9mcmliaWRpXzEuMC4x
+Ni5iYiBiL21ldGEvcmVjaXBlcy1zdXBwb3J0L2ZyaWJpZGkvZnJpYmlkaV8xLjAuMTcuYmIKc2lt
+aWxhcml0eSBpbmRleCAxNSUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLXN1cHBvcnQvZnJpYmlk
+aS9mcmliaWRpXzEuMC4xNi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLXN1cHBvcnQvZnJpYmlk
+aS9mcmliaWRpXzEuMC4xNy5iYgppbmRleCA5Zjc1NDQ2ZGEyLi42MzZmNmRmMjIwIDEwMDY0NAot
+LS0gYS9tZXRhL3JlY2lwZXMtc3VwcG9ydC9mcmliaWRpL2ZyaWJpZGlfMS4wLjE2LmJiCisrKyBi
+L21ldGEvcmVjaXBlcy1zdXBwb3J0L2ZyaWJpZGkvZnJpYmlkaV8xLjAuMTcuYmIKQEAgLTEsMyAr
+MSw5NSBAQAorIyBGSVhNRTogdGhlIExJQ19GSUxFU19DSEtTVU0gdmFsdWVzIGhhdmUgYmVlbiB1
+cGRhdGVkIGJ5ICdkZXZ0b29sIHVwZ3JhZGUnLgorIyBUaGUgZm9sbG93aW5nIGlzIHRoZSBkaWZm
+ZXJlbmNlIGJldHdlZW4gdGhlIG9sZCBhbmQgdGhlIG5ldyBsaWNlbnNlIHRleHQuCisjIFBsZWFz
+ZSB1cGRhdGUgdGhlIExJQ0VOU0UgdmFsdWUgaWYgbmVlZGVkLCBhbmQgc3VtbWFyaXplIHRoZSBj
+aGFuZ2VzIGluCisjIHRoZSBjb21taXQgbWVzc2FnZSB2aWEgJ0xpY2Vuc2UtVXBkYXRlOicgdGFn
+LgorIyAoZXhhbXBsZTogJ0xpY2Vuc2UtVXBkYXRlOiBjb3B5cmlnaHQgeWVhcnMgdXBkYXRlZC4n
+KQorIworIyBUaGUgY2hhbmdlczoKKyMKKyMgLS0tIENPUFlJTkcKKyMgKysrIENPUFlJTkcKKyMg
+QEAgLTEsOCArMSw4IEBACisjIC0JCSAgR05VIExFU1NFUiBHRU5FUkFMIFBVQkxJQyBMSUNFTlNF
+CisjIC0JCSAgICAgICBWZXJzaW9uIDIuMSwgRmVicnVhcnkgMTk5OQorIyArICAgICAgICAgICAg
+ICAgICAgR05VIExFU1NFUiBHRU5FUkFMIFBVQkxJQyBMSUNFTlNFCisjICsgICAgICAgICAgICAg
+ICAgICAgICAgIFZlcnNpb24gMi4xLCBGZWJydWFyeSAxOTk5CisjICAKKyMgICBDb3B5cmlnaHQg
+KEMpIDE5OTEsIDE5OTkgRnJlZSBTb2Z0d2FyZSBGb3VuZGF0aW9uLCBJbmMuCisjIC0gICAgIDUx
+IEZyYW5rbGluIFN0cmVldCwgRmlmdGggRmxvb3IsIEJvc3RvbiwgTUEgIDAyMTEwLTEzMDEgIFVT
+QQorIyArIDxodHRwczovL2ZzZi5vcmcvPgorIyAgIEV2ZXJ5b25lIGlzIHBlcm1pdHRlZCB0byBj
+b3B5IGFuZCBkaXN0cmlidXRlIHZlcmJhdGltIGNvcGllcworIyAgIG9mIHRoaXMgbGljZW5zZSBk
+b2N1bWVudCwgYnV0IGNoYW5naW5nIGl0IGlzIG5vdCBhbGxvd2VkLgorIyAgCisjIEBAIC0xMCw3
+ICsxMCw3IEBACisjICAgYXMgdGhlIHN1Y2Nlc3NvciBvZiB0aGUgR05VIExpYnJhcnkgUHVibGlj
+IExpY2Vuc2UsIHZlcnNpb24gMiwgaGVuY2UKKyMgICB0aGUgdmVyc2lvbiBudW1iZXIgMi4xLl0K
+KyMgIAorIyAtCQkJICAgIFByZWFtYmxlCisjICsgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+UHJlYW1ibGUKKyMgIAorIyAgICBUaGUgbGljZW5zZXMgZm9yIG1vc3Qgc29mdHdhcmUgYXJlIGRl
+c2lnbmVkIHRvIHRha2UgYXdheSB5b3VyCisjICBmcmVlZG9tIHRvIHNoYXJlIGFuZCBjaGFuZ2Ug
+aXQuICBCeSBjb250cmFzdCwgdGhlIEdOVSBHZW5lcmFsIFB1YmxpYworIyBAQCAtMTEyLDcgKzEx
+Miw3IEBACisjICBmb3JtZXIgY29udGFpbnMgY29kZSBkZXJpdmVkIGZyb20gdGhlIGxpYnJhcnks
+IHdoZXJlYXMgdGhlIGxhdHRlciBtdXN0CisjICBiZSBjb21iaW5lZCB3aXRoIHRoZSBsaWJyYXJ5
+IGluIG9yZGVyIHRvIHJ1bi4KKyMgIAwKKyMgLQkJICBHTlUgTEVTU0VSIEdFTkVSQUwgUFVCTElD
+IExJQ0VOU0UKKyMgKyAgICAgICAgICAgICAgICAgIEdOVSBMRVNTRVIgR0VORVJBTCBQVUJMSUMg
+TElDRU5TRQorIyAgICAgVEVSTVMgQU5EIENPTkRJVElPTlMgRk9SIENPUFlJTkcsIERJU1RSSUJV
+VElPTiBBTkQgTU9ESUZJQ0FUSU9OCisjICAKKyMgICAgMC4gVGhpcyBMaWNlbnNlIEFncmVlbWVu
+dCBhcHBsaWVzIHRvIGFueSBzb2Z0d2FyZSBsaWJyYXJ5IG9yIG90aGVyCisjIEBAIC0xNDYsNyAr
+MTQ2LDcgQEAKKyMgIG9uIHRoZSBMaWJyYXJ5IChpbmRlcGVuZGVudCBvZiB0aGUgdXNlIG9mIHRo
+ZSBMaWJyYXJ5IGluIGEgdG9vbCBmb3IKKyMgIHdyaXRpbmcgaXQpLiAgV2hldGhlciB0aGF0IGlz
+IHRydWUgZGVwZW5kcyBvbiB3aGF0IHRoZSBMaWJyYXJ5IGRvZXMKKyMgIGFuZCB3aGF0IHRoZSBw
+cm9ncmFtIHRoYXQgdXNlcyB0aGUgTGlicmFyeSBkb2VzLgorIyAtICAKKyMgKworIyAgICAxLiBZ
+b3UgbWF5IGNvcHkgYW5kIGRpc3RyaWJ1dGUgdmVyYmF0aW0gY29waWVzIG9mIHRoZSBMaWJyYXJ5
+J3MKKyMgIGNvbXBsZXRlIHNvdXJjZSBjb2RlIGFzIHlvdSByZWNlaXZlIGl0LCBpbiBhbnkgbWVk
+aXVtLCBwcm92aWRlZCB0aGF0CisjICB5b3UgY29uc3BpY3VvdXNseSBhbmQgYXBwcm9wcmlhdGVs
+eSBwdWJsaXNoIG9uIGVhY2ggY29weSBhbgorIyBAQCAtNDMyLDcgKzQzMiw3IEBACisjICBvZiBh
+bGwgZGVyaXZhdGl2ZXMgb2Ygb3VyIGZyZWUgc29mdHdhcmUgYW5kIG9mIHByb21vdGluZyB0aGUg
+c2hhcmluZworIyAgYW5kIHJldXNlIG9mIHNvZnR3YXJlIGdlbmVyYWxseS4KKyMgIAorIyAtCQkJ
+ICAgIE5PIFdBUlJBTlRZCisjICsgICAgICAgICAgICAgICAgICAgICAgICAgICAgTk8gV0FSUkFO
+VFkKKyMgIAorIyAgICAxNS4gQkVDQVVTRSBUSEUgTElCUkFSWSBJUyBMSUNFTlNFRCBGUkVFIE9G
+IENIQVJHRSwgVEhFUkUgSVMgTk8KKyMgIFdBUlJBTlRZIEZPUiBUSEUgTElCUkFSWSwgVE8gVEhF
+IEVYVEVOVCBQRVJNSVRURUQgQlkgQVBQTElDQUJMRSBMQVcuCisjIEBAIC00NTUsNyArNDU1LDcg
+QEAKKyMgIFNVQ0ggSE9MREVSIE9SIE9USEVSIFBBUlRZIEhBUyBCRUVOIEFEVklTRUQgT0YgVEhF
+IFBPU1NJQklMSVRZIE9GIFNVQ0gKKyMgIERBTUFHRVMuCisjICAKKyMgLQkJICAgICBFTkQgT0Yg
+VEVSTVMgQU5EIENPTkRJVElPTlMKKyMgKyAgICAgICAgICAgICAgICAgICAgIEVORCBPRiBURVJN
+UyBBTkQgQ09ORElUSU9OUworIyAgDAorIyAgICAgICAgICAgICBIb3cgdG8gQXBwbHkgVGhlc2Ug
+VGVybXMgdG8gWW91ciBOZXcgTGlicmFyaWVzCisjICAKKyMgQEAgLTQ4NCw4ICs0ODQsNyBAQAor
+IyAgICAgIExlc3NlciBHZW5lcmFsIFB1YmxpYyBMaWNlbnNlIGZvciBtb3JlIGRldGFpbHMuCisj
+ICAKKyMgICAgICBZb3Ugc2hvdWxkIGhhdmUgcmVjZWl2ZWQgYSBjb3B5IG9mIHRoZSBHTlUgTGVz
+c2VyIEdlbmVyYWwgUHVibGljCisjIC0gICAgTGljZW5zZSBhbG9uZyB3aXRoIHRoaXMgbGlicmFy
+eTsgaWYgbm90LCB3cml0ZSB0byB0aGUgRnJlZSBTb2Z0d2FyZQorIyAtICAgIEZvdW5kYXRpb24s
+IEluYy4sIDUxIEZyYW5rbGluIFN0cmVldCwgRmlmdGggRmxvb3IsIEJvc3RvbiwgTUEgIDAyMTEw
+LTEzMDEgIFVTQQorIyArICAgIExpY2Vuc2UgYWxvbmcgd2l0aCB0aGlzIGxpYnJhcnk7IGlmIG5v
+dCwgc2VlIDxodHRwczovL3d3dy5nbnUub3JnL2xpY2Vuc2VzLz4uCisjICAKKyMgIEFsc28gYWRk
+IGluZm9ybWF0aW9uIG9uIGhvdyB0byBjb250YWN0IHlvdSBieSBlbGVjdHJvbmljIGFuZCBwYXBl
+ciBtYWlsLgorIyAgCisjIEBAIC00OTYsOSArNDk1LDcgQEAKKyMgICAgWW95b2R5bmUsIEluYy4s
+IGhlcmVieSBkaXNjbGFpbXMgYWxsIGNvcHlyaWdodCBpbnRlcmVzdCBpbiB0aGUKKyMgICAgbGli
+cmFyeSBgRnJvYicgKGEgbGlicmFyeSBmb3IgdHdlYWtpbmcga25vYnMpIHdyaXR0ZW4gYnkgSmFt
+ZXMgUmFuZG9tIEhhY2tlci4KKyMgIAorIyAtICA8c2lnbmF0dXJlIG9mIFR5IENvb24+LCAxIEFw
+cmlsIDE5OTAKKyMgLSAgVHkgQ29vbiwgUHJlc2lkZW50IG9mIFZpY2UKKyMgKyAgPHNpZ25hdHVy
+ZSBvZiBNb2UgR2hvdWw+LCAxIEFwcmlsIDE5OTAKKyMgKyAgTW9lIEdob3VsLCBQcmVzaWRlbnQg
+b2YgVmljZQorIyAgCisjICBUaGF0J3MgYWxsIHRoZXJlIGlzIHRvIGl0IQorIyAtCisjIC0KKyMg
+CisjCisKIFNVTU1BUlkgPSAiRnJlZSBJbXBsZW1lbnRhdGlvbiBvZiB0aGUgVW5pY29kZSBCaWRp
+cmVjdGlvbmFsIEFsZ29yaXRobSIKIERFU0NSSVBUSU9OID0gIkl0IHByb3ZpZGVzIHV0aWxpdHkg
+ZnVuY3Rpb25zIHRvIGFpZCBpbiB0aGUgZGV2ZWxvcG1lbnQgXAogb2YgaW50ZXJhY3RpdmUgZWRp
+dG9ycyBhbmQgd2lkZ2V0cyB0aGF0IGltcGxlbWVudCBCaURpIGZ1bmN0aW9uYWxpdHkuIFwKQEAg
+LTcsMTEgKzk5LDExIEBAIFNFQ1RJT04gPSAibGlicyIKIEhPTUVQQUdFID0gImh0dHA6Ly9mcmli
+aWRpLm9yZy8iCiBCVUdUUkFDS0VSID0gImh0dHBzOi8vZ2l0aHViLmNvbS9mcmliaWRpL2ZyaWJp
+ZGkvaXNzdWVzIgogTElDRU5TRSA9ICJMR1BMLTIuMS1vci1sYXRlciIKLUxJQ19GSUxFU19DSEtT
+VU0gPSAiZmlsZTovL0NPUFlJTkc7bWQ1PWE5MTY0NjdiOTEwNzZlNjMxZGQ4ZWRiNzQyNDc2OWM3
+IgorTElDX0ZJTEVTX0NIS1NVTSA9ICJmaWxlOi8vQ09QWUlORzttZDU9NGJmNjYxYzFlMzc5M2U1
+NWM4ZDEwNTFiYzVlMGFlMjEiCiAKIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9VUkl9L2Rvd25s
+b2FkL3Yke1BWfS8ke0JQfS50YXIueHogXAogICAgICAgICAgICAiCi1TUkNfVVJJW3NoYTI1NnN1
+bV0gPSAiMWIxY2RlNWIyMzVkNDA0NzllOTFiZTJmMGU4OGEzMDllMzIxNGM4YWI0NzBlYzhhMjc0
+NGQ4MmE1YTllYTA1YyIKK1NSQ19VUklbc2hhMjU2c3VtXSA9ICI2OTQ5ZGNkZTI3ZDQxY2ViYWQx
+ZmQ3NDFmY2FmYzM2ZDU1YTEwMjBkMmQ4NzJkNGE2ZWIzOTE0Y2FhYmJhZGEyIgogCiBpbmhlcml0
+IG1lc29uIGxpYl9wYWNrYWdlIHBrZ2NvbmZpZyBnaXRodWItcmVsZWFzZXMKIAotLSAKMi40Ny4x
+Cgo=
+
+--===============2191562785685208148==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/fribidi/fribidi-doc: FILELIST: added "/usr/share/man/man1/fribidi.1"
+
+--===============2191562785685208148==--
 
