@@ -1,154 +1,326 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <vanusuri@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7427BC982E1
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 10:09:36 +0000 (UTC)
-Received: from fhigh-b7-smtp.messagingengine.com (fhigh-b7-smtp.messagingengine.com [202.12.124.158])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.45787.1789985375664802309
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5A1DCC982E1
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 10:26:36 +0000 (UTC)
+Received: from mail-ej2-f12.google.com (mail-ej2-f12.google.com [74.125.228.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.45996.1789986391050991212
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 03:09:36 -0700
+ Mon, 21 Sep 2026 03:26:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=HhJeLb6U;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=pDhHoE+z;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.158, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id A8E577A0100;
-	Mon, 21 Sep 2026 06:09:34 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Mon, 21 Sep 2026 06:09:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:content-transfer-encoding:content-type:content-type:date:date
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1789985374;
-	 x=1790071774; bh=Bf1eT0poPwgib1nHDqPH3MLWDGG321XqAB6gKJ9s4gs=; b=
-	HhJeLb6UvtLIAc0YfV5U3YOuHOrIh+Qy2xU2PXdMofKQdTcxFn4QRacDM0kaROlM
-	K1vTXid1KCRx6JZJHxmjQArJoVdIqHBpSD3IoGVBolFr2rZbFyDH5Su0aHQF3Y4Z
-	gWoAqnV1KUF5ydL2abkLUHne9XviUshp9gY5MRqWn/p+wiMBHhzNNorCFReJROPC
-	bFKaE3+3KzD2fsBG9p0KL6slltOHjQaMRFwQKMEZDfd07HM+rdXCOyQhfL+VDE/R
-	fIi7RyJ1rukFaQ5+2s7KrCR+N00QUcg40Bhv2kNgXd4uSAWiDo80wu5OYXXxv86o
-	bx3ALcXnWECMpk0hj1YOEA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:content-transfer-encoding:content-type
-	:content-type:date:date:feedback-id:feedback-id:from:from
-	:in-reply-to:in-reply-to:message-id:mime-version:references
-	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1789985374; x=1790071774; bh=B
-	f1eT0poPwgib1nHDqPH3MLWDGG321XqAB6gKJ9s4gs=; b=pDhHoE+zvT/roP3vq
-	kxOFh+35YbBCWnm0zC/iwdu3NYW9jGUwcS377gfAvb9DJdrz/hiiPHmuemc4kCM4
-	QofN6Hir1x2TRkyfahp3FwpBeSkM0uSKAbxjsj/jBhtvUAkp6xM/B0FpHbcpOqnR
-	JCKjA5Ipch11rU381KRCt2ydly0GC70p03ACLsdJOm+N6l9pAPcFkCcaztiM/ftb
-	cSPRBbKEzux6LLWQi3206jgJUal9YJz2Po2riAaJKth8p/91hK+TrzMPI5sGDchy
-	NeOcuvyTBzhqICLBhQuiYDZMyGGdyJK8N+paNSDlUPIv3zZksV+KJ28fLFFXEDVN
-	DzRJg==
-X-ME-Sender: <xms:XgKxajfnR1DohGsJmBzdMiSwwz0BOH7PzzoPAmJPHnKuIEIJA_GPug>
-    <xme:XgKxavN7oHmx4bItvnJm_2zWwlzZiSNPGLM8xRFT77_glPzJr8jTV2QNF1hlkZ9iG
-    aF5KmsqCg2AWixKy8cxBoevS45j9uXkMu_seHLXVOxpMTEqErxCV2fi_w>
-X-ME-Received: <xmr:XgKxaqIO_ipQ6rfVnr95LdJ_gAZOwkRVlosN-WB_6myAU6QAAFMN_NRivze2R2c5lLLV>
-X-ME-Proxy-Cause: dmFkZTEjXDH23i0XBRnpA+Qtk4KsMqIhrmnvPMJthRRzhu0eSsRuT14aEz1+/Z0i+PtnHO
-    IBTz9g0Cc1r7Kcek7pQojIvG97w9/wk+YK/hR0IQ3wnNZzDUTFEjYceQEaz4sGMprmt8pj
-    bQ7bZ3PfzZsvH9WSD3xAFAniVszImyv0VrfOPNz3B2n+HfihAiYasVO1mIVVx9YdFdOdVs
-    g3KMl/t6TGxr+Mxp2LhVHAVgBFL9QT9ZApveBOUz5zUcacdmAQm2lo20SSYp+wkOvlUVMs
-    X7sMaddvuQZCqACCRKnVtIJjinsq+RAVWrArvt6jeTsRdeY1GawK5zjBc1izr/5WDDjbRw
-    /QbZBo+N+3v6l3GcSvD+y2tSLghCZu0z38arMIxMd8CIz6kdNYPdHTfxC4MUAPQP1j27Q3
-    oSqSK8In7Pktnt9hwh5hjGZa0bKQTXoL6wKE41YevYfa2BhB6+ME7F1W3cbySg8ulxFYv8
-    zmznTBql0B20bcSYXZMyvo4kh9mhm7UAq2NN1YQ+EFGjHN7Lf2bmHue59F0qH5o8BsxIX/
-    FlVzfi5vJmaHdUyS5oWgiYzCiSnXxTteAAWpn/ZfGBN4DbMkAySO1S2LcRXNVhuAetAKki
-    OeHUJSCgVgmNCPKInxzC37k9wl50hlmsNIow+qBmSIxEJUgEKUuimyeJ8nIQ
-X-ME-Proxy: <xmx:XgKxagEQhLBZ7_3zx7Sj0fS5qD5NhnesrdbYS_uSfyqmfEUN4658Cw>
-    <xmx:XgKxaiQ0TlfsJ_tYKT_AtdutGMTphhhUuX11wsZlDluc_RnaIFZj9g>
-    <xmx:XgKxasF27FViN7FfdFm1og4PEZ2NjHO08uDvAHMRSmSeY8oDFoDMZg>
-    <xmx:XgKxau-o4LsUJhmM8rT_ziuIUnIFA2KZG5_R1tn8yK3dxxQtbseLzA>
-    <xmx:XgKxaot3Pk9l19WDQmHCmn_zy4YfNp_qnNDnIsOGwGqU7w_GD5Knlqne>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Sep 2026 06:09:33 -0400 (EDT)
-Message-ID: <01a751a4b7c8ef88a647674659aeffa6c3d3dd51.camel@pbarker.dev>
-Subject: Re: [meson.bbclass] bindgen_clang_arguments lacks C++ include
- paths, breaks C++ bindgen (mesa rusticl)
-From: Paul Barker <paul@pbarker.dev>
-To: Royyan Zahir <royzah@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 21 Sep 2026 11:09:32 +0100
-In-Reply-To: <20260921091118.3545921-1-royzah@gmail.com>
-References: <20260919172851.1564760-1-royzah@gmail.com>
-	 <20260921091118.3545921-1-royzah@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+ dkim=pass header.i=@mvista.com header.s=google header.b=TzgAsB+0;
+ spf=pass (domain: mvista.com, ip: 74.125.228.140, mailfrom: vanusuri@mvista.com)
+Received: by mail-ej2-f12.google.com with SMTP id a640c23a62f3a-c254f9f7dbeso312443366b.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 03:26:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1789986389; cv=none;
+        d=google.com; s=arc-20260327;
+        b=gOPdG+kEoH76qxLT/jWo81Sm8K5ufqaA1QFY3e8/sJQx2A9qfRiH6n52JnMbiy7CG4
+         icbjbwg1IBJT3+Y461XkT8oOtOqy4dpRHr0PFONkXVZ2WvXog4Amn6050cBBIuFqHIq6
+         9NqeMtd6gVOMoYYXYvb98fpQh+12spD1C7E2gQx2oHJKHckyTrO0AOWMTVrmjtt2DSfq
+         /P49My1zr79YxsjmvxBOfEBT35cdIMBj6+glVtYxninEzywK6WsfHI4QXJV1vFbPyxHv
+         7tYOBBKv6fgOgXF4e/YsE7FgDjgjizDGM+oacap/7TBUd1Uvokw+2FQSKXRJfyvo1w52
+         DetQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=YUqKuWo52lRkBh5GTg1L1RSMVwKEuD7onEda94dgLjE=;
+        fh=BHE423wT+fKPULoQlxlnfT8DD/hZRe4iA1gb66KXP74=;
+        b=L8ywxn2LyabnSuzLFwKMqMry7gODypg5l/OxxatEwPSmQFriTTCrgpQiy9GEvXQIx7
+         QfpZocvRr8HLY7GtKEpC6UOx9Mk5qEq2Vr9TRqbCMXR3NqAr60yUBF5x6+ifyIkHDmwe
+         ZI0lvyyG12RGQ9TkcmsezfmvIVzIl4MmNmZ1epDz/FZzc5VpSrAJkWu3fw0nP3iTGTW9
+         xM6ZjwDNKgXILAeNcSQtmX8F9d1PtllnP6QYXhc8WiMXYnwEzMB55YVtg+QDWvQqj/lq
+         bEdALB1WpuHZb9EGBCVXwXy0ik5fv2B//P8uWMOaYa2ZX7/gjGGW/MlTZr9EiGL9wQQP
+         onnQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=mvista.com; s=google; t=1789986389; x=1790591189; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YUqKuWo52lRkBh5GTg1L1RSMVwKEuD7onEda94dgLjE=;
+        b=TzgAsB+0096zD0/5qWslJqm4lyUrshNFwJ/zqCgYzmWUBu1vqBUCdxfYeF4AGtPKnn
+         0aznyiYbpQojIYU8d18Arq2/bwY7ffuuB7cS9k72r43xumi83urGejNq+T/5AVukfWbd
+         Gu7OGNysrXpoIjCbSrD3ZeC8+J3RDGW2An6PE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789986389; x=1790591189;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=YUqKuWo52lRkBh5GTg1L1RSMVwKEuD7onEda94dgLjE=;
+        b=vf6CY7bcP2lsacKotnPfsDBCPiZeI/gSAD6hWmhcGO5UMxQtqM3pcERqIHr+6oOJuh
+         LpPA5P5q4CmdROrQTIzcxsnwDxcr6ZV4PBktIhetHHTIygEXMx1Ojn8WW1veNUF8+xvq
+         NkU2o+typXj2XvkI1qKZaYomBq0hd1qFEFc5RS9T7WrCX06kFTEnwaia4soTUl3ji+SP
+         iW3PICihbUbriQMR1ZSvz06ja0zRgDle2EQqUYBVdRC+RSCbgDXXk2oFt7DFJeI0BEyq
+         fRGG/oEYW/5ivPiQFIdm4bW9Ze3QK9BaPHTf7UJGd7G709nQuVz11j+AR1yX1ugN4J72
+         OduQ==
+X-Gm-Message-State: AFuF++lHYWHq2J5YT7qbyGOevXWvCDTo1QQ6JSwL5v0nxAnH5iSTRPSW
+	pcvetx/1XKKIesw9W6KXs3PssRhr6MarThiUk0ip4UJ2AqyM2ESuOUAySf+9o/URw1wm96j1lHq
+	aKnSq+5/oHVlqb2UejZ+S0Yrf/l+xQUUOCzX+inZ3bA==
+X-Gm-Gg: AYBFou0qEZGxQnCgAhgdM1OhJVbl22oWeA3sy1U2jLRbQyXFd7xWPJXH6vQKA4UXP6D
+	ExlV6LwVQfHO2Xdzzy9cjkesE4dki59EHuVn4YXXapj2i66G6I79MAGY695A0HCmLaESLrFcA9k
+	+B2jWi0F392TMlmUWc7lk9MuXlmrhbnHFYMaVs+7gNjXMFSfwz8P/2u2VEx1/I8+4qCdag41tou
+	7zYDtDFm5VPYmtu/OqntFC3d2WXW//PBYgDjAHBiZjRXyIYPFCCvtkEBXa/l82AOMntopZ7NEtI
+	XNo7eAwxJjyPFuOq7kRPNvKefp32AyNcZxETpY4xMxHae3vKD9YZSfFc
+X-Received: by 2002:a17:907:8e86:b0:c24:47b8:ae5b with SMTP id
+ a640c23a62f3a-c2a15709288mr750175566b.22.1789986389244; Mon, 21 Sep 2026
+ 03:26:29 -0700 (PDT)
 MIME-Version: 1.0
+References: <20260917105551.76512-1-vanusuri@mvista.com> <DLHK8G1OWTE8.394FSK4TR0VS5@smile.fr>
+ <DLHLDE6HLTRH.2AFGSZ80URG52@smile.fr> <9faaa5bbc70d619058d8abecda9cd235d210d422.camel@pbarker.dev>
+ <CANQUz1_hMwrLp4tuVS4+cEXXaj71-L0Nijw6n+pjzGpAKh=prw@mail.gmail.com> <546192.1789655591562202413@lists.openembedded.org>
+In-Reply-To: <546192.1789655591562202413@lists.openembedded.org>
+From: Vijay Anusuri <vanusuri@mvista.com>
+Date: Mon, 21 Sep 2026 15:56:16 +0530
+X-Gm-Features: AcwNN1V8XH70GxLz9WRNeD1JSAfzAz3LUIFxNBRijJh8HpjdoAZH4wFDxYIhM3I
+Message-ID: <CANQUz19S86jm7H3aoNKvm3NwEZ_L=QEmt53g4i2j=fgOz=e8jw@mail.gmail.com>
+Subject: Re: [OE-core] [wrynose][patch] rsync: Security fixes from v3.4.1-sec-patches3
+To: sdoshi@mvista.com
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000e252a0065bfbae4f"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 10:09:36 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246313
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 10:26:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246314
 
-On Mon, 2026-09-21 at 13:11 +0400, Royyan Zahir wrote:
-> Hi Paul,
->=20
-> Thanks for looking. Versions first, then the trigger, then what I have no=
-t yet
-> established.
->=20
-> Layers, all pinned:
->=20
->   openembedded-core  wrynose  f7397af248e1e338929d70a910b0fbc2341528ec
->   bitbake            2.18     0ad6c1c34a5e07a5f8dd66ab248c1e7b37b69fa9
->   meta-openembedded  wrynose  14282a02be9c74a1276a7cda7d6c89e054699a11
->   meta-qcom          wrynose  ef0004df267743cc89d6a09bc724bc99ff541c01
->=20
-> Target is aarch64, mesa 26.0.5, LLVM 22.1.3, bindgen from bindgen-cli-nat=
-ive.
->=20
-> The trigger is only this:
->=20
->   DISTRO_FEATURES:append =3D " opencl"
->=20
-> which selects mesa's PACKAGECONFIG[opencl], so -Dgallium-rusticl=3Dtrue, =
-and the
-> rusticl frontend runs bindgen over a C++ header. The failing command ends=
- with
-> -x c++ -std=3Dc++17 on rusticl_llvm_bindings.hpp, and clang cannot find c=
-assert
-> from llvm/ADT/DenseMapInfo.h.
->=20
-> What I cannot give you is a runnable command line: our DISTRO and MACHINE=
- are
-> in a layer I cannot share, and I have not yet reduced this to stock poky.=
- I
-> tried to on the shared builder this morning and it refused before parsing=
- with
->=20
->   ERROR: User namespaces are not usable by BitBake, possibly due to AppAr=
-mor.
->=20
-> so that attempt proved nothing. Our own builds go through a wrapper that
-> handles it.
->=20
-> My reading is that nothing platform-specific is involved: bindgen_args() =
-in
-> meson.bbclass passes HOST_CC_ARCH, TOOLCHAIN_OPTIONS and --target, and no=
-ne of
-> those carry the libstdc++ include directories that clang needs when it
-> cross-compiles against a GCC sysroot. Any meson recipe running bindgen ov=
-er a
-> C++ header should hit it. If that reasoning is wrong I would rather know =
-than
-> have you chase our stack.
->=20
-> Happy to build a stock qemuarm64 case with opencl in DISTRO_FEATURES on a
-> machine without the namespace restriction and report back, or to test a p=
-atch
-> on aarch64, whichever is more useful.
+--000000000000e252a0065bfbae4f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Yes, I'd like you to confirm that the error happens on stock
-poky/qemuarm64 with just the DISTRO_FEATURES change to enable opencl.
+Hi Yoann, Paul,
 
-Also, please quote the email you're replying to so it's easier to follow
-the conversation.
+I checked with the rsync upstream maintainers regarding the security patch
+branches and the possibility of an archive/tarball.
 
-Best regards,
+They confirmed that v3.4.1-sec-patches3 and v3.2.7-sec-patches3 are
+official rsync security-maintenance branches. They have now also published:
 
---=20
-Paul Barker
+   - v3.4.1-sec-patches4
+   - v3.2.7-sec-patches4
 
+These branches contain the security and compatibility fixes applicable to
+the respective older release lines after *-sec-patches3. Both branches have
+been tested against the refreshed stable testsuite.
+
+Regarding the archive/tarball, the maintainer clarified that they do not
+plan to provide release tarballs for these security branches. The branches
+are intended to be used as reviewable Git sources from which downstream
+maintainers can cherry-pick commits or construct their own patch series.
+
+Based on this, can we switch the rsync recipe to Git and use the
+v3.4.1-sec-patches4 & v3.2.7-sec-patches4 branches for Wrynose/Scarthgap?
+
+This would allow us to consume the upstream security and compatibility
+fixes directly from the maintained security branch instead of carrying the
+large 34KLOC patch series.
+
+
+The discussion with the rsync maintainers is here:
+https://github.com/RsyncProject/rsync/discussions/1095
+
+Thanks & Regards,
+Vijay
+
+On Thu, Sep 17, 2026 at 8:03=E2=80=AFPM Siddharth Doshi via lists.openembed=
+ded.org
+<sdoshi=3Dmvista.com@lists.openembedded.org> wrote:
+
+> Hi Yoann, Paul and Vijay,
+>
+> v3.4.1-sec-patches3 and v3.2.7-sec-patches3 both the branches are part of
+> official security release afaik.
+>
+> these versions corresponds to ubuntu/launchpad PPA for racoon and noble
+> respectively so i see them being maintained till 2031 and 2029
+> atleast(unless ubuntu decides on bumping those versions up in unforseen
+> situations).
+>
+> with that being said, yes it is trade-off between maintaining 34 kLOC
+> patch and minor upgrade which we need to figure out.
+> upgrading to 3.4.4 is less favourable as it still leaves 33 CVE's open an=
+d
+> for that we would still have a larger patch to maintain rather than patch=
+es
+> getting applied directly.
+>
+> Since rsync does not expose an architecture-wide library (librsync is a
+> completely distinct project), upgrading it will *never break the ABI of
+> other compiled packages* in rootfs. No other binary links against rsync
+> dynamically at the linker level. on top of it, rsync is maintaining
+> backword compatability. So upgrading to 3.5.x wouldn't be an issue too.
+>
+> To talk about the regressions in 3.5.0, they are being fixed in 3.5.1
+> which is planned to release on 21st september.
+>
+> we have 2 ways in front of us:
+> 1) maintain the 34 kLOC patch for 3.4.1.
+> Pros: we will mostly have maintainence till 2031( 1 year more than wrynos=
+e
+> EOL).
+> cons: large patches to be maintained. (we can locally tar it though but
+> still has to be maintained)
+>
+> 2) upgrade the 3.5.1
+> Pros: no need to maintain large patches and we would be in line with
+> upstream.
+> Cons: we will be violating the stable upgrade policy of no new features
+> and there are chances we would encounter same situation in future when mo=
+re
+> CVE's are found affecting the newer version.
+>
+> i am fine with either of the way as one of fellow contributor. But, let m=
+e
+> know your thoughts.
+>
+> Regards,
+> Siddharth
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#246070):
+> https://lists.openembedded.org/g/openembedded-core/message/246070
+> Mute This Topic: https://lists.openembedded.org/mt/121293944/7301997
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> vanusuri@mvista.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000e252a0065bfbae4f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><p><span>Hi Yoann, Paul,</span></p><p><span>I checked with=
+ the rsync upstream maintainers regarding the security patch branches and t=
+he possibility of an archive/tarball.</span></p><p><span>They confirmed tha=
+t </span><code dir=3D"ltr"><span>v3.4.1-sec-patches3</span></code><span> an=
+d </span><code dir=3D"ltr"><span>v3.2.7-sec-patches3</span></code><span> ar=
+e official rsync security-maintenance branches. They have now also publishe=
+d:</span></p><ul><li><code dir=3D"ltr"><span>v3.4.1-sec-patches4</span></co=
+de></li><li><code dir=3D"ltr"><span>v3.2.7-sec-patches4</span></code></li><=
+/ul><p><span>These branches contain the security and compatibility fixes ap=
+plicable to the respective older release lines after </span><code dir=3D"lt=
+r"><span>*-sec-patches3</span></code><span>. Both branches have been tested=
+ against the refreshed stable testsuite.</span></p><p><span>Regarding the a=
+rchive/tarball, the maintainer clarified that they do not plan to provide r=
+elease tarballs for these security branches. The branches are intended to b=
+e used as reviewable Git sources from which downstream maintainers can cher=
+ry-pick commits or construct their own patch series.</span></p><p><span>Bas=
+ed on this, can we switch the rsync recipe to Git and use the </span><code =
+dir=3D"ltr"><span>v3.4.1-sec-patches4</span></code><span>=C2=A0&amp;=C2=A0<=
+/span><code dir=3D"ltr"><span>v3.2.7-sec-patches4=C2=A0</span></code><span>=
+branches for Wrynose/Scarthgap?<br><br></span></p><p><span>This would allow=
+ us to consume the upstream security and compatibility fixes directly from =
+the maintained security branch instead of carrying the large 34KLOC patch s=
+eries.</span></p><p><span><br></span></p><p><span>The discussion with the r=
+sync maintainers is here:</span><br><a href=3D"https://github.com/RsyncProj=
+ect/rsync/discussions/1095"><span>https://github.com/RsyncProject/rsync/dis=
+cussions/1095</span></a></p><div><br></div><div>Thanks &amp; Regards,</div>=
+<div>Vijay</div></div><br><div class=3D"gmail_quote gmail_quote_container">=
+<div dir=3D"ltr" class=3D"gmail_attr">On Thu, Sep 17, 2026 at 8:03=E2=80=AF=
+PM Siddharth Doshi via <a href=3D"http://lists.openembedded.org">lists.open=
+embedded.org</a> &lt;sdoshi=3D<a href=3D"mailto:mvista.com@lists.openembedd=
+ed.org">mvista.com@lists.openembedded.org</a>&gt; wrote:<br></div><blockquo=
+te class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:1px =
+solid rgb(204,204,204);padding-left:1ex"><div>Hi Yoann, Paul and Vijay,<br>=
+<br></div>
+<div><code dir=3D"ltr" style=3D"box-sizing:border-box;font-family:Menlo,Mon=
+aco,Consolas,&quot;Courier New&quot;,monospace;font-size:14.4px;padding:2px=
+ 4px;color:rgb(199,37,78);background-color:rgb(249,242,244);border-radius:4=
+px;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal=
+;font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;tex=
+t-transform:none;word-spacing:0px;white-space:normal;text-decoration-style:=
+initial;text-decoration-color:initial"><span style=3D"box-sizing:border-box=
+">v3.4.1-sec-patches3</span></code><span style=3D"box-sizing:border-box;col=
+or:rgb(51,51,51);font-family:system-ui,&quot;Segoe UI&quot;,Roboto,&quot;He=
+lvetica Neue&quot;,&quot;Noto Sans&quot;,&quot;Liberation Sans&quot;,Arial,=
+sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;S=
+egoe UI Symbol&quot;,&quot;Noto Color Emoji&quot;;font-size:16px;font-style=
+:normal;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:=
+400;letter-spacing:normal;text-align:start;text-indent:0px;text-transform:n=
+one;word-spacing:0px;white-space:normal;background-color:rgb(255,255,255);t=
+ext-decoration-style:initial;text-decoration-color:initial"><span>=C2=A0</s=
+pan>and<span>=C2=A0</span></span><code dir=3D"ltr" style=3D"box-sizing:bord=
+er-box;font-family:Menlo,Monaco,Consolas,&quot;Courier New&quot;,monospace;=
+font-size:14.4px;padding:2px 4px;color:rgb(199,37,78);background-color:rgb(=
+249,242,244);border-radius:4px;font-style:normal;font-variant-ligatures:nor=
+mal;font-variant-caps:normal;font-weight:400;letter-spacing:normal;text-ali=
+gn:start;text-indent:0px;text-transform:none;word-spacing:0px;white-space:n=
+ormal;text-decoration-style:initial;text-decoration-color:initial"><span st=
+yle=3D"box-sizing:border-box">v3.2.7-sec-patches3</span></code> both the br=
+anches are part of official security release afaik.<br><br></div>
+<div>these versions corresponds to ubuntu/launchpad PPA for racoon and nobl=
+e respectively so i see them being maintained till 2031 and 2029 atleast(un=
+less ubuntu decides on bumping those versions up in unforseen situations).<=
+br><br>with that being said, yes it is trade-off between maintaining <span =
+style=3D"color:rgb(51,51,51);font-family:system-ui,&quot;Segoe UI&quot;,Rob=
+oto,&quot;Helvetica Neue&quot;,&quot;Noto Sans&quot;,&quot;Liberation Sans&=
+quot;,Arial,sans-serif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&q=
+uot;,&quot;Segoe UI Symbol&quot;,&quot;Noto Color Emoji&quot;;font-size:16p=
+x;font-style:normal;font-variant-ligatures:normal;font-variant-caps:normal;=
+font-weight:400;letter-spacing:normal;text-align:start;text-indent:0px;text=
+-transform:none;word-spacing:0px;white-space:pre-wrap;background-color:rgb(=
+255,255,255);text-decoration-style:initial;text-decoration-color:initial;di=
+splay:inline;float:none">34 kLOC patch and minor upgrade which we need to f=
+igure out.<br>upgrading to 3.4.4 is less favourable as it still leaves 33 C=
+VE&#39;s open and for that we would still have a larger patch to maintain r=
+ather than patches getting applied directly.<br><br>Since <code dir=3D"ltr"=
+ style=3D"font-family:monospace;font-size:14px;font-weight:400;margin:0px;t=
+ext-decoration:none;border-bottom:0.8px solid rgb(240,242,245)">rsync</code=
+> does not expose an architecture-wide library (<code dir=3D"ltr" style=3D"=
+font-family:monospace;font-size:14px;font-weight:400;margin:0px;text-decora=
+tion:none;border-bottom:0.8px solid rgb(240,242,245)">librsync</code> is a =
+completely distinct project), upgrading it will <strong style=3D"font-famil=
+y:&quot;Google Sans&quot;,sans-serif;font-size:16px;font-weight:bold;margin=
+:0px;text-decoration:none;border-bottom:0px rgb(10,10,10)">never break the =
+ABI of other compiled packages</strong> in rootfs. No other binary links ag=
+ainst <code dir=3D"ltr" style=3D"font-family:monospace;font-size:14px;font-=
+weight:400;margin:0px;text-decoration:none;border-bottom:0.8px solid rgb(24=
+0,242,245)">rsync</code> dynamically at the linker level. on top of it, rsy=
+nc is maintaining backword compatability. So upgrading to 3.5.x wouldn&#39;=
+t be an issue too.<br><br>To talk about the regressions in 3.5.0, they are =
+being fixed in 3.5.1 which is planned to release on 21st september. <br><br=
+>we have 2 ways in front of us:<br>1) maintain the <span style=3D"color:rgb=
+(51,51,51);font-family:system-ui,&quot;Segoe UI&quot;,Roboto,&quot;Helvetic=
+a Neue&quot;,&quot;Noto Sans&quot;,&quot;Liberation Sans&quot;,Arial,sans-s=
+erif,&quot;Apple Color Emoji&quot;,&quot;Segoe UI Emoji&quot;,&quot;Segoe U=
+I Symbol&quot;,&quot;Noto Color Emoji&quot;;font-size:16px;font-style:norma=
+l;font-variant-ligatures:normal;font-variant-caps:normal;font-weight:400;le=
+tter-spacing:normal;text-align:start;text-indent:0px;text-transform:none;wo=
+rd-spacing:0px;white-space:pre-wrap;background-color:rgb(255,255,255);text-=
+decoration-style:initial;text-decoration-color:initial;display:inline;float=
+:none">34 kLOC patch for 3.4.1. <br>Pros: we will mostly have maintainence =
+till 2031( 1 year more than wrynose EOL). <br>cons: large patches to be mai=
+ntained. (we can locally tar it though but still has to be maintained)<br><=
+br>2) upgrade the 3.5.1<br>Pros: no need to maintain large patches and we w=
+ould be in line with upstream.<br>Cons: we will be violating the stable upg=
+rade policy of no new features and there are chances we would encounter sam=
+e situation in future when more CVE&#39;s are found affecting the newer ver=
+sion.<br><br>i am fine with either of the way as one of fellow contributor.=
+ But, let me know your thoughts.<br><br>Regards,<br>Siddharth</span></span>=
+</div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#246070): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/246070" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/246070</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121293944/730=
+1997" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/121293944/7301997</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:vanusuri@mvista.com" targe=
+t=3D"_blank">vanusuri@mvista.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--000000000000e252a0065bfbae4f--
 
