@@ -2,33 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3DA0C982E6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC5AAC982ED
 	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 21:53:11 +0000 (UTC)
-Received: from mta-65-225.siemens.flowmailer.net (mta-65-225.siemens.flowmailer.net [185.136.65.225])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8003.1790027587756770192
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.7905.1790027587756551756
  for <openembedded-core@lists.openembedded.org>;
  Mon, 21 Sep 2026 14:53:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=VmiZZSgk;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.225, mailfrom: fm-1329275-20260921215304a7ef8e0cdd00020753-f0ei1m@rts-flowmailer.siemens.com)
-Received: by mta-65-225.siemens.flowmailer.net with ESMTPSA id 20260921215304a7ef8e0cdd00020753
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=p+4Wv0Tk;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-20260921215304ecc93d2595000207d4-w8gvbm@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260921215304ecc93d2595000207d4
         for <openembedded-core@lists.openembedded.org>;
         Mon, 21 Sep 2026 23:53:05 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=mXwLGJI7efJpy18czynhmrjTOnar0eV4HLHSRw8dZnU=;
- b=VmiZZSgkhIaPJ/4uo6VEYfrLlKbyEcREuvuCxunzp3jZqvk5rLHWpV68qPQ717I+0KbASc
- EhWVtqWltVzfCAThBpKhh5UUhyh84oSLWtouCHY5Z+7rSO3tiu6MLpDz8n7ckTTw1hDyJZoX
- lwWk4ichwkhfDnIFFVaowMNNAL6XBmQzlKYtz45UYYVhrr8TrTmWlavngRcQMz7NwNxQbbEo
- s+k+KrrIJwovEOnvn4f3hc3kGjcgCdM6sB+caROeQx5MtHvjNsChHFIEb8qzJTuWt6XVerFf
- 6aESpyPTyh90nvNXKVCPJIxbCJjwHRLYCDQCkmAUau2cEXloGKqTkpAw==;
+ bh=rid+0aApCuOYkNGe3YA7dm781ZBYjz/TCHFFU6jgzTY=;
+ b=p+4Wv0Tk3QVRjws52SAZdWFvECfZ+YEwTF0idEBUPm+h6tFbarLBDXyLQ6SDGAc6cFxRCz
+ Xa9iUPrmfqlLw2IoNauRxFRj5PuHAnK8T5Oigx4X9T8jkM6L2hsuNIOFXHEe29Nk3spcLowW
+ PdsQbu5BawdE6WLEqZpQCYvd4i/53pgtuDj8znJN76oxbyj6uQAGazzPVUEqRgIAJZzeUZyU
+ 5oIT5Z26ZmG95tsj95EcEa7I+MIJ8Na6ZvGpLiB1yrw5SUcxpvt4TSaq/+K7t4Dexh4JOBWv
+ 5lC/quUokAKEL9+PEEXgt8UFKNDo1F8Myoo6kOxRBFXUxW9bp7bVlElQ==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 2/2] oe-pkgdata-util: use PACKAGE_BASENAME for glob PN-substitution fallback
-Date: Mon, 21 Sep 2026 23:50:59 +0200
-Message-ID: <20260921215300.582692-3-adrian.freihofer@siemens.com>
+Subject: [PATCH 1/2] package: introduce PACKAGE_BASENAME for consistent kernel -src naming
+Date: Mon, 21 Sep 2026 23:50:58 +0200
+Message-ID: <20260921215300.582692-2-adrian.freihofer@siemens.com>
 In-Reply-To: <20260921215300.582692-1-adrian.freihofer@siemens.com>
 References: <20260921215300.582692-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
@@ -39,71 +39,88 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 21:53:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246364
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246363
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Fix the complementary package install logic (oe-pkgdata-util) for
-packages which have PACKAGE_BASENAME != PN  (only the kernel).
+populate_packages() always names the auto-generated -src package after
+PN. kernel.bbclass instead names all its other sub-packages
+(kernel-dbg, kernel-dev, kernel-modules, ...) after KERNEL_PACKAGE_NAME,
+so the kernel recipe ended up with a lone -src package (linux-yocto-src)
+that did not match the rest of the kernel-* family (e.g. kernel-dbg).
 
-Add PACKAGE_BASENAME to PKGDATA_VARS so it is recorded in pkgdata like
-any other per-package field, and have glob() read it (falling back to
-PN, for pkgdata not yet regenerated with the new field) instead of PN
-alone.
+The complementary package install logic (oe-pkgdata-util) cannot find
+packages that are not named after PN (${PN}-src, ${PN}-dbg, etc). For
+the kernel recipe this meant linux-yocto-src was picked up, but
+kernel-dbg, kernel-dev, etc. were not, which was inconsistent.
 
-With this change the kernel -dbg and -src packages are automatically
-added to the rootfs-dbg if the kernel is installed in the rootfs.
-Removing this kernel packages is possible by
-  PACKAGE_EXCLUDE_COMPLEMENTARY += "kernel-*"
+This commit introduces a generic PACKAGE_BASENAME variable
+(default "${PN}") that a recipe/bbclass can override to declare the base
+name its sub-packages should share. populate_packages() now uses it for
+-src naming, and kernel.bbclass sets it to "${KERNEL_PACKAGE_NAME}". As
+a result the kernel packages are now named kernel-dbg, kernel-src and so
+on.
+Changing the kernel's -src package to kernel-src also means this package
+is longer found either by the complementary package installation and not
+installed anymore.
 
-Adding the kernel-dbg, -src packges for systems where the kernel is not
-installed into the rootfs is possible via IMAGE_INSTALL_DEBUGFS.
-
-Not sure, if there could be a more systaibable fix which would remove
-KERNEL_PACKAGE_NAME from the kernel and not need this extra complexity
-in the packaging code.
+If kernel packages should be installed via complementary package install
+logic is left for a follow up commit. This commit only aligns the
+package naming also for the -src package.
 
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- meta/classes-global/package.bbclass | 2 +-
- scripts/oe-pkgdata-util             | 7 ++++++-
- 2 files changed, 7 insertions(+), 2 deletions(-)
+ meta/classes-recipe/kernel.bbclass | 3 +++
+ meta/conf/bitbake.conf             | 6 ++++++
+ meta/lib/oe/package.py             | 4 +++-
+ 3 files changed, 12 insertions(+), 1 deletion(-)
 
-diff --git a/meta/classes-global/package.bbclass b/meta/classes-global/package.bbclass
-index e21350a06f..4ead147cd3 100644
---- a/meta/classes-global/package.bbclass
-+++ b/meta/classes-global/package.bbclass
-@@ -385,7 +385,7 @@ EXPORT_FUNCTIONS package_name_hook
+diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
+index 0a6d754108..16745557f7 100644
+--- a/meta/classes-recipe/kernel.bbclass
++++ b/meta/classes-recipe/kernel.bbclass
+@@ -679,6 +679,9 @@ EXPORT_FUNCTIONS do_compile do_transform_kernel do_transform_bundled_initramfs d
+ # kernel-base becomes kernel-${KERNEL_VERSION}
+ # kernel-image becomes kernel-image-${KERNEL_VERSION}
+ PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules ${KERNEL_PACKAGE_NAME}-dbg"
++# Keep the auto-generated -src package (see populate_packages() in oe/package.py) named,
++# and resolvable by tools like oe-pkgdata-util, consistently with the rest of the kernel-* family.
++PACKAGE_BASENAME = "${KERNEL_PACKAGE_NAME}"
+ FILES:${PN} = ""
+ FILES:${KERNEL_PACKAGE_NAME}-base = "${KERNEL_MODULE_INSTALL_PREFIX}/modules.order ${KERNEL_MODULE_INSTALL_PREFIX}/modules.builtin ${KERNEL_MODULE_INSTALL_PREFIX}/modules.builtin.modinfo"
+ FILES:${KERNEL_PACKAGE_NAME}-image = ""
+diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
+index d353a7cd2c..f82ee0f039 100644
+--- a/meta/conf/bitbake.conf
++++ b/meta/conf/bitbake.conf
+@@ -334,6 +334,12 @@ SOLIBSDEV:mingw32 = ".dll"
  
- PKGDESTWORK = "${WORKDIR}/pkgdata"
+ PACKAGE_DEBUG_SPLIT_STYLE ?= "debug-with-srcpkg"
  
--PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
-+PKGDATA_VARS = "PN PE PV PR PKGE PKGV PKGR LICENSE DESCRIPTION SUMMARY RDEPENDS RPROVIDES RRECOMMENDS RSUGGESTS RREPLACES RCONFLICTS SECTION PKG ALLOW_EMPTY FILES CONFFILES FILES_INFO PACKAGE_ADD_METADATA PACKAGE_BASENAME pkg_postinst pkg_postrm pkg_preinst pkg_prerm"
- 
- python emit_pkgdata() {
-     import oe.packagedata
-diff --git a/scripts/oe-pkgdata-util b/scripts/oe-pkgdata-util
-index acefae24f3..466086f009 100755
---- a/scripts/oe-pkgdata-util
-+++ b/scripts/oe-pkgdata-util
-@@ -86,11 +86,16 @@ def glob(args):
-                 return os.path.join(args.pkgdata_dir, "runtime", pkgn)
-             def readpn(pkgdata_file):
-                 pn = ""
-+                basename = ""
-                 with open(pkgdata_file, 'r') as f:
-                     for line in f:
-                         if line.startswith("PN:"):
-                             pn = line.split(': ')[1].rstrip()
--                return pn
-+                        elif line.startswith("PACKAGE_BASENAME:"):
-+                            basename = line.split(': ')[1].rstrip()
-+                # PACKAGE_BASENAME lets a recipe (e.g. via kernel.bbclass's
-+                # KERNEL_PACKAGE_NAME) name its sub-packages differently from PN
-+                return basename or pn
-             def readrenamed(pkgdata_file):
-                 renamed = ""
-                 pn = os.path.basename(pkgdata_file)
++# The base name recipe sub-packages (-dbg, -dev, -src etc.) are derived from.
++# Recipes/bbclasses that name their packages after something other than PN
++# (e.g. kernel.bbclass and KERNEL_PACKAGE_NAME) should override this so that
++# tooling (e.g. oe-pkgdata-util) can still map generic package globs to them.
++PACKAGE_BASENAME ??= "${PN}"
++
+ PACKAGE_BEFORE_PN ?= ""
+ PACKAGES = "${PN}-src ${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
+ PACKAGES_DYNAMIC = "^${PN}-locale-.*"
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index b7030643d2..4afd047905 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -1391,7 +1391,9 @@ def populate_packages(d):
+     # If debug-with-srcpkg mode is enabled then add the source package if it
+     # doesn't exist and add the source file contents to the source package.
+     if split_source_package:
+-        src_package_name = ('%s-src' % d.getVar('PN'))
++        # PACKAGE_BASENAME lets bbclasses (e.g. kernel.bbclass via KERNEL_PACKAGE_NAME)
++        # that name their other sub-packages differently from PN keep -src consistent with them.
++        src_package_name = ('%s-src' % (d.getVar('PACKAGE_BASENAME') or pn))
+         if not src_package_name in packages:
+             packages.append(src_package_name)
+         d.setVar('FILES:%s' % src_package_name, '/usr/src/debug')
 -- 
 2.55.0
 
