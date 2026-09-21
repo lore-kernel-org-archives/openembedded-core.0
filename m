@@ -1,149 +1,145 @@
-Return-Path: <bruce.ashfield@gmail.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D68CC982E6
-	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 00:44:13 +0000 (UTC)
-Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.175.1790037850269631732
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 066B2C982FD
+	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 03:12:35 +0000 (UTC)
+Received: from mail-qk2-f30.google.com (mail-qk2-f30.google.com [74.125.230.222])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5951.1790022204892761591
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 17:44:10 -0700
+ Mon, 21 Sep 2026 13:23:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=bGFmWuTr;
- spf=pass (domain: gmail.com, ip: 74.125.230.235, mailfrom: bruce.ashfield@gmail.com)
-Received: by mail-qk2-f43.google.com with SMTP id d75a77b69052e-52fb76ef1d0so30522001cf.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 17:44:10 -0700 (PDT)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=O5Dqg8U4;
+ spf=pass (domain: baylibre.com, ip: 74.125.230.222, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk2-f30.google.com with SMTP id af79cd13be357-93a222edc62so366885285a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 13:23:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790037849; x=1790642649; darn=lists.openembedded.org;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=YZIJKuA9uNkbrq9AoKwML/bKLJlK5zVVPh3GTvj/UxM=;
-        b=bGFmWuTrh0unMyCAmyMcwWCjSIq9nvzS9XVN9+Ozaw7YekE4vIvQDNJI5bvZOuWdlg
-         0sah1YpFtBUxt29/pCSiuyUGeYVk/jrM0AtRltb82fb6z9PUNwVBWtgJpYiNbV2YffGH
-         4fs3LahveaCXuawhXkDBqfaqIdnYKpDcMGC7gpTsu/CG+p9VXId+RjnyQDH8XzoRBexp
-         4DIWXJsCH7jK4y6WB0JY0g9Id78qauKFulAcdwXls5zxgGmo0zmcwfOvIgj+b/eAf5VG
-         16UZ4wMNjxynPbqYIxdhvdAk2zq8qm4QvKqzjpl6w6GQ6YNm7jKX7fi9+rc7+0fvgQP0
-         IrXA==
+        d=baylibre.com; s=google; t=1790022204; x=1790627004; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=Aw1UNFpG9q33LQrcZcIUl4uJXWQpy1m6H/SQbVsVKEM=;
+        b=O5Dqg8U4JhHI9SmWSDWUbJ4G6eJM7QJUqpF4fQAub64BuhFk5sMiwtJ3SedOFiJ9xt
+         0OvaoAN1fuqSJHM8/6EfE/Fk9C+tn9Bsbb3yYkD5qjtM5RwdcSc6H6cSnoaGJhLn1uJ0
+         8bfVVsV0+P3bX8gxidUNili4ytUl5dYr1K/GVG1MOolcPv5vTx0lSIcNfky9JhhkXGfy
+         Oa3kP5sT4GCPAgkKQVyI4f8Wh4N/flN+h4fRNIv5M2kmB1xqZOt4ISL+ZNViWRtXi1im
+         lrRmYN/t+arF6yZtPC83QtNwCeor8g7Qvl3/t1XLTvYbm+cf2myvEzZ/yztsBgVdqzb0
+         o8ww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790037849; x=1790642649;
-        h=mime-version:content-transfer-encoding:content-type:references
-         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+        d=1e100.net; s=20260707; t=1790022204; x=1790627004;
+        h=in-reply-to:references:from:to:cc:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=YZIJKuA9uNkbrq9AoKwML/bKLJlK5zVVPh3GTvj/UxM=;
-        b=1O45KU6gSa179c665RPpVhuy7wAlbgS1qF/f72ucSn32aW6SoCTh964GgEBqLSIbXM
-         vjjC+ZruHSUbz60b94rEr9R57q1qyJpMh/NZy3OQdxOzvTmBGMjJ0WTQ8HajOZoiON8A
-         WWEc8Fms+3NTVOTvLX75ZwtXM8LK8l1VVRHHCdNhEZIkYZx3WlTYcz4zhNaC5RYQj00J
-         hlNaAEFzoGhDEhnojL4wzJ4YlvunBTn4zwx/J813PM0NKfjbhkbYfCSmLD8OHZQ9cJTM
-         8Ae3vRYRRfFWu7GQZ5ltLv3/SA4ovTbs62b1dMWrL9Lkl8GFnhN7OEDiJZGszH3ka/Hf
-         7fhQ==
-X-Gm-Message-State: AFuF++nzwajt+goTBJQ+CWGfcLzMdc55GcZQSYSJHmhdH6ZH3eiKiJXd
-	OUWDSN10scXDLxGPJzBc7nrYByXOd6+8oY8UFWu8QrK2zKtx8dcJTJq4
-X-Gm-Gg: AYBFou1gfPtmLHO3PCda5zHcmbpJ03SlnwwWDnMsu0a85yjg0YmFIHNlKK56iqVw6Bj
-	ikyrICE/jx72ScMVM26lBMOk434v02VfgxS/SAsgTLzyaBctm/LPIpxiZLceG9icqibaIRXxoJt
-	L62rRGkGrw+FKZkgdOyZVg5Ale6JKilE4BkP1j3LKdrlq/mKsm8zr2LjM9aYCJTtjqi+Ys8bLrb
-	k+dlaSXBK3pixPRrQtkAoCRA8Q51+E9DL/yG/pUjYgElBL2Nqz0nWF9Ge3EXnQBxKJaDu8nPG6R
-	7e5ninvbzaK3w0AYObknP9XgQdhSfesjFNSFQYRmPgIRxrHcfFGh5mpZwm9yeXWURnqqSNfBnwJ
-	JiBi5M/6rSmgwxm+TdZuzkLfaL2s7HoCZKZ7W1kbokMnG6ojXrhc7+OaqrTzmCez/Wm74LNCi0Q
-	VxetuPBsk5snmGEqVyQLGj5b6PfkzQx2MOqanPlYJi99XRw+0J2+FCdgn7tyuWe07Ef/nJYgpJT
-	vNNULH9xS/23INn2oRBUdx6h4aBH0u5dhs2+i0NBPaQV+V7Dk/je/U5DghACgVQaubiplqL4DkJ
-	PS/2cGAbwpOddyf3Lr6tprA5YpWrzSMnIb6GO3Uyi9wW3wmVA0zAqdE+gSR0M5c8hQ5pcofoL+h
-	Gdlx03w==
-X-Received: by 2002:a05:622a:150:b0:532:c2f5:85b8 with SMTP id d75a77b69052e-532d8d69620mr33838091cf.19.1790037848953;
-        Mon, 21 Sep 2026 17:44:08 -0700 (PDT)
-Received: from [127.0.1.1] (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
-        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532e171290csm265771cf.2.2026.09.21.17.44.07
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 17:44:08 -0700 (PDT)
-Message-ID: <6ab1cf58.edd6aae0.7bbc9.5d1d@mx.google.com>
-Date: Mon, 21 Sep 2026 17:44:08 -0700 (PDT)
-From: Bruce Ashfield <bruce.ashfield@gmail.com>
-To: Adrian Freihofer <adrian.freihofer@siemens.com>
-Cc: openembedded-core@lists.openembedded.org,
- Vincent Davis Jr <vince@underview.tech>
-Subject: 
- Re: [OE-core] [PATCH 0/2] Fix kernel complementary package installation
-In-Reply-To: <20260921215300.582692-1-adrian.freihofer@siemens.com>
-References: <20260921215300.582692-1-adrian.freihofer@siemens.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
-MIME-Version: 1.0
+        bh=Aw1UNFpG9q33LQrcZcIUl4uJXWQpy1m6H/SQbVsVKEM=;
+        b=pfuBoMNEsRLlLK/x456esR0hKwSMldCy187rRyoI0ZWfqmJ7TsGkSJpfq2WfgRmXlK
+         EABzFtAYIAZ/+7T61VXRqAuWrg4Jie8zzLGsU0EyljXcCQWvm2NeUkvy6QLh7GNZnEJc
+         OsJnOSmny5qYz72FKrq4RRHebjRM53eBGad/CHKeJfAQbWpGpl7NoEyhEjj5ef5lFvLg
+         XDqiOmBhDU+KhIfqRNcvNTjJ6tI3ERSQ+BwE8CsOR+IwbGL8QcKIuOWK+pbrjNMfXAO+
+         DYKSZasm0iBnXgAKRp2yw8QAtA45HjDdVCGvbj0DHjTNm/+KCTqohKsdEPxjMCIyCGCX
+         lYOg==
+X-Forwarded-Encrypted: i=1; AKwUvBwRO3ANn2V4Ezx7c6Ea8H2Nx5MwZ1lFu2a5myZrmiSz9br9ptCVrXpJMwcoAprRHTJMvCWxkPYf3L0DXFwTqjMjdA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++lMO4PAXdvYh0OHx6Y7IUFb/355zkiOsysT7+7n/RPmVQXfb2jK
+	gfy4nVzH4m4zCORg+wl9fk9JbIiV5QnMKZfAhJwoFWeLly7/LLsEoWEpJCUeyqdp9JYFNJ5QvHB
+	JDvrO
+X-Gm-Gg: AYBFou3Uzi01htktt5W6zFYFgqh4hPp1DYMpKMcOBTELWtfQ49mAed58lEHwn7OJRg/
+	tvUr9uanSlK/mkPhw6w3tI3szy0YUSG/hD2zQEvh55wlY1B08civG8tGzQw3eUcbS1yI2HGlVXk
+	dHan/qB6FCMrDyxQ0a1CBKUt770Bll+vCNJ6z9qEnWIJj5TA+3q3MWVgPv91M+f+Zbd0IeioeEr
+	NlQjo7uV6vvhfCDWKEKVM95nvnGYKkMtvumTrfBOuSClqDkmg1mg+oAuiocgPdFDJ+LL/9vfFrX
+	ST9vV7RsnrFlprn2NtP6gK6cmQ2rteagZ/6u3lcWtjVDFAbsof7zEAkSaU+ZEuxvebK5cWXs+vZ
+	VPhFFQ6W1qv9ROWan4y7/SBpEU/aYQesQ2yh3hF9WxZglWxcml20u3wwi151s/yjPSBp9pJHtYS
+	VsRozjqVPkw5ZM4ry5bXA6wVbsSUypk6m8vvnWCACPK0E8c+f1f6O53QVF3wyuIOwMA6/XBmzHF
+	dYIDDEtJah4yMNNORgJlpqNGWrG5EBRmA==
+X-Received: by 2002:a05:620a:458d:b0:93b:ea92:215c with SMTP id af79cd13be357-93c15e39f5emr229206885a.21.1790022203698;
+        Mon, 21 Sep 2026 13:23:23 -0700 (PDT)
+Received: from localhost ([2001:1970:3847:e000:1977:be2f:4a71:2892])
+        by smtp.gmail.com with ESMTPSA id af79cd13be357-93c19a603dasm9279785a.9.2026.09.21.13.23.22
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Sep 2026 13:23:22 -0700 (PDT)
+Mime-Version: 1.0
+Date: Mon, 21 Sep 2026 16:23:21 -0400
+Message-Id: <DLL9WV35J102.2UNYBH63VLF77@baylibre.com>
+Subject: Re: [PATCH] ptest-packagelists.inc: disable gnutls for RISCV64
+Cc: <thomas.petazzoni@bootlin.com>
+To: =?utf-8?q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>,
+ <openembedded-core@lists.openembedded.org>
+From: "Trevor Gamblin" <tgamblin@baylibre.com>
+X-Mailer: aerc 0.22.0
+References: <20260918090731.467954-1-joaomarcos.costa@bootlin.com>
+In-Reply-To: <20260918090731.467954-1-joaomarcos.costa@bootlin.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 00:44:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246366
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 03:12:35 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246367
 
-Thanks for digging into this. I am curious as to what is the use case
-or configuration that you have where this became an issue ? I'm not
-challenging the question, I'm just curious as you've explained it well
-.. but didn't say how you ran into it.
+On Fri Sep 18, 2026 at 5:07 AM EDT, Jo=C3=A3o Marcos Costa wrote:
+> Timeouts have been observed (very frequently in the past weeks)
+> in the autobuilder, and a bug [1] was filed at Bugzilla.
+>
+> For now, it's not quite clear what specific test case is causing the time=
+out.
+>
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162
 
-The question is real: the kernel emits kernel-dbg/kernel-dev/... after
-KERNEL_PACKAGE_NAME but the auto -src package lands as ${PN}-src
-(i.e. linux-yocto-src), so the family is inconsistent: the PN-named
--src gets pulled into rootfs-dbg but the KERNEL_PACKAGE_NAME-named
-kernel-dbg doesn't ... you end up with kernel source and no debug
-symbols.  No argument there.
+After modifying the gnutls ptest so that it outputs rough test durations (i=
+n ms)
+and collecting a log, these seem to be the worst offenders:
 
-Where I want to discuss is the direction of the fix, and it is just
-what you are asking. I'm not only saying this because you asked, since
-I immediately thought it on reading the series :)
+|tgamblin@megalith ~/workspace/ypbuilds/poky-qemuriscv64/layers/openembedde=
+d-core (master)$ grep 'PASS:' tests.log | sort -t'(' -k2 -n -r
+|PASS: mini-record-2 (187880ms)
+|PASS: record-retvals (145390ms)
+|PASS: rng-op-key (63820ms)
+|PASS: rng-op-random (63330ms)
+|PASS: rng-op-nonce (63260ms)
+|PASS: dtls-rehandshake-cert (61360ms)
+|PASS: dtls-rehandshake-cert-2 (61230ms)
+|PASS: dtls-rehandshake-anon (61030ms)
+|PASS: mini-loss-time (60130ms)
+|PASS: mini-dtls-hello-verify-48 (30050ms)
+|PASS: tls12-ffdhe (27790ms)
+|PASS: x509sign-verify-rsa (18460ms)
+|PASS: x509sign-verify-ecdsa (16050ms)
 
-At the risk of repeating what you know already, let me summarize for
-the mailing list archive. The kernel isn't really a normal rootfs
-package, and I don't think we want it behaving as a complementary
-one. On most of our targets the kernel isn't installed into the rootfs
-at all (as you said) it's deployed by the bootloader / to a boot
-partition, and installing kernel-image into '/' is just one model out
-of several.
+mini-record-2 is longest runtime by far, and is consistent with what the
+Bugzilla bug shows - if you build core-image-ptest-gnutls and watch the out=
+put,
+mini-record-2 comes after mini-record, which is the last on that runs befor=
+e the
+AB log timeouts. Do you want to submit a narrower patch, which conditionall=
+y
+disables mini-record-2 and record-retvals for riscv64?
 
-Riding the generic *-dbg/*-src completion machinery to pull kernel
-debug/src into rootfs-dbg fits the recipes that live in the rootfs,
-but I think it's the wrong thing for the kernel. I'd rather debug/src
-for the kernel be delivered by a purpose-built path (the kernel
-already has its own special install handling) than teach
-oe-pkgdata-util and pkgdata to special-case it.
+>
+> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+> ---
+>  meta/conf/distro/include/ptest-packagelists.inc | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
+>
+> diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/=
+distro/include/ptest-packagelists.inc
+> index 79e27f617b..9b264657bb 100644
+> --- a/meta/conf/distro/include/ptest-packagelists.inc
+> +++ b/meta/conf/distro/include/ptest-packagelists.inc
+> @@ -163,8 +163,8 @@ PTESTS_PROBLEMS:append:riscv32 =3D " lttng-tools stra=
+ce"
+>  PTESTS_SLOW:append:libc-musl =3D " libc-test"
+> =20
+>  # These tests don't yet pass for riscv64
+> -PTESTS_SLOW:remove:riscv64 =3D "tcl tcl8 python3-cffi strace lttng-tools=
+ python3-numpy perl glib-2.0 zstd"
+> -PTESTS_PROBLEMS:append:riscv64 =3D " tcl tcl8 python3-cffi strace lttng-=
+tools python3-numpy perl glib-2.0 zstd"
+> +PTESTS_SLOW:remove:riscv64 =3D "tcl tcl8 python3-cffi strace lttng-tools=
+ python3-numpy perl glib-2.0 zstd gnutls"
+> +PTESTS_PROBLEMS:append:riscv64 =3D " tcl tcl8 python3-cffi strace lttng-=
+tools python3-numpy perl glib-2.0 zstd gnutls"
+> =20
+>  # These tests don't yet pass for musl qemuarm64
+>  PTESTS_SLOW:remove:libc-musl:qemuarm64 =3D "strace perl gnutls glib-2.0"
 
-So:
 
-- Patch 2 (PACKAGE_BASENAME into PKGDATA_VARS + oe-pkgdata-util glob)
-  is the part I'd push back on. Its whole purpose is to make the
-  kernel participate in complementary install, which is exactly what I
-  don't think we should be doing. A dedicated kernel debug/src
-  mechanism removes the need for it.
-
-- Patch 1's underlying point: -src should be consistent with the rest
-  of the kernel-* family, is fair on its own. But I'd rather not
-  introduce a new global PACKAGE_BASENAME variable that every recipe
-  now carries just to fix the kernel. kernel.bbclass already names
-  every other sub-package after KERNEL_PACKAGE_NAME; if we want the
-  -src name aligned, do it locally there, not with a tree-wide
-  indirection.
-
-There's also an interaction to be aware of. Vincent Davis had sent
-(and you may have read it) a series ("[PATCH v4 xx/27] ... globally
-define KERNEL_PACKAGE_NAME") that makes KERNEL_PACKAGE_NAME variable
-across the tree for multi-kernel builds. Your PACKAGE_BASENAME is
-defined *as* KERNEL_PACKAGE_NAME, so the two are coupled.  We'd end
-up with two variables both encoding "the kernel's package base name,"
-threaded through packaging, pkgdata, and pkgdata-util, and each series
-would have to reconcile the other.
-
-That's probably the opposite of where we want kernel packaging
-complexity to go.
-
-My ask: let's not merge this independently. The kernel package-naming
-story, the -src consistency, whether debug/src rides complementary
-install, and Vincent's KERNEL_PACKAGE_NAME variability, should
-converge into one coherent design, and the goal for that design should
-be *less* complexity in the kernel packaging path, not more.
-
-Happy to help with that. But as usual, I'll defer to RP if he thinks
-this is ok independently of if the kernel should be in the
-complementary package mechanisms. I've never looked at the much, so
-I don't have all the history behind them.
-
-Bruce
 
