@@ -1,249 +1,159 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 84730C982DE
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 10:44:06 +0000 (UTC)
-Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.46151.1789987244632294601
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 87197C982DE
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 10:45:36 +0000 (UTC)
+Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.38])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.46213.1789987526771082079
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 03:40:44 -0700
+ Mon, 21 Sep 2026 03:45:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=qkzuHMCM;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3724cae21c=himaniramesh.barde@windriver.com)
-Received: from pps.filterd (m0250810.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68L79VQa614193
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 03:11:07 -0700
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=L02RzWXriq6ekoUpl9Siq7/xMi4Fwi028G21BpxBUqU=; b=
-	qkzuHMCMZk70scezmUE5YNY22cJa23/0yalmONyrGQweUPkO8IYzPPaPN5KAW/GZ
-	HBgFFr4pUJtDu0+UMut2UFCjHh8UfAVS9nN43nYrixBebgV1avoJb+J3BNa0NlkY
-	E8OX0webZoaanazsALZvBuqpl2W2ftWVewQnoOQgXK3sVJXla0t1IjQSMfn3kNEI
-	7gukDt/OI+Saqt70/4uzUMmJwcLTK/UEz/2xbo34uo6aD/fw6JVhzwq6miM4D4lU
-	Nd0N3yjzzEWCKvXeub3+3aIcNHdIKZZxA5t3v82+Gtpc5W9zAzIUkn+Z8OqaK68V
-	Ll0QIOaImyDpLfHOeJUbvg==
-Received: from ala-exchng01.corp.ad.wrs.com (ala-exchng01.wrs.com [128.224.246.36])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gsnp1a5wh-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 03:11:07 -0700 (PDT)
-Received: from ala-p2exch02.corp.ad.wrs.com (10.11.226.102) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Mon, 21 Sep 2026 03:11:07 -0700
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ala-p2exch02.corp.ad.wrs.com (10.11.226.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.2.2562.46; Mon, 21 Sep 2026 03:11:06 -0700
-Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Mon, 21 Sep 2026 03:11:06 -0700
-From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Randy MacLeod <Randy.MacLeod@windriver.com>,
-        Shiva Komati
-	<Shiva.Komati@windriver.com>,
-        Himani Ramesh Barde
-	<HimaniRamesh.Barde@windriver.com>
-Subject: [PATCH v2] tiff: add ptest support
-Date: Mon, 21 Sep 2026 10:11:02 +0000
-Message-ID: <20260921101102.2619364-1-HimaniRamesh.Barde@windriver.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260915073518.2271284-1-HimaniRamesh.Barde@windriver.com>
-References: <20260915073518.2271284-1-HimaniRamesh.Barde@windriver.com>
-MIME-Version: 1.0
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIxMDE0NiBTYWx0ZWRfX1CegPWXtgqmr
- iPpp6DcOaoM2/neAExzstXlixH4RJom+8/XMK/283KSpA5d2/deMKlS2JKJUEXGZTl4O6vKvZ6D
- nhs/grV7kTkyHrOcKgHWHau6ZszExpqK9aMJh6+9j8M2578HbzRLUOXySBlZ8QXHFmehumbz7Lb
- cmRrGoHl1hGJtDds8xUst8u08qT4+KLZjnKpKdS1WMdwdQKAy+f4wBVl8gRmA9JZeLOTiBh3v7g
- H9XEa5snRVmfQaHwfHCYKW8vlVlk3A6gkoNftXoysAT6LwJv9cZmw4hWMpeZ1dckkGtv8GHX1rz
- UkVrkuAdQAdLdglY/oblSbAPEP051hV2QbTb1Tq48daYKX77fHuVzSIQNtigFk1DjHGdPoUqFlP
- 93htgXjmyXUuSo9JpRwHdvmqSCD62czpPRiLWw4B/73UUizELRjWhXLGRWutQijdNFG9LLva4Lq
- 4k4lDBCcBHKg6IUFc5w==
-X-Proofpoint-GUID: tFoXIkdA7DOGca_Y-F_XSUbXP82wjFSp
-X-Authority-Analysis: v=2.4 cv=V4foQuni c=1 sm=1 tr=0 ts=6ab102bb cx=c_pps
- a=AbJuCvi4Y3V6hpbCNWx0WA==:117 a=AbJuCvi4Y3V6hpbCNWx0WA==:17
- a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=HK-ge7EqtdluswH-FwHe:22 a=Qs8GJauRAAAA:8 a=t7CeM3EgAAAA:8
- a=NPSSsMgJiW1vNHCyjKsA:9 a=-MsOl3yrPmtpHepMbiy1:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-ORIG-GUID: tFoXIkdA7DOGca_Y-F_XSUbXP82wjFSp
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIxMDE0NiBTYWx0ZWRfXy7eUxJE/ONVY
- bxr5KqgrT91L0zyA/ShS9mh62Vc3nHkdn92DHf2sHhFpORiLUNDcj14Jh+DAwq9IgRjdyeFTMWF
- v3WxE935f3N08by54y9cGBS2LnF/KLC9ETreWi8UF13hXtR6hEmM
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-21_03,2026-09-16_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- suspectscore=0 bulkscore=0 malwarescore=0 priorityscore=1501 adultscore=0
- phishscore=0 lowpriorityscore=0 impostorscore=0 spamscore=0 clxscore=1015
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609210146
-Content-Transfer-Encoding: 8bit
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=IaivPxlo;
+ spf=pass (domain: est.tech, ip: 52.101.66.38, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=AmNFD0QzQPtxIv4aFRP0z6sHK5ecnNdBr6QO2eGuejZpt8QC95gTkXYJIQnLqs5rfNheMzVPPsfTUuxZeiE4rBbAxwI/lQtVeIImyoZu1pDTy8oGwrubdIqtr1FjGjIsIP6xxHUiR29exDw9h8GUXzmuHqWI3eHl+XsQsVISidyklDWkAdD+FcLmi7L8CAVLWi5WBueKc6bqfeSh4Y2vxMwx059gRCkGT2tVDaKBf1Pjp5F5Q5uSvOOU6w5u2Z4TRbv1fVCIQVPb2dqlotqPb/8FlLk/LkAHfs2U+C4+iOqeXmaXmt3P6HQ/wH1De5azZjj8tRML/HaDgXlnrtt4Nw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=4pz0C0EKsl5tSxUF1L+rcfFSQXgp5lye6RAZAvTaFBE=;
+ b=Iwt4lO/9MltLAdj8ccu8TTuIdXk1uFBgCM4K685rGbkKB6BBLbrTJQeHyEZfNu+2hb9hg4ja7dgCZ43Rnp9LYJHzCRyiRzi2YlANoh551syW6zjNPNEnuQjV01fEtUmw3YGl6iOqPpXRKjWzAsVXB3vym0mEV0klhuYXdA3XAFapXD3lOfDEh6ilUTn08Xmr3ycb1NmvTfb51NTKpXBIo82mXtMb7hK5wZDwhOY8/y5la2i75474bEMHbsryBveDqY3ahVZNORscDHgDfUg2Df2rTFg6reg0TM3jhUILhONiYaTH/DnFhYpHBO3sx9QDfL6UapjmeAtcPmAgJ9BwEQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=4pz0C0EKsl5tSxUF1L+rcfFSQXgp5lye6RAZAvTaFBE=;
+ b=IaivPxloIT9+2m3Snbvu7JZhysVxm1dP31aCTND31zpOrXSshpPhOC1YDkkFbagQGJFsuBSwc3bk1VZMPZfFTDDadv3Q0Ev1q5t3+l0DoRHMfCKxbVs99Uk9b+/Tpb/KAgVr5pZpk/tP4WqTVQsK4BAjG4/VzrjsWofo4y3rmRt0W5NRmCwZ+LxlxskGZbJJL8krHRl5Aoa5HRf2298lUngpZ3bH8SxK0cj0Exib1c1JRvNHkUAHdlzm87UAjc8aV1kJm7e8n8Gk2/75Fo4WfRhQZnkY5UomD7m8jQs23nHCjJT6X5fmloAiqn9ARrLj0/Yvoxg74tDZ0WtEHjCcjg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by PA1P189MB3532.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:506::19) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Mon, 21 Sep
+ 2026 10:45:22 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0428.014; Mon, 21 Sep 2026
+ 10:45:22 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH 0/3] nfs-utils: musl upgrade to 3.1.1 and prerequisite systemd fixes
+Date: Mon, 21 Sep 2026 12:45:17 +0200
+Message-ID: <20260921104520.47933-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
+X-ClientProxiedBy: PA7P264CA0065.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:102:2de::7) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|PA1P189MB3532:EE_
+X-MS-Office365-Filtering-Correlation-Id: 6631013e-7e33-4bcb-89a7-08df17cd6fc1
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|376014|366016|1800799024|6133799003|18002099003|11063799006|56012099006|10067099003|3023799007;
+X-Microsoft-Antispam-Message-Info: 
+	FFYibnLU4HoGYuFg66wTMgAFoyIuLim87nj9Cv1fasAYEhiScsFh/b6EihbXAGk3byRsC+5hWjtdypH56qEP/ud4rTiJs+uD8rP1ERAIEh0hifsPRHJFr6XYTXZBXNb2/dDWRAbvmypIuG6mexakGxCYGH1kFQIhjYgmW5FPi97pXPID2XC0+QFAbkfP+1cNlqigZPeOIx8SI1BWCxwQe0U9KkAW/dgrllpbFG0y5ftl7W3bPabS3kiYjuRhMe3BGbVZOjxPtqAaJozNtqwqo+cA+vSyiC6tYE0cZa3g9EB8UGsJ2NiONtEaeV+6A30XBZMixqzDHvZ2l6YHAtU988Z0RWELclrNHVLsqVWy5jJNnyQTuEAP97vyDDX4d6WTaWPCXR7at3BIiWAJpS+QFa3VapRXIx1K1bjsyb8oHPH5hsoM91SkARyHGBCt+TGS/+rI+L2Sa86bFgF7VxImNggkYm5cKVdRVej4GuhRztJHzrFTbxcKm9mWKZTD3VwAAkBPXVm7IUONCw0x5iCBNXbYowQEACBO+PYMzfuf8t+NrZKT1y+OXxTVP5T5VmmRibqWhj5eC6uozcLTnlq7ByATP+uH89Cvf3BiiqtkraEESiavUt5bzgbvQ71jWQ75luBssYAdfDsP4WffWrZh8340iLsuy8w6i8dXDJnnTV0=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(366016)(1800799024)(6133799003)(18002099003)(11063799006)(56012099006)(10067099003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?eXTpav6KBizxfEU1nmU2Wsn4e+g3rqu6wZORXPBVo9TKi+yhaAr8NoikZ+am?=
+ =?us-ascii?Q?mMPYcMNI0lJn2yZS1hWtitBxdvc4H6qJJ7WZgOssTu/TD988GK5NKsezLSTI?=
+ =?us-ascii?Q?qnfSm7VSgH7DtNvulXgb9zyHOEyLOaCeZ5zrObxxerZsYyhT5oEKIJ3JyOoR?=
+ =?us-ascii?Q?AgMv3pSeT11Rq+ecMeWbSu985W0K3gB3RoULY3mHTmN9NOVPH72GNJxNmrji?=
+ =?us-ascii?Q?QGA8CtymItsf4TqQ5O4/8BYPpfiIAUzraKN0t2AMCN0DU+ahH9L6MEqHvlmP?=
+ =?us-ascii?Q?ScN05+QScD6dpZCrccXKdqVp/oaDb9m14T7wVPxXXGW85MeRzzjHNdMJOHKe?=
+ =?us-ascii?Q?IXAj0TajjNK3cKkdT2xX1vwOuycOZap26idzw481YiLJvp8xoik+DWUdgUWr?=
+ =?us-ascii?Q?4se1rw/NfuHgp0O0lWF6XB/bNAMAkwrl3xbGed1jlyEphyah1aUp4hEQdGXS?=
+ =?us-ascii?Q?JkoV0yYfWZLRUNXQVQ0PQpyzXbTpHSNVxqhOqV5jgudihwB36+hEtyLJPAdh?=
+ =?us-ascii?Q?o6pozQ8LbDh8QzyR4LKyJ9H1ukUe5ZID5WjPmPq1VaOafw6FUK6Egv695EGf?=
+ =?us-ascii?Q?UbhcpNnjkYOO+wXB3lRQVC4+Ys7qPTUSE+CmvnmJRJXYUMbfh3pz5aqPofWV?=
+ =?us-ascii?Q?a+jTCiZvexZZrB33YVIbEUoO/JmAEY7Ptn5pJKmoQDJlzYZFpjbj/irmPAjk?=
+ =?us-ascii?Q?4gTYV9vstmrSUpO/u0ubJOYORfMwk9WUIoPUPgy9SNRbPzX471qJ45Ue+tUO?=
+ =?us-ascii?Q?DmYu5yshPdEycvNBSQWoxRQJb7pAjHqfsBjy9M2HJSCMP+j9Wh2dew2WU/3Z?=
+ =?us-ascii?Q?wdF2m28llwVduPEuVs9+WTdQfSSgJZeHP6xJeJiQfYUAFPIKaimgFWgbDte6?=
+ =?us-ascii?Q?KbyBuCUkA8Xrpy3Rhh72KLyh+1hWRdXO5jBvCfo+2QTRFs/ViSPu51kt9D2A?=
+ =?us-ascii?Q?ojG9KTNIH57ppN7mZX3dTFhaE+dfR73XiGPtZP+5QPBdPEefdMd+sNH3L6Ef?=
+ =?us-ascii?Q?m2b69LP1gWx1uLEswiNeL0OB6/OqYDDNuu2Y+0EMwTg8QFTpFpBQftZ6GdyK?=
+ =?us-ascii?Q?FcoQofm70ly4m2UPf8mz6y49hRv0EAk3mNqmOxS2998xBHCnPB0H/WT0p5wA?=
+ =?us-ascii?Q?LI05D6Jxooh73En7KTaLk+X572LgB/gbxZkQtrwWrkQ6E0bDFAaQ5AgTg3OQ?=
+ =?us-ascii?Q?RHOcO6gVX1ytCGjEF+ACVDX6DM6Wb+DjLUbUCKzR23Vmvl055+RT618ZPxA0?=
+ =?us-ascii?Q?LAGFeGR/he8lB9XF8IN6TPagR4g8qEx8Fu9CZdh4APCCSv9cPoKRIHHjJ945?=
+ =?us-ascii?Q?Hf4LYYoddHmF1/ZAp50UcVnnkBbdIk4trAMs5LPZBZm8qStXxUE+4aSoJ+5U?=
+ =?us-ascii?Q?qBfip79AGH6YuCxnR6uJ4D7Wav4W/GjRugHj3sWwq8n1ohJqjAWNIa3z8RZU?=
+ =?us-ascii?Q?AUWmrX31WU54dF8w7K/RZF8EvXUbReakTPQoyqrXVxZI8B/AqlUfU/tf0lSf?=
+ =?us-ascii?Q?Z0Si7H3xCi6LhNz4e5GnIBR7q1skdKe543hZAWs6u+UiGmFz3GY3vn6pJqa2?=
+ =?us-ascii?Q?7DUuDcl+BoODhk2Dr7O7Yr4vVY+Vn5vgr4T6S9wSIEVDsDP6tOyNLlTGJ9CK?=
+ =?us-ascii?Q?pJkiPSZazrKUo6dGjDIBMO78fwOaEpe5r2kzdgmIbgkCvoEXW70m50uvHk7I?=
+ =?us-ascii?Q?VdWfTQ3WiYIVw7Dr/0rWucSC6fB1Jjl3jr4cmMsZfGShx54Zyaw/CfwTtOpW?=
+ =?us-ascii?Q?trIx98sdRQ=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6631013e-7e33-4bcb-89a7-08df17cd6fc1
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2026 10:45:22.3309
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: uwnP0ENWMHZkb8ArtHnBxbAd6yvqkc6XCnqUipPmC9gv7Tod83x4d+fOwj/X77gjHpUKk5i1sv601cJdkS4LNDMTwzXEW75TFzYtzSEJbv0=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PA1P189MB3532
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 10:44:06 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246320
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 10:45:36 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246321
 
-Enable ptest for tiff (libtiff), running the upstream test suite shipped
-in the source test/ directory: the C unit-test programs (check_PROGRAMS)
-plus the shell-script tests that exercise the tiff command-line tools.
+This series upgrades nfs-utils to 3.1.1 and fixes the two systemd musl
+issues that block it.
 
-do_compile_ptest builds the test programs via "make check TESTS=" (build
-only, no run). do_install_ptest installs the compiled test binaries (real
-ELF from test/.libs, static testtypes from test/), the shell test scripts,
-the shared common.sh helper, and the images/refs data. common.sh is
-adjusted so the scripts find the installed tiff tools in ${bindir} rather
-than the build tree's ../tools, and run-ptest recreates the SOURCE_DIR
-path that test_ifd_loop_detection was compiled with so its images resolve
-on target.
+On musl, nfs-utils cannot be built until systemd builds, because nfs-utils
+depends on systemd (it installs systemd units). systemd 261.3 currently
+fails on musl for two reasons, both addressed here first:
 
-The list of C test programs is defined once in the recipe (TIFF_PTEST_PROGS)
-and substituted into run-ptest at install time to avoid duplication. The
-wrapper emits automake-style PASS/FAIL/SKIP results and skips two tests
-whose optional support is not built in the default configuration: the JBIG
-test (jbig is not in the default PACKAGECONFIG) and the thumbnail test (the
-thumbnail tool is not built).
+  1. systemd's src/include/musl/limits.h override does not expose musl's
+     POSIX limits (PATH_MAX, NAME_MAX, SSIZE_MAX, ...), so do_compile fails=
+.
+     Fixed by defining them in the override (submitted upstream, see
+     https://github.com/systemd/systemd/pull/43824).
 
-Registered in ptest-packagelists.inc under PTESTS_SLOW; the suite runs in
-roughly 30s on qemux86-64.
+  2. do_package emits spurious "cannot find any provider" warnings for
+     optional (recommended/suggested) dlopen dependencies that legitimately
+     have no provider on musl, e.g. libintl.so.8 (musl keeps the gettext
+     symbols in libc). Downgraded to a note for non-required dependencies.
 
-Validated on qemux86-64: 17 C unit tests and 85 shell-script tests pass,
-2 skipped (jbig, thumbnail), 0 failed.
+With those in place, nfs-utils is upgraded to 3.1.1: two local patches that
+were merged upstream are dropped and the remaining ones refreshed.
 
-Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
----
+The patches are ordered so the tree builds cleanly on musl at every step
+(systemd fixes first, then the nfs-utils upgrade that relies on them).
+glibc builds are unaffected; the systemd limits fix is libc-musl only.
 
-v2:
-- Drop the INSANE_SKIP buildpaths (test binaries package reproducibly; QA passes).
-- Drop make and bash from RDEPENDS (run-ptest never calls make; the test
-  scripts are all #!/bin/sh).
-- Define the C test program list once (TIFF_PTEST_PROGS) and substitute it
-  into run-ptest at install time instead of duplicating it.
-- Commit log: add test counts and note the ~30s runtime.
+Jaipaul Cheernam (3):
+  systemd: fix musl build by providing missing POSIX limits
+  systemd: dlopen-deps: only warn for missing required providers
+  nfs-utils: upgrade 2.9.2 -> 3.1.1
 
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../recipes-multimedia/libtiff/tiff/run-ptest | 29 ++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.7.2.bb | 44 ++++++++++++++++++-
- 3 files changed, 73 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-multimedia/libtiff/tiff/run-ptest
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 2b5d665..837e1c1 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -151,6 +151,7 @@ PTESTS_SLOW = "\
-     tar \
-     tcl \
-     tcl8 \
-+    tiff \
-     util-linux \
-     zstd \
- "
-diff --git a/meta/recipes-multimedia/libtiff/tiff/run-ptest b/meta/recipes-multimedia/libtiff/tiff/run-ptest
-new file mode 100755
-index 0000000..5abee0e
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/run-ptest
-@@ -0,0 +1,29 @@
-+#!/bin/sh
-+# Run the libtiff test suite and emit ptest-style PASS/FAIL/SKIP lines.
-+cd "$(dirname "$0")/test" || exit 1
-+
-+# test_ifd_loop_detection is built with -DSOURCE_DIR="@SOURCE_DIR@" and opens
-+# its images via that relative path; symlink it to the installed test dir.
-+if [ ! -e "@SOURCE_DIR@" ]; then
-+    mkdir -p "$(dirname @SOURCE_DIR@)"
-+    ln -sf "$(pwd)" "@SOURCE_DIR@" 2>/dev/null || true
-+fi
-+
-+# @PROGS@ is filled in from TIFF_PTEST_PROGS at install time.
-+CPROGS="@PROGS@"
-+
-+for t in $CPROGS; do
-+    if [ -x "./$t" ]; then
-+        if ./"$t" >/dev/null 2>&1; then echo "PASS: $t"; else echo "FAIL: $t"; fi
-+    fi
-+done
-+
-+for t in *.sh; do
-+    [ "$t" = "common.sh" ] && continue
-+    case "$t" in
-+        *jbig*) echo "SKIP: $t (JBIG support not enabled)"; continue ;;
-+        tiffcp-thumbnail.sh)
-+            command -v thumbnail >/dev/null 2>&1 || { echo "SKIP: $t (thumbnail tool not built)"; continue; } ;;
-+    esac
-+    if sh "./$t" >/dev/null 2>&1; then echo "PASS: $t"; else echo "FAIL: $t"; fi
-+done
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb b/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
-index 8bc3a48..55fe1df 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
-@@ -9,6 +9,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=4ab490c3088a0acff254eb2f8c577547"
- CVE_PRODUCT = "libtiff"
- 
- SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-+           file://run-ptest \
- 	   "
- 
- SRC_URI[sha256sum] = "672bd7d10aee4606171afb864f3570b83340f6a33e2c186dc0512f7145ffdf6a"
-@@ -23,7 +24,7 @@ CVE_STATUS[CVE-2023-6277] = "fixed-version: Fixed since 4.7.0, NVD tracks this a
- CVE_STATUS[CVE-2025-8851] = "fixed-version: Fixed since 4.7.0, NVD tracks this as fixed in 2024-08-11 vulnerability"
- CVE_STATUS[CVE-2026-4775] = "fixed-version: Fixed since 4.7.2, NVD tracks this as version-less vulnerability"
- 
--inherit autotools multilib_header
-+inherit autotools multilib_header ptest
- 
- CACHED_CONFIGUREVARS = "ax_cv_check_gl_libgl=no"
- 
-@@ -64,3 +65,44 @@ do_install:append() {
- }
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+# C unit-test programs (check_PROGRAMS) built and run by ptest. Defined once
-+# here and substituted into run-ptest at install time to avoid duplication.
-+TIFF_PTEST_PROGS = "ascii_tag long_tag short_tag strip_rw rewrite custom_dir \
-+    custom_dir_EXIF_231 defer_strile_loading defer_strile_writing \
-+    test_directory test_IFD_enlargement test_open_options \
-+    test_append_to_strip test_ifd_loop_detection testtypes \
-+    test_signed_tags raw_decode"
-+
-+do_compile_ptest() {
-+    oe_runmake -C ${B}/test check TESTS=""
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/test
-+    # Compiled C unit-test programs. libtool leaves a wrapper script in test/
-+    # and the real ELF binary in test/.libs/; testtypes is static and lives
-+    # only in test/.
-+    for prog in ${TIFF_PTEST_PROGS}; do
-+        if [ -e ${B}/test/.libs/$prog ]; then
-+            install -m 0755 ${B}/test/.libs/$prog ${D}${PTEST_PATH}/test/
-+        else
-+            install -m 0755 ${B}/test/$prog ${D}${PTEST_PATH}/test/
-+        fi
-+    done
-+    # Shell test scripts and the shared helper
-+    install ${S}/test/*.sh ${D}${PTEST_PATH}/test/
-+    install ${S}/test/common.sh ${D}${PTEST_PATH}/test/
-+    # Point the test scripts at the installed tiff tools instead of ../tools
-+    sed -i -e "s|^TOOLS=.*|TOOLS=${bindir}|" ${D}${PTEST_PATH}/test/common.sh
-+    # Fill in the program list and the SOURCE_DIR path baked into
-+    # test_ifd_loop_detection so run-ptest resolves them at runtime.
-+    sed -i -e "s|@PROGS@|${TIFF_PTEST_PROGS}|" \
-+           -e "s|@SOURCE_DIR@|../../tiff-${PV}/test|g" \
-+           ${D}${PTEST_PATH}/run-ptest
-+    # Input images and reference outputs
-+    cp -r ${S}/test/images ${D}${PTEST_PATH}/test/
-+    cp -r ${S}/test/refs ${D}${PTEST_PATH}/test/
-+}
-+
-+RDEPENDS:${PN}-ptest += "tiff-utils"
--- 
-2.54.0
+ ...tport-fix-missing-stddef.h-inclusion.patch | 27 ------
+ .../0004-Use-nogroup-for-nobody-group.patch   |  4 +-
+ .../0005-find-OE-provided-Kerberos.patch      |  2 +-
+ ...e-HAVE_NFSD_NETLINK-on-enable-nfsdct.patch | 47 ----------
+ ...{nfs-utils_2.9.2.bb =3D> nfs-utils_3.1.1.bb} |  4 +-
+ meta/recipes-core/systemd/dlopen-deps.inc     | 12 ++-
+ ...X-limits-missing-from-limits.h-overr.patch | 92 +++++++++++++++++++
+ meta/recipes-core/systemd/systemd_261.3.bb    |  6 ++
+ 8 files changed, 113 insertions(+), 81 deletions(-)
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0001-getp=
+ort-fix-missing-stddef.h-inclusion.patch
+ delete mode 100644 meta/recipes-connectivity/nfs-utils/nfs-utils/0006-conf=
+igure.ac-gate-HAVE_NFSD_NETLINK-on-enable-nfsdct.patch
+ rename meta/recipes-connectivity/nfs-utils/{nfs-utils_2.9.2.bb =3D> nfs-ut=
+ils_3.1.1.bb} (96%)
+ create mode 100644 meta/recipes-core/systemd/systemd/0001-musl-define-POSI=
+X-limits-missing-from-limits.h-overr.patch
 
 
