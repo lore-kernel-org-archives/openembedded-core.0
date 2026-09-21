@@ -1,160 +1,144 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DDEC6C982ED
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 17:16:33 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1538.1790010992387473877
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D79A8C982ED
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 19:53:04 +0000 (UTC)
+Received: from fout-b5-smtp.messagingengine.com (fout-b5-smtp.messagingengine.com [202.12.124.148])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5303.1790020382695952121
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 10:16:32 -0700
+ Mon, 21 Sep 2026 12:53:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YrSeDXQ9;
- spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e7bcb94d3so22590215e9.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 10:16:32 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790010990; x=1790615790; darn=lists.openembedded.org;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=FtmEFYYSuURhKiur7ZOwIjTJA3GqofM5dYVA3xRFENo=;
-        b=YrSeDXQ9ANSExXTaAGigm+oMM3NaRPd5e9yZgDWP9pj2msoWeZfXnsUCm/EEa22aN2
-         Zn7H8X6TzbvR7C4HfgVdx+2PxoGH/W1Xn7MXNrv4YK+eutPtdsl4GCx1uLzoI2tjacXI
-         Hf7OvbHVdX4ZGcrQUiNVr3Dhgu7hvfL2uG0W8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790010990; x=1790615790;
-        h=in-reply-to:references:from:subject:to:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=FtmEFYYSuURhKiur7ZOwIjTJA3GqofM5dYVA3xRFENo=;
-        b=wKzfph6i7ct+J2dPDUh8GvsQ48PP51AIdk0gzQ6EwyCxup8KzOJh1hO1uyEMAbMr2x
-         kO+UWGJQZqiaYy3dVF9tKQBePVYJnfo8jjR8KaB8POqpwwlrZ6QylYRMwmfMe3ItYMgq
-         /aIQisAE5nStcq9CBO9U0pTybiMUTRd79mtQ9EJ92OOcXG7CcC7c+iVnlPoaaQos1/iq
-         EOtzE6gdaCZwtKxg38zQCR3r3+qx3kL3H9JzeZyeCr7V/n3pGBYFac16pBou6u9QESDW
-         nfY71r3BmJDly9CFVAv/8oK2KIi2tR7XBJsoqlcVCUCVh4NfMGfJrF0XupcZKNwJhnH+
-         gUlw==
-X-Forwarded-Encrypted: i=1; AKwUvByGzKVtRV7qnbtvbW1aMTZJrggSg43reBIxzkOW61GEBnssyHyr/AtJQVZpgsQ/6Xju2V5Pb+g4WWMXnQT1Wz3iKQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++meFNeiKPPgyZIrH0MVyMvJU0weytms80MVuwvBnsv4YzexyZxP
-	W8c7wwTRq5aGbIyQgAgQNl8ZSxvjM/zecqRZ5WFqiy1+wp7f5hhP+RR56NowhHL3WGFghOGyAjT
-	xVx+Nsaw=
-X-Gm-Gg: AYBFou0cj8d+u36P1ozHnkLVl5iVBUmf1VKEeUQV1PpWWugXwz9faY4Pxe7AnBAx6r3
-	8kPa6nEUx7BiAeDlKHf4iAZrtOcizdw7Dg+nMdijyeBrmvEdVmeYytuxPgQGb6mdIT0eQiBjaMI
-	mwBGKL0c6YnPvuXyHz7ZFa2KpwuEDhNpt7L/U4P2UWzN3sCQFw2SycRLmspOZjxqnkGzE9f0GMq
-	PfdpALjK2RJa4JaCbvhsNqMkLCfPDpo9ZntQVJo1VkcX6LvXWj7iWPNu83g2TqPkLyMA1N6fFIT
-	2lEJRqmyRQfjFf/Oc+oG6Skz+ybVy4v4/zZ/vHD26Jz0UeCvTf0KxQuZjm402beP6Cuz5W10Neq
-	RNznMtP4tM0wYyqDzeQowoUBVR50jM3eKLgfJU8O5LSiZ/qBrqXjWXvMYWlnFOLWbf1m1DW1fVI
-	Atgycxig+FiVUDH9nvuZOQcQR5Do6c3nam7o/lwLylgYijhSDJ0x8cDbIzyXanVvoL3xXrodxCq
-	wCHpZ4czXwdN+t1ICdnI9HuZyP6MtUWkVBOIrhxjl0GFMCQYK5ijfQ0LHj5o/mV3l2ctjhf
-X-Received: by 2002:a05:600c:c44c:10b0:49f:ce72:e931 with SMTP id 5b1f17b1804b1-49fce72e987mr71921735e9.35.1790010990457;
-        Mon, 21 Sep 2026 10:16:30 -0700 (PDT)
-Received: from localhost (2a02-8440-3504-3a4c-d277-8df5-ce7c-5c26.rev.sfr.net. [2a02:8440:3504:3a4c:d277:8df5:ce7c:5c26])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fd8a636d1sm7542195e9.0.2026.09.21.10.16.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 21 Sep 2026 10:16:30 -0700 (PDT)
-Mime-Version: 1.0
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=GgSzutb+;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=MAUkM+i9;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.148, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-07.internal (phl-compute-07.internal [10.202.2.47])
+	by mailfout.stl.internal (Postfix) with ESMTP id A8CAD1D0008D;
+	Mon, 21 Sep 2026 15:53:01 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-07.internal (MEProxy); Mon, 21 Sep 2026 15:53:01 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
+	cc:cc:content-transfer-encoding:content-type:content-type:date
+	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1790020381;
+	 x=1790106781; bh=dcwNZSDoXxybDrBfbocOA2CQn7e9+SjP8KMUjtk4++o=; b=
+	GgSzutb+9Jm/c3bAtrmZHdEDAQI6XZS5rOoI3HeG9hA1uXUf0e5HGzOp88MzK0Sd
+	l+NhvScqMkJ6/OAFQ/iL+9hYGf6mKhtkyFO0GCYxto3BLXiaMBxkd1m7R1otkpx1
+	CCsIxycb1r1HgjsP0ZFXh8r4LVrAVWmbV5oBQpdKqTt6ZW+9afGsAEQHUlJvXd5r
+	lQGQvGwjE+hhSYHrTN8XaHYruAJF8iRNv1nBRTBrtBieZ/0aUov92wWFRZyurSkp
+	IOFc4tai0x+T/Jj2o2P6OOEfmcAUxPANOCzdcz3Wz+QmP3FTjwJvHeJAM270rF9S
+	XRvRktapzYAY7r6YHkySJg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+	messagingengine.com; h=cc:cc:content-transfer-encoding
+	:content-type:content-type:date:date:feedback-id:feedback-id
+	:from:from:in-reply-to:in-reply-to:message-id:mime-version
+	:references:reply-to:subject:subject:to:to:x-me-proxy
+	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790020381; x=
+	1790106781; bh=dcwNZSDoXxybDrBfbocOA2CQn7e9+SjP8KMUjtk4++o=; b=M
+	AUkM+i9R4iLPFICFqxaQfZvVgvcAavdEUifetLtwoueWToKQ8/1Hr2CJSi9AJut8
+	4pnPbHAWLOIWXp4Zj6TnhovQai5hN9MiR+sVh97GNJAsnQpJyksjxTO1zUVjWiCF
+	SeuKxZTKj5X6Du9qG1swbF7F06nRRGXrgKrxy++Zi6VEo1zKMX6G65UBeCkWHHxL
+	ifiLHZRAZ4bVFo1ia4G4MEOW82BY5QFTEHZCj8tis8zUdDjzhheuLwx6GMmrN3Wc
+	bWcNAIKK18rGVt322cPW/+h81LWNiEwtNYC9FWRzCkspvptUyDb9C5tApq7k8aQJ
+	4zp6MgjsSJYckIIFM+HNw==
+X-ME-Sender: <xms:HYuxaghaeFz0Pff6QopmYRaUx8VlBurai0t1wLU1G45tpZ_2RX42QA>
+    <xme:HYuxagBGsNI1zB-0hS0sSwl_kyqhVAcFX4vjvpm0Fhroz1yxsLCg2IJt2DzgVG7MV
+    H2pJXUNDcxp_sVTR_ntAdPW2QKHMkNrF6gpFEqZF4QLmBVVTslqipMY>
+X-ME-Received: <xmr:HYuxatHb2wnKTLYyXcYhFEoDptY7nnntXhxrKoCauHzBPD521FmjNZZMWyX91uoqX4wD>
+X-ME-Proxy-Cause: dmFkZTG3g2qmQ9/SKwNyiUIZ/lL1uX32hSLOMxvM6w5/88phBBLIFV7DrOZp2F0SzZbv45
+    oPoIwWw+o/IZPMa+mhpfjbxUkEB1f9vnIgeyOV2y0Uzd8qbyOguDw7O8jd+6aoSqeXV853
+    0WzfCRnX8YXsRAqYziJVOMFyzR4762lxUINlqHhluHD7WvaWUVy2LuUSPeaG1uR5ZKH1BK
+    9TxGucmI3amsB37T77JFUe6f13p3gHiYiwbUiEVczUB4p62XcolevIY9rTvprEFSIF/bAx
+    FvOCmGs2gW42CTIV5lJgI2kndv+7rLOS1zZ+Gmh5dTE23c5WJKWI2a8YL62uG5RUaXvsP6
+    fXIs8pDktUVCj/NrB9k/HK8kgc5dovZimkliHdWclCmT31LSGoNlstAFckzzPLAcgvpKjk
+    ZHmru4fEfOPj06hSgPh2T3+Sz6WcA6R3sgPcb9Y8OEIjfgJL/nyQg4hUkegZwL1IzWVo+r
+    kKnhmZ6+Jat8X/hcUhIYAtGRyUvtgY++hSBVBRWNXFC9ou7MfuqPl0stJq2mR2NGCJVZmI
+    E9kr63I5oQ0wC7XnC7pZsN2Nwn+ELGfstzVwV1rb86CXkSrPvpipYRHAyOJHGFrb3SSeOF
+    5c5dc52cqGUy201Kx11KbtGW8E5T/rmLTYFrKzfHX4RjBIdW/gGckB7kq2yg
+X-ME-Proxy: <xmx:HYuxagJs5nVBLtvj0ApsUaNBosKCbM93Gbo-1XkmPCJFg-LtCF55mw>
+    <xmx:HYuxapn-PjOOTSx7fQxVfuxiHevSNbvLTKX_8bUkeYW734g_lUX2Zw>
+    <xmx:HYuxagQrMhwcQ-uFGqLahjsX3K8mD0OSVywjqdxOOhIXOmfuAWrpkQ>
+    <xmx:HYuxajL8nLtrOnkW37TJAiCAkzbSWmeOp_yU4rHU3tvEcRjMkKe-ng>
+    <xmx:HYuxauN5LKl1FEv_6k-fzXv-zMFODYMUJyVsyd-w_4VQZVzBjkoHiIQz>
+Feedback-ID: i51494658:Fastmail
+Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
+ 21 Sep 2026 15:52:59 -0400 (EDT)
+Message-ID: <4ccc62a34b7c0ff418951a62c873daa589e45683.camel@pbarker.dev>
+Subject: Re: [OE-core] [wrynose][patch] rsync: Security fixes from
+ v3.4.1-sec-patches3
+From: Paul Barker <paul@pbarker.dev>
+To: Vijay Anusuri <vanusuri@mvista.com>, sdoshi@mvista.com
+Cc: openembedded-core@lists.openembedded.org, Yoann Congal
+	 <yoann.congal@smile.fr>
+Date: Mon, 21 Sep 2026 20:52:56 +0100
+In-Reply-To: <CANQUz19S86jm7H3aoNKvm3NwEZ_L=QEmt53g4i2j=fgOz=e8jw@mail.gmail.com>
+References: <20260917105551.76512-1-vanusuri@mvista.com>
+	 <DLHK8G1OWTE8.394FSK4TR0VS5@smile.fr> <DLHLDE6HLTRH.2AFGSZ80URG52@smile.fr>
+	 <9faaa5bbc70d619058d8abecda9cd235d210d422.camel@pbarker.dev>
+	 <CANQUz1_hMwrLp4tuVS4+cEXXaj71-L0Nijw6n+pjzGpAKh=prw@mail.gmail.com>
+	 <546192.1789655591562202413@lists.openembedded.org>
+	 <CANQUz19S86jm7H3aoNKvm3NwEZ_L=QEmt53g4i2j=fgOz=e8jw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Mon, 21 Sep 2026 19:16:28 +0200
-Message-Id: <DLL5XRWWZM4D.2RM59FLBTVIJD@smile.fr>
-To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core][scarthgap][patch 3/3] python3-cryptography: Fix
- CVE-2026-69249
-From: "Yoann Congal" <yoann.congal@smile.fr>
-X-Mailer: aerc 0.20.0
-References: <20260901092741.34198-1-vanusuri@mvista.com>
- <20260901092741.34198-3-vanusuri@mvista.com>
-In-Reply-To: <20260901092741.34198-3-vanusuri@mvista.com>
+User-Agent: Evolution 3.52.3-0ubuntu1.1 
+MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 17:16:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246345
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 19:53:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246346
 
-On Tue Sep 1, 2026 at 11:27 AM CEST, Vijay Anusuri via lists.openembedded.o=
-rg wrote:
-> Pick patch according to [2]
->
-> [1] https://nvd.nist.gov/vuln/detail/cve-2026-69249
-> [2] https://security-tracker.debian.org/tracker/CVE-2026-69249
->
-> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> ---
->  .../python3-cryptography/CVE-2026-69249.patch | 349 ++++++++++++++++++
->  .../python/python3-cryptography_42.0.5.bb     |   1 +
->  2 files changed, 350 insertions(+)
->  create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE=
--2026-69249.patch
->
-> diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-6=
-9249.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-692=
-49.patch
-> new file mode 100644
-> index 0000000000..a920b4a7cc
-> --- /dev/null
-> +++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.pa=
-tch
-> @@ -0,0 +1,349 @@
-> +From 4a12cf49675a184e47f912b00b04f3a629283582 Mon Sep 17 00:00:00 2001
-> +From: William Woodruff <william@yossarian.net>
-> +Date: Sat, 6 Jun 2026 23:30:03 -0400
-> +Subject: [PATCH] Add a signature validation budget during path construct=
-ion
-> + (#14960)
-> +
-> +* Add a signature validation budget during path construction
-> +
-> +This extends our existing NC budget check to include a budget
-> +for signature validations. If a path construction exceeds the
-> +budget by performing more than the allowed number of signature
-> +validation steps, the entire construction fails.
-> +
-> +For now, our budget is 128 signature validations. This is
-> +consistent with (higher than) Go and rustls-webpki, which
-> +both set a limit of 100. Like Go, we attempt to make the "best"
-> +use of our signature budget by ordering by likelihood, using
-> +AKI/SKI match as the strongest signal of fitness.
-> +
-> +* Bump limbo
-> +
-> +* Temporary commit
-> +
-> +* Revert "Temporary commit"
-> +
-> +This reverts commit bcdb6808562a8b8f484f85d21cb201cfdb2bbbd7.
-> +
-> +* Fudge a coverage test into place
-> +
-> +* Coverage for the coverage god
-> +
-> +Upstream-Status: Backport [import from suse python-cryptography-42.0.4-s=
-lfo.1.1_6.1.src.rpm
-> +Upstream commit https://github.com/pyca/cryptography/commit/4a12cf49675a=
-184e47f912b00b04f3a629283582]
-> +CVE: CVE-2026-69249
-> +Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-> +---
-> + .../cryptography-x509-verification/src/lib.rs | 209 +++++++++++++++++-
-> + .../src/policy/mod.rs                         |   8 +-
-> + 2 files changed, 208 insertions(+), 9 deletions(-)
+On Mon, 2026-09-21 at 15:56 +0530, Vijay Anusuri wrote:
+> Hi Yoann, Paul,
+>=20
+> I checked with the rsync upstream maintainers regarding the security patc=
+h
+> branches and the possibility of an archive/tarball.
+>=20
+> They confirmed that v3.4.1-sec-patches3 and v3.2.7-sec-patches3 are
+> official rsync security-maintenance branches. They have now also publishe=
+d:
+>=20
+>    - v3.4.1-sec-patches4
+>    - v3.2.7-sec-patches4
+>=20
+> These branches contain the security and compatibility fixes applicable to
+> the respective older release lines after *-sec-patches3. Both branches ha=
+ve
+> been tested against the refreshed stable testsuite.
+>=20
+> Regarding the archive/tarball, the maintainer clarified that they do not
+> plan to provide release tarballs for these security branches. The branche=
+s
+> are intended to be used as reviewable Git sources from which downstream
+> maintainers can cherry-pick commits or construct their own patch series.
+>=20
+> Based on this, can we switch the rsync recipe to Git and use the
+> v3.4.1-sec-patches4 & v3.2.7-sec-patches4 branches for Wrynose/Scarthgap?
+>=20
+> This would allow us to consume the upstream security and compatibility
+> fixes directly from the maintained security branch instead of carrying th=
+e
+> large 34KLOC patch series.
+>=20
+>=20
+> The discussion with the rsync maintainers is here:
+> https://github.com/RsyncProject/rsync/discussions/1095
 
-When I compare CVE-2026-69249-signature-validation-budget.patch in
-python-cryptography-42.0.4-slfo.1.1_6.1.src.rpm and this patch, I get a
-lot of diffs that don't look trivial to me (In particular, some hunks
-about the budget handling disapear...)
+Hi Vijay,
 
-Can you explain how/why did you change the upstream patch to match our
-code?
+Thanks for checking with upstream. It seems a bit of a strange way of
+doing things to me - I am surprised these aren't further releases in the
+3.4.x and 3.2.x series. Or at least they could be 3.4.1.x and 3.2.7.x
+releases. But if this is the way upstream want to handle things then
+that's their call.
 
-Please send a v2 of this series with:
-* URLs to download the Suze archive
-* backport changes for this patch (2/3 also had changes but those were
-  easy to understand)
-?
+We do need to discuss how this fits in with our policies on LTS
+maintenance. We will get back to you soon.
 
-Thanks!
+Best regards,
+
 --=20
-Yoann Congal
-Smile ECS
+Paul Barker
 
 
