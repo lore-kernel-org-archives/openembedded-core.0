@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00F3BC982F8
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 14:58:51 +0000 (UTC)
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.50861.1790002720690864844
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E8110C982EE
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 14:58:50 +0000 (UTC)
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.50862.1790002721330372345
  for <openembedded-core@lists.openembedded.org>;
  Mon, 21 Sep 2026 07:58:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Jq/TgIZJ;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.76, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-48583cc7ab1so1470065f8f.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 07:58:40 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=g5BtSWfJ;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.99, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4885d4825adso420363f8f.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 07:58:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linuxfoundation.org; s=google; t=1790002719; x=1790607519; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=TzEe40gG+G4Mf7yUgdQY0vEVrFbwNh57O/ZC3l7Oroo=;
-        b=Jq/TgIZJZHd85cOKsEIBn0iPCDcqtCfbvh0lSSMRMtZ5Szw4dMYDRPvCDmRo1nR7WU
-         ymQYN7TsHWKHgcscyPlgM7AnVtgp0DuxI6p/Z3RTbPEwD+P7FZt1P9YJhx3JC/MGDGba
-         RhCSfYsLT2PqZLeZTObJdSk6Z7OwQrSWr5OCs=
+        bh=cAOKVlm3LrYMxEdejHpuAq3972MmvTj1U26nqyXaTMQ=;
+        b=g5BtSWfJGp2hBJLw+atETIfS7CfMOZJXaagHSi7gYYdnnm7GNUbVCsJV8/dUHjXeSP
+         venL0gFXym1J+t8ekQOdZF7X0eaRLR5YBymAsCVTAr4aXOpHrKyphvCGf8WbYGrnyZ8M
+         4izP+PT7b0gxvibNzYipOZWxMtzpk8aBCCKdw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20260707; t=1790002719; x=1790607519;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=TzEe40gG+G4Mf7yUgdQY0vEVrFbwNh57O/ZC3l7Oroo=;
-        b=QzRK87sHHLl0wqVdHWg0lmjKByM91dkokH9dDRcTKd6Uq+ZOh4Ywq4gBKNcTyxSCLK
-         eb/j3JSHEnxDR5Ml4rxv6hhU9AW1m5CgzsvnfqkObP9cUnI3S4koHYbBXqwXIG8wuDrs
-         DVdwhe9Ejb63UabsVqIxh11O7hvIxd6w1rW2LOjVFJ7tnrVcC8gSu61qNRnZdVeQcFb/
-         LhMMLwN2xas5Pbxo+GY/+Gt62xpy8dZ6FnTIY7f61JeYFxcxmUwdJdj8iDhM5ZRi1jmS
-         SauFjJAdgFP4QI+aMoZ/VNjqWYJ2AG9UdmZZh6rSUOjJeZHamOTYGVx/De6UCGHofbs6
-         +rCg==
-X-Gm-Message-State: AFuF++mektSsa9k072vd4kWGnaPlw2KE09rsBvhD8+WM+mWMSHYq6cXE
-	69SCH4PWwKHyrhlAlzuYGxraR53BR2rs8dIPmmHGrltlMBTdU1oeCsvMZwkEW4dA9H3VcWR7BSn
-	tL8d60R4=
-X-Gm-Gg: AYBFou3wgfRw4bh2uqRkWSk7s8W878oTbP4EGN2IIxpt09IZDYk8Ql77/TerX0A6Ja7
-	ekxLzUq/wSX0lA6tIsQObiVKdwNyJifrA95So1jWgB0EH6Bhm0VO3+o3by8SiJsRgJksG9ckEHp
-	nR0fYY8PAK9FaF6t7WeO022G08kFZQc9v6d9gGE+3ZIgJoiqF/PZfdZ/jHR1X9QFuC/RwSr/R0z
-	DRLAPzRS9scvx+7Cj1Y7iad0lhdfA3rou1nEiTujU9ik8/GYGpEWQSLsy8KAaZDZfNSbNl8sqiH
-	QMjuZzhxCSdWANkvYmrMLkS0BOP2c3fDChwXveMpt0actwJOzIHt4lkzjt5Eoqmbe7+4MZIAydw
-	NA9lQvn5t0MCcbFsyTuJL5P6O6uEWEDF+A7ni/Pb4wuyPqvVJk9y/6X+Vj/EtzpOyji0T0lIYh4
-	rZ/2dlhlP7ixZOeZLCM2jKg/t9dMD2lvciqt9TC+n6xhIffwlKIRJszFKnfK04qx1XpzFy9zZTm
-	CBF30TIytqWvMM2Q1JWXsrFLXU=
-X-Received: by 2002:a05:6000:4548:b0:487:221f:65b8 with SMTP id ffacd0b85a97d-487221f65cdmr10194822f8f.50.1790002718566;
-        Mon, 21 Sep 2026 07:58:38 -0700 (PDT)
+        bh=cAOKVlm3LrYMxEdejHpuAq3972MmvTj1U26nqyXaTMQ=;
+        b=aZvhcuSrf8C9vm5HtUzhkSApOWPsOk4I1mcyExvYI+FQAyh8/0XqAbQnSZexH7QrtY
+         a7NUKMs7O0Uhpy3hh5C0iesFH4+oK+Z/NsNoUz/D33PQHSdzlrymnW//lUD/m2bccyiQ
+         9Fn2Wd4BeQx4F5nvTxRJB164AGrZMU8ecY+v61mJ8yuddbq4YM7g/PlVgTUcxXUCRzUE
+         9cMYLk2KOvXbFS2vlbwSscYiCs5nRPmQWTL9aQc6hrlJZbSlvyG1wrcgKiM362QKwQb7
+         vAgHa1gy2LNSe2PWfETqhj61pUJgynfrHl0Mg6kQdizy7+6kAIcF9OiJW4uMcAUyRsn1
+         nPSg==
+X-Gm-Message-State: AFuF++ldZaqwE2jBJFRP4rOeUDgQDOEm/j8xi4LgiV8Y2XEn3caLVFa9
+	VzGtbwqJc4yCq+BvTXMCi2J45d/xyF0QL/klGrtWj3Ythy2x7ehFtahCtynpFZw2Or0ME9yiVxp
+	PzI17yeM=
+X-Gm-Gg: AYBFou3PQjsbFbX/wSv124n6NTr2Wweck8kJjsLYqcku4cO0OFhOf7W7dEG6JP5taIl
+	ACjcLyqu6HywssEvlZHY5Orv0fYG13SHxwgHrBsD22S5NClfPgqZ/j2zVTxfba62eFUssy/Sypt
+	TPEmyeWjWOGPIr7qu8FdXpzBtodEGAutNcnqv2kd3Mq08faAcWKzyNINNEBbPl1TPj2bEmfepi1
+	53MSQpbxyzV8r+RtPwkG4vx59HVcGAYgahy8n6LnkDsbmeUoTxQ6AErtf4G+7x8EUwWExrZmMPF
+	so0beGCLJyGI/DCZrZysy6Rq+ZkF5ljBzCn70hd052SA8JJASoKG+I3hqOL8j49VNAWecohjuig
+	3tVbg6rE2HDt4mb6KuXEyNgOlaaTfgCVr2fjraFDX5Tnb2rjBAAdK1Z5fSsR5rFnVJRTB63E149
+	MbjSmnZC3aW8IoAczijWkORazl3wxnlp1HMIwPIq2RQusFoo6UNAHzQTSemFJdu0Oql01Zw9DHQ
+	QkFu1jUOq7XQPmJaz1w42B+Lp+/F/4nxKeyN3w=
+X-Received: by 2002:a05:6000:4a18:b0:487:40d:af3a with SMTP id ffacd0b85a97d-4871e213673mr13878707f8f.2.1790002719539;
+        Mon, 21 Sep 2026 07:58:39 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:a46d:d671:f81e:e5f1])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48724596604sm23856287f8f.30.2026.09.21.07.58.37
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48724596604sm23856287f8f.30.2026.09.21.07.58.38
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 21 Sep 2026 07:58:37 -0700 (PDT)
+        Mon, 21 Sep 2026 07:58:38 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 2/5] harfbuzz: upgrade 14.4.0 -> 14.5.0
-Date: Mon, 21 Sep 2026 15:58:32 +0100
-Message-ID: <20260921145835.1106731-2-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/5] python3-pyparsing: upgrade 3.3.2 -> 3.3.3
+Date: Mon, 21 Sep 2026 15:58:33 +0100
+Message-ID: <20260921145835.1106731-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260921145835.1106731-1-richard.purdie@linuxfoundation.org>
 References: <20260921145835.1106731-1-richard.purdie@linuxfoundation.org>
@@ -65,74 +65,55 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 14:58:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246335
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 14:58:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246336
 
-Overview of changes leading to 14.5.0
-Monday, September 21, 2026
-=====================================
-- Update Unicode 18.0 data and script support, including script values for
-  Jurchen, Proto-Cuneiform, and Seal, and the corresponding shaping support.
-- Add support for VARC table subsetting, including pruning auxiliary data,
-  remapping glyph IDs, and guarding the feature in lean builds.
-- Add rendering work budgets to the draw and paint APIs and share them across
-  the raster, vector, GPU, and Cairo renderers so nested outline work remains
-  bounded.
-- Improve performance in set iteration, lookup traversal, and the repacker, and
-  add coverage for new benchmarks and fuzzing seeds.
-- Fix various correctness and robustness issues across the CFF, Graphite,
-  DirectWrite, and repacker code paths, including memory leaks, overflow checks,
-  bounds issues, and malformed-font handling.
-- Various build, portability, and CI fixes.
+Version 3.3.3 - September, 2026
+-------------------------------
+- Added support for Python 3.15.
 
-- New API:
-  * Common:
-    +HB_BUDGET_DEFAULT
-    +HB_BUDGET_UNLIMITED
-    +HB_SCRIPT_JURCHEN
-    +HB_SCRIPT_PROTO_CUNEIFORM
-    +HB_SCRIPT_SEAL
-  * Draw:
-    +hb_draw_set_budget_func_t
-    +hb_draw_get_budget_func_t
-    +hb_draw_get_budget_remaining_func_t
-    +hb_draw_funcs_set_set_budget_func()
-    +hb_draw_funcs_set_get_budget_func()
-    +hb_draw_funcs_set_get_budget_remaining_func()
-    +hb_draw_set_budget()
-    +hb_draw_get_budget()
-    +hb_draw_get_budget_remaining()
-  * Paint:
-    +hb_paint_set_budget_func_t
-    +hb_paint_get_budget_func_t
-    +hb_paint_get_budget_remaining_func_t
-    +hb_paint_funcs_set_set_budget_func()
-    +hb_paint_funcs_set_get_budget_func()
-    +hb_paint_funcs_set_get_budget_remaining_func()
-    +hb_paint_set_budget()
-    +hb_paint_get_budget()
-    +hb_paint_get_budget_remaining()
+- Fixed CI unit test jobs selecting a tox environment with no test commands.
+  The matrix and fallback now select `py-unit`, as diagnosed and proposed by
+  glaziermag in issue #662; submitted by Neal Lin et AI.
+
+- Refactored recursive implementations in pyparsing, for improved performance and
+  reduced memory usage.
+
+  - repetition using a large upper bound with multiplication or slicing notation
+    has replaced a recursive `Optional` expression with a modified `ZeroOrMore`
+    expression, using a new `max` argument. PR #652, submitted by sudo.
+
+  - `nested_expr` now uses an internal class that maintains its own stack for
+    managing nesting levels.
+
+  - `infix_notation` replaced its recursive implementation with a shunting-yard
+    algorithm.
+
+  These changes should not cause any regressions in existing code, and tests
+  show significant performance improvements for some of the more complex examples.
+  Railroad diagrams may render differently, since they now no longer rely on
+  recursion using `Forward` expressions.
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../harfbuzz/{harfbuzz_14.4.0.bb => harfbuzz_14.5.0.bb}         | 2 +-
+ .../{python3-pyparsing_3.3.2.bb => python3-pyparsing_3.3.3.bb}  | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-graphics/harfbuzz/{harfbuzz_14.4.0.bb => harfbuzz_14.5.0.bb} (96%)
+ rename meta/recipes-devtools/python/{python3-pyparsing_3.3.2.bb => python3-pyparsing_3.3.3.bb} (90%)
 
-diff --git a/meta/recipes-graphics/harfbuzz/harfbuzz_14.4.0.bb b/meta/recipes-graphics/harfbuzz/harfbuzz_14.5.0.bb
-similarity index 96%
-rename from meta/recipes-graphics/harfbuzz/harfbuzz_14.4.0.bb
-rename to meta/recipes-graphics/harfbuzz/harfbuzz_14.5.0.bb
-index a5c601b1dee..438aa23133c 100644
---- a/meta/recipes-graphics/harfbuzz/harfbuzz_14.4.0.bb
-+++ b/meta/recipes-graphics/harfbuzz/harfbuzz_14.5.0.bb
-@@ -9,7 +9,7 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=b98429b8e8e3c2a67cfef01e99e4893d \
-                     "
+diff --git a/meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb b/meta/recipes-devtools/python/python3-pyparsing_3.3.3.bb
+similarity index 90%
+rename from meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb
+rename to meta/recipes-devtools/python/python3-pyparsing_3.3.3.bb
+index 2565751f287..fbb0d642936 100644
+--- a/meta/recipes-devtools/python/python3-pyparsing_3.3.2.bb
++++ b/meta/recipes-devtools/python/python3-pyparsing_3.3.3.bb
+@@ -10,7 +10,7 @@ BUGTRACKER = "https://github.com/pyparsing/pyparsing/issues"
+ LICENSE = "MIT"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=9c8a9625037eff2407f8456010875183"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/${PV}/${BPN}-${PV}.tar.xz"
--SRC_URI[sha256sum] = "2357ed966c6ced7bfa720b0640c0231065af01158fbea215093ffa15aed44371"
-+SRC_URI[sha256sum] = "b7132e148358a45185c9feafd049dbaf243649d3c44414b3534d9c95d18592b9"
+-SRC_URI[sha256sum] = "c777f4d763f140633dcb6d8a3eda953bf7a214dc4eff598413c070bcdc117cbc"
++SRC_URI[sha256sum] = "928ae7e20211f3b6f3915a72f06a0cfd29ab9d24279dd6346b6b1a7146397d36"
  
- inherit meson pkgconfig lib_package gtk-doc gobject-introspection github-releases
+ inherit pypi python_flit_core
  
 
