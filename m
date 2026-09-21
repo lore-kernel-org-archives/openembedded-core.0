@@ -2,75 +2,75 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E9B3BC982E1
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 08:14:12 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 044A1C982E1
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 08:26:23 +0000 (UTC)
 Received: from fhigh-b3-smtp.messagingengine.com (fhigh-b3-smtp.messagingengine.com [202.12.124.154])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.44508.1789978446806371894
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.44425.1789979178062749549
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 01:14:07 -0700
+ Mon, 21 Sep 2026 01:26:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=dg9CDRYC;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=CqLtYg8e;
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=inaIxAhR;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=NiNKdVTm;
  spf=pass (domain: pbarker.dev, ip: 202.12.124.154, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 083627A0066;
-	Mon, 21 Sep 2026 04:14:06 -0400 (EDT)
-Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-02.internal (MEProxy); Mon, 21 Sep 2026 04:14:06 -0400
+Received: from phl-compute-06.internal (phl-compute-06.internal [10.202.2.46])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 1EC9D7A00DD;
+	Mon, 21 Sep 2026 04:26:17 -0400 (EDT)
+Received: from phl-frontend-04 ([10.202.2.163])
+  by phl-compute-06.internal (MEProxy); Mon, 21 Sep 2026 04:26:17 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-transfer-encoding:content-type:content-type:date:date
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1789978445;
-	 x=1790064845; bh=SUSCAwbZCtwAHEiJ2sBFG2AHiQM1fnDcjHjSIyuH084=; b=
-	dg9CDRYCx3h6XbBTCSIACHa6lF8zzIEbmTOU7kNo9RUUaNvkLyrA7X5eKrcAmLAG
-	PuwrAT/7JvUvzceGX2kycEq138QM15mZXkK4BowIZMDA60ZhIIm/kOKJOz/qz/5E
-	uROKJ3mXnOJdzyz/roeyHGTXZpdekDsvd+8oPxtQT+6ueu/7XSEr6HmUNNIp1ACq
-	SWl8UZfy6dVmB7CDsMbDZsbt1wEVq7QhrJwzwOk1V57R7mTEt9fniYXDTFKTGlhN
-	j7XP6JUm9XKsifiXgZH9gZAWM9uiuLBXWUc6kEwFrCKx4tuEZcwgUF5uVgPrEN77
-	+NnFg8xS2JUhJ0OworuFXw==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1789979176;
+	 x=1790065576; bh=FWTX6byTaZPV/ze0LjWfsXfopyJOF/zypoQ1Ng8wW3k=; b=
+	inaIxAhRq0BWgFNlTXke4J01NYKOojNUKCTvIq/AmniZ6GwpqZeK6Pcx8c+D2AOv
+	hKMwBNu+k26ek+S9/uU+81XbALU6PMeOb/QOh0e8iE+tKou3K2TNOUWQn69eGLsM
+	MAPSO05RCOuaEUbQXBA9dtpYKW8RNjg6vAcQhdrqctIVvC6pQWJ0Q8/9zxMBGNom
+	pk3uERqtNo7ORBBoY3DyO89Esv4f1V573E/rVmVtt6vnOLbHdfIXb/TRtNsYRZda
+	Fbriz11WrM+54kr2GDm46C9S6VkAmh/7/wk47fAfWcZjdB9wOM6uYCGqrck0uXpA
+	MUULELdFx0FzFMta7dOATQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1789978445; x=1790064845; bh=S
-	USCAwbZCtwAHEiJ2sBFG2AHiQM1fnDcjHjSIyuH084=; b=CqLtYg8exLE5oxwZm
-	i+LsePMXTzKPDrTk8SGiltOoVZVa/dz8YTsn+oKwaIKpNPd4rn7f5YXzac4/LAts
-	jp67XjKm2Ylp7p7gPRU3s2J/k9FtQd5vSKvDChfwMnBOjJqVdcuxePwVWL3xsegg
-	MGde7wGv+6WvPXWOsdV+kBt5DNI1gqfhixUzM+W87WddEi2Egyte9nwzzP+t1rCY
-	BPUOasQKHkqqZgymLiYUYq8xvAaoG65KHn5E0k945NmQD++Ac5jJyZBbJodgLnpb
-	IBLuu4NnDBTVOZu3q0r6g/7cy1fFcxOY9GQFa1VeDLWc9yko5lImAibOa9KA57e+
-	yJ55Q==
-X-ME-Sender: <xms:Teewao50b0jA4rM5Qo_piylnHcWDAVRkZY4yDspAiZAWoCDeDoCUCQ>
-    <xme:Teewav7Tp2kQRQt3-sJOGeljinH_w-SLhOAI3pf7lCv6MrM1uq4zG7zcwx3Q2RCiG
-    7PSQWhVbCeAkyNxRiDYa7YEZsWIAkLM5fkBOcAOkeF8W7-b0sJzTV-C>
-X-ME-Received: <xmr:TeewalFtXKve4stu-oJ1cgjZzrIyOgWjjEJvHV_RyLxJ6D8Wxn9lHuiVxClrLsyLIw5w>
-X-ME-Proxy-Cause: dmFkZTGaSDhkiyOs6Ueh7AvpgtGW1YjHfZuwSG4RoEMyJndxBAb/1uCpXwx54Wlv9kXVpc
-    8cvSQKPsMVOv8qmZSoN/aqoCSeu4ihb4RlVnw0GVEQ84JBLu1Wxa5xsVHxYwulA4jWCpOZ
-    niDJvVUg+mpD4jcckgVX1iHTtuePUfDf9/BksWw3kHUySaEl0Hn/CpolsSOdqPeeT1zvPk
-    DYLnzN3rv0PYta6IL5ROOUzEHPz11m3EgApjtg02sV4WRE25XL5wf6M+c477xe7UQeJj82
-    fjirp8foMScIl5/3YGxTS2fWBcKRQCt93iDFxSpk/TkII1FjAoO+xc9r03lwQoTdG6sosK
-    +3Ch61TnQv8PpBF2v7DyAknbYpOa1QCk48ktZjM1dRjfNpGnMKJwfgYlb1jCD4DFTbAjdy
-    lq2yKACdCF3TyO9bTi1Z051XEddKEbeDSIJlqaWKS10jd0dYB6ksdRchtPkb6ASvVHXEIo
-    nqf48ls95obTm1FOGW2G4ukqota4yOf/BOpsMiO6zWydfV9QQImavKgi10E9jnX0GYPeLe
-    Z0QWK3OVhzL2UQVwRnGNw0usC10gU05jjmuoRT/rEv4sSiVZbG+/IqRPMR/Ggi4mxx010M
-    2cGv1ERrGyjOkKnALqd7Q1gbmVv4uSxGpq2T9R61MaS6mra6WMgxjvRNTxbw
-X-ME-Proxy: <xmx:TeewaoSaFy3Sf9XiD3VRbSd94wN3MbukHsIZtRPSYPfCqfBTvICBXw>
-    <xmx:TeewauvfVTvTcrqVZQ8wPgTLVQsLpi-8080jTi0sGoXTO9F7xWzCqw>
-    <xmx:Teewanxk-T7hwf_Rm3uRvGjO-1qj-Q2mYdQKEcbDPCfoe8lKQ8G0ww>
-    <xmx:Teewao7jW-Z9rAu4vI2BQgc8I0xYGeh1j5P8Kx7KGC1wj5hIKHdfpw>
-    <xmx:TeewasJHhZinbw-GngaAcrm94X2U2Fmjh0xpbJmMtaIPvnmsNrI9Spps>
+	:x-me-sender:x-sasl-enc; s=fm1; t=1789979176; x=1790065576; bh=F
+	WTX6byTaZPV/ze0LjWfsXfopyJOF/zypoQ1Ng8wW3k=; b=NiNKdVTmG1V9aaH5/
+	JV2HdLevwPD/OfduoR2/bH5/htMu5tzTGD3S1UnR1c9qjh5mJ+gs2aoL8qmmXPSJ
+	OG9gduCNJTyrnUFEecusO5jM8W8a264mqKWMmHTJ14AJCOwXtGeXwt3A0CZID2fm
+	2dfBG44r5irT0zTyMAGUBzy4OZjIAEdK4bX1YuhjKxA/wRu5GogN9+FQS8kKBFOY
+	CRsCVbKRywW/lbn5SvPr63YY0narkT94reo1aklb5mAiKQzFTYe07eT24dwfH6QE
+	d+RxSmXzAJJlJWnEVv5Aajd/+Hg01HhR/bCfo5YoEBgnN0cipaVgnG4sf5Skqj0f
+	UwlSw==
+X-ME-Sender: <xms:KOqwakEYsjMkm2ljm4cM0p-_sApRzKVT5V5lXJUg5BQQCOeJgByGTg>
+    <xme:KOqwajVZHpeAykdGc3PHdlU1KT1t5naJd4Uy8EWi1-p2O8GBday4roHB6vbDuZcLr
+    vlyog8xU6RNdg6302MO0-deKO4ryL1rIGQF5ObttzDMhrN9LUIcPvCl>
+X-ME-Received: <xmr:KOqwaryPNgNqgmiPiCLYqlYDpqoeLnvc6ccAc6e1ZN3mfnpnJJAix6Z0xRWYnEgaYTMx>
+X-ME-Proxy-Cause: dmFkZTEi6sOhkqqxIQ5FlgcQvGNY/pH+PT0/FnlKyH658MvT4SUM8kzz0XcOnq3qtvAbo9
+    QINivxW4Sq40m7RTOlSpE/B9+yYE0gP2ufbEe34kUDtUl+NXqz/MyczgvKHysZ8XGi28YP
+    UwW5G3DEU+n1wiMN1hnA1C73dXoifBU60qw/ByAnbcuqqQ8UsVNaeYflrSHikWC7G61sHk
+    LO7h9WDdvF4xkDVcwPw477RG2S2pSV5fgGnTwPMhuvIdT6h16zaPG8MYjtI0M98S3y52q1
+    j9Ajo0OxafSdbSMZmXTwzBNc4SmWjoQBVnaQQEim30eu38TGs2Z9pSkqgJsaidBAhI8Vo+
+    i7s0Fs9ILTKSXDaL43mi60ltYNXYdR8YgwERBmzQVUdDgLAxV0wQWHF5fV4J3+L/OK2iLZ
+    BLllOLa2YOSkMXhLoHR1Ixpu/fe3Uaulw23BI/cqzxib8gDBCS0H2yTc1H+iLRD1u0MLCV
+    vLB5jiw75CLZWqTHcu+H5BUhn2mr3ag7xAmq1k3n1mhMS9PeY6yJk/jKz/bzSMTAT6reul
+    e8VJ4sHAiiaMtLx6bpvRRQRH8hYrsDq6Xv6ta5wkEO7NMppO+YmmJ6Gg5yzKj2oABP+a+J
+    tegklFcCf/nbO1nxAqd+M13bJeg0oER/cVyw4q7ME8bLoUIcJk5uXQgo/qwA
+X-ME-Proxy: <xmx:KOqwahNkiBTSNXUtMbxo5GMpCkTP52ff1LLfSz0-WFOKkZTAiNyPQg>
+    <xmx:KOqwas4rRu3qn-hToilSQLT2jIfA8O1apcCbJ9Ub1SYwHnAOLq0kOg>
+    <xmx:KOqwaiOmu7VSmrTrMM0faWG3WaoFAV6bfe4b2lAzfXcuK9w3ZwJHJg>
+    <xmx:KOqwaqnhAVaFI9DawH2-8wSQqUqe5Kt4hlJm5kQrv5IaH3uAhHoAaw>
+    <xmx:KOqwatVZKJSL1PKaZPlJwZv9px-ftRGumt3Nc1RVRZN96NknLCAVnY_t>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Mon,
- 21 Sep 2026 04:14:05 -0400 (EDT)
-Message-ID: <1234666ea330a4738b3c2bd0c69c163fc2c9f829.camel@pbarker.dev>
-Subject: Re: [meson.bbclass] bindgen_clang_arguments lacks C++ include
- paths, breaks C++ bindgen (mesa rusticl)
+ 21 Sep 2026 04:26:16 -0400 (EDT)
+Message-ID: <af30a5dc9e588d52d44d73a1c1c00996976083f3.camel@pbarker.dev>
+Subject: Re: [OE-core][PATCH] oeqa/selftest: add fs-uuid.bbclass coverage
 From: Paul Barker <paul@pbarker.dev>
-To: Royyan Zahir <royzah@gmail.com>, openembedded-core@lists.openembedded.org
-Date: Mon, 21 Sep 2026 09:14:04 +0100
-In-Reply-To: <20260919172851.1564760-1-royzah@gmail.com>
-References: <20260919172851.1564760-1-royzah@gmail.com>
+To: Angel2Eyes <thefireking@gmail.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Mon, 21 Sep 2026 09:26:15 +0100
+In-Reply-To: <20260919181900.443-1-thefireking@gmail.com>
+References: <20260919181900.443-1-thefireking@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
@@ -78,66 +78,32 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 08:14:12 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246309
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 08:26:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246310
 
-On Sat, 2026-09-19 at 21:28 +0400, Royyan Zahir wrote:
-> meson.bbclass builds the bindgen arguments as:
+On Sat, 2026-09-19 at 21:19 +0300, Angel2Eyes wrote:
+> The class has had no tests since it was added. Load the live helpers
+> and cover tune2fs UUID parsing, placeholder replacement used by
+> syslinux/grub/systemd-boot, and a real ext image when e2fsprogs is
+> present.
 >=20
->     def bindgen_args(d):
->         args =3D '${HOST_CC_ARCH}${TOOLCHAIN_OPTIONS} --target=3D${TARGET=
-_SYS}'
+> [YOCTO #15020]
 >=20
-> TOOLCHAIN_OPTIONS carries --sysroot, which is enough for C headers. It is=
- not
-> enough for C++: when clang cross-compiles against a GCC sysroot it does n=
-ot
-> infer the libstdc++ include directories from --sysroot alone, so any reci=
-pe
-> running bindgen over a C++ header fails to find the standard library.
->=20
-> mesa hits this with PACKAGECONFIG opencl, which turns on gallium-rusticl =
-and
-> runs bindgen over rusticl_llvm_bindings.hpp with -x c++ -std=3Dc++17:
->=20
->     FAILED: src/gallium/frontends/rusticl/rusticl_llvm_bindings.rs
->     .../recipe-sysroot/usr/include/llvm/ADT/DenseMapInfo.h:17:10:
->         fatal error: 'cassert' file not found
->     Unable to generate bindings: clang diagnosed error
->=20
-> Seen on mesa 26.0.5 with oe-core wrynose, aarch64 target, LLVM 22.1.3.
->=20
-> The missing arguments are the staged C++ headers:
->=20
->     -I${STAGING_INCDIR}/c++/<version>
->     -I${STAGING_INCDIR}/c++/<version>/${TARGET_SYS}
->=20
-> Our downstream workaround appends them to bindgen_clang_arguments in
-> meson.cross from a mesa bbappend, which works but is recipe-specific and
-> hardcodes a realpath glob over the staged header directory. It also has t=
-o run
-> after do_prepare_recipe_sysroot, since the glob is empty on a clean build=
-.
->=20
-> Reporting rather than sending a patch because the right fix is a design c=
-all:
-> bindgen_args() is generic, so this affects any meson recipe doing C++ bin=
-dgen,
-> not just mesa. Options seem to be teaching bindgen_args() about the C++ i=
-nclude
-> paths unconditionally, gating it on whether the recipe does C++ bindgen, =
-or
-> having clang-native resolve the GCC sysroot properly. A maintainer is bet=
-ter
-> placed to pick.
->=20
-> Happy to test a proposed fix on aarch64.
+> AI-Generated: Cursor Grok 4.6
 
 Hi,
 
-Please could you share enough information to reproduce this build
-failure. The bitbake command you ran and the initial output showing
-layer versions, DISTRO, etc may be sufficient.
+Please review the existing test cases for an understanding of how we
+typically do things in OE-core selftests. Mocking out the bitbake
+datastore & bb module, reading a bbclass file in and calling
+exec(compile()), etc are not things we usually do and require further
+explanation for why they are needed.
+
+As mentioned in the description of the bug [1], the way forward is
+probably to move the functions from fs-uuid.bbclass into a Python module
+under lib/oe. That should allow simpler testing as a second patch.
+
+[1]: https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15020
 
 Best regards,
 
