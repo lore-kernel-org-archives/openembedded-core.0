@@ -2,114 +2,114 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 60E4EC982DE
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 10:39:16 +0000 (UTC)
-Received: from PNZPR01CU001.outbound.protection.outlook.com (PNZPR01CU001.outbound.protection.outlook.com [40.107.51.38])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.46181.1789986275105636396
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6908AC982E1
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 10:39:26 +0000 (UTC)
+Received: from PNYPR01CU001.outbound.protection.outlook.com (PNYPR01CU001.outbound.protection.outlook.com [52.101.225.12])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.45981.1789986330970818393
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 03:24:35 -0700
+ Mon, 21 Sep 2026 03:25:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=1+Rvr0bp;
- spf=pass (domain: bmwtechworks.in, ip: 40.107.51.38, mailfrom: upstream_ip-sk@bmwtechworks.in)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=AjzHBCMi;
+ spf=pass (domain: bmwtechworks.in, ip: 52.101.225.12, mailfrom: upstream_ip-sk@bmwtechworks.in)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Mxnz51Vb9WxRPKXy01LzjybSnbGVj+FCLrbIQlv15YY1KYAn7xAh3eclktqEN54yBumW8UtmOXu4+QPGGO1BRlK8C7uFJQIuA+7qld7EBUF20e3CAtvYmvbxSJCWzgaFOpeMzxyFAptut1bHzBUEWu4SHXmALJmv4kxs56WSaoiDnB34QxZl5XVO7Ea1zn9X0RHHE3tRegQBPhUJtKIC0238z3evzo91XReNQKP4vKoh6Xd0Fupc8NqO89powTSdxL9L3QEliXoCf7WkNEE6cGxmyVPZz+SPFsqGTS0enWgLbuGq+E73WvWRU68sjV1GaJ9R0CaV4s1SFbmYZ9w8HA==
+ b=UbinwSPfYZUsARMfZNPXrJRlSgu2yFEbKkFCDSwBd1g3MNpLjX7qs4eRQ/jH8eRIiq/cmVrp5LHeJwBIMmpzFAiARKtkD48rXPFdO9PZH6EIsoLvZqzP3iGpR/XhPyHDNggY2QBu1YKurAf7sv82Gc7Ws1McaDat69mkKE8sa+coCWvZK7/O2N0rbfno4vHXMP4BjAKkwijQPtTRKFEZdYV7u/ux5Us8U+l3U8+lDhAsgzGQvC0ZZNHRVfOJqL7OPEeJvDElBJoshfKX4CxnTPhpNW/cDfSxLcKm/hiwVf3nFHEwGLblR4h+j/keN/hG6tJhH/Pzw/eVf7SNveZDDQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=B68P7Bl5kYRSIBbz9t2905ds8HLbzp8i6BgAmDBYLjs=;
- b=qvfRSgeHWwFCZl3t9lfT1vR1Jg9oNQlZD0V0/vz4OXpl9zEQAT84qvqNGqaGmx3sAhulrwn/l3rtKu0zMBgTPTm/qF3xQTDJn9bCPSFHQIUt5FWhULr5rJAVtRIutpEmhq+agZV6Vyk94z6IEl4tQQni7Wv1l2lTzaOOZuAHXWcLGhZQg8C8tOrpADOiewvDU/gwl0iu1WJx8t5h/O1aQtOZ5o9r151xBCVYXJfzXJ1E/LjqrI6SZl7DqRt4MUVJcOE+QXCPejcjAu9VPzXnR5ecSaraOONaICIQ1L6SIoimFzyq/Nv4NTzgweJfMrD7dxyFJ9jOewIkuxD1eYg7eA==
+ bh=zuasWM2Mt7zbFZ4r7nOy2O+3etPMxYoXap84gmmkAtc=;
+ b=NotN0Dijs5oePoryI2tpxyJLs+T3E5ZUZGhjPa3yI0PPvIFMBZ+KgImHoB2tRm7blWW4y+YnEERm9lPREaXrQpnuFkCA1EztLy7Nph8NlD3rUKb5AIQfSkpz9cEzzNPtDwoQpQ+DhVobha3BuMnD/TBwoBgYlHSLThmeas7i00i2p2bDgjCZMtNBCUEhvqJjFMCIy5GpjoiMxKrLMQlccJn0PN7s7vpXBea2X4c9ezqhlO39qVORoUPaAmTkvimiH9CpG9CClAHx1SYWTAwEM4IHuDNkUIq8oZZE8wByxs8dTvRu0+O209vrtfMa3JjB55TG2LK2H1Z8Zuv7XMQeVA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
  header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=B68P7Bl5kYRSIBbz9t2905ds8HLbzp8i6BgAmDBYLjs=;
- b=1+Rvr0bpE6a91jvqDTSQOG65YKuhnjJW4SynMWWcPkY1eT69MXqSD37O7V2NdEZlON2oGe7GK9JUVRDywYrxCUHewmyFjkDRnMWH6Br20GiQ0gISz8NgILpncv8cKJyrmk83JjjdamU6x5hxfndHeIa2W2WnhXZAO5TcYDd263gTMeB6OhrPh0ksBI0BiGsEMWimrXAow1PVmH/BPpJZg4khBl6712GIiWSMi3dTRtQE1vGKZ/5KJ6gWPr8bNEhsYsWe6FKftOlC+qkUPSKiJM9GVBtx4ulY4+R3fsfIo/sZUgtPczAK4p7C+wtOMJAAkZriOJOa2IFJOlxr/yq6FA==
+ bh=zuasWM2Mt7zbFZ4r7nOy2O+3etPMxYoXap84gmmkAtc=;
+ b=AjzHBCMiXXZttXOwWU4t/QAxVC7/pVl2RsmYtTKBDm4cwirI7rtzOd0095WXMzwZLpVCWsA+Xo8rvbVd830hpjr+rGoiTw8xqvyNKJrH9EukTr/nNAyAZnFIjKNxWjE8gOOEw4YlnGI0BXwexwTx+hrQPzeIf2bve1RAp1q9pfKM9WjSHZUh+VJqNn/UIYkTVWtYXMV7MUx2oW7VQGrq9GMPJWG41u5GD0BhFJCcO187PsTEzdTqUIxl8UYwz+5G8gQlwDS8wvMJ6Yheu4jy69po3M6jUMrMp6oFhWJOX3soZDvNEKQQnalV+OPrReRsbGl6CpeiKl9ASumUOMRF+w==
 Authentication-Results: dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
 Received: from MAYP287MB3754.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:148::9)
  by PN4P287MB4251.INDP287.PROD.OUTLOOK.COM (2603:1096:c01:2a3::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Mon, 21 Sep
- 2026 10:10:20 +0000
+ 2026 10:09:48 +0000
 Received: from MAYP287MB3754.INDP287.PROD.OUTLOOK.COM
  ([fe80::ef09:5a67:49d7:9504]) by MAYP287MB3754.INDP287.PROD.OUTLOOK.COM
  ([fe80::ef09:5a67:49d7:9504%5]) with mapi id 15.21.0428.015; Mon, 21 Sep 2026
- 10:10:20 +0000
+ 10:09:48 +0000
 From: Sana Kazi <UpStream_IP-SK@bmwtechworks.in>
 To: openembedded-core@lists.openembedded.org
 CC: Sana Kazi <Kazi.S@bmwtechworks.in>
-Subject: [oe-core][scarthgap][PATCH] alsa-lib: Add ptest
-Date: Mon, 21 Sep 2026 15:40:12 +0530
-Message-ID: <20260921101012.1107752-1-UpStream_IP-SK@bmwtechworks.in>
+Subject: [oe-core][master][PATCHv2] alsa-lib: Add ptest
+Date: Mon, 21 Sep 2026 15:39:28 +0530
+Message-ID: <20260921100928.1107716-1-UpStream_IP-SK@bmwtechworks.in>
 X-Mailer: git-send-email 2.43.0
-X-ClientProxiedBy: PN0PR01CA0053.INDPRD01.PROD.OUTLOOK.COM
- (2603:1096:c01:49::22) To MAYP287MB3754.INDP287.PROD.OUTLOOK.COM
+X-ClientProxiedBy: PN2PR01CA0204.INDPRD01.PROD.OUTLOOK.COM
+ (2603:1096:c01:e9::14) To MAYP287MB3754.INDP287.PROD.OUTLOOK.COM
  (2603:1096:a01:148::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
 X-MS-TrafficTypeDiagnostic: MAYP287MB3754:EE_|PN4P287MB4251:EE_
-X-MS-Office365-Filtering-Correlation-Id: e7a02eff-717f-4d19-8046-08df17c88ae1
+X-MS-Office365-Filtering-Correlation-Id: 6270aefe-b861-49a2-8509-08df17c8781b
 X-MS-Exchange-AtpMessageProperties: SA
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|23010399003|10067099003|56012099006|6133799003|55112099003|18002099003|11063799006|12006099003|38350700014;
+	BCL:0;ARA:13230040|366016|52116014|376014|1800799024|23010399003|10067099003|56012099006|6133799003|55112099003|18002099003|11063799006|12006099003|13003099007|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	idbcZ23m7qQuGpGwRSAkNYC9FSvukZfzlr62PlveuyH5fRKDmYuKDkG8JeHA7G6gz4CFLY6+bi7tBw1rWjOW3gnKyPFzcCugSVAA/ejEZS2w9d2vyxzhi3VkhvSY5o33d1NCOXRnECWIjcSztdz4yCcR/e0I7rbRJQD2mnIyXlB6QRMTHoKdFkESQnI+xLBZa8MCb7p8C4+FK7gyAzemFy9f1cfxrvB6UDxcw9Wv93hL7+hDSVssR+Rhf6vavzWuCK2yvGvLp803fl1Kq6VmfU8rHNCEkArAoLNU1O6cCGT4+lRe9L75oqC9BLdNV5/C7J5r6UJ8sTXYVcJ8AZiEKAmbQjbi+D731Cs4l8y8iXlDBRF6odYCRmn0BKxPiRTFJ3ykeqyjUk8zZXbu5/3YfJIEyqZZEwHi0fRS4+C6AObkRdKKPwApYRcxcDkJtyzwpn5H+NzYAKT9BzNuSPzId1HPOEs6700TQicFEgrXxrqd7JTzmJwfmIIUxX+EqDG+h0ajk6TIoIM8K3krUiGXsgtGfzgyOUyWwTbPt08NvviEZruIrQCNMzE4w0JM07RTohE+9XDBZ7O8u5AY9OMSwkduBP53MU0OXLylyFSZj2NHHOr1ELg0WYKTJivcOgR0seaa96Ho05iqe1lA+7VF6qY+I8tJ4o11P3MgX9xhSLo=
+	FydMhUPxEN1uXFaDvt7Ylc7XKlK/e+HFw9ggPMhxYLAlYcEhjYmxCXNp+Eelw1UpPavbLFadD8df1PXyPtLQdChPaY1wH4+eSeyx5p0EjXygkmTXDRoXoPdSmgsQ3nkxZ8Ahure5EUIakkDbgDbWGNV6/1YDrhK5nyBK8XBtTAvnLwTyito9Ro2+XznN+3XzyRdt8UlnPE6QQHB+1Ni/TrDnoDuymTspYxicyGW/DYl2TcR6qPgGjiKI56nFq2SdCeuhsE0uSEEhqtAh8TZPiMlyCkJfR8SBSmt6K1SzEDEPIRQtQUDeswWXuAGXOfDmYb9gjuJy8gk80zMRr2v9fJ2j8kUh3e2KUI4fRYiYjK+0oFUnIhtYC9L+VnobZR3SA4X0ppdhWXunVUoiWCdBazUskU5DSXA5SN9UOAD9PI2SUZCuG6xF9Os/aBJzQyBF3seoT6HVUgjwc/q281/8ZK3sodGh/B2ZugK/UiQ9zhFo6kU7WyKraSkmAgT3qNH6xCZzxS2aFNuiBFx7DH8YB9M24gUrbfgsVvpB/pw5kmId4l66VsxbaZyo4u3e/gHpUlgmQIRo2DQkEVRM6gD7soZf2S3p6LzammzF9ujGnAJCYROwUk2iEd38nTM89AW/ShNazE9Afq0EOqV5YkBaqAJbpg2Ym6yDdMhRYtUiAfc=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAYP287MB3754.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(23010399003)(10067099003)(56012099006)(6133799003)(55112099003)(18002099003)(11063799006)(12006099003)(38350700014);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAYP287MB3754.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(52116014)(376014)(1800799024)(23010399003)(10067099003)(56012099006)(6133799003)(55112099003)(18002099003)(11063799006)(12006099003)(13003099007)(38350700014);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?IuLbfsLs2g/MnRxWhEx7SC+zCLGNBEmiVYdqP+HBfjTjJA72Ulp5SRAR+9Vm?=
- =?us-ascii?Q?oEGOskPQtsrszvACGWPre3MAE5ZlWBUv3xoPmy4cUvBIv02Ip8wYJoyA5epK?=
- =?us-ascii?Q?B7xBOYLEpbI2lFwFlAhUplh0p38EiEtBZMoUoRd4NcCN4CbGyRASRMSB//RF?=
- =?us-ascii?Q?G+azxOxhB2iAKNxQBuPHDolTS5jbbT0LF/RlgMGuzcbyGm8G86qY9HP+1YAs?=
- =?us-ascii?Q?N1bYWaZAhLv8oQ9xjsN+ib4YMJBax91jdefIP3iqqUEGfUB1uj++DrUrhggK?=
- =?us-ascii?Q?wo9rGGqQ0Ha0hltQRJOD5AFYHko0IsmqGY+ZNT5wfO2TdyzBg8A5rOh0MV0X?=
- =?us-ascii?Q?0rkhuJL0YEA/aL3HG6YF717XUo9R4oj8eZV/2G6PWbLq7pYnLfX8P2l5rOUh?=
- =?us-ascii?Q?O1m2O3S/37aacFSdAgoYzdcbwmNvaZr5T1GUOpofhCvp8vkK0J3YVzjRbwT2?=
- =?us-ascii?Q?ZwgT96X+TiBICzVh9j0CmwztzgEvZrAhKItbB83Bc1KIwCJ17eXNOXXbfcOF?=
- =?us-ascii?Q?PEnU+uCNzV7n4b0Dw/wdnMXnv4uxPmLAyoQtPqRtF6CKJoaIpqLjrr25Bt3c?=
- =?us-ascii?Q?kQ4Vt4bQJcEbc6K5KU3+tWGmES+NbF/lNR+sA27C+8HD/jTza8/O/rIIGLNl?=
- =?us-ascii?Q?pGHW8NNWa29rHauqE14hcU6gM/JtF6qShv68Ong2RnauihP73nUXj6O6iFXY?=
- =?us-ascii?Q?NX8s2K998mAPXvOwt8haNCb39Re8mg+xeXZxye8LKP+4rXdkUzcgZ2ho5c73?=
- =?us-ascii?Q?HKmnMUFPa/ddO9PWND/RC1ntcogUCX30aWBb7cSfOWIQPltpSDMUbjeWVuPf?=
- =?us-ascii?Q?xQ34+Ci4E23hxQnPHzHOH2Fq8W+6/JoILN39ZJfU6xkBxtYlkUbzQyKPc8ah?=
- =?us-ascii?Q?/tB3pFpE0IZ9KLUaT3uIguJ9Uk/hEi90sWpw8JnjyHtGzHzKzhrLnbA6fH6s?=
- =?us-ascii?Q?UCY/SCKRp4IyL+w7gIjYiRH0qKTRIHdexiFCsvXdHmayV344Jk1g2d9IlFFn?=
- =?us-ascii?Q?+QzeyrZ1XQ7jeaU4kfrciuIUGMCy/Gz8mrMazHFogWROOwsyqhDTd0d7wl7W?=
- =?us-ascii?Q?Suytxg2cUf+Vo3BW+pZHXIVi2dAKYAsP2T3LDZmKbEwAUdOwsKdleAg//D4d?=
- =?us-ascii?Q?KI7s/r6A/QjqudXFNDDFhnfqbaP6boIifq9Go6gGfwW/RGqyPjKDs3a1K7QM?=
- =?us-ascii?Q?OZ9Rc4/uUwV5TdXi8zoFfVSSdunWLQKmSUV1sY5nGgWiCBaxexc7FekERbYZ?=
- =?us-ascii?Q?GV1eKMPOlhfVuEtXL1PRL6UUvMyPkVXvpoPgnwjf4SdVLG02pPgcJEzi2jA/?=
- =?us-ascii?Q?IVHfHlOsr6JQXMu7v2wKa4IV5UzFwRNfDm0oX4I28sCajKOihDOMwxRseRCL?=
- =?us-ascii?Q?xa0CK8fl+HmtUNPtyzd3DmM38mnaRJCCDU8XxukE03w/20obyCOs3r6ZCKtn?=
- =?us-ascii?Q?/IJOrUP5QW4TrMxEml0ISnCpdRMLgFCCzAvII3IW32ozdH5JL2S20sGjSLFm?=
- =?us-ascii?Q?2sJTXbq1nBev0RC8rczd5C0CC3iNXxmzGKlrqULHZU7uDfaIM+/shlYd81tO?=
- =?us-ascii?Q?oEfVTC9sV67+trTaTbhnOw2u4eD/r6wThrbm1yYgGxHHced2hoQlyfHDk8W+?=
- =?us-ascii?Q?ALZRHmDT2X5zrZKBq0kXMB0lKvRPbdtcxVGKbbnFgO/QJhiIa7elHf2lw6vJ?=
- =?us-ascii?Q?SreeRkTurUI2xk9aBJMh1k8YqkDinjnTaevyFMNHWJzLcv+Yg0b240cxpu+0?=
- =?us-ascii?Q?YEtY/dSkpmuX9NNvS/J5cVJQvFvOmXU=3D?=
+	=?us-ascii?Q?h2aHpcLHVQStQkecF75Yv3k8eyPBaITUEpOpjfuRJW0bEHxZYpd76/ob4uXZ?=
+ =?us-ascii?Q?dTnvbbRHoy35VLGMEHM4GK22AjHa4Ci4AhQqUeYhnWhdrxFFyqMgEuzWfOHI?=
+ =?us-ascii?Q?RZWZKz9iNkEXgGik6EaWCMcCY3bwIcAFBIDCzUnB/qHgJPTtdMDj4A3md3Ru?=
+ =?us-ascii?Q?C37bYb8ekBItEqNT1RuJ/hDY886aZtiGAzTw5rMlGd0EFVRFkIGwTcMnt3a/?=
+ =?us-ascii?Q?5Fwz+41H7dzoVhNNP7rrvKPGLGBnBaqr2PFuI2+Yb6uQ0J1+3DZe8U2M9mfS?=
+ =?us-ascii?Q?qn5K8/eaP2nPiCatS28fo3XR5vTIRJKpNxEsXbMrU4m9xpf0KKtuytEMZQ0F?=
+ =?us-ascii?Q?YHmUVw1H4Z7aOC0KJfxYplqUy1ozuAZdHW7T1szi0W1m8AtGjNpWpg0LUQVc?=
+ =?us-ascii?Q?Lsdj75XSL1fd9U0mV9hFoCDb8DYIso/g2fYO4dOZ5lQjR4Dn4hu68sIrHlQ5?=
+ =?us-ascii?Q?KzB6UJhVNZIeGGUl5k23e1CO0t+HL+orP7/udWIwWEEWlq+LGR1Ix3ISPYDD?=
+ =?us-ascii?Q?UTxu+v1MubAHdPPzFf8JAdNYh4zNWWVGorV4zxTt++yJAvYzGGA+YNy2d27V?=
+ =?us-ascii?Q?O50NWL7Hmaq9HKDrOs/vrkdX0MdkF8MU5ZtyE4cmlR2VHHd7daSDp/ILwYHn?=
+ =?us-ascii?Q?faBDGh7aQiGgrku9Mb3UYSSKuJEJdirwZ02KUtfy6SwelHxtdQHh76uQckZv?=
+ =?us-ascii?Q?5Jm42SFLMgSbXrCywzThbt1tb7rQydk5etvAutltk1ceSCM4GmJ1j6yWwnGC?=
+ =?us-ascii?Q?9SN8qMulNL1oTN8C3ftcoQB0oyyfXq9h5XGKkZfrOMLfnRccTn3FfcPG7c6L?=
+ =?us-ascii?Q?KW0+7o1HvkPxKTHyljZ/lMOZRFlZKZ5N5HjG6OY0MFXzCv3CNTQ39pLoBnGq?=
+ =?us-ascii?Q?qsrohNsWLD+IV+H20W6T795bMowSAdW5T6GNkbz0PRJQTjC9TgT4P5Bn2qLA?=
+ =?us-ascii?Q?Q5nPHXzfYaJ7WxO6u/H5oDV47Enm49XPysQhJ39pPw4TtzUmM6iMGc9heTIR?=
+ =?us-ascii?Q?eWLYYfqfWKBn/mGjtFhspGjT0rCH36absYQySc9eF+hGfjaasiLgBkDAFEH0?=
+ =?us-ascii?Q?6O7lgHFlpvDBnbm40dam702VcE42yXvxdUkRAeDufuxrsbiXShw/YoxrpDql?=
+ =?us-ascii?Q?DW1SXJIn7DAZKn6nKLmPh+ziGiKwqYqgJ9BmfFP0GYyTtzAPmxdyEGZSr161?=
+ =?us-ascii?Q?5Nl0qS5qzZiIGC3LQgQddi0lBLF0+HheNtPp4D3D3S+wRPo4irJ7I4LCw3Tf?=
+ =?us-ascii?Q?7e9POmOAM9nqFFpGl/fZAsxikxS3vJG0q/N+o3IFTd6Yj/iNSg4Gqo+G9Jpr?=
+ =?us-ascii?Q?HPe0RYPyhOCndMJyaBhGnUo07EON0iT96HxsXtgtG2yovpGamsmpL1D5WRzD?=
+ =?us-ascii?Q?pTDVtNG+SuQr0L7TJ8DtRHuQefiaNxCi5uz7YtPrB9IxwhOUupIHheUBbsAj?=
+ =?us-ascii?Q?Hzi3oPfxH8B6/jz5AL7l1XTGPZYbf4SgbGJF6q06MEssU9Jr0dQ7Z/2BK2YY?=
+ =?us-ascii?Q?C/Fe5nyJXa6xPuRV4Z9ZMemZP8UUwtrdweH+amJktDvljC4FqzRPSlE82vhp?=
+ =?us-ascii?Q?w1lLzsJLiV6UZx9q+xxb+tY9nS9R19S/vQXcLUlREylMjguhLQ8J2BFyM1B4?=
+ =?us-ascii?Q?BW3Kt/wpOmzo7P2WNaOuXC6f1Xm5TgSXuXnVjNqhyGSOoay0H0WsZG+noA9j?=
+ =?us-ascii?Q?oBt4DjGDh1qint2eIw7CccyMa8sxkyF65hTuCM7Ec/kiKh3Nq4hrEBtGu3sP?=
+ =?us-ascii?Q?qc77IC0qu4wOJTQ0JA4rHGcxcLxxhdg=3D?=
 X-OriginatorOrg: bmwtechworks.in
-X-MS-Exchange-CrossTenant-Network-Message-Id: e7a02eff-717f-4d19-8046-08df17c88ae1
+X-MS-Exchange-CrossTenant-Network-Message-Id: 6270aefe-b861-49a2-8509-08df17c8781b
 X-MS-Exchange-CrossTenant-AuthSource: MAYP287MB3754.INDP287.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2026 10:10:20.1508
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2026 10:09:48.6961
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: IyPfoiQuy79CprOzrlfHmZLH+4xG6gYVkT6PnY0H2NA5OxF9ZML4NuuHV0EWpgwu5j3g62e1/dUk7QNDa1ZzC8D17udR15rCRNdecpK/KyY=
+X-MS-Exchange-CrossTenant-UserPrincipalName: aS5hawtYy2fUZ758IvjaJZbSzD7KliVYF1tnYvA0+B8hsSzfkEjmHWcqywziIqem9cGFToHkoxiwOvt4JlxbxSfq9y3xouW9xFbKxdAFw6w=
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PN4P287MB4251
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 10:39:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246317
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 10:39:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246318
 
 From: Sana Kazi <Kazi.S@bmwtechworks.in>
 
@@ -140,14 +140,14 @@ The following changes are introduced:
 Signed-off-by: Sana Kazi <Kazi.S@bmwtechworks.in>
 ---
  .../distro/include/ptest-packagelists.inc     |  1 +
- .../alsa/alsa-lib/run-ptest                   | 14 ++++++++++++
- .../alsa/alsa-lib_1.2.11.bb                   | 22 ++++++++++++++++++-
- 3 files changed, 36 insertions(+), 1 deletion(-)
+ .../alsa/alsa-lib/run-ptest                   | 14 +++++++++++
+ .../alsa/alsa-lib_1.2.16.1.bb                 | 24 +++++++++++++++++--
+ 3 files changed, 37 insertions(+), 2 deletions(-)
  create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/run-ptest
 
 diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
 stro/include/ptest-packagelists.inc
-index 9950e46776e..2f1373421db 100644
+index 4012be5f49..b525f6e3a9 100644
 --- a/meta/conf/distro/include/ptest-packagelists.inc
 +++ b/meta/conf/distro/include/ptest-packagelists.inc
 @@ -5,6 +5,7 @@
@@ -157,11 +157,11 @@ index 9950e46776e..2f1373421db 100644
 +    alsa-lib \
      apr-util \
      attr \
-     babeltrace \
+     babeltrace2 \
 diff --git a/meta/recipes-multimedia/alsa/alsa-lib/run-ptest b/meta/recipes=
 -multimedia/alsa/alsa-lib/run-ptest
 new file mode 100644
-index 00000000000..f6d3ac23dfa
+index 0000000000..f6d3ac23df
 --- /dev/null
 +++ b/meta/recipes-multimedia/alsa/alsa-lib/run-ptest
 @@ -0,0 +1,14 @@
@@ -179,20 +179,23 @@ index 00000000000..f6d3ac23dfa
 +    fi
 +    rm "alsa-lib_$t.log"
 +done
-diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb b/meta/recipes=
--multimedia/alsa/alsa-lib_1.2.11.bb
-index e86239ff871..b3ce3d5aa4a 100644
---- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-+++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.11.bb
-@@ -12,10 +12,11 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da916467b9107=
-6e631dd8edb7424769c7 \
- SRC_URI =3D "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
-            file://0001-topology-correct-version-script-path.patch \
-            file://CVE-2026-25068.patch \
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb b/meta/recip=
+es-multimedia/alsa/alsa-lib_1.2.16.1.bb
+index 1033250204..fa682f31a4 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
+@@ -9,10 +9,12 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Da916467b91076e=
+631dd8edb7424769c7 \
+                     file://src/socket.c;md5=3D285675b45e83f571c6a957fe4ab7=
+9c93;beginline=3D9;endline=3D24 \
+                     "
+=20
+-SRC_URI =3D "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
++SRC_URI =3D "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
 +           file://run-ptest \
-            "
- SRC_URI[sha256sum] =3D "9f3f2f69b995f9ad37359072fbc69a3a88bfba081fc83e9be3=
-0e14662795bb4d"
++           "
+ SRC_URI[sha256sum] =3D "f740db7f488255944ffd4428416ee3390a96742856916433df=
+468c281436480e"
 =20
 -inherit autotools pkgconfig
 +inherit autotools pkgconfig ptest
@@ -200,9 +203,9 @@ index e86239ff871..b3ce3d5aa4a 100644
  EXTRA_OECONF +=3D " \
      ${@bb.utils.contains('TARGET_FPU', 'soft', '--with-softfloat', '', d)}=
  \
-@@ -31,6 +32,25 @@ FILES:libatopology =3D "${libdir}/libatopology.so.*"
- RDEPENDS:${PN}:class-target =3D "alsa-conf alsa-ucm-conf"
- RDEPENDS:libatopology:class-target =3D "alsa-topology-conf"
+@@ -41,4 +43,22 @@ RPROVIDES:alsa-conf =3D "alsa-conf-base"
+ RREPLACES:alsa-conf =3D "alsa-conf-base"
+ RCONFLICTS:alsa-conf =3D "alsa-conf-base"
 =20
 +EXTRA_OEMAKE:append =3D " AM_CPPFLAGS=3D-I${S}/include"
 +
@@ -223,10 +226,7 @@ lsb/Makefile.in
 +        install -m 0755 "${B}/test/lsb/.libs/$f" "${D}${PTEST_PATH}";
 +    done
 +}
-+
- # upgrade path
- RPROVIDES:${PN} =3D "libasound"
- RREPLACES:${PN} =3D "libasound"
+ BBCLASSEXTEND =3D "native nativesdk"
 --=20
 2.43.0
 
