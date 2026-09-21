@@ -1,261 +1,130 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 0185BC982F0
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 12:31:43 +0000 (UTC)
-Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.30])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.47723.1789993899006371616
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0DF95C982ED
+	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 12:38:23 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.47822.1789994292969187297
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 05:31:39 -0700
+ Mon, 21 Sep 2026 05:38:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=bYPK78uY;
- spf=pass (domain: est.tech, ip: 52.101.69.30, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=EPHvor/fRw54Z08nN80+HABG++iQmztbocE4ORoijzCyq43M5hYEZoZxKoZPxx2q7e5EA2TYZT1AYAceNhMpHpUMgXLmAyQ0XRcctqVLNW1J6MuJ8HVjIXA50J+07ndsmTreo+eoS59Roh2dffyPbQPHVDz/TJYcjiKn0di3zppm3yk7iwlp6cX+NDyl4gMuZSsTM59nqPkMyL+c19/PDLTfHOMf373i+cW/ekA5gRkojF3akITNpFVqbPaRNjBmjiRkdAtxIDSxG4rVGv/Atm3w7d9c5Ll4FHEc0VGmbBgttTCdgkgwJJOt0Cw15HVZL0NibIYFSPcELFtD8U5OTg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=kJnd6j83ymDjwCqxdaYNRHUbeMJbnHwazoKZJqPQCGU=;
- b=ZKg5fnsGIhUMapaS+TzFKhOyuvEdlP9phIoQc298+y5U01m/F1bppBKY5f44mIevgZXXcATx71GQQLh8dn8G7zYbfMBOkDqgraaOYmrbeuSQ15aNry0t+KRu2L/O49fKgMoJkZ/xTlG2k22k7E4zTToccio1wEpye9UwkHp92Q72e/vxLrWcKReeJoccuhxEBTvWvidLy1we/EVBRVU1+zGpjLV4ySB8vPWnHPEobsteLCRL5nhLRg4FHNY/B7gzsmI+mleRB9ycr9BndtO+uNlMPvDRwfTl+MW5b6LeBciF2ovsOYFXUORt7/c2cleGsIlSfKk+rQePiD31/SbCgg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=kJnd6j83ymDjwCqxdaYNRHUbeMJbnHwazoKZJqPQCGU=;
- b=bYPK78uYz1mvqF8R+4dZn2dz1AouOvwK1vTPoyYrxfhONbImv4UG9dtu6R+lCwS7MV6bcS3ebi9goU+hV+DZNr4tthLF6DsSrmXoLvpVmL2GKwGbx3OLZNOpm95FPpwppAgZqwCE7s+JBhiKAu4TDnm6DlMhhlugwCLbUA0d1/h0Y38tTbkalN8y6xheDzS0TePoj+YfhmtFKWMXN9mXK0fWmC06iPp7hzSWsKKvmhd4kZjG5Ywcy2OzgaHvmEeL2vPqKHCxhWVtt+ozpX8EealP6QMpi4hGGuHku8NF7kVoxAFazglk1f0bAaMhWyQofrtJGIBfvA7EddTKy+eJJA==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by VI0P189MB3393.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2ce::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Mon, 21 Sep
- 2026 12:31:31 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0428.014; Mon, 21 Sep 2026
- 12:31:31 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
-To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH v3] psmisc: add ptest support
-Date: Mon, 21 Sep 2026 14:31:23 +0200
-Message-ID: <20260921123123.28135-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260914130447.107189-1-pratik.farkase@est.tech>
-References: <20260914130447.107189-1-pratik.farkase@est.tech>
+ dkim=pass header.i=@smile.fr header.s=google header.b=RRLyeHnV;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d8239so20971495e9.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 05:38:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1789994291; x=1790599091; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=9YhBrBNaCxMK0tS4Noh6UAase96snriSSoLTdTdmf9o=;
+        b=RRLyeHnV690SuDVxz3rE8cU22wBgTYmalFIHgKqTztXwyKEwNC6FvVCsb5sBaw8tXC
+         xcvGX/hBAOekhzaMMtcqsdEhrILDcxQwLBtLvNL7Uv8RhGsnMbBNqWdpNMpxY5XQeWnR
+         OPA/VVF288gZijb5u+6DiJB8mvM55DeDs7ngg=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1789994291; x=1790599091;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=9YhBrBNaCxMK0tS4Noh6UAase96snriSSoLTdTdmf9o=;
+        b=gCrwhiSD4UqzCoUObPxEna0sMb4d1lYqcLBt+pdsrSreHo+x5Gi3wvA4a0DfJYOZ2M
+         TTaldW+EEGLXkIiOcgjiBWv1F/g1pV8zKSSp5vsrecwnDPtmTZpPZruiwlXF9bkZdM1R
+         DoCDVBi6634jVGk2opk4lVhjOAAS+otPHzx8AdbcDJiTU9lYbLKD/QlebgHGs1nI3M0y
+         avB6unSNIDXuocGPuynn2oQbHuL283oxIhuftRWaAoyu3vckhr65kiyM2b/+D2QMwNhc
+         pD2J+qbcDzKk5BRY3SvP5V6yB2QVUs00m8/79OAyayQWbhxqp8jf4b+VBK1qs3SJwz8Z
+         ZSng==
+X-Forwarded-Encrypted: i=1; AKwUvBzAppMf/Qi7Lx5fVtow5o2+jhNH1WyYROCaeZpp1d0RMzaLxCrs8LR4Z0z6f9gzfNHeO9SG/58Q8vMlypi7RYLjVQ==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nF+Urx+lAwQrmwZyrcIIcQQXYeWC85HjoMukxWt7KnErB6FCFM
+	sv4o/zz4s6XZlevpOCDIAMPsGH2f/yTeHmDaITmMVNcuJL3mBgBQdYcnIp7jNqqalhBs2XRnN48
+	AzeR/VCw=
+X-Gm-Gg: AYBFou0XFmvY7Gmwk7/OspNmCeaK8Sku1UuT7eVLofhFigROVupWA+TFfvhvuWOLhCS
+	IEE+J7VqHEYP8x2m7JidOOO46Igdw2XuP9QnhB3sDX/zJ7da6+ihFqCwyPTChtGFS0fZxgAys6T
+	V/Fsxpp/HVDfbgmdFfruqjcaNMF13dEr+gZJasJ4fSEu2u0/w7XEnWagfy1sShGpyZiyGSVGZP4
+	4paogKz29W9oHlPdmGH+aMMSllq7VDOtBKrXTG5KX2yxkdK5xyfTd3+IDBlYX4QwSVfrem2raJN
+	FtCBGgKx7oqH8uvJUXIuoo09rPc67DcohbjCSAvNdo93VUkCaPdqWCg79B8JxQq6J6JXnQnELbf
+	7lvc0Hn3HMjC4LYET+GuSE2IYWvqi8BRLcEtTtqItfEuL3CN7S6aaAqeLVitTPOxSz9TJ0xZFPt
+	TRu9X5dymwZ1EIohYcfxi0YFlaNDxUsmBVEbsEDRwda05bUL71LekuSQOTEABZ/DSOab4+iPGIT
+	7NdSA+XVjUHYls4ZVhcjyRE1TAncaofsuz1joG5OaH6M9B65pZ/gutBrJA=
+X-Received: by 2002:a05:600c:a085:b0:49d:25b0:cc60 with SMTP id 5b1f17b1804b1-49fc5747f7bmr155975505e9.29.1789994290977;
+        Mon, 21 Sep 2026 05:38:10 -0700 (PDT)
+Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fcd07bc34sm219258495e9.10.2026.09.21.05.38.10
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 21 Sep 2026 05:38:10 -0700 (PDT)
+Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: LO3P123CA0013.GBRP123.PROD.OUTLOOK.COM
- (2603:10a6:600:ba::18) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
-MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|VI0P189MB3393:EE_
-X-MS-Office365-Filtering-Correlation-Id: a583be49-4f35-47d2-9814-08df17dc4409
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|366016|23010399003|376014|1800799024|6133799003|18002099003|20052099010|22082099003|11063799006|5023799004|56012099006|10067099003|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	Tv3GuK5d3kYBZKVlZMeRA8VsrZUDGDPJJ8V7Lm+xv0fqXDSeZosyfMA8XHXQnVk5EsXZ8Zy0al6exWzkBu01LZP9jBhcFuUq6IzncRmDidfOHm3ECPHpfNojEPQ/amMJRmKzbFHIlvjiCU7P3u9e2XzqovthKt6OJqfA8z96bkh3+RBfMNE8m8iqyGILpmhthAV/mkk2URc599K8TMmB+jdcUivkW6Iqx8ilGZYZEthvzi7i07RuRLFH+HbM0KxqQN5LdxSvHaBvopTRsqY9g1mxebxxH/1oG5cHO7+LWiyBYAQ2r5/QBM07j3EJApO7h0W+pHUfLlYdgSZFHfzaHysOUkX3z+Q4KB0FKOlxyy7kgTJxzJMVk7SY0+2UBt0Cjogk82ozEZbHkJFmJgelFh5RIGQGsiXw1JumM5IoMbxWftjy+XEc3ABibmPdqv1mCc5ItONNJGi2KYayfZbPYnOUBqBDCRmHMys6y7RwFWGFDABTG3BhAY6SFPQPc9q/3n6XCzoCWCmbhSl/hJWjtk7RMQ1ZR7S4JKtJhzadG7KsfEuFYgQuv5JOVFO3KlKhBVqv8AUnRcV+73GXVAKN2GwugXEMnOEYBCEO6K8NrsTzIkZAjlwxif9sPzaJ3JCCVo1oYKIL8UIb51kiTJ0y6QeGUsVqJ1KeSzfibfWwnv8=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(23010399003)(376014)(1800799024)(6133799003)(18002099003)(20052099010)(22082099003)(11063799006)(5023799004)(56012099006)(10067099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?kSmXPm+DmEtxNXj50tys1YuOE+FNODTzbVKr0MzfvbPZA+JyOfoqiExY5aQN?=
- =?us-ascii?Q?hv+KgBcueGOB8bcApBKY+b22fxUFoXMY8LmN/PTul/4cjheJQ2RUTpkutcvn?=
- =?us-ascii?Q?hnVNvGkD6JYHbmrAfK/H3hmu+0a++XzgWjkjsJo7qHb/egpb1QOVV0NOjfp0?=
- =?us-ascii?Q?L1kVh3a/O2M7H51U1FDt+/hpVZNt+nTt6ddWmzE3kNeCql07Gci2dRqaBkcd?=
- =?us-ascii?Q?ciylZdrsF72OK4zz/sCy+YmWxDIVeHNJqpIu3z7zTgxg6fAm72kCf9vL8y5t?=
- =?us-ascii?Q?M1Iw1q8zxmaj0Pl98LSQ5XXCTvO1ip19lVaTdVISQoURlRAApMtVRfjC3kh3?=
- =?us-ascii?Q?DMiai70PYGKR1sW7AIoEyP3wXucyYevDjdOn2ynYUM8awBdhKsIUOQpMuscH?=
- =?us-ascii?Q?4Ln/VnQQe/6YU0GhbrtavEQ32dtXa/LozuuX9LhH1u3fgymjMQ5gPkl2Cn/1?=
- =?us-ascii?Q?Kvab9qaGfACWdBKZg+vKCKRqG/5jclIX6XAMelCyLKoAbxNNpd6Ic6/JttXb?=
- =?us-ascii?Q?adER/i3M9Fkob9+YbYR/CLfRDWW5/gq21e9yyDCmuMAytQzS6NlOMvJdS3Ko?=
- =?us-ascii?Q?dH6BxGkiW3faC33sVYAJbWKes//4rNgO7zmfKXaH6VPBreoN+PCMXdOwZh1S?=
- =?us-ascii?Q?q6b65/hWFFyr96I3cRrcSiWADPVrdiEHfS5IxXqUZU+To/4fcKVfWBm7qJaY?=
- =?us-ascii?Q?3zMJnzaBGnaxpepNfVsk4Bjj3D+q3LKG5+K8ivCizF2+yhxnsg+hjrg+w5ad?=
- =?us-ascii?Q?ugUh/JzvsvweHU0koxhRdem2+QZ75t3t6l1bXeBAncapk1z4LpZu2N8hh0C5?=
- =?us-ascii?Q?y8V9++dvTVnm6gow9z5Nk6bw4YQpkS9KvtohbteSBJrNwc/r6wGFQh7J7lXB?=
- =?us-ascii?Q?S2yj5ItSVg1QSE52VmPqipyaBuEQqADNwoNTcRzCPZoaGN/hv4WcBn2tWQ/T?=
- =?us-ascii?Q?yKtwcLtcirJaBC66pCJwqYLxkCv8JqAN1qO/FdQLOvIgQTB0D3PQxaFhLPGT?=
- =?us-ascii?Q?U/J3aESHbAk3sC8Erv+pXPcfKLsKo0YSQRjp8ne0xv7dnEyF72Vq/TXNrEh9?=
- =?us-ascii?Q?rC2kX6qJYIQDlDDNEvY6SN6+aNH4E4f6ddUXNX1dmCVCK7bdPS02AojfUfi4?=
- =?us-ascii?Q?Ls6yDu5OlzLkDxLdmnb/Y86BIJER0e50/2UFwMgo39OLVLRHrFR0ecRqxz25?=
- =?us-ascii?Q?lTJcf1as4+4WQmIOPC3tQBXoDkV9Qk274pnVNBDtOsX56CDBsTL5TMjF9tsA?=
- =?us-ascii?Q?X74Lzfojigxx/TnBqf02486TpTQZNWC0Z+NsbOok7xBbtmitGZ9+oUwNxBu3?=
- =?us-ascii?Q?q/1vd6VNaVg0Nv4wjxHFuJL3iim3Hkxnsl6cD1wrZ2mYoGG6Jp1zVDkS4kQr?=
- =?us-ascii?Q?Jo8vfXtDRUFDjmRdCukp49pOt5xrg0RCmGk1IlGjTcfX8TMRtTG6rsmoOCJ8?=
- =?us-ascii?Q?azO00i1rstoRRxCU2v9VoPW3EZlLg+4mm7Nqxwy+mpuAz7pWz5dhnITN4Ojk?=
- =?us-ascii?Q?wAVV/HKYRCQyqONI61wcWY2x6uu2jx7CIFrJV44pvwswqzOc8F9Lm+1o64Gy?=
- =?us-ascii?Q?tGwxzixi3uEhWjO+TBpGUAOiVo5E6/sv8YHfJG/ccTW7trYEVxfcvWzPEgdI?=
- =?us-ascii?Q?NTKK8l7odXZnmhgmCdKpeishmKB0vEbWE+3gwzhxQb7ItLhny22ToABQbLda?=
- =?us-ascii?Q?7SWRKnMHELyPX0Cu+f5K01/kTe3EvJeppuNcS1y1cTomYMcyRsSJS5tduBWR?=
- =?us-ascii?Q?0vk3s4C5+A=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: a583be49-4f35-47d2-9814-08df17dc4409
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 21 Sep 2026 12:31:31.2841
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: bIfTftkSUgETeocHqZNoZKcYPdtwPWPk+00XWWhPmmBFiGYnCjYrBKYUujPheGA/AQAbQ6cJWEqm7ywAMuZ0Iw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3393
+Content-Type: text/plain; charset=UTF-8
+Date: Mon, 21 Sep 2026 14:38:10 +0200
+Message-Id: <DLL00OT9VKC9.JRZSZU4BMX6L@smile.fr>
+Subject: Re: [OE-core][scarthgap][PATCH 1/6] libxml2: Security Fix for
+ CVE-2026-86137
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <sdoshi@mvista.com>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260910200329.842463-1-sdoshi@mvista.com>
+In-Reply-To: <20260910200329.842463-1-sdoshi@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 12:31:42 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246327
+ <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 12:38:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246328
 
-Add ptest support using psmisc's upstream DejaGnu testsuite, which
-exercises killall, pslog and fuser via their .exp scripts. The tools and
-the testsuite helper programs (socket_test, test-listen) are installed
-under a src/ layout so the scripts' ${topdir}src/<tool> paths resolve on
-target.
+On Thu Sep 10, 2026 at 10:03 PM CEST, Siddharth Doshi via lists.openembedde=
+d.org wrote:
+> From: Siddharth Doshi <sdoshi@mvista.com>
+>
+> Picking patch as per [1], and same patch is mentioned in [2]
+>
+> References:
+> [1] https://nvd.nist.gov/vuln/detail/CVE-2026-86137
+> [2] https://security-tracker.debian.org/tracker/CVE-2026-86137
+>
+> Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+> ---
+>  .../libxml/libxml2/CVE-2026-86137.patch       | 48 +++++++++++++++++++
+>  meta/recipes-core/libxml/libxml2_2.12.10.bb   |  1 +
+>  2 files changed, 49 insertions(+)
+>  create mode 100644 meta/recipes-core/libxml/libxml2/CVE-2026-86137.patch
 
-Tested on qemux86-64 with ptest-runner: glibc killall 66, pslog 2,
-fuser 9; musl pslog 2, fuser 9; all pass.
+Hello,
 
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
----
-Changes in v3:
-- Skip the killall DejaGnu tool on musl. killall's "-SIGNAME" shorthand
-  depends on glibc getopt_long_only() error-recovery semantics that musl
-  lacks, so the killall.exp signal-name loop failed on the qemux86-64 and
-  arm64 musl autobuilders. pslog and fuser still run on musl.
+It looks like something in this series is breaking ptests:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/73/builds/4604
+https://valkyrie.yocto.io/pub/non-release/20260921-71/testresults/qemux86-6=
+4-ptest/core-image-ptest-libxml2/log.do_testimage.364096.20260921110838
+|  1314	Running runtest
+|  1315	Validation for ./test/VCM/21.xml failed
+|  1316	Validation for ./test/VCM/AttributeNmtokens.xml failed
+|  1317	Validation for ./test/VCM/v10.xml failed
+|  1318	Validation for ./test/VCM/v11.xml failed
+|  1319	Validation for ./test/VCM/v12.xml failed
+|  1320	Validation for ./test/VCM/v13.xml failed
+|  1321	Validation for ./test/VCM/v14.xml failed
+|  1322	Validation for ./test/VCM/v15.xml failed
+|  1323	Validation for ./test/VCM/v16.xml failed
+|  1324	Validation for ./test/VCM/v17.xml failed
+|  1325	Validation for ./test/VCM/v18.xml failed
+|  1326	Validation for ./test/VCM/v19.xml failed
+|  1327	Validation for ./test/VCM/v20.xml failed
+|  1328	Validation for ./test/VCM/v21.xml failed
+|  1329	Validation for ./test/VCM/v22.xml failed
+|  1330	Validation for ./test/VCM/v23.xml failed
+|  1331	Validation for ./test/VCM/v24.xml failed
+|  1332	Validation for ./test/VCM/v4.xml failed
+|  1333	Validation for ./test/VCM/v5.xml failed
+|  1334	Validation for ./test/VCM/v6.xml failed
+|  1335	Validation for ./test/VCM/v7.xml failed
+|  1336	Validation for ./test/VCM/v8.xml failed
+|  1337	Validation for ./test/VCM/v9.xml failed
+|  1338	file result/VC/ElementValid2 is 111 bytes, result is 227 bytes
+|  1339	Error for ./test/VC/ElementValid2 failed
 
-Changes in v2:
-- Point mktemp at a private, symlink-resolved TMPDIR in run-ptest
-  so the fuser -a/-av/-va tests do not fail intermittently on the
-  autobuilder when /tmp is a symlink or on a different mount.
+Can you look into it?
 
- .../distro/include/ptest-packagelists.inc     |  1 +
- meta/recipes-extended/psmisc/psmisc/run-ptest | 13 ++++
- meta/recipes-extended/psmisc/psmisc_23.7.bb   | 62 ++++++++++++++++++-
- 3 files changed, 75 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-extended/psmisc/psmisc/run-ptest
-
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
-stro/include/ptest-packagelists.inc
-index 4012be5f49..f01abc4a57 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -68,6 +68,7 @@ PTESTS_FAST =3D "\
-     opkg \
-     popt \
-     procps \
-+    psmisc \
-     python3-atomicwrites \
-     python3-attrs \
-     python3-bcrypt \
-diff --git a/meta/recipes-extended/psmisc/psmisc/run-ptest b/meta/recipes-e=
-xtended/psmisc/psmisc/run-ptest
-new file mode 100644
-index 0000000000..53f7521ac1
---- /dev/null
-+++ b/meta/recipes-extended/psmisc/psmisc/run-ptest
-@@ -0,0 +1,13 @@
-+#!/bin/sh
-+
-+cd ./testsuite
-+
-+tmpdir=3D"$(pwd)/tmp"
-+mkdir -p "$tmpdir"
-+TMPDIR=3D"$(cd "$tmpdir" && pwd -P)"
-+export TMPDIR
-+
-+for tool in @DEJATOOL@; do
-+    runtest -a --tool $tool --outdir ../log
-+done
-+cd -
-diff --git a/meta/recipes-extended/psmisc/psmisc_23.7.bb b/meta/recipes-ext=
-ended/psmisc/psmisc_23.7.bb
-index ad57c49ffe..f9c6d13ac3 100644
---- a/meta/recipes-extended/psmisc/psmisc_23.7.bb
-+++ b/meta/recipes-extended/psmisc/psmisc_23.7.bb
-@@ -13,10 +13,11 @@ LICENSE =3D "GPL-2.0-only"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3D0636e73ff0215e8d672dc4c32c317bb=
-3"
-=20
- SRC_URI =3D "git://gitlab.com/psmisc/psmisc.git;protocol=3Dhttps;branch=3D=
-master;tag=3Dv${PV} \
-+           file://run-ptest \
-            "
- SRCREV =3D "9091d6dbcce3d8fb87adf9249a2eb346d25a562c"
-=20
--inherit autotools gettext
-+inherit autotools gettext ptest
-=20
- # Upstream has a custom autogen.sh which invokes po/update-potfiles as the=
-y
- # don't ship a po/POTFILES.in (which is silly).  Without that file gettext
-@@ -25,6 +26,65 @@ do_configure:prepend() {
-     ( cd ${S} && po/update-potfiles )
- }
-=20
-+do_compile_ptest() {
-+    for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS); do
-+        oe_runmake $p
-+    done
-+    oe_runmake -C testsuite site.exp
-+}
-+
-+# DejaGnu tools to exclude from the ptest run on specific C libraries.
-+PTEST_DEJATOOL_SKIP =3D ""
-+PTEST_DEJATOOL_SKIP:libc-musl =3D "killall"
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/testsuite
-+    install -d ${D}${PTEST_PATH}/src
-+    install -d ${D}${PTEST_PATH}/log
-+
-+    cp -r ${S}/testsuite/* ${D}${PTEST_PATH}/testsuite/
-+    install -m 0644 ${B}/testsuite/site.exp ${D}${PTEST_PATH}/testsuite/
-+
-+    # Tools exercised by the .exp scripts.
-+    for p in killall pslog prtstat fuser; do
-+        if [ -x ${B}/src/$p ]; then
-+            install -m 0755 ${B}/src/$p ${D}${PTEST_PATH}/src/
-+        fi
-+    done
-+
-+    # Helper programs (check_PROGRAMS) used by the fuser tests.
-+    for p in $(makefile-getvar ${B}/Makefile check_PROGRAMS); do
-+        install -m 0755 ${B}/$p ${D}${PTEST_PATH}/src/
-+    done
-+
-+    dejatool=3D""
-+    for t in $(makefile-getvar ${B}/testsuite/Makefile DEJATOOL); do
-+        skip=3D0
-+        for s in ${PTEST_DEJATOOL_SKIP}; do
-+            [ "$t" =3D "$s" ] && skip=3D1
-+        done
-+        [ $skip -eq 0 ] && dejatool=3D"$dejatool $t"
-+    done
-+    sed -i -e "s#@DEJATOOL@#$(echo $dejatool)#" \
-+        ${D}${PTEST_PATH}/run-ptest
-+
-+    sed -i -e "/set srcdir/c\\set srcdir ${PTEST_PATH}/testsuite" \
-+           -e "/set objdir/c\\set objdir ${PTEST_PATH}/testsuite" \
-+        ${D}${PTEST_PATH}/testsuite/site.exp
-+}
-+
-+do_install_ptest_base:append() {
-+    sed -i -e 's/^set \([a-zA-Z_]*\)$/set \1 ""/' \
-+        ${D}${PTEST_PATH}/testsuite/site.exp
-+}
-+
-+RDEPENDS:${PN}-ptest +=3D "dejagnu"
-+
- PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
- PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6,"
- PACKAGECONFIG[selinux] =3D "--enable-selinux,--disable-selinux,libselinux"
+Thanks!
 --=20
-2.43.0
+Yoann Congal
+Smile ECS
 
 
