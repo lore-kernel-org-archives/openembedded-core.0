@@ -1,458 +1,233 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 922EDC982F1
-	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 09:12:58 +0000 (UTC)
-Received: from mail-pz2-f12.google.com (mail-pz2-f12.google.com [74.125.228.12])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5808.1790068377417193234
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D8201C982FF
+	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 09:22:23 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.61])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5942.1790068941036490350
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Sep 2026 02:12:57 -0700
+ Tue, 22 Sep 2026 02:22:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=NwQ7MmnO;
- spf=pass (domain: mvista.com, ip: 74.125.228.12, mailfrom: vanusuri@mvista.com)
-Received: by mail-pz2-f12.google.com with SMTP id 41be03b00d2f7-cc1cea50db3so2384619a12.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 02:12:57 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1790068377; x=1790673177; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=rYcnMKpWNanogmN4fpxjrYQ18ny4Wra+v0UdNczXrc4=;
-        b=NwQ7MmnO9C4v7vfWSD1SBCl2onlNfzE7Xch/FSjIfFOrgam51ILKeGznyC9NOczhlV
-         Qn5E9jMA4pQMvizKwFLvUyKcf7OQ2Vmz5zvyyB6WOT58MCyfiRmiPfRhmuADNM5zo8S+
-         L7oaAd6NIk0XhDAPbPy6Z8bERtly56gwxtIU4=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790068377; x=1790673177;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=rYcnMKpWNanogmN4fpxjrYQ18ny4Wra+v0UdNczXrc4=;
-        b=zPOBZj8Q0sU/m375OyBBSyq4FpWYkrG3aVjXjCn3lgO5NhlkRNSiV/XPRmCVoybQFK
-         zUHC8zgkj6QFF5fWVGcf6CSjMMpca4nAgyIO56tOTAvDhj/ukbAEGC40jsE9kvwwiBsh
-         bBGjNM2hdzIJwVMzYiyppPuGDAeZNtAgqSUVH4xSGs8kkjFWInAK8TZZpPQipIfTw8U4
-         8fg5CqunNl+l/n7j5j5UbjzwQF/gv4ieMuk/tpTvJiOimyL6liZEcIb/Ig/y7qKl3wC7
-         7WP3s8NTVjeVDE/jRXmDNyVPPtEumM9uQZlWQSobd8rn0WUv25lg/vvYJ+9dmIZ9CkTL
-         upoA==
-X-Gm-Message-State: AFuF++n+tDr1NO9EDoxueikoNSNQYD+fof8iJmRGZImAf5U7Jh+jI9Wr
-	sHvClT36pIz8kDuEdi16aNcb/VByHjPTbLo5FoRsSUApcsb1G8rycZEdD06LJtXLNqEI1vNt/JX
-	v/uh+D4Y=
-X-Gm-Gg: AYBFou0mHbhhDn/euh8LdHax3Ef1V9PpejocODaJ3GsvcGmAVyppC8VZ1umSrfn2JBg
-	S8dcTBu36dYchVbJytoRopGicysMAQ0MlxetM4Iw3zwgXOMkKvs+rY2749nUHHuNcA5Kq4IbEiQ
-	627sN7F5GRMoXFW3MttTeIakg6ESj4LpzcITRCtupX67UksSQwhqd8tzxw6oSHaATsRSPzZ344G
-	QF90vq4HlozfSNXLotL3mQ4WLNBWexUFrcQ0jvD9BMEsV9vmA071zZTN+qtVgHGkPGvJ1q3X8OJ
-	YQFKZy3xFFKGYi20/z3T44aegcwZN0l2+uMnngnXQeYHu/zKge15LKvxUKyPCK32LdKoMGWQtVg
-	NraEgx80ndbfKU3jBwwvQoUppzZPzrEHNICuoYGufl2PGNVryYDGLUtCVb/Qb7UJ0BJlDzLhJrA
-	RgLZeM7aC+xzd8QZolOmCpW36LXKc4KhkzPCjt2pcb609+SG7/GJeQLh7gC2dq8aW6R/aRQMG9s
-	w+t2aam6rk=
-X-Received: by 2002:a17:90b:3c83:b0:3a0:4384:adf6 with SMTP id 98e67ed59e1d1-3a072e91a13mr562363a91.0.1790068376531;
-        Tue, 22 Sep 2026 02:12:56 -0700 (PDT)
-Received: from MVIN00352.mvista.com ([2401:4900:1cc4:b6aa:4514:5733:3fea:a0])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-144f2a44cc8sm3552686c88.13.2026.09.22.02.12.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 22 Sep 2026 02:12:54 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=q7whXDFH;
+ spf=pass (domain: est.tech, ip: 52.101.69.61, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=ldt/M7InSlI23E/6BQcyW8GkoBqu5S9XciA22CdhfQI4vDibVMYonbAIAwjIB5ctWEyb64wgr99VvLoAU2xRLGcR2zCZUhy5GloKnhlzpf+t5Uul93n9R5amPf7qrarY/d+0NO15PjcMyBmDhWQ9OIsC/6Bs+DHM+7rDASJPf8dbgQ8RtQMKqbjoKE9ncehA9eJwTzErQSZDs8LNGXH1pn+tPQPQr+boSWJDsJupEhYzKfWA20SbSf000BH01QtlKEaI6uTn3SEBOLrGfNr3zNT+Nb67jkCayjLkVbCf5JZ2xEDlLXGJOI3ZTFoE8Z1B22MI3M80G5TiFI5s58KTnw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=moXRvs9u9qFCUMRH2hKKExkDBLIMZQp8RYRqgy2ZC10=;
+ b=YxOr0WxfISrEWkyI5/HoZaTZzYvEpuVz8xiUF+aQcJ3rxrgcMxdVQMHQt03BkXMtHVPYXhHUxuInOZKi/+pknKq+POO3+bYESVYKpd5A8ZB3rtIt9qqBc9OrM929Dt7LYLRlWqQYuceJ1B7hNJDjVsdnlSM5ZgGF5cKz70lJPYzxc1dGNLxbbY59nPP8dPCxfyGlURfWiOyK++QlxyMT8Fydq3B+PkPEWltO6AlanGzFtkvYKHU+KNH8QwLBFyi4JEXYwcHbLFMq/0PKKhn4ZKYTIEqRti7LisDzxEplWIq+SR87PUH+2ammQ9Pv/IV6QtOnRjcAtj+0Vrji3BXzNQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=moXRvs9u9qFCUMRH2hKKExkDBLIMZQp8RYRqgy2ZC10=;
+ b=q7whXDFHl5RaMrrwdmSTZvUZWxmt7D2fChUGRFtw40HFSap2LzKMbn8Aojvc0ZIaXBmmL5Ryg9zORZDp1Y53HGyGn8Ap9a0JAM1gZ2+oGE09fOjUBy3ZI3n9u+VXZG1UtUfwY3EVOuDwaBOM0fObdFsDTFSNtKjPa6bXWg1+P1TR6clykgyM02NTjrB73mMlghFqT6U2utFQY9Kkk4h9QjQ7y/NkuTn20wvA0e6DGbODxk5AHBqt0lye7qRewPZjFlW9s4laoUJHm7/JubJG5F39S4nyvYp7T5TlXCGY6sfazieJ5CMHbNyw57Qvs0lxMurMGD1lVwGcaTiomiIT5Q==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by VI0P189MB2775.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:253::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.428.16; Tue, 22 Sep
+ 2026 09:22:14 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0428.014; Tue, 22 Sep 2026
+ 09:22:14 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>
-Subject: [OE-core][scarthgap][patch v2 3/3] python3-cryptography: Fix CVE-2026-69249
-Date: Tue, 22 Sep 2026 14:42:36 +0530
-Message-ID: <20260922091236.766239-3-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260922091236.766239-1-vanusuri@mvista.com>
-References: <20260922091236.766239-1-vanusuri@mvista.com>
+Subject: [PATCH] rsync: upgrade 3.5.0 -> 3.5.1
+Date: Tue, 22 Sep 2026 11:22:11 +0200
+Message-ID: <20260922092211.14025-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: DUZPR01CA0210.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:4b6::24) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|VI0P189MB2775:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3738c36e-618c-40b8-b354-08df188afcfd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|6133799003|18002099003|11063799006|56012099006|10067099003|12006099003;
+X-Microsoft-Antispam-Message-Info: 
+	FaKpG3aKckfNmAcSnG6D1ThsR0zJUamfKgAcOdufbrQ2D9599li1MrrvPaCzSbeUWa6I5n8PKu0zGEPczNvanGKzKtPhiYsCyTlEdxpHP/oKvF12RW9bmv103RDcRsM4farXE18EN0J061zbO9QV/eC0ZYI5JA4E7rLsN1Iqjk8RypuzFzdU2lJKCSpOkJ3yAhR6K+LQUqJ20mCVqsbDb5YSGaPX459s7cN0rMNdNBD/MzsbM5RXD+HafA3gqvTcHGSzNWT7g5g8MX99TYu7YHNG33BcGYxdJknkrhrcPHYGFZoMGmvW2DZJBJM/Um8mMooTWiZPVthG0FRWbslOj0zvLuFvN4BLLCChogN3JkIE9WrU8QQrGM/XUMYH4oUHFY5TdF7790jwalbDsl5YB2ePPery7ekmWTOggt85kuy0FSjWvWSmzjI6D9jSQAsg6zMGwmU/2uIzO3g90Jsht8T5NWHKiDdN6zwEbqgCTwY4QSYab9hhnWZL+ULt4k/mCaqh+pvsbh+OQqwafQkGlaU3Lxezmih03lJaOU/g/dm3Oe00Vo7uYWaJRYKp+gQzKherDRkiizEkzsabjDY2Ggc5tvE3niD6sCauQsFTfLI=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(6133799003)(18002099003)(11063799006)(56012099006)(10067099003)(12006099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?Mald5HH8IVmO9pdhk/BoO+/+pojdAfrBtbDIs41ZIoNaLdh3C1Eq0mme/GLu?=
+ =?us-ascii?Q?otslyF5i3rTydMSueOFvWygLOAoY3CaZqX8HFqVVR1KrEHvS28ITbUpinOFu?=
+ =?us-ascii?Q?K+iP/nr7yyqtDTAf/x2+6Tb6SyveQpV8MN/8lWlwI8ozUAH2CsYwwXNr/9gx?=
+ =?us-ascii?Q?d6pt89klz4sUhUlsxJlRv98Q0egLRc/vl8ALO81RkqA9n/s9Ng4m3SrCLNd/?=
+ =?us-ascii?Q?dcZOA4yBrkbAM/joFFDb4254Ylc3BTapp1hsomSmKgnZhwDDJoHi3QPWJtPX?=
+ =?us-ascii?Q?ru9dnjBDtxyNH6Eno4TTaOjTYJ6D6kSMjoUEmGMOIt6jTQLRpdjLvrL8U800?=
+ =?us-ascii?Q?tLIu4k7M/VO/8mBRiQgjZFi86RoCiOzwE5hQseGI3vxMpxlc/Q3tTmfSbSoc?=
+ =?us-ascii?Q?UjGEwU75WlUzuzHUUsKpGm1rBVLfKpSStOZTccLBu0LrIJrJtG0mk+B3A5K2?=
+ =?us-ascii?Q?5jB94Hy4v1EbTNIF5mPc16EPr6J2rGuFvN243e4VepjHj0Nufo/cQwjcua7r?=
+ =?us-ascii?Q?mpK6eISuPWgkP3GefMfnAsiYV/S38/L290oTJaYqxiw/qFwS2Z9RLGVycBAG?=
+ =?us-ascii?Q?+mwOjsOoxaOiCdsrFIKkBiOqIH+fhnZWEM7rY6/SICnamCuWJKyXLlwCxp80?=
+ =?us-ascii?Q?aj0M9YB5VjuEMQy4BufAfI3msC/MGAexpFXXe+Qms3v6ym8Nh48N9h1IFdvo?=
+ =?us-ascii?Q?8WhwmJmzQhVSXs7/MC+v6CxdT0HMOL+r7RlAcHEDT+WxNP7lJLod39b3ZH++?=
+ =?us-ascii?Q?KhX20dUz4UTsJEnthFnaI9ghS/w6h3SdzdoRO/BgMQgamzq3Nvk41I8hN1wS?=
+ =?us-ascii?Q?owzctMmZ8agSNQlOFvAOZPuXXwowySFsphsuGUkPdSBIy7nLsf2/jMYIm0Lg?=
+ =?us-ascii?Q?zQIPIVP+0Oo3YP6f34/vnsvixvmy4H9VE4ChVjqQGFCxVCp29yNrgasTveZO?=
+ =?us-ascii?Q?4NiAZIYCDph/k/6Wl4XmSvB+K2THfv2NAParBe67sUv2MtOWt7dv1tdEBRKS?=
+ =?us-ascii?Q?qsyOO0/D+FMMdBib3n1EfyzG95wr9b4HWoKmEDkT4OLiLXiwbej0kTaFgCqy?=
+ =?us-ascii?Q?R+V4QcOdozhmdGwCj1QoO+0mauEzjmkcWllP+PaPANDBb6DfMgV23surR7Er?=
+ =?us-ascii?Q?OQe8rF8YlMMe9aMucZOi6qrhb8FwF1pYrUFWc/ld1lZeDGKGJDiPBtspnuAU?=
+ =?us-ascii?Q?94tgbJZeBcHDYZIIBSw8ahnVLhiAdGnpUCFW9jbCxP/qXbogRce+Z2w8yyaO?=
+ =?us-ascii?Q?JzzmZPZvdKsTFuoqNyTKNh4SZ2emMJXqeYeCgYb0F+jSItjA3Nwz2sMFPFED?=
+ =?us-ascii?Q?AmUakyGoYb9SURlUyUXggyhCUba/Aabprxsf5BCtUAZfMyXAEVbJSRwSN3ES?=
+ =?us-ascii?Q?EX2/8rZNbbMXXdZwFFiwj3HaXEyZTKtNcyLTzvf9Z5EALanGwFZVvT46jipL?=
+ =?us-ascii?Q?Ksx9hf3ixvpimSTJaw6U7zGuIIq/2bAS/6sfye3K3y9pjMcGeW3m+6ce0Edf?=
+ =?us-ascii?Q?ZwCYtiSl8srcHd1ibFrmZ/1i/ltLRMucDbgTyGAUj9VjqzSXz/cTbez2ue0G?=
+ =?us-ascii?Q?LovnsaXI8d+xgXQ0cwkQgfgo5iYqC/v1b94KP0HeoGUMRChLwKIRtl4p9oYM?=
+ =?us-ascii?Q?CRqeVQHpgmVCB1xKDzcGe3ONEfUubtcft1BopGeDAWj+bl3xl9Cg/NKZ3AzP?=
+ =?us-ascii?Q?gAa5516/O5A9gGoXcrljezWbVj9KTjrzKV4HG0hlvAKzH5i3QaViCXbEqD68?=
+ =?us-ascii?Q?cBVhy0Cl03Dvk9JXfEfFmKYa9OwTcrw=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3738c36e-618c-40b8-b354-08df188afcfd
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 09:22:14.0899
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: myuyqiKXggPME2rkdi3sqx+L40+KS7jT4AajUWfqq2uHqYlb4rWf4xf8NhevPgw2BNxJTsq+MICYdlZhij+hKH/ATanYangj8AOkVQjnh+E=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB2775
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 09:12:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246394
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 09:22:23 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246395
 
-Pick patch according to [2]
+NEWS: https://download.samba.org/pub/rsync/NEWS#3.5.1
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-69249
-[2] https://security-tracker.debian.org/tracker/CVE-2026-69249
+Compare log: https://github.com/RsyncProject/rsync/compare/v3.5.0...v3.5.1
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
+- Refresh existing patches
+- ldn support added [1] and add packageconfig to support
+
+[1] https://github.com/RsyncProject/rsync/commit/f0177d82a8fcbbebaac2bdf556=
+f983160ae03988
+
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 ---
- .../python3-cryptography/CVE-2026-69249.patch | 354 ++++++++++++++++++
- .../python/python3-cryptography_42.0.5.bb     |   1 +
- 2 files changed, 355 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch
+ ...01-Add-missing-prototypes-to-function-declarations.patch | 4 ++--
+ meta/recipes-devtools/rsync/files/determism.patch           | 6 +++---
+ meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch | 6 +++---
+ .../rsync/{rsync_3.5.0.bb =3D> rsync_3.5.1.bb}                | 3 ++-
+ 4 files changed, 10 insertions(+), 9 deletions(-)
+ rename meta/recipes-devtools/rsync/{rsync_3.5.0.bb =3D> rsync_3.5.1.bb} (9=
+5%)
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch
-new file mode 100644
-index 0000000000..db4f06067c
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69249.patch
-@@ -0,0 +1,354 @@
-+From 4a12cf49675a184e47f912b00b04f3a629283582 Mon Sep 17 00:00:00 2001
-+From: William Woodruff <william@yossarian.net>
-+Date: Sat, 6 Jun 2026 23:30:03 -0400
-+Subject: [PATCH] Add a signature validation budget during path construction
-+ (#14960)
-+
-+* Add a signature validation budget during path construction
-+
-+This extends our existing NC budget check to include a budget
-+for signature validations. If a path construction exceeds the
-+budget by performing more than the allowed number of signature
-+validation steps, the entire construction fails.
-+
-+For now, our budget is 128 signature validations. This is
-+consistent with (higher than) Go and rustls-webpki, which
-+both set a limit of 100. Like Go, we attempt to make the "best"
-+use of our signature budget by ordering by likelihood, using
-+AKI/SKI match as the strongest signal of fitness.
-+
-+* Bump limbo
-+
-+* Temporary commit
-+
-+* Revert "Temporary commit"
-+
-+This reverts commit bcdb6808562a8b8f484f85d21cb201cfdb2bbbd7.
-+
-+* Fudge a coverage test into place
-+
-+* Coverage for the coverage god
-+
-+Note: SUSE patch CVE-2026-69249-signature-validation-budget.patch was adapted to our codebase where required. The budget-handling hunks that are not present in the backported patch are already available in our existing codebase, so those changes were not applied again.
-+
-+Additionally, add tests for the ValidationError Display implementation
-+to align with corresponding upstream commit.
-+
-+Upstream-Status: Backport [import from suse https://download.opensuse.org/distribution/leap-micro/6.1/product/repo/openSUSE-Leap-Micro-6.1-x86_64-Source/src/python-cryptography-42.0.4-slfo.1.1_6.1.src.rpm
-+Upstream commit https://github.com/pyca/cryptography/commit/4a12cf49675a184e47f912b00b04f3a629283582]
-+CVE: CVE-2026-69249
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-+---
-+ .../cryptography-x509-verification/src/lib.rs | 209 +++++++++++++++++-
-+ .../src/policy/mod.rs                         |   8 +-
-+ 2 files changed, 208 insertions(+), 9 deletions(-)
-+
-+diff --git a/src/rust/cryptography-x509-verification/src/lib.rs b/src/rust/cryptography-x509-verification/src/lib.rs
-+index a505349..334eed4 100644
-+--- a/src/rust/cryptography-x509-verification/src/lib.rs
-++++ b/src/rust/cryptography-x509-verification/src/lib.rs
-+@@ -15,9 +15,12 @@ use std::vec;
-+ 
-+ use cryptography_x509::extensions::{DuplicateExtensionsError, Extensions};
-+ use cryptography_x509::{
-+-    extensions::{NameConstraints, SubjectAlternativeName},
-++    extensions::{AuthorityKeyIdentifier, NameConstraints, SubjectAlternativeName},
-+     name::GeneralName,
-+-    oid::{NAME_CONSTRAINTS_OID, SUBJECT_ALTERNATIVE_NAME_OID},
-++};
-++use cryptography_x509::oid::{
-++    AUTHORITY_KEY_IDENTIFIER_OID, NAME_CONSTRAINTS_OID, SUBJECT_ALTERNATIVE_NAME_OID,
-++    SUBJECT_KEY_IDENTIFIER_OID,
-+ };
-+ 
-+ use types::{DNSPattern};
-+@@ -40,15 +43,23 @@ pub enum ValidationError {
-+ 
-+ struct Budget {
-+     name_constraint_checks: usize,
-++    signature_checks: usize,
-+ }
-+ 
-+ impl Budget {
-+-    // Same limit as other validators
-++    // The maximum number of name constraint checks performed when attempting
-++    // path construction. This is the same limit as other validators.
-+     const DEFAULT_NAME_CONSTRAINT_CHECK_LIMIT: usize = 1 << 20;
-+ 
-++    // The maximum number of signature verifications performed when attempting
-++    // path construction. The is similar to other validators:
-++    // both Go and rustls-webpki pick 100.
-++    const DEFAULT_SIGNATURE_CHECK_LIMIT: usize = 1 << 7;
-++
-+     fn new() -> Budget {
-+         Budget {
-+             name_constraint_checks: Self::DEFAULT_NAME_CONSTRAINT_CHECK_LIMIT,
-++            signature_checks: Self::DEFAULT_SIGNATURE_CHECK_LIMIT,
-+         }
-+     }
-+ 
-+@@ -61,6 +72,15 @@ impl Budget {
-+                 ))?;
-+         Ok(())
-+     }
-++    
-++    fn signature_check(&mut self) -> Result<(), ValidationError> {
-++        self.signature_checks = self.signature_checks.checked_sub(1).ok_or_else(|| {
-++            ValidationError::FatalError(
-++                "Exceeded maximum signature check limit",
-++            )
-++        })?;
-++        Ok(())
-++    }
-+ }
-+ 
-+ impl From<asn1::ParseError> for ValidationError {
-+@@ -270,18 +290,57 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
-+         }
-+     }
-+ 
-++    /// Identify and return potential issuers for `cert`, considering
-++    /// candidates from both the trusted store and untrusted intermediate set.
-++    /// Trusted candidates are returned before untrusted intermediate
-++    /// candidates, and both groups are opportunisitically ordered by
-++    /// "likeliness" in terms of AKI/SKI match.
-+     fn potential_issuers(
-+         &'a self,
-+         cert: &'a VerificationCertificate<'chain, B>,
-+-    ) -> impl Iterator<Item = &'a VerificationCertificate<'chain, B>> + '_ {
-+-        // TODO: Optimizations:
-+-        // * Search by AKI and other identifiers?
-+-        self.store
-++        cert_extensions: &Extensions<'chain>,
-++    ) -> Vec<&'a VerificationCertificate<'chain, B>> {
-++        let mut candidates: Vec<&'a VerificationCertificate<'chain, B>> = self
-++            .store
-+             .get_by_subject(&cert.certificate().tbs_cert.issuer)
-+             .iter()
-+             .chain(self.intermediates.iter().filter(|&candidate| {
-+                 candidate.certificate().subject() == cert.certificate().issuer()
-+             }))
-++            .collect();
-++
-++        let want_kid: Option<&[u8]> = cert_extensions
-++            .get_extension(&AUTHORITY_KEY_IDENTIFIER_OID)
-++            .and_then(|ext| ext.value::<AuthorityKeyIdentifier<'_>>().ok())
-++            .and_then(|aki| aki.key_identifier);
-++
-++        // This mirrors Go's `findPotentialParents`: we have a global
-++        // signature budget, so we want to bucket candidates by likeliness
-++        // to avoid wasting budget on (potentially adversarial) name collisions.
-++        //
-++        // Observe that we use a stable sort to preserve trusted candidates
-++        // before untrusted candidates in each likeliness bucket. In other
-++        // words, we always try a likely trusted candidate over an equally
-++        // likely untrusted one.
-++        //
-++        // See: <https://github.com/golang/go/blob/d00c67f297e/src/crypto/x509/cert_pool.go#L136>
-++        candidates.sort_by_key(|candidate| {
-++            let have_kid: Option<&[u8]> =
-++                candidate.certificate().extensions().ok().and_then(|exts| {
-++                    exts.get_extension(&SUBJECT_KEY_IDENTIFIER_OID)
-++                        .and_then(|ext| ext.value::<&[u8]>().ok())
-++                });
-++
-++            match (want_kid, have_kid) {
-++                // cert AKID matches candidate SKID, highest likelihood.
-++                (Some(want), Some(have)) if want == have => 0,
-++                // cert AKID and candidate SKID don't match, lowest likelihood.
-++                (Some(_), Some(_)) => 2,
-++                // cert AKID and/or candidate SKID is not present, medium likelihood.
-++                _ => 1u8,
-++            }
-++        });
-++        candidates
-+     }
-+ 
-+     fn build_chain_inner(
-+@@ -314,7 +373,8 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
-+         // Otherwise, we collect a list of potential issuers for this cert,
-+         // and continue with the first that verifies.
-+         let mut last_err: Option<ValidationError> = None;
-+-        for issuing_cert_candidate in self.potential_issuers(working_cert) {
-++        for issuing_cert_candidate in self.potential_issuers(working_cert, working_cert_extensions)
-++        {
-+             // A candidate issuer is said to verify if it both
-+             // signs for the working certificate and conforms to the
-+             // policy.
-+@@ -324,6 +384,7 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
-+                 working_cert.certificate(),
-+                 current_depth,
-+                 &issuer_extensions,
-++                budget,
-+             ) {
-+                 Ok(_) => {
-+                     match self.build_chain_inner(
-+@@ -417,3 +478,135 @@ impl<'a, 'chain, B: CryptoOps> ChainBuilder<'a, 'chain, B> {
-+         Ok(chain)
-+     }
-+ }
-++
-++#[cfg(test)]
-++mod tests {
-++    use asn1::ParseError;
-++    use cryptography_x509::certificate::Certificate;
-++    use cryptography_x509::oid::SUBJECT_ALTERNATIVE_NAME_OID;
-++
-++    use crate::certificate::tests::PublicKeyErrorOps;
-++    use crate::ops::{CryptoOps, VerificationCertificate};
-++    use crate::policy::{Policy, PolicyDefinition, Subject};
-++    use crate::trust_store::Store;
-++    use crate::types::DNSName;
-++    use crate::{Budget, ChainBuilder, NameChain, ValidationError};
-++
-++    #[test]
-++    fn test_validationerror_display() {
-++        let err = ValidationError::Malformed(
-++            ParseError::new(asn1::ParseErrorKind::InvalidLength),
-++        );
-++        assert_eq!(err.to_string(), "ASN.1 parsing error: invalid length");
-++
-++        let err = ValidationError::ExtensionError{
-++            oid: SUBJECT_ALTERNATIVE_NAME_OID,
-++            reason: "duplicate extension",
-++        };
-++        assert_eq!(
-++            err.to_string(),
-++            "invalid extension: 2.5.29.17: duplicate extension"
-++        );
-++
-++        let err = ValidationError::FatalError("oops");
-++        assert_eq!(err.to_string(), "fatal error: oops");
-++    }
-++
-++    /// A `CryptoOps` whose public key extraction and signature verification
-++    /// always succeed, so that `valid_issuer` can be driven to completion
-++    /// without real cryptographic material.
-++    struct NullOps;
-++
-++    impl CryptoOps for NullOps {
-++        type Key = ();
-++        type Err = ();
-++        type CertificateExtra = ();
-++        type PolicyExtra = ();
-++
-++        fn public_key(&self, _cert: &Certificate<'_>) -> Result<Self::Key, Self::Err> {
-++            Ok(())
-++        }
-++
-++        fn verify_signed_by(
-++            &self,
-++            _cert: &Certificate<'_>,
-++            _key: &Self::Key,
-++        ) -> Result<(), Self::Err> {
-++            Ok(())
-++        }
-++
-++        fn clone_public_key(_key: &Self::Key) -> Self::Key {}
-++
-++        fn clone_extra(_extra: &Self::CertificateExtra) -> Self::CertificateExtra {}
-++    }
-++
-++    #[test]
-++    fn test_clone() {
-++        assert_eq!(NullOps::clone_public_key(&()), ());
-++        assert_eq!(NullOps::clone_extra(&()), ());
-++    }
-++
-++    // A self-issued ("looping") CA certificate that is its own issuer.
-++    fn looping_ca_pem() -> pem::Pem {
-++        pem::parse(
-++            "-----BEGIN CERTIFICATE-----
-++MIIBcjCCARmgAwIBAgIBATAKBggqhkjOPQQDAjAhMR8wHQYDVQQDDBZsb29waW5n
-++IHNlbGYtc2lnbmVkIENBMB4XDTIzMTIzMTAwMDAwMFoXDTI0MDEzMTAwMDAwMFow
-++ITEfMB0GA1UEAwwWbG9vcGluZyBzZWxmLXNpZ25lZCBDQTBZMBMGByqGSM49AgEG
-++CCqGSM49AwEHA0IABKAoXUGnHdfXJbSXjRjeW+PCVHmlo4KEki69N5pJUA0QyQMR
-++v9ySOMnWf3Ea7TR4g3zdguwTP7LdpSku3uR1QkmjQjBAMA8GA1UdEwEB/wQFMAMB
-++Af8wDgYDVR0PAQH/BAQDAgGGMB0GA1UdDgQWBBR23MGdG1Ma9iR+3CxKTafD/OE0
-++dTAKBggqhkjOPQQDAgNHADBEAiA4RCr07KfZdM16VfGNZAQFjvC60SWIU3RRVY/L
-++qolIOwIgCaIgj9ipK0Q0p+45UJiq+L/ncrxsweJkFq/UYubzhX0=
-++-----END CERTIFICATE-----",
-++        )
-++        .unwrap()
-++    }
-++
-++    /// Exercises our pathlen overflow error scenario.
-++    ///
-++    /// This condition is logically unreachable from Python, since
-++    /// we unconditionally limit signature checks to a number smaller
-++    /// than `u8::MAX`, meaning that we always exhaust the signature budget
-++    /// before potentially exhausting the pathlen budget.
-++    ///
-++    /// To test that directly, we manually lift the signature budget
-++    /// and start our pathlen state right at `u8::MAX`, guaranteeing
-++    /// an overflow on the immediate chain building step.
-++    #[test]
-++    fn test_build_chain_inner_depth_overflow() {
-++        let pem = looping_ca_pem();
-++        let ca = asn1::parse_single::<Certificate<'_>>(pem.contents()).unwrap();
-++        let ca_exts = ca.extensions().ok().unwrap();
-++
-++        // The same self-issued CA is both the working certificate and its own
-++        // (only) candidate issuer, so the search recurses on itself.
-++        let working = VerificationCertificate::<NullOps>::new(&ca, ());
-++        let intermediates = [VerificationCertificate::<NullOps>::new(&ca, ())];
-++        let store: Store<'_, NullOps> = Store::new([]);
-++
-++        let subject = Subject::DNS(DNSName::new("example.com").unwrap());
-++        let time = asn1::DateTime::new(2024, 1, 1, 0, 0, 0).unwrap();
-++        let policy_def =
-++            PolicyDefinition::server(NullOps, subject, time, Some(u8::MAX), None, None).unwrap();
-++        let policy = Policy::new(&policy_def, ());
-++
-++        let builder = ChainBuilder::new(&intermediates, &policy, &store);
-++        let mut budget = Budget {
-++            name_constraint_checks: usize::MAX,
-++            signature_checks: usize::MAX,
-++        };
-++
-++        let name_chain = NameChain::new::<NullOps>(None, &ca_exts, false)
-++            .ok()
-++            .unwrap();
-++        let err = builder
-++            .build_chain_inner(&working, u8::MAX, &ca_exts, name_chain, &mut budget)
-++            .unwrap_err();
-++
-++        assert!(matches!(
-++            err.kind,
-++            ValidationError::Other(msg) if msg.contains("current depth calculation overflowed")
-++        ));
-++    }
-++}
-+diff --git a/src/rust/cryptography-x509-verification/src/policy/mod.rs b/src/rust/cryptography-x509-verification/src/policy/mod.rs
-+index d5a199d..5bdc8d5 100644
-+--- a/src/rust/cryptography-x509-verification/src/policy/mod.rs
-++++ b/src/rust/cryptography-x509-verification/src/policy/mod.rs
-+@@ -25,7 +25,7 @@ use once_cell::sync::Lazy;
-+ use crate::ops::CryptoOps;
-+ use crate::policy::extension::{ca, common, ee, Criticality, ExtensionPolicy, ExtensionValidator};
-+ use crate::types::{DNSName, DNSPattern, IPAddress};
-+-use crate::{ValidationError, VerificationCertificate};
-++use crate::{Budget, ValidationError, VerificationCertificate};
-+ 
-+ // SubjectPublicKeyInfo AlgorithmIdentifier constants, as defined in CA/B 7.1.3.1.
-+ 
-+@@ -463,10 +463,16 @@ impl<'a, B: CryptoOps> Policy<'a, B> {
-+         child: &Certificate<'_>,
-+         current_depth: u8,
-+         issuer_extensions: &Extensions<'_>,
-++        budget: &mut Budget,
-+     ) -> Result<(), ValidationError> {
-+         // The issuer needs to be a valid CA at the current depth.
-+         self.permits_ca(issuer.certificate(), current_depth, issuer_extensions)?;
-+ 
-++        // Charge the (potentially expensive) signature verification against the
-++        // budget before performing it, bounding the total work an attacker can
-++        // force during chain building.
-++        budget.signature_check()?;
-++
-+         // CA/B 7.1.3.1 SubjectPublicKeyInfo
-+         // NOTE: We check the issuer's SPKI here, since the issuer is
-+         // definitionally a CA and thus subject to CABF key requirements.
-+-- 
-+2.43.0
-+
-diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-index 8148ec0ba5..899332123f 100644
---- a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-@@ -14,6 +14,7 @@ SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-             file://CVE-2026-26007.patch \
-             file://CVE-2026-34073.patch \
-             file://CVE-2026-69248.patch \
-+            file://CVE-2026-69249.patch \
-             file://check-memfree.py \
-             file://run-ptest \
+diff --git a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-=
+to-function-declarations.patch b/meta/recipes-devtools/rsync/files/0001-Add=
+-missing-prototypes-to-function-declarations.patch
+index 5aed93e458d..1f1fc3f3b3e 100644
+--- a/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-func=
+tion-declarations.patch
++++ b/meta/recipes-devtools/rsync/files/0001-Add-missing-prototypes-to-func=
+tion-declarations.patch
+@@ -1,4 +1,4 @@
+-From 64e62c659649593239ed39ed40a3ae689bf2d593 Mon Sep 17 00:00:00 2001
++From 56a785a7d964f797a786b2d5b75d9cee51b530b1 Mon Sep 17 00:00:00 2001
+ From: Khem Raj <raj.khem@gmail.com>
+ Date: Mon, 29 Aug 2022 19:53:28 -0700
+ Subject: [PATCH] Add missing prototypes to function declarations
+@@ -63,7 +63,7 @@ index 889b57b..19e5e98 100644
+  	int options =3D LOG_PID;
+ =20
+ diff --git a/main.c b/main.c
+-index 6050d0e..45722c4 100644
++index ed6e554..b5f9448 100644
+ --- a/main.c
+ +++ b/main.c
+ @@ -250,7 +250,7 @@ void read_del_stats(int f)
+diff --git a/meta/recipes-devtools/rsync/files/determism.patch b/meta/recip=
+es-devtools/rsync/files/determism.patch
+index 2eea267bb2d..890275f6d7c 100644
+--- a/meta/recipes-devtools/rsync/files/determism.patch
++++ b/meta/recipes-devtools/rsync/files/determism.patch
+@@ -1,4 +1,4 @@
+-From c4c9b52a864c3b9ff67771b9d881a78276448100 Mon Sep 17 00:00:00 2001
++From e784131e4ccbaf8ad7107d1f7a7f13da8c675827 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Sun, 21 Feb 2021 09:45:48 +0000
+ Subject: [PATCH] rsync: Fix a file sorting determinism issue
+@@ -25,10 +25,10 @@ https://github.com/WayneD/rsync/commit/d3085f7add38a5cf=
+833a0b31cb0637ff46c80f8d
+  1 file changed, 5 insertions(+)
+=20
+ diff --git a/Makefile.in b/Makefile.in
+-index 91807d6..c18b4be 100644
++index de24949..bb9bb27 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -27,6 +27,11 @@ MKDIR_P=3D@MKDIR_P@
++@@ -28,6 +28,11 @@ MKDIR_P=3D@MKDIR_P@
+  VPATH=3D$(srcdir)
+  SHELL=3D/bin/sh
+ =20
+diff --git a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch b/=
+meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
+index 4ff070ea3c6..59255d15e72 100644
+--- a/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
++++ b/meta/recipes-devtools/rsync/files/makefile-no-rebuild.patch
+@@ -1,4 +1,4 @@
+-From bab7abb3c7c1c1db8ef6c3084c1ffb5152f5bf1e Mon Sep 17 00:00:00 2001
++From 0e1f2aec0dbfc150013860b42b41645cebe236b7 Mon Sep 17 00:00:00 2001
+ From: Ross Burton <ross.burton@intel.com>
+ Date: Tue, 12 Apr 2016 15:51:54 +0100
+ Subject: [PATCH] rsync: remove upstream's rebuild logic
+@@ -13,10 +13,10 @@ Signed-off-by: Ross Burton <ross.burton@intel.com>
+  1 file changed, 54 deletions(-)
+=20
+ diff --git a/Makefile.in b/Makefile.in
+-index 801e864..91807d6 100644
++index 716171d..de24949 100644
+ --- a/Makefile.in
+ +++ b/Makefile.in
+-@@ -265,60 +265,6 @@ conf: configure.sh config.h.in
++@@ -267,60 +267,6 @@ conf: configure.sh config.h.in
+  .PHONY: gen
+  gen: conf proto.h man git-version.h
+ =20
+diff --git a/meta/recipes-devtools/rsync/rsync_3.5.0.bb b/meta/recipes-devt=
+ools/rsync/rsync_3.5.1.bb
+similarity index 95%
+rename from meta/recipes-devtools/rsync/rsync_3.5.0.bb
+rename to meta/recipes-devtools/rsync/rsync_3.5.1.bb
+index d9a4884d96e..6b121ab1a87 100644
+--- a/meta/recipes-devtools/rsync/rsync_3.5.0.bb
++++ b/meta/recipes-devtools/rsync/rsync_3.5.1.bb
+@@ -16,7 +16,7 @@ SRC_URI =3D "https://download.samba.org/pub/${BPN}/src/${=
+BP}.tar.gz \
+            file://determism.patch \
+            file://0001-Add-missing-prototypes-to-function-declarations.pat=
+ch \
             "
--- 
-2.43.0
-
+-SRC_URI[sha256sum] =3D "c7ffd1ef653e99540f661e47cb00b7f9cad1ee6b972399b16f=
+93d672656e0d33"
++SRC_URI[sha256sum] =3D "c55f9c9dc10fb8bec397b399a0fdded53cc9a2d8e30891bb0d=
+63724d25c37bef"
+=20
+ # Out-of-tree builds don't install the documentation currently
+ # https://github.com/RsyncProject/rsync/issues/846
+@@ -28,6 +28,7 @@ PACKAGECONFIG ??=3D "acl attr \
+=20
+ PACKAGECONFIG[acl] =3D "--enable-acl-support,--disable-acl-support,acl,"
+ PACKAGECONFIG[attr] =3D "--enable-xattr-support,--disable-xattr-support,at=
+tr,"
++PACKAGECONFIG[idn] =3D "--enable-idn,--disable-idn,libidn2"
+ PACKAGECONFIG[ipv6] =3D "--enable-ipv6,--disable-ipv6,"
+ PACKAGECONFIG[lz4] =3D "--enable-lz4,--disable-lz4,lz4"
+ PACKAGECONFIG[openssl] =3D "--enable-openssl,--disable-openssl,openssl"
 
