@@ -1,87 +1,123 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <bhavesh.maheshwari@einfochips.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 78739C982FA
-	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 07:00:27 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4439.1790060425106430505
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B40BFC982F1
+	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 07:02:27 +0000 (UTC)
+Received: from naesa06.arrow.com (naesa06.arrow.com [216.150.161.27])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4480.1790060539506240679
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Sep 2026 00:00:26 -0700
+ Tue, 22 Sep 2026 00:02:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=brQyfOWd;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202609220700207ad6d3093d00020788-ug0vnb@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202609220700207ad6d3093d00020788
-        for <openembedded-core@lists.openembedded.org>;
-        Tue, 22 Sep 2026 09:00:21 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=mMI/8ruF+dZYA0KEFS7zKlYToLqXkw1IaWn3/hQgxH8=;
- b=brQyfOWdm9h3/gta8CVzLl0kBfNlewTH7EYUvaYz0P3XXySXJ0WX2TlpaaVlH6WGy1mX+p
- UmoKFDnW864rIM1dhlEY6aBNVlEnmlrN7iIaidRLOt2xBxRRvu04NlzMGptYrin3pJ5Q8UZq
- aXJa8XywWZgOqs+X6C0LucdbiII69jYJClaF1cPkrcrRe56xpSstASmUbr1JkWE5D39J0Q8c
- KSnI3ZitMdXn9OhcpS6cumiIQ+BF2me5Y9Boy597Nw8Py8sgEnUNAMm+NcUGAz0dqUJs3XE+
- yw+rsKAMz2yqQncEjQa3FtjbHMllnn+NSp8g9snNAWVII1D0+5V7PKrg==;
-From: Peter Marko <peter.marko@siemens.com>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@einfochips.com header.s=NAESA-Selector1 header.b=nrWLXHCz;
+ spf=pass (domain: einfochips.com, ip: 216.150.161.27, mailfrom: bhavesh.maheshwari@einfochips.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=einfochips.com; i=@einfochips.com; l=2962; q=dns/txt;
+  s=NAESA-Selector1; t=1790060540; x=1821596540;
+  h=from:to:subject:date:message-id:in-reply-to:references:
+   mime-version:content-transfer-encoding;
+  bh=PaLDfXdM1we6eVWyG33XAKEmfgZajOohT16vPIDOUME=;
+  b=nrWLXHCzyQP0Zt9IJIIuTgJ8GVOvBTd3WlIO6V6TvtzoHIdmVdnX6xRl
+   S14B5eCvUCnoUuWqPcH3PmOV02sJpcKJ3B0GKNCh3xJsQmeIPrJZVhbFm
+   saYFPrfyAKaGxNdL+rdGeJQdZPvF8SUZetxTHA9WiQdpqMKaailnFUl6e
+   LYIfEdrwdksJ+FB7rggIi+BK4arW47yuIFTq7r/Xe5B9rUCoe3ovAnGqr
+   ku3a5NueuJsJLG0OcOCYtEHfKXG7HeYAqf47Jhtw4NUsvWl8A0oY2Af9q
+   r59t6pvkCfbVMmZcmpFARzUaoK5ADaUwzEvpZjeAazHZVfYFuqlVs9c88
+   Q==;
+X-CSE-ConnectionGUID: 4IyMTYLuSTKp+VCc943i7A==
+X-CSE-MsgGUID: lksnmqvxSuaEocXF9UEDRA==
+X-IronPort-AV: E=Sophos;i="6.27,116,1787032800"; 
+   d="scan'208";a="63995890"
+Received: from unknown (HELO 6T8J9X2.ap.corp.arrow.com) ([10.126.18.101])
+  by naesa06out.arrow.com with ESMTP; 22 Sep 2026 01:02:15 -0600
+From: bhavesh.maheshwari@einfochips.com
 To: openembedded-core@lists.openembedded.org
-Cc: Peter Marko <peter.marko@siemens.com>,
-	Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [wrynose][PATCH] bitbake.conf: pseudo add rootfs-dbg to PSEUDO_INCLUDE_PATHS
-Date: Tue, 22 Sep 2026 08:59:49 +0200
-Message-ID: <20260922065949.5508-1-peter.marko@siemens.com>
+Subject: [wrynose][oe-core][PATCH 2/5] ffmpeg: Fix for CVE-2026-66037
+Date: Tue, 22 Sep 2026 12:31:26 +0530
+Message-ID: <20260922070209.2770399-2-bhavesh.maheshwari@einfochips.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260922070209.2770399-1-bhavesh.maheshwari@einfochips.com>
+References: <20260922070209.2770399-1-bhavesh.maheshwari@einfochips.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 07:00:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246381
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 07:02:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246383
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 
-This is a fix for commit 2502da8170 ("bitbake.conf/pseudo: Switch from
-exclusion list to inclusion list"), which forgot ${WORKDIR}/rootfs-dbg.
+Pick the patch from [1], also referenced in the NVD report [2].
 
-oe/rootfs.py's _setup_dbg_rootfs() builds the debug tree under
-${WORKDIR}/rootfs (already included) and only renames it to
-${WORKDIR}/rootfs-dbg as the very last step, so the rename itself
-doesn't lose anything: pseudo's database is keyed by (device, inode),
-not by path. But PSEUDO_INCLUDE_PATHS also gates whether pseudo
-intercepts any *later* access made through the new path prefix, and
-rootfs-dbg wasn't covered.
+[1] https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/86708357d126af84c16f80d9c57335d1e8c845c5
+[2] https://nvd.nist.gov/vuln/detail/cve-2026-66037
 
-That silently broke image-combined-dbg.bbclass's combine_dbg_image(),
-which runs under fakeroot in do_image:
-
-  tar -C ${IMAGE_ROOTFS} -cf - . | tar -C ${IMAGE_ROOTFS}-dbg -xf -
-
-The extracting tar's chown() calls into ${IMAGE_ROOTFS}-dbg fell
-through to real, unprivileged syscalls instead of being faked by
-pseudo, so files copied into rootfs-dbg silently ended up owned by the
-build user instead of their correct target ownership.
-
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(From OE-Core rev: 2dd3a54134c04147a863ada4997edab3e8afc6fa)
-Signed-off-by: Peter Marko <peter.marko@siemens.com>
+Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 ---
- meta/conf/bitbake.conf | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../ffmpeg/ffmpeg/CVE-2026-66037.patch        | 39 +++++++++++++++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66037.patch
 
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index 24e095632e..c5f84124f0 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -748,7 +748,7 @@ SRC_URI = ""
- PSEUDO_LOCALSTATEDIR ?= "${WORKDIR}/pseudo/"
- PSEUDO_PASSWD ?= "${STAGING_DIR_TARGET}:${PSEUDO_SYSROOT}"
- PSEUDO_SYSROOT = "${COMPONENTS_DIR}/${BUILD_ARCH}/pseudo-native"
--PSEUDO_INCLUDE_PATHS = "/proc,${WORKDIR}/image,${WORKDIR}/package,${WORKDIR}/rootfs,${WORKDIR}/sstate-build-package/,${WORKDIR}/sstate-install-package/,${WORKDIR}/pkgdata,${WORKDIR}/minidebuginfo,${WORKDIR}/devtool-deploy-target-stripped"
-+PSEUDO_INCLUDE_PATHS = "/proc,${WORKDIR}/image,${WORKDIR}/package,${WORKDIR}/rootfs,${WORKDIR}/rootfs-dbg,${WORKDIR}/sstate-build-package/,${WORKDIR}/sstate-install-package/,${WORKDIR}/pkgdata,${WORKDIR}/minidebuginfo,${WORKDIR}/devtool-deploy-target-stripped"
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66037.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66037.patch
+new file mode 100644
+index 0000000000..1b93c0ca86
+--- /dev/null
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66037.patch
+@@ -0,0 +1,39 @@
++From f02c8cd37dee2b333de229c6ac6834322f56e2c9 Mon Sep 17 00:00:00 2001
++From: Michael Niedermayer <michael@niedermayer.cc>
++Date: Sun, 28 Jun 2026 22:05:28 +0200
++Subject: [PATCH] avformat/iamf_parse: check count_label against the available
++ bytes
++
++Fixes: unbounded allocation / denial of service
++Fixes: tP59h4cpaFyg
++Fixes: 4ee05182b7 (avformat: Immersive Audio Model and Formats demuxer)
++Found-by: Adrian Junge (vurlo)
++Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
++
++CVE: CVE-2026-66037
++Upstream-Status: Backport [https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/86708357d126af84c16f80d9c57335d1e8c845c5]
++
++Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
++---
++ libavformat/iamf_parse.c | 5 +++++
++ 1 file changed, 5 insertions(+)
++
++diff --git a/libavformat/iamf_parse.c b/libavformat/iamf_parse.c
++index 29b8acd351..a36759e282 100644
++--- a/libavformat/iamf_parse.c
+++++ b/libavformat/iamf_parse.c
++@@ -969,6 +969,11 @@ static int mix_presentation_obu(void *s, IAMFContext *c, AVIOContext *pb, int le
++     mix_presentation->cmix = mix;
++ 
++     mix_presentation->count_label = ffio_read_leb(pbc);
+++    if (mix_presentation->count_label > len - avio_tell(pbc)) {
+++        mix_presentation->count_label = 0;
+++        ret = AVERROR_INVALIDDATA;
+++        goto fail;
+++    }
++     mix_presentation->language_label = av_calloc(mix_presentation->count_label,
++                                                  sizeof(*mix_presentation->language_label));
++     if (!mix_presentation->language_label) {
++-- 
++2.53.0
++
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+index 42ec15bf81..c0623987f4 100644
+--- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
+@@ -39,6 +39,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
+            file://CVE-2026-65706.patch \
+            file://CVE-2026-66036_p1.patch \
+            file://CVE-2026-66036_p2.patch \
++           file://CVE-2026-66037.patch \
+            "
  
- export PSEUDO_DISABLED = "1"
- #export PSEUDO_PREFIX = "${STAGING_DIR_NATIVE}${prefix_native}"
+ SRC_URI[sha256sum] = "6136812ea6d4e68bdba27e33c2a94382711cdf4f8602ffef056ff792bd6f9818"
+-- 
+2.43.0
+
 
