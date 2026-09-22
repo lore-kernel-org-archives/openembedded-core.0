@@ -2,383 +2,151 @@ Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AE932C98302
-	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 12:51:26 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.9385.1790081483111637640
+	by smtp.lore.kernel.org (Postfix) with ESMTP id BA494C982FF
+	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 13:02:56 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.31])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9498.1790082173288864764
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Sep 2026 05:51:23 -0700
+ Tue, 22 Sep 2026 06:02:53 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=WRefca3a;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B45541576
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 05:51:18 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D73733F632
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 05:51:21 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790081482; bh=mMzbg/e61c/9rjAglURL4BmPOIej/2lpNtgerr74hLI=;
-	h=From:To:Subject:Date:From;
-	b=WRefca3awjGxt6N5x1f0rys+/mO9iQCZ3AO6LbPIploI1VgvCre92JVP8jAPVggq0
-	 p/0lxdHF3N66aNy8eJHVi/Wsw0bUFc3loH9iqLrVlxyh+bGyfTSlZ7fyi4zgmWaGM7
-	 58bAkMKnu9nE0u7Al3zamdlX4c3Roa8kx6DWZzCM=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gzip: upgrade 1.14 -> 1.15
-Date: Tue, 22 Sep 2026 13:50:56 +0100
-Message-ID: <20260922125113.669634-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=ZMyx+y6e;
+ dkim=pass header.i=@arm.com header.s=selector1 header.b=ZMyx+y6e;
+ spf=pass (domain: arm.com, ip: 52.101.84.31, mailfrom: ross.burton@arm.com)
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=MWDshEyEOuGRC6JVw/Y3nu7V/bS3HCa8/8iTYkR/6JmnXyM42LQuAzXXSTxIIDGE/77ECZUI/j+d/waWmcSCV5WUoX4jgc2T27w2byN/+4IYTVz/SneduLHoj8/37E6U8d+/mear/JFg9nHy1Fj0nxuZSHpFIZGGvf9RnP8VKWKf+qEjidQc7dvyUxeu2My1//h/Z+5oxv14MQs2flti/RIrRjrCKtWk9lFRDGmesDcvrafJRaJQaYAL6hMONKCU/CU8Q9sSQklCitGjqq1Pc0xLM3zufJH5QL4iRaduAJebNcTLbGuA7Q2CJsMM6oL+dNywLZR5hdhTYGvRYgfF2w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+dzEy6wFU5kREBQIkpCUVjHipmYvkzeSjd6PkM2tY9w=;
+ b=GqVpTDf6xbKrkFhD3U/H7dbXHjS+T3cI+sC47tvU32/8KXWBUC9b+lPiXVLhU72FvC0STcMCer/xfhKg4mAYrMZRWvTqEe4Osf3OCdlqzQer6h8LBf9taiuXZ6gdz6hlOm3UsbzrAAEPGFHLAKt5S1BwQqfMu1jStG+dLYnBvfyMj8Tev9jGdCI5g3fCOOdg8z3XZHv8uZnjZj0L4j5oE5lZSLBMN/2YZn/n9g1wSxmFiIxl1lzZ8b3Dxw8CxWp9hVHVQ76uzuQuJkK3CsV1p18qK+4dx5jMyDg6THhLLQZ7oDECNXNvBRmlpewVVVa/sU8+oMGNLiNS9QZnspxfiQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 4.158.2.129) smtp.rcpttodomain=prevas.dk smtp.mailfrom=arm.com; dmarc=pass
+ (p=none sp=none pct=100) action=none header.from=arm.com; dkim=pass
+ (signature was verified) header.d=arm.com; arc=pass (0 oda=1 ltdi=1
+ spf=[1,1,smtp.mailfrom=arm.com] dkim=[1,1,header.d=arm.com]
+ dmarc=[1,1,header.from=arm.com])
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+dzEy6wFU5kREBQIkpCUVjHipmYvkzeSjd6PkM2tY9w=;
+ b=ZMyx+y6eDKVvvRrFaiCHLEZlJuvQjfMWmcuiIUBw5N42M1JasCyeVUmOmKcauGoSJtreOINTtHqX/na9vWcEqgdhSRN5DpAaVBOCk3Hvzw2kxv32cnHemS2V2GhFwO0FnF78gK13ZD7mowSqfr+YYK2LHb+ew3DiH7/wOECr0j0=
+Received: from DUZP191CA0009.EURP191.PROD.OUTLOOK.COM (2603:10a6:10:4f9::17)
+ by VI0PR08MB10895.eurprd08.prod.outlook.com (2603:10a6:800:257::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.9; Tue, 22 Sep
+ 2026 13:02:46 +0000
+Received: from DB3PEPF00008860.eurprd02.prod.outlook.com
+ (2603:10a6:10:4f9:cafe::7f) by DUZP191CA0009.outlook.office365.com
+ (2603:10a6:10:4f9::17) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.14 via Frontend Transport; Tue,
+ 22 Sep 2026 13:02:46 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 4.158.2.129)
+ smtp.mailfrom=arm.com; dkim=pass (signature was verified)
+ header.d=arm.com;dmarc=pass action=none header.from=arm.com;
+Received-SPF: Pass (protection.outlook.com: domain of arm.com designates
+ 4.158.2.129 as permitted sender) receiver=protection.outlook.com;
+ client-ip=4.158.2.129; helo=outbound-uk1.az.dlp.m.darktrace.com; pr=C
+Received: from outbound-uk1.az.dlp.m.darktrace.com (4.158.2.129) by
+ DB3PEPF00008860.mail.protection.outlook.com (10.167.242.11) with Microsoft
+ SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.8
+ via Frontend Transport; Tue, 22 Sep 2026 13:02:46 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=i3dmwaHYiWb70LUGFykiI4qnUAWAcKgkcTNfKu3a+6ieBC7aDDXWPLaCp3gDalfmtUx+nXePJnrIdG7+BKR6rYUnp1ChS41zLZlIOILBrLZqMj+hnKhchFXFzw+fytTNebliGr0gzH1Q70Vo7egNc3H9jHWh9XYlB05ZJEMKCKw7rt8QpCb5JqMAZl9dAP/jrw+3/WV+hdYU0GohxSMmXPxwSbF21b6XmlXraMQltbQ52KO5Gu8TWK68S1Ui4KbbaddL0si3crnxncKc/+6W2KruVB1Oc4PsbNkwlCmRcKC//QoYpVZaEmYfToye/eA8RyUpJctKF+Om6xknSbvIPQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=+dzEy6wFU5kREBQIkpCUVjHipmYvkzeSjd6PkM2tY9w=;
+ b=X4SqJWX5XTnHDs1yEcdGnsThiyN6qCk9uI0CV/XEthEYtlIEAueRF1FtWb6wVgg/4vSDOdx//bH9qfltj91D7r2Y8ZiS3QZl2ofY/ukRFVcJybioFmB4JY1NlYAs3ww6A58KVEKPdoMfylzF9p3cgbzhxbQasPaVyT3irVp9WjpNKPcFkfD+zcrrYqYwsh9NO+z4K1V8msVYTy3AchxCm8AY4cisFHkWAvVPJa1dsl0zmNEy6EBS9S9/Z836ALfL6YFMDYwO0RMRx0shqMoKGddpFZoXPsUSX1nihl9kq0nmwULVgvd3I3cjgIbutxKiw3T+XVCxYj6RU6Ti7vPRQQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=arm.com; dmarc=pass action=none header.from=arm.com; dkim=pass
+ header.d=arm.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=arm.com; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=+dzEy6wFU5kREBQIkpCUVjHipmYvkzeSjd6PkM2tY9w=;
+ b=ZMyx+y6eDKVvvRrFaiCHLEZlJuvQjfMWmcuiIUBw5N42M1JasCyeVUmOmKcauGoSJtreOINTtHqX/na9vWcEqgdhSRN5DpAaVBOCk3Hvzw2kxv32cnHemS2V2GhFwO0FnF78gK13ZD7mowSqfr+YYK2LHb+ew3DiH7/wOECr0j0=
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com (2603:10a6:20b:287::19)
+ by MI9PR08MB221397.eurprd08.prod.outlook.com (2603:10a6:290:86::20) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Tue, 22 Sep
+ 2026 13:02:14 +0000
+Received: from AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b]) by AM9PR08MB6258.eurprd08.prod.outlook.com
+ ([fe80::171d:1f8b:720d:7a1b%4]) with mapi id 15.21.0451.012; Tue, 22 Sep 2026
+ 13:02:14 +0000
+From: Ross Burton <Ross.Burton@arm.com>
+To: "rasmus.villemoes@prevas.dk" <rasmus.villemoes@prevas.dk>
+CC: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, Stefano Babic
+	<sbabic@nabladev.com>, Rasmus Villemoes <ravi@prevas.dk>
+Subject: Re: [OE-core] [PATCH] libubootenv: add yaml PACKAGECONFIG
+Thread-Topic: [OE-core] [PATCH] libubootenv: add yaml PACKAGECONFIG
+Thread-Index: AQHdRc35MZQEqGjtL0GQSKatT+e/ULbamYOA
+Date: Tue, 22 Sep 2026 13:02:14 +0000
+Message-ID: <9E72762F-D767-4977-9ECC-B473190A6BB1@arm.com>
+References: <20260916112414.138992-1-ravi@prevas.dk>
+In-Reply-To: <20260916112414.138992-1-ravi@prevas.dk>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-mailer: Apple Mail (2.3864.700.51.1.1)
+Authentication-Results-Original: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=arm.com;
+x-ms-traffictypediagnostic: 
+	AM9PR08MB6258:EE_|MI9PR08MB221397:EE_|DB3PEPF00008860:EE_|VI0PR08MB10895:EE_
+X-MS-Office365-Filtering-Correlation-Id: 09ef7cf2-6d03-4497-40f7-08df18a9cc2c
+x-checkrecipientrouted: true
+nodisclaimer: true
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam-Untrusted: 
+ BCL:0;ARA:13230040|1800799024|23010399003|366016|376014|10067099003|56012099006|18002099003|22082099003|11063799006|38070700021;
+X-Microsoft-Antispam-Message-Info-Original: 
+ YjwS33DesQ+BIwtLXWwtuKaALYm4uI1Qc21lItsnB8RLVhZ5kLktX96SYfRn2nFz3thW4VhxJDeurw/bUrW4f3StESIczY3mXx0zp09/b6Na0lQ2YXfttxC/PbsfocdiqRFVzNVEMiV8YYCNpdgrhloWqutqBTGHl/Ol80a5XDdsbT0d73NIQIfnF9YxQv3/5bU0yJ55jJrhW8jrNDbnm8S8SSifr5HYyKZh3XkXplKs61v+VC3QAG4+rh9y3oikDC7nQEXzadXTyG1jO1GU+P+k8jwndQ4m8AKK4uAMy/EBp5Sj++0Dx8HGo3LpL6Im7S2HOntvo4e3vWWvwZaokoaNdEi8wP/UH+uGYsUA5iDSNtrcqVSJVLGBXl0CAqNwG/8BDeH+C7+v2F56MD0iBy8W4L+h3F7F4vTDA4OZ0o5bfjVU324G5BG+h6C6YjSmNtKxM48BtlTe0YBQZ8WAiz27gsDeksBxSutyopEzepdoggNvzFWQWzpCsb1FvOqDh2AInHqItmJ5+mxo5jZZxNBaqyYpkZYrvsIpqTISyJ5+TdCUaEPqS8YRzhINg1KXwsQBtI4g7hnJSK3zvJ9EGn+juphYaNB8ZQJmEdK9CvNYLQt+1z/a7J0HRBabRVnkWbx29rNAF9S8pWvczPDGgFrBwPWBk8cbiHTVl79ccoXFNwWrNPM/h7VcazxB2MG4UrpKXI3H4/KrorX0AOr4bw==
+X-Forefront-Antispam-Report-Untrusted: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM9PR08MB6258.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(366016)(376014)(10067099003)(56012099006)(18002099003)(22082099003)(11063799006)(38070700021);DIR:OUT;SFP:1101;
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <FCB0EF235EEDA2468D3EE806FB21E508@eurprd08.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+X-Exchange-RoutingPolicyChecked: 
+ EfYxxubTgw143/vmEjagw9Z36P/JYYBgXEmfMFgDRfQKHiM68zkIEcNTFEfafnsu8vDDxKn8C+2bBhMT+KYwI+q9OCbIYhw3cGeTZB24Pxtv1wnUya12IDJ0f0honrHsgbTFO7VatZUMZRRbmrmcgA7sj2u11ek/CFuXRad/rLQKxmsPKj/VaI/JmdouLSUjaMQyzA1mzEdnUsGWawtfd242GCIezp33KL6Zi6t9lDC82pEVsNEtHk+73l+zSf74D/gWbVQnNfYh4p+ODRlsIK980ovyKn0dcDTWGNHpKSQgJcgFi41MqwMsg8BKivGXQz6NHZQqrZ7gezdDlWa+xg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MI9PR08MB221397
+X-EOPAttributedMessage: 0
+X-MS-Exchange-Transport-CrossTenantHeadersStripped: 
+ DB3PEPF00008860.eurprd02.prod.outlook.com
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id-Prvs: 
+	a1dca87f-89a6-4c8c-6b44-08df18a9b912
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|36860700016|14060799003|1800799024|376014|35042699022|82310400026|10067099003|11063799006|18002099003|22082099003|56012099006;
+X-Microsoft-Antispam-Message-Info: 
+	U115e1xGkWFQJf85/5LK9mfXt9qwaUzWmZiP24D48hclYuqS1a7gwVymrKhLluNtlsGvpd+G1bJJWHjnQdfBF9nk5Dq0NBV2gEzCtyxA7Tm4ErCwt6TlUloGsxV9r9xxoHSwrHiS7Q0ssunQvz81POcnAjNAK50zgDHhot857//3TH/zwxWJkvngA5PknTG9oEipzRTapsSXvbi54EAnXneG7Q6wy4KYWodMUh85d72i4URCmXHEXpkgg44UghwdUE9k3GssypTsGnAyg2KQnRDDEnq2nLfwU4hUBpppEYf8Sf6P9Fj4ToqcrpGU13oOVZHazMnjc2Obq6wF49OoIb/LLUiWN9H/4e2HZO9urUvbZB/0W3J7JpYKDWx0Sqgwws9cpGBO5JNKfwu23Pu/yKvlD/2t/XqLjVpEkg9it07Oa38/IOwglHUJnwRpBCiOX4fPWVbekEU9hb4k+eClk4ifzIfQ/bulkNEYFTTw3PZjvwDhLjLk2f1glpqs92BMBQvtF8fWg5oAKOfBSw4EPXJvH6leNaiYGoQ5pPQYOpoumgn6G1yBLILSj7NWPfS2CoaKeXedn7SypjyqsK7+pKn+uHeHtYRlPGFkkm3qdBYBHK1t0tljrBtGRUJwlrBrcM4WOyC5iHkq2B9V5v4WA7lUtRKIymqeIVE+ePbTrBvw8+YZ7V33dRAh9sXO0HCo
+X-Forefront-Antispam-Report: 
+	CIP:4.158.2.129;CTRY:GB;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:outbound-uk1.az.dlp.m.darktrace.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(23010399003)(36860700016)(14060799003)(1800799024)(376014)(35042699022)(82310400026)(10067099003)(11063799006)(18002099003)(22082099003)(56012099006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	H1+GIf9FSlYIlMmT2oqqYhF4wwwTbh5Y3KJRKPuF0WEVSdZ7w/+dgYhKZgCqh1++hmZPZvSJRCJ3Vfv0JbTOeA8N2E6dplTjCOzI84anxDGryfRAUmJeznJvM/lSeGOzPpKOtptLxSgLti5URHVQgutbCRCx0m7OhRsHs/J/4+xmXaoqCamYl06esnMCWdLi8pGw6+L2a5BzuiEVtVmU6vFVWxX04yXAUFIS7/hdZORGvFTzBqRnizWqYofrJ0GyPXCP+p1YUKwGJ9G+0Ly0+GS0fe8EOhlKfTLw3+iPWMSS4s0Ox7R+m5QQcJJMWmKgrp0gstSBSxcIdOAzYg6Qxe69ljOtnDauO7ilWRpWZ0d+gNzLcUVKsa8Q3z/dCDf01vk+AzweFuor/SwfeAVpdqLnhT3Ki9gpyr+nCb+lqWYpL4qqoaLXBkH2nGXwFtdU
+X-OriginatorOrg: arm.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 22 Sep 2026 13:02:46.2936
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 09ef7cf2-6d03-4497-40f7-08df18a9cc2c
+X-MS-Exchange-CrossTenant-Id: f34e5979-57d9-4aaa-ad4d-b122a662184d
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=f34e5979-57d9-4aaa-ad4d-b122a662184d;Ip=[4.158.2.129];Helo=[outbound-uk1.az.dlp.m.darktrace.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DB3PEPF00008860.eurprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0PR08MB10895
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 12:51:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246409
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 13:02:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246410
 
-Upstream release notes:
-
-** Bug fixes
-
-  gzip no longer can mistakenly remove the wrong file if some other
-  process simultaneously renames a gzip destination's ancestor.
-  [bug present since the beginning]
-
-  gzip -d no longer rejects PKZIP signatures, local header, and data
-  descriptors.  These can appear in well-formed streamed zip files.
-  [bug present since the beginning]
-
-  gzip diagnostics now quote file names containing unusual characters.
-  [bug present since the beginning]
-
-  A use of uninitialized memory on some malformed inputs has been fixed.
-  [bug present since the beginning]
-
-  A buffer overflow has been fixed when decompressing an .lzh file
-  after decompressing a .Z file.
-  [bug present since the beginning]
-
-  When decompressing an .lzh file, the output is no longer corrupted
-  when an internal bit buffer is not properly cleared.
-  [bug present since the beginning]
-
-  When decompressing an .lzh file after another .lzh file, the output is
-  no longer corrupted by the previous file's decoding table.
-  [bug present since the beginning]
-
-  gzip --synchronous no longer fails to synchronize unreadable parent
-  directories on platforms like GNU/Linux that have O_PATH, or to
-  synchronize any parent directories on platforms like FreeBSD that
-  have O_SEARCH but not O_PATH.
-  [bug introduced in gzip-1.7]
-
-  On old-fashioned or limited platforms lacking mktemp, gzexe, zdiff
-  and znew no longer have a race when creating a temporary file.
-  [bug present since the beginning]
-
-** Changes in behavior
-
-  gzip no longer insists on the "C" locale; instead, it follows the
-  typical practice of using the locale specified by the environment.
-  This change, which is needed for file name quoting, can affect the
-  format of floating-point numbers output by gzip's -l and -v options.
-  Diagnostics are still in English, though.
-
-  gzip -l now reports "-Inf%" instead of "0.0%" for the infinite
-  compression ratio of an empty file.
-
-  znew's -P option is now ignored, with a warning.  It was present
-  only to improve performance, and its implementation had too many
-  bugs to be worth supporting.
-
-Drop two CVE patches that were backports.
-
-Add a patch from upstream to fix the build for aarch64.
-
-Consolidate patches into a single directory instead of split between
-gzip-{PV}/ and files/.
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
----
- ...id-failure-to-build-on-linux-aarch64.patch | 44 ++++++++++
- .../{gzip-1.14 =3D> files}/wrong-path-fix.patch |  0
- .../gzip/gzip-1.14/CVE-2026-41991.patch       | 86 -------------------
- .../gzip/gzip-1.14/CVE-2026-41992.patch       | 64 --------------
- .../gzip/{gzip_1.14.bb =3D> gzip_1.15.bb}       |  5 +-
- 5 files changed, 46 insertions(+), 153 deletions(-)
- create mode 100644 meta/recipes-extended/gzip/files/0001-build-avoid-fai=
-lure-to-build-on-linux-aarch64.patch
- rename meta/recipes-extended/gzip/{gzip-1.14 =3D> files}/wrong-path-fix.=
-patch (100%)
- delete mode 100644 meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.p=
-atch
- delete mode 100644 meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.p=
-atch
- rename meta/recipes-extended/gzip/{gzip_1.14.bb =3D> gzip_1.15.bb} (90%)
-
-diff --git a/meta/recipes-extended/gzip/files/0001-build-avoid-failure-to=
--build-on-linux-aarch64.patch b/meta/recipes-extended/gzip/files/0001-bui=
-ld-avoid-failure-to-build-on-linux-aarch64.patch
-new file mode 100644
-index 00000000000..b737d126b25
---- /dev/null
-+++ b/meta/recipes-extended/gzip/files/0001-build-avoid-failure-to-build-=
-on-linux-aarch64.patch
-@@ -0,0 +1,44 @@
-+From b4ed8e73401968bcad749afb0e636dd3ec205ca7 Mon Sep 17 00:00:00 2001
-+From: Jim Meyering <meyering@meta.com>
-+Date: Mon, 21 Sep 2026 01:42:18 -0700
-+Subject: [PATCH] build: avoid failure to build on linux aarch64
-+X-ARM-No-Footer: NoDisclaimer
-+
-+* gzip.c: Include gzip.h only after all system headers.
-+gzip.h's "head" definition affected a subsequent signal.h-
-+included system struct member named "head".
-+Reported by Adam Sampson in https://bugs.gnu.org/81904
-+
-+Upstream-Status: Backport [gzip b4ed8e73401968bcad749afb0e636dd3ec205ca7=
-]
-+Signed-off-by: Ross Burton <ross.burton@arm.com>
-+---
-+ gzip.c | 6 +++++-
-+ 1 file changed, 5 insertions(+), 1 deletion(-)
-+
-+diff --git a/gzip.c b/gzip.c
-+index 220f6fc..6c0af7f 100644
-+--- a/gzip.c
-++++ b/gzip.c
-+@@ -58,7 +58,6 @@ static char const license_msg[] =3D
-+=20
-+ #include "tailor.h"
-+=20
-+-#include "gzip.h"
-+ #include "lzw.h"
-+ #include "revision.h"
-+ #include "version.h"
-+@@ -99,6 +98,11 @@ static char const license_msg[] =3D
-+ #  include <utimens.h>
-+ #endif
-+=20
-++/* Include this only after all system headers. Otherwise, its definitio=
-n
-++   of "head" conflicts with member names in linux-headers 7.2.6's
-++   asm/sigcontext.h pulled in via <signal.h>.  */
-++#include "gzip.h"
-++
-+ #ifndef MAX_PATH_LEN
-+ #  define MAX_PATH_LEN   1024 /* max pathname length */
-+ #endif
-+--=20
-+2.43.0
-+
-diff --git a/meta/recipes-extended/gzip/gzip-1.14/wrong-path-fix.patch b/=
-meta/recipes-extended/gzip/files/wrong-path-fix.patch
-similarity index 100%
-rename from meta/recipes-extended/gzip/gzip-1.14/wrong-path-fix.patch
-rename to meta/recipes-extended/gzip/files/wrong-path-fix.patch
-diff --git a/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch b/=
-meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch
-deleted file mode 100644
-index b1a36440209..00000000000
---- a/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41991.patch
-+++ /dev/null
-@@ -1,86 +0,0 @@
--From 661918c7c0d5acf52508107d6bcdeb72a526ce52 Mon Sep 17 00:00:00 2001
--From: Paul Eggert <eggert@cs.ucla.edu>
--Date: Thu, 16 Apr 2026 12:11:44 -0700
--Subject: [PATCH] gzexe: use -C if lacking mktemp
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
--
--(Problem reported by Micha=C5=82 Majchrowicz.)
--* gzexe.in: If mktemp is needed but not installed,
--use =E2=80=98set -C=E2=80=99 to avoid a race when creating a temporary f=
-ile.
--* zdiff.in: Use the same pattern here, even though the old
--code was probably OK anyway.
--
--CVE: CVE-2026-41991
--Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gzip.g=
-it/commit/?id=3D4e6f8b24ab823146ab8776f0b7fe486ab34d4269]
--Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-----
-- NEWS     | 13 +++++++++----
-- gzexe.in |  1 +
-- zdiff.in |  7 +++----
-- 3 files changed, 13 insertions(+), 8 deletions(-)
--
--diff --git a/NEWS b/NEWS
--index 881b6b6..3a05d7e 100644
----- a/NEWS
--+++ b/NEWS
--@@ -4,10 +4,6 @@ GNU gzip NEWS                                    -*- ou=
-tline -*-
--=20
-- ** Bug fixes
--=20
---  A buffer overflow has been fixed when decompressing an .lzh file
---  after decompressing a .Z file.
---  [bug present since the beginning]
---
--   'gzip -d' no longer omits the last partial output buffer when the
--   input ends unexpectedly on an IBM Z platform.
--   [bug introduced in gzip-1.11]
--@@ -18,6 +14,15 @@ GNU gzip NEWS                                    -*- =
-outline -*-
--   'gzip -S' now rejects suffixes containing '/'.
--   [bug present since the beginning]
--=20
--+  A buffer overflow has been fixed when decompressing an .lzh file
--+  after decompressing a .Z file.
--+  [bug present since the beginning]
--+
--+  On old-fashioned or limited platforms lacking mktemp, gzexe and
--+  zdiff no longer have a race when creating a temporary file.
--+  [bug present since the beginning]
--+
--+
-- ** Changes in behavior
--=20
--   The GZIP environment variable is now silently ignored except for the
--diff --git a/gzexe.in b/gzexe.in
--index 1267d6e..09a2571 100644
----- a/gzexe.in
--+++ b/gzexe.in
--@@ -127,6 +127,7 @@ for i do
--     tmp=3D`mktemp "${dir}gzexeXXXXXXXXX"`
--   else
--     tmp=3D${dir}gzexe$$
--+    (umask 77; set -C; > "$tmp")
--   fi && { cp -p "$file" "$tmp" 2>/dev/null || cp "$file" "$tmp"; } || {
--     res=3D$?
--     printf >&2 '%s\n' "$0: cannot copy $file"
--diff --git a/zdiff.in b/zdiff.in
--index a8689a0..c04a8c0 100644
----- a/zdiff.in
--+++ b/zdiff.in
--@@ -156,12 +156,11 @@ case $file2 in
--                           *) TMPDIR=3D/tmp/;;
--                         esac
--                         if command -v mktemp >/dev/null 2>&1; then
---                          tmp=3D`mktemp "${TMPDIR}zdiffXXXXXXXXX"` ||
---                            exit 2
--+                          tmp=3D`mktemp "${TMPDIR}zdiffXXXXXXXXX"`
--                         else
---                          set -C
--                           tmp=3D${TMPDIR}zdiff$$
---                        fi
--+                          (umask 77; set -C; > "$tmp")
--+                        fi &&
--                         'gzip' -cdfq -- "$file2" > "$tmp" || exit 2
--                         gzip_status=3D$(
--                           exec 4>&1
-diff --git a/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch b/=
-meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch
-deleted file mode 100644
-index f55c89978d6..00000000000
---- a/meta/recipes-extended/gzip/gzip-1.14/CVE-2026-41992.patch
-+++ /dev/null
-@@ -1,64 +0,0 @@
--From 63dbf6b3b9e6e781df1a6a64e609b10e23969681 Mon Sep 17 00:00:00 2001
--From: Paul Eggert <eggert@cs.ucla.edu>
--Date: Wed, 15 Apr 2026 12:00:17 -0700
--Subject: =3D?UTF-8?q?gzip:=3D20don=3DE2=3D80=3D99t=3D20mishandle=3D20.lz=
-h=3D20after=3D20.Z?=3D
--MIME-Version: 1.0
--Content-Type: text/plain; charset=3DUTF-8
--Content-Transfer-Encoding: 8bit
--
--Problem reported by Micha=C5=82 Majchrowicz.
--* unlzh.c (read_c_len): Clear left and right when n =3D=3D 0.
--
--CVE: CVE-2026-41992
--Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/gzip.g=
-it/commit/?id=3D63dbf6b3b9e6e781df1a6a64e609b10e23969681]
--Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-----
-- NEWS    | 4 ++++
-- THANKS  | 1 +
-- unlzh.c | 6 ++++++
-- 3 files changed, 11 insertions(+)
--
--diff --git a/NEWS b/NEWS
--index 6388227..8fb8918 100644
----- a/NEWS
--+++ b/NEWS
--@@ -4,6 +4,10 @@ GNU gzip NEWS                                    -*- ou=
-tline -*-
--=20
-- ** Bug fixes
--=20
--+  A buffer overflow has been fixed when decompressing an .lzh file
--+  after decompressing a .Z file.
--+  [bug present since the beginning]
--+
--   'gzip -d' no longer omits the last partial output buffer when the
--   input ends unexpectedly on an IBM Z platform.
--   [bug introduced in gzip-1.11]
--diff --git a/THANKS b/THANKS
--index 4e545d9..a7d25e4 100644
----- a/THANKS
--+++ b/THANKS
--@@ -186,6 +186,7 @@ Jamie Lokier            u90jl@ecs.oxford.ac.uk
-- Richard Lloyd           R.K.Lloyd@csc.liv.ac.uk
-- David J. MacKenzie	djm@eng.umd.edu
-- John R MacMillan        john@chance.gts.org
--+Micha=C5=82 Majchrowicz	mmajchrowicz@afine.com
-- Ron Male                male@eso.mc.xerox.com
-- Jakub Martisko		jamartis@redhat.com
-- Don R. Maszle           maze@bea.lbl.gov
--diff --git a/unlzh.c b/unlzh.c
--index 3320196..a6cf109 100644
----- a/unlzh.c
--+++ b/unlzh.c
--@@ -232,6 +232,12 @@ read_c_len ()
--         c =3D getbits(CBIT);
--         for (i =3D 0; i < NC; i++) c_len[i] =3D 0;
--         for (i =3D 0; i < 4096; i++) c_table[i] =3D c;
--+
--+        /* Needed in case LEFT and RIGHT are reused from a previous
--+           LZW decompression.  It may be overkill to clear all of both
--+           arrays, but nobody has had time to analyze this carefully.  =
-*/
--+        memzero(left, (2 * NC - 1) * sizeof *left);
--+        memzero(right, (2 * NC - 1) * sizeof *left);
--     } else {
--         i =3D 0;
--         while (i < n) {
-diff --git a/meta/recipes-extended/gzip/gzip_1.14.bb b/meta/recipes-exten=
-ded/gzip/gzip_1.15.bb
-similarity index 90%
-rename from meta/recipes-extended/gzip/gzip_1.14.bb
-rename to meta/recipes-extended/gzip/gzip_1.15.bb
-index d6bd36f89f9..9db300f078c 100644
---- a/meta/recipes-extended/gzip/gzip_1.14.bb
-+++ b/meta/recipes-extended/gzip/gzip_1.15.bb
-@@ -6,8 +6,7 @@ LICENSE =3D "GPL-3.0-or-later"
-=20
- SRC_URI =3D "${GNU_MIRROR}/gzip/${BP}.tar.gz \
-            file://run-ptest \
--           file://CVE-2026-41992.patch \
--           file://CVE-2026-41991.patch \
-+           file://0001-build-avoid-failure-to-build-on-linux-aarch64.pat=
-ch \
-            "
- SRC_URI:append:class-target =3D " file://wrong-path-fix.patch"
-=20
-@@ -42,4 +41,4 @@ do_install_ptest() {
-             ${B}/tests/Makefile > ${D}${PTEST_PATH}/src/tests/Makefile
- }
-=20
--SRC_URI[sha256sum] =3D "613d6ea44f1248d7370c7ccdeee0dd0017a09e6c39de894b=
-3c6f03f981191c6b"
-+SRC_URI[sha256sum] =3D "545886cf57fa88a65e967fbf705903d7fcb2567c82c73424=
-93e82e8d7b1a210b"
---=20
-2.43.0
-
+T24gMTYgU2VwIDIwMjYsIGF0IDEyOjI0LCBSYXNtdXMgVmlsbGVtb2VzIHZpYSBsaXN0cy5vcGVu
+ZW1iZWRkZWQub3JnIDxyYXNtdXMudmlsbGVtb2VzPXByZXZhcy5ka0BsaXN0cy5vcGVuZW1iZWRk
+ZWQub3JnPiB3cm90ZToNCj4gDQo+ICtQQUNLQUdFQ09ORklHW3lhbWxdID0gIiwtRE5PX1lNTF9T
+VVBQT1JUPU9OLGxpYnlhbWzigJ0NCg0KQ2FuIHlvdSBhZGQgLUROT19ZTUxfU1VQUE9SVD1PRkYg
+c28gdGhhdCB3ZSBhbHNvIGhhdmUgYW4gZXhwbGljaXQg4oCceWFtbCBpcyBvbuKAnSBzdGF0ZW1l
+bnQ/DQoNClJvc3M=
 
