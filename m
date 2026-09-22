@@ -1,127 +1,149 @@
-Return-Path: <adrian.freihofer@siemens.com>
+Return-Path: <bruce.ashfield@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC5AAC982ED
-	for <webhook@archiver.kernel.org>; Mon, 21 Sep 2026 21:53:11 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7905.1790027587756551756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2D68CC982E6
+	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 00:44:13 +0000 (UTC)
+Received: from mail-qk2-f43.google.com (mail-qk2-f43.google.com [74.125.230.235])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.175.1790037850269631732
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 14:53:08 -0700
+ Mon, 21 Sep 2026 17:44:10 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=p+4Wv0Tk;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-1329275-20260921215304ecc93d2595000207d4-w8gvbm@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20260921215304ecc93d2595000207d4
-        for <openembedded-core@lists.openembedded.org>;
-        Mon, 21 Sep 2026 23:53:05 +0200
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
- d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=rid+0aApCuOYkNGe3YA7dm781ZBYjz/TCHFFU6jgzTY=;
- b=p+4Wv0Tk3QVRjws52SAZdWFvECfZ+YEwTF0idEBUPm+h6tFbarLBDXyLQ6SDGAc6cFxRCz
- Xa9iUPrmfqlLw2IoNauRxFRj5PuHAnK8T5Oigx4X9T8jkM6L2hsuNIOFXHEe29Nk3spcLowW
- PdsQbu5BawdE6WLEqZpQCYvd4i/53pgtuDj8znJN76oxbyj6uQAGazzPVUEqRgIAJZzeUZyU
- 5oIT5Z26ZmG95tsj95EcEa7I+MIJ8Na6ZvGpLiB1yrw5SUcxpvt4TSaq/+K7t4Dexh4JOBWv
- 5lC/quUokAKEL9+PEEXgt8UFKNDo1F8Myoo6kOxRBFXUxW9bp7bVlElQ==;
-From: AdrianF <adrian.freihofer@siemens.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 1/2] package: introduce PACKAGE_BASENAME for consistent kernel -src naming
-Date: Mon, 21 Sep 2026 23:50:58 +0200
-Message-ID: <20260921215300.582692-2-adrian.freihofer@siemens.com>
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=bGFmWuTr;
+ spf=pass (domain: gmail.com, ip: 74.125.230.235, mailfrom: bruce.ashfield@gmail.com)
+Received: by mail-qk2-f43.google.com with SMTP id d75a77b69052e-52fb76ef1d0so30522001cf.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 17:44:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790037849; x=1790642649; darn=lists.openembedded.org;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=YZIJKuA9uNkbrq9AoKwML/bKLJlK5zVVPh3GTvj/UxM=;
+        b=bGFmWuTrh0unMyCAmyMcwWCjSIq9nvzS9XVN9+Ozaw7YekE4vIvQDNJI5bvZOuWdlg
+         0sah1YpFtBUxt29/pCSiuyUGeYVk/jrM0AtRltb82fb6z9PUNwVBWtgJpYiNbV2YffGH
+         4fs3LahveaCXuawhXkDBqfaqIdnYKpDcMGC7gpTsu/CG+p9VXId+RjnyQDH8XzoRBexp
+         4DIWXJsCH7jK4y6WB0JY0g9Id78qauKFulAcdwXls5zxgGmo0zmcwfOvIgj+b/eAf5VG
+         16UZ4wMNjxynPbqYIxdhvdAk2zq8qm4QvKqzjpl6w6GQ6YNm7jKX7fi9+rc7+0fvgQP0
+         IrXA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790037849; x=1790642649;
+        h=mime-version:content-transfer-encoding:content-type:references
+         :in-reply-to:subject:cc:to:from:date:message-id:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=YZIJKuA9uNkbrq9AoKwML/bKLJlK5zVVPh3GTvj/UxM=;
+        b=1O45KU6gSa179c665RPpVhuy7wAlbgS1qF/f72ucSn32aW6SoCTh964GgEBqLSIbXM
+         vjjC+ZruHSUbz60b94rEr9R57q1qyJpMh/NZy3OQdxOzvTmBGMjJ0WTQ8HajOZoiON8A
+         WWEc8Fms+3NTVOTvLX75ZwtXM8LK8l1VVRHHCdNhEZIkYZx3WlTYcz4zhNaC5RYQj00J
+         hlNaAEFzoGhDEhnojL4wzJ4YlvunBTn4zwx/J813PM0NKfjbhkbYfCSmLD8OHZQ9cJTM
+         8Ae3vRYRRfFWu7GQZ5ltLv3/SA4ovTbs62b1dMWrL9Lkl8GFnhN7OEDiJZGszH3ka/Hf
+         7fhQ==
+X-Gm-Message-State: AFuF++nzwajt+goTBJQ+CWGfcLzMdc55GcZQSYSJHmhdH6ZH3eiKiJXd
+	OUWDSN10scXDLxGPJzBc7nrYByXOd6+8oY8UFWu8QrK2zKtx8dcJTJq4
+X-Gm-Gg: AYBFou1gfPtmLHO3PCda5zHcmbpJ03SlnwwWDnMsu0a85yjg0YmFIHNlKK56iqVw6Bj
+	ikyrICE/jx72ScMVM26lBMOk434v02VfgxS/SAsgTLzyaBctm/LPIpxiZLceG9icqibaIRXxoJt
+	L62rRGkGrw+FKZkgdOyZVg5Ale6JKilE4BkP1j3LKdrlq/mKsm8zr2LjM9aYCJTtjqi+Ys8bLrb
+	k+dlaSXBK3pixPRrQtkAoCRA8Q51+E9DL/yG/pUjYgElBL2Nqz0nWF9Ge3EXnQBxKJaDu8nPG6R
+	7e5ninvbzaK3w0AYObknP9XgQdhSfesjFNSFQYRmPgIRxrHcfFGh5mpZwm9yeXWURnqqSNfBnwJ
+	JiBi5M/6rSmgwxm+TdZuzkLfaL2s7HoCZKZ7W1kbokMnG6ojXrhc7+OaqrTzmCez/Wm74LNCi0Q
+	VxetuPBsk5snmGEqVyQLGj5b6PfkzQx2MOqanPlYJi99XRw+0J2+FCdgn7tyuWe07Ef/nJYgpJT
+	vNNULH9xS/23INn2oRBUdx6h4aBH0u5dhs2+i0NBPaQV+V7Dk/je/U5DghACgVQaubiplqL4DkJ
+	PS/2cGAbwpOddyf3Lr6tprA5YpWrzSMnIb6GO3Uyi9wW3wmVA0zAqdE+gSR0M5c8hQ5pcofoL+h
+	Gdlx03w==
+X-Received: by 2002:a05:622a:150:b0:532:c2f5:85b8 with SMTP id d75a77b69052e-532d8d69620mr33838091cf.19.1790037848953;
+        Mon, 21 Sep 2026 17:44:08 -0700 (PDT)
+Received: from [127.0.1.1] (pool-174-112-35-248.cpe.net.cable.rogers.com. [174.112.35.248])
+        by smtp.gmail.com with ESMTPSA id d75a77b69052e-532e171290csm265771cf.2.2026.09.21.17.44.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 21 Sep 2026 17:44:08 -0700 (PDT)
+Message-ID: <6ab1cf58.edd6aae0.7bbc9.5d1d@mx.google.com>
+Date: Mon, 21 Sep 2026 17:44:08 -0700 (PDT)
+From: Bruce Ashfield <bruce.ashfield@gmail.com>
+To: Adrian Freihofer <adrian.freihofer@siemens.com>
+Cc: openembedded-core@lists.openembedded.org,
+ Vincent Davis Jr <vince@underview.tech>
+Subject: 
+ Re: [OE-core] [PATCH 0/2] Fix kernel complementary package installation
 In-Reply-To: <20260921215300.582692-1-adrian.freihofer@siemens.com>
 References: <20260921215300.582692-1-adrian.freihofer@siemens.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Flowmailer-Platform: Siemens
-Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 21:53:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246363
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 00:44:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246366
 
-From: Adrian Freihofer <adrian.freihofer@siemens.com>
+Thanks for digging into this. I am curious as to what is the use case
+or configuration that you have where this became an issue ? I'm not
+challenging the question, I'm just curious as you've explained it well
+.. but didn't say how you ran into it.
 
-populate_packages() always names the auto-generated -src package after
-PN. kernel.bbclass instead names all its other sub-packages
-(kernel-dbg, kernel-dev, kernel-modules, ...) after KERNEL_PACKAGE_NAME,
-so the kernel recipe ended up with a lone -src package (linux-yocto-src)
-that did not match the rest of the kernel-* family (e.g. kernel-dbg).
+The question is real: the kernel emits kernel-dbg/kernel-dev/... after
+KERNEL_PACKAGE_NAME but the auto -src package lands as ${PN}-src
+(i.e. linux-yocto-src), so the family is inconsistent: the PN-named
+-src gets pulled into rootfs-dbg but the KERNEL_PACKAGE_NAME-named
+kernel-dbg doesn't ... you end up with kernel source and no debug
+symbols.  No argument there.
 
-The complementary package install logic (oe-pkgdata-util) cannot find
-packages that are not named after PN (${PN}-src, ${PN}-dbg, etc). For
-the kernel recipe this meant linux-yocto-src was picked up, but
-kernel-dbg, kernel-dev, etc. were not, which was inconsistent.
+Where I want to discuss is the direction of the fix, and it is just
+what you are asking. I'm not only saying this because you asked, since
+I immediately thought it on reading the series :)
 
-This commit introduces a generic PACKAGE_BASENAME variable
-(default "${PN}") that a recipe/bbclass can override to declare the base
-name its sub-packages should share. populate_packages() now uses it for
--src naming, and kernel.bbclass sets it to "${KERNEL_PACKAGE_NAME}". As
-a result the kernel packages are now named kernel-dbg, kernel-src and so
-on.
-Changing the kernel's -src package to kernel-src also means this package
-is longer found either by the complementary package installation and not
-installed anymore.
+At the risk of repeating what you know already, let me summarize for
+the mailing list archive. The kernel isn't really a normal rootfs
+package, and I don't think we want it behaving as a complementary
+one. On most of our targets the kernel isn't installed into the rootfs
+at all (as you said) it's deployed by the bootloader / to a boot
+partition, and installing kernel-image into '/' is just one model out
+of several.
 
-If kernel packages should be installed via complementary package install
-logic is left for a follow up commit. This commit only aligns the
-package naming also for the -src package.
+Riding the generic *-dbg/*-src completion machinery to pull kernel
+debug/src into rootfs-dbg fits the recipes that live in the rootfs,
+but I think it's the wrong thing for the kernel. I'd rather debug/src
+for the kernel be delivered by a purpose-built path (the kernel
+already has its own special install handling) than teach
+oe-pkgdata-util and pkgdata to special-case it.
 
-Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
----
- meta/classes-recipe/kernel.bbclass | 3 +++
- meta/conf/bitbake.conf             | 6 ++++++
- meta/lib/oe/package.py             | 4 +++-
- 3 files changed, 12 insertions(+), 1 deletion(-)
+So:
 
-diff --git a/meta/classes-recipe/kernel.bbclass b/meta/classes-recipe/kernel.bbclass
-index 0a6d754108..16745557f7 100644
---- a/meta/classes-recipe/kernel.bbclass
-+++ b/meta/classes-recipe/kernel.bbclass
-@@ -679,6 +679,9 @@ EXPORT_FUNCTIONS do_compile do_transform_kernel do_transform_bundled_initramfs d
- # kernel-base becomes kernel-${KERNEL_VERSION}
- # kernel-image becomes kernel-image-${KERNEL_VERSION}
- PACKAGES = "${KERNEL_PACKAGE_NAME} ${KERNEL_PACKAGE_NAME}-base ${KERNEL_PACKAGE_NAME}-vmlinux ${KERNEL_PACKAGE_NAME}-image ${KERNEL_PACKAGE_NAME}-dev ${KERNEL_PACKAGE_NAME}-modules ${KERNEL_PACKAGE_NAME}-dbg"
-+# Keep the auto-generated -src package (see populate_packages() in oe/package.py) named,
-+# and resolvable by tools like oe-pkgdata-util, consistently with the rest of the kernel-* family.
-+PACKAGE_BASENAME = "${KERNEL_PACKAGE_NAME}"
- FILES:${PN} = ""
- FILES:${KERNEL_PACKAGE_NAME}-base = "${KERNEL_MODULE_INSTALL_PREFIX}/modules.order ${KERNEL_MODULE_INSTALL_PREFIX}/modules.builtin ${KERNEL_MODULE_INSTALL_PREFIX}/modules.builtin.modinfo"
- FILES:${KERNEL_PACKAGE_NAME}-image = ""
-diff --git a/meta/conf/bitbake.conf b/meta/conf/bitbake.conf
-index d353a7cd2c..f82ee0f039 100644
---- a/meta/conf/bitbake.conf
-+++ b/meta/conf/bitbake.conf
-@@ -334,6 +334,12 @@ SOLIBSDEV:mingw32 = ".dll"
- 
- PACKAGE_DEBUG_SPLIT_STYLE ?= "debug-with-srcpkg"
- 
-+# The base name recipe sub-packages (-dbg, -dev, -src etc.) are derived from.
-+# Recipes/bbclasses that name their packages after something other than PN
-+# (e.g. kernel.bbclass and KERNEL_PACKAGE_NAME) should override this so that
-+# tooling (e.g. oe-pkgdata-util) can still map generic package globs to them.
-+PACKAGE_BASENAME ??= "${PN}"
-+
- PACKAGE_BEFORE_PN ?= ""
- PACKAGES = "${PN}-src ${PN}-dbg ${PN}-staticdev ${PN}-dev ${PN}-doc ${PN}-locale ${PACKAGE_BEFORE_PN} ${PN}"
- PACKAGES_DYNAMIC = "^${PN}-locale-.*"
-diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
-index b7030643d2..4afd047905 100644
---- a/meta/lib/oe/package.py
-+++ b/meta/lib/oe/package.py
-@@ -1391,7 +1391,9 @@ def populate_packages(d):
-     # If debug-with-srcpkg mode is enabled then add the source package if it
-     # doesn't exist and add the source file contents to the source package.
-     if split_source_package:
--        src_package_name = ('%s-src' % d.getVar('PN'))
-+        # PACKAGE_BASENAME lets bbclasses (e.g. kernel.bbclass via KERNEL_PACKAGE_NAME)
-+        # that name their other sub-packages differently from PN keep -src consistent with them.
-+        src_package_name = ('%s-src' % (d.getVar('PACKAGE_BASENAME') or pn))
-         if not src_package_name in packages:
-             packages.append(src_package_name)
-         d.setVar('FILES:%s' % src_package_name, '/usr/src/debug')
--- 
-2.55.0
+- Patch 2 (PACKAGE_BASENAME into PKGDATA_VARS + oe-pkgdata-util glob)
+  is the part I'd push back on. Its whole purpose is to make the
+  kernel participate in complementary install, which is exactly what I
+  don't think we should be doing. A dedicated kernel debug/src
+  mechanism removes the need for it.
 
+- Patch 1's underlying point: -src should be consistent with the rest
+  of the kernel-* family, is fair on its own. But I'd rather not
+  introduce a new global PACKAGE_BASENAME variable that every recipe
+  now carries just to fix the kernel. kernel.bbclass already names
+  every other sub-package after KERNEL_PACKAGE_NAME; if we want the
+  -src name aligned, do it locally there, not with a tree-wide
+  indirection.
+
+There's also an interaction to be aware of. Vincent Davis had sent
+(and you may have read it) a series ("[PATCH v4 xx/27] ... globally
+define KERNEL_PACKAGE_NAME") that makes KERNEL_PACKAGE_NAME variable
+across the tree for multi-kernel builds. Your PACKAGE_BASENAME is
+defined *as* KERNEL_PACKAGE_NAME, so the two are coupled.  We'd end
+up with two variables both encoding "the kernel's package base name,"
+threaded through packaging, pkgdata, and pkgdata-util, and each series
+would have to reconcile the other.
+
+That's probably the opposite of where we want kernel packaging
+complexity to go.
+
+My ask: let's not merge this independently. The kernel package-naming
+story, the -src consistency, whether debug/src rides complementary
+install, and Vincent's KERNEL_PACKAGE_NAME variability, should
+converge into one coherent design, and the goal for that design should
+be *less* complexity in the kernel packaging path, not more.
+
+Happy to help with that. But as usual, I'll defer to RP if he thinks
+this is ok independently of if the kernel should be in the
+complementary package mechanisms. I've never looked at the much, so
+I don't have all the history behind them.
+
+Bruce
 
