@@ -1,304 +1,199 @@
-Return-Path: <raj.khem@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A3BBAC982FE
-	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 05:12:55 +0000 (UTC)
-Received: from mail-yx2-f13.google.com (mail-yx2-f13.google.com [74.125.224.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3511.1790053968743428947
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A795C98304
+	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 05:42:15 +0000 (UTC)
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3730.1790055731431429313
  for <openembedded-core@lists.openembedded.org>;
- Mon, 21 Sep 2026 22:12:48 -0700
+ Mon, 21 Sep 2026 22:42:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=Q9kBvKJl;
- spf=pass (domain: gmail.com, ip: 74.125.224.141, mailfrom: raj.khem@gmail.com)
-Received: by mail-yx2-f13.google.com with SMTP id 956f58d0204a3-67109935888so3684213d50.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 21 Sep 2026 22:12:48 -0700 (PDT)
-ARC-Seal: i=1; a=rsa-sha256; t=1790053968; cv=none;
-        d=google.com; s=arc-20260327;
-        b=q5RuA46ocV0s1ZKWYsQC0NJuLCBVpG/uz28+5RlKT1Jy3EgiZLxLRBfGxYzJPbK5dh
-         zLE40g2C5owsFePhukz39c3G1wowmxjZh30QfFvt/ZCUmnR7HBY/Jid3TUQUqLgXK5no
-         cog+RnogFGHFWQ50Fg85wNCv9Oc4qcP0iKo+jWaDlUmx864JNEdToU3yK4XeKaQ7IchH
-         rsFTj4t3H1dlGG+P4Yjon//mFyTk2ewCbjQneDPuirO1Mc7z/HqUtuUx6TcBuez2YihH
-         +Xb245A3Q4ukXsWRCA4TfgCiRomw3EGc+R30I7UYrnRb/XzeNXV/7C0j+GEtNcSHJyDK
-         jpLA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
-        h=cc:to:subject:message-id:date:from:in-reply-to:references
-         :mime-version:dkim-signature;
-        bh=BNxLWtuvizoi1YMsSPNYSPTFs/laGk/ilOWIIjkN9Cg=;
-        fh=cbrRBowqXFtaBRQuQTLUdN65nruooZ+ReinhtsinK58=;
-        b=GruCecpwTNvf1crsv6SiZR4DR/wR+GBuziGT2LpVGMIMOxNdRlvClYFY4usvyYoZKP
-         4Cv7gzBARGTG6vuLtb+VUn382Yf2+W6u1Es60HnCybuzAcsp4j4JKhHu1cR1bXO05TON
-         8112n46VOocadD4SAv+uX5uDAV6L89mkdZqImrLMs0+ZvhqKnZqjTpWQAPQ2ONnwixfF
-         Tu3KNKZNf8ZhY9Kha8NBUldfgeEYMHAZhFS/VEPnlbzqaV2RJbwYFRoNGC5USBflVB1C
-         cFrablTPTMsTLthgqkTRdvo9sBWiIVdXPdvRLozZWhYIkEs4WBPta7jdJK3rDeFGolkF
-         EJig==;
-        darn=lists.openembedded.org
-ARC-Authentication-Results: i=1; mx.google.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790053968; x=1790658768; darn=lists.openembedded.org;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=BNxLWtuvizoi1YMsSPNYSPTFs/laGk/ilOWIIjkN9Cg=;
-        b=Q9kBvKJlsqEAYyO9KOYa/eo+/yBP7uJdAJYtgo4+RD0VjM1+tMdpKseBl0GNdqzrl+
-         wkt/rAUd9b3M9o8He4JHy9+nHRc2N2JZsNTx3B8jOD12KDZgeznVfQObWEdJmTk1bJ0z
-         AP3tM2zQLPRBCzibDqirpAyvSUwgi7rvey+FT5EeeywCkK6Ofm1AsRt5XCMUffAsVpvR
-         qoObs9PxrUyeL8Rcm1Pmk0JafoDjlzoZ8/+S2CxgsYV8jikwGCwgVK2WKhlyiaLrbljL
-         3Y6S3+r2YEBlB1ODvvH2nLSvuFVzdJlWuqTyU2MLn4I2EkYROSFOHV5Rk4VHNCgZ06ZH
-         yttg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790053968; x=1790658768;
-        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
-         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=BNxLWtuvizoi1YMsSPNYSPTFs/laGk/ilOWIIjkN9Cg=;
-        b=JBjFwlkGe3Yo3q7ijv6bLOF43ujH6e9rEWQqS84h4I285s9QkN668ICPRt50mqtFNw
-         d3StY7DhalQB/BVy+vwh86mLRcFz6aqB0PUY9LMs51WPcWxkE7Z/PmNwl3Ht5bBG+FIh
-         t//0Pb3B3/ayKkY+8RinUE1oW+0iXsWVd89CDK6oglQR9lw2ZbzqMuOfx3MgZPrd4xeW
-         IZKniq2VFPle2U6VPoQ69t/+8EskDv0NB/sdqJsAApE76bAtEt90vzDmM6xg+96Ik/Km
-         ony2NVR578+3a8hulWwecuXWpXlR90b0VKm16RWmXGNC+sV+sCsBIy7qugw5mLHFg50t
-         putw==
-X-Forwarded-Encrypted: i=1; AKwUvByrVSnsONB4ddt5D5jxKMgG3+zF5flgkxzsyiabkYwRbxEXe+nSKbh9Rk2vEPUd0qNXDsnNdsW9dgIJj09lkvKqLg==@lists.openembedded.org
-X-Gm-Message-State: AFuF++nKQekk81WwkLLrgbgwiYV2RrXhT3uUaTovi/ZijTMFE+O973on
-	jcaQaG1M/D7qU/ql3Q1+kIaIcqTH58djSd8IaBKGXB/OIg6uocxAT0uttTWGDL8AEvaWpTEGod0
-	EnjChgEPZCZZkSpZ6seehdSqQXczEYmA=
-X-Gm-Gg: AYBFou1nG1nisfK1Br7XORbtlHdgXqmznjyK3mgl4ylBWRBKLcR3h/w8ci90526AQwg
-	KPupYQVAzRLVjpMK4n1H6oiyBi7vtNx2ZFIJJEbTetLlq22+ot7L0Yh5UaT2p64JU3e1+JpKCPi
-	7SWbrV2xorkgWWy1VkgdBTyl0IBNeBVgTu/6Q7J6Dy1+nLDw0l6cAE/FhV5oKyjfugTEHtoC6AJ
-	JCMTZxcNueUL6msnP1/8YgTIn53N8S0mMsY+sLOYvgKSW6QMQ/cxKGqDEshnt5Xois+/o2E0jQL
-	oWSiagFPhecEx+UxAP1TTDcPAOM6JRvJAola3X+BXVkG8F6qbbIgCQLlhycE3AzemTsoRcAMMkE
-	tLqejMSnnGDvX6axTI3C1nv+G177zn1D4QRyzCCmKLrCNJwXoBPLvZiinu27w+UHA+zS4HMBVaX
-	49SLA2ojng8S4NUS9EqYOJCUVR+5NHfSynCS4DGgAq2nyaSV87HqZF5MLGdbARYj2vx0SsahnwM
-	h2VK2lnlL6BnS2qAH1piu+t1jV8GNUbIvikilRP0ZMVxBdOZLuUYb9/Nq4vEkhPt0I36UZ5MyLj
-	uAUKRqYZhjp1SsvEJC8VF/6iRgha3AcRSYLO4gAe
-X-Received: by 2002:a05:690e:d43:b0:671:70e4:5179 with SMTP id
- 956f58d0204a3-6717fdda51amr4333058d50.99.1790053967698; Mon, 21 Sep 2026
- 22:12:47 -0700 (PDT)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=BmjJZxaE;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=ZxeVmhiN;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a0c7a2ccfd-0e3fb542-7acc-4fa3-ac94-a018bc80f02f-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1790055730;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=aTn8oOq90XiOvjBJ0l7QRzJ0XN3k2H6bqLRHHF9TaxQ=;
+	b=BmjJZxaEOD4ICGFWQ7MAnjYSabUBptE32AaPba9mYBbcVAFyKs3R2eWoBU7Qorn/
+	16sonSkR1WNZkYQwjymzTbUo2155dLWJgnbsTrxVsN8sBxKkOEtZuys7brfbmzurjZC
+	kpszbr84j8DbW5+QSWspZCscY4o3vk8Fkz9+lykU=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790055730;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=aTn8oOq90XiOvjBJ0l7QRzJ0XN3k2H6bqLRHHF9TaxQ=;
+	b=ZxeVmhiNsylaf+oqBlgfTaaiNoni1bVLefek3rZuR2Q8SU7Dct8fh6TMTZpkdAmM
+	fJMjQlww9x2DK0As9xJlNyvNAsB2o34TlVjZjIW19UFDcfq4LTkbyF3GxoBuNhR6sdN
+	MW+3N75bd4MSSthRC80IvVjth0YJ2C86qbRnKqSk=
+Content-Type: multipart/mixed; boundary="===============2156112865051582295=="
 MIME-Version: 1.0
-References: <20260918090731.467954-1-joaomarcos.costa@bootlin.com> <DLL9WV35J102.2UNYBH63VLF77@baylibre.com>
-In-Reply-To: <DLL9WV35J102.2UNYBH63VLF77@baylibre.com>
-From: Khem Raj <raj.khem@gmail.com>
-Date: Mon, 21 Sep 2026 22:12:36 -0700
-X-Gm-Features: AcwNN1UFo0ZLgXC7SAopJ9JqiIMBaDO0RQEgvnvV-06BTHqlPb3aEQQ0Xy2AWFo
-Message-ID: <CAMKF1spyzGBK=hOWbbSxYhna8ALds4gCNAQkofCt_=+xYv57_A@mail.gmail.com>
-Subject: Re: [OE-core] [PATCH] ptest-packagelists.inc: disable gnutls for RISCV64
-To: Trevor Gamblin <tgamblin@baylibre.com>
-Cc: =?UTF-8?Q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>, 
-	Patches and discussions about the oe-core layer <openembedded-core@lists.openembedded.org>, 
-	Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Content-Type: multipart/alternative; boundary="000000000000df9f2c065c0b6a17"
+From: auh@yoctoproject.org
+To: Chen Qi <Qi.Chen@windriver.com>, Chen Qi <Qi.Chen@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] util-linux-libuuid,util-linux: upgrading to 2.42.4,2.42.4
+ FAILED
+Message-ID: <010101a0c7a2ccfd-0e3fb542-7acc-4fa3-ac94-a018bc80f02f-000000@us-west-2.amazonses.com>
+Date: Tue, 22 Sep 2026 05:42:10 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.22-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 05:12:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246368
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 05:42:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246369
 
---000000000000df9f2c065c0b6a17
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+--===============2156112865051582295==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-On Mon, Sep 21, 2026, 8:12=E2=80=AFPM Trevor Gamblin via lists.openembedded=
-.org
-<tgamblin=3Dbaylibre.com@lists.openembedded.org> wrote:
+Hello,
 
-> On Fri Sep 18, 2026 at 5:07 AM EDT, Jo=C3=A3o Marcos Costa wrote:
-> > Timeouts have been observed (very frequently in the past weeks)
-> > in the autobuilder, and a bug [1] was filed at Bugzilla.
-> >
-> > For now, it's not quite clear what specific test case is causing the
-> timeout.
-> >
-> > [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162
->
-> After modifying the gnutls ptest so that it outputs rough test durations
-> (in ms)
-> and collecting a log, these seem to be the worst offenders:
->
-> |tgamblin@megalith
-> ~/workspace/ypbuilds/poky-qemuriscv64/layers/openembedded-core (master)$
-> grep 'PASS:' tests.log | sort -t'(' -k2 -n -r
-> |PASS: mini-record-2 (187880ms)
-> |PASS: record-retvals (145390ms)
-> |PASS: rng-op-key (63820ms)
-> |PASS: rng-op-random (63330ms)
-> |PASS: rng-op-nonce (63260ms)
-> |PASS: dtls-rehandshake-cert (61360ms)
-> |PASS: dtls-rehandshake-cert-2 (61230ms)
-> |PASS: dtls-rehandshake-anon (61030ms)
-> |PASS: mini-loss-time (60130ms)
-> |PASS: mini-dtls-hello-verify-48 (30050ms)
-> |PASS: tls12-ffdhe (27790ms)
-> |PASS: x509sign-verify-rsa (18460ms)
-> |PASS: x509sign-verify-ecdsa (16050ms)
->
-> mini-record-2 is longest runtime by far, and is consistent with what the
-> Bugzilla bug shows - if you build core-image-ptest-gnutls and watch the
-> output,
-> mini-record-2 comes after mini-record, which is the last on that runs
-> before the
-> AB log timeouts. Do you want to submit a narrower patch, which
-> conditionally
-> disables mini-record-2 and record-retvals for riscv64?
->
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *util-linux-libuuid,util-linux* to *2.42.4,2.42.4* has Failed (devtool error).
 
-Or relax the timeout a bit
+Detailed error information:
+
+Running 'devtool upgrade' for recipe util-linux-libuuid failed.
+NOTE: Reconnecting to bitbake server...
+NOTE: Reconnecting to bitbake server...
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 959 .bb files complete (0 cached, 959 parsed). 1993 targets, 43 skipped, 0 masked, 0 errors.
+Removing 1 recipes from the x86_64 sysroot...done.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-d931446dac36811ff08d610f5e5ab87b785840ef"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:d931446dac36811ff08d610f5e5ab87b785840ef"
+meta-yocto-bsp       
+meta-poky            = "master:d36c827e02ab138b446386792fd7588b5a041507"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 960 .bb files complete (0 cached, 960 parsed). 1994 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
+
+Build Configuration:
+BB_VERSION           = "2.19.1"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.0.99+snapshot-d931446dac36811ff08d610f5e5ab87b785840ef"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:d931446dac36811ff08d610f5e5ab87b785840ef"
+meta-yocto-bsp       
+meta-poky            = "master:d36c827e02ab138b446386792fd7588b5a041507"
+workspace            = "<unknown>:<unknown>"
+
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 1 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  41% |###############                     | ETA:  0:00:01
+Adding changed files:  83% |##############################      | ETA:  0:00:00
+Adding changed files: 100% |####################################| Time: 0:00:00
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/build/workspace
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://cdn.kernel.org/pub/linux/utils/util-linux/v2.42/util-linux-2.42.4.tar.xz...
+INFO: Rebasing devtool onto fbb11bf25d4e32c8901f67cd1ed7ea420c0ed93e
+WARNING: Command 'git rebase fbb11bf25d4e32c8901f67cd1ed7ea420c0ed93e' failed:
+Auto-merging sys-utils/mount.8.adoc
+CONFLICT (content): Merge conflict in sys-utils/mount.8.adoc
+
+You will need to resolve conflicts in order to complete the upgrade.
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/util-linux-libuuid
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/util-linux-libuuid/util-linux-libuuid_2.42.4.bb
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/util-linux-libuuid.txt
+INFO: Changelog metadata written to /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/util-linux-libuuid.json
 
 
-> >
-> > Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
-> > ---
-> >  meta/conf/distro/include/ptest-packagelists.inc | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/meta/conf/distro/include/ptest-packagelists.inc
-> b/meta/conf/distro/include/ptest-packagelists.inc
-> > index 79e27f617b..9b264657bb 100644
-> > --- a/meta/conf/distro/include/ptest-packagelists.inc
-> > +++ b/meta/conf/distro/include/ptest-packagelists.inc
-> > @@ -163,8 +163,8 @@ PTESTS_PROBLEMS:append:riscv32 =3D " lttng-tools
-> strace"
-> >  PTESTS_SLOW:append:libc-musl =3D " libc-test"
-> >
-> >  # These tests don't yet pass for riscv64
-> > -PTESTS_SLOW:remove:riscv64 =3D "tcl tcl8 python3-cffi strace lttng-too=
-ls
-> python3-numpy perl glib-2.0 zstd"
-> > -PTESTS_PROBLEMS:append:riscv64 =3D " tcl tcl8 python3-cffi strace
-> lttng-tools python3-numpy perl glib-2.0 zstd"
-> > +PTESTS_SLOW:remove:riscv64 =3D "tcl tcl8 python3-cffi strace lttng-too=
-ls
-> python3-numpy perl glib-2.0 zstd gnutls"
-> > +PTESTS_PROBLEMS:append:riscv64 =3D " tcl tcl8 python3-cffi strace
-> lttng-tools python3-numpy perl glib-2.0 zstd gnutls"
-> >
-> >  # These tests don't yet pass for musl qemuarm64
-> >  PTESTS_SLOW:remove:libc-musl:qemuarm64 =3D "strace perl gnutls glib-2.=
-0"
->
->
->
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-> Links: You receive all messages sent to this group.
-> View/Reply Online (#246367):
-> https://lists.openembedded.org/g/openembedded-core/message/246367
-> Mute This Topic: https://lists.openembedded.org/mt/121311542/1997914
-> Group Owner: openembedded-core+owner@lists.openembedded.org
-> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
-> raj.khem@gmail.com]
-> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
->
->
 
---000000000000df9f2c065c0b6a17
-Content-Type: text/html; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
 
-<div dir=3D"auto"><div><br><br><div class=3D"gmail_quote gmail_quote_contai=
-ner"><div dir=3D"ltr" class=3D"gmail_attr">On Mon, Sep 21, 2026, 8:12=E2=80=
-=AFPM Trevor Gamblin via <a href=3D"http://lists.openembedded.org">lists.op=
-enembedded.org</a> &lt;tgamblin=3D<a href=3D"mailto:baylibre.com@lists.open=
-embedded.org">baylibre.com@lists.openembedded.org</a>&gt; wrote:<br></div><=
-blockquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-l=
-eft:1px solid rgb(204,204,204);padding-left:1ex">On Fri Sep 18, 2026 at 5:0=
-7 AM EDT, Jo=C3=A3o Marcos Costa wrote:<br>
-&gt; Timeouts have been observed (very frequently in the past weeks)<br>
-&gt; in the autobuilder, and a bug [1] was filed at Bugzilla.<br>
-&gt;<br>
-&gt; For now, it&#39;s not quite clear what specific test case is causing t=
-he timeout.<br>
-&gt;<br>
-&gt; [1] <a href=3D"https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D161=
-62" rel=3D"noreferrer noreferrer" target=3D"_blank">https://bugzilla.yoctop=
-roject.org/show_bug.cgi?id=3D16162</a><br>
-<br>
-After modifying the gnutls ptest so that it outputs rough test durations (i=
-n ms)<br>
-and collecting a log, these seem to be the worst offenders:<br>
-<br>
-|tgamblin@megalith ~/workspace/ypbuilds/poky-qemuriscv64/layers/openembedde=
-d-core (master)$ grep &#39;PASS:&#39; tests.log | sort -t&#39;(&#39; -k2 -n=
- -r<br>
-|PASS: mini-record-2 (187880ms)<br>
-|PASS: record-retvals (145390ms)<br>
-|PASS: rng-op-key (63820ms)<br>
-|PASS: rng-op-random (63330ms)<br>
-|PASS: rng-op-nonce (63260ms)<br>
-|PASS: dtls-rehandshake-cert (61360ms)<br>
-|PASS: dtls-rehandshake-cert-2 (61230ms)<br>
-|PASS: dtls-rehandshake-anon (61030ms)<br>
-|PASS: mini-loss-time (60130ms)<br>
-|PASS: mini-dtls-hello-verify-48 (30050ms)<br>
-|PASS: tls12-ffdhe (27790ms)<br>
-|PASS: x509sign-verify-rsa (18460ms)<br>
-|PASS: x509sign-verify-ecdsa (16050ms)<br>
-<br>
-mini-record-2 is longest runtime by far, and is consistent with what the<br=
->
-Bugzilla bug shows - if you build core-image-ptest-gnutls and watch the out=
-put,<br>
-mini-record-2 comes after mini-record, which is the last on that runs befor=
-e the<br>
-AB log timeouts. Do you want to submit a narrower patch, which conditionall=
-y<br>
-disables mini-record-2 and record-retvals for riscv64?<br></blockquote></di=
-v></div><div dir=3D"auto"><br></div><div dir=3D"auto">Or relax the timeout =
-a bit=C2=A0</div><div dir=3D"auto"><br></div><div dir=3D"auto"><div class=
-=3D"gmail_quote gmail_quote_container"><blockquote class=3D"gmail_quote" st=
-yle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padd=
-ing-left:1ex">
-<br>
-&gt;<br>
-&gt; Signed-off-by: Jo=C3=A3o Marcos Costa &lt;<a href=3D"mailto:joaomarcos=
-.costa@bootlin.com" target=3D"_blank" rel=3D"noreferrer">joaomarcos.costa@b=
-ootlin.com</a>&gt;<br>
-&gt; ---<br>
-&gt;=C2=A0 meta/conf/distro/include/ptest-packagelists.inc | 4 ++--<br>
-&gt;=C2=A0 1 file changed, 2 insertions(+), 2 deletions(-)<br>
-&gt;<br>
-&gt; diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/co=
-nf/distro/include/ptest-packagelists.inc<br>
-&gt; index 79e27f617b..9b264657bb 100644<br>
-&gt; --- a/meta/conf/distro/include/ptest-packagelists.inc<br>
-&gt; +++ b/meta/conf/distro/include/ptest-packagelists.inc<br>
-&gt; @@ -163,8 +163,8 @@ PTESTS_PROBLEMS:append:riscv32 =3D &quot; lttng-to=
-ols strace&quot;<br>
-&gt;=C2=A0 PTESTS_SLOW:append:libc-musl =3D &quot; libc-test&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 # These tests don&#39;t yet pass for riscv64<br>
-&gt; -PTESTS_SLOW:remove:riscv64 =3D &quot;tcl tcl8 python3-cffi strace ltt=
-ng-tools python3-numpy perl glib-2.0 zstd&quot;<br>
-&gt; -PTESTS_PROBLEMS:append:riscv64 =3D &quot; tcl tcl8 python3-cffi strac=
-e lttng-tools python3-numpy perl glib-2.0 zstd&quot;<br>
-&gt; +PTESTS_SLOW:remove:riscv64 =3D &quot;tcl tcl8 python3-cffi strace ltt=
-ng-tools python3-numpy perl glib-2.0 zstd gnutls&quot;<br>
-&gt; +PTESTS_PROBLEMS:append:riscv64 =3D &quot; tcl tcl8 python3-cffi strac=
-e lttng-tools python3-numpy perl glib-2.0 zstd gnutls&quot;<br>
-&gt;=C2=A0 <br>
-&gt;=C2=A0 # These tests don&#39;t yet pass for musl qemuarm64<br>
-&gt;=C2=A0 PTESTS_SLOW:remove:libc-musl:qemuarm64 =3D &quot;strace perl gnu=
-tls glib-2.0&quot;<br>
-<br>
-<br>
-<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-Links: You receive all messages sent to this group.<br>
-View/Reply Online (#246367): <a href=3D"https://lists.openembedded.org/g/op=
-enembedded-core/message/246367" rel=3D"noreferrer noreferrer" target=3D"_bl=
-ank">https://lists.openembedded.org/g/openembedded-core/message/246367</a><=
-br>
-Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121311542/199=
-7914" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
-edded.org/mt/121311542/1997914</a><br>
-Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
-.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
-enembedded.org</a><br>
-Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
-unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
-bedded.org/g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.=
-com" target=3D"_blank" rel=3D"noreferrer">raj.khem@gmail.com</a>]<br>
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
-<br>
-</blockquote></div></div></div>
+Regards,
+The Upgrade Helper
+--===============2156112865051582295==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="util-linux-libuuid-changelog.txt"
 
---000000000000df9f2c065c0b6a17--
+util-linux 2.42.4 Release Notes
+===============================
+
+This release enhances previously released security fixes and adds protection
+against symlink attacks in the legacy mount(2)-based code in libmount.
+
+Changes between v2.42.3 and v2.42.4:
+
+libblkid:
+    - minix don't detect erofs images as minix (by Clayton Craft)
+
+lib/fileutils:
+    - add safe FD-path and no-symlink helpers (by Karel Zak)
+    - fix RESOLVE_NO_SYMLINKS fallback value (by Karel Zak)
+    - fix unused parameter warnings without SYS_openat2 (by Karel Zak)
+
+libmount:
+    - add mnt_fs_fetch_ids() and populate uniq_id for utab (by Karel Zak)
+    - use fchmodat2() for X-mount.mode= (by Karel Zak)
+    - restore the original namespace on error paths (by Karel Zak)
+    - secure the idmapped mount replacement (by Karel Zak)
+    - pin the legacy mount target and bind/move source (by Karel Zak)
+    - harden restricted mount targets and post-mount handling (by Karel Zak)
+    - fix X-mount.idmap ID names in code and man page (by Karel Zak)
+    - use USE_LIBMOUNT_MOUNTFD_SUPPORT for idmap hook (by Karel Zak)
+    - add missing fileutils.h include to hook_idmap.c (by Karel Zak)
+
+mount:
+    - fix grammar and typo in X-mount.idmap documentation (by Karel Zak)
+
+nsenter:
+    - close cgroup.procs fd after join to prevent authority leak
+      [CVE-2026-78408] (by Karel Zak)
+
+po:
+    - merge changes (by Karel Zak)
+    - update sv.po (from translationproject.org) (by Daniel Nylander)
+    - update nl.po (from translationproject.org) (by Benno Schulenberg)
+
+po-man:
+    - merge changes (by Karel Zak)
+    - update sv.po (from translationproject.org) (by Daniel Nylander)
+
+tools:
+    - add non-newmount.conf config-gen profile (by Karel Zak)
+
+--===============2156112865051582295==--
 
