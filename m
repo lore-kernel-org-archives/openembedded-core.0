@@ -1,230 +1,188 @@
-Return-Path: <vpuar@qti.qualcomm.com>
+Return-Path: <vince@underview.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D7AF4C982FE
-	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 14:31:59 +0000 (UTC)
-Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11840.1790087516724464001
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02746C982FE
+	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 14:34:50 +0000 (UTC)
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11905.1790087687661016912
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Sep 2026 07:31:57 -0700
+ Tue, 22 Sep 2026 07:34:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=Edi8FcTA;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qti.qualcomm.com, ip: 205.220.180.131, mailfrom: vpuar@qti.qualcomm.com)
-Received: from pps.filterd (m0279873.ppops.net [127.0.0.1])
-	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68MBPLo3015300
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 14:31:55 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
-	cc:content-transfer-encoding:content-type:date:from:message-id
-	:mime-version:subject:to; s=qcppdkim1; bh=iePwqHc7OKx8nIK54KZ+9i
-	PBV+MdGOKEOfTZ0yuBHzc=; b=Edi8FcTALgQmiaknVc/tuwaBGgKIndli390IxH
-	sHrbS46HsoCVF9gO6OnX+1rF3v/p5JADmc8PJXPSggQb6eUsSNJBSIwYUw64BMK2
-	4yCCA6B/t3Y3RhJvnCzF25eXYYW913w0lk9TZm3+ipLLbMthGzOJRgDdRxYfoSa7
-	nd4hdgrtKbH72ZQ5BVFpqgxv42LBJg8w5bUoRBmuNOKxCLN4qu4NWZsOz1zZzWED
-	UOc6JNdcIdymus5ZpdsLx80Gxe2aAY+xt95VCfb275en4dBnyV72h/pdgRsy0WW7
-	jpKw6IrcFwJy1XV5HN6bAjnuq5mLXpx+u2r9tI8YygRDLF5g==
-Received: from nalasppmta01.qualcomm.com (Global_NAT1.qualcomm.com [129.46.96.20])
-	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4gunjystfb-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 14:31:55 +0000 (GMT)
-Received: from nalasex01a.na.qualcomm.com (nalasex01a.na.qualcomm.com [10.47.209.196])
-	by NALASPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTPS id 68MEVseS2330896
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 14:31:54 GMT
-Received: from hyd-e160-a01-2-03.qualcomm.com (10.80.80.8) by
- nalasex01a.na.qualcomm.com (10.47.209.196) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.46; Tue, 22 Sep 2026 07:31:52 -0700
-From: Vivek Puar <vpuar@qti.qualcomm.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Vivek Puar <vpuar@qti.qualcomm.com>,
-        Dmitry Baryshkov
-	<dmitry.baryshkov@oss.qualcomm.com>
-Subject: [PATCH v2] linux-firmware: upgrade 20260910 -> 20260916
-Date: Tue, 22 Sep 2026 20:01:38 +0530
-Message-ID: <20260922143138.1565007-1-vpuar@qti.qualcomm.com>
-X-Mailer: git-send-email 2.34.1
+ dkim=pass header.i=@underview.tech header.s=google header.b=b3tyCcS/;
+ spf=pass (domain: underview.tech, ip: 74.125.225.76, mailfrom: vince@underview.tech)
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485933b24c3so12661f8f.0
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 07:34:47 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790087686; cv=none;
+        d=google.com; s=arc-20260327;
+        b=SCQjY2N/s3t29NRcTaOxOS2sqtxzJGC1kRg/6802kxEJwuXW/BAyIe+xurQ/jVSau9
+         I+HAN9O8nZ2Zs0Rbtm4hJcR1eFN0QptKcWFJmRqhFyMUz5AhdCyrZhjs5aJHBrs4suj4
+         VpLoVHwr0RXft7aHdZHVVmvRCAp+/NQDTzj0cWPXExCf9ipj9M/OqWE1Hb817h3qlrlG
+         1FUOm+bm/oEleBvf0W1ACMNZW91kTQh1DJKjskp1ZTpK2igN3R66W6FVC/roMoUifOgA
+         2+rfHFuOPVrgEJimMlbQFUnhr90HSPOUmRQccLnQ45AdE0z759VS+QFdcwqtXRqan4HI
+         n1rQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=kU6qJ3EBOJ4qzjhUgnLnWoEnZwiI+XE49MqL0M2a3Gc=;
+        fh=WT+bcx0KPadZktzTRyWFGsMkYaDtw6xmCiYlLDKLv/Q=;
+        b=LDuKbu+DRpOSAvBqfeYrOd4yw751x5Yy5EWXRwsc7j+wVTmMfjqw+VLVlT+6/a2Vub
+         ECZ1RMjVXJaxQPujaU8ZYLftvU3z4mZU36a+LRfpAEqMXKkAO/R5AFYbJAd9yr/btv7g
+         iaYWC6/gForiZvI+0jnwEQWx6MAJphuRx/zpGG+8WNqMlsm09CzSdRUWzJI+CoR5FuQd
+         m1Ic1lETqcAnRujTAhYX6TtdWJNkMFrbU/GvVkkwVpb/HoSrE7y2GLpP7NfCReQsKpvb
+         DxizFoL4Aj7bZSeRE6deUNatRz01yb+EFuXvhrfY5q9/EoUfARhNR4hK+GGZZcSMObhP
+         vJjQ==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=underview.tech; s=google; t=1790087686; x=1790692486; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=kU6qJ3EBOJ4qzjhUgnLnWoEnZwiI+XE49MqL0M2a3Gc=;
+        b=b3tyCcS/gziljG36SRTzpd+Rbv/CKi5mubD9ZzHePG3cvgDDZMBOeEvj9VEGvoYmsj
+         OuWGqNrjG4gP+PeCmSnl1j/r7jNc6cbGwU0ipJLWiSbblUhkYJIDg2hnPnBcxS8GUV4G
+         KbM7D6xv1XjA7Fc8/tQPN5Azr+JNJUR4pqS7XUTXEu23v+zx0v21fBr+pb7nmPxq6zPm
+         PcYagqjD6W2n1zkz6EpX3rkdWzd83Mii//EgSHZ91vxUKr8u+9WNcWdgdBEiueM9xSET
+         84XD80PU4tny6TPSiYDSSw28yh3lL7XYgvsjIeqi4ndcCpNI/Y6LG+xVd55BQlRqYyF3
+         Ra0g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790087686; x=1790692486;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=kU6qJ3EBOJ4qzjhUgnLnWoEnZwiI+XE49MqL0M2a3Gc=;
+        b=Gf8+JGeUeXT2SRNKBy3HhhrkZ/DGzX2J3+5BrvkIthvgJxmzFBjoLJWd6cTbMWRvfa
+         2aY5S5H2CgWrSAdD5v4Q54l7zT681oMo6OwUR3poQvXMeckWeCVl/i7Tx16oQWCMKuM6
+         aCy2WZxyMg0p0/P8uL1+IdL9pGq7VuFY3n9krukuZTwcklkU+dt797AA700YCLHsy8V3
+         9MsdzxOo9UsWAVdIc/J8A/ny96E3935tig5ytOj6+PdhEQ+43moBQUc8N/jYFG2ZZB+J
+         ElWtjfRyJTH3XPYhPjTlLPcPubvKAY+jF1kAZMEgLsJboJldX7lkzIKRqUjA61gS7Fzp
+         ss8Q==
+X-Gm-Message-State: AFuF++mvQ8bFJ+U2VZ4czm7HJorptch+K1GrSpmYRjXMTwMXQRQJLCf6
+	aCAz9/syfixeDPg9/DPIgYvEBHqBZYjzVo66O2rbr1i4XMzu95DKMtyixfdJATkO09/wAe82GxS
+	PMHMCWcTnl9r0r6Vs7XYVVmxIpNQRlYuQFzgNgoysDA==
+X-Gm-Gg: AYBFou1vkLP3626/xKhjHfbMn5VWpHzGyip1LlKEWu/TMSXi2wEJczKHOc7zJYzWxRL
+	0ZeoY5BSLKc9chOgTdjrBBq5OHzCJdIwAYw5/u31DaYA7O0+9B+2++1MclwjUogfCOpiap3al8p
+	OykyBnCQYtoa6800Ip2Go+fUyU+/kodjfa3vXl/w5tC/wU+VlvgtrEXC6PBhU4RpkqWs9QhEid3
+	/ctGiO0scYRNj76SFiuEzi+OWLk1QfUIHAjGSP7hIU8g/7AaL68b906FfX/bdk2/kcLSM/2G1Tb
+	vtrqhd+WXlnTDlrDE5g01PELN0uDjOIZhlZYd9qg0E8lzgiG/+aoCkKfVzy9ykqvEIyOAh/AAOE
+	rH5IB4OMj2RVVCBuRkggcrwQ=
+X-Received: by 2002:a5d:5d02:0:b0:485:8ee5:5ffa with SMTP id
+ ffacd0b85a97d-4871e36b1c7mr21775449f8f.38.1790087685632; Tue, 22 Sep 2026
+ 07:34:45 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-Originating-IP: [10.80.80.8]
-X-ClientProxiedBy: nasanex01b.na.qualcomm.com (10.46.141.250) To
- nalasex01a.na.qualcomm.com (10.47.209.196)
-X-QCInternal: smtphost
-X-Proofpoint-GUID: HSCaUCaxFCM6JTgAm0IY22WAp7DF76tI
-X-Authority-Analysis: v=2.4 cv=KqHYSmWN c=1 sm=1 tr=0 ts=6ab2915b cx=c_pps
- a=ouPCqIW2jiPt+lZRy3xVPw==:117 a=ouPCqIW2jiPt+lZRy3xVPw==:17
- a=GEpy-HfZoHoA:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=u7WPNUs3qKkmUXheDGA7:22 a=rJkE3RaqiGZ5pbrm-msn:22 a=EUspDBNiAAAA:8
- a=VwQbUJbxAAAA:8 a=A7mtM95H-gnKJ28VzyQA:9
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIyMDIxMSBTYWx0ZWRfX4z2fGtnjNioU
- RBzZm7xpU9Uf2s2oUpDi138Hhb4GBDiDfdQH6ymGKNVCy+o6iYKgegpXlbPnoYeGpg5UgXoHaoE
- IbM8uUWE4DAlDDD6QwQK5YrldcH6M9BF2ET5bvpcnCUIzUoNExVTcZer3lFSWZegbbR3jdE7dtY
- 5JwncgFUzGUsxnvfzRelzbjpWXEY31PrM2FpzIcvpwr0qI//MuiR6ZvuyKatZrkQYuTNZL06h4n
- EQFdLiw7TDYizDxqJPR/fI6Kz0fkh63ub2SrnTzpAevznM8Gr8ohYtxNMl+FwJlK3WTb0hFAe8g
- HJCvhFPjEl8LnvJi6kikSuv9QENtKrz1W7Rzv/I9rgMqMwCbW5rDP0YJJf+2030UHki3Y7hrFs+
- s6Qkoa0DfA6xdGgeec4PDzhObdQtyvuLj8tSHfo/JJ3UbJ8FJ2XYw6P1kiXLWaHtVe/6oJuor6+
- KAtI5dzEQCj8HD44fUQ==
-X-Proofpoint-ORIG-GUID: HSCaUCaxFCM6JTgAm0IY22WAp7DF76tI
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIyMDIxMSBTYWx0ZWRfX47xxguEvfDQ+
- DSdNUvJ01HXp6DmUcZytjEkvURXg5s73qPS7oH+SRm2oEz5q1aGtDPfhfWsbZqBldFQy5BsDQha
- bSOiQrxJ0outRt10dE7mLRVKVjRl5+0=
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-22_01,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- impostorscore=0 spamscore=0 bulkscore=0 priorityscore=1501 phishscore=0
- malwarescore=0 suspectscore=0 clxscore=1015 adultscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609220211
+References: <20260712184307.3259642-1-vince@underview.tech>
+ <DB5PR02MB102131BF9EDB1F84965702DABEFFA2@DB5PR02MB10213.eurprd02.prod.outlook.com>
+ <953617.1784488771319074426@lists.openembedded.org> <f3e758ba0987e94d70e6b2f9f4950073a9d6f80d.camel@linuxfoundation.org>
+ <2546320.1788388183210489037@lists.openembedded.org> <44e11d55e07f423de965992fc4821ff8573e7049.camel@linuxfoundation.org>
+ <2546320.1788393678217660963@lists.openembedded.org>
+In-Reply-To: <2546320.1788393678217660963@lists.openembedded.org>
+From: Vincent Davis <vince@underview.tech>
+Date: Tue, 22 Sep 2026 10:34:33 -0400
+X-Gm-Features: AclHuK8cP_r7zgq0S_zo4iaOaodLmyJOIkxF_PRGKJSigF7xY-S-mGIR-u9Ar0k
+Message-ID: <CAPQx_gMkYyWq1GQ_EiMAKbQTBi=d7yEGF_J6w1+Lskhn45V3VA@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH v4 01/27] bitbake: globally define KERNEL_PACKAGE_NAME
+To: Vincent Davis <vince@underview.tech>
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="0000000000009e899c065c1344c4"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 14:31:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246417
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 14:34:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246418
 
-Upgrade the firmware package to latest release. Add firmware
-for RTL8261d. Add ADSP firmware for Qualcomm Maili platform.
-Add SHIFT6mq modem and WLAN firmware packages, which reuse
-files already available in linux-firmware through symlinks.
+--0000000000009e899c065c1344c4
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
-Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
----
- ...20260910.bb => linux-firmware_20260916.bb} | 24 +++++++++++++++----
- 1 file changed, 20 insertions(+), 4 deletions(-)
- rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260910.bb => linux-firmware_20260916.bb} (99%)
+Hello,
 
-diff --git a/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb b/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
-similarity index 99%
-rename from meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
-rename to meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
-index 1b9215a090..44901c229a 100644
---- a/meta/recipes-kernel/linux-firmware/linux-firmware_20260910.bb
-+++ b/meta/recipes-kernel/linux-firmware/linux-firmware_20260916.bb
-@@ -277,7 +277,7 @@ LIC_FILES_CHKSUM = "file://LICENSES/LICENCE.Abilis;md5=b5ee3f410780e56711ad48ead
-                     "
- # WHENCE checksum is defined separately to ease overriding it if
- # class-devupstream is selected.
--WHENCE_CHKSUM  = "fe7960bbe2eb0922168c3434c8d125d0"
-+WHENCE_CHKSUM  = "286b10e604dec1e5d49c4ac688f65a2e"
- 
- # These are not common licenses, set NO_GENERIC_LICENSE for them
- # so that the license files will be copied from fetched source
-@@ -416,7 +416,7 @@ SRC_URI:class-devupstream = "git://git.kernel.org/pub/scm/linux/kernel/git/firmw
- # Pin this to the 20220509 release, override this in local.conf
- SRCREV:class-devupstream ?= "b19cbdca78ab2adfd210c91be15a22568e8b8cae"
- 
--SRC_URI[sha256sum] = "f3937ca282ba256242e2b6dbe523df8a80007d29ffd61f56d270190865492ea8"
-+SRC_URI[sha256sum] = "f80dcb757a623deda62200c08e0e1a88c76fb6b54964f31b35fa74da1c90ccc5"
- 
- inherit allarch
- 
-@@ -533,7 +533,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-vt6656-license ${PN}-vt6656 \
-              ${PN}-rs9113 ${PN}-rs9116 ${PN}-rsi-91x \
-              ${PN}-rtl-license ${PN}-rtl8188 ${PN}-rtl8192cu ${PN}-rtl8192ce ${PN}-rtl8192su \
--             ${PN}-rtl8261c ${PN}-rtl8723 ${PN}-rtl8821 \
-+             ${PN}-rtl8261c ${PN}-rtl8261d ${PN}-rtl8723 ${PN}-rtl8821 \
-              ${PN}-rtl8761 \
-              ${PN}-rtl8168 \
-              ${PN}-rtl8822 \
-@@ -699,6 +699,7 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-hawi-audio \
-              ${PN}-qcom-kaanapali-adreno ${PN}-qcom-kaanapali-audio \
-              ${PN}-qcom-kaanapali-compute ${PN}-qcom-kaanapali-soccp \
-+             ${PN}-qcom-maili-audio \
-              ${PN}-qcom-nord-audio ${PN}-qcom-nord-compute ${PN}-qcom-nord-qupv3fw \
-              ${PN}-qcom-qcm2290-adreno ${PN}-qcom-qcm2290-audio ${PN}-qcom-qcm2290-modem \
-              ${PN}-qcom-qcm6490-adreno ${PN}-qcom-qcm6490-audio ${PN}-qcom-qcm6490-compute \
-@@ -721,7 +722,8 @@ PACKAGES =+ "${PN}-amphion-vpu-license ${PN}-amphion-vpu \
-              ${PN}-qcom-sc8280xp-lenovo-x13s-vpu \
-              ${PN}-qcom-sc8280xp-radxa-dragon-q8b-audio \
-              ${PN}-qcom-sdm845-adreno ${PN}-qcom-sdm845-audio ${PN}-qcom-sdm845-compute \
--             ${PN}-qcom-sdm845-shift6mq-adreno ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
-+             ${PN}-qcom-sdm845-shift6mq-adreno ${PN}-qcom-sdm845-shift6mq-modem ${PN}-qcom-sdm845-shift6mq-wifi \
-+             ${PN}-qcom-sdm845-thundercomm-db845c-sensors \
-              ${PN}-qcom-sdx35-foxconn-firehose ${PN}-qcom-sdx61-foxconn-firehose \
-              ${PN}-qcom-shikra-adreno ${PN}-qcom-shikra-compute ${PN}-qcom-shikra-audio \
-              ${PN}-qcom-shikra-modem ${PN}-qcom-shikra-qupv3fw \
-@@ -1647,6 +1649,7 @@ LICENSE:${PN}-rtl8192cu = "LicenseRef-Firmware-rtlwifi-firmware"
- LICENSE:${PN}-rtl8192ce = "LicenseRef-Firmware-rtlwifi-firmware"
- LICENSE:${PN}-rtl8192su = "LicenseRef-Firmware-rtlwifi-firmware"
- LICENSE:${PN}-rtl8261c = "LicenseRef-Firmware-rtlwifi-firmware"
-+LICENSE:${PN}-rtl8261d = "LicenseRef-Firmware-rtlwifi-firmware"
- LICENSE:${PN}-rtl8723 = "LicenseRef-Firmware-rtlwifi-firmware"
- LICENSE:${PN}-rtl8761 = "LicenseRef-Firmware-rtlwifi-firmware"
- LICENSE:${PN}-rtl8821 = "LicenseRef-Firmware-rtlwifi-firmware"
-@@ -1681,6 +1684,9 @@ FILES:${PN}-rtl8192su = " \
- FILES:${PN}-rtl8261c = " \
-   ${firmwaredir}/rtl_nic/rtl8261c.bin* \
- "
-+FILES:${PN}-rtl8261d = " \
-+  ${firmwaredir}/rtl_nic/rtl8261d.bin* \
-+"
- FILES:${PN}-rtl8723 = " \
-   ${firmwaredir}/rtlwifi/rtl8723*.bin* \
-   ${firmwaredir}/rtw88/rtw8723*.bin* \
-@@ -1736,6 +1742,7 @@ RDEPENDS:${PN}-rtl8192ce += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8192cu += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8192su = "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8261c = "${PN}-rtl-license"
-+RDEPENDS:${PN}-rtl8261d = "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8723 += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8821 += "${PN}-rtl-license"
- RDEPENDS:${PN}-rtl8761 += "${PN}-rtl-license"
-@@ -2410,6 +2417,7 @@ LICENSE:${PN}-qcom-kaanapali-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-kaanapali-audio = "LicenseRef-Firmware-qcom-2 AND LicenseRef-Firmware-linaro"
- LICENSE:${PN}-qcom-kaanapali-compute = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-kaanapali-soccp = "LicenseRef-Firmware-qcom-2"
-+LICENSE:${PN}-qcom-maili-audio = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-nord-audio = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-nord-compute = "LicenseRef-Firmware-qcom-2"
- LICENSE:${PN}-qcom-nord-qupv3fw = "LicenseRef-Firmware-qcom"
-@@ -2456,6 +2464,8 @@ LICENSE:${PN}-qcom-sdm845-adreno = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-compute = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-modem = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-shift6mq-adreno = "LicenseRef-Firmware-qcom"
-+LICENSE:${PN}-qcom-sdm845-shift6mq-modem = "LicenseRef-Firmware-qcom"
-+LICENSE:${PN}-qcom-sdm845-shift6mq-wifi = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdx35-foxconn-firehose = "LicenseRef-Firmware-qcom"
- LICENSE:${PN}-qcom-sdx61-foxconn-firehose = "LicenseRef-Firmware-qcom"
-@@ -2561,6 +2571,7 @@ FILES:${PN}-qcom-kaanapali-audio = " \
- "
- FILES:${PN}-qcom-kaanapali-compute = "${firmwaredir}/qcom/kaanapali/cdsp*.*"
- FILES:${PN}-qcom-kaanapali-soccp = "${firmwaredir}/qcom/kaanapali/soccp*.*"
-+FILES:${PN}-qcom-maili-audio = "${firmwaredir}/qcom/maili/adsp*.*"
- FILES:${PN}-qcom-nord-audio = "${firmwaredir}/qcom/nord/adsp*.*"
- FILES:${PN}-qcom-nord-compute = "${firmwaredir}/qcom/nord/cdsp*.*"
- FILES:${PN}-qcom-nord-qupv3fw = "${firmwaredir}/qcom/nord/qupv3fw.elf*"
-@@ -2633,6 +2644,8 @@ FILES:${PN}-qcom-sdm845-compute = "${firmwaredir}/qcom/sdm845/cdsp*.*"
- FILES:${PN}-qcom-sdm845-modem = "${firmwaredir}/qcom/sdm845/mba.mbn* ${firmwaredir}/qcom/sdm845/modem*.* ${firmwaredir}/qcom/sdm845/wlanmdsp.mbn* ${firmwaredir}/qcom/sdm845/notice.txt_wlanmdsp* \
-                                  ${firmwaredir}/ath10k/WCN3990/hw1.0/wlanmdsp.mbn* ${firmwaredir}/ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp"
- FILES:${PN}-qcom-sdm845-shift6mq-adreno = "${firmwaredir}/qcom/sdm845/SHIFT/axolotl/a630_zap.mbn*"
-+FILES:${PN}-qcom-sdm845-shift6mq-modem = "${firmwaredir}/qcom/sdm845/SHIFT/axolotl/mba.mbn*"
-+FILES:${PN}-qcom-sdm845-shift6mq-wifi = "${firmwaredir}/qcom/sdm845/SHIFT/axolotl/wlanmdsp.mbn*"
- FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${firmwaredir}/qcom/sdm845/Thundercomm/db845c/slpi*.*"
- FILES:${PN}-qcom-sdx35-foxconn-firehose = "${firmwaredir}/qcom/sdx35/foxconn/xbl_s_devprg_ns.melf*"
- FILES:${PN}-qcom-sdx61-foxconn-firehose = "${firmwaredir}/qcom/sdx61/foxconn/prog_firehose_lite.elf*"
-@@ -2759,6 +2772,7 @@ RDEPENDS:${PN}-qcom-kaanapali-adreno = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-kaanapali-audio = "${PN}-qcom-2-license ${PN}-linaro-license"
- RDEPENDS:${PN}-qcom-kaanapali-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-kaanapali-soccp = "${PN}-qcom-2-license"
-+RDEPENDS:${PN}-qcom-maili-audio = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-nord-audio = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-nord-compute = "${PN}-qcom-2-license"
- RDEPENDS:${PN}-qcom-nord-qupv3fw = "${PN}-qcom-license"
-@@ -2811,6 +2825,8 @@ RDEPENDS:${PN}-qcom-sdm845-audio = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-compute = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-modem = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdm845-shift6mq-adreno = "${PN}-qcom-license"
-+RDEPENDS:${PN}-qcom-sdm845-shift6mq-modem = "${PN}-qcom-license ${PN}-qcom-sdm845-modem"
-+RDEPENDS:${PN}-qcom-sdm845-shift6mq-wifi = "${PN}-qcom-license ${PN}-qcom-sdm845-modem"
- RDEPENDS:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdx35-foxconn-firehose = "${PN}-qcom-license"
- RDEPENDS:${PN}-qcom-sdx61-foxconn-firehose = "${PN}-qcom-license"
--- 
-2.34.1
+In response to
 
+https://lists.openembedded.org/g/openembedded-core/topic/121365625?msg=3D24=
+6365#msg246365
+
+You can bypass spdx issues by
+
+inheriting nospdx.
+
+Put still run into same packaging issue. Even when changing PACKAGE_ARCH.
+
+How do we think we want to proceed?
+
+On Wed, Sep 2, 2026, 8:01=E2=80=AFPM Vincent Davis Jr via lists.openembedde=
+d.org
+<vince=3Dunderview.tech@lists.openembedded.org> wrote:
+
+> Yes,
+>
+> Setting PACKAGE_ARCH and updating PACKAGE_ARCHS.
+>
+> Will run into
+>
+> do_create_spdx: Could not find a static SPDX document named *static*
+> -liveusb-console-linux
+>
+> Which could probably be fix fairly easily. Will post when I'm further.
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#244993):
+> https://lists.openembedded.org/g/openembedded-core/message/244993
+> Mute This Topic: https://lists.openembedded.org/mt/120238087/7072109
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub
+> [vince@underview.tech]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--0000000000009e899c065c1344c4
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"auto">Hello,<div dir=3D"auto"><br></div><div dir=3D"auto">In re=
+sponse to</div><div dir=3D"auto"><br></div><div dir=3D"auto"><a href=3D"htt=
+ps://lists.openembedded.org/g/openembedded-core/topic/121365625?msg=3D24636=
+5#msg246365">https://lists.openembedded.org/g/openembedded-core/topic/12136=
+5625?msg=3D246365#msg246365</a></div><div dir=3D"auto"><br></div><div dir=
+=3D"auto">You can bypass spdx issues by</div><div dir=3D"auto"><br></div><d=
+iv dir=3D"auto">inheriting nospdx.</div><div dir=3D"auto"><br></div><div di=
+r=3D"auto">Put still run into same packaging issue. Even when changing PACK=
+AGE_ARCH.</div><div dir=3D"auto"><br></div><div dir=3D"auto">How do we thin=
+k we want to proceed?</div></div><br><div class=3D"gmail_quote gmail_quote_=
+container"><div dir=3D"ltr" class=3D"gmail_attr">On Wed, Sep 2, 2026, 8:01=
+=E2=80=AFPM Vincent Davis Jr via <a href=3D"http://lists.openembedded.org">=
+lists.openembedded.org</a> &lt;vince=3D<a href=3D"mailto:underview.tech@lis=
+ts.openembedded.org">underview.tech@lists.openembedded.org</a>&gt; wrote:<b=
+r></div><blockquote class=3D"gmail_quote" style=3D"margin:0 0 0 .8ex;border=
+-left:1px #ccc solid;padding-left:1ex"><div>Yes,</div>
+<div>=C2=A0</div>
+<div>Setting PACKAGE_ARCH and updating PACKAGE_ARCHS.</div>
+<div><br>Will run into</div>
+<div>=C2=A0</div>
+<div>do_create_spdx: Could not find a static SPDX document named <strong>st=
+atic</strong>-liveusb-console-linux<br><br>Which could probably be fix fair=
+ly easily. Will post when I&#39;m further.</div>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#244993): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/244993" rel=3D"noreferrer noreferrer" target=3D"_bl=
+ank">https://lists.openembedded.org/g/openembedded-core/message/244993</a><=
+br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/120238087/707=
+2109" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openemb=
+edded.org/mt/120238087/7072109</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank" rel=3D"noreferrer">openembedded-core+owner@lists.op=
+enembedded.org</a><br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer noreferrer" target=3D"_blank">https://lists.openem=
+bedded.org/g/openembedded-core/unsub</a> [vince@underview.tech]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--0000000000009e899c065c1344c4--
 
