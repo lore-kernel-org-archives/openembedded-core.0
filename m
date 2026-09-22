@@ -1,160 +1,151 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <dmitry.baryshkov@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6027DC982FA
-	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 11:52:45 +0000 (UTC)
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8247.1790077960200021381
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 36D25C982FF
+	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 12:17:06 +0000 (UTC)
+Received: from mx0a-0031df01.pphosted.com (mx0a-0031df01.pphosted.com [205.220.168.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8672.1790079419883680156
  for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Sep 2026 04:52:40 -0700
+ Tue, 22 Sep 2026 05:17:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=3KGD7ap0;
- spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843c3ea1f6so1690821f8f.0
-        for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 04:52:39 -0700 (PDT)
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=KVbE8gJF;
+ dkim=pass header.i=@oss.qualcomm.com header.s=google header.b=EyNA5bfO;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: oss.qualcomm.com, ip: 205.220.168.131, mailfrom: dmitry.baryshkov@oss.qualcomm.com)
+Received: from pps.filterd (m0279864.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68MBQ06B2870508
+	for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 12:16:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-type:date:from:in-reply-to:message-id:mime-version
+	:references:subject:to; s=qcppdkim1; bh=ElUj7GHgbC3Jnx4+jMPtrWNT
+	9qdGVGYkNZk/GTyr4fM=; b=KVbE8gJFwPEyUXpbOF0IDOjz37/wBYcgHnByF20Y
+	5IyNwyxoGyDSApboSSJCI01xWQzycEojP6KGJntDn5kDZiTVDebi33bbhxXgSfEO
+	BOyQoEPtriOUk7EDKmME8hqkEVAMCdlQBHUgvRS30vzBJDOCeAwqeGUDDfSwbfgd
+	NyyaYqPEm05iu6cyzjLxoBuE3/TJzk22TQ1zVQDxag/MDrnSSsxIcRYkfDx3p0l1
+	Px5+MD/DpydGl9SgHXateUs4gkIGnmbj2iZ39Q5t4GTpm70CEjzY0yB3cLj41wj7
+	ISfyWctz2be9HJw8H8oZCsQn8y9qvurdfNaEo9Sj5kXu9w==
+Received: from mail-ua1-f72.google.com (mail-ua1-f72.google.com [209.85.222.72])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4guj111vp8-1
+	(version=TLSv1.3 cipher=TLS_AES_128_GCM_SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 12:16:59 +0000 (GMT)
+Received: by mail-ua1-f72.google.com with SMTP id a1e0cc1a2514c-97e768af628so3248699241.3
+        for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 05:16:58 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790077958; x=1790682758; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=l43Nc98f4aKHkySZuSVvpHQhJjuWBe7Qtnv0Al71/zw=;
-        b=3KGD7ap0QDjGqTKefW6uBATFMDvgW/TBFc3E4B38/vBRPWNAV3jEpy8LrrdjafFLun
-         AXAzPr2T7SdDqwxDTQtjywXASVYSlJblujuvZfbEXS8f9+s5uuyRH7ewuSjjgXicgXYV
-         ylq0VYBWViH7aKlVidSB6CdLbCuCw0MElF30w=
+        d=oss.qualcomm.com; s=google; t=1790079418; x=1790684218; darn=lists.openembedded.org;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=ElUj7GHgbC3Jnx4+jMPtrWNT9qdGVGYkNZk/GTyr4fM=;
+        b=EyNA5bfONCeKP8oyEw0NqWB2aY3y1pi1IC/sz3ckdZb08JV51VeNNosgQYlx682mgL
+         BAf4nLS9OxlfHtV/p29t9kitIq0E+Xikxqdu5i0YdKTZ3hChMMe03/6aGF4z6Uw6DW8K
+         /GRr9KgXGatIGppG1DC+RfIzUliHtGfo9bbW7KjoJLrAgta/XJGf1tZaX/166M4WC/dy
+         fDK9wHpsZ3u8eq8A+2WaNDuKSkNJpMkBW/CW+eyBRueOW3X2RGp2yiFKsETYft/UkweO
+         fsTp360yYHCe2DNiwDCKbmc7uHMoS6gvLgtprmwO9ECpjFP3c9/dry1W1CJC/i5CCjh5
+         Gomw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790077958; x=1790682758;
-        h=in-reply-to:references:to:cc:from:subject:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+        d=1e100.net; s=20260707; t=1790079418; x=1790684218;
+        h=in-reply-to:content-disposition:content-type:mime-version
+         :references:message-id:subject:cc:to:from:date:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=l43Nc98f4aKHkySZuSVvpHQhJjuWBe7Qtnv0Al71/zw=;
-        b=Wy5xQNO5sihv73aBO8Lnd/RnM4OFgVnuqrHDjNSmfrT2m3f213B/QL5rwkezvoQfYj
-         V43ZjoUzXfPcXW9sb2NOLDQBsZEvesCcrZLIHrz7kCbOwXi2uYYe8xlEgqZ80SlGfzje
-         KsYcIznLUeQTsm7ghau3dvmazgEx2Je6Ij+h2E0GxYuMfdHYlnBX95n+rX2xlvFv9VrK
-         3RRtVWqCeHCqmFDb10pCmuFTcUfuQSILFvIwIbPBcc9dDkRr5ziaOBFrk1NWa1N2vYoE
-         XB/PQi/XsnxFuJu+ZfymT+f+p8fxlGkg1WxXNIooYmC/4Ox3w/9CvOasGTenu26rzeLD
-         fslw==
-X-Forwarded-Encrypted: i=1; AKwUvBwwIc4YX14o8Ygg1ku5NMdhtq4ZYaL+muBXuodLvjr5HVTk4z5wpR2KkDKtt0a3M/X+D9iAMD+agKS0JvqYEAkuyQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++lyRo1CpHBfv4fe3+cCu7AGWdGpm2jMsRiVTItkpCMe7k3ic0o/
-	eDx9QfFg8hEb70Nm66xjN8mAjrLww0f6Tp0G5oESG+mnrfaY5+hnybrx6UHtOwYNyeo=
-X-Gm-Gg: AYBFou1Nkwdy09RJqVZSdd5jf7ZszI37LJXe1DDqDbVNuHJenkYQY8oAQYOxBOeeKzk
-	jsUiII1CJqwUf7U06+x6g9e2eFDFMdAsO1XKRF4Y28YfsyDyDcIDIyqye6MqEJpu7wuSBiYT89U
-	KeDxz9LfN+e9VSAlqwUzZe3ajfvSMCcgRsrWTG+u2UWsZib+faSkIxWhWK4sLYTf7Y0kxcEAYJ7
-	iqJ8qS4J9HQ9mY3zGDGGdPPswLiIVEs1IEDim3Xv+qUphJGWgT/73/Ukt0OIzJKFhx4SbYr9Z7n
-	ZH/ScHIah757FpPhsRE3+BJ8XYTxKXyVE2Le2kqpogNgBvXorGzhsPF0iWlNGeW3b9tqyNL8d2h
-	nqemRf+LGOjckjBNVqiUVjj4zyNOmYoth2tCLtMeB2FQi8158TULQHuUmzZPonGGCRFkGReNQS4
-	ztlzJVpsx117wov7ZUH6LSgj0yqakA/C+CcD+qvn4IaaBXipr5FKq7TVD+us2ZtZM4oHEAokoXo
-	9FtmfT9KbcgoZZnhm8qh4z1LoXO0dJWmT7IZZnAn336D4NIdG+b+h/sxiI=
-X-Received: by 2002:a5d:5d88:0:b0:487:18ba:c0de with SMTP id ffacd0b85a97d-4871e269e9dmr22218226f8f.27.1790077957384;
-        Tue, 22 Sep 2026 04:52:37 -0700 (PDT)
-Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48862795232sm4533618f8f.32.2026.09.22.04.52.36
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 22 Sep 2026 04:52:37 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 22 Sep 2026 13:52:36 +0200
-Message-Id: <DLLTOCN1XYN3.12L0QQ45RSBW8@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH] fs-util: try AT_EMPTY_PATH for
- access_fd() first
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Suresh H A" <Suresh.HA@bmwtechworks.in>
-To: <UpStream_IP-SH@bmwtechworks.in>,
- <openembedded-core@lists.openembedded.org>, <suresh.ha@bmwtechworks.in>
-X-Mailer: aerc 0.20.0
-References: <20260902102403.4010166-1-UpStream_IP-SH@bmwtechworks.in>
-In-Reply-To: <20260902102403.4010166-1-UpStream_IP-SH@bmwtechworks.in>
+        bh=ElUj7GHgbC3Jnx4+jMPtrWNT9qdGVGYkNZk/GTyr4fM=;
+        b=kxtJPlnjROi2+oGRcdvRLurgQPc7b7n8lBC6jno/imB85jGv1s7/4TpZpSz5ACxpsA
+         97HO9W8X1mp5O9K/zkxEEP7bVvp4Rm07V+VQH9oGfpUh+7K/ix5D5NjUGjv7CmhCFEYY
+         CYonTblE0icBY9mOJgJs1z+4MONfLmoin1TfploUiHlkXTcagmup3pBpIBMYbyEWfo9p
+         CAWfJcxKmUWblvZ+EAj39upidrjJGb6366SwOtH2S4sNCfOLXrUzMAroM49gPRomYWO7
+         ip9ZgEjL+GIG8oZVqVRllM0dwJ4W3/g/aU6NZoV0wK2RNdT5tbm3EYmsjk/b7Tz1T5ON
+         594g==
+X-Gm-Message-State: AFuF++mwCbOXWuCYkrWktYHy2yOPG7X/gyVOEfipbR0QX+K/8/msVMJu
+	VVX/BU3Jd+T61VYWZ/O4dC8vog1k46bdWuM/nBVZWb828zkSJzUoOORdxalwBeRv+KTFyBzl6LU
+	YlfoMN4M3zQN8LXUIFOqnSdewM1u8G5U2A38BCnPSxz7JeaBRhGwP8kcoSi6RP+dZ8Rp6kzOioC
+	7/R7RkPvI=
+X-Gm-Gg: AYBFou0dZ8DxvA7EI52lhhj2EhHNqBKVQDuPlIFzXS3VVAVvoPVLEyw3Mhb7kU0WKo4
+	sWgZpm+rkxd0pOR5udwrQDeuHDEsrKgv9jzZ28CmwdXkCmsh+wtVJEt07/U8qwa7iZdp1VSmeRg
+	skTkYktWEKnQEn0qHKYECeoqZfZLlmh0Rp5fz14AUbrrtGDEV9RDHFmnqz5DB+FNlI37UMDeadt
+	c9u1qznqq8GSncVhunwQAqlPj2ri9tQPP/6/VlkIiZqRbpLEVSv0BX09PI7rWzlFikJbdOcmeVR
+	p20GktF3YA7RqrWF91jxVPQGzxtvoeCuyc9Fo2FxyX2fl81nExjcTxjc3JRr6B4yns+Ui89iiQe
+	HMekqzz42FGpBdLAVOUqCemUFj1qrxC3Icf3PrnHvhOhkKfJCQwGrmmOvR2AsnJK9vZJAcDG8XZ
+	DjuU2yx/lxzLL3
+X-Received: by 2002:a05:6102:3914:b0:7a1:f7c3:3a47 with SMTP id ada2fe7eead31-7a55ce7ee91mr7233584137.20.1790079418048;
+        Tue, 22 Sep 2026 05:16:58 -0700 (PDT)
+X-Received: by 2002:a05:6102:3914:b0:7a1:f7c3:3a47 with SMTP id ada2fe7eead31-7a55ce7ee91mr7233539137.20.1790079417532;
+        Tue, 22 Sep 2026 05:16:57 -0700 (PDT)
+Received: from umbar.lan (2001-14ba-a073-af00-264b-feff-fe8b-be8a.rev.dnainternet.fi. [2001:14ba:a073:af00:264b:feff:fe8b:be8a])
+        by smtp.gmail.com with ESMTPSA id 38308e7fff4ca-3a627d816c1sm5177611fa.33.2026.09.22.05.16.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 22 Sep 2026 05:16:55 -0700 (PDT)
+Date: Tue, 22 Sep 2026 15:16:53 +0300
+From: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
+To: Vivek Puar <vpuar@qti.qualcomm.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: Re: [PATCH] linux-firmware: upgrade 20260910 -> 20260916
+Message-ID: <lv7isfvflpoqilayk3tnllgtjq354wkuncafefw5omfjtfgkau@u6zvwhooyijd>
+References: <20260922105941.981995-1-vpuar@qti.qualcomm.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20260922105941.981995-1-vpuar@qti.qualcomm.com>
+X-Proofpoint-GUID: fVBJfy6f9q-6liAVsnl0EIBvmfpu1cHq
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIyMDE3NyBTYWx0ZWRfX3HgaQmd/dhvd
+ GBO2dxXauc3FhFbAhWPjjUobfyYJcM+CjcoVcgtrzqQHCEG9F8iAWWKY20YFdrBDAHJ29V7LddL
+ WorTgMdV71abg/GG8E+AQgz3vXEf488=
+X-Proofpoint-ORIG-GUID: fVBJfy6f9q-6liAVsnl0EIBvmfpu1cHq
+X-Authority-Analysis: v=2.4 cv=atQnmiZV c=1 sm=1 tr=0 ts=6ab271bb cx=c_pps
+ a=ULNsgckmlI/WJG3HAyAuOQ==:117 a=xqWC_Br6kY4A:10 a=kj9zAlcOel0A:10
+ a=VdqzKS8jKosA:10 a=s4-Qcg_JpJYA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=u7WPNUs3qKkmUXheDGA7:22 a=DJpcGTmdVt4CTyJn9g5Z:22 a=EUspDBNiAAAA:8
+ a=0egSyqfb6J8GS74xgUMA:9 a=CjuIK1q_8ugA:10 a=1WsBpfsz9X-RYQiigVTh:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIyMDE3NyBTYWx0ZWRfX2uomXZf9YxlG
+ d4U4aknpKLVWOgenq2q5gQNUOpZrrWvLpVIxFkY2HgixuaY7UZUwsauroO1kgdIhZBC/Cw11HJb
+ A6OLVwjvO5vXr5/jHHc/CQqdta7b6gmF23nZgrfDL/z4a5afCzojfiSCEi1Koit5lcfZuBGicvz
+ mbC/nZhYUgcRBevy9hn1K7WP+rrytO997wZgUZbS7HRA80ryWQABeLm1Yd7q+3IFB/9oqfCAQ+B
+ lP5SU3FA42qMF0kuaBO52tpE5bRr2vvkWvLzBeln8wTicmhhuhaSRFU/xcrEU7nXk2di/cwHi9j
+ WmDLaEH4W4wrAI+yjIOhqMbRUnwXtF5ZMTJUV4tzdMaxvzNKaDaYDAW4+iuHtxm5k619aN08JmJ
+ wSAI66e8yvS+/SLsE04XPVekgoEkBa0SRJdkamDQQgm5GLd8ic7LJ71eqH3hM68LqTDCzZe6yu6
+ 8CMKD2Gnp0CfHr+xhuA==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-22_01,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ suspectscore=0 phishscore=0 lowpriorityscore=0 spamscore=0 malwarescore=0
+ clxscore=1015 priorityscore=1501 adultscore=0 bulkscore=0 impostorscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609220177
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 11:52:45 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246406
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 12:17:06 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246407
 
-Hello,
-
-This is a patch for systemd, so the title should start with "systemd:".
-
-On Wed Sep 2, 2026 at 12:24 PM CEST, Suresh H A via lists.openembedded.org =
-wrote:
-> From: Suresh H A <Suresh.HA@bmwtechworks.in>
->
-> Backport a fix to try AT_EMPTY_PATH for access_fd() first
-
-What issue does this patch fix?
-
-> Fix is already available since systemd v257-rc1.
->
-> Signed-off-by: Suresh H A <Suresh.HA@bmwtechworks.in>
+On Tue, Sep 22, 2026 at 04:29:41PM +0530, Vivek Puar wrote:
+> Upgrade the firmware package to latest release. Add firmware
+> for RTL8261d. Add ADSP firmware for Qualcomm Maili platform.
+> Add SHIFT6mq modem and WLAN firmware packages, which reuse
+> files already available in linux-firmware through upstream symlinks.
+> 
+> Signed-off-by: Vivek Puar <vpuar@qti.qualcomm.com>
+> Cc: Dmitry Baryshkov <dmitry.baryshkov@oss.qualcomm.com>
 > ---
->  ...ry-AT_EMPTY_PATH-for-access_fd-first.patch | 37 +++++++++++++++++++
->  meta/recipes-core/systemd/systemd_255.21.bb   |  1 +
->  2 files changed, 38 insertions(+)
->  create mode 100644 meta/recipes-core/systemd/systemd/0023-fs-util-try-AT=
-_EMPTY_PATH-for-access_fd-first.patch
->
-> diff --git a/meta/recipes-core/systemd/systemd/0023-fs-util-try-AT_EMPTY_=
-PATH-for-access_fd-first.patch b/meta/recipes-core/systemd/systemd/0023-fs-=
-util-try-AT_EMPTY_PATH-for-access_fd-first.patch
-> new file mode 100644
-> index 0000000000..29dd86c850
-> --- /dev/null
-> +++ b/meta/recipes-core/systemd/systemd/0023-fs-util-try-AT_EMPTY_PATH-fo=
-r-access_fd-first.patch
-> @@ -0,0 +1,37 @@
-> +From 55453c9671934fc7ee369788eb0a1a9c8c850e8f Mon Sep 17 00:00:00 2001
-> +From: Mike Yuan <me@yhndnzj.com>
-> +Date: Mon, 20 May 2024 19:33:26 +0800
-> +Subject: [PATCH] fs-util: try AT_EMPTY_PATH for access_fd() first
-> +
-> +Upstream-Status: Backport
-> +[https://github.com/systemd/systemd/pull/32933/commits/c675851d5fd503c1a=
-e5d244f041d43ae9e3ab79b]
-Please don't split the line here.
+>  ...20260910.bb => linux-firmware_20260916.bb} | 24 +++++++++++++++----
+>  1 file changed, 20 insertions(+), 4 deletions(-)
+>  rename meta/recipes-kernel/linux-firmware/{linux-firmware_20260910.bb => linux-firmware_20260916.bb} (99%)
+> 
+> @@ -2633,6 +2644,8 @@ FILES:${PN}-qcom-sdm845-compute = "${firmwaredir}/qcom/sdm845/cdsp*.*"
+>  FILES:${PN}-qcom-sdm845-modem = "${firmwaredir}/qcom/sdm845/mba.mbn* ${firmwaredir}/qcom/sdm845/modem*.* ${firmwaredir}/qcom/sdm845/wlanmdsp.mbn* ${firmwaredir}/qcom/sdm845/notice.txt_wlanmdsp* \
+>                                   ${firmwaredir}/ath10k/WCN3990/hw1.0/wlanmdsp.mbn* ${firmwaredir}/ath10k/WCN3990/hw1.0/notice.txt_wlanmdsp"
+>  FILES:${PN}-qcom-sdm845-shift6mq-adreno = "${firmwaredir}/qcom/sdm845/SHIFT/axolotl/a630_zap.mbn*"
+> +FILES:${PN}-qcom-sdm845-shift6mq-modem = "${firmwaredir}/qcom/sdm845/SHIFT/axolotl/mba.mbn* ${firmwaredir}/qcom/sdm845/mba.mbn*"
+> +FILES:${PN}-qcom-sdm845-shift6mq-wifi = "${firmwaredir}/qcom/sdm845/SHIFT/axolotl/wlanmdsp.mbn* ${firmwaredir}/ath10k/WCN3990/hw1.0/wlanmdsp.mbn*"
 
-This patch comes from a PR titled "fs-util: several cleanups": Cleanups
-are not usually acceptable on stables. You will need to argue why we
-need to merge this patch.
+This will break it for every other SDM845 platftom. No, SHIFT6mq only
+needs the axolotl-specific files, the rest must be pulled via
+dependencies.
 
-> +Comment: Patch is refreshed as per codebase of v255
+>  FILES:${PN}-qcom-sdm845-thundercomm-db845c-sensors = "${firmwaredir}/qcom/sdm845/Thundercomm/db845c/slpi*.*"
+>  FILES:${PN}-qcom-sdx35-foxconn-firehose = "${firmwaredir}/qcom/sdx35/foxconn/xbl_s_devprg_ns.melf*"
+>  FILES:${PN}-qcom-sdx61-foxconn-firehose = "${firmwaredir}/qcom/sdx61/foxconn/prog_firehose_lite.elf*"
 
-I don't see any change with upstream. No need to add a comment like this
-if there is no meaningful change.
-
-> +Signed-off-by: Suresh H A <Suresh.HA@bmwtechworks.in>
-> +---
-> + src/basic/fs-util.c | 8 ++++++++
-> + 1 file changed, 8 insertions(+)
-> +
-> +diff --git a/src/basic/fs-util.c b/src/basic/fs-util.c
-> +index ee38e0266a..0f65af1a07 100644
-> +--- a/src/basic/fs-util.c
-> ++++ b/src/basic/fs-util.c
-> +@@ -664,6 +664,14 @@ int unlink_or_warn(const char *filename) {
-> + int access_fd(int fd, int mode) {
-> +         /* Like access() but operates on an already open fd */
-> +=20
-> ++        if (faccessat(fd, "", mode, AT_EMPTY_PATH) >=3D 0)
-> ++                return 0;
-> ++        if (errno !=3D EINVAL)
-> ++                return -errno;
-> ++
-> ++        /* Support for AT_EMPTY_PATH is added rather late (kernel 5.8),=
- so fall back to going through /proc/
-> ++         * if unavailable. */
-> ++
-> +         if (access(FORMAT_PROC_FD_PATH(fd), mode) < 0) {
-> +                 if (errno !=3D ENOENT)
-> +                         return -errno;
-
-You can either:
-- send a v2 with the missing justification for merging the patch
-- discuss it here first.
-
-Thanks,
---=20
-Yoann Congal
-Smile ECS
-
+-- 
+With best wishes
+Dmitry
 
