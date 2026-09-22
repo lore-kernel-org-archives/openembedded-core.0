@@ -2,229 +2,183 @@ Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2385CC98305
-	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 09:24:34 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED433C982FF
+	for <webhook@archiver.kernel.org>; Tue, 22 Sep 2026 09:24:33 +0000 (UTC)
 Received: from mailout02.t-online.de (mailout02.t-online.de [194.25.134.17])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5998.1790069065278896704
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5968.1790069065279229309
  for <openembedded-core@lists.openembedded.org>;
  Tue, 22 Sep 2026 02:24:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=f_l_k@t-online.de header.s=20260216 header.b=YQvaRrwU;
+ dkim=fail reason="dkim: body hash did not verify" header.i=f_l_k@t-online.de header.s=20260216 header.b=uDyUqDpk;
  spf=pass (domain: t-online.de, ip: 194.25.134.17, mailfrom: f_l_k@t-online.de)
 Received: from fwd72.aul.t-online.de (fwd72.aul.t-online.de [10.223.144.98])
-	by mailout02.t-online.de (Postfix) with SMTP id 1DE3BDF95
-	for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 11:24:22 +0200 (CEST)
+	by mailout02.t-online.de (Postfix) with SMTP id D1AEAEA15
+	for <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 11:24:21 +0200 (CEST)
 Received: from intel-corei7-64.fritz.box ([84.163.38.249]) by fwd72.t-online.de
 	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
-	esmtp id 1x8wjc-3frliN0; Tue, 22 Sep 2026 11:24:20 +0200
+	esmtp id 1x8wjb-3frliK0; Tue, 22 Sep 2026 11:24:19 +0200
 From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [oe-core][PATCH 4/5] license_finder: normalise license texts before hashing
-Date: Tue, 22 Sep 2026 11:23:35 +0200
-Message-ID: <20260922092411.262885-4-f_l_k@t-online.de>
+Subject: [oe-core][PATCH 1/5] gcr: initialize libgcrypt from the secret exchange
+Date: Tue, 22 Sep 2026 11:23:32 +0200
+Message-ID: <20260922092411.262885-1-f_l_k@t-online.de>
 X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260922092411.262885-1-f_l_k@t-online.de>
-References: <20260922092411.262885-1-f_l_k@t-online.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-X-TOI-EXPURGATEID: 150726::1790069060-CAFFA986-3C599A31/0/0 CLEAN NORMAL
-X-TOI-MSGID: d37d016a-ff01-4d6f-8cc1-af3a41ee01cd
+X-TOI-EXPURGATEID: 150726::1790069059-E8FF6986-AE6F0886/0/0 CLEAN NORMAL
+X-TOI-MSGID: d1cc0d63-4fb8-484e-aff7-be756409a21e
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-online.de;
-	s=20260216; t=1790069062; i=f_l_k@t-online.de;
-	bh=zb+mgCNRfU2BWRhsVmBhdpDWRzVc+kXlDQj24U5RiNE=;
-	h=From:To:Subject:Date:In-Reply-To:References;
-	b=YQvaRrwU2AT0vlGkuJxYQwoX9xyc6PWTvGLwIHxt7LqwqswNzA6+hXbuJHg4h9slX
-	 xn2v7DCsqIWsND35o/MiMpftlJj0iaK4AwgocCRlWAwoavP4J6YyfIZQjfMamkEo+w
-	 1gCfMDjoz4GloDz7ZUCAnTik8FerirBr/VNk06ic9Cl/5FV2l/LXmVay7wBHpvve4h
-	 MTfQxb6buc7gf66kpxLzuXr0gMr7fOThaFy2HzIc+mHBiJuPkFoT+wTGGWjOtOul4+
-	 Fy+kRLm6S3760k21lOlNd5pF3OgBRbweXDPDCILA02NyuGUjBEP/ywcFMjzbbjgvb8
-	 UrXlP1bmoKU8Q==
+	s=20260216; t=1790069061; i=f_l_k@t-online.de;
+	bh=Lw1XFfAyDxTGGE6B2q2xkV4sLc16b7/kPMVkQN1COg8=;
+	h=From:To:Subject:Date;
+	b=uDyUqDpkTLhUCJ+uw8TCfGf9BJ6EURobDJhS3LBP3kTgi1UHj7LfS/0nQGtf1jRLh
+	 LwCJlvMGty/XFqjnN5Hd+PvIizQQjdByrU+e9+/D0cnSdO4Z5KsB8LK4T3tjN0+SDJ
+	 3VVsQUQ2eFp34LxWfnOZv8+Smda4yvByoinI0j19cn54NoRsGT3I7p2ts7psgQL9l6
+	 jK6eLU/UFCEF2x/4Aows0qL0dtV5uJmTIqXdFI2EpmxXesAFtHOiYL3ELv4iAjodcZ
+	 ETb+wtZrZ5QRM11gvWVI6mb8Zg0ROaHadAqEnyJ00MjGIO7eNw5LkJeeoQ+ArlgPJD
+	 XBpDQAz+oEnPA==
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 09:24:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246400
+ <openembedded-core@lists.openembedded.org>; Tue, 22 Sep 2026 09:24:33 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246398
 
-Matching by the md5 of a lightly crunched text missed most of the
-common BSD, MIT, ISC, MPL-2.0 and Apache-2.0 copies in a Go module
-tree: list markers, punctuation, case, the copyright holder's name in
-the BSD advertising clause, the party in the ISC disclaimer and the
-Apache-2.0 appendix all changed the hash. Compare the lower-cased word
-stream instead, strip those variable parts, and only treat a line as a
-license title at the top of the file. For rclone's 256 module license
-files this brings the unrecognised ones down from 57 to 25, the rest
-are dual-license files or texts with additions. The canonical licenses
-are hashed in sorted order and the first name wins so that formatting
-twins map to a stable name.
+gnome-shell logs a libgcrypt warning on the first keyring prompt:
 
-license-hashes.csv also holds hashes of texts crunched the old way, for
-example the short Apache-2.0 boilerplate notice, so the old algorithm
-stays as a third lookup step and none of the existing entries is lost.
+    Libgcrypt warning: missing initialization - please fix the applicatio=
+n
 
-AI-Generated: Uses Claude Code (Claude Fable 5.1)
+gcr3 initialized libgcrypt from GcrSecretExchange's class_init; gcr 4
+dropped that call, and _gcr_initialize_library() is only reached from
+the certificate, parser and importer paths, never from the prompt path.
+The guard in that function is inverted on top of it, so even when it is
+called the first caller returns without initializing anything.
+
+The secret exchange itself works either way, but libgcrypt then runs
+without the egg secure memory allocators, which puts passwords into
+ordinary swappable heap instead of locked pages.
+
+AI-Generated: Uses Claude Code
 Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/lib/oe/license_finder.py | 61 +++++++++++++++++++++++++++++------
- 1 file changed, 51 insertions(+), 10 deletions(-)
+ ...e-libgcrypt-from-the-secret-exchange.patch | 81 +++++++++++++++++++
+ meta/recipes-gnome/gcr/gcr_4.4.1.bb           |  1 +
+ 2 files changed, 82 insertions(+)
+ create mode 100644 meta/recipes-gnome/gcr/gcr/0001-gcr-initialize-libgcr=
+ypt-from-the-secret-exchange.patch
 
-diff --git a/meta/lib/oe/license_finder.py b/meta/lib/oe/license_finder.p=
-y
-index 9c217cf891..b500f3a599 100644
---- a/meta/lib/oe/license_finder.py
-+++ b/meta/lib/oe/license_finder.py
-@@ -46,40 +46,52 @@ def _crunch_known_licenses(d):
-=20
-     lic_dirs =3D [d.getVar('COMMON_LICENSE_DIR')] + (d.getVar('LICENSE_P=
-ATH') or "").split()
-     for lic_dir in lic_dirs:
--        for fn in os.listdir(lic_dir):
-+        for fn in sorted(os.listdir(lic_dir)):
-             path =3D os.path.join(lic_dir, fn)
-             if not os.path.isfile(path):
-                 continue
-             # Hash the exact contents
-             md5value =3D bb.utils.md5_file(path)
--            md5sums[md5value] =3D fn
--            # Also hash a "crunched" version
-+            md5sums.setdefault(md5value, fn)
-+            # Also hash a "crunched" version. Some licenses only differ
-+            # in formatting, the first name in sort order wins for those=
-.
-             md5value =3D _crunch_license(path)
--            md5sums[md5value] =3D fn
-+            md5sums.setdefault(md5value, fn)
-=20
-     return md5sums
-=20
-=20
--def _crunch_license(licfile):
-+def _crunch_license(licfile, legacy=3DFalse):
-     '''
-     Remove non-material text from a license file and then calculate its
-     md5sum. This works well for licenses that contain a copyright statem=
-ent,
-     but is also a useful way to handle people's insistence upon reformat=
-ting
-     the license text slightly (with no material difference to the text o=
-f the
-     license).
+diff --git a/meta/recipes-gnome/gcr/gcr/0001-gcr-initialize-libgcrypt-fro=
+m-the-secret-exchange.patch b/meta/recipes-gnome/gcr/gcr/0001-gcr-initial=
+ize-libgcrypt-from-the-secret-exchange.patch
+new file mode 100644
+index 0000000000..3a55cf30aa
+--- /dev/null
++++ b/meta/recipes-gnome/gcr/gcr/0001-gcr-initialize-libgcrypt-from-the-s=
+ecret-exchange.patch
+@@ -0,0 +1,81 @@
++From e8b729cc6ceddd22b5160f27396cf07cecd977ad Mon Sep 17 00:00:00 2001
++From: Markus Volk <f_l_k@t-online.de>
++Date: Tue, 15 Sep 2026 18:24:45 +0200
++Subject: [PATCH] gcr: initialize libgcrypt from the secret exchange
 +
-+    With legacy set, the text is crunched the way it was before the word
-+    stream normalisation, which is what the hashes in license-hashes.csv
-+    were made with.
-     '''
-=20
-     import oe.utils
-=20
-     # Note: these are carefully constructed!
--    license_title_re =3D re.compile(r'^#*\(? *(This is )?([Tt]he )?.{0,1=
-5} ?[Ll]icen[sc]e( \(.{1,10}\))?\)?[:\.]? ?#*$')
-+    if legacy:
-+        license_title_re =3D re.compile(r'^#*\(? *(This is )?([Tt]he )?.=
-{0,15} ?[Ll]icen[sc]e( \(.{1,10}\))?\)?[:\.]? ?#*$')
-+    else:
-+        license_title_re =3D re.compile(r'^#*\(? *(This is )?([Tt]he )?(=
-[A-Z0-9].{0,14})? ?[Ll]icen[sc]e( \(.{1,10}\))?\)?[:\.]? ?#*$')
-     license_statement_re =3D re.compile(r'^((This (project|software)|.{1=
-,10}) is( free software)? (released|licen[sc]ed)|(Released|Licen[cs]ed)) =
-under the .{1,10} [Ll]icen[sc]e:?$')
-     copyright_re =3D re.compile(r'^ *[#\*]* *(Modified work |MIT LICENSE=
-D )?Copyright ?(\([cC]\))? .*$')
-     disclaimer_re =3D re.compile(r'^ *\*? ?All [Rr]ights [Rr]eserved\.$'=
-)
-     email_re =3D re.compile(r'^.*<[\w\.-]*@[\w\.\-]*>$')
-     header_re =3D re.compile(r'^(\/\**!?)? ?[\-=3D\*]* ?(\*\/)?$')
-     tag_re =3D re.compile(r'^ *@?\(?([Ll]icense|MIT)\)?$')
--    url_re =3D re.compile(r'^ *[#\*]* *https?:\/\/[\w\.\/\-]+$')
-+    if legacy:
-+        url_re =3D re.compile(r'^ *[#\*]* *https?:\/\/[\w\.\/\-]+$')
-+    else:
-+        url_re =3D re.compile(r'^ *[#\*]* *https?:\/\/[\w\.\/\-]+\.?$')
-+    list_marker_re =3D re.compile(r'^(\(?[0-9a-zA-Z]{1,2}[\.\)]|[\*\-=E2=
-=80=A2o]) +')
-=20
-     lictext =3D []
-     with open(licfile, 'r', errors=3D'surrogateescape') as f:
-@@ -97,9 +109,11 @@ def _crunch_license(licfile):
-                 continue
-             elif url_re.match(line):
-                 continue
--            elif license_title_re.match(line):
-+            # Titles and statements are only dropped at the top of the
-+            # file, further down they are wrapped sentences of the text
-+            elif (legacy or len(lictext) < 3) and license_title_re.match=
-(line):
-                 continue
--            elif license_statement_re.match(line):
-+            elif (legacy or len(lictext) < 3) and license_statement_re.m=
-atch(line):
-                 continue
-             # Strip comment symbols
-             line =3D line.replace('*', '') \
-@@ -108,6 +122,9 @@ def _crunch_license(licfile):
-             line =3D line.replace('sub-license', 'sublicense')
-             # Squash spaces
-             line =3D oe.utils.squashspaces(line.strip())
-+            # Drop list markers, "1." and "*" are used interchangeably
-+            if not legacy:
-+                line =3D list_marker_re.sub('', line)
-             # Replace smart quotes, double quotes and backticks with sin=
-gle quotes
-             line =3D line.replace(u"\u2018", "'").replace(u"\u2019", "'"=
-).replace(u"\u201c","'").replace(u"\u201d", "'").replace('"', '\'').repla=
-ce('`', '\'')
-             # Unify brackets
-@@ -115,9 +132,30 @@ def _crunch_license(licfile):
-             if line:
-                 lictext.append(line)
-=20
-+    text =3D ' '.join(lictext)
-+    if legacy:
-+        return hashlib.md5(text.encode('utf-8', errors=3D'ignore')).hexd=
-igest()
++gnome-shell logs this on the first keyring prompt:
 +
-+    # Only the words matter, not case or punctuation
-+    text =3D text.lower()
-+    text =3D text.replace('and/or', 'and')
-+    text =3D re.sub(r'https?://\S+', ' ', text)
-+    text =3D re.sub(r'[^a-z0-9]+', ' ', text).strip()
-+    # The Apache-2.0 appendix is instructions, not license terms, and
-+    # the end marker is often left out
-+    text =3D re.sub(r' appendix how to apply the apache license to your =
-work.*? limitations under the license', '', text)
-+    text =3D text.replace(' end of terms and conditions', '')
-+    # Names of copyright holders in the BSD advertising clause and the
-+    # ISC disclaimer, and the extra paragraph reference in X11-style MIT
-+    text =3D re.sub(r'neither the name of .*? nor the names of', 'neithe=
-r the name of nor the names of', text)
-+    text =3D text.replace('copyright owner', 'copyright holder')
-+    text =3D re.sub(r'\b(the authors?|isc|the copyright holders?) discla=
-ims?\b', 'the author disclaims', text)
-+    text =3D re.sub(r'shall (the authors?|isc|the copyright holders?) be=
- liable', 'shall the author be liable', text)
-+    text =3D text.replace('permission notice including the next paragrap=
-h shall', 'permission notice shall')
++    gnome-shell: Libgcrypt warning: missing initialization - please fix =
+the application
 +
-     m =3D hashlib.md5()
-     try:
--        m.update(' '.join(lictext).encode('utf-8'))
-+        m.update(text.encode('utf-8'))
-         md5val =3D m.hexdigest()
-     except UnicodeEncodeError:
-         md5val =3D None
-@@ -183,6 +221,9 @@ def match_licenses(licfiles, srctree, d, extra_hashes=
-=3D{}):
-         if not license:
-             crunched_md5 =3D _crunch_license(resolved_licfile)
-             license =3D md5sums.get(crunched_md5, None)
-+        if not license:
-+            crunched_md5 =3D _crunch_license(resolved_licfile, legacy=3D=
-True)
-+            license =3D md5sums.get(crunched_md5, None)
-             if not license:
-                 rel_fn =3D os.path.relpath(licfile, srctree + "/..")
-                 license =3D oe.spdx_license.UnknownId("Unknown")
++gcr3 initialized libgcrypt from the class_init of GcrSecretExchange
++(gcr/gcr-secret-exchange.c:847). That call is gone in gcr 4, leaving
++only _gcr_initialize_library(), which is reached from the certificate,
++parser and importer paths but never from the prompt path.
++
++On top of that the guard in _gcr_initialize_library() is inverted, in
++gcr3 as much as in gcr 4:
++
++    static gint gcr_initialize =3D 0;
++    if (g_atomic_int_add (&gcr_initialize, 1) =3D=3D 0)
++            return;
++
++g_atomic_int_add() returns the value from before the addition, so the
++first call returns without ever reaching egg_libgcrypt_initialize() and
++only the second one initializes anything.
++
++This is not what breaks the keyring - the secret exchange was tested
++against both gcr3 and gcr 4 and transfers the secret correctly either
++way - but libgcrypt then runs without the egg secure memory allocators,
++so passwords end up in ordinary swappable heap instead of locked pages.
++
++Fix the guard and initialize from the secret exchange again.
++
++Upstream-Status: Pending
++
++AI-Generated: Uses Claude Code (Claude Opus 5)
++---
++ gcr/gcr-library.c         | 3 ++-
++ gcr/gcr-secret-exchange.c | 9 +++++++++
++ 2 files changed, 11 insertions(+), 1 deletion(-)
++
++diff --git a/gcr/gcr-library.c b/gcr/gcr-library.c
++index 560772b..9d03f25 100644
++--- a/gcr/gcr-library.c
+++++ b/gcr/gcr-library.c
++@@ -125,7 +125,8 @@ _gcr_initialize_library (void)
++ {
++ 	static gint gcr_initialize =3D 0;
++=20
++-	if (g_atomic_int_add (&gcr_initialize, 1) =3D=3D 0)
+++	/* Initialize on the first call, do nothing on every call after it */
+++	if (g_atomic_int_add (&gcr_initialize, 1) !=3D 0)
++ 		return;
++=20
++ #ifdef WITH_GCRYPT
++diff --git a/gcr/gcr-secret-exchange.c b/gcr/gcr-secret-exchange.c
++index 943b2af..3e5f889 100644
++--- a/gcr/gcr-secret-exchange.c
+++++ b/gcr/gcr-secret-exchange.c
++@@ -21,6 +21,8 @@
++=20
++ #include "gcr-secret-exchange.h"
++=20
+++#include "gcr-internal.h"
+++
++ #include "egg/egg-crypto.h"
++ #include "egg/egg-dh.h"
++ #include "egg/egg-fips.h"
++@@ -817,6 +819,13 @@ gcr_secret_exchange_class_init (GcrSecretExchangeCl=
+ass *klass)
++ 	klass->decrypt_transport_data =3D gcr_secret_exchange_default_decrypt_=
+transport_data;
++ 	klass->encrypt_transport_data =3D gcr_secret_exchange_default_encrypt_=
+transport_data;
++=20
+++	/*
+++	 * The exchange is the only part of the library that some callers ever
+++	 * touch - gnome-shell through keyring.js for one - so initialize
+++	 * libgcrypt here as well. gcr3 did this and gcr-4 dropped it.
+++	 */
+++	_gcr_initialize_library ();
+++
++ 	/**
++ 	 * GcrSecretExchange:protocol:
++ 	 *
+diff --git a/meta/recipes-gnome/gcr/gcr_4.4.1.bb b/meta/recipes-gnome/gcr=
+/gcr_4.4.1.bb
+index 93028d2497..aedbe60b69 100644
+--- a/meta/recipes-gnome/gcr/gcr_4.4.1.bb
++++ b/meta/recipes-gnome/gcr/gcr_4.4.1.bb
+@@ -17,6 +17,7 @@ inherit gnomebase gi-docgen vala gobject-introspection =
+lib_package
+ UPSTREAM_CHECK_REGEX =3D "gcr-(?P<pver>\d+\.\d+\.(?!9\d+)\d+(\.\d+)?)"
+=20
+ SRC_URI[archive.sha256sum] =3D "c4442c15d4330f17a1f5194df08c576877af6841=
+2ab2521446a93bd5e24c931b"
++SRC_URI +=3D "file://0001-gcr-initialize-libgcrypt-from-the-secret-excha=
+nge.patch"
+=20
+ PACKAGECONFIG ??=3D "${@bb.utils.contains('GI_DATA_ENABLED', 'True', 'va=
+pi', '', d)}"
+ PACKAGECONFIG[ssh_agent] =3D "-Dssh_agent=3Dtrue,-Dssh_agent=3Dfalse,lib=
+secret"
 --=20
 2.55.0
 
