@@ -1,308 +1,207 @@
-Return-Path: <peter.marko@siemens.com>
+Return-Path: <martin.jansa@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A265DC98302
-	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 14:54:15 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.32])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.285.1790175248156166304
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 46DE9C9830B
+	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 15:22:47 +0000 (UTC)
+Received: from mail-lf2-f13.google.com (mail-lf2-f13.google.com [74.125.229.205])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.415.1790176960021870465
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 07:54:08 -0700
+ Wed, 23 Sep 2026 08:22:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@siemens.com header.s=selector2 header.b=u2R44LFg;
- spf=pass (domain: siemens.com, ip: 40.107.130.32, mailfrom: peter.marko@siemens.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Gfn1Ad+MnKJR/jKapOlFNF4UJeqCerHFBtBkLeAN76amMcR5u/yez4TgFjaPZg5aZaboANGvZXbJAPY6qKYx4+ZLwI1NNOnAaj0C81/eYf4qsjJQpxicw4+DWlE0HKebAiGbxDN0518aH2WzKZnmD37AHIkErWk3MkU/sDbqD15A+lj1Ug/2dRI8Wbt7JsLWqtIjOwoHtvcezjNLMw7btVTtxqhAZoOQHMyiQia8kt8hiuXUicmIcKKtrnciFCdeLfUnu4rLTcAFpagNUCqOgtrAECTTGyItpiOy4uXeHkwmPAsc+J7XcVa+FPV49oCQbR3VgeP7cQxg/uTrjiqloA==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=ESURE92VTk8OuCf+11x0PqTd+DYN3n4Qvk9KLlPsWQg=;
- b=xH/78u6nnARgKfkJMdiae/LDUQgE2PHZz6UyRTK+mv15epicjpExxzToBWQaE6C6Z2Lo6QboLzgi1EpJXMtngLNqq9lsB7AVtq61g/L8j3ymB7q+7oIqlVRLu76gnGgWoz9yagGVN8tcq0rf+MVLn65E/B1D6ZRKB4QK/9GGVsqu6zFYDhIrE8kpNAar9ZCcsyDCk9l3ERW+Vdu5+4cZYPqH+X5az74KitG+SpLmFBET3I+GyCF2qckpitb54//l+t/YLLsd6m9vHY0k9bdJK7PdcPIIlNipR6N81h2tEPC/p+TP4ZMUfitAslb8JzLniRFr+7ndog9H+Ckh4HPHtA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
- dkim=pass header.d=siemens.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ESURE92VTk8OuCf+11x0PqTd+DYN3n4Qvk9KLlPsWQg=;
- b=u2R44LFgpuiMgfSk7DQI/IKsRhg9ngelsgS1FRYXm0e0tDUy8L7YRlPtoYJsLVXi8i9bo+3zSS3b68bDbUjdTu3SrYOrFETqwdFrx/Mh69OgKJrznhJ9JtLp62xBIUPXIhwtFQcvNwR8Za1wzpHg1lSBwg7sfEfMs8BQ/Ioa03TLxCG+PBXo93qMEWV0p146m8FJ3402Za7AY5n0h3wQq2VVHspAsxF+6NMHuKHEhi4+JHgZs74xJ1z780d5gLu0Vhm6fEOYr8w0TAosojbxZ9ddHToL7QIiJJi1tIQYzyKyQNY10fM52iwkfNTs15EOXzZIYASaSvamHlqs1BOT7A==
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
- by AS2PR10MB7885.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:64e::19) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Wed, 23 Sep
- 2026 14:54:01 +0000
-Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
- ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
- 14:54:01 +0000
-From: "Marko, Peter" <Peter.Marko@siemens.com>
-To: Patches and discussions about the oe-core layer
-	<openembedded-core@lists.openembedded.org>
-CC: "Freihofer, Adrian" <adrian.freihofer@siemens.com>
-Subject: Topic: native libstdc++ and uninative
-Thread-Topic: Topic: native libstdc++ and uninative
-Thread-Index: Ad1LakgeZcGn4IMERMacG3ZXIP6Elw==
-Date: Wed, 23 Sep 2026 14:54:01 +0000
-Message-ID: 
- <AS8PR10MB5073C8A330EA6849DA8DE457FD822@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-msip_labels: 
- MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=8c855cb8-d99d-42e5-b771-b5d1a1c1d5f1;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-09-23T14:37:44Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
- 3, 0, 1;
-authentication-results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=siemens.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|AS2PR10MB7885:EE_
-x-ms-office365-filtering-correlation-id: 13bf02dc-ad43-4443-eb9c-08df19828137
-x-ms-exchange-atpmessageproperties: SA
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: 
- BCL:0;ARA:13230040|1800799024|366016|376014|23010399003|56012099006|11063799006|6133799003|10067099003|18002099003|55112099003|8096899003|38070700021;
-x-microsoft-antispam-message-info: 
- Bt1ykMdf2FolbM2H62vgyRzokknOqjgrWWyg64VYTZOcbcaWPCaGhXglix+twwjTXuJC0ZDWLODCNGiGOsSeOFdqt4EjqV9TMC4fWy2b4IAGP2er1FmbygCQHtPx64KZAmWyhbbtHIJKvsGIiUWlwTOkjaaxuaql4xTd6haZmDo/meKIp8KnG/X1aw3H8LGboeG6WZkTY5cHjKdbPZIi7a4+ueCjFiJ+wWFHgw1o9WE6fot6ck8mEweft2S9dXVecRgKy2jmMYziFFr8lcM0nXpD00XypwL3PlmkuPj9EAILWlpFqeMGH5zGyuX0emky8yrA+18mBjI9lVvYq2+kK6h6HQAD6a8ODBxOpOLy5BmcP4TJ7dOC58CzV5HVvU1O1kR217lY+1GPo/6hm8UxyCwYq2qDbCNnHK+Z+dNVnpD5ugjTz+e9DmnyoIoECFauYocowe++5/xMXFboR+uRIjN1TBz0Hi8pJCCc09X9oVnGeT2kdfVu5TFjZ/8pXK9w7H8uEAbQ56kJKvEfzc0k4mh4QPs89fI5TL569dBAY66A03XECdtXwbArUuYeeMVFvZs1+2mH/KsA+04tLvJlQU9E5LH0Kmhu6LUYF/20a3Jmr1QmqzJJew8ZbMso0kM+zDDhKP1SoqvhKTqLWMogkoi212PcCcmfYCiEC/itFw1Uc3nGOZtil5ineNjaTt9VQDEWUpSQ6vsWC/MNUtvCCj2SrgqkAvdG3BC0DcQ9bBQ=
-x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(376014)(23010399003)(56012099006)(11063799006)(6133799003)(10067099003)(18002099003)(55112099003)(8096899003)(38070700021);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?34l60OHGK73+jpRwP9fxpygQoSglxy4DsHKoz+UwiALDpZ69ZTCrvQkdwDbK?=
- =?us-ascii?Q?gtvhK+C3fR5672vys3qGvRKBIwjVMXSWCJ8JpzE/UND9pcwDvblQPPKQLYrD?=
- =?us-ascii?Q?lf7Iu9+V/0CemCdku8mwweB1n4eyoQznR4Hefgdwdq4SOU/1TEBqefFxriPf?=
- =?us-ascii?Q?K7+XC0nj80Y/t5cU13dr5UBmk6LyAWcsvClH47aNIKLyEsiJZ+zVqrV3f1aF?=
- =?us-ascii?Q?HoJJDlMBSmViuXzBKnQ1dxrK1NEj4hx4VcuVnfSHWbWHOuKXJKN9YG4cFi+J?=
- =?us-ascii?Q?LMWfUSR57btdAG20XOdEEz9Sg0FRv4OzrU1jcAKQXQhnHWiM8yYDP8YSsDi8?=
- =?us-ascii?Q?k1wI99sNJzKWn/0VABfI+UwUOS5D7bLg5ijCyAbM0rdKne0KTaEpRE9uONLV?=
- =?us-ascii?Q?I+iFjdanYKLJgvYt5wRSDqqKIFXs/dGncYmiyPuTqvxG6ftJpPQQzF+HkV8h?=
- =?us-ascii?Q?O+C6+q+a4rboHqoFx/quLRvUerizIu7xkwxq1IkZm63DPFbFtEgjIJ9b1Cb0?=
- =?us-ascii?Q?M5eeHDbEt3qpfZx0NzKoxvXM8Ezz2HfIyGqP3aFs6vProoIa1tgW+Ns89sDv?=
- =?us-ascii?Q?BjTjSNH9OYMLX7xj7Ygxm9Y0Iie2oSzWOjX1rrYqtxzr76t4aunaxWGQ5TjW?=
- =?us-ascii?Q?PPNYRRGEeUBHrn+1eRTTM1BCtMeoFzhpHUfuepTCWA69aOllQu6IcmKOvowP?=
- =?us-ascii?Q?rvWzdvhwW3XvqWTcmKaXIe7QLvjh3XwMhU+Wow6+7tHrf7HpXA2P9HeRRK9U?=
- =?us-ascii?Q?f/VkkOLiRSoSxew6/kdZtgqGiRWZkgJ7h4MNa0jqVaC7GBuf1jo4e2DwgjnF?=
- =?us-ascii?Q?PMk10WA4KpBHYGx56/mEfrBmanxYY0/LDfmk2f6B9Lp09ZvcfA8Ff4wLr12S?=
- =?us-ascii?Q?D3nj+qBYdjSnijMWlGcTD7vbQkMOIJ+gzKS8h9eDq2IdaS+Lmd4HdFTT2Y2F?=
- =?us-ascii?Q?0ih/Ujo8pfwoXz2e8ePlJmcZa7woh2wjJHR4Om3vHDwtFlMa/KRtWJ35TTiT?=
- =?us-ascii?Q?mvsC3fMh0NJzquVowq8/GY31e26Wcbsyqt+IMh60OIk8izcipMNnW4dLr8Q3?=
- =?us-ascii?Q?w+gOZnVwuXCgpWUZTtw5pJsGb0UCdaryaYkwjUMOqxeONgROFO4lzun9wGi8?=
- =?us-ascii?Q?IduCLWaB5rX3WzCT3GLeBfoiHAycFYophtaSasDjWr40myErRpPQJo7U1a7Z?=
- =?us-ascii?Q?UsIpOFrHBRLs4eGNoABNUspYXPVhQhnknzItxm1HndkNQRr6YQUjritcGWb+?=
- =?us-ascii?Q?hZ3mXyRUvMs8ZWRr/YPDkaGenSguMmaPWMgUna700uxwimZzUHrdzVXeTPXS?=
- =?us-ascii?Q?gjZIE6URhzIbBDUWtMnXm/AHYaWVc2KR1uxsaMwRn0yKKhamsKltSvui5B34?=
- =?us-ascii?Q?Z239mY91BQCSDWboXMfP9R7nbKd6BvkzgAHHrkv/wzW9vTzCi5ASYmv9m4Mo?=
- =?us-ascii?Q?lt0o+7zfJMPp/sDGwn7mHhZxold8urZWR47vsjol/7gAKFb/LptfHfnig+pm?=
- =?us-ascii?Q?s3CsGwzjIYXp52voMXAzKKB6ywlSENT47bWMsp2Nir3uDSaXunLkXVihFLPg?=
- =?us-ascii?Q?du8omrerelAwnul7A367PkHYXo3ucuIRDm7nvBm4qMdf/28nC29/yqCF0ufc?=
- =?us-ascii?Q?75bewSNtczUp3YrdVPyRUJgvx/167VzTfRNAAAe7jnH4O04osyajsKJEjrf/?=
- =?us-ascii?Q?F4vx/GQI/brStoJqn6tX1gnLss5Y0LcXta8YaieisTqQxwTLaoqII0EcoWMi?=
- =?us-ascii?Q?0dwVsDZs8A=3D=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_AS8PR10MB5073C8A330EA6849DA8DE457FD822AS8PR10MB5073EURP_"
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=ELSHrbLv;
+ spf=pass (domain: gmail.com, ip: 74.125.229.205, mailfrom: martin.jansa@gmail.com)
+Received: by mail-lf2-f13.google.com with SMTP id 2adb3069b0e04-5b8b402f4e3so1057476e87.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 08:22:39 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790176958; cv=none;
+        d=google.com; s=arc-20260327;
+        b=Qvjgb1mADKdHL734pkYR/zholMEzhk6jt1vDJqPQeMYMkI6cKXRMfk+QM6xzEZarQ3
+         LCCcsRXgiRNRONp53kemGm5BIPv3Ov+HeI/Zq+f0j2JZJZtcPzKhH/uWoB9lUa2eQ5ie
+         owq5YyF6UcwiEb14zmiyRZW41SwGW3xLxs4iNdZleOpWBXqlIeqsL2JUpmd0Oj/L+yvE
+         AroMn356V0wBd+X73+HI0XT5VNSUEf58hxB9TU6DeKG5u42j4iuV7Z1pRPVhj4IESJag
+         jQFEc958uLMeStVtLskSODzPs7QMjTETXc3gIh5qsXVwkMNHHnZNd0BTrT3RFtP8kj3t
+         MjJg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=content-transfer-encoding:cc:to:subject:message-id:date:from
+         :in-reply-to:references:mime-version:dkim-signature;
+        bh=vYggwEXoCHk7URFJHqFa0rUDLs1tvVW4QmuMFz7yr74=;
+        fh=BfsWvjZvgXaStClBpDNu35+4JHSxlBx4uH6yv+xp1+s=;
+        b=EmLBlqMcOlvCe+0sThQEQHjnxXIPDkXS7t1RTUe4bXE1e7gW0nEYcakto99aztIa1N
+         kvuyyiosd+VxEJf6W62j/SiDs9h1tvHoFQJQXoCAGpRpGGrOE/7sE+vOjewgPosVarLk
+         Xau6CnArkQ6njWJQ7Z8dGL+WIQJN4m8LB1GdbpqSqH2x+4sBkgsulONGPu1D0dHBlq05
+         mgfEdMVK4BuKRIIlJ+prwD/bi2Scvl7UiUyuUMFGWqBb8wi4R7ONvg36WtFedCqOYoD/
+         I6r7F7w7jrSihiA3X7aqk36tp/ReyRfuGd+NfS/+3Vummrraz1Gee8HpJ3is67WgfpY2
+         L80Q==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790176958; x=1790781758; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=vYggwEXoCHk7URFJHqFa0rUDLs1tvVW4QmuMFz7yr74=;
+        b=ELSHrbLvrizC5yVu7wZqbvRmDA1qc/SNI6TxAA0Qgm9spnVZBc7h4T7XWtWuQz71Be
+         cYZhWG66/7M+tUhy/XRhZt262fPcvmmygSlpLjabNxgsGSQ8j+svNJofHHtZ0vTH8q+E
+         kbeWr1h9N1emPR3MsiVyc02PFwKVXENuS0lUHBEGhf+/AFnTC/CmA+owIX4nkJ+YDtF6
+         7idAdulWlQ1dqg1TBAXP4KirxfV7sQ90SXU7HaFnUNqGsaoMiAPBUBUYhpll/X5892GE
+         trsntrKZAvyps9IXApv10csqwmQugALm0KWoclrswwHLcIVeKpDqHDqYSMDs1ZzXTbWm
+         gO4w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790176958; x=1790781758;
+        h=content-transfer-encoding:content-type:cc:to:subject:message-id
+         :date:from:in-reply-to:references:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=vYggwEXoCHk7URFJHqFa0rUDLs1tvVW4QmuMFz7yr74=;
+        b=URYwzsdQdV7v8f0FuXr3SYa36vsU5LUU1buMh7KC7N5NPkbNh0W0Q6EKKW+Dw8nKY9
+         maDsjDzlD5YpIzC06Z/8lPS/vi1Xq12DL71JArxmLYAPx8PX2hNRk03s/K4906McHGFC
+         +BtQCpBkFEDygdOsEDURq6M8GOg8j8UYuHqpngNNULL85jP60saP/JNARS37c9BK4b6+
+         E55CtYqWslVDRbS3fs0sKUgJXha1WifO/mBsMVlZcBFdvhLS0LVXwDhyzzyo+a/SaCfK
+         XbQxNN5esrxCjM9nhG5J6eiRsrSvRh3g2Fjjf8YANRrGIDts1nSFuiLKbDae5IGrDxxl
+         8Mzw==
+X-Gm-Message-State: AFuF++kW0eRoNOKmTbhNyUOS7NzaCcBaOcd84DGVw6Fwaa/Vl6oZRgTU
+	V7e7NOtvOfSgVxANZjPM3nMZc9qVoGBbcfUpNCTBC4TS0Jlm3jJFctFCY0NcLxJ1Ud+GMNMk0Tr
+	OhWx9MO/YLHHtvjjqr63syGUbxTbfhpg=
+X-Gm-Gg: AYBFou1jItYtgGelvpGocvALkiC0R5DRsL4OACB6s9H18SdRdv00vkijD8u4CXsUqbx
+	JCpMLHP4RekrYALKcB+MWvcYgGJ6pEphT7/6DnRuCU8muU12UyxMTAFyjv0WM4qBG9p6gFJ5gBn
+	41zdT1NqPWBLC2xFTBPcCj/gnNBAlVfz6yODUOp3Uf5IND8YV71nLrr0OlJWyQaQavvSHJIETza
+	qUwoE4eVOgmi/NzssF0U3IVT03RsCSPUTgp0IiUvXFoorhAmXpHk3ZfNCyOSe2ob4Tj4Xr0J7Nt
+	cP1Nj02YSE8u7bSHMJMoT1KcOXcWS4jmWVyQODosdcmacejRZjht9QyOQ/Nm03K1Mc0/1UbzA18
+	OgJczHTeh1cKnZ/JwXvckEbVFjhqQ+k5SKEZd
+X-Received: by 2002:a05:6512:b96:b0:5b8:bc5e:d10e with SMTP id
+ 2adb3069b0e04-5b8d89c455emr1154532e87.56.1790176957593; Wed, 23 Sep 2026
+ 08:22:37 -0700 (PDT)
 MIME-Version: 1.0
-X-OriginatorOrg: siemens.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-Network-Message-Id: 13bf02dc-ad43-4443-eb9c-08df19828137
-X-MS-Exchange-CrossTenant-originalarrivaltime: 23 Sep 2026 14:54:01.3763
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: s5EelyLp4zFqTsFBmaTuTJBCs0pRGUCcSyJMx26y1J0EcnIPR97vyU1bbuj/K0VBBEFDC7KtDIwTOX0lroZDtw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS2PR10MB7885
+References: <cover.1790154074.git.yoann.congal@smile.fr> <8305fd4d8e6e4a7a4435989c57fedd470306f0e6.1790154074.git.yoann.congal@smile.fr>
+In-Reply-To: <8305fd4d8e6e4a7a4435989c57fedd470306f0e6.1790154074.git.yoann.congal@smile.fr>
+From: Martin Jansa <martin.jansa@gmail.com>
+Date: Wed, 23 Sep 2026 17:22:23 +0200
+X-Gm-Features: AclHuK-YKe7kpVqq4xg4zrA2S_lro-bWZS1Mj2aRofWMgfcwzBAIfnE7F2o0xCk
+Message-ID: <CA+chaQdq4NaDUJN7Zuxnmdv6EH0=z2Ru6HEXqTqk3jR0ei0W9g@mail.gmail.com>
+Subject: Re: [OE-core][scarthgap 46/48] curl: Security Fix for CVE-2026-18924
+To: yoann.congal@smile.fr
+Cc: openembedded-core@lists.openembedded.org
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 14:54:15 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246529
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 15:22:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246530
 
---_000_AS8PR10MB5073C8A330EA6849DA8DE457FD822AS8PR10MB5073EURP_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+This breaks the build when nthttp2 PACKAGECONFIG is enabled, because
+curl_share.h included here was renamed from share.h in newer curl
+8.22:
+https://github.com/curl/curl/commit/3887069c661b40e76b053a4867eb565d4761ab3=
+e
+8.7.1 version in scarthgap fails with:
+curl-8.7.1/lib/http2.c:50:10: fatal error: 'curl_share.h' file not found
 
-Dear Yocto toolchain experts,
+Using share.h instead of curl_share.h fixes the include, but then it fails =
+with
+curl-8.7.1/lib/http2.c:781:15: error: call to undeclared function
+'Curl_share_easy_link'; ISO C99 and later do not support implicit
+function declarations [-Wimplicit-function-declaration]
 
-we have come across a problem with C++ native libraries and sstate-cache re=
-use on different host distros under uninative.
+Curl_share_easy_link was added in 8.20 with:
+https://github.com/curl/curl/commit/82009c4220774417c821496affa4aa834c028b6=
+8
+and that will be a bit more difficult to backport.
 
-Our scenario:
-For generation of sstate-cache, we're using only x86-64 Debian machines, ea=
-ch Yocto branch on a fixed version.
-For example for wrynose we use Debian 13.
-However, the clients can have a different host distro (different Debian rel=
-ease or even Ubuntu or Fedora).
-I think this is how Yocto uninative sstate-cache is intended to be used.
+Please drop this one from the PR until it's resolved.
 
-The problem is following:
-GCC version is different between different Host distros, especially libstdc=
-++ from newer GCC has more symbols than from older GCC.
-So when re-using a native c++ library generated on Debian-13, Debian-12 lik=
-er can report failures.
-Concrete case we experienced is linking against googletest-native and missi=
-ng symbol __cxa_call_terminate (introduced in GCC 14) on Debian 12 (GCC 12.=
-2.0).
+Cheers,
 
-We don't want to go away from uninative as that would force us to produce s=
-eparate sstate-cache for each host distro and explode storage size and buil=
-d times.
-
-Has anyone else come across this problem?
-What would be the recommended way to solve this?
-
-Could libstdc++ be included in uninative?
-Would that work with all the different GCC versions in all supported host d=
-istros?
-
-Or some magical compiler option we could use to disable usage of some newer=
- symbols?
-
-I know that we could use buildtools tarball, however that's against the ide=
-a of running Yocto natively.
-It's also a step very easy to be forgotten during build setup unless there =
-is some magical qa check for that.
-And for application developers it's yet another Yocto obstacle and argument=
- against developing with Yocto.
-
-Best Regards,
-  Peter
-
-
---_000_AS8PR10MB5073C8A330EA6849DA8DE457FD822AS8PR10MB5073EURP_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html xmlns:v=3D"urn:schemas-microsoft-com:vml" xmlns:o=3D"urn:schemas-micr=
-osoft-com:office:office" xmlns:w=3D"urn:schemas-microsoft-com:office:word" =
-xmlns:m=3D"http://schemas.microsoft.com/office/2004/12/omml" xmlns=3D"http:=
-//www.w3.org/TR/REC-html40">
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+On Wed, Sep 23, 2026 at 11:12=E2=80=AFAM Yoann Congal via
+lists.openembedded.org <yoann.congal=3Dsmile.fr@lists.openembedded.org>
+wrote:
 >
-<meta name=3D"Generator" content=3D"Microsoft Word 15 (filtered medium)">
-<style><!--
-/* Font Definitions */
-@font-face
-	{font-family:"Cambria Math";
-	panose-1:2 4 5 3 5 4 6 3 2 4;}
-@font-face
-	{font-family:Aptos;}
-/* Style Definitions */
-p.MsoNormal, li.MsoNormal, div.MsoNormal
-	{margin:0cm;
-	font-size:12.0pt;
-	font-family:"Aptos",sans-serif;
-	mso-ligatures:standardcontextual;}
-.MsoChpDefault
-	{mso-style-type:export-only;
-	font-size:10.0pt;
-	mso-ligatures:none;}
-@page WordSection1
-	{size:612.0pt 792.0pt;
-	margin:72.0pt 72.0pt 72.0pt 72.0pt;}
-div.WordSection1
-	{page:WordSection1;}
---></style><!--[if gte mso 9]><xml>
-<o:shapedefaults v:ext=3D"edit" spidmax=3D"1026" />
-</xml><![endif]--><!--[if gte mso 9]><xml>
-<o:shapelayout v:ext=3D"edit">
-<o:idmap v:ext=3D"edit" data=3D"1" />
-</o:shapelayout></xml><![endif]-->
-</head>
-<body lang=3D"EN-US" link=3D"#467886" vlink=3D"#96607D" style=3D"word-wrap:=
-break-word">
-<div class=3D"WordSection1">
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">Dear Yocto toolchain experts,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">we have come across a problem with C++ native librari=
-es and sstate-cache reuse on different host distros under uninative.<o:p></=
-o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">Our scenario:<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">For generation of sstate-cache, we're using only x86-=
-64 Debian machines, each Yocto branch on a fixed version.<o:p></o:p></span>=
-</p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">For example for wrynose we use Debian 13.<o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">However, the clients can have a different host distro=
- (different Debian release or even Ubuntu or Fedora).<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">I think this is how Yocto uninative sstate-cache is i=
-ntended to be used.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">The problem is following:<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">GCC version is different between different Host distr=
-os, especially libstdc++ from newer GCC has more symbols than from older GC=
-C.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">So when re-using a native c++ library generated on De=
-bian-13, Debian-12 liker can report failures.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">Concrete case we experienced is linking against googl=
-etest-native and missing symbol __cxa_call_terminate (introduced in GCC 14)=
- on Debian 12 (GCC 12.2.0).<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">We don't want to go away from uninative as that would=
- force us to produce separate sstate-cache for each host distro and explode=
- storage size and build times.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">Has anyone else come across this problem?<o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">What would be the recommended way to solve this?<o:p>=
-</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">Could libstdc++ be included in uninative?<o:p></o:p><=
-/span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">Would that work with all the different GCC versions i=
-n all supported host distros?<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif"><o:p>&nbsp;</o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">Or some magical compiler option we could use to disab=
-le usage of some newer symbols?<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">I know that we could use buildtools tarball, however =
-that's against the idea of running Yocto natively.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">It's also a step very easy to be forgotten during bui=
-ld setup unless there is some magical qa check for that.<o:p></o:p></span><=
-/p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">And for application developers it's yet another Yocto=
- obstacle and argument against developing with Yocto.<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">&nbsp;<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">Best Regards,<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif">&nbsp; Peter<o:p></o:p></span></p>
-<p class=3D"MsoNormal"><span style=3D"font-size:10.0pt;font-family:&quot;Ar=
-ial&quot;,sans-serif"><o:p>&nbsp;</o:p></span></p>
-</div>
-</body>
-</html>
-
---_000_AS8PR10MB5073C8A330EA6849DA8DE457FD822AS8PR10MB5073EURP_--
+> From: Siddharth Doshi <sdoshi@mvista.com>
+>
+> Picking patch as per [1], and same patch is mentioned in [2]
+>
+> [1] https://curl.se/docs/CVE-2026-18924.html
+> [2] https://security-tracker.debian.org/tracker/CVE-2026-18924
+>
+> Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+> Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+> ---
+>  .../curl/curl/CVE-2026-18924.patch            | 39 +++++++++++++++++++
+>  meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+>  2 files changed, 40 insertions(+)
+>  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-18924.patch
+>
+> diff --git a/meta/recipes-support/curl/curl/CVE-2026-18924.patch b/meta/r=
+ecipes-support/curl/curl/CVE-2026-18924.patch
+> new file mode 100644
+> index 00000000000..28934ababee
+> --- /dev/null
+> +++ b/meta/recipes-support/curl/curl/CVE-2026-18924.patch
+> @@ -0,0 +1,39 @@
+> +From 90325ff0444cbdff368bda5d26d6405a0bb6ee43 Mon Sep 17 00:00:00 2001
+> +From: Daniel Stenberg <daniel@haxx.se>
+> +Date: Wed, 5 Aug 2026 10:02:53 +0200
+> +Subject: [PATCH] http2: make server push transfers inherit share from pa=
+rent
+> +
+> +Reported-by: Stephan Zeisberg
+> +Closes #22488
+> +
+> +Upstream-Status: Backport [https://github.com/curl/curl/commit/90325ff04=
+44cbdff368bda5d26d6405a0bb6ee43]
+> +CVE: CVE-2026-18924
+> +Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+> +---
+> + lib/http2.c | 3 +++
+> + 1 file changed, 3 insertions(+)
+> +
+> +diff --git a/lib/http2.c b/lib/http2.c
+> +index 99d7f3b..e6305c9 100644
+> +--- a/lib/http2.c
+> ++++ b/lib/http2.c
+> +@@ -47,6 +47,7 @@
+> + #include "transfer.h"
+> + #include "dynbuf.h"
+> + #include "headers.h"
+> ++#include "curl_share.h"
+> + /* The last 3 #include files should be in this order */
+> + #include "curl_printf.h"
+> + #include "curl_memory.h"
+> +@@ -776,6 +777,8 @@ static struct Curl_easy *h2_duphandle(struct Curl_cf=
+ilter *cf,
+> +       second->req.p.http =3D http;
+> +       http2_data_setup(cf, second, &second_stream);
+> +       second->state.priority.weight =3D data->state.priority.weight;
+> ++      if(data->share)
+> ++        (void)Curl_share_easy_link(second, data->share);
+> +     }
+> +   }
+> +   return second;
+> +--
+> +2.34.1
+> +
+> diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-suppo=
+rt/curl/curl_8.7.1.bb
+> index 3f44cf02d31..905d0b47335 100644
+> --- a/meta/recipes-support/curl/curl_8.7.1.bb
+> +++ b/meta/recipes-support/curl/curl_8.7.1.bb
+> @@ -42,6 +42,7 @@ SRC_URI =3D " \
+>      file://CVE-2026-6253.patch \
+>      file://CVE-2026-4873.patch \
+>      file://CVE-2026-13608.patch \
+> +    file://CVE-2026-18924.patch \
+>  "
+>
+>  SRC_URI:append:class-nativesdk =3D " \
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#246508): https://lists.openembedded.org/g/openembedde=
+d-core/message/246508
+> Mute This Topic: https://lists.openembedded.org/mt/121389781/3617156
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [ma=
+rtin.jansa@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
 
