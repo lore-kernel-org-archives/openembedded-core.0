@@ -1,235 +1,313 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 15E2DC982EA
-	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 08:00:43 +0000 (UTC)
-Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.22])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2165.1790150434494859510
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 14212C982FA
+	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 08:23:13 +0000 (UTC)
+Received: from mail-qv2-f17.google.com (mail-qv2-f17.google.com [74.125.230.145])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2356.1790151788210946678
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 01:00:34 -0700
+ Wed, 23 Sep 2026 01:23:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=vPqg1VvV;
- spf=pass (domain: est.tech, ip: 52.101.84.22, mailfrom: jaipaul.cheernam@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=AG0uHa2GYlkFqhkDoLP0ZFWKUXRp+8arz8BGF6uc90uvvUhgO5/LTPNhP49SHqvmNdL7h4LHglArKttj255KjjlGcykss8lxt42VAF7lT3bvlo5laPlb/egQRBqSAmxMC0CKYEuxFMZ5YY0frrz4YAjVdLMZdiasfAhKGl+be3BNZlcrZi+hFazm8mSzcAMEcL6bmc1EUgm94o19T9In0INnZ7wnvAGErWk74Wseb2Iu8KeLWEhrVznWLht+1wFR5m32LNPkTuHIJxSpOUnieUy8WSOVFSyxvNW+3gS3+yK/PMRYkY+LkwQfYMW46TBwyz1jfm0sQjFlLDxeZef7pw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=1xbHgBZ2FBsGerQpwJ2ACYEu1zrbzUxaEKyBOqSmOjA=;
- b=XD/zkWPB7uAyp+gIjkHP0+FhNe1jnMLorYLABAnrT+KO0Tm6s3rMa9lGloTHI9Mp7Eu4E86ecQ1QB3vSNBhNlGkoKzeM1FcW0R+iT6lKux2KgvF0g4E6TA4ddqG4G7Mk31uuJt4w7QUsP+AQtENnvZMZZl1+aRIFDw2f2MEVLWnsleCvV8Gw3xHqgcg1IioK4CmJWYR2ay5uhPvWWbhJGvWs8RyAGHb9XDvVe3ZN0XOLX+2GutoBNQU4KT2JLfuedzA/PxEvYISNBNOmmhmJkc6NrcemNHQUT55/lM4fG3cEDb6lSszksVp37x5p76rG+9bMC2Ll1KA5Jk6GJkjNmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=1xbHgBZ2FBsGerQpwJ2ACYEu1zrbzUxaEKyBOqSmOjA=;
- b=vPqg1VvVHBDGK4HekccTr2/KBKkl0NXNZUk4uIi76ESVlI8ScYLClyGEoLEBVZyiQVJVfndbvEYiArbUwR7kxuiKV42nlzjYY0VVjvB/cA6RteA1TnBfd2hLaWjbKmA4tf84IS8FKkzk77YXJ069Dadv5dFZYKGEvnVovQijm4D2ZXieBD4Y0GuL1c4gpnHL0CfZu7MDYytShyut3pcjFRvufhijoCGnFcF899eKRY7LZo1NUVj7n57cxApnmmvGWZnboOdtnhI462tj8HHNM5/0OU4wbQM0zHzz+KFo8XE6PkKRVHiaBSibB3smqUm13z3L9wDp+UZpZ9EB9BG84A==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by DU0P189MB3275.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:5a0::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.14; Wed, 23 Sep
- 2026 08:00:30 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
- 08:00:30 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gpgme: Upgrade 2.1.2 -> 2.2.0
-Date: Wed, 23 Sep 2026 10:00:27 +0200
-Message-ID: <20260923080027.22367-1-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: FR4P281CA0422.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:d1::16) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=gJ4Ceztz;
+ spf=pass (domain: gmail.com, ip: 74.125.230.145, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qv2-f17.google.com with SMTP id 6a1803df08f44-90cdfe57a3aso6083786d6.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 01:23:08 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790151787; cv=none;
+        d=google.com; s=arc-20260327;
+        b=fN0ZAbsTOD8V7uPffaWJA4/HEzp1NF+NQMAPqhhjb1kssB57AyGUoNMCv7DAg/K5LJ
+         BZmqtszRD+DoIAPN91TBkL/FNrbMtBWCrPzkg4gxlPAXqJEN+CopneV+bUxBISVzNwoY
+         zbd7BCXw0x1kANJG3eUexaCgFlQIvYZYmEqU8uV1FFkqlMui92IjGlawV8lvboQgw2Q+
+         V6uhvksoJDPgdHv1g/V/2Z6RACIKd928WNPjc6aLtgLmGy+/LfmEt4bFKrHLzgq3aa1g
+         lzt1T+3OuyvJJ7+sUP+MGbvC2+Zi/zCBEvVJmSOM5Yqk3Adz5wvaJD98H4WUfE1K9EIp
+         quog==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=to:subject:message-id:date:from:in-reply-to:references:mime-version
+         :dkim-signature;
+        bh=rTXtkhBbA0SDZMZVM17RbVa4CuxjO/3ZlfaGAY7gOkk=;
+        fh=ZnYqyxfmOIJJPfJ/xm1LxqgehCArprM54APFolr4KDI=;
+        b=cNijRm1DBytkUFWNXQSLbwlbS7TmUXxqzUuxa0v0xDrPCwuC2IP3M+ShanREfT9hZG
+         tXY+fFfDJV9skkBT+BkUKt50V4T34Jt4BuVF8dtOs5jTiJYC0zaJSxKVlK7paKFnlUfT
+         wbozBeDPrIejgFBgB51MiPEFi+uW5UZqKj1LuAtPEeUtOsU3uzU7oRrlvAfOz875W9wH
+         CfrG5qojVtJkbft+iiiPfQZr5heenBnUA/N23oKNrDovWUIxFJ01y9rznuxPPO19FVxd
+         qR2y0nLu1OygZdJsO/vgKgH2CcOB+FPedc+ElTE7a89qqzg3G/eTadnKQdA0v2633Zom
+         YdrA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790151787; x=1790756587; darn=lists.openembedded.org;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=rTXtkhBbA0SDZMZVM17RbVa4CuxjO/3ZlfaGAY7gOkk=;
+        b=gJ4Ceztz3lKO0EaekF3U/uPD/Kxgc8LRJtlFSHXr8BCJoeU0QFqvK4Ak30egstbW+u
+         wN1YZ8fvpjTfYJQWphzEmy6X5Rh7I/5hetTgoCRvi7420hhCIs+rCrNenwNwxgQ1diB5
+         lqXsGJIc5vteO2WBUSSsnjKRa2LSjGiZ18zR23jkBhYVwLwzyGp6uGqxBJWrfl7fLhuE
+         46QXEJTmZf439bBCe93y39kOhiLRNgUAVTjr+aJ513aB6jNboqZ5KUcEiZGDt9vHRdJM
+         qelCSelWa9ICZiSRs0LGc/c5612SMXKr+TTGX2gijsOVL+ro26lshOunJ1Gz58sz8Muj
+         /RvA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790151787; x=1790756587;
+        h=content-type:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=rTXtkhBbA0SDZMZVM17RbVa4CuxjO/3ZlfaGAY7gOkk=;
+        b=E+jXpIBZZeVYztHTjkxMU5mbctw6kRBBV7iZZTu0U/vXD66SDu0mgzTFehXzk+psnC
+         cbnf7C6sKJ/T4Yzpc29/A5Otx/jATDHJGlsrDANI9qZiMQREwetIX/+ZpaXt+8Mh0y9l
+         2p0/kSROgBWxl6hRFaoOtkw1ROOQg5c3IDqtdHG/WzmiJ8NP96EMhKgb9QHRPPwLQaot
+         LaI9Ve3QF3mZr4sqrzeeYiabM023an1JmbcviAUe6O2rYC4kBUtQZmL3BSf/hAjS1hVG
+         2RVGpvQkbWYn0lEilw1YXPui+jMznAgMXSTIhuXzBPicToi1zd2xaxMuw3wm6++GM3+S
+         vrLQ==
+X-Forwarded-Encrypted: i=1; AKwUvBzoAC6qxpsvwdWSrIO+Jm8rNiqSlEZf/CGO5Pv9tw8034P7Ro69gg19SClE4yvbh35VwVxZYHOsug+ktA/Qg3QmPA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++mApNFaPRDkDhpzxX8NvzAcC4EnqLZ1cGL+ZUyqRkwHYx/t46xZ
+	EB/dkyaM4FpjxYT8rToNqlaywZIM/iqMCTr1QVMtbdPWYqcKKsCAdz2UmaoqA5K5i30RbfCpwCW
+	AbiAtcAWjn6zfBLj/uDx+/ehs5R4wHrk=
+X-Gm-Gg: AYBFou0AUT+Ol8cnoj7o7TyTyNI3dPbmWpANXt3y4acj5qBXMVtzBy7SgVEiQ/Evp1E
+	rdMGYp2sWftB912jhmukX1ESex/GpCHBj/OKNCdE0JwzU26+5JBCHapnpAAwxec/+jEn658Ml6h
+	wbnWwYSOttENJW1q+DMr3u5t8hio3kPizsgD2Xot7Uio5hwxtysdaMO0DEqwCSBnx+qPl8nPodn
+	etpm3wOx+5gJMR4kYBvUs/QVsmrcxoqdhTedU5hh3TC+j1KQdkXvwaodowu4NkScG7LTvTzlQiL
+	tMKir3R8/FHFcX6cNugfhatrCMkPr5VlfUCKYnoeSS12z8GOyLmFrScPgE1Hqz6Hh5EjMsrZ2lu
+	XgC+V7FxlaHgAdg==
+X-Received: by 2002:ad4:574d:0:b0:914:ba6:a3a9 with SMTP id
+ 6a1803df08f44-9140c47289amr29215156d6.37.1790151786950; Wed, 23 Sep 2026
+ 01:23:06 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|DU0P189MB3275:EE_
-X-MS-Office365-Filtering-Correlation-Id: ba8522a6-8981-42d0-b3e9-08df1948bc47
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|23010399003|366016|1800799024|11063799006|56012099006|10067099003|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	Kg/FneJ2OSgZOZoe+rvfV12PB9G+h4ks569qjnO/nam//KG3XhUAzD4q+xKYj1+fQl9ztMP8OXco0foK2jv2evu8BVe5ZN6h1X0Nh+LIydIlqAt+Ac53HSbMAZpxNdUaeaVGgfm25HqDWVGn/q1n6niRj2A7/2H6drPmLybU8r5SZc30E0utfAisZHtk79opReMhNhQUT9tilGMIHoTDSi6tTfQBThWe92qJMvhDNipdTexmKxvKLaYTXlgVg3JjyT3LKlLELZVQf7g5gsR1BBJdFTphxkfon754gYqXMyyrk7NI85QTWxhGcWpnqA67kwDJzAXTFbOkmerlr4973zSr/McA/WArF7ibuEST6LZyjWkOHyeLaYg3vqsUwwTEdDPHxNSSi2mBNHaqOy0wfIYLfpY8tpeyCMAosu6BJ5wqLm7UJnXLOp1VASOUonJtEqqbiwTFLg1ZYDqPglUaqtF8jEXKg1Ec7RFAvQvHBOvrLFORhipK+ZmiRHhwuuzUS1NiiogJvihUK/ESjC+Gifaz7CvNOmIVn3MasbLLNtgRgvEEjmQ0ezD1Gt9xVo7HX9f79Nrwu9nCDPsH3v6CFJKIxog66P0Hhd9oFP941SJc1XDGUDY+UW27j42KHrDFVhc7EhdWayby7szmJwVv6/TLpy8vphg6wqGoCbHplH0=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(23010399003)(366016)(1800799024)(11063799006)(56012099006)(10067099003)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?QQFBj9/hASGMEgY3beWCZjti21J9MXfVo9M6zqvoYpEBg9ITY74hEuZiPdXH?=
- =?us-ascii?Q?6cQ3PtIgM84PAwED5rZAhp0nkPwgW3JGf35VUbdxa0s7m/SxW6/Ysv2M8ID3?=
- =?us-ascii?Q?6rNlC1IieBi1ZHIbIVQQRrAfFM3uZZakrRwaC8eumE9k9EvR02YRREIR4iXX?=
- =?us-ascii?Q?et/ss02uPQIgVibSnU97CPxvZADlyrGlGnnZyBkN3O2xTArSRv6BSjjVecnS?=
- =?us-ascii?Q?i8t03+KsDQMC+Dq83YX9iQg2HFCqRflDLtjPwZ/ido2G1Ye4soDFLPeK8mka?=
- =?us-ascii?Q?mBvMXtNKthCncjZucVuvw0p6618TS9YzmB+NQvAqWMxXa+ev/DegxJoB+//t?=
- =?us-ascii?Q?yyCm3BjwcmGWDRE7jQM93zEPrbPICe21QgW1rL6GxjclXmZ1eXNEDheXQt6e?=
- =?us-ascii?Q?EIap+PlnkpvaEqlRQftQUr/gXFwKa/DOnPt5w9fYTHndZiU3mTpJYvKNkEV0?=
- =?us-ascii?Q?knmktikuUQXrdIUTxJyLYTzrsxthsMUxnh5hZdYs/HNReoXYM96a8N+s+23x?=
- =?us-ascii?Q?EIwMQsvr83guaMtkMYwzDLv8sPohC5WzkA9e+h7AJO4wbsjsvQa+VY0xmnMc?=
- =?us-ascii?Q?/Y3rAUFT5rAnYqWyh16GgZQJX+weMQb8bQ2LqZ7BkILNFCavyj1SxPRHaQgq?=
- =?us-ascii?Q?MvlhnPXIFqJ+IKRbqrsUKCs+XhgDCNj6VA4MIXkqS9nUyzVpXFa9PpQdf4qJ?=
- =?us-ascii?Q?pP2B9UwfTKfo4UOVDq6K7qIriDkSqhJSA1bU0X3+0th+DkBJAEcLWIXfSSJy?=
- =?us-ascii?Q?JguaXIVgMp+Ja5A5XM1IoXKNciuSHKacwUrbWCv7He0yRUroBEnS4k6P5Brm?=
- =?us-ascii?Q?KHh8J+hx1QDxJhaZWqEn6+VqdKt+bj5OKgzs5IRHer/qe8Q4uCWhYzhB8lYm?=
- =?us-ascii?Q?KxKS9p6aEtnSb9TglSlwljAoYIkIOzOf4LN+E3vzKEY50ACaey22wgWOxIjc?=
- =?us-ascii?Q?8d39ZSqdA2pnkKf3vEAEP/Tz0ar2OHC8TXM8NOF3nsUZe9435xTT9MUE8dsi?=
- =?us-ascii?Q?0f8UQDQe8wbioUaMhU3Iri8DpyikjC3giz+fRqTAv13LLrK+qgRiY4dULJ+G?=
- =?us-ascii?Q?VQYnSQAtFSVAphcYgHdB/jcY2c+IFAOcfHErU4IpQW4hr5Q7dKe2A0nFBPGl?=
- =?us-ascii?Q?k0wLh5OJPZVaSSVYtzjo5nWgDYv8G436QsnUHhtDurQsvObiK5zRj3h74K5o?=
- =?us-ascii?Q?ibGa64SC4/8vb/hcABiGsacL4+Vn9JTuuvNYjp4/Mb9veO/vDym8dbkm+fXK?=
- =?us-ascii?Q?K8NdlSN+bzTbODCreZ4WJCLEtUiyRnIXopUoYXi7xcnMtqsIDk+68YzYWbtm?=
- =?us-ascii?Q?AJgPvL/YmH7FZSGj/vn7x4M8Tl1zfFHM7JuKhwoz5c5RtKx3c9H13+mwOmui?=
- =?us-ascii?Q?BDfKWd+qm0PqzxA95MJWaNGyhaFQO4V6DdcxwBPJhsdeXKrwIFUBN5JneOUO?=
- =?us-ascii?Q?tQ6D8EhtmY1sIoHheWQxJYChEDPIJ1hasFnttEqN2hQFPGogHaZq+euuHjob?=
- =?us-ascii?Q?ewSAmd9+rfvHZfgRZKjE0Ak5S+2h0rrERDaixjnhgOHtoQr5ZydfUwLlSJdG?=
- =?us-ascii?Q?x1+BpqU+aRgCuxNa3hI4YhLuPto0Kwz0NeLSiuBTLJV1AtdNCZXZ/oMwez6E?=
- =?us-ascii?Q?8vyC1ylIcZVZby9bn3lne/P8NshxLVIkb+mpDmFFcUu7zmfP3/FiQ7fgQzBW?=
- =?us-ascii?Q?x5dsvQ1rswRIzgmgdZlPm/JswLL9jIHairwa58a3YbJegwV3qUNMuJCpkG3X?=
- =?us-ascii?Q?TRGx08OXMg=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: ba8522a6-8981-42d0-b3e9-08df1948bc47
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 08:00:29.9375
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: pab1o2ubGQ1/t7BOlyEbk9pbzf+CBQWe2p8eRhyX6sKobIQ92EF7lyutT68mUJe4cT/2D3eImJYr6hBxgK62fvDPiU3IeKuyQxrNAuYFmdk=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB3275
+References: <010101a0ccf2d91f-5984bd6e-1d09-4692-9286-aa060ccfb214-000000@us-west-2.amazonses.com>
+In-Reply-To: <010101a0ccf2d91f-5984bd6e-1d09-4692-9286-aa060ccfb214-000000@us-west-2.amazonses.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Wed, 23 Sep 2026 10:22:54 +0200
+X-Gm-Features: AclHuK9pTKhO_AgxQDR4NElYXVVhPp6vEKAarPqykBcsveTQrbNrtaOeVcfBWuY
+Message-ID: <CANNYZj8h-cWQcb3DX_hD3qL_=TbkXtwuea1nnb9agAwQQ3zRRQ@mail.gmail.com>
+Subject: Re: [OE-core] [AUH] systemd-boot,systemd-tools-native,systemd-boot-native,systemd:
+ upgrading to 262,262,262,262 FAILED
+To: Daniel Turull <daniel.turull@ericsson.com>, 
+	OE-core <openembedded-core@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="0000000000005af3f6065c2231dd"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 08:00:43 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246459
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 08:23:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246460
 
-NEWS: https://github.com/gpg/gpgme/blob/gpgme-2.2.0/NEWS
+--0000000000005af3f6065c2231dd
+Content-Type: text/plain; charset="UTF-8"
 
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
----
- ...Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch | 2 +-
- .../gpgme/0001-autogen.sh-remove-unknown-in-version.patch     | 2 +-
- meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch         | 4 ++--
- .../gpgme/0001-posix-io.c-Use-off_t-instead-of-off64_t.patch  | 2 +-
- .../gpgme/0001-use-closefrom-on-linux-and-glibc-2.34.patch    | 2 +-
- ...gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch | 2 +-
- meta/recipes-support/gpgme/{gpgme_2.1.2.bb =3D> gpgme_2.2.0.bb} | 2 +-
- 7 files changed, 8 insertions(+), 8 deletions(-)
- rename meta/recipes-support/gpgme/{gpgme_2.1.2.bb =3D> gpgme_2.2.0.bb} (96=
-%)
+I guess the identical versions should be folded in AUH email headers as
+well?
 
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.=
-m4-use-gpgrt-config-with-.pc.patch b/meta/recipes-support/gpgme/gpgme/0001-=
-Revert-build-Make-gpgme.m4-use-gpgrt-config-with-.pc.patch
-index ec0c4239613..2a1cccea1aa 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-=
-gpgrt-config-with-.pc.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-Revert-build-Make-gpgme.m4-use-=
-gpgrt-config-with-.pc.patch
-@@ -1,4 +1,4 @@
--From 11991439661faba92e2a3966084d40fc8757557f Mon Sep 17 00:00:00 2001
-+From 1f5bb22e9ef35e18649ed35097be46279ed843c1 Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 14 Oct 2025 14:12:55 +0800
- Subject: [PATCH] Revert "build: Make gpgme.m4 use gpgrt-config with *.pc."
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknow=
-n-in-version.patch b/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remov=
-e-unknown-in-version.patch
-index 579f47c173b..2fb0960feba 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-ve=
-rsion.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-autogen.sh-remove-unknown-in-ve=
-rsion.patch
-@@ -1,4 +1,4 @@
--From 7f374b5827f3d5d7f57e9045259f5aca703fb1d3 Mon Sep 17 00:00:00 2001
-+From 7be35847fae645873aa65aafccc5d45a110c6ecc Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Tue, 26 Nov 2024 23:23:42 -0800
- Subject: [PATCH] autogen.sh: remove '-unknown' in version
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch b/meta/r=
-ecipes-support/gpgme/gpgme/0001-pkgconfig.patch
-index ed3b3db2613..25e9ed43075 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-pkgconfig.patch
-@@ -1,4 +1,4 @@
--From 04838f9ce25f6964254310b66069ed1b37b019ce Mon Sep 17 00:00:00 2001
-+From 36e642f39cc607a5e2132915c633ad6bedd1128d Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Mon, 21 Jul 2025 12:43:29 +0800
- Subject: [PATCH] pkgconfig
-@@ -29,7 +29,7 @@ Signed-off-by: Hongxu Jia <hongxu.jia@windriver.com>
-  create mode 100644 src/gpgme-pthread.pc.in
-=20
- diff --git a/configure.ac b/configure.ac
--index cd0af89..5ee3891 100644
-+index ee56d99..51c0598 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -845,6 +845,7 @@ AC_CONFIG_FILES(Makefile src/Makefile
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-ins=
-tead-of-off64_t.patch b/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Us=
-e-off_t-instead-of-off64_t.patch
-index 16df7fff1b9..7f05987a125 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of=
--off64_t.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-posix-io.c-Use-off_t-instead-of=
--off64_t.patch
-@@ -1,4 +1,4 @@
--From c069f75821abe4fa7765556f2bcf3af8b04a6eaf Mon Sep 17 00:00:00 2001
-+From 83f407dc19254d87a8df570d5d8a7232182b6e8f Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 15 Dec 2022 08:44:13 -0800
- Subject: [PATCH] posix-io.c: Use off_t instead of off64_t
-diff --git a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-a=
-nd-glibc-2.34.patch b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-o=
-n-linux-and-glibc-2.34.patch
-index 0c00cb00f85..868596fb83e 100644
---- a/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glib=
-c-2.34.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0001-use-closefrom-on-linux-and-glib=
-c-2.34.patch
-@@ -1,4 +1,4 @@
--From 116b3ecc954387f141f7cf9f5e01185919130f18 Mon Sep 17 00:00:00 2001
-+From 30c085ee02dfb819c07f0b6ec06730b7fa0c8ff4 Mon Sep 17 00:00:00 2001
- From: Khem Raj <raj.khem@gmail.com>
- Date: Thu, 15 Jul 2021 12:33:13 -0700
- Subject: [PATCH] use closefrom() on linux and glibc 2.34+
-diff --git a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-li=
-b-or-usr-lib-directories-in-.patch b/meta/recipes-support/gpgme/gpgme/0005-=
-gpgme-config-skip-all-lib-or-usr-lib-directories-in-.patch
-index a71ec8e7625..3427b37f165 100644
---- a/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-us=
-r-lib-directories-in-.patch
-+++ b/meta/recipes-support/gpgme/gpgme/0005-gpgme-config-skip-all-lib-or-us=
-r-lib-directories-in-.patch
-@@ -1,4 +1,4 @@
--From 101b5ffa3742d7e71e75f5e22aa3efe0f4c283b5 Mon Sep 17 00:00:00 2001
-+From 59bb7404bc594a6a724eafa38322b57422a66ab8 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Thu, 13 Apr 2017 16:40:27 +0300
- Subject: [PATCH] gpgme-config: skip all /lib* or /usr/lib* directories in
-diff --git a/meta/recipes-support/gpgme/gpgme_2.1.2.bb b/meta/recipes-suppo=
-rt/gpgme/gpgme_2.2.0.bb
-similarity index 96%
-rename from meta/recipes-support/gpgme/gpgme_2.1.2.bb
-rename to meta/recipes-support/gpgme/gpgme_2.2.0.bb
-index 32db75fdfd7..bffa0b40e41 100644
---- a/meta/recipes-support/gpgme/gpgme_2.1.2.bb
-+++ b/meta/recipes-support/gpgme/gpgme_2.2.0.bb
-@@ -24,7 +24,7 @@ SRC_URI =3D "${GNUPG_MIRROR}/gpgme/${BP}.tar.bz2 \
-            file://0001-autogen.sh-remove-unknown-in-version.patch \
-            "
-=20
--SRC_URI[sha256sum] =3D "0687a95b299871c4141f507c0f740de6b429c9ac067d0fa4e0=
-62e3264df5fb77"
-+SRC_URI[sha256sum] =3D "7160e80e84dafd00d956c84891c533bb7ab16a6a54fbe1574b=
-2f3acf0496977b"
-=20
- DEPENDS =3D "libgpg-error-native libgpg-error libassuan"
-=20
+Alex
+
+On Wed, 23 Sept 2026 at 08:27, Auto Upgrade Helper via
+lists.openembedded.org <auh=yoctoproject.org@lists.openembedded.org> wrote:
+
+> Hello,
+>
+> this email is a notification from the Auto Upgrade Helper
+> that the automatic attempt to upgrade the recipe(s)
+> *systemd-boot,systemd-tools-native,systemd-boot-native,systemd* to
+> *262,262,262,262* has Failed (devtool error).
+>
+> Detailed error information:
+>
+> Running 'devtool upgrade' for recipe systemd-boot failed.
+> NOTE: Reconnecting to bitbake server...
+> NOTE: Reconnecting to bitbake server...
+> Loading cache...done.
+> Loaded 0 entries from dependency cache.
+> Parsing recipes...done.
+> Parsing of 959 .bb files complete (0 cached, 959 parsed). 1993 targets, 43
+> skipped, 0 masked, 0 errors.
+> NOTE: Resolving any missing task queue dependencies
+>
+> Build Configuration:
+> BB_VERSION           = "2.19.1"
+> BUILD_SYS            = "x86_64-linux"
+> NATIVELSBSTRING      = "universal"
+> TARGET_SYS           = "x86_64-poky-linux"
+> MACHINE              = "qemux86-64"
+> SDKMACHINE           = "x86_64"
+> DISTRO               = "poky"
+> DISTRO_VERSION       =
+> "6.0.99+snapshot-d931446dac36811ff08d610f5e5ab87b785840ef"
+> TUNE_FEATURES        = "m64 x86-64-v3"
+> meta                 =
+> "tmp-auh-upgrades:d931446dac36811ff08d610f5e5ab87b785840ef"
+> meta-yocto-bsp
+> meta-poky            = "master:d36c827e02ab138b446386792fd7588b5a041507"
+> workspace            = "<unknown>:<unknown>"
+>
+> Initialising tasks...NOTE: The /proc/pressure files can't be read.
+> Continuing build without monitoring pressure
+> Sstate summary: Wanted 22 Local 22 Mirrors 0 Missed 0 Current 8 (100%
+> match, 100% complete)
+> done.
+> NOTE: Executing Tasks
+> NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be
+> rerun and all succeeded.
+> NOTE: Writing buildhistory
+> NOTE: Writing buildhistory took: 2 seconds
+> INFO: Creating workspace layer in
+> /srv/pokybuild/yocto-worker/auh/build/build/workspace
+> INFO: Extracting current version source...
+> INFO: Extracting upgraded version source...
+> INFO: Rebasing devtool onto 8cc40e0c5e9234bf45084751ac53b1fbfe70b492
+> WARNING: Command 'git rebase 8cc40e0c5e9234bf45084751ac53b1fbfe70b492'
+> failed:
+> Auto-merging mkosi/mkosi.pkgenv/mkosi.conf.d/debian-ubuntu.conf
+> CONFLICT (content): Merge conflict in
+> mkosi/mkosi.pkgenv/mkosi.conf.d/debian-ubuntu.conf
+>
+> You will need to resolve conflicts in order to complete the upgrade.
+> INFO: Upgraded source extracted to
+> /srv/pokybuild/yocto-worker/auh/build/build/workspace/sources/systemd-boot
+> INFO: New recipe is
+> /srv/pokybuild/yocto-worker/auh/build/build/workspace/recipes/systemd-boot/
+> systemd-boot_262.bb
+> INFO: Changelog extracted to
+> /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/systemd-boot.txt
+> INFO: Changelog metadata written to
+> /srv/pokybuild/yocto-worker/auh/build/build/workspace/changelogs/systemd-boot.json
+>
+>
+>
+> Please review the attached files for further information and build/update
+> failures.
+> Any problem please file a bug at
+> https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+>
+> Regards,
+> The Upgrade Helper
+>
+> -=-=-=-=-=-=-=-=-=-=-=-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#246436):
+> https://lists.openembedded.org/g/openembedded-core/message/246436
+> Mute This Topic: https://lists.openembedded.org/mt/121388730/1686489
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> alex.kanavin@gmail.com]
+> -=-=-=-=-=-=-=-=-=-=-=-
+>
+>
+
+--0000000000005af3f6065c2231dd
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div>I guess the identical versions should be folded in AU=
+H email headers as well?</div><div><br></div><div>Alex</div></div><br><div =
+class=3D"gmail_quote gmail_quote_container"><div dir=3D"ltr" class=3D"gmail=
+_attr">On Wed, 23 Sept 2026 at 08:27, Auto Upgrade Helper via <a href=3D"ht=
+tp://lists.openembedded.org">lists.openembedded.org</a> &lt;auh=3D<a href=
+=3D"mailto:yoctoproject.org@lists.openembedded.org">yoctoproject.org@lists.=
+openembedded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" =
+style=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pa=
+dding-left:1ex">Hello,<br>
+<br>
+this email is a notification from the Auto Upgrade Helper<br>
+that the automatic attempt to upgrade the recipe(s) *systemd-boot,systemd-t=
+ools-native,systemd-boot-native,systemd* to *262,262,262,262* has Failed (d=
+evtool error).<br>
+<br>
+Detailed error information:<br>
+<br>
+Running &#39;devtool upgrade&#39; for recipe systemd-boot failed.<br>
+NOTE: Reconnecting to bitbake server...<br>
+NOTE: Reconnecting to bitbake server...<br>
+Loading cache...done.<br>
+Loaded 0 entries from dependency cache.<br>
+Parsing recipes...done.<br>
+Parsing of 959 .bb files complete (0 cached, 959 parsed). 1993 targets, 43 =
+skipped, 0 masked, 0 errors.<br>
+NOTE: Resolving any missing task queue dependencies<br>
+<br>
+Build Configuration:<br>
+BB_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;2.19.1&quot;<b=
+r>
+BUILD_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;x86_64-linux&q=
+uot;<br>
+NATIVELSBSTRING=C2=A0 =C2=A0 =C2=A0 =3D &quot;universal&quot;<br>
+TARGET_SYS=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;x86_64-poky-li=
+nux&quot;<br>
+MACHINE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;qemux86-6=
+4&quot;<br>
+SDKMACHINE=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;x86_64&quot;<b=
+r>
+DISTRO=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;poky=
+&quot;<br>
+DISTRO_VERSION=C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot;6.0.99+snapshot-d931446d=
+ac36811ff08d610f5e5ab87b785840ef&quot;<br>
+TUNE_FEATURES=C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;m64 x86-64-v3&quot;<br>
+meta=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0=3D &quot=
+;tmp-auh-upgrades:d931446dac36811ff08d610f5e5ab87b785840ef&quot;<br>
+meta-yocto-bsp=C2=A0 =C2=A0 =C2=A0 =C2=A0<br>
+meta-poky=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;master:d36c827=
+e02ab138b446386792fd7588b5a041507&quot;<br>
+workspace=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =3D &quot;&lt;unknown&gt=
+;:&lt;unknown&gt;&quot;<br>
+<br>
+Initialising tasks...NOTE: The /proc/pressure files can&#39;t be read. Cont=
+inuing build without monitoring pressure<br>
+Sstate summary: Wanted 22 Local 22 Mirrors 0 Missed 0 Current 8 (100% match=
+, 100% complete)<br>
+done.<br>
+NOTE: Executing Tasks<br>
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn&#39;t need to be=
+ rerun and all succeeded.<br>
+NOTE: Writing buildhistory<br>
+NOTE: Writing buildhistory took: 2 seconds<br>
+INFO: Creating workspace layer in /srv/pokybuild/yocto-worker/auh/build/bui=
+ld/workspace<br>
+INFO: Extracting current version source...<br>
+INFO: Extracting upgraded version source...<br>
+INFO: Rebasing devtool onto 8cc40e0c5e9234bf45084751ac53b1fbfe70b492<br>
+WARNING: Command &#39;git rebase 8cc40e0c5e9234bf45084751ac53b1fbfe70b492&#=
+39; failed:<br>
+Auto-merging mkosi/mkosi.pkgenv/mkosi.conf.d/debian-ubuntu.conf<br>
+CONFLICT (content): Merge conflict in mkosi/mkosi.pkgenv/mkosi.conf.d/debia=
+n-ubuntu.conf<br>
+<br>
+You will need to resolve conflicts in order to complete the upgrade.<br>
+INFO: Upgraded source extracted to /srv/pokybuild/yocto-worker/auh/build/bu=
+ild/workspace/sources/systemd-boot<br>
+INFO: New recipe is /srv/pokybuild/yocto-worker/auh/build/build/workspace/r=
+ecipes/systemd-boot/<a href=3D"http://systemd-boot_262.bb" rel=3D"noreferre=
+r" target=3D"_blank">systemd-boot_262.bb</a><br>
+INFO: Changelog extracted to /srv/pokybuild/yocto-worker/auh/build/build/wo=
+rkspace/changelogs/systemd-boot.txt<br>
+INFO: Changelog metadata written to /srv/pokybuild/yocto-worker/auh/build/b=
+uild/workspace/changelogs/systemd-boot.json<br>
+<br>
+<br>
+<br>
+Please review the attached files for further information and build/update f=
+ailures.<br>
+Any problem please file a bug at <a href=3D"https://bugzilla.yoctoproject.o=
+rg/enter_bug.cgi?product=3DAutomated%20Update%20Handler" rel=3D"noreferrer"=
+ target=3D"_blank">https://bugzilla.yoctoproject.org/enter_bug.cgi?product=
+=3DAutomated%20Update%20Handler</a><br>
+<br>
+Regards,<br>
+The Upgrade Helper<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#246436): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/246436" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/246436</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121388730/168=
+6489" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/121388730/1686489</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:alex.kanavin@gmail.com" ta=
+rget=3D"_blank">alex.kanavin@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div>
+
+--0000000000005af3f6065c2231dd--
 
