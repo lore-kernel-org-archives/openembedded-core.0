@@ -2,62 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 08DA3C98308
-	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:12:16 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2836.1790154726075804652
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3A8C6C982EA
+	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:12:26 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2845.1790154743754618547
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:12:06 -0700
+ Wed, 23 Sep 2026 02:12:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=tcOv+NtS;
- spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49d1fb0cf5eso4523645e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:12:05 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=DJO0MbVN;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b965f447cso4941645e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:12:23 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154724; x=1790759524; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154742; x=1790759542; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=KRBaUH478EaABtyvYdPzfJVUQ6uQSq7JcwO6hlXaHqI=;
-        b=tcOv+NtSJhDaR3gO28CuTQ0l5TwgfNTgkfk3wVzYQrsXYp5J53odVU0cEDvAUnAeD0
-         yup0idXj3gCqDjFyUH3kF4ZdanANn7+GkoNrv3id7HQXoylz4rmlAn+hNqHEJrEt3POd
-         +gCKEj0A5FTt784BIy6hP5tHk85DAfaa+Ly+g=
+        bh=gO6T6To7ScCHifdr+P3FY9+1kOCOBdbzf0CsbNLJv/4=;
+        b=DJO0MbVNaW6S8f5WD+bDhiDNOQnw6b82bOVqaev/7N7n7DSgZPCu8ihYjKe780kRI/
+         43wXYdo5kP28R2opR48XNGRR6sV0fCcyRmi3DyzlpWhArl3S7/lDaP0N6T/lZ0q5nPG6
+         YjkTcB8SCfORCn65BkZN89flObRSBPOTZuaPg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154724; x=1790759524;
+        d=1e100.net; s=20260707; t=1790154742; x=1790759542;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=KRBaUH478EaABtyvYdPzfJVUQ6uQSq7JcwO6hlXaHqI=;
-        b=ghSxPvoHpTza1gtVu0WSDk9PB5g2oQuotqwxrsyWLISvHCOd8D5DIpXYQ3l6yrun+L
-         G3cOrEl5JKNlowktY/E7wKPFyDthk/qJCwcYmdwpkVKw5xeACKrbwgFkMIlTGmXhw4kW
-         w6z6M6tUIpQiPjR6EYTxwJ+NtCRdxpQcas6GWG9fBoX7Fo1eZBdi18UBd+brZu4RIXBG
-         nQ+ZR1sQEGpuZJ3ruXi0Y23tVxn7zv+169PZCTe3dZYN5PLynRxXIFbKM5Tp+gBIFAVz
-         QkdLksH6Yj9tJuTBT7Hph/ygf4vhloXn5P3Chiv0yVSau2WYfR8JyxubJtjFWMhKLSck
-         Txlw==
-X-Gm-Message-State: AFuF++mJOSVU4IcNo+KE92CPoqm6Sz7Ep6Q83jQuG6arMi4mgSPNzavd
-	KAEOUhkkIdoOhls37WmCW1bOEdpwE7Qa/N8+vlgjJ2KXPP5RggnHJIhrb3Ex6JMMLywFBmb/nhq
-	8CGcPNZA=
-X-Gm-Gg: AYBFou2HKU+f1ivdpf1GQPoaRrzqHtoyrmVn3c4V5xis5bMJCdadPdyqhQN2RJOy3VE
-	KVHZDAC39LeCxbRD+UDl5SwBloHDdK4v8Mv32qgxY8loAKmVdRkXR9u6WobT9Rsut0PmxcJA5oT
-	1+b78fu1vR/zRrjTnJUw0SOdeRiDvrMIHvUzO683+WzsW6MxvXSTJ8HCsQ6h59tr47cX4sTzeR4
-	jGzUFjRNligf5od3ulfdiQEGo8GLR137RcN/eqKeLQcVQHtU/1gL8e0FOwK6Gb+5+IfOVYpEeFz
-	yNULdzHuEoXFWeAX79N7y5TTo7bfItVIjNKVXDo4DyWxqAytkqTJ8NNTwgf3X7TRSvXAfWA5eR+
-	M6uSUj9UPF9AhStBY55SP9WFSx5uos7Oh+pH0FPJxy/hVq93iy0vFEfskieY/fVnmZhUD5tUIFo
-	z3wbLlCeng3uBkCwlRT3wnlVb/wm76Rzxw5n/3vquwqeCAHBBkJS93Zmt8TsdVlj7dIhsxmt17f
-	t/Qn66ygqmg4yimo7wzva0R3KEoXqtvmwS+siI/+asDggU2VkTEMeAG+fNTeTQNY+m9i74XP2on
-	xACy/j8=
-X-Received: by 2002:a05:600c:c176:b0:49f:c451:b4ab with SMTP id 5b1f17b1804b1-49fdf152561mr24568985e9.29.1790154724303;
-        Wed, 23 Sep 2026 02:12:04 -0700 (PDT)
+        bh=gO6T6To7ScCHifdr+P3FY9+1kOCOBdbzf0CsbNLJv/4=;
+        b=tDyHtOXHTKQOBJ/xrKMDJyjhdxB/ky8jkBJ9h1owQWdaJV870sCGMMuf2j0QWLaMuJ
+         XMHjnYK3nSGvvurf9UI+qUiODLzClbKbKC/wxKXzUBYT2WIK66MM//3NRc6hn2aW/U9s
+         LCgWMa4pWG9U+v4U45mUMo/c7Lu3aOxpesoTZvKpdIHFELtEj9jrxIPGKGaBNAKxVXq2
+         PuCvarVWh5BCBKO1oc+S3GeBuRzaLJn0+9lxQOAm4ROijUJWlcR+C4HlX8n65MzzWu9j
+         S/m2dsbqLJYHU/zEW/635S9VPtwzdNe5x0msL6ZFdrXFHN469xUcTrUbKuO28xNTGLBx
+         OzpQ==
+X-Gm-Message-State: AFuF++nY61epAaY4zNHsGuT/oRQKM9DI1ZZMKeKOUce1fsHsV8+1kzT+
+	G/gjloY4eFdO4ytxmhl9Yn7S3Ym9G8SCw9i8Ev+DMBAT/hh9NF7M6FY1ZjaUmpBP2NZ3raJYFAQ
+	Z6HLJ1D8=
+X-Gm-Gg: AYBFou0GLBUG8rlI2ofY9MCpQusGX7cYMCgZV8mmYMwcVJ67BbOE/NpwtfRufBpXHPw
+	Mp49G6kDMuYmqb11szI/BOxAoAaiWG3yef+3w9Lppp5DUKNSbgux8Rfr7CDMu1FR9BFuAiTKb9D
+	suU1KwbRopWZ7hkdoLcBV2yga6+oJf2Kw0a9DMLWeRdOZuWiOKt0C4ZV7fngwS9SQePbJWVD/mg
+	QgO2dAnicDBeYZqy31AuNdazLOUhnPHMIHCdvmiMZLl3gyOxCxVKJ26lgnvLefidwNNt3z7NdIW
+	PTIOp3OnjbMX5tHRrd63jD5WJ6xAEuVnFJhgVcM3JgVpczpmDLDKQRUx2gc8pJRPp/k3hqoeaAD
+	SCumTuCCm8ogqZfApUXRvlQREJFIDYTIv/oRctHcSkiTf+eZYJFm6wOjkpHhHVlHWOAEUdYozdJ
+	VoN70mobIm+6NxECm9r3Jjf/x03EW0KWZEPQ6QMgUGHzsMJY6t99GK6rpABHjLg3H+/AKpIggFi
+	YSaQ9PBGvr97gvJ1inhobqhFCpRJZlyOPNL3HiaPULXO5kS8tzDkGUqRrXseooinjlTWLGs
+X-Received: by 2002:a05:600c:6091:b0:49d:39:90ba with SMTP id 5b1f17b1804b1-49fdee0bb6fmr25209965e9.3.1790154742000;
+        Wed, 23 Sep 2026 02:12:22 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.12.03
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.12.21
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:12:04 -0700 (PDT)
+        Wed, 23 Sep 2026 02:12:21 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 37/48] pseudo: Add in openat2, exec and linkat fixes
-Date: Wed, 23 Sep 2026 11:10:39 +0200
-Message-ID: <f24e702b80f517aba83809ec6df333c0c3c29729.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 47/48] curl: set CVE_STATUS for CVE-2026-82209
+Date: Wed, 23 Sep 2026 11:10:49 +0200
+Message-ID: <9468a21bb23307f8d1b5cb35bf9410fdd34b10c3.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -66,46 +65,36 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:12:16 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246499
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:12:26 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246509
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-Pull in:
+Analysis:
+- The problem only exists when curl is built with libpsl support enabled.[1]
+- The recipe is built with "--without-libpsl" option.
+- Hence, ignoring the CVE for this recipe.
 
- * linkat: Fix AT_EMPTY_PATH handling
- * makewrappers/openat2: Add noignore_path option
- * pseudo_util: Correctly free memory allocated by pseudo_setupenvp
- * exec*: Replace bash workaround to avoid memory corruption
- * pseudo_util: Clean up memory handling for setupenvp results
- * pseudo_util: Avoid a memory leak in pseudo_dropenv()
- * pseudo_util: Ensure pseudo_setupenvp handles memory consistently
- * pseudo_util: Avoid accidental free calls for without_libpseudo()
- * pseudo.h: Avoid accessing unallocated memory
+Reference:
+[1] https://curl.se/docs/CVE-2026-82209.html
 
-[YOCTO #16316]
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 90f823defa32477c9dbd91d264f581fdf0ee4068)
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/pseudo/pseudo_git.bb | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ meta/recipes-support/curl/curl_8.7.1.bb | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/pseudo/pseudo_git.bb b/meta/recipes-devtools/pseudo/pseudo_git.bb
-index 3d7dd62448f..7b1177f7970 100644
---- a/meta/recipes-devtools/pseudo/pseudo_git.bb
-+++ b/meta/recipes-devtools/pseudo/pseudo_git.bb
-@@ -12,9 +12,9 @@ SRC_URI:append:class-nativesdk = " \
-     file://older-glibc-symbols.patch"
- SRC_URI[prebuilt.sha256sum] = "ed9f456856e9d86359f169f46a70ad7be4190d6040282b84c8d97b99072485aa"
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 905d0b47335..34bdd21b77b 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -60,7 +60,7 @@ CVE_STATUS[CVE-2025-5025] = "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'n
+ CVE_STATUS[CVE-2025-10966] = "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'not-applicable-config: applicable only with wolfssl','unpatched',d)}"
+ CVE_STATUS[CVE-2026-10536] = "${@bb.utils.contains('PACKAGECONFIG', 'nghttp2', 'unpatched', 'not-applicable-config: applicable only with HTTP/2', d)}"
+ CVE_STATUS[CVE-2026-8458] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotiate-auth', 'unpatched', 'not-applicable-config: applicable only with GSS-API-backed Negotiate authentication', d)}"
+-
++CVE_STATUS[CVE-2026-82209] = "not-applicable-config: public suffix list support is disabled by the recipe with --without-libpsl"
  
--SRCREV = "823895ba708c63f6ae4dcbfc266210f26c02c698"
-+SRCREV = "ca47829825f297d7bf83665c0541a9de4aa78009"
- S = "${WORKDIR}/git"
--PV = "1.9.8"
-+PV = "1.9.8+git"
+ inherit autotools pkgconfig binconfig multilib_header ptest
  
- # largefile and 64bit time_t support adds these macros via compiler flags globally
- # remove them for pseudo since pseudo intercepts some of the functions which will be
 
