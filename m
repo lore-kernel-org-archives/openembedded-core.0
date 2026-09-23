@@ -2,62 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B4053C98307
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DFA23C9830B
 	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:11:44 +0000 (UTC)
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2920.1790154700984996218
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2917.1790154695303568339
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:11:41 -0700
+ Wed, 23 Sep 2026 02:11:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=BVfej4Xm;
- spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-485933b24c3so493610f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:40 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=P13IJ3E8;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d822dso4195815e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:35 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154699; x=1790759499; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154693; x=1790759493; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=7nLB7QdJ23Lxe1oIga8kwFF+1Iw6bJAx/zANuuaE0Ac=;
-        b=BVfej4XmC3DzEAw2SpZfyVitpW0QBbPOYoVD9Zc2iXfCJc1wO2qAS5j+W7jQtQDPb8
-         cqiQsJmWZTVU4QdFO/7BEwSqHRXHRFHar3+eaCegDi5LIFLIVJ77FTS7Z28wN4Z6GGKK
-         CMg5cIeVMDzeZjhNx4dkHXuyyYdW9nnOPp8yc=
+        bh=adK+OfZ+1wPpZJz/FiWRmhy2wHUfcQi3HXF3iy9Dljs=;
+        b=P13IJ3E80xsZdGxsBTJ0Nq2rLpLwQon2fs58LFEN9mh701YFHYNDYEl+9bHa4bCDbi
+         pNtUXTNtyMpiipo94Br1cQFBkIg0j2xFP0CSpOXoNKb3C1zknno+5wXxNfLk8d6Pksdr
+         sF12jR3HjOWYrxvVAQvP/9szarKfXP6LjHk3U=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154699; x=1790759499;
+        d=1e100.net; s=20260707; t=1790154693; x=1790759493;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=7nLB7QdJ23Lxe1oIga8kwFF+1Iw6bJAx/zANuuaE0Ac=;
-        b=SxA9iZHgKCH3Xg7FOb6aX4GpIYD6rwBytb0u5YSlE9VKaqTw1LM4m/pKzAHWfx+aac
-         5tC8pcv5yupGThE1sAyrPiLBilWweQJKrw64oc3MnbA8E3smOFjVBGtKO+fGyyKgtgmh
-         za7Xy1EULz2UGLz/nQl2ir9SYVLm5vzQEZnxNEwMQYHEQvOrPeafU5Yi4Ph0GUvDBq7D
-         jnIOQS9An2uGBmzTch66pCTCYyCIgPrn+82WPA1NUdPkUbRPqsIpK9kGLYrbIhwSMk02
-         C2LY4mVPd3cedV15DHTqlIkk9D5XhHE4GVVl3aJLLphIUvlVcgR6Fxg6UZ7tfJhy0fjB
-         5odA==
-X-Gm-Message-State: AFuF++nTigihkrjaaRD3GQMU7BvsLKPStqlnhAklm4g2GHMNrhTQIG8h
-	iut4HH0wb+5Vu59DLIpLW7x4lJ0zeVw4rFjaZBHoIuu29ngtsUM1b4fQkuDU5RoUQwWTCti8IWr
-	BLh2HRQE=
-X-Gm-Gg: AYBFou0Jcmw16Wd1MGbSTJa7AZ6RdykvPp97JN20jzqyGQnbZjQ2o5IbTAW79qpqvrD
-	4+6BxtFB8Gfw1LsXBfcZNdABfMY9hVz+RAo4aTlRheaemgq+63kJFTpZ4PgMLleFqVxFMVlAcUT
-	G9fJ/kmLdgz2rVcex6HDEHoE0MvnGQjcvfIvamnBVQWN0II956Ak4/LfkQIvviTfeE3xiWp7nSC
-	/mcChnxcw9lPvi5mj+bkpaEJ2I2kEnIbedCxEmctIM18GQYHTBpdfVg9goxSQou4ihZ1RllQOut
-	QkVP05r+zIODK5J6n6cTBlOlFMKwG2m7PZumVPNK5uuwowhj7GaXohzktOzVJ/QTgu4eQS+uPL/
-	g5Ds4qNbj3Dl1NsFtg+zisDsF5A7xKdxRU7R2uN7wUWCcDoXhO1tg/ZgSzHwOdXi5kM2zjRBb2S
-	zB5+LVOSk2vuv7dyi4PBGGmr08DLfUAi4kqu9nljfiVibgbtHsVWM5T3hRhsBtblvYmT97qU1FR
-	y3sMNFOhUXQm+Axwpmo9qtyjsYfcraxpVDTu7GxSpGd1e1H5XT8FNAQQGuG9LEbKbdpakkJXcgC
-	lIW+1CTlVH6iM09ROw==
-X-Received: by 2002:a05:600c:a06:b0:49f:cbf1:e765 with SMTP id 5b1f17b1804b1-49fdec980bamr28645805e9.0.1790154699193;
-        Wed, 23 Sep 2026 02:11:39 -0700 (PDT)
+        bh=adK+OfZ+1wPpZJz/FiWRmhy2wHUfcQi3HXF3iy9Dljs=;
+        b=kYcC+FKUVYwPCOxPBVBS6kDgMB0zqvY1ffxbZlx8gSTku7B/lKCChTDqP9OZfrQ9Vy
+         /aABkw/u5rhMWcwHiIHb7kMfyCB5GwBEHdBVh0gqo/25CdomKt9CLNgIlQn9k/yx2guH
+         1nL+QZMlTglHLH4RYVPKCmhSdpdAeokBLCuus5hYdo5icR9V0p3OAl/1v7cu45xO1GNf
+         zrX+wfg2bGq0ePnr8UPAFVjo7N7+32l06HRexu08oeSrl6RJ/dOmrf6UmUxOsy3hP3ZC
+         RU+pR9wh+SrNa19WI3jcC03GcNQVuWic2Q8ukphPXQVHpkyD9J/gw1gqGdKcdGsfMETh
+         o8PA==
+X-Gm-Message-State: AFuF++kfbq9hb/oBq6cy12M9X/nKxx4uPUFBVfOwGqN0ABQsrvN83eVT
+	L4RaglYqdSlshxazZP/vBZ7wtB+C/65EqdbC0q7G70BtgI2pxsLJFLsXA9Zn03RYz48j0lNLE39
+	Cc26wUGg=
+X-Gm-Gg: AYBFou0l8cdrELHhHrHCZDu3i/CdnHSHMIw/sPZJNy6A6+X2e8D+PJ1TXlVYBMzk08n
+	kYVqaf4rQbgjovKMybg+/fHywSvNc/cU/6OC61qie6h4p5vXnfTZEN6glyfkRJVGRIldHwflEG8
+	m/QZTp21WwtwSqCKxmeSSvUcxi6xESVwUu0LNUFejHZG2EUwjQhJK1UMrY7mX2pmMYAi8lcdrgy
+	LmkSrl12bbBYKZYCwD+bjpbXtT8Hswvi6eGRlpgpoGzWrYzGJvj/knm22cD241cX2h6Nr9GRVqW
+	YvhTqhf97S6Tx6ah3SitdVFHpxNvTVwwZQi5B3nfD5LdOp8N9Eh5rI0N0TPlJNXiPxEDZy/Cz1W
+	RIn6fOKAO65+MJ/EOoitwnidP7ldj6xkZ+CIjtble8qqS1B4SYCMY6Ryh30fbAZAFubKzYIwd8R
+	vUMsWpq7n4C/uq+OFIUJFIUZ5BHriIQHkJl8TN99FvWcr9VnliEJjLk6kQxgYfhrBoAkwWp22VF
+	FGNoqL/5cMWCTb7Rs70NdlNvdpINkoYV1tlBcCx/CLSa5u1EqavviQzznmQNE6l4XYtlZYTcIOo
+	KgHR1yI=
+X-Received: by 2002:a05:600c:5020:b0:49f:d377:ac24 with SMTP id 5b1f17b1804b1-49fdeff8236mr25413395e9.3.1790154693495;
+        Wed, 23 Sep 2026 02:11:33 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.38
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.32
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:11:38 -0700 (PDT)
+        Wed, 23 Sep 2026 02:11:33 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 19/48] gnutls: fix CVE-2026-5419
-Date: Wed, 23 Sep 2026 11:10:21 +0200
-Message-ID: <40a2e6160bd450599ca6ebc5fb308d38e5e7a888.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 14/48] vim: Fix for CVE-2026-73077
+Date: Wed, 23 Sep 2026 11:10:16 +0200
+Message-ID: <62b60951830529d58bad8f64c9d0d217aa432c98.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -67,291 +67,135 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:11:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246481
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246476
 
-From: Jakub Szczudlo (Nokia) <jakub.szczudlo@nokia.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Backport patch to fix CVE-2026-5419.
+Pick the patch from [1], also referenced in the NVD report [2].
 
-References:
-  https://nvd.nist.gov/vuln/detail/CVE-2026-5419
+[1] https://github.com/vim/vim/commit/c5a82fe013e73c98004ad7cd4f906b1ad1ed610e
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73077
 
-Upstream fix:
-  https://gitlab.com/gnutls/gnutls/-/commit/1e627aa5ad95c6dc0518d94e9a009997b081a1ab
-
-Tested with ptest
-
-Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../gnutls/gnutls/CVE-2026-5419.patch         | 247 ++++++++++++++++++
- meta/recipes-support/gnutls/gnutls_3.8.4.bb   |   1 +
- 2 files changed, 248 insertions(+)
- create mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-5419.patch
+ .../vim/files/CVE-2026-73077.patch            | 96 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 97 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-73077.patch
 
-diff --git a/meta/recipes-support/gnutls/gnutls/CVE-2026-5419.patch b/meta/recipes-support/gnutls/gnutls/CVE-2026-5419.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-73077.patch b/meta/recipes-support/vim/files/CVE-2026-73077.patch
 new file mode 100644
-index 00000000000..7a7f4469dd8
+index 00000000000..6bf157a8083
 --- /dev/null
-+++ b/meta/recipes-support/gnutls/gnutls/CVE-2026-5419.patch
-@@ -0,0 +1,247 @@
-+From 0ff1cf201404afc6b227f9ddfea376866770a9d3 Mon Sep 17 00:00:00 2001
-+From: Daiki Ueno <ueno@gnu.org>
-+Date: Fri, 4 Sep 2026 09:16:30 +0000
-+Subject: [PATCH] gnutls_cipher_decrypt3: make PKCS#7 unpadding branch free
++++ b/meta/recipes-support/vim/files/CVE-2026-73077.patch
+@@ -0,0 +1,96 @@
++From c5a82fe013e73c98004ad7cd4f906b1ad1ed610e Mon Sep 17 00:00:00 2001
++From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
++Date: Thu, 23 Jul 2026 19:13:15 +0000
++Subject: [PATCH] patch 9.2.0839: [security]: arbitrary code execution via
++ keyword lookup
 +
-+This tries to make the logic of PKCS#7 padding removal constant-time,
-+by removing potential branching operations.
++Problem:  [security]: arbitrary code execution via keyword lookup in
++          sh.vim, zsh.vim and ps1.vim filetype plugin
++          (manus-use)
++Solution: For powershell, quote the commands using single quotes, for
++          sh/zsh pass the argument as a separate list item to term_start()/system()
++          (Yasuhiro Matsumoto).
 +
-+CVE: CVE-2026-5419
-+Upstream-Status: Backport [https://gitlab.com/gnutls/gnutls/-/commit/1e627aa5ad95c6dc0518d94e9a009997b081a1ab]
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-r5v6-q6j8-8qw2
 +
-+Backport Changes:
-+- Adjusted the upstream hunk to match the GnuTLS 3.8.4 code layout.
-+- Drop .gitignore from the backport.
++Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
++Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+Reported-by: Doria Tang of Stony Brook University
-+Fixes: #1815
-+Fixes: CVE-2026-5419
-+Fixes: GNUTLS-SA-2026-04-29-13
-+CVSS: 3.7 Low CVSS:3.1/AV:N/AC:H/PR:N/UI:N/S:U/C:L/I:N/A:N
-+Signed-off-by: Daiki Ueno <ueno@gnu.org>
-+Signed-off-by: Jakub Szczudlo <jakub.szczudlo@nokia.com>
-+
++CVE: CVE-2026-73077
++Upstream-Status: Backport [https://github.com/vim/vim/commit/c5a82fe013e73c98004ad7cd4f906b1ad1ed610e]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ lib/crypto-api.c  |  53 ++++++++++++++++------
-+ lib/libgnutls.map |   2 +
-+ tests/Makefile.am |   2 +-
-+ tests/pkcs7-pad.c | 109 ++++++++++++++++++++++++++++++++++++++++++++++
-+ 4 files changed, 152 insertions(+), 14 deletions(-)
-+ create mode 100644 tests/pkcs7-pad.c
++ runtime/ftplugin/ps1.vim | 5 +++--
++ runtime/ftplugin/sh.vim  | 5 +++--
++ runtime/ftplugin/zsh.vim | 6 +++---
++ 3 files changed, 9 insertions(+), 7 deletions(-)
 +
-+diff --git a/lib/crypto-api.c b/lib/crypto-api.c
-+index bb5c3ec..7ae0ef2 100644
-+--- a/lib/crypto-api.c
-++++ b/lib/crypto-api.c
-+@@ -497,6 +497,38 @@ error:
-+ 	}
-+ 	return ret;
-+ }
-++/* If succeeds, returns the number of padding bytes to be removed;
-++ * zero otherwise.
-++ */
-++unsigned int _gnutls_pkcs7_unpad(const uint8_t *block, unsigned int block_size)
-++{
-++	uint8_t padding = block[block_size - 1];
-++	volatile unsigned int mask = ~0;
-++	volatile unsigned int count = 0;
-++
-++	/* Count consecutive PADDING bytes from the end, in a
-++	 * constant-time manner.
-++	 */
-++	for (size_t i = block_size; i > 0; i--) {
-++		volatile unsigned int mask2;
-++
-++		mask2 = -(unsigned int)(block[i - 1] == padding);
-++		mask2 &= -(unsigned int)(count < padding);
-++
-++		/* MASK is initially ~0 and will be flipped to 0 upon first
-++		 * non-padding bytes.
-++		 */
-++		mask &= mask2;
-++		count += 1 & mask;
-++	}
-++
-++	/* PADDING == 0 is effectively excluded here, given COUNT
-++	 * will never be 0.
-++	 */
-++	mask = -(unsigned int)(count <= block_size);
-++	mask &= -(unsigned int)(count == padding);
-++	return count & mask;
-++}
++diff --git a/runtime/ftplugin/ps1.vim b/runtime/ftplugin/ps1.vim
++index f1fe78df4c..9ff764a282 100644
++--- a/runtime/ftplugin/ps1.vim
+++++ b/runtime/ftplugin/ps1.vim
++@@ -6,6 +6,7 @@
++ "              2024 May 23 by Riley Bruins <ribru17@gmail.com> ('commentstring')
++ "              2024 Sep 19 by Konfekt (simplify keywordprg #15696)
++ "              2025 Jul 22 by phanium (use :hor term #17822)
+++"              2026 Jul 10 by Vim Project (quote K argument, prevent command injection)
 + 
-+ /**
-+  * gnutls_cipher_decrypt3:
-+@@ -532,22 +564,17 @@ int gnutls_cipher_decrypt3(gnutls_cipher_hd_t handle, const void *ctext,
-+ 	if (_gnutls_cipher_type(h->ctx_enc.e) == CIPHER_BLOCK &&
-+ 	    (flags & GNUTLS_CIPHER_PADDING_PKCS7)) {
-+ 		uint8_t *p = ptext;
-+-		uint8_t padding = p[*ptext_len - 1];
-+-		if (!padding ||
-+-		    padding > _gnutls_cipher_get_block_size(h->ctx_enc.e)) {
-+-			return gnutls_assert_val(GNUTLS_E_DECRYPTION_FAILED);
-+-		}
-+-		/* Check that the prior bytes are all PADDING */
-+-		for (size_t i = *ptext_len - padding; i < *ptext_len; i++) {
-+-			if (padding != p[*ptext_len - 1]) {
-+-				return gnutls_assert_val(
-+-					GNUTLS_E_DECRYPTION_FAILED);
-+-			}
-+-		}
-++		size_t block_size = _gnutls_cipher_get_block_size(h->ctx_enc.e);
-++		uint8_t *block = &p[*ptext_len - block_size];
-++		unsigned int padding = _gnutls_pkcs7_unpad(block, block_size);
-++		volatile unsigned int mask;
-++
-++		mask = -(unsigned int)(padding == 0);
-++		ret = GNUTLS_E_DECRYPTION_FAILED & mask;
-+ 		*ptext_len -= padding;
-+ 	}
++ " Only do this when not done yet for this buffer
++ if exists("b:did_ftplugin") | finish | endif
++@@ -52,9 +53,9 @@ endif
 + 
-+-	return 0;
-++	return ret;
-+ }
++ if exists('s:pwsh_cmd')
++   if exists(':terminal') == 2
++-    command! -buffer -nargs=1 GetHelp silent exe 'hor term ' . s:pwsh_cmd . ' -NoLogo -NoProfile -NonInteractive -ExecutionPolicy RemoteSigned -Command Get-Help -Full "<args>"' . (executable('less') ? ' | less' : '')
+++    command! -buffer -nargs=1 GetHelp call term_start([s:pwsh_cmd, '-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'RemoteSigned', '-Command', "Get-Help -Full '" . substitute(<q-args>, "'", "''", 'g') . "'" . (executable('less') ? ' | less' : '')])
++   else
++-    command! -buffer -nargs=1 GetHelp echo system(s:pwsh_cmd . ' -NoLogo -NoProfile -NonInteractive -ExecutionPolicy RemoteSigned -Command Get-Help -Full <args>')
+++    command! -buffer -nargs=1 GetHelp echo system([s:pwsh_cmd, '-NoLogo', '-NoProfile', '-NonInteractive', '-ExecutionPolicy', 'RemoteSigned', '-Command', "Get-Help -Full '" . substitute(<q-args>, "'", "''", 'g') . "'"])
++   endif
++   setlocal keywordprg=:GetHelp
++   let b:undo_ftplugin ..= " | setl kp< | sil! delc -buffer GetHelp"
++diff --git a/runtime/ftplugin/sh.vim b/runtime/ftplugin/sh.vim
++index 18cd219cdc..45e6f44fcf 100644
++--- a/runtime/ftplugin/sh.vim
+++++ b/runtime/ftplugin/sh.vim
++@@ -8,6 +8,7 @@
++ "			2024 Dec 29 by Vim Project (improve setting shellcheck compiler)
++ "			2025 Mar 09 by Vim Project (set b:match_skip)
++ "			2025 Jul 22 by phanium (use :hor term #17822)
+++"			2026 Jul 10 by Vim Project (pass K argument as a list, prevent shell injection)
 + 
-+ /**
-+diff --git a/lib/libgnutls.map b/lib/libgnutls.map
-+index b02babf..f269ff2 100644
-+--- a/lib/libgnutls.map
-++++ b/lib/libgnutls.map
-+@@ -1551,4 +1551,6 @@ GNUTLS_PRIVATE_3_4 {
-+ 	_gnutls_pathbuf_append;
-+ 	_gnutls_pathbuf_truncate;
-+ 	_gnutls_pathbuf_deinit;
-++	# needed by tests/pkcs7-pad
-++	_gnutls_pkcs7_unpad;
-+ } GNUTLS_3_4;
-+diff --git a/tests/Makefile.am b/tests/Makefile.am
-+index f227e92..32c5335 100644
-+--- a/tests/Makefile.am
-++++ b/tests/Makefile.am
-+@@ -238,7 +238,7 @@ ctests += mini-record-2 simple gnutls_hmac_fast set_pkcs12_cred cert certuniquei
-+ 	 x509cert-dntypes id-on-xmppAddr tls13-compat-mode ciphersuite-name \
-+ 	 x509-upnconstraint xts-key-check cipher-padding pkcs7-verify-double-free \
-+ 	 fips-rsa-sizes tls12-rehandshake-ticket pathbuf tls-force-ems \
-+-	 psk-importer privkey-derive dh-compute2 ecdh-compute2
-++	 psk-importer privkey-derive dh-compute2 ecdh-compute2 pkcs7-pad
++ if exists("b:did_ftplugin")
++   finish
++@@ -54,9 +55,9 @@ let s:is_kornshell = get(b:, "is_kornshell", get(g:, "is_kornshell", 0))
 + 
-+ ctests += tls-channel-binding
++ if s:is_bash
++   if exists(':terminal') == 2
++-    command! -buffer -nargs=1 ShKeywordPrg silent exe ':hor term bash -c "help "<args>" 2>/dev/null || man "<args>""'
+++    command! -buffer -nargs=1 ShKeywordPrg call term_start(['bash', '-c', 'help "$1" 2>/dev/null || man "$1"', '--', <q-args>])
++   else
++-    command! -buffer -nargs=1 ShKeywordPrg echo system('bash -c "help <args>" 2>/dev/null || MANPAGER= man "<args>"')
+++    command! -buffer -nargs=1 ShKeywordPrg echo system(['bash', '-c', 'help "$1" 2>/dev/null || MANPAGER= man "$1"', '--', <q-args>])
++   endif
++   setlocal keywordprg=:ShKeywordPrg
++   let b:undo_ftplugin ..= " | setl kp< | sil! delc -buffer ShKeywordPrg"
++diff --git a/runtime/ftplugin/zsh.vim b/runtime/ftplugin/zsh.vim
++index 65e9f377bf..8ee71c4e17 100644
++--- a/runtime/ftplugin/zsh.vim
+++++ b/runtime/ftplugin/zsh.vim
++@@ -22,9 +22,9 @@ let b:undo_ftplugin = "setl com< cms< fo< "
 + 
-+diff --git a/tests/pkcs7-pad.c b/tests/pkcs7-pad.c
-+new file mode 100644
-+index 0000000..d4c3798
-+--- /dev/null
-++++ b/tests/pkcs7-pad.c
-+@@ -0,0 +1,109 @@
-++/*
-++ * Copyright (C) 2026 Red Hat, Inc.
-++ *
-++ * This file is part of GnuTLS.
-++ *
-++ * GnuTLS is free software; you can redistribute it and/or modify it
-++ * under the terms of the GNU General Public License as published by
-++ * the Free Software Foundation; either version 3 of the License, or
-++ * (at your option) any later version.
-++ *
-++ * GnuTLS is distributed in the hope that it will be useful, but
-++ * WITHOUT ANY WARRANTY; without even the implied warranty of
-++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
-++ * General Public License for more details.
-++ *
-++ * You should have received a copy of the GNU General Public License
-++ * along with GnuTLS.  If not, see <https://www.gnu.org/licenses/>.
-++ */
-++
-++/* Test that _gnutls_pkcs7_unpad is branch-free, using valgrind */
-++
-++#ifdef HAVE_CONFIG_H
-++#include "config.h"
-++#endif
-++
-++#include <stdint.h>
-++#include <string.h>
-++
-++#ifdef HAVE_VALGRIND_MEMCHECK_H
-++#include <valgrind/memcheck.h>
-++#endif
-++
-++#include "utils.h"
-++
-++static inline void _gnutls_memory_mark_undefined(void *addr, size_t size)
-++{
-++#ifdef HAVE_VALGRIND_MEMCHECK_H
-++	if (RUNNING_ON_VALGRIND)
-++		VALGRIND_MAKE_MEM_UNDEFINED(addr, size);
-++#endif
-++}
-++
-++static inline void _gnutls_memory_mark_defined(void *addr, size_t size)
-++{
-++#ifdef HAVE_VALGRIND_MEMCHECK_H
-++	if (RUNNING_ON_VALGRIND)
-++		VALGRIND_MAKE_MEM_DEFINED(addr, size);
-++#endif
-++}
-++
-++extern unsigned int _gnutls_pkcs7_unpad(const uint8_t *block,
-++					unsigned int block_size);
-++
-++static unsigned int wrap_pkcs7_unpad(uint8_t *block, unsigned int block_size)
-++{
-++	unsigned int padding;
-++
-++	_gnutls_memory_mark_undefined(block, block_size);
-++
-++	padding = _gnutls_pkcs7_unpad(block, block_size);
-++
-++	_gnutls_memory_mark_defined(block, block_size);
-++	_gnutls_memory_mark_defined(&padding, sizeof(padding));
-++
-++	return padding;
-++}
-++
-++#define PAD 5
-++
-++void doit(void)
-++{
-++	uint8_t block[16];
-++	unsigned int padding;
-++
-++	memset(block, 0xFF, sizeof(block));
-++	memset(&block[sizeof(block) - PAD], PAD, PAD);
-++
-++	padding = wrap_pkcs7_unpad(block, sizeof(block));
-++	if (padding != PAD)
-++		fail("padding should be %d\n", PAD);
-++
-++	/* The last padding byte exceeds the block size */
-++	block[sizeof(block) - 1] = sizeof(block) + 1;
-++	padding = wrap_pkcs7_unpad(block, sizeof(block));
-++	if (padding != 0)
-++		fail("padding should be 0\n");
-++	block[sizeof(block) - 1] = PAD;
-++
-++	/* The last padding byte is zero */
-++	block[sizeof(block) - 1] = 0;
-++	padding = wrap_pkcs7_unpad(block, sizeof(block));
-++	if (padding != 0)
-++		fail("padding should be 0\n");
-++	block[sizeof(block) - 1] = PAD;
-++
-++	/* The first padding byte is invalid */
-++	block[sizeof(block) - PAD] = PAD + 1;
-++	padding = wrap_pkcs7_unpad(block, sizeof(block));
-++	if (padding != 0)
-++		fail("padding should be 0\n");
-++	block[sizeof(block) - PAD] = PAD;
-++
-++	/* The byte before the first padding equals to PAD */
-++	block[sizeof(block) - PAD - 1] = PAD;
-++	padding = wrap_pkcs7_unpad(block, sizeof(block));
-++	if (padding != PAD)
-++		fail("padding should be %d\n", PAD);
-++	block[sizeof(block) - PAD - 1] = 0xFF;
-++}
++ if executable('zsh') && &shell !~# '/\%(nologin\|false\)$'
++   if exists(':terminal') == 2
++-    command! -buffer -nargs=1 ZshKeywordPrg silent exe ':hor term zsh -c "autoload -Uz run-help; run-help <args>"'
++-  else
++-    command! -buffer -nargs=1 ZshKeywordPrg echo system('MANPAGER= zsh -c "autoload -Uz run-help; run-help <args> 2>/dev/null"')
+++    command! -buffer -nargs=1 ZshKeywordPrg call term_start(['zsh', '-c', 'autoload -Uz run-help; run-help "$1"', '--', <q-args>])
+++  elseif has("patch-9.2.0250")
+++    command! -buffer -nargs=1 ZshKeywordPrg echo system(['zsh', '-c', 'autoload -Uz run-help; MANPAGER= run-help "$1" 2>/dev/null', '--', <q-args>])
++   endif
++   setlocal keywordprg=:ZshKeywordPrg
++   let b:undo_ftplugin .= '| setl keywordprg< | sil! delc -buffer ZshKeywordPrg'
 +-- 
-+2.43.0
++2.50.1
 +
-diff --git a/meta/recipes-support/gnutls/gnutls_3.8.4.bb b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-index 6dbd11abaff..641289be134 100644
---- a/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-+++ b/meta/recipes-support/gnutls/gnutls_3.8.4.bb
-@@ -51,6 +51,7 @@ SRC_URI = "https://www.gnupg.org/ftp/gcrypt/gnutls/v${SHRT_VER}/gnutls-${PV}.tar
-            file://CVE-2026-42011_p2.patch \
-            file://CVE-2026-33846.patch \
-            file://CVE-2026-33845.patch \
-+           file://CVE-2026-5419.patch \
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 9ea050650f3..91250ddc68a 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -53,6 +53,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-73072.patch \
+            file://CVE-2026-73073.patch \
+            file://CVE-2026-73074.patch \
++           file://CVE-2026-73077.patch \
             "
  
- SRC_URI[sha256sum] = "2bea4e154794f3f00180fa2a5c51fe8b005ac7a31cd58bd44cdfa7f36ebc3a9b"
+ PV .= ".1683"
 
