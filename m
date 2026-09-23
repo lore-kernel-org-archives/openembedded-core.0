@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A59C982FA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2D88C98308
 	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:11:23 +0000 (UTC)
 Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2815.1790154680930186169
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2910.1790154679081539472
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:11:21 -0700
+ Wed, 23 Sep 2026 02:11:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=EEsVSD/1;
+ dkim=pass header.i=@smile.fr header.s=google header.b=z2o23hPM;
  spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e721b5503so5648485e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:20 -0700 (PDT)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e721b5503so5648285e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154679; x=1790759479; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154677; x=1790759477; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=sNuG74WzTEl+YKyB0BBJ0j0ILPwsHE7qnTbG8ML1fZw=;
-        b=EEsVSD/1xE0zYhvwwCKnaYv5HtlxFVPFmhzjy75KSI7vSfQPH07yiSuoLa03zLRuws
-         ejEzkmldceeYxyY81DX5rBCKk4kwEyaUs4/XBTsXpb6PvD17qPzB8AztbLT86UjNvzcy
-         r+PKFYgQvHVbcFmE3+QRrS71cJMcW1JWinc5Q=
+        bh=p1k89c+HjF1r8L1YEfsDallpilPWI6ndc4Xy6xccvEc=;
+        b=z2o23hPMVaqUSuhboHR2GkZwRGHst1npaVleaO4w8iI7k2zeo6bXiWwsRaNn8zTt37
+         yXoOMcxFXAv7Yc3hjRNTT0u7H2sVij8skAKOJ9hWgLucgIw/E1Fc6CzA86UnjWGnNmg1
+         aQTLjL1J2BnvTH4hiy626/Fz/i/gND9HsWdyE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154679; x=1790759479;
+        d=1e100.net; s=20260707; t=1790154677; x=1790759477;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=sNuG74WzTEl+YKyB0BBJ0j0ILPwsHE7qnTbG8ML1fZw=;
-        b=naCBimMBTkTTWDuafQEPRxo9Xym5ahUmNYZWEfOQM+M9EmYRmEfb0yXDciTRjQdf1H
-         EEBEgc3LAXNEBnWLq5IJI2v2u1y+GOycrBlG4kB0g2IK30b/YKPOMahZXSGI4N53PzXI
-         IPLUcTGUN38WNG8zQQ/bxFLQZ7C7sKSnKGwD4kn2h5jVnZzBZDW5qOqwglKDr4Dk54qm
-         VqdJCv/+YLbCYrF8N8/y0SCie0n9TCOIv2lMG6DpBce4Wpfm/gQntJwGD9aVBDxnWh76
-         E8ezPlaGdvuLskqW20bLXndWufhDG0LWWaQKAmHfIwxiHQh09mcFIX8hR3ZjtQ9hUeH9
-         UOAA==
-X-Gm-Message-State: AFuF++kuQm62vovN88avhCF13iWyQ1SnBQJwnPSAhkPu1hGEheoquN07
-	F1Uf0PJTSnBfebe48gG+/KAvPIL3lz8De9n0Z5Rcx94VkFdUDK5AdoOJSM597bfK4uzO2FxoBmC
-	nLiF3oBw=
-X-Gm-Gg: AYBFou2zYuQfLI4gHIe1Y9Tf17+Y8RTg4wdjH+U5dER9coy8EaEW8YIwQOY2TjuN027
-	MzlcgsUu50we+KnI8VnJk5wyPKeYvnoMJqIKd8QsN+L9giCaKvU2Dq38GU421ak1fpNUH/NrR2z
-	r6DfFQdcUfKsY5wyK8vOYtCb0xPJrt/f9DmFwyGpm5GeKmanEA5L6C58cVfQlWa3JVA0ndg/bwd
-	46d7bpxAE/iIj9M0unzy+c5I6mFsVcbTwJ6Q/PChI5sSGZKwPYxHGAyhdYbIzCPbCBKvrdLrG/v
-	Wdb6hJVMD6Vj9LhBtOhyZOB/xeddtbahPj2jf5hjOlIOfZTdKqe/jVW8wzGWX/VCZAbpg5lss7J
-	8wdv4nqTB6OtY/yd8bS1oX/eSZluj/VhlNNvDyJF2jHmRyrNCBPgdqJ6589J7KFX10uKSwMZrYD
-	tmeDJ8r1E51up0gipX+hD77rgNXoalOkSQCsf2LdtAETk3D6FNg+LYFcofps5b7GBLygm9t+jUX
-	w1LYJuS59y6WbjcrXlnrvGrGTMSyLFLbMQ7kjkSu5dpw+ghi2c/K1uV9e4qqKhsoVRGnOaU
-X-Received: by 2002:a05:600c:a307:b0:49f:e3f2:f5a3 with SMTP id 5b1f17b1804b1-49fe3f2f5d4mr2741905e9.0.1790154679163;
-        Wed, 23 Sep 2026 02:11:19 -0700 (PDT)
+        bh=p1k89c+HjF1r8L1YEfsDallpilPWI6ndc4Xy6xccvEc=;
+        b=LRfEeoJ49TikL3l1RSgrBHPLBB4QEJ+wsC5dg2xPOjkJPmeXxoNYlJuRcannQcE5ta
+         8ExCpkw2UHCZBCjjRoowij/VeycYXFuDtDtrhQfFxS4agjxEqKcBNBsUV5FEamIJbhuL
+         CzT+gfH5wb4Jzn7JS10pS8Hc+HzpLA2yenAY0upe0VfZc3H3Dx2TN5K3yJhU2/ngjzYj
+         yfyV4+zI+X/yxSL2faaqNf2MqCATEEdRebpHtZK8dcFbs4j/I9mxfdjKF2l1XJErTPHc
+         ubN+slBZiAr1EiJe4UyUIM9RlHvA65Hx3DJe1f32IHSM3U2D8mqsp1HXWGrRO5IPSLoU
+         jYAg==
+X-Gm-Message-State: AFuF++nIyE/kxrc5k7Fs6dwZS6m1cowSwOY9QAhc5h76+azo60WbdD4a
+	O9Jrc6FQaZHLOuipadQ21Q4MjoYdxE+82l+PLv7mxvrR11RvSAnNncGIhGB5JORCDCMuvTJSyMN
+	GePCpUPQ=
+X-Gm-Gg: AYBFou2hrmoOWhrE3w1aJ7vWzP2tS/H3d22pOSogKVUWN/P7rVr9VXGHvEr4HMWAoZ6
+	kBif+NW/8sY0enDHvseYNnFhD8ZciwTbjw3nJr3vYP3U10qEyCwlkBl1FNVNO3HVeBCew6iRdla
+	MefDgFlqp9plC0z29zSM8kWm8SU3xkT+Z3cWAByDXi5wI9LMz60Y8QkM+04H31hDkct1fK6AMG3
+	BQNnjrAz9xjg0+Q6/xNfICnYBjCY2cXA2mjR6rn/lPEn84VtJgN3DyWeuTajShq4UwqsSXjRHOy
+	HYZ8JXu9Z4YhXanfmaWBd8vBxemxi/sWLwCkCIaRusZAWURV9NkXeRq4faftpLvDA+Hvrf1J9lM
+	rxQjKsoiEDkcbnuVmE3wcZMlTVM+FI6Y9PcObwkBD+7F+hcZ528BVVibCOfz+BfYpHd66JtXI5W
+	Tf2zuXGvRBYC4WypamxLwK4Eocyg71+1xrdZtnrYpL3H89WEKz1mrzurFoxz+lMnGuFvQeTPDLe
+	OmVO1CophTjoo3h6ZQaX/b6zulV3HrGKlpYGk8h8Heny86MA5r3eVlEQQPHxb/7qqSTHWtU
+X-Received: by 2002:a05:600c:3ba4:b0:49f:ce72:dfe7 with SMTP id 5b1f17b1804b1-49fdf253077mr30607695e9.35.1790154677171;
+        Wed, 23 Sep 2026 02:11:17 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.18
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.16
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:11:18 -0700 (PDT)
+        Wed, 23 Sep 2026 02:11:16 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 03/48] testimage: avoid symlinking missing qemu boot log
-Date: Wed, 23 Sep 2026 11:10:05 +0200
-Message-ID: <6672769e251ab0dd42fc5f5cde99800ed5ba8289.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 01/48] wireless-regdb: upgrade 2026.05.30 -> 2026.09.03
+Date: Wed, 23 Sep 2026 11:10:03 +0200
+Message-ID: <4e12e3df374a64df09145656986f151656a47ab5.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -66,42 +66,33 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:11:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246465
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246463
 
-From: Peter Tatrai <peter.tatrai.ext@siemens.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-When qemu test runs only produce suffixed bootlog variants, the base
-bootlog path may not exist. os.symlink() creates a dangling symlink
-in the oeqa result log directory.
-
-Avoid advertising a boot log in the collected test results when that
-path does not exist. Guard the symlink creation and log a note instead.
-
-This is a partial backport of master commit
-7a6596925cb0eb8dd48a0362a51875cdd60152bc. Only the symlink guard is
-picked here; the bootlog variant globbing from master is not applicable
-to scarthgap.
-
-Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7e92e1fe36a5767a7b31d96b9897357e0aa28cec)
+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/classes-recipe/testimage.bbclass | 5 ++++-
- 1 file changed, 4 insertions(+), 1 deletion(-)
+ ...ireless-regdb_2026.05.30.bb => wireless-regdb_2026.09.03.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-kernel/wireless-regdb/{wireless-regdb_2026.05.30.bb => wireless-regdb_2026.09.03.bb} (94%)
 
-diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
-index 33b1c13f9dd..744de5d7de7 100644
---- a/meta/classes-recipe/testimage.bbclass
-+++ b/meta/classes-recipe/testimage.bbclass
-@@ -395,7 +395,10 @@ def testimage_main(d):
-     # Copy additional logs to tmp/log/oeqa so it's easier to find them
-     targetdir = os.path.join(get_json_result_dir(d), d.getVar("PN"))
-     os.makedirs(targetdir, exist_ok=True)
--    os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
-+    if os.path.exists(bootlog):
-+        os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
-+    else:
-+        bb.note("testimage: boot log not found at %s" % bootlog)
-     os.symlink(d.getVar("BB_LOGFILE"), os.path.join(targetdir, os.path.basename(d.getVar("BB_LOGFILE") + "." + d.getVar('DATETIME'))))
+diff --git a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.05.30.bb b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.09.03.bb
+similarity index 94%
+rename from meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.05.30.bb
+rename to meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.09.03.bb
+index e544b729656..ad84208f6e9 100644
+--- a/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.05.30.bb
++++ b/meta/recipes-kernel/wireless-regdb/wireless-regdb_2026.09.03.bb
+@@ -5,7 +5,7 @@ LICENSE = "ISC"
+ LIC_FILES_CHKSUM = "file://LICENSE;md5=07c4f6dea3845b02a18dc00c8c87699c"
  
-     if not results or not complete:
+ SRC_URI = "https://www.kernel.org/pub/software/network/${BPN}/${BP}.tar.xz"
+-SRC_URI[sha256sum] = "8a27bfc081bafed8c24dd70fab0d96f098e5a0bfcd08d3da672595f225ab8993"
++SRC_URI[sha256sum] = "b22e0901227b820cd1c280abe681a15b773a5103a5e10dc442e94ebb34cbf58d"
+ 
+ inherit bin_package allarch
+ 
 
