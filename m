@@ -2,61 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B26B2C9830B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D380FC9830C
 	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:12:05 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2828.1790154716015873304
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2931.1790154719461847047
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:11:56 -0700
+ Wed, 23 Sep 2026 02:11:59 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=cmD/FpSF;
- spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd4ba9f68so7457865e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:55 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=n8gDcwPn;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49b912d3931so4776065e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154714; x=1790759514; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154718; x=1790759518; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=1yabCpIs1VnOtM4u0n156MGPtR4sOIPFzoZF6mYhfpY=;
-        b=cmD/FpSFnw01BEIM0qtX0fl0E8ZKLq7GnU4V0+XfFZKwm6QKYzbxa8+kaplKim+FRz
-         /d0WlBce0pXoU5tO0Lgfhkq7yUW/vTxdk6bdB5nO19FtWfy3trFYTifQPMQgHCUkAWUz
-         dkRDqQ2e1LLlFWJ5GS4pwMCl9jxLc2zsjvRlU=
+        bh=drGwC4eMyxlu2SEFRs/EPJszD+oNO4HA6d08cOR+CxA=;
+        b=n8gDcwPnFoCb5ADbpNsOBybEv7gNfsAmldyiov6xAf1GEu0ftL3uO+UCi39ml580Y2
+         UKaQkaV1ASN1+kD23E43zG1qCPNEzqg9cRb/XOV65/iZXbbqztQ+CHQ68VN9LCGt2VRU
+         96uAMN2AUhI3LCDBwGkrzI0gD61HV5WT16gJM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154714; x=1790759514;
+        d=1e100.net; s=20260707; t=1790154718; x=1790759518;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=1yabCpIs1VnOtM4u0n156MGPtR4sOIPFzoZF6mYhfpY=;
-        b=N8GLtiHnyJbbMqVTXhqG5Bz9TI0SUofArS3BAY8lGJ44D+UY1KCNXwyyZjc01u5a3f
-         kp0Z2aofhPMUaMMtlCf1zVVBKUH9xB2yJtu88viTju90/8opt11/G+fiMFqucay5oorm
-         YFPCsnIa53nnU2za5vKM7LZanYcqmbv+z7cIn3D+QeZms/RtqScuQreBYzTzuUTZXRpz
-         Q8VAsCUG6nqugxmSsRPMh38dT4NUG/1KlTRTYzfWjKTBPrJxlr4uCWO5UpEHLX2C7z8f
-         HIaWUNHNhOY7iux03MsKYjnHsCOhcrDIhd61amZHGRaqEHsjraUkffMGuQSIBNyKU7KQ
-         B4ew==
-X-Gm-Message-State: AFuF++koerCem5HYnLZShKKqy9MCfuvvV0an/Z2xyp2Ro0YkpURRNOto
-	uKjP7Yaox4XhxIRlzVcY4lRrrlIoTay6pCPZU9MTplnBPudaCznva+/Wbv2L4aC2Q7FksGqP3tX
-	8fyRxgMI=
-X-Gm-Gg: AYBFou1o8mtttTeLoXPwQZzHdnwy+xzuWpXefm6EPi3xC8/3/EAWcstZ0v3OppdpLjL
-	UolHgszEIUGDhhU1IPSNwReCwmgYgut7WE5gZ420wyatNjW3sTp12ddGRRd7ts8MrfrjGQDiNwH
-	IIaaSQVO0IGq6mYaMDdJqTM+SoUlv9X88dj+2QESUIf+4EYA3QoMe2q578a/EwF73pVr4EjvVF7
-	Qzs+ZBRrE46nJAl7y/2J4Rttv/MqeYi0vGFbS2pH+1WMmlTFfBOiy/BPoQfEjXDBKsOmQ5eGQVY
-	nPNqXx1dmqArfGp10/Cds7WIETQVfOov3y7YHp4enp9PL3nwgiqd5pQNbjuAwtqEl5KTfJb2V2m
-	YPpKya7QoIL4crelcwYAsoXRUDLA+K3Zh6kHB1qmw4VJsBnzKwuqRwkVMwuXgTK6jZ0I5T/dEGE
-	ll+7GLkyhY8/8RaENDiMQnEmNL9dZcEc1xYtCbdAB8rEjY2KGgGowlNzXCWoTRQoqmbF45UROvo
-	IHZTHRpJGCZkd4fHsrQ7TDE0EhI3skutgIzYzQpya8jNHWcLipEj911GyhEDg01nlFoJuap
-X-Received: by 2002:a05:600c:3e10:b0:49c:fc6e:8cb4 with SMTP id 5b1f17b1804b1-49fdf13951bmr23881485e9.24.1790154714169;
-        Wed, 23 Sep 2026 02:11:54 -0700 (PDT)
+        bh=drGwC4eMyxlu2SEFRs/EPJszD+oNO4HA6d08cOR+CxA=;
+        b=p6HjtB1DxfXPKpt0KBOn7LPC3dO+rcdpgHna1DL62kc5te7PI4pvyExxwpWzATivfw
+         YJHJfqgtLvP3AZfJNUCZjm7AazouwUAWWhBgcvLd45clnRED6/TikqTB3/OXtdXEnNDY
+         4pQfuq7cXBscaAjHJ6/3rXHr/PZzPTOTUU5XCR/VlmOxgGa/YPtZgcLm7Dz+uhE4QDRh
+         77YBpbkoa0YYEjgQfZ46WZcQeN1dB2PRQP9HXCE7AB3pcdkvQRROdHixIdsqMPnHle9G
+         7uDH9euKVwTb25i2AvBCzfL3oIBh+OkanIhL+sJ9Roe9oWdwjmQNZDDCxrCrMnoccBqB
+         Aw9g==
+X-Gm-Message-State: AFuF++ljeKTMWVaTW3xa+rVRZ5RlkSJEWh3g8IrRt8ZAUB9zSQMge53m
+	JsiuIvUuXNxuEYM8lC+lkbn5OAsG3LygHmzk8xe2RTAia4cAhXnMIbdY+Y5l8IxOp0OB6SUpKQA
+	TUKfMQtE=
+X-Gm-Gg: AYBFou2lf+lr/rMuIeLsQGltKFIvMr3Zc180zbMP4SaBf7Wr19aDcK9VxXl0Cwd5zB/
+	BFZ3QSjjSlUF0ZEl37zBlS6CM7S1xLYTiP1J8HOWFLcnmeM7kMfw4AQbGtNJaPk35x580x1uPeX
+	X+EQaZ1995aJzMbM4y3zeIcXeRRN6yBneebbsZEtruYZFA6i9Y/N0RMu5a2YxADWeWlS+RNHEnR
+	g+zmobIVCBETDt9XGI+QNiQUguH9WCrnPDYlmAalWHh/gr6DRGTz2Rr9VxjONefwTfZ1plGKl9Y
+	UZ4Ak7ESuGSV7R9F3aiH1x1WKfian8ymwTqTvQvap05WOs9DGTM3efBmVX1Njcpw3f4Fle3aKet
+	dQK1p4pIlVRgQEkP1M3vDKbYa4Q7t1uy5djwTjbWjzYA3k6+7f2C9l+sk3x7fQezbnaTOxpApfQ
+	Rc3ZLglTPha0lQN4Lb1BtjCfKOSNn2fmfIqlKxc0Yo0+BrTYhJSxo++dBp89AcQmFY5clCr42X1
+	4JdROthd/5rORpQT24cqJtxsE9svn0To67nlU6SX2m8BKwHbsY2dwovcAyg/r7KxdJ6hOMJwct8
+	m3EVAfs=
+X-Received: by 2002:a05:600c:a307:b0:49f:e3f2:f5a3 with SMTP id 5b1f17b1804b1-49fe3f2f5d4mr2769935e9.0.1790154717624;
+        Wed, 23 Sep 2026 02:11:57 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.52
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.56
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:11:53 -0700 (PDT)
+        Wed, 23 Sep 2026 02:11:57 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 30/48] python3-git: fix CVE-2026-42215
-Date: Wed, 23 Sep 2026 11:10:32 +0200
-Message-ID: <d1c3217c9cc503d85d4fd796d424c43496255ba7.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 32/48] spdx30_tasks: Fix SPDX_CUSTOM_ANNOTATION_VARS implementation
+Date: Wed, 23 Sep 2026 11:10:34 +0200
+Message-ID: <de5c85b2c4c5a62d12aa5b9ab328d9a51d831c41.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -66,161 +67,134 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:12:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246492
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246494
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+From: Stefano Tondo <stefano.tondo.ext@siemens.com>
 
-This patch applies the upstream 3.1.47 backport for
-CVE-2026-42215. The upstream fix merge is referenced in [1],
-and the public CVE advisory is referenced in [2]. The individual
-backported commits are referenced in [3] and [4].
+Fix incorrect function call when processing SPDX_CUSTOM_ANNOTATION_VARS.
+The code was calling new_annotation() as a standalone function, but it
+should be called as a method on the build_objset object.
 
-[1] https://github.com/gitpython-developers/GitPython/commit/0f68db0710f9125762fca5dbc2328593537ae923
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-42215
-[3] https://github.com/gitpython-developers/GitPython/commit/142195888e713542189533a52cdfc333f05c3af6
-[4] https://github.com/gitpython-developers/GitPython/commit/43d92dec4683568d11495956dd556161f17c3ea8
+Error:
+    new_annotation(d, build_objset, build, ...)
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+Corrected to:
+    build_objset.new_annotation(d, build_objset, build, ...)
+
+This bug would cause a NameError at runtime if SPDX_CUSTOM_ANNOTATION_VARS
+was set to a non-empty value, preventing SPDX document generation.
+
+The fix aligns with how new_annotation() is called elsewhere in the
+codebase and matches the SBOMObjset class method signature.
+
+Signed-off-by: Stefano Tondo <stefano.tondo.ext@siemens.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+(cherry picked from commit 52ab3b640c6bb7ece34cb4ea6026fd6375f17af4)
+Cc: Joshua Watt <jpewhacker@gmail.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC:
+Link: https://lore.kernel.org/all/CAJdd5GaqcWujQae-GXQpcgAGtosHe7_X0T%2B8LyOfrr8-mOgzLA@mail.gmail.com/
+]
 ---
- .../python3-git/CVE-2026-42215_p1.patch       | 61 +++++++++++++++++++
- .../python3-git/CVE-2026-42215_p2.patch       | 47 ++++++++++++++
- .../python/python3-git_3.1.42.bb              |  2 +
- 3 files changed, 110 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
- create mode 100644 meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
+ meta/lib/oe/spdx30_tasks.py          |  4 +-
+ meta/lib/oeqa/selftest/cases/spdx.py | 74 ++++++++++++++++++++++++++++
+ 2 files changed, 75 insertions(+), 3 deletions(-)
 
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
-new file mode 100644
-index 00000000000..9d5f10c6943
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p1.patch
-@@ -0,0 +1,61 @@
-+From 341a49149a37762e12b10eb70605b54f4abfb54d Mon Sep 17 00:00:00 2001
-+From: w <w@mac.lan>
-+Date: Mon, 20 Apr 2026 23:29:50 -0400
-+Subject: [PATCH] Block unsafe underscored git kwargs / Fix for
-+ GHSA-rpm5-65cw-6hj4
-+
-+CVE: CVE-2026-42215
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/142195888e713542189533a52cdfc333f05c3af6]
-+
-+Backport Changes:
-+- Omit regression tests because the Scarthgap PyPI source
-+  archive does not include the upstream test suite.
-+
-+(cherry picked from commit 142195888e713542189533a52cdfc333f05c3af6)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ git/cmd.py | 21 +++++++++++++--------
-+ 1 file changed, 13 insertions(+), 8 deletions(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index f58e6df5..874acb43 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -540,6 +540,12 @@ class Git(LazyMixin):
-+                 f"The `{protocol}::` protocol looks suspicious, use `allow_unsafe_protocols=True` to allow it."
-+             )
-+ 
-++    @classmethod
-++    def _canonicalize_option_name(cls, option: str) -> str:
-++        """Normalize an option or kwarg name for unsafe-option checks."""
-++        option_name = option.lstrip("-").split("=", 1)[0].split(None, 1)[0]
-++        return dashify(option_name)
-++
-+     @classmethod
-+     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
-+         """Check for unsafe options.
-+@@ -547,15 +553,14 @@ class Git(LazyMixin):
-+         Some options that are passed to `git <command>` can be used to execute
-+         arbitrary commands, this are blocked by default.
-+         """
-+-        # Options can be of the form `foo` or `--foo bar` `--foo=bar`,
-+-        # so we need to check if they start with "--foo" or if they are equal to "foo".
-+-        bare_unsafe_options = [option.lstrip("-") for option in unsafe_options]
-++        # Options can be of the form `foo`, `--foo`, `--foo bar`, or `--foo=bar`.
-++        canonical_unsafe_options = {cls._canonicalize_option_name(option): option for option in unsafe_options}
-+         for option in options:
-+-            for unsafe_option, bare_option in zip(unsafe_options, bare_unsafe_options):
-+-                if option.startswith(unsafe_option) or option == bare_option:
-+-                    raise UnsafeOptionError(
-+-                        f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-+-                    )
-++            unsafe_option = canonical_unsafe_options.get(cls._canonicalize_option_name(option))
-++            if unsafe_option is not None:
-++                raise UnsafeOptionError(
-++                    f"{unsafe_option} is not allowed, use `allow_unsafe_options=True` to allow it."
-++                )
-+ 
-+     class AutoInterrupt:
-+         """Process wrapper that terminates the wrapped process on finalization.
-+-- 
-+2.35.6
-diff --git a/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
-new file mode 100644
-index 00000000000..cef3fe6b015
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-git/CVE-2026-42215_p2.patch
-@@ -0,0 +1,47 @@
-+From 3385ff27397b58288d922838e8d2eae87d7534fd Mon Sep 17 00:00:00 2001
-+From: w <w@mac.lan>
-+Date: Tue, 21 Apr 2026 12:03:20 -0400
-+Subject: [PATCH] git.cmd: harden unsafe option canonicalization and isolate
-+ push test cases
-+
-+CVE: CVE-2026-42215
-+Upstream-Status: Backport [https://github.com/gitpython-developers/GitPython/commit/43d92dec4683568d11495956dd556161f17c3ea8]
-+
-+Backport Changes:
-+- Omit regression test updates because the Scarthgap PyPI
-+  source archive does not include the upstream test suite.
-+
-+(cherry picked from commit 43d92dec4683568d11495956dd556161f17c3ea8)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ git/cmd.py | 15 ++++++++++++---
-+ 1 file changed, 12 insertions(+), 3 deletions(-)
-+
-+diff --git a/git/cmd.py b/git/cmd.py
-+index 69756216..73b4c052 100644
-+--- a/git/cmd.py
-++++ b/git/cmd.py
-+@@ -542,9 +542,18 @@ class Git(LazyMixin):
-+ 
-+     @classmethod
-+     def _canonicalize_option_name(cls, option: str) -> str:
-+-        """Normalize an option or kwarg name for unsafe-option checks."""
-+-        option_name = option.lstrip("-").split("=", 1)[0].split(None, 1)[0]
-+-        return dashify(option_name)
-++        """Return the option name used for unsafe-option checks.
-++
-++        Examples:
-++            ``"--upload-pack=/tmp/helper"`` -> ``"upload-pack"``
-++            ``"upload_pack"`` -> ``"upload-pack"``
-++            ``"--config core.filemode=false"`` -> ``"config"``
-++        """
-++        option_name = option.lstrip("-").split("=", 1)[0]
-++        option_tokens = option_name.split(None, 1)
-++        if not option_tokens:
-++            return ""
-++        return dashify(option_tokens[0])
-+ 
-+     @classmethod
-+     def check_unsafe_options(cls, options: List[str], unsafe_options: List[str]) -> None:
-+-- 
-+2.35.6
-diff --git a/meta/recipes-devtools/python/python3-git_3.1.42.bb b/meta/recipes-devtools/python/python3-git_3.1.42.bb
-index 8c130cf63b4..38fbd8a078b 100644
---- a/meta/recipes-devtools/python/python3-git_3.1.42.bb
-+++ b/meta/recipes-devtools/python/python3-git_3.1.42.bb
-@@ -19,6 +19,8 @@ SRC_URI += "file://CVE-2026-42284.patch \
-             file://CVE-2026-44243_p2.patch \
-             file://CVE-2026-44244_p1.patch \
-             file://CVE-2026-44244_p2.patch \
-+            file://CVE-2026-42215_p1.patch \
-+            file://CVE-2026-42215_p2.patch \
-            "
- SRC_URI[sha256sum] = "2d99869e0fef71a73cbd242528105af1d6c1b108c60dfabd994bf292f76c3ceb"
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index b43d626df36..0e9c6faf5cc 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -517,9 +517,7 @@ def create_spdx(d):
+     build_objset.set_is_native(is_native)
  
+     for var in (d.getVar("SPDX_CUSTOM_ANNOTATION_VARS") or "").split():
+-        new_annotation(
+-            d,
+-            build_objset,
++        build_objset.new_annotation(
+             build,
+             "%s=%s" % (var, d.getVar(var)),
+             oe.spdx30.AnnotationType.other,
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/cases/spdx.py
+index 3373988ca40..5f75b077252 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -343,3 +343,77 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
+                 value, ["enabled", "disabled"],
+                 f"Unexpected PACKAGECONFIG value '{value}' for {key}"
+             )
++
++    def test_custom_annotation_vars(self):
++        """
++        Test that SPDX_CUSTOM_ANNOTATION_VARS properly creates annotations
++        without runtime errors. This is a regression test for the bug where
++        new_annotation() was called as a standalone function instead of as
++        a method on build_objset, causing a NameError.
++
++        The test verifies:
++        1. The build completes successfully (no NameError)
++        2. Each configured annotation variable appears exactly once
++        3. The annotation values match the configured variables
++
++        We check for exact equality (not >=) to prevent regressions where
++        one annotation might appear multiple times while another is missing.
++        """
++        ANNOTATION_VAR1 = "TestAnnotation1"
++        ANNOTATION_VAR2 = "TestAnnotation2"
++
++        # This will fail with NameError if new_annotation() is called incorrectly
++        objset = self.check_recipe_spdx(
++            "base-files",
++            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/recipes/recipe-base-files.spdx.json",
++            extraconf=textwrap.dedent(
++                f"""\
++                ANNOTATION1 = "{ANNOTATION_VAR1}"
++                ANNOTATION2 = "{ANNOTATION_VAR2}"
++                SPDX_CUSTOM_ANNOTATION_VARS = "ANNOTATION1 ANNOTATION2"
++                """
++            ),
++        )
++
++        # If we got here, the build succeeded (no NameError)
++        # Now verify the annotations were actually created
++
++        # Find the build element
++        build = None
++        for o in objset.foreach_type(oe.spdx30.build_Build):
++            build = o
++            break
++
++        self.assertIsNotNone(build, "Unable to find Build element")
++
++        # Find annotation objects that reference our build
++        found_annotations = []
++        for obj in objset.objects:  # <-- Remove parentheses
++            if isinstance(obj, oe.spdx30.Annotation):
++                if hasattr(obj, "subject") and build._id == obj.subject._id:
++                    found_annotations.append(obj)
++
++        # Check each annotation separately to ensure exactly one occurrence of each
++        annotation1_count = 0
++        annotation2_count = 0
++
++        for annotation in found_annotations:
++            if hasattr(annotation, "statement"):
++                if f"ANNOTATION1={ANNOTATION_VAR1}" in annotation.statement:
++                    annotation1_count += 1
++                    self.logger.info(f"Found ANNOTATION1: {annotation.statement}")
++                if f"ANNOTATION2={ANNOTATION_VAR2}" in annotation.statement:
++                    annotation2_count += 1
++                    self.logger.info(f"Found ANNOTATION2: {annotation.statement}")
++
++        # Each annotation should appear exactly once
++        self.assertEqual(
++            annotation1_count,
++            1,
++            f"Expected exactly 1 occurrence of ANNOTATION1, found {annotation1_count}",
++        )
++        self.assertEqual(
++            annotation2_count,
++            1,
++            f"Expected exactly 1 occurrence of ANNOTATION2, found {annotation2_count}",
++        )
 
