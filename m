@@ -2,61 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 00F16C98308
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7EDC7C9830E
 	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:11:34 +0000 (UTC)
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2819.1790154690899509076
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2916.1790154693925546282
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:11:31 -0700
+ Wed, 23 Sep 2026 02:11:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=dEtjWp7a;
+ dkim=pass header.i=@smile.fr header.s=google header.b=YNHw+zUY;
  spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912df756so4669395e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:30 -0700 (PDT)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d8239so4799635e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:33 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154689; x=1790759489; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154692; x=1790759492; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=ULBQA17OEzhA1G8hbuORzyXr+QsNnBcp7HcQPUKDBEk=;
-        b=dEtjWp7a59TVusQ8lTNSaWB3FubLlTp4hEZobxDYpi/Mg1w/gA/OMnyodfSiGkJOhT
-         Xv+vndVw7VKZulIGQ1FgPRYiWVrNNCEEhhtJD20xyFUnPfwmiH6XOtdHWBfOjiNUb8Xk
-         RHqLbRbl8/lgH3m2Ma5eosQ94p/vD5a71uWLo=
+        bh=sv0q27QkT2mfynJsq6Dy7HtAfJhNKIgeTdRHLn5K6AY=;
+        b=YNHw+zUYLAdob9ziwpQO1+FV3Voc2EBK/Gx/GEiE6fCqO4gvHIFzyBsKgi+dKblERI
+         eIl+IhRRfRuhuMZzLOBAROHTivhqt7QH9/2UZrIkUmwpgfxqUVS1G+p5fZya/E6e0J4W
+         baNatvBOI2+ZprRvBsYN66M9FZBmDNg3hHJQU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154689; x=1790759489;
+        d=1e100.net; s=20260707; t=1790154692; x=1790759492;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=ULBQA17OEzhA1G8hbuORzyXr+QsNnBcp7HcQPUKDBEk=;
-        b=uORUQvyBorfapB3QxiPJNuUvWDypNX1Y4zur0c2KD0HW/sdPekeWcBZI4nfEAcXlQi
-         S+PAQTjHeNZJyH07szr1LLBrXTftjL2H6sa1c+nmxuojLCiYCSg+a4JRSJEzlulPim6S
-         H4LOYLvllOOwRoDo/Fxwa0IEID+HgUjgCuwlmlKf25G80AAKD6YtWCmO+9v/QdTAXu28
-         3L8DL9HbhLCvc2UncOSiFvO2yDkSvl4QJ02sz1PiRa+7xmbvBTYP5KzDxpar1t3jv22O
-         tjUPChvCv+aavOud/8Twj1Oz77pUzcnsJTZT+2BQOJRoZbP6UlEbR2C3pRooSyen4cq6
-         eDHA==
-X-Gm-Message-State: AFuF++mecOm+vdAhX/ixBsdxG36HSvyALTB/HC9u25m8kJDq0QSYdKbt
-	Ayo65yFCtD4tr+88Z3fa+0K3o19Hphz4lM/7ABtT8QdmiKqIpOirOfAJ1Dbb1OMy+bXsXC5mqE0
-	afYX1110=
-X-Gm-Gg: AYBFou1ECtgzijUOy76KOUP/rLnnqofkuIsa9E95aaMa8suXiQPjbgKWHOY5HqCcOcl
-	2tFeWWRG1bIvPKiJ93S5+MTGa4HukiVybfs2PtiZULLZSJChiwo5C0niP1Qw/hac9NyGap0SFka
-	4xrk3bkKbvfeyhCYavED0mjmzUsClTr48fp2yCwufC5vG8CX2hWJOO/BVybyLng19o8wtE3wccR
-	fdv+lR0N8DKbpey49PomqUPyuTAevb5nl5sikaOJbRqndhczzli1hQ7GXl0us/Nk1ndn4s/uZmc
-	84GlYyRzsi6J64+vJ97HsJy0xp84fsMIz40f9KpDkNwkupiHYJgohfGeFHHNLqVuuzI11VH7Blf
-	1oRTfOh9AvXBwUJNrxUl83YRKwSMdpQaFrZhRhl0AaUSRqlpMxq46V/NH47yz7QkR2Rpn9cQjSP
-	2kG2KpfpR2OpBEV/5Ur9fIDGIO0g6IphuhWskoqmR0ibUpJ4YlEExqu+suNRJOp46YR/FDKRBfs
-	+XeLBlCiyksHWNapZAjS3ULg4wsQA/ap5qtvnTuf+k+dV47rteudFow4nxOHs2rtAAwIMr6
-X-Received: by 2002:a05:600c:4e93:b0:49c:e27c:6b10 with SMTP id 5b1f17b1804b1-49fdee0a952mr24646705e9.3.1790154689137;
-        Wed, 23 Sep 2026 02:11:29 -0700 (PDT)
+        bh=sv0q27QkT2mfynJsq6Dy7HtAfJhNKIgeTdRHLn5K6AY=;
+        b=0Eu3oMeWtRmSnNkhn8JSKE60nDvkvWOS9vV9VIxtwzLJZI7iCGJhWZC/zt3aJckWlC
+         Lse/AGVEOU3oUnXMSXfa+tiEqeenkD5jUc8XfRPuauqrFHHhowUNc9pnCusD1gChdxCH
+         j8NnLiBwmK364kvVx/Ok3KXNW8qVVoDVkv9VOd3s1/KML9SUKHGGliHWZZ7omxmqpuNv
+         rwnoGFD40F1xXSEkv+KkIyARvsoB5IVEGgJIzgxPRBvI4alKSYkzc/6Zx/OH3+Lbfb21
+         KVD3g7qrZT+HooYJT9LpARHPTaPC1oiuMl4tDSH5AmYpKAlDC8pEYNJRzFXtIpeFR0Xi
+         8mOQ==
+X-Gm-Message-State: AFuF++kly/XdxdQBcAtvA0YabOmwEDhvHNUkWMk6FxXaHE3/T+CBZcgC
+	gUMLYSjLWruer1jHem8AmqOt2ghTu+UlwEP3fFFK7ZoaZcIPofqA86OMRTdbhl9l89p+uCw3F72
+	kpgNnvUg=
+X-Gm-Gg: AYBFou2/V1LRH9qLrYRYEOU1MiOSbxUnIbiSBXl53We+/MTRcD/y/FJWOjBs/YSJC83
+	a7pCctZfafkwj0S15mPadFHmxbOxkaSREHVz9WKgyFXvEEv9XbYmpaASNKcH+wkb2Hewer6xlTY
+	RX+zIPSx+NegzSwJHGpVOoMGBnmWFFNu6JIVCir8dlvFpqMcAIxzjiHENvRodUSAu/gG8k+KfDh
+	23CFrY700c+GbAFBvPSG9fU/pieBc1jBxrOMOD/ayoaKIXIF3AdFnr+OVNK6OHB51jN0KS7I/eD
+	ZtPJ772xZNjS0zwuFlIch9StcmUn+lUMEq05Gmp8U1Vqc54oV7DIgHfjE9g4Iop0QfkckHpD3iA
+	bnudOjVwbjUPwfsNEAyJc2vkEOfxWiJIr7VVTewaHXvwSf1lkCOhgtuISpkds2cp8ufFqvE8lhy
+	9NYiFpAufUFmfFgfOmqGjkIhUoPC7CnYaszivRQI7c7PeDORDh4/Pr/uhWyVmnl2HODW3egk7Uy
+	S/3VJX8FipfVVxnoV04llQnBQm/cM4IMjxbJsajANuuCqG3Vxj7JJI17WK1jL1KYrLabM9RSzeQ
+	fL2dHm0=
+X-Received: by 2002:a05:600c:1d1a:b0:49c:d019:70c5 with SMTP id 5b1f17b1804b1-49fdec98769mr25087755e9.0.1790154692165;
+        Wed, 23 Sep 2026 02:11:32 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.27
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.31
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:11:28 -0700 (PDT)
+        Wed, 23 Sep 2026 02:11:31 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 10/48] perl: Fix CVE-2026-19487
-Date: Wed, 23 Sep 2026 11:10:12 +0200
-Message-ID: <1453227f21f0cf3d769582dc10ca34f0169dd41d.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 13/48] vim: Fix for CVE-2026-73074
+Date: Wed, 23 Sep 2026 11:10:15 +0200
+Message-ID: <61f5f1268344dac4696f6390e4a81b6ed324fd34.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -66,110 +67,140 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:11:34 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246472
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246475
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-Backport fix for CVE-2026-19487 - AHO-CORASICK regex engine bug
+Pick the patch from [1], also referenced in the NVD report [2].
 
-Includes 5 regression test cases in t/re/re_tests.
+[1] https://github.com/vim/vim/commit/a9336b476fd1a182e3f79b5f83c0ffb04f8a922b
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73074
 
-Tested by running re/pat.t on qemux86-64 target:
-1267/1267 tests passed (only pre-existing TODOs as expected failures).
-
-NVD: https://nvd.nist.gov/vuln/detail/CVE-2026-19487
-Upstream-commit: https://github.com/Perl/perl5/commit/1a21abacaf6f684928bae8baaa153733c8c238eb
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../perl/files/CVE-2026-19487.patch           | 66 +++++++++++++++++++
- meta/recipes-devtools/perl/perl_5.38.4.bb     |  1 +
- 2 files changed, 67 insertions(+)
- create mode 100644 meta/recipes-devtools/perl/files/CVE-2026-19487.patch
+ .../vim/files/CVE-2026-73074.patch            | 101 ++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |   1 +
+ 2 files changed, 102 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-73074.patch
 
-diff --git a/meta/recipes-devtools/perl/files/CVE-2026-19487.patch b/meta/recipes-devtools/perl/files/CVE-2026-19487.patch
+diff --git a/meta/recipes-support/vim/files/CVE-2026-73074.patch b/meta/recipes-support/vim/files/CVE-2026-73074.patch
 new file mode 100644
-index 00000000000..86feedcda46
+index 00000000000..3402b72bd27
 --- /dev/null
-+++ b/meta/recipes-devtools/perl/files/CVE-2026-19487.patch
-@@ -0,0 +1,66 @@
-+From 46014ec220989897d7ea53ccc780cea767cc0862 Mon Sep 17 00:00:00 2001
-+From: Yves Orton <demerphq@gmail.com>
-+Date: Fri, 7 Feb 2025 10:06:10 +0100
-+Subject: [PATCH] regexec.c - Fix GH 22892 - AHO-CORASICK edge case issue
++++ b/meta/recipes-support/vim/files/CVE-2026-73074.patch
+@@ -0,0 +1,101 @@
++From a9336b476fd1a182e3f79b5f83c0ffb04f8a922b Mon Sep 17 00:00:00 2001
++From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
++Date: Thu, 23 Jul 2026 20:14:13 +0000
++Subject: [PATCH] patch 9.2.0841: [security]: heap overflow when adding > 65535
++ text properties
 +
-+In some circumstances the AHO-CORASICK logic wasn't matching properly
-+when there were two possibilities whose proper prefix matches a proper
-+suffix of a third possibilty, and one of those possibilities was shorter
-+than the other.
++Problem:  [security]: heap overflow when adding > 65535 text properties
++          (Wang1rrr).
++Solution: Verify that the number of text properties falls within the
++          limit (Yasuhiro Matsumoto).
 +
-+This was because we were NOT resetting the 'failed' flag properly.
-+This bug must be rare because it took more than a decade for anyone
-+to notice.
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-hm4g-pjfx-m27j
 +
-+This patch fixes the problem by resetting the failed flag after a
-+successful transition.
++Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
++Signed-off-by: Christian Brabandt <cb@256bit.org>
 +
-+A good example of this problem is as follows:
-+
-+    "ABCDE" =~ m/ABCF|BCDE|C/
-+
-+This should match 'BCDE' and not 'C'. Because of the flag issue we were
-+matching 'C' instead.
-+
-+This fixes https://github.com/Perl/perl5/issues/22892
-+
-+Note: t/re/re_tests hunk adjusted for 5.38.4 context (line numbers and
-+surrounding test data differ from upstream which targets a newer perl).
-+
-+Upstream-Status: Backport [https://github.com/Perl/perl5/commit/1a21abacaf6f684928bae8baaa153733c8c238eb]
-+CVE: CVE-2026-19487
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
++CVE: CVE-2026-73074
++Upstream-Status: Backport [https://github.com/vim/vim/commit/a9336b476fd1a182e3f79b5f83c0ffb04f8a922b]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ regexec.c     | 1 +
-+ t/re/re_tests | 6 ++++++
-+ 2 files changed, 7 insertions(+)
++ src/errors.h                  |  4 ++++
++ src/po/vim.pot                |  3 +++
++ src/testdir/test_textprop.vim | 18 ++++++++++++++++++
++ src/textprop.c                |  7 +++++++
++ 4 files changed, 32 insertions(+)
 +
-+diff --git a/regexec.c b/regexec.c
-+index e96b622..1eb59bb 100644
-+--- a/regexec.c
-++++ b/regexec.c
-+@@ -3406,6 +3406,7 @@ S_find_byclass(pTHX_ regexp * prog, const regnode *c, char *s,
-+                             {
-+                                 DEBUG_TRIE_EXECUTE_r(
-+                                     Perl_re_printf( aTHX_ " - legal\n"));
-++                                failed = 0;
-+                                 state = tmp;
-+                                 break;
-+                             }
-+diff --git a/t/re/re_tests b/t/re/re_tests
-+index 10da625..eefa579 100644
-+--- a/t/re/re_tests
-++++ b/t/re/re_tests
-+@@ -2157,6 +2157,12 @@ AB\s+\x{100}	AB \x{100}X	y	-	-
-+ /^(xa|(?:[Z=])*\1a){2}$/	xa=xaaa	n	-	-	# GH 10073 - RT72020
-+ /^(xa|(?:[Z=]|zzzz)*\1a){2}$/	xa=xaaa	n	-	-	# GH 10073 - RT72020
++diff --git a/src/errors.h b/src/errors.h
++index 01ed16a035..5354e85f25 100644
++--- a/src/errors.h
+++++ b/src/errors.h
++@@ -3795,3 +3795,7 @@ EXTERN char e_socket_server_failed_connecting[]
++ EXTERN char e_socket_server_unavailable[]
++ 	INIT(= N_("E1567: Cannot start socket server, socket path is unavailable"));
++ #endif
+++#ifdef FEAT_PROP_POPUP
+++EXTERN char e_too_many_text_properties_on_a_single_line[]
+++	INIT(= N_("E1580: Too many text properties on a single line"));
+++#endif
++diff --git a/src/po/vim.pot b/src/po/vim.pot
++index be79cf0dab..100344e270 100644
++--- a/src/po/vim.pot
+++++ b/src/po/vim.pot
++@@ -8838,6 +8838,9 @@ msgstr ""
++ msgid "E1567: Cannot start socket server, socket path is unavailable"
++ msgstr ""
 + 
-++ABCF|BCDE|C	ABCDEX	y	$&	BCDE	-	# GH 22892 - AHO-CORASICK bug
-++ABCF|BCDE|C	ABCDX	y	$&	C	-	# GH 22892 - AHO-CORASICK bug
-++ABCF|BCDE|C(G)	ABCDE	y	$&	BCDE	-	# GH 22892 - AHO-CORASICK bug
-++ABCF|BCDE|C[Gg]	ABCDE	y	$&	BCDE	-	# GH 22892 - AHO-CORASICK bug
-++ABCF|BCD[Ee]|C[Gg]	ABCDE	y	$&	BCDE	-	# GH 22892 - AHO-CORASICK bug
+++msgid "E1580: Too many text properties on a single line"
+++msgstr ""
 ++
-+ # Keep these lines at the end of the file
-+ # pat	string	y/n/etc	expr	expected-expr	skip-reason	comment
-+ # vim: softtabstop=0 noexpandtab
-diff --git a/meta/recipes-devtools/perl/perl_5.38.4.bb b/meta/recipes-devtools/perl/perl_5.38.4.bb
-index b86c58f5402..8ce5d3f5d00 100644
---- a/meta/recipes-devtools/perl/perl_5.38.4.bb
-+++ b/meta/recipes-devtools/perl/perl_5.38.4.bb
-@@ -24,6 +24,7 @@ SRC_URI = "https://www.cpan.org/src/5.0/perl-${PV}.tar.gz;name=perl \
-            file://CVE-2026-57432-01.patch \
-            file://CVE-2026-57432-02.patch \
-            file://CVE-2025-40909.patch \
-+           file://CVE-2026-19487.patch \
++ #. type of cmdline window or 0
++ #. result of cmdline window or 0
++ #. buffer of cmdline window or NULL
++diff --git a/src/testdir/test_textprop.vim b/src/testdir/test_textprop.vim
++index b5c9f63f65..5a69ca75e7 100644
++--- a/src/testdir/test_textprop.vim
+++++ b/src/testdir/test_textprop.vim
++@@ -4781,4 +4781,22 @@ func Test_textprop_materialize_list()
++ 	call assert_equal([], prop_list(1, #{ids: 3->range()}))
++ endfunc
++ 
+++" Adding more than 65535 text properties to one line must be rejected instead
+++" of wrapping the uint16_t property count and overflowing the allocation.
+++func Test_prop_add_over_uint16_max()
+++  CheckNotAsan
+++  CheckNotValgrind
+++  new
+++  call setline(1, 'x')
+++  call prop_type_add('overflow', {})
+++  for _ in range(0xffff)
+++    call prop_add(1, 1, {'type': 'overflow', 'length': 0})
+++  endfor
+++  call assert_equal(0xffff, prop_list(1)->len())
+++  call assert_fails("call prop_add(1, 1, {'type': 'overflow', 'length': 0})", 'E1580:')
+++  call assert_equal(0xffff, prop_list(1)->len())
+++  call prop_type_delete('overflow')
+++  bwipe!
+++endfunc
+++
++ " vim: shiftwidth=2 sts=2 expandtab
++diff --git a/src/textprop.c b/src/textprop.c
++index a06605d3dd..1f06615dbc 100644
++--- a/src/textprop.c
+++++ b/src/textprop.c
++@@ -240,6 +240,13 @@ prop_add_one(
++ 	proplen = get_text_props(buf, lnum, &props, TRUE);
++ 	textlen = buf->b_ml.ml_line_len - proplen * sizeof(textprop_T);
++ 
+++	// prop_count is a uint16_t; stop before proplen + 1 wraps to zero.
+++	if (proplen >= 0xffff)
+++	{
+++	    emsg(_(e_too_many_text_properties_on_a_single_line));
+++	    goto theend;
+++	}
+++
++ 	if (lnum == start_lnum)
++ 	    col = start_col;
++ 	else
++-- 
++2.50.1
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index 3e90908264a..9ea050650f3 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -52,6 +52,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-57456.patch \
+            file://CVE-2026-73072.patch \
+            file://CVE-2026-73073.patch \
++           file://CVE-2026-73074.patch \
             "
- SRC_URI:append:class-native = " \
-            file://perl-configpm-switch.patch \
+ 
+ PV .= ".1683"
 
