@@ -2,472 +2,265 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BAF5BC982EA
-	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 06:36:49 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1324.1790145406694747268
- for <openembedded-core@lists.openembedded.org>;
- Tue, 22 Sep 2026 23:36:46 -0700
-Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=aLQnlasc;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: dkelaiya@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=13262; q=dns/txt;
-  s=iport01; t=1790145406; x=1791355006;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=mKpPdVlU4qmF7RYmPw6/TCQRnXrYoxQ7LMFEAl67kCQ=;
-  b=aLQnlasc3Ix4RHn9LX+YSyzr75x/fHGllZ4FFBRt3ehZb3I2E+3jkh0s
-   7iQ0affMRXHVCWyyB5qKUgl9xY1EBhVAi0vQzJozsNqAJafaTkee83ekp
-   z2WcmpZOUW/3ZPx8UMH0CBIn0WExNExcfMcx2jxhHxE9os735SG5wlbyc
-   PWzJaQxeleeKNM+Ia6GuPASmvXnSHV6AfxAkNIhxnUEnDBwQp/edk6SD6
-   vi23+oGDghJyaWUUxiMJ6MYgCy3WWnWMa7sQ9TKpkyLuYFjF6PNDuV0lQ
-   G3D64uzwNEmJGQak25Ln/Ixp1Xrp3ACYM6h4LOOqpDT3caPaxOMC1wKAp
-   w==;
-X-CSE-ConnectionGUID: TUZi/+EzSnOeXXVAM97dkQ==
-X-CSE-MsgGUID: JsleQP5ISO+JjSlFvRFj6Q==
-X-IPAS-Result: =?us-ascii?q?A0BIAgDLcrNq/4z/Ja1aH4I6gld1YENJA5ZHnh0UgWoPA?=
- =?us-ascii?q?QEBD0QNBAEBhQWOCwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBB?=
- =?us-ascii?q?wWBDhOGTw2QEgECASoLARgBLSwDAQJaHQEFIR6CZAGCdAMRv2A3gVkgM4EBg?=
- =?us-ascii?q?ykBgVTbMgELFAGBOIU/iCJdGAGEfCcbG4FygRQBg2mBBYFcAoEhBl+GHwSCD?=
- =?us-ascii?q?RWBDIFaHm6SC0iBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBBxsGBYEdg?=
- =?us-ascii?q?SeCGiMZNnqBCV6BKylgARAXgQeCCAKCVIIBAgFJQw4HRVMJJUEKEkcpIggSC?=
- =?us-ascii?q?QETGjALgSc6CBgNSBEsNxUZBD5uB496H4FxbAYBYyEKAQckIFsWQAkGBR8oH?=
- =?us-ascii?q?B4PklwJkCeCIYE1n1oKKIN2jCKVOhozhASmaZkIglmLMZVoFVOEaYFoPIFZc?=
- =?us-ascii?q?BU7gmcJShkPjjmDa8w5JzICCQMvAQEHAgcOAwuBaJAAAiZ5XQEB?=
-IronPort-Data: A9a23:Baicjaw/3HTsl8ojqgV6t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkVVx
- mBNXGGFP/+PMDHwctB/Oduy9kkAv5bWzYA3TlY6qFhgHilAwSbn6Xt1DatR0we6dJCroJdPt
- p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
- 4yaT/H3Ygf/hWYlaDlMsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
- evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
- zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJH0LD4xfuctlOmdp+
- MwoFhkoP0+PhNvjldpXSsE07igiBNPgMIVavjRryivUSK59B5vCWK7No9Rf2V/chOgXQq2YP
- JVfM2cyKk2cO3WjOX9PYH46tOuri332cixRgFmUvqEwpWPUyWSd1ZCwaYCOIYXTGJ49ckCwh
- HnC8l3BXzAhE5+9ywGB3GyWqO2RpHauMG4VPPjinhJwu3WU3mEVBRgcWFe3rPX8gUmkVvpbK
- lcI4WwptaU0+UmhQ9XxUhH+p2SL1iPwQPJKGOE8rQXIwa3O7kPBXS4PTyVKb5ots8peqSEW6
- 2JlVujBXVRH2IB5g1rEnltIhVte4RQoEFI=
-IronPort-HdrOrdr: A9a23:DqVPiq8ccJJl4Qxfq8Fuk+DuI+orL9Y04lQ7vn2ZhyY7TiX+rb
- HKoB11737JYVoqNU3I+urwWpVoI0m9yXcd2+B4Vt2ftWLd1ldAQrsP0WKb+UyCJwTOsshAyK
- xnb69yTPf0DVR8kILGxTPQKadF/DFCm5rY49s3CBxWPGZXV50=
-X-Talos-CUID: =?us-ascii?q?9a23=3ALXrYU2soyHGhbIRTDOCSk5BC6IsZT0/cizT9MXS?=
- =?us-ascii?q?+LmtZeIO8bA7P9KBdxp8=3D?=
-X-Talos-MUID: 9a23:1juouwRGWgmVTEfWRXTOnzVvDf81wp+JS2IPqpEopfOqN3JJbmI=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,118,1787011200"; 
-   d="scan'208";a="512331153"
-Received: from rcdn-l-core-03.cisco.com ([173.37.255.140])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 23 Sep 2026 06:36:45 +0000
-Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-03.cisco.com (Postfix) with ESMTPS id 79CA6180001C8;
-	Wed, 23 Sep 2026 06:36:45 +0000 (GMT)
-Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 23EC2CC1611; Tue, 22 Sep 2026 23:36:45 -0700 (PDT)
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B690FC982EA
+	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 07:02:49 +0000 (UTC)
+Subject: Re: [scarthgap][PATCH] python3-click: fix CVE-2026-7246
 To: openembedded-core@lists.openembedded.org
-Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][scarthgap][PATCH v2] python3-click: fix CVE-2026-7246
-Date: Tue, 22 Sep 2026 23:36:26 -0700
-Message-ID: <20260923063627.2741697-1-dkelaiya@cisco.com>
-X-Mailer: git-send-email 2.44.4
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.83)
+X-Originating-Platform: Windows Edge 153
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: rcdn-l-core-03.cisco.com
+Date: Wed, 23 Sep 2026 00:02:44 -0700
+References: <20260821163206.882233-1-dkelaiya@cisco.com> <DL7RKML5YEK6.3MVF0E1O685WB@smile.fr> <199240.1788773192713715859@lists.openembedded.org> <DLKWKRL5UB9I.DUNGYTI0Z9Y4@smile.fr>
+In-Reply-To: <DLKWKRL5UB9I.DUNGYTI0Z9Y4@smile.fr>
+Message-ID: <768770.1790146964611277742@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="TMJMknA87jaG7xhqrIJS"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 06:36:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246451
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 07:02:49 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246452
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+--TMJMknA87jaG7xhqrIJS
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-This backports the click.edit() hardening identified as the fix in
-the public advisory [2], using upstream commit [1].
+Hello Yoann,
 
-Upstream follow-up commit [3] adds regression-test coverage for editor
-command parsing and clarifies the related source comments. It does not
-change runtime behavior or provide an additional security fix. Carry it
-as a separate patch to preserve the upstream commit boundaries.
+Thanks for the feedback.
 
-[1] https://github.com/pallets/click/commit/b96c2601af4e01341b4d2c0db494ebee4aef8f42
-[2] https://github.com/tsigouris007/security-advisories/security/advisories/GHSA-47fr-3ffg-hgmw
-[3] https://github.com/pallets/click/commit/b55294797ef32e22eb41e7d9657edb8faefa4976
+The upstream fix and its follow-up are kept as separate patches in v2. Sinc=
+e the follow-up is small and self-contained, I have included the backport, =
+as shown in [1].
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
----
- .../CVE-2026-7246-regression.patch            | 124 +++++++++++
- .../python/python3-click/CVE-2026-7246.patch  | 201 ++++++++++++++++++
- .../python/python3-click_8.1.7.bb             |   6 +-
- 3 files changed, 330 insertions(+), 1 deletion(-)
- create mode 100644 meta/recipes-devtools/python/python3-click/CVE-2026-7246-regression.patch
- create mode 100644 meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
+For reference, the NVD record [2] documents the Pallets Click project=E2=80=
+=99s position regarding the disputed CVE.
 
-diff --git a/meta/recipes-devtools/python/python3-click/CVE-2026-7246-regression.patch b/meta/recipes-devtools/python/python3-click/CVE-2026-7246-regression.patch
-new file mode 100644
-index 00000000000..213982a8bb5
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-click/CVE-2026-7246-regression.patch
-@@ -0,0 +1,124 @@
-+From e3173ef521c287be53f1976b28c2fee28b6de5c7 Mon Sep 17 00:00:00 2001
-+From: Kevin Deldycke <kevin@deldycke.com>
-+Date: Fri, 10 Apr 2026 18:12:24 +0200
-+Subject: [PATCH] Add path normalization edge-cases, verify `shlex.split`
-+ behavior
-+
-+Also move to Python comments details relevant to developers instead of docstrings
-+Follow up to #3245
-+
-+CVE: CVE-2026-7246
-+Upstream-Status: Backport [https://github.com/pallets/click/commit/b55294797ef32e22eb41e7d9657edb8faefa4976]
-+
-+Backport Changes:
-+- Click 8.1.7 uses Editor.edit_file(filename), not the newer
-+  Editor.edit_files(filenames) API. Apply the editor comment
-+  follow-up and edge-case tests to the single-file API.
-+- Omit pager changes and pager-only follow-up tests because
-+  Click 8.1.7 uses older pager APIs and CVE-2026-7246 affects
-+  click.edit(), not pager execution.
-+- Omit cosmetic editor test ID renames.
-+
-+(cherry picked from commit b55294797ef32e22eb41e7d9657edb8faefa4976)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ src/click/_termui_impl.py | 12 ++++------
-+ tests/test_termui.py      | 48 +++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 52 insertions(+), 8 deletions(-)
-+
-+diff --git a/src/click/_termui_impl.py b/src/click/_termui_impl.py
-+index c50b37b..3589160 100644
-+--- a/src/click/_termui_impl.py
-++++ b/src/click/_termui_impl.py
-+@@ -501,14 +501,7 @@ class Editor:
-+         return "vi"
-+ 
-+     def edit_file(self, filename: str) -> None:
-+-        """Open a file in the user's editor.
-+-
-+-        The editor command is split into an ``argv`` list with
-+-        :func:`shlex.split` in POSIX mode; see :func:`pager` for rationale.
-+-
-+-        .. seealso::
-+-            :issue:`1026` and :pr:`1477`.
-+-        """
-++        """Open a file in the user's editor."""
-+         import shlex
-+         import subprocess
-+ 
-+@@ -520,6 +513,9 @@ class Editor:
-+             environ.update(self.env)
-+ 
-+         try:
-++            # Split in POSIX mode (the default) for the same reasons as
-++            # upstream pager(): strips quotes from tokens and preserves
-++            # quoted Windows paths. See issue #1026 and PR #1477.
-+             c = subprocess.Popen(
-+                 args=shlex.split(editor) + [filename],
-+                 env=environ,
-+diff --git a/tests/test_termui.py b/tests/test_termui.py
-+index 7cea338..eda9a80 100644
-+--- a/tests/test_termui.py
-++++ b/tests/test_termui.py
-+@@ -421,6 +421,48 @@ def test_fast_edit(runner):
-+             ["/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl", "f.txt"],
-+             id="escaped space in unix path (issue 1026)",
-+         ),
-++        pytest.param(
-++            "  vim  ",
-++            "f.txt",
-++            ["vim", "f.txt"],
-++            id="leading and trailing whitespace",
-++        ),
-++        pytest.param(
-++            "vim\t--clean",
-++            "f.txt",
-++            ["vim", "--clean", "f.txt"],
-++            id="tab-separated tokens",
-++        ),
-++        pytest.param(
-++            "'/Applications/My Editor.app/Contents/MacOS/editor'",
-++            "f.txt",
-++            ["/Applications/My Editor.app/Contents/MacOS/editor", "f.txt"],
-++            id="single-quoted path with spaces",
-++        ),
-++        pytest.param(
-++            '"my editor" --wait --new-window',
-++            "file 1.txt",
-++            ["my editor", "--wait", "--new-window", "file 1.txt"],
-++            id="quoted editor with flags and filename with spaces",
-++        ),
-++        pytest.param(
-++            "vim -u NONE -N",
-++            "f.txt",
-++            ["vim", "-u", "NONE", "-N", "f.txt"],
-++            id="multiple short flags",
-++        ),
-++        pytest.param(
-++            "editor",
-++            'file"name.txt',
-++            ["editor", 'file"name.txt'],
-++            id="filename with double quote",
-++        ),
-++        pytest.param(
-++            "editor",
-++            "file'name.txt",
-++            ["editor", "file'name.txt"],
-++            id="filename with single quote",
-++        ),
-+     ],
-+ )
-+ def test_editor_path_normalization(editor_cmd, filename, expected_args):
-+@@ -484,6 +526,12 @@ def test_editor_nonexistent_exception():
-+             Editor(editor="nonexistent").edit_file("f.txt")
-+ 
-+ 
-++def test_editor_unclosed_quote():
-++    """An unclosed quote in the editor command raises ValueError."""
-++    with pytest.raises(ValueError, match="No closing quotation"):
-++        Editor(editor='"unclosed').edit_file("f.txt")
-++
-++
-+ @pytest.mark.parametrize(
-+     ("prompt_required", "required", "args", "expect"),
-+     [
-diff --git a/meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch b/meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
-new file mode 100644
-index 00000000000..411b138ba0e
---- /dev/null
-+++ b/meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
-@@ -0,0 +1,201 @@
-+From 1ad206945a88122e121f850b4942eff473e31cf5 Mon Sep 17 00:00:00 2001
-+From: Kevin Deldycke <kevin@deldycke.com>
-+Date: Wed, 4 Mar 2026 14:51:58 +0400
-+Subject: [PATCH] Document and fix command string sanitizing with `shlex.split`
-+
-+Removes last use of `shell=True` use for command invokation for defense-in-depth.
-+Refs: #1026, #1477 and #2775
-+
-+CVE: CVE-2026-7246
-+Upstream-Status: Backport [https://github.com/pallets/click/commit/b96c2601af4e01341b4d2c0db494ebee4aef8f42]
-+
-+Backport Changes:
-+- Click 8.1.7 uses Editor.edit_file(filename), not the newer
-+  Editor.edit_files(filenames) API. Apply the argv-list change
-+  to one filename without adding the multi-file API.
-+- Adapt editor tests from b96c2601 to the single-file API. Keep
-+  portable normalization, quoting, failure, environment, and
-+  Windows cases.
-+- Omit CHANGES.rst because release notes are not needed for
-+  the source backport.
-+- Omit pager changes and pager-only tests because Click 8.1.7
-+  uses older pager APIs and CVE-2026-7246 affects click.edit(),
-+  not pager execution.
-+- Omit the unrelated _translate_ch_to_exc() return cleanup.
-+
-+(cherry picked from commit b96c2601af4e01341b4d2c0db494ebee4aef8f42)
-+Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-+---
-+ src/click/_termui_impl.py |  14 ++++-
-+ tests/test_termui.py      | 115 ++++++++++++++++++++++++++++++++++++++
-+ 2 files changed, 128 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/click/_termui_impl.py b/src/click/_termui_impl.py
-+index f744657..c50b37b 100644
-+--- a/src/click/_termui_impl.py
-++++ b/src/click/_termui_impl.py
-+@@ -501,6 +501,15 @@ class Editor:
-+         return "vi"
-+ 
-+     def edit_file(self, filename: str) -> None:
-++        """Open a file in the user's editor.
-++
-++        The editor command is split into an ``argv`` list with
-++        :func:`shlex.split` in POSIX mode; see :func:`pager` for rationale.
-++
-++        .. seealso::
-++            :issue:`1026` and :pr:`1477`.
-++        """
-++        import shlex
-+         import subprocess
-+ 
-+         editor = self.get_editor()
-+@@ -511,7 +520,10 @@ class Editor:
-+             environ.update(self.env)
-+ 
-+         try:
-+-            c = subprocess.Popen(f'{editor} "{filename}"', env=environ, shell=True)
-++            c = subprocess.Popen(
-++                args=shlex.split(editor) + [filename],
-++                env=environ,
-++            )
-+             exit_code = c.wait()
-+             if exit_code != 0:
-+                 raise ClickException(
-+diff --git a/tests/test_termui.py b/tests/test_termui.py
-+index 7cfa939..7cea338 100644
-+--- a/tests/test_termui.py
-++++ b/tests/test_termui.py
-+@@ -1,10 +1,12 @@
-+ import platform
-+ import time
-++from unittest.mock import patch
-+ 
-+ import pytest
-+ 
-+ import click._termui_impl
-+ from click._compat import WIN
-++from click._termui_impl import Editor
-+ 
-+ 
-+ class FakeClock:
-+@@ -369,6 +371,119 @@ def test_fast_edit(runner):
-+     assert result == "aTest\nbTest\n"
-+ 
-+ 
-++@pytest.mark.parametrize(
-++    ("editor_cmd", "filename", "expected_args"),
-++    [
-++        pytest.param(
-++            "myeditor --wait --flag",
-++            "file1.txt",
-++            ["myeditor", "--wait", "--flag", "file1.txt"],
-++            id="editor with args",
-++        ),
-++        pytest.param(
-++            "vi",
-++            'file"; rm -rf / ; echo "',
-++            ["vi", 'file"; rm -rf / ; echo "'],
-++            id="shell metacharacters in filename",
-++        ),
-++        # Issue #1026: editor path with spaces must be quoted.
-++        pytest.param(
-++            '"C:\\Program Files\\Sublime Text 3\\sublime_text.exe"',
-++            "f.txt",
-++            ["C:\\Program Files\\Sublime Text 3\\sublime_text.exe", "f.txt"],
-++            id="quoted windows path with spaces (issue 1026)",
-++        ),
-++        # PR #1477: pager/editor command with flags, like ``less -FRSX``.
-++        pytest.param(
-++            "less -FRSX",
-++            "f.txt",
-++            ["less", "-FRSX", "f.txt"],
-++            id="command with flags (pr 1477)",
-++        ),
-++        # Issue #1026: quoted command with ``--wait`` flag.
-++        pytest.param(
-++            '"my command" --option value arg',
-++            "f.txt",
-++            ["my command", "--option", "value", "arg", "f.txt"],
-++            id="quoted command with args (issue 1026)",
-++        ),
-++        # PR #1477: unquoted Unix path.
-++        pytest.param(
-++            "/usr/bin/vim",
-++            "f.txt",
-++            ["/usr/bin/vim", "f.txt"],
-++            id="unix absolute path",
-++        ),
-++        # Issue #1026: macOS path with escaped space.
-++        pytest.param(
-++            "/Applications/Sublime\\ Text.app/Contents/SharedSupport/bin/subl",
-++            "f.txt",
-++            ["/Applications/Sublime Text.app/Contents/SharedSupport/bin/subl", "f.txt"],
-++            id="escaped space in unix path (issue 1026)",
-++        ),
-++    ],
-++)
-++def test_editor_path_normalization(editor_cmd, filename, expected_args):
-++    with patch("subprocess.Popen") as mock_popen:
-++        mock_popen.return_value.wait.return_value = 0
-++        Editor(editor=editor_cmd).edit_file(filename)
-++
-++        mock_popen.assert_called_once()
-++        args = mock_popen.call_args[1].get("args") or mock_popen.call_args[0][0]
-++        assert args == expected_args
-++        assert mock_popen.call_args[1].get("shell") is None
-++
-++
-++@pytest.mark.skipif(not WIN, reason="Windows-specific editor paths")
-++@pytest.mark.parametrize(
-++    ("editor_cmd", "expected_cmd"),
-++    [
-++        pytest.param(
-++            "notepad",
-++            ["notepad"],
-++            id="plain notepad",
-++        ),
-++        pytest.param(
-++            '"C:\\Program Files\\Sublime Text 3\\sublime_text.exe" --wait',
-++            ["C:\\Program Files\\Sublime Text 3\\sublime_text.exe", "--wait"],
-++            id="quoted path with flag",
-++        ),
-++    ],
-++)
-++def test_editor_windows_path_normalization(editor_cmd, expected_cmd):
-++    """Verify that Popen receives unquoted Windows editor paths."""
-++    with patch("subprocess.Popen") as mock_popen:
-++        mock_popen.return_value.wait.return_value = 0
-++        Editor(editor=editor_cmd).edit_file("f.txt")
-++
-++        args = mock_popen.call_args[1].get("args") or mock_popen.call_args[0][0]
-++        assert args == expected_cmd + ["f.txt"]
-++        assert mock_popen.call_args[1].get("shell") is None
-++
-++
-++def test_editor_env_passed_through():
-++    with patch("subprocess.Popen") as mock_popen:
-++        mock_popen.return_value.wait.return_value = 0
-++        Editor(editor="vi", env={"MY_VAR": "1"}).edit_file("f.txt")
-++
-++        env = mock_popen.call_args[1].get("env")
-++        assert env is not None
-++        assert env["MY_VAR"] == "1"
-++
-++
-++def test_editor_failure_exception():
-++    with patch("subprocess.Popen") as mock_popen:
-++        mock_popen.return_value.wait.return_value = 1
-++        with pytest.raises(click.ClickException, match="Editing failed"):
-++            Editor(editor="vi").edit_file("f.txt")
-++
-++
-++def test_editor_nonexistent_exception():
-++    with patch("subprocess.Popen", side_effect=OSError("not found")):
-++        with pytest.raises(click.ClickException, match="not found"):
-++            Editor(editor="nonexistent").edit_file("f.txt")
-++
-++
-+ @pytest.mark.parametrize(
-+     ("prompt_required", "required", "args", "expect"),
-+     [
-diff --git a/meta/recipes-devtools/python/python3-click_8.1.7.bb b/meta/recipes-devtools/python/python3-click_8.1.7.bb
-index b75d9108893..8a077f48c7c 100644
---- a/meta/recipes-devtools/python/python3-click_8.1.7.bb
-+++ b/meta/recipes-devtools/python/python3-click_8.1.7.bb
-@@ -12,7 +12,10 @@ SRC_URI[sha256sum] = "ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b
- 
- inherit pypi setuptools3 ptest
- 
--SRC_URI += "file://run-ptest"
-+SRC_URI += "file://run-ptest \
-+            file://CVE-2026-7246.patch \
-+            file://CVE-2026-7246-regression.patch \
-+           "
- 
- CVE_PRODUCT = "palletsprojects:click"
- 
-@@ -36,6 +39,7 @@ CLEANBROKEN = "1"
- RDEPENDS:${PN} += "\
-     python3-io \
-     python3-threading \
-+    python3-shell \
-     "
- 
- BBCLASSEXTEND = "native nativesdk"
--- 
-2.44.4
+[1] https://lists.openembedded.org/g/openembedded-core/message/246451
+[2] https://nvd.nist.gov/vuln/detail/cve-2026-7246
 
+Best regards,
+Darsh
+
+On Mon, Sep 21, 2026 at 03:26 PM, Yoann Congal wrote:
+
+>=20
+> On Mon Sep 7, 2026 at 11:26 AM CEST, Darsh Kelaiya -X (dkelaiya - E
+> INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+>=20
+>> On Sun, Sep 6, 2026 at 04:46 AM, Yoann Congal wrote:
+>>=20
+>>=20
+>>>=20
+>>> On Fri Aug 21, 2026 at 6:32 PM CEST, Darsh Kelaiya -X (dkelaiya - E
+>>> INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+>>>=20
+>>>=20
+>>>> From: Darsh Kelaiya <dkelaiya@cisco.com>
+>>>>=20
+>>>> This patch applies the upstream fix for CVE-2026-7246 as referenced
+>>>> in [2], using the upstream commit identified in [1].
+>>>>=20
+>>>> The backport also adapts editor regression tests from the upstream
+>>>> test and documentation follow-up identified in [3]. This follow-up
+>>>> does not contain an additional production security fix.
+>>>>=20
+>>>> [1] https://github.com/pallets/click/commit/b96c2601af4e01341b4d2c0db4=
+94ebee4aef8f42
+>>>>=20
+>>>>=20
+>>>> [2] https://github.com/tsigouris007/security-advisories/security/advis=
+ories/GHSA-47fr-3ffg-hgmw
+>>>>=20
+>>>>=20
+>>>> [3] https://github.com/pallets/click/commit/b55294797ef32e22eb41e7d965=
+7edb8faefa4976
+>>>>=20
+>>>>=20
+>>>>=20
+>>>> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+>>>> ---
+>>>> .../python/python3-click/CVE-2026-7246.patch | 245 ++++++++++++++++++
+>>>> .../python/python3-click_8.1.7.bb | 5 +-
+>>>> 2 files changed, 249 insertions(+), 1 deletion(-)
+>>>> create mode 100644
+>>>> meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
+>>>>=20
+>>>> diff --git
+>>>> a/meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
+>>>> b/meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
+>>>> new file mode 100644
+>>>> index 0000000000..47ee1a551f
+>>>> --- /dev/null
+>>>> +++ b/meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
+>>>> @@ -0,0 +1,245 @@
+>>>> +From cb30f575b1a251e8698909bca2a443d41dad1824 Mon Sep 17 00:00:00 200=
+1
+>>>> +From: Kevin Deldycke <kevin@deldycke.com>
+>>>> +Date: Wed, 4 Mar 2026 14:51:58 +0400
+>>>> +Subject: [PATCH] Document and fix command string sanitizing with
+>>>> `shlex.split`
+>>>> +
+>>>> +Removes last use of `shell=3DTrue` use for command invokation for
+>>>> defense-in-depth.
+>>>> +Refs: #1026, #1477 and #2775
+>>>> +
+>>>> +CVE: CVE-2026-7246
+>>>> +Upstream-Status: Backport [ https://github.com/pallets/click/commit/b=
+96c2601af4e01341b4d2c0db494ebee4aef8f42
+>>>>=20
+>>>> ]
+>>>> +
+>>>> +Backport Changes:
+>>>> +- Click 8.1.7 uses Editor.edit_file(filename), not the newer
+>>>> + Editor.edit_files(filenames) API. Apply the argv-list change
+>>>> + to one filename without adding the multi-file API.
+>>>> +- Adapt editor tests from b96c2601 and follow-up b5529479 to
+>>>=20
+>>> Hello,
+>>>=20
+>>> This commit has both b96c2601 and b5529479 squashed. Please keep
+>>> upstream backport patches split.
+>>>=20
+>>> Can you send a v2 with as the CVE fix (b96c2601) and its followup
+>>> (b5529479)?
+>>>=20
+>>> Thanks!
+>>>=20
+>>> --
+>>> Yoann Congal
+>>> Smile ECS
+>>=20
+>> Hi Yoann,
+>>=20
+>> While preparing v2, I noticed that NVD now marks CVE-2026-7246 as disput=
+ed
+>> and states that the Pallets Click project does not consider it a valid
+>> vulnerability:
+>>=20
+>> https://nvd.nist.gov/vuln/detail/CVE-2026-7246
+>>=20
+>> However, the published advisory identifies upstream commit b96c2601 as t=
+he
+>> fix:
+>>=20
+>> https://github.com/tsigouris007/security-advisories/security/advisories/=
+GHSA-47fr-3ffg-hgmw
+>>=20
+>>=20
+>> Upstream describes the removal of shell=3DTrue as defense-in-depth, so I
+>> wanted to confirm the preferred handling. Should I replace the backport
+>> patches with a status entry such as:
+>>=20
+>> CVE_STATUS[CVE-2026-7246] =3D "disputed: Pallets Click does not consider
+>> this a valid vulnerability"
+>>=20
+>> Or should I continue with the split v2 backport patches as hardening?
+>=20
+> Hello,
+>=20
+> It depends on the patch complexity: If it is small and easely
+> understandable let's backport it. If not, we can ignore it but I'd like
+> to see the Pallets Click project reasonning for disputing it please.
+>=20
+> Thanks!
+> --
+> Yoann Congal
+> Smile ECS
+
+--TMJMknA87jaG7xhqrIJS
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hello Yoann,</div>
+<div><br />Thanks for the feedback.</div>
+<div>&nbsp;</div>
+<div>The upstream fix and its follow-up are kept as separate patches in v2.=
+ Since the follow-up is small and self-contained, I have included the backp=
+ort, as shown in [1].<br /><br /></div>
+<div>For reference, the NVD record [2] documents the Pallets Click project&=
+rsquo;s position regarding the disputed CVE.</div>
+<div>&nbsp;</div>
+<div>[1] <a href=3D"https://lists.openembedded.org/g/openembedded-core/mess=
+age/246451" target=3D"_blank" rel=3D"noopener">https://lists.openembedded.o=
+rg/g/openembedded-core/message/246451</a><br />[2] <a href=3D"https://nvd.n=
+ist.gov/vuln/detail/cve-2026-7246" target=3D"_blank" rel=3D"noopener">https=
+://nvd.nist.gov/vuln/detail/cve-2026-7246</a><br /><br />Best regards,<br /=
+>Darsh<br /><br />On Mon, Sep 21, 2026 at 03:26 PM, Yoann Congal wrote:</di=
+v>
+<div>
+<blockquote>On Mon Sep 7, 2026 at 11:26 AM CEST, Darsh Kelaiya -X (dkelaiya=
+ - E INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:<=
+br />
+<blockquote>On Sun, Sep 6, 2026 at 04:46 AM, Yoann Congal wrote:<br /><br /=
+>
+<blockquote><br />On Fri Aug 21, 2026 at 6:32 PM CEST, Darsh Kelaiya -X (dk=
+elaiya - E<br />INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.=
+org wrote:<br /><br />
+<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />This =
+patch applies the upstream fix for CVE-2026-7246 as referenced<br />in [2],=
+ using the upstream commit identified in [1].<br /><br />The backport also =
+adapts editor regression tests from the upstream<br />test and documentatio=
+n follow-up identified in [3]. This follow-up<br />does not contain an addi=
+tional production security fix.<br /><br />[1] <a href=3D"https://github.co=
+m/pallets/click/commit/b96c2601af4e01341b4d2c0db494ebee4aef8f42" target=3D"=
+_blank" rel=3D"noopener">https://github.com/pallets/click/commit/b96c2601af=
+4e01341b4d2c0db494ebee4aef8f42</a><br /><br />[2] <a href=3D"https://github=
+.com/tsigouris007/security-advisories/security/advisories/GHSA-47fr-3ffg-hg=
+mw" target=3D"_blank" rel=3D"noopener">https://github.com/tsigouris007/secu=
+rity-advisories/security/advisories/GHSA-47fr-3ffg-hgmw</a><br /><br />[3] =
+<a href=3D"https://github.com/pallets/click/commit/b55294797ef32e22eb41e7d9=
+657edb8faefa4976" target=3D"_blank" rel=3D"noopener">https://github.com/pal=
+lets/click/commit/b55294797ef32e22eb41e7d9657edb8faefa4976</a><br /><br /><=
+br />Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br />---<br />=
+.../python/python3-click/CVE-2026-7246.patch | 245 ++++++++++++++++++<br />=
+.../python/python3-click_8.1.7.bb | 5 +-<br />2 files changed, 249 insertio=
+ns(+), 1 deletion(-)<br />create mode 100644<br />meta/recipes-devtools/pyt=
+hon/python3-click/CVE-2026-7246.patch<br /><br />diff --git<br />a/meta/rec=
+ipes-devtools/python/python3-click/CVE-2026-7246.patch<br />b/meta/recipes-=
+devtools/python/python3-click/CVE-2026-7246.patch<br />new file mode 100644=
+<br />index 0000000000..47ee1a551f<br />--- /dev/null<br />+++ b/meta/recip=
+es-devtools/python/python3-click/CVE-2026-7246.patch<br />@@ -0,0 +1,245 @@=
+<br />+From cb30f575b1a251e8698909bca2a443d41dad1824 Mon Sep 17 00:00:00 20=
+01<br />+From: Kevin Deldycke &lt;kevin@deldycke.com&gt;<br />+Date: Wed, 4=
+ Mar 2026 14:51:58 +0400<br />+Subject: [PATCH] Document and fix command st=
+ring sanitizing with<br />`shlex.split`<br />+<br />+Removes last use of `s=
+hell=3DTrue` use for command invokation for<br />defense-in-depth.<br />+Re=
+fs: #1026, #1477 and #2775<br />+<br />+CVE: CVE-2026-7246<br />+Upstream-S=
+tatus: Backport [ <a href=3D"https://github.com/pallets/click/commit/b96c26=
+01af4e01341b4d2c0db494ebee4aef8f42" target=3D"_blank" rel=3D"noopener">http=
+s://github.com/pallets/click/commit/b96c2601af4e01341b4d2c0db494ebee4aef8f4=
+2</a><br />]<br />+<br />+Backport Changes:<br />+- Click 8.1.7 uses Editor=
+.edit_file(filename), not the newer<br />+ Editor.edit_files(filenames) API=
+. Apply the argv-list change<br />+ to one filename without adding the mult=
+i-file API.<br />+- Adapt editor tests from b96c2601 and follow-up b5529479=
+ to</blockquote>
+Hello,<br /><br />This commit has both b96c2601 and b5529479 squashed. Plea=
+se keep<br />upstream backport patches split.<br /><br />Can you send a v2 =
+with as the CVE fix (b96c2601) and its followup<br />(b5529479)?<br /><br /=
+>Thanks!<br /><br />--<br />Yoann Congal<br />Smile ECS</blockquote>
+Hi Yoann,<br /><br />While preparing v2, I noticed that NVD now marks CVE-2=
+026-7246 as disputed and states that the Pallets Click project does not con=
+sider it a valid vulnerability:<br /><br /><a href=3D"https://nvd.nist.gov/=
+vuln/detail/CVE-2026-7246" target=3D"_blank" rel=3D"noopener">https://nvd.n=
+ist.gov/vuln/detail/CVE-2026-7246</a><br /><br />However, the published adv=
+isory identifies upstream commit b96c2601 as the fix:<br /><br /><a href=3D=
+"https://github.com/tsigouris007/security-advisories/security/advisories/GH=
+SA-47fr-3ffg-hgmw" target=3D"_blank" rel=3D"noopener">https://github.com/ts=
+igouris007/security-advisories/security/advisories/GHSA-47fr-3ffg-hgmw</a><=
+br /><br />Upstream describes the removal of shell=3DTrue as defense-in-dep=
+th, so I wanted to confirm the preferred handling. Should I replace the bac=
+kport patches with a status entry such as:<br /><br />CVE_STATUS[CVE-2026-7=
+246] =3D "disputed: Pallets Click does not consider this a valid vulnerabil=
+ity"<br /><br />Or should I continue with the split v2 backport patches as =
+hardening?</blockquote>
+Hello,<br /><br />It depends on the patch complexity: If it is small and ea=
+sely<br />understandable let's backport it. If not, we can ignore it but I'=
+d like<br />to see the Pallets Click project reasonning for disputing it pl=
+ease.<br /><br />Thanks!<br />-- <br />Yoann Congal<br />Smile ECS</blockqu=
+ote>
+</div>
+
+--TMJMknA87jaG7xhqrIJS--
 
