@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D12B7C9830C
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EB9DDC9830D
 	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:11:44 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2824.1790154702926029669
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2922.1790154703675841979
  for <openembedded-core@lists.openembedded.org>;
  Wed, 23 Sep 2026 02:11:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=YEPVETr1;
- spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cc9f581c4so2339295e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:42 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=OxO9zXPQ;
+ spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b5so3843795e9.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154701; x=1790759501; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154702; x=1790759502; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=T9H3u0FhrHWhuEACS/puMRQevHOwzCisEuBnQHMu1rs=;
-        b=YEPVETr1MGByosimlD+CvqhrzaMQUsma16yaVnZn2RIDSF3d4JetkIbBsRVVfcSYHm
-         rjpz5rGUVhQOx3bjbS1EWxzwjFdzHB0z+INnLDOXtatPUrY+95cAjnF9xbOey9riu6iV
-         V7m9OcHZn0guelKhEGPZq3djWc16VPSXEeOH4=
+        bh=Kr/h0A+ETkvns0fCZNrdF5zQsnX/lAr9mCObyQaCU70=;
+        b=OxO9zXPQETvcGLdA0prrJH0rCiWvJfa9O+XRcCBNc36m7JZxcwdDZIaCdAFhzOub0o
+         kCPIXDaIICTByrXQIHpKBN4OQULzXNSQ4/qCI9K5aCQM/atmPWE9i1ymdvc+IDsD7HeF
+         5D8AQzx/brNj3SpJrpoind/SfTnOLKCd/nkxM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154701; x=1790759501;
+        d=1e100.net; s=20260707; t=1790154702; x=1790759502;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=T9H3u0FhrHWhuEACS/puMRQevHOwzCisEuBnQHMu1rs=;
-        b=p5d6oQ0qFwUyvmSpWPl/f4prpMTEMZPDbZubq/n4bsDx8Qa1CjMM2ayxxSM4seHsH7
-         iI4Ba4wzBlgPIzEn05EYCRXclIVk5+0UjxBC+ZZFOlNPYJQpZfT9rrXkihu4u0FKCPIh
-         IFhWBKwjBAkmaUnNMsQtwUyeKtE1DAE/9S+o+oaL5h2pJZugS1JWrbnCkVahwjJSWe59
-         1HOHmO96lTBy2WrIuKIC7zMjQ0wcTbhIXudY7uhpbah1VLON4GAb1y8NvKom2yxJa17I
-         h7noVb6Ryb3cL01R2Iyv8nOU6pEXBL1Z4SAUUe4LUG3JePkQcwIKRZXY5FRcsSBe4/9D
-         sfUw==
-X-Gm-Message-State: AFuF++lYBiwwNlQOh8MjbE+U5Nb5p2l0TrxuLj9EmJPJFQQl1w8hhCWO
-	DsGUW6vvRrHFfcx0JBkh9qeZ85cfyPpa0r2thiIt3aVP9ZjLxbEFxXhPY46Mr8NF7HNg6/+svY9
-	ujresliE=
-X-Gm-Gg: AYBFou1hHjf1uRn55Hq6itRIpAJOXNCNAi7wTijEV3o8vRFWzxb4d69uPBnvXmfna1J
-	qQTIrmFzpBk2viqlyELKLgN5lmx5iICr6x48wiBSe7d6yptA98c7qBina1C6BMSeFwvx9Zupu7r
-	eJI7tgnobV7AQTE+DYFHxItbRHcfDEB7gKkDKfeARsN6E1DXsxg7ZMDuMgMXTpHsSX/BSOPdjlq
-	UosbBfXxWFoW0VOKfqlU0L7mpAFigK6KvRZj92TAKhl1S6B+gPW7bDpskuNTEk7Axsk0EksScMX
-	XEkEAFRn8q+grjsxbE3RQja9VAhr03nx9rFMOPKxYAz6RykWrxdgTKpsycJPtbfht0N6Ci3mTGn
-	ccHRDPEiYzdR+wyuLhV4U6cd/G41jqykzoEKjUaOoYxiSFeXLay6Bha96+DD5qjv6vFuOzj6zDD
-	kgdhKxlmNtc7gPNxwwEctgAsbtJAML8LIEVhBVfN9yB4hB2FGzvDVQnfMQcphe8cMrCNVfca4QM
-	jnkxyyXXZmFWNNgivDuCe71SwUeCUSxn4yZv5qaT6IExEFYec8SCpQVAuaxuBxJ7BBVYVQK
-X-Received: by 2002:a05:600c:1f90:b0:49e:6836:5386 with SMTP id 5b1f17b1804b1-49fde20e848mr27511995e9.0.1790154701041;
+        bh=Kr/h0A+ETkvns0fCZNrdF5zQsnX/lAr9mCObyQaCU70=;
+        b=bkyY/qAH0Z67je96/aPFx7PeHPttrRXtkplDcUoqZQ9rqzXV/URhUY+Q4bE5orix3n
+         yELh3WzTaHEA81+P7o0mORdaobRY108ezIcApw91ho2xKEcV/YyItVRH6tAU25kFDxmC
+         oUX7rJm8nWZ5blUAooxRSKi2RTaf3WmYZbJrdDIzcAFXfV1vGqsnrQDCjhm77K3k6g5Z
+         WWM8PbHyJHBX9NfLyAdzK8QxEhgqW72c0ixlBIiVvThKKdxv6MOBFGCdexARB7EO3c/X
+         gbCz5Ban9szAX9PVI1B17EX5UkbhTFKZJo9qHt9mcO0w8yOFsJKDYpewOGANZQw9I0oK
+         ekZA==
+X-Gm-Message-State: AFuF++m4r/cmWVpBN1gYduYCBF+I33T5Xf7p9BHKX7c8vTAoe7z26apr
+	QBu9/7DKBkls3dWB1mLSnIR2Cvta0BugVQ0b5yVVsJ3vi1Z0ib4PHq2MCZWWFNwNtUKUHkIcGKS
+	YLmaYNpQ=
+X-Gm-Gg: AYBFou1jW0XoTDNY/9BSQChRQ8zmUIZI2LLkJzqhoK7SzzYLuQHxOkCYZS7hBQ4RmA4
+	ox0DZp0tBd6mm5IJTm18vYg7ooodLpIxLPYmqgYjFCxhL91AmRlMQnoYh+O5SWDXURNKN7+2gF8
+	0a7BJLff35T9CHAqbyD9in2axn34bUfFVvrFcnPscUIXXb8EuWZ5QTKOInjqnJEq7pALT4V3/wX
+	Y7/Ukx2Z5UBJoOLd1m5wy2qWiZ84CGd3jwMNMSnpxsAfMsQ5VSejbOX5d4bmWYMmyL8q1+KpGnl
+	VvCjp1ZIq9Ql5zQhUhvCf6DJ9MOiO4EGhmKAZFchi9IETVKk3sFuCz3CWyvTNrazn/unPB/VHuE
+	iUa0zuLgrqfUjzmrQeWMNPYQeWcIosCsaZmR6g8mVxRUYYyg2C3Wg4UsjgxGuq4emBgGhLT0lCz
+	C9RYsrzfrfIT2GqwNUbkAkYNW9Vr4dLBy15PAOi2MMN/g8zkj7KsVIHCQw7C80LAucrVfACayFI
+	zyRMCJ0B4A5gMcDQ19eNoI3zfxKi/R+lB6vVZejnirf91d9ps2M4myKFBlRsOpiZtSIsQT0
+X-Received: by 2002:a05:600c:19cf:b0:49f:ce78:356f with SMTP id 5b1f17b1804b1-49fdf0feeddmr26267205e9.32.1790154701920;
         Wed, 23 Sep 2026 02:11:41 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.40
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.41
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:11:40 -0700 (PDT)
+        Wed, 23 Sep 2026 02:11:41 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 21/48] vim: Fix CVE-2026-52858 regression
-Date: Wed, 23 Sep 2026 11:10:23 +0200
-Message-ID: <a453d2d1de09a828fad9b68e5c1c84e832dfff4f.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 22/48] improve_kernel_cve_report: validate that cve details field exists
+Date: Wed, 23 Sep 2026 11:10:24 +0200
+Message-ID: <aff05d8a232ea2428c14087a7c5a89991b43bc2d.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -66,140 +66,32 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:11:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246483
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246484
 
-From: Devansh Patel <devanshp@cisco.com>
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-This patch fixes a regression introduced by the CVE-2026-52858 fix
-already carried by OE-Core in commit [1]. The original security fix
-added the g:pythoncomplete_allow_import opt-in, but the documented
-behavior was broken because vim was not imported in the completion
-class scope. This patch applies upstream Vim patch 9.2.0568 to restore
-that behavior.
+Check if the cve information has the details field to avoid crashing
 
-[1] https://github.com/openembedded/openembedded-core/commit/1c08fa48b6765ace24a261ecf43f871e850cee88
-[2] https://github.com/vim/vim/commit/4b850457e12e1a678dd209f2868154f7553cbf8d
-[3] https://github.com/vim/vim/commit/868ad62cb8bf8038322eab2badd31bd98b02b9df
-[4] https://github.com/vim/vim/security/advisories/GHSA-52mc-rq6p-rc7c
-
-Signed-off-by: Devansh Patel <devanshp@cisco.com>
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 80ff4903ea1b839f9cd9393b314c3adfbb80b765)
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../vim/files/CVE-2026-52858-regression.patch | 94 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 95 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-52858-regression.patch
+ scripts/contrib/improve_kernel_cve_report.py | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-52858-regression.patch b/meta/recipes-support/vim/files/CVE-2026-52858-regression.patch
-new file mode 100644
-index 00000000000..d3b11a62629
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-52858-regression.patch
-@@ -0,0 +1,94 @@
-+From 8075209bb1e721ca89c2e7fd5d216d7fe2bd3ea6 Mon Sep 17 00:00:00 2001
-+From: thinca <thinca@gmail.com>
-+Date: Sun, 31 May 2026 12:33:07 +0000
-+Subject: [PATCH] patch 9.2.0568: pythoncomplete: g:pythoncomplete_allow_import
-+ had no effect
-+
-+Problem:  The security patch 9.2.0561 added a vim.eval() call inside
-+          Completer.evalsource() to honor g:pythoncomplete_allow_import.
-+          But the 'vim' module is only imported inside the outer
-+          vimcomplete() / vimpy3complete() function, not at the script's
-+          top level, so referring to it from a Completer method raises
-+          NameError.  The surrounding bare 'except' silently swallows
-+          the error and leaves allow_imports at 0, meaning the opt-in
-+          never takes effect -- 'import os' (and any other
-+          buffer-level import) is always skipped, no candidates are
-+          produced for 'os.<...>' and
-+          Test_popup_and_preview_autocommand() fails on the Windows
-+          CI matrix (Linux skips the test because Python 2 is absent).
-+Solution: Re-import 'vim' at the top of evalsource() in both
-+          pythoncomplete.vim and python3complete.vim so the eval reads
-+          the global, and set g:pythoncomplete_allow_import = 1 in the
-+          test (it is the opt-in intended for callers that trust the
-+          buffer contents) (thinca).
-+
-+closes: #20386
-+
-+CVE: CVE-2026-52858
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/868ad62cb8bf8038322eab2badd31bd98b02b9df]
-+
-+Backport Changes:
-+- Omitted src/version.c because the Scarthgap recipe remains at Vim 9.1.1683;
-+  the upstream version-table hunk targets Vim 9.2 and conflicted during
-+  cherry-pick, while the runtime and test changes applied unchanged.
-+
-+Signed-off-by: thinca <thinca@gmail.com>
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+(cherry picked from commit 868ad62cb8bf8038322eab2badd31bd98b02b9df)
-+Signed-off-by: Devansh Patel <devanshp@cisco.com>
-+---
-+ runtime/autoload/python3complete.vim | 3 +++
-+ runtime/autoload/pythoncomplete.vim  | 3 +++
-+ src/testdir/test_popup.vim           | 4 ++++
-+ 3 files changed, 10 insertions(+)
-+
-+diff --git a/runtime/autoload/python3complete.vim b/runtime/autoload/python3complete.vim
-+index a0314242b..bdabf62c8 100644
-+--- a/runtime/autoload/python3complete.vim
-++++ b/runtime/autoload/python3complete.vim
-+@@ -158,6 +158,9 @@ class Completer(object):
-+        self.parser = PyParser()
-+ 
-+     def evalsource(self,text,line=0):
-++        # vim is imported locally in vimpy3complete(); re-import here so the
-++        # vim.eval() below works (otherwise NameError, silently caught).
-++        import vim
-+         sc = self.parser.parse(text,line)
-+         try: allow_imports = int(
-+           vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
-+diff --git a/runtime/autoload/pythoncomplete.vim b/runtime/autoload/pythoncomplete.vim
-+index 39b1efd29..761488244 100644
-+--- a/runtime/autoload/pythoncomplete.vim
-++++ b/runtime/autoload/pythoncomplete.vim
-+@@ -172,6 +172,9 @@ class Completer(object):
-+        self.parser = PyParser()
-+ 
-+     def evalsource(self,text,line=0):
-++        # vim is imported locally in vimcomplete(); re-import here so the
-++        # vim.eval() below works (otherwise NameError, silently caught).
-++        import vim
-+         sc = self.parser.parse(text,line)
-+         try: allow_imports = int(
-+           vim.eval("get(g:, 'pythoncomplete_allow_import', 0)"))
-+diff --git a/src/testdir/test_popup.vim b/src/testdir/test_popup.vim
-+index fac2a7592..55c2f232d 100644
-+--- a/src/testdir/test_popup.vim
-++++ b/src/testdir/test_popup.vim
-+@@ -723,6 +723,9 @@ func Test_popup_and_preview_autocommand()
-+     au!
-+     au BufAdd * nested tab sball
-+   augroup END
-++  " Let pythoncomplete follow the buffer's 'import os' (off by default
-++  " since v9.2.0561) so 'os.' can be completed.
-++  let g:pythoncomplete_allow_import = 1
-+   set omnifunc=pythoncomplete#Complete
-+   call setline(1, 'import os')
-+   " make the line long
-+@@ -745,6 +748,7 @@ func Test_popup_and_preview_autocommand()
-+   augroup END
-+   augroup! MyBufAdd
-+   bw!
-++  unlet g:pythoncomplete_allow_import
-+ endfunc
-+ 
-+ func s:run_popup_and_previewwindow_dump(lines, dumpfile)
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index 0acf8247b72..5a34c1fa35f 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -34,6 +34,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
-            file://CVE-2026-46483.patch \
-            file://CVE-2026-28420.patch \
-            file://CVE-2026-52858.patch \
-+           file://CVE-2026-52858-regression.patch \
-            file://CVE-2026-52859.patch \
-            file://CVE-2026-52860.patch \
-            file://CVE-2026-28422.patch \
+diff --git a/scripts/contrib/improve_kernel_cve_report.py b/scripts/contrib/improve_kernel_cve_report.py
+index 3a15b1ed26e..dc961d59389 100755
+--- a/scripts/contrib/improve_kernel_cve_report.py
++++ b/scripts/contrib/improve_kernel_cve_report.py
+@@ -362,7 +362,7 @@ def cve_update(cve_data, cve, entry):
+     if entry['status'] == "Unpatched" and cve_data[cve]['status'] == "Patched":
+         # Backported-patch (e.g. vendor kernel repo with cherry-picked CVE patch)
+         # has priority over unpatch from CNA
+-        if cve_data[cve]['detail'] == "backported-patch":
++        if "detail" in cve_data and cve_data[cve]['detail'] == "backported-patch":
+             return
+         logging.warning("CVE entry %s update from Patched to Unpatched from the scan result", cve)
+         cve_data[cve] = copy_data(cve_data[cve], entry)
 
