@@ -1,403 +1,692 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 880B5C9830C
-	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:12:26 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2942.1790154739367501415
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3067C98309
+	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:17:09 +0000 (UTC)
+Received: from PNZPR01CU001.outbound.protection.outlook.com (PNZPR01CU001.outbound.protection.outlook.com [40.107.51.0])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2777.1790153896021527147
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:12:19 -0700
+ Wed, 23 Sep 2026 01:58:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=G1ojmTcq;
- spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912e4b11so3747595e9.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:12:19 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154738; x=1790759538; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=koEG/G5B+5VoW2Wo0QiU1INLVjkFeZux68F0agyW0eQ=;
-        b=G1ojmTcq0LSPWe55ybg6+F5QNLeRa/e9Ch3aMzOa8xYgpwHVA6IdILnkswxK8MHyln
-         BwRIQeiEcqyPiGGJJ5J1rro/dUY2bCFo+mDaJJElDq64qRHThv9b2NjgKD/N2Vu8kQ5r
-         bd+7cY3e3+XbEpA8/nKiO3JOEcpnTOzD8sCZs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154738; x=1790759538;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=koEG/G5B+5VoW2Wo0QiU1INLVjkFeZux68F0agyW0eQ=;
-        b=Kpm3HaWEkQs0PlnlzUZ4cRHW/ZTgFo8mmkkXM1D1qV7lXchSQuTy5l3ykZfe+5qycs
-         qOWE0FWPJ3LuKhegF6LF9W6k+65ZRn92zc7fGnz+zC8JVmi5kO/Ba0APbnk2GSOvcJ3G
-         7QBAUZRt0MXxwCSEQe5kPairZ9Iud3SOS880epO7cAsTjnk6MH/ZpjwBGgDKvfQ7sJDa
-         R4PI1pBvkv000H0flq4VzO+HYH2NfdduN+t6i8UdL3kVV9TO7eTllfj4AfwVv7uAOZOM
-         kDHrqK1RoyJCiMNPyVDJa4cvYslrbMrWkOl0yUAw52iCaouWn85OKk60DLGpKa8Fkzzz
-         pMEA==
-X-Gm-Message-State: AFuF++npIeU3X5tyfDKOA0YwM1e8kT8anMHvgefEW0zV8MPbT7d1xklJ
-	zyi/WmLjPeXPv0YVlfmuf+FgpmMDOgppT9McEEuaGfyJF9F1SvZA3l6s7pI+xDeGwDDkvnPU+i9
-	YB2DdCwA=
-X-Gm-Gg: AYBFou1DEWqa7Yay8W65TJa3ekoXheCKTqMBk1OmIi6xwLzWvAKiqo0zOFHZywYD8SF
-	3JKBYMIwqKT+JM3zqjvUg1b11mpwcMnH3ErWlBfZUsUqzrl6xXmEvjWGyfFOr8z/H6Ay8QC1NLO
-	F4D+OGWMncs4IZ2WUMxOGsb3Qq+aoItkUlxx0nX2ZQx5cZFjfY99KBdLupQxjz86AEQN/sRa/Y/
-	y30nBe03oKKayzn8JdkWrPgh0yboOSYUkr+qKEML2yL0/txiSktMxU44IVpJ9CliKjgBeAECsqB
-	hgUjpVa7wY17VsNBOtP6H7kjRqRvfxv4IwPop4A2Zf3w2x5+II2RFSBeOdJye1j3raqBiVBMtsK
-	kt2VKvVju4lwC1Y65NmGLa25flUkdoRGDHqy/hqVlcenkSAjOS2gln17mKjzsdzu1axePGipGwk
-	7J+Gi9Mx1RjQT+f/0ZDrmJT0t2fI2sZHIG0UZjLNGlaLtFCFY6MNYfK+cMMO9pBEJShnOiVp1qW
-	ThElMZZejDw+0CM7idErPlau/26m/N4vhWrNNKpnANzSH1C9wiAs6MhXMHfq5JLylkx08jD
-X-Received: by 2002:a05:600c:3b1b:b0:49e:7a00:b9a5 with SMTP id 5b1f17b1804b1-49fdee0b08fmr24520005e9.4.1790154737522;
-        Wed, 23 Sep 2026 02:12:17 -0700 (PDT)
-Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.12.14
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:12:17 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bmwtechworks.in header.s=selector1 header.b=agtMJQRV;
+ spf=pass (domain: bmwtechworks.in, ip: 40.107.51.0, mailfrom: upstream_ip-ah@bmwtechworks.in)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=NtqZhIWXnnd0+ei87C/zgGSZmBkuf67jysS/de+whnh8vCE1ymefFw4h+JGcjSXBtjZoN2qEr/a36R9dIhd45qhGHyRhoWVgHP6tHQfTIuE3VgVLsKXQM/nMStaDO8J5I0lLXMrRnPr9YB65VnYkuR+58D7wOJfltqDXGVL05L6ajWexf/czQYnjE7pby2bzMRlB785Pl3maekbEHyGpH/SZFYruhDhZcWQVg5zjvGkD/eapZMgJVMc1YvjsQBMnAg17O3cSKmdOLLq/Km8phNyJ+QPK37X3jI/Xj2n4fPpr4n6Up7LTi9v3NLUB9SnByBYluSeRs1/8aEcT6saMBA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=KblVWKhGW8yOzGYGW72KYKmzVI45/6QhKslYurQW+1c=;
+ b=wSYRIEjtmV6GGyoLdmyTkQm6/gsrrJ/kqPtjji+FXrnFmBsIvmuxe5PJvFFNdenGXCom9sozbWfBalsKUMMP3lvumqgSFK6L61qUJ5EZkMw0JK3RfO6+kbWYxoC7rM/sy9mWtQhHDYhmZ1+T01EmZfnke3mSfvePnkWwgyMUc+4I0J3wgbzGXuHq5onu4fCMYNlH4A2RefzarYweUsXo/WKRtfceGGzNiR1dsx13j9717c2AraC5/bEAwnD+iFfcPURAM7Mt2hu4UEHZJT1d7fYgab2d6mFvxpAtWXNVHoZGXev46UkUsbqWuQMXRF6vQtMFeUlh+DZgiqvL38jZew==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=bmwtechworks.in; dmarc=pass action=none
+ header.from=bmwtechworks.in; dkim=pass header.d=bmwtechworks.in; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bmwtechworks.in;
+ s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=KblVWKhGW8yOzGYGW72KYKmzVI45/6QhKslYurQW+1c=;
+ b=agtMJQRVi6vUZqJuuiA1eequkQD15IExTQ5pW83VgK+H8VORiJd3pBeixzXwMCcSlaw6UXtxGmLRT5p5PbiNX6lvLDXDZdQShuOeq+WESNMLYHrB+wNrPApFRE0KsdGy6BM0rMWG1SQtGvPqU1ftiEaKEG2D4FDr2UvAoID8xhK6XXtXDy0ePJgbwJQKJB0veBiroXNyhjyKUM8qcuJ1BBXvlB8paE8/04OkLAwHcQ3oT6QdrYCKzvVhFAetII86qFZ2xFEfORZfsIBT4crT8PT52mN0ZUjUV4QQ6HIqH5MJjg8IUpf4ge1yYJS7sSOZVFJOPy3Qernjkh9DVCTYBg==
+Authentication-Results: dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=bmwtechworks.in;
+Received: from MAXP287MB4201.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:15c::8)
+ by MA5P287MB5964.INDP287.PROD.OUTLOOK.COM (2603:1096:a01:233::22) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.13; Wed, 23 Sep
+ 2026 08:42:25 +0000
+Received: from MAXP287MB4201.INDP287.PROD.OUTLOOK.COM
+ ([fe80::e287:463a:b296:eddf]) by MAXP287MB4201.INDP287.PROD.OUTLOOK.COM
+ ([fe80::e287:463a:b296:eddf%3]) with mapi id 15.21.0451.014; Wed, 23 Sep 2026
+ 08:42:25 +0000
+From: Akash Hadke <UpStream_IP-AH@bmwtechworks.in>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 43/48] python3-cryptography: Fix CVE-2026-69248
-Date: Wed, 23 Sep 2026 11:10:45 +0200
-Message-ID: <ba86899d40b1fd0a6116c979cd6cf566a24dde07.1790154074.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.47.3
-In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
-References: <cover.1790154074.git.yoann.congal@smile.fr>
+CC: Akash Hadke <Akash.Hadke@bmwtechworks.in>,
+	Akash Hadke <UpStream_IP-AH@bmwtechworks.in>
+Subject: [scarthgap][PATCH] systemd: backport networkd route readiness fix from upstream
+Date: Wed, 23 Sep 2026 14:09:14 +0530
+Message-ID: <20260923083914.712852-1-UpStream_IP-AH@bmwtechworks.in>
+X-Mailer: git-send-email 2.43.0
+X-ClientProxiedBy: PN5P287CA0025.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:c01:263::7) To MAXP287MB4201.INDP287.PROD.OUTLOOK.COM
+ (2603:1096:a01:15c::8)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: MAXP287MB4201:EE_|MA5P287MB5964:EE_
+X-MS-Office365-Filtering-Correlation-Id: 3cefdeb2-a2d9-47b9-944a-08df194e979c
+X-MS-Exchange-AtpMessageProperties: SA
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|376014|52116014|23010399003|366016|1800799024|38350700014|56012099006|11063799006|10067099003|55112099003|18002099003|6133799003|3023799007;
+X-Microsoft-Antispam-Message-Info: 
+	jsEQlTh15uWrDOadFdnPjM/ygR5GTM0KbO6n/2figUW2GPBl8YOL7jSMQAzf1yZQ30uqDMHexzk3WHtg/o7WIKCFFs5UrvSJmvM3P7bXfWVq2CXa2hGbA3WbqX/peNDrqsaOHwStuIQu4Q0AEuP9Aso6SCao4aveneer973P09L+NzE7D5ubSV1u4VXxKcaezH5Xzn8workH1CJOn1b+FZXn50G2rn78VB509x9LE02u5evHyafFKsQh2VrzUZkLrmUk+wuqiHM03J8Exx8ef3+N0DCxV751PEZMYJZCCOX42HqB/gvVq72HJTfFmn7KbJHoTPNKPe/F3QAHbFoBWsacy+nLpYxYbLqZ1laheGA0RYBQ8iHS+1JMZXBRC7xGDEl8PwHD5/bU8oBW1cciPnx9rhGpGo9q/CmVBUDGuVCa8ogtkJ+WPtqgsnDcJ05iUwEfpKlDSzD8UJJZUv6ZBFwSgjCiNe3wBBzgZBFSe4TZseoNUrAglzpyTBtD9VNKYzEDYOd7UUluL3qq0f0wK5NpHi02GtL7M/r7Xuwj+APn8Ql1ifiSDWQQqY32SMVX4yYzw9bYGqFe12P05en79PbF1dZXNvqvJW3HTD35a80REvdGSQQ/YLp/+eP8T28UUEFAZeRgEV7Im7I7GuYBM8Nwk8snJh3pepK6nN2k/xnnN6YkYt/RUYLJBUYpjXz8yr7UDRguKxVRokx71PMGgn4Hv1xzlOBE09kUiWaPOEE=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MAXP287MB4201.INDP287.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(23010399003)(366016)(1800799024)(38350700014)(56012099006)(11063799006)(10067099003)(55112099003)(18002099003)(6133799003)(3023799007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?6IoedDOg23ojQpgdmYFAIu18yI67/mirIn0Yxyt6ugpS1f+z6YkXxzR45gX2?=
+ =?us-ascii?Q?qSDMGEIEGmp401wxcuoBqrPbiQrjSPpM5jinWETOO26UPMyyzrzM0yTSushM?=
+ =?us-ascii?Q?tMLz6f+DJevGIzENFZUjbXrmTL9keWVXLot3mmos5hfswIFXBveM8+XzbAq5?=
+ =?us-ascii?Q?M5UfkKm5Z0C1IWSqjk+RKGtDIfTXbqqAA8Vhk3BQWVbXbpNGPD8G11QDtvqT?=
+ =?us-ascii?Q?CFwim1PNT0FyBZtUYTYH2Q9LFxUzUD2HilAxntBQBCXzobZA8VthV5XYLSm8?=
+ =?us-ascii?Q?w5DXEOR328WfoO5ZkuxM+L8X1diaGIe0wIC1RDNJcoPmzYipWgYHdxpCNDhS?=
+ =?us-ascii?Q?zWaWe4g7OMFpEb2S89DkyQH3rJMbrM5Hr5JwQQ7hgP6VSs0JYmnwONO6nHzH?=
+ =?us-ascii?Q?9XBRidUDCV9usoPcmR04iLwtwudtn2qI70Zrlc2pEdp1Q5V6RpMVBUTXC3rO?=
+ =?us-ascii?Q?MRMcjoS/eidYlmubsP+z4FPWCF7+r7p2njIJpsak9ujmKCkgkpBU541+LdKG?=
+ =?us-ascii?Q?NZsu3LOmLMfRVKvKTusLxfXosvFrzqeUTHT5b3V/V8/5Qsk4MbS5t4ThfyIG?=
+ =?us-ascii?Q?pprlq6X5n35bdwC+MyCCwvuv9vI60sSwoWpqlrcACGRUywJ/2N5FviIKbiKU?=
+ =?us-ascii?Q?LmIyONT1dnjwxmH09ykeSs9maVxDpGch+4M5Eiu9zd0anBCXhJ4Cb3ImdGaN?=
+ =?us-ascii?Q?d2Qh8No99mFj7Meudsv0WD1KNZkY7iM3YCrs7Ueyuz2DllblLXta0xNSpzW/?=
+ =?us-ascii?Q?AA2DKBSwTbq29iADvLUhoL9f9uXd2EJZKZw9AQBQb891s1ZQG23wmeTlUUYX?=
+ =?us-ascii?Q?+DDznAMpmtkkpiLVMtG6UxRvrxvmjdiF1LnknkSZ/wkJ8m9WpnAj21jZUD8b?=
+ =?us-ascii?Q?0MYo1CYymjBXU9KkwmK2C5T06io15XmUKquy6bq6XUyiEZKApHRFn1jjE1Cj?=
+ =?us-ascii?Q?S55VoTa1IYh1WrfW3GwbkSnBgRMCK807jn5y79OatbWaUZi1Qx+4zCy74JBc?=
+ =?us-ascii?Q?37AHrnJ/HIt7JNLZ8pXekjXDWS9QLAb2ICK2m94ga6s49YWaGcPDQc92mEJK?=
+ =?us-ascii?Q?J5fq1pR1Wy+7VlD87nyddwl58oKV6Hl9ys5pc68Kw7qLXWvMhS2FeGSxXd1s?=
+ =?us-ascii?Q?8U7xilAx449eR9SULFLYAEkhy40Ppw7W6xXyzCBt3DFY1W97OSaWQn1SWffd?=
+ =?us-ascii?Q?knlP/tgkU1jt+o4rZycbZRjSZDasOCOw4ggNuwacdFlYnlro23SabE2qQXqW?=
+ =?us-ascii?Q?HJzVtjJLRj3vA+9ewLIMgGWu7ICATDdMlFq5BuBEjuiSOLvVAbXaZ6swT81Q?=
+ =?us-ascii?Q?7rFMzn3AHfCM5IHMBr7g6TKJQPvX307BuuRo+tXjcCrRrJ8KQrO3N1knH2bw?=
+ =?us-ascii?Q?k+f1On1+BuYVRH0Gyisxu52W2rMoW/aAqdeSSh7Qi/v8f8EfTnYa2/8R47V/?=
+ =?us-ascii?Q?kxfIQE4nkIjaE+C3xnrLh0yygocHslCBsgAbQy6rsChGCuG1S9A9IwpxTn/O?=
+ =?us-ascii?Q?lY0i8GDlG+Kl4k0mkoznLDLVNb2nHIqC+/j/JQ4cicKAtvJNyhAJIdjvLEGD?=
+ =?us-ascii?Q?eC3Vtx5DWtfAaJLWtvJlahXCc7ea3IsIZVXaW4Mde6cerfpwCj5z3c5aVg9W?=
+ =?us-ascii?Q?3EarkSWcXCpferMyJ8KKqXgzyTirsTzcQSjjJEKdTUsAb9tF1+sxxLDv2MXC?=
+ =?us-ascii?Q?YWp+/c0cTTbfT0DbmQGh4oY7bg8pC2Vy9/oCMf1Cj7c+dfPhZBei9jSvJ0MT?=
+ =?us-ascii?Q?+f7In+Ia5MIZD3Aoty+aptdizCxSsFU=3D?=
+X-OriginatorOrg: bmwtechworks.in
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3cefdeb2-a2d9-47b9-944a-08df194e979c
+X-MS-Exchange-CrossTenant-AuthSource: MAXP287MB4201.INDP287.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 23 Sep 2026 08:42:25.3250
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 970fa6fd-1031-4cc6-8c56-488f3c61cd05
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: neOhDBURevZXkI7TP9csWF9AtmaLRYjocBuLs1cgxV6KBVdPCEAK1W1KCBPQl3JXYXjs5PKJszTnjKc08v+a21jimiJ9kBo4Lgq/ta1F1sE=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MA5P287MB5964
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:12:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246505
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:17:09 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246511
 
-From: Vijay Anusuri <vanusuri@mvista.com>
+From: Akash Hadke <Akash.Hadke@bmwtechworks.in>
 
-Pick patch according to [2]
+Backport upstream systemd PR #41000 to v255.22 to fix route handling
+in systemd-networkd when routes are configured on links that are not
+yet up.
 
-[1] https://nvd.nist.gov/vuln/detail/cve-2026-69248
-[2] https://security-tracker.debian.org/tracker/CVE-2026-69248
+In 255.21, networkd only checks link readiness when configuring
+explicit nexthops. Routes using an implicit nexthop can therefore
+be processed while the bound link is still down, which breaks setups
+using ConfigureWithoutCarrier=3D and BindCarrier=3D. One visible symptom
+is that static multicast routes are not installed until much later,
+or are missed entirely, even though the address configuration succeeds.
 
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+The upstream fix makes the readiness checks consistent by introducing
+a common link_is_up() helper, limiting gateway readiness checks to
+nexthops that are actually bound to a link, and moving the
+"link must be up" check into the shared gateway readiness path so both
+explicit and implicit nexthops follow the same logic. Upstream also
+adds a regression test for issue #40106.
+
+This backport is needed to keep route configuration reliable on
+carrier-dependent interfaces in our 255.22-based systemd.
+
+Ref: https://github.com/systemd/systemd/pull/41000
+https://github.com/systemd/systemd/issues/40106
+
+Tested:
+- Built core-image-minimal with INIT_MANAGER =3D "systemd" on qemux86-64.
+- Verified functional test case in QEMU:
+  * Setup dummy parent (carrier off) and VLAN child with BindCarrier=3D.
+  * Verified multicast route remains deferred while carrier is down.
+  * Verified multicast route installs immediately upon carrier up.
+  * Verified clean route recovery across carrier toggles.
+
+Signed-off-by: Akash Hadke <UpStream_IP-AH@bmwtechworks.in>
+Signed-off-by: Akash Hadke <Akash.Hadke@bmwtechworks.in>
 ---
- .../python3-cryptography/CVE-2026-69248.patch | 299 ++++++++++++++++++
- .../python/python3-cryptography_42.0.5.bb     |   1 +
- 2 files changed, 300 insertions(+)
- create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-69248.patch
+ ...introduce-link_is_up-helper-function.patch | 166 ++++++++++++++++++
+ ...ly-when-the-nexthop-is-bound-to-link.patch |  72 ++++++++
+ ...nd-to-a-link-requires-the-link-is-up.patch |  57 ++++++
+ ...etwork-add-test-case-for-issue-40106.patch | 117 ++++++++++++
+ meta/recipes-core/systemd/systemd_255.22.bb   |   4 +
+ 5 files changed, 416 insertions(+)
+ create mode 100644 meta/recipes-core/systemd/systemd/0023-network-introduc=
+e-link_is_up-helper-function.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0024-network-check-if=
+-gateway-is-ready-only-when-the-nexthop-is-bound-to-link.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0025-network-route-bo=
+und-to-a-link-requires-the-link-is-up.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/0026-test-network-add=
+-test-case-for-issue-40106.patch
 
-diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69248.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69248.patch
+diff --git a/meta/recipes-core/systemd/systemd/0023-network-introduce-link_=
+is_up-helper-function.patch b/meta/recipes-core/systemd/systemd/0023-networ=
+k-introduce-link_is_up-helper-function.patch
 new file mode 100644
-index 00000000000..659d1bf72ae
+index 0000000000..04f7963a8a
 --- /dev/null
-+++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-69248.patch
-@@ -0,0 +1,299 @@
-+From 4d035a4225965edeffd312079a510ef25fcfdcb2 Mon Sep 17 00:00:00 2001
-+From: William Woodruff <william@yossarian.net>
-+Date: Thu, 21 May 2026 20:44:05 -0400
-+Subject: [PATCH] x509: distinguish NC kinds when evaluating wildcard DNS SANs
-+ (#14888)
++++ b/meta/recipes-core/systemd/systemd/0023-network-introduce-link_is_up-h=
+elper-function.patch
+@@ -0,0 +1,166 @@
++From ec4f646759d6625bbafcd4ce67224fb63b99a96c Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Mon, 9 Mar 2026 10:57:06 +0900
++Subject: [PATCH] network: introduce link_is_up() helper function
 +
-+* x509: distinguish NC kinds when evaluating wildcard DNS SANs
++Upstream-Status: Backport [https://github.com/systemd/systemd/pull/41000/c=
+ommits/ec4f646759d6625bbafcd4ce67224fb63b99a96c]
++Comment: Patch is refreshed based on the 255.22 codebase
++Did not pick changes from the below files as it is not matches to our code=
+ base.
++src/network/netdev/bond.c
++src/network/networkd-route.c
 +
-+* Bump x509-limbo
-+
-+Note: SUSE patch CVE-2026-69248-distingush-nc-kinds-wildcard-sans.patch was adapted to our version where required.
-+
-+Upstream-Status: Backport [import from suse https://download.opensuse.org/distribution/leap-micro/6.1/product/repo/openSUSE-Leap-Micro-6.1-x86_64-Source/src/python-cryptography-42.0.4-slfo.1.1_6.1.src.rpm
-+Upstream commit https://github.com/pyca/cryptography/commit/4d035a4225965edeffd312079a510ef25fcfdcb2]
-+CVE: CVE-2026-69248
-+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
++Signed-off-by: Akash Hadke <Akash.Hadke@bmwtechworks.in>
 +---
-+ .../cryptography-x509-verification/src/lib.rs |  37 +++-
-+ .../src/types.rs                              | 165 ++++++++++++------
-+ 2 files changed, 145 insertions(+), 57 deletions(-)
++ src/network/networkd-link.c    | 21 +++++++++++----------
++ src/network/networkd-link.h    |  1 +
++ src/network/networkd-nexthop.c |  4 ++--
++ src/network/networkd-route.c   |  2 +-
++ src/network/networkd-setlink.c | 11 +++++------
++ 6 files changed, 21 insertions(+), 20 deletions(-)
 +
-+diff --git a/src/rust/cryptography-x509-verification/src/lib.rs b/src/rust/cryptography-x509-verification/src/lib.rs
-+index f49f618..a505349 100644
-+--- a/src/rust/cryptography-x509-verification/src/lib.rs
-++++ b/src/rust/cryptography-x509-verification/src/lib.rs
-+@@ -101,6 +101,7 @@ impl<'a, 'chain> NameChain<'a, 'chain> {
-+ 
-+     fn evaluate_single_constraint(
-+         &self,
-++        kind: SubtreeKind,
-+         constraint: &GeneralName<'chain>,
-+         san: &GeneralName<'chain>,
-+         budget: &mut Budget,
-+@@ -109,8 +110,18 @@ impl<'a, 'chain> NameChain<'a, 'chain> {
-+ 
-+         match (constraint, san) {
-+             (GeneralName::DNSName(pattern), GeneralName::DNSName(name)) => {
-++                // NOTE: A DNS SAN can be a wildcard pattern (e.g. `*.foo.com`)
-++                // rather than an ordinary DNS name. A wildcard represents a
-++                // *set* of names, so the check depends on which subtree we're
-++                // evaluating: a `permittedSubtrees` constraint must contain
-++                // *every* name the wildcard can expand to, whereas an
-++                // `excludedSubtrees` constraint matches if it overlaps the
-++                // wildcard at all. We dispatch on `kind` accordingly.
-+                 match (DNSConstraint::new(pattern.0), DNSPattern::new(name.0)) {
-+-                    (Some(pattern), Some(name)) => Ok(Applied(pattern.matches(&name))),
-++                    (Some(pattern), Some(name)) => Ok(Applied(match kind {
-++                        SubtreeKind::Permitted => pattern.permits(&name),
-++                        SubtreeKind::Excluded => pattern.excludes(&name),
-++                    })),
-+                     (_, None) => Err(ValidationError::Other(format!(
-+                         "unsatisfiable DNS name constraint: malformed SAN {}",
-+                         name.0
-+@@ -155,7 +166,12 @@ impl<'a, 'chain> NameChain<'a, 'chain> {
-+             let mut permit = true;
-+             if let Some(permitted_subtrees) = &constraints.permitted_subtrees {
-+                 for p in permitted_subtrees.unwrap_read().clone() {
-+-                    let status = self.evaluate_single_constraint(&p.base, &san, budget)?;
-++                    let status = self.evaluate_single_constraint(
-++                        SubtreeKind::Permitted,
-++                        &p.base,
-++                        &san,
-++                        budget,
-++                    )?;
-+                     if status.is_applied() {
-+                         permit = status.is_match();
-+                         if permit {
-+@@ -173,7 +189,12 @@ impl<'a, 'chain> NameChain<'a, 'chain> {
-+ 
-+             if let Some(excluded_subtrees) = &constraints.excluded_subtrees {
-+                 for e in excluded_subtrees.unwrap_read().clone() {
-+-                    let status = self.evaluate_single_constraint(&e.base, &san, budget)?;
-++                    let status = self.evaluate_single_constraint(
-++                        SubtreeKind::Excluded,
-++                        &e.base,
-++                        &san,
-++                        budget,
-++                    )?;
-+                     if status.is_match() {
-+                         return Err(ValidationError::Other(
-+                             "excluded name constraint matched SAN".into(),
-+@@ -207,6 +228,16 @@ struct ChainBuilder<'a, 'chain, B: CryptoOps> {
-+     store: &'a Store<'chain, B>,
-+ }
-+ 
-++/// Identifies which kind of name constraint subtree a SAN is being evaluated
-++/// against. The two subtree kinds use different matching semantics for
-++/// wildcard DNS SANs (containment vs. overlap); see [`DNSConstraint::permits`]
-++/// and [`DNSConstraint::excludes`].
-++#[derive(Clone, Copy)]
-++enum SubtreeKind {
-++    Permitted,
-++    Excluded,
++diff --git a/src/network/networkd-link.c b/src/network/networkd-link.c
++index e49d5946aa67d..c77b02b8e0192 100644
++--- a/src/network/networkd-link.c
+++++ b/src/network/networkd-link.c
++@@ -726,7 +726,6 @@ int link_ipv6ll_gained(Link *link) {
++
++ int link_handle_bound_to_list(Link *link) {
++         bool required_up =3D false;
++-        bool link_is_up =3D false;
++         Link *l;
++
++         assert(link);
++@@ -737,18 +736,15 @@ int link_handle_bound_to_list(Link *link) {
++         if (hashmap_isempty(link->bound_to_links))
++                 return 0;
++
++-        if (link->flags & IFF_UP)
++-                link_is_up =3D true;
++-
++         HASHMAP_FOREACH(l, link->bound_to_links)
++                 if (link_has_carrier(l)) {
++                         required_up =3D true;
++                         break;
++                 }
++
++-        if (!required_up && link_is_up)
+++        if (!required_up && link_is_up(link))
++                 return link_request_to_bring_up_or_down(link, /* up =3D *=
+/ false);
++-        if (required_up && !link_is_up)
+++        if (required_up && !link_is_up(link))
++                 return link_request_to_bring_up_or_down(link, /* up =3D *=
+/ true);
++
++         return 0;
++@@ -1736,7 +1732,7 @@ void link_update_operstate(Link *link, bool also_upd=
+ate_master) {
++                         carrier_state =3D LINK_CARRIER_STATE_ENSLAVED;
++                 else
++                         carrier_state =3D LINK_CARRIER_STATE_CARRIER;
++-        } else if (link->flags & IFF_UP)
+++        } else if (link_is_up(link))
++                 carrier_state =3D LINK_CARRIER_STATE_NO_CARRIER;
++         else
++                 carrier_state =3D LINK_CARRIER_STATE_OFF;
++@@ -1867,6 +1863,11 @@ void link_update_operstate(Link *link, bool also_up=
+date_master) {
++          ? ((old & flag) ? (" -" string) : (" +" string))        \
++          : "")
++
+++bool link_is_up(Link *link) {
+++        assert(link);
+++        return FLAGS_SET(link->flags, IFF_UP);
 ++}
 ++
-+ // When applying a name constraint, we need to distinguish between a few different scenarios:
-+ // * `Applied(true)`: The name constraint is the same type as the SAN and matches.
-+ // * `Applied(false)`: The name constraint is the same type as the SAN and does not match.
-+diff --git a/src/rust/cryptography-x509-verification/src/types.rs b/src/rust/cryptography-x509-verification/src/types.rs
-+index d82936e..c0b72e3 100644
-+--- a/src/rust/cryptography-x509-verification/src/types.rs
-++++ b/src/rust/cryptography-x509-verification/src/types.rs
-+@@ -129,44 +129,69 @@ impl<'a> DNSConstraint<'a> {
-+         DNSName::new(pattern).map(Self)
-+     }
-+ 
-+-    /// Returns true if this `DNSConstraint` matches the given `DNSPattern`.
-++    /// Returns true if the given exact `DNSName` falls within this
-++    /// constraint's subtree.
-+     ///
-+-    /// Constraint matching is defined by RFC 5280: any DNS name that can
-+-    /// be constructed by simply adding zero or more labels to the left-hand
-+-    /// side of the name satisfies the name constraint.
-++    /// Per RFC 5280, a name satisfies the constraint if it can be constructed
-++    /// by adding zero or more labels to the left-hand side of the constraint's
-++    /// name (i.e. it is the constraint's name, or a subdomain of it).
-++    fn contains(&self, name: &DNSName<'_>) -> bool {
-++        // NOTE: This may seem like an obtuse way to perform label matching,
-++        // but it saves us a few allocations: doing a substring check instead
-++        // would require us to clone each string and do case normalization.
-++        // Note also that we check the length in advance: Rust's zip
-++        // implementation terminates with the shorter iterator, so we need
-++        // to first check that the candidate name is at least as long as
-++        // the constraint it's matching against.
-++        name.as_str().len() >= self.0.as_str().len()
-++            && self
-++                .0
-++                .rlabels()
-++                .zip(name.rlabels())
-++                .all(|(a, o)| a.eq_ignore_ascii_case(o))
-++    }
-++
-++    /// Returns true if the given `DNSPattern` is permitted by this constraint,
-++    /// for use with a `permittedSubtrees` name constraint.
-+     ///
-+-    /// On top of what RFC 5280 specifies, we define behavior for wildcard
-+-    /// patterns (which are not covered by RFC 5280): a wildcard pattern
-+-    /// matches a constraint if the pattern matches the constraint's inner name,
-+-    /// _or_ if the pattern's inner name matches the constraint.
-+-    /// This allows us to reject DNS names like `*.example.com` when
-+-    /// the constraint is `example.com` or `bar.example.com`.
-+-    pub fn matches(&self, name: &DNSPattern<'_>) -> bool {
-+-        match name {
-+-            DNSPattern::Exact(name) => {
-+-                // NOTE: This may seem like an obtuse way to perform label matching,
-+-                // but it saves us a few allocations: doing a substring check instead
-+-                // would require us to clone each string and do case normalization.
-+-                // Note also that we check the length in advance: Rust's zip
-+-                // implementation terminates with the shorter iterator, so we need
-+-                // to first check that the candidate name is at least as long as
-+-                // the constraint it's matching against.
-+-                name.as_str().len() >= self.0.as_str().len()
-+-                    && self
-+-                        .0
-+-                        .rlabels()
-+-                        .zip(name.rlabels())
-+-                        .all(|(a, o)| a.eq_ignore_ascii_case(o))
-+-            }
-+-            DNSPattern::Wildcard(inner) => {
-+-                // NOTE: This check is not as simple as a single pattern match,
-+-                // since we need two subtly distinct cases here:
-+-                // 1. Constraint `bar.example.com` on `*.example.com`
-+-                // 2. Constraint `example.com` on `*.example.com`
-+-                // The first cases is handled by `DNSPattern::matches`, and the second is handled
-+-                // by `DNSConstraint::matches`.
-+-                name.matches(&self.0) || self.matches(&DNSPattern::Exact(inner.clone()))
-+-            }
-++    /// A pattern is permitted only if *every* name it can represent falls
-++    /// within the constraint's subtree. An exact name is permitted by ordinary
-++    /// subtree containment (per RFC 5280).
-++    ///
-++    /// Wildcard patterns are not covered by RFC 5280; we define their behavior
-++    /// here. A wildcard pattern `*.X` is permitted only if its base name `X`
-++    /// itself falls within the constraint's subtree. This is stricter than
-++    /// mere overlap: `*.example.com` is *not* permitted by `foo.example.com`,
-++    /// since it can also expand to a sibling such as `bar.example.com` that
-++    /// lies outside the permitted subtree.
-++    pub fn permits(&self, pattern: &DNSPattern<'_>) -> bool {
-++        match pattern {
-++            DNSPattern::Exact(name) => self.contains(name),
-++            DNSPattern::Wildcard(base) => self.contains(base),
-++        }
-++    }
-++
-++    /// Returns true if the given `DNSPattern` is excluded by this constraint,
-++    /// for use with an `excludedSubtrees` name constraint.
-++    ///
-++    /// A pattern is excluded if *any* name it can represent falls within the
-++    /// constraint's subtree. An exact name is excluded by ordinary subtree
-++    /// containment (per RFC 5280).
-++    ///
-++    /// Wildcard patterns are not covered by RFC 5280; we define their behavior
-++    /// here. A wildcard pattern `*.X` is excluded if it overlaps the subtree
-++    /// at all, which happens in two subtly distinct cases:
-++    ///
-++    /// 1. The constraint is more specific than the wildcard, e.g. constraint
-++    ///    `bar.example.com` and pattern `*.example.com` (which can expand to
-++    ///    `bar.example.com`). This is handled by `DNSPattern::matches`.
-++    /// 2. The wildcard's base name falls within the subtree, e.g. constraint
-++    ///    `example.com` and pattern `*.example.com`. This is handled by
-++    ///    `DNSConstraint::contains`.
-++    pub fn excludes(&self, pattern: &DNSPattern<'_>) -> bool {
-++        match pattern {
-++            DNSPattern::Exact(name) => self.contains(name),
-++            DNSPattern::Wildcard(base) => pattern.matches(&self.0) || self.contains(base),
++ static int link_update_flags(Link *link, sd_netlink_message *message) {
++         bool link_was_admin_up, had_carrier;
++         uint8_t operstate;
++@@ -1930,21 +1931,21 @@ static int link_update_flags(Link *link, sd_netlin=
+k_message *message) {
++                         log_link_debug(link, "Unknown link flags lost, ig=
+noring: %#.5x", unknown_flags_removed);
 +         }
-+     }
-+ }
-+@@ -462,37 +487,69 @@ mod tests {
-+     }
-+ 
-+     #[test]
-+-    fn test_dnsconstraint_matches() {
-++    fn test_dnsconstraint_exact() {
-+         let example_com = DNSConstraint::new("example.com").unwrap();
-+ 
-+-        // Exact domain and arbitrary subdomains match.
-+-        assert!(example_com.matches(&DNSPattern::new("example.com").unwrap()));
-+-        assert!(example_com.matches(&DNSPattern::new("foo.example.com").unwrap()));
-+-        assert!(example_com.matches(&DNSPattern::new("foo.bar.baz.quux.example.com").unwrap()));
-++        // For exact patterns, `permits` and `excludes` behave identically:
-++        // the pattern must fall within the constraint's subtree.
-++        for permitted in [
-++            "example.com",
-++            "foo.example.com",
-++            "foo.bar.baz.quux.example.com",
-++        ] {
-++            let pattern = DNSPattern::new(permitted).unwrap();
-++            assert!(example_com.permits(&pattern));
-++            assert!(example_com.excludes(&pattern));
-++        }
-+ 
-+         // Parent domains, distinct domains, and substring domains do not match.
-+-        assert!(!example_com.matches(&DNSPattern::new("com").unwrap()));
-+-        assert!(!example_com.matches(&DNSPattern::new("badexample.com").unwrap()));
-+-        assert!(!example_com.matches(&DNSPattern::new("wrong.com").unwrap()));
-++        for rejected in ["com", "badexample.com", "wrong.com"] {
-++            let pattern = DNSPattern::new(rejected).unwrap();
-++            assert!(!example_com.permits(&pattern));
-++            assert!(!example_com.excludes(&pattern));
-++        }
-++    }
-++
-++    #[test]
-++    fn test_dnsconstraint_permits_wildcard() {
-++        let com = DNSConstraint::new("com").unwrap();
-++        let example_com = DNSConstraint::new("example.com").unwrap();
-++        let foo_example_com = DNSConstraint::new("foo.example.com").unwrap();
-++        let any_example_com = DNSPattern::new("*.example.com").unwrap();
-++
-++        // A wildcard `*.example.com` is permitted only by constraints whose
-++        // subtree contains *every* name the wildcard can expand to, i.e. those
-++        // that contain `example.com` itself.
-++        assert!(com.permits(&any_example_com));
-++        assert!(example_com.permits(&any_example_com));
-++
-++        // A constraint more specific than the wildcard's base does *not*
-++        // permit it: the wildcard can expand to siblings outside the subtree
-++        // (e.g. `*.example.com` can be `bar.example.com`, which lies outside
-++        // `foo.example.com`).
-++        assert!(!foo_example_com.permits(&any_example_com));
-+     }
-+ 
-+     #[test]
-+-    fn test_dnsconstraint_matches_wildcard() {
-++    fn test_dnsconstraint_excludes_wildcard() {
-+         let com = DNSConstraint::new("com").unwrap();
-+         let example_com = DNSConstraint::new("example.com").unwrap();
-+         let bar_example_com = DNSConstraint::new("bar.example.com").unwrap();
-+         let baz_bar_example_com = DNSConstraint::new("baz.bar.example.com").unwrap();
-+         let any_example_com = DNSPattern::new("*.example.com").unwrap();
-+ 
-+-        assert!(com.matches(&any_example_com));
-+-        assert!(example_com.matches(&any_example_com));
-+-        assert!(bar_example_com.matches(&any_example_com));
-+-
-+-        // A constraint on `baz.bar.example.com` doesn't match `*.example.com`,
-+-        // since `baz.bar.example.com` matches zero or more sublabels of
-+-        // `baz.bar.example.com` while `*.example.com` matches exactly one
-+-        // sublabel of `example.com`.
-+-        assert!(!baz_bar_example_com.matches(&any_example_com));
-++        // A wildcard `*.example.com` is excluded by any constraint whose
-++        // subtree it overlaps, including constraints more specific than the
-++        // wildcard's base.
-++        assert!(com.excludes(&any_example_com));
-++        assert!(example_com.excludes(&any_example_com));
-++        assert!(bar_example_com.excludes(&any_example_com));
-++
-++        // A constraint on `baz.bar.example.com` doesn't overlap
-++        // `*.example.com`, since `baz.bar.example.com` matches zero or more
-++        // sublabels of `baz.bar.example.com` while `*.example.com` matches
-++        // exactly one sublabel of `example.com`.
-++        assert!(!baz_bar_example_com.excludes(&any_example_com));
-+     }
-+ 
-+     #[test]
-+-- 
-+2.43.0
 +
-diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-index 01382219fa8..8148ec0ba56 100644
---- a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
-@@ -13,6 +13,7 @@ SRC_URI[sha256sum] = "6fe07eec95dfd477eb9530aef5bead34fec819b3aaf6c5bd6d20565da6
- SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
-             file://CVE-2026-26007.patch \
-             file://CVE-2026-34073.patch \
-+            file://CVE-2026-69248.patch \
-             file://check-memfree.py \
-             file://run-ptest \
++-        link_was_admin_up =3D link->flags & IFF_UP;
+++        link_was_admin_up =3D link_is_up(link);
++         had_carrier =3D link_has_carrier(link);
++
++         link->flags =3D flags;
++         link->kernel_operstate =3D operstate;
++
++         link_update_operstate(link, true);
++-
++-        if (!link_was_admin_up && (link->flags & IFF_UP)) {
+++=09
+++        if (!link_was_admin_up && link_is_up(link)) {
++                 log_link_info(link, "Link UP");
++
++                 r =3D link_admin_state_up(link);
++                 if (r < 0)
++                         return r;
++-        } else if (link_was_admin_up && !(link->flags & IFF_UP)) {
+++        } else if (link_was_admin_up && !link_is_up(link)) {
++                 log_link_info(link, "Link DOWN");
++
++                 r =3D link_admin_state_down(link);
++diff --git a/src/network/networkd-link.h b/src/network/networkd-link.h
++index c5b9421bc0b2b..9c641fad39bdb 100644
++--- a/src/network/networkd-link.h
+++++ b/src/network/networkd-link.h
++@@ -233,6 +233,7 @@ static inline bool link_has_carrier(Link *link) {
++         assert(link);
++         return netif_has_carrier(link->kernel_operstate, link->flags);
++ }
+++bool link_is_up(Link *link);
++
++ bool link_ipv6_enabled(Link *link);
++ int link_ipv6ll_gained(Link *link);
++diff --git a/src/network/networkd-nexthop.c b/src/network/networkd-nexthop=
+.c
++index 5e5f0d0e6858b..23941527cfdcf 100644
++--- a/src/network/networkd-nexthop.c
+++++ b/src/network/networkd-nexthop.c
++@@ -526,7 +526,7 @@ static bool nexthop_is_ready_to_configur
++                  * kernel. */
++                 if (link->set_flags_messages > 0)
++                         return false;
++-                if (!FLAGS_SET(link->flags, IFF_UP))
+++                if (!link_is_up(link))
++                         return false;
++         }
++=20
++diff --git a/src/network/networkd-setlink.c b/src/network/networkd-setlink=
+.c
++index 7069b101f9f55..f5a43788ef792 100644
++--- a/src/network/networkd-setlink.c
+++++ b/src/network/networkd-setlink.c
++@@ -486,7 +486,7 @@ static int link_is_ready_to_set_link(Lin
++         case REQUEST_TYPE_SET_LINK_CAN:
++                 /* Do not check link->set_flags_messages here, as it is o=
+k even if link->flags
++                  * is outdated, and checking the counter causes a deadloc=
+k. */
++-                if (FLAGS_SET(link->flags, IFF_UP)) {
+++                if (link_is_up(link)) {
++                         /* The CAN interface must be down to configure bi=
+trate, etc... */
++                         r =3D link_down_now(link);
++                         if (r < 0)
++@@ -550,7 +550,7 @@ static int link_is_ready_to_set_link(Lin
++=20
++                 /* Do not check link->set_flags_messages here, as it is o=
+k even if link->flags is outdated,
++                  * and checking the counter causes a deadlock. */
++-                if (link->network->bond && FLAGS_SET(link->flags, IFF_UP)=
+) {
+++                if (link->network->bond && link_is_up(link)) {
++                         /* link must be down when joining to bond master.=
+ */
++                         r =3D link_down_now(link);
++                         if (r < 0)
++@@ -649,8 +649,7 @@ int link_request_to_set_addrgen_mode(Lin
++          * link goes down. Hence, we need to reset the interface. However=
+, setting the mode by sysctl
++          * does not need that. Let's use the sysctl interface when the li=
+nk is already up.
++          * See also issue #22424. */
++-        if (mode !=3D IPV6_LINK_LOCAL_ADDRESSS_GEN_MODE_NONE &&
++-            FLAGS_SET(link->flags, IFF_UP)) {
+++        if (mode !=3D IPV6_LINK_LOCAL_ADDRESSS_GEN_MODE_NONE && link_is_u=
+p(link)) {
++                 r =3D link_set_ipv6ll_addrgen_mode(link, mode);
++                 if (r < 0)
++                         log_link_warning_errno(link, r, "Cannot set IPv6 =
+address generation mode, ignoring: %m");
++@@ -1142,7 +1141,7 @@ static bool link_is_ready_to_bring_up_or
++                 if (link_get_by_index(link->manager, link->dsa_master_ifi=
+ndex, &master) < 0)
++                         return false;
++=20
++-                if (!FLAGS_SET(master->flags, IFF_UP))
+++                if (!link_is_up(master))=20
++                         return false;
++         }
++=20
+diff --git a/meta/recipes-core/systemd/systemd/0024-network-check-if-gatewa=
+y-is-ready-only-when-the-nexthop-is-bound-to-link.patch b/meta/recipes-core=
+/systemd/systemd/0024-network-check-if-gateway-is-ready-only-when-the-nexth=
+op-is-bound-to-link.patch
+new file mode 100644
+index 0000000000..148a3c2d07
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0024-network-check-if-gateway-is-re=
+ady-only-when-the-nexthop-is-bound-to-link.patch
+@@ -0,0 +1,72 @@
++From 43989de6427954f0755e2667bda1cf3839d27964 Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Mon, 9 Mar 2026 11:30:54 +0900
++Subject: [PATCH] network: check if gateway is ready only when the nexthop =
+is
++ bound to link
++
++Currently, we support three types of nexthop:
++1. simple nexthop, which is bound to link, may have specific gateway
++   address,
++2. blackhole nexthop, which is global configuration and is not bound to
++   any links,
++3. group nexthop, which is also global configuration and is not bound to
++   any links.
++
++Thus, gateway_is_ready() is only necessary to call for simple nexthop
++case. Let's make the logic simpler.
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/43989=
+de6427954f0755e2667bda1cf3839d27964]
++Comment: Patch is refreshed based on 255.22 codebase
++
++Signed-off-by: Akash Hadke <Akash.Hadke@bmwtechworks.in>
++---
++ src/network/networkd-nexthop.c | 22 +++++++++++++++++-----
++ 1 file changed, 17 insertions(+), 5 deletions(-)
++
++diff --git a/src/network/networkd-nexthop.c b/src/network/networkd-nexthop=
+.c
++index 23941527cfdcf..81eb85b4a06c1 100644
++--- a/src/network/networkd-nexthop.c
+++++ b/src/network/networkd-nexthop.c
++@@ -520,17 +520,29 @@ static bool nexthop_is_ready_to_configur
++         if (!link_is_ready_to_configure(link, false))
++                 return false;
++=20
+++        /* Currently, we support the following three types of nexthops:
+++         * 1. Simple nexthop - bound to the link, requires the underlying=
+ link is up.
+++         * 2. Blackhole nexthop - not bound to the link.
+++         * 3. Group nexthop - not bound to the link, but all group member=
+s must be configured first.
+++         *
+++         * Note, the kernel also supports fdb nexthop, but currently we d=
+o not support it. Note, fdb nexthop
+++         * does not require IFF_UP. See rtm_to_nh_config() in net/ipv4/ne=
+xthop.c of kernel. */
+++
+++        /* Simple nexthop */
++         if (nexthop_owned_by_link(nexthop)) {
++-                /* TODO: fdb nexthop does not require IFF_UP. The conditi=
+ons below needs to be updated
++-                 * when fdb nexthop support is added. See rtm_to_nh_confi=
+g() in net/ipv4/nexthop.c of
++-                 * kernel. */
++                 if (link->set_flags_messages > 0)
++                         return false;
++                 if (!link_is_up(link))
++                         return false;
+++
+++                return gateway_is_ready(link, FLAGS_SET(nexthop->flags, R=
+TNH_F_ONLINK), nexthop->family, &nexthop->gw);
++         }
++=20
++-        /* All group members must be configured first. */
+++        /* Blackhole nexthop */
+++        if (nexthop->blackhole)
+++                return true;
+++
+++        /* Group nexthop */
++         HASHMAP_FOREACH(nhg, nexthop->group) {
++                 NextHop *g;
++=20
++@@ -552,7 +564,7 @@ static bool nexthop_is_ready_to_configur
++                 }
++         }
++=20
++-        return gateway_is_ready(link, FLAGS_SET(nexthop->flags, RTNH_F_ON=
+LINK), nexthop->family, &nexthop->gw);
+++        return true;
++ }
++=20
++ static int nexthop_process_request(Request *req, Link *link, NextHop *nex=
+thop) {
+diff --git a/meta/recipes-core/systemd/systemd/0025-network-route-bound-to-=
+a-link-requires-the-link-is-up.patch b/meta/recipes-core/systemd/systemd/00=
+25-network-route-bound-to-a-link-requires-the-link-is-up.patch
+new file mode 100644
+index 0000000000..cf4f786645
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0025-network-route-bound-to-a-link-=
+requires-the-link-is-up.patch
+@@ -0,0 +1,57 @@
++From ed54648b47779d2ba24ceffd16b7b63ec0845043 Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Mon, 9 Mar 2026 11:46:01 +0900
++Subject: [PATCH] network: route bound to a link requires the link is up
++
++We checked if the link is up only when configuring (explicit) nexthop,
++but we did not checked that when configuring route which has (implicit)
++nexthop.
++
++Let's move the checks from nexthop_is_ready_to_configure() to
++gateway_is_ready(), which is called for both implicit and explict
++nexthops.
++
++Fixes #40106.
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/ed546=
+48b47779d2ba24ceffd16b7b63ec0845043]
++Comment: Patch is refreshed based on 255.22 codebase
++
++Signed-off-by: Akash Hadke <Akash.Hadke@bmwtechworks.in>
++---
++ src/network/networkd-nexthop.c    | 5 -----
++ src/network/networkd-route-util.c | 6 ++++++
++ 2 files changed, 6 insertions(+), 5 deletions(-)
++
++diff --git a/src/network/networkd-nexthop.c b/src/network/networkd-nexthop=
+.c
++index 81eb85b4a06c1..0e453e159748a 100644
++--- a/src/network/networkd-nexthop.c
+++++ b/src/network/networkd-nexthop.c
++@@ -530,11 +530,6 @@ static bool nexthop_is_ready_to_configur
++=20
++         /* Simple nexthop */
++         if (nexthop_owned_by_link(nexthop)) {
++-                if (link->set_flags_messages > 0)
++-                        return false;
++-                if (!link_is_up(link))
++-                        return false;
++-
++                 return gateway_is_ready(link, FLAGS_SET(nexthop->flags, R=
+TNH_F_ONLINK), nexthop->family, &nexthop->gw);
++         }
++=20
++diff --git a/src/network/networkd-route-util.c b/src/network/networkd-rout=
+e-util.c
++index 37ace2d335c60..3a7156fc4129f 100644
++--- a/src/network/networkd-route-util.c
+++++ b/src/network/networkd-route-util.c
++@@ -128,6 +128,12 @@ bool gateway_is_ready(Link *link, bool o
++         assert(link);
++         assert(link->manager);
++=20
+++       if (link->set_flags_messages > 0)
+++                return false;
+++
+++        if (!link_is_up(link))
+++                return false;
+++
++         if (onlink)
++                 return true;
++=20
+diff --git a/meta/recipes-core/systemd/systemd/0026-test-network-add-test-c=
+ase-for-issue-40106.patch b/meta/recipes-core/systemd/systemd/0026-test-net=
+work-add-test-case-for-issue-40106.patch
+new file mode 100644
+index 0000000000..1bef2cbbed
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/0026-test-network-add-test-case-for=
+-issue-40106.patch
+@@ -0,0 +1,117 @@
++From f47d180b855dd4eb0a11d44d001c99f475dda56b Mon Sep 17 00:00:00 2001
++From: Yu Watanabe <watanabe.yu+github@gmail.com>
++Date: Mon, 9 Mar 2026 12:31:41 +0900
++Subject: [PATCH] test-network: add test case for issue #40106
++
++Upstream-Status: Backport [https://github.com/systemd/systemd/commit/f47d1=
+80b855dd4eb0a11d44d001c99f475dda56b]
++
++Signed-off-by: Akash Hadke <Akash.Hadke@bmwtechworks.in>
++---
++ .../25-route-static-issue-40106-dummy.network |  7 ++++
++ .../25-route-static-issue-40106-vlan.netdev   |  7 ++++
++ .../25-route-static-issue-40106-vlan.network  | 15 +++++++
++ test/test-network/systemd-networkd-tests.py   | 41 +++++++++++++++++++
++ 4 files changed, 70 insertions(+)
++ create mode 100644 test/test-network/conf/25-route-static-issue-40106-dum=
+my.network
++ create mode 100644 test/test-network/conf/25-route-static-issue-40106-vla=
+n.netdev
++ create mode 100644 test/test-network/conf/25-route-static-issue-40106-vla=
+n.network
++
++diff --git a/test/test-network/conf/25-route-static-issue-40106-dummy.netw=
+ork b/test/test-network/conf/25-route-static-issue-40106-dummy.network
++new file mode 100644
++index 0000000000000..08553b97f5f19
++--- /dev/null
+++++ b/test/test-network/conf/25-route-static-issue-40106-dummy.network
++@@ -0,0 +1,7 @@
+++# SPDX-License-Identifier: LGPL-2.1-or-later
+++[Match]
+++Name=3Ddummy99
+++
+++[Network]
+++ConfigureWithoutCarrier=3Dtrue
+++VLAN=3Dvlan99
++diff --git a/test/test-network/conf/25-route-static-issue-40106-vlan.netde=
+v b/test/test-network/conf/25-route-static-issue-40106-vlan.netdev
++new file mode 100644
++index 0000000000000..c40e7b755aefa
++--- /dev/null
+++++ b/test/test-network/conf/25-route-static-issue-40106-vlan.netdev
++@@ -0,0 +1,7 @@
+++# SPDX-License-Identifier: LGPL-2.1-or-later
+++[NetDev]
+++Kind=3Dvlan
+++Name=3Dvlan99
+++
+++[VLAN]
+++Id=3D99
++diff --git a/test/test-network/conf/25-route-static-issue-40106-vlan.netwo=
+rk b/test/test-network/conf/25-route-static-issue-40106-vlan.network
++new file mode 100644
++index 0000000000000..442cf480fbc51
++--- /dev/null
+++++ b/test/test-network/conf/25-route-static-issue-40106-vlan.network
++@@ -0,0 +1,15 @@
+++# SPDX-License-Identifier: LGPL-2.1-or-later
+++[Match]
+++Name=3Dvlan99
+++
+++[Network]
+++ConfigureWithoutCarrier=3Dtrue
+++BindCarrier=3Ddummy99
+++
+++[Address]
+++Address=3D192.0.2.1/24
+++
+++[Route]
+++Destination=3D198.51.100.1
+++Type=3Dmulticast
+++Scope=3Dlink
++diff --git a/test/test-network/systemd-networkd-tests.py b/test/test-netwo=
+rk/systemd-networkd-tests.py
++index bbbab8e3fe636..6f2fe1b9eb65c 100755
++--- a/test/test-network/systemd-networkd-tests.py
+++++ b/test/test-network/systemd-networkd-tests.py
++@@ -4603,6 +4603,47 @@ def test_route_via_ipv6(self):
++         self.assertRegex(output, '149.10.124.48/28 proto kernel scope lin=
+k src 149.10.124.58')
++         self.assertRegex(output, '149.10.124.66 via inet6 2001:1234:5:8ff=
+f:ff:ff:ff:ff proto static')
++=20
+++    def test_route_static_issue_40106(self):
+++        check_output('ip link add dummy99 type dummy')
+++        check_output('ip link set dummy99 up carrier off')
+++        copy_network_unit(
+++            '25-route-static-issue-40106-dummy.network',
+++            '25-route-static-issue-40106-vlan.netdev',
+++            '25-route-static-issue-40106-vlan.network',
+++        )
+++        start_networkd()
+++        self.wait_online('dummy99:no-carrier')
+++        self.wait_operstate('vlan99', operstate=3D'off', setup_state=3D'c=
+onfiguring')
+++
+++        # address can be configured even when the interface is down.
+++        self.wait_address('vlan99', '192.0.2.1/24', ipv=3D'-4', timeout_s=
+ec=3D10)
+++        print('### ip -4 address show dev vlan99')
+++        output =3D check_output('ip -4 address show dev vlan99')
+++        print(output)
+++        self.assertIn('inet 192.0.2.1/24 brd 192.0.2.255 scope global vla=
+n99', output)
+++
+++        # route cannot be configured when the interface is down.
+++        print('### ip -4 route show dev vlan99')
+++        output =3D check_output('ip -4 route show dev vlan99')
+++        print(output)
+++        self.assertEqual(output, '')
+++
+++        # When cable is connected, the vlan becomes up by BindCarrier=3D,=
+ then
+++        # the pending route is also configured.
+++        check_output('ip link set dummy99 carrier on')
+++        self.wait_online('dummy99:degraded', 'vlan99:routable')
+++
+++        print('### ip -4 address show dev vlan99')
+++        output =3D check_output('ip -4 address show dev vlan99')
+++        print(output)
+++        self.assertIn('inet 192.0.2.1/24 brd 192.0.2.255 scope global vla=
+n99', output)
+++
+++        print('### ip -4 route show dev vlan99')
+++        output =3D check_output('ip -4 route show dev vlan99')
+++        print(output)
+++        self.assertIn('192.0.2.0/24 proto kernel scope link src 192.0.2.1=
+', output)
+++        self.assertIn('multicast 198.51.100.1 proto static scope link', o=
+utput)
+++
++     @expectedFailureIfModuleIsNotAvailable('tcp_dctcp')
++     def test_route_congctl(self):
++         copy_network_unit('25-route-congctl.network', '12-dummy.netdev')
+diff --git a/meta/recipes-core/systemd/systemd_255.22.bb b/meta/recipes-cor=
+e/systemd/systemd_255.22.bb
+index e5a0fd9170..f5e0618def 100644
+--- a/meta/recipes-core/systemd/systemd_255.22.bb
++++ b/meta/recipes-core/systemd/systemd_255.22.bb
+@@ -37,6 +37,10 @@ SRC_URI +=3D " \
+            file://CVE-2026-29111-02.patch \
+            file://CVE-2026-29111-03.patch \
+            file://CVE-2026-29111-04.patch \
++           file://0023-network-introduce-link_is_up-helper-function.patch =
+\
++           file://0024-network-check-if-gateway-is-ready-only-when-the-nex=
+thop-is-bound-to-link.patch \
++           file://0025-network-route-bound-to-a-link-requires-the-link-is-=
+up.patch \
++           file://0026-test-network-add-test-case-for-issue-40106.patch \
             "
+=20
+ # patches needed by musl
+--=20
+2.43.0
+
 
