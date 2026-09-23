@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F3BC98308
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7256FC9830B
 	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:12:26 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2844.1790154742843308926
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2941.1790154736389634243
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:12:23 -0700
+ Wed, 23 Sep 2026 02:12:16 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Ak1TOGy9;
- spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b6so3523175e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:12:22 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=QXPJcET+;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e721b5503so5656865e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:12:16 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154741; x=1790759541; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154735; x=1790759535; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=cNMQAkxz12NFSeN3eoDwFlPhL4l17v3wO0WOwdmh+zU=;
-        b=Ak1TOGy9xcuBSNr3ib8uTSIYN8V5W3VR+f1HI0xnBXSKd07hSUTfkhSov8LSMLvLAh
-         cl2D4+tmObU02XYD+xi8hdkuWnYSQgST0PSQaou4Mf9AxYS8rP1Mdx+fzcNJbUdmjgqS
-         nRAB05P7xi3PO5Yy1EpHoNBOHeXhp84B5Bb4I=
+        bh=5hf1YZcQrZkOqitVDWJXah3+N5yWa1M6QMoi7JlYYHI=;
+        b=QXPJcET+Fkd6LG5wrqoC9MVEGZPV54m7JuFeZX9jY/lyJ6HtsoOY6YhJNB86igaOm/
+         uoIN+wiL5ibc+DWqpiJHpPjaW8buPNAv8C7HJB+uk1pKycZ0CJVrEYzGFeIa9Ys6ozFh
+         b+DxYt55mjgBdhn++6/fzb0Bqyc1TUQb1HLns=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154741; x=1790759541;
+        d=1e100.net; s=20260707; t=1790154735; x=1790759535;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=cNMQAkxz12NFSeN3eoDwFlPhL4l17v3wO0WOwdmh+zU=;
-        b=Ad0pZrGFtscbrPpruNpkYWlyglM25y2YWUeLxTJIIRzgghG5ij6t1Sh3D0iqhbYuWp
-         IICE4QgbdLz+s2j/Da9XnAyANZeR+bbZLr4c6+imFRvyi673QYAhHioo7xIsFIcKUvt9
-         l1I6zhjYTaBpbiuee5Tq6PQhE1VpVe3DszdIWtvzBvnHnMIIPLzAUcBK+twk9XV86gm4
-         0zmi5H+NZwkVUCNAYvqsVHLRMg+8vb+Traqdi/JhcEClBhqKd4YNGa3CRHsO4zlO2C5j
-         sn2Ia45DzYysJwzJAn07AjqFOTBlAdKWOJE4t/JZxCtW0zStbLfn73OqOC2Tf4xuKGjV
-         J+ZQ==
-X-Gm-Message-State: AFuF++kB93ftKxweE+G9oz7nfEwI5HiFn0y4cBnRPB9Qw2VD258HfpRb
-	iEeUn+NGCSJZpHXzgI+YGb2qNwG7+pRvj724iB4/aU5sycCx9PvmnFSG9hPomoRQQDCTqvH8JOm
-	CcDC/6gs=
-X-Gm-Gg: AYBFou2oWoozbPqTWFF4XLnJQ3XZrQnv8jUMRSsIJsYGaHmGlyOma2CTXFxurws5Phc
-	lN2SlXEYJifn1bVRElc8jA0YvtsL8UkH7ex3EbKNKLFnMP2ff5BH/WkUaOufy7R1QBfxYxLreq1
-	qOYpS1jYVGOx/NV9srSVNTVK6dpCoyaYbE3mjtbC1q0ByMoJn4GZNbcZSuXcnIY/7joCJTDywmd
-	MLSSSEzKJvEJ/oz8v4mPI38Zrb8JPhj9DBQfg1BPCUW55MD9vOf+xcuFgbbUwjcdmMa/lwFzXlB
-	+mMLC2rLt4suzR8iKLlJRULPz1Jk6t90WvqbVYbA0VSwIjygxF/b9zvgy3b+GgZeLk4mUJbFIg/
-	25wlHLYZuDH0z07Hwi0eFZsGiKqO08zo2daGwcmOokbmwip/I4SPUhkfOVcDTukTMvbre81RSz+
-	toh084JEuwjVWKO8VUKbEz/ZnfXFMfeQLpeaqj75uvNcLkXDsC/oTS57lTbHeipcotsWhdiMAtA
-	+a8aDagXxnq+u7mZP8cHyPqJHDp2f3YcAoi6Dmms+EoiLCd/OMKpJLeVk1nlhqIhH8S61cJ
-X-Received: by 2002:a05:600c:1908:b0:49f:ce78:3560 with SMTP id 5b1f17b1804b1-49fdee0a35emr21455475e9.17.1790154741005;
-        Wed, 23 Sep 2026 02:12:21 -0700 (PDT)
+        bh=5hf1YZcQrZkOqitVDWJXah3+N5yWa1M6QMoi7JlYYHI=;
+        b=eT8rGgvMI/K3o1UnPx6Y6DSr446YSZhNJGCYw+Tvb96fuCBN8wKUHdDtelcxBgI4mi
+         xcIAGrlknCZ3nOans9e57+UYWbrt7AeK6A4hw7pNC8EoN5dXnAu1yeohFujxCBx7AXal
+         c5LyxrL4OuWEOD03d74Ba92oK9xyemtT6nhVB0R/0NiqDBNhICI1QhJkLAGuECVeElMN
+         v/MW/vBi7lMEcbwtA+UjWKzYbmwW/oajkRdDf4jfaiQml2W3W89/SIsKDQXBoYRuokK0
+         8Ak5jYxqx0tA/DPhxdKz9+7ZzMeeUzdsMiQBoHQPE7/dVpfZGhNmG2lxhFipQPV6VH/H
+         t9vg==
+X-Gm-Message-State: AFuF++kU0HKnjpv122RFLicvdt6aFwn8skwj2Gv6J3Ft346EweIVdv/P
+	vD5rPe0O9bxv1hVe0vt2MGafyYE3TAps6zxz5CuqzRB4OEZvBlOUnPppf++YPV1jKfyjRGrXAkv
+	q6UDO6RQ=
+X-Gm-Gg: AYBFou1MM8bMaFC+o47v8swU6y0zMTUiFflOTy2nc6E2th7sm/czU4MWAoTFuQlo4Dt
+	Sp3XUlWkRXifnwsl3cvBa5trEgbzv3fbgtjNSPc0IpGbTmfB7DqobVjkVEe6xpPT8znB/DOEYLn
+	cgnSO9lAc+RzdwRkLoYSc4mdjuq/PXxOHHSq6aYLrmmqLIZI5gxUygzliKCbV11oQG+qTubPDmz
+	IXQTHigbvGfuleNGOgbBmtJ8D7JivOjDbl5ky+amEl1HqgijdnlHlujQ+5YsnbWabPhJNdsimgF
+	tnxgO0A9+rwDYvJidgXVu2dLYKxdrNa9qMVrfuJdHHRmLvOHT7nB68v69D+x05Lg7jstUM12tCg
+	/VEVuYZ/Bf8PiRTryIaf8Ci6UUBFox/AvdjJ5Ire1oze4JOlLKzQc0wSqhqm9cyOsyCZWeypoC7
+	Ru/92l86wkgdBSp+pMC0NvB9fOJz6aHzpXUcXbl9CHaRFoag4D7r7p+OPfdKo+IKzz7X1UuIjRZ
+	hnmjWbavmlUB/zOzdi9nVQZlukkHS06lw+dy8QbhG/N48V02ro3ePbcJ4OZ+7tqJCvAQwdt
+X-Received: by 2002:a05:600c:1f91:b0:49c:fc6c:be19 with SMTP id 5b1f17b1804b1-49fdf24fa11mr25899295e9.31.1790154734553;
+        Wed, 23 Sep 2026 02:12:14 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.12.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.12.12
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:12:20 -0700 (PDT)
+        Wed, 23 Sep 2026 02:12:14 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 46/48] curl: Security Fix for CVE-2026-18924
-Date: Wed, 23 Sep 2026 11:10:48 +0200
-Message-ID: <8305fd4d8e6e4a7a4435989c57fedd470306f0e6.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 42/48] python3-cryptography: Fix CVE-2026-34073
+Date: Wed, 23 Sep 2026 11:10:44 +0200
+Message-ID: <fc077ee2c3a8c306df3245da7114724a7220c30b.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -66,78 +66,206 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:12:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246508
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246504
 
-From: Siddharth Doshi <sdoshi@mvista.com>
+From: Vijay Anusuri <vanusuri@mvista.com>
 
-Picking patch as per [1], and same patch is mentioned in [2]
+Pick patch according to [2]
 
-[1] https://curl.se/docs/CVE-2026-18924.html
-[2] https://security-tracker.debian.org/tracker/CVE-2026-18924
+[1] https://nvd.nist.gov/vuln/detail/cve-2026-34073
+[2] https://bugzilla.suse.com/show_bug.cgi?id=CVE-2026-34073
 
-Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
+Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../curl/curl/CVE-2026-18924.patch            | 39 +++++++++++++++++++
- meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-support/curl/curl/CVE-2026-18924.patch
+ .../python3-cryptography/CVE-2026-34073.patch | 167 ++++++++++++++++++
+ .../python/python3-cryptography_42.0.5.bb     |   1 +
+ 2 files changed, 168 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-cryptography/CVE-2026-34073.patch
 
-diff --git a/meta/recipes-support/curl/curl/CVE-2026-18924.patch b/meta/recipes-support/curl/curl/CVE-2026-18924.patch
+diff --git a/meta/recipes-devtools/python/python3-cryptography/CVE-2026-34073.patch b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-34073.patch
 new file mode 100644
-index 00000000000..28934ababee
+index 00000000000..9f144fa7094
 --- /dev/null
-+++ b/meta/recipes-support/curl/curl/CVE-2026-18924.patch
-@@ -0,0 +1,39 @@
-+From 90325ff0444cbdff368bda5d26d6405a0bb6ee43 Mon Sep 17 00:00:00 2001
-+From: Daniel Stenberg <daniel@haxx.se>
-+Date: Wed, 5 Aug 2026 10:02:53 +0200
-+Subject: [PATCH] http2: make server push transfers inherit share from parent
++++ b/meta/recipes-devtools/python/python3-cryptography/CVE-2026-34073.patch
+@@ -0,0 +1,167 @@
++From 6d97887956a05b3aaed262793710f07568026b72 Mon Sep 17 00:00:00 2001
++From: William Woodruff <william@yossarian.net>
++Date: Wed, 25 Mar 2026 18:52:17 -0400
++Subject: [PATCH] Further restrict DNS wildcards in name constraint matching
++ (#14542)
 +
-+Reported-by: Stephan Zeisberg
-+Closes #22488
++* Further restruct DNS wildcards in name constraint matching
 +
-+Upstream-Status: Backport [https://github.com/curl/curl/commit/90325ff0444cbdff368bda5d26d6405a0bb6ee43]
-+CVE: CVE-2026-18924
-+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++Signed-off-by: William Woodruff <william@yossarian.net>
++
++* Bump limbo
++
++Signed-off-by: William Woodruff <william@yossarian.net>
++
++Upstream-Status: Backport [import from suse https://download.opensuse.org/distribution/leap-micro/6.1/product/repo/openSUSE-Leap-Micro-6.1-x86_64-Source/src/python-cryptography-42.0.4-slfo.1.1_6.1.src.rpm
++Upstream commit https://github.com/pyca/cryptography/commit/6d97887956a05b3aaed262793710f07568026b72]
++CVE: CVE-2026-34073
++Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 +---
-+ lib/http2.c | 3 +++
-+ 1 file changed, 3 insertions(+)
++ .../cryptography-x509-verification/src/lib.rs |  5 +-
++ .../src/types.rs                              | 89 ++++++++++++-------
++ 2 files changed, 62 insertions(+), 32 deletions(-)
 +
-+diff --git a/lib/http2.c b/lib/http2.c
-+index 99d7f3b..e6305c9 100644
-+--- a/lib/http2.c
-++++ b/lib/http2.c
-+@@ -47,6 +47,7 @@
-+ #include "transfer.h"
-+ #include "dynbuf.h"
-+ #include "headers.h"
-++#include "curl_share.h"
-+ /* The last 3 #include files should be in this order */
-+ #include "curl_printf.h"
-+ #include "curl_memory.h"
-+@@ -776,6 +777,8 @@ static struct Curl_easy *h2_duphandle(struct Curl_cfilter *cf,
-+       second->req.p.http = http;
-+       http2_data_setup(cf, second, &second_stream);
-+       second->state.priority.weight = data->state.priority.weight;
-++      if(data->share)
-++        (void)Curl_share_easy_link(second, data->share);
++diff --git a/src/rust/cryptography-x509-verification/src/lib.rs b/src/rust/cryptography-x509-verification/src/lib.rs
++index 5ded892..f49f618 100644
++--- a/src/rust/cryptography-x509-verification/src/lib.rs
+++++ b/src/rust/cryptography-x509-verification/src/lib.rs
++@@ -20,11 +20,12 @@ use cryptography_x509::{
++     oid::{NAME_CONSTRAINTS_OID, SUBJECT_ALTERNATIVE_NAME_OID},
++ };
++ 
+++use types::{DNSPattern};
+++
++ use crate::certificate::cert_is_self_issued;
++ use crate::ops::{CryptoOps, VerificationCertificate};
++ use crate::policy::Policy;
++ use crate::trust_store::Store;
++-use crate::types::DNSName;
++ use crate::types::{DNSConstraint, IPAddress, IPConstraint};
++ use crate::ApplyNameConstraintStatus::{Applied, Skipped};
++ 
++@@ -108,7 +109,7 @@ impl<'a, 'chain> NameChain<'a, 'chain> {
++ 
++         match (constraint, san) {
++             (GeneralName::DNSName(pattern), GeneralName::DNSName(name)) => {
++-                match (DNSConstraint::new(pattern.0), DNSName::new(name.0)) {
+++                match (DNSConstraint::new(pattern.0), DNSPattern::new(name.0)) {
++                     (Some(pattern), Some(name)) => Ok(Applied(pattern.matches(&name))),
++                     (_, None) => Err(ValidationError::Other(format!(
++                         "unsatisfiable DNS name constraint: malformed SAN {}",
++diff --git a/src/rust/cryptography-x509-verification/src/types.rs b/src/rust/cryptography-x509-verification/src/types.rs
++index f564715..d82936e 100644
++--- a/src/rust/cryptography-x509-verification/src/types.rs
+++++ b/src/rust/cryptography-x509-verification/src/types.rs
++@@ -129,35 +129,45 @@ impl<'a> DNSConstraint<'a> {
++         DNSName::new(pattern).map(Self)
 +     }
-+   }
-+   return second;
++ 
++-    /// Returns true if this `DNSConstraint` matches the given name.
+++    /// Returns true if this `DNSConstraint` matches the given `DNSPattern`.
++     ///
++     /// Constraint matching is defined by RFC 5280: any DNS name that can
++     /// be constructed by simply adding zero or more labels to the left-hand
++     /// side of the name satisfies the name constraint.
++     ///
++-    /// ```rust
++-    /// # use cryptography_x509_verification::types::{DNSConstraint, DNSName};
++-    /// let example_com = DNSName::new("example.com").unwrap();
++-    /// let badexample_com = DNSName::new("badexample.com").unwrap();
++-    /// let foo_example_com = DNSName::new("foo.example.com").unwrap();
++-    /// assert!(DNSConstraint::new(example_com.as_str()).unwrap().matches(&example_com));
++-    /// assert!(DNSConstraint::new(example_com.as_str()).unwrap().matches(&foo_example_com));
++-    /// assert!(!DNSConstraint::new(example_com.as_str()).unwrap().matches(&badexample_com));
++-    /// ```
++-    pub fn matches(&self, name: &DNSName<'_>) -> bool {
++-        // NOTE: This may seem like an obtuse way to perform label matching,
++-        // but it saves us a few allocations: doing a substring check instead
++-        // would require us to clone each string and do case normalization.
++-        // Note also that we check the length in advance: Rust's zip
++-        // implementation terminates with the shorter iterator, so we need
++-        // to first check that the candidate name is at least as long as
++-        // the constraint it's matching against.
++-        name.as_str().len() >= self.0.as_str().len()
++-            && self
++-                .0
++-                .rlabels()
++-                .zip(name.rlabels())
++-                .all(|(a, o)| a.eq_ignore_ascii_case(o))
+++    /// On top of what RFC 5280 specifies, we define behavior for wildcard
+++    /// patterns (which are not covered by RFC 5280): a wildcard pattern
+++    /// matches a constraint if the pattern matches the constraint's inner name,
+++    /// _or_ if the pattern's inner name matches the constraint.
+++    /// This allows us to reject DNS names like `*.example.com` when
+++    /// the constraint is `example.com` or `bar.example.com`.
+++    pub fn matches(&self, name: &DNSPattern<'_>) -> bool {
+++        match name {
+++            DNSPattern::Exact(name) => {
+++                // NOTE: This may seem like an obtuse way to perform label matching,
+++                // but it saves us a few allocations: doing a substring check instead
+++                // would require us to clone each string and do case normalization.
+++                // Note also that we check the length in advance: Rust's zip
+++                // implementation terminates with the shorter iterator, so we need
+++                // to first check that the candidate name is at least as long as
+++                // the constraint it's matching against.
+++                name.as_str().len() >= self.0.as_str().len()
+++                    && self
+++                        .0
+++                        .rlabels()
+++                        .zip(name.rlabels())
+++                        .all(|(a, o)| a.eq_ignore_ascii_case(o))
+++            }
+++            DNSPattern::Wildcard(inner) => {
+++                // NOTE: This check is not as simple as a single pattern match,
+++                // since we need two subtly distinct cases here:
+++                // 1. Constraint `bar.example.com` on `*.example.com`
+++                // 2. Constraint `example.com` on `*.example.com`
+++                // The first cases is handled by `DNSPattern::matches`, and the second is handled
+++                // by `DNSConstraint::matches`.
+++                name.matches(&self.0) || self.matches(&DNSPattern::Exact(inner.clone()))
+++            }
+++        }
++     }
++ }
++ 
++@@ -456,14 +466,33 @@ mod tests {
++         let example_com = DNSConstraint::new("example.com").unwrap();
++ 
++         // Exact domain and arbitrary subdomains match.
++-        assert!(example_com.matches(&DNSName::new("example.com").unwrap()));
++-        assert!(example_com.matches(&DNSName::new("foo.example.com").unwrap()));
++-        assert!(example_com.matches(&DNSName::new("foo.bar.baz.quux.example.com").unwrap()));
+++        assert!(example_com.matches(&DNSPattern::new("example.com").unwrap()));
+++        assert!(example_com.matches(&DNSPattern::new("foo.example.com").unwrap()));
+++        assert!(example_com.matches(&DNSPattern::new("foo.bar.baz.quux.example.com").unwrap()));
++ 
++         // Parent domains, distinct domains, and substring domains do not match.
++-        assert!(!example_com.matches(&DNSName::new("com").unwrap()));
++-        assert!(!example_com.matches(&DNSName::new("badexample.com").unwrap()));
++-        assert!(!example_com.matches(&DNSName::new("wrong.com").unwrap()));
+++        assert!(!example_com.matches(&DNSPattern::new("com").unwrap()));
+++        assert!(!example_com.matches(&DNSPattern::new("badexample.com").unwrap()));
+++        assert!(!example_com.matches(&DNSPattern::new("wrong.com").unwrap()));
+++    }
+++
+++    #[test]
+++    fn test_dnsconstraint_matches_wildcard() {
+++        let com = DNSConstraint::new("com").unwrap();
+++        let example_com = DNSConstraint::new("example.com").unwrap();
+++        let bar_example_com = DNSConstraint::new("bar.example.com").unwrap();
+++        let baz_bar_example_com = DNSConstraint::new("baz.bar.example.com").unwrap();
+++        let any_example_com = DNSPattern::new("*.example.com").unwrap();
+++
+++        assert!(com.matches(&any_example_com));
+++        assert!(example_com.matches(&any_example_com));
+++        assert!(bar_example_com.matches(&any_example_com));
+++
+++        // A constraint on `baz.bar.example.com` doesn't match `*.example.com`,
+++        // since `baz.bar.example.com` matches zero or more sublabels of
+++        // `baz.bar.example.com` while `*.example.com` matches exactly one
+++        // sublabel of `example.com`.
+++        assert!(!baz_bar_example_com.matches(&any_example_com));
++     }
++ 
++     #[test]
 +-- 
-+2.34.1
++2.43.0
 +
-diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
-index 3f44cf02d31..905d0b47335 100644
---- a/meta/recipes-support/curl/curl_8.7.1.bb
-+++ b/meta/recipes-support/curl/curl_8.7.1.bb
-@@ -42,6 +42,7 @@ SRC_URI = " \
-     file://CVE-2026-6253.patch \
-     file://CVE-2026-4873.patch \
-     file://CVE-2026-13608.patch \
-+    file://CVE-2026-18924.patch \
- "
+diff --git a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
+index 10ce753eac3..01382219fa8 100644
+--- a/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
++++ b/meta/recipes-devtools/python/python3-cryptography_42.0.5.bb
+@@ -12,6 +12,7 @@ SRC_URI[sha256sum] = "6fe07eec95dfd477eb9530aef5bead34fec819b3aaf6c5bd6d20565da6
  
- SRC_URI:append:class-nativesdk = " \
+ SRC_URI += "file://0001-pyproject.toml-remove-benchmark-disable-option.patch \
+             file://CVE-2026-26007.patch \
++            file://CVE-2026-34073.patch \
+             file://check-memfree.py \
+             file://run-ptest \
+            "
 
