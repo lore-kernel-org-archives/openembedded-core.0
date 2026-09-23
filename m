@@ -1,114 +1,149 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37CA1C9830C
-	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 07:20:50 +0000 (UTC)
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1801.1790148047292350433
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 044E0C982FA
+	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 07:40:43 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1248.1790144979834252104
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 00:20:47 -0700
+ Tue, 22 Sep 2026 23:29:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=LdogEBwk;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.99, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4885a1480a2so360486f8f.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 00:20:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790148045; x=1790752845; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=H2FkeV9D6aYQvk1BvLugwyqmK1V8wOCMo2Jn7xeFLJI=;
-        b=LdogEBwkS8Z+bg95QyR+EQmQcXl6v18yiZcroD572UHgCePW81ApEJNn5LpaiZ7SDb
-         8CwuNgMTTm2S5b1aGI4BUsfJyTTElESaViRhB6qAtyDwM4JnreiHr26g4RhoCYiWJoVW
-         EVBilwxk6UvpVRspvg3whFrXAE83P6KR07tIw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790148045; x=1790752845;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=H2FkeV9D6aYQvk1BvLugwyqmK1V8wOCMo2Jn7xeFLJI=;
-        b=du/HTbjrNHNBXotrS28tWYQ5hacoSm7J1DRcnsegMuVeNxAycsID41T91llac3TLuc
-         be1Ty9H/FU3ya9gK3myJXG2imBeJT2mfxfXZrgcKpLoQxDF+hpPNYfmiZBhMP/tIDOqm
-         e57tk9B0PNdfhKqL79EnBuB8OadLPi5LNo/NRUMJcKMvUMjAtjnQmfJ4vzSvNUKOgMxj
-         KcIX9V81yvpUSA7ZKkQv8/Z654X8ZvSSHQ66vYTGflATCfogorsdSxLYcnkCktE11Tzo
-         iaiVO7b8t99W0P7HpAW2z3hKmlhUDQIk4vzDijIx6clLy3F6sllhxOZUZSLmzaElh6Js
-         ExeA==
-X-Gm-Message-State: AFuF++mopmVY0PQXPjZ/7A4QgZRuYhk651NaMg857ztEfIG+fQKzbUqx
-	+mc8tBnU6Z3bORiJYX5KgzjwyFpnkr9/8eISsQmAWv/KFfUHFvoFS/N4uRXqZjm/VCGMLjsnLuC
-	ycol/LrQ=
-X-Gm-Gg: AYBFou3HL/21IopMGiSo3bOljpqfNriBULfoovt+72K2+YdP8JwqaM6vMhoj+gApl/p
-	K4Po3mGuWdwkusDq9+XHxiDF8pu9pmTac8zO6iS8CFxIl3s8WoJlJjk8Ru2NBPqX2+pWAMu9F1j
-	IuV+LwOv7/9jpxp6vgvJIvdM2sDAyeDFwI1z2ZjTHOXxlYiK1kaAWWjukEQ1Ktpu0MbxX3HS8Lw
-	GsA3Sp9asi4y0yE/5ebyg5HOw8UIpvSOmGihOvdcWy0qzC2Do4/q6Ezy1SE2TN/bWInkepdihFn
-	+94aD4GMVlaxIPxxhs7xskTn/QZi047NbIxaP4WTXzIJ1RuJ/r8HZV+/o5jo5/PUf1TILOT1OTL
-	WzZY8PjhMqxXHMK8rg0fAiDtosENQaCFIThFz+Urxp/w/Nj0MzAoc9PoUX4Iy08DPi8mswa8CcE
-	hZGXGDCp3oLUZBL0KvGBasp1JWdrZTydA9QGcTNFjL9t0i9u++FhHS1dw8Prrhs8bXm3iPP2A9a
-	TSgyQ9D54785WFBLcWg+9K3zd8=
-X-Received: by 2002:a5d:5e84:0:b0:487:2354:d9d5 with SMTP id ffacd0b85a97d-488670b91bbmr2586439f8f.55.1790148045514;
-        Wed, 23 Sep 2026 00:20:45 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:f510:706d:14a9:45ce])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4886876c1fdsm5427800f8f.14.2026.09.23.00.20.44
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 00:20:44 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=ilYvurHO;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: wenwfu@qualcomm.com)
+Received: from pps.filterd (m0279872.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68N3igvx1425371
+	for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 06:25:19 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=4XuOhjv86ghQFqwuoXgiivFpz+ZA1H4NW7p
+	TnQQoJu4=; b=ilYvurHO83wL+oSxvnUAF1WeFjPN9YmP2HvstU37MZpoQAOD88D
+	+E/G9av5F3hN8ilo7fXFIYeVuNX3kN12AFCu4bBE3686+zBmIcLmXT9vxOCaRpfG
+	BDoV0DehX7Hq7aCpD0QUNPhEs+olmhGao8AJHZXWz7ibHigN7OQtWGYDZOyuEGov
+	MnoID3D8alcQsZX/sAtg/0I2/QDQUY43TOFPRQ9MoaUxHJYwqYfdkdn9G08jNhwX
+	OuVNvPfdis+rF4cLSDfV5rRHwxxGLtY76tLuVZ3jbr+cXqAxefQjEZglvjhNi0ks
+	jHB3FzRcxkZ1hZJlfo6U/ufuUEgnFTDvomA==
+Received: from aptaippmta01.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4guy2c2hwm-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 06:25:19 +0000 (GMT)
+Received: from pps.filterd (aptaippmta01.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA01.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 68N6PGuF513153;
+	Wed, 23 Sep 2026 06:25:16 GMT
+Received: from perf-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA01.qualcomm.com (PPS) with ESMTPS id 68N6PFDB513143
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 23 Sep 2026 06:25:16 +0000 (GMT)
+Received: by perf-sh02-lnx.ap.qualcomm.com (Postfix, from userid 3975139)
+	id 219A4ABE; Wed, 23 Sep 2026 14:25:15 +0800 (CST)
+From: Wenwen Fu <wenwfu@qti.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/5] repo: upgrade 2.67 -> 2.68
-Date: Wed, 23 Sep 2026 08:20:38 +0100
-Message-ID: <20260923072039.3153452-4-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-In-Reply-To: <20260923072039.3153452-1-richard.purdie@linuxfoundation.org>
-References: <20260923072039.3153452-1-richard.purdie@linuxfoundation.org>
+Cc: Wenwen Fu <wenwfu@qti.qualcomm.com>
+Subject: [PATCH] initramfs-framework: retry LABEL lookup before coldplug fallback
+Date: Wed, 23 Sep 2026 14:25:12 +0800
+Message-ID: <20260923062512.333252-1-wenwfu@qti.qualcomm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-GUID: h0LN6t_XTCQ2F2eYYOrVK1Ihieu97dPj
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTIzMDAyNSBTYWx0ZWRfX7kgBUqYkkaiL
+ So4NaDQxVCdo26mOBgIUmfQ//WAySbwa5F4hlYdI0+Kf8xpsEeu12zXnSDBhfouyCpIlh7xY16y
+ cjvnppzrsHDoeaxamnX8CFBjrU2PH/4=
+X-Authority-Analysis: v=2.4 cv=Zsh4uN7G c=1 sm=1 tr=0 ts=6ab370cf cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=yx91gb_oNiZeI1HMLzn7:22 a=EUspDBNiAAAA:8 a=ZKNtc7ZdONaKhKoARkEA:9
+X-Proofpoint-ORIG-GUID: h0LN6t_XTCQ2F2eYYOrVK1Ihieu97dPj
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTIzMDAyNSBTYWx0ZWRfX7vdBEre/Ciwf
+ 2Hk1shJsbQiXiEimabzu83G1YRm+XfQl4haY7CG4zbnOkYgydbOOxtghlPltfV35VFRD+LRaUnq
+ BhgLC11EhdlZt5AvyaLlo7x2P3AvZ+Tytard1849RJ17J6tvdcyv5tuC8biX8r9CTGxX5LIIyMF
+ fLu8GFyFNqAV6MHcAshWuoOxyET7NSkexSLDDITQLyR8Lj0Q0f/blbH8XAoILl+X0j/8J6YfZ0v
+ o28jDSdSd5whgle6TenjeX8CiiR1e4wCMrcYtIM73oKqAiSGEMsByw+HvYRld7+t/Qtk4PcTYtr
+ Tx2lUv6i8Cdv4HXxkqGAgw49AAnXEz7bzbd5wCOvddAkUL9qkbzCXYEgzwZS3hetgyKfJDmHMU/
+ FQU0mZeVx4dGtaCzN9BiuPF4WMLoeaZCfzj+454zOLNioOApkBDsJohodhJ9YnAdtnHXy1FFQMk
+ 7XHQyvzIUkf4lh/176A==
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-23_02,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ impostorscore=0 adultscore=0 clxscore=1015 priorityscore=1501 phishscore=0
+ bulkscore=0 suspectscore=0 malwarescore=0 spamscore=0 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609230025
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 07:20:50 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246455
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 07:40:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246458
 
-info: reuse branch snapshots and combine history walks
-project: avoid unnecessary sync revision enumeration
-project: make fast-forward merges explicit
-project: fold normal stash detection into status
-sync: reuse status HEAD in the bloat scan
-project: render worktree status from one snapshot
-project: use one status snapshot for dirty checks
-git_status: parse one porcelain v2 worktree snapshot
-git_command: allow lossless capture of machine output
-project: pass --no-filter and --no-tags in DownloadPatchSet
-project: rename UncommitedFiles to UncommittedFiles
-command: preserve project filters in regex selection
-tests: avoid losing trace2 socket readiness signal
-sync: keep generated jobs-checkout help host-independent
-sync: implement reprojectcmd for the local half
-project: report why refreshing the index failed
-command: fix group selection across submanifests
-release: update-manpages: restore __main__ guard
-manifest_xml: Improve error message on base check fail
-upload: bypass branch editor with explicit branch and -y
+The root-only udev path can resolve root=LABEL= before the storage
+device has registered. This makes the lookup fail and causes an
+unnecessary full udev coldplug.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Retry the lookup five times with a 10 ms delay before falling back to
+the existing full coldplug path.
+
+Fixes: fda394c2b91b ("initramfs-framework: support LABEL with root-only udev trigger")
+Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
 ---
- meta/recipes-devtools/repo/{repo_2.67.bb => repo_2.68.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/repo/{repo_2.67.bb => repo_2.68.bb} (94%)
+ .../initrdscripts/initramfs-framework/udev    | 33 +++++++++++++++----
+ 1 file changed, 26 insertions(+), 7 deletions(-)
 
-diff --git a/meta/recipes-devtools/repo/repo_2.67.bb b/meta/recipes-devtools/repo/repo_2.68.bb
-similarity index 94%
-rename from meta/recipes-devtools/repo/repo_2.67.bb
-rename to meta/recipes-devtools/repo/repo_2.68.bb
-index 948a9a775c0..ee448583ab9 100644
---- a/meta/recipes-devtools/repo/repo_2.67.bb
-+++ b/meta/recipes-devtools/repo/repo_2.68.bb
-@@ -11,7 +11,7 @@ LIC_FILES_CHKSUM = "file://LICENSE;md5=3b83ef96387f14655fc854ddc3c6bd57"
+diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+index 85c5ba1178..fbf1b98d56 100644
+--- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
++++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+@@ -35,6 +35,31 @@ udev_enabled() {
+ 	return 0
+ }
  
- SRC_URI = "git://gerrit.googlesource.com/git-repo.git;protocol=https;branch=main;tag=v${PV} \
-            "
--SRCREV = "d27d6829a84f488b7253ea693dcc429076c33914"
-+SRCREV = "8c7e0a683e88cf23f2c4765b26cfa1c917b660f4"
- 
- MIRRORS += "git://gerrit.googlesource.com/git-repo.git git://github.com/GerritCodeReview/git-repo.git"
- 
++udev_resolve_root_label() {
++	udev_root_label=$1
++	udev_root_label_retries_left=5
++	udev_root_partuuid=
++
++	# The block device may still be registering when initramfs starts.
++	# Retry up to five times after the initial lookup, with a 10 ms delay,
++	# before falling back to a full udev coldplug.
++	while :; do
++		udev_root_dev=$(findfs "LABEL=$udev_root_label" 2>/dev/null)
++		if [ -n "$udev_root_dev" ]; then
++			udev_root_partuuid=$(sed -n 's/^PARTUUID=//p' \
++				"/sys/class/block/${udev_root_dev#/dev/}/uevent" 2>/dev/null)
++			[ -n "$udev_root_partuuid" ] && break
++		fi
++		[ "$udev_root_label_retries_left" -eq 0 ] && break
++		udev_root_label_retries_left=$((udev_root_label_retries_left - 1))
++		sleep 0.01
++	done
++
++	[ -n "$udev_root_partuuid" ] || return 1
++	root_match="PARTUUID=$udev_root_partuuid"
++	return 0
++}
++
+ udev_trigger_root_device() {
+ 	case "${bootparam_root:-}" in
+ 		PARTLABEL=?*)
+@@ -47,13 +72,7 @@ udev_trigger_root_device() {
+ 			# The kernel does not export the filesystem LABEL in the
+ 			# uevent, so resolve it to a device node with findfs and
+ 			# match on that device's kernel-provided PARTUUID.
+-			root_label="${bootparam_root#LABEL=}"
+-			root_dev=$(findfs "LABEL=$root_label" 2>/dev/null) || return 1
+-			[ -n "$root_dev" ] || return 1
+-			root_partuuid=$(sed -n 's/^PARTUUID=//p' \
+-				"/sys/class/block/${root_dev#/dev/}/uevent" 2>/dev/null)
+-			[ -n "$root_partuuid" ] || return 1
+-			root_match="PARTUUID=$root_partuuid"
++			udev_resolve_root_label "${bootparam_root#LABEL=}" || return 1
+ 			;;
+ 		*)
+ 			return 1
+-- 
+2.43.0
+
 
