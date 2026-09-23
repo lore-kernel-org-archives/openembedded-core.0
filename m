@@ -2,61 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C9165C982EA
-	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:11:33 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 19D35C98307
+	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:11:34 +0000 (UTC)
 Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2912.1790154687178689165
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2821.1790154692353928319
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:11:27 -0700
+ Wed, 23 Sep 2026 02:11:32 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=Mx7IhXvM;
+ dkim=pass header.i=@smile.fr header.s=google header.b=BQ8W+/6Q;
  spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cd4ba9f68so7452325e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:26 -0700 (PDT)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e8185e037so3332585e9.3
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154685; x=1790759485; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154690; x=1790759490; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=ekfPxoRAjm/kidNkpnyOGVPU7xwLNbjhK0xD/orRBTQ=;
-        b=Mx7IhXvMjWpnKKnhUF/07zFcHhsjmv6L+uztzsvYncwcwHG11BiLLjZzc0z7Zs8riO
-         g3LFb+AnW7OlRCMdJDTZjWty6Ofhx0lpRGTWGasESJWprFg7Ep1hLwdkuMtiZ7QbvU2W
-         4IdT117Okte3oUPTk8Pml6a4ntu4CZRbzjdtg=
+        bh=YZURdTqaiH31JJNQ3B1BJACWdGR5CK9q+Ow/qXswR/Q=;
+        b=BQ8W+/6QCYDuI0NXdfdBtszSuL4/LCIV//d8jjRueRLDnNNg8ggJmCK7MzbbP04ZGf
+         swQPjPU+RhTmqz75HwYqGaUliMip622o9HYD1XyhC1QXEbBKddRa7Q8AB0b47glTVikw
+         L0GKgkP50ztNmG5RQ7of8TOBLYbg2A42W6GUI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154685; x=1790759485;
+        d=1e100.net; s=20260707; t=1790154690; x=1790759490;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=ekfPxoRAjm/kidNkpnyOGVPU7xwLNbjhK0xD/orRBTQ=;
-        b=TiSwLPcinsFrbcKCc+ywNQJTwYI78H1lXkLO2xu9WIBAronFyv6vsimaIg+u+J6qNV
-         eGDrgT1X6000zdf4L49eFplzvgT7PIpDwwE6eZNreRcSPbNX8ndaRf0+BpVpk5RioK7b
-         SYBxKdKz3ldWtEIAwAdb9Hs3WIFEzEHoj2QYr6RabhwnyBDujf5NLFpcV59lMagrikkH
-         gIltMQL2t6tx1Lb9rEXicBCgflvgG/+nUD8lwujHzNW8eiWZiYL23zWbJTNGCJHwvX8M
-         Bu/FskwekYof1L01i07FWZ7VxUqYXDwuQd+ZCiMKsGKrrpg+jrAyyMhXZG8iaR0zvvdN
-         ViTg==
-X-Gm-Message-State: AFuF++mdgGcEvCMG/p5BLXv5F4btHUsqojJb/k7qXbu15wY3YtqjCdeI
-	gHoajBG5Jg52ULg6QXtBvuMnk3kl/xx0u5A9WTFp2tXzoOBK8pl4uS//1GFcVMOXVPekC5CAJMW
-	+S19hBdI=
-X-Gm-Gg: AYBFou2MdrvwpMio88BdMu3b1XfZeJG9+LLWhd2wWwi0MAQrT3ihPJYVJP1gwWPPM7D
-	/xr8Fg/OZwMgRalcnX2My56/h4z6VgPmx7PQs6VQhLZGakqyUKggX971ufb8ivtLVtDfhx4IulQ
-	Z+YA9Bdi/KZwuw/6Tv2sSuGLR1NQYhrhlLVZcdQzbZX4DFESRuwut1XKmuXurPEdP8sf/N73ftm
-	UqgEiT1D2t/6r3LERCCIF+hHCb0S4dB53F84G+ifarGIMGdJYlni5QTQbDwkVbvzUQZNYeV+nx7
-	+fH3SRUIYu3UFyyvlSYZloEt7XCGq5YV2O8oQkSDXdBKsP5ivDO23vtUIu2gkYjXU2BmzvAZPw3
-	4TPYCEiN2zFb3W8BEwEh9DaMYC2fvdBea6GiqmojoYJ30qro6VoEuKHI/ExFX5+T3ddeCAS+HVL
-	9hJOlL2/FLVJYDmGZHt1+URDbAK436zpkb5989C76KKGsXTeYCUzoICXeH5wlB5KssA5oIWuXjp
-	fRkyR3RA9mTi1Vike5vB1qQoFZBh2kMcgqbuw0yvFosNzxfwqsoHoXjpB68qEwtM20I9O/s3w==
-X-Received: by 2002:a05:600c:6297:b0:49c:fe46:7219 with SMTP id 5b1f17b1804b1-49fdf12ba37mr21874895e9.20.1790154685370;
-        Wed, 23 Sep 2026 02:11:25 -0700 (PDT)
+        bh=YZURdTqaiH31JJNQ3B1BJACWdGR5CK9q+Ow/qXswR/Q=;
+        b=YDrTQ0JhTo+ZL6qVKM/62kLImdxVYI14xdGgXqo56glAn6QR1cd/bfcrgf7rn+H/27
+         ROmbXYcRAlcY+tDpfeK1y/umDkCGPRnSp3FQj6yQeLzLH7qXRC6DPkHkOwGHPqpocXcL
+         J+RRBZeoT877YJjbokyd8zTmsIDvb5TJSctVB+XVVoJQvADacwZ50YwXrmy5QKGCb/4g
+         RQUaO7SOvWjwIh2clAsJweTlAmkbcB+ASG+V7/cEC61e/8shhLf7cB64y9WY8aGAICL3
+         PLLfZKd3IB1dPQhFUBsFajcA2B7vMrPO1CHpmy96kdR//T2CqIFw66MGST0rqcxyesJV
+         2/IQ==
+X-Gm-Message-State: AFuF++kxiaPH37omdyvfuClBWR5NRDUEB+S9jSu7+W5EmcSbM0oOtlRx
+	0quL7hsQ2pYuOfPaCwwNcdqB4R5vpP1zrhl8VAKTTLHdXrKLJmKnhahqvUw3SY27w792gHinK6D
+	bvBo98Nw=
+X-Gm-Gg: AYBFou3kXoohidXP2UTdwlEOmGF0OJR8cx81IbwMQgnD75ndALAfIwoQHUI3OcMQyOY
+	pIMr2arJWGlhfPIVeptGF43iKN7EgOIWSDHBF8TYpyqfeKev9G411n5qKSGnVcCCzLo5kW9K6z/
+	Dd6CA2kaLppkr6PgMO8qqmYYHGVw9LHvnMO7Mh8VkHSEFA40KXfYjsT1x934erPPqOuuKhZyqyN
+	h5G2EZC2PjbR3PfDwIAqOypn1zoLbvw4K+Kp+7hWtBmjfTzF6tQRnWGaeBt/U/Fv8R4BPVEaXZ2
+	b3vTDm3CaVP8bpvxhi1spSue53lCXeZlkaQ9tf3YBiJaACBxjKvxH91IUYjj7JPKb3++TWri3FO
+	J60knhsR5PIff5MZ40xmoNqMoch/FYpj5aUzjF5CfaXla3xsrn3evL5E0mxOE15C3niXUxgIUZv
+	2NUTW8GAq2mlgYV0lTgF3m715tNUeMOm54wd9f7cSwdpMeTx+aQfQYhiF2Y6RlrIy39f16dd+wu
+	gp/Y1gUk3McL/EpHxKeZPdVzB6KN5EEN7rOvhkNHW6kWC5/1b9KFIcqSQKULK1JYLQW2w5tWckS
+	EgztHk0=
+X-Received: by 2002:a05:600c:3e07:b0:49c:fc6c:be09 with SMTP id 5b1f17b1804b1-49fdf250b4fmr22831225e9.32.1790154690513;
+        Wed, 23 Sep 2026 02:11:30 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.24
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.29
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:11:24 -0700 (PDT)
+        Wed, 23 Sep 2026 02:11:29 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 08/48] python3-mako: correct CVE_PRODUCT mapping
-Date: Wed, 23 Sep 2026 11:10:10 +0200
-Message-ID: <d419d38614ad7dae149e005ac6183c0290f54b2d.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 11/48] vim: Fix for CVE-2026-73072
+Date: Wed, 23 Sep 2026 11:10:13 +0200
+Message-ID: <d43821fae26ba24c51ee8502259b781d06b320f4.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -65,41 +66,104 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:11:33 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246470
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:11:34 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246473
 
-From: Devansh Patel <devanshp@cisco.com>
+From: Hitendra Prajapati <hprajapati@mvista.com>
 
-The inherited "python:Mako" mapping is not used for the packaged Mako
-source and causes its vulnerability records to be missed.
+Pick the patch from [1], also referenced in the NVD report [2].
 
-Use "makotemplates:mako" for its historical NVD configuration identity
-and "sqlalchemy:mako" for the current NVD dictionary CPE, NVD
-configuration, and CNA affected-data identity.
+[1] https://github.com/vim/vim/commit/05c41c922309c7a11b6ec2f124be66551c90d66a
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-73072
 
-Backport note: this applies the metadata to Scarthgap Mako 1.3.2 rather
-than master 1.4.1; the older release exposes applicable unpatched records.
-
-Signed-off-by: Devansh Patel <devanshp@cisco.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 76fc2046d3f251af34dd04f8fdcfc0c1d6016380)
-Signed-off-by: Devansh Patel <devanshp@cisco.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/python/python3-mako_1.3.2.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../vim/files/CVE-2026-73072.patch            | 64 +++++++++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 2 files changed, 65 insertions(+)
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-73072.patch
 
-diff --git a/meta/recipes-devtools/python/python3-mako_1.3.2.bb b/meta/recipes-devtools/python/python3-mako_1.3.2.bb
-index 617bf33443c..21d37eab4eb 100644
---- a/meta/recipes-devtools/python/python3-mako_1.3.2.bb
-+++ b/meta/recipes-devtools/python/python3-mako_1.3.2.bb
-@@ -12,6 +12,8 @@ SRC_URI += "file://CVE-2026-41205.patch \
-             "
- SRC_URI[sha256sum] = "2a0c8ad7f6274271b3bb7467dd37cf9cc6dab4bc19cb69a4ef10669402de698e"
- 
-+CVE_PRODUCT = "makotemplates:mako sqlalchemy:mako"
+diff --git a/meta/recipes-support/vim/files/CVE-2026-73072.patch b/meta/recipes-support/vim/files/CVE-2026-73072.patch
+new file mode 100644
+index 00000000000..0ae3b2b49e6
+--- /dev/null
++++ b/meta/recipes-support/vim/files/CVE-2026-73072.patch
+@@ -0,0 +1,64 @@
++From 05c41c922309c7a11b6ec2f124be66551c90d66a Mon Sep 17 00:00:00 2001
++From: Yasuhiro Matsumoto <mattn.jp@gmail.com>
++Date: Fri, 24 Jul 2026 00:58:37 +0900
++Subject: [PATCH] patch 9.2.0846: [security]: heap buffer overflow in
++ set_sofo()
 +
- RDEPENDS:${PN} = "python3-html \
-                   python3-markupsafe \
-                   python3-netclient \
++Problem:  [security]: heap buffer overflow in set_sofo()
++          (Yazan Balawneh)
++Solution: Reset sl_sal_first (Yasuhiro Matsumoto).
++
++A crafted spell file with an empty SN_SAL section before an SN_SOFO
++section reaches set_sofo() with sl_sal_first[] already set to -1 by
++set_sal_first(). The counting loop then under-counts colliding
++multi-byte "from" characters, allocates an undersized list and writes
++past its end.
++
++Github Security Advisory:
++https://github.com/vim/vim/security/advisories/GHSA-9jqx-hgpr-6v64
++
++Signed-off-by: Yasuhiro Matsumoto <mattn.jp@gmail.com>
++Signed-off-by: Christian Brabandt <cb@256bit.org>
++
++CVE: CVE-2026-73072
++Upstream-Status: Backport [https://github.com/vim/vim/commit/05c41c922309c7a11b6ec2f124be66551c90d66a]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ src/spellfile.c                | 4 +++-
++ src/testdir/test_spellfile.vim | 5 +++++
++ 2 files changed, 8 insertions(+), 1 deletion(-)
++
++diff --git a/src/spellfile.c b/src/spellfile.c
++index b3ee9c0d63..a9f7e83752 100644
++--- a/src/spellfile.c
+++++ b/src/spellfile.c
++@@ -1433,7 +1433,9 @@ set_sofo(slang_T *lp, char_u *from, char_u *to)
++ 	gap->ga_len = 256;
++ 
++ 	// First count the number of items for each list.  Temporarily use
++-	// sl_sal_first[] for this.
+++	// sl_sal_first[] for this.  Reset it first: a preceding SN_SAL section
+++	// may have set the entries to -1 via set_sal_first().
+++	vim_memset(lp->sl_sal_first, 0, sizeof(salfirst_T) * 256);
++ 	for (p = from, s = to; *p != NUL && *s != NUL; )
++ 	{
++ 	    c = mb_cptr2char_adv(&p);
++diff --git a/src/testdir/test_spellfile.vim b/src/testdir/test_spellfile.vim
++index 3a93883b4d..0b0cf42066 100644
++--- a/src/testdir/test_spellfile.vim
+++++ b/src/testdir/test_spellfile.vim
++@@ -319,6 +319,11 @@ func Test_spellfile_format_error()
++   " SN_SOFO: multi-byte characters in sofofrom and sofoto
++   call Spellfile_Test(0z0600000000080002CF810002CF82FF000000000000000000000000, '')
++ 
+++  " SN_SAL (empty) followed by SN_SOFO with two multi-byte 'from' characters
+++  " sharing the same low byte.  A preceding SN_SAL poisons sl_sal_first[], so
+++  " without a reset set_sofo() under-counts and writes out of bounds.
+++  call Spellfile_Test(0z05000000000300000006000000000A0004CAABCEAB00024142FF000000000000000000000000, '')
+++
++   " SN_COMPOUND: compmax is less than 2
++   call Spellfile_Test(0z08000000000101, 'E759:')
++ 
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
+index a4f8162d31c..10f4ce15999 100644
+--- a/meta/recipes-support/vim/vim.inc
++++ b/meta/recipes-support/vim/vim.inc
+@@ -50,6 +50,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https \
+            file://CVE-2026-59857.patch \
+            file://CVE-2026-59858.patch \
+            file://CVE-2026-57456.patch \
++           file://CVE-2026-73072.patch \
+            "
+ 
+ PV .= ".1683"
 
