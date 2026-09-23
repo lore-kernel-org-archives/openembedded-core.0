@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 58C6BC98307
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 40F3BC98308
 	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:12:26 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2944.1790154744807095959
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2844.1790154742843308926
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:12:25 -0700
+ Wed, 23 Sep 2026 02:12:23 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=eI9Jsllx;
- spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cc9f581c4so2342395e9.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:12:24 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=Ak1TOGy9;
+ spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d37b6so3523175e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:12:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154743; x=1790759543; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154741; x=1790759541; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=ScJJ8mffQPxpH3Exsunanxo08v4Z+2DF0ScW1l3dgSU=;
-        b=eI9JsllxXaBL6igTVTCyjfUv8Zd2RlQTCp/9tE55oKaTPMlvpt6/ZfTJ87qUi+JJTi
-         8WFuZqdvWeez0Hepgapz62yHSr90JkOktRSsjlH86wvyX6fBEQGunTwsadAp4XiKOnKx
-         EGuvbiwvdRCxdqTjEByGibeNlBtcujCpBLQuU=
+        bh=cNMQAkxz12NFSeN3eoDwFlPhL4l17v3wO0WOwdmh+zU=;
+        b=Ak1TOGy9xcuBSNr3ib8uTSIYN8V5W3VR+f1HI0xnBXSKd07hSUTfkhSov8LSMLvLAh
+         cl2D4+tmObU02XYD+xi8hdkuWnYSQgST0PSQaou4Mf9AxYS8rP1Mdx+fzcNJbUdmjgqS
+         nRAB05P7xi3PO5Yy1EpHoNBOHeXhp84B5Bb4I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154743; x=1790759543;
+        d=1e100.net; s=20260707; t=1790154741; x=1790759541;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=ScJJ8mffQPxpH3Exsunanxo08v4Z+2DF0ScW1l3dgSU=;
-        b=GIRB0ZHfFK641QmpxgIgP1gDjXSA3sF3VFYP9Z7Gqq0bES0odN8qQvPcssKUWRS+lP
-         Fwh2FnpMt+rUzajEHJYsh7wF5vRvvfoF2P/RFVh/HHzbl5XQeALXaru+TgqRkoOH5CoM
-         LmRmcIqKpy/aQvnTBcAigkTmVRzZtY14JfMRPp7tdtZCW9NXi0xvhXgoUN+QwT9QXfMD
-         xjpknKereinW6lg2OzFzselP6aH8fe3fh8L/Hk/19/gGTMA2zLDY3RQjd3Zz4t0d1qGy
-         BgasjwrPeViTIUWwaOQEFh5BfEdsopUGL9jQkGdC/q7Vvkhe9xaL4PU/5sQ+ZN/gm3Ir
-         +Y/Q==
-X-Gm-Message-State: AFuF++nWSVEcEug+7DwjkdgzHCiIxzPoOSglsCAXpUFYLAQddfKvigYk
-	HUXy8PJWowG4qk/47Hv87TwEl6LqxQppz7w3MUAf0vi+YnDu9AYSlray7lQpqQPM91sqZr/koNZ
-	NfKeu2+c=
-X-Gm-Gg: AYBFou1+Nnbztga4d0X3dOcRo9OahtdRDLWGaTANNEkwbzt4lZKGqQiqVFUumiFpD34
-	vIdjktHG9fK8C+0uz5pnLyTLIxPGXvDv0m9bVxkwiHIQmjI3KIXjBcsLULCeX7EELTtLqA7jXbs
-	2bqKnyr4DzFjsUiZX2S1OTQSwslllh0JpJzjJWYYPc0BXywF5+3B8J3JoSqWZozCSxxIA2kq7HK
-	ZTYutpl1Atj4HaaD3l20143aXbBt0OOY8cS5RVUlvGWfHboOcJZsBdk8wFAHwJ0ymroKCiKCDgR
-	xEIVpSHxOks/uXRSJVwy3E8Wm7wWyzvrs7oMp3TPS2p6GOi79I+JabPSaplXJ6Tcz7mk5rQPHr3
-	6O/sGBF6wAFRDlFnxQotF4/hCd8yCQV07oLeHpAzD+CJXi8nqNKUkm8q9pKKpMC+95tTFyfUeAb
-	XKyHiAWSVgxJCDjXgH8NywJBABvJznWGP9guMjQeB2J/8fO0lV+aOoePktYoSc/HFp+SM843cvD
-	5Ca5vOstaoWReAvMfoQGBbt1LNq7bTtuEED+RhGgAlpcFhs9NEYO2irgxTvmCQBVk2HG9Lz
-X-Received: by 2002:a05:600c:1f90:b0:49e:6836:5386 with SMTP id 5b1f17b1804b1-49fde20e848mr27541615e9.0.1790154742962;
-        Wed, 23 Sep 2026 02:12:22 -0700 (PDT)
+        bh=cNMQAkxz12NFSeN3eoDwFlPhL4l17v3wO0WOwdmh+zU=;
+        b=Ad0pZrGFtscbrPpruNpkYWlyglM25y2YWUeLxTJIIRzgghG5ij6t1Sh3D0iqhbYuWp
+         IICE4QgbdLz+s2j/Da9XnAyANZeR+bbZLr4c6+imFRvyi673QYAhHioo7xIsFIcKUvt9
+         l1I6zhjYTaBpbiuee5Tq6PQhE1VpVe3DszdIWtvzBvnHnMIIPLzAUcBK+twk9XV86gm4
+         0zmi5H+NZwkVUCNAYvqsVHLRMg+8vb+Traqdi/JhcEClBhqKd4YNGa3CRHsO4zlO2C5j
+         sn2Ia45DzYysJwzJAn07AjqFOTBlAdKWOJE4t/JZxCtW0zStbLfn73OqOC2Tf4xuKGjV
+         J+ZQ==
+X-Gm-Message-State: AFuF++kB93ftKxweE+G9oz7nfEwI5HiFn0y4cBnRPB9Qw2VD258HfpRb
+	iEeUn+NGCSJZpHXzgI+YGb2qNwG7+pRvj724iB4/aU5sycCx9PvmnFSG9hPomoRQQDCTqvH8JOm
+	CcDC/6gs=
+X-Gm-Gg: AYBFou2oWoozbPqTWFF4XLnJQ3XZrQnv8jUMRSsIJsYGaHmGlyOma2CTXFxurws5Phc
+	lN2SlXEYJifn1bVRElc8jA0YvtsL8UkH7ex3EbKNKLFnMP2ff5BH/WkUaOufy7R1QBfxYxLreq1
+	qOYpS1jYVGOx/NV9srSVNTVK6dpCoyaYbE3mjtbC1q0ByMoJn4GZNbcZSuXcnIY/7joCJTDywmd
+	MLSSSEzKJvEJ/oz8v4mPI38Zrb8JPhj9DBQfg1BPCUW55MD9vOf+xcuFgbbUwjcdmMa/lwFzXlB
+	+mMLC2rLt4suzR8iKLlJRULPz1Jk6t90WvqbVYbA0VSwIjygxF/b9zvgy3b+GgZeLk4mUJbFIg/
+	25wlHLYZuDH0z07Hwi0eFZsGiKqO08zo2daGwcmOokbmwip/I4SPUhkfOVcDTukTMvbre81RSz+
+	toh084JEuwjVWKO8VUKbEz/ZnfXFMfeQLpeaqj75uvNcLkXDsC/oTS57lTbHeipcotsWhdiMAtA
+	+a8aDagXxnq+u7mZP8cHyPqJHDp2f3YcAoi6Dmms+EoiLCd/OMKpJLeVk1nlhqIhH8S61cJ
+X-Received: by 2002:a05:600c:1908:b0:49f:ce78:3560 with SMTP id 5b1f17b1804b1-49fdee0a35emr21455475e9.17.1790154741005;
+        Wed, 23 Sep 2026 02:12:21 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.12.22
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.12.20
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:12:22 -0700 (PDT)
+        Wed, 23 Sep 2026 02:12:20 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 48/48] time64: enable 64-bit time/file-offset flags for 32-bit nativesdk
-Date: Wed, 23 Sep 2026 11:10:50 +0200
-Message-ID: <70778df2c2882f1abbdd4dd2f8d229ade720d8a4.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 46/48] curl: Security Fix for CVE-2026-18924
+Date: Wed, 23 Sep 2026 11:10:48 +0200
+Message-ID: <8305fd4d8e6e4a7a4435989c57fedd470306f0e6.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -66,71 +66,78 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:12:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246510
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246508
 
-From: Peter Tatrai <peter.tatrai.ext@siemens.com>
+From: Siddharth Doshi <sdoshi@mvista.com>
 
-When SDKMACHINE is set to i686 or i586, nativesdk binaries are compiled
-as 32-bit. Without -D_TIME_BITS=64 and -D_FILE_OFFSET_BITS=64, stat()
-and time-related syscalls use 32-bit types, causing EOVERFLOW on
-filesystems with large inode numbers (e.g. container overlay filesystems)
-and Y2038 issues.
+Picking patch as per [1], and same patch is mentioned in [2]
 
-Add SDK_CC_ARCH appends for class-nativesdk:i686 and class-nativesdk:i586
-using GLIBC_64BIT_TIME_FLAGS, mirroring how target architectures are
-handled.
+[1] https://curl.se/docs/CVE-2026-18924.html
+[2] https://security-tracker.debian.org/tracker/CVE-2026-18924
 
-The existing GLIBC_64BIT_TIME_FLAGS:pn-glibc override only matches the
-target recipe, not the class extended nativesdk-glibc, so an additional
-pn-nativesdk-glibc override is needed here. This is required on
-scarthgap but not on master/wrynose, because scarthgap carries glibc
-2.39, which predates glibc commit a4ed0471d717 ("Always define
-__USE_TIME_BITS64 when 64 bit time_t is used"). In 2.39 the header
-redirect turns sigtimedwait into an alias of __sigtimedwait64, which
-then collides with glibc's own weak_alias() and fails to assemble:
-
-  Error: symbol '__sigtimedwait64' is already defined
-
-Also exclude nativesdk-mingw-w64-runtime. The MinGW runtime provides the
-Windows CRT rather than glibc, and _FILE_OFFSET_BITS=64 changes its
-stat declarations. That causes conflicting declarations for wstat when
-building the CRT itself.
-
-Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit d9f62a45555673842021d5746437e66c40d3f3cc)
-Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
+Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/conf/distro/include/time64.inc | 17 +++++++++++++++++
- 1 file changed, 17 insertions(+)
+ .../curl/curl/CVE-2026-18924.patch            | 39 +++++++++++++++++++
+ meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
+ 2 files changed, 40 insertions(+)
+ create mode 100644 meta/recipes-support/curl/curl/CVE-2026-18924.patch
 
-diff --git a/meta/conf/distro/include/time64.inc b/meta/conf/distro/include/time64.inc
-index dd29105db44..c2a4feab24b 100644
---- a/meta/conf/distro/include/time64.inc
-+++ b/meta/conf/distro/include/time64.inc
-@@ -32,6 +32,23 @@ GLIBC_64BIT_TIME_FLAGS:pn-pulseaudio = ""
- # libsanitizer/sanitizer_common/sanitizer_platform_limits_posix.cpp
- GLIBC_64BIT_TIME_FLAGS:pn-gcc-sanitizers = ""
+diff --git a/meta/recipes-support/curl/curl/CVE-2026-18924.patch b/meta/recipes-support/curl/curl/CVE-2026-18924.patch
+new file mode 100644
+index 00000000000..28934ababee
+--- /dev/null
++++ b/meta/recipes-support/curl/curl/CVE-2026-18924.patch
+@@ -0,0 +1,39 @@
++From 90325ff0444cbdff368bda5d26d6405a0bb6ee43 Mon Sep 17 00:00:00 2001
++From: Daniel Stenberg <daniel@haxx.se>
++Date: Wed, 5 Aug 2026 10:02:53 +0200
++Subject: [PATCH] http2: make server push transfers inherit share from parent
++
++Reported-by: Stephan Zeisberg
++Closes #22488
++
++Upstream-Status: Backport [https://github.com/curl/curl/commit/90325ff0444cbdff368bda5d26d6405a0bb6ee43]
++CVE: CVE-2026-18924
++Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
++---
++ lib/http2.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/lib/http2.c b/lib/http2.c
++index 99d7f3b..e6305c9 100644
++--- a/lib/http2.c
+++++ b/lib/http2.c
++@@ -47,6 +47,7 @@
++ #include "transfer.h"
++ #include "dynbuf.h"
++ #include "headers.h"
+++#include "curl_share.h"
++ /* The last 3 #include files should be in this order */
++ #include "curl_printf.h"
++ #include "curl_memory.h"
++@@ -776,6 +777,8 @@ static struct Curl_easy *h2_duphandle(struct Curl_cfilter *cf,
++       second->req.p.http = http;
++       http2_data_setup(cf, second, &second_stream);
++       second->state.priority.weight = data->state.priority.weight;
+++      if(data->share)
+++        (void)Curl_share_easy_link(second, data->share);
++     }
++   }
++   return second;
++-- 
++2.34.1
++
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 3f44cf02d31..905d0b47335 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -42,6 +42,7 @@ SRC_URI = " \
+     file://CVE-2026-6253.patch \
+     file://CVE-2026-4873.patch \
+     file://CVE-2026-13608.patch \
++    file://CVE-2026-18924.patch \
+ "
  
-+# Apply the same flags to nativesdk packages when building for a 32-bit SDK
-+# host (i686, i586).
-+SDK_CC_ARCH:append:class-nativesdk:i686 = "${GLIBC_64BIT_TIME_FLAGS}"
-+SDK_CC_ARCH:append:class-nativesdk:i586 = "${GLIBC_64BIT_TIME_FLAGS}"
-+
-+# Recipes which implement or wrap the libc APIs themselves must not be built
-+# with these flags, as the redirections glibc performs would collide with the
-+# symbols the recipes define (e.g. "symbol '__sigtimedwait64' is already
-+# defined" in nativesdk-glibc, or duplicate creat64/fopen64 in
-+# nativesdk-pseudo). The pn- overrides above only match the target recipes, so
-+# the class extended variants have to be listed separately.
-+GLIBC_64BIT_TIME_FLAGS:pn-nativesdk-glibc = ""
-+GLIBC_64BIT_TIME_FLAGS:pn-nativesdk-pseudo = ""
-+# The MinGW runtime provides the Windows CRT rather than glibc. These flags
-+# change its stat declarations and cause conflicting types in the CRT sources.
-+GLIBC_64BIT_TIME_FLAGS:pn-nativesdk-mingw-w64-runtime = ""
-+
- # Caused by the flags exceptions above
- INSANE_SKIP:append:pn-gcc-sanitizers = " 32bit-time"
- INSANE_SKIP:append:pn-glibc = " 32bit-time"
+ SRC_URI:append:class-nativesdk = " \
 
