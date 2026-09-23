@@ -2,61 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 9BB05C982FA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C32DCC98308
 	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:11:44 +0000 (UTC)
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2823.1790154699684732864
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2921.1790154701905312175
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:11:40 -0700
+ Wed, 23 Sep 2026 02:11:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=JSo6oVlV;
+ dkim=pass header.i=@smile.fr header.s=google header.b=o4yguigI;
  spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd38e0e5dso8676615e9.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:39 -0700 (PDT)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b91369d18so4540955e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154698; x=1790759498; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154700; x=1790759500; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=tNvNV43hsG539j6oZEnTLX+KVcPCkVJmgxVQb+hpJ2w=;
-        b=JSo6oVlVcEJU5FS82V26ZTHxe3MMUDHr2M3YQIderDxj7Xwr10MyY5oFNI1UtelyMy
-         0e6FDfp/dxmNNpLNActIkKWIyk52Qz0bIQSUkhB/ulm8BpKqi1/QXF4ZFyYcT5pUu9a9
-         GXaRzT0pD26niTJpRMyiLVlm8rtu7DFnaTSoo=
+        bh=xT3dcrLX5cRuY9vO/bWRk1wfXfmMkEz5uPzrrFArt9Y=;
+        b=o4yguigIb4J+IxJAtaGNmswEyih1XMi0QFl2ecf/tGYl3XOk00rvS6qRXXR+539isW
+         /FNKNtqw5zHVUlI6420LS/wYoVzmNxBHFWNKQ5r/+h2MlKze7kKzl/ZYRjK3H+qlahaH
+         GehsM038VFTL6FhfLYrngbbxx/jJQC6uipmv8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154698; x=1790759498;
+        d=1e100.net; s=20260707; t=1790154700; x=1790759500;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=tNvNV43hsG539j6oZEnTLX+KVcPCkVJmgxVQb+hpJ2w=;
-        b=iEAV8G9Vw3uRUc2q9zwR5ZypSIIp2JYfKrUPDWeQZXvJ1noBpjFmYoOcbPN2bd4UjG
-         YfjyQhHdNKlNBtPrgUpOTTYNYXVK8ofMDANNbaggrlKENrVkWS04GUl5E0ffg7BVBuOK
-         w+DIMtDjU/yrbAVi1LZnXVIEQLSa5BGM1IOAkZ8woWnhRt5sj+AAzw03LO9QufIVcvFY
-         5N04Qg69Kx50CtRGDOuJQUC+pgFPnypDKZLqWZMDUL0vQRSV+96tVxgJMSMWAI7D4GzN
-         FM+BBBF0MEZ0ThZC7nSMoQPYGVeWyj8ku/ZyKLMzyMGISw9Nfpc0e2KhMC1FcXVIwyr5
-         X9YA==
-X-Gm-Message-State: AFuF++l3O8epiVzy6UyUzpsSKyMLPzOWkpFd1IQ5hWB1t2Nq2eJOzL/H
-	Ay2lkeDps/UcQfEw9Y/PTSTj/ig4LFe2NpXkTDYHpLaeE8B1KqZb8DVF3//xHMQA6FwKRsCHC4g
-	rdn9RJbw=
-X-Gm-Gg: AYBFou0LtmppG8FcO7yQ3ZLzU6O+0Nka4nuaCyIf9sIVHaMRz0fnYc0JkQzb3v8XxeK
-	7RaLPMOXb2IdCnkhqXxnYZa7Ys7PqgZ12+qkdSHiJYlPS6jEbk0o4YWzyhw1aGoJxzFH+3u73/O
-	zV4fKDEfrdRtaSoB7D0AA9vBgPe+MSosU6YJEPPwmnVZwpUZoNphJMYzustNZTVq3SL2UkHRrZd
-	Z8wBoGjS1tva7e5q2dItOAveEDiPhY+iHxkGuZ13q1sxDXW+A+Qoi1io9lkZg/bP5i7VxUpPTXb
-	e4ji5qogzkloBGHMwvCjIDtzXFUJpfjD9gFLAio8xDTKwuJJsmzYenOuicJu6706wVSwKhBZRRx
-	/+pqEIUJC5o1hRtZEyG0EUXM/BRV43bEfEEo/MFGeDaT3v3MNgfvikN1zleM/Df+RnYtMwBdOab
-	D1ey6jtqxKKe2SQUoDfqVWMv47D2h8kRWQ3LZmQqOAYes1coYv9b6JZtIS9YM9GMvif2BtL75xZ
-	9a+SAHcJ663Bkg4+tiPgSs8IctsJ/O9pT2c4/gFRhcIZC6jh/qDPVV+KZWWIJD3Pm8VJUT8
-X-Received: by 2002:a05:600c:19d2:b0:49c:cee0:e7c1 with SMTP id 5b1f17b1804b1-49fdf1370bcmr24496285e9.16.1790154697889;
-        Wed, 23 Sep 2026 02:11:37 -0700 (PDT)
+        bh=xT3dcrLX5cRuY9vO/bWRk1wfXfmMkEz5uPzrrFArt9Y=;
+        b=ePZdr91E+12twNVlWORIAeUxRZC7/9Eat7pcGdCnqUg2suZxDPnimK+t1Nnm/KJH0k
+         ZyzRCWMPoihJFCUwmHMUYxlKIQtQiBsQDDWaal7bAbjlc9f4nkoySioCUftgNe7oU07J
+         JzFid4aXLKT/wN6084ZzoU0axx60gjMlJ8GwGUBO9QCK16nmRicXh/oLhBX8nHVinfnU
+         oaaMJN5dtYuIR+DMW1lEW45xM+gCB+Qvkra/8T5wGa7UEBHPcKCfDGs3tLKnH2SX1JMR
+         Ur1sEhrLAKynR30nGyp/V1fkZnSrNzr0/i+gRGxfdVpvDoS6gQIC5BWXy0bdRvnMCz/v
+         gabQ==
+X-Gm-Message-State: AFuF++kdlJZALrpz2rFfaqU2CbbxEalCVTLiq0+4v1iG34UKTaG8p1xW
+	itFpOZXLrHYy3Iw/xFK0DCEPyDqmkpx3cZKKzjFZNwd+57973CohmAWXtaxIU36TdRiShkk4G6j
+	oJwrO6yE=
+X-Gm-Gg: AYBFou3s4KPe52+KHOw5Bx+oFgnIWTrw8MRN/p4zg/JT9y5PKp+TIavT5dzmiQrU6ux
+	MQtqJ7bQjcy4fUpC/FLna92MoB1x7C/TtgrJtdST0MXBe3qXnPEzuMF86YC++kmNc10vOXBe7I9
+	Ct+RO+jZCxn34ctvUsdUVte2MmqS5P2N6Y/9bEtGDlaQerNf4IBkzP3GatM2pqI+pJ0pjsp0l4E
+	6H/2Qet1IAHgdIPhQw7bkWpsR0wedXhEprkPpY4X2YgMQqHQ4bg6iTimYZpbeEerM1wZQPel2tX
+	wvej+HNJmJLbzhujJeIDD8VRwxQcd6H9eVhHZ+/EyGTmHOU+ERuFHMWaq7nzfN3TGosXtbAJ+4v
+	pMbaEMhqHlntBAS1xzigZ8LpSGQ0zc4/ub3pIjiza0+0fEKYBsNu33pPzPseyzjnwrxxLQZEPyk
+	hrx2Y/AoPaq7k2n3ITw0fcRbQ7WVzYXZnex6/PhJ1If84WVgFLHPYvX03d/kC5XssQyV+euipg0
+	cgNf7fDaO8rdeGhr1KPlewJEPQ/VHkaJpewYs8cGy8WD2eLYQSu8HAKz43gZ7lJ4ou0Re6T6rC7
+	rW/ihLU=
+X-Received: by 2002:a05:600c:4455:b0:49e:660a:935e with SMTP id 5b1f17b1804b1-49fdf14fa54mr23209415e9.29.1790154700065;
+        Wed, 23 Sep 2026 02:11:40 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.36
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:11:37 -0700 (PDT)
+        Wed, 23 Sep 2026 02:11:39 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 18/48] wget: Fix CVE-2026-58470
-Date: Wed, 23 Sep 2026 11:10:20 +0200
-Message-ID: <ee6588c4285e10d0784421b1c77bab09c1638aa1.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 20/48] curl: set CVE_STATUS for CVE-2026-8458
+Date: Wed, 23 Sep 2026 11:10:22 +0200
+Message-ID: <e986fa2c8d74c1b943bb9069e47d1a9ae7dee9e0.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -66,179 +67,52 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:11:44 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246480
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246482
 
-From: Hetvi Thakar <hthakar@cisco.com>
+From: Devansh Patel <devanshp@cisco.com>
 
-This patch applies the upstream fix as referenced in [2],
-using the commit shown in [1].
-It also includes the upstream regression patch from commit
-shown in [3] which changes all three Content-Range conversions to strtoll().
+CVE-2026-8458 allows a Negotiate-authenticated connection to be
+incorrectly reused for a request using a different SASL service name.
 
-[1] https://gitlab.com/gnuwget/wget/-/commit/43d3ba9336bc94937e6fae2365c6ffd30c34ffcf
-[2] https://nvd.nist.gov/vuln/detail/CVE-2026-58470
-[3] https://gitlab.com/gnuwget/wget/-/commit/01ff771caac1958662ca8665eed2021ec386a7af
+Scarthgap uses curl 8.7.1, which is within the affected version range.
+The vulnerable code path on Linux requires both Negotiate authentication
+and GSSAPI support, represented by the negotiate-auth and krb5
+PACKAGECONFIG options.
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+The upstream fix [1] stores the SASL service name in struct Curl_creds
+and includes it in connection-reuse comparisons. However, struct
+Curl_creds was introduced by the credential-management rework in [2],
+after curl 8.7.1. Therefore, the security fix cannot be cleanly
+backported without introducing a substantial credential-management
+refactor.
+
+Use a conditional CVE_STATUS as the least invasive solution. Report the
+CVE as unpatched when both krb5 and negotiate-auth are enabled. Otherwise,
+mark it not-applicable-config because the vulnerable GSSAPI-backed
+Negotiate implementation is not built. The default Scarthgap
+configuration enables negotiate-auth but does not enable krb5.
+
+References:
+[1] https://github.com/curl/curl/commit/5e99b73cf441d9c369768b9cd48b5389b9a2503d
+[2] https://github.com/curl/curl/commit/8f71d0fde515aa4c68002477356c35bd79927729
+[3] https://curl.se/docs/CVE-2026-8458.html
+
+Signed-off-by: Devansh Patel <devanshp@cisco.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../wget/wget/CVE-2026-58470-regression.patch | 48 +++++++++++
- .../wget/wget/CVE-2026-58470.patch            | 79 +++++++++++++++++++
- meta/recipes-extended/wget/wget_1.21.4.bb     |  2 +
- 3 files changed, 129 insertions(+)
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch
- create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-58470.patch
+ meta/recipes-support/curl/curl_8.7.1.bb | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch b/meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch
-new file mode 100644
-index 00000000000..c452261a9ac
---- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-58470-regression.patch
-@@ -0,0 +1,48 @@
-+From 01ff771caac1958662ca8665eed2021ec386a7af Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
-+Date: Wed, 12 Aug 2026 19:45:21 +0200
-+Subject: [PATCH] * src/http.c (parse_content_range): Use strtoll instead of
-+ strtol.
-+
-+CVE: CVE-2026-58470
-+Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/01ff771caac1958662ca8665eed2021ec386a7af]
-+
-+(cherry picked from commit 01ff771caac1958662ca8665eed2021ec386a7af)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ src/http.c | 6 +++---
-+ 1 file changed, 3 insertions(+), 3 deletions(-)
-+
-+diff --git a/src/http.c b/src/http.c
-+index e5e75ee695..8170a43c27 100644
-+--- a/src/http.c
-++++ b/src/http.c
-+@@ -949,7 +949,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+     return false;
-+ 
-+   errno = 0;
-+-  num = strtol(hdr, &end, 10);
-++  num = strtoll(hdr, &end, 10);
-+   if (errno == ERANGE)
-+     return false;
-+   hdr = end;
-+@@ -959,7 +959,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+   *first_byte_ptr = num;
-+ 
-+   errno = 0;
-+-  num = strtol(hdr, &end, 10);
-++  num = strtoll(hdr, &end, 10);
-+   if (errno == ERANGE)
-+     return false;
-+   hdr = end;
-+@@ -976,7 +976,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+   else
-+     {
-+       errno = 0;
-+-      num = strtol(hdr, NULL, 10);
-++      num = strtoll(hdr, NULL, 10);
-+       if (errno == ERANGE)
-+         return false;
-+     }
-+-- 
-+2.35.6
-diff --git a/meta/recipes-extended/wget/wget/CVE-2026-58470.patch b/meta/recipes-extended/wget/wget/CVE-2026-58470.patch
-new file mode 100644
-index 00000000000..7ee4e87344e
---- /dev/null
-+++ b/meta/recipes-extended/wget/wget/CVE-2026-58470.patch
-@@ -0,0 +1,79 @@
-+From bfbab29e0a94160b283a8101e122d07684104955 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?Tim=20R=C3=BChsen?= <tim.ruehsen@gmx.de>
-+Date: Mon, 29 Jun 2026 18:57:54 +0200
-+Subject: [PATCH] * src/http.c (parse_content_range): Fix integer overflow
-+
-+Reported-by: TristanInSec@gmail.com
-+
-+CVE: CVE-2026-58470
-+Upstream-Status: Backport [https://gitlab.com/gnuwget/wget/-/commit/43d3ba9336bc94937e6fae2365c6ffd30c34ffcf]
-+
-+(cherry picked from commit 43d3ba9336bc94937e6fae2365c6ffd30c34ffcf)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ src/http.c | 35 ++++++++++++++++++++++++-----------
-+ 1 file changed, 24 insertions(+), 11 deletions(-)
-+
-+diff --git a/src/http.c b/src/http.c
-+index 116a93a3..4dc6b70f 100644
-+--- a/src/http.c
-++++ b/src/http.c
-+@@ -914,6 +914,7 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+                      wgint *last_byte_ptr, wgint *entity_length_ptr)
-+ {
-+   wgint num;
-++  char *end;
-+ 
-+   /* Ancient versions of Netscape proxy server, presumably predating
-+      rfc2068, sent out `Content-Range' without the "bytes"
-+@@ -932,27 +933,39 @@ parse_content_range (const char *hdr, wgint *first_byte_ptr,
-+     }
-+   if (!c_isdigit (*hdr))
-+     return false;
-+-  for (num = 0; c_isdigit (*hdr); hdr++)
-+-    num = 10 * num + (*hdr - '0');
-+-  if (*hdr != '-' || !c_isdigit (*(hdr + 1)))
-++
-++  errno = 0;
-++  num = strtol(hdr, &end, 10);
-++  if (errno == ERANGE)
-++    return false;
-++  hdr = end;
-++
-++  if (*hdr++ != '-' || !c_isdigit (*hdr))
-+     return false;
-+   *first_byte_ptr = num;
-+-  ++hdr;
-+-  for (num = 0; c_isdigit (*hdr); hdr++)
-+-    num = 10 * num + (*hdr - '0');
-+-  if (*hdr != '/')
-++
-++  errno = 0;
-++  num = strtol(hdr, &end, 10);
-++  if (errno == ERANGE)
-++    return false;
-++  hdr = end;
-++
-++  if (*hdr++ != '/')
-+     return false;
-+   *last_byte_ptr = num;
-+-  if (!(c_isdigit (*(hdr + 1)) || *(hdr + 1) == '*'))
-++  if (!(c_isdigit (*hdr) || *hdr == '*'))
-+     return false;
-+   if (*last_byte_ptr < *first_byte_ptr)
-+     return false;
-+-  ++hdr;
-+   if (*hdr == '*')
-+     num = -1;
-+   else
-+-    for (num = 0; c_isdigit (*hdr); hdr++)
-+-      num = 10 * num + (*hdr - '0');
-++    {
-++      errno = 0;
-++      num = strtol(hdr, NULL, 10);
-++      if (errno == ERANGE)
-++        return false;
-++    }
-+   *entity_length_ptr = num;
-+   if ((*entity_length_ptr <= *last_byte_ptr) && *entity_length_ptr != -1)
-+     return false;
-diff --git a/meta/recipes-extended/wget/wget_1.21.4.bb b/meta/recipes-extended/wget/wget_1.21.4.bb
-index 8ae0bcf1f05..6ae0fc75b17 100644
---- a/meta/recipes-extended/wget/wget_1.21.4.bb
-+++ b/meta/recipes-extended/wget/wget_1.21.4.bb
-@@ -8,6 +8,8 @@ SRC_URI = "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
-            file://CVE-2026-58471.patch \
-            file://CVE-2026-58472.patch \
-            file://CVE-2026-58472-regression.patch \
-+           file://CVE-2026-58470.patch \
-+           file://CVE-2026-58470-regression.patch \
-           "
+diff --git a/meta/recipes-support/curl/curl_8.7.1.bb b/meta/recipes-support/curl/curl_8.7.1.bb
+index 365f02ad596..f2479a33643 100644
+--- a/meta/recipes-support/curl/curl_8.7.1.bb
++++ b/meta/recipes-support/curl/curl_8.7.1.bb
+@@ -57,6 +57,7 @@ CVE_STATUS[CVE-2025-0725] = "not-applicable-config: gzip decompression of conten
+ CVE_STATUS[CVE-2025-5025] = "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'not-applicable-config: applicable only with wolfssl','unpatched',d)}"
+ CVE_STATUS[CVE-2025-10966] = "${@bb.utils.contains('PACKAGECONFIG', 'openssl', 'not-applicable-config: applicable only with wolfssl','unpatched',d)}"
+ CVE_STATUS[CVE-2026-10536] = "${@bb.utils.contains('PACKAGECONFIG', 'nghttp2', 'unpatched', 'not-applicable-config: applicable only with HTTP/2', d)}"
++CVE_STATUS[CVE-2026-8458] = "${@bb.utils.contains('PACKAGECONFIG', 'krb5 negotiate-auth', 'unpatched', 'not-applicable-config: applicable only with GSS-API-backed Negotiate authentication', d)}"
  
- SRC_URI[sha256sum] = "81542f5cefb8faacc39bbbc6c82ded80e3e4a88505ae72ea51df27525bcde04c"
+ 
+ inherit autotools pkgconfig binconfig multilib_header ptest
 
