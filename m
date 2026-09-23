@@ -1,140 +1,223 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 6AF84C98304
-	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 19:59:54 +0000 (UTC)
-Received: from mail-vs2-f42.google.com (mail-vs2-f42.google.com [74.125.227.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3005.1790190291981664625
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 75175C98304
+	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 20:52:17 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.5433.1790196731681709503
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 12:04:52 -0700
+ Wed, 23 Sep 2026 13:52:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=Xo4Yk95+;
- spf=pass (domain: baylibre.com, ip: 74.125.227.42, mailfrom: tgamblin@baylibre.com)
-Received: by mail-vs2-f42.google.com with SMTP id 71dfb90a1353d-5c98e1942dfso1108388e0c.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 12:04:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1790190291; x=1790795091; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=g3NwAytRnVtPHIJIPdjA/9dveqG1/DPvlkqDjOsY+R0=;
-        b=Xo4Yk95+C+JupUVnaaTGKaagj/qUMvZB5xE8FxPPJN2h096+BlpAT2fxubhdB7KUmb
-         6VXYxnPlAPoZAwnoNu0f9p63sA35VSIWYoWHfnAqlSvpYCWVcyqKH2mBSXp/MSPOuLQY
-         j6cfjwtpDeLWH9qEhX/Vla51cgRcm75tNL4NSe9jxOF2q9ZUWSj4kWKo9ow0t4QvsM6D
-         IxSur6jTY+bUQ8thWZTdyHaBWjRaRX/Wh7LQKPpnrWPwNe17jPvK/ysLc6uzrLX2TaRp
-         ucpMiEBBNnSx6EU7DImogHwEHZ8ERYHqMhzvQ22hjUDGbVRmSjMY8FZtv8pTmBBOMJ3/
-         e5mA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790190291; x=1790795091;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=g3NwAytRnVtPHIJIPdjA/9dveqG1/DPvlkqDjOsY+R0=;
-        b=fJm0P/qqR2m9QX9NdIuPLc5DIqCS1qpFbz4wra/bIJ2LSbH/33gA7UVKnUgJcsFy79
-         o8XmW7RQOFc/5tk5KgQkEAA1Rmfh1vLck9svgHM31XonpewBZoHnfDsMGPRxKKrZXZhK
-         yghERdvA01a4ldPOCZGEv24Q2FFBBOfhsnW2QfOxtD5ghQuoApk6GT2rXxEge4121liP
-         MyKBZKTvJsnycqAzqNzd7BhYuMiGL9jnUEDd8ru3mtFqLMeMfOwS4D7i+bZtHlrQPO9S
-         aVJWG66Wr90X4J+ZbCVxKN2mGHLB7QNkB+8AMHvEGnHl24iwb4DgepYfxKHB5eYw6UL5
-         /bkA==
-X-Gm-Message-State: AFuF++nCd/YK9KjJRhWQIoxlJWtyHg0q8JMebFvdcsgp4VWNwID/N5o/
-	RJi3PmAYwMkQ+U8s2EljFXf9+uqddT0if9/xar98obtn5Hl8+p/S7KYKKtD848iUz0hWLPR/SrR
-	BQklc
-X-Gm-Gg: AYBFou0Y1woGjUW65xQLZuIxuFX8QJW9GmVnhskEB6VryfIzydGFFsD5GmxqxdzVrXQ
-	yEEn4S7s/kzwMFw10OXx4GpRJ2GHzvsxAqr4y+OY5vjn9TZCyTMrJ007XggLL1W/kjTKpLBFbB9
-	JT/joWOJ/Ah4omTQ9PfKeDfOvaDF151i7depKcm218IHtgEh3uaFYEyeaztK0aZmI0eViBzsHJ1
-	5rzLyfLeQlj4HLuK21vhjFm4aHEBL+o8OyDxWIVGk6cs4za3x3YOBWYhhVSWvN0HXl9b2VgHD4W
-	c4AJva6HH00tGTbe/qVpcY+pr3kCa+rjyfeAPPFW4ogwUTiYaWru6+PHXINQnK7GmsTgYCeqhda
-	rEYswxtrDOKrOUuIc/DJC2p8ENYcm+aFVeC4Ii8TQG7KxSuNYctB7VXX3zXIQXaRkMhdXVWLfRT
-	wV+FcG6jUacUUDILBJW8TsigYTw6DDmyx2iRYZexpvq4x5kQYCJfOWYNye1qKD2ZHPy5wyY6ZjT
-	Qx3wVrbldhXxNPJduxQEG4gcXnd4h9lluRnNxmC7zz+UmQm/EoELOs=
-X-Received: by 2002:a05:6102:5344:b0:7a7:198a:c2b5 with SMTP id ada2fe7eead31-7af1dde1da0mr132625137.29.1790190290797;
-        Wed, 23 Sep 2026 12:04:50 -0700 (PDT)
-Received: from localhost ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id ada2fe7eead31-7abf566d033sm4538842137.5.2026.09.23.12.04.49
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 12:04:49 -0700 (PDT)
-From: "Trevor Gamblin" <tgamblin@baylibre.com>
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=Ca2L6yCt;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-1329275-202609232052097f3455293600020782-2uz7fb@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202609232052097f3455293600020782
+        for <openembedded-core@lists.openembedded.org>;
+        Wed, 23 Sep 2026 22:52:09 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=adrian.freihofer@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=BQWxSEVNUwmQ+aHd7b2NE+hv4NHumizUfZgtpbdBpiQ=;
+ b=Ca2L6yCtgWGGXwV6ouzoIP1MmWA7bEExPo/xFsTFDHsiVhiaDi0opcPvbC2pd9G715nNOz
+ Oes1Zy97SYUK1nI4oeQxDIFWGWhm4Akk93Ha1lZrl/jFHjsBRO2Vp79Pw9KSA6/MsHj3412x
+ sMJwPM0bVMXxF5567T0wOn/HdAfXBAjcveKkWudUsfegG3aIxYnvyQnVwyEUL/hg7FVQxmi2
+ HfseP3OGqcfxG8CmhAGUHSQj6u2rvSeu1ERsCM8gA9O9fW6qzK8Dzb1SzFwN1CAHsfrFGe3E
+ DitB//daLE8JiRTxKMR1lRKiheBFEQHm5t6Yrp08XEiB8DcQ368IL7TQ==;
+From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][PATCH 12/13] selftest: resulttooltests.py: add short-tables ordering test
-Date: Wed, 23 Sep 2026 15:04:18 -0400
-Message-ID: <20260923190419.353493-13-tgamblin@baylibre.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260923190419.353493-1-tgamblin@baylibre.com>
-References: <20260923190419.353493-1-tgamblin@baylibre.com>
+Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
+Subject: [PATCH v2 3/3] oe/package.py: copydebugsources: add all kernel source files
+Date: Wed, 23 Sep 2026 22:51:55 +0200
+Message-ID: <20260923205206.1102615-4-adrian.freihofer@siemens.com>
+In-Reply-To: <20260923205206.1102615-1-adrian.freihofer@siemens.com>
+References: <20260923205206.1102615-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 19:59:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246552
+ <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 20:52:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246557
 
-Add a test for resulttool.durations.build_tables(), ensuring that the
-'--show-short' tables are returned after every other table, rather
-than interleaved per test configuration.
+From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-AI-Generated: Uses Claude Sonnet 5
+Add all kernel source files to the linux-yocto-src package, not only
+the sources from STAGING_KERNEL_DIR.
+
+KERNEL_CC (kernel-arch.bbclass) remaps STAGING_KERNEL_DIR and
+STAGING_KERNEL_BUILDDIR to KERNEL_SRC_PATH, overriding CFLAGS own
+-ffile-prefix-map for the kernel. copydebugsources() only looks at
+CFLAGS to build its prefixmap, so kernel source files recorded under
+KERNEL_SRC_PATH were silently dropped. Add prefixmap entries for both
+kernel dirs, still destined for TARGET_DBGSRC_DIR.
+
+Also fix oeqa FakeDataStore, which did not support the getVar(name,
+expand) signature used by bb.data.inherits_class(), and add a test
+covering the kernel-arch recovery path.
+
+Verified by building linux-yocto for qemux86-64: without this fix,
+linux-yocto-src only contains 545 files (510 auto-generated *.mod.c
+module stubs plus 35 misc .c/.h files compiled outside KERNEL_CC's
+remap); with the fix, all 8356 real kernel .c/.h sources recorded
+under KERNEL_SRC_PATH are recovered too, for 8901 files total,
+including files that only exist under STAGING_KERNEL_BUILDDIR (e.g.
+arch/x86/include/generated/asm/syscalls_32.h).
+
+Having all kernel files available is useful for example when debugging
+a user space application with the Lauterbach debugger which supports
+seamless stepping between user space and kernel space.
+
+Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- .../oeqa/selftest/cases/resulttooltests.py    | 47 +++++++++++++++++++
- 1 file changed, 47 insertions(+)
+ meta/lib/oe/package.py                        | 25 ++++++-
+ meta/lib/oeqa/selftest/cases/oelib/package.py | 74 ++++++++++++++++++-
+ 2 files changed, 93 insertions(+), 6 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/resulttooltests.py b/meta/lib/oeqa/selftest/cases/resulttooltests.py
-index d45213b5b4..d93d04aaad 100644
---- a/meta/lib/oeqa/selftest/cases/resulttooltests.py
-+++ b/meta/lib/oeqa/selftest/cases/resulttooltests.py
-@@ -808,3 +808,50 @@ class ResultToolTests(OESelftestTestCase):
-         args = SimpleNamespace(threshold=0.0, sort_by_delta=True, limit=2)
-         ordered = [k for k, vals, deltas in durations.filter_sort_rows(rows, args)]
-         self.assertEqual(ordered, ['big', 'medium'])
+diff --git a/meta/lib/oe/package.py b/meta/lib/oe/package.py
+index b7030643d2..477fa5d5a7 100644
+--- a/meta/lib/oe/package.py
++++ b/meta/lib/oe/package.py
+@@ -979,6 +979,10 @@ def copydebugsources(debugsrcdir, sources, d):
+         sdir = d.getVar("S")
+         cflags = d.expand("${CFLAGS}")
+ 
++        # prefixmap maps a host directory to a (match, dest) pair: "match" is
++        # the DWARF-recorded path prefix to select from debugsources.list,
++        # "dest" is the subdirectory under PKGD to copy matches to. For plain
++        # ${CFLAGS}-derived entries these are the same string.
+         prefixmap = {}
+         for flag in cflags.split():
+             if not flag.startswith("-ffile-prefix-map"):
+@@ -986,7 +990,20 @@ def copydebugsources(debugsrcdir, sources, d):
+             if "recipe-sysroot" in flag:
+                 continue
+             flag = flag.split("=")
+-            prefixmap[flag[1]] = flag[2]
++            prefixmap[flag[1]] = (flag[2], flag[2])
 +
-+    def _duration_result(self, machine, long_duration, short_duration):
-+        return {'configuration': {"TEST_TYPE": "runtime",
-+                                  "TESTSERIES": "series1",
-+                                  "IMAGE_BASENAME": "image",
-+                                  "IMAGE_PKGTYPE": "ipk",
-+                                  "DISTRO": "mydistro",
-+                                  "MACHINE": machine},
-+                'result': {
-+                    'ptestresult.sections': {
-+                        'longsuite': {'duration': str(long_duration)},
-+                        'shortsuite': {'duration': str(short_duration)},
-+                    },
-+                }}
++        # kernel-arch.bbclass's KERNEL_CC remaps STAGING_KERNEL_DIR and
++        # STAGING_KERNEL_BUILDDIR to KERNEL_SRC_PATH ("/usr/src/kernel"),
++        # overriding CFLAGS' own mapping for the kernel, so its source files
++        # need a dedicated prefixmap entry to be found, still destined for
++        # TARGET_DBGSRC_DIR like everything else.
++        if bb.data.inherits_class('kernel-arch', d):
++            kernel_src_path = d.getVar('KERNEL_SRC_PATH')
++            target_dbgsrc_dir = d.getVar('TARGET_DBGSRC_DIR')
++            for kernel_dir_var in ('STAGING_KERNEL_DIR', 'STAGING_KERNEL_BUILDDIR'):
++                kernel_dir = d.getVar(kernel_dir_var)
++                if kernel_dir and kernel_src_path and target_dbgsrc_dir:
++                    prefixmap[kernel_dir] = (kernel_src_path, target_dbgsrc_dir)
+ 
+         nosuchdir = []
+         basepath = dvar
+@@ -1008,9 +1025,9 @@ def copydebugsources(debugsrcdir, sources, d):
+                        and not path.endswith((b"<internal>", b"<built-in>"))
+                        and b"recipe-sysroot" not in os.path.dirname(path)}
+ 
+-        for pmap, prefix in prefixmap.items():
+-            dstroot = dvar + prefix
+-            prefix_slash = os.fsencode(prefix) + b"/"
++        for pmap, (match, dest) in prefixmap.items():
++            dstroot = dvar + dest
++            prefix_slash = os.fsencode(match) + b"/"
+             relpaths = [path.removeprefix(prefix_slash) for path in sourcepaths
+                         if path.startswith(prefix_slash)]
+ 
+diff --git a/meta/lib/oeqa/selftest/cases/oelib/package.py b/meta/lib/oeqa/selftest/cases/oelib/package.py
+index 16e13aece9..e78320e6d0 100644
+--- a/meta/lib/oeqa/selftest/cases/oelib/package.py
++++ b/meta/lib/oeqa/selftest/cases/oelib/package.py
+@@ -17,12 +17,13 @@ class FakeDataStore:
+     def __init__(self, values):
+         self.values = values
+ 
+-    def getVar(self, name):
++    def getVar(self, name, expand=True):
+         return self.values.get(name)
+ 
+     def expand(self, value):
+         for name, replacement in self.values.items():
+-            value = value.replace("${%s}" % name, replacement)
++            if isinstance(replacement, str):
++                value = value.replace("${%s}" % name, replacement)
+         return value
+ 
+ 
+@@ -270,3 +271,72 @@ class TestCopyDebugSources(TestCase):
+             with open(copied_source) as f:
+                 self.assertEqual(f.read(), "real\n")
+             self.assertFalse(os.path.exists(relocation))
 +
-+    def _write_json(self, data):
-+        f = tempfile.NamedTemporaryFile(mode='w', suffix='.json', delete=False)
-+        json.dump(data, f)
-+        f.close()
-+        return f.name
++    def test_copydebugsources_recovers_kernel_source_files(self):
++        """Recovers kernel-arch source files recorded outside debugsrcdir.
 +
-+    def test_durations_build_tables_orders_short_tables_after_all_main_tables(self):
-+        # Two machines, each with one test >= min_duration and one under it
-+        run1 = self._write_json({'qemux86_result': self._duration_result('qemux86', 50, 2),
-+                                 'qemux86-64_result': self._duration_result('qemux86-64', 50, 2)})
-+        run2 = self._write_json({'qemux86_result': self._duration_result('qemux86', 80, 3),
-+                                 'qemux86-64_result': self._duration_result('qemux86-64', 80, 3)})
-+        try:
-+            args = SimpleNamespace(sources=[run1, run2], labels='', sort_by_delta=False,
-+                                   threshold=0.0, limit=0, min_duration=10.0, show_short=True)
-+            result = durations.build_tables(args, self.logger)
-+        finally:
-+            os.remove(run1)
-+            os.remove(run2)
++        kernel-arch recipes remap STAGING_KERNEL_DIR/BUILDDIR to
++        KERNEL_SRC_PATH (typically "/usr/src/kernel") via KERNEL_CC, bypassing
++        CFLAGS entirely, so debugsources.list records kernel files under
++        KERNEL_SRC_PATH rather than under debugsrcdir (typically
++        "/usr/src/debug/...") like every other CFLAGS-derived entry.
 +
-+        self.assertIsNotNone(result)
-+        labels, tables = result
-+        titles = [title for title, rows in tables]
-+        self.assertEqual(len(titles), 4, msg="expected one main and one short table per machine: %s" % titles)
-+        main_titles, short_titles = titles[:2], titles[2:]
-+        self.assertTrue(all("under" not in t for t in main_titles), msg=titles)
-+        self.assertTrue(all("under" in t for t in short_titles), msg=titles)
-+        # the main tables only contain the long test, the short tables only the short one
-+        for title, rows in tables[:2]:
-+            self.assertEqual([k for k, vals, deltas in rows], ['ptestresult.sections.longsuite'])
-+        for title, rows in tables[2:]:
-+            self.assertEqual([k for k, vals, deltas in rows], ['ptestresult.sections.shortsuite'])
++        Simulates a kernel-arch recipe with one file coming from each of the
++        two remapped directories (a source file under STAGING_KERNEL_DIR and a
++        generated header under STAGING_KERNEL_BUILDDIR) and asserts
++        copydebugsources() recovers both into the normal debugsrcdir, proving
++        the dedicated kernel-arch prefixmap entries are used instead of (or in
++        addition to) the plain CFLAGS-derived ones.
++        """
++        with tempfile.TemporaryDirectory(prefix="oe-test-package-") as tmpdir:
++            kernel_src_dir = os.path.join(tmpdir, "kernel-source")
++            kernel_build_dir = os.path.join(tmpdir, "kernel-build-artifacts")
++            workdir = os.path.join(tmpdir, "work")
++            pkgd = os.path.join(tmpdir, "pkgd")
++            debugsrcdir = "/usr/src/debug/kernel/1.0"
++            kernel_src_path = "/usr/src/kernel"
++
++            src_rel = os.path.join("arch", "main.c")
++            build_rel = os.path.join("include", "generated", "autoconf.h")
++
++            os.makedirs(os.path.dirname(os.path.join(kernel_src_dir, src_rel)))
++            os.makedirs(os.path.dirname(os.path.join(kernel_build_dir, build_rel)))
++            os.makedirs(workdir)
++            os.makedirs(pkgd)
++
++            src_file = os.path.join(kernel_src_dir, src_rel)
++            build_file = os.path.join(kernel_build_dir, build_rel)
++            with open(src_file, "w") as f:
++                f.write("main\n")
++            with open(build_file, "w") as f:
++                f.write("autoconf\n")
++
++            sources = [
++                os.path.join(kernel_src_path, src_rel),
++                os.path.join(kernel_src_path, build_rel),
++            ]
++            d = FakeDataStore({
++                "WORKDIR": workdir,
++                "PKGD": pkgd,
++                "STRIP": "strip",
++                "OBJCOPY": "objcopy",
++                "S": kernel_src_dir,
++                # KERNEL_CC's own -ffile-prefix-map overrides this for the
++                # kernel, so CFLAGS carries no entry for kernel_src_path.
++                "CFLAGS": "",
++                "__inherit_cache": ["/layer/classes-recipe/kernel-arch.bbclass"],
++                "STAGING_KERNEL_DIR": kernel_src_dir,
++                "STAGING_KERNEL_BUILDDIR": kernel_build_dir,
++                "KERNEL_SRC_PATH": kernel_src_path,
++                "TARGET_DBGSRC_DIR": debugsrcdir,
++            })
++
++            copydebugsources(debugsrcdir, sources, d)
++
++            copied_src = oe.path.join(pkgd, debugsrcdir, src_rel)
++            copied_build = oe.path.join(pkgd, debugsrcdir, build_rel)
++
++            with open(copied_src) as f:
++                self.assertEqual(f.read(), "main\n")
++            with open(copied_build) as f:
++                self.assertEqual(f.read(), "autoconf\n")
 -- 
 2.55.0
 
