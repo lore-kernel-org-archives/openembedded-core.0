@@ -2,199 +2,458 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 17309C9830B
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 66448C9830E
 	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 06:27:49 +0000 (UTC)
-Received: from a27-192.smtp-out.us-west-2.amazonses.com (a27-192.smtp-out.us-west-2.amazonses.com [54.240.27.192])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1224.1790144866632978802
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1208.1790144866639665114
  for <openembedded-core@lists.openembedded.org>;
  Tue, 22 Sep 2026 23:27:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=ofQnyYrH;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=h5Th+JQD;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.192, mailfrom: 010101a0ccf2e675-02d7a4d6-66fd-4c24-8810-5ac04e1ebd36-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=MqNE3NFB;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=1M+YHONd;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a0ccf2e5a9-90494f28-4a70-4bd2-b272-b6ef9cd6e039-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1790144866;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=loGfNxYft3PkHzI7mi3OVDZ6VbgD+HL8I7Dz9vBVLDo=;
-	b=ofQnyYrHQOhIWsl5cGFuNpI+lMY71CSS9ofUByRDlUk6fgussVb0SlFASG89zQi/
-	BQ+uaJy+N2nulZjzzfhxuicYxkHuD7q0OPv79gtq9QKdiLNZwCyBszbwd/WDNBWVeJZ
-	JLtu9a0t1CWOVLT1Q8BbiKLEzsecDoXxtv6xI6xQ=
+	t=1790144865;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=5aQQ2alstdTBkYhPn+wJ2HhVMNgMFJLqhjd2GDOnJPU=;
+	b=MqNE3NFBXa4ggLcbMkQNCbAANUZCiD8Y+U3Pa+KEcYDuV4/XC8io/iayEyC8tKhN
+	c3opox/jQC0JVx/3Nrn7pUvz9AnhX4Yv0vJvawiQSvbAQS3G/Jo6Je9hKe6wkeSf3nL
+	r7Q0lIkxJdLXR3uU52qWUXDRlcYhfTr7w+EqkcHA=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790144866;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=loGfNxYft3PkHzI7mi3OVDZ6VbgD+HL8I7Dz9vBVLDo=;
-	b=h5Th+JQD0IRCtxde7WbteUuDQQGA9Uu36K++bN36gZs4S1W5Mfx6d5TWfHtuturr
-	VGuJ1ZfaD0DWBer6Cna5wIyXM1bDtbwFm881PLz7yQGMUmF0FS4/2SUdn/I2kQjjZJi
-	rSbIHilwKTxCu2BHTAeVCzTBreRpZZrNIR7NqbM4=
-Content-Type: multipart/mixed; boundary="===============4063717347874906753=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790144865;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=5aQQ2alstdTBkYhPn+wJ2HhVMNgMFJLqhjd2GDOnJPU=;
+	b=1M+YHONdyfABynTV+uFSabSaxDkWwplzcmdPNIiwIuNRBjb04z+4V7KPVZaVGmg1
+	4HVuHozI+KtU2/s9WBTRzpSSeGnZFU1b8hvqFC3z51Qdhk0dp70I42YHU9+g5X4bNGX
+	+FHPCv1Vwx4OpjaR2T7TvDHXCOP+DnZFjGx2hR+E=
+Content-Type: multipart/mixed; boundary="===============1554405976525318917=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libslirp: upgrading to 4.9.5 SUCCEEDED
-Message-ID: <010101a0ccf2e675-02d7a4d6-66fd-4c24-8810-5ac04e1ebd36-000000@us-west-2.amazonses.com>
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] expat: upgrading to 2.8.5 SUCCEEDED
+Message-ID: <010101a0ccf2e5a9-90494f28-4a70-4bd2-b272-b6ef9cd6e039-000000@us-west-2.amazonses.com>
 Date: Wed, 23 Sep 2026 06:27:45 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.23-54.240.27.192
+X-SES-Outgoing: 2026.09.23-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 06:27:49 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246438
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246440
 
---===============4063717347874906753==
-Content-Type: text/plain; charset="us-ascii"
+--===============1554405976525318917==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpleHBhdCogdG8gKjIuOC41KiBoYXMgU3VjY2VlZGVkLgoKTmV4dCBzdGVwczoKICAgIC0g
+YXBwbHkgdGhlIHBhdGNoOiBnaXQgYW0gMDAwMS1leHBhdC11cGdyYWRlLTIuOC40LTIuOC41LnBh
+dGNoCiAgICAtIGNoZWNrIHRoZSBjaGFuZ2VzIHRvIHVwc3RyZWFtIHBhdGNoZXMgYW5kIHN1bW1h
+cml6ZSB0aGVtIGluIHRoZSBjb21taXQgbWVzc2FnZSwKICAgIC0gY29tcGlsZSBhbiBpbWFnZSB0
+aGF0IGNvbnRhaW5zIHRoZSBwYWNrYWdlCiAgICAtIHBlcmZvcm0gc29tZSBiYXNpYyBzYW5pdHkg
+dGVzdHMKICAgIC0gYW1lbmQgdGhlIHBhdGNoIGFuZCBzaWduIGl0IG9mZjogZ2l0IGNvbW1pdCAt
+cyAtLXJlc2V0LWF1dGhvciAtLWFtZW5kCiAgICAtIHNlbmQgaXQgdG8gdGhlIGFwcHJvcHJpYXRl
+IG1haWxpbmcgbGlzdAoKQWx0ZXJuYXRpdmVseSwgaWYgeW91IGJlbGlldmUgdGhlIHJlY2lwZSBz
+aG91bGQgbm90IGJlIHVwZ3JhZGVkIGF0IHRoaXMgdGltZSwKeW91IGNhbiBmaWxsIFJFQ0lQRV9O
+T19VUERBVEVfUkVBU09OIGluIHJlc3BlY3RpdmUgcmVjaXBlIGZpbGUgc28gdGhhdAphdXRvbWF0
+aWMgdXBncmFkZXMgd291bGQgbm8gbG9uZ2VyIGJlIGF0dGVtcHRlZC4KClBsZWFzZSByZXZpZXcg
+dGhlIGF0dGFjaGVkIGZpbGVzIGZvciBmdXJ0aGVyIGluZm9ybWF0aW9uIGFuZCBidWlsZC91cGRh
+dGUgZmFpbHVyZXMuCkFueSBwcm9ibGVtIHBsZWFzZSBmaWxlIGEgYnVnIGF0IGh0dHBzOi8vYnVn
+emlsbGEueW9jdG9wcm9qZWN0Lm9yZy9lbnRlcl9idWcuY2dpP3Byb2R1Y3Q9QXV0b21hdGVkJTIw
+VXBkYXRlJTIwSGFuZGxlcgoKUmVnYXJkcywKVGhlIFVwZ3JhZGUgSGVscGVyCgotLSA+OCAtLQpG
+cm9tIDBkNjc2NmEyYTdhODNkY2VmMDliZTc0ODgwOWY4ZGVmMGFhYTc0ZmQgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCkZyb206IFVwZ3JhZGUgSGVscGVyIDxhdWhAeW9jdG9wcm9qZWN0Lm9yZz4K
+RGF0ZTogV2VkLCAyMyBTZXAgMjAyNiAwNTozOToxNCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIGV4
+cGF0OiB1cGdyYWRlIDIuOC40IC0+IDIuOC41Ck1JTUUtVmVyc2lvbjogMS4wCkNvbnRlbnQtVHlw
+ZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4
+Yml0CgohISAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICEhCiEhIElmIHlvdXIgYnVzaW5lc3MgcmVsaWVzIG9u
+IEV4cGF0IGJleW9uZCBKYW51YXJ5IDIwMjcsIHBsZWFzZSBjb25zaWRlciAgICAgISEKISEgZnVu
+ZGluZyB0aGUgbWFpbnRlbmFuY2Ugb2YgRXhwYXQgdG8gZW5zdXJlIGl0cyBoZWFsdGggYW5kIHNl
+Y3VyaXR5IGZvciAgICAhIQohISB5b3UgYW5kIG90aGVycy4gVGhhbmsgeW91ISAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICEhCiEhICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgISEKISEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIFNlYmFzdGlhbiBQaXBw
+aW5nIC0tIEJlcmxpbiwgMjAyNi0wOS0yMiAhIQpSZWxlYXNlIDIuOC41IFR1ZSBTZXB0ZW1iZXIg
+MjIgMjAyNgogICAgICAgIFNlY3VyaXR5IGZpeGVzOgogICAgICAgICAgICMxMjgyICBDVkUtMjAy
+Ni05Mzk5MCAtLSBSZWplY3QgaGlnaCBzdXJyb2dhdGVzIG5vdCBmb2xsb3dlZCBieSBhCiAgICAg
+ICAgICAgICAgICAgICAgbG93IHN1cnJvZ2F0ZSBkdXJpbmcgVVRGLTE2IGRlY29kaW5nOyBwcmV2
+aW91c2x5LCBtYWxmb3JtZWQKICAgICAgICAgICAgICAgICAgICBVVEYtMTYgY291bGQgYmUgc211
+Z2dsZWQgaW50byB0aGUgYXBwbGljYXRpb24gdXNpbmcgRXhwYXQKICAgICAgICAgICAgICAgICAg
+ICBhbmQgY291bGQgY2F1c2UgYXJiaXRyYXJ5IGRhbWFnZSB0aGVyZSwgZGVwZW5kaW5nIG9uIGhv
+dwogICAgICAgICAgICAgICAgICAgIG1hbGZvcm1lZCBVVEYtMTYgd2FzIGhhbmRsZWQgaW5zaWRl
+IHRoZSBhcHBsaWNhdGlvbjsKICAgICAgICAgICAgICAgICAgICB2YWxpZGF0aW9uIHdhcyBub3Qg
+dGhlaXIgam9iIGJ1dCBFeHBhdCdzLiBUaGlzIGlzIHNpbWlsYXIKICAgICAgICAgICAgICAgICAg
+ICB0byBwYXN0IHZ1bG5lcmFiaWxpdHkgQ1ZFLTIwMjItMjUyMzUuCiAgICAgICAgICAgICAgICAg
+ICAgVXBzdHJlYW0gQ1ZTUyAzLjEgdmVjdG9yOgogICAgICAgICAgICAgICAgICAgIEFWOk4vQUM6
+TC9QUjpOL1VJOk4vUzpVL0M6SC9JOkgvQTpIIChDVlNTIHNjb3JlOiA5LjgpCgovLy8vLy8vLy8v
+Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8v
+Ly8vLy8vLy8vLy8vCi8vIFRoZSBuZXh0IHJlbGVhc2Ugd2lsbCBkcm9wIHR3byAoZGlzYWJsZWQt
+YnktZGVmYXVsdCkgZmVhdHVyZXM6ICAgICAgICAgICAgLy8KLy8gICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAv
+LwovLyAtIEFUVFJfSU5GTyAoLURYTUxfQVRUUl9JTkZPLCAtREVYUEFUX0FUVFJfSU5GTywgLS1l
+bmFibGUteG1sLWF0dHItaW5mbywgIC8vCi8vICAgICAgICAgICAgICBmdW5jdGlvbiBYTUxfR2V0
+QXR0cmlidXRlSW5mbywgc3RydWN0IFhNTF9BdHRySW5mbykgICAgICAgICAgLy8KLy8gLSBNSU5f
+U0laRSAoLURYTUxfTUlOX1NJWkUsIC1ERVhQQVRfTUlOX1NJWkUpICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAvLwovLyAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgIC8vCi8vIElmIHlvdSBuZWVkIHRoZW0g
+aW4gMjAyNiBhbmQgYmV5b25kLCBwbGVhc2Ugc2hhcmUgeW91ciBzY2VuYXJpbyBhdCAgICAgICAg
+Ly8KLy8gR2l0SHViIGlzc3VlcyAjMTM3MCAoZm9yIEFUVFJfSU5GTykgYW5kL29yICMxMzc5IChm
+b3IgTUlOX1NJWkUpLiBUaGFua3MhICAvLwovLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8v
+Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vCgogICAgICAg
+IEJ1ZyBmaXhlczoKICAgICAgICAgICAjMTM0NiAgbGliOiBGaXggT09NLXJlbGF0ZWQgbWVtb3J5
+IGxlYWsgb24gYSBmYWlsZWQgb3ZlcmZsb3cgY2hlY2sKICAgICAgICAgICAjMTM3MSAgbGliOiBG
+aXggbWVtb3J5IGFsaWdubWVudCBmb3IgYXJjaGl0ZWN0dXJlcyB3aXRoIDEyOGJpdAogICAgICAg
+ICAgICAgICAgICAgIHBvaW50ZXJzIGxpa2UgQ0hFUkktUklTQy1WCiAgICAgICAgICAgIzEzNjcg
+IHhtbHdmOiBIYW5kbGUgZXJyb3JzIHdoZW4gY2xvc2luZyBvdXRwdXQgZmlsZXMKCiAgICAgICAg
+T3RoZXIgY2hhbmdlczoKICAgICAgICAgICAjMTM1NCAgbGliOiBSZWplY3QgYW4gWE1MIGRlY2xh
+cmF0aW9uIHZlcnNpb24gb3RoZXIgdGhhbiBgMS5bMC05XStgCiAgICAgICAgICAgICAgICAgICAg
+KHdoaWNoIGlzIGxlc3Mgc3RyaWN0IHRoYW4gWE1MIDEuMHI0IChmb3VydGggZWRpdGlvbikKICAg
+ICAgICAgICAgICAgICAgICBhbmQgbWF0Y2hlcyBYTUwgMS4wcjUgKGZpZnRoIGVkaXRpb24pKQog
+ICAgICAgICAgICMxMzYyICBsaWI6IE1ha2UgQ2xhbmcsIEdDQyBhbmQgTVNWQyB3YXJuIGFib3V0
+IHVzZSBvZiBmdW5jdGlvbgogICAgICAgICAgICAgICAgICAgIFhNTF9TZXRIYXNoU2FsdCB0aGF0
+IGlzIGRlcHJlY2F0ZWQgc2luY2UgRXhwYXQgMi44LjAKICAgICAgICAgICAjMTM1NyAgbGliOiBE
+cm9wIGludGVybmFsIG1hY3JvcyBGQVNUQ0FMTCwgUFRSQ0FMTCwgUFRSRkFTVENBTEwKICAgICAg
+ICAgICAjMTM2NyAgeG1sd2Y6IERvY3VtZW50IHRoYXQgd2l0aCBgLWtgIHRoZSBsYXN0IGVycm9y
+IGRldGVybWluZXMgdGhlCiAgICAgICAgICAgICAgICAgICAgeG1sd2YgZXhpdCBjb2RlIGluIGAt
+LWhlbHBgIG91dHB1dAogICAgICAgICAgICMxMzY3ICB4bWx3ZjogTWFrZSBleGl0IGNvZGUgMyBk
+b2N1bWVudGF0aW9uIG1hdGNoIGV4aXQgY29kZSAyIG1vcmUKICAgICAgICAgICAgICAgICAgICBj
+bG9zZWx5IGluIGAtLWhlbHBgIG91dHB1dAogICAgICMxMzUyICMxMzUzICBDTWFrZXxXaW5kb3dz
+OiBSZWZyYWluIGZyb20gYWRkaW5nIGAvc291cmNlLWNoYXJzZXQ6dXRmLThgCiAgICAgICAgICAg
+ICAgICAgICAgZm9yIE1TVkMKICAgICAjMTM2NiAjMTM3NCAgQXV0b3Rvb2xzOiBCZSBleHBsaWNp
+dCBhYm91dCB0aGUgbWluaW11bSByZXF1aXJlZCB2ZXJzaW9uIG9mCiAgICAgICAgICAgICAgICAg
+ICAgR05VIEF1dG9tYWtlLCBjdXJyZW50bHkgdmVyc2lvbiAxLjEzIG9mIDIwMTItMTItMjgKICAg
+ICAgICAgICAjMTM1MSAgQXV0b3Rvb2xzfG1hY09TOiBTeW5jIENNYWtlIHRlbXBsYXRlcyB3aXRo
+IENNYWtlIDQuNC4zCiAgICAgICAgICAgIzEzNDkgIFJlcGxhY2Ugc29tZSBpbnRlcm5hbCB1c2Ug
+b2YgWE1MX0Jvb2wgd2l0aCBzdGFuZGFyZCBib29sCiAgICAgICAgICAgIzEzNjQgIHRlc3RzOiBQ
+cm9wYWdhdGUgeG1sdGVzdC5zaCBmYWlsdXJlcyB2aWEgZXhpdCBzdGF0dXMKICAgICAgICAgICAj
+MTM2MCAgdGVzdHN8eG1sd2Y6IEFkZCBgI2luY2x1ZGUgImV4cGF0X2NvbmZpZy5oImAgd2hlcmUg
+bWlzc2luZwogICAgICAgICAgICMxMzU1ICB0ZXN0czogU3RhcnQgY292ZXJpbmcgaGFzaCB0YWJs
+ZSBvcGVyYXRpb24KICAgICAjMTM1MCAjMTM2OSAgdGVzdHM6IERyb3AgX19jcGx1c3BsdXMgbGVm
+dG92ZXJzCiAgICAgICAgICAgIzEzNzggIHRlc3RzOiBGaXggdGFpbCBwb2ludGVyIHdoZW4gdW5s
+aW5raW5nIHRoZSBsYXN0IHRyYWNrZWQKICAgICAgICAgICAgICAgICAgICBhbGxvY2F0aW9uCiAg
+ICAgICAgICAgIzEzNzYgIGRvY3M6IEVtcGhhc2l6ZSB0aGF0IFhNTF9TdG9wUGFyc2VyIGlzIG5v
+dCBpbW1lZGlhdGUKICAgICAgICAgICAjMTM4MSAgZG9jczogU3luYyBYTUxfRmVhdHVyZUVudW0g
+dmFsdWUgbGlzdCBpbiBkb2MvcmVmZXJlbmNlLmh0bWwKICAgICAjMTM1NiAjMTM2MSAgVmVyc2lv
+biBpbmZvIGJ1bXBlZCBmcm9tIDEzOjQ6MTIgKGxpYmV4cGF0Ki5zby4xLjEyLjQpCiAgICAgICAg
+ICAgICAgICAgICAgdG8gMTM6NToxMiAobGliZXhwYXQqLnNvLjEuMTIuNSk7IHNlZSBodHRwczov
+L3ZlcmJ1bXAuZGUvCiAgICAgICAgICAgICAgICAgICAgZm9yIHdoYXQgdGhlc2UgbnVtYmVycyBk
+bwoKICAgICAgICBJbmZyYXN0cnVjdHVyZToKICAgICAgICAgICAjMTM0NyAgQWRkIG1pc3Npbmcg
+LmdpdGlnbm9yZSBlbnRyaWVzCiAgICAgICAgICAgIzEzNjAgIENJOiBEZXRlY3QgbWlzc2luZyBg
+I2luY2x1ZGUgImV4cGF0X2NvbmZpZy5oImAKICAgICAgICAgICAjMTM2OCAgQ0k6IEJ1bXAgTWlu
+R1cgQ2xhbmcgZnJvbSAyMy4wLjEgdG8gMjMuMS4xCiAgICAgICAgICAgIzEzNzcgIENJOiBCdW1w
+IEZpbC1DIGZyb20gMC42ODQgdG8gMC42ODUKICAgICAgICAgICAjMTM4MCAgQ0k6IEJ1bXAgQ3Bw
+Y2hlY2sgZnJvbSAyLjIxLjAgdG8gMi4yMi4wCiAgICAgICAgICAgIzEzNzIgIENJOiBFeHRyYWN0
+IGhlbHBlciBzY3JpcHQgYGFwcGx5LWh0bWx0aWR5LnNoYAogICAgICMxMzY2ICMxMzc0ICBBdXRv
+dG9vbHM6IFN0YXJ0IHRvIGFsc28gcHJvZHVjZSAudGFyLmJ6MyByZWxlYXNlIHRhcmJhbGxzCgog
+ICAgICAgIFNwZWNpYWwgdGhhbmtzIHRvOgogICAgICAgICAgICBBZm9uc28gSmFudcOhcmlvCiAg
+ICAgICAgICAgIEJyYWlhbiBQbGFrdQogICAgICAgICAgICBGbG9yaWFuIFNjaG1hdXMKICAgICAg
+ICAgICAgSHVhbmcgV2VuYmluCiAgICAgICAgICAgIEthbWlsYSBTemV3Y3p5awogICAgICAgICAg
+ICBLYXJ0aWsgS2VuY2hpCiAgICAgICAgICAgIExlbyBDYW11cwogICAgICAgICAgICBNYXR0aGV3
+IEZlcm5hbmRlegogICAgICAgICAgICBTdGFuIFVsYnJ5Y2gKICAgICAgICAgICAgICAgICBhbmQK
+ICAgICAgICAgICAgQ2l0eSBvZiBNdW5pY2ggT3BlbiBTb3VyY2UgU2FiYmF0aWNhbAotLS0KIG1l
+dGEvcmVjaXBlcy1jb3JlL2V4cGF0L3tleHBhdF8yLjguNC5iYiA9PiBleHBhdF8yLjguNS5iYn0g
+fCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJl
+bmFtZSBtZXRhL3JlY2lwZXMtY29yZS9leHBhdC97ZXhwYXRfMi44LjQuYmIgPT4gZXhwYXRfMi44
+LjUuYmJ9ICg5MiUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRf
+Mi44LjQuYmIgYi9tZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8yLjguNS5iYgpzaW1pbGFy
+aXR5IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9leHBhdC9leHBhdF8y
+LjguNC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi44LjUuYmIK
+aW5kZXggMDUwZjE0OGIwNy4uYzAzMmUxOGM3NyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNv
+cmUvZXhwYXQvZXhwYXRfMi44LjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhw
+YXRfMi44LjUuYmIKQEAgLTE1LDcgKzE1LDcgQEAgU1JDX1VSSSA9ICIke0dJVEhVQl9CQVNFX1VS
+SX0vZG93bmxvYWQvUl8ke1ZFUlNJT05fVEFHfS9leHBhdC0ke1BWfS50YXIuYnoyICBcCiBHSVRI
+VUJfQkFTRV9VUkkgPSAiaHR0cHM6Ly9naXRodWIuY29tL2xpYmV4cGF0L2xpYmV4cGF0L3JlbGVh
+c2VzLyIKIFVQU1RSRUFNX0NIRUNLX1JFR0VYID0gInJlbGVhc2VzL3RhZy9SXyg/UDxwdmVyPi4r
+KSIKIAotU1JDX1VSSVtzaGEyNTZzdW1dID0gIjk2MzI1MGE4MjNjMTZhNDk4NTgyYjRhZDgyYWQw
+Zjg4OTI2YmUwNzY5Njc1ZDNiNjk1NmJlNGQ3NjlhMWNkOGYiCitTUkNfVVJJW3NoYTI1NnN1bV0g
+PSAiOTUyYzAzYzMzYTZiMzM3ZjEyZGFlN2E5YjBmOWRlZTg2Zjg2NzU1MGQzNWM5OTRkNmJkYWFk
+ZGQzN2RjODQ1NCIKIAogRVhUUkFfT0VDTUFLRTpjbGFzcy1uYXRpdmUgKz0gIi1ERVhQQVRfQlVJ
+TERfRE9DUz1PRkYiCiAKLS0gCjIuNDcuMQoK
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libslirp* to *4.9.5* has Succeeded.
+--===============1554405976525318917==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="expat-changelog.txt"
 
-Next steps:
-    - apply the patch: git am 0001-libslirp-upgrade-4.9.4-4.9.5.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
+ISEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAhIQohISBJZiB5b3VyIGJ1c2luZXNzIHJlbGllcyBvbiBFeHBh
+dCBiZXlvbmQgSmFudWFyeSAyMDI3LCBwbGVhc2UgY29uc2lkZXIgICAgICEhCiEhIGZ1bmRpbmcg
+dGhlIG1haW50ZW5hbmNlIG9mIEV4cGF0IHRvIGVuc3VyZSBpdHMgaGVhbHRoIGFuZCBzZWN1cml0
+eSBmb3IgICAgISEKISEgeW91IGFuZCBvdGhlcnMuIFRoYW5rIHlvdSEgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAhIQohISAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICEh
+CiEhICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTZWJhc3RpYW4gUGlwcGluZyAt
+LSBCZXJsaW4sIDIwMjYtMDktMjIgISEKUmVsZWFzZSAyLjguNSBUdWUgU2VwdGVtYmVyIDIyIDIw
+MjYKICAgICAgICBTZWN1cml0eSBmaXhlczoKICAgICAgICAgICAjMTI4MiAgQ1ZFLTIwMjYtOTM5
+OTAgLS0gUmVqZWN0IGhpZ2ggc3Vycm9nYXRlcyBub3QgZm9sbG93ZWQgYnkgYQogICAgICAgICAg
+ICAgICAgICAgIGxvdyBzdXJyb2dhdGUgZHVyaW5nIFVURi0xNiBkZWNvZGluZzsgcHJldmlvdXNs
+eSwgbWFsZm9ybWVkCiAgICAgICAgICAgICAgICAgICAgVVRGLTE2IGNvdWxkIGJlIHNtdWdnbGVk
+IGludG8gdGhlIGFwcGxpY2F0aW9uIHVzaW5nIEV4cGF0CiAgICAgICAgICAgICAgICAgICAgYW5k
+IGNvdWxkIGNhdXNlIGFyYml0cmFyeSBkYW1hZ2UgdGhlcmUsIGRlcGVuZGluZyBvbiBob3cKICAg
+ICAgICAgICAgICAgICAgICBtYWxmb3JtZWQgVVRGLTE2IHdhcyBoYW5kbGVkIGluc2lkZSB0aGUg
+YXBwbGljYXRpb247CiAgICAgICAgICAgICAgICAgICAgdmFsaWRhdGlvbiB3YXMgbm90IHRoZWly
+IGpvYiBidXQgRXhwYXQncy4gVGhpcyBpcyBzaW1pbGFyCiAgICAgICAgICAgICAgICAgICAgdG8g
+cGFzdCB2dWxuZXJhYmlsaXR5IENWRS0yMDIyLTI1MjM1LgogICAgICAgICAgICAgICAgICAgIFVw
+c3RyZWFtIENWU1MgMy4xIHZlY3RvcjoKICAgICAgICAgICAgICAgICAgICBBVjpOL0FDOkwvUFI6
+Ti9VSTpOL1M6VS9DOkgvSTpIL0E6SCAoQ1ZTUyBzY29yZTogOS44KQoKLy8vLy8vLy8vLy8vLy8v
+Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8v
+Ly8vLy8vLwovLyBUaGUgbmV4dCByZWxlYXNlIHdpbGwgZHJvcCB0d28gKGRpc2FibGVkLWJ5LWRl
+ZmF1bHQpIGZlYXR1cmVzOiAgICAgICAgICAgIC8vCi8vICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgLy8KLy8g
+LSBBVFRSX0lORk8gKC1EWE1MX0FUVFJfSU5GTywgLURFWFBBVF9BVFRSX0lORk8sIC0tZW5hYmxl
+LXhtbC1hdHRyLWluZm8sICAvLwovLyAgICAgICAgICAgICAgZnVuY3Rpb24gWE1MX0dldEF0dHJp
+YnV0ZUluZm8sIHN0cnVjdCBYTUxfQXR0ckluZm8pICAgICAgICAgIC8vCi8vIC0gTUlOX1NJWkUg
+KC1EWE1MX01JTl9TSVpFLCAtREVYUEFUX01JTl9TSVpFKSAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgLy8KLy8gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvLwovLyBJZiB5b3UgbmVlZCB0aGVtIGluIDIw
+MjYgYW5kIGJleW9uZCwgcGxlYXNlIHNoYXJlIHlvdXIgc2NlbmFyaW8gYXQgICAgICAgIC8vCi8v
+IEdpdEh1YiBpc3N1ZXMgIzEzNzAgKGZvciBBVFRSX0lORk8pIGFuZC9vciAjMTM3OSAoZm9yIE1J
+Tl9TSVpFKS4gVGhhbmtzISAgLy8KLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8v
+Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLwoKICAgICAgICBCdWcg
+Zml4ZXM6CiAgICAgICAgICAgIzEzNDYgIGxpYjogRml4IE9PTS1yZWxhdGVkIG1lbW9yeSBsZWFr
+IG9uIGEgZmFpbGVkIG92ZXJmbG93IGNoZWNrCiAgICAgICAgICAgIzEzNzEgIGxpYjogRml4IG1l
+bW9yeSBhbGlnbm1lbnQgZm9yIGFyY2hpdGVjdHVyZXMgd2l0aCAxMjhiaXQKICAgICAgICAgICAg
+ICAgICAgICBwb2ludGVycyBsaWtlIENIRVJJLVJJU0MtVgogICAgICAgICAgICMxMzY3ICB4bWx3
+ZjogSGFuZGxlIGVycm9ycyB3aGVuIGNsb3Npbmcgb3V0cHV0IGZpbGVzCgogICAgICAgIE90aGVy
+IGNoYW5nZXM6CiAgICAgICAgICAgIzEzNTQgIGxpYjogUmVqZWN0IGFuIFhNTCBkZWNsYXJhdGlv
+biB2ZXJzaW9uIG90aGVyIHRoYW4gYDEuWzAtOV0rYAogICAgICAgICAgICAgICAgICAgICh3aGlj
+aCBpcyBsZXNzIHN0cmljdCB0aGFuIFhNTCAxLjByNCAoZm91cnRoIGVkaXRpb24pCiAgICAgICAg
+ICAgICAgICAgICAgYW5kIG1hdGNoZXMgWE1MIDEuMHI1IChmaWZ0aCBlZGl0aW9uKSkKICAgICAg
+ICAgICAjMTM2MiAgbGliOiBNYWtlIENsYW5nLCBHQ0MgYW5kIE1TVkMgd2FybiBhYm91dCB1c2Ug
+b2YgZnVuY3Rpb24KICAgICAgICAgICAgICAgICAgICBYTUxfU2V0SGFzaFNhbHQgdGhhdCBpcyBk
+ZXByZWNhdGVkIHNpbmNlIEV4cGF0IDIuOC4wCiAgICAgICAgICAgIzEzNTcgIGxpYjogRHJvcCBp
+bnRlcm5hbCBtYWNyb3MgRkFTVENBTEwsIFBUUkNBTEwsIFBUUkZBU1RDQUxMCiAgICAgICAgICAg
+IzEzNjcgIHhtbHdmOiBEb2N1bWVudCB0aGF0IHdpdGggYC1rYCB0aGUgbGFzdCBlcnJvciBkZXRl
+cm1pbmVzIHRoZQogICAgICAgICAgICAgICAgICAgIHhtbHdmIGV4aXQgY29kZSBpbiBgLS1oZWxw
+YCBvdXRwdXQKICAgICAgICAgICAjMTM2NyAgeG1sd2Y6IE1ha2UgZXhpdCBjb2RlIDMgZG9jdW1l
+bnRhdGlvbiBtYXRjaCBleGl0IGNvZGUgMiBtb3JlCiAgICAgICAgICAgICAgICAgICAgY2xvc2Vs
+eSBpbiBgLS1oZWxwYCBvdXRwdXQKICAgICAjMTM1MiAjMTM1MyAgQ01ha2V8V2luZG93czogUmVm
+cmFpbiBmcm9tIGFkZGluZyBgL3NvdXJjZS1jaGFyc2V0OnV0Zi04YAogICAgICAgICAgICAgICAg
+ICAgIGZvciBNU1ZDCiAgICAgIzEzNjYgIzEzNzQgIEF1dG90b29sczogQmUgZXhwbGljaXQgYWJv
+dXQgdGhlIG1pbmltdW0gcmVxdWlyZWQgdmVyc2lvbiBvZgogICAgICAgICAgICAgICAgICAgIEdO
+VSBBdXRvbWFrZSwgY3VycmVudGx5IHZlcnNpb24gMS4xMyBvZiAyMDEyLTEyLTI4CiAgICAgICAg
+ICAgIzEzNTEgIEF1dG90b29sc3xtYWNPUzogU3luYyBDTWFrZSB0ZW1wbGF0ZXMgd2l0aCBDTWFr
+ZSA0LjQuMwogICAgICAgICAgICMxMzQ5ICBSZXBsYWNlIHNvbWUgaW50ZXJuYWwgdXNlIG9mIFhN
+TF9Cb29sIHdpdGggc3RhbmRhcmQgYm9vbAogICAgICAgICAgICMxMzY0ICB0ZXN0czogUHJvcGFn
+YXRlIHhtbHRlc3Quc2ggZmFpbHVyZXMgdmlhIGV4aXQgc3RhdHVzCiAgICAgICAgICAgIzEzNjAg
+IHRlc3RzfHhtbHdmOiBBZGQgYCNpbmNsdWRlICJleHBhdF9jb25maWcuaCJgIHdoZXJlIG1pc3Np
+bmcKICAgICAgICAgICAjMTM1NSAgdGVzdHM6IFN0YXJ0IGNvdmVyaW5nIGhhc2ggdGFibGUgb3Bl
+cmF0aW9uCiAgICAgIzEzNTAgIzEzNjkgIHRlc3RzOiBEcm9wIF9fY3BsdXNwbHVzIGxlZnRvdmVy
+cwogICAgICAgICAgICMxMzc4ICB0ZXN0czogRml4IHRhaWwgcG9pbnRlciB3aGVuIHVubGlua2lu
+ZyB0aGUgbGFzdCB0cmFja2VkCiAgICAgICAgICAgICAgICAgICAgYWxsb2NhdGlvbgogICAgICAg
+ICAgICMxMzc2ICBkb2NzOiBFbXBoYXNpemUgdGhhdCBYTUxfU3RvcFBhcnNlciBpcyBub3QgaW1t
+ZWRpYXRlCiAgICAgICAgICAgIzEzODEgIGRvY3M6IFN5bmMgWE1MX0ZlYXR1cmVFbnVtIHZhbHVl
+IGxpc3QgaW4gZG9jL3JlZmVyZW5jZS5odG1sCiAgICAgIzEzNTYgIzEzNjEgIFZlcnNpb24gaW5m
+byBidW1wZWQgZnJvbSAxMzo0OjEyIChsaWJleHBhdCouc28uMS4xMi40KQogICAgICAgICAgICAg
+ICAgICAgIHRvIDEzOjU6MTIgKGxpYmV4cGF0Ki5zby4xLjEyLjUpOyBzZWUgaHR0cHM6Ly92ZXJi
+dW1wLmRlLwogICAgICAgICAgICAgICAgICAgIGZvciB3aGF0IHRoZXNlIG51bWJlcnMgZG8KCiAg
+ICAgICAgSW5mcmFzdHJ1Y3R1cmU6CiAgICAgICAgICAgIzEzNDcgIEFkZCBtaXNzaW5nIC5naXRp
+Z25vcmUgZW50cmllcwogICAgICAgICAgICMxMzYwICBDSTogRGV0ZWN0IG1pc3NpbmcgYCNpbmNs
+dWRlICJleHBhdF9jb25maWcuaCJgCiAgICAgICAgICAgIzEzNjggIENJOiBCdW1wIE1pbkdXIENs
+YW5nIGZyb20gMjMuMC4xIHRvIDIzLjEuMQogICAgICAgICAgICMxMzc3ICBDSTogQnVtcCBGaWwt
+QyBmcm9tIDAuNjg0IHRvIDAuNjg1CiAgICAgICAgICAgIzEzODAgIENJOiBCdW1wIENwcGNoZWNr
+IGZyb20gMi4yMS4wIHRvIDIuMjIuMAogICAgICAgICAgICMxMzcyICBDSTogRXh0cmFjdCBoZWxw
+ZXIgc2NyaXB0IGBhcHBseS1odG1sdGlkeS5zaGAKICAgICAjMTM2NiAjMTM3NCAgQXV0b3Rvb2xz
+OiBTdGFydCB0byBhbHNvIHByb2R1Y2UgLnRhci5iejMgcmVsZWFzZSB0YXJiYWxscwoKICAgICAg
+ICBTcGVjaWFsIHRoYW5rcyB0bzoKICAgICAgICAgICAgQWZvbnNvIEphbnXDoXJpbwogICAgICAg
+ICAgICBCcmFpYW4gUGxha3UKICAgICAgICAgICAgRmxvcmlhbiBTY2htYXVzCiAgICAgICAgICAg
+IEh1YW5nIFdlbmJpbgogICAgICAgICAgICBLYW1pbGEgU3pld2N6eWsKICAgICAgICAgICAgS2Fy
+dGlrIEtlbmNoaQogICAgICAgICAgICBMZW8gQ2FtdXMKICAgICAgICAgICAgTWF0dGhldyBGZXJu
+YW5kZXoKICAgICAgICAgICAgU3RhbiBVbGJyeWNoCiAgICAgICAgICAgICAgICAgYW5kCiAgICAg
+ICAgICAgIENpdHkgb2YgTXVuaWNoIE9wZW4gU291cmNlIFNhYmJhdGljYWwK
 
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 3197faf2ccdca39025d42e01a6cd37a26137f61e Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Wed, 23 Sep 2026 05:23:21 +0000
-Subject: [PATCH] libslirp: upgrade 4.9.4 -> 4.9.5
-
-## [4.9.5] - 2026-09-22
-## Security
-
-  - Fix bounds-check in processing OEM commands
-  - Fix bounds-check in dhcpv6 against MTU
-
-### Fixed
-  - Fix blocking sendto on UDP ockets #97
-
-[Unreleased]:
-https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.5...master
-[4.9.5]: https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.4...v4.9.5
----
- .../slirp/{libslirp_4.9.4.bb => libslirp_4.9.5.bb}              | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-connectivity/slirp/{libslirp_4.9.4.bb => libslirp_4.9.5.bb} (92%)
-
-diff --git a/meta/recipes-connectivity/slirp/libslirp_4.9.4.bb b/meta/recipes-connectivity/slirp/libslirp_4.9.5.bb
-similarity index 92%
-rename from meta/recipes-connectivity/slirp/libslirp_4.9.4.bb
-rename to meta/recipes-connectivity/slirp/libslirp_4.9.5.bb
-index 79a24f3037..d77121bf30 100644
---- a/meta/recipes-connectivity/slirp/libslirp_4.9.4.bb
-+++ b/meta/recipes-connectivity/slirp/libslirp_4.9.5.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM = "file://COPYRIGHT;md5=f95a9bf4a7e411164fe843697ccda59e \
-                     file://LICENSE;md5=cfea6044642fd63b90ce9d79f5db64d9"
- 
- SRC_URI = "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master;tag=v${PV}"
--SRCREV = "d09dc9a70360ee7838acccbd234ab83f3b9b37a5"
-+SRCREV = "390848f47391f412451b2d259d8527fabb51e5e3"
- UPSTREAM_CHECK_GITTAGREGEX = "v(?P<pver>\d+(\.\d+)+)"
- 
- DEPENDS = "glib-2.0"
--- 
-2.47.1
-
-
---===============4063717347874906753==
+--===============1554405976525318917==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libslirp: PV changed from "4.9.4" to "4.9.5"
-packages/x86-64-v3-poky-linux/libslirp: PKGV changed from 4.9.4 [default] to 4.9.5 [default]
-packages/x86-64-v3-poky-linux/libslirp: SRC_URI changed from "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master;tag=v4.9.4" to "git://gitlab.freedesktop.org/slirp/libslirp.git;protocol=https;branch=master;tag=v4.9.5"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-dbg: PV changed from "4.9.4" to "4.9.5"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-dbg: PKGSIZE changed from 598184 to 598568 (+0%)
-packages/x86-64-v3-poky-linux/libslirp/libslirp-dbg: PKGV changed from 4.9.4 [default] to 4.9.5 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-dev: PV changed from "4.9.4" to "4.9.5"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-dev: PKGV changed from 4.9.4 [default] to 4.9.5 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-doc: PV changed from "4.9.4" to "4.9.5"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-doc: PKGV changed from 4.9.4 [default] to 4.9.5 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-locale: PV changed from "4.9.4" to "4.9.5"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-locale: PKGV changed from 4.9.4 [default] to 4.9.5 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-src: PV changed from "4.9.4" to "4.9.5"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-src: PKGSIZE changed from 588882 to 590033 (+0%)
-packages/x86-64-v3-poky-linux/libslirp/libslirp-src: FILELIST: directory renamed /usr/src/debug/libslirp/4.9.4/src -> /usr/src/debug/libslirp/4.9.5/src
-packages/x86-64-v3-poky-linux/libslirp/libslirp-src: PKGV changed from 4.9.4 [default] to 4.9.5 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp-staticdev: PV changed from "4.9.4" to "4.9.5"
-packages/x86-64-v3-poky-linux/libslirp/libslirp-staticdev: PKGV changed from 4.9.4 [default] to 4.9.5 [default]
-packages/x86-64-v3-poky-linux/libslirp/libslirp: PV changed from "4.9.4" to "4.9.5"
-packages/x86-64-v3-poky-linux/libslirp/libslirp: PKGV changed from 4.9.4 [default] to 4.9.5 [default]
+packages/x86-64-v3-poky-linux/expat/expat-bin: PKGV changed from 2.8.4 [default] to 2.8.5 [default]
+packages/x86-64-v3-poky-linux/expat/expat-bin: PV changed from "2.8.4" to "2.8.5"
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PKGV changed from 2.8.4 [default] to 2.8.5 [default]
+packages/x86-64-v3-poky-linux/expat/expat-dbg: FILELIST: removed "/usr/lib/.debug/libexpat.so.1.12.4", added "/usr/lib/.debug/libexpat.so.1.12.5"
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PKGSIZE changed from 1826736 to 1849920 (+1%)
+packages/x86-64-v3-poky-linux/expat/expat-dbg: PV changed from "2.8.4" to "2.8.5"
+packages/x86-64-v3-poky-linux/expat/expat-dev: PKGV changed from 2.8.4 [default] to 2.8.5 [default]
+packages/x86-64-v3-poky-linux/expat/expat-dev: FILELIST: directory renamed /usr/lib/cmake/expat-2.8.4 -> /usr/lib/cmake/expat-2.8.5
+packages/x86-64-v3-poky-linux/expat/expat-dev: PKGSIZE changed from 67264 to 68043 (+1%)
+packages/x86-64-v3-poky-linux/expat/expat-dev: PV changed from "2.8.4" to "2.8.5"
+packages/x86-64-v3-poky-linux/expat/expat-doc: PKGV changed from 2.8.4 [default] to 2.8.5 [default]
+packages/x86-64-v3-poky-linux/expat/expat-doc: PKGSIZE changed from 123821 to 128635 (+4%)
+packages/x86-64-v3-poky-linux/expat/expat-doc: PV changed from "2.8.4" to "2.8.5"
+packages/x86-64-v3-poky-linux/expat/expat-locale: PKGV changed from 2.8.4 [default] to 2.8.5 [default]
+packages/x86-64-v3-poky-linux/expat/expat-locale: PV changed from "2.8.4" to "2.8.5"
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PKGV changed from 2.8.4 [default] to 2.8.5 [default]
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PKGSIZE changed from 542816 to 551872 (+2%)
+packages/x86-64-v3-poky-linux/expat/expat-ptest: PV changed from "2.8.4" to "2.8.5"
+packages/x86-64-v3-poky-linux/expat/expat-src: PKGV changed from 2.8.4 [default] to 2.8.5 [default]
+packages/x86-64-v3-poky-linux/expat/expat-src: FILELIST: directory renamed /usr/src/debug/expat/2.8.4/xmlwf -> /usr/src/debug/expat/2.8.5/xmlwf, directory renamed /usr/src/debug/expat/2.8.4/tests/benchmark -> /usr/src/debug/expat/2.8.5/tests/benchmark, removed "/usr/src/debug/expat/2.8.4/lib/nametab.h /usr/src/debug/expat/2.8.4/lib/siphash.h /usr/src/debug/expat/2.8.4/tests/minicheck.h /usr/src/debug/expat/2.8.4/lib/expat_external.h /usr/src/debug/expat/2.8.4/lib/xmlrole.h /usr/src/debug/expat/2.8.4/tests/misc_tests.c /usr/src/debug/expat/2.8.4/tests/minicheck.c /usr/src/debug/expat/2.8.4/tests/misc_tests.h /usr/src/debug/expat/2.8.4/tests/chardata.h /usr/src/debug/expat/2.8.4/lib/xmlrole.c /usr/src/debug/expat/2.8.4/tests/handlers.h /usr/src/debug/expat/2.8.4/tests/ns_tests.h /usr/src/debug/expat/2.8.4/lib/random_arc4random_buf.c /usr/src/debug/expat/2.8.4/tests/nsalloc_tests.h /usr/src/debug/expat/2.8.4/lib/expat.h /usr/src/debug/expat/2.8.4/tests/structdata.c /usr/src/debug/expat/
+ 2.8.4/tests/handlers.c /usr/src/debug/expat/2.8.4/tests/ns_tests.c /usr/src/debug/expat/2.8.4/lib/xcsinc.c /usr/src/debug/expat/2.8.4/tests/chardata.c /usr/src/debug/expat/2.8.4/tests/runtests.c /usr/src/debug/expat/2.8.4/lib/random_arc4random_buf.h /usr/src/debug/expat/2.8.4/tests/nsalloc_tests.c /usr/src/debug/expat/2.8.4/lib/xmltok_ns.c /usr/src/debug/expat/2.8.4/lib/xmltok.c /usr/src/debug/expat/2.8.4/tests/structdata.h /usr/src/debug/expat/2.8.4/tests/acc_tests.h /usr/src/debug/expat/2.8.4/lib/xmlparse.c /usr/src/debug/expat/2.8.4/lib/xmltok.h /usr/src/debug/expat/2.8.4/lib/random_getentropy.c /usr/src/debug/expat/2.8.4/tests/acc_tests.c /usr/src/debug/expat/2.8.4/tests/memcheck.c /usr/src/debug/expat/2.8.4/tests/memcheck.h /usr/src/debug/expat/2.8.4/lib/random_getrandom.c /usr/src/debug/expat/2.8.4/lib/random_arc4random.c /usr/src/debug/expat/2.8.4/tests/alloc_tests.c /usr/src/debug/expat/2.8.4/tests/basic_tests.c /usr/src/debug/expat/2.8.4/tests/alloc_tests.h /usr/src/debug/e
+ xpat/2.8.4/tests/basic_tests.h /usr/src/debug/expat/2.8.4/tests/dummy.h /usr/src/debug/expat/2.8.4/tests/dummy.c /usr/src/debug/expat/2.8.4/lib/xmltok_impl.c /usr/src/debug/expat/2.8.4/tests/common.h /usr/src/debug/expat/2.8.4/lib/xmltok_impl.h /usr/src/debug/expat/2.8.4/lib/internal.h /usr/src/debug/expat/2.8.4/tests/common.c", added "/usr/src/debug/expat/2.8.5/lib/nametab.h /usr/src/debug/expat/2.8.5/lib/siphash.h /usr/src/debug/expat/2.8.5/tests/minicheck.h /usr/src/debug/expat/2.8.5/lib/expat_external.h /usr/src/debug/expat/2.8.5/lib/xmlrole.h /usr/src/debug/expat/2.8.5/tests/hash_tests.c /usr/src/debug/expat/2.8.5/tests/misc_tests.c /usr/src/debug/expat/2.8.5/tests/minicheck.c /usr/src/debug/expat/2.8.5/tests/hash_tests.h /usr/src/debug/expat/2.8.5/tests/chardata.h /usr/src/debug/expat/2.8.5/tests/misc_tests.h /usr/src/debug/expat/2.8.5/tests/handlers.h /usr/src/debug/expat/2.8.5/tests/ns_tests.h /usr/src/debug/expat/2.8.5/lib/random_arc4random_buf.c /usr/src/debug/expat/2.8.5/
+ tests/nsalloc_tests.h /usr/src/debug/expat/2.8.5/lib/expat.h /usr/src/debug/expat/2.8.5/tests/structdata.c /usr/src/debug/expat/2.8.5/lib/xmlrole.c /usr/src/debug/expat/2.8.5/tests/handlers.c /usr/src/debug/expat/2.8.5/tests/ns_tests.c /usr/src/debug/expat/2.8.5/lib/xcsinc.c /usr/src/debug/expat/2.8.5/tests/chardata.c /usr/src/debug/expat/2.8.5/tests/runtests.c /usr/src/debug/expat/2.8.5/lib/random_arc4random_buf.h /usr/src/debug/expat/2.8.5/tests/nsalloc_tests.c /usr/src/debug/expat/2.8.5/lib/xmltok_ns.c /usr/src/debug/expat/2.8.5/lib/xmltok.c /usr/src/debug/expat/2.8.5/tests/structdata.h /usr/src/debug/expat/2.8.5/tests/acc_tests.h /usr/src/debug/expat/2.8.5/lib/xmlparse.c /usr/src/debug/expat/2.8.5/lib/xmltok.h /usr/src/debug/expat/2.8.5/lib/random_getentropy.c /usr/src/debug/expat/2.8.5/tests/acc_tests.c /usr/src/debug/expat/2.8.5/tests/memcheck.c /usr/src/debug/expat/2.8.5/tests/memcheck.h /usr/src/debug/expat/2.8.5/lib/random_getrandom.c /usr/src/debug/expat/2.8.5/lib/random_a
+ rc4random.c /usr/src/debug/expat/2.8.5/tests/alloc_tests.c /usr/src/debug/expat/2.8.5/tests/basic_tests.c /usr/src/debug/expat/2.8.5/tests/alloc_tests.h /usr/src/debug/expat/2.8.5/tests/basic_tests.h /usr/src/debug/expat/2.8.5/tests/dummy.h /usr/src/debug/expat/2.8.5/tests/dummy.c /usr/src/debug/expat/2.8.5/lib/xmltok_impl.c /usr/src/debug/expat/2.8.5/tests/common.h /usr/src/debug/expat/2.8.5/lib/hash_table.h /usr/src/debug/expat/2.8.5/lib/xmltok_impl.h /usr/src/debug/expat/2.8.5/lib/internal.h /usr/src/debug/expat/2.8.5/tests/common.c"
+packages/x86-64-v3-poky-linux/expat/expat-src: PKGSIZE changed from 1370126 to 1390028 (+1%)
+packages/x86-64-v3-poky-linux/expat/expat-src: PV changed from "2.8.4" to "2.8.5"
+packages/x86-64-v3-poky-linux/expat/expat-staticdev: PKGV changed from 2.8.4 [default] to 2.8.5 [default]
+packages/x86-64-v3-poky-linux/expat/expat-staticdev: PV changed from "2.8.4" to "2.8.5"
+packages/x86-64-v3-poky-linux/expat/expat: PKGV changed from 2.8.4 [default] to 2.8.5 [default]
+packages/x86-64-v3-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.12.4", added "/usr/lib/libexpat.so.1.12.5"
+packages/x86-64-v3-poky-linux/expat/expat: PV changed from "2.8.4" to "2.8.5"
+packages/x86-64-v3-poky-linux/expat: SRC_URI changed from "https://github.com/libexpat/libexpat/releases//download/R_2_8_4/expat-2.8.4.tar.bz2 file://run-ptest" to "https://github.com/libexpat/libexpat/releases//download/R_2_8_5/expat-2.8.5.tar.bz2 file://run-ptest"
+packages/x86-64-v3-poky-linux/expat: PKGV changed from 2.8.4 [default] to 2.8.5 [default]
+packages/x86-64-v3-poky-linux/expat: PV changed from "2.8.4" to "2.8.5"
+Changes to packages/x86-64-v3-poky-linux/expat (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.4 to libexpat.so.1.12.5
+  /usr/lib/cmake/expat-2.8.4 moved to /usr/lib/cmake/expat-2.8.5
+  /usr/lib/libexpat.so.1.12.4 moved to /usr/lib/libexpat.so.1.12.5
+Changes to packages/x86_64-linux/elfutils-native (sysroot):
+  /usr/bin/eu-stackprof was added
+Changes to packages/x86_64-linux/expat-native (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.4 to libexpat.so.1.12.5
+  /usr/lib/cmake/expat-2.8.4 moved to /usr/lib/cmake/expat-2.8.5
+  /usr/lib/libexpat.so.1.12.4 moved to /usr/lib/libexpat.so.1.12.5
 
---===============4063717347874906753==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="libslirp-changelog.txt"
-
-## [4.9.5] - 2026-09-22
-## Security
-
-  - Fix bounds-check in processing OEM commands
-  - Fix bounds-check in dhcpv6 against MTU
-
-### Fixed
-  - Fix blocking sendto on UDP ockets #97
-
-[Unreleased]:
-https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.5...master
-[4.9.5]: https://gitlab.freedesktop.org/slirp/libslirp/compare/v4.9.4...v4.9.5
-
---===============4063717347874906753==
+--===============1554405976525318917==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-libslirp-upgrade-4.9.4-4.9.5.patch"
+ filename="0001-expat-upgrade-2.8.4-2.8.5.patch"
 
-RnJvbSAzMTk3ZmFmMmNjZGNhMzkwMjVkNDJlMDFhNmNkMzdhMjYxMzdmNjFlIE1vbiBTZXAgMTcg
+RnJvbSAwZDY3NjZhMmE3YTgzZGNlZjA5YmU3NDg4MDlmOGRlZjBhYWE3NGZkIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMjMgU2VwIDIwMjYgMDU6MjM6MjEgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJzbGlycDogdXBncmFkZSA0LjkuNCAtPiA0LjkuNQoKIyMgWzQuOS41XSAtIDIwMjYtMDktMjIK
-IyMgU2VjdXJpdHkKCiAgLSBGaXggYm91bmRzLWNoZWNrIGluIHByb2Nlc3NpbmcgT0VNIGNvbW1h
-bmRzCiAgLSBGaXggYm91bmRzLWNoZWNrIGluIGRoY3B2NiBhZ2FpbnN0IE1UVQoKIyMjIEZpeGVk
-CiAgLSBGaXggYmxvY2tpbmcgc2VuZHRvIG9uIFVEUCBvY2tldHMgIzk3CgpbVW5yZWxlYXNlZF06
-Cmh0dHBzOi8vZ2l0bGFiLmZyZWVkZXNrdG9wLm9yZy9zbGlycC9saWJzbGlycC9jb21wYXJlL3Y0
-LjkuNS4uLm1hc3RlcgpbNC45LjVdOiBodHRwczovL2dpdGxhYi5mcmVlZGVza3RvcC5vcmcvc2xp
-cnAvbGlic2xpcnAvY29tcGFyZS92NC45LjQuLi52NC45LjUKLS0tCiAuLi4vc2xpcnAve2xpYnNs
-aXJwXzQuOS40LmJiID0+IGxpYnNsaXJwXzQuOS41LmJifSAgICAgICAgICAgICAgfCAyICstCiAx
-IGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRpb24oLSkKIHJlbmFtZSBtZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L3NsaXJwL3tsaWJzbGlycF80LjkuNC5iYiA9PiBsaWJzbGly
-cF80LjkuNS5iYn0gKDkyJSkKCmRpZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5
-L3NsaXJwL2xpYnNsaXJwXzQuOS40LmJiIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0eS9zbGly
-cC9saWJzbGlycF80LjkuNS5iYgpzaW1pbGFyaXR5IGluZGV4IDkyJQpyZW5hbWUgZnJvbSBtZXRh
-L3JlY2lwZXMtY29ubmVjdGl2aXR5L3NsaXJwL2xpYnNsaXJwXzQuOS40LmJiCnJlbmFtZSB0byBt
-ZXRhL3JlY2lwZXMtY29ubmVjdGl2aXR5L3NsaXJwL2xpYnNsaXJwXzQuOS41LmJiCmluZGV4IDc5
-YTI0ZjMwMzcuLmQ3NzEyMWJmMzAgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1jb25uZWN0aXZp
-dHkvc2xpcnAvbGlic2xpcnBfNC45LjQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvbm5lY3Rpdml0
-eS9zbGlycC9saWJzbGlycF80LjkuNS5iYgpAQCAtNiw3ICs2LDcgQEAgTElDX0ZJTEVTX0NIS1NV
-TSA9ICJmaWxlOi8vQ09QWVJJR0hUO21kNT1mOTVhOWJmNGE3ZTQxMTE2NGZlODQzNjk3Y2NkYTU5
-ZSBcCiAgICAgICAgICAgICAgICAgICAgIGZpbGU6Ly9MSUNFTlNFO21kNT1jZmVhNjA0NDY0MmZk
-NjNiOTBjZTlkNzlmNWRiNjRkOSIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRsYWIuZnJlZWRlc2t0
-b3Aub3JnL3NsaXJwL2xpYnNsaXJwLmdpdDtwcm90b2NvbD1odHRwczticmFuY2g9bWFzdGVyO3Rh
-Zz12JHtQVn0iCi1TUkNSRVYgPSAiZDA5ZGM5YTcwMzYwZWU3ODM4YWNjY2JkMjM0YWI4M2YzYjli
-MzdhNSIKK1NSQ1JFViA9ICIzOTA4NDhmNDczOTFmNDEyNDUxYjJkMjU5ZDg1MjdmYWJiNTFlNWUz
-IgogVVBTVFJFQU1fQ0hFQ0tfR0lUVEFHUkVHRVggPSAidig/UDxwdmVyPlxkKyhcLlxkKykrKSIK
-IAogREVQRU5EUyA9ICJnbGliLTIuMCIKLS0gCjIuNDcuMQoK
+CkRhdGU6IFdlZCwgMjMgU2VwIDIwMjYgMDU6Mzk6MTQgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+eHBhdDogdXBncmFkZSAyLjguNCAtPiAyLjguNQpNSU1FLVZlcnNpb246IDEuMApDb250ZW50LVR5
+cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKQ29udGVudC1UcmFuc2Zlci1FbmNvZGluZzog
+OGJpdAoKISEgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAhIQohISBJZiB5b3VyIGJ1c2luZXNzIHJlbGllcyBv
+biBFeHBhdCBiZXlvbmQgSmFudWFyeSAyMDI3LCBwbGVhc2UgY29uc2lkZXIgICAgICEhCiEhIGZ1
+bmRpbmcgdGhlIG1haW50ZW5hbmNlIG9mIEV4cGF0IHRvIGVuc3VyZSBpdHMgaGVhbHRoIGFuZCBz
+ZWN1cml0eSBmb3IgICAgISEKISEgeW91IGFuZCBvdGhlcnMuIFRoYW5rIHlvdSEgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAhIQohISAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICEhCiEhICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICBTZWJhc3RpYW4gUGlw
+cGluZyAtLSBCZXJsaW4sIDIwMjYtMDktMjIgISEKUmVsZWFzZSAyLjguNSBUdWUgU2VwdGVtYmVy
+IDIyIDIwMjYKICAgICAgICBTZWN1cml0eSBmaXhlczoKICAgICAgICAgICAjMTI4MiAgQ1ZFLTIw
+MjYtOTM5OTAgLS0gUmVqZWN0IGhpZ2ggc3Vycm9nYXRlcyBub3QgZm9sbG93ZWQgYnkgYQogICAg
+ICAgICAgICAgICAgICAgIGxvdyBzdXJyb2dhdGUgZHVyaW5nIFVURi0xNiBkZWNvZGluZzsgcHJl
+dmlvdXNseSwgbWFsZm9ybWVkCiAgICAgICAgICAgICAgICAgICAgVVRGLTE2IGNvdWxkIGJlIHNt
+dWdnbGVkIGludG8gdGhlIGFwcGxpY2F0aW9uIHVzaW5nIEV4cGF0CiAgICAgICAgICAgICAgICAg
+ICAgYW5kIGNvdWxkIGNhdXNlIGFyYml0cmFyeSBkYW1hZ2UgdGhlcmUsIGRlcGVuZGluZyBvbiBo
+b3cKICAgICAgICAgICAgICAgICAgICBtYWxmb3JtZWQgVVRGLTE2IHdhcyBoYW5kbGVkIGluc2lk
+ZSB0aGUgYXBwbGljYXRpb247CiAgICAgICAgICAgICAgICAgICAgdmFsaWRhdGlvbiB3YXMgbm90
+IHRoZWlyIGpvYiBidXQgRXhwYXQncy4gVGhpcyBpcyBzaW1pbGFyCiAgICAgICAgICAgICAgICAg
+ICAgdG8gcGFzdCB2dWxuZXJhYmlsaXR5IENWRS0yMDIyLTI1MjM1LgogICAgICAgICAgICAgICAg
+ICAgIFVwc3RyZWFtIENWU1MgMy4xIHZlY3RvcjoKICAgICAgICAgICAgICAgICAgICBBVjpOL0FD
+OkwvUFI6Ti9VSTpOL1M6VS9DOkgvSTpIL0E6SCAoQ1ZTUyBzY29yZTogOS44KQoKLy8vLy8vLy8v
+Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8v
+Ly8vLy8vLy8vLy8vLwovLyBUaGUgbmV4dCByZWxlYXNlIHdpbGwgZHJvcCB0d28gKGRpc2FibGVk
+LWJ5LWRlZmF1bHQpIGZlYXR1cmVzOiAgICAgICAgICAgIC8vCi8vICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+Ly8KLy8gLSBBVFRSX0lORk8gKC1EWE1MX0FUVFJfSU5GTywgLURFWFBBVF9BVFRSX0lORk8sIC0t
+ZW5hYmxlLXhtbC1hdHRyLWluZm8sICAvLwovLyAgICAgICAgICAgICAgZnVuY3Rpb24gWE1MX0dl
+dEF0dHJpYnV0ZUluZm8sIHN0cnVjdCBYTUxfQXR0ckluZm8pICAgICAgICAgIC8vCi8vIC0gTUlO
+X1NJWkUgKC1EWE1MX01JTl9TSVpFLCAtREVYUEFUX01JTl9TSVpFKSAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgLy8KLy8gICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAvLwovLyBJZiB5b3UgbmVlZCB0aGVt
+IGluIDIwMjYgYW5kIGJleW9uZCwgcGxlYXNlIHNoYXJlIHlvdXIgc2NlbmFyaW8gYXQgICAgICAg
+IC8vCi8vIEdpdEh1YiBpc3N1ZXMgIzEzNzAgKGZvciBBVFRSX0lORk8pIGFuZC9vciAjMTM3OSAo
+Zm9yIE1JTl9TSVpFKS4gVGhhbmtzISAgLy8KLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8v
+Ly8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLy8vLwoKICAgICAg
+ICBCdWcgZml4ZXM6CiAgICAgICAgICAgIzEzNDYgIGxpYjogRml4IE9PTS1yZWxhdGVkIG1lbW9y
+eSBsZWFrIG9uIGEgZmFpbGVkIG92ZXJmbG93IGNoZWNrCiAgICAgICAgICAgIzEzNzEgIGxpYjog
+Rml4IG1lbW9yeSBhbGlnbm1lbnQgZm9yIGFyY2hpdGVjdHVyZXMgd2l0aCAxMjhiaXQKICAgICAg
+ICAgICAgICAgICAgICBwb2ludGVycyBsaWtlIENIRVJJLVJJU0MtVgogICAgICAgICAgICMxMzY3
+ICB4bWx3ZjogSGFuZGxlIGVycm9ycyB3aGVuIGNsb3Npbmcgb3V0cHV0IGZpbGVzCgogICAgICAg
+IE90aGVyIGNoYW5nZXM6CiAgICAgICAgICAgIzEzNTQgIGxpYjogUmVqZWN0IGFuIFhNTCBkZWNs
+YXJhdGlvbiB2ZXJzaW9uIG90aGVyIHRoYW4gYDEuWzAtOV0rYAogICAgICAgICAgICAgICAgICAg
+ICh3aGljaCBpcyBsZXNzIHN0cmljdCB0aGFuIFhNTCAxLjByNCAoZm91cnRoIGVkaXRpb24pCiAg
+ICAgICAgICAgICAgICAgICAgYW5kIG1hdGNoZXMgWE1MIDEuMHI1IChmaWZ0aCBlZGl0aW9uKSkK
+ICAgICAgICAgICAjMTM2MiAgbGliOiBNYWtlIENsYW5nLCBHQ0MgYW5kIE1TVkMgd2FybiBhYm91
+dCB1c2Ugb2YgZnVuY3Rpb24KICAgICAgICAgICAgICAgICAgICBYTUxfU2V0SGFzaFNhbHQgdGhh
+dCBpcyBkZXByZWNhdGVkIHNpbmNlIEV4cGF0IDIuOC4wCiAgICAgICAgICAgIzEzNTcgIGxpYjog
+RHJvcCBpbnRlcm5hbCBtYWNyb3MgRkFTVENBTEwsIFBUUkNBTEwsIFBUUkZBU1RDQUxMCiAgICAg
+ICAgICAgIzEzNjcgIHhtbHdmOiBEb2N1bWVudCB0aGF0IHdpdGggYC1rYCB0aGUgbGFzdCBlcnJv
+ciBkZXRlcm1pbmVzIHRoZQogICAgICAgICAgICAgICAgICAgIHhtbHdmIGV4aXQgY29kZSBpbiBg
+LS1oZWxwYCBvdXRwdXQKICAgICAgICAgICAjMTM2NyAgeG1sd2Y6IE1ha2UgZXhpdCBjb2RlIDMg
+ZG9jdW1lbnRhdGlvbiBtYXRjaCBleGl0IGNvZGUgMiBtb3JlCiAgICAgICAgICAgICAgICAgICAg
+Y2xvc2VseSBpbiBgLS1oZWxwYCBvdXRwdXQKICAgICAjMTM1MiAjMTM1MyAgQ01ha2V8V2luZG93
+czogUmVmcmFpbiBmcm9tIGFkZGluZyBgL3NvdXJjZS1jaGFyc2V0OnV0Zi04YAogICAgICAgICAg
+ICAgICAgICAgIGZvciBNU1ZDCiAgICAgIzEzNjYgIzEzNzQgIEF1dG90b29sczogQmUgZXhwbGlj
+aXQgYWJvdXQgdGhlIG1pbmltdW0gcmVxdWlyZWQgdmVyc2lvbiBvZgogICAgICAgICAgICAgICAg
+ICAgIEdOVSBBdXRvbWFrZSwgY3VycmVudGx5IHZlcnNpb24gMS4xMyBvZiAyMDEyLTEyLTI4CiAg
+ICAgICAgICAgIzEzNTEgIEF1dG90b29sc3xtYWNPUzogU3luYyBDTWFrZSB0ZW1wbGF0ZXMgd2l0
+aCBDTWFrZSA0LjQuMwogICAgICAgICAgICMxMzQ5ICBSZXBsYWNlIHNvbWUgaW50ZXJuYWwgdXNl
+IG9mIFhNTF9Cb29sIHdpdGggc3RhbmRhcmQgYm9vbAogICAgICAgICAgICMxMzY0ICB0ZXN0czog
+UHJvcGFnYXRlIHhtbHRlc3Quc2ggZmFpbHVyZXMgdmlhIGV4aXQgc3RhdHVzCiAgICAgICAgICAg
+IzEzNjAgIHRlc3RzfHhtbHdmOiBBZGQgYCNpbmNsdWRlICJleHBhdF9jb25maWcuaCJgIHdoZXJl
+IG1pc3NpbmcKICAgICAgICAgICAjMTM1NSAgdGVzdHM6IFN0YXJ0IGNvdmVyaW5nIGhhc2ggdGFi
+bGUgb3BlcmF0aW9uCiAgICAgIzEzNTAgIzEzNjkgIHRlc3RzOiBEcm9wIF9fY3BsdXNwbHVzIGxl
+ZnRvdmVycwogICAgICAgICAgICMxMzc4ICB0ZXN0czogRml4IHRhaWwgcG9pbnRlciB3aGVuIHVu
+bGlua2luZyB0aGUgbGFzdCB0cmFja2VkCiAgICAgICAgICAgICAgICAgICAgYWxsb2NhdGlvbgog
+ICAgICAgICAgICMxMzc2ICBkb2NzOiBFbXBoYXNpemUgdGhhdCBYTUxfU3RvcFBhcnNlciBpcyBu
+b3QgaW1tZWRpYXRlCiAgICAgICAgICAgIzEzODEgIGRvY3M6IFN5bmMgWE1MX0ZlYXR1cmVFbnVt
+IHZhbHVlIGxpc3QgaW4gZG9jL3JlZmVyZW5jZS5odG1sCiAgICAgIzEzNTYgIzEzNjEgIFZlcnNp
+b24gaW5mbyBidW1wZWQgZnJvbSAxMzo0OjEyIChsaWJleHBhdCouc28uMS4xMi40KQogICAgICAg
+ICAgICAgICAgICAgIHRvIDEzOjU6MTIgKGxpYmV4cGF0Ki5zby4xLjEyLjUpOyBzZWUgaHR0cHM6
+Ly92ZXJidW1wLmRlLwogICAgICAgICAgICAgICAgICAgIGZvciB3aGF0IHRoZXNlIG51bWJlcnMg
+ZG8KCiAgICAgICAgSW5mcmFzdHJ1Y3R1cmU6CiAgICAgICAgICAgIzEzNDcgIEFkZCBtaXNzaW5n
+IC5naXRpZ25vcmUgZW50cmllcwogICAgICAgICAgICMxMzYwICBDSTogRGV0ZWN0IG1pc3Npbmcg
+YCNpbmNsdWRlICJleHBhdF9jb25maWcuaCJgCiAgICAgICAgICAgIzEzNjggIENJOiBCdW1wIE1p
+bkdXIENsYW5nIGZyb20gMjMuMC4xIHRvIDIzLjEuMQogICAgICAgICAgICMxMzc3ICBDSTogQnVt
+cCBGaWwtQyBmcm9tIDAuNjg0IHRvIDAuNjg1CiAgICAgICAgICAgIzEzODAgIENJOiBCdW1wIENw
+cGNoZWNrIGZyb20gMi4yMS4wIHRvIDIuMjIuMAogICAgICAgICAgICMxMzcyICBDSTogRXh0cmFj
+dCBoZWxwZXIgc2NyaXB0IGBhcHBseS1odG1sdGlkeS5zaGAKICAgICAjMTM2NiAjMTM3NCAgQXV0
+b3Rvb2xzOiBTdGFydCB0byBhbHNvIHByb2R1Y2UgLnRhci5iejMgcmVsZWFzZSB0YXJiYWxscwoK
+ICAgICAgICBTcGVjaWFsIHRoYW5rcyB0bzoKICAgICAgICAgICAgQWZvbnNvIEphbnXDoXJpbwog
+ICAgICAgICAgICBCcmFpYW4gUGxha3UKICAgICAgICAgICAgRmxvcmlhbiBTY2htYXVzCiAgICAg
+ICAgICAgIEh1YW5nIFdlbmJpbgogICAgICAgICAgICBLYW1pbGEgU3pld2N6eWsKICAgICAgICAg
+ICAgS2FydGlrIEtlbmNoaQogICAgICAgICAgICBMZW8gQ2FtdXMKICAgICAgICAgICAgTWF0dGhl
+dyBGZXJuYW5kZXoKICAgICAgICAgICAgU3RhbiBVbGJyeWNoCiAgICAgICAgICAgICAgICAgYW5k
+CiAgICAgICAgICAgIENpdHkgb2YgTXVuaWNoIE9wZW4gU291cmNlIFNhYmJhdGljYWwKLS0tCiBt
+ZXRhL3JlY2lwZXMtY29yZS9leHBhdC97ZXhwYXRfMi44LjQuYmIgPT4gZXhwYXRfMi44LjUuYmJ9
+IHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEgaW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiBy
+ZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQve2V4cGF0XzIuOC40LmJiID0+IGV4cGF0XzIu
+OC41LmJifSAoOTIlKQoKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0
+XzIuOC40LmJiIGIvbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRfMi44LjUuYmIKc2ltaWxh
+cml0eSBpbmRleCA5MiUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWNvcmUvZXhwYXQvZXhwYXRf
+Mi44LjQuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4cGF0XzIuOC41LmJi
+CmluZGV4IDA1MGYxNDhiMDcuLmMwMzJlMThjNzcgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1j
+b3JlL2V4cGF0L2V4cGF0XzIuOC40LmJiCisrKyBiL21ldGEvcmVjaXBlcy1jb3JlL2V4cGF0L2V4
+cGF0XzIuOC41LmJiCkBAIC0xNSw3ICsxNSw3IEBAIFNSQ19VUkkgPSAiJHtHSVRIVUJfQkFTRV9V
+Ukl9L2Rvd25sb2FkL1JfJHtWRVJTSU9OX1RBR30vZXhwYXQtJHtQVn0udGFyLmJ6MiAgXAogR0lU
+SFVCX0JBU0VfVVJJID0gImh0dHBzOi8vZ2l0aHViLmNvbS9saWJleHBhdC9saWJleHBhdC9yZWxl
+YXNlcy8iCiBVUFNUUkVBTV9DSEVDS19SRUdFWCA9ICJyZWxlYXNlcy90YWcvUl8oP1A8cHZlcj4u
+KykiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICI5NjMyNTBhODIzYzE2YTQ5ODU4MmI0YWQ4MmFk
+MGY4ODkyNmJlMDc2OTY3NWQzYjY5NTZiZTRkNzY5YTFjZDhmIgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gIjk1MmMwM2MzM2E2YjMzN2YxMmRhZTdhOWIwZjlkZWU4NmY4Njc1NTBkMzVjOTk0ZDZiZGFh
+ZGRkMzdkYzg0NTQiCiAKIEVYVFJBX09FQ01BS0U6Y2xhc3MtbmF0aXZlICs9ICItREVYUEFUX0JV
+SUxEX0RPQ1M9T0ZGIgogCi0tIAoyLjQ3LjEKCg==
 
---===============4063717347874906753==--
+--===============1554405976525318917==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/expat/expat-dev: FILELIST: directory renamed /usr/lib/cmake/expat-2.8.4 -> /usr/lib/cmake/expat-2.8.5
+packages/x86-64-v3-poky-linux/expat/expat: FILELIST: removed "/usr/lib/libexpat.so.1.12.4", added "/usr/lib/libexpat.so.1.12.5"
+Changes to packages/x86-64-v3-poky-linux/expat (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.4 to libexpat.so.1.12.5
+  /usr/lib/cmake/expat-2.8.4 moved to /usr/lib/cmake/expat-2.8.5
+  /usr/lib/libexpat.so.1.12.4 moved to /usr/lib/libexpat.so.1.12.5
+Changes to packages/x86_64-linux/elfutils-native (sysroot):
+  /usr/bin/eu-stackprof was added
+Changes to packages/x86_64-linux/expat-native (sysroot):
+  /usr/lib/libexpat.so.1 changed symlink target from libexpat.so.1.12.4 to libexpat.so.1.12.5
+  /usr/lib/cmake/expat-2.8.4 moved to /usr/lib/cmake/expat-2.8.5
+  /usr/lib/libexpat.so.1.12.4 moved to /usr/lib/libexpat.so.1.12.5
+
+--===============1554405976525318917==--
 
