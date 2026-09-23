@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A488CC982EA
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93A59C982FA
 	for <webhook@archiver.kernel.org>; Wed, 23 Sep 2026 09:11:23 +0000 (UTC)
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2816.1790154682740674134
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2815.1790154680930186169
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 02:11:23 -0700
+ Wed, 23 Sep 2026 02:11:21 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=TAALMvdz;
- spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-4843cedd129so470240f8f.0
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:22 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=EEsVSD/1;
+ spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e721b5503so5648485e9.0
+        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 02:11:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790154681; x=1790759481; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790154679; x=1790759479; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=53q2a3ZPJ439hiF9YD6a9pC2V4yAS14Be8yJrDJbJQ8=;
-        b=TAALMvdzMyff+RfEmtsGSSI8l4S0vQ3E2PYpFPNgByLHH2se/wXzRsY+gFcn17kw0g
-         5kGzIcp8GBqbeb7bJIRmIAtF5CvFMaogWmCN95GV5Zvc40VyF3bBkyQssDOfycy11xq4
-         NHLkdJSbUOvHOFJXsHrxCE/nFjGY1m4SW9K90=
+        bh=sNuG74WzTEl+YKyB0BBJ0j0ILPwsHE7qnTbG8ML1fZw=;
+        b=EEsVSD/1xE0zYhvwwCKnaYv5HtlxFVPFmhzjy75KSI7vSfQPH07yiSuoLa03zLRuws
+         ejEzkmldceeYxyY81DX5rBCKk4kwEyaUs4/XBTsXpb6PvD17qPzB8AztbLT86UjNvzcy
+         r+PKFYgQvHVbcFmE3+QRrS71cJMcW1JWinc5Q=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790154681; x=1790759481;
+        d=1e100.net; s=20260707; t=1790154679; x=1790759479;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=53q2a3ZPJ439hiF9YD6a9pC2V4yAS14Be8yJrDJbJQ8=;
-        b=VIZqkrPxEfCPdxczi6sTq/JfAFNxh7w2dfT/uyv5fUOC6Epu9X8nr7LKOYPj2qqr+g
-         y5B3p0Hep+J63t7nwpnF+hEb6a7dnhqnVb4AT/b0omxRm9oDo5iUvsejVAox4DH0ZXpA
-         8iZ/f1W+hW3xfJdN0zHcI9XSafkfyCeR1X/j3gu1/YBxThjcHXhwBhHGUSD23DmI9DFl
-         A3KiDh0nnaynTUOYSq7oQPTrR+wsQHaIo9qxvcdl+HJuCA2fBrqQU/IeHxXJSVC7Tq7q
-         knxeHNh3A/YTpGQjnBctJLHJ54HuqZMDNChxXh2gOCklPsZCMBRZu3CBsxzEg2hewrJg
-         c/OA==
-X-Gm-Message-State: AFuF++mqK8UCsPM2I9IhiaN5DKuP9LUXQ2HPVAWLMTPeSIunATxHLXQB
-	b/+U4dsTaJFSM8VgrLnq6o3dEMM7pP4xa79qORIzn+7avztCj3nxutblMy8J8A/qgIBiYGLk9fN
-	5QR8qEBE=
-X-Gm-Gg: AYBFou3XlRUmCkVvBnutJ+T2AnVUvCRXZMrudCKdcOi2Xm3tOPr6vJlGSJFGTEDsIxB
-	NjhVzU2sSBWRMOK2XwggQ8NKZkOTMDkwLirD4Z/I1RxlpkF4ACALuEeMW4VEIfZFNRUCVdlYNsQ
-	zu/ij/HCwaS1aj7YR/E2uqsTpFaqf76BYpWspASX0DYQ8dveq2QwNDzwoMCDZNXc+xd9axNMciz
-	lrnQ2pRMop88FDC8Bj2SNqH253qYCTFtmx9LFZZIByvTgOatwl5tdlifqqRiKXq6HTIK/da0OJk
-	2HiisVDrXUB1bfdvppxufQk2u26W03BbT5MrfBxaq1cJ3g7dt+wuN3PBJRV9SyooJEMLQkXV7yC
-	MtaGVnPwlstsjF4zkVgdAn6+E2K32BW9yZJ5V/ujQF7CKtLHwpGErd0Uk46PbHi3rD4GxVCkdES
-	rBCWi24VM7RUyiijsbpO7NrNU/bVrLC5Qp8lO7xM4I1tHumzYeRTI7K6g4AVwfAhAFopRezHTw+
-	Lba7C5zBaiTPDCTo8F4Ip3Yo1pJQRgk7IpwdbrCelmEI3vzu/3B9+Qm4CXhPQGCpPnZBqWt
-X-Received: by 2002:a05:600c:608e:b0:49f:ce78:3570 with SMTP id 5b1f17b1804b1-49fdf0fee93mr30118295e9.33.1790154680868;
-        Wed, 23 Sep 2026 02:11:20 -0700 (PDT)
+        bh=sNuG74WzTEl+YKyB0BBJ0j0ILPwsHE7qnTbG8ML1fZw=;
+        b=naCBimMBTkTTWDuafQEPRxo9Xym5ahUmNYZWEfOQM+M9EmYRmEfb0yXDciTRjQdf1H
+         EEBEgc3LAXNEBnWLq5IJI2v2u1y+GOycrBlG4kB0g2IK30b/YKPOMahZXSGI4N53PzXI
+         IPLUcTGUN38WNG8zQQ/bxFLQZ7C7sKSnKGwD4kn2h5jVnZzBZDW5qOqwglKDr4Dk54qm
+         VqdJCv/+YLbCYrF8N8/y0SCie0n9TCOIv2lMG6DpBce4Wpfm/gQntJwGD9aVBDxnWh76
+         E8ezPlaGdvuLskqW20bLXndWufhDG0LWWaQKAmHfIwxiHQh09mcFIX8hR3ZjtQ9hUeH9
+         UOAA==
+X-Gm-Message-State: AFuF++kuQm62vovN88avhCF13iWyQ1SnBQJwnPSAhkPu1hGEheoquN07
+	F1Uf0PJTSnBfebe48gG+/KAvPIL3lz8De9n0Z5Rcx94VkFdUDK5AdoOJSM597bfK4uzO2FxoBmC
+	nLiF3oBw=
+X-Gm-Gg: AYBFou2zYuQfLI4gHIe1Y9Tf17+Y8RTg4wdjH+U5dER9coy8EaEW8YIwQOY2TjuN027
+	MzlcgsUu50we+KnI8VnJk5wyPKeYvnoMJqIKd8QsN+L9giCaKvU2Dq38GU421ak1fpNUH/NrR2z
+	r6DfFQdcUfKsY5wyK8vOYtCb0xPJrt/f9DmFwyGpm5GeKmanEA5L6C58cVfQlWa3JVA0ndg/bwd
+	46d7bpxAE/iIj9M0unzy+c5I6mFsVcbTwJ6Q/PChI5sSGZKwPYxHGAyhdYbIzCPbCBKvrdLrG/v
+	Wdb6hJVMD6Vj9LhBtOhyZOB/xeddtbahPj2jf5hjOlIOfZTdKqe/jVW8wzGWX/VCZAbpg5lss7J
+	8wdv4nqTB6OtY/yd8bS1oX/eSZluj/VhlNNvDyJF2jHmRyrNCBPgdqJ6589J7KFX10uKSwMZrYD
+	tmeDJ8r1E51up0gipX+hD77rgNXoalOkSQCsf2LdtAETk3D6FNg+LYFcofps5b7GBLygm9t+jUX
+	w1LYJuS59y6WbjcrXlnrvGrGTMSyLFLbMQ7kjkSu5dpw+ghi2c/K1uV9e4qqKhsoVRGnOaU
+X-Received: by 2002:a05:600c:a307:b0:49f:e3f2:f5a3 with SMTP id 5b1f17b1804b1-49fe3f2f5d4mr2741905e9.0.1790154679163;
+        Wed, 23 Sep 2026 02:11:19 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a02-8440-b519-f416-8bed-8817-19fd-ccf7.rev.sfr.net. [2a02:8440:b519:f416:8bed:8817:19fd:ccf7])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.19
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe2730da9sm14251525e9.4.2026.09.23.02.11.18
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 23 Sep 2026 02:11:20 -0700 (PDT)
+        Wed, 23 Sep 2026 02:11:18 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][scarthgap 04/48] python3-pip: set CVE_STATUS for CVE-2018-20225
-Date: Wed, 23 Sep 2026 11:10:06 +0200
-Message-ID: <34c0972ffea7dcf4888e3bcfe0ce17206b32e408.1790154074.git.yoann.congal@smile.fr>
+Subject: [OE-core][scarthgap 03/48] testimage: avoid symlinking missing qemu boot log
+Date: Wed, 23 Sep 2026 11:10:05 +0200
+Message-ID: <6672769e251ab0dd42fc5f5cde99800ed5ba8289.1790154074.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.47.3
 In-Reply-To: <cover.1790154074.git.yoann.congal@smile.fr>
 References: <cover.1790154074.git.yoann.congal@smile.fr>
@@ -66,43 +66,42 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 09:11:23 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246466
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246465
 
-From: Hetvi Thakar <hthakar@cisco.com>
+From: Peter Tatrai <peter.tatrai.ext@siemens.com>
 
-Analysis:
-- NVD marks CVE-2018-20225 as disputed. [1]
-- pip searches all configured package indexes without priority and selects
-  the highest matching version. --extra-index-url adds an equal-priority
-  package source. [2]
-- Exploitation requires use of --extra-index-url and an attacker-published,
-  higher-version package with the name of a private package. [1]
-- Upstream closed the related report as not planned, and Red Hat classified
-  the issue as WONTFIX because this behavior is intentional. [3][4]
-- Record the disputed status; no source patch is available.
+When qemu test runs only produce suffixed bootlog variants, the base
+bootlog path may not exist. os.symlink() creates a dangling symlink
+in the oeqa result log directory.
 
-Reference:
-[1] https://nvd.nist.gov/vuln/detail/CVE-2018-20225
-[2] https://pip.pypa.io/en/stable/cli/pip_install/
-[3] https://github.com/pypa/pip/issues/12874
-[4] https://bugzilla.redhat.com/show_bug.cgi?id=1835736
+Avoid advertising a boot log in the collected test results when that
+path does not exist. Guard the symlink creation and log a note instead.
 
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+This is a partial backport of master commit
+7a6596925cb0eb8dd48a0362a51875cdd60152bc. Only the symlink guard is
+picked here; the bootlog variant globbing from master is not applicable
+to scarthgap.
+
+Signed-off-by: Peter Tatrai <peter.tatrai.ext@siemens.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- meta/recipes-devtools/python/python3-pip_24.0.bb | 1 +
- 1 file changed, 1 insertion(+)
+ meta/classes-recipe/testimage.bbclass | 5 ++++-
+ 1 file changed, 4 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/python/python3-pip_24.0.bb b/meta/recipes-devtools/python/python3-pip_24.0.bb
-index d535e1f53d7..709ec9f2b6c 100644
---- a/meta/recipes-devtools/python/python3-pip_24.0.bb
-+++ b/meta/recipes-devtools/python/python3-pip_24.0.bb
-@@ -45,6 +45,7 @@ do_install:append() {
- }
+diff --git a/meta/classes-recipe/testimage.bbclass b/meta/classes-recipe/testimage.bbclass
+index 33b1c13f9dd..744de5d7de7 100644
+--- a/meta/classes-recipe/testimage.bbclass
++++ b/meta/classes-recipe/testimage.bbclass
+@@ -395,7 +395,10 @@ def testimage_main(d):
+     # Copy additional logs to tmp/log/oeqa so it's easier to find them
+     targetdir = os.path.join(get_json_result_dir(d), d.getVar("PN"))
+     os.makedirs(targetdir, exist_ok=True)
+-    os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
++    if os.path.exists(bootlog):
++        os.symlink(bootlog, os.path.join(targetdir, os.path.basename(bootlog)))
++    else:
++        bb.note("testimage: boot log not found at %s" % bootlog)
+     os.symlink(d.getVar("BB_LOGFILE"), os.path.join(targetdir, os.path.basename(d.getVar("BB_LOGFILE") + "." + d.getVar('DATETIME'))))
  
- CVE_PRODUCT = "pypa:pip"
-+CVE_STATUS[CVE-2018-20225] = "disputed: Exploitation requires use of --extra-index-url with a private package not present on the primary public index; pip intentionally selects the highest version across configured indexes"
- 
- do_install:append(){
- 	# pip vendors distlib which ships Windows launcher templates (*.exe).
+     if not results or not complete:
 
