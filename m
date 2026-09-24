@@ -1,138 +1,112 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <michalwsieron@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CB1E2C9830E
-	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 11:04:38 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.5040.1790247871879412758
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D82BAC9830E
+	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 11:15:58 +0000 (UTC)
+Received: from mail-ej2-f23.google.com (mail-ej2-f23.google.com [74.125.228.151])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5218.1790248541075736530
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Sep 2026 04:04:32 -0700
+ Thu, 24 Sep 2026 04:15:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=PKqAGx2D;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 9FB45143D
-	for <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 04:04:27 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id C20243F86F
-	for <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 04:04:30 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790247871; bh=G0Vrw+ZYyEPD8ORJ47HSF3nxxuM/qIuMZ3z4CI7mlrQ=;
-	h=From:To:Subject:Date:From;
-	b=PKqAGx2DDoN7oBdCfDJCwO65rZGCxwduHM9l4PwNYvUqSjVm4jPM9FY3CxfeWmPMy
-	 JzNIByff4rto22JdLgiLBTTKguzO24tjZQ6xuu3je88bGMSfeMS+hOygtzpap/D6C6
-	 8LJtVR0Sn1+syxB1uCfTsTAwID0G80gZ5p0+9Gtk=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH v3] systemd: fix musl build by fixing limits.h override
-Date: Thu, 24 Sep 2026 12:04:24 +0100
-Message-ID: <20260924110424.674180-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=r66DsoXj;
+ spf=pass (domain: gmail.com, ip: 74.125.228.151, mailfrom: michalwsieron@gmail.com)
+Received: by mail-ej2-f23.google.com with SMTP id a640c23a62f3a-c25ef7a3ce9so243078366b.3
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 04:15:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790248539; x=1790853339; darn=lists.openembedded.org;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:from:to:cc:subject:date:message-id
+         :reply-to:content-type;
+        bh=yFg2zwlaU0UHQvh4lRx1fRsanuseBUAxMgXeRPNztoM=;
+        b=r66DsoXjOrDfrrJTh+ZRLsZHRRa33ZWPAifvUQNkwn5xFp7h1c+Y7oZSDGUXCWRASA
+         BB42/tXrPiAVZO4TpvFlf/ok9AHgZodf3uMt1Ua/pkqz6Skl8vg6Fz76OG2xaqh8zVnb
+         ar5et3a7F9iSbpM/WI9Z0aU60WZ57U3fTMT1kZaaAcVStmlaAflQHu1+oPXVer747dg5
+         jwjBztN+etbpUHunn0xrE7wZtKqM6tPbqjT8yB6Ttg2bxfysSvMLEFmrQC5V5VSjhfm7
+         bY8i/R7LCcCdjy9NjkCIaQIKj36SPvty3wrG+ZXT+WLi5VeptwWtNEsdd85faggiMfrq
+         lhFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790248539; x=1790853339;
+        h=cc:to:message-id:content-transfer-encoding:content-type
+         :mime-version:subject:date:from:x-gm-gg:x-gm-message-state:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=yFg2zwlaU0UHQvh4lRx1fRsanuseBUAxMgXeRPNztoM=;
+        b=APL3nsTAxQr5+lHV5hE+xHmwF+2ixQz5DA5y715ZR+QAvomnvUTSxJnXEMBK04PN9t
+         O6g7fYUjC8P0vroaPrbnt0MoTyRO4Sf/gbxzOj/oil8K9noHmDxijLgZPSDLGTag0SLD
+         iFzzYATxZo/7cwRGpOi4haBomz7Vmy8h1wmcp452TLIOu8aisf31DlthXaKYjqzgDepy
+         /lveHNnxJ/WrtdNCWKZhb2B7fUKYxX6J9KN2opND709vH1RvczpSBUX91LqIkM7bXQt+
+         lLfx3hUlXLj2KhajNipgARD+FJuoNoI2aTDhEJwKHKahzxewTmHkZX0GzbzusCeG4+OK
+         kZjg==
+X-Gm-Message-State: AFuF++m6alLey7Cxk4QFxedSBD2xDwe/5jCo+UN1W0oyfGnhcY+gGQOs
+	egUvy95EtbLEDy2OB5WAmYN+V2Q3Q9CJSOy8i8LapVX33DKSYn0PvIi1
+X-Gm-Gg: AYBFou16WtGrzAWfjHMj1aT+at8jzvKrOEbgWGSViySU3O65prX5x2ktpzHyiMKnkBD
+	EoLvmKApb2ub2sZ+3bKUTGhDwiyVZdUTVWMG7BV9aEdXk8kOWxEEpddbiKMMGX+7msea2hKd1ax
+	BDuzxLP+X6RmPPDtvtfV3UxbqdlwLitL7qI1MIUnD2jRDDMW8lSkScs1Kt3+6o2MZ/qym3nim8D
+	jy8ireZxEBnQs/aS6UrDRBJ0mgykgDKGcIbtjT2E1Hbp2N7zbVpqJLUYlHFNEGmI4FfeBoM0m4K
+	k7GCvtJhquS9cemkh06Y1tMnilU3qG4xIYSBET/RKis7/3F+yJt4ShaF6Z1OB10j8i1yWVbyLYQ
+	p25pMVKb7i3cfIz8B+w1JIB4YKn9VcUmELQPFzQ7dRZ9e3Y5wQDPrgzeQz8z/Bgq/nwdoEo599Q
+	bOVPplSdUtT0uOm5bKstv5q0we0mw29nGYtRbgOEhDknqeVQMAisX9NmAzH0sUg/VCIze6+EB7n
+	+LqjuekhsEq
+X-Received: by 2002:a17:906:ba8e:b0:c29:4b08:79d with SMTP id a640c23a62f3a-c2ac5396f8cmr144692466b.26.1790248539114;
+        Thu, 24 Sep 2026 04:15:39 -0700 (PDT)
+Received: from [127.0.1.1] ([193.28.84.166])
+        by smtp.gmail.com with ESMTPSA id a640c23a62f3a-c2aae6c14acsm296486666b.52.2026.09.24.04.15.38
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 04:15:38 -0700 (PDT)
+From: Michal Sieron <michalwsieron@gmail.com>
+X-Google-Original-From: Michal Sieron <michal.sieron@nokia.com>
+Date: Thu, 24 Sep 2026 13:15:08 +0200
+Subject: [PATCH] go-mod-update-modules: Combine env with fetcher
+ environment
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260924-msieron-proxy-go-update-modules-v1-1-da2b698dc73d@nokia.com>
+X-B4-Tracking: v=1; b=H4sIADsGtWoC/yXNQQ6CMBBA0auQWTtJKaYJXsW4ADrFMdJpOtRgC
+ He36vJt/t9BKTMpXJodMr1YWWJFe2pgug9xJmRfDdZYZ3p7xkWZskRMWbY3zoIl+WElXMSXJym
+ GjkLrOuN6MlArKVPg7Xe43v7WMj5oWr9ZOI4PQVxA1IMAAAA=
+X-Change-ID: 20260924-msieron-proxy-go-update-modules-f3ef163069e0
+To: openembedded-core@lists.openembedded.org
+Cc: Michal Sieron <michal.sieron@nokia.com>
+X-Mailer: b4 0.15.2
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 11:04:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246580
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 11:15:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246581
 
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Running do_update_modules from behind a FW fails with `i/o timeout`.
+Compare that with do_fetch which propagates proxy related ENV variables.
 
-Backport the upstream fix for the limits.h override, which breaks GCC's
-<limits.h> include cycle (notably GCC 16.x) and fails musl builds.
+Add `**bb.fetch.get_fetcher_environment(d)` when constructing
+environment for `go` invocations so that all proxy variables are
+present.
 
-Upstream fix: https://github.com/systemd/systemd/pull/43831
-(cherry picked from commit 4e08fdf59ffcafef6ca2df6342101e7e82b6183b)
-
-[ changed SRC_URI addition to not use overrides - RB ]
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Signed-off-by: Michal Sieron <michal.sieron@nokia.com>
 ---
- .../0001-include-fix-limits.h-override.patch  | 47 +++++++++++++++++++
- meta/recipes-core/systemd/systemd_261.3.bb    |  1 +
- 2 files changed, 48 insertions(+)
- create mode 100644 meta/recipes-core/systemd/systemd/0001-include-fix-li=
-mits.h-override.patch
+ meta/classes-recipe/go-mod-update-modules.bbclass | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/meta/recipes-core/systemd/systemd/0001-include-fix-limits.h-=
-override.patch b/meta/recipes-core/systemd/systemd/0001-include-fix-limit=
-s.h-override.patch
-new file mode 100644
-index 00000000000..6316b3ddf61
---- /dev/null
-+++ b/meta/recipes-core/systemd/systemd/0001-include-fix-limits.h-overrid=
-e.patch
-@@ -0,0 +1,47 @@
-+From 4e08fdf59ffcafef6ca2df6342101e7e82b6183b Mon Sep 17 00:00:00 2001
-+From: Yu Watanabe <watanabe.yu+github@gmail.com>
-+Date: Tue, 22 Sep 2026 01:55:01 +0900
-+Subject: [PATCH] include: fix limits.h override
-+
-+This is especially necessary since GCC 16.x.
-+
-+Replaces #43824.
-+
-+(cherry picked from commit 4e08fdf59ffcafef6ca2df6342101e7e82b6183b)
-+
-+Upstream-Status: Backport [https://github.com/systemd/systemd/pull/43831=
-]
-+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-+---
-+ src/include/musl/limits.h | 19 +++++++++++++++++++
-+ 1 file changed, 19 insertions(+)
-+
-+diff --git a/src/include/musl/limits.h b/src/include/musl/limits.h
-+index 9620a3b0acc..cffb8ddd274 100644
-+--- a/src/include/musl/limits.h
-++++ b/src/include/musl/limits.h
-+@@ -1,6 +1,25 @@
-+ /* SPDX-License-Identifier: LGPL-2.1-or-later */
-+ #pragma once
-+=20
-++/* GCC introduces a spurious, tricky inclusion cycle:
-++ *    GCC's limits.h
-++ *      -> GCC's syslimits.h
-++ *         -> GCC's limits.h (again!!!)
-++ *            -> glibc/musl's limits.h
-++ *               -> define POSIX defines
-++ *      -> define ISO C defines
-++ * This works only when GCC's limits.h is included first, but a user ov=
-erride breaks the cycle. Hence, we
-++ * need to manually achieve the cycle here. If GCC is not used (e.g., C=
-lang), then including the compiler's
-++ * limits.h twice should be redundant but harmless. */
-++
-++/* First, get the POSIX defines from glibc/musl's limits.h. When the tw=
-o macros below are defined, GCC's
-++ * limits.h includes the next limits.h, that is, one from glibc/musl. *=
-/
-++#define _GCC_LIMITS_H_
-++#define _GCC_NEXT_LIMITS_H
-++#include_next <limits.h>        /* IWYU pragma: export */
-++
-++/* Next, get the ISO C defines from GCC's limits.h. */
-++#undef _GCC_LIMITS_H_
-+ #include_next <limits.h>        /* IWYU pragma: export */
-+=20
-+ #include <assert.h>
-diff --git a/meta/recipes-core/systemd/systemd_261.3.bb b/meta/recipes-co=
-re/systemd/systemd_261.3.bb
-index 1a256a598a8..0901736e7c9 100644
---- a/meta/recipes-core/systemd/systemd_261.3.bb
-+++ b/meta/recipes-core/systemd/systemd_261.3.bb
-@@ -36,6 +36,7 @@ SRC_URI +=3D "file://touchscreen.rules \
-            file://systemd-pager.sh \
-            file://0001-binfmt-Don-t-install-dependency-links-at-install-=
-tim.patch \
-            file://0003-Do-not-create-var-log-README.patch \
-+           file://0001-include-fix-limits.h-override.patch \
-            "
-=20
- PAM_PLUGINS =3D " \
---=20
-2.43.0
+diff --git a/meta/classes-recipe/go-mod-update-modules.bbclass b/meta/classes-recipe/go-mod-update-modules.bbclass
+index 3a0f0a3377..435e7e30ff 100644
+--- a/meta/classes-recipe/go-mod-update-modules.bbclass
++++ b/meta/classes-recipe/go-mod-update-modules.bbclass
+@@ -45,7 +45,7 @@ python do_update_modules() {
+ 
+ """
+ 
+-        env = dict(os.environ, GOMODCACHE=mod_cache_dir)
++        env = dict(os.environ, **bb.fetch.get_fetcher_environment(d), GOMODCACHE=mod_cache_dir)
+         source = d.expand("${UNPACKDIR}/${GO_SRCURI_DESTSUFFIX}")
+         go_install = d.getVar("GO_INSTALL").split()
+         output = subprocess.check_output(("go", "list", "-json=Dir,Module", "-deps", *go_install),
+
+---
+base-commit: efa6b98ee50bd0b115fb7d1395079cef008d246d
+change-id: 20260924-msieron-proxy-go-update-modules-f3ef163069e0
+
+Best regards,
+--  
+Michal Sieron <michal.sieron@nokia.com>
 
 
