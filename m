@@ -1,94 +1,156 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id CA4B2C98315
-	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 14:17:56 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 6F163C98321
+	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 15:05:15 +0000 (UTC)
 Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9008.1790259469769274379
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.569.1790262311202830280
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Sep 2026 07:17:50 -0700
+ Thu, 24 Sep 2026 08:05:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TW0u1/Ri;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccf3ca626so12137325e9.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 07:17:49 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=UwQqAuW/;
+ spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e6598dd44so11682605e9.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 08:05:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790259468; x=1790864268; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SjnKs8hCnlvTOoCoXE2E6H9AbuovA61yIRpj5fu4kdM=;
-        b=TW0u1/RiIDqc7kjte7BTVLo0Cfa/Xy5AaqjeumRPFBCfKPtW+5pInpaGLSW8Q+JaE1
-         EbFb8Udc2utW/FOdVlcmlgSYTEcRVBb7ndk4HeXHASvirUcYk6Y6Nh8uijMbl4Z/B0yo
-         hN2iG0wEg3oM9OnEKC1PDZwGcK0z74QecRqB0=
+        d=smile.fr; s=google; t=1790262309; x=1790867109; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=NuXAZnpTkzYrTqQrvwClcOzb73GGDH0QE/1vNM74XJU=;
+        b=UwQqAuW/z8iYsa26qxjbIelS2RDVDzffAtiz+KlhDU/mBmG0VMDasfSu19n7BUoQ/i
+         B1kzklCMQEN4IqLHkW3IzCwsbSVbGdrtiINQIx0CgvY4OgfkLBVfpU0r3E6mDBbrMvkw
+         48WXqWEYdOH2jE+/1hmsKj/fZsL1JkJRtIvsU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790259468; x=1790864268;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=SjnKs8hCnlvTOoCoXE2E6H9AbuovA61yIRpj5fu4kdM=;
-        b=fJXmE0ikBWc0Sa1dO/Ta1uSeHAPE+n2cNQI/DP8E9BDj70vOtyR0B8bzyNudkAyeuF
-         XEOu/njZyR4ddj/kiEvVkU8fcwiWHbveUeRtniaT59ghNpNOJCw/rAiEHoOs9erlwfB8
-         eAaTAxF26AbeBlMricjlMbZhgiDihbg2jCq21kL9Ca7GKdBrRbNp6WtyZltCcCOLJG5g
-         OXdZuxy6y69REIxX9VQrZFLEinN9qSGN5eyFD6xXd4d1hUbKoZShsFrPqa0tK9RWY61g
-         qXl51rpQwJSnXx2/uevg7bGDMgxbmEdJ9pL/XrHguGce02rJIu0Juwfgd454hObEi1dM
-         Nhlg==
-X-Gm-Message-State: AFuF++lHQ3pEF9KBOpqlncAzdKbQjvI9LJfrwz1wz74TndQVtcRdY6l7
-	ByUF/70B8fSv89UWssQs1sRN/tZGU1dydoWvI362LyjkcABsCCKVqerfh+ffPSjtlOEQ6x4wAbE
-	H0wnAq9I=
-X-Gm-Gg: AYBFou2dk51UZAoHR/m6RKxD3Xomq2J0GYm1tcVrhwAS9VMS7xVUjFkCI1m3ugzyL82
-	yg0nlWm1kzuS1nHDifqUbuYHQUxyqegHUnByd+DwTHG4+xjipoCXgwzTX7diN9RNmsOIQKrc7BN
-	nRMw8lPOBvDburJ+Kq+F6d2sULRc7c6SVd//Uul6V+pHqIbBwdUAtxCSofvJ+KG8Kh/ajsVL9Te
-	wEhpy6GF0d3NwltnTj0V7A7IqUFtWemKNiLVnBLsJ8wFVXROCmw7W6TWB11ZQSyfdrGypk99nWu
-	csbz6LAj6XyPvblYz4+iBb3RFJ91roZAlZxppootTV10GpMFAfhcSMD0NoTJfCVRb8l0LmZHGnu
-	hdfgjTCkuUwtHCvnHb+JEj769S8Ih3W76zJoQReFMsOy7v10auIsWRJts7Mk18RI7QrwlP+GwmB
-	TNvU+GDf9TAIfFAgOHHXLxBHukKYvshjXs6GvR0nm/qHlhZ4g+zijxYBYPorVBQ5TzY1VjhD/1w
-	N+WKD88XTuv1eN7OzOXo9bykQ==
-X-Received: by 2002:a05:600d:848c:10b0:49f:e941:d6e with SMTP id 5b1f17b1804b1-49fe9410dbdmr23341145e9.21.1790259467712;
-        Thu, 24 Sep 2026 07:17:47 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:d896:f63e:1133:71e])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-488688856f0sm14831083f8f.30.2026.09.24.07.17.45
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 07:17:46 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] gcc: Fix configargs.h build arch contamination
-Date: Thu, 24 Sep 2026 15:17:45 +0100
-Message-ID: <20260924141745.1027540-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        d=1e100.net; s=20260707; t=1790262309; x=1790867109;
+        h=in-reply-to:references:to:cc:from:subject:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=NuXAZnpTkzYrTqQrvwClcOzb73GGDH0QE/1vNM74XJU=;
+        b=zitUcONd+gG5uujv+aDgAT7oCc+n7Tqe9IJ/pPI1itQKK/k5ktmFNZUf+a3V0SGqXu
+         5FBzc2DePxIXwaq/xeZtU58BCsQTdrCfO3U0KB4Jwbav8u1igA6tsQqAi4eRSto1i/F0
+         Gqr99SYcxz23lW3qutLbyMK83yCR+Awo6MwoEFodjbfYUnA4lU59rJdrYHp6tMnxVKk7
+         zhC6OSjzBtHTjb2rWNsOvChO1C5n5Ashyb3MKBm9wIKrg8yHoZZpckWjDrm8MrLn21dU
+         VAkXhEn2rPMMtg+ZO66kb8Vu5ikurWN4qmCxAQiGNaLlqPEaHoQeNqMBmwPW1SLnCPe/
+         uS1w==
+X-Forwarded-Encrypted: i=1; AKwUvByGkmQ58EhC7TZa3L0R1okyktJoOM23/uh7mYx3SqUz1PM+wG2tmD2vVS/2zSudp3vmre8DoM/6lE5JDb2u3/AC2g==@lists.openembedded.org
+X-Gm-Message-State: AFuF++ntTAwIMeieOBGxYAkuPs98CDKSdHeV/f7d5/Qk8jdjS0cUdY26
+	CAliRe+2EfEMbQ1SDrdxZlvyTcXpIUAPHc5gaIVoBVtIna0V4Z3v3/SuG5tRXtcnGIE=
+X-Gm-Gg: AYBFou1TK2DWEatrGvpwQmbTqmLngi03zzdtmfs1oSB+qSvHNo+voh6iWgiqIcLyY2Q
+	wiEOtWAkchPDwM/IwUmo6ATxLqiyo+u2nfxdttzETVvtCm6xjhsifV81lbuMOcZEfKiCMVq/Zhv
+	g7/G8Cgw4gnQJFoWkvob+20XpG/XkCzCyoJzRxYU4JXGCFMop4xWhpW46iqHjaztUj22cIILUkZ
+	CvAkyz1dq+PMMAVnoEcQ0fJJ8YKfZ0w6LwBrNePbgh1Y8Lz1sKiimzJ4550bwNzfnMcz5IUUx2j
+	UdBR0q+leRyEpSL4NbW2Z1mluNepPYeaPJZXBrQzBMeqimyHZ+1/kXIs+NV+vSxPZFGRY/CIUt2
+	f49NENtBXqStIs/b7ADHaepGjTLojJEr7MQZR9cb/vUNLSTY62JsCJ8QqW/KFt0/9tQno6UHKjd
+	h8YaqKUzWpoYcegmgrM5bNvfW0DEYtTYcO6kBfroscml61JQSshl+1azs1dKfLyuCkgtxXhJ5FE
+	Wdb5E+QmM4l6LNrfoMP5/Qe0C1KghSNKJB8tSV/iWtsTEOPjgaFw17KtdEb3g==
+X-Received: by 2002:a05:600c:8b22:b0:49e:7d25:f397 with SMTP id 5b1f17b1804b1-49fe66d30c4mr48898835e9.15.1790262309358;
+        Thu, 24 Sep 2026 08:05:09 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49febb20146sm4195085e9.2.2026.09.24.08.05.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 24 Sep 2026 08:05:08 -0700 (PDT)
+Mime-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Date: Thu, 24 Sep 2026 17:05:08 +0200
+Message-Id: <DLNN0UKBU6W9.DBNVVHMCG8DZ@smile.fr>
+Subject: Re: [OE-core][PATCH v1] util-linux: ptest: fix flock test timeout
+ on slow targets
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <pratik.farkase@ericsson.com>
+To: <pratik.farkase@est.tech>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260917144042.10045-1-pratik.farkase@est.tech>
+In-Reply-To: <20260917144042.10045-1-pratik.farkase@est.tech>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 14:17:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246588
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 15:05:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246589
 
-The --build= option to configure is leaking into target binaries, which means
-different host architectures generate different output. Fix this by removing that
-part of the string alongside the other patch changes we already make.
+On Thu Sep 17, 2026 at 4:40 PM CEST, Pratik Farkase via lists.openembedded.=
+org wrote:
+> The flock ptest starts flock in the background and waits only 1 second
+> (hardcoded "timeout 1s") for flock to spawn its child, polling with
+> "pgrep -P". That budget only covers process startup, so it depends on
+> host speed. Under emulation (qemuriscv64 under TCG) spawning bash and
+> flock can exceed 1s, so the child is not seen in time and the test
+> aborts with "timeout waiting for flock child", failing intermittently on
+> the autobuilder.
+>
+> Backport a test fix that raises the timeout to 30s. The poll loop exits
+> as soon as the child appears, so fast hosts are unaffected; it only adds
+> headroom on slow/emulated targets.
+>
+> [YOCTO #16425]
+>
+> Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+> ---
+>  meta/recipes-core/util-linux/util-linux.inc   |  1 +
+>  ...ncrease-wait-for-flock-child-timeout.patch | 38 +++++++++++++++++++
+>  2 files changed, 39 insertions(+)
+>  create mode 100644 meta/recipes-core/util-linux/util-linux/0001-tests-fl=
+ock-increase-wait-for-flock-child-timeout.patch
+>
+> diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-c=
+ore/util-linux/util-linux.inc
+> index b30fb04e05..249ae09545 100644
+> --- a/meta/recipes-core/util-linux/util-linux.inc
+> +++ b/meta/recipes-core/util-linux/util-linux.inc
+> @@ -23,6 +23,7 @@ SRC_URI =3D "${KERNELORG_MIRROR}/linux/utils/util-linux=
+/v${MAJOR_VERSION}/util-lin
+>             file://0004-libmount-use-USE_LIBMOUNT_MOUNTFD_SUPPORT-for-idm=
+ap-h.patch \
+>             file://0005-tools-add-non-newmount.conf-config-gen-profile.pa=
+tch \
+>             file://0006-tests-lsfd-accept-rw-mode-for-mmap-ed-packet-sock=
+et-.patch \
+> +           file://0001-tests-flock-increase-wait-for-flock-child-timeout=
+.patch \
+>             "
+> =20
+>  SRC_URI[sha256sum] =3D "66ac7c0e725278eb2b039e3104f2c91119341d941b41bac7=
+a285c695f940bd57"
+> diff --git a/meta/recipes-core/util-linux/util-linux/0001-tests-flock-inc=
+rease-wait-for-flock-child-timeout.patch b/meta/recipes-core/util-linux/uti=
+l-linux/0001-tests-flock-increase-wait-for-flock-child-timeout.patch
+> new file mode 100644
+> index 0000000000..60b6c86eeb
+> --- /dev/null
+> +++ b/meta/recipes-core/util-linux/util-linux/0001-tests-flock-increase-w=
+ait-for-flock-child-timeout.patch
+> @@ -0,0 +1,38 @@
+> +From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
+> +From: Pratik Farkase <pratik.farkase@est.tech>
+> +Date: Wed, 17 Sep 2026 12:00:00 +0000
+> +Subject: [PATCH] tests: flock: increase "wait for flock child" timeout
+> +
+> +The flock test launches "flock ... bash -c '... sleep 3 ...'" in the
+> +background and then waits for flock to spawn its child using a hardcoded
+> +"timeout 1s" around a pgrep poll loop. That 1 second only covers process
+> +startup, so it is purely a function of host speed. Under emulation (e.g.
+> +qemuriscv64 under TCG) spawning the shell and flock can exceed 1s, so
+> +pgrep does not see the child in time and the test aborts with "timeout
+> +waiting for flock child", failing intermittently.
+> +
+> +Increase the timeout to 30s. The loop exits as soon as the child
+> +appears, so this does not slow down fast hosts; it only adds headroom on
+> +slow/emulated targets.
+> +
+> +Upstream-Status: Submitted [https://github.com/util-linux/util-linux/pul=
+l/4639]
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- meta/recipes-devtools/gcc/gcc-common.inc | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+Hello,
 
-diff --git a/meta/recipes-devtools/gcc/gcc-common.inc b/meta/recipes-devtools/gcc/gcc-common.inc
-index a7f01cd045e..41a8177e0c3 100644
---- a/meta/recipes-devtools/gcc/gcc-common.inc
-+++ b/meta/recipes-devtools/gcc/gcc-common.inc
-@@ -125,8 +125,10 @@ remove_sysroot_paths_from_configargs () {
- 	# plugins. Additionally the path is embeddeded into the output binary, this
- 	# prevents building a reproducible binary.
- 	oe_runmake configure-gcc
--	sed -i "s@${STAGING_DIR_TARGET}@$replacement@g" ${B}/gcc/configargs.h
--	sed -i "s@${STAGING_DIR_HOST}@/$replacement@g" ${B}/gcc/configargs.h
-+	sed -i -e "s@${STAGING_DIR_TARGET}@$replacement@g" \
-+	       -e "s@${STAGING_DIR_HOST}@/$replacement@g" \
-+	       -e "s@--build=${BUILD_ARCH}@@g" \
-+	           ${B}/gcc/configargs.h
- }
- 
- remove_sysroot_paths_from_checksum_options () {
+This patch is now merged (Congrats :)) Can you send a follow-up patch to
+update de Upstream-Status?
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
+
 
