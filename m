@@ -1,101 +1,106 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <pistora.tobias@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 613DFC98314
-	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 06:59:00 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2125.1790233138611268965
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8A588C98311
+	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 08:52:22 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3367.1790239933551357516
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 23:58:59 -0700
+ Thu, 24 Sep 2026 01:52:13 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=x+rexVO+;
- spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49cd5462b69so9366595e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 23 Sep 2026 23:58:58 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=dn4FSIiT;
+ spf=pass (domain: gmail.com, ip: 74.125.225.141, mailfrom: pistora.tobias@gmail.com)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e7bcb94d3so12506905e9.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 01:52:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790233137; x=1790837937; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=xvL0fJoqxKgdNxjxi0bRDxgni73GAtfqmbmKZ5147xg=;
-        b=x+rexVO+fA8FXC6IgaP+jcJdvztrYZVuiKrmxd7eGxM65aKq7Ze7Qb9i75XR/BQyS+
-         Dn231KSAsc1WPqvCPStcxdtPpdF+6Pjd+M/VjF9BH5tu/fSE7Uhk3ls1Ig12V5DrRFB6
-         eGW0b4Y5EepDWqn2Bn+FpupEW1iT9dD2NilkM=
+        d=gmail.com; s=20251104; t=1790239932; x=1790844732; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=m8FQKFSJl+tyC5L27/EkU/69c9wjbyX1pfTrasvcgqk=;
+        b=dn4FSIiTwX4X2lyB6kxv2HmPkozTOsEpPmiH12jk2QHuj5xI56tXtObafUhs1xUWUH
+         /dcS236AkxqGujxBeV6eMFNyZFp36e1hkJ2nVYtT1WxQOitlRE00srDTf9N2CHptI9Oo
+         IN6xkqG+qlxDK76tmjCl+srJuXwhGdgXqr3ReF7VLks7mycFAYpURThHFB4JDnIIPzVM
+         KN7bDqXjVjwObnPYu7B83eDOTwxjAqQ3zIZMfFW54FIUmRBqQ0xb8WUDEzo+0iaP/kU5
+         sQyIOzMe7Eat91FTKJkIU1SSlzz0hBIxDBUrLb5MIpuXMpsAp5+LiglFKZnpNVQrj3Di
+         V/Rw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790233137; x=1790837937;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=xvL0fJoqxKgdNxjxi0bRDxgni73GAtfqmbmKZ5147xg=;
-        b=emUVMYeON6vhE/LQkf8+9S/4QDbYCyP5X+I0YNFW8vZthcUtbXNeWL/GvrcRUpPb04
-         pvplGlyRJ0Bp8R0i64EDOEbEl7wX3V48E4/IgmKvUSxemilraSWBCfaMhjswPFT79sZ1
-         lwWYT/I/So/QwT1/mLlwkxyk+sQm1gZjR4cgFY9n3eZX4glmyZaZeiThuh2w+FpeR5h3
-         cOo0zO65NQzbXiC3+CMo5/GkF/jx39ojzm1HhjyShQJ92jCt/H2YoNn4BTjBA/gpZ7NV
-         Hnb4I4Swepibth5sC3qeg/OiW/g5HWtECW6ch4fCwDoFEpchyh4tzSy2nJlD9c+npeM+
-         bNOw==
-X-Forwarded-Encrypted: i=1; AKwUvBxkUV0jM+fkFpGq/0xCznz0kN47xMlLN7MjmrmpGVzdPFzd3nhlmk+kGiBhmS35nQPo4xXSJJcKG/mfmpS1Or8TCQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++k3SZ2PW3IsYw/WtXwsBQztaX/wxvn38/n5pk1W8BFI5t4Pfusu
-	7J3KK62fOCm7UoftJtr5szNjRaNXj/CVGJpFrXD7GjNmFMJJ674POsOz5PuYfG/5CD9MRpjhDV3
-	osuIHFjo=
-X-Gm-Gg: AYBFou2EfLZFGOvXmy5VPz7HnaRJNoTOjdfunMduFEUEw0GKu6/WxR5VEYoT0eWHNjh
-	cjoZVnQt43DswS+ajMO4EuiEax0SDhA2XafC3jWgg0zGmgM8K3glWDvmJ9ty4DezpBMlzcdrPPI
-	j4UjOMWJGVElcSLAaS/eDBpAaZRXT3JPzsj3UZgodY0PSWaYeR6vULac+J0SKlsmWlK7/sqgodF
-	TjONNP4Bu/tkRfymd9bcQ77oSsxQz9hAuo0ZwXj+yMb6kKs6Byrxp8l1KzeU4mkaeGkohoPKQho
-	mneVyu+mAOOL5BP1ROp3SJptFliHwC7Sa6atUkqo7kfM3JL5iiQzZx4Co/7jEQHAXO9+fBTCZ6J
-	46RYthEzwz77KGhSKcOiGQvKoiRMU2bSOdn67SrPdE64Mirw8SBravTnrWyXTNeP9b13B9t2xVd
-	Tu/t+ns2tpVpQfLM2k0g1fS440civEwBnTwxo65dTvRO5RKHayMoBslpFG/rd9oesTkVokNxBO4
-	ku+xCsTDFx2hCxi6vPX8089R6xUxXV081mc2+UGZfZ6+bE3XhLDjTAdhQ9Fog==
-X-Received: by 2002:a05:600c:a013:b0:49d:2555:1a6d with SMTP id 5b1f17b1804b1-49fe66f1ac3mr19812845e9.16.1790233136721;
-        Wed, 23 Sep 2026 23:58:56 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4886876c1fdsm14245232f8f.14.2026.09.23.23.58.56
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 23 Sep 2026 23:58:56 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Thu, 24 Sep 2026 08:58:56 +0200
-Message-Id: <DLNCOL2DYWSG.25YF0NZK1F7GI@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH 2/3] curl: Security Fix for
- CVE-2026-18924
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <sdoshi@mvista.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260910083055.208955-1-sdoshi@mvista.com>
- <20260910083055.208955-2-sdoshi@mvista.com>
-In-Reply-To: <20260910083055.208955-2-sdoshi@mvista.com>
+        d=1e100.net; s=20260707; t=1790239932; x=1790844732;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=m8FQKFSJl+tyC5L27/EkU/69c9wjbyX1pfTrasvcgqk=;
+        b=DvscySFR87NqSEn6dFMAwSrRkn68X2rZLOj4smV+x26PLN76shYxtkMyUstioQWcjh
+         gZeiceUhsKImIhLLm89cnO7Rd4DS7pAKzgj+T00n+S6CsB+QplfT9f3mtZMIZNEo2Gql
+         CS9AiSGxSQ9+qPZ03o0JYwEegTqFMAMLIDXBsgg+EMAyRqVUhhO6b0IeTEgk+jGZT+1L
+         OHuej+dtx0JNopt0tTLPcJFlHMCyVNtjtK06PCFR1C3HUB2umX14SMdeq1gYrGEh/a5K
+         8YfmrcFlM2PkiipJJZQmvmq7ZTv+1NlH226uGRwRVATsWK5He25kaloDkHADWHDpjwJN
+         sFag==
+X-Gm-Message-State: AFuF++kJ5t0KcIN3yLha7CAQ8UVBaLrLdB+I6Zt+m6kG+RcCOzOj293I
+	MhcWWl/NrrJ7kqIoWytsdQ5vsq/lAPTmy5dPHWUtI5L4v8bBFO2rs4dzNGMTVg==
+X-Gm-Gg: AYBFou2tjx7bv8ovvja2Q59Udv54YOVzxAJ+ZGKcqbfwsIrf7PHOI94sfErqa+Bq/Dp
+	BLA4TmBc4TzPmnd4jycYb+/F8XKLRyURAID1uPPYhs9//znhch5Ivn32ZT3NCom0gp6BH/qTi1f
+	30fP7e/lRY3XuK8kY4vVHe3j5yZQfET1n4Alz2i200UCiz+mlip7IRnOlpnRVN6bQYEA4gj4gZ1
+	peWRwj7q7fuQ4l0wkhjROSuXUgXsGWFjkmuZo00dNoruCzeHUPYNawd+fs3cbmtU1TkhhizaQHx
+	ejQIOnJVPtPmhYz1yGcu4qUMpDaiOfXbIEJz6RsI9iMlHrdMQ1XY+Pm5hKO638PhzNoa/L0kL/M
+	5IjyGMkLxJ5O6sasK00H7bsKbZwUYoRgghPZQDakrRHSZITPRnYIurJEquIrNZhlWl1r2dCOOB+
+	f3HKm4za4SAJusbd3Kv1hJQMV09pCaWZkEc9PtNIVOlkSTuc0N1Bg5c7cM3jvTJON4+kDKbAcFq
+	EPfr9h0C02k/lgdVy7S/uiAlZlEyz+Q
+X-Received: by 2002:a05:600c:3514:b0:49f:ce72:e931 with SMTP id 5b1f17b1804b1-49fe6701e7emr28521155e9.35.1790239931646;
+        Thu, 24 Sep 2026 01:52:11 -0700 (PDT)
+Received: from se-pc-pto1.wien.schrack-seconet.com ([81.223.165.6])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-49fe5cd3d5csm49558855e9.14.2026.09.24.01.52.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 24 Sep 2026 01:52:11 -0700 (PDT)
+From: Tobias Pistora <pistora.tobias@gmail.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Tobias Pistora <pistora.tobias@gmail.com>
+Subject: [PATCH] remove fatal error when .crt file is missing at fitimage sanity check
+Date: Thu, 24 Sep 2026 10:52:02 +0200
+Message-ID: <20260924085202.21862-1-pistora.tobias@gmail.com>
+X-Mailer: git-send-email 2.47.3
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 06:59:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246572
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 08:52:22 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246573
 
-On Thu Sep 10, 2026 at 10:30 AM CEST, Siddharth Doshi via lists.openembedde=
-d.org wrote:
-> From: Siddharth Doshi <sdoshi@mvista.com>
->
-> Picking patch as per [1], and same patch is mentioned in [2]
->
-> [1] https://curl.se/docs/CVE-2026-18924.html
-> [2] https://security-tracker.debian.org/tracker/CVE-2026-18924
->
-> Signed-off-by: Siddharth Doshi <sdoshi@mvista.com>
-> ---
->  .../curl/curl/CVE-2026-18924.patch            | 39 +++++++++++++++++++
->  meta/recipes-support/curl/curl_8.7.1.bb       |  1 +
->  2 files changed, 40 insertions(+)
->  create mode 100644 meta/recipes-support/curl/curl/CVE-2026-18924.patch
+Fixes [YOCTO #16427]
 
-Hello,
+The minimal requirement of mkimage for signing a fitImage is a private
+key file (.key -> using -k). Passing a public key file (.crt) is only
+necessary when a key-destination is provided (-K). The -K option is
+optional in the kernel-fit-image signing process and can be passed only
+by the user via UBOOT_MKIMAGE_SIGN_ARGS. Therefore, providing a private
+.crt key file is optional and should not cause a fatal error when
+missing.
 
-This was dropped from my review branch:
-see https://lore.kernel.org/openembedded-core/cover.1790154074.git.yoann.co=
-ngal@smile.fr/T/#m4f835129f23b0d8463c4fa282be5da86e94ef80c
+Signed-off-by: Tobias Pistora <pistora.tobias@gmail.com>
+---
+ meta/lib/oe/fitimage.py | 7 +++++--
+ 1 file changed, 5 insertions(+), 2 deletions(-)
 
-Regards,
---=20
-Yoann Congal
-Smile ECS
+diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+index 1ac4b2c59d..484e5c5ee0 100644
+--- a/meta/lib/oe/fitimage.py
++++ b/meta/lib/oe/fitimage.py
+@@ -593,8 +593,11 @@ class ItsNodeRootKernel(ItsNode):
+             if not os.path.exists(key_path + '.pem'):
+                 bb.fatal("ECDSA signing requires '%s.pem'" % key_path)
+         else:
+-            if not os.path.exists(key_path + '.key') or not os.path.exists(key_path + '.crt'):
+-                bb.fatal("%s.key or .crt does not exist" % key_path)
++            if not os.path.exists(key_path + '.key'):
++                bb.fatal("%s.key (private key) does not exist" % key_path)
++            # public key is only necessary when passing -K option to mkimage
++            if not os.path.exists(key_path + '.crt'):
++                bb.debug(1, "%s.crt (public key) does not exist" % key_path)
+ 
+     def run_mkimage_sign(self, fitfile):
+         if not self._sign_enable:
+-- 
+2.47.3
 
 
