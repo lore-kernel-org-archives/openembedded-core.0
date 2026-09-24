@@ -1,168 +1,382 @@
-Return-Path: <pratik.farkase@est.tech>
+Return-Path: <yurade@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 52ADDC98317
-	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 11:44:24 +0000 (UTC)
-Received: from GVXPR05CU001.outbound.protection.outlook.com (GVXPR05CU001.outbound.protection.outlook.com [52.101.83.27])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.5896.1790250254628119017
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E4F8FC98317
+	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 12:16:44 +0000 (UTC)
+Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6477.1790252199890859313
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Sep 2026 04:44:15 -0700
+ Thu, 24 Sep 2026 05:16:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=XCXC66Ov;
- spf=pass (domain: est.tech, ip: 52.101.83.27, mailfrom: pratik.farkase@est.tech)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ZjqjPuud2CJXCSQBjFIgFSA2YyWQI17bSjqXKbd+p0mX3uqVuzlCUyedCB+c0KpGpqQ/PEvxX77KxsbcM2ipvp8G6GfYPSK57xCtnI9DugKPd6AR0Bg/VdZYTnffAUWXar6TDaY8X+sp48x53wAZYktcc4JYeZq10aHG41MkXiuFaq2tGNIgYU72KdXDe3FD9VOtKRCZuSGrHxE3p84YBY1eEmr8N300M8JFfrlzkTE3bMp87VSvCAqJh291NfZLvoCcW9jA2642yLHiT3EG13QQqtUjnixVi3CIi63JWK4iu6W1ql6P7nZzXyInh01RaQXB0AQu4InqyMtAgaow1w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=bOBvwgMfq2eOMkyo+u9Bna36QNTlpaUnpLWbWrBNh/Q=;
- b=WmuLWihmYbbM9Ty5tfiGNd6xn6GD+O3UpFTqF4BU1APNz3K3kVxzXfBmOM+lVtNMvzGo916hfHJIaw87zYRKIptQ7zj2jQJUYoTznWag5Llt6hl/EHT1zAKiOrDlu/I0EubbPfEYHo1yQsGt5zGiNBStgo4maT751VWjXH+cuDxh3dLMI55y5WURGhM6IQPtv+LL8BnI3xf4TYziyTC9ZJnf6Y4r2iwuyPQSzyeRy9D1Y/2CjDYy3j/YbxkJjJDxZFTJ2Snlt12PzkUfar332uM3ASyLzuVMwPYTdBkBxnpPJd8VdPQYHknFQrl3FsjzL45zVKJ/Dxu8FLPxrQ17uQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=bOBvwgMfq2eOMkyo+u9Bna36QNTlpaUnpLWbWrBNh/Q=;
- b=XCXC66OvsxPR75pAabsK5nw6rAh97qB4SzLbHtzBmgmQxulQ3Ctizqk8JVodlNtWHfne0yECgyXyP0LNMkSOiTk12mK+8U6APVQgxWJICDxeVHqVJQMyPnDdb1SjS+p0CWANDf7GhBJ4LVIU7dpTDZdlFAQ8LqFuGUbjtVE0urMxbKxVTHyli7o1cUU+eW5Dvu9F/Z4tCzHWaaUjcpD+Voh9XNtgb4NqKLgqo35e9h63VBWq+R2yebJdqPj4nTGovER7xbfV2i0ISDELdbGRx2P7ij9j1qU6lEx86GnSb51HnlcWYaPta2CvxZm8FzuqFIgiy5QGv1kYIM4XDDl1Tg==
-Authentication-Results: dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
- by DU0P189MB3355.EURP189.PROD.OUTLOOK.COM (2603:10a6:10:59b::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Thu, 24 Sep
- 2026 11:44:10 +0000
-Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0428.014; Thu, 24 Sep 2026
- 11:44:10 +0000
-From: Pratik Farkase <pratik.farkase@est.tech>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=kMjqM14x;
+ spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: yurade@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=10342; q=dns/txt;
+  s=iport01; t=1790252199; x=1791461799;
+  h=from:to:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=U2K0IA+FvhzW6a6RgW7y3D5YBPtT41cVkDsKAajd0/s=;
+  b=kMjqM14xsDu4OC5Kq/R/ZxkPiqjRsQj2silTNbB8BKu+NWyCae1A1CmG
+   bwPP31akwjFLybqIqbtvdb04NgVBhizb0wgf//jmqeJqwE+OQyr7oRdXT
+   LHZWQ9SyOSq2QuXA3dGP8W0BgV40FctDs22V6JWLF3dZ0AKdrli/jWcit
+   7G4BgwAlbFOTNwZ/i7ixWzKR4DUCTSfM4jfBITf2MLFNQ2PHMhIj2KE4i
+   JKwrzu2n3vociDXkJj1J0GCTvN6xh6RLD5MrrSoCCOUAtObhnu4vlffHM
+   tJyYRZtf4oxfL9sJi3ez7WPRNt/Gkn9karMFltp2bmLmw+OWzkbpE1RaP
+   Q==;
+X-CSE-ConnectionGUID: esCiIdMfTKC9HfgZLzJg6w==
+X-CSE-MsgGUID: MeJpto6aQvG09GNWPARjyg==
+X-IPAS-Result: =?us-ascii?q?A0BRAgDbE7Vq/4//Ja1aHgEBCxIMggULgld1YENJlCmCI?=
+ =?us-ascii?q?YtnkjaBfg8BAQEPRA0EAQGEP0YCjgkCJjQJDgECBAMCAwEBAQEBAQEBAQEBA?=
+ =?us-ascii?q?QoBAQUBAQECAQcFgQ4Thk8NkBIBOAFyAwECTwsjIYMCAYI6AzcDEcAbgiyBA?=
+ =?us-ascii?q?YNpAkNQ2EsNcoFoAQsUAYE4hUCCf4UkXRgBhHwnG4FJRIEVg2mBBYEaQgEBg?=
+ =?us-ascii?q?TiGbQSDLoFaHpMJSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EHGwYFg?=
+ =?us-ascii?q?R2BIIIaIxk2eoEJXoErKWEQF4EJggcCglSCAQIBSUMOB0VTCSVBChJHJiIIE?=
+ =?us-ascii?q?gkBExowC4EjOkEKGA1IESw3FRkEPm4HkBMegmR7EwEKIYEFGzcmUZNOkgaBN?=
+ =?us-ascii?q?Z5pcYQojCKPPoV8GjOFW6USC5h9jgqECZFqXYRpgWg8gUcLBzMaCBsVgyIJS?=
+ =?us-ascii?q?hkPjisDCwuDYIF/g2XGVScyCzIBAQcCBw4DC4FokAGBfQEB?=
+IronPort-Data: A9a23:mV63DqwbO+cqPqsrs5h6t+dmxyrEfRIJ4+MujC+fZmUNrF6WrkUGy
+ GsYD2uObKuOZDagLo8lO4jko0kOsJWByoJmSFRv+FhgHilAwSbn6Xt1DatR0we6dJCroJdPt
+ p1GAjX4BJlqCCKa/lHyYuCJQUBUjcmgXqD7BPPPJhd/TAplTDZJoR94kobVuKYw6TSCK13L4
+ 4yaT/H3Ygf/hWYlaD5MsspvlTs21BjMkGJA1rABTagjUG/2zxE9EJ8ZLKetGHr0KqE8NvK6X
+ evK0Iai9Wrf+Ro3Yvv9+losWhRXKlJ6FVHmZkt+A8BOsDAbzsAB+vpT2M4nVKtio27hc+adZ
+ zl6ncfYpQ8BZsUgkQmGOvVSO3kW0aZuoNcrLZUj2CCe5xWuTpfi/xlhJEwtFow59sN5PUJlp
+ NwWJwIpfDKM2f3jldpXSsE07igiBNPgMIVavjRryivUSK54B5vCWK7No9Rf2V/chOgXQq2YP
+ JVfM2cyKk2cOHWjOX9PYH46tPa1nHDzfhVTqUmeouw85G27IAlZjeKzbYaKJozQLSlTtmOVh
+ Hra+DrwOw81bI2w7wW920iul+CayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
+ 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1jfDWkfRTkHY9sj3CMreQEXO
+ payt4uBLVRSXHe9FCjBnltIhVte4RQoEFI=
+IronPort-HdrOrdr: A9a23:4590y6sak4LZl4v25FOVvG0e7skDRtV00zEX/kB9WHVpm6uj5q
+ KTdZsguyMc5Ax9ZJhCo6HiBEDjexLhHPdOiOF7V4tKNzOIhILHFu1fBPPZowHIKmnZ6vNX07
+ tmfuxVDd39CkU/sOPBiTPIdurJBLK8gceVbSC09QYIcT1X
+X-Talos-CUID: =?us-ascii?q?9a23=3APJqwgmtUEAv9E/iuZBvVe0Tg6IsoaVbc7Xv1LXO?=
+ =?us-ascii?q?bIjdJRrKnbU2y9/17xp8=3D?=
+X-Talos-MUID: 9a23:aRtNhAq1ijCzVjwKnhsezxRvFt905PqnMV4iycQpnfa8HBZyKjjI2Q==
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,120,1787011200"; 
+   d="scan'208";a="526547482"
+Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
+  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 24 Sep 2026 12:16:00 +0000
+Received: from sjc-ads-4926.cisco.com (sjc-ads-4926.cisco.com [10.28.39.190])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id 33382180000B5
+	for <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 12:16:00 +0000 (GMT)
+Received: by sjc-ads-4926.cisco.com (Postfix, from userid 1889728)
+	id CDD54CC124A; Thu, 24 Sep 2026 05:15:59 -0700 (PDT)
+From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-CC: pratik.farkase@ericsson.com,
-	Pratik Farkase <pratik.farkase@est.tech>
-Subject: [OE-core][PATCH] python3: ptest: skip flaky test_staggered_race_with_eager_tasks
-Date: Thu, 24 Sep 2026 13:43:58 +0200
-Message-ID: <20260924114358.24945-1-pratik.farkase@est.tech>
-X-Mailer: git-send-email 2.43.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-ClientProxiedBy: DU2PR04CA0235.eurprd04.prod.outlook.com
- (2603:10a6:10:2b1::30) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:102:4d4::5)
+Subject: [OE-core[scarthgap][v2][PATCH 1/2] python3-pyasn1: fix CVE-2026-30922
+Date: Thu, 24 Sep 2026 05:15:57 -0700
+Message-ID: <20260924121559.3071108-1-yurade@cisco.com>
+X-Mailer: git-send-email 2.44.4
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|DU0P189MB3355:EE_
-X-MS-Office365-Filtering-Correlation-Id: f947cd31-f6d2-4f9c-c839-08df1a3125c8
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|11063799006|6133799003|10067099003|56012099006|18002099003;
-X-Microsoft-Antispam-Message-Info: 
-	pxu/PWCnGoINej80eE7vB57j+xZPelbuFk/1jLEqu9/Xvs+fKzLebqe7iqpqiIBeoQjx2MAFievSwJckOWOAgO8NrOGWeSKULvOTqu7Gpcu8ZGSMPIEOmUUUSgIS24bIKAa1ntcvFqvmE/L02SxDTeCPnsmmilueFyM+maAmWvH5/XJgTOdwNVap8YD3EhQAqgWPlnZkPTqgX5/5KifkW44SBnMMI3mxT5AfewV7EEpxs+iRHwazEI5uYoWiqUSvRFSBH7COYV/bFxejQOVRIffO5dUdt8Ncw1NpcK+Tk/Gj3iYr3dikEBjAeiQN1VpxA6Jo6WnNe6KFkBT2ePvIMmZI2OubrxhEDKt/MLMrzwTcbSfM35PxVyd2CVrdlTV135OKrIDeL2eg+hi9bxj+q2CdK9eiqMw5JMaTL7zYqVh//V3EDuh6WRO5lgmCxdogKCrZ7ay95+rjZb4FkeE1quNwCoE/L2FuKfZATRRcMkyCKFTQSNALN5BC0QBxKwJ1AUYFs6sf1JTyo+ai5UfV0PypKIHZpujy00MdPWDj11OmudKnTu61RSz5RcHFmk7wExbz4v233evlqGIudgkps4X3s997JcJDTLBiqOCkOxoUaGcdqQiUUutzszpSQXbuK07wgOWUDNnjUHzK7oWLz2NPojANhMGHA7ZdwcnXG6A=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(11063799006)(6133799003)(10067099003)(56012099006)(18002099003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?T3+Jdf/WbxXfAOPdyN1Abyh/jE36jrnX6afXbaAJ3gWx7gXBI2Ylym+5QQU5?=
- =?us-ascii?Q?E3mQ8lUbYBMmDZzfdHKPI7qm6zpJhmVsV9wiPImOFCPjgdSuz9INU/DA9JQ4?=
- =?us-ascii?Q?B7+D2QtWglD3wyerRzdhTlq4xOUOaeWd0iV4zESXkIhflJL0YDc/wHrZ0fCZ?=
- =?us-ascii?Q?ZFPmbEoGFax3lMOYKM0+hRaJaW3RrLtFRFdQPVih5rG/RLfYqScWbXtPbQvk?=
- =?us-ascii?Q?WdGg7IWVRmvw3kNmCfsp0Zahbsn/o9TbAtgtlh3N9OTko78Wujhz+0oIbszC?=
- =?us-ascii?Q?99YlqEPod8Klhz255D1XgvmvKF96pHgX0+qyW9/paKq1Fy2ofdwlkmR3tOqX?=
- =?us-ascii?Q?CY6SWvPwFHxUk5uI4+n4FN0Ii8bFmsSW52nZPZrXg1YDrKnUlMEZ1QtHVkpn?=
- =?us-ascii?Q?5TbMGZ5K34t4c8BNI54K4Fu4azWnWSL3Xtmu2qgeZlGG1Mx66Iler9gAXZtn?=
- =?us-ascii?Q?1zdM8SU/i0y6FeR32WEAn/ZGY2mcnec3w00NBXSldJtqQuWo9unWKdp8GD9p?=
- =?us-ascii?Q?irW6hDeo4ovm2KSxlCZ3oPTbXALbLFnrz/VcOrFOgA3SIdEtdrTANhrenL0H?=
- =?us-ascii?Q?wWNyLXym5CPgglsaK9Q7ieod5G1bIIZ7sIUSez3GJH7dLkb21WHbMK/6Hoxg?=
- =?us-ascii?Q?fm6S4GzdvGrz/PMLRfqvL3I9NPi5to3x+z5dSGL/3Dw0hjNCaCxKwG4xXZNa?=
- =?us-ascii?Q?Q+Dyu6s6bzVz6qRlYeTzgPSPo17zJQVJCnqnmo/t5aaUSW29G29/DyuKaM6a?=
- =?us-ascii?Q?vHGgiLlODkLNMlte48V72V4RcsYe/jQNFOi8IeSjntgHClFKFmAxVv3upBXA?=
- =?us-ascii?Q?T3LRKms4XeAHmeoq0JKxK/GBG2z2wHfb3naG+MwYUqnXI4iJvnmCIG1bQuPd?=
- =?us-ascii?Q?DMNhdLyb4/B30ICTYvaCdBax8RymsNOx9NgubeO1bBPZ1bhrrJuZR6Vi/6Tv?=
- =?us-ascii?Q?eeAkVMf4y2IM17MhGqyG3hCq8TgWo7BjeL1m3+6kKSe/Z8hBhSvLwNsqMiXG?=
- =?us-ascii?Q?sTpwGL8dvbAldeSuZYmq7cnVH4yrGWq53ezI3t8yxniiJscdj3NbW7geT1er?=
- =?us-ascii?Q?/QebpRHbrexZU8KeCIDbSrwomvPvdyTaI/UnvP82nnZ5JixrP9chEv6ELuUd?=
- =?us-ascii?Q?IphBJi+XXjMOMFxeioPI7anQVQU4sB0id5Cy9KxVqiqUvNc81v8G/HSfCEOW?=
- =?us-ascii?Q?jsxJmaHDokyeTCu6h+ijDz04K5GEE1Z0qlw0qopFhmdMu5a9Lh/Bw9clRiui?=
- =?us-ascii?Q?zRxVsV2tFVPtSxPf6pHiF2P6fbDgjEu410C7nv+GHtKanNfiPVVYB8g+aCiq?=
- =?us-ascii?Q?Gnao5aowg1WHiAAiHA7DZRyK0J4uQv0gqJ1hf48p8ruh71d5kntxMW4yeUx2?=
- =?us-ascii?Q?UcoBQ68BVfkEL6ZDgMjOXtRaSqwx7yOyawhuOWUXmQCgC5Aj/TUVot0Sjm8t?=
- =?us-ascii?Q?AHPYBC7pYXKyBfC7mCbwl1jgv3uIfJu3LCEWSaOtGGpWRl560H62fDqk7ams?=
- =?us-ascii?Q?tqZl8v0sglzgadu8aeaHlPL7IJ5uT+O82viCY4mUkcJTsJaOHEUHvEcgfNKo?=
- =?us-ascii?Q?GmelT4x/JYuLqDeVgeZItj3kIWDOmSLTRgpT/wLMyt8kXXW4hcPmzaqFmw7j?=
- =?us-ascii?Q?GadNTzxukvcXCmiL4vafYKDrmCE6dht1q6Efe+FnTfGJDZicPUOjOoGfg4Ta?=
- =?us-ascii?Q?slRByaEjs8htqVoYcnkNvdfPQJIFxTmEwR6wvBKyAGP6urv1dhEOlB2UblS5?=
- =?us-ascii?Q?BQZ9caNwyg=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: f947cd31-f6d2-4f9c-c839-08df1a3125c8
-X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Sep 2026 11:44:10.0462
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ksTStgLomnJT786NpEuJk16A6ueUUu0e6NgefFQ4cHd1EuilOkrhl8E0hUGPPCH5nG1U1PHnkPoIEh2i1n2cPA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU0P189MB3355
+Content-Transfer-Encoding: 8bit
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-4926.cisco.com [10.28.39.190];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 10.28.39.190, sjc-ads-4926.cisco.com
+X-Outbound-Node: rcdn-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 11:44:24 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246583
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 12:16:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246584
 
-The asyncio test test_staggered_race_with_eager_tasks starts candidate
-coroutines 0.25s apart via staggered_race() and expects the third one to
-raise ValueError after an "await asyncio.sleep(0)". On loaded autobuilder
-hosts under QEMU emulation the winning coroutine finishes and
-staggered_race() cancels the losers before the third coroutine resumes to
-raise, so its recorded exception is CancelledError instead of ValueError
-(AssertionError: CancelledError() is not an instance of <class
-'ValueError'>).
+This patch applies upstream fix for CVE-2026-30922 as referenced in [2],
+using the upstream commit identified in [1].
 
-The test is timing-sensitive upstream (CPython #124309) and part of the
-broader timing-sensitive test class (CPython #130363). Skip both the
-pure-Python and C-accelerated eager task factory variants.
+[1] https://github.com/pyasn1/pyasn1/commit/25ad481c19fdb006e20485ef3fc2e5b3eff30ef0
+[2] https://nvd.nist.gov/vuln/detail/CVE-2026-30922
 
-[YOCTO #16435]
-
-Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
+Signed-off-by: Yogita Urade <yurade@cisco.com>
 ---
- meta/recipes-devtools/python/python3_3.14.7.bb | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+ .../recipes-devtools/python/python-pyasn1.inc |   1 +
+ .../python3-pyasn1/CVE-2026-30922.patch       | 262 ++++++++++++++++++
+ 2 files changed, 263 insertions(+)
+ create mode 100644 meta/recipes-devtools/python/python3-pyasn1/CVE-2026-30922.patch
 
-diff --git a/meta/recipes-devtools/python/python3_3.14.7.bb b/meta/recipes-=
-devtools/python/python3_3.14.7.bb
-index 57fc599151..f917edebd8 100644
---- a/meta/recipes-devtools/python/python3_3.14.7.bb
-+++ b/meta/recipes-devtools/python/python3_3.14.7.bb
-@@ -339,6 +339,20 @@ SKIPPED_TESTS +=3D " \
-     --ignore test.test_asyncio.test_taskgroups.TestTaskGroup.test_taskgrou=
-p_23 \
+diff --git a/meta/recipes-devtools/python/python-pyasn1.inc b/meta/recipes-devtools/python/python-pyasn1.inc
+index ae96f09fb1..0fe5e70adf 100644
+--- a/meta/recipes-devtools/python/python-pyasn1.inc
++++ b/meta/recipes-devtools/python/python-pyasn1.inc
+@@ -21,6 +21,7 @@ SRC_URI += " \
+        file://CVE-2026-23490.patch \
+        file://CVE-2026-59886.patch \
+        file://CVE-2026-59884.patch \
++       file://CVE-2026-30922.patch \
  "
-=20
-+# Intermittent failure under load - this asyncio staggered_race test start=
-s
-+# candidate coroutines 0.25s apart and expects the third one to raise
-+# ValueError after an "await asyncio.sleep(0)". On loaded autobuilder host=
-s
-+# under QEMU emulation the winning coroutine finishes and staggered_race
-+# cancels the losers before the third coroutine resumes to raise, so its
-+# recorded exception is CancelledError instead of ValueError. Upstream tes=
-t
-+# is timing-sensitive (CPython #124309). Skip both the pure-Python and
-+# C-accelerated eager task factory variants.
-+# Bugzilla YP 16435
-+SKIPPED_TESTS +=3D " \
-+    --ignore test.test_asyncio.test_eager_task_factory.PyEagerTaskFactoryL=
-oopTests.test_staggered_race_with_eager_tasks \
-+    --ignore test.test_asyncio.test_eager_task_factory.CEagerTaskFactoryLo=
-opTests.test_staggered_race_with_eager_tasks \
-+"
+ 
+ RDEPENDS:${PN}-ptest += " \
+diff --git a/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-30922.patch b/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-30922.patch
+new file mode 100644
+index 0000000000..c7b6fe4bff
+--- /dev/null
++++ b/meta/recipes-devtools/python/python3-pyasn1/CVE-2026-30922.patch
+@@ -0,0 +1,262 @@
++From bcab1fc8f72230ad7ee6d9612a5216cc556e2d0a Mon Sep 17 00:00:00 2001
++From: Simon Pichugin <simon.pichugin@gmail.com>
++Date: Mon, 16 Mar 2026 17:23:11 -0700
++Subject: [PATCH] Merge commit from fork
 +
- SKIPPED_TESTS:append:libc-musl =3D " \
-     -x test__locale \
-     -x test_c_locale_coercion \
---=20
-2.43.0
++CVE: CVE-2026-30922
++Upstream-Status: Backport [https://github.com/pyasn1/pyasn1/commit/25ad481c19fdb006e20485ef3fc2e5b3eff30ef0]
++
++(cherry picked from commit 25ad481c19fdb006e20485ef3fc2e5b3eff30ef0)
++Signed-off-by: Yogita Urade <yurade@cisco.com>
++---
++ pyasn1/codec/ber/decoder.py     |  10 +++
++ tests/codec/ber/test_decoder.py | 116 ++++++++++++++++++++++++++++++++
++ tests/codec/cer/test_decoder.py |  24 +++++++
++ tests/codec/der/test_decoder.py |  42 ++++++++++++
++ 4 files changed, 192 insertions(+)
++
++diff --git a/pyasn1/codec/ber/decoder.py b/pyasn1/codec/ber/decoder.py
++index 18865c2..4d34080 100644
++--- a/pyasn1/codec/ber/decoder.py
+++++ b/pyasn1/codec/ber/decoder.py
++@@ -38,6 +38,7 @@ SubstrateUnderrunError = error.SubstrateUnderrunError
++ # Maximum number of continuation octets (high-bit set) allowed per OID arc.
++ # 20 octets allows up to 140-bit integers, supporting UUID-based OIDs
++ MAX_OID_ARC_CONTINUATION_OCTETS = 20
+++MAX_NESTING_DEPTH = 100
++ 
++ # Maximum number of octets in a long-form tag ID (20 octets = up to
++ # 140-bit tag IDs, matching the OID arc limit)
++@@ -1519,6 +1520,15 @@ class SingleItemDecoder(object):
++                  decodeFun=None, substrateFun=None,
++                  **options):
++ 
+++        _nestingLevel = options.get('_nestingLevel', 0)
+++
+++        if _nestingLevel > MAX_NESTING_DEPTH:
+++            raise error.PyAsn1Error(
+++                'ASN.1 structure nesting depth exceeds limit (%d)' % MAX_NESTING_DEPTH
+++            )
+++
+++        options['_nestingLevel'] = _nestingLevel + 1
+++
++         allowEoo = options.pop('allowEoo', False)
++ 
++         if LOG:
++diff --git a/tests/codec/ber/test_decoder.py b/tests/codec/ber/test_decoder.py
++index 0152027..672c9af 100644
++--- a/tests/codec/ber/test_decoder.py
+++++ b/tests/codec/ber/test_decoder.py
++@@ -2048,6 +2048,122 @@ class CompressedFilesTestCase(BaseTestCase):
++             os.remove(path)
++ 
++ 
+++class NestingDepthLimitTestCase(BaseTestCase):
+++    """Test protection against deeply nested ASN.1 structures (CVE prevention)."""
+++
+++    def testIndefLenSequenceNesting(self):
+++        """Deeply nested indefinite-length SEQUENCEs must raise PyAsn1Error."""
+++        # Each \x30\x80 opens a new indefinite-length SEQUENCE
+++        payload = b'\x30\x80' * 200
+++        try:
+++            decoder.decode(payload)
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested indef-length SEQUENCEs not rejected'
+++
+++    def testIndefLenSetNesting(self):
+++        """Deeply nested indefinite-length SETs must raise PyAsn1Error."""
+++        # Each \x31\x80 opens a new indefinite-length SET
+++        payload = b'\x31\x80' * 200
+++        try:
+++            decoder.decode(payload)
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested indef-length SETs not rejected'
+++
+++    def testDefiniteLenNesting(self):
+++        """Deeply nested definite-length SEQUENCEs must raise PyAsn1Error."""
+++        inner = b'\x05\x00'  # NULL
+++        for _ in range(200):
+++            length = len(inner)
+++            if length < 128:
+++                inner = b'\x30' + bytes([length]) + inner
+++            else:
+++                length_bytes = length.to_bytes(
+++                    (length.bit_length() + 7) // 8, 'big')
+++                inner = b'\x30' + bytes([0x80 | len(length_bytes)]) + \
+++                    length_bytes + inner
+++        try:
+++            decoder.decode(inner)
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested definite-length SEQUENCEs not rejected'
+++
+++    def testNestingUnderLimitWorks(self):
+++        """Nesting within the limit must decode successfully."""
+++        inner = b'\x05\x00'  # NULL
+++        for _ in range(50):
+++            length = len(inner)
+++            if length < 128:
+++                inner = b'\x30' + bytes([length]) + inner
+++            else:
+++                length_bytes = length.to_bytes(
+++                    (length.bit_length() + 7) // 8, 'big')
+++                inner = b'\x30' + bytes([0x80 | len(length_bytes)]) + \
+++                    length_bytes + inner
+++        asn1Object, _ = decoder.decode(inner)
+++        assert asn1Object is not None, 'Valid nested structure rejected'
+++
+++    def testSiblingsDontIncreaseDepth(self):
+++        """Sibling elements at the same level must not inflate depth count."""
+++        # SEQUENCE containing 200 INTEGER siblings - should decode fine
+++        components = b'\x02\x01\x01' * 200  # 200 x INTEGER(1)
+++        length = len(components)
+++        length_bytes = length.to_bytes(
+++            (length.bit_length() + 7) // 8, 'big')
+++        payload = b'\x30' + bytes([0x80 | len(length_bytes)]) + \
+++            length_bytes + components
+++        asn1Object, _ = decoder.decode(payload)
+++        assert asn1Object is not None, 'Siblings incorrectly rejected'
+++
+++    def testErrorMessageContainsLimit(self):
+++        """Error message must indicate the nesting depth limit."""
+++        payload = b'\x30\x80' * 200
+++        try:
+++            decoder.decode(payload)
+++        except error.PyAsn1Error as exc:
+++            assert 'nesting depth' in str(exc).lower(), \
+++                'Error message missing depth info: %s' % exc
+++        else:
+++            assert False, 'Expected PyAsn1Error'
+++
+++    def testNoRecursionError(self):
+++        """Must raise PyAsn1Error, not RecursionError."""
+++        payload = b'\x30\x80' * 50000
+++        try:
+++            decoder.decode(payload)
+++        except error.PyAsn1Error:
+++            pass
+++        except RecursionError:
+++            assert False, 'Got RecursionError instead of PyAsn1Error'
+++
+++    def testMixedNesting(self):
+++        """Mixed SEQUENCE and SET nesting must be caught."""
+++        # Alternate SEQUENCE (0x30) and SET (0x31) with indef length
+++        payload = b''
+++        for i in range(200):
+++            payload += b'\x30\x80' if i % 2 == 0 else b'\x31\x80'
+++        try:
+++            decoder.decode(payload)
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Mixed nesting not rejected'
+++
+++    def testWithSchema(self):
+++        """Deeply nested structures must be caught even with schema."""
+++        payload = b'\x30\x80' * 200
+++        try:
+++            decoder.decode(payload, asn1Spec=univ.Sequence())
+++        except error.PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested with schema not rejected'
+++
+++
++ class NonStreamingCompatibilityTestCase(BaseTestCase):
++     def setUp(self):
++         from pyasn1 import debug
++diff --git a/tests/codec/cer/test_decoder.py b/tests/codec/cer/test_decoder.py
++index d759f76..2994846 100644
++--- a/tests/codec/cer/test_decoder.py
+++++ b/tests/codec/cer/test_decoder.py
++@@ -389,6 +389,30 @@ class SequenceDecoderWithExplicitlyTaggedSetOfOpenTypesTestCase(BaseTestCase):
++         assert s[1][0] == univ.OctetString(hexValue='02010C')
++ 
++ 
+++class NestingDepthLimitTestCase(BaseTestCase):
+++    """Test CER decoder protection against deeply nested structures."""
+++
+++    def testIndefLenNesting(self):
+++        """Deeply nested indefinite-length SEQUENCEs must raise PyAsn1Error."""
+++        payload = b'\x30\x80' * 200
+++        try:
+++            decoder.decode(payload)
+++        except PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested indef-length SEQUENCEs not rejected'
+++
+++    def testNoRecursionError(self):
+++        """Must raise PyAsn1Error, not RecursionError."""
+++        payload = b'\x30\x80' * 50000
+++        try:
+++            decoder.decode(payload)
+++        except PyAsn1Error:
+++            pass
+++        except RecursionError:
+++            assert False, 'Got RecursionError instead of PyAsn1Error'
+++
+++
++ suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
++ 
++ if __name__ == '__main__':
++diff --git a/tests/codec/der/test_decoder.py b/tests/codec/der/test_decoder.py
++index 726c999..3a81a6e 100644
++--- a/tests/codec/der/test_decoder.py
+++++ b/tests/codec/der/test_decoder.py
++@@ -396,6 +396,48 @@ class SequenceDecoderWithExplicitlyTaggedSetOfOpenTypesTestCase(BaseTestCase):
++         assert s[1][0] == univ.OctetString(hexValue='02010C')
++ 
++ 
+++class NestingDepthLimitTestCase(BaseTestCase):
+++    """Test DER decoder protection against deeply nested structures."""
+++
+++    def testDefiniteLenNesting(self):
+++        """Deeply nested definite-length SEQUENCEs must raise PyAsn1Error."""
+++        inner = b'\x05\x00'  # NULL
+++        for _ in range(200):
+++            length = len(inner)
+++            if length < 128:
+++                inner = b'\x30' + bytes([length]) + inner
+++            else:
+++                length_bytes = length.to_bytes(
+++                    (length.bit_length() + 7) // 8, 'big')
+++                inner = b'\x30' + bytes([0x80 | len(length_bytes)]) + \
+++                    length_bytes + inner
+++        try:
+++            decoder.decode(inner)
+++        except PyAsn1Error:
+++            pass
+++        else:
+++            assert False, 'Deeply nested definite-length SEQUENCEs not rejected'
+++
+++    def testNoRecursionError(self):
+++        """Must raise PyAsn1Error, not RecursionError."""
+++        inner = b'\x05\x00'
+++        for _ in range(200):
+++            length = len(inner)
+++            if length < 128:
+++                inner = b'\x30' + bytes([length]) + inner
+++            else:
+++                length_bytes = length.to_bytes(
+++                    (length.bit_length() + 7) // 8, 'big')
+++                inner = b'\x30' + bytes([0x80 | len(length_bytes)]) + \
+++                    length_bytes + inner
+++        try:
+++            decoder.decode(inner)
+++        except PyAsn1Error:
+++            pass
+++        except RecursionError:
+++            assert False, 'Got RecursionError instead of PyAsn1Error'
+++
+++
++ suite = unittest.TestLoader().loadTestsFromModule(sys.modules[__name__])
++ 
++ if __name__ == '__main__':
++-- 
++2.44.4
+-- 
+2.44.4
 
 
