@@ -2,35 +2,33 @@ Return-Path: <adrian.freihofer@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2E5B3C98312
-	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 06:02:00 +0000 (UTC)
-Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1634.1790229717798276322
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0E34AC98310
+	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 06:02:10 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.1606.1790229717798810511
  for <openembedded-core@lists.openembedded.org>;
- Wed, 23 Sep 2026 23:01:59 -0700
+ Wed, 23 Sep 2026 23:01:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=sWTbzR9p;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-1329275-202609240601555aefbbcb3f0002078d-p_9tny@rts-flowmailer.siemens.com)
-Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202609240601555aefbbcb3f0002078d
+ dkim=pass header.i=adrian.freihofer@siemens.com header.s=fm1 header.b=BMzmEYhH;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-1329275-20260924060154cc5be1bf5000020782-c17v06@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20260924060154cc5be1bf5000020782
         for <openembedded-core@lists.openembedded.org>;
-        Thu, 24 Sep 2026 08:01:55 +0200
+        Thu, 24 Sep 2026 08:01:54 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=adrian.freihofer@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
- bh=soyEvCEVUcLB/8HePGL4XBuynlM6PAhpsxKhY7+uFlE=;
- b=sWTbzR9pfUo+K9cceyeDoAzgAz+E9WSuGEWQVQfqDtxMpOCymmWQikHbCnYtypseKici1x
- tR1iQKfPcTu8IkqJionkH9iFaFzF30IfqC4LQqcALx3XzXA/z5D2Sz1bIa5xJX5hDb7T40u0
- GLYvHfm3Lj1+Dnu6I99uxgdP6iLY/rCG9SXjVNbbX4ag7sHSTuD6dXISai98rE1C53LrzrWi
- Dg4yLzOo9EgGdwQNqjBn1HqeOHcNLqq9XgiTpHBBUxeche1WPfDoyyJ+3VTVs7zmwKI6ecmA
- xw6O0EID+xPWEqegiC4hT1SsKA8//DvXf8+qFvfovCOXyaipmIejircQ==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=yeb3d92oJh8P7+dfbHKSGISuNCih8qi3zXvJ+Gc4l3s=;
+ b=BMzmEYhHh9BcPXzyjfXUUEbuaiPFSGpbIIbN2GmFQ/amNBheX3W1WYQt5SxAoWstUEDLrQ
+ 9bBOUGH//mRRlUq9hbQZlXzZilftlew2uWPZj5aqfToZR/XUN08sUGocGo41fQJrDU1Q1Tlr
+ Jrd7J7QTlxG0oX0Czvs8LlHnTv7y0lrVAAdyiAVHnkQhCL1yAK3I91IMuuR8UrFZbIHyNoJJ
+ KS5CBWEX4heO9XrC0lNa529b1UmCLG/Dz3WkNjeQDr0so90NKOv4WP9gc1oNpPHxIbEIMMJb
+ 8P2JgQJ+cKDsIL9OYpyWsvNm5TCkXa373D6C6M3qYJ1Y/llb2OVYQgiw==;
 From: AdrianF <adrian.freihofer@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Adrian Freihofer <adrian.freihofer@siemens.com>
-Subject: [PATCH 2/2] devtool: ide-sdk: allow ide plugins to add packages rootfs-dbg
-Date: Thu, 24 Sep 2026 08:01:38 +0200
-Message-ID: <20260924060138.364180-2-adrian.freihofer@siemens.com>
-In-Reply-To: <20260924060138.364180-1-adrian.freihofer@siemens.com>
-References: <20260924060138.364180-1-adrian.freihofer@siemens.com>
+Subject: [PATCH 1/2] devtool: ide-sdk: make nfs export script quicker
+Date: Thu, 24 Sep 2026 08:01:37 +0200
+Message-ID: <20260924060138.364180-1-adrian.freihofer@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -38,51 +36,72 @@ Feedback-ID: 519:519-1329275:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 06:02:00 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246569
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 06:02:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246568
 
 From: Adrian Freihofer <adrian.freihofer@siemens.com>
 
-Add a mechanism for IDE plugins to append packages to
-IMAGE_INSTALL_DEBUGFS.
-
 Signed-off-by: Adrian Freihofer <adrian.freihofer@siemens.com>
 ---
- scripts/lib/devtool/ide_sdk.py | 7 +++++++
- 1 file changed, 7 insertions(+)
+ scripts/lib/devtool/ide_sdk.py | 17 +++++++++++++++--
+ 1 file changed, 15 insertions(+), 2 deletions(-)
 
 diff --git a/scripts/lib/devtool/ide_sdk.py b/scripts/lib/devtool/ide_sdk.py
-index c527d17806..1eb4d94fc6 100755
+index e1a9d1774e..c527d17806 100755
 --- a/scripts/lib/devtool/ide_sdk.py
 +++ b/scripts/lib/devtool/ide_sdk.py
-@@ -221,6 +221,9 @@ class RecipeImage:
-         self.base_image_fstypes_debugfs = ''
-         self.base_has_combined_dbg = False
-         self.base_image_install = set()
-+        self.base_image_install_debugfs = set()
-+        # Packages IDE plugins want added to IMAGE_INSTALL_DEBUGFS
-+        self.extra_image_install_debugfs = set()
-         self._bbappend = None
-         # Content of the bbappend before strip_bbappend_sections() ran.
-         self._orig_bbappend_content = orig_bbappend_content
-@@ -279,6 +282,8 @@ class RecipeImage:
-             'image-combined-dbg', image_d)
-         self.base_image_install = set(
-             (image_d.getVar('IMAGE_INSTALL') or '').split())
-+        self.base_image_install_debugfs = set(
-+            (image_d.getVar('IMAGE_INSTALL_DEBUGFS') or '').split())
+@@ -210,6 +210,7 @@ class RecipeImage:
+         self.qb_slirp_opt = ''
+         self.fakerootcmd = None
+         self.fakerootenv = None
++        self.staging_dir_native_qemu_helper = None
+         self.bootstrap_tasks = [self.name + ':do_build']
+         # Debug settings already provided by the base configuration (e.g.
+         # local.conf, MACHINE, DISTRO, the recipe itself) plus any bbappend
+@@ -254,7 +255,7 @@ class RecipeImage:
+                     f.write(stripped)
+         return originals
  
-         workdir = image_d.getVar('WORKDIR')
-         self.__rootfs = os.path.join(workdir, 'rootfs')
-@@ -437,6 +442,8 @@ class RecipeImage:
-                 lines.append('IMAGE_INSTALL:append = " %s"' % r.name)
-             if r.has_ptest and (r.name + '-ptest') not in self.base_image_install:
-                 lines.append('IMAGE_INSTALL:append = " %s-ptest"' % r.name)
-+        for pkg in sorted(self.extra_image_install_debugfs - self.base_image_install_debugfs):
-+            lines.append('IMAGE_INSTALL_DEBUGFS:append = " %s"' % pkg)
+-    def initialize(self, config, tinfoil):
++    def initialize(self, config, tinfoil, nfs=None):
+         appends_dir = os.path.join(config.workspace_path, 'appends')
+         self._bbappend = os.path.join(appends_dir, self.name + '.bbappend')
  
-         original_content = self._orig_bbappend_content or ''
-         # strip_bbappend_sections() left this on disk, and it is what bitbake
+@@ -289,6 +290,13 @@ class RecipeImage:
+         self.fakerootcmd = image_d.getVar('FAKEROOTCMD')
+         self.fakerootenv = image_d.getVar('FAKEROOTENV')
+ 
++        # Only needed by nfs_hw_helper()
++        if nfs:
++            qemu_helper_native_d = parse_recipe(
++                config, tinfoil, 'qemu-helper-native', appends=True, filter_workspace=False)
++            self.staging_dir_native_qemu_helper = (
++                qemu_helper_native_d.getVar('STAGING_DIR_NATIVE') if qemu_helper_native_d else None)
++
+     @property
+     def debug_support(self):
+         return bool(self.rootfs_dbg)
+@@ -359,6 +367,11 @@ class RecipeImage:
+         with open(helper, 'w') as helper_file:
+             helper_file.write('#!/bin/sh\n')
+             helper_file.write('set -e\n')
++            if self.staging_dir_native_qemu_helper:
++                # Skips oe-find-native-sysroot's own bitbake-getvar call, see
++                # the comment on staging_dir_native's resolution in initialize().
++                helper_file.write(
++                    'export OECORE_NATIVE_SYSROOT=%s\n' % shlex.quote(self.staging_dir_native_qemu_helper))
+             helper_file.write(
+                 'runqemu-export-rootfs start %s\n' % shlex.quote(rootfs_dir))
+             helper_file.write(
+@@ -1814,7 +1827,7 @@ def ide_setup(args, config, basepath, workspace):
+             recipe_image = RecipeImage(
+                 recipes_image_name,
+                 orig_bbappend_contents.get(recipes_image_name))
+-            recipe_image.initialize(config, tinfoil)
++            recipe_image.initialize(config, tinfoil, args.nfs)
+             recipe_image.set_nfs_rootfs(nfs_export_base_dir, args.nfs)
+             # With --skip-bitbake nothing is extracted, so the generated IDE
+             # configuration would point at a directory that never appears.
 -- 
 2.55.0
 
