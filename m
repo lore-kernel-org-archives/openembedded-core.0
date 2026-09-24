@@ -2,502 +2,1051 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DCD95C98314
-	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 05:34:38 +0000 (UTC)
-Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.1371.1790228074496294625
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 28DAFC98316
+	for <webhook@archiver.kernel.org>; Thu, 24 Sep 2026 05:34:39 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1372.1790228074719235827
  for <openembedded-core@lists.openembedded.org>;
  Wed, 23 Sep 2026 22:34:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=u3yPxXX6;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=bNNNV5eb;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a0d1e88cb3-17cf115a-f896-451a-a781-ddbd4649d6d2-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=LKAW2brk;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=aLCd6nmt;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a0d1e88ccf-d9a853d1-07b7-443d-9429-979216071d17-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
 	t=1790228073;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=OyxgSZ1Q4cPFDdHE4U2LYklllHOVRkALjDkUWkrtxak=;
-	b=u3yPxXX6q2vZ9aNfYaqQl8KwcYymjVAM75OprGxam62/TGMx9VZ0n3wj7vW8b/ng
-	QgUvQpVjMx5VBKYvoXLxFSXOKYO+Nbnly1xrwcIFfY5VLK4NY5dGFWsuRZa6BJ8BKFw
-	l7w+Bn8iFT3RrgIxvu5rjXOuYYDI47R/GvmWgB0I=
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
+	bh=tZ715zYcFQTO4Ftel1nrntZlqUoAZ1NgV0IZkslSI8c=;
+	b=LKAW2brk9H36NbXQ0ITjOG6vRfrbLt5I0xl7IwjZzCF06FtlJ8kyf+RmkqRV8fxJ
+	7ugpFXsmQ0JsbzIzx/OAqS0kdhdLxe4FpCKn3z31XV/5DMZe/RhdjjmQBgXkMNOirEW
+	ikdAKZ2Quv/zoj4tR2qWx+5Who6j2sSJ+NFS3cnc=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790228073;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=OyxgSZ1Q4cPFDdHE4U2LYklllHOVRkALjDkUWkrtxak=;
-	b=bNNNV5ebaCzOEBGUgOfvEaZh5WyPfzyoAPKhLUaVx4WBuA3aq0FapuR1nfD5UCrD
-	9BFg2nKMezd6hvLF4PXSRuyqrmA6b5hnXuz+78ONtci5GcaDGLN8C8XR141zs5/xo02
-	6sF4j8V+cTWk0sEbwCBE2c2ITnwItYKQdlnr/seA=
-Content-Type: multipart/mixed; boundary="===============8966731044939071050=="
+	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
+	bh=tZ715zYcFQTO4Ftel1nrntZlqUoAZ1NgV0IZkslSI8c=;
+	b=aLCd6nmtf4I/3p4DRn9R1kk67mKbG8dE5leumFbZ4UT7jTYtNUJxbdN/XBtSXLhy
+	yhK1cCWF82z3ZKqFs59/wAnETESqQSKvIanwMHNcXFO70Lk5OyTl3mvFRJzX5c0PD94
+	2pu57CsttoXcvPb/z6LMt18Nj+AYXZIRAKopdmo4=
+Content-Type: multipart/mixed; boundary="===============3895980582964788558=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Tim Orling <tim.orling@konsulko.com>
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-wcwidth: upgrading to 0.9.1 SUCCEEDED
-Message-ID: <010101a0d1e88cb3-17cf115a-f896-451a-a781-ddbd4649d6d2-000000@us-west-2.amazonses.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [AUH] Upgrade status: 2026-09-24
+Message-ID: <010101a0d1e88ccf-d9a853d1-07b7-443d-9429-979216071d17-000000@us-west-2.amazonses.com>
 Date: Thu, 24 Sep 2026 05:34:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.24-54.240.27.23
+X-SES-Outgoing: 2026.09.24-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 05:34:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246565
+ <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 05:34:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246567
 
---===============8966731044939071050==
-Content-Type: text/plain; charset="us-ascii"
+--===============3895980582964788558==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+QVVIIGZpbmlzaGVkIHVwZ3JhZGUgYmF0Y2ggdGhlIHJlc3VsdCBwYXRjaGVzL2xvZ3MgY2FuIGJl
+IGZvdW5kIGF0OgpodHRwczovL3ZhbGt5cmllLnlvY3RvLmlvL3B1Yi9hdWgvMjAyNjA5MjQwNTAw
+NTUsIG5leHQgYXJlIHRoZSBzdGF0aXN0aWNzOgoKUmVjaXBlIHVwZ3JhZGUgc3RhdGlzdGljczoK
+CiAgICAqIFN1Y2NlZWRlZDogNQogICAgICAgIHB5dGhvbjMtcHl0eiwgMjAyNi40LCBUaW0gT3Js
+aW5nIDx0aW0ub3JsaW5nQGtvbnN1bGtvLmNvbT4KICAgICAgICBweXRob24zLXZjcy12ZXJzaW9u
+aW5nLCAyLjUuMCwgVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJlLmNvbT4KICAgICAg
+ICBweXRob24zLXdjd2lkdGgsIDAuOS4xLCBUaW0gT3JsaW5nIDx0aW0ub3JsaW5nQGtvbnN1bGtv
+LmNvbT4KICAgICAgICByZXBvLCAyLjY4LjEsIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9w
+cm9qZWN0Lm9yZz4KICAgICAgICBnbnVwZywgMi41LjI0LCBIb25neHUgSmlhIDxob25neHUuamlh
+QHdpbmRyaXZlci5jb20+CiAgICAqIEZhaWxlZChkb19jb21waWxlKTogMgogICAgICAgIHB5dGhv
+bjMtc2V0dXB0b29scy1zY20sIDEwLjMuNCwgVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxp
+YnJlLmNvbT4KICAgICAgICBzaGFkb3csIDQuMjAuMywgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2
+ZXIuY29tPgogICAgKiBTa2lwcGVkOiA4NAogICAgICAgIHN5c3RlbWQtYm9vdC1uYXRpdmUsIDI2
+MiwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMjMgMDU6MDY6MzAgcmVzdWx0PWZhaWx1cmU7IHdpbGwg
+cmV0cnkgaW4gMzAgZGF5KHMpLCBWaXN3YW5hdGggS3JhbGV0aSA8cXVpY192a3JhbGV0aUBxdWlj
+aW5jLmNvbT4KICAgICAgICBzeXN0ZW1kLWJvb3QsIDI2MiwgbGFzdCBhdHRlbXB0IDIwMjYtMDkt
+MjMgMDU6MDY6MzAgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMzAgZGF5KHMpLCBTYWkg
+U2lyZWVzaGEgVCA8c2Fpc2lyZWVzaGEudEB3aW5kcml2ZXIuY29tPgogICAgICAgIHN5c3RlbWQs
+IDI2MiwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMjMgMDU6MDY6MzAgcmVzdWx0PWZhaWx1cmU7IHdp
+bGwgcmV0cnkgaW4gMzAgZGF5KHMpLCBTYWkgU2lyZWVzaGEgVCA8c2Fpc2lyZWVzaGEudEB3aW5k
+cml2ZXIuY29tPgogICAgICAgIHN5c3RlbWQtdG9vbHMtbmF0aXZlLCAyNjIsIGxhc3QgYXR0ZW1w
+dCAyMDI2LTA5LTIzIDA1OjA2OjMwIHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDMwIGRh
+eShzKSwgQ2hlbiBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIHV0aWwtbGludXgt
+bGlidXVpZCwgMi40Mi40LCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0yMiAwNTowOToyMiByZXN1bHQ9
+ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyOSBkYXkocyksIENoZW4gUWkgPFFpLkNoZW5Ad2luZHJp
+dmVyLmNvbT4KICAgICAgICB1dGlsLWxpbnV4LCAyLjQyLjQsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5
+LTIyIDA1OjA5OjIyIHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDI5IGRheShzKSwgQ2hl
+biBRaSA8UWkuQ2hlbkB3aW5kcml2ZXIuY29tPgogICAgICAgIGxsdm0tcHJvamVjdC1zb3VyY2Ut
+MjMuMS4xLCAyMy4xLjIsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTIzIDA1OjExOjAwIHJlc3VsdD1m
+YWlsdXJlOyB3aWxsIHJldHJ5IGluIDMwIGRheShzKSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWls
+LmNvbT4KICAgICAgICBzYm9tLWN2ZS1jaGVjay11cGRhdGUtY3ZlbGlzdC1uYXRpdmUsIDIwMjYt
+MDktMjQsIHJhcGlkLWZpcmU7IGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTEyIDA1OjM4OjUxIHJlc3Vs
+dD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDE5IGRheShzKSwgQmVuamFtaW4gUm9iaW4gPGJlbmph
+bWluLnJvYmluQGJvb3RsaW4uY29tPgogICAgICAgIHNib20tY3ZlLWNoZWNrLXVwZGF0ZS1udmQt
+bmF0aXZlLCAyMDI2LjA5LjI0LTAwMDAyMywgcmFwaWQtZmlyZTsgbGFzdCBhdHRlbXB0IDIwMjYt
+MDktMTIgMDU6Mzg6NTEgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMTkgZGF5KHMpLCBC
+ZW5qYW1pbiBSb2JpbiA8YmVuamFtaW4ucm9iaW5AYm9vdGxpbi5jb20+CiAgICAgICAgbWVzYSwg
+MjYuMi4zLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xNyAwNToyMjoyOCByZXN1bHQ9c3VjY2Vzczsg
+d2lsbCByZXRyeSBpbiAyNCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9q
+ZWN0Lm9yZz4KICAgICAgICBtZXNhLXRvb2xzLW5hdGl2ZSwgMjYuMi4zLCBsYXN0IGF0dGVtcHQg
+MjAyNi0wOS0xNyAwNToyMjoyOCByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNCBkYXko
+cyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBzeXN0
+ZW10YXAtbmF0aXZlLCA1LjYsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTE4IDA1OjExOjU3IHJlc3Vs
+dD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDI1IGRheShzKSwgVmljdG9yIEthbWVuc2t5IDx2aWN0
+b3Iua2FtZW5za3k3QGdtYWlsLmNvbT4KICAgICAgICBzeXN0ZW10YXAsIDUuNiwgbGFzdCBhdHRl
+bXB0IDIwMjYtMDktMTggMDU6MTE6NTcgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMjUg
+ZGF5KHMpLCBWaWN0b3IgS2FtZW5za3kgPHZpY3Rvci5rYW1lbnNreTdAZ21haWwuY29tPgogICAg
+ICAgIGdzdHJlYW1lcjEuMC1wbHVnaW5zLXJzLCAwLjE1LjQsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5
+LTIzIDA1OjIwOjUzIHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDMwIGRheShzKSwgSmFu
+IFNjaG1pZHQgPGphbkBjZW50cmljdWxhci5jb20+CiAgICAgICAgcnQtdGVzdHMsIDIuMTEsIGxh
+c3QgYXR0ZW1wdCAyMDI2LTA5LTE3IDA1OjI0OjE2IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5
+IGluIDI0IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgog
+ICAgICAgIGh3bGF0ZGV0ZWN0LCAyLjExLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xNyAwNToyNDox
+NiByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyNCBkYXkocyksIFVuYXNzaWduZWQgPHVu
+YXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBiYXJlYm94LXRvb2xzLCAyMDI2LjA5
+LjAsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTE3IDA1OjI3OjE3IHJlc3VsdD1zdWNjZXNzOyB3aWxs
+IHJldHJ5IGluIDI0IGRheShzKSwgRW5yaWNvIErDtnJucyA8eW9jdG9AcGVuZ3V0cm9uaXguZGU+
+CiAgICAgICAgbmZzLXV0aWxzLCAzLjEuMSwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMjAgMDU6MDY6
+NTYgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMjcgZGF5KHMpLCBSb2JlcnQgWWFuZyA8
+bGllemhpLnlhbmdAd2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJzbGlycCwgNC45LjUsIGxhc3Qg
+YXR0ZW1wdCAyMDI2LTA5LTIzIDA1OjIzOjIxIHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGlu
+IDMwIGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAg
+ICAgIGNvcmV1dGlscywgOS4xMiwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMTUgMDU6MTA6MjMgcmVz
+dWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMjIgZGF5KHMpLCBDaGVuIFFpIDxRaS5DaGVuQHdp
+bmRyaXZlci5jb20+CiAgICAgICAgZ2xpYi1uZXR3b3JraW5nLCAyLjkwLjAsIGxhc3QgYXR0ZW1w
+dCAyMDI2LTA5LTExIDA1OjE1OjU2IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDE4IGRh
+eShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgogICAgICAgIG92
+bWYsIGVkazItc3RhYmxlMjAyNjA4LCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0yMiAwNToxNjo1MyBy
+ZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyOSBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNz
+aWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICB0dHlydW4sIDIuNDQuMSwgbGFzdCBhdHRl
+bXB0IDIwMjYtMDktMjIgMDU6MTg6NDYgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjkg
+ZGF5KHMpLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICBiaW5kZ2Vu
+LWNsaSwgMC43My4yLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0wOSAwNToxMToxMCByZXN1bHQ9ZmFp
+bHVyZTsgd2lsbCByZXRyeSBpbiAxNiBkYXkocyksIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5j
+b20+CiAgICAgICAgZmFzdGZsb2F0LCA4LjMuMCwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMTYgMDU6
+MTU6NDcgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjMgZGF5KHMpLCBNYXJrdXMgVm9s
+ayA8Zl9sX2tAdC1vbmxpbmUuZGU+CiAgICAgICAgZ24sIDAtbmV3LWNvbW1pdHMtYXZhaWxhYmxl
+LCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xMiAwNTo0MjowMiByZXN1bHQ9c3VjY2Vzczsgd2lsbCBy
+ZXRyeSBpbiAxOSBkYXkocyksIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFpbC5jb20+CiAgICAgICAg
+bGliZG5mLCAwLjc2LjAsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTE4IDA1OjEzOjQ2IHJlc3VsdD1m
+YWlsdXJlOyB3aWxsIHJldHJ5IGluIDI1IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5
+b2N0b3Byb2plY3Qub3JnPgogICAgICAgIG1lc29uLCAxLjEyLjEsIGxhc3QgYXR0ZW1wdCAyMDI2
+LTA5LTIzIDA1OjU2OjE3IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDMwIGRheShzKSwg
+VHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJlLmNvbT4KICAgICAgICBwZXJsY3Jvc3Ms
+IDEuNi41LCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xOCAwNToxNDozOCByZXN1bHQ9ZmFpbHVyZTsg
+d2lsbCByZXRyeSBpbiAyNSBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9q
+ZWN0Lm9yZz4KICAgICAgICBweXRob24zLWN5dGhvbiwgMy4zLjAsIGxhc3QgYXR0ZW1wdCAyMDI2
+LTA5LTIzIDA2OjAxOjM2IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDMwIGRheShzKSwg
+VHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJlLmNvbT4KICAgICAgICBweXRob24zLWR0
+c2NoZW1hLCAyMDI2LjksIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTE5IDA1OjE1OjM5IHJlc3VsdD1z
+dWNjZXNzOyB3aWxsIHJldHJ5IGluIDI2IGRheShzKSwgQnJ1Y2UgQXNoZmllbGQgPGJydWNlLmFz
+aGZpZWxkQGdtYWlsLmNvbT4KICAgICAgICBweXRob24zLWZsaXQtY29yZSwgNC4xLjAsIGxhc3Qg
+YXR0ZW1wdCAyMDI2LTA5LTE3IDA1OjUyOjA1IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGlu
+IDI0IGRheShzKSwgVGltIE9ybGluZyA8dGltLm9ybGluZ0Brb25zdWxrby5jb20+CiAgICAgICAg
+cHl0aG9uMy1oYXRjaGxpbmcsIDEuMzIuNCwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMjEgMDU6MDc6
+NTggcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjggZGF5KHMpLCBSb3NzIEJ1cnRvbiA8
+cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICBweXRob24zLWh5cG90aGVzaXMsIDYuMTY4LjEs
+IGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTIzIDA2OjA3OjA5IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJl
+dHJ5IGluIDMwIGRheShzKSwgVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJlLmNvbT4K
+ICAgICAgICBweXRob24zLWlkbmEsIDMuMjAsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTE4IDA1OjI3
+OjE0IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDI1IGRheShzKSwgQnJ1Y2UgQXNoZmll
+bGQgPGJydWNlLmFzaGZpZWxkQGdtYWlsLmNvbT4KICAgICAgICBweXRob24zLWxpYmFyY2hpdmUt
+YywgNS4zLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0wNSAwNjowMDowNSByZXN1bHQ9ZmFpbHVyZTsg
+d2lsbCByZXRyeSBpbiAxMiBkYXkocyksIEpvc2h1YSBXYXR0IDxKUEVXaGFja2VyQGdtYWlsLmNv
+bT4KICAgICAgICBweXRob24zLW1ha28sIDEuNC4zLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0yMyAw
+NjoxMDoyNSByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAzMCBkYXkocyksIFRyZXZvciBH
+YW1ibGluIDx0Z2FtYmxpbkBiYXlsaWJyZS5jb20+CiAgICAgICAgcHl0aG9uMy1tb3JlLWl0ZXJ0
+b29scywgMTEuMS4wLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0wNSAwNjowMToyMyByZXN1bHQ9ZmFp
+bHVyZTsgd2lsbCByZXRyeSBpbiAxMiBkYXkocyksIFRpbSBPcmxpbmcgPHRpbS5vcmxpbmdAa29u
+c3Vsa28uY29tPgogICAgICAgIHB5dGhvbjMtcGJyLCA3LjEuMiwgbGFzdCBhdHRlbXB0IDIwMjYt
+MDgtMjYgMDU6NTE6NTQgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMiBkYXkocyksIFRy
+ZXZvciBHYW1ibGluIDx0Z2FtYmxpbkBiYXlsaWJyZS5jb20+CiAgICAgICAgcHl0aG9uMy1wZG0t
+YmFja2VuZCwgMi40LjEwLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0yMyAwNjoxMzozNiByZXN1bHQ9
+c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAzMCBkYXkocyksIEtoZW0gUmFqIDxyYWoua2hlbUBnbWFp
+bC5jb20+CiAgICAgICAgcHl0aG9uMy1wZG0tYnVpbGQtbG9ja2VkLCAwLjMuOCwgbGFzdCBhdHRl
+bXB0IDIwMjYtMDktMTcgMDU6NTc6MjEgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjQg
+ZGF5KHMpLCBLaGVtIFJhaiA8cmFqLmtoZW1AZ21haWwuY29tPgogICAgICAgIHB5dGhvbjMtcGRt
+LCAyLjI5LjIsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTE4IDA1OjMwOjE0IHJlc3VsdD1zdWNjZXNz
+OyB3aWxsIHJldHJ5IGluIDI1IGRheShzKSwgS2hlbSBSYWogPHJhai5raGVtQGdtYWlsLmNvbT4K
+ICAgICAgICBweXRob24zLXBvZXRyeS1jb3JlLCAyLjUuMCwgbGFzdCBhdHRlbXB0IDIwMjYtMDkt
+MjAgMDU6MDk6MjYgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjcgZGF5KHMpLCBUaW0g
+T3JsaW5nIDx0aW0ub3JsaW5nQGtvbnN1bGtvLmNvbT4KICAgICAgICBweXRob24zLXB5cGFyc2lu
+ZywgMy4zLjMsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTIxIDA1OjEwOjQ3IHJlc3VsdD1zdWNjZXNz
+OyB3aWxsIHJldHJ5IGluIDI4IGRheShzKSwgVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxp
+YnJlLmNvbT4KICAgICAgICBweXRob24zLXNoYWNsMmNvZGUsIDEuMy4yLCBsYXN0IGF0dGVtcHQg
+MjAyNi0wOS0wMSAwNTozMzozOSByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiA4IGRheShz
+KSwgQmVuamFtaW4gUm9iaW4gPGJlbmphbWluLnJvYmluQGJvb3RsaW4uY29tPgogICAgICAgIHB5
+dGhvbjMtc3BkeC10b29scywgMC44LjUsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTA1IDA2OjExOjA3
+IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDEyIGRheShzKSwgTWFydGEgUnliY3p5bnNr
+YSA8bWFydGEucnliY3p5bnNrYUB5Z3Jla3kuY29tPgogICAgICAgIHB5dGhvbjMtc3VidW5pdCwg
+MS40LjYsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTA1IDA2OjEyOjI2IHJlc3VsdD1mYWlsdXJlOyB3
+aWxsIHJldHJ5IGluIDEyIGRheShzKSwgVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJl
+LmNvbT4KICAgICAgICBweXRob24zLXRyb3ZlLWNsYXNzaWZpZXJzLCAyMDI2LjkuMjEuMTMsIGxh
+c3QgYXR0ZW1wdCAyMDI2LTA5LTIyIDA1OjI3OjA1IHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5
+IGluIDI5IGRheShzKSwgVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJlLmNvbT4KICAg
+ICAgICBweXRob24zLXVybGxpYjMsIDIuOC4wLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xNiAwNToz
+OTowMyByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyMyBkYXkocyksIFRpbSBPcmxpbmcg
+PHRpbS5vcmxpbmdAa29uc3Vsa28uY29tPgogICAgICAgIHB5dGhvbjMtdXYtYnVpbGQsIDAuMTIu
+MTgsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTIzIDA2OjE5OjM3IHJlc3VsdD1zdWNjZXNzOyB3aWxs
+IHJldHJ5IGluIDMwIGRheShzKSwgVHJldm9yIEdhbWJsaW4gPHRnYW1ibGluQGJheWxpYnJlLmNv
+bT4KICAgICAgICBycG0tc2VxdW9pYSwgMS4xMC4zLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0wOCAw
+NTozMzoyNyByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAxNSBkYXkocyksIFpvbHTDoW4g
+QsO2c3rDtnJtw6lueWkgPHpib3N6b3JAZ21haWwuY29tPgogICAgICAgIHJwbSwgNi4xLjAsIGxh
+c3QgYXR0ZW1wdCAyMDI2LTA5LTIxIDA1OjEyOjI0IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5
+IGluIDI4IGRheShzKSwgU3VtYW50aCBHYXZpbmkgPHN1bWFudGguZ2F2aW5pQHdpbmRyaXZlci5j
+b20+CiAgICAgICAgcnN5bmMsIDMuNS4xLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0yMSAwNToxNDoy
+MCByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyOCBkYXkocyksIFlpIFpoYW8gPHlpLnpo
+YW9Ad2luZHJpdmVyLmNvbT4KICAgICAgICBydWJ5LCA0LjAuNywgbGFzdCBhdHRlbXB0IDIwMjYt
+MDktMTUgMDU6MzE6MDMgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjIgZGF5KHMpLCBS
+b3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4KICAgICAgICB0Y2YtYWdlbnQsIDEuMTEu
+MSwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMTcgMDY6MjM6MjUgcmVzdWx0PWZhaWx1cmU7IHdpbGwg
+cmV0cnkgaW4gMjQgZGF5KHMpLCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5v
+cmc+CiAgICAgICAgZ2hvc3RzY3JpcHQsIDEwLjA4LjAsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTA5
+IDA1OjMwOjU4IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDE2IGRheShzKSwgS2Fua3No
+YSBQYXR1cmkgPEthbmtzaGEuUGF0dXJpQHdpbmRyaXZlci5jb20+CiAgICAgICAgbGVzcywgNzEw
+LCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xOCAwNTo0NTozMyByZXN1bHQ9c3VjY2Vzczsgd2lsbCBy
+ZXRyeSBpbiAyNSBkYXkocyksIFN1bWFudGggR2F2aW5pIDxzdW1hbnRoLmdhdmluaUB3aW5kcml2
+ZXIuY29tPgogICAgICAgIGxpYnNvbHYsIDAuNy40MCwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMjIg
+MDU6Mzc6MDAgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjkgZGF5KHMpLCBVbmFzc2ln
+bmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgc3RyZXNzLW5nLCAwLjIy
+LjAxLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0yMSAwNToyNjozOSByZXN1bHQ9c3VjY2Vzczsgd2ls
+bCByZXRyeSBpbiAyOCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0
+Lm9yZz4KICAgICAgICBibHVlcHJpbnQtY29tcGlsZXIsIDAuMjIuMiwgbGFzdCBhdHRlbXB0IDIw
+MjYtMDktMTEgMDU6NTc6MTAgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0cnkgaW4gMTggZGF5KHMp
+LCBMaXUgWWlkaW5nIDxsaXV5ZC5mbnN0QGZ1aml0c3UuY29tPgogICAgICAgIGVwaXBoYW55LCA1
+MS4wLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xMSAwNjozNTowOSByZXN1bHQ9ZmFpbHVyZTsgd2ls
+bCByZXRyeSBpbiAxOCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0
+Lm9yZz4KICAgICAgICBhZHdhaXRhLWljb24tdGhlbWUsIDUxLjAsIGxhc3QgYXR0ZW1wdCAyMDI2
+LTA5LTE1IDA1OjQ0OjExIHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDIyIGRheShzKSwg
+Um9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgZ3NldHRpbmdzLWRlc2t0
+b3Atc2NoZW1hcywgNTEuMCwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMTQgMDU6NDA6MTUgcmVzdWx0
+PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjEgZGF5KHMpLCBUaW0gT3JsaW5nIDx0aW0ub3JsaW5n
+QGtvbnN1bGtvLmNvbT4KICAgICAgICBndGs0LCA0LjI0LjAsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5
+LTEyIDA1OjU4OjM4IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDE5IGRheShzKSwgTWFy
+a3VzIFZvbGsgPGZfbF9rQHQtb25saW5lLmRlPgogICAgICAgIGxpYmFkd2FpdGEsIDEuMTAuMCwg
+bGFzdCBhdHRlbXB0IDIwMjYtMDktMTUgMDU6NDk6MjAgcmVzdWx0PWZhaWx1cmU7IHdpbGwgcmV0
+cnkgaW4gMjIgZGF5KHMpLCBTaW1vbmUgV2Vpw58gPHNpbW9uZS5wLndlaXNzQHBvc3Rlby5jb20+
+CiAgICAgICAgbGlicnN2ZywgMi42My4yLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xOSAwNTozMjoy
+NyByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNiBkYXkocyksIFVuYXNzaWduZWQgPHVu
+YXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBsaWJzZWNyZXQsIDAuMjEuOC4yLCBs
+YXN0IGF0dGVtcHQgMjAyNi0wOS0xMyAwNToyMDo0NiByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRy
+eSBpbiAyMCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4K
+ICAgICAgICBjYWlybywgMS4xOC42LCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0yMSAwNTozMDowNiBy
+ZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyOCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNz
+aWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICBoYXJmYnV6eiwgMTQuNS4wLCBsYXN0IGF0
+dGVtcHQgMjAyNi0wOS0yMSAwNTozNDozMCByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAy
+OCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAg
+ICBtZXNhLWRlbW9zLCA5LjAuMC1uZXctY29tbWl0cy1hdmFpbGFibGUsIGxhc3QgYXR0ZW1wdCAy
+MDI2LTA5LTAyIDA1OjMxOjQwIHJlc3VsdD1zdWNjZXNzOyB3aWxsIHJldHJ5IGluIDkgZGF5KHMp
+LCBVbmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgcGlnbGl0
+LCAxLjAtbmV3LWNvbW1pdHMtYXZhaWxhYmxlLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xMiAwNjoy
+MzoyOSByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAxOSBkYXkocyksIFJvc3MgQnVydG9u
+IDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAgIHZ1bGthbi1zYW1wbGVzLCBnaXQtbmV3LWNv
+bW1pdHMtYXZhaWxhYmxlLCByYXBpZC1maXJlOyBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xNCAwNTo0
+MDozOCByZXN1bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyMSBkYXkocyksIFJvc3MgQnVydG9u
+IDxyb3NzLmJ1cnRvbkBhcm0uY29tPgogICAgICAgIGxpYmlucHV0LCAxLjMyLjAsIGxhc3QgYXR0
+ZW1wdCAyMDI2LTA5LTE4IDA1OjQ3OjA4IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDI1
+IGRheShzKSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9uQGFybS5jb20+CiAgICAgICAgbGludXgt
+ZmlybXdhcmUsIDIwMjYwOTE2LCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0xNyAwNjozMToyMiByZXN1
+bHQ9ZmFpbHVyZTsgd2lsbCByZXRyeSBpbiAyNCBkYXkocyksIFZpdmVrIFB1YXIgPHZwdWFyQHF0
+aS5xdWFsY29tbS5jb20+CiAgICAgICAgZmZtcGVnLCA5LjAuMiwgbGFzdCBhdHRlbXB0IDIwMjYt
+MDktMTkgMDU6NDA6MzcgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjYgZGF5KHMpLCBV
+bmFzc2lnbmVkIDx1bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgcHV6emxlcywg
+MC4wLW5ldy1jb21taXRzLWF2YWlsYWJsZSwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMjAgMDU6MTg6
+MjQgcmVzdWx0PXN1Y2Nlc3M7IHdpbGwgcmV0cnkgaW4gMjcgZGF5KHMpLCBVbmFzc2lnbmVkIDx1
+bmFzc2lnbmVkQHlvY3RvcHJvamVjdC5vcmc+CiAgICAgICAgd2Via2l0Z3RrLCAyLjU0LjAsIGxh
+c3QgYXR0ZW1wdCAyMDI2LTA5LTE3IDA3OjA4OjA5IHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5
+IGluIDI0IGRheShzKSwgVW5hc3NpZ25lZCA8dW5hc3NpZ25lZEB5b2N0b3Byb2plY3Qub3JnPgog
+ICAgICAgIGF0LXNwaTItY29yZSwgMi42Mi4wLjEsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTE3IDA3
+OjEwOjAzIHJlc3VsdD1mYWlsdXJlOyB3aWxsIHJldHJ5IGluIDI0IGRheShzKSwgVGltIE9ybGlu
+ZyA8dGltLm9ybGluZ0Brb25zdWxrby5jb20+CiAgICAgICAgZGlmZm9zY29wZSwgMzMwLCBsYXN0
+IGF0dGVtcHQgMjAyNi0wOS0yMiAwNTo0MjowNyByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBp
+biAyOSBkYXkocyksIEpvc2h1YSBXYXR0IDxKUEVXaGFja2VyQGdtYWlsLmNvbT4KICAgICAgICBm
+cmliaWRpLCAxLjAuMTcsIGxhc3QgYXR0ZW1wdCAyMDI2LTA5LTIxIDA1OjM3OjI1IHJlc3VsdD1z
+dWNjZXNzOyB3aWxsIHJldHJ5IGluIDI4IGRheShzKSwgUm9zcyBCdXJ0b24gPHJvc3MuYnVydG9u
+QGFybS5jb20+CiAgICAgICAgZ3BnbWUsIDIuMi4wLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0yMyAw
+NjoyNzozOSByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAzMCBkYXkocyksIEhvbmd4dSBK
+aWEgPGhvbmd4dS5qaWFAd2luZHJpdmVyLmNvbT4KICAgICAgICBsaWJqaXR0ZXJlbnRyb3B5LCAz
+LjcuMCwgbGFzdCBhdHRlbXB0IDIwMjYtMDktMTIgMDY6NDI6MzIgcmVzdWx0PWZhaWx1cmU7IHdp
+bGwgcmV0cnkgaW4gMTkgZGF5KHMpLCBSb3NzIEJ1cnRvbiA8cm9zcy5idXJ0b25AYXJtLmNvbT4K
+ICAgICAgICB1dGZjcHAsIDQuMi4xLCBsYXN0IGF0dGVtcHQgMjAyNi0wOS0yMSAwNTo0MDowMyBy
+ZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyOCBkYXkocyksIFVuYXNzaWduZWQgPHVuYXNz
+aWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KICAgICAgICB4eGhhc2gsIDAuOC40LCBsYXN0IGF0dGVt
+cHQgMjAyNi0wOS0xOSAwNTo0MzowOSByZXN1bHQ9c3VjY2Vzczsgd2lsbCByZXRyeSBpbiAyNiBk
+YXkocyksIFVuYXNzaWduZWQgPHVuYXNzaWduZWRAeW9jdG9wcm9qZWN0Lm9yZz4KCiAgICBUT1RB
+TDogYXR0ZW1wdGVkPTcgc3VjY2VlZGVkPTUoNzEuNDMlKSBmYWlsZWQ9MigyOC41NyUpCgpSZWNp
+cGUgdXBncmFkZSBzdGF0aXN0aWNzIHBlciBNYWludGFpbmVyOgoKICAgIFVuYXNzaWduZWQgPHVu
+YXNzaWduZWQ6IGF0dGVtcHRlZD0xIHN1Y2NlZWRlZD0xKDEwMC4wMCUpIGZhaWxlZD0wKDAuMDAl
+KQogICAgVGltIE9ybGluZyA8dGltLm9ybGluZzogYXR0ZW1wdGVkPTIgc3VjY2VlZGVkPTIoMTAw
+LjAwJSkgZmFpbGVkPTAoMC4wMCUpCiAgICBUcmV2b3IgR2FtYmxpbiA8dGdhbWJsaW46IGF0dGVt
+cHRlZD0yIHN1Y2NlZWRlZD0xKDUwLjAwJSkgZmFpbGVkPTEoNTAuMDAlKQogICAgSG9uZ3h1IEpp
+YSA8aG9uZ3h1LmppYTogYXR0ZW1wdGVkPTEgc3VjY2VlZGVkPTEoMTAwLjAwJSkgZmFpbGVkPTAo
+MC4wMCUpCiAgICBDaGVuIFFpIDxRaS5DaGVuOiBhdHRlbXB0ZWQ9MSBzdWNjZWVkZWQ9MCgwLjAw
+JSkgZmFpbGVkPTEoMTAwLjAwJSkK
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-wcwidth* to *0.9.1* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-python3-wcwidth-upgrade-0.8.3-0.9.1.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From eaafbff4160537fa5afbf68a66cbd7c891e4265e Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Thu, 24 Sep 2026 05:24:27 +0000
-Subject: [PATCH] python3-wcwidth: upgrade 0.8.3 -> 0.9.1
-
-=======
-History
-=======
-
-0.9.1 *2026-09-23*
-0.9.0 *2026-09-23*
-0.8.5 *2026-09-23*
-0.8.4 *2026-09-17*
-0.8.3 *2026-08-28*
-0.8.2 *2026-06-29*
-0.8.1 *2026-06-08*
-0.8.0 *2026-06-05*
-0.7.0 *2026-05-02*
-0.6.0 *2026-02-06*
-0.5.3 *2026-01-30*
-0.5.2 *2026-01-29*
-0.5.1 *2026-01-27*
-0.5.0 *2026-01-26*
-0.4.0 *2026-01-25*
-0.3.5 *2026-01-24*
-0.3.4 *2026-01-24*
-0.3.3 *2026-01-24*
-0.3.2 *2026-01-23*
-0.3.1 *2026-01-22*
-0.3.0 *2026-01-21*
-0.2.14 *2025-09-22*
-0.2.13 *2024-01-06*
-0.2.12 *2023-11-21*
-0.2.11 *2023-11-20*
-0.2.10 *2023-11-13*
-0.2.9 *2023-10-30*
-0.2.8 *2023-09-30*
-0.2.7 *2023-09-28*
-0.2.6 *2023-01-14*
-0.2.1 .. 0.2.5 *2020-06-23*
-0.2.0 *2020-06-01*
-0.1.9 *2020-03-22*
-0.1.8 *2020-01-01*
-0.1.7 *2016-07-01*
-0.1.6 *2016-01-08 Production/Stable*
-0.1.5 *2015-09-13 Alpha*
-0.1.4 *2014-11-20 Pre-Alpha*
-0.1.3 *2014-10-29 Pre-Alpha*
-0.1.2 *2014-10-28 Pre-Alpha*
-0.1.1 *2014-05-14 Pre-Alpha*
-
-This code was originally derived directly from C code of the same name,
-whose latest version is available at
-https://www.cl.cam.ac.uk/~mgk25/ucs/wcwidth.c::
----
- .../{python3-wcwidth_0.8.3.bb => python3-wcwidth_0.9.1.bb}      | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-wcwidth_0.8.3.bb => python3-wcwidth_0.9.1.bb} (84%)
-
-diff --git a/meta/recipes-devtools/python/python3-wcwidth_0.8.3.bb b/meta/recipes-devtools/python/python3-wcwidth_0.9.1.bb
-similarity index 84%
-rename from meta/recipes-devtools/python/python3-wcwidth_0.8.3.bb
-rename to meta/recipes-devtools/python/python3-wcwidth_0.9.1.bb
-index 3ba5b5b29b..2647fe59b2 100644
---- a/meta/recipes-devtools/python/python3-wcwidth_0.8.3.bb
-+++ b/meta/recipes-devtools/python/python3-wcwidth_0.9.1.bb
-@@ -4,7 +4,7 @@ HOMEPAGE = "https://github.com/jquast/wcwidth"
- LICENSE = "MIT"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=b15979c39a2543892fca8cd86b4b52cb"
- 
--SRC_URI[sha256sum] = "d128512515fbf4612e0ff21fd6380399210318b7b54a9af59dff8454cf9730eb"
-+SRC_URI[sha256sum] = "5823209b0d43af322ce698c689380d7c15ca31fa8e6e3be8459f27031bef0af5"
- 
- inherit pypi python_hatchling ptest-python-pytest
- 
--- 
-2.47.1
-
-
---===============8966731044939071050==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="python3-wcwidth-changelog.txt"
-
-=======
-History
-=======
-
-0.9.1 *2026-09-23*
-0.9.0 *2026-09-23*
-0.8.5 *2026-09-23*
-0.8.4 *2026-09-17*
-0.8.3 *2026-08-28*
-0.8.2 *2026-06-29*
-0.8.1 *2026-06-08*
-0.8.0 *2026-06-05*
-0.7.0 *2026-05-02*
-0.6.0 *2026-02-06*
-0.5.3 *2026-01-30*
-0.5.2 *2026-01-29*
-0.5.1 *2026-01-27*
-0.5.0 *2026-01-26*
-0.4.0 *2026-01-25*
-0.3.5 *2026-01-24*
-0.3.4 *2026-01-24*
-0.3.3 *2026-01-24*
-0.3.2 *2026-01-23*
-0.3.1 *2026-01-22*
-0.3.0 *2026-01-21*
-0.2.14 *2025-09-22*
-0.2.13 *2024-01-06*
-0.2.12 *2023-11-21*
-0.2.11 *2023-11-20*
-0.2.10 *2023-11-13*
-0.2.9 *2023-10-30*
-0.2.8 *2023-09-30*
-0.2.7 *2023-09-28*
-0.2.6 *2023-01-14*
-0.2.1 .. 0.2.5 *2020-06-23*
-0.2.0 *2020-06-01*
-0.1.9 *2020-03-22*
-0.1.8 *2020-01-01*
-0.1.7 *2016-07-01*
-0.1.6 *2016-01-08 Production/Stable*
-0.1.5 *2015-09-13 Alpha*
-0.1.4 *2014-11-20 Pre-Alpha*
-0.1.3 *2014-10-29 Pre-Alpha*
-0.1.2 *2014-10-28 Pre-Alpha*
-0.1.1 *2014-05-14 Pre-Alpha*
-
-This code was originally derived directly from C code of the same name,
-whose latest version is available at
-https://www.cl.cam.ac.uk/~mgk25/ucs/wcwidth.c::
-
---===============8966731044939071050==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
-
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PKGSIZE changed from 0 to 1604928 (+100%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: RRECOMMENDS: added "glibc-dbg"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: RRECOMMENDS: added "glibc-dev"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGSIZE changed from 198538 to 261999 (+32%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: FILELIST: added "/usr/lib/python3-wcwidth/ptest/tests/test_fastcall_args.py /usr/lib/python3-wcwidth/ptest/tests/test_setup.py /usr/lib/python3-wcwidth/ptest/tests/test_check_release.py"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PKGSIZE changed from 0 to 3534102 (+100%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGSIZE changed from 4410977 to 5343493 (+21%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: FILELIST: directory renamed /usr/lib/python3.14/site-packages/wcwidth-0.8.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/licenses, removed "/usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_529fbb4a.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8f94b404.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fd9d4c44.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_da9ceb0a.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3d4826b8.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_970dbe10.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_50bf0759.cpython-314.pyc /usr/lib
- /python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_529fbb4a.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_3d4826b8.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_da9ceb0a.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_5bfac390.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c2157f7e.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_970dbe10.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c2157f7e.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fd9d4c44.py /usr/lib/python3.14/site-packages/wcwidth/textwrap.py,cover /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_813fee16.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_27e0693f.py /usr/lib/python3.14/site-packages/w
- cwidth/table_grapheme_overrides/__pycache__/_known_5bfac390.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_27e0693f.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8f94b404.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_50bf0759.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fcc05a0f.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e08bd75e.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8589765c.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c3db41c0.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e22030f3.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth-0.8.3.dist-info/METADATA /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e08bd75e.cpython-314.pyc /usr/
- lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8589765c.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e22030f3.py /usr/lib/python3.14/site-packages/wcwidth-0.8.3.dist-info/WHEEL /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_813fee16.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_4cdf59ce.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_4cdf59ce.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c3db41c0.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_45d92e98.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fcc05a0f.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_45d92e98.py /usr/lib/pytho
- n3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c0a2cdbf.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c0a2cdbf.py", added "/usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_97904ece.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/_wcwidth_c.pyi /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2148ff29.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e2b75ee3.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_244dc88b.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_2148ff29.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_33ac73f2.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_336a71a1.cpython-314.pyc /usr/lib/python3.14/s
- ite-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c57c295b.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_900356bf.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_a5880eeb.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_cf02297d.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3a1895d5.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_59180a0d.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e18ac6a7.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_65c6beb5.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_78f828e8.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_058c7585.py /usr/lib
- /python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fdc99132.py /usr/lib/python3.14/site-packages/wcwidth/_wcwidth_c.abi3.so /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fb5fd79b.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8c2ae14d.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_336a71a1.py /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/METADATA /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a5880eeb.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_058c7585.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e18ac6a7.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_3a1895d5.py /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/WHEEL /usr/lib/python3.14/site-
- packages/wcwidth/table_grapheme_overrides/_known_c57c295b.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_78f828e8.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_cf02297d.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8c2ae14d.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_97904ece.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_b6d33cf4.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fb5fd79b.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_65c6beb5.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fdc99132.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/top_level.txt /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_24
- 4dc88b.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_b6d33cf4.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_33ac73f2.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_900356bf.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e2b75ee3.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_59180a0d.py"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: RDEPENDS: added "glibc (['>= 2.44+git0+5c479454d1'])"
-Changes to packages/x86-64-v3-poky-linux/python3-wcwidth (sysroot):
-  /usr/lib/python3.14/site-packages/wcwidth-0.8.3.dist-info moved to /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info
-  /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/top_level.txt was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_058c7585.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_2148ff29.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_244dc88b.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_336a71a1.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_33ac73f2.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_3a1895d5.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_59180a0d.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_65c6beb5.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_78f828e8.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8c2ae14d.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_900356bf.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_97904ece.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_a5880eeb.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_b6d33cf4.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c57c295b.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_cf02297d.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e18ac6a7.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e2b75ee3.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fb5fd79b.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fdc99132.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_058c7585.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2148ff29.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_244dc88b.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_336a71a1.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_33ac73f2.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3a1895d5.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_59180a0d.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_65c6beb5.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_78f828e8.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8c2ae14d.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_900356bf.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_97904ece.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a5880eeb.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_b6d33cf4.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c57c295b.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_cf02297d.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e18ac6a7.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e2b75ee3.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fb5fd79b.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fdc99132.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/_wcwidth_c.abi3.so was added
-  /usr/lib/python3.14/site-packages/wcwidth/_wcwidth_c.pyi was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_27e0693f.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_3d4826b8.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_45d92e98.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_4cdf59ce.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_50bf0759.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_529fbb4a.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_5bfac390.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_813fee16.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8589765c.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8f94b404.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_970dbe10.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c0a2cdbf.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c2157f7e.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c3db41c0.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_da9ceb0a.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e08bd75e.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e22030f3.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fcc05a0f.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fd9d4c44.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_27e0693f.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3d4826b8.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_45d92e98.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_4cdf59ce.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_50bf0759.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_529fbb4a.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_5bfac390.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_813fee16.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8589765c.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8f94b404.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_970dbe10.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c0a2cdbf.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c2157f7e.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c3db41c0.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_da9ceb0a.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e08bd75e.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e22030f3.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fcc05a0f.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fd9d4c44.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/textwrap.py,cover was removed
-Changes to packages/x86_64-linux/python3-vcs-versioning-native (sysroot):
-  /usr/lib/python3.14/site-packages/vcs_versioning-2.5.0.dist-info moved to /usr/lib/python3.14/site-packages/vcs_versioning-2.4.0.dist-info
-
---===============8966731044939071050==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/python3-wcwidth: PV changed from "0.8.3" to "0.9.1"
-packages/x86-64-v3-poky-linux/python3-wcwidth: PKGV changed from 0.8.3 [default] to 0.9.1 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth: SRC_URI changed from "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.8.3.tar.gz" to "https://files.pythonhosted.org/packages/source/w/wcwidth/wcwidth-0.9.1.tar.gz"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PKGSIZE changed from 0 to 1604928 (+100%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PV changed from "0.8.3" to "0.9.1"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: RRECOMMENDS: added "glibc-dbg"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: PKGV changed from 0.8.3 [default] to 0.9.1 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dbg: FILELIST: added "/usr/lib/python3.14/site-packages/wcwidth/.debug/_wcwidth_c.abi3.so"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: PV changed from "0.8.3" to "0.9.1"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: RRECOMMENDS: added "glibc-dev"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-dev: PKGV changed from 0.8.3 [default] to 0.9.1 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-doc: PV changed from "0.8.3" to "0.9.1"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-doc: PKGV changed from 0.8.3 [default] to 0.9.1 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-locale: PV changed from "0.8.3" to "0.9.1"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-locale: PKGV changed from 0.8.3 [default] to 0.9.1 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGSIZE changed from 198538 to 261999 (+32%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PV changed from "0.8.3" to "0.9.1"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: PKGV changed from 0.8.3 [default] to 0.9.1 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-ptest: FILELIST: added "/usr/lib/python3-wcwidth/ptest/tests/test_check_release.py /usr/lib/python3-wcwidth/ptest/tests/test_fastcall_args.py /usr/lib/python3-wcwidth/ptest/tests/test_setup.py"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PKGSIZE changed from 0 to 3534102 (+100%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PV changed from "0.8.3" to "0.9.1"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: PKGV changed from 0.8.3 [default] to 0.9.1 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-src: FILELIST: added "/usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/escape.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/wcstwidth.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/grapheme.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/escape.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/clip.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/align.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables/table_vs16.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/text_sizing.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/utf8.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/bisearch.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/tables.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/wcwidth.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/terminal_override.c /usr/src/debug/python3-wcwidth/
- 0.9.1/libwcwidth/include/wcwidth/unicode.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables/table_grapheme.c /usr/src/debug/python3-wcwidth/0.9.1/wcwidth/_wcwidth_c.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/textwrap.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/table_types.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/sgr.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/clip.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/utf8.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables/table_ambiguous.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/sgr.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/grapheme.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/text_sizing.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables/table_zero.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/terminal_override.h /usr/src/debug/python3-wcwidth/0.9.
- 1/libwcwidth/include/wcwidth/width.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/textwrap.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables/table_mc.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables/table_gcb_class.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables/table_wide.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/wcwidth.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables/table_term_programs.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/include/wcwidth/align.h /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/width.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/wcswidth.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables/table_terminal_overrides.c /usr/src/debug/python3-wcwidth/0.9.1/libwcwidth/src/tables/table_vs15.c"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PV changed from "0.8.3" to "0.9.1"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth-staticdev: PKGV changed from 0.8.3 [default] to 0.9.1 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGSIZE changed from 4410977 to 5343493 (+21%)
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: RDEPENDS: added "glibc (['>= 2.44+git0+5c479454d1'])"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PV changed from "0.8.3" to "0.9.1"
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: PKGV changed from 0.8.3 [default] to 0.9.1 [default]
-packages/x86-64-v3-poky-linux/python3-wcwidth/python3-wcwidth: FILELIST: directory renamed /usr/lib/python3.14/site-packages/wcwidth-0.8.3.dist-info/licenses -> /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/licenses, removed "/usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e22030f3.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_5bfac390.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e08bd75e.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8589765c.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_da9ceb0a.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_529fbb4a.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8f94b404.cpython-314.pyc /usr/lib
- /python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_970dbe10.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fd9d4c44.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_970dbe10.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e22030f3.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e08bd75e.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_45d92e98.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_4cdf59ce.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c3db41c0.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_529fbb4a.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_4cdf59ce.py /usr/lib/python3.14/
- site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3d4826b8.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_813fee16.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_27e0693f.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_50bf0759.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8f94b404.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_27e0693f.py /usr/lib/python3.14/site-packages/wcwidth/textwrap.py,cover /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_5bfac390.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c0a2cdbf.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_da9ceb0a.py /usr/lib/python3.14/site-packages
- /wcwidth/table_grapheme_overrides/_known_fd9d4c44.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fcc05a0f.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c2157f7e.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth-0.8.3.dist-info/METADATA /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_813fee16.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fcc05a0f.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_45d92e98.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c0a2cdbf.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_50bf0759.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8589765c.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c2157f7e.py /usr/lib/python3.14/site-packages/wcwidth-0.8.3.dist-
- info/WHEEL /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_3d4826b8.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c3db41c0.py", added "/usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8c2ae14d.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a5880eeb.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_058c7585.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e18ac6a7.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_97904ece.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_900356bf.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_cf02297d.cpython-314.pyc /usr/lib/python3.14/site-pac
- kages/wcwidth/table_grapheme_overrides/_known_fdc99132.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c57c295b.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_cf02297d.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8c2ae14d.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_b6d33cf4.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e18ac6a7.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_a5880eeb.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c57c295b.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_97904ece.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2148ff29.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_244d
- c88b.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e2b75ee3.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/_wcwidth_c.pyi /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/top_level.txt /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_3a1895d5.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_78f828e8.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fb5fd79b.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_78f828e8.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_33ac73f2.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_336a71a1.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_2148ff29.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_know
- n_336a71a1.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e2b75ee3.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3a1895d5.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/METADATA /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_59180a0d.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_65c6beb5.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_33ac73f2.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_65c6beb5.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fdc99132.cpython-314.pyc /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_244dc88b.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_59180a0d.py /usr/lib/python3.14/site-pack
- ages/wcwidth/table_grapheme_overrides/_known_900356bf.py /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_058c7585.py /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/WHEEL /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_b6d33cf4.py /usr/lib/python3.14/site-packages/wcwidth/_wcwidth_c.abi3.so /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fb5fd79b.cpython-314.pyc"
-Changes to packages/x86-64-v3-poky-linux/python3-wcwidth (sysroot):
-  /usr/lib/python3.14/site-packages/wcwidth-0.8.3.dist-info moved to /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info
-  /usr/lib/python3.14/site-packages/wcwidth-0.9.1.dist-info/top_level.txt was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_058c7585.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_2148ff29.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_244dc88b.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_336a71a1.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_33ac73f2.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_3a1895d5.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_59180a0d.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_65c6beb5.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_78f828e8.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8c2ae14d.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_900356bf.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_97904ece.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_a5880eeb.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_b6d33cf4.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c57c295b.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_cf02297d.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e18ac6a7.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e2b75ee3.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fb5fd79b.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fdc99132.py was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_058c7585.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_2148ff29.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_244dc88b.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_336a71a1.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_33ac73f2.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3a1895d5.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_59180a0d.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_65c6beb5.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_78f828e8.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8c2ae14d.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_900356bf.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_97904ece.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_a5880eeb.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_b6d33cf4.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c57c295b.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_cf02297d.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e18ac6a7.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e2b75ee3.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fb5fd79b.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fdc99132.cpython-314.pyc was added
-  /usr/lib/python3.14/site-packages/wcwidth/_wcwidth_c.abi3.so was added
-  /usr/lib/python3.14/site-packages/wcwidth/_wcwidth_c.pyi was added
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_27e0693f.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_3d4826b8.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_45d92e98.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_4cdf59ce.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_50bf0759.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_529fbb4a.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_5bfac390.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_813fee16.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8589765c.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_8f94b404.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_970dbe10.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c0a2cdbf.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c2157f7e.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_c3db41c0.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_da9ceb0a.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e08bd75e.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_e22030f3.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fcc05a0f.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/_known_fd9d4c44.py was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_27e0693f.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_3d4826b8.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_45d92e98.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_4cdf59ce.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_50bf0759.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_529fbb4a.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_5bfac390.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_813fee16.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8589765c.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_8f94b404.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_970dbe10.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c0a2cdbf.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c2157f7e.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_c3db41c0.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_da9ceb0a.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e08bd75e.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_e22030f3.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fcc05a0f.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/table_grapheme_overrides/__pycache__/_known_fd9d4c44.cpython-314.pyc was removed
-  /usr/lib/python3.14/site-packages/wcwidth/textwrap.py,cover was removed
-Changes to packages/x86_64-linux/python3-vcs-versioning-native (sysroot):
-  /usr/lib/python3.14/site-packages/vcs_versioning-2.5.0.dist-info moved to /usr/lib/python3.14/site-packages/vcs_versioning-2.4.0.dist-info
-
---===============8966731044939071050==
+--===============3895980582964788558==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-python3-wcwidth-upgrade-0.8.3-0.9.1.patch"
+Content-Disposition: attachment; filename="20260924050055.tar.gz"
 
-RnJvbSBlYWFmYmZmNDE2MDUzN2ZhNWFmYmY2OGE2NmNiZDdjODkxZTQyNjVlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFRodSwgMjQgU2VwIDIwMjYgMDU6MjQ6MjcgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLXdjd2lkdGg6IHVwZ3JhZGUgMC44LjMgLT4gMC45LjEKCj09PT09PT0KSGlzdG9yeQo9
-PT09PT09CgowLjkuMSAqMjAyNi0wOS0yMyoKMC45LjAgKjIwMjYtMDktMjMqCjAuOC41ICoyMDI2
-LTA5LTIzKgowLjguNCAqMjAyNi0wOS0xNyoKMC44LjMgKjIwMjYtMDgtMjgqCjAuOC4yICoyMDI2
-LTA2LTI5KgowLjguMSAqMjAyNi0wNi0wOCoKMC44LjAgKjIwMjYtMDYtMDUqCjAuNy4wICoyMDI2
-LTA1LTAyKgowLjYuMCAqMjAyNi0wMi0wNioKMC41LjMgKjIwMjYtMDEtMzAqCjAuNS4yICoyMDI2
-LTAxLTI5KgowLjUuMSAqMjAyNi0wMS0yNyoKMC41LjAgKjIwMjYtMDEtMjYqCjAuNC4wICoyMDI2
-LTAxLTI1KgowLjMuNSAqMjAyNi0wMS0yNCoKMC4zLjQgKjIwMjYtMDEtMjQqCjAuMy4zICoyMDI2
-LTAxLTI0KgowLjMuMiAqMjAyNi0wMS0yMyoKMC4zLjEgKjIwMjYtMDEtMjIqCjAuMy4wICoyMDI2
-LTAxLTIxKgowLjIuMTQgKjIwMjUtMDktMjIqCjAuMi4xMyAqMjAyNC0wMS0wNioKMC4yLjEyICoy
-MDIzLTExLTIxKgowLjIuMTEgKjIwMjMtMTEtMjAqCjAuMi4xMCAqMjAyMy0xMS0xMyoKMC4yLjkg
-KjIwMjMtMTAtMzAqCjAuMi44ICoyMDIzLTA5LTMwKgowLjIuNyAqMjAyMy0wOS0yOCoKMC4yLjYg
-KjIwMjMtMDEtMTQqCjAuMi4xIC4uIDAuMi41ICoyMDIwLTA2LTIzKgowLjIuMCAqMjAyMC0wNi0w
-MSoKMC4xLjkgKjIwMjAtMDMtMjIqCjAuMS44ICoyMDIwLTAxLTAxKgowLjEuNyAqMjAxNi0wNy0w
-MSoKMC4xLjYgKjIwMTYtMDEtMDggUHJvZHVjdGlvbi9TdGFibGUqCjAuMS41ICoyMDE1LTA5LTEz
-IEFscGhhKgowLjEuNCAqMjAxNC0xMS0yMCBQcmUtQWxwaGEqCjAuMS4zICoyMDE0LTEwLTI5IFBy
-ZS1BbHBoYSoKMC4xLjIgKjIwMTQtMTAtMjggUHJlLUFscGhhKgowLjEuMSAqMjAxNC0wNS0xNCBQ
-cmUtQWxwaGEqCgpUaGlzIGNvZGUgd2FzIG9yaWdpbmFsbHkgZGVyaXZlZCBkaXJlY3RseSBmcm9t
-IEMgY29kZSBvZiB0aGUgc2FtZSBuYW1lLAp3aG9zZSBsYXRlc3QgdmVyc2lvbiBpcyBhdmFpbGFi
-bGUgYXQKaHR0cHM6Ly93d3cuY2wuY2FtLmFjLnVrL35tZ2syNS91Y3Mvd2N3aWR0aC5jOjoKLS0t
-CiAuLi4ve3B5dGhvbjMtd2N3aWR0aF8wLjguMy5iYiA9PiBweXRob24zLXdjd2lkdGhfMC45LjEu
-YmJ9ICAgICAgfCAyICstCiAxIGZpbGUgY2hhbmdlZCwgMSBpbnNlcnRpb24oKyksIDEgZGVsZXRp
-b24oLSkKIHJlbmFtZSBtZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3tweXRob24zLXdjd2lk
-dGhfMC44LjMuYmIgPT4gcHl0aG9uMy13Y3dpZHRoXzAuOS4xLmJifSAoODQlKQoKZGlmZiAtLWdp
-dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy13Y3dpZHRoXzAuOC4zLmJi
-IGIvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5dGhvbi9weXRob24zLXdjd2lkdGhfMC45LjEuYmIK
-c2ltaWxhcml0eSBpbmRleCA4NCUKcmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWRldnRvb2xzL3B5
-dGhvbi9weXRob24zLXdjd2lkdGhfMC44LjMuYmIKcmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1kZXZ0
-b29scy9weXRob24vcHl0aG9uMy13Y3dpZHRoXzAuOS4xLmJiCmluZGV4IDNiYTViNWIyOWIuLjI2
-NDdmZTU5YjIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9u
-My13Y3dpZHRoXzAuOC4zLmJiCisrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0
-aG9uMy13Y3dpZHRoXzAuOS4xLmJiCkBAIC00LDcgKzQsNyBAQCBIT01FUEFHRSA9ICJodHRwczov
-L2dpdGh1Yi5jb20vanF1YXN0L3djd2lkdGgiCiBMSUNFTlNFID0gIk1JVCIKIExJQ19GSUxFU19D
-SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWIxNTk3OWMzOWEyNTQzODkyZmNhOGNkODZiNGI1
-MmNiIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiZDEyODUxMjUxNWZiZjQ2MTJlMGZmMjFmZDYz
-ODAzOTkyMTAzMThiN2I1NGE5YWY1OWRmZjg0NTRjZjk3MzBlYiIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICI1ODIzMjA5YjBkNDNhZjMyMmNlNjk4YzY4OTM4MGQ3YzE1Y2EzMWZhOGU2ZTNiZTg0NTlm
-MjcwMzFiZWYwYWY1IgogCiBpbmhlcml0IHB5cGkgcHl0aG9uX2hhdGNobGluZyBwdGVzdC1weXRo
-b24tcHl0ZXN0CiAKLS0gCjIuNDcuMQoK
+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
+5JNPPvnkk08++eTT55f+H7ISOp8A8AUA
 
---===============8966731044939071050==--
+--===============3895980582964788558==--
 
