@@ -2,74 +2,74 @@ Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 19B71C9831E
-	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 01:48:58 +0000 (UTC)
-Received: from mail-dl2-f43.google.com (mail-dl2-f43.google.com [74.125.229.171])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13434.1790300935436345492
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D7B31C98318
+	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 02:22:56 +0000 (UTC)
+Received: from mail-dl2-f42.google.com (mail-dl2-f42.google.com [74.125.229.170])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.10.1790302969218097659
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Sep 2026 18:48:55 -0700
+ Thu, 24 Sep 2026 19:22:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=CiltKvjV;
- spf=pass (domain: gmail.com, ip: 74.125.229.171, mailfrom: raj.khem@gmail.com)
-Received: by mail-dl2-f43.google.com with SMTP id a92af1059eb24-1438f55921fso148804c88.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 18:48:55 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=A7A6vinE;
+ spf=pass (domain: gmail.com, ip: 74.125.229.170, mailfrom: raj.khem@gmail.com)
+Received: by mail-dl2-f42.google.com with SMTP id a92af1059eb24-144efd1ea76so307142c88.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 24 Sep 2026 19:22:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790300935; x=1790905735; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1790302969; x=1790907769; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
         bh=RjlaOOLk2Yi/aylwWdmySSwLLPiHx+GP/YzcHKEUaM4=;
-        b=CiltKvjVrQPCG7QJqKl64q9XCN18UM2HElI38QZ3Za2bROrr3GoU18VlAXp6NMDtc5
-         RPd6X+Fb2jm9xwAc4CmcyDDeGcqjjxUN9bDfl/03e1HPnTrs4hj55PtfCqZq803SwDyY
-         fS9UEjYDhltry15J8r3aPItn6wyP+QMQboyUXZ/pnRvcXV0371FmIllIOGMBafHLsOOD
-         TkIpiqgfulwKWeLpeJQVoja/V4/HAL0vdZvr80L+NcFtTM0m4VhqF0B1oyE6h7X3mam2
-         iSJb+zrOr8EDQveyx75kJseHpuxO5hLpTJHJ7wAaFBiKm+0sIZ+lxZaHeqyk/wY5QuvZ
-         NQWg==
+        b=A7A6vinEn2CPswtd/p8c15G9JcLaZmCyy3EZFdqsd+YLjCSDgklsAYH68RiqR5e/+a
+         7qGLpBWZOI/mCwNgQQ529n/3nvAAX4ciiDH1+72T/+0HxcTBQYeL4WsWsBSZ6vvtbwNY
+         nx2Sh2nXdXY3l1JFbmo8WCQr4KfobsvUscqvzEZ8Pb/+hxXrRm2frXaFzObEf9TLwEMz
+         sqzpNvCjioszMPm5115F1lBbBfzHhDmlS155YpeTdik2kAWcOlrvNyiB0Iwm7ymaHzwW
+         Vfk27Pcx/+KB57LIUEh8PCdPzWtjM4wkm4JS7Ob2nuZ9oTv5I7YWTZqQPWb2H4PCrGJt
+         rxZA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790300935; x=1790905735;
+        d=1e100.net; s=20260707; t=1790302969; x=1790907769;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
         bh=RjlaOOLk2Yi/aylwWdmySSwLLPiHx+GP/YzcHKEUaM4=;
-        b=Af8c0VJpUU8PsUbX/DMhdhetYRIt4CmOtHj2e75BKLZbrmG8SkiIF2EUk/wMf9YisD
-         8pogT6ioR6exhujY/RINrF8uDvznyCaWNV9NYn2zK2XbbRTonBiaI1Hg3+NizleToBN5
-         YLVC2da52zln8TuTOh8e3to92avR8WVyk0oOhLYAYf2gtzWoNnfaLFBH61tcj2wF4eEl
-         JFvQX1b5EHI3U391lXvGVsNowQj1V8FXZSK4AINcPteBvn/VZ4DldhWmSr10TBQgfvQO
-         aywUeikccjyvAasmfNp78rBczRu57VEqRTeF6qghYC7gFhoiNHsJdXO/43fUNMYYkbuj
-         SnAg==
-X-Gm-Message-State: AFuF++kcPoQUYpw1+4MeqnuIIBS3mCdmDWAxMyToPkkbB2T0tWxwvMCY
-	BEJKF3HFWT/l2TQu6MoUF5qRixXlX6BgK8XnxpODXgrEiVjKidIpICAeUF+uZK3PBno=
-X-Gm-Gg: AYBFou3U2Y1kP5vwl7CMrSUtcl6hGh66lowKtI8sg2jZQfzVEilPIzlyVdEi2U6T8Og
-	Qbs3UEjEK27UU+NfmI+B756a3YVT9EwDA8rOnNaGt7ODUUT2dqbxw1lIKEI7X0yo6Hj1PygzIsu
-	LoEB1/P2dUGDcl9HiztDJuEDGMiXGMVPg4M0rmUepbL9xc8XSoHrf4dTtLbvdfVnlHmenP/6Bli
-	KUvjs5bKpxHioLNvPXFUwkuxf+F6Un0efpxHMWGYi2Q15AJwT+LxLte/hc/8lTL7F6JRbIcQUAv
-	LmZg/bqLZIl4auxtAoLeZoMvpZewxD8OENmPH64DU77buIVrnQO3pCv50YaOb6yLdlxo1aHNDwn
-	O1TqI3cal1s6eQP+OCgKdpOt4VmGShiK32ZymlqOpzp4fodoJBbCQfjBLuSfGoQjXOzkXNzDFqu
-	t0yPHTfH1dXiwA3PrS0H7wsHtow/Ge+nSuxDsvzgkEA/mDlu4aV668KPGrM8xVv/6dBHwjtU7Is
-	fLpnmoGSct+8583oAmP9HN0jRko2hL4g8TKr2lYmhSJz5xfj/6h4fXLVBNgNC0y5rtllrDBt0uN
-	t7fy6yOGuaYplAG+bFKg6a8kvlF5oUW6qBeNzloZVqjgeeg1xIfovG/UwEVZi9GydhCJktWa2H3
-	JpfqyXSLGF947KXE1sv1HGfj1j3oZYGLULdQkCOnfoOlG1nlJRRQLgQt3XXfM6yUf20laPpuLHJ
-	9aX8I0MEojN74WUL+Fo4F6UIfShhKUBgt0NpsUZw==
-X-Received: by 2002:a05:701b:424d:20b0:144:c11c:858e with SMTP id a92af1059eb24-14503fc80efmr3413736c88.31.1790300934587;
-        Thu, 24 Sep 2026 18:48:54 -0700 (PDT)
+        b=IPOFKgVl/loUomvdRVaMTRN1Ex8HZLKH4RxAZbnk+Xx+iUYRS57Oik6SfHx9nxbw2v
+         46AyI3NuSF4zG5XC8/9EeFLyl7mszrZXsH9/9m0QEMD1dDJ88xxLdw1yxAHxVB2pTdCv
+         EN/28V796agzMu3gC+GLib2GU4bVqkPq9MFdEvP4uuWiljB9C7Xbv165rcacYWYV6y+k
+         vxW+s2goPKKcOElIhlWJyhlUnSIbLVRFeN+TWGMgn6OF+PShNFrkFAaP5dM3IvWDaR2P
+         3H6rhV3HmjS1IXo52Z91RqIIMQ/TcycETgBmEP/hx5JfEuBF/BqSv/bleSA3GWfsMtQA
+         UYNA==
+X-Gm-Message-State: AFuF++mKKhZW/kQP5oa3lnLCoZZfVZgRTK3qNEiIDldZYs/y9AO/KsKY
+	joehr+URpmOCptFO0OPxSNtwpT/CTeQaz4BdgS3l400kufLJyngMW8Xp9rr+pLC3CX8=
+X-Gm-Gg: AYBFou2GoRZmtSg4RrTf9v4/s9u7C+JuTUiR+0HeXbGcGbwBq7KwEIzbsQ/J7kvKvhH
+	5yOrDlvelLHw7CqSXTRkaP24JVme4yx7SSmR6EunIvGVxgpJspOEdC7QwP4N3P1wTBXqHI4JplV
+	V47YH6Bto/ExCMLLX3SUaeng77rFEyiHMAaKI7pX8mQ+60N07k6O800IH9INsbD5v8kVKOFnh9F
+	1xkQVQKIyrRKifOVL2wd0Sswtm9EWPoO7pUxCEamwf8rUGyOHecGmg+geOriiIfDPi/H/esZOgL
+	to/1nglJYoNh1AI23PwQxTDAl3WvR8rfjTDOYDpX0Aten3bMUpsRuJ2oO6E1ohaNXYy/Wq8wbAS
+	GJ+lRooQdahYfsxUeVDz/ZvIH+jlOkZEypvcNb2Ri9NQUOY+QqfSq2qSus0qZNAPLJhCkCwtJPw
+	Bcu/l9qnYbZeuw5JhiIK0aUf8KDwF6u3XIUA0ZvuLYEUjH39eGHBFU5BJInsvAr9UwjynizE5wV
+	qyFzQAKAtWKS//jC4Dte/G2Gc/iYxc/FtGYqF8uWxMwIVHcl6r9XIZ9J2GBW2DXlCNUIQNGhW23
+	nCQvX8oLbyl2sOx1IE4KDiZbmmLOw+cnWAsLJZIEi3J/PJb3ifTnGtaqMkF1gDyYThcI80d4PhH
+	fz2OsFHlujllH6BMofvtIJUlkjS8xGyyUXa58SbcvWHF7sTADAYTRqHRX6QVcOyf678H/1RNapp
+	quxTX35EwaVLRQlJ2dDlh+WRF5LTw2qk87bwhgsg==
+X-Received: by 2002:a05:701b:42d0:10b0:134:cf34:b8e0 with SMTP id a92af1059eb24-14504030d1dmr3376157c88.9.1790302968385;
+        Thu, 24 Sep 2026 19:22:48 -0700 (PDT)
 Received: from apollo.localdomain ([208.95.233.74])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-145ad9e097fsm2267039c88.13.2026.09.24.18.48.53
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-145aa0cb7bcsm2038583c88.2.2026.09.24.19.22.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 24 Sep 2026 18:48:54 -0700 (PDT)
+        Thu, 24 Sep 2026 19:22:47 -0700 (PDT)
 From: Khem Raj <raj.khem@gmail.com>
 X-Google-Original-From: Khem Raj <khem.raj@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Khem Raj <khem.raj@oss.qualcomm.com>
 Subject: [PATCH] go: skip internal/cgrouptest when cpu.max is not available
-Date: Thu, 24 Sep 2026 18:48:51 -0700
-Message-ID: <20260925014851.2774593-1-khem.raj@oss.qualcomm.com>
+Date: Thu, 24 Sep 2026 19:22:45 -0700
+Message-ID: <20260925022245.2912240-1-khem.raj@oss.qualcomm.com>
 X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 01:48:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246595
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 02:22:56 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246596
 
 The internal/cgrouptest ptest fails on qemux86-64:
 
