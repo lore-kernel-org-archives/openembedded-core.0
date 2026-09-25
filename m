@@ -1,337 +1,377 @@
-Return-Path: <peter.kjellerstedt@axis.com>
+Return-Path: <raj.khem@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1FC65C98321
-	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 16:57:09 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.55])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2945.1790355422005019527
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5CE42C98321
+	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 17:38:29 +0000 (UTC)
+Received: from mail-yx2-f43.google.com (mail-yx2-f43.google.com [74.125.224.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3825.1790357904381970486
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Sep 2026 09:57:02 -0700
+ Fri, 25 Sep 2026 10:38:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@axis.com header.s=selector1 header.b=mWIf51Wx;
- spf=pass (domain: axis.com, ip: 52.101.66.55, mailfrom: peter.kjellerstedt@axis.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Uz6BB5IhWALPh8Z7BWX3hOaeJgLCyyTGdGYgkBduGv9iA7iaIksblaszx7y+WvAd/f1+WbeyefgYtFzkQklgIv0opgn9e64VZkezGFdwauNxAnzkueCA2ZnJ5iQ7WVw9JzFJlR3DHNIu+5A2lViKaFMEGVXLdg76XBqt/lBn01Rnu28/okSYgLDMmsHsSfrg5Nj2xmj/NWRblXtgqP/Rnb0DkY6y1ixrPnzNZxnoKdclDS0BzfHyDh7gACIL8TLOtaw03RllXyLlE4vYn99LocOAVesGqYrF5pUri13prkT7hYQ52uQzPNBKtfU58Ep+CO0A+a7rf5Q0aTWr3v044A==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=byDeBlUedmyr3K+vZ3XJNM26Zv+b1Lg/g20aJ/jtJmg=;
- b=qtXi7/5yO36jEKihNp2bpG+FiVqvOk7BPm7h8gW71qf2zt64R9TKaVgkT/C8ogGFfOL2axGwMG/KW6HNfRDi9Wfo4OEzjsZJPA7eZ4qTXdchUJpdCokv5cP4EIfsb92BEhOfbgYec6tO93LijuPNdqzjZnQPb+woVW9OUatDJ4vKHuKVzA4c96xeJda7ocHWFYW1et2nKu9tGB17q6COToXYTM86vW6sBRz1SNS1kKXUqHtv/h4/wo+ebymeXK5uybRPnywZ9y4GB+Q7EuKGzlPC4hBT6GC1NRGwT2qlrCoGlJewgeOKeEDTeXP571rnoy7q63w77EFcWKc1kzUIhQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 195.60.68.100) smtp.rcpttodomain=lists.openembedded.org
- smtp.mailfrom=axis.com; dmarc=pass (p=none sp=none pct=100) action=none
- header.from=axis.com; dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=axis.com; s=selector1;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=byDeBlUedmyr3K+vZ3XJNM26Zv+b1Lg/g20aJ/jtJmg=;
- b=mWIf51Wxzy8XgeGp7QwayRQP+Z08lTff7dtGNahrZaAZABdPHrkW4SdldwFgorPY8TD8+j3dSHUx4kJMMICLog+TYWuxq8lNf0xPY212lQo+68E1E6l87kJRUJphFLfGaJ9UU7u6lvolsHkD7+X4gX3z/wIkao651hmIMOaV+pE=
-Received: from AS4PR10CA0029.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:5d8::18)
- by AS4PR02MB8209.eurprd02.prod.outlook.com (2603:10a6:20b:4cc::13) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Fri, 25 Sep
- 2026 16:56:57 +0000
-Received: from AMS1EPF0000009C.eurprd02.prod.outlook.com
- (2603:10a6:20b:5d8:cafe::a7) by AS4PR10CA0029.outlook.office365.com
- (2603:10a6:20b:5d8::18) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.18 via Frontend Transport; Fri,
- 25 Sep 2026 16:56:57 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 195.60.68.100) smtp.mailfrom=axis.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=axis.com;
-Received-SPF: Pass (protection.outlook.com: domain of axis.com designates
- 195.60.68.100 as permitted sender) receiver=protection.outlook.com;
- client-ip=195.60.68.100; helo=mail.axis.com; pr=C
-Received: from mail.axis.com (195.60.68.100) by
- AMS1EPF0000009C.mail.protection.outlook.com (10.167.242.73) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Fri, 25 Sep 2026 16:56:56 +0000
-Received: from SE-MAILARCH01W.axis.com (10.20.40.15) by se-mail11w.axis.com
- (10.20.40.11) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.2.1748.39; Fri, 25 Sep
- 2026 18:56:52 +0200
-Received: from se-mail10w.axis.com (10.20.40.10) by SE-MAILARCH01W.axis.com
- (10.20.40.15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.2507.61; Fri, 25 Sep
- 2026 18:56:52 +0200
-Received: from se-intmail01x.se.axis.com (10.4.0.28) by se-mail10w.axis.com
- (10.20.40.10) with Microsoft SMTP Server id 15.2.1748.39 via Frontend
- Transport; Fri, 25 Sep 2026 18:56:52 +0200
-Received: from pc56063-2339.se.axis.com (pc56063-2339.se.axis.com [10.92.3.2])
-	by se-intmail01x.se.axis.com (Postfix) with ESMTP id 31BFD41A9
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 18:56:52 +0200 (CEST)
-Received: by pc56063-2339.se.axis.com (Postfix, from userid 14323)
-	id 2B13B12B514; Fri, 25 Sep 2026 18:56:52 +0200 (CEST)
-From: Peter Kjellerstedt <pkj@axis.com>
-To: <openembedded-core@lists.openembedded.org>
-Subject: [PATCH 1/2] sqlite3: Squash sqlite3.inc into the recipe
-Date: Fri, 25 Sep 2026 18:56:49 +0200
-Message-ID: <20260925165650.220663-1-pkj@axis.com>
-X-Mailer: git-send-email 2.43.0
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=RwW3o9jB;
+ spf=pass (domain: gmail.com, ip: 74.125.224.171, mailfrom: raj.khem@gmail.com)
+Received: by mail-yx2-f43.google.com with SMTP id 00721157ae682-85d43ac608dso10841847b3.3
+        for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 10:38:24 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790357903; cv=none;
+        d=google.com; s=arc-20260327;
+        b=bHfLd86aiZNsKXFwNlw8fLQ7lAuJz845FruchnTeaua9lTRwEnSWsYePEXWm/jIJoL
+         58cbrcJrIeYs5ZoI0C/7rrw5+jjwI0yB2by123DfxaYiWdzYrno5w2ki5GPDfFuOAOm8
+         ep8SrhWQ/N/isoejZ1tdmw9qCk8ccRj/w4sdrTQz0MEtboP5PY49fT8Zf0Zhcgh7W5ef
+         zT+xs/8AZ8eMgT2saesXDz03uuC7aq74I025a1x6R5jiHwRhjGV0HrJIvewdMDjGYkiL
+         pVSA9IZdxO2i625VeCAJe3jEgB7WvBrOs7tx39SBuvIYRovOoK1smbRVm7LAPzqjEOYG
+         Crzw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=1yv+7yS/RjLwAlhVUmUST6+wwN9KXlkvhND+daQzLA0=;
+        fh=7dhZMgdyDUGcK+sV1m/gDtiRoESe4a3xl8M1MOy967E=;
+        b=hRE+zaJ5xbbpmySpFBR1F3fwDIPcBBzkLq05JJE5Ve4Vkjhuw35CfOODFXv9Io0RqF
+         cHqCqRNLn0xU3W/MD4YQNYiO3cKakE/9p2q3dOFqK3bewNoeQfIPBLnf3FYchI5fAfPC
+         ssFav5cxHoVbSimfikGu2Lyl+IqbVUs6JfjTaWEy4GdwSRyKL6S/Pd8w0wopWbN0ecXz
+         X2RbGmb2hdagR0KhcwaL4ljMyIFryv9SzJezLFxlQWxBrJiA9neCIELqPv6lM5u5TBWK
+         ehQUdpOMb7J3ZTz0Gq0vIfCYd0c7n4dytEc63jJAlxeoeH/TumEMVzGGYKGBgFNOHrzc
+         Wqig==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20251104; t=1790357903; x=1790962703; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=1yv+7yS/RjLwAlhVUmUST6+wwN9KXlkvhND+daQzLA0=;
+        b=RwW3o9jBiXqWLbLaSh9eY5Zw04YPCZ0PowAQJ6hjOtP8qqn3jqslgD+YxLTtqQZypD
+         xeZNxWpU8oYpHVCNA53sg4FJOappssTWe6SAAWWGZwSIndjZ6oWHmrqqpZUMFwDn4D9G
+         VpNvdhOXlPEIz9+WSQlxEzplh4S70WIXRhPk3a78Pwt6AMqNjoAVxqCh2s08zG0muTEV
+         NxnZrZlLtNI6mLdaBaZFrKcvLAZoO9XsRgDwCYCH/1nGP/046WkYC+1QEvRezjTCbbmt
+         N6GweQyVtfaQGJmpofNwX940w2mvjc/Fg3sfMzq1fZD9Y/Z934p21OfzpA5bOMa6FTAO
+         Ydlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790357903; x=1790962703;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=1yv+7yS/RjLwAlhVUmUST6+wwN9KXlkvhND+daQzLA0=;
+        b=vl4rxhnDPtjk250PzM/0YFT5GrEmGgSEs8SnIryCtoGm7KUOrc9Dq36GKAm7ZPtZc/
+         GbzWUGV9Lpzko0pINcywVEpqsUI2nOxl6GgP7u4LmAkEvxsKuV1v03HZH5C/NWcr2/i+
+         rz0+bE+8EK5qHDA8GFi01P8+PpcDW0qqlKn0k3nvyK9c1bzdg4607LjApZzZha32bOiL
+         6d3TR9apBtQRIM7Gb2i1daXawfXDQAItTPtj5nx38VZmDyEqyhrf4NJHwyTMdlJxTr7x
+         bnVEAQKMU5fTwAFuF5E83Q/TDnZVyNVE1jK36JiqPYfDrLGyVjQRbaImCWtv12g6VRXl
+         +x/g==
+X-Gm-Message-State: AFuF++kfqGSqhq5egpaKOwNA2mK46AEefxG3QsuWlZWvohMnIbh5pceM
+	gcsID3dxp/0EBOsyTatrfnpPvjMuIHirAXugMdY6R6u1n2W3MjcR/L0rU8HqwjfuLSvOYMKKWEH
+	MDR/wDUPbsQctl+4ZxWDKC6854jyrNZo=
+X-Gm-Gg: AYBFou3Bshc+P0x1KM/ScOREqmbEp3fFkqRS95auvOPnmBGVxJFOMap+QYeSLhF7FmZ
+	S4pfdYM8/x8oI57YsTBS172zrPdJDrVf9YDOY00J2qC76u4H8tQNKSjJZNGZBd0PPjX7LbnypQR
+	dquQzLjiEG0G+kUO9rWbuGHXfBEWpxho+eX01B7a7xq4cbJUK3usyUecQA6SD4fav6zW4jSMB39
+	fqk8zw1bO5Om47hGwiU4UUH2SrRXw0TbU9vJHxtFm2eAMN35vw5QevIi9dDswlTFoxKHuP4wO+w
+	oV/gWkjVFmBb5A/94kYhJpYEUyTRupba9Us21mO9aEdTwxJROEB6RgcjO0gChPa856W4EhjVim2
+	hJoV/fUmb59paQMKebrJtvcBjZIXcC7mA5ksm9VAtxM2FJO8raOgvqYKl6sskZ/x7YeQ58uPCig
+	y4lg8yoxe91TiMO37mOYSiIxDLdyVeoYWU/OjnF8nEOKbP3+pyM4I12qS3rcQAqT53sG+ZN7txT
+	/XEN4o9gIfihHjhhl7RfbUj2SwuroY1MnafODOYuAjJZY5UV+dvnRmWyunWykr/CmNc/hGtAaTd
+	OxY+yogPVDJBjAxyFQ==
+X-Received: by 2002:a05:690e:b45:b0:674:1352:1d76 with SMTP id
+ 956f58d0204a3-67413522053mr968701d50.37.1790357903383; Fri, 25 Sep 2026
+ 10:38:23 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AMS1EPF0000009C:EE_|AS4PR02MB8209:EE_
-X-MS-Office365-Filtering-Correlation-Id: 148293ff-d1eb-4181-7fa6-08df1b26023b
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|376014|82310400026|23010399003|36860700016|260925021311599003|13003099007|260925021911599003|10067099003|56012099006|11063799006|12006099003|18002099003|260925022911599003;
-X-Microsoft-Antispam-Message-Info: 
-	Y1waepCpGHbHBbI18hodfc9Tiagagg6lGxiaPVnCW4VQAIPIQMRpIQ+G/0z2kdfDmPSUUVtM4UnRTGEqUdPDpPDQCOJ68mLXWeEWXVk41wrtzyjr5o+oHhhX9EPtVaX1T2Pi0dftUK0wZ0JRvc0nZ43DpXI0qvnpmtbh6VNo9DWDUkp7q5hUTjJLWhts522g9ieigEpAGTDro3dBmZtGDskbDpl3sRPPUkuKE3b0iXX4hXAgyViQ59TCvQCGjRhepK8rXAva92yKYJL11HS9VBF0kd0bT1J5ZicEeHMNwQFBTzHIQEebVR/QjIi4YFPVq0U1JOrwiHETIrQQYz/E1pjmjZOvH2S/bsl1vMoa096GOUwvlyl7x4rBYoF4Slyh4lIOhhn94Z4gHtCC7Kd25BwYuxKR1/e5EIwGB1EMV1/Gea+/24SRJR9GuncryOSkatWQWCXlS+ss93FJoaz8bDqXhqpmZif2NlgSNaGyAOEyWayOufLJh9VuQ9nsAqoZ7q2dP2RMgTzDjem6mA/Xz8yo3t69wx5BUzJ2LmNx9OiJz4zWg8q0wMXw2RfbokM/jwN8qUdcHmg5nNpCgSVHUdiT72vln4vfawAvKloop+C/nACDbnPqM6yB3xNPg0FGHz3YdBRaRuDhjDuqxHNsyQ==
-X-Forefront-Antispam-Report: 
-	CIP:195.60.68.100;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:mail.axis.com;PTR:InfoDomainNonexistent;CAT:NONE;SFS:(13230040)(1800799024)(376014)(82310400026)(23010399003)(36860700016)(260925021311599003)(13003099007)(260925021911599003)(10067099003)(56012099006)(11063799006)(12006099003)(18002099003)(260925022911599003);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	IHNtE+0kF8L8HFF/Oz3lQPzZ9K/DwmLgxRp901LbDe58n0V0AGRKPJNvJPvE6esX4f6Rnynx2xIhpLQx4aHJ7LoO6Utq+ocRK8dAalnEnBcud/BNaN+zNccdP0hMmuLnfSUEhjnhMVi1pCHl06gRGaf6c9fLDrgHgWsMJHicy8mPMszcdtxAIfGapZ1jlGHEuJ/5rfulDQCL562SWODzLhe6kmpr8kK1QkLPjX+LnaKfOGX/t5R6ZKctlOIlWetHuVCOHH54NsITJNKXYTBFLjiurwtxLuqu5WoTEI7OmqEFd5AV8/xybQgSHgwCMe5UMcWoL+f45tuDEzZxGUMzZg5OeNBJPD/a6eRcMeAnc6FwK8t6ZSn7fZ23Hn8NRujTcrCnCEhunPj+CQNYF+droMeYJHOMf98mD5YR0B85DEEjmnxE/Fm9EtsshYl4ffh4
-X-OriginatorOrg: axis.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 16:56:56.9704
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 148293ff-d1eb-4181-7fa6-08df1b26023b
-X-MS-Exchange-CrossTenant-Id: 78703d3c-b907-432f-b066-88f7af9ca3af
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=78703d3c-b907-432f-b066-88f7af9ca3af;Ip=[195.60.68.100];Helo=[mail.axis.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AMS1EPF0000009C.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4PR02MB8209
+References: <20260925142820.853791-1-jst@mbs-solutions.de>
+In-Reply-To: <20260925142820.853791-1-jst@mbs-solutions.de>
+From: Khem Raj <raj.khem@gmail.com>
+Date: Fri, 25 Sep 2026 10:37:57 -0700
+X-Gm-Features: AclHuK8BkuGKZb8pcP-vb_CVEgYY2x816Feb1IRpSxfY_51tZLhJDnOF75r6H6A
+Message-ID: <CAMKF1spj3M8Qwc+HAcyFxwNYhPG58hhar=6J-En7iRt2QJHkNw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH] compiler-rt: Use specific arm architecture
+ instead of 'arm'
+To: jst@mbs-solutions.de
+Cc: openembedded-core@lists.openembedded.org, 
+	Ross Burton <Ross.Burton@arm.com>
+Content-Type: multipart/alternative; boundary="000000000000da2374065c522e63"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 16:57:09 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246625
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 17:38:29 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246626
 
-It was only used by this recipe.
+--000000000000da2374065c522e63
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
-Signed-off-by: Peter Kjellerstedt <peter.kjellerstedt@axis.com>
----
- meta/recipes-support/sqlite/sqlite3.inc       | 87 ------------------
- meta/recipes-support/sqlite/sqlite3_3.53.4.bb | 90 ++++++++++++++++++-
- 2 files changed, 88 insertions(+), 89 deletions(-)
- delete mode 100644 meta/recipes-support/sqlite/sqlite3.inc
+On Fri, Sep 25, 2026 at 7:29=E2=80=AFAM Jan Strater-B=C3=BCddefeld via
+lists.openembedded.org <jst=3Dmbs-solutions.de@lists.openembedded.org> wrot=
+e:
 
-diff --git a/meta/recipes-support/sqlite/sqlite3.inc b/meta/recipes-support=
-/sqlite/sqlite3.inc
-deleted file mode 100644
-index 8791749dc8..0000000000
---- a/meta/recipes-support/sqlite/sqlite3.inc
-+++ /dev/null
-@@ -1,87 +0,0 @@
--SUMMARY =3D "Embeddable SQL database engine"
--DESCRIPTION =3D "A library that implements a small, fast, self-contained, =
-high-reliability, full-featured, SQL database engine. SQLite is the most us=
-ed database engine in the world. SQLite is built into all mobile phones and=
- most computers and comes bundled inside countless other applications that =
-people use every day"
--HOMEPAGE =3D "http://www.sqlite.org"
--SECTION =3D "libs"
--
--PE =3D "3"
--
--def sqlite_download_version(d):
--    pvsplit =3D d.getVar('PV').split('.')
--    if len(pvsplit) < 4:
--        pvsplit.append('0')
--    return pvsplit[0] + ''.join([part.rjust(2,'0') for part in pvsplit[1:]=
-])
--
--SQLITE_PV =3D "${@sqlite_download_version(d)}"
--
--S =3D "${UNPACKDIR}/sqlite-autoconf-${SQLITE_PV}"
--B =3D "${WORKDIR}/build"
--
--UPSTREAM_CHECK_URI =3D "http://www.sqlite.org/"
--UPSTREAM_CHECK_REGEX =3D "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
--
--CVE_PRODUCT =3D "sqlite"
--
--inherit pkgconfig siteinfo upstream-stable-release-point
--
--# enable those which are enabled by default in configure
--PACKAGECONFIG ?=3D "fts4 fts5 rtree dyn_ext"
--PACKAGECONFIG:class-native ?=3D "fts4 fts5 rtree dyn_ext"
--
--PACKAGECONFIG[editline] =3D "--enable-editline --with-readline-header=3D${=
-includedir}/editline/readline.h,--disable-editline,libedit ncurses"
--PACKAGECONFIG[readline] =3D "--enable-readline --with-readline-header=3D${=
-includedir}/readline/readline.h,--disable-readline,readline ncurses"
--PACKAGECONFIG[fts3] =3D "--enable-fts3,--disable-fts3"
--PACKAGECONFIG[fts4] =3D "--enable-fts4,--disable-fts4"
--PACKAGECONFIG[fts5] =3D "--enable-fts5,--disable-fts5"
--PACKAGECONFIG[rtree] =3D "--enable-rtree,--disable-rtree"
--PACKAGECONFIG[session] =3D "--enable-session,--disable-session"
--PACKAGECONFIG[zlib] =3D "--enable-zlib,--disable-zlib,zlib"
--PACKAGECONFIG[dyn_ext] =3D "--enable-load-extension,--disable-load-extensi=
-on"
--
--EXTRA_OECONF =3D " \
--    --enable-shared \
--    --enable-threadsafe \
--    --disable-static-shell \
--    --disable-rpath \
--    --soname=3Dlegacy \
--"
--
--# pread() is in POSIX.1-2001 so any reasonable system must surely support =
-it
--CFLAGS +=3D "-DUSE_PREAD"
--
--# Provide column meta-data API
--CFLAGS +=3D "-DSQLITE_ENABLE_COLUMN_METADATA"
--
--# Unless SQLITE_BYTEORDER is predefined, the code falls back to build time
--# huristics, which are not always correct
--CFLAGS +=3D "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'le', '-DSQLIT=
-E_BYTEORDER=3D1234', '-DSQLITE_BYTEORDER=3D4321', d)}"
--
--PACKAGES =3D "lib${BPN} lib${BPN}-dev lib${BPN}-doc ${PN}-dbg lib${BPN}-st=
-aticdev ${PN}"
--
--FILES:${PN} =3D "${bindir}/*"
--FILES:lib${BPN} =3D "${libdir}/*.so.*"
--FILES:lib${BPN}-dev =3D "${libdir}/*.la ${libdir}/*.so \
--                       ${libdir}/pkgconfig ${includedir}"
--FILES:lib${BPN}-doc =3D "${docdir} ${mandir} ${infodir}"
--FILES:lib${BPN}-staticdev =3D "${libdir}/lib*.a"
--
--AUTO_LIBNAME_PKGS =3D "${MLPREFIX}lib${BPN}"
--
--do_configure() {
--    ${S}/configure \
--        --build=3D${BUILD_SYS} \
--        --host=3D${TARGET_SYS} \
--        --prefix=3D${prefix} \
--        --bindir=3D${bindir} \
--        --libdir=3D${libdir} \
--        --includedir=3D${includedir} \
--        --mandir=3D${mandir} \
--        ${EXTRA_OECONF} \
--        ${PACKAGECONFIG_CONFARGS}
--}
--do_configure[cleandirs] =3D "${B}"
--
--do_install() {
--    oe_runmake DESTDIR=3D${D} install
--}
--
--BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-support/sqlite/sqlite3_3.53.4.bb b/meta/recipes-s=
-upport/sqlite/sqlite3_3.53.4.bb
-index 66132158e0..dcd8acf538 100644
---- a/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
-+++ b/meta/recipes-support/sqlite/sqlite3_3.53.4.bb
-@@ -1,9 +1,95 @@
--require sqlite3.inc
-+SUMMARY =3D "Embeddable SQL database engine"
-+DESCRIPTION =3D "A library that implements a small, fast, self-contained, =
-high-reliability, full-featured, SQL database engine. SQLite is the most us=
-ed database engine in the world. SQLite is built into all mobile phones and=
- most computers and comes bundled inside countless other applications that =
-people use every day"
-+HOMEPAGE =3D "http://www.sqlite.org"
-+SECTION =3D "libs"
-=20
- LICENSE =3D "blessing"
- LIC_FILES_CHKSUM =3D "file://sqlite3.h;endline=3D11;md5=3D786d3dc581eff03f=
-4fd9e4a77ed00c66"
-=20
-+PE =3D "3"
-+
-+def sqlite_download_version(d):
-+    pvsplit =3D d.getVar('PV').split('.')
-+    if len(pvsplit) < 4:
-+        pvsplit.append('0')
-+    return pvsplit[0] + ''.join([part.rjust(2,'0') for part in pvsplit[1:]=
-])
-+
-+SQLITE_PV =3D "${@sqlite_download_version(d)}"
-+
-+S =3D "${UNPACKDIR}/sqlite-autoconf-${SQLITE_PV}"
-+B =3D "${WORKDIR}/build"
-+
- SRC_URI =3D "http://www.sqlite.org/2026/sqlite-autoconf-${SQLITE_PV}.tar.g=
-z"
-+SRC_URI +=3D "file://0001-Add-option-to-disable-zlib.patch"
-+
- SRC_URI[sha256sum] =3D "0e9483900e92cd5de8fd48d16bf9200145a61f7fd5be542a5a=
-c81d8a9516eb9c"
-=20
--SRC_URI +=3D "file://0001-Add-option-to-disable-zlib.patch"
-+UPSTREAM_CHECK_URI =3D "http://www.sqlite.org/"
-+UPSTREAM_CHECK_REGEX =3D "releaselog/(?P<pver>(\d+[\.\-_]*)+)\.html"
-+
-+CVE_PRODUCT =3D "sqlite"
-+
-+inherit pkgconfig siteinfo upstream-stable-release-point
-+
-+# enable those which are enabled by default in configure
-+PACKAGECONFIG ?=3D "fts4 fts5 rtree dyn_ext"
-+PACKAGECONFIG:class-native ?=3D "fts4 fts5 rtree dyn_ext"
-+
-+PACKAGECONFIG[editline] =3D "--enable-editline --with-readline-header=3D${=
-includedir}/editline/readline.h,--disable-editline,libedit ncurses"
-+PACKAGECONFIG[readline] =3D "--enable-readline --with-readline-header=3D${=
-includedir}/readline/readline.h,--disable-readline,readline ncurses"
-+PACKAGECONFIG[fts3] =3D "--enable-fts3,--disable-fts3"
-+PACKAGECONFIG[fts4] =3D "--enable-fts4,--disable-fts4"
-+PACKAGECONFIG[fts5] =3D "--enable-fts5,--disable-fts5"
-+PACKAGECONFIG[rtree] =3D "--enable-rtree,--disable-rtree"
-+PACKAGECONFIG[session] =3D "--enable-session,--disable-session"
-+PACKAGECONFIG[zlib] =3D "--enable-zlib,--disable-zlib,zlib"
-+PACKAGECONFIG[dyn_ext] =3D "--enable-load-extension,--disable-load-extensi=
-on"
-+
-+EXTRA_OECONF =3D " \
-+    --enable-shared \
-+    --enable-threadsafe \
-+    --disable-static-shell \
-+    --disable-rpath \
-+    --soname=3Dlegacy \
-+"
-+
-+# pread() is in POSIX.1-2001 so any reasonable system must surely support =
-it
-+CFLAGS +=3D "-DUSE_PREAD"
-+
-+# Provide column meta-data API
-+CFLAGS +=3D "-DSQLITE_ENABLE_COLUMN_METADATA"
-+
-+# Unless SQLITE_BYTEORDER is predefined, the code falls back to build time
-+# heuristics, which are not always correct
-+CFLAGS +=3D "${@oe.utils.conditional('SITEINFO_ENDIANNESS', 'le', '-DSQLIT=
-E_BYTEORDER=3D1234', '-DSQLITE_BYTEORDER=3D4321', d)}"
-+
-+PACKAGES =3D "lib${BPN} lib${BPN}-dev lib${BPN}-doc ${PN}-dbg lib${BPN}-st=
-aticdev ${PN}"
-+
-+FILES:${PN} =3D "${bindir}/*"
-+FILES:lib${BPN} =3D "${libdir}/*.so.*"
-+FILES:lib${BPN}-dev =3D "${libdir}/*.la ${libdir}/*.so \
-+                       ${libdir}/pkgconfig ${includedir}"
-+FILES:lib${BPN}-doc =3D "${docdir} ${mandir} ${infodir}"
-+FILES:lib${BPN}-staticdev =3D "${libdir}/lib*.a"
-+
-+AUTO_LIBNAME_PKGS =3D "${MLPREFIX}lib${BPN}"
-+
-+do_configure() {
-+	${S}/configure \
-+		--build=3D${BUILD_SYS} \
-+		--host=3D${TARGET_SYS} \
-+		--prefix=3D${prefix} \
-+		--bindir=3D${bindir} \
-+		--libdir=3D${libdir} \
-+		--includedir=3D${includedir} \
-+		--mandir=3D${mandir} \
-+		${EXTRA_OECONF} \
-+		${PACKAGECONFIG_CONFARGS}
-+}
-+do_configure[cleandirs] =3D "${B}"
-+
-+do_install() {
-+	oe_runmake DESTDIR=3D${D} install
-+}
-+
-+BBCLASSEXTEND =3D "native nativesdk"
+> Fixes [YOCTO #16424]
+>
+> The build system of compiler-rt can auto-detect some architectures like
+> 'armv6m' via the `-march` compiler flag.
+> For other targets, the arch type to build for must be set via the target
+> triple `CMAKE_C_COMPILER_TARGET`.
+> Before this commit, the arch type was simply 'arm'.
+>
+> This commit also removes setting the variable
+> `COMPILER_RT_DEFAULT_TARGET_ARCH` because it is overridden anyway.
+>
+> AI-Generated: Uses GitHub Copilot
+>
+> Signed-off-by: Jan Strater-B=C3=BCddefeld <jst@mbs-solutions.de>
+> Cc: Ross Burton <Ross.Burton@arm.com>
+> ---
+>  .../recipes-devtools/clang/compiler-rt_git.bb | 22 +++++++++++--------
+>  1 file changed, 13 insertions(+), 9 deletions(-)
+>
+> diff --git a/meta/recipes-devtools/clang/compiler-rt_git.bb
+> b/meta/recipes-devtools/clang/compiler-rt_git.bb
+> index a265c2aa93..d6c06302c2 100644
+> --- a/meta/recipes-devtools/clang/compiler-rt_git.bb
+> +++ b/meta/recipes-devtools/clang/compiler-rt_git.bb
+> @@ -49,13 +49,18 @@ TOOLCHAIN =3D "clang"
+>  TOOLCHAIN_NATIVE =3D "clang"
+>
+>  def get_compiler_rt_arch(bb, d):
+> -    if bb.utils.contains('TUNE_FEATURES', 'armv5 thumb dsp', True, False=
+,
+> d):
+> -        return 'armv5te'
+> -    elif bb.utils.contains('TUNE_FEATURES', 'armv4 thumb', True, False,
+> d):
+> -        return 'armv4t'
+> -    elif bb.utils.contains('TUNE_FEATURES', 'arm vfp
+> callconvention-hard', True, False, d):
+> -        return 'armhf'
+> -    return d.getVar('HOST_ARCH')
+> +    import re
+> +
+> +    tune_args =3D d.getVar('TUNE_CCARGS_MARCH') or ''
+>
+
+new dependency on TUNE_CCARGS_MARCH causes the do_configure basehash
+mismatch for native variant.
+
+
+> +
+> +    match =3D re.search(r'-march=3D(\S+)', tune_args)
+> +    arch =3D match.group(1) if match else d.getVar('HOST_ARCH')
+> +
+> +    return arch
+> +
+> +def get_compiler_rt_target(bb, d):
+> +    host_sys =3D d.getVar('HOST_SYS')
+> +    return get_compiler_rt_arch(bb, d) + '-' + host_sys.split('-', 1)[1]
+>
+
+ It does target the right bug, but it causes a build regression and a
+native/nativesdk sstate signature regression
+Pre-Thumb-2 ARM tunes (armv4t, armv5te, armv6) fail to build compiler-rt.
+because CMAKE_C_COMPILER_TARGET=3Darm..
+makes compiler-rt pick the Thumb-2 optimized FP assembly which
+needs armv6t2 at minimum, problem is diagnosed
+rightly, but the fix is too broad.
+
+also check if -march values are valid triple arch components and regex also
+doesn't limit itself to 32-bit ARM
+I think the this will cause library name to change and has to match what
+the clang driver looks up.
+
+The TC_CXX_RUNTIME=3Dllvm crtbegin/crtend symlinks use
+get_compiler_rt_arch(), which now returns names like armv7-a or armv8-a
+that compiler-rt never produces.
+
+
+>  INSTALL_VER ?=3D "${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}${VER_SUFFIX}"
+>  INSTALL_VER:class-native =3D "${@oe.utils.trim_version("${PV}", 1)}"
+> @@ -78,7 +83,6 @@ EXTRA_OECMAKE +=3D "-DCMAKE_BUILD_TYPE=3DRelWithDebInfo=
+ \
+>                    -DCOMPILER_RT_BUILD_SANITIZERS=3DOFF \
+>                    -DCOMPILER_RT_BUILD_MEMPROF=3DOFF \
+>                    -DCOMPILER_RT_BUILD_LIBFUZZER=3DOFF \
+> -
+> -DCOMPILER_RT_DEFAULT_TARGET_ARCH=3D${@get_compiler_rt_arch(bb, d)} \
+>                    -DLLVM_ENABLE_RUNTIMES=3D${RUNTIMES} \
+>                    -DLLVM_LIBDIR_SUFFIX=3D${LLVM_LIBDIR_SUFFIX} \
+>                    -DLLVM_APPEND_VC_REV=3DOFF \
+> @@ -86,7 +90,7 @@ EXTRA_OECMAKE +=3D "-DCMAKE_BUILD_TYPE=3DRelWithDebInfo=
+ \
+>                    -DCOMPILER_RT_DEFAULT_TARGET_ONLY=3DON \
+>                    -DLLVM_ENABLE_PER_TARGET_RUNTIME_DIR=3DOFF \
+>                    -DCMAKE_POSITION_INDEPENDENT_CODE=3DON \
+> -                  -DCMAKE_C_COMPILER_TARGET=3D${HOST_SYS} \
+> +                  -DCMAKE_C_COMPILER_TARGET=3D${@get_compiler_rt_target(=
+bb,
+> d)} \
+>
+>  -DCOMPILER_RT_INSTALL_PATH=3D${nonarch_libdir}/clang/${INSTALL_VER} \
+>                    ${@bb.utils.contains("TC_CXX_RUNTIME", "llvm",
+> "${LLVMLIBGCCOPTS}", "", d)} \
+>  "
+> --
+> 2.55.0
+>
+>
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+> Links: You receive all messages sent to this group.
+> View/Reply Online (#246621):
+> https://lists.openembedded.org/g/openembedded-core/message/246621
+> Mute This Topic: https://lists.openembedded.org/mt/121427261/1997914
+> Group Owner: openembedded-core+owner@lists.openembedded.org
+> Unsubscribe: https://lists.openembedded.org/g/openembedded-core/unsub [
+> raj.khem@gmail.com]
+> -=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
+>
+>
+
+--000000000000da2374065c522e63
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr"><div dir=3D"ltr"><br></div><br><div class=3D"gmail_quote g=
+mail_quote_container"><div dir=3D"ltr" class=3D"gmail_attr">On Fri, Sep 25,=
+ 2026 at 7:29=E2=80=AFAM Jan Strater-B=C3=BCddefeld via <a href=3D"http://l=
+ists.openembedded.org">lists.openembedded.org</a> &lt;jst=3D<a href=3D"mail=
+to:mbs-solutions.de@lists.openembedded.org">mbs-solutions.de@lists.openembe=
+dded.org</a>&gt; wrote:<br></div><blockquote class=3D"gmail_quote" style=3D=
+"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding-le=
+ft:1ex">Fixes [YOCTO #16424]<br>
+<br>
+The build system of compiler-rt can auto-detect some architectures like<br>
+&#39;armv6m&#39; via the `-march` compiler flag.<br>
+For other targets, the arch type to build for must be set via the target<br=
+>
+triple `CMAKE_C_COMPILER_TARGET`.<br>
+Before this commit, the arch type was simply &#39;arm&#39;.<br>
+<br>
+This commit also removes setting the variable<br>
+`COMPILER_RT_DEFAULT_TARGET_ARCH` because it is overridden anyway.<br>
+<br>
+AI-Generated: Uses GitHub Copilot<br>
+<br>
+Signed-off-by: Jan Strater-B=C3=BCddefeld &lt;<a href=3D"mailto:jst@mbs-sol=
+utions.de" target=3D"_blank">jst@mbs-solutions.de</a>&gt;<br>
+Cc: Ross Burton &lt;<a href=3D"mailto:Ross.Burton@arm.com" target=3D"_blank=
+">Ross.Burton@arm.com</a>&gt;<br>
+---<br>
+=C2=A0.../recipes-devtools/clang/<a href=3D"http://compiler-rt_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">compiler-rt_git.bb</a> | 22 +++++++++++--=
+------<br>
+=C2=A01 file changed, 13 insertions(+), 9 deletions(-)<br>
+<br>
+diff --git a/meta/recipes-devtools/clang/<a href=3D"http://compiler-rt_git.=
+bb" rel=3D"noreferrer" target=3D"_blank">compiler-rt_git.bb</a> b/meta/reci=
+pes-devtools/clang/<a href=3D"http://compiler-rt_git.bb" rel=3D"noreferrer"=
+ target=3D"_blank">compiler-rt_git.bb</a><br>
+index a265c2aa93..d6c06302c2 100644<br>
+--- a/meta/recipes-devtools/clang/<a href=3D"http://compiler-rt_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">compiler-rt_git.bb</a><br>
++++ b/meta/recipes-devtools/clang/<a href=3D"http://compiler-rt_git.bb" rel=
+=3D"noreferrer" target=3D"_blank">compiler-rt_git.bb</a><br>
+@@ -49,13 +49,18 @@ TOOLCHAIN =3D &quot;clang&quot;<br>
+=C2=A0TOOLCHAIN_NATIVE =3D &quot;clang&quot;<br>
+<br>
+=C2=A0def get_compiler_rt_arch(bb, d):<br>
+-=C2=A0 =C2=A0 if bb.utils.contains(&#39;TUNE_FEATURES&#39;, &#39;armv5 thu=
+mb dsp&#39;, True, False, d):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;armv5te&#39;<br>
+-=C2=A0 =C2=A0 elif bb.utils.contains(&#39;TUNE_FEATURES&#39;, &#39;armv4 t=
+humb&#39;, True, False, d):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;armv4t&#39;<br>
+-=C2=A0 =C2=A0 elif bb.utils.contains(&#39;TUNE_FEATURES&#39;, &#39;arm vfp=
+ callconvention-hard&#39;, True, False, d):<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 return &#39;armhf&#39;<br>
+-=C2=A0 =C2=A0 return d.getVar(&#39;HOST_ARCH&#39;)<br>
++=C2=A0 =C2=A0 import re<br>
++=C2=A0 =C2=A0 <br>
++=C2=A0 =C2=A0 tune_args =3D d.getVar(&#39;TUNE_CCARGS_MARCH&#39;) or &#39;=
+&#39;<br></blockquote><div><br></div><div><div>new dependency on TUNE_CCARG=
+S_MARCH causes the do_configure basehash mismatch for native variant.</div>=
+<div></div></div><div>=C2=A0</div><blockquote class=3D"gmail_quote" style=
+=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);padding=
+-left:1ex">
++<br>
++=C2=A0 =C2=A0 match =3D re.search(r&#39;-march=3D(\S+)&#39;, tune_args)<br=
+>
++=C2=A0 =C2=A0 arch =3D match.group(1) if match else d.getVar(&#39;HOST_ARC=
+H&#39;)<br>
++<br>
++=C2=A0 =C2=A0 return arch<br>
++<br>
++def get_compiler_rt_target(bb, d):<br>
++=C2=A0 =C2=A0 host_sys =3D d.getVar(&#39;HOST_SYS&#39;)<br>
++=C2=A0 =C2=A0 return get_compiler_rt_arch(bb, d) + &#39;-&#39; + host_sys.=
+split(&#39;-&#39;, 1)[1]<br></blockquote><div><br></div><div>=C2=A0It does =
+target the right bug, but it causes a build regression and a native/natives=
+dk sstate signature regression</div><div>Pre-Thumb-2 ARM tunes (armv4t, arm=
+v5te, armv6) fail to build compiler-rt. because CMAKE_C_COMPILER_TARGET=3Da=
+rm..</div><div>makes compiler-rt pick the Thumb-2 optimized FP assembly whi=
+ch needs=C2=A0armv6t2 at minimum, problem is diagnosed</div><div>rightly, b=
+ut the fix is too broad.</div><div><br></div><div>also check if=C2=A0-march=
+ values are valid triple arch components and regex also doesn&#39;t limit i=
+tself to 32-bit ARM</div><div>I think the=C2=A0this will cause library name=
+ to change and has to match what the clang driver looks up.</div><div><br><=
+/div><div>The TC_CXX_RUNTIME=3Dllvm crtbegin/crtend symlinks use get_compil=
+er_rt_arch(), which now returns names like armv7-a or armv8-a that compiler=
+-rt never produces.</div><div><br></div><blockquote class=3D"gmail_quote" s=
+tyle=3D"margin:0px 0px 0px 0.8ex;border-left:1px solid rgb(204,204,204);pad=
+ding-left:1ex">
+<br>
+=C2=A0INSTALL_VER ?=3D &quot;${MAJOR_VER}.${MINOR_VER}.${PATCH_VER}${VER_SU=
+FFIX}&quot;<br>
+=C2=A0INSTALL_VER:class-native =3D &quot;${@oe.utils.trim_version(&quot;${P=
+V}&quot;, 1)}&quot;<br>
+@@ -78,7 +83,6 @@ EXTRA_OECMAKE +=3D &quot;-DCMAKE_BUILD_TYPE=3DRelWithDebI=
+nfo \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DCOMP=
+ILER_RT_BUILD_SANITIZERS=3DOFF \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DCOMP=
+ILER_RT_BUILD_MEMPROF=3DOFF \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DCOMP=
+ILER_RT_BUILD_LIBFUZZER=3DOFF \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DCOMPILER_=
+RT_DEFAULT_TARGET_ARCH=3D${@get_compiler_rt_arch(bb, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DLLVM=
+_ENABLE_RUNTIMES=3D${RUNTIMES} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DLLVM=
+_LIBDIR_SUFFIX=3D${LLVM_LIBDIR_SUFFIX} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DLLVM=
+_APPEND_VC_REV=3DOFF \<br>
+@@ -86,7 +90,7 @@ EXTRA_OECMAKE +=3D &quot;-DCMAKE_BUILD_TYPE=3DRelWithDebI=
+nfo \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DCOMP=
+ILER_RT_DEFAULT_TARGET_ONLY=3DON \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DLLVM=
+_ENABLE_PER_TARGET_RUNTIME_DIR=3DOFF \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DCMAK=
+E_POSITION_INDEPENDENT_CODE=3DON \<br>
+-=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DCMAKE_C_C=
+OMPILER_TARGET=3D${HOST_SYS} \<br>
++=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 -DCMAKE_C_C=
+OMPILER_TARGET=3D${@get_compiler_rt_target(bb, d)} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0-DCOMP=
+ILER_RT_INSTALL_PATH=3D${nonarch_libdir}/clang/${INSTALL_VER} \<br>
+=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0${@bb.=
+utils.contains(&quot;TC_CXX_RUNTIME&quot;, &quot;llvm&quot;, &quot;${LLVMLI=
+BGCCOPTS}&quot;, &quot;&quot;, d)} \<br>
+=C2=A0&quot;<br>
+-- <br>
+2.55.0<br>
+<br>
+<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+Links: You receive all messages sent to this group.<br>
+View/Reply Online (#246621): <a href=3D"https://lists.openembedded.org/g/op=
+enembedded-core/message/246621" rel=3D"noreferrer" target=3D"_blank">https:=
+//lists.openembedded.org/g/openembedded-core/message/246621</a><br>
+Mute This Topic: <a href=3D"https://lists.openembedded.org/mt/121427261/199=
+7914" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/m=
+t/121427261/1997914</a><br>
+Group Owner: <a href=3D"mailto:openembedded-core%2Bowner@lists.openembedded=
+.org" target=3D"_blank">openembedded-core+owner@lists.openembedded.org</a><=
+br>
+Unsubscribe: <a href=3D"https://lists.openembedded.org/g/openembedded-core/=
+unsub" rel=3D"noreferrer" target=3D"_blank">https://lists.openembedded.org/=
+g/openembedded-core/unsub</a> [<a href=3D"mailto:raj.khem@gmail.com" target=
+=3D"_blank">raj.khem@gmail.com</a>]<br>
+-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-<br>
+<br>
+</blockquote></div></div>
+
+--000000000000da2374065c522e63--
 
