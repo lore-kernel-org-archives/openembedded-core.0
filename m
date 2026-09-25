@@ -1,230 +1,338 @@
-Return-Path: <jaipaul.cheernam@est.tech>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D56D4C98326
-	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 08:20:48 +0000 (UTC)
-Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.16])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3524.1790324439011171621
+	by smtp.lore.kernel.org (Postfix) with ESMTP id AB4CAC9830E
+	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 08:24:28 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.39])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.3552.1790324660337025942
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Sep 2026 01:20:40 -0700
+ Fri, 25 Sep 2026 01:24:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=EsftJ3Sy;
- spf=pass (domain: est.tech, ip: 52.101.72.16, mailfrom: jaipaul.cheernam@est.tech)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=nov77Cl4;
+ spf=pass (domain: ericsson.com, ip: 52.101.65.39, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=ozfLxMiUPfa4XF8NgJeOr6n6qJa0whPleJ9fpEsSeEZ8pPS897/wZ9WXS2tz1aO/Rgl8ttlpIQ/gQgNvP2pSC6RNSx0gS3kjen6Tw6iypAjJC0srTVRDuo6ZPV/pX8OWDD/eB77oXTw8PqBxXERCIjslRsSXYIV46IkjS+NQqO6cviwDy9geWB7xwEXeLOGZBiZ9miJ+zNkfXInVrw1Qe9qakgbI6QXXaHYmD+sazeNJYUOXmS2MDNB42ypSYcy1t2qo9N1Fqd/rNDVgxph/dz/VS5rJVs5nQ1LF2D17PkAOhKKFTplAhc2+2Ecm3DnzQfqarsvGampJK/b9VRuerA==
+ b=DzECZJLsifVJrzWMm3XnfZ6TAMSvl2srhRaj9CBZWV9ycc802oc3w5L8D4BxoUt3uraw2ZXWgW/fGVfKdAG7vIgDs1PN5a/tclWzyiEfS9c+kEx1wOUOezYZ2qYQVei9Y1Nc7/14Z03f0CUNAqYlYDArIt7ehPPMyJwYq7D4uO6mIQkdfH8WUMb485JqkD+aYfR91vZ1st/1rJYEx8f1bzJgQcpdFsjEV/UyARdKDHS1x0ZxnhfiNJpc8XFGhEaAaCc7tju3WNIesV/Jqdyr8xFdfXwL/qz+7eWLh4YXj0rL3b6mJgJUFuAE2oSPsXB32TA2zOua+6IhMrN/APTwLA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=XGU0yXWIWDuzdBIeWIAwhn0Z2GVVp8uhNbUR3LPrfzQ=;
- b=uWS0L7j/OyWeex7V5tgtpBwa51JJMJcAY4edKb8VYg3b5VxX/c8mSWBGGBN7ZoBQzbvFm0ObCw/jLzMSnka81AUAFvn6i3ChM2hugVUs7d3AXy5iqmPXXME5R91ragi13FOYMkR75OBdvK0kPtMnOeQs9tMo4i+8Rut/8bdhauncTsZ+gOq7V56v5K6WqNZJ7Lkaim2SZ/Otg1cFBfg9Mal8vc7dozlV9E/9hWURFVjot1qiepI3GcptZfw+BQ6bd4JaDQ6Yxaku9yAB0AAuc9xw6IdodSVWH3es0PrCEe9hM8A7s83SqEIqHsnLrlXndsRzl53Bnt4FNzY7vjaN4Q==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
- dkim=pass header.d=est.tech; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ bh=EpEIlpH0bU3FOZgnB11wItmBSujwMiWkbi9LyN+fNp4=;
+ b=NYqj5U48MeJuydgRQQrxl8a27U3TL233aQZW+E6kU3y7CXqdZVvZLdND0F4B7j/LB1L27XzYCxpxEtiW3s7MB52wZpR/tCEN8unij3Ul74mrAJXoexQlM5noQem5O0ZjEhoX3MsK0R0kQQGh1bIfkRLKpb+B3ywkjigF4DiweWs2fNWSRJ1srmUNeDgEgeuPtspJCRp8xbC2OtjPDDVbmXd3KSNo10deN0aME/2qTGz+nUo6r5a9D9qzxm6eb8J3yLBtB6LYVM9MU/rUUnQEOX4Yg1nBMSeh8vftvAvlTw/4CSN2eS/GDb3pvO/5+yDtplmq/2eie4onJstlDU4ysQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
+ dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
+ dkim=none (message not signed); arc=none (0)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=XGU0yXWIWDuzdBIeWIAwhn0Z2GVVp8uhNbUR3LPrfzQ=;
- b=EsftJ3SyyUYrcHI0FIr8eA8IDY49ShKwV1YhQAs2NUyopSkvhgh5AGmd0i1FvmtmU4gyWFUlG7JBVYy+YvEy0wnit0MrtfuQEIOXzFV0A2TY3pkZJg4+l0JMUf9nlxOTFjzBdBDAhar0QUYf9EqOHapd4w+Jjs4iy9NUQZBIDN1y7suMXraenzRFw2dWU4GMop1skITi+DiFFWwl2jSC404PyiXJJJN9PHsxr821ikx0F6+QM2Pf+RY3EGMeN65e/2z2B6qwf3SSLK8egzEKzWpPyuCpKrfr7YvUYPqFmlt6R3bVGvreIBLPXQHunN6JNxFq5WePZu+rrcF9A/jO5w==
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=est.tech;
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
- by VI0P189MB3637.EURP189.PROD.OUTLOOK.COM (2603:10a6:800:2d5::16) with
- Microsoft SMTP Server (version=TLS1_2,
+ bh=EpEIlpH0bU3FOZgnB11wItmBSujwMiWkbi9LyN+fNp4=;
+ b=nov77Cl44JdWmYZh5AcNGvGc8iSVZOiMxwnB2dp1F6GzM3sR78WUo4tF858DB39chjDI6X+GKUv2peV/9YcStjcbNIGtNULZwheQv1oXBijse00FfTON/d9HG9HjeWOIXSNtvN9KvFD1RdsV60Na+zsdcjXthGmuohLgLOE6uG4gGTetPMV7/F81z53blh5asMT3qljpBN3bojxv+135PilIxN4ERcT9vJeGw0vgYIhuDQLOY8Mjf2zFmDRSCazx29ALRIEnxmzZCVzui4iKLObCKarUf6X1BNqKEotmjuLTb2KnUr7AR23r9Y4B1ms6nA6wXsfnjHAYOxMP3BKdog==
+Received: from DUZPR01CA0060.eurprd01.prod.exchangelabs.com
+ (2603:10a6:10:469::18) by GV1PR07MB8383.eurprd07.prod.outlook.com
+ (2603:10a6:150:22::7) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Fri, 25 Sep
- 2026 08:20:34 +0000
-Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0451.014; Fri, 25 Sep 2026
- 08:20:34 +0000
-From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] rt-tests/hwlatdetect: upgrade 2.10 -> 2.11
-Date: Fri, 25 Sep 2026 10:20:31 +0200
-Message-ID: <20260925082031.83588-2-jaipaul.cheernam@est.tech>
-X-Mailer: git-send-email 2.39.5 (Apple Git-154)
-In-Reply-To: <20260925082031.83588-1-jaipaul.cheernam@est.tech>
-References: <20260925082031.83588-1-jaipaul.cheernam@est.tech>
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
-X-ClientProxiedBy: LO4P265CA0136.GBRP265.PROD.OUTLOOK.COM
- (2603:10a6:600:2c4::12) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
- (2603:10a6:20b:6c0::19)
+ 2026 08:24:15 +0000
+Received: from DU2PEPF00028D11.eurprd03.prod.outlook.com
+ (2603:10a6:10:469:cafe::4d) by DUZPR01CA0060.outlook.office365.com
+ (2603:10a6:10:469::18) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.18 via Frontend Transport; Fri,
+ 25 Sep 2026 08:24:15 +0000
+X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
+ is 192.176.1.74) smtp.mailfrom=ericsson.com; dkim=none (message not signed)
+ header.d=none;dmarc=pass action=none header.from=ericsson.com;
+Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
+ 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
+ client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
+Received: from oa.msg.ericsson.com (192.176.1.74) by
+ DU2PEPF00028D11.mail.protection.outlook.com (10.167.242.25) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.21.428.7 via Frontend Transport; Fri, 25 Sep 2026 08:24:15 +0000
+Received: from seroius18813.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.66) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.2.2562.43; Fri, 25 Sep 2026 10:24:14 +0200
+Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
+	by seroius18813.sero.gic.ericsson.se (Postfix) with ESMTP id 4611995801;
+	Fri, 25 Sep 2026 10:24:14 +0200 (CEST)
+Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
+	id 0EDF6700CF25; Fri, 25 Sep 2026 10:24:14 +0200 (CEST)
+From: <daniel.turull@ericsson.com>
+To: <openembedded-core@lists.openembedded.org>
+CC: <JPEWhacker@gmail.com>, Daniel Turull <daniel.turull@ericsson.com>
+Subject: [PATCH v2 2/2] scripts/contrib: add spdx-release-date-report.py
+Date: Fri, 25 Sep 2026 10:24:04 +0200
+Message-ID: <20260925082404.1491266-2-daniel.turull@ericsson.com>
+X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260925082404.1491266-1-daniel.turull@ericsson.com>
+References: <20260925082404.1491266-1-daniel.turull@ericsson.com>
 MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|VI0P189MB3637:EE_
-X-MS-Office365-Filtering-Correlation-Id: a94e855b-4608-4600-1d2a-08df1adddf14
+X-MS-TrafficTypeDiagnostic: DU2PEPF00028D11:EE_|GV1PR07MB8383:EE_
+X-MS-Office365-Filtering-Correlation-Id: d23e27c3-c148-4a44-a692-08df1ade62cc
+X-SMTP-Server: smtp-central.internal.ericsson.com
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|1800799024|376014|366016|56012099006|3023799007|11063799006|10067099003|6133799003|18002099003|22082099003;
+	BCL:0;ARA:13230040|376014|23010399003|82310400026|36860700016|1800799024|10067099003|56012099006|11063799006|18002099003|22082099003|3023799007;
 X-Microsoft-Antispam-Message-Info: 
-	IHKBr8ak/y6CuiN2mNr1jmZGMQVM9j4N8ieYn1D3SnBqsE+kKAXqviyjfAryv8MydajT8AE9gunpdw8/0TQmCpdJLsNrdeGcElGhlDvAg8K5qeWDfA+sK/oZBLOm8kXV5dZmDN8hbE2NdY41wSugL86pFs16uuYJuHoDLYMeAdWQPP3EhvMhZk9G3Zi+QeTrTx9Rk0cJe7je3xGGqFHMz4wF9DkqCOTxW/5S1NEcpVYhq8fvjvRedjYlfVxU9tLnoldy5K5aYskaNzH6sH2gg6Z8ToNsP1txnOca/wgQqyoRaEFbAZESclHL+vUVxCiWUO4wmm+dACxgHwNt6P8T4PIbt7P52mOHFs73akCXZJ+lFpqFtGgO0gn4OPr02UhnoqLZBMWbJQq+hQ+5S1e4/AN8QuNleGAaduu62tj2moRNSBzkXRHUcoIittIEDgilDOAmMAp10NIghFgnC521S53sBQR+aget1R+3qQof0dKinVpF654kOWi9RQwX2B8Yl1hkwzr4Y6WDFpeLGh+6g5p/mUKi7LlQ3RfeJjRXCZ/ETD9TgToPTeWUyvpFIU61rGohE+0xkG4O1itYh5UgfOGJ2o6bIskrcUtiakEm5Y+FkDT55bWJoM8Q5yIrARHqVyOsp3Sn3b184C4+XjKG6UBRWcvjbWQ4FZCM67R5nWo=
+	ezNMp/83oVsWPpiw9uBAt8GqzDY94xjhTrm2t8+W7nAg8dyECR89oUCN4UPa+xVe6Wb8I2M7SEaL+CBXK8CRCLUYltLzFk0lZmoyiYhvN6qY0WAx0463B4fgshIrTQHOvm6dErKd76tiNs8puwxjpDDgUFHBV/PP4WFb73wzNcs9h6fO2PqHwVrZsKryHp4tEx3OYPYA8F2l/G1O1S/v2O/QSrC0wOExtQQLC7JyMJhfFjO9wu1hdQk+EYM02eQPOsqf8w4OfxaUONnYKZ2cmHLI7Yy156Bn6WUN72O6qas2WlnycIVAiukNQ09BH9SCyP+rx2d+IyxCh2K3oyZgrFsazRzXrvefJ/aGDu2xYgR//3ec7AUfiNnaiSJPrC0CNh5PCZIcMgYi4j1Kn2h3Ynmvb035xqOpEW/QP5eHAs3FmNINZqon5GYDUsPhYLRKfM57p+93D54CnmSXjh7gBYAO7+mbyzZaXhouX1hUVEkhSYIiDG8rhu9e1sjInF7GcammpilUy4hdnbB5p3y6FAXPLwllB9rjIeM4E/t/kiKaoq6Sk2KjUUeB4abeBGNoof4m8/kedVyG/qR0W60uCxFYOFIxLYhDZbEfkc2iZJIqNWLxog+FquOzs9v5d80Yrf3EXgPWOjAIqCxtLbgpCA==
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(376014)(366016)(56012099006)(3023799007)(11063799006)(10067099003)(6133799003)(18002099003)(22082099003);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(376014)(23010399003)(82310400026)(36860700016)(1800799024)(10067099003)(56012099006)(11063799006)(18002099003)(22082099003)(3023799007);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?4tVVIvHzq8o+QSPpcbKOFevgJ1ZPPXc86ismkTy/PtQ7vMhkDNhsNHaQP37w?=
- =?us-ascii?Q?+QUsS/3wKBDp2e6+c1mCjdNaHZV68A5Q9WQgun6AANhi4BJrvNYqRDaHgeUY?=
- =?us-ascii?Q?zWB7arVKCYDrOyE4xNI9RoUItWsvvYqHkUYL1OEoTUvjVxqeGRqPpfpBxphC?=
- =?us-ascii?Q?g2H/aNwKw+sspWai/FevjS5a330aFaFyQb7hV9fNqv9IRAHUqeNK2jDP6Trl?=
- =?us-ascii?Q?7xb/lWq8qhN7M3mraoGO4vuGY4TDBPV1tWBcVc7HPLLULaJ64mBxQuOUkR1U?=
- =?us-ascii?Q?3gXC78z7JWw3Xe1nDCSL4+4GJFq/Ke48N9JKg1Lca0hrYnmygG1XJ2S8jGTQ?=
- =?us-ascii?Q?qTDVzLZeW9zxr8TpQb0xe4OoWZijN8Dxgl+tqaDs0r+6w6IwFLsPv3Rk1pxZ?=
- =?us-ascii?Q?BD/DLwg7+6soVvCpttBxmRFv7cfl+arIubAjadiAfrSAPiT1d0dCegKeyj4R?=
- =?us-ascii?Q?tXJHKSbxdJ1qwHzpwNzZj+oTAW05MxiBiDayfC/8A/dz758+i1jxiKibsdKI?=
- =?us-ascii?Q?SJ6/6kJlsc2IkbxeT5G4x495ytt2vT+m3C7CFxZaspRi9VecXMk6LsuODn/C?=
- =?us-ascii?Q?/S9FM+A8qhSyDYW1dDPqdWuUmgz8y9s3a40eAn6wsRgmwKJH8ruTDihAqWW0?=
- =?us-ascii?Q?DSWfiIlLnl7/oIZrmQIQPqNYii3l9sw25UYVKeO7aGeMVVbP+SK6jJ5jXesC?=
- =?us-ascii?Q?QzN/mMfnm5KZ6i/K0oAzWeuQIxyDojHqLFYZpBrcq6Gyd6zbC6kXL1zq5Ox4?=
- =?us-ascii?Q?oHUaqqn2FhCKwR3tBA4VGlUChq9e5Gmj/v5cJDpmjGjMYZ5ekhBr+Zv9sZsm?=
- =?us-ascii?Q?N+wIVDTDi1ZMw6j5ui+a+4sAfAesELOgfmng2y7OB64O8dOMemcVlDPdjqX0?=
- =?us-ascii?Q?bUNpDfroJLU3wqwbXfU+Ak9y9GqEbkkdgOk0FepXccjCauzYee9GGN30YvLa?=
- =?us-ascii?Q?CCHKkiGI2TJvYWQHcUb+cxNHSrE1oDvj1L1q1VPWE9Exfin8wX5QCdbitsv8?=
- =?us-ascii?Q?SAxrjNZRJcrLQykLK0voHtVAja4XAzkHHMrGAwpZmpYrbn7P6Z88LiGEnhtn?=
- =?us-ascii?Q?LkRsjOuWHoCk0dntyLIlC+Anp34MlzL7KiLmswYZ19lMNd4Z53oCrx2JoCOl?=
- =?us-ascii?Q?hJwqXGbEICiJq/NZXSLRFwwwM3Nt6ZjMIrWaIFCFlaFtXm6jAHpsmHz2T3Lm?=
- =?us-ascii?Q?yNjtEY4yb5ZSlAnp3JA1a1UvaX7SekZE+bMfPc2dgF5yZM/UuGqnuP/t1odl?=
- =?us-ascii?Q?BK5bFUMsyo5FNFeKjcT/SQp1ndZau3xkvdRheg77RcRHHjAFhtyqjG+0vgYm?=
- =?us-ascii?Q?TQw0tFtmjHsnEAAJ4dlQD7t9Eoqw+tSMPaUUZc0ICpxr1PT0qPNXxF8cuwc2?=
- =?us-ascii?Q?QChOwgTI868kJmzLkzwKNqkxROizQhHItj40MqN71xDdWpymvHzUCKAR5tTr?=
- =?us-ascii?Q?DqzJ/GKD70KOATGEqK2fvxj7SIvpVdOBv07Y1kFlK87wxRYDJW2Yo4NaBzgj?=
- =?us-ascii?Q?FPUZc0DCO4ugWLjYYJqecrA58Lu21oKY6hg6mwjTcnCGyszyMzMelXxaeUKo?=
- =?us-ascii?Q?3dAc/h/RV9HS79w4qDwH6otJexSZEpTk2ay48ahBcPHO/fQHjp8PWAEj8Z0h?=
- =?us-ascii?Q?vT3ZNL9axoDgffNjqJjQkgY128fKULnFmpU6l/G0AQ/iFUxL+Ng4icSKa7d7?=
- =?us-ascii?Q?uNTuS4/OXOJFHjjtXijlV9hneY01Yx+OAv5mIpQ5EhMD2klDYSPrjTp3NlX6?=
- =?us-ascii?Q?TA2EbaluKQ=3D=3D?=
-X-OriginatorOrg: est.tech
-X-MS-Exchange-CrossTenant-Network-Message-Id: a94e855b-4608-4600-1d2a-08df1adddf14
-X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 08:20:34.3846
+	PMtI0Mr8usoZ5SvoJwvh49bDmyy7CZr9mICcrn73un0seyvSBffJTKGHs4ZCzTS0xjiPqEi9rgusnIjVAaz5jwm5AzuI66ZFocB7M81oL/io7LTjqe2qSmUy+9O+pR9LrpLV50sA4ZE1y/isQpgn6hrxhrn4KTA3N9/zk3OU2cgN1BVt50HmDQPmWu8pRtety8X3Wo8t2znnyxLtF2GL6Aq/p8WoOID9qrIKXKlAmRC4sVmlEWYFEgHJ1keRQhBnZf66nsvwX35924TAjpZOwgDngaPguQtJwt8wUeEDNEGfFV3tl7lyJLiaC4s1QIt+rmb2ft2OMislo+3/0WfHJI2UnLSmRUE9kyIwQ5UoQ29NYFRTEP+JtkzMj9IpiVtW4kgH6YwqclOsoKSh7ipTiwHKU/Jeqj5VDBP6Y0jacRx1KTmldxeUqHVO0FZvQMe/
+X-OriginatorOrg: ericsson.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 08:24:15.1707
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: BiUydbkppZ8kIaaJG138/K0I7KRAO9IHJWSV0vowlkDtF4QzXucLU7m0XQYVJhphGeSmQzoGBodX+KLtfetysJpnrrj2nqdH6EAwqH2oMKg=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI0P189MB3637
+X-MS-Exchange-CrossTenant-Network-Message-Id: d23e27c3-c148-4a44-a692-08df1ade62cc
+X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
+X-MS-Exchange-CrossTenant-AuthSource: 
+	DU2PEPF00028D11.eurprd03.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1PR07MB8383
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 08:20:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246607
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 08:24:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246608
 
-Changes:
+From: Daniel Turull <daniel.turull@ericsson.com>
 
-Ahmed S. Darwish (28):
-  cyclictest.8: Comment-out SPDX license tag
-  cyclictest.8: Synopsis: Remove -U
-  cyclictest.8: Synopsis: Remove -w/-W
-  cyclictest.8: Synopsis: Remove -y
-  cyclictest.8: Synopsis: Remove -h flag
-  cyclictest.8: Standardize --verbose paragraph formatting
-  cyclictest.8: Remove left-over comments
-  cyclictest.8: Align source file to 75 columns
-  cyclictest.8: Separate source sections
-  cyclictest.8: Capitalize section headers
-  cyclictest.8: Synopsis: Fix parameters list rendering
-  cyclictest.8: Rework the Synopsis blurb
-  cyclictest.8: Synopsis: Distinguish --help mode
-  cyclictest.8: Group system-altering options
-  cyclictest.8: Group sleep-mechanism (clock) options
-  cyclictest.8: Group thread wakeup timing options
-  cyclictest.8: Group SMP-related options
-  cyclictest.8: Group memory options
-  cyclictest.8: Group thread priority options
-  cyclictest.8: Group tracing options
-  cyclictest.8: Group test duration options
-  cyclictest.8: Group output options
-  cyclictest.8: Group x86 options
-  cyclictest.8: System options: Deprecate --laptop
-  cyclictest.8: Options: Expand --default-system description
-  cyclictest.8: Options: Reference clock_getres(2)
-  cyclictest.8: Add example invocation
-  cyclictest.8: Reference rtla-timerlat(1)
+Reports each recipe's releaseTime (added by the create-spdx-3.0 patch)
+from either a DEPLOY_DIR_SPDX tree or a single merged image SBOM. Used
+to spot-check release dates across a build and surface recipes missing
+one; helped find the SOURCE_DATE_EPOCH_FALLBACK leak and archive-mtime
+issues fixed by the two preceding patches.
 
-Costa Shulyupin (2):
-  rt-tests: hwlatdetect: Add timestamp delta
-  rt-tests: hwlatdetect: Add --time-format argument
-
-John Kacur (13):
-  Makefile: Use relative symlinks for Python scripts
-  cyclictest: Simplify auxiliary clock parsing
-  rt-tests: README: Remove obsolete -n option from cyclictest examples
-  rt-tests: Add SPDX identifiers and fix documentation issues
-  rt-tests: Add AGENTS.md guide for AI coding assistants
-  pi_stress: Fix inconsistent barrier wait logic to prevent deadlock
-  pi_stress: Validate numeric command-line arguments
-  pi_stress: Improve error message for permission failures
-  pi_stress: Fix error and debug message formatting
-  pi_stress: Ensure null-termination of JSON filename
-  cyclicdeadline: Fix potential path truncation in open_cpuset()
-  rt-tests: rt-migrate-test: Report trace_marker write errno once and
-    stop
-  rt-tests: Create v2.11
-
-Lukas Beckmann (1):
-  cyclictest: fix growing shm stat file
-
-Sebastian Andrzej Siewior (4):
-  rt-tests: cyclicdeadline: Remove unused `alloverflows'
-  cyclictest: Acquire a lock before invoking pthread_cond_signal()
-  cyclictest: Make break_thread_id_lock a PI lock
-  cyclictest: Make trigger_lock a PI lock
-
-Suneeth D (1):
-  cyclictest: Fix BUILD failure for GCC_VER < 14
-
-Thomas Wei=C3=9Fschuh (Schneider Electric) (6):
-  cyclictest: Centralize clock option parsing
-  cyclictest: Test the return value of timer_create()
-  cyclictest: Fix error error returns for uclibc clock_nanosleep()
-    fallback
-  cyclictest: Correctly print clock_nanosleep() errors
-  cyclictest: Allow symbolic clock names
-  cyclictest: Add support for auxiliary clocks
-
-0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch
-refreshed for 2.11
-
-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+AI-Generated: Uses Kiro with Claude Sonnet 5
+Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
- .../0001-Makefile-Allow-for-CC-and-AR-to-be-overridden.patch | 5 +----
- meta/recipes-rt/rt-tests/rt-tests.inc                        | 4 ++--
- 2 files changed, 3 insertions(+), 6 deletions(-)
+ scripts/contrib/spdx-release-date-report.py | 193 ++++++++++++++++++++
+ 1 file changed, 193 insertions(+)
+ create mode 100755 scripts/contrib/spdx-release-date-report.py
 
-diff --git a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-=
-AR-to-be-overridden.patch b/meta/recipes-rt/rt-tests/files/0001-Makefile-Al=
-low-for-CC-and-AR-to-be-overridden.patch
-index a39781908ec..3e006a75b19 100644
---- a/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-b=
-e-overridden.patch
-+++ b/meta/recipes-rt/rt-tests/files/0001-Makefile-Allow-for-CC-and-AR-to-b=
-e-overridden.patch
-@@ -1,4 +1,4 @@
--From 7cf4cf097895bd4c3f3d3a6f783c766b3173cf1a Mon Sep 17 00:00:00 2001
-+From ac0265695bc1cc70fbe06e6b0bfaf46a4c8f234d Mon Sep 17 00:00:00 2001
- From: Randy Witt <randy.e.witt@intel.com>
- Date: Fri, 16 Oct 2020 16:54:30 -0700
- Subject: [PATCH] Makefile: Allow for CC and AR to be overridden
-@@ -28,6 +28,3 @@ index 83d2a33..e757839 100644
- =20
-  OBJDIR =3D bld
- =20
----=20
--2.43.0
--
-diff --git a/meta/recipes-rt/rt-tests/rt-tests.inc b/meta/recipes-rt/rt-tes=
-ts/rt-tests.inc
-index e782d990c8a..a16e524d3fa 100644
---- a/meta/recipes-rt/rt-tests/rt-tests.inc
-+++ b/meta/recipes-rt/rt-tests/rt-tests.inc
-@@ -1,5 +1,5 @@
--SRCREV =3D "40b14a2aac9449dfb07d4f9b4bd873fc3ea62f28"
--PV =3D "2.10"
-+SRCREV =3D "62da2befac98f811af8e56f2b7992fb09faa33d6"
-+PV =3D "2.11"
- PE =3D "1"
-=20
- SRC_URI =3D "git://git.kernel.org/pub/scm/utils/rt-tests/rt-tests.git;bran=
-ch=3Dmain;protocol=3Dhttps;tag=3Dv${PV}"
+diff --git a/scripts/contrib/spdx-release-date-report.py b/scripts/contrib/=
+spdx-release-date-report.py
+new file mode 100755
+index 0000000000..be429409fc
+--- /dev/null
++++ b/scripts/contrib/spdx-release-date-report.py
+@@ -0,0 +1,193 @@
++#! /usr/bin/env python3
++#
++# Copyright OpenEmbedded Contributors
++#
++# SPDX-License-Identifier: GPL-2.0-only
++#
++# Author: Daniel Turull <daniel.turull@ericsson.com>
++#
++# Reports, per recipe, whether a valid releaseTime was recorded in SPDX
++# 3.0.1 output.
++#
++# AI-Generated: Uses Kiro (Claude)
++
++import argparse
++import csv
++import glob
++import json
++import logging
++import os
++import re
++import sys
++
++
++def load_jsonld_graph(path):
++    """Return the @graph list of a SPDX 3.0.1 JSON-LD document, or [] on e=
+rror."""
++    try:
++        with open(path, "r", encoding=3D"utf-8") as f:
++            data =3D json.load(f)
++    except (OSError, json.JSONDecodeError) as e:
++        logging.warning("Skipping %s: %s", path, e)
++        return []
++    return data.get("@graph", [])
++
++
++def collect_release_dates(deploy_dir):
++    """
++    Map recipe name -> releaseTime (or None) from all static/static-*.spdx=
+.json
++    files found under deploy_dir.
++    """
++    release_dates =3D {}
++    pattern =3D os.path.join(deploy_dir, "**", "static", "static-*.spdx.js=
+on")
++    for path in sorted(glob.glob(pattern, recursive=3DTrue)):
++        for element in load_jsonld_graph(path):
++            if element.get("type") !=3D "software_Package":
++                continue
++            name =3D element.get("name")
++            if not name:
++                continue
++            # First occurrence wins; the same recipe can appear for multip=
+le
++            # arches (e.g. allarch vs machine-specific) with identical dat=
+a.
++            release_dates.setdefault(name, element.get("releaseTime"))
++    return release_dates
++
++
++def _to_row(name, release_date):
++    return {
++        "recipe": name,
++        "release_date": release_date or "",
++        "valid_date": bool(release_date),
++    }
++
++
++def build_report(deploy_dir):
++    """
++    Build the report: [{"recipe": ..., "release_date": ..., "valid_date": =
+bool}]
++    """
++    release_dates =3D collect_release_dates(deploy_dir)
++    return [_to_row(name, release_dates[name]) for name in sorted(release_=
+dates)]
++
++
++# Per-recipe document namespace shared by all elements of that recipe in a
++# merged SBOM, e.g. http://spdx.org/spdxdocs/acl-<uuid>/<hash>/recipe/acl
++DOC_NAMESPACE_RE =3D re.compile(
++    r"^(https?://spdx\.org/spdxdocs/[^/]+-"
++    r"[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})/"
++)
++
++
++def doc_namespace(spdx_id):
++    """Extract the per-recipe document namespace from a SPDX ID, or None."=
+""
++    match =3D DOC_NAMESPACE_RE.match(spdx_id or "")
++    return match.group(1) if match else None
++
++
++def build_report_from_file(spdx_file):
++    """
++    Build the same report as build_report(), but from a single merged SBOM
++    document (e.g. an image's *.rootfs.spdx.json) instead of a DEPLOY_DIR_=
+SPDX
++    tree. Recipes are identified by their document namespace.
++    """
++    graph =3D load_jsonld_graph(spdx_file)
++
++    recipes =3D {}  # namespace -> {"name": ..., "release_date": ...}
++    for element in graph:
++        if element.get("type") !=3D "software_Package":
++            continue
++
++        namespace =3D doc_namespace(element.get("spdxId"))
++        if namespace is None:
++            continue
++
++        if element.get("software_primaryPurpose") =3D=3D "specification" a=
+nd element.get("name"):
++            # The recipe itself, as opposed to its runtime package(s).
++            recipes[namespace] =3D {
++                "name": element["name"],
++                "release_date": element.get("releaseTime"),
++            }
++
++    report =3D [_to_row(info["name"], info["release_date"]) for info in re=
+cipes.values()]
++    report.sort(key=3Dlambda r: r["recipe"])
++    return report
++
++
++def filter_rows(report, missing_only, sort_by_date=3DFalse):
++    rows =3D [r for r in report if not missing_only or not r["valid_date"]=
+]
++    if sort_by_date:
++        rows.sort(key=3Dlambda r: (not r["valid_date"], r["release_date"],=
+ r["recipe"]))
++    return rows
++
++
++def print_table(rows):
++    if not rows:
++        print("No matching recipes found.")
++        return
++
++    name_width =3D max(len("recipe"), *(len(r["recipe"]) for r in rows))
++    print(f"{'recipe':<{name_width}}  {'release_date':<21}  valid")
++    for r in rows:
++        print(f"{r['recipe']:<{name_width}}  {r['release_date']:<21}  {r['=
+valid_date']}")
++
++
++def write_csv(rows, path):
++    with open(path, "w", newline=3D"", encoding=3D"utf-8") as f:
++        writer =3D csv.writer(f)
++        writer.writerow(["recipe", "release_date", "valid_date"])
++        for r in rows:
++            writer.writerow([r["recipe"], r["release_date"], r["valid_date=
+"]])
++
++
++def main():
++    parser =3D argparse.ArgumentParser(
++        description=3D"Report recipe release dates from SPDX 3.0.1 output"
++    )
++    parser.add_argument(
++        "--deploy-dir",
++        required=3DTrue,
++        help=3D"Path to DEPLOY_DIR_SPDX (e.g. tmp/deploy/spdx/3.0.1) or to=
+ a "
++             "single merged image SBOM file (e.g. "
++             "tmp/deploy/images/<machine>/<image>.rootfs.spdx.json)",
++    )
++    parser.add_argument(
++        "--missing-only",
++        action=3D"store_true",
++        help=3D"Only report recipes without a valid release date",
++    )
++    parser.add_argument(
++        "--csv",
++        help=3D"Write the report to a CSV file instead of only printing a =
+table",
++    )
++    parser.add_argument(
++        "--sort-by-date",
++        action=3D"store_true",
++        help=3D"Sort output by release date instead of recipe name (missin=
+g dates last)",
++    )
++    args =3D parser.parse_args()
++
++    logging.basicConfig(format=3D"[%(filename)s:%(lineno)d] %(message)s", =
+level=3Dlogging.INFO)
++
++    if os.path.isdir(args.deploy_dir):
++        report =3D build_report(args.deploy_dir)
++    elif os.path.isfile(args.deploy_dir):
++        report =3D build_report_from_file(args.deploy_dir)
++    else:
++        parser.error(f"--deploy-dir {args.deploy_dir} does not exist")
++
++    total =3D len(report)
++    valid =3D sum(1 for r in report if r["valid_date"])
++    logging.info("Recipes with SPDX static data: %d", total)
++    logging.info("Recipes with a valid release date: %d", valid)
++    logging.info("Recipes missing a release date: %d", total - valid)
++
++    rows =3D filter_rows(report, args.missing_only, args.sort_by_date)
++    print_table(rows)
++
++    if args.csv:
++        write_csv(rows, args.csv)
++        logging.info("CSV report written to %s", args.csv)
++
++    return 0
++
++
++if __name__ =3D=3D "__main__":
++    sys.exit(main())
 
