@@ -1,229 +1,354 @@
-Return-Path: <deepesh.varatharajan@windriver.com>
+Return-Path: <Ghanshyam.BanaitSanjay@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B8B50C9830D
-	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 09:21:53 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4101.1790328109209374398
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0C16AC9830D
+	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 10:30:44 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.4863.1790332236578141869
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Sep 2026 02:21:51 -0700
+ Fri, 25 Sep 2026 03:30:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=fY28ql8p;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=37283564ce=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250812.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P7kFcw008611
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 09:21:48 GMT
+ dkim=fail reason="dkim: body hash did not verify" header.i=@windriver.com header.s=PPS06212021 header.b=LCWWMJ2E;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=3728c4202c=ghanshyam.banaitsanjay@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P535i82499881
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 03:30:36 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=3qzrvnwIL
-	MJ21HgiAknr/shPZbQC54tCijtthYT2zLE=; b=fY28ql8psvT8a/pzwrxygsp9r
-	3+Q/RxsLo2LP867Y423G0EEEIoHqJEuwYVh45V5r9Rx9P4wmudooFhDnp5l3/3Nf
-	PkqcaP/6fLMKjQtEY1TgGGi/0B34z+jQIwAC0DYII87dzXZ/szzG8YA3tDnxMprs
-	cPaQV/T+H30Hiawi/xcesMPpdhRTmvmkJHPy6vJnMeBAWVZWFqsYMsXtoPQiSU8f
-	Vf61xKZLd2scKhfAKhz4TWsMy2Eok36GdhawvgORp8fEAVJbLEQs/oQB7FNk41F0
-	57uzyea/F8wXsdBljg/SF8/H0m4TGuVgPtl/3clb1krypssQtAS7t4EyGi1YQ==
-Received: from ph8pr06cu001.outbound.protection.outlook.com (mail-westus3azon11022108.outbound.protection.outlook.com [40.107.209.108])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gwmtx0314-1
+	 h=content-transfer-encoding:content-type:date:from:message-id
+	:mime-version:subject:to; s=PPS06212021; bh=zOOsmq6HAJweO5tHxIxd
+	67ID2jhfdOAcOnPe/CKrFxc=; b=LCWWMJ2Ecovuw6OJZnzR3kNE6pE1x8DypeN6
+	RpxZ7A+zv/pksijn9xY5Rqlg9djCy3qa9kPTILJZAPwY48gFdAXKhbb2PGyo7z2e
+	zml8oEbowWyJUfyKJiPdg0RVqywYWrOARY/ROD3wMeR0h9DI6Xc3pcn8uM2xmqiv
+	6x84bAPHg+GDbDkylQof0RaFskxZaTsluWWMPCoVnLsdEN3zwRr2lOvNIwQ0c8A3
+	jOfqBtUV4m1Z1tlLbIG5SHBSGfFm5n8PXVgiFh9Dbhkpo3AMFG/XVQKp7qf6bCtC
+	K2CH2Z0E7tur5y9bcj6na/7mCGjbMmX/TWWtnwmFf1oMaTzTig==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022094.outbound.protection.outlook.com [52.101.48.94])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gvt0xtc9t-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 09:21:47 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 03:30:35 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=js/5sADbFvcaYs5V60vFGSioE3PZ3FAzcaTjLeNThep8itRJEQi3VpYNsJDH9oSNSkafod3qAwqM0efu/h50u7LIviijnb7Ymph5e4l62sbhNmiNoQTAgGQOHXkiRTXdw+hGIgwSh+fppNSjlm1DohyFLxyah0DmjqHzsCvIHKqLcSGTxc2NPha0RvmB6dbkxuFu06L5p7N8o0b6DfpoAsNgbRzW7mAAMzewShe/wfxEn9VDwJLhP1N4LPsaBpzDLRZKBgertT0JVlKqaK1GOjTCszgf7nNm/FhCccLw6DipY6uaTQziZTBUt3qnjsOsv1QFdrkV/kvMq9M8vqhBDQ==
+ b=bFaiFCpQTxXtxhCk2o7Ps4EOHGQBy8pHZkmZLLXZxgiMITmOfDxJiXqID5Dg1G88IfeuePHv9GSxDVrZGYhnIh/GaQOofWv9xNv1/xsjtMhRybrZcPuFsVfY4FvRU0t31LtZOcz9et1t6VH66QgZbO+sEWroWS6VUuwn2LF5W08KJnvtpU7mkjypiszqlOKbRo+5o6Vgfw3ud2TU3yFB+DLW+yfasaVuUhcYnmxLY6atyeSu2zXrpubDOpdKkoGSntD5dGmFe0UpXiFG2FLmIDZ6Qaqntv7CQbH+OujQtN1WzeV4z4lwdUPgBZ7HeFAghs19vWXcgU8TP9QcNDgZDw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=3qzrvnwILMJ21HgiAknr/shPZbQC54tCijtthYT2zLE=;
- b=reRv/fGbmWRNwiHvPdczBAmm3Wwhl2wQaDF3d78YP9eQRMJy0oQ9kcx36EgA8upoioHla61sb1TUrVq3ZdfAZsN0fKsOi0wV/dsHyZgLwkog4zNdaTMk3BW5WevlH9AkD07K3zibGRehBqLmElVye4MzvCvAKyTJV48jhpfjDpxnU/hRZhFRH1iQ+URhYu9egFR/tlFfKos4jQcYm4ZEEyMcT1tVZuaaByeLRit4QdDbwRJHlkRYELgu4i4+xpcvxHpLKgwt5nZLSseamff3h0pUoYmH4CqojqEkWhrwuYEBj4w/TkWAw8IYv83HxNDZghp0k3UZF+9/W9j7YBmzbQ==
+ bh=zOOsmq6HAJweO5tHxIxd67ID2jhfdOAcOnPe/CKrFxc=;
+ b=WIkKbsSAG8Iq99Kp+RyreuCAIeGnHLmmQtZCjra1AKysPVqjaBhZepZUI1IUS2d5cmbB22lUJRGBMdCrOmUoRm7Po+yjjFkmmNDrSJjzpYO1uOPXAm7L8lELFW0mbSseoalcYq0F5MLwlEqL+IazqszmaMGOGmObhuO6ql86bb4yB8y/j3WKWCUObmnXJij12ZeoilqGSvL12XB8M7MdcwVk3MRNgPV0UpASUjntwVe22eYocmpv9mpM1yjNmJ3eWBvxxdR0NOG2TAEog3qnwASKyIooiOYQsqo8jsRXH4hrGUq00PlEwV7mWhNWpe12yv4aAtu8uv6KwU5cS9MqLw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=windriver.com;
-Received: from DM4PR11MB7328.namprd11.prod.outlook.com (2603:10b6:8:104::9) by
- DS4PR11MB628998.namprd11.prod.outlook.com (2603:10b6:8:514::20) with
- Microsoft SMTP Server (version=TLS1_2,
+Received: from SJ5PPF57F27BA08.namprd11.prod.outlook.com
+ (2603:10b6:a0f:fc02::82b) by MW4PR11MB6737.namprd11.prod.outlook.com
+ (2603:10b6:303:20d::15) with Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Fri, 25 Sep
- 2026 09:21:44 +0000
-Received: from DM4PR11MB7328.namprd11.prod.outlook.com
- ([fe80::26e8:ea57:9a33:9a86]) by DM4PR11MB7328.namprd11.prod.outlook.com
- ([fe80::26e8:ea57:9a33:9a86%4]) with mapi id 15.21.0451.014; Fri, 25 Sep 2026
- 09:21:44 +0000
-From: Deepesh.Varatharajan@windriver.com
+ 2026 10:30:32 +0000
+Received: from SJ5PPF57F27BA08.namprd11.prod.outlook.com
+ ([fe80::68e:cafc:75a:3e02]) by SJ5PPF57F27BA08.namprd11.prod.outlook.com
+ ([fe80::68e:cafc:75a:3e02%8]) with mapi id 15.21.0451.014; Fri, 25 Sep 2026
+ 10:30:32 +0000
+From: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
 To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
-Subject: [PATCH] clang/llvm: Upgrade to 23.1.2 release
-Date: Fri, 25 Sep 2026 02:21:27 -0700
-Message-ID: <20260925092127.2318936-1-Deepesh.Varatharajan@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0145.namprd13.prod.outlook.com
- (2603:10b6:a03:2c6::30) To DM4PR11MB7328.namprd11.prod.outlook.com
- (2603:10b6:8:104::9)
+Subject: [OE-core][PATCH] wget: fix CVE-2026-15146
+Date: Fri, 25 Sep 2026 16:00:10 +0530
+Message-Id: <20260925103010.3001030-1-Ghanshyam.BanaitSanjay@windriver.com>
+X-Mailer: git-send-email 2.40.0
+Content-Type: text/plain; charset=UTF-8
+X-ClientProxiedBy: SEWP216CA0094.KORP216.PROD.OUTLOOK.COM
+ (2603:1096:101:2bf::11) To SJ5PPF57F27BA08.namprd11.prod.outlook.com
+ (2603:10b6:a0f:fc02::82b)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB7328:EE_|DS4PR11MB628998:EE_
-X-MS-Office365-Filtering-Correlation-Id: 4f1c7f08-c69a-4863-2e36-08df1ae66a76
+X-MS-TrafficTypeDiagnostic: SJ5PPF57F27BA08:EE_|MW4PR11MB6737:EE_
+X-MS-Office365-Filtering-Correlation-Id: 70c94015-feaa-4a98-06a5-08df1af006cf
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|376014|52116014|366016|1800799024|38350700014|3023799007|6133799003|10067099003|56012099006|11063799006|18002099003;
+	BCL:0;ARA:13230040|1800799024|23010399003|376014|52116014|366016|13003099007|38350700014|10067099003|11063799006|56012099006|18002099003;
 X-Microsoft-Antispam-Message-Info: 
-	BEen5OtaViT5raWbTFPjevEfcEx7x/33IUWstEDQEqviNie1lEBmdz2Z5U7Zbui5WSEdEKllUHAUNRMmlzNyI9E199ZIkabeUw59zWKMxBJrbO8ZrRA7aIGmJXCxZj9BPnTLQ8z905kUm/O30l0C4PVRXtfTOh5YOhKR6iMih7GYZpieui7zRBCd7r37xOmW06mdRxG0Cvn6cxQ2ss4oQEMsFiPPr7JKmNNiIBjpRq6bkHOYeOilbF9vXSTZv8Pc1IwjYFj566qoDGpGApIXBWnnjq9FmoaUl4Xmt5xVWtj9gbZfIJZ+HP6DMJyrpn1m6hNsi7RaNjwkoVb5J1PneiL97xqX1xaMjTOc8I1HV6G3f/z+GJv7vdED+FszZmuEofjs6p5XKdhkAgJkOCInNb1j9FWkxxczmm3+iCHfFxIibzU7xZj2XUIm9yfQ9oADMSaEt3YjK+sI/zoWNNl/t5GC2cfxTdvArHEJ+OA1Wfa/qR7QZQyMINU5LZDTuh9PFElfPKzCxx7NBX8qF6S8exe0rVtgvC9ejXe4QpT5rQZe6yVR2kLRAILmB7jcXrmvSbnD0gZPav0CVhBwCt6T1Z0LOafsse97eUXRLbgo60ypSTb2nFfk6gTFGm4bNAB7vp+nelularV6+z0S6iy4p+WlXtooykedkSq+HKD11IzCU+EW6fHNUrVzZNQJ2v03
+	wrM8DUmxj0nPCgAhBivokrdKd/gwNRbV06W/MthKzj75fnGnOczaJg/qvJ8pHvrjM9ODLCBL6M5HlhmYQnBOqIDtvqesxQtPZHiC77g5NJdkLOlHb9EL45ypXX90jU8C2OTestwIJXl0zYttamj4fZ9AIMs55Ma0LiCD3XL8nZ1Tp7KnEk6g+ujGj3/mFlIG23XS8yPDHe9Ho+RiSxAG1bxeGxD/KUq32sFuWP0epimAETXcTDfmsjLdf//LHZQYbqUtchoLQuz5utRkqOHliySb4YLJY3EOaj9qTtlzGb85oetJtgvaWRFxnEzKEMMY4/gfRYDswd5b/ld6zHBCoP+fv8OggbScFOkehY0I3iCq0bqzJqbyarqr3XndCpQwNlP5uJRF+/0U/6VZx4mbFFOQt+PFpGtYHfYNqFnBAgP5huOMGqTGopFMnKT1PZi01e0JeJdwjpsKgNo3hHXYKnLDwj7IdEOXxp4HCXRqYTltY/bl7aaEWx6w3YzxdZwkp0cRveRJj8NrH28N9a+vONWQyyNgCrDeU18zU1eT+UIjOv2vXsWmfyXSuR08peqEivQilfTGx1hxMiiUyC5t/dphNpx226592j+ahBqvYgGHIoTTd/zmiar361aZlVCKwwGzzu8pVCfcaMvL6x31EbDfF9Z2cDUpGPMbM4KvKus=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7328.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(376014)(52116014)(366016)(1800799024)(38350700014)(3023799007)(6133799003)(10067099003)(56012099006)(11063799006)(18002099003);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SJ5PPF57F27BA08.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(23010399003)(376014)(52116014)(366016)(13003099007)(38350700014)(10067099003)(11063799006)(56012099006)(18002099003);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?NngPiFdSl9A3/HsZZAm4Q8aXYiIfmTjLJqtclS8R3hhsivrU2RJ75OGaIopg?=
- =?us-ascii?Q?dVfMNejRjSqLGx9BrnjDm6eq5KS6Z4p/wF7WQ38U9/Eq4fAOgxgFlL3pKNr/?=
- =?us-ascii?Q?PcnnCQORdeRWt8bOlJwnyEQwvswzX9Lt+Mnutx9k66L4ZS9wKX/CGfZI4Gue?=
- =?us-ascii?Q?zk8As+EbiYPfj5w7uae0Y/Qa2u659FrrTBBTU06pKQdkjyFIJXdimRbXBtZv?=
- =?us-ascii?Q?2TxQc5Z8zRTXvaSti1Kx/yQKsC1pcRv0s7d9r+Pc9yZM1Lv0p6J/ssuAx2GV?=
- =?us-ascii?Q?k6vsTY/R3FntKJpX3tgIrmxMHcC68XUpkQmBcGkJwHvM5dWsBbC6YSrhI2vK?=
- =?us-ascii?Q?dKOF6w293rhxxMQ1c3LN8uNAXWLeZMOdlrDV07V4FLB4rpWuGwEtTMlfIR/8?=
- =?us-ascii?Q?EEyYDJLAIc6tbiii3QDnMksBeN+ZwWzr+t6DoI3pfvSaYdqCDeaDjMhJtOFp?=
- =?us-ascii?Q?13fGHqyFS88gtqS3dF4pI8HZlKv3uZNzQK+XQtF6sRK2TSAF8iJqp7CMTMST?=
- =?us-ascii?Q?pZ+q2uN79VuQbOfwMrc7huSd2IEdLxee51TgwalH6xY9JtaibMUMEnsbLBzr?=
- =?us-ascii?Q?BB1sqv19CycOxLfb4/UXXPlkJRh893Zt5IoVgAXiKCuksxXcbia5wQRxV6nz?=
- =?us-ascii?Q?Bvbr+/9vn5P8X7DGfHJPRyAdLk3iT0+kRkjeUQEv8zcfl40zecSiHTWUxzmI?=
- =?us-ascii?Q?3tDGAqYMKrzJZZy/lQZnwJ/xsosSVBJp6AlwrfiGaZfKlvYaOENspEgFZKSx?=
- =?us-ascii?Q?8aRz7ZTmkhT0mROUxEdmDCdl9cAHmvTOAjJWt+SAKauyFOE8YCA8JxvPWPKT?=
- =?us-ascii?Q?G291410jrz09DAkLQ/BT4MhYqokxEPCNX0qewAs9COM4UTX0fzrtsKW2YlLs?=
- =?us-ascii?Q?7YDXepk3q6sRBXGJwSHabXcwGEBK0gMw7T6xwHrTKXs+0qdSIk60QNlBCZt1?=
- =?us-ascii?Q?tYa2skU2TrEBj6Kkc60bczA04kFFBTDDrz8vrgAMF2fGrg3v+Me9sokrcKFQ?=
- =?us-ascii?Q?vDQYqvNoXaiEEz88Qatfkd4PJOsiSlBUhcQQ7U3bX+hkAZjFZqseOdM+3f5O?=
- =?us-ascii?Q?ixsmKv31NsLUy6WAV+VRLe4o8h8UfhAcCuReNoscEf9GgsGI/iTML8JHGtTR?=
- =?us-ascii?Q?3bG6MeFLHx+ayc9tGFVAz2/8mhhTpMw3iV+fm6S7Wnd3F25sgb6JWC2T6EXl?=
- =?us-ascii?Q?rqGG5sxEayb5Ump2SJbsQG9BgFzD+P26eZVz3tF4hQJy4rOfHobmyuNCjw18?=
- =?us-ascii?Q?ctZC3g78i6YCfhXlPoKYEVODNH53UFnaFfgA/39TlGPUjtANWLhgqOH3Aeyr?=
- =?us-ascii?Q?OlMFdnk3BbGlKkv+5nfkobckTb4KPuId6h1saDpOfzAGbvWlz0q4A+BjQZPs?=
- =?us-ascii?Q?F2QJs45mfhSCAEffZi5+MGNE1SatLdQAtgYgzNVPkj9bxfMantYjoehsp1wJ?=
- =?us-ascii?Q?AYM2V1aCF13Hi8UM/xjBTiAu+q8hn0zExb0Bnw8IxGrTzdoK03GWBihKzbBb?=
- =?us-ascii?Q?+jOZtnD/AhEhsw8nsBh1pHKdjxkqRUnkY5Gq1U1AyMw59Z7jZSHx9/25qdj0?=
- =?us-ascii?Q?glIUquDQIYzS2F7RKhZyZ0Ny9ENecgcCRzxSI01Fa06AWG7BP/wSpExrdyNe?=
- =?us-ascii?Q?VFUBveZ658v6VuqvpG0qAvPFKON+kTcq0gc+LCm2sOZAx7dVq7ID+6y1dSFu?=
- =?us-ascii?Q?o0vxtdxroaNu2iWowjhHgj0v7DcBQVQUBH5znC6g5udwuD6uv6BybG0zSxaX?=
- =?us-ascii?Q?hX+VNjUI0eBB6NcK9g1qUDHNOjGct98VfeWH6nLXUvoxpR60HMEg?=
+	=?utf-8?B?U1J5VGZMVUZqVlQvNkJuRXphNkpFNzRibE5PUit0empqNzJhYVhQNGREY2RH?=
+ =?utf-8?B?WENkTDZ4R2R0ZVcvWFljSGkzZ1UvNXp6M0o0Ky8zNk8yWTM0eTFtOHU4Z3Z1?=
+ =?utf-8?B?bnlibEN0UWllWFJSbzlLSWlKNnhvN1d0MFRIVnN3SVlDK3NpVUU3OHM3SjFw?=
+ =?utf-8?B?REdod3BudU1vNENheDBIcDlKcjJldDJWYU1TcXdtMzV0NUczODl6RTY1TXFl?=
+ =?utf-8?B?UGN2Zkh5c3FYMi9JdVI0bEdFR1VGUEtCOEF1ODZNR0UzMWFsTk5zaUYvTTJZ?=
+ =?utf-8?B?MTNQb3c4aDdKR2o1RUdjdGZPcVR3VXJOaFNRR2hrSTltYVM1MTJHeXY3dFpV?=
+ =?utf-8?B?SUlZSXV1MkpLc0FkVG5QM3cxT2RTTDNrZmxKc0JNcGp5amRGVU1nTTNQdHF1?=
+ =?utf-8?B?ekpITk8xYWIwRlY2eU1XZklqTElQTzQwWHlFV3ZkVFd1ZThpTHpvQU9salNq?=
+ =?utf-8?B?Rzg4eERsLzF2UUgwdmt1dGQwUHE0Yk1iS1Q3d0p6TDJoYzVQZHBEQkpiTjF3?=
+ =?utf-8?B?bDRKOGx1bks1T24rRWVGeUJDeUMxV0RzU2JiTk5YYXgvYlZKNENoSC9MdTFU?=
+ =?utf-8?B?SlhoU2hRUjBqcVgvQnVTc25pVEVib1VHSTM3K2FLdCtCQXlTZFlGT3g5TEFS?=
+ =?utf-8?B?VG1GT0xKQy9FYWp1SXVjYS9mQmp1b0tvam1SQnU5VHV3bEhaL3RNbDB4aHhH?=
+ =?utf-8?B?Ymw0cXBDbEFnOU9ycFZXUExVcGtKenlNSXVQUVBqblRBN3ZUMXMrdUc3N0Ra?=
+ =?utf-8?B?VzMwTFBmZDJxZXNlWUV2NkZ3VWFYWXdOOTRkUGFaN05selNrQUtOa1pwakhG?=
+ =?utf-8?B?TlQ5STl6bkhTZWswaTRTTWVJYVAyVHlZNXV4TUV4WUoyeDhiSU5pRVNWUjRk?=
+ =?utf-8?B?bk5qdEJIUFpZMmpjYU0vZ094WDY5eERHbm1jRGR3TzMvb3JmSTdtUk9acTVX?=
+ =?utf-8?B?QWVVeHNTRXd2UU5XeUhLL1FBMUdITXF5SFhISlNLZ1JnTGlaaUNyb09SMnVV?=
+ =?utf-8?B?aTlKUzBQNExGRFVmbzBRbWdEby9FTFNSKzl3V2VXVTFFSUZteHZHcDNid1VE?=
+ =?utf-8?B?YURWN2tvdFhlRDJ3bjJrZG4wV2Z3QmRrenNJbW1OVWhSTHY3OUx1VWtUS2p3?=
+ =?utf-8?B?S2QvYlo4ZW4vd1ozVzYvREkwNi9qalZmMHNYM3pLa1lkMUc5enkyTkJjbUFM?=
+ =?utf-8?B?L3QyQm5sUHZHUEkzanNJd1NsOEVNamtVWTArSkFJNlEyQ2NWamVIN3hwNlBC?=
+ =?utf-8?B?VlFEbEF0WDNDUkJUamVRdXlnVWJsZm9ScnM3QUJpWEJaZXVCcUt0SEN1UDVT?=
+ =?utf-8?B?bXFnK3FBK05VdUNCbURna3JHbE9Ra0hKWXdwV1pkN2ZQN2xQbGJObnhLRFRm?=
+ =?utf-8?B?N1cvb1FIQzhKa2t6TzhRMGRtYWVYdVhIY1AvSFNmZjdOeFFMRFEvQkFjREhw?=
+ =?utf-8?B?NWgxRG14OEJ4ZndmWXpmUm5vZ0txQUMrZGhKcTQrdERhSFFPZGs1YVFqeEwr?=
+ =?utf-8?B?aXZWOTNkdXpCNno4WVJBNFIvUXFQQk5uTUtMSEFLYnlPdDhiaGhLd2tqY0lV?=
+ =?utf-8?B?UTFDdVh3RVl4eVpoY0FHNjlwSWs2Zmg3Nnp4Y0tYZS9PR3RtQ0MxZUlPQWxQ?=
+ =?utf-8?B?R3FSSnZNS0FDdFVhUWUxWHlXWVdnVGRhNFhUaHdqdUlFUjQ2c0MrRitnT0Vs?=
+ =?utf-8?B?ZlBoOW5WYTNlSmkyMWo3cHVkdk43RUdYLysyMU5iL1ZRSjBpc0xob3Ivc0Fh?=
+ =?utf-8?B?eXFYWHlPeXBvOXhCdFdtVkRSc05QbkdSQVl2ZGNsSmZoSTl2WFpoengyWEFW?=
+ =?utf-8?B?TFNyeEJqdnZhWUFOVEVSRCt2L1pnRURYSlBDaDJtcitsY0RJS3g5T0JNcFVU?=
+ =?utf-8?B?M21raXFtczZ5WDV3dDFhNFBHd0d4ejAzZ0NQTk1MMTRjMXdLeFBOL2ZmMXhN?=
+ =?utf-8?B?dmFPcVBJZ2JLWVU1aVpMbHpMbmVRc3JNeFA0ZWIxMS9YUGxaNmtKaFBmOUJS?=
+ =?utf-8?B?SkFydUUzcFVrUkw3M3l3bEFIUG5xbFU4K2tKUWRWckppRS9uTGpGd0FObXYv?=
+ =?utf-8?B?S05odVJ1cVRqTzZ2cXJXdTZWaFVSQVdzZTJIZDlScitoVmhVUWN6cmQrVGRC?=
+ =?utf-8?B?c1Uzc1c1M1VHNG9lS2dnM3NBOGZxblhWVU1lU0Zqc200MklqV3dqVDNjeUFW?=
+ =?utf-8?B?cWZGVEFSeGRpSlBLTk1DOU1KbDY3WWpQZXFMNGFlOGVDam1wblJZekJYVUhC?=
+ =?utf-8?B?bWRlTloya3d2YTVKVzUrZytxcUk3V1JkUm4wVWVOQ0ozdkJ5SXlkUGpxOVBu?=
+ =?utf-8?B?NEdKRGd4TDBhbCtWMTIxVy91blgyMjV3cnRvaUJhWlVuYmJkVXVUMXVzeTFj?=
+ =?utf-8?Q?ySvJAXS2VRJB9qiwHK59OqQD6XSdhO8TxusdD?=
 X-Exchange-RoutingPolicyChecked: 
-	oJXEH/V4/uwjhIWyQ6WZcWBIMFb9OKEdFQ3wWki5x1wpfH/qBnx6zSXruTpdskA/ZewJskUhhJhb0oNHPoFr3X/+QQE0PxDsdlwg9BGhXhp/cX48Lup1G8zHrJxcen5iDtQG7JhZ1GXA6Pd7UplPHEr0NY9/ibEfN2iL+uV3+uQhY/DskVUR+eGMYNwpjS6ZyPikxz9ZCHZe0XAUaaAad37tLaLD/AMPhKO0gA4VqrpJ4p4VPRqN2XdIa4Q2DnBoDs2dAfWnjSstCNwUiYkCNTftr4AQnr3KQkmo9hjEg2vZg5cofwDy7zpoXF3DGS8n+6SX5utYW80CKUfZ3R+3wA==
+	2cFI16WlOoKb0zI1Y1dvC5BCK8eDbkVf7QIwdRxYpIx+u04DnuHWt8eOc0B0cUQJXSowtNYyhc25OF7uCzBR+JmMQfJ5h69vvvTfry+V7Xv7l5JWcCrIvraP3kihLEXYipgAVuHXzjF01t2qUw/jJxt8SbrYZbRiqCZLR0Clwq38lwD6VmXdBAiu7s+J0hemZFNPxPPSC+TBt4tEZFUY6X0qF6i+0QcPetw4EFOV7EjErODmjXFxLLpILhfJlJuf54wiLz6SJKnBMv7wnzQauyzNMg87CJF3nViMImzUSTBMISAQ0bXVEPYnQ6DUEVf2USlJtVbxGrPX+nsMswD3HQ==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 4f1c7f08-c69a-4863-2e36-08df1ae66a76
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7328.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 70c94015-feaa-4a98-06a5-08df1af006cf
+X-MS-Exchange-CrossTenant-AuthSource: SJ5PPF57F27BA08.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 09:21:44.3016
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 10:30:32.1173
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: a4f76rD7as+KZOWTDba7aM3s/nhSrfK1mBF5sBvrq2+Cf8V5G9qC70z6Q9fSHwrVf0Osemg5ncEOlhMPQ5muc2l+QsX49L8QuQMXxoGCooboWFF3kVr+Qfc10y1EdCZq
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DS4PR11MB628998
-X-Proofpoint-GUID: vcENuZN0dfJN1HxcGIXJqfa0pVmuSGqL
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAzNiBTYWx0ZWRfX4HaQWsojfySI
- 7d4on/uiFhKX/xdZcDRg1YH3kExFnlByP6/wwWWMBKKiNNWtzU6TGmLdkKwl+1OQAp+wVTgJ4NT
- FFHqAYZOLUkvf7cfkpkXcdaJvwMhS5ohsYJ5Ie01850VQ+y0HrZZ
-X-Proofpoint-ORIG-GUID: vcENuZN0dfJN1HxcGIXJqfa0pVmuSGqL
-X-Authority-Analysis: v=2.4 cv=NI9AaE6g c=1 sm=1 tr=0 ts=6ab63d2b cx=c_pps
- a=a2+L3AnVmArF919Fy/9SOA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: E67QO/v+yQJ4WAfYvWnPXrEnGH6CZPXYqPy+X3qfE/f+WPED32EVcVcGAaW+osIzGRjdp/9b6oCZEtpzb/M3nMF2xPcMdOOZ4dYf9qgQpbbafHZ/QPiSKin9kjtFExMc
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MW4PR11MB6737
+X-Proofpoint-ORIG-GUID: pJqBHQzbpX-WtSCMaFxAJsZz9syDYA0r
+X-Authority-Analysis: v=2.4 cv=Lv4HWXdc c=1 sm=1 tr=0 ts=6ab64d4b cx=c_pps
+ a=kWDUzu7Sg0boEHrzbzcNEA==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=fTW__CHxibyLmBMfj2wP:22 a=Twlkf-z8AAAA:8
- a=NEAV23lmAAAA:8 a=t7CeM3EgAAAA:8 a=pGLkceISAAAA:8 a=iGHA9ds3AAAA:8
- a=h90kQbrQMsaKDzxxxM8A:9 a=-74SuR6ZdpOK_LpdRCUo:22 a=FdTzh2GWekK77mhwV6Dw:22
- a=nM-MV4yxpKKO9kiQg6Ot:22
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAzNiBTYWx0ZWRfX8o0pAwqYi62z
- RCMP486Go8otAgTEZvQwQXHB4T6VU3/I5XhvnzBNP6EHuWn7WCF16deC0DfAqoa6GjQ60QUn0pH
- oZwbNB65Oo9vyf0YU4r0MNK+/946uzhkmrrZ9a8YubfUvuFJpOmObGEsZygWhDWTytduXSPkTuc
- QzWNS5gSvc4miBdyShjsZibwDvwZG/CU7+qkNiLrMpjbY/61ddC9CbkMozLobVEksZp3b5xF3xJ
- jxuUxKz9VLj0HZs3HpgTUbwOwX1DVilo6dTEvhCG9ZR5dBeLbLSJlQVaasAMLYJ80n/LN48Xe6e
- sYO/x+w/LHTzY9J3hjLVXutl0Vtc9UEYy3+4ScHR4KhG00r7gbX1J2UtGfx+jutqRUBs03ZF2tR
- oj+llejuj+0I0NgVgFndB2YUNxGYuChkUkq3XBkQ2Q+mq9v6xV9d+YHDj3D+M1a2sKNWoJ+W14j
- cNkOjrMK+nDUZpQR+3A==
+ a=xqWC_Br6kY4A:10 a=IkcTkHD0fZMA:10 a=VdqzKS8jKosA:10
+ a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22
+ a=mDV3o1hIAAAA:8 a=PYnjg3YJAAAA:8 a=8r2qhXULAAAA:8 a=xNf9USuDAAAA:8
+ a=fxJcL_dCAAAA:8 a=t7CeM3EgAAAA:8 a=koS_CkKyrU6iBq9c7OQA:9
+ a=7jqKeCjk4K9AMwHj:21 a=3ZKOabzyN94A:10 a=QEXdDO2ut3YA:10
+ a=8gvLZcY7Nlvl4CGD_6nf:22 a=FdTzh2GWekK77mhwV6Dw:22 a=ObmvtD6WMDJ6O4cpRQe4:22
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDA0MSBTYWx0ZWRfXzMEGfuNZf+sH
+ jvzy78ym5NeP/vFcx7hS9u7lDfMzWLNVJr9ykjYqrEnLo9DTGqMfzpo9DnYtSiDZI0vz1XQtlPU
+ dmplofG+Gv5x5BOVFl+EACCV04JP951XFzFNfAX5bx2MRMnLpHlpd5zNw89/YYXD2uN7+se8mNl
+ HApi5qrm06BuTmXHuDm8i8HRTH/iqvvaCKUlvWtFAbzUYFLCl+kKqHcEwFre6qjUhUC0qy6FALg
+ xVTI1gOO4tzelgPxzoowvmJr0LVayYpgEkRIEI5s7QLhUyqNv2BJ+GD83ADmac5zconptcNFAj9
+ 8jsMAwadimAMB0K7HM/pMN9q4Sh/QJ4eN8E9u2/e15PxjJnY9mepcCV5LEGHWIpuhv3BdzsBekW
+ plpLoea6qYo85xV0yvdlKRtjBaBlYQ0I2JOaoWMVtpCeBtlbPP2AacTTC+yUR56OjRLxILrkzAh
+ qPDpnkpkeYjTZD0A6cQ==
+X-Proofpoint-GUID: pJqBHQzbpX-WtSCMaFxAJsZz9syDYA0r
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDA0MSBTYWx0ZWRfX8UzzRPfOfGlW
+ bb+5NVbDu+c2Avfhx/3O43LPS/B9jMGcm4yelJ4THJ97qbkZBd1wuov6935X6gI+plTbFS6UB1f
+ bPJoII+7u2W1tG3pTgeckfVKot0fWxoaMKVuLDwH6Dzyy+wq4mkZ
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-25_02,2026-09-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- clxscore=1015 malwarescore=0 impostorscore=0 bulkscore=0 priorityscore=1501
- spamscore=0 adultscore=0 phishscore=0 suspectscore=0 lowpriorityscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609250036
+ malwarescore=0 lowpriorityscore=0 phishscore=0 priorityscore=1501
+ suspectscore=0 clxscore=1015 spamscore=0 impostorscore=0 bulkscore=0
+ adultscore=0 classifier=typeunknown authscore=0 authtc= authcc=
+ route=outbound adjust=0 reason=mlx scancount=1 engine=8.22.0-2609040000
+ definitions=main-2609250041
+Content-Transfer-Encoding: quoted-printable
+X-MIME-Autoconverted: from 8bit to quoted-printable by mx0a-0064b401.pphosted.com id 68P535i82499881
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 09:21:53 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246612
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 10:30:44 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246613
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+GNU Wget does not validate the IP address provided by an FTP PASV respons=
+e while operating in FTP passive mode.
+A malicious FTP server, or an HTTP server that redirects to an FTP URL, c=
+an exploit this behavior to redirect
+Wget=E2=80=99s data connection to an arbitrary IP address and port.This a=
+llows an attacker to forge server-side requests
+(SSRF) from the machine running Wget, potentially accessing localhost ser=
+vices or internal network resources.
 
-https://discourse.llvm.org/t/llvm-23-1-2-released/91895
+Backport patch to fix CVE-2026-15146.
+https://cgit.git.savannah.gnu.org/cgit/wget.git/commit/?id=3D4f85853f6418=
+63d5915786a8413e1a213726a62b
 
-Brings following fixes:
-85ac56026243 [Clang][CodeGen] Fix crash in EmitParmDecl for bodyless destructors with -fextend-variable-liveness (#218830)
-4b1925210476 Fix `fp128` reaching `llvm_unreachable` on 32-bit PowerPC (#216613)
-4a9562cdbd75 workflows/release-binaries: Fix zstd compression (#219587)
-577cd04ea1e6 [cmake] FindLibXml2: keep user-provided LIBXML2_DEFINITIONS (#221294)
-03b58ead1a5d [llvm][AArch64] Fix FPDiff founding direction in non-sibcall tail calls (#223545)
-eab565ac4e1a Reland "[llvm][AArch64] Ensure stack alignment in non-sibcall tail calls with FPDiff" (#220406)
-267a9fb46389 [clang][modulemap] Fix crashes loading pcms (#218011)
-36e7268be7c2 [lldb] Disable delayed-breakpoints by default for lldb 23
-664808c09ccd [libc++] Reword confusing warning message about AppleClang version (#222380)
-ba019b7aafce [SPARC] Fix SelectForceADDRrr for global addresses and non-reg operands (#220013)
-82fc843747e0 [libc++] Don't assume a valid range in find_if for empty inputs (#213752)
-2eabe80bc7ab [libc++] Opt `std::*set` out of map key extraction optimization (#220452)
-21a77e7bb6bf [LLVM][CodeGen][SME] Don't use non-streaming zeroing instruction when in streaming mode. (#222353)
-3c3c37ea117a [win/asan] GetInstructionSize: Add some more instructions. (#219038)
-069ef0e7cb36 Add release note for #184718.
-7fe36371c71b [RISCV] Fix infinite DAGCombine loop with SETCC and SIGN_EXTEND_INREG (#221593)
-36ede5c3922b [clang-tidy] Normalize windows line filter paths (#217038)
-24ba344c56c5 [Driver][OpenBSD] Use -no-pie instead of -nopie (#220464)
-e5130a252e5d [Driver][OpenBSD] Pass -pie for static PIE links (#216907)
+Ptest Result
+DURATION: 17
+END: /usr/lib/wget/ptest
+2026-09-25T10:26
+STOP: ptest-runner
+TOTAL: 1 FAIL: 0
 
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+References:
+  https://nvd.nist.gov/vuln/detail/CVE-2026-15146
+  https://www.cve.org/CVERecord?id=3DCVE-2026-15146
+  https://security-tracker.debian.org/tracker/CVE-2026-15146
+  https://ubuntu.com/security/CVE-2026-15146
+
+Signed-off-by: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
 ---
- meta/conf/distro/include/maintainers.inc     | 2 +-
- meta/recipes-devtools/clang/common-clang.inc | 2 +-
- meta/recipes-devtools/clang/common.inc       | 2 +-
- 3 files changed, 3 insertions(+), 3 deletions(-)
+ .../wget/wget/CVE-2026-15146.patch            | 126 ++++++++++++++++++
+ meta/recipes-extended/wget/wget_1.25.0.bb     |   1 +
+ 2 files changed, 127 insertions(+)
+ create mode 100644 meta/recipes-extended/wget/wget/CVE-2026-15146.patch
 
-diff --git a/meta/conf/distro/include/maintainers.inc b/meta/conf/distro/include/maintainers.inc
-index c273d2d754..e7df56daf0 100644
---- a/meta/conf/distro/include/maintainers.inc
-+++ b/meta/conf/distro/include/maintainers.inc
-@@ -483,7 +483,7 @@ RECIPE_MAINTAINER:pn-linux-yocto-tiny = "Bruce Ashfield <bruce.ashfield@gmail.co
- RECIPE_MAINTAINER:pn-lld = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-lldb = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-llvm = "Khem Raj <raj.khem@gmail.com>"
--RECIPE_MAINTAINER:pn-llvm-project-source-23.1.1 = "Khem Raj <raj.khem@gmail.com>"
-+RECIPE_MAINTAINER:pn-llvm-project-source-23.1.2 = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-llvm-tblgen-native = "Khem Raj <raj.khem@gmail.com>"
- RECIPE_MAINTAINER:pn-log4cplus = "Unassigned <unassigned@yoctoproject.org>"
- RECIPE_MAINTAINER:pn-logrotate = "Yi Zhao <yi.zhao@windriver.com>"
-diff --git a/meta/recipes-devtools/clang/common-clang.inc b/meta/recipes-devtools/clang/common-clang.inc
-index 912fb80277..d34858d8a2 100644
---- a/meta/recipes-devtools/clang/common-clang.inc
-+++ b/meta/recipes-devtools/clang/common-clang.inc
-@@ -5,7 +5,7 @@ LLVM_HTTP ?= "https://github.com/llvm"
- 
- MAJOR_VER = "23"
- MINOR_VER = "1"
--PATCH_VER = "1"
-+PATCH_VER = "2"
- # could be 'rcX' or 'git' or empty ( for release )
- VER_SUFFIX = ""
- 
-diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
-index 5b358f7284..a8dee591b9 100644
---- a/meta/recipes-devtools/clang/common.inc
-+++ b/meta/recipes-devtools/clang/common.inc
-@@ -17,7 +17,7 @@ BASEURI ?= "${LLVM_HTTP}/llvm-project/releases/download/llvmorg-${PV}${VER_SUFFI
- UPSTREAM_CHECK_URI = "${LLVM_HTTP}/llvm-project/releases/"
- UPSTREAM_CHECK_REGEX = "releases/tag/llvmorg-?(?P<pver>\d+(\.\d+)+)"
- SOURCEDIR ?= "llvm-project-${PV}${VER_SUFFIX}.src"
--SRC_URI[sha256sum] = "ebe9be46fe8756d58c5b198ffad0fa2a766257add81a4dc52179bfacc7888ee6"
-+SRC_URI[sha256sum] = "c98bbef08a2b4c2613cd50e9aa9ae7b69b1fe6c16b2c40373bc0ab6116fdf78a"
- 
- SRC_URI = "\
-     ${BASEURI} \
--- 
-2.49.0
+diff --git a/meta/recipes-extended/wget/wget/CVE-2026-15146.patch b/meta/=
+recipes-extended/wget/wget/CVE-2026-15146.patch
+new file mode 100644
+index 0000000000..5d8d1a898e
+--- /dev/null
++++ b/meta/recipes-extended/wget/wget/CVE-2026-15146.patch
+@@ -0,0 +1,126 @@
++From 4f85853f641863d5915786a8413e1a213726a62b Mon Sep 17 00:00:00 2001
++From: Acts1631 <acts1631kjv@proton.me>
++Date: Sun, 5 Jul 2026 17:22:55 -0400
++Subject: ftp: validate PASV/LPSV response address against control connec=
+tion
++ peer
++
++* src/ftp-basic.c (ftp_pasv): Reject if peer address doesn't match adver=
+tised
++  address,
++  (ftp_lpsv): Likewise.
++
++ftp_pasv() and ftp_lpsv() copied the IP address and port advertised in
++the server's 227 response without checking that it matched the peer
++of the control connection.  A malicious or compromised FTP server
++could therefore direct wget's data connection to an arbitrary host and
++port of its choosing (e.g. an internal service unreachable from the
++attacker directly), which is a server-side request forgery.
++
++ftp_epsv() was already safe since it only extracts a port and reuses
++the pre-filled control-connection address.
++
++Fix ftp_pasv() and ftp_lpsv() the same way: capture the control
++connection's peer address via socket_ip_address() before parsing the
++response, and reject the response (FTPINVPASV) if the parsed address
++does not match.
++
++Verified with a fake FTP server that returns a PASV response pointing
++at a different loopback address (127.0.0.2 instead of the real peer
++127.0.0.1): before the fix wget connects to the spoofed address, after
++the fix it rejects the response with "Cannot parse PASV response."
++Legitimate transfers using a correctly-addressed PASV response
++continue to work.
++
++Copyright-paperwork-exempt: Yes
++
++CVE: CVE-2026-15146
++
++Upstream-Status: Backport [https://cgit.git.savannah.gnu.org/cgit/wget.g=
+it/commit/?id=3D4f85853f641863d5915786a8413e1a213726a62b]
++
++Signed-off-by: Ghanshyam Banait <Ghanshyam.BanaitSanjay@windriver.com>
++---
++ src/ftp-basic.c | 40 ++++++++++++++++++++++++++++++++++++++++
++ 1 file changed, 40 insertions(+)
++
++diff --git a/src/ftp-basic.c b/src/ftp-basic.c
++index 4870256a..0f4bb821 100644
++--- a/src/ftp-basic.c
+++++ b/src/ftp-basic.c
++@@ -623,10 +623,19 @@ ftp_pasv (int csock, ip_address *addr, int *port)
++   int nwritten, i;
++   uerr_t err;
++   unsigned char tmp[6];
+++  ip_address peer_addr;
++=20
++   assert (addr !=3D NULL);
++   assert (port !=3D NULL);
++=20
+++  /* Remember who we are talking to on the control connection, so that
+++     the address returned in the PASV response can be checked below.
+++     Accepting an arbitrary server-supplied address would let a
+++     malicious FTP server redirect our data connection to any host of
+++     its choosing (SSRF).  */
+++  if (!socket_ip_address (csock, &peer_addr, ENDPOINT_PEER))
+++    return FTPINVPASV;
+++
++   xzero (*addr);
++=20
++   /* Form the request.  */
++@@ -677,6 +686,16 @@ ftp_pasv (int csock, ip_address *addr, int *port)
++   memcpy (IP_INADDR_DATA (addr), tmp, 4);
++   *port =3D ((tmp[4] << 8) & 0xff00) + tmp[5];
++=20
+++  /* Reject the response if the advertised address does not match the
+++     control connection's peer.  */
+++  if (peer_addr.family !=3D AF_INET
+++      || memcmp (IP_INADDR_DATA (addr), IP_INADDR_DATA (&peer_addr), 4)=
+ !=3D 0)
+++    {
+++      xzero (*addr);
+++      *port =3D 0;
+++      return FTPINVPASV;
+++    }
+++
++   return FTPOK;
++ }
++=20
++@@ -692,10 +711,19 @@ ftp_lpsv (int csock, ip_address *addr, int *port)
++   uerr_t err;
++   unsigned char tmp[16];
++   unsigned char tmpprt[2];
+++  ip_address peer_addr;
++=20
++   assert (addr !=3D NULL);
++   assert (port !=3D NULL);
++=20
+++  /* Remember who we are talking to on the control connection, so that
+++     the address returned in the LPSV response can be checked below.
+++     Accepting an arbitrary server-supplied address would let a
+++     malicious FTP server redirect our data connection to any host of
+++     its choosing (SSRF).  */
+++  if (!socket_ip_address (csock, &peer_addr, ENDPOINT_PEER))
+++    return FTPINVPASV;
+++
++   xzero (*addr);
++=20
++   /* Form the request.  */
++@@ -842,6 +870,18 @@ ftp_lpsv (int csock, ip_address *addr, int *port)
++       DEBUGP (("*port is: %d\n", *port));
++     }
++=20
+++  /* Reject the response if the advertised address does not match the
+++     control connection's peer.  */
+++  if (peer_addr.family !=3D addr->family
+++      || memcmp (IP_INADDR_DATA (addr), IP_INADDR_DATA (&peer_addr),
+++                 af =3D=3D 4 ? 4 : 16) !=3D 0)
+++    {
+++      xzero (*addr);
+++      *port =3D 0;
+++      xfree (respline);
+++      return FTPINVPASV;
+++    }
+++
++   xfree (respline);
++   return FTPOK;
++ }
++--=20
++cgit v1.3
++
+diff --git a/meta/recipes-extended/wget/wget_1.25.0.bb b/meta/recipes-ext=
+ended/wget/wget_1.25.0.bb
+index 51ef1d485e..91e998ea2f 100644
+--- a/meta/recipes-extended/wget/wget_1.25.0.bb
++++ b/meta/recipes-extended/wget/wget_1.25.0.bb
+@@ -25,6 +25,7 @@ SRC_URI =3D "${GNU_MIRROR}/wget/wget-${PV}.tar.gz \
+            file://CVE-2026-58471.patch \
+            file://CVE-2026-16599.patch \
+            file://run-ptest \
++           file://CVE-2026-15146.patch \
+            "
+=20
+ SRC_URI[sha256sum] =3D "766e48423e79359ea31e41db9e5c289675947a7fcf2efdce=
+db726ac9d0da3784"
+--=20
+2.40.0
 
 
