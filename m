@@ -2,47 +2,47 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 232DBC98321
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 663F8C98326
 	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 06:52:58 +0000 (UTC)
-Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2756.1790319174725099571
+Received: from a27-23.smtp-out.us-west-2.amazonses.com (a27-23.smtp-out.us-west-2.amazonses.com [54.240.27.23])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.2758.1790319177378072491
  for <openembedded-core@lists.openembedded.org>;
- Thu, 24 Sep 2026 23:52:54 -0700
+ Thu, 24 Sep 2026 23:52:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=PtX8pomv;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=wog3uVJH;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a0d756a09b-aaa6c8fc-07cc-4951-a12e-bfe65722270b-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=CCTkB+JE;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=OwogCbUp;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.23, mailfrom: 010101a0d756ab86-e5703565-40d0-4eeb-b6dc-3c894c43303f-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1790319173;
+	t=1790319176;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=Y8WF62vApws3nlu7pRQmhPi2IanKRPUW1k70ui33yMw=;
-	b=PtX8pomvK79Uk4b9dOgFH4tX8QH7IzppQTXs/yr3NWE/pBHp91LStuo2Iu7UP0F0
-	ksFL6u3t0nnk4zJ5CIKlp35xMXJamm4nEfnOm6jlXi5DpbG6UNzJt/KNc9x+vwQ0U0x
-	nRhHBOxiyRYBaL7TlIHlH6nSLVK5qW1k373e2tM4=
+	bh=dUm58GT8I8bs3qLMI9+V73HAPho7Xj/KttZLtA1KqIA=;
+	b=CCTkB+JEl1y/ZZ4aGyoV2RbIpoqh9Rm7GfM2OjAF6GAUlzeRPHipRNpjZqmeptsh
+	5+uE6Y1HUu+WVxz301ho5FGDRN9YT9deP2s/sADt4xCIl4dxtwv9+ufjtfV2ZaZMu1X
+	2fG1q/yfl2LygBy9VnWE6gd/L9VgL8JhfnTfAD6w=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790319173;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790319176;
 	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=Y8WF62vApws3nlu7pRQmhPi2IanKRPUW1k70ui33yMw=;
-	b=wog3uVJHdcCkvNtOD0GWHiwSssd7JpnOiNBTX1stHj8T7jlKdgPWvO+TJvVXtbnB
-	czVfPTi31JhAM1lzVD/YdqOyOJ/GxuRgMRB2vHycJ32fyJY8xRbcrYhPIP/YVXkOwHp
-	94JuZfIc06f7xEOpcDRTvOKZMAV3HwS06+3htOpI=
-Content-Type: multipart/mixed; boundary="===============3955404213459684487=="
+	bh=dUm58GT8I8bs3qLMI9+V73HAPho7Xj/KttZLtA1KqIA=;
+	b=OwogCbUpbpTCGIUIYnMeHyR9e4FLoYlJmoQHR4zu+NQJj68NEiwAd2NVaEkbkxUF
+	zJjolK0ayDAg/lsT/NJVYPLILJoDEEZHprxJKeWdW/zrjHP7tlHTKPPfY4uzblt4lWu
+	KDa16wcxqkFwj3zMuHU1AZiiyzT55xWS2PbHOu0U=
+Content-Type: multipart/mixed; boundary="===============2707370104857767367=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
 To: openembedded-core@lists.openembedded.org
-Subject: [AUH] libpam: upgrading to 1.7.3 SUCCEEDED
-Message-ID: <010101a0d756a09b-aaa6c8fc-07cc-4951-a12e-bfe65722270b-000000@us-west-2.amazonses.com>
-Date: Fri, 25 Sep 2026 06:52:53 +0000
+Subject: [AUH] epiphany: upgrading to 51.1 SUCCEEDED
+Message-ID: <010101a0d756ab86-e5703565-40d0-4eeb-b6dc-3c894c43303f-000000@us-west-2.amazonses.com>
+Date: Fri, 25 Sep 2026 06:52:56 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.25-54.240.27.45
+X-SES-Outgoing: 2026.09.25-54.240.27.23
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 06:52:58 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246601
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246603
 
---===============3955404213459684487==
+--===============2707370104857767367==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
@@ -50,10 +50,10 @@ Content-Transfer-Encoding: 7bit
 Hello,
 
 this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *libpam* to *1.7.3* has Succeeded.
+that the automatic attempt to upgrade the recipe(s) *epiphany* to *51.1* has Succeeded.
 
 Next steps:
-    - apply the patch: git am 0001-libpam-upgrade-1.7.2-1.7.3.patch
+    - apply the patch: git am 0001-epiphany-upgrade-51.0-51.1.patch
     - check the changes to upstream patches and summarize them in the commit message,
     - compile an image that contains the package
     - perform some basic sanity tests
@@ -71,394 +71,418 @@ Regards,
 The Upgrade Helper
 
 -- >8 --
-From 6f63de51711b4d309ef64faec9dbd666fb40930f Mon Sep 17 00:00:00 2001
+From 007b0a46e4dac4fec99db30e5b6f6066ad500ba9 Mon Sep 17 00:00:00 2001
 From: Upgrade Helper <auh@yoctoproject.org>
-Date: Fri, 25 Sep 2026 05:28:13 +0000
-Subject: [PATCH] libpam: upgrade 1.7.2 -> 1.7.3
+Date: Fri, 25 Sep 2026 06:52:50 +0000
+Subject: [PATCH] epiphany: upgrade 51.0 -> 51.1
 
-Release 1.7.3
+51.1 - September 24, 2026
+=========================
 ---
- meta/recipes-extended/pam/{libpam_1.7.2.bb => libpam_1.7.3.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-extended/pam/{libpam_1.7.2.bb => libpam_1.7.3.bb} (98%)
+ .../epiphany/{epiphany_51.0.bb => epiphany_51.1.bb}           | 2 +-
+ .../files/0002-help-meson.build-disable-the-use-of-yelp.patch | 2 +-
+ meta/recipes-gnome/epiphany/files/distributor.patch           | 4 ++--
+ meta/recipes-gnome/epiphany/files/migrator.patch              | 2 +-
+ 4 files changed, 5 insertions(+), 5 deletions(-)
+ rename meta/recipes-gnome/epiphany/{epiphany_51.0.bb => epiphany_51.1.bb} (94%)
 
-diff --git a/meta/recipes-extended/pam/libpam_1.7.2.bb b/meta/recipes-extended/pam/libpam_1.7.3.bb
-similarity index 98%
-rename from meta/recipes-extended/pam/libpam_1.7.2.bb
-rename to meta/recipes-extended/pam/libpam_1.7.3.bb
-index e268ff4faa..31e14a724a 100644
---- a/meta/recipes-extended/pam/libpam_1.7.2.bb
-+++ b/meta/recipes-extended/pam/libpam_1.7.3.bb
-@@ -24,7 +24,7 @@ SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/Linux-PAM-${PV}.tar.xz \
-            file://pam-volatiles.conf \
+diff --git a/meta/recipes-gnome/epiphany/epiphany_51.0.bb b/meta/recipes-gnome/epiphany/epiphany_51.1.bb
+similarity index 94%
+rename from meta/recipes-gnome/epiphany/epiphany_51.0.bb
+rename to meta/recipes-gnome/epiphany/epiphany_51.1.bb
+index 63ec9bb100..cf1f69dfd2 100644
+--- a/meta/recipes-gnome/epiphany/epiphany_51.0.bb
++++ b/meta/recipes-gnome/epiphany/epiphany_51.1.bb
+@@ -32,7 +32,7 @@ SRC_URI += "\
+            file://migrator.patch \
+            file://distributor.patch \
             "
+-SRC_URI[archive.sha256sum] = "abaf33576462030c65bb963a56300a7786e7d75834f1c90a9dffda873835c33d"
++SRC_URI[archive.sha256sum] = "beb93b3b86b763092a1175b6e505789b7613071c0dc1ad56cac1979fe879e9dd"
  
--SRC_URI[sha256sum] = "3d86b6383fb5fd9eb9578d2cd47d92801191f4bf3f9bc61419bfefc8aa1e531a"
-+SRC_URI[sha256sum] = "2ce4765fd49df6693771ef2941f81e33d8ee14b94a81a5c7b369aa3b137b85a5"
+ export GI_TYPELIB_PATH = "${STAGING_LIBDIR}/girepository-1.0/"
  
- DEPENDS = "bison-native flex-native libxml2-native virtual/crypt"
+diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+index bdb06e407b..b697b5f640 100644
+--- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
++++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
+@@ -1,4 +1,4 @@
+-From 2bb52be1e80d1f4693a383be8270e80ef1d9586a Mon Sep 17 00:00:00 2001
++From 20c45cb379ee910b89175019388df1a63b01c0d4 Mon Sep 17 00:00:00 2001
+ From: Alexander Kanavin <alex.kanavin@gmail.com>
+ Date: Wed, 31 Jan 2018 15:50:38 +0200
+ Subject: [PATCH] help/meson.build: disable the use of yelp
+diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/recipes-gnome/epiphany/files/distributor.patch
+index 8677f1558c..28a961323a 100644
+--- a/meta/recipes-gnome/epiphany/files/distributor.patch
++++ b/meta/recipes-gnome/epiphany/files/distributor.patch
+@@ -1,4 +1,4 @@
+-From 2f52672597ab74cb17e41d308f8d9934c25d8fc0 Mon Sep 17 00:00:00 2001
++From 82196d415819d517d8cba2142600be279e499540 Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Fri, 26 Feb 2021 10:17:52 +0000
+ Subject: [PATCH] Don't encode the distro from /etc/os-release into the
+@@ -11,7 +11,7 @@ RP 2021/2/26
+  1 file changed, 1 insertion(+)
  
+ diff --git a/meson.build b/meson.build
+-index 8aec3cf..4a06ab6 100644
++index 65324e5..2e70ef0 100644
+ --- a/meson.build
+ +++ b/meson.build
+ @@ -15,6 +15,7 @@ if r.returncode() == 0
+diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipes-gnome/epiphany/files/migrator.patch
+index dcc162040a..491ff35ea2 100644
+--- a/meta/recipes-gnome/epiphany/files/migrator.patch
++++ b/meta/recipes-gnome/epiphany/files/migrator.patch
+@@ -1,4 +1,4 @@
+-From e336c2dd1368aff496a6ba01e2ca9ca7e88860a2 Mon Sep 17 00:00:00 2001
++From 84c26f054ab3520d06febc2e8a99502d2cff98cf Mon Sep 17 00:00:00 2001
+ From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ Date: Thu, 25 Feb 2021 14:52:32 +0000
+ Subject: [PATCH] epiphany: Fix reproducibility issue
 -- 
 2.47.1
 
 
---===============3955404213459684487==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="libpam-changelog.txt"
-
-Release 1.7.3
-
---===============3955404213459684487==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-libpam-upgrade-1.7.2-1.7.3.patch"
-
-RnJvbSA2ZjYzZGU1MTcxMWI0ZDMwOWVmNjRmYWVjOWRiZDY2NmZiNDA5MzBmIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IEZyaSwgMjUgU2VwIDIwMjYgMDU6Mjg6MTMgKzAwMDAKU3ViamVjdDogW1BBVENIXSBs
-aWJwYW06IHVwZ3JhZGUgMS43LjIgLT4gMS43LjMKClJlbGVhc2UgMS43LjMKLS0tCiBtZXRhL3Jl
-Y2lwZXMtZXh0ZW5kZWQvcGFtL3tsaWJwYW1fMS43LjIuYmIgPT4gbGlicGFtXzEuNy4zLmJifSB8
-IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVu
-YW1lIG1ldGEvcmVjaXBlcy1leHRlbmRlZC9wYW0ve2xpYnBhbV8xLjcuMi5iYiA9PiBsaWJwYW1f
-MS43LjMuYmJ9ICg5OCUpCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3BhbS9s
-aWJwYW1fMS43LjIuYmIgYi9tZXRhL3JlY2lwZXMtZXh0ZW5kZWQvcGFtL2xpYnBhbV8xLjcuMy5i
-YgpzaW1pbGFyaXR5IGluZGV4IDk4JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtZXh0ZW5kZWQv
-cGFtL2xpYnBhbV8xLjcuMi5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3BhbS9s
-aWJwYW1fMS43LjMuYmIKaW5kZXggZTI2OGZmNGZhYS4uMzFlMTRhNzI0YSAxMDA2NDQKLS0tIGEv
-bWV0YS9yZWNpcGVzLWV4dGVuZGVkL3BhbS9saWJwYW1fMS43LjIuYmIKKysrIGIvbWV0YS9yZWNp
-cGVzLWV4dGVuZGVkL3BhbS9saWJwYW1fMS43LjMuYmIKQEAgLTI0LDcgKzI0LDcgQEAgU1JDX1VS
-SSA9ICIke0dJVEhVQl9CQVNFX1VSSX0vZG93bmxvYWQvdiR7UFZ9L0xpbnV4LVBBTS0ke1BWfS50
-YXIueHogXAogICAgICAgICAgICBmaWxlOi8vcGFtLXZvbGF0aWxlcy5jb25mIFwKICAgICAgICAg
-ICAgIgogCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiM2Q4NmI2MzgzZmI1ZmQ5ZWI5NTc4ZDJjZDQ3
-ZDkyODAxMTkxZjRiZjNmOWJjNjE0MTliZmVmYzhhYTFlNTMxYSIKK1NSQ19VUklbc2hhMjU2c3Vt
-XSA9ICIyY2U0NzY1ZmQ0OWRmNjY5Mzc3MWVmMjk0MWY4MWUzM2Q4ZWUxNGI5NGE4MWE1YzdiMzY5
-YWEzYjEzN2I4NWE1IgogCiBERVBFTkRTID0gImJpc29uLW5hdGl2ZSBmbGV4LW5hdGl2ZSBsaWJ4
-bWwyLW5hdGl2ZSB2aXJ0dWFsL2NyeXB0IgogCi0tIAoyLjQ3LjEKCg==
-
---===============3955404213459684487==
+--===============2707370104857767367==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/libpam: PACKAGES: added "libpam-locale-kab"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-lt: PKGSIZE changed from 558 to 3384 (+506%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sr: PKGSIZE changed from 9013 to 13147 (+46%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nn: PKGSIZE changed from 59558 to 93763 (+57%)
 
---===============3955404213459684487==
+--===============2707370104857767367==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="epiphany-changelog.txt"
+
+51.1 - September 24, 2026
+=========================
+
+--===============2707370104857767367==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-epiphany-upgrade-51.0-51.1.patch"
+
+RnJvbSAwMDdiMGE0NmU0ZGFjNGZlYzk5ZGIzMGU1YjZmNjA2NmFkNTAwYmE5IE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMjUgU2VwIDIwMjYgMDY6NTI6NTAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBl
+cGlwaGFueTogdXBncmFkZSA1MS4wIC0+IDUxLjEKCjUxLjEgLSBTZXB0ZW1iZXIgMjQsIDIwMjYK
+PT09PT09PT09PT09PT09PT09PT09PT09PQotLS0KIC4uLi9lcGlwaGFueS97ZXBpcGhhbnlfNTEu
+MC5iYiA9PiBlcGlwaGFueV81MS4xLmJifSAgICAgICAgICAgfCAyICstCiAuLi4vZmlsZXMvMDAw
+Mi1oZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUtdGhlLXVzZS1vZi15ZWxwLnBhdGNoIHwgMiArLQog
+bWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoICAgICAg
+ICAgICB8IDQgKystLQogbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9y
+LnBhdGNoICAgICAgICAgICAgICB8IDIgKy0KIDQgZmlsZXMgY2hhbmdlZCwgNSBpbnNlcnRpb25z
+KCspLCA1IGRlbGV0aW9ucygtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS97
+ZXBpcGhhbnlfNTEuMC5iYiA9PiBlcGlwaGFueV81MS4xLmJifSAoOTQlKQoKZGlmZiAtLWdpdCBh
+L21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV81MS4wLmJiIGIvbWV0YS9yZWNp
+cGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzUxLjEuYmIKc2ltaWxhcml0eSBpbmRleCA5NCUK
+cmVuYW1lIGZyb20gbWV0YS9yZWNpcGVzLWdub21lL2VwaXBoYW55L2VwaXBoYW55XzUxLjAuYmIK
+cmVuYW1lIHRvIG1ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9lcGlwaGFueV81MS4xLmJiCmlu
+ZGV4IDYzZWM5YmIxMDAuLmNmMWY2OWRmZDIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9t
+ZS9lcGlwaGFueS9lcGlwaGFueV81MS4wLmJiCisrKyBiL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlw
+aGFueS9lcGlwaGFueV81MS4xLmJiCkBAIC0zMiw3ICszMiw3IEBAIFNSQ19VUkkgKz0gIlwKICAg
+ICAgICAgICAgZmlsZTovL21pZ3JhdG9yLnBhdGNoIFwKICAgICAgICAgICAgZmlsZTovL2Rpc3Ry
+aWJ1dG9yLnBhdGNoIFwKICAgICAgICAgICAgIgotU1JDX1VSSVthcmNoaXZlLnNoYTI1NnN1bV0g
+PSAiYWJhZjMzNTc2NDYyMDMwYzY1YmI5NjNhNTYzMDBhNzc4NmU3ZDc1ODM0ZjFjOTBhOWRmZmRh
+ODczODM1YzMzZCIKK1NSQ19VUklbYXJjaGl2ZS5zaGEyNTZzdW1dID0gImJlYjkzYjNiODZiNzYz
+MDkyYTExNzViNmU1MDU3ODliNzYxMzA3MWMwZGMxYWQ1NmNhYzE5NzlmZTg3OWU5ZGQiCiAKIGV4
+cG9ydCBHSV9UWVBFTElCX1BBVEggPSAiJHtTVEFHSU5HX0xJQkRJUn0vZ2lyZXBvc2l0b3J5LTEu
+MC8iCiAKZGlmZiAtLWdpdCBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy8wMDAy
+LWhlbHAtbWVzb24uYnVpbGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAucGF0Y2ggYi9tZXRhL3Jl
+Y2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvMDAwMi1oZWxwLW1lc29uLmJ1aWxkLWRpc2FibGUt
+dGhlLXVzZS1vZi15ZWxwLnBhdGNoCmluZGV4IGJkYjA2ZTQwN2IuLmI2OTdiNWY2NDAgMTAwNjQ0
+Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy8wMDAyLWhlbHAtbWVzb24u
+YnVpbGQtZGlzYWJsZS10aGUtdXNlLW9mLXllbHAucGF0Y2gKKysrIGIvbWV0YS9yZWNpcGVzLWdu
+b21lL2VwaXBoYW55L2ZpbGVzLzAwMDItaGVscC1tZXNvbi5idWlsZC1kaXNhYmxlLXRoZS11c2Ut
+b2YteWVscC5wYXRjaApAQCAtMSw0ICsxLDQgQEAKLUZyb20gMmJiNTJiZTFlODBkMWY0NjkzYTM4
+M2JlODI3MGU4MGVmMWQ5NTg2YSBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKK0Zyb20gMjBjNDVj
+YjM3OWVlOTEwYjg5MTc1MDE5Mzg4ZGYxYTYzYjAxYzBkNCBNb24gU2VwIDE3IDAwOjAwOjAwIDIw
+MDEKIEZyb206IEFsZXhhbmRlciBLYW5hdmluIDxhbGV4LmthbmF2aW5AZ21haWwuY29tPgogRGF0
+ZTogV2VkLCAzMSBKYW4gMjAxOCAxNTo1MDozOCArMDIwMAogU3ViamVjdDogW1BBVENIXSBoZWxw
+L21lc29uLmJ1aWxkOiBkaXNhYmxlIHRoZSB1c2Ugb2YgeWVscApkaWZmIC0tZ2l0IGEvbWV0YS9y
+ZWNpcGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoIGIvbWV0YS9yZWNp
+cGVzLWdub21lL2VwaXBoYW55L2ZpbGVzL2Rpc3RyaWJ1dG9yLnBhdGNoCmluZGV4IDg2NzdmMTU1
+OGMuLjI4YTk2MTMyM2EgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9m
+aWxlcy9kaXN0cmlidXRvci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkv
+ZmlsZXMvZGlzdHJpYnV0b3IucGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIDJmNTI2NzI1OTdh
+Yjc0Y2IxN2U0MWQzMDhmOGQ5OTM0YzI1ZDhmYzAgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitG
+cm9tIDgyMTk2ZDQxNTgxOWQ1MTdkOGNiYTIxNDI2MDBiZTI3OWU0OTk1NDAgTW9uIFNlcCAxNyAw
+MDowMDowMCAyMDAxCiBGcm9tOiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhm
+b3VuZGF0aW9uLm9yZz4KIERhdGU6IEZyaSwgMjYgRmViIDIwMjEgMTA6MTc6NTIgKzAwMDAKIFN1
+YmplY3Q6IFtQQVRDSF0gRG9uJ3QgZW5jb2RlIHRoZSBkaXN0cm8gZnJvbSAvZXRjL29zLXJlbGVh
+c2UgaW50byB0aGUKQEAgLTExLDcgKzExLDcgQEAgUlAgMjAyMS8yLzI2CiAgMSBmaWxlIGNoYW5n
+ZWQsIDEgaW5zZXJ0aW9uKCspCiAKIGRpZmYgLS1naXQgYS9tZXNvbi5idWlsZCBiL21lc29uLmJ1
+aWxkCi1pbmRleCA4YWVjM2NmLi40YTA2YWI2IDEwMDY0NAoraW5kZXggNjUzMjRlNS4uMmU3MGVm
+MCAxMDA2NDQKIC0tLSBhL21lc29uLmJ1aWxkCiArKysgYi9tZXNvbi5idWlsZAogQEAgLTE1LDYg
+KzE1LDcgQEAgaWYgci5yZXR1cm5jb2RlKCkgPT0gMApkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVz
+LWdub21lL2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9yLnBhdGNoIGIvbWV0YS9yZWNpcGVzLWdub21l
+L2VwaXBoYW55L2ZpbGVzL21pZ3JhdG9yLnBhdGNoCmluZGV4IGRjYzE2MjA0MGEuLjQ5MWZmMzVl
+YTIgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1nbm9tZS9lcGlwaGFueS9maWxlcy9taWdyYXRv
+ci5wYXRjaAorKysgYi9tZXRhL3JlY2lwZXMtZ25vbWUvZXBpcGhhbnkvZmlsZXMvbWlncmF0b3Iu
+cGF0Y2gKQEAgLTEsNCArMSw0IEBACi1Gcm9tIGUzMzZjMmRkMTM2OGFmZjQ5NmE2YmEwMWUyY2E5
+Y2E3ZTg4ODYwYTIgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCitGcm9tIDg0YzI2ZjA1NGFiMzUy
+MGQwNmZlYmMyZThhOTk1MDJkMmNmZjk4Y2YgTW9uIFNlcCAxNyAwMDowMDowMCAyMDAxCiBGcm9t
+OiBSaWNoYXJkIFB1cmRpZSA8cmljaGFyZC5wdXJkaWVAbGludXhmb3VuZGF0aW9uLm9yZz4KIERh
+dGU6IFRodSwgMjUgRmViIDIwMjEgMTQ6NTI6MzIgKzAwMDAKIFN1YmplY3Q6IFtQQVRDSF0gZXBp
+cGhhbnk6IEZpeCByZXByb2R1Y2liaWxpdHkgaXNzdWUKLS0gCjIuNDcuMQoK
+
+--===============2707370104857767367==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/libpam: PACKAGES: added "libpam-locale-kab"
-packages/x86-64-v3-poky-linux/libpam: SRC_URI changed from "https://github.com/linux-pam/linux-pam/releases/download/v1.7.2/Linux-PAM-1.7.2.tar.xz file://99_pam file://pam.d/common-account file://pam.d/common-auth file://pam.d/common-password file://pam.d/common-session file://pam.d/common-session-noninteractive file://pam.d/other file://run-ptest file://pam-volatiles.conf" to "https://github.com/linux-pam/linux-pam/releases/download/v1.7.3/Linux-PAM-1.7.3.tar.xz file://99_pam file://pam.d/common-account file://pam.d/common-auth file://pam.d/common-password file://pam.d/common-session file://pam.d/common-session-noninteractive file://pam.d/other file://run-ptest file://pam-volatiles.conf"
-packages/x86-64-v3-poky-linux/libpam: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-dbg: PKGSIZE changed from 2183232 to 2189184 (+0%)
-packages/x86-64-v3-poky-linux/libpam/libpam-dbg: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-dbg: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-dev: PKGSIZE changed from 51153 to 51193 (+0%)
-packages/x86-64-v3-poky-linux/libpam/libpam-dev: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-dev: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-doc: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-doc: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-af: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-af: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-am: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-am: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ar: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ar: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-as: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-as: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-az: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-az: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-be: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-be: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-bg: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-bg: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-bn-in: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-bn-in: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-bn: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-bn: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-bs: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-bs: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ca: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ca: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-cs: PKGSIZE changed from 10214 to 10615 (+4%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-cs: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-cs: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-cy: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-cy: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-da: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-da: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-de-ch: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-de-ch: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-de: PKGSIZE changed from 10379 to 10462 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-de: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-de: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-el: PKGSIZE changed from 1807 to 1936 (+7%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-el: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-el: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-eo: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-eo: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-es: PKGSIZE changed from 10562 to 10642 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-es: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-es: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-et: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-et: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-eu: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-eu: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-fa: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-fa: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-fi: PKGSIZE changed from 10241 to 10323 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-fi: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-fi: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-fr: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-fr: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ga: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ga: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-gl: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-gl: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-gu: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-gu: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-he: PKGSIZE changed from 11023 to 11101 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-he: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-he: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-hi: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-hi: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-hr: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-hr: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-hu: PKGSIZE changed from 10616 to 10695 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-hu: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-hu: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ia: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ia: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-id: PKGSIZE changed from 9916 to 9997 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-id: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-id: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-is: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-is: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-it: PKGSIZE changed from 10208 to 10286 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-it: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-it: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ja: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ja: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ka: PKGSIZE changed from 15556 to 15696 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ka: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ka: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-kk: PKGSIZE changed from 12817 to 12932 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-kk: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-kk: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-km: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-km: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-kn: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-kn: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ko: PKGSIZE changed from 10664 to 10765 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ko: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ko: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-kw-gb: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-kw-gb: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ky: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ky: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-lt: PKGSIZE changed from 558 to 3384 (+506%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-lt: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-lt: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-lv: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-lv: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-mk: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-mk: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ml: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ml: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-mn: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-mn: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-mr: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-mr: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ms: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ms: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-my: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-my: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-nb: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-nb: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ne: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ne: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-nl: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-nl: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-nn: PKGSIZE changed from 9401 to 9942 (+6%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-nn: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-nn: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-or: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-or: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pa: PKGSIZE changed from 14680 to 14846 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pa: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pa: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pl: PKGSIZE changed from 10431 to 10498 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pl: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pl: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pt-br: PKGSIZE changed from 9987 to 10056 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pt-br: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pt-br: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pt: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-pt: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ro: PKGSIZE changed from 10695 to 10775 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ro: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ro: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ru: PKGSIZE changed from 13453 to 13691 (+2%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ru: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ru: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-si: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-si: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sk: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sk: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sl: PKGSIZE changed from 10293 to 10364 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sl: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sl: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sq: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sq: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sr+latin: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sr+latin: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sr: PKGSIZE changed from 9013 to 13147 (+46%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sr: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sr: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sv: PKGSIZE changed from 10040 to 10117 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sv: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-sv: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ta: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ta: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-te: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-te: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-tg: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-tg: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-th: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-th: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-tr: PKGSIZE changed from 10139 to 10215 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-tr: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-tr: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-uk: PKGSIZE changed from 13491 to 13604 (+1%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-uk: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-uk: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ur: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-ur: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-vi: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-vi: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-yo: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-yo: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-zh-cn: PKGSIZE changed from 9070 to 9479 (+5%)
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-zh-cn: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-zh-cn: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-zh-hk: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-zh-hk: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-zh-tw: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-zh-tw: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-zu: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-locale-zu: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-ptest: PKGSIZE changed from 274595 to 274195 (-0%)
-packages/x86-64-v3-poky-linux/libpam/libpam-ptest: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-ptest: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-runtime: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-runtime: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-src: PKGSIZE changed from 1061044 to 1064901 (+0%)
-packages/x86-64-v3-poky-linux/libpam/libpam-src: FILELIST: directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_namespace -> /usr/src/debug/libpam/1.7.3/modules/pam_namespace, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_usertype -> /usr/src/debug/libpam/1.7.3/modules/pam_usertype, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_canonicalize_user -> /usr/src/debug/libpam/1.7.3/modules/pam_canonicalize_user, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_limits -> /usr/src/debug/libpam/1.7.3/modules/pam_limits, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_rootok -> /usr/src/debug/libpam/1.7.3/modules/pam_rootok, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_securetty -> /usr/src/debug/libpam/1.7.3/modules/pam_securetty, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_succeed_if -> /usr/src/debug/libpam/1.7.3/modules/pam_succeed_if, directory renamed /usr/src/debug/libpam/1.7.2/libpam_internal -> /usr/src/debug/l
- ibpam/1.7.3/libpam_internal, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_echo -> /usr/src/debug/libpam/1.7.3/modules/pam_echo, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_rhosts -> /usr/src/debug/libpam/1.7.3/modules/pam_rhosts, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_faillock -> /usr/src/debug/libpam/1.7.3/modules/pam_faillock, directory renamed /usr/src/debug/libpam/1.7.2/libpam/include/security -> /usr/src/debug/libpam/1.7.3/libpam/include/security, directory renamed /usr/src/debug/libpam/1.7.2/libpam_misc -> /usr/src/debug/libpam/1.7.3/libpam_misc, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_localuser -> /usr/src/debug/libpam/1.7.3/modules/pam_localuser, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_debug -> /usr/src/debug/libpam/1.7.3/modules/pam_debug, directory renamed /usr/src/debug/libpam/1.7.2/libpam/include -> /usr/src/debug/libpam/1.7.3/libpam/include, directory renamed /usr/src/debug/libpam/1.7.2/mo
- dules/pam_loginuid -> /usr/src/debug/libpam/1.7.3/modules/pam_loginuid, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_time -> /usr/src/debug/libpam/1.7.3/modules/pam_time, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_stress -> /usr/src/debug/libpam/1.7.3/modules/pam_stress, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_wheel -> /usr/src/debug/libpam/1.7.3/modules/pam_wheel, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_motd -> /usr/src/debug/libpam/1.7.3/modules/pam_motd, directory renamed /usr/src/debug/libpam/1.7.2/libpam_internal/include -> /usr/src/debug/libpam/1.7.3/libpam_internal/include, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_mail -> /usr/src/debug/libpam/1.7.3/modules/pam_mail, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_pwhistory -> /usr/src/debug/libpam/1.7.3/modules/pam_pwhistory, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_filter/upperLOWER -> /usr/src/debug/libpam/1.7.3/modu
- les/pam_filter/upperLOWER, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_issue -> /usr/src/debug/libpam/1.7.3/modules/pam_issue, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_umask -> /usr/src/debug/libpam/1.7.3/modules/pam_umask, directory renamed /usr/src/debug/libpam/1.7.2/libpam -> /usr/src/debug/libpam/1.7.3/libpam, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_filter -> /usr/src/debug/libpam/1.7.3/modules/pam_filter, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_setquota -> /usr/src/debug/libpam/1.7.3/modules/pam_setquota, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_listfile -> /usr/src/debug/libpam/1.7.3/modules/pam_listfile, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_shells -> /usr/src/debug/libpam/1.7.3/modules/pam_shells, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_timestamp -> /usr/src/debug/libpam/1.7.3/modules/pam_timestamp, directory renamed /usr/src/debug/libpam/1.7.2/modules/pa
- m_unix -> /usr/src/debug/libpam/1.7.3/modules/pam_unix, directory renamed /usr/src/debug/libpam/1.7.2/libpamc -> /usr/src/debug/libpam/1.7.3/libpamc, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_exec -> /usr/src/debug/libpam/1.7.3/modules/pam_exec, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_group -> /usr/src/debug/libpam/1.7.3/modules/pam_group, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_mkhomedir -> /usr/src/debug/libpam/1.7.3/modules/pam_mkhomedir, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_keyinit -> /usr/src/debug/libpam/1.7.3/modules/pam_keyinit, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_nologin -> /usr/src/debug/libpam/1.7.3/modules/pam_nologin, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_env -> /usr/src/debug/libpam/1.7.3/modules/pam_env, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_warn -> /usr/src/debug/libpam/1.7.3/modules/pam_warn, directory renamed /usr/src/debug/libpam/1
- .7.2/libpam_misc/include/security -> /usr/src/debug/libpam/1.7.3/libpam_misc/include/security, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_ftp -> /usr/src/debug/libpam/1.7.3/modules/pam_ftp, directory renamed /usr/src/debug/libpam/1.7.2/tests -> /usr/src/debug/libpam/1.7.3/tests, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_access -> /usr/src/debug/libpam/1.7.3/modules/pam_access, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_xauth -> /usr/src/debug/libpam/1.7.3/modules/pam_xauth, directory renamed /usr/src/debug/libpam/1.7.2/libpamc/include/security -> /usr/src/debug/libpam/1.7.3/libpamc/include/security, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_deny -> /usr/src/debug/libpam/1.7.3/modules/pam_deny, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_faildelay -> /usr/src/debug/libpam/1.7.3/modules/pam_faildelay, directory renamed /usr/src/debug/libpam/1.7.2/modules/pam_permit -> /usr/src/debug/libpam/1.7.3/modules/pam_pe
- rmit
-packages/x86-64-v3-poky-linux/libpam/libpam-src: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-src: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-staticdev: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-staticdev: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam-xtests: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam-xtests: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/libpam: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/libpam: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-filter-upperlower: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-filter-upperlower: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-access: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-access: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-canonicalize-user: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-canonicalize-user: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-debug: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-debug: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-deny: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-deny: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-echo: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-echo: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-env: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-env: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-exec: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-exec: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-faildelay: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-faildelay: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-faillock: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-faillock: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-filter: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-filter: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-ftp: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-ftp: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-group: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-group: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-issue: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-issue: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-keyinit: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-keyinit: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-limits: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-limits: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-listfile: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-listfile: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-localuser: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-localuser: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-loginuid: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-loginuid: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-mail: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-mail: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-mkhomedir: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-mkhomedir: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-motd: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-motd: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-namespace: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-namespace: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-nologin: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-nologin: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-permit: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-permit: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-pwhistory: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-pwhistory: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-rhosts: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-rhosts: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-rootok: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-rootok: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-securetty: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-securetty: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-setquota: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-setquota: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-shells: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-shells: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-stress: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-stress: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-succeed-if: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-succeed-if: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-time: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-time: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-timestamp: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-timestamp: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-umask: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-umask: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-unix: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-unix: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-usertype: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-usertype: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-warn: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-warn: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-wheel: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-wheel: PV changed from "1.7.2" to "1.7.3"
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-xauth: PKGV changed from 1.7.2 [default] to 1.7.3 [default]
-packages/x86-64-v3-poky-linux/libpam/pam-plugin-xauth: PV changed from "1.7.2" to "1.7.3"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-dbg: PKGSIZE changed from 10988872 to 10990824 (+0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-dbg: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-dbg: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-dev: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-dev: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-doc: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-doc: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ab: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ab: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-af: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-af: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-am: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-am: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-an: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-an: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ar: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ar: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-as: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-as: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ast: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ast: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-az: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-az: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-be+latin: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-be+latin: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-be: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-be: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bg: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bg: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bn-in: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bn-in: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bn: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bn: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-br: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-br: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bs: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-bs: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ca+valencia: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ca+valencia: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ca: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ca: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ckb: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ckb: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-cs: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-cs: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-cy: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-cy: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-da: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-da: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-de: PKGSIZE changed from 101152 to 100925 (-0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-de: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-de: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-dz: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-dz: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-el: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-el: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en+shaw: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en+shaw: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en-ca: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en-ca: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en-gb: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-en-gb: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-eo: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-eo: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-es: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-es: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-et: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-et: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-eu: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-eu: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fa: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fa: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fi: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fi: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fr: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fr: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fur: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fur: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fy: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-fy: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ga: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ga: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gl: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gl: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gu: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gu: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gv: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-gv: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-he: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-he: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hi: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hi: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hr: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hr: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hu: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hu: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hy: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-hy: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ia: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ia: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-id: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-id: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ie: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ie: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ig: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ig: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-is: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-is: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-it: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-it: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ja: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ja: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ka: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ka: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kab: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kab: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kk: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kk: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-km: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-km: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kn: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-kn: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ko: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ko: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ku: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ku: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-li: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-li: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-lo: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-lo: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-lt: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-lt: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-lv: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-lv: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mai: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mai: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mg: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mg: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mi: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mi: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mk: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mk: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ml: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ml: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mn: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mn: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mr: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-mr: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ms: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ms: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-my: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-my: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nb: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nb: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nds: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nds: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ne: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ne: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nl: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nl: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nn: PKGSIZE changed from 59558 to 93763 (+57%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nn: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-nn: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-oc: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-oc: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-or: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-or: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pa: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pa: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pl: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pl: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ps: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ps: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pt-br: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pt-br: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pt: PKGSIZE changed from 99449 to 99230 (-0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pt: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-pt: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ro: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ro: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ru: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ru: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-rw: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-rw: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-si: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-si: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sk: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sk: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sl: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sl: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sq: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sq: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sr+latin: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sr+latin: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sr: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sr: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sv: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-sv: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ta: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ta: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-te: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-te: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tg: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tg: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-th: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-th: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tk: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tk: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tr: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-tr: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ug: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-ug: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uk: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uk: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uz+cyrillic: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uz: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-uz: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-vi: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-vi: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-wa: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-wa: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-yo: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-yo: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-cn: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-cn: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-hk: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-hk: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-tw: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-locale-zh-tw: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-src: PKGSIZE changed from 32692565 to 32693968 (+0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany-src: FILELIST: directory renamed /usr/src/debug/epiphany/51.0/lib -> /usr/src/debug/epiphany/51.1/lib, directory renamed /usr/src/debug/epiphany/51.0/src/search-provider -> /usr/src/debug/epiphany/51.1/src/search-provider, directory renamed /usr/src/debug/epiphany/51.0/lib/sync -> /usr/src/debug/epiphany/51.1/lib/sync, directory renamed /usr/src/debug/epiphany/51.0/src/webapp-provider -> /usr/src/debug/epiphany/51.1/src/webapp-provider, directory renamed /usr/src/debug/epiphany/51.0/embed -> /usr/src/debug/epiphany/51.1/embed, directory renamed /usr/src/debug/epiphany/51.0/src/bookmarks -> /usr/src/debug/epiphany/51.1/src/bookmarks, directory renamed /usr/src/debug/epiphany/51.0/third-party -> /usr/src/debug/epiphany/51.1/third-party, directory renamed /usr/src/debug/epiphany/51.0/embed/web-process-extension -> /usr/src/debug/epiphany/51.1/embed/web-process-extension, directory renamed /usr/src/debug/epiphany/51.0/lib/contrib -> /usr/sr
+ c/debug/epiphany/51.1/lib/contrib, directory renamed /usr/src/debug/epiphany/51.0/lib/sync/debug -> /usr/src/debug/epiphany/51.1/lib/sync/debug, directory renamed /usr/src/debug/epiphany/51.0/src/webextension -> /usr/src/debug/epiphany/51.1/src/webextension, directory renamed /usr/src/debug/epiphany/51.0/lib/autofill -> /usr/src/debug/epiphany/51.1/lib/autofill, directory renamed /usr/src/debug/epiphany/51.0/lib/history -> /usr/src/debug/epiphany/51.1/lib/history, directory renamed /usr/src/debug/epiphany/51.0/src -> /usr/src/debug/epiphany/51.1/src, directory renamed /usr/src/debug/epiphany/51.0/src/webextension/api -> /usr/src/debug/epiphany/51.1/src/webextension/api, directory renamed /usr/src/debug/epiphany/51.0/src/preferences -> /usr/src/debug/epiphany/51.1/src/preferences, directory renamed /usr/src/debug/epiphany/51.0/third-party/gvdb -> /usr/src/debug/epiphany/51.1/third-party/gvdb, directory renamed /usr/src/debug/epiphany/51.0/src/profile-migrator -> /usr/src/debug/epipha
+ ny/51.1/src/profile-migrator
+packages/x86-64-v3-poky-linux/epiphany/epiphany-src: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-src: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany-staticdev: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany-staticdev: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany/epiphany: PKGSIZE changed from 6704022 to 6719808 (+0%)
+packages/x86-64-v3-poky-linux/epiphany/epiphany: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany/epiphany: PKGV changed from 51.0 [default] to 51.1 [default]
+packages/x86-64-v3-poky-linux/epiphany: SRC_URI changed from "https://download.gnome.org/sources//epiphany/51/epiphany-51.0.tar.xz;name=archive file://0002-help-meson.build-disable-the-use-of-yelp.patch file://migrator.patch file://distributor.patch" to "https://download.gnome.org/sources//epiphany/51/epiphany-51.1.tar.xz;name=archive file://0002-help-meson.build-disable-the-use-of-yelp.patch file://migrator.patch file://distributor.patch"
+packages/x86-64-v3-poky-linux/epiphany: PV changed from "51.0" to "51.1"
+packages/x86-64-v3-poky-linux/epiphany: PKGV changed from 51.0 [default] to 51.1 [default]
 
---===============3955404213459684487==--
+--===============2707370104857767367==--
 
