@@ -1,281 +1,292 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id BCCEFC98326
-	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 08:24:28 +0000 (UTC)
-Received: from PA4PR04CU001.outbound.protection.outlook.com (PA4PR04CU001.outbound.protection.outlook.com [40.107.162.23])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.3558.1790324662776582196
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CC973C9830D
+	for <webhook@archiver.kernel.org>; Fri, 25 Sep 2026 08:28:18 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.3468.1790324026141069191
  for <openembedded-core@lists.openembedded.org>;
- Fri, 25 Sep 2026 01:24:23 -0700
+ Fri, 25 Sep 2026 01:13:48 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=gb389MhB;
- spf=pass (domain: ericsson.com, ip: 40.107.162.23, mailfrom: edaturu@ericsson.com)
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=vrvxcn6q0KWn2TiigKmRJGCEATxTKgBURszh5+MGoWINaLiNB5BmvI5MzQAQ2n0KaTIMY4Xw/dx7yd3OMl1rlr2szQzNrQTnkYNNt9rNTA2Mguumh8oH0Y/aHkQZoQrxACUIhyVsN3rqnP/b5+DgU9iX9UuRruOYvM0Bv0d9gtj9Gfggax0VlPnA0iJInjPNTzI0cyN8ogx449CmzwZb5c23eWPXGNNvm3ygccLa+virlC3U3QuI0fj4in8vuJXPvwPfbEasyY+tyZKuMN8+Yr6qoZ3X0+McF0Cd3Y1eApayPDHGvJ8Ccbn5o5oLoMvKDjnfi31+QkukfH3Ph1vKgw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector10001;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5IZmBcP2tlaejE7i45oExMedrz3wmi46HL0RUBYu+iY=;
- b=L83h42t1HVwKGtYIE2m73sOBX0SiR4+QUDKuJIS0Aw+Yflwg4APoIxtaQ0et+EJxDu09C3kg+cig/ej1nUG7y/qFYSsItxiVxnZssOV5WKjA+8UDRNTbtpfAG0pUEC6+ICzdzVsoyEQ6Ss2Cgp3eP0RiNK2RUFxd5Roo2p2+Nt1TWQD6jNF4NU6C56v8sI80iGn723pq2pN1/D4aSa7V6+YDfsbI3+L/PZR/gBVVJMrS08ghku//GPSsKqIaaSMd15Qy9gkdqmDQVM5Nj9ZAqQJzP/xZu9ze28BeAhDYHYIFozXk4XlYnQxoPLeoAxMQs5mvXzI6lMtxscOudBT9Gw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=5IZmBcP2tlaejE7i45oExMedrz3wmi46HL0RUBYu+iY=;
- b=gb389MhBeASI8wLpEarZ8jwGnb4iew7woItgS/pxvGOEftQmmJxqxY/QhN+XDyHkm1Tzb49r9fV1FJADLI6i110E+e2DK00utSq8hZr1QS1u/jEuGOjsUSJq5g5p4u1UE9AFJJxpxGqRYA8l+r4dR4T9WmmUc8Xe5bSgerw3SSlwBfu1a4YgPUL6COPTuMmrLYnhbr8uqFDIMRQmMlXf40NYkpShEUAHYhuG/b+HsGwUO1PR4UUIPCDMOOglswZ5V5f62JIaUlI7XK0aXuuK71fy4BoJCm+YiogAba6EjQYH67bmMDu6f+ks0WWyHCdO+nIsIS6FfW/LGgWmjJzS6A==
-Received: from AS4P189CA0036.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:5dd::7)
- by VI1SPRMB0019.eurprd07.prod.outlook.com (2603:10a6:800:1de::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.18; Fri, 25 Sep
- 2026 08:24:16 +0000
-Received: from AM2PEPF00070CF2.eurprd02.prod.outlook.com
- (2603:10a6:20b:5dd:cafe::9d) by AS4P189CA0036.outlook.office365.com
- (2603:10a6:20b:5dd::7) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.451.18 via Frontend Transport; Fri,
- 25 Sep 2026 08:24:16 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 192.176.1.74) smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- AM2PEPF00070CF2.mail.protection.outlook.com (10.167.242.4) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.451.8 via Frontend Transport; Fri, 25 Sep 2026 08:24:16 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.67) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Fri, 25 Sep 2026 10:24:13 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 527BC4020C1F;
-	Fri, 25 Sep 2026 10:24:11 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 25C5D700CF25; Fri, 25 Sep 2026 10:24:11 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=WANDzsi7;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=37289717fc=himaniramesh.barde@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68P4mbxN2558678
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 08:05:57 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:in-reply-to:message-id:mime-version:references:subject:to; s=
+	PPS06212021; bh=C2F7EwQUj8hVl/3Vgy+7VfjEEP/hbqbpeZ58V/O6hp8=; b=
+	WANDzsi738yz83PfkHoQ5sZP9lISdVctcyF2KaICReTLah4ZWN1fla7apj8QfXVO
+	e4MhxlmXxrg32sgzkbyjymGAwYjyn/gJ1KnUevm9+wini5FkkLRqnJqrEHyH9BVO
+	2sLiZHQWeLJRc7/6iHPIB02Y9FQnhNGA/Qqa0I1FQzAqnSxqH7e5fAZYi13150xG
+	sdv+ZMysndkURjYCGKASp3LBhJfpPfR3rTnFrGw6u35/zTe2figB/w2RI0B+Qo/r
+	y/nvva0H2keZMyezZGQNVyWJ7yeIT+1LlQqSNnGlnqviGuhldjAzRdw7iPtH3gbB
+	tDquvB8gssoNhZ2v1stG/g==
+Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gup35p2pa-1
+	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 08:05:56 +0000 (GMT)
+Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
+ ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.2507.61; Fri, 25 Sep 2026 01:05:55 -0700
+Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
+ ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
+ 15.1.2507.61 via Frontend Transport; Fri, 25 Sep 2026 01:05:55 -0700
+From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
 To: <openembedded-core@lists.openembedded.org>
-CC: <JPEWhacker@gmail.com>, Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH v2 1/2] create-spdx-3.0: record component release date in SPDX output
-Date: Fri, 25 Sep 2026 10:24:03 +0200
-Message-ID: <20260925082404.1491266-1-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.55.0
+CC: Randy MacLeod <Randy.MacLeod@windriver.com>,
+        Shiva Komati
+	<Shiva.Komati@windriver.com>,
+        Himani Ramesh Barde
+	<HimaniRamesh.Barde@windriver.com>
+Subject: [PATCH v3] tiff: add ptest support
+Date: Fri, 25 Sep 2026 08:05:52 +0000
+Message-ID: <20260925080552.4144665-1-HimaniRamesh.Barde@windriver.com>
+X-Mailer: git-send-email 2.54.0
+In-Reply-To: <20260921100952.2619282-1-HimaniRamesh.Barde@windriver.com>
+References: <20260921100952.2619282-1-HimaniRamesh.Barde@windriver.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI1MDAzMSBTYWx0ZWRfX5c9/Rv/79aPl
+ MVUpvTYY1VR4lwjEwP7q88V8pUE4X5Vh+NSJyuPLy98jcpsN25ZPZV44kUYyBpWCPK2UgwqbXAb
+ mUUkv3tdNnkVwwytEDyFuNiI6IB6ElQkbeEILIjvIGOQXURaho0N
+X-Proofpoint-ORIG-GUID: g6HqA568VqEA0vR0C98GT7HPANR-A50H
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI1MDAzMSBTYWx0ZWRfXxI0WG9qHWA+T
+ 0kPn09kYpKARi2Z/flANL43ePdJFtvPBZQf1PwyJZlhtSVu3l5OufGknsHeluUpEGKzFzKUc1wD
+ MPHjfj1awpX2qeN5E5Qa9GynC+ajy7Y39LT9hxfImL6GSs+6Yqa3FgfShv6xx+Xf8PMZ29LPUdY
+ nebRFRUYZyDulNHajdwI+qGSMWhQJHLuBCsYmjYZqY+6ABe8nq107nz6Tq479Zby0rV6oBzqgs7
+ hwxUEk+TcvRfaL3v+zsXlS8lAqWpBhjBg9yQqJV8IqI5tPCRdxTSNdL0IpaPTCqO0/wrhUwr+cf
+ xiI06uRDe7VDfVA31/YUEbzOM6RLV0AF/v2ooebLNiumPn8uVYjaW4E91wGOo1D3PVKhvYHYsGx
+ eV8eOUqZPPZyJs9NXXM6nVJiiwrvqVhjJd0gyPAJEbtbnnby2pTdVpgpluMVFsRMrZeIk4hVaBg
+ jGI2Fu9L8ObWLVmWikA==
+X-Proofpoint-GUID: g6HqA568VqEA0vR0C98GT7HPANR-A50H
+X-Authority-Analysis: v=2.4 cv=DKMacCNb c=1 sm=1 tr=0 ts=6ab62b65 cx=c_pps
+ a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
+ a=klDOsUkWDRETUCZYPvoE:22 a=Qs8GJauRAAAA:8 a=t7CeM3EgAAAA:8
+ a=U56svMRynmzF8my4cj4A:9 a=-MsOl3yrPmtpHepMbiy1:22 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-25_02,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ spamscore=0 impostorscore=0 malwarescore=0 suspectscore=0 phishscore=0
+ adultscore=0 bulkscore=0 priorityscore=1501 clxscore=1015 lowpriorityscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609250031
+Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-EOPAttributedMessage: 0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: AM2PEPF00070CF2:EE_|VI1SPRMB0019:EE_
-X-MS-Office365-Filtering-Correlation-Id: 3dc9f693-0ee8-4057-4fa9-08df1ade63b1
-X-SMTP-Server: smtp-central.internal.ericsson.com
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|36860700016|1800799024|82310400026|23010399003|376014|56012099006|10067099003|11063799006|18002099003|3023799007;
-X-Microsoft-Antispam-Message-Info: 
-	UUzWVDok7qNdHtFFTN0A0Q6bUVEp7aGeVISHpCGfUM36/WAssGrTU8H5ofJztinjZQ1qakinyvjaaan6QO8ffqm/p1FIqwkuPHYf30GsE+YgTqELvytVGQY34ycSDijfawLkn9keYLxsj1f01Bbp8qK6ZsyKV1onTMgTPHGyPUuHReshYhWzexHbnre7z6l57SYNlSGwxcsZUul1rb1VbwfLecyJivHe0cwqfUhdgo2grUeFPuyZ5avxiw/XxoiDb87CdYnXy+e6OyxBYAAfaF8x/ccK6ILWNhLK458/cBfe4lII0xv1g1vmMm0b+oOmo9p+3lLC5kw2c/4TGNvOzJZZQFp7HiI5WFOYIhVc2f1hwYPci+7x+CFisCqDdPmS/IKwq26diLWRqEq+xuITbE+CJLQEZ02gM8W5eDIutBoE1IQN14agwz9CeK2XnZF0kq5EYDX6Y1hKKjfnKCNyf5z1yv28CG9J5Ckz/si3I/YvGgXGpRAVCF0zJ00AAuwifXjIbTBZQGPbNxt6uw79JK6plrLkZEGObfUFcgbFsa01mZUOLVzuzL3JpKucp3A8y+I/SxUI4Pl52z2xEScuw9yRUtYmLb+AWB8XlBh52aZsWcDt1aSBhqk70WjaqnxfgmeURKQzOnMFH8WCAdMgu8En5zjjWWKrdqBtM65vIQd2AdT3XN6n1E0FJGbHeDLRtypcRXPdoB/bxLasip3Ejg==
-X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(36860700016)(1800799024)(82310400026)(23010399003)(376014)(56012099006)(10067099003)(11063799006)(18002099003)(3023799007);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	9X5+WxeOR50B2jFvCBMR+S3eUJNdjRci9AM8Svdu+kHvqSIIqhlYcMtSPge7n/wm/j9qhQOrf5ie0yo4082QimFZtnEtUQiYt50jiY8xQw8/jWr3KSUHAgE7joMKeewl9Dyfq6sFL0qVRlj79Tl8xtT3eMHPy2z+q7zo5q80LfxCu0wYa5Ium5o28I9OSONCwPpZpCh12a35nHXA25tAh6V+MJT4XCvyt2rgr1q/vjWXstxLneV26kTb2e/0lkJvEOvbcXFnOmVnwASXvZqKRPMUDdP3UJeAT/B2N3NxT49VNtejY8pbjVbcgnUmNevkhsMUnUES8Xbt5iSfT0K6gnax6yZjCtCC5fENFIjLu3itxdtrNO0V0hQJcID1ZLE1GoNpUn6W/6GM/oRzUre4gji0SZ+ovVt63Msla0iKAce6GdGryWM/0xA5nXILq2+D
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 25 Sep 2026 08:24:16.6912
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 3dc9f693-0ee8-4057-4fa9-08df1ade63b1
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	AM2PEPF00070CF2.eurprd02.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1SPRMB0019
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 08:24:28 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246609
+ <openembedded-core@lists.openembedded.org>; Fri, 25 Sep 2026 08:28:18 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246610
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+Run the libtiff test suite as a ptest: the C unit tests (the automake
+check_PROGRAMS) and the shell tests that drive the tiff command-line tools.
 
-Record each recipe's release date in the releaseTime property of its
-software_Package object, using the SOURCE_DATE_EPOCH already computed
-for reproducible builds.
+do_compile_ptest builds the test programs. do_install_ptest installs the
+binaries, the shell scripts, the common.sh helper, and the images/ and
+refs/ data, and points common.sh at the installed tools in ${bindir}
+instead of the build tree. The recipe lists the C programs once, in
+TIFF_PTEST_PROGS, and fills that list into run-ptest at install time.
 
-Accuracy depends on how SOURCE_DATE_EPOCH was derived: exact for
-git-tagged recipes, best-effort for tarball/http(s) sources. Some
-Python sdists (e.g. cryptography, hypothesis, maturin) normalize all
-file mtimes to a fixed placeholder, so their releaseTime reflects
-packaging-tool behavior, not the real release date.
+One test, test_ifd_loop_detection, opened its images through a build-time
+path instead of relative to the current directory, so it failed once
+installed. A small upstream patch makes it read the images from ".", like
+the other tests, so it now passes on every architecture.
 
-Tested with oe-selftest -r spdx, and with `bitbake world
---runall=3Ddo_create_spdx`: 1011/1150 recipes got a releaseTime (range
-1998-12-30 to 2026-09-17), 139 correctly had none.
+run-ptest prints automake-style PASS/FAIL/SKIP lines. Two tests skip in the
+default configuration:
 
-AI-Generated: Uses Kiro with Claude Sonnet 5
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
+  - the JBIG test, because jbig is not in the default PACKAGECONFIG
+  - the thumbnail test, because the thumbnail tool is not built
+
+Registered under PTESTS_SLOW in ptest-packagelists.inc; the suite runs in
+about 30s on qemux86-64.
+
+Validated on qemux86-64:
+
+  - 17 C unit tests pass
+  - 85 shell tests pass
+  - 2 skip (jbig, thumbnail)
+  - 0 fail
+
+Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
 ---
+
+v3:
+- Fix test_ifd_loop_detection on non-x86 architectures. It opened its
+  images through the build-time SOURCE_DIR path, which does not exist in
+  the installed ptest; a small upstream patch makes it read them relative
+  to ".", like the other tests. This replaces the run-ptest symlink that
+  v2 used to fake that path.
+- Reword the commit message per review.
+
 v2:
-- Dropped all options per Joshua's feedback; read SDE_FILE directly.
-- Dropped the redundant else: delattr(recipe, "releaseTime") branch.
-- Selftest compares against SDE_FILE content directly instead of
-  SOURCE_DATE_EPOCH, which can diverge from it.
-- Fixed a leak: recipes with no git checkout and no fetched source
-  had SDE_FILE holding only SOURCE_DATE_EPOCH_FALLBACK, showing a
-  bogus 2011-04-05T23:00:00Z releaseTime instead of none.
----
- meta/classes/create-spdx-3.0.bbclass |  2 +-
- meta/lib/oe/spdx30_tasks.py          | 27 +++++++++++++++
- meta/lib/oeqa/selftest/cases/spdx.py | 52 ++++++++++++++++++++++++++++
- 3 files changed, 80 insertions(+), 1 deletion(-)
+- Drop the INSANE_SKIP buildpaths; the test binaries package cleanly.
+- Drop make and bash from RDEPENDS (run-ptest calls neither).
+- Define the C test program list once (TIFF_PTEST_PROGS) instead of
+  duplicating it in run-ptest.
+ .../distro/include/ptest-packagelists.inc     |  1 +
+ .../recipes-multimedia/libtiff/tiff/run-ptest | 23 ++++++++++
+ ...t_ifd_loop_detection-relative-images.patch | 38 +++++++++++++++++
+ meta/recipes-multimedia/libtiff/tiff_4.7.2.bb | 42 ++++++++++++++++++-
+ 4 files changed, 103 insertions(+), 1 deletion(-)
+ create mode 100755 meta/recipes-multimedia/libtiff/tiff/run-ptest
+ create mode 100644 meta/recipes-multimedia/libtiff/tiff/test_ifd_loop_detection-relative-images.patch
 
-diff --git a/meta/classes/create-spdx-3.0.bbclass b/meta/classes/create-spd=
-x-3.0.bbclass
-index 56fd01fd53..da413d19a3 100644
---- a/meta/classes/create-spdx-3.0.bbclass
-+++ b/meta/classes/create-spdx-3.0.bbclass
-@@ -192,7 +192,7 @@ python do_create_recipe_spdx() {
-     import oe.spdx30_tasks
-     oe.spdx30_tasks.create_recipe_spdx(d)
- }
--addtask do_create_recipe_spdx
-+addtask do_create_recipe_spdx after do_deploy_source_date_epoch
-=20
- SSTATETASKS +=3D "do_create_recipe_spdx"
- do_create_recipe_spdx[sstate-inputdirs] =3D "${SPDXRECIPEDEPLOY}"
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index b6456a214a..46cc0c5711 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -9,6 +9,7 @@ import oe.cve_check
- import oe.license
- import oe.packagedata
- import oe.patch
-+import oe.reproducible
- import oe.sbom30
- import oe.sdk
- import oe.spdx30
-@@ -36,6 +37,28 @@ def set_timestamp_now(d, o, prop):
-         delattr(o, prop)
-=20
-=20
-+def get_release_date(d):
-+    """Resolve the release date to record in a recipe's releaseTime proper=
-ty.
-+
-+    Uses the SOURCE_DATE_EPOCH already determined for reproducible builds
-+    (SDE_FILE), without falling back to SOURCE_DATE_EPOCH_FALLBACK, since =
-a
-+    fixed fallback timestamp is not a meaningful release date.
-+
-+    Returns a datetime, or None if no release date should be recorded.
-+    """
-+    sde_file =3D d.getVar("SDE_FILE")
-+    if not sde_file or not os.path.isfile(sde_file):
-+        return None
-+
-+    source_date_epoch =3D oe.reproducible.epochfile_read(sde_file, d)
-+    if source_date_epoch =3D=3D d.getVar("SOURCE_DATE_EPOCH_FALLBACK"):
-+        # SDE_FILE exists but its value is only the fallback (e.g. no git
-+        # checkout and no fetched source to derive a date from).
-+        return None
-+
-+    return datetime.fromtimestamp(int(source_date_epoch), tz=3Dtimezone.ut=
-c)
-+
-+
- def add_license_expression(
-     d, objset, license_expression, license_data, search_objsets=3D[]
- ):
-@@ -633,6 +656,10 @@ def create_recipe_spdx(d):
-     if val :=3D d.getVar("DESCRIPTION"):
-         recipe.description =3D val
-=20
-+    release_date =3D get_release_date(d)
-+    if release_date is not None:
-+        recipe.releaseTime =3D release_date
-+
-     for cpe_id in oe.cve_check.get_cpe_ids(
-         d.getVar("CVE_PRODUCT"), d.getVar("CVE_VERSION")
-     ):
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/=
-cases/spdx.py
-index 8285189382..fe23824ba6 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -6,6 +6,7 @@
-=20
- import textwrap
- import hashlib
-+from datetime import datetime, timezone
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
- import oe.spdx30
-@@ -443,3 +444,54 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-                 r'\d',
-                 f"Version '{version}' for package '{name}' should contain =
-digits"
-             )
-+
-+    def test_release_date_source_date_epoch(self):
-+        """releaseTime should be derived from the recipe's SDE_FILE."""
-+        objset =3D self.check_recipe_spdx(
-+            "base-files",
-+            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/static/static-base-files.spd=
-x.json",
-+            task=3D"create_recipe_spdx",
-+        )
-+
-+        sde_file =3D get_bb_var("SDE_FILE", "base-files")
-+        self.assertExists(sde_file)
-+        with open(sde_file) as f:
-+            source_date_epoch =3D int(f.read())
-+
-+        expected =3D datetime.fromtimestamp(int(source_date_epoch), tz=3Dt=
-imezone.utc)
-+
-+        recipe =3D None
-+        for pkg in objset.foreach_type(oe.spdx30.software_Package):
-+            if pkg.name =3D=3D "base-files":
-+                recipe =3D pkg
-+                break
-+
-+        self.assertIsNotNone(recipe, "Unable to find base-files software_P=
-ackage")
-+        self.assertEqual(recipe.releaseTime, expected)
-+
-+    def test_release_date_omitted_for_fallback_value(self):
-+        """releaseTime must be omitted when SDE_FILE only has the fallback=
-."""
-+        objset =3D self.check_recipe_spdx(
-+            "packagegroup-base",
-+            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/static/static-packagegroup-b=
-ase.spdx.json",
-+            task=3D"create_recipe_spdx",
-+        )
-+
-+        sde_file =3D get_bb_var("SDE_FILE", "packagegroup-base")
-+        fallback =3D get_bb_var("SOURCE_DATE_EPOCH_FALLBACK", "packagegrou=
-p-base")
-+        self.assertExists(sde_file)
-+        with open(sde_file) as f:
-+            self.assertEqual(
-+                f.read().strip(), fallback,
-+                "packagegroup-base has no SRC_URI; SDE_FILE is expected to=
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
+index 2b5d665..837e1c1 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -151,6 +151,7 @@ PTESTS_SLOW = "\
+     tar \
+     tcl \
+     tcl8 \
++    tiff \
+     util-linux \
+     zstd \
  "
-+                "only contain SOURCE_DATE_EPOCH_FALLBACK",
-+            )
+diff --git a/meta/recipes-multimedia/libtiff/tiff/run-ptest b/meta/recipes-multimedia/libtiff/tiff/run-ptest
+new file mode 100755
+index 0000000..ebf11c9
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/run-ptest
+@@ -0,0 +1,23 @@
++#!/bin/sh
++# Run the libtiff test suite and emit ptest-style PASS/FAIL/SKIP lines.
++cd "$(dirname "$0")/test" || exit 1
 +
-+        recipe =3D None
-+        for pkg in objset.foreach_type(oe.spdx30.software_Package):
-+            if pkg.name =3D=3D "packagegroup-base":
-+                recipe =3D pkg
-+                break
 +
-+        self.assertIsNotNone(recipe, "Unable to find packagegroup-base sof=
-tware_Package")
-+        self.assertIsNone(recipe.releaseTime)
++# @PROGS@ is filled in from TIFF_PTEST_PROGS at install time.
++CPROGS="@PROGS@"
++
++for t in $CPROGS; do
++    if [ -x "./$t" ]; then
++        if ./"$t" >/dev/null 2>&1; then echo "PASS: $t"; else echo "FAIL: $t"; fi
++    fi
++done
++
++for t in *.sh; do
++    [ "$t" = "common.sh" ] && continue
++    case "$t" in
++        *jbig*) echo "SKIP: $t (JBIG support not enabled)"; continue ;;
++        tiffcp-thumbnail.sh)
++            command -v thumbnail >/dev/null 2>&1 || { echo "SKIP: $t (thumbnail tool not built)"; continue; } ;;
++    esac
++    if sh "./$t" >/dev/null 2>&1; then echo "PASS: $t"; else echo "FAIL: $t"; fi
++done
+diff --git a/meta/recipes-multimedia/libtiff/tiff/test_ifd_loop_detection-relative-images.patch b/meta/recipes-multimedia/libtiff/tiff/test_ifd_loop_detection-relative-images.patch
+new file mode 100644
+index 0000000..789be95
+--- /dev/null
++++ b/meta/recipes-multimedia/libtiff/tiff/test_ifd_loop_detection-relative-images.patch
+@@ -0,0 +1,38 @@
++From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
++From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
++Date: Tue, 22 Sep 2026 00:00:00 +0000
++Subject: [PATCH] test_ifd_loop_detection: find images relative to CWD
++
++test_ifd_loop_detection is the only C test in the suite that references
++its input images through the compile-time SOURCE_DIR macro
++(-DSOURCE_DIR="@srcdir@") instead of opening them relative to the current
++working directory the way every other test does. When the test is run
++from an installed location (for example an OpenEmbedded ptest package)
++the build-time @srcdir@ path no longer exists, so the images are not
++found and the test fails.
++
++Override SOURCE_DIR to "." so the images are resolved relative to the
++directory the test is executed from, matching the behaviour of the other
++tests. In-tree "make check" still works because it runs the test from the
++build test/ directory whose srcdir is already ".".
++
++Upstream-Status: Submitted [libtiff]
++
++Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
++---
++ test/test_ifd_loop_detection.c | 3 +++
++ 1 file changed, 3 insertions(+)
++
++diff --git a/test/test_ifd_loop_detection.c b/test/test_ifd_loop_detection.c
++--- a/test/test_ifd_loop_detection.c
+++++ b/test/test_ifd_loop_detection.c
++@@ -34,6 +34,9 @@
++ #include <string.h>
++ 
++ #include "tiffio.h"
+++
+++#undef SOURCE_DIR
+++#define SOURCE_DIR "."
++ 
++ /* Compare 'requested_dir_number' with number written in PageName tag
++  * into the IFD to identify that IFD.  */
+diff --git a/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb b/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
+index 8bc3a48..767b295 100644
+--- a/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
++++ b/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
+@@ -9,6 +9,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=4ab490c3088a0acff254eb2f8c577547"
+ CVE_PRODUCT = "libtiff"
+ 
+ SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
++           file://test_ifd_loop_detection-relative-images.patch \
++           file://run-ptest \
+ 	   "
+ 
+ SRC_URI[sha256sum] = "672bd7d10aee4606171afb864f3570b83340f6a33e2c186dc0512f7145ffdf6a"
+@@ -23,7 +25,7 @@ CVE_STATUS[CVE-2023-6277] = "fixed-version: Fixed since 4.7.0, NVD tracks this a
+ CVE_STATUS[CVE-2025-8851] = "fixed-version: Fixed since 4.7.0, NVD tracks this as fixed in 2024-08-11 vulnerability"
+ CVE_STATUS[CVE-2026-4775] = "fixed-version: Fixed since 4.7.2, NVD tracks this as version-less vulnerability"
+ 
+-inherit autotools multilib_header
++inherit autotools multilib_header ptest
+ 
+ CACHED_CONFIGUREVARS = "ax_cv_check_gl_libgl=no"
+ 
+@@ -64,3 +66,41 @@ do_install:append() {
+ }
+ 
+ BBCLASSEXTEND = "native nativesdk"
++
++# C unit-test programs (check_PROGRAMS) built and run by ptest. Defined once
++# here and substituted into run-ptest at install time to avoid duplication.
++TIFF_PTEST_PROGS = "ascii_tag long_tag short_tag strip_rw rewrite custom_dir \
++    custom_dir_EXIF_231 defer_strile_loading defer_strile_writing \
++    test_directory test_IFD_enlargement test_open_options \
++    test_append_to_strip test_ifd_loop_detection testtypes \
++    test_signed_tags raw_decode"
++
++do_compile_ptest() {
++    oe_runmake -C ${B}/test check TESTS=""
++}
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/test
++    # Compiled C unit-test programs. libtool leaves a wrapper script in test/
++    # and the real ELF binary in test/.libs/; testtypes is static and lives
++    # only in test/.
++    for prog in ${TIFF_PTEST_PROGS}; do
++        if [ -e ${B}/test/.libs/$prog ]; then
++            install -m 0755 ${B}/test/.libs/$prog ${D}${PTEST_PATH}/test/
++        else
++            install -m 0755 ${B}/test/$prog ${D}${PTEST_PATH}/test/
++        fi
++    done
++    # Shell test scripts and the shared helper
++    install ${S}/test/*.sh ${D}${PTEST_PATH}/test/
++    install ${S}/test/common.sh ${D}${PTEST_PATH}/test/
++    # Point the test scripts at the installed tiff tools instead of ../tools
++    sed -i -e "s|^TOOLS=.*|TOOLS=${bindir}|" ${D}${PTEST_PATH}/test/common.sh
++    # Fill in the C test program list from TIFF_PTEST_PROGS.
++    sed -i -e "s|@PROGS@|${TIFF_PTEST_PROGS}|" ${D}${PTEST_PATH}/run-ptest
++    # Input images and reference outputs
++    cp -r ${S}/test/images ${D}${PTEST_PATH}/test/
++    cp -r ${S}/test/refs ${D}${PTEST_PATH}/test/
++}
++
++RDEPENDS:${PN}-ptest += "tiff-utils"
+-- 
+2.54.0
+
 
