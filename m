@@ -2,76 +2,76 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B06FFC98338
-	for <webhook@archiver.kernel.org>; Sat, 26 Sep 2026 14:05:29 +0000 (UTC)
-Received: from fout-b4-smtp.messagingengine.com (fout-b4-smtp.messagingengine.com [202.12.124.147])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.19582.1790431526939599008
+	by smtp.lore.kernel.org (Postfix) with ESMTP id E18E1C98332
+	for <webhook@archiver.kernel.org>; Sat, 26 Sep 2026 14:42:59 +0000 (UTC)
+Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20613.1790433770248428929
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Sep 2026 07:05:27 -0700
+ Sat, 26 Sep 2026 07:42:50 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=Q7fqUrXt;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=H5W6NLJR;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.147, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-04.internal (phl-compute-04.internal [10.202.2.44])
-	by mailfout.stl.internal (Postfix) with ESMTP id 26C5A1D00046;
-	Sat, 26 Sep 2026 10:05:26 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-04.internal (MEProxy); Sat, 26 Sep 2026 10:05:26 -0400
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=Ke+2uyqI;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=qVYhAFuf;
+ spf=pass (domain: pbarker.dev, ip: 202.12.124.157, mailfrom: paul@pbarker.dev)
+Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 3EB1A7A0073;
+	Sat, 26 Sep 2026 10:42:49 -0400 (EDT)
+Received: from phl-frontend-03 ([10.202.2.162])
+  by phl-compute-05.internal (MEProxy); Sat, 26 Sep 2026 10:42:49 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-transfer-encoding:content-type:content-type:date:date
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1790431526;
-	 x=1790517926; bh=5WJg2Xj1cYg8qjPZZjVCpGJcQTpXNGqlCweP/IRM9no=; b=
-	Q7fqUrXta6mRkpeDGBZls+/m/8hjHWQEX6QX84qZ4QxVfUBClqOSK5IAqBlQ214v
-	s2IlfPA+yvmTHdMfn5nnHg4JgTXMv1cw6JtLInVH+mTvmHGZSIs7V+Y++oRchxZB
-	xAcvubo0w488/3T457l9ZY1lavx9S6J3zNWh0xbTDz1yFiwQYlRK0d3CfespNxvq
-	YLgARRdtD30RGpk1/ml+QHcIgiOqXCjFSAyS7OnyDjrqx1noqRwtZy6veMUNaeel
-	E340L0En43sbAZ+YGrm3q9Bt2YsH198dFv7Nc2vDRLH3dtUlM23UTBMjpSOij37k
-	PQLa+MgAC/iaWUz2RZl76w==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1790433769;
+	 x=1790520169; bh=7/RXDppv3CkDZ+nxnQ3IpZ5Bw8cFGQji4CwWZAAWuvY=; b=
+	Ke+2uyqINZbxClgP1CmpemoNf7FKCycRzgcpNGIqfCGE4Is/m5EdzCS7SzIgMJpr
+	Urr4QtVf5S9ZrwxnN8OYRycMkiZ+QIzWL7Ahg6fCPZom1DblHaQQpQ+vNlBRznpO
+	hrNQpB4TyF3Q/TG0msrXzZ/wKfmt5+Zb/8Xa+2ZZWkN40omsTcsINV/UTprpBRks
+	ONR7mwJ28sStT8L6SGHPEljfxvE8qlxMbJytMa+bH72jsya6WaeZ4YuFmhEnYl5I
+	8r+PKIfcJG/KccjHSznkqVVjuFY6PwQzuIbE6LtX/dS9tOebmxSnwhoh92tklqwt
+	My1R+0IoRRxb3HV5f/NJvA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1790431526; x=1790517926; bh=5
-	WJg2Xj1cYg8qjPZZjVCpGJcQTpXNGqlCweP/IRM9no=; b=H5W6NLJRn02L2Z+Eb
-	9TGMXhnp0/CMnJB49bToyjUim58usdMRRqZM3PX7KtdBi6kr9+EaYeT0MNFtADDZ
-	v7x/uOLLtMNH1zxLAen48ydk0m4kKLEVXKrIS7+b5H1WGzduQAA4KG/O4iUA5OFU
-	qKJPQcAOG0B7IF5rfctQg18Yb1Al85kJw0gQ8F5KC4qP3ihSuLThhW7FUl3jYFi6
-	5TYtuiNVtotQ1PzFLi4JLb0EqKgn3TwZb90g+R0FLDBL9O3TOVa5SvKHfEmWgyKq
-	GeK4kjIvS0et1ZLzAVPUBr61igwzj34m2LJ4Om3b3zmEWQXKHYi8f9Zg5jz6hsjV
-	OJ+sw==
-X-ME-Sender: <xms:JdG3ahtCz_Q1Q0t6VGqD5myojlnHKNxcWPxUHXS7249UmEPbpExczw>
-    <xme:JdG3agcHG6WrgW0sUGMwsvvyhkjKZqGxrpZPkgHX5eqp9Eu2i8qpJmDjR3RHdtUE2
-    k342WbOeJp_f2Ph6Jvbh2TnkQN6w9ygbJvTbkiKLMTu8z_Fk9uYv2-O>
-X-ME-Received: <xmr:JdG3aiY-j1WRCOtNfpWJeFry5VMV2k6vyAPGmAjoZzlKuBIAKfxrNOg4wYv-XnnU6-LpLse7a4moiH-T-eb3toMSyjIzdAuS_HLKuG0>
-X-ME-Proxy-Cause: dmFkZTEGTETsi3p74YBMgPJ4gYCQU5gjWD/NlVkOm9MjraEgfD/cp3ROQbnYxsdhAEECfj
-    seVcWmAGflThOrEz+G4lA+vM0DlJXedpUWusEvLvXN16BCtKw03l69aTvU8wXWLoc9pAKq
-    /5n9Rdx4iJsl5EVp+tQQC36kp3ecZ3N1N2WsesvTBINn8d5CyO8QnnkN00fwY7V7Wb9pw1
-    q68SjBfP6/7qKjwicNs2UC3/g13pKG5i/uYapsEq7zoDO81xMN13RiBxCLwgY/PtwKYLkF
-    v56EKAoKFCc+iBlnpTWLGru1NAbeq0OhQ4Ee5M+7tSGXntpuv6SXQo6B0EkpxILVbyFZCP
-    DVY90G1OccmGcJC35V3eih4SDh4Et4w8Bxt/XmNuQJx968/pTHtdgF9dzYmYbOCW3NPuRY
-    00xjrg4IKdPPsTNKqeruUsDxEv2BS+vJOepiC0nrAAU8ikuNGprO9SxwfEkekwOTdiBu02
-    k5u/CUWAgmmmqqoSagPevZJIGeRRnW5zwpBRY+L81wSEmUMz6zj6gBoXh/KCDlDe+tUQ8Z
-    SEmBj00z7EKO59WmTjquuseXlaGO3npqh511WlCG8IN4WPwDU0ElcjxyYWVLTcU389z4Ds
-    YjkRqQRpaUuOffWip5MnX1nYasfknwK56Mt3XU/lOfLJfZUz+Fz4+YSmceNg
-X-ME-Proxy: <xmx:JdG3ajXjtYaZQ3p6ziOWGM5Y-q00fMLhgeXsU02nnx8xCg35tkZWGQ>
-    <xmx:JdG3akjZNRrEzDrbDWTufddtmPXf0Dttmg8gOIRrCCeP-VzoIuKuqw>
-    <xmx:JdG3ahUfHOZXeLZmIhYU0exuwHZgi34m6_YL74NnfMHAlEgFaqnj5w>
-    <xmx:JdG3arPM1vagUGSwtv_20PhcuClVotCQGzDo8EFh6b5LHIQ8Ff3P_Q>
-    <xmx:JtG3anvNJ2hzNlgY0p67glpKXgtTX7luFmxqXOe4MctPRrj2VpVXA4ko>
+	:x-me-sender:x-sasl-enc; s=fm1; t=1790433769; x=1790520169; bh=7
+	/RXDppv3CkDZ+nxnQ3IpZ5Bw8cFGQji4CwWZAAWuvY=; b=qVYhAFuftedoGWpr8
+	pdUF3RlQwOIAONUdk1rOC186gGWHFuey5H5hNAjv0rRKg70qYqiJ/QMeTGcIAa1U
+	VQq/tgWYqkr/Lt3WlnJZk754XNpN+5dnxyg//5ydTW/edphM5rnUtHtPQ9hrlhBj
+	45ChjbAju8c/A/qv/CkaklmkKf0FI6nNrJjFSHQd875v7SbWkAvFcvR0w3hbQvDc
+	uG458j4E011yihXh93LkhkDW/L+4fU72OMxVpAmSU3IZQUtvYpu7j92XZm4g88Rg
+	wDM0RXXt6kZOn2ZgGll6NlXQPT+8V/LY7Thtv1PIkkgHLghO+FzseoDlZDwTUkoV
+	/mx4A==
+X-ME-Sender: <xms:6Nm3arj27f6MrQw6orxJMmTnllFtBa1aiIfBY8Oh7bCt4b77G1NyiQ>
+    <xme:6Nm3al-ldYD8mtWDiU2B3IFYpobiZpsqbvZI4vtXynFOIMZL3Wi94_7N2Om6LkT9H
+    FIQ_F-PXuQV2uUvkSVpQauqGkgggnS9CiDFSKbRuy7gX82625L6SQky>
+X-ME-Received: <xmr:6Nm3aipBBSS6T_n1iXbGyPftMKww0-Ft8uSB9ss9Wxyy_UtgzQeD25MXCscEy8tJ2-Yu_tMk_VMyY1nfUArcmhpKmSygNsSj-5O-oR8>
+X-ME-Proxy-Cause: dmFkZTEjX8VSJdL5EXr7DO454Sa3My8SqKRu7pddbkhbhrKG16TxU73PPRSPcZb5tVFzSa
+    AKkXivXRE8OzVv1EWv+Aw34TS8dguMO2BiCYtQiRQTpsAAP1dTgRkVMI/8/aX89+vEuILS
+    cL5BliuM35xkEb7tksxu1+oTmiJCmvtFad670YAUEFzO8Y2aZeDnAMLRnTwb4Bjhn7N0Sf
+    Spy9ifukHiJ0xP9mTEPJ/37EmSA0a/Vj86c4Grqj1kpDUocQO9wW7FwOdnzjR6ZZbMNXXJ
+    Kotw6c3FyL5OudPJEhvhvkLGYH5IMDXBax4cr/Y4gRyUlWC4eGYIojf4NTWWhEvu0R/8Kr
+    +OoHgKjVyJNzp6AYiYXcbg0FKcXC8fnUDZBm4yPTxgzfzvdxtTGwVQ/93vha5BFbmBrBL5
+    tTl1bc+4NFGzAYMng2Shmar6ckXzTW+GEixDXzS276X28k6I9BycVo+Sd8DqaOIIItm4+Y
+    DzCIsPWFvx4sORl0TwDyWsc0rbNRmDxtkg+KQ+ltP1gYVv2XvxLCN/HEaOicC/FnDgxOW2
+    ztX+WKUx57MWAC8iMxuC52tEh2/h6WTitIWAdpHRFWgZdfzFI/xqGN//y3eQjYIz3gYn0I
+    lpWQiMUVQSW57jSRNZcrnoHVUPiHBwgewH+pOVPmioI7KqJTKAHNqB4FdH+Q
+X-ME-Proxy: <xmx:6Nm3ak9mGCtltq2msdZYa_8ryPu-6io00HJRkW10jlHZK9nCJtIerw>
+    <xmx:6Nm3amU8t_MmImEBj3Mog_Df0GNEPGTKIlc57CMVhriOy3tXtl8y-g>
+    <xmx:6Nm3aqBsNVr5gyeV6BbrCOQw3dMN6p83YqTiMiSgPLMJ_YKSyG-hcQ>
+    <xmx:6Nm3anwIVYDbvZLwVOGu35VrbRDzCRijMGc_QKLR1xI09Ejv_caOWA>
+    <xmx:6dm3alnHwRSSRAQMhPP2BFF2KImzSoBH1W21l5a-UMN6jAI-apg1RKsA>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 26 Sep 2026 10:05:25 -0400 (EDT)
-Message-ID: <d090889df2d7b67661ba42e1ab91de9f9c22dd73.camel@pbarker.dev>
-Subject: Re: [oe-core][PATCH 2/5] cpan: survive the Makefile that MakeMaker
- rebuilds under us
+ 26 Sep 2026 10:42:48 -0400 (EDT)
+Message-ID: <97a1e21f11d1da169b33b5b64f8e18e06eaf67a2.camel@pbarker.dev>
+Subject: Re: [PATCH] initramfs-framework: retry LABEL lookup before coldplug
+ fallback
 From: Paul Barker <paul@pbarker.dev>
-To: Markus Volk <f_l_k@t-online.de>, openembedded-core@lists.openembedded.org
-Date: Sat, 26 Sep 2026 15:05:24 +0100
-In-Reply-To: <20260922092411.262885-2-f_l_k@t-online.de>
-References: <20260922092411.262885-1-f_l_k@t-online.de>
-	 <20260922092411.262885-2-f_l_k@t-online.de>
+To: Wenwen Fu <wenwfu@qti.qualcomm.com>, 
+	openembedded-core@lists.openembedded.org
+Date: Sat, 26 Sep 2026 15:42:46 +0100
+In-Reply-To: <20260923062512.333252-1-wenwfu@qti.qualcomm.com>
+References: <20260923062512.333252-1-wenwfu@qti.qualcomm.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
@@ -79,98 +79,92 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2026 14:05:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246637
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2026 14:42:59 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246638
 
-On Tue, 2026-09-22 at 11:23 +0200, Markus Volk wrote:
-> ExtUtils::MakeMaker makes the generated Makefile depend on Config.pm and
-> config.h from the perl it was configured against. do_prepare_recipe_sysro=
-ot
-> stages those files fresh on every run, so their mtime can end up newer th=
-an
-> a Makefile written by a do_configure that is still valid. make then
-> regenerates the Makefile, prints "Please rerun the make command" and exit=
-s
-> non-zero, which fails do_compile or do_install. Run make a second time in
-> that case, which is what MakeMaker asks for; a run that fails for any oth=
-er
-> reason fails again. Also drop a stale Makefile before Makefile.PL runs, s=
-o
-> a configure in a used work directory does not start from old settings.
+On Wed, 2026-09-23 at 14:25 +0800, Wenwen Fu wrote:
+> The root-only udev path can resolve root=3DLABEL=3D before the storage
+> device has registered. This makes the lookup fail and causes an
+> unnecessary full udev coldplug.
+
+Hi,
+
+This suggests that using a root device only udev trigger is not as
+robust a method of ensuring that the device is ready to be used as we
+thought it was. Adding a retry loop with a roughly 50ms timeout may be
+sufficient for the boards you have tested, but it isn't a generic
+solution.
+
+If we're carrying support for this in OE-core then we do need to make
+sure that it is generic enough to work across a range of hardware.
+
 >=20
-> Reproduced with liburi-perl by touching Config.pm and config.h in the
-> recipe sysroot and forcing do_install: it failed before the change and
-> succeeds after it.
+> Retry the lookup five times with a 10 ms delay before falling back to
+> the existing full coldplug path.
 >=20
-> AI-Generated: Uses Claude Code (Claude Opus 5)
-> Signed-off-by: Markus Volk <f_l_k@t-online.de>
-
-Hi Markus,
-
-The commit summary here is an excellent example of Claudish. I'm not
-really sure what it means... It could do with re-writing.
-
+> Fixes: fda394c2b91b ("initramfs-framework: support LABEL with root-only u=
+dev trigger")
+> Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
 > ---
->  meta/classes-recipe/cpan.bbclass | 13 +++++++++++--
->  1 file changed, 11 insertions(+), 2 deletions(-)
+>  .../initrdscripts/initramfs-framework/udev    | 33 +++++++++++++++----
+>  1 file changed, 26 insertions(+), 7 deletions(-)
 >=20
-> diff --git a/meta/classes-recipe/cpan.bbclass b/meta/classes-recipe/cpan.=
-bbclass
-> index dbf44da9d2..0f7384786f 100644
-> --- a/meta/classes-recipe/cpan.bbclass
-> +++ b/meta/classes-recipe/cpan.bbclass
-> @@ -23,6 +23,10 @@ export PERLHOSTLIB =3D "${STAGING_LIBDIR_NATIVE}/perl5=
-/${@get_perl_version(d)}/"
->  export PERLHOSTARCHLIB =3D "${STAGING_LIBDIR_NATIVE}/perl5/${@get_perl_v=
-ersion(d)}/${@get_perl_hostarch(d)}/"
+> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/m=
+eta/recipes-core/initrdscripts/initramfs-framework/udev
+> index 85c5ba1178..fbf1b98d56 100644
+> --- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
+> @@ -35,6 +35,31 @@ udev_enabled() {
+>  	return 0
+>  }
 > =20
->  cpan_do_configure () {
-> +	# A Makefile left behind by an earlier configure run would be used with=
- the
-> +	# settings it was generated with, so start from the Makefile.PL every t=
-ime.
-> +	rm -f Makefile
+> +udev_resolve_root_label() {
+> +	udev_root_label=3D$1
+> +	udev_root_label_retries_left=3D5
+> +	udev_root_partuuid=3D
+> +
+> +	# The block device may still be registering when initramfs starts.
+> +	# Retry up to five times after the initial lookup, with a 10 ms delay,
+> +	# before falling back to a full udev coldplug.
+> +	while :; do
+> +		udev_root_dev=3D$(findfs "LABEL=3D$udev_root_label" 2>/dev/null)
+> +		if [ -n "$udev_root_dev" ]; then
+> +			udev_root_partuuid=3D$(sed -n 's/^PARTUUID=3D//p' \
+> +				"/sys/class/block/${udev_root_dev#/dev/}/uevent" 2>/dev/null)
+> +			[ -n "$udev_root_partuuid" ] && break
+> +		fi
+> +		[ "$udev_root_label_retries_left" -eq 0 ] && break
+> +		udev_root_label_retries_left=3D$((udev_root_label_retries_left - 1))
+> +		sleep 0.01
+> +	done
 
-I'm not really familiar with cpan packages - are we sure that none
-include a Makefile?
+It's unclear here which step actually needs to be retried. Is it the
+findfs call or the search for PARTUUID in the uevent file?
 
 > +
->  	yes '' | perl ${EXTRA_PERLFLAGS} Makefile.PL INSTALLDIRS=3Dvendor NO_PE=
-RLLOCAL=3D1 NO_PACKLIST=3D1 PERL=3D$(which perl) ${EXTRA_CPANFLAGS}
-> =20
->  	# Makefile.PLs can exit with success without generating a
-> @@ -57,12 +61,17 @@ do_configure:append:class-nativesdk() {
->             -e 's:LD_RUN_PATH ?=3D ?"?[^"]*"?::g'
->  }
-> =20
-> +# ExtUtils::MakeMaker regenerates the Makefile when the staged perl has =
-become
-> +# newer than it, and then exits asking for make to be rerun. Do that ins=
-tead of
-> +# failing the task; a run that fails for any other reason fails again.
->  cpan_do_compile () {
-> -	oe_runmake PASTHRU_INC=3D"${CFLAGS}" LD=3D"${CCLD}"
-> +	oe_runmake_call PASTHRU_INC=3D"${CFLAGS}" LD=3D"${CCLD}" || \
-> +		oe_runmake PASTHRU_INC=3D"${CFLAGS}" LD=3D"${CCLD}"
-
-Are we sure this won't mask other issues? The staged perl becoming newer
-than the generated Makefile should be a rare occurance, perhaps we can
-check for that before calling make and handle it explicitly?
-
->  }
-> =20
->  cpan_do_install () {
-> -	oe_runmake DESTDIR=3D"${D}" install_vendor
-> +	oe_runmake_call DESTDIR=3D"${D}" install_vendor || \
-> +		oe_runmake DESTDIR=3D"${D}" install_vendor
-
-We don't want surprise rebuilds during do_install.
-
->  	for PERLSCRIPT in `grep -rIEl '#! *${bindir}/perl-native.*/perl' ${D}`;=
- do
->  		sed -i -e 's|${bindir}/perl-native.*/perl|/usr/bin/env nativeperl|' $P=
-ERLSCRIPT
->  	done
+> +	[ -n "$udev_root_partuuid" ] || return 1
+> +	root_match=3D"PARTUUID=3D$udev_root_partuuid"
+> +	return 0
+> +}
+> +
+>  udev_trigger_root_device() {
+>  	case "${bootparam_root:-}" in
+>  		PARTLABEL=3D?*)
+> @@ -47,13 +72,7 @@ udev_trigger_root_device() {
+>  			# The kernel does not export the filesystem LABEL in the
+>  			# uevent, so resolve it to a device node with findfs and
+>  			# match on that device's kernel-provided PARTUUID.
+> -			root_label=3D"${bootparam_root#LABEL=3D}"
+> -			root_dev=3D$(findfs "LABEL=3D$root_label" 2>/dev/null) || return 1
+> -			[ -n "$root_dev" ] || return 1
+> -			root_partuuid=3D$(sed -n 's/^PARTUUID=3D//p' \
+> -				"/sys/class/block/${root_dev#/dev/}/uevent" 2>/dev/null)
+> -			[ -n "$root_partuuid" ] || return 1
+> -			root_match=3D"PARTUUID=3D$root_partuuid"
+> +			udev_resolve_root_label "${bootparam_root#LABEL=3D}" || return 1
+>  			;;
+>  		*)
+>  			return 1
 
 Best regards,
 
