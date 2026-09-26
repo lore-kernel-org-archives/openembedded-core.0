@@ -2,141 +2,155 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E13FEC9832F
-	for <webhook@archiver.kernel.org>; Sat, 26 Sep 2026 20:37:27 +0000 (UTC)
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.26019.1790455040252928281
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EBA08C9832A
+	for <webhook@archiver.kernel.org>; Sat, 26 Sep 2026 20:49:47 +0000 (UTC)
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.26862.1790455786982817604
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Sep 2026 13:37:20 -0700
+ Sat, 26 Sep 2026 13:49:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=UEhAUZnK;
- spf=pass (domain: smile.fr, ip: 74.125.225.99, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-48881a62e09so907245f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2026 13:37:20 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=WX5rg/bA;
+ spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6350f91so1081209f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2026 13:49:46 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790455038; x=1791059838; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+        d=smile.fr; s=google; t=1790455785; x=1791060585; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=bP9B5xxe+n8a4yzZRzWrdHPWJ36sDr+ECZnc/0Kz4qM=;
-        b=UEhAUZnKeAX1wiS9ERYx6qS9CfCzWp1Y0Dsc9o9AaMCBCotkU9s5zaWoH9jPJKAYmB
-         7ghfbGMMNhZOzHwW5IB7Cfu6JCnfnG/6cO9rY8Xf0hlHP2OPnrNeQM947HZOVe0Geiek
-         QohsOPZxzOM2hpmMBNJdEF0dYm7OD8Jt7n6iw=
+        bh=dWT+VAzlI3okIP0fzFVdtW4PNwwTIm3C0wYG5KHIXrY=;
+        b=WX5rg/bARr1U83Yv4A3r8HB5URuqW7wITfBl29lstmPX98rDxeBDEMPCYXtoOayzkE
+         DDuw9We22aUTRVG0FvNrxXvXq+w9HzavhAR7Vl6PBFyhNQFEvuMlOWGtM/JlwH/nsb7I
+         FYSYMZMNi4wOXhx6saJI0+8eZvk16aIkXj18E=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790455038; x=1791059838;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+        d=1e100.net; s=20260707; t=1790455785; x=1791060585;
+        h=in-reply-to:references:from:subject:to:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=bP9B5xxe+n8a4yzZRzWrdHPWJ36sDr+ECZnc/0Kz4qM=;
-        b=YjX7JQS+i4KYe4K7569Xtk2f3PpCfknth7owGT4HVoaEdMLWBXskaqP7e5RTbab7+j
-         +Ebp5srKSx2XO4GyPY5S/ixiCcADpwlAKvbSEcUPbGBnTx99KLpPFoYMjdTpJAf7eTR2
-         DEBFJwThZp7qldqrRuWJbywObHyFwfvm+A9pAu9qCy1sSsxMOV9ScrsuScdoaDxYPTjF
-         0oH8N1aCu9DkRpdJECiqfvG5Ly+cHzxtqsTXpHmFZmASMtr/6EEzQhzQ0gPRLA6JZ7Yg
-         i1uZz9oq98xPcNs1Pe6wUOaAXPJ2MIaSeQmpyvX0KiTUJHYr3jiSTm6RKVdketurDLD1
-         Bh8A==
-X-Forwarded-Encrypted: i=1; AKwUvBzMiihzxutLeJCw+Ld9RIX0SMqBsF2vdR9+z9vV69oLzPFCjKy4zQAdCVYB1x0mpxCjyTPr5LOJtCYe1pWef82N1g==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYI4y6AX0M0jQ+7nV7BYG1Acu5vp4iMPV+yz7/lWe22xb6Sy4Mr2
-	lAaRdPAeODo+bl6jcivjaYjBIIj3pxFuIya8CAGN3CRjYJdYpHDmqOQlOycyyzFKj80=
-X-Gm-Gg: AYBFou0bpWOMd+oMAPul91JvHdWijItggn17S7tVdTJidskmw9DK02uU3eq3iCrYL5g
-	mSUnbvRms77WmNUA/wtg5iNl3Wj11MzrhrrSQ5M0EJ5ZfIOUVbVwNKSE2YxJFRfEdgB6tsfJdaE
-	QWWNNX6ncb8gh8m+W6oBIbfvOpqxE2i04rkoxVEcyBLZ3cLS+pBaY30iNng0oOSEQeYHGyz9Rp1
-	l2EpQbHNMSU7ff4IGFsJ2VCefllCZ3Ql+ZkvClI/lNZmnCklJdo8b1W1ml1ZRTZWZ2Im9qtw4HZ
-	SjIfRlpXzD857kb9qKgngBmOPk/vYjKziIumgB0xyLRMZ6Tbbz4toP3suSGddky80K6cWqmfPc+
-	I/xUR9g+8FgKDBXX13wSV0RCgN9oRzH0ZKrbijbaFN9QM05KviL+YpZurIOp93Bie+y/xfuIdfA
-	BPbp+xp3wLir/wPDAcpUVJKNoZJuH9z1iYbN2z7fc9l6f3DCkJU8DDtfnVMmNV4D50r0CxqUn+N
-	0nEtxhWM1uxhTGHkcO3sNjoMiLk1Pe86dsrDBT9kSYj03kbvCqCaqicRSCn1A==
-X-Received: by 2002:a5d:5d0e:0:b0:487:370:45d3 with SMTP id ffacd0b85a97d-4887175a73dmr18062897f8f.43.1790455038336;
-        Sat, 26 Sep 2026 13:37:18 -0700 (PDT)
+        bh=dWT+VAzlI3okIP0fzFVdtW4PNwwTIm3C0wYG5KHIXrY=;
+        b=RV02iHsZNu6WbDSX1Vk7lyHj0xfX8JK1nJF/WoGlz1KbLbMTFuTfsnzbi0JRzjNpzi
+         dBnMfuuOqT3JgQqq9pjiedH/7yA8dVIID6iv0On8tHWNobJkFM+N5zE3ClXYNBoX069M
+         WvQ0HnPsFCbWWTfYCRzxQ2Nj6WcOmqaibD8Y00QQWy0lwQEBGmeQcrbEx8lOJuo2muMh
+         Qt9bdGj46aEtDEGqAzzKNmd4hWzg5ONE75gWtrSQyYnS9Y4eHiacSy0DNgFapdpdVM4H
+         th3cevP61MEiLLmZTi9k2ljsZ+ZOxHAmNvlswEVxq6Fode83uTEjiKo2eMXnmGzNuhiW
+         Ozug==
+X-Forwarded-Encrypted: i=1; AKwUvBxK8xNpPXN3dq2pGOWGGdMhUXAsQUjiym2sHrWR8ZA0XRLZYnOuWV5L5lieuvapGGUkD9RK8dgf7OOJ6j2/iZGbLg==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYL6WsM1TALyq9XOupRFvH3m2jXEQld0yQ3XQXAx6cl8zve+9F5w
+	WP/5PBWUegBMwcE4FLcFROXaD24aV/dvrf7/ESlXpZ4MzxVjXismuKW6vIphObt5WmA=
+X-Gm-Gg: AYBFou3trh8DdkeBbQiuUNm5d7BvJQkoOelAd7Z8KWyumlQKW7h7eq76MxZtlmp9OPs
+	dThG+yBf2Y3uTfUjifCuc+pMbGQRpYLAFS2ml1DedAsKFERwF88I0uHasNK8q5EvM9yqW+yVI4X
+	1aLl4Nn2WUXC/p3YGtnjsZj3NZAKC0XChdRMDpzaqHfNrVskIg5tl4+azba93KrxY7ZwHezN85E
+	lCcILpTrDnYtjWyolyfjO/YWNaaoafSYW55Rkib6YzC5jhfa0Mey6DiWZA9kqIvzQhj0GX1ckTl
+	xrRpwmW7OgrP6WEUD3B508FLGNMTF9qXb4vTxj4iJxbZeImjNe2OKOAAHRWX7C4eCuG320rT31I
+	OqAKnBjSyYikinlygt3llgJ/9O2N91YIeJN8LrPdh+BlC6xt1CZO0prgZTr/fIXpJwO003KrctT
+	wn1+3ypsmXDP2KLMk6rWjTcaPWl1cVrBdiqTVcMUASQeHhS5OdTR37PxQQDaYSxkwVPPQLOrMos
+	WRRZvS4Uf8hSUqY5OS1BqK2USOq5z+7hmvFWzsqRSmrVHg6F8B+Sw4DsaTQIdPfMtOEFCL4
+X-Received: by 2002:adf:e192:0:b0:485:8c17:9764 with SMTP id ffacd0b85a97d-4887db39ab3mr9788606f8f.38.1790455785125;
+        Sat, 26 Sep 2026 13:49:45 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30b9aesm14880641f8f.5.2026.09.26.13.37.17
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a64f795sm14749630f8f.31.2026.09.26.13.49.44
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 26 Sep 2026 13:37:17 -0700 (PDT)
+        Sat, 26 Sep 2026 13:49:44 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 26 Sep 2026 22:37:17 +0200
-Message-Id: <DLPJC96BOERE.3M87L9353GN17@smile.fr>
-Subject: Re: [wrynose][oe-core][PATCH 5/5] ffmpeg: Fix for CVE-2026-66041
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <bhavesh.maheshwari@einfochips.com>,
+Date: Sat, 26 Sep 2026 22:49:44 +0200
+Message-Id: <DLPJLS9FVRFS.35QX2ZF2MZZWU@smile.fr>
+To: <OmkarAbaji.Patil@windriver.com>,
  <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH][wrynose] gnutls: upgrade 3.8.12 -> 3.8.13
+From: "Yoann Congal" <yoann.congal@smile.fr>
 X-Mailer: aerc 0.20.0
-References: <20260922070209.2770399-1-bhavesh.maheshwari@einfochips.com>
- <20260922070209.2770399-5-bhavesh.maheshwari@einfochips.com>
-In-Reply-To: <20260922070209.2770399-5-bhavesh.maheshwari@einfochips.com>
+References: <20260826101729.731747-1-OmkarAbaji.Patil@windriver.com>
+In-Reply-To: <20260826101729.731747-1-OmkarAbaji.Patil@windriver.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2026 20:37:27 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246643
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2026 20:49:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246644
 
-On Tue Sep 22, 2026 at 9:01 AM CEST, Bhavesh R Maheshwari via lists.openemb=
-edded.org wrote:
-> From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+On Wed Aug 26, 2026 at 12:17 PM CEST, Omkar Patil via lists.openembedded.or=
+g wrote:
+> From: Peter Marko <peter.marko@siemens.com>
 >
-> Pick the patch from [1], also referenced in the NVD report [2].
+> Solves CVE-2026-33846, CVE-2026-42009, CVE-2026-33845, CVE-2026-42010,
+> CVE-2026-3833, CVE-2026-42011, CVE-2026-42012, CVE-2026-42013,
+> CVE-2026-42014, CVE-2026-5260, CVE-2026-42015, CVE-2026-3832 and
+> CVE-2026-5419.
 >
-> [1] https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/4da9812e25894fb51d62a887=
-5cfa8eb39b5e20f5
-> [2] https://nvd.nist.gov/vuln/detail/cve-2026-66041
+> Release notes: [1]
 >
-> Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
+> Rebase patches and drop patch included in this release.
+> Add patches to fix linking with musl libc.
+> Increase memory needed to successfully run test key-openssl.
+> Drop code for previous release tarball problem.
+>
+> [1] https://github.com/gnutls/gnutls/blob/3.8.13/NEWS
+>
+> Signed-off-by: Peter Marko <peter.marko@siemens.com>
+> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+> Signed-off-by: Omkar Patil <OmkarAbaji.Patil@windriver.com>
 > ---
->  .../ffmpeg/ffmpeg/CVE-2026-66041.patch        | 60 +++++++++++++++++++
->  .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |  1 +
->  2 files changed, 61 insertions(+)
->  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.=
+>  meta/recipes-core/images/core-image-ptest.bb  |   2 +
+>  ...fragments-implement-a-basic-DTLS-tes.patch | 258 ------------------
+>  ...s-mini-dtls-framents-link-to-gnulib.patch} |  12 +-
+>  ...ust-list-fault-fix-issues-in-linking.patch |  31 +++
+>  ...merge_handshake_packet-using-recv_bu.patch |  96 -------
+>  ...s-add-more-checks-to-DTLS-reassembly.patch |  65 -----
+>  ...fragments-extend-with-a-1816-reprodu.patch | 159 -----------
+>  ...fragments-extend-with-fragmenting-Cl.patch | 149 ----------
+>  ...ch-DTLS-datagrams-by-sequence-number.patch |  42 ---
+>  ...fragments-1839-mismatching-message_s.patch | 104 -------
+>  .../gnutls/gnutls/Add-ptest-support.patch     |   4 +-
+>  .../gnutls/gnutls/CVE-2026-3832_p1.patch      |  52 ----
+>  .../gnutls/gnutls/CVE-2026-3832_p2.patch      | 114 --------
+>  .../gnutls/gnutls/CVE-2026-3833.patch         |  90 ------
+>  .../gnutls/gnutls/CVE-2026-42009_p1.patch     |  62 -----
+>  .../gnutls/gnutls/CVE-2026-42009_p2.patch     |  48 ----
+>  meta/recipes-support/gnutls/gnutls/c99.patch  |  41 ---
+>  .../{gnutls_3.8.12.bb =3D> gnutls_3.8.13.bb}    |  22 +-
+>  18 files changed, 43 insertions(+), 1308 deletions(-)
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini-dt=
+ls-fragments-implement-a-basic-DTLS-tes.patch
+>  rename meta/recipes-support/gnutls/gnutls/{0008-tests-mini-dtls-framents=
+-link-to-gnulib.patch =3D> 0001-tests-mini-dtls-framents-link-to-gnulib.pat=
+ch} (68%)
+>  create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11-=
+trust-list-fault-fix-issues-in-linking.patch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0002-buffers-short=
+en-merge_handshake_packet-using-recv_bu.patch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0003-buffers-add-m=
+ore-checks-to-DTLS-reassembly.patch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0004-tests-mini-dt=
+ls-fragments-extend-with-a-1816-reprodu.patch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0005-tests-mini-dt=
+ls-fragments-extend-with-fragmenting-Cl.patch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0006-buffers-match=
+-DTLS-datagrams-by-sequence-number.patch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0007-tests-mini-dt=
+ls-fragments-1839-mismatching-message_s.patch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.p=
+atch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.p=
+atch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3833.patc=
+h
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1.=
 patch
->
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.patch b=
-/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.patch
-> new file mode 100644
-> index 0000000000..7a8c4e0c8b
-> --- /dev/null
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.patch
-> @@ -0,0 +1,60 @@
-> +From 9db6b5816516b85e981e177863b2eb361dbec3c8 Mon Sep 17 00:00:00 2001
-> +From: Michael Niedermayer <michael@niedermayer.cc>
-> +Date: Sun, 28 Jun 2026 15:33:38 +0200
-> +Subject: [PATCH] avfilter/vf_quirc: resize the quirc buffers when the in=
-put
-> + size changes
-> +
-> +Fixes: out of array access
-> +Fixes: JbvzNObhorBp
-> +Fixes: 030e140145 (lavfi: add quirc filter)
-> +Found-by: Adrian Junge (vurlo)
-> +Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
-> +
-> +CVE: CVE-2026-66041
-> +Upstream-Status: Backport [https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/=
-4da9812e25894fb51d62a8875cfa8eb39b5e20f5]
-> +
-> +Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
-> +---
-> + libavfilter/vf_quirc.c | 12 ++++++++++++
-> + 1 file changed, 12 insertions(+)
-> +
-> +diff --git a/libavfilter/vf_quirc.c b/libavfilter/vf_quirc.c
-> +index 59dc84caa8..d2ba48e7bc 100644
-> +--- a/libavfilter/vf_quirc.c
-> ++++ b/libavfilter/vf_quirc.c
-> +@@ -36,6 +36,7 @@ typedef struct QuircContext {
-> +     const AVClass *class;
-> +=20
-> +     struct quirc *quirc;
-> ++    int width, height;
-> + } QuircContext;
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2.=
+patch
+>  delete mode 100644 meta/recipes-support/gnutls/gnutls/c99.patch
+>  rename meta/recipes-support/gnutls/{gnutls_3.8.12.bb =3D> gnutls_3.8.13.=
+bb} (78%)
 
-Same question as 1/5: https://www.ffmpeg.org/doxygen/8.0/structQuircContext=
-.html
-Are you sure this does not break existing code?
+Hello,
 
-FYI, for the series as a whole: Since 2-4/5 are indenpendant of 1,5/5,
-I'll keep 2-4/5 in my branch for tests/reviews but hold 1,5/5 while we
-clarify the API change.
+Sorry, this upgrade was requested (and rejected) before:
+See https://lore.kernel.org/all/20260603074613.2846839-1-haixiao.yan.cn@win=
+driver.com/
 
-Thanks!
+Regards,
 --=20
 Yoann Congal
 Smile ECS
