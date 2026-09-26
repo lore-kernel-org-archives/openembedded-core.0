@@ -2,76 +2,74 @@ Return-Path: <paul@pbarker.dev>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E18E1C98332
-	for <webhook@archiver.kernel.org>; Sat, 26 Sep 2026 14:42:59 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id ED497C98332
+	for <webhook@archiver.kernel.org>; Sat, 26 Sep 2026 15:01:19 +0000 (UTC)
 Received: from fhigh-b6-smtp.messagingengine.com (fhigh-b6-smtp.messagingengine.com [202.12.124.157])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20613.1790433770248428929
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.20485.1790434869537883017
  for <openembedded-core@lists.openembedded.org>;
- Sat, 26 Sep 2026 07:42:50 -0700
+ Sat, 26 Sep 2026 08:01:09 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=Ke+2uyqI;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=qVYhAFuf;
+ dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=NsJL5IwF;
+ dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=OWXgn4bq;
  spf=pass (domain: pbarker.dev, ip: 202.12.124.157, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-05.internal (phl-compute-05.internal [10.202.2.45])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 3EB1A7A0073;
-	Sat, 26 Sep 2026 10:42:49 -0400 (EDT)
+Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
+	by mailfhigh.stl.internal (Postfix) with ESMTP id 8B0FD7A0086;
+	Sat, 26 Sep 2026 11:01:08 -0400 (EDT)
 Received: from phl-frontend-03 ([10.202.2.162])
-  by phl-compute-05.internal (MEProxy); Sat, 26 Sep 2026 10:42:49 -0400
+  by phl-compute-02.internal (MEProxy); Sat, 26 Sep 2026 11:01:08 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
 	cc:content-transfer-encoding:content-type:content-type:date:date
 	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1790433769;
-	 x=1790520169; bh=7/RXDppv3CkDZ+nxnQ3IpZ5Bw8cFGQji4CwWZAAWuvY=; b=
-	Ke+2uyqINZbxClgP1CmpemoNf7FKCycRzgcpNGIqfCGE4Is/m5EdzCS7SzIgMJpr
-	Urr4QtVf5S9ZrwxnN8OYRycMkiZ+QIzWL7Ahg6fCPZom1DblHaQQpQ+vNlBRznpO
-	hrNQpB4TyF3Q/TG0msrXzZ/wKfmt5+Zb/8Xa+2ZZWkN40omsTcsINV/UTprpBRks
-	ONR7mwJ28sStT8L6SGHPEljfxvE8qlxMbJytMa+bH72jsya6WaeZ4YuFmhEnYl5I
-	8r+PKIfcJG/KccjHSznkqVVjuFY6PwQzuIbE6LtX/dS9tOebmxSnwhoh92tklqwt
-	My1R+0IoRRxb3HV5f/NJvA==
+	:references:reply-to:subject:subject:to:to; s=fm3; t=1790434868;
+	 x=1790521268; bh=FBtzCB1BNlMsPylS9kP9VOIXURvPKMECume3W2SRAAs=; b=
+	NsJL5IwFDL5jJwz1xoedsNqm8xcG4IssglceTl6TdFAo4VhTYf/EV3/QhpAw6ueT
+	MfqMOsvbZPgJaMq1SPumScTHnszoci4IgZgVjLfbE2kXz6NxY5hGCHP4GmGllHZx
+	sJc+EF1t2dan5id1EH4unJqwmme8KcCRdzjVH5FmT+/1IJZ2qZFdfUrlSFY7uQjQ
+	jrEKW7/BjdctrpjGIPpX7e1SHe93MInBbXtAv4moHvF9MGXkqhMEDD98ONYH1fbz
+	W0zAF35CeQOMtp5SESPd6pk37SQpoXseJh83K2iT29JsNAnB/c6qJcpXSXc4YS9v
+	1JRND9qqt88Mxl7kvfH9jg==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
 	messagingengine.com; h=cc:content-transfer-encoding:content-type
 	:content-type:date:date:feedback-id:feedback-id:from:from
 	:in-reply-to:in-reply-to:message-id:mime-version:references
 	:reply-to:subject:subject:to:to:x-me-proxy:x-me-sender
-	:x-me-sender:x-sasl-enc; s=fm1; t=1790433769; x=1790520169; bh=7
-	/RXDppv3CkDZ+nxnQ3IpZ5Bw8cFGQji4CwWZAAWuvY=; b=qVYhAFuftedoGWpr8
-	pdUF3RlQwOIAONUdk1rOC186gGWHFuey5H5hNAjv0rRKg70qYqiJ/QMeTGcIAa1U
-	VQq/tgWYqkr/Lt3WlnJZk754XNpN+5dnxyg//5ydTW/edphM5rnUtHtPQ9hrlhBj
-	45ChjbAju8c/A/qv/CkaklmkKf0FI6nNrJjFSHQd875v7SbWkAvFcvR0w3hbQvDc
-	uG458j4E011yihXh93LkhkDW/L+4fU72OMxVpAmSU3IZQUtvYpu7j92XZm4g88Rg
-	wDM0RXXt6kZOn2ZgGll6NlXQPT+8V/LY7Thtv1PIkkgHLghO+FzseoDlZDwTUkoV
-	/mx4A==
-X-ME-Sender: <xms:6Nm3arj27f6MrQw6orxJMmTnllFtBa1aiIfBY8Oh7bCt4b77G1NyiQ>
-    <xme:6Nm3al-ldYD8mtWDiU2B3IFYpobiZpsqbvZI4vtXynFOIMZL3Wi94_7N2Om6LkT9H
-    FIQ_F-PXuQV2uUvkSVpQauqGkgggnS9CiDFSKbRuy7gX82625L6SQky>
-X-ME-Received: <xmr:6Nm3aipBBSS6T_n1iXbGyPftMKww0-Ft8uSB9ss9Wxyy_UtgzQeD25MXCscEy8tJ2-Yu_tMk_VMyY1nfUArcmhpKmSygNsSj-5O-oR8>
-X-ME-Proxy-Cause: dmFkZTEjX8VSJdL5EXr7DO454Sa3My8SqKRu7pddbkhbhrKG16TxU73PPRSPcZb5tVFzSa
-    AKkXivXRE8OzVv1EWv+Aw34TS8dguMO2BiCYtQiRQTpsAAP1dTgRkVMI/8/aX89+vEuILS
-    cL5BliuM35xkEb7tksxu1+oTmiJCmvtFad670YAUEFzO8Y2aZeDnAMLRnTwb4Bjhn7N0Sf
-    Spy9ifukHiJ0xP9mTEPJ/37EmSA0a/Vj86c4Grqj1kpDUocQO9wW7FwOdnzjR6ZZbMNXXJ
-    Kotw6c3FyL5OudPJEhvhvkLGYH5IMDXBax4cr/Y4gRyUlWC4eGYIojf4NTWWhEvu0R/8Kr
-    +OoHgKjVyJNzp6AYiYXcbg0FKcXC8fnUDZBm4yPTxgzfzvdxtTGwVQ/93vha5BFbmBrBL5
-    tTl1bc+4NFGzAYMng2Shmar6ckXzTW+GEixDXzS276X28k6I9BycVo+Sd8DqaOIIItm4+Y
-    DzCIsPWFvx4sORl0TwDyWsc0rbNRmDxtkg+KQ+ltP1gYVv2XvxLCN/HEaOicC/FnDgxOW2
-    ztX+WKUx57MWAC8iMxuC52tEh2/h6WTitIWAdpHRFWgZdfzFI/xqGN//y3eQjYIz3gYn0I
-    lpWQiMUVQSW57jSRNZcrnoHVUPiHBwgewH+pOVPmioI7KqJTKAHNqB4FdH+Q
-X-ME-Proxy: <xmx:6Nm3ak9mGCtltq2msdZYa_8ryPu-6io00HJRkW10jlHZK9nCJtIerw>
-    <xmx:6Nm3amU8t_MmImEBj3Mog_Df0GNEPGTKIlc57CMVhriOy3tXtl8y-g>
-    <xmx:6Nm3aqBsNVr5gyeV6BbrCOQw3dMN6p83YqTiMiSgPLMJ_YKSyG-hcQ>
-    <xmx:6Nm3anwIVYDbvZLwVOGu35VrbRDzCRijMGc_QKLR1xI09Ejv_caOWA>
-    <xmx:6dm3alnHwRSSRAQMhPP2BFF2KImzSoBH1W21l5a-UMN6jAI-apg1RKsA>
+	:x-me-sender:x-sasl-enc; s=fm1; t=1790434868; x=1790521268; bh=F
+	BtzCB1BNlMsPylS9kP9VOIXURvPKMECume3W2SRAAs=; b=OWXgn4bq0bIlEbZVf
+	Tcdn+FyVhMSpj/QArb0OEcwYihpfZK1i6ng4/g43lHEeNucpWSv1VTRit3jIsZ88
+	oL5IEVwMdbO4v6RJdWLzld3ilt5/K7DUVd89C2FyjZt5ZPPpyJjywpiL58Y5Q+kS
+	PnNF+zRWWzb2SQVbA6Mpx9irWqQqXVsjRv2BdsOTUxdfUU2+xPatBzg4q7Hj97jL
+	RRJVszUuySlF8ndm11mYscvTXZ7NbOoQclf3iUiq2p740sAvjAYdmw8BP41mbUpI
+	+tuBciWcR5piMnrCRqf+aBNm5noSNBGpXHzrlAn75qTtj36DXCeWIhnxWdA+BsGx
+	J7FFg==
+X-ME-Sender: <xms:NN63avlmLUXzioxt99_xfcu87-Eu9sGeJars-yqhZcWUcqjpiLfUUw>
+    <xme:NN63ao0t-PIei_j_DlmmvLBfDmL6F43LVmm7daeP13TRbmEyveMAQpdGJw5e_8hrq
+    XKCBtv9ccJLVKyV8LUILsT-SZivGf8HpxEnSVJ5jKW1ZqUDSZQgVPCi>
+X-ME-Received: <xmr:NN63ajQJ3eSafFAlT8292ScIEsg1uKE9kNYbZVizO0FAnuchJBWoNsKrTtFLher2foMK_SazfgFcOAnYv6BXnVefiMFJiuxfEWE2fx8>
+X-ME-Proxy-Cause: dmFkZTGljHiXk6o62mqy3Dwmw7cCUxXbIpXdvyEikkWQ+/IzGg13d8hHQYdTmAs3U+RWaM
+    T1PXu4sYSeGJUMD4Lm2wfC4jTSdPwFiUmLbMxskndQWyBpXttM7EmrOEo3h0KqAn/KdYRq
+    KvBCWJFFyGL2PvS4pF1FejhL2P+OsfRg6CyzWTlVTnEqX1yb1Y7ZZCeGOtChhq9fQsoC5D
+    mqN87d406USl6tb76s6KQ24Wab9NWf+GOpK/O1TCfLOgaVd5DTOTtmJWp0fff/338YCVWT
+    uwIhDMzdX2wG/el+DZ9p6LtbZuUfUD0V9XF0ouTzaC3CtMt81hxJnukRGCxYmI1NV7v/Zr
+    2RlLVHlIfzA9G2IU5XrACTtlXKyIwn79uNguU6OivcCYYEzQvSq/8sobIXsYqPri6E12E6
+    3X1KH1VJClys//3YA8kpTYVTY6aZsVliPfKy2vkBaYk6GB/3m6BzupHQsRoE6B70ztKS/T
+    hTYUDr0U8g6KDZAJv5PhXHe4b50Dtz4ndiXSzuSwDYmPw1VCl9DrWRAWkj+piXcbQXpHUT
+    J/B8LsbNvEm1f1TdZO0c8HGxXqHirBNMCtwzVEKZeW4UGaZS9lmUPRnxmiwhCBGYHxiqRo
+    qnuoHXQOwgHIr0TPrcuADpZUbpDvio8W2ZvwKaJhTexlBUWUxU6SKl2YwlDg
+X-ME-Proxy: <xmx:NN63aivsK8TNlLDmZX4qht_OD0zHy80D_w_5JkIBb15RZKYsS2tfIA>
+    <xmx:NN63agauTOh0PXnZqZBfKrc4aeiKE5yEU4LgRExMGz4rimeXpj2lbQ>
+    <xmx:NN63avtnHwz3CpAnVt66Vdz3nl8kpxH1z8LGRih4gfeGS1f9AZiw6A>
+    <xmx:NN63aqF6w8F2k6eW-C3pHodVGcJL2SXdFSqWX2Cj9LBRiw7yQJ2kQw>
+    <xmx:NN63ao0_GqqL18HLLycxZQtvUGIfAUcpts8k-1IZ6QNeGZDxSWwOiAyF>
 Feedback-ID: i51494658:Fastmail
 Received: by mail.messagingengine.com (Postfix) with ESMTPA; Sat,
- 26 Sep 2026 10:42:48 -0400 (EDT)
-Message-ID: <97a1e21f11d1da169b33b5b64f8e18e06eaf67a2.camel@pbarker.dev>
-Subject: Re: [PATCH] initramfs-framework: retry LABEL lookup before coldplug
- fallback
+ 26 Sep 2026 11:01:07 -0400 (EDT)
+Message-ID: <96d7662de4f754571942df16f9944fa8ce13a0f7.camel@pbarker.dev>
+Subject: Re: [PATCH] kernel: use absolute paths in the kernel-image scripts
 From: Paul Barker <paul@pbarker.dev>
-To: Wenwen Fu <wenwfu@qti.qualcomm.com>, 
-	openembedded-core@lists.openembedded.org
-Date: Sat, 26 Sep 2026 15:42:46 +0100
-In-Reply-To: <20260923062512.333252-1-wenwfu@qti.qualcomm.com>
-References: <20260923062512.333252-1-wenwfu@qti.qualcomm.com>
+To: WXbet <wxbet.oe@gmail.com>, openembedded-core@lists.openembedded.org
+Date: Sat, 26 Sep 2026 16:01:06 +0100
+In-Reply-To: <20260914182130.19543-1-wxbet.oe@gmail.com>
+References: <20260914182130.19543-1-wxbet.oe@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
 User-Agent: Evolution 3.52.3-0ubuntu1.1 
@@ -79,92 +77,64 @@ MIME-Version: 1.0
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2026 14:42:59 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246638
+ <openembedded-core@lists.openembedded.org>; Sat, 26 Sep 2026 15:01:19 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246639
 
-On Wed, 2026-09-23 at 14:25 +0800, Wenwen Fu wrote:
-> The root-only udev path can resolve root=3DLABEL=3D before the storage
-> device has registered. This makes the lookup fail and causes an
-> unnecessary full udev coldplug.
+On Mon, 2026-09-14 at 20:21 +0200, WXbet wrote:
+> From: WXbet <57314510+WXbet@users.noreply.github.com>
+>=20
+> On the target, the postinst of kernel-image-<type> creates the
+> ${KERNEL_IMAGEDEST}/<type> link with a path relative to the current
+> directory, and the postrm removes it the same way. opkg runs package
+> scripts in the directory of its caller, so an upgrade started from any
+> directory other than / makes ln fail. The fallback then copies the image
+> with install, which the busybox defconfig does not enable:
+>=20
+>   sh: install: command not found
+>=20
+> and the postrm leaves the link behind.
 
-Hi,
+This describes two issues, we shouldn't just fix one of them. We should
+also fix the on-target postinst script relying on a command that is by
+default missing if you use busybox.
 
-This suggests that using a root device only udev trigger is not as
-robust a method of ensuring that the device is ready to be used as we
-thought it was. Adding a retry loop with a roughly 50ms timeout may be
-sufficient for the boards you have tested, but it isn't a generic
-solution.
-
-If we're carrying support for this in OE-core then we do need to make
-sure that it is generic enough to work across a range of hardware.
+I think should just enable CONFIG_INSTALL in the busybox defconfig. That
+shouldn't use much disk space and trying to handle the potential absense
+of `install` on the device in various scripts would be a lot of work.
 
 >=20
-> Retry the lookup five times with a 10 ms delay before falling back to
-> the existing full coldplug path.
+> Anchor the link location at / as the rootfs-time case anchors it at $D.
+> The link target stays relative to ${KERNEL_IMAGEDEST}.
 >=20
-> Fixes: fda394c2b91b ("initramfs-framework: support LABEL with root-only u=
-dev trigger")
-> Signed-off-by: Wenwen Fu <wenwfu@qti.qualcomm.com>
+> Signed-off-by: WXbet <57314510+WXbet@users.noreply.github.com>
 > ---
->  .../initrdscripts/initramfs-framework/udev    | 33 +++++++++++++++----
->  1 file changed, 26 insertions(+), 7 deletions(-)
 >=20
-> diff --git a/meta/recipes-core/initrdscripts/initramfs-framework/udev b/m=
-eta/recipes-core/initrdscripts/initramfs-framework/udev
-> index 85c5ba1178..fbf1b98d56 100644
-> --- a/meta/recipes-core/initrdscripts/initramfs-framework/udev
-> +++ b/meta/recipes-core/initrdscripts/initramfs-framework/udev
-> @@ -35,6 +35,31 @@ udev_enabled() {
->  	return 0
->  }
-> =20
-> +udev_resolve_root_label() {
-> +	udev_root_label=3D$1
-> +	udev_root_label_retries_left=3D5
-> +	udev_root_partuuid=3D
-> +
-> +	# The block device may still be registering when initramfs starts.
-> +	# Retry up to five times after the initial lookup, with a 10 ms delay,
-> +	# before falling back to a full udev coldplug.
-> +	while :; do
-> +		udev_root_dev=3D$(findfs "LABEL=3D$udev_root_label" 2>/dev/null)
-> +		if [ -n "$udev_root_dev" ]; then
-> +			udev_root_partuuid=3D$(sed -n 's/^PARTUUID=3D//p' \
-> +				"/sys/class/block/${udev_root_dev#/dev/}/uevent" 2>/dev/null)
-> +			[ -n "$udev_root_partuuid" ] && break
-> +		fi
-> +		[ "$udev_root_label_retries_left" -eq 0 ] && break
-> +		udev_root_label_retries_left=3D$((udev_root_label_retries_left - 1))
-> +		sleep 0.01
-> +	done
+> Notes:
+>     The relative path seems to date back to bb946b8cdb ("classes/kernel: =
+Use
+>     a copy of image for kernel*.rpm if fs doesn't support symlinks"), whi=
+ch
+>     moved the link from do_install into the postinst. When $D is set at r=
+ootfs
+>     time, the link is still anchored at $D. If the on-target case is mean=
+t to
+>     be relative to the current directory, please let me know how package
+>     managers are expected to call it.
 
-It's unclear here which step actually needs to be retried. Is it the
-findfs call or the search for PARTUUID in the uevent file?
+Looking at KERNEL_IMAGEDEST, it's weakly assigned in two places:
 
-> +
-> +	[ -n "$udev_root_partuuid" ] || return 1
-> +	root_match=3D"PARTUUID=3D$udev_root_partuuid"
-> +	return 0
-> +}
-> +
->  udev_trigger_root_device() {
->  	case "${bootparam_root:-}" in
->  		PARTLABEL=3D?*)
-> @@ -47,13 +72,7 @@ udev_trigger_root_device() {
->  			# The kernel does not export the filesystem LABEL in the
->  			# uevent, so resolve it to a device node with findfs and
->  			# match on that device's kernel-provided PARTUUID.
-> -			root_label=3D"${bootparam_root#LABEL=3D}"
-> -			root_dev=3D$(findfs "LABEL=3D$root_label" 2>/dev/null) || return 1
-> -			[ -n "$root_dev" ] || return 1
-> -			root_partuuid=3D$(sed -n 's/^PARTUUID=3D//p' \
-> -				"/sys/class/block/${root_dev#/dev/}/uevent" 2>/dev/null)
-> -			[ -n "$root_partuuid" ] || return 1
-> -			root_match=3D"PARTUUID=3D$root_partuuid"
-> +			udev_resolve_root_label "${bootparam_root#LABEL=3D}" || return 1
->  			;;
->  		*)
->  			return 1
+    meta/classes-recipe/kernel-fit-image.bbclass:
+        KERNEL_IMAGEDEST ?=3D "/boot"
+
+    meta/classes-recipe/kernel.bbclass
+        KERNEL_IMAGEDEST ?=3D "boot"
+
+I think the solution is to use an absolute path for this variable in
+kernel.bbclass. Then the rest of this patch becomes unnecessary, but we
+still need a follow up patch to enable CONFIG_INSTALL in the busybox
+defconfig.
+
+Are you able to send a v2 series fixing both issues?
 
 Best regards,
 
