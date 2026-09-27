@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A03F2CA5FA5
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B8EFDCA5FA7
 	for <webhook@archiver.kernel.org>; Sun, 27 Sep 2026 07:43:55 +0000 (UTC)
-Received: from mail-wr2-f36.google.com (mail-wr2-f36.google.com [74.125.225.100])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.33584.1790495026192413252
+Received: from mail-wr2-f17.google.com (mail-wr2-f17.google.com [74.125.225.81])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33580.1790495022062123892
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Sep 2026 00:43:46 -0700
+ Sun, 27 Sep 2026 00:43:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=rMBe9NqO;
- spf=pass (domain: smile.fr, ip: 74.125.225.100, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr2-f36.google.com with SMTP id ffacd0b85a97d-4843c3ee4cfso945431f8f.2
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 00:43:45 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ougarz23;
+ spf=pass (domain: smile.fr, ip: 74.125.225.81, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f17.google.com with SMTP id ffacd0b85a97d-4887d06c669so1576296f8f.3
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 00:43:41 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790495024; x=1791099824; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790495020; x=1791099820; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=e/4uUKZU3YSXbJYb8+trpXBNoskde5b0Pl1tQxHutyg=;
-        b=rMBe9NqOtnEufb14QgFEDpGs0fxp1bdrTzm144ZOq5tmZnHw/s+2Rj02DTkkSbFCjd
-         koGWb3ILGknvPySlGMTz8scU+n1g5hMuuCNSbI+go/e5ffre5TbvyKl27sxkpd7j6Mf/
-         IY+JsdqjUFeSj7ZB9/ZmRrbX+lFYdDF0SuaZU=
+        bh=ju4T4+nI0Ckg0c+w4U2y9F/tTSGQ1ESr1vXL35iGoiA=;
+        b=ougarz23rbQJ9LavwjM38tcAkShsuNCHjcgmwjqdZOXxxp+lCPSRxB/PpEHVaMuc99
+         fHykWYvhC75n/SHlDDATMk1LAsDrtsbHvmfAhEexe6ektNCCbIvTbE8FtleNOcDl3s3+
+         j5/7BXM9ZTwG5haPdB41yuQGY4HmIzr9KZkxc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790495024; x=1791099824;
+        d=1e100.net; s=20260707; t=1790495020; x=1791099820;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=e/4uUKZU3YSXbJYb8+trpXBNoskde5b0Pl1tQxHutyg=;
-        b=cDP4H/c7woMj4mSI4G1fucalHp/WO5WXfdueL0KHJQPHM2h6BbI4bg/cSdWqRa1cbA
-         U6X7r3pWJajuPdBKi/qC+sZFpDFZjwjiC7OTilybCL1pZDg7Q24W+WmHr6wwWgcfBVTi
-         llN1LFA8s214tt6NTtGojAEht9RI4wV+N2Hei9gO/wbuwvHbRuoBfO0hU77Zqoc3npYC
-         fzlnY3CX20+rLcNlWlZ0WiS3MNj71pzTSU1wHRovAAaT+sdZkUCAGUZUig7OfVpc2Tdd
-         rE1k+qWVBLWlSbB0tULARoxjVIUwI4WhJyCT0lbgsE+u/+el7OnF4nmbskjkIrxXb54C
-         FmPw==
-X-Gm-Message-State: AFq9FYLVQtiN+cdoWfkhPNmwkHdSWt1UD4ryXw03axPOYtbwLMC+SP88
-	Vc4QKvPBRYYhgjYa0sHJReqzHUhlPDj34PdEu4Eyx3YqMbGQ/ESRjMdFO/UqS6ZoVbNY8p9JLfV
-	pxt9Kf8U=
-X-Gm-Gg: AYBFou05lqBnSoMaMwZvjUMIK6pk+XbH56VXYxn8da/39e9GSn65W7fFbYbfWTkRXfs
-	q04pJlLdhxazf8lHhNOLaDoEhZtUFJjMhDCuOGXBS+YzHGTBQ9lDo79t5CTWjg/7WbfZb2focAH
-	BtSxxGvZ+4RQhV3XssIp4ucOJAxV7nF84QKxXlFeeVKQ7AfTESdMVEIUTYAAXU/WLRktRugUh5J
-	pT0n/CrEOL9PdbQSar+tvIuEPb488Zuh8UMvsXVESSby7qRPtYK+NZ/EJ0qF2dkcVs6BOGxapsl
-	NBk+XZU9NBFmERPzARaBxueZb5UFWulYbKDnHoGWIVL+NYqOADkPgPYxqGlmwFPjiGonw2+SjDi
-	6e2gMezbSe70ufoSAOf24ZFenJteq2XoKXxFFFR2Y7oNl38BFA2/U2ETywLVTaCD3JJT6y32BnZ
-	qQXWWkeTshvMOWNaCDxm63Bh4xImU8JG5Xchv2VA8sz5w0cnVdZDS/N9aHAHMYCFYwdkqKo28fG
-	cBbvOQl5chT5g2vEj7uwAr6FrfxVnMuyJR0YOMjRA+eVB6Q3UiaXKs32Q/t2lnlEku97HeVNA==
-X-Received: by 2002:a05:6000:4910:b0:488:8b16:ab33 with SMTP id ffacd0b85a97d-4888b16ae2amr3426563f8f.10.1790495024221;
-        Sun, 27 Sep 2026 00:43:44 -0700 (PDT)
+        bh=ju4T4+nI0Ckg0c+w4U2y9F/tTSGQ1ESr1vXL35iGoiA=;
+        b=t072Hs/hVGPf1L+1SkugqlMz95d6fBJSY35R1s3MoeMYq/GG2ZPiQ6GTOU1zvqBqvM
+         s//ywRgfTJtMSFkZ28Kmu9dN6r+VoDckWoTu7sfNP+mKWUVpNMyyaTj4Kjrk7yPAnOts
+         HMkFaRxeg8AO9y6dV23LXNIWuhxMM/eOxboP10d+IhjtB4LnBU41YvQDi2CZHiGBzGVJ
+         7XSbRO1SRq2/6xkrE+hvuknyXXR47iS8qnhL4BtxYOx1HEYrzxNlyLmdD07hQdaOIJPv
+         clQ3qC8zZp446olASxXdPcYj9UXASsr+i2RVE96Rwe7bGJE4DKwDM/LorSsr55yCrA50
+         WC0A==
+X-Gm-Message-State: AFq9FYJvy4im9ooRXIzb8cI/9xuHMO8dtg/AsxywIqhS5QtwUCCUAglE
+	Out67T36rJUHnx+ieUiehyQLouOmqx1coE2NuTPTq7gO7hrZRMF5VN5WlmsO4v7W7upyYNTG9KI
+	sMI+tgKQ=
+X-Gm-Gg: AYBFou1FakuVKg+PMuwH6mNZ4GcaoxFfcJ8yOjOpAP/A5fbpYjl8nCtCwJW6Na9QD0t
+	xyVf19TX7r//nFM4TpEPbP41gx9KBwdBxWuh6ig2xQbjhJnFJBbMZ6iQevImUL8IvIyCu53NllK
+	BXOWv76BApggQgLTOAyNW4l8vGCDe+y/i4oTApsgBHfB1irYLbxws90yTD2plubv2/29GNzpqQX
+	+MVi9iFqHOXN3eE69DqtkvJRSJrT07G/R2mZ7YLGp3MEUVv2BeKA5ZzxiutSi9I26ys+rsququ9
+	FgxwdJ/O0D6lKH+D7UZnFC3tpjotUBxFAmSQ1nSS91bA2jCX4EX2uluXS67HA2KtC1+kXkwuB7a
+	uZuvm/ZYYwhOoztAV7eAd9mkrB0AMq0JSwkmEeUK8V8hfGo2uwhfLD2JOc9h+h9kUg/5cHBipoS
+	wQ3Eh88FmX2o0xN0awcTDRBB6gd3Zudw3JMHWMP8my1WpTEunv7YzK5rHECKhBcGkGtTVRkYbve
+	YeBGRdxDyRxItycbuoEmIA8mb0oBuNOncKCSDibd9kR1HeiWtLiadi01Qc/GeFbWOaEHqKtTg==
+X-Received: by 2002:a05:6000:268a:b0:486:f9d9:fe0d with SMTP id ffacd0b85a97d-48872abc48emr18865140f8f.29.1790495020311;
+        Sun, 27 Sep 2026 00:43:40 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30c43asm19821375f8f.3.2026.09.27.00.43.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30c43asm19821375f8f.3.2026.09.27.00.43.39
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 00:43:43 -0700 (PDT)
+        Sun, 27 Sep 2026 00:43:39 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 08/28] bluez5: restrict delta=0 RSSI to proximity filters
-Date: Sun, 27 Sep 2026 09:42:59 +0200
-Message-ID: <9c8556d59cb8a5d4fa78f617782b8daf3b2b22fa.1790494949.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 03/28] dhcpcd: upgrade 10.3.1 -> 10.3.2
+Date: Sun, 27 Sep 2026 09:42:54 +0200
+Message-ID: <3fc3aa51109a3bb43d92b2664e4005848b87f1c1.1790494949.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1790494949.git.yoann.congal@smile.fr>
 References: <cover.1790494949.git.yoann.congal@smile.fr>
@@ -66,132 +66,84 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 07:43:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246658
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246653
 
-From: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
 
-When a discovery filter is active (filtered_discovery=true), BlueZ
-unconditionally calls device_set_rssi_with_delta(..., delta=0),
-causing every BLE advertisement to emit a PropertiesChanged(RSSI)
-signal regardless of whether the RSSI value changed.
-
-delta=0 is only needed when a client has expressed explicit proximity
-interest by setting an RSSI or pathloss threshold in its discovery
-filter. Filters that specify only transport type or UUIDs do not
-require per-packet RSSI precision; for those, the standard
-RSSI_THRESHOLD=8 rate-limiting is both correct and desirable.
-
-Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 1e61572f9a24839a1a2386a51d40b561f340f78f)
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
-[YC: fixed patch format]
 ---
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...ct-delta-0-RSSI-to-proximity-filters.patch | 86 +++++++++++++++++++
- 2 files changed, 87 insertions(+)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
+ .../dhcpcd/{dhcpcd_10.3.1.bb => dhcpcd_10.3.2.bb}             | 2 +-
+ ...20-resolv.conf-improve-the-sitation-of-working-with-.patch | 2 +-
+ ...001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch | 4 ++--
+ .../0001-remove-INCLUDEDIR-to-prevent-build-issues.patch      | 4 ++--
+ 4 files changed, 6 insertions(+), 6 deletions(-)
+ rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.3.1.bb => dhcpcd_10.3.2.bb} (97%)
 
-diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
-index ad07e0d3c4f..d857c23a577 100644
---- a/meta/recipes-connectivity/bluez5/bluez5.inc
-+++ b/meta/recipes-connectivity/bluez5/bluez5.inc
-@@ -75,6 +75,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
-            file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch \
-            file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
-            file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
-+           file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
+diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.2.bb
+similarity index 97%
+rename from meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
+rename to meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.2.bb
+index eb257cb27c1..5895a2669d9 100644
+--- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.1.bb
++++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.3.2.bb
+@@ -21,7 +21,7 @@ SRC_URI = "git://github.com/NetworkConfiguration/dhcpcd;protocol=https;branch=ma
+            file://CVE-2026-56117.patch \
             "
- S = "${UNPACKDIR}/bluez-${PV}"
  
-diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
-new file mode 100644
-index 00000000000..8dd9e318feb
---- /dev/null
-+++ b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
-@@ -0,0 +1,86 @@
-+From d00dd99229bc9ce78b0e8bb3bb523a3cd504473c Mon Sep 17 00:00:00 2001
-+From: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
-+Date: Wed, 15 Jul 2026 17:06:35 +0800
-+Subject: [PATCH] adapter: restrict delta=0 RSSI to proximity filters
-+
-+When a discovery filter is active (filtered_discovery=true), BlueZ
-+unconditionally calls device_set_rssi_with_delta(..., delta=0),
-+causing every BLE advertisement to emit a PropertiesChanged(RSSI)
-+signal regardless of whether the RSSI value changed.
-+
-+delta=0 is only needed when a client has expressed explicit proximity
-+interest by setting an RSSI or pathloss threshold in its discovery
-+filter. Filters that specify only transport type or UUIDs do not
-+require per-packet RSSI precision; for those, the standard
-+RSSI_THRESHOLD=8 rate-limiting is both correct and desirable.
-+
-+The problem is triggered on dual-mode adapters by a transport-only
-+filter (e.g. Transport=le). In merge_discovery_filters(), the
-+transport-specific scan type (SCAN_TYPE_LE=6) does not equal the
-+adapter scan type (SCAN_TYPE_DUAL=7), so has_filtered_discovery is
-+set, filtered_discovery becomes true, and delta=0 is applied even
-+though no proximity condition was requested. With hundreds of BLE
-+devices advertising simultaneously this generates hundreds of
-+unnecessary PropertiesChanged(RSSI) signals per second.
-+
-+Confirmed on QCS6490 (BlueZ 5.72) with Transport=le filter:
-+
-+  adapter.c: filtered_discovery=1 (current_discovery_filter=set)
-+  device.c:  device_set_rssi_with_delta() rssi=-86 delta_threshold=0
-+  device.c:  device_set_rssi_with_delta() rssi=-79 delta_threshold=0
-+
-+Add discovery_filter_has_proximity() which walks discovery_list and
-+returns true only when at least one active filter carries a real
-+proximity condition (rssi != DISTANCE_VAL_INVALID or pathloss !=
-+DISTANCE_VAL_INVALID). Use this to gate the delta=0 path.
-+
-+Other filter fields (transport, uuids, duplicate, discoverable)
-+express capability or content criteria and carry no proximity
-+implication, so they are intentionally excluded from the check.
-+
-+Upstream-Status: Backport [e004414a1751d29216ccab976d6c7174ec48d11c]
-+Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
-+---
-+ src/adapter.c | 19 ++++++++++++++++++-
-+ 1 file changed, 18 insertions(+), 1 deletion(-)
-+
-+diff --git a/src/adapter.c b/src/adapter.c
-+index fb95e8553..1023e43a2 100644
-+--- a/src/adapter.c
-++++ b/src/adapter.c
-+@@ -7255,6 +7255,22 @@ static void filter_duplicate_data(void *data, void *user_data)
-+ 	*duplicate = client->discovery_filter->duplicate;
-+ }
-+ 
-++static bool discovery_filter_has_proximity(struct btd_adapter *adapter)
-++{
-++	GSList *l;
-++
-++	for (l = adapter->discovery_list; l; l = g_slist_next(l)) {
-++		struct discovery_client *client = l->data;
-++		struct discovery_filter *filter = client->discovery_filter;
-++
-++		if (filter && (filter->rssi != DISTANCE_VAL_INVALID ||
-++				filter->pathloss != DISTANCE_VAL_INVALID))
-++			return true;
-++	}
-++
-++	return false;
-++}
-++
-+ static bool device_is_discoverable(struct btd_adapter *adapter,
-+ 					struct eir_data *eir, const char *addr,
-+ 					uint8_t bdaddr_type, bool *auto_connect)
-+@@ -7451,7 +7467,8 @@ void btd_adapter_device_found(struct btd_adapter *adapter,
-+ 	if (name_resolve_failed)
-+ 		device_name_resolve_fail(dev);
-+ 
-+-	if (adapter->filtered_discovery)
-++	if (adapter->filtered_discovery &&
-++				discovery_filter_has_proximity(adapter))
-+ 		device_set_rssi_with_delta(dev, rssi, 0);
-+ 	else
-+ 		device_set_rssi(dev, rssi);
-+--
-+2.43.0
-+
+-SRCREV = "42ff6d2548209af3185473e6cb6f9d235c48bbf4"
++SRCREV = "243ad84ac67a87d631ff7eb83b2eed2727acebb5"
+ 
+ # Doesn't use automake so we can't do out-of-tree builds
+ inherit pkgconfig autotools-brokensep systemd useradd
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
+index 512e33aebf9..7e04b5c303d 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-20-resolv.conf-improve-the-sitation-of-working-with-.patch
+@@ -1,4 +1,4 @@
+-From d1581ce103db0a5db0b1761907fff9ddd6b55a8a Mon Sep 17 00:00:00 2001
++From c91f9cdc0ef56fa64f6ffdd811cc5b0e41991b2e Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Wed, 9 Nov 2022 16:33:18 +0800
+ Subject: [PATCH] 20-resolv.conf: improve the sitation of working with systemd
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+index 484b84f94ae..9d3065a48b8 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-dhcpcd.8-Fix-conflict-error-when-enable-multilib.patch
+@@ -1,4 +1,4 @@
+-From e9b1376c59b15e7b03611429187d9d89167154b5 Mon Sep 17 00:00:00 2001
++From dd892eba0147120efdcae923746c444a9d2a76d2 Mon Sep 17 00:00:00 2001
+ From: Lei Maohui <leimaohui@fujitsu.com>
+ Date: Fri, 10 Mar 2023 03:48:46 +0000
+ Subject: [PATCH] dhcpcd.8: Fix conflict error when enable multilib.
+@@ -29,7 +29,7 @@ Signed-off-by: Lei Maohui <leimaohui@fujitsu.com>
+  1 file changed, 1 insertion(+), 1 deletion(-)
+ 
+ diff --git a/src/dhcpcd.8.in b/src/dhcpcd.8.in
+-index 91fdde2c..b467dc3b 100644
++index ebbf06c0..c7ffee6b 100644
+ --- a/src/dhcpcd.8.in
+ +++ b/src/dhcpcd.8.in
+ @@ -826,7 +826,7 @@ Configuration file for dhcpcd.
+diff --git a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
+index fd3fae7e7e0..bebc79831d6 100644
+--- a/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
++++ b/meta/recipes-connectivity/dhcpcd/files/0001-remove-INCLUDEDIR-to-prevent-build-issues.patch
+@@ -1,4 +1,4 @@
+-From c2ebc32112e0cd29390b4dc951b65efae36d607b Mon Sep 17 00:00:00 2001
++From 0775eb1b965bbf9b0efb0b1c42c3adf3d8cd31cb Mon Sep 17 00:00:00 2001
+ From: Stefano Cappa <stefano.cappa.ks89@gmail.com>
+ Date: Sun, 13 Jan 2019 01:50:52 +0100
+ Subject: [PATCH] remove INCLUDEDIR to prevent build issues
+@@ -11,7 +11,7 @@ Signed-off-by: Stefano Cappa <stefano.cappa.ks89@gmail.com>
+  1 file changed, 5 deletions(-)
+ 
+ diff --git a/configure b/configure
+-index a60da137..3673de8b 100755
++index e9c08f18..3f0770b7 100755
+ --- a/configure
+ +++ b/configure
+ @@ -26,7 +26,6 @@ BUILD=
 
