@@ -2,61 +2,61 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DAF9AC9833F
-	for <webhook@archiver.kernel.org>; Sun, 27 Sep 2026 16:46:46 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.39684.1790527602016096765
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 94FF5CA5FA5
+	for <webhook@archiver.kernel.org>; Sun, 27 Sep 2026 16:46:47 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.40585.1790527601068129151
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Sep 2026 09:46:42 -0700
+ Sun, 27 Sep 2026 09:46:41 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=FWKn+CwV;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.141, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49d1fb0cf5eso21313095e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 09:46:41 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=Lmk0eIKq;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.140, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ccf3ca626so13377015e9.0
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 09:46:40 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790527600; x=1791132400; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1790527599; x=1791132399; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=GZ3IzwfgrY3m+1qew5ercbe3GkuOGz9Q2SMWaCPJ6jw=;
-        b=FWKn+CwVmT00DC+foHsUHWmCMMTUsR3XXq5ZdMmU9NDnWRsoNDDyjToMpPybIj9rHD
-         mD2+rWp2hi0cACchxysHc8MLB0CnOsc38arE4eSylUNEBvl8kfRQSPW2g20f1oC3ZdTr
-         e/xodc1IPq/eL8inE4Tlh2eyxzpcgCE6NfuOo=
+        bh=WHcV/vJNMfkrajbMwxDQ8sPGT3aQiZMRgmZvy3tHZzE=;
+        b=Lmk0eIKqj3BP6A9CZahRsvSzqpTsIfHecYlwglfm11Y5zqKNY1al/TbvNp/atTpGUW
+         c0Ix/FVskqSi5aRlp1ycb4dmnnI0s8HyMPbXseDOIfFZONueTwC0uhX8a1t97uaHt7Kv
+         rJ0gwzyYpxU4oh4MYFC8uA3uBAITA/Hd7TBGk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790527600; x=1791132400;
+        d=1e100.net; s=20260707; t=1790527599; x=1791132399;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=GZ3IzwfgrY3m+1qew5ercbe3GkuOGz9Q2SMWaCPJ6jw=;
-        b=MHTEDWMQazbTj3s+Xpc4gxHqxZAqkCExeKm9TpejH52XSj1Q1CjXTpBCuUzvVi/XKk
-         RTszY2JRyWnntI4fePL2RJ2HgK7kv/I2dxFz/q2ZRdk9vo5EiNJ2hCPJx7oyNE6eIwL/
-         ZN7XbQCml2sXnYffIdmQPksf5Tculbirm7OChqmZSDKVr25NxBxWndndgh6k4VWjRLN4
-         3N/uiuKlJLxt4xS2ONBYSY/tZ+UKKjIZGDY6DfGhasLQ5zW9wkVhTt0ekLhGEGI2s9YZ
-         3EWesfhDfMhYKNtk+SFUDl0WeSmaIoTx+m35zWfAuK5C0Vn9NqgweL0zPc5TmhfTwcIF
-         EblA==
-X-Gm-Message-State: AFuF++n080X1wdemUUsp+zbsaXgRkLshuHIweZZbnNXfXOMB0uemjuJU
-	pDz3fNBAlJKo4T21lNoHBO/Xh947DS3RyrzDV060CZI0DKvBjdCWOYvUdFW0Ar+qLnCTjAxL4L+
-	kJ5AknU0=
-X-Gm-Gg: AYBFou1grqguCWoPw17iVt/cLEPTdyq1Bj3ET3fRD7A25rcRTeBhzludFAdUUjRF4u6
-	1M3M+QhUL+strMipwE01OawemHkMk0kEYK9pWDXGnYtb0QlgtCEY1ySl7rmhQWzmkCXPw4NOFlg
-	9+i3CKp6L8vO5A7b5kFfdME1oQPXU5jlnt3A8WleTlSiqCFOUrtgF/vaPxOVY0Sd5cwO0wnAGVf
-	/yPXoVz5Ozzcpx9iwI0AWtpkk0i/YrtXZbIST+MzExIpqIkyyvKmkon7dZzs47wDuPjYpYbk2fs
-	D4iBWIwQJqwWHo+y3a7zOStbA+8SF+a3lRlZH4zCiVa8oQaoAhnPVGzriVcGSlYKSCir6cgcXlM
-	fmRZasAvey2uYKXvzRQ3DIT6Eop91fMX4gByXIuh8vYsv6tTi8DWQQzSEngr/sOusd/oJ8QDVce
-	eGUNhALoIWCdIEF9EY/AOBS2Kzn+uR5cXMmLygb3X63wiMBwLOkONZs99Df5NHqwdGG2JLBdLgN
-	YfE12FUHwHMJ4z4hsfUP2VoEKR38QsWIs8sfw==
-X-Received: by 2002:a05:600c:1c13:b0:4a0:35c:8953 with SMTP id 5b1f17b1804b1-4a0035c8ab4mr23713475e9.7.1790527600271;
-        Sun, 27 Sep 2026 09:46:40 -0700 (PDT)
+        bh=WHcV/vJNMfkrajbMwxDQ8sPGT3aQiZMRgmZvy3tHZzE=;
+        b=mUkRQqDc2hzQ/W+JiJUzoQEt6wqUfZpOow20ltnF83QhkIIS6jLPBdJNoU1D2yx4BA
+         F3lkguhgvwUmnA7z5rLoy24n7MAZRBQHJKWrr25Xc/xrEBB8kI4FSakCKwYgOLNN4GOL
+         xm3cyEzdWs7PvvUF5LLnR3nWptWhECvDmoKNz/ADfW63zZ0IZCTJcRhnenoSrMp0HsHI
+         L3Ox4DGMVjD0X2EZg9IgdrLIUPAS2Nxu74gR9GM6GEJ7/DcHhRK0SiVct12P7yqVHrtm
+         IgJnPYz9am9hnLMv1TeV3ztmZRQdJ5mjkRR0IdzWWzpnIk93TFKUGV7av7wUEui+aNkb
+         hDrA==
+X-Gm-Message-State: AFuF++nFKa2JM+cVxACXXOvdwdnPe+Wc6A97q55CqVUaqM+m9iVrlJWL
+	U/i1zMwrIw4yov99fMisqXFBcT69jOjXhGO3cZpApSQk2roa1XAO23cxh4s1HBSjA6ZRbdEozQS
+	7O0WZRt4=
+X-Gm-Gg: AYBFou150rRrAGEg1XOjrigIfCmPXJ1URTWOjribjKb1RsBPGe6ES3z+Wp23kLQnCDk
+	qq6s6Kv1gJQkqoY3f66l/p2PJc01lqP1P+QFQl62V/SY7E4qnYdH617d7OPxt5N44nQGTVU0ZjB
+	waHeVtLOd6DZvCxA0WGQSwuSi6U4LccljuoUH3adQdyXu0H5wZQ9IaO3iKzS+YoZxn6IsjKrV+l
+	e9cRdYnlDOdRc/Ffcr5eaSZ0XAoNwA8OWhzRvLm3dQKmubTGcxi5Z4EuhYgWvzXxXGssK8/rAau
+	HuxsbFJofI22uiMfGbQpb7y+uuoUKcyguxenjh42/POcl2bU+9GbPdVJvo/yCqfAQpZUcrg/CXK
+	I6w8B3S/cjlwCd3L+okpZ2eP0mtI2qD53/k3J3aF2C3toiE655H3HUfdsafQhOAr/+mbKm0Ea4M
+	+Vnc2S7EFCtVdrRCgqyMbYQ2E/d764TFE3GXKoviBC/4jvjUSUCabXPlJDkNUKx46hIvuwF615H
+	19AyapO/zyBKa4Eyjt6s19LJjE=
+X-Received: by 2002:a05:600c:1d1c:b0:49f:db7d:856 with SMTP id 5b1f17b1804b1-49fe6708033mr186425515e9.33.1790527599156;
+        Sun, 27 Sep 2026 09:46:39 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:6474:fa9a:9a9b:3f85])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0029203absm54683365e9.6.2026.09.27.09.46.39
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0029203absm54683365e9.6.2026.09.27.09.46.37
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 09:46:39 -0700 (PDT)
+        Sun, 27 Sep 2026 09:46:38 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH 4/8] epiphany: upgrade 51.0 -> 51.1
-Date: Sun, 27 Sep 2026 17:46:27 +0100
-Message-ID: <20260927164631.2484854-4-richard.purdie@linuxfoundation.org>
+Subject: [PATCH 3/8] python3-markdown: upgrade 3.10.3 -> 3.11
+Date: Sun, 27 Sep 2026 17:46:26 +0100
+Message-ID: <20260927164631.2484854-3-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 In-Reply-To: <20260927164631.2484854-1-richard.purdie@linuxfoundation.org>
 References: <20260927164631.2484854-1-richard.purdie@linuxfoundation.org>
@@ -65,79 +65,49 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 16:46:46 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246694
+ <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 16:46:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246693
 
-Bugs fixed:
+Changed
 
-    #2883 Wrong position of the suggestion popover at the first time (John Cardullo)
-    #2905 Refilter, do not clear SearchEntry when using the "Clear" action in History dialog (Arak)
-    #2952 (CVE-2026-94291) Epiphany allows insecure iframe through view-source / ephy-reader scheme (Michael Catanzaro)
-    #2958 Bookmark search does not work when a tag is viewed (Arak)
-    !2215 Pantheon: Revive about menuitem for debugging information (Ryo Nakano)
+    Inline processors now resume searching after the previous match, improving
+    performance for repeated inline patterns (#1619).
+    Officially support Python 3.15 and drop support for Python 3.10
+    Walk backtick runs in BacktickInlineProcessor without a regex (#1620).
+    Switch static site generator for documentation from MkDocs to Zensical
+    (#1627, #1635, #1637, and #1638).
+
+Fixed
+
+    Ensure removing Abbreviations does not raise an error (#1634).
+    Fix an issue with excessive backtracking when matching inline code blocks (#1617).
+    md_in_html now honors tags added to Markdown.block_level_elements after
+    the extension is loaded (#1246).
+    Fix quadratic-time regex backtracking in ReferenceProcessor when a link
+    reference definition has no URL, e.g. a line consisting only of [id]:
+    followed by many trailing spaces (#798).
+    Document attr_list usage for def_list (#1123).
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../epiphany/{epiphany_51.0.bb => epiphany_51.1.bb}           | 2 +-
- .../files/0002-help-meson.build-disable-the-use-of-yelp.patch | 2 +-
- meta/recipes-gnome/epiphany/files/distributor.patch           | 4 ++--
- meta/recipes-gnome/epiphany/files/migrator.patch              | 2 +-
- 4 files changed, 5 insertions(+), 5 deletions(-)
- rename meta/recipes-gnome/epiphany/{epiphany_51.0.bb => epiphany_51.1.bb} (94%)
+ .../{python3-markdown_3.10.3.bb => python3-markdown_3.11.bb}    | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-markdown_3.10.3.bb => python3-markdown_3.11.bb} (79%)
 
-diff --git a/meta/recipes-gnome/epiphany/epiphany_51.0.bb b/meta/recipes-gnome/epiphany/epiphany_51.1.bb
-similarity index 94%
-rename from meta/recipes-gnome/epiphany/epiphany_51.0.bb
-rename to meta/recipes-gnome/epiphany/epiphany_51.1.bb
-index 63ec9bb1001..cf1f69dfd29 100644
---- a/meta/recipes-gnome/epiphany/epiphany_51.0.bb
-+++ b/meta/recipes-gnome/epiphany/epiphany_51.1.bb
-@@ -32,7 +32,7 @@ SRC_URI += "\
-            file://migrator.patch \
-            file://distributor.patch \
-            "
--SRC_URI[archive.sha256sum] = "abaf33576462030c65bb963a56300a7786e7d75834f1c90a9dffda873835c33d"
-+SRC_URI[archive.sha256sum] = "beb93b3b86b763092a1175b6e505789b7613071c0dc1ad56cac1979fe879e9dd"
+diff --git a/meta/recipes-devtools/python/python3-markdown_3.10.3.bb b/meta/recipes-devtools/python/python3-markdown_3.11.bb
+similarity index 79%
+rename from meta/recipes-devtools/python/python3-markdown_3.10.3.bb
+rename to meta/recipes-devtools/python/python3-markdown_3.11.bb
+index a7fd3d78406..709e7cdb709 100644
+--- a/meta/recipes-devtools/python/python3-markdown_3.10.3.bb
++++ b/meta/recipes-devtools/python/python3-markdown_3.11.bb
+@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=ec58cdf7cfed06a21f7a9362627a5480"
  
- export GI_TYPELIB_PATH = "${STAGING_LIBDIR}/girepository-1.0/"
+ inherit pypi python_setuptools_build_meta
  
-diff --git a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-index bdb06e407b8..b697b5f6400 100644
---- a/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-+++ b/meta/recipes-gnome/epiphany/files/0002-help-meson.build-disable-the-use-of-yelp.patch
-@@ -1,4 +1,4 @@
--From 2bb52be1e80d1f4693a383be8270e80ef1d9586a Mon Sep 17 00:00:00 2001
-+From 20c45cb379ee910b89175019388df1a63b01c0d4 Mon Sep 17 00:00:00 2001
- From: Alexander Kanavin <alex.kanavin@gmail.com>
- Date: Wed, 31 Jan 2018 15:50:38 +0200
- Subject: [PATCH] help/meson.build: disable the use of yelp
-diff --git a/meta/recipes-gnome/epiphany/files/distributor.patch b/meta/recipes-gnome/epiphany/files/distributor.patch
-index 8677f1558c3..28a961323a0 100644
---- a/meta/recipes-gnome/epiphany/files/distributor.patch
-+++ b/meta/recipes-gnome/epiphany/files/distributor.patch
-@@ -1,4 +1,4 @@
--From 2f52672597ab74cb17e41d308f8d9934c25d8fc0 Mon Sep 17 00:00:00 2001
-+From 82196d415819d517d8cba2142600be279e499540 Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Fri, 26 Feb 2021 10:17:52 +0000
- Subject: [PATCH] Don't encode the distro from /etc/os-release into the
-@@ -11,7 +11,7 @@ RP 2021/2/26
-  1 file changed, 1 insertion(+)
+-SRC_URI[sha256sum] = "3589362618f743188b4d955b874402bc814f4f83f544dc207719f4baa7d9c45f"
++SRC_URI[sha256sum] = "180224db6aed87ba9ce1f2781ebcd5826253de8ff637112090e24b84502bbf9f"
  
- diff --git a/meson.build b/meson.build
--index 8aec3cf..4a06ab6 100644
-+index 65324e5..2e70ef0 100644
- --- a/meson.build
- +++ b/meson.build
- @@ -15,6 +15,7 @@ if r.returncode() == 0
-diff --git a/meta/recipes-gnome/epiphany/files/migrator.patch b/meta/recipes-gnome/epiphany/files/migrator.patch
-index dcc162040aa..491ff35ea28 100644
---- a/meta/recipes-gnome/epiphany/files/migrator.patch
-+++ b/meta/recipes-gnome/epiphany/files/migrator.patch
-@@ -1,4 +1,4 @@
--From e336c2dd1368aff496a6ba01e2ca9ca7e88860a2 Mon Sep 17 00:00:00 2001
-+From 84c26f054ab3520d06febc2e8a99502d2cff98cf Mon Sep 17 00:00:00 2001
- From: Richard Purdie <richard.purdie@linuxfoundation.org>
- Date: Thu, 25 Feb 2021 14:52:32 +0000
- Subject: [PATCH] epiphany: Fix reproducibility issue
+ BBCLASSEXTEND = "native nativesdk"
+ 
 
