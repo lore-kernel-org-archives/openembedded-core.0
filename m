@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 09ED4CA5FA6
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2DC0BCA5FA8
 	for <webhook@archiver.kernel.org>; Sun, 27 Sep 2026 07:43:56 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.33583.1790495024246754121
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33581.1790495022531761895
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Sep 2026 00:43:44 -0700
+ Sun, 27 Sep 2026 00:43:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=h001ax1H;
- spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49b912d3931so16333725e9.3
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 00:43:44 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=V41Qp6E8;
+ spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f63546c5so1807952f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 00:43:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790495022; x=1791099822; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790495021; x=1791099821; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=/qN+5oh8Trn3DSSJ6/h20ldcGjoVA4cchj69KA/U2+Q=;
-        b=h001ax1HsZTSbaCosnnuO6sVAPRvuIeCjqYGZo5TSYPe6ZveMEKEDm1FvY8ibd92Wp
-         Nd0intKKyldkU6jFRjRVoc3zbAVbCo57WQOgxFXNyEfyEhRRS9J2m76I+wmM8KBSdgOI
-         yr6OLLG6p0DLwfSNC3Wyb/xWt6XznwlFFvwAw=
+        bh=lY6HYo6u5HEiyok9gJ4pBuUaJXvZPiTN5wt2jCTWDOY=;
+        b=V41Qp6E86Md09woX0fUVTT1RL5hF2c5hlRO4xNWTK5mP1AYlvYEY/2MP4s0hYi+j/q
+         Yh72i3B9LkGgcOZ9w1GeTiKjAt8yMIil9JKH7jrz4CPz9OVaZcRVSHTV7Dd6GsxENJ4A
+         vxZL3CqliricOV9WM01y8Rtp2jk1er5gQC2jg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790495022; x=1791099822;
+        d=1e100.net; s=20260707; t=1790495021; x=1791099821;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=/qN+5oh8Trn3DSSJ6/h20ldcGjoVA4cchj69KA/U2+Q=;
-        b=LVpzTHVw5zdUzxB9MQaPHOI7+fWXXefPFyJtUcSswZS+wVcUyLM3Ru8HSEd3OkJHtn
-         CHfIV9ApPtAA3ewO5DJJ9siAdu6wBYUp+h213o/c1XYzC78K18S0VSg6uegrYOosWNzz
-         yVyG04igKilR3ErRAZ9CRyDwfceXXWveQVHevZ2e15YrPyeHKVYq0tKlUcUAZ92q5YAS
-         aNVN2pnCy4QK8zPlR9SAIFqWlXtSTJ0aDKqkoqk5Uj7KowgztNfdKdjyhkjhL19lh6ao
-         i47JiaAtGBAmwFWk6AM1J5d3B7CpcOIBk7eAz6gPIjs3R7hr2pSPE5W3KHnSpevHymTr
-         q3hw==
-X-Gm-Message-State: AFuF++kdMe6/4+/6+lE7MJuhxlDEJz80O5VZBN/scPU7vgZtAbzPEg4C
-	dreBvZJtRQfdoRRJzAeBTv6o5I6xJ1MGIhBgp23D4nlbEvmQt40TpOO9fX/BKtp3aXpx+JNbV9B
-	idej/3jI=
-X-Gm-Gg: AYBFou3AE4+BfSUckCTJK0c+EYy0pYBVXntV3DLNeeW8AkPtd73cL5Qpg4pfjpLhJj9
-	DVK1wXaNw2Md34dILe2pOXSwDl7E3QzwxrlhgulRFkdCCvAqGU8dLHjAcCy0vHidPi9wO0ldxEG
-	TujknWAxD83KgU5l9aUmOc5tNNoQ/xcCmdXV15epB+opCWzHmvt/o0CPrpbUvuX1ywxiNKjDmZT
-	JAXvAMqJgZ4DE1b90WYQss8/8r2LoRf8+25MhTbO/cpHipbltfBUE6DX9LoOZi/LeAlqH0OKbmY
-	DeSSSFhRoCf83k8iss86pGgsdSEnWZCwXDy7LXyftT8wdc77Nm2NINwBRj/klVelnY7f5znhmHJ
-	yHeT6UU0Pq1l8Jku/bw8HFQqZeKXsSJ1fy/FR8B68sdaqUcPC/B8DiAC/MTjDHXGwTPt3d5gred
-	EkoczTw767vNu5NaAVVwD3bKViNB/7b97LSUdDxPgDhi7qNk7EEbqz+l+zM65l9abh+0Syl9wE8
-	Z+MmRnqijo9gKC2UcmD+xqvbkPO+LFrQjIVjMZtUO7otCA454NsgiihA0b7b6MrEdG857cwEPk=
-X-Received: by 2002:a05:600c:8b8a:b0:49c:fc6c:be15 with SMTP id 5b1f17b1804b1-49fe6701f1amr170560085e9.27.1790495022507;
-        Sun, 27 Sep 2026 00:43:42 -0700 (PDT)
+        bh=lY6HYo6u5HEiyok9gJ4pBuUaJXvZPiTN5wt2jCTWDOY=;
+        b=pXcOIm8NS+c5IdFnbV07Jwjlzk5c0BjxLJo8zJen4zeKMb1MCpc7R0h44HkvcaEzRJ
+         r9j+Aux+z4F+LATmPtTUu1su049n9b17mWoi7XWQd+KJKK/zqsGy+B8x3/FMT5GUXvUc
+         ERmZdD+6wGVCeQnUSkCu6ejrBOH9aoIBc9JDEawfnFovSJ/+Y3HmmybRR4/1f2iIh4FL
+         nE3B68hDx/1q77BAkgm+eJqYb8U53axA2INC1vRAm4RCF62HtNznpszZsba8nk5+N1Hw
+         IPhnvVgdZbzEInht6OlOSspfiVrmq+Xk8UqK0TLlGTyy6c/CzR0BiBfBKbSQAPOSQeAf
+         zL9g==
+X-Gm-Message-State: AFq9FYIRvU638vLa01U1UtyJtacyNAXl9EzSibIoB0/yIyv3yONGl1BW
+	sMDnT6BRYhYkQq/+SuEUiZIs4ScOu1CgdSWQ1wTbW7zscTrAO3AU6EHGZDcw84lNp2xQnZprgNR
+	vrISiHaU=
+X-Gm-Gg: AYBFou0+dkuv6AlX9t7pO9BRV7f43/SOcLNwFhPxB//QypVFdWVRaAVQUWwSAihPKxM
+	BCWC8iSPas7wGLJT7orVrjpR+4p5r8/i72cepeIjVP2t0toNATIa69CGnCLpf0eLhdveX+0fx7E
+	7WfouSuVgx0vIwh8MfjgwoZRwfiHdUy+qCfPQEwb58+kq09NxIHUjQUM1Qyw9K3lZ4mN/Bjh+v0
+	H1zm3IwYQj/e73z8A/yqB/RqyTfjvLkNuKKABPOs7EuCYl/FbJ6ePSL03yEMRCDdQRXZZIU9HZ1
+	srujHl4ZSBsMwE210xJKOgmSH07IGokQQ6bH0YYq0gXuqBVC9/Is7HHPkKZfuTPCCao5T78W9gx
+	jDKY3sa232zctfu/sdiULdo17h7MF0gCZ1ixu5Kkh71lZAo+JpBFTfZii4d1/zNE6A/tgRYB4UY
+	iO99G7KUxzD8e6jTkFJds0Pu2qYA3kRuJESwwfoBOiWlRYGgpfc4aqKVJtebwj7d/GckKI490hh
+	pU8ULPLovCZrmAmDcs967dlITZRfEhwmi4FLzBJmOCJeSeUyKUzXq20bB75+/+aMLDoZLRvoQ==
+X-Received: by 2002:a5d:5c87:0:b0:488:7dc6:4ea with SMTP id ffacd0b85a97d-4887dc60806mr8387837f8f.10.1790495020777;
+        Sun, 27 Sep 2026 00:43:40 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30c43asm19821375f8f.3.2026.09.27.00.43.41
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30c43asm19821375f8f.3.2026.09.27.00.43.40
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 00:43:41 -0700 (PDT)
+        Sun, 27 Sep 2026 00:43:40 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 06/28] libxfont2: patch CVE-2026-59679
-Date: Sun, 27 Sep 2026 09:42:57 +0200
-Message-ID: <e58da77ff6681a50fedd9246468fa9797b5d6b0b.1790494949.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 04/28] kernel-fit-image: Don't add hash node when signing is enabled
+Date: Sun, 27 Sep 2026 09:42:55 +0200
+Message-ID: <9b41949a431661ad5c6e01955734c2d83fef732d.1790494949.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1790494949.git.yoann.congal@smile.fr>
 References: <cover.1790494949.git.yoann.congal@smile.fr>
@@ -66,131 +66,86 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 07:43:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246656
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246654
 
-From: Ankur Tyagi <ankur.tyagi85@gmail.com>
+From: Jonas Juffinger <jonas.juffinger@liebherr.com>
 
-Debian[1] also identified the fix.
+When fit image signing is enabled, mkimage does not fill
+the configuration hash node even if it is present. This causes
+the verification to fail in U-Boot with a "Bad Data Hash" error
+because the hash node exists but is empty.
 
-[1]https://security-tracker.debian.org/tracker/CVE-2026-59679
+This patch adds a check to only add the configuration hash node
+if signing is not enabled and fixes the respective test cases.
 
-Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
+The example FIT from the official documentation also shows
+the configuration field with only the signature, without the
+hash field:
+https://docs.u-boot.org/en/latest/usage/fit/signature.html#signed-configurations
+
+To further ensure that this change is valid, I also checked
+the U-Boot source for the hash and signature generation code:
+https://github.com/u-boot/u-boot/blob/main/tools/image-host.c#L1593
+The function fit_config_add_verification_data only adds the
+signature and no hash. Compare with fit_image_add_verification_data
+which adds both.
+
+Signed-off-by: Jonas Juffinger <jonas.juffinger@liebherr.com>
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+(cherry picked from commit 7346ffe190482ee4932728ba8d8741be8bed1d5b)
+Signed-off-by: Denys Dmytriyenko <denys@konsulko.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../xorg-lib/libxfont2/CVE-2026-59679.patch   | 93 +++++++++++++++++++
- .../xorg-lib/libxfont2_2.0.7.bb               |  1 +
- 2 files changed, 94 insertions(+)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-59679.patch
+ meta/lib/oe/fitimage.py                  | 2 +-
+ meta/lib/oeqa/selftest/cases/fitimage.py | 8 +++++---
+ 2 files changed, 6 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-59679.patch b/meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-59679.patch
-new file mode 100644
-index 00000000000..8e2ea4bd62b
---- /dev/null
-+++ b/meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-59679.patch
-@@ -0,0 +1,93 @@
-+From 016a21b1eea8e4aef4949e19cdf5f386f36fd978 Mon Sep 17 00:00:00 2001
-+From: Peter Hutterer <peter.hutterer@who-t.net>
-+Date: Mon, 13 Jul 2026 15:48:06 +1000
-+Subject: [PATCH] fserve: validate num_chars against encoding array size in
-+ fs_read_glyphs
-+
-+FS_QueryXExtents16 causes us to allocate the encoding[] array, later
-+during the FS_QueryXBitmaps16 reply handling we fill in that array.
-+There is no verification that the allocation is large enough, a
-+malicious font server could send us a small numExtents and a
-+large num_chars to force underallocation and OOB read/rwrite.
-+
-+A regression test is included that constructs a crafted
-+FS_QueryXBitmaps16 reply with num_chars > num_encoding and verifies
-+the library rejects it.
-+
-+CVE-2026-59679
-+
-+Found-by: Zhixi "Jace" Sun, independent security researcher
-+Assisted-by: Claude:claude-opus-4-6
-+Signed-off-by: Peter Hutterer <peter.hutterer@who-t.net>
-+Part-of: <https://gitlab.freedesktop.org/xorg/lib/libxfont/-/merge_requests/36>
-+
-+CVE: CVE-2026-59679
-+Upstream-Status: Backport [https://gitlab.freedesktop.org/xorg/lib/libxfont/-/commit/668fea81f40bcb48ec67fb55d0b851049d265290]
-+
-+Dropped makefile and test changes during backport.
-+
-+Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
-+---
-+ src/fc/fserve.c    | 22 ++++++++++++++++++++++
-+ src/fc/fservestr.h |  1 +
-+ 2 files changed, 23 insertions(+)
-+
-+diff --git a/src/fc/fserve.c b/src/fc/fserve.c
-+index abf7d07..744a68c 100644
-+--- a/src/fc/fserve.c
-++++ b/src/fc/fserve.c
-+@@ -1081,6 +1081,7 @@ fs_read_extent_info(FontPathElementPtr fpe, FSBlockDataPtr blockrec)
-+ 	return AllocError;
-+     }
-+     fsfont->encoding = pCI;
-++    fsfont->num_encoding = numExtents;
-+     if (haveInk)
-+ 	fsfont->inkMetrics = pCI + numExtents;
-+     else
-+@@ -1980,6 +1981,17 @@ fs_read_glyphs(FontPathElementPtr fpe, FSBlockDataPtr blockrec)
-+     {
-+ 	minchar = 0;
-+ 	maxchar = rep->num_chars;
-++
-++	/* Reject replies where num_chars exceeds the encoding array
-++	   size allocated in fs_read_extent_info() to prevent
-++	   out-of-bounds access on encoding[]. */
-++	if (rep->num_chars > (CARD32)fsdata->num_encoding)
-++	{
-++	    ErrorF("fserve: num_chars (%u) > num_encoding (%d)\n",
-++		   (unsigned) rep->num_chars, fsdata->num_encoding);
-++	    err = AllocError;
-++	    goto bail;
-++	}
-+     }
-+ 
-+     off_adr = (char *)ppbits;
-+@@ -2001,6 +2013,16 @@ fs_read_glyphs(FontPathElementPtr fpe, FSBlockDataPtr blockrec)
-+     for (i = 0; i < rep->num_chars; i++)
-+     {
-+ 	memcpy(&local_off, off_adr, SIZEOF(fsOffset32));	/* align it */
-++	/* Bounds-check minchar against the encoding array size to
-++	   prevent out-of-bounds access from a malicious font server
-++	   reply with more num_chars than num_extents. */
-++	if (minchar >= (unsigned long)fsdata->num_encoding)
-++	{
-++	    ErrorF("fserve: glyph index %lu >= num_encoding (%d)\n",
-++		   minchar, fsdata->num_encoding);
-++	    err = AllocError;
-++	    goto bail;
-++	}
-+ 	if (blockrec->type == FS_OPEN_FONT ||
-+ 	    fsdata->encoding[minchar].bits == &_fs_glyph_requested)
-+ 	{
-+diff --git a/src/fc/fservestr.h b/src/fc/fservestr.h
-+index 29ae46e..da95e41 100644
-+--- a/src/fc/fservestr.h
-++++ b/src/fc/fservestr.h
-+@@ -43,6 +43,7 @@ typedef struct _fs_glyph {
-+ typedef struct _fs_font {
-+     CharInfoPtr pDefault;
-+     CharInfoPtr encoding;
-++    int		num_encoding;
-+     CharInfoPtr inkMetrics;
-+     FSGlyphPtr	glyphs;
-+ }           FSFontRec, *FSFontPtr;
-diff --git a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.7.bb b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.7.bb
-index de6418b11a5..8775d1cc13d 100644
---- a/meta/recipes-graphics/xorg-lib/libxfont2_2.0.7.bb
-+++ b/meta/recipes-graphics/xorg-lib/libxfont2_2.0.7.bb
-@@ -18,6 +18,7 @@ BBCLASSEXTEND = "native"
- SRC_URI += "file://CVE-2026-56001.patch \
-             file://CVE-2026-56002.patch \
-             file://CVE-2026-56003.patch \
-+            file://CVE-2026-59679.patch \
-            "
+diff --git a/meta/lib/oe/fitimage.py b/meta/lib/oe/fitimage.py
+index d7e21171ab9..a1040181a23 100644
+--- a/meta/lib/oe/fitimage.py
++++ b/meta/lib/oe/fitimage.py
+@@ -480,7 +480,7 @@ class ItsNodeRootKernel(ItsNode):
+             f"{default_flag} {', '.join(conf_desc)}",
+             opt_props=opt_props
+         )
+-        if self._hash_algo:
++        if self._hash_algo and not self._sign_enable:
+             ItsNodeHash(
+                 "hash-1",
+                 conf_node,
+diff --git a/meta/lib/oeqa/selftest/cases/fitimage.py b/meta/lib/oeqa/selftest/cases/fitimage.py
+index b35dda6674a..84e21346abe 100644
+--- a/meta/lib/oeqa/selftest/cases/fitimage.py
++++ b/meta/lib/oeqa/selftest/cases/fitimage.py
+@@ -627,9 +627,10 @@ class KernelFitImageBase(FitImageTestCase):
+             if uboot_sign_enable == "1" and fit_sign_individual == "1":
+                 req_its_paths.append(['/', 'images', image, 'signature-1'])
+         for configuration in configurations:
+-            req_its_paths.append(['/', 'configurations', configuration, 'hash-1'])
+             if uboot_sign_enable == "1":
+                 req_its_paths.append(['/', 'configurations', configuration, 'signature-1'])
++            else:
++                req_its_paths.append(['/', 'configurations', configuration, 'hash-1'])
  
- SRC_URI[sha256sum] = "8b7b82fdeba48769b69433e8e3fbb984a5f6bf368b0d5f47abeec49de3e58efb"
+         not_req_its_paths = []
+         for image in not_images:
+@@ -792,14 +793,15 @@ class KernelFitImageBase(FitImageTestCase):
+         # Add signing related properties if needed
+         if uboot_sign_enable == "1":
+             for section in req_sections:
+-                req_sections[section]['Hash algo'] = fit_hash_alg
+                 if section.startswith(bb_vars['FIT_CONF_PREFIX']):
+-                    req_sections[section]['Hash value'] = "unavailable"
+                     req_sections[section]['Sign algo'] = "%s,%s:%s" % (fit_hash_alg, fit_sign_alg, uboot_sign_keyname)
+                     num_signatures += 1
+                 elif fit_sign_individual == "1":
++                    req_sections[section]['Hash algo'] = fit_hash_alg
+                     req_sections[section]['Sign algo'] = "%s,%s:%s" % (fit_hash_alg, fit_sign_alg, uboot_sign_img_keyname)
+                     num_signatures += 1
++                else:
++                    req_sections[section]['Hash algo'] = fit_hash_alg
+         return (req_sections, num_signatures)
+ 
+     def _check_signing(self, bb_vars, sections, num_signatures, uboot_tools_bindir, fitimage_path):
 
