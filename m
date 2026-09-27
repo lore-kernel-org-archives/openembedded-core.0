@@ -2,61 +2,62 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 37748CA5FAF
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A56A5CA5FB1
 	for <webhook@archiver.kernel.org>; Sun, 27 Sep 2026 07:43:57 +0000 (UTC)
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.33591.1790495034982485190
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.32861.1790495036418867910
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Sep 2026 00:43:55 -0700
+ Sun, 27 Sep 2026 00:43:56 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=L2EI9RcB;
- spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6351831so1149009f8f.1
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 00:43:54 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=qMHBFznn;
+ spf=pass (domain: smile.fr, ip: 74.125.225.99, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-48882c1f2baso246991f8f.1
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 00:43:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790495033; x=1791099833; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790495035; x=1791099835; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=fcSQO4uFI+YRMVWF2TN8o7An+B7Ck6jYyYU4BHraQvE=;
-        b=L2EI9RcByW74GWw9qe3FDbKw0gTvjooZjzlk3bggs8C3FEUGC4x7/BxVsXYqAc28My
-         661Hcgo8K6IPWIRGcKgcQWI+TV65k5TYroWHrNAr3UEOOBsTnlE+iR8bex/Yf7AjVKWv
-         ElfGZIE+EPvQ5sYUzFojs173L1F3kmgpPPXcU=
+        bh=irBSgGgri+SNGsEWYroJCrgTc014m8hzqrx0a/YQjMA=;
+        b=qMHBFznnR/G/7Ahr9yjGDTaK6ODIlvnRNlFvAB+fKX68JqzKGSetpM84RFIE7eIQLM
+         eHgFoHQJ2zvWoECwE5JKScW7ySEp0w2zaEk1X4Rkm1cIhkg+CjFEgoFiHfAL/syoTSM8
+         Qnx69XRFV6wfbfyzJDtg1kR6E5gpH2SE/Qvho=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790495033; x=1791099833;
+        d=1e100.net; s=20260707; t=1790495035; x=1791099835;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=fcSQO4uFI+YRMVWF2TN8o7An+B7Ck6jYyYU4BHraQvE=;
-        b=ZGmnxtdkZPKmH8JYrvq4tQTPjKslZLToMFVV0T9fjVUn/IIShBqTuyd2yRKutZrdRe
-         +UiRPvi+bt0JE0Hc4owFjxELbOdRCVvPY7zflqfJscziZKWWao2D9SQGNpT2HbshsZ1I
-         TrwfRlErJotgB1aOHgWxiCjgzsi3qa8ZbjdWKKr4uGPgEMl2Qnw8rrNTastCTMkjMJod
-         EluaogfND78vGOkmMVEEpCpuTa5ShxgCxTAb1y3s7q3Qd0z8m41OspGBeXd77uuMak8w
-         FyVKMtY++CDKSP3lGty+xwnJ/7TWkOoeFy0uuP0F3ys1ddPPWd/DVIVykeYNSD82oZdH
-         WWaQ==
-X-Gm-Message-State: AFq9FYK8U/79tPOd4pb5TeeaKevDCJneWW06pC8Rh2E3z9vCL8S9ByqV
-	tyDn8mmHNT6QfGgjkgDG0c0MSU/8kMXOXgC28ifCZPm4iwnC490DCquw/8e9LBEHtarmpY+qJF5
-	he2eCfiA=
-X-Gm-Gg: AYBFou3C5MkbMIjtDqKWsgROxH2wB49eiPU9Eis/tZYdOl+XWLCXLiYCWy+m6TjwJaZ
-	YU0mXMyF6Q2+63snNE0RIyZFd1SMx0MS53dC3PA5jz0CNQ4ulDb5guF+1bkRQSf6/Mwf4JcKhR8
-	Sl3M+VrMWvmCl7kGiBfdGI+DgB90Is+IJOHEVmUmZVUGgGys0lP8yVvHVmf+02eRkDViGazzBTe
-	3MnFmc6+AaTQLsnk1lsZzuBB2h8y4M6clnc1e/9f2R0LkuGyas7K6+5UBfgiNzHX6Ji5C9G3vfa
-	y8oU+4ldHYyWQ9hOZV95wrJsoJaflFx5PuuvsO0Co5XvURxbTYE3dGw7QzO8Cd2gOhYxVqXBI6/
-	ORGM5lkgLzgivfFZsL+A0STUt/2nwran54mBjzJ3oxWx4TRO5ChWl2iE42ieDrSucQ/GOip+oO+
-	zB6iMJSaKyK+jdY9AFY118GwkOGl9teeZdHu3hbosyGdupjpadQkUOihFZmJ4bYTJIBbaXWjhVg
-	A9OH3Nt0URyBDvKfpFCNEzqxGhwA8ckeeHnImZSLQyTY5tr8IIG3MoQiOlrYecKRt0pQRTNrA==
-X-Received: by 2002:a05:6000:1863:b0:487:342:d142 with SMTP id ffacd0b85a97d-4887175ae72mr20315904f8f.44.1790495033191;
-        Sun, 27 Sep 2026 00:43:53 -0700 (PDT)
+        bh=irBSgGgri+SNGsEWYroJCrgTc014m8hzqrx0a/YQjMA=;
+        b=03qOrDJJ9UUbHdYlgZGcExol25hKBBQCev76wB/rfvG4kZo/aa2ZNzWykrReFPQIjj
+         RmCDbPAjcx6ihxwnnPevTgZWoRkKX+vzTbnCHy6EqTb2IC/PqTdJRVkuVk1aU8tPaXy0
+         A2Z+GQHZ81iSyU6OS1SU1pWmXu1CMsR9woUTuqlLymNpcGJUG5wuzlrBUozgXx0SnMnA
+         gw8P1AL73ce8ZjgfkLWPDagXfllVgJzazybjC9+Zn5Y+bWs4A7htR/kqcFkmJbqG6C9z
+         O96Mpl8ZnAcs/p8CSKaVhP2i7WMuWfm7kjICh/xBStKuX3bho022R8KrMkSrK9ykH1wD
+         QZww==
+X-Gm-Message-State: AFq9FYLL69TL5aRU23M254JV6zmEUMS3KgOaveu0a2TAHeYc88A/h4/p
+	+am/h5BnfcCFWr/BfVkP4kMHzZcR563jxonvLCqqLMCxIQ7pFlW4SYjsojvpDLq/e4HpCkD0LFj
+	1+LxkIPE=
+X-Gm-Gg: AYBFou1ynrpLpOU9u+SimlgRXGYu130dHOEiXkgdVppD5qZNusco8UKSCMc5m9onkAv
+	ouJvL38zmPeIgTRBnpXlJrOUYEOaq9d3fUoddyxUaeodOOMJgYTPf2FjX4laTBAnDvDh8koL6ZK
+	ZWGuU/S0Nam3MfI4Ilr1MLrruCXPxoONAJmsbaNbWg8fiXj2lalcukLYnT2Gxkfs/GW4SrCkxsL
+	Sol8B3e8e7fQoBh9EODy506eH2RO2oaYt4srA9bfXo0whUldwch330wSbulxMP2PeBcYjhLyNiw
+	sijgWAM0yEaulCf1QZzrLmToRw6jVc4/N+UWhyHi7R2VcCtkn+R+lhd9BgAAAUlCJVnlA1EOIBD
+	JF8Cw2nOQLrA+bdis4aDm2ejq+UdxLexpAYNJ4RLqrq6/JtFlKWeQOWSdUjuB+yX8LhExLWyHFQ
+	awEv7la1cHi+gs23bSuDZAfRwl3KhVWezrbaXygcYlbXT+mHtN9gh+c2QvHL6qmWI4dDWWBh3J6
+	6daam7H1odZivoen9li0oQ0+87d6pwJzd6wuO8Af1yPoVgb7elbaRQ2sPtPOeLMX7lQw8+yWf3W
+	gyYoVYGq
+X-Received: by 2002:a05:6000:290e:b0:487:27f9:837 with SMTP id ffacd0b85a97d-4887170f426mr18936334f8f.44.1790495034605;
+        Sun, 27 Sep 2026 00:43:54 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30c43asm19821375f8f.3.2026.09.27.00.43.52
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30c43asm19821375f8f.3.2026.09.27.00.43.54
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 00:43:52 -0700 (PDT)
+        Sun, 27 Sep 2026 00:43:54 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 20/28] ffmpeg: Fix for CVE-2026-66037
-Date: Sun, 27 Sep 2026 09:43:11 +0200
-Message-ID: <66194543cd579ef06d1fc5c34ac7716f9f82d8a0.1790494949.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 22/28] ffmpeg: Fix for CVE-2026-66039
+Date: Sun, 27 Sep 2026 09:43:13 +0200
+Message-ID: <eba86cae1179073e25d453de3fbbdbea22f2f3da.1790494949.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1790494949.git.yoann.congal@smile.fr>
 References: <cover.1790494949.git.yoann.congal@smile.fr>
@@ -66,77 +67,76 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 07:43:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246670
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246672
 
 From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 
 Pick the patch from [1], also referenced in the NVD report [2].
 
-[1] https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/86708357d126af84c16f80d9c57335d1e8c845c5
-[2] https://nvd.nist.gov/vuln/detail/cve-2026-66037
+[1] https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/aafb5c655edc76a753275c383ebb139feb032718
+[2] https://nvd.nist.gov/vuln/detail/cve-2026-66039
 
 Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
 ---
- .../ffmpeg/ffmpeg/CVE-2026-66037.patch        | 39 +++++++++++++++++++
+ .../ffmpeg/ffmpeg/CVE-2026-66039.patch        | 38 +++++++++++++++++++
  .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |  1 +
- 2 files changed, 40 insertions(+)
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66037.patch
+ 2 files changed, 39 insertions(+)
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66039.patch
 
-diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66037.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66037.patch
+diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66039.patch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66039.patch
 new file mode 100644
-index 00000000000..1b93c0ca86b
+index 00000000000..2e34923eda5
 --- /dev/null
-+++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66037.patch
-@@ -0,0 +1,39 @@
-+From f02c8cd37dee2b333de229c6ac6834322f56e2c9 Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66039.patch
+@@ -0,0 +1,38 @@
++From b3562273e37397669fdb3f4ec933e2fa57e28dbd Mon Sep 17 00:00:00 2001
 +From: Michael Niedermayer <michael@niedermayer.cc>
-+Date: Sun, 28 Jun 2026 22:05:28 +0200
-+Subject: [PATCH] avformat/iamf_parse: check count_label against the available
-+ bytes
++Date: Mon, 29 Jun 2026 01:16:44 +0200
++Subject: [PATCH] avcodec/mace: reject sample counts that overflow int
 +
-+Fixes: unbounded allocation / denial of service
-+Fixes: tP59h4cpaFyg
-+Fixes: 4ee05182b7 (avformat: Immersive Audio Model and Formats demuxer)
++Fixes: heap buffer overflow
++Fixes: FmXBI2dbgvgD
++Fixes: 0eea212943544d40f99b05571aa7159d78667154 (Add avcodec_decode_audio4().)
 +Found-by: Adrian Junge (vurlo)
 +Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
 +
-+CVE: CVE-2026-66037
-+Upstream-Status: Backport [https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/86708357d126af84c16f80d9c57335d1e8c845c5]
++CVE: CVE-2026-66039
++Upstream-Status: Backport [https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/aafb5c655edc76a753275c383ebb139feb032718]
 +
 +Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 +---
-+ libavformat/iamf_parse.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
++ libavcodec/mace.c | 5 ++++-
++ 1 file changed, 4 insertions(+), 1 deletion(-)
 +
-+diff --git a/libavformat/iamf_parse.c b/libavformat/iamf_parse.c
-+index 29b8acd351..a36759e282 100644
-+--- a/libavformat/iamf_parse.c
-++++ b/libavformat/iamf_parse.c
-+@@ -969,6 +969,11 @@ static int mix_presentation_obu(void *s, IAMFContext *c, AVIOContext *pb, int le
-+     mix_presentation->cmix = mix;
++diff --git a/libavcodec/mace.c b/libavcodec/mace.c
++index 2aa54fb548..716dd0c00a 100644
++--- a/libavcodec/mace.c
+++++ b/libavcodec/mace.c
++@@ -252,7 +252,10 @@ static int mace_decode_frame(AVCodecContext *avctx, AVFrame *frame,
++     }
 + 
-+     mix_presentation->count_label = ffio_read_leb(pbc);
-++    if (mix_presentation->count_label > len - avio_tell(pbc)) {
-++        mix_presentation->count_label = 0;
-++        ret = AVERROR_INVALIDDATA;
-++        goto fail;
-++    }
-+     mix_presentation->language_label = av_calloc(mix_presentation->count_label,
-+                                                  sizeof(*mix_presentation->language_label));
-+     if (!mix_presentation->language_label) {
++     /* get output buffer */
++-    frame->nb_samples = 3 * (buf_size << (1 - is_mace3)) / channels;
+++    int64_t nb_samples = 3 * ((int64_t)buf_size << (1 - is_mace3)) / channels;
+++    if (nb_samples > INT_MAX)
+++        return AVERROR_INVALIDDATA;
+++    frame->nb_samples = nb_samples;
++     if ((ret = ff_get_buffer(avctx, frame, 0)) < 0)
++         return ret;
++     samples = (int16_t **)frame->extended_data;
 +-- 
 +2.53.0
 +
 diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
-index b3b78a7936b..4e278a5ac97 100644
+index 57805f17095..06c6e402c97 100644
 --- a/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
 +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb
-@@ -37,6 +37,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
-            file://CVE-2026-65705_p1.patch \
-            file://CVE-2026-65705_p2.patch \
+@@ -39,6 +39,7 @@ SRC_URI = "https://www.ffmpeg.org/releases/${BP}.tar.xz \
             file://CVE-2026-65706.patch \
-+           file://CVE-2026-66037.patch \
+            file://CVE-2026-66037.patch \
+            file://CVE-2026-66038.patch \
++           file://CVE-2026-66039.patch \
             "
  
  SRC_URI[sha256sum] = "6136812ea6d4e68bdba27e33c2a94382711cdf4f8602ffef056ff792bd6f9818"
