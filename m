@@ -2,61 +2,61 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 76265CA5FA2
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A03F2CA5FA5
 	for <webhook@archiver.kernel.org>; Sun, 27 Sep 2026 07:43:55 +0000 (UTC)
-Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com [209.85.221.46])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.32857.1790495027540750274
+Received: from mail-wr2-f36.google.com (mail-wr2-f36.google.com [74.125.225.100])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.33584.1790495026192413252
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Sep 2026 00:43:47 -0700
+ Sun, 27 Sep 2026 00:43:46 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=kBM94Zv0;
- spf=pass (domain: smile.fr, ip: 209.85.221.46, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr1-f46.google.com with SMTP id ffacd0b85a97d-488885c3844so554943f8f.0
-        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 00:43:47 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=rMBe9NqO;
+ spf=pass (domain: smile.fr, ip: 74.125.225.100, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f36.google.com with SMTP id ffacd0b85a97d-4843c3ee4cfso945431f8f.2
+        for <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 00:43:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790495026; x=1791099826; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790495024; x=1791099824; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=BpGVufLe95AwW+tM2WALjrjpgZUmd+E/9jCdnWYwKc4=;
-        b=kBM94Zv0TG74VLvZZiawJp7WWJqRuW/wTNy1OpRrUqCcOYQev3EX50KN/0Z9Jihx0h
-         3A46OWp2uGkXEEJZJnXkZRjxok0E18NwsukDfb7ceLYQBt2B/67VZ6Wz+kR57TPhkhy+
-         XwFuuMeFk1rmnN65MF3YLjz9w3vpA4MEXHVLA=
+        bh=e/4uUKZU3YSXbJYb8+trpXBNoskde5b0Pl1tQxHutyg=;
+        b=rMBe9NqOtnEufb14QgFEDpGs0fxp1bdrTzm144ZOq5tmZnHw/s+2Rj02DTkkSbFCjd
+         koGWb3ILGknvPySlGMTz8scU+n1g5hMuuCNSbI+go/e5ffre5TbvyKl27sxkpd7j6Mf/
+         IY+JsdqjUFeSj7ZB9/ZmRrbX+lFYdDF0SuaZU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790495026; x=1791099826;
+        d=1e100.net; s=20260707; t=1790495024; x=1791099824;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:to:from:x-gm-gg:x-gm-message-state:from:to
          :cc:subject:date:message-id:reply-to:content-type;
-        bh=BpGVufLe95AwW+tM2WALjrjpgZUmd+E/9jCdnWYwKc4=;
-        b=HDoTMsYBOixbsdyXMvA37pC6R/WUj3KqbUvBj/j8EDyzTGnVvY3mtjfmbcDYOoUYsw
-         6YcpdRiBPJSDt1+hl6e9nSV4k8RtvAfVyW78GlCRYwBM2/qG3kYhO3VRu7F/l6uRPab7
-         ztqv2iKsW0v4+8NxCUcSgXdYghqe1vP6ofYXrpOCbCDxsJGrlkOwRcW8eJ92zcf7dgip
-         GUo/VbpvK1Po6XCDN6XVUu4J3yo8fexBGGi+hTrntZ4Dpqu0gsUJ3VF3LBOENO/c9pJD
-         zubPoiRUBMSu3t7AfSboAzcuMs/dcPlV5nML4faLwVgw6f+zsW2EkC2zY1EeOUovLnuy
-         JHmw==
-X-Gm-Message-State: AFq9FYKQBoqLLexTqWnxYH3hHoIMI2AOsfIkA7Yldx4YeLsqdi6jj/Q0
-	k0q/p7e4sWzWRDAHbzCUK/AFQI1G/QUXJckP+Tu+Fge+e/CCZpOqAS0e2gT3KdtXtWp1g/8G+7c
-	4sFlTufE=
-X-Gm-Gg: AYBFou37s7LkZKQLiSuOhGFdMn7YIjFmo5+W97wdiLf6xvbtJRjfrYPNFmNt/0HPV0e
-	TJ/6V6k0W0PnjAJGhzHxBasm1PZxk89w1nSu6Ohg1BiMaQfOznf95puVl1w9h3J0R0/UrMi1Zh2
-	laQoJQan1BSsrFbTa2kev8BJZzOFKCGUirQK/DdF+g0k7FiPUzNIfrBTNLBWvwdE4fq144a+n86
-	OMTxyIbB0KC/DhATfgoyqYi4uEGGXvcSqmzyvT+MBS7shCXJO2g6QRudXGQdehaD+4b56uP1cma
-	tErNXjJFo1k0mn5Ovo4Rj4Btx2yr8sWindQzcq2ZuSeCnFxEEn1TJDoGHt4pjY/etIOR75U/jIj
-	k8VnbMgtgYwQskzce0CS+2s3bWnxPkfxerByIzFtlO4G1xAx664Mq2RRcczFf0+TwGy26J15EsK
-	98paI4oTjhG9o5EFNAH70r1Hbn+P+ljNLpSYnGj+SrtRj1rA6rTQOxlF+Srnfl2E3QtDg/yNvH7
-	cNleSoeCns8SfL5MzdsBm2buC1WNz/JhV+3HmxbxFkypomANNMNr5s6yOVxZ7mB5bAu9AAcjA==
-X-Received: by 2002:a05:6000:4103:b0:487:c3e:d6cc with SMTP id ffacd0b85a97d-4887171e51bmr18231511f8f.31.1790495025757;
-        Sun, 27 Sep 2026 00:43:45 -0700 (PDT)
+        bh=e/4uUKZU3YSXbJYb8+trpXBNoskde5b0Pl1tQxHutyg=;
+        b=cDP4H/c7woMj4mSI4G1fucalHp/WO5WXfdueL0KHJQPHM2h6BbI4bg/cSdWqRa1cbA
+         U6X7r3pWJajuPdBKi/qC+sZFpDFZjwjiC7OTilybCL1pZDg7Q24W+WmHr6wwWgcfBVTi
+         llN1LFA8s214tt6NTtGojAEht9RI4wV+N2Hei9gO/wbuwvHbRuoBfO0hU77Zqoc3npYC
+         fzlnY3CX20+rLcNlWlZ0WiS3MNj71pzTSU1wHRovAAaT+sdZkUCAGUZUig7OfVpc2Tdd
+         rE1k+qWVBLWlSbB0tULARoxjVIUwI4WhJyCT0lbgsE+u/+el7OnF4nmbskjkIrxXb54C
+         FmPw==
+X-Gm-Message-State: AFq9FYLVQtiN+cdoWfkhPNmwkHdSWt1UD4ryXw03axPOYtbwLMC+SP88
+	Vc4QKvPBRYYhgjYa0sHJReqzHUhlPDj34PdEu4Eyx3YqMbGQ/ESRjMdFO/UqS6ZoVbNY8p9JLfV
+	pxt9Kf8U=
+X-Gm-Gg: AYBFou05lqBnSoMaMwZvjUMIK6pk+XbH56VXYxn8da/39e9GSn65W7fFbYbfWTkRXfs
+	q04pJlLdhxazf8lHhNOLaDoEhZtUFJjMhDCuOGXBS+YzHGTBQ9lDo79t5CTWjg/7WbfZb2focAH
+	BtSxxGvZ+4RQhV3XssIp4ucOJAxV7nF84QKxXlFeeVKQ7AfTESdMVEIUTYAAXU/WLRktRugUh5J
+	pT0n/CrEOL9PdbQSar+tvIuEPb488Zuh8UMvsXVESSby7qRPtYK+NZ/EJ0qF2dkcVs6BOGxapsl
+	NBk+XZU9NBFmERPzARaBxueZb5UFWulYbKDnHoGWIVL+NYqOADkPgPYxqGlmwFPjiGonw2+SjDi
+	6e2gMezbSe70ufoSAOf24ZFenJteq2XoKXxFFFR2Y7oNl38BFA2/U2ETywLVTaCD3JJT6y32BnZ
+	qQXWWkeTshvMOWNaCDxm63Bh4xImU8JG5Xchv2VA8sz5w0cnVdZDS/N9aHAHMYCFYwdkqKo28fG
+	cBbvOQl5chT5g2vEj7uwAr6FrfxVnMuyJR0YOMjRA+eVB6Q3UiaXKs32Q/t2lnlEku97HeVNA==
+X-Received: by 2002:a05:6000:4910:b0:488:8b16:ab33 with SMTP id ffacd0b85a97d-4888b16ae2amr3426563f8f.10.1790495024221;
+        Sun, 27 Sep 2026 00:43:44 -0700 (PDT)
 Received: from FRSMI25-LASER.home (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30c43asm19821375f8f.3.2026.09.27.00.43.45
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-4887a30c43asm19821375f8f.3.2026.09.27.00.43.43
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 27 Sep 2026 00:43:45 -0700 (PDT)
+        Sun, 27 Sep 2026 00:43:43 -0700 (PDT)
 From: Yoann Congal <yoann.congal@smile.fr>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose 10/28] vim: Fix CVE-2026-28417 hostname regression
-Date: Sun, 27 Sep 2026 09:43:01 +0200
-Message-ID: <8aad82361ba459a6ec3947a1f38bce28c52e0941.1790494949.git.yoann.congal@smile.fr>
+Subject: [OE-core][wrynose 08/28] bluez5: restrict delta=0 RSSI to proximity filters
+Date: Sun, 27 Sep 2026 09:42:59 +0200
+Message-ID: <9c8556d59cb8a5d4fa78f617782b8daf3b2b22fa.1790494949.git.yoann.congal@smile.fr>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <cover.1790494949.git.yoann.congal@smile.fr>
 References: <cover.1790494949.git.yoann.congal@smile.fr>
@@ -66,119 +66,132 @@ List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Sun, 27 Sep 2026 07:43:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246660
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246658
 
-From: Devansh Patel <devanshp@cisco.com>
+From: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
 
-The older Vim patch 9.2.0073 fixed CVE-2026-28417 by tightening netrw
-hostname validation. That CVE fix requires follow-up regression patches
-because it rejects valid hostnames containing optional ports or
-underscores.
+When a discovery filter is active (filtered_discovery=true), BlueZ
+unconditionally calls device_set_rssi_with_delta(..., delta=0),
+causing every BLE advertisement to emit a PropertiesChanged(RSSI)
+signal regardless of whether the RSSI value changed.
 
-Vim 9.2.0340 already contains that CVE fix and patch 9.2.0089, which
-corrects optional-port handling. It still needs patch 9.2.0553 to accept
-underscores, so backport that commit and retain its _gateway regression
-test.
+delta=0 is only needed when a client has expressed explicit proximity
+interest by setting an RSSI or pathloss threshold in its discovery
+filter. Filters that specify only transport type or UUIDs do not
+require per-packet RSSI precision; for those, the standard
+RSSI_THRESHOLD=8 rate-limiting is both correct and desirable.
 
-The netrw history hunk is adapted to preserve Wrynose's existing
-multi-line history and append the upstream 2026 May 28 entry. The
-src/version.c hunk is omitted because this backport does not change the
-recipe version or Vim's upstream patch-number table.
-
-[1] https://github.com/vim/vim/commit/79348dbbc09332130f4c86045e1541d68514fcc1
-[2] https://github.com/vim/vim/commit/a6198523fb28a50d96945458792cdb4787d3cdda
-[3] https://github.com/vim/vim/commit/93d177cd2b69bac58fc51a5a514d7bc71e264b11
-[4] https://github.com/vim/vim/security/advisories/GHSA-m3xh-9434-g336
-
-Signed-off-by: Devansh Patel <devanshp@cisco.com>
+Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
 Signed-off-by: Yoann Congal <yoann.congal@smile.fr>
+[YC: fixed patch format]
 ---
- .../vim/files/CVE-2026-28417-regression.patch | 65 +++++++++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 2 files changed, 66 insertions(+)
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28417-regression.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ ...ct-delta-0-RSSI-to-proximity-filters.patch | 86 +++++++++++++++++++
+ 2 files changed, 87 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
 
-diff --git a/meta/recipes-support/vim/files/CVE-2026-28417-regression.patch b/meta/recipes-support/vim/files/CVE-2026-28417-regression.patch
-new file mode 100644
-index 00000000000..e5d947b7374
---- /dev/null
-+++ b/meta/recipes-support/vim/files/CVE-2026-28417-regression.patch
-@@ -0,0 +1,65 @@
-+From a058d0dcd289ddb934b30125ac732f737bf89eb7 Mon Sep 17 00:00:00 2001
-+From: Christian Brabandt <cb@256bit.org>
-+Date: Thu, 28 May 2026 20:53:53 +0000
-+Subject: [PATCH] patch 9.2.0553: runtime(netrw): netrw rejects hostnames
-+ containing _
-+
-+Problem:  runtime(netrw): netrw rejects hostnames containing _
-+          (lilydjwg)
-+Solution: Relax the restriction and allow the underscore
-+
-+fixes: #20344
-+
-+CVE: CVE-2026-28417
-+Upstream-Status: Backport [https://github.com/vim/vim/commit/93d177cd2b69bac58fc51a5a514d7bc71e264b11]
-+
-+Backport Changes:
-+- Wrynose's netrw header uses a chronological change-history list instead
-+  of upstream's "Last Change:" field, so add the equivalent 2026 May 28
-+  history entry.
-+- Omitted src/version.c because this backport does not change the recipe's
-+  Vim version or its upstream patch-number table.
-+
-+Signed-off-by: Christian Brabandt <cb@256bit.org>
-+(cherry picked from commit 93d177cd2b69bac58fc51a5a514d7bc71e264b11)
-+Signed-off-by: Devansh Patel <devanshp@cisco.com>
-+---
-+ runtime/pack/dist/opt/netrw/autoload/netrw.vim | 5 +++--
-+ src/testdir/test_plugin_netrw.vim              | 1 +
-+ 2 files changed, 4 insertions(+), 2 deletions(-)
-+
-+diff --git a/runtime/pack/dist/opt/netrw/autoload/netrw.vim b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+index c240bbd13..54be15b3f 100644
-+--- a/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-++++ b/runtime/pack/dist/opt/netrw/autoload/netrw.vim
-+@@ -24,6 +24,7 @@
-+ " 2026 Mar 01 by Vim Project include portnumber in hostname checking #19533
-+ " 2026 Apr 01 by Vim Project use fnameescape() with netrw#FileUrlEdit()
-+ " 2026 Apr 05 by Vim Project Fix netrw#RFC2396() #19913
-++" 2026 May 28 by Vim Project allow underscores in hostname checking #20344
-+ " 2026 Jun 16 by Vim Project Fix filename escaping in local file deletion
-+ " Copyright:  Copyright (C) 2016 Charles E. Campbell {{{1
-+ "             Permission is hereby granted to use and distribute this code,
-+@@ -2604,8 +2605,8 @@ function s:NetrwValidateHostname(hostname)
-+   " Username:
-+   let user_pat = '\%([a-zA-Z0-9._-]\+@\)\?'
-+   " Hostname: 1-64 chars, alphanumeric/dots/hyphens.
-+-  " No underscores. No leading/trailing dots/hyphens.
-+-  let host_pat = '[a-zA-Z0-9]\%([-a-zA-Z0-9.]\{0,62}[a-zA-Z0-9]\)\?'
-++  " No leading/trailing dots/hyphens.
-++  let host_pat = '[a-zA-Z0-9_]\%([-a-zA-Z0-9._]\{0,62}[a-zA-Z0-9_]\)\?'
-+   " Port: 16 bit unsigned integer
-+   let port_pat = '\%(:\d\{1,5\}\)\?$'
-+ 
-+diff --git a/src/testdir/test_plugin_netrw.vim b/src/testdir/test_plugin_netrw.vim
-+index a0a3915f5..8d7167793 100644
-+--- a/src/testdir/test_plugin_netrw.vim
-++++ b/src/testdir/test_plugin_netrw.vim
-+@@ -574,6 +574,7 @@ endfunc
-+ func Test_netrw_hostname()
-+   let valid_hostnames = [
-+   \   'localhost',
-++  \   '_gateway',
-+   \   '127.0.0.1',
-+   \   '::1',
-+   \   '0:0:0:0:0:0:0:1',
-diff --git a/meta/recipes-support/vim/vim.inc b/meta/recipes-support/vim/vim.inc
-index b3732cb780e..de639a65026 100644
---- a/meta/recipes-support/vim/vim.inc
-+++ b/meta/recipes-support/vim/vim.inc
-@@ -46,6 +46,7 @@ SRC_URI = "git://github.com/vim/vim.git;branch=master;protocol=https;tag=v${PV}
-            file://CVE-2026-73076.patch \
-            file://CVE-2026-73077.patch \
-            file://CVE-2026-73078.patch \
-+           file://CVE-2026-28417-regression.patch \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index ad07e0d3c4f..d857c23a577 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -75,6 +75,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-advertising-Fix-sending-extra-bytes-with-MGMT_OP_ADD.patch \
+            file://0001-src-device-Fix-stored-gatt-cache-DB-Hash-value-no.patch    \
+            file://0001-profile-Set-L2CAP-IMTU-for-OBEX-profile-listeners.patch \
++           file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
             "
+ S = "${UNPACKDIR}/bluez-${PV}"
  
- PV .= ".0340"
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
+new file mode 100644
+index 00000000000..8dd9e318feb
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
+@@ -0,0 +1,86 @@
++From d00dd99229bc9ce78b0e8bb3bb523a3cd504473c Mon Sep 17 00:00:00 2001
++From: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
++Date: Wed, 15 Jul 2026 17:06:35 +0800
++Subject: [PATCH] adapter: restrict delta=0 RSSI to proximity filters
++
++When a discovery filter is active (filtered_discovery=true), BlueZ
++unconditionally calls device_set_rssi_with_delta(..., delta=0),
++causing every BLE advertisement to emit a PropertiesChanged(RSSI)
++signal regardless of whether the RSSI value changed.
++
++delta=0 is only needed when a client has expressed explicit proximity
++interest by setting an RSSI or pathloss threshold in its discovery
++filter. Filters that specify only transport type or UUIDs do not
++require per-packet RSSI precision; for those, the standard
++RSSI_THRESHOLD=8 rate-limiting is both correct and desirable.
++
++The problem is triggered on dual-mode adapters by a transport-only
++filter (e.g. Transport=le). In merge_discovery_filters(), the
++transport-specific scan type (SCAN_TYPE_LE=6) does not equal the
++adapter scan type (SCAN_TYPE_DUAL=7), so has_filtered_discovery is
++set, filtered_discovery becomes true, and delta=0 is applied even
++though no proximity condition was requested. With hundreds of BLE
++devices advertising simultaneously this generates hundreds of
++unnecessary PropertiesChanged(RSSI) signals per second.
++
++Confirmed on QCS6490 (BlueZ 5.72) with Transport=le filter:
++
++  adapter.c: filtered_discovery=1 (current_discovery_filter=set)
++  device.c:  device_set_rssi_with_delta() rssi=-86 delta_threshold=0
++  device.c:  device_set_rssi_with_delta() rssi=-79 delta_threshold=0
++
++Add discovery_filter_has_proximity() which walks discovery_list and
++returns true only when at least one active filter carries a real
++proximity condition (rssi != DISTANCE_VAL_INVALID or pathloss !=
++DISTANCE_VAL_INVALID). Use this to gate the delta=0 path.
++
++Other filter fields (transport, uuids, duplicate, discoverable)
++express capability or content criteria and carry no proximity
++implication, so they are intentionally excluded from the check.
++
++Upstream-Status: Backport [e004414a1751d29216ccab976d6c7174ec48d11c]
++Signed-off-by: Xiuzhuo Shang <xiuzhuo.shang@oss.qualcomm.com>
++---
++ src/adapter.c | 19 ++++++++++++++++++-
++ 1 file changed, 18 insertions(+), 1 deletion(-)
++
++diff --git a/src/adapter.c b/src/adapter.c
++index fb95e8553..1023e43a2 100644
++--- a/src/adapter.c
+++++ b/src/adapter.c
++@@ -7255,6 +7255,22 @@ static void filter_duplicate_data(void *data, void *user_data)
++ 	*duplicate = client->discovery_filter->duplicate;
++ }
++ 
+++static bool discovery_filter_has_proximity(struct btd_adapter *adapter)
+++{
+++	GSList *l;
+++
+++	for (l = adapter->discovery_list; l; l = g_slist_next(l)) {
+++		struct discovery_client *client = l->data;
+++		struct discovery_filter *filter = client->discovery_filter;
+++
+++		if (filter && (filter->rssi != DISTANCE_VAL_INVALID ||
+++				filter->pathloss != DISTANCE_VAL_INVALID))
+++			return true;
+++	}
+++
+++	return false;
+++}
+++
++ static bool device_is_discoverable(struct btd_adapter *adapter,
++ 					struct eir_data *eir, const char *addr,
++ 					uint8_t bdaddr_type, bool *auto_connect)
++@@ -7451,7 +7467,8 @@ void btd_adapter_device_found(struct btd_adapter *adapter,
++ 	if (name_resolve_failed)
++ 		device_name_resolve_fail(dev);
++ 
++-	if (adapter->filtered_discovery)
+++	if (adapter->filtered_discovery &&
+++				discovery_filter_has_proximity(adapter))
++ 		device_set_rssi_with_delta(dev, rssi, 0);
++ 	else
++ 		device_set_rssi(dev, rssi);
++--
++2.43.0
++
 
