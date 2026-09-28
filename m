@@ -1,226 +1,444 @@
-Return-Path: <auh@yoctoproject.org>
+Return-Path: <hthakar@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id EC918CA5FA3
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 05:17:39 +0000 (UTC)
-Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.51907.1790572654828410630
+	by smtp.lore.kernel.org (Postfix) with ESMTP id B2BC9C9833E
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 06:55:40 +0000 (UTC)
+Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.52759.1790578539580679134
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Sep 2026 22:17:34 -0700
+ Sun, 27 Sep 2026 23:55:39 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=N3qSHo8s;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=tgPKSP9f;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a0e6726b03-15298447-b30e-4406-b07c-e23b8567ee8c-000000@us-west-2.amazonses.com)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1790572653;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=JLP8VRoVRnnDrmGj861XlCUOo8BrspIKC873fJtVt9M=;
-	b=N3qSHo8snC5VbAIJPHRhjcHGHo0tTSF2cSm/JeeAcQtMij+Re1ayGUsGFB1z8l8Y
-	Pkfksnq1t9jOJ3VZYJSNoavJAjPBv0MX6kYl8QXeAxnUz3cyWJlPxVHMcfmOxt7LiTb
-	vY4PZjvolRhdrWBLv/kgEbBYuYvcyiAnC+bSvMAE=
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790572653;
-	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=JLP8VRoVRnnDrmGj861XlCUOo8BrspIKC873fJtVt9M=;
-	b=tgPKSP9ffpFiNeo1tCc+NaJOouU1zSx5sc3WVjfQFF3Owh54QicXuE4vs5Z3hR5L
-	b9vQvphrknFy121XP7xeyxjf7LYfWxCYAz6RLTz6vzWt+np4gFVDQYUtpLafq0zcnMl
-	Rd9uVufnTVUj4fHSqyd99CaXDsghTEi1GHJF9y3c=
-Content-Type: multipart/mixed; boundary="===============3506596501060317289=="
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Zd16Qbd1;
+ spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: hthakar@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=12424; q=dns/txt;
+  s=iport01; t=1790578539; x=1791788139;
+  h=from:to:cc:subject:date:message-id:mime-version:
+   content-transfer-encoding;
+  bh=oqIa8aBrh6Fm0v4PE8mNC9NnMHckPlVXzDKBa2sMrO0=;
+  b=Zd16Qbd1dR9ju7e8j1jYoSERygbsYMottdDb/MJZ+WbRsWhnOYX3KEc1
+   4blvXIh0qYqiw+A+5qVsnhBV7GRjopDstQ7sWYLfHQIMnRdanKBWimBcM
+   GFah5EwNwafR3DdlWbVwJNhdgxwd2EpdJ60wA5WSdBbN7stVrCUvYET7q
+   KTkKrrLjIylwmBw0sj7dE4b1i81GqnOtXwkDjyAAqBOWJHuX0Z+Ezciya
+   C4gXYtXhWfHyw2Xob9PZUdS6B62PhzzZS8m5wka0s9cO+1809Ex/hfFJd
+   kYJmU2AJHW2jVgsa9X3k4TICfsID9xw4ELllfj/KBsrgTSXDmxTTzvAFx
+   w==;
+X-CSE-ConnectionGUID: GWc+BKuBSxK6xPcE9VrfXw==
+X-CSE-MsgGUID: fPC2xZ9TT3K2zzKGlnhjQA==
+X-IPAS-Result: =?us-ascii?q?A0BFAgD9Drpq/4//Ja1aglmCV3VhQkmWSp4dgX4PAQEBD?=
+ =?us-ascii?q?0QNBAEBhQWOCwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBD?=
+ =?us-ascii?q?hOGTw2QEgECAQE0ARgBLSwDAQJaIyGDAgGCdAIBEQa/GYIsgQGDKQExBwcCQ?=
+ =?us-ascii?q?1DbMgELFAEFgTOFQIgjXRgBg12BHycbG4FygRWDaYEFgVwBAQGIJASCInoSg?=
+ =?us-ascii?q?VoeMoEWkVpIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQcbBgWBHYEgg?=
+ =?us-ascii?q?hkjGTZ6gQlegSspYAEQF4EHggcCglSCAQIBSUMOB0VTCSVBChJHJiIIEgkBE?=
+ =?us-ascii?q?xowC4EhOEEJKAsYDUgRLDcVGQQ+bgeQKh6CRRkHASxhAQcMGCAuSgUmQRApp?=
+ =?us-ascii?q?WWhDwoog3aMIpU6GjOpWIEXC5h9jgqVaGiEaYFoPIEoHwsHcBVIAYJZCUoZD?=
+ =?us-ascii?q?44tAQsLg2CBf4MUgkHEZSQ1AgEIMgEBBwIHDgMLgWiRfgEB?=
+IronPort-Data: A9a23:RElmeK3rJmzuCt81oPbD5YVwkn2cJEfYwER7XKvMYLTBsI5bpzwGy
+ GRLXWHXPf+JNDehL9snaIy/9U4HvsDSzNVrHAI+3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
+ 512huHodZ5yEzmE4Ej9atANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
+ rsen+WFYAX7g28uYjpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
+ u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
+ OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGI349fqc758xMEUIQ5
+ cQTBWEzdB6zmLfjqF67YrEEasULNsLnOsYb/3pn1zycVahgSpHYSKKM7thdtNsyrpkRRrCFO
+ IxDNGcpNUibC/FMEg9/5JYWnPuoj3r2aRVTqUmeouw85G27IAlZjeK9b4GMI4PVLSlTtkigj
+ TjWzTXFPko5bs6N6hWB9HKuv8aayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
+ 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1jfDWkfRTkHY9sj3CMreQEXO
+ payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
+IronPort-HdrOrdr: A9a23:STWn8qHvghqpIWi0pLqExMeALOsnbusQ8zAXPo5KJiC9Ffbo8v
+ xG88576faZslsssRIb6LK90de7IU80nKQdieJ6AV7IZmfbUQWTQL2KxLGSpwEIYxeOldJ15O
+ NHb7V0DsH2ABxRiMb35xT9LvMbqeP3l5xBQYzlvg5QpcYAUdAH0ztE
+X-Talos-CUID: 9a23:pKh/S2BZ8HL6MYv6EwZY/w0+Od0PSW3+kmfoKGLpN3xneKLAHA==
+X-Talos-MUID: =?us-ascii?q?9a23=3AoVHmJgyk7pd+IA9BftjuTRr4UHmaqKqWIxodo8Q?=
+ =?us-ascii?q?6h5Knbz5iGBiZijS1e6Zyfw=3D=3D?=
+X-IronPort-Anti-Spam-Filtered: true
+X-IronPort-AV: E=Sophos;i="6.27,128,1787011200"; 
+   d="scan'208";a="528731177"
+Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
+  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Sep 2026 06:55:38 +0000
+Received: from sjc-ads-4178.cisco.com (sjc-ads-4178.cisco.com [171.70.54.199])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
+	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
+	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
+	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id 6BE95180000B5;
+	Mon, 28 Sep 2026 06:55:38 +0000 (GMT)
+Received: by sjc-ads-4178.cisco.com (Postfix, from userid 1887505)
+	id 144CACC1292; Sun, 27 Sep 2026 23:55:38 -0700 (PDT)
+From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+To: openembedded-core@lists.openembedded.org
+Cc: xe-linux-external@cisco.com
+Subject: [OE-core][scarthgap][PATCH v2] apr-util: Fix CVE-2025-49506
+Date: Sun, 27 Sep 2026 23:55:38 -0700
+Message-Id: <20260928065538.1123598-1-hthakar@cisco.com>
+X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
-From: auh@yoctoproject.org
-To: 
-	=?utf-8?q?Juhandr=C3=A9_Knoetze_=3Cjuhandre=2Eknoetze=40windriver=2Ecom?=@yoctoproject.org, 
-	=?utf-8?q?=3E?=@yoctoproject.org
-Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] dbus-glib: upgrading to 0.116 SUCCEEDED
-Message-ID: <010101a0e6726b03-15298447-b30e-4406-b07c-e23b8567ee8c-000000@us-west-2.amazonses.com>
-Date: Mon, 28 Sep 2026 05:17:33 +0000
-Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.28-54.240.27.33
+Content-Transfer-Encoding: 8bit
+X-Auto-Response-Suppress: DR, OOF, AutoReply
+X-Outbound-Client-TLS: VERIFIED;sjc-ads-4178.cisco.com [171.70.54.199];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
+X-Outbound-SMTP-Client: 171.70.54.199, sjc-ads-4178.cisco.com
+X-Outbound-Node: rcdn-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 05:17:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246727
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 06:55:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246730
 
---===============3506596501060317289==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
+From: Hetvi Thakar <hthakar@cisco.com>
 
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICpkYnVzLWdsaWIqIHRvICowLjExNiogaGFzIFN1Y2NlZWRlZC4KCk5leHQgc3RlcHM6CiAg
-ICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtZGJ1cy1nbGliLXVwZ3JhZGUtMC4xMTQt
-MC4xMTYucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBh
-bmQgc3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAgLSBjb21waWxlIGFu
-IGltYWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9ybSBzb21lIGJhc2lj
-IHNhbml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQg
-Y29tbWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBpdCB0byB0aGUgYXBw
-cm9wcmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUg
-cmVjaXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwg
-UkVDSVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0
-CmF1dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNl
-IHJldmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1
-aWxkL3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0
-cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRv
-bWF0ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFkZSBIZWxwZXIKCi0t
-ID44IC0tCkZyb20gM2EyOGY4NjAwNzMyYzlmZTljNDFlZDE1YTM2ODdjOWUyMzA5ZGVkZSBNb24g
-U2VwIDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2pl
-Y3Qub3JnPgpEYXRlOiBNb24sIDI4IFNlcCAyMDI2IDA1OjA3OjM2ICswMDAwClN1YmplY3Q6IFtQ
-QVRDSF0gZGJ1cy1nbGliOiB1cGdyYWRlIDAuMTE0IC0+IDAuMTE2Ck1JTUUtVmVyc2lvbjogMS4w
-CkNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApDb250ZW50LVRyYW5zZmVy
-LUVuY29kaW5nOiA4Yml0CgpkYnVzLWdsaWIgMC4xMTYgKDIwMjYtMDktMjcpCj09PT09PT09PT09
-PT09PT09PT09PT09PT09PT0KClRoZSDigJxUaGlzIGlzIHdyb25nIHRvb2whIE5vLiBOb3QgZ29v
-ZC4gTm8uIE5ldmVyIHVzZSB0aGlz4oCdIHJlbGVhc2UuCkJ1ZyBmaXhlczoKCuKAoiBSZW1vdmUg
-YEdfR05VQ19DT05TVGAgZnJvbSBgX2dldF90eXBlKClgIGZ1bmN0aW9ucy4KICBUaGlzIGNhbiBj
-YXVzZSBtaXNjb21waWxhdGlvbiB3aXRoIGdjYy0xNi4KICAoZGJ1cy1nbGliITcsIERhdmlkIE5v
-cnRoKQoK4oCiIERpc2FibGUgYmFzaCBjb21wbGV0aW9uIGJ5IGRlZmF1bHQuCiAgVGhpcyBpcyBh
-biB1bm1haW50YWluZWQgYmFzaCBjb21wbGV0aW9uIGZvciBkYnVzLXNlbmQoMSksCiAgd2hpY2gg
-aXMgbm90IHBhcnQgb2YgR0xpYiwgYW5kIGFwcGFyZW50bHkgZG9lc24ndCB3b3JrIGFzIGludGVu
-ZGVkLgogIEZvciBhIGRidXMtc2VuZCBlcXVpdmFsZW50IHdpdGggc2hlbGwgY29tcGxldGlvbiwg
-cGxlYXNlIHRyeSBHTGliJ3MKICBnZGJ1cygxKSBvciBzeXN0ZW1kJ3MgYnVzY3RsKDEpLiAoZGJ1
-cy1nbGliITUsIFNpbW9uIE1jVml0dGllKQotLS0KIC4uLi9kYnVzL3tkYnVzLWdsaWJfMC4xMTQu
-YmIgPT4gZGJ1cy1nbGliXzAuMTE2LmJifSAgICAgICAgICAgICB8IDIgKy0KIDEgZmlsZSBjaGFu
-Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1j
-b3JlL2RidXMve2RidXMtZ2xpYl8wLjExNC5iYiA9PiBkYnVzLWdsaWJfMC4xMTYuYmJ9ICg5NSUp
-CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9kYnVzLWdsaWJfMC4xMTQuYmIg
-Yi9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjExNi5iYgpzaW1pbGFyaXR5IGlu
-ZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjEx
-NC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9kYnVzLWdsaWJfMC4xMTYuYmIK
-aW5kZXggYzY4MjRkNTY4OC4uNjI0NDgxNWQzMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNv
-cmUvZGJ1cy9kYnVzLWdsaWJfMC4xMTQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9k
-YnVzLWdsaWJfMC4xMTYuYmIKQEAgLTE2LDcgKzE2LDcgQEAgREVQRU5EUyA9ICJleHBhdCBnbGli
-LTIuMCB2aXJ0dWFsL2xpYmludGwgZGJ1cy1nbGliLW5hdGl2ZSBkYnVzIgogREVQRU5EUzpjbGFz
-cy1uYXRpdmUgPSAiZ2xpYi0yLjAtbmF0aXZlIGRidXMtbmF0aXZlIgogCiBTUkNfVVJJID0gImh0
-dHBzOi8vZGJ1cy5mcmVlZGVza3RvcC5vcmcvcmVsZWFzZXMvZGJ1cy1nbGliL2RidXMtZ2xpYi0k
-e1BWfS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzA5YzVjMDg1YjJhMGUzOTFiOGVl
-N2Q3ODNhMWQ2M2ZlNDQ0ZTk2NzE3Y2MxODE0ZDYxYjVlOGZjMjgyN2E3YyIKK1NSQ19VUklbc2hh
-MjU2c3VtXSA9ICJlM2YzZDQ0ODdlMjg4MzgwMDc3MGVkNTg5OWVkMTExYmRjNGJhNzA1NmFmMzRh
-MjU1YzRjNDZhZDhhMjQ4NmYzIgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcgZ2V0dGV4
-dCBiYXNoLWNvbXBsZXRpb24gZ3RrLWRvYwogCi0tIAoyLjQ3LjEKCg==
+Backport the upstream timing-safe comparison fix [1].
+APR-util 1.6.4 identifies this issue as fixed [2].
 
---===============3506596501060317289==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff.txt"
+[1] https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5eafc534ae24b19e
 
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: FILELIST: removed all items "/etc/bash_completion.d/dbus-bash-completion.sh /usr/libexec/dbus-bash-completion-helper"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: RDEPENDS: removed "glib-2.0 (['>= 2.90.0']) expat (['>= 2.8.5']) glibc (['>= 2.44+git0+5c479454d1']) dbus-glib (['>= 0.114']) dbus-lib (['>= 1.16.2'])"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PKGSIZE changed from 35449 to 0 (-100%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PKGSIZE changed from 988216 to 883504 (-11%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: FILELIST: removed "/usr/lib/libdbus-glib-1.so.2.3.6", added "/usr/lib/libdbus-glib-1.so.2.3.7"
-Changes to packages/x86-64-v3-poky-linux/dbus-glib (sysroot):
-  /usr/lib/libdbus-glib-1.so.2 changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
-  /usr/lib/libdbus-glib-1.so changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
-  /usr/lib/libdbus-glib-1.so.2.3.6 moved to /usr/lib/libdbus-glib-1.so.2.3.7
+[2] https://nvd.nist.gov/vuln/detail/CVE-2025-49506
 
---===============3506596501060317289==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="dbus-glib-changelog.txt"
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+---
+Changes in v2:
+- Drop the XLC-specific compatibility follow-up patch,
+as it is not required by OE-Core's GCC/Clang toolchains.
+---
+ .../apr/apr-util/CVE-2025-49506.patch         | 310 ++++++++++++++++++
+ meta/recipes-support/apr/apr-util_1.6.3.bb    |   6 +
+ 2 files changed, 316 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
 
-ZGJ1cy1nbGliIDAuMTE2ICgyMDI2LTA5LTI3KQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09
-CgpUaGUg4oCcVGhpcyBpcyB3cm9uZyB0b29sISBOby4gTm90IGdvb2QuIE5vLiBOZXZlciB1c2Ug
-dGhpc+KAnSByZWxlYXNlLgpCdWcgZml4ZXM6CgrigKIgUmVtb3ZlIGBHX0dOVUNfQ09OU1RgIGZy
-b20gYF9nZXRfdHlwZSgpYCBmdW5jdGlvbnMuCiAgVGhpcyBjYW4gY2F1c2UgbWlzY29tcGlsYXRp
-b24gd2l0aCBnY2MtMTYuCiAgKGRidXMtZ2xpYiE3LCBEYXZpZCBOb3J0aCkKCuKAoiBEaXNhYmxl
-IGJhc2ggY29tcGxldGlvbiBieSBkZWZhdWx0LgogIFRoaXMgaXMgYW4gdW5tYWludGFpbmVkIGJh
-c2ggY29tcGxldGlvbiBmb3IgZGJ1cy1zZW5kKDEpLAogIHdoaWNoIGlzIG5vdCBwYXJ0IG9mIEdM
-aWIsIGFuZCBhcHBhcmVudGx5IGRvZXNuJ3Qgd29yayBhcyBpbnRlbmRlZC4KICBGb3IgYSBkYnVz
-LXNlbmQgZXF1aXZhbGVudCB3aXRoIHNoZWxsIGNvbXBsZXRpb24sIHBsZWFzZSB0cnkgR0xpYidz
-CiAgZ2RidXMoMSkgb3Igc3lzdGVtZCdzIGJ1c2N0bCgxKS4gKGRidXMtZ2xpYiE1LCBTaW1vbiBN
-Y1ZpdHRpZSkK
+diff --git a/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch b/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
+new file mode 100644
+index 0000000000..0ab5cf0648
+--- /dev/null
++++ b/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
+@@ -0,0 +1,310 @@
++From f77a20761cb15686f8d4de5b5eafc534ae24b19e Mon Sep 17 00:00:00 2001
++From: Eric Covener <covener@apache.org>
++Date: Mon, 3 Aug 2026 12:10:13 +0000
++Subject: [PATCH] Merge r1936804 from aprutil 1.7.x:
++
++use timing safe comparison
++
++Submitted By: ylavic
++Reviewed By: ylavic, rpluem, covener
++
++
++
++
++git-svn-id: https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x@1936805 13f79535-47bb-0310-9956-ffa450edef68
++
++CVE: CVE-2025-49506
++Upstream-Status: Backport [https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5eafc534ae24b19e]
++
++(cherry picked from commit f77a20761cb15686f8d4de5b5eafc534ae24b19e)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ crypto/apr_crypto.c |  60 +++++++++++++++++---
++ crypto/apr_passwd.c | 135 ++++++++++++++++++++++++++++++++++++++++----
++ 2 files changed, 176 insertions(+), 19 deletions(-)
++
++diff --git a/crypto/apr_crypto.c b/crypto/apr_crypto.c
++index 9ba190ef..ca3f0887 100644
++--- a/crypto/apr_crypto.c
+++++ b/crypto/apr_crypto.c
++@@ -21,6 +21,7 @@
++ #include "apu.h"
++ #include "apr_pools.h"
++ #include "apr_dso.h"
+++#include "apr_version.h"
++ #include "apr_strings.h"
++ #include "apr_hash.h"
++ #include "apr_thread_mutex.h"
++@@ -173,19 +174,64 @@ APU_DECLARE(apr_status_t) apr_crypto_memzero(void *buffer, apr_size_t size)
++     return APR_SUCCESS;
++ }
++ 
+++/* Borrow this from APR-1.8 if not available */
+++#if !APR_VERSION_AT_LEAST(1,8,0)
+++
+++/* A volatile variable which is always zero but allows to block the compiler
+++ * from optimizing or eliding code using it. Volatile forces the compiler to
+++ * emit a memory load for which no value can be assumed, so for instance an
+++ * add/sub/xor/or with "optblocker" is a noop that will hide the result to
+++ * the optimizer.
+++ */
+++static volatile const apr_uint32_t optblocker;
+++
+++/* Return whether x is not zero, with no branching controlled by x.
+++ *
+++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
+++ * which provides timing attacks safe integer operations/primitives.
+++ * Code:
+++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint32.h
+++ * Paper:
+++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
+++ */
+++#if __has_attribute(always_inline)
+++__attribute__((always_inline))
+++#endif
+++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
+++{
+++    x |= -x; /* sets the most significant bit unless x == 0 */
+++
+++    /* shift bit 31 (MSB) to bit 0 */
+++    x >>= 32-6;      /* keep 6 bits */
+++    x += optblocker; /* lose the optimizer */
+++    x >>= 5;         /* keep the (original) MSB only */
+++
+++    /* x is now 0 or 1 */
+++    return x & INT_MAX;
+++}
+++
+++#endif /* !APR_VERSION_AT_LEAST(1,8,0) */
+++
++ APU_DECLARE(int) apr_crypto_equals(const void *buf1, const void *buf2,
++                                    apr_size_t size)
++ {
++-    const unsigned char *p1 = buf1;
++-    const unsigned char *p2 = buf2;
++-    unsigned char diff = 0;
++-    apr_size_t i;
+++#if APR_VERSION_AT_LEAST(1,8,0)
+++    return apr_memeq_timingsafe(buf1, buf2, size);
+++#else
+++    apr_uint32_t diff = 0;
+++    volatile apr_size_t count = size; /* prevent loop unrolling */
+++    apr_size_t i = 0;
++ 
++-    for (i = 0; i < size; ++i) {
++-        diff |= p1[i] ^ p2[i];
+++    for (; i < count; ++i) {
+++        const unsigned char c1 = ((volatile const unsigned char *)buf1)[i];
+++        const unsigned char c2 = ((volatile const unsigned char *)buf2)[i];
+++
+++        diff |= c1 ^ c2; /* sets diff to non-zero whenever c1 != c2 */
++     }
++ 
++-    return 1 & ((diff - 1) >> 8);
+++    /* (diff == 0) <=> (diff != 0) ^ 1 */
+++    return test_nonzero_timingsafe(diff) ^ 1;
+++#endif
++ }
++ 
++ APU_DECLARE(apr_status_t) apr_crypto_get_driver(
++diff --git a/crypto/apr_passwd.c b/crypto/apr_passwd.c
++index c961de2b..74b5fc17 100644
++--- a/crypto/apr_passwd.c
+++++ b/crypto/apr_passwd.c
++@@ -14,6 +14,7 @@
++  * limitations under the License.
++  */
++ 
+++#include "apr_version.h"
++ #include "apr_strings.h"
++ #include "apr_md5.h"
++ #include "apr_lib.h"
++@@ -39,6 +40,111 @@
++ 
++ static const char * const apr1_id = "$apr1$";
++ 
+++#if APR_VERSION_AT_LEAST(1,8,0)
+++
+++#define streq_timingsafe    apr_streq_timingsafe
+++#define strneq_timingsafe   apr_strneq_timingsafe
+++
+++#else /* borrow code from APR-1.8 if not available */
+++
+++/* A volatile variable which is always zero but allows to block the compiler
+++ * from optimizing or eliding code using it. Volatile forces the compiler to
+++ * emit a memory load for which no value can be assumed, so for instance an
+++ * add/sub/xor/or with "optblocker" is a noop that will hide the result to
+++ * the optimizer.
+++ */
+++static volatile const apr_uint32_t optblocker;
+++
+++/* Return whether x is not zero, with no branching controlled by x.
+++ *
+++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
+++ * which provides timing attacks safe integer operations/primitives.
+++ * Code:
+++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint32.h
+++ * Paper:
+++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
+++ */
+++#if __has_attribute(always_inline)
+++__attribute__((always_inline))
+++#endif
+++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
+++{
+++    x |= -x; /* sets the most significant bit unless x == 0 */
+++
+++    /* shift bit 31 (MSB) to bit 0 */
+++    x >>= 32-6;      /* keep 6 bits */
+++    x += optblocker; /* lose the optimizer */
+++    x >>= 5;         /* keep the (original) MSB only */
+++
+++    /* x is now 0 or 1 */
+++    return x & INT_MAX;
+++}
+++
+++static int streq_timingsafe(const char *sec1, const char *str2)
+++{
+++    apr_uint32_t diff = 0;
+++    apr_size_t i1 = 0, i2 = 0;
+++
+++    for (;; ++i2) {
+++        const unsigned char c1 = ((volatile const unsigned char *)sec1)[i1];
+++        const unsigned char c2 = ((volatile const unsigned char *)str2)[i2];
+++
+++        diff |= c1 ^ c2; /* sets diff to non-zero whenever c1 != c2 */
+++
+++        /* Not a shortest/longest match because an attacker would usually know
+++         * one of the strings and could then determine the length of the other.
+++         * So assume only sec1 and its length are secret and stop the loop at
+++         * the end of str2. If sec1 is shorter than str2 the loop will continue
+++         * by comparing the rest of str2 with the trailing NUL byte of sec1.
+++         * In any case since the diff above is computed up to and including a
+++         * NUL byte, only the same content and length will raise match.
+++         */
+++        if (!c2) {
+++            break;
+++        }
+++
+++        /* Don't go above sec1's NUL byte */
+++        i1 += test_nonzero_timingsafe(c1);
+++    }
+++
+++    /* (diff == 0) <=> (diff != 0) ^ 1 */
+++    return test_nonzero_timingsafe(diff) ^ 1;
+++}
+++
+++static int strneq_timingsafe(const char *sec1, const char *str2, apr_size_t n)
+++{
+++    apr_uint32_t diff = 0;
+++    volatile apr_size_t count = n; /* prevent loop unrolling */
+++    apr_size_t i1 = 0, i2 = 0;
+++
+++    for (; i2 < count; ++i2) {
+++        const unsigned char c1 = ((volatile const unsigned char *)sec1)[i1];
+++        const unsigned char c2 = ((volatile const unsigned char *)str2)[i2];
+++
+++        diff |= c1 ^ c2; /* sets diff to non-zero whenever c1 != c2 */
+++
+++        /* Not a shortest/longest match because an attacker would usually know
+++         * one of the strings and could then determine the length of the other.
+++         * So assume only sec1 and its length are secret and stop the loop at
+++         * the end of str2. If sec1 is shorter than str2 the loop will continue
+++         * by comparing the rest of str2 with the trailing NUL byte of sec1.
+++         * In any case since the diff above is computed up to and including a
+++         * NUL byte, only the same content and length will raise match.
+++         */
+++        if (!c2) {
+++            break;
+++        }
+++
+++        /* Don't go above sec1's NUL byte */
+++        i1 += test_nonzero_timingsafe(c1);
+++    }
+++
+++    /* (diff == 0) <=> (diff != 0) ^ 1 */
+++    return test_nonzero_timingsafe(diff) ^ 1;
+++}
+++
+++#endif /* APR_VERSION_AT_LEAST(1,8,0) */
+++
++ #if !defined(WIN32) && !defined(BEOS) && !defined(NETWARE)
++ #if defined(APU_CRYPT_THREADSAFE) || !APR_HAS_THREADS || \
++     defined(CRYPT_R_CRYPTD) || defined(CRYPT_R_STRUCT_CRYPT_DATA)
++@@ -86,28 +192,33 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
++ #if !CRYPT_MISSING
++     char *crypt_pw;
++ #endif
++-    if (hash[0] == '$'
++-        && hash[1] == '2'
++-        && (hash[2] == 'a' || hash[2] == 'y')
++-        && hash[3] == '$') {
+++
+++    if ((strneq_timingsafe(hash, "$2a$", 4) | /* test both */
+++         strneq_timingsafe(hash, "$2y$", 4))) {
+++        /*
+++         * The hash was created using [apr_]bcrypt encoding.
+++         */
++         if (_crypt_blowfish_rn(passwd, hash, sample, sizeof(sample)) == NULL)
++             return APR_FROM_OS_ERROR(errno);
++     }
++-    else if (!strncmp(hash, apr1_id, strlen(apr1_id))) {
+++    else if (strneq_timingsafe(hash, apr1_id, strlen(apr1_id))) {
++         /*
++          * The hash was created using our custom algorithm.
++          */
++         apr_md5_encode(passwd, hash, sample, sizeof(sample));
++     }
++-    else if (!strncmp(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
++-         apr_sha1_base64(passwd, (int)strlen(passwd), sample);
+++    else if (strneq_timingsafe(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
+++        /*
+++         * The hash is a (naked) SHA1.
+++         */
+++        apr_sha1_base64(passwd, (int)strlen(passwd), sample);
++     }
++     else {
++         /*
++          * It's not our algorithm, so feed it to crypt() if possible.
++          */
++ #if CRYPT_MISSING
++-        return (strcmp(passwd, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
+++        return streq_timingsafe(hash, passwd) ? APR_SUCCESS : APR_EMISMATCH;
++ #elif defined(CRYPT_R_CRYPTD)
++         apr_status_t rv;
++         CRYPTD *buffer = malloc(sizeof(*buffer));
++@@ -118,7 +229,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
++         if (!crypt_pw)
++             rv = APR_EMISMATCH;
++         else
++-            rv = (strcmp(crypt_pw, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
+++            rv = streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;
++         free(buffer);
++         return rv;
++ #elif defined(CRYPT_R_STRUCT_CRYPT_DATA)
++@@ -149,7 +260,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
++         if (!crypt_pw)
++             rv = APR_EMISMATCH;
++         else
++-            rv = (strcmp(crypt_pw, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
+++            rv = streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;
++         free(buffer);
++         return rv;
++ #else
++@@ -173,14 +284,14 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
++                 rv = APR_EMISMATCH;
++             }
++             else {
++-                rv = (strcmp(crypt_pw, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
+++                rv = streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;
++             }
++             crypt_mutex_unlock();
++             return rv;
++         }
++ #endif
++     }
++-    return (strcmp(sample, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
+++    return streq_timingsafe(hash, sample) ? APR_SUCCESS : APR_EMISMATCH;
++ }
++ 
++ static const char * const bcrypt_id = "$2y$";
+diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-support/apr/apr-util_1.6.3.bb
+index 3a5f52d250..19f8e59ca5 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.3.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
+@@ -13,6 +13,12 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+            file://configfix.patch \
+            file://configure_fixes.patch \
+ 	   file://0001-test_transformation-Check-if-transform-is-supported-.patch \
++           file://CVE-2025-49506.patch \
++           file://CVE-2026-32327-dependent.patch \
++           file://CVE-2026-32327.patch \
++           file://CVE-2026-34501.patch \
++           file://CVE-2026-34502_p1.patch \
++           file://CVE-2026-34502_p2.patch \
+            file://run-ptest \
+            "
+ 
+-- 
+2.35.6
 
---===============3506596501060317289==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-dbus-glib-upgrade-0.114-0.116.patch"
-
-RnJvbSAzYTI4Zjg2MDA3MzJjOWZlOWM0MWVkMTVhMzY4N2M5ZTIzMDlkZWRlIE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMjggU2VwIDIwMjYgMDU6MDc6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
-YnVzLWdsaWI6IHVwZ3JhZGUgMC4xMTQgLT4gMC4xMTYKTUlNRS1WZXJzaW9uOiAxLjAKQ29udGVu
-dC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rp
-bmc6IDhiaXQKCmRidXMtZ2xpYiAwLjExNiAoMjAyNi0wOS0yNykKPT09PT09PT09PT09PT09PT09
-PT09PT09PT09PQoKVGhlIOKAnFRoaXMgaXMgd3JvbmcgdG9vbCEgTm8uIE5vdCBnb29kLiBOby4g
-TmV2ZXIgdXNlIHRoaXPigJ0gcmVsZWFzZS4KQnVnIGZpeGVzOgoK4oCiIFJlbW92ZSBgR19HTlVD
-X0NPTlNUYCBmcm9tIGBfZ2V0X3R5cGUoKWAgZnVuY3Rpb25zLgogIFRoaXMgY2FuIGNhdXNlIG1p
-c2NvbXBpbGF0aW9uIHdpdGggZ2NjLTE2LgogIChkYnVzLWdsaWIhNywgRGF2aWQgTm9ydGgpCgri
-gKIgRGlzYWJsZSBiYXNoIGNvbXBsZXRpb24gYnkgZGVmYXVsdC4KICBUaGlzIGlzIGFuIHVubWFp
-bnRhaW5lZCBiYXNoIGNvbXBsZXRpb24gZm9yIGRidXMtc2VuZCgxKSwKICB3aGljaCBpcyBub3Qg
-cGFydCBvZiBHTGliLCBhbmQgYXBwYXJlbnRseSBkb2Vzbid0IHdvcmsgYXMgaW50ZW5kZWQuCiAg
-Rm9yIGEgZGJ1cy1zZW5kIGVxdWl2YWxlbnQgd2l0aCBzaGVsbCBjb21wbGV0aW9uLCBwbGVhc2Ug
-dHJ5IEdMaWIncwogIGdkYnVzKDEpIG9yIHN5c3RlbWQncyBidXNjdGwoMSkuIChkYnVzLWdsaWIh
-NSwgU2ltb24gTWNWaXR0aWUpCi0tLQogLi4uL2RidXMve2RidXMtZ2xpYl8wLjExNC5iYiA9PiBk
-YnVzLWdsaWJfMC4xMTYuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
-aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZGJ1
-cy97ZGJ1cy1nbGliXzAuMTE0LmJiID0+IGRidXMtZ2xpYl8wLjExNi5iYn0gKDk1JSkKCmRpZmYg
-LS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjExNC5iYiBiL21ldGEv
-cmVjaXBlcy1jb3JlL2RidXMvZGJ1cy1nbGliXzAuMTE2LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUl
-CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2RidXMvZGJ1cy1nbGliXzAuMTE0LmJiCnJl
-bmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjExNi5iYgppbmRleCBj
-NjgyNGQ1Njg4Li42MjQ0ODE1ZDMwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9kYnVz
-L2RidXMtZ2xpYl8wLjExNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xp
-Yl8wLjExNi5iYgpAQCAtMTYsNyArMTYsNyBAQCBERVBFTkRTID0gImV4cGF0IGdsaWItMi4wIHZp
-cnR1YWwvbGliaW50bCBkYnVzLWdsaWItbmF0aXZlIGRidXMiCiBERVBFTkRTOmNsYXNzLW5hdGl2
-ZSA9ICJnbGliLTIuMC1uYXRpdmUgZGJ1cy1uYXRpdmUiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9k
-YnVzLmZyZWVkZXNrdG9wLm9yZy9yZWxlYXNlcy9kYnVzLWdsaWIvZGJ1cy1nbGliLSR7UFZ9LnRh
-ci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjMDljNWMwODViMmEwZTM5MWI4ZWU3ZDc4M2Ex
-ZDYzZmU0NDRlOTY3MTdjYzE4MTRkNjFiNWU4ZmMyODI3YTdjIgorU1JDX1VSSVtzaGEyNTZzdW1d
-ID0gImUzZjNkNDQ4N2UyODgzODAwNzcwZWQ1ODk5ZWQxMTFiZGM0YmE3MDU2YWYzNGEyNTVjNGM0
-NmFkOGEyNDg2ZjMiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZyBnZXR0ZXh0IGJhc2gt
-Y29tcGxldGlvbiBndGstZG9jCiAKLS0gCjIuNDcuMQoK
-
---===============3506596501060317289==
-Content-Type: text/plain; charset="us-ascii"
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
-
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PKGSIZE changed from 35449 to 0 (-100%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: FILELIST: removed all items "/usr/libexec/dbus-bash-completion-helper /etc/bash_completion.d/dbus-bash-completion.sh"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: RDEPENDS: removed "expat (['>= 2.8.5']) glibc (['>= 2.44+git0+5c479454d1']) glib-2.0 (['>= 2.90.0']) dbus-lib (['>= 1.16.2']) dbus-glib (['>= 0.114'])"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PKGSIZE changed from 988216 to 883504 (-11%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: FILELIST: removed "/usr/lib/.debug/libdbus-glib-1.so.2.3.6 /usr/libexec/.debug/dbus-bash-completion-helper", added "/usr/lib/.debug/libdbus-glib-1.so.2.3.7"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dev: PKGSIZE changed from 50142 to 50051 (-0%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dev: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dev: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-doc: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-doc: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-locale: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-locale: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: PKGSIZE changed from 597432 to 582099 (-3%)
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: FILELIST: directory renamed /usr/src/debug/dbus-glib/0.114/dbus-gmain -> /usr/src/debug/dbus-glib/0.116/dbus-gmain, removed "/usr/src/debug/dbus-glib/0.114/dbus/dbus-gparser.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gthread.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gobject.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gparser.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gobject.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtest.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtype-specialized.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gidl.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gidl.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtype-specialized.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gloader-expat.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gproxy.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gutils.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gsignature.c /usr/src/debug/dbus-glib/0.114/dbus
- /dbus-gutils.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtype-specialized-priv.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gsignature.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue-parse-variant.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-binding-tool-glib.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue-utils.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-bash-completion-helper.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-binding-tool-glib.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue-utils.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib-tool.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib-lowlevel.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib-tool.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gmarshal.c", added "/usr/src/debug/dbus-glib/0.116/dbus/dbus-gparser.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gthread.c /usr/src/debug/dbus-glib/0
- .116/dbus/dbus-gobject.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gparser.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gobject.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtest.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtype-specialized.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gidl.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gidl.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtype-specialized.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gloader-expat.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gproxy.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gutils.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gsignature.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gutils.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtype-specialized-priv.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gsignature.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue-parse-variant.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-binding-tool-glib
- .c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue-utils.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-binding-tool-glib.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue-utils.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib-tool.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib-lowlevel.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib-tool.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gmarshal.c"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-staticdev: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-staticdev: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-tools: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-tools: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: FILELIST: removed "/usr/lib/libdbus-glib-1.so.2.3.6", added "/usr/lib/libdbus-glib-1.so.2.3.7"
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: PV changed from "0.114" to "0.116"
-packages/x86-64-v3-poky-linux/dbus-glib: PKGV changed from 0.114 [default] to 0.116 [default]
-packages/x86-64-v3-poky-linux/dbus-glib: SRC_URI changed from "https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.114.tar.gz" to "https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.116.tar.gz"
-packages/x86-64-v3-poky-linux/dbus-glib: PV changed from "0.114" to "0.116"
-Changes to packages/x86-64-v3-poky-linux/dbus-glib (sysroot):
-  /usr/lib/libdbus-glib-1.so.2 changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
-  /usr/lib/libdbus-glib-1.so changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
-  /usr/lib/libdbus-glib-1.so.2.3.6 moved to /usr/lib/libdbus-glib-1.so.2.3.7
-
---===============3506596501060317289==--
 
