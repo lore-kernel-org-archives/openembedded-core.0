@@ -1,444 +1,997 @@
-Return-Path: <hthakar@cisco.com>
+Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2BC9C9833E
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 06:55:40 +0000 (UTC)
-Received: from rcdn-iport-3.cisco.com (rcdn-iport-3.cisco.com [173.37.86.74])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.52759.1790578539580679134
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1703DC9833E
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:12:31 +0000 (UTC)
+Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.52910.1790579544982218338
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Sep 2026 23:55:39 -0700
+ Mon, 28 Sep 2026 00:12:25 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Zd16Qbd1;
- spf=pass (domain: cisco.com, ip: 173.37.86.74, mailfrom: hthakar@cisco.com)
+ dkim=pass header.i=@mvista.com header.s=google header.b=KAXNghDz;
+ spf=pass (domain: mvista.com, ip: 74.125.229.42, mailfrom: hprajapati@mvista.com)
+Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-3428f70d7e7so1414051eec.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 00:12:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=12424; q=dns/txt;
-  s=iport01; t=1790578539; x=1791788139;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=oqIa8aBrh6Fm0v4PE8mNC9NnMHckPlVXzDKBa2sMrO0=;
-  b=Zd16Qbd1dR9ju7e8j1jYoSERygbsYMottdDb/MJZ+WbRsWhnOYX3KEc1
-   4blvXIh0qYqiw+A+5qVsnhBV7GRjopDstQ7sWYLfHQIMnRdanKBWimBcM
-   GFah5EwNwafR3DdlWbVwJNhdgxwd2EpdJ60wA5WSdBbN7stVrCUvYET7q
-   KTkKrrLjIylwmBw0sj7dE4b1i81GqnOtXwkDjyAAqBOWJHuX0Z+Ezciya
-   C4gXYtXhWfHyw2Xob9PZUdS6B62PhzzZS8m5wka0s9cO+1809Ex/hfFJd
-   kYJmU2AJHW2jVgsa9X3k4TICfsID9xw4ELllfj/KBsrgTSXDmxTTzvAFx
-   w==;
-X-CSE-ConnectionGUID: GWc+BKuBSxK6xPcE9VrfXw==
-X-CSE-MsgGUID: fPC2xZ9TT3K2zzKGlnhjQA==
-X-IPAS-Result: =?us-ascii?q?A0BFAgD9Drpq/4//Ja1aglmCV3VhQkmWSp4dgX4PAQEBD?=
- =?us-ascii?q?0QNBAEBhQWOCwImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBAQIBBwWBD?=
- =?us-ascii?q?hOGTw2QEgECAQE0ARgBLSwDAQJaIyGDAgGCdAIBEQa/GYIsgQGDKQExBwcCQ?=
- =?us-ascii?q?1DbMgELFAEFgTOFQIgjXRgBg12BHycbG4FygRWDaYEFgVwBAQGIJASCInoSg?=
- =?us-ascii?q?VoeMoEWkVpIgR4DWSwBVRMNCgsHBYFmAzUSKhVuMh2BIz4XgQcbBgWBHYEgg?=
- =?us-ascii?q?hkjGTZ6gQlegSspYAEQF4EHggcCglSCAQIBSUMOB0VTCSVBChJHJiIIEgkBE?=
- =?us-ascii?q?xowC4EhOEEJKAsYDUgRLDcVGQQ+bgeQKh6CRRkHASxhAQcMGCAuSgUmQRApp?=
- =?us-ascii?q?WWhDwoog3aMIpU6GjOpWIEXC5h9jgqVaGiEaYFoPIEoHwsHcBVIAYJZCUoZD?=
- =?us-ascii?q?44tAQsLg2CBf4MUgkHEZSQ1AgEIMgEBBwIHDgMLgWiRfgEB?=
-IronPort-Data: A9a23:RElmeK3rJmzuCt81oPbD5YVwkn2cJEfYwER7XKvMYLTBsI5bpzwGy
- GRLXWHXPf+JNDehL9snaIy/9U4HvsDSzNVrHAI+3Hw8FHgiRegpqji6wuYcGwvIc6UvmWo+t
- 512huHodZ5yEzmE4Ej9atANlFEkvYmQXL3wFeXYDS54QA5gWU8JhAlq8wIDqtYAbeORXUXX5
- rsen+WFYAX7g28uYjpNg06+gEoHUMra6WtwUmMWPZinjHeG/1EJAZQWI72GLneQauF8Au6gS
- u/f+6qy92Xf8g1FIovNfmHTKxBirhb6ZGBiu1IOM0SQqkEqSh8ajs7XAMEhhXJ/0F1lqTzeJ
- OJl7vRcQS9xVkHFdX90vxNwS0mSNoUekFPLzOTWXcG7lyX7n3XQL/pGI349fqc758xMEUIQ5
- cQTBWEzdB6zmLfjqF67YrEEasULNsLnOsYb/3pn1zycVahgSpHYSKKM7thdtNsyrpkRRrCFO
- IxDNGcpNUibC/FMEg9/5JYWnPuoj3r2aRVTqUmeouw85G27IAlZjeK9b4GMI4PVLSlTtkigj
- TjWzTXFPko5bs6N6hWB9HKuv8aayEsXX6pXTtVU7MVCh0WewGEWAhAaWVa35PK+kEOWX9NEN
- 1dS/TIjq6U3/kGnQtTxGRqirxa5UgU0QdFcFag+rQqK0KeRu1jfDWkfRTkHY9sj3CMreQEXO
- payt4uBLVRSXHe9EBpxKp/8QeuOBBUo
-IronPort-HdrOrdr: A9a23:STWn8qHvghqpIWi0pLqExMeALOsnbusQ8zAXPo5KJiC9Ffbo8v
- xG88576faZslsssRIb6LK90de7IU80nKQdieJ6AV7IZmfbUQWTQL2KxLGSpwEIYxeOldJ15O
- NHb7V0DsH2ABxRiMb35xT9LvMbqeP3l5xBQYzlvg5QpcYAUdAH0ztE
-X-Talos-CUID: 9a23:pKh/S2BZ8HL6MYv6EwZY/w0+Od0PSW3+kmfoKGLpN3xneKLAHA==
-X-Talos-MUID: =?us-ascii?q?9a23=3AoVHmJgyk7pd+IA9BftjuTRr4UHmaqKqWIxodo8Q?=
- =?us-ascii?q?6h5Knbz5iGBiZijS1e6Zyfw=3D=3D?=
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,128,1787011200"; 
-   d="scan'208";a="528731177"
-Received: from rcdn-l-core-06.cisco.com ([173.37.255.143])
-  by rcdn-iport-3.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Sep 2026 06:55:38 +0000
-Received: from sjc-ads-4178.cisco.com (sjc-ads-4178.cisco.com [171.70.54.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-06.cisco.com (Postfix) with ESMTPS id 6BE95180000B5;
-	Mon, 28 Sep 2026 06:55:38 +0000 (GMT)
-Received: by sjc-ads-4178.cisco.com (Postfix, from userid 1887505)
-	id 144CACC1292; Sun, 27 Sep 2026 23:55:38 -0700 (PDT)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+        d=mvista.com; s=google; t=1790579544; x=1791184344; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=7vsazFKn6PzajvAwVGf8vwswBv0MBu2POAMxyF/ifa8=;
+        b=KAXNghDzj+uGR9dk3xOZY0Ek40O5asAMWal+ILqmzDgjtBT7V1fF9KqSv+y26gH/X2
+         2iZiYAGMZHFrv4arPyGHkwL3FkILwqjG8OMsq0Laj1JEfAZjHqyeSNRrkPA+VySBdVEH
+         CWEPiiIWsfplQq1iR/z/FJ5iLcpcwm43M/rrQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790579544; x=1791184344;
+        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
+         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=7vsazFKn6PzajvAwVGf8vwswBv0MBu2POAMxyF/ifa8=;
+        b=XRK0BRQ0b87AAmtKObdus6h6AzrXJRVg3EYsikCLUM/grp5r8t/82NlwmFNl4x+a25
+         ioWxwGwURmI2Pcepc7DhaDoGzRgVsogHeoHnBbHAa+3GrqXWSgRY5vnyr0C76yqRgHY/
+         Juu6JntJVDoanknX7G4EHizxyavRav4cKjxRX1h4CxLW/CIQIkEHP47aLoFNpq/qY+pD
+         LAh26PeOZtU69byGbTuYs/wbZbnNvX2MzAayG2OjZkdixfDPyCLzZhx7U7zK80uUra1h
+         cDb9XuuvPKX9+MBo7NgQ/UuwwNdtYgQyYdYkAsoEp4sVzMBSodq8xuqcip5DgsKGlxoP
+         FAbg==
+X-Gm-Message-State: AFq9FYI4PGNC2nKfmvhDJ+Kh6F8yfjatAVMwvbvs5GxbUf/jWJ0uFdlZ
+	qZY4JQ9UYCIKkbzWPLhvxvRTkM94xnk9qMWhEYlBhW2CYiTJz/AEsR/+Vc4kTGm005GtSkdoTPc
+	Vl801oog=
+X-Gm-Gg: AYBFou1zTkT54aDmrURlzFgmwJtux367zACp2QlOyewGtd0g9PEPCASu4W7t1aUz6Vr
+	R52czFodTH4YIcXJIIc24f6uT6/MfUg8OQMzJn0aCgoIl0UljVNf1c/pbmhhC1cNytRlzoU6jro
+	KReVL9K5lI6oGru54uGgJ+hg+SEUIxJXdkLN9zTz3JsvIdEnC9OcIv0vp0CMRDHNagHZ0HSxPsx
+	mucI7uciL+RwmV5XegFOPq8x5uLiMNi2jiDKTXwgZrUTR0pvjKuUOlUnE4r1JSkLDdsHOB+yzg7
+	128C7PRwfGNfC4h8s8T3oWs9IL4Xsq9C+JWpKfxxy7ZHF4mlYAt6caEwOivTvUpDxK1BJa0SyGD
+	Y3P0zdILLflUVJD23908RsXELnM1lxzGyU60mpJ5eu5bPRf8PTXDDTCGjN4jZYTw2C3u0G97dpm
+	Ru97G4vmnEJaMNAzJinPWmk46cfnlebVKk0T/Q+bS4dKZ9aQXptVdrd5CV+55bi68qwDy3P4tvu
+	qxFCFDKLiI7
+X-Received: by 2002:a05:7301:fd8a:b0:33b:dd20:f79c with SMTP id 5a478bee46e88-34270ab8840mr8916435eec.12.1790579543573;
+        Mon, 28 Sep 2026 00:12:23 -0700 (PDT)
+Received: from MVIN00013.mvista.com ([150.129.170.212])
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3434958c3adsm31166948eec.22.2026.09.28.00.12.08
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2026 00:12:22 -0700 (PDT)
+From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com
-Subject: [OE-core][scarthgap][PATCH v2] apr-util: Fix CVE-2025-49506
-Date: Sun, 27 Sep 2026 23:55:38 -0700
-Message-Id: <20260928065538.1123598-1-hthakar@cisco.com>
-X-Mailer: git-send-email 2.35.6
+Cc: Hitendra Prajapati <hprajapati@mvista.com>
+Subject: [scarthgap][PATCH 1/6] bind: fix for CVE-2026-10723
+Date: Mon, 28 Sep 2026 12:41:06 +0530
+Message-ID: <20260928071115.304055-1-hprajapati@mvista.com>
+X-Mailer: git-send-email 2.50.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-4178.cisco.com [171.70.54.199];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.54.199, sjc-ads-4178.cisco.com
-X-Outbound-Node: rcdn-l-core-06.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 06:55:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246730
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:12:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246731
 
-From: Hetvi Thakar <hthakar@cisco.com>
+Pick patch from [1], [2] & [3] also mentioned at Debian report in [4]
 
-Backport the upstream timing-safe comparison fix [1].
-APR-util 1.6.4 identifies this issue as fixed [2].
+[1] https://gitlab.isc.org/isc-projects/bind9/-/commit/c9cb6a5e24e43489cf3fd4d4cc2193b6a74499cb
+[2] https://gitlab.isc.org/isc-projects/bind9/-/commit/35e3d49d2222c13786a06021c7ed583d2a656e51
+[3] https://gitlab.isc.org/isc-projects/bind9/-/commit/833dd3b230b92596074e8da15b12298f46c939f2
+[4] https://security-tracker.debian.org/tracker/CVE-2026-10723
 
-[1] https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5eafc534ae24b19e
-
-[2] https://nvd.nist.gov/vuln/detail/CVE-2025-49506
-
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
-Changes in v2:
-- Drop the XLC-specific compatibility follow-up patch,
-as it is not required by OE-Core's GCC/Clang toolchains.
----
- .../apr/apr-util/CVE-2025-49506.patch         | 310 ++++++++++++++++++
- meta/recipes-support/apr/apr-util_1.6.3.bb    |   6 +
- 2 files changed, 316 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
+ .../bind/bind/CVE-2026-10723-01.patch         |  70 +++
+ .../bind/bind/CVE-2026-10723-02.patch         | 496 ++++++++++++++++++
+ .../bind/bind/CVE-2026-10723-03.patch         | 310 +++++++++++
+ .../recipes-connectivity/bind/bind_9.18.49.bb |   3 +
+ 4 files changed, 879 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10723-01.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10723-03.patch
 
-diff --git a/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch b/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10723-01.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-01.patch
 new file mode 100644
-index 0000000000..0ab5cf0648
+index 0000000000..ffec38aea2
 --- /dev/null
-+++ b/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
-@@ -0,0 +1,310 @@
-+From f77a20761cb15686f8d4de5b5eafc534ae24b19e Mon Sep 17 00:00:00 2001
-+From: Eric Covener <covener@apache.org>
-+Date: Mon, 3 Aug 2026 12:10:13 +0000
-+Subject: [PATCH] Merge r1936804 from aprutil 1.7.x:
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-01.patch
+@@ -0,0 +1,70 @@
++From: Evan Hunt <each@isc.org>
++Date: Thu, 21 May 2026 14:41:55 -0700
++Subject: Check NSEC3 signer matches the owning zone
 +
-+use timing safe comparison
++When validating NSEC3 records, reject any signature whose signer field
++does not match the zone owning the NSEC3.
 +
-+Submitted By: ylavic
-+Reviewed By: ylavic, rpluem, covener
++This ensures that a child zone cannot impersonate its parent and forge
++NXDOMAIN responses for sibling domains.
 +
++Fixes: isc-projects/bind9#5874
++(cherry picked from commit 6e5066bb1f0f12d090e8707adb7d6ccf74f8012b)
 +
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/c9cb6a5e24e43489cf3fd4d4cc2193b6a74499cb
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10723
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10723
 +
-+
-+git-svn-id: https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x@1936805 13f79535-47bb-0310-9956-ffa450edef68
-+
-+CVE: CVE-2025-49506
-+Upstream-Status: Backport [https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5eafc534ae24b19e]
-+
-+(cherry picked from commit f77a20761cb15686f8d4de5b5eafc534ae24b19e)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++CVE: CVE-2026-10723
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/c9cb6a5e24e43489cf3fd4d4cc2193b6a74499cb]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ crypto/apr_crypto.c |  60 +++++++++++++++++---
-+ crypto/apr_passwd.c | 135 ++++++++++++++++++++++++++++++++++++++++----
-+ 2 files changed, 176 insertions(+), 19 deletions(-)
++ lib/dns/dnssec.c | 19 +++++++++++++++++--
++ lib/isc/result.c |  2 +-
++ 2 files changed, 18 insertions(+), 3 deletions(-)
 +
-+diff --git a/crypto/apr_crypto.c b/crypto/apr_crypto.c
-+index 9ba190ef..ca3f0887 100644
-+--- a/crypto/apr_crypto.c
-++++ b/crypto/apr_crypto.c
-+@@ -21,6 +21,7 @@
-+ #include "apu.h"
-+ #include "apr_pools.h"
-+ #include "apr_dso.h"
-++#include "apr_version.h"
-+ #include "apr_strings.h"
-+ #include "apr_hash.h"
-+ #include "apr_thread_mutex.h"
-+@@ -173,19 +174,64 @@ APU_DECLARE(apr_status_t) apr_crypto_memzero(void *buffer, apr_size_t size)
-+     return APR_SUCCESS;
-+ }
++diff --git a/lib/dns/dnssec.c b/lib/dns/dnssec.c
++index c7e9224..1725de3 100644
++--- a/lib/dns/dnssec.c
+++++ b/lib/dns/dnssec.c
++@@ -404,10 +404,25 @@ dns_dnssec_verify(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
++ 	}
 + 
-++/* Borrow this from APR-1.8 if not available */
-++#if !APR_VERSION_AT_LEAST(1,8,0)
-++
-++/* A volatile variable which is always zero but allows to block the compiler
-++ * from optimizing or eliding code using it. Volatile forces the compiler to
-++ * emit a memory load for which no value can be assumed, so for instance an
-++ * add/sub/xor/or with "optblocker" is a noop that will hide the result to
-++ * the optimizer.
-++ */
-++static volatile const apr_uint32_t optblocker;
-++
-++/* Return whether x is not zero, with no branching controlled by x.
-++ *
-++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
-++ * which provides timing attacks safe integer operations/primitives.
-++ * Code:
-++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint32.h
-++ * Paper:
-++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
-++ */
-++#if __has_attribute(always_inline)
-++__attribute__((always_inline))
-++#endif
-++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
-++{
-++    x |= -x; /* sets the most significant bit unless x == 0 */
-++
-++    /* shift bit 31 (MSB) to bit 0 */
-++    x >>= 32-6;      /* keep 6 bits */
-++    x += optblocker; /* lose the optimizer */
-++    x >>= 5;         /* keep the (original) MSB only */
-++
-++    /* x is now 0 or 1 */
-++    return x & INT_MAX;
-++}
-++
-++#endif /* !APR_VERSION_AT_LEAST(1,8,0) */
-++
-+ APU_DECLARE(int) apr_crypto_equals(const void *buf1, const void *buf2,
-+                                    apr_size_t size)
-+ {
-+-    const unsigned char *p1 = buf1;
-+-    const unsigned char *p2 = buf2;
-+-    unsigned char diff = 0;
-+-    apr_size_t i;
-++#if APR_VERSION_AT_LEAST(1,8,0)
-++    return apr_memeq_timingsafe(buf1, buf2, size);
-++#else
-++    apr_uint32_t diff = 0;
-++    volatile apr_size_t count = size; /* prevent loop unrolling */
-++    apr_size_t i = 0;
++ 	/*
++-	 * NS, SOA and DNSKEY records are signed by their owner.
++-	 * DS records are signed by the parent.
+++	 * NS, SOA and DNSKEY records are signed by their owners.
+++	 * NSEC3 records are signed by the apex, exactly one level up
+++	 * from their owner names.
+++	 * DS records are signed by the parent zone.
++ 	 */
++ 	switch (set->type) {
+++	case dns_rdatatype_nsec3: {
+++		dns_name_t apex = DNS_NAME_INITEMPTY;
+++		labels = dns_name_countlabels(name);
+++		if (labels <= 1) {
+++			inc_stat(dns_dnssecstats_fail);
+++			return DNS_R_INVALIDNSEC3;
+++		}
+++		dns_name_split(name, labels - 1, NULL, &apex);
+++		if (!dns_name_equal(&apex, &sig.signer)) {
+++			inc_stat(dns_dnssecstats_fail);
+++			return DNS_R_SIGINVALID;
+++		}
+++	} break;
++ 	case dns_rdatatype_ns:
++ 	case dns_rdatatype_soa:
++ 	case dns_rdatatype_dnskey:
++diff --git a/lib/isc/result.c b/lib/isc/result.c
++index dbd0431..f78e689 100644
++--- a/lib/isc/result.c
+++++ b/lib/isc/result.c
++@@ -198,7 +198,7 @@ static const char *description[ISC_R_NRESULTS] = {
++ 	[DNS_R_COVERINGNSEC] = "covering NSEC record returned",
++ 	[DNS_R_MXISADDRESS] = "MX is an address",
++ 	[DNS_R_DUPLICATE] = "duplicate query",
++-	[DNS_R_INVALIDNSEC3] = "invalid NSEC3 owner name (wildcard)",
+++	[DNS_R_INVALIDNSEC3] = "invalid NSEC3 owner name",
++ 	[DNS_R_NOTPRIMARY] = "not primary",
++ 	[DNS_R_BROKENCHAIN] = "broken trust chain",
++ 	[DNS_R_EXPIRED] = "expired",
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch
+new file mode 100644
+index 0000000000..a3ff47b8bf
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch
+@@ -0,0 +1,496 @@
++From: Alessio Podda <alessio@isc.org>
++Date: Wed, 3 Jun 2026 10:42:43 +0200
++Subject: Reproducer for #5874 NSEC3 impersonation
++
++LLM generated.
++
++(cherry picked from commit f3e2eb333be3ac636f745aa13cfb8d9ee8af87d8)
++
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/35e3d49d2222c13786a06021c7ed583d2a656e51
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10723
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10723
++
++CVE: CVE-2026-10723
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/35e3d49d2222c13786a06021c7ed583d2a656e51b]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ .../ans1/ans.py}                                   |   8 +-
++ .../repro_5874_nsec3_parent/ns2/named.conf.j2      |  35 +++
++ bin/tests/system/repro_5874_nsec3_parent/server.py | 249 +++++++++++++++++++++
++ .../tests_repro_5874_nsec3_parent.py               | 144 ++++++++++++
++ 4 files changed, 433 insertions(+), 3 deletions(-)
++ copy bin/tests/system/{glue/setup.sh => repro_5874_nsec3_parent/ans1/ans.py} (83%)
++ create mode 100644 bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2
++ create mode 100644 bin/tests/system/repro_5874_nsec3_parent/server.py
++ create mode 100644 bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py
++
++diff --git a/bin/tests/system/glue/setup.sh b/bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
++similarity index 83%
++copy from bin/tests/system/glue/setup.sh
++copy to bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
++index 82240a7..614f26a 100644
++--- a/bin/tests/system/glue/setup.sh
+++++ b/bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
++@@ -1,4 +1,4 @@
++-#!/bin/sh
+++#!/usr/bin/python3
 + 
-+-    for (i = 0; i < size; ++i) {
-+-        diff |= p1[i] ^ p2[i];
-++    for (; i < count; ++i) {
-++        const unsigned char c1 = ((volatile const unsigned char *)buf1)[i];
-++        const unsigned char c2 = ((volatile const unsigned char *)buf2)[i];
-++
-++        diff |= c1 ^ c2; /* sets diff to non-zero whenever c1 != c2 */
-+     }
++ # Copyright (C) Internet Systems Consortium, Inc. ("ISC")
++ #
++@@ -11,6 +11,8 @@
++ # See the COPYRIGHT file distributed with this work for additional
++ # information regarding copyright ownership.
 + 
-+-    return 1 & ((diff - 1) >> 8);
-++    /* (diff == 0) <=> (diff != 0) ^ 1 */
-++    return test_nonzero_timingsafe(diff) ^ 1;
-++#endif
-+ }
++-. ../conf.sh
+++from server import main
 + 
-+ APU_DECLARE(apr_status_t) apr_crypto_get_driver(
-+diff --git a/crypto/apr_passwd.c b/crypto/apr_passwd.c
-+index c961de2b..74b5fc17 100644
-+--- a/crypto/apr_passwd.c
-++++ b/crypto/apr_passwd.c
-+@@ -14,6 +14,7 @@
-+  * limitations under the License.
-+  */
-+ 
-++#include "apr_version.h"
-+ #include "apr_strings.h"
-+ #include "apr_md5.h"
-+ #include "apr_lib.h"
-+@@ -39,6 +40,111 @@
-+ 
-+ static const char * const apr1_id = "$apr1$";
-+ 
-++#if APR_VERSION_AT_LEAST(1,8,0)
++-copy_setports ns1/named.conf.in ns1/named.conf
 ++
-++#define streq_timingsafe    apr_streq_timingsafe
-++#define strneq_timingsafe   apr_strneq_timingsafe
+++if __name__ == "__main__":
+++    main()
++diff --git a/bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2 b/bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2
++new file mode 100644
++index 0000000..9358866
++--- /dev/null
+++++ b/bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2
++@@ -0,0 +1,35 @@
+++// validating resolver
 ++
-++#else /* borrow code from APR-1.8 if not available */
+++options {
+++	query-source address 10.53.0.2;
+++	notify-source 10.53.0.2;
+++	transfer-source 10.53.0.2;
+++	port @PORT@;
+++	pid-file "named.pid";
+++	listen-on { 10.53.0.2; };
+++	listen-on-v6 { none; };
+++	recursion yes;
+++	dnssec-validation yes;
+++	trust-anchor-telemetry no;
+++	resolver-query-timeout 5000;
+++};
 ++
-++/* A volatile variable which is always zero but allows to block the compiler
-++ * from optimizing or eliding code using it. Volatile forces the compiler to
-++ * emit a memory load for which no value can be assumed, so for instance an
-++ * add/sub/xor/or with "optblocker" is a noop that will hide the result to
-++ * the optimizer.
-++ */
-++static volatile const apr_uint32_t optblocker;
+++controls {
+++	inet 10.53.0.2 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
+++};
 ++
-++/* Return whether x is not zero, with no branching controlled by x.
-++ *
-++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
-++ * which provides timing attacks safe integer operations/primitives.
-++ * Code:
-++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint32.h
-++ * Paper:
-++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
-++ */
-++#if __has_attribute(always_inline)
-++__attribute__((always_inline))
-++#endif
-++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
-++{
-++    x |= -x; /* sets the most significant bit unless x == 0 */
+++include "../../_common/rndc.key";
 ++
-++    /* shift bit 31 (MSB) to bit 0 */
-++    x >>= 32-6;      /* keep 6 bits */
-++    x += optblocker; /* lose the optimizer */
-++    x >>= 5;         /* keep the (original) MSB only */
+++zone "." {
+++	type hint;
+++	file "../../_common/root.hint";
+++};
 ++
-++    /* x is now 0 or 1 */
-++    return x & INT_MAX;
-++}
+++zone "tld.test" {
+++	type static-stub;
+++	server-addresses { 10.53.0.1; };
+++};
 ++
-++static int streq_timingsafe(const char *sec1, const char *str2)
-++{
-++    apr_uint32_t diff = 0;
-++    apr_size_t i1 = 0, i2 = 0;
+++trust-anchors {
+++	tld.test. static-key 257 3 13 "@TLD_DNSKEY@";
+++};
++diff --git a/bin/tests/system/repro_5874_nsec3_parent/server.py b/bin/tests/system/repro_5874_nsec3_parent/server.py
++new file mode 100644
++index 0000000..c6856bb
++--- /dev/null
+++++ b/bin/tests/system/repro_5874_nsec3_parent/server.py
++@@ -0,0 +1,249 @@
+++#!/usr/bin/python3
 ++
-++    for (;; ++i2) {
-++        const unsigned char c1 = ((volatile const unsigned char *)sec1)[i1];
-++        const unsigned char c2 = ((volatile const unsigned char *)str2)[i2];
+++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++#
+++# SPDX-License-Identifier: MPL-2.0
+++#
+++# This Source Code Form is subject to the terms of the Mozilla Public
+++# License, v. 2.0.  If a copy of the MPL was not distributed with this
+++# file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++#
+++# See the COPYRIGHT file distributed with this work for additional
+++# information regarding copyright ownership.
 ++
-++        diff |= c1 ^ c2; /* sets diff to non-zero whenever c1 != c2 */
+++from collections.abc import AsyncGenerator
+++from dataclasses import dataclass
+++from pathlib import Path
 ++
-++        /* Not a shortest/longest match because an attacker would usually know
-++         * one of the strings and could then determine the length of the other.
-++         * So assume only sec1 and its length are secret and stop the loop at
-++         * the end of str2. If sec1 is shorter than str2 the loop will continue
-++         * by comparing the rest of str2 with the trailing NUL byte of sec1.
-++         * In any case since the diff above is computed up to and including a
-++         * NUL byte, only the same content and length will raise match.
-++         */
-++        if (!c2) {
-++            break;
-++        }
+++import json
 ++
-++        /* Don't go above sec1's NUL byte */
-++        i1 += test_nonzero_timingsafe(c1);
+++from cryptography.hazmat.primitives import serialization
+++
+++import dns.dnssec
+++import dns.flags
+++import dns.message
+++import dns.name
+++import dns.rdata
+++import dns.rdataclass
+++import dns.rcode
+++import dns.rdatatype
+++import dns.rrset
+++
+++from isctest.asyncserver import (
+++    AsyncDnsServer,
+++    DnsResponseSend,
+++    QueryContext,
+++    ResponseHandler,
+++)
+++
+++TTL = 300
+++TLD = "tld.test."
+++APEX_HASH = "1B40241KFORIOG780N4IKSCRLVETPCTQ"
+++ATTACKER = f"{APEX_HASH.lower()}.{TLD}"
+++VICTIM = f"victim.{TLD}"
+++AUTH_IP = "10.53.0.1"
+++
+++
+++@dataclass(frozen=True)
+++class Key:
+++    zone: dns.name.Name
+++    private_key: object
+++    dnskey: dns.rdata.Rdata
+++    ds: dns.rdata.Rdata
+++
+++
+++def name(text: str) -> dns.name.Name:
+++    return dns.name.from_text(text)
+++
+++
+++def load_keys() -> dict[str, Key]:
+++    path = Path(__file__).resolve().parent / "keys.json"
+++    with path.open(encoding="utf-8") as keys_file:
+++        raw_keys = json.load(keys_file)
+++
+++    keys = {}
+++    for zone, raw_key in raw_keys.items():
+++        private_key = serialization.load_pem_private_key(
+++            raw_key["private_pem"].encode("ascii"),
+++            password=None,
+++        )
+++        dnskey = dns.rdata.from_text(
+++            dns.rdataclass.IN, dns.rdatatype.DNSKEY, raw_key["dnskey"]
+++        )
+++        ds = dns.rdata.from_text(dns.rdataclass.IN, dns.rdatatype.DS, raw_key["ds"])
+++        keys[zone] = Key(name(zone), private_key, dnskey, ds)
+++
+++    return keys
+++
+++
+++def rrset(owner: str, rdtype: dns.rdatatype.RdataType, *rdatas: str) -> dns.rrset.RRset:
+++    return dns.rrset.from_text(owner, TTL, dns.rdataclass.IN, rdtype, *rdatas)
+++
+++
+++def rrset_from_rdata(owner: str, rdata: dns.rdata.Rdata) -> dns.rrset.RRset:
+++    return dns.rrset.from_rdata(name(owner), TTL, rdata)
+++
+++
+++def rrsig_rrset(covered: dns.rrset.RRset, signer: Key) -> dns.rrset.RRset:
+++    rrsig = dns.dnssec.sign(
+++        covered,
+++        signer.private_key,
+++        signer.zone,
+++        signer.dnskey,
+++        lifetime=86400,
+++        verify=True,
+++    )
+++    return dns.rrset.from_rdata(covered.name, covered.ttl, rrsig)
+++
+++
+++def add_signed(
+++    section: list[dns.rrset.RRset], covered: dns.rrset.RRset, signer: Key
+++) -> None:
+++    section.append(covered)
+++    section.append(rrsig_rrset(covered, signer))
+++
+++
+++def dnskey_rrset(zone: str, zone_key: Key) -> dns.rrset.RRset:
+++    return rrset_from_rdata(zone, zone_key.dnskey)
+++
+++
+++def ds_rrset(zone: str, zone_key: Key) -> dns.rrset.RRset:
+++    return rrset_from_rdata(zone, zone_key.ds)
+++
+++
+++def soa_rrset(zone: str) -> dns.rrset.RRset:
+++    return rrset(
+++        zone,
+++        dns.rdatatype.SOA,
+++        f"ns.{zone} hostmaster.{zone} 1 3600 600 86400 300",
+++    )
+++
+++
+++def ns_rrset(zone: str, ns_target: str) -> dns.rrset.RRset:
+++    return rrset(zone, dns.rdatatype.NS, ns_target)
+++
+++
+++def glue_rrset(ns_target: str, address: str) -> dns.rrset.RRset:
+++    return rrset(ns_target, dns.rdatatype.A, address)
+++
+++
+++def answer_dnskey(response: dns.message.Message, zone: str, zone_key: Key) -> None:
+++    add_signed(response.answer, dnskey_rrset(zone, zone_key), zone_key)
+++
+++
+++def answer_soa(response: dns.message.Message, zone: str, zone_key: Key) -> None:
+++    add_signed(response.answer, soa_rrset(zone), zone_key)
+++
+++
+++def answer_ns(
+++    response: dns.message.Message, zone: str, ns_target: str, zone_key: Key
+++) -> None:
+++    add_signed(response.answer, ns_rrset(zone, ns_target), zone_key)
+++
+++
+++def answer_ds(
+++    response: dns.message.Message, zone: str, child_key: Key, parent_key: Key
+++) -> None:
+++    add_signed(response.answer, ds_rrset(zone, child_key), parent_key)
+++
+++
+++def child_nsec3_rrset() -> dns.rrset.RRset:
+++    rdata = dns.rdata.from_text(
+++        dns.rdataclass.IN,
+++        dns.rdatatype.NSEC3,
+++        f"1 0 0 - {APEX_HASH} NS SOA RRSIG DNSKEY NSEC3PARAM",
+++    )
+++    return dns.rrset.from_rdata(name(f"{APEX_HASH}.{TLD}"), TTL, rdata)
+++
+++
+++def forged_nxdomain(response: dns.message.Message, keys: dict[str, Key]) -> None:
+++    response.set_rcode(dns.rcode.NXDOMAIN)
+++
+++    add_signed(response.authority, soa_rrset(TLD), keys[TLD])
+++
+++    # The owner name derives zone "tld.test.", but the RRSIG signer is the
+++    # secure child zone "1b40241kforiog780n4ikscrlvetpctq.tld.test.".
+++    add_signed(response.authority, child_nsec3_rrset(), keys[ATTACKER])
+++
+++
+++class SignedResponseHandler(ResponseHandler):
+++    def __init__(self, keys: dict[str, Key]) -> None:
+++        self.keys = keys
+++
+++    async def get_responses(
+++        self, qctx: QueryContext
+++    ) -> AsyncGenerator[DnsResponseSend, None]:
+++        qctx.prepare_new_response(with_zone_data=False)
+++        qctx.response.flags |= dns.flags.AA
+++        qctx.response.set_rcode(dns.rcode.NOERROR)
+++        self.respond(qctx)
+++        yield DnsResponseSend(qctx.response, authoritative=True)
+++
+++    def respond(self, qctx: QueryContext) -> None:
+++        raise NotImplementedError
+++
+++
+++class VictimForgedNxdomainHandler(SignedResponseHandler):
+++    def match(self, qctx: QueryContext) -> bool:
+++        return qctx.qname == name(VICTIM) and qctx.qtype == dns.rdatatype.A
+++
+++    def respond(self, qctx: QueryContext) -> None:
+++        forged_nxdomain(qctx.response, self.keys)
+++
+++
+++class ChildDsHandler(SignedResponseHandler):
+++    def match(self, qctx: QueryContext) -> bool:
+++        return qctx.qname == name(ATTACKER) and qctx.qtype == dns.rdatatype.DS
+++
+++    def respond(self, qctx: QueryContext) -> None:
+++        answer_ds(qctx.response, ATTACKER, self.keys[ATTACKER], self.keys[TLD])
+++
+++
+++class AttackerZoneHandler(SignedResponseHandler):
+++    def match(self, qctx: QueryContext) -> bool:
+++        return qctx.qname.is_subdomain(name(ATTACKER))
+++
+++    def respond(self, qctx: QueryContext) -> None:
+++        if qctx.qname == name(ATTACKER):
+++            if qctx.qtype == dns.rdatatype.DNSKEY:
+++                answer_dnskey(qctx.response, ATTACKER, self.keys[ATTACKER])
+++            elif qctx.qtype == dns.rdatatype.SOA:
+++                answer_soa(qctx.response, ATTACKER, self.keys[ATTACKER])
+++            else:
+++                answer_ns(qctx.response, ATTACKER, f"ns.{ATTACKER}", self.keys[ATTACKER])
+++                qctx.response.additional.append(glue_rrset(f"ns.{ATTACKER}", AUTH_IP))
+++            return
+++
+++        qctx.response.set_rcode(dns.rcode.NXDOMAIN)
+++        add_signed(qctx.response.authority, soa_rrset(ATTACKER), self.keys[ATTACKER])
+++
+++
+++class TldZoneHandler(SignedResponseHandler):
+++    def match(self, qctx: QueryContext) -> bool:
+++        return qctx.qname.is_subdomain(name(TLD))
+++
+++    def respond(self, qctx: QueryContext) -> None:
+++        if qctx.qname == name(TLD):
+++            if qctx.qtype == dns.rdatatype.DNSKEY:
+++                answer_dnskey(qctx.response, TLD, self.keys[TLD])
+++            elif qctx.qtype == dns.rdatatype.SOA:
+++                answer_soa(qctx.response, TLD, self.keys[TLD])
+++            else:
+++                answer_ns(qctx.response, TLD, "ns.tld.test.", self.keys[TLD])
+++                qctx.response.additional.append(glue_rrset("ns.tld.test.", AUTH_IP))
+++            return
+++
+++        qctx.response.set_rcode(dns.rcode.NXDOMAIN)
+++        add_signed(qctx.response.authority, soa_rrset(TLD), self.keys[TLD])
+++
+++
+++def main() -> None:
+++    keys = load_keys()
+++    server = AsyncDnsServer(default_aa=True)
+++    server.install_response_handlers(
+++        VictimForgedNxdomainHandler(keys),
+++        ChildDsHandler(keys),
+++        AttackerZoneHandler(keys),
+++        TldZoneHandler(keys),
+++    )
+++    server.run()
++diff --git a/bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py b/bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py
++new file mode 100644
++index 0000000..5fbeff5
++--- /dev/null
+++++ b/bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py
++@@ -0,0 +1,144 @@
+++#!/usr/bin/python3
+++
+++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++#
+++# SPDX-License-Identifier: MPL-2.0
+++#
+++# This Source Code Form is subject to the terms of the Mozilla Public
+++# License, v. 2.0.  If a copy of the MPL was not distributed with this
+++# file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++#
+++# See the COPYRIGHT file distributed with this work for additional
+++# information regarding copyright ownership.
+++
+++from pathlib import Path
+++
+++import json
+++
+++from cryptography.hazmat.primitives import serialization
+++from cryptography.hazmat.primitives.asymmetric import ec
+++
+++import dns.dnssec
+++import dns.flags
+++import dns.name
+++import dns.rdataclass
+++import dns.rdatatype
+++import pytest
+++
+++import isctest
+++
+++APEX_HASH = "1B40241KFORIOG780N4IKSCRLVETPCTQ"
+++ATTACKER = f"{APEX_HASH.lower()}.tld.test."
+++VICTIM = "victim.tld.test."
+++AUTH = "10.53.0.1"
+++RESOLVER = "10.53.0.2"
+++
+++pytestmark = pytest.mark.extra_artifacts(
+++    [
+++        "ans*/ans.run",
+++        "keys.json",
+++    ]
+++)
+++
+++
+++def _make_key(zone):
+++    private_key = ec.generate_private_key(ec.SECP256R1())
+++    dnskey = dns.dnssec.make_dnskey(
+++        private_key.public_key(),
+++        algorithm="ECDSAP256SHA256",
+++        flags=257,
+++    )
+++    ds = dns.dnssec.make_ds(dns.name.from_text(zone), dnskey, "SHA256")
+++    private_pem = private_key.private_bytes(
+++        encoding=serialization.Encoding.PEM,
+++        format=serialization.PrivateFormat.PKCS8,
+++        encryption_algorithm=serialization.NoEncryption(),
+++    ).decode("ascii")
+++    return {
+++        "private_pem": private_pem,
+++        "dnskey": dnskey.to_text(),
+++        "ds": ds.to_text(),
 ++    }
 ++
-++    /* (diff == 0) <=> (diff != 0) ^ 1 */
-++    return test_nonzero_timingsafe(diff) ^ 1;
-++}
 ++
-++static int strneq_timingsafe(const char *sec1, const char *str2, apr_size_t n)
-++{
-++    apr_uint32_t diff = 0;
-++    volatile apr_size_t count = n; /* prevent loop unrolling */
-++    apr_size_t i1 = 0, i2 = 0;
+++def bootstrap():
+++    zones = ["tld.test.", ATTACKER]
+++    keys = {zone: _make_key(zone) for zone in zones}
 ++
-++    for (; i2 < count; ++i2) {
-++        const unsigned char c1 = ((volatile const unsigned char *)sec1)[i1];
-++        const unsigned char c2 = ((volatile const unsigned char *)str2)[i2];
+++    Path("keys.json").write_text(json.dumps(keys, indent=2), encoding="ascii")
 ++
-++        diff |= c1 ^ c2; /* sets diff to non-zero whenever c1 != c2 */
+++    tld_dnskey = "".join(keys["tld.test."]["dnskey"].split()[3:])
+++    return {"TLD_DNSKEY": tld_dnskey}
 ++
-++        /* Not a shortest/longest match because an attacker would usually know
-++         * one of the strings and could then determine the length of the other.
-++         * So assume only sec1 and its length are secret and stop the loop at
-++         * the end of str2. If sec1 is shorter than str2 the loop will continue
-++         * by comparing the rest of str2 with the trailing NUL byte of sec1.
-++         * In any case since the diff above is computed up to and including a
-++         * NUL byte, only the same content and length will raise match.
-++         */
-++        if (!c2) {
-++            break;
-++        }
 ++
-++        /* Don't go above sec1's NUL byte */
-++        i1 += test_nonzero_timingsafe(c1);
-++    }
+++def _check_direct_dnskey_response(zone):
+++    query = isctest.query.create(zone, "DNSKEY")
+++    response = isctest.query.tcp(query, AUTH)
 ++
-++    /* (diff == 0) <=> (diff != 0) ^ 1 */
-++    return test_nonzero_timingsafe(diff) ^ 1;
-++}
+++    isctest.check.noerror(response)
+++    assert response.flags & dns.flags.AA
+++    assert (
+++        response.get_rrset(
+++            response.answer,
+++            dns.name.from_text(zone),
+++            dns.rdataclass.IN,
+++            dns.rdatatype.DNSKEY,
+++        )
+++        is not None
+++    ), response
 ++
-++#endif /* APR_VERSION_AT_LEAST(1,8,0) */
 ++
-+ #if !defined(WIN32) && !defined(BEOS) && !defined(NETWARE)
-+ #if defined(APU_CRYPT_THREADSAFE) || !APR_HAS_THREADS || \
-+     defined(CRYPT_R_CRYPTD) || defined(CRYPT_R_STRUCT_CRYPT_DATA)
-+@@ -86,28 +192,33 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
-+ #if !CRYPT_MISSING
-+     char *crypt_pw;
-+ #endif
-+-    if (hash[0] == '$'
-+-        && hash[1] == '2'
-+-        && (hash[2] == 'a' || hash[2] == 'y')
-+-        && hash[3] == '$') {
+++def _check_direct_ds_response(zone):
+++    query = isctest.query.create(zone, "DS")
+++    response = isctest.query.tcp(query, AUTH)
 ++
-++    if ((strneq_timingsafe(hash, "$2a$", 4) | /* test both */
-++         strneq_timingsafe(hash, "$2y$", 4))) {
-++        /*
-++         * The hash was created using [apr_]bcrypt encoding.
-++         */
-+         if (_crypt_blowfish_rn(passwd, hash, sample, sizeof(sample)) == NULL)
-+             return APR_FROM_OS_ERROR(errno);
-+     }
-+-    else if (!strncmp(hash, apr1_id, strlen(apr1_id))) {
-++    else if (strneq_timingsafe(hash, apr1_id, strlen(apr1_id))) {
-+         /*
-+          * The hash was created using our custom algorithm.
-+          */
-+         apr_md5_encode(passwd, hash, sample, sizeof(sample));
-+     }
-+-    else if (!strncmp(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
-+-         apr_sha1_base64(passwd, (int)strlen(passwd), sample);
-++    else if (strneq_timingsafe(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
-++        /*
-++         * The hash is a (naked) SHA1.
-++         */
-++        apr_sha1_base64(passwd, (int)strlen(passwd), sample);
-+     }
-+     else {
-+         /*
-+          * It's not our algorithm, so feed it to crypt() if possible.
-+          */
-+ #if CRYPT_MISSING
-+-        return (strcmp(passwd, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
-++        return streq_timingsafe(hash, passwd) ? APR_SUCCESS : APR_EMISMATCH;
-+ #elif defined(CRYPT_R_CRYPTD)
-+         apr_status_t rv;
-+         CRYPTD *buffer = malloc(sizeof(*buffer));
-+@@ -118,7 +229,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
-+         if (!crypt_pw)
-+             rv = APR_EMISMATCH;
-+         else
-+-            rv = (strcmp(crypt_pw, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
-++            rv = streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;
-+         free(buffer);
-+         return rv;
-+ #elif defined(CRYPT_R_STRUCT_CRYPT_DATA)
-+@@ -149,7 +260,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
-+         if (!crypt_pw)
-+             rv = APR_EMISMATCH;
-+         else
-+-            rv = (strcmp(crypt_pw, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
-++            rv = streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;
-+         free(buffer);
-+         return rv;
-+ #else
-+@@ -173,14 +284,14 @@ APU_DECLARE(apr_status_t) apr_password_validate(const char *passwd,
-+                 rv = APR_EMISMATCH;
-+             }
-+             else {
-+-                rv = (strcmp(crypt_pw, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
-++                rv = streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;
-+             }
-+             crypt_mutex_unlock();
-+             return rv;
-+         }
-+ #endif
-+     }
-+-    return (strcmp(sample, hash) == 0) ? APR_SUCCESS : APR_EMISMATCH;
-++    return streq_timingsafe(hash, sample) ? APR_SUCCESS : APR_EMISMATCH;
-+ }
+++    isctest.check.noerror(response)
+++    assert response.flags & dns.flags.AA
+++    assert (
+++        response.get_rrset(
+++            response.answer,
+++            dns.name.from_text(zone),
+++            dns.rdataclass.IN,
+++            dns.rdatatype.DS,
+++        )
+++        is not None
+++    ), response
+++
+++
+++def test_repro_5874_direct_forged_nsec3_response_has_child_signer():
+++    _check_direct_dnskey_response("tld.test.")
+++    _check_direct_dnskey_response(ATTACKER)
+++    _check_direct_ds_response(ATTACKER)
+++
+++    query = isctest.query.create(VICTIM, "A")
+++    response = isctest.query.tcp(query, AUTH)
+++
+++    isctest.check.nxdomain(response)
+++    assert response.flags & dns.flags.AA
+++
+++    nsec3_owner = dns.name.from_text(f"{APEX_HASH}.tld.test.")
+++    nsec3 = response.get_rrset(
+++        response.authority,
+++        nsec3_owner,
+++        dns.rdataclass.IN,
+++        dns.rdatatype.NSEC3,
+++    )
+++    rrsig = response.get_rrset(
+++        response.authority,
+++        nsec3_owner,
+++        dns.rdataclass.IN,
+++        dns.rdatatype.RRSIG,
+++        covers=dns.rdatatype.NSEC3,
+++    )
+++
+++    assert nsec3 is not None, response
+++    assert rrsig is not None, response
+++    assert rrsig[0].signer == dns.name.from_text(ATTACKER)
+++
+++
+++def test_repro_5874_resolver_rejects_child_signed_nsec3_parent_proof():
+++    query = isctest.query.create(VICTIM, "A")
+++    response = isctest.query.tcp(query, RESOLVER)
+++
+++    isctest.check.servfail(response)
+++    isctest.check.noadflag(response)
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10723-03.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-03.patch
+new file mode 100644
+index 0000000000..5461b3c87e
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-03.patch
+@@ -0,0 +1,310 @@
++From: Matthijs Mekking <matthijs@isc.org>
++Date: Thu, 4 Jun 2026 16:12:50 +0200
++Subject: Update reproducer #5874
++
++Update the llm generated reproducer:
++- Move server.py into ans1/ans.py
++- Remove unnecessary named.conf configuration options
++- Add comments describing the steps (copied from GL issue)
++- Rename system test
++
++(cherry picked from commit c1321fef165a2ef8c2bff971901c58941e8e694c)
++
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/833dd3b230b92596074e8da15b12298f46c939f2
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10723
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10723
++
++CVE: CVE-2026-10723
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/833dd3b230b92596074e8da15b12298f46c939f2]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ .../server.py => nsec3_impersonation/ans1/ans.py}  | 81 +++++++++++++++-------
++ .../ns2/named.conf.j2                              |  2 -
++ .../tests_nsec3_impersonation.py}                  | 38 ++++++----
++ .../system/repro_5874_nsec3_parent/ans1/ans.py     | 18 -----
++ 4 files changed, 79 insertions(+), 60 deletions(-)
++ rename bin/tests/system/{repro_5874_nsec3_parent/server.py => nsec3_impersonation/ans1/ans.py} (83%)
++ rename bin/tests/system/{repro_5874_nsec3_parent => nsec3_impersonation}/ns2/named.conf.j2 (90%)
++ rename bin/tests/system/{repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py => nsec3_impersonation/tests_nsec3_impersonation.py} (84%)
++ delete mode 100644 bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
++
++diff --git a/bin/tests/system/repro_5874_nsec3_parent/server.py b/bin/tests/system/nsec3_impersonation/ans1/ans.py
++similarity index 83%
++rename from bin/tests/system/repro_5874_nsec3_parent/server.py
++rename to bin/tests/system/nsec3_impersonation/ans1/ans.py
++index c6856bb..177e79c 100644
++--- a/bin/tests/system/repro_5874_nsec3_parent/server.py
+++++ b/bin/tests/system/nsec3_impersonation/ans1/ans.py
++@@ -23,9 +23,9 @@ import dns.dnssec
++ import dns.flags
++ import dns.message
++ import dns.name
+++import dns.rcode
++ import dns.rdata
++ import dns.rdataclass
++-import dns.rcode
++ import dns.rdatatype
++ import dns.rrset
 + 
-+ static const char * const bcrypt_id = "$2y$";
-diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-support/apr/apr-util_1.6.3.bb
-index 3a5f52d250..19f8e59ca5 100644
---- a/meta/recipes-support/apr/apr-util_1.6.3.bb
-+++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
-@@ -13,6 +13,12 @@ SRC_URI = "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
-            file://configfix.patch \
-            file://configure_fixes.patch \
- 	   file://0001-test_transformation-Check-if-transform-is-supported-.patch \
-+           file://CVE-2025-49506.patch \
-+           file://CVE-2026-32327-dependent.patch \
-+           file://CVE-2026-32327.patch \
-+           file://CVE-2026-34501.patch \
-+           file://CVE-2026-34502_p1.patch \
-+           file://CVE-2026-34502_p2.patch \
-            file://run-ptest \
++@@ -141,10 +141,21 @@ def answer_ns(
++     add_signed(response.answer, ns_rrset(zone, ns_target), zone_key)
++ 
++ 
++-def answer_ds(
++-    response: dns.message.Message, zone: str, child_key: Key, parent_key: Key
++-) -> None:
++-    add_signed(response.answer, ds_rrset(zone, child_key), parent_key)
+++class SignedResponseHandler(ResponseHandler):
+++    def __init__(self, keys: dict[str, Key]) -> None:
+++        self.keys = keys
+++
+++    async def get_responses(
+++        self, qctx: QueryContext
+++    ) -> AsyncGenerator[DnsResponseSend, None]:
+++        qctx.prepare_new_response(with_zone_data=False)
+++        qctx.response.flags |= dns.flags.AA
+++        qctx.response.set_rcode(dns.rcode.NOERROR)
+++        self.respond(qctx)
+++        yield DnsResponseSend(qctx.response, authoritative=True)
+++
+++    def respond(self, qctx: QueryContext) -> None:
+++        raise NotImplementedError
++ 
++ 
++ def child_nsec3_rrset() -> dns.rrset.RRset:
++@@ -162,28 +173,15 @@ def forged_nxdomain(response: dns.message.Message, keys: dict[str, Key]) -> None
++     add_signed(response.authority, soa_rrset(TLD), keys[TLD])
++ 
++     # The owner name derives zone "tld.test.", but the RRSIG signer is the
++-    # secure child zone "1b40241kforiog780n4ikscrlvetpctq.tld.test.".
+++    # malicious child zone "1b40241kforiog780n4ikscrlvetpctq.tld.test.".
++     add_signed(response.authority, child_nsec3_rrset(), keys[ATTACKER])
++ 
++ 
++-class SignedResponseHandler(ResponseHandler):
++-    def __init__(self, keys: dict[str, Key]) -> None:
++-        self.keys = keys
++-
++-    async def get_responses(
++-        self, qctx: QueryContext
++-    ) -> AsyncGenerator[DnsResponseSend, None]:
++-        qctx.prepare_new_response(with_zone_data=False)
++-        qctx.response.flags |= dns.flags.AA
++-        qctx.response.set_rcode(dns.rcode.NOERROR)
++-        self.respond(qctx)
++-        yield DnsResponseSend(qctx.response, authoritative=True)
++-
++-    def respond(self, qctx: QueryContext) -> None:
++-        raise NotImplementedError
++-
++-
++ class VictimForgedNxdomainHandler(SignedResponseHandler):
+++    """
+++    This serves the forged response for the victim's domain.
+++    """
+++
++     def match(self, qctx: QueryContext) -> bool:
++         return qctx.qname == name(VICTIM) and qctx.qtype == dns.rdatatype.A
++ 
++@@ -192,14 +190,31 @@ class VictimForgedNxdomainHandler(SignedResponseHandler):
++ 
++ 
++ class ChildDsHandler(SignedResponseHandler):
+++    """
+++    This will spoof the response for the malicious zone when qtype is DS.
+++    It is actually a validly signed DS response.
+++    """
+++
++     def match(self, qctx: QueryContext) -> bool:
++         return qctx.qname == name(ATTACKER) and qctx.qtype == dns.rdatatype.DS
++ 
++     def respond(self, qctx: QueryContext) -> None:
++-        answer_ds(qctx.response, ATTACKER, self.keys[ATTACKER], self.keys[TLD])
+++        response = qctx.response
+++        zone = ATTACKER
+++        child_key = self.keys[ATTACKER]
+++        parent_key = self.keys[TLD]
+++
+++        add_signed(response.answer, ds_rrset(zone, child_key), parent_key)
++ 
++ 
++ class AttackerZoneHandler(SignedResponseHandler):
+++    """
+++    Acts as the malicious authoritative name server. The zone being served
+++    is the hashed label of the parent zone (tld.test). This will respond
+++    for all queries qtype SOA, DNSKEY, NS at the apex. Any names below
+++    the apex are answered with an NXDOMAIN with no NSEC or NSEC3 present.
+++    """
+++
++     def match(self, qctx: QueryContext) -> bool:
++         return qctx.qname.is_subdomain(name(ATTACKER))
++ 
++@@ -210,7 +225,9 @@ class AttackerZoneHandler(SignedResponseHandler):
++             elif qctx.qtype == dns.rdatatype.SOA:
++                 answer_soa(qctx.response, ATTACKER, self.keys[ATTACKER])
++             else:
++-                answer_ns(qctx.response, ATTACKER, f"ns.{ATTACKER}", self.keys[ATTACKER])
+++                answer_ns(
+++                    qctx.response, ATTACKER, f"ns.{ATTACKER}", self.keys[ATTACKER]
+++                )
++                 qctx.response.additional.append(glue_rrset(f"ns.{ATTACKER}", AUTH_IP))
++             return
++ 
++@@ -219,6 +236,16 @@ class AttackerZoneHandler(SignedResponseHandler):
++ 
++ 
++ class TldZoneHandler(SignedResponseHandler):
+++    """
+++    Acts as the TLD who is being used in the attack, but is not a standard
+++    name server. It only responds with validly signed records for DNSKEY, SOA
+++    and NS on the apex. Any names below the apex are answered with an NXDOMAIN
+++    with no NSEC or NSEC3 present.
+++
+++    If we turn this into a regular name server than the attack won't work.
+++    The attack assumes that the adversary can inject these responses on-path.
+++    """
+++
++     def match(self, qctx: QueryContext) -> bool:
++         return qctx.qname.is_subdomain(name(TLD))
++ 
++@@ -247,3 +274,7 @@ def main() -> None:
++         TldZoneHandler(keys),
++     )
++     server.run()
+++
+++
+++if __name__ == "__main__":
+++    main()
++diff --git a/bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2 b/bin/tests/system/nsec3_impersonation/ns2/named.conf.j2
++similarity index 90%
++rename from bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2
++rename to bin/tests/system/nsec3_impersonation/ns2/named.conf.j2
++index 9358866..2c9b0bb 100644
++--- a/bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2
+++++ b/bin/tests/system/nsec3_impersonation/ns2/named.conf.j2
++@@ -10,8 +10,6 @@ options {
++ 	listen-on-v6 { none; };
++ 	recursion yes;
++ 	dnssec-validation yes;
++-	trust-anchor-telemetry no;
++-	resolver-query-timeout 5000;
++ };
++ 
++ controls {
++diff --git a/bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py b/bin/tests/system/nsec3_impersonation/tests_nsec3_impersonation.py
++similarity index 84%
++rename from bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py
++rename to bin/tests/system/nsec3_impersonation/tests_nsec3_impersonation.py
++index 5fbeff5..bd9bd27 100644
++--- a/bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py
+++++ b/bin/tests/system/nsec3_impersonation/tests_nsec3_impersonation.py
++@@ -26,6 +26,7 @@ import dns.rdatatype
++ import pytest
++ 
++ import isctest
+++import isctest.mark
++ 
++ APEX_HASH = "1B40241KFORIOG780N4IKSCRLVETPCTQ"
++ ATTACKER = f"{APEX_HASH.lower()}.tld.test."
++@@ -33,12 +34,15 @@ VICTIM = "victim.tld.test."
++ AUTH = "10.53.0.1"
++ RESOLVER = "10.53.0.2"
++ 
++-pytestmark = pytest.mark.extra_artifacts(
++-    [
++-        "ans*/ans.run",
++-        "keys.json",
++-    ]
++-)
+++pytestmark = [
+++    isctest.mark.with_ecdsa_deterministic,
+++    pytest.mark.extra_artifacts(
+++        [
+++            "ans*/ans.run",
+++            "ans*/keys.json",
+++        ]
+++    ),
+++]
++ 
++ 
++ def _make_key(zone):
++@@ -65,13 +69,13 @@ def bootstrap():
++     zones = ["tld.test.", ATTACKER]
++     keys = {zone: _make_key(zone) for zone in zones}
++ 
++-    Path("keys.json").write_text(json.dumps(keys, indent=2), encoding="ascii")
+++    Path("ans1/keys.json").write_text(json.dumps(keys, indent=2), encoding="ascii")
++ 
++     tld_dnskey = "".join(keys["tld.test."]["dnskey"].split()[3:])
++     return {"TLD_DNSKEY": tld_dnskey}
++ 
++ 
++-def _check_direct_dnskey_response(zone):
+++def check_dnskey_response(zone):
++     query = isctest.query.create(zone, "DNSKEY")
++     response = isctest.query.tcp(query, AUTH)
++ 
++@@ -88,7 +92,7 @@ def _check_direct_dnskey_response(zone):
++     ), response
++ 
++ 
++-def _check_direct_ds_response(zone):
+++def check_ds_response(zone):
++     query = isctest.query.create(zone, "DS")
++     response = isctest.query.tcp(query, AUTH)
++ 
++@@ -105,10 +109,10 @@ def _check_direct_ds_response(zone):
++     ), response
++ 
++ 
++-def test_repro_5874_direct_forged_nsec3_response_has_child_signer():
++-    _check_direct_dnskey_response("tld.test.")
++-    _check_direct_dnskey_response(ATTACKER)
++-    _check_direct_ds_response(ATTACKER)
+++def test_attack_responses():
+++    check_dnskey_response("tld.test.")
+++    check_dnskey_response(ATTACKER)
+++    check_ds_response(ATTACKER)
++ 
++     query = isctest.query.create(VICTIM, "A")
++     response = isctest.query.tcp(query, AUTH)
++@@ -136,9 +140,13 @@ def test_repro_5874_direct_forged_nsec3_response_has_child_signer():
++     assert rrsig[0].signer == dns.name.from_text(ATTACKER)
++ 
++ 
++-def test_repro_5874_resolver_rejects_child_signed_nsec3_parent_proof():
+++def test_nsec3_impersonation():
+++    """
+++    Reproducer for #5874:
+++    F-006 DNSSEC Validation Bypass NSEC3 Apex Hash Label Parent Impersonation
+++    """
++     query = isctest.query.create(VICTIM, "A")
++     response = isctest.query.tcp(query, RESOLVER)
++ 
++-    isctest.check.servfail(response)
++     isctest.check.noadflag(response)
+++    isctest.check.servfail(response)
++diff --git a/bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py b/bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
++deleted file mode 100644
++index 614f26a..0000000
++--- a/bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
+++++ /dev/null
++@@ -1,18 +0,0 @@
++-#!/usr/bin/python3
++-
++-# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
++-#
++-# SPDX-License-Identifier: MPL-2.0
++-#
++-# This Source Code Form is subject to the terms of the Mozilla Public
++-# License, v. 2.0.  If a copy of the MPL was not distributed with this
++-# file, you can obtain one at https://mozilla.org/MPL/2.0/.
++-#
++-# See the COPYRIGHT file distributed with this work for additional
++-# information regarding copyright ownership.
++-
++-from server import main
++-
++-
++-if __name__ == "__main__":
++-    main()
+diff --git a/meta/recipes-connectivity/bind/bind_9.18.49.bb b/meta/recipes-connectivity/bind/bind_9.18.49.bb
+index 723a09e739..161736f9b1 100644
+--- a/meta/recipes-connectivity/bind/bind_9.18.49.bb
++++ b/meta/recipes-connectivity/bind/bind_9.18.49.bb
+@@ -18,6 +18,9 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
+            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
+            file://0001-avoid-start-failure-with-bind-user.patch \
++           file://CVE-2026-10723-01.patch \
++           file://CVE-2026-10723-02.patch \
++           file://CVE-2026-10723-03.patch \
             "
  
+ SRC_URI[sha256sum] = "c43ce4548ebed788cd9df63658a7de105ceafba43fcd63fa352b1093e525cd24"
 -- 
-2.35.6
+2.50.1
 
 
