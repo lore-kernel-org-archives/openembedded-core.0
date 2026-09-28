@@ -1,365 +1,294 @@
-Return-Path: <dkelaiya@cisco.com>
+Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4CEAECA5FA3
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 18:36:48 +0000 (UTC)
-Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.65907.1790620605939992746
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55AB1CA5FA2
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 18:56:30 +0000 (UTC)
+Received: from mail-qk2-f40.google.com (mail-qk2-f40.google.com [74.125.230.232])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.63550.1790615047887975869
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 11:36:46 -0700
+ Mon, 28 Sep 2026 10:04:08 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=A8prex5N;
- spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: dkelaiya@cisco.com)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=grvXdcsC;
+ spf=pass (domain: baylibre.com, ip: 74.125.230.232, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk2-f40.google.com with SMTP id af79cd13be357-93c5ce9914dso216133485a.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 10:04:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=11706; q=dns/txt;
-  s=iport01; t=1790620605; x=1791830205;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=EOXNOQmTWHPtXTTnKmRXryCoEM9VedKJKRecVWwx3Zc=;
-  b=A8prex5NsbJNdmHz6yCxGWYHVAcKDK6YLPdbjySPb8UWGMHM6Q3uz2EI
-   3lrCFbp3sXEvJnf7l0HEptXuVobsdXnrFGcbUjigxUAULkOzZXhgXPUBF
-   TntTvAXa7zRmHstEalQqXhZwdb39lGuqKgKpb7whegD1Fmk8V3hMS4X5t
-   QUVIV+ipCd9xAZoC+TMpPyiNH1LlrGi8+Id2eidBOu4xaWgrGUI3KtQ0c
-   781ypUBH8m48UB+ACZT/0S1gLAlUH6LFL6qD6K/YDBhxWvkserG4qL1hH
-   PrRarBKsvEDeh5g2iXTL1MaQx+RDVe15d/vZfX+IAJPofMELDAJLjlYur
-   Q==;
-X-CSE-ConnectionGUID: dEKS/l40SMuWG2TATh5lNw==
-X-CSE-MsgGUID: BF3Qm5G8SEGFxEc7yFj5WQ==
-X-IPAS-Result: =?us-ascii?q?A0B9AgAus7pq/5L/Ja1aglmCV3VgGilJlkoDkUmMURSBa?=
- =?us-ascii?q?g8BAQEPNxoEAQGFBQKOCQImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGTw2QEgECAQMnCwEYAS0QHAMBAi8rIwgQCYMCAYJ0A8MCgXkzg?=
- =?us-ascii?q?QGDKQGBVNsyAQsUAYE4hUCII10YAYR8JxsbgXKBFYNpgmEFgRQQH4ZfBIIie?=
- =?us-ascii?q?hKBWh5lhzeLD0iBHgNZLAFVEw0KCwcFgWYDNRIqFW4yHYEjPheBBxsGBYEdg?=
- =?us-ascii?q?SCCGSMZNnqBCV6BKylgARAXgQeCBwKCVIIBAgFJQw4HRVMJJUEKEkcmIggSC?=
- =?us-ascii?q?QETGjALgSE4QQkoHBgNSBEsNxUZBD5uB5AyHoFzcgFSIQcJCgEHDBgXCYEjK?=
- =?us-ascii?q?QEQBgEHHAURCwgBJpJGHQkIO49bgiGBNZ9aCiiDdowilToaM4QEgVeSQJJUm?=
- =?us-ascii?q?QiCWYsxlXMOGDeEaYFoPEaBE3AVO4JnCUoZD5AVhyLHJicyAjsBAQcCBw4DC?=
- =?us-ascii?q?4FohGOLHQImB4FPAQE?=
-IronPort-Data: A9a23:IkjCB6iuOrS9WP9I6MBwC6atX161HREKZh0ujC45NGQN5FlHY01je
- htvXzvVbq2NYGL8fosjbN7k9EkPupSGnNFnSlFrrS5kQypjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxMuvjT8EkHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUU18VMRmUSr
- cc9NQ8iNCyqu+LrxJSkH7wEasQLdKEHPasFsX1miDWcBvE8TNWbEuPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZgl/5JEWxI9EglHzcDBcoVOErII84nPYy0p6172F3N/9J4XWHpkMwB3Jz
- o7A107XWSgfafPP8heq3GKBjbDesyGmZ7tHQdVU8dYv2jV/3Fc7EhwdVVKhrb+hl1SyWt93L
- 00S5zogqrU0+EW3T977GRqirxasuQYRXddVGeA25AyBj6HT+QuxAmkfUiUHb8QrssIzTzEm2
- lKF2dTzClRSXKa9U3mR8PKQ6Di1IyVQdT5Ebi4fRgxD6N7myG0usi/yoh9YOPbdprXI9fvYm
- lhmcABWa20vsPM2
-IronPort-HdrOrdr: A9a23:cCh3Ta9T03wdDyKRF/Ruk+D6I+orL9Y04lQ7vn2ZhyY7TiX+rb
- HIoB11737JYVoqNU3I3OrwWpVoIkmskaKdn7NwAV7KZmCP0wGVxcNZnO7fKlbbdREWmNQw6U
- 4ZSdkcNPTASX5nkM39/A60V/wkwNWB7eSUoN229QYKcemvAJsQlzuQzW2gYzRLeDU=
-X-Talos-CUID: 9a23:XGLlY24kaXA8T/ffHNss+GM3IYchLiXm6WrvDBWEIFppFbmzVgrF
-X-Talos-MUID: 9a23:qI/ldwuoa6MlXhsyq82nrh85DcI1zPSVJW8jgbgN5NiqN3FPAmLI
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,129,1787011200"; 
-   d="scan'208";a="514341639"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Sep 2026 18:36:44 +0000
-Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id C4B991800023D;
-	Mon, 28 Sep 2026 18:36:44 +0000 (GMT)
-Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id 6D063CBF201; Mon, 28 Sep 2026 11:36:44 -0700 (PDT)
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
-	Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH 2/2] bind: upgrade 9.20.27 -> 9.20.29
-Date: Mon, 28 Sep 2026 11:36:34 -0700
-Message-Id: <20260928183634.1877978-2-dkelaiya@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260928183634.1877978-1-dkelaiya@cisco.com>
-References: <20260928183634.1877978-1-dkelaiya@cisco.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+        d=baylibre.com; s=google; t=1790615047; x=1791219847; darn=lists.openembedded.org;
+        h=in-reply-to:references:cc:subject:from:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=5fax+g4/C1VkhqieIAtGwRxAPfWy2r9+IUvdDHvOzxk=;
+        b=grvXdcsCGcJyiyFm79Iq6rPofLJJcehnye9FAfC5GKcRxEpqP/vCYJ/j52fkB0d6bf
+         8XUdkB2hMNVjjGayz/Q1XLr1UdeD4WzCnMEtWOJWjeAfrRqp3nknL0OSy5WASzCTZxY1
+         UTxO6dh2RgQJG1YpT5IIs5yWnS7irAxXBrfqInPh+l1OwEIOjAnbzAbRc1ucJFSVrdUc
+         64Q4CR8T5deotwS9CS2aJZ4DzRCeCRcIUHrX1RLpxrzd79IPKAMl+ZoDVEneqJ4P7Joo
+         jBRuTxWSJxBRiQAHeifjo+mToyTP1vhG0QlnVDqCgkG5yWvsXNCL0dki1FsDkBsnRfh+
+         CqBQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790615047; x=1791219847;
+        h=in-reply-to:references:cc:subject:from:to:message-id:date
+         :content-type:content-transfer-encoding:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=5fax+g4/C1VkhqieIAtGwRxAPfWy2r9+IUvdDHvOzxk=;
+        b=b1ab3K9+cCZlXVUiv/JQ96iHK7NKI1eW8lchRsdAJp/CaeDZKCO+AnpyNhldYL902X
+         8FNLZH7/btkRILybyuE0nWIRw0XCZKWXrXhOdZaqq1XNOj2C+9OX84BpgLzpn9iFxrMy
+         Qg7Pzvzm/QK0tCc/mBL3K21tlEm4ZlOtnBK169bnsvlAMKikLgDHKOzd1C7l0Xbrln0X
+         XxglvQ6xOEDDWTd8fMukzgdap/P2JVvZoj+7Uo8+/XMNzzTLzhvnYdemRv+IQFg7akKv
+         BHxjpgS0bx18QxbpJGHSA2z3AF3VCgpodIWuwCo5Eg1iuR64cJfrQ9D2eOemKyV8byjY
+         f0pQ==
+X-Forwarded-Encrypted: i=1; AKwUvByNQCYdUN0Q02NrqLrAe5gzF8T/d0s6bhPIRYaQKlxcK+nMuaFCErbMoZeeKNWk2DoGG8W9d2YubYVwyLU6ush6jA==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nVil39KbUnyWchRnFWNaoEe22bmQaPfMuE3JQ0JuyJQnwJN+2s
+	ADYe4SrEQf7ZE1FZcbE7EVoCCKfafRfBE5dxpJztv8KK3UICOaSZyO97FCXBdirXht5hI5crS5t
+	Jhkoc
+X-Gm-Gg: AYBFou0M/YXs/34P4jYOw9ynIWzXmHe+zF8JL6Lg5+EmhQV7wN3ele/uE4s77jgNnhC
+	8sQDWbX/fAytHgB5knbAEZyVXQY8ZpsbBJWgCguJqUvtnuh8usdV9mTgSMuepZB8Um92EMdfiqa
+	nYLJQfaKd4OrqBH1LwA5Gv4Xo8qvjOb6VZ4d1EQ8q+d3gHW92jLnDfR8oyKw1uVa6TI1OItEwoW
+	XlFf79PhN8lvmCIHwsz0fbE07F6CK1+puIsmi9OrgORntkmGnS1xtWM1PGRxcnRXHbQuziV7rqC
+	QMpFnDQzsrXiw0T8/upUadB98nqNeN72ZYl5d3CrZh36fxU+bCSwkoCou3kL+WqMUkVzm57hGJS
+	zrWN4YZrn3V9/Hu2uexq6J56y4QivCx41+O7DlW9Z9Q3addmXghVGlcVQS/p3H4MDzjR+FopgLy
+	5zuqKoXI4kMAJpG1jLtpcXCGg1XP1LnbJVbMM79djpiabT33ySNQALQ0XNFOYq2S9y0R44Qg2UJ
+	gLvslcjTUfZIfF7xtTbbX8ch+0kR1MjZRgpexQw6gt+
+X-Received: by 2002:a05:620a:7083:b0:939:6c31:2318 with SMTP id af79cd13be357-93c43ca0f85mr2159002885a.34.1790615046462;
+        Mon, 28 Sep 2026 10:04:06 -0700 (PDT)
+Received: from localhost ([2001:1970:3847:e000:1977:be2f:4a71:2892])
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-914309a5917sm84653406d6.4.2026.09.28.10.04.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 28 Sep 2026 10:04:05 -0700 (PDT)
+Mime-Version: 1.0
+Date: Mon, 28 Sep 2026 13:04:03 -0400
+Message-Id: <DLR4232VEGLK.D4805FQMYD9Z@baylibre.com>
+To: =?utf-8?q?Jo=C3=A3o_Marcos_Costa?= <joaomarcos.costa@bootlin.com>,
+ <openembedded-core@lists.openembedded.org>
+From: "Trevor Gamblin" <tgamblin@baylibre.com>
+Subject: Re: [PATCH v2 1/1] recipes-support/gnutls: disable slow tests for RISCV64
+Cc: <thomas.petazzoni@bootlin.com>, <tgamblin@baylibre.com>
+X-Mailer: aerc 0.22.0
+References: <20260928162614.1685239-1-joaomarcos.costa@bootlin.com>
+ <20260928162614.1685239-2-joaomarcos.costa@bootlin.com>
+In-Reply-To: <20260928162614.1685239-2-joaomarcos.costa@bootlin.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 18:36:48 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246785
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 18:56:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246786
 
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+On Mon Sep 28, 2026 at 12:26 PM EDT, Jo=C3=A3o Marcos Costa wrote:
+> Timeouts have been observed (very frequently in the past weeks)
+> in the autobuilder, and a bug [1] was filed at Bugzilla.
+>
+> After some investigation [2] was performed by Trevor Gamblin, we now have=
+ a
+> list of the most time consuming test cases:
+>
+> - mini-record-2 (187880ms)
+> - record-retvals (145390ms)
+> - rng-op-key (63820ms)
+> - rng-op-random (63330ms)
+> - rng-op-nonce (63260ms)
+> - dtls-rehandshake-cert (61360ms)
+> - dtls-rehandshake-cert-2 (61230ms)
+> - dtls-rehandshake-anon (61030ms)
+> - mini-loss-time (60130ms)
+> - mini-dtls-hello-verify-48 (30050ms)
+> - tls12-ffdhe (27790ms)
+> - x509sign-verify-rsa (18460ms)
+> - x509sign-verify-ecdsa (16050ms)
+>
+> Disable them to avoid so many timeouts in qemuriscv64-ptest runs.
 
-BIND 9.20.28
-------------
+Thanks for submitting this. I'm sorry if I wasn't clear before, but I think=
+ we
+should only disable mini-record-2 and record-retvals to start, since they a=
+re
+significantly longer than all of the others. If gnutls remains a problem
+afterward then the others should be considered, but for now we want to try
+retaining the others to maximize test coverage.
 
-   The BIND 9.20.28 release was withdrawn after the discovery of a
-   regression in it during pre-release testing.
+Trevor
+>
+> [1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162
+> [2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162#c19
+>
+> Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+> ---
+>  ...m-disable-slow-test-cases-in-RISCV64.patch | 109 ++++++++++++++++++
+>  meta/recipes-support/gnutls/gnutls_3.8.13.bb  |   4 +
+>  2 files changed, 113 insertions(+)
+>  create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-Makefil=
+e.am-disable-slow-test-cases-in-RISCV64.patch
+>
+> diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-Makefile.am-di=
+sable-slow-test-cases-in-RISCV64.patch b/meta/recipes-support/gnutls/gnutls=
+/0001-tests-Makefile.am-disable-slow-test-cases-in-RISCV64.patch
+> new file mode 100644
+> index 0000000000..6dbd165658
+> --- /dev/null
+> +++ b/meta/recipes-support/gnutls/gnutls/0001-tests-Makefile.am-disable-s=
+low-test-cases-in-RISCV64.patch
+> @@ -0,0 +1,109 @@
+> +From a27faed63722263f5ae8e2b7fac564de3a65fda1 Mon Sep 17 00:00:00 2001
+> +From: =3D?UTF-8?q?Jo=3DC3=3DA3o=3D20Marcos=3D20Costa?=3D <joaomarcos.cos=
+ta@bootlin.com>
+> +Date: Mon, 28 Sep 2026 15:56:37 +0000
+> +Subject: [PATCH] tests/Makefile.am: disable slow test cases in RISCV64
+> +MIME-Version: 1.0
+> +Content-Type: text/plain; charset=3DUTF-8
+> +Content-Transfer-Encoding: 8bit
+> +
+> +Timeouts have been observed (very frequently in the past weeks)
+> +in the autobuilder, and a bug [1] was filed at Bugzilla.
+> +
+> +After some investigation [2] was performed by Trevor Gamblin, we now hav=
+e a
+> +list of the most time consuming test cases:
+> +
+> +- mini-record-2 (187880ms)
+> +- record-retvals (145390ms)
+> +- rng-op-key (63820ms)
+> +- rng-op-random (63330ms)
+> +- rng-op-nonce (63260ms)
+> +- dtls-rehandshake-cert (61360ms)
+> +- dtls-rehandshake-cert-2 (61230ms)
+> +- dtls-rehandshake-anon (61030ms)
+> +- mini-loss-time (60130ms)
+> +- mini-dtls-hello-verify-48 (30050ms)
+> +- tls12-ffdhe (27790ms)
+> +- x509sign-verify-rsa (18460ms)
+> +- x509sign-verify-ecdsa (16050ms)
+> +
+> +Disable them to avoid so many timeouts in qemuriscv64-ptest runs.
+> +
+> +Upstream-Status: Inappropriate [oe-core specific]
+> +
+> +[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162
+> +[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162#c19
+> +
+> +Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+> +---
+> + tests/Makefile.am | 20 ++++++++++----------
+> + 1 file changed, 10 insertions(+), 10 deletions(-)
+> +
+> +diff --git a/tests/Makefile.am b/tests/Makefile.am
+> +index f84b2f1..b03e570 100644
+> +--- a/tests/Makefile.am
+> ++++ b/tests/Makefile.am
+> +@@ -161,7 +161,7 @@ ctests +=3D tls13-early-start
+> +=20
+> + ctests +=3D tls13/no-auto-send-ticket
+> +=20
+> +-ctests +=3D mini-record-2 simple gnutls_hmac_fast set_pkcs12_cred cert =
+certuniqueid tls-neg-ext-key \
+> ++ctests +=3D simple gnutls_hmac_fast set_pkcs12_cred cert certuniqueid t=
+ls-neg-ext-key \
+> + 	 mpi certificate_set_x509_crl dn parse_ca x509-dn x509-dn-decode recor=
+d-sizes \
+> + 	 hostname-check cve-2008-4989 pkcs12_s2k chainverify missingissuer mis=
+singissuer_aia record-sizes-range \
+> + 	 crq_key_id x509sign-verify sign-verify cve-2009-1415 cve-2009-1416		\
+> +@@ -172,13 +172,13 @@ ctests +=3D mini-record-2 simple gnutls_hmac_fast =
+set_pkcs12_cred cert certuniquei
+> + 	 rng-fork mini-eagain-dtls resume-dtls empty_retrieve_function \
+> + 	 tls13-rehandshake-cert gnutls_ext_raw_parse handshake-large-cert \
+> + 	 x509cert x509cert-tl x509cert-ct infoaccess mini-dtls-hello-verify si=
+gn-verify-ed25519-rfc8080 \
+> +-	 trustdb-tofu dtls-rehandshake-anon mini-alpn mini-dtls-large \
+> ++	 trustdb-tofu mini-alpn mini-dtls-large \
+> + 	 mini-termination mini-x509-cas mini-x509-2 pkcs12_simple \
+> +-	 mini-emsgsize-dtls chainverify-unsorted mini-overhead tls12-ffdhe \
+> ++	 mini-emsgsize-dtls chainverify-unsorted mini-overhead \
+> + 	 mini-dtls-heartbeat mini-x509-callbacks key-openssl priorities priori=
+ties-groups	\
+> + 	 gnutls_x509_privkey_import gnutls_x509_crt_list_import time x509-serv=
+er-verify \
+> + 	 sign-verify-ext4 tls-neg-ext4-key resume-lifetime \
+> +-	 mini-dtls-srtp rsa-encrypt-decrypt mini-loss-time gnutls-strcodes \
+> ++	 mini-dtls-srtp rsa-encrypt-decrypt gnutls-strcodes \
+> + 	 mini-record mini-dtls-record handshake-timeout mini-record-range \
+> + 	 cert-status rsa-psk global-init sec-params sign-verify-data \
+> + 	 fips-test fips-override-test mini-global-load name-constraints x509-e=
+xtensions \
+> +@@ -192,16 +192,16 @@ ctests +=3D mini-record-2 simple gnutls_hmac_fast =
+set_pkcs12_cred cert certuniquei
+> + 	 rsa-rsa-oaep rsa-rsa-pss \
+> + 	 mini-dtls-fork mini-key-material x509cert-invalid \
+> + 	 tls-ext-register tls-supplemental mini-dtls0-9 duplicate-extensions \
+> +-	 record-retvals mini-server-name tls-etm tls-force-etm x509-cert-callb=
+ack alerts \
+> ++	 mini-server-name tls-etm tls-force-etm x509-cert-callback alerts \
+> + 	 client-sign-md5-rep tls12-invalid-key-exchanges session-rdn-read \
+> + 	 tls13-cert-key-exchange x509-cert-callback-ocsp gnutls_ocsp_resp_list=
+_import2 \
+> + 	 server-sign-md5-rep privkey-keygen mini-tls-nonblock no-signal pkcs7-=
+gen dtls-etm \
+> +-	 x509sign-verify-rsa x509sign-verify-ecdsa x509sign-verify-gost \
+> ++	 x509sign-verify-gost \
+> + 	 cipher-alignment oids atfork prf psk-file priority-init2 post-client-=
+hello-change-prio \
+> + 	 status-request status-request-ok rfc7633-missing sign-verify-ext \
+> +-	 fallback-scsv pkcs8-key-decode urls dtls-rehandshake-cert rfc7633-ok =
+\
+> ++	 fallback-scsv pkcs8-key-decode urls rfc7633-ok \
+> + 	 key-usage-rsa key-usage-ecdhe-rsa mini-session-verify-function auto-v=
+erify \
+> +-	 record-timeouts mini-dtls-hello-verify-48 set-default-prio \
+> ++	 record-timeouts set-default-prio \
+> + 	 tls12-anon-upgrade tlsext-decoding rsa-psk-cb gnutls-ids \
+> + 	 rehandshake-switch-cert rehandshake-switch-cert-allow rehandshake-swi=
+tch-cert-client \
+> + 	 rehandshake-switch-cert-client-allow handshake-versions dtls-handshak=
+e-versions \
+> +@@ -214,7 +214,7 @@ ctests +=3D mini-record-2 simple gnutls_hmac_fast se=
+t_pkcs12_cred cert certuniquei
+> + 	 set_x509_key_file_der set_x509_pkcs12_key crt_apis tls12-cert-key-exc=
+hange \
+> + 	 tls11-cert-key-exchange tls10-cert-key-exchange ssl30-cert-key-exchan=
+ge \
+> + 	 dtls12-cert-key-exchange dtls10-cert-key-exchange x509-cert-callback-=
+legacy \
+> +-	 keylog-env ssl2-hello tlsfeature-ext dtls-rehandshake-cert-2 dtls-ses=
+sion-ticket-lost \
+> ++	 keylog-env ssl2-hello tlsfeature-ext dtls-session-ticket-lost \
+> + 	 tlsfeature-crt dtls-rehandshake-cert-3 resume-with-false-start \
+> + 	 set_x509_key_file_ocsp client-fastopen rng-sigint srp \
+> + 	 safe-renegotiation/srn0 safe-renegotiation/srn1 safe-renegotiation/sr=
+n2 \
+> +@@ -230,7 +230,7 @@ ctests +=3D mini-record-2 simple gnutls_hmac_fast se=
+t_pkcs12_cred cert certuniquei
+> + 	 rng-no-onload dtls1-2-mtu-check crl_apis cert_verify_inv_utf8 no-exte=
+nsions \
+> + 	 no-status-request hostname-check-utf8 pkcs8-key-decode-encrypted prio=
+rity-mix pkcs7 \
+> + 	 send-data-before-handshake recv-data-before-handshake crt_inv_write \
+> +-	 x509sign-verify-error rng-op-nonce rng-op-random rng-op-key x509-dn-d=
+ecode-compat \
+> ++	 x509sign-verify-error x509-dn-decode-compat \
+> + 	 ip-check mini-x509-ipaddr trust-store base64-raw random-art dhex509se=
+lf \
+> + 	 dss-sig-val sign-pk-api tls-session-ext-override record-pad \
+> + 	 tls13-server-kx-neg gnutls_ext_raw_parse_dtls key-export-pkcs8 \
+> diff --git a/meta/recipes-support/gnutls/gnutls_3.8.13.bb b/meta/recipes-=
+support/gnutls/gnutls_3.8.13.bb
+> index 9c8c994bdc..ff1c3e661e 100644
+> --- a/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+> +++ b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+> @@ -27,6 +27,10 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v=
+${SHRT_VER}/gnutls-${PV}.tar
+>             file://0001-tests-mini-dtls-framents-link-to-gnulib.patch \
+>             "
+> =20
+> +SRC_URI:append:riscv64 =3D "\
+> +    file://0001-tests-Makefile.am-disable-slow-test-cases-in-RISCV64.pat=
+ch \
+> +"
+> +
+>  SRC_URI[sha256sum] =3D "ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e60=
+4e99a8b16ca9c97e"
+> =20
+>  inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
 
-BIND 9.20.29
-------------
-
-Security Fixes
-~~~~~~~~~~~~~~
-
-- [CVE-2026-19668] Prevent excessive CPU use validating crafted DNSSEC
-  responses. ``a0a61dba9e``
-
-- [CVE-2026-19033] Require a TSIG on every message of incoming zone
-  transfers. ``9404cd2b8c``
-
-- [CVE-2026-77119] Prevent a DNSSEC downgrade of secure delegations via
-  unrelated NSEC3. ``3bed9c8e9e``
-
-- [CVE-2026-19941] Prevent forged DNSSEC-validated NXDOMAIN responses.
-  ``a36bf58daf``
-
-- [CVE-2026-19666] DNS64 with break-dnssec could cause an assertion
-  failure. ``4cec4965c4``
-
-- [CVE-2026-19667] Reject negative cache records that do not fit in a
-  dns_rdata_t. ``dbf08c8581``
-
-- [CVE-2026-19662] Prevent resolver crash with cached DNSSEC proofs.
-  ``c884cc1ba0``
-
-- [CVE-2026-75029] Discard repeated SOA, CNAME, and DNAME records when
-  parsing DNS messages. ``0d630758c2``
-
-- [CVE-2026-77692] Fix an unauthenticated crash on HTTPS using SIG(0)
-  ``5a24401c5c``
-
-- [CVE-2026-81736] Cached HTTPS/SVCB aliases could exhaust resolver CPU.
-  ``20bbb1639a``
-
-- [CVE-2026-76163] Prevent TKEY queries from terminating named without
-  global options. ``7645138538``
-
-- [CVE-2026-78301] Out-of-zone records in a zone database could be
-  served as authoritative. ``72a10c3a0b``
-
-- [CVE-2026-80274] Crash on wildcard answers carrying both NSEC and
-  NSEC3 proofs. ``0e44451b1a``
-
-- [CVE-2026-81563] Following HTTPS/SVCB aliases could leak resolver
-  cache memory. ``3162df369e``
-
-New Features
-~~~~~~~~~~~~
-
-- Add an agent skill for the isc_job/isc_async/isc_work APIs.
-  ``fe32990b06``
-
-Removed Features
-~~~~~~~~~~~~~~~~
-
-- Remove unused closest encloser proof caching. ``abd8b5bfd8``
-
-Feature Changes
-~~~~~~~~~~~~~~~
-
-- Reject oversized and malformed DNSKEY records up front. ``6c22109924``
-
-Bug Fixes
-~~~~~~~~~
-
-- Prevent a crash when using both dns64 and filter-a. ``bce5d10d18``
-
-- Fix update-policy grant external address passing. ``b1e955c326``
-
-- Missing required NSEC3 for delegation not detected. ``e84ed2e9d7``
-
-- Tighten EUI48 and EUI48 text parsing. ``ff50f2cdf1``
-
-- GeoIP ACL state can be stale or wrong after reload. ``63baf425b3``
-
-- Honor DNSSEC policy key tag ranges. ``b82e5834b7``
-
-- Fix double free in mdig when EDNS options are specified.
-  ``af5bd0b0ff``
-
-- Fix a crash when an IXFR falls back to AXFR with updates still
-  pending. ``e34062bc7e``
-
-- Fix DS requests to parental agents over TLS. ``55830d30f6``
-
-- Fix a crash when resolving names below a cached DNAME. ``b94e940f52``
-
-- Rndc-confgen `-q` (quiet) option is documented but doesn't work.
-  ``7e4a7ca1a7``
-
-- Enforce query ACLs for redirect zones and searched DLZs.
-  ``bc69876b2e``
-
-- Check "asnum" validity in GeoIP ACLs. ``28c2bfdc7b``
-
-- Prevent crashes while reporting DNSSEC signing statistics.
-  ``c190514f0a``
-
-- Fix various nits in the netmgr code. ``c28cdad51b``
-
-  The MR consists of couple of small fixes and uncaught errors in the
-  Network Manager. :gl:`#6257` :gl:`!12576`
-
-- Fix a crash on remote-servers lists that reference themselves.
-  ``aaae614f9d``
-
-- A record from outside a response policy zone could stop named.
-  ``d135513b37``
-
-- "rndc flushtree ." failed to flush the cache. ``96e8b585ed``
-
-- Invalid key-store configuration could abort the DNSSEC tools.
-  ``1d796ab072``
-
-- NSEC signature set could bypass the secure-delegation check.
-  ``c966177f6c``
-
-- Fix a possible nsupdate issue when using GSS-TSIG. ``4ddcab2d3c``
-
-- Fix isccc_alist_define error paths. ``af1349552a``
-
-- Check for empty 'endpoints' list. ``23f58af443``
-
-- Named could crash with a single-element geoip sortlist. ``0e996a4d3b``
-
-- Prevent out-of-bailiwick CNAMEs from evicting cached records.
-  ``cdedd4acd5``
-
-- Restore periodic cleanup of stale resolver address data.
-  ``356f4013f8``
-
-- Fix named-checkconf/named crash with malformed key name.
-  ``9f218f6aaf``
-
-- Fix -Wformat-truncation warning in totext_in_wks() ``f97c2bea40``
-
-- Fix off-by-one errors caused by magic hardcoded values. ``726c6cb795``
-
-- Hmac_verify() now accepts truncated HMACs only when requested.
-  ``c81b111496``
-
-- Prevent resolver crashes while processing DNS over TCP. ``81b3b6d89f``
-
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit c366449b3b6cb47dc418cf65340a35ea3a047621)
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
----
- .../bind/bind/0001-avoid-start-failure-with-bind-user.patch   | 2 +-
- .../0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch     | 2 +-
- ...0001-named-lwresd-V-and-start-log-hide-build-options.patch | 4 ++--
- ...bind-ensure-searching-for-json-headers-searches-sysr.patch | 4 ++--
- meta/recipes-connectivity/bind/bind/conf.patch                | 2 +-
- .../bind/bind/init.d-add-support-for-read-only-rootfs.patch   | 2 +-
- .../bind/bind/make-etc-initd-bind-stop-work.patch             | 2 +-
- .../bind/{bind_9.20.27.bb => bind_9.20.29.bb}                 | 2 +-
- 8 files changed, 10 insertions(+), 10 deletions(-)
- rename meta/recipes-connectivity/bind/{bind_9.20.27.bb => bind_9.20.29.bb} (97%)
-
-diff --git a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-index 30da1e9fd3e..15796a15fba 100644
---- a/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-avoid-start-failure-with-bind-user.patch
-@@ -1,4 +1,4 @@
--From 7682cbc2fa624fbeeb088736e154090d92c8b524 Mon Sep 17 00:00:00 2001
-+From 95141cf9494292fc5645165ef3d5e9e2ed2208c6 Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Mon, 15 Oct 2018 16:55:09 +0800
- Subject: [PATCH] avoid start failure with bind user
-diff --git a/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch b/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
-index f1d8a8e5691..99e781799da 100644
---- a/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch
-@@ -1,4 +1,4 @@
--From a633e336c248ceab41d3182848b65c95e90ef88c Mon Sep 17 00:00:00 2001
-+From 06e9624eb7e474a08ed7e1a456bfe9759ba211da Mon Sep 17 00:00:00 2001
- From: Khem Raj <khem.raj@oss.qualcomm.com>
- Date: Fri, 10 Apr 2026 23:33:49 +0000
- Subject: [PATCH] m4: Backport ax_prog_cc_for_build.m4 macros
-diff --git a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-index da4057064e1..80a4f2abded 100644
---- a/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-+++ b/meta/recipes-connectivity/bind/bind/0001-named-lwresd-V-and-start-log-hide-build-options.patch
-@@ -1,4 +1,4 @@
--From 4b870f60338fe45e036b8a76d47f053338920048 Mon Sep 17 00:00:00 2001
-+From f28920a59b658fcda24efde1c45322f785a0b0fe Mon Sep 17 00:00:00 2001
- From: Hongxu Jia <hongxu.jia@windriver.com>
- Date: Mon, 27 Aug 2018 21:24:20 +0800
- Subject: [PATCH] `named/lwresd -V' and start log hide build options
-@@ -20,7 +20,7 @@ Signed-off-by: Armin Kuster <akuster@mvista.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index 56bca5b..4fd62ed 100644
-+index 0bc3965..e1c2b12 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -35,7 +35,7 @@ AC_DEFINE([PACKAGE_VERSION_EXTRA], ["][bind_VERSION_EXTRA]["], [BIND 9 Extra par
-diff --git a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-index 9adc101247e..323985a4025 100644
---- a/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-+++ b/meta/recipes-connectivity/bind/bind/bind-ensure-searching-for-json-headers-searches-sysr.patch
-@@ -1,4 +1,4 @@
--From f3736e5535236cf978fd368b6905098ff6e4fd84 Mon Sep 17 00:00:00 2001
-+From f003f396067e6cc1e2ec609b296bb642b8ddf47b Mon Sep 17 00:00:00 2001
- From: Paul Gortmaker <paul.gortmaker@windriver.com>
- Date: Tue, 9 Jun 2015 11:22:00 -0400
- Subject: [PATCH] bind: ensure searching for json headers searches sysroot
-@@ -32,7 +32,7 @@ Signed-off-by: Paul Gortmaker <paul.gortmaker@windriver.com>
-  1 file changed, 1 insertion(+), 1 deletion(-)
- 
- diff --git a/configure.ac b/configure.ac
--index c06a0d7..56bca5b 100644
-+index 26c442a..0bc3965 100644
- --- a/configure.ac
- +++ b/configure.ac
- @@ -872,7 +872,7 @@ AS_CASE([$with_lmdb],
-diff --git a/meta/recipes-connectivity/bind/bind/conf.patch b/meta/recipes-connectivity/bind/bind/conf.patch
-index 803456c0b33..28ee4ae74d3 100644
---- a/meta/recipes-connectivity/bind/bind/conf.patch
-+++ b/meta/recipes-connectivity/bind/bind/conf.patch
-@@ -1,4 +1,4 @@
--From 450187e8feac041de02afd4c0c9039cc41e04cb9 Mon Sep 17 00:00:00 2001
-+From 5fc3dfd3f994b5fd97e97837eee2ad808cd8af93 Mon Sep 17 00:00:00 2001
- From: Qing He <qing.he@intel.com>
- Date: Tue, 30 Nov 2010 13:35:42 +0800
- Subject: [PATCH] bind: add new recipe
-diff --git a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-index a2c1fbb8f70..b373251c47e 100644
---- a/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-+++ b/meta/recipes-connectivity/bind/bind/init.d-add-support-for-read-only-rootfs.patch
-@@ -1,4 +1,4 @@
--From 582334d31432969be7e10906de7540f1dc64b17e Mon Sep 17 00:00:00 2001
-+From 42c109317070d19fda70635b7043cbc6f9ec36ef Mon Sep 17 00:00:00 2001
- From: Chen Qi <Qi.Chen@windriver.com>
- Date: Thu, 27 Mar 2014 02:34:41 +0000
- Subject: [PATCH] init.d: add support for read-only rootfs
-diff --git a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-index dc1f8f5a9a6..74cf947787a 100644
---- a/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-+++ b/meta/recipes-connectivity/bind/bind/make-etc-initd-bind-stop-work.patch
-@@ -1,4 +1,4 @@
--From 50601a7ee8fd19ddbe9a592c57ae6197782d4c2f Mon Sep 17 00:00:00 2001
-+From 2e1314f2e71be15704ba18756250185b36a5c0da Mon Sep 17 00:00:00 2001
- From: Roy Li <rongqing.li@windriver.com>
- Date: Thu, 15 Nov 2012 02:27:54 +0000
- Subject: [PATCH] bind: make "/etc/init.d/bind stop" work
-diff --git a/meta/recipes-connectivity/bind/bind_9.20.27.bb b/meta/recipes-connectivity/bind/bind_9.20.29.bb
-similarity index 97%
-rename from meta/recipes-connectivity/bind/bind_9.20.27.bb
-rename to meta/recipes-connectivity/bind/bind_9.20.29.bb
-index 6d2b88e0123..5ce94d597b4 100644
---- a/meta/recipes-connectivity/bind/bind_9.20.27.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.20.29.bb
-@@ -21,7 +21,7 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
- 		   file://0001-m4-Backport-ax_prog_cc_for_build.m4-macros.patch \
-            "
- 
--SRC_URI[sha256sum] = "145ab7a50b33a06d9d488b5e668c887e754f42acf8954e2b5dc7e238b080e4a0"
-+SRC_URI[sha256sum] = "587029508b3b1b43229fae416c97e5543aba45809cefaca98a5004a02a5736c1"
- 
- UPSTREAM_CHECK_URI = "https://ftp.isc.org/isc/bind9/"
- # follow the ESV versions divisible by 2
--- 
-2.35.6
 
 
