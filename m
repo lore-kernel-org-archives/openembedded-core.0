@@ -2,31 +2,31 @@ Return-Path: <yurade@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82DDACA5FA1
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 16:27:25 +0000 (UTC)
-Received: from rcdn-iport-1.cisco.com (rcdn-iport-1.cisco.com [173.37.86.72])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.61685.1790612835224520360
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 8621ACA5FA1
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 16:28:15 +0000 (UTC)
+Received: from rcdn-iport-2.cisco.com (rcdn-iport-2.cisco.com [173.37.86.73])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.62735.1790612886988649171
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 09:27:15 -0700
+ Mon, 28 Sep 2026 09:28:07 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=CXADSPHs;
- spf=pass (domain: cisco.com, ip: 173.37.86.72, mailfrom: yurade@cisco.com)
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=Uu1N6NYQ;
+ spf=pass (domain: cisco.com, ip: 173.37.86.73, mailfrom: yurade@cisco.com)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
   d=cisco.com; i=@cisco.com; l=9939; q=dns/txt;
-  s=iport01; t=1790612835; x=1791822435;
+  s=iport01; t=1790612887; x=1791822487;
   h=from:to:subject:date:message-id:mime-version:
    content-transfer-encoding;
   bh=co64fKfKne/ju6WqU4LyITWcePnpP2O8RxO+zcDGhzg=;
-  b=CXADSPHs2y6aiWghKHFqEIkPQybcneMZ7uvSE2BwPRv9FEXFWwYV5BDs
-   BpBWgsLrx8YHp2f6SUV7Kwul8fJKoP4/eEhwWx51JcdxqTxe0ka+vgDjG
-   9ntReAD+Ra03nXOiw8qYXVc4+gvDl6sHTr1b37HZhVoiP41LXNLbV3/qj
-   pMF1r9AKl7qUHTEoJp7/uBhY9FOGbrenRxUhEN8xrSPM7Z5GbxaCLvXbU
-   rStTmV6hy7lnGIDqHd+dYt98Y0zjWnAOgQ2nVl+LtO/WkznXJJynmCEnG
-   o0B6+DTEJthZyiG9MF6EttBVN/+mOeDolit4Xl7MnNTcg+FBgO3Y/MbNP
-   Q==;
-X-CSE-ConnectionGUID: oSaNDu6eQ9a5EAEEt/bhWg==
-X-CSE-MsgGUID: 5ReDoYZWSzaPEr0OJMYa+g==
-X-IPAS-Result: =?us-ascii?q?A0BHAgA/lLpq/5D/Ja1aHgEBCxIMggULgld1YENJhFePU?=
+  b=Uu1N6NYQqO6njtCORrwFE+brM4BWr706qj5jL+SGU7Vj4hS4ZrQ+tnyC
+   lwuD4Ro82D1N2ZXCJj1zZaPEz1r1Id6HsLusvZJ/Bz3sd4MCMhjk8B8jv
+   OhK7HxLHx4Js6S1fuVq0fpAwO8CgGwzh7ZX5AftFpCwZPY4nultiPhMFD
+   4kHcJmT/zj5WPFNxPkIQqvlQ8xPo0+1kCiobVyegWNep0lqxxmDDPmOot
+   Bdpg8LzQSuK4qI0Nj5sQwtPx8anHAsnKbq/P8b+zLXT1QVhRg611VK7tn
+   Cq0s7n1oiw3t+lXYotWaiUqrjXNbMaOrMT4zr3UtigC5cEwS8BzGQd6L2
+   g==;
+X-CSE-ConnectionGUID: eB/pHsvMSxKc6tQeY+MDhg==
+X-CSE-MsgGUID: f/s2LeRNRtWRxp/c0bb7Fw==
+X-IPAS-Result: =?us-ascii?q?A0BHAgA/lLpq/4v/Ja1aHgEBCxIMggULgld1YENJhFePU?=
  =?us-ascii?q?oIhi2eSNhSBag8BAQEPRA0EAQGTEAImNAkOAQIEAwIDAQEBAQEBAQEBAQEBC?=
  =?us-ascii?q?gEBBQEBAQIBBwWBDhOGTw2QEgEpDwEYAVkDAQIDAiYCIgsjGAmDAgGCOgM3A?=
  =?us-ascii?q?xHCQ3qBMoEBgykBPwJDUNhLDQhqgWgBCxQBgQouhUCCfyABhQNdGAFEhDgnG?=
@@ -36,53 +36,52 @@ X-IPAS-Result: =?us-ascii?q?A0BHAgA/lLpq/5D/Ja1aHgEBCxIMggULgld1YENJhFePU?=
  =?us-ascii?q?QQ9AW4HkCoegl4HFGcTASsXGCktQD4cDSKTEwIBB5AWgiGgHnGEKIwijz6Ff?=
  =?us-ascii?q?Bozqm8LmH2OCoQJkkeEaYFoPIFHCwczGggbFYMiCUoZD44uCwuFX4MUxyYnM?=
  =?us-ascii?q?gIBAQcyAQEHAgcCDAMLgWiRfgEB?=
-IronPort-Data: A9a23:3nr0NKhS2lZC2iwAHkdPVIN6X161NxEKZh0ujC45NGQN5FlHY01je
- htvWTuBafmLYmWgLotzbo62/RwPvZXUzNBjQVFqrC88QSxjpJueD7x1DKtf0wB+jyHnZBg6h
- ynLQoCYdKjYdleF+FHwdOCn8ikkvU2xbuKUIPbePSxsThNTRi4kiBZy88Y0mYcAbeKRW2thg
- vus5ZeAULOZ82QsaDxMuvjT8EoHUMna4Vv0gHRvPZing3eG/5UlJMp3Db28KXL+Xr5VEoaSL
- 87fzKu093/u5BwkDNWoiN7TKiXmlZaLYGBiIlIPM0STqkAqSh4ai87XB9JAAatjsAhlqvgqo
- Dl7WTNcfi9yVkHEsLx1vxC1iEiSN4UekFPMCSDXXcB+UyQqflO0q8iCAn3aMqUfwe9RLXwQ+
- MVJIW0gRz2um6W8wI20H7wEasQLdKEHPasFsX1miDWcBvE8TNWbHOPB5MRT23E7gcUm8fT2P
- pVCL2EwKk6dPlsWZgt/5JEWxI9EglHubidRpF+9rqss6G+Vxwt0uFToGIePKofTH58Owi50o
- EqbxWnVBSAoC+eNwAKo6CqLpMr+lGD0Ddd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzBbCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ32JX9dJ5X3u38Qe+aUcTNEVI/WA==
-IronPort-HdrOrdr: A9a23:BWaS2q+XkjUI/1qfBgluk+DuI+orL9Y04lQ7vn2ZLiYlF/Bw9v
- re/sjzuiWbtN98YhwdcLO7Scq9qA3nlKKdiLN5VdzJYOCMggSVxe9ZgbcKuweBJwTOsshAyK
- xnb69yTPf0DVR8kILGxTPQKadF/DFCm5rY49s3CBxWPGZXV50=
-X-Talos-CUID: 9a23:k6A51268AmUFPZycEtss83UdPOw4LHDknX6NDmaVJHouQr2qRgrF
-X-Talos-MUID: =?us-ascii?q?9a23=3AKA9K6g7QlvHvNiwdLnBsz5CGxow12amCD3E/rq4?=
- =?us-ascii?q?UsvGpL3RXGRKshXe4F9o=3D?=
+IronPort-Data: A9a23:vAHrOKNV7lud12TvrR3ylsFynXyQoLVcMsEvi/4bfWQNrUp01GEEz
+ WFKWG6POPfeMWqgfdBza47i/R8CvsTRzIViHnM5pCpnJ55oRWUpJjg4wmPYZX76whjrFRo/h
+ ykmQoCeap1yFjmD9k/F3oHJ9RFUzbuPSqf3FNnKMyVwQR4MYCo6gHqPocZh6mJTqYb/WVzlV
+ e/a+ZWFZgf0gW4sawr41orawP9RlKWq0N8nlgRWicBj5Df2i3QTBZQDEqC9R1OQapVUBOOzW
+ 9HYx7i/+G7Dlz91Yj9yuu+mGqGiaue60Tmm0hK6aYD76vRxjnBaPpIACRYpQRw/ZwNlMDxG4
+ I4lWZSYEW/FN0BX8QgXe0Ew/ypWZcWq9FJbSJSymZT78qHIT5fj6/hES1kWJpM9wfZUCj9Sz
+ PEpaxUhbh/W0opawJrjIgVtrt4oIM+uOMYUvWttiGmDS/0nWpvEBa7N4Le03h9p2ZsIRqmYP
+ ZdEL2M0PXwsYDUXUrsTIIMjhu6ki1H0ciZTrxSeoq9fD237kVUtiuiwb4GPEjCMbcsShRy8q
+ 1jgxXjGOAECc9fHwzDa3G3504cjmgu+Aur+DoaQ8eZnhlCWzGEfBBAaEFC8u/SRjk+lR8kZL
+ FQZ/Ccrp6U++EGnCN7nUHWFTGWspBUQXZ9UVuY98gzIkvCS6AeCDW9CRTlEADA7iPILqfUR/
+ gfht7vU6fZH6dV5lVr1Gm+okA6P
+IronPort-HdrOrdr: A9a23:wFFdW6jARiOmKzci5IiyQ1TBVHBQXuwji2hC6mlwRA09TyX+rb
+ HKoB17726XtN9/Yh8dcLy7VZVoIkmslqKdn7NxAV7KZmCP0wGVxepZgrcKrQeNJ8SHzI5g/J
+ YlVbRiA9vtClU/p8P77A6kV+sE+rC8gcSVbSO09QYKcemsAJsQiDtENg==
+X-Talos-CUID: 9a23:w8PIWm+YPNdwJSTvcWyVv0M+XdgFaWP492fzKBGkMGtYC5i5SVDFrQ==
+X-Talos-MUID: 9a23:owemaAUpjsm9ZGPq/DGrn2tGOf1O2biRMlAV1p5escPbGzMlbg==
 X-IronPort-Anti-Spam-Filtered: true
 X-IronPort-AV: E=Sophos;i="6.27,128,1787011200"; 
-   d="scan'208";a="528312234"
-Received: from rcdn-l-core-07.cisco.com ([173.37.255.144])
-  by rcdn-iport-1.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Sep 2026 16:27:14 +0000
+   d="scan'208";a="514285732"
+Received: from rcdn-l-core-02.cisco.com ([173.37.255.139])
+  by rcdn-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Sep 2026 16:28:05 +0000
 Received: from sjc-ads-7871.cisco.com (sjc-ads-7871.cisco.com [10.30.222.158])
 	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
 	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
 	(No client certificate requested)
-	by rcdn-l-core-07.cisco.com (Postfix) with ESMTPS id 2E91218000206
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 16:27:14 +0000 (GMT)
+	by rcdn-l-core-02.cisco.com (Postfix) with ESMTPS id CB1621800036E
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 16:28:05 +0000 (GMT)
 Received: by sjc-ads-7871.cisco.com (Postfix, from userid 1889728)
-	id C646CCC1611; Mon, 28 Sep 2026 09:27:13 -0700 (PDT)
+	id 79C3ECC1611; Mon, 28 Sep 2026 09:28:05 -0700 (PDT)
 From: Yogita Urade <yurade@cisco.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [OE-core][wrynose][PATCH] bison: Fix CVE-2026-56390
-Date: Mon, 28 Sep 2026 09:27:13 -0700
-Message-Id: <20260928162713.2651011-1-yurade@cisco.com>
+Subject: [OE-core][scarthgap][PATCH] bison: Fix CVE-2026-56390
+Date: Mon, 28 Sep 2026 09:28:04 -0700
+Message-Id: <20260928162804.2653316-1-yurade@cisco.com>
 X-Mailer: git-send-email 2.35.6
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-7871.cisco.com [10.30.222.158];TLSv1.3;TLS_AES_256_GCM_SHA384;256
 X-Outbound-SMTP-Client: 10.30.222.158, sjc-ads-7871.cisco.com
-X-Outbound-Node: rcdn-l-core-07.cisco.com
+X-Outbound-Node: rcdn-l-core-02.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 16:27:25 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246776
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 16:28:15 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246777
 
 This patch applies the upstream fix as referenced in [2],
 using the commit shown in [1].
