@@ -1,384 +1,195 @@
-Return-Path: <deepesh.varatharajan@windriver.com>
+Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C4EE3C9833E
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:20:10 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.52072.1790580000092272240
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 329BCC9833E
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:39:21 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.61])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.53249.1790581151133465699
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 00:20:01 -0700
+ Mon, 28 Sep 2026 00:39:11 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=SRmABPaw;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=373100349c=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68S6cbjr1666899
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:19:59 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=8LyELaAXm
-	xJXJ5Sk2mkXp2waZM3nmZs31V9kzFuzOe8=; b=SRmABPaw5V3Pgk44ESSe1D3fo
-	c/jTbbxYHSOxuAo8RaBGiexslBIM76uGF8Yu6uf6lxzcV+CpUxaEwY+2WLUb94X+
-	XZU19k5hNz452HKI+ndtt8tjjm/e45ghS1Tg3iuOsBK0hnh6YVP9Pq2HNmILQrS4
-	Ojc08WtZcggWHQHXHzX+3+28M5dcpXI734XdDVEvINEsUyTVfBV7AIMxbUgT8TAu
-	naRnGeghTG/xua2TeZVHC8iR35eVrl/QCOu134+ijHj8/zu72Pplkp9sUfy6bAhG
-	FHhcvjXpxtAylR1M30YLp6RBUlq6exF+Bgd7LqX8jOJnNpkj7cukAHpFP8vbw==
-Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022107.outbound.protection.outlook.com [52.101.48.107])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gx38wa7wm-1
-	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:19:58 +0000 (GMT)
+ dkim=pass header.i=@ericsson.com header.s=selector2 header.b=Bl96Q39n;
+ spf=pass (domain: ericsson.com, ip: 52.101.69.61, mailfrom: daniel.turull@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=lJww7VIr1dh9mo/mGz50I7bPcFfg3dzObLAiBo++i1DOTEw6cF+Gv+DfNH9q/IbK/zVXjQP79+1FzA04LWpnopmVSGqb0yulubwqUmEg6ZsDILnZctBLh1QEJ8YOqE8qtF1MX4GONpRA3YFFHGlpFEp3KQqGPsw/JMsSnxIp9iozyPEz34Kc2+RitlX74+a1n1aRg2eP20ABiRIpjcdDRJYiXr+7BrtgNmYmZsfhSImravDN82FjnoijN5m2dlkWOF0xPZzcuBLgAZI270f9Sv7CwxdnqiIHfs+oIpiMbllND9D4MNtV1LQTm2Bd9XUjmh4SYmM7xU8IBmAn0laQ9A==
+ b=k1kb/umvhxthZSs1iuOfuruySsGSZTnJogbQutYk1gjBNudKehyoEM+627+txHfJOni09SzsjmgWZPFZTUx+lU5Y7Uar8H3Xvl2ywOThzS5LUTSy6Apq+i3wyMtTZNqlZ5P8r7qIpfFEU3nHg1EJU5QTjQo5ERFL7zu7hbKKItzX8kj3TJ4JEUoDnGFwXngKqLYnIwElNdRzzQ9fQRjPm5GBc5rry7T+phlJa5WMPPo/frpE3MoBGtp2Ly/SMrbwqx2F9jy+rsW2uGrXxVX9lKxxwiLlWLpSGFKoCbu94dt06HGlWWAU2ysIv5lkSzO5Y+uQ4zRRS3LbP1L7CqU30Q==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=8LyELaAXmxJXJ5Sk2mkXp2waZM3nmZs31V9kzFuzOe8=;
- b=W7Jdh4Re932Ct+ogY1tVExr6Ht+i2NAy9+fokAxTD0Xp59OYi834Jn3eJ4ssyvo36z+MkVmDYTJW/jbivC22hfH7gvPi71xRXMr9GRzU/nWYJvBBqcb3OpvyW2G9Q2nOhhPZ80ePeUKBEomy8ArdS/ZoR7ZdLdEX6O53NaLtWKRIQ0qmSzH2N1z6M/LhhvSHnIodUWEihwZvMXC9eHUlb8Wn4FkPN3hceTaTEYnCnQ7Qw3TimR7VvDWHoqoly4HC/TAZuey2Cdo+VWsVzOREgolP+DEc0T2HD5D6NI4U6TDGs3zq+Ln6UDIz0Ae5obXVE8x1RPPNxy/dEBmQpW9cuQ==
+ bh=j956wcIC5fqlxiFAWelbzW21+JIVFeujwq9YMp1LGwM=;
+ b=K6m7KcUg2S/phxYEm31JYCRLhBNzz7vO8d+vUvyOmvGOaEBLmaoJMxXP01PxfDXPatC8ouax3PsC9W3nkTYTJxjYfOt+ez+Yw/07R5AC1xawO1U807WKlI2ILgsA22VLI9k+SnYhf4ljptzUy3gkc391b6/wNzmQIs69/cwgeV4mgWlqntVfy9bzr4JJ5adiUP1Hg62W+en9ks8QA1UH/3lX4AjJOSF2rliXSlq0cuwJ/RS1WypWv5f0nPSJR29MgFg/KHh4ikIqusBrGrxYrc6iZQbCvijf6s3A16xEMAQsY19OJOcnrsRFmzRpx78UoUSbrvToR9xGl/miP7+y6w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=windriver.com; dmarc=pass action=none
- header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
-Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=windriver.com;
-Received: from DM4PR11MB7328.namprd11.prod.outlook.com (2603:10b6:8:104::9) by
- MN6PR11MB8217.namprd11.prod.outlook.com (2603:10b6:208:47d::18) with
+ smtp.mailfrom=ericsson.com; dmarc=pass action=none header.from=ericsson.com;
+ dkim=pass header.d=ericsson.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=j956wcIC5fqlxiFAWelbzW21+JIVFeujwq9YMp1LGwM=;
+ b=Bl96Q39nQ2jbAkbX/ERTkYjfsl+91OXoKu8Ph4PUcDf88iz7+NAE8vxl4TgsM2pSJjiJhMWZL0NiVpovVqXzq3MFMFr9Iht3bF69QLZmh5kQp6gGKeHLOvHmAWvClGd03NtLVa1mpVTTVGDND1z3bX+CV1M0PQkIINkVHQA5d3xt/wqO1cNtssRxvS+S4QNlvYa/oXWK79C2zQMEStdiiRdpYz8fJOMkmOsIP9zrW6c+Jus3tQBceEYum0q/xFP+PzjMytOjoxr+s1uIgMuBgc1J51HMRfnbcJk6g5Wc9QbGP7IC0MNNGPSv1gq277vaKw8/AS2SUwp81jOQViSMcg==
+Received: from AM7PR07MB6437.eurprd07.prod.outlook.com (2603:10a6:20b:140::11)
+ by AMBPR07MB11323.eurprd07.prod.outlook.com (2603:10a6:20b:6ee::9) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.23; Mon, 28 Sep
- 2026 07:19:55 +0000
-Received: from DM4PR11MB7328.namprd11.prod.outlook.com
- ([fe80::26e8:ea57:9a33:9a86]) by DM4PR11MB7328.namprd11.prod.outlook.com
- ([fe80::26e8:ea57:9a33:9a86%4]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
- 07:19:54 +0000
-From: Deepesh.Varatharajan@windriver.com
-To: openembedded-core@lists.openembedded.org
-Cc: Sundeep.Kokkonda@windriver.com, SunilKumar.Dora@windriver.com,
-        Deepesh.Varatharajan@windriver.com
-Subject: [PATCH] clang: Replace OE-specific test guard with upstream backport
-Date: Mon, 28 Sep 2026 00:19:40 -0700
-Message-ID: <20260928071940.3890993-1-Deepesh.Varatharajan@windriver.com>
-X-Mailer: git-send-email 2.49.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR13CA0153.namprd13.prod.outlook.com
- (2603:10b6:a03:2c7::8) To DM4PR11MB7328.namprd11.prod.outlook.com
- (2603:10b6:8:104::9)
+ 2026 07:39:06 +0000
+Received: from AM7PR07MB6437.eurprd07.prod.outlook.com
+ ([fe80::fb9c:237c:ec12:2db0]) by AM7PR07MB6437.eurprd07.prod.outlook.com
+ ([fe80::fb9c:237c:ec12:2db0%5]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
+ 07:39:05 +0000
+From: Daniel Turull <daniel.turull@ericsson.com>
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>,
+	"mathieu.dubois-briand@bootlin.com" <mathieu.dubois-briand@bootlin.com>
+CC: "JPEWhacker@gmail.com" <JPEWhacker@gmail.com>
+Subject: Re: [OE-core] [PATCH v2 1/2] create-spdx-3.0: record component
+ release date in SPDX output
+Thread-Topic: [OE-core] [PATCH v2 1/2] create-spdx-3.0: record component
+ release date in SPDX output
+Thread-Index: AQHdTMdD4alKShMqlUqkR3yUTLX8BrbiNVCAgAFqAAA=
+Date: Mon, 28 Sep 2026 07:39:05 +0000
+Message-ID: <8b0d92bfaa306004272df85e1e461b6ac18fbc3d.camel@ericsson.com>
+References: <20260925082404.1491266-1-daniel.turull@ericsson.com>
+	 <DLQ0HH8L9QHZ.1WYTWAWQERROV@bootlin.com>
+In-Reply-To: <DLQ0HH8L9QHZ.1WYTWAWQERROV@bootlin.com>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Evolution 3.52.3-0ubuntu1.1 
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=ericsson.com;
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: AM7PR07MB6437:EE_|AMBPR07MB11323:EE_
+x-ms-office365-filtering-correlation-id: 373b4cbb-5701-4b65-3b01-08df1d339313
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|1800799024|366016|10070799003|23010399003|376014|38070700021|56012099006|4133799003|3023799007|6133799003|10067099003|11063799006|4143699003|22082099003|18002099003;
+x-microsoft-antispam-message-info: 
+ gv0Wpcco8uOx5sMbFuKMvAQqw6A3dpjBYRb7dsDZNv91z0gfVKZ0XIX3k/houVd5eJDVyUmYWCJt/aLFBY0f7jlhIpEZ3HAJHtIu8i3nfSoiaF9ttJ21oCJbO5B9dNES/GT7WdGv+bR0gui49FTR+4zfBJfg7AehPAqL9p21ZtUNxl7C/AotxfNXvgsgSx03VkcDMGFxT22I1d6/o/+Yrp0JOBudXmcEHd9dKpOFRG8vjBc34VxF0glh5iLDEfBI2hOxsZ8KbbqB9BWdo267wwJfeMzoCmIrAQDK5e1Uslm0NME8YiPmPC0WZ2az21EqHYWyvYH5hXXVhLOyzkzmIzojR4tfL+7upiW0W2fcS9OLLSLhTdpaHo/rpLmY3dKFFTs0ldw4nyGj7nAuYvjjuVOGVkcNbngmHPRsO590ZvrYhfqo4oJeklha7WuSn7dg6dxuGUbXzzycdqmFZMSHLMOYxGZk77RnxwogVqJ00weBo7gSVFvLi3MXoVVMDGfpCxLOBmiDuio3RoEh1XoUTq7bV5PCDGA2X3BCgnhv+xZK7cFgeBpp/3KPMZlQiaoTdYCbDLrAkUOMFIBw4sGnAn3qVKDJddIslSCbfAYa+jf0NcmXRUtI9zhksuTEFJtyGOGmV00vOCmNygSAS0nYYhBHs5+VXDatSjapHa3GGvE=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM7PR07MB6437.eurprd07.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(1800799024)(366016)(10070799003)(23010399003)(376014)(38070700021)(56012099006)(4133799003)(3023799007)(6133799003)(10067099003)(11063799006)(4143699003)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 2
+x-ms-exchange-antispam-messagedata-0: 
+ =?utf-8?B?R3kzbmVTOFM4eTVKcndKT3Z1RE9mUGUvdGN5WGNIS3pHQWhzMkorRWExMVkv?=
+ =?utf-8?B?MDY2dkhwOGlaZEptTGIwQTVZdkkwZlpSTDlIVzdVUHFNcFNKU3UvNjBCUmF0?=
+ =?utf-8?B?aGJ0TUV2MnNVVjBLT1BZbTRNNEUvWmhsbldVY2FlNjZLWkxhLzlIK2tCRUpy?=
+ =?utf-8?B?cFBHaWFQK21FVld6V1NHdVhuN1NGbjhLVVBkdEovY3h0UGxkblV1ZVo2Y3p0?=
+ =?utf-8?B?eWovTDFvN0lWUnY0MkN6bkZJbUdyZ2M2VWNzNlRSVWltc3F5U0c2OFpTa2gw?=
+ =?utf-8?B?U3QvYXYweVNDUjFLZ2hINjJSbVJNMi84VFVqVU1tTWtmVkFxQ0VQR2V0SjZV?=
+ =?utf-8?B?S014TWFwV0lGUlZVNVNGMWhseWVKa0Y0RXJyeXNFWlhTZEZvaldIS2JGMzdY?=
+ =?utf-8?B?M2w3d1QxN01LUnpteGJZZ0ZsVWdud2NtbXVMV3YwZjdaV25DeGJzOVBWdEFT?=
+ =?utf-8?B?YkpIdnpKc0NvMlVFRU9mSHJwU2xjekphQU4xNnBtYjc0WHpOU1Y2TUtpZzV3?=
+ =?utf-8?B?SUlzSkliUDRocUR6aFJlbjM0WTFtblVqUC9tN2g5YTY5QWxLamIzZ0JoWkox?=
+ =?utf-8?B?aDVUN0tUSW96OXI4Yk9UZkNKNUZjeGtlMXlBc3RlNWNubkVQUUNneVV6dVNY?=
+ =?utf-8?B?dWk5Mkx1blhSUkc0SU1iVkRhYjJ0Y0E3b243OG93dlU0NVY4bUdSOWRteC80?=
+ =?utf-8?B?NTdhbU5QaHZxcDNyY0RqMXV0SWRJWDhzcm9FT3JDNDl0ME5JR3JjY05PMXJZ?=
+ =?utf-8?B?cmhlY0ROVEU3Rm0vRDFKQjA2MWZxOTMxNUdNeElVTlpqMi9yeW1GTjNLNWZC?=
+ =?utf-8?B?R2tvWUQxRzVGRm1wdmxJT0Z0VFJYcEtQL1B4SXpSSVMxcFJBZ1h0bGxBa3BB?=
+ =?utf-8?B?K2poNXNmTm9ldGhxYTFxUkM5OGk2MmpMaTdkaUwzeGVmb0FWeW1XbmVqYUho?=
+ =?utf-8?B?WVpDVmxZdlRicGhPTU9oZlZHekJPVTk1SjFOL1pNZzZOZjhaUXNkRXBsUEdD?=
+ =?utf-8?B?OFplNFNpYjJoZjhoTFltQnFyRjBjTkZlN25LNzkrU3Y0STE3eW5KbHFFZTVn?=
+ =?utf-8?B?VWw4ZzNmbWtxVW5OYWpwTldyT2lZTEduWUxva1ZvbXNBMlZXNUtHM3Y2NDVw?=
+ =?utf-8?B?MmRiQ0lnQjlleEoyY0drK3RyUUFKUFQzVkpaWThMcGcxekhPVTBpTFlLWTNk?=
+ =?utf-8?B?Y1BZRG5mS2xiQ3BsMjZ4cG9YMGZoM1htOVQvYnhaelV3ejM1dFJmQzF4R3RL?=
+ =?utf-8?B?ZVVGOW9aZjg4b1FXNGpYa2ZId2tBVWJBb2NzczR6S3F0WG85bWZOM1JmZUZn?=
+ =?utf-8?B?bDlBZHgvTWM0SGVmdjMyNzRPVHpBRVhuVm5GNWZ0NlQ3RnYvZGhvaTFuTEpX?=
+ =?utf-8?B?SVJWdGVBYzVUakJFVnMvOVdTOWd3b3lwaEdoaUlNZ0cwc3ZRU2J4VXRqM3JF?=
+ =?utf-8?B?NmlCYlQzQkMvRzFhd1Q3MSs3SCsxekVGdEpocUZoUVRyaS9tNG5TK1VHdW1K?=
+ =?utf-8?B?TG5TRFBzaGdCcGxMYWtEbE05VXlKYW9MeVpDbWU5bzFCamYwSUZTZWl4MlFn?=
+ =?utf-8?B?eERKRzZ4RnAxVXlNVHlwRktJd0s4RjcxYU10aHE5SThUQVpPdDBOSzhGQllT?=
+ =?utf-8?B?RVNjeVZxczNoNGdDVDhKMXNhQjE2TjlmV1pyRnVGSWN4RzVRUVR0REh2SDV6?=
+ =?utf-8?B?VUc3enRvVDNSbWJTM1FvZGQxNkdkSzRWU254bkV6VnBZTkxyQ1RzcFFVWFlx?=
+ =?utf-8?B?M0FxVGR6TDJmeWxTVDY1a3YxK2x3bDdJWTJ2ZUZjNDJ4anowMEx4UGVQL3Iy?=
+ =?utf-8?B?TVVpNWxiYkNpS0NaOWd1ditRU0ozRTYwNURQNURBay8wQk9Id0JwS1Zod3Y5?=
+ =?utf-8?B?S1RpNlMvN3RWb3grRlBqcW5rTXlhRTVBeTZyMjRocEZkbzBjTlJqTGE3WUp0?=
+ =?utf-8?B?TWphV1VBeEwwcVgzR2hscEJpZUZVU1U3dG1yZFNrUjJwQWY4UVRzSFpUKzBv?=
+ =?utf-8?B?Znd3UFNYWFZVa29TV2ovTHo1YnZOcVBuVk5rQWVwSHE3dVFiSEY4cUJoWjZr?=
+ =?utf-8?B?b01TZVlXcjg1VFBQWmRURElRU3VPZlZnZVloTlIwOUplNXYvMUVIUnlMOWtt?=
+ =?utf-8?B?Vm9rR0xOYkk3bEQ3SlJ5OTlvcWF3NGI5NHBWUC9SUVpiUTg4Y3RXR0ltNXU3?=
+ =?utf-8?B?L0xTVHJaRXI2OFIzY09HeUpUY3NqaS8zeEVmd2tVWWg0M1o2cVhJUVB1aHVY?=
+ =?utf-8?B?cm9rcEZ4dDg2bWY2bG91MVhGSzZzK0lkZHYvZ2ljWktFQzJRYWVJSlJmcFI2?=
+ =?utf-8?B?YllUcE1nRXZFZk1ESmZydzJ2MmRXSkRlZDZlK0x6TlF0am1kSmN5ZjhuNDc0?=
+ =?utf-8?Q?M9B+97ak74xhVnPNPXWNJvtFxPzeUkWmlFsbsqjMxdwXv?=
+x-ms-exchange-antispam-messagedata-1: mZIVNJIg8g4QPh4MoZjrHicpW1RGy0XgFzw=
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <37CB85CE121A4540ACCE993AAF095F40@eurprd07.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB7328:EE_|MN6PR11MB8217:EE_
-X-MS-Office365-Filtering-Correlation-Id: 0a349e64-211f-4489-a6f3-08df1d30e4e9
-X-MS-Exchange-SenderADCheck: 1
-X-MS-Exchange-AntiSpam-Relay: 0
-X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|52116014|376014|1800799024|366016|18002099003|13003099007|38350700014|10067099003|260925021311599003|260925021911599003|260925022911599003|56012099006|11063799006|6133799003;
-X-Microsoft-Antispam-Message-Info: 
-	H+T884+4TO9HsNigSKoN41dawVR9CPql/VYig8+iKMzqoSzlJBq9HD15HZ7cfzz3DqEB/36Xh82e9rZSBCS3EKSGDmKMn9wSyKjAtWm18UOyZMaSncyVUwKfYA6YZ0F3LA0CBfLjkGYZUQzz1CSOomTobYjB7DcbiYyTOIBAzoGs3hSPBM93x824v1o2nB6DoYm614+HQSXvkXvXwR6ets9s5mb6UgHk2JI0wrkLkjDGEJc/bhL15kYovIMp4yckH9jOL25sLcpBThk1o4i3vUKojE8vRWsBSDE6dUSyG+dVLJ+bJpjosXAjpt96rMpVsq5aa0KUD1lG/SVlCt6qoPbmkazVTwkZ3dE+0wQFFbpYi8wF9O0kb1cVmOJtMe7vQTDOb7IVa+A733DywBwZNOe7MItvkt22idfH06neGviGTfduuYZwhG/5MHKGplxjgMcWGu2NcMd5uYFs1CUTl1Ov2f9yQP1EZRkk9c7BZSRAcrzl+eru2+ssrz35U0pUkeIholUTIRDhSLfL+PzP/X/qA5JN0rzKDdvp/QnESUaXJet6kO0JVt5KQWmvSvDl/y+XbteOYvMMtlp+oW1u0H5BniSVqFmdIBiQQdnvej+0a410Nan02g4XrAiJ6QITpKFWRvd5FTKF6TQ2d1kZjXbAI5HLkySlXeit3ftR0OBEJ1wqnmx//bvxuCl4nssbLZpW1+BA67AhAHEIJ7Vmqm4vHvmTGyUZ02lgtp/NIhI=
-X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7328.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(52116014)(376014)(1800799024)(366016)(18002099003)(13003099007)(38350700014)(10067099003)(260925021311599003)(260925021911599003)(260925022911599003)(56012099006)(11063799006)(6133799003);DIR:OUT;SFP:1102;
-X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
-X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?JNR0EyE8nx06U+4iRy40LIi9Zkg9tTZYIDlhKewBmw3CIB+qYnaYLJlE4lXo?=
- =?us-ascii?Q?H4Du/nJL7q5r6W+qeuFMuujJwaj40F13bxTgnrPXMOWRskvJW+79WZ8OqvxO?=
- =?us-ascii?Q?fYlo3LE2F6LRrDijw+jtHpq/paxn46Sime6Er2LPN1EIs42n/EC/cO4UY+Jd?=
- =?us-ascii?Q?NZ4aviDHJWYbdJkPiT1/VCH0h8ROfDHSgvSuwVyg3eflw24ihx2pdWXIgaLD?=
- =?us-ascii?Q?ng4boi+5Rn0Ip40ZqPt0BfTuE32bWAOImQKZJ0sksdVerPQkv7oPMB2iBTEs?=
- =?us-ascii?Q?rCRqQqsZuu7o9zKJQA7Jhapi8FClV6ezYzKmDdlTRrP+h1IgFTTVWLHWcpvT?=
- =?us-ascii?Q?gsdbfCnuISdHUoe+rzxhtyNX8bD9eOwnfSalhTsBfHq+A8D051qjKWYnvosA?=
- =?us-ascii?Q?Gv1plIXo0aGKxdPIhPopGqVSodqO89PK5NBXLKsaaK7lsYuMIbAdnXdnReuD?=
- =?us-ascii?Q?vwmck7q2ES7RZmq+wCSi7JKu8BjbqI18+D2zd48Iy/qL2kWzan8ombVPG+iY?=
- =?us-ascii?Q?cZOh+4AILhgIie4ZjModrYKOdSO9+YF+EcX+TPqrmkAijOwhOb14A2+nldCo?=
- =?us-ascii?Q?re8EqnFAp6U9IjkEolPtuGO90xox+Wm9gjaNdpXe5CjqNu3ASyUmEKSYOc/0?=
- =?us-ascii?Q?672TnEmbzWLDg4hja5MPoINB8vWy8nI424/eFwznNEGU/YXn/eUXj/UvE0iv?=
- =?us-ascii?Q?FMrdUuXsqd/LO4iVa7pMOy9ozTb7hwg/KLyDvRE08j53znCSRIlGyVSfJLU/?=
- =?us-ascii?Q?0ovd6ZH2N9NOuf0BlkXEvlR+CPfhfl3GlGD0E5ZL9X8jco2x4teMjPbeQ2LJ?=
- =?us-ascii?Q?SsR+nkCUsf2e+kdmbft/kRuXeCFTLHss/8LbzPNeg22VBpfDaA1LKsEjm5cd?=
- =?us-ascii?Q?CczPO1ez43OmLYKLZJnaVP5rlNO7z9re0nsD+LR0f3il3YG5GrymEuv6m47X?=
- =?us-ascii?Q?XW2AzeJrq2P1/HS+4UZ0aRY3uEJ1zVOjr1M9HhQuYVgIq0xjsoNuftCTzjcT?=
- =?us-ascii?Q?7gUTKYG+nQouN/i6nZ8FnC2EGVtovwO5x40mT3B1Eh3rIJPIULq+3QuzBKTj?=
- =?us-ascii?Q?IPuqOMsItruqnV5oB9puTFRbNI42uVBr1NO586Sj1LlwVGvSodjaSmIyPBOT?=
- =?us-ascii?Q?m67xfCRZdUk1SyyDEFzFcuAl5lksQMHPACb20tOgrzqQGNiZoNyuY+Dd2ct1?=
- =?us-ascii?Q?5vH40e3bTTe/4ESjh7McxIg1Lz9+PFl8DVfiX3rGN4lrOUfQf0c9yA2jPpTx?=
- =?us-ascii?Q?M8p49jMgsrVT0yUKTZIKeCNSYsNvyHgHaWrzlzHuIYqWt8cCsH0Y9L2hRpwa?=
- =?us-ascii?Q?ib223MMbCB4UDoZ/Xp5aNHxzhOkl/eh3ttDwCliuc390j+rThJb7XDVvTxF6?=
- =?us-ascii?Q?U7/g1aWBmBV7JYCTvG/YRQ9b6O9YWIH34BjVkJyNdfoLWmLrl7qR2KKlrW9X?=
- =?us-ascii?Q?OiFBdfRieuEeF4mlc3IHPfQraUfFR5cVOe7BXSVaDCH86OH0nQnJ5h/s0G7S?=
- =?us-ascii?Q?6uF+X2AXinsSm7nsqA7MAZktmolYjmiNC3+J0xRTPhNuHlsWnGUz5sO8B0Io?=
- =?us-ascii?Q?dG3GW3hcyBFgDEEMk4XofTGPIOpT6CqM0xt2Dv33OMVSd6H+b1b8/dM9KQMe?=
- =?us-ascii?Q?zX3bzz+phoRs79RvlFtBsu4EscwNBa/HjrpAFzgh45lM3i9rvsbtySst9d9w?=
- =?us-ascii?Q?S9NoRd0TieoSTf8TzpP8TKC2JUHyqw0+f9aNQFY8INd4AvaDQZ+vSZ6KFO6+?=
- =?us-ascii?Q?L9/92bKE2ZoqPKtdiSxhyzKyh1Yygf61w3HGcYXRbV2N6Q4Io3yg?=
-X-Exchange-RoutingPolicyChecked: 
-	y6s+ayO9VF/E9hQsiRjMRUb6AOnDgv30lW5aj0uJCCxCCGubArdKlSM7tbrvFGSzotKioWCbopNUQMXTbD4fNgbRXZFZSTtD9I83D28Qfkq3w1lJDrkWuUcVcbnulXZym0H/IXY+Dnv1DyS77DoADd1+dh2STbKu+nyw65+s+Nyd4+VcHtKl8omOVuEYOpOUoChpOLRPAnSPmHG/tbRjpWTzC35OkSAYfOHu6FjyUQ9GyYA83ZnWTm9tJXdjUGV2LcFGaSs7+liL8VXabyepvdUmgAwrLpZUTc2TCjItN/z2D32KotXARrfYfSKjL72QkqbhOqVK5YtmSmDKjA/MrA==
-X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a349e64-211f-4489-a6f3-08df1d30e4e9
-X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7328.namprd11.prod.outlook.com
+X-OriginatorOrg: ericsson.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2026 07:19:54.7400
+X-MS-Exchange-CrossTenant-AuthSource: AM7PR07MB6437.eurprd07.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 373b4cbb-5701-4b65-3b01-08df1d339313
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2026 07:39:05.6917
  (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: E9WsTM54/ptmdamKk+lf7/o5L+t+CWS0cczi2gJYQuXU4G6Bz+RHZsosYKWPM3sjSjc2TWDtP8UKTOxb5s5tfmUYWdVM4TSva9QZPXhaeAfWS3Cn1W9uoZa7JdILN7s1
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8217
-X-Proofpoint-GUID: SUYN0XZxH9e_pt0yPwmNaI5dMTmW2uMy
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDAyOCBTYWx0ZWRfX6+JQ0Hg76xbS
- RyfBP9zneRDHsIg+tz55pLMf6cgNaKnDsk3uH22UXVKDL9nwA1Z/ZdCWXhNkeuQJq+ELAC8d268
- hkQ/8jp6Il6nNeT0E7FgjYZBrvmp10UbrYEyI8E5Gz3Mrwz1MyGZF6Pj0tBM2G8DdqjzWY8G+3K
- ltchvxTD+GbGCVl7Gz+WYH4UDxTxc0J0YOjXLycmSlBxtPISj73x8ov62EOz3kU0ZTq6Llq85UK
- 0L/eKFKtzmeVJdpju+j05yl9tNIXRRelWB8H2f/prqxHetM5/3mHSfouGw3aRstcUgYg/7QZx1K
- W8EjyTGxQl3UOphLEyjAXIoKIAuqz7h8cme37HC0/ad3FcsF6dTg1BQNRHLhP4lhHuWURDSMfaA
- ch4BglsPd+bZNT/8F0VJROVvCNkXqgZO0e8ZkqG83Q/a4Dw5EbENslo3DmoxGSIRIch1XD9Ew/v
- fgC/LFKD4TN668m5z4g==
-X-Proofpoint-ORIG-GUID: SUYN0XZxH9e_pt0yPwmNaI5dMTmW2uMy
-X-Authority-Analysis: v=2.4 cv=ZYSIpcVA c=1 sm=1 tr=0 ts=6aba151e cx=c_pps
- a=ZfDhP9WrRDodUAgXLfoXmg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
- a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
- a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=NEAV23lmAAAA:8
- a=t7CeM3EgAAAA:8 a=ImcG7QQyoc5K_-d7zUgA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDAyOCBTYWx0ZWRfX4JNO1TZA4ogw
- WZYJ4gjT5k+FDrTC1kOZ/ISIa1wUSnO0CByr+MKdI0gqVLZ72cseLdN/5fwdZmEBE35m50uCczF
- vc4VJF2p/5T26cZoA7D0+wCe3H7WisW4A7BRFUlTdsTfGFeMlRW+
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-26_05,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- phishscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609280028
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: ujvjuAJXGJb4ssK5FhKNyMbLEf5upLd3o2K4jsWPlmj40pupd+Jdydc4MEjC+W0+4Pw+i9q7kwzMdr+wmjI1yTuUqbAntNQJ/x+dt/Y8gsQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AMBPR07MB11323
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:20:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246737
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:39:21 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246738
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-
-Drop 0034-guard-clang-tools-extra-test.patch (Upstream-Status:
-Inappropriate) in favor of the upstream fix that introduces a separate
-CLANG_TOOLS_EXTRA_INCLUDE_TESTS CMake option.
-
-https://github.com/llvm/llvm-project/commit/f5fd1587149a039f4592b6e15647668175bb17a7
-
-This lets Clang be built with CLANG_INCLUDE_TESTS=ON while disabling
-clang-tools-extra tests, avoiding the missing llvm-bcanalyzer target
-error when Clang is built separately from LLVM. Set
--DCLANG_TOOLS_EXTRA_INCLUDE_TESTS=OFF in clang_git.bb accordingly.
-
-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
----
- ...a-Add-separate-CLANG_TOOLS_EXTRA_INC.patch | 82 ++++++++++++++++++
- .../0034-guard-clang-tools-extra-test.patch   | 85 -------------------
- meta/recipes-devtools/clang/clang_git.bb      |  1 +
- meta/recipes-devtools/clang/common.inc        |  2 +-
- 4 files changed, 84 insertions(+), 86 deletions(-)
- create mode 100644 meta/recipes-devtools/clang/clang/0034-clang-tools-extra-Add-separate-CLANG_TOOLS_EXTRA_INC.patch
- delete mode 100644 meta/recipes-devtools/clang/clang/0034-guard-clang-tools-extra-test.patch
-
-diff --git a/meta/recipes-devtools/clang/clang/0034-clang-tools-extra-Add-separate-CLANG_TOOLS_EXTRA_INC.patch b/meta/recipes-devtools/clang/clang/0034-clang-tools-extra-Add-separate-CLANG_TOOLS_EXTRA_INC.patch
-new file mode 100644
-index 0000000000..f7b5d03703
---- /dev/null
-+++ b/meta/recipes-devtools/clang/clang/0034-clang-tools-extra-Add-separate-CLANG_TOOLS_EXTRA_INC.patch
-@@ -0,0 +1,82 @@
-+From f5fd1587149a039f4592b6e15647668175bb17a7 Mon Sep 17 00:00:00 2001
-+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+Date: Sun, 30 Aug 2026 01:34:52 +0530
-+Subject: [PATCH] [clang-tools-extra] Add separate
-+ CLANG_TOOLS_EXTRA_INCLUDE_TESTS option (#215761)
-+
-+clang-tools-extra tests depend on the llvm-bcanalyzer CMake target,
-+which exists in LLVM's CMake project but is not visible when Clang is
-+built separately from LLVM. This causes CMake errors when
-+CLANG_INCLUDE_TESTS is ON but the LLVM tools are not available.
-+
-+This patch introduces CLANG_TOOLS_EXTRA_INCLUDE_TESTS as a separate
-+CMake option to control clang-tools-extra tests independently, allowing
-+users to build Clang with tests enabled (CLANG_INCLUDE_TESTS=ON) while
-+disabling clang-tools-extra tests (CLANG_TOOLS_EXTRA_INCLUDE_TESTS=OFF)
-+when building Clang separately from LLVM.
-+
-+For backwards compatibility, CLANG_INCLUDE_TESTS=OFF continues
-+to turn off clang-tools-extra tests as well.
-+
-+Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/f5fd1587149a039f4592b6e15647668175bb17a7]
-+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-+---
-+ clang-tools-extra/CMakeLists.txt                 | 6 ++++--
-+ clang-tools-extra/clangd/CMakeLists.txt          | 2 +-
-+ clang-tools-extra/include-cleaner/CMakeLists.txt | 2 +-
-+ 3 files changed, 6 insertions(+), 4 deletions(-)
-+
-+diff --git a/clang-tools-extra/CMakeLists.txt b/clang-tools-extra/CMakeLists.txt
-+index 0dbdeaed9a9a..291e130ca390 100644
-+--- a/clang-tools-extra/CMakeLists.txt
-++++ b/clang-tools-extra/CMakeLists.txt
-+@@ -7,8 +7,10 @@ option(CLANG_TIDY_ENABLE_STATIC_ANALYZER
-+   "Include static analyzer checks in clang-tidy" ON)
-+ option(CLANG_TIDY_ENABLE_QUERY_BASED_CUSTOM_CHECKS
-+   "Enable query-based custom checks in clang-tidy" ON)
-++option(CLANG_TOOLS_EXTRA_INCLUDE_TESTS
-++  "Generate build targets for Clang Extra Tools tests." ON)
-+ 
-+-if(CLANG_INCLUDE_TESTS)
-++if(CLANG_INCLUDE_TESTS AND CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
-+   umbrella_lit_testsuite_begin(check-clang-tools)
-+ 
-+   option(CLANG_TOOLS_TEST_USE_VG "Run Clang tools' tests under Valgrind" OFF)
-+@@ -46,7 +48,7 @@ if (CLANG_ENABLE_CLANGD)
-+ endif()
-+ 
-+ # Add the common testsuite after all the tools.
-+-if(CLANG_INCLUDE_TESTS)
-++if(CLANG_INCLUDE_TESTS AND CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
-+   add_subdirectory(test)
-+   add_subdirectory(unittests)
-+   umbrella_lit_testsuite_end(check-clang-tools)
-+diff --git a/clang-tools-extra/clangd/CMakeLists.txt b/clang-tools-extra/clangd/CMakeLists.txt
-+index 151f4ee028b8..3aa1b7bddb99 100644
-+--- a/clang-tools-extra/clangd/CMakeLists.txt
-++++ b/clang-tools-extra/clangd/CMakeLists.txt
-+@@ -219,7 +219,7 @@ endif()
-+ option(CLANGD_BUILD_DEXP "Build the dexp tool as part of Clangd" ON)
-+ llvm_canonicalize_cmake_booleans(CLANGD_BUILD_DEXP)
-+ 
-+-if(CLANG_INCLUDE_TESTS)
-++if(CLANG_INCLUDE_TESTS AND CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
-+   add_subdirectory(test)
-+   add_subdirectory(unittests)
-+ endif()
-+diff --git a/clang-tools-extra/include-cleaner/CMakeLists.txt b/clang-tools-extra/include-cleaner/CMakeLists.txt
-+index dc147f9ca08d..4ccd3da21f70 100644
-+--- a/clang-tools-extra/include-cleaner/CMakeLists.txt
-++++ b/clang-tools-extra/include-cleaner/CMakeLists.txt
-+@@ -1,7 +1,7 @@
-+ include_directories(include)
-+ add_subdirectory(lib)
-+ add_subdirectory(tool)
-+-if(CLANG_INCLUDE_TESTS)
-++if(CLANG_INCLUDE_TESTS AND CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
-+   add_subdirectory(test)
-+   add_subdirectory(unittests)
-+ endif()
-+-- 
-+2.49.0
-+
-diff --git a/meta/recipes-devtools/clang/clang/0034-guard-clang-tools-extra-test.patch b/meta/recipes-devtools/clang/clang/0034-guard-clang-tools-extra-test.patch
-deleted file mode 100644
-index 5e53d43944..0000000000
---- a/meta/recipes-devtools/clang/clang/0034-guard-clang-tools-extra-test.patch
-+++ /dev/null
-@@ -1,85 +0,0 @@
--From 9463b5d24fc62372fc2731d4d4665c64c72b55b2 Mon Sep 17 00:00:00 2001
--From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
--Date: Wed, 19 Aug 2026 22:46:10 +0530
--Subject: [PATCH] guard clang-tools-extra test
--
--clang-tools-extra tests depend on the llvm-bcanalyzer CMake target, which
--exists in LLVM's CMake project but is not visible when Clang is built
--separately. To run clang tests, disable clang-tools-extra tests for now.
--
--Without this patch when CLANG_INCLUDE_TESTS is ON got the following error
--
----------------------------------------------------------------------------------
--| CMake Error at ../clang/21.1.8/recipe-sysroot/usr/lib/cmake/llvm/AddLLVM.cmake:2113 (add_dependencies):
--|   The dependency target "llvm-bcanalyzer" of target
--|   "check-clang-extra-clang-tidy-infrastructure-header-filter-from-config-file-simple"
--|   does not exist.
--| Call Stack (most recent call first):
--|   ../clang/21.1.8/recipe-sysroot/usr/lib/cmake/llvm/AddLLVM.cmake:2221 (add_lit_target)
--|   tools/extra/test/CMakeLists.txt:87 (add_lit_testsuites)
--|
--| CMake Error at ../clang/21.1.8/recipe-sysroot/usr/lib/cmake/llvm/AddLLVM.cmake:2113 (add_dependencies):
--|   The dependency target "llvm-bcanalyzer" of target
--|   "check-clang-extra-modularize" does not exist.
--| Call Stack (most recent call first):
--|   ../clang/21.1.8/recipe-sysroot/usr/lib/cmake/llvm/AddLLVM.cmake:2221 (add_lit_target)
--|   tools/extra/test/CMakeLists.txt:87 (add_lit_testsuites)
---------------------------------------------------------------------------------
--
--Upstream-Status: Inappropriate [OE-Specific]
--
--Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
-----
-- clang-tools-extra/CMakeLists.txt                 | 4 ++--
-- clang-tools-extra/clangd/CMakeLists.txt          | 2 +-
-- clang-tools-extra/include-cleaner/CMakeLists.txt | 2 +-
-- 3 files changed, 4 insertions(+), 4 deletions(-)
--
--diff --git a/clang-tools-extra/CMakeLists.txt b/clang-tools-extra/CMakeLists.txt
--index 87050db..3824129 100644
----- a/clang-tools-extra/CMakeLists.txt
--+++ b/clang-tools-extra/CMakeLists.txt
--@@ -8,7 +8,7 @@ option(CLANG_TIDY_ENABLE_STATIC_ANALYZER
-- option(CLANG_TIDY_ENABLE_QUERY_BASED_CUSTOM_CHECKS
--   "Enable query-based custom checks in clang-tidy" ON)
-- 
---if(CLANG_INCLUDE_TESTS)
--+if(CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
--   umbrella_lit_testsuite_begin(check-clang-tools)
-- 
--   option(CLANG_TOOLS_TEST_USE_VG "Run Clang tools' tests under Valgrind" OFF)
--@@ -45,7 +45,7 @@ if (CLANG_ENABLE_CLANGD)
-- endif()
-- 
-- # Add the common testsuite after all the tools.
---if(CLANG_INCLUDE_TESTS)
--+if(CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
--   add_subdirectory(test)
--   add_subdirectory(unittests)
--   umbrella_lit_testsuite_end(check-clang-tools)
--diff --git a/clang-tools-extra/clangd/CMakeLists.txt b/clang-tools-extra/clangd/CMakeLists.txt
--index 890562d..c4d6623 100644
----- a/clang-tools-extra/clangd/CMakeLists.txt
--+++ b/clang-tools-extra/clangd/CMakeLists.txt
--@@ -217,7 +217,7 @@ endif()
-- option(CLANGD_BUILD_DEXP "Build the dexp tool as part of Clangd" ON)
-- llvm_canonicalize_cmake_booleans(CLANGD_BUILD_DEXP)
-- 
---if(CLANG_INCLUDE_TESTS)
--+if(CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
--   add_subdirectory(test)
--   add_subdirectory(unittests)
-- endif()
--diff --git a/clang-tools-extra/include-cleaner/CMakeLists.txt b/clang-tools-extra/include-cleaner/CMakeLists.txt
--index dc147f9..4855577 100644
----- a/clang-tools-extra/include-cleaner/CMakeLists.txt
--+++ b/clang-tools-extra/include-cleaner/CMakeLists.txt
--@@ -1,7 +1,7 @@
-- include_directories(include)
-- add_subdirectory(lib)
-- add_subdirectory(tool)
---if(CLANG_INCLUDE_TESTS)
--+if(CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
--   add_subdirectory(test)
--   add_subdirectory(unittests)
-- endif()
-diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
-index c54a49b618..3b93f0d02c 100644
---- a/meta/recipes-devtools/clang/clang_git.bb
-+++ b/meta/recipes-devtools/clang/clang_git.bb
-@@ -67,6 +67,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
-                   -DLLVM_TABLEGEN_EXE=${STAGING_BINDIR_NATIVE}/llvm-tblgen \
-                   -DCLANG_TABLEGEN_EXE=${STAGING_BINDIR_NATIVE}/clang-tblgen \
-                   -DLLVM_INCLUDE_TESTS=OFF \
-+                  -DCLANG_TOOLS_EXTRA_INCLUDE_TESTS=OFF \
-                   -DCROSS_TOOLCHAIN_FLAGS_NATIVE='-DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain-native.cmake' \
-                   -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
-                   -DCMAKE_AR=${STAGING_BINDIR_NATIVE}/llvm-ar \
-diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
-index 5b358f7284..d10337a720 100644
---- a/meta/recipes-devtools/clang/common.inc
-+++ b/meta/recipes-devtools/clang/common.inc
-@@ -53,7 +53,7 @@ SRC_URI = "\
-     file://0031-Only-build-clang-tblgen-if-it-is-actually-needed.patch \
-     file://0032-llvm-libgcc-Fix-symlink-path-for-libcc-when-LLVM_ENA.patch \
-     file://0033-Consolidate-and-fix-sysroot-based-compiler-rt-search.patch \
--    file://0034-guard-clang-tools-extra-test.patch \
-+    file://0034-clang-tools-extra-Add-separate-CLANG_TOOLS_EXTRA_INC.patch \
- "
- # Fallback to no-PIE if not set
- GCCPIE ??= ""
--- 
-2.49.0
-
+T24gU3VuLCAyMDI2LTA5LTI3IGF0IDEyOjAzICswMjAwLCBNYXRoaWV1IER1Ym9pcy1CcmlhbmQg
+d3JvdGU6DQo+IE9uIEZyaSBTZXAgMjUsIDIwMjYgYXQgMTA6MjQgQU0gQ0VTVCwgRGFuaWVsIFR1
+cnVsbCB2aWEgbGlzdHMub3BlbmVtYmVkZGVkLm9yZyB3cm90ZToNCj4gPiBGcm9tOiBEYW5pZWwg
+VHVydWxsIDxkYW5pZWwudHVydWxsQGVyaWNzc29uLmNvbT4NCj4gPg0KPiA+IFJlY29yZCBlYWNo
+IHJlY2lwZSdzIHJlbGVhc2UgZGF0ZSBpbiB0aGUgcmVsZWFzZVRpbWUgcHJvcGVydHkgb2YgaXRz
+DQo+ID4gc29mdHdhcmVfUGFja2FnZSBvYmplY3QsIHVzaW5nIHRoZSBTT1VSQ0VfREFURV9FUE9D
+SCBhbHJlYWR5IGNvbXB1dGVkDQo+ID4gZm9yIHJlcHJvZHVjaWJsZSBidWlsZHMuDQo+ID4NCj4g
+PiBBY2N1cmFjeSBkZXBlbmRzIG9uIGhvdyBTT1VSQ0VfREFURV9FUE9DSCB3YXMgZGVyaXZlZDog
+ZXhhY3QgZm9yDQo+ID4gZ2l0LXRhZ2dlZCByZWNpcGVzLCBiZXN0LWVmZm9ydCBmb3IgdGFyYmFs
+bC9odHRwKHMpIHNvdXJjZXMuIFNvbWUNCj4gPiBQeXRob24gc2Rpc3RzIChlLmcuIGNyeXB0b2dy
+YXBoeSwgaHlwb3RoZXNpcywgbWF0dXJpbikgbm9ybWFsaXplIGFsbA0KPiA+IGZpbGUgbXRpbWVz
+IHRvIGEgZml4ZWQgcGxhY2Vob2xkZXIsIHNvIHRoZWlyIHJlbGVhc2VUaW1lIHJlZmxlY3RzDQo+
+ID4gcGFja2FnaW5nLXRvb2wgYmVoYXZpb3IsIG5vdCB0aGUgcmVhbCByZWxlYXNlIGRhdGUuDQo+
+ID4NCj4gPiBUZXN0ZWQgd2l0aCBvZS1zZWxmdGVzdCAtciBzcGR4LCBhbmQgd2l0aCBgYml0YmFr
+ZSB3b3JsZA0KPiA+IC0tcnVuYWxsPWRvX2NyZWF0ZV9zcGR4YDogMTAxMS8xMTUwIHJlY2lwZXMg
+Z290IGEgcmVsZWFzZVRpbWUgKHJhbmdlDQo+ID4gMTk5OC0xMi0zMCB0byAyMDI2LTA5LTE3KSwg
+MTM5IGNvcnJlY3RseSBoYWQgbm9uZS4NCj4gPg0KPiA+IEFJLUdlbmVyYXRlZDogVXNlcyBLaXJv
+IHdpdGggQ2xhdWRlIFNvbm5ldCA1DQo+ID4gU2lnbmVkLW9mZi1ieTogRGFuaWVsIFR1cnVsbCA8
+ZGFuaWVsLnR1cnVsbEBlcmljc3Nvbi5jb20+DQo+ID4gLS0tDQo+DQo+IEhpIERhbmllbCwNCj4N
+Cj4gVGhhbmtzIGZvciB0aGUgbmV3IHZlcnNpb24sIGJ1dCBpdCBsb29rcyBsaWtlIHRoZSBhZGRl
+ZCB0ZXN0IGlzIGZhaWxpbmc6DQo+DQo+IDIwMjYtMDktMjcgMDg6NTQ6MDcsODg5IC0gb2Utc2Vs
+ZnRlc3QgLSBJTkZPIC0gc3BkeC5TUERYMzBDaGVjay50ZXN0X3JlbGVhc2VfZGF0ZV9vbWl0dGVk
+X2Zvcl9mYWxsYmFja192YWx1ZSAoc3VidW5pdC5SZW1vdGVkVGVzdENhc2UpDQo+IDIwMjYtMDkt
+MjcgMDg6NTQ6MDcsODkwIC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gIC4uLiBGQUlMDQo+DQo+IFN0
+ZGVycjoNCj4gMjAyNi0wOS0yNyAwNzo0OTo1MCw5MDEgLSBvZS1zZWxmdGVzdCAtIElORk8gLSBB
+ZGRpbmc6ICJpbmNsdWRlIHNlbGZ0ZXN0LmluYyIgaW4gL3Nydi9wb2t5YnVpbGQveW9jdG8td29y
+a2VyL29lLXNlbGZ0ZXN0LWRlYmlhbi9idWlsZC9idWlsZC1zdC0yNzAwNDg3L2NvbmYvbG9jYWwu
+Y29uZg0KPiAyMDI2LTA5LTI3IDA3OjQ5OjUwLDkwMiAtIG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIEFk
+ZGluZzogImluY2x1ZGUgYmJsYXllcnMuaW5jIiBpbiBiYmxheWVycy5jb25mDQo+IDIwMjYtMDkt
+MjcgMDg6Mjg6MDYsMjA0IC0gb2Utc2VsZnRlc3QgLSBJTkZPIC0gRm91bmQgQU5OT1RBVElPTjI6
+IEFOTk9UQVRJT04yPVRlc3RBbm5vdGF0aW9uMg0KPiAyMDI2LTA5LTI3IDA4OjI4OjA2LDIwNCAt
+IG9lLXNlbGZ0ZXN0IC0gSU5GTyAtIEZvdW5kIEFOTk9UQVRJT04xOiBBTk5PVEFUSU9OMT1UZXN0
+QW5ub3RhdGlvbjENCj4gMjAyNi0wOS0yNyAwODoyODoxNyw3NzEgLSBvZS1zZWxmdGVzdCAtIElO
+Rk8gLSBFeHRlcm5hbCByZWZlcmVuY2VzIG5vdCBmb3VuZCBpbiBTUERYIG91dHB1dCAoZGVmZW5z
+aXZlIGhhbmRsaW5nIHZlcmlmaWVkKQ0KPiAyMDI2LTA5LTI3IDA4OjUxOjIxLDk5MyAtIG9lLXNl
+bGZ0ZXN0IC0gSU5GTyAtIFRoZSBzcGR4SWQgb2YgZ2NjLTE2LjIuMC9SRUFETUUgaW4gYnVpbGQt
+Z2NjLnNwZHguanNvbiBpcyBodHRwOi8vc3BkeC5vcmcvc3BkeGRvY3MvZ2NjLWYyZWFlYjBkLWI1
+NGItNTNiYS04OTlhLThjMzZjMjExMzliZi84ZDBjNWRhYmViZWM3Y2Y0NTNlZWRlYWRkMGIyODUy
+MWExN2ViZjk2NWNjZGY2YzQzN2QzNjEzNjc2Y2E1NmRjL3NvdXJjZWZpbGUvMjINCj4gMjAyNi0w
+OS0yNyAwODo1NDowNyw4OTAgLSBvZS1zZWxmdGVzdCAtIElORk8gLSA4OiA1MS82NCA3OTIvODA3
+ICgxNS4zMnMpICgwIGZhaWxlZCkgKHNwZHguU1BEWDMwQ2hlY2sudGVzdF9yZWxlYXNlX2RhdGVf
+b21pdHRlZF9mb3JfZmFsbGJhY2tfdmFsdWUpDQo+IDIwMjYtMDktMjcgMDg6NTQ6MDcsODkwIC0g
+b2Utc2VsZnRlc3QgLSBJTkZPIC0gdGVzdHRvb2xzLnRlc3RyZXN1bHQucmVhbC5fU3RyaW5nRXhj
+ZXB0aW9uOiBUcmFjZWJhY2sgKG1vc3QgcmVjZW50IGNhbGwgbGFzdCk6DQo+ICAgRmlsZSAiL3Ny
+di9wb2t5YnVpbGQveW9jdG8td29ya2VyL29lLXNlbGZ0ZXN0LWRlYmlhbi9idWlsZC9sYXllcnMv
+b3BlbmVtYmVkZGVkLWNvcmUvbWV0YS9saWIvb2VxYS9zZWxmdGVzdC9jYXNlcy9zcGR4LnB5Iiwg
+bGluZSA0ODIsIGluIHRlc3RfcmVsZWFzZV9kYXRlX29taXR0ZWRfZm9yX2ZhbGxiYWNrX3ZhbHVl
+DQo+ICAgICBzZWxmLmFzc2VydEV4aXN0cyhzZGVfZmlsZSkNCj4gICBGaWxlICIvc3J2L3Bva3li
+dWlsZC95b2N0by13b3JrZXIvb2Utc2VsZnRlc3QtZGViaWFuL2J1aWxkL2xheWVycy9vcGVuZW1i
+ZWRkZWQtY29yZS9tZXRhL2xpYi9vZXFhL3NlbGZ0ZXN0L2Nhc2UucHkiLCBsaW5lIDI0OSwgaW4g
+YXNzZXJ0RXhpc3RzDQo+ICAgICByYWlzZSBzZWxmLmZhaWx1cmVFeGNlcHRpb24obXNnKQ0KPiBB
+c3NlcnRpb25FcnJvcjogJy9zcnYvcG9reWJ1aWxkL3lvY3RvLXdvcmtlci9vZS1zZWxmdGVzdC1k
+ZWJpYW4vYnVpbGQvYnVpbGQtc3QtMjcwMDQ4Ny90bXAvd29yay9xZW11eDg2XzY0LXBva3ktbGlu
+dXgvcGFja2FnZWdyb3VwLWJhc2UvMS4wL3NvdXJjZS1kYXRlLWVwb2NoL19fc291cmNlX2RhdGVf
+ZXBvY2gudHh0JyBkb2VzIG5vdCBleGlzdA0KPg0KPiBodHRwczovL2F1dG9idWlsZGVyLnlvY3Rv
+cHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWlsZGVycy8zNS9idWlsZHMvNDkzMw0KPiBodHRwczov
+L2F1dG9idWlsZGVyLnlvY3RvcHJvamVjdC5vcmcvdmFsa3lyaWUvIy9idWlsZGVycy80OC9idWls
+ZHMvNDc0MA0KPg0KPiBDYW4geW91IGhhdmUgYSBsb29rIGF0IHRoZSBpc3N1ZT8NCg0KU3VyZSwg
+SSdsbCB0YWtlIGEgbG9vayBhbmQgcHJvdmlkZSBhIHYzDQoNCkRhbmllbA0KPg0KPiBUaGFua3Ms
+DQo+IE1hdGhpZXUNCj4NCg0K
 
