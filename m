@@ -2,40 +2,43 @@ Return-Path: <joaomarcos.costa@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A5F81CA5FA2
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 16:26:35 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.61655.1790612788887184894
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 84DB4CA5FA2
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 16:26:45 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.62699.1790612794960846433
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 09:26:29 -0700
+ Mon, 28 Sep 2026 09:26:35 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=mEXdodEU;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: joaomarcos.costa@bootlin.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@bootlin.com header.s=dkim header.b=gKs7IjIU;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: joaomarcos.costa@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 7E9454E4109B;
-	Mon, 28 Sep 2026 16:26:26 +0000 (UTC)
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 221BC1A102A;
+	Mon, 28 Sep 2026 16:26:33 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 3C1AF601BD;
-	Mon, 28 Sep 2026 16:26:26 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 7EC061032968C;
-	Mon, 28 Sep 2026 18:26:19 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id CF662601BD;
+	Mon, 28 Sep 2026 16:26:32 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id E0AC910329697;
+	Mon, 28 Sep 2026 18:26:27 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1790612781; h=from:subject:date:message-id:to:cc:mime-version:content-type:
-	 content-transfer-encoding; bh=tFfGQaNMrkSZjqPtTNUPa13Y0gvosbWYUwwyLae7/vw=;
-	b=mEXdodEUfOcad0ECxENSvd61/y7bbR6E6GXhQvHz2JiFvHKgQwAg7i+dKBVLEw0J+I3v2U
-	oL3vkWN9VrkHr2BcLfS4hyZqWYKzMGPWzBFUutGurOlz3G/EgjtyoQS5DAnxs2BObtgopH
-	Gu32F8rrcCcCXSsjhTMGqjTPynSMCO07gDADJwMfsxFDlqOhIpDcz/2e19KhBnTx4tgHD6
-	UDJOg9w0oNSAznbU+OgV8TIOwpAnj9YlGAp29VBBikWDet9cLZf9kULt5TkH+PTJaYhI83
-	tCpOj8piK1BeiGoLyzc8ob1LNyYw3ek87wM8D9aQD60w3XZKd/wVQrisaJi84g==
+	t=1790612788; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=PJEl1OKdhS4gLvqR6Lir8vlbHLzf2ItAQ9+oMzlbkJc=;
+	b=gKs7IjIUSlzaJmJ72o2hABA39pZwGNOn3VV0boxoB/EuwCTlKsA2q/A3VKNUWxBk41AGIh
+	BkS3tpSg8FtxPgcZOc8CAatET3jgiAoHEBQH0CSCE47vKDxHpVfh2XZGBD3y2nSuuhYTIN
+	2YYYjkgh1FCfav/2+GFA5cE66LUYPoI+dqr32+sAjWwA+Bt5lAUYj6L7YFIH0ECy4Agcxu
+	TirrnD8PEd9cjiQLv3XdI2UYh0DQBpmQBABYBgDnJmhDwtxGSY/ijBGpL8DsQ1hhH1h4nj
+	sJwpdh9O7xvBhY6pRR/4EjUeMLlCM7pTYe/LU0TWKIVXWBYT+YHqFoVQtPkR2Q==
 From: =?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
 To: openembedded-core@lists.openembedded.org
 Cc: thomas.petazzoni@bootlin.com,
 	tgamblin@baylibre.com,
 	=?UTF-8?q?Jo=C3=A3o=20Marcos=20Costa?= <joaomarcos.costa@bootlin.com>
-Subject: [PATCH v2 0/1] recipes-support/gnutls: disable slow tests for RISCV64
-Date: Mon, 28 Sep 2026 18:26:13 +0200
-Message-ID: <20260928162614.1685239-1-joaomarcos.costa@bootlin.com>
+Subject: [PATCH v2 1/1] recipes-support/gnutls: disable slow tests for RISCV64
+Date: Mon, 28 Sep 2026 18:26:14 +0200
+Message-ID: <20260928162614.1685239-2-joaomarcos.costa@bootlin.com>
 X-Mailer: git-send-email 2.55.0
+In-Reply-To: <20260928162614.1685239-1-joaomarcos.costa@bootlin.com>
+References: <20260928162614.1685239-1-joaomarcos.costa@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 X-Last-TLS-Session-Version: TLSv1.3
@@ -43,31 +46,211 @@ Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 16:26:35 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246774
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 16:26:45 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246775
 
-Hello,
+Timeouts have been observed (very frequently in the past weeks)
+in the autobuilder, and a bug [1] was filed at Bugzilla.
 
-After Trevor's investigation, I was able to remove only the most time
-consuming test cases.
+After some investigation [2] was performed by Trevor Gamblin, we now have=
+ a
+list of the most time consuming test cases:
 
-Changes since v1 [1]:
-- patched the tests instead of entirely disabling gnutls ptests
-- updated the title accordingly
+- mini-record-2 (187880ms)
+- record-retvals (145390ms)
+- rng-op-key (63820ms)
+- rng-op-random (63330ms)
+- rng-op-nonce (63260ms)
+- dtls-rehandshake-cert (61360ms)
+- dtls-rehandshake-cert-2 (61230ms)
+- dtls-rehandshake-anon (61030ms)
+- mini-loss-time (60130ms)
+- mini-dtls-hello-verify-48 (30050ms)
+- tls12-ffdhe (27790ms)
+- x509sign-verify-rsa (18460ms)
+- x509sign-verify-ecdsa (16050ms)
 
-Best regards,
+Disable them to avoid so many timeouts in qemuriscv64-ptest runs.
 
-[1] https://lists.openembedded.org/g/openembedded-core/message/246201
+[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162
+[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162#c19
 
-Jo=C3=A3o Marcos Costa (1):
-  recipes-support/gnutls: disable slow tests for RISCV64
-
+Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
+---
  ...m-disable-slow-test-cases-in-RISCV64.patch | 109 ++++++++++++++++++
  meta/recipes-support/gnutls/gnutls_3.8.13.bb  |   4 +
  2 files changed, 113 insertions(+)
  create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-Makefil=
 e.am-disable-slow-test-cases-in-RISCV64.patch
 
+diff --git a/meta/recipes-support/gnutls/gnutls/0001-tests-Makefile.am-di=
+sable-slow-test-cases-in-RISCV64.patch b/meta/recipes-support/gnutls/gnut=
+ls/0001-tests-Makefile.am-disable-slow-test-cases-in-RISCV64.patch
+new file mode 100644
+index 0000000000..6dbd165658
+--- /dev/null
++++ b/meta/recipes-support/gnutls/gnutls/0001-tests-Makefile.am-disable-s=
+low-test-cases-in-RISCV64.patch
+@@ -0,0 +1,109 @@
++From a27faed63722263f5ae8e2b7fac564de3a65fda1 Mon Sep 17 00:00:00 2001
++From: =3D?UTF-8?q?Jo=3DC3=3DA3o=3D20Marcos=3D20Costa?=3D <joaomarcos.cos=
+ta@bootlin.com>
++Date: Mon, 28 Sep 2026 15:56:37 +0000
++Subject: [PATCH] tests/Makefile.am: disable slow test cases in RISCV64
++MIME-Version: 1.0
++Content-Type: text/plain; charset=3DUTF-8
++Content-Transfer-Encoding: 8bit
++
++Timeouts have been observed (very frequently in the past weeks)
++in the autobuilder, and a bug [1] was filed at Bugzilla.
++
++After some investigation [2] was performed by Trevor Gamblin, we now hav=
+e a
++list of the most time consuming test cases:
++
++- mini-record-2 (187880ms)
++- record-retvals (145390ms)
++- rng-op-key (63820ms)
++- rng-op-random (63330ms)
++- rng-op-nonce (63260ms)
++- dtls-rehandshake-cert (61360ms)
++- dtls-rehandshake-cert-2 (61230ms)
++- dtls-rehandshake-anon (61030ms)
++- mini-loss-time (60130ms)
++- mini-dtls-hello-verify-48 (30050ms)
++- tls12-ffdhe (27790ms)
++- x509sign-verify-rsa (18460ms)
++- x509sign-verify-ecdsa (16050ms)
++
++Disable them to avoid so many timeouts in qemuriscv64-ptest runs.
++
++Upstream-Status: Inappropriate [oe-core specific]
++
++[1] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162
++[2] https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D16162#c19
++
++Signed-off-by: Jo=C3=A3o Marcos Costa <joaomarcos.costa@bootlin.com>
++---
++ tests/Makefile.am | 20 ++++++++++----------
++ 1 file changed, 10 insertions(+), 10 deletions(-)
++
++diff --git a/tests/Makefile.am b/tests/Makefile.am
++index f84b2f1..b03e570 100644
++--- a/tests/Makefile.am
+++++ b/tests/Makefile.am
++@@ -161,7 +161,7 @@ ctests +=3D tls13-early-start
++=20
++ ctests +=3D tls13/no-auto-send-ticket
++=20
++-ctests +=3D mini-record-2 simple gnutls_hmac_fast set_pkcs12_cred cert =
+certuniqueid tls-neg-ext-key \
+++ctests +=3D simple gnutls_hmac_fast set_pkcs12_cred cert certuniqueid t=
+ls-neg-ext-key \
++ 	 mpi certificate_set_x509_crl dn parse_ca x509-dn x509-dn-decode recor=
+d-sizes \
++ 	 hostname-check cve-2008-4989 pkcs12_s2k chainverify missingissuer mis=
+singissuer_aia record-sizes-range \
++ 	 crq_key_id x509sign-verify sign-verify cve-2009-1415 cve-2009-1416		\
++@@ -172,13 +172,13 @@ ctests +=3D mini-record-2 simple gnutls_hmac_fast =
+set_pkcs12_cred cert certuniquei
++ 	 rng-fork mini-eagain-dtls resume-dtls empty_retrieve_function \
++ 	 tls13-rehandshake-cert gnutls_ext_raw_parse handshake-large-cert \
++ 	 x509cert x509cert-tl x509cert-ct infoaccess mini-dtls-hello-verify si=
+gn-verify-ed25519-rfc8080 \
++-	 trustdb-tofu dtls-rehandshake-anon mini-alpn mini-dtls-large \
+++	 trustdb-tofu mini-alpn mini-dtls-large \
++ 	 mini-termination mini-x509-cas mini-x509-2 pkcs12_simple \
++-	 mini-emsgsize-dtls chainverify-unsorted mini-overhead tls12-ffdhe \
+++	 mini-emsgsize-dtls chainverify-unsorted mini-overhead \
++ 	 mini-dtls-heartbeat mini-x509-callbacks key-openssl priorities priori=
+ties-groups	\
++ 	 gnutls_x509_privkey_import gnutls_x509_crt_list_import time x509-serv=
+er-verify \
++ 	 sign-verify-ext4 tls-neg-ext4-key resume-lifetime \
++-	 mini-dtls-srtp rsa-encrypt-decrypt mini-loss-time gnutls-strcodes \
+++	 mini-dtls-srtp rsa-encrypt-decrypt gnutls-strcodes \
++ 	 mini-record mini-dtls-record handshake-timeout mini-record-range \
++ 	 cert-status rsa-psk global-init sec-params sign-verify-data \
++ 	 fips-test fips-override-test mini-global-load name-constraints x509-e=
+xtensions \
++@@ -192,16 +192,16 @@ ctests +=3D mini-record-2 simple gnutls_hmac_fast =
+set_pkcs12_cred cert certuniquei
++ 	 rsa-rsa-oaep rsa-rsa-pss \
++ 	 mini-dtls-fork mini-key-material x509cert-invalid \
++ 	 tls-ext-register tls-supplemental mini-dtls0-9 duplicate-extensions \
++-	 record-retvals mini-server-name tls-etm tls-force-etm x509-cert-callb=
+ack alerts \
+++	 mini-server-name tls-etm tls-force-etm x509-cert-callback alerts \
++ 	 client-sign-md5-rep tls12-invalid-key-exchanges session-rdn-read \
++ 	 tls13-cert-key-exchange x509-cert-callback-ocsp gnutls_ocsp_resp_list=
+_import2 \
++ 	 server-sign-md5-rep privkey-keygen mini-tls-nonblock no-signal pkcs7-=
+gen dtls-etm \
++-	 x509sign-verify-rsa x509sign-verify-ecdsa x509sign-verify-gost \
+++	 x509sign-verify-gost \
++ 	 cipher-alignment oids atfork prf psk-file priority-init2 post-client-=
+hello-change-prio \
++ 	 status-request status-request-ok rfc7633-missing sign-verify-ext \
++-	 fallback-scsv pkcs8-key-decode urls dtls-rehandshake-cert rfc7633-ok =
+\
+++	 fallback-scsv pkcs8-key-decode urls rfc7633-ok \
++ 	 key-usage-rsa key-usage-ecdhe-rsa mini-session-verify-function auto-v=
+erify \
++-	 record-timeouts mini-dtls-hello-verify-48 set-default-prio \
+++	 record-timeouts set-default-prio \
++ 	 tls12-anon-upgrade tlsext-decoding rsa-psk-cb gnutls-ids \
++ 	 rehandshake-switch-cert rehandshake-switch-cert-allow rehandshake-swi=
+tch-cert-client \
++ 	 rehandshake-switch-cert-client-allow handshake-versions dtls-handshak=
+e-versions \
++@@ -214,7 +214,7 @@ ctests +=3D mini-record-2 simple gnutls_hmac_fast se=
+t_pkcs12_cred cert certuniquei
++ 	 set_x509_key_file_der set_x509_pkcs12_key crt_apis tls12-cert-key-exc=
+hange \
++ 	 tls11-cert-key-exchange tls10-cert-key-exchange ssl30-cert-key-exchan=
+ge \
++ 	 dtls12-cert-key-exchange dtls10-cert-key-exchange x509-cert-callback-=
+legacy \
++-	 keylog-env ssl2-hello tlsfeature-ext dtls-rehandshake-cert-2 dtls-ses=
+sion-ticket-lost \
+++	 keylog-env ssl2-hello tlsfeature-ext dtls-session-ticket-lost \
++ 	 tlsfeature-crt dtls-rehandshake-cert-3 resume-with-false-start \
++ 	 set_x509_key_file_ocsp client-fastopen rng-sigint srp \
++ 	 safe-renegotiation/srn0 safe-renegotiation/srn1 safe-renegotiation/sr=
+n2 \
++@@ -230,7 +230,7 @@ ctests +=3D mini-record-2 simple gnutls_hmac_fast se=
+t_pkcs12_cred cert certuniquei
++ 	 rng-no-onload dtls1-2-mtu-check crl_apis cert_verify_inv_utf8 no-exte=
+nsions \
++ 	 no-status-request hostname-check-utf8 pkcs8-key-decode-encrypted prio=
+rity-mix pkcs7 \
++ 	 send-data-before-handshake recv-data-before-handshake crt_inv_write \
++-	 x509sign-verify-error rng-op-nonce rng-op-random rng-op-key x509-dn-d=
+ecode-compat \
+++	 x509sign-verify-error x509-dn-decode-compat \
++ 	 ip-check mini-x509-ipaddr trust-store base64-raw random-art dhex509se=
+lf \
++ 	 dss-sig-val sign-pk-api tls-session-ext-override record-pad \
++ 	 tls13-server-kx-neg gnutls_ext_raw_parse_dtls key-export-pkcs8 \
+diff --git a/meta/recipes-support/gnutls/gnutls_3.8.13.bb b/meta/recipes-=
+support/gnutls/gnutls_3.8.13.bb
+index 9c8c994bdc..ff1c3e661e 100644
+--- a/meta/recipes-support/gnutls/gnutls_3.8.13.bb
++++ b/meta/recipes-support/gnutls/gnutls_3.8.13.bb
+@@ -27,6 +27,10 @@ SRC_URI =3D "https://www.gnupg.org/ftp/gcrypt/gnutls/v=
+${SHRT_VER}/gnutls-${PV}.tar
+            file://0001-tests-mini-dtls-framents-link-to-gnulib.patch \
+            "
+=20
++SRC_URI:append:riscv64 =3D "\
++    file://0001-tests-Makefile.am-disable-slow-test-cases-in-RISCV64.pat=
+ch \
++"
++
+ SRC_URI[sha256sum] =3D "ffed8ec1bf09c2426d4f14aae377de4753b53e537d685e60=
+4e99a8b16ca9c97e"
+=20
+ inherit autotools texinfo pkgconfig gettext lib_package gtk-doc ptest
 --=20
 2.55.0
 
