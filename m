@@ -2,61 +2,61 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A79E6C9833E
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:13:30 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A04ABC9832F
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:13:50 +0000 (UTC)
 Received: from mail-dy2-f43.google.com (mail-dy2-f43.google.com [74.125.229.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.52921.1790579608703059554
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.51995.1790579623301999316
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 00:13:28 -0700
+ Mon, 28 Sep 2026 00:13:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=kYbEhB9b;
+ dkim=pass header.i=@mvista.com header.s=google header.b=Nkk6s7Lr;
  spf=pass (domain: mvista.com, ip: 74.125.229.43, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-33e630052ebso3248037eec.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 00:13:28 -0700 (PDT)
+Received: by mail-dy2-f43.google.com with SMTP id 5a478bee46e88-340f56c44b0so937470eec.1
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 00:13:43 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1790579608; x=1791184408; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1790579623; x=1791184423; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=Q+ntmjJj3uS06rnAVpl7HLalwRFeNmFzjAs4JYfmy/E=;
-        b=kYbEhB9bREQNXvZKgOrS3/QWiJnGse55tBRpcMuakiVI1YI5cL66klYdHYCCWdOy3M
-         r8QxOI2sZZRT5u+91Fcbkj/yixj6Ztin4v0wh78v1mecEL08RMWbTZNsZ0E1U4/l/psI
-         Iar2eGhV4Oh/i7zb1LPvegxEF2xRZodnycOa8=
+        bh=E5kVV7WqFnJMxYlVc8f8NiZBfdtwJuff9S0G2pjJVU8=;
+        b=Nkk6s7Lrg6/coUUowCTfA1Swbuwiz+MX5Kbx9sEif7/d9GXbvA1r0MxhYLHWV1fFq0
+         Mtv/pu0DLK4ROUsXKbmjS5wR6mcwY2gO2ssHSp3SZD0Fst1ZRVNwj5PgT3ozs09JqaE4
+         +bx8HZfUPy2yeq4IL/ZcycVAQYaTnV9U+qTvM=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790579608; x=1791184408;
+        d=1e100.net; s=20260707; t=1790579623; x=1791184423;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Q+ntmjJj3uS06rnAVpl7HLalwRFeNmFzjAs4JYfmy/E=;
-        b=IKuIDA38PgjK42bUCfJCWNyqaJSkp5Y/YcOCFuREbnUDrkADW5Zq3CLSgW10l8RbJG
-         J10tA2NOY3E80UtS4MhxU7J6Yx/bW1b6WIWKNbcsrlr9g5L1VAbsN42xvLLBjlire0pa
-         XKz9jhV953YIo7CAyM4qfUyppwxvnWy+R5SF+4+XtE1j8x472Sb1f3MdV0w02mFmB2Fu
-         BVx+lnnw8VXTtqnX/xHwlxZUyeOX1+TLYhj4WzIJtwGBlzPbXZ+xyrnCNz6Prp9nmoNP
-         lmOK6YRclLzHWc1gRYyp3M7ESEva5YqPXBfCvqB8TylMHpMrs+XfCz55xtX5beAG9QdM
-         twzQ==
-X-Gm-Message-State: AFq9FYIs+EWyyn8a83htfkoF5/8dEdcCYKwcZZf6tT2s/ujtYgSgbP14
-	+hB0dhFEhvrCquEtpmsbTZjhqLSNh/rN2J1XrHUBsQU1YcJKWUVdZZ5nfue9YZhkjApWh1dHudk
-	y7/Bcyt0=
-X-Gm-Gg: AYBFou3tI/SJ5odKuAtMzxeZ358wbJ4ZPnL/LIJs63s9pCE/XJUnN+LOs9vwApA7aXz
-	KsDgzfbgej2AihQYEdZAzmyCxEOaUpggyi8PJI+hXwTUAAV1X3eK41cNsqqPUhj5QbW4sNKfcDU
-	KegxvgI6jt9eDGtaZjCKXgWK4kbOGoNSAnmL/KXjxh2Vnlj25pFLrGvJrSmBjAjrNrqfI0PL86Y
-	jl/1pAMLXCLKad8CJGt1d7f+KzaBz/FuYhzCR5d85k2WnG/pU26jWZT3bYjsL9HqFw1MencNRA6
-	n+WQesJzVrgMtOrzoodEmb7kmERWur1azBJiV5guO3SLbolJ1EgeRYCN1ILoinTwtXMa6bcEySl
-	TQTzakeXcI3LUASdO/1yeCjwF6bzVf/6e6beW7ClH+RbB2az+zjv45srgd3TAC5SwaBbz5F/BmF
-	uncXxXAo/Yh+AN4POzIcfTMglRJwE0M03PVvIdRMfPd6UDxYHHQ8lcnX3FMOitjv9AeCn0Uts0J
-	Eg21Pan3H4=
-X-Received: by 2002:a05:7301:1709:b0:33b:db21:9877 with SMTP id 5a478bee46e88-34271a92007mr8363489eec.20.1790579607660;
-        Mon, 28 Sep 2026 00:13:27 -0700 (PDT)
+        bh=E5kVV7WqFnJMxYlVc8f8NiZBfdtwJuff9S0G2pjJVU8=;
+        b=MDS6wrYcuxMhdpJkpCZalMCKNtfCz+Rx3ZpbohcjN75VH1EUuh7aEfl0s1TB6tPY/M
+         BW1pWHKSasuVw8258AP94w1HGmjYkRVBghb1xX8a5Z3t/ybHJuH10UXsKIJpLmLUuurw
+         n0HHJY3xPL6nRkrDRSHGruwGgvyyMUaCPTnfww1vlgTm5mVP2UCKbs8r379CufZkm2NM
+         xLs5XpdsQ1ar4PgCTJJaslTc3mrczp9BTQr8ck1NRUtXhwxaXRi1/BSEWBT3h/Z8LcRO
+         R2OJ0+iZ5Ae2q38jMEpc5JxcD++3ToazQwSGu5HZfbox1159OXGTgDVW6vlSuPlakdIv
+         1drg==
+X-Gm-Message-State: AFq9FYKlh0AVJdhD99bcDSMAAmB6SVlsrOambuYfg6kNO6XMe+3BAD8o
+	VHPHWPpg94plSBWQz17JkgmHatMUFC2lrC9hAps3glJfVhWYdoP2aaboRlEi+DfCw5CxdG3qEnE
+	P0fQZaDk=
+X-Gm-Gg: AYBFou1GAJ53CfTe06ZbO/CRaJ1DGKxoyXn1G+JDtxGC3yF3wlQxE4Ym4kouvLO/8vS
+	M3Mm1Zt6l8NBSiEbDzrqNH7L9ss10NQxscmUk/ETwrANDjVKW6m+NvEwYRs/11c+bHd8lX182Wk
+	SzreYaDaXnIyh8ZMB41HDq3evNDed/QBq2iUco56isKekhZ5CmBNjC7TIeFpphdtsUG1xzPATlS
+	/DePxZS4qT2jT9C6Di8LnnXauUjuU4/TaYVDc59WlY2phUgVj+K3XqaOLSqJ9RcumMgXuBTCMJ3
+	azOt+XnTz4yP8fft0JOOSl1tfVUIBHMtXs1YHt0/wqtn+P5/kN+xKhSFWNl00eTS5FgsMge3tD+
+	DKpYbGINBaKxNquEMuPR9mSJW8HUCQU92pI8MPgjbcJLR6Tpc2Pzl0RldQt9vccdivEJR7/EVVo
+	6dTDCxt6rd41RUx83KGDk27w/2CSEo/TitiyW0Au/a4uj6LFomf+KS2urT7fC5brHsz32wGPANO
+	YJgtwXVkHI=
+X-Received: by 2002:a05:7300:640e:b0:33b:ebaa:e03b with SMTP id 5a478bee46e88-34271d8d7b6mr11104716eec.22.1790579622234;
+        Mon, 28 Sep 2026 00:13:42 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([150.129.170.212])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3434958c3adsm31166948eec.22.2026.09.28.00.13.00
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3434958c3adsm31166948eec.22.2026.09.28.00.13.28
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 00:13:27 -0700 (PDT)
+        Mon, 28 Sep 2026 00:13:41 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH 4/6] bind: fix for CVE-2026-11622, CVE-2026-11721
-Date: Mon, 28 Sep 2026 12:41:09 +0530
-Message-ID: <20260928071115.304055-4-hprajapati@mvista.com>
+Subject: [scarthgap][PATCH 5/6] bind: fix for CVE-2026-12617
+Date: Mon, 28 Sep 2026 12:41:10 +0530
+Message-ID: <20260928071115.304055-5-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260928071115.304055-1-hprajapati@mvista.com>
 References: <20260928071115.304055-1-hprajapati@mvista.com>
@@ -65,778 +65,621 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:13:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246734
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:13:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246735
 
-Pick patch from [1], [2], [3] & [4] also mentioned at Debian report in [5] & [6]
+Pick patch from [1] & [2] also mentioned at Debian report in [2]
 
-[1] https://gitlab.isc.org/isc-projects/bind9/-/commit/231b1ca3edfb26389e1af39181aa6b4413e87ec4
-[2] https://gitlab.isc.org/isc-projects/bind9/-/commit/1a4986e2533f87e80eb21da3f06708d335aff1e2
-[3] https://gitlab.isc.org/isc-projects/bind9/-/commit/15089066b15f826d7487c3d160b5872820f84b83
-[4] https://gitlab.isc.org/isc-projects/bind9/-/commit/19e496ca260b6a756ae1378e8ebcbdb666b7d9ed
-[5] https://security-tracker.debian.org/tracker/CVE-2026-11721
-[6] https://security-tracker.debian.org/tracker/CVE-2026-11622
+[1] https://gitlab.isc.org/isc-projects/bind9/-/commit/c740c37689f234e21a9b0ef760471ef2cf1133f5
+[2] https://gitlab.isc.org/isc-projects/bind9/-/commit/bb92832fb6ae899bee7206c2d8966258461c2f71
+[3] https://security-tracker.debian.org/tracker/CVE-2026-12617
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../bind/bind/CVE-2026-11622.patch            | 283 ++++++++++++++++++
- .../bind/bind/CVE-2026-11721-01.patch         |  43 +++
- .../bind/bind/CVE-2026-11721-02.patch         | 238 +++++++++++++++
- .../bind/bind/CVE-2026-11721-03.patch         | 147 +++++++++
- .../recipes-connectivity/bind/bind_9.18.49.bb |   4 +
- 5 files changed, 715 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-11622.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-11721-01.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-11721-02.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-11721-03.patch
+ .../bind/bind/CVE-2026-12617-01.patch         | 283 +++++++++++++++++
+ .../bind/bind/CVE-2026-12617-02.patch         | 292 ++++++++++++++++++
+ .../recipes-connectivity/bind/bind_9.18.49.bb |   2 +
+ 3 files changed, 577 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-12617-01.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-12617-02.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-11622.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-11622.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-12617-01.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-12617-01.patch
 new file mode 100644
-index 0000000000..9698762029
+index 0000000000..35d357374b
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-11622.patch
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-12617-01.patch
 @@ -0,0 +1,283 @@
-+From: =?utf-8?b?T25kxZllaiBTdXLDvQ==?= <ondrej@sury.org>
-+Date: Tue, 23 Jun 2026 10:59:38 +0200
-+Subject: Make the dns_slabheaders in the cache reference counted
++From: Colin Vidal <colin@isc.org>
++Date: Thu, 18 Jun 2026 18:17:05 +0200
++Subject: Do not assert in some CNAME/DNAME queries
 +
-+Instead of only reference counting the enclosing qpcnode, add the
-+reference counting directly to the slabheaders.  The reference is
-+incremented when an rdataset is bound to the header and decremented when
-+the rdataset is disassociated, so a stale slabheader can be removed from
-+the node's down chain as soon as its own reference count reaches zero,
-+instead of waiting for the whole qpcnode to become unreferenced.
++Fix a `named` crash because of a fail assertion for certains types of
++CNAME and DNAME queries:
 +
-+Building on that, clean up the ancient headers eagerly: mark_ancient()
-+is made idempotent, releases the header's own (container) reference and
-+reaps the stale headers from the node's down chain as soon as their
-+references reach zero.  A header evicted over the per-name type limit is
-+expired only after the new rdataset has been bound, so the bind's
-+increment always precedes mark_ancient()'s decrement.
++- If a client queries for a DNAME and A record to the resolver, and the
++  authoritative server responds positively to the A query but delay the
++  DNAME response and respond later negatively;
 +
-+Because a header can now be reclaimed independently of its node, the
-+rdataset iterators must keep the header they are positioned on alive:
-+each iterator takes a reference on its current header and releases it
-+when it advances or is destroyed.  Iteration otherwise stays lazy and
-+re-reads the node on every step, so it still observes records added to
-+the node while the iterator is live, as zone signing requires.
++- If a client queries for a CNAME and A record to the resolver, and the
++  authoritative server responds positively to the A query but delay the
++  CNAME response and respond later with a self-referential CNAME.
 +
-+The slab headers are shared with the zone databases, so the matching
-+increment is added to every bind path.  The noqname/closest proofs hand
-+out rdatasets backed by bare slabs that have no header, so they are
-+given a separate dns_rdataproof_rdatasetmethods that leaves the
-+reference count untouched.
++The first scenario consists of sending two queries: `foo.test./DNAME`
++and `a.foo.test./A`. The authoritative server delays the answer for
++`foo.test./DNAME` but immediately answers the DNAME record for the
++second query: `foo.test. DNAME bar.test.`. The resolver caches it,
++follows the DNAME, and resolves `a.bar.test./A`. The authoritative
++server eventually answers negatively for `foo.test./DNAME`
++(NOERROR/NODATA, with only an SOA in the authority section). The
++resolver pulls out the previously cached rdataset (because it has a
++higher trust level than the received negative answer), and wrongly (this
++is the first bug) sets the result to `DNS_R_DNAME` instead of
++`ISC_R_SUCCESS`. The code in `ns/query.c` that handles the resolver
++result interprets this as "this is a non-DNAME query and we got a DNAME
++rdataset, so follow the chain". It goes into the `query_dname()`
++function, which asserts that the qname is a subdomain of the owner name
++in the rdataset. That assertion fails because the qname (`foo.test.`) is
++exactly equal to the owner name of the DNAME (`foo.test.`), rather than
++being a subdomain of it. `DNS_R_DNAME` must only be set when the qtype
++is something other than DNAME and the resolver has obtained a DNAME that
++needs to be followed.
 +
-+(cherry picked from commit 2dabf117e1264fd13fb33096f87e78a039fd1c6c)
++The second scenario consists of sending two queries:
++`cname.foo.test./CNAME` and `cname.foo.test./A`. The authoritative
++server delays the answer for `cname.foo.test./CNAME` but immediately
++answers the CNAME record for the second query: `cname.foo.test. CNAME
++cname.foo.test.`. Note that the CNAME is self-referential. The resolver
++caches it and sets the result code to `DNS_R_CNAME`. Then `ns/query.c`
++interprets this as "this is a non-CNAME query and we got a CNAME
++rdataset, so follow the chain" (which is correct in this case; however,
++because the CNAME rdataset is self-referential, the resolver responds
++with SERVFAIL, which is expected). The authoritative server eventually
++answers negatively for `cname.foo.test./CNAME`. The resolver then pulls
++out the previously cached CNAME rdataset (obtained from the A answer,
++even though it was self-referential, the resolver cached it) and wrongly
++sets the result to `DNS_R_CNAME` (this is the second bug). As noted
++above, `ns/query.c` interprets this as "this is a non-CNAME query and we
++got a CNAME rdataset, so follow the chain". The internals here are
++slightly more subtle: it first goes into `query_cname()` and sets the
++CNAME rdataset in the message answer section, then restarts the query to
++follow the CNAME. The restart retrieves the CNAME rdataset from the
++cache directly (without going to the resolver), and this time the query
++context result is `ISC_R_SUCCESS` (since it was found) and
++`qctx->rdataset` points to the same CNAME again (as it is
++self-referential), so it goes directly into the
++`query_prepresponse()/query_respond()` flow, which attempts to add the
++rdataset to the message answer again. However, this fails because the
++rdataset is already in the message, and the assertion which expects that
++operation to succeed fails (due to `qctx->rdataset` being set to `NULL`
++when ownership of the rdataset was transferred). `DNS_R_CNAME` must only
++be set when the qtype is something other than CNAME and the resolver has
++obtained a CNAME that needs to be followed.
 +
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/231b1ca3edfb26389e1af39181aa6b4413e87ec4
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-11622
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-11622
++In both cases, the correct answer from the resolver should have been
++`ISC_R_SUCCESS` (instead of respectively `DNS_R_DNAME` and
++`DNS_R_CNAME`) becuase the rdataset that has been looked up was found.
 +
-+CVE: CVE-2026-11622
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/231b1ca3edfb26389e1af39181aa6b4413e87ec4]
++(cherry picked from commit 773d46d58c693047a5945c8fe40512edd0ac214e)
++
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/c740c37689f234e21a9b0ef760471ef2cf1133f5
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-12617
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-12617
++
++CVE: CVE-2026-12617
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/c740c37689f234e21a9b0ef760471ef2cf1133f5]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ bin/tests/system/reclimit/tests.sh |  4 +-
-+ lib/dns/include/dns/rdataslab.h    |  1 +
-+ lib/dns/rbtdb.c                    | 77 ++++++++++++++++++++++++++++++++------
-+ 3 files changed, 69 insertions(+), 13 deletions(-)
++ lib/dns/resolver.c | 137 +++++++++++++++++++++++------------------------------
++ 1 file changed, 60 insertions(+), 77 deletions(-)
 +
-+diff --git a/bin/tests/system/reclimit/tests.sh b/bin/tests/system/reclimit/tests.sh
-+index 76889ec..efa7316 100644
-+--- a/bin/tests/system/reclimit/tests.sh
-++++ b/bin/tests/system/reclimit/tests.sh
-+@@ -337,13 +337,13 @@ echo_i "checking that NXDOMAIN names over the max-types-per-name limit don't get
-+ 
-+ # Query for 10 NXDOMAIN types
-+ for ntype in $(seq 65270 65279); do
-+-  check_manytypes 1 manytypes.big "TYPE${ntype}" NOERROR big SOA 0 || ret=1
-++  check_manytypes 1 manytypes.big "TYPE${ntype}" NOERROR big SOA 120 || ret=1
-+ done
-+ # Wait at least 1 second
-+ sleep 1
-+ # Query for 10 NXDOMAIN types again - these should not be cached
-+ for ntype in $(seq 65270 65279); do
-+-  check_manytypes 2 manytypes.big "TYPE${ntype}" NOERROR big SOA 0 || ret=1
-++  check_manytypes 2 manytypes.big "TYPE${ntype}" NOERROR big SOA 120 || ret=1
-+ done
-+ 
-+ if [ $ret -ne 0 ]; then echo_i "failed"; fi
-+diff --git a/lib/dns/include/dns/rdataslab.h b/lib/dns/include/dns/rdataslab.h
-+index 5729c00..6bd3b59 100644
-+--- a/lib/dns/include/dns/rdataslab.h
-++++ b/lib/dns/include/dns/rdataslab.h
-+@@ -44,6 +44,7 @@
-+ #include <stdbool.h>
-+ 
-+ #include <isc/lang.h>
-++#include <isc/refcount.h>
-+ 
-+ #include <dns/types.h>
-+ 
-+diff --git a/lib/dns/rbtdb.c b/lib/dns/rbtdb.c
-+index 62bc97d..0b85479 100644
-+--- a/lib/dns/rbtdb.c
-++++ b/lib/dns/rbtdb.c
-+@@ -158,6 +158,7 @@ struct noqname {
-+ };
-+ 
-+ typedef struct rdatasetheader {
-++	isc_refcount_t references;
-+ 	/*%
-+ 	 * Locked by the owning node's lock.
-+ 	 */
-+@@ -1447,6 +1448,7 @@ init_rdataset(dns_rbtdb_t *rbtdb, rdatasetheader_t *h) {
-+ 	h->heap_index = 0;
-+ 	atomic_init(&h->attributes, 0);
-+ 	atomic_init(&h->last_refresh_fail_ts, 0);
-++	isc_refcount_init(&h->references, 1);
-+ 
-+ 	STATIC_ASSERT(sizeof(h->attributes) == 2,
-+ 		      "The .attributes field of rdatasetheader_t needs to be "
-+@@ -1559,6 +1561,9 @@ rollback_node(dns_rbtnode_t *node, rbtdb_serial_t serial) {
-+ 	}
-+ }
-+ 
-++static void
-++clean_stale_headers(dns_rbtdb_t *rbtdb, isc_mem_t *mctx, rdatasetheader_t *top);
-++
++diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
++index 9d46126..06c779e 100644
++--- a/lib/dns/resolver.c
+++++ b/lib/dns/resolver.c
++@@ -692,10 +692,10 @@ fctx_destroy(fetchctx_t *fctx, bool exiting);
 + static void
-+ mark_header_ancient(dns_rbtdb_t *rbtdb, rdatasetheader_t *header) {
-+ 	uint_least16_t attributes = atomic_load_acquire(&header->attributes);
-+@@ -1584,8 +1589,12 @@ mark_header_ancient(dns_rbtdb_t *rbtdb, rdatasetheader_t *header) {
-+ 	update_rrsetstats(rbtdb, header->type, attributes, false);
-+ 	header->node->dirty = 1;
-+ 
-++	isc_refcount_decrement(&header->references);
-++
-+ 	/* Increment the stats counter for the ancient RRtype. */
-+ 	update_rrsetstats(rbtdb, header->type, newattributes, true);
-++
-++	clean_stale_headers(rbtdb, rbtdb->common.mctx, header);
-+ }
-+ 
-+ static void
-+@@ -1621,12 +1630,19 @@ static void
-+ clean_stale_headers(dns_rbtdb_t *rbtdb, isc_mem_t *mctx,
-+ 		    rdatasetheader_t *top) {
-+ 	rdatasetheader_t *d, *down_next;
-++	rdatasetheader_t *down_parent = top;
-+ 
-+ 	for (d = top->down; d != NULL; d = down_next) {
-+ 		down_next = d->down;
-+-		free_rdataset(rbtdb, mctx, d);
-++		d->next = down_parent;
-++
-++		if (isc_refcount_current(&d->references) == 0) {
-++			free_rdataset(rbtdb, mctx, d);
-++			down_parent->down = down_next;
-++		} else {
-++			down_parent = d;
-++		}
-+ 	}
-+-	top->down = NULL;
-+ }
-+ 
-+ static void
-+@@ -1642,6 +1658,7 @@ clean_cache_node(dns_rbtdb_t *rbtdb, dns_rbtnode_t *node) {
-+ 	for (current = node->data; current != NULL; current = top_next) {
-+ 		top_next = current->next;
-+ 		clean_stale_headers(rbtdb, mctx, current);
-++		INSIST(current->down == NULL);
-+ 		/*
-+ 		 * If current is nonexistent, ancient, or stale and
-+ 		 * we are not keeping stale, we can clean it up.
-+@@ -3114,6 +3131,8 @@ bind_rdataset(dns_rbtdb_t *rbtdb, dns_rbtnode_t *node, rdatasetheader_t *header,
-+ 		return;
-+ 	}
-+ 
-++	isc_refcount_increment(&header->references);
-++
-+ 	dns__rbtnode_acquire(rbtdb, node, locktype);
-+ 
-+ 	INSIST(rdataset->methods == NULL); /* We must be disassociated. */
-+@@ -6307,6 +6326,7 @@ add32(dns_rbtdb_t *rbtdb, dns_rbtnode_t *rbtnode, const dns_name_t *nodename,
-+ 	bool header_nx;
-+ 	bool newheader_nx;
-+ 	bool merge;
-++	bool do_expireheader = false;
-+ 	dns_rdatatype_t rdtype, covers;
-+ 	rbtdb_rdatatype_t negtype, sigtype;
-+ 	dns_trust_t trust;
-+@@ -6856,6 +6876,7 @@ find_header:
-+ 			}
-+ 
-+ 			if (IS_CACHE(rbtdb) && overmaxtype(rbtdb, ntypes)) {
-++				do_expireheader = true;
-+ 				if (expireheader == NULL) {
-+ 					expireheader = newheader;
-+ 				}
-+@@ -6869,15 +6890,6 @@ find_header:
-+ 					 */
-+ 					expireheader = newheader;
-+ 				}
-+-
-+-				set_ttl(rbtdb, expireheader, 0);
-+-				mark_header_ancient(rbtdb, expireheader);
-+-				/*
-+-				 * FIXME: In theory, we should mark the RRSIG
-+-				 * and the header at the same time, but there is
-+-				 * no direct link between those two header, so
-+-				 * we would have to check the whole list again.
-+-				 */
-+ 			}
-+ 		}
-+ 	}
-+@@ -6901,6 +6913,15 @@ find_header:
-+ 			      isc_rwlocktype_write, addedrdataset);
-+ 	}
-+ 
-++	/*
-++	 * We need to delay the expiration of the header until we are bound to
-++	 * it to prevent decrement-then-increment on the header references.
-++	 */
-++	if (do_expireheader) {
-++		set_ttl(rbtdb, expireheader, 0);
-++		mark_header_ancient(rbtdb, expireheader);
-++	}
-++
-+ 	return ISC_R_SUCCESS;
-+ }
-+ 
-+@@ -8692,6 +8713,12 @@ rdataset_disassociate(dns_rdataset_t *rdataset) {
-+ 	dns_db_t *db = rdataset->private1;
-+ 	dns_dbnode_t *node = rdataset->private2;
-+ 
-++	if (rdataset->methods == &rdataset_methods) {
-++		rdatasetheader_t *header = rdataset->private3;
-++		header--;
-++		isc_refcount_decrement(&header->references);
-++	}
-++
-+ 	detachnode(db, &node);
-+ }
-+ 
-+@@ -8806,6 +8833,11 @@ rdataset_clone(dns_rdataset_t *source, dns_rdataset_t *target) {
-+ 	dns_dbnode_t *cloned_node = NULL;
-+ 
-+ 	attachnode(db, node, &cloned_node);
-++	if (source->methods == &rdataset_methods) {
-++		rdatasetheader_t *header = source->private3;
-++		header--;
-++		isc_refcount_increment(&header->references);
-++	}
-+ 	INSIST(!ISC_LINK_LINKED(target, link));
-+ 	*target = *source;
-+ 	ISC_LINK_INIT(target, link);
-+@@ -8969,6 +9001,11 @@ rdatasetiter_destroy(dns_rdatasetiter_t **iteratorp) {
-+ 
-+ 	rbtiterator = (rbtdb_rdatasetiter_t *)(*iteratorp);
-+ 
-++	if (rbtiterator->current != NULL) {
-++		isc_refcount_decrement(&rbtiterator->current->references);
-++		rbtiterator->current = NULL;
-++	}
-++
-+ 	if (rbtiterator->common.version != NULL) {
-+ 		closeversion(rbtiterator->common.db,
-+ 			     &rbtiterator->common.version, false);
-+@@ -9046,9 +9083,18 @@ rdatasetiter_first(dns_rdatasetiter_t *iterator) {
-+ 		}
-+ 	}
-+ 
-++	if (header != NULL) {
-++		isc_refcount_increment0(&header->references);
-++	}
-++
-+ 	NODE_UNLOCK(&rbtdb->node_locks[rbtnode->locknum].lock,
-+ 		    isc_rwlocktype_read);
-+ 
-++	if (rbtiterator->current != NULL) {
-++		isc_refcount_decrement(&rbtiterator->current->references);
-++		rbtiterator->current = NULL;
-++	}
-++
-+ 	rbtiterator->current = header;
-+ 
-+ 	if (header == NULL) {
-+@@ -9140,9 +9186,18 @@ rdatasetiter_next(dns_rdatasetiter_t *iterator) {
-+ 		}
-+ 	}
-+ 
-++	if (header != NULL) {
-++		isc_refcount_increment0(&header->references);
-++	}
-++
-+ 	NODE_UNLOCK(&rbtdb->node_locks[rbtnode->locknum].lock,
-+ 		    isc_rwlocktype_read);
-+ 
-++	if (rbtiterator->current != NULL) {
-++		isc_refcount_decrement(&rbtiterator->current->references);
-++		rbtiterator->current = NULL;
-++	}
-++
-+ 	rbtiterator->current = header;
-+ 
-+ 	if (header == NULL) {
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-11721-01.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-11721-01.patch
-new file mode 100644
-index 0000000000..77579de2d2
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-11721-01.patch
-@@ -0,0 +1,43 @@
-+From: Mark Andrews <marka@isc.org>
-+Date: Tue, 14 Apr 2026 15:14:06 +1000
-+Subject: Don't sign out of zone records in dnssec-signzone
-+
-+dnssec-signzone was signing extraneous records that were not within
-+the namespace of the zone.  This no longer occurs.
-+
-+(cherry picked from commit e45c9af7051421fd370f20ba8325199c606223fd)
-+
-+Don't sign out of zone records in dnssec-signzone
-+
-+dnssec-signzone was signing extraneous records that were not within
-+the namespace of the zone.  This no longer occurs.
-+
-+(cherry picked from commit e45c9af7051421fd370f20ba8325199c606223fd)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/1a4986e2533f87e80eb21da3f06708d335aff1e2
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-11721
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-11721
-+
-+CVE: CVE-2026-11721
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/1a4986e2533f87e80eb21da3f06708d335aff1e2]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ bin/dnssec/dnssec-signzone.c | 5 +++++
-+ 1 file changed, 5 insertions(+)
-+
-+diff --git a/bin/dnssec/dnssec-signzone.c b/bin/dnssec/dnssec-signzone.c
-+index 73855e6..9e3a48a 100644
-+--- a/bin/dnssec/dnssec-signzone.c
-++++ b/bin/dnssec/dnssec-signzone.c
-+@@ -1643,6 +1643,11 @@ assignwork(isc_task_t *task, isc_task_t *worker) {
-+ 			dns_db_detachnode(gdb, &node);
-+ 			goto next;
-+ 		}
-++		if (!dns_name_issubdomain(name, gorigin)) {
-++			dumpnode(name, node);
-++			dns_db_detachnode(gdb, &node);
-++			goto next;
-++		}
-+ 		/*
-+ 		 * Sort the zone data from the glue and out-of-zone data.
-+ 		 * For NSEC zones nodes with zone data have NSEC records.
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-11721-02.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-11721-02.patch
-new file mode 100644
-index 0000000000..125ecf468b
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-11721-02.patch
-@@ -0,0 +1,238 @@
-+From: Mark Andrews <marka@isc.org>
-+Date: Tue, 14 Apr 2026 12:24:33 +1000
-+Subject: Invalid signed wildcard records were being accepted
-+
-+An RRSIG whose Labels field indicates fewer labels than its signer
-+name requires was being accepted.  When such a record covers a
-+wildcard, the validator reconstructs a wildcard owner name above the
-+signer's zone and caches it as secure.  RFC 8198 cache synthesis
-+(synth-from-dnssec) then serves that forged wildcard for unrelated
-+names, poisoning the cache.
-+
-+These records are now rejected, both when an RRSIG is parsed and when
-+its signature is verified.
-+
-+(cherry picked from commit 084ca5ee10515e461d46b63df9660b8394bc7de9)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/15089066b15f826d7487c3d160b5872820f84b83
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-11721
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-11721
-+
-+CVE: CVE-2026-11721
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/15089066b15f826d7487c3d160b5872820f84b83]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/dns/dnssec.c                 | 43 +++++++++++++++++++++++++++++-----------
-+ lib/dns/rdata/generic/rrsig_46.c | 37 +++++++++++++++++++++++++---------
-+ 2 files changed, 59 insertions(+), 21 deletions(-)
-+
-+diff --git a/lib/dns/dnssec.c b/lib/dns/dnssec.c
-+index 1725de3..9b9b1f2 100644
-+--- a/lib/dns/dnssec.c
-++++ b/lib/dns/dnssec.c
-+@@ -130,11 +130,11 @@ dns_dnssec_keyfromrdata(const dns_name_t *name, const dns_rdata_t *rdata,
-+ 	isc_buffer_t b;
-+ 	isc_region_t r;
-+ 
-+-	INSIST(name != NULL);
-+-	INSIST(rdata != NULL);
-+-	INSIST(mctx != NULL);
-+-	INSIST(key != NULL);
-+-	INSIST(*key == NULL);
-++	REQUIRE(name != NULL);
-++	REQUIRE(rdata != NULL);
-++	REQUIRE(mctx != NULL);
-++	REQUIRE(key != NULL);
-++	REQUIRE(*key == NULL);
-+ 	REQUIRE(rdata->type == dns_rdatatype_key ||
-+ 		rdata->type == dns_rdatatype_dnskey);
-+ 
-+@@ -187,12 +187,14 @@ dns_dnssec_sign(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
-+ 	isc_result_t ret;
-+ 	isc_buffer_t *databuf = NULL;
-+ 	char data[256 + 8];
-++	unsigned int labels;
-+ 	unsigned int sigsize;
-+ 	dns_fixedname_t fnewname;
-+ 	dns_fixedname_t fsigner;
-+ 
-+ 	REQUIRE(name != NULL);
-+-	REQUIRE(dns_name_countlabels(name) <= 255);
-++	labels = dns_name_countlabels(name);
-++	REQUIRE(labels <= 255 && labels > 0);
-+ 	REQUIRE(set != NULL);
-+ 	REQUIRE(key != NULL);
-+ 	REQUIRE(inception != NULL);
-+@@ -221,7 +223,7 @@ dns_dnssec_sign(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
-+ 
-+ 	sig.covered = set->type;
-+ 	sig.algorithm = dst_key_alg(key);
-+-	sig.labels = dns_name_countlabels(name) - 1;
-++	sig.labels = labels - 1;
-+ 	if (dns_name_iswildcard(name)) {
-+ 		sig.labels--;
-+ 	}
-+@@ -365,10 +367,13 @@ dns_dnssec_verify(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
-+ 	isc_result_t ret;
-+ 	unsigned char data[300];
-+ 	dst_context_t *ctx = NULL;
-+-	int labels = 0;
-++	unsigned int labels;
-++	unsigned int siglabels;
-+ 	bool downcase = false;
-+ 
-+ 	REQUIRE(name != NULL);
-++	labels = dns_name_countlabels(name);
-++	REQUIRE(labels > 0);
-+ 	REQUIRE(set != NULL);
-+ 	REQUIRE(key != NULL);
-+ 	REQUIRE(mctx != NULL);
-+@@ -383,6 +388,21 @@ dns_dnssec_verify(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
-+ 		return DNS_R_SIGINVALID;
-+ 	}
-+ 
-++	/*
-++	 * The RRSIG labels field can't indicate fewer labels than the
-++	 * signer.  Also the labels shouldn't be greater than that of
-++	 * the owner name.
-++	 *
-++	 * sig.labels doesn't include the root label, so add 1 to account
-++	 * for it.
-++	 */
-++	siglabels = sig.labels + 1;
-++	if (siglabels < dns_name_countlabels(&sig.signer) || siglabels > labels)
-++	{
-++		inc_stat(dns_dnssecstats_fail);
-++		return DNS_R_SIGINVALID;
-++	}
-++
-+ 	if (isc_serial_lt(sig.timeexpire, sig.timesigned)) {
-+ 		inc_stat(dns_dnssecstats_fail);
-+ 		return DNS_R_SIGINVALID;
-+@@ -464,10 +484,9 @@ again:
-+ 	 * If the name is an expanded wildcard, use the wildcard name.
-+ 	 */
-+ 	dns_fixedname_init(&fnewname);
-+-	labels = dns_name_countlabels(name) - 1;
-+ 	RUNTIME_CHECK(dns_name_downcase(name, dns_fixedname_name(&fnewname),
-+ 					NULL) == ISC_R_SUCCESS);
-+-	if (labels - sig.labels > 0) {
-++	if (labels > siglabels) {
-+ 		dns_name_split(dns_fixedname_name(&fnewname), sig.labels + 1,
-+ 			       NULL, dns_fixedname_name(&fnewname));
-+ 	}
-+@@ -478,7 +497,7 @@ again:
-+ 	 * Create an envelope for each rdata: <name|type|class|ttl>.
-+ 	 */
-+ 	isc_buffer_init(&envbuf, data, sizeof(data));
-+-	if (labels - sig.labels > 0) {
-++	if (labels > siglabels) {
-+ 		isc_buffer_putuint8(&envbuf, 1);
-+ 		isc_buffer_putuint8(&envbuf, '*');
-+ 		memmove(data + 2, r.base, r.length);
-+@@ -574,7 +593,7 @@ cleanup_struct:
-+ 		inc_stat(dns_dnssecstats_fail);
-+ 	}
-+ 
-+-	if (ret == ISC_R_SUCCESS && labels - sig.labels > 0) {
-++	if (ret == ISC_R_SUCCESS && labels > siglabels) {
-+ 		if (wild != NULL) {
-+ 			RUNTIME_CHECK(dns_name_concatenate(
-+ 					      dns_wildcardname,
-+diff --git a/lib/dns/rdata/generic/rrsig_46.c b/lib/dns/rdata/generic/rrsig_46.c
-+index 10bc039..4cf4259 100644
-+--- a/lib/dns/rdata/generic/rrsig_46.c
-++++ b/lib/dns/rdata/generic/rrsig_46.c
-+@@ -23,12 +23,12 @@
++ send_shutdown_events(dns_resolver_t *res);
 + static isc_result_t
-+ fromtext_rrsig(ARGS_FROMTEXT) {
-+ 	isc_token_t token;
-+-	unsigned char c;
-++	unsigned char alg, labels;
-+ 	long i;
-+ 	dns_rdatatype_t covered;
-+-	char *e;
-++	char *e = NULL;
-+ 	isc_result_t result;
-+-	dns_name_t name;
-++	dns_name_t signer;
-+ 	isc_buffer_t buffer;
-+ 	uint32_t time_signed, time_expire;
-+ 
-+@@ -61,8 +61,8 @@ fromtext_rrsig(ARGS_FROMTEXT) {
-+ 	 */
-+ 	RETERR(isc_lex_getmastertoken(lexer, &token, isc_tokentype_string,
-+ 				      false));
-+-	RETTOK(dns_secalg_fromtext(&c, &token.value.as_textregion));
-+-	RETERR(mem_tobuffer(target, &c, 1));
-++	RETTOK(dns_secalg_fromtext(&alg, &token.value.as_textregion));
-++	RETERR(mem_tobuffer(target, &alg, 1));
-+ 
-+ 	/*
-+ 	 * Labels.
-+@@ -72,8 +72,8 @@ fromtext_rrsig(ARGS_FROMTEXT) {
-+ 	if (token.value.as_ulong > 0xffU) {
-+ 		RETTOK(ISC_R_RANGE);
-+ 	}
-+-	c = (unsigned char)token.value.as_ulong;
-+-	RETERR(mem_tobuffer(target, &c, 1));
-++	labels = (unsigned char)token.value.as_ulong;
-++	RETERR(mem_tobuffer(target, &labels, 1));
-+ 
-+ 	/*
-+ 	 * Original ttl.
-+@@ -144,12 +144,20 @@ fromtext_rrsig(ARGS_FROMTEXT) {
-+ 	 */
-+ 	RETERR(isc_lex_getmastertoken(lexer, &token, isc_tokentype_string,
-+ 				      false));
-+-	dns_name_init(&name, NULL);
-++	dns_name_init(&signer, NULL);
-+ 	buffer_fromregion(&buffer, &token.value.as_region);
-+ 	if (origin == NULL) {
-+ 		origin = dns_rootname;
-+ 	}
-+-	RETTOK(dns_name_fromtext(&name, &buffer, origin, options, target));
-++	RETTOK(dns_name_fromtext(&signer, &buffer, origin, options, target));
-++
-++	/*
-++	 * (RRSIG labels doesn't include the root label, so add one
-++	 * to normalize it before checking against the signer.)
-++	 */
-++	if ((unsigned int)(labels + 1) < dns_name_countlabels(&signer)) {
-++		RETTOK(ISC_R_RANGE);
-++	}
-+ 
-+ 	/*
-+ 	 * Sig.
-+@@ -278,6 +286,7 @@ static isc_result_t
-+ fromwire_rrsig(ARGS_FROMWIRE) {
-+ 	isc_region_t sr;
-+ 	dns_name_t name;
-++	unsigned char labels;
-+ 
-+ 	REQUIRE(type == dns_rdatatype_rrsig);
-+ 
-+@@ -300,6 +309,8 @@ fromwire_rrsig(ARGS_FROMWIRE) {
-+ 		return ISC_R_UNEXPECTEDEND;
-+ 	}
-+ 
-++	labels = sr.base[3];
-++
-+ 	isc_buffer_forward(source, 18);
-+ 	RETERR(mem_tobuffer(target, sr.base, 18));
-+ 
-+@@ -309,6 +320,14 @@ fromwire_rrsig(ARGS_FROMWIRE) {
-+ 	dns_name_init(&name, NULL);
-+ 	RETERR(dns_name_fromwire(&name, source, dctx, options, target));
-+ 
-++	/*
-++	 * (RRSIG labels doesn't include the root label, so add one
-++	 * to normalize it before checking against the signer.)
-++	 */
-++	if ((unsigned int)(labels + 1) < dns_name_countlabels(&name)) {
-++		RETERR(DNS_R_FORMERR);
-++	}
-++
-+ 	/*
-+ 	 * Sig.
-+ 	 */
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-11721-03.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-11721-03.patch
-new file mode 100644
-index 0000000000..63fae84da1
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-11721-03.patch
-@@ -0,0 +1,147 @@
-+From: Mark Andrews <marka@isc.org>
-+Date: Tue, 14 Apr 2026 13:46:22 +1000
-+Subject: Test RRSIG record parsing
-+
-+In particular test that labels and signer fields are consistent.
-+
-+(cherry picked from commit 5a95e64731afe63d348d272cc4d3b2f9847150c2)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/19e496ca260b6a756ae1378e8ebcbdb666b7d9ed
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-11721
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-11721
-+
-+CVE: CVE-2026-11721
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/19e496ca260b6a756ae1378e8ebcbdb666b7d9ed]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ tests/dns/rdata_test.c | 110 +++++++++++++++++++++++++++++++++++++++++++++++++
-+ 1 file changed, 110 insertions(+)
-+
-+diff --git a/tests/dns/rdata_test.c b/tests/dns/rdata_test.c
-+index 7f0df6e..c704d98 100644
-+--- a/tests/dns/rdata_test.c
-++++ b/tests/dns/rdata_test.c
-+@@ -2504,6 +2504,115 @@ ISC_RUN_TEST_IMPL(rkey) {
-+ 		    dns_rdatatype_rkey, sizeof(dns_rdata_rkey_t));
++-ncache_adderesult(dns_message_t *message, dns_db_t *cache, dns_dbnode_t *node,
++-		  dns_rdatatype_t covers, isc_stdtime_t now, dns_ttl_t minttl,
++-		  dns_ttl_t maxttl, bool optout, bool secure,
++-		  dns_rdataset_t *ardataset, isc_result_t *eresultp);
+++ncache_adderesult(fetchctx_t *fctx, dns_message_t *message, dns_dbnode_t *node,
+++		  dns_rdatatype_t covers, isc_stdtime_t now, dns_ttl_t maxttl,
+++		  bool optout, bool secure, dns_rdataset_t *ardataset,
+++		  isc_result_t *eresultp);
++ static void
++ validated(isc_task_t *task, isc_event_t *event);
++ static void
++@@ -5580,6 +5580,46 @@ has_000_label(dns_rdataset_t *nsecset) {
++ 	return false;
 + }
 + 
-++ISC_RUN_TEST_IMPL(rrsig) {
-++	text_ok_t text_ok[] = {
-++		TEXT_VALID("SOA 8 0 86400 20260426170000 20260413160000 54393 "
-++			   ". "
-++			   "tFbcoVP8MnpecUquJ/aj+XeNgV7ts9GSHVkXaXRJrJ/"
-++			   "TEkOZApVG0F6E "
-++			   "9sYpxGk2ItweLL43ujioGj0HWwZDRR+vbur+O/"
-++			   "dIdheiig1VvU+9HXLi "
-++			   "QOViY9Kc64ixdyJhYCC5K+bO1qsHxd+"
-++			   "KJXOaxyHbqchYkDFy4PL6qftE "
-++			   "VaLkueRgjXgOsq/"
-++			   "NxvCXDgAa5xy0+3Sl0myxIs8rJ5KeXfJQFe7qxgaw "
-++			   "VjJsJTKw8neOTw2rQfLaigWu2LIWw+"
-++			   "IyVrLjZJdLqGkiLBGd1w4X3U12 "
-++			   "fFxoY3eqzNgBEtduoGKPZ/"
-++			   "NpP9cuKJORJ18283aV8hR4WO91VR0q1zcM jLwqUg=="),
-++		/* labels too short for signer */
-++		TEXT_INVALID("SOA 8 0 86400 20260426170000 20260413160000 "
-++			     "54393 example. "
-++			     "tFbcoVP8MnpecUquJ/aj+XeNgV7ts9GSHVkXaXRJrJ/"
-++			     "TEkOZApVG0F6E "
-++			     "9sYpxGk2ItweLL43ujioGj0HWwZDRR+vbur+O/"
-++			     "dIdheiig1VvU+9HXLi "
-++			     "QOViY9Kc64ixdyJhYCC5K+bO1qsHxd+"
-++			     "KJXOaxyHbqchYkDFy4PL6qftE "
-++			     "VaLkueRgjXgOsq/"
-++			     "NxvCXDgAa5xy0+3Sl0myxIs8rJ5KeXfJQFe7qxgaw "
-++			     "VjJsJTKw8neOTw2rQfLaigWu2LIWw+"
-++			     "IyVrLjZJdLqGkiLBGd1w4X3U12 "
-++			     "fFxoY3eqzNgBEtduoGKPZ/"
-++			     "NpP9cuKJORJ18283aV8hR4WO91VR0q1zcM jLwqUg=="),
-++		/*
-++		 * Sentinel.
-++		 */
-++		TEXT_SENTINEL()
-++	};
-++	wire_ok_t wire_ok[] = {
-++		WIRE_VALID(0x00, 0x06, 0x08, 0x00, 0x00, 0x01, 0x51, 0x80, 0x69,
-++			   0xee, 0x44, 0x90, 0x69, 0xdd, 0x13, 0x00, 0xd4, 0x79,
-++			   0x00, 0xb4, 0x56, 0xdc, 0xa1, 0x53, 0xfc, 0x32, 0x7a,
-++			   0x5e, 0x71, 0x4a, 0xae, 0x27, 0xf6, 0xa3, 0xf9, 0x77,
-++			   0x8d, 0x81, 0x5e, 0xed, 0xb3, 0xd1, 0x92, 0x1d, 0x59,
-++			   0x17, 0x69, 0x74, 0x49, 0xac, 0x9f, 0xd3, 0x12, 0x43,
-++			   0x99, 0x02, 0x95, 0x46, 0xd0, 0x5e, 0x84, 0xf6, 0xc6,
-++			   0x29, 0xc4, 0x69, 0x36, 0x22, 0xdc, 0x1e, 0x2c, 0xbe,
-++			   0x37, 0xba, 0x38, 0xa8, 0x1a, 0x3d, 0x07, 0x5b, 0x06,
-++			   0x43, 0x45, 0x1f, 0xaf, 0x6e, 0xea, 0xfe, 0x3b, 0xf7,
-++			   0x48, 0x76, 0x17, 0xa2, 0x8a, 0x0d, 0x55, 0xbd, 0x4f,
-++			   0xbd, 0x1d, 0x72, 0xe2, 0x40, 0xe5, 0x62, 0x63, 0xd2,
-++			   0x9c, 0xeb, 0x88, 0xb1, 0x77, 0x22, 0x61, 0x60, 0x20,
-++			   0xb9, 0x2b, 0xe6, 0xce, 0xd6, 0xab, 0x07, 0xc5, 0xdf,
-++			   0x8a, 0x25, 0x73, 0x9a, 0xc7, 0x21, 0xdb, 0xa9, 0xc8,
-++			   0x58, 0x90, 0x31, 0x72, 0xe0, 0xf2, 0xfa, 0xa9, 0xfb,
-++			   0x44, 0x55, 0xa2, 0xe4, 0xb9, 0xe4, 0x60, 0x8d, 0x78,
-++			   0x0e, 0xb2, 0xaf, 0xcd, 0xc6, 0xf0, 0x97, 0x0e, 0x00,
-++			   0x1a, 0xe7, 0x1c, 0xb4, 0xfb, 0x74, 0xa5, 0xd2, 0x6c,
-++			   0xb1, 0x22, 0xcf, 0x2b, 0x27, 0x92, 0x9e, 0x5d, 0xf2,
-++			   0x50, 0x15, 0xee, 0xea, 0xc6, 0x06, 0xb0, 0x56, 0x32,
-++			   0x6c, 0x25, 0x32, 0xb0, 0xf2, 0x77, 0x8e, 0x4f, 0x0d,
-++			   0xab, 0x41, 0xf2, 0xda, 0x8a, 0x05, 0xae, 0xd8, 0xb2,
-++			   0x16, 0xc3, 0xe2, 0x32, 0x56, 0xb2, 0xe3, 0x64, 0x97,
-++			   0x4b, 0xa8, 0x69, 0x22, 0x2c, 0x11, 0x9d, 0xd7, 0x0e,
-++			   0x17, 0xdd, 0x4d, 0x76, 0x7c, 0x5c, 0x68, 0x63, 0x77,
-++			   0xaa, 0xcc, 0xd8, 0x01, 0x12, 0xd7, 0x6e, 0xa0, 0x62,
-++			   0x8f, 0x67, 0xf3, 0x69, 0x3f, 0xd7, 0x2e, 0x28, 0x93,
-++			   0x91, 0x27, 0x5f, 0x36, 0xf3, 0x76, 0x95, 0xf2, 0x14,
-++			   0x78, 0x58, 0xef, 0x75, 0x55, 0x1d, 0x2a, 0xd7, 0x37,
-++			   0x0c, 0x8c, 0xbc, 0x2a, 0x52),
-++		/* labels too short for signer */
-++		WIRE_INVALID(
-++			0x00, 0x06, 0x08, 0x00, 0x00, 0x01, 0x51, 0x80, 0x69,
-++			0xee, 0x44, 0x90, 0x69, 0xdd, 0x13, 0x00, 0xd4, 0x79,
-++			0x07, 0x65, 0x78, 0x61, 0x6d, 0x70, 0x6c, 0x65, 0x00,
-++			0xb4, 0x56, 0xdc, 0xa1, 0x53, 0xfc, 0x32, 0x7a, 0x5e,
-++			0x71, 0x4a, 0xae, 0x27, 0xf6, 0xa3, 0xf9, 0x77, 0x8d,
-++			0x81, 0x5e, 0xed, 0xb3, 0xd1, 0x92, 0x1d, 0x59, 0x17,
-++			0x69, 0x74, 0x49, 0xac, 0x9f, 0xd3, 0x12, 0x43, 0x99,
-++			0x02, 0x95, 0x46, 0xd0, 0x5e, 0x84, 0xf6, 0xc6, 0x29,
-++			0xc4, 0x69, 0x36, 0x22, 0xdc, 0x1e, 0x2c, 0xbe, 0x37,
-++			0xba, 0x38, 0xa8, 0x1a, 0x3d, 0x07, 0x5b, 0x06, 0x43,
-++			0x45, 0x1f, 0xaf, 0x6e, 0xea, 0xfe, 0x3b, 0xf7, 0x48,
-++			0x76, 0x17, 0xa2, 0x8a, 0x0d, 0x55, 0xbd, 0x4f, 0xbd,
-++			0x1d, 0x72, 0xe2, 0x40, 0xe5, 0x62, 0x63, 0xd2, 0x9c,
-++			0xeb, 0x88, 0xb1, 0x77, 0x22, 0x61, 0x60, 0x20, 0xb9,
-++			0x2b, 0xe6, 0xce, 0xd6, 0xab, 0x07, 0xc5, 0xdf, 0x8a,
-++			0x25, 0x73, 0x9a, 0xc7, 0x21, 0xdb, 0xa9, 0xc8, 0x58,
-++			0x90, 0x31, 0x72, 0xe0, 0xf2, 0xfa, 0xa9, 0xfb, 0x44,
-++			0x55, 0xa2, 0xe4, 0xb9, 0xe4, 0x60, 0x8d, 0x78, 0x0e,
-++			0xb2, 0xaf, 0xcd, 0xc6, 0xf0, 0x97, 0x0e, 0x00, 0x1a,
-++			0xe7, 0x1c, 0xb4, 0xfb, 0x74, 0xa5, 0xd2, 0x6c, 0xb1,
-++			0x22, 0xcf, 0x2b, 0x27, 0x92, 0x9e, 0x5d, 0xf2, 0x50,
-++			0x15, 0xee, 0xea, 0xc6, 0x06, 0xb0, 0x56, 0x32, 0x6c,
-++			0x25, 0x32, 0xb0, 0xf2, 0x77, 0x8e, 0x4f, 0x0d, 0xab,
-++			0x41, 0xf2, 0xda, 0x8a, 0x05, 0xae, 0xd8, 0xb2, 0x16,
-++			0xc3, 0xe2, 0x32, 0x56, 0xb2, 0xe3, 0x64, 0x97, 0x4b,
-++			0xa8, 0x69, 0x22, 0x2c, 0x11, 0x9d, 0xd7, 0x0e, 0x17,
-++			0xdd, 0x4d, 0x76, 0x7c, 0x5c, 0x68, 0x63, 0x77, 0xaa,
-++			0xcc, 0xd8, 0x01, 0x12, 0xd7, 0x6e, 0xa0, 0x62, 0x8f,
-++			0x67, 0xf3, 0x69, 0x3f, 0xd7, 0x2e, 0x28, 0x93, 0x91,
-++			0x27, 0x5f, 0x36, 0xf3, 0x76, 0x95, 0xf2, 0x14, 0x78,
-++			0x58, 0xef, 0x75, 0x55, 0x1d, 0x2a, 0xd7, 0x37, 0x0c,
-++			0x8c, 0xbc, 0x2a, 0x52),
+++/*
+++ * After a (non-error) negative-cache add, 'rdataset' is bound to whatever
+++ * rdataset the cache authoritatively holds for the queried name and type.
+++ * Map that to the result code the fetch should report:
+++ *
+++ *   - A negative cache entry (the one we just added, or a pre-existing one):
+++ *     DNS_R_NCACHENXDOMAIN or DNS_R_NCACHENXRRSET, depending on NXDOMAIN vs
+++ *     NODATA.
+++ *
+++ *   - A positive rdataset that was already cached at higher trust, which
+++ *     caused our negative entry to be discarded (e.g. a CNAME or DNAME cached
+++ *     by a concurrent query): ISC_R_SUCCESS, because that cached positive
+++ *     answer is what gets returned.  Note the specific case for CNAME and
+++ *     DNAME *if* the query type is not the same as the rdataset type. There
+++ *     is a chain to follow *only* if the query type doesn't ask for the CNAME
+++ *     or the DNAME.
+++ */
+++static isc_result_t
+++fctx_setresult(fetchctx_t *fctx, dns_rdataset_t *rdataset) {
+++	isc_result_t result = ISC_R_SUCCESS;
 ++
-++		WIRE_SENTINEL()
-++	};
-++	check_rdata(text_ok, wire_ok, NULL, false, dns_rdataclass_in,
-++		    dns_rdatatype_rrsig, sizeof(dns_rdata_rrsig_t));
+++	if (NEGATIVE(rdataset)) {
+++		result = NXDOMAIN(rdataset) ? DNS_R_NCACHENXDOMAIN
+++					    : DNS_R_NCACHENXRRSET;
+++	} else if (result == ISC_R_SUCCESS && rdataset->type != fctx->type) {
+++		switch (rdataset->type) {
+++		case dns_rdatatype_cname:
+++			result = DNS_R_CNAME;
+++			break;
+++		case dns_rdatatype_dname:
+++			result = DNS_R_DNAME;
+++			break;
+++		default:
+++			break;
+++		}
+++	}
+++
+++	return result;
 ++}
 ++
-+ ISC_RUN_TEST_IMPL(resinfo) {
-+ 	text_ok_t text_ok[] = {
-+ 		TEXT_VALID_CHANGED("qnamemin exterr=15,16,17 "
-+@@ -3357,6 +3466,7 @@ ISC_TEST_ENTRY(nsec3)
-+ ISC_TEST_ENTRY(nxt)
-+ ISC_TEST_ENTRY(resinfo)
-+ ISC_TEST_ENTRY(rkey)
-++ISC_TEST_ENTRY(rrsig)
-+ ISC_TEST_ENTRY(sshfp)
-+ ISC_TEST_ENTRY(wallet)
-+ ISC_TEST_ENTRY(wks)
++ /*
++  * The validator has finished.
++  */
++@@ -5853,8 +5893,7 @@ validated(isc_task_t *task, isc_event_t *event) {
++ 			ttl = 0;
++ 		}
++ 
++-		result = ncache_adderesult(message, fctx->cache, node, covers,
++-					   now, fctx->res->view->minncachettl,
+++		result = ncache_adderesult(fctx, message, node, covers, now,
++ 					   ttl, vevent->optout, vevent->secure,
++ 					   ardataset, &eresult);
++ 		if (result != ISC_R_SUCCESS) {
++@@ -6098,23 +6137,7 @@ answer_response:
++ 		 */
++ 		INSIST(hevent->rdataset != NULL);
++ 		if (dns_rdataset_isassociated(hevent->rdataset)) {
++-			if (NEGATIVE(hevent->rdataset)) {
++-				INSIST(eresult == DNS_R_NCACHENXDOMAIN ||
++-				       eresult == DNS_R_NCACHENXRRSET);
++-			} else if (eresult == ISC_R_SUCCESS &&
++-				   hevent->rdataset->type != fctx->type)
++-			{
++-				switch (hevent->rdataset->type) {
++-				case dns_rdatatype_cname:
++-					eresult = DNS_R_CNAME;
++-					break;
++-				case dns_rdatatype_dname:
++-					eresult = DNS_R_DNAME;
++-					break;
++-				default:
++-					break;
++-				}
++-			}
+++			eresult = fctx_setresult(fctx, hevent->rdataset);
++ 		}
++ 
++ 		hevent->result = eresult;
++@@ -6764,24 +6787,7 @@ cache_name(fetchctx_t *fctx, dns_name_t *name, dns_message_t *message,
++ 			 * event->result.
++ 			 */
++ 			if (dns_rdataset_isassociated(event->rdataset)) {
++-				if (NEGATIVE(event->rdataset)) {
++-					INSIST(eresult ==
++-						       DNS_R_NCACHENXDOMAIN ||
++-					       eresult == DNS_R_NCACHENXRRSET);
++-				} else if (eresult == ISC_R_SUCCESS &&
++-					   event->rdataset->type != fctx->type)
++-				{
++-					switch (event->rdataset->type) {
++-					case dns_rdatatype_cname:
++-						eresult = DNS_R_CNAME;
++-						break;
++-					case dns_rdatatype_dname:
++-						eresult = DNS_R_DNAME;
++-						break;
++-					default:
++-						break;
++-					}
++-				}
+++				eresult = fctx_setresult(fctx, event->rdataset);
++ 			}
++ 			event->result = eresult;
++ 			if (adbp != NULL && *adbp != NULL) {
++@@ -6850,12 +6856,14 @@ cache_message(fetchctx_t *fctx, dns_message_t *message,
++  * eresult.
++  */
++ static isc_result_t
++-ncache_adderesult(dns_message_t *message, dns_db_t *cache, dns_dbnode_t *node,
++-		  dns_rdatatype_t covers, isc_stdtime_t now, dns_ttl_t minttl,
++-		  dns_ttl_t maxttl, bool optout, bool secure,
++-		  dns_rdataset_t *ardataset, isc_result_t *eresultp) {
+++ncache_adderesult(fetchctx_t *fctx, dns_message_t *message, dns_dbnode_t *node,
+++		  dns_rdatatype_t covers, isc_stdtime_t now, dns_ttl_t maxttl,
+++		  bool optout, bool secure, dns_rdataset_t *ardataset,
+++		  isc_result_t *eresultp) {
++ 	isc_result_t result;
++ 	dns_rdataset_t rdataset;
+++	dns_db_t *cache = fctx->cache;
+++	dns_ttl_t minttl = fctx->res->view->minncachettl;
++ 
++ 	if (ardataset == NULL) {
++ 		dns_rdataset_init(&rdataset);
++@@ -6871,37 +6879,13 @@ ncache_adderesult(dns_message_t *message, dns_db_t *cache, dns_dbnode_t *node,
++ 	}
++ 	if (result == DNS_R_UNCHANGED || result == ISC_R_SUCCESS) {
++ 		/*
++-		 * If the cache now contains a negative entry and we
++-		 * care about whether it is DNS_R_NCACHENXDOMAIN or
++-		 * DNS_R_NCACHENXRRSET then extract it.
+++		 * The cache settled successfully (DNS_R_UNCHANGED means our
+++		 * negative entry was discarded in favour of existing
+++		 * higher-trust data).  Either way 'ardataset' is now bound to
+++		 * the rdataset the cache holds for this name and type; derive
+++		 * the result code from it.
++ 		 */
++-		if (NEGATIVE(ardataset)) {
++-			/*
++-			 * The cache data is a negative cache entry.
++-			 */
++-			if (NXDOMAIN(ardataset)) {
++-				*eresultp = DNS_R_NCACHENXDOMAIN;
++-			} else {
++-				*eresultp = DNS_R_NCACHENXRRSET;
++-			}
++-		} else {
++-			/*
++-			 * The attempt to add a negative cache entry
++-			 * was rejected.  Set *eresultp to reflect
++-			 * the type of the dataset being returned.
++-			 */
++-			switch (ardataset->type) {
++-			case dns_rdatatype_cname:
++-				*eresultp = DNS_R_CNAME;
++-				break;
++-			case dns_rdatatype_dname:
++-				*eresultp = DNS_R_DNAME;
++-				break;
++-			default:
++-				*eresultp = ISC_R_SUCCESS;
++-				break;
++-			}
++-		}
+++		*eresultp = fctx_setresult(fctx, ardataset);
++ 		result = ISC_R_SUCCESS;
++ 	}
++ 	if (ardataset == &rdataset && dns_rdataset_isassociated(ardataset)) {
++@@ -7046,8 +7030,7 @@ ncache_message(fetchctx_t *fctx, dns_message_t *message,
++ 		ttl = 0;
++ 	}
++ 
++-	result = ncache_adderesult(message, fctx->cache, node, covers, now,
++-				   fctx->res->view->minncachettl, ttl, false,
+++	result = ncache_adderesult(fctx, message, node, covers, now, ttl, false,
++ 				   false, ardataset, &eresult);
++ 	if (result != ISC_R_SUCCESS) {
++ 		goto unlock;
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-12617-02.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-12617-02.patch
+new file mode 100644
+index 0000000000..7dfaafb80d
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-12617-02.patch
+@@ -0,0 +1,292 @@
++From: Colin Vidal <colin@isc.org>
++Date: Mon, 15 Jun 2026 11:34:08 +0200
++Subject: Reproducer for #5946 (assertion in some CNAME/DNAME queries)
++
++Add a system test reproducing the issue reported by #5946, which
++is also CVE-2026-12617. There are two scenarios:
++
++- A client send queries for a DNAME and A record to the resolver (ns3),
++  and the authoritative server (ans2) responds positively to the A query
++  but delay the DNAME response and respond later negatively;
++
++- A client send queries for a CNAME and A record to the resolver (ns3),
++  and the authoritative server (ans2) responds positively to the A query
++  but delay the CNAME response and respond later with a self-referential
++  CNAME.
++
++The test does not check the results of the queries, however, it expects
++the resolver to correctly handle those and do not assert.
++
++(cherry picked from commit e88271f2e584010157b068cc998dd76451273562)
++
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/bb92832fb6ae899bee7206c2d8966258461c2f71
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-12617
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-12617
++
++CVE: CVE-2026-12617
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/bb92832fb6ae899bee7206c2d8966258461c2f71]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ bin/tests/system/cname_dname_negcache/ans2/ans.py  | 98 ++++++++++++++++++++++
++ .../system/cname_dname_negcache/ns1/bar.test.db    |  5 ++
++ .../system/cname_dname_negcache/ns1/named.conf.j2  | 24 ++++++
++ bin/tests/system/cname_dname_negcache/ns1/root.db  |  6 ++
++ bin/tests/system/cname_dname_negcache/ns1/test.db  |  8 ++
++ .../system/cname_dname_negcache/ns3/named.conf.j2  | 11 +++
++ .../tests_cname_dname_negcache.py                  | 53 ++++++++++++
++ 7 files changed, 205 insertions(+)
++ create mode 100644 bin/tests/system/cname_dname_negcache/ans2/ans.py
++ create mode 100644 bin/tests/system/cname_dname_negcache/ns1/bar.test.db
++ create mode 100644 bin/tests/system/cname_dname_negcache/ns1/named.conf.j2
++ create mode 100644 bin/tests/system/cname_dname_negcache/ns1/root.db
++ create mode 100644 bin/tests/system/cname_dname_negcache/ns1/test.db
++ create mode 100644 bin/tests/system/cname_dname_negcache/ns3/named.conf.j2
++ create mode 100644 bin/tests/system/cname_dname_negcache/tests_cname_dname_negcache.py
++
++diff --git a/bin/tests/system/cname_dname_negcache/ans2/ans.py b/bin/tests/system/cname_dname_negcache/ans2/ans.py
++new file mode 100644
++index 0000000..eec5c90
++--- /dev/null
+++++ b/bin/tests/system/cname_dname_negcache/ans2/ans.py
++@@ -0,0 +1,98 @@
+++"""
+++Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++
+++SPDX-License-Identifier: MPL-2.0
+++
+++This Source Code Form is subject to the terms of the Mozilla Public
+++License, v. 2.0.  If a copy of the MPL was not distributed with this
+++file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++
+++See the COPYRIGHT file distributed with this work for additional
+++information regarding copyright ownership.
+++"""
+++
+++from collections.abc import AsyncGenerator
+++
+++from dns import name, rcode, rdataclass, rdatatype, rrset
+++
+++from isctest.asyncserver import (
+++    AsyncDnsServer,
+++    DnsResponseSend,
+++    QnameQtypeHandler,
+++    QueryContext,
+++    StaticResponseHandler,
+++)
+++
+++
+++def build_rrset(
+++    qname: name.Name | str,
+++    rtype: rdatatype.RdataType,
+++    rdata: str,
+++    ttl: int = 300,
+++) -> rrset.RRset:
+++    return rrset.from_text(qname, ttl, rdataclass.IN, rtype, rdata)
+++
+++
+++class FooTestNsHandler(QnameQtypeHandler, StaticResponseHandler):
+++    qnames = ["foo.test."]
+++    qtypes = [rdatatype.NS]
+++    answer = [build_rrset("foo.test.", rdatatype.NS, "ns.foo.test.")]
+++    additional = [build_rrset("ns.foo.test.", rdatatype.A, "10.53.0.2")]
+++
+++
+++class DelayedDnameNegHandler(QnameQtypeHandler, StaticResponseHandler):
+++    qnames = ["foo.test."]
+++    qtypes = [rdatatype.DNAME]
+++    authority = [
+++        build_rrset(
+++            "foo.test.",
+++            rdatatype.SOA,
+++            "ns.test. op.ns.test. 2081509183 86400 3600 3600000 300",
+++        )
+++    ]
+++    delay = 1
+++
+++
+++class DnamePosHandler(QnameQtypeHandler, StaticResponseHandler):
+++    qnames = ["a.foo.test."]
+++    qtypes = [rdatatype.A]
+++    answer = [
+++        build_rrset("foo.test.", rdatatype.DNAME, "bar.test."),
+++        build_rrset("a.foo.test.", rdatatype.CNAME, "a.bar.test."),
+++    ]
+++
+++
+++class CnameHandler(QnameQtypeHandler):
+++    qnames = ["cname.foo.test."]
+++    qtypes = [rdatatype.CNAME, rdatatype.A]
+++    answer = [build_rrset("cname.foo.test.", rdatatype.CNAME, "cname.foo.test.")]
+++    authority = [
+++        build_rrset(
+++            "cname.foo.test.",
+++            rdatatype.SOA,
+++            "ns.test. op.ns.test. 2081509183 86400 3600 3600000 300",
+++        )
+++    ]
+++
+++    async def get_responses(
+++        self, qctx: QueryContext
+++    ) -> AsyncGenerator[DnsResponseSend, None]:
+++        qctx.prepare_new_response(with_zone_data=False)
+++        if qctx.qtype == rdatatype.CNAME:
+++            qctx.response.authority.extend(self.authority)
+++            yield DnsResponseSend(qctx.response, authoritative=True, delay=1)
+++        else:
+++            qctx.response.answer.extend(self.answer)
+++            yield DnsResponseSend(qctx.response, authoritative=True)
+++
+++
+++def main() -> None:
+++    server = AsyncDnsServer(default_aa=True, default_rcode=rcode.NOERROR)
+++    server.install_response_handlers(
+++        FooTestNsHandler(), DelayedDnameNegHandler(), DnamePosHandler(), CnameHandler()
+++    )
+++    server.run()
+++
+++
+++if __name__ == "__main__":
+++    main()
++diff --git a/bin/tests/system/cname_dname_negcache/ns1/bar.test.db b/bin/tests/system/cname_dname_negcache/ns1/bar.test.db
++new file mode 100644
++index 0000000..840b9c3
++--- /dev/null
+++++ b/bin/tests/system/cname_dname_negcache/ns1/bar.test.db
++@@ -0,0 +1,5 @@
+++$TTL 300
+++bar.test.        IN SOA  ns.bar.test. hostmaster.bar.test. 1 600 600 1200 600
+++bar.test.        NS      ns.bar.test.
+++ns    		 A       10.53.0.1
+++a      		 A       10.0.0.1
++diff --git a/bin/tests/system/cname_dname_negcache/ns1/named.conf.j2 b/bin/tests/system/cname_dname_negcache/ns1/named.conf.j2
++new file mode 100644
++index 0000000..d72dd11
++--- /dev/null
+++++ b/bin/tests/system/cname_dname_negcache/ns1/named.conf.j2
++@@ -0,0 +1,24 @@
+++options {
+++    query-source address @ns.ip@;
+++    port @PORT@;
+++    pid-file "named.pid";
+++    listen-on { @ns.ip@; };
+++    listen-on-v6 { none; };
+++    recursion no;
+++    dnssec-validation no;
+++};
+++
+++zone "." {
+++	type primary;
+++	file "root.db";
+++};
+++
+++zone "test." {
+++	type primary;
+++	file "test.db";
+++};
+++
+++zone "bar.test." {
+++	type primary;
+++	file "bar.test.db";
+++};
++diff --git a/bin/tests/system/cname_dname_negcache/ns1/root.db b/bin/tests/system/cname_dname_negcache/ns1/root.db
++new file mode 100644
++index 0000000..c456c45
++--- /dev/null
+++++ b/bin/tests/system/cname_dname_negcache/ns1/root.db
++@@ -0,0 +1,6 @@
+++$TTL 300
+++.        IN SOA  ns. hostmaster. 1 600 600 1200 600
+++.	         	NS      a.root-servers.nil.
+++a.root-servers.nil.    	A       10.53.0.1
+++test    	 	NS      ns.test
+++ns.test		 	A	 10.53.0.1
++diff --git a/bin/tests/system/cname_dname_negcache/ns1/test.db b/bin/tests/system/cname_dname_negcache/ns1/test.db
++new file mode 100644
++index 0000000..acb68e0
++--- /dev/null
+++++ b/bin/tests/system/cname_dname_negcache/ns1/test.db
++@@ -0,0 +1,8 @@
+++$TTL 300
+++test.        IN SOA  ns.test. hostmaster.test. 1 600 600 1200 600
+++test.	         NS      ns.test.
+++ns    		 A       10.53.0.1
+++bar    		 NS      ns.bar
+++ns.bar		 A	 10.53.0.1
+++foo		 NS	 ns.foo
+++ns.foo		 A	 10.53.0.2
++diff --git a/bin/tests/system/cname_dname_negcache/ns3/named.conf.j2 b/bin/tests/system/cname_dname_negcache/ns3/named.conf.j2
++new file mode 100644
++index 0000000..197d727
++--- /dev/null
+++++ b/bin/tests/system/cname_dname_negcache/ns3/named.conf.j2
++@@ -0,0 +1,11 @@
+++options {
+++    query-source address @ns.ip@;
+++    port @PORT@;
+++    pid-file "named.pid";
+++    listen-on { @ns.ip@; };
+++    listen-on-v6 { none; };
+++    recursion yes;
+++    dnssec-validation no;
+++};
+++
+++{% include "_common/root.hint.conf" %}
++diff --git a/bin/tests/system/cname_dname_negcache/tests_cname_dname_negcache.py b/bin/tests/system/cname_dname_negcache/tests_cname_dname_negcache.py
++new file mode 100644
++index 0000000..5d21c5b
++--- /dev/null
+++++ b/bin/tests/system/cname_dname_negcache/tests_cname_dname_negcache.py
++@@ -0,0 +1,53 @@
+++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
+++#
+++# SPDX-License-Identifier: MPL-2.0
+++#
+++# This Source Code Form is subject to the terms of the Mozilla Public
+++# License, v. 2.0.  If a copy of the MPL was not distributed with this
+++# file, you can obtain one at https://mozilla.org/MPL/2.0/.
+++#
+++# See the COPYRIGHT file distributed with this work for additional
+++# information regarding copyright ownership.
+++
+++from os import environ
+++from re import compile as Re
+++from socket import AF_INET, SOCK_DGRAM, socket
+++
+++import isctest
+++
+++
+++def run_attack(ns, name1, type1, name2, type2):
+++    msg1 = isctest.query.create(name1, type1, cd=True)
+++    msg2 = isctest.query.create(name2, type2, cd=True)
+++    port = int(environ["PORT"])
+++
+++    with socket(AF_INET, SOCK_DGRAM) as sock:
+++        # The order the request does out doesn't matter. What is important is
+++        # the first query starts recursion before the second query returns the
+++        # answer, and the second query returns the answer before the first
+++        # query returns the answer. (So, when the NOERROR/NODATA cames back
+++        # from the first query, the cache is queried and we get the positive
+++        # response cached from the second query attached to the fresp rdataset
+++        # of the response of the first query.)
+++        # Therefore, the logic is really baked into ans2, which has a 3 seconds
+++        # delay to answer the first query.
+++        sock.sendto(msg1.to_wire(), (ns.ip, port))
+++        sock.sendto(msg2.to_wire(), (ns.ip, port))
+++
+++    # The second query come back immediately, the resolver caches the DNAME.
+++    # The first query  come back after 3s (because of intentional ans2 latency
+++    # on foo.test./DNAME answer) and should not crash the server.
+++    with ns.watch_log_from_start(timeout=15) as watcher:
+++        watcher.wait_for_sequence(
+++            [
+++                Re(r"foo\.test\..*IN\s+SOA\s+ns\.test\.\s+op\.ns\.test\."),
+++            ]
+++        )
+++
+++
+++def test_dname_negcache(ns3):
+++    run_attack(ns3, "foo.test.", "DNAME", "a.foo.test.", "A")
+++
+++
+++def test_cname_negcache(ns3):
+++    run_attack(ns3, "cname.foo.test.", "CNAME", "cname.foo.test.", "A")
 diff --git a/meta/recipes-connectivity/bind/bind_9.18.49.bb b/meta/recipes-connectivity/bind/bind_9.18.49.bb
-index dc274f6076..8218772531 100644
+index 8218772531..b048ba6559 100644
 --- a/meta/recipes-connectivity/bind/bind_9.18.49.bb
 +++ b/meta/recipes-connectivity/bind/bind_9.18.49.bb
-@@ -29,6 +29,10 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://CVE-2026-11331-01.patch \
-            file://CVE-2026-11331-02.patch \
-            file://CVE-2026-11331-03.patch \
-+           file://CVE-2026-11622.patch \
-+           file://CVE-2026-11721-01.patch \
-+           file://CVE-2026-11721-02.patch \
-+           file://CVE-2026-11721-03.patch \
+@@ -33,6 +33,8 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://CVE-2026-11721-01.patch \
+            file://CVE-2026-11721-02.patch \
+            file://CVE-2026-11721-03.patch \
++           file://CVE-2026-12617-01.patch \
++           file://CVE-2026-12617-02.patch \
             "
  
  SRC_URI[sha256sum] = "c43ce4548ebed788cd9df63658a7de105ceafba43fcd63fa352b1093e525cd24"
