@@ -1,189 +1,132 @@
-Return-Path: <vanusuri@mvista.com>
+Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D461EC9833F
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 12:49:21 +0000 (UTC)
-Received: from mail-pj2-f40.google.com (mail-pj2-f40.google.com [74.125.227.168])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.57650.1790599753510280350
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 48C14C9833F
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 13:04:32 +0000 (UTC)
+Received: from mail-ed2-f35.google.com (mail-ed2-f35.google.com [74.125.228.99])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.57938.1790600661364349212
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 05:49:13 -0700
+ Mon, 28 Sep 2026 06:04:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=LtK+l137;
- spf=pass (domain: mvista.com, ip: 74.125.227.168, mailfrom: vanusuri@mvista.com)
-Received: by mail-pj2-f40.google.com with SMTP id d9443c01a7336-2e2a68e185cso5552405ad.0
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 05:49:13 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=GgLvdBv5;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.228.99, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-ed2-f35.google.com with SMTP id 4fb4d7f45d1cf-6aa135d6e97so4672064a12.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 06:04:21 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1790599753; x=1791204553; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=t5ai+aGzslxzuJ6Pq6zvdA3IQllC0BOx+pwa/TLH5Vc=;
-        b=LtK+l1376nsLeUIwDaBJ3IuMxTQyHvcW7P//SWWjbhUVZ3NGJ3Ea+YyVKNCCSWM4Ee
-         uFPfIWrlrw2r6ExVMPiWaAJ7i0Ze6T2LKT/5TnTZSv/2zIax9bP8ns8hcw3a5U6TBcKk
-         Kl4w91IAcWmKssZTmZtIWtF0FW3TcA5BHg2/U=
+        d=linuxfoundation.org; s=google; t=1790600659; x=1791205459; darn=lists.openembedded.org;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
+         :cc:subject:date:message-id:reply-to:content-type;
+        bh=N1ZX7lqGRjdztTwdWbuq8ENyQ1nc23KGN/WO3uAqpj4=;
+        b=GgLvdBv5hhBTNEpFsVHEGTyXMu4JAVoHa5XzDboTPwgyQZiSAFrI7n8vGakTDt+Pwf
+         OblxlIf4esabAhfW/QaJCxQioM42nr/mzoFJLEfJa1Vhyx5OW+C0Xd4N+foRJdZTf61g
+         +fThfb4DYzRdi2IMZswG3xFKEzKzD/UBF+44I=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790599753; x=1791204553;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
+        d=1e100.net; s=20260707; t=1790600659; x=1791205459;
+        h=mime-version:user-agent:content-transfer-encoding:content-type
+         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=t5ai+aGzslxzuJ6Pq6zvdA3IQllC0BOx+pwa/TLH5Vc=;
-        b=hdb1rpGKAt8Y2YnHZ1qrdT9LSCFwSGdyCHuQKw/KCbpAdbW6ZiYQGIsk7QZbzjpRfO
-         gIzmkfBiD5bRfH2O/mJhSgHa7qQ3vG3Se7+nOVo1+ba6uJq60YIipcK9xSYVQDcxr1TR
-         MW0YDAdOj5GR522OmceRxwoZLPFLoDfEwNasMX+8nKHmUwe7mXo/jfue9fUY+ESY37rq
-         tpEBvTYi2C5Uz5n8AcPPmTj15Y2jScR9aHyqiWyIRI8PAk8MVnj//e549cUe+smVlq6N
-         seMHaU3VssfV2esYi5gPJrdUwJssaftO0W5mIaWr694SN1/lCwCAE1ZzcIxACYTPtZKC
-         cCCQ==
-X-Gm-Message-State: AFq9FYIM3Rr4aF0Nk12LFW6QqPrUiYUzgORAjRKCB/YY0Lwkuzu7BsHO
-	spCvt1xvy/wj2uNtYuhQfCWudd19peJyFaGckqtJeteF1Cu8HtfHe4uwmrrxCMBXbB2rdlAKm+p
-	JhZM5fag=
-X-Gm-Gg: AYBFou1x2EpcRtzIjAgSUY7B9dGi1wT+3jdNwFAAs26rGC6QKd4wqmJ5oTaJqt06VDF
-	Yev94LQ+EDwpK5aQHWBGbMV5d8INyqgiGtnr2MPvWgQknVyvjxmjN98KOQgw9EOJHZZpCR3o90u
-	Xi1hDS/IwKR8XhVU7AcifWOc2miTGnBC68j6muLunEl2R41GpOLQ2MiUSk4+NSJmvZ+n+P2uR1C
-	jpn6dlRbUlSDhM9+NK4eqOPF25Qwi97HHo/Fx9OVuim935EQweVZMAthh3P6TTmjIBBLijINwdZ
-	+EmaYFoojVl/7Fk0ERP9xRE3Lwj4djehzUaI6mSLO3EWyx+B/1mFWI8LMgPo0iqaRD0Z5qG890S
-	5H1sMHYD36BJCg5eg65v1V1usSgrqWHbzhov6sZYEnglWnmN0v2mfxtgeTKSYq56GuHleIFiLQ7
-	8M/pLSYrqufFSAD79Z/5K1HApcCrYyt9dKyqM1LvnvqlMZ9dBY+ZMw2XO2O8c2Yv5KwIUdeTdW/
-	VYpoPYjPRiCnPpBSZs=
-X-Received: by 2002:a17:902:d4c8:b0:2dd:ad73:c938 with SMTP id d9443c01a7336-2df7daa9ba8mr93133805ad.25.1790599752690;
-        Mon, 28 Sep 2026 05:49:12 -0700 (PDT)
-Received: from MVIN00352.mvista.com ([182.74.28.237])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2df913dfe98sm40971515ad.22.2026.09.28.05.49.10
+        bh=N1ZX7lqGRjdztTwdWbuq8ENyQ1nc23KGN/WO3uAqpj4=;
+        b=G4xF3EWEUPkmaSK/TaBXlzTh4PgS6KCcNp6X/SBwsAWRqds0keaX1kuIp+u5gYn1/+
+         ZYcKXnDCS0OCVhzao8Yvlcw1v0+urJK1GBHJB0QR7DmoDSssHKygo0D/olfx1GhRIpvU
+         /62+9zum13jBLrVLlzKj3PNqWJNPGwPcEnhrLg4X5nWjOND73+1ban0LodnQ/jzUgEPJ
+         fe959VS2NPZAjJZ9eET2FfQ0EOmshU2rU4UepvFk92o6OuIHQb1yybC1702IzdjGP6ZT
+         sL4QvzUuLR8DFNdcd5j3kThgTMekzm9FGd7RIaPS10Hm8MeImCeEBjMd6oX9E20c/RSr
+         /68w==
+X-Forwarded-Encrypted: i=1; AKwUvByAycReGyK54070pQkfxMnwA5p1rn/0bxTCu3YdL2ly1rON/TKHu7XmFtk+IxjvsIQ6YN82ABbFEU/qF81kLvBoVA==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYJLSLM9FNXLF1QIJ5XhGdHpfjpMt9BzT6GympUEkL60LJRi3xrc
+	figUwpxBVjkdQtT66DPPsPO7dYmG+Ya1IBUFKbzdtk+UP8iSJLIyUFV5Id3XKluaiu8=
+X-Gm-Gg: AYBFou2OD5i+7dUtQDZbXld7zFitqohEIZft3gxNm7BlpwFfiAtKFDJWDAfE5mb5bC+
+	b7+viDnoU9lE+qLmTyuFiW/QKfT4oJ2oF4lh2iBqc8aaQE/n0e5rZIHDxivZflS1wKoq3hXr2ad
+	ZmeSbsz7ycCAqYR9QV9fpvnYCzZipBXBsteHKbliUHVlCqPyHylKJZUxjInrYxqPiMofMBPMNka
+	uR7anqEerwbEyeSqY4oI33cR2kNLg0YM6Zt8Vt2f17N9TstWW/j6PttHu18leykGyL968M7nYh5
+	me5s8BP48yVS5jRRdQHBfCtWtCpHsccBaiALrBvtQGDWi+DUg3Wh7W0DGdbbCVCbgBuB8wZBT3Y
+	1BhNSM6kmOJtYKQg+9UaK/Tz8YvgUWS2yLE1ZjstihKPYTqEodyH9x8SxRHZ4qxUOLgGnzcJCTA
+	cVp+MIRqxkkqmaQdAzQif9pf9YRMoQgfBZFaaS+7tn1C/C2idjWW5yEe8bl3YnjBwcqldbBQmA+
+	kvzTOfLQq8mIuQCAss8h/ppc52yBTZ4Bp4oJ/QnA6ZXiDFvMaZ7+9w9wpUlcW4=
+X-Received: by 2002:a05:6402:2803:b0:6ac:7d58:dbd2 with SMTP id 4fb4d7f45d1cf-6ac7d58e0a3mr2132208a12.22.1790600658623;
+        Mon, 28 Sep 2026 06:04:18 -0700 (PDT)
+Received: from ?IPv6:2001:8b0:aba:5f3c:e53f:c6ab:eb79:60b3? ([2001:8b0:aba:5f3c:e53f:c6ab:eb79:60b3])
+        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6aae5dc097csm4030900a12.12.2026.09.28.06.04.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 05:49:12 -0700 (PDT)
-From: Vijay Anusuri <vanusuri@mvista.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Vijay Anusuri <vanusuri@mvista.com>,
-	Antonin Godard <antonin.godard@bootlin.com>,
-	Richard Purdie <richard.purdie@linuxfoundation.org>
-Subject: [OE-core][wrynose][patch 2/2] tzdata/tzcode-native: upgrade 2026c -> 2026d
-Date: Mon, 28 Sep 2026 18:18:48 +0530
-Message-ID: <20260928124848.1781687-2-vanusuri@mvista.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260928124848.1781687-1-vanusuri@mvista.com>
-References: <20260928124848.1781687-1-vanusuri@mvista.com>
+        Mon, 28 Sep 2026 06:04:17 -0700 (PDT)
+Message-ID: <cb4625f943a2836c2618d04a9db0e807136edceb.camel@linuxfoundation.org>
+Subject: Re: [PATCH v2] toolchain/clang: prepend target host-sys to
+ HOST_CC_ARCH
+From: Richard Purdie <richard.purdie@linuxfoundation.org>
+To: "Marko, Peter" <Peter.Marko@siemens.com>, 
+ "openembedded-core@lists.openembedded.org"
+	 <openembedded-core@lists.openembedded.org>
+Cc: Khem Raj <raj.khem@gmail.com>, Ross Burton <ross.burton@arm.com>, 
+ "Freihofer, Adrian" <adrian.freihofer@siemens.com>
+Date: Mon, 28 Sep 2026 14:04:16 +0100
+In-Reply-To: <AS8PR10MB5073188A36969BE5B9F44940FD8D2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260820201120.293849-1-peter.marko@siemens.com>
+	 <AS8PR10MB5073188A36969BE5B9F44940FD8D2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+User-Agent: Evolution 3.56.2-9 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 12:49:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246762
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 13:04:32 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246763
 
-Briefly:
-    Canada’s Northwest Territories moved to permanent -06 on 2026-08-21.
-    Obsolescent settings like TZ="EST5EDT" now conform better to POSIX.
-    Fix security, performance and porting bugs in zic and localtime.
+On Mon, 2026-09-28 at 12:35 +0000, Marko, Peter wrote:
+> This patch is sitting in master-next for some time already and is
+> probably spending a minute or two of everyone's time on each patch
+> review call.
 
-  Changes to future timestamps
+That is true.
 
-    Canada’s Northwest Territories will not fall back on 2026-11-01
-    and will stay on -06 year-round, matching Alberta’s recent change.
-    Model this with its traditional abbreviation CST.  Although the
-    change to permanent -06 legally took place on 2026-08-21,
-    temporarily model the change to occur on 2026-11-01 at 02:00
-    for the same reason as other recent temporary hacks.  (Caution:
-    see “NOTE FOR 2026b TEMPORARY HACK FOR CLDR AND CANADA” below.)
-    This affects only America/Inuvik as the rest of the territory is
-    covered by America/Edmonton, for which the equivalent change was
-    released in 2026c.
+> Let's try to do a decision whether to merge it or drop it.
+> I (without asking or rewording via AI) think this:
+>=20
+> I see following ways how to approach this clang-tidy problem:
+> - make clang-tidy architecture aware upstream
+> - add these flags to tell it the architecture (what this patch
+> proposes and what was present in scarthgap)
+> - add it only to recipes which use clang-tidy (or other similar clang
+> tools)
+>=20
+> clang-tidy (and this also applies to some other clang support tools)
+> is in principle architecture independent.
+> Linter should not care about build arch, correct?, it just needs to
+> know the paths to sources.
+> So imho making it architecture dependent would go in a wrong
+> direction, probably wasting time of whoever develops this and
+> upstream clang maintainers.
+>=20
+> Explicit set of architecture globally looks like a better choice.
+> Yocto currently does not set the triplet in build flags, because it's
+> hardcoded in toolchain and thus "it works" (however as we see here,
+> only in 99.9% of cases)
+> For clang compiler it's a no-op (the value is the same as value that
+> it has hardcoded during its compilation).
+> And it helps all "arch-independent" clang tools to find the right
+> headers.
+>=20
+> Having a special handling for clang-tidy in all recipes using it is
+> certainly possible, but seems to be sub-par.
+> Yocto should support clang-tidy workflows natively.
 
-  Changes to past timestamps
+I think several of us all have mixed feelings on it.=C2=A0On the one hand i=
+t
+fixes a problem. On the other, the rest of clang doesn't need this and
+these kinds of flags, once added, are very very hard to remove again.
 
-    Colombia’s 1992-05-02 spring forward was at 00:00, not 24:00.
+I guess we lack enough data to make an informed choice and are worried
+about sending this in the wrong direction if we reject it, equally, we
+don't really want to make a change like this as it doesn't feel right.
+We are therefore struggling to reach a decision :/.
 
-    Iran’s 1979-05-26 spring forward was at 00:00, not 24:00.
-    (Thanks to N.F. Hase.)
+Even trying to articulate that in a way you can take some action on is
+hard, hence it is sitting there :/
 
-    The backward-compatibility names EST5EDT, CST6CDT, MST7MDT, and
-    PST8PDT now conform better to POSIX.  For example, EST5EDT now
-    always uses the abbreviation "EST" for standard time (now always 5
-    hours behind UT) and "EDT" for daylight saving time, whereas it
-    formerly had different UT offsets before standard time was
-    introduced and sometimes used abbreviations like "LMT", "EWT" and
-    "EPT", all contrary to POSIX.  Also, though not required by POSIX
-    these names now use US federal rules rather than rules of places
-    like New York, reverting to 2024a behavior.  This change affects
-    only timestamps before 1966-10-30 at 01:00 standard time.
+Cheers,
 
-  Other data changes
-
-    The temporary hacks used for North American timekeeping changes
-    now work around a libstdc++ std::chrono bug in GCC 14.1-14.4,
-    15.1-15.2, and 16.1; see GCC bug 124851.  This data change does
-    not affect TZif files or timestamps.  The change does not work
-    around the related but less serious GCC bugs 116110 and 124513.
-    These GCC bugs are all fixed in GCC 16.2.
-
-  Changes to code
-
-    zic now rejects Link targets that would have invalid names, and
-    more efficiently processes Expires, Leap and Rule lines with years
-    far in the past or future.  (Thanks to Darren Carreras.)
-
-    zic now ports to systems that report lack of link support via
-    EINVAL, ENOSYS or EPERM errno values. (Thanks to Tom Lane.)
-
-    When tzset and related functions encounter a TZif file that is too
-    large for them, they now consistently fail instead of sometimes
-    silently ignoring excess parts of the file.
-
-    localtime-related functions no longer mishandle extreme timestamps
-    when given TZif files holding some unlikely timezone histories.
-    (Problem reported by David Sarkisyan.)
-
-    localtime-related functions no longer check the values of TZif
-    files’ standard/wall and UT/local indicators, which these
-    functions have not used since 2026a’s removal of the old
-    posixrules feature.
-
-    tzcode has been ported to Haiku.
-
-    localtime.c now works again by default on AIX and DragonFly BSD.
-
-    zic now rejects ‘:’ and ‘\’ in Zone and Link names when running on
-    Microsoft Windows.  (Problem reported by David Diaz.)
-
-  Changes to documentation
-
-    URLs for release tarballs in tz-link.html have been updated to
-    reflect their new canonical URLs on data.iana.org.
-
-Ref: https://www.iana.org/time-zones/releases/2026d
-
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
-Signed-off-by: Antonin Godard <antonin.godard@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 400938b8ca41654fbda6c34c6eb8c12aec1f43b0)
-Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
----
- meta/recipes-extended/timezone/timezone.inc | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
-
-diff --git a/meta/recipes-extended/timezone/timezone.inc b/meta/recipes-extended/timezone/timezone.inc
-index a09da2617f..6a65f2deb2 100644
---- a/meta/recipes-extended/timezone/timezone.inc
-+++ b/meta/recipes-extended/timezone/timezone.inc
-@@ -6,7 +6,7 @@ SECTION = "base"
- LICENSE = "PD & BSD-3-Clause"
- LIC_FILES_CHKSUM = "file://LICENSE;md5=c679c9d6b02bc2757b3eaf8f53c43fba"
- 
--PV = "2026c"
-+PV = "2026d"
- 
- SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz;name=tzcode;subdir=tz \
-            http://www.iana.org/time-zones/repository/releases/tzdata${PV}.tar.gz;name=tzdata;subdir=tz \
-@@ -14,5 +14,5 @@ SRC_URI = "http://www.iana.org/time-zones/repository/releases/tzcode${PV}.tar.gz
- 
- S = "${UNPACKDIR}/tz"
- 
--SRC_URI[tzcode.sha256sum] = "b1cffc3ace4c4c7cd0efba2f7add86ec3d0b79da48bcf03582671fd3c8feace8"
--SRC_URI[tzdata.sha256sum] = "e4a178a4477f3d0ea77cc31828ff72aa38feff8d61aa13e7e99e142e9d902be4"
-+SRC_URI[tzcode.sha256sum] = "2f5c9f7fe29e6b8cb863583667884b8ce17b0a485355a054b591c6bdfcd81791"
-+SRC_URI[tzdata.sha256sum] = "0cb2aa8e333c3dc049badc42a0c61f21987b8cd44e107fa900bad764aacc7767"
--- 
-2.43.0
-
+Richard
 
