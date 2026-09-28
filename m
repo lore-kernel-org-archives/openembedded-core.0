@@ -2,61 +2,61 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A201DC9832F
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:12:40 +0000 (UTC)
-Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.52911.1790579557375409581
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 9EF86C9832F
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:13:10 +0000 (UTC)
+Received: from mail-dy2-f12.google.com (mail-dy2-f12.google.com [74.125.229.12])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.52916.1790579580745914995
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 00:12:37 -0700
+ Mon, 28 Sep 2026 00:13:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=ZQEUuYz2;
- spf=pass (domain: mvista.com, ip: 74.125.229.42, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-34182b58d00so1822123eec.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 00:12:37 -0700 (PDT)
+ dkim=pass header.i=@mvista.com header.s=google header.b=L2IoBN+u;
+ spf=pass (domain: mvista.com, ip: 74.125.229.12, mailfrom: hprajapati@mvista.com)
+Received: by mail-dy2-f12.google.com with SMTP id 5a478bee46e88-328664dbe2dso1453450eec.0
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 00:13:00 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1790579556; x=1791184356; darn=lists.openembedded.org;
+        d=mvista.com; s=google; t=1790579580; x=1791184380; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=1eygcCMZgJ2yn+BaJ17GcwKycpkdeubjEUrnR7R+ptM=;
-        b=ZQEUuYz2pHsNAw5rUOX4wzvfyxUrqL9KU40nAum7yy1GkGpDjfaDXSi6DAu0yN2l4i
-         +MCbB/dkXQaUTQOi5taDnuktqDyEUqfGIfDOgtICmIRge4ge+qvcgRHNZsKddEry+hjZ
-         Lphu/dgd1ltCmBNl7KJHqHu5q80q30vHfUPuE=
+        bh=5HTnTByutD3xTzJwoXTkLnKqSJoTvkf0PIaoc15qD/c=;
+        b=L2IoBN+uLiOzLpFsdYmUkto/y7SzuP91sOZUlANY9mrt6OmqrUtEmwYp0lsjXOw3G5
+         +2sdacbPgcwRf92LP7xfdbmYtaEApllAdkq1jROvZnQIrhgNwOzgfTaw1qQLOXcGdsr4
+         E1EQyY7QCE/iC3gcAmwdQ6ovYhG7bWLyXQrcc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790579556; x=1791184356;
+        d=1e100.net; s=20260707; t=1790579580; x=1791184380;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=1eygcCMZgJ2yn+BaJ17GcwKycpkdeubjEUrnR7R+ptM=;
-        b=f6MFhik2hx2tTURlBfsnrMzJeXQDG4G3rL5uk3F85hVziyjjQUM2Qi0I2GypSeaD5T
-         yM0jIbUFsw6z2FJ8Etgx0tOvrsnY+WALAuIHGHyoOzaxj0tP6KMV9b5pMCB+UL/MkFQl
-         iyIXeEv7ODWC2IYAOPep8+HiaMDT4mGQqJhcEdSzw4jWVs8b6QbuTqaXQO7tft18LgUm
-         bQrk3mqLfSEXBOUoIWalto6rTWG2n2mzcttJ+3zQSCQtfMl+kGZxR9nierSnjcSSioGl
-         +qOih+w6joW+mamKmdqeM8fQXONBPj79PXHVfUt34PgIBxZG6wzO5P8OUaM5V7GVl1rF
-         jBjA==
-X-Gm-Message-State: AFq9FYJ3RzBv5mnGaQyTegzliHu6gH/Hy4T04J/zrGtd/tODFjv+nigi
-	5DTFWfN//9JK5axl7LMiscQH+IL45cNMp5G9Km7VPhtSzEmaEU2IpFuZGz2J8NT8GbCr//jTm2Q
-	EVU7NWTU=
-X-Gm-Gg: AYBFou1qkfVYrgcD++Y99hu9GFUJ1tfGYRiiJilgiuwPX34ktZhv9Xe7VwF/yCJF2Xt
-	FtJLeDRxcOjKnesn0KaSXrgIBO9hAU2CbZVs3JnooC1Wehe5VM3+jlUWK3O0wIIiK/0wxNoK/Dl
-	Z1/EiFbNnuld77q8InZ3vlU+geaWAT3pORMLc7ExTHMZI/n21tgzuOENC7aWcaVZKK16NZqxxTJ
-	n8MuzRlmBDQbIOjuIoI8a/Rnhdf/d1DCVw4v6doZzu9khptc/vcMR7O4PcHen5o9VGwFbD5T5Tx
-	063jFNzd9CgWge0pud1wUdovczMVxjtVLDWC9fg8AgyBpEZbQQ/bcW7ExbnzV4eVL7mi8hyb2h5
-	xIN4zXwdeJ2FsuwhuAE1A+tDpdl6SbZdAAsHlK7cz3Qe1aMWYt2G6j2itl8HV+mhfGU1BMcTb+h
-	El8WXv3lYdOmC3/0KOC9yFtEctZ72U8e0499Jj0K6bTF86OtFvmufPom6K+nshi7QQMXnR8co2B
-	rqrH0KmG9dw
-X-Received: by 2002:a05:693c:8948:20b0:332:8b9b:bdc4 with SMTP id 5a478bee46e88-3427324d765mr8068025eec.20.1790579556250;
-        Mon, 28 Sep 2026 00:12:36 -0700 (PDT)
+        bh=5HTnTByutD3xTzJwoXTkLnKqSJoTvkf0PIaoc15qD/c=;
+        b=pvBtLNTpjwV2279cltsN4KX2i/dV23O+8iUDk2Lt0IMopVPCiwqki0Z5r+LnZ9ngO1
+         Fz8x+71+RcUeR2gCQbRR6PPkeYjO6IUG4Dn04WShkNGCnRswW6QWARQKppoTK7T+fD16
+         1NHvBv5HHRNj/JqIRSMQ8ykWcRlzD6aq42Z0q45a/aaI2TM9pQkXOvMvVeGhUNoLPP47
+         nSduKuY9bt9fTC7+B9j0KClJExhdqdgo+aDp3xTu15hGGme5bbY8xKvtx1lwG7tRe3ME
+         KQ+pj+gOfGnD5v+2JIc25fmAtD006vSqKs9JSrOayXbNftEIMq530l7zQGDngi2KpUpJ
+         PUxw==
+X-Gm-Message-State: AFq9FYJmzSa4dW9UZtX2sz14+VVySGHub452J3jmzq72T3XJVGbOceb1
+	fLU4Giw2xIs1I+HL8vPmNZOTymny8qdFcnmv91fOXCoAaedNzvLuIwOnrUNt11KQe1Lw4WONw1u
+	pKSDe9yk=
+X-Gm-Gg: AYBFou0GZprjoIWdnhK7/aElW9mR06mGccDoHOktOFLjM9VPVMWS+w5PJE+Te/d33Mc
+	b6TYuhhFYAJI6XfXmBphQb7EWYdaBN0k4uA0+iOmr1zsBwITuaNHNNxFHvSAJwcaoCqnIIvoe4y
+	DtUvR2tv3TdQYxiKzs54z0WOSchhifk2MTFzxjoZoeNQDJTGIJ3ZG6k92QN47qPNDcyE6P/5P+Q
+	/vn3DgLNa2XALSRgGGfGprtafMCi/vRS4iyY3yGrNBZH1f0Kda+x4tYJWtbEfFIcyg9fttJa/Vy
+	+XWg6gzEbLW2rT2XCU6/cIKyZLlGqs4SndLz/8gPJ936bqOGWdO7Ltg/HhaBYjEgrWGl/mVAB8Z
+	aORGONkNkXfhkdzRP0baD4QFP4FhfcbOBTARf+UXuvLWHK1TCrS9bn+xsSKwIJkJdpwQbeo7v8o
+	9Q75wSizSnztPqLazb4z/Fts7RwK5NhqpKHT6z/1hXjx30Z1VXMmTBwYaYy92WTUiegFbCfc7vm
+	Rn2PvUiCMs=
+X-Received: by 2002:a05:7301:2727:b0:332:94e9:a72e with SMTP id 5a478bee46e88-34272754c58mr9337203eec.9.1790579579843;
+        Mon, 28 Sep 2026 00:12:59 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([150.129.170.212])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3434958c3adsm31166948eec.22.2026.09.28.00.12.24
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3434958c3adsm31166948eec.22.2026.09.28.00.12.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 00:12:35 -0700 (PDT)
+        Mon, 28 Sep 2026 00:12:59 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH 2/6] bind: fix for CVE-2026-10822
-Date: Mon, 28 Sep 2026 12:41:07 +0530
-Message-ID: <20260928071115.304055-2-hprajapati@mvista.com>
+Subject: [scarthgap][PATCH 3/6] bind: fix for CVE-2026-11331
+Date: Mon, 28 Sep 2026 12:41:08 +0530
+Message-ID: <20260928071115.304055-3-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
 In-Reply-To: <20260928071115.304055-1-hprajapati@mvista.com>
 References: <20260928071115.304055-1-hprajapati@mvista.com>
@@ -65,489 +65,178 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:12:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246732
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:13:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246733
 
-Pick patch from [1], [2], [3], [4] & [5] also mentioned at Debian report in [6]
+Pick patch from [1], [2] & [3] also mentioned at Debian report in [4]
 
-[1] https://gitlab.isc.org/isc-projects/bind9/-/commit/d413c9ac2e29a728531354a69c8c8234c01b7d1e
-[2] https://gitlab.isc.org/isc-projects/bind9/-/commit/a5f1a9d0d2ec021618924b14202ac96ead8299c1
-[3] https://gitlab.isc.org/isc-projects/bind9/-/commit/e73b70a64453e7d97a11cb5f0afe8bb02d34aaf8
-[4] https://gitlab.isc.org/isc-projects/bind9/-/commit/19ac8b8e46aeb0a15e217bc7bdf485b31b87d9b4
-[5] https://gitlab.isc.org/isc-projects/bind9/-/commit/8e066d3fc369e3346f22bb5cfb67a7ab08a74034
-[6] https://security-tracker.debian.org/tracker/CVE-2026-10822
+[1] https://gitlab.isc.org/isc-projects/bind9/-/commit/adc8285d23e2eac6ec463f5dbc5a9596fdd36c60
+[2] https://gitlab.isc.org/isc-projects/bind9/-/commit/095b11f20f911f5b8059bdc349b256d6c64ece30
+[3] https://gitlab.isc.org/isc-projects/bind9/-/commit/dc328a199f96222e0c30cc20b7b795bfc2c9b2e4
+[4] https://security-tracker.debian.org/tracker/CVE-2026-11331
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../bind/bind/CVE-2026-10822-01.patch         |  69 ++++++
- .../bind/bind/CVE-2026-10822-02.patch         |  33 +++
- .../bind/bind/CVE-2026-10822-03.patch         |  35 +++
- .../bind/bind/CVE-2026-10822-04.patch         |  53 +++++
- .../bind/bind/CVE-2026-10822-05.patch         | 223 ++++++++++++++++++
- .../recipes-connectivity/bind/bind_9.18.49.bb |   5 +
- 6 files changed, 418 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10822-01.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10822-02.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10822-03.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10822-04.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10822-05.patch
+ .../bind/bind/CVE-2026-11331-01.patch         | 30 ++++++++++
+ .../bind/bind/CVE-2026-11331-02.patch         | 58 +++++++++++++++++++
+ .../bind/bind/CVE-2026-11331-03.patch         | 34 +++++++++++
+ .../recipes-connectivity/bind/bind_9.18.49.bb |  3 +
+ 4 files changed, 125 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-11331-01.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-11331-02.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-11331-03.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10822-01.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-01.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-11331-01.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-11331-01.patch
 new file mode 100644
-index 0000000000..1c330418a6
+index 0000000000..1aaca7392a
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-01.patch
-@@ -0,0 +1,69 @@
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-11331-01.patch
+@@ -0,0 +1,30 @@
 +From: Mark Andrews <marka@isc.org>
-+Date: Tue, 19 May 2026 10:44:04 +1000
-+Subject: Check that dns_name_fromwire honours the active region
++Date: Fri, 10 Apr 2026 10:24:06 +1000
++Subject: Fix TTL extraction from A/AAAA record
 +
-+When reading DNS records from the wire the active region of the
-+source buffer is set to the end of the current record. dns_name_fromwire
-+should fail if it attempts to read past this setting.
++(cherry picked from commit 89c86e338db2492b92e6618c586f146c6928dc6d)
 +
-+(cherry picked from commit 3ed821d68b15fe4e6288e3054397d6bce7e65968)
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/adc8285d23e2eac6ec463f5dbc5a9596fdd36c60
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-11331
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-11331
 +
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/d413c9ac2e29a728531354a69c8c8234c01b7d1e
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10822
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10822
-+
-+CVE: CVE-2026-10822
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/d413c9ac2e29a728531354a69c8c8234c01b7d1e]
++CVE: CVE-2026-11331
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/adc8285d23e2eac6ec463f5dbc5a9596fdd36c60]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ tests/dns/name_test.c | 30 ++++++++++++++++++++++++++++++
-+ 1 file changed, 30 insertions(+)
-+
-+diff --git a/tests/dns/name_test.c b/tests/dns/name_test.c
-+index fb34dca..95f6598 100644
-+--- a/tests/dns/name_test.c
-++++ b/tests/dns/name_test.c
-+@@ -335,6 +335,35 @@ ISC_RUN_TEST_IMPL(fromregion) {
-+ 	assert_false(dns_name_isabsolute(&name));
-+ }
-+ 
-++ISC_RUN_TEST_IMPL(fromwire) {
-++	dns_decompress_t dctx;
-++	dns_fixedname_t fixed;
-++	dns_name_t *name = dns_fixedname_initname(&fixed);
-++	isc_buffer_t b;
-++	unsigned char source[] = { 0x03, 'o', 'n', 'e',	 0x00, 0x03,
-++				   't',	 'w', 'o', 0x00, 0x05, 't',
-++				   'h',	 'r', 'e', 'e',	 0x00 };
-++	isc_result_t result;
-++
-++	isc_buffer_init(&b, source, sizeof(source));
-++	isc_buffer_add(&b, sizeof(source));
-++	isc_buffer_setactive(&b, 10); /* names 'one.' and 'two.' */
-++
-++	/*
-++	 * We should only be able to read two names from the buffer
-++	 * as the active region has been set to cover only the first
-++	 * two.
-++	 */
-++	dns_decompress_init(&dctx, -1, DNS_DECOMPRESS_STRICT);
-++	dns_decompress_setmethods(&dctx, DNS_COMPRESS_NONE);
-++	result = dns_name_fromwire(name, &b, &dctx, 0, NULL);
-++	assert_int_equal(result, ISC_R_SUCCESS);
-++	result = dns_name_fromwire(name, &b, &dctx, 0, NULL);
-++	assert_int_equal(result, ISC_R_SUCCESS);
-++	result = dns_name_fromwire(name, &b, &dctx, 0, NULL);
-++	assert_int_not_equal(result, ISC_R_SUCCESS);
-++}
-++
-+ /* is trust-anchor-telemetry test */
-+ ISC_RUN_TEST_IMPL(istat) {
-+ 	dns_fixedname_t fixed;
-+@@ -778,6 +807,7 @@ ISC_TEST_LIST_START
-+ ISC_TEST_ENTRY(fullcompare)
-+ ISC_TEST_ENTRY(compression)
-+ ISC_TEST_ENTRY(fromregion)
-++ISC_TEST_ENTRY(fromwire)
-+ ISC_TEST_ENTRY(istat)
-+ ISC_TEST_ENTRY(init)
-+ ISC_TEST_ENTRY(invalidate)
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10822-02.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-02.patch
-new file mode 100644
-index 0000000000..0735bafadd
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-02.patch
-@@ -0,0 +1,33 @@
-+From: Mark Andrews <marka@isc.org>
-+Date: Tue, 19 May 2026 15:00:17 +1000
-+Subject: Fix the yaml query zone name code in dnstap-read
-+
-+When the buffer to read the query zone name was constructed
-+isc_buffer_setactive was not called.  This is now needed as
-+dns_name_fromwire is being corrected to check the active region.
-+
-+(cherry picked from commit a25522c28c46655a81d2bf1d96374c81d834b157)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/a5f1a9d0d2ec021618924b14202ac96ead8299c1
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10822
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10822
-+
-+CVE: CVE-2026-10822
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/a5f1a9d0d2ec021618924b14202ac96ead8299c1]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ bin/tools/dnstap-read.c | 1 +
-+ 1 file changed, 1 insertion(+)
-+
-+diff --git a/bin/tools/dnstap-read.c b/bin/tools/dnstap-read.c
-+index a1d0243..bb78ae1 100644
-+--- a/bin/tools/dnstap-read.c
-++++ b/bin/tools/dnstap-read.c
-+@@ -298,6 +298,7 @@ print_yaml(dns_dtdata_t *dt) {
-+ 
-+ 		isc_buffer_init(&b, m->query_zone.data, m->query_zone.len);
-+ 		isc_buffer_add(&b, m->query_zone.len);
-++		isc_buffer_setactive(&b, m->query_zone.len);
-+ 
-+ 		dns_decompress_init(&dctx, -1, DNS_DECOMPRESS_NONE);
-+ 		result = dns_name_fromwire(name, &b, &dctx, 0, NULL);
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10822-03.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-03.patch
-new file mode 100644
-index 0000000000..5708c06d9f
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-03.patch
-@@ -0,0 +1,35 @@
-+From: Mark Andrews <marka@isc.org>
-+Date: Tue, 19 May 2026 11:12:46 +1000
-+Subject: Fix dns_name_fromwire to honour the active region
-+
-+dns_name_fromwire was not honouring the source buffer's active
-+region when reading names from the wire.  This allowed malformed
-+records to be accepted when they shouldn't have been.  This has
-+been corrected.
-+
-+(cherry picked from commit 7c4f07a7ef6b571073327b02209df7f75b9363ff)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/e73b70a64453e7d97a11cb5f0afe8bb02d34aaf8
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10822
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10822
-+
-+CVE: CVE-2026-10822
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/e73b70a64453e7d97a11cb5f0afe8bb02d34aaf8]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/dns/name.c | 2 +-
++ bin/tests/system/rpz/tests.sh | 2 +-
 + 1 file changed, 1 insertion(+), 1 deletion(-)
 +
-+diff --git a/lib/dns/name.c b/lib/dns/name.c
-+index cc0e30e..2ce868a 100644
-+--- a/lib/dns/name.c
-++++ b/lib/dns/name.c
-+@@ -1833,7 +1833,7 @@ dns_name_fromwire(dns_name_t *const name, isc_buffer_t *const source,
-+ 	 * The amount of the source we consumed is set once.
-+ 	 */
-+ 	const uint8_t *const source_buf = isc_buffer_base(source);
-+-	const uint8_t *const source_max = isc_buffer_used(source);
-++	const uint8_t *const source_max = isc_buffer_active(source);
-+ 	const uint8_t *const start = isc_buffer_current(source);
-+ 	const uint8_t *marker = start;
-+ 	const uint8_t *cursor = start;
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10822-04.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-04.patch
++diff --git a/bin/tests/system/rpz/tests.sh b/bin/tests/system/rpz/tests.sh
++index 87e4118..90cf80c 100644
++--- a/bin/tests/system/rpz/tests.sh
+++++ b/bin/tests/system/rpz/tests.sh
++@@ -391,7 +391,7 @@ addr() {
++   digcmd $2 >$DIGNM
++   #ckalive "$2" "server crashed by 'dig $2'" || return 1
++   ADDR_ESC=$(echo "$ADDR" | sed -e 's/\./\\./g')
++-  ADDR_TTL=$(sed -n -e "s/^[-.a-z0-9]\{1,\}[	 ]*\([0-9]*\)	IN	AA*	${ADDR_ESC}\$/\1/p" $DIGNM)
+++  ADDR_TTL=$(sed -n -e "s/^[-.a-z0-9]\{1,\}[	 ]*\([0-9]*\)[ 	]IN[ 	]AA*[ 	]${ADDR_ESC}\$/\1/p" $DIGNM)
++   if test -z "$ADDR_TTL"; then
++     setret "'dig $2' wrong; no address $ADDR record in $DIGNM"
++     return 0
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-11331-02.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-11331-02.patch
 new file mode 100644
-index 0000000000..ff5a8811f0
+index 0000000000..8f45d7021b
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-04.patch
-@@ -0,0 +1,53 @@
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-11331-02.patch
+@@ -0,0 +1,58 @@
 +From: Mark Andrews <marka@isc.org>
-+Date: Tue, 19 May 2026 12:03:23 +1000
-+Subject: Check that a short PRIVATEDNS record is rejected
++Date: Fri, 10 Apr 2026 10:24:40 +1000
++Subject: Check rpz name too long wildcard CNAME expansion handling
 +
-+A bug in dns_name_fromwire meant that short PRIVATEDNS key
-+records where being accepted.  Test that this is no longer
-+the case.
++(cherry picked from commit 9345394e2097031b55b3ef34ceaadf5a7ebbeef2)
 +
-+(cherry picked from commit f48d48027384d8c2210b5ce9e3eac7af101ead3d)
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/095b11f20f911f5b8059bdc349b256d6c64ece30
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-11331
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-11331
 +
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/19ac8b8e46aeb0a15e217bc7bdf485b31b87d9b4
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10822
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10822
-+
-+CVE: CVE-2026-10822
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/19ac8b8e46aeb0a15e217bc7bdf485b31b87d9b4]
++CVE: CVE-2026-11331
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/095b11f20f911f5b8059bdc349b256d6c64ece30]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ tests/dns/rdata_test.c | 21 +++++++++++++++++++++
-+ 1 file changed, 21 insertions(+)
++ bin/tests/system/rpz/ns2/tld2.db | 2 ++
++ bin/tests/system/rpz/ns4/tld4.db | 2 ++
++ bin/tests/system/rpz/tests.sh    | 5 ++++-
++ 3 files changed, 8 insertions(+), 1 deletion(-)
 +
-+diff --git a/tests/dns/rdata_test.c b/tests/dns/rdata_test.c
-+index 6354819..7f0df6e 100644
-+--- a/tests/dns/rdata_test.c
-++++ b/tests/dns/rdata_test.c
-+@@ -2199,6 +2199,27 @@ ISC_RUN_TEST_IMPL(key) {
++diff --git a/bin/tests/system/rpz/ns2/tld2.db b/bin/tests/system/rpz/ns2/tld2.db
++index c6f2556..c091ee2 100644
++--- a/bin/tests/system/rpz/ns2/tld2.db
+++++ b/bin/tests/system/rpz/ns2/tld2.db
++@@ -123,3 +123,5 @@ a7-1		A	192.168.7.1
 + 
-+ 	check_rdata(NULL, wire_ok, NULL, false, dns_rdataclass_in,
-+ 		    dns_rdatatype_key, sizeof(dns_rdata_key_t));
++ a7-2		A	192.168.7.2
++ 		TXT	"a7-2 tld2 text"
 ++
-++	/*
-++	 * A valid PRIVATEDNS record with an active region shorter than the
-++	 * actual record length.  A bug in dns_name_fromwire meant that this
-++	 * was previously accepted.
-++	 */
-++	dns_decompress_t dctx;
-++	unsigned char key[] = { 0x00, 0x00, 0x00, 253, 0x07, 'e', 'x',
-++				'a',  'm',  'p',  'l', 'e',  0x00 };
-++	unsigned char buf[sizeof(key)];
-++	isc_buffer_t source, target;
-++	isc_result_t result;
-++
-++	isc_buffer_init(&source, key, sizeof(key));
-++	isc_buffer_add(&source, sizeof(key));
-++	isc_buffer_setactive(&source, sizeof(key) - 1);
-++	isc_buffer_init(&target, buf, sizeof(buf));
-++	dns_decompress_init(&dctx, -1, DNS_DECOMPRESS_ANY);
-++	result = dns_rdata_fromwire(NULL, dns_rdataclass_in, dns_rdatatype_key,
-++				    &source, &dctx, 0, &target);
-++	assert_int_not_equal(result, ISC_R_SUCCESS);
-+ }
+++*.wild		A	192.168.9.1
++diff --git a/bin/tests/system/rpz/ns4/tld4.db b/bin/tests/system/rpz/ns4/tld4.db
++index fca419c..8accd76 100644
++--- a/bin/tests/system/rpz/ns4/tld4.db
+++++ b/bin/tests/system/rpz/ns4/tld4.db
++@@ -59,6 +59,8 @@ a3-6.tld2	A	56.56.56.56
 + 
-+ /*
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10822-05.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-05.patch
++ a3-7.sub1.tld2	A	57.57.57.57
++ 
+++*.wild.sub1.tld2	A	57.57.57.57
+++
++ a3-8.tld2	A	58.58.58.58
++ 
++ a3-9.sub9.tld2	A	59.59.59.59
++diff --git a/bin/tests/system/rpz/tests.sh b/bin/tests/system/rpz/tests.sh
++index 90cf80c..5297437 100644
++--- a/bin/tests/system/rpz/tests.sh
+++++ b/bin/tests/system/rpz/tests.sh
++@@ -516,7 +516,10 @@ nochange TCP a3-9.tld2                # 33 tcp-only
++ here x.servfail <<'EOF'               # 34 qname-wait-recurse yes
++   ;; status: SERVFAIL, x
++ EOF
++-addr 35.35.35.35 "x.servfail @$ns5" # 35 qname-wait-recurse no
+++addr 35.35.35.35 "x.servfail @$ns5"                                                                                                                                                                                                                                    # 35 qname-wait-recurse no
+++here aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.wild.sub1.tld2 <<'EOF' # 36 wildcard CNAME name to long
+++    ;; status: YXDOMAIN, x
+++EOF
++ end_group
++ ckstats $ns3 test1 ns3 22
++ ckstats $ns5 test1 ns5 1
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-11331-03.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-11331-03.patch
 new file mode 100644
-index 0000000000..41a6588045
+index 0000000000..2d57122632
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-05.patch
-@@ -0,0 +1,223 @@
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-11331-03.patch
+@@ -0,0 +1,34 @@
 +From: Mark Andrews <marka@isc.org>
-+Date: Fri, 5 Jun 2026 09:18:30 +1000
-+Subject: POC for PRIVATEDNS DNSKEY overrun not being detected
++Date: Fri, 10 Apr 2026 10:26:14 +1000
++Subject: Properly handle rpz name to long wildcard expansion
 +
-+Construct a DNS message where a PRIVATEDNS DNSKEY identifier
-+overruns the record boundary by 3 byte so that the label ends
-+at the end of the compression pointer for the next record. The
-+next type is less than 256 so the next octet is 00 terminating
-+the identifier name.  The transfered zone is then written to
-+disk using master-format text triggering the assertion when the
-+truncated identier is discovered.
++Previously a self referential CNAME and the original address
++record were returned.  We now return a YXDOMAIN response.
 +
-+Note this test will produce a false result in versions of
-+BIND that do not check the PRIVATEDNS identifier as it looks
-+for the error message when the transfer is aborted.
++(cherry picked from commit cfc4c4f69870ce492deaaa429453563d1621ded3)
 +
-+(cherry picked from commit 9ce3bce8bc8b4e9c6a9b1e84b5849c33eb27830e)
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/dc328a199f96222e0c30cc20b7b795bfc2c9b2e4
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-11331
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-11331
 +
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/8e066d3fc369e3346f22bb5cfb67a7ab08a74034
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10822
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10822
-+
-+CVE: CVE-2026-10822
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/8e066d3fc369e3346f22bb5cfb67a7ab08a74034]
++CVE: CVE-2026-11331
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/dc328a199f96222e0c30cc20b7b795bfc2c9b2e4]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ bin/tests/system/xfer/ans9/ans.py       | 142 ++++++++++++++++++++++++++++++++
-+ bin/tests/system/xfer/ns6/named.conf.in |   9 ++
-+ bin/tests/system/xfer/tests.sh          |  16 ++++
-+ 3 files changed, 167 insertions(+)
-+ create mode 100644 bin/tests/system/xfer/ans9/ans.py
++ lib/ns/query.c | 3 ++-
++ 1 file changed, 2 insertions(+), 1 deletion(-)
 +
-+diff --git a/bin/tests/system/xfer/ans9/ans.py b/bin/tests/system/xfer/ans9/ans.py
-+new file mode 100644
-+index 0000000..a9e7395
-+--- /dev/null
-++++ b/bin/tests/system/xfer/ans9/ans.py
-+@@ -0,0 +1,142 @@
-++"""
-++Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++
-++SPDX-License-Identifier: MPL-2.0
-++
-++This Source Code Form is subject to the terms of the Mozilla Public
-++License, v. 2.0.  If a copy of the MPL was not distributed with this
-++file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++
-++See the COPYRIGHT file distributed with this work for additional
-++information regarding copyright ownership.
-++"""
-++
-++from collections.abc import AsyncGenerator
-++
-++import dns.name
-++import dns.rcode
-++import dns.rdatatype
-++import dns.rrset
-++
-++from isctest.asyncserver import (
-++    ControllableAsyncDnsServer,
-++    DnsResponseSend,
-++    DomainHandler,
-++    QueryContext,
-++    ResponseAction,
-++    ToggleResponsesCommand,
-++)
-++
-++
-++class AXFRServer(DomainHandler):
-++    """
-++    Yield SOA and AXFR responses. Every new AXFR response increments the SOA
-++    version.
-++    """
-++
-++    domains = ["xfr-and-reconfig", "private-dns-overrun"]
-++
-++    def __init__(self) -> None:
-++        super().__init__()
-++        self.soa_version = 0
-++
-++    async def get_responses(
-++        self, qctx: QueryContext
-++    ) -> AsyncGenerator[ResponseAction, None]:
-++        # This is oversimplified because I am lazy - we are appending the SOA
-++        # RRset to the ANSWER section for _every_ QTYPE.  named is only
-++        # expected to send a SOA query over UDP and then an AXFR query over
-++        # TCP.  Responses to both of those start with a SOA RRset in the ANSWER
-++        # section :-)
-++        soa_message = qctx.response
-++        soa_rrset = dns.rrset.from_text(
-++            qctx.qname,
-++            300,
-++            qctx.qclass,
-++            dns.rdatatype.SOA,
-++            f". . {self.soa_version} 0 0 0 0",
-++        )
-++        soa_message.answer.append(soa_rrset)
-++
-++        yield DnsResponseSend(soa_message)
-++
-++        if qctx.qtype == dns.rdatatype.SOA:
-++            # If QTYPE=SOA, the SOA record is the complete response.
-++            return
-++
-++        if qctx.qtype != dns.rdatatype.AXFR:
-++            # If QTYPE=AXFR, we will continue cramming RRsets into the ANSWER
-++            # section of a subsequent DNS message below.
-++            #
-++            # If QTYPE was not SOA or AXFR, abort.  Yeah, we just sent a broken
-++            # response by yielding DnsResponseSend() with a SOA RRset in the
-++            # ANSWER section above.  We will have to carry that burden for the
-++            # rest of our lives.
-++            return
-++
-++        # Send just the obligatory NS RRset at zone apex in the next message.
-++        # This is stupidly inefficient, but makes looping below simpler as we
-++        # will already have been done with the mandatory stuff by then.
-++        ns_message = qctx.prepare_new_response()
-++        ns_rrset = dns.rrset.from_text(
-++            qctx.qname, 300, qctx.qclass, dns.rdatatype.NS, "."
-++        )
-++        ns_message.answer.append(ns_rrset)
-++
-++        yield DnsResponseSend(ns_message)
-++
-++        # Generate the AXFR with a txt rrset.
-++        txt_message = qctx.prepare_new_response()
-++        txt_rrset = dns.rrset.from_text(
-++            qctx.qname,
-++            300,
-++            qctx.qclass,
-++            dns.rdatatype.TXT,
-++            "foo bar",
-++        )
-++        txt_message.answer.append(txt_rrset)
-++
-++        yield DnsResponseSend(txt_message)
-++
-++        if qctx.qname == dns.name.from_text("private-dns-overrun"):
-++            # A message where the malformed DNSKEY algorithm identifier
-++            # finishes on a 00 byte in the next record. Assumes the
-++            # next record starts with a compression pointer which is
-++            # followed by the type which starts with 00.
-++
-++            # Generate malformed PRIVATE DNS DNSKEY
-++            dnskey_message = qctx.prepare_new_response()
-++            dnskey_rrset = dns.rrset.from_text(
-++                qctx.qname,
-++                300,
-++                qctx.qclass,
-++                dns.rdatatype.DNSKEY,
-++                "\\# 12 00 00 00 fd 09 00 00 00 00 00 00 00",
-++            )
-++            dnskey_message.answer.append(dnskey_rrset)
-++            # Generate well formed PRIVATE DNS DNSKEY
-++            dnskey_rrset = dns.rrset.from_text(
-++                qctx.qname,
-++                300,
-++                qctx.qclass,
-++                dns.rdatatype.DNSKEY,
-++                "\\# 12 00 00 00 fd 06 00 00 00 00 00 00 00",
-++            )
-++            dnskey_message.answer.append(dnskey_rrset)
-++
-++            yield DnsResponseSend(dnskey_message)
-++
-++        # Finish the AXFR transaction by sending the second SOA RRset.
-++        yield DnsResponseSend(soa_message)
-++
-++        # This makes sure that the next SOA request causes a new zone transfer
-++        self.soa_version += 1
-++
-++
-++if __name__ == "__main__":
-++    server = ControllableAsyncDnsServer(
-++        default_aa=True, default_rcode=dns.rcode.NOERROR
-++    )
-++    server.install_control_command(ToggleResponsesCommand())
-++    server.install_response_handler(AXFRServer())
-++    server.run()
-+diff --git a/bin/tests/system/xfer/ns6/named.conf.in b/bin/tests/system/xfer/ns6/named.conf.in
-+index 142383c..6380944 100644
-+--- a/bin/tests/system/xfer/ns6/named.conf.in
-++++ b/bin/tests/system/xfer/ns6/named.conf.in
-+@@ -83,3 +83,12 @@ zone "ixfr-too-big" {
-+ 	primaries { 10.53.0.1; };
-+ 	file "ixfr-too-big.bk";
-+ };
-++
-++# GL#6004
-++zone "private-dns-overrun" {
-++	type secondary;
-++	primaries { 10.53.0.9; };
-++	file "private-dns-overrun.bk";
-++	masterfile-format text; # force bug to be exercised
-++	request-ixfr no; # ans9 supports only axfr
-++};
-+diff --git a/bin/tests/system/xfer/tests.sh b/bin/tests/system/xfer/tests.sh
-+index a2c0adb..e08be17 100755
-+--- a/bin/tests/system/xfer/tests.sh
-++++ b/bin/tests/system/xfer/tests.sh
-+@@ -622,5 +622,21 @@ if [ $tmp -eq 0 ]; then
-+ fi
-+ status=$((status + tmp))
-+ 
-++# def test_malformed_private_dns_identifier_overrun(ns6):
-++#    isctest.log.info(
-++#        "Check that a malformed PRIVATEDNS DNSKEY which overruns the record is rejected"
-++#    )
-++#    with ns6.watch_log_from_start(timeout=60) as watcher_transfer_completed:
-++#        watcher_transfer_completed.wait_for_line(
-++#            "zone private-dns-overrun/IN: zone transfer finished: unexpected end of input"
-++#        )
-++n=$((n + 1))
-++echo_i "Check that a malformed PRIVATEDNS DNSKEY which overruns the record is rejected ($n)"
-++tmp=0
-++nextpartreset ns6/named.run
-++retry 60 wait_for_message "zone private-dns-overrun/IN: zone transfer finished: unexpected end of input" || tmp=1
-++if test $tmp != 0; then echo_i "failed"; fi
-++status=$((status + tmp))
-++
-+ echo_i "exit status: $status"
-+ [ $status -eq 0 ] || exit 1
++diff --git a/lib/ns/query.c b/lib/ns/query.c
++index 86485b7..f0e5244 100644
++--- a/lib/ns/query.c
+++++ b/lib/ns/query.c
++@@ -7579,7 +7579,8 @@ query_rpzcname(query_ctx_t *qctx, dns_name_t *cname) {
++ 					      qctx->fname, NULL);
++ 		if (result == DNS_R_NAMETOOLONG) {
++ 			client->message->rcode = dns_rcode_yxdomain;
++-		} else if (result != ISC_R_SUCCESS) {
+++		}
+++		if (result != ISC_R_SUCCESS) {
++ 			return result;
++ 		}
++ 	} else {
 diff --git a/meta/recipes-connectivity/bind/bind_9.18.49.bb b/meta/recipes-connectivity/bind/bind_9.18.49.bb
-index 161736f9b1..42007383c4 100644
+index 42007383c4..dc274f6076 100644
 --- a/meta/recipes-connectivity/bind/bind_9.18.49.bb
 +++ b/meta/recipes-connectivity/bind/bind_9.18.49.bb
-@@ -21,6 +21,11 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://CVE-2026-10723-01.patch \
-            file://CVE-2026-10723-02.patch \
-            file://CVE-2026-10723-03.patch \
-+           file://CVE-2026-10822-01.patch \
-+           file://CVE-2026-10822-02.patch \
-+           file://CVE-2026-10822-03.patch \
-+           file://CVE-2026-10822-04.patch \
-+           file://CVE-2026-10822-05.patch \
+@@ -26,6 +26,9 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://CVE-2026-10822-03.patch \
+            file://CVE-2026-10822-04.patch \
+            file://CVE-2026-10822-05.patch \
++           file://CVE-2026-11331-01.patch \
++           file://CVE-2026-11331-02.patch \
++           file://CVE-2026-11331-03.patch \
             "
  
  SRC_URI[sha256sum] = "c43ce4548ebed788cd9df63658a7de105ceafba43fcd63fa352b1093e525cd24"
