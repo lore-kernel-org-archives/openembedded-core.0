@@ -1,1196 +1,347 @@
-Return-Path: <vchavda@cisco.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E284CA5FA1
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 18:06:38 +0000 (UTC)
-Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.64153.1790618788230663541
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 26A7FCA5FA2
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 18:25:08 +0000 (UTC)
+Received: from DU2PR03CU002.outbound.protection.outlook.com (DU2PR03CU002.outbound.protection.outlook.com [52.101.65.54])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.64600.1790619906315878691
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 11:06:28 -0700
+ Mon, 28 Sep 2026 11:25:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=h6uslaeI;
- spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: vchavda@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=39384; q=dns/txt;
-  s=iport01; t=1790618788; x=1791828388;
-  h=from:to:cc:subject:date:message-id:references:
-   in-reply-to:mime-version;
-  bh=Kz4430q/e8rGmtbbKT54wv3DW4aq6gds/z524bNt8EY=;
-  b=h6uslaeI37cLou4Lwa/T63LWC6y92/63t9rPCBw0FjwXLxPqL8BWnqtb
-   u9grKLSbUrxUgrUvNnqueJ+JdGZfXhMmpny7Nyw1sqzYcPCNjqCtDPb2c
-   puHTVRmvMCEtUYgQ6guASMpcRJbxcel4iFBl9u4daBtdMkM7cH/elGkJX
-   5DBLjGMraXp4rKx+VEbDEXhjBEI8+lB9Hrcl+LjoxRv0U+hjj8oaZfjMp
-   J0X1uNVVb+EZGzXSHoiwyz+NjUUjvsl0JFkcfyA1aci669wbjk31hEPvZ
-   /jaIhQVjKGf019+OyMlDmfnIP7sNeYqYwSEHhCtJmVhlJsx0X63MRpjUg
-   A==;
-X-CSE-ConnectionGUID: 7Gtzk0S9SA68+ej3uwREkA==
-X-CSE-MsgGUID: j1IL7viOQtmJy8dkvBTcAw==
-X-IPAS-Result: =?us-ascii?q?A0ABAwCrq7pq/5AQJK1agS6BK4E9MVMWdYEREkmIIwOFK?=
- =?us-ascii?q?4h5A54agXgGDwEBAQ0CLgEVDQQBAYUFAo4JAiY0CQ4BAgQDAgMBAQEBAQEBA?=
- =?us-ascii?q?QEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQEBAQECARkxAS0QAgEIEQMBAiEBD?=
- =?us-ascii?q?ScKHQgCBAENBQiCe4IdVwMBAg4GuCACih14gTSBAYMpATEHBwJD3AIBCxQBg?=
- =?us-ascii?q?TiFQIMfASuBNYQAGAGDXYEfJxuBSUSBFUKCaT6BBYFcAQEBgTYrHh6DV4IwB?=
- =?us-ascii?q?IIiehIbgT8eMjNKGZFfUnIiAyYzLAFVExcLBwWBIxAzAyovLSNLBS0dcAwnE?=
- =?us-ascii?q?g8dFxEeWBsGBRIgKkFDXYFaPyMZNnqBCV6BKylgAQIOF0ZBggcCglSBI14CA?=
- =?us-ascii?q?UlDDgdFUwkWD0EDBxJHJiIIEgkBExowC4EhOEEJKBRtPTcGDxkDBIE1BY9EY?=
- =?us-ascii?q?R6CRRkHARUXYQEHDBggLgFJBSZBECmifaN3CoQejCKNPogyF6lYgRcLmH0jj?=
- =?us-ascii?q?WeVaIUmAgQCBAUCEAEBBoFoPIEoHwsHcBVIAYJZCUoZD44tARaDYIF/gxSCQ?=
- =?us-ascii?q?cRFeQIBCDIBAQcCBw4DC4FokACBfgEB?=
-IronPort-PHdr: A9a23:sh6leR/WL91Ub/9uWBDoyV9kXcBvk7zwOghQ7YIolPcTNK+i5J/le
- kfY4KYlgFzIWNDD4ulfw6rNsq/mUHAd+5vJrn0YcZJNWhNEwcUblgAtGoiEXGXwLeXhaGoxG
- 8EqaQ==
-IronPort-Data: A9a23:hg4g468w31eBjMHjjmUzDrUD2X+TJUtcMsCJ2f8bNWPcYEJGY0x3y
- 2seUTzTaa3fM2ejKtx3bt+/o01TvpWAmNJqG1A+qyxEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
- 5xGMrEsFOhtEDmB4E/rbei5xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
- 4mtyyHjEAX9gWAsYzhEs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
- /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
- HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2lpEpEK+b5MUFpnq
- 6xbJTJWcw+5quGflefTpulE3qzPLeHiOIcZ/3UlxjbDALN+HtbIQr7B4plT2zJYasJmRKmFI
- ZFHL2MxKk2cP3WjOX9PYH46tPmjhnDhfzRwo1OOrq1x6G/WpOB0+OiwaYqPI4TbHq25mG6a/
- 0PioHr4JSgGMf6OmTaG7FiQjcbQyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
- FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NUF+t/7ESGzbDZpl7GQGMFVTVGLtchsafaWAAX6
- 7NApPuwbRRHu7yOQnXb/bCRxQ5e8wBORYPeTUfolTc43uQ=
-IronPort-HdrOrdr: A9a23:IWvM2a0E4hGbuRG/j/9ixAqjBY9xeYIsimQD101hICG9Lfbo9P
- xGzc566farslcssSkb6K690cm7LU819fZOkO8s1MSZLXjbUQqTXc5fBOTZskfd8kHFh4pgPO
- JbAtdD4b7LfBZHZKTBkXSF+r8bqbHtntHL9ILjJjVWPH1Xgspbnn5E43OgYzZLrX59dOIE/f
- Snl616jgvlU046Ku68AX4IVfXCodrkqLLKCCRtOzcXrCO1oXeN8rDVLzi0ty1ybxp/hZsy+2
- nMlAL0op6kr+y6zRHk0WrS5YR9mdfqyNdPbfb8y/T9LA+Cti+YIKBaH5GStjE8p++irHwwls
- PXnhsmN8Nvr1vMY2Ccu3LWqkrd+Qdrz0Wn5U6TgHPlr8C8bik9EdB9iYVQdQacw1Y8vet7zL
- lA0wuixthq5FL77WHADurzJlZXf3mP0DwfeCko/iViuL4lGftsREokjRto+dk7bXnHAcscYZ
- lT5YnnlYVrmBWhHjDkl1gq5sCwVXIuGRrDaE0DtsuJlwVyphlCvhElLAh1pAZdyHr7IKM0ut
- jsI+BmkqpDQdQRar84DOAdQdGvAmiIWh7UNnmOSG6XXp3vFki946If2o9Fr92CadgN1t8/iZ
- 7BWFRXuSo7fF/vE9SH2NlO/grWSGuwUDzxwoUGjqIJ9oHUVf7uK2mOWVoum8yvr7EWBdDaQe
- +6PNZTD+X4JWXjFI5V10n1WoVUK3MZTMoJ0+xLFm6ms4bOMMnnp+bbePHcKP7kFislQHr2Bj
- 8ZUD36NKx7nwmWs7/D8W7ssl/WCzvCFMhLYd3n1vlWzJJILYFFuBUUj1Oij/v7WwGqmpZGCH
- dDHA==
-X-Talos-CUID: 9a23:fhrE82NIFxgVFu5DBwZ75k1MIZEeWyONj3rSeFKnM0tqYejA
-X-Talos-MUID: 9a23:QkDpUASyUFbsUAjARXTu3RBGa9lpxJ2yDWIcwZkFpeO4PgVvbmI=
-X-IronPort-Anti-Spam-Filtered: true
-Received: from alln-l-core-07.cisco.com ([173.36.16.144])
-  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Sep 2026 18:06:27 +0000
-Received: from alln-opgw-5.cisco.com (alln-opgw-5.cisco.com [173.37.147.253])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by alln-l-core-07.cisco.com (Postfix) with ESMTPS id EBB26180001D8
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 18:06:26 +0000 (GMT)
-X-CSE-ConnectionGUID: 8VLtgQunQjmn+8THN2oEsg==
-X-CSE-MsgGUID: FKBfCbMORSuJUfCpev8xvA==
-Authentication-Results: alln-opgw-5.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
-X-IronPort-AV: E=Sophos;i="6.27,128,1787011200"; 
-   d="scan'208,217";a="67220475"
-Received: from mail-eastus2azon11011048.outbound.protection.outlook.com (HELO BN8PR05CU002.outbound.protection.outlook.com) ([52.101.57.48])
-  by alln-opgw-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Sep 2026 18:06:26 +0000
+ dkim=pass header.i=@siemens.com header.s=selector2 header.b=uc81m4Ez;
+ spf=pass (domain: siemens.com, ip: 52.101.65.54, mailfrom: peter.marko@siemens.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=Be862dfWeMLz/ghGWNe9lRnoTUQeePH2N0ucXRECrvpkZ/SxTnkI8T380YVwLbMX+ommpq+bgbG5HfrZQKykHDoqRl76mtlpxOyUnr5WZstTCla6CQTjmCt7z1NjVFGiU2xoz35DwNxC0pwR6LpCNjh2aXiW+nUs1vSxz4sYqaElzdHDgCKy5pPAFjcmawc3eHfmyw6gNHDpkMXkPQle7q1QbZXNTAkdRtLlS2gKxNZ3FjH0EIUT4iQhzJ2C1emX0tjaOGcn2sleWTTEPspD+NAkisN/BlgcuYi1nLRuktvhlN8kq5QNRZ1QknF11CBlt0MEQbmM1a4CqaQUqEYaPw==
+ b=UNJajBVVCXv7bZU6+a0ICQ/Q16si8whXXqwYi5OYMxVxBNQxYTOF0FAHTySVltI39teqk1FVsI58gCZ7lJpUmG0gtUD3v92Y17OwMkJ/vke8gzcsR7kPC0y0p8BeQ0hv9ef4cqHpGljXnvewxR8HnlhhLGRdZnUWUNI/uNi7dMnO5N9D/OKwOvDLxgD3H+d/l84YI2+RAb+fCXXr6DRbkQ9Jr7POfhmxXf2rf3Wx+dXks2xB54RRsRpuFf5kwb5BYmiWtwa/xiMK2JgqcJKXUD5l86ArYir/RBiE0s9jr4R1zlnD9P8PZk+70xsMYAp7HVXRMOFW2qe4igc6IHxKtw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Kz4430q/e8rGmtbbKT54wv3DW4aq6gds/z524bNt8EY=;
- b=NAKDrvYfa73tLJpvEJ7OqpamQUEV6oh0WHvXR70c8994Qbfvp+TR20SEYplXjC09X2lX+DTOqE49lxdHG2WPYog4CqnVUn7/yvjpN/zwWX58tn0DvIDNEQCDBWoPb9K5DJqeo0Ix3ELZClRhbmciDMN+txSMlp+g9HwWt6ftOHlX+YsYS7DCGT5ygxJMAti/RLyqtQ5ZdHAggAGpaaki+7OBJBkZbV2TIKe/BSVCMQfbVSwbS7P5CrUdFA3X4/6IrYqIy1HrjUzpzkZoiyFz7HONxP2RVGsCm4zr+xlYyiClNHCwlQatdCQARmiRXWyF0qMWqL344i60ZNULVpPzMQ==
+ bh=ew8mItlOnrmBM7hvnXbv7xRU25gQgVeNW/DKlT9yA7k=;
+ b=HcMLyJiTaIZ6EdaJ0SvdebSL9h40jWlcWh0GrKF+8+tt241ZDUwGmIThvfjaQpBaSFCcdMChKVTrHXPpoD9KxspqIqIFfrQDugQpY3y0PsDeB/hBTEZ+Iv1IJ/yGwkJPSIenXZ9HOVIYc2CTQIFRsbfWV775nL4pUfmUXqIhDcl6sowWkUU5Y/nD2ZonhXTgEJDA7DH1IipRPvD1yhgjC+rEDegDNO2QJzhKyi98KwTGh7dLvVjPePaHA80byS1nnz6AfSzaQn/KgcBUlxfzzsTGPNB84yCGVjP7qwCFmu9UCrj1cTVOwtt0QIf9m9xp+AuFXiBYfOIQNLPiXxyGaA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
- dkim=pass header.d=cisco.com; arc=none
-Received: from CY8PR11MB7036.namprd11.prod.outlook.com (2603:10b6:930:50::10)
- by SJ5PPFD56C4208E.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::858) with
+ smtp.mailfrom=siemens.com; dmarc=pass action=none header.from=siemens.com;
+ dkim=pass header.d=siemens.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=siemens.com;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ew8mItlOnrmBM7hvnXbv7xRU25gQgVeNW/DKlT9yA7k=;
+ b=uc81m4EzGbzg7vvu3grLplOC4PxFhnIGbfkrFAt88NwwEhlfjyKKIXHqscAr0+KRrn64fKfHRM4FQykMJTWT1WVFYTEZKjt3Z+qpyolMBK0klHVWS5JNbRR2wW0dRST5+sFUasmW3wA5GPc024lOcEDhV0UqAaGw6tNNPT19ipGYnwWfFk9551bjjBsfYG59Q3sGS8ogDndLDfekQcWCh06A8duFueKmrwM7zly0bvCTlIE8WFqmoMWGSaP2zHGPSNnUhPyvpAdV2Dx8TI+JVL9esRvGEbpbKUKyd1iSSXPdSVB4So8Bq2yrkos2F01xJ5m63ZBYyDpCRTYPklzDlg==
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:20b:420::16)
+ by PAXSPRMB0032.EURPRD10.PROD.OUTLOOK.COM (2603:10a6:102:2bd::8) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.23; Mon, 28 Sep
- 2026 18:06:23 +0000
-Received: from CY8PR11MB7036.namprd11.prod.outlook.com
- ([fe80::1f59:c732:6dcd:8c90]) by CY8PR11MB7036.namprd11.prod.outlook.com
- ([fe80::1f59:c732:6dcd:8c90%5]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
- 18:06:23 +0000
-From: "Viral Chavda (vchavda)" <vchavda@cisco.com>
-To: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)"
-	<hthakar@cisco.com>, "openembedded-core@lists.openembedded.org"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Mon, 28 Sep
+ 2026 18:25:00 +0000
+Received: from AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008]) by AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+ ([fe80::a905:57e5:8858:d008%4]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
+ 18:24:59 +0000
+From: "Marko, Peter" <Peter.Marko@siemens.com>
+To: "yurade@cisco.com" <yurade@cisco.com>,
+	"openembedded-core@lists.openembedded.org"
 	<openembedded-core@lists.openembedded.org>
-CC: "xe-linux-external (Internal Group)" <xe-linux-external@cisco.com>
-Subject: Re: [OE-core][scarthgap][PATCH v2] apr-util: Fix CVE-2025-49506
-Thread-Topic: [OE-core][scarthgap][PATCH v2] apr-util: Fix CVE-2025-49506
-Thread-Index: AQHdTxZnW2/QvnHrh0KmyRw6B842FrbkSeNI
-Date: Mon, 28 Sep 2026 18:06:23 +0000
+Subject: RE: [OE-core][wrynose][PATCH] bison: Fix CVE-2026-56390
+Thread-Topic: [OE-core][wrynose][PATCH] bison: Fix CVE-2026-56390
+Thread-Index: AQHdT2ZCEQNfpHotSE649DMBnN1KgLbkTkJA
+Date: Mon, 28 Sep 2026 18:24:59 +0000
 Message-ID: 
- <CY8PR11MB70369075BF0281B7E2603305AF8D2@CY8PR11MB7036.namprd11.prod.outlook.com>
-References: <20260928065538.1123598-1-hthakar@cisco.com>
-In-Reply-To: <20260928065538.1123598-1-hthakar@cisco.com>
-Accept-Language: en-IN, en-US
-Content-Language: en-IN
+ <AS8PR10MB5073BAA4BDD36FAE76783771FD8D2@AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM>
+References: <20260928162713.2651011-1-yurade@cisco.com>
+In-Reply-To: <20260928162713.2651011-1-yurade@cisco.com>
+Accept-Language: en-US
+Content-Language: en-US
 X-MS-Has-Attach: 
 X-MS-TNEF-Correlator: 
-x-ms-reactions: allow
+msip_labels: 
+ MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ActionId=2a0ad26e-27bb-43a6-9e02-84a70151046c;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_ContentBits=0;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Enabled=true;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Method=Standard;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Name=restricted;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SetDate=2026-09-28T18:23:58Z;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_SiteId=38ae3bcd-9579-4fd4-adda-b42e1495d55a;MSIP_Label_9d258917-277f-42cd-a3cd-14c4e9ee58bc_Tag=10,
+ 3, 0, 1;
+authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=siemens.com;
 x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: CY8PR11MB7036:EE_|SJ5PPFD56C4208E:EE_
-x-ms-office365-filtering-correlation-id: 0a3ae9d6-5db4-43de-2e63-08df1d8b34c8
+x-ms-traffictypediagnostic: AS8PR10MB5073:EE_|PAXSPRMB0032:EE_
+x-ms-office365-filtering-correlation-id: 61682d3f-cb65-4b31-d115-08df1d8dce4a
+x-ms-exchange-atpmessageproperties: SA
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|260925021911599003|260925021311599003|260925022911599003|10067099003|5023799004|11063799006|56012099006|6133799003|18002099003|22082099003|8096899003|13003099007|38070700021;
+ BCL:0;ARA:13230040|366016|1800799024|23010399003|376014|10067099003|56012099006|11063799006|260925022911599003|260925021911599003|260925021311599003|3023799007|6133799003|5023799004|18002099003|22082099003|55112099003|38070700021;
 x-microsoft-antispam-message-info: 
- lj2C13TC4GdpQ/lAnXOEF49Vj2hBHG9X5E9acKj+3PW1wEKQP9Ta9p/uqwK77iGKjosce9JfjYyuf2I0wpYS4fOvFbbMaw3AZX5VttTEZA+Bn4xDZV4lL/d8zUe0rm/1Sx2DGdfTYtZgkMHmr1xHtNnHQFAnuqP8fiy/tB1Yigv3W9mZWNiLAjUs6VeQZASys20ZW5AFmO7S9+afJpBmGBQXJU6UNDr3ldqaAUEjU3hPaGWYvCfDfuYdFb74zVvSxl/GS4XJ/qCz0yVs+EiNDQNqKr2UVpINSwoKPdtJNLwTI10yfpz8Ea55FeQ01uBwptMil5M5eHk6gSpY1a7xqd4dGkRwSIy0IpZ//aBZzwIGjDVCMb+OBSlgi0Xtw39E3th/vRksKMWu+kOlsSWHKqOrNfAgvfFnEBOCX1Ujkjpmi6s5l0a7qpwzyWs598LGZz1myx0O/0ifEXwL3vnwr2BQOeXzkS0PXf5K5DlShEEK2ECIlhpOVRWoqH/Xl2JRU4cmefKmvmmiCUcdtGKoS5dRlFeAh4qh8BBURr3drjppcu8TmvPzA0m0jJAedI4GzrDIy7rAKiRGqj9jcV+nkId39un8+T/LHl5TW4wMTgebTGnjNazLchqAyvKoay0FaCrkmLoAVhTBeRp3bCthcFqmOUm0fzOdD4o13Nd+KOc=
+ RvnCoEwL5ajN+4EBhocrBx0v3K7Bh0/GYu7PAt7GSYpSHk/MHG/qT74k7fD8qSqNwgVQIA6fi76OWoWTppnikO2yu/oW+7Yrekxg/3oqQsoh+pvFmYRsaQIHNQHl0SXGvbBqrt3ly+nzBXq+885NEpZCeZlYuyluFI+kzAKxOicKS5VRX7TNvpRJaHQcQ6vUE9biGh+16zLfBaZqUhLB0cXvvMbh4F6umsrOjNQSv9OPG5womu7MWvxuL3r/zPFw5nreFqmC6SalBAs9FGraFfWGceo0bzwb3NJ8R/JlIedMP2St9vFji/iR2VerTZo4eZMspONcV/67C0aLB5yyFPHPxAKuyo/64XH0x2kcL814J1WScCsa/7ZW4CtpoKYTSv+vIFrxMIDQgJI+OFXSq+ds8Sy2nENkmrduA+NOrCwKymGeulKCItMobEJXhL+N+wiKnrJdHCL7Cg0ugq8fqVTwltEEeQj88XnGkyZzMkW0oNlt33d24lMTkWG/rF3MZk+hWmc5x9eqprCUaDF183mjl2SGckSHaJYjKRD2UzWx2oZ22/9HLAgT9F357x7Pk8+RFbtuNo1/XaD6CmIfG9sgrcaJ+6O0isUksoEXT9trWWLMAbS7p27ZrcyQ1NtpySp9wpHCjlVDKAT+oUP5WG8naTZAFaNHFHRp65l/5CQ93PjXY3lc+93+AjbUuNaO+mMWs4HFDnybRRVIAIJkLD3EzIT11cDf7TJ5gbbT/X4=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7036.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(260925021911599003)(260925021311599003)(260925022911599003)(10067099003)(5023799004)(11063799006)(56012099006)(6133799003)(18002099003)(22082099003)(8096899003)(13003099007)(38070700021);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(23010399003)(376014)(10067099003)(56012099006)(11063799006)(260925022911599003)(260925021911599003)(260925021311599003)(3023799007)(6133799003)(5023799004)(18002099003)(22082099003)(55112099003)(38070700021);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?us-ascii?Q?Tw5N+LOqtkbgkp3W6ROdbXb+cVFdIKpxnHN4LcwU0cdB+2Gri6Jcf6XtsI2/?=
- =?us-ascii?Q?gAUMyZfILp76OxYbbqSHXFc8rNLKHp5bN6TJBSQ8MUM3QEPfHjvjpljeIK99?=
- =?us-ascii?Q?rfxa8UFxZJpUFZp68l6ldP1mRgVpG3r/EZmlmJ2h0prQTScrWzz4hG6NN0++?=
- =?us-ascii?Q?sN4pXGIY/u6mm9EXNdFKqkoOlhX+GI9Zq4ufIPObE4qLzBBHOHIyrWX2fBXo?=
- =?us-ascii?Q?U+GF+Jj5+/YluWfSB5T2vi5fpK9mSTslfBcJhU9kevFHUdhdwWLCaIgPoSN1?=
- =?us-ascii?Q?tUIjHLospHTeXp5x2Ap5eondAhztl49y+FFUbDyhkcDhC37KJRzDU/LcMl9Z?=
- =?us-ascii?Q?06SXnJerYZvaP8bO8qkky8vIoLI8Mx2zwYI8FhqzW0ZaFnZGHoCGaHUDrwjS?=
- =?us-ascii?Q?bi5dKZ3rLwJbPfHwXuwvETYKlZoorVcegHfu0bRv9CfZ3sArwAQud1vjTcFa?=
- =?us-ascii?Q?O6QzWE/BqoMXOAwqx90qqCa86LeOyC6wWdLgJU+lVg7m7o35ntFhRC74s/2x?=
- =?us-ascii?Q?zq7kdQwMR+3DmnZuhxG60dNn2KNwBZJDkRgIHXqMPzgUrJVIBC4O0b72ZAHr?=
- =?us-ascii?Q?c+XoQkXezdqrlOAQlqssFPnYsFq2Netpg3wuM8yHuC869mMn3v+o4Nrlj/rK?=
- =?us-ascii?Q?OlqMptOOsqQ7loFBPKY0XapFu6TQtLHHhHBAuQYBYhhPryZ7y9pHzJ4z/RwL?=
- =?us-ascii?Q?jxAbdj4HGHWHm3KwyrFLYXaASYI0YFvk6qeqB5BWjWaaiYQrDZeOgtweUxVn?=
- =?us-ascii?Q?ax6HgzAGmYvKxjHbaRylYAfrYCuv1CvFMn/QJp4WiDkDqr9uDGv+2hkOo8XB?=
- =?us-ascii?Q?2lo5cwm93/XXXue+Mfj5YROEu88ok1dLgFvgZXD83GmxLgHTcLkQpuufDIu6?=
- =?us-ascii?Q?4AWSb5dG8CKRxNMDFk9FM3YWMUy2vZduI+D2fv7S1dksle8i/1I54cApW4OK?=
- =?us-ascii?Q?J4/aGoRMWFx16lu5W37CvxdvObV2hXjFyU9cQXNFqmoIQpUNSxqbvdUH1CtZ?=
- =?us-ascii?Q?fwqmbefkUWx2FwzDz0xJGr06jUxc5XHpAMBI/eM71FdhPF+d+h6+dLzZeemb?=
- =?us-ascii?Q?iAQ2m5ZqcMHk7AGAO7gZx8DikzDswX53le5g16/NIZVvlqHqhptqyr+AEpLs?=
- =?us-ascii?Q?T0hGWXFBhzW4chVAuGl3S5H7YDxipWXFHmyZYms/pAerrI9nYFSqf9hliB2V?=
- =?us-ascii?Q?9ZoWcZQ7IkZ/B6wlmZbtAAYO6WlacEcxYZS4tlUgu4eZxjCH0gkg5QFnFbFa?=
- =?us-ascii?Q?bLUWW6dkkajWZNjVCMGV7tqmfI+hynyjF6C/78QxMru5DqgY7iK45GNVvVM9?=
- =?us-ascii?Q?BcAQpQwQA/mRHD8xhj9LfbVhNhLQSKzBBat79R7kYJ6++yGapAdEC7OgLGuS?=
- =?us-ascii?Q?dmv7WkP+gho3U0FMYSqoi5GdWTUds6PbZrxtgCppo1vqPWcF8gkwSREDrBlp?=
- =?us-ascii?Q?7+fTJZA48YvQsUCneHWNelbaQIHPUMtwrAKqnAnZje+1nQyTzW7YB4Peu2Wd?=
- =?us-ascii?Q?YMaIy7+Gw6CMwLlMYH/8y2329KRoInbyP5ePjjSDBrZ4ps2hP34orpmdIoJ2?=
- =?us-ascii?Q?xYTlxN4CuaFJ5YORHrRH0+tbb9ayz2fqHJOSYg+6GfUiY36jAg4CI/J1xOyu?=
- =?us-ascii?Q?/h5jVUQhPNpNIGn/MPOTBDQ+31YqBFqkEyM9IY8XbsQd49unxre5sHHsFQxj?=
- =?us-ascii?Q?nUdjvwINce0MiKDsftOFQ/EdeB7NFvai0n+bflqBt8JMbvsgL2sIze8/ayTM?=
- =?us-ascii?Q?O/cTlPr/ZnY6JAJWGcaLqTlYDeFRczE=3D?=
-Content-Type: multipart/alternative;
-	boundary="_000_CY8PR11MB70369075BF0281B7E2603305AF8D2CY8PR11MB7036namp_"
+ =?utf-8?B?cWpmUWFCMmVVamxiRVJHaFF2ei9NRFZXSGc1RFlUd21ncjdHZ0R4c1JZZWdH?=
+ =?utf-8?B?dzl0dEpaUFhsdVFkdm9TU0ZWOFN5MThnK3d2WmszZytuTmdHdUMwNTdUMGNv?=
+ =?utf-8?B?MXVoTXFOSXdvRElRL0VSNFdkQm9GSTE0VU41WVdqUVl5SU5GbTg1KzVKMjBw?=
+ =?utf-8?B?bzc1bjgzNkZ3MksySW8xbzVBdVZrbzVsTHFOOEF2TUprQkFTeW1EVm1xV2t6?=
+ =?utf-8?B?Rk50cjJqeDNjRm5iS00vTVI2NDZrZWpFaCtwazMyN2NUQXNOOWQ3ZzZaWkVl?=
+ =?utf-8?B?ZHhLTERZR3FCWXZoN2hnUHBtaEhNNnJLekpLL3VJT2ZZbzlFVUljZkNJRGlm?=
+ =?utf-8?B?cXFuUkxjbWQ0TmpmK3IwSHdkMkRkR2lFSFUwcXV1d3cvcExUd0F1dHJlWU9q?=
+ =?utf-8?B?U1lvL2NNR3ROYWFTakJNM3dkMXdLbnBkUjZ3V1I5TjdaSW90S0EzNVJYQzha?=
+ =?utf-8?B?K0c4YVNuUHpUUkNlUTRUMm5FcTRmZWg2bktWZzB1RTk4NW4rSnNFMjdkeUdH?=
+ =?utf-8?B?cWdyek1RV0taUE1IQUNVUWowVGlYbERKYzFYVW9vUWhRb0dNRWZSZm1Bb1VV?=
+ =?utf-8?B?WitWb3hBQWxCZUJGSkp6OHdrY3RYRXh1K2YzM0NBVzdJU0UrK0Z0NjV5TGdw?=
+ =?utf-8?B?cDV5cG5ocStSR1pZSkdGOWRGTE1PNjR4SFZtL1ZhUXpsSlJMSVZnVnl5U1Nv?=
+ =?utf-8?B?MXljeVBLVVJCWXlpQnVEWTRwU0lmUWZ6aXJoRXE2NC9ERFZOT0JwNy9TNnJR?=
+ =?utf-8?B?aytZNmwxVDZpaytCWmQyelI3Z1dRdnd3ck44S1g4SGU3WEZPTGxFS25OR2ZF?=
+ =?utf-8?B?QmZ4aGRUcjhNYTNpbzNPVUUvN3h4R01oazlqN1lhQVlnc255UjhHd3k5bFZ0?=
+ =?utf-8?B?Zy8rOUo4SWprcm1qdS8rRzFHQzMvZ1Azb005M1J4M01HOU9OMUVtaEMraHlD?=
+ =?utf-8?B?NytQWVB0V3cwNi9CdS9mVDZpSzNjSkI0akNGZzQ2TmdMZUFHdHFpckNsNjJo?=
+ =?utf-8?B?bkthQUphQU5KUktLZEt6UVVONVhNNFJuYmNDNmQyM3IyYkR2NlVpaGJiRUdM?=
+ =?utf-8?B?MzIySXd4UmNQNVFjKzYxSWtrdEQvTGJrRjM3VTNJRXdITGRGOTRNaFJ4NUNn?=
+ =?utf-8?B?QU9qaWt5bTJpODhyUCtEb3dJdG9INmhsZGZ6ZDNxSzNLby9nMUVZbmNUMDA5?=
+ =?utf-8?B?TUNFcTYxRVBUMzJ0R3ZxRnh4WkdaRDVrMnliZmJ6OFJhc25oL05qbmdHbkhy?=
+ =?utf-8?B?LzFSaWZkUUcrMHVrR3ZkNHlBNUhIQXN3R0lMeEhvcXJEWGJFY21nUU83cHlV?=
+ =?utf-8?B?aHg4djJZNDAwK2hCd0ltcCtIK09ON0kzdzB4NDBIYnBRb3dxbmxCaDdNMkxT?=
+ =?utf-8?B?eVpUNjNnRzJxTWsrVHp3MlU1eXFNSE1rRVVVZ2xNR01Hdlh1UFF6TldJd09E?=
+ =?utf-8?B?ZC8weVBqQUhjRzgzU3NtVE5YbFcrRy8rR3luQ0h6S0NKNGhKTm5TUDN5UWVk?=
+ =?utf-8?B?QzF5aVh1d3FzMHg2QU5rN2tBYnp3QmZsTGFsL3V5RHRSQlozcUV0NjNZS1NJ?=
+ =?utf-8?B?bDZzTTNMS1JNenRHd0dKR2g2eGZXbFZFK2dINkJUZDZwOGVwRnN4SFlBOWNm?=
+ =?utf-8?B?VllkZk9RQmxIM1UrS2xWcmlURmltN2dhRXlsc00wZEFrK0ZKWm5KUnhVSlJS?=
+ =?utf-8?B?UDJDeVhHTUgrcXFtRGlHNGJFOW9HN0hSNHk5cExaSy9nK2pubmxJM2JUV2th?=
+ =?utf-8?B?RVdUQ3lyNVQxbW9YSWhsSHdGK252bVFsL2NzTzdMYjVPRCt5eUJBaU85cnZH?=
+ =?utf-8?B?MVJlUkVyU0dRalU4Q3BzVThjcSt6a2sreTBFVlNmUHlGZGNETDdCamZNL3p2?=
+ =?utf-8?B?WHlPN0thdHFzakE4OUFMTXpoZjJuNGtqeWV4MFVabURSV0RuaGNxb1o2TEI5?=
+ =?utf-8?B?NHhQbDB3WG51QjBpTTdzRTdSVXhkYS9GMGVVaGgzNW5jZWUwcE9GSExnUTBN?=
+ =?utf-8?B?MTExNXFhVmRyVEl1NzFtWHlDVUlYTjdUQ0krK1c5b0piK0ZNMWZCWU43UnZJ?=
+ =?utf-8?B?dWM4NzQ1WEh3SDhJMUZIa2tnS1p3TmhCNFdXR2RnMU1seThWcU91Y1lESnFp?=
+ =?utf-8?B?S1JYRFFYWk1CKzNhbU1jdjN2c0piYW9YTll2WVNhR2hNRXVJVUdiSm9UbWow?=
+ =?utf-8?B?MDIzeEJ1VTVHNzUyUDMxclJxWnlrWTNwM1l2OCtmMzEvb0c5b1JhOHdla2V6?=
+ =?utf-8?B?bWpMYkNwYVY3eHdZNXpDTk11c1VkWjFIZkU2K3ZTMHRJYk9TYTdsRVNWclBy?=
+ =?utf-8?B?OWRTdE5jWXRsalBzMXQzTHYyU2JqMEMwTTdFRlpHTmYyVjJZVm1QUT09?=
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: 
-	Q7tOI+Vkfz2AHyEoHL3Rh2zlrtRJcK7xjSOCKRr7zhI+iJhDQnDVtjO7DWffkKcXoBDcHNOI7BC2k8/M7tdEDBPCd6qa4jzd+vj082XvPUriOWTIZHwKMfPTxpIYQHY0kqeW4fg3NupwY2R2gpTvEml35iCHN7KOOkXi38HJSeK3C+BvMmfA6iVh0UrbtxCBLxa4Ht6zZjw8AXjxr3y2LUWk/xlakuE3JXVMXowUJARJi9scf6EirKxq1tZGUmlgmuxBiqvW7vIo5LU2K8szLjKynvIU8gZjmyju/uXxeYKFg/lvsk1SQ3OWm5XmTZWNdT4RxAzdg43XoWW8zg35IA==
-X-OriginatorOrg: cisco.com
+X-OriginatorOrg: siemens.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7036.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 0a3ae9d6-5db4-43de-2e63-08df1d8b34c8
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2026 18:06:23.2655
+X-MS-Exchange-CrossTenant-AuthSource: AS8PR10MB5073.EURPRD10.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-Network-Message-Id: 61682d3f-cb65-4b31-d115-08df1d8dce4a
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2026 18:24:59.8145
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-id: 38ae3bcd-9579-4fd4-adda-b42e1495d55a
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: oyn9jiooPx1RqgQKjOrgX/PJAluCAil8ds6dEtR1vz5JFMvf5ZNQ+Yu50pR/ALFxqmNlsZhZHKx84V3WtlKueg==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFD56C4208E
-X-Outbound-Client-TLS: ANONYMOUS;alln-opgw-5.cisco.com [173.37.147.253];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 173.37.147.253, alln-opgw-5.cisco.com
-X-Outbound-Node: alln-l-core-07.cisco.com
+X-MS-Exchange-CrossTenant-userprincipalname: zSljnmLmBIzcFvQMvw86ppu7af2LJQ2KPLtpeEHLxQ7ct7FVorw/CcArArhjuN4/rURv0XkySK+4Eff5YqCB/Q==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: PAXSPRMB0032
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 18:06:38 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246782
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 18:25:08 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246783
 
---_000_CY8PR11MB70369075BF0281B7E2603305AF8D2CY8PR11MB7036namp_
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-The recipe still adds five unrelated CVE-2026-* patch references not suppli=
-ed by this standalone v2. Keep only the CVE-2025-49506.patch entry, or rese=
-nd the complete series.
-
-Regards,
-Viral
-
-From: Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco) <hth=
-akar@cisco.com>
-Date: Monday, 28 September 2026 at 02:55
-To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
-mbedded.org>
-Cc: xe-linux-external (Internal Group) <xe-linux-external@cisco.com>
-Subject: [OE-core][scarthgap][PATCH v2] apr-util: Fix CVE-2025-49506
-
-From: Hetvi Thakar <hthakar@cisco.com>
-
-Backport the upstream timing-safe comparison fix [1].
-APR-util 1.6.4 identifies this issue as fixed [2].
-
-[1] https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5eafc=
-534ae24b19e
-
-[2] https://nvd.nist.gov/vuln/detail/CVE-2025-49506
-
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
----
-Changes in v2:
-- Drop the XLC-specific compatibility follow-up patch,
-as it is not required by OE-Core's GCC/Clang toolchains.
----
- .../apr/apr-util/CVE-2025-49506.patch         | 310 ++++++++++++++++++
- meta/recipes-support/apr/apr-util_1.6.3.bb    |   6 +
- 2 files changed, 316 insertions(+)
- create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
-
-diff --git a/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch b/meta/=
-recipes-support/apr/apr-util/CVE-2025-49506.patch
-new file mode 100644
-index 0000000000..0ab5cf0648
---- /dev/null
-+++ b/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
-@@ -0,0 +1,310 @@
-+From f77a20761cb15686f8d4de5b5eafc534ae24b19e Mon Sep 17 00:00:00 2001
-+From: Eric Covener <covener@apache.org>
-+Date: Mon, 3 Aug 2026 12:10:13 +0000
-+Subject: [PATCH] Merge r1936804 from aprutil 1.7.x:
-+
-+use timing safe comparison
-+
-+Submitted By: ylavic
-+Reviewed By: ylavic, rpluem, covener
-+
-+
-+
-+
-+git-svn-id: https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x@1=
-936805 13f79535-47bb-0310-9956-ffa450edef68
-+
-+CVE: CVE-2025-49506
-+Upstream-Status: Backport [https://github.com/apache/apr-util/commit/f77a2=
-0761cb15686f8d4de5b5eafc534ae24b19e]
-+
-+(cherry picked from commit f77a20761cb15686f8d4de5b5eafc534ae24b19e)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ crypto/apr_crypto.c |  60 +++++++++++++++++---
-+ crypto/apr_passwd.c | 135 ++++++++++++++++++++++++++++++++++++++++----
-+ 2 files changed, 176 insertions(+), 19 deletions(-)
-+
-+diff --git a/crypto/apr_crypto.c b/crypto/apr_crypto.c
-+index 9ba190ef..ca3f0887 100644
-+--- a/crypto/apr_crypto.c
-++++ b/crypto/apr_crypto.c
-+@@ -21,6 +21,7 @@
-+ #include "apu.h"
-+ #include "apr_pools.h"
-+ #include "apr_dso.h"
-++#include "apr_version.h"
-+ #include "apr_strings.h"
-+ #include "apr_hash.h"
-+ #include "apr_thread_mutex.h"
-+@@ -173,19 +174,64 @@ APU_DECLARE(apr_status_t) apr_crypto_memzero(void *b=
-uffer, apr_size_t size)
-+     return APR_SUCCESS;
-+ }
-+
-++/* Borrow this from APR-1.8 if not available */
-++#if !APR_VERSION_AT_LEAST(1,8,0)
-++
-++/* A volatile variable which is always zero but allows to block the compi=
-ler
-++ * from optimizing or eliding code using it. Volatile forces the compiler=
- to
-++ * emit a memory load for which no value can be assumed, so for instance =
-an
-++ * add/sub/xor/or with "optblocker" is a noop that will hide the result t=
-o
-++ * the optimizer.
-++ */
-++static volatile const apr_uint32_t optblocker;
-++
-++/* Return whether x is not zero, with no branching controlled by x.
-++ *
-++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
-++ * which provides timing attacks safe integer operations/primitives.
-++ * Code:
-++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint3=
-2.h
-++ * Paper:
-++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
-++ */
-++#if __has_attribute(always_inline)
-++__attribute__((always_inline))
-++#endif
-++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
-++{
-++    x |=3D -x; /* sets the most significant bit unless x =3D=3D 0 */
-++
-++    /* shift bit 31 (MSB) to bit 0 */
-++    x >>=3D 32-6;      /* keep 6 bits */
-++    x +=3D optblocker; /* lose the optimizer */
-++    x >>=3D 5;         /* keep the (original) MSB only */
-++
-++    /* x is now 0 or 1 */
-++    return x & INT_MAX;
-++}
-++
-++#endif /* !APR_VERSION_AT_LEAST(1,8,0) */
-++
-+ APU_DECLARE(int) apr_crypto_equals(const void *buf1, const void *buf2,
-+                                    apr_size_t size)
-+ {
-+-    const unsigned char *p1 =3D buf1;
-+-    const unsigned char *p2 =3D buf2;
-+-    unsigned char diff =3D 0;
-+-    apr_size_t i;
-++#if APR_VERSION_AT_LEAST(1,8,0)
-++    return apr_memeq_timingsafe(buf1, buf2, size);
-++#else
-++    apr_uint32_t diff =3D 0;
-++    volatile apr_size_t count =3D size; /* prevent loop unrolling */
-++    apr_size_t i =3D 0;
-+
-+-    for (i =3D 0; i < size; ++i) {
-+-        diff |=3D p1[i] ^ p2[i];
-++    for (; i < count; ++i) {
-++        const unsigned char c1 =3D ((volatile const unsigned char *)buf1)=
-[i];
-++        const unsigned char c2 =3D ((volatile const unsigned char *)buf2)=
-[i];
-++
-++        diff |=3D c1 ^ c2; /* sets diff to non-zero whenever c1 !=3D c2 *=
-/
-+     }
-+
-+-    return 1 & ((diff - 1) >> 8);
-++    /* (diff =3D=3D 0) <=3D> (diff !=3D 0) ^ 1 */
-++    return test_nonzero_timingsafe(diff) ^ 1;
-++#endif
-+ }
-+
-+ APU_DECLARE(apr_status_t) apr_crypto_get_driver(
-+diff --git a/crypto/apr_passwd.c b/crypto/apr_passwd.c
-+index c961de2b..74b5fc17 100644
-+--- a/crypto/apr_passwd.c
-++++ b/crypto/apr_passwd.c
-+@@ -14,6 +14,7 @@
-+  * limitations under the License.
-+  */
-+
-++#include "apr_version.h"
-+ #include "apr_strings.h"
-+ #include "apr_md5.h"
-+ #include "apr_lib.h"
-+@@ -39,6 +40,111 @@
-+
-+ static const char * const apr1_id =3D "$apr1$";
-+
-++#if APR_VERSION_AT_LEAST(1,8,0)
-++
-++#define streq_timingsafe    apr_streq_timingsafe
-++#define strneq_timingsafe   apr_strneq_timingsafe
-++
-++#else /* borrow code from APR-1.8 if not available */
-++
-++/* A volatile variable which is always zero but allows to block the compi=
-ler
-++ * from optimizing or eliding code using it. Volatile forces the compiler=
- to
-++ * emit a memory load for which no value can be assumed, so for instance =
-an
-++ * add/sub/xor/or with "optblocker" is a noop that will hide the result t=
-o
-++ * the optimizer.
-++ */
-++static volatile const apr_uint32_t optblocker;
-++
-++/* Return whether x is not zero, with no branching controlled by x.
-++ *
-++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
-++ * which provides timing attacks safe integer operations/primitives.
-++ * Code:
-++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint3=
-2.h
-++ * Paper:
-++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
-++ */
-++#if __has_attribute(always_inline)
-++__attribute__((always_inline))
-++#endif
-++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
-++{
-++    x |=3D -x; /* sets the most significant bit unless x =3D=3D 0 */
-++
-++    /* shift bit 31 (MSB) to bit 0 */
-++    x >>=3D 32-6;      /* keep 6 bits */
-++    x +=3D optblocker; /* lose the optimizer */
-++    x >>=3D 5;         /* keep the (original) MSB only */
-++
-++    /* x is now 0 or 1 */
-++    return x & INT_MAX;
-++}
-++
-++static int streq_timingsafe(const char *sec1, const char *str2)
-++{
-++    apr_uint32_t diff =3D 0;
-++    apr_size_t i1 =3D 0, i2 =3D 0;
-++
-++    for (;; ++i2) {
-++        const unsigned char c1 =3D ((volatile const unsigned char *)sec1)=
-[i1];
-++        const unsigned char c2 =3D ((volatile const unsigned char *)str2)=
-[i2];
-++
-++        diff |=3D c1 ^ c2; /* sets diff to non-zero whenever c1 !=3D c2 *=
-/
-++
-++        /* Not a shortest/longest match because an attacker would usually=
- know
-++         * one of the strings and could then determine the length of the =
-other.
-++         * So assume only sec1 and its length are secret and stop the loo=
-p at
-++         * the end of str2. If sec1 is shorter than str2 the loop will co=
-ntinue
-++         * by comparing the rest of str2 with the trailing NUL byte of se=
-c1.
-++         * In any case since the diff above is computed up to and includi=
-ng a
-++         * NUL byte, only the same content and length will raise match.
-++         */
-++        if (!c2) {
-++            break;
-++        }
-++
-++        /* Don't go above sec1's NUL byte */
-++        i1 +=3D test_nonzero_timingsafe(c1);
-++    }
-++
-++    /* (diff =3D=3D 0) <=3D> (diff !=3D 0) ^ 1 */
-++    return test_nonzero_timingsafe(diff) ^ 1;
-++}
-++
-++static int strneq_timingsafe(const char *sec1, const char *str2, apr_size=
-_t n)
-++{
-++    apr_uint32_t diff =3D 0;
-++    volatile apr_size_t count =3D n; /* prevent loop unrolling */
-++    apr_size_t i1 =3D 0, i2 =3D 0;
-++
-++    for (; i2 < count; ++i2) {
-++        const unsigned char c1 =3D ((volatile const unsigned char *)sec1)=
-[i1];
-++        const unsigned char c2 =3D ((volatile const unsigned char *)str2)=
-[i2];
-++
-++        diff |=3D c1 ^ c2; /* sets diff to non-zero whenever c1 !=3D c2 *=
-/
-++
-++        /* Not a shortest/longest match because an attacker would usually=
- know
-++         * one of the strings and could then determine the length of the =
-other.
-++         * So assume only sec1 and its length are secret and stop the loo=
-p at
-++         * the end of str2. If sec1 is shorter than str2 the loop will co=
-ntinue
-++         * by comparing the rest of str2 with the trailing NUL byte of se=
-c1.
-++         * In any case since the diff above is computed up to and includi=
-ng a
-++         * NUL byte, only the same content and length will raise match.
-++         */
-++        if (!c2) {
-++            break;
-++        }
-++
-++        /* Don't go above sec1's NUL byte */
-++        i1 +=3D test_nonzero_timingsafe(c1);
-++    }
-++
-++    /* (diff =3D=3D 0) <=3D> (diff !=3D 0) ^ 1 */
-++    return test_nonzero_timingsafe(diff) ^ 1;
-++}
-++
-++#endif /* APR_VERSION_AT_LEAST(1,8,0) */
-++
-+ #if !defined(WIN32) && !defined(BEOS) && !defined(NETWARE)
-+ #if defined(APU_CRYPT_THREADSAFE) || !APR_HAS_THREADS || \
-+     defined(CRYPT_R_CRYPTD) || defined(CRYPT_R_STRUCT_CRYPT_DATA)
-+@@ -86,28 +192,33 @@ APU_DECLARE(apr_status_t) apr_password_validate(const=
- char *passwd,
-+ #if !CRYPT_MISSING
-+     char *crypt_pw;
-+ #endif
-+-    if (hash[0] =3D=3D '$'
-+-        && hash[1] =3D=3D '2'
-+-        && (hash[2] =3D=3D 'a' || hash[2] =3D=3D 'y')
-+-        && hash[3] =3D=3D '$') {
-++
-++    if ((strneq_timingsafe(hash, "$2a$", 4) | /* test both */
-++         strneq_timingsafe(hash, "$2y$", 4))) {
-++        /*
-++         * The hash was created using [apr_]bcrypt encoding.
-++         */
-+         if (_crypt_blowfish_rn(passwd, hash, sample, sizeof(sample)) =3D=
-=3D NULL)
-+             return APR_FROM_OS_ERROR(errno);
-+     }
-+-    else if (!strncmp(hash, apr1_id, strlen(apr1_id))) {
-++    else if (strneq_timingsafe(hash, apr1_id, strlen(apr1_id))) {
-+         /*
-+          * The hash was created using our custom algorithm.
-+          */
-+         apr_md5_encode(passwd, hash, sample, sizeof(sample));
-+     }
-+-    else if (!strncmp(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
-+-         apr_sha1_base64(passwd, (int)strlen(passwd), sample);
-++    else if (strneq_timingsafe(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
-++        /*
-++         * The hash is a (naked) SHA1.
-++         */
-++        apr_sha1_base64(passwd, (int)strlen(passwd), sample);
-+     }
-+     else {
-+         /*
-+          * It's not our algorithm, so feed it to crypt() if possible.
-+          */
-+ #if CRYPT_MISSING
-+-        return (strcmp(passwd, hash) =3D=3D 0) ? APR_SUCCESS : APR_EMISMA=
-TCH;
-++        return streq_timingsafe(hash, passwd) ? APR_SUCCESS : APR_EMISMAT=
-CH;
-+ #elif defined(CRYPT_R_CRYPTD)
-+         apr_status_t rv;
-+         CRYPTD *buffer =3D malloc(sizeof(*buffer));
-+@@ -118,7 +229,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const =
-char *passwd,
-+         if (!crypt_pw)
-+             rv =3D APR_EMISMATCH;
-+         else
-+-            rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : APR_=
-EMISMATCH;
-++            rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_E=
-MISMATCH;
-+         free(buffer);
-+         return rv;
-+ #elif defined(CRYPT_R_STRUCT_CRYPT_DATA)
-+@@ -149,7 +260,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const =
-char *passwd,
-+         if (!crypt_pw)
-+             rv =3D APR_EMISMATCH;
-+         else
-+-            rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : APR_=
-EMISMATCH;
-++            rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_E=
-MISMATCH;
-+         free(buffer);
-+         return rv;
-+ #else
-+@@ -173,14 +284,14 @@ APU_DECLARE(apr_status_t) apr_password_validate(cons=
-t char *passwd,
-+                 rv =3D APR_EMISMATCH;
-+             }
-+             else {
-+-                rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : =
-APR_EMISMATCH;
-++                rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : A=
-PR_EMISMATCH;
-+             }
-+             crypt_mutex_unlock();
-+             return rv;
-+         }
-+ #endif
-+     }
-+-    return (strcmp(sample, hash) =3D=3D 0) ? APR_SUCCESS : APR_EMISMATCH;
-++    return streq_timingsafe(hash, sample) ? APR_SUCCESS : APR_EMISMATCH;
-+ }
-+
-+ static const char * const bcrypt_id =3D "$2y$";
-diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-supp=
-ort/apr/apr-util_1.6.3.bb
-index 3a5f52d250..19f8e59ca5 100644
---- a/meta/recipes-support/apr/apr-util_1.6.3.bb
-+++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
-@@ -13,6 +13,12 @@ SRC_URI =3D "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
-            file://configfix.patch \
-            file://configure_fixes.patch \
-            file://0001-test_transformation-Check-if-transform-is-supported=
--.patch \
-+           file://CVE-2025-49506.patch \
-+           file://CVE-2026-32327-dependent.patch \
-+           file://CVE-2026-32327.patch \
-+           file://CVE-2026-34501.patch \
-+           file://CVE-2026-34502_p1.patch \
-+           file://CVE-2026-34502_p2.patch \
-            file://run-ptest \
-            "
-
---
-2.35.6
-
-
---_000_CY8PR11MB70369075BF0281B7E2603305AF8D2CY8PR11MB7036namp_
-Content-Type: text/html; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
-
-<html>
-<head>
-<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
->
-</head>
-<body>
-<p style=3D"direction: ltr; text-align: left; text-indent: 0px; text-transf=
-orm: none;">
-<span style=3D"font-family: Aptos, Arial, Helvetica, sans-serif; font-size:=
- 12pt; color: rgb(0, 0, 0);">The recipe still adds five unrelated&nbsp;<cod=
-e>CVE-2026-*</code>&nbsp;patch references not supplied by this standalone v=
-2. Keep only the&nbsp;<code>CVE-2025-49506.patch</code>&nbsp;entry,
- or resend the complete series.</span></p>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-Regards,</div>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-Viral</div>
-<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
-rif; font-size: 12pt; color: rgb(0, 0, 0);">
-<br>
-</div>
-<div id=3D"mail-editor-reference-message-container">
-<div style=3D"padding: 3pt 0in 0in; border-width: 1pt medium medium; border=
--style: solid none none; border-color: rgb(181, 196, 223) currentcolor curr=
-entcolor;">
-<div style=3D"text-align: left; font-family: Aptos; font-size: 12pt; color:=
- black;">
-<b>From: </b>Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisc=
-o) &lt;hthakar@cisco.com&gt;<br>
-<b>Date: </b>Monday, 28 September 2026 at 02:55<br>
-<b>To: </b>openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
-ists.openembedded.org&gt;<br>
-<b>Cc: </b>xe-linux-external (Internal Group) &lt;xe-linux-external@cisco.c=
-om&gt;<br>
-<b>Subject: </b>[OE-core][scarthgap][PATCH v2] apr-util: Fix CVE-2025-49506=
-<br>
-<br>
-</div>
-</div>
-<div id=3D"mail-editor-reference-message-body">
-<div class=3D"ms-outlook-mobile-reference-message skipProofing">
-<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
-</div>
-<div class=3D"PlainText" style=3D"font-size: 11pt;">From: Hetvi Thakar &lt;=
-hthakar@cisco.com&gt;<br>
-<br>
-Backport the upstream timing-safe comparison fix [1].<br>
-APR-util 1.6.4 identifies this issue as fixed [2].<br>
-<br>
-[1] <a href=3D"https://github.com/apache/apr-util/commit/f77a20761cb15686f8=
-d4de5b5eafc534ae24b19e" data-outlook-id=3D"31f22c39-c679-4801-99eb-eb55f0f0=
-2c7a">
-https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5eafc534a=
-e24b19e</a><br>
-<br>
-[2] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2025-49506" data-outloo=
-k-id=3D"b4ce18ee-4ba7-403e-b090-c5b0d51714cf">
-https://nvd.nist.gov/vuln/detail/CVE-2025-49506</a><br>
-<br>
-Signed-off-by: Hetvi Thakar &lt;hthakar@cisco.com&gt;<br>
----<br>
-Changes in v2:<br>
-- Drop the XLC-specific compatibility follow-up patch,<br>
-as it is not required by OE-Core's GCC/Clang toolchains.<br>
----<br>
-&nbsp;.../apr/apr-util/CVE-2025-49506.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp; | 310 ++++++++++++++++++<br>
-&nbsp;meta/recipes-support/apr/apr-util_1.6.3.bb&nbsp;&nbsp;&nbsp; |&nbsp;&=
-nbsp; 6 +<br>
-&nbsp;2 files changed, 316 insertions(+)<br>
-&nbsp;create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506.p=
-atch<br>
-<br>
-diff --git a/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch b/meta/=
-recipes-support/apr/apr-util/CVE-2025-49506.patch<br>
-new file mode 100644<br>
-index 0000000000..0ab5cf0648<br>
---- /dev/null<br>
-+++ b/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch<br>
-@@ -0,0 +1,310 @@<br>
-+From f77a20761cb15686f8d4de5b5eafc534ae24b19e Mon Sep 17 00:00:00 2001<br>
-+From: Eric Covener &lt;covener@apache.org&gt;<br>
-+Date: Mon, 3 Aug 2026 12:10:13 +0000<br>
-+Subject: [PATCH] Merge r1936804 from aprutil 1.7.x:<br>
-+<br>
-+use timing safe comparison<br>
-+<br>
-+Submitted By: ylavic<br>
-+Reviewed By: ylavic, rpluem, covener<br>
-+<br>
-+<br>
-+<br>
-+<br>
-+git-svn-id: <a href=3D"https://svn.apache.org/repos/asf/apr/apr-util/branc=
-hes/1.6.x@1936805" data-outlook-id=3D"0607e228-8279-41cb-b090-4c787bcf439b"=
->
-https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x@1936805</a> 13=
-f79535-47bb-0310-9956-ffa450edef68<br>
-+<br>
-+CVE: CVE-2025-49506<br>
-+Upstream-Status: Backport [<a href=3D"https://github.com/apache/apr-util/c=
-ommit/f77a20761cb15686f8d4de5b5eafc534ae24b19e" data-outlook-id=3D"d5e87081=
--399d-4c09-9459-4ad3bc8e08fc">https://github.com/apache/apr-util/commit/f77=
-a20761cb15686f8d4de5b5eafc534ae24b19e</a>]<br>
-+<br>
-+(cherry picked from commit f77a20761cb15686f8d4de5b5eafc534ae24b19e)<br>
-+Signed-off-by: Hetvi Thakar &lt;hthakar@cisco.com&gt;<br>
-+---<br>
-+ crypto/apr_crypto.c |&nbsp; 60 +++++++++++++++++---<br>
-+ crypto/apr_passwd.c | 135 ++++++++++++++++++++++++++++++++++++++++----<br=
->
-+ 2 files changed, 176 insertions(+), 19 deletions(-)<br>
-+<br>
-+diff --git a/crypto/apr_crypto.c b/crypto/apr_crypto.c<br>
-+index 9ba190ef..ca3f0887 100644<br>
-+--- a/crypto/apr_crypto.c<br>
-++++ b/crypto/apr_crypto.c<br>
-+@@ -21,6 +21,7 @@<br>
-+ #include &quot;apu.h&quot;<br>
-+ #include &quot;apr_pools.h&quot;<br>
-+ #include &quot;apr_dso.h&quot;<br>
-++#include &quot;apr_version.h&quot;<br>
-+ #include &quot;apr_strings.h&quot;<br>
-+ #include &quot;apr_hash.h&quot;<br>
-+ #include &quot;apr_thread_mutex.h&quot;<br>
-+@@ -173,19 +174,64 @@ APU_DECLARE(apr_status_t) apr_crypto_memzero(void *b=
-uffer, apr_size_t size)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; return APR_SUCCESS;<br>
-+ }<br>
-+<br>
-++/* Borrow this from APR-1.8 if not available */<br>
-++#if !APR_VERSION_AT_LEAST(1,8,0)<br>
-++<br>
-++/* A volatile variable which is always zero but allows to block the compi=
-ler<br>
-++ * from optimizing or eliding code using it. Volatile forces the compiler=
- to<br>
-++ * emit a memory load for which no value can be assumed, so for instance =
-an<br>
-++ * add/sub/xor/or with &quot;optblocker&quot; is a noop that will hide th=
-e result to<br>
-++ * the optimizer.<br>
-++ */<br>
-++static volatile const apr_uint32_t optblocker;<br>
-++<br>
-++/* Return whether x is not zero, with no branching controlled by x.<br>
-++ *<br>
-++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,<b=
-r>
-++ * which provides timing attacks safe integer operations/primitives.<br>
-++ * Code:<br>
-++ *&nbsp;&nbsp; <a href=3D"https://lib.mceliece.org/libmceliece-20250507/c=
-ryptoint/crypto_uint32.h" data-outlook-id=3D"7587f1ca-faae-457e-95c1-b3fbb8=
-56d82d">
-https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint32.h</a>=
-<br>
-++ * Paper:<br>
-++ *&nbsp;&nbsp; <a href=3D"https://cr.yp.to/papers/cryptoint-20250424.pdf"=
- data-outlook-id=3D"54f82d54-e1d3-4acc-8672-0e404ffad4be">
-https://cr.yp.to/papers/cryptoint-20250424.pdf</a><br>
-++ */<br>
-++#if __has_attribute(always_inline)<br>
-++__attribute__((always_inline))<br>
-++#endif<br>
-++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)<br>
-++{<br>
-++&nbsp;&nbsp;&nbsp; x |=3D -x; /* sets the most significant bit unless x =
-=3D=3D 0 */<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; /* shift bit 31 (MSB) to bit 0 */<br>
-++&nbsp;&nbsp;&nbsp; x &gt;&gt;=3D 32-6;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* k=
-eep 6 bits */<br>
-++&nbsp;&nbsp;&nbsp; x +=3D optblocker; /* lose the optimizer */<br>
-++&nbsp;&nbsp;&nbsp; x &gt;&gt;=3D 5;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; /* keep the (original) MSB only */<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; /* x is now 0 or 1 */<br>
-++&nbsp;&nbsp;&nbsp; return x &amp; INT_MAX;<br>
-++}<br>
-++<br>
-++#endif /* !APR_VERSION_AT_LEAST(1,8,0) */<br>
-++<br>
-+ APU_DECLARE(int) apr_crypto_equals(const void *buf1, const void *buf2,<br=
->
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
-;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apr_size_t si=
-ze)<br>
-+ {<br>
-+-&nbsp;&nbsp;&nbsp; const unsigned char *p1 =3D buf1;<br>
-+-&nbsp;&nbsp;&nbsp; const unsigned char *p2 =3D buf2;<br>
-+-&nbsp;&nbsp;&nbsp; unsigned char diff =3D 0;<br>
-+-&nbsp;&nbsp;&nbsp; apr_size_t i;<br>
-++#if APR_VERSION_AT_LEAST(1,8,0)<br>
-++&nbsp;&nbsp;&nbsp; return apr_memeq_timingsafe(buf1, buf2, size);<br>
-++#else<br>
-++&nbsp;&nbsp;&nbsp; apr_uint32_t diff =3D 0;<br>
-++&nbsp;&nbsp;&nbsp; volatile apr_size_t count =3D size; /* prevent loop un=
-rolling */<br>
-++&nbsp;&nbsp;&nbsp; apr_size_t i =3D 0;<br>
-+<br>
-+-&nbsp;&nbsp;&nbsp; for (i =3D 0; i &lt; size; ++i) {<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; diff |=3D p1[i] ^ p2[i];<br>
-++&nbsp;&nbsp;&nbsp; for (; i &lt; count; ++i) {<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c1 =3D ((v=
-olatile const unsigned char *)buf1)[i];<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c2 =3D ((v=
-olatile const unsigned char *)buf2)[i];<br>
-++<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; diff |=3D c1 ^ c2; /* sets dif=
-f to non-zero whenever c1 !=3D c2 */<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+<br>
-+-&nbsp;&nbsp;&nbsp; return 1 &amp; ((diff - 1) &gt;&gt; 8);<br>
-++&nbsp;&nbsp;&nbsp; /* (diff =3D=3D 0) &lt;=3D&gt; (diff !=3D 0) ^ 1 */<br=
->
-++&nbsp;&nbsp;&nbsp; return test_nonzero_timingsafe(diff) ^ 1;<br>
-++#endif<br>
-+ }<br>
-+<br>
-+ APU_DECLARE(apr_status_t) apr_crypto_get_driver(<br>
-+diff --git a/crypto/apr_passwd.c b/crypto/apr_passwd.c<br>
-+index c961de2b..74b5fc17 100644<br>
-+--- a/crypto/apr_passwd.c<br>
-++++ b/crypto/apr_passwd.c<br>
-+@@ -14,6 +14,7 @@<br>
-+&nbsp; * limitations under the License.<br>
-+&nbsp; */<br>
-+<br>
-++#include &quot;apr_version.h&quot;<br>
-+ #include &quot;apr_strings.h&quot;<br>
-+ #include &quot;apr_md5.h&quot;<br>
-+ #include &quot;apr_lib.h&quot;<br>
-+@@ -39,6 +40,111 @@<br>
-+<br>
-+ static const char * const apr1_id =3D &quot;$apr1$&quot;;<br>
-+<br>
-++#if APR_VERSION_AT_LEAST(1,8,0)<br>
-++<br>
-++#define streq_timingsafe&nbsp;&nbsp;&nbsp; apr_streq_timingsafe<br>
-++#define strneq_timingsafe&nbsp;&nbsp; apr_strneq_timingsafe<br>
-++<br>
-++#else /* borrow code from APR-1.8 if not available */<br>
-++<br>
-++/* A volatile variable which is always zero but allows to block the compi=
-ler<br>
-++ * from optimizing or eliding code using it. Volatile forces the compiler=
- to<br>
-++ * emit a memory load for which no value can be assumed, so for instance =
-an<br>
-++ * add/sub/xor/or with &quot;optblocker&quot; is a noop that will hide th=
-e result to<br>
-++ * the optimizer.<br>
-++ */<br>
-++static volatile const apr_uint32_t optblocker;<br>
-++<br>
-++/* Return whether x is not zero, with no branching controlled by x.<br>
-++ *<br>
-++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,<b=
-r>
-++ * which provides timing attacks safe integer operations/primitives.<br>
-++ * Code:<br>
-++ *&nbsp;&nbsp; <a href=3D"https://lib.mceliece.org/libmceliece-20250507/c=
-ryptoint/crypto_uint32.h" data-outlook-id=3D"bb48a92c-412e-4388-b226-17dd42=
-b882f1">
-https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint32.h</a>=
-<br>
-++ * Paper:<br>
-++ *&nbsp;&nbsp; <a href=3D"https://cr.yp.to/papers/cryptoint-20250424.pdf"=
- data-outlook-id=3D"b05c520f-3b2e-4ce7-9db7-169096c84b3e">
-https://cr.yp.to/papers/cryptoint-20250424.pdf</a><br>
-++ */<br>
-++#if __has_attribute(always_inline)<br>
-++__attribute__((always_inline))<br>
-++#endif<br>
-++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)<br>
-++{<br>
-++&nbsp;&nbsp;&nbsp; x |=3D -x; /* sets the most significant bit unless x =
-=3D=3D 0 */<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; /* shift bit 31 (MSB) to bit 0 */<br>
-++&nbsp;&nbsp;&nbsp; x &gt;&gt;=3D 32-6;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* k=
-eep 6 bits */<br>
-++&nbsp;&nbsp;&nbsp; x +=3D optblocker; /* lose the optimizer */<br>
-++&nbsp;&nbsp;&nbsp; x &gt;&gt;=3D 5;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp; /* keep the (original) MSB only */<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; /* x is now 0 or 1 */<br>
-++&nbsp;&nbsp;&nbsp; return x &amp; INT_MAX;<br>
-++}<br>
-++<br>
-++static int streq_timingsafe(const char *sec1, const char *str2)<br>
-++{<br>
-++&nbsp;&nbsp;&nbsp; apr_uint32_t diff =3D 0;<br>
-++&nbsp;&nbsp;&nbsp; apr_size_t i1 =3D 0, i2 =3D 0;<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; for (;; ++i2) {<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c1 =3D ((v=
-olatile const unsigned char *)sec1)[i1];<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c2 =3D ((v=
-olatile const unsigned char *)str2)[i2];<br>
-++<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; diff |=3D c1 ^ c2; /* sets dif=
-f to non-zero whenever c1 !=3D c2 */<br>
-++<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Not a shortest/longest matc=
-h because an attacker would usually know<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * one of the strings and=
- could then determine the length of the other.<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * So assume only sec1 an=
-d its length are secret and stop the loop at<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * the end of str2. If se=
-c1 is shorter than str2 the loop will continue<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * by comparing the rest =
-of str2 with the trailing NUL byte of sec1.<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * In any case since the =
-diff above is computed up to and including a<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * NUL byte, only the sam=
-e content and length will raise match.<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!c2) {<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break;=
-<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-++<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Don't go above sec1's NUL b=
-yte */<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i1 +=3D test_nonzero_timingsaf=
-e(c1);<br>
-++&nbsp;&nbsp;&nbsp; }<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; /* (diff =3D=3D 0) &lt;=3D&gt; (diff !=3D 0) ^ 1 */<br=
->
-++&nbsp;&nbsp;&nbsp; return test_nonzero_timingsafe(diff) ^ 1;<br>
-++}<br>
-++<br>
-++static int strneq_timingsafe(const char *sec1, const char *str2, apr_size=
-_t n)<br>
-++{<br>
-++&nbsp;&nbsp;&nbsp; apr_uint32_t diff =3D 0;<br>
-++&nbsp;&nbsp;&nbsp; volatile apr_size_t count =3D n; /* prevent loop unrol=
-ling */<br>
-++&nbsp;&nbsp;&nbsp; apr_size_t i1 =3D 0, i2 =3D 0;<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; for (; i2 &lt; count; ++i2) {<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c1 =3D ((v=
-olatile const unsigned char *)sec1)[i1];<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c2 =3D ((v=
-olatile const unsigned char *)str2)[i2];<br>
-++<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; diff |=3D c1 ^ c2; /* sets dif=
-f to non-zero whenever c1 !=3D c2 */<br>
-++<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Not a shortest/longest matc=
-h because an attacker would usually know<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * one of the strings and=
- could then determine the length of the other.<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * So assume only sec1 an=
-d its length are secret and stop the loop at<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * the end of str2. If se=
-c1 is shorter than str2 the loop will continue<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * by comparing the rest =
-of str2 with the trailing NUL byte of sec1.<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * In any case since the =
-diff above is computed up to and including a<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * NUL byte, only the sam=
-e content and length will raise match.<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!c2) {<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break;=
-<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-++<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Don't go above sec1's NUL b=
-yte */<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i1 +=3D test_nonzero_timingsaf=
-e(c1);<br>
-++&nbsp;&nbsp;&nbsp; }<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; /* (diff =3D=3D 0) &lt;=3D&gt; (diff !=3D 0) ^ 1 */<br=
->
-++&nbsp;&nbsp;&nbsp; return test_nonzero_timingsafe(diff) ^ 1;<br>
-++}<br>
-++<br>
-++#endif /* APR_VERSION_AT_LEAST(1,8,0) */<br>
-++<br>
-+ #if !defined(WIN32) &amp;&amp; !defined(BEOS) &amp;&amp; !defined(NETWARE=
-)<br>
-+ #if defined(APU_CRYPT_THREADSAFE) || !APR_HAS_THREADS || \<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; defined(CRYPT_R_CRYPTD) || defined(CRYPT_R_STRUCT=
-_CRYPT_DATA)<br>
-+@@ -86,28 +192,33 @@ APU_DECLARE(apr_status_t) apr_password_validate(const=
- char *passwd,<br>
-+ #if !CRYPT_MISSING<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; char *crypt_pw;<br>
-+ #endif<br>
-+-&nbsp;&nbsp;&nbsp; if (hash[0] =3D=3D '$'<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; hash[1] =3D=3D '2'<=
-br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; (hash[2] =3D=3D 'a'=
- || hash[2] =3D=3D 'y')<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; hash[3] =3D=3D '$')=
- {<br>
-++<br>
-++&nbsp;&nbsp;&nbsp; if ((strneq_timingsafe(hash, &quot;$2a$&quot;, 4) | /*=
- test both */<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; strneq_timingsafe(hash, =
-&quot;$2y$&quot;, 4))) {<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * The hash was created u=
-sing [apr_]bcrypt encoding.<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (_crypt_blowfish_rn(pa=
-sswd, hash, sample, sizeof(sample)) =3D=3D NULL)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r=
-eturn APR_FROM_OS_ERROR(errno);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+-&nbsp;&nbsp;&nbsp; else if (!strncmp(hash, apr1_id, strlen(apr1_id))) {<b=
-r>
-++&nbsp;&nbsp;&nbsp; else if (strneq_timingsafe(hash, apr1_id, strlen(apr1_=
-id))) {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * The hash was crea=
-ted using our custom algorithm.<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apr_md5_encode(passwd, ha=
-sh, sample, sizeof(sample));<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+-&nbsp;&nbsp;&nbsp; else if (!strncmp(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLE=
-N)) {<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apr_sha1_base64(passwd, =
-(int)strlen(passwd), sample);<br>
-++&nbsp;&nbsp;&nbsp; else if (strneq_timingsafe(hash, APR_SHA1PW_ID, APR_SH=
-A1PW_IDLEN)) {<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * The hash is a (naked) =
-SHA1.<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apr_sha1_base64(passwd, (int)s=
-trlen(passwd), sample);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; else {<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * It's not our algo=
-rithm, so feed it to crypt() if possible.<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
-+ #if CRYPT_MISSING<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return (strcmp(passwd, hash) =
-=3D=3D 0) ? APR_SUCCESS : APR_EMISMATCH;<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return streq_timingsafe(hash, =
-passwd) ? APR_SUCCESS : APR_EMISMATCH;<br>
-+ #elif defined(CRYPT_R_CRYPTD)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apr_status_t rv;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CRYPTD *buffer =3D malloc=
-(sizeof(*buffer));<br>
-+@@ -118,7 +229,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const =
-char *passwd,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!crypt_pw)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r=
-v =3D APR_EMISMATCH;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rv =3D=
- (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : APR_EMISMATCH;<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rv =3D=
- streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free(buffer);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return rv;<br>
-+ #elif defined(CRYPT_R_STRUCT_CRYPT_DATA)<br>
-+@@ -149,7 +260,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const =
-char *passwd,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!crypt_pw)<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r=
-v =3D APR_EMISMATCH;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rv =3D=
- (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : APR_EMISMATCH;<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rv =3D=
- streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free(buffer);<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return rv;<br>
-+ #else<br>
-+@@ -173,14 +284,14 @@ APU_DECLARE(apr_status_t) apr_password_validate(cons=
-t char *passwd,<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
-bsp;&nbsp;&nbsp;&nbsp; rv =3D APR_EMISMATCH;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }=
-<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e=
-lse {<br>
-+-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : =
-APR_EMISMATCH;<br>
-++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
-nbsp;&nbsp;&nbsp; rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : A=
-PR_EMISMATCH;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }=
-<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c=
-rypt_mutex_unlock();<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r=
-eturn rv;<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+ #endif<br>
-+&nbsp;&nbsp;&nbsp;&nbsp; }<br>
-+-&nbsp;&nbsp;&nbsp; return (strcmp(sample, hash) =3D=3D 0) ? APR_SUCCESS :=
- APR_EMISMATCH;<br>
-++&nbsp;&nbsp;&nbsp; return streq_timingsafe(hash, sample) ? APR_SUCCESS : =
-APR_EMISMATCH;<br>
-+ }<br>
-+<br>
-+ static const char * const bcrypt_id =3D &quot;$2y$&quot;;<br>
-diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-supp=
-ort/apr/apr-util_1.6.3.bb<br>
-index 3a5f52d250..19f8e59ca5 100644<br>
---- a/meta/recipes-support/apr/apr-util_1.6.3.bb<br>
-+++ b/meta/recipes-support/apr/apr-util_1.6.3.bb<br>
-@@ -13,6 +13,12 @@ SRC_URI =3D &quot;${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.=
-gz \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://configfix.patch" data-outlook-id=3D"e407ce75-b3d6-476d-8983-2c1a=
-0f7e86ef">
-file://configfix.patch</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://configure_fixes.patch" data-outlook-id=3D"4d7961d2-af73-43bc-be0=
-9-cdcf5a3bd7d1">
-file://configure_fixes.patch</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://0001-test_transformation-Check-if-transform-is-supported-.patch"=
- data-outlook-id=3D"927642fb-f196-45dc-9634-1e2bc7fc818f">
-file://0001-test_transformation-Check-if-transform-is-supported-.patch</a> =
-\<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
-le://CVE-2025-49506.patch" data-outlook-id=3D"2b041b35-0495-4a5d-bcb1-4b9d0=
-f3f5afb">
-file://CVE-2025-49506.patch</a> \<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
-le://CVE-2026-32327-dependent.patch" data-outlook-id=3D"020ebf71-a386-4be0-=
-a841-d4959885b9c3">
-file://CVE-2026-32327-dependent.patch</a> \<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
-le://CVE-2026-32327.patch" data-outlook-id=3D"8703af69-e0b6-4ada-9663-ec4a1=
-9ac39b3">
-file://CVE-2026-32327.patch</a> \<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
-le://CVE-2026-34501.patch" data-outlook-id=3D"e54c49ea-b624-43b7-973b-4a33d=
-0f03703">
-file://CVE-2026-34501.patch</a> \<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
-le://CVE-2026-34502_p1.patch" data-outlook-id=3D"5becef43-3459-46da-b701-a4=
-08cb2200f7">
-file://CVE-2026-34502_p1.patch</a> \<br>
-+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
-le://CVE-2026-34502_p2.patch" data-outlook-id=3D"72dfb249-a938-4684-b9f6-7a=
-2916a62520">
-file://CVE-2026-34502_p2.patch</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
-=3D"file://run-ptest" data-outlook-id=3D"07a64f25-13d5-4651-91b1-93ee688399=
-48">
-file://run-ptest</a> \<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<b=
-r>
-&nbsp;<br>
---<br>
-2.35.6<br>
-<br>
-</div>
-</div>
-</div>
-</body>
-</html>
-
---_000_CY8PR11MB70369075BF0281B7E2603305AF8D2CY8PR11MB7036namp_--
+VGhpcyBzaG91bGQgYmUgc3VibWl0dGVkIGFsc28gdG8gbWFzdGVyLg0KDQo+IC0tLS0tT3JpZ2lu
+YWwgTWVzc2FnZS0tLS0tDQo+IEZyb206IG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJl
+ZGRlZC5vcmcgPG9wZW5lbWJlZGRlZC0NCj4gY29yZUBsaXN0cy5vcGVuZW1iZWRkZWQub3JnPiBP
+biBCZWhhbGYgT2YgWW9naXRhIFVyYWRlIC1YICh5dXJhZGUgLSBFDQo+IElORk9DSElQUyBQUklW
+QVRFIExJTUlURUQgYXQgQ2lzY28pIHZpYSBsaXN0cy5vcGVuZW1iZWRkZWQub3JnDQo+IFNlbnQ6
+IE1vbmRheSwgU2VwdGVtYmVyIDI4LCAyMDI2IDY6MjcgUE0NCj4gVG86IG9wZW5lbWJlZGRlZC1j
+b3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmcNCj4gU3ViamVjdDogW09FLWNvcmVdW3dyeW5vc2Vd
+W1BBVENIXSBiaXNvbjogRml4IENWRS0yMDI2LTU2MzkwDQo+IA0KPiBUaGlzIHBhdGNoIGFwcGxp
+ZXMgdGhlIHVwc3RyZWFtIGZpeCBhcyByZWZlcmVuY2VkIGluIFsyXSwNCj4gdXNpbmcgdGhlIGNv
+bW1pdCBzaG93biBpbiBbMV0uDQo+IA0KPiBbMV0NCj4gaHR0cHM6Ly9jZ2l0LmdpdC5zYXZhbm5h
+aC5nbnUub3JnL2NnaXQvYmlzb24uZ2l0L2NvbW1pdC8/aWQ9OGQxMDFjMTlkNGQ5YWFlZGY4M2E0
+NDgNCj4gYzkyNTUxMzc0MmQ0ZWZjZjANCj4gWzJdIGh0dHBzOi8vbnZkLm5pc3QuZ292L3Z1bG4v
+ZGV0YWlsL0NWRS0yMDI2LTU2MzkwDQo+IA0KPiBTaWduZWQtb2ZmLWJ5OiBZb2dpdGEgVXJhZGUg
+PHl1cmFkZUBjaXNjby5jb20+DQo+IC0tLQ0KPiAgLi4uL2Jpc29uL2Jpc29uL0NWRS0yMDI2LTU2
+MzkwLnBhdGNoICAgICAgICAgIHwgMjM2ICsrKysrKysrKysrKysrKysrKw0KPiAgbWV0YS9yZWNp
+cGVzLWRldnRvb2xzL2Jpc29uL2Jpc29uXzMuOC4yLmJiICAgIHwgICAxICsNCj4gIDIgZmlsZXMg
+Y2hhbmdlZCwgMjM3IGluc2VydGlvbnMoKykNCj4gIGNyZWF0ZSBtb2RlIDEwMDY0NCBtZXRhL3Jl
+Y2lwZXMtZGV2dG9vbHMvYmlzb24vYmlzb24vQ1ZFLTIwMjYtNTYzOTAucGF0Y2gNCj4gDQo+IGRp
+ZmYgLS1naXQgYS9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvYmlzb24vYmlzb24vQ1ZFLTIwMjYtNTYz
+OTAucGF0Y2ggYi9tZXRhL3JlY2lwZXMtDQo+IGRldnRvb2xzL2Jpc29uL2Jpc29uL0NWRS0yMDI2
+LTU2MzkwLnBhdGNoDQo+IG5ldyBmaWxlIG1vZGUgMTAwNjQ0DQo+IGluZGV4IDAwMDAwMDAwMDAu
+LjgyYTgwYTNhMjgNCj4gLS0tIC9kZXYvbnVsbA0KPiArKysgYi9tZXRhL3JlY2lwZXMtZGV2dG9v
+bHMvYmlzb24vYmlzb24vQ1ZFLTIwMjYtNTYzOTAucGF0Y2gNCj4gQEAgLTAsMCArMSwyMzYgQEAN
+Cj4gK0Zyb20gODFiMTE4NDRmY2JjN2FiYjNkZjkxYzYyOWNkMmYyYzA3NmYxMDdjYyBNb24gU2Vw
+IDE3IDAwOjAwOjAwIDIwMDENCj4gK0Zyb206IFBhdWwgRWdnZXJ0IDxlZ2dlcnRAY3MudWNsYS5l
+ZHU+DQo+ICtEYXRlOiBUaHUsIDIzIEFwciAyMDI2IDEyOjQxOjI1IC0wNzAwDQo+ICtTdWJqZWN0
+OiBbUEFUQ0hdIGJpc29uOiB0aWdodGVuIHVwIG91dHB1dCBmaWxlIG5hbWVzDQo+ICtNSU1FLVZl
+cnNpb246IDEuMA0KPiArQ29udGVudC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04DQo+
+ICtDb250ZW50LVRyYW5zZmVyLUVuY29kaW5nOiA4Yml0DQo+ICsNCj4gK1Byb2JsZW0gcmVwb3J0
+ZWQgYnkgTWljaGHFgiBNYWpjaHJvd2ljei4NCj4gKyogc3JjL3BhcnNlLWdyYW0ueTogRG8gbm90
+IGFsbG93ICcvJyBpbiAlaGVhZGVyIGFuZCAlb3V0cHV0IGRpcmVjdGl2ZXMuDQo+ICsNCj4gK0NW
+RTogQ1ZFLTIwMjYtNTYzOTANCj4gK1Vwc3RyZWFtLVN0YXR1czogQmFja3BvcnQNCj4gW2h0dHBz
+Oi8vY2dpdC5naXQuc2F2YW5uYWguZ251Lm9yZy9jZ2l0L2Jpc29uLmdpdC9jb21taXQvP2lkPThk
+MTAxYzE5ZDRkOWFhZWRmODNhNDQNCj4gOGM5MjU1MTM3NDJkNGVmY2YwXQ0KPiArDQo+ICtCYWNr
+cG9ydCBDaGFuZ2VzOg0KPiArLSBBZGFwdGVkIGdlbmVyYXRlZCBzcmMvcGFyc2UtZ3JhbS5jIHRv
+IHRoZSBCaXNvbiAzLjguMiBzb3VyY2UgdHJlZS4NCj4gKy0gb21pdHRlZCB1cHN0cmVhbSBnZW5l
+cmF0b3ItdmVyc2lvbi9jb3B5cmlnaHQgbWV0YWRhdGEgYW5kDQo+ICsgIHNyYy9wYXJzZS1ncmFt
+Lmgtb25seSBtZXRhZGF0YSBjaGFuZ2VzIHdoaWxlIHJldGFpbmluZyB0aGUNCj4gKyAgc2VjdXJp
+dHktcmVsZXZhbnQgcGFyc2VyIGNoYW5nZXMuDQo+ICsNCj4gKyhjaGVycnkgcGlja2VkIGZyb20g
+Y29tbWl0IDhkMTAxYzE5ZDRkOWFhZWRmODNhNDQ4YzkyNTUxMzc0MmQ0ZWZjZjApDQo+ICtTaWdu
+ZWQtb2ZmLWJ5OiBZb2dpdGEgVXJhZGUgPHl1cmFkZUBjaXNjby5jb20+DQo+ICstLS0NCj4gKyBU
+SEFOS1MgICAgICAgICAgIHwgIDEgKw0KPiArIGRvYy9iaXNvbi50ZXhpICAgfCAgMiArKw0KPiAr
+IHNyYy9wYXJzZS1ncmFtLmMgfCA1NiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0t
+LS0tLS0tLS0tLS0tLS0NCj4gKyBzcmMvcGFyc2UtZ3JhbS55IHwgMzEgKysrKysrKysrKysrKysr
+KysrKysrKy0tLS0tDQo+ICsgNCBmaWxlcyBjaGFuZ2VkLCA2NyBpbnNlcnRpb25zKCspLCAyMyBk
+ZWxldGlvbnMoLSkNCj4gKw0KPiArZGlmZiAtLWdpdCBhL1RIQU5LUyBiL1RIQU5LUw0KPiAraW5k
+ZXggYmU3NDNhMjMuLjBlNDgxNTYxIDEwMDY0NA0KPiArLS0tIGEvVEhBTktTDQo+ICsrKysgYi9U
+SEFOS1MNCj4gK0BAIC0xMjgsNiArMTI4LDcgQEAgTWljaGFlbCBDYXRhbnphcm8gICAgICAgICBt
+Y2F0YW56YXJvQGdub21lLm9yZw0KPiArIE1pY2hhZWwgRmVsdCAgICAgICAgICAgICAgbWFtZmVs
+dEBnbWFpbC5jb20NCj4gKyBNaWNoYWVsIEhheWVzICAgICAgICAgICAgIG0uaGF5ZXNAZWxlYy5j
+YW50ZXJidXJ5LmFjLm56DQo+ICsgTWljaGFlbCBSYXNraW4gICAgICAgICAgICA3YzZmNDM0Y0Bt
+YWlsLnJ1DQo+ICsrTWljaGHFgiBNYWpjaHJvd2ljeiAgICAgICAgbW1hamNocm93aWN6QGFmaW5l
+LmNvbQ0KPiArIE1pY2hlbCBkJ0hvb2dlICAgICAgICAgICAgbWljaGVsLmRob29nZUBnbWFpbC5j
+b20NCj4gKyBNaWNoaWVsIERlIFdpbGRlICAgICAgICAgIG1kZXdpbGRlLmFnaWxlbnRAZ21haWwu
+Y29tDQo+ICsgTWlja2FlbCBMYWJhdSAgICAgICAgICAgICBsYWJhdV9tQGVwaXRhLmZyDQo+ICtk
+aWZmIC0tZ2l0IGEvZG9jL2Jpc29uLnRleGkgYi9kb2MvYmlzb24udGV4aQ0KPiAraW5kZXggYTU1
+OTY0OWMuLjQ0YTRlMTU5IDEwMDY0NA0KPiArLS0tIGEvZG9jL2Jpc29uLnRleGkNCj4gKysrKyBi
+L2RvYy9iaXNvbi50ZXhpDQo+ICtAQCAtNTk3Myw2ICs1OTczLDcgQEAgSW50cm9kdWNlZCBpbiBC
+aXNvbiAzLjguDQo+ICsNCj4gKyBAZGVmZm4ge0RpcmVjdGl2ZX0gJWhlYWRlciBAdmFye2hlYWRl
+ci1maWxlfQ0KPiArIFNhbWUgYXMgYWJvdmUsIGJ1dCBzYXZlIGluIHRoZSBmaWxlIEBmaWxle0B2
+YXJ7aGVhZGVyLWZpbGV9fS4NCj4gKytUaGUgQHZhcntoZWFkZXItZmlsZX0gbmFtZSBzaG91bGQg
+bm90IGNvbnRhaW4gc2xhc2hlcy4NCj4gKyBAZW5kIGRlZmZuDQo+ICsNCj4gKyBAZGVmZm4ge0Rp
+cmVjdGl2ZX0gJWxhbmd1YWdlICJAdmFye2xhbmd1YWdlfSINCj4gK0BAIC02MDI2LDYgKzYwMjcs
+NyBAQCBmaWxlLCB0cmVhdGluZyBpdCBhcyBhbiBpbmRlcGVuZGVudCBzb3VyY2UgZmlsZSBpbiBp
+dHMgb3duDQo+IHJpZ2h0Lg0KPiArDQo+ICsgQGRlZmZuIHtEaXJlY3RpdmV9ICVvdXRwdXQgIkB2
+YXJ7ZmlsZX0iDQo+ICsgR2VuZXJhdGUgdGhlIHBhcnNlciBpbXBsZW1lbnRhdGlvbiBpbiBAZmls
+ZXtAdmFye2ZpbGV9fS4NCj4gKytUaGUgQHZhcntmaWxlfSBuYW1lIHNob3VsZCBub3QgY29udGFp
+biBzbGFzaGVzLg0KPiArIEBlbmQgZGVmZm4NCj4gKw0KPiArIEBkZWZmbiB7RGlyZWN0aXZlfSAl
+cHVyZS1wYXJzZXINCj4gK2RpZmYgLS1naXQgYS9zcmMvcGFyc2UtZ3JhbS5jIGIvc3JjL3BhcnNl
+LWdyYW0uYw0KPiAraW5kZXggM2MxZDgyMjkuLjdmNmRlYjMzIDEwMDY0NA0KPiArLS0tIGEvc3Jj
+L3BhcnNlLWdyYW0uYw0KPiArKysrIGIvc3JjL3BhcnNlLWdyYW0uYw0KPiArQEAgLTI3Niw4ICsy
+NzYsMTEgQEAgdHlwZWRlZiBlbnVtIHl5c3ltYm9sX2tpbmRfdCB5eXN5bWJvbF9raW5kX3Q7DQo+
+ICsgICAgICBzdHJpbmcgZnJvbSB0aGUgc2Nhbm5lciAoc2hvdWxkIGJlIENPREUpLiAqLw0KPiAr
+ICAgc3RhdGljIGNoYXIgY29uc3QgKnRyYW5zbGF0ZV9jb2RlX2JyYWNlbGVzcyAoY2hhciAqY29k
+ZSwgbG9jYXRpb24gbG9jKTsNCj4gKw0KPiArKyAgLyogSXMgRklMRSBhIHZhbGlkIG91dHB1dCBm
+aWxlIG5hbWU/ICAqLw0KPiArKyAgc3RhdGljIGJvb2wgdmFsaWRfb3V0cHV0X2ZpbGVfbmFtZSAo
+Y2hhciBjb25zdCAqZmlsZSk7DQo+ICsrDQo+ICsgICAvKiBIYW5kbGUgYSAlaGVhZGVyIGRpcmVj
+dGl2ZS4gICovDQo+ICstICBzdGF0aWMgdm9pZCBoYW5kbGVfaGVhZGVyIChjaGFyIGNvbnN0ICp2
+YWx1ZSk7DQo+ICsrICBzdGF0aWMgdm9pZCBoYW5kbGVfaGVhZGVyIChsb2NhdGlvbiBjb25zdCAq
+bG9jLCBjaGFyIGNvbnN0ICp2YWx1ZSk7DQo+ICsNCj4gKyAgIC8qIEhhbmRsZSBhICVlcnJvci12
+ZXJib3NlIGRpcmVjdGl2ZS4gICovDQo+ICsgICBzdGF0aWMgdm9pZCBoYW5kbGVfZXJyb3JfdmVy
+Ym9zZSAobG9jYXRpb24gY29uc3QgKmxvYywgY2hhciBjb25zdCAqZGlyZWN0aXZlKTsNCj4gK0BA
+IC02NjMsMTkgKzY2NiwxOSBAQCB1bmlvbiB5eWFsbG9jDQo+ICsgLyogWVlSTElORVtZWU5dIC0t
+IFNvdXJjZSBsaW5lIHdoZXJlIHJ1bGUgbnVtYmVyIFlZTiB3YXMgZGVmaW5lZC4gICovDQo+ICsg
+c3RhdGljIGNvbnN0IHl5dHlwZV9pbnQxNiB5eXJsaW5lW10gPQ0KPiArIHsNCj4gKy0gICAgICAg
+MCwgICAzMTAsICAgMzEwLCAgIDMxOSwgICAzMjAsICAgMzI0LCAgIDMyNSwgICAzMzEsICAgMzM1
+LCAgIDM0MCwNCj4gKy0gICAgIDM0MSwgICAzNDIsICAgMzQzLCAgIDM0NCwgICAzNDUsICAgMzUw
+LCAgIDM1NSwgICAzNTYsICAgMzU3LCAgIDM1OCwNCj4gKy0gICAgIDM1OSwgICAzNjAsICAgMzYw
+LCAgIDM2MSwgICAzNjIsICAgMzYzLCAgIDM2NCwgICAzNjUsICAgMzY2LCAgIDM2NywNCj4gKy0g
+ICAgIDM2OCwgICAzNzIsICAgMzczLCAgIDM4MiwgICAzODMsICAgMzg3LCAgIDM5OCwgICA0MDIs
+ICAgNDA2LCAgIDQxNCwNCj4gKy0gICAgIDQyNCwgICA0MjUsICAgNDM1LCAgIDQzNiwgICA0NDIs
+ICAgNDU1LCAgIDQ1NSwgICA0NjAsICAgNDYwLCAgIDQ2NSwNCj4gKy0gICAgIDQ2NSwgICA0NzAs
+ICAgNDgwLCAgIDQ4MSwgICA0ODIsICAgNDgzLCAgIDQ4OCwgICA0ODksICAgNDkzLCAgIDQ5NCwN
+Cj4gKy0gICAgIDQ5OSwgICA1MDAsICAgNTA0LCAgIDUwNSwgICA1MDksICAgNTEwLCAgIDUxMSwg
+ICA1MjQsICAgNTMzLCAgIDUzNywNCj4gKy0gICAgIDU0MSwgICA1NDksICAgNTUwLCAgIDU1NCwg
+ICA1NjcsICAgNTY4LCAgIDU3MywgICA1NzQsICAgNTc1LCAgIDU5MywNCj4gKy0gICAgIDU5Nywg
+ICA2MDEsICAgNjA5LCAgIDYxMSwgICA2MTYsICAgNjIzLCAgIDYzMywgICA2MzcsICAgNjQxLCAg
+IDY0OSwNCj4gKy0gICAgIDY1NSwgICA2NjgsICAgNjY5LCAgIDY3NSwgICA2NzYsICAgNjc3LCAg
+IDY4NCwgICA2ODQsICAgNjkyLCAgIDY5MywNCj4gKy0gICAgIDY5NCwgICA2OTksICAgNzAyLCAg
+IDcwNCwgICA3MDYsICAgNzA4LCAgIDcxMCwgICA3MTIsICAgNzE0LCAgIDcxNiwNCj4gKy0gICAg
+IDcxOCwgICA3MjMsICAgNzI0LCAgIDczMywgICA3NTcsICAgNzU4LCAgIDc1OSwgICA3NjAsICAg
+NzcyLCAgIDc3NCwNCj4gKy0gICAgIDc5OCwgICA4MDMsICAgODA0LCAgIDgwOSwgICA4MTcsICAg
+ODE4DQo+ICsrICAgICAgIDAsICAgMzE0LCAgIDMxNCwgICAzMjMsICAgMzI0LCAgIDMyOCwgICAz
+MjksICAgMzM1LCAgIDMzOSwgICAzNDQsDQo+ICsrICAgICAzNDUsICAgMzQ2LCAgIDM0NywgICAz
+NDgsICAgMzQ5LCAgIDM1NCwgICAzNTksICAgMzYwLCAgIDM2MSwgICAzNjIsDQo+ICsrICAgICAz
+NjMsICAgMzcyLCAgIDM3MiwgICAzNzMsICAgMzc0LCAgIDM3NSwgICAzNzYsICAgMzc3LCAgIDM3
+OCwgICAzNzksDQo+ICsrICAgICAzODAsICAgMzg0LCAgIDM4NSwgICAzOTQsICAgMzk1LCAgIDM5
+OSwgICA0MTAsICAgNDE0LCAgIDQxOCwgICA0MjYsDQo+ICsrICAgICA0MzYsICAgNDM3LCAgIDQ0
+NywgICA0NDgsICAgNDU0LCAgIDQ2NywgICA0NjcsICAgNDcyLCAgIDQ3MiwgICA0NzcsDQo+ICsr
+ICAgICA0NzcsICAgNDgyLCAgIDQ5MiwgICA0OTMsICAgNDk0LCAgIDQ5NSwgICA1MDAsICAgNTAx
+LCAgIDUwNSwgICA1MDYsDQo+ICsrICAgICA1MTEsICAgNTEyLCAgIDUxNiwgICA1MTcsICAgNTIx
+LCAgIDUyMiwgICA1MjMsICAgNTM2LCAgIDU0NSwgICA1NDksDQo+ICsrICAgICA1NTMsICAgNTYx
+LCAgIDU2MiwgICA1NjYsICAgNTc5LCAgIDU4MCwgICA1ODUsICAgNTg2LCAgIDU4NywgICA2MDUs
+DQo+ICsrICAgICA2MDksICAgNjEzLCAgIDYyMSwgICA2MjMsICAgNjI4LCAgIDYzNSwgICA2NDUs
+ICAgNjQ5LCAgIDY1MywgICA2NjEsDQo+ICsrICAgICA2NjcsICAgNjgwLCAgIDY4MSwgICA2ODcs
+ICAgNjg4LCAgIDY4OSwgICA2OTYsICAgNjk2LCAgIDcwNCwgICA3MDUsDQo+ICsrICAgICA3MDYs
+ICAgNzExLCAgIDcxNCwgICA3MTYsICAgNzE4LCAgIDcyMCwgICA3MjIsICAgNzI0LCAgIDcyNiwg
+ICA3MjgsDQo+ICsrICAgICA3MzAsICAgNzM1LCAgIDczNiwgICA3NDUsICAgNzY5LCAgIDc3MCwg
+ICA3NzEsICAgNzcyLCAgIDc4NCwgICA3ODYsDQo+ICsrICAgICA4MTAsICAgODE1LCAgIDgxNiwg
+ICA4MjEsICAgODI5LCAgIDgzMA0KPiArIH07DQo+ICsgI2VuZGlmDQo+ICsNCj4gK0BAIC0yMjE3
+LDcgKzIyMjAsNyBAQCB5eXJlZHVjZToNCj4gKw0KPiArICAgY2FzZSA5OiAvKiBwcm9sb2d1ZV9k
+ZWNsYXJhdGlvbjogIiVoZWFkZXIiIHN0cmluZy5vcHQgICovDQo+ICsgI2xpbmUgMzQwICJzcmMv
+cGFyc2UtZ3JhbS55Ig0KPiArLSAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgeyBo
+YW5kbGVfaGVhZGVyICgoeXl2c3BbMF0ueXlraW5kXzc1KSk7IH0NCj4gKysgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHsgaGFuZGxlX2hlYWRlciAoJih5eWxzcFswXSksICh5eXZz
+cFswXS55eWtpbmRfNzUpKTsgfQ0KPiArICNsaW5lIDIyMjIgInNyYy9wYXJzZS1ncmFtLmMiDQo+
+ICsgICAgIGJyZWFrOw0KPiArDQo+ICtAQCAtMjI4OSw3ICsyMjkyLDE0IEBAIHl5cmVkdWNlOg0K
+PiArDQo+ICsgICBjYXNlIDIwOiAvKiBwcm9sb2d1ZV9kZWNsYXJhdGlvbjogIiVvdXRwdXQiICJz
+dHJpbmciICAqLw0KPiArICNsaW5lIDM1OSAic3JjL3BhcnNlLWdyYW0ueSINCj4gKy0gICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgICAgIHsgc3BlY19vdXRmaWxlID0gdW5xdW90ZSAoKHl5dnNw
+WzBdLlNUUklORykpOw0KPiBncmFtX3NjYW5uZXJfbGFzdF9zdHJpbmdfZnJlZSAoKTsgfQ0KPiAr
+KyAgICB7DQo+ICsrICAgICAgY2hhciAqZmlsZSA9IHVucXVvdGUgKCh5eXZzcFswXS5TVFJJTkcp
+KTsNCj4gKysgICAgICBpZiAodmFsaWRfb3V0cHV0X2ZpbGVfbmFtZSAoZmlsZSkpDQo+ICsrICAg
+ICAgICBzcGVjX291dGZpbGUgPSBmaWxlOw0KPiArKyAgICAgIGVsc2UNCj4gKysgICAgICAgIGNv
+bXBsYWluICgmKHl5bHNwWzBdKSwgY29tcGxhaW50LCBfKCJpbnZhbGlkICUlb3V0cHV0IGZpbGUg
+bmFtZSBpZ25vcmVkIikpOw0KPiArKyAgICAgIGdyYW1fc2Nhbm5lcl9sYXN0X3N0cmluZ19mcmVl
+ICgpOw0KPiArKyAgICB9DQo+ICsgI2xpbmUgMjI5NCAic3JjL3BhcnNlLWdyYW0uYyINCj4gKyAg
+ICAgYnJlYWs7DQo+ICsNCj4gK0BAIC0zMjkwLDE0ICszMzAwLDI0IEBAIGFkZF9wYXJhbSAocGFy
+YW1fdHlwZSB0eXBlLCBjaGFyICpkZWNsLCBsb2NhdGlvbiBsb2MpDQo+ICsgfQ0KPiArDQo+ICsN
+Cj4gKytzdGF0aWMgYm9vbA0KPiArK3ZhbGlkX291dHB1dF9maWxlX25hbWUgKGNoYXIgY29uc3Qg
+KmZpbGUpDQo+ICsrew0KPiArKyAgcmV0dXJuICFzdHJjaHIgKGZpbGUsICcvJyk7DQo+ICsrfQ0K
+PiArKw0KPiArKw0KPiArIHN0YXRpYyB2b2lkDQo+ICstaGFuZGxlX2hlYWRlciAoY2hhciBjb25z
+dCAqdmFsdWUpDQo+ICsraGFuZGxlX2hlYWRlciAobG9jYXRpb24gY29uc3QgKmxvYywgY2hhciBj
+b25zdCAqdmFsdWUpDQo+ICsgew0KPiArICAgaGVhZGVyX2ZsYWcgPSB0cnVlOw0KPiArICAgaWYg
+KHZhbHVlKQ0KPiArICAgICB7DQo+ICsgICAgICAgY2hhciAqZmlsZSA9IHVucXVvdGUgKHZhbHVl
+KTsNCj4gKy0gICAgICBzcGVjX2hlYWRlcl9maWxlID0geHN0cmR1cCAoZmlsZSk7DQo+ICsrICAg
+ICAgaWYgKHZhbGlkX291dHB1dF9maWxlX25hbWUgKGZpbGUpKQ0KPiArKyAgICAgICAgc3BlY19o
+ZWFkZXJfZmlsZSA9IHhzdHJkdXAgKGZpbGUpOw0KPiArKyAgICAgIGVsc2UNCj4gKysgICAgICAg
+IGNvbXBsYWluIChsb2MsIGNvbXBsYWludCwgXygiaW52YWxpZCAlJWhlYWRlciBmaWxlIG5hbWUg
+aWdub3JlZCIpKTsNCj4gKyAgICAgICBncmFtX3NjYW5uZXJfbGFzdF9zdHJpbmdfZnJlZSAoKTsN
+Cj4gKyAgICAgICB1bnF1b3RlX2ZyZWUgKGZpbGUpOw0KPiArICAgICB9DQo+ICtkaWZmIC0tZ2l0
+IGEvc3JjL3BhcnNlLWdyYW0ueSBiL3NyYy9wYXJzZS1ncmFtLnkNCj4gK2luZGV4IDE1MTgwY2I1
+Li4xMTRjNWM0NCAxMDA2NDQNCj4gKy0tLSBhL3NyYy9wYXJzZS1ncmFtLnkNCj4gKysrKyBiL3Ny
+Yy9wYXJzZS1ncmFtLnkNCj4gK0BAIC05NSw4ICs5NSwxMSBAQA0KPiArICAgICAgc3RyaW5nIGZy
+b20gdGhlIHNjYW5uZXIgKHNob3VsZCBiZSBDT0RFKS4gKi8NCj4gKyAgIHN0YXRpYyBjaGFyIGNv
+bnN0ICp0cmFuc2xhdGVfY29kZV9icmFjZWxlc3MgKGNoYXIgKmNvZGUsIGxvY2F0aW9uIGxvYyk7
+DQo+ICsNCj4gKysgIC8qIElzIEZJTEUgYSB2YWxpZCBvdXRwdXQgZmlsZSBuYW1lPyAgKi8NCj4g
+KysgIHN0YXRpYyBib29sIHZhbGlkX291dHB1dF9maWxlX25hbWUgKGNoYXIgY29uc3QgKmZpbGUp
+Ow0KPiArKw0KPiArICAgLyogSGFuZGxlIGEgJWhlYWRlciBkaXJlY3RpdmUuICAqLw0KPiArLSAg
+c3RhdGljIHZvaWQgaGFuZGxlX2hlYWRlciAoY2hhciBjb25zdCAqdmFsdWUpOw0KPiArKyAgc3Rh
+dGljIHZvaWQgaGFuZGxlX2hlYWRlciAobG9jYXRpb24gY29uc3QgKmxvYywgY2hhciBjb25zdCAq
+dmFsdWUpOw0KPiArDQo+ICsgICAvKiBIYW5kbGUgYSAlZXJyb3ItdmVyYm9zZSBkaXJlY3RpdmUu
+ICAqLw0KPiArICAgc3RhdGljIHZvaWQgaGFuZGxlX2Vycm9yX3ZlcmJvc2UgKGxvY2F0aW9uIGNv
+bnN0ICpsb2MsIGNoYXIgY29uc3QgKmRpcmVjdGl2ZSk7DQo+ICtAQCAtMzM3LDcgKzM0MCw3IEBA
+IHByb2xvZ3VlX2RlY2xhcmF0aW9uOg0KPiArICAgICAgIG11c2NsZV9wZXJjZW50X2RlZmluZV9p
+bnNlcnQgKCQyLCBAJCwgJDMua2luZCwgJDMuY2hhcnMsDQo+ICsgICAgICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgTVVTQ0xFX1BFUkNFTlRfREVGSU5FX0dSQU1NQVJfRklMRSk7DQo+
+ICsgICAgIH0NCj4gKy18ICIlaGVhZGVyIiBzdHJpbmcub3B0ICAgICAgICAgICAgIHsgaGFuZGxl
+X2hlYWRlciAoJDIpOyB9DQo+ICsrfCAiJWhlYWRlciIgc3RyaW5nLm9wdCAgICAgICAgICAgICB7
+IGhhbmRsZV9oZWFkZXIgKCZAMiwgJDIpOyB9DQo+ICsgfCAiJWVycm9yLXZlcmJvc2UiICAgICAg
+ICAgICAgICAgICB7IGhhbmRsZV9lcnJvcl92ZXJib3NlICgmQCQsICQxKTsgfQ0KPiArIHwgIiVl
+eHBlY3QiIElOVF9MSVRFUkFMICAgICAgICAgICAgeyBleHBlY3RlZF9zcl9jb25mbGljdHMgPSAk
+MjsgfQ0KPiArIHwgIiVleHBlY3QtcnIiIElOVF9MSVRFUkFMICAgICAgICAgeyBleHBlY3RlZF9y
+cl9jb25mbGljdHMgPSAkMjsgfQ0KPiArQEAgLTM1Niw3ICszNTksMTUgQEAgcHJvbG9ndWVfZGVj
+bGFyYXRpb246DQo+ICsgfCAiJW5hbWUtcHJlZml4IiBTVFJJTkcgICAgICAgICB7IGhhbmRsZV9u
+YW1lX3ByZWZpeCAoJkAkLCAkMSwgJDIpOyB9DQo+ICsgfCAiJW5vLWxpbmVzIiAgICAgICAgICAg
+ICAgICAgICB7IG5vX2xpbmVzX2ZsYWcgPSB0cnVlOyB9DQo+ICsgfCAiJW5vbmRldGVybWluaXN0
+aWMtcGFyc2VyIiAgICB7IG5vbmRldGVybWluaXN0aWNfcGFyc2VyID0gdHJ1ZTsgfQ0KPiArLXwg
+IiVvdXRwdXQiIFNUUklORyAgICAgICAgICAgICAgeyBzcGVjX291dGZpbGUgPSB1bnF1b3RlICgk
+Mik7DQo+IGdyYW1fc2Nhbm5lcl9sYXN0X3N0cmluZ19mcmVlICgpOyB9DQo+ICsrfCAiJW91dHB1
+dCIgU1RSSU5HDQo+ICsrICAgIHsNCj4gKysgICAgICBjaGFyICpmaWxlID0gdW5xdW90ZSAoJDIp
+Ow0KPiArKyAgICAgIGlmICh2YWxpZF9vdXRwdXRfZmlsZV9uYW1lIChmaWxlKSkNCj4gKysgICAg
+ICAgIHNwZWNfb3V0ZmlsZSA9IGZpbGU7DQo+ICsrICAgICAgZWxzZQ0KPiArKyAgICAgICAgY29t
+cGxhaW4gKCZAMiwgY29tcGxhaW50LCBfKCJpbnZhbGlkICUlb3V0cHV0IGZpbGUgbmFtZSBpZ25v
+cmVkIikpOw0KPiArKyAgICAgIGdyYW1fc2Nhbm5lcl9sYXN0X3N0cmluZ19mcmVlICgpOw0KPiAr
+KyAgICB9DQo+ICsgfCAiJXBhcmFtIiB7IGN1cnJlbnRfcGFyYW0gPSAkMTsgfSBwYXJhbXMgeyBj
+dXJyZW50X3BhcmFtID0gcGFyYW1fbm9uZTsgfQ0KPiArIHwgIiVwdXJlLXBhcnNlciIgICAgICAg
+ICAgICAgICAgeyBoYW5kbGVfcHVyZV9wYXJzZXIgKCZAJCwgJDEpOyB9DQo+ICsgfCAiJXJlcXVp
+cmUiIFNUUklORyAgICAgICAgICAgICB7IGhhbmRsZV9yZXF1aXJlICgmQDIsICQyKTsgfQ0KPiAr
+QEAgLTk1MiwxNCArOTYzLDI0IEBAIGFkZF9wYXJhbSAocGFyYW1fdHlwZSB0eXBlLCBjaGFyICpk
+ZWNsLCBsb2NhdGlvbiBsb2MpDQo+ICsgfQ0KPiArDQo+ICsNCj4gKytzdGF0aWMgYm9vbA0KPiAr
+K3ZhbGlkX291dHB1dF9maWxlX25hbWUgKGNoYXIgY29uc3QgKmZpbGUpDQo+ICsrew0KPiArKyAg
+cmV0dXJuICFzdHJjaHIgKGZpbGUsICcvJyk7DQo+ICsrfQ0KPiArKw0KPiArKw0KPiArIHN0YXRp
+YyB2b2lkDQo+ICstaGFuZGxlX2hlYWRlciAoY2hhciBjb25zdCAqdmFsdWUpDQo+ICsraGFuZGxl
+X2hlYWRlciAobG9jYXRpb24gY29uc3QgKmxvYywgY2hhciBjb25zdCAqdmFsdWUpDQo+ICsgew0K
+PiArICAgaGVhZGVyX2ZsYWcgPSB0cnVlOw0KPiArICAgaWYgKHZhbHVlKQ0KPiArICAgICB7DQo+
+ICsgICAgICAgY2hhciAqZmlsZSA9IHVucXVvdGUgKHZhbHVlKTsNCj4gKy0gICAgICBzcGVjX2hl
+YWRlcl9maWxlID0geHN0cmR1cCAoZmlsZSk7DQo+ICsrICAgICAgaWYgKHZhbGlkX291dHB1dF9m
+aWxlX25hbWUgKGZpbGUpKQ0KPiArKyAgICAgICAgc3BlY19oZWFkZXJfZmlsZSA9IHhzdHJkdXAg
+KGZpbGUpOw0KPiArKyAgICAgIGVsc2UNCj4gKysgICAgICAgIGNvbXBsYWluIChsb2MsIGNvbXBs
+YWludCwgXygiaW52YWxpZCAlJWhlYWRlciBmaWxlIG5hbWUgaWdub3JlZCIpKTsNCj4gKyAgICAg
+ICBncmFtX3NjYW5uZXJfbGFzdF9zdHJpbmdfZnJlZSAoKTsNCj4gKyAgICAgICB1bnF1b3RlX2Zy
+ZWUgKGZpbGUpOw0KPiArICAgICB9DQo+ICstLQ0KPiArMi40NC40DQo+ICsNCj4gZGlmZiAtLWdp
+dCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaXNvbi9iaXNvbl8zLjguMi5iYiBiL21ldGEvcmVj
+aXBlcy0NCj4gZGV2dG9vbHMvYmlzb24vYmlzb25fMy44LjIuYmINCj4gaW5kZXggOTgwOGE5NmU5
+OS4uMDg5NjJhZTEzMyAxMDA2NDQNCj4gLS0tIGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL2Jpc29u
+L2Jpc29uXzMuOC4yLmJiDQo+ICsrKyBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9iaXNvbi9iaXNv
+bl8zLjguMi5iYg0KPiBAQCAtMTMsNiArMTMsNyBAQCBTUkNfVVJJID0gIiR7R05VX01JUlJPUn0v
+Ymlzb24vYmlzb24tJHtQVn0udGFyLnh6IFwNCj4gICAgICAgICAgICAgZmlsZTovL2F1dG9jb25m
+LTIuNzMucGF0Y2ggXA0KPiAgICAgICAgICAgICBmaWxlOi8vYWRkLXdpdGgtYmlzb25sb2NhbGVk
+aXIucGF0Y2ggXA0KPiAgICAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMjYtNTYzODkucGF0Y2ggXA0K
+PiArICAgICAgICAgICBmaWxlOi8vQ1ZFLTIwMjYtNTYzOTAucGF0Y2ggXA0KPiAgICAgICAgICAg
+ICAiDQo+ICBTUkNfVVJJW3NoYTI1NnN1bV0gPQ0KPiAiOWJiYTAyMTRjY2Y3ZjEwNzljNWQ1OTIx
+MDA0NTIyN2JjZjYxOTUxOTg0MGViZmE4MGNkMzg0OWNmZjVhNWJmMiINCj4gDQo+IC0tDQo+IDIu
+NDQuNA0KDQo=
 
