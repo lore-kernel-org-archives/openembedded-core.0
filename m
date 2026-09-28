@@ -1,1620 +1,384 @@
-Return-Path: <hprajapati@mvista.com>
+Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id A551DC9832F
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:14:30 +0000 (UTC)
-Received: from mail-dy2-f41.google.com (mail-dy2-f41.google.com [74.125.229.41])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.52005.1790579669961690059
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C4EE3C9833E
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:20:10 +0000 (UTC)
+Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.52072.1790580000092272240
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 00:14:30 -0700
+ Mon, 28 Sep 2026 00:20:01 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=GKAw9KEs;
- spf=pass (domain: mvista.com, ip: 74.125.229.41, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy2-f41.google.com with SMTP id 5a478bee46e88-347327e3aeaso788593eec.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 00:14:29 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1790579669; x=1791184469; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=0J39Kusxd68apSrQ3Mxq6OJ9zq0v4z7nqnwKG9JKfF4=;
-        b=GKAw9KEsVnOuWYTriPT6S1zgJ9pn051JfTi9Na+cq5U6SZb3OsBITuAbPlzmIRF54S
-         o7xTKikKTUm0vBt/skd4sGH99+hMzPaaehc7z+ZzX4z0OW1v+d5ISQpDa+MR+7yOali7
-         ho6mZuBCZt4YVZEvF7dj7Cnu8xSMI5skmVTyw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790579669; x=1791184469;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:cc:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0J39Kusxd68apSrQ3Mxq6OJ9zq0v4z7nqnwKG9JKfF4=;
-        b=SSF/NQxUlm1uNyo0A50cBO6ET8x9JTz8cN2r4K3RRTpQgqujLjTHGPCfw4I/YxBtQz
-         gdHP69GSXeyYTeAbRNOm61bR7um1v78ubt9M5kzgm7Z/ik1KkgJxXlBvajUD7VMyGYo3
-         oWeUB1IGQ1jbwG63yK7Jt7KL3MzelyJjOtkHu6TuUOGqK6QlI09oe2kJRDp47dQjRtT2
-         TSXU/b/m3bPMBBTeNhq90fIptOIu4AC6PK4khIvzl4fwE2ITOzZ2sZA7bRhB8x410bMO
-         3DB3Ci4ay/jG0TSGZP1iAFYSfXf4DPI0LPbme1xIMa2kDqx9yecZEoZlKluW/ICsUwae
-         wN9g==
-X-Gm-Message-State: AFq9FYJNszvb/T8fQWprG0kWx0GaI27Ic5b9HORL2iPnST00g5VhIbkF
-	x6I+sAnfIFZlP4ogLISl9uJ7Mf+TaPkxg7unqZt0pGvig8/YcjSKXjBcakcsJZlYC3shx3hom6V
-	duwNngF0=
-X-Gm-Gg: AYBFou3/5APEcYlg3G1+GsDAxLUQ1IS2cgEfynQs0UohM0Lh2K5ebC3yIblXq56TEXN
-	7GGjAJChlVOtBZ6JkdaffmfsFiBTxYUYrHdEw2r1rruwb2rQgqFpNykObvSEzW3clTEIcxSJX1E
-	gWTOpfRIestr3tQnbG+LQvhOOjREsmGG5PwNeDUh1hGJkWozgC67ZHXvxrjGVj7xOY72kZTHobl
-	KUOrAEDETGfkTu6Zd+aJL1icw+H2tdAT2i//Dp9c9vbxEsez0HWloCNTDX9KJDYIvd9VcIzjvHw
-	zBgD6jzHzj4b+KrooKsK1yz8VR60a2m7y/jQr/RnpjkcbVbDIccjoCKr6U8SeYroYzlwcvv3uag
-	Jc7dxKpbLmptjHN1jBdAuo85ayO5ONaCPmItkdYHMDxZPx3set+1un8wD7szs6eVjAO9HxEC2tk
-	z4Wzfq1ZbAuNg4Lr4N98KyLLnb35GNX9D2pCpDDZaW6quBzSKJRJi9XPtdDSrO1N6gJgPSiGTr3
-	dG2Ab3xOS4=
-X-Received: by 2002:a05:7301:152a:b0:339:7c91:21f4 with SMTP id 5a478bee46e88-34273252770mr9956217eec.34.1790579668372;
-        Mon, 28 Sep 2026 00:14:28 -0700 (PDT)
-Received: from MVIN00013.mvista.com ([150.129.170.212])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3434958c3adsm31166948eec.22.2026.09.28.00.13.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 00:14:27 -0700 (PDT)
-From: Hitendra Prajapati <hprajapati@mvista.com>
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=SRmABPaw;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=373100349c=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68S6cbjr1666899
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:19:59 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
+	 h=cc:content-transfer-encoding:content-type:date:from
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=8LyELaAXm
+	xJXJ5Sk2mkXp2waZM3nmZs31V9kzFuzOe8=; b=SRmABPaw5V3Pgk44ESSe1D3fo
+	c/jTbbxYHSOxuAo8RaBGiexslBIM76uGF8Yu6uf6lxzcV+CpUxaEwY+2WLUb94X+
+	XZU19k5hNz452HKI+ndtt8tjjm/e45ghS1Tg3iuOsBK0hnh6YVP9Pq2HNmILQrS4
+	Ojc08WtZcggWHQHXHzX+3+28M5dcpXI734XdDVEvINEsUyTVfBV7AIMxbUgT8TAu
+	naRnGeghTG/xua2TeZVHC8iR35eVrl/QCOu134+ijHj8/zu72Pplkp9sUfy6bAhG
+	FHhcvjXpxtAylR1M30YLp6RBUlq6exF+Bgd7LqX8jOJnNpkj7cukAHpFP8vbw==
+Received: from mw6pr02cu001.outbound.protection.outlook.com (mail-westus2azon11022107.outbound.protection.outlook.com [52.101.48.107])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gx38wa7wm-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:19:58 +0000 (GMT)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=lJww7VIr1dh9mo/mGz50I7bPcFfg3dzObLAiBo++i1DOTEw6cF+Gv+DfNH9q/IbK/zVXjQP79+1FzA04LWpnopmVSGqb0yulubwqUmEg6ZsDILnZctBLh1QEJ8YOqE8qtF1MX4GONpRA3YFFHGlpFEp3KQqGPsw/JMsSnxIp9iozyPEz34Kc2+RitlX74+a1n1aRg2eP20ABiRIpjcdDRJYiXr+7BrtgNmYmZsfhSImravDN82FjnoijN5m2dlkWOF0xPZzcuBLgAZI270f9Sv7CwxdnqiIHfs+oIpiMbllND9D4MNtV1LQTm2Bd9XUjmh4SYmM7xU8IBmAn0laQ9A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=8LyELaAXmxJXJ5Sk2mkXp2waZM3nmZs31V9kzFuzOe8=;
+ b=W7Jdh4Re932Ct+ogY1tVExr6Ht+i2NAy9+fokAxTD0Xp59OYi834Jn3eJ4ssyvo36z+MkVmDYTJW/jbivC22hfH7gvPi71xRXMr9GRzU/nWYJvBBqcb3OpvyW2G9Q2nOhhPZ80ePeUKBEomy8ArdS/ZoR7ZdLdEX6O53NaLtWKRIQ0qmSzH2N1z6M/LhhvSHnIodUWEihwZvMXC9eHUlb8Wn4FkPN3hceTaTEYnCnQ7Qw3TimR7VvDWHoqoly4HC/TAZuey2Cdo+VWsVzOREgolP+DEc0T2HD5D6NI4U6TDGs3zq+Ln6UDIz0Ae5obXVE8x1RPPNxy/dEBmQpW9cuQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=windriver.com; dmarc=pass action=none
+ header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=windriver.com;
+Received: from DM4PR11MB7328.namprd11.prod.outlook.com (2603:10b6:8:104::9) by
+ MN6PR11MB8217.namprd11.prod.outlook.com (2603:10b6:208:47d::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.23; Mon, 28 Sep
+ 2026 07:19:55 +0000
+Received: from DM4PR11MB7328.namprd11.prod.outlook.com
+ ([fe80::26e8:ea57:9a33:9a86]) by DM4PR11MB7328.namprd11.prod.outlook.com
+ ([fe80::26e8:ea57:9a33:9a86%4]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
+ 07:19:54 +0000
+From: Deepesh.Varatharajan@windriver.com
 To: openembedded-core@lists.openembedded.org
-Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH 6/6] bind: fix for CVE-2026-13204, CVE-2026-13321
-Date: Mon, 28 Sep 2026 12:41:11 +0530
-Message-ID: <20260928071115.304055-6-hprajapati@mvista.com>
-X-Mailer: git-send-email 2.50.1
-In-Reply-To: <20260928071115.304055-1-hprajapati@mvista.com>
-References: <20260928071115.304055-1-hprajapati@mvista.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Cc: Sundeep.Kokkonda@windriver.com, SunilKumar.Dora@windriver.com,
+        Deepesh.Varatharajan@windriver.com
+Subject: [PATCH] clang: Replace OE-specific test guard with upstream backport
+Date: Mon, 28 Sep 2026 00:19:40 -0700
+Message-ID: <20260928071940.3890993-1-Deepesh.Varatharajan@windriver.com>
+X-Mailer: git-send-email 2.49.0
 Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-ClientProxiedBy: SJ0PR13CA0153.namprd13.prod.outlook.com
+ (2603:10b6:a03:2c7::8) To DM4PR11MB7328.namprd11.prod.outlook.com
+ (2603:10b6:8:104::9)
+MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: DM4PR11MB7328:EE_|MN6PR11MB8217:EE_
+X-MS-Office365-Filtering-Correlation-Id: 0a349e64-211f-4489-a6f3-08df1d30e4e9
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|52116014|376014|1800799024|366016|18002099003|13003099007|38350700014|10067099003|260925021311599003|260925021911599003|260925022911599003|56012099006|11063799006|6133799003;
+X-Microsoft-Antispam-Message-Info: 
+	H+T884+4TO9HsNigSKoN41dawVR9CPql/VYig8+iKMzqoSzlJBq9HD15HZ7cfzz3DqEB/36Xh82e9rZSBCS3EKSGDmKMn9wSyKjAtWm18UOyZMaSncyVUwKfYA6YZ0F3LA0CBfLjkGYZUQzz1CSOomTobYjB7DcbiYyTOIBAzoGs3hSPBM93x824v1o2nB6DoYm614+HQSXvkXvXwR6ets9s5mb6UgHk2JI0wrkLkjDGEJc/bhL15kYovIMp4yckH9jOL25sLcpBThk1o4i3vUKojE8vRWsBSDE6dUSyG+dVLJ+bJpjosXAjpt96rMpVsq5aa0KUD1lG/SVlCt6qoPbmkazVTwkZ3dE+0wQFFbpYi8wF9O0kb1cVmOJtMe7vQTDOb7IVa+A733DywBwZNOe7MItvkt22idfH06neGviGTfduuYZwhG/5MHKGplxjgMcWGu2NcMd5uYFs1CUTl1Ov2f9yQP1EZRkk9c7BZSRAcrzl+eru2+ssrz35U0pUkeIholUTIRDhSLfL+PzP/X/qA5JN0rzKDdvp/QnESUaXJet6kO0JVt5KQWmvSvDl/y+XbteOYvMMtlp+oW1u0H5BniSVqFmdIBiQQdnvej+0a410Nan02g4XrAiJ6QITpKFWRvd5FTKF6TQ2d1kZjXbAI5HLkySlXeit3ftR0OBEJ1wqnmx//bvxuCl4nssbLZpW1+BA67AhAHEIJ7Vmqm4vHvmTGyUZ02lgtp/NIhI=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7328.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(52116014)(376014)(1800799024)(366016)(18002099003)(13003099007)(38350700014)(10067099003)(260925021311599003)(260925021911599003)(260925022911599003)(56012099006)(11063799006)(6133799003);DIR:OUT;SFP:1102;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?JNR0EyE8nx06U+4iRy40LIi9Zkg9tTZYIDlhKewBmw3CIB+qYnaYLJlE4lXo?=
+ =?us-ascii?Q?H4Du/nJL7q5r6W+qeuFMuujJwaj40F13bxTgnrPXMOWRskvJW+79WZ8OqvxO?=
+ =?us-ascii?Q?fYlo3LE2F6LRrDijw+jtHpq/paxn46Sime6Er2LPN1EIs42n/EC/cO4UY+Jd?=
+ =?us-ascii?Q?NZ4aviDHJWYbdJkPiT1/VCH0h8ROfDHSgvSuwVyg3eflw24ihx2pdWXIgaLD?=
+ =?us-ascii?Q?ng4boi+5Rn0Ip40ZqPt0BfTuE32bWAOImQKZJ0sksdVerPQkv7oPMB2iBTEs?=
+ =?us-ascii?Q?rCRqQqsZuu7o9zKJQA7Jhapi8FClV6ezYzKmDdlTRrP+h1IgFTTVWLHWcpvT?=
+ =?us-ascii?Q?gsdbfCnuISdHUoe+rzxhtyNX8bD9eOwnfSalhTsBfHq+A8D051qjKWYnvosA?=
+ =?us-ascii?Q?Gv1plIXo0aGKxdPIhPopGqVSodqO89PK5NBXLKsaaK7lsYuMIbAdnXdnReuD?=
+ =?us-ascii?Q?vwmck7q2ES7RZmq+wCSi7JKu8BjbqI18+D2zd48Iy/qL2kWzan8ombVPG+iY?=
+ =?us-ascii?Q?cZOh+4AILhgIie4ZjModrYKOdSO9+YF+EcX+TPqrmkAijOwhOb14A2+nldCo?=
+ =?us-ascii?Q?re8EqnFAp6U9IjkEolPtuGO90xox+Wm9gjaNdpXe5CjqNu3ASyUmEKSYOc/0?=
+ =?us-ascii?Q?672TnEmbzWLDg4hja5MPoINB8vWy8nI424/eFwznNEGU/YXn/eUXj/UvE0iv?=
+ =?us-ascii?Q?FMrdUuXsqd/LO4iVa7pMOy9ozTb7hwg/KLyDvRE08j53znCSRIlGyVSfJLU/?=
+ =?us-ascii?Q?0ovd6ZH2N9NOuf0BlkXEvlR+CPfhfl3GlGD0E5ZL9X8jco2x4teMjPbeQ2LJ?=
+ =?us-ascii?Q?SsR+nkCUsf2e+kdmbft/kRuXeCFTLHss/8LbzPNeg22VBpfDaA1LKsEjm5cd?=
+ =?us-ascii?Q?CczPO1ez43OmLYKLZJnaVP5rlNO7z9re0nsD+LR0f3il3YG5GrymEuv6m47X?=
+ =?us-ascii?Q?XW2AzeJrq2P1/HS+4UZ0aRY3uEJ1zVOjr1M9HhQuYVgIq0xjsoNuftCTzjcT?=
+ =?us-ascii?Q?7gUTKYG+nQouN/i6nZ8FnC2EGVtovwO5x40mT3B1Eh3rIJPIULq+3QuzBKTj?=
+ =?us-ascii?Q?IPuqOMsItruqnV5oB9puTFRbNI42uVBr1NO586Sj1LlwVGvSodjaSmIyPBOT?=
+ =?us-ascii?Q?m67xfCRZdUk1SyyDEFzFcuAl5lksQMHPACb20tOgrzqQGNiZoNyuY+Dd2ct1?=
+ =?us-ascii?Q?5vH40e3bTTe/4ESjh7McxIg1Lz9+PFl8DVfiX3rGN4lrOUfQf0c9yA2jPpTx?=
+ =?us-ascii?Q?M8p49jMgsrVT0yUKTZIKeCNSYsNvyHgHaWrzlzHuIYqWt8cCsH0Y9L2hRpwa?=
+ =?us-ascii?Q?ib223MMbCB4UDoZ/Xp5aNHxzhOkl/eh3ttDwCliuc390j+rThJb7XDVvTxF6?=
+ =?us-ascii?Q?U7/g1aWBmBV7JYCTvG/YRQ9b6O9YWIH34BjVkJyNdfoLWmLrl7qR2KKlrW9X?=
+ =?us-ascii?Q?OiFBdfRieuEeF4mlc3IHPfQraUfFR5cVOe7BXSVaDCH86OH0nQnJ5h/s0G7S?=
+ =?us-ascii?Q?6uF+X2AXinsSm7nsqA7MAZktmolYjmiNC3+J0xRTPhNuHlsWnGUz5sO8B0Io?=
+ =?us-ascii?Q?dG3GW3hcyBFgDEEMk4XofTGPIOpT6CqM0xt2Dv33OMVSd6H+b1b8/dM9KQMe?=
+ =?us-ascii?Q?zX3bzz+phoRs79RvlFtBsu4EscwNBa/HjrpAFzgh45lM3i9rvsbtySst9d9w?=
+ =?us-ascii?Q?S9NoRd0TieoSTf8TzpP8TKC2JUHyqw0+f9aNQFY8INd4AvaDQZ+vSZ6KFO6+?=
+ =?us-ascii?Q?L9/92bKE2ZoqPKtdiSxhyzKyh1Yygf61w3HGcYXRbV2N6Q4Io3yg?=
+X-Exchange-RoutingPolicyChecked: 
+	y6s+ayO9VF/E9hQsiRjMRUb6AOnDgv30lW5aj0uJCCxCCGubArdKlSM7tbrvFGSzotKioWCbopNUQMXTbD4fNgbRXZFZSTtD9I83D28Qfkq3w1lJDrkWuUcVcbnulXZym0H/IXY+Dnv1DyS77DoADd1+dh2STbKu+nyw65+s+Nyd4+VcHtKl8omOVuEYOpOUoChpOLRPAnSPmHG/tbRjpWTzC35OkSAYfOHu6FjyUQ9GyYA83ZnWTm9tJXdjUGV2LcFGaSs7+liL8VXabyepvdUmgAwrLpZUTc2TCjItN/z2D32KotXARrfYfSKjL72QkqbhOqVK5YtmSmDKjA/MrA==
+X-OriginatorOrg: windriver.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a349e64-211f-4489-a6f3-08df1d30e4e9
+X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7328.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2026 07:19:54.7400
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: E9WsTM54/ptmdamKk+lf7/o5L+t+CWS0cczi2gJYQuXU4G6Bz+RHZsosYKWPM3sjSjc2TWDtP8UKTOxb5s5tfmUYWdVM4TSva9QZPXhaeAfWS3Cn1W9uoZa7JdILN7s1
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN6PR11MB8217
+X-Proofpoint-GUID: SUYN0XZxH9e_pt0yPwmNaI5dMTmW2uMy
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTI4MDAyOCBTYWx0ZWRfX6+JQ0Hg76xbS
+ RyfBP9zneRDHsIg+tz55pLMf6cgNaKnDsk3uH22UXVKDL9nwA1Z/ZdCWXhNkeuQJq+ELAC8d268
+ hkQ/8jp6Il6nNeT0E7FgjYZBrvmp10UbrYEyI8E5Gz3Mrwz1MyGZF6Pj0tBM2G8DdqjzWY8G+3K
+ ltchvxTD+GbGCVl7Gz+WYH4UDxTxc0J0YOjXLycmSlBxtPISj73x8ov62EOz3kU0ZTq6Llq85UK
+ 0L/eKFKtzmeVJdpju+j05yl9tNIXRRelWB8H2f/prqxHetM5/3mHSfouGw3aRstcUgYg/7QZx1K
+ W8EjyTGxQl3UOphLEyjAXIoKIAuqz7h8cme37HC0/ad3FcsF6dTg1BQNRHLhP4lhHuWURDSMfaA
+ ch4BglsPd+bZNT/8F0VJROVvCNkXqgZO0e8ZkqG83Q/a4Dw5EbENslo3DmoxGSIRIch1XD9Ew/v
+ fgC/LFKD4TN668m5z4g==
+X-Proofpoint-ORIG-GUID: SUYN0XZxH9e_pt0yPwmNaI5dMTmW2uMy
+X-Authority-Analysis: v=2.4 cv=ZYSIpcVA c=1 sm=1 tr=0 ts=6aba151e cx=c_pps
+ a=ZfDhP9WrRDodUAgXLfoXmg==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+ a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
+ a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
+ a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=NEAV23lmAAAA:8
+ a=t7CeM3EgAAAA:8 a=ImcG7QQyoc5K_-d7zUgA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTI4MDAyOCBTYWx0ZWRfX4JNO1TZA4ogw
+ WZYJ4gjT5k+FDrTC1kOZ/ISIa1wUSnO0CByr+MKdI0gqVLZ72cseLdN/5fwdZmEBE35m50uCczF
+ vc4VJF2p/5T26cZoA7D0+wCe3H7WisW4A7BRFUlTdsTfGFeMlRW+
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-26_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ malwarescore=0 bulkscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
+ phishscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609280028
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:14:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246736
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:20:10 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246737
 
-Pick patch from [1,2,3] & [4,5,6] also mentioned at Debian report in [7] & [8]
+From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 
-[1] https://gitlab.isc.org/isc-projects/bind9/-/commit/0cf010c153518f1f9831e201891ecba8d8ba65e1
-[2] https://gitlab.isc.org/isc-projects/bind9/-/commit/6c0e599ea85c0c53a4af09742e64e193da089bb4
-[3] https://gitlab.isc.org/isc-projects/bind9/-/commit/48f5aa5fb3746d6194edcc57e8792a8b3cc3b454
-[4] https://gitlab.isc.org/isc-projects/bind9/-/commit/c969ad2c17b43dd999e358bfeb280d3df6fab822
-[5] https://gitlab.isc.org/isc-projects/bind9/-/commit/058023c66f11d78590d4aa8c4f98946c4c965e21
-[6] https://gitlab.isc.org/isc-projects/bind9/-/commit/f751e19a30d107f04c2f644aff9f8dab8fed03ab
-[7] https://security-tracker.debian.org/tracker/CVE-2026-13204
-[8] https://security-tracker.debian.org/tracker/CVE-2026-13321
+Drop 0034-guard-clang-tools-extra-test.patch (Upstream-Status:
+Inappropriate) in favor of the upstream fix that introduces a separate
+CLANG_TOOLS_EXTRA_INCLUDE_TESTS CMake option.
 
-Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+https://github.com/llvm/llvm-project/commit/f5fd1587149a039f4592b6e15647668175bb17a7
+
+This lets Clang be built with CLANG_INCLUDE_TESTS=ON while disabling
+clang-tools-extra tests, avoiding the missing llvm-bcanalyzer target
+error when Clang is built separately from LLVM. Set
+-DCLANG_TOOLS_EXTRA_INCLUDE_TESTS=OFF in clang_git.bb accordingly.
+
+Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 ---
- .../bind/bind/CVE-2026-13204-01.patch         | 395 +++++++++++++++++
- .../bind/bind/CVE-2026-13204-02.patch         | 215 ++++++++++
- .../bind/bind/CVE-2026-13204-03.patch         | 161 +++++++
- .../bind/bind/CVE-2026-13321-01.patch         | 401 ++++++++++++++++++
- .../bind/bind/CVE-2026-13321-02.patch         |  88 ++++
- .../bind/bind/CVE-2026-13321-03.patch         | 203 +++++++++
- .../recipes-connectivity/bind/bind_9.18.49.bb |   6 +
- 7 files changed, 1469 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-13204-01.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-13204-02.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-13204-03.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-13321-01.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-13321-02.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-13321-03.patch
+ ...a-Add-separate-CLANG_TOOLS_EXTRA_INC.patch | 82 ++++++++++++++++++
+ .../0034-guard-clang-tools-extra-test.patch   | 85 -------------------
+ meta/recipes-devtools/clang/clang_git.bb      |  1 +
+ meta/recipes-devtools/clang/common.inc        |  2 +-
+ 4 files changed, 84 insertions(+), 86 deletions(-)
+ create mode 100644 meta/recipes-devtools/clang/clang/0034-clang-tools-extra-Add-separate-CLANG_TOOLS_EXTRA_INC.patch
+ delete mode 100644 meta/recipes-devtools/clang/clang/0034-guard-clang-tools-extra-test.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-13204-01.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-13204-01.patch
+diff --git a/meta/recipes-devtools/clang/clang/0034-clang-tools-extra-Add-separate-CLANG_TOOLS_EXTRA_INC.patch b/meta/recipes-devtools/clang/clang/0034-clang-tools-extra-Add-separate-CLANG_TOOLS_EXTRA_INC.patch
 new file mode 100644
-index 0000000000..4b2bebfcc3
+index 0000000000..f7b5d03703
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-13204-01.patch
-@@ -0,0 +1,395 @@
-+From: Alessio Podda <alessio@isc.org>
-+Date: Fri, 12 Jun 2026 11:16:01 +0200
-+Subject: Reproducer for #5985 addnoqname mismatch
++++ b/meta/recipes-devtools/clang/clang/0034-clang-tools-extra-Add-separate-CLANG_TOOLS_EXTRA_INC.patch
+@@ -0,0 +1,82 @@
++From f5fd1587149a039f4592b6e15647668175bb17a7 Mon Sep 17 00:00:00 2001
++From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
++Date: Sun, 30 Aug 2026 01:34:52 +0530
++Subject: [PATCH] [clang-tools-extra] Add separate
++ CLANG_TOOLS_EXTRA_INCLUDE_TESTS option (#215761)
 +
-+LLM generated.
++clang-tools-extra tests depend on the llvm-bcanalyzer CMake target,
++which exists in LLVM's CMake project but is not visible when Clang is
++built separately from LLVM. This causes CMake errors when
++CLANG_INCLUDE_TESTS is ON but the LLVM tools are not available.
 +
-+(cherry picked from commit 5f4de929b3e4749b6e32c51660be11c47c2514e6)
++This patch introduces CLANG_TOOLS_EXTRA_INCLUDE_TESTS as a separate
++CMake option to control clang-tools-extra tests independently, allowing
++users to build Clang with tests enabled (CLANG_INCLUDE_TESTS=ON) while
++disabling clang-tools-extra tests (CLANG_TOOLS_EXTRA_INCLUDE_TESTS=OFF)
++when building Clang separately from LLVM.
 +
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/0cf010c153518f1f9831e201891ecba8d8ba65e1
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-13204
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-13204
++For backwards compatibility, CLANG_INCLUDE_TESTS=OFF continues
++to turn off clang-tools-extra tests as well.
 +
-+CVE: CVE-2026-13204
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/0cf010c153518f1f9831e201891ecba8d8ba65e1]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++Upstream-Status: Backport [https://github.com/llvm/llvm-project/commit/f5fd1587149a039f4592b6e15647668175bb17a7]
++Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 +---
-+ .../ans1/ans.py                                    |  11 ++
-+ .../ns2/named.conf.j2                              |   7 +-
-+ .../repro_5985_findnoqname_runtime_check/server.py | 189 +++++++++++++++++++++
-+ .../tests_repro_5985_findnoqname_runtime_check.py  | 120 +++++++++++++
-+ 4 files changed, 325 insertions(+), 2 deletions(-)
-+ create mode 100644 bin/tests/system/repro_5985_findnoqname_runtime_check/ans1/ans.py
-+ copy bin/tests/system/{nsec3_impersonation => repro_5985_findnoqname_runtime_check}/ns2/named.conf.j2 (77%)
-+ create mode 100644 bin/tests/system/repro_5985_findnoqname_runtime_check/server.py
-+ create mode 100644 bin/tests/system/repro_5985_findnoqname_runtime_check/tests_repro_5985_findnoqname_runtime_check.py
++ clang-tools-extra/CMakeLists.txt                 | 6 ++++--
++ clang-tools-extra/clangd/CMakeLists.txt          | 2 +-
++ clang-tools-extra/include-cleaner/CMakeLists.txt | 2 +-
++ 3 files changed, 6 insertions(+), 4 deletions(-)
 +
-+diff --git a/bin/tests/system/repro_5985_findnoqname_runtime_check/ans1/ans.py b/bin/tests/system/repro_5985_findnoqname_runtime_check/ans1/ans.py
-+new file mode 100644
-+index 0000000..cb01c8a
-+--- /dev/null
-++++ b/bin/tests/system/repro_5985_findnoqname_runtime_check/ans1/ans.py
-+@@ -0,0 +1,11 @@
-++#!/usr/bin/python3
-++
-++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++#
-++# SPDX-License-Identifier: MPL-2.0
-++
-++from server import main
-++
-++
-++if __name__ == "__main__":
-++    main()
-+diff --git a/bin/tests/system/nsec3_impersonation/ns2/named.conf.j2 b/bin/tests/system/repro_5985_findnoqname_runtime_check/ns2/named.conf.j2
-+similarity index 77%
-+copy from bin/tests/system/nsec3_impersonation/ns2/named.conf.j2
-+copy to bin/tests/system/repro_5985_findnoqname_runtime_check/ns2/named.conf.j2
-+index 2c9b0bb..7d6fc84 100644
-+--- a/bin/tests/system/nsec3_impersonation/ns2/named.conf.j2
-++++ b/bin/tests/system/repro_5985_findnoqname_runtime_check/ns2/named.conf.j2
-+@@ -10,6 +10,9 @@ options {
-+ 	listen-on-v6 { none; };
-+ 	recursion yes;
-+ 	dnssec-validation yes;
-++	trust-anchor-telemetry no;
-++	resolver-query-timeout 5000;
-++	qname-minimization off;
-+ };
++diff --git a/clang-tools-extra/CMakeLists.txt b/clang-tools-extra/CMakeLists.txt
++index 0dbdeaed9a9a..291e130ca390 100644
++--- a/clang-tools-extra/CMakeLists.txt
+++++ b/clang-tools-extra/CMakeLists.txt
++@@ -7,8 +7,10 @@ option(CLANG_TIDY_ENABLE_STATIC_ANALYZER
++   "Include static analyzer checks in clang-tidy" ON)
++ option(CLANG_TIDY_ENABLE_QUERY_BASED_CUSTOM_CHECKS
++   "Enable query-based custom checks in clang-tidy" ON)
+++option(CLANG_TOOLS_EXTRA_INCLUDE_TESTS
+++  "Generate build targets for Clang Extra Tools tests." ON)
 + 
-+ controls {
-+@@ -23,11 +26,11 @@ zone "." {
-+ 	file "../../_common/root.hint";
-+ };
++-if(CLANG_INCLUDE_TESTS)
+++if(CLANG_INCLUDE_TESTS AND CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
++   umbrella_lit_testsuite_begin(check-clang-tools)
 + 
-+-zone "tld.test" {
-++zone "f217.test" {
-+ 	type static-stub;
-+ 	server-addresses { 10.53.0.1; };
-+ };
++   option(CLANG_TOOLS_TEST_USE_VG "Run Clang tools' tests under Valgrind" OFF)
++@@ -46,7 +48,7 @@ if (CLANG_ENABLE_CLANGD)
++ endif()
 + 
-+ trust-anchors {
-+-	tld.test. static-key 257 3 13 "@TLD_DNSKEY@";
-++	f217.test. static-key 257 3 13 "@ZONE_DNSKEY@";
-+ };
-+diff --git a/bin/tests/system/repro_5985_findnoqname_runtime_check/server.py b/bin/tests/system/repro_5985_findnoqname_runtime_check/server.py
-+new file mode 100644
-+index 0000000..18d0ac1
-+--- /dev/null
-++++ b/bin/tests/system/repro_5985_findnoqname_runtime_check/server.py
-+@@ -0,0 +1,189 @@
-++#!/usr/bin/python3
-++
-++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++#
-++# SPDX-License-Identifier: MPL-2.0
-++
-++from collections.abc import AsyncGenerator
-++from dataclasses import dataclass
-++from datetime import datetime, timedelta, timezone
-++from pathlib import Path
-++
-++import base64
-++import json
-++
-++from cryptography.hazmat.primitives import serialization
-++
-++import dns.dnssec
-++import dns.flags
-++import dns.message
-++import dns.name
-++import dns.rdata
-++import dns.rdataclass
-++import dns.rcode
-++import dns.rdatatype
-++import dns.rrset
-++
-++from isctest.asyncserver import (
-++    AsyncDnsServer,
-++    DnsResponseSend,
-++    QueryContext,
-++    ResponseHandler,
-++)
-++
-++TTL = 300
-++ZONE = "f217.test."
-++CHILD = f"evil.{ZONE}"
-++ATTACK = f"www.{CHILD}"
-++NSEC_OWNER = f"00000000.{CHILD}"
-++NSEC_NEXT = f"zzz.{CHILD}"
-++FORGED_A = "192.0.2.217"
-++
-++
-++@dataclass(frozen=True)
-++class Key:
-++    zone: dns.name.Name
-++    private_key: object
-++    dnskey: dns.rdata.Rdata
-++
-++
-++def name(text: str) -> dns.name.Name:
-++    return dns.name.from_text(text)
-++
-++
-++def load_key() -> Key:
-++    path = Path(__file__).resolve().parent / "keys.json"
-++    with path.open(encoding="utf-8") as keys_file:
-++        raw_key = json.load(keys_file)[ZONE]
-++
-++    private_key = serialization.load_pem_private_key(
-++        raw_key["private_pem"].encode("ascii"),
-++        password=None,
-++    )
-++    dnskey = dns.rdata.from_text(
-++        dns.rdataclass.IN, dns.rdatatype.DNSKEY, raw_key["dnskey"]
-++    )
-++    return Key(name(ZONE), private_key, dnskey)
-++
-++
-++def rrset(
-++    owner: str, rdtype: dns.rdatatype.RdataType, *rdatas: str
-++) -> dns.rrset.RRset:
-++    return dns.rrset.from_text(owner, TTL, dns.rdataclass.IN, rdtype, *rdatas)
-++
-++
-++def rrset_from_rdata(owner: str, rdata: dns.rdata.Rdata) -> dns.rrset.RRset:
-++    return dns.rrset.from_rdata(name(owner), TTL, rdata)
-++
-++
-++def add_signed(
-++    section: list[dns.rrset.RRset], covered: dns.rrset.RRset, signer: Key
-++) -> None:
-++    rrsig = dns.dnssec.sign(
-++        covered,
-++        signer.private_key,
-++        signer.zone,
-++        signer.dnskey,
-++        lifetime=86400,
-++        verify=True,
-++    )
-++    section.append(covered)
-++    section.append(dns.rrset.from_rdata(covered.name, covered.ttl, rrsig))
-++
-++
-++def soa_rrset(zone: str) -> dns.rrset.RRset:
-++    return rrset(
-++        zone,
-++        dns.rdatatype.SOA,
-++        f"ns.{ZONE} hostmaster.{ZONE} 1 7200 3600 1209600 300",
-++    )
-++
-++
-++def garbage_rrsig(
-++    owner: str, covered: dns.rdatatype.RdataType, labels: int, signer: str
-++) -> dns.rrset.RRset:
-++    now = datetime.now(timezone.utc)
-++    inception = (now - timedelta(hours=1)).strftime("%Y%m%d%H%M%S")
-++    expiration = (now + timedelta(days=1)).strftime("%Y%m%d%H%M%S")
-++    signature = base64.b64encode(bytes(64)).decode("ascii")
-++    text = (
-++        f"{dns.rdatatype.to_text(covered)} 13 {labels} {TTL} "
-++        f"{expiration} {inception} 12345 {signer} {signature}"
-++    )
-++    rdata = dns.rdata.from_text(dns.rdataclass.IN, dns.rdatatype.RRSIG, text)
-++    return dns.rrset.from_rdata(name(owner), TTL, rdata)
-++
-++
-++def add_ds_denial(response: dns.message.Message, key: Key) -> None:
-++    add_signed(response.authority, soa_rrset(ZONE), key)
-++    nsec = rrset(CHILD, dns.rdatatype.NSEC, f"ns.{ZONE} NS RRSIG NSEC")
-++    add_signed(response.authority, nsec, key)
-++
-++
-++def add_attack_answer(response: dns.message.Message) -> None:
-++    response.answer.append(rrset(ATTACK, dns.rdatatype.A, FORGED_A))
-++    response.answer.append(garbage_rrsig(ATTACK, dns.rdatatype.A, 1, CHILD))
-++
-++    nsec = rrset(
-++        NSEC_OWNER,
-++        dns.rdatatype.NSEC,
-++        f"{NSEC_NEXT} A RRSIG NSEC",
-++    )
-++    nsec3 = rrset(
-++        NSEC_OWNER,
-++        dns.rdatatype.NSEC3,
-++        "1 0 0 - VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV A RRSIG",
-++    )
-++    response.authority.append(nsec)
-++    response.authority.append(
-++        garbage_rrsig(
-++            NSEC_OWNER,
-++            dns.rdatatype.NSEC,
-++            len(name(NSEC_OWNER).labels) - 1,
-++            CHILD,
-++        )
-++    )
-++    response.authority.append(nsec3)
-++
-++
-++class RuntimeCheckHandler(ResponseHandler):
-++    def __init__(self, key: Key) -> None:
-++        self.key = key
-++        self.zone = name(ZONE)
-++        self.child = name(CHILD)
-++        self.attack = name(ATTACK)
-++
-++    def match(self, qctx: QueryContext) -> bool:
-++        return qctx.qname.is_subdomain(self.zone)
-++
-++    async def get_responses(
-++        self, qctx: QueryContext
-++    ) -> AsyncGenerator[DnsResponseSend, None]:
-++        qctx.prepare_new_response(with_zone_data=False)
-++        qctx.response.flags |= dns.flags.AA
-++        qctx.response.set_rcode(dns.rcode.NOERROR)
-++
-++        if qctx.qname == self.zone and qctx.qtype == dns.rdatatype.DNSKEY:
-++            add_signed(
-++                qctx.response.answer,
-++                rrset_from_rdata(ZONE, self.key.dnskey),
-++                self.key,
-++            )
-++        elif qctx.qname == self.zone and qctx.qtype == dns.rdatatype.SOA:
-++            add_signed(qctx.response.answer, soa_rrset(ZONE), self.key)
-++        elif qctx.qname == self.child and qctx.qtype == dns.rdatatype.DS:
-++            add_ds_denial(qctx.response, self.key)
-++        elif qctx.qname == self.child and qctx.qtype == dns.rdatatype.DNSKEY:
-++            qctx.response.authority.append(soa_rrset(CHILD))
-++        elif qctx.qname == self.attack and qctx.qtype == dns.rdatatype.A:
-++            add_attack_answer(qctx.response)
-++        else:
-++            add_signed(qctx.response.authority, soa_rrset(ZONE), self.key)
-++
-++        yield DnsResponseSend(qctx.response, authoritative=True)
-++
-++
-++def main() -> None:
-++    server = AsyncDnsServer(default_aa=True)
-++    server.install_response_handlers(RuntimeCheckHandler(load_key()))
-++    server.run()
-+diff --git a/bin/tests/system/repro_5985_findnoqname_runtime_check/tests_repro_5985_findnoqname_runtime_check.py b/bin/tests/system/repro_5985_findnoqname_runtime_check/tests_repro_5985_findnoqname_runtime_check.py
-+new file mode 100644
-+index 0000000..0e7d71c
-+--- /dev/null
-++++ b/bin/tests/system/repro_5985_findnoqname_runtime_check/tests_repro_5985_findnoqname_runtime_check.py
-+@@ -0,0 +1,120 @@
-++#!/usr/bin/python3
-++
-++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++#
-++# SPDX-License-Identifier: MPL-2.0
-++
-++from pathlib import Path
-++
-++import json
-++
-++from cryptography.hazmat.primitives import serialization
-++from cryptography.hazmat.primitives.asymmetric import ec
-++
-++import dns.dnssec
-++import dns.name
-++import dns.rdataclass
-++import dns.rdatatype
-++import pytest
-++
-++import isctest
-++
-++ZONE = "f217.test."
-++CHILD = f"evil.{ZONE}"
-++ATTACK = f"www.{CHILD}"
-++NSEC_OWNER = f"00000000.{CHILD}"
-++FORGED_A = "192.0.2.217"
-++AUTH = "10.53.0.1"
-++RESOLVER = "10.53.0.2"
-++
-++pytestmark = pytest.mark.extra_artifacts(
-++    [
-++        "ans*/ans.run",
-++        "keys.json",
-++    ]
-++)
-++
-++
-++def _make_key():
-++    private_key = ec.generate_private_key(ec.SECP256R1())
-++    dnskey = dns.dnssec.make_dnskey(
-++        private_key.public_key(),
-++        algorithm="ECDSAP256SHA256",
-++        flags=257,
-++    )
-++    private_pem = private_key.private_bytes(
-++        encoding=serialization.Encoding.PEM,
-++        format=serialization.PrivateFormat.PKCS8,
-++        encryption_algorithm=serialization.NoEncryption(),
-++    ).decode("ascii")
-++    return {
-++        "private_pem": private_pem,
-++        "dnskey": dnskey.to_text(),
-++    }
-++
-++
-++def bootstrap():
-++    keys = {ZONE: _make_key()}
-++    Path("keys.json").write_text(json.dumps(keys, indent=2), encoding="ascii")
-++    zone_dnskey = "".join(keys[ZONE]["dnskey"].split()[3:])
-++    return {"ZONE_DNSKEY": zone_dnskey}
-++
-++
-++def _query(server, qname, qtype):
-++    query = isctest.query.create(qname, qtype)
-++    return isctest.query.tcp(query, server, attempts=1, timeout=5)
-++
-++
-++def _rrset(response, section, owner, rdtype, covers=None):
-++    if covers is None:
-++        return response.get_rrset(
-++            section, dns.name.from_text(owner), dns.rdataclass.IN, rdtype
-++        )
-++    return response.get_rrset(
-++        section,
-++        dns.name.from_text(owner),
-++        dns.rdataclass.IN,
-++        rdtype,
-++        covers=covers,
-++    )
-++
-++
-++def _has_a(response, section, owner, address):
-++    rrset = _rrset(response, section, owner, dns.rdatatype.A)
-++    return rrset is not None and any(rdata.address == address for rdata in rrset)
-++
-++
-++def _check_rrsig(response, section, owner, rdtype, signer, labels=None):
-++    rrsig = _rrset(response, section, owner, dns.rdatatype.RRSIG, covers=rdtype)
-++    assert rrsig is not None, response.to_text()
-++    assert rrsig[0].signer == dns.name.from_text(signer), response.to_text()
-++    if labels is not None:
-++        assert rrsig[0].labels == labels, response.to_text()
-++
-++
-++def test_repro_5985_direct_findnoqname_addnoqname_mismatch_fixture():
-++    response = _query(AUTH, ATTACK, "A")
-++    isctest.check.noerror(response)
-++    assert _has_a(response, response.answer, ATTACK, FORGED_A), response.to_text()
-++    _check_rrsig(response, response.answer, ATTACK, dns.rdatatype.A, CHILD, labels=1)
-++
-++    assert _rrset(response, response.authority, NSEC_OWNER, dns.rdatatype.NSEC)
-++    _check_rrsig(response, response.authority, NSEC_OWNER, dns.rdatatype.NSEC, CHILD)
-++    assert _rrset(response, response.authority, NSEC_OWNER, dns.rdatatype.NSEC3)
-++    assert (
-++        _rrset(
-++            response,
-++            response.authority,
-++            NSEC_OWNER,
-++            dns.rdatatype.RRSIG,
-++            covers=dns.rdatatype.NSEC3,
-++        )
-++        is None
-++    )
-++
-++
-++def test_repro_5985_resolver_does_not_abort_on_noqname_type_mismatch():
-++    _query(RESOLVER, ATTACK, "A")
-++
-++    response = _query(RESOLVER, ZONE, "SOA")
-++    isctest.check.noerror(response)
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-13204-02.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-13204-02.patch
-new file mode 100644
-index 0000000000..5bcd10474f
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-13204-02.patch
-@@ -0,0 +1,215 @@
-+From: Matthijs Mekking <matthijs@isc.org>
-+Date: Mon, 15 Jun 2026 14:55:29 +0200
-+Subject: Update reproducer #5985
++ # Add the common testsuite after all the tools.
++-if(CLANG_INCLUDE_TESTS)
+++if(CLANG_INCLUDE_TESTS AND CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
++   add_subdirectory(test)
++   add_subdirectory(unittests)
++   umbrella_lit_testsuite_end(check-clang-tools)
++diff --git a/clang-tools-extra/clangd/CMakeLists.txt b/clang-tools-extra/clangd/CMakeLists.txt
++index 151f4ee028b8..3aa1b7bddb99 100644
++--- a/clang-tools-extra/clangd/CMakeLists.txt
+++++ b/clang-tools-extra/clangd/CMakeLists.txt
++@@ -219,7 +219,7 @@ endif()
++ option(CLANGD_BUILD_DEXP "Build the dexp tool as part of Clangd" ON)
++ llvm_canonicalize_cmake_booleans(CLANGD_BUILD_DEXP)
++ 
++-if(CLANG_INCLUDE_TESTS)
+++if(CLANG_INCLUDE_TESTS AND CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
++   add_subdirectory(test)
++   add_subdirectory(unittests)
++ endif()
++diff --git a/clang-tools-extra/include-cleaner/CMakeLists.txt b/clang-tools-extra/include-cleaner/CMakeLists.txt
++index dc147f9ca08d..4ccd3da21f70 100644
++--- a/clang-tools-extra/include-cleaner/CMakeLists.txt
+++++ b/clang-tools-extra/include-cleaner/CMakeLists.txt
++@@ -1,7 +1,7 @@
++ include_directories(include)
++ add_subdirectory(lib)
++ add_subdirectory(tool)
++-if(CLANG_INCLUDE_TESTS)
+++if(CLANG_INCLUDE_TESTS AND CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
++   add_subdirectory(test)
++   add_subdirectory(unittests)
++ endif()
++-- 
++2.49.0
 +
-+Update the llm generated reproducer:
-+- Move server.py into ans/ans1.py
-+- Remove unncessary named.conf configuration options
-+- Add comments describing the steps
-+- Rename system test
-+
-+(cherry picked from commit fd539807829dd7d2eb76c8b503083f5d84fec6f0)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/6c0e599ea85c0c53a4af09742e64e193da089bb4
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-13204
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-13204
-+
-+CVE: CVE-2026-13204
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/6c0e599ea85c0c53a4af09742e64e193da089bb4]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ .../ans1/ans.py}                                   | 36 ++++++++++++++++------
-+ .../ns2/named.conf.j2                              |  3 --
-+ .../tests_findnoqname_mismatch.py}                 | 26 ++++++++++------
-+ .../ans1/ans.py                                    | 11 -------
-+ 4 files changed, 43 insertions(+), 33 deletions(-)
-+ rename bin/tests/system/{repro_5985_findnoqname_runtime_check/server.py => dnssec_findnoqname_mismatch/ans1/ans.py} (85%)
-+ rename bin/tests/system/{repro_5985_findnoqname_runtime_check => dnssec_findnoqname_mismatch}/ns2/named.conf.j2 (87%)
-+ rename bin/tests/system/{repro_5985_findnoqname_runtime_check/tests_repro_5985_findnoqname_runtime_check.py => dnssec_findnoqname_mismatch/tests_findnoqname_mismatch.py} (87%)
-+ delete mode 100644 bin/tests/system/repro_5985_findnoqname_runtime_check/ans1/ans.py
-+
-+diff --git a/bin/tests/system/repro_5985_findnoqname_runtime_check/server.py b/bin/tests/system/dnssec_findnoqname_mismatch/ans1/ans.py
-+similarity index 85%
-+rename from bin/tests/system/repro_5985_findnoqname_runtime_check/server.py
-+rename to bin/tests/system/dnssec_findnoqname_mismatch/ans1/ans.py
-+index 18d0ac1..b36fc83 100644
-+--- a/bin/tests/system/repro_5985_findnoqname_runtime_check/server.py
-++++ b/bin/tests/system/dnssec_findnoqname_mismatch/ans1/ans.py
-+@@ -66,9 +66,7 @@ def load_key() -> Key:
-+     return Key(name(ZONE), private_key, dnskey)
-+ 
-+ 
-+-def rrset(
-+-    owner: str, rdtype: dns.rdatatype.RdataType, *rdatas: str
-+-) -> dns.rrset.RRset:
-++def rrset(owner: str, rdtype: dns.rdatatype.RdataType, *rdatas: str) -> dns.rrset.RRset:
-+     return dns.rrset.from_text(owner, TTL, dns.rdataclass.IN, rdtype, *rdatas)
-+ 
-+ 
-+@@ -121,20 +119,30 @@ def add_ds_denial(response: dns.message.Message, key: Key) -> None:
-+ 
-+ 
-+ def add_attack_answer(response: dns.message.Message) -> None:
-++    """
-++    Crafted authoritative response to <q>.evil.f217.hack./A
-++
-++        ;; ANSWER
-++        <q>.evil.f217.hack.        300 IN A     192.0.2.217
-++        <q>.evil.f217.hack.        300 IN RRSIG A 13 1 300 <exp> <inc> 12345 evil.f217.hack. <base64 of 64×0x00>
-++                                                    ^^^ Labels = 1, qname has 4 labels, wildcard heuristic fires
-++
-++        ;; AUTHORITY (single owner, three rdatasets in this wire order)
-++        00000000.evil.f217.hack.   300 IN NSEC  zzz.evil.f217.hack. A RRSIG NSEC
-++        00000000.evil.f217.hack.   300 IN RRSIG NSEC 13 4 300 <exp> <inc> 12345 evil.f217.hack. <base64 of 64×0x00>
-++        00000000.evil.f217.hack.   300 IN NSEC3 1 0 0 - VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV A RRSIG
-++    """
-++    # A + RRSIG
-+     response.answer.append(rrset(ATTACK, dns.rdatatype.A, FORGED_A))
-+     response.answer.append(garbage_rrsig(ATTACK, dns.rdatatype.A, 1, CHILD))
-+-
-++    # NSEC
-+     nsec = rrset(
-+         NSEC_OWNER,
-+         dns.rdatatype.NSEC,
-+         f"{NSEC_NEXT} A RRSIG NSEC",
-+     )
-+-    nsec3 = rrset(
-+-        NSEC_OWNER,
-+-        dns.rdatatype.NSEC3,
-+-        "1 0 0 - VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV A RRSIG",
-+-    )
-+     response.authority.append(nsec)
-++    # RRSIG(NSEC)
-+     response.authority.append(
-+         garbage_rrsig(
-+             NSEC_OWNER,
-+@@ -143,6 +151,12 @@ def add_attack_answer(response: dns.message.Message) -> None:
-+             CHILD,
-+         )
-+     )
-++    # NSEC3
-++    nsec3 = rrset(
-++        NSEC_OWNER,
-++        dns.rdatatype.NSEC3,
-++        "1 0 0 - VVVVVVVVVVVVVVVVVVVVVVVVVVVVVVVV A RRSIG",
-++    )
-+     response.authority.append(nsec3)
-+ 
-+ 
-+@@ -187,3 +201,7 @@ def main() -> None:
-+     server = AsyncDnsServer(default_aa=True)
-+     server.install_response_handlers(RuntimeCheckHandler(load_key()))
-+     server.run()
-++
-++
-++if __name__ == "__main__":
-++    main()
-+diff --git a/bin/tests/system/repro_5985_findnoqname_runtime_check/ns2/named.conf.j2 b/bin/tests/system/dnssec_findnoqname_mismatch/ns2/named.conf.j2
-+similarity index 87%
-+rename from bin/tests/system/repro_5985_findnoqname_runtime_check/ns2/named.conf.j2
-+rename to bin/tests/system/dnssec_findnoqname_mismatch/ns2/named.conf.j2
-+index 7d6fc84..f4fbd8a 100644
-+--- a/bin/tests/system/repro_5985_findnoqname_runtime_check/ns2/named.conf.j2
-++++ b/bin/tests/system/dnssec_findnoqname_mismatch/ns2/named.conf.j2
-+@@ -10,9 +10,6 @@ options {
-+ 	listen-on-v6 { none; };
-+ 	recursion yes;
-+ 	dnssec-validation yes;
-+-	trust-anchor-telemetry no;
-+-	resolver-query-timeout 5000;
-+-	qname-minimization off;
-+ };
-+ 
-+ controls {
-+diff --git a/bin/tests/system/repro_5985_findnoqname_runtime_check/tests_repro_5985_findnoqname_runtime_check.py b/bin/tests/system/dnssec_findnoqname_mismatch/tests_findnoqname_mismatch.py
-+similarity index 87%
-+rename from bin/tests/system/repro_5985_findnoqname_runtime_check/tests_repro_5985_findnoqname_runtime_check.py
-+rename to bin/tests/system/dnssec_findnoqname_mismatch/tests_findnoqname_mismatch.py
-+index 0e7d71c..f3e332a 100644
-+--- a/bin/tests/system/repro_5985_findnoqname_runtime_check/tests_repro_5985_findnoqname_runtime_check.py
-++++ b/bin/tests/system/dnssec_findnoqname_mismatch/tests_findnoqname_mismatch.py
-+@@ -18,6 +18,7 @@ import dns.rdatatype
-+ import pytest
-+ 
-+ import isctest
-++import isctest.mark
-+ 
-+ ZONE = "f217.test."
-+ CHILD = f"evil.{ZONE}"
-+@@ -27,12 +28,15 @@ FORGED_A = "192.0.2.217"
-+ AUTH = "10.53.0.1"
-+ RESOLVER = "10.53.0.2"
-+ 
-+-pytestmark = pytest.mark.extra_artifacts(
-+-    [
-+-        "ans*/ans.run",
-+-        "keys.json",
-+-    ]
-+-)
-++pytestmark = [
-++    isctest.mark.with_ecdsa_deterministic,
-++    pytest.mark.extra_artifacts(
-++        [
-++            "ans1/ans.run",
-++            "ans1/keys.json",
-++        ]
-++    ),
-++]
-+ 
-+ 
-+ def _make_key():
-+@@ -55,7 +59,7 @@ def _make_key():
-+ 
-+ def bootstrap():
-+     keys = {ZONE: _make_key()}
-+-    Path("keys.json").write_text(json.dumps(keys, indent=2), encoding="ascii")
-++    Path("ans1/keys.json").write_text(json.dumps(keys, indent=2), encoding="ascii")
-+     zone_dnskey = "".join(keys[ZONE]["dnskey"].split()[3:])
-+     return {"ZONE_DNSKEY": zone_dnskey}
-+ 
-+@@ -92,14 +96,16 @@ def _check_rrsig(response, section, owner, rdtype, signer, labels=None):
-+         assert rrsig[0].labels == labels, response.to_text()
-+ 
-+ 
-+-def test_repro_5985_direct_findnoqname_addnoqname_mismatch_fixture():
-++def test_malicious_findnoqname_addnoqname_mismatch():
-+     response = _query(AUTH, ATTACK, "A")
-+     isctest.check.noerror(response)
-+     assert _has_a(response, response.answer, ATTACK, FORGED_A), response.to_text()
-+     _check_rrsig(response, response.answer, ATTACK, dns.rdatatype.A, CHILD, labels=1)
-+ 
-++    # Has NSEC
-+     assert _rrset(response, response.authority, NSEC_OWNER, dns.rdatatype.NSEC)
-+     _check_rrsig(response, response.authority, NSEC_OWNER, dns.rdatatype.NSEC, CHILD)
-++    # Has NSEC3
-+     assert _rrset(response, response.authority, NSEC_OWNER, dns.rdatatype.NSEC3)
-+     assert (
-+         _rrset(
-+@@ -113,8 +119,8 @@ def test_repro_5985_direct_findnoqname_addnoqname_mismatch_fixture():
-+     )
-+ 
-+ 
-+-def test_repro_5985_resolver_does_not_abort_on_noqname_type_mismatch():
-++def test_resolver_findnoqname_addnoqname_mismatch():
-++    # Send one trigger query
-+     _query(RESOLVER, ATTACK, "A")
-+-
-+     response = _query(RESOLVER, ZONE, "SOA")
-+     isctest.check.noerror(response)
-+diff --git a/bin/tests/system/repro_5985_findnoqname_runtime_check/ans1/ans.py b/bin/tests/system/repro_5985_findnoqname_runtime_check/ans1/ans.py
-+deleted file mode 100644
-+index cb01c8a..0000000
-+--- a/bin/tests/system/repro_5985_findnoqname_runtime_check/ans1/ans.py
-++++ /dev/null
-+@@ -1,11 +0,0 @@
-+-#!/usr/bin/python3
-+-
-+-# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-+-#
-+-# SPDX-License-Identifier: MPL-2.0
-+-
-+-from server import main
-+-
-+-
-+-if __name__ == "__main__":
-+-    main()
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-13204-03.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-13204-03.patch
-new file mode 100644
-index 0000000000..59e200fc87
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-13204-03.patch
-@@ -0,0 +1,161 @@
-+From: Evan Hunt <each@isc.org>
-+Date: Wed, 13 May 2026 20:45:57 -0700
-+Subject: dns_rdataset_addnoqname() could find unsigned NSEC/NSEC3
-+
-+The dns_rdatalist addnoqname() implementation searches for the first
-+NSEC or NSEC3 record in a message, then for the first RRSIG covering
-+that type in the same message.  Previously, if no RRSIG for the type was
-+found, the function accepted the unsigned record. Now, it will instead
-+continue searching until an NSEC or NSEC3 that does have a matching
-+signature is found.
-+
-+When this function is called from validated() in resolver.c, a
-+non-success return code is now treated as an error instead of triggering
-+an assertion failure.
-+
-+Fixes: isc-projects/bind9#5985
-+(cherry picked from commit 57cba571ee31311e54d8a11cb38094d439f04e09)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/48f5aa5fb3746d6194edcc57e8792a8b3cc3b454
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-13204
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-13204
-+
-+CVE: CVE-2026-13204
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/48f5aa5fb3746d6194edcc57e8792a8b3cc3b454]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/dns/rbtdb.c     | 10 +++++++---
-+ lib/dns/rdatalist.c | 33 ++++++++++++++++-----------------
-+ lib/dns/resolver.c  |  4 +++-
-+ lib/ns/query.c      |  3 +--
-+ 4 files changed, 27 insertions(+), 23 deletions(-)
-+
-+diff --git a/lib/dns/rbtdb.c b/lib/dns/rbtdb.c
-+index 0b85479..c922df5 100644
-+--- a/lib/dns/rbtdb.c
-++++ b/lib/dns/rbtdb.c
-+@@ -6946,7 +6946,7 @@ delegating_type(dns_rbtdb_t *rbtdb, dns_rbtnode_t *node,
-+ static isc_result_t
-+ addnoqname(dns_rbtdb_t *rbtdb, rdatasetheader_t *newheader,
-+ 	   uint32_t maxrrperset, dns_rdataset_t *rdataset) {
-+-	struct noqname *noqname;
-++	struct noqname *noqname = NULL;
-+ 	isc_mem_t *mctx = rbtdb->common.mctx;
-+ 	dns_name_t name;
-+ 	dns_rdataset_t neg, negsig;
-+@@ -6958,7 +6958,9 @@ addnoqname(dns_rbtdb_t *rbtdb, rdatasetheader_t *newheader,
-+ 	dns_rdataset_init(&negsig);
-+ 
-+ 	result = dns_rdataset_getnoqname(rdataset, &name, &neg, &negsig);
-+-	RUNTIME_CHECK(result == ISC_R_SUCCESS);
-++	if (result != ISC_R_SUCCESS) {
-++		goto cleanup;
-++	}
-+ 
-+ 	noqname = isc_mem_get(mctx, sizeof(*noqname));
-+ 	dns_name_init(&noqname->name, NULL);
-+@@ -6984,7 +6986,9 @@ addnoqname(dns_rbtdb_t *rbtdb, rdatasetheader_t *newheader,
-+ cleanup:
-+ 	dns_rdataset_disassociate(&neg);
-+ 	dns_rdataset_disassociate(&negsig);
-+-	free_noqname(mctx, &noqname);
-++	if (noqname != NULL) {
-++		free_noqname(mctx, &noqname);
-++	}
-+ 	return result;
-+ }
-+ 
-+diff --git a/lib/dns/rdatalist.c b/lib/dns/rdatalist.c
-+index 98036f9..2cca8d6 100644
-+--- a/lib/dns/rdatalist.c
-++++ b/lib/dns/rdatalist.c
-+@@ -192,6 +192,7 @@ isc__rdatalist_addnoqname(dns_rdataset_t *rdataset, const dns_name_t *name) {
-+ 	dns_rdataset_t *neg = NULL;
-+ 	dns_rdataset_t *negsig = NULL;
-+ 	dns_rdataset_t *rdset;
-++	dns_rdataset_t *sigset;
-+ 	dns_ttl_t ttl;
-+ 
-+ 	REQUIRE(rdataset != NULL);
-+@@ -199,30 +200,27 @@ isc__rdatalist_addnoqname(dns_rdataset_t *rdataset, const dns_name_t *name) {
-+ 	for (rdset = ISC_LIST_HEAD(name->list); rdset != NULL;
-+ 	     rdset = ISC_LIST_NEXT(rdset, link))
-+ 	{
-+-		if (rdset->rdclass != rdataset->rdclass) {
-+-			continue;
-+-		}
-+-		if (rdset->type == dns_rdatatype_nsec ||
-+-		    rdset->type == dns_rdatatype_nsec3)
-++		if (rdset->rdclass != rdataset->rdclass ||
-++		    (rdset->type != dns_rdatatype_nsec &&
-++		     rdset->type != dns_rdatatype_nsec3))
-+ 		{
-+-			neg = rdset;
-++			continue;
-+ 		}
-+-	}
-+-	if (neg == NULL) {
-+-		return ISC_R_NOTFOUND;
-+-	}
-+ 
-+-	for (rdset = ISC_LIST_HEAD(name->list); rdset != NULL;
-+-	     rdset = ISC_LIST_NEXT(rdset, link))
-+-	{
-+-		if (rdset->type == dns_rdatatype_rrsig &&
-+-		    rdset->covers == neg->type)
-++		for (sigset = ISC_LIST_HEAD(name->list); sigset != NULL;
-++		     sigset = ISC_LIST_NEXT(sigset, link))
-+ 		{
-+-			negsig = rdset;
-++			if (sigset->type == dns_rdatatype_rrsig &&
-++			    sigset->covers == rdset->type)
-++			{
-++				neg = rdset;
-++				negsig = sigset;
-++				break;
-++			}
-+ 		}
-+ 	}
-+ 
-+-	if (negsig == NULL) {
-++	if (neg == NULL || negsig == NULL) {
-+ 		return ISC_R_NOTFOUND;
-+ 	}
-+ 	/*
-+@@ -238,6 +236,7 @@ isc__rdatalist_addnoqname(dns_rdataset_t *rdataset, const dns_name_t *name) {
-+ 	rdataset->ttl = neg->ttl = negsig->ttl = ttl;
-+ 	rdataset->attributes |= DNS_RDATASETATTR_NOQNAME;
-+ 	rdataset->private6 = name;
-++
-+ 	return ISC_R_SUCCESS;
-+ }
-+ 
-+diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
-+index 06c779e..01c4a00 100644
-+--- a/lib/dns/resolver.c
-++++ b/lib/dns/resolver.c
-+@@ -5910,7 +5910,9 @@ validated(isc_task_t *task, isc_event_t *event) {
-+ 		result = dns_rdataset_addnoqname(
-+ 			vevent->rdataset,
-+ 			vevent->proofs[DNS_VALIDATOR_NOQNAMEPROOF]);
-+-		RUNTIME_CHECK(result == ISC_R_SUCCESS);
-++		if (result != ISC_R_SUCCESS) {
-++			goto noanswer_response;
-++		}
-+ 		INSIST(vevent->sigrdataset != NULL);
-+ 		vevent->sigrdataset->ttl = vevent->rdataset->ttl;
-+ 		if (vevent->proofs[DNS_VALIDATOR_CLOSESTENCLOSER] != NULL) {
-+diff --git a/lib/ns/query.c b/lib/ns/query.c
-+index f0e5244..c4fe7c8 100644
-+--- a/lib/ns/query.c
-++++ b/lib/ns/query.c
-+@@ -7941,8 +7941,7 @@ query_addnoqnameproof(query_ctx_t *qctx) {
-+ 		goto cleanup;
-+ 	}
-+ 
-+-	result = dns_rdataset_getnoqname(qctx->noqname, fname, neg, negsig);
-+-	RUNTIME_CHECK(result == ISC_R_SUCCESS);
-++	CHECK(dns_rdataset_getnoqname(qctx->noqname, fname, neg, negsig));
-+ 
-+ 	query_addrrset(qctx, &fname, &neg, &negsig, dbuf,
-+ 		       DNS_SECTION_AUTHORITY);
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-13321-01.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-13321-01.patch
-new file mode 100644
-index 0000000000..90a17f2a08
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-13321-01.patch
-@@ -0,0 +1,401 @@
-+From: =?utf-8?q?Ayd=C4=B1n_Mercan?= <aydin@isc.org>
-+Date: Wed, 6 May 2026 16:54:57 +0300
-+Subject: Add system test for out-of-zone nsec dnssec bypass
-+
-+A malicious zone with out-of-zone NSEC entries can get a DNSSEC
-+validating resolver's cache to cover the victim zone for non-existence
-+and prevent nameserver queries without DNSSEC failure.
-+
-+Test for this case with an `evil.test` zone that tries to cover the
-+`victim.test` zone.
-+
-+(cherry picked from commit 654f9773c0af59965c343bdfeb096b3dffe9dd53)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/c969ad2c17b43dd999e358bfeb280d3df6fab822
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-13321
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-13321
-+
-+CVE: CVE-2026-13321
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/c969ad2c17b43dd999e358bfeb280d3df6fab822]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ .../ns1/named.conf.j2}                             |   7 +-
-+ .../ns1/root.db}                                   |  11 +-
-+ .../ns1/test.db}                                   |  15 +-
-+ .../ns2/named.conf.j2}                             |   6 +-
-+ .../ns2/victim.db}                                 |   8 +-
-+ .../template.db.in => dnssec_bypass/ns3/evil.db}   |  22 ++-
-+ .../ns3/named.conf.j2}                             |   6 +-
-+ .../ns4/named.conf.j2}                             |   9 +-
-+ bin/tests/system/dnssec_bypass/tests_bypass.py     | 152 +++++++++++++++++++++
-+ 9 files changed, 202 insertions(+), 34 deletions(-)
-+ copy bin/tests/system/{allow_query/ns1/named.conf.in => dnssec_bypass/ns1/named.conf.j2} (87%)
-+ copy bin/tests/system/{dupsigs/ns1/signing.test.db.in => dnssec_bypass/ns1/root.db} (72%)
-+ copy bin/tests/system/{dupsigs/ns1/signing.test.db.in => dnssec_bypass/ns1/test.db} (69%)
-+ copy bin/tests/system/{runtime/ns2/named-alt4.conf.in => dnssec_bypass/ns2/named.conf.j2} (89%)
-+ copy bin/tests/system/{dnssec/ns2/cdnskey.secure.db.in => dnssec_bypass/ns2/victim.db} (79%)
-+ copy bin/tests/system/{checkds/ns9/template.db.in => dnssec_bypass/ns3/evil.db} (54%)
-+ copy bin/tests/system/{allow_query/ns1/named.conf.in => dnssec_bypass/ns3/named.conf.j2} (88%)
-+ copy bin/tests/system/{rrsetorder/ns4/named.conf.in => dnssec_bypass/ns4/named.conf.j2} (86%)
-+ create mode 100644 bin/tests/system/dnssec_bypass/tests_bypass.py
-+
-+diff --git a/bin/tests/system/allow_query/ns1/named.conf.in b/bin/tests/system/dnssec_bypass/ns1/named.conf.j2
-+similarity index 87%
-+copy from bin/tests/system/allow_query/ns1/named.conf.in
-+copy to bin/tests/system/dnssec_bypass/ns1/named.conf.j2
-+index dd786e2..59ced18 100644
-+--- a/bin/tests/system/allow_query/ns1/named.conf.in
-++++ b/bin/tests/system/dnssec_bypass/ns1/named.conf.j2
-+@@ -20,7 +20,12 @@ options {
-+ 	dnssec-validation no;
-+ };
-+ 
-++zone "test." {
-++	type primary;
-++	file "test.db.signed";
-++};
-++
-+ zone "." {
-+ 	type primary;
-+-	file "root.db";
-++	file "root.db.signed";
-+ };
-+diff --git a/bin/tests/system/dupsigs/ns1/signing.test.db.in b/bin/tests/system/dnssec_bypass/ns1/root.db
-+similarity index 72%
-+copy from bin/tests/system/dupsigs/ns1/signing.test.db.in
-+copy to bin/tests/system/dnssec_bypass/ns1/root.db
-+index b522b6f..8d98a04 100644
-+--- a/bin/tests/system/dupsigs/ns1/signing.test.db.in
-++++ b/bin/tests/system/dnssec_bypass/ns1/root.db
-+@@ -10,9 +10,10 @@
-+ ; information regarding copyright ownership.
-+ 
-+ $TTL 3600
-+-@ IN SOA  ns root.ns 1996072700 3600 1800 86400 60
-+-@    NS   ns
-+-ns   A    127.0.0.1
-+-ns   AAAA ::1
-++.			IN SOA	a.nil. a.nil. 1 3600 600 86400 300
-++.			IN NS	a.root-servers.nil.
-+ 
-+-$GENERATE 0-499 a${0,4,d} AAAA ::$
-++a.root-servers.nil.	IN A	10.53.0.1
-++
-++test.			IN NS	ns1.test.
-++ns1.test.		IN A	10.53.0.1
-+diff --git a/bin/tests/system/dupsigs/ns1/signing.test.db.in b/bin/tests/system/dnssec_bypass/ns1/test.db
-+similarity index 69%
-+copy from bin/tests/system/dupsigs/ns1/signing.test.db.in
-+copy to bin/tests/system/dnssec_bypass/ns1/test.db
-+index b522b6f..6efcd95 100644
-+--- a/bin/tests/system/dupsigs/ns1/signing.test.db.in
-++++ b/bin/tests/system/dnssec_bypass/ns1/test.db
-+@@ -9,10 +9,15 @@
-+ ; See the COPYRIGHT file distributed with this work for additional
-+ ; information regarding copyright ownership.
-+ 
-++$ORIGIN test.
-+ $TTL 3600
-+-@ IN SOA  ns root.ns 1996072700 3600 1800 86400 60
-+-@    NS   ns
-+-ns   A    127.0.0.1
-+-ns   AAAA ::1
-+ 
-+-$GENERATE 0-499 a${0,4,d} AAAA ::$
-++@		IN SOA a a 1 3600 600 86400 300
-++		IN NS	ns1.test.
-++ns1		IN A	10.53.0.1
-++
-++evil		IN NS	ns1.evil
-++ns1.evil	IN A	10.53.0.3
-++
-++victim		IN NS	ns1.victim
-++ns1.victim	IN A	10.53.0.2
-+diff --git a/bin/tests/system/runtime/ns2/named-alt4.conf.in b/bin/tests/system/dnssec_bypass/ns2/named.conf.j2
-+similarity index 89%
-+copy from bin/tests/system/runtime/ns2/named-alt4.conf.in
-+copy to bin/tests/system/dnssec_bypass/ns2/named.conf.j2
-+index 4c0312a..e81cee7 100644
-+--- a/bin/tests/system/runtime/ns2/named-alt4.conf.in
-++++ b/bin/tests/system/dnssec_bypass/ns2/named.conf.j2
-+@@ -12,7 +12,6 @@
-+  */
-+ 
-+ options {
-+-	directory "./nope";
-+ 	port @PORT@;
-+ 	pid-file "named.pid";
-+ 	listen-on { 10.53.0.2; };
-+@@ -20,3 +19,8 @@ options {
-+ 	recursion no;
-+ 	dnssec-validation no;
-+ };
-++
-++zone "victim.test." {
-++	type primary;
-++	file "victim.db.signed";
-++};
-+diff --git a/bin/tests/system/dnssec/ns2/cdnskey.secure.db.in b/bin/tests/system/dnssec_bypass/ns2/victim.db
-+similarity index 79%
-+copy from bin/tests/system/dnssec/ns2/cdnskey.secure.db.in
-+copy to bin/tests/system/dnssec_bypass/ns2/victim.db
-+index aa3aaab..edcc234 100644
-+--- a/bin/tests/system/dnssec/ns2/cdnskey.secure.db.in
-++++ b/bin/tests/system/dnssec_bypass/ns2/victim.db
-+@@ -9,6 +9,10 @@
-+ ; See the COPYRIGHT file distributed with this work for additional
-+ ; information regarding copyright ownership.
-+ 
-++$ORIGIN victim.test.
-+ $TTL 3600
-+-@	SOA	ns2.example. . 1 3600 1200 86400 1200
-+-@	NS	ns2.example.
-++
-++@		IN SOA	ns1 hostmaster 1 3600 600 86400 2147483647
-++		IN NS	ns1
-++
-++ns1		IN A	10.53.0.2
-+diff --git a/bin/tests/system/checkds/ns9/template.db.in b/bin/tests/system/dnssec_bypass/ns3/evil.db
-+similarity index 54%
-+copy from bin/tests/system/checkds/ns9/template.db.in
-+copy to bin/tests/system/dnssec_bypass/ns3/evil.db
-+index cf06015..618f9d3 100644
-+--- a/bin/tests/system/checkds/ns9/template.db.in
-++++ b/bin/tests/system/dnssec_bypass/ns3/evil.db
-+@@ -9,19 +9,15 @@
-+ ; See the COPYRIGHT file distributed with this work for additional
-+ ; information regarding copyright ownership.
-+ 
-++$ORIGIN evil.test.
-+ $TTL 300
-+-@		IN	SOA  mname1. . (
-+-			1       ; serial
-+-			20      ; refresh (20 seconds)
-+-			20      ; retry (20 seconds)
-+-			1814400 ; expire (3 weeks)
-+-			3600    ; minimum (1 hour)
-+-			)
-+ 
-+-			NS	ns9
-+-ns9			A	10.53.0.9
-+-
-+-a			A	10.0.0.1
-+-b			A	10.0.0.2
-+-c			A	10.0.0.3
-++@		IN SOA	ns1 hostmaster 1 3600 600 86400 300
-++		IN NS	ns1
-++; Try to poison the victim zone in a resolver cache.
-++; If admitted, the aggressive NSEC cache will accept a range such as
-++; [evil.test, b.victim.test) and will cause the victim nameserver to
-++; be never queried.
-++		IN NSEC	b.victim.test. NS SOA RRSIG NSEC DNSKEY
-+ 
-++ns1		IN A	10.53.0.3
-+diff --git a/bin/tests/system/allow_query/ns1/named.conf.in b/bin/tests/system/dnssec_bypass/ns3/named.conf.j2
-+similarity index 88%
-+copy from bin/tests/system/allow_query/ns1/named.conf.in
-+copy to bin/tests/system/dnssec_bypass/ns3/named.conf.j2
-+index dd786e2..17d3e18 100644
-+--- a/bin/tests/system/allow_query/ns1/named.conf.in
-++++ b/bin/tests/system/dnssec_bypass/ns3/named.conf.j2
-+@@ -14,13 +14,13 @@
-+ options {
-+ 	port @PORT@;
-+ 	pid-file "named.pid";
-+-	listen-on { 10.53.0.1; };
-++	listen-on { 10.53.0.3; };
-+ 	listen-on-v6 { none; };
-+ 	recursion no;
-+ 	dnssec-validation no;
-+ };
-+ 
-+-zone "." {
-++zone "evil.test." {
-+ 	type primary;
-+-	file "root.db";
-++	file "evil.db.signed";
-+ };
-+diff --git a/bin/tests/system/rrsetorder/ns4/named.conf.in b/bin/tests/system/dnssec_bypass/ns4/named.conf.j2
-+similarity index 86%
-+copy from bin/tests/system/rrsetorder/ns4/named.conf.in
-+copy to bin/tests/system/dnssec_bypass/ns4/named.conf.j2
-+index d5fc527..039695d 100644
-+--- a/bin/tests/system/rrsetorder/ns4/named.conf.in
-++++ b/bin/tests/system/dnssec_bypass/ns4/named.conf.j2
-+@@ -19,13 +19,14 @@ options {
-+ 	pid-file "named.pid";
-+ 	listen-on { 10.53.0.4; };
-+ 	listen-on-v6 { none; };
-++	allow-transfer { any; };
-+ 	recursion yes;
-+ 	dnssec-validation yes;
-+-	notify yes;
-+-	rrset-order {
-+-		class IN type A name "host.example.com" order random;
-+-	};
-++	synth-from-dnssec yes;
-++};
-+ 
-++trust-anchors {
-++	@root.domain@ @root.type@ @root.contents@;
-+ };
-+ 
-+ zone "." {
-+diff --git a/bin/tests/system/dnssec_bypass/tests_bypass.py b/bin/tests/system/dnssec_bypass/tests_bypass.py
-+new file mode 100644
-+index 0000000..c41bb7e
-+--- /dev/null
-++++ b/bin/tests/system/dnssec_bypass/tests_bypass.py
-+@@ -0,0 +1,152 @@
-++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++#
-++# SPDX-License-Identifier: MPL-2.0
-++#
-++# This Source Code Form is subject to the terms of the Mozilla Public
-++# License, v. 2.0.  If a copy of the MPL was not distributed with this
-++# file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++#
-++# See the COPYRIGHT file distributed with this work for additional
-++# information regarding copyright ownership.
-++
-++from datetime import datetime, timedelta, timezone
-++
-++import shutil
-++
-++from cryptography.hazmat.primitives.asymmetric import ec
-++
-++import dns.dnssec
-++import dns.name
-++import dns.rdataclass
-++import dns.rdataset
-++import dns.rdatatype
-++import dns.rrset
-++import dns.zone
-++
-++from isctest.run import EnvCmd
-++
-++import isctest
-++
-++TTL = 3600
-++
-++
-++def bootstrap():
-++    keygen = EnvCmd("KEYGEN", "-q -a ECDSA256")
-++    signer = EnvCmd("SIGNER", "-S -g -O full")
-++
-++    def sign_regular_zone(ns: str, zone: str, database: str) -> isctest.kasp.Key:
-++        isctest.log.info(f"{zone}: generate keys")
-++        keygen(zone, cwd=ns).out.strip()
-++        ksk = keygen(f"-f KSK {zone}", cwd=ns).out.strip()
-++
-++        isctest.log.info(f"{zone}: sign zone")
-++        signer(f"-o {zone} {database}", cwd=ns)
-++
-++        if ns != "ns1":
-++            shutil.copy(f"{ns}/dsset-{zone}", f"ns1/dsset-{zone}")
-++            shutil.copy(f"{ns}/{ksk}.key", f"ns1/{ksk}.key")
-++
-++        return isctest.kasp.Key(ksk, keydir=ns)
-++
-++    # dnssec-signzone and `dns.dnssec.sign_zone` correctly disregard the invalid
-++    # NSEC entries when signing the zone. However, for this test we actualy *want*
-++    # to serve invalid yet signed zones. To accomplish this we sign the zone and then
-++    # replace the correct entries with the faulty ones accompanied by its RRSIG.
-++    #
-++    # TODO(aydin): move this to `isctest` to sign broken zones
-++    def sign_rogue_zone(ns: str, zone: str, database: str) -> None:
-++        # Read zone.
-++        origin = dns.name.from_text(zone)
-++        data = dns.zone.from_file(f"{ns}/{database}", origin=origin, relativize=False)
-++
-++        # Get key for signing.
-++        isctest.log.info(f"{zone}: generate keys")
-++        private_key = ec.generate_private_key(ec.SECP256R1())
-++        dnskey = dns.dnssec.make_dnskey(
-++            public_key=private_key.public_key(),
-++            algorithm=dns.dnssec.Algorithm.ECDSAP256SHA256,
-++            flags=257,
-++        )
-++
-++        # Sign zone.
-++        isctest.log.info(f"{zone}: sign zone")
-++        now = datetime.now(timezone.utc)
-++        inception = now - timedelta(hours=1)
-++        expiration = now + timedelta(days=30)
-++
-++        for name, node in data.nodes.items():
-++            owner = name.derelativize(origin)
-++            rdatasets = list(node.rdatasets)
-++
-++            for rdataset in rdatasets:
-++                rrset = dns.rrset.RRset(owner, rdataset.rdclass, rdataset.rdtype)
-++                rrset.update(rdataset)
-++
-++                rrsig = dns.dnssec.sign(
-++                    rrset=rrset,
-++                    private_key=private_key,
-++                    signer=origin,
-++                    dnskey=dnskey,
-++                    inception=inception,
-++                    expiration=expiration,
-++                    deterministic=False,
-++                )
-++
-++                rdataset = dns.rdataset.Rdataset(rrset.rdclass, dns.rdatatype.RRSIG)
-++                rdataset.add(rrsig, rrset.ttl)
-++                node.replace_rdataset(rdataset)
-++
-++        # Sign DNSKEY RRset.
-++        dnskey_rrset = dns.rrset.RRset(origin, dns.rdataclass.IN, dns.rdatatype.DNSKEY)
-++        dnskey_rrset.add(dnskey, ttl=TTL)
-++
-++        apex_node = data.nodes[origin]
-++        apex_node.replace_rdataset(dnskey_rrset)
-++
-++        rrsig = dns.dnssec.sign(
-++            rrset=dnskey_rrset,
-++            private_key=private_key,
-++            signer=origin,
-++            dnskey=dnskey,
-++            inception=inception,
-++            expiration=expiration,
-++            deterministic=False,
-++        )
-++        rdataset = dns.rdataset.Rdataset(rrset.rdclass, dns.rdatatype.RRSIG)
-++        rdataset.add(rrsig, dnskey_rrset.ttl)
-++        apex_node.replace_rdataset(rdataset)
-++
-++        # Output zone.
-++        data.to_file(f"{ns}/{database}.signed", relativize=False)
-++
-++        # Output DS.
-++        ds = dns.dnssec.make_ds(name=origin, key=dnskey, algorithm="SHA256")
-++        with open(f"ns1/dsset-{zone}", "w", encoding="utf-8") as f:
-++            f.write(f"{zone} {TTL} IN DS {ds.to_text()}\n")
-++
-++    sign_rogue_zone("ns3", "evil.test.", "evil.db")
-++    sign_regular_zone("ns2", "victim.test.", "victim.db")
-++    sign_regular_zone("ns1", "test.", "test.db")
-++    root_ksk = sign_regular_zone("ns1", ".", "root.db")
-++
-++    return {
-++        "root": root_ksk.into_ta("static-key"),
-++    }
-++
-++
-++def test_out_of_zone_nsec(ns4):
-++    isctest.log.info("trying to poison aggressive nsec cache")
-++    msg = isctest.query.create("nx.evil.test", "A")
-++    res = isctest.query.tcp(msg, ns4.ip)
-++    isctest.check.noadflag(res)
-++
-++    isctest.log.info("query victim from recursive")
-++    msg = isctest.query.create("victim.test", "SOA")
-++    res = isctest.query.tcp(msg, ns4.ip, attempts=1)
-++    isctest.check.noerror(res)
-++    isctest.check.adflag(res)
-++    isctest.check.rr_count_eq(res.answer, 2)
-++
-++    isctest.log.info("checking for query history on victim nameserver")
-++    with open("ns2/named.run", "r", encoding="utf-8") as f:
-++        assert "(victim.test): query 'victim.test/SOA/IN' approved" in f.read()
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-13321-02.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-13321-02.patch
-new file mode 100644
-index 0000000000..a9bf3521b0
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-13321-02.patch
-@@ -0,0 +1,88 @@
-+From: =?utf-8?q?Ayd=C4=B1n_Mercan?= <aydin@isc.org>
-+Date: Thu, 7 May 2026 18:59:20 +0300
-+Subject: Reject out-of-zone NSEC next owner names
-+
-+When verifying DNSSEC records, make sure that a next owner name of
-+an NSEC record is a subdomain of the signer field.
-+
-+This follows the specification RFC 4034, section 4.1.1:
-+
-+ Owner names of RRsets for which the given zone is not authoritative
-+ (such as glue records) MUST NOT be listed in the Next Domain Name
-+ unless at least one authoritative RRset exists at the same owner
-+ name.
-+
-+While the above paragraph is intended for glue records, it also
-+applies to out-of-zone data.
-+
-+(cherry picked from commit 4065512d25b71605b9502bb69dfb903776d35aa9)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/058023c66f11d78590d4aa8c4f98946c4c965e21
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-13321
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-13321
-+
-+CVE: CVE-2026-13321
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/058023c66f11d78590d4aa8c4f98946c4c965e21]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/dns/dnssec.c             | 13 +++++++++++++
-+ lib/dns/include/dns/dnssec.h |  6 ++++++
-+ 2 files changed, 19 insertions(+)
-+
-+diff --git a/lib/dns/dnssec.c b/lib/dns/dnssec.c
-+index 9b9b1f2..5acaea9 100644
-+--- a/lib/dns/dnssec.c
-++++ b/lib/dns/dnssec.c
-+@@ -357,8 +357,10 @@ isc_result_t
-+ dns_dnssec_verify(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
-+ 		  bool ignoretime, unsigned int maxbits, isc_mem_t *mctx,
-+ 		  dns_rdata_t *sigrdata, dns_name_t *wild) {
-++	dns_rdata_nsec_t nsec;
-+ 	dns_rdata_rrsig_t sig;
-+ 	dns_fixedname_t fnewname;
-++	dns_rdata_t rdata = DNS_RDATA_INIT;
-+ 	isc_region_t r;
-+ 	isc_buffer_t envbuf;
-+ 	dns_rdata_t *rdatas;
-+@@ -464,6 +466,17 @@ dns_dnssec_verify(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
-+ 		}
-+ 		break;
-+ 	}
-++	/*
-++	 * Check for out of zone NSEC entries.
-++	 */
-++	if (set->type == dns_rdatatype_nsec) {
-++		RETERR(dns_rdataset_first(set));
-++		dns_rdataset_current(set, &rdata);
-++		RETERR(dns_rdata_tostruct(&rdata, &nsec, NULL));
-++		if (!dns_name_issubdomain(&nsec.next, &sig.signer)) {
-++			return DNS_R_NOVALIDNSEC;
-++		}
-++	}
-+ 
-+ again:
-+ 	ret = dst_context_create(key, mctx, DNS_LOGCATEGORY_DNSSEC, false,
-+diff --git a/lib/dns/include/dns/dnssec.h b/lib/dns/include/dns/dnssec.h
-+index cb8fd9d..2be11b9 100644
-+--- a/lib/dns/include/dns/dnssec.h
-++++ b/lib/dns/include/dns/dnssec.h
-+@@ -151,6 +151,9 @@ dns_dnssec_verify(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
-+  *	this record, as this requires a resolver or database.
-+  *	If 'ignoretime' is true, temporal validity will not be checked.
-+  *
-++ *	If 'set' is of type NSEC, this function also verifies that the
-++ *	Next Name is a subdomain of the Signer's Name from 'sigrdata'.
-++ *
-+  *	'maxbits' specifies the maximum number of rsa exponent bits accepted.
-+  *
-+  *	Requires:
-+@@ -173,6 +176,9 @@ dns_dnssec_verify(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
-+  *\li		#DNS_R_KEYUNAUTHORIZED - the key cannot sign this data (either
-+  *			it is not a zone key or its flags prevent
-+  *			authentication)
-++ *
-++ *\li		#DNS_R_NOVALIDNSEC - the NSEC rdata is not valid
-++ *\li		#DNS_R_KEYUNAUTHORIZED - the key cannot sign this data
-+  *\li		DST_R_*
-+  */
-+ 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-13321-03.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-13321-03.patch
-new file mode 100644
-index 0000000000..c85e92d22d
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-13321-03.patch
-@@ -0,0 +1,203 @@
-+From: =?utf-8?q?Ayd=C4=B1n_Mercan?= <aydin@isc.org>
-+Date: Tue, 12 May 2026 14:54:09 +0300
-+Subject: change dns_nsec_requiredtypespresent to dns_nsec_is_legal
-+
-+Change `dns_nsec_requiredtypespresent` to `dns_nsec_is_legal` as a
-+function for checking multiple NSEC validity rules.
-+
-+Currently we now additionally check for out-of-zone NSEC entries.
-+
-+(cherry picked from commit be2a6a497312469890b552907d039d2de0b44ccc)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/f751e19a30d107f04c2f644aff9f8dab8fed03ab
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-13321
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-13321
-+
-+CVE: CVE-2026-13321
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/f751e19a30d107f04c2f644aff9f8dab8fed03ab]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ lib/dns/include/dns/nsec.h | 18 ++++++++++++-----
-+ lib/dns/nsec.c             | 17 ++++++++++++----
-+ lib/dns/resolver.c         | 48 ++++++++++++++++++++++++++++++++++++++++++++--
-+ lib/ns/query.c             |  6 +++---
-+ 4 files changed, 75 insertions(+), 14 deletions(-)
-+
-+diff --git a/lib/dns/include/dns/nsec.h b/lib/dns/include/dns/nsec.h
-+index 50df8e4..1e71bf1 100644
-+--- a/lib/dns/include/dns/nsec.h
-++++ b/lib/dns/include/dns/nsec.h
-+@@ -119,13 +119,21 @@ dns_nsec_noexistnodata(dns_rdatatype_t type, const dns_name_t *name,
-+  */
-+ 
-+ bool
-+-dns_nsec_requiredtypespresent(dns_rdataset_t *rdataset);
-+-/*
-+- * Return true if all the NSEC records in rdataset have both
-+- * NSEC and RRSIG present.
-++dns_nsec_is_legal(dns_rdataset_t *rdataset, const dns_name_t *name);
-++/**<
-++ * \brief
-++ * Validates a rdataset of type NSEC.
-+  *
-+- * Requires:
-++ * This functions checks for the following in the given rdataset:
-++ * \li All NSEC records have both NSEC and RRSIG present
-++ * \li All NSEC entries are under the `name`
-++ *
-++ * \par Requires:
-+  * \li	rdataset to be a NSEC rdataset.
-++ * \li  `name` is a valid dns_name_t
-++ *
-++ * \retval true if all the checks pass
-++ * \retval false otherwise
-+  */
-+ 
-+ ISC_LANG_ENDDECLS
-+diff --git a/lib/dns/nsec.c b/lib/dns/nsec.c
-+index 80ee8d7..5abcce5 100644
-+--- a/lib/dns/nsec.c
-++++ b/lib/dns/nsec.c
-+@@ -21,6 +21,7 @@
-+ #include <isc/util.h>
-+ 
-+ #include <dns/db.h>
-++#include <dns/name.h>
-+ #include <dns/nsec.h>
-+ #include <dns/rdata.h>
-+ #include <dns/rdatalist.h>
-+@@ -497,8 +498,9 @@ dns_nsec_noexistnodata(dns_rdatatype_t type, const dns_name_t *name,
-+ }
-+ 
-+ bool
-+-dns_nsec_requiredtypespresent(dns_rdataset_t *nsecset) {
-+-	dns_rdataset_t rdataset;
-++dns_nsec_is_legal(dns_rdataset_t *nsecset, const dns_name_t *name) {
-++	dns_rdataset_t rdataset = DNS_RDATASET_INIT;
-++	dns_rdata_nsec_t nsec;
-+ 	isc_result_t result;
-+ 	bool found = false;
-+ 
-+@@ -513,12 +515,19 @@ dns_nsec_requiredtypespresent(dns_rdataset_t *nsecset) {
-+ 	{
-+ 		dns_rdata_t rdata = DNS_RDATA_INIT;
-+ 		dns_rdataset_current(&rdataset, &rdata);
-+-		if (!dns_nsec_typepresent(&rdata, dns_rdatatype_nsec) ||
-+-		    !dns_nsec_typepresent(&rdata, dns_rdatatype_rrsig))
-++
-++		/* must never fail */
-++		result = dns_rdata_tostruct(&rdata, &nsec, NULL);
-++		INSIST(result == ISC_R_SUCCESS);
-++
-++		if (!dns_name_issubdomain(&nsec.next, name) ||
-++		    !dns_nsec_typepresent(&rdata, dns_rdatatype_rrsig) ||
-++		    !dns_nsec_typepresent(&rdata, dns_rdatatype_nsec))
-+ 		{
-+ 			dns_rdataset_disassociate(&rdataset);
-+ 			return false;
-+ 		}
-++
-+ 		found = true;
-+ 	}
-+ 	dns_rdataset_disassociate(&rdataset);
-+diff --git a/lib/dns/resolver.c b/lib/dns/resolver.c
-+index 01c4a00..1bfd8bb 100644
-+--- a/lib/dns/resolver.c
-++++ b/lib/dns/resolver.c
-+@@ -65,7 +65,9 @@
-+ #include <dns/rootns.h>
-+ #include <dns/stats.h>
-+ #include <dns/tsig.h>
-++#include <dns/types.h>
-+ #include <dns/validator.h>
-++#include <dns/view.h>
-+ #include <dns/zone.h>
-+ 
-+ /* Detailed logging of fctx attach/detach */
-+@@ -5620,6 +5622,36 @@ fctx_setresult(fetchctx_t *fctx, dns_rdataset_t *rdataset) {
-+ 	return result;
-+ }
-+ 
-++static bool
-++get_and_check_signer_name(dns_name_t *signer, dns_rdataset_t *sigrdataset) {
-++	dns_rdata_rrsig_t rrsig;
-++	isc_result_t result;
-++	dns_rdata_t rdata;
-++
-++	if (dns_rdataset_first(sigrdataset) != ISC_R_SUCCESS) {
-++		return false;
-++	}
-++
-++	rdata = (dns_rdata_t)DNS_RDATA_INIT;
-++	dns_rdataset_current(sigrdataset, &rdata);
-++	result = dns_rdata_tostruct(&rdata, &rrsig, NULL);
-++	INSIST(result == ISC_R_SUCCESS);
-++	dns_name_copy(&rrsig.signer, signer);
-++
-++	while (dns_rdataset_next(sigrdataset) == ISC_R_SUCCESS) {
-++		rdata = (dns_rdata_t)DNS_RDATA_INIT;
-++		dns_rdataset_current(sigrdataset, &rdata);
-++		result = dns_rdata_tostruct(&rdata, &rrsig, NULL);
-++		INSIST(result == ISC_R_SUCCESS);
-++
-++		if (!dns_name_equal(signer, &rrsig.signer)) {
-++			return false;
-++		}
-++	}
-++
-++	return true;
-++}
-++
-+ /*
-+  * The validator has finished.
-+  */
-+@@ -5650,6 +5682,8 @@ validated(isc_task_t *task, isc_event_t *event) {
-+ 	dns_fixedname_t fwild;
-+ 	dns_name_t *wild = NULL;
-+ 	dns_message_t *message = NULL;
-++	dns_fixedname_t fsigner;
-++	dns_name_t *signer = NULL;
-+ 
-+ 	UNUSED(task); /* for now */
-+ 
-+@@ -6038,10 +6072,20 @@ answer_response:
-+ 			}
-+ 
-+ 			/*
-+-			 * Don't cache NSEC if missing NSEC or RRSIG types.
-++			 * Don't cache if all the RRSIGs don't have the same
-++			 * signer.
-++			 */
-++			signer = dns_fixedname_initname(&fsigner);
-++			if (!get_and_check_signer_name(signer, sigrdataset)) {
-++				continue;
-++			}
-++
-++			/*
-++			 * Don't cache NSEC if missing NSEC or RRSIG
-++			 * types.
-+ 			 */
-+ 			if (rdataset->type == dns_rdatatype_nsec &&
-+-			    !dns_nsec_requiredtypespresent(rdataset))
-++			    !dns_nsec_is_legal(rdataset, signer))
-+ 			{
-+ 				continue;
-+ 			}
-+diff --git a/lib/ns/query.c b/lib/ns/query.c
-+index c4fe7c8..1985f4e 100644
-+--- a/lib/ns/query.c
-++++ b/lib/ns/query.c
-+@@ -10356,10 +10356,10 @@ query_coveringnsec(query_ctx_t *qctx) {
-+ 	}
-+ 
-+ 	/*
-+-	 * If NSEC or RRSIG are missing from the type map
-+-	 * reject the NSEC RRset.
-++	 * Check that the NSEC entry is legal.
-++	 * (NSEC + RRSIG present and the entry isn't out-of-zone)
-+ 	 */
-+-	if (!dns_nsec_requiredtypespresent(qctx->rdataset)) {
-++	if (!dns_nsec_is_legal(qctx->rdataset, signer)) {
-+ 		goto cleanup;
-+ 	}
-+ 
-diff --git a/meta/recipes-connectivity/bind/bind_9.18.49.bb b/meta/recipes-connectivity/bind/bind_9.18.49.bb
-index b048ba6559..32205e4104 100644
---- a/meta/recipes-connectivity/bind/bind_9.18.49.bb
-+++ b/meta/recipes-connectivity/bind/bind_9.18.49.bb
-@@ -35,6 +35,12 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://CVE-2026-11721-03.patch \
-            file://CVE-2026-12617-01.patch \
-            file://CVE-2026-12617-02.patch \
-+           file://CVE-2026-13204-01.patch \
-+           file://CVE-2026-13204-02.patch \
-+           file://CVE-2026-13204-03.patch \
-+           file://CVE-2026-13321-01.patch \
-+           file://CVE-2026-13321-02.patch \
-+           file://CVE-2026-13321-03.patch \
-            "
- 
- SRC_URI[sha256sum] = "c43ce4548ebed788cd9df63658a7de105ceafba43fcd63fa352b1093e525cd24"
+diff --git a/meta/recipes-devtools/clang/clang/0034-guard-clang-tools-extra-test.patch b/meta/recipes-devtools/clang/clang/0034-guard-clang-tools-extra-test.patch
+deleted file mode 100644
+index 5e53d43944..0000000000
+--- a/meta/recipes-devtools/clang/clang/0034-guard-clang-tools-extra-test.patch
++++ /dev/null
+@@ -1,85 +0,0 @@
+-From 9463b5d24fc62372fc2731d4d4665c64c72b55b2 Mon Sep 17 00:00:00 2001
+-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+-Date: Wed, 19 Aug 2026 22:46:10 +0530
+-Subject: [PATCH] guard clang-tools-extra test
+-
+-clang-tools-extra tests depend on the llvm-bcanalyzer CMake target, which
+-exists in LLVM's CMake project but is not visible when Clang is built
+-separately. To run clang tests, disable clang-tools-extra tests for now.
+-
+-Without this patch when CLANG_INCLUDE_TESTS is ON got the following error
+-
+---------------------------------------------------------------------------------
+-| CMake Error at ../clang/21.1.8/recipe-sysroot/usr/lib/cmake/llvm/AddLLVM.cmake:2113 (add_dependencies):
+-|   The dependency target "llvm-bcanalyzer" of target
+-|   "check-clang-extra-clang-tidy-infrastructure-header-filter-from-config-file-simple"
+-|   does not exist.
+-| Call Stack (most recent call first):
+-|   ../clang/21.1.8/recipe-sysroot/usr/lib/cmake/llvm/AddLLVM.cmake:2221 (add_lit_target)
+-|   tools/extra/test/CMakeLists.txt:87 (add_lit_testsuites)
+-|
+-| CMake Error at ../clang/21.1.8/recipe-sysroot/usr/lib/cmake/llvm/AddLLVM.cmake:2113 (add_dependencies):
+-|   The dependency target "llvm-bcanalyzer" of target
+-|   "check-clang-extra-modularize" does not exist.
+-| Call Stack (most recent call first):
+-|   ../clang/21.1.8/recipe-sysroot/usr/lib/cmake/llvm/AddLLVM.cmake:2221 (add_lit_target)
+-|   tools/extra/test/CMakeLists.txt:87 (add_lit_testsuites)
+--------------------------------------------------------------------------------
+-
+-Upstream-Status: Inappropriate [OE-Specific]
+-
+-Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+----
+- clang-tools-extra/CMakeLists.txt                 | 4 ++--
+- clang-tools-extra/clangd/CMakeLists.txt          | 2 +-
+- clang-tools-extra/include-cleaner/CMakeLists.txt | 2 +-
+- 3 files changed, 4 insertions(+), 4 deletions(-)
+-
+-diff --git a/clang-tools-extra/CMakeLists.txt b/clang-tools-extra/CMakeLists.txt
+-index 87050db..3824129 100644
+---- a/clang-tools-extra/CMakeLists.txt
+-+++ b/clang-tools-extra/CMakeLists.txt
+-@@ -8,7 +8,7 @@ option(CLANG_TIDY_ENABLE_STATIC_ANALYZER
+- option(CLANG_TIDY_ENABLE_QUERY_BASED_CUSTOM_CHECKS
+-   "Enable query-based custom checks in clang-tidy" ON)
+- 
+--if(CLANG_INCLUDE_TESTS)
+-+if(CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
+-   umbrella_lit_testsuite_begin(check-clang-tools)
+- 
+-   option(CLANG_TOOLS_TEST_USE_VG "Run Clang tools' tests under Valgrind" OFF)
+-@@ -45,7 +45,7 @@ if (CLANG_ENABLE_CLANGD)
+- endif()
+- 
+- # Add the common testsuite after all the tools.
+--if(CLANG_INCLUDE_TESTS)
+-+if(CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
+-   add_subdirectory(test)
+-   add_subdirectory(unittests)
+-   umbrella_lit_testsuite_end(check-clang-tools)
+-diff --git a/clang-tools-extra/clangd/CMakeLists.txt b/clang-tools-extra/clangd/CMakeLists.txt
+-index 890562d..c4d6623 100644
+---- a/clang-tools-extra/clangd/CMakeLists.txt
+-+++ b/clang-tools-extra/clangd/CMakeLists.txt
+-@@ -217,7 +217,7 @@ endif()
+- option(CLANGD_BUILD_DEXP "Build the dexp tool as part of Clangd" ON)
+- llvm_canonicalize_cmake_booleans(CLANGD_BUILD_DEXP)
+- 
+--if(CLANG_INCLUDE_TESTS)
+-+if(CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
+-   add_subdirectory(test)
+-   add_subdirectory(unittests)
+- endif()
+-diff --git a/clang-tools-extra/include-cleaner/CMakeLists.txt b/clang-tools-extra/include-cleaner/CMakeLists.txt
+-index dc147f9..4855577 100644
+---- a/clang-tools-extra/include-cleaner/CMakeLists.txt
+-+++ b/clang-tools-extra/include-cleaner/CMakeLists.txt
+-@@ -1,7 +1,7 @@
+- include_directories(include)
+- add_subdirectory(lib)
+- add_subdirectory(tool)
+--if(CLANG_INCLUDE_TESTS)
+-+if(CLANG_TOOLS_EXTRA_INCLUDE_TESTS)
+-   add_subdirectory(test)
+-   add_subdirectory(unittests)
+- endif()
+diff --git a/meta/recipes-devtools/clang/clang_git.bb b/meta/recipes-devtools/clang/clang_git.bb
+index c54a49b618..3b93f0d02c 100644
+--- a/meta/recipes-devtools/clang/clang_git.bb
++++ b/meta/recipes-devtools/clang/clang_git.bb
+@@ -67,6 +67,7 @@ EXTRA_OECMAKE += "-DLLVM_ENABLE_ASSERTIONS=OFF \
+                   -DLLVM_TABLEGEN_EXE=${STAGING_BINDIR_NATIVE}/llvm-tblgen \
+                   -DCLANG_TABLEGEN_EXE=${STAGING_BINDIR_NATIVE}/clang-tblgen \
+                   -DLLVM_INCLUDE_TESTS=OFF \
++                  -DCLANG_TOOLS_EXTRA_INCLUDE_TESTS=OFF \
+                   -DCROSS_TOOLCHAIN_FLAGS_NATIVE='-DCMAKE_TOOLCHAIN_FILE=${WORKDIR}/toolchain-native.cmake' \
+                   -DLLVM_LIBDIR_SUFFIX=${LLVM_LIBDIR_SUFFIX} \
+                   -DCMAKE_AR=${STAGING_BINDIR_NATIVE}/llvm-ar \
+diff --git a/meta/recipes-devtools/clang/common.inc b/meta/recipes-devtools/clang/common.inc
+index 5b358f7284..d10337a720 100644
+--- a/meta/recipes-devtools/clang/common.inc
++++ b/meta/recipes-devtools/clang/common.inc
+@@ -53,7 +53,7 @@ SRC_URI = "\
+     file://0031-Only-build-clang-tblgen-if-it-is-actually-needed.patch \
+     file://0032-llvm-libgcc-Fix-symlink-path-for-libcc-when-LLVM_ENA.patch \
+     file://0033-Consolidate-and-fix-sysroot-based-compiler-rt-search.patch \
+-    file://0034-guard-clang-tools-extra-test.patch \
++    file://0034-clang-tools-extra-Add-separate-CLANG_TOOLS_EXTRA_INC.patch \
+ "
+ # Fallback to no-PIE if not set
+ GCCPIE ??= ""
 -- 
-2.50.1
+2.49.0
 
 
