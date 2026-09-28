@@ -1,859 +1,1196 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <vchavda@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1D3CECA5FA1
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 17:32:11 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.64295.1790616725203041414
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E284CA5FA1
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 18:06:38 +0000 (UTC)
+Received: from alln-iport-2.cisco.com (alln-iport-2.cisco.com [173.37.142.89])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.64153.1790618788230663541
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 10:32:05 -0700
+ Mon, 28 Sep 2026 11:06:28 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=YewYCpWJ;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 45D1C1655
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 10:32:01 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id 33EF93F763
-	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 10:32:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790616724; bh=Cnxxf8W7y8iYsuKa/L7TbaUIHht8UyEVoN6d8yOGkh0=;
-	h=From:To:Subject:Date:In-Reply-To:References:From;
-	b=YewYCpWJTfy2WSViLhXOnT0ZqCid7Cu4o5wpjiZhfBdeSKeFgp03+76goed4mWJPS
-	 I/nYVUzHQk4xvFQUun5pUxM6a2/0Um8w1zLeJaMQNvxLJwvv2H8W1NujOsfEQLNprx
-	 aBMcw+KkjhUHbiiy/GQ/5q+tXrcjrgS1ouiMzkjQ=
-From: Ross Burton <ross.burton@arm.com>
-To: openembedded-core@lists.openembedded.org
-Subject: [RFC PATCH 2/4] recipes: update for PYPI_PACKAGE changes
-Date: Mon, 28 Sep 2026 18:31:56 +0100
-Message-ID: <20260928173158.781301-2-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20260928173158.781301-1-ross.burton@arm.com>
-References: <20260928173158.781301-1-ross.burton@arm.com>
+ dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=h6uslaeI;
+ spf=pass (domain: cisco.com, ip: 173.37.142.89, mailfrom: vchavda@cisco.com)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=cisco.com; i=@cisco.com; l=39384; q=dns/txt;
+  s=iport01; t=1790618788; x=1791828388;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:mime-version;
+  bh=Kz4430q/e8rGmtbbKT54wv3DW4aq6gds/z524bNt8EY=;
+  b=h6uslaeI37cLou4Lwa/T63LWC6y92/63t9rPCBw0FjwXLxPqL8BWnqtb
+   u9grKLSbUrxUgrUvNnqueJ+JdGZfXhMmpny7Nyw1sqzYcPCNjqCtDPb2c
+   puHTVRmvMCEtUYgQ6guASMpcRJbxcel4iFBl9u4daBtdMkM7cH/elGkJX
+   5DBLjGMraXp4rKx+VEbDEXhjBEI8+lB9Hrcl+LjoxRv0U+hjj8oaZfjMp
+   J0X1uNVVb+EZGzXSHoiwyz+NjUUjvsl0JFkcfyA1aci669wbjk31hEPvZ
+   /jaIhQVjKGf019+OyMlDmfnIP7sNeYqYwSEHhCtJmVhlJsx0X63MRpjUg
+   A==;
+X-CSE-ConnectionGUID: 7Gtzk0S9SA68+ej3uwREkA==
+X-CSE-MsgGUID: j1IL7viOQtmJy8dkvBTcAw==
+X-IPAS-Result: =?us-ascii?q?A0ABAwCrq7pq/5AQJK1agS6BK4E9MVMWdYEREkmIIwOFK?=
+ =?us-ascii?q?4h5A54agXgGDwEBAQ0CLgEVDQQBAYUFAo4JAiY0CQ4BAgQDAgMBAQEBAQEBA?=
+ =?us-ascii?q?QEBAQEKAQEFAQEBAgEHBYEOE4ZPDZASAQEBAQECARkxAS0QAgEIEQMBAiEBD?=
+ =?us-ascii?q?ScKHQgCBAENBQiCe4IdVwMBAg4GuCACih14gTSBAYMpATEHBwJD3AIBCxQBg?=
+ =?us-ascii?q?TiFQIMfASuBNYQAGAGDXYEfJxuBSUSBFUKCaT6BBYFcAQEBgTYrHh6DV4IwB?=
+ =?us-ascii?q?IIiehIbgT8eMjNKGZFfUnIiAyYzLAFVExcLBwWBIxAzAyovLSNLBS0dcAwnE?=
+ =?us-ascii?q?g8dFxEeWBsGBRIgKkFDXYFaPyMZNnqBCV6BKylgAQIOF0ZBggcCglSBI14CA?=
+ =?us-ascii?q?UlDDgdFUwkWD0EDBxJHJiIIEgkBExowC4EhOEEJKBRtPTcGDxkDBIE1BY9EY?=
+ =?us-ascii?q?R6CRRkHARUXYQEHDBggLgFJBSZBECmifaN3CoQejCKNPogyF6lYgRcLmH0jj?=
+ =?us-ascii?q?WeVaIUmAgQCBAUCEAEBBoFoPIEoHwsHcBVIAYJZCUoZD44tARaDYIF/gxSCQ?=
+ =?us-ascii?q?cRFeQIBCDIBAQcCBw4DC4FokACBfgEB?=
+IronPort-PHdr: A9a23:sh6leR/WL91Ub/9uWBDoyV9kXcBvk7zwOghQ7YIolPcTNK+i5J/le
+ kfY4KYlgFzIWNDD4ulfw6rNsq/mUHAd+5vJrn0YcZJNWhNEwcUblgAtGoiEXGXwLeXhaGoxG
+ 8EqaQ==
+IronPort-Data: A9a23:hg4g468w31eBjMHjjmUzDrUD2X+TJUtcMsCJ2f8bNWPcYEJGY0x3y
+ 2seUTzTaa3fM2ejKtx3bt+/o01TvpWAmNJqG1A+qyxEQiMRo6IpJzg2wmQcns+2BpeeJK6yx
+ 5xGMrEsFOhtEDmB4E/rbei5xZVF/fngbqLmD+LZMTxGSwZhSSMw4TpugOdRbrRA2bBVOCvT/
+ 4mtyyHjEAX9gWAsYzhEs/vrRC5H5ZwehhtJ5jTSWtgT1LPuvyF9JI4SI6i3M0z5TuF8dsamR
+ /zOxa2O5WjQ+REgELuNyt4XpWVTH9Y+lSDX4pZnc/DKbipq/0Te4Y5nXBYoUnq7vh3S9zxHJ
+ HqhgrTrIeshFvWkdO3wyHC0GQkmVUFN0OevzXRSLaV/wmWeG0YAzcmCA2lpEpEK+b5MUFpnq
+ 6xbJTJWcw+5quGflefTpulE3qzPLeHiOIcZ/3UlxjbDALN+HtbIQr7B4plT2zJYasJmRKmFI
+ ZFHL2MxKk2cP3WjOX9PYH46tPmjhnDhfzRwo1OOrq1x6G/WpOB0+OiwaYqPI4TbHq25mG6a/
+ 0PioHr4JSgGMf6OmTaG7FiQjcbQyHaTtIU6UefQGuRRqFqLy2oeDRcbWVe2rbyyjVSzc9ZeM
+ FAPvC02oK4/8UamQtXwU1u/unHsg/IHc9NUF+t/7ESGzbDZpl7GQGMFVTVGLtchsafaWAAX6
+ 7NApPuwbRRHu7yOQnXb/bCRxQ5e8wBORYPeTUfolTc43uQ=
+IronPort-HdrOrdr: A9a23:IWvM2a0E4hGbuRG/j/9ixAqjBY9xeYIsimQD101hICG9Lfbo9P
+ xGzc566farslcssSkb6K690cm7LU819fZOkO8s1MSZLXjbUQqTXc5fBOTZskfd8kHFh4pgPO
+ JbAtdD4b7LfBZHZKTBkXSF+r8bqbHtntHL9ILjJjVWPH1Xgspbnn5E43OgYzZLrX59dOIE/f
+ Snl616jgvlU046Ku68AX4IVfXCodrkqLLKCCRtOzcXrCO1oXeN8rDVLzi0ty1ybxp/hZsy+2
+ nMlAL0op6kr+y6zRHk0WrS5YR9mdfqyNdPbfb8y/T9LA+Cti+YIKBaH5GStjE8p++irHwwls
+ PXnhsmN8Nvr1vMY2Ccu3LWqkrd+Qdrz0Wn5U6TgHPlr8C8bik9EdB9iYVQdQacw1Y8vet7zL
+ lA0wuixthq5FL77WHADurzJlZXf3mP0DwfeCko/iViuL4lGftsREokjRto+dk7bXnHAcscYZ
+ lT5YnnlYVrmBWhHjDkl1gq5sCwVXIuGRrDaE0DtsuJlwVyphlCvhElLAh1pAZdyHr7IKM0ut
+ jsI+BmkqpDQdQRar84DOAdQdGvAmiIWh7UNnmOSG6XXp3vFki946If2o9Fr92CadgN1t8/iZ
+ 7BWFRXuSo7fF/vE9SH2NlO/grWSGuwUDzxwoUGjqIJ9oHUVf7uK2mOWVoum8yvr7EWBdDaQe
+ +6PNZTD+X4JWXjFI5V10n1WoVUK3MZTMoJ0+xLFm6ms4bOMMnnp+bbePHcKP7kFislQHr2Bj
+ 8ZUD36NKx7nwmWs7/D8W7ssl/WCzvCFMhLYd3n1vlWzJJILYFFuBUUj1Oij/v7WwGqmpZGCH
+ dDHA==
+X-Talos-CUID: 9a23:fhrE82NIFxgVFu5DBwZ75k1MIZEeWyONj3rSeFKnM0tqYejA
+X-Talos-MUID: 9a23:QkDpUASyUFbsUAjARXTu3RBGa9lpxJ2yDWIcwZkFpeO4PgVvbmI=
+X-IronPort-Anti-Spam-Filtered: true
+Received: from alln-l-core-07.cisco.com ([173.36.16.144])
+  by alln-iport-2.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Sep 2026 18:06:27 +0000
+Received: from alln-opgw-5.cisco.com (alln-opgw-5.cisco.com [173.37.147.253])
+	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
+	(No client certificate requested)
+	by alln-l-core-07.cisco.com (Postfix) with ESMTPS id EBB26180001D8
+	for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 18:06:26 +0000 (GMT)
+X-CSE-ConnectionGUID: 8VLtgQunQjmn+8THN2oEsg==
+X-CSE-MsgGUID: FKBfCbMORSuJUfCpev8xvA==
+Authentication-Results: alln-opgw-5.cisco.com; dkim=pass (signature verified) header.i=@cisco.com
+X-IronPort-AV: E=Sophos;i="6.27,128,1787011200"; 
+   d="scan'208,217";a="67220475"
+Received: from mail-eastus2azon11011048.outbound.protection.outlook.com (HELO BN8PR05CU002.outbound.protection.outlook.com) ([52.101.57.48])
+  by alln-opgw-5.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 28 Sep 2026 18:06:26 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=Be862dfWeMLz/ghGWNe9lRnoTUQeePH2N0ucXRECrvpkZ/SxTnkI8T380YVwLbMX+ommpq+bgbG5HfrZQKykHDoqRl76mtlpxOyUnr5WZstTCla6CQTjmCt7z1NjVFGiU2xoz35DwNxC0pwR6LpCNjh2aXiW+nUs1vSxz4sYqaElzdHDgCKy5pPAFjcmawc3eHfmyw6gNHDpkMXkPQle7q1QbZXNTAkdRtLlS2gKxNZ3FjH0EIUT4iQhzJ2C1emX0tjaOGcn2sleWTTEPspD+NAkisN/BlgcuYi1nLRuktvhlN8kq5QNRZ1QknF11CBlt0MEQbmM1a4CqaQUqEYaPw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=Kz4430q/e8rGmtbbKT54wv3DW4aq6gds/z524bNt8EY=;
+ b=NAKDrvYfa73tLJpvEJ7OqpamQUEV6oh0WHvXR70c8994Qbfvp+TR20SEYplXjC09X2lX+DTOqE49lxdHG2WPYog4CqnVUn7/yvjpN/zwWX58tn0DvIDNEQCDBWoPb9K5DJqeo0Ix3ELZClRhbmciDMN+txSMlp+g9HwWt6ftOHlX+YsYS7DCGT5ygxJMAti/RLyqtQ5ZdHAggAGpaaki+7OBJBkZbV2TIKe/BSVCMQfbVSwbS7P5CrUdFA3X4/6IrYqIy1HrjUzpzkZoiyFz7HONxP2RVGsCm4zr+xlYyiClNHCwlQatdCQARmiRXWyF0qMWqL344i60ZNULVpPzMQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=cisco.com; dmarc=pass action=none header.from=cisco.com;
+ dkim=pass header.d=cisco.com; arc=none
+Received: from CY8PR11MB7036.namprd11.prod.outlook.com (2603:10b6:930:50::10)
+ by SJ5PPFD56C4208E.namprd11.prod.outlook.com (2603:10b6:a0f:fc02::858) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.23; Mon, 28 Sep
+ 2026 18:06:23 +0000
+Received: from CY8PR11MB7036.namprd11.prod.outlook.com
+ ([fe80::1f59:c732:6dcd:8c90]) by CY8PR11MB7036.namprd11.prod.outlook.com
+ ([fe80::1f59:c732:6dcd:8c90%5]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
+ 18:06:23 +0000
+From: "Viral Chavda (vchavda)" <vchavda@cisco.com>
+To: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)"
+	<hthakar@cisco.com>, "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>
+CC: "xe-linux-external (Internal Group)" <xe-linux-external@cisco.com>
+Subject: Re: [OE-core][scarthgap][PATCH v2] apr-util: Fix CVE-2025-49506
+Thread-Topic: [OE-core][scarthgap][PATCH v2] apr-util: Fix CVE-2025-49506
+Thread-Index: AQHdTxZnW2/QvnHrh0KmyRw6B842FrbkSeNI
+Date: Mon, 28 Sep 2026 18:06:23 +0000
+Message-ID: 
+ <CY8PR11MB70369075BF0281B7E2603305AF8D2@CY8PR11MB7036.namprd11.prod.outlook.com>
+References: <20260928065538.1123598-1-hthakar@cisco.com>
+In-Reply-To: <20260928065538.1123598-1-hthakar@cisco.com>
+Accept-Language: en-IN, en-US
+Content-Language: en-IN
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-reactions: allow
+x-ms-publictraffictype: Email
+x-ms-traffictypediagnostic: CY8PR11MB7036:EE_|SJ5PPFD56C4208E:EE_
+x-ms-office365-filtering-correlation-id: 0a3ae9d6-5db4-43de-2e63-08df1d8b34c8
+x-ms-exchange-senderadcheck: 1
+x-ms-exchange-antispam-relay: 0
+x-microsoft-antispam: 
+ BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|260925021911599003|260925021311599003|260925022911599003|10067099003|5023799004|11063799006|56012099006|6133799003|18002099003|22082099003|8096899003|13003099007|38070700021;
+x-microsoft-antispam-message-info: 
+ lj2C13TC4GdpQ/lAnXOEF49Vj2hBHG9X5E9acKj+3PW1wEKQP9Ta9p/uqwK77iGKjosce9JfjYyuf2I0wpYS4fOvFbbMaw3AZX5VttTEZA+Bn4xDZV4lL/d8zUe0rm/1Sx2DGdfTYtZgkMHmr1xHtNnHQFAnuqP8fiy/tB1Yigv3W9mZWNiLAjUs6VeQZASys20ZW5AFmO7S9+afJpBmGBQXJU6UNDr3ldqaAUEjU3hPaGWYvCfDfuYdFb74zVvSxl/GS4XJ/qCz0yVs+EiNDQNqKr2UVpINSwoKPdtJNLwTI10yfpz8Ea55FeQ01uBwptMil5M5eHk6gSpY1a7xqd4dGkRwSIy0IpZ//aBZzwIGjDVCMb+OBSlgi0Xtw39E3th/vRksKMWu+kOlsSWHKqOrNfAgvfFnEBOCX1Ujkjpmi6s5l0a7qpwzyWs598LGZz1myx0O/0ifEXwL3vnwr2BQOeXzkS0PXf5K5DlShEEK2ECIlhpOVRWoqH/Xl2JRU4cmefKmvmmiCUcdtGKoS5dRlFeAh4qh8BBURr3drjppcu8TmvPzA0m0jJAedI4GzrDIy7rAKiRGqj9jcV+nkId39un8+T/LHl5TW4wMTgebTGnjNazLchqAyvKoay0FaCrkmLoAVhTBeRp3bCthcFqmOUm0fzOdD4o13Nd+KOc=
+x-forefront-antispam-report: 
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:CY8PR11MB7036.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(260925021911599003)(260925021311599003)(260925022911599003)(10067099003)(5023799004)(11063799006)(56012099006)(6133799003)(18002099003)(22082099003)(8096899003)(13003099007)(38070700021);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata-chunkcount: 1
+x-ms-exchange-antispam-messagedata-0: 
+ =?us-ascii?Q?Tw5N+LOqtkbgkp3W6ROdbXb+cVFdIKpxnHN4LcwU0cdB+2Gri6Jcf6XtsI2/?=
+ =?us-ascii?Q?gAUMyZfILp76OxYbbqSHXFc8rNLKHp5bN6TJBSQ8MUM3QEPfHjvjpljeIK99?=
+ =?us-ascii?Q?rfxa8UFxZJpUFZp68l6ldP1mRgVpG3r/EZmlmJ2h0prQTScrWzz4hG6NN0++?=
+ =?us-ascii?Q?sN4pXGIY/u6mm9EXNdFKqkoOlhX+GI9Zq4ufIPObE4qLzBBHOHIyrWX2fBXo?=
+ =?us-ascii?Q?U+GF+Jj5+/YluWfSB5T2vi5fpK9mSTslfBcJhU9kevFHUdhdwWLCaIgPoSN1?=
+ =?us-ascii?Q?tUIjHLospHTeXp5x2Ap5eondAhztl49y+FFUbDyhkcDhC37KJRzDU/LcMl9Z?=
+ =?us-ascii?Q?06SXnJerYZvaP8bO8qkky8vIoLI8Mx2zwYI8FhqzW0ZaFnZGHoCGaHUDrwjS?=
+ =?us-ascii?Q?bi5dKZ3rLwJbPfHwXuwvETYKlZoorVcegHfu0bRv9CfZ3sArwAQud1vjTcFa?=
+ =?us-ascii?Q?O6QzWE/BqoMXOAwqx90qqCa86LeOyC6wWdLgJU+lVg7m7o35ntFhRC74s/2x?=
+ =?us-ascii?Q?zq7kdQwMR+3DmnZuhxG60dNn2KNwBZJDkRgIHXqMPzgUrJVIBC4O0b72ZAHr?=
+ =?us-ascii?Q?c+XoQkXezdqrlOAQlqssFPnYsFq2Netpg3wuM8yHuC869mMn3v+o4Nrlj/rK?=
+ =?us-ascii?Q?OlqMptOOsqQ7loFBPKY0XapFu6TQtLHHhHBAuQYBYhhPryZ7y9pHzJ4z/RwL?=
+ =?us-ascii?Q?jxAbdj4HGHWHm3KwyrFLYXaASYI0YFvk6qeqB5BWjWaaiYQrDZeOgtweUxVn?=
+ =?us-ascii?Q?ax6HgzAGmYvKxjHbaRylYAfrYCuv1CvFMn/QJp4WiDkDqr9uDGv+2hkOo8XB?=
+ =?us-ascii?Q?2lo5cwm93/XXXue+Mfj5YROEu88ok1dLgFvgZXD83GmxLgHTcLkQpuufDIu6?=
+ =?us-ascii?Q?4AWSb5dG8CKRxNMDFk9FM3YWMUy2vZduI+D2fv7S1dksle8i/1I54cApW4OK?=
+ =?us-ascii?Q?J4/aGoRMWFx16lu5W37CvxdvObV2hXjFyU9cQXNFqmoIQpUNSxqbvdUH1CtZ?=
+ =?us-ascii?Q?fwqmbefkUWx2FwzDz0xJGr06jUxc5XHpAMBI/eM71FdhPF+d+h6+dLzZeemb?=
+ =?us-ascii?Q?iAQ2m5ZqcMHk7AGAO7gZx8DikzDswX53le5g16/NIZVvlqHqhptqyr+AEpLs?=
+ =?us-ascii?Q?T0hGWXFBhzW4chVAuGl3S5H7YDxipWXFHmyZYms/pAerrI9nYFSqf9hliB2V?=
+ =?us-ascii?Q?9ZoWcZQ7IkZ/B6wlmZbtAAYO6WlacEcxYZS4tlUgu4eZxjCH0gkg5QFnFbFa?=
+ =?us-ascii?Q?bLUWW6dkkajWZNjVCMGV7tqmfI+hynyjF6C/78QxMru5DqgY7iK45GNVvVM9?=
+ =?us-ascii?Q?BcAQpQwQA/mRHD8xhj9LfbVhNhLQSKzBBat79R7kYJ6++yGapAdEC7OgLGuS?=
+ =?us-ascii?Q?dmv7WkP+gho3U0FMYSqoi5GdWTUds6PbZrxtgCppo1vqPWcF8gkwSREDrBlp?=
+ =?us-ascii?Q?7+fTJZA48YvQsUCneHWNelbaQIHPUMtwrAKqnAnZje+1nQyTzW7YB4Peu2Wd?=
+ =?us-ascii?Q?YMaIy7+Gw6CMwLlMYH/8y2329KRoInbyP5ePjjSDBrZ4ps2hP34orpmdIoJ2?=
+ =?us-ascii?Q?xYTlxN4CuaFJ5YORHrRH0+tbb9ayz2fqHJOSYg+6GfUiY36jAg4CI/J1xOyu?=
+ =?us-ascii?Q?/h5jVUQhPNpNIGn/MPOTBDQ+31YqBFqkEyM9IY8XbsQd49unxre5sHHsFQxj?=
+ =?us-ascii?Q?nUdjvwINce0MiKDsftOFQ/EdeB7NFvai0n+bflqBt8JMbvsgL2sIze8/ayTM?=
+ =?us-ascii?Q?O/cTlPr/ZnY6JAJWGcaLqTlYDeFRczE=3D?=
+Content-Type: multipart/alternative;
+	boundary="_000_CY8PR11MB70369075BF0281B7E2603305AF8D2CY8PR11MB7036namp_"
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
-Content-Transfer-Encoding: quoted-printable
+X-Exchange-RoutingPolicyChecked: 
+	Q7tOI+Vkfz2AHyEoHL3Rh2zlrtRJcK7xjSOCKRr7zhI+iJhDQnDVtjO7DWffkKcXoBDcHNOI7BC2k8/M7tdEDBPCd6qa4jzd+vj082XvPUriOWTIZHwKMfPTxpIYQHY0kqeW4fg3NupwY2R2gpTvEml35iCHN7KOOkXi38HJSeK3C+BvMmfA6iVh0UrbtxCBLxa4Ht6zZjw8AXjxr3y2LUWk/xlakuE3JXVMXowUJARJi9scf6EirKxq1tZGUmlgmuxBiqvW7vIo5LU2K8szLjKynvIU8gZjmyju/uXxeYKFg/lvsk1SQ3OWm5XmTZWNdT4RxAzdg43XoWW8zg35IA==
+X-OriginatorOrg: cisco.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: CY8PR11MB7036.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 0a3ae9d6-5db4-43de-2e63-08df1d8b34c8
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2026 18:06:23.2655
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 5ae1af62-9505-4097-a69a-c1553ef7840e
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: oyn9jiooPx1RqgQKjOrgX/PJAluCAil8ds6dEtR1vz5JFMvf5ZNQ+Yu50pR/ALFxqmNlsZhZHKx84V3WtlKueg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SJ5PPFD56C4208E
+X-Outbound-Client-TLS: ANONYMOUS;alln-opgw-5.cisco.com [173.37.147.253];TLSv1.3;TLS_AES_256_GCM_SHA384;256
+X-Outbound-SMTP-Client: 173.37.147.253, alln-opgw-5.cisco.com
+X-Outbound-Node: alln-l-core-07.cisco.com
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 17:32:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246779
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 18:06:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246782
 
-Remove now-redundant PYPI_PACKAGE values that were only needed because
-the sdist filename has been normalised.
+--_000_CY8PR11MB70369075BF0281B7E2603305AF8D2CY8PR11MB7036namp_
+Content-Type: text/plain; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
 
-Set PYPI_PACKAGE where the package name does not match the recipe name.
+The recipe still adds five unrelated CVE-2026-* patch references not suppli=
+ed by this standalone v2. Keep only the CVE-2025-49506.patch entry, or rese=
+nd the complete series.
 
-Set PYPI_PACKAGE_SDIST where the sdist is _not_ normalised currently.
+Regards,
+Viral
 
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+From: Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco) <hth=
+akar@cisco.com>
+Date: Monday, 28 September 2026 at 02:55
+To: openembedded-core@lists.openembedded.org <openembedded-core@lists.opene=
+mbedded.org>
+Cc: xe-linux-external (Internal Group) <xe-linux-external@cisco.com>
+Subject: [OE-core][scarthgap][PATCH v2] apr-util: Fix CVE-2025-49506
+
+From: Hetvi Thakar <hthakar@cisco.com>
+
+Backport the upstream timing-safe comparison fix [1].
+APR-util 1.6.4 identifies this issue as fixed [2].
+
+[1] https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5eafc=
+534ae24b19e
+
+[2] https://nvd.nist.gov/vuln/detail/CVE-2025-49506
+
+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
 ---
- meta/recipes-devtools/python/python3-booleanpy_5.0.bb          | 2 +-
- .../recipes-devtools/python/python3-coherent-licensed_0.5.2.bb | 2 --
- meta/recipes-devtools/python/python3-cryptography-vectors.bb   | 2 --
- meta/recipes-devtools/python/python3-dbusmock_0.38.1.bb        | 2 +-
- meta/recipes-devtools/python/python3-flit-core_3.12.0.bb       | 2 --
- .../python/python3-hatch-build-scripts_1.0.0.bb                | 1 -
- .../python/python3-hatch-fancy-pypi-readme_25.1.0.bb           | 2 --
- meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb        | 2 --
- .../python/python3-jsonschema-specifications_2025.9.1.bb       | 2 --
- meta/recipes-devtools/python/python3-libarchive-c_5.1.bb       | 2 ++
- .../python/python3-license-expression_30.4.4.bb                | 1 -
- meta/recipes-devtools/python/python3-magic_0.4.27.bb           | 1 +
- meta/recipes-devtools/python/python3-meson-python_0.21.1.bb    | 2 --
- meta/recipes-devtools/python/python3-more-itertools_10.8.0.bb  | 2 --
- meta/recipes-devtools/python/python3-pdm-backend_2.4.10.bb     | 2 --
- meta/recipes-devtools/python/python3-pdm-build-locked_0.3.8.bb | 2 --
- meta/recipes-devtools/python/python3-poetry-core_2.5.0.bb      | 2 --
- meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.bb  | 2 --
- .../python/python3-pyproject-metadata_0.12.1.bb                | 2 --
- meta/recipes-devtools/python/python3-pysocks_1.7.1.bb          | 2 +-
- meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.bb | 2 --
- .../recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb | 2 --
- meta/recipes-devtools/python/python3-roman-numerals_4.1.0.bb   | 1 -
- meta/recipes-devtools/python/python3-rpds-py_2026.6.3.bb       | 2 --
- meta/recipes-devtools/python/python3-ruamel-yaml_0.19.1.bb     | 2 --
- .../recipes-devtools/python/python3-semantic-version_2.10.0.bb | 2 --
- meta/recipes-devtools/python/python3-setuptools-rust_1.13.0.bb | 2 --
- meta/recipes-devtools/python/python3-setuptools-scm_10.2.3.bb  | 2 --
- .../recipes-devtools/python/python3-spdx-python-model_0.0.6.bb | 1 -
- meta/recipes-devtools/python/python3-spdx-tools_0.8.3.bb       | 2 ++
- meta/recipes-devtools/python/python3-sphinx-argparse_0.6.1.bb  | 2 --
- .../recipes-devtools/python/python3-sphinx-copybutton_0.5.2.bb | 2 ++
- meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb | 2 --
- .../python/python3-sphinxcontrib-applehelp_2.0.0.bb            | 2 --
- .../python/python3-sphinxcontrib-devhelp_2.0.0.bb              | 2 --
- .../python/python3-sphinxcontrib-htmlhelp_2.1.0.bb             | 2 --
- .../python/python3-sphinxcontrib-jquery_4.1.bb                 | 2 ++
- .../python/python3-sphinxcontrib-jsmath_1.0.1.bb               | 2 ++
- .../python/python3-sphinxcontrib-qthelp_2.0.0.bb               | 2 --
- .../python/python3-sphinxcontrib-serializinghtml_2.0.0.bb      | 2 --
- .../python/python3-sphinxcontrib-svg2pdfconverter_2.1.0.bb     | 2 --
- meta/recipes-devtools/python/python3-subunit_1.4.4.bb          | 1 +
- .../python/python3-trove-classifiers_2026.9.21.13.bb           | 2 --
- .../python/python3-typing-extensions_4.16.0.bb                 | 3 ---
- meta/recipes-devtools/python/python3-uv-build_0.12.17.bb       | 2 --
- meta/recipes-devtools/python/python3-vcs-versioning_2.4.1.bb   | 1 -
- meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb           | 2 --
- .../sbom-cve-check/python3-sbom-cve-check_1.3.5.bb             | 1 -
- 48 files changed, 15 insertions(+), 74 deletions(-)
+Changes in v2:
+- Drop the XLC-specific compatibility follow-up patch,
+as it is not required by OE-Core's GCC/Clang toolchains.
+---
+ .../apr/apr-util/CVE-2025-49506.patch         | 310 ++++++++++++++++++
+ meta/recipes-support/apr/apr-util_1.6.3.bb    |   6 +
+ 2 files changed, 316 insertions(+)
+ create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
 
-diff --git a/meta/recipes-devtools/python/python3-booleanpy_5.0.bb b/meta=
-/recipes-devtools/python/python3-booleanpy_5.0.bb
-index a834cdef7bb..f95de3e135e 100644
---- a/meta/recipes-devtools/python/python3-booleanpy_5.0.bb
-+++ b/meta/recipes-devtools/python/python3-booleanpy_5.0.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3Dd118b5fece=
-ee598ebeca76e13395c2bd"
-=20
- SRC_URI[sha256sum] =3D "60cbc4bad079753721d32649545505362c754e121570ada4=
-658b852a3a318d95"
-=20
--PYPI_PACKAGE =3D "boolean_py"
-+PYPI_PACKAGE =3D "boolean-py"
-=20
- inherit pypi setuptools3
-=20
-diff --git a/meta/recipes-devtools/python/python3-coherent-licensed_0.5.2=
-.bb b/meta/recipes-devtools/python/python3-coherent-licensed_0.5.2.bb
-index 9148fe4e36a..6bb6629a016 100644
---- a/meta/recipes-devtools/python/python3-coherent-licensed_0.5.2.bb
-+++ b/meta/recipes-devtools/python/python3-coherent-licensed_0.5.2.bb
-@@ -10,6 +10,4 @@ SRC_URI[sha256sum] =3D "d8071403ce742d3ac3592ddc4fb7057=
-a46caffb415b928b4d52802e5f2
-=20
- inherit pypi python_flit_core
-=20
--PYPI_PACKAGE =3D "coherent_licensed"
--
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-cryptography-vectors.bb=
- b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-index 0f25199f68d..87302e1b2f3 100644
---- a/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-+++ b/meta/recipes-devtools/python/python3-cryptography-vectors.bb
-@@ -11,8 +11,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D8c3617db4fb6=
-fae01f1d253ab91511e4 \
- require python3-cryptography-common.inc
- SRC_URI[sha256sum] =3D "90066d0f7351b12ebac2b4ce594ce0a6f05c19ad3068e4d5=
-cfc64d9d2bec8d80"
-=20
--PYPI_PACKAGE =3D "cryptography_vectors"
--
- inherit pypi python_uv_build
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-dbusmock_0.38.1.bb b/me=
-ta/recipes-devtools/python/python3-dbusmock_0.38.1.bb
-index ecec075f6f2..12fc704f756 100644
---- a/meta/recipes-devtools/python/python3-dbusmock_0.38.1.bb
-+++ b/meta/recipes-devtools/python/python3-dbusmock_0.38.1.bb
-@@ -6,7 +6,7 @@ LIC_FILES_CHKSUM =3D "file://COPYING;md5=3De6a600fd5e1d9c=
-bde2d983680233ad02"
-=20
- SRC_URI[sha256sum] =3D "221b65e1c2e48de9fd11bf7e8c165adaf91648f49a11f390=
-d086a498386f2984"
-=20
--PYPI_PACKAGE =3D "python_dbusmock"
-+PYPI_PACKAGE =3D "python-dbusmock"
-=20
- inherit pypi python_setuptools_build_meta
- DEPENDS +=3D "python3-setuptools-scm-native"
-diff --git a/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb b/m=
-eta/recipes-devtools/python/python3-flit-core_3.12.0.bb
-index d6b37fe904b..786906b4b41 100644
---- a/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb
-+++ b/meta/recipes-devtools/python/python3-flit-core_3.12.0.bb
-@@ -16,8 +16,6 @@ inherit pypi python_flit_core
- DEPENDS:remove:class-native =3D " python3-build-native python3-installer=
--native"
- DEPENDS:append:class-native =3D " unzip-native"
-=20
--PYPI_PACKAGE =3D "flit_core"
--
- do_compile:class-native () {
-     python_flit_core_do_manual_build
- }
-diff --git a/meta/recipes-devtools/python/python3-hatch-build-scripts_1.0=
-.0.bb b/meta/recipes-devtools/python/python3-hatch-build-scripts_1.0.0.bb
-index ba7d8b40ffc..3806e8589fa 100644
---- a/meta/recipes-devtools/python/python3-hatch-build-scripts_1.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-hatch-build-scripts_1.0.0.bb
-@@ -4,7 +4,6 @@ SECTION =3D "devel/python"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D9ad584cda56221c7eaf48c23a=
-5874a2a"
-=20
--PYPI_PACKAGE =3D "hatch_build_scripts"
- SRC_URI[sha256sum] =3D "563735e2f265c9e1b92dece6f762309114505ffaf6e5d51d=
-462eb6a3b4f14640"
-=20
- inherit pypi python_hatchling
-diff --git a/meta/recipes-devtools/python/python3-hatch-fancy-pypi-readme=
-_25.1.0.bb b/meta/recipes-devtools/python/python3-hatch-fancy-pypi-readme=
-_25.1.0.bb
-index 13cc07d76ca..9324db61501 100644
---- a/meta/recipes-devtools/python/python3-hatch-fancy-pypi-readme_25.1.0=
-.bb
-+++ b/meta/recipes-devtools/python/python3-hatch-fancy-pypi-readme_25.1.0=
-.bb
-@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3Dba5633c60b=
-d3e243091013aa83b4d807"
-=20
- inherit pypi python_hatchling
-=20
--PYPI_PACKAGE =3D "hatch_fancy_pypi_readme"
--
- SRC_URI[sha256sum] =3D "9c58ed3dff90d51f43414ce37009ad1d5b0f08ffc9fc2169=
-98a06380f01c0045"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb b/me=
-ta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb
-index b8df54a8b37..7fbe8769614 100644
---- a/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-hatch-vcs_0.5.0.bb
-@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.txt;md5=3D26501cfd0b=
-bddf830ee820e95551fa3d"
-=20
- inherit pypi python_hatchling
-=20
--PYPI_PACKAGE =3D "hatch_vcs"
--
- SRC_URI[sha256sum] =3D "0395fa126940340215090c344a2bf4e2a77bcbe7daab16f4=
-1b37b98c95809ff9"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-jsonschema-specificatio=
-ns_2025.9.1.bb b/meta/recipes-devtools/python/python3-jsonschema-specific=
-ations_2025.9.1.bb
-index c324753ef2c..86fc3a67abf 100644
---- a/meta/recipes-devtools/python/python3-jsonschema-specifications_2025=
-.9.1.bb
-+++ b/meta/recipes-devtools/python/python3-jsonschema-specifications_2025=
-.9.1.bb
-@@ -9,8 +9,6 @@ SRC_URI[sha256sum] =3D "b540987f239e745613c7a9176f3edb72b=
-832a4ac465cf0271228839783
-=20
- inherit pypi python_hatchling
-=20
--PYPI_PACKAGE =3D "jsonschema_specifications"
--
- DEPENDS +=3D "python3-hatch-vcs-native"
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb b/m=
-eta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-index 6bb4e491042..791326ba24a 100644
---- a/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-+++ b/meta/recipes-devtools/python/python3-libarchive-c_5.1.bb
-@@ -13,6 +13,8 @@ SRC_URI +=3D " \
-=20
- inherit pypi setuptools3 ptest-python-pytest
-=20
-+PYPI_PACKAGE_SDIST =3D "libarchive-c"
+diff --git a/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch b/meta/=
+recipes-support/apr/apr-util/CVE-2025-49506.patch
+new file mode 100644
+index 0000000000..0ab5cf0648
+--- /dev/null
++++ b/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch
+@@ -0,0 +1,310 @@
++From f77a20761cb15686f8d4de5b5eafc534ae24b19e Mon Sep 17 00:00:00 2001
++From: Eric Covener <covener@apache.org>
++Date: Mon, 3 Aug 2026 12:10:13 +0000
++Subject: [PATCH] Merge r1936804 from aprutil 1.7.x:
 +
- SRC_URI[sha256sum] =3D "7bcce24ea6c0fa3bc62468476c6d2f6264156db2f04878a3=
-72027c10615a2721"
-=20
- DEPENDS +=3D "patchelf-native libarchive"
-diff --git a/meta/recipes-devtools/python/python3-license-expression_30.4=
-.4.bb b/meta/recipes-devtools/python/python3-license-expression_30.4.4.bb
-index 5751542cb33..38db3951534 100644
---- a/meta/recipes-devtools/python/python3-license-expression_30.4.4.bb
-+++ b/meta/recipes-devtools/python/python3-license-expression_30.4.4.bb
-@@ -7,7 +7,6 @@ LIC_FILES_CHKSUM =3D "file://apache-2.0.LICENSE;md5=3D86d=
-3f3a95c324c9479bd8986968f43
- SRC_URI[sha256sum] =3D "73448f0aacd8d0808895bdc4b2c8e01a8d67646e4188f887=
-375398c761f340fd"
-=20
- inherit pypi ptest-python-pytest python_setuptools_build_meta
--PYPI_PACKAGE =3D "license_expression"
-=20
- DEPENDS +=3D "python3-setuptools-scm-native python3-wheel-native"
-=20
-diff --git a/meta/recipes-devtools/python/python3-magic_0.4.27.bb b/meta/=
-recipes-devtools/python/python3-magic_0.4.27.bb
-index 2e561e69d71..f871b1c2cb8 100644
---- a/meta/recipes-devtools/python/python3-magic_0.4.27.bb
-+++ b/meta/recipes-devtools/python/python3-magic_0.4.27.bb
-@@ -8,6 +8,7 @@ LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D61495c152d794e6be5799a9edca14=
-9e3"
-=20
- PYPI_PACKAGE =3D "python-magic"
-+PYPI_PACKAGE_SDIST =3D "python-magic"
-=20
- inherit pypi setuptools3
-=20
-diff --git a/meta/recipes-devtools/python/python3-meson-python_0.21.1.bb =
-b/meta/recipes-devtools/python/python3-meson-python_0.21.1.bb
-index 2c86f7fed41..4abe3d8414f 100644
---- a/meta/recipes-devtools/python/python3-meson-python_0.21.1.bb
-+++ b/meta/recipes-devtools/python/python3-meson-python_0.21.1.bb
-@@ -10,8 +10,6 @@ DEPENDS =3D " \
- 	python3-pyproject-metadata-native \
- "
-=20
--PYPI_PACKAGE =3D "meson_python"
--
- inherit pypi python_mesonpy
- SRC_URI[sha256sum] =3D "78b3345dcbc0fed7b939e7e37a9faab35bddaae07bf62e75=
-42c8ad479c395af5"
-=20
-diff --git a/meta/recipes-devtools/python/python3-more-itertools_10.8.0.b=
-b b/meta/recipes-devtools/python/python3-more-itertools_10.8.0.bb
-index 32fcc5694be..053197ea5c7 100644
---- a/meta/recipes-devtools/python/python3-more-itertools_10.8.0.bb
-+++ b/meta/recipes-devtools/python/python3-more-itertools_10.8.0.bb
-@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D3396ea30f9d213=
-89d7857719816f83b5"
-=20
- SRC_URI[sha256sum] =3D "f638ddf8a1a0d134181275fb5d58b086ead7c6a72429ad72=
-5c67503f13ba30bd"
-=20
--PYPI_PACKAGE =3D "more_itertools"
--
- inherit pypi python_flit_core ptest-python-pytest
-=20
- RDEPENDS:${PN} +=3D " \
-diff --git a/meta/recipes-devtools/python/python3-pdm-backend_2.4.10.bb b=
-/meta/recipes-devtools/python/python3-pdm-backend_2.4.10.bb
-index 1458f514b49..2f68172a4ae 100644
---- a/meta/recipes-devtools/python/python3-pdm-backend_2.4.10.bb
-+++ b/meta/recipes-devtools/python/python3-pdm-backend_2.4.10.bb
-@@ -8,6 +8,4 @@ SRC_URI[sha256sum] =3D "551b049379d4f270cba18f5bf73031cc2=
-29a4f883e085265465d326d4a
-=20
- inherit pypi python_pep517
-=20
--PYPI_PACKAGE =3D "pdm_backend"
--
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-pdm-build-locked_0.3.8.=
-bb b/meta/recipes-devtools/python/python3-pdm-build-locked_0.3.8.bb
-index 2b707a0a93b..fb42de5f67c 100644
---- a/meta/recipes-devtools/python/python3-pdm-build-locked_0.3.8.bb
-+++ b/meta/recipes-devtools/python/python3-pdm-build-locked_0.3.8.bb
-@@ -7,6 +7,4 @@ SRC_URI[sha256sum] =3D "c2a608b288ed08618228880c2e6d6a616=
-049c25eeb71786d06d1061d12
-=20
- inherit pypi python_pdm
-=20
--PYPI_PACKAGE =3D "pdm_build_locked"
--
- BBCLASSEXTEND +=3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-poetry-core_2.5.0.bb b/=
-meta/recipes-devtools/python/python3-poetry-core_2.5.0.bb
-index b0d3b8e2ada..a9ffc5682f1 100644
---- a/meta/recipes-devtools/python/python3-poetry-core_2.5.0.bb
-+++ b/meta/recipes-devtools/python/python3-poetry-core_2.5.0.bb
-@@ -19,8 +19,6 @@ SRC_URI[sha256sum] =3D "81d04c9253b19d0604718268d781867=
-c8f7b2128e5b25bbf1e84141eec
-=20
- inherit python_poetry_core pypi
-=20
--PYPI_PACKAGE =3D "poetry_core"
--
- RDEPENDS:${PN}:append:class-target =3D "\
-     python3-compression \
-     python3-core \
-diff --git a/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.b=
-b b/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.bb
-index 5f1507a0345..bcf0efcf41a 100644
---- a/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.bb
-+++ b/meta/recipes-devtools/python/python3-pyproject-hooks_1.3.3.bb
-@@ -7,8 +7,6 @@ SRC_URI[sha256sum] =3D "defda19b854fa0d3bd4f76ea4ddcba8ab=
-d7dcfcdd585a6690ade050744
-=20
- inherit pypi python_flit_core
-=20
--PYPI_PACKAGE =3D "pyproject_hooks"
--
- BBCLASSEXTEND =3D "native nativesdk"
-=20
- # Bootstrap the native build
-diff --git a/meta/recipes-devtools/python/python3-pyproject-metadata_0.12=
-.1.bb b/meta/recipes-devtools/python/python3-pyproject-metadata_0.12.1.bb
-index 9918cae0753..81fce2b2b8c 100644
---- a/meta/recipes-devtools/python/python3-pyproject-metadata_0.12.1.bb
-+++ b/meta/recipes-devtools/python/python3-pyproject-metadata_0.12.1.bb
-@@ -12,8 +12,6 @@ HOMEPAGE =3D "https://github.com/FFY00/python-pyproject=
--metadata"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D310439af287b0fb4780b2ad6907c2=
-56c"
-=20
--PYPI_PACKAGE =3D "pyproject_metadata"
--
- inherit pypi python_flit_core
-=20
- SRC_URI[sha256sum] =3D "8809a4df6fe08279b39a8890669506ed3158e0617855ac9a=
-ff098fcbe772ae4c"
-diff --git a/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb b/meta=
-/recipes-devtools/python/python3-pysocks_1.7.1.bb
-index 207d15d7025..18d6edc8f26 100644
---- a/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb
-+++ b/meta/recipes-devtools/python/python3-pysocks_1.7.1.bb
-@@ -5,7 +5,7 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D1d457bcffb9661=
-b45f799d4efee72f16"
-=20
- SRC_URI[sha256sum] =3D "3f8804571ebe159c380ac6de37643bb4685970655d3bba24=
-3530d6558b799aa0"
-=20
--PYPI_PACKAGE =3D "PySocks"
-+PYPI_PACKAGE_SDIST =3D "PySocks"
-=20
- inherit pypi setuptools3
-=20
-diff --git a/meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.=
-bb b/meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.bb
-index a76c15119d5..99e0b0e2d07 100644
---- a/meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.bb
-+++ b/meta/recipes-devtools/python/python3-pytest-subtests_0.15.0.bb
-@@ -9,8 +9,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D242b4e17fa287d=
-cf7aef372f6bc3dcb1"
-=20
- SRC_URI[sha256sum] =3D "cb495bde05551b784b8f0b8adfaa27edb4131469a27c339b=
-80fd8d6ba33f887c"
-=20
--PYPI_PACKAGE =3D "pytest_subtests"
--
- inherit pypi python_setuptools_build_meta
-=20
- DEPENDS +=3D "python3-setuptools-scm-native"
-diff --git a/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4=
-.bb b/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
-index 06eb833f7a9..8561b012bed 100644
---- a/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
-+++ b/meta/recipes-devtools/python/python3-rfc3339-validator_0.1.4.bb
-@@ -7,8 +7,6 @@ SRC_URI +=3D "file://0001-Remove-usage-of-six.patch"
-=20
- SRC_URI[sha256sum] =3D "138a2abdf93304ad60530167e51d2dfb9549521a836871b8=
-8d7f4695d0022f6b"
-=20
--PYPI_PACKAGE =3D "rfc3339_validator"
--
- inherit pypi setuptools3
-=20
- RDEPENDS:${PN} +=3D "\
-diff --git a/meta/recipes-devtools/python/python3-roman-numerals_4.1.0.bb=
- b/meta/recipes-devtools/python/python3-roman-numerals_4.1.0.bb
-index 08af23d765c..d7aaea006a9 100644
---- a/meta/recipes-devtools/python/python3-roman-numerals_4.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-roman-numerals_4.1.0.bb
-@@ -4,7 +4,6 @@ LICENSE =3D "0BSD AND CC0-1.0"
- LIC_FILES_CHKSUM =3D "file://LICENCE.rst;md5=3Dbfcc8b16e42929aafeb9d4143=
-60bc2fd"
-=20
- SRC_URI[sha256sum] =3D "1af8b147eb1405d5839e78aeb93131690495fe9da5c91856=
-cb33ad55a7f1e5b2"
--PYPI_PACKAGE =3D "roman_numerals"
-=20
- inherit pypi python_flit_core
-=20
-diff --git a/meta/recipes-devtools/python/python3-rpds-py_2026.6.3.bb b/m=
-eta/recipes-devtools/python/python3-rpds-py_2026.6.3.bb
-index 5898649c3bf..68d13ccb963 100644
---- a/meta/recipes-devtools/python/python3-rpds-py_2026.6.3.bb
-+++ b/meta/recipes-devtools/python/python3-rpds-py_2026.6.3.bb
-@@ -10,8 +10,6 @@ require ${BPN}-crates.inc
-=20
- inherit pypi cargo-update-recipe-crates python_maturin ptest-python-pyte=
-st
-=20
--PYPI_PACKAGE =3D "rpds_py"
--
- RDEPENDS:${PN}-ptest +=3D " \
-     python3-iniconfig \
-     python3-packaging \
-diff --git a/meta/recipes-devtools/python/python3-ruamel-yaml_0.19.1.bb b=
-/meta/recipes-devtools/python/python3-ruamel-yaml_0.19.1.bb
-index c27649e35d8..3117f878cb0 100644
---- a/meta/recipes-devtools/python/python3-ruamel-yaml_0.19.1.bb
-+++ b/meta/recipes-devtools/python/python3-ruamel-yaml_0.19.1.bb
-@@ -4,8 +4,6 @@ HOMEPAGE =3D "https://pypi.org/project/ruamel.yaml/"
- LICENSE =3D "MIT"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dfae78348fee46c087389813e0ebf5=
-ed7"
-=20
--PYPI_PACKAGE =3D "ruamel_yaml"
--
- inherit pypi python_setuptools_build_meta
-=20
- S =3D "${UNPACKDIR}/ruamel.yaml-${PV}"
-diff --git a/meta/recipes-devtools/python/python3-semantic-version_2.10.0=
-.bb b/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb
-index 64d1390475a..99c0c52e09b 100644
---- a/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb
-+++ b/meta/recipes-devtools/python/python3-semantic-version_2.10.0.bb
-@@ -6,8 +6,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4fb31e3c1c7eeb=
-8b5e8c07657cdd54e2"
-=20
- SRC_URI[sha256sum] =3D "bdabb6d336998cbb378d4b9db3a4b56a1e3235701dc05ea2=
-690d9a997ed5041c"
-=20
--PYPI_PACKAGE =3D "semantic_version"
--
- inherit pypi setuptools3
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-setuptools-rust_1.13.0.=
-bb b/meta/recipes-devtools/python/python3-setuptools-rust_1.13.0.bb
-index ecb2169a3f6..f07533793cb 100644
---- a/meta/recipes-devtools/python/python3-setuptools-rust_1.13.0.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-rust_1.13.0.bb
-@@ -12,8 +12,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D011cd92e702d=
-d9e6b1a26157b6fd53f5"
- SRC_URI +=3D "file://0001-setuptools_rust-rustc_info.py-do-not-add-unsta=
-ble-op.patch"
- SRC_URI[sha256sum] =3D "f2afcf4baeee689910ce49cfa8aad4e08cce72f417449bcc=
-32891b8664fdc726"
-=20
--PYPI_PACKAGE =3D "setuptools_rust"
--
- inherit cargo pypi python_setuptools_build_meta
-=20
- DEPENDS +=3D "python3-setuptools-scm-native"
-diff --git a/meta/recipes-devtools/python/python3-setuptools-scm_10.2.3.b=
-b b/meta/recipes-devtools/python/python3-setuptools-scm_10.2.3.bb
-index 0af4bd24f5e..14a46d77c3b 100644
---- a/meta/recipes-devtools/python/python3-setuptools-scm_10.2.3.bb
-+++ b/meta/recipes-devtools/python/python3-setuptools-scm_10.2.3.bb
-@@ -8,8 +8,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D838c366f69b72c=
-5df05c96dff79b35f2"
-=20
- SRC_URI[sha256sum] =3D "f179ed3e2a63cf5823e5ee9aa9ca08386219400443a05532=
-24d72dde3f206b44"
-=20
--PYPI_PACKAGE =3D "setuptools_scm"
--
- inherit pypi python_setuptools_build_meta
-=20
- DEPENDS +=3D "\
-diff --git a/meta/recipes-devtools/python/python3-spdx-python-model_0.0.6=
-.bb b/meta/recipes-devtools/python/python3-spdx-python-model_0.0.6.bb
-index def12b20492..cebf27a11ce 100644
---- a/meta/recipes-devtools/python/python3-spdx-python-model_0.0.6.bb
-+++ b/meta/recipes-devtools/python/python3-spdx-python-model_0.0.6.bb
-@@ -4,7 +4,6 @@ SECTION =3D "devel/python"
- LICENSE =3D "Apache-2.0"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D86d3f3a95c324c9479bd8986968f4=
-327"
-=20
--PYPI_PACKAGE =3D "spdx_python_model"
- SRC_URI[sha256sum] =3D "f1938eb08d08218278122849bba123b8993a0171e9b4f5ea=
-6af7aeb71f3204d7"
-=20
- SRC_URI +=3D " \
-diff --git a/meta/recipes-devtools/python/python3-spdx-tools_0.8.3.bb b/m=
-eta/recipes-devtools/python/python3-spdx-tools_0.8.3.bb
-index 0f056793226..d58225f8baa 100644
---- a/meta/recipes-devtools/python/python3-spdx-tools_0.8.3.bb
-+++ b/meta/recipes-devtools/python/python3-spdx-tools_0.8.3.bb
-@@ -10,6 +10,8 @@ BBCLASSEXTEND =3D "native nativesdk"
-=20
- inherit pypi python_setuptools_build_meta
-=20
-+PYPI_PACKAGE_SDIST =3D "spdx-tools"
++use timing safe comparison
 +
- DEPENDS +=3D "python3-setuptools-scm-native"
-=20
- # Dependency required for pyspdxtools : python3-click
-diff --git a/meta/recipes-devtools/python/python3-sphinx-argparse_0.6.1.b=
-b b/meta/recipes-devtools/python/python3-sphinx-argparse_0.6.1.bb
-index a60efa0fccc..c3af27584b3 100644
---- a/meta/recipes-devtools/python/python3-sphinx-argparse_0.6.1.bb
-+++ b/meta/recipes-devtools/python/python3-sphinx-argparse_0.6.1.bb
-@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE.rst;md5=3D5c1cd8f137=
-74629fee215681e66a1056"
-=20
- SRC_URI[sha256sum] =3D "f8be167aedf5670bd7c812ef515968ff4717c63cfc9cb4df=
-5f34b54fd5649c37"
-=20
--PYPI_PACKAGE =3D "sphinx_argparse"
--
- inherit pypi python_flit_core
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-sphinx-copybutton_0.5.2=
-.bb b/meta/recipes-devtools/python/python3-sphinx-copybutton_0.5.2.bb
-index 04418046617..246837bd983 100644
---- a/meta/recipes-devtools/python/python3-sphinx-copybutton_0.5.2.bb
-+++ b/meta/recipes-devtools/python/python3-sphinx-copybutton_0.5.2.bb
-@@ -7,4 +7,6 @@ SRC_URI[sha256sum] =3D "4cf17c82fb9646d1bc9ca92ac280813a3=
-b605d8c421225fd9913154103
-=20
- inherit setuptools3 pypi
-=20
-+PYPI_PACKAGE_SDIST =3D "sphinx-copybutton"
++Submitted By: ylavic
++Reviewed By: ylavic, rpluem, covener
 +
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.=
-bb b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb
-index 927664c5fbb..4afe6d2dfc5 100644
---- a/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-sphinx-rtd-theme_3.1.0.bb
-@@ -12,8 +12,6 @@ RDEPENDS:${PN} +=3D " \
-     python3-sphinxcontrib-jquery \
- "
-=20
--PYPI_PACKAGE =3D "sphinx_rtd_theme"
--
- SRC_URI[sha256sum] =3D "b44276f2c276e909239a4f6c955aa667aaafeb78597923b1=
-c60babc76db78e4c"
-=20
- inherit setuptools3 pypi
-diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp=
-_2.0.0.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_=
-2.0.0.bb
-index 686a4a17ae2..544b5ffc09a 100644
---- a/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_2.0.0.=
-bb
-+++ b/meta/recipes-devtools/python/python3-sphinxcontrib-applehelp_2.0.0.=
-bb
-@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM =3D "file://LICENCE.rst;md5=3Dc771585704=
-2d4c8c0105999ca0c072c5"
-=20
- SRC_URI[sha256sum] =3D "2f29ef331735ce958efa4734873f084941970894c6090408=
-b079c61b2e1c06d1"
-=20
--PYPI_PACKAGE =3D "sphinxcontrib_applehelp"
--
- inherit pypi python_flit_core
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-devhelp_2=
-.0.0.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-devhelp_2.0.=
-0.bb
-index 9f539737083..542e45d522f 100644
---- a/meta/recipes-devtools/python/python3-sphinxcontrib-devhelp_2.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-sphinxcontrib-devhelp_2.0.0.bb
-@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM =3D "file://LICENCE.rst;md5=3Dfd30d9972a=
-142c857a80c9f312e92b93"
-=20
- SRC_URI[sha256sum] =3D "411f5d96d445d1d73bb5d52133377b4248ec79db5c793ce7=
-dbe59e074b4dd1ad"
-=20
--PYPI_PACKAGE =3D "sphinxcontrib_devhelp"
--
- inherit pypi python_flit_core
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-htmlhelp_=
-2.1.0.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-htmlhelp_2.=
-1.0.bb
-index 1a15ccd0c4a..944b990ae09 100644
---- a/meta/recipes-devtools/python/python3-sphinxcontrib-htmlhelp_2.1.0.b=
-b
-+++ b/meta/recipes-devtools/python/python3-sphinxcontrib-htmlhelp_2.1.0.b=
-b
-@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM =3D "file://LICENCE.rst;md5=3D24dce5ef6a=
-13563241c24bc366f48886"
-=20
- SRC_URI[sha256sum] =3D "c9e2916ace8aad64cc13a0d233ee22317f2b9025b9cf3295=
-249fa985cc7082e9"
-=20
--PYPI_PACKAGE =3D "sphinxcontrib_htmlhelp"
--
- inherit pypi python_flit_core
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-jquery_4.=
-1.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-jquery_4.1.bb
-index d21e802582d..eca7225c909 100644
---- a/meta/recipes-devtools/python/python3-sphinxcontrib-jquery_4.1.bb
-+++ b/meta/recipes-devtools/python/python3-sphinxcontrib-jquery_4.1.bb
-@@ -7,4 +7,6 @@ SRC_URI[sha256sum] =3D "1620739f04e36a2c779f1a131a2dfd49b=
-2fd07351bf1968ced07436593
-=20
- inherit pypi python_flit_core
-=20
-+PYPI_PACKAGE_SDIST =3D "sphinxcontrib-jquery"
 +
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-jsmath_1.=
-0.1.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-jsmath_1.0.1.=
-bb
-index c06ba1242f9..0e2b9d2b44c 100644
---- a/meta/recipes-devtools/python/python3-sphinxcontrib-jsmath_1.0.1.bb
-+++ b/meta/recipes-devtools/python/python3-sphinxcontrib-jsmath_1.0.1.bb
-@@ -7,4 +7,6 @@ SRC_URI[sha256sum] =3D "a9925e4a4587247ed2191a22df5f69706=
-56cb8ca2bd6284309578f2153
-=20
- inherit pypi setuptools3
-=20
-+PYPI_PACKAGE_SDIST =3D "sphinxcontrib-jsmath"
 +
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-qthelp_2.=
-0.0.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-qthelp_2.0.0.=
-bb
-index f51a0ba64b6..7b805f98ea3 100644
---- a/meta/recipes-devtools/python/python3-sphinxcontrib-qthelp_2.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-sphinxcontrib-qthelp_2.0.0.bb
-@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM =3D "file://LICENCE.rst;md5=3Df7a83b72ea=
-86d04827575ec0b63430eb"
-=20
- SRC_URI[sha256sum] =3D "4fe7d0ac8fc171045be623aba3e2a8f613f8682731f9153b=
-b2e40ece16b9bbab"
-=20
--PYPI_PACKAGE =3D "sphinxcontrib_qthelp"
--
- inherit pypi python_flit_core
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-serializi=
-nghtml_2.0.0.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-seri=
-alizinghtml_2.0.0.bb
-index 63c55d36ae4..ae526fae45e 100644
---- a/meta/recipes-devtools/python/python3-sphinxcontrib-serializinghtml_=
-2.0.0.bb
-+++ b/meta/recipes-devtools/python/python3-sphinxcontrib-serializinghtml_=
-2.0.0.bb
-@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM =3D "file://LICENCE.rst;md5=3D32a84ac5cd=
-3bbd10c4d479233ad588b6"
-=20
- SRC_URI[sha256sum] =3D "e9d912827f872c029017a53f0ef2180b327c3f7fd23c8722=
-9f7a8e8b70031d4d"
-=20
--PYPI_PACKAGE =3D "sphinxcontrib_serializinghtml"
--
- inherit pypi python_flit_core
-=20
- BBCLASSEXTEND =3D "native nativesdk"
-diff --git a/meta/recipes-devtools/python/python3-sphinxcontrib-svg2pdfco=
-nverter_2.1.0.bb b/meta/recipes-devtools/python/python3-sphinxcontrib-svg=
-2pdfconverter_2.1.0.bb
-index 6b5350f46cb..d17e2b924c4 100644
---- a/meta/recipes-devtools/python/python3-sphinxcontrib-svg2pdfconverter=
-_2.1.0.bb
-+++ b/meta/recipes-devtools/python/python3-sphinxcontrib-svg2pdfconverter=
-_2.1.0.bb
-@@ -9,8 +9,6 @@ inherit pypi python_setuptools_build_meta
-=20
- DEPENDS +=3D "python3-wheel-native"
-=20
--PYPI_PACKAGE =3D "sphinxcontrib_svg2pdfconverter"
--
- RDEPENDS:${PN} =3D "python3-sphinx"
- # Only support sphinxcontrib.rsvgconverter for now.
- # sphinxcontrib.cairosvgconverter depends on cairosvg module, no recipe =
-yet
-diff --git a/meta/recipes-devtools/python/python3-subunit_1.4.4.bb b/meta=
-/recipes-devtools/python/python3-subunit_1.4.4.bb
-index 0ff02ef3b86..ff93d19df43 100644
---- a/meta/recipes-devtools/python/python3-subunit_1.4.4.bb
-+++ b/meta/recipes-devtools/python/python3-subunit_1.4.4.bb
-@@ -5,6 +5,7 @@ LICENSE =3D "Apache-2.0 OR BSD-3-Clause"
- LIC_FILES_CHKSUM =3D "file://COPYING;beginline=3D1;endline=3D20;md5=3Db1=
-121e68d06c8d9ea544fcd895df0d39"
-=20
- PYPI_PACKAGE =3D "python-subunit"
-+PYPI_PACKAGE_SDIST =3D "python-subunit"
-=20
- SRC_URI[sha256sum] =3D "1079363131aa1d3f45259237265bc2e61a77e35f20edfb6e=
-3d1d2558a2cdea34"
-=20
-diff --git a/meta/recipes-devtools/python/python3-trove-classifiers_2026.=
-9.21.13.bb b/meta/recipes-devtools/python/python3-trove-classifiers_2026.=
-9.21.13.bb
-index b24753e381b..8dbf968310c 100644
---- a/meta/recipes-devtools/python/python3-trove-classifiers_2026.9.21.13=
-.bb
-+++ b/meta/recipes-devtools/python/python3-trove-classifiers_2026.9.21.13=
-.bb
-@@ -5,8 +5,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D86d3f3a95c324c=
-9479bd8986968f4327"
-=20
- SRC_URI[sha256sum] =3D "0a9ebc8d4e2f3e8a22848c5258033035bec17a3012ac3fea=
-16dbaa764489eb71"
-=20
--PYPI_PACKAGE =3D "trove_classifiers"
--
- inherit pypi python_setuptools_build_meta ptest-python-pytest
-=20
- DEPENDS +=3D " python3-calver-native"
-diff --git a/meta/recipes-devtools/python/python3-typing-extensions_4.16.=
-0.bb b/meta/recipes-devtools/python/python3-typing-extensions_4.16.0.bb
-index cede81e1289..1e11251f5be 100644
---- a/meta/recipes-devtools/python/python3-typing-extensions_4.16.0.bb
-+++ b/meta/recipes-devtools/python/python3-typing-extensions_4.16.0.bb
-@@ -12,9 +12,6 @@ SECTIONS =3D "libs"
- LICENSE =3D "PSF-2.0"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3Dfcf6b249c2641540219a727f35d8d=
-2c2"
-=20
--# The name on PyPi is slightly different.
--PYPI_PACKAGE =3D "typing_extensions"
--
- SRC_URI[sha256sum] =3D "dc983d19a509c94dba722ee6abd33940f7c05a89e243c47e=
-907eb4db6f1a43e5"
-=20
- inherit pypi python_flit_core
-diff --git a/meta/recipes-devtools/python/python3-uv-build_0.12.17.bb b/m=
-eta/recipes-devtools/python/python3-uv-build_0.12.17.bb
-index 322ac35f488..9752956f491 100644
---- a/meta/recipes-devtools/python/python3-uv-build_0.12.17.bb
-+++ b/meta/recipes-devtools/python/python3-uv-build_0.12.17.bb
-@@ -19,7 +19,5 @@ inherit pypi python_maturin cargo-update-recipe-crates =
-pkgconfig
-=20
- DEPENDS +=3D "zstd"
-=20
--PYPI_PACKAGE =3D "uv_build"
--
- BBCLASSEXTEND =3D "native"
- INSANE_SKIP:${PN} =3D "already-stripped"
-diff --git a/meta/recipes-devtools/python/python3-vcs-versioning_2.4.1.bb=
- b/meta/recipes-devtools/python/python3-vcs-versioning_2.4.1.bb
-index 36bb2856a0b..64905dea773 100644
---- a/meta/recipes-devtools/python/python3-vcs-versioning_2.4.1.bb
-+++ b/meta/recipes-devtools/python/python3-vcs-versioning_2.4.1.bb
-@@ -11,7 +11,6 @@ SRC_URI +=3D "\
-     file://run-ptest \
- "
-=20
--PYPI_PACKAGE =3D "vcs_versioning"
- PTEST_PYTEST_DIR =3D "testing_vcs"
-=20
- inherit pypi python_setuptools_build_meta ptest-python-pytest
-diff --git a/meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb b/meta/=
-recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb
-index 3b51a453b99..8d99297ac42 100644
---- a/meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb
-+++ b/meta/recipes-devtools/qemu/python3-qemu-qmp_0.0.6.bb
-@@ -8,8 +8,6 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D4cf66a49841200=
-07c9881cc871cf49db"
-=20
- inherit pypi python_setuptools_build_meta
-=20
--PYPI_PACKAGE =3D "qemu_qmp"
--
- SRC_URI[sha256sum] =3D "a3c25d871fab549122b2340810de1f99481002c942a21324=
-76b062aacdbf6e92"
-=20
- DEPENDS +=3D "python3-setuptools-scm-native python3-wheel-native"
-diff --git a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_=
-1.3.5.bb b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.=
-3.5.bb
-index 83d420835da..5396720fbd0 100644
---- a/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.b=
-b
-+++ b/meta/recipes-devtools/sbom-cve-check/python3-sbom-cve-check_1.3.5.b=
-b
-@@ -4,7 +4,6 @@ SECTION =3D "devel/python"
- LICENSE =3D "GPL-2.0-or-later"
- LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D570a9b3749dd0463a1778803b12a6=
-dce"
-=20
--PYPI_PACKAGE =3D "sbom_cve_check"
- SRC_URI[sha256sum] =3D "9ed8b0e9c46015444cd3e30332d9558e0be5f5fec97f6df4=
-7c6760166a314167"
-=20
- inherit pypi python_hatchling
---=20
-2.43.0
++
++git-svn-id: https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x@1=
+936805 13f79535-47bb-0310-9956-ffa450edef68
++
++CVE: CVE-2025-49506
++Upstream-Status: Backport [https://github.com/apache/apr-util/commit/f77a2=
+0761cb15686f8d4de5b5eafc534ae24b19e]
++
++(cherry picked from commit f77a20761cb15686f8d4de5b5eafc534ae24b19e)
++Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
++---
++ crypto/apr_crypto.c |  60 +++++++++++++++++---
++ crypto/apr_passwd.c | 135 ++++++++++++++++++++++++++++++++++++++++----
++ 2 files changed, 176 insertions(+), 19 deletions(-)
++
++diff --git a/crypto/apr_crypto.c b/crypto/apr_crypto.c
++index 9ba190ef..ca3f0887 100644
++--- a/crypto/apr_crypto.c
+++++ b/crypto/apr_crypto.c
++@@ -21,6 +21,7 @@
++ #include "apu.h"
++ #include "apr_pools.h"
++ #include "apr_dso.h"
+++#include "apr_version.h"
++ #include "apr_strings.h"
++ #include "apr_hash.h"
++ #include "apr_thread_mutex.h"
++@@ -173,19 +174,64 @@ APU_DECLARE(apr_status_t) apr_crypto_memzero(void *b=
+uffer, apr_size_t size)
++     return APR_SUCCESS;
++ }
++
+++/* Borrow this from APR-1.8 if not available */
+++#if !APR_VERSION_AT_LEAST(1,8,0)
+++
+++/* A volatile variable which is always zero but allows to block the compi=
+ler
+++ * from optimizing or eliding code using it. Volatile forces the compiler=
+ to
+++ * emit a memory load for which no value can be assumed, so for instance =
+an
+++ * add/sub/xor/or with "optblocker" is a noop that will hide the result t=
+o
+++ * the optimizer.
+++ */
+++static volatile const apr_uint32_t optblocker;
+++
+++/* Return whether x is not zero, with no branching controlled by x.
+++ *
+++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
+++ * which provides timing attacks safe integer operations/primitives.
+++ * Code:
+++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint3=
+2.h
+++ * Paper:
+++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
+++ */
+++#if __has_attribute(always_inline)
+++__attribute__((always_inline))
+++#endif
+++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
+++{
+++    x |=3D -x; /* sets the most significant bit unless x =3D=3D 0 */
+++
+++    /* shift bit 31 (MSB) to bit 0 */
+++    x >>=3D 32-6;      /* keep 6 bits */
+++    x +=3D optblocker; /* lose the optimizer */
+++    x >>=3D 5;         /* keep the (original) MSB only */
+++
+++    /* x is now 0 or 1 */
+++    return x & INT_MAX;
+++}
+++
+++#endif /* !APR_VERSION_AT_LEAST(1,8,0) */
+++
++ APU_DECLARE(int) apr_crypto_equals(const void *buf1, const void *buf2,
++                                    apr_size_t size)
++ {
++-    const unsigned char *p1 =3D buf1;
++-    const unsigned char *p2 =3D buf2;
++-    unsigned char diff =3D 0;
++-    apr_size_t i;
+++#if APR_VERSION_AT_LEAST(1,8,0)
+++    return apr_memeq_timingsafe(buf1, buf2, size);
+++#else
+++    apr_uint32_t diff =3D 0;
+++    volatile apr_size_t count =3D size; /* prevent loop unrolling */
+++    apr_size_t i =3D 0;
++
++-    for (i =3D 0; i < size; ++i) {
++-        diff |=3D p1[i] ^ p2[i];
+++    for (; i < count; ++i) {
+++        const unsigned char c1 =3D ((volatile const unsigned char *)buf1)=
+[i];
+++        const unsigned char c2 =3D ((volatile const unsigned char *)buf2)=
+[i];
+++
+++        diff |=3D c1 ^ c2; /* sets diff to non-zero whenever c1 !=3D c2 *=
+/
++     }
++
++-    return 1 & ((diff - 1) >> 8);
+++    /* (diff =3D=3D 0) <=3D> (diff !=3D 0) ^ 1 */
+++    return test_nonzero_timingsafe(diff) ^ 1;
+++#endif
++ }
++
++ APU_DECLARE(apr_status_t) apr_crypto_get_driver(
++diff --git a/crypto/apr_passwd.c b/crypto/apr_passwd.c
++index c961de2b..74b5fc17 100644
++--- a/crypto/apr_passwd.c
+++++ b/crypto/apr_passwd.c
++@@ -14,6 +14,7 @@
++  * limitations under the License.
++  */
++
+++#include "apr_version.h"
++ #include "apr_strings.h"
++ #include "apr_md5.h"
++ #include "apr_lib.h"
++@@ -39,6 +40,111 @@
++
++ static const char * const apr1_id =3D "$apr1$";
++
+++#if APR_VERSION_AT_LEAST(1,8,0)
+++
+++#define streq_timingsafe    apr_streq_timingsafe
+++#define strneq_timingsafe   apr_strneq_timingsafe
+++
+++#else /* borrow code from APR-1.8 if not available */
+++
+++/* A volatile variable which is always zero but allows to block the compi=
+ler
+++ * from optimizing or eliding code using it. Volatile forces the compiler=
+ to
+++ * emit a memory load for which no value can be assumed, so for instance =
+an
+++ * add/sub/xor/or with "optblocker" is a noop that will hide the result t=
+o
+++ * the optimizer.
+++ */
+++static volatile const apr_uint32_t optblocker;
+++
+++/* Return whether x is not zero, with no branching controlled by x.
+++ *
+++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,
+++ * which provides timing attacks safe integer operations/primitives.
+++ * Code:
+++ *   https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint3=
+2.h
+++ * Paper:
+++ *   https://cr.yp.to/papers/cryptoint-20250424.pdf
+++ */
+++#if __has_attribute(always_inline)
+++__attribute__((always_inline))
+++#endif
+++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)
+++{
+++    x |=3D -x; /* sets the most significant bit unless x =3D=3D 0 */
+++
+++    /* shift bit 31 (MSB) to bit 0 */
+++    x >>=3D 32-6;      /* keep 6 bits */
+++    x +=3D optblocker; /* lose the optimizer */
+++    x >>=3D 5;         /* keep the (original) MSB only */
+++
+++    /* x is now 0 or 1 */
+++    return x & INT_MAX;
+++}
+++
+++static int streq_timingsafe(const char *sec1, const char *str2)
+++{
+++    apr_uint32_t diff =3D 0;
+++    apr_size_t i1 =3D 0, i2 =3D 0;
+++
+++    for (;; ++i2) {
+++        const unsigned char c1 =3D ((volatile const unsigned char *)sec1)=
+[i1];
+++        const unsigned char c2 =3D ((volatile const unsigned char *)str2)=
+[i2];
+++
+++        diff |=3D c1 ^ c2; /* sets diff to non-zero whenever c1 !=3D c2 *=
+/
+++
+++        /* Not a shortest/longest match because an attacker would usually=
+ know
+++         * one of the strings and could then determine the length of the =
+other.
+++         * So assume only sec1 and its length are secret and stop the loo=
+p at
+++         * the end of str2. If sec1 is shorter than str2 the loop will co=
+ntinue
+++         * by comparing the rest of str2 with the trailing NUL byte of se=
+c1.
+++         * In any case since the diff above is computed up to and includi=
+ng a
+++         * NUL byte, only the same content and length will raise match.
+++         */
+++        if (!c2) {
+++            break;
+++        }
+++
+++        /* Don't go above sec1's NUL byte */
+++        i1 +=3D test_nonzero_timingsafe(c1);
+++    }
+++
+++    /* (diff =3D=3D 0) <=3D> (diff !=3D 0) ^ 1 */
+++    return test_nonzero_timingsafe(diff) ^ 1;
+++}
+++
+++static int strneq_timingsafe(const char *sec1, const char *str2, apr_size=
+_t n)
+++{
+++    apr_uint32_t diff =3D 0;
+++    volatile apr_size_t count =3D n; /* prevent loop unrolling */
+++    apr_size_t i1 =3D 0, i2 =3D 0;
+++
+++    for (; i2 < count; ++i2) {
+++        const unsigned char c1 =3D ((volatile const unsigned char *)sec1)=
+[i1];
+++        const unsigned char c2 =3D ((volatile const unsigned char *)str2)=
+[i2];
+++
+++        diff |=3D c1 ^ c2; /* sets diff to non-zero whenever c1 !=3D c2 *=
+/
+++
+++        /* Not a shortest/longest match because an attacker would usually=
+ know
+++         * one of the strings and could then determine the length of the =
+other.
+++         * So assume only sec1 and its length are secret and stop the loo=
+p at
+++         * the end of str2. If sec1 is shorter than str2 the loop will co=
+ntinue
+++         * by comparing the rest of str2 with the trailing NUL byte of se=
+c1.
+++         * In any case since the diff above is computed up to and includi=
+ng a
+++         * NUL byte, only the same content and length will raise match.
+++         */
+++        if (!c2) {
+++            break;
+++        }
+++
+++        /* Don't go above sec1's NUL byte */
+++        i1 +=3D test_nonzero_timingsafe(c1);
+++    }
+++
+++    /* (diff =3D=3D 0) <=3D> (diff !=3D 0) ^ 1 */
+++    return test_nonzero_timingsafe(diff) ^ 1;
+++}
+++
+++#endif /* APR_VERSION_AT_LEAST(1,8,0) */
+++
++ #if !defined(WIN32) && !defined(BEOS) && !defined(NETWARE)
++ #if defined(APU_CRYPT_THREADSAFE) || !APR_HAS_THREADS || \
++     defined(CRYPT_R_CRYPTD) || defined(CRYPT_R_STRUCT_CRYPT_DATA)
++@@ -86,28 +192,33 @@ APU_DECLARE(apr_status_t) apr_password_validate(const=
+ char *passwd,
++ #if !CRYPT_MISSING
++     char *crypt_pw;
++ #endif
++-    if (hash[0] =3D=3D '$'
++-        && hash[1] =3D=3D '2'
++-        && (hash[2] =3D=3D 'a' || hash[2] =3D=3D 'y')
++-        && hash[3] =3D=3D '$') {
+++
+++    if ((strneq_timingsafe(hash, "$2a$", 4) | /* test both */
+++         strneq_timingsafe(hash, "$2y$", 4))) {
+++        /*
+++         * The hash was created using [apr_]bcrypt encoding.
+++         */
++         if (_crypt_blowfish_rn(passwd, hash, sample, sizeof(sample)) =3D=
+=3D NULL)
++             return APR_FROM_OS_ERROR(errno);
++     }
++-    else if (!strncmp(hash, apr1_id, strlen(apr1_id))) {
+++    else if (strneq_timingsafe(hash, apr1_id, strlen(apr1_id))) {
++         /*
++          * The hash was created using our custom algorithm.
++          */
++         apr_md5_encode(passwd, hash, sample, sizeof(sample));
++     }
++-    else if (!strncmp(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
++-         apr_sha1_base64(passwd, (int)strlen(passwd), sample);
+++    else if (strneq_timingsafe(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLEN)) {
+++        /*
+++         * The hash is a (naked) SHA1.
+++         */
+++        apr_sha1_base64(passwd, (int)strlen(passwd), sample);
++     }
++     else {
++         /*
++          * It's not our algorithm, so feed it to crypt() if possible.
++          */
++ #if CRYPT_MISSING
++-        return (strcmp(passwd, hash) =3D=3D 0) ? APR_SUCCESS : APR_EMISMA=
+TCH;
+++        return streq_timingsafe(hash, passwd) ? APR_SUCCESS : APR_EMISMAT=
+CH;
++ #elif defined(CRYPT_R_CRYPTD)
++         apr_status_t rv;
++         CRYPTD *buffer =3D malloc(sizeof(*buffer));
++@@ -118,7 +229,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const =
+char *passwd,
++         if (!crypt_pw)
++             rv =3D APR_EMISMATCH;
++         else
++-            rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : APR_=
+EMISMATCH;
+++            rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_E=
+MISMATCH;
++         free(buffer);
++         return rv;
++ #elif defined(CRYPT_R_STRUCT_CRYPT_DATA)
++@@ -149,7 +260,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const =
+char *passwd,
++         if (!crypt_pw)
++             rv =3D APR_EMISMATCH;
++         else
++-            rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : APR_=
+EMISMATCH;
+++            rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_E=
+MISMATCH;
++         free(buffer);
++         return rv;
++ #else
++@@ -173,14 +284,14 @@ APU_DECLARE(apr_status_t) apr_password_validate(cons=
+t char *passwd,
++                 rv =3D APR_EMISMATCH;
++             }
++             else {
++-                rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : =
+APR_EMISMATCH;
+++                rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : A=
+PR_EMISMATCH;
++             }
++             crypt_mutex_unlock();
++             return rv;
++         }
++ #endif
++     }
++-    return (strcmp(sample, hash) =3D=3D 0) ? APR_SUCCESS : APR_EMISMATCH;
+++    return streq_timingsafe(hash, sample) ? APR_SUCCESS : APR_EMISMATCH;
++ }
++
++ static const char * const bcrypt_id =3D "$2y$";
+diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-supp=
+ort/apr/apr-util_1.6.3.bb
+index 3a5f52d250..19f8e59ca5 100644
+--- a/meta/recipes-support/apr/apr-util_1.6.3.bb
++++ b/meta/recipes-support/apr/apr-util_1.6.3.bb
+@@ -13,6 +13,12 @@ SRC_URI =3D "${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.gz \
+            file://configfix.patch \
+            file://configure_fixes.patch \
+            file://0001-test_transformation-Check-if-transform-is-supported=
+-.patch \
++           file://CVE-2025-49506.patch \
++           file://CVE-2026-32327-dependent.patch \
++           file://CVE-2026-32327.patch \
++           file://CVE-2026-34501.patch \
++           file://CVE-2026-34502_p1.patch \
++           file://CVE-2026-34502_p2.patch \
+            file://run-ptest \
+            "
 
+--
+2.35.6
+
+
+--_000_CY8PR11MB70369075BF0281B7E2603305AF8D2CY8PR11MB7036namp_
+Content-Type: text/html; charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+<head>
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dus-ascii"=
+>
+</head>
+<body>
+<p style=3D"direction: ltr; text-align: left; text-indent: 0px; text-transf=
+orm: none;">
+<span style=3D"font-family: Aptos, Arial, Helvetica, sans-serif; font-size:=
+ 12pt; color: rgb(0, 0, 0);">The recipe still adds five unrelated&nbsp;<cod=
+e>CVE-2026-*</code>&nbsp;patch references not supplied by this standalone v=
+2. Keep only the&nbsp;<code>CVE-2025-49506.patch</code>&nbsp;entry,
+ or resend the complete series.</span></p>
+<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
+rif; font-size: 12pt; color: rgb(0, 0, 0);">
+Regards,</div>
+<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
+rif; font-size: 12pt; color: rgb(0, 0, 0);">
+Viral</div>
+<div style=3D"direction: ltr; font-family: Aptos, Arial, Helvetica, sans-se=
+rif; font-size: 12pt; color: rgb(0, 0, 0);">
+<br>
+</div>
+<div id=3D"mail-editor-reference-message-container">
+<div style=3D"padding: 3pt 0in 0in; border-width: 1pt medium medium; border=
+-style: solid none none; border-color: rgb(181, 196, 223) currentcolor curr=
+entcolor;">
+<div style=3D"text-align: left; font-family: Aptos; font-size: 12pt; color:=
+ black;">
+<b>From: </b>Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisc=
+o) &lt;hthakar@cisco.com&gt;<br>
+<b>Date: </b>Monday, 28 September 2026 at 02:55<br>
+<b>To: </b>openembedded-core@lists.openembedded.org &lt;openembedded-core@l=
+ists.openembedded.org&gt;<br>
+<b>Cc: </b>xe-linux-external (Internal Group) &lt;xe-linux-external@cisco.c=
+om&gt;<br>
+<b>Subject: </b>[OE-core][scarthgap][PATCH v2] apr-util: Fix CVE-2025-49506=
+<br>
+<br>
+</div>
+</div>
+<div id=3D"mail-editor-reference-message-body">
+<div class=3D"ms-outlook-mobile-reference-message skipProofing">
+<meta name=3D"Generator" content=3D"Microsoft Exchange Server">
+</div>
+<div class=3D"PlainText" style=3D"font-size: 11pt;">From: Hetvi Thakar &lt;=
+hthakar@cisco.com&gt;<br>
+<br>
+Backport the upstream timing-safe comparison fix [1].<br>
+APR-util 1.6.4 identifies this issue as fixed [2].<br>
+<br>
+[1] <a href=3D"https://github.com/apache/apr-util/commit/f77a20761cb15686f8=
+d4de5b5eafc534ae24b19e" data-outlook-id=3D"31f22c39-c679-4801-99eb-eb55f0f0=
+2c7a">
+https://github.com/apache/apr-util/commit/f77a20761cb15686f8d4de5b5eafc534a=
+e24b19e</a><br>
+<br>
+[2] <a href=3D"https://nvd.nist.gov/vuln/detail/CVE-2025-49506" data-outloo=
+k-id=3D"b4ce18ee-4ba7-403e-b090-c5b0d51714cf">
+https://nvd.nist.gov/vuln/detail/CVE-2025-49506</a><br>
+<br>
+Signed-off-by: Hetvi Thakar &lt;hthakar@cisco.com&gt;<br>
+---<br>
+Changes in v2:<br>
+- Drop the XLC-specific compatibility follow-up patch,<br>
+as it is not required by OE-Core's GCC/Clang toolchains.<br>
+---<br>
+&nbsp;.../apr/apr-util/CVE-2025-49506.patch&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; | 310 ++++++++++++++++++<br>
+&nbsp;meta/recipes-support/apr/apr-util_1.6.3.bb&nbsp;&nbsp;&nbsp; |&nbsp;&=
+nbsp; 6 +<br>
+&nbsp;2 files changed, 316 insertions(+)<br>
+&nbsp;create mode 100644 meta/recipes-support/apr/apr-util/CVE-2025-49506.p=
+atch<br>
+<br>
+diff --git a/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch b/meta/=
+recipes-support/apr/apr-util/CVE-2025-49506.patch<br>
+new file mode 100644<br>
+index 0000000000..0ab5cf0648<br>
+--- /dev/null<br>
++++ b/meta/recipes-support/apr/apr-util/CVE-2025-49506.patch<br>
+@@ -0,0 +1,310 @@<br>
++From f77a20761cb15686f8d4de5b5eafc534ae24b19e Mon Sep 17 00:00:00 2001<br>
++From: Eric Covener &lt;covener@apache.org&gt;<br>
++Date: Mon, 3 Aug 2026 12:10:13 +0000<br>
++Subject: [PATCH] Merge r1936804 from aprutil 1.7.x:<br>
++<br>
++use timing safe comparison<br>
++<br>
++Submitted By: ylavic<br>
++Reviewed By: ylavic, rpluem, covener<br>
++<br>
++<br>
++<br>
++<br>
++git-svn-id: <a href=3D"https://svn.apache.org/repos/asf/apr/apr-util/branc=
+hes/1.6.x@1936805" data-outlook-id=3D"0607e228-8279-41cb-b090-4c787bcf439b"=
+>
+https://svn.apache.org/repos/asf/apr/apr-util/branches/1.6.x@1936805</a> 13=
+f79535-47bb-0310-9956-ffa450edef68<br>
++<br>
++CVE: CVE-2025-49506<br>
++Upstream-Status: Backport [<a href=3D"https://github.com/apache/apr-util/c=
+ommit/f77a20761cb15686f8d4de5b5eafc534ae24b19e" data-outlook-id=3D"d5e87081=
+-399d-4c09-9459-4ad3bc8e08fc">https://github.com/apache/apr-util/commit/f77=
+a20761cb15686f8d4de5b5eafc534ae24b19e</a>]<br>
++<br>
++(cherry picked from commit f77a20761cb15686f8d4de5b5eafc534ae24b19e)<br>
++Signed-off-by: Hetvi Thakar &lt;hthakar@cisco.com&gt;<br>
++---<br>
++ crypto/apr_crypto.c |&nbsp; 60 +++++++++++++++++---<br>
++ crypto/apr_passwd.c | 135 ++++++++++++++++++++++++++++++++++++++++----<br=
+>
++ 2 files changed, 176 insertions(+), 19 deletions(-)<br>
++<br>
++diff --git a/crypto/apr_crypto.c b/crypto/apr_crypto.c<br>
++index 9ba190ef..ca3f0887 100644<br>
++--- a/crypto/apr_crypto.c<br>
+++++ b/crypto/apr_crypto.c<br>
++@@ -21,6 +21,7 @@<br>
++ #include &quot;apu.h&quot;<br>
++ #include &quot;apr_pools.h&quot;<br>
++ #include &quot;apr_dso.h&quot;<br>
+++#include &quot;apr_version.h&quot;<br>
++ #include &quot;apr_strings.h&quot;<br>
++ #include &quot;apr_hash.h&quot;<br>
++ #include &quot;apr_thread_mutex.h&quot;<br>
++@@ -173,19 +174,64 @@ APU_DECLARE(apr_status_t) apr_crypto_memzero(void *b=
+uffer, apr_size_t size)<br>
++&nbsp;&nbsp;&nbsp;&nbsp; return APR_SUCCESS;<br>
++ }<br>
++<br>
+++/* Borrow this from APR-1.8 if not available */<br>
+++#if !APR_VERSION_AT_LEAST(1,8,0)<br>
+++<br>
+++/* A volatile variable which is always zero but allows to block the compi=
+ler<br>
+++ * from optimizing or eliding code using it. Volatile forces the compiler=
+ to<br>
+++ * emit a memory load for which no value can be assumed, so for instance =
+an<br>
+++ * add/sub/xor/or with &quot;optblocker&quot; is a noop that will hide th=
+e result to<br>
+++ * the optimizer.<br>
+++ */<br>
+++static volatile const apr_uint32_t optblocker;<br>
+++<br>
+++/* Return whether x is not zero, with no branching controlled by x.<br>
+++ *<br>
+++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,<b=
+r>
+++ * which provides timing attacks safe integer operations/primitives.<br>
+++ * Code:<br>
+++ *&nbsp;&nbsp; <a href=3D"https://lib.mceliece.org/libmceliece-20250507/c=
+ryptoint/crypto_uint32.h" data-outlook-id=3D"7587f1ca-faae-457e-95c1-b3fbb8=
+56d82d">
+https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint32.h</a>=
+<br>
+++ * Paper:<br>
+++ *&nbsp;&nbsp; <a href=3D"https://cr.yp.to/papers/cryptoint-20250424.pdf"=
+ data-outlook-id=3D"54f82d54-e1d3-4acc-8672-0e404ffad4be">
+https://cr.yp.to/papers/cryptoint-20250424.pdf</a><br>
+++ */<br>
+++#if __has_attribute(always_inline)<br>
+++__attribute__((always_inline))<br>
+++#endif<br>
+++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)<br>
+++{<br>
+++&nbsp;&nbsp;&nbsp; x |=3D -x; /* sets the most significant bit unless x =
+=3D=3D 0 */<br>
+++<br>
+++&nbsp;&nbsp;&nbsp; /* shift bit 31 (MSB) to bit 0 */<br>
+++&nbsp;&nbsp;&nbsp; x &gt;&gt;=3D 32-6;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* k=
+eep 6 bits */<br>
+++&nbsp;&nbsp;&nbsp; x +=3D optblocker; /* lose the optimizer */<br>
+++&nbsp;&nbsp;&nbsp; x &gt;&gt;=3D 5;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; /* keep the (original) MSB only */<br>
+++<br>
+++&nbsp;&nbsp;&nbsp; /* x is now 0 or 1 */<br>
+++&nbsp;&nbsp;&nbsp; return x &amp; INT_MAX;<br>
+++}<br>
+++<br>
+++#endif /* !APR_VERSION_AT_LEAST(1,8,0) */<br>
+++<br>
++ APU_DECLARE(int) apr_crypto_equals(const void *buf1, const void *buf2,<br=
+>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp=
+;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apr_size_t si=
+ze)<br>
++ {<br>
++-&nbsp;&nbsp;&nbsp; const unsigned char *p1 =3D buf1;<br>
++-&nbsp;&nbsp;&nbsp; const unsigned char *p2 =3D buf2;<br>
++-&nbsp;&nbsp;&nbsp; unsigned char diff =3D 0;<br>
++-&nbsp;&nbsp;&nbsp; apr_size_t i;<br>
+++#if APR_VERSION_AT_LEAST(1,8,0)<br>
+++&nbsp;&nbsp;&nbsp; return apr_memeq_timingsafe(buf1, buf2, size);<br>
+++#else<br>
+++&nbsp;&nbsp;&nbsp; apr_uint32_t diff =3D 0;<br>
+++&nbsp;&nbsp;&nbsp; volatile apr_size_t count =3D size; /* prevent loop un=
+rolling */<br>
+++&nbsp;&nbsp;&nbsp; apr_size_t i =3D 0;<br>
++<br>
++-&nbsp;&nbsp;&nbsp; for (i =3D 0; i &lt; size; ++i) {<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; diff |=3D p1[i] ^ p2[i];<br>
+++&nbsp;&nbsp;&nbsp; for (; i &lt; count; ++i) {<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c1 =3D ((v=
+olatile const unsigned char *)buf1)[i];<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c2 =3D ((v=
+olatile const unsigned char *)buf2)[i];<br>
+++<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; diff |=3D c1 ^ c2; /* sets dif=
+f to non-zero whenever c1 !=3D c2 */<br>
++&nbsp;&nbsp;&nbsp;&nbsp; }<br>
++<br>
++-&nbsp;&nbsp;&nbsp; return 1 &amp; ((diff - 1) &gt;&gt; 8);<br>
+++&nbsp;&nbsp;&nbsp; /* (diff =3D=3D 0) &lt;=3D&gt; (diff !=3D 0) ^ 1 */<br=
+>
+++&nbsp;&nbsp;&nbsp; return test_nonzero_timingsafe(diff) ^ 1;<br>
+++#endif<br>
++ }<br>
++<br>
++ APU_DECLARE(apr_status_t) apr_crypto_get_driver(<br>
++diff --git a/crypto/apr_passwd.c b/crypto/apr_passwd.c<br>
++index c961de2b..74b5fc17 100644<br>
++--- a/crypto/apr_passwd.c<br>
+++++ b/crypto/apr_passwd.c<br>
++@@ -14,6 +14,7 @@<br>
++&nbsp; * limitations under the License.<br>
++&nbsp; */<br>
++<br>
+++#include &quot;apr_version.h&quot;<br>
++ #include &quot;apr_strings.h&quot;<br>
++ #include &quot;apr_md5.h&quot;<br>
++ #include &quot;apr_lib.h&quot;<br>
++@@ -39,6 +40,111 @@<br>
++<br>
++ static const char * const apr1_id =3D &quot;$apr1$&quot;;<br>
++<br>
+++#if APR_VERSION_AT_LEAST(1,8,0)<br>
+++<br>
+++#define streq_timingsafe&nbsp;&nbsp;&nbsp; apr_streq_timingsafe<br>
+++#define strneq_timingsafe&nbsp;&nbsp; apr_strneq_timingsafe<br>
+++<br>
+++#else /* borrow code from APR-1.8 if not available */<br>
+++<br>
+++/* A volatile variable which is always zero but allows to block the compi=
+ler<br>
+++ * from optimizing or eliding code using it. Volatile forces the compiler=
+ to<br>
+++ * emit a memory load for which no value can be assumed, so for instance =
+an<br>
+++ * add/sub/xor/or with &quot;optblocker&quot; is a noop that will hide th=
+e result to<br>
+++ * the optimizer.<br>
+++ */<br>
+++static volatile const apr_uint32_t optblocker;<br>
+++<br>
+++/* Return whether x is not zero, with no branching controlled by x.<br>
+++ *<br>
+++ * Taken from the cryptoint library (public domain) by D. J. Bernstein,<b=
+r>
+++ * which provides timing attacks safe integer operations/primitives.<br>
+++ * Code:<br>
+++ *&nbsp;&nbsp; <a href=3D"https://lib.mceliece.org/libmceliece-20250507/c=
+ryptoint/crypto_uint32.h" data-outlook-id=3D"bb48a92c-412e-4388-b226-17dd42=
+b882f1">
+https://lib.mceliece.org/libmceliece-20250507/cryptoint/crypto_uint32.h</a>=
+<br>
+++ * Paper:<br>
+++ *&nbsp;&nbsp; <a href=3D"https://cr.yp.to/papers/cryptoint-20250424.pdf"=
+ data-outlook-id=3D"b05c520f-3b2e-4ce7-9db7-169096c84b3e">
+https://cr.yp.to/papers/cryptoint-20250424.pdf</a><br>
+++ */<br>
+++#if __has_attribute(always_inline)<br>
+++__attribute__((always_inline))<br>
+++#endif<br>
+++static APR_INLINE int test_nonzero_timingsafe(apr_uint32_t x)<br>
+++{<br>
+++&nbsp;&nbsp;&nbsp; x |=3D -x; /* sets the most significant bit unless x =
+=3D=3D 0 */<br>
+++<br>
+++&nbsp;&nbsp;&nbsp; /* shift bit 31 (MSB) to bit 0 */<br>
+++&nbsp;&nbsp;&nbsp; x &gt;&gt;=3D 32-6;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* k=
+eep 6 bits */<br>
+++&nbsp;&nbsp;&nbsp; x +=3D optblocker; /* lose the optimizer */<br>
+++&nbsp;&nbsp;&nbsp; x &gt;&gt;=3D 5;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp; /* keep the (original) MSB only */<br>
+++<br>
+++&nbsp;&nbsp;&nbsp; /* x is now 0 or 1 */<br>
+++&nbsp;&nbsp;&nbsp; return x &amp; INT_MAX;<br>
+++}<br>
+++<br>
+++static int streq_timingsafe(const char *sec1, const char *str2)<br>
+++{<br>
+++&nbsp;&nbsp;&nbsp; apr_uint32_t diff =3D 0;<br>
+++&nbsp;&nbsp;&nbsp; apr_size_t i1 =3D 0, i2 =3D 0;<br>
+++<br>
+++&nbsp;&nbsp;&nbsp; for (;; ++i2) {<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c1 =3D ((v=
+olatile const unsigned char *)sec1)[i1];<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c2 =3D ((v=
+olatile const unsigned char *)str2)[i2];<br>
+++<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; diff |=3D c1 ^ c2; /* sets dif=
+f to non-zero whenever c1 !=3D c2 */<br>
+++<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Not a shortest/longest matc=
+h because an attacker would usually know<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * one of the strings and=
+ could then determine the length of the other.<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * So assume only sec1 an=
+d its length are secret and stop the loop at<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * the end of str2. If se=
+c1 is shorter than str2 the loop will continue<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * by comparing the rest =
+of str2 with the trailing NUL byte of sec1.<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * In any case since the =
+diff above is computed up to and including a<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * NUL byte, only the sam=
+e content and length will raise match.<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!c2) {<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break;=
+<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+++<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Don't go above sec1's NUL b=
+yte */<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i1 +=3D test_nonzero_timingsaf=
+e(c1);<br>
+++&nbsp;&nbsp;&nbsp; }<br>
+++<br>
+++&nbsp;&nbsp;&nbsp; /* (diff =3D=3D 0) &lt;=3D&gt; (diff !=3D 0) ^ 1 */<br=
+>
+++&nbsp;&nbsp;&nbsp; return test_nonzero_timingsafe(diff) ^ 1;<br>
+++}<br>
+++<br>
+++static int strneq_timingsafe(const char *sec1, const char *str2, apr_size=
+_t n)<br>
+++{<br>
+++&nbsp;&nbsp;&nbsp; apr_uint32_t diff =3D 0;<br>
+++&nbsp;&nbsp;&nbsp; volatile apr_size_t count =3D n; /* prevent loop unrol=
+ling */<br>
+++&nbsp;&nbsp;&nbsp; apr_size_t i1 =3D 0, i2 =3D 0;<br>
+++<br>
+++&nbsp;&nbsp;&nbsp; for (; i2 &lt; count; ++i2) {<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c1 =3D ((v=
+olatile const unsigned char *)sec1)[i1];<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; const unsigned char c2 =3D ((v=
+olatile const unsigned char *)str2)[i2];<br>
+++<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; diff |=3D c1 ^ c2; /* sets dif=
+f to non-zero whenever c1 !=3D c2 */<br>
+++<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Not a shortest/longest matc=
+h because an attacker would usually know<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * one of the strings and=
+ could then determine the length of the other.<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * So assume only sec1 an=
+d its length are secret and stop the loop at<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * the end of str2. If se=
+c1 is shorter than str2 the loop will continue<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * by comparing the rest =
+of str2 with the trailing NUL byte of sec1.<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * In any case since the =
+diff above is computed up to and including a<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * NUL byte, only the sam=
+e content and length will raise match.<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!c2) {<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; break;=
+<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
+++<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /* Don't go above sec1's NUL b=
+yte */<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; i1 +=3D test_nonzero_timingsaf=
+e(c1);<br>
+++&nbsp;&nbsp;&nbsp; }<br>
+++<br>
+++&nbsp;&nbsp;&nbsp; /* (diff =3D=3D 0) &lt;=3D&gt; (diff !=3D 0) ^ 1 */<br=
+>
+++&nbsp;&nbsp;&nbsp; return test_nonzero_timingsafe(diff) ^ 1;<br>
+++}<br>
+++<br>
+++#endif /* APR_VERSION_AT_LEAST(1,8,0) */<br>
+++<br>
++ #if !defined(WIN32) &amp;&amp; !defined(BEOS) &amp;&amp; !defined(NETWARE=
+)<br>
++ #if defined(APU_CRYPT_THREADSAFE) || !APR_HAS_THREADS || \<br>
++&nbsp;&nbsp;&nbsp;&nbsp; defined(CRYPT_R_CRYPTD) || defined(CRYPT_R_STRUCT=
+_CRYPT_DATA)<br>
++@@ -86,28 +192,33 @@ APU_DECLARE(apr_status_t) apr_password_validate(const=
+ char *passwd,<br>
++ #if !CRYPT_MISSING<br>
++&nbsp;&nbsp;&nbsp;&nbsp; char *crypt_pw;<br>
++ #endif<br>
++-&nbsp;&nbsp;&nbsp; if (hash[0] =3D=3D '$'<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; hash[1] =3D=3D '2'<=
+br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; (hash[2] =3D=3D 'a'=
+ || hash[2] =3D=3D 'y')<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &amp;&amp; hash[3] =3D=3D '$')=
+ {<br>
+++<br>
+++&nbsp;&nbsp;&nbsp; if ((strneq_timingsafe(hash, &quot;$2a$&quot;, 4) | /*=
+ test both */<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; strneq_timingsafe(hash, =
+&quot;$2y$&quot;, 4))) {<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * The hash was created u=
+sing [apr_]bcrypt encoding.<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (_crypt_blowfish_rn(pa=
+sswd, hash, sample, sizeof(sample)) =3D=3D NULL)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r=
+eturn APR_FROM_OS_ERROR(errno);<br>
++&nbsp;&nbsp;&nbsp;&nbsp; }<br>
++-&nbsp;&nbsp;&nbsp; else if (!strncmp(hash, apr1_id, strlen(apr1_id))) {<b=
+r>
+++&nbsp;&nbsp;&nbsp; else if (strneq_timingsafe(hash, apr1_id, strlen(apr1_=
+id))) {<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * The hash was crea=
+ted using our custom algorithm.<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apr_md5_encode(passwd, ha=
+sh, sample, sizeof(sample));<br>
++&nbsp;&nbsp;&nbsp;&nbsp; }<br>
++-&nbsp;&nbsp;&nbsp; else if (!strncmp(hash, APR_SHA1PW_ID, APR_SHA1PW_IDLE=
+N)) {<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apr_sha1_base64(passwd, =
+(int)strlen(passwd), sample);<br>
+++&nbsp;&nbsp;&nbsp; else if (strneq_timingsafe(hash, APR_SHA1PW_ID, APR_SH=
+A1PW_IDLEN)) {<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * The hash is a (naked) =
+SHA1.<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apr_sha1_base64(passwd, (int)s=
+trlen(passwd), sample);<br>
++&nbsp;&nbsp;&nbsp;&nbsp; }<br>
++&nbsp;&nbsp;&nbsp;&nbsp; else {<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; /*<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; * It's not our algo=
+rithm, so feed it to crypt() if possible.<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; */<br>
++ #if CRYPT_MISSING<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return (strcmp(passwd, hash) =
+=3D=3D 0) ? APR_SUCCESS : APR_EMISMATCH;<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return streq_timingsafe(hash, =
+passwd) ? APR_SUCCESS : APR_EMISMATCH;<br>
++ #elif defined(CRYPT_R_CRYPTD)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; apr_status_t rv;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; CRYPTD *buffer =3D malloc=
+(sizeof(*buffer));<br>
++@@ -118,7 +229,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const =
+char *passwd,<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!crypt_pw)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r=
+v =3D APR_EMISMATCH;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rv =3D=
+ (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : APR_EMISMATCH;<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rv =3D=
+ streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free(buffer);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return rv;<br>
++ #elif defined(CRYPT_R_STRUCT_CRYPT_DATA)<br>
++@@ -149,7 +260,7 @@ APU_DECLARE(apr_status_t) apr_password_validate(const =
+char *passwd,<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; if (!crypt_pw)<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r=
+v =3D APR_EMISMATCH;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; else<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rv =3D=
+ (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : APR_EMISMATCH;<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; rv =3D=
+ streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : APR_EMISMATCH;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; free(buffer);<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; return rv;<br>
++ #else<br>
++@@ -173,14 +284,14 @@ APU_DECLARE(apr_status_t) apr_password_validate(cons=
+t char *passwd,<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp;&nbsp; rv =3D APR_EMISMATCH;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }=
+<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; e=
+lse {<br>
++-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; rv =3D (strcmp(crypt_pw, hash) =3D=3D 0) ? APR_SUCCESS : =
+APR_EMISMATCH;<br>
+++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&=
+nbsp;&nbsp;&nbsp; rv =3D streq_timingsafe(hash, crypt_pw) ? APR_SUCCESS : A=
+PR_EMISMATCH;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }=
+<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; c=
+rypt_mutex_unlock();<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; r=
+eturn rv;<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; }<br>
++ #endif<br>
++&nbsp;&nbsp;&nbsp;&nbsp; }<br>
++-&nbsp;&nbsp;&nbsp; return (strcmp(sample, hash) =3D=3D 0) ? APR_SUCCESS :=
+ APR_EMISMATCH;<br>
+++&nbsp;&nbsp;&nbsp; return streq_timingsafe(hash, sample) ? APR_SUCCESS : =
+APR_EMISMATCH;<br>
++ }<br>
++<br>
++ static const char * const bcrypt_id =3D &quot;$2y$&quot;;<br>
+diff --git a/meta/recipes-support/apr/apr-util_1.6.3.bb b/meta/recipes-supp=
+ort/apr/apr-util_1.6.3.bb<br>
+index 3a5f52d250..19f8e59ca5 100644<br>
+--- a/meta/recipes-support/apr/apr-util_1.6.3.bb<br>
++++ b/meta/recipes-support/apr/apr-util_1.6.3.bb<br>
+@@ -13,6 +13,12 @@ SRC_URI =3D &quot;${APACHE_MIRROR}/apr/${BPN}-${PV}.tar.=
+gz \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://configfix.patch" data-outlook-id=3D"e407ce75-b3d6-476d-8983-2c1a=
+0f7e86ef">
+file://configfix.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://configure_fixes.patch" data-outlook-id=3D"4d7961d2-af73-43bc-be0=
+9-cdcf5a3bd7d1">
+file://configure_fixes.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://0001-test_transformation-Check-if-transform-is-supported-.patch"=
+ data-outlook-id=3D"927642fb-f196-45dc-9634-1e2bc7fc818f">
+file://0001-test_transformation-Check-if-transform-is-supported-.patch</a> =
+\<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://CVE-2025-49506.patch" data-outlook-id=3D"2b041b35-0495-4a5d-bcb1-4b9d0=
+f3f5afb">
+file://CVE-2025-49506.patch</a> \<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://CVE-2026-32327-dependent.patch" data-outlook-id=3D"020ebf71-a386-4be0-=
+a841-d4959885b9c3">
+file://CVE-2026-32327-dependent.patch</a> \<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://CVE-2026-32327.patch" data-outlook-id=3D"8703af69-e0b6-4ada-9663-ec4a1=
+9ac39b3">
+file://CVE-2026-32327.patch</a> \<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://CVE-2026-34501.patch" data-outlook-id=3D"e54c49ea-b624-43b7-973b-4a33d=
+0f03703">
+file://CVE-2026-34501.patch</a> \<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://CVE-2026-34502_p1.patch" data-outlook-id=3D"5becef43-3459-46da-b701-a4=
+08cb2200f7">
+file://CVE-2026-34502_p1.patch</a> \<br>
++&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=3D"fi=
+le://CVE-2026-34502_p2.patch" data-outlook-id=3D"72dfb249-a938-4684-b9f6-7a=
+2916a62520">
+file://CVE-2026-34502_p2.patch</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <a href=
+=3D"file://run-ptest" data-outlook-id=3D"07a64f25-13d5-4651-91b1-93ee688399=
+48">
+file://run-ptest</a> \<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &quot;<b=
+r>
+&nbsp;<br>
+--<br>
+2.35.6<br>
+<br>
+</div>
+</div>
+</div>
+</body>
+</html>
+
+--_000_CY8PR11MB70369075BF0281B7E2603305AF8D2CY8PR11MB7036namp_--
 
