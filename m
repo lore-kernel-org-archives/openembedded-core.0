@@ -2,177 +2,225 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id DC94BC98328
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EC918CA5FA3
 	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 05:17:39 +0000 (UTC)
-Received: from a27-29.smtp-out.us-west-2.amazonses.com (a27-29.smtp-out.us-west-2.amazonses.com [54.240.27.29])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.51908.1790572656506519116
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.51907.1790572654828410630
  for <openembedded-core@lists.openembedded.org>;
- Sun, 27 Sep 2026 22:17:36 -0700
+ Sun, 27 Sep 2026 22:17:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=t/I1Nzk2;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=KuN9vTOZ;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.29, mailfrom: 010101a0e67273a7-481168c8-16cf-4284-8cba-efac1b0b417c-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=N3qSHo8s;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=tgPKSP9f;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a0e6726b03-15298447-b30e-4406-b07c-e23b8567ee8c-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1790572655;
+	t=1790572653;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
-	bh=FM77VO97u7E62wb+Abybvvg5qbherEl912VgpQIfSaI=;
-	b=t/I1Nzk2vpzbdY+Fo+Cs/XWV1oVcjZROVlruJOean0L+RRVCzP8TilsI8lsE8DT7
-	A6JY8VsRfoyPkmSZR8B/G4zopkJ5FtPQBhj2JNPDC05S0GBcYHnkvJ2B2T3gHv5540w
-	zFH7mwwm+2XjgmX+0ALkOlnqdsqK0qGQVU/hnOcE=
+	bh=JLP8VRoVRnnDrmGj861XlCUOo8BrspIKC873fJtVt9M=;
+	b=N3qSHo8snC5VbAIJPHRhjcHGHo0tTSF2cSm/JeeAcQtMij+Re1ayGUsGFB1z8l8Y
+	Pkfksnq1t9jOJ3VZYJSNoavJAjPBv0MX6kYl8QXeAxnUz3cyWJlPxVHMcfmOxt7LiTb
+	vY4PZjvolRhdrWBLv/kgEbBYuYvcyiAnC+bSvMAE=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790572655;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790572653;
 	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
-	bh=FM77VO97u7E62wb+Abybvvg5qbherEl912VgpQIfSaI=;
-	b=KuN9vTOZq2+a0UzaiDoo7pPcMbLNyJVJ94oSS05CUhdo4zDS+lUD3RsvlzFDs2hb
-	br2ppT4T0HT7sISiH3ss/mpVcw3Rmg5Yn8BFweEDv6WF+slEL44ECtxr/8LwZY+OHxR
-	selIXVFiIbESlYuGm7AS2KzzfwuW0WJwdev1oa0g=
-Content-Type: multipart/mixed; boundary="===============0975267367572200295=="
+	bh=JLP8VRoVRnnDrmGj861XlCUOo8BrspIKC873fJtVt9M=;
+	b=tgPKSP9ffpFiNeo1tCc+NaJOouU1zSx5sc3WVjfQFF3Owh54QicXuE4vs5Z3hR5L
+	b9vQvphrknFy121XP7xeyxjf7LYfWxCYAz6RLTz6vzWt+np4gFVDQYUtpLafq0zcnMl
+	Rd9uVufnTVUj4fHSqyd99CaXDsghTEi1GHJF9y3c=
+Content-Type: multipart/mixed; boundary="===============3506596501060317289=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: Trevor Gamblin <tgamblin@baylibre.com>
+To: 
+	=?utf-8?q?Juhandr=C3=A9_Knoetze_=3Cjuhandre=2Eknoetze=40windriver=2Ecom?=@yoctoproject.org, 
+	=?utf-8?q?=3E?=@yoctoproject.org
 Cc: openembedded-core@lists.openembedded.org
-Subject: [AUH] python3-hypothesis: upgrading to 6.168.2 SUCCEEDED
-Message-ID: <010101a0e67273a7-481168c8-16cf-4284-8cba-efac1b0b417c-000000@us-west-2.amazonses.com>
-Date: Mon, 28 Sep 2026 05:17:35 +0000
+Subject: [AUH] dbus-glib: upgrading to 0.116 SUCCEEDED
+Message-ID: <010101a0e6726b03-15298447-b30e-4406-b07c-e23b8567ee8c-000000@us-west-2.amazonses.com>
+Date: Mon, 28 Sep 2026 05:17:33 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.28-54.240.27.29
+X-SES-Outgoing: 2026.09.28-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 05:17:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246728
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246727
 
---===============0975267367572200295==
-Content-Type: text/plain; charset="us-ascii"
+--===============3506596501060317289==
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: base64
 
-Hello,
+SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
+ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
+KHMpICpkYnVzLWdsaWIqIHRvICowLjExNiogaGFzIFN1Y2NlZWRlZC4KCk5leHQgc3RlcHM6CiAg
+ICAtIGFwcGx5IHRoZSBwYXRjaDogZ2l0IGFtIDAwMDEtZGJ1cy1nbGliLXVwZ3JhZGUtMC4xMTQt
+MC4xMTYucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5nZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBh
+bmQgc3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBtZXNzYWdlLAogICAgLSBjb21waWxlIGFu
+IGltYWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UKICAgIC0gcGVyZm9ybSBzb21lIGJhc2lj
+IHNhbml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQg
+Y29tbWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQKICAgIC0gc2VuZCBpdCB0byB0aGUgYXBw
+cm9wcmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUg
+cmVjaXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQgdGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwg
+UkVDSVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVjdGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0
+CmF1dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25nZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNl
+IHJldmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1
+aWxkL3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0gcGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0
+cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2VudGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRv
+bWF0ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRzLApUaGUgVXBncmFkZSBIZWxwZXIKCi0t
+ID44IC0tCkZyb20gM2EyOGY4NjAwNzMyYzlmZTljNDFlZDE1YTM2ODdjOWUyMzA5ZGVkZSBNb24g
+U2VwIDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFkZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2pl
+Y3Qub3JnPgpEYXRlOiBNb24sIDI4IFNlcCAyMDI2IDA1OjA3OjM2ICswMDAwClN1YmplY3Q6IFtQ
+QVRDSF0gZGJ1cy1nbGliOiB1cGdyYWRlIDAuMTE0IC0+IDAuMTE2Ck1JTUUtVmVyc2lvbjogMS4w
+CkNvbnRlbnQtVHlwZTogdGV4dC9wbGFpbjsgY2hhcnNldD1VVEYtOApDb250ZW50LVRyYW5zZmVy
+LUVuY29kaW5nOiA4Yml0CgpkYnVzLWdsaWIgMC4xMTYgKDIwMjYtMDktMjcpCj09PT09PT09PT09
+PT09PT09PT09PT09PT09PT0KClRoZSDigJxUaGlzIGlzIHdyb25nIHRvb2whIE5vLiBOb3QgZ29v
+ZC4gTm8uIE5ldmVyIHVzZSB0aGlz4oCdIHJlbGVhc2UuCkJ1ZyBmaXhlczoKCuKAoiBSZW1vdmUg
+YEdfR05VQ19DT05TVGAgZnJvbSBgX2dldF90eXBlKClgIGZ1bmN0aW9ucy4KICBUaGlzIGNhbiBj
+YXVzZSBtaXNjb21waWxhdGlvbiB3aXRoIGdjYy0xNi4KICAoZGJ1cy1nbGliITcsIERhdmlkIE5v
+cnRoKQoK4oCiIERpc2FibGUgYmFzaCBjb21wbGV0aW9uIGJ5IGRlZmF1bHQuCiAgVGhpcyBpcyBh
+biB1bm1haW50YWluZWQgYmFzaCBjb21wbGV0aW9uIGZvciBkYnVzLXNlbmQoMSksCiAgd2hpY2gg
+aXMgbm90IHBhcnQgb2YgR0xpYiwgYW5kIGFwcGFyZW50bHkgZG9lc24ndCB3b3JrIGFzIGludGVu
+ZGVkLgogIEZvciBhIGRidXMtc2VuZCBlcXVpdmFsZW50IHdpdGggc2hlbGwgY29tcGxldGlvbiwg
+cGxlYXNlIHRyeSBHTGliJ3MKICBnZGJ1cygxKSBvciBzeXN0ZW1kJ3MgYnVzY3RsKDEpLiAoZGJ1
+cy1nbGliITUsIFNpbW9uIE1jVml0dGllKQotLS0KIC4uLi9kYnVzL3tkYnVzLWdsaWJfMC4xMTQu
+YmIgPT4gZGJ1cy1nbGliXzAuMTE2LmJifSAgICAgICAgICAgICB8IDIgKy0KIDEgZmlsZSBjaGFu
+Z2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQogcmVuYW1lIG1ldGEvcmVjaXBlcy1j
+b3JlL2RidXMve2RidXMtZ2xpYl8wLjExNC5iYiA9PiBkYnVzLWdsaWJfMC4xMTYuYmJ9ICg5NSUp
+CgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9kYnVzLWdsaWJfMC4xMTQuYmIg
+Yi9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjExNi5iYgpzaW1pbGFyaXR5IGlu
+ZGV4IDk1JQpyZW5hbWUgZnJvbSBtZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjEx
+NC5iYgpyZW5hbWUgdG8gbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9kYnVzLWdsaWJfMC4xMTYuYmIK
+aW5kZXggYzY4MjRkNTY4OC4uNjI0NDgxNWQzMCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVzLWNv
+cmUvZGJ1cy9kYnVzLWdsaWJfMC4xMTQuYmIKKysrIGIvbWV0YS9yZWNpcGVzLWNvcmUvZGJ1cy9k
+YnVzLWdsaWJfMC4xMTYuYmIKQEAgLTE2LDcgKzE2LDcgQEAgREVQRU5EUyA9ICJleHBhdCBnbGli
+LTIuMCB2aXJ0dWFsL2xpYmludGwgZGJ1cy1nbGliLW5hdGl2ZSBkYnVzIgogREVQRU5EUzpjbGFz
+cy1uYXRpdmUgPSAiZ2xpYi0yLjAtbmF0aXZlIGRidXMtbmF0aXZlIgogCiBTUkNfVVJJID0gImh0
+dHBzOi8vZGJ1cy5mcmVlZGVza3RvcC5vcmcvcmVsZWFzZXMvZGJ1cy1nbGliL2RidXMtZ2xpYi0k
+e1BWfS50YXIuZ3oiCi1TUkNfVVJJW3NoYTI1NnN1bV0gPSAiYzA5YzVjMDg1YjJhMGUzOTFiOGVl
+N2Q3ODNhMWQ2M2ZlNDQ0ZTk2NzE3Y2MxODE0ZDYxYjVlOGZjMjgyN2E3YyIKK1NSQ19VUklbc2hh
+MjU2c3VtXSA9ICJlM2YzZDQ0ODdlMjg4MzgwMDc3MGVkNTg5OWVkMTExYmRjNGJhNzA1NmFmMzRh
+MjU1YzRjNDZhZDhhMjQ4NmYzIgogCiBpbmhlcml0IGF1dG90b29scyBwa2djb25maWcgZ2V0dGV4
+dCBiYXNoLWNvbXBsZXRpb24gZ3RrLWRvYwogCi0tIAoyLjQ3LjEKCg==
 
-this email is a notification from the Auto Upgrade Helper
-that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.168.2* has Succeeded.
-
-Next steps:
-    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.168.1-6.168.2.patch
-    - check the changes to upstream patches and summarize them in the commit message,
-    - compile an image that contains the package
-    - perform some basic sanity tests
-    - amend the patch and sign it off: git commit -s --reset-author --amend
-    - send it to the appropriate mailing list
-
-Alternatively, if you believe the recipe should not be upgraded at this time,
-you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
-automatic upgrades would no longer be attempted.
-
-Please review the attached files for further information and build/update failures.
-Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
-
-Regards,
-The Upgrade Helper
-
--- >8 --
-From 9905bd060be94e8372131e22107805f8e91a7132 Mon Sep 17 00:00:00 2001
-From: Upgrade Helper <auh@yoctoproject.org>
-Date: Mon, 28 Sep 2026 05:17:30 +0000
-Subject: [PATCH] python3-hypothesis: upgrade 6.168.1 -> 6.168.2
-
----
- ...hon3-hypothesis_6.168.1.bb => python3-hypothesis_6.168.2.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/python/{python3-hypothesis_6.168.1.bb => python3-hypothesis_6.168.2.bb} (91%)
-
-diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.168.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.168.2.bb
-similarity index 91%
-rename from meta/recipes-devtools/python/python3-hypothesis_6.168.1.bb
-rename to meta/recipes-devtools/python/python3-hypothesis_6.168.2.bb
-index 7386f26afa..ca6811293d 100644
---- a/meta/recipes-devtools/python/python3-hypothesis_6.168.1.bb
-+++ b/meta/recipes-devtools/python/python3-hypothesis_6.168.2.bb
-@@ -16,7 +16,7 @@ SRC_URI += " \
-     file://test_rle.py \
-     "
- 
--SRC_URI[sha256sum] = "fd8acb5c67f260dfbdcc1b2dc95ff48b2b3f90708ae595c76f591bbf3f6f8eeb"
-+SRC_URI[sha256sum] = "df61fcada928a3fb3fba4602be5b2d569eb50c36fddae0d2e2a5f51419d0ce9b"
- 
- RDEPENDS:${PN} += " \
-     python3-attrs \
--- 
-2.47.1
-
-
---===============0975267367572200295==
+--===============3506596501060317289==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff.txt"
 
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.168.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.168.2.dist-info/licenses
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.168.2.dist-info
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: FILELIST: removed all items "/etc/bash_completion.d/dbus-bash-completion.sh /usr/libexec/dbus-bash-completion-helper"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: RDEPENDS: removed "glib-2.0 (['>= 2.90.0']) expat (['>= 2.8.5']) glibc (['>= 2.44+git0+5c479454d1']) dbus-glib (['>= 0.114']) dbus-lib (['>= 1.16.2'])"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PKGSIZE changed from 35449 to 0 (-100%)
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PKGSIZE changed from 988216 to 883504 (-11%)
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: FILELIST: removed "/usr/lib/libdbus-glib-1.so.2.3.6", added "/usr/lib/libdbus-glib-1.so.2.3.7"
+Changes to packages/x86-64-v3-poky-linux/dbus-glib (sysroot):
+  /usr/lib/libdbus-glib-1.so.2 changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
+  /usr/lib/libdbus-glib-1.so changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
+  /usr/lib/libdbus-glib-1.so.2.3.6 moved to /usr/lib/libdbus-glib-1.so.2.3.7
 
---===============0975267367572200295==
+--===============3506596501060317289==
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="dbus-glib-changelog.txt"
+
+ZGJ1cy1nbGliIDAuMTE2ICgyMDI2LTA5LTI3KQo9PT09PT09PT09PT09PT09PT09PT09PT09PT09
+CgpUaGUg4oCcVGhpcyBpcyB3cm9uZyB0b29sISBOby4gTm90IGdvb2QuIE5vLiBOZXZlciB1c2Ug
+dGhpc+KAnSByZWxlYXNlLgpCdWcgZml4ZXM6CgrigKIgUmVtb3ZlIGBHX0dOVUNfQ09OU1RgIGZy
+b20gYF9nZXRfdHlwZSgpYCBmdW5jdGlvbnMuCiAgVGhpcyBjYW4gY2F1c2UgbWlzY29tcGlsYXRp
+b24gd2l0aCBnY2MtMTYuCiAgKGRidXMtZ2xpYiE3LCBEYXZpZCBOb3J0aCkKCuKAoiBEaXNhYmxl
+IGJhc2ggY29tcGxldGlvbiBieSBkZWZhdWx0LgogIFRoaXMgaXMgYW4gdW5tYWludGFpbmVkIGJh
+c2ggY29tcGxldGlvbiBmb3IgZGJ1cy1zZW5kKDEpLAogIHdoaWNoIGlzIG5vdCBwYXJ0IG9mIEdM
+aWIsIGFuZCBhcHBhcmVudGx5IGRvZXNuJ3Qgd29yayBhcyBpbnRlbmRlZC4KICBGb3IgYSBkYnVz
+LXNlbmQgZXF1aXZhbGVudCB3aXRoIHNoZWxsIGNvbXBsZXRpb24sIHBsZWFzZSB0cnkgR0xpYidz
+CiAgZ2RidXMoMSkgb3Igc3lzdGVtZCdzIGJ1c2N0bCgxKS4gKGRidXMtZ2xpYiE1LCBTaW1vbiBN
+Y1ZpdHRpZSkK
+
+--===============3506596501060317289==
 Content-Type: application/octet-stream
 MIME-Version: 1.0
 Content-Transfer-Encoding: base64
 Content-Disposition: attachment;
- filename="0001-python3-hypothesis-upgrade-6.168.1-6.168.2.patch"
+ filename="0001-dbus-glib-upgrade-0.114-0.116.patch"
 
-RnJvbSA5OTA1YmQwNjBiZTk0ZTgzNzIxMzFlMjIxMDc4MDVmOGU5MWE3MTMyIE1vbiBTZXAgMTcg
+RnJvbSAzYTI4Zjg2MDA3MzJjOWZlOWM0MWVkMTVhMzY4N2M5ZTIzMDlkZWRlIE1vbiBTZXAgMTcg
 MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IE1vbiwgMjggU2VwIDIwMjYgMDU6MTc6MzAgKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
-eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNjguMSAtPiA2LjE2OC4yCgotLS0KIC4uLmhv
-bjMtaHlwb3RoZXNpc182LjE2OC4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE2OC4yLmJi
-fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
-cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
-LjE2OC4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE2OC4yLmJifSAoOTElKQoKZGlmZiAt
-LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
-MTY4LjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
-c182LjE2OC4yLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
-cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTY4LjEuYmIKcmVuYW1lIHRv
-IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTY4LjIu
-YmIKaW5kZXggNzM4NmYyNmFmYS4uY2E2ODExMjkzZCAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNjguMS5iYgorKysgYi9tZXRh
-L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE2OC4yLmJiCkBA
-IC0xNiw3ICsxNiw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
-ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmZDhhY2I1YzY3ZjI2MGRmYmRjYzFiMmRj
-OTVmZjQ4YjJiM2Y5MDcwOGFlNTk1Yzc2ZjU5MWJiZjNmNmY4ZWViIgorU1JDX1VSSVtzaGEyNTZz
-dW1dID0gImRmNjFmY2FkYTkyOGEzZmIzZmJhNDYwMmJlNWIyZDU2OWViNTBjMzZmZGRhZTBkMmUy
-YTVmNTE0MTlkMGNlOWIiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
-cnMgXAotLSAKMi40Ny4xCgo=
+CkRhdGU6IE1vbiwgMjggU2VwIDIwMjYgMDU6MDc6MzYgKzAwMDAKU3ViamVjdDogW1BBVENIXSBk
+YnVzLWdsaWI6IHVwZ3JhZGUgMC4xMTQgLT4gMC4xMTYKTUlNRS1WZXJzaW9uOiAxLjAKQ29udGVu
+dC1UeXBlOiB0ZXh0L3BsYWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rp
+bmc6IDhiaXQKCmRidXMtZ2xpYiAwLjExNiAoMjAyNi0wOS0yNykKPT09PT09PT09PT09PT09PT09
+PT09PT09PT09PQoKVGhlIOKAnFRoaXMgaXMgd3JvbmcgdG9vbCEgTm8uIE5vdCBnb29kLiBOby4g
+TmV2ZXIgdXNlIHRoaXPigJ0gcmVsZWFzZS4KQnVnIGZpeGVzOgoK4oCiIFJlbW92ZSBgR19HTlVD
+X0NPTlNUYCBmcm9tIGBfZ2V0X3R5cGUoKWAgZnVuY3Rpb25zLgogIFRoaXMgY2FuIGNhdXNlIG1p
+c2NvbXBpbGF0aW9uIHdpdGggZ2NjLTE2LgogIChkYnVzLWdsaWIhNywgRGF2aWQgTm9ydGgpCgri
+gKIgRGlzYWJsZSBiYXNoIGNvbXBsZXRpb24gYnkgZGVmYXVsdC4KICBUaGlzIGlzIGFuIHVubWFp
+bnRhaW5lZCBiYXNoIGNvbXBsZXRpb24gZm9yIGRidXMtc2VuZCgxKSwKICB3aGljaCBpcyBub3Qg
+cGFydCBvZiBHTGliLCBhbmQgYXBwYXJlbnRseSBkb2Vzbid0IHdvcmsgYXMgaW50ZW5kZWQuCiAg
+Rm9yIGEgZGJ1cy1zZW5kIGVxdWl2YWxlbnQgd2l0aCBzaGVsbCBjb21wbGV0aW9uLCBwbGVhc2Ug
+dHJ5IEdMaWIncwogIGdkYnVzKDEpIG9yIHN5c3RlbWQncyBidXNjdGwoMSkuIChkYnVzLWdsaWIh
+NSwgU2ltb24gTWNWaXR0aWUpCi0tLQogLi4uL2RidXMve2RidXMtZ2xpYl8wLjExNC5iYiA9PiBk
+YnVzLWdsaWJfMC4xMTYuYmJ9ICAgICAgICAgICAgIHwgMiArLQogMSBmaWxlIGNoYW5nZWQsIDEg
+aW5zZXJ0aW9uKCspLCAxIGRlbGV0aW9uKC0pCiByZW5hbWUgbWV0YS9yZWNpcGVzLWNvcmUvZGJ1
+cy97ZGJ1cy1nbGliXzAuMTE0LmJiID0+IGRidXMtZ2xpYl8wLjExNi5iYn0gKDk1JSkKCmRpZmYg
+LS1naXQgYS9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjExNC5iYiBiL21ldGEv
+cmVjaXBlcy1jb3JlL2RidXMvZGJ1cy1nbGliXzAuMTE2LmJiCnNpbWlsYXJpdHkgaW5kZXggOTUl
+CnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBlcy1jb3JlL2RidXMvZGJ1cy1nbGliXzAuMTE0LmJiCnJl
+bmFtZSB0byBtZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xpYl8wLjExNi5iYgppbmRleCBj
+NjgyNGQ1Njg4Li42MjQ0ODE1ZDMwIDEwMDY0NAotLS0gYS9tZXRhL3JlY2lwZXMtY29yZS9kYnVz
+L2RidXMtZ2xpYl8wLjExNC5iYgorKysgYi9tZXRhL3JlY2lwZXMtY29yZS9kYnVzL2RidXMtZ2xp
+Yl8wLjExNi5iYgpAQCAtMTYsNyArMTYsNyBAQCBERVBFTkRTID0gImV4cGF0IGdsaWItMi4wIHZp
+cnR1YWwvbGliaW50bCBkYnVzLWdsaWItbmF0aXZlIGRidXMiCiBERVBFTkRTOmNsYXNzLW5hdGl2
+ZSA9ICJnbGliLTIuMC1uYXRpdmUgZGJ1cy1uYXRpdmUiCiAKIFNSQ19VUkkgPSAiaHR0cHM6Ly9k
+YnVzLmZyZWVkZXNrdG9wLm9yZy9yZWxlYXNlcy9kYnVzLWdsaWIvZGJ1cy1nbGliLSR7UFZ9LnRh
+ci5neiIKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJjMDljNWMwODViMmEwZTM5MWI4ZWU3ZDc4M2Ex
+ZDYzZmU0NDRlOTY3MTdjYzE4MTRkNjFiNWU4ZmMyODI3YTdjIgorU1JDX1VSSVtzaGEyNTZzdW1d
+ID0gImUzZjNkNDQ4N2UyODgzODAwNzcwZWQ1ODk5ZWQxMTFiZGM0YmE3MDU2YWYzNGEyNTVjNGM0
+NmFkOGEyNDg2ZjMiCiAKIGluaGVyaXQgYXV0b3Rvb2xzIHBrZ2NvbmZpZyBnZXR0ZXh0IGJhc2gt
+Y29tcGxldGlvbiBndGstZG9jCiAKLS0gCjIuNDcuMQoK
 
---===============0975267367572200295==
+--===============3506596501060317289==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
 Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
 
-packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.168.1.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.29.2 crate://crates.io/pyo3-build-config/0.29.2 crate://crates.io/pyo3-ffi/0.29.2 crate://crates.io/pyo3-macros/0.29.2 crate://crates.io/pyo3-macros-backend/0.29.2 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/wasip2/1.0.4+wasi-0.2.12 cra
- te://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.168.2.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.29.2 crate://crates.io/pyo3-build-config/0.29.2 crate://crates.io/pyo3-ffi/0.29.2 crate://crates.io/pyo3-macros/0.29.2 crate://crates.io/pyo3-macros-backend/0.29.2 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/target-lexicon/0
- .13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py"
-packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.168.1" to "6.168.2"
-packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.168.1 [default] to 6.168.2 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.168.1" to "6.168.2"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.168.1 [default] to 6.168.2 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.168.1" to "6.168.2"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.168.1 [default] to 6.168.2 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.168.1" to "6.168.2"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.168.1 [default] to 6.168.2 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.168.1" to "6.168.2"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.168.1 [default] to 6.168.2 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.168.1" to "6.168.2"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.168.1 [default] to 6.168.2 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.168.1" to "6.168.2"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.168.1 [default] to 6.168.2 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.168.1" to "6.168.2"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.168.1 [default] to 6.168.2 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.168.1" to "6.168.2"
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.168.2.dist-info, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.168.2.dist-info/licenses
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.168.1 [default] to 6.168.2 [default]
-packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 4582540 to 4583381 (+0%)
-Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
-  /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.168.2.dist-info
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PKGSIZE changed from 35449 to 0 (-100%)
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: FILELIST: removed all items "/usr/libexec/dbus-bash-completion-helper /etc/bash_completion.d/dbus-bash-completion.sh"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PKGV changed from 0.114 [default] to 0.116 [default]
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: PV changed from "0.114" to "0.116"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-bash-completion: RDEPENDS: removed "expat (['>= 2.8.5']) glibc (['>= 2.44+git0+5c479454d1']) glib-2.0 (['>= 2.90.0']) dbus-lib (['>= 1.16.2']) dbus-glib (['>= 0.114'])"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PKGSIZE changed from 988216 to 883504 (-11%)
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: FILELIST: removed "/usr/lib/.debug/libdbus-glib-1.so.2.3.6 /usr/libexec/.debug/dbus-bash-completion-helper", added "/usr/lib/.debug/libdbus-glib-1.so.2.3.7"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PKGV changed from 0.114 [default] to 0.116 [default]
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dbg: PV changed from "0.114" to "0.116"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dev: PKGSIZE changed from 50142 to 50051 (-0%)
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dev: PKGV changed from 0.114 [default] to 0.116 [default]
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-dev: PV changed from "0.114" to "0.116"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-doc: PKGV changed from 0.114 [default] to 0.116 [default]
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-doc: PV changed from "0.114" to "0.116"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-locale: PKGV changed from 0.114 [default] to 0.116 [default]
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-locale: PV changed from "0.114" to "0.116"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: PKGSIZE changed from 597432 to 582099 (-3%)
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: FILELIST: directory renamed /usr/src/debug/dbus-glib/0.114/dbus-gmain -> /usr/src/debug/dbus-glib/0.116/dbus-gmain, removed "/usr/src/debug/dbus-glib/0.114/dbus/dbus-gparser.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gthread.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gobject.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gparser.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gobject.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtest.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtype-specialized.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gidl.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gidl.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtype-specialized.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gloader-expat.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gproxy.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gutils.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gsignature.c /usr/src/debug/dbus-glib/0.114/dbus
+ /dbus-gutils.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gtype-specialized-priv.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gsignature.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue-parse-variant.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-binding-tool-glib.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue-utils.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-bash-completion-helper.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-binding-tool-glib.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gvalue-utils.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib-tool.c /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib-lowlevel.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-glib-tool.h /usr/src/debug/dbus-glib/0.114/dbus/dbus-gmarshal.c", added "/usr/src/debug/dbus-glib/0.116/dbus/dbus-gparser.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gthread.c /usr/src/debug/dbus-glib/0
+ .116/dbus/dbus-gobject.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gparser.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gobject.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtest.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtype-specialized.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gidl.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gidl.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtype-specialized.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gloader-expat.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gproxy.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gutils.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gsignature.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gutils.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gtype-specialized-priv.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gsignature.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue-parse-variant.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-binding-tool-glib
+ .c /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue-utils.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-binding-tool-glib.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gvalue-utils.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib-tool.c /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib-lowlevel.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-glib-tool.h /usr/src/debug/dbus-glib/0.116/dbus/dbus-gmarshal.c"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: PKGV changed from 0.114 [default] to 0.116 [default]
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-src: PV changed from "0.114" to "0.116"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-staticdev: PKGV changed from 0.114 [default] to 0.116 [default]
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-staticdev: PV changed from "0.114" to "0.116"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-tools: PKGV changed from 0.114 [default] to 0.116 [default]
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib-tools: PV changed from "0.114" to "0.116"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: FILELIST: removed "/usr/lib/libdbus-glib-1.so.2.3.6", added "/usr/lib/libdbus-glib-1.so.2.3.7"
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: PKGV changed from 0.114 [default] to 0.116 [default]
+packages/x86-64-v3-poky-linux/dbus-glib/dbus-glib: PV changed from "0.114" to "0.116"
+packages/x86-64-v3-poky-linux/dbus-glib: PKGV changed from 0.114 [default] to 0.116 [default]
+packages/x86-64-v3-poky-linux/dbus-glib: SRC_URI changed from "https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.114.tar.gz" to "https://dbus.freedesktop.org/releases/dbus-glib/dbus-glib-0.116.tar.gz"
+packages/x86-64-v3-poky-linux/dbus-glib: PV changed from "0.114" to "0.116"
+Changes to packages/x86-64-v3-poky-linux/dbus-glib (sysroot):
+  /usr/lib/libdbus-glib-1.so.2 changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
+  /usr/lib/libdbus-glib-1.so changed symlink target from libdbus-glib-1.so.2.3.6 to libdbus-glib-1.so.2.3.7
+  /usr/lib/libdbus-glib-1.so.2.3.6 moved to /usr/lib/libdbus-glib-1.so.2.3.7
 
---===============0975267367572200295==--
+--===============3506596501060317289==--
 
