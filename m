@@ -2,992 +2,552 @@ Return-Path: <hprajapati@mvista.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1703DC9833E
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:12:31 +0000 (UTC)
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A201DC9832F
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 07:12:40 +0000 (UTC)
 Received: from mail-dy2-f42.google.com (mail-dy2-f42.google.com [74.125.229.42])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.52910.1790579544982218338
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.52911.1790579557375409581
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 00:12:25 -0700
+ Mon, 28 Sep 2026 00:12:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@mvista.com header.s=google header.b=KAXNghDz;
+ dkim=pass header.i=@mvista.com header.s=google header.b=ZQEUuYz2;
  spf=pass (domain: mvista.com, ip: 74.125.229.42, mailfrom: hprajapati@mvista.com)
-Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-3428f70d7e7so1414051eec.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 00:12:24 -0700 (PDT)
+Received: by mail-dy2-f42.google.com with SMTP id 5a478bee46e88-34182b58d00so1822123eec.2
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 00:12:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=mvista.com; s=google; t=1790579544; x=1791184344; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=7vsazFKn6PzajvAwVGf8vwswBv0MBu2POAMxyF/ifa8=;
-        b=KAXNghDzj+uGR9dk3xOZY0Ek40O5asAMWal+ILqmzDgjtBT7V1fF9KqSv+y26gH/X2
-         2iZiYAGMZHFrv4arPyGHkwL3FkILwqjG8OMsq0Laj1JEfAZjHqyeSNRrkPA+VySBdVEH
-         CWEPiiIWsfplQq1iR/z/FJ5iLcpcwm43M/rrQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790579544; x=1791184344;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=mvista.com; s=google; t=1790579556; x=1791184356; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=7vsazFKn6PzajvAwVGf8vwswBv0MBu2POAMxyF/ifa8=;
-        b=XRK0BRQ0b87AAmtKObdus6h6AzrXJRVg3EYsikCLUM/grp5r8t/82NlwmFNl4x+a25
-         ioWxwGwURmI2Pcepc7DhaDoGzRgVsogHeoHnBbHAa+3GrqXWSgRY5vnyr0C76yqRgHY/
-         Juu6JntJVDoanknX7G4EHizxyavRav4cKjxRX1h4CxLW/CIQIkEHP47aLoFNpq/qY+pD
-         LAh26PeOZtU69byGbTuYs/wbZbnNvX2MzAayG2OjZkdixfDPyCLzZhx7U7zK80uUra1h
-         cDb9XuuvPKX9+MBo7NgQ/UuwwNdtYgQyYdYkAsoEp4sVzMBSodq8xuqcip5DgsKGlxoP
-         FAbg==
-X-Gm-Message-State: AFq9FYI4PGNC2nKfmvhDJ+Kh6F8yfjatAVMwvbvs5GxbUf/jWJ0uFdlZ
-	qZY4JQ9UYCIKkbzWPLhvxvRTkM94xnk9qMWhEYlBhW2CYiTJz/AEsR/+Vc4kTGm005GtSkdoTPc
-	Vl801oog=
-X-Gm-Gg: AYBFou1zTkT54aDmrURlzFgmwJtux367zACp2QlOyewGtd0g9PEPCASu4W7t1aUz6Vr
-	R52czFodTH4YIcXJIIc24f6uT6/MfUg8OQMzJn0aCgoIl0UljVNf1c/pbmhhC1cNytRlzoU6jro
-	KReVL9K5lI6oGru54uGgJ+hg+SEUIxJXdkLN9zTz3JsvIdEnC9OcIv0vp0CMRDHNagHZ0HSxPsx
-	mucI7uciL+RwmV5XegFOPq8x5uLiMNi2jiDKTXwgZrUTR0pvjKuUOlUnE4r1JSkLDdsHOB+yzg7
-	128C7PRwfGNfC4h8s8T3oWs9IL4Xsq9C+JWpKfxxy7ZHF4mlYAt6caEwOivTvUpDxK1BJa0SyGD
-	Y3P0zdILLflUVJD23908RsXELnM1lxzGyU60mpJ5eu5bPRf8PTXDDTCGjN4jZYTw2C3u0G97dpm
-	Ru97G4vmnEJaMNAzJinPWmk46cfnlebVKk0T/Q+bS4dKZ9aQXptVdrd5CV+55bi68qwDy3P4tvu
-	qxFCFDKLiI7
-X-Received: by 2002:a05:7301:fd8a:b0:33b:dd20:f79c with SMTP id 5a478bee46e88-34270ab8840mr8916435eec.12.1790579543573;
-        Mon, 28 Sep 2026 00:12:23 -0700 (PDT)
+        bh=1eygcCMZgJ2yn+BaJ17GcwKycpkdeubjEUrnR7R+ptM=;
+        b=ZQEUuYz2pHsNAw5rUOX4wzvfyxUrqL9KU40nAum7yy1GkGpDjfaDXSi6DAu0yN2l4i
+         +MCbB/dkXQaUTQOi5taDnuktqDyEUqfGIfDOgtICmIRge4ge+qvcgRHNZsKddEry+hjZ
+         Lphu/dgd1ltCmBNl7KJHqHu5q80q30vHfUPuE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790579556; x=1791184356;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=1eygcCMZgJ2yn+BaJ17GcwKycpkdeubjEUrnR7R+ptM=;
+        b=f6MFhik2hx2tTURlBfsnrMzJeXQDG4G3rL5uk3F85hVziyjjQUM2Qi0I2GypSeaD5T
+         yM0jIbUFsw6z2FJ8Etgx0tOvrsnY+WALAuIHGHyoOzaxj0tP6KMV9b5pMCB+UL/MkFQl
+         iyIXeEv7ODWC2IYAOPep8+HiaMDT4mGQqJhcEdSzw4jWVs8b6QbuTqaXQO7tft18LgUm
+         bQrk3mqLfSEXBOUoIWalto6rTWG2n2mzcttJ+3zQSCQtfMl+kGZxR9nierSnjcSSioGl
+         +qOih+w6joW+mamKmdqeM8fQXONBPj79PXHVfUt34PgIBxZG6wzO5P8OUaM5V7GVl1rF
+         jBjA==
+X-Gm-Message-State: AFq9FYJ3RzBv5mnGaQyTegzliHu6gH/Hy4T04J/zrGtd/tODFjv+nigi
+	5DTFWfN//9JK5axl7LMiscQH+IL45cNMp5G9Km7VPhtSzEmaEU2IpFuZGz2J8NT8GbCr//jTm2Q
+	EVU7NWTU=
+X-Gm-Gg: AYBFou1qkfVYrgcD++Y99hu9GFUJ1tfGYRiiJilgiuwPX34ktZhv9Xe7VwF/yCJF2Xt
+	FtJLeDRxcOjKnesn0KaSXrgIBO9hAU2CbZVs3JnooC1Wehe5VM3+jlUWK3O0wIIiK/0wxNoK/Dl
+	Z1/EiFbNnuld77q8InZ3vlU+geaWAT3pORMLc7ExTHMZI/n21tgzuOENC7aWcaVZKK16NZqxxTJ
+	n8MuzRlmBDQbIOjuIoI8a/Rnhdf/d1DCVw4v6doZzu9khptc/vcMR7O4PcHen5o9VGwFbD5T5Tx
+	063jFNzd9CgWge0pud1wUdovczMVxjtVLDWC9fg8AgyBpEZbQQ/bcW7ExbnzV4eVL7mi8hyb2h5
+	xIN4zXwdeJ2FsuwhuAE1A+tDpdl6SbZdAAsHlK7cz3Qe1aMWYt2G6j2itl8HV+mhfGU1BMcTb+h
+	El8WXv3lYdOmC3/0KOC9yFtEctZ72U8e0499Jj0K6bTF86OtFvmufPom6K+nshi7QQMXnR8co2B
+	rqrH0KmG9dw
+X-Received: by 2002:a05:693c:8948:20b0:332:8b9b:bdc4 with SMTP id 5a478bee46e88-3427324d765mr8068025eec.20.1790579556250;
+        Mon, 28 Sep 2026 00:12:36 -0700 (PDT)
 Received: from MVIN00013.mvista.com ([150.129.170.212])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3434958c3adsm31166948eec.22.2026.09.28.00.12.08
+        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-3434958c3adsm31166948eec.22.2026.09.28.00.12.24
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2026 00:12:22 -0700 (PDT)
+        Mon, 28 Sep 2026 00:12:35 -0700 (PDT)
 From: Hitendra Prajapati <hprajapati@mvista.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Hitendra Prajapati <hprajapati@mvista.com>
-Subject: [scarthgap][PATCH 1/6] bind: fix for CVE-2026-10723
-Date: Mon, 28 Sep 2026 12:41:06 +0530
-Message-ID: <20260928071115.304055-1-hprajapati@mvista.com>
+Subject: [scarthgap][PATCH 2/6] bind: fix for CVE-2026-10822
+Date: Mon, 28 Sep 2026 12:41:07 +0530
+Message-ID: <20260928071115.304055-2-hprajapati@mvista.com>
 X-Mailer: git-send-email 2.50.1
+In-Reply-To: <20260928071115.304055-1-hprajapati@mvista.com>
+References: <20260928071115.304055-1-hprajapati@mvista.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:12:31 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246731
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 07:12:40 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246732
 
-Pick patch from [1], [2] & [3] also mentioned at Debian report in [4]
+Pick patch from [1], [2], [3], [4] & [5] also mentioned at Debian report in [6]
 
-[1] https://gitlab.isc.org/isc-projects/bind9/-/commit/c9cb6a5e24e43489cf3fd4d4cc2193b6a74499cb
-[2] https://gitlab.isc.org/isc-projects/bind9/-/commit/35e3d49d2222c13786a06021c7ed583d2a656e51
-[3] https://gitlab.isc.org/isc-projects/bind9/-/commit/833dd3b230b92596074e8da15b12298f46c939f2
-[4] https://security-tracker.debian.org/tracker/CVE-2026-10723
+[1] https://gitlab.isc.org/isc-projects/bind9/-/commit/d413c9ac2e29a728531354a69c8c8234c01b7d1e
+[2] https://gitlab.isc.org/isc-projects/bind9/-/commit/a5f1a9d0d2ec021618924b14202ac96ead8299c1
+[3] https://gitlab.isc.org/isc-projects/bind9/-/commit/e73b70a64453e7d97a11cb5f0afe8bb02d34aaf8
+[4] https://gitlab.isc.org/isc-projects/bind9/-/commit/19ac8b8e46aeb0a15e217bc7bdf485b31b87d9b4
+[5] https://gitlab.isc.org/isc-projects/bind9/-/commit/8e066d3fc369e3346f22bb5cfb67a7ab08a74034
+[6] https://security-tracker.debian.org/tracker/CVE-2026-10822
 
 Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 ---
- .../bind/bind/CVE-2026-10723-01.patch         |  70 +++
- .../bind/bind/CVE-2026-10723-02.patch         | 496 ++++++++++++++++++
- .../bind/bind/CVE-2026-10723-03.patch         | 310 +++++++++++
- .../recipes-connectivity/bind/bind_9.18.49.bb |   3 +
- 4 files changed, 879 insertions(+)
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10723-01.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch
- create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10723-03.patch
+ .../bind/bind/CVE-2026-10822-01.patch         |  69 ++++++
+ .../bind/bind/CVE-2026-10822-02.patch         |  33 +++
+ .../bind/bind/CVE-2026-10822-03.patch         |  35 +++
+ .../bind/bind/CVE-2026-10822-04.patch         |  53 +++++
+ .../bind/bind/CVE-2026-10822-05.patch         | 223 ++++++++++++++++++
+ .../recipes-connectivity/bind/bind_9.18.49.bb |   5 +
+ 6 files changed, 418 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10822-01.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10822-02.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10822-03.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10822-04.patch
+ create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10822-05.patch
 
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10723-01.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-01.patch
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10822-01.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-01.patch
 new file mode 100644
-index 0000000000..ffec38aea2
+index 0000000000..1c330418a6
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-01.patch
-@@ -0,0 +1,70 @@
-+From: Evan Hunt <each@isc.org>
-+Date: Thu, 21 May 2026 14:41:55 -0700
-+Subject: Check NSEC3 signer matches the owning zone
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-01.patch
+@@ -0,0 +1,69 @@
++From: Mark Andrews <marka@isc.org>
++Date: Tue, 19 May 2026 10:44:04 +1000
++Subject: Check that dns_name_fromwire honours the active region
 +
-+When validating NSEC3 records, reject any signature whose signer field
-+does not match the zone owning the NSEC3.
++When reading DNS records from the wire the active region of the
++source buffer is set to the end of the current record. dns_name_fromwire
++should fail if it attempts to read past this setting.
 +
-+This ensures that a child zone cannot impersonate its parent and forge
-+NXDOMAIN responses for sibling domains.
++(cherry picked from commit 3ed821d68b15fe4e6288e3054397d6bce7e65968)
 +
-+Fixes: isc-projects/bind9#5874
-+(cherry picked from commit 6e5066bb1f0f12d090e8707adb7d6ccf74f8012b)
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/d413c9ac2e29a728531354a69c8c8234c01b7d1e
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10822
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10822
 +
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/c9cb6a5e24e43489cf3fd4d4cc2193b6a74499cb
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10723
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10723
-+
-+CVE: CVE-2026-10723
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/c9cb6a5e24e43489cf3fd4d4cc2193b6a74499cb]
++CVE: CVE-2026-10822
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/d413c9ac2e29a728531354a69c8c8234c01b7d1e]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ lib/dns/dnssec.c | 19 +++++++++++++++++--
-+ lib/isc/result.c |  2 +-
-+ 2 files changed, 18 insertions(+), 3 deletions(-)
++ tests/dns/name_test.c | 30 ++++++++++++++++++++++++++++++
++ 1 file changed, 30 insertions(+)
 +
-+diff --git a/lib/dns/dnssec.c b/lib/dns/dnssec.c
-+index c7e9224..1725de3 100644
-+--- a/lib/dns/dnssec.c
-++++ b/lib/dns/dnssec.c
-+@@ -404,10 +404,25 @@ dns_dnssec_verify(const dns_name_t *name, dns_rdataset_t *set, dst_key_t *key,
-+ 	}
++diff --git a/tests/dns/name_test.c b/tests/dns/name_test.c
++index fb34dca..95f6598 100644
++--- a/tests/dns/name_test.c
+++++ b/tests/dns/name_test.c
++@@ -335,6 +335,35 @@ ISC_RUN_TEST_IMPL(fromregion) {
++ 	assert_false(dns_name_isabsolute(&name));
++ }
 + 
-+ 	/*
-+-	 * NS, SOA and DNSKEY records are signed by their owner.
-+-	 * DS records are signed by the parent.
-++	 * NS, SOA and DNSKEY records are signed by their owners.
-++	 * NSEC3 records are signed by the apex, exactly one level up
-++	 * from their owner names.
-++	 * DS records are signed by the parent zone.
+++ISC_RUN_TEST_IMPL(fromwire) {
+++	dns_decompress_t dctx;
+++	dns_fixedname_t fixed;
+++	dns_name_t *name = dns_fixedname_initname(&fixed);
+++	isc_buffer_t b;
+++	unsigned char source[] = { 0x03, 'o', 'n', 'e',	 0x00, 0x03,
+++				   't',	 'w', 'o', 0x00, 0x05, 't',
+++				   'h',	 'r', 'e', 'e',	 0x00 };
+++	isc_result_t result;
+++
+++	isc_buffer_init(&b, source, sizeof(source));
+++	isc_buffer_add(&b, sizeof(source));
+++	isc_buffer_setactive(&b, 10); /* names 'one.' and 'two.' */
+++
+++	/*
+++	 * We should only be able to read two names from the buffer
+++	 * as the active region has been set to cover only the first
+++	 * two.
+++	 */
+++	dns_decompress_init(&dctx, -1, DNS_DECOMPRESS_STRICT);
+++	dns_decompress_setmethods(&dctx, DNS_COMPRESS_NONE);
+++	result = dns_name_fromwire(name, &b, &dctx, 0, NULL);
+++	assert_int_equal(result, ISC_R_SUCCESS);
+++	result = dns_name_fromwire(name, &b, &dctx, 0, NULL);
+++	assert_int_equal(result, ISC_R_SUCCESS);
+++	result = dns_name_fromwire(name, &b, &dctx, 0, NULL);
+++	assert_int_not_equal(result, ISC_R_SUCCESS);
+++}
+++
++ /* is trust-anchor-telemetry test */
++ ISC_RUN_TEST_IMPL(istat) {
++ 	dns_fixedname_t fixed;
++@@ -778,6 +807,7 @@ ISC_TEST_LIST_START
++ ISC_TEST_ENTRY(fullcompare)
++ ISC_TEST_ENTRY(compression)
++ ISC_TEST_ENTRY(fromregion)
+++ISC_TEST_ENTRY(fromwire)
++ ISC_TEST_ENTRY(istat)
++ ISC_TEST_ENTRY(init)
++ ISC_TEST_ENTRY(invalidate)
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10822-02.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-02.patch
+new file mode 100644
+index 0000000000..0735bafadd
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-02.patch
+@@ -0,0 +1,33 @@
++From: Mark Andrews <marka@isc.org>
++Date: Tue, 19 May 2026 15:00:17 +1000
++Subject: Fix the yaml query zone name code in dnstap-read
++
++When the buffer to read the query zone name was constructed
++isc_buffer_setactive was not called.  This is now needed as
++dns_name_fromwire is being corrected to check the active region.
++
++(cherry picked from commit a25522c28c46655a81d2bf1d96374c81d834b157)
++
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/a5f1a9d0d2ec021618924b14202ac96ead8299c1
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10822
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10822
++
++CVE: CVE-2026-10822
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/a5f1a9d0d2ec021618924b14202ac96ead8299c1]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ bin/tools/dnstap-read.c | 1 +
++ 1 file changed, 1 insertion(+)
++
++diff --git a/bin/tools/dnstap-read.c b/bin/tools/dnstap-read.c
++index a1d0243..bb78ae1 100644
++--- a/bin/tools/dnstap-read.c
+++++ b/bin/tools/dnstap-read.c
++@@ -298,6 +298,7 @@ print_yaml(dns_dtdata_t *dt) {
++ 
++ 		isc_buffer_init(&b, m->query_zone.data, m->query_zone.len);
++ 		isc_buffer_add(&b, m->query_zone.len);
+++		isc_buffer_setactive(&b, m->query_zone.len);
++ 
++ 		dns_decompress_init(&dctx, -1, DNS_DECOMPRESS_NONE);
++ 		result = dns_name_fromwire(name, &b, &dctx, 0, NULL);
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10822-03.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-03.patch
+new file mode 100644
+index 0000000000..5708c06d9f
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-03.patch
+@@ -0,0 +1,35 @@
++From: Mark Andrews <marka@isc.org>
++Date: Tue, 19 May 2026 11:12:46 +1000
++Subject: Fix dns_name_fromwire to honour the active region
++
++dns_name_fromwire was not honouring the source buffer's active
++region when reading names from the wire.  This allowed malformed
++records to be accepted when they shouldn't have been.  This has
++been corrected.
++
++(cherry picked from commit 7c4f07a7ef6b571073327b02209df7f75b9363ff)
++
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/e73b70a64453e7d97a11cb5f0afe8bb02d34aaf8
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10822
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10822
++
++CVE: CVE-2026-10822
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/e73b70a64453e7d97a11cb5f0afe8bb02d34aaf8]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ lib/dns/name.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/lib/dns/name.c b/lib/dns/name.c
++index cc0e30e..2ce868a 100644
++--- a/lib/dns/name.c
+++++ b/lib/dns/name.c
++@@ -1833,7 +1833,7 @@ dns_name_fromwire(dns_name_t *const name, isc_buffer_t *const source,
++ 	 * The amount of the source we consumed is set once.
 + 	 */
-+ 	switch (set->type) {
-++	case dns_rdatatype_nsec3: {
-++		dns_name_t apex = DNS_NAME_INITEMPTY;
-++		labels = dns_name_countlabels(name);
-++		if (labels <= 1) {
-++			inc_stat(dns_dnssecstats_fail);
-++			return DNS_R_INVALIDNSEC3;
-++		}
-++		dns_name_split(name, labels - 1, NULL, &apex);
-++		if (!dns_name_equal(&apex, &sig.signer)) {
-++			inc_stat(dns_dnssecstats_fail);
-++			return DNS_R_SIGINVALID;
-++		}
-++	} break;
-+ 	case dns_rdatatype_ns:
-+ 	case dns_rdatatype_soa:
-+ 	case dns_rdatatype_dnskey:
-+diff --git a/lib/isc/result.c b/lib/isc/result.c
-+index dbd0431..f78e689 100644
-+--- a/lib/isc/result.c
-++++ b/lib/isc/result.c
-+@@ -198,7 +198,7 @@ static const char *description[ISC_R_NRESULTS] = {
-+ 	[DNS_R_COVERINGNSEC] = "covering NSEC record returned",
-+ 	[DNS_R_MXISADDRESS] = "MX is an address",
-+ 	[DNS_R_DUPLICATE] = "duplicate query",
-+-	[DNS_R_INVALIDNSEC3] = "invalid NSEC3 owner name (wildcard)",
-++	[DNS_R_INVALIDNSEC3] = "invalid NSEC3 owner name",
-+ 	[DNS_R_NOTPRIMARY] = "not primary",
-+ 	[DNS_R_BROKENCHAIN] = "broken trust chain",
-+ 	[DNS_R_EXPIRED] = "expired",
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch
++ 	const uint8_t *const source_buf = isc_buffer_base(source);
++-	const uint8_t *const source_max = isc_buffer_used(source);
+++	const uint8_t *const source_max = isc_buffer_active(source);
++ 	const uint8_t *const start = isc_buffer_current(source);
++ 	const uint8_t *marker = start;
++ 	const uint8_t *cursor = start;
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10822-04.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-04.patch
 new file mode 100644
-index 0000000000..a3ff47b8bf
+index 0000000000..ff5a8811f0
 --- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch
-@@ -0,0 +1,496 @@
-+From: Alessio Podda <alessio@isc.org>
-+Date: Wed, 3 Jun 2026 10:42:43 +0200
-+Subject: Reproducer for #5874 NSEC3 impersonation
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-04.patch
+@@ -0,0 +1,53 @@
++From: Mark Andrews <marka@isc.org>
++Date: Tue, 19 May 2026 12:03:23 +1000
++Subject: Check that a short PRIVATEDNS record is rejected
 +
-+LLM generated.
++A bug in dns_name_fromwire meant that short PRIVATEDNS key
++records where being accepted.  Test that this is no longer
++the case.
 +
-+(cherry picked from commit f3e2eb333be3ac636f745aa13cfb8d9ee8af87d8)
++(cherry picked from commit f48d48027384d8c2210b5ce9e3eac7af101ead3d)
 +
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/35e3d49d2222c13786a06021c7ed583d2a656e51
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10723
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10723
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/19ac8b8e46aeb0a15e217bc7bdf485b31b87d9b4
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10822
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10822
 +
-+CVE: CVE-2026-10723
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/35e3d49d2222c13786a06021c7ed583d2a656e51b]
++CVE: CVE-2026-10822
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/19ac8b8e46aeb0a15e217bc7bdf485b31b87d9b4]
 +Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
 +---
-+ .../ans1/ans.py}                                   |   8 +-
-+ .../repro_5874_nsec3_parent/ns2/named.conf.j2      |  35 +++
-+ bin/tests/system/repro_5874_nsec3_parent/server.py | 249 +++++++++++++++++++++
-+ .../tests_repro_5874_nsec3_parent.py               | 144 ++++++++++++
-+ 4 files changed, 433 insertions(+), 3 deletions(-)
-+ copy bin/tests/system/{glue/setup.sh => repro_5874_nsec3_parent/ans1/ans.py} (83%)
-+ create mode 100644 bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2
-+ create mode 100644 bin/tests/system/repro_5874_nsec3_parent/server.py
-+ create mode 100644 bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py
++ tests/dns/rdata_test.c | 21 +++++++++++++++++++++
++ 1 file changed, 21 insertions(+)
 +
-+diff --git a/bin/tests/system/glue/setup.sh b/bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
-+similarity index 83%
-+copy from bin/tests/system/glue/setup.sh
-+copy to bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
-+index 82240a7..614f26a 100644
-+--- a/bin/tests/system/glue/setup.sh
-++++ b/bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
-+@@ -1,4 +1,4 @@
-+-#!/bin/sh
-++#!/usr/bin/python3
++diff --git a/tests/dns/rdata_test.c b/tests/dns/rdata_test.c
++index 6354819..7f0df6e 100644
++--- a/tests/dns/rdata_test.c
+++++ b/tests/dns/rdata_test.c
++@@ -2199,6 +2199,27 @@ ISC_RUN_TEST_IMPL(key) {
 + 
-+ # Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-+ #
-+@@ -11,6 +11,8 @@
-+ # See the COPYRIGHT file distributed with this work for additional
-+ # information regarding copyright ownership.
-+ 
-+-. ../conf.sh
-++from server import main
-+ 
-+-copy_setports ns1/named.conf.in ns1/named.conf
++ 	check_rdata(NULL, wire_ok, NULL, false, dns_rdataclass_in,
++ 		    dns_rdatatype_key, sizeof(dns_rdata_key_t));
 ++
-++if __name__ == "__main__":
-++    main()
-+diff --git a/bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2 b/bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2
+++	/*
+++	 * A valid PRIVATEDNS record with an active region shorter than the
+++	 * actual record length.  A bug in dns_name_fromwire meant that this
+++	 * was previously accepted.
+++	 */
+++	dns_decompress_t dctx;
+++	unsigned char key[] = { 0x00, 0x00, 0x00, 253, 0x07, 'e', 'x',
+++				'a',  'm',  'p',  'l', 'e',  0x00 };
+++	unsigned char buf[sizeof(key)];
+++	isc_buffer_t source, target;
+++	isc_result_t result;
+++
+++	isc_buffer_init(&source, key, sizeof(key));
+++	isc_buffer_add(&source, sizeof(key));
+++	isc_buffer_setactive(&source, sizeof(key) - 1);
+++	isc_buffer_init(&target, buf, sizeof(buf));
+++	dns_decompress_init(&dctx, -1, DNS_DECOMPRESS_ANY);
+++	result = dns_rdata_fromwire(NULL, dns_rdataclass_in, dns_rdatatype_key,
+++				    &source, &dctx, 0, &target);
+++	assert_int_not_equal(result, ISC_R_SUCCESS);
++ }
++ 
++ /*
+diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10822-05.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-05.patch
+new file mode 100644
+index 0000000000..41a6588045
+--- /dev/null
++++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10822-05.patch
+@@ -0,0 +1,223 @@
++From: Mark Andrews <marka@isc.org>
++Date: Fri, 5 Jun 2026 09:18:30 +1000
++Subject: POC for PRIVATEDNS DNSKEY overrun not being detected
++
++Construct a DNS message where a PRIVATEDNS DNSKEY identifier
++overruns the record boundary by 3 byte so that the label ends
++at the end of the compression pointer for the next record. The
++next type is less than 256 so the next octet is 00 terminating
++the identifier name.  The transfered zone is then written to
++disk using master-format text triggering the assertion when the
++truncated identier is discovered.
++
++Note this test will produce a false result in versions of
++BIND that do not check the PRIVATEDNS identifier as it looks
++for the error message when the transfer is aborted.
++
++(cherry picked from commit 9ce3bce8bc8b4e9c6a9b1e84b5849c33eb27830e)
++
++Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/8e066d3fc369e3346f22bb5cfb67a7ab08a74034
++Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10822
++Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10822
++
++CVE: CVE-2026-10822
++Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/8e066d3fc369e3346f22bb5cfb67a7ab08a74034]
++Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
++---
++ bin/tests/system/xfer/ans9/ans.py       | 142 ++++++++++++++++++++++++++++++++
++ bin/tests/system/xfer/ns6/named.conf.in |   9 ++
++ bin/tests/system/xfer/tests.sh          |  16 ++++
++ 3 files changed, 167 insertions(+)
++ create mode 100644 bin/tests/system/xfer/ans9/ans.py
++
++diff --git a/bin/tests/system/xfer/ans9/ans.py b/bin/tests/system/xfer/ans9/ans.py
 +new file mode 100644
-+index 0000000..9358866
++index 0000000..a9e7395
 +--- /dev/null
-++++ b/bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2
-+@@ -0,0 +1,35 @@
-++// validating resolver
+++++ b/bin/tests/system/xfer/ans9/ans.py
++@@ -0,0 +1,142 @@
+++"""
+++Copyright (C) Internet Systems Consortium, Inc. ("ISC")
 ++
-++options {
-++	query-source address 10.53.0.2;
-++	notify-source 10.53.0.2;
-++	transfer-source 10.53.0.2;
-++	port @PORT@;
-++	pid-file "named.pid";
-++	listen-on { 10.53.0.2; };
-++	listen-on-v6 { none; };
-++	recursion yes;
-++	dnssec-validation yes;
-++	trust-anchor-telemetry no;
-++	resolver-query-timeout 5000;
-++};
+++SPDX-License-Identifier: MPL-2.0
 ++
-++controls {
-++	inet 10.53.0.2 port @CONTROLPORT@ allow { any; } keys { rndc_key; };
-++};
+++This Source Code Form is subject to the terms of the Mozilla Public
+++License, v. 2.0.  If a copy of the MPL was not distributed with this
+++file, you can obtain one at https://mozilla.org/MPL/2.0/.
 ++
-++include "../../_common/rndc.key";
-++
-++zone "." {
-++	type hint;
-++	file "../../_common/root.hint";
-++};
-++
-++zone "tld.test" {
-++	type static-stub;
-++	server-addresses { 10.53.0.1; };
-++};
-++
-++trust-anchors {
-++	tld.test. static-key 257 3 13 "@TLD_DNSKEY@";
-++};
-+diff --git a/bin/tests/system/repro_5874_nsec3_parent/server.py b/bin/tests/system/repro_5874_nsec3_parent/server.py
-+new file mode 100644
-+index 0000000..c6856bb
-+--- /dev/null
-++++ b/bin/tests/system/repro_5874_nsec3_parent/server.py
-+@@ -0,0 +1,249 @@
-++#!/usr/bin/python3
-++
-++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++#
-++# SPDX-License-Identifier: MPL-2.0
-++#
-++# This Source Code Form is subject to the terms of the Mozilla Public
-++# License, v. 2.0.  If a copy of the MPL was not distributed with this
-++# file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++#
-++# See the COPYRIGHT file distributed with this work for additional
-++# information regarding copyright ownership.
+++See the COPYRIGHT file distributed with this work for additional
+++information regarding copyright ownership.
+++"""
 ++
 ++from collections.abc import AsyncGenerator
-++from dataclasses import dataclass
-++from pathlib import Path
 ++
-++import json
-++
-++from cryptography.hazmat.primitives import serialization
-++
-++import dns.dnssec
-++import dns.flags
-++import dns.message
 ++import dns.name
-++import dns.rdata
-++import dns.rdataclass
 ++import dns.rcode
 ++import dns.rdatatype
 ++import dns.rrset
 ++
 ++from isctest.asyncserver import (
-++    AsyncDnsServer,
+++    ControllableAsyncDnsServer,
 ++    DnsResponseSend,
+++    DomainHandler,
 ++    QueryContext,
-++    ResponseHandler,
-++)
-++
-++TTL = 300
-++TLD = "tld.test."
-++APEX_HASH = "1B40241KFORIOG780N4IKSCRLVETPCTQ"
-++ATTACKER = f"{APEX_HASH.lower()}.{TLD}"
-++VICTIM = f"victim.{TLD}"
-++AUTH_IP = "10.53.0.1"
-++
-++
-++@dataclass(frozen=True)
-++class Key:
-++    zone: dns.name.Name
-++    private_key: object
-++    dnskey: dns.rdata.Rdata
-++    ds: dns.rdata.Rdata
-++
-++
-++def name(text: str) -> dns.name.Name:
-++    return dns.name.from_text(text)
-++
-++
-++def load_keys() -> dict[str, Key]:
-++    path = Path(__file__).resolve().parent / "keys.json"
-++    with path.open(encoding="utf-8") as keys_file:
-++        raw_keys = json.load(keys_file)
-++
-++    keys = {}
-++    for zone, raw_key in raw_keys.items():
-++        private_key = serialization.load_pem_private_key(
-++            raw_key["private_pem"].encode("ascii"),
-++            password=None,
-++        )
-++        dnskey = dns.rdata.from_text(
-++            dns.rdataclass.IN, dns.rdatatype.DNSKEY, raw_key["dnskey"]
-++        )
-++        ds = dns.rdata.from_text(dns.rdataclass.IN, dns.rdatatype.DS, raw_key["ds"])
-++        keys[zone] = Key(name(zone), private_key, dnskey, ds)
-++
-++    return keys
-++
-++
-++def rrset(owner: str, rdtype: dns.rdatatype.RdataType, *rdatas: str) -> dns.rrset.RRset:
-++    return dns.rrset.from_text(owner, TTL, dns.rdataclass.IN, rdtype, *rdatas)
-++
-++
-++def rrset_from_rdata(owner: str, rdata: dns.rdata.Rdata) -> dns.rrset.RRset:
-++    return dns.rrset.from_rdata(name(owner), TTL, rdata)
-++
-++
-++def rrsig_rrset(covered: dns.rrset.RRset, signer: Key) -> dns.rrset.RRset:
-++    rrsig = dns.dnssec.sign(
-++        covered,
-++        signer.private_key,
-++        signer.zone,
-++        signer.dnskey,
-++        lifetime=86400,
-++        verify=True,
-++    )
-++    return dns.rrset.from_rdata(covered.name, covered.ttl, rrsig)
-++
-++
-++def add_signed(
-++    section: list[dns.rrset.RRset], covered: dns.rrset.RRset, signer: Key
-++) -> None:
-++    section.append(covered)
-++    section.append(rrsig_rrset(covered, signer))
-++
-++
-++def dnskey_rrset(zone: str, zone_key: Key) -> dns.rrset.RRset:
-++    return rrset_from_rdata(zone, zone_key.dnskey)
-++
-++
-++def ds_rrset(zone: str, zone_key: Key) -> dns.rrset.RRset:
-++    return rrset_from_rdata(zone, zone_key.ds)
-++
-++
-++def soa_rrset(zone: str) -> dns.rrset.RRset:
-++    return rrset(
-++        zone,
-++        dns.rdatatype.SOA,
-++        f"ns.{zone} hostmaster.{zone} 1 3600 600 86400 300",
-++    )
-++
-++
-++def ns_rrset(zone: str, ns_target: str) -> dns.rrset.RRset:
-++    return rrset(zone, dns.rdatatype.NS, ns_target)
-++
-++
-++def glue_rrset(ns_target: str, address: str) -> dns.rrset.RRset:
-++    return rrset(ns_target, dns.rdatatype.A, address)
-++
-++
-++def answer_dnskey(response: dns.message.Message, zone: str, zone_key: Key) -> None:
-++    add_signed(response.answer, dnskey_rrset(zone, zone_key), zone_key)
-++
-++
-++def answer_soa(response: dns.message.Message, zone: str, zone_key: Key) -> None:
-++    add_signed(response.answer, soa_rrset(zone), zone_key)
-++
-++
-++def answer_ns(
-++    response: dns.message.Message, zone: str, ns_target: str, zone_key: Key
-++) -> None:
-++    add_signed(response.answer, ns_rrset(zone, ns_target), zone_key)
-++
-++
-++def answer_ds(
-++    response: dns.message.Message, zone: str, child_key: Key, parent_key: Key
-++) -> None:
-++    add_signed(response.answer, ds_rrset(zone, child_key), parent_key)
-++
-++
-++def child_nsec3_rrset() -> dns.rrset.RRset:
-++    rdata = dns.rdata.from_text(
-++        dns.rdataclass.IN,
-++        dns.rdatatype.NSEC3,
-++        f"1 0 0 - {APEX_HASH} NS SOA RRSIG DNSKEY NSEC3PARAM",
-++    )
-++    return dns.rrset.from_rdata(name(f"{APEX_HASH}.{TLD}"), TTL, rdata)
-++
-++
-++def forged_nxdomain(response: dns.message.Message, keys: dict[str, Key]) -> None:
-++    response.set_rcode(dns.rcode.NXDOMAIN)
-++
-++    add_signed(response.authority, soa_rrset(TLD), keys[TLD])
-++
-++    # The owner name derives zone "tld.test.", but the RRSIG signer is the
-++    # secure child zone "1b40241kforiog780n4ikscrlvetpctq.tld.test.".
-++    add_signed(response.authority, child_nsec3_rrset(), keys[ATTACKER])
-++
-++
-++class SignedResponseHandler(ResponseHandler):
-++    def __init__(self, keys: dict[str, Key]) -> None:
-++        self.keys = keys
-++
-++    async def get_responses(
-++        self, qctx: QueryContext
-++    ) -> AsyncGenerator[DnsResponseSend, None]:
-++        qctx.prepare_new_response(with_zone_data=False)
-++        qctx.response.flags |= dns.flags.AA
-++        qctx.response.set_rcode(dns.rcode.NOERROR)
-++        self.respond(qctx)
-++        yield DnsResponseSend(qctx.response, authoritative=True)
-++
-++    def respond(self, qctx: QueryContext) -> None:
-++        raise NotImplementedError
-++
-++
-++class VictimForgedNxdomainHandler(SignedResponseHandler):
-++    def match(self, qctx: QueryContext) -> bool:
-++        return qctx.qname == name(VICTIM) and qctx.qtype == dns.rdatatype.A
-++
-++    def respond(self, qctx: QueryContext) -> None:
-++        forged_nxdomain(qctx.response, self.keys)
-++
-++
-++class ChildDsHandler(SignedResponseHandler):
-++    def match(self, qctx: QueryContext) -> bool:
-++        return qctx.qname == name(ATTACKER) and qctx.qtype == dns.rdatatype.DS
-++
-++    def respond(self, qctx: QueryContext) -> None:
-++        answer_ds(qctx.response, ATTACKER, self.keys[ATTACKER], self.keys[TLD])
-++
-++
-++class AttackerZoneHandler(SignedResponseHandler):
-++    def match(self, qctx: QueryContext) -> bool:
-++        return qctx.qname.is_subdomain(name(ATTACKER))
-++
-++    def respond(self, qctx: QueryContext) -> None:
-++        if qctx.qname == name(ATTACKER):
-++            if qctx.qtype == dns.rdatatype.DNSKEY:
-++                answer_dnskey(qctx.response, ATTACKER, self.keys[ATTACKER])
-++            elif qctx.qtype == dns.rdatatype.SOA:
-++                answer_soa(qctx.response, ATTACKER, self.keys[ATTACKER])
-++            else:
-++                answer_ns(qctx.response, ATTACKER, f"ns.{ATTACKER}", self.keys[ATTACKER])
-++                qctx.response.additional.append(glue_rrset(f"ns.{ATTACKER}", AUTH_IP))
-++            return
-++
-++        qctx.response.set_rcode(dns.rcode.NXDOMAIN)
-++        add_signed(qctx.response.authority, soa_rrset(ATTACKER), self.keys[ATTACKER])
-++
-++
-++class TldZoneHandler(SignedResponseHandler):
-++    def match(self, qctx: QueryContext) -> bool:
-++        return qctx.qname.is_subdomain(name(TLD))
-++
-++    def respond(self, qctx: QueryContext) -> None:
-++        if qctx.qname == name(TLD):
-++            if qctx.qtype == dns.rdatatype.DNSKEY:
-++                answer_dnskey(qctx.response, TLD, self.keys[TLD])
-++            elif qctx.qtype == dns.rdatatype.SOA:
-++                answer_soa(qctx.response, TLD, self.keys[TLD])
-++            else:
-++                answer_ns(qctx.response, TLD, "ns.tld.test.", self.keys[TLD])
-++                qctx.response.additional.append(glue_rrset("ns.tld.test.", AUTH_IP))
-++            return
-++
-++        qctx.response.set_rcode(dns.rcode.NXDOMAIN)
-++        add_signed(qctx.response.authority, soa_rrset(TLD), self.keys[TLD])
-++
-++
-++def main() -> None:
-++    keys = load_keys()
-++    server = AsyncDnsServer(default_aa=True)
-++    server.install_response_handlers(
-++        VictimForgedNxdomainHandler(keys),
-++        ChildDsHandler(keys),
-++        AttackerZoneHandler(keys),
-++        TldZoneHandler(keys),
-++    )
-++    server.run()
-+diff --git a/bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py b/bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py
-+new file mode 100644
-+index 0000000..5fbeff5
-+--- /dev/null
-++++ b/bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py
-+@@ -0,0 +1,144 @@
-++#!/usr/bin/python3
-++
-++# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-++#
-++# SPDX-License-Identifier: MPL-2.0
-++#
-++# This Source Code Form is subject to the terms of the Mozilla Public
-++# License, v. 2.0.  If a copy of the MPL was not distributed with this
-++# file, you can obtain one at https://mozilla.org/MPL/2.0/.
-++#
-++# See the COPYRIGHT file distributed with this work for additional
-++# information regarding copyright ownership.
-++
-++from pathlib import Path
-++
-++import json
-++
-++from cryptography.hazmat.primitives import serialization
-++from cryptography.hazmat.primitives.asymmetric import ec
-++
-++import dns.dnssec
-++import dns.flags
-++import dns.name
-++import dns.rdataclass
-++import dns.rdatatype
-++import pytest
-++
-++import isctest
-++
-++APEX_HASH = "1B40241KFORIOG780N4IKSCRLVETPCTQ"
-++ATTACKER = f"{APEX_HASH.lower()}.tld.test."
-++VICTIM = "victim.tld.test."
-++AUTH = "10.53.0.1"
-++RESOLVER = "10.53.0.2"
-++
-++pytestmark = pytest.mark.extra_artifacts(
-++    [
-++        "ans*/ans.run",
-++        "keys.json",
-++    ]
+++    ResponseAction,
+++    ToggleResponsesCommand,
 ++)
 ++
 ++
-++def _make_key(zone):
-++    private_key = ec.generate_private_key(ec.SECP256R1())
-++    dnskey = dns.dnssec.make_dnskey(
-++        private_key.public_key(),
-++        algorithm="ECDSAP256SHA256",
-++        flags=257,
-++    )
-++    ds = dns.dnssec.make_ds(dns.name.from_text(zone), dnskey, "SHA256")
-++    private_pem = private_key.private_bytes(
-++        encoding=serialization.Encoding.PEM,
-++        format=serialization.PrivateFormat.PKCS8,
-++        encryption_algorithm=serialization.NoEncryption(),
-++    ).decode("ascii")
-++    return {
-++        "private_pem": private_pem,
-++        "dnskey": dnskey.to_text(),
-++        "ds": ds.to_text(),
-++    }
+++class AXFRServer(DomainHandler):
+++    """
+++    Yield SOA and AXFR responses. Every new AXFR response increments the SOA
+++    version.
+++    """
 ++
+++    domains = ["xfr-and-reconfig", "private-dns-overrun"]
 ++
-++def bootstrap():
-++    zones = ["tld.test.", ATTACKER]
-++    keys = {zone: _make_key(zone) for zone in zones}
-++
-++    Path("keys.json").write_text(json.dumps(keys, indent=2), encoding="ascii")
-++
-++    tld_dnskey = "".join(keys["tld.test."]["dnskey"].split()[3:])
-++    return {"TLD_DNSKEY": tld_dnskey}
-++
-++
-++def _check_direct_dnskey_response(zone):
-++    query = isctest.query.create(zone, "DNSKEY")
-++    response = isctest.query.tcp(query, AUTH)
-++
-++    isctest.check.noerror(response)
-++    assert response.flags & dns.flags.AA
-++    assert (
-++        response.get_rrset(
-++            response.answer,
-++            dns.name.from_text(zone),
-++            dns.rdataclass.IN,
-++            dns.rdatatype.DNSKEY,
-++        )
-++        is not None
-++    ), response
-++
-++
-++def _check_direct_ds_response(zone):
-++    query = isctest.query.create(zone, "DS")
-++    response = isctest.query.tcp(query, AUTH)
-++
-++    isctest.check.noerror(response)
-++    assert response.flags & dns.flags.AA
-++    assert (
-++        response.get_rrset(
-++            response.answer,
-++            dns.name.from_text(zone),
-++            dns.rdataclass.IN,
-++            dns.rdatatype.DS,
-++        )
-++        is not None
-++    ), response
-++
-++
-++def test_repro_5874_direct_forged_nsec3_response_has_child_signer():
-++    _check_direct_dnskey_response("tld.test.")
-++    _check_direct_dnskey_response(ATTACKER)
-++    _check_direct_ds_response(ATTACKER)
-++
-++    query = isctest.query.create(VICTIM, "A")
-++    response = isctest.query.tcp(query, AUTH)
-++
-++    isctest.check.nxdomain(response)
-++    assert response.flags & dns.flags.AA
-++
-++    nsec3_owner = dns.name.from_text(f"{APEX_HASH}.tld.test.")
-++    nsec3 = response.get_rrset(
-++        response.authority,
-++        nsec3_owner,
-++        dns.rdataclass.IN,
-++        dns.rdatatype.NSEC3,
-++    )
-++    rrsig = response.get_rrset(
-++        response.authority,
-++        nsec3_owner,
-++        dns.rdataclass.IN,
-++        dns.rdatatype.RRSIG,
-++        covers=dns.rdatatype.NSEC3,
-++    )
-++
-++    assert nsec3 is not None, response
-++    assert rrsig is not None, response
-++    assert rrsig[0].signer == dns.name.from_text(ATTACKER)
-++
-++
-++def test_repro_5874_resolver_rejects_child_signed_nsec3_parent_proof():
-++    query = isctest.query.create(VICTIM, "A")
-++    response = isctest.query.tcp(query, RESOLVER)
-++
-++    isctest.check.servfail(response)
-++    isctest.check.noadflag(response)
-diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10723-03.patch b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-03.patch
-new file mode 100644
-index 0000000000..5461b3c87e
---- /dev/null
-+++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-03.patch
-@@ -0,0 +1,310 @@
-+From: Matthijs Mekking <matthijs@isc.org>
-+Date: Thu, 4 Jun 2026 16:12:50 +0200
-+Subject: Update reproducer #5874
-+
-+Update the llm generated reproducer:
-+- Move server.py into ans1/ans.py
-+- Remove unnecessary named.conf configuration options
-+- Add comments describing the steps (copied from GL issue)
-+- Rename system test
-+
-+(cherry picked from commit c1321fef165a2ef8c2bff971901c58941e8e694c)
-+
-+Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/833dd3b230b92596074e8da15b12298f46c939f2
-+Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-2026-10723
-+Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE-2026-10723
-+
-+CVE: CVE-2026-10723
-+Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/commit/833dd3b230b92596074e8da15b12298f46c939f2]
-+Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
-+---
-+ .../server.py => nsec3_impersonation/ans1/ans.py}  | 81 +++++++++++++++-------
-+ .../ns2/named.conf.j2                              |  2 -
-+ .../tests_nsec3_impersonation.py}                  | 38 ++++++----
-+ .../system/repro_5874_nsec3_parent/ans1/ans.py     | 18 -----
-+ 4 files changed, 79 insertions(+), 60 deletions(-)
-+ rename bin/tests/system/{repro_5874_nsec3_parent/server.py => nsec3_impersonation/ans1/ans.py} (83%)
-+ rename bin/tests/system/{repro_5874_nsec3_parent => nsec3_impersonation}/ns2/named.conf.j2 (90%)
-+ rename bin/tests/system/{repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py => nsec3_impersonation/tests_nsec3_impersonation.py} (84%)
-+ delete mode 100644 bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
-+
-+diff --git a/bin/tests/system/repro_5874_nsec3_parent/server.py b/bin/tests/system/nsec3_impersonation/ans1/ans.py
-+similarity index 83%
-+rename from bin/tests/system/repro_5874_nsec3_parent/server.py
-+rename to bin/tests/system/nsec3_impersonation/ans1/ans.py
-+index c6856bb..177e79c 100644
-+--- a/bin/tests/system/repro_5874_nsec3_parent/server.py
-++++ b/bin/tests/system/nsec3_impersonation/ans1/ans.py
-+@@ -23,9 +23,9 @@ import dns.dnssec
-+ import dns.flags
-+ import dns.message
-+ import dns.name
-++import dns.rcode
-+ import dns.rdata
-+ import dns.rdataclass
-+-import dns.rcode
-+ import dns.rdatatype
-+ import dns.rrset
-+ 
-+@@ -141,10 +141,21 @@ def answer_ns(
-+     add_signed(response.answer, ns_rrset(zone, ns_target), zone_key)
-+ 
-+ 
-+-def answer_ds(
-+-    response: dns.message.Message, zone: str, child_key: Key, parent_key: Key
-+-) -> None:
-+-    add_signed(response.answer, ds_rrset(zone, child_key), parent_key)
-++class SignedResponseHandler(ResponseHandler):
-++    def __init__(self, keys: dict[str, Key]) -> None:
-++        self.keys = keys
+++    def __init__(self) -> None:
+++        super().__init__()
+++        self.soa_version = 0
 ++
 ++    async def get_responses(
 ++        self, qctx: QueryContext
-++    ) -> AsyncGenerator[DnsResponseSend, None]:
-++        qctx.prepare_new_response(with_zone_data=False)
-++        qctx.response.flags |= dns.flags.AA
-++        qctx.response.set_rcode(dns.rcode.NOERROR)
-++        self.respond(qctx)
-++        yield DnsResponseSend(qctx.response, authoritative=True)
+++    ) -> AsyncGenerator[ResponseAction, None]:
+++        # This is oversimplified because I am lazy - we are appending the SOA
+++        # RRset to the ANSWER section for _every_ QTYPE.  named is only
+++        # expected to send a SOA query over UDP and then an AXFR query over
+++        # TCP.  Responses to both of those start with a SOA RRset in the ANSWER
+++        # section :-)
+++        soa_message = qctx.response
+++        soa_rrset = dns.rrset.from_text(
+++            qctx.qname,
+++            300,
+++            qctx.qclass,
+++            dns.rdatatype.SOA,
+++            f". . {self.soa_version} 0 0 0 0",
+++        )
+++        soa_message.answer.append(soa_rrset)
 ++
-++    def respond(self, qctx: QueryContext) -> None:
-++        raise NotImplementedError
-+ 
-+ 
-+ def child_nsec3_rrset() -> dns.rrset.RRset:
-+@@ -162,28 +173,15 @@ def forged_nxdomain(response: dns.message.Message, keys: dict[str, Key]) -> None
-+     add_signed(response.authority, soa_rrset(TLD), keys[TLD])
-+ 
-+     # The owner name derives zone "tld.test.", but the RRSIG signer is the
-+-    # secure child zone "1b40241kforiog780n4ikscrlvetpctq.tld.test.".
-++    # malicious child zone "1b40241kforiog780n4ikscrlvetpctq.tld.test.".
-+     add_signed(response.authority, child_nsec3_rrset(), keys[ATTACKER])
-+ 
-+ 
-+-class SignedResponseHandler(ResponseHandler):
-+-    def __init__(self, keys: dict[str, Key]) -> None:
-+-        self.keys = keys
-+-
-+-    async def get_responses(
-+-        self, qctx: QueryContext
-+-    ) -> AsyncGenerator[DnsResponseSend, None]:
-+-        qctx.prepare_new_response(with_zone_data=False)
-+-        qctx.response.flags |= dns.flags.AA
-+-        qctx.response.set_rcode(dns.rcode.NOERROR)
-+-        self.respond(qctx)
-+-        yield DnsResponseSend(qctx.response, authoritative=True)
-+-
-+-    def respond(self, qctx: QueryContext) -> None:
-+-        raise NotImplementedError
-+-
-+-
-+ class VictimForgedNxdomainHandler(SignedResponseHandler):
-++    """
-++    This serves the forged response for the victim's domain.
-++    """
+++        yield DnsResponseSend(soa_message)
 ++
-+     def match(self, qctx: QueryContext) -> bool:
-+         return qctx.qname == name(VICTIM) and qctx.qtype == dns.rdatatype.A
-+ 
-+@@ -192,14 +190,31 @@ class VictimForgedNxdomainHandler(SignedResponseHandler):
-+ 
-+ 
-+ class ChildDsHandler(SignedResponseHandler):
-++    """
-++    This will spoof the response for the malicious zone when qtype is DS.
-++    It is actually a validly signed DS response.
-++    """
+++        if qctx.qtype == dns.rdatatype.SOA:
+++            # If QTYPE=SOA, the SOA record is the complete response.
+++            return
 ++
-+     def match(self, qctx: QueryContext) -> bool:
-+         return qctx.qname == name(ATTACKER) and qctx.qtype == dns.rdatatype.DS
-+ 
-+     def respond(self, qctx: QueryContext) -> None:
-+-        answer_ds(qctx.response, ATTACKER, self.keys[ATTACKER], self.keys[TLD])
-++        response = qctx.response
-++        zone = ATTACKER
-++        child_key = self.keys[ATTACKER]
-++        parent_key = self.keys[TLD]
+++        if qctx.qtype != dns.rdatatype.AXFR:
+++            # If QTYPE=AXFR, we will continue cramming RRsets into the ANSWER
+++            # section of a subsequent DNS message below.
+++            #
+++            # If QTYPE was not SOA or AXFR, abort.  Yeah, we just sent a broken
+++            # response by yielding DnsResponseSend() with a SOA RRset in the
+++            # ANSWER section above.  We will have to carry that burden for the
+++            # rest of our lives.
+++            return
 ++
-++        add_signed(response.answer, ds_rrset(zone, child_key), parent_key)
-+ 
-+ 
-+ class AttackerZoneHandler(SignedResponseHandler):
-++    """
-++    Acts as the malicious authoritative name server. The zone being served
-++    is the hashed label of the parent zone (tld.test). This will respond
-++    for all queries qtype SOA, DNSKEY, NS at the apex. Any names below
-++    the apex are answered with an NXDOMAIN with no NSEC or NSEC3 present.
-++    """
+++        # Send just the obligatory NS RRset at zone apex in the next message.
+++        # This is stupidly inefficient, but makes looping below simpler as we
+++        # will already have been done with the mandatory stuff by then.
+++        ns_message = qctx.prepare_new_response()
+++        ns_rrset = dns.rrset.from_text(
+++            qctx.qname, 300, qctx.qclass, dns.rdatatype.NS, "."
+++        )
+++        ns_message.answer.append(ns_rrset)
 ++
-+     def match(self, qctx: QueryContext) -> bool:
-+         return qctx.qname.is_subdomain(name(ATTACKER))
-+ 
-+@@ -210,7 +225,9 @@ class AttackerZoneHandler(SignedResponseHandler):
-+             elif qctx.qtype == dns.rdatatype.SOA:
-+                 answer_soa(qctx.response, ATTACKER, self.keys[ATTACKER])
-+             else:
-+-                answer_ns(qctx.response, ATTACKER, f"ns.{ATTACKER}", self.keys[ATTACKER])
-++                answer_ns(
-++                    qctx.response, ATTACKER, f"ns.{ATTACKER}", self.keys[ATTACKER]
-++                )
-+                 qctx.response.additional.append(glue_rrset(f"ns.{ATTACKER}", AUTH_IP))
-+             return
-+ 
-+@@ -219,6 +236,16 @@ class AttackerZoneHandler(SignedResponseHandler):
-+ 
-+ 
-+ class TldZoneHandler(SignedResponseHandler):
-++    """
-++    Acts as the TLD who is being used in the attack, but is not a standard
-++    name server. It only responds with validly signed records for DNSKEY, SOA
-++    and NS on the apex. Any names below the apex are answered with an NXDOMAIN
-++    with no NSEC or NSEC3 present.
+++        yield DnsResponseSend(ns_message)
 ++
-++    If we turn this into a regular name server than the attack won't work.
-++    The attack assumes that the adversary can inject these responses on-path.
-++    """
+++        # Generate the AXFR with a txt rrset.
+++        txt_message = qctx.prepare_new_response()
+++        txt_rrset = dns.rrset.from_text(
+++            qctx.qname,
+++            300,
+++            qctx.qclass,
+++            dns.rdatatype.TXT,
+++            "foo bar",
+++        )
+++        txt_message.answer.append(txt_rrset)
 ++
-+     def match(self, qctx: QueryContext) -> bool:
-+         return qctx.qname.is_subdomain(name(TLD))
-+ 
-+@@ -247,3 +274,7 @@ def main() -> None:
-+         TldZoneHandler(keys),
-+     )
-+     server.run()
+++        yield DnsResponseSend(txt_message)
+++
+++        if qctx.qname == dns.name.from_text("private-dns-overrun"):
+++            # A message where the malformed DNSKEY algorithm identifier
+++            # finishes on a 00 byte in the next record. Assumes the
+++            # next record starts with a compression pointer which is
+++            # followed by the type which starts with 00.
+++
+++            # Generate malformed PRIVATE DNS DNSKEY
+++            dnskey_message = qctx.prepare_new_response()
+++            dnskey_rrset = dns.rrset.from_text(
+++                qctx.qname,
+++                300,
+++                qctx.qclass,
+++                dns.rdatatype.DNSKEY,
+++                "\\# 12 00 00 00 fd 09 00 00 00 00 00 00 00",
+++            )
+++            dnskey_message.answer.append(dnskey_rrset)
+++            # Generate well formed PRIVATE DNS DNSKEY
+++            dnskey_rrset = dns.rrset.from_text(
+++                qctx.qname,
+++                300,
+++                qctx.qclass,
+++                dns.rdatatype.DNSKEY,
+++                "\\# 12 00 00 00 fd 06 00 00 00 00 00 00 00",
+++            )
+++            dnskey_message.answer.append(dnskey_rrset)
+++
+++            yield DnsResponseSend(dnskey_message)
+++
+++        # Finish the AXFR transaction by sending the second SOA RRset.
+++        yield DnsResponseSend(soa_message)
+++
+++        # This makes sure that the next SOA request causes a new zone transfer
+++        self.soa_version += 1
 ++
 ++
 ++if __name__ == "__main__":
-++    main()
-+diff --git a/bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2 b/bin/tests/system/nsec3_impersonation/ns2/named.conf.j2
-+similarity index 90%
-+rename from bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2
-+rename to bin/tests/system/nsec3_impersonation/ns2/named.conf.j2
-+index 9358866..2c9b0bb 100644
-+--- a/bin/tests/system/repro_5874_nsec3_parent/ns2/named.conf.j2
-++++ b/bin/tests/system/nsec3_impersonation/ns2/named.conf.j2
-+@@ -10,8 +10,6 @@ options {
-+ 	listen-on-v6 { none; };
-+ 	recursion yes;
-+ 	dnssec-validation yes;
-+-	trust-anchor-telemetry no;
-+-	resolver-query-timeout 5000;
+++    server = ControllableAsyncDnsServer(
+++        default_aa=True, default_rcode=dns.rcode.NOERROR
+++    )
+++    server.install_control_command(ToggleResponsesCommand())
+++    server.install_response_handler(AXFRServer())
+++    server.run()
++diff --git a/bin/tests/system/xfer/ns6/named.conf.in b/bin/tests/system/xfer/ns6/named.conf.in
++index 142383c..6380944 100644
++--- a/bin/tests/system/xfer/ns6/named.conf.in
+++++ b/bin/tests/system/xfer/ns6/named.conf.in
++@@ -83,3 +83,12 @@ zone "ixfr-too-big" {
++ 	primaries { 10.53.0.1; };
++ 	file "ixfr-too-big.bk";
 + };
+++
+++# GL#6004
+++zone "private-dns-overrun" {
+++	type secondary;
+++	primaries { 10.53.0.9; };
+++	file "private-dns-overrun.bk";
+++	masterfile-format text; # force bug to be exercised
+++	request-ixfr no; # ans9 supports only axfr
+++};
++diff --git a/bin/tests/system/xfer/tests.sh b/bin/tests/system/xfer/tests.sh
++index a2c0adb..e08be17 100755
++--- a/bin/tests/system/xfer/tests.sh
+++++ b/bin/tests/system/xfer/tests.sh
++@@ -622,5 +622,21 @@ if [ $tmp -eq 0 ]; then
++ fi
++ status=$((status + tmp))
 + 
-+ controls {
-+diff --git a/bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py b/bin/tests/system/nsec3_impersonation/tests_nsec3_impersonation.py
-+similarity index 84%
-+rename from bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py
-+rename to bin/tests/system/nsec3_impersonation/tests_nsec3_impersonation.py
-+index 5fbeff5..bd9bd27 100644
-+--- a/bin/tests/system/repro_5874_nsec3_parent/tests_repro_5874_nsec3_parent.py
-++++ b/bin/tests/system/nsec3_impersonation/tests_nsec3_impersonation.py
-+@@ -26,6 +26,7 @@ import dns.rdatatype
-+ import pytest
-+ 
-+ import isctest
-++import isctest.mark
-+ 
-+ APEX_HASH = "1B40241KFORIOG780N4IKSCRLVETPCTQ"
-+ ATTACKER = f"{APEX_HASH.lower()}.tld.test."
-+@@ -33,12 +34,15 @@ VICTIM = "victim.tld.test."
-+ AUTH = "10.53.0.1"
-+ RESOLVER = "10.53.0.2"
-+ 
-+-pytestmark = pytest.mark.extra_artifacts(
-+-    [
-+-        "ans*/ans.run",
-+-        "keys.json",
-+-    ]
-+-)
-++pytestmark = [
-++    isctest.mark.with_ecdsa_deterministic,
-++    pytest.mark.extra_artifacts(
-++        [
-++            "ans*/ans.run",
-++            "ans*/keys.json",
-++        ]
-++    ),
-++]
-+ 
-+ 
-+ def _make_key(zone):
-+@@ -65,13 +69,13 @@ def bootstrap():
-+     zones = ["tld.test.", ATTACKER]
-+     keys = {zone: _make_key(zone) for zone in zones}
-+ 
-+-    Path("keys.json").write_text(json.dumps(keys, indent=2), encoding="ascii")
-++    Path("ans1/keys.json").write_text(json.dumps(keys, indent=2), encoding="ascii")
-+ 
-+     tld_dnskey = "".join(keys["tld.test."]["dnskey"].split()[3:])
-+     return {"TLD_DNSKEY": tld_dnskey}
-+ 
-+ 
-+-def _check_direct_dnskey_response(zone):
-++def check_dnskey_response(zone):
-+     query = isctest.query.create(zone, "DNSKEY")
-+     response = isctest.query.tcp(query, AUTH)
-+ 
-+@@ -88,7 +92,7 @@ def _check_direct_dnskey_response(zone):
-+     ), response
-+ 
-+ 
-+-def _check_direct_ds_response(zone):
-++def check_ds_response(zone):
-+     query = isctest.query.create(zone, "DS")
-+     response = isctest.query.tcp(query, AUTH)
-+ 
-+@@ -105,10 +109,10 @@ def _check_direct_ds_response(zone):
-+     ), response
-+ 
-+ 
-+-def test_repro_5874_direct_forged_nsec3_response_has_child_signer():
-+-    _check_direct_dnskey_response("tld.test.")
-+-    _check_direct_dnskey_response(ATTACKER)
-+-    _check_direct_ds_response(ATTACKER)
-++def test_attack_responses():
-++    check_dnskey_response("tld.test.")
-++    check_dnskey_response(ATTACKER)
-++    check_ds_response(ATTACKER)
-+ 
-+     query = isctest.query.create(VICTIM, "A")
-+     response = isctest.query.tcp(query, AUTH)
-+@@ -136,9 +140,13 @@ def test_repro_5874_direct_forged_nsec3_response_has_child_signer():
-+     assert rrsig[0].signer == dns.name.from_text(ATTACKER)
-+ 
-+ 
-+-def test_repro_5874_resolver_rejects_child_signed_nsec3_parent_proof():
-++def test_nsec3_impersonation():
-++    """
-++    Reproducer for #5874:
-++    F-006 DNSSEC Validation Bypass NSEC3 Apex Hash Label Parent Impersonation
-++    """
-+     query = isctest.query.create(VICTIM, "A")
-+     response = isctest.query.tcp(query, RESOLVER)
-+ 
-+-    isctest.check.servfail(response)
-+     isctest.check.noadflag(response)
-++    isctest.check.servfail(response)
-+diff --git a/bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py b/bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
-+deleted file mode 100644
-+index 614f26a..0000000
-+--- a/bin/tests/system/repro_5874_nsec3_parent/ans1/ans.py
-++++ /dev/null
-+@@ -1,18 +0,0 @@
-+-#!/usr/bin/python3
-+-
-+-# Copyright (C) Internet Systems Consortium, Inc. ("ISC")
-+-#
-+-# SPDX-License-Identifier: MPL-2.0
-+-#
-+-# This Source Code Form is subject to the terms of the Mozilla Public
-+-# License, v. 2.0.  If a copy of the MPL was not distributed with this
-+-# file, you can obtain one at https://mozilla.org/MPL/2.0/.
-+-#
-+-# See the COPYRIGHT file distributed with this work for additional
-+-# information regarding copyright ownership.
-+-
-+-from server import main
-+-
-+-
-+-if __name__ == "__main__":
-+-    main()
+++# def test_malformed_private_dns_identifier_overrun(ns6):
+++#    isctest.log.info(
+++#        "Check that a malformed PRIVATEDNS DNSKEY which overruns the record is rejected"
+++#    )
+++#    with ns6.watch_log_from_start(timeout=60) as watcher_transfer_completed:
+++#        watcher_transfer_completed.wait_for_line(
+++#            "zone private-dns-overrun/IN: zone transfer finished: unexpected end of input"
+++#        )
+++n=$((n + 1))
+++echo_i "Check that a malformed PRIVATEDNS DNSKEY which overruns the record is rejected ($n)"
+++tmp=0
+++nextpartreset ns6/named.run
+++retry 60 wait_for_message "zone private-dns-overrun/IN: zone transfer finished: unexpected end of input" || tmp=1
+++if test $tmp != 0; then echo_i "failed"; fi
+++status=$((status + tmp))
+++
++ echo_i "exit status: $status"
++ [ $status -eq 0 ] || exit 1
 diff --git a/meta/recipes-connectivity/bind/bind_9.18.49.bb b/meta/recipes-connectivity/bind/bind_9.18.49.bb
-index 723a09e739..161736f9b1 100644
+index 161736f9b1..42007383c4 100644
 --- a/meta/recipes-connectivity/bind/bind_9.18.49.bb
 +++ b/meta/recipes-connectivity/bind/bind_9.18.49.bb
-@@ -18,6 +18,9 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
-            file://bind-ensure-searching-for-json-headers-searches-sysr.patch \
-            file://0001-named-lwresd-V-and-start-log-hide-build-options.patch \
-            file://0001-avoid-start-failure-with-bind-user.patch \
-+           file://CVE-2026-10723-01.patch \
-+           file://CVE-2026-10723-02.patch \
-+           file://CVE-2026-10723-03.patch \
+@@ -21,6 +21,11 @@ SRC_URI = "https://ftp.isc.org/isc/bind9/${PV}/${BPN}-${PV}.tar.xz \
+            file://CVE-2026-10723-01.patch \
+            file://CVE-2026-10723-02.patch \
+            file://CVE-2026-10723-03.patch \
++           file://CVE-2026-10822-01.patch \
++           file://CVE-2026-10822-02.patch \
++           file://CVE-2026-10822-03.patch \
++           file://CVE-2026-10822-04.patch \
++           file://CVE-2026-10822-05.patch \
             "
  
  SRC_URI[sha256sum] = "c43ce4548ebed788cd9df63658a7de105ceafba43fcd63fa352b1093e525cd24"
