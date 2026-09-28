@@ -2,164 +2,164 @@ Return-Path: <bhavesh.maheshwari@einfochips.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AEDFFC9833E
-	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 10:16:07 +0000 (UTC)
-Received: from CO1PR03CU002.outbound.protection.outlook.com (CO1PR03CU002.outbound.protection.outlook.com [52.101.46.43])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.55262.1790590559796729116
+	by smtp.lore.kernel.org (Postfix) with ESMTP id CDACBC9833F
+	for <webhook@archiver.kernel.org>; Mon, 28 Sep 2026 10:18:27 +0000 (UTC)
+Received: from BYAPR05CU005.outbound.protection.outlook.com (BYAPR05CU005.outbound.protection.outlook.com [52.101.85.45])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.54258.1790590699396335775
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 03:16:00 -0700
+ Mon, 28 Sep 2026 03:18:19 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@einfochips.com header.s=selector1 header.b=b9FkDhtB;
- spf=pass (domain: einfochips.com, ip: 52.101.46.43, mailfrom: bhavesh.maheshwari@einfochips.com)
+ dkim=pass header.i=@einfochips.com header.s=selector1 header.b=d22/QJz/;
+ spf=pass (domain: einfochips.com, ip: 52.101.85.45, mailfrom: bhavesh.maheshwari@einfochips.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=DRcet0LbPTB2m1zuxZRA9I/ZePPwM0qTZ2B2SaCrG2mIhsiW5SkRZFRfpb5DL+bTT5uM4YQzH0k1agN1+QHeBJrAYa8ELFlX2UKKC5lk/vRuT/38MTTXFkmbaTFfFqY7s/arVl2SmChVoSaUNC33d1C0xtvGdmYSGJ+TvPa/WHjHCepZ3Si4oz20XKgLtuAcnPoS1Ugdy2a2XFxdbv4TnlzNNCjII0gc4/QbrX7jLzVye/BLdXftflpQ0Z+6fQITmeCoaAJn+Ix+z0LwNnJCxs2maWOo6a3LN8dsQVZj5wpUaQiCRWMjE2P1UFNnKXMasr9BfBfI+6EyKzzJQlQvDQ==
+ b=fRXOV9AH0Rqg334TYl7VhZcTEe4SFnUmn8uFGmQpPu7e48UnHCLt0U5iKIootyS7w//oCU9dJrz6GHYfRCR3Uj3DYMiEHHbq9oCs9gBCQ9GjObm17S/yHeUYd5d0ivya27VRhLq3I4Zzctxhh1ULucKxya6laD0kQydL6OkePYFYrziTI/B7OP//d9kDVV7dJyG2sbT2YtRqmGPohqpCWCu4EQnWAkKh3bI8jA3LfUcHICBudrAfw43qY3YxcHU1FmN8X4RlrEs3OkqPTQjY2+ZT/5pnlKmsH3lb7A+DWade60rCXpMpgHNCZFfniAO9CQ/RTqIAG1/yNQ+RJ3Lurg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=CqrrBWjSxT9Anuwxw7OkVaAyPvyD6Te1O2GpAG7fWa8=;
- b=cuf8twzduQxLQxzTXmkgNggXJZ2MiQV0kiXoXf3wY4aa+CS/541pnlj3OW23bEyOfzRP9LLLxmt+Aa0uIqxoRx/ofTAWAA3CPJfsA1XGnLuW2h8nJBuyUMDW1owOMH/H0UsdRplfYK0f6XtmEJkVp92QCGwTCVlCxigFiJGS81ERZ+asDuFVMI2CR6zektEX+xjsGSJTa1xa3okINVpcKoHaAme1UQ3UqSeHS6aP/8Y+SZ9BvVCGUBjZvIbbXFPuv4MpkJhLg7+vCYvJRioydVFAsje8D7vJhgJewCvBDiSBrpnOZQgB6jdp9q+Jv8M5uZB2BVo8Amf8/xey0+UykQ==
+ bh=y2BV8ulziK0pcWNrh2KMC29dGrG7LCqOR8Guh++zWRU=;
+ b=HD233XWjWULkDlKLMqQ5eNL9jk5SGcXOD1oYpb5DSoUFI8BMzbF24KvBTnEG/Dxv0ITJI4ynlkJ4EHzrLeKjdExzFmpyRcxlqbhHjuQ+ldkQSzFNALjUhl9yOqowa/dQ5g1Z1awSytahvQ5FEOu040X8xRCUzunptUD9Y7gWb/an/GJ8hW/VLdt0cxC8o5boByAn7PLe380R8GSEcCSRR2Bs4SsVw6MRxGVCPKjQ/VWeFzIS9iPou0GaCLzZuM5+vAYpEhMcG6t2/cVEOnG/v1qmSA+vJg7zZH47nPv+hJCi+ROvuSv5lNs/35KvN9HX4CjXDJ5Vf+pv52BgTifivg==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=einfochips.com; dmarc=pass action=none
  header.from=einfochips.com; dkim=pass header.d=einfochips.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=einfochips.com;
  s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=CqrrBWjSxT9Anuwxw7OkVaAyPvyD6Te1O2GpAG7fWa8=;
- b=b9FkDhtBVcfB579+/1rVxyrYL+zJJoJlt/t5cJHSEXGwG+COIo3trLrpf+hMJw6DNRp1mxqukMQWaC7PzYvdMcWOIl2HSp/cuXfkwgACBIvPD2tpwwekVLbWzarGKCK8RqV3/iPkUCbeYhcawhIshByQE83cFlXDJGcrgOywxes=
+ bh=y2BV8ulziK0pcWNrh2KMC29dGrG7LCqOR8Guh++zWRU=;
+ b=d22/QJz/TpAEAyIcJ8MRR/2WRz2DPdaPcNa9RHLBER1/peQ3KPwirrZRYFoShLLUURQ+EfrVP5fGyJPaxhEakPWQthgnm0+LFx7YmMu8NUB/EfmcJKMMlK0H6N67UBtLJR+6whKMxTOl2bmq/q5pLrZt3JzTI/F5iBQVxO92F7g=
 Received: from SN4PR04MB8398.namprd04.prod.outlook.com (2603:10b6:806:201::22)
  by PH0PR04MB994389.namprd04.prod.outlook.com (2603:10b6:510:43b::12) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.23; Mon, 28 Sep
- 2026 10:15:57 +0000
+ 2026 10:18:11 +0000
 Received: from SN4PR04MB8398.namprd04.prod.outlook.com
  ([fe80::4939:9b85:fbf:521d]) by SN4PR04MB8398.namprd04.prod.outlook.com
  ([fe80::4939:9b85:fbf:521d%5]) with mapi id 15.21.0451.022; Mon, 28 Sep 2026
- 10:15:57 +0000
+ 10:18:11 +0000
 From: Bhavesh Rajesh Maheshwari <Bhavesh.Maheshwari@einfochips.com>
-To: Yoann Congal <yoann.congal@smile.fr>,
-	"openembedded-core@lists.openembedded.org"
-	<openembedded-core@lists.openembedded.org>
-Subject: Re: [External] Re: [wrynose][oe-core][PATCH 1/5] ffmpeg: Fix for
- CVE-2026-66036
-Thread-Topic: [External] Re: [wrynose][oe-core][PATCH 1/5] ffmpeg: Fix for
- CVE-2026-66036
-Thread-Index: AQHdTfF153SY5EBnvUaPQDvXh8YknLbjyGLx
-Date: Mon, 28 Sep 2026 10:15:57 +0000
+To: "openembedded-core@lists.openembedded.org"
+	<openembedded-core@lists.openembedded.org>, "yoann.congal@smile.fr"
+	<yoann.congal@smile.fr>
+Subject: Re: [External] Re: [wrynose][oe-core][PATCH 5/5] ffmpeg: Fix for
+ CVE-2026-66041
+Thread-Topic: [External] Re: [wrynose][oe-core][PATCH 5/5] ffmpeg: Fix for
+ CVE-2026-66041
+Thread-Index: AQHdTfbW1nmIUypNQUiq3oE2xHbERbbjyTrq
+Date: Mon, 28 Sep 2026 10:18:11 +0000
 Message-ID: 
- <SN4PR04MB83981510919C6B8254C23A02E58D2@SN4PR04MB8398.namprd04.prod.outlook.com>
+ <SN4PR04MB8398087B79EA4DA077A16DD1E58D2@SN4PR04MB8398.namprd04.prod.outlook.com>
 References: <20260922070209.2770399-1-bhavesh.maheshwari@einfochips.com>
- <DLPIIRL8T1SK.Z1VPO5EWVJQ1@smile.fr>
-In-Reply-To: <DLPIIRL8T1SK.Z1VPO5EWVJQ1@smile.fr>
+ <20260922070209.2770399-5-bhavesh.maheshwari@einfochips.com>
+ <DLPJC96BOERE.3M87L9353GN17@smile.fr>
+In-Reply-To: <DLPJC96BOERE.3M87L9353GN17@smile.fr>
 Accept-Language: en-IN, en-US
 Content-Language: en-IN
 X-MS-Has-Attach: yes
 X-MS-TNEF-Correlator: 
 msip_labels: 
- MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_Enabled=True;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_SiteId=0beb0c35-9cbb-4feb-99e5-589e415c7944;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_SetDate=2026-09-28T10:15:56.602Z;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_Name=Public;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_ContentBits=1;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_Method=Standard;
+ MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_Enabled=True;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_SiteId=0beb0c35-9cbb-4feb-99e5-589e415c7944;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_SetDate=2026-09-28T10:18:10.928Z;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_Name=Public;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_ContentBits=1;MSIP_Label_879e395e-e3b5-421f-8616-70a10f9451af_Method=Standard;
 authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=einfochips.com;
 x-ms-publictraffictype: Email
 x-ms-traffictypediagnostic: SN4PR04MB8398:EE_|PH0PR04MB994389:EE_
-x-ms-office365-filtering-correlation-id: 459b3287-c9bd-42b3-3743-08df1d497cbb
+x-ms-office365-filtering-correlation-id: 37372c0b-2a2c-45cc-b8d6-08df1d49ccbc
 x-ms-exchange-atpmessageproperties: SA
 x-ms-exchange-senderadcheck: 1
 x-ms-exchange-antispam-relay: 0
 x-microsoft-antispam: 
- BCL:0;ARA:13230040|6049299003|23010399003|39142699007|31052699007|376014|1800799024|366016|10067099003|11063799006|260925021311599003|260925022911599003|260925021911599003|4133799003|6133799003|8096899003|18002099003|55112099003|22082099003|56012099006|4143699003|13003099007|4053099003|4013099003|38070700021;
+ BCL:0;ARA:13230040|6049299003|23010399003|39142699007|31052699007|376014|1800799024|366016|10067099003|11063799006|260925021311599003|260925022911599003|260925021911599003|4133799003|8096899003|18002099003|55112099003|22082099003|56012099006|4143699003|13003099007|4053099003|4013099003|38070700021;
 x-microsoft-antispam-message-info: 
- G+QAC/yaRCQKxBy0kvH1T+g9omvlgYMAwqrmtDAHL3gmwXZst1Z9QYEyUK3AOiU4q0IogiODaBpwdvpn/LLiZFgHAMKAsSUnH10Ns5GpScrOIDdFD2p/kdDtuUP5cmL1IOljJ3bdxAXQSpdH42iB/37+7eofAahGxmdmkaL47L/syykNiREmy49XZNC0QDzQu9dnDfdu74a2bZDyZkSPlg5Gnkg0JKqiwXNeWKd1K7Kz59g9yyrmsoJk6rYve/ydE8Wu8Ac8o539fzt5QdnUxVX3m08j2R6/+r9vE/a63+04hEX/x1plA/ys/anDQ2eScL9Mx17zjTa0JslpKI/TzK2UIDJyXaobZLfNg5Lmem4TNlgvAjdHx3cenZh2j4ZIBGUwpim88Lu3khCcfv1NCvggAgNaOVYBaa8F867bI4EoMqh0BZXTVqeW0/opGaovVb6cyYQ6l0p+eWnPHVEJ0NnvIrWZ8RVGclp72m69M7agUW63u6xFrpBcaKt+Mo+GIjJbd+9xBYp+uPVqn/MIOEhUw+T4OFf+6666ftiRvDwYuv/4cruUxCuQhLqPwr0BEG0bWGfJ80Xn9C11rntRkCthEpGYpcmHzSuSCg+2cqma5xaVgSbgnyGTTx7HAxe9WFjP2QioiIE3S5lC5/pJTQGWD7dyOx3kOn/XA47VWs0=
+ jol+y9era2E5sAQXYOWLCJADtl85fzPVKbXg07CRLVvafiG7dkjJWVh7BpyJv8dmtTT6BSLX2kJjCB/eLs6cNdHm6WTep1WIxJcTLolAiCa5ZPJANTNO6DWvkBt98X0/TRqjh4Bn4njOamMdB94BHN7ueYVmq2eH5fxyWp8ucQCjz0rQD1wmto64O+oVyBax+EZl0/oJWYUzsC2M2I/u9d7aqDEXad9DwPDpgnyVBjznDG7U/leYtiLddh9vqT21lK5shHhfkLK0hVqBuR2nAGtU9PIIpgwT5xlmwVJs4LSiILnbFmpW+ie28nhxbM25zbOuwYCvgrYLJujoE/FRKL+SRywJk7cQIpSrudW/PK+eEEgL8LV2I5Og4txmH1X8S70N3Ax/eCYXCUBhZTQTYi/hWWWMERw4/Um/+2lhPDWbsGCLSnQkKAzZst0pBZaipbsdxrMk9+JP3+N75TVdOiPme2HqSq/HOZtrEh7Rk+MPeZmpw/PiLTPtJcAXhq52bRi4C1+xPGxgnxqLzSc8ZoPMPih5N+04Q1l8ljM1TpUsIVZevYS1bSkw93xYXInyhVddu/5zIAXYodewYtbfi3MOghdbMEA0Wvulto6vxH4EVvKEnY8gucDJrTsK1vocA3v00/aLCe+LxzjoU01aI9V7deviZ2hM8X2WIQd6pJE=
 x-forefront-antispam-report: 
- CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR04MB8398.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(6049299003)(23010399003)(39142699007)(31052699007)(376014)(1800799024)(366016)(10067099003)(11063799006)(260925021311599003)(260925022911599003)(260925021911599003)(4133799003)(6133799003)(8096899003)(18002099003)(55112099003)(22082099003)(56012099006)(4143699003)(13003099007)(4053099003)(4013099003)(38070700021);DIR:OUT;SFP:1101;
+ CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN4PR04MB8398.namprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(6049299003)(23010399003)(39142699007)(31052699007)(376014)(1800799024)(366016)(10067099003)(11063799006)(260925021311599003)(260925022911599003)(260925021911599003)(4133799003)(8096899003)(18002099003)(55112099003)(22082099003)(56012099006)(4143699003)(13003099007)(4053099003)(4013099003)(38070700021);DIR:OUT;SFP:1101;
 x-ms-exchange-antispam-messagedata-chunkcount: 1
 x-ms-exchange-antispam-messagedata-0: 
- =?Windows-1252?Q?nHIUa1SQToYfhBJLruXuOeOG5YLHljYxBZPjMInC7nJwr90PtB7h8b8Q?=
- =?Windows-1252?Q?VEQJT2vLOjzqQQOw5b8HXJ6LoyjBeeVQ3R9cZzGIosB+5Zot7PM2QfDQ?=
- =?Windows-1252?Q?ou4/56TUf8HkqhBWyMjVPql4LnIqcjFrGltKt/3KatJBWsTZGkWo7PxJ?=
- =?Windows-1252?Q?MiGGgWqQ24isNXCrwMHJTkuqHxls/RzDNtgIgCWBVs9n7EctYFseSZEz?=
- =?Windows-1252?Q?Tm5N8mcixtZmIjb2nD/La+68/CUByDnwweLLaSoFWy+Q294Iu0Dnfox2?=
- =?Windows-1252?Q?JbPcqJpT7zyF595c2oEm6MjDVfHRv+UfEylUuolM8wLzvgdszqKojE3m?=
- =?Windows-1252?Q?5Uof24p+Tq7Eo8vpmR+Yp82baIEWlf6l5t90oP1cNFuqk8vU7suCoNL6?=
- =?Windows-1252?Q?za+K03oAYHokqXFSQXFCCJ/wPZXN4BQVKUGo2IWz4wfsAUj0xLAmqh6r?=
- =?Windows-1252?Q?zEgR5vBjFNOcR8YTMQRB4Vh6NVGoFHMlQ7ct43xYmtqo/sDDWY6DILgg?=
- =?Windows-1252?Q?BjJkEhZntP2UI+BmvHXy3Ga+3lCpH7VPdjj6ug8g9OFYaAeShxIOUCIu?=
- =?Windows-1252?Q?/Y0mI6GMAmVk/UnyfQddoJViceG5KcOKetVS5BVHayms9a5xSjE0Xw5Z?=
- =?Windows-1252?Q?3Dr+MtmtT6yvQkCAsKzwTo4Doy1gEDYPPsHQ7YhHMhOBfBvgZdBlHdY/?=
- =?Windows-1252?Q?d9FzWELFCltbB9TPqVJUFGDoRzetMOMSY6hQIcuCwMRnVP6gGyLLYQYc?=
- =?Windows-1252?Q?LMSfMyy4H4cMRa1MGj1gmbFh7GYxO0hh7g2RtuDrVDyNXEdrTCKjyTTS?=
- =?Windows-1252?Q?6WcpTpWK7KjptuZeWI00E/4PX5IgPoPu3gsYTLkTCarzRf3uE7apPHfn?=
- =?Windows-1252?Q?/y/Hc6cD+lOpOXt932zTfxtBnxEAe0/7vEuTew0L3UJO8iOzj1pXa2I6?=
- =?Windows-1252?Q?flPeHhe6X2ZbPvJBDyRH8AGJOYEkANWKdXSM4oPoz4bKOr6hDOB4WAz/?=
- =?Windows-1252?Q?9+Pk9AS8zf79gGQ3GAYRwN298yGADudw3LEsji+ksetuP7mTI7wUhV3G?=
- =?Windows-1252?Q?MIxUP95Xj9P8bhaJVadyPy8aYhq7vTqx9NomJZ0x0aq4qsvrW4W45555?=
- =?Windows-1252?Q?Qi9hYZ5W96KsrG0XJPjSgM6gPvkttdxP7EZuTO4ZEsJNTiFFxLDnVzGr?=
- =?Windows-1252?Q?JwFCzTvzeyLXduC5U+UUok+xjF7R9KF+Afhrd2TGhjnBQzWnLnAOUzYB?=
- =?Windows-1252?Q?5QTu8w04i93LiFM/8eqX1EB/3nion7zFYSgEK8ev9eNUanqilFsd8x/d?=
- =?Windows-1252?Q?pPCI2bTVriU3zgEWOR4KSQmQGB6kbb1fxUYzvXIYLzZK+/JFCxmzOI3F?=
- =?Windows-1252?Q?eznn94cw1HhyJIjTWGi6fTpm/MLUk98m4EfSyTagy1NRsQT8OPkYSokD?=
- =?Windows-1252?Q?OGwg9OelVOUCoU8OClsy3WRcYqT83nTlm6jYl5my+gcErPkKxn8RXHhB?=
- =?Windows-1252?Q?RPz6W5pSVk0x18Pb/XshhLoMwU+1Y9ovCOQL0XN4+9dn1zvPoVIzM7id?=
- =?Windows-1252?Q?9lIc4vcWVlkGMkg/n0hXkicvI0d0XZJJdwU21H2QSdshUOCcoXqIL15N?=
- =?Windows-1252?Q?il2GcO4iHJ088Yw1l+eQAF57GHHRmSGxyjdlphLG0NceU4duxlU+HG2m?=
- =?Windows-1252?Q?3BgvXfOqjo2SEDGP9Cn3pYsSxE0B7MxRlimmrJFKdzIt8jQw9rx7zitC?=
- =?Windows-1252?Q?BTbALlzSe+EpFdmhpmdqdpKG/FulT6ovGLsEt1SGuq4Q5X4vW8ptC7Re?=
- =?Windows-1252?Q?tGPVlkmESUxLqbvhBdo87qOpRGImeo6bVbLa3voPjpopgiG1caGgPe9l?=
- =?Windows-1252?Q?0PzaerbGExO8zfdQ3YcuhFH+ISjI11ghrbs=3D?=
+ =?Windows-1252?Q?u7pNAWH7DrE/xdCmrgpIPwMPxInZozpi4PMQ6p6NyabuiLfjfYUJ7LLh?=
+ =?Windows-1252?Q?HOkEml+GtPunoDFTo0lfvdF/esKbR026VAbvkWyerZtc7LKMOVU6D9We?=
+ =?Windows-1252?Q?HkEFnCtIUW5AEBlxCAnN1M+MJMOfe8FnXmY5R3Xdxw4PJIbhrRgo6qPq?=
+ =?Windows-1252?Q?A7QlWDQB8hJGpngW6J+PttxgMg6usr0Ju3HQhqzSRvSO6d+CQZYGnICg?=
+ =?Windows-1252?Q?fuZPM6XcjNrr2sFSTdTfDoogMMyT2j+hGcknjhmxSalGXbWhlI48fHo0?=
+ =?Windows-1252?Q?LzWmf7Ll/TzvW72vQCrDWI7bJ12OHtRg5vWANBJVHdNS9HmRSOJLPchs?=
+ =?Windows-1252?Q?m/C6VQxEDXslCGYfTJ2gIUa8s57WQq6RCUFdh/dHQwTXLlGTZGhwa8c6?=
+ =?Windows-1252?Q?vUmMSd/r/1Z2gmHuiv2XvbJtyfOzdqPdcvuHwNialaw8Kw8WYpP27TcX?=
+ =?Windows-1252?Q?Z0HvfyQygZXl19Cd6UN17vErEqwJrf8DYYiQFGHPsoLf3Gghp7aemrGb?=
+ =?Windows-1252?Q?zIXwhw5eH9y6gayHOpEqvOCkIRlANeQFaMzNz0Q9c6wp84t4+u/papn/?=
+ =?Windows-1252?Q?biZDOG26rQ4UHVsrga7ZdPrkknw5Iw7BmTT2xPKee46+RwISSPkGacxf?=
+ =?Windows-1252?Q?q5mMlt82zzEpixGv+fiJi8LM93mjIrNM1wzEx+zcu2m9IN1XdjAPIuQJ?=
+ =?Windows-1252?Q?5IDe/+Do9ixngaPanxvAVT+iDX2dMH3HtgNVBiqvXSqQwosnKQB4u8G5?=
+ =?Windows-1252?Q?QfQl73lnWgY5ue6hcB+2gIcr5P/snXOLmAGChy+NQJgIm6TNBl/hoYhX?=
+ =?Windows-1252?Q?RKQW+enD4MMppH1h6MOvD3fQPvfebq16lXV8v7C575VugCdcOw9to3xW?=
+ =?Windows-1252?Q?+ASHosZLZ6S2ZhpnkmCrkTHE+jP9/ybuP/DV34hykFgQeDPHcPTipZiG?=
+ =?Windows-1252?Q?k9xXl3Ai4bTQezrcSvWje/VURBsFPehvL1JmdqOPYeHLOSeZnnLPauxV?=
+ =?Windows-1252?Q?dmqTmTDYNYNQ1lwVYRScNAV6bu4SoSLf1OSzb6aDcg9bMObl9ptx/pm7?=
+ =?Windows-1252?Q?f1AAn4LLNbvRb8UzjHWa0sc1zxrYdGiMHn13AK+XUSF014RFaX8a5jPv?=
+ =?Windows-1252?Q?D5hOgXxt/hoRDFstQ2dNjZaMAZH9/0YzXF+J8bMSzNekAihJJ6s039Wb?=
+ =?Windows-1252?Q?UxzAp0Uhd9kH/bQbQDyq6RZ5B4yW089I0afn5iAH+zOIuEriVS+ChCBv?=
+ =?Windows-1252?Q?m49wCXrQvbIIUOqVRxVA/Xqkh7dgrFzwJDU0AyNgoB1Gy80kAsW29toF?=
+ =?Windows-1252?Q?VWSea50DRuQjPjGvt9y2IEBDqPKZaWOSXGzeatZ3YssELbfUJWUvgH8A?=
+ =?Windows-1252?Q?8DIc1k6UfbGuVNjqy4iIbpCDpeSm1jsV/NAoZYJfRkHH9zkKioY9CU94?=
+ =?Windows-1252?Q?CHV2zsYXlu2e7JNb4vlzXboqwQRWpVy3r+siCgqeycCLgWfQUnBsheUc?=
+ =?Windows-1252?Q?JaJ1YY0DGLYB2DEJ1SgYziyOteULEAustTcQDsm0x8aEakAjCqG2HSCO?=
+ =?Windows-1252?Q?bYhm1AZxbMNqzQWMio0f3YshdN13QH6jyb6J8v3nZ+pkqEJpdOZ2b824?=
+ =?Windows-1252?Q?GsxWG51UEyTQGtkFFLTAuhMn00VKH6/YtCDBUA2JHRwP760EVvcDZpmn?=
+ =?Windows-1252?Q?YYNzIz4pOgSKZNI0plEepT8WS6HjRtU2n1gXBFrkVYn8262v10jqi/n2?=
+ =?Windows-1252?Q?9MiPoOIOlmCdQ8QgYDMFEu22ctCRtCRr/9PllUwhl6EO07Ychzw/j8uV?=
+ =?Windows-1252?Q?+eJEzJEpYKDgQMZqzfZYA+MqelJlnwaR5BVkjUke0oW5lPOJt85b1jpt?=
+ =?Windows-1252?Q?8JQIwVR0DlZsYm2pVrBPNNx8uRSZxQscGgs=3D?=
 Content-Type: multipart/related;
-	boundary="_004_SN4PR04MB83981510919C6B8254C23A02E58D2SN4PR04MB8398namp_";
+	boundary="_004_SN4PR04MB8398087B79EA4DA077A16DD1E58D2SN4PR04MB8398namp_";
 	type="multipart/alternative"
 MIME-Version: 1.0
 X-OriginatorOrg: einfochips.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
 X-MS-Exchange-CrossTenant-AuthSource: SN4PR04MB8398.namprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 459b3287-c9bd-42b3-3743-08df1d497cbb
-X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2026 10:15:57.1800
+X-MS-Exchange-CrossTenant-Network-Message-Id: 37372c0b-2a2c-45cc-b8d6-08df1d49ccbc
+X-MS-Exchange-CrossTenant-originalarrivaltime: 28 Sep 2026 10:18:11.4445
  (UTC)
 X-MS-Exchange-CrossTenant-fromentityheader: Hosted
 X-MS-Exchange-CrossTenant-id: 0beb0c35-9cbb-4feb-99e5-589e415c7944
 X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: YdsBB5gmJ42FUzfisH9qh1GMft0fwc6X5L62c4eA9GXjiYVWtBimxTASz9cenA1NkD0eKgcuaUXxGpF7LqeGFviNvYZv+B1hOY6P14Xwcy6wpn5IVjuRE8co8F3BZVg2
+X-MS-Exchange-CrossTenant-userprincipalname: jaGebrZXfYiFuOxsMN0jLCJIZlzc3cYU8lVsypvBa11ooFsmLKThoTEGMHimRT7fFCc94t2yuT4xPWA9lfVYVozu5uS9nGP23efnlPOf6iLAqbKD0b2XTPR5b0GRsZdr
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH0PR04MB994389
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 10:16:07 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246745
+ <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 10:18:27 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246746
 
---_004_SN4PR04MB83981510919C6B8254C23A02E58D2SN4PR04MB8398namp_
+--_004_SN4PR04MB8398087B79EA4DA077A16DD1E58D2SN4PR04MB8398namp_
 Content-Type: multipart/alternative;
-	boundary="_000_SN4PR04MB83981510919C6B8254C23A02E58D2SN4PR04MB8398namp_"
+	boundary="_000_SN4PR04MB8398087B79EA4DA077A16DD1E58D2SN4PR04MB8398namp_"
 
---_000_SN4PR04MB83981510919C6B8254C23A02E58D2SN4PR04MB8398namp_
+--_000_SN4PR04MB8398087B79EA4DA077A16DD1E58D2SN4PR04MB8398namp_
 Content-Type: text/plain; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
 Hi Yoann,
-Thanks for raising this. I checked the QuircContext definition and verified=
- the build with the patch applied.
-QuircContext is defined in libavfilter/vf_quirc.c and used only as the quir=
-c filter=92s private context. The new width and height fields enlarge that =
-private context; they do not change a public FFmpeg API or a caller-visible=
- structure. The Doxygen page lists the struct because it is present in the =
-source, but it is not evidence that the struct is part of the public API.
-The patch records the configured dimensions and resizes the quirc buffer if=
- a later frame has different dimensions. I don=92t see a compatibility issu=
-e for existing supported code.
+Thanks for checking. I looked at the FFmpeg 8.0 QuircContext documentation =
+and source. Although Doxygen lists the struct, it is defined in libavfilter=
+/vf_quirc.c and used as the quirc filter=92s private context. It isn=92t pa=
+rt of the public API.
+The patch adds width and height fields to that private context, and the bui=
+ld with the patch applied is verified. I don=92t expect this to break suppo=
+rted external code. The only potential concern would be downstream code rel=
+ying directly on this internal struct layout.
 
-
-Thanks
+Thanks,
 
 Bhavesh Maheshwari
 Engineer
 +91 8827543501
 Bhavesh.Maheshwari@einfochips.com<mailto:Bhavesh.Maheshwari@einfochips.com>
-[cid:b7627589-92e3-4ba8-b5bd-95367dfda157]<https://www.einfochips.com/>
+[cid:a6d6c0b2-4532-484b-9ec6-adca64de6f13]<https://www.einfochips.com/>
 ________________________________
-From: Yoann Congal <yoann.congal@smile.fr>
-Sent: 27 September 2026 01:28
+From: openembedded-core@lists.openembedded.org <openembedded-core@lists.ope=
+nembedded.org> on behalf of Yoann Congal via lists.openembedded.org <yoann.=
+congal=3Dsmile.fr@lists.openembedded.org>
+Sent: 27 September 2026 02:07
 To: Bhavesh Rajesh Maheshwari <bhavesh.maheshwari@einfochips.com>; openembe=
 dded-core@lists.openembedded.org <openembedded-core@lists.openembedded.org>
-Subject: [External] Re: [wrynose][oe-core][PATCH 1/5] ffmpeg: Fix for CVE-2=
-026-66036
+Subject: [External] Re: [wrynose][oe-core][PATCH 5/5] ffmpeg: Fix for CVE-2=
+026-66041
 
 
 CAUTION: This email originated from outside of the organization. This messa=
@@ -171,115 +171,92 @@ On Tue Sep 22, 2026 at 9:01 AM CEST, Bhavesh R Maheshwari via lists.openemb=
 edded.org wrote:
 > From: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 >
-> Pick the patch from [1] and [2], mentioned in PR#23783 [3] which is
-> referenced in the NVD report [4]
+> Pick the patch from [1], also referenced in the NVD report [2].
 >
 > [1] https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fc=
-ode.ffmpeg.org%2FFFmpeg%2FFFmpeg%2Fcommit%2Ff0f634b6585fdc7bbb43ab3ae461499=
-bfca9ad2e&data=3D05%7C02%7Cbhavesh.maheshwari%40einfochips.com%7Cc5cd2b5126=
-294b9c4d9108df1c0894f4%7C0beb0c359cbb4feb99e5589e415c7944%7C1%7C0%7C6392604=
-95345529147%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDA=
+ode.ffmpeg.org%2FFFmpeg%2FFFmpeg%2Fcommit%2F4da9812e25894fb51d62a8875cfa8eb=
+39b5e20f5&data=3D05%7C02%7Cbhavesh.maheshwari%40einfochips.com%7C7fe67053ed=
+514d0a521d08df1c0df794%7C0beb0c359cbb4feb99e5589e415c7944%7C1%7C0%7C6392605=
+18444725508%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDA=
 wMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D=
-zvgjZiEO2XkQjfn7J5KJCJN8wQEAxqgM9fKJ103HPVQ%3D&reserved=3D0<https://code.ff=
-mpeg.org/FFmpeg/FFmpeg/commit/f0f634b6585fdc7bbb43ab3ae461499bfca9ad2e>
-> [2] https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fc=
-ode.ffmpeg.org%2FFFmpeg%2FFFmpeg%2Fcommit%2F5d7112c60e6f0f0742ce47d448e6da0=
-718a70f4c&data=3D05%7C02%7Cbhavesh.maheshwari%40einfochips.com%7Cc5cd2b5126=
-294b9c4d9108df1c0894f4%7C0beb0c359cbb4feb99e5589e415c7944%7C1%7C0%7C6392604=
-95345585689%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDA=
-wMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D=
-rDzwxbj4D6E%2BKtO69vqAdljWFAWdiuhPay8mzI2nkDM%3D&reserved=3D0<https://code.=
-ffmpeg.org/FFmpeg/FFmpeg/commit/5d7112c60e6f0f0742ce47d448e6da0718a70f4c>
-> [3] https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fc=
-ode.ffmpeg.org%2FFFmpeg%2FFFmpeg%2Fpulls%2F23783&data=3D05%7C02%7Cbhavesh.m=
-aheshwari%40einfochips.com%7Cc5cd2b5126294b9c4d9108df1c0894f4%7C0beb0c359cb=
-b4feb99e5589e415c7944%7C1%7C0%7C639260495345626523%7CUnknown%7CTWFpbGZsb3d8=
-eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCI=
-sIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DligCIg0tGRHfsFtp3l3p7ieKfT%2FaOjCwoc=
-80XwdbnK4%3D&reserved=3D0<https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/23783=
->
-> [4] https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fn=
-vd.nist.gov%2Fvuln%2Fdetail%2Fcve-2026-66036&data=3D05%7C02%7Cbhavesh.mahes=
-hwari%40einfochips.com%7Cc5cd2b5126294b9c4d9108df1c0894f4%7C0beb0c359cbb4fe=
-b99e5589e415c7944%7C1%7C0%7C639260495345659261%7CUnknown%7CTWFpbGZsb3d8eyJF=
+yXRkqouFPx5rn7HcXqCIyLYvG6DGjw%2F5lRPYq544zPg%3D&reserved=3D0<https://code.=
+ffmpeg.org/FFmpeg/FFmpeg/commit/4da9812e25894fb51d62a8875cfa8eb39b5e20f5>
+> [2] https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fn=
+vd.nist.gov%2Fvuln%2Fdetail%2Fcve-2026-66041&data=3D05%7C02%7Cbhavesh.mahes=
+hwari%40einfochips.com%7C7fe67053ed514d0a521d08df1c0df794%7C0beb0c359cbb4fe=
+b99e5589e415c7944%7C1%7C0%7C639260518444753817%7CUnknown%7CTWFpbGZsb3d8eyJF=
 bXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIld=
-UIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3D38KssgC9DDjSA7qbSyEmWzXix%2FkX1UekEjx015=
-o3DYU%3D&reserved=3D0<https://nvd.nist.gov/vuln/detail/cve-2026-66036>
+UIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DUvlOY1pB7KYXkF5k%2Bgyx5DEihvVKJ3yojDR%2F=
+7QLFNpg%3D&reserved=3D0<https://nvd.nist.gov/vuln/detail/cve-2026-66041>
 >
 > Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 > ---
->  .../ffmpeg/ffmpeg/CVE-2026-66036_p1.patch     | 120 ++++++++++++++++++
->  .../ffmpeg/ffmpeg/CVE-2026-66036_p2.patch     |  71 +++++++++++
->  .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |   2 +
->  3 files changed, 193 insertions(+)
->  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_=
-p1.patch
->  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_=
-p2.patch
+>  .../ffmpeg/ffmpeg/CVE-2026-66041.patch        | 60 +++++++++++++++++++
+>  .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |  1 +
+>  2 files changed, 61 insertions(+)
+>  create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.=
+patch
 >
-> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.patc=
-h b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.patch
+> diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.patch b=
+/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.patch
 > new file mode 100644
-> index 0000000000..bce0265114
+> index 0000000000..7a8c4e0c8b
 > --- /dev/null
-> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.patch
-> @@ -0,0 +1,120 @@
-> +From 7ac88955c4678fc10cc44a786ff9bf724bb12deb Mon Sep 17 00:00:00 2001
+> +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.patch
+> @@ -0,0 +1,60 @@
+> +From 9db6b5816516b85e981e177863b2eb361dbec3c8 Mon Sep 17 00:00:00 2001
 > +From: Michael Niedermayer <michael@niedermayer.cc>
-> +Date: Sun, 12 Jul 2026 13:05:07 +0200
-> +Subject: [PATCH 1/2] avfilter/vf_hqdn3d: reject unsupported frame parame=
-ter
-> + changes
+> +Date: Sun, 28 Jun 2026 15:33:38 +0200
+> +Subject: [PATCH] avfilter/vf_quirc: resize the quirc buffers when the in=
+put
+> + size changes
 > +
 > +Fixes: out of array access
-> +Fixes: 9aj_hqdn3d_dynamic_res.mjpg / 9aj_generate_hqdn3d_dynamic_res_mjp=
-g.py
-> +Fixes: wWDsy2oDvMuR
-> +Found-by: Adrian Junge (vurlo) <adjun37@gmail.com>
+> +Fixes: JbvzNObhorBp
+> +Fixes: 030e140145 (lavfi: add quirc filter)
+> +Found-by: Adrian Junge (vurlo)
+> +Signed-off-by: Michael Niedermayer <michael@niedermayer.cc>
 > +
-> +CVE: CVE-2026-66036
+> +CVE: CVE-2026-66041
 > +Upstream-Status: Backport [https://nam04.safelinks.protection.outlook.co=
-m/?url=3Dhttps%3A%2F%2Fcode.ffmpeg.org%2FFFmpeg%2FFFmpeg%2Fcommit%2Ff0f634b=
-6585fdc7bbb43ab3ae461499bfca9ad2e&data=3D05%7C02%7Cbhavesh.maheshwari%40ein=
-fochips.com%7Cc5cd2b5126294b9c4d9108df1c0894f4%7C0beb0c359cbb4feb99e5589e41=
-5c7944%7C1%7C0%7C639260495345690477%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGk=
+m/?url=3Dhttps%3A%2F%2Fcode.ffmpeg.org%2FFFmpeg%2FFFmpeg%2Fcommit%2F4da9812=
+e25894fb51d62a8875cfa8eb39b5e20f5&data=3D05%7C02%7Cbhavesh.maheshwari%40ein=
+fochips.com%7C7fe67053ed514d0a521d08df1c0df794%7C0beb0c359cbb4feb99e5589e41=
+5c7944%7C1%7C0%7C639260518444773405%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGk=
 iOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%=
-3D%7C0%7C%7C%7C&sdata=3DKleDBcKlFXLeKVD1vYsjjgUuhemdi%2FJNocGwhbit2l8%3D&re=
-served=3D0<https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/f0f634b6585fdc7bbb4=
-3ab3ae461499bfca9ad2e>]
+3D%7C0%7C%7C%7C&sdata=3DfL9bPK6QDy%2FfoOT4NV2UwWLNCNW3NU12RP0eKmsBr7Q%3D&re=
+served=3D0<https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/4da9812e25894fb51d6=
+2a8875cfa8eb39b5e20f5>]
 > +
 > +Signed-off-by: Bhavesh R Maheshwari <bhavesh.maheshwari@einfochips.com>
 > +---
-> + libavfilter/vf_hqdn3d.c | 34 +++++++++++++++++++++++++---------
-> + libavfilter/vf_hqdn3d.h |  2 ++
-> + 2 files changed, 27 insertions(+), 9 deletions(-)
+> + libavfilter/vf_quirc.c | 12 ++++++++++++
+> + 1 file changed, 12 insertions(+)
 > +
-> +diff --git a/libavfilter/vf_hqdn3d.h b/libavfilter/vf_hqdn3d.h
-> +index 3279bbcc77..3467f27145 100644
-> +--- a/libavfilter/vf_hqdn3d.h
-> ++++ b/libavfilter/vf_hqdn3d.h
-> +@@ -36,6 +36,8 @@ typedef struct HQDN3DContext {
-> +     double strength[4];
-> +     int hsub, vsub;
-> +     int depth;
+> +diff --git a/libavfilter/vf_quirc.c b/libavfilter/vf_quirc.c
+> +index 59dc84caa8..d2ba48e7bc 100644
+> +--- a/libavfilter/vf_quirc.c
+> ++++ b/libavfilter/vf_quirc.c
+> +@@ -36,6 +36,7 @@ typedef struct QuircContext {
+> +     const AVClass *class;
+> +
+> +     struct quirc *quirc;
 > ++    int width, height;
-> ++    enum AVPixelFormat format;
-> +     void (*denoise_row[17])(uint8_t *src, uint8_t *dst, uint16_t *line_=
-ant, uint16_t *frame_ant, ptrdiff_t w, int16_t *spatial, int16_t *temporal)=
-;
-> + } HQDN3DContext;
+> + } QuircContext;
 
-Hello,
-
-This change touches exposed/documented API: https://nam04.safelinks.protect=
-ion.outlook.com/?url=3Dhttps%3A%2F%2Fwww.ffmpeg.org%2Fdoxygen%2F8.0%2Fstruc=
-tHQDN3DContext.html&data=3D05%7C02%7Cbhavesh.maheshwari%40einfochips.com%7C=
-c5cd2b5126294b9c4d9108df1c0894f4%7C0beb0c359cbb4feb99e5589e415c7944%7C1%7C0=
-%7C639260495345715588%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiO=
-iIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7=
-C&sdata=3DrJt9AoaQCIyipSiOxP1rMdq2sR6ez9%2Fvh6lZxpc0Mgo%3D&reserved=3D0<htt=
-ps://www.ffmpeg.org/doxygen/8.0/structHQDN3DContext.html>
+Same question as 1/5: https://nam04.safelinks.protection.outlook.com/?url=
+=3Dhttps%3A%2F%2Fwww.ffmpeg.org%2Fdoxygen%2F8.0%2FstructQuircContext.html&d=
+ata=3D05%7C02%7Cbhavesh.maheshwari%40einfochips.com%7C7fe67053ed514d0a521d0=
+8df1c0df794%7C0beb0c359cbb4feb99e5589e415c7944%7C1%7C0%7C639260518444792117=
+%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOi=
+JXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&sdata=3DxB5mU5FhBSh=
+AJ7zomz7F7lBWu2BBpYTDKNAdGXAR0QM%3D&reserved=3D0<https://www.ffmpeg.org/dox=
+ygen/8.0/structQuircContext.html>
 Are you sure this does not break existing code?
+
+FYI, for the series as a whole: Since 2-4/5 are indenpendant of 1,5/5,
+I'll keep 2-4/5 in my branch for tests/reviews but hold 1,5/5 while we
+clarify the API change.
 
 Thanks!
 --
@@ -287,7 +264,7 @@ Yoann Congal
 Smile ECS
 
 
---_000_SN4PR04MB83981510919C6B8254C23A02E58D2SN4PR04MB8398namp_
+--_000_SN4PR04MB8398087B79EA4DA077A16DD1E58D2SN4PR04MB8398namp_
 Content-Type: text/html; charset="Windows-1252"
 Content-Transfer-Encoding: quoted-printable
 
@@ -299,46 +276,31 @@ Content-Transfer-Encoding: quoted-printable
 ttom:0;} </style>
 </head>
 <body dir=3D"ltr">
-<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
-background-color: rgb(255, 255, 255); margin: 1em 0px; font-family: Aptos, =
-Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; fo=
-nt-size: 12pt; color: rgb(0, 0, 0);">
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
 Hi Yoann,</div>
-<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
-background-color: rgb(255, 255, 255); margin: 1em 0px; font-family: Aptos, =
-Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; fo=
-nt-size: 12pt; color: rgb(0, 0, 0);">
-Thanks for raising this. I checked the <code>QuircContext</code> definition=
- and verified the build with the patch applied.</div>
-<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
-background-color: rgb(255, 255, 255); margin: 1em 0px; font-family: Aptos, =
-Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; fo=
-nt-size: 12pt; color: rgb(0, 0, 0);">
-<code>QuircContext</code> is defined in <code>libavfilter/vf_quirc.c</code>=
- and used only as the
-<code>quirc</code> filter=92s private context. The new <code>width</code> a=
-nd <code>
-height</code> fields enlarge that private context; they do not change a pub=
-lic FFmpeg API or a caller-visible structure. The Doxygen page lists the st=
-ruct because it is present in the source, but it is not evidence that the s=
-truct is part of the public API.</div>
-<div class=3D"elementToProof" style=3D"text-align: left; text-indent: 0px; =
-background-color: rgb(255, 255, 255); margin: 1em 0px; font-family: Aptos, =
-Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helvetica, sans-serif; fo=
-nt-size: 12pt; color: rgb(0, 0, 0);">
-The patch records the configured dimensions and resizes the quirc buffer if=
- a later frame has different dimensions. I don=92t see a compatibility issu=
-e for existing supported code.</div>
-<div class=3D"elementToProof" style=3D"font-family: Aptos, Aptos_EmbeddedFo=
-nt, Aptos_MSFontService, Calibri, Helvetica, sans-serif; font-size: 12pt; c=
-olor: rgb(0, 0, 0);">
-<br>
-</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+Thanks for checking. I looked at the FFmpeg 8.0 <code>QuircContext</code> d=
+ocumentation and source. Although Doxygen lists the struct, it is defined i=
+n
+<code>libavfilter/vf_quirc.c</code> and used as the <code>quirc</code> filt=
+er=92s private context. It isn=92t part of the public API.</div>
+<div class=3D"elementToProof" style=3D"margin-top: 1em; margin-bottom: 1em;=
+ font-family: Aptos, Aptos_EmbeddedFont, Aptos_MSFontService, Calibri, Helv=
+etica, sans-serif; font-size: 12pt; color: rgb(0, 0, 0);">
+The patch adds width and height fields to that private context, and the bui=
+ld with the patch applied is verified. I don=92t expect this to break suppo=
+rted external code. The only potential concern would be downstream code rel=
+ying directly on this internal struct
+ layout.</div>
 <div id=3D"Signature" class=3D"elementToProof">
 <p class=3D"elementToProof" style=3D"margin: 0in; font-family: Calibri, san=
 s-serif; font-size: 11pt;">
-<span style=3D"font-size: 12pt; color: gray;">Thanks</span><span style=3D"f=
-ont-size: 12pt; color: black;"><br>
+<span style=3D"font-size: 12pt; color: gray;">Thanks,</span><span style=3D"=
+font-size: 12pt; color: black;"><br>
 </span></p>
 <table style=3D"text-align: left; background-color: rgb(255, 255, 255); col=
 or: rgb(33, 37, 41); box-sizing: border-box; border-collapse: collapse; bor=
@@ -358,32 +320,32 @@ font-size: 14px;"><br>
  85, 85);">+91 8827543501</span></div>
 <div class=3D"elementToProof" style=3D"text-align: left; margin: 0px; paddi=
 ng-bottom: 10px; font-family: Calibri; font-size: 15px;">
-<a href=3D"mailto:Bhavesh.Maheshwari@einfochips.com" id=3D"OWA9f49a4d4-3d0a=
--c7c5-0f98-c69f9bbfd206" class=3D"OWAAutoLink"><u>Bhavesh.Maheshwari@einfoc=
-hips.com</u></a></div>
+<a href=3D"mailto:Bhavesh.Maheshwari@einfochips.com"><u>Bhavesh.Maheshwari@=
+einfochips.com</u></a></div>
 </td>
 </tr>
 </tbody>
 </table>
 <div class=3D"elementToProof" style=3D"margin: 0in; font-family: Calibri, s=
 ans-serif; font-size: 11pt; color: rgb(0, 0, 0);">
-<a href=3D"https://www.einfochips.com/" id=3D"OWAc7127d07-be2c-863f-450f-81=
-0bba962d87" class=3D"OWAAutoLink" title=3D"https://www.einfochips.com/" sty=
-le=3D"text-decoration: none;"><img id=3D"x_image_0" style=3D"max-width: 780=
-px;" size=3D"9715" data-outlook-trace=3D"F:1|T:1" src=3D"cid:b7627589-92e3-=
-4ba8-b5bd-95367dfda157"></a></div>
+<a href=3D"https://www.einfochips.com/" title=3D"https://www.einfochips.com=
+/" style=3D"text-decoration: none;"><img id=3D"x_image_0" style=3D"max-widt=
+h: 780px;" size=3D"9472" data-outlook-trace=3D"F:1|T:1" src=3D"cid:a6d6c0b2=
+-4532-484b-9ec6-adca64de6f13"></a></div>
 </div>
 <div id=3D"appendonsend"></div>
 <hr style=3D"display:inline-block;width:98%" tabindex=3D"-1">
 <div id=3D"divRplyFwdMsg" dir=3D"ltr"><font face=3D"Calibri, sans-serif" st=
-yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> Yoann Congal &lt;yoan=
-n.congal@smile.fr&gt;<br>
-<b>Sent:</b> 27 September 2026 01:28<br>
+yle=3D"font-size:11pt" color=3D"#000000"><b>From:</b> openembedded-core@lis=
+ts.openembedded.org &lt;openembedded-core@lists.openembedded.org&gt; on beh=
+alf of Yoann Congal via lists.openembedded.org &lt;yoann.congal=3Dsmile.fr@=
+lists.openembedded.org&gt;<br>
+<b>Sent:</b> 27 September 2026 02:07<br>
 <b>To:</b> Bhavesh Rajesh Maheshwari &lt;bhavesh.maheshwari@einfochips.com&=
 gt;; openembedded-core@lists.openembedded.org &lt;openembedded-core@lists.o=
 penembedded.org&gt;<br>
-<b>Subject:</b> [External] Re: [wrynose][oe-core][PATCH 1/5] ffmpeg: Fix fo=
-r CVE-2026-66036</font>
+<b>Subject:</b> [External] Re: [wrynose][oe-core][PATCH 5/5] ffmpeg: Fix fo=
+r CVE-2026-66041</font>
 <div>&nbsp;</div>
 </div>
 <div class=3D"BodyFragment"><font size=3D"2"><span style=3D"font-size:11pt;=
@@ -399,128 +361,100 @@ edded.org wrote:<br>
 &gt; From: Bhavesh R Maheshwari &lt;bhavesh.maheshwari@einfochips.com&gt;<b=
 r>
 &gt;<br>
-&gt; Pick the patch from [1] and [2], mentioned in PR#23783 [3] which is<br=
->
-&gt; referenced in the NVD report [4]<br>
+&gt; Pick the patch from [1], also referenced in the NVD report [2].<br>
 &gt;<br>
-&gt; [1] <a href=3D"https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/f0f634b658=
-5fdc7bbb43ab3ae461499bfca9ad2e">
+&gt; [1] <a href=3D"https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/4da9812e25=
+894fb51d62a8875cfa8eb39b5e20f5">
 https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fcode.ff=
-mpeg.org%2FFFmpeg%2FFFmpeg%2Fcommit%2Ff0f634b6585fdc7bbb43ab3ae461499bfca9a=
-d2e&amp;data=3D05%7C02%7Cbhavesh.maheshwari%40einfochips.com%7Cc5cd2b512629=
-4b9c4d9108df1c0894f4%7C0beb0c359cbb4feb99e5589e415c7944%7C1%7C0%7C639260495=
-345529147%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwM=
+mpeg.org%2FFFmpeg%2FFFmpeg%2Fcommit%2F4da9812e25894fb51d62a8875cfa8eb39b5e2=
+0f5&amp;data=3D05%7C02%7Cbhavesh.maheshwari%40einfochips.com%7C7fe67053ed51=
+4d0a521d08df1c0df794%7C0beb0c359cbb4feb99e5589e415c7944%7C1%7C0%7C639260518=
+444725508%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwM=
 CIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=
-=3DzvgjZiEO2XkQjfn7J5KJCJN8wQEAxqgM9fKJ103HPVQ%3D&amp;reserved=3D0</a><br>
-&gt; [2] <a href=3D"https://code.ffmpeg.org/FFmpeg/FFmpeg/commit/5d7112c60e=
-6f0f0742ce47d448e6da0718a70f4c">
-https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fcode.ff=
-mpeg.org%2FFFmpeg%2FFFmpeg%2Fcommit%2F5d7112c60e6f0f0742ce47d448e6da0718a70=
-f4c&amp;data=3D05%7C02%7Cbhavesh.maheshwari%40einfochips.com%7Cc5cd2b512629=
-4b9c4d9108df1c0894f4%7C0beb0c359cbb4feb99e5589e415c7944%7C1%7C0%7C639260495=
-345585689%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwM=
-CIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=
-=3DrDzwxbj4D6E%2BKtO69vqAdljWFAWdiuhPay8mzI2nkDM%3D&amp;reserved=3D0</a><br=
+=3DyXRkqouFPx5rn7HcXqCIyLYvG6DGjw%2F5lRPYq544zPg%3D&amp;reserved=3D0</a><br=
 >
-&gt; [3] <a href=3D"https://code.ffmpeg.org/FFmpeg/FFmpeg/pulls/23783">http=
-s://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fcode.ffmpeg=
-.org%2FFFmpeg%2FFFmpeg%2Fpulls%2F23783&amp;data=3D05%7C02%7Cbhavesh.maheshw=
-ari%40einfochips.com%7Cc5cd2b5126294b9c4d9108df1c0894f4%7C0beb0c359cbb4feb9=
-9e5589e415c7944%7C1%7C0%7C639260495345626523%7CUnknown%7CTWFpbGZsb3d8eyJFbX=
-B0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUI=
-joyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DligCIg0tGRHfsFtp3l3p7ieKfT%2FaOjCwoc80=
-XwdbnK4%3D&amp;reserved=3D0</a><br>
-&gt; [4] <a href=3D"https://nvd.nist.gov/vuln/detail/cve-2026-66036">https:=
+&gt; [2] <a href=3D"https://nvd.nist.gov/vuln/detail/cve-2026-66041">https:=
 //nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fnvd.nist.gov%=
-2Fvuln%2Fdetail%2Fcve-2026-66036&amp;data=3D05%7C02%7Cbhavesh.maheshwari%40=
-einfochips.com%7Cc5cd2b5126294b9c4d9108df1c0894f4%7C0beb0c359cbb4feb99e5589=
-e415c7944%7C1%7C0%7C639260495345659261%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1h=
+2Fvuln%2Fdetail%2Fcve-2026-66041&amp;data=3D05%7C02%7Cbhavesh.maheshwari%40=
+einfochips.com%7C7fe67053ed514d0a521d08df1c0df794%7C0beb0c359cbb4feb99e5589=
+e415c7944%7C1%7C0%7C639260518444753817%7CUnknown%7CTWFpbGZsb3d8eyJFbXB0eU1h=
 cGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTWFpbCIsIldUIjoyfQ%=
-3D%3D%7C0%7C%7C%7C&amp;sdata=3D38KssgC9DDjSA7qbSyEmWzXix%2FkX1UekEjx015o3DY=
-U%3D&amp;reserved=3D0</a><br>
+3D%3D%7C0%7C%7C%7C&amp;sdata=3DUvlOY1pB7KYXkF5k%2Bgyx5DEihvVKJ3yojDR%2F7QLF=
+Npg%3D&amp;reserved=3D0</a><br>
 &gt;<br>
 &gt; Signed-off-by: Bhavesh R Maheshwari &lt;bhavesh.maheshwari@einfochips.=
 com&gt;<br>
 &gt; ---<br>
-&gt;&nbsp; .../ffmpeg/ffmpeg/CVE-2026-66036_p1.patch&nbsp;&nbsp;&nbsp;&nbsp=
-; | 120 ++++++++++++++++++<br>
-&gt;&nbsp; .../ffmpeg/ffmpeg/CVE-2026-66036_p2.patch&nbsp;&nbsp;&nbsp;&nbsp=
-; |&nbsp; 71 +++++++++++<br>
-&gt;&nbsp; .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |&nbsp;&nbsp; 2 +<=
-br>
-&gt;&nbsp; 3 files changed, 193 insertions(+)<br>
+&gt;&nbsp; .../ffmpeg/ffmpeg/CVE-2026-66041.patch&nbsp;&nbsp;&nbsp;&nbsp;&n=
+bsp;&nbsp;&nbsp; | 60 +++++++++++++++++++<br>
+&gt;&nbsp; .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |&nbsp; 1 +<br>
+&gt;&nbsp; 2 files changed, 61 insertions(+)<br>
 &gt;&nbsp; create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-202=
-6-66036_p1.patch<br>
-&gt;&nbsp; create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-202=
-6-66036_p2.patch<br>
+6-66041.patch<br>
 &gt;<br>
-&gt; diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.p=
-atch b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.patch<br>
+&gt; diff --git a/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.patc=
+h b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.patch<br>
 &gt; new file mode 100644<br>
-&gt; index 0000000000..bce0265114<br>
+&gt; index 0000000000..7a8c4e0c8b<br>
 &gt; --- /dev/null<br>
-&gt; +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66036_p1.patch<br=
->
-&gt; @@ -0,0 +1,120 @@<br>
-&gt; +From 7ac88955c4678fc10cc44a786ff9bf724bb12deb Mon Sep 17 00:00:00 200=
+&gt; +++ b/meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66041.patch<br>
+&gt; @@ -0,0 +1,60 @@<br>
+&gt; +From 9db6b5816516b85e981e177863b2eb361dbec3c8 Mon Sep 17 00:00:00 200=
 1<br>
 &gt; +From: Michael Niedermayer &lt;michael@niedermayer.cc&gt;<br>
-&gt; +Date: Sun, 12 Jul 2026 13:05:07 +0200<br>
-&gt; +Subject: [PATCH 1/2] avfilter/vf_hqdn3d: reject unsupported frame par=
-ameter<br>
-&gt; + changes<br>
+&gt; +Date: Sun, 28 Jun 2026 15:33:38 +0200<br>
+&gt; +Subject: [PATCH] avfilter/vf_quirc: resize the quirc buffers when the=
+ input<br>
+&gt; + size changes<br>
 &gt; +<br>
 &gt; +Fixes: out of array access<br>
-&gt; +Fixes: 9aj_hqdn3d_dynamic_res.mjpg / 9aj_generate_hqdn3d_dynamic_res_=
-mjpg.py<br>
-&gt; +Fixes: wWDsy2oDvMuR<br>
-&gt; +Found-by: Adrian Junge (vurlo) &lt;adjun37@gmail.com&gt;<br>
+&gt; +Fixes: JbvzNObhorBp<br>
+&gt; +Fixes: 030e140145 (lavfi: add quirc filter)<br>
+&gt; +Found-by: Adrian Junge (vurlo)<br>
+&gt; +Signed-off-by: Michael Niedermayer &lt;michael@niedermayer.cc&gt;<br>
 &gt; +<br>
-&gt; +CVE: CVE-2026-66036<br>
+&gt; +CVE: CVE-2026-66041<br>
 &gt; +Upstream-Status: Backport [<a href=3D"https://code.ffmpeg.org/FFmpeg/=
-FFmpeg/commit/f0f634b6585fdc7bbb43ab3ae461499bfca9ad2e">https://nam04.safel=
+FFmpeg/commit/4da9812e25894fb51d62a8875cfa8eb39b5e20f5">https://nam04.safel=
 inks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fcode.ffmpeg.org%2FFFmpeg%2=
-FFFmpeg%2Fcommit%2Ff0f634b6585fdc7bbb43ab3ae461499bfca9ad2e&amp;data=3D05%7=
-C02%7Cbhavesh.maheshwari%40einfochips.com%7Cc5cd2b5126294b9c4d9108df1c0894f=
-4%7C0beb0c359cbb4feb99e5589e415c7944%7C1%7C0%7C639260495345690477%7CUnknown=
+FFFmpeg%2Fcommit%2F4da9812e25894fb51d62a8875cfa8eb39b5e20f5&amp;data=3D05%7=
+C02%7Cbhavesh.maheshwari%40einfochips.com%7C7fe67053ed514d0a521d08df1c0df79=
+4%7C0beb0c359cbb4feb99e5589e415c7944%7C1%7C0%7C639260518444773405%7CUnknown=
 %7CTWFpbGZsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIs=
-IkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DKleDBcKlFXLeKVD1v=
-YsjjgUuhemdi%2FJNocGwhbit2l8%3D&amp;reserved=3D0</a>]<br>
+IkFOIjoiTWFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DfL9bPK6QDy%2FfoOT=
+4NV2UwWLNCNW3NU12RP0eKmsBr7Q%3D&amp;reserved=3D0</a>]<br>
 &gt; +<br>
 &gt; +Signed-off-by: Bhavesh R Maheshwari &lt;bhavesh.maheshwari@einfochips=
 .com&gt;<br>
 &gt; +---<br>
-&gt; + libavfilter/vf_hqdn3d.c | 34 +++++++++++++++++++++++++---------<br>
-&gt; + libavfilter/vf_hqdn3d.h |&nbsp; 2 ++<br>
-&gt; + 2 files changed, 27 insertions(+), 9 deletions(-)<br>
+&gt; + libavfilter/vf_quirc.c | 12 ++++++++++++<br>
+&gt; + 1 file changed, 12 insertions(+)<br>
 &gt; +<br>
-&gt; +diff --git a/libavfilter/vf_hqdn3d.h b/libavfilter/vf_hqdn3d.h<br>
-&gt; +index 3279bbcc77..3467f27145 100644<br>
-&gt; +--- a/libavfilter/vf_hqdn3d.h<br>
-&gt; ++++ b/libavfilter/vf_hqdn3d.h<br>
-&gt; +@@ -36,6 +36,8 @@ typedef struct HQDN3DContext {<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; double strength[4];<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; int hsub, vsub;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; int depth;<br>
+&gt; +diff --git a/libavfilter/vf_quirc.c b/libavfilter/vf_quirc.c<br>
+&gt; +index 59dc84caa8..d2ba48e7bc 100644<br>
+&gt; +--- a/libavfilter/vf_quirc.c<br>
+&gt; ++++ b/libavfilter/vf_quirc.c<br>
+&gt; +@@ -36,6 +36,7 @@ typedef struct QuircContext {<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; const AVClass *class;<br>
+&gt; +<br>
+&gt; +&nbsp;&nbsp;&nbsp;&nbsp; struct quirc *quirc;<br>
 &gt; ++&nbsp;&nbsp;&nbsp; int width, height;<br>
-&gt; ++&nbsp;&nbsp;&nbsp; enum AVPixelFormat format;<br>
-&gt; +&nbsp;&nbsp;&nbsp;&nbsp; void (*denoise_row[17])(uint8_t *src, uint8_=
-t *dst, uint16_t *line_ant, uint16_t *frame_ant, ptrdiff_t w, int16_t *spat=
-ial, int16_t *temporal);<br>
-&gt; + } HQDN3DContext;<br>
+&gt; + } QuircContext;<br>
 <br>
-Hello,<br>
-<br>
-This change touches exposed/documented API: <a href=3D"https://www.ffmpeg.o=
-rg/doxygen/8.0/structHQDN3DContext.html">
+Same question as 1/5: <a href=3D"https://www.ffmpeg.org/doxygen/8.0/structQ=
+uircContext.html">
 https://nam04.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2Fwww.ffm=
-peg.org%2Fdoxygen%2F8.0%2FstructHQDN3DContext.html&amp;data=3D05%7C02%7Cbha=
-vesh.maheshwari%40einfochips.com%7Cc5cd2b5126294b9c4d9108df1c0894f4%7C0beb0=
-c359cbb4feb99e5589e415c7944%7C1%7C0%7C639260495345715588%7CUnknown%7CTWFpbG=
-Zsb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiT=
-WFpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DrJt9AoaQCIyipSiOxP1rMdq2sR=
-6ez9%2Fvh6lZxpc0Mgo%3D&amp;reserved=3D0</a><br>
+peg.org%2Fdoxygen%2F8.0%2FstructQuircContext.html&amp;data=3D05%7C02%7Cbhav=
+esh.maheshwari%40einfochips.com%7C7fe67053ed514d0a521d08df1c0df794%7C0beb0c=
+359cbb4feb99e5589e415c7944%7C1%7C0%7C639260518444792117%7CUnknown%7CTWFpbGZ=
+sb3d8eyJFbXB0eU1hcGkiOnRydWUsIlYiOiIwLjAuMDAwMCIsIlAiOiJXaW4zMiIsIkFOIjoiTW=
+FpbCIsIldUIjoyfQ%3D%3D%7C0%7C%7C%7C&amp;sdata=3DxB5mU5FhBShAJ7zomz7F7lBWu2B=
+BpYTDKNAdGXAR0QM%3D&amp;reserved=3D0</a><br>
 Are you sure this does not break existing code?<br>
+<br>
+FYI, for the series as a whole: Since 2-4/5 are indenpendant of 1,5/5,<br>
+I'll keep 2-4/5 in my branch for tests/reviews but hold 1,5/5 while we<br>
+clarify the API change.<br>
 <br>
 Thanks!<br>
 --<br>
@@ -532,15 +466,15 @@ Smile ECS<br>
 </body>
 </html>
 
---_000_SN4PR04MB83981510919C6B8254C23A02E58D2SN4PR04MB8398namp_--
+--_000_SN4PR04MB8398087B79EA4DA077A16DD1E58D2SN4PR04MB8398namp_--
 
---_004_SN4PR04MB83981510919C6B8254C23A02E58D2SN4PR04MB8398namp_
+--_004_SN4PR04MB8398087B79EA4DA077A16DD1E58D2SN4PR04MB8398namp_
 Content-Type: image/png; name="image.png"
 Content-Description: image.png
 Content-Disposition: inline; filename="image.png"; size=9472;
-	creation-date="Mon, 28 Sep 2026 10:14:24 GMT";
-	modification-date="Mon, 28 Sep 2026 10:14:24 GMT"
-Content-ID: <b7627589-92e3-4ba8-b5bd-95367dfda157>
+	creation-date="Mon, 28 Sep 2026 10:17:35 GMT";
+	modification-date="Mon, 28 Sep 2026 10:17:35 GMT"
+Content-ID: <a6d6c0b2-4532-484b-9ec6-adca64de6f13>
 Content-Transfer-Encoding: base64
 
 iVBORw0KGgoAAAANSUhEUgAAAaIAAABaCAYAAAD6vVKvAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJ
@@ -711,5 +645,5 @@ qK76mvz6Jc+dC2uKsmAi39vK5OuIyMGh3ahxG4iJ4vdTjlj46LhQsHiuBCKSbew2FRQlnH+XoVTL
 wcEhG3TtUHambaoEReU2kCjLGaHrseaKUXq/UVs5NAGUNALNc7Pk6zdVvv8vwAAD//IXSJ6Z9gAA
 AABJRU5ErkJggg==
 
---_004_SN4PR04MB83981510919C6B8254C23A02E58D2SN4PR04MB8398namp_--
+--_004_SN4PR04MB8398087B79EA4DA077A16DD1E58D2SN4PR04MB8398namp_--
 
