@@ -1,114 +1,178 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D4498CA5FA1
-	for <webhook@archiver.kernel.org>; Tue, 29 Sep 2026 06:16:20 +0000 (UTC)
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.1819.1790662575364869681
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 17F68C9832A
+	for <webhook@archiver.kernel.org>; Tue, 29 Sep 2026 06:18:41 +0000 (UTC)
+Received: from a27-191.smtp-out.us-west-2.amazonses.com (a27-191.smtp-out.us-west-2.amazonses.com [54.240.27.191])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1846.1790662718026961661
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 23:16:15 -0700
+ Mon, 28 Sep 2026 23:18:38 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=MoReQQEa;
- spf=pass (domain: smile.fr, ip: 74.125.225.99, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4885a1480a2so2180330f8f.3
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 23:16:15 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790662573; x=1791267373; darn=lists.openembedded.org;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:from:to:cc
-         :subject:date:message-id:reply-to:content-type;
-        bh=5cRGJgjtk6QyY9lod4MMlIBW31hyEYzM3huzRyBieOE=;
-        b=MoReQQEaZS1DF6R2oQ4bGQmq7WVvkHfqzBAmFL0oT5JyBIlxxVkiBg4tWXYqTx46qo
-         gl8/eHT1mnrlO8TIGrVDruvXmlUnk73OzBjj+PxY/62UN6N/49bMBydm3kxBf4LtxPah
-         wkMzqo973M0JG2bpaaAbVImzrnm4JCNvb46wU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790662573; x=1791267373;
-        h=in-reply-to:references:cc:from:subject:to:message-id:date
-         :content-type:content-transfer-encoding:mime-version:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=5cRGJgjtk6QyY9lod4MMlIBW31hyEYzM3huzRyBieOE=;
-        b=SNafP4Y+ho6xpi6+d+CPHmlP3ANCi7+HPZYt+vzClZgYoLWolGPZw5/m6RBSGESg3O
-         X8N8G8sUTGCwqB99XLjqeu1sm0aBF1G45VVY6cFxgV8PRkDVENN8UbMmFlR9B4rx5cD7
-         vIsuS0iqOSTiKE9GfzXBQd3K2yt6RE4EFfnmN3g4KIgBE3VrY71dVcNMVncL+xcZYgYl
-         kEXMUCs6u7Bgot+ZZ59KKVMf4jDR+Ini+X+GeHJBlRDUKzzTU9/xV+TnrkuubqOX9TGT
-         G5TyYV0lRAsV8xKOi9dVrMlqKEy7/i4cQHhISOHj8W6Kyc6ukeyp/+n1ZJJeW59f4zUd
-         W5Lg==
-X-Forwarded-Encrypted: i=1; AKwUvBwcOzyAxrEkeiLXH6+kQG9C/GgzGuzE55S7guPKSBzshXIe607eWiqg/AC/m1UM9FXkRzsK7SWy2WzZCMXbxeJqqQ==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYKCZj4mCvZDKsYeq0uVlqCjqwJLUsiD7eJMXt9KqSCq53YjPBBI
-	RhiYUxY6uGWyNJK+VCJUCjTiFv/7QZqKCbSoNaW7UN+xtljg45fLye5O+2fqmf1/BzA=
-X-Gm-Gg: AYBFou1Wqs+lN2Vv+Ucm8ePr5q+tqnIq56E2eq5If8TXgtnMOgPROHInBjFYW5p2urR
-	7LmkGNetJ72BgbHTreU7GINa6ZjEeYHgVF7wv/QAA0WVwvYh/v4FOyBbTPQHWfvUUem0odNKpjx
-	kitf5Oe6AQjMNjcpwGUL8Xel6XJ5ihMzAqoZXv0BKn02exTzPSYWYMXEoQ3EDVLJPO4tH250K/l
-	l6KgmvFe1Lt8PIULDtl85+dYTMjFF+ZZPOv58AIE7oAqOAd4qnzNY5EtIg0rSYU1BdKFCfapfB+
-	5MSJZTqTaD3gf332HefLcxnFS5xv+UBxA7oOZkvMW9BSU8YspidSYRODFr0wM+sw888OIW9wRc/
-	csZWI/BpPm/oNIArqHfA/ZaQHVZKNhGaTLU5ZTHqNlx6s46odAMppmh3VngAq5DcpoTQXWJ7cZr
-	HTsWWXYijoqvzoKwRj5tOYFin/s/8C1Cp3AXXUt39PLbhA5gbaYh3QmNvYnA4CQQNw5DoU08cXO
-	67GSRMiPXw0Wh1Iyw/w5pnugkfMCXvIBF5Oxw8oFyKat+kCzyokzwaEfC7du43ZH1oEvzah
-X-Received: by 2002:a05:6000:3c3:b0:48a:efed:ac97 with SMTP id ffacd0b85a97d-48aefedae69mr2883604f8f.33.1790662573431;
-        Mon, 28 Sep 2026 23:16:13 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48af5049419sm1168709f8f.14.2026.09.28.23.16.12
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2026 23:16:13 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Tue, 29 Sep 2026 08:16:12 +0200
-Message-Id: <DLRKWLFNOLML.3NT9JU6NO87KG@smile.fr>
-To: <daniel.turull@ericsson.com>, <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH v3 0/3] spdx: add support to include
- releaseTime
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: <JPEWhacker@gmail.com>, <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.20.0
-References: <20260928190400.3908822-1-daniel.turull@ericsson.com>
-In-Reply-To: <20260928190400.3908822-1-daniel.turull@ericsson.com>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=qo8a5a1W;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=YD5e73+B;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.191, mailfrom: 010101a0ebd0aee7-c3f0f5a1-aa8d-48be-b751-04b2074cbf5e-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1790662717;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=LKTvmNNyvO/ePXFXEuchHKrivBnhyG0SFI6NXKISuW8=;
+	b=qo8a5a1WXhRRrzw494ufDe+ajBpRgy9BsX6mm8OxzyCwCzCKZT718FkU88M4RE2d
+	R8z1UDvuzxwOQVkT5DMCUT/MZh/R4fjFPFgt/M9foOG1CMQFkwJk6g3N4+RHRLxGajX
+	Q90bN+WM7WS2q6NeNBABxcO3/W2wFxZHb78jdgC8=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790662717;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=LKTvmNNyvO/ePXFXEuchHKrivBnhyG0SFI6NXKISuW8=;
+	b=YD5e73+BtJRO5keUcL9P8n6F0IAYpU9CEQhNVfKQoXvaL7Py+a1yfhIuGHQ0bg0M
+	pacgKz4tD2/J/vVZvwSGLm7zgRadkFXhlKyMKElt2x/dYAMZpfs4bea9B+7n9R+ZGa9
+	ydigfpfBBrBcQq4UR+kh9JBczjoQwPM8EmQXc+lY=
+Content-Type: multipart/mixed; boundary="===============1949784532034266874=="
+MIME-Version: 1.0
+From: auh@yoctoproject.org
+To: Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] python3-hypothesis: upgrading to 6.168.3 SUCCEEDED
+Message-ID: <010101a0ebd0aee7-c3f0f5a1-aa8d-48be-b751-04b2074cbf5e-000000@us-west-2.amazonses.com>
+Date: Tue, 29 Sep 2026 06:18:37 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.09.29-54.240.27.191
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2026 06:16:20 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246821
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2026 06:18:41 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246822
 
-On Mon Sep 28, 2026 at 9:03 PM CEST, Daniel Turull via lists.openembedded.o=
-rg wrote:
-> From: Daniel Turull <daniel.turull@ericsson.com>
->
-> We have a requirements to include release time of open source components
-> in the SBOM. There is a field specific for that in spdx 3 spec.
->
-> https://spdx.github.io/spdx-spec/v3.0.1/model/Core/Properties/releaseTime=
-/
->
-> This can also be used to evaluate how old are some of the core
-> components and decide if they need replacement.
->
-> The previous 2 versions did not have cover letter.
->
-> Tested with oe-selftest -r spdx
->
-> Daniel Turull (3):
->   classes/base: exclude __CACHED_SOURCE_DATE_EPOCH from task hash
->   create-spdx-3.0: record component release date in SPDX output
->   scripts/contrib: add spdx-release-date-report.py
->
->  meta/classes-global/base.bbclass            |   4 +
->  meta/classes/create-spdx-3.0.bbclass        |   2 +-
->  meta/lib/oe/spdx30_tasks.py                 |  19 ++
->  meta/lib/oeqa/selftest/cases/spdx.py        |  39 ++++
->  scripts/contrib/spdx-release-date-report.py | 193 ++++++++++++++++++++
->  5 files changed, 256 insertions(+), 1 deletion(-)
->  create mode 100755 scripts/contrib/spdx-release-date-report.py
+--===============1949784532034266874==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
 Hello,
 
-Note: while this is not a fix, this looks related to
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15530
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *python3-hypothesis* to *6.168.3* has Succeeded.
 
-Thanks!
---=20
-Yoann Congal
-Smile ECS
+Next steps:
+    - apply the patch: git am 0001-python3-hypothesis-upgrade-6.168.1-6.168.3.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
 
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From bf579e751221bdb3e5716f2a4118bf50ce3799dc Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Tue, 29 Sep 2026 05:23:28 +0000
+Subject: [PATCH] python3-hypothesis: upgrade 6.168.1 -> 6.168.3
+
+---
+ ...hon3-hypothesis_6.168.1.bb => python3-hypothesis_6.168.3.bb} | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/python/{python3-hypothesis_6.168.1.bb => python3-hypothesis_6.168.3.bb} (91%)
+
+diff --git a/meta/recipes-devtools/python/python3-hypothesis_6.168.1.bb b/meta/recipes-devtools/python/python3-hypothesis_6.168.3.bb
+similarity index 91%
+rename from meta/recipes-devtools/python/python3-hypothesis_6.168.1.bb
+rename to meta/recipes-devtools/python/python3-hypothesis_6.168.3.bb
+index 7386f26afa..980161d42c 100644
+--- a/meta/recipes-devtools/python/python3-hypothesis_6.168.1.bb
++++ b/meta/recipes-devtools/python/python3-hypothesis_6.168.3.bb
+@@ -16,7 +16,7 @@ SRC_URI += " \
+     file://test_rle.py \
+     "
+ 
+-SRC_URI[sha256sum] = "fd8acb5c67f260dfbdcc1b2dc95ff48b2b3f90708ae595c76f591bbf3f6f8eeb"
++SRC_URI[sha256sum] = "a43388f9067678fef6e13bdff325b6cfa6961a590498bb37f7ff31589c83bc75"
+ 
+ RDEPENDS:${PN} += " \
+     python3-attrs \
+-- 
+2.47.1
+
+
+--===============1949784532034266874==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-python3-hypothesis-upgrade-6.168.1-6.168.3.patch"
+
+RnJvbSBiZjU3OWU3NTEyMjFiZGIzZTU3MTZmMmE0MTE4YmY1MGNlMzc5OWRjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IFR1ZSwgMjkgU2VwIDIwMjYgMDU6MjM6MjggKzAwMDAKU3ViamVjdDogW1BBVENIXSBw
+eXRob24zLWh5cG90aGVzaXM6IHVwZ3JhZGUgNi4xNjguMSAtPiA2LjE2OC4zCgotLS0KIC4uLmhv
+bjMtaHlwb3RoZXNpc182LjE2OC4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE2OC4zLmJi
+fSB8IDIgKy0KIDEgZmlsZSBjaGFuZ2VkLCAxIGluc2VydGlvbigrKSwgMSBkZWxldGlvbigtKQog
+cmVuYW1lIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24ve3B5dGhvbjMtaHlwb3RoZXNpc182
+LjE2OC4xLmJiID0+IHB5dGhvbjMtaHlwb3RoZXNpc182LjE2OC4zLmJifSAoOTElKQoKZGlmZiAt
+LWdpdCBhL21ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYu
+MTY4LjEuYmIgYi9tZXRhL3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNp
+c182LjE2OC4zLmJiCnNpbWlsYXJpdHkgaW5kZXggOTElCnJlbmFtZSBmcm9tIG1ldGEvcmVjaXBl
+cy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTY4LjEuYmIKcmVuYW1lIHRv
+IG1ldGEvcmVjaXBlcy1kZXZ0b29scy9weXRob24vcHl0aG9uMy1oeXBvdGhlc2lzXzYuMTY4LjMu
+YmIKaW5kZXggNzM4NmYyNmFmYS4uOTgwMTYxZDQyYyAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
+LWRldnRvb2xzL3B5dGhvbi9weXRob24zLWh5cG90aGVzaXNfNi4xNjguMS5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcHl0aG9uL3B5dGhvbjMtaHlwb3RoZXNpc182LjE2OC4zLmJiCkBA
+IC0xNiw3ICsxNiw3IEBAIFNSQ19VUkkgKz0gIiBcCiAgICAgZmlsZTovL3Rlc3RfcmxlLnB5IFwK
+ICAgICAiCiAKLVNSQ19VUklbc2hhMjU2c3VtXSA9ICJmZDhhY2I1YzY3ZjI2MGRmYmRjYzFiMmRj
+OTVmZjQ4YjJiM2Y5MDcwOGFlNTk1Yzc2ZjU5MWJiZjNmNmY4ZWViIgorU1JDX1VSSVtzaGEyNTZz
+dW1dID0gImE0MzM4OGY5MDY3Njc4ZmVmNmUxM2JkZmYzMjViNmNmYTY5NjFhNTkwNDk4YmIzN2Y3
+ZmYzMTU4OWM4M2JjNzUiCiAKIFJERVBFTkRTOiR7UE59ICs9ICIgXAogICAgIHB5dGhvbjMtYXR0
+cnMgXAotLSAKMi40Ny4xCgo=
+
+--===============1949784532034266874==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/python3-hypothesis: PV changed from "6.168.1" to "6.168.3"
+packages/x86-64-v3-poky-linux/python3-hypothesis: PKGV changed from 6.168.1 [default] to 6.168.3 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis: SRC_URI changed from "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.168.1.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.29.2 crate://crates.io/pyo3-build-config/0.29.2 crate://crates.io/pyo3-ffi/0.29.2 crate://crates.io/pyo3-macros/0.29.2 crate://crates.io/pyo3-macros-backend/0.29.2 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/target-lexicon/0.13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/wasip2/1.0.4+wasi-0.2.12 cra
+ te://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py" to "https://files.pythonhosted.org/packages/source/h/hypothesis/hypothesis-6.168.3.tar.gz crate://crates.io/cfg-if/1.0.4 crate://crates.io/crunchy/0.2.4 crate://crates.io/getrandom/0.3.4 crate://crates.io/half/2.7.1 crate://crates.io/heck/0.5.0 crate://crates.io/libc/0.2.186 crate://crates.io/once_cell/1.21.4 crate://crates.io/portable-atomic/1.13.1 crate://crates.io/ppv-lite86/0.2.21 crate://crates.io/proc-macro2/1.0.106 crate://crates.io/pyo3/0.29.2 crate://crates.io/pyo3-build-config/0.29.2 crate://crates.io/pyo3-ffi/0.29.2 crate://crates.io/pyo3-macros/0.29.2 crate://crates.io/pyo3-macros-backend/0.29.2 crate://crates.io/quote/1.0.46 crate://crates.io/r-efi/5.3.0 crate://crates.io/rand/0.9.4 crate://crates.io/rand_chacha/0.9.0 crate://crates.io/rand_core/0.9.5 crate://crates.io/syn/2.0.118 crate://crates.io/target-lexicon/0
+ .13.5 crate://crates.io/unicode-ident/1.0.24 crate://crates.io/wasip2/1.0.4+wasi-0.2.12 crate://crates.io/wit-bindgen/0.57.1 crate://crates.io/zerocopy/0.8.53 crate://crates.io/zerocopy-derive/0.8.53 file://test_binary_search.py file://test_rle.py"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PV changed from "6.168.1" to "6.168.3"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dbg: PKGV changed from 6.168.1 [default] to 6.168.3 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PV changed from "6.168.1" to "6.168.3"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-dev: PKGV changed from 6.168.1 [default] to 6.168.3 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PV changed from "6.168.1" to "6.168.3"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-doc: PKGV changed from 6.168.1 [default] to 6.168.3 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PV changed from "6.168.1" to "6.168.3"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-locale: PKGV changed from 6.168.1 [default] to 6.168.3 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PV changed from "6.168.1" to "6.168.3"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-ptest: PKGV changed from 6.168.1 [default] to 6.168.3 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PV changed from "6.168.1" to "6.168.3"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-src: PKGV changed from 6.168.1 [default] to 6.168.3 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PV changed from "6.168.1" to "6.168.3"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis-staticdev: PKGV changed from 6.168.1 [default] to 6.168.3 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGSIZE changed from 4582540 to 4583511 (+0%)
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PV changed from "6.168.1" to "6.168.3"
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: PKGV changed from 6.168.1 [default] to 6.168.3 [default]
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.168.3.dist-info, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.168.3.dist-info/licenses
+Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.168.3.dist-info
+
+--===============1949784532034266874==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff.txt"
+
+packages/x86-64-v3-poky-linux/python3-hypothesis/python3-hypothesis: FILELIST: directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info/licenses -> /usr/lib/python3.14/site-packages/hypothesis-6.168.3.dist-info/licenses, directory renamed /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info -> /usr/lib/python3.14/site-packages/hypothesis-6.168.3.dist-info
+Changes to packages/x86-64-v3-poky-linux/python3-hypothesis (sysroot):
+  /usr/lib/python3.14/site-packages/hypothesis-6.168.1.dist-info moved to /usr/lib/python3.14/site-packages/hypothesis-6.168.3.dist-info
+
+--===============1949784532034266874==--
 
