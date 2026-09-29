@@ -1,127 +1,114 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 97F86C9832A
-	for <webhook@archiver.kernel.org>; Tue, 29 Sep 2026 05:42:30 +0000 (UTC)
-Received: from mail-vs2-f38.google.com (mail-vs2-f38.google.com [74.125.227.38])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.68104.1790626258925676798
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D4498CA5FA1
+	for <webhook@archiver.kernel.org>; Tue, 29 Sep 2026 06:16:20 +0000 (UTC)
+Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.1819.1790662575364869681
  for <openembedded-core@lists.openembedded.org>;
- Mon, 28 Sep 2026 13:10:59 -0700
+ Mon, 28 Sep 2026 23:16:15 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=nbiAflz3;
- spf=pass (domain: baylibre.com, ip: 74.125.227.38, mailfrom: tgamblin@baylibre.com)
-Received: by mail-vs2-f38.google.com with SMTP id ada2fe7eead31-7b33a8d79b3so863940137.2
-        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 13:10:58 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=MoReQQEa;
+ spf=pass (domain: smile.fr, ip: 74.125.225.99, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-4885a1480a2so2180330f8f.3
+        for <openembedded-core@lists.openembedded.org>; Mon, 28 Sep 2026 23:16:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1790626257; x=1791231057; darn=lists.openembedded.org;
-        h=in-reply-to:references:cc:subject:from:to:message-id:date
+        d=smile.fr; s=google; t=1790662573; x=1791267373; darn=lists.openembedded.org;
+        h=in-reply-to:references:cc:from:subject:to:message-id:date
          :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=2RrxLvbX+4JBkGkol5oKWfO8nLOjYDrJWuNrSQb76bY=;
-        b=nbiAflz3RvzHWahc6qJOV2cmWnX3ujcjx0FLUu7j6ROsyXZO6HpIY97NIBN1hJiFG/
-         3gsjjTzKHUeT7NjmsD9gcInY1K40bHqnTdeRfJnZOxJa99lfsrrtVeUh7qoMqegrLQLx
-         RZNoXQ5+NbE1EtD+2DErl6whuNJll95dZQBFXX1u8TMc7A/d41XIVKxT9KHLISYIjkQG
-         Q4KOO48NCzL3VJgCkYpi9Q0wSCF5fdaePw91HGsYPxfT3+g6yKMy8kanu+cHQtOXP6u1
-         z6HSjfCkwl81RGOVwa5TJPTr+lbr3aJGTdaYX/aB4xBPXO7zo9Sy/U6+AokeDGpVIN7D
-         OtCw==
+        bh=5cRGJgjtk6QyY9lod4MMlIBW31hyEYzM3huzRyBieOE=;
+        b=MoReQQEaZS1DF6R2oQ4bGQmq7WVvkHfqzBAmFL0oT5JyBIlxxVkiBg4tWXYqTx46qo
+         gl8/eHT1mnrlO8TIGrVDruvXmlUnk73OzBjj+PxY/62UN6N/49bMBydm3kxBf4LtxPah
+         wkMzqo973M0JG2bpaaAbVImzrnm4JCNvb46wU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790626257; x=1791231057;
-        h=in-reply-to:references:cc:subject:from:to:message-id:date
+        d=1e100.net; s=20260707; t=1790662573; x=1791267373;
+        h=in-reply-to:references:cc:from:subject:to:message-id:date
          :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=2RrxLvbX+4JBkGkol5oKWfO8nLOjYDrJWuNrSQb76bY=;
-        b=O8ZN6BwiTyLnve3id5I584kvtqcyJ5xN0ReJVd6iBSJHSSCBw66NaDZE4libf3Y/aC
-         OVYPWvuHMWXZWY0T2jwjIVByJxbvHTFi4XWYBfoLkPdQKD+qCRv7aJLvhXaM5TuDPAIP
-         N+3v6gtdwWxqJOii+lyZUE0of/ZV2gl+0e8c5TuEaV8n/TXzsbZ9+ekvUavI8RQfmI1h
-         ECYm7XHMP6vPhzsHczstaw00vSgz5cdFIfpZ/YWUj+rD2GtEXfYsg5Wk5Q8M787RHdy9
-         PlLbnqQHqCkyDCeG3jcwgU+iQyAYSx1CPYkLGIzRJNC5dIB2USMC5FWLD3uBVd8ePrNE
-         Axcw==
-X-Forwarded-Encrypted: i=1; AKwUvByZ9CAdO1dFBNQ3Tw+cgcJbBK96wk2HmmIuVvlt5bqdFwEjcfLmvdt1wX3r2WtCzPkvwwFeQJrOMvhfvTuw3xA6Rg==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYKRu++8f7ZMAftIsxAaYBgUtSZ1Bs310Lyi9AWHDt4ThAf/F8X0
-	CMiNqb0t7AhDmVFBOmQFObVCwfqd24xa+v1XHX/CI35FomHZjooZbLyLbojtwdclNcw=
-X-Gm-Gg: AYBFou0YNadbn4vGuVnTYlZrrLcyL69L86iBfMbIDt5UyqPQnNevJYwMgsROTcMLLv9
-	oigTk3kQuDAQvy9dQwTN1AZ+LqdkLutnee7Oc0aIDQFAl8ieQIZyPupjUdlwXji7rPmEh7xQ8IV
-	n6lawVhbz4I4vcNI8F2zwdqahS4c5zFrCM30kfk7i+MNkCLayoxJ9FZPcKJLipbMScBJbOZkv7i
-	zOqy/DBcKYVN9zfEzfewGhDJsljvufrmkqRnA6dNdsNUF/+hOu8tRZHYGZ2bVpEmo4GywaVRBN9
-	/Pmh2AKf3pCEfk/v8l0cKKHOpZT51o1tlNtdIs8/CYW2KjdV1a98rj1xd7NUp59OP+9uy8Ek837
-	OCDHYgjAaoww0WxXrXMJ2CvX1e40B8fbEIPFAd1l8/MCtH8Qj+ZQdVQ4QaMuVODCpIDWhn7q07u
-	z2HiZgv9hTOwjRvkxTSDYh+kji3m9di/c1CCGxJcIU5gVxw/8USCSEm2+zKUR1UOfU0Xo+4BBZ9
-	GgsnerIAkZsSYpmPI23obS58atPXd+0vg==
-X-Received: by 2002:a05:6102:3e8e:b0:7a1:f7d2:e839 with SMTP id ada2fe7eead31-7af1dadc074mr4397180137.25.1790626257442;
-        Mon, 28 Sep 2026 13:10:57 -0700 (PDT)
-Received: from localhost ([2001:1970:3847:e000:1977:be2f:4a71:2892])
-        by smtp.gmail.com with ESMTPSA id a1e0cc1a2514c-988baa163d9sm794019241.8.2026.09.28.13.10.56
+        bh=5cRGJgjtk6QyY9lod4MMlIBW31hyEYzM3huzRyBieOE=;
+        b=SNafP4Y+ho6xpi6+d+CPHmlP3ANCi7+HPZYt+vzClZgYoLWolGPZw5/m6RBSGESg3O
+         X8N8G8sUTGCwqB99XLjqeu1sm0aBF1G45VVY6cFxgV8PRkDVENN8UbMmFlR9B4rx5cD7
+         vIsuS0iqOSTiKE9GfzXBQd3K2yt6RE4EFfnmN3g4KIgBE3VrY71dVcNMVncL+xcZYgYl
+         kEXMUCs6u7Bgot+ZZ59KKVMf4jDR+Ini+X+GeHJBlRDUKzzTU9/xV+TnrkuubqOX9TGT
+         G5TyYV0lRAsV8xKOi9dVrMlqKEy7/i4cQHhISOHj8W6Kyc6ukeyp/+n1ZJJeW59f4zUd
+         W5Lg==
+X-Forwarded-Encrypted: i=1; AKwUvBwcOzyAxrEkeiLXH6+kQG9C/GgzGuzE55S7guPKSBzshXIe607eWiqg/AC/m1UM9FXkRzsK7SWy2WzZCMXbxeJqqQ==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYKCZj4mCvZDKsYeq0uVlqCjqwJLUsiD7eJMXt9KqSCq53YjPBBI
+	RhiYUxY6uGWyNJK+VCJUCjTiFv/7QZqKCbSoNaW7UN+xtljg45fLye5O+2fqmf1/BzA=
+X-Gm-Gg: AYBFou1Wqs+lN2Vv+Ucm8ePr5q+tqnIq56E2eq5If8TXgtnMOgPROHInBjFYW5p2urR
+	7LmkGNetJ72BgbHTreU7GINa6ZjEeYHgVF7wv/QAA0WVwvYh/v4FOyBbTPQHWfvUUem0odNKpjx
+	kitf5Oe6AQjMNjcpwGUL8Xel6XJ5ihMzAqoZXv0BKn02exTzPSYWYMXEoQ3EDVLJPO4tH250K/l
+	l6KgmvFe1Lt8PIULDtl85+dYTMjFF+ZZPOv58AIE7oAqOAd4qnzNY5EtIg0rSYU1BdKFCfapfB+
+	5MSJZTqTaD3gf332HefLcxnFS5xv+UBxA7oOZkvMW9BSU8YspidSYRODFr0wM+sw888OIW9wRc/
+	csZWI/BpPm/oNIArqHfA/ZaQHVZKNhGaTLU5ZTHqNlx6s46odAMppmh3VngAq5DcpoTQXWJ7cZr
+	HTsWWXYijoqvzoKwRj5tOYFin/s/8C1Cp3AXXUt39PLbhA5gbaYh3QmNvYnA4CQQNw5DoU08cXO
+	67GSRMiPXw0Wh1Iyw/w5pnugkfMCXvIBF5Oxw8oFyKat+kCzyokzwaEfC7du43ZH1oEvzah
+X-Received: by 2002:a05:6000:3c3:b0:48a:efed:ac97 with SMTP id ffacd0b85a97d-48aefedae69mr2883604f8f.33.1790662573431;
+        Mon, 28 Sep 2026 23:16:13 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48af5049419sm1168709f8f.14.2026.09.28.23.16.12
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 28 Sep 2026 13:10:56 -0700 (PDT)
+        Mon, 28 Sep 2026 23:16:13 -0700 (PDT)
 Mime-Version: 1.0
-Date: Mon, 28 Sep 2026 16:10:55 -0400
-Message-Id: <DLR815MM9PVW.3UX36O7ENQ9JH@baylibre.com>
-To: "Joao Marcos Costa" <joaomarcos.costa@bootlin.com>, "Trevor Gamblin"
- <tgamblin@baylibre.com>, <openembedded-core@lists.openembedded.org>
-From: "Trevor Gamblin" <tgamblin@baylibre.com>
-Subject: Re: [OE-core] [PATCH v2 1/1] recipes-support/gnutls: disable slow tests for RISCV64
-Cc: <thomas.petazzoni@bootlin.com>
-X-Mailer: aerc 0.22.0
-References: <20260928162614.1685239-1-joaomarcos.costa@bootlin.com>
- <20260928162614.1685239-2-joaomarcos.costa@bootlin.com>
- <DLR4232VEGLK.D4805FQMYD9Z@baylibre.com>
- <3e52db64-1a47-45da-b357-83044c711f10@bootlin.com>
-In-Reply-To: <3e52db64-1a47-45da-b357-83044c711f10@bootlin.com>
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
+Date: Tue, 29 Sep 2026 08:16:12 +0200
+Message-Id: <DLRKWLFNOLML.3NT9JU6NO87KG@smile.fr>
+To: <daniel.turull@ericsson.com>, <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH v3 0/3] spdx: add support to include
+ releaseTime
+From: "Yoann Congal" <yoann.congal@smile.fr>
+Cc: <JPEWhacker@gmail.com>, <mathieu.dubois-briand@bootlin.com>
+X-Mailer: aerc 0.20.0
+References: <20260928190400.3908822-1-daniel.turull@ericsson.com>
+In-Reply-To: <20260928190400.3908822-1-daniel.turull@ericsson.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2026 05:42:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246820
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2026 06:16:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246821
 
-On Mon Sep 28, 2026 at 3:09 PM EDT, Joao Marcos Costa wrote:
-> Hello,
+On Mon Sep 28, 2026 at 9:03 PM CEST, Daniel Turull via lists.openembedded.o=
+rg wrote:
+> From: Daniel Turull <daniel.turull@ericsson.com>
 >
-> On 9/28/26 7:04 PM, Trevor Gamblin wrote:
->> On Mon Sep 28, 2026 at 12:26 PM EDT, Jo=C3=A3o Marcos Costa wrote:
->>> Timeouts have been observed (very frequently in the past weeks)
->>> in the autobuilder, and a bug [1] was filed at Bugzilla.
->>>
->>> After some investigation [2] was performed by Trevor Gamblin, we now ha=
-ve a
->>> list of the most time consuming test cases:
->>>
->>> - mini-record-2 (187880ms)
->>> - record-retvals (145390ms)
->>> - rng-op-key (63820ms)
->>> - rng-op-random (63330ms)
->>> - rng-op-nonce (63260ms)
->>> - dtls-rehandshake-cert (61360ms)
->>> - dtls-rehandshake-cert-2 (61230ms)
->>> - dtls-rehandshake-anon (61030ms)
->>> - mini-loss-time (60130ms)
->>> - mini-dtls-hello-verify-48 (30050ms)
->>> - tls12-ffdhe (27790ms)
->>> - x509sign-verify-rsa (18460ms)
->>> - x509sign-verify-ecdsa (16050ms)
->>>
->>> Disable them to avoid so many timeouts in qemuriscv64-ptest runs.
->>=20
->> Thanks for submitting this. I'm sorry if I wasn't clear before, but I th=
-ink we
->> should only disable mini-record-2 and record-retvals to start, since the=
-y are
->> significantly longer than all of the others. If gnutls remains a problem
->> afterward then the others should be considered, but for now we want to t=
-ry
->> retaining the others to maximize test coverage.
->>=20
->> Trevor
+> We have a requirements to include release time of open source components
+> in the SBOM. There is a field specific for that in spdx 3 spec.
 >
-> In that case, I'd rather remove at least the cases that take > 60000ms=20
-> to run, and avoid getting back to this again when the runners are more=20
-> loaded than usual. What do you think?
+> https://spdx.github.io/spdx-spec/v3.0.1/model/Core/Properties/releaseTime=
+/
+>
+> This can also be used to evaluate how old are some of the core
+> components and decide if they need replacement.
+>
+> The previous 2 versions did not have cover letter.
+>
+> Tested with oe-selftest -r spdx
+>
+> Daniel Turull (3):
+>   classes/base: exclude __CACHED_SOURCE_DATE_EPOCH from task hash
+>   create-spdx-3.0: record component release date in SPDX output
+>   scripts/contrib: add spdx-release-date-report.py
+>
+>  meta/classes-global/base.bbclass            |   4 +
+>  meta/classes/create-spdx-3.0.bbclass        |   2 +-
+>  meta/lib/oe/spdx30_tasks.py                 |  19 ++
+>  meta/lib/oeqa/selftest/cases/spdx.py        |  39 ++++
+>  scripts/contrib/spdx-release-date-report.py | 193 ++++++++++++++++++++
+>  5 files changed, 256 insertions(+), 1 deletion(-)
+>  create mode 100755 scripts/contrib/spdx-release-date-report.py
 
-Sure, let's do that for now. I'll keep a list of tests disabled for
-load/performance reasons and come back to them at some point when we have f=
-aster
-riscv64 hardware in the AB cluster :)
+Hello,
+
+Note: while this is not a fix, this looks related to
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=3D15530
+
+Thanks!
+--=20
+Yoann Congal
+Smile ECS
+
 
