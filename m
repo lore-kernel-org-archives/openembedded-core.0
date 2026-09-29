@@ -1,500 +1,117 @@
-Return-Path: <jason.stasiak@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 7DA9DCA5FAD
-	for <webhook@archiver.kernel.org>; Tue, 29 Sep 2026 20:51:21 +0000 (UTC)
-Received: from mail-dy1-f170.google.com (mail-dy1-f170.google.com [74.125.82.170])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6708.1790715074220860378
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 0F3A2CA5FA7
+	for <webhook@archiver.kernel.org>; Tue, 29 Sep 2026 21:29:42 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7551.1790717378827690598
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2026 13:51:14 -0700
+ Tue, 29 Sep 2026 14:29:40 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=M0VCz2Wm;
- spf=pass (domain: gmail.com, ip: 74.125.82.170, mailfrom: jason.stasiak@gmail.com)
-Received: by mail-dy1-f170.google.com with SMTP id 5a478bee46e88-3115c4451c8so1041746eec.1
-        for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2026 13:51:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790715074; x=1791319874; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=btzZMfBCuoA87eUiBLyqdJY9mxEMNAZJDdE/DiJrZZo=;
-        b=M0VCz2WmX4cgU+kadvVYjw8aDv9XIVpDafJg/PJPuCUDe+q4dwwI86grkG+XuFdAQE
-         vxakmUKiqcqi39Fcocv1vnS2eFSSpqp5MapRQcbUNRk5POqXFtEXQ/JQOCmidLSnV69K
-         jjn5iiTh0Aprx15fhwFo1DfKvfjDX8s6Mvl1muL09kgHHcUiPohwANjSEmYR7rx1tBle
-         0Muh8LBlOZWSpxjEN950gyR4yoMvu3uogYvHi7oWOtywiS5QJTpCE1TSkrQ+9UDNEoBh
-         N51wHBTXzHOM28gl4yfPRDbSXrG8D2S16ZRlUW8nfl0KFz6Vm5D/bzdgP3VKyIXbhiCW
-         A0lA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790715074; x=1791319874;
-        h=content-transfer-encoding:content-type:mime-version:references
-         :in-reply-to:message-id:date:subject:to:from:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=btzZMfBCuoA87eUiBLyqdJY9mxEMNAZJDdE/DiJrZZo=;
-        b=UNfFmH0gVeypXdfBH3cNk8KoJKg2Fej+cnyByLUiOnAqqD8VoVFosMjY3ERLloHLdB
-         quIH4rtFp1ZbtN+oapqiLLN5xzs2ebh0DAwOBAThHoXqf7alNDpR87cSMCN8FSaT7K65
-         cSdhg2P97bThda22B3VfrvCfuPz2UuZ7lr1nbv5qTwRCd95VF82M+hr2crSmvAQTucnJ
-         lyMIYPDnaJytyOwhBIhVS9ELotPFxcnDfCM5n/Iljjf7RIAc3ONz4GN27mV/vAHa0WNx
-         NRwrcIZTnv1dmFkRdtEHl+dsEDKWExdI3rX7NsBGo2RfKTS++kWLjCmLfgyZEIw7X8d1
-         6/zg==
-X-Gm-Message-State: AFq9FYLelH39Azd51fm8rBx4JXtcZp9+BPqEy9kJETBU8CS3uVvJ5OsJ
-	hhaCp1xFYVXBcfFKNta0bCxJNqWQHbzOhD6y83yJbUVB8EBDnzaB0NU9JtSCog==
-X-Gm-Gg: AYBFou34LsQyPeksw47FF9fSi/XkYyDWrgYUewxrdivQtpZ5GtmwWP964GxW2bCVljk
-	kbUwNPd/Gcga5svY6Kl6mXmQMtOGq5ab5JZHZnVt5xzIDmqamPNQ2I22Kpc5g6pCEPfNgDAv9g8
-	UmTRz/kdOWm07TevG8ljdw/qGwYHjRwDuLjhXwJdO2v+pUk9lBqiwgkkiBmsTfezmCkcOf19XoU
-	TV1TasaKW4lXgV0ONTIbZthr8YUG9LNr4JjhJzsgmuS1jF5AV1y9Fj9EadCnsHy/IhAF8COg1iM
-	jdTxOqOORODC82ryWfSF5h9QuFvSU+WYdbi6GB61mR6uv7LutFEVyDYl47encsh/1ZhoDZVO5wH
-	rP9ZaSjNUjmhZFKkJskHcCaLT4xFu/tPSfGLrWrq8wYkHHHhPAaOtX7UTYf4ydESp/FvfvW104V
-	OC3shc2tAjYMGtuebwpIT9vnnLjWNgRinGp5RE7Nvwp4xohEUMfoCuUy84F9AFMYbJK3hJeww+p
-	b23RNy/YqyQ2lhGDg73
-X-Received: by 2002:a05:7300:271c:b0:33e:52d2:9219 with SMTP id 5a478bee46e88-34af7c5528fmr4062123eec.9.1790715073192;
-        Tue, 29 Sep 2026 13:51:13 -0700 (PDT)
-Received: from CHA-FQKPM83.ad.garmin.com ([65.175.40.146])
-        by smtp.gmail.com with ESMTPSA id 5a478bee46e88-34c378c9b64sm2655843eec.6.2026.09.29.13.51.12
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 29 Sep 2026 13:51:12 -0700 (PDT)
-From: Jason Stasiak <jason.stasiak@gmail.com>
-X-Google-Original-From: Jason Stasiak <jason.stasiak@garmin.com>
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=tGRYm+Z/;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-202609292129355acbe4f7b0000207d6-eyadxg@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 202609292129355acbe4f7b0000207d6
+        for <openembedded-core@lists.openembedded.org>;
+        Tue, 29 Sep 2026 23:29:35 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=n0HsbyNvGMtUj9jI8KnTT0rKXyRjoe0bgYWFP+LBFB4=;
+ b=tGRYm+Z/jCVpGzITR4/V7kxWaIvLzg3aYns9L+LPdUO0bQBLWrohM37JKRhY4FECyuYzTm
+ 67yM4leOgxVpvoGRpwa3MeMi20e1abtvj9ipWv2cV4MZe3SyW2cvK9Ef1RlzXTtyk9B5od5+
+ Ku5qU5pLNJxAtRpTIl5CxSf8wyQ88P3yyXWCmadewnntZNfdKM7keVKwTqcvAb7sGB9dPHel
+ tILSHwy8AbHphLrYvWa0CT5Ti3DdS6ikekVbQgPr62lyn+VFC9hccnjPe7l6z8QCpDErvh9O
+ QbrvkK+M+KCWSLPQKbNP7Su7okM1SGY9QwUX5b/jB0dHskR93gw5JLSA==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-Subject: [scarthgap][PATCH 3/5] libsoup-2.4: fix CVE-2026-2443
-Date: Tue, 29 Sep 2026 13:50:53 -0700
-Message-ID: <20260929205055.2403390-4-jason.stasiak@garmin.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20260929205055.2403390-1-jason.stasiak@garmin.com>
-References: <20260929205055.2403390-1-jason.stasiak@garmin.com>
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH] alsa-lib: patch CVE-2026-90781
+Date: Tue, 29 Sep 2026 23:29:23 +0200
+Message-ID: <20260929212923.2961646-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2026 20:51:21 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246896
+ <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2026 21:29:42 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246899
 
-Backport fix for CVE-2026-2443 from meta-oe to OE-core. Update CVE
-patch to restore the range-test validation unit test from the
-upstream libsoup3 patch (b9a1c0663ff8ab6e79715db4b35b54f560416ddd).
+From: Peter Marko <peter.marko@siemens.com>
 
-(From meta-oe rev: 07d67228162018f5f619dce7183f85e79293378d)
+Pick patch per [1].
 
-Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
+[1] https://security-tracker.debian.org/tracker/CVE-2026-90781
+
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../libsoup/libsoup-2.4/CVE-2026-2443.patch   | 390 ++++++++++++++++++
- .../libsoup/libsoup-2.4_2.74.3.bb             |   1 +
- 2 files changed, 391 insertions(+)
- create mode 100644 meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-2443.patch
+ .../alsa/alsa-lib/CVE-2026-90781.patch        | 41 +++++++++++++++++++
+ .../alsa/alsa-lib_1.2.16.1.bb                 |  4 +-
+ 2 files changed, 44 insertions(+), 1 deletion(-)
+ create mode 100644 meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
 
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-2443.patch b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-2443.patch
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
 new file mode 100644
-index 0000000000..e4d5f184fa
+index 0000000000..57883b8169
 --- /dev/null
-+++ b/meta/recipes-support/libsoup/libsoup-2.4/CVE-2026-2443.patch
-@@ -0,0 +1,390 @@
-+From 7bb3115a296154e3f465900ea5c984a493385a7f Mon Sep 17 00:00:00 2001
-+From: Philip Withnall <pwithnall@gnome.org>
-+Date: Fri, 19 Dec 2025 23:49:05 +0000
-+Subject: [PATCH] Fix CVE-2026-2443
++++ b/meta/recipes-multimedia/alsa/alsa-lib/CVE-2026-90781.patch
+@@ -0,0 +1,41 @@
++From f84cd4ced7b36fddb8e4ee24404cf7c091d27020 Mon Sep 17 00:00:00 2001
++From: Jaroslav Kysela <perex@perex.cz>
++Date: Sun, 30 Aug 2026 20:20:30 +0200
++Subject: [PATCH] control: ctlparse - another fix for one-byte overrrun in
++ __snd_ctl_ascii_elem_id_parse
 +
-+Upstream-Status: Backport [
-+c1796442 soup-message-headers: Rework Range response statuses to match Apache
-+191ef313 soup-message-headers: Fix rejection of Range headers with trailing garbage
-+be677bea soup-message-headers: Fix parsing of invalid Range suffix lengths
-+2bbfdfe8 soup-message-headers: Reject ranges where end is before start
-+739bf7cb soup-message-headers: Reject invalid Range ends longer than the content
-+]
-+CVE: CVE-2026-2443
++Follows 1e27d63ef6d1dcf7d1f1a1e1eca3ea779e7de377 .
 +
-+Signed-off-by: Changqing Li <changqing.li@windriver.com>
++Link: https://lore.kernel.org/alsa-devel/CACBQ=P2FhO3M6dkv3cWuKb6Qhs92ouV+FJ3SJZ_PVBSSdJWRAQ@mail.gmail.com/
++Reported-by: Harsh Raj Singhania <raj.harshraut@gmail.com>
++Signed-off-by: Jaroslav Kysela <perex@perex.cz>
 +
-+Backport the range-test validation unit tests from the upstream libsoup3 patches.
-+
-+Upstream-Status: Backport [
-+5890c42d tests: Add more tests for invalid Range headers
-+c1796442 soup-message-headers: Rework Range response statuses to match Apache
-+6574a84f tests: Allow range tests to check more response statuses
-+191ef313 soup-message-headers: Fix rejection of Range headers with trailing garbage
-+be677bea soup-message-headers: Fix parsing of invalid Range suffix lengths
-+2bbfdfe8 soup-message-headers: Reject ranges where end is before start
-+739bf7cb soup-message-headers: Reject invalid Range ends longer than the content
-+]
-+
-+Signed-off-by: Jason Stasiak <jason.stasiak@gmail.com>
++CVE: CVE-2026-90781
++Upstream-Status: Backport [https://github.com/alsa-project/alsa-lib/commit/f84cd4ced7b36fddb8e4ee24404cf7c091d27020]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ libsoup/soup-message-headers.c |  62 ++++++++++----
-+ tests/range-test.c             | 149 ++++++++++++++++++++++++++++-----
-+ 2 files changed, 172 insertions(+), 39 deletions(-)
++ src/control/ctlparse.c | 4 ++--
++ 1 file changed, 2 insertions(+), 2 deletions(-)
 +
-+diff --git a/libsoup/soup-message-headers.c b/libsoup/soup-message-headers.c
-+index ff10e103..f30dd461 100644
-+--- a/libsoup/soup-message-headers.c
-++++ b/libsoup/soup-message-headers.c
-+@@ -940,10 +940,16 @@ sort_ranges (gconstpointer a, gconstpointer b)
-+ }
-+ 
-+ /* like soup_message_headers_get_ranges(), except it returns:
-+- *   SOUP_STATUS_OK if there is no Range or it should be ignored.
-+- *   SOUP_STATUS_PARTIAL_CONTENT if there is at least one satisfiable range.
-+- *   SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE if @check_satisfiable
-+- *     is %TRUE and the request is not satisfiable given @total_length.
-++ *  - SOUP_STATUS_OK if there is no Range or it should be ignored due to being
-++ *    entirely invalid.
-++ *  - SOUP_STATUS_PARTIAL_CONTENT if there is at least one satisfiable range.
-++ *  - SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE if @check_satisfiable
-++ *     is %TRUE, the Range is valid, but no part of the request is satisfiable
-++ *     given @total_length.
-++ *
-++ * @ranges and @length are only set if SOUP_STATUS_PARTIAL_CONTENT is returned.
-++ *
-++ * See https://httpwg.org/specs/rfc9110.html#field.range
-+  */
-+ guint
-+ soup_message_headers_get_ranges_internal (SoupMessageHeaders  *hdrs,
-+@@ -957,22 +963,28 @@ soup_message_headers_get_ranges_internal (SoupMessageHeaders  *hdrs,
-+ 	GArray *array;
-+ 	char *spec, *end;
-+ 	guint status = SOUP_STATUS_OK;
-++	gboolean is_all_valid = TRUE;
-+ 
-+ 	if (!range || strncmp (range, "bytes", 5) != 0)
-+-		return status;
-++		return SOUP_STATUS_OK;  /* invalid header or unknown range unit */
-+ 
-+ 	range += 5;
-+ 	while (g_ascii_isspace (*range))
-+ 		range++;
-+ 	if (*range++ != '=')
-+-		return status;
-++		return SOUP_STATUS_OK;  /* invalid header */
-+ 	while (g_ascii_isspace (*range))
-+ 		range++;
-+ 
-+ 	range_list = soup_header_parse_list (range);
-+ 	if (!range_list)
-+-		return status;
-++		return SOUP_STATUS_OK;  /* invalid list */
-+ 
-++	/* Loop through the ranges and modify the status accordingly. Default to
-++	 * status 200 (OK, ignoring the ranges). Switch to status 206 (Partial
-++	 * Content) if there is at least one partially valid range. Switch to
-++	 * status 416 (Range Not Satisfiable) if there are no partially valid
-++	 * ranges at all. */
-+ 	array = g_array_new (FALSE, FALSE, sizeof (SoupRange));
-+ 	for (r = range_list; r; r = r->next) {
-+ 		SoupRange cur;
-+@@ -985,30 +997,44 @@ soup_message_headers_get_ranges_internal (SoupMessageHeaders  *hdrs,
-+ 			cur.start = g_ascii_strtoull (spec, &end, 10);
-+ 			if (*end == '-')
-+ 				end++;
-+-			if (*end) {
-++			if (*end)
-+ 				cur.end = g_ascii_strtoull (end, &end, 10);
-+-				if (cur.end < cur.start) {
-+-					status = SOUP_STATUS_OK;
-+-					break;
-+-				}
-+-			} else
-++			else
-+ 				cur.end = total_length - 1;
-+ 		}
-++
-+ 		if (*end) {
-+-			status = SOUP_STATUS_OK;
-+-			break;
-+-		} else if (check_satisfiable && cur.start >= total_length) {
-+-			if (status == SOUP_STATUS_OK)
-+-				status = SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE;
-++			/* Junk after the range */
-++			is_all_valid = FALSE;
-++			continue;
-++		}
-++
-++		if (cur.end < cur.start) {
-++			is_all_valid = FALSE;
-++			continue;
-++		}
-++
-++		g_assert (cur.start >= 0);
-++		if (cur.end >= total_length)
-++			cur.end = total_length - 1;
-++
-++		if (cur.start >= total_length) {
-++			/* Range is valid, but unsatisfiable */
-+ 			continue;
-+ 		}
-+ 
-++		/* We have at least one (at least partially) satisfiable range */
-+ 		g_array_append_val (array, cur);
-+ 		status = SOUP_STATUS_PARTIAL_CONTENT;
-+ 	}
-+ 	soup_header_free_list (range_list);
-+ 
-+ 	if (status != SOUP_STATUS_PARTIAL_CONTENT) {
-++		g_assert (status == SOUP_STATUS_OK);
-++
-++		if (is_all_valid && check_satisfiable)
-++			status = SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE;
-++
-+ 		g_array_free (array, TRUE);
-+ 		return status;
-+ 	}
-+diff --git a/tests/range-test.c b/tests/range-test.c
-+index d3c49963..8bd0fa1c 100644
-+--- a/tests/range-test.c
-++++ b/tests/range-test.c
-+@@ -57,7 +57,8 @@ check_part (SoupMessageHeaders *headers, const char *body, gsize body_len,
-+ 
-+ static void
-+ do_single_range (SoupSession *session, SoupMessage *msg,
-+-		 int start, int end, gboolean succeed)
-++		 int start, int end, SoupStatus expected_status,
-++		 int expected_start, int expected_end)
-+ {
-+ 	const char *content_type;
-+ 
-+@@ -66,7 +67,7 @@ do_single_range (SoupSession *session, SoupMessage *msg,
-+ 
-+ 	soup_session_send_message (session, msg);
-+ 
-+-	if (!succeed) {
-++	if (expected_status == SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE) {
-+ 		soup_test_assert_message_status (msg, SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE);
-+ 		if (msg->status_code != SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE) {
-+ 			const char *content_range;
-+@@ -76,31 +77,78 @@ do_single_range (SoupSession *session, SoupMessage *msg,
-+ 			if (content_range)
-+ 				debug_printf (1, "    Content-Range: %s\n", content_range);
-+ 		}
-+-
-+ 		g_object_unref (msg);
-+ 		return;
-++	} else if (expected_status == SOUP_STATUS_OK) {
-++		soup_test_assert_message_status (msg, SOUP_STATUS_OK);
-++
-++		content_type = soup_message_headers_get_content_type(msg->response_headers, NULL);
-++		g_assert_cmpstr (content_type, !=, "multipart/byteranges");
-++
-++		g_assert_false (soup_message_headers_get_content_range (msg->response_headers, NULL,
-++			NULL, NULL));
-++		g_assert_cmpint (soup_message_headers_get_content_length (msg->response_headers),
-++			==, full_response->length);
-++		} else {
-++		soup_test_assert_message_status (msg, SOUP_STATUS_PARTIAL_CONTENT);
-++		content_type = soup_message_headers_get_content_type (msg->response_headers, NULL);
-++		g_assert_cmpstr (content_type, !=, "multipart/byteranges");
-++
-++		check_part (msg->response_headers, msg->response_body->data,
-++			msg->response_body->length, TRUE, expected_start, expected_end);
-+ 	}
-+ 
-+-	soup_test_assert_message_status (msg, SOUP_STATUS_PARTIAL_CONTENT);
-+-
-+-	content_type = soup_message_headers_get_content_type (
-+-		msg->response_headers, NULL);
-+-	g_assert_cmpstr (content_type, !=, "multipart/byteranges");
-+-
-+-	check_part (msg->response_headers, msg->response_body->data,
-+-		    msg->response_body->length, TRUE, start, end);
-+ 	g_object_unref (msg);
-+ }
-+ 
-+ static void
-+ request_single_range (SoupSession *session, const char *uri,
-+-		      int start, int end, gboolean succeed)
-++		      int start, int end, SoupStatus expected_status,
-++			  int expected_start, int expected_end)
-+ {
-+ 	SoupMessage *msg;
-+ 
-+ 	msg = soup_message_new ("GET", uri);
-+ 	soup_message_headers_set_range (msg->request_headers, start, end);
-+-	do_single_range (session, msg, start, end, succeed);
-++	do_single_range (session, msg, start, end, expected_status, expected_start, expected_end);
-++}
-++
-++/* This always asserts failure (either 406 or 200 with no Content-Range); it’s
-++ * intended to be used for passing invalid
-++ * Range header formats which can’t be built by calling
-++ * soup_message_headers_set_range(). */
-++static void
-++request_single_range_by_string (SoupSession *session, const char *uri,
-++             const char *range, SoupStatus expected_status)
-++{
-++	SoupMessage *msg;
-++
-++	msg = soup_message_new ("GET", uri);
-++	soup_message_headers_replace (msg->request_headers, "Range", range);
-++
-++	debug_printf (1, "    Range: %s\n",
-++	soup_message_headers_get_one (msg->request_headers, "Range"));
-++
-++	soup_session_send_message (session, msg);
-++
-++	if (expected_status == SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE) {
-++		soup_test_assert_message_status (msg, SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE);
-++	} else {
-++		const char *content_type;
-++
-++		soup_test_assert_message_status (msg, SOUP_STATUS_OK);
-++
-++		content_type = soup_message_headers_get_content_type (msg->response_headers, NULL);
-++		g_assert_cmpstr (content_type, !=, "multipart/byteranges");
-++
-++		g_assert_false (soup_message_headers_get_content_range (msg->response_headers,
-++			NULL, NULL, NULL));
-++
-++		g_assert_cmpint (soup_message_headers_get_content_length (msg->response_headers),
-++			==, full_response->length);
-++	}
-++
-++	g_object_unref (msg);
-+ }
-+ 
-+ static void
-+@@ -165,7 +213,9 @@ request_double_range (SoupSession *session, const char *uri,
-+ 		do_single_range (session, msg,
-+ 				 MIN (first_start, second_start),
-+ 				 MAX (first_end, second_end),
-+-				 TRUE);
-++				 SOUP_STATUS_PARTIAL_CONTENT,
-++				 MIN (first_start, second_start),
-++				 MAX (first_end, second_end));
-+ 	} else
-+ 		do_multi_range (session, msg, expected_return_ranges);
-+ }
-+@@ -193,7 +243,9 @@ request_triple_range (SoupSession *session, const char *uri,
-+ 		do_single_range (session, msg,
-+ 				 MIN (first_start, MIN (second_start, third_start)),
-+ 				 MAX (first_end, MAX (second_end, third_end)),
-+-				 TRUE);
-++				 SOUP_STATUS_PARTIAL_CONTENT,
-++				 MIN (first_start, MIN (second_start, third_start)),
-++				 MAX (first_end, MAX (second_end, third_end)));
-+ 	} else
-+ 		do_multi_range (session, msg, expected_return_ranges);
-+ }
-+@@ -248,7 +300,8 @@ do_range_test (SoupSession *session, const char *uri,
-+ 	debug_printf (1, "Requesting %d-%d\n", 0 * twelfths, 1 * twelfths);
-+ 	request_single_range (session, uri,
-+ 			      0 * twelfths, 1 * twelfths,
-+-			      TRUE);
-++			      SOUP_STATUS_PARTIAL_CONTENT,
-++			      0 * twelfths, 1 * twelfths);
-+ 
-+ 	/* B: 11, end-relative request. These two are mostly redundant
-+ 	 * in terms of data coverage, but they may still catch
-+@@ -257,11 +310,13 @@ do_range_test (SoupSession *session, const char *uri,
-+ 	debug_printf (1, "Requesting %d-\n", 11 * twelfths);
-+ 	request_single_range (session, uri,
-+ 			      11 * twelfths, -1,
-+-			      TRUE);
-++			      SOUP_STATUS_PARTIAL_CONTENT,
-++			      11 * twelfths, -1);
-+ 	debug_printf (1, "Requesting -%d\n", 1 * twelfths);
-+ 	request_single_range (session, uri,
-+ 			      -1 * twelfths, -1,
-+-			      TRUE);
-++			      SOUP_STATUS_PARTIAL_CONTENT,
-++			      -1 * twelfths, -1);
-+ 
-+ 	/* C: 2 and 5 */
-+ 	debug_printf (1, "Requesting %d-%d,%d-%d\n",
-+@@ -314,7 +369,8 @@ do_range_test (SoupSession *session, const char *uri,
-+ 		      (int) full_response->length + 100);
-+ 	request_single_range (session, uri,
-+ 			      full_response->length + 1, full_response->length + 100,
-+-			      FALSE);
-++			      SOUP_STATUS_REQUESTED_RANGE_NOT_SATISFIABLE,
-++			      0, 0);
-+ 
-+ 	debug_printf (1, "Requesting (semi-invalid) 1-10,%d-%d,20-30\n",
-+ 		      (int) full_response->length + 1,
-+@@ -322,7 +378,58 @@ do_range_test (SoupSession *session, const char *uri,
-+ 	request_semi_invalid_range (session, uri,
-+ 				    1, 10,
-+ 				    full_response->length + 1, full_response->length + 100,
-+-				    20, 30); 
-++				    20, 30);
-++
-++	debug_printf (1, "Requesting (invalid end) %d-%d\n",
-++		      1,
-++		      (int) full_response->length + 1000);
-++	request_single_range (session, uri,
-++			      1, full_response->length + 1000,
-++			      SOUP_STATUS_PARTIAL_CONTENT,
-++			      1, full_response->length - 1);
-++
-++	debug_printf (1, "Requesting (end before start) %d-%d\n",
-++		      10,
-++		      1);
-++	request_single_range (session, uri,
-++			      10, 1,
-++			      SOUP_STATUS_OK,
-++			      1, full_response->length);
-++
-++	debug_printf (1, "Requesting (malformed suffix length) -0\n");
-++	request_single_range_by_string (session, uri,
-++					"bytes=-0",
-++					SOUP_STATUS_OK);
-++
-++	debug_printf (1, "Requesting (extra content after valid header value) 0-10\n");
-++	request_single_range_by_string (session, uri,
-++					"bytes=0-10 but with weird trailing content",
-++					SOUP_STATUS_OK);
-++
-++	debug_printf (1, "Requesting (invalid range dash) 0a10\n");
-++	request_single_range_by_string (session, uri,
-++					"bytes=0a10",
-++					SOUP_STATUS_OK);
-++
-++	debug_printf (1, "Requesting (invalid range unit) 0-10\n");
-++	request_single_range_by_string (session, uri,
-++					"horses=0-10",
-++					SOUP_STATUS_OK);
-++
-++	debug_printf (1, "Requesting (missing equals) 0-10\n");
-++	request_single_range_by_string (session, uri,
-++					"bytes 0-10",
-++					SOUP_STATUS_OK);
-++
-++	debug_printf (1, "Requesting (end before start but with whitespace) 10-1\n");
-++	request_single_range_by_string (session, uri,
-++					"bytes \t = \t 10-1",
-++					SOUP_STATUS_OK);
-++
-++	debug_printf (1, "Requesting (delimiters but no ranges)\n");
-++	request_single_range_by_string (session, uri,
-++					"bytes=, ,,\t, ",
-++					SOUP_STATUS_OK);
-+ }
-+ 
-+ static void
-+@@ -341,7 +448,7 @@ do_apache_range_test (void)
-+ 
-+ static void
-+ server_handler (SoupServer        *server,
-+-		SoupMessage       *msg, 
-++		SoupMessage       *msg,
-+ 		const char        *path,
-+ 		GHashTable        *query,
-+ 		SoupClientContext *client,
-+-- 
-+2.55.0
-+
-diff --git a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-index 9da2dde714..18f82f8ef7 100644
---- a/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-+++ b/meta/recipes-support/libsoup/libsoup-2.4_2.74.3.bb
-@@ -43,6 +43,7 @@ SRC_URI = "${GNOME_MIRROR}/libsoup/${SHRT_VER}/libsoup-${PV}.tar.xz \
-            file://CVE-2025-4945.patch \
-            file://CVE-2026-1539.patch \
-            file://CVE-2026-1801.patch \
-+           file://CVE-2026-2443.patch \
- "
- SRC_URI[sha256sum] = "e4b77c41cfc4c8c5a035fcdc320c7bc6cfb75ef7c5a034153df1413fa1d92f13"
++diff --git a/src/control/ctlparse.c b/src/control/ctlparse.c
++index c40de2bd..7132210e 100644
++--- a/src/control/ctlparse.c
+++++ b/src/control/ctlparse.c
++@@ -219,7 +219,7 @@ int __snd_ctl_ascii_elem_id_parse(snd_ctl_elem_id_t *dst, const char *str,
++ 			if (*str == '\'' || *str == '\"') {
++ 				c = *str++;
++ 				while (*str && *str != c) {
++-					if (size < (int)sizeof(buf)) {
+++					if (size < (int)sizeof(buf) - 1) {
++ 						*ptr++ = *str;
++ 						size++;
++ 					}
++@@ -229,7 +229,7 @@ int __snd_ctl_ascii_elem_id_parse(snd_ctl_elem_id_t *dst, const char *str,
++ 					str++;
++ 			} else {
++ 				while (*str && *str != ',') {
++-					if (size < (int)sizeof(buf)) {
+++					if (size < (int)sizeof(buf) - 1) {
++ 						*ptr++ = *str;
++ 						size++;
++ 					}
+diff --git a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
+index 1033250204..48f1689549 100644
+--- a/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
++++ b/meta/recipes-multimedia/alsa/alsa-lib_1.2.16.1.bb
+@@ -9,7 +9,9 @@ LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7 \
+                     file://src/socket.c;md5=285675b45e83f571c6a957fe4ab79c93;beginline=9;endline=24 \
+                     "
  
--- 
-2.55.0
-
+-SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2"
++SRC_URI = "https://www.alsa-project.org/files/pub/lib/${BP}.tar.bz2 \
++    file://CVE-2026-90781.patch \
++"
+ SRC_URI[sha256sum] = "f740db7f488255944ffd4428416ee3390a96742856916433df468c281436480e"
+ 
+ inherit autotools pkgconfig
 
