@@ -1,198 +1,266 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <pratik.farkase@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 93808CA5FAC
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 13:33:13 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13489.1790775184648753280
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D1DFFCA5FCB
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 13:48:03 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.41])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.13872.1790776083113127203
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2026 06:33:05 -0700
+ Wed, 30 Sep 2026 06:48:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TbTyHUPP;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.141, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cd5462b69so30271405e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 06:33:04 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790775183; x=1791379983; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IYN2BRomOXWVZv5bdfyZWs7HF9X170JD35/KZMBOuMo=;
-        b=TbTyHUPPB/jZgKRKiQKIeeYze1irmJdpq9xMZQ8yUdle1BdSiQuSPoKklr9E7nI+WK
-         JasHf6yeS6Mi+qEUoDo3NBfty8L/V4ra7h9fQg8F7FFwARXJ/ZjHe7J2tRSgj1lVnHIc
-         0+A0HpbQZPqu+NrjG0x5u/6gPYofapSomA1Cc=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790775183; x=1791379983;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=IYN2BRomOXWVZv5bdfyZWs7HF9X170JD35/KZMBOuMo=;
-        b=KpGcz25GVoSozfeqMQNlK+ynsLt8QEsBhrh27HSUuTMHqmHCyUYHjCWM5+EWps882x
-         GV9noieoXrntg8htwFzFt29PQHAyJI+Ud4fm0159iJQ25bvUR2QkTKfpkiloqz1xVyTt
-         URIqrN7vkHUI32SX2LPpBOOvtpmsb3QhLGuaEWLr1uV+OsLY6f2wAhPjPNKq+WVyi3ZP
-         vBbhLIBBtAS8awdvJ1fGiKHDSCUB2Xr3oy3iLLPxfNtZpGg5Vk5KICp6ToxqirePdMgo
-         R2WUilJB8V6WpOulp08c96conSW1tY1l2EUtdVSVIdrkE2ZSP+hOlqtWiJ3B7BgDk2ur
-         +f0g==
-X-Gm-Message-State: AFuF++lNQ418Z8th2UY5jlm2DTDCNfWggOBb4UZcIo2hB+f2lXnv6TOQ
-	QdKZzY/F4ieupmUDS+DYLip98uqrg6hN0ecE+KnsEusXDw+tgoBFQZJDWrP2WozTmFkEWVEYVbt
-	YkbaNZ/I=
-X-Gm-Gg: AYBFou0q449qvZ8jQsqL2sSFDWlMvEXr+uflZaSGFMFe3NOaQOYUxPqWFjWDNcJ3e5F
-	SUnbtKpGO0u5Y34SnVyCoV+nBJjCOMrGD4wPtRlWVZGwwc05b6IsCVxfmXD8dTII5K+asFg4rmf
-	HY9ZD7ULzVINmzy1KVLX8j67EGuCythIhZF2ZzwZzO6DgFDQ9SzTJB5YF72SVucOcd8UST4S4tL
-	K/sh0XLjNRYWxQqSy1EsQBWgtohNVokmjhhN4TKJzmV0n0dkPJ+KfRhrOuGurFkSqE2X7ZFyH08
-	OOMlvv3jEs+RuDvrHq2EBE9WEtMAz6N2xKDzSvTKQ0DMzOCiVRPLyvgRkuJpm/U9fi1QnWjwcUp
-	cUdW2wuEsuIRc6B7peEe8YNLE27J6bgdAsRqiJIku7uukrfw8EflcHKvwNb2vVi/qpnrq4kFD73
-	j1+90wmZ7/om8Kf+ppK5kN8JlWHPbymydTSb56a/TScGkNZ/N2MWNTdhw8oFeVhUJhl3VlPgaju
-	uL2+MUA2pTObRhiYahKRpWxJg==
-X-Received: by 2002:a05:600c:3b10:b0:49f:fbad:29c1 with SMTP id 5b1f17b1804b1-4a01b133c13mr24271605e9.33.1790775182163;
-        Wed, 30 Sep 2026 06:33:02 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:349:f135:e106:4c82])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a017b7bbc1sm58236625e9.10.2026.09.30.06.33.01
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 06:33:01 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=HhWh2uxF;
+ spf=pass (domain: est.tech, ip: 52.101.72.41, mailfrom: pratik.farkase@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=x23b0NroooMn6TSne33GR4E1cUopA0RGe88RoeSGssnXn8ShYRhtnYiiXaVCOnsfSjkgljm7RweGvhnQTKMjHQjgNKt7IhumVXfjbMIOnF+lmORRTmkY8tIHiDSl5jzVdOVug87E49QZ1V+z14TX72edG5LHcWHV3JQN/Sn51CwJhx23P5YmytC+xXyTkOrlK3qlFcF7qh4FsxjoLGj/5AQEpuLMjK5qhB5pXzDHn2Ycs6eLwGSPNO70KtfngAGtBA5s310K7UA3I5rCCUEv+Yt4ePWG8M+Z/WRORsr0lj2WVHWcet+qkXF4oVb0NMCysrVCGS10mPGwniDChuEW2A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=CkHz46AQ3Fs207LP7PXpE3Iu9Dk5VexrdlsgTzZEll0=;
+ b=eTRRSQv0pjknbbYochOudalVM5z9gODnOLilI1wSiDFnO3iQI+KOg0Q+k1XDn7uD4uH+n0mNwWn0EiSAcZoeOtS3OMuPADdCr0jefa03Kb/GzqiPUJEkzu4OjaRr5RtZHMGeFtTL7BJueF3J4KQjaKjxSgJfEl+KFEFdIer4csfPUrfppQ0dxD5PpN1d/vRiJNfxJWc/FYBb60UC+uwiOa/+rMxrPjbxQXEHJh3AxKh5K2IwmcxWNUD6FX28dAysQqx+r0m0DEPvjZ1aQdsBC4yXTFmEH8lXY1eoRZjQrMv6RD70nKYcPVmjj5/HtGjVzr0p33NNK+eVR4fOzdCmhg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=CkHz46AQ3Fs207LP7PXpE3Iu9Dk5VexrdlsgTzZEll0=;
+ b=HhWh2uxFrvtCsPweRx51Os/lLQAJ7pjoqKW9lJB7ycjhAeW0O4L6UnLbHi/gGp60wI8J9pJMVB2jL10rdk6FdDevRb8vZHxGI3VKAK5HEZR0CelSWj6GV3njJXEa1m/02OpU7XkajyWDVODcY+jPFdGaSsB/vhf6ZEWbmvMw4wlBRlxOEuTU6FYZ8AUE0Tt5MGYs0k4JsiEyoWE6xtDu8UiDm7Wr92xkRvjord8wkgJfpFgkbV00xzRENOniokoOyCOSqOI13HsWDyExkwPUK59B2TxEygFELoHj9x9z0cdVynoFj6Ig9bKD/lIkU/+lJIO9BsHAjX9ljnu+O8vUzg==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:4d4::5)
+ by GV1P189MB3051.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:264::14) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Wed, 30 Sep
+ 2026 13:47:56 +0000
+Received: from PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91]) by PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ ([fe80::117b:a2e5:ceb1:7a91%6]) with mapi id 15.21.0451.022; Wed, 30 Sep 2026
+ 13:47:56 +0000
+From: Pratik Farkase <pratik.farkase@est.tech>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] qemu: Upgrade 11.1.1 -> 11.1.2
-Date: Wed, 30 Sep 2026 14:33:00 +0100
-Message-ID: <20260930133300.871991-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+CC: pratik.farkase@ericsson.com,
+	Pratik Farkase <pratik.farkase@est.tech>
+Subject: [OE-core][PATCH v3] libpcap: add ptest support
+Date: Wed, 30 Sep 2026 15:47:52 +0200
+Message-ID: <20260930134752.19730-1-pratik.farkase@est.tech>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <20260928130950.49433-1-pratik.farkase@est.tech>
+References: <20260928130950.49433-1-pratik.farkase@est.tech>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P265CA0008.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:2ad::16) To PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:4d4::5)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PA3P189MB3239:EE_|GV1P189MB3051:EE_
+X-MS-Office365-Filtering-Correlation-Id: 11795a2e-a682-4c11-ab19-08df1ef96eb8
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|22082099003|18002099003|13003099007|3023799007|6133799003|10067099003|260925021911599003|260925022911599003|260925021311599003|11063799006|56012099006|12006099003;
+X-Microsoft-Antispam-Message-Info: 
+	IIp4Davm/0qfDDZaokKngvvJeSvMasvkZMCbzLL4T+tQEBSDI43/T6UONAj08ziUqMiw1fCWQY1AynUHi8uSAyXVU8z17nw+5uFRcanQxirDTDcVLOhXn0x8ImZ1K4Dn6EyaXfd3UA9FYcmUQQvw2O39gQ9cssy0kvkV/OJr9HTt8K5u3nQP3ztPrabFdF0+WO8jYXJqMf7ytlmKlMaq9Xs4tkS6QC+hndSrF157jKOzLX1F3BbLRSkNoYifIGIiKsOSRAwLdaQggXnfV1KVvmFfbx/y9UjRk89RhGmmPjehwBI0tLYTZjr7qagDLCGtd/FF1d55kENaRjSICZU59I5H176zYKFSuqdRPNqlMKyJT3f4uGlNEgqRUMEZDM19nZ5z3x+SV4/8YfyFUwTqTXocdsNFPCPI285LGgUWEWAQSWrKzil3X2DoCZhijCqll1E1cvspxB8cNvSGu6Kg1iGt3ntIZI8+dcDPFiAr8Tkym8zPQrv9o3xdNU8Ps5iriIds0GrtHJtoOKbkcXh79kG5XwBLY9dk/EpniMisS0X1EW55b535BUYbTsOKf7mDjYhvPrbjImFbbF0vkux6jV9qlAtRWff2pQqxzNMyMMyr5yvIjU9iG45ERTqZ00bK
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PA3P189MB3239.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(22082099003)(18002099003)(13003099007)(3023799007)(6133799003)(10067099003)(260925021911599003)(260925022911599003)(260925021311599003)(11063799006)(56012099006)(12006099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?kSqAtjqIpklERqS/AwU+IQYUczC5tltrnt+1hf/J7RFXhiPQB8U5Rl/GOkvC?=
+ =?us-ascii?Q?Nb8VH+rKYHp6KN1ONmGKzaHv5ASUq2q0Ok6GgI8I3iTy1gSILXpzXpjM2RJS?=
+ =?us-ascii?Q?vwWys5tTY4y18Su9BtcJBJ4lhkCPlFyGtnUEj2QrrS6f5dlBs1X8KhdTJ7P5?=
+ =?us-ascii?Q?23LHbjPwosF8+xWdhxlrTvms1cLxUMluPAkcY4is6f2GIday/nmmw7Cxo/Ba?=
+ =?us-ascii?Q?k+C8bseahPPG//4Tv+p5jdODWbc+VHfLcoZGg8C5LHckDZXMtVjVa+F66bHm?=
+ =?us-ascii?Q?EAiJ7BdG4vDGEsfJWPZVK9jmmxqdWXXiphnAr4Yv7M/MkQA4vMjvW/2/mTzN?=
+ =?us-ascii?Q?5I72BaFprYOCBxCLOxaaxy5RCS2JdBK6f2DkWDeBtG6Yx9E7ayPVGyXvmUC1?=
+ =?us-ascii?Q?ot90Sv1yKNK2WiDM2CgbbUImw1b9e6/EaUMNi8BFURoEUFyS7H4/aa507VLE?=
+ =?us-ascii?Q?DO43DknrYbs/n52PpehrcaKgCUf4H91U7LzbHhz0sdPZmRQNPBpYhiUIsDUH?=
+ =?us-ascii?Q?pOaEeHJ0/BIjcKyFKnDDjMm/QDKhu+v5ipA4mKI18MC3pKR/WiQ2bJ9MlmzH?=
+ =?us-ascii?Q?riaFpblHe7RrPQtdvR47t9y7nfFiLg59C2SU8yIPSwpk8pEtHwMijljXhfOj?=
+ =?us-ascii?Q?Bi+eWNUTB5W11VSPLHcyK3c67ZIlXHiiqE0MpB08lKGWDLTQTRzTOm1u6dnC?=
+ =?us-ascii?Q?T8jNBPg92C7sNAFzmCd3kX1QsJjZO8sxNkh2Tjih9DqobtQkUBp5i8b/4R5h?=
+ =?us-ascii?Q?VGEYT+IRJn6mkOLD2SphgQbZfSzS6O1+ykgmS0p5lPpGqJksbjELNWc2oMe5?=
+ =?us-ascii?Q?RYcNr0TEWn1uQhfGxyGK6VB71wIGEjs+RF7P4fuB6OQFQtUnFKwinR69p6gF?=
+ =?us-ascii?Q?r4ESkK1d3RC0ZKeeRHXQxNAAB9K3foctkCWSPlK9TARB+ZN277Wq9XC04MOA?=
+ =?us-ascii?Q?E4rXypC5nuUygBPpQnu3WA0xReTEHOVeZX43hPIDKYABUIpxReM0hVdBp/Xd?=
+ =?us-ascii?Q?oz+T45AzV3cCDuRN5CmrobUxIJu9f8Tf5XlS4bRWTZ3AW/eCKTBLGd3qzKWW?=
+ =?us-ascii?Q?yhS5qk/ieloxjl8x3uUG2Ss/5cbHXZDPSglBoZu0rqa+74vRQMWbTQv2lnsS?=
+ =?us-ascii?Q?KTaWE/d26+Nsz3shY8AcCa0EG6FeM/8dHLaVMF1VXNKf6HDvnc6qlZPjeGyx?=
+ =?us-ascii?Q?Aotj2x0wmhaR6f2kVoe46vKk5zx1ggyaJkufiBUF2kjUt7nLWZezyrtlQNjs?=
+ =?us-ascii?Q?Kz6C5cAXyaYabppMGro60MkhgW6kF6KlN4rx2WGQxtL6hwYN0YM4oFTKjx24?=
+ =?us-ascii?Q?1hGqQxYP+PPxPELQPsX/jA1xN8OIKQJXWwjNdkJSjiOhcqSRPWwbrwOVD3xj?=
+ =?us-ascii?Q?++YTiMTNB4BqlyZa85lHcDjSGHMj+Q23gEF8okqpVG+S8vesgwKritwXuwu2?=
+ =?us-ascii?Q?km/RhUnkrwBthLP+Mo/6LFGXEIHb58NS0znJhWdBQAILziIXoKCWiqSNuA2K?=
+ =?us-ascii?Q?IgLdtEJ2+XkoiMH6akcWhmC7hc9fJz7V87oMxZzVSyAPIk1jxafdpap+CI2J?=
+ =?us-ascii?Q?L+YsA0t8/RocGPFuJK0bK2pVIMfv78UzSa9X4teHx6jw04SaXJZUG2fIHOyd?=
+ =?us-ascii?Q?0HCrMf1LDb/fOeOfy0uL/39p1hTL8P4AHC660TSgionKpw78B3LIymmgb8rX?=
+ =?us-ascii?Q?7GtFIpMSswPZLea7d8tCXuKe+CwtMFv7RlWhKt3x1cqsHuGpIKE7C76piGv+?=
+ =?us-ascii?Q?WCqMe/XyFA=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 11795a2e-a682-4c11-ab19-08df1ef96eb8
+X-MS-Exchange-CrossTenant-AuthSource: PA3P189MB3239.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 13:47:56.4388
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: qkvP1xg9jMZzChCXF06ioJtFkaETdHdShKRDS59QBknALkM3AS3brZ4YBvbjLVqtaWMRh26e/HTRAQiBwjzpbA==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GV1P189MB3051
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 13:33:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246970
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 13:48:03 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246971
 
-Changes:
- - Update version for 11.1.2 release
- - target/sh4: Replace TB_FLAG_GUSA_EXCLUSIVE with CF_STEP_ATOMIC
- - accel/tcg: Set CF_NOIRQ during cpu_exec_step_atomic
- - linux-user/sh4: align the vdso sigreturn trampolines
- - linux-user/sh4: fix vdso CFA for rt_sigreturn frames
- - linux-user/sh4: use the kernel's sigreturn trampoline sequence in the vdso
- - target/i386: Mark MOVNTI as not valid with prefixes 0x66, 0xF2, 0xF3
- - target/i386: Update FPU tag word for FXCH
- - target/i386: Update FPU tag word for FSTP
- - target/i386: Update FPU tag word for FXTRACT's old ST(0)
- - target/i386: Fix FXCH to unconditionally clear C1
- - target/ppc: Stop vCPU thread before calling parent_unrealize
- - tests/qtest/usb-hcd-xhci: test isoch endpoint type mismatch
- - tests/qtest/usb-hcd-xhci: test isoch pacing with MFINDEX above 2^32
- - hw/usb/hcd-xhci: don't assert on NAK when retrying an isoch transfer
- - hw/usb/hcd-xhci: fix interval alignment after MFINDEX passes 2^32
- - hw/usb/hcd-xhci: Set reentrancy guard in timer functions (CVE-2026-17588)
- - tcg/riscv64: Set vtype before whole-register vector loads
- - tests/tcg/s390x: Add regression test for #4449
- - tcg/optimize: Fix expansion/simplification of deposit
- - tests/tcg/arm: Add regression test for #4448
- - tcg/optimize: Fix fold_multiply2 vs 1
- - accel/tcg: Fix TLB_MMIO check in tlb_plugin_lookup()
- - accel/tcg: Use TLB_FORCE_SLOW not TLB_MMIO for system plugins
- - hw/9pfs: mutate FID path from main thread only (CVE-2026-93834)
- - s390x/pci: fix DMA slot leak on I/O TLB entry replacement
- - hw/s390x/ipl: Fix incorrect PCI IPL block lengths
- - linux-user/loongarch64: Detect vector stores in host_signal_write()
- - linux-user: implement mlock2(2) syscall
- - linux-user/riscv: honor zicntr=false for base counterCSRs
- - system/ram-discard-manager: fix offset_within_address_space in replay_by_populated_state()
- - igvm: mark qigvm_find_param_entry as static
- - igvm: validate and honor byte_offset in parameter directives
- - hw/uefi: add missing uefi_str_is_valid check to uefi_vars_mm_lock_variable
- - target/loongarch: Fix data race in CSR_ESTAT
- - hw/riscv/virt.c: fix aclint soc/mtimer nodename
- - target/arm/hvf: implement MDCCSR_EL0 as RAZ
- - target/arm/whpx: fix whpx-arm post-reset CPU state
- - target/arm/whpx: incorrect ENCODE_AA64_CP_REG parameter order
- - target/arm/whpx: Don't try to sync ARM_CP_CONST registers
- - hw/intc/bcm2835_ic: reject out-of-range FIQ source values
- - qga: Change effective user/group ID in guest-ssh-* commands
- - vhost-user-gpu: validate command buffer size in submit_3d
- - ui/cursor: make the cursor refcount atomic
- - hw/display/qxl: hold ssd.lock while replacing ssd.cursor
- - hw/cxl: fix the CDAT DOE overlapping the Flex Bus DVSEC when sn= is set
- - virtio-scsi: set dataplane_started to false upon failure
- - virtio-balloon: fix free-page BH teardown on unrealize
- - hw/virtio: reject inverted virtio-iommu IOVA ranges
- - hw/net/virtio-net: strip trailing padding when caching RSC segment
- - hw/net/virtio-net: check packet size before VLAN tag access in receive_filter()
- - qapi/misc: Fix missed query-iothreads items
- - hw/cxl: Fix guest-triggerable QEMU exit on reserved interleave ways
- - virtio-gpu: clear res->blob on mapping cleanup
- - tests/unit: cover blocked IO during the websock handshake
- - io/channel-websock: do not lose QIO_CHANNEL_ERR_BLOCK while reading
- - tests/unit: add websock handshake test
- - io/channel-websock: handle a blocked write during the handshake
- - io/channel-websock: send an HTTP 400 when the greeting has no space
- - io/channel-socket: do not treat a zero length write as an error
- - target/loongarch: Fix SWI interrupt delivery via CSR_ESTAT
- - hw/cxl: fix timer leak in cxl_destroy_cci()
- - hw/sd/sdcard: Register device ops in drives without media
- - hw/sd: sdhci: Accept version 4 enable without UHS-I
- - target/arm: Make Thumb T1 hint space UNDEF before v6T2
- - target/arm: Make IT insn undef when not present
- - target/arm: Make CBZ/CBNZ UNDEF before v6T2
- - target/arm: Correct reset value of SCTLR for arm926, arm1026
- - target/arm: fix TTA instruction S bit for IDAU-exempt addresses
- - ppc/xive: Trigger the pending interrupt for a guest after migration
- - i386/vapic: unref MemoryRegion if vapic_map_rom_writable fails
- - vapic: confine the VAPIC region to 0xc0000..0xe0000
- - scsi: hide MODE SELECT block size change behind a quirk
- - scsi-disk: fix out-of-bound read in WRITE SAME
- - target/riscv/kvm: Preserve MP state across migration
- - target/riscv/kvm: Synchronize privilege mode
- - hw/ide: report the default CHS translation in IDENTIFY DEVICE
- - tests/qtest/ide-test: cover a CHS translation with zero sectors
- - hw/ide: reject an unsupported CHS translation
- - s390x/sclp: pv: only copy the original SCCB buffer
- - dirty-bitmap: fix integer overflow in serialization coverage
- - block/monitor: allow dropping a bitmap never stored on disk
- - migration/block-dirty-bitmap: reject bitmap load onto ro node
- - block/monitor: reject persistent bitmap add on a read-only node
- - tests/unit/test-blockjob: cover keeping a job paused while a pause is pending
- - job: keep job paused across overlapping pause requests
- - hw/input/ps2: answer unknown mouse commands with a resend
- - hw/display/vga: fix text-mode OOB write after a graphics surface switch
- - chardev: Don't unregister yank upon async path connection failure
- - crypto: fix build against nettle >= 4
- - virtio-gpu: use g_try_malloc to avoid guest-triggered abort
- - hw/display/qxl: validate primary surface stride against width
+Build libpcap's upstream testprogs and run the TESTrun harness under
+ptest. The harness drives filtertest, translatetest and enumeratetest to
+compile and translate BPF filter expressions against bundled savefiles and
+compares the results with the embedded expected output. These tests are
+offline and deterministic and need no capture privileges or network.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
+Tested on qemux86-64 with ptest-runner: 14801 passed, 0 failed.
+
+Signed-off-by: Pratik Farkase <pratik.farkase@est.tech>
 ---
- .../qemu/{qemu-native_11.1.1.bb => qemu-native_11.1.2.bb}       | 0
- ...emu-system-native_11.1.1.bb => qemu-system-native_11.1.2.bb} | 0
- meta/recipes-devtools/qemu/qemu.inc                             | 2 +-
- meta/recipes-devtools/qemu/{qemu_11.1.1.bb => qemu_11.1.2.bb}   | 0
- 4 files changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-devtools/qemu/{qemu-native_11.1.1.bb => qemu-native_11.1.2.bb} (100%)
- rename meta/recipes-devtools/qemu/{qemu-system-native_11.1.1.bb => qemu-system-native_11.1.2.bb} (100%)
- rename meta/recipes-devtools/qemu/{qemu_11.1.1.bb => qemu_11.1.2.bb} (100%)
 
-diff --git a/meta/recipes-devtools/qemu/qemu-native_11.1.1.bb b/meta/recipes-devtools/qemu/qemu-native_11.1.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu-native_11.1.1.bb
-rename to meta/recipes-devtools/qemu/qemu-native_11.1.2.bb
-diff --git a/meta/recipes-devtools/qemu/qemu-system-native_11.1.1.bb b/meta/recipes-devtools/qemu/qemu-system-native_11.1.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu-system-native_11.1.1.bb
-rename to meta/recipes-devtools/qemu/qemu-system-native_11.1.2.bb
-diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
-index 8c93227eb32..d441ebe8f3a 100644
---- a/meta/recipes-devtools/qemu/qemu.inc
-+++ b/meta/recipes-devtools/qemu/qemu.inc
-@@ -43,7 +43,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
- UPSTREAM_CHECK_URI = "https://www.qemu.org"
- UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
- 
--SRC_URI[sha256sum] = "079ffbff8a7111bbc89022107cbabf3bbfd614d5fc9d7cc675991196aca12482"
-+SRC_URI[sha256sum] = "731b5681e4bb18be313231579b8efd0296c5b015fa36dc533874b639ba838016"
- 
- CVE_STATUS[CVE-2007-0998] = "not-applicable-config: The VNC server can expose host files uder some circumstances. We don't enable it by default."
- 
-diff --git a/meta/recipes-devtools/qemu/qemu_11.1.1.bb b/meta/recipes-devtools/qemu/qemu_11.1.2.bb
-similarity index 100%
-rename from meta/recipes-devtools/qemu/qemu_11.1.1.bb
-rename to meta/recipes-devtools/qemu/qemu_11.1.2.bb
+Changes in v3:
+- Disable the ptest on riscv64: the TESTrun harness is too slow under
+  qemuriscv64 (TCG) and exceeds the ptest-runner timeout.
+
+Changes in v2:
+- run-ptest now reports one PASS/SKIP/FAIL line per test case instead of a
+  single result for the whole harness.
+
+ .../distro/include/ptest-packagelists.inc     |  5 +--
+ .../libpcap/files/run-ptest                   | 25 +++++++++++++
+ .../libpcap/libpcap_1.11.0.bb                 | 35 +++++++++++++++++--
+ 3 files changed, 61 insertions(+), 4 deletions(-)
+ create mode 100644 meta/recipes-connectivity/libpcap/files/run-ptest
+
+diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/di=
+stro/include/ptest-packagelists.inc
+index 7d0a9148bc..dba231d249 100644
+--- a/meta/conf/distro/include/ptest-packagelists.inc
++++ b/meta/conf/distro/include/ptest-packagelists.inc
+@@ -136,6 +136,7 @@ PTESTS_SLOW =3D "\
+     libevent \
+     libgcrypt \
+     libmodule-build-perl \
++    libpcap \
+     libpng \
+     ${@bb.utils.contains('DISTRO_FEATURES', 'seccomp', 'libseccomp', '',d)=
+} \
+     lttng-tools \
+@@ -166,8 +167,8 @@ PTESTS_PROBLEMS:append:riscv32 =3D " lttng-tools strace=
+"
+ PTESTS_SLOW:append:libc-musl =3D " libc-test"
+=20
+ # These tests don't yet pass for riscv64
+-PTESTS_SLOW:remove:riscv64 =3D "tcl tcl8 python3-cffi strace lttng-tools p=
+ython3-numpy perl glib-2.0 zstd"
+-PTESTS_PROBLEMS:append:riscv64 =3D " tcl tcl8 python3-cffi strace lttng-to=
+ols python3-numpy perl glib-2.0 zstd"
++PTESTS_SLOW:remove:riscv64 =3D "tcl tcl8 python3-cffi strace lttng-tools p=
+ython3-numpy perl glib-2.0 zstd libpcap"
++PTESTS_PROBLEMS:append:riscv64 =3D " tcl tcl8 python3-cffi strace lttng-to=
+ols python3-numpy perl glib-2.0 zstd libpcap"
+=20
+ # These tests don't yet pass for musl qemuarm64
+ PTESTS_SLOW:remove:libc-musl:qemuarm64 =3D "strace perl gnutls glib-2.0"
+diff --git a/meta/recipes-connectivity/libpcap/files/run-ptest b/meta/recip=
+es-connectivity/libpcap/files/run-ptest
+new file mode 100644
+index 0000000000..c4b869d541
+--- /dev/null
++++ b/meta/recipes-connectivity/libpcap/files/run-ptest
+@@ -0,0 +1,25 @@
++#!/bin/sh
++
++cd "$(dirname "$0")/testprogs" || exit 1
++
++FILTERTEST_BIN=3D"./filtertest"
++TRANSLATETEST_BIN=3D"./translatetest"
++ENUMERATETEST_BIN=3D"./enumeratetest"
++CONFIG_H=3D"../config.h"
++export FILTERTEST_BIN TRANSLATETEST_BIN ENUMERATETEST_BIN CONFIG_H
++
++./TESTrun --passed --skipped 2>&1 | awk '
++    /^Passed tests:/  { section =3D "PASS"; next }
++    /^Skipped tests:/ { section =3D "SKIP"; next }
++    /^Failed tests:/  { section =3D "FAIL"; next }
++    /^-+$/            { section =3D ""; next }
++    section !=3D "" && /^    / {
++        c =3D index($0, ": ")
++        if (c >=3D 45) {
++            label =3D substr($0, 5, c - 5)
++            sub(/[[:space:]]+$/, "", label)
++            if (label !=3D "")
++                print section ": " label
++        }
++    }
++'
+diff --git a/meta/recipes-connectivity/libpcap/libpcap_1.11.0.bb b/meta/rec=
+ipes-connectivity/libpcap/libpcap_1.11.0.bb
+index df63ab68b8..ef1ff0fff8 100644
+--- a/meta/recipes-connectivity/libpcap/libpcap_1.11.0.bb
++++ b/meta/recipes-connectivity/libpcap/libpcap_1.11.0.bb
+@@ -10,10 +10,12 @@ LIC_FILES_CHKSUM =3D "file://LICENSE;md5=3D5eb289217c16=
+0e2920d2e35bddc36453 \
+                     file://pcap.h;beginline=3D1;endline=3D32;md5=3D39af351=
+0e011f34b8872f120b1dc31d2"
+ DEPENDS =3D "flex-native bison-native"
+=20
+-SRC_URI =3D "https://www.tcpdump.org/release/${BP}.tar.xz"
++SRC_URI =3D "https://www.tcpdump.org/release/${BP}.tar.xz \
++           file://run-ptest \
++           "
+ SRC_URI[sha256sum] =3D "9237f5bae9dcf3a91823d9963ec43b7c0e2e3374ef2ad57d92=
+c8cd39530f4723"
+=20
+-inherit autotools binconfig-disabled pkgconfig
++inherit autotools binconfig-disabled pkgconfig ptest
+=20
+ BINCONFIG =3D "${bindir}/pcap-config"
+=20
+@@ -36,4 +38,33 @@ do_configure:prepend () {
+     sed 's|\([ "^'\''I]\+\)/usr/include/|\1${STAGING_INCDIR}/|g' -i ${S}/c=
+onfigure.ac
+ }
+=20
++do_compile_ptest() {
++    oe_runmake -C ${B}/testprogs CFLAGS=3D"${CFLAGS} ${LDFLAGS}" \
++        filtertest translatetest enumeratetest
++}
++
++do_install_ptest() {
++    install -d ${D}${PTEST_PATH}/testprogs
++    install -d ${D}${PTEST_PATH}/tests
++
++    # Perl harness and its helper modules.
++    install -m 0755 ${S}/testprogs/TESTrun ${D}${PTEST_PATH}/testprogs/
++    install -m 0644 ${S}/testprogs/TESTlib.pm ${D}${PTEST_PATH}/testprogs/
++    install -m 0644 ${S}/testprogs/TESTst.pm ${D}${PTEST_PATH}/testprogs/
++    install -m 0644 ${S}/testprogs/TESTmt.pm ${D}${PTEST_PATH}/testprogs/
++
++    # Offline test programs driven by the harness.
++    install -m 0755 ${B}/testprogs/filtertest ${D}${PTEST_PATH}/testprogs/
++    install -m 0755 ${B}/testprogs/translatetest ${D}${PTEST_PATH}/testpro=
+gs/
++    install -m 0755 ${B}/testprogs/enumeratetest ${D}${PTEST_PATH}/testpro=
+gs/
++
++    # Savefiles used by the filter tests (SAVEFILE_DIR is testprogs/../tes=
+ts).
++    cp -r ${S}/tests/* ${D}${PTEST_PATH}/tests/
++
++    # config.h is read by TESTrun for feature-based test skipping.
++    install -m 0644 ${B}/config.h ${D}${PTEST_PATH}/config.h
++}
++
++RDEPENDS:${PN}-ptest +=3D "perl perl-modules coreutils diffutils"
++
+ BBCLASSEXTEND =3D "native nativesdk"
+--=20
+2.43.0
+
 
