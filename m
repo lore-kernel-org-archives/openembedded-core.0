@@ -2,63 +2,64 @@ Return-Path: <david.partain@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B51CCA5FC7
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 16:42:14 +0000 (UTC)
-Received: from mail-qv2-f41.google.com (mail-qv2-f41.google.com [74.125.230.169])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.18024.1790786303535499756
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B54ECA5FC7
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 16:42:24 +0000 (UTC)
+Received: from mail-qk1-f177.google.com (mail-qk1-f177.google.com [209.85.222.177])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.18096.1790786304743241765
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2026 09:38:23 -0700
+ Wed, 30 Sep 2026 09:38:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@baylibre.com header.s=google header.b=InRB2X3U;
- spf=pass (domain: baylibre.com, ip: 74.125.230.169, mailfrom: tgamblin@baylibre.com)
-Received: by mail-qv2-f41.google.com with SMTP id 6a1803df08f44-9178b9b7ecfso20718366d6.3
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 09:38:23 -0700 (PDT)
+ dkim=pass header.i=@baylibre.com header.s=google header.b=gZD0hHHA;
+ spf=pass (domain: baylibre.com, ip: 209.85.222.177, mailfrom: tgamblin@baylibre.com)
+Received: by mail-qk1-f177.google.com with SMTP id af79cd13be357-93c64decd21so144747685a.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 09:38:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre.com; s=google; t=1790786302; x=1791391102; darn=lists.openembedded.org;
+        d=baylibre.com; s=google; t=1790786304; x=1791391104; darn=lists.openembedded.org;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=iPDueFhla+lTzSOqVde9jhkNnn3/wWjR1B1JYKHG+NQ=;
-        b=InRB2X3UBDgRFuwUEQuZacq9UlL7lU5NQ57mcHOnWh9mePpJ/9EWxlwXXs+S5DE33J
-         IKdjF3Qcu1xsXNjaO6D3NOnisKvTwto9r7SDE/+5pislOhDPv30ZuMhX+U3A+nru+gI1
-         bRjUowotRW4ZYUXB3nwQNcx78uywAkrMiGOlCLrNx0kwCwXveFLkaDErr796qBkTN/Ji
-         YcPc+/yUwDildrXSkjNskl6rJdYCklU1g0STiXTsPJmq/cMAvKvVMhxvyafg3S4s4ewT
-         t0BXz2GZbXWmA+LqM79H8qJfAhib5HsxM7638UZJcgCqn2JTR2IlqVL+t4SdNqC8/2iM
-         qwNQ==
+        bh=QLWvOlAQIW2RRoxfytmeiMBfhASybU2hiKjiK1vjk70=;
+        b=gZD0hHHAdVRtQOV+CKhea7zwi2PuoePV10Atyo22yyPt6cGvzMpRK9O2oZdVQvDniO
+         Bupi5vSvTvO6qh8IE0ihW2C9F7r1XkNzigcIrPFKoDQbundmaAWxgMpCwfB+P+h54Pit
+         7KOEPS1Wu72ygR/MUbuZQxPnzZ5O4MIOd9DgCRXx21xXuwjRM76naV7EQaS3sa2RwakR
+         HaJihxCTk0bTiDWgAbEXEfYqAdOqCKNxABhrRqvP+8SSknOp/bhU6BZ4TSmZap8fnPB6
+         /pwz8qGqYK+p0JclFyKtfNMX72pG0xc77zJ0VkciTguYpvrQzMvn1dBtNsOPbeGmbI8a
+         0hEw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790786302; x=1791391102;
+        d=1e100.net; s=20260707; t=1790786304; x=1791391104;
         h=cc:to:in-reply-to:references:message-id:content-transfer-encoding
          :content-type:mime-version:subject:date:from:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=iPDueFhla+lTzSOqVde9jhkNnn3/wWjR1B1JYKHG+NQ=;
-        b=PxO0fR1IjDG0SyIeSljNIUhmHtyBXg8+qLNC3xpev4ND4AYQAg8J7WBaasgHIWsn+7
-         TG3JzouQNf4+Cn9e1Kc+MvQSa8fh9BTixiLvl93BlFriQbjvAuNASDIc9rt0pWtzX3jC
-         lPX+5VEm0hwmwxwE70m2ZQih3xhH2IMvRs9Npf1QSPBZHbSxis96onwbQncmSgq5JA4a
-         dmy8fH6uPWuKa+47inSHQkg6i1vw4ZxLXASGdLaaMZC8M6+W5zlhPeqEW4GvCU4jhTKJ
-         iJFOuPa/jgGKU2rzjgCSk5FyU/TqDEB4qgr1j+4/Zx8D4jcSnSQ+WIp7QlD9DySqMsOK
-         1NYg==
-X-Gm-Message-State: AFq9FYIY8dW+64I3bqG/mHMMl+gyq3v/Bmu5JQ8uB3X4Ey6P6sNup7Ff
-	i1H5nyEzb4LQ53FlRczqS0eO4Z/Z5fUDEnAylPq7f4kco+FqD1KhG8U8/rpMh2Zcsg8=
-X-Gm-Gg: AYBFou1LhMGb1dYfS8KVDhpKrN5f92xnTRznEuEQcBhtX/sg1yLfZSjNxTYq5PgEkxW
-	y2Xu/8I6E8pvZPuZDtIrQLLrrRLyMjQcQgYUDgkK9I9Rn3Y1MefBUpQrwDl6hEaXi8+AO/mpodK
-	BHmLlDgNI4WhAXHzvUZN43ke9PotZEe7smJuvbtHII+iAoMh5tTZUTTeW1xbFRYmtymDGJBEx67
-	2GGaStO4Mz3znk84XJRSIJi9ABbfMzKaavPagNDq48uSDNKyV1UGUjTl7H9t4iGyca0D5pwp+jz
-	MGuVb+OwiIkqYPDUAYWwulyb19lhXsQNxFHjejUSqZcdmjlIYIQLV7cJsiHYdtYlKe7aaXUNePf
-	/95pl59sn0HD8S+2aoRXvQ+hZcAf8pkGW6vwiVZm5QGt8Ghm+j+R2k8I4zssVyWkIPSI3D2COIO
-	/RO+p888i95MYFApoyQH06tDjnNmoVcNIZ5YO7NNKYB1LOjassyBztZANyAKUr6nY8mCqYD7Ls1
-	YgI9RMF9bIyC51HSCzQcFS02bPt+vpvZi5FO++xkZSZovIMHDPeXw==
-X-Received: by 2002:a0c:f209:0:b0:914:5531:1a0c with SMTP id 6a1803df08f44-917a0e7b2d2mr31792286d6.38.1790786302290;
-        Wed, 30 Sep 2026 09:38:22 -0700 (PDT)
+        bh=QLWvOlAQIW2RRoxfytmeiMBfhASybU2hiKjiK1vjk70=;
+        b=OvS2rhjy5uuc7kx1Am3LLFCouOjtYIwMkCVLhijmDmZBW3Sy639s5xDtUJ5PWh2RPx
+         6VipNm1NIIQSAz7S731VMSfesymwCLMwn4Z026puVd74T08b8u756Z1El7XAw1zXFDAy
+         d3vZC3qWpS442/XbdiLuehcD7BJIWoX0JSmM8OiD0ttqqKEhmXLYymtBYVBz1HL+6r07
+         3NyOmWo0/g8jEPt9TaVGwir50Iv49QYYF5l3DP8hlXVhooWtq/mreIRDyMkPBPPupaym
+         s6M1XyCNU+zAmb/CH1P1sG6H/xe458yajxkM7lQ09z1TURdVnno/CgLzKCszsfWJjMO6
+         ykyw==
+X-Gm-Message-State: AFuF++nDVxE4HXOmwDawmJnl4Nfs6h/S8sbZtqdM/rrVyJnSFoDcQ/Ag
+	cpekNWornvtRIDrAfW1JokxDz9SVdIydYgpV8utAvtsXlbSHrA3ottEMtUfyDRdvlj8VkcKmx+h
+	dl2eR
+X-Gm-Gg: AYBFou2FPUUgJh2N4B1zjsJlGnEmm6r3O5cnt3KViCXnu+RAoh0wXv5KVNvhufres3K
+	kJhA4CcX/zSIMgsIHEIXhdAV6CyiYzRcLxtTxCst8BxJb0jM9UzXNsNjR72MCHN5QonV2fUpYgH
+	YmW+p+XUm5w3VhemLyPVMCN20DHJ3578LsKMxghqLh7jbmAThdrhN5i9V+oVo/2Qne+YuLBmAdf
+	V3JqEtW5BfAzi405w2cWzK006M/0FF4P8TCEBGqwsaW17/QSGhaTeR1EN/bwbHO5K0qy1isGG1C
+	3K5XsGl/6BoQRJwZlbR3KDydO7QCBCt5W1Mex1JnJ5aBTko8atfcbPMc1+VPV0abqL5zSIp5WId
+	G5NomRDmIsX+1FbOD6Bj8exd/pPWjbalK8GQ2dLNV4EFAOI8DK9ylERVt9RvbeSdgu/Wm9p1Mzd
+	Y2uozeiQwTaZjXlI/oBJi+LDEUrGm2vLT01GiBxx71i8IDt8Ag+RX2/tLIHLWOOJxH6tX92aAFm
+	hYSHwL3rgxyQ8GDOWGUCE8OAJuZ1HMhhUiQ9QOinxA=
+X-Received: by 2002:a05:620a:3187:b0:93a:2eb:36e2 with SMTP id af79cd13be357-93cb5c7ab21mr31213585a.35.1790786303621;
+        Wed, 30 Sep 2026 09:38:23 -0700 (PDT)
 Received: from [192.168.40.142] ([2001:1970:3847:e000:e8bd:ca0f:c232:9f10])
-        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-917a89edf7fsm3519516d6.21.2026.09.30.09.38.20
+        by smtp.gmail.com with ESMTPSA id 6a1803df08f44-917a89edf7fsm3519516d6.21.2026.09.30.09.38.22
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 09:38:20 -0700 (PDT)
+        Wed, 30 Sep 2026 09:38:22 -0700 (PDT)
 From: "Trevor Gamblin" <tgamblin@baylibre.com>
-Date: Wed, 30 Sep 2026 12:38:08 -0400
-Subject: [OE-core][PATCH RFC v2 04/19] meta/lib/oe/tune.py: support profile strings, add rva20u64
+Date: Wed, 30 Sep 2026 12:38:09 -0400
+Subject: [OE-core][PATCH RFC v2 05/19] tune-riscv.inc: add rva20u64 to AVAILTUNES
 MIME-Version: 1.0
-Message-Id: <20260930-riscv-tuning-rework-v2-4-9e29f3531d0e@baylibre.com>
+Message-Id: <20260930-riscv-tuning-rework-v2-5-9e29f3531d0e@baylibre.com>
 References: <20260930-riscv-tuning-rework-v2-0-9e29f3531d0e@baylibre.com>
 In-Reply-To: <20260930-riscv-tuning-rework-v2-0-9e29f3531d0e@baylibre.com>
 To: openembedded-core@lists.openembedded.org
@@ -70,45 +71,34 @@ Content-Transfer-Encoding: 7bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 16:42:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246984
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 16:42:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246985
+
+riscv64gc remains the default for now.
 
 Signed-off-by: Trevor Gamblin <tgamblin@baylibre.com>
 ---
- meta/lib/oe/tune.py | 11 ++++++++++-
- 1 file changed, 10 insertions(+), 1 deletion(-)
+ meta/conf/machine/include/riscv/tune-riscv.inc | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/meta/lib/oe/tune.py b/meta/lib/oe/tune.py
-index 7fda19430d..fed593e9af 100644
---- a/meta/lib/oe/tune.py
-+++ b/meta/lib/oe/tune.py
-@@ -4,16 +4,25 @@
- # SPDX-License-Identifier: GPL-2.0-only
- #
+diff --git a/meta/conf/machine/include/riscv/tune-riscv.inc b/meta/conf/machine/include/riscv/tune-riscv.inc
+index ed71dc06ba..80c17ea0b7 100644
+--- a/meta/conf/machine/include/riscv/tune-riscv.inc
++++ b/meta/conf/machine/include/riscv/tune-riscv.inc
+@@ -2,7 +2,12 @@ require conf/machine/include/riscv/arch-riscv.inc
  
-+# RISC-V profile name -> equivalent ISA string. These are determined from compiler output, like:
-+# tgamblin@alchemist ~ $ riscv64-linux-gnu-gcc -march=rva20u64 -mabi=lp64d -Q --help=target | grep rv64
-+#   -march=rv64imafdc_ziccamoa_ziccif_zicclsm_ziccrse_zicntr_zicsr_zmmul_za128rs_zaamo_zalrsc_zca_zcd
-+RISCV_PROFILES = {
-+    'rva20u64': 'rv64imafdc_ziccamoa_ziccif_zicclsm_ziccrse_zicntr_zicsr_zmmul_za128rs_zaamo_zalrsc_zca_zcd',
-+}
+ DEFAULTTUNE ?= "riscv64gc"
+ 
+-AVAILTUNES += "riscv64gcv riscv64gc riscv32gc riscv64 riscv32 riscv64nc riscv64nf riscv32nf"
++AVAILTUNES += "rva20u64 riscv64gcv riscv64gc riscv32gc riscv64 riscv32 riscv64nc riscv64nf riscv32nf"
 +
- # riscv_isa_to_tune(isa)
- #
- # Automatically translate a RISC-V ISA string to TUNE_FEATURES
- #
- # Abbreviations, such as rv32g -> rv32imaffd_zicsr_zifencei are supported.
- #
--# Profiles, such as rva22u64, are NOT supported, you must use ISA strings.
-+# Profiles are supported for the names listed in RISCV_PROFILES. Otherwise, you
-+# must use ISA strings.
- #
- def riscv_isa_to_tune(isa):
-     _isa = isa.lower()
-+    _isa = RISCV_PROFILES.get(_isa, _isa)
++# zifencei isn't part of these profiles per gcc's -march expansion, but the
++# Linux kernel requires it, so add it on top of the profile's extensions.
++TUNE_FEATURES:tune-rva20u64 := "${@oe.tune.riscv_isa_to_tune("rva20u64")} zifencei"
++PACKAGE_EXTRA_ARCHS:tune-rva20u64 = "${TUNE_RISCV_PKGARCH}"
  
-     feature = []
-     iter = 0
+ # Default
+ TUNE_FEATURES:tune-riscv64gc := "${@oe.tune.riscv_isa_to_tune("rv64gc")}"
 
 -- 
 2.55.0
