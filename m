@@ -1,213 +1,86 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F63CA5FC1
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 08:12:11 +0000 (UTC)
-Received: from mail-wr2-f36.google.com (mail-wr2-f36.google.com [74.125.225.100])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8519.1790755925640559055
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 978E4CA5FC1
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 08:16:51 +0000 (UTC)
+Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8560.1790756208238211582
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2026 01:12:06 -0700
+ Wed, 30 Sep 2026 01:16:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=LG7VkQqi;
- spf=pass (domain: smile.fr, ip: 74.125.225.100, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr2-f36.google.com with SMTP id ffacd0b85a97d-4843c3ee4cfso2528879f8f.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 01:12:05 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790755924; x=1791360724; darn=lists.openembedded.org;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=/CcG7qw2D5LIdizLtdddznEzBtqBTcu67seaOmDD4to=;
-        b=LG7VkQqiiXTLbO3P6DhCU9f2yB4/mwbH93SDihKv6QisrLeSaQ358jOG+PgbjcZ7SJ
-         022yxcDbIEruBtQneeU0mF/aVp8X4z1858+s8JrOo10iAtavbDydb9LStI3Am75XDtkR
-         AaxN6glBcu81Nlmt3CZFXZ8DB6LQNsrN2wAi8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790755924; x=1791360724;
-        h=content-transfer-encoding:content-type:mime-version:message-id:date
-         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
-         :date:message-id:reply-to:content-type;
-        bh=/CcG7qw2D5LIdizLtdddznEzBtqBTcu67seaOmDD4to=;
-        b=LRWshzcP9S+7ixEIw33RWkYeM1n8zC88S8RofwByjLGhqSXiv8QppgXCEEkrJSJYq/
-         pVUhAoO0CXDtmHDr/pAx6+Ht6uaubJL/WbQXZW7E6NeC46ZDOrJVfjZ0SwpMbBJ/sZlV
-         jqZybur0QPEc7/ySoszDXii8TqDO5hrdi+KcvVNZNp9aErtYiV4WJdceHw7YC3eLOcdN
-         kDBNCaARPY9Z2H6GNaWGksfKqibcqH96wJ/X7n4jOwf8Jvi6hELsrvgYIBPTafh2ZBR6
-         SBpsvbIhDbWZARnAAvvCNEyAGucQ+YC6Gk1vYAFERCbLK1lAIaZHWFssxJn5QXkUWIeq
-         4z8g==
-X-Gm-Message-State: AFq9FYKOEXAwtPE4pKdxVM/SEF4yuwxJFFRdSFrmwRYcDjBz8hMC6e61
-	vTGIJWP0VlNDgKf4bBOsd1G5oQoZFAy1Zr0ITvNopJC9a4Eo3ERpcqXY70+fklrbOYPXMURuRL4
-	b0h6DA6I=
-X-Gm-Gg: AYBFou1AMCKfPIQhBLQH68O0LpCrKMTgN5dqhdBVc53gjys7Vojskni8BcpDcm+FOYF
-	CFayjEsR1QFKEj5PIiIC/wiSe/G5lDcioMzxZAp7U4gZja0/ZbwvvsR6bmMZnacx7NEd6hvSBuK
-	BtUQJ0HrqmUV2uVNTED4JYNlI/mEtatd+keV47Hup6CTO9nZdR8+LVjEdruolbWdzup1HShn1vY
-	aaEMSnu1gc9pujxf4JcEWob4Tp3ETufYvUc9yKwRbOD+UD9mmfeqTdxNeiIQTXvK/GdgZYanyFy
-	cwuTu5Pwk5ZRBPBiO+7qhhi0WDAJKi+DbLPi97srYeyOgHNbwlPBZNRlBTqu7sEZeMlrZmNXTg6
-	lGFYe1lMJhH5igxdiu6CHYB2CCnLzEiIjSVCsgcvNqPy9f4urC3fsSr8/JjZsFpCbmfrvwBW7G0
-	7rv681KTE8TbWGNL4+WW9xmuhz6rmiBNUqk6BuJpLO2b79vnKEZbxMnt65Q+YD863uX0wquUbBy
-	bWyE3xyj7zjEr5NNZgz/ZjVBAMw4dMezb7p3V8JySYr72Zfv7iHSZM0qcEaVQosolBbiNK2hWC1
-	2KQE4g==
-X-Received: by 2002:a05:6000:3c7:b0:486:f42f:6860 with SMTP id ffacd0b85a97d-48b0258e863mr1301903f8f.56.1790755923557;
-        Wed, 30 Sep 2026 01:12:03 -0700 (PDT)
-Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b029f01d9sm1465064f8f.23.2026.09.30.01.12.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 01:12:03 -0700 (PDT)
-From: Yoann Congal <yoann.congal@smile.fr>
-To: openembedded-core@lists.openembedded.org
-Cc: Paul Barker <paul@pbarker.dev>
-Subject: [OE-core][wrynose 00/28] Pull request (cover letter only)
-Date: Wed, 30 Sep 2026 10:11:41 +0200
-Message-ID: <cover.1790754758.git.yoann.congal@smile.fr>
-X-Mailer: git-send-email 2.55.0
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=wGmTqQij;
+ spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-02.galae.net (Postfix) with ESMTPS id 7A3931A107D
+	for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 08:16:46 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id 47A1F60749
+	for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 08:16:46 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 8793D103298A9;
+	Wed, 30 Sep 2026 10:16:45 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790756205; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=LW3KvIxjwPjQLgQOzRnTfK5M3PSzX990FgJcvZqQCdo=;
+	b=wGmTqQijcIAo3KxaVj02r6TwbSFNQgtclxJoeaR0CZ7rJuDZFyh5VdEle6IPmhz4FT9Mtt
+	mAIHt+XihhMM91uehrpCaaTqnY09tUBjfw0RguP7T5cCCE8MPuGZ6BjoRnn8OixaSObcin
+	/z+u+F/h6nHPsri5pUAVaxDQlScbGENikhK5jWAC8mABsRylgIwiaigfgIcTz+GQpWN4pZ
+	8C6A6BMEQegeLcHaWRmj1xJMgW5TZWV5qPaTQZZkIyTVEmJFBYWERSpFxedWe7ouaJLKKJ
+	pNXfDV5XYPXRSkZM8KFMBlG5piL2j5nUxDOQ/mXFk15W16bNksGgCpxccCn//g==
+From: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+Date: Wed, 30 Sep 2026 10:16:26 +0200
+Subject: [PATCH 01/24] python3-pytz: upgrade 2026.3.post1 -> 2026.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 7bit
+Message-Id: <20260930-mathieu-upgrades-2026-02-29-v1-1-102c38be04df@bootlin.com>
+References: <20260930-mathieu-upgrades-2026-02-29-v1-0-102c38be04df@bootlin.com>
+In-Reply-To: <20260930-mathieu-upgrades-2026-02-29-v1-0-102c38be04df@bootlin.com>
+To: openembedded-core@lists.openembedded.org
+Cc: Thomas Petazzoni <thomas.petazzoni@bootlin.com>, 
+ Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+X-Mailer: b4 0.14.3
+X-Developer-Signature: v=1; a=ed25519-sha256; t=1790756204; l=1115;
+ i=mathieu.dubois-briand@bootlin.com; s=20241219; h=from:subject:message-id;
+ bh=DJqgJpcra89p47hhSexJKzXnkw9tTGZNLDbwoJBWDzY=;
+ b=2Q50uOIcppeUPmXsGtPx1awpqm7r3b+7BgVzzcxq35Wv7D4a9kCOySzcjJaDF1fKrXJBUzMg8
+ 4JaWGIZLh2mCzvu+q5fZlaXkWv/efYJTclnH+2jx3b5c+L+YH+pOIld
+X-Developer-Key: i=mathieu.dubois-briand@bootlin.com; a=ed25519;
+ pk=1PVTmzPXfKvDwcPUzG0aqdGoKZJA3b9s+3DqRlm0Lww=
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 08:12:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246923
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 08:16:51 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246924
 
-Those are the patches from the last patch review:
-https://lore.kernel.org/all/cover.1790494949.git.yoann.congal@smile.fr/
+Full changelog:
+https://github.com/stub42/pytz/compare/release_2026.3.post1...release_2026.4
 
-Passed a-full on autobuilder:
-https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4811
+Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
+---
+ .../python/{python3-pytz_2026.3.post1.bb => python3-pytz_2026.4.bb}     | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-The following changes since commit cc4695f65beb6e5069fbecc16475fa5a27c768e9:
+diff --git a/meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb b/meta/recipes-devtools/python/python3-pytz_2026.4.bb
+similarity index 86%
+rename from meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb
+rename to meta/recipes-devtools/python/python3-pytz_2026.4.bb
+index 72a74db35776..4a2eda07a606 100644
+--- a/meta/recipes-devtools/python/python3-pytz_2026.3.post1.bb
++++ b/meta/recipes-devtools/python/python3-pytz_2026.4.bb
+@@ -7,7 +7,7 @@ inherit pypi setuptools3 ptest-python-pytest
+ 
+ PTEST_PYTEST_DIR = "pytz/tests"
+ 
+-SRC_URI[sha256sum] = "2211d3fcf9a797d3405cac96ac7f61d80e6a644f72a3309607282fe8a2010c5d"
++SRC_URI[sha256sum] = "464303645bafafd72418898368b2429458f709cf1eb6a15372fbcc396b64da63"
+ 
+ RDEPENDS:${PN}:class-target += "\
+     python3-datetime \
 
-  mesa: align x86 mesa config with LLVM graphics (2026-09-24 12:36:03 +0200)
-
-are available in the Git repository at:
-
-  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-next
-  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-next
-
-for you to fetch changes up to 40993b0c42411caa5df71a75739b569fdffe981f:
-
-  linux-yocto/6.18: fix kernel reproducibility issues (2026-09-26 23:10:37 +0200)
-
-----------------------------------------------------------------
-
-Adrian Freihofer (1):
-  bitbake.conf: pseudo add rootfs-dbg to PSEUDO_INCLUDE_PATHS
-
-Ankur Tyagi (3):
-  ffmpeg: mark CVE-2026-52295, CVE-2026-52296 and CVE-2026-52297 fixed
-  libxfont2: patch CVE-2026-59679
-  libxfont2: patch CVE-2026-44950
-
-Benjamin Robin (3):
-  sbom-cve-check-update-db: Exclude recipes from rm_work
-  python3-sbom-cve-check: update to version 1.3.4
-  python3-sbom-cve-check: update to version 1.3.5
-
-Bhavesh R Maheshwari (3):
-  ffmpeg: Fix for CVE-2026-66037
-  ffmpeg: Fix for CVE-2026-66038
-  ffmpeg: Fix for CVE-2026-66039
-
-Bruce Ashfield (4):
-  linux-yocto/6.18: rt: update to v6.18.37-rt6
-  linux-yocto/6.18: update to v6.18.50
-  linux-yocto/6.18: update to v6.18.52
-  linux-yocto/6.18: fix kernel reproducibility issues
-
-Daniel Dragomir (1):
-  toolchain-scripts: fix kernel host tool builds broken in the SDK
-
-Devansh Patel (1):
-  vim: Fix CVE-2026-28417 hostname regression
-
-Jonas Juffinger (1):
-  kernel-fit-image: Don't add hash node when signing is enabled
-
-Peter Marko (2):
-  go: upgrade 1.26.7 -> 1.26.8
-  fmt: update branch name to main
-
-Richard Purdie (4):
-  dhcpcd: upgrade 10.3.1 -> 10.3.2
-  sbom-cve-check-update-{nvd-native,cvelist-native}: upgrade 2026.08.25
-    -> 2026.09.12
-  sstate: Update mtime/atime for sig/siginfo files in
-    sstate_checkhashes()
-  sstate: Update unpack touch code to be consistent
-
-Roopa Kalmath (1):
-  qemu: fix CVE-2026-48914
-
-Tim Orling (1):
-  at-spi2-core: RDEPENDS on gsettings-desktop-schemas
-
-Wang Mingyu (1):
-  sbom-cve-check-update-nvd-native,sbom-cve-check-update-cvelist-native:
-    upgrade 2026.08.03-000011 -> 2026.08.25-000009
-
-Xiuzhuo Shang (1):
-  bluez5: restrict delta=0 RSSI to proximity filters
-
-Yoann Congal (1):
-  cpio: fix "CVE:" marker in CVE-2026-66484.patch
-
- meta/classes-global/sstate.bbclass            | 16 +--
- meta/classes-recipe/toolchain-scripts.bbclass |  2 +
- meta/conf/bitbake.conf                        |  2 +-
- meta/lib/oe/fitimage.py                       |  2 +-
- meta/lib/oeqa/selftest/cases/fitimage.py      |  8 +-
- meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
- ...ct-delta-0-RSSI-to-proximity-filters.patch | 86 ++++++++++++++++
- .../{dhcpcd_10.3.1.bb => dhcpcd_10.3.2.bb}    |  2 +-
- ...mprove-the-sitation-of-working-with-.patch |  2 +-
- ...-conflict-error-when-enable-multilib.patch |  4 +-
- ...e-INCLUDEDIR-to-prevent-build-issues.patch |  4 +-
- meta/recipes-devtools/fmt/fmt_12.1.0.bb       |  2 +-
- .../go/{go-1.26.7.inc => go-1.26.8.inc}       |  2 +-
- ...e_1.26.7.bb => go-binary-native_1.26.8.bb} |  6 +-
- ..._1.26.7.bb => go-cross-canadian_1.26.8.bb} |  0
- ...{go-cross_1.26.7.bb => go-cross_1.26.8.bb} |  0
- ...osssdk_1.26.7.bb => go-crosssdk_1.26.8.bb} |  0
- ...runtime_1.26.7.bb => go-runtime_1.26.8.bb} |  0
- .../go/{go_1.26.7.bb => go_1.26.8.bb}         |  0
- meta/recipes-devtools/qemu/qemu.inc           |  1 +
- .../qemu/qemu/CVE-2026-48914.patch            | 60 +++++++++++
- ...3.3.bb => python3-sbom-cve-check_1.3.5.bb} |  2 +-
- ...check-update-cvelist-native_2026-09-12.bb} |  2 +-
- .../sbom-cve-check-update-db.inc              |  1 +
- ...ck-update-nvd-native_2026.09.12-000023.bb} |  2 +-
- .../cpio/files/CVE-2026-66484.patch           |  2 +-
- .../xorg-lib/libxfont2/CVE-2026-44950.patch   | 99 +++++++++++++++++++
- .../xorg-lib/libxfont2/CVE-2026-59679.patch   | 93 +++++++++++++++++
- .../xorg-lib/libxfont2_2.0.7.bb               |  2 +
- .../linux/linux-yocto-rt_6.18.bb              |  6 +-
- .../linux/linux-yocto-tiny_6.18.bb            |  6 +-
- meta/recipes-kernel/linux/linux-yocto_6.18.bb | 24 ++---
- .../ffmpeg/ffmpeg/CVE-2026-66037.patch        | 39 ++++++++
- .../ffmpeg/ffmpeg/CVE-2026-66038.patch        | 50 ++++++++++
- .../ffmpeg/ffmpeg/CVE-2026-66039.patch        | 38 +++++++
- .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |  6 ++
- .../atk/at-spi2-core_2.60.0.bb                |  2 +
- .../vim/files/CVE-2026-28417-regression.patch | 65 ++++++++++++
- meta/recipes-support/vim/vim.inc              |  1 +
- 39 files changed, 596 insertions(+), 44 deletions(-)
- create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
- rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.3.1.bb => dhcpcd_10.3.2.bb} (97%)
- rename meta/recipes-devtools/go/{go-1.26.7.inc => go-1.26.8.inc} (90%)
- rename meta/recipes-devtools/go/{go-binary-native_1.26.7.bb => go-binary-native_1.26.8.bb} (80%)
- rename meta/recipes-devtools/go/{go-cross-canadian_1.26.7.bb => go-cross-canadian_1.26.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-cross_1.26.7.bb => go-cross_1.26.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-crosssdk_1.26.7.bb => go-crosssdk_1.26.8.bb} (100%)
- rename meta/recipes-devtools/go/{go-runtime_1.26.7.bb => go-runtime_1.26.8.bb} (100%)
- rename meta/recipes-devtools/go/{go_1.26.7.bb => go_1.26.8.bb} (100%)
- create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-48914.patch
- rename meta/recipes-devtools/sbom-cve-check/{python3-sbom-cve-check_1.3.3.bb => python3-sbom-cve-check_1.3.5.bb} (82%)
- rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-cvelist-native_2026-08-03.bb => sbom-cve-check-update-cvelist-native_2026-09-12.bb} (89%)
- rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-nvd-native_2026.08.03-000011.bb => sbom-cve-check-update-nvd-native_2026.09.12-000023.bb} (89%)
- create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-44950.patch
- create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-59679.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66037.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66038.patch
- create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66039.patch
- create mode 100644 meta/recipes-support/vim/files/CVE-2026-28417-regression.patch
+-- 
+2.47.3
 
 
