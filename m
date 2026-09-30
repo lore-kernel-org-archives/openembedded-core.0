@@ -1,294 +1,213 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 4B7DECA5FC1
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 07:42:51 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8158.1790754106364821072
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 88F63CA5FC1
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 08:12:11 +0000 (UTC)
+Received: from mail-wr2-f36.google.com (mail-wr2-f36.google.com [74.125.225.100])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8519.1790755925640559055
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2026 00:41:46 -0700
+ Wed, 30 Sep 2026 01:12:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=U2gCoPGA;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=47339e56a2=himaniramesh.barde@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68U5t2P52393952;
-	Wed, 30 Sep 2026 07:34:39 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
-	 h=cc:content-transfer-encoding:content-type:date:from
-	:in-reply-to:message-id:mime-version:references:subject:to; s=
-	PPS06212021; bh=MqWRQM1iaCJeikmkTYuGMgRilUD1Oif+OpCXSzJKa6I=; b=
-	U2gCoPGAwPhSRQ9V/XEFcree1iV1YP7XHumdbsqNVLElDSvYBpJaXulIFsKBxyeK
-	zuOlWrESE1T0q2Yxp+RBjCESD9AziQdhnw+sv5zVc2o7vqC6kvC9Wl0jSnglm490
-	RalpkHhl4E5oe6UJW2WBPURP1s5EsEm3ha+W8SsgQ5+Y6VA+G4YxQywBt+Bmv7BG
-	jxN/7V6D/cpcipMSaR/PbUdd/SvoTU8Ur1MwN8StP8ZGxpmn8p9PH8WT9+RuJY9l
-	Oi2mmHn6UJpJYd62zED2/WHow+hI5gnEHjV2qzaOj5Yyebq7a7txyZe9LyJDqWo/
-	MroQf4UquIvpNRrHCyGGQw==
-Received: from ala-exchng02.corp.ad.wrs.com (ala-exchng02.wrs.com [128.224.246.37])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gx38we31b-1
-	(version=TLSv1.2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128 verify=NOT);
-	Wed, 30 Sep 2026 07:34:38 +0000 (GMT)
-Received: from ala-exchng01.corp.ad.wrs.com (10.11.224.121) by
- ALA-EXCHNG02.corp.ad.wrs.com (10.11.224.122) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.2507.61; Wed, 30 Sep 2026 00:34:37 -0700
-Received: from oak-lpgbuild10.wrs.com (10.11.232.110) by
- ala-exchng01.corp.ad.wrs.com (10.11.224.121) with Microsoft SMTP Server id
- 15.1.2507.61 via Frontend Transport; Wed, 30 Sep 2026 00:34:37 -0700
-From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: Randy MacLeod <Randy.MacLeod@windriver.com>,
-        Shiva Komati
-	<Shiva.Komati@windriver.com>,
-        Mathieu Dubois-Briand
-	<mathieu.dubois-briand@bootlin.com>,
-        Himani Ramesh Barde
-	<HimaniRamesh.Barde@windriver.com>
-Subject: [PATCH v4] tiff: add ptest support
-Date: Wed, 30 Sep 2026 07:34:32 +0000
-Message-ID: <20260930073432.3027882-1-HimaniRamesh.Barde@windriver.com>
-X-Mailer: git-send-email 2.54.0
-In-Reply-To: <20260925080552.4144665-1-HimaniRamesh.Barde@windriver.com>
-References: <20260925080552.4144665-1-HimaniRamesh.Barde@windriver.com>
+ dkim=pass header.i=@smile.fr header.s=google header.b=LG7VkQqi;
+ spf=pass (domain: smile.fr, ip: 74.125.225.100, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f36.google.com with SMTP id ffacd0b85a97d-4843c3ee4cfso2528879f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 01:12:05 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1790755924; x=1791360724; darn=lists.openembedded.org;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=/CcG7qw2D5LIdizLtdddznEzBtqBTcu67seaOmDD4to=;
+        b=LG7VkQqiiXTLbO3P6DhCU9f2yB4/mwbH93SDihKv6QisrLeSaQ358jOG+PgbjcZ7SJ
+         022yxcDbIEruBtQneeU0mF/aVp8X4z1858+s8JrOo10iAtavbDydb9LStI3Am75XDtkR
+         AaxN6glBcu81Nlmt3CZFXZ8DB6LQNsrN2wAi8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790755924; x=1791360724;
+        h=content-transfer-encoding:content-type:mime-version:message-id:date
+         :subject:cc:to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject
+         :date:message-id:reply-to:content-type;
+        bh=/CcG7qw2D5LIdizLtdddznEzBtqBTcu67seaOmDD4to=;
+        b=LRWshzcP9S+7ixEIw33RWkYeM1n8zC88S8RofwByjLGhqSXiv8QppgXCEEkrJSJYq/
+         pVUhAoO0CXDtmHDr/pAx6+Ht6uaubJL/WbQXZW7E6NeC46ZDOrJVfjZ0SwpMbBJ/sZlV
+         jqZybur0QPEc7/ySoszDXii8TqDO5hrdi+KcvVNZNp9aErtYiV4WJdceHw7YC3eLOcdN
+         kDBNCaARPY9Z2H6GNaWGksfKqibcqH96wJ/X7n4jOwf8Jvi6hELsrvgYIBPTafh2ZBR6
+         SBpsvbIhDbWZARnAAvvCNEyAGucQ+YC6Gk1vYAFERCbLK1lAIaZHWFssxJn5QXkUWIeq
+         4z8g==
+X-Gm-Message-State: AFq9FYKOEXAwtPE4pKdxVM/SEF4yuwxJFFRdSFrmwRYcDjBz8hMC6e61
+	vTGIJWP0VlNDgKf4bBOsd1G5oQoZFAy1Zr0ITvNopJC9a4Eo3ERpcqXY70+fklrbOYPXMURuRL4
+	b0h6DA6I=
+X-Gm-Gg: AYBFou1AMCKfPIQhBLQH68O0LpCrKMTgN5dqhdBVc53gjys7Vojskni8BcpDcm+FOYF
+	CFayjEsR1QFKEj5PIiIC/wiSe/G5lDcioMzxZAp7U4gZja0/ZbwvvsR6bmMZnacx7NEd6hvSBuK
+	BtUQJ0HrqmUV2uVNTED4JYNlI/mEtatd+keV47Hup6CTO9nZdR8+LVjEdruolbWdzup1HShn1vY
+	aaEMSnu1gc9pujxf4JcEWob4Tp3ETufYvUc9yKwRbOD+UD9mmfeqTdxNeiIQTXvK/GdgZYanyFy
+	cwuTu5Pwk5ZRBPBiO+7qhhi0WDAJKi+DbLPi97srYeyOgHNbwlPBZNRlBTqu7sEZeMlrZmNXTg6
+	lGFYe1lMJhH5igxdiu6CHYB2CCnLzEiIjSVCsgcvNqPy9f4urC3fsSr8/JjZsFpCbmfrvwBW7G0
+	7rv681KTE8TbWGNL4+WW9xmuhz6rmiBNUqk6BuJpLO2b79vnKEZbxMnt65Q+YD863uX0wquUbBy
+	bWyE3xyj7zjEr5NNZgz/ZjVBAMw4dMezb7p3V8JySYr72Zfv7iHSZM0qcEaVQosolBbiNK2hWC1
+	2KQE4g==
+X-Received: by 2002:a05:6000:3c7:b0:486:f42f:6860 with SMTP id ffacd0b85a97d-48b0258e863mr1301903f8f.56.1790755923557;
+        Wed, 30 Sep 2026 01:12:03 -0700 (PDT)
+Received: from FRSMI25-LASER.idf.intranet (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b029f01d9sm1465064f8f.23.2026.09.30.01.12.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2026 01:12:03 -0700 (PDT)
+From: Yoann Congal <yoann.congal@smile.fr>
+To: openembedded-core@lists.openembedded.org
+Cc: Paul Barker <paul@pbarker.dev>
+Subject: [OE-core][wrynose 00/28] Pull request (cover letter only)
+Date: Wed, 30 Sep 2026 10:11:41 +0200
+Message-ID: <cover.1790754758.git.yoann.congal@smile.fr>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-X-Proofpoint-GUID: niyytVJf83iUt3IxdF7ONl1nXAkhs0nz
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTMwMDAyOSBTYWx0ZWRfX94RprQaFpIH5
- 9B1d+2IrSUMaIpaFCNwc8ObkHtek6uCPm02YBO0S6bKugG+BTQqFhXNQ9RQu+IwbFWisJ59vXBr
- wa2vfrCanZoGI3nzHk6vyCJrvq1ve5tGFePXrwMegp2IfWhwlxkSIld6gI6cXMzki8pcunPXx45
- 5+J7AKZt6vUjqB2HnZX6k0cnGwma5wp1ciZPBI6lA+5jN+NlYKPOFjH0mjy264wWCXz8/NH0cQD
- mCm2y75xtmW1zznhpzElS7Avv1mG3oHIRncSfEfbhPvyHBJw9pzrLUIkQ+ciq3i5vMuHAE0Bl4K
- 5Dk/qe7h6q8aTlVwj1VrmTFW4G0YUdwKMjCNmZ6uySpP63pHciwS0NlBk1QAcnHE2JO+4o70m9Q
- WP7dpyqO3oDFAyavZ1W/VkOAHhpUubJsnvQCjIAHXf2xCp9UPzoYgjkE3MO/C+h46ilnzoM6bQ1
- 8wz7LULGX0H7SyfqgVA==
-X-Proofpoint-ORIG-GUID: niyytVJf83iUt3IxdF7ONl1nXAkhs0nz
-X-Authority-Analysis: v=2.4 cv=ZYSIpcVA c=1 sm=1 tr=0 ts=6abcbb8e cx=c_pps
- a=Lg6ja3A245NiLSnFpY5YKQ==:117 a=Lg6ja3A245NiLSnFpY5YKQ==:17
- a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=bi6dqmuHe4P4UrxVR6um:22
- a=klDOsUkWDRETUCZYPvoE:22 a=Qs8GJauRAAAA:8 a=t7CeM3EgAAAA:8
- a=U56svMRynmzF8my4cj4A:9 a=-MsOl3yrPmtpHepMbiy1:22 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTMwMDAyOSBTYWx0ZWRfX2JHLJvMjGboe
- 6RIsovXgHtWLo/k5zRFy+O8n0a+TrCv6ACLmgYJ4K1xTp5IpFETf0sJAmc43JgvQA8OK4sCzvyx
- 0zjqY/ocOcQAOt6dXnSTtnDsdzio868ZLENZsZhVOisn8lNA+T6/
-X-Proofpoint-Virus-Version: vendor=baseguard
- engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
- definitions=2026-09-29_05,2026-09-21_02,2025-10-01_01
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- phishscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
- classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609300029
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 07:42:51 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246922
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 08:12:11 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246923
 
-Run the libtiff test suite as a ptest: the C unit tests (the automake
-check_PROGRAMS) and the shell tests that drive the tiff command-line tools.
+Those are the patches from the last patch review:
+https://lore.kernel.org/all/cover.1790494949.git.yoann.congal@smile.fr/
 
-do_compile_ptest builds the test programs. do_install_ptest installs the
-binaries, the shell scripts, the common.sh helper, and the images/ and
-refs/ data, and points common.sh at the installed tools in ${bindir}
-instead of the build tree. The recipe lists the C programs once, in
-TIFF_PTEST_PROGS, and fills that list into run-ptest at install time.
+Passed a-full on autobuilder:
+https://autobuilder.yoctoproject.org/valkyrie/?#/builders/29/builds/4811
 
-One test, test_ifd_loop_detection, opened its images through a build-time
-path instead of relative to the current directory, so it failed once
-installed. A small upstream patch makes it read the images from ".", like
-the other tests, so it now passes on every architecture.
+The following changes since commit cc4695f65beb6e5069fbecc16475fa5a27c768e9:
 
-run-ptest prints automake-style PASS/FAIL/SKIP lines. Two tests skip in the
-default configuration:
+  mesa: align x86 mesa config with LLVM graphics (2026-09-24 12:36:03 +0200)
 
-  - the JBIG test, because jbig is not in the default PACKAGECONFIG
-  - the thumbnail test, because the thumbnail tool is not built
+are available in the Git repository at:
 
-Registered under PTESTS_SLOW in ptest-packagelists.inc; the suite runs in
-about 30s on qemux86-64.
+  https://git.openembedded.org/openembedded-core-contrib stable/wrynose-next
+  https://git.openembedded.org/openembedded-core-contrib/log/?h=stable/wrynose-next
 
-Validated on qemux86-64:
+for you to fetch changes up to 40993b0c42411caa5df71a75739b569fdffe981f:
 
-  - 17 C unit tests pass
-  - 85 shell tests pass
-  - 2 skip (jbig, thumbnail)
-  - 0 fail
+  linux-yocto/6.18: fix kernel reproducibility issues (2026-09-26 23:10:37 +0200)
 
-Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
----
+----------------------------------------------------------------
 
-v4:
-- Regenerate the embedded test_ifd_loop_detection patch against tiff
-  4.7.2 so it applies without fuzz (reported by the autobuilder).
+Adrian Freihofer (1):
+  bitbake.conf: pseudo add rootfs-dbg to PSEUDO_INCLUDE_PATHS
 
-v3:
-- Fix test_ifd_loop_detection on non-x86 architectures. It opened its
-  images through the build-time SOURCE_DIR path, which does not exist in
-  the installed ptest; a small upstream patch makes it read them relative
-  to ".", like the other tests. This replaces the run-ptest symlink that
-  v2 used to fake that path.
-- Reword the commit message per review.
+Ankur Tyagi (3):
+  ffmpeg: mark CVE-2026-52295, CVE-2026-52296 and CVE-2026-52297 fixed
+  libxfont2: patch CVE-2026-59679
+  libxfont2: patch CVE-2026-44950
 
-v2:
-- Drop the INSANE_SKIP buildpaths; the test binaries package cleanly.
-- Drop make and bash from RDEPENDS (run-ptest calls neither).
-- Define the C test program list once (TIFF_PTEST_PROGS) instead of
-  duplicating it in run-ptest.
- .../distro/include/ptest-packagelists.inc     |  1 +
- .../recipes-multimedia/libtiff/tiff/run-ptest | 23 ++++++++++
- ...t_ifd_loop_detection-relative-images.patch | 34 +++++++++++++++
- meta/recipes-multimedia/libtiff/tiff_4.7.2.bb | 42 ++++++++++++++++++-
- 4 files changed, 99 insertions(+), 1 deletion(-)
- create mode 100755 meta/recipes-multimedia/libtiff/tiff/run-ptest
- create mode 100644 meta/recipes-multimedia/libtiff/tiff/test_ifd_loop_detection-relative-images.patch
+Benjamin Robin (3):
+  sbom-cve-check-update-db: Exclude recipes from rm_work
+  python3-sbom-cve-check: update to version 1.3.4
+  python3-sbom-cve-check: update to version 1.3.5
 
-diff --git a/meta/conf/distro/include/ptest-packagelists.inc b/meta/conf/distro/include/ptest-packagelists.inc
-index 2b5d665..837e1c1 100644
---- a/meta/conf/distro/include/ptest-packagelists.inc
-+++ b/meta/conf/distro/include/ptest-packagelists.inc
-@@ -151,6 +151,7 @@ PTESTS_SLOW = "\
-     tar \
-     tcl \
-     tcl8 \
-+    tiff \
-     util-linux \
-     zstd \
- "
-diff --git a/meta/recipes-multimedia/libtiff/tiff/run-ptest b/meta/recipes-multimedia/libtiff/tiff/run-ptest
-new file mode 100755
-index 0000000..ebf11c9
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/run-ptest
-@@ -0,0 +1,23 @@
-+#!/bin/sh
-+# Run the libtiff test suite and emit ptest-style PASS/FAIL/SKIP lines.
-+cd "$(dirname "$0")/test" || exit 1
-+
-+
-+# @PROGS@ is filled in from TIFF_PTEST_PROGS at install time.
-+CPROGS="@PROGS@"
-+
-+for t in $CPROGS; do
-+    if [ -x "./$t" ]; then
-+        if ./"$t" >/dev/null 2>&1; then echo "PASS: $t"; else echo "FAIL: $t"; fi
-+    fi
-+done
-+
-+for t in *.sh; do
-+    [ "$t" = "common.sh" ] && continue
-+    case "$t" in
-+        *jbig*) echo "SKIP: $t (JBIG support not enabled)"; continue ;;
-+        tiffcp-thumbnail.sh)
-+            command -v thumbnail >/dev/null 2>&1 || { echo "SKIP: $t (thumbnail tool not built)"; continue; } ;;
-+    esac
-+    if sh "./$t" >/dev/null 2>&1; then echo "PASS: $t"; else echo "FAIL: $t"; fi
-+done
-diff --git a/meta/recipes-multimedia/libtiff/tiff/test_ifd_loop_detection-relative-images.patch b/meta/recipes-multimedia/libtiff/tiff/test_ifd_loop_detection-relative-images.patch
-new file mode 100644
-index 0000000..c46e74d
---- /dev/null
-+++ b/meta/recipes-multimedia/libtiff/tiff/test_ifd_loop_detection-relative-images.patch
-@@ -0,0 +1,34 @@
-+From 0000000000000000000000000000000000000000 Mon Sep 17 00:00:00 2001
-+From: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-+Date: Tue, 22 Sep 2026 00:00:00 +0000
-+Subject: [PATCH] test_ifd_loop_detection: find images relative to CWD
-+
-+test_ifd_loop_detection is the only C test in the suite that references
-+its input images through the compile-time SOURCE_DIR macro
-+(-DSOURCE_DIR="@srcdir@") instead of opening them relative to the current
-+working directory the way every other test does. When the test is run
-+from an installed location (for example an OpenEmbedded ptest package)
-+the build-time @srcdir@ path no longer exists, so the images are not
-+found and the test fails.
-+
-+Override SOURCE_DIR to "." so the images are resolved relative to the
-+directory the test is executed from, matching the behaviour of the other
-+tests. In-tree "make check" still works because it runs the test from the
-+build test/ directory whose srcdir is already ".".
-+
-+Upstream-Status: Submitted [libtiff]
-+
-+Signed-off-by: Himani Ramesh Barde <HimaniRamesh.Barde@windriver.com>
-+---
-+--- a/test/test_ifd_loop_detection.c
-++++ b/test/test_ifd_loop_detection.c
-+@@ -46,6 +46,9 @@
-+ 
-+ #include "tiffio.h"
-+ 
-++#undef SOURCE_DIR
-++#define SOURCE_DIR "."
-++
-+ // #define DEBUG_TESTING
-+ #ifdef DEBUG_TESTING
-+ #define GOTOFAILURE                                                            \
-diff --git a/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb b/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
-index 8bc3a48..767b295 100644
---- a/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
-+++ b/meta/recipes-multimedia/libtiff/tiff_4.7.2.bb
-@@ -9,6 +9,8 @@ LIC_FILES_CHKSUM = "file://LICENSE.md;md5=4ab490c3088a0acff254eb2f8c577547"
- CVE_PRODUCT = "libtiff"
- 
- SRC_URI = "http://download.osgeo.org/libtiff/tiff-${PV}.tar.gz \
-+           file://test_ifd_loop_detection-relative-images.patch \
-+           file://run-ptest \
- 	   "
- 
- SRC_URI[sha256sum] = "672bd7d10aee4606171afb864f3570b83340f6a33e2c186dc0512f7145ffdf6a"
-@@ -23,7 +25,7 @@ CVE_STATUS[CVE-2023-6277] = "fixed-version: Fixed since 4.7.0, NVD tracks this a
- CVE_STATUS[CVE-2025-8851] = "fixed-version: Fixed since 4.7.0, NVD tracks this as fixed in 2024-08-11 vulnerability"
- CVE_STATUS[CVE-2026-4775] = "fixed-version: Fixed since 4.7.2, NVD tracks this as version-less vulnerability"
- 
--inherit autotools multilib_header
-+inherit autotools multilib_header ptest
- 
- CACHED_CONFIGUREVARS = "ax_cv_check_gl_libgl=no"
- 
-@@ -64,3 +66,41 @@ do_install:append() {
- }
- 
- BBCLASSEXTEND = "native nativesdk"
-+
-+# C unit-test programs (check_PROGRAMS) built and run by ptest. Defined once
-+# here and substituted into run-ptest at install time to avoid duplication.
-+TIFF_PTEST_PROGS = "ascii_tag long_tag short_tag strip_rw rewrite custom_dir \
-+    custom_dir_EXIF_231 defer_strile_loading defer_strile_writing \
-+    test_directory test_IFD_enlargement test_open_options \
-+    test_append_to_strip test_ifd_loop_detection testtypes \
-+    test_signed_tags raw_decode"
-+
-+do_compile_ptest() {
-+    oe_runmake -C ${B}/test check TESTS=""
-+}
-+
-+do_install_ptest() {
-+    install -d ${D}${PTEST_PATH}/test
-+    # Compiled C unit-test programs. libtool leaves a wrapper script in test/
-+    # and the real ELF binary in test/.libs/; testtypes is static and lives
-+    # only in test/.
-+    for prog in ${TIFF_PTEST_PROGS}; do
-+        if [ -e ${B}/test/.libs/$prog ]; then
-+            install -m 0755 ${B}/test/.libs/$prog ${D}${PTEST_PATH}/test/
-+        else
-+            install -m 0755 ${B}/test/$prog ${D}${PTEST_PATH}/test/
-+        fi
-+    done
-+    # Shell test scripts and the shared helper
-+    install ${S}/test/*.sh ${D}${PTEST_PATH}/test/
-+    install ${S}/test/common.sh ${D}${PTEST_PATH}/test/
-+    # Point the test scripts at the installed tiff tools instead of ../tools
-+    sed -i -e "s|^TOOLS=.*|TOOLS=${bindir}|" ${D}${PTEST_PATH}/test/common.sh
-+    # Fill in the C test program list from TIFF_PTEST_PROGS.
-+    sed -i -e "s|@PROGS@|${TIFF_PTEST_PROGS}|" ${D}${PTEST_PATH}/run-ptest
-+    # Input images and reference outputs
-+    cp -r ${S}/test/images ${D}${PTEST_PATH}/test/
-+    cp -r ${S}/test/refs ${D}${PTEST_PATH}/test/
-+}
-+
-+RDEPENDS:${PN}-ptest += "tiff-utils"
--- 
-2.54.0
+Bhavesh R Maheshwari (3):
+  ffmpeg: Fix for CVE-2026-66037
+  ffmpeg: Fix for CVE-2026-66038
+  ffmpeg: Fix for CVE-2026-66039
+
+Bruce Ashfield (4):
+  linux-yocto/6.18: rt: update to v6.18.37-rt6
+  linux-yocto/6.18: update to v6.18.50
+  linux-yocto/6.18: update to v6.18.52
+  linux-yocto/6.18: fix kernel reproducibility issues
+
+Daniel Dragomir (1):
+  toolchain-scripts: fix kernel host tool builds broken in the SDK
+
+Devansh Patel (1):
+  vim: Fix CVE-2026-28417 hostname regression
+
+Jonas Juffinger (1):
+  kernel-fit-image: Don't add hash node when signing is enabled
+
+Peter Marko (2):
+  go: upgrade 1.26.7 -> 1.26.8
+  fmt: update branch name to main
+
+Richard Purdie (4):
+  dhcpcd: upgrade 10.3.1 -> 10.3.2
+  sbom-cve-check-update-{nvd-native,cvelist-native}: upgrade 2026.08.25
+    -> 2026.09.12
+  sstate: Update mtime/atime for sig/siginfo files in
+    sstate_checkhashes()
+  sstate: Update unpack touch code to be consistent
+
+Roopa Kalmath (1):
+  qemu: fix CVE-2026-48914
+
+Tim Orling (1):
+  at-spi2-core: RDEPENDS on gsettings-desktop-schemas
+
+Wang Mingyu (1):
+  sbom-cve-check-update-nvd-native,sbom-cve-check-update-cvelist-native:
+    upgrade 2026.08.03-000011 -> 2026.08.25-000009
+
+Xiuzhuo Shang (1):
+  bluez5: restrict delta=0 RSSI to proximity filters
+
+Yoann Congal (1):
+  cpio: fix "CVE:" marker in CVE-2026-66484.patch
+
+ meta/classes-global/sstate.bbclass            | 16 +--
+ meta/classes-recipe/toolchain-scripts.bbclass |  2 +
+ meta/conf/bitbake.conf                        |  2 +-
+ meta/lib/oe/fitimage.py                       |  2 +-
+ meta/lib/oeqa/selftest/cases/fitimage.py      |  8 +-
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ ...ct-delta-0-RSSI-to-proximity-filters.patch | 86 ++++++++++++++++
+ .../{dhcpcd_10.3.1.bb => dhcpcd_10.3.2.bb}    |  2 +-
+ ...mprove-the-sitation-of-working-with-.patch |  2 +-
+ ...-conflict-error-when-enable-multilib.patch |  4 +-
+ ...e-INCLUDEDIR-to-prevent-build-issues.patch |  4 +-
+ meta/recipes-devtools/fmt/fmt_12.1.0.bb       |  2 +-
+ .../go/{go-1.26.7.inc => go-1.26.8.inc}       |  2 +-
+ ...e_1.26.7.bb => go-binary-native_1.26.8.bb} |  6 +-
+ ..._1.26.7.bb => go-cross-canadian_1.26.8.bb} |  0
+ ...{go-cross_1.26.7.bb => go-cross_1.26.8.bb} |  0
+ ...osssdk_1.26.7.bb => go-crosssdk_1.26.8.bb} |  0
+ ...runtime_1.26.7.bb => go-runtime_1.26.8.bb} |  0
+ .../go/{go_1.26.7.bb => go_1.26.8.bb}         |  0
+ meta/recipes-devtools/qemu/qemu.inc           |  1 +
+ .../qemu/qemu/CVE-2026-48914.patch            | 60 +++++++++++
+ ...3.3.bb => python3-sbom-cve-check_1.3.5.bb} |  2 +-
+ ...check-update-cvelist-native_2026-09-12.bb} |  2 +-
+ .../sbom-cve-check-update-db.inc              |  1 +
+ ...ck-update-nvd-native_2026.09.12-000023.bb} |  2 +-
+ .../cpio/files/CVE-2026-66484.patch           |  2 +-
+ .../xorg-lib/libxfont2/CVE-2026-44950.patch   | 99 +++++++++++++++++++
+ .../xorg-lib/libxfont2/CVE-2026-59679.patch   | 93 +++++++++++++++++
+ .../xorg-lib/libxfont2_2.0.7.bb               |  2 +
+ .../linux/linux-yocto-rt_6.18.bb              |  6 +-
+ .../linux/linux-yocto-tiny_6.18.bb            |  6 +-
+ meta/recipes-kernel/linux/linux-yocto_6.18.bb | 24 ++---
+ .../ffmpeg/ffmpeg/CVE-2026-66037.patch        | 39 ++++++++
+ .../ffmpeg/ffmpeg/CVE-2026-66038.patch        | 50 ++++++++++
+ .../ffmpeg/ffmpeg/CVE-2026-66039.patch        | 38 +++++++
+ .../recipes-multimedia/ffmpeg/ffmpeg_8.0.3.bb |  6 ++
+ .../atk/at-spi2-core_2.60.0.bb                |  2 +
+ .../vim/files/CVE-2026-28417-regression.patch | 65 ++++++++++++
+ meta/recipes-support/vim/vim.inc              |  1 +
+ 39 files changed, 596 insertions(+), 44 deletions(-)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch
+ rename meta/recipes-connectivity/dhcpcd/{dhcpcd_10.3.1.bb => dhcpcd_10.3.2.bb} (97%)
+ rename meta/recipes-devtools/go/{go-1.26.7.inc => go-1.26.8.inc} (90%)
+ rename meta/recipes-devtools/go/{go-binary-native_1.26.7.bb => go-binary-native_1.26.8.bb} (80%)
+ rename meta/recipes-devtools/go/{go-cross-canadian_1.26.7.bb => go-cross-canadian_1.26.8.bb} (100%)
+ rename meta/recipes-devtools/go/{go-cross_1.26.7.bb => go-cross_1.26.8.bb} (100%)
+ rename meta/recipes-devtools/go/{go-crosssdk_1.26.7.bb => go-crosssdk_1.26.8.bb} (100%)
+ rename meta/recipes-devtools/go/{go-runtime_1.26.7.bb => go-runtime_1.26.8.bb} (100%)
+ rename meta/recipes-devtools/go/{go_1.26.7.bb => go_1.26.8.bb} (100%)
+ create mode 100644 meta/recipes-devtools/qemu/qemu/CVE-2026-48914.patch
+ rename meta/recipes-devtools/sbom-cve-check/{python3-sbom-cve-check_1.3.3.bb => python3-sbom-cve-check_1.3.5.bb} (82%)
+ rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-cvelist-native_2026-08-03.bb => sbom-cve-check-update-cvelist-native_2026-09-12.bb} (89%)
+ rename meta/recipes-devtools/sbom-cve-check/{sbom-cve-check-update-nvd-native_2026.08.03-000011.bb => sbom-cve-check-update-nvd-native_2026.09.12-000023.bb} (89%)
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-44950.patch
+ create mode 100644 meta/recipes-graphics/xorg-lib/libxfont2/CVE-2026-59679.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66037.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66038.patch
+ create mode 100644 meta/recipes-multimedia/ffmpeg/ffmpeg/CVE-2026-66039.patch
+ create mode 100644 meta/recipes-support/vim/files/CVE-2026-28417-regression.patch
 
 
