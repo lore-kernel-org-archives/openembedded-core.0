@@ -2,263 +2,60 @@ Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id ED0FECA5FAB
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 05:22:37 +0000 (UTC)
-Received: from a27-30.smtp-out.us-west-2.amazonses.com (a27-30.smtp-out.us-west-2.amazonses.com [54.240.27.30])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6583.1790745754733647054
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 89412CA5FBB
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 05:22:38 +0000 (UTC)
+Received: from a27-33.smtp-out.us-west-2.amazonses.com (a27-33.smtp-out.us-west-2.amazonses.com [54.240.27.33])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6585.1790745757299907946
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2026 22:22:34 -0700
+ Tue, 29 Sep 2026 22:22:37 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=XA3kwUpH;
- dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=0xH1PJts;
- spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.30, mailfrom: 010101a0f0c3b87b-892c3308-0a22-40c2-87d0-5c66bbd6eaaf-000000@us-west-2.amazonses.com)
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=njaFXse9;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=b7aOJvnB;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.33, mailfrom: 010101a0f0c3c2cf-18d0a5d5-7e4b-417a-86df-605366e2ba96-000000@us-west-2.amazonses.com)
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
 	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
-	t=1790745753;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date;
-	bh=mvwiDiFEYpxF7gOg6HTtMMGri7O7AjxKdjHbYly/QwQ=;
-	b=XA3kwUpHocUw95EIB2d3x8G7Va3Mx7JLwgg8h99673HJyIgP8heEW639pWdwAiIx
-	8U82tWuPE/zLxtJi48uyUfwaWw09oZTuJII5bPZZQy3rkbhmTwMTMDcKahZvSLp+PBU
-	Z5dMs9QkcgneIoeqzatl/nRylOfquuj5CiiT6M1I=
+	t=1790745756;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=onn0tHMjJd23YAFKHf35ty/VGZqcIkivsMIIofD1Tsk=;
+	b=njaFXse9FDHwQ/Qqvub+l7RoQ0Haa7rsw/hSJuV/wXeQiWtsw54Onh6dES9S1qEm
+	4i09UnYq7yqN6tnB7kSM0tCaucbBKWvKreZHbJ7FHAOb+Afiyfbg+G71DgJ4FCjqIvt
+	yurmeJHBqWvCUJHmSGPrqegtg89t7MBa9muU/qLo=
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
-	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790745753;
-	h=Content-Type:MIME-Version:From:To:Subject:Message-Id:Date:Feedback-ID;
-	bh=mvwiDiFEYpxF7gOg6HTtMMGri7O7AjxKdjHbYly/QwQ=;
-	b=0xH1PJtsTWRFWg9FLAl28cMde1LZxqPqyd+h9JC2TWIJgMrBJRcw4qlLOzfWqAel
-	mObXwGGhdixyYhUbObF7LrkHIqKFBTK7JOR3fHlrWarsNMf40wjaBF7ucJQVP1SKp86
-	HZH1hGM4T/JvxteCSN25OHgBPYalNvwnHBqENtoc=
-Content-Type: multipart/mixed; boundary="===============6905734371423022598=="
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790745756;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=onn0tHMjJd23YAFKHf35ty/VGZqcIkivsMIIofD1Tsk=;
+	b=b7aOJvnB13XSkzRX2bLQcwKuSc7oo9wFmBbhxPBzI7gHYUP9essbfGUdiCpj+ICF
+	HlaVPfWKaCuh/8w7HM3TzZx3vlmafLCtvrnbeBOkOFC2LrCevzxvA8NmRatpWzXDKeE
+	WxhEQ7Rbn0TWMYdOO2g71DMyo2JTe7F61mPPglro=
+Content-Type: multipart/mixed; boundary="===============1555259983474907911=="
 MIME-Version: 1.0
 From: auh@yoctoproject.org
-To: openembedded-core@lists.openembedded.org
-Subject: [AUH] tzcode-native,tzdata: upgrading to 2026e FAILED
-Message-ID: <010101a0f0c3b87b-892c3308-0a22-40c2-87d0-5c66bbd6eaaf-000000@us-west-2.amazonses.com>
-Date: Wed, 30 Sep 2026 05:22:33 +0000
+To: Yi Zhao <yi.zhao@windriver.com>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] tcl: upgrading to 9.1.0 FAILED
+Message-ID: <010101a0f0c3c2cf-18d0a5d5-7e4b-417a-86df-605366e2ba96-000000@us-west-2.amazonses.com>
+Date: Wed, 30 Sep 2026 05:22:36 +0000
 Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
-X-SES-Outgoing: 2026.09.30-54.240.27.30
+X-SES-Outgoing: 2026.09.30-54.240.27.33
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 05:22:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246909
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 05:22:38 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246911
 
---===============6905734371423022598==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-
-SGVsbG8sCgp0aGlzIGVtYWlsIGlzIGEgbm90aWZpY2F0aW9uIGZyb20gdGhlIEF1dG8gVXBncmFk
-ZSBIZWxwZXIKdGhhdCB0aGUgYXV0b21hdGljIGF0dGVtcHQgdG8gdXBncmFkZSB0aGUgcmVjaXBl
-KHMpICp0emNvZGUtbmF0aXZlLHR6ZGF0YSogdG8gKjIwMjZlKiBoYXMgRmFpbGVkKGRvX2NvbXBp
-bGUpLgoKRGV0YWlsZWQgZXJyb3IgaW5mb3JtYXRpb246Cgpkb19jb21waWxlIGZhaWxlZAoKCgpO
-ZXh0IHN0ZXBzOgogICAgLSBhcHBseSB0aGUgcGF0Y2g6IGdpdCBhbSAwMDAxLXR6Y29kZS1uYXRp
-dmUtdHpkYXRhLXVwZ3JhZGUtMjAyNmQtMjAyNmUucGF0Y2gKICAgIC0gY2hlY2sgdGhlIGNoYW5n
-ZXMgdG8gdXBzdHJlYW0gcGF0Y2hlcyBhbmQgc3VtbWFyaXplIHRoZW0gaW4gdGhlIGNvbW1pdCBt
-ZXNzYWdlLAogICAgLSBjb21waWxlIGFuIGltYWdlIHRoYXQgY29udGFpbnMgdGhlIHBhY2thZ2UK
-ICAgIC0gcGVyZm9ybSBzb21lIGJhc2ljIHNhbml0eSB0ZXN0cwogICAgLSBhbWVuZCB0aGUgcGF0
-Y2ggYW5kIHNpZ24gaXQgb2ZmOiBnaXQgY29tbWl0IC1zIC0tcmVzZXQtYXV0aG9yIC0tYW1lbmQK
-ICAgIC0gc2VuZCBpdCB0byB0aGUgYXBwcm9wcmlhdGUgbWFpbGluZyBsaXN0CgpBbHRlcm5hdGl2
-ZWx5LCBpZiB5b3UgYmVsaWV2ZSB0aGUgcmVjaXBlIHNob3VsZCBub3QgYmUgdXBncmFkZWQgYXQg
-dGhpcyB0aW1lLAp5b3UgY2FuIGZpbGwgUkVDSVBFX05PX1VQREFURV9SRUFTT04gaW4gcmVzcGVj
-dGl2ZSByZWNpcGUgZmlsZSBzbyB0aGF0CmF1dG9tYXRpYyB1cGdyYWRlcyB3b3VsZCBubyBsb25n
-ZXIgYmUgYXR0ZW1wdGVkLgoKUGxlYXNlIHJldmlldyB0aGUgYXR0YWNoZWQgZmlsZXMgZm9yIGZ1
-cnRoZXIgaW5mb3JtYXRpb24gYW5kIGJ1aWxkL3VwZGF0ZSBmYWlsdXJlcy4KQW55IHByb2JsZW0g
-cGxlYXNlIGZpbGUgYSBidWcgYXQgaHR0cHM6Ly9idWd6aWxsYS55b2N0b3Byb2plY3Qub3JnL2Vu
-dGVyX2J1Zy5jZ2k/cHJvZHVjdD1BdXRvbWF0ZWQlMjBVcGRhdGUlMjBIYW5kbGVyCgpSZWdhcmRz
-LApUaGUgVXBncmFkZSBIZWxwZXIKCi0tID44IC0tCkZyb20gNmU4ZDY1NDYxOWVlNzY0NjMxMzAw
-ZTkzYTY4MDEzZWMwZjFmMWMyNyBNb24gU2VwIDE3IDAwOjAwOjAwIDIwMDEKRnJvbTogVXBncmFk
-ZSBIZWxwZXIgPGF1aEB5b2N0b3Byb2plY3Qub3JnPgpEYXRlOiBXZWQsIDMwIFNlcCAyMDI2IDA1
-OjA5OjQ2ICswMDAwClN1YmplY3Q6IFtQQVRDSF0gdHpjb2RlLW5hdGl2ZSx0emRhdGE6IHVwZ3Jh
-ZGUgMjAyNmQgLT4gMjAyNmUKTUlNRS1WZXJzaW9uOiAxLjAKQ29udGVudC1UeXBlOiB0ZXh0L3Bs
-YWluOyBjaGFyc2V0PVVURi04CkNvbnRlbnQtVHJhbnNmZXItRW5jb2Rpbmc6IDhiaXQKClJlbGVh
-c2UgMjAyNmUgLSAyMDI2LTA5LTI5IDE3OjE0OjM4IC0wNzAwCgogIEJyaWVmbHk6CiAgICBNYW5p
-dG9iYSBtb3ZlcyB0byBwZXJtYW5lbnQgLTA1IG9uIDIwMjYtMTAtMzEuCgogIENoYW5nZXMgdG8g
-ZnV0dXJlIHRpbWVzdGFtcHMKCiAgICBNYW5pdG9iYeKAmXMgMjAyNi0wMy0wOCBzcHJpbmcgZm9y
-d2FyZCB3YXMgaXRzIGxhc3QgZm9yZXNlZWFibGUgY2xvY2sKICAgIGNoYW5nZSwgYXMgaXQgbW92
-ZWQgdG8gcGVybWFuZW50IC0wNSB0aGVyZWFmdGVyLiAgTW9kZWwgdGhpcyB3aXRoCiAgICBpdHMg
-dHJhZGl0aW9uYWwgYWJicmV2aWF0aW9uIEVTVC4gIEFsdGhvdWdoIHRoZSBjaGFuZ2UgdG8KICAg
-IHBlcm1hbmVudCAtMDUgbGVnYWxseSB0YWtlcyBwbGFjZSBvbiAyMDI2LTEwLTMxLCB0ZW1wb3Jh
-cmlseSBtb2RlbAogICAgdGhlIGNoYW5nZSB0byBvY2N1ciBvbiAyMDI2LTExLTAxIGF0IDAyOjAw
-IGZvciB0aGUgc2FtZSByZWFzb24gYXMKICAgIG90aGVyIHJlY2VudCB0ZW1wb3JhcnkgaGFja3Mu
-ICAoQ2F1dGlvbjogc2VlIOKAnE5PVEUgRk9SIDIwMjZiCiAgICBURU1QT1JBUlkgSEFDSyBGT1Ig
-Q0xEUiBBTkQgQ0FOQURB4oCdIGJlbG93LikKCiAgICAgIEFzIHRoZSBjaGFuZ2UgYWZmZWN0cyBi
-b3RoIEFtZXJpY2EvV2lubmlwZWcgYW5kIGl0cyBiYWNrd2FyZAogICAgICBjb21wYXRpYmlsaXR5
-IGxpbmssIHRoZSBvYnNvbGVzY2VudCBzZXR0aW5nIFRaPSJDYW5hZGEvQ2VudHJhbCIKICAgICAg
-d2lsbCBub3cgdXNlIHRoZSBhYmJyZXZpYXRpb24gRVNUIGZvciBhZmZlY3RlZCB0aW1lc3RhbXBz
-LAogICAgICBha2luIHRvIFRaPSJDYW5hZGEvUGFjaWZpYyIgYmVoYXZpb3IgaW50cm9kdWNlZCBp
-biAyMDI2Yi4KCiAgICAgIEFub3RoZXIgVFpEQiByZWxlYXNlIG1heSBiZSBuZWVkZWQgc29vbiBp
-ZiBhbnkgb2YgdGhlIHBvcnRpb25zIG9mCiAgICAgIG5vcnRod2VzdGVybiBPbnRhcmlvIGhpc3Rv
-cmljYWxseSBhbGlnbmVkIHdpdGggQW1lcmljYS9XaW5uaXBlZyBkbwogICAgICBub3QgZm9sbG93
-LiAgRm9yIG5vdywgZ2l2ZW4gdGhlIHNob3J0IGxlYWR0aW1lIHdpdGggTWFuaXRvYmHigJlzCiAg
-ICAgIGFubm91bmNlbWVudCwgYXNzdW1lIHRoYXQgdGhleSB3aWxsLCB0byBhdm9pZCBjcmVhdGlu
-ZyBuZXcgem9uZXMKICAgICAgdGhhdCBtYXkgbm90IGJlIG5lZWRlZCBpZiBubyBkaXZlcmdlbmNl
-IG9jY3Vycy4KCiAgQ2hhbmdlcyB0byBwYXN0IHRpbWVzdGFtcHMKICAgIEluIDE5MjUgSXJlbGFu
-ZCBmZWxsIGJhY2sgb24gMDktMjAgbm90IDEwLTA0ICh0aGFua3MgdG8gU3RhbiBVbGJyeWNoKS4K
-ICBDaGFuZ2VzIHRvIGNvbW1lbnRhcnkKCiAgICBEaXNjdXNzaW9uIG9uIHRpbWVrZWVwaW5nIHBy
-YWN0aWNlcyBpbiBub3J0aHdlc3Rlcm4gT250YXJpbyBoYXMgYmVlbgogICAgZXhwYW5kZWQgaW4g
-bGlnaHQgb2YgTWFuaXRvYmHigJlzIHJlY2VudCBhbm5vdW5jZW1lbnQuICBJdCBpcyBub3QgeWV0
-CiAgICBrbm93biB3aGV0aGVyIG9yIHRvIHdoYXQgZXh0ZW50IHRoZXNlIGFyZWFzIG1heSBhZGFw
-dCB0aGVpciBvd24KICAgIHRpbWVrZWVwaW5nIHByYWN0aWNlcyBpbiByZXNwb25zZS4KLS0tCiBt
-ZXRhL3JlY2lwZXMtZXh0ZW5kZWQvdGltZXpvbmUvdGltZXpvbmUuaW5jIHwgNCArKy0tCiAxIGZp
-bGUgY2hhbmdlZCwgMiBpbnNlcnRpb25zKCspLCAyIGRlbGV0aW9ucygtKQoKZGlmZiAtLWdpdCBh
-L21ldGEvcmVjaXBlcy1leHRlbmRlZC90aW1lem9uZS90aW1lem9uZS5pbmMgYi9tZXRhL3JlY2lw
-ZXMtZXh0ZW5kZWQvdGltZXpvbmUvdGltZXpvbmUuaW5jCmluZGV4IDkyY2Q1ZmJhZDIuLjkxNTYx
-ZGQzOWUgMTAwNjQ0Ci0tLSBhL21ldGEvcmVjaXBlcy1leHRlbmRlZC90aW1lem9uZS90aW1lem9u
-ZS5pbmMKKysrIGIvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3RpbWV6b25lL3RpbWV6b25lLmluYwpA
-QCAtNiw3ICs2LDcgQEAgU0VDVElPTiA9ICJiYXNlIgogTElDRU5TRSA9ICJCU0QtMy1DbGF1c2Ug
-QU5EIExpY2Vuc2VSZWYtUEQiCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9MSUNFTlNFO21k
-NT1jNjc5YzlkNmIwMmJjMjc1N2IzZWFmOGY1M2M0M2ZiYSIKIAotUFYgPSAiMjAyNmQiCitQViA9
-ICIyMDI2ZSIKIAogU1JDX1VSSSA9ICJodHRwOi8vd3d3LmlhbmEub3JnL3RpbWUtem9uZXMvcmVw
-b3NpdG9yeS9yZWxlYXNlcy90emNvZGUke1BWfS50YXIuZ3o7bmFtZT10emNvZGU7c3ViZGlyPXR6
-IFwKICAgICAgICAgICAgaHR0cDovL3d3dy5pYW5hLm9yZy90aW1lLXpvbmVzL3JlcG9zaXRvcnkv
-cmVsZWFzZXMvdHpkYXRhJHtQVn0udGFyLmd6O25hbWU9dHpkYXRhO3N1YmRpcj10eiBcCkBAIC0x
-NCw1ICsxNCw1IEBAIFNSQ19VUkkgPSAiaHR0cDovL3d3dy5pYW5hLm9yZy90aW1lLXpvbmVzL3Jl
-cG9zaXRvcnkvcmVsZWFzZXMvdHpjb2RlJHtQVn0udGFyLmd6CiAKIFMgPSAiJHtVTlBBQ0tESVJ9
-L3R6IgogCi1TUkNfVVJJW3R6Y29kZS5zaGEyNTZzdW1dID0gIjJmNWM5ZjdmZTI5ZTZiOGNiODYz
-NTgzNjY3ODg0YjhjZTE3YjBhNDg1MzU1YTA1NGI1OTFjNmJkZmNkODE3OTEiCitTUkNfVVJJW3R6
-Y29kZS5zaGEyNTZzdW1dID0gImNjM2QyN2NhMmEwZDgzOTk1MDQ1NTFiOTIwOTcwZDgwYWY4M2Jm
-YjljMjE2ZTgwODJhMTU0OTE5MjE5MzVkNTQiCiBTUkNfVVJJW3R6ZGF0YS5zaGEyNTZzdW1dID0g
-IjBjYjJhYThlMzMzYzNkYzA0OWJhZGM0MmEwYzYxZjIxOTg3YjhjZDQ0ZTEwN2ZhOTAwYmFkNzY0
-YWFjYzc3NjciCi0tIAoyLjQ3LjEKCg==
-
---===============6905734371423022598==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="tzcode-native-changelog.txt"
-
-UmVsZWFzZSAyMDI2ZSAtIDIwMjYtMDktMjkgMTc6MTQ6MzggLTA3MDAKCiAgQnJpZWZseToKICAg
-IE1hbml0b2JhIG1vdmVzIHRvIHBlcm1hbmVudCAtMDUgb24gMjAyNi0xMC0zMS4KCiAgQ2hhbmdl
-cyB0byBmdXR1cmUgdGltZXN0YW1wcwoKICAgIE1hbml0b2Jh4oCZcyAyMDI2LTAzLTA4IHNwcmlu
-ZyBmb3J3YXJkIHdhcyBpdHMgbGFzdCBmb3Jlc2VlYWJsZSBjbG9jawogICAgY2hhbmdlLCBhcyBp
-dCBtb3ZlZCB0byBwZXJtYW5lbnQgLTA1IHRoZXJlYWZ0ZXIuICBNb2RlbCB0aGlzIHdpdGgKICAg
-IGl0cyB0cmFkaXRpb25hbCBhYmJyZXZpYXRpb24gRVNULiAgQWx0aG91Z2ggdGhlIGNoYW5nZSB0
-bwogICAgcGVybWFuZW50IC0wNSBsZWdhbGx5IHRha2VzIHBsYWNlIG9uIDIwMjYtMTAtMzEsIHRl
-bXBvcmFyaWx5IG1vZGVsCiAgICB0aGUgY2hhbmdlIHRvIG9jY3VyIG9uIDIwMjYtMTEtMDEgYXQg
-MDI6MDAgZm9yIHRoZSBzYW1lIHJlYXNvbiBhcwogICAgb3RoZXIgcmVjZW50IHRlbXBvcmFyeSBo
-YWNrcy4gIChDYXV0aW9uOiBzZWUg4oCcTk9URSBGT1IgMjAyNmIKICAgIFRFTVBPUkFSWSBIQUNL
-IEZPUiBDTERSIEFORCBDQU5BREHigJ0gYmVsb3cuKQoKICAgICAgQXMgdGhlIGNoYW5nZSBhZmZl
-Y3RzIGJvdGggQW1lcmljYS9XaW5uaXBlZyBhbmQgaXRzIGJhY2t3YXJkCiAgICAgIGNvbXBhdGli
-aWxpdHkgbGluaywgdGhlIG9ic29sZXNjZW50IHNldHRpbmcgVFo9IkNhbmFkYS9DZW50cmFsIgog
-ICAgICB3aWxsIG5vdyB1c2UgdGhlIGFiYnJldmlhdGlvbiBFU1QgZm9yIGFmZmVjdGVkIHRpbWVz
-dGFtcHMsCiAgICAgIGFraW4gdG8gVFo9IkNhbmFkYS9QYWNpZmljIiBiZWhhdmlvciBpbnRyb2R1
-Y2VkIGluIDIwMjZiLgoKICAgICAgQW5vdGhlciBUWkRCIHJlbGVhc2UgbWF5IGJlIG5lZWRlZCBz
-b29uIGlmIGFueSBvZiB0aGUgcG9ydGlvbnMgb2YKICAgICAgbm9ydGh3ZXN0ZXJuIE9udGFyaW8g
-aGlzdG9yaWNhbGx5IGFsaWduZWQgd2l0aCBBbWVyaWNhL1dpbm5pcGVnIGRvCiAgICAgIG5vdCBm
-b2xsb3cuICBGb3Igbm93LCBnaXZlbiB0aGUgc2hvcnQgbGVhZHRpbWUgd2l0aCBNYW5pdG9iYeKA
-mXMKICAgICAgYW5ub3VuY2VtZW50LCBhc3N1bWUgdGhhdCB0aGV5IHdpbGwsIHRvIGF2b2lkIGNy
-ZWF0aW5nIG5ldyB6b25lcwogICAgICB0aGF0IG1heSBub3QgYmUgbmVlZGVkIGlmIG5vIGRpdmVy
-Z2VuY2Ugb2NjdXJzLgoKICBDaGFuZ2VzIHRvIHBhc3QgdGltZXN0YW1wcwogICAgSW4gMTkyNSBJ
-cmVsYW5kIGZlbGwgYmFjayBvbiAwOS0yMCBub3QgMTAtMDQgKHRoYW5rcyB0byBTdGFuIFVsYnJ5
-Y2gpLgogIENoYW5nZXMgdG8gY29tbWVudGFyeQoKICAgIERpc2N1c3Npb24gb24gdGltZWtlZXBp
-bmcgcHJhY3RpY2VzIGluIG5vcnRod2VzdGVybiBPbnRhcmlvIGhhcyBiZWVuCiAgICBleHBhbmRl
-ZCBpbiBsaWdodCBvZiBNYW5pdG9iYeKAmXMgcmVjZW50IGFubm91bmNlbWVudC4gIEl0IGlzIG5v
-dCB5ZXQKICAgIGtub3duIHdoZXRoZXIgb3IgdG8gd2hhdCBleHRlbnQgdGhlc2UgYXJlYXMgbWF5
-IGFkYXB0IHRoZWlyIG93bgogICAgdGltZWtlZXBpbmcgcHJhY3RpY2VzIGluIHJlc3BvbnNlLgo=
-
---===============6905734371423022598==
-Content-Type: text/plain; charset="utf-8"
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment; filename="tzdata-changelog.txt"
-
-UmVsZWFzZSAyMDI2ZSAtIDIwMjYtMDktMjkgMTc6MTQ6MzggLTA3MDAKCiAgQnJpZWZseToKICAg
-IE1hbml0b2JhIG1vdmVzIHRvIHBlcm1hbmVudCAtMDUgb24gMjAyNi0xMC0zMS4KCiAgQ2hhbmdl
-cyB0byBmdXR1cmUgdGltZXN0YW1wcwoKICAgIE1hbml0b2Jh4oCZcyAyMDI2LTAzLTA4IHNwcmlu
-ZyBmb3J3YXJkIHdhcyBpdHMgbGFzdCBmb3Jlc2VlYWJsZSBjbG9jawogICAgY2hhbmdlLCBhcyBp
-dCBtb3ZlZCB0byBwZXJtYW5lbnQgLTA1IHRoZXJlYWZ0ZXIuICBNb2RlbCB0aGlzIHdpdGgKICAg
-IGl0cyB0cmFkaXRpb25hbCBhYmJyZXZpYXRpb24gRVNULiAgQWx0aG91Z2ggdGhlIGNoYW5nZSB0
-bwogICAgcGVybWFuZW50IC0wNSBsZWdhbGx5IHRha2VzIHBsYWNlIG9uIDIwMjYtMTAtMzEsIHRl
-bXBvcmFyaWx5IG1vZGVsCiAgICB0aGUgY2hhbmdlIHRvIG9jY3VyIG9uIDIwMjYtMTEtMDEgYXQg
-MDI6MDAgZm9yIHRoZSBzYW1lIHJlYXNvbiBhcwogICAgb3RoZXIgcmVjZW50IHRlbXBvcmFyeSBo
-YWNrcy4gIChDYXV0aW9uOiBzZWUg4oCcTk9URSBGT1IgMjAyNmIKICAgIFRFTVBPUkFSWSBIQUNL
-IEZPUiBDTERSIEFORCBDQU5BREHigJ0gYmVsb3cuKQoKICAgICAgQXMgdGhlIGNoYW5nZSBhZmZl
-Y3RzIGJvdGggQW1lcmljYS9XaW5uaXBlZyBhbmQgaXRzIGJhY2t3YXJkCiAgICAgIGNvbXBhdGli
-aWxpdHkgbGluaywgdGhlIG9ic29sZXNjZW50IHNldHRpbmcgVFo9IkNhbmFkYS9DZW50cmFsIgog
-ICAgICB3aWxsIG5vdyB1c2UgdGhlIGFiYnJldmlhdGlvbiBFU1QgZm9yIGFmZmVjdGVkIHRpbWVz
-dGFtcHMsCiAgICAgIGFraW4gdG8gVFo9IkNhbmFkYS9QYWNpZmljIiBiZWhhdmlvciBpbnRyb2R1
-Y2VkIGluIDIwMjZiLgoKICAgICAgQW5vdGhlciBUWkRCIHJlbGVhc2UgbWF5IGJlIG5lZWRlZCBz
-b29uIGlmIGFueSBvZiB0aGUgcG9ydGlvbnMgb2YKICAgICAgbm9ydGh3ZXN0ZXJuIE9udGFyaW8g
-aGlzdG9yaWNhbGx5IGFsaWduZWQgd2l0aCBBbWVyaWNhL1dpbm5pcGVnIGRvCiAgICAgIG5vdCBm
-b2xsb3cuICBGb3Igbm93LCBnaXZlbiB0aGUgc2hvcnQgbGVhZHRpbWUgd2l0aCBNYW5pdG9iYeKA
-mXMKICAgICAgYW5ub3VuY2VtZW50LCBhc3N1bWUgdGhhdCB0aGV5IHdpbGwsIHRvIGF2b2lkIGNy
-ZWF0aW5nIG5ldyB6b25lcwogICAgICB0aGF0IG1heSBub3QgYmUgbmVlZGVkIGlmIG5vIGRpdmVy
-Z2VuY2Ugb2NjdXJzLgoKICBDaGFuZ2VzIHRvIHBhc3QgdGltZXN0YW1wcwogICAgSW4gMTkyNSBJ
-cmVsYW5kIGZlbGwgYmFjayBvbiAwOS0yMCBub3QgMTAtMDQgKHRoYW5rcyB0byBTdGFuIFVsYnJ5
-Y2gpLgogIENoYW5nZXMgdG8gY29tbWVudGFyeQoKICAgIERpc2N1c3Npb24gb24gdGltZWtlZXBp
-bmcgcHJhY3RpY2VzIGluIG5vcnRod2VzdGVybiBPbnRhcmlvIGhhcyBiZWVuCiAgICBleHBhbmRl
-ZCBpbiBsaWdodCBvZiBNYW5pdG9iYeKAmXMgcmVjZW50IGFubm91bmNlbWVudC4gIEl0IGlzIG5v
-dCB5ZXQKICAgIGtub3duIHdoZXRoZXIgb3IgdG8gd2hhdCBleHRlbnQgdGhlc2UgYXJlYXMgbWF5
-IGFkYXB0IHRoZWlyIG93bgogICAgdGltZWtlZXBpbmcgcHJhY3RpY2VzIGluIHJlc3BvbnNlLgo=
-
---===============6905734371423022598==
-Content-Type: application/octet-stream
-MIME-Version: 1.0
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="0001-tzcode-native-tzdata-upgrade-2026d-2026e.patch"
-
-RnJvbSA2ZThkNjU0NjE5ZWU3NjQ2MzEzMDBlOTNhNjgwMTNlYzBmMWYxYzI3IE1vbiBTZXAgMTcg
-MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
-CkRhdGU6IFdlZCwgMzAgU2VwIDIwMjYgMDU6MDk6NDYgKzAwMDAKU3ViamVjdDogW1BBVENIXSB0
-emNvZGUtbmF0aXZlLHR6ZGF0YTogdXBncmFkZSAyMDI2ZCAtPiAyMDI2ZQpNSU1FLVZlcnNpb246
-IDEuMApDb250ZW50LVR5cGU6IHRleHQvcGxhaW47IGNoYXJzZXQ9VVRGLTgKQ29udGVudC1UcmFu
-c2Zlci1FbmNvZGluZzogOGJpdAoKUmVsZWFzZSAyMDI2ZSAtIDIwMjYtMDktMjkgMTc6MTQ6Mzgg
-LTA3MDAKCiAgQnJpZWZseToKICAgIE1hbml0b2JhIG1vdmVzIHRvIHBlcm1hbmVudCAtMDUgb24g
-MjAyNi0xMC0zMS4KCiAgQ2hhbmdlcyB0byBmdXR1cmUgdGltZXN0YW1wcwoKICAgIE1hbml0b2Jh
-4oCZcyAyMDI2LTAzLTA4IHNwcmluZyBmb3J3YXJkIHdhcyBpdHMgbGFzdCBmb3Jlc2VlYWJsZSBj
-bG9jawogICAgY2hhbmdlLCBhcyBpdCBtb3ZlZCB0byBwZXJtYW5lbnQgLTA1IHRoZXJlYWZ0ZXIu
-ICBNb2RlbCB0aGlzIHdpdGgKICAgIGl0cyB0cmFkaXRpb25hbCBhYmJyZXZpYXRpb24gRVNULiAg
-QWx0aG91Z2ggdGhlIGNoYW5nZSB0bwogICAgcGVybWFuZW50IC0wNSBsZWdhbGx5IHRha2VzIHBs
-YWNlIG9uIDIwMjYtMTAtMzEsIHRlbXBvcmFyaWx5IG1vZGVsCiAgICB0aGUgY2hhbmdlIHRvIG9j
-Y3VyIG9uIDIwMjYtMTEtMDEgYXQgMDI6MDAgZm9yIHRoZSBzYW1lIHJlYXNvbiBhcwogICAgb3Ro
-ZXIgcmVjZW50IHRlbXBvcmFyeSBoYWNrcy4gIChDYXV0aW9uOiBzZWUg4oCcTk9URSBGT1IgMjAy
-NmIKICAgIFRFTVBPUkFSWSBIQUNLIEZPUiBDTERSIEFORCBDQU5BREHigJ0gYmVsb3cuKQoKICAg
-ICAgQXMgdGhlIGNoYW5nZSBhZmZlY3RzIGJvdGggQW1lcmljYS9XaW5uaXBlZyBhbmQgaXRzIGJh
-Y2t3YXJkCiAgICAgIGNvbXBhdGliaWxpdHkgbGluaywgdGhlIG9ic29sZXNjZW50IHNldHRpbmcg
-VFo9IkNhbmFkYS9DZW50cmFsIgogICAgICB3aWxsIG5vdyB1c2UgdGhlIGFiYnJldmlhdGlvbiBF
-U1QgZm9yIGFmZmVjdGVkIHRpbWVzdGFtcHMsCiAgICAgIGFraW4gdG8gVFo9IkNhbmFkYS9QYWNp
-ZmljIiBiZWhhdmlvciBpbnRyb2R1Y2VkIGluIDIwMjZiLgoKICAgICAgQW5vdGhlciBUWkRCIHJl
-bGVhc2UgbWF5IGJlIG5lZWRlZCBzb29uIGlmIGFueSBvZiB0aGUgcG9ydGlvbnMgb2YKICAgICAg
-bm9ydGh3ZXN0ZXJuIE9udGFyaW8gaGlzdG9yaWNhbGx5IGFsaWduZWQgd2l0aCBBbWVyaWNhL1dp
-bm5pcGVnIGRvCiAgICAgIG5vdCBmb2xsb3cuICBGb3Igbm93LCBnaXZlbiB0aGUgc2hvcnQgbGVh
-ZHRpbWUgd2l0aCBNYW5pdG9iYeKAmXMKICAgICAgYW5ub3VuY2VtZW50LCBhc3N1bWUgdGhhdCB0
-aGV5IHdpbGwsIHRvIGF2b2lkIGNyZWF0aW5nIG5ldyB6b25lcwogICAgICB0aGF0IG1heSBub3Qg
-YmUgbmVlZGVkIGlmIG5vIGRpdmVyZ2VuY2Ugb2NjdXJzLgoKICBDaGFuZ2VzIHRvIHBhc3QgdGlt
-ZXN0YW1wcwogICAgSW4gMTkyNSBJcmVsYW5kIGZlbGwgYmFjayBvbiAwOS0yMCBub3QgMTAtMDQg
-KHRoYW5rcyB0byBTdGFuIFVsYnJ5Y2gpLgogIENoYW5nZXMgdG8gY29tbWVudGFyeQoKICAgIERp
-c2N1c3Npb24gb24gdGltZWtlZXBpbmcgcHJhY3RpY2VzIGluIG5vcnRod2VzdGVybiBPbnRhcmlv
-IGhhcyBiZWVuCiAgICBleHBhbmRlZCBpbiBsaWdodCBvZiBNYW5pdG9iYeKAmXMgcmVjZW50IGFu
-bm91bmNlbWVudC4gIEl0IGlzIG5vdCB5ZXQKICAgIGtub3duIHdoZXRoZXIgb3IgdG8gd2hhdCBl
-eHRlbnQgdGhlc2UgYXJlYXMgbWF5IGFkYXB0IHRoZWlyIG93bgogICAgdGltZWtlZXBpbmcgcHJh
-Y3RpY2VzIGluIHJlc3BvbnNlLgotLS0KIG1ldGEvcmVjaXBlcy1leHRlbmRlZC90aW1lem9uZS90
-aW1lem9uZS5pbmMgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMoKyksIDIg
-ZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWV4dGVuZGVkL3RpbWV6b25l
-L3RpbWV6b25lLmluYyBiL21ldGEvcmVjaXBlcy1leHRlbmRlZC90aW1lem9uZS90aW1lem9uZS5p
-bmMKaW5kZXggOTJjZDVmYmFkMi4uOTE1NjFkZDM5ZSAxMDA2NDQKLS0tIGEvbWV0YS9yZWNpcGVz
-LWV4dGVuZGVkL3RpbWV6b25lL3RpbWV6b25lLmluYworKysgYi9tZXRhL3JlY2lwZXMtZXh0ZW5k
-ZWQvdGltZXpvbmUvdGltZXpvbmUuaW5jCkBAIC02LDcgKzYsNyBAQCBTRUNUSU9OID0gImJhc2Ui
-CiBMSUNFTlNFID0gIkJTRC0zLUNsYXVzZSBBTkQgTGljZW5zZVJlZi1QRCIKIExJQ19GSUxFU19D
-SEtTVU0gPSAiZmlsZTovL0xJQ0VOU0U7bWQ1PWM2NzljOWQ2YjAyYmMyNzU3YjNlYWY4ZjUzYzQz
-ZmJhIgogCi1QViA9ICIyMDI2ZCIKK1BWID0gIjIwMjZlIgogCiBTUkNfVVJJID0gImh0dHA6Ly93
-d3cuaWFuYS5vcmcvdGltZS16b25lcy9yZXBvc2l0b3J5L3JlbGVhc2VzL3R6Y29kZSR7UFZ9LnRh
-ci5nejtuYW1lPXR6Y29kZTtzdWJkaXI9dHogXAogICAgICAgICAgICBodHRwOi8vd3d3LmlhbmEu
-b3JnL3RpbWUtem9uZXMvcmVwb3NpdG9yeS9yZWxlYXNlcy90emRhdGEke1BWfS50YXIuZ3o7bmFt
-ZT10emRhdGE7c3ViZGlyPXR6IFwKQEAgLTE0LDUgKzE0LDUgQEAgU1JDX1VSSSA9ICJodHRwOi8v
-d3d3LmlhbmEub3JnL3RpbWUtem9uZXMvcmVwb3NpdG9yeS9yZWxlYXNlcy90emNvZGUke1BWfS50
-YXIuZ3oKIAogUyA9ICIke1VOUEFDS0RJUn0vdHoiCiAKLVNSQ19VUklbdHpjb2RlLnNoYTI1NnN1
-bV0gPSAiMmY1YzlmN2ZlMjllNmI4Y2I4NjM1ODM2Njc4ODRiOGNlMTdiMGE0ODUzNTVhMDU0YjU5
-MWM2YmRmY2Q4MTc5MSIKK1NSQ19VUklbdHpjb2RlLnNoYTI1NnN1bV0gPSAiY2MzZDI3Y2EyYTBk
-ODM5OTUwNDU1MWI5MjA5NzBkODBhZjgzYmZiOWMyMTZlODA4MmExNTQ5MTkyMTkzNWQ1NCIKIFNS
-Q19VUklbdHpkYXRhLnNoYTI1NnN1bV0gPSAiMGNiMmFhOGUzMzNjM2RjMDQ5YmFkYzQyYTBjNjFm
-MjE5ODdiOGNkNDRlMTA3ZmE5MDBiYWQ3NjRhYWNjNzc2NyIKLS0gCjIuNDcuMQoK
-
---===============6905734371423022598==
+--===============1555259983474907911==
 Content-Type: text/plain; charset="us-ascii"
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment; filename="bitbake-output-qemux86-64.txt"
 
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *tcl* to *9.1.0* has Failed (devtool error).
+
+Detailed error information:
+
+The following devtool command failed:  upgrade tcl -V 9.1.0
 NOTE: Reconnecting to bitbake server...
 Loading cache...done.
 Loaded 0 entries from dependency cache.
@@ -274,69 +71,66 @@ TARGET_SYS           = "x86_64-poky-linux"
 MACHINE              = "qemux86-64"
 SDKMACHINE           = "x86_64"
 DISTRO               = "poky"
-DISTRO_VERSION       = "6.1.99+snapshot-187f1a5b8e61b0a09c617cd3ccc2e3fd1f6c42bd"
+DISTRO_VERSION       = "6.1.99+snapshot-ddf052cf8d746a9b7709e5cfa7a7a7d29d537205"
 TUNE_FEATURES        = "m64 x86-64-v3"
-meta                 = "tmp-auh-upgrades:187f1a5b8e61b0a09c617cd3ccc2e3fd1f6c42bd"
+meta                 = "tmp-auh-upgrades:ddf052cf8d746a9b7709e5cfa7a7a7d29d537205"
 meta-yocto-bsp       
 meta-poky            = "master:01f504740bcfa42ff53f4b3341a0dcee275fa6bd"
 workspace            = "<unknown>:<unknown>"
 
 Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
-Sstate summary: Wanted 138 Local 118 Mirrors 0 Missed 20 Current 116 (85% match, 92% complete)
+Sstate summary: Wanted 10 Local 10 Mirrors 0 Missed 0 Current 20 (100% match, 100% complete)
 done.
 NOTE: Executing Tasks
-NOTE: Setscene tasks completed
-NOTE: Running task 491 of 821 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzcode-native.bb:do_recipe_qa)
-NOTE: Running task 498 of 821 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzdata.bb:do_recipe_qa)
-NOTE: Running task 750 of 821 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzcode-native.bb:do_create_recipe_spdx)
-NOTE: recipe tzcode-native-2026e-r0: task do_recipe_qa: Started
-NOTE: recipe tzcode-native-2026e-r0: task do_create_recipe_spdx: Started
-NOTE: recipe tzdata-2026e-r0: task do_recipe_qa: Started
-NOTE: recipe tzdata-2026e-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 789 of 821 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzdata.bb:do_fetch)
-NOTE: recipe tzdata-2026e-r0: task do_fetch: Started
-NOTE: recipe tzcode-native-2026e-r0: task do_recipe_qa: Succeeded
-NOTE: Running task 790 of 821 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch)
-NOTE: recipe tzcode-native-2026e-r0: task do_create_recipe_spdx: Succeeded
-NOTE: Running task 791 of 821 (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzdata.bb:do_create_recipe_spdx)
-NOTE: recipe tzcode-native-2026e-r0: task do_fetch: Started
-NOTE: recipe tzdata-2026e-r0: task do_create_recipe_spdx: Started
-NOTE: recipe tzdata-2026e-r0: task do_create_recipe_spdx: Succeeded
-WARNING: tzdata-2026e-r0 do_fetch: Checksum failure encountered with download of http://www.iana.org/time-zones/repository/releases/tzdata2026e.tar.gz;name=tzdata;subdir=tz - will attempt other sources if available
-WARNING: tzcode-native-2026e-r0 do_fetch: Checksum failure encountered with download of http://www.iana.org/time-zones/repository/releases/tzdata2026e.tar.gz;name=tzdata;subdir=tz - will attempt other sources if available
-NOTE: recipe tzdata-2026e-r0: task do_fetch: Failed
-NOTE: recipe tzcode-native-2026e-r0: task do_fetch: Failed
-NOTE: Tasks Summary: Attempted 791 tasks of which 785 didn't need to be rerun and 2 failed.
+NOTE: Tasks Summary: Attempted 103 tasks of which 100 didn't need to be rerun and all succeeded.
 NOTE: Writing buildhistory
-NOTE: Writing buildhistory took: 1 seconds
-NOTE: The errors for this build are stored in /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260930050931.txt
-You can send the errors to a reports server by running:
-  send-error-report /srv/pokybuild/yocto-worker/auh/build/build/tmp/log/error-report/error_report_20260930050931.txt [-s server]
-NOTE: The contents of these logs will be posted in public if you use the above command with the default server. Please ensure you remove any identifying or proprietary information when prompted before sending.
+NOTE: Writing buildhistory took: 2 seconds
+Loading cache...done.
+Loaded 0 entries from dependency cache.
+Parsing recipes...done.
+Parsing of 960 .bb files complete (0 cached, 960 parsed). 1992 targets, 43 skipped, 0 masked, 0 errors.
+NOTE: Resolving any missing task queue dependencies
 
-Summary: 2 tasks failed:
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzdata.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/tzdata/2026e/temp/log.do_fetch.2693341
-  /srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch
-    log: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/tzcode-native/2026e/temp/log.do_fetch.2693379
-Summary: There were 2 WARNING messages.
-Summary: There were 4 ERROR messages, returning a non-zero exit code.
-ERROR: tzdata-2026e-r0 do_fetch: Fetcher failure for URL: 'http://www.iana.org/time-zones/repository/releases/tzdata2026e.tar.gz;name=tzdata;subdir=tz'. Checksum mismatch!
-File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/tzdata2026e.tar.gz.tmp' has sha256 checksum 'b26882805f26aac59d5b222978e6580484b834ccdc98be89df2f05a6dc53a652' when '0cb2aa8e333c3dc049badc42a0c61f21987b8cd44e107fa900bad764aacc7767' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[tzdata.sha256sum] = "b26882805f26aac59d5b222978e6580484b834ccdc98be89df2f05a6dc53a652"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: tzdata-2026e-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.iana.org/time-zones/repository/releases/tzdata2026e.tar.gz;name=tzdata;subdir=tz')
-ERROR: tzcode-native-2026e-r0 do_fetch: Fetcher failure for URL: 'http://www.iana.org/time-zones/repository/releases/tzdata2026e.tar.gz;name=tzdata;subdir=tz'. Checksum mismatch!
-File: '/srv/pokybuild/yocto-worker/auh/build/build/downloads/tzdata2026e.tar.gz.tmp' has sha256 checksum 'b26882805f26aac59d5b222978e6580484b834ccdc98be89df2f05a6dc53a652' when '0cb2aa8e333c3dc049badc42a0c61f21987b8cd44e107fa900bad764aacc7767' was expected
-If this change is expected (e.g. you have upgraded to a new version without updating the checksums) then you can use these lines within the recipe:
-SRC_URI[tzdata.sha256sum] = "b26882805f26aac59d5b222978e6580484b834ccdc98be89df2f05a6dc53a652"
-Otherwise you should retry the download and/or check with upstream to determine if the file has become corrupted or otherwise unexpectedly modified.
-ERROR: tzcode-native-2026e-r0 do_fetch: Bitbake Fetcher Error: FetchError('Unable to fetch URL from any source.', 'http://www.iana.org/time-zones/repository/releases/tzdata2026e.tar.gz;name=tzdata;subdir=tz')
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/all-poky-linux/tzdata/2026e/temp/log.do_fetch.2693341
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzdata.bb:do_fetch) failed with exit code '1'
-ERROR: Logfile of failure stored in: /srv/pokybuild/yocto-worker/auh/build/build/tmp/work/x86_64-linux/tzcode-native/2026e/temp/log.do_fetch.2693379
-ERROR: Task (/srv/pokybuild/yocto-worker/auh/build/layers/openembedded-core/meta/recipes-extended/timezone/tzcode-native.bb:do_fetch) failed with exit code '1'
+Build Configuration:
+BB_VERSION           = "2.20.0"
+BUILD_SYS            = "x86_64-linux"
+NATIVELSBSTRING      = "universal"
+TARGET_SYS           = "x86_64-poky-linux"
+MACHINE              = "qemux86-64"
+SDKMACHINE           = "x86_64"
+DISTRO               = "poky"
+DISTRO_VERSION       = "6.1.99+snapshot-ddf052cf8d746a9b7709e5cfa7a7a7d29d537205"
+TUNE_FEATURES        = "m64 x86-64-v3"
+meta                 = "tmp-auh-upgrades:ddf052cf8d746a9b7709e5cfa7a7a7d29d537205"
+meta-yocto-bsp       
+meta-poky            = "master:01f504740bcfa42ff53f4b3341a0dcee275fa6bd"
+workspace            = "<unknown>:<unknown>"
 
---===============6905734371423022598==--
+Initialising tasks...NOTE: The /proc/pressure files can't be read. Continuing build without monitoring pressure
+Sstate summary: Wanted 1 Local 0 Mirrors 0 Missed 1 Current 0 (0% match, 0% complete)
+done.
+NOTE: Executing Tasks
+NOTE: Tasks Summary: Attempted 3 tasks of which 0 didn't need to be rerun and all succeeded.
+NOTE: Writing buildhistory
+NOTE: Writing buildhistory took: 2 seconds
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:   0% |                                   | ETA:  --:--:--
+Adding changed files:  21% |#######                             | ETA:  0:00:00
+Adding changed files:  43% |###############                     | ETA:  0:00:00
+INFO: Extracting current version source...
+INFO: Extracting upgraded version source...
+INFO: Fetching https://downloads.sourceforge.net/tcl/tcl-core9.1.0-src.tar.gz...
+ERROR: Execution of 'git add -f -A "macosx/tclMacOSXFCmd.c" "macosx/tclMacOSXNotify.c" "manifest.uuid" "tests-perf/chan.perf.tcl" "tests-perf/file.perf.tcl" "tests-perf/list.perf.tcl" "tests/aaa_exit.test" "tests/abstractlist.test" "tests/all.tcl" "tests/apply.test" "tests/assemble.test" "tests/binary.test" "tests/chan.test" "tests/chanio.test" "tests/clock.test" "tests/cmdInfo.test" "tests/coroutine.test" "tests/dict.test" "tests/encoding.test" "tests/error.test" "tests/event.test" "tests/exec.test" "tests/fCmd.test" "tests/fileName.test" "tests/fileSystem.test" "tests/http.test" "tests/httpProxy.test" "tests/httpcookie.test" "tests/icuUcmTests.tcl" "tests/info.test" "tests/init.test" "tests/internals.tcl" "tests/interp.test" "tests/io.test" "tests/ioCmd.test" "tests/iogt.test" "tests/listObj.test" "tests/listRep.test" "tests/load.test" "tests/lpop.test" "tests/lrange.test" "tests/lseq.test" "tests/main.test" "tests/mutex.test" "tests/nre.test" "tests/oo.test" "tests/ooProp.test" "t
+ ests/ooUtil.test" "tests/package.test" "tests/reg.test" "tests/registry.test" "tests/safe.test" "tests/socket.test" "tests/split.test" "tests/string.test" "tests/stringObj.test" "tests/subst.test" "tests/switch.test" "tests/tailcall.test" "tests/tcltest.test" "tests/tcltests.tcl" "tests/timer.test" "tests/unixFCmd.test" "tests/unixInit.test" "tests/utf.test" "tests/utfext.test" "tests/winConsole.test" "tests/winDde.test" "tests/winFCmd.test" "tests/winPipe.test" "tests/zipfs.test" "tools/README" "tools/findBadExternals.tcl" "tools/mkVfs.tcl" "tools/tclsh.svg" "tools/tcltk-man2html.tcl" "tools/tsdPerf.c" "tools/uniClass.tcl" "tools/uniParse.tcl" "unix/Makefile.in" "unix/configure" "unix/configure.ac" "unix/dltest/Makefile.in" "unix/dltest/pkga.c" "unix/dltest/pkgb.c" "unix/dltest/pkgc.c" "unix/dltest/pkgd.c" "unix/dltest/pkge.c" "unix/dltest/pkgooa.c" "unix/dltest/pkgt.c" "unix/dltest/pkgua.c" ""unix/dltest/pkg\317\200.c"" "unix/tcl.m4" "unix/tcl.spec" "unix/tclAppInit.c" "unix/tclCo
+ nfig.h.in" "unix/tclEpollNotfy.c" "unix/tclKqueueNotfy.c" "unix/tclLoadAix.c" "unix/tclLoadDyld.c"' failed with exit code 128:
+fatal: pathspec 'unix/dltest/pkg317200.c' did not match any files
+
+
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+--===============1555259983474907911==--
 
