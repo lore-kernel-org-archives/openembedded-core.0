@@ -1,205 +1,150 @@
-Return-Path: <hthakar@cisco.com>
+Return-Path: <jinwang.li@oss.qualcomm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 49A13CA5FAB
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 06:00:39 +0000 (UTC)
-Received: from rcdn-iport-8.cisco.com (rcdn-iport-8.cisco.com [173.37.86.79])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.7106.1790748028808637812
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 55B33C9830E
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 06:02:39 +0000 (UTC)
+Received: from mx0b-0031df01.pphosted.com (mx0b-0031df01.pphosted.com [205.220.180.131])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7136.1790748154209650484
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2026 23:00:29 -0700
+ Tue, 29 Sep 2026 23:02:34 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=UOjjF9HF;
- spf=pass (domain: cisco.com, ip: 173.37.86.79, mailfrom: hthakar@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=4089; q=dns/txt;
-  s=iport01; t=1790748028; x=1791957628;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=1qmah9xUD8VLpZjBjvS4dywbd9sQiVQop52OuMFz3mw=;
-  b=UOjjF9HFQJJf2DTUe8a41T0cB9nv26hqX7vZCSL9aJqoyYBJtyrJonsj
-   zylVZiP4JhasCwSLEgLJ6lkA0ERI+jIqkZ+W48AswkbXzIaeWZ1AMGBxq
-   skIDGwf6gzXYJHG9duNad5PgOFGL79DBPAbBd03LiDWHteru0Z1YANuBD
-   P+eVP/ljaGuH/vlEKPXR+if3uZUmolgRwHeftrj1iofFmd4BSuAv0yUJe
-   dI9eFu25TsofuLmI+0+RpMr27KjKweJ+On7vc5V5vzT+mHkTrrEurYt65
-   PAfJIT+/y6dMGv8EFLzKb9KKuuck73arPeNYXOMML5yDTqYTitmjNZPVN
-   A==;
-X-CSE-ConnectionGUID: 52l1iK6fQI2NudSkfJpcZQ==
-X-CSE-MsgGUID: Fxp35mzDTxC6q/PDWy9OPg==
-X-IPAS-Result: =?us-ascii?q?A0BJAgD5pLxq/5L/Ja1SCIJZgld1YUJJlkoDkUmMUYF+D?=
- =?us-ascii?q?wEBAQ9EDQQBAYQ/RgKOCAImNAkOAQIEAwIDAQEBAQEBAQEBAQEBCgEBBQEBA?=
- =?us-ascii?q?QIBBwWBDhOGTw2QEgECAQMnCwEYAS0QHAMBAi8rGgkIGYMCAYJ0AgERuySBe?=
- =?us-ascii?q?TOBAYMpAT8CQ1DbMgELFAEFgTOFQIgjXRgBhHwnGxuBcoR+gQWBXAICAReBH?=
- =?us-ascii?q?4ZsBIINFXoSgVoeZZJNSIEeA1ksAVUTDQoLBwWBZgM1EioVbjIdgSM+F4EHG?=
- =?us-ascii?q?wYFgR2BIIIZIxk2eoEJXoErKWABEBeBB4IHAoJUggACAUlBDgdFUwklRRJHJ?=
- =?us-ascii?q?iIIEgkBExowC4EbOD4JKD4YDUgRLDcVGQQ+bgeQNx6CWQcBgQ0BEAMXAYIyC?=
- =?us-ascii?q?KNHgiGhDwoog3aMIpU6GjOEBKZrC5h9glmLMZYAA02EaYFoPIFZcBWDIglKG?=
- =?us-ascii?q?Q+OOYNrhRPHBSEkNQsyAQEHAgcOAwuBaJF+AQE?=
-IronPort-Data: A9a23:UXtKH6L984bjtNy/FE+Rh5QlxSXFcZb7ZxGr2PjKsXjdYENS3zNWy
- zcdUGyAPPjYZjT0fo0gYNy+oxxX7JLTx9dqHgEd+CA2RRqmiyZq6fd1j6vUF3nPRiEWZBs/t
- 63yUvGZcoZpCCea+Uf1WlTYhSEU/bmSQbbhA/LzNCl0RAt1IA8skhsLd9QR2uaEuvDnRVnS0
- T/Oi5eHYgH9imUsajt8B5+r8XuDgtyj4Fv0gXRmDRx7lAe2v2UYCpsZOZawIxPQKqFIHvS3T
- vr017qw+GXU5X8FUrtJRZ6iLyXm6paLVeS/oiI+t5qK23CulQRuukoPD8fwXG8M49m/c3+d/
- /0W3XC4YV9B0qQhA43xWTEAe811FfUuFLMqvRFTvOTLp3AqfUcAzN0zVkVvPK5G9N9WW0dT+
- ccbJhIVZSK60rfeLLKTEoGAh+w5J8XteYdasXZ6wHSBXLAtQIvIROPB4towMDUY358VW62BI
- ZBENHw2MEqojx5nYj/7DLo+gOehhXDlWzZZs1mS46Ew5gA/ySQsiuG3a4qPIIDiqcN9sFaA/
- T/D7UjFEjpELZun5QWUo1WUibqa9c/8cMdIfFGizdZtmFCVy2kZBREaWFf+qv6jh2a6WslDM
- AoT4icooK04+UCnQ9W7WAe3yENopTYGUNZWVul/4waXx++MskCSB3MPSXhKb9lOWNIKeAHGH
- 2Shx7vBbQGDepXOIZ5B3t94dQ+PBBU=
-IronPort-HdrOrdr: A9a23:ZMo/8qx1wz6gwKHuxhGSKrPw9L1zdoMgy1knxilNoNJuHfBw8P
- re+8jzuiWUtN98YhwdcJW7Scu9qBDnhPpICPcqXYtKNTOO0ADDEGgh1/qG/9SKIUPDH4BmuZ
- uIWpIObuEYdWIK7vrS0U2fD8sqxsWB/eSDgOfTyGoocCRRApsQljuQzm2gYzZLrM4sP+tAKK
- ah
-X-Talos-CUID: =?us-ascii?q?9a23=3AwpSqomkXmrNjD1BX+ihAiJqcac/XOSCHyC7RABG?=
- =?us-ascii?q?2MEczbqCZclye2rtvofM7zg=3D=3D?=
-X-Talos-MUID: 9a23:oO10kAY7IIr1KuBTmS/032xnJutU84/wEQc1vaoX6u68Onkl
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,132,1787011200"; 
-   d="scan'208";a="521238224"
-Received: from rcdn-l-core-09.cisco.com ([173.37.255.146])
-  by rcdn-iport-8.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 30 Sep 2026 06:00:27 +0000
-Received: from sjc-ads-4178.cisco.com (sjc-ads-4178.cisco.com [171.70.54.199])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256
-	 client-signature RSA-PSS (4096 bits) client-digest SHA256)
-	(Client CN "ciscoit-managed-infra-smtp-auth.cisco.com", Issuer "Internal Private TLS SubCA" (verified OK))
-	by rcdn-l-core-09.cisco.com (Postfix) with ESMTPS id B7B66180005A0;
-	Wed, 30 Sep 2026 06:00:27 +0000 (GMT)
-Received: by sjc-ads-4178.cisco.com (Postfix, from userid 1887505)
-	id 5E06BCC12B5; Tue, 29 Sep 2026 23:00:27 -0700 (PDT)
-From: "Hetvi Thakar -X (hthakar - E INFOCHIPS PRIVATE LIMITED at Cisco)" <hthakar@cisco.com>
+ dkim=pass header.i=@qualcomm.com header.s=qcppdkim1 header.b=SQfb5iTd;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: qualcomm.com, ip: 205.220.180.131, mailfrom: jinwli@qualcomm.com)
+Received: from pps.filterd (m0279869.ppops.net [127.0.0.1])
+	by mx0a-0031df01.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68TNPwom2250338
+	for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 06:02:33 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=qualcomm.com; h=
+	cc:content-transfer-encoding:date:from:message-id:mime-version
+	:subject:to; s=qcppdkim1; bh=KdYjLawtTMIjuoz3iGyWkTmSI3NfKObdNuW
+	Th4QT7C0=; b=SQfb5iTdgj1g9y8+du9VXIdgtocEf0oewN8eh/OfYnfPqbB6TGW
+	YzYQkqID+BM9F99iq6JpW1Zw3HcP2H96kwoGJ5JjXvyYoTqCheSS/AmpF9ALKY1d
+	1NUmofMu897024TQTVWqigVglwC8+1XKTULaq7/j9WH+B38sSkbAyZPWp0WkHpYX
+	lC/rhmFczL+Mrgj00HWpJm9ynocAm5rgDs47bPFmpHdQufTDA6GxW0Ix0UDDB8ff
+	Ox92eKl7XdBS1unvVNr8NMr/v48N00EEgOgh9Uata3FXJwqBOOHUlsXbvFby2nOr
+	TwTeiixmJpT1ki028tU7IX13lZrp+M+mLJg==
+Received: from aptaippmta02.qualcomm.com (tpe-colo-wan-fw-bordernet.qualcomm.com [103.229.16.4])
+	by mx0a-0031df01.pphosted.com (PPS) with ESMTPS id 4h0nm3hqm1-1
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
+	for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 06:02:32 +0000 (GMT)
+Received: from pps.filterd (aptaippmta02.qualcomm.com [127.0.0.1])
+	by APTAIPPMTA02.qualcomm.com (8.18.1.11/8.18.1.11) with ESMTP id 68U62TrU220760;
+	Wed, 30 Sep 2026 06:02:29 GMT
+Received: from bt-iot-sh02-lnx.ap.qualcomm.com (smtphost-taiwan.qualcomm.com [10.249.136.33])
+	by APTAIPPMTA02.qualcomm.com (PPS) with ESMTPS id 68U62T5R220751
+	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT);
+	Wed, 30 Sep 2026 06:02:29 +0000 (GMT)
+Received: by bt-iot-sh02-lnx.ap.qualcomm.com (Postfix, from userid 4467392)
+	id 46B9223419; Wed, 30 Sep 2026 14:02:28 +0800 (CST)
+From: Jinwang Li <jinwang.li@oss.qualcomm.com>
 To: openembedded-core@lists.openembedded.org
-Cc: xe-linux-external@cisco.com
-Subject: [OE-core][scarthgap][PATCH 3/3] openssh: fix CVE-2026-73281
-Date: Tue, 29 Sep 2026 23:00:27 -0700
-Message-Id: <20260930060027.1560262-3-hthakar@cisco.com>
-X-Mailer: git-send-email 2.35.6
-In-Reply-To: <20260930060027.1560262-1-hthakar@cisco.com>
-References: <20260930060027.1560262-1-hthakar@cisco.com>
+Cc: cheng.jiang@oss.qualcomm.com, quic_chezhou@quicinc.com,
+        wei.deng@oss.qualcomm.com, shuai.zhang@oss.qualcomm.com,
+        mengshi.wu@oss.qualcomm.com, xiuzhuo.shang@oss.qualcomm.com,
+        jinwang.li@oss.qualcomm.com
+Subject: [PATCH] bluez5: fix obexd/pbap u128_to_string skipping data[4]
+Date: Wed, 30 Sep 2026 14:02:00 +0800
+Message-Id: <20260930060200.94625-1-jinwang.li@oss.qualcomm.com>
+X-Mailer: git-send-email 2.34.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-Auto-Response-Suppress: DR, OOF, AutoReply
-X-Outbound-Client-TLS: VERIFIED;sjc-ads-4178.cisco.com [171.70.54.199];TLSv1.3;TLS_AES_256_GCM_SHA384;256;ciscoit-managed-infra-smtp-auth.cisco.com
-X-Outbound-SMTP-Client: 171.70.54.199, sjc-ads-4178.cisco.com
-X-Outbound-Node: rcdn-l-core-09.cisco.com
+X-Proofpoint-Reinject: loops=2 maxloops=12
+X-QCInternal: smtphost
+X-QCInternal: smtphost
+X-Proofpoint-ORIG-GUID: wKbAV2bHknZA-EaFFrVjcQltUtg4NQi5
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTMwMDAyMyBTYWx0ZWRfX6ve4z83GXYxx
+ 8TA5NH8VCmR9PkXcokHcFPZkyuiroXro40Ctwvmo6rtHUy0TjH8f6EiHw7K3V/ShG2kqyYNTqIo
+ o4rJtpbjWjAY0TCNRD3rroAM4x9He2G1rrKndKObESjCsd+FsU/xqqkQUmJH/ycfFBl/6GPoTfy
+ Pne/vIZyV+sK2XKSGhx29CZk94MzTXMOUNK/i6/xI+7NDdfu23ZFv/51cDJnowCgP+X2dAGT7lV
+ YyzUGenmpSrW0hSqZSlDkI2B1JezOsZhqZ40oPmZEZTCvwYaMSslvHjxHce+vaMMh6NfqnbzkQr
+ 0rRySdlgzhEkwkKlKvuvvGEWS1Rw7w2jebI0p/T3vU5RUs6ZZD/W+/gutI44nHDkDBpzinEkuGL
+ f0IDD5TwvmmqNE8NFDs3GlLhCZctfPcJVvgJv99xayvMWtMrDxs5NSeysgjc8VevpFT2Jgm8ewl
+ zDoByrIrT6vQ3U2ep7g==
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTMwMDAyMyBTYWx0ZWRfX4ulagPIX+tMA
+ 9NaiUSqNXl4Yn31ZWJVYMLjtAnHfscgUFHDBKcwaHr8I2101ul5g6WkSFh09m2oeuVz9z0zvmcW
+ n4mod67yKc4TdOOV9Q1sqLp9vT72sts=
+X-Proofpoint-GUID: wKbAV2bHknZA-EaFFrVjcQltUtg4NQi5
+X-Authority-Analysis: v=2.4 cv=fqxJ914f c=1 sm=1 tr=0 ts=6abca5f8 cx=c_pps
+ a=nuhDOHQX5FNHPW3J6Bj6AA==:117 a=nuhDOHQX5FNHPW3J6Bj6AA==:17
+ a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22 a=u7WPNUs3qKkmUXheDGA7:22
+ a=_glEPmIy2e8OvE2BGh3C:22 a=EUspDBNiAAAA:8 a=1Y_XC99iyDOHohUGpnYA:9
+X-Proofpoint-Virus-Version: vendor=baseguard
+ engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
+ definitions=2026-09-29_05,2026-09-21_02,2025-10-01_01
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
+ adultscore=0 clxscore=1015 impostorscore=0 malwarescore=0 suspectscore=0
+ spamscore=0 bulkscore=0 priorityscore=1501 lowpriorityscore=0 phishscore=0
+ classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609300023
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 06:00:39 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246917
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 06:02:39 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246918
 
-From: Hetvi Thakar <hthakar@cisco.com>
+u128_to_string() uses data[3] twice, causing data[4] to be skipped and
+DatabaseIdentifier, PrimaryCounter and SecondaryCounter properties to
+be printed with wrong values.
 
-This patch applies the upstream fix that permits session-bind requests
-while the agent is locked so forwarded sessions remain classified as
-remote. The upstream fix commit is referenced in [1], and the public
-CVE advisory is referenced in [2].
-
-[1] https://github.com/openssh/openssh-portable/commit/6a57081dc35acf3ee298108d4bc3580489608d5
-[2] https://www.cve.org/CVERecord?id=CVE-2026-73281
-
-Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
+Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
 ---
- .../openssh/openssh/CVE-2026-73281.patch      | 76 +++++++++++++++++++
- .../openssh/openssh_9.6p1.bb                  |  1 +
- 2 files changed, 77 insertions(+)
- create mode 100644 meta/recipes-connectivity/openssh/openssh/CVE-2026-73281.patch
+ meta/recipes-connectivity/bluez5/bluez5.inc   |  1 +
+ ...p-Fix-u128_to_string-skipping-data-4.patch | 33 +++++++++++++++++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch
 
-diff --git a/meta/recipes-connectivity/openssh/openssh/CVE-2026-73281.patch b/meta/recipes-connectivity/openssh/openssh/CVE-2026-73281.patch
-new file mode 100644
-index 0000000000..9f017ece17
---- /dev/null
-+++ b/meta/recipes-connectivity/openssh/openssh/CVE-2026-73281.patch
-@@ -0,0 +1,76 @@
-+From df8fe9ebecc57c486f2d1ea5b1a5c34b22858bcb Mon Sep 17 00:00:00 2001
-+From: "djm@openbsd.org" <djm@openbsd.org>
-+Date: Fri, 7 Aug 2026 05:18:05 +0000
-+Subject: [PATCH] upstream: Allow session-bind@openssh.com requests when the
-+ agent is
-+
-+locked, otherwise forwarding sessions established with an agent was locked
-+will be treated as local, rather than remote.
-+
-+Reported by sn0x-sharma
-+
-+OpenBSD-Commit-ID: 524f210c6f2b3a06e0a2f6d0af5188a9a75fa2c7
-+
-+CVE: CVE-2026-73281
-+Upstream-Status: Backport [https://github.com/openssh/openssh-portable/commit/6a57081dc35acf3ee298108d4bc3580489608d5f]
-+
-+Backport Changes:
-+- Omitted the upstream OpenBSD RCS revision header update because it does
-+  not apply to the OpenSSH 9.6p1 source revision.
-+- OpenSSH 9.6p1 lacks the later query extension and replied/generic_fail
-+  dispatch, so locked non-session-bind extensions retain the 9.6p1
-+  success=false response path.
-+
-+(cherry picked from commit 6a57081dc35acf3ee298108d4bc3580489608d5f)
-+Signed-off-by: Hetvi Thakar <hthakar@cisco.com>
-+---
-+ ssh-agent.c | 18 +++++++++++++++---
-+ 1 file changed, 15 insertions(+), 3 deletions(-)
-+
-+diff --git a/ssh-agent.c b/ssh-agent.c
-+index 2d2c6fcc..f1c35fd2 100644
-+--- a/ssh-agent.c
-++++ b/ssh-agent.c
-+@@ -1778,10 +1778,19 @@ process_extension(SocketEntry *e)
-+ 		error_fr(r, "parse");
-+ 		goto send;
-+ 	}
-+-	if (strcmp(name, "session-bind@openssh.com") == 0)
-++	/*
-++	 * This function can be called while the agent is locked to allow
-++	 * session binds to be processed for new channels.
-++	 * Other operations should be refused when locked.
-++	 */
-++
-++	if (strcmp(name, "session-bind@openssh.com") == 0) {
-+ 		success = process_ext_session_bind(e);
-+-	else
-++	} else if (locked) {
-++		debug_f("attempt to use extension \"%s\" while locked", name);
-++	} else {
-+ 		debug_f("unsupported extension \"%s\"", name);
-++	}
-+ 	free(name);
-+ send:
-+ 	send_status(e, success);
-+@@ -1831,16 +1840,19 @@ process_message(u_int socknum)
-+ 
-+ 	/* check whether agent is locked */
-+ 	if (locked && type != SSH_AGENTC_UNLOCK) {
-+-		sshbuf_reset(e->request);
-+ 		switch (type) {
-+ 		case SSH2_AGENTC_REQUEST_IDENTITIES:
-+ 			/* send empty lists */
-+ 			no_identities(e);
-+ 			break;
-++		case SSH_AGENTC_EXTENSION:
-++			process_extension(e);
-++			break;
-+ 		default:
-+ 			/* send a fail message for all other request types */
-+ 			send_status(e, 0);
-+ 		}
-++		sshbuf_reset(e->request);
-+ 		return 1;
-+ 	}
-+ 
-diff --git a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-index 651b7437a6..572a614380 100644
---- a/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-+++ b/meta/recipes-connectivity/openssh/openssh_9.6p1.bb
-@@ -46,6 +46,7 @@ SRC_URI = "http://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-${PV}.tar
-            file://CVE-2026-60000.patch \
-            file://CVE-2026-73283.patch \
-            file://CVE-2026-73282.patch \
-+           file://CVE-2026-73281.patch \
+diff --git a/meta/recipes-connectivity/bluez5/bluez5.inc b/meta/recipes-connectivity/bluez5/bluez5.inc
+index 67bdb6017f..22d50bc23f 100644
+--- a/meta/recipes-connectivity/bluez5/bluez5.inc
++++ b/meta/recipes-connectivity/bluez5/bluez5.inc
+@@ -68,6 +68,7 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/bluetooth/bluez-${PV}.tar.xz \
+            file://0001-tests-add-a-target-for-building-tests-without-runnin.patch \
+            file://0001-adapter-restrict-delta-0-RSSI-to-proximity-filters.patch \
+            file://0001-gobex-Fix-ABORT-response-being-discarded.patch \
++           file://0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch \
             "
- SRC_URI[sha256sum] = "910211c07255a8c5ad654391b40ee59800710dd8119dd5362de09385aa7a777c"
+ S = "${UNPACKDIR}/bluez-${PV}"
  
+diff --git a/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch
+new file mode 100644
+index 0000000000..13adce3aa2
+--- /dev/null
++++ b/meta/recipes-connectivity/bluez5/bluez5/0001-obexd-pbap-Fix-u128_to_string-skipping-data-4.patch
+@@ -0,0 +1,33 @@
++From 8b4a4176063831476bc9244d20f43b552e4b5554 Mon Sep 17 00:00:00 2001
++From: Jinwang Li <jinwang.li@oss.qualcomm.com>
++Date: Wed, 23 Sep 2026 11:29:57 +0800
++Subject: [PATCH] obexd/pbap: Fix u128_to_string skipping data[4]
++
++u128_to_string uses data[3] twice causing data[4] to be skipped and
++DatabaseIdentifier, PrimaryCounter and SecondaryCounter properties to
++be printed with wrong values.
++
++Fixes: 5ee26d43c65c ("obexd/client: Add DatabaseIdentifier property")
++Assisted-by: opencode:claude-sonnet-5
++Upstream-Status: Backport [commit 8b4a4176063831476bc9244d20f43b552e4b5554]
++Signed-off-by: Jinwang Li <jinwang.li@oss.qualcomm.com>
++---
++ obexd/client/pbap.c | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/obexd/client/pbap.c b/obexd/client/pbap.c
++index ce5e6cd5d..1970d3357 100644
++--- a/obexd/client/pbap.c
+++++ b/obexd/client/pbap.c
++@@ -1099,7 +1099,7 @@ static int u128_to_string(uint8_t *data, char *str, size_t len)
++ 	return snprintf(str, len, "%02X%02X%02X%02X%02X%02X%02X%02X"
++ 					"%02X%02X%02X%02X%02X%02X%02X%02X",
++ 					data[0], data[1], data[2], data[3],
++-					data[3], data[5], data[6], data[7],
+++					data[4], data[5], data[6], data[7],
++ 					data[8], data[9], data[10], data[11],
++ 					data[12], data[13], data[14], data[15]);
++ }
++-- 
++2.34.1
++
 -- 
-2.35.6
+2.34.1
 
 
