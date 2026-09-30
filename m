@@ -2,173 +2,194 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 87A00CA5FC5
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 15:18:55 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.16089.1790781530333336952
+	by smtp.lore.kernel.org (Postfix) with ESMTP id A5A08CA5FC7
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 15:45:07 +0000 (UTC)
+Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.16764.1790783099993471039
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2026 08:18:50 -0700
+ Wed, 30 Sep 2026 08:45:00 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=BPXF45Xu;
- spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49e6c0fce17so30053395e9.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 08:18:50 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=ht0Tn5BO;
+ spf=pass (domain: smile.fr, ip: 74.125.225.76, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f63546c5so4911621f8f.2
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 08:44:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790781528; x=1791386328; darn=lists.openembedded.org;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
+        d=smile.fr; s=google; t=1790783098; x=1791387898; darn=lists.openembedded.org;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
          :content-type:content-transfer-encoding:mime-version:from:to:cc
          :subject:date:message-id:reply-to:content-type;
-        bh=KBZA9lZJws5bCSfz83lo7WAtNAovs8omFqp1r/a+moc=;
-        b=BPXF45XuLx/xypTEybN0BCn36ljx0EDLI8JmgDBTBvGqgsfYvWBaRKkWtsnsrVWPyT
-         D8o/xXdNP+D7gDSdGdHil129TrpvefvpH1nxx/JPgPqn1LYl2m3EKModpCTcrHX9vt4I
-         E8IfKipOc6S/2+Tr1DFF4H9J0X7Xp2Ap2783M=
+        bh=URRZDjUeCZFKfNjDK26iukZ71mWbfB7bTgpD4bgE16E=;
+        b=ht0Tn5BO0XqmrwyCKh4BkR8U+dzYtfh5Kz+kj6SGX3HY1pXsVor0K7XY9h1o6kZFtM
+         h0pDSDix8254yx+hC3fXIx7ZbJSmQADMHFUDisKQsnvZ/8QtDG5ZzSCEnBYAQakL3cu7
+         CjsJvRH8QkrNBZX8tNAxfXtAHQ/X8SAwgBVmY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790781528; x=1791386328;
-        h=in-reply-to:references:subject:to:cc:from:message-id:date
+        d=1e100.net; s=20260707; t=1790783098; x=1791387898;
+        h=in-reply-to:references:from:subject:to:cc:message-id:date
          :content-type:content-transfer-encoding:mime-version:x-gm-gg
          :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
          :content-type;
-        bh=KBZA9lZJws5bCSfz83lo7WAtNAovs8omFqp1r/a+moc=;
-        b=Xz2EmMkdfvKERQPkUyTZL0npSbQb+oOtfdeOvCRb/6fImWIDKxVpcpKvkgxJ9VYnv6
-         7pKQcGCciamKMLLv3N2hLT/HIfIwT89LFAZTwP6qcvk8ZVB99zSvQykkc/Jpiz1eqYxo
-         5rqs3RWPNFVd6sPOv6VWrlm/VfL2jhlN9TqA+0NtsR1nhwRucChr/M+XnoHn0Rt7b82w
-         NPvX9yk0y2DF01DIh54I/TtJKGKmlA7/0c2qbKjj0NUhVtwArb1qitosaIkHiUkjScJM
-         piVYg8mAZLs2u7scDcUt+Pc+HugCENUql3Duq0/fRWMxiW+MWetYZ9ji/v286cBw+Cyd
-         9d4Q==
-X-Forwarded-Encrypted: i=1; AKwUvBzVCVTZhuoeZ2MT/7jevdML+U26LCI/WyduxQHrLh+UdS15dIE12MHHiI4UPhN9wfyg6iKwNnBGsGGNOBKASiuZIQ==@lists.openembedded.org
-X-Gm-Message-State: AFuF++npv2ymaxF6JyiX6AcqJJVAP76zah0qkqjD6ViYbnh5wb9HtvDC
-	eb+xhC6DRs1XzXrYaCJ7E2xR5YMavlsjH5O4oNa+S921r4W9EhUQnpSGWCZ7xZ9GzIc=
-X-Gm-Gg: AYBFou3H1CA7hOqVmfsvhPqjQkNz9Ad3RIfzH5qDWBmLAykvju6IqRheWaBtfoWlyXX
-	U4/I6wF34GWPk6PLNWXxl/+xyFGSjNXZX+jSBmsPyg8dMFH5oQRFmYL5pxDyljXpPZCs6madFYJ
-	VzttEv/itituFJyRttQntp7uFaUxkQgL6DWRialFE0lwBu69tBbpOCkufO96WEm2za23PwVn4be
-	TptQPLDzPhASnWk3hnqFYeRPp8ZT/Wb+7w9Mjb6GkD9Mx8vwbGOctYbFurCK8zrl6bVShIHqF2c
-	elYAJgC+R0SZ1B91JbSAKexts6SKO1RMIOsoSH2V6/zBy+nJ6K50vcowftZG0NurosAm1q31iFu
-	9QCjnlnM6rhTtKQCHpkPRo9NzKtG7ittB3ubLlVf9lVGu/5t3L67nq9OfCDFlK2Q7pgQx79js+F
-	D9bA7m/kdRfwrsZ7EvVDipG8eW2vJVcjIT/Nf7qRTP+5YhZOiCPPkyFty7XmAhPHJEBhkVtY/ul
-	HM0NBMU0lX6ARxFt4avHsM7xUgpLqyJE3/otMXdhlLthlT2vMw84KbWzwE=
-X-Received: by 2002:a05:600c:6814:b0:49f:e3f2:6851 with SMTP id 5b1f17b1804b1-4a01adde98bmr31285465e9.8.1790781528443;
-        Wed, 30 Sep 2026 08:18:48 -0700 (PDT)
+        bh=URRZDjUeCZFKfNjDK26iukZ71mWbfB7bTgpD4bgE16E=;
+        b=e+QywPTwqN+ENlRKX25/+iu1BLlW6uHK/faUhkgOTJH3atOaPo/qs6xCEdbqfFUc2H
+         sqSFwlbd46K0/OdGjSu1MlnzddViXc76o9bC452ZH2APOLgn5+tN9fCk6J8HOCcZ6IHU
+         3HGHsfebe3hPyrfwQp/EA8GMfFq0SmznDbEWKGZKHBL/BgKLknnL8I9fyD11oM+0aQRz
+         sbEdiPBVnt07X5idUAohXNA4sQxPdKvnSENjB3LRBl3z4uUVIEOnNQjOlciTJSBuKZhZ
+         AeXNTqK65icbgpEV9KmB3h/ImaOOKXENW7F/QWHj8PI3hkps9NF93WEb7NHOynofPzZC
+         PXsQ==
+X-Forwarded-Encrypted: i=1; AKwUvBz7ngh53Tr4rXye2CivBfJMRfULsYVsS3TNhYp81YtLi0094utLNepdl4KO774lh86W8AHCYbT9e1ccx2ItVRZUiA==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYKgYtnLhf1SEATGq+b2GkK1PNwnDNWNRAfmMnn4f+P4KHKiYhV4
+	baK3SOPJKEk6pBRuxrzZ1JqPhhk+quFN6zur62WkeeXGf1nb8pyNz/0WcpJNAXzqPAw=
+X-Gm-Gg: AYBFou1VDuWw91e1MtOSRnNPhtpP/SRttUIAKM+hWpqGgk8x3dUjr4vBGlENX3K4HTG
+	l72iteDd8unR8GJgm9rVCiIMPAnVarQpracNHP7J92Y+6RP9DtpB6xWK3pQWH/4akIn68Gd+jD+
+	nKxR3pBYhSpPILItyNxWlZcMqLOVFpJ+ZviifniA65QMbPiX4Hi8es4kRQPUnV/G3MULAv2cYif
+	1Vlb489irhJFd8XCfyLOurir6FFbrBXnHaSC9Toq7v1JrRhoephT9MCF6zaLKlghr42Dx3F/IbR
+	frF8TguZHh/VptY2Ed9AzayroYRty8Tki8R+4IoryGDMiowjU2QNsskU5xumFrWIa/WeTIIhmNh
+	HAUbtvP/2G/shtlCXeJ55slyhjy4yhIry9cSFaYc0Bg2ygMAqEzJ1vG4p27xrdusA1Y9fJ8MsJy
+	B/M9VfV6W9pCfXH9BQM7fNuESFDvCVFt3kL9zPzsC2qHgtiPmrabS5cGkkMQy/IdUXcprgjT2LV
+	hgO51CJ17RdySHS1gKEOtBnSkHEkWV/9LHZ6mQvDwh2mW0/HOvNdVo54PP4ZUWuSSSJ/Q==
+X-Received: by 2002:a5d:6f1e:0:b0:48b:12f:50da with SMTP id ffacd0b85a97d-48b024d44b8mr3653081f8f.23.1790783098172;
+        Wed, 30 Sep 2026 08:44:58 -0700 (PDT)
 Received: from localhost (static-css-ccs-204145.business.bouyguestelecom.com. [176.157.204.145])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01e67e01esm5544135e9.13.2026.09.30.08.18.43
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b029f2b02sm4474979f8f.24.2026.09.30.08.44.57
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 30 Sep 2026 08:18:45 -0700 (PDT)
+        Wed, 30 Sep 2026 08:44:57 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Wed, 30 Sep 2026 17:18:40 +0200
-Message-Id: <DLSR2HI5TO7O.14GNI8UNTUJUF@smile.fr>
-From: "Yoann Congal" <yoann.congal@smile.fr>
-Cc: "Haixiao Yan" <haixiao.yan.cn@windriver.com>, "Vijay Anusuri"
- <vanusuri@mvista.com>
-To: "Yoann Congal" <yoann.congal@smile.fr>,
- <OmkarAbaji.Patil@windriver.com>,
+Date: Wed, 30 Sep 2026 17:44:57 +0200
+Message-Id: <DLSRMLU0EYKQ.3KSUL5VCXXX11@smile.fr>
+Cc: "Richard Purdie" <richard.purdie@linuxfoundation.org>, "Mathieu
+ Dubois-Briand" <mathieu.dubois-briand@bootlin.com>, "Joshua Watt"
+ <JPEWhacker@gmail.com>
+To: =?utf-8?b?S0FaVVlPU0hJIEFLSVlBTUEgKOeni+WxsSDlkozmhbYp?=
+ <kazuyoshi_akiyama@jp.honda>, "Benjamin Robin"
+ <benjamin.robin@bootlin.com>, "openembedded-core@lists.openembedded.org"
  <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH][wrynose] gnutls: upgrade 3.8.12 -> 3.8.13
+Subject: Re: [OE-core] [PATCH wrynose 0/4] spdx: fix the compiled-sources
+ filter
+From: "Yoann Congal" <yoann.congal@smile.fr>
 X-Mailer: aerc 0.20.0
-References: <20260826101729.731747-1-OmkarAbaji.Patil@windriver.com>
- <DLPJLS9FVRFS.35QX2ZF2MZZWU@smile.fr>
-In-Reply-To: <DLPJLS9FVRFS.35QX2ZF2MZZWU@smile.fr>
+References: <20260917-backport-wrynose-v1-0-bb7d640c2719@jp.honda>
+ <DLP4XNN74N6I.1RINHBSPGZQL3@smile.fr> <P6U4ukI2TxueJYGtH8T_Xw@bootlin.com>
+ <TYYP301MB11583CEAF49F1D6ABB33F54EEB8D2@TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM>
+In-Reply-To: <TYYP301MB11583CEAF49F1D6ABB33F54EEB8D2@TYYP301MB1158.JPNP301.PROD.OUTLOOK.COM>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 15:18:55 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246977
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 15:45:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246978
 
-On Sat Sep 26, 2026 at 10:49 PM CEST, Yoann Congal wrote:
-> On Wed Aug 26, 2026 at 12:17 PM CEST, Omkar Patil via lists.openembedded.=
-org wrote:
->> From: Peter Marko <peter.marko@siemens.com>
+Hello,
+
+@Joshua (and other SPDX/SBOM interested parties):
+As our "SPDX/SBOM guy", I would love to have your input on this thread.
+FYI, We (Paul or I) plan to raise this at the next tech call.
+
+>> -----Original Message-----
+>> From: Benjamin Robin <benjamin.robin@bootlin.com>=20
+>> Sent: Monday, September 28, 2026 5:57 PM
+>> To: KAZUYOSHI AKIYAMA (=E7=A7=8B=E5=B1=B1 =E5=92=8C=E6=85=B6) <kazuyoshi=
+_akiyama@jp.honda>; openembedded-core@lists.openembedded.org; Yoann Congal =
+<yoann.congal@smile.fr>
+>> Cc: Richard Purdie <richard.purdie@linuxfoundation.org>; Mathieu Dubois-=
+Briand <mathieu.dubois-briand@bootlin.com>
+>> Subject: Re: [OE-core] [PATCH wrynose 0/4] spdx: fix the compiled-source=
+s filter
 >>
->> Solves CVE-2026-33846, CVE-2026-42009, CVE-2026-33845, CVE-2026-42010,
->> CVE-2026-3833, CVE-2026-42011, CVE-2026-42012, CVE-2026-42013,
->> CVE-2026-42014, CVE-2026-5260, CVE-2026-42015, CVE-2026-3832 and
->> CVE-2026-5419.
+>> On Saturday, September 26, 2026 at 11:19=E2=80=AFAM, Yoann Congal wrote:
+>>> On Thu Sep 17, 2026 at 6:24 AM CEST, KAZUYOSHI AKIYAMA via lists.openem=
+bedded.org wrote:
+>>> > SPDX_INCLUDE_COMPILED_SOURCES is meant to filter all source files=20
+>>> > down to only the ones that were compiled before adding them to the=20
+>>> > SBOM, but on wrynose it doesn't work.
+>>> > add_package_files() is what picks which files go into the SBOM.
+>>> > It walks ${SPDXWORK} itself to get file paths, then keeps only the=20
+>>> > ones that match the list of compiled sources returned by=20
+>>> > get_compiled_sources().
+>>> > get_compiled_sources() just returns what save_debugsources_info()=20
+>>> > stored, and that data uses paths rooted at ${TARGET_DBGSRC_DIR} (=3D=
+=20
+>>> > /usr/src/debug/${PN}/${PV}), not the ${SPDXWORK}-rooted paths
+>>> > add_package_files() compares against.
+>>> > So the list get_compiled_sources() returns never matches what=20
+>>> > add_package_files() is comparing, and almost every file ends up=20
+>>> > marked as not compiled.
+>>> > This happens for every recipe except the kernel, which has its own=20
+>>> > special-cased path.
+>>> >
+>>> > This isn't just a matter of the SBOM missing the right files.
+>>> > sbom-cve-check uses the same match result to decide whether a=20
+>>> > vulnerable file was actually built, for its vulnerability triage.
+>>> > If the match count is always zero, that triage doesn't work either.
+>>> > On yocto-6.0.2 we confirmed the misjudgment affects cpio and perl.
+>>> >
+>>> > master already has this fixed,
+>>> > and this backport brings that fix to wrynose.
+>>> > b567c2f0d9 is the commit that fixes it.
+>>> > Everything else in the series is a prerequisite for that patch.
+>>> > Backporting b567c2f0d9 along with its prerequisites brings wrynose's=
+=20
+>>> > behavior in line with master.
+>>> > With this, compiled sources get counted correctly, and=20
+>>> > sbom-cve-check's triage works correctly too.
+>>> >
+>>> > On wrynose (genericx86-64, core-image-full-cmdline), the match rate=
+=20
+>>> > goes from effectively zero to 93.9%.
+>>> >
+>>> > One thing changes.
+>>> > What the SBOM records as a source file name changes too.
+>>> > aa44a0f0eb re-unpacks under UNPACKDIR instead of WORKDIR, so a=20
+>>> > recorded source file name changes (e.g. sources/acl-2.3.2/...=20
+>>> > becomes acl-2.3.2/...).
+>>> > This is a change to SBOM metadata only.
+>>> > The actual build output is unaffected.
+>>> > Anyone diffing SBOMs across LTS point releases will see it.
+>>>=20
+>>> Hello,
+>>>=20
+>>> Thanks for the series, this sounds like a worthy fix.
+>>> But, this SBOM change is a bit more intrusive than I'm confortable=20
+>>> with... This will create a lot of noise for users that precisely track=
+=20
+>>> their SBOMs.
 >>
->> Release notes: [1]
+>> Hello Yoann,
 >>
->> Rebase patches and drop patch included in this release.
->> Add patches to fix linking with musl libc.
->> Increase memory needed to successfully run test key-openssl.
->> Drop code for previous release tarball problem.
+>>> Can we do the fix without this change?
 >>
->> [1] https://github.com/gnutls/gnutls/blob/3.8.13/NEWS
->>
->> Signed-off-by: Peter Marko <peter.marko@siemens.com>
->> Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
->> Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
->> Signed-off-by: Omkar Patil <OmkarAbaji.Patil@windriver.com>
->> ---
->>  meta/recipes-core/images/core-image-ptest.bb  |   2 +
->>  ...fragments-implement-a-basic-DTLS-tes.patch | 258 ------------------
->>  ...s-mini-dtls-framents-link-to-gnulib.patch} |  12 +-
->>  ...ust-list-fault-fix-issues-in-linking.patch |  31 +++
->>  ...merge_handshake_packet-using-recv_bu.patch |  96 -------
->>  ...s-add-more-checks-to-DTLS-reassembly.patch |  65 -----
->>  ...fragments-extend-with-a-1816-reprodu.patch | 159 -----------
->>  ...fragments-extend-with-fragmenting-Cl.patch | 149 ----------
->>  ...ch-DTLS-datagrams-by-sequence-number.patch |  42 ---
->>  ...fragments-1839-mismatching-message_s.patch | 104 -------
->>  .../gnutls/gnutls/Add-ptest-support.patch     |   4 +-
->>  .../gnutls/gnutls/CVE-2026-3832_p1.patch      |  52 ----
->>  .../gnutls/gnutls/CVE-2026-3832_p2.patch      | 114 --------
->>  .../gnutls/gnutls/CVE-2026-3833.patch         |  90 ------
->>  .../gnutls/gnutls/CVE-2026-42009_p1.patch     |  62 -----
->>  .../gnutls/gnutls/CVE-2026-42009_p2.patch     |  48 ----
->>  meta/recipes-support/gnutls/gnutls/c99.patch  |  41 ---
->>  .../{gnutls_3.8.12.bb =3D> gnutls_3.8.13.bb}    |  22 +-
->>  18 files changed, 43 insertions(+), 1308 deletions(-)
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-mini-d=
-tls-fragments-implement-a-basic-DTLS-tes.patch
->>  rename meta/recipes-support/gnutls/gnutls/{0008-tests-mini-dtls-frament=
-s-link-to-gnulib.patch =3D> 0001-tests-mini-dtls-framents-link-to-gnulib.pa=
-tch} (68%)
->>  create mode 100644 meta/recipes-support/gnutls/gnutls/0001-tests-pkcs11=
--trust-list-fault-fix-issues-in-linking.patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0002-buffers-shor=
-ten-merge_handshake_packet-using-recv_bu.patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0003-buffers-add-=
-more-checks-to-DTLS-reassembly.patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0004-tests-mini-d=
-tls-fragments-extend-with-a-1816-reprodu.patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0005-tests-mini-d=
-tls-fragments-extend-with-fragmenting-Cl.patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0006-buffers-matc=
-h-DTLS-datagrams-by-sequence-number.patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/0007-tests-mini-d=
-tls-fragments-1839-mismatching-message_s.patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p1.=
-patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3832_p2.=
-patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-3833.pat=
-ch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p1=
-.patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/CVE-2026-42009_p2=
-.patch
->>  delete mode 100644 meta/recipes-support/gnutls/gnutls/c99.patch
->>  rename meta/recipes-support/gnutls/{gnutls_3.8.12.bb =3D> gnutls_3.8.13=
-.bb} (78%)
+>> Technically, we could do it. But it wouldn't be exactly the same series,=
+ which I don't really like, and the code will diverge.
+>> For information I could develop a solution after ELCE capable of generat=
+ing a similar SBOM if Kazuyoshi doesn't feel comfortable doing it.
+>> --
+>> Benjamin Robin, Bootlin
+>> Embedded Linux and Kernel engineering
+
+On Mon Sep 28, 2026 at 11:39 AM CEST, KAZUYOSHI AKIYAMA (=E7=A7=8B=E5=B1=B1=
+ =E5=92=8C=E6=85=B6) wrote:
+> Thank you for your comments, Yoann and Benjamin.
 >
-> Hello,
->
-> Sorry, this upgrade was requested (and rejected) before:
-> See https://lore.kernel.org/all/20260603074613.2846839-1-haixiao.yan.cn@w=
-indriver.com/
->
-> Regards,
+> I agree with Benjamin.
+> This series does introduce a visible change that the source path in
+> SPDX will be changed from `sources/XXX/YYY.c` to `XXX/YYY.c`.
+> However, the design change of the patch 0002 is reasonable, and I
+> believe it is better to avoid code divergence whenever possible.
+> The impact of this change is very small.
+Do you have anything to support this affirmation?
+I can imagine users having quite strict processes around SBOMs that
+could be disrupted by a change like this (e.g. diff'ing SBOMs across
+versions).
 
-That said, we might consider this upgrade if that solves a problem that
-is otherwise too hard to do (like patches hard to backport) and simplify
-maintenance.
+> I could write a patch to preserve the `sources/` prefix, but even
+> then, wrynose users would still need to adapt to this change in the
+> next LTS release.
+> Furthermore, if I write such a patch, the path change would occur
+> silently in the next LTS release, without sufficient context to
+> document it properly in the release notes.
+Breaking changes like this when changing release is expected and not a
+problem at all.
 
-(@Haixiao Yan, @Vijay Anusuri: you also sent this upgrade request)
-
-@All: Is there a reason why you sent the upgrade instead of the
-backports? (I guess the reason you had could be a justification for the
-upgrade exception)
-
-Thanks,
+Regards,
 --=20
 Yoann Congal
 Smile ECS
