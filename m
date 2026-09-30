@@ -2,63 +2,63 @@ Return-Path: <ankur.tyagi85@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 695D2CA5FBA
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 11:29:18 +0000 (UTC)
-Received: from mail-pj2-f15.google.com (mail-pj2-f15.google.com [74.125.227.143])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.11159.1790767756252982998
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 02444CA5FBA
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 11:29:28 +0000 (UTC)
+Received: from mail-pz2-f37.google.com (mail-pz2-f37.google.com [74.125.228.37])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.11160.1790767758106736445
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2026 04:29:16 -0700
+ Wed, 30 Sep 2026 04:29:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=RFSN3no/;
- spf=pass (domain: gmail.com, ip: 74.125.227.143, mailfrom: ankur.tyagi85@gmail.com)
-Received: by mail-pj2-f15.google.com with SMTP id d9443c01a7336-2d747f01363so31011065ad.2
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 04:29:16 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=pOx/9zGd;
+ spf=pass (domain: gmail.com, ip: 74.125.228.37, mailfrom: ankur.tyagi85@gmail.com)
+Received: by mail-pz2-f37.google.com with SMTP id 41be03b00d2f7-cc7d7111700so244401a12.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 04:29:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790767755; x=1791372555; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1790767757; x=1791372557; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=J68mB8t1wGYUn1fT1w0l1Axzg9eiYa2iL0gQx30o3LE=;
-        b=RFSN3no/Yfbae3kTUDNqa9fJy3gdddMFAdkTuXCfkhU+ORegf3DV9vtgqZesUNlknB
-         C3OjvMP78SxKtraR7Qiw30sffzbwrSVFs0sIosD9sKbmJr+ak+/HdMZsTzf4dYBhPbXq
-         r+5G9HvufKEB7YegKh6LXJOiUz5tpQRhIm3/3YnxrFge2nGx9XgtyzOzOAP5XMELFgp2
-         kucjgxmwHb375tLL3vwl1mu5SBUrb672ldk+X+GqqyMSu3DWC4ai5nyFbkc2WCItkPYc
-         gcX97VxMSZN4nlSZicDNmeJxXCOI2Z32TusyUzp6ZOnkshAholmKH5pC1ahzglt8Q5n1
-         UuwA==
+        bh=eiAfy+OAT2woSPxg41pSFZhMVq51P3bQ2IkcJ7kqTjQ=;
+        b=pOx/9zGdw2/PmMyPILkLDg/+hs612Ql0IV0kQgecYixdvfv3x9TS20Ug8FsqFrE+7X
+         z+agmrlCC9rfdc1hD80OmLFRbTbrtFLar6SPsgCkTmylBVVYhqLf9qOVcPvYLOEgjfK5
+         xmHvPZPIrq/whhXTohfia4JA5AgT33R/BW8IN76upiwHB0r9noBTZTrH8xEw4q66THvK
+         l/g/BvXy/2PvO+MLK3/JZeMEeEKYElpAgeHRhUViZIsfbrAD/A2nBfq4g7CXbUH5mBZh
+         oGE7a0vlqrCKGU2CQrlJ5n3k0oZiftxCnvFVIw/lGRpHOBzbGkVqV4/8SWRuzgWIUPLv
+         69Lg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790767755; x=1791372555;
+        d=1e100.net; s=20260707; t=1790767757; x=1791372557;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=J68mB8t1wGYUn1fT1w0l1Axzg9eiYa2iL0gQx30o3LE=;
-        b=17G6S2efeqzhSJw4leA6ZtilQqNldVzcXrZupEgeZoFP657dYrC15JQUOR+h3pEe76
-         D7uDfbg2FgJdD0j1uglvEdHlgW3aI+Ak5gxj7YQV2h90p0JlOLomohf6+yepdQts6oTn
-         UoJep08mK6g6R+/4lxsRyXeoVVFrSfK9OsR09DMeiUESD7G96Jmpjrk5EzAOvHfp8qxo
-         LfnKvIHAiiD4fmaqauxAZ4M9BFn2tWfp7Qb54JQMxFWTBwxKFfG2t4va1LkCaxdLXQ4n
-         5B1swQNp8NXgbJMjoT02p96ayVwRWDToGFgOBgsVAQ5V78VXQUfnpeHKHHvUT0o75KHw
-         lmmw==
-X-Gm-Message-State: AFq9FYK3cQlF1u4ly5d5nYnhvHGpPZPzSQpTkphD2H0EEFRSCu8mTGNj
-	oECq5WGioFriqsnLdBygNFiFxsBvjlJovsC9oUd3fWsorDxJP4AyY5aN/1mSVQ==
-X-Gm-Gg: AYBFou3sVIqSLoqx2gfTD1/3V3bS2WMmfPDkxI+04hLrrpTW6MIxmrBOPwF+ZUN85G9
-	ubN7IILRFT2iCO2VJQZMNzLF5Dr5qaDKM6k+HjsXFBbqCZRSNxXn9nEwbt17X0GekbTdicHFfgv
-	SlzQWNmP2uv5cjmZt0ni5nwovf0qAnMsvfspoaPEHmGxqiBiEarE+7dMYc0aurcEiV0EU6KvuXu
-	5zfWGpVaFhB+JO8Q+gTmZllN2JpL0F8BfUurUbJoRv8Jx8BCNADjc3R+H2x43WA3lUicg2nsPW2
-	lLPDIIdsG7byzVFd+d76vYVxvuAC4uRuYTyPsnqJ8p/I13X8qWpAM6vYi37+/pDk4+U1C1ghGvp
-	F6Rf+JQJmZuwefQrltok2itwmm370iT3Xa4KGpnlLzI7GgwB0Uo8nnfISrnexNdjhWO5/iqSJCq
-	sGnwNvPvCB2pbrKO/cwO15oTRike2GrG/WGNcz65Fa5vXvmUYIEnjlXYJwu9qUfwQHsWjsakm6C
-	Ps/ffxE2MsaPHSMWqeXzLI=
-X-Received: by 2002:a17:90b:37cb:b0:3a4:c18c:b893 with SMTP id 98e67ed59e1d1-3a4d1964c71mr833146a91.61.1790767755350;
-        Wed, 30 Sep 2026 04:29:15 -0700 (PDT)
+        bh=eiAfy+OAT2woSPxg41pSFZhMVq51P3bQ2IkcJ7kqTjQ=;
+        b=Ri/Ahl04rKGQKAx+dq2lJN74j7w6tpHiK4IZNsxBFaXUM48l2yt8uduFEbKGpCx00H
+         Y7Oqbaz10VTiU7dcvSYcVfXIKRbYBgsQlTadnrrHDruDr8CwimOAQR4wHYA2m2gttPkX
+         v0tVDC4Pb1Di3xFDBRdJoxKkhishx+VKUtnMclTNzODjTdt98/PhxwCF9+ulIvYyuVCw
+         3LGgS3cn/zUyZGchxssFiHz+9I4L1KrQapMK5m5H6I8WINj10bPdeRmlioZ+fGh16OYB
+         zCF123s2SdES8zSlXimSfi2eQ11z9ioGK38HUiSQTdpOmtBroWPxJ3hs2iVJJnGwaogs
+         ncHQ==
+X-Gm-Message-State: AFuF++mmHZH0TpDKyeHwZAh7MkvYNKq+Zx44EOUFHMCb1E5t2XrsNtvX
+	ppNNosnCZc6WKE3NFT+rYfF79qiFO1EPQ6HFsi1izDSsNdQPF3HuR/8uU0A74Q==
+X-Gm-Gg: AYBFou1fYq26eaRlwm5m/wP+4K/9UI0GlkTE5Oo9REjBkTOSCMADuvJI3fLRflC6kqH
+	k4A2K3jIkJQnWVhD4Vx2HEZEteWqN7u0EMs++S7MC87W5ty7CYt7TbsmIrUVgZ6KOKNc7aC0Hc5
+	5r6WNyroeX26z9yvTlNtql0tf7tAhgnITJTB48QbTYCIwRR44ZkvapXw3sPRxGOJXb8lOxksgzv
+	dS04rn3jF/GkET/Fgc8xwxQlILsJNsxLMvLqba12RP8vIiCp3/EzYnixHchV28G+RSCttkSzG9E
+	cbc1cpPc74nPdNX5+LiFekyQC/Tj1gfPozU9UTlRwwfobTCI2wUEA2hvP8Bu06i2uxwxp/jltfX
+	5JZRSL2yn6u+9k4pztBvpA6jNNIdvrK7TzG2V8QYksROSCAoG+EO6764zkjo6Ud/Ueu7NilhG5z
+	zCqkKjqIudA4rij8DuLlNgUdAoB/t1VeU6b4wEbSmly3iLTmiJrOH5muuWb/u9ZVL4cH0I5y2Rd
+	lbBwQhth3mTmIue5Q6nI3I=
+X-Received: by 2002:a05:6a20:9c17:b0:3cd:7ba2:e669 with SMTP id adf61e73a8af0-3de9e017390mr1177425637.10.1790767757338;
+        Wed, 30 Sep 2026 04:29:17 -0700 (PDT)
 Received: from NVAPF55DW0D-IPD.. ([203.211.104.195])
-        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc7da14e8c5sm739797a12.12.2026.09.30.04.29.13
+        by smtp.gmail.com with ESMTPSA id 41be03b00d2f7-cc7da14e8c5sm739797a12.12.2026.09.30.04.29.15
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 04:29:14 -0700 (PDT)
+        Wed, 30 Sep 2026 04:29:17 -0700 (PDT)
 From: ankur.tyagi85@gmail.com
 To: openembedded-core@lists.openembedded.org
 Cc: Ankur Tyagi <ankur.tyagi85@gmail.com>
-Subject: [OE-core][PATCH 2/3] gnupg: upgrade 2.5.23 -> 2.5.24
-Date: Thu,  1 Oct 2026 00:29:05 +1300
-Message-ID: <20260930112906.4053964-2-ankur.tyagi85@gmail.com>
+Subject: [OE-core][PATCH 3/3] igt-gpu-tools: upgrade 2.5 -> 2.6
+Date: Thu,  1 Oct 2026 00:29:06 +1300
+Message-ID: <20260930112906.4053964-3-ankur.tyagi85@gmail.com>
 X-Mailer: git-send-email 2.43.0
 In-Reply-To: <20260930112906.4053964-1-ankur.tyagi85@gmail.com>
 References: <20260930112906.4053964-1-ankur.tyagi85@gmail.com>
@@ -67,63 +67,95 @@ Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 11:29:18 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246957
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 11:29:28 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246958
 
 From: Ankur Tyagi <ankur.tyagi85@gmail.com>
 
- * New and extended features:
-   - gpg: New option --allow-9980 to enable the processing of RFC-9980
-     specified data structures.  The use of this option is only
-     recommended if external policy requirements demand the use of
-     these governmental approved specification.  PGP folks requiring
-     some PQC resistance should keep on using the standard LibrePGP
-     Kyber algorithm introduced 2 years ago.
-   - gpg: In 9980 mode support PQC encryption using ML-KEM (aka Kyber)
-     with X448, X25519, Brainpool, or NIST curves as specified by
-     RFC-9980 et al.
-   - gpg: In 9980 mode support ED25519 and X25519 as specified by
-     RFC-9580 under the names "ietf27" and "ietf27".
-   - gpg: Add experimental support for a --compliance=fips mode to use
-     GCM for bulk encryption.
-   - scd: Add Nitrokey 3 to pcsc-shared interference detection.
+Dropped patch that is part of the upstream version[1]
 
- * Bug fixes:
-   - gpgsm: Fix an exploitable printf bug when using the debug option
-     "--debug x509".
-   - dirmngr: Make the LDAP upload flags also work for KS_SEARCH.
-   - dirmngr: Fix OOB read in DNS CERT record parser.
-   - scd: Fix OOB access in DO parsing of faulty cards.
+Changelog:
+https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/blob/v2.6/NEWS?ref_type=tags
 
- * Other changes:
-   - dirmngr: Add a mitigation for badly configured web key
-     directories.
-   - New option --debug-no-libgcrypt for gpg, gpgsm, and agent.  This
-     debug option is useful to avoid cluttering other debug output
-     with libgcrypt generated debug details.
-   - gpg: New --list-options "debug-show-sexp" to print a secret key
-     as an s-expression.
+[1]https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/commit/573a2c9824ce7893a32b8ce6022d21d7b5434842
 
 Signed-off-by: Ankur Tyagi <ankur.tyagi85@gmail.com>
 ---
- meta/recipes-support/gnupg/{gnupg_2.5.23.bb => gnupg_2.5.24.bb} | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
- rename meta/recipes-support/gnupg/{gnupg_2.5.23.bb => gnupg_2.5.24.bb} (97%)
+ ...do-not-hardcode-the-build-directory-.patch | 46 -------------------
+ ...-gpu-tools_2.5.bb => igt-gpu-tools_2.6.bb} |  3 +-
+ 2 files changed, 1 insertion(+), 48 deletions(-)
+ delete mode 100644 meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
+ rename meta/recipes-graphics/igt-gpu-tools/{igt-gpu-tools_2.5.bb => igt-gpu-tools_2.6.bb} (93%)
 
-diff --git a/meta/recipes-support/gnupg/gnupg_2.5.23.bb b/meta/recipes-support/gnupg/gnupg_2.5.24.bb
-similarity index 97%
-rename from meta/recipes-support/gnupg/gnupg_2.5.23.bb
-rename to meta/recipes-support/gnupg/gnupg_2.5.24.bb
-index 139e1c9ef2..3e562250d7 100644
---- a/meta/recipes-support/gnupg/gnupg_2.5.23.bb
-+++ b/meta/recipes-support/gnupg/gnupg_2.5.24.bb
-@@ -25,7 +25,7 @@ SRC_URI:append:class-native = " file://0001-configure.ac-use-a-custom-value-for-
-                                 file://relocate.patch"
- SRC_URI:append:class-nativesdk = " file://relocate.patch"
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
+deleted file mode 100644
+index 3cf6263290..0000000000
+--- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools/0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch
++++ /dev/null
+@@ -1,46 +0,0 @@
+-From 5681532ed4e1b656219bf887bbeadbe3ee6d277d Mon Sep 17 00:00:00 2001
+-From: Alexander Kanavin <alex@linutronix.de>
+-Date: Thu, 18 Dec 2025 15:45:11 +0100
+-Subject: [PATCH] lib/meson.build: do not hardcode the build directory into the
+- installable library
+-
+-This breaks reproducibility, and is not otherwise appropriate, as the
+-original directory may not exist. If there's a use case for referring to
+-it, the location should be passed in with a command line switch or
+-environment variable.
+-
+-imgdir is set elsewhere in meson.build to:
+-
+-imgdir = join_paths(build_root, 'data')
+-
+-and them IGT_IMGDIR is used thusly in lib/igt_core.h:
+-
+-/**
+- * igt_fopen_data:
+- * @filename: filename to open.
+- *
+- * Open a datafile for test, first try from installation directory,
+- * then from build directory, and finally from current directory.
+- */
+-#define igt_fopen_data(filename) \
+-        __igt_fopen_data(IGT_SRCDIR, IGT_DATADIR, IGT_IMGDIR, filename)
+-
+-Upstream-Status: Inappropriate [hack patching in a bogus dir; issue reported at https://gitlab.freedesktop.org/drm/igt-gpu-tools/-/issues/190]
+-Signed-off-by: Alexander Kanavin <alex@linutronix.de>
+----
+- lib/meson.build | 2 +-
+- 1 file changed, 1 insertion(+), 1 deletion(-)
+-
+-diff --git a/lib/meson.build b/lib/meson.build
+-index d1289a5e0..a8c15be8e 100644
+---- a/lib/meson.build
+-+++ b/lib/meson.build
+-@@ -309,7 +309,7 @@ foreach f: lib_sources
+- 	    '-DIGT_DATADIR="@0@"'.format(join_paths(prefix, datadir)),
+- 	    '-DIGT_SRCDIR="@0@"'.format(srcdir),
+- 	    '-DIGT_LOG_DOMAIN="@0@"'.format(f.split('.')[0]),
+--            '-DIGT_IMGDIR="@0@"'.format(imgdir),
+-+            '-DIGT_IMGDIR="/this/is/a/bogus/dir"',
+- 	])
+- 
+-     lib_intermediates += lib
+diff --git a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.5.bb b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+similarity index 93%
+rename from meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.5.bb
+rename to meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+index f03bf46630..d76c2355a1 100644
+--- a/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.5.bb
++++ b/meta/recipes-graphics/igt-gpu-tools/igt-gpu-tools_2.6.bb
+@@ -9,10 +9,9 @@ LICENSE = "MIT"
  
--SRC_URI[sha256sum] = "97ebba329ed0aa1ed24395b6a485a3626680f4c19232c62a0c0f0433c726e2bd"
-+SRC_URI[sha256sum] = "bf149d01a2b9fcc0e4589b8ae8697d3d5c557ea48ed95a3fa55dd3b1187e6039"
+ inherit meson pkgconfig
  
- EXTRA_OECONF = "--disable-ldap \
- 		--disable-ccid-driver \
+-SRCREV = "a8e2cbd2854d7980a9eccecc6e0c801d0824b88f"
++SRCREV = "916c79cfb7675ca01607dcd821f8c49d4f633a6f"
+ 
+ SRC_URI = "git://gitlab.freedesktop.org/drm/igt-gpu-tools.git;protocol=https;branch=master;tag=v${PV} \
+-           file://0001-lib-meson.build-do-not-hardcode-the-build-directory-.patch \
+            "
+ 
+ DEPENDS += "libdrm libpciaccess cairo udev glib-2.0 procps libunwind kmod openssl elfutils alsa-lib json-c bison-native pciutils jansson"
 
