@@ -2,135 +2,197 @@ Return-Path: <richard.purdie@linuxfoundation.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 2CA38CA5FB1
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 12:52:29 +0000 (UTC)
-Received: from mail-wr2-f12.google.com (mail-wr2-f12.google.com [74.125.225.76])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12678.1790772743901543888
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 93808CA5FAC
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 13:33:13 +0000 (UTC)
+Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.13489.1790775184648753280
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2026 05:52:24 -0700
+ Wed, 30 Sep 2026 06:33:05 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DVrDbZvo;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.76, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wr2-f12.google.com with SMTP id ffacd0b85a97d-482f6351831so3136042f8f.1
-        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 05:52:23 -0700 (PDT)
+ dkim=pass header.i=@linuxfoundation.org header.s=google header.b=TbTyHUPP;
+ spf=pass (domain: linuxfoundation.org, ip: 74.125.225.141, mailfrom: richard.purdie@linuxfoundation.org)
+Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49cd5462b69so30271405e9.1
+        for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 06:33:04 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790772742; x=1791377542; darn=lists.openembedded.org;
+        d=linuxfoundation.org; s=google; t=1790775183; x=1791379983; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=wF4JWZKV8JEObjy0GFnfSKreB6wYm7kMc+VuKNi1EI8=;
-        b=DVrDbZvo5uqSQ0LLoqcMGlj3s+40Q4k5vSEOk3ZddbO1VEGltpsQyVp6buSuzCiC6w
-         FxQqydfUfKlUrh+Sk7DwIRpdJaXxdRjFVhFrJeyQkT3wK4L0uSZ2B629WOz911GiGZcy
-         hn6qvlxahtIxGcNNAazjT9ua/xMHKLnbQCDOY=
+        bh=IYN2BRomOXWVZv5bdfyZWs7HF9X170JD35/KZMBOuMo=;
+        b=TbTyHUPPB/jZgKRKiQKIeeYze1irmJdpq9xMZQ8yUdle1BdSiQuSPoKklr9E7nI+WK
+         JasHf6yeS6Mi+qEUoDo3NBfty8L/V4ra7h9fQg8F7FFwARXJ/ZjHe7J2tRSgj1lVnHIc
+         0+A0HpbQZPqu+NrjG0x5u/6gPYofapSomA1Cc=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790772742; x=1791377542;
+        d=1e100.net; s=20260707; t=1790775183; x=1791379983;
         h=content-transfer-encoding:mime-version:message-id:date:subject:to
          :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
          :reply-to:content-type;
-        bh=wF4JWZKV8JEObjy0GFnfSKreB6wYm7kMc+VuKNi1EI8=;
-        b=JNU0PCvv8DdyINw76Vmp2NPNW0sS2ESwFgNneoe7orFMHQO/1o6EvzuU83bkAu3MiP
-         yzA8aZxQfSjEKm88VXHXalvmEOUA524VQjG8NkzaUsaoAHOpJfa68CWdaK38s1gAqjlu
-         9CxjAqUKnww27KF57Pqg4Js0gr7BTjv+QIw2E0lmjna52LWVtuKAduTMTKxi1e8bOjni
-         O9AdQE+H51yRknXGFvg47z4042jYc+Qo1nSsdKkUNe8hMHUzOZ79YDEIcDzS3RZZwyJR
-         Wxz7o2rurGgtzM6EV8pD254jfMrDp8bhn6B0rY23uIjNKEqcYwLaXBqPMs+cggVFuy0l
-         Nx/w==
-X-Gm-Message-State: AFq9FYJORRDbihiolUxWPKzPjuSJb6JbHwqwDeFxbGGYzE4oo7RNVuYD
-	KBT3efXtn+c/c2IYSsn/LQH65fxdihKtFjSX98p+mmTDXYEtOMAGALjHZLpUzbEhOwDCJ27re1w
-	0tgxAcd0=
-X-Gm-Gg: AYBFou19VWC5l0dzJogfW59hYfmeCtmrYio5AcuTG6B1KS8Zi/efO+UDrESRUYTcq3+
-	0FErJH+uP1q+Dexa13ZDhxsZzemPn3rvsa9JSXDorZlBr4Xc2BbXqagfS8RXQL6x+FjiRTmafOZ
-	aPhKrTaO9p3KK2d1Z9B5pEA/nRYiiLmmPBEaFZolIlLA+wGNsQ/oD/21+YrgA7QbnR2mKWsJFgW
-	sAHx8vPl6suG3BE9z4dC9VbFYT2M0IAeheubg2AGudlzICIvpOfSDDwxVBRNfeiIGNbzUzBzwXX
-	ZLExMwUhFR5hxWGADhCPE5YV9fMHfCto0teY+KekMjo/3ssRKB2R0yFu6Eygbk+8iHxhy/HRmYX
-	HIQwaP0R2QN1IX+cDubylQo6O9jT2tEg7pXmBMV4Cp99n0Dn76+lrAHoMAhJE+Ny1abhBZm3rTy
-	DNYWKrnysQn8JkxyvOh4glJ7UQP1w85OqHK7gpXGbjl5KzO/Q2ma0gIOQBldhI7nE3TvCeYbICQ
-	nGghNKSXjapefeCeiaC/lmdl7M9XCT0HSUl
-X-Received: by 2002:a05:6000:24c2:b0:487:221f:65b8 with SMTP id ffacd0b85a97d-48b025448b4mr3269414f8f.50.1790772741800;
-        Wed, 30 Sep 2026 05:52:21 -0700 (PDT)
+        bh=IYN2BRomOXWVZv5bdfyZWs7HF9X170JD35/KZMBOuMo=;
+        b=KpGcz25GVoSozfeqMQNlK+ynsLt8QEsBhrh27HSUuTMHqmHCyUYHjCWM5+EWps882x
+         GV9noieoXrntg8htwFzFt29PQHAyJI+Ud4fm0159iJQ25bvUR2QkTKfpkiloqz1xVyTt
+         URIqrN7vkHUI32SX2LPpBOOvtpmsb3QhLGuaEWLr1uV+OsLY6f2wAhPjPNKq+WVyi3ZP
+         vBbhLIBBtAS8awdvJ1fGiKHDSCUB2Xr3oy3iLLPxfNtZpGg5Vk5KICp6ToxqirePdMgo
+         R2WUilJB8V6WpOulp08c96conSW1tY1l2EUtdVSVIdrkE2ZSP+hOlqtWiJ3B7BgDk2ur
+         +f0g==
+X-Gm-Message-State: AFuF++lNQ418Z8th2UY5jlm2DTDCNfWggOBb4UZcIo2hB+f2lXnv6TOQ
+	QdKZzY/F4ieupmUDS+DYLip98uqrg6hN0ecE+KnsEusXDw+tgoBFQZJDWrP2WozTmFkEWVEYVbt
+	YkbaNZ/I=
+X-Gm-Gg: AYBFou0q449qvZ8jQsqL2sSFDWlMvEXr+uflZaSGFMFe3NOaQOYUxPqWFjWDNcJ3e5F
+	SUnbtKpGO0u5Y34SnVyCoV+nBJjCOMrGD4wPtRlWVZGwwc05b6IsCVxfmXD8dTII5K+asFg4rmf
+	HY9ZD7ULzVINmzy1KVLX8j67EGuCythIhZF2ZzwZzO6DgFDQ9SzTJB5YF72SVucOcd8UST4S4tL
+	K/sh0XLjNRYWxQqSy1EsQBWgtohNVokmjhhN4TKJzmV0n0dkPJ+KfRhrOuGurFkSqE2X7ZFyH08
+	OOMlvv3jEs+RuDvrHq2EBE9WEtMAz6N2xKDzSvTKQ0DMzOCiVRPLyvgRkuJpm/U9fi1QnWjwcUp
+	cUdW2wuEsuIRc6B7peEe8YNLE27J6bgdAsRqiJIku7uukrfw8EflcHKvwNb2vVi/qpnrq4kFD73
+	j1+90wmZ7/om8Kf+ppK5kN8JlWHPbymydTSb56a/TScGkNZ/N2MWNTdhw8oFeVhUJhl3VlPgaju
+	uL2+MUA2pTObRhiYahKRpWxJg==
+X-Received: by 2002:a05:600c:3b10:b0:49f:fbad:29c1 with SMTP id 5b1f17b1804b1-4a01b133c13mr24271605e9.33.1790775182163;
+        Wed, 30 Sep 2026 06:33:02 -0700 (PDT)
 Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:349:f135:e106:4c82])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b02a018c0sm3204611f8f.30.2026.09.30.05.52.20
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a017b7bbc1sm58236625e9.10.2026.09.30.06.33.01
         for <openembedded-core@lists.openembedded.org>
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2026 05:52:21 -0700 (PDT)
+        Wed, 30 Sep 2026 06:33:01 -0700 (PDT)
 From: Richard Purdie <richard.purdie@linuxfoundation.org>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] fribidi: upgrade 1.0.16 -> 1.0.17
-Date: Wed, 30 Sep 2026 13:52:20 +0100
-Message-ID: <20260930125220.798644-1-richard.purdie@linuxfoundation.org>
+Subject: [PATCH] qemu: Upgrade 11.1.1 -> 11.1.2
+Date: Wed, 30 Sep 2026 14:33:00 +0100
+Message-ID: <20260930133300.871991-1-richard.purdie@linuxfoundation.org>
 X-Mailer: git-send-email 2.53.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 12:52:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246969
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 13:33:13 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246970
 
 Changes:
- - Bumped version to 1.0.17
- - lib: resolve FSI base direction in one linear pass, not per-FSI rescan
- - ci: capture the real test-suite.log from distcheck's nested rebuild
- - lib: replace N0 bracket-pairing linked list with a flat sorted array
- - lib: pool-allocate FriBidiRun nodes in embedding-level resolution
- - fribidi_reorder_line: implement L2 reordering in linear time
- - test: include stdbool.h in test-reorder-nsm.c
- - meson: fix parallel build race for test-reorder-nsm
- - gen-unicode-version: fix MSVC link failure by avoiding strncasecmp
- - Fix fribidi_set_reorder_nsm()/fribidi_set_mirroring() not affecting
- - gen-arabic-shaping-tab: fix remaining -Wformat= mismatch on
- - gen-unicode-version: replace non-portable strcasestr with a portable
- - Define _FRIBIDI_TYPE_SENTINEL/_FRIBIDI_PAR_SENTINEL in both enum
- - gen-arabic-shaping-tab: fix -Wformat-overflow warning on GCC 14
- - Update Unicode character databases to v18.0.0
- - Fix quadratic behavior in N0 bracket pairing preceding-strong search
- - Fix out-of-bounds read on trailing '_'
- - fribidi-main: fix truncation of lines/output containing embedded
- - Pair brackets by canonical equivalence only, per UAX #9 BD16
- - Remove unused appveyor yaml file
- - github actions: Use current python version
- - Update old FSF address
- - Remove unnecessary custom prototypes for getenv and getopt
- - Remove unused travis file
- - github actions: Install help2man to fix ubuntu build
- - Update TODO - remove readme item
- - Don't require help2man unless building docs
- - Generate fribidi.1 man page
- - Fix typos in docs: "an string" -> "a string"
- - github actions: Update python version to 3.12
- - Update github actions versions
- - Add GNU Mailutils to USERS
- - Fix typo
- - Fix error handling for file operations
- - Fix stack buffer overflow when parsing equivalence
- - remove compiler flag "-ansi"
- - debug: don't pass a comma "," in a #define
-
-License-Update: Whitespace/address changes only
+ - Update version for 11.1.2 release
+ - target/sh4: Replace TB_FLAG_GUSA_EXCLUSIVE with CF_STEP_ATOMIC
+ - accel/tcg: Set CF_NOIRQ during cpu_exec_step_atomic
+ - linux-user/sh4: align the vdso sigreturn trampolines
+ - linux-user/sh4: fix vdso CFA for rt_sigreturn frames
+ - linux-user/sh4: use the kernel's sigreturn trampoline sequence in the vdso
+ - target/i386: Mark MOVNTI as not valid with prefixes 0x66, 0xF2, 0xF3
+ - target/i386: Update FPU tag word for FXCH
+ - target/i386: Update FPU tag word for FSTP
+ - target/i386: Update FPU tag word for FXTRACT's old ST(0)
+ - target/i386: Fix FXCH to unconditionally clear C1
+ - target/ppc: Stop vCPU thread before calling parent_unrealize
+ - tests/qtest/usb-hcd-xhci: test isoch endpoint type mismatch
+ - tests/qtest/usb-hcd-xhci: test isoch pacing with MFINDEX above 2^32
+ - hw/usb/hcd-xhci: don't assert on NAK when retrying an isoch transfer
+ - hw/usb/hcd-xhci: fix interval alignment after MFINDEX passes 2^32
+ - hw/usb/hcd-xhci: Set reentrancy guard in timer functions (CVE-2026-17588)
+ - tcg/riscv64: Set vtype before whole-register vector loads
+ - tests/tcg/s390x: Add regression test for #4449
+ - tcg/optimize: Fix expansion/simplification of deposit
+ - tests/tcg/arm: Add regression test for #4448
+ - tcg/optimize: Fix fold_multiply2 vs 1
+ - accel/tcg: Fix TLB_MMIO check in tlb_plugin_lookup()
+ - accel/tcg: Use TLB_FORCE_SLOW not TLB_MMIO for system plugins
+ - hw/9pfs: mutate FID path from main thread only (CVE-2026-93834)
+ - s390x/pci: fix DMA slot leak on I/O TLB entry replacement
+ - hw/s390x/ipl: Fix incorrect PCI IPL block lengths
+ - linux-user/loongarch64: Detect vector stores in host_signal_write()
+ - linux-user: implement mlock2(2) syscall
+ - linux-user/riscv: honor zicntr=false for base counterCSRs
+ - system/ram-discard-manager: fix offset_within_address_space in replay_by_populated_state()
+ - igvm: mark qigvm_find_param_entry as static
+ - igvm: validate and honor byte_offset in parameter directives
+ - hw/uefi: add missing uefi_str_is_valid check to uefi_vars_mm_lock_variable
+ - target/loongarch: Fix data race in CSR_ESTAT
+ - hw/riscv/virt.c: fix aclint soc/mtimer nodename
+ - target/arm/hvf: implement MDCCSR_EL0 as RAZ
+ - target/arm/whpx: fix whpx-arm post-reset CPU state
+ - target/arm/whpx: incorrect ENCODE_AA64_CP_REG parameter order
+ - target/arm/whpx: Don't try to sync ARM_CP_CONST registers
+ - hw/intc/bcm2835_ic: reject out-of-range FIQ source values
+ - qga: Change effective user/group ID in guest-ssh-* commands
+ - vhost-user-gpu: validate command buffer size in submit_3d
+ - ui/cursor: make the cursor refcount atomic
+ - hw/display/qxl: hold ssd.lock while replacing ssd.cursor
+ - hw/cxl: fix the CDAT DOE overlapping the Flex Bus DVSEC when sn= is set
+ - virtio-scsi: set dataplane_started to false upon failure
+ - virtio-balloon: fix free-page BH teardown on unrealize
+ - hw/virtio: reject inverted virtio-iommu IOVA ranges
+ - hw/net/virtio-net: strip trailing padding when caching RSC segment
+ - hw/net/virtio-net: check packet size before VLAN tag access in receive_filter()
+ - qapi/misc: Fix missed query-iothreads items
+ - hw/cxl: Fix guest-triggerable QEMU exit on reserved interleave ways
+ - virtio-gpu: clear res->blob on mapping cleanup
+ - tests/unit: cover blocked IO during the websock handshake
+ - io/channel-websock: do not lose QIO_CHANNEL_ERR_BLOCK while reading
+ - tests/unit: add websock handshake test
+ - io/channel-websock: handle a blocked write during the handshake
+ - io/channel-websock: send an HTTP 400 when the greeting has no space
+ - io/channel-socket: do not treat a zero length write as an error
+ - target/loongarch: Fix SWI interrupt delivery via CSR_ESTAT
+ - hw/cxl: fix timer leak in cxl_destroy_cci()
+ - hw/sd/sdcard: Register device ops in drives without media
+ - hw/sd: sdhci: Accept version 4 enable without UHS-I
+ - target/arm: Make Thumb T1 hint space UNDEF before v6T2
+ - target/arm: Make IT insn undef when not present
+ - target/arm: Make CBZ/CBNZ UNDEF before v6T2
+ - target/arm: Correct reset value of SCTLR for arm926, arm1026
+ - target/arm: fix TTA instruction S bit for IDAU-exempt addresses
+ - ppc/xive: Trigger the pending interrupt for a guest after migration
+ - i386/vapic: unref MemoryRegion if vapic_map_rom_writable fails
+ - vapic: confine the VAPIC region to 0xc0000..0xe0000
+ - scsi: hide MODE SELECT block size change behind a quirk
+ - scsi-disk: fix out-of-bound read in WRITE SAME
+ - target/riscv/kvm: Preserve MP state across migration
+ - target/riscv/kvm: Synchronize privilege mode
+ - hw/ide: report the default CHS translation in IDENTIFY DEVICE
+ - tests/qtest/ide-test: cover a CHS translation with zero sectors
+ - hw/ide: reject an unsupported CHS translation
+ - s390x/sclp: pv: only copy the original SCCB buffer
+ - dirty-bitmap: fix integer overflow in serialization coverage
+ - block/monitor: allow dropping a bitmap never stored on disk
+ - migration/block-dirty-bitmap: reject bitmap load onto ro node
+ - block/monitor: reject persistent bitmap add on a read-only node
+ - tests/unit/test-blockjob: cover keeping a job paused while a pause is pending
+ - job: keep job paused across overlapping pause requests
+ - hw/input/ps2: answer unknown mouse commands with a resend
+ - hw/display/vga: fix text-mode OOB write after a graphics surface switch
+ - chardev: Don't unregister yank upon async path connection failure
+ - crypto: fix build against nettle >= 4
+ - virtio-gpu: use g_try_malloc to avoid guest-triggered abort
+ - hw/display/qxl: validate primary surface stride against width
 
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 ---
- .../fribidi/{fribidi_1.0.16.bb => fribidi_1.0.17.bb}          | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
- rename meta/recipes-support/fribidi/{fribidi_1.0.16.bb => fribidi_1.0.17.bb} (80%)
+ .../qemu/{qemu-native_11.1.1.bb => qemu-native_11.1.2.bb}       | 0
+ ...emu-system-native_11.1.1.bb => qemu-system-native_11.1.2.bb} | 0
+ meta/recipes-devtools/qemu/qemu.inc                             | 2 +-
+ meta/recipes-devtools/qemu/{qemu_11.1.1.bb => qemu_11.1.2.bb}   | 0
+ 4 files changed, 1 insertion(+), 1 deletion(-)
+ rename meta/recipes-devtools/qemu/{qemu-native_11.1.1.bb => qemu-native_11.1.2.bb} (100%)
+ rename meta/recipes-devtools/qemu/{qemu-system-native_11.1.1.bb => qemu-system-native_11.1.2.bb} (100%)
+ rename meta/recipes-devtools/qemu/{qemu_11.1.1.bb => qemu_11.1.2.bb} (100%)
 
-diff --git a/meta/recipes-support/fribidi/fribidi_1.0.16.bb b/meta/recipes-support/fribidi/fribidi_1.0.17.bb
-similarity index 80%
-rename from meta/recipes-support/fribidi/fribidi_1.0.16.bb
-rename to meta/recipes-support/fribidi/fribidi_1.0.17.bb
-index 9f75446da28..427f6dd760c 100644
---- a/meta/recipes-support/fribidi/fribidi_1.0.16.bb
-+++ b/meta/recipes-support/fribidi/fribidi_1.0.17.bb
-@@ -7,11 +7,11 @@ SECTION = "libs"
- HOMEPAGE = "http://fribidi.org/"
- BUGTRACKER = "https://github.com/fribidi/fribidi/issues"
- LICENSE = "LGPL-2.1-or-later"
--LIC_FILES_CHKSUM = "file://COPYING;md5=a916467b91076e631dd8edb7424769c7"
-+LIC_FILES_CHKSUM = "file://COPYING;md5=4bf661c1e3793e55c8d1051bc5e0ae21"
+diff --git a/meta/recipes-devtools/qemu/qemu-native_11.1.1.bb b/meta/recipes-devtools/qemu/qemu-native_11.1.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-native_11.1.1.bb
+rename to meta/recipes-devtools/qemu/qemu-native_11.1.2.bb
+diff --git a/meta/recipes-devtools/qemu/qemu-system-native_11.1.1.bb b/meta/recipes-devtools/qemu/qemu-system-native_11.1.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu-system-native_11.1.1.bb
+rename to meta/recipes-devtools/qemu/qemu-system-native_11.1.2.bb
+diff --git a/meta/recipes-devtools/qemu/qemu.inc b/meta/recipes-devtools/qemu/qemu.inc
+index 8c93227eb32..d441ebe8f3a 100644
+--- a/meta/recipes-devtools/qemu/qemu.inc
++++ b/meta/recipes-devtools/qemu/qemu.inc
+@@ -43,7 +43,7 @@ SRC_URI = "https://download.qemu.org/${BPN}-${PV}.tar.xz \
+ UPSTREAM_CHECK_URI = "https://www.qemu.org"
+ UPSTREAM_CHECK_REGEX = "qemu-(?P<pver>\d+(\.\d+)+)\.tar"
  
- SRC_URI = "${GITHUB_BASE_URI}/download/v${PV}/${BP}.tar.xz \
-            "
--SRC_URI[sha256sum] = "1b1cde5b235d40479e91be2f0e88a309e3214c8ab470ec8a2744d82a5a9ea05c"
-+SRC_URI[sha256sum] = "6949dcde27d41cebad1fd741fcafc36d55a1020d2d872d4a6eb3914caabbada2"
+-SRC_URI[sha256sum] = "079ffbff8a7111bbc89022107cbabf3bbfd614d5fc9d7cc675991196aca12482"
++SRC_URI[sha256sum] = "731b5681e4bb18be313231579b8efd0296c5b015fa36dc533874b639ba838016"
  
- inherit meson lib_package pkgconfig github-releases
+ CVE_STATUS[CVE-2007-0998] = "not-applicable-config: The VNC server can expose host files uder some circumstances. We don't enable it by default."
  
+diff --git a/meta/recipes-devtools/qemu/qemu_11.1.1.bb b/meta/recipes-devtools/qemu/qemu_11.1.2.bb
+similarity index 100%
+rename from meta/recipes-devtools/qemu/qemu_11.1.1.bb
+rename to meta/recipes-devtools/qemu/qemu_11.1.2.bb
 
