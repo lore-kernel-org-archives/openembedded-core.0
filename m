@@ -2,321 +2,207 @@ Return-Path: <deepesh.varatharajan@windriver.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D428FCA5FAB
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 05:43:08 +0000 (UTC)
-Received: from mx0b-0064b401.pphosted.com (mx0b-0064b401.pphosted.com [205.220.178.238])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6947.1790746971951675773
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DBA0FC9830E
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 05:54:58 +0000 (UTC)
+Received: from mx0a-0064b401.pphosted.com (mx0a-0064b401.pphosted.com [205.220.166.238])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6877.1790747697723269253
  for <openembedded-core@lists.openembedded.org>;
- Tue, 29 Sep 2026 22:42:52 -0700
+ Tue, 29 Sep 2026 22:54:57 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=RJiYWgbv;
- spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.178.238, mailfrom: prvs=47337851c1=deepesh.varatharajan@windriver.com)
-Received: from pps.filterd (m0250811.ppops.net [127.0.0.1])
-	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68U3klkY2173176
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 05:42:50 GMT
+ dkim=pass header.i=@windriver.com header.s=PPS06212021 header.b=p/aAHp/w;
+ spf=permerror, err=parse error for token &{10 18 %{ir}.%{v}.%{d}.spf.has.pphosted.com}: invalid domain name (domain: windriver.com, ip: 205.220.166.238, mailfrom: prvs=47337851c1=deepesh.varatharajan@windriver.com)
+Received: from pps.filterd (m0250809.ppops.net [127.0.0.1])
+	by mx0a-0064b401.pphosted.com (8.18.1.11/8.18.1.11) with ESMTP id 68U4AJYK2203275
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2026 22:54:57 -0700
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=windriver.com;
 	 h=cc:content-transfer-encoding:content-type:date:from
-	:message-id:mime-version:subject:to; s=PPS06212021; bh=uV0ODvlBY
-	3J2Dl5MRmtEcXWPZ5rdumjHD+eAQTO9T9M=; b=RJiYWgbvIykDVZ3KexWn53JW4
-	6DbBrlqwuiRFlt5Mc3Hkq321vtSsfiWJQNsVvld/0HSe5AtHUha5t2U2YH49F1Q5
-	vF+6JO6JdP1bJkCQC1gLQAD1qBppERIQMZSmC7rA5+D0/8Q8yRdNFyslFwLvHGQr
-	FKfkERmhMBw8Y7D7t136KrxVuRNB3BDJ0jqwEYewBqZ+lxdM+54xRHqHbeWd0gQ9
-	OjLXlKjOcCwtElMo/D8FT8jcguxqQw5ohOj0Ip9vaH7dzt5YM7Ka+563LypYqski
-	S+CxjnDOine6YLT7ozjKMc3KcchiMr0qyc6ovsR3jqBBwtGptZpYobPUtPUEg==
-Received: from bn8pr05cu002.outbound.protection.outlook.com (mail-eastus2azon11021092.outbound.protection.outlook.com [52.101.57.92])
-	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gx38wdxus-1
+	:message-id:mime-version:subject:to; s=PPS06212021; bh=z276NT825
+	seMnR8MHGVFsTq1gKIKcRCMRJV15NTh9KM=; b=p/aAHp/wxXeZSmcOs2ZXbfVJ2
+	FSHwZwkxeNVZTOQWLhqBnXlN5T1fkYpl4JggoNfqm918HAQnHOrS95SSSp0tKTb/
+	5tIC6Nw6FQGYDLaXndV1FezD8SrB85Ext+k79BXhMalLnYDwDNp43a5FRtqn5baH
+	4Re3qO+vb0JiSET8nth9hsmhIxsXqGMqL1J4JsA+f7cJhFjva9JhN2SG3KTkfT8M
+	SkAM0KjdWJ1DKjyG5oOPvTIQ8y2ANfX7+eEeGX5/X9rgTgSYfn1hlzEF71ubovPq
+	9H12LaPznrVvkFeIALsDljCSx0q1hpHRbJVurT5VCgGAry70aQaVmdZ0CdRBA==
+Received: from ph7pr06cu001.outbound.protection.outlook.com (mail-westus3azon11020073.outbound.protection.outlook.com [52.101.201.73])
+	by mx0a-0064b401.pphosted.com (PPS) with ESMTPS id 4gxdjgwpqe-1
 	(version=TLSv1.3 cipher=TLS_AES_256_GCM_SHA384 bits=256 verify=NOT)
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 05:42:50 +0000 (GMT)
+	for <openembedded-core@lists.openembedded.org>; Tue, 29 Sep 2026 22:54:56 -0700 (PDT)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=bWIXe5AbgTV7IT82nZPjOFIkVxlE2k4SLwMt4Q3MoLDzBG+LDxZ5eAScldtJnPRLSQxuQDvVz9+cEoWxyx44N7axXTgKGXR85diZriPyI0TrGht3OuIXq28CvhiLXne1CfcR6kOgs9TzzCBCEhw57t1pgDcAk4jW2eStxxx9zqVhXQod8brNVXD7sxD7QsqiFMLLcESi//BGuA2dDvR7L7zkUO9OlC+wmwnortahJwTkW/dIiucE8k5fDQZiBXw+nOVEuYeTqmSF7ttFpNWaKfI9faG5cYghFDsqb0psLGL+Bf7qGM/jntHBlcT7bOD+0reJsdGaAPVk7H6WUsetxw==
+ b=yIte8HBA9Z2IXjRU39vSUw8UGeoZxI1JLPq5WQh4iuzvM9tvNrsyRD6872pyWZvpuqjqHNJy4X9W4co+FenRLJPQqzwSNSbPpCVeGkVIFElHU8YgYKni6tp3Ytw6gW5yIfR2irRZxnAMd85R9+Y4TDxXddHWcZ68fTdd32O1vIPiUaoPDA+/HxuQ2925Ey/tlAQr2Fd1OaGPfAecf4n3aKLWBZ9dsHy6soh8OblPU/enyTtWSST9Ay6Rf71Jlfdom5m/WHFX84beBEjdTeUQ3lcMcEBBuQXwLuxDBp59Pnhc4FpMCYsAqVjRjpOqfvAbBBeHlmTmdkgb48cR8pdd9g==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=uV0ODvlBY3J2Dl5MRmtEcXWPZ5rdumjHD+eAQTO9T9M=;
- b=PldHl4mZ/5wgaktxzF8jEZzVglpCzJnFmdPb0KYWCyBlPH14YyeOV2rho8MQXtD+uJHlXKQUIpyccf+xD9sosGZA9vec6fSFdtK3aqxxJrUR/oEjIYGHDJe4pLis1enITtb/DmtF4J+O7mXScZ4aTZ8lR7UVMw1BsUf2WAbIkU9qRa6GQI1bF+r/0c9QM01dfnya9URuEjGFrjbfpF/jXkUC8e3OZqYGrykfpAIv5A2WzvHbqT/lkXeNpLVw5fSs4fdZhiJPEpVCyTVTn0GTz6TlCKVfg3RhjZy29wzqaaY1uSiaV4pwoFoQV8F3GrsGZO/TeBntGv/O+8VyklGL7Q==
+ bh=z276NT825seMnR8MHGVFsTq1gKIKcRCMRJV15NTh9KM=;
+ b=p890Kg3N+Z+hzoGfiT+9pTXbM+YPZjDROX9E57FvrKCR15Y6Ki8Yu2rQw9r3SmtFrdVZp204mFW6/L5dF4O1tIvzgBIrx44TugQ0EEL5kYdRXoSYF8mEmw0H7X8wDy22lGA5/XwDC0wec7eAuUNnqPeKov0ZPty+JUVjZboXEDaztL1AsEn8IfA6/JwlzpVmMpxndyPR2UeYqMzN0SK2o0I62qbYYEawgA6FacAc6PYsPaKr/nJU3PjE4smhPmHpPY+iXo0d68iJkLfGEdZGGP3nardgVbxs0LuYrPqO+iGWznYMioILZYM9ubSyeYIN5fvfeS6340g6zp148V7AeA==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=windriver.com; dmarc=pass action=none
  header.from=windriver.com; dkim=pass header.d=windriver.com; arc=none
 Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
  header.d=none;dmarc=none action=none header.from=windriver.com;
 Received: from DM4PR11MB7328.namprd11.prod.outlook.com (2603:10b6:8:104::9) by
- PH7PR11MB6449.namprd11.prod.outlook.com (2603:10b6:510:1f7::17) with
+ CH3PR11MB875824.namprd11.prod.outlook.com (2603:10b6:610:361::14) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Wed, 30 Sep
- 2026 05:42:47 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Wed, 30 Sep
+ 2026 05:54:52 +0000
 Received: from DM4PR11MB7328.namprd11.prod.outlook.com
  ([fe80::26e8:ea57:9a33:9a86]) by DM4PR11MB7328.namprd11.prod.outlook.com
  ([fe80::26e8:ea57:9a33:9a86%4]) with mapi id 15.21.0451.026; Wed, 30 Sep 2026
- 05:42:47 +0000
+ 05:54:52 +0000
 From: Deepesh.Varatharajan@windriver.com
 To: openembedded-core@lists.openembedded.org
 Cc: Sundeep.Kokkonda@windriver.com, Deepesh.Varatharajan@windriver.com
-Subject: [RFC] rust: Squash rust-cross-canadian.inc into the recipe
-Date: Tue, 29 Sep 2026 22:42:33 -0700
-Message-ID: <20260930054233.1573937-1-Deepesh.Varatharajan@windriver.com>
+Subject: [PATCH] ptest-cargo: fix quoted RUSTFLAGS passed to cargo
+Date: Tue, 29 Sep 2026 22:54:37 -0700
+Message-ID: <20260930055437.1584781-1-Deepesh.Varatharajan@windriver.com>
 X-Mailer: git-send-email 2.49.0
 Content-Transfer-Encoding: 8bit
 Content-Type: text/plain
-X-ClientProxiedBy: SJ0PR03CA0265.namprd03.prod.outlook.com
- (2603:10b6:a03:3a0::30) To DM4PR11MB7328.namprd11.prod.outlook.com
+X-ClientProxiedBy: SJ0P220CA0028.NAMP220.PROD.OUTLOOK.COM
+ (2603:10b6:a03:41b::11) To DM4PR11MB7328.namprd11.prod.outlook.com
  (2603:10b6:8:104::9)
 MIME-Version: 1.0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: DM4PR11MB7328:EE_|PH7PR11MB6449:EE_
-X-MS-Office365-Filtering-Correlation-Id: 201b9f6f-3696-4d5e-d917-08df1eb5a828
+X-MS-TrafficTypeDiagnostic: DM4PR11MB7328:EE_|CH3PR11MB875824:EE_
+X-MS-Office365-Filtering-Correlation-Id: b90210d0-fb9c-44ba-5b06-08df1eb7583f
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|376014|52116014|1800799024|366016|23010399003|18002099003|38350700014|6133799003|10067099003|260925022911599003|260925021911599003|260925021311599003|56012099006|11063799006;
+	BCL:0;ARA:13230040|376014|52116014|23010399003|1800799024|366016|10067099003|56012099006|11063799006|6133799003|18002099003|38350700014;
 X-Microsoft-Antispam-Message-Info: 
-	7ESOqVF4RIEhaUKIV35wANV+N2GZ1VLGb7+CTdHHU4dLmj6EQxoJZdif3pLMHFeSUYk3AGskIwMhVk52zeYqbzHooJgNibjkSXyYQlz5oNpsN4pMKNKyFEIBxLNy7eY7OpHf6T+/RMWfRvLd23nyIla9nNmk8+PXiW0wPqlA74PrZI7FeOOq/H7+mOROHwKzicGgvtqKT0xKqTaHznrLXS9YQWi+LwTjxhVO0p8+HCbqHACpoRTZ7s1fPCdnqkhswc1GwtbrmRqchzGhvfQvVkmXwDYX1reJiOzmuIvkG2y7ZV+yMq6j9v6iSLlJIC3sHs5MH1aw1m622Rc0YUl+4SEb+0chuJj9u0bLvRk65+/RpFmKVGOPGJqwwvlenrrGDS7jMcOu/7L+3vOneLaOYEthOazWRnFKLkezujcM1NxYJtwb1OZCOodrinxPPqu25wQ4mEtZakbJF2wxqWz6gcCXX0+01JAOdHFk8hvvlK5z/5GjeqvK5m13vthsF8rh9AQeaedTAvI5GRR3gJSLXUBsswsaDD0CewfkjvSnVYM3E5jpKhAJtqOJSOEz9/8ICtMDdtqeD+aAe9T9f+T7Au9om2W7krBIlaCvf8bc0qFugGr/AKwx7sWZhC8CXL7HseiEslfDnsvpO+lltb8w9kvHjhlSx/AZX/N7HmUfpuw2/O3d+EvVSMJZOOfiswZ3p1vGO1OHbA7IbTq1cyIwHaeqVUtROThU3hhSHPsLYZw=
+	SB6P0ANeo2fwaO/eray3ZUHRq+QNi8DFxkC9LAN0Ii9Ir3rQj2anRTuF/fiWEwShIj2oJ7PrxKPM+EV6xfv1blOHc7r6TeS2MThSI6aDvvf2PtQB8o6IiDTmtPzIn1Euv814UvuH2nkpE0fRoPujFi0Mdys3On1soGDlFm7vK1ogo1L03BY3xTRlfZV7LcjebTu+evE58qFsoOWcDJV8SDPSJCYt6/5I0wUH8s6AIpwbX7UmmbU5/TDL+0cT+1JZg/rM6RucsP33RGru/GskPdWFRLYoP2tycCrC2uNGMS1zPP6pQb8CDrQ35DP0gmRNgDD1rNRi+WyWVG60FzHq92TAFZnXcwKzzxOcJlvhyNoWKF7GwjWssSqtzNejNflCbInG3P704O0YUPdipv6yySqHA1zgfzVEx/V7v4R1iioIUy63oXvcM0YQMfDjYygZb6TqLRgzyuuEXzprtXJz+6e97qZ98u8RDhDDAYSQ8tEqrEApV/OPt0hkEq6RsNx/+3sHPlcIr9eyDR7vkLToy8IIaaLPzPHlKR6imZpPbfWCR+LsNWq3ljyq517tE4CHfN5OFpG7aCATFLPu3REHAiqRPzDaCKGTxOiv/FE76rtiLczFlg/9PbQuIoPv0WEt34bOl39ZDFv98XkkL/khSyXDdiR4ixtPdXdo5h/KSXvDEQxMBkrS2TweY9j07+q8o7mRC5pgNpp9+oS0Vs2cyUMFvmjyV0BIghkIevk1v/w=
 X-Forefront-Antispam-Report: 
-	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7328.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(1800799024)(366016)(23010399003)(18002099003)(38350700014)(6133799003)(10067099003)(260925022911599003)(260925021911599003)(260925021311599003)(56012099006)(11063799006);DIR:OUT;SFP:1102;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM4PR11MB7328.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(52116014)(23010399003)(1800799024)(366016)(10067099003)(56012099006)(11063799006)(6133799003)(18002099003)(38350700014);DIR:OUT;SFP:1102;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	=?us-ascii?Q?iUkAaNYFi7OSszljEv+Xc1OycOfFlAZenHyFIY0zY17Dax8KsI62zR9z/B8A?=
- =?us-ascii?Q?m+jA9N+pqfKJ10GpMuImknc9vjhJv88c93UXTxxKQIzaye0xM9Q2P2EjDMB1?=
- =?us-ascii?Q?eoI5DWwj+ixGHSG6jVlF4RGfZvieSyElFtI+yVYa/aLWgwbLF00Eh1OfRId2?=
- =?us-ascii?Q?X38J6bXv7ETC3ifa5VwedgSwPUK2Hjx46yJJ8ALuxzgAxFNsOZiz0upzegBH?=
- =?us-ascii?Q?pY55s+VORh1c33W3NHtut57V97deiMgRB5wD0dtGDLLxOGldsGVI72U9cwWp?=
- =?us-ascii?Q?tjXJ7+FS7TUEyTsV3nYOPtWIrcTrkLrtZQz+/8YzbcGdn+YwIMd2mMBaqcBd?=
- =?us-ascii?Q?hAWyAyn/y0Sk0vDMUM2KHi6BSMHnUEmsM3k+0qE3LzWUbfWommaiyVA1hrX7?=
- =?us-ascii?Q?41qU7oOiqkjOdhZ8ZKLhdLLxWgC2BElDPvs/yYeuWGxsFNPdgixP3l7ScIKk?=
- =?us-ascii?Q?hfXyHdDEZuA7A7Tgv29lORJPR5G72UfoI0uWc/ua1EX7ESzYpLAPYMaN/9Us?=
- =?us-ascii?Q?47lhuOmEDT1VueuUo1FrshABgqUSYmc18C/Awnlx9MbR84qf/QVLGcmm2kfl?=
- =?us-ascii?Q?hq+07OpfLBoQpmUwhxUGpBhJY2n0S8FwV2g4SdO3HpAL6dFQ9ixZCn3APLXu?=
- =?us-ascii?Q?O1biS0sxyN6hs9A5ePUWY5NY8knJAYAV0nHQFJqdU5VpSKooodVanvEom37n?=
- =?us-ascii?Q?De82WdPHoePWrPhaeCyo1TAwfWPyRhHNnMkV6Ec4Vv2xZ9Vkw/heMvMAV0NX?=
- =?us-ascii?Q?fmkwnnLIVvICRWqGOWxjZRajWF/ATVko1oupvE8k5iOhDwxg/rQvcrXHz4/3?=
- =?us-ascii?Q?7zIfmA0FiTGv9Wx0ra2s3VBwwRa/kUd/X4gzI9INkScLTmOnbjn5A7CdoNst?=
- =?us-ascii?Q?OE9Y4w3TbBCKIp1jIxR2p/xxY+ygGwWaJ188A13WaRNm0YMXcU/QJz55Rol+?=
- =?us-ascii?Q?JCRvg5BG/Ph1I0ZjFd67Kxlib4Pbozs/WDDZm0z/sNQRzIYAU89RimxLPyzv?=
- =?us-ascii?Q?IF7UEYOfLbLm2oJyzRA61LBQ5XmsVHm/weOl9xAqQyQTz4xi2gWFDDqZbJHU?=
- =?us-ascii?Q?4o35Vh2M71mOAPUFWI0I3RjyVzoWeAGiz672ujhwD6GDiR12EHonRR+95Iv7?=
- =?us-ascii?Q?c1Soh3pmkLwN5UIX6Le7Or3kORzKgre5JNw8z6SvgCWocA+S3welshRah2z9?=
- =?us-ascii?Q?hqUA8zB3VNDDm0T7d/7Q+eZoZMshe2zNn3gJa6j+Vd4do96k4iq4sCvRewjc?=
- =?us-ascii?Q?e1YwkbnCrmHv3JAsTLIueexsw+OAsovCLTtX9wzqg5u/Rq0FV9Llg38c5AnU?=
- =?us-ascii?Q?9KwQC6cT/IrT5mGpYK+WGFYwqQTl95OMXQO4mshI5/t8e0ZXbmCkAXUZ1Yz5?=
- =?us-ascii?Q?e46Ah/cj7GGVSs0Fwfi4HuMS0maclM2iNzIzgFo86RQZXuDcutIpo3QmJHu1?=
- =?us-ascii?Q?P6624CdYR+iRvnRM8O+9+JsT1K4h6QqbUgcdV9eWf28Od1fUVUTaAsui9DA+?=
- =?us-ascii?Q?5SONfVFzbWNW8M7+nYa8agS21+Giq+0cR1gyp+r8RZtAhHw8PQpf631TO687?=
- =?us-ascii?Q?hzGK4lfpxkPkHXKhzXU9xfu6jN/FulZ+HbBRpC5IWmo5FP0nBaRt5VG07XDe?=
- =?us-ascii?Q?TA1wa+z2U8upGP4Db5+7YuV87CR932Na4C4iCSQPpdrGiSIJFCZrJol5NB45?=
- =?us-ascii?Q?5aJ946kkUCtp5IzFKCKSjjauoIrBQXnKC5e8TYmhsgJMMdO455dhZ+asImay?=
- =?us-ascii?Q?Njz1Tfu7eXpu8wwOtHU50pazlGxIina0cUjLpXkrbGC+BWznWYkR?=
+	=?us-ascii?Q?9Apc5j7bDjp88tCfN0338VXNQgKTHSBIrV/NINMkFuodE65894S9uJ0f7xln?=
+ =?us-ascii?Q?6NR+hpqvo8GPD5cKO4iV0KU1rm3FsntWirUUfCBGYIPVzmi0aozZ6Z/lQe3G?=
+ =?us-ascii?Q?PNGHnlNJ+gKG/dhLnF5vJBPIpJ6Fk/qXzbOY0OenkmBEM88BDAkFtxP82kTZ?=
+ =?us-ascii?Q?Cz9OcB+oidTOV/ZoC4l3hQR8Yt6XKadYK20Y2lNWgfY2zxry1MUE2Surj+Pe?=
+ =?us-ascii?Q?4Ygrci75QxHuGqeMqfT+jwXvPjGYDTGsZmNB1pmvl2hWB+yTeWcHdb9tOWV2?=
+ =?us-ascii?Q?U3wwnOh60D5ta+96szHpCCPDmCg5uPycZpBElDksNGOB/GekxeHt5YSJEpQc?=
+ =?us-ascii?Q?h5r9lT3ji0FhiVhxlaD/u7r7vUqq1C0ZrAT3bXlQHF+RNnE+7HgHnLoV68IY?=
+ =?us-ascii?Q?p6gB0vfHZXRI+nAvP1NKFJBFj13ykOegauk7NswSfHxsumHQTIwAJRpSQcOj?=
+ =?us-ascii?Q?bbzdZOtZVsMMidea7hSjMLOj0G9WjUqtS1q+DmF1CKuPeWzNfGNeZKGJGzWz?=
+ =?us-ascii?Q?e4+aN4wr/bnV4NbRVeV7eicycXYypY83GLhvkF9I+I0rgPItONu6vsrbgYJ4?=
+ =?us-ascii?Q?NidvozqsgA0C6jin/NnFFEJIYdjMuxEkGmHai4y2NWafm3H4Q++U8EWpQi2V?=
+ =?us-ascii?Q?8uUpHMKhxDqA8EsvjxsPbWAIUL4UE+6otttJKVxzLehrIePllMjQ5RRyzREC?=
+ =?us-ascii?Q?UWFqBHzTh1h+vIHjA1lvQThDyybuPLDw9ZzJXnMlx9MPJC5cBmx0MFoYEVRJ?=
+ =?us-ascii?Q?kxjHDiAQt0j0SpXfb+SIVMCTEsl2H0QnunSEyjCITgkEM9e9Q6bQ4iRgbxxS?=
+ =?us-ascii?Q?VhPm+3Pumjdwx644JaKvw0fR4g4P+mD+PhmQ6gWbCTAgPQ/XH7ZiN9o2Bqoo?=
+ =?us-ascii?Q?g0Qvldl0EmkmLeDxCHeJyXFdHcrYqm2gA/tEZT5alttlEc1uKyZv8w+5DpqI?=
+ =?us-ascii?Q?ACUpfJjUWaeJwMQ6NS5EQtmQZnwcEc+PyedMVhyF9ZbOIMwJgI9mijW4FkoR?=
+ =?us-ascii?Q?apBSEklfbpVArNlxztiB60G5Sm0zyigiT3SKWIfat2YQzbzYHCjJDcXawDSd?=
+ =?us-ascii?Q?YKtP9bBpjM3cu+M9/7L+XoHA/PSVAI02NGeU+GKvm2gkJBN6KnHfzisYRaq3?=
+ =?us-ascii?Q?2YDd2zg1y2CqZlgBI77njfSPgbKiN4c78TplblwxmFOHfZxwwHr2W9X3EXP/?=
+ =?us-ascii?Q?wLViPsfp3Fv7y3I6zxQXgy4DihcXyROEtHgPTwV+kR6gmbY4BaAKhc2N/+Jt?=
+ =?us-ascii?Q?Q9gHqfZVtCk5c1FB1FV4witYGF1t0Vrh+shdLtKIq0S0Gs+FDVIxpnyE3y5a?=
+ =?us-ascii?Q?Hg5wu1Ntm/75Z7TrEIN/DggKyawfX20Ny0NO/11cH1zhaMvzx8ZXsj1Cgem6?=
+ =?us-ascii?Q?K8KIAWkA60hYHXjZljsJIaEW/Tawp5h2Se36dIChdWIfLQyJf0j6+uEOXc40?=
+ =?us-ascii?Q?FySmhJCx2o5CGfZpe7ReyIitJsB70Tv6LaZCNici0xlKOeJUZZ6xWKcSm4rI?=
+ =?us-ascii?Q?rRRSAWhNSJCR0tMX0E6VWamxecZ+EaAcKP7oVVW19oBc1+VKC7oUGs5VSULF?=
+ =?us-ascii?Q?Z3t8TvZaBf/iXR4+TGYLoIE3qiqEIX3Yq8Sn+RrvDjezakyRHTU86T5nYomM?=
+ =?us-ascii?Q?0B9FXCEgzlvdegQyaQyGkNhI9kMn8T5TvOROrRA+0YWVtHEStKHYemh4QNMh?=
+ =?us-ascii?Q?/Xr8MBvAK2Q0XlhT3X2hlwJkvNGp9rhXiyhZ0RI8Dj5EKvjxsmglnWv5kTs7?=
+ =?us-ascii?Q?KGE7dbHQC2GKsU0hHve3Rkc5NASLmtI1QURuxYnyFd8uiFvbhtAm?=
 X-Exchange-RoutingPolicyChecked: 
-	egaG1Wl9K80Sgf+7D74UGyl236nccwHnb/JK2IMRolleBA66u7n0dPaJ7vmzWf0KTSWZ6jVQRcGD7Atehxz7VhvpvXtw471V35aVwQ6VrP74upiMq6CBi4DmahCueKatEXv6Owt3rjOR7Fs6BN+HaYSZYEB1DjocWa/fQdeYnQN8U37dQw9HScKg2Z430O1yMMGFkXRqpPVLrFrE9JAGKd3LDOeLiTbh2eoK/P0dTHfXXr+Ze8oNGjWj9rzWCcQBaYCsZTfHgRIWChIy+TOQwzSAI8vJ+l28qQWnF6nZAO0O07PHRRhSCtsMAU4xdmSyUkp8DBIRnnfnOuAuDMPRUg==
+	qbML59Pdz2R9jcRUjFj06Iz/aM+yYkHYYQ6K6QnMFdDOqe13QgFnENiAfzkuL7YwkSxrTo6WqrSrc6O2oIZyv/gdhqSQ4wogO78N+YF6pq21T2jEwq5s1hdGNbqhKSGhSPw3b2eTawwukBUoKUYCrqzMRZKkzzxwLBi3dy/HntFfeCYUvbXbcrZ4iIX/CSfq6CD7kLPUA/lggUcdEV2/W2oZemakMYJuyP5L0avte2lOZ0ZenR09L/Sxs45wydkOCahNnC3ERYm3lAM8UZJKty84SGqEWrmvLqa6JM+oUH4b2gwTFM/7fjLZVdHO5FA+QLMKaUrqamB1MZjFvjpPyg==
 X-OriginatorOrg: windriver.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 201b9f6f-3696-4d5e-d917-08df1eb5a828
+X-MS-Exchange-CrossTenant-Network-Message-Id: b90210d0-fb9c-44ba-5b06-08df1eb7583f
 X-MS-Exchange-CrossTenant-AuthSource: DM4PR11MB7328.namprd11.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 05:42:47.1192
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 30 Sep 2026 05:54:51.9457
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 8ddb2873-a1ad-4a18-ae4e-4644631433be
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 5lwFAAL5CX2sg8RafZ8wKSBB3dcFsHEJIVvSqEAjD7c5kVTxLqMr68NB9tMUTcvU2etyDNkFcUOtu+XuFgP7IpEkkW7Jck20C+DIOFEqq9DTFX0hTyIw7h4pHPhkNwEf
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: PH7PR11MB6449
-X-Proofpoint-GUID: Jr8xAYdgGzLbw66XWT3tye6eiTZMn_ds
-X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTMwMDAyMiBTYWx0ZWRfX1TYz1QsxZe/g
- IBy8XwZJ4nQehM9zcpc6s0tjcrwSr1c3Y6FfYD3vyn/Af5BDe0pNzXEmypDC3eDdY5PbT05joK7
- ccYy41yRs2KceEfA3FxQznyJe6kXR7ITHugTM8QyaQhSy8Aix1FUOAFqaQTjgyHbK4opmyksRuQ
- qEu13DYuiXpZQJONZ5Evgp2xqvp5KZIYqck6MkjisuIaPdyjv3IDkTGptMChleYTWxAfdpGPBK/
- biLVETe23iJJmGpkU0dhduyhPZ3phGzFyCipNMu3JmuYGHrSkWJjaGyQLIKuKOlm/MnM265MDHY
- 7X1op2mequ3Sn79uX6J/929sq4hNlQhG1IEwgpcAi5BxWEbEn7vTdhQiEcsbl0ZQmr56a9ndmx3
- D1E9dYIOY5/LFjaSUOEAB4D5cgnKOl63v+wExyqB3xkLd4q+pX2a/M3jmFHtNQz3m6/ywIiMl0A
- 7Wjxvco1fDUjm8Dt5ew==
-X-Proofpoint-ORIG-GUID: Jr8xAYdgGzLbw66XWT3tye6eiTZMn_ds
-X-Authority-Analysis: v=2.4 cv=ZYSIpcVA c=1 sm=1 tr=0 ts=6abca15a cx=c_pps
- a=9avcgsFImRxvS4DvMwUk5A==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
+X-MS-Exchange-CrossTenant-UserPrincipalName: bPLMWs9cS2LjJEdV2DRCBkoPyR/2dc9dR1jkt579vvnP/jCOxMlbva46J4GRBTElAlyNrRuBpLrwxEd7fcLSBGYXu9qXOk1yLPzVwEB21e17N1vriy7xIbGwDFoblh9n
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH3PR11MB875824
+X-Authority-Analysis: v=2.4 cv=C/F8WgP+ c=1 sm=1 tr=0 ts=6abca431 cx=c_pps
+ a=kTz8n/oXhugbiFfz+wFpMQ==:117 a=6eWqkTHjU83fiwn7nKZWdM+Sl24=:19
  a=z/mQ4Ysz8XfWz/Q5cLBRGdckG28=:19 a=lCpzRmAYbLLaTzLvsPZ7Mbvzbb8=:19
  a=xqWC_Br6kY4A:10 a=VdqzKS8jKosA:10 a=VkNPw1HP01LnGYTKEx00:22
- a=bi6dqmuHe4P4UrxVR6um:22 a=klDOsUkWDRETUCZYPvoE:22 a=t7CeM3EgAAAA:8
- a=IrU3_hexpz4zClcvkekA:9 a=FdTzh2GWekK77mhwV6Dw:22
-X-Proofpoint-Spam-Info: AW1haW4tMjYwOTMwMDAyMiBTYWx0ZWRfX6Mu0R3W7/DXw
- q4jEMJCoPKg2dbumZNE82s8RCYBw4Con+i0YnYPTqYW3ZznaXaZGfeeVytpsVz8quMZrq7W2O9E
- 1cylU28bSS7PvFvH1L4ki7nZ6V6xugWW7Egx5CAPpIdMMVIugE1q
+ a=bi6dqmuHe4P4UrxVR6um:22 a=iKiJcTA2PjBS6x5JeXcw:22 a=t7CeM3EgAAAA:8
+ a=nnJR0A74kF6yyR4Gi8sA:9 a=FdTzh2GWekK77mhwV6Dw:22
+X-Proofpoint-ORIG-GUID: _zHsXWqHiqTithwuk8n5SXS-AGriDgr6
+X-Proofpoint-Spam-Info: AW1haW4tMjYwOTMwMDAyMyBTYWx0ZWRfX2X6iDecUOh9s
+ X0R7EyYD+8l5kZk6RAC3nJuKnixKsJQkTRKLi9KI+H/PboFh/ms07EuvaXXp9752FMlclcwzmk2
+ Htgv0bopqUrhOwuoLZBM+e+WwtzkgiK56ppimitEMb7AO7DCYr6x
+X-Proofpoint-Spam-Details-Enc: AW1haW4tMjYwOTMwMDAyMyBTYWx0ZWRfX/1JGf7D491i6
+ HTi3t5kyhdGXE5OVDV39NOSqmbEcRTHfb4S8fayMWfPeCw6sP5SMHGDxsateydFykxnpKCPsa2P
+ uwXrQ3nw5ohtxusTUiHxDl9Xxl72UO7OuZv/Ms6IMA6o5Q+euJN7QAUr7zwo6RuDmOg7YcbTq9r
+ iyEmOYwx/vZPtix5cF3zwPPbCumuKcv3APjxb47kApGRHO2VUB8j+eiHAnp6iY82mXZx12YUbXl
+ Wu2wsFr3/TXaGrTpFeed6QlEbAmEdyqnZXVaE05ONse8l91ZJwunE8rPRhuZZozSevNTapii5Ax
+ 2Tj81XulwS5xhnT6lXf1JPskwMgjbXcxjAu1XdVorTRzioGFSIIE9sRhchPVCpQO2Ng12sYdeER
+ vGMW3MjszVA4PUBDgNZ+hJFyQgpqOjvY3Ae87LMYCz0z2LqiW5BFDg8HeJIxXd72towj5czvW19
+ ebSDl/HgaojauuTt0XQ==
+X-Proofpoint-GUID: _zHsXWqHiqTithwuk8n5SXS-AGriDgr6
 X-Proofpoint-Virus-Version: vendor=baseguard
  engine=ICAP:2.0.293,Aquarius:18.0.1176,Hydra:6.1.134,FMLib:17.12.100.49
  definitions=2026-09-29_05,2026-09-21_02,2025-10-01_01
 X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0
- malwarescore=0 bulkscore=0 clxscore=1015 priorityscore=1501 impostorscore=0
- phishscore=0 suspectscore=0 lowpriorityscore=0 adultscore=0 spamscore=0
+ priorityscore=1501 impostorscore=0 clxscore=1015 spamscore=0 bulkscore=0
+ malwarescore=0 lowpriorityscore=0 adultscore=0 suspectscore=0 phishscore=0
  classifier=typeunknown authscore=0 authtc= authcc= route=outbound adjust=0
- reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609300022
+ reason=mlx scancount=1 engine=8.22.0-2609040000 definitions=main-2609300023
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 05:43:08 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246913
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 05:54:58 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246914
 
-From: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
+From: AnnLeelu George <AnnLeelu.George@windriver.com>
 
-It was only used by rust-cross-canadian recipe.
+do_compile_ptest_cargo passes RUSTFLAGS directly to the cargo environment,
+bypassing the shell. As a result, BitBake's shell escaping is preserved and
+can cause quoted cfg values to reach rustc incorrectly.
+
+This can be reproduced with:
+
+    DISTRO_FEATURES:append = " ptest"
+    DEPRECATED_CRYPTO_FLAGS:pn-openssl = "no-des"
+
+OpenSSL then defines OPENSSL_NO_DES, which openssl-sys emits as an osslconf
+cfg. The resulting RUSTFLAGS contains:
+
+    --cfg osslconf=\"OPENSSL_NO_DES\"
+
+The rpm-sequoia ptest build consequently fails with:
+
+    error: unknown start of token
+    error[E0765]: unterminated double quote string
+
+The normal cargo.bbclass path is unaffected because RUSTFLAGS is exported
+through the shell, which removes the shell escaping before cargo sees it.
+
+Parse RUSTFLAGS with shlex.split() before passing it to cargo so that the
+value is normalized in the same way as the shell-based cargo path.
 
 Signed-off-by: Deepesh Varatharajan <Deepesh.Varatharajan@windriver.com>
 ---
- .../rust/rust-cross-canadian.inc              | 71 ------------------
- .../rust/rust-cross-canadian_1.98.1.bb        | 72 ++++++++++++++++++-
- 2 files changed, 71 insertions(+), 72 deletions(-)
- delete mode 100644 meta/recipes-devtools/rust/rust-cross-canadian.inc
+ meta/classes-recipe/ptest-cargo.bbclass | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian.inc b/meta/recipes-devtools/rust/rust-cross-canadian.inc
-deleted file mode 100644
-index f083bcda82..0000000000
---- a/meta/recipes-devtools/rust/rust-cross-canadian.inc
-+++ /dev/null
-@@ -1,71 +0,0 @@
--SUMMARY = "Rust compiler and runtime libaries (cross-canadian for ${TARGET_ARCH} target)"
--PN = "rust-cross-canadian-${TRANSLATED_TARGET_ARCH}"
--CVE_PRODUCT = "rust"
--
--inherit rust-target-config
--inherit rust-common
--
--LICENSE = "MIT"
--
--MODIFYTOS = "0"
--
--DEPENDS += "virtual/nativesdk-cross-cc virtual/nativesdk-libc virtual/nativesdk-compilerlibs"
--
--SRC_URI += "file://target-rust-ccld.c"
--LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=af4e0e29f81a34cffe05aa07c89e93e9;endline=7"
--S = "${UNPACKDIR}"
--
--# Need to use our SDK's sh here, see #14878
--create_sdk_wrapper () {
--        file="$1"
--        shift
--        cat <<- EOF > "${file}"
--		#!/bin/sh
--		\$$1 \$@
--		EOF
--
--        chmod +x "$file"
--}
--
--do_install () {
--    # Rust requires /usr/lib to contain the libs.
--    # The required structure is retained for simplicity.
--    SYS_LIBDIR=$(dirname ${D}${libdir})
--    SYS_BINDIR=$(dirname ${D}${bindir})
--    RUSTLIB_DIR=${SYS_LIBDIR}/${TARGET_SYS}/rustlib
--
--    install -d ${RUSTLIB_DIR}
--    install -m 0644 "${RUST_TARGETS_DIR}/${RUST_HOST_SYS}.json" "${RUSTLIB_DIR}"
--    install -m 0644 "${RUST_TARGETS_DIR}/${RUST_TARGET_SYS}.json" "${RUSTLIB_DIR}"
--
--    # Uses SDK's CC as linker so linked binaries works out of box.
--    # We have a problem as rust sets LD_LIBRARY_PATH and this will break running host
--    # binaries (even /bin/sh) in the SDK as they detect a newer glibc from the SDK
--    # in those paths and we hit symbol errors. We saw particular problems with symbol
--    # mismatch on ubuntu1804 during development. To avoid this we have an SDK built
--    # binary which unsets LD_LIBRARY_PATH, which can then call the wrapper script
--    # where the context is easier to do the env maniupations needed
--    install -d ${SYS_BINDIR}
--    outfile="${SYS_BINDIR}/target-rust-ccld"
--    ${CC} ${S}/target-rust-ccld.c -o $outfile
--    chmod +x "$outfile"
--    create_sdk_wrapper "${SYS_BINDIR}/target-rust-ccld-wrapper" "CC"
--
--    ENV_SETUP_DIR=${D}${base_prefix}/environment-setup.d
--    mkdir "${ENV_SETUP_DIR}"
--    RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/${RUST_TARGET_SYS}_rust.sh"
--
--    RUST_TARGET_TRIPLE=`echo ${RUST_TARGET_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
--
--    cat <<- EOF > "${RUST_ENV_SETUP_SH}"
--	export CARGO_TARGET_${RUST_TARGET_TRIPLE}_RUSTFLAGS="--sysroot=\$OECORE_TARGET_SYSROOT/usr -C link-arg=--sysroot=\$OECORE_TARGET_SYSROOT"
--	export CARGO_BUILD_TARGET="${RUST_TARGET_SYS}"
--	export RUST_TARGET_PATH="\$OECORE_NATIVE_SYSROOT/usr/lib/${TARGET_SYS}/rustlib"
--	EOF
--
--    chown -R root.root ${D}
--
--}
--
--FILES:${PN} += "${base_prefix}/environment-setup.d"
--
-diff --git a/meta/recipes-devtools/rust/rust-cross-canadian_1.98.1.bb b/meta/recipes-devtools/rust/rust-cross-canadian_1.98.1.bb
-index 55865238ab..64e4f752ce 100644
---- a/meta/recipes-devtools/rust/rust-cross-canadian_1.98.1.bb
-+++ b/meta/recipes-devtools/rust/rust-cross-canadian_1.98.1.bb
-@@ -1,2 +1,72 @@
-+SUMMARY = "Rust compiler and runtime libaries (cross-canadian for ${TARGET_ARCH} target)"
-+PN = "rust-cross-canadian-${TRANSLATED_TARGET_ARCH}"
-+CVE_PRODUCT = "rust"
-+
- inherit cross-canadian
--require rust-cross-canadian.inc
-\ No newline at end of file
-+inherit rust-target-config
-+inherit rust-common
-+
-+LICENSE = "MIT"
-+
-+MODIFYTOS = "0"
-+
-+DEPENDS += "virtual/nativesdk-cross-cc virtual/nativesdk-libc virtual/nativesdk-compilerlibs"
-+
-+SRC_URI += "file://target-rust-ccld.c"
-+LIC_FILES_CHKSUM = "file://target-rust-ccld.c;md5=af4e0e29f81a34cffe05aa07c89e93e9;endline=7"
-+S = "${UNPACKDIR}"
-+
-+# Need to use our SDK's sh here, see #14878
-+create_sdk_wrapper () {
-+        file="$1"
-+        shift
-+        cat <<- EOF > "${file}"
-+		#!/bin/sh
-+		\$$1 \$@
-+		EOF
-+
-+        chmod +x "$file"
-+}
-+
-+do_install () {
-+    # Rust requires /usr/lib to contain the libs.
-+    # The required structure is retained for simplicity.
-+    SYS_LIBDIR=$(dirname ${D}${libdir})
-+    SYS_BINDIR=$(dirname ${D}${bindir})
-+    RUSTLIB_DIR=${SYS_LIBDIR}/${TARGET_SYS}/rustlib
-+
-+    install -d ${RUSTLIB_DIR}
-+    install -m 0644 "${RUST_TARGETS_DIR}/${RUST_HOST_SYS}.json" "${RUSTLIB_DIR}"
-+    install -m 0644 "${RUST_TARGETS_DIR}/${RUST_TARGET_SYS}.json" "${RUSTLIB_DIR}"
-+
-+    # Uses SDK's CC as linker so linked binaries works out of box.
-+    # We have a problem as rust sets LD_LIBRARY_PATH and this will break running host
-+    # binaries (even /bin/sh) in the SDK as they detect a newer glibc from the SDK
-+    # in those paths and we hit symbol errors. We saw particular problems with symbol
-+    # mismatch on ubuntu1804 during development. To avoid this we have an SDK built
-+    # binary which unsets LD_LIBRARY_PATH, which can then call the wrapper script
-+    # where the context is easier to do the env maniupations needed
-+    install -d ${SYS_BINDIR}
-+    outfile="${SYS_BINDIR}/target-rust-ccld"
-+    ${CC} ${S}/target-rust-ccld.c -o $outfile
-+    chmod +x "$outfile"
-+    create_sdk_wrapper "${SYS_BINDIR}/target-rust-ccld-wrapper" "CC"
-+
-+    ENV_SETUP_DIR=${D}${base_prefix}/environment-setup.d
-+    mkdir "${ENV_SETUP_DIR}"
-+    RUST_ENV_SETUP_SH="${ENV_SETUP_DIR}/${RUST_TARGET_SYS}_rust.sh"
-+
-+    RUST_TARGET_TRIPLE=`echo ${RUST_TARGET_SYS} | tr '[:lower:]' '[:upper:]' | sed 's/-/_/g'`
-+
-+    cat <<- EOF > "${RUST_ENV_SETUP_SH}"
-+	export CARGO_TARGET_${RUST_TARGET_TRIPLE}_RUSTFLAGS="--sysroot=\$OECORE_TARGET_SYSROOT/usr -C link-arg=--sysroot=\$OECORE_TARGET_SYSROOT"
-+	export CARGO_BUILD_TARGET="${RUST_TARGET_SYS}"
-+	export RUST_TARGET_PATH="\$OECORE_NATIVE_SYSROOT/usr/lib/${TARGET_SYS}/rustlib"
-+	EOF
-+
-+    chown -R root.root ${D}
-+
-+}
-+
-+FILES:${PN} += "${base_prefix}/environment-setup.d"
-+
+diff --git a/meta/classes-recipe/ptest-cargo.bbclass b/meta/classes-recipe/ptest-cargo.bbclass
+index 62444e9cc6..bd1fc4583c 100644
+--- a/meta/classes-recipe/ptest-cargo.bbclass
++++ b/meta/classes-recipe/ptest-cargo.bbclass
+@@ -11,6 +11,7 @@ CARGO_TEST_BINARIES_FILES ?= "${B}/test_binaries_list"
+ python do_compile_ptest_cargo() {
+     import subprocess
+     import json
++    import shlex
+ 
+     cargo = bb.utils.which(d.getVar("PATH"), d.getVar("CARGO"))
+     cargo_build_flags = d.getVar("CARGO_BUILD_FLAGS")
+@@ -21,7 +22,7 @@ python do_compile_ptest_cargo() {
+     manifest_dir = os.path.dirname(manifest_path)
+ 
+     env = os.environ.copy()
+-    env['RUSTFLAGS'] = rust_flags
++    env['RUSTFLAGS'] = ' '.join(shlex.split(rust_flags))
+     cmd = f"{cargo} build --tests --message-format json {cargo_build_flags} {packageconfig_confargs}"
+     bb.note(f"Building tests with cargo ({cmd})")
+ 
 -- 
 2.49.0
 
