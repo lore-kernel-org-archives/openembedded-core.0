@@ -1,138 +1,133 @@
-Return-Path: <ross.burton@arm.com>
+Return-Path: <f_l_k@t-online.de>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 5F604CA5FC7
-	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 14:21:54 +0000 (UTC)
-Received: from foss.arm.com (foss.arm.com [217.140.110.172])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.14621.1790778111898067180
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 47CA3CA5FC5
+	for <webhook@archiver.kernel.org>; Wed, 30 Sep 2026 14:22:54 +0000 (UTC)
+Received: from mailout07.t-online.de (mailout07.t-online.de [194.25.134.83])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14641.1790778164108932485
  for <openembedded-core@lists.openembedded.org>;
- Wed, 30 Sep 2026 07:21:52 -0700
+ Wed, 30 Sep 2026 07:22:44 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=cGDb66Va;
- spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id C0818497
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 07:21:47 -0700 (PDT)
-Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
-	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id D79E43F85F
-	for <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 07:21:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
-	t=1790778111; bh=6sKzKHDgsCfdaxE/2+BZqQls9DJPG7Bnqd85j8M8AGo=;
-	h=From:To:Subject:Date:From;
-	b=cGDb66VahTHQGiDbGqgmChAGSXdHRUhJWmVwIEEMK26+O2xf+771qUVuCQh866/RM
-	 lKXwen8mSjtg6LeHdHA01CsE2YBDPgL0e0mWievPOITfPNi9ibcglKlYNyKOMlwgrJ
-	 7IJr8WCtcU63mzB5PiGbw7zhEf8/itElRTUvFeDw=
-From: Ross Burton <ross.burton@arm.com>
+ dkim=fail reason="dkim: body hash did not verify" header.i=f_l_k@t-online.de header.s=20260216 header.b=oVctlUHf;
+ spf=pass (domain: t-online.de, ip: 194.25.134.83, mailfrom: f_l_k@t-online.de)
+Received: from fwd96.aul.t-online.de (fwd96.aul.t-online.de [10.223.144.122])
+	by mailout07.t-online.de (Postfix) with SMTP id CD13EE362;
+	Wed, 30 Sep 2026 16:22:41 +0200 (CEST)
+Received: from intel-corei7-64.fritz.box ([84.154.170.219]) by fwd96.t-online.de
+	with (TLSv1.3:TLS_AES_256_GCM_SHA384 encrypted)
+	esmtp id 1xBvCi-1zxkxd0; Wed, 30 Sep 2026 16:22:40 +0200
+From: Markus Volk <f_l_k@t-online.de>
 To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] systemtap: rationalise bb/inc split
-Date: Wed, 30 Sep 2026 15:21:46 +0100
-Message-ID: <20260930142146.3586658-1-ross.burton@arm.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Paul Barker <paul@pbarker.dev>
+Subject: [oe-core][PATCH] staging: keep the mtime of files fixed up in the sysroot
+Date: Wed, 30 Sep 2026 16:22:31 +0200
+Message-ID: <20260930142231.1818511-1-f_l_k@t-online.de>
+X-Mailer: git-send-email 2.55.0
 MIME-Version: 1.0
-X-ARM-No-Footer: NoDisclaimer
+X-TOI-EXPURGATEID: 150726::1790778160-52FFA862-74DE0C0D/0/0 CLEAN NORMAL
+X-TOI-MSGID: 07a57489-d535-4769-ba20-57c2305f7344
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=t-online.de;
+	s=20260216; t=1790778161; i=f_l_k@t-online.de;
+	bh=76QW1RlqXpxWPaljCfOGetNyJoXuLvCmxwZZEGvPdCk=;
+	h=From:To:Cc:Subject:Date;
+	b=oVctlUHf0/kAIjpKf95viZpEAk2bfW4JffVIHPDPiPW96mDWUQrR2RG4tjDBH8qF5
+	 ofy4QkVXceFcFLyb69ngwYKkeDJVnutSmpM1jTpqs9GmYQ4khpaeWT/oIlSVzVjXnF
+	 hIqD+bj06xBE6euXCVD8VjdiWgdkGbp1ixdNKLcnFFKuQcLKJCeUGauN34dwWvyHxJ
+	 oc3XoduvtIeiU8aOfb6n99F558IcCzAo7kyPs7aTqDaNVOU+dridGFD7zp53V2brMU
+	 04FBIKvS3XMXbAUiwDuRXq61gVFT2Ds4dsGkHLtKT53/4WIVRPhEkCyH49bqEUG0y4
+	 wW5sW2jsrebsQ==
 Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 14:21:54 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246973
+ <openembedded-core@lists.openembedded.org>; Wed, 30 Sep 2026 14:22:54 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/246974
 
-systemtap is split into a .bb and .inc file.  Whilst I'd normally merge
-these as there is currently no need for this, it might be sensible in
-the future to create subrecipes that build specific parts of systemtap.
+staging_processfixme() replaces the FIXMESTAGINGDIR placeholders with
+sed -i, which gives the files the current time. They then look newer
+than anything already built against them, and build systems that
+compare timestamps consider their outputs out of date. For example, the
+Makefile of a cpan recipe depends on perl's Config.pm and config.h; when
+perl-native is staged again, make regenerates the Makefile during
+do_compile or do_install and fails, asking to be rerun.
 
-So, rationalise the contents of the .inc and .bb so the inc is just the
-fetching and other common variables:
+Record the times of the files before sed and restore them afterwards.
+The list of files is now read in Python instead of being passed through
+xargs, and sed is run on chunks of it.
 
-- Move HOMEPAGE to the .inc
-- Move patches to the .bb
-- Move the build exclusion to the .bb
-
-Signed-off-by: Ross Burton <ross.burton@arm.com>
+Suggested-by: Paul Barker <paul@pbarker.dev>
+AI-Generated: Uses Claude Code (Claude Opus 5.5)
+Signed-off-by: Markus Volk <f_l_k@t-online.de>
 ---
- meta/recipes-kernel/systemtap/systemtap_5.6.bb  | 11 ++++++++++-
- meta/recipes-kernel/systemtap/systemtap_git.inc | 15 +++------------
- 2 files changed, 13 insertions(+), 13 deletions(-)
+ meta/classes-global/staging.bbclass | 34 +++++++++++++++++++++++++----
+ 1 file changed, 30 insertions(+), 4 deletions(-)
 
-diff --git a/meta/recipes-kernel/systemtap/systemtap_5.6.bb b/meta/recipe=
-s-kernel/systemtap/systemtap_5.6.bb
-index f0b14ef90ac..b58bb1543b4 100644
---- a/meta/recipes-kernel/systemtap/systemtap_5.6.bb
-+++ b/meta/recipes-kernel/systemtap/systemtap_5.6.bb
-@@ -2,11 +2,13 @@ SUMMARY =3D "Script-directed dynamic tracing and perfor=
-mance analysis tool for Lin
- DESCRIPTION =3D "It provides free software infrastructure to simplify th=
-e \
- gathering of information about the running Linux system. This assists \
- diagnosis of a performance or functional problem."
--HOMEPAGE =3D "https://sourceware.org/systemtap/"
+diff --git a/meta/classes-global/staging.bbclass b/meta/classes-global/st=
+aging.bbclass
+index 5833abebc8..f8d476f8f8 100644
+--- a/meta/classes-global/staging.bbclass
++++ b/meta/classes-global/staging.bbclass
+@@ -176,16 +176,42 @@ def staging_copydir(c, target, dest, seendirs):
+         seendirs.add(dest)
 =20
- require systemtap_git.inc
+ def staging_processfixme(fixme, target, recipesysroot, recipesysrootnati=
+ve, d):
++    import re
+     import subprocess
 =20
- SRC_URI +=3D " \
-+           file://0001-Do-not-let-configure-write-a-python-location-into=
--th.patch \
-+           file://0001-staprun-stapbpf-don-t-support-installing-a-non-ro=
-ot.patch \
-+           file://readline.patch \
-            file://0001-improve-reproducibility-for-c-compiling.patch \
-            file://0001-staprun-address-ncurses-6.3-failures.patch \
-            file://0001-python3.stpm-record-the-installed-libpython-path.=
-patch \
-@@ -112,3 +114,10 @@ BBCLASSEXTEND =3D "nativesdk"
- # Emits lot of warning which are treated as errors
- # They must be looked into before disabling
- TOOLCHAIN =3D "gcc"
+     if not fixme:
+         return
+-    cmd =3D "sed -e 's:^[^/]*/:%s/:g' %s | xargs sed -i -e 's:FIXMESTAGI=
+NGDIRTARGET:%s:g; s:FIXMESTAGINGDIRHOST:%s:g'" % (target, " ".join(fixme)=
+, recipesysroot, recipesysrootnative)
++    files =3D []
++    for fixmefile in fixme:
++        with open(fixmefile) as f:
++            for line in f:
++                line =3D line.strip()
++                if line:
++                    files.append(re.sub(r"^[^/]*/", target + "/", line))
++    if not files:
++        return
 +
-+# systemtap can't be built without optimization, if someone tries to com=
-pile an
-+# entire image as -O0, break with fatal.
-+python () {
-+    if bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) =3D=
-=3D "x":
-+        bb.fatal("systemtap can't be built with -O0, using -O1 -Wno-erro=
-r or -O1 instead.")
-+}
-diff --git a/meta/recipes-kernel/systemtap/systemtap_git.inc b/meta/recip=
-es-kernel/systemtap/systemtap_git.inc
-index 9a12050e003..a725a15ec10 100644
---- a/meta/recipes-kernel/systemtap/systemtap_git.inc
-+++ b/meta/recipes-kernel/systemtap/systemtap_git.inc
-@@ -1,20 +1,11 @@
-+HOMEPAGE =3D "https://sourceware.org/systemtap/"
++    cmd =3D ["sed", "-i", "-e", "s:FIXMESTAGINGDIRTARGET:%s:g; s:FIXMEST=
+AGINGDIRHOST:%s:g" % (recipesysroot, recipesysrootnative)]
+     for fixmevar in ['PSEUDO_SYSROOT', 'HOSTTOOLS_DIR', 'PKGDATA_DIR', '=
+PSEUDO_LOCALSTATEDIR', 'LOGFIFO']:
+         fixme_path =3D d.getVar(fixmevar)
+-        cmd +=3D " -e 's:FIXME_%s:%s:g'" % (fixmevar, fixme_path)
+-    bb.debug(2, cmd)
+-    subprocess.check_output(cmd, shell=3DTrue, stderr=3Dsubprocess.STDOU=
+T)
++        cmd +=3D ["-e", "s:FIXME_%s:%s:g" % (fixmevar, fixme_path)]
 +
- LICENSE =3D "GPL-2.0-only"
- LIC_FILES_CHKSUM =3D "file://COPYING;md5=3Db234ee4d69f5fce4486a80fdaf4a4=
-263"
++    # sed -i rewrites the files, which would give them the current time =
+and
++    # make them look newer than anything already built against them. Bui=
+ld
++    # systems that compare timestamps then consider their outputs out of=
+ date,
++    # e.g. cpan Makefiles depending on perl's Config.pm. Keep the times =
+the
++    # files had when they were staged.
++    times =3D {}
++    for f in files:
++        st =3D os.stat(f)
++        times[f] =3D (st.st_atime_ns, st.st_mtime_ns)
++
++    bb.debug(2, " ".join(cmd) + " <%d files>" % len(files))
++    for i in range(0, len(files), 1000):
++        subprocess.check_output(cmd + files[i:i + 1000], stderr=3Dsubpro=
+cess.STDOUT)
++
++    for f, ns in times.items():
++        os.utime(f, ns=3Dns)
 =20
--SRC_URI =3D "git://sourceware.org/git/systemtap.git;protocol=3Dhttps;bra=
-nch=3Dmaster;tag=3Drelease-${PV} \
--           file://0001-Do-not-let-configure-write-a-python-location-into=
--th.patch \
--           file://0001-staprun-stapbpf-don-t-support-installing-a-non-ro=
-ot.patch \
--           file://readline.patch \
--           "
-+SRC_URI =3D "git://sourceware.org/git/systemtap.git;protocol=3Dhttps;bra=
-nch=3Dmaster;tag=3Drelease-${PV}"
 =20
- SRCREV =3D "211e84349504077f0c84f759601b02f946465d29"
-=20
- COMPATIBLE_HOST =3D '(x86_64|i.86|powerpc|arm|aarch64|microblazeel|mips|=
-riscv64|riscv32).*-linux'
- COMPATIBLE_HOST:libc-musl =3D 'null'
--
--# systemtap can't be built without optimization, if someone tries to com=
-pile an
--# entire image as -O0, break with fatal.
--python () {
--    if bb.utils.contains("SELECTED_OPTIMIZATION", "-O0", "x", "", d) =3D=
-=3D "x":
--        bb.fatal("systemtap can't be built with -O0, using -O1 -Wno-erro=
-r or -O1 instead.")
--}
+ def staging_populate_sysroot_dir(targetsysroot, nativesysroot, native, d=
+):
 --=20
-2.43.0
+2.55.0
 
 
