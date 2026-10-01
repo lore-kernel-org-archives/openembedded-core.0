@@ -1,106 +1,108 @@
-Return-Path: <luciano.dittgen@ossystems.com.br>
+Return-Path: <bbnpreetsingh@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5C7CA5FCE
-	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 19:54:17 +0000 (UTC)
-Received: from mail-dl2-f40.google.com (mail-dl2-f40.google.com [74.125.229.168])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.20162.1790884452266278540
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 4DC81CA5FD4
+	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 23:32:31 +0000 (UTC)
+Received: from mail-pj2-f12.google.com (mail-pj2-f12.google.com [74.125.227.140])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.456.1790897542593442447
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2026 12:54:12 -0700
+ Thu, 01 Oct 2026 16:32:22 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@ossystems.com.br header.s=os header.b=b7jSF9UL;
- spf=pass (domain: ossystems.com.br, ip: 74.125.229.168, mailfrom: luciano.dittgen@ossystems.com.br)
-Received: by mail-dl2-f40.google.com with SMTP id a92af1059eb24-14f381f0424so141255c88.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 12:54:12 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=eTIWflTR;
+ spf=pass (domain: gmail.com, ip: 74.125.227.140, mailfrom: bbnpreetsingh@gmail.com)
+Received: by mail-pj2-f12.google.com with SMTP id 98e67ed59e1d1-396cccbba91so3482450a91.1
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 16:32:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ossystems.com.br; s=os; t=1790884452; x=1791489252; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=SI3FxsZQUtugO7PAIumJXyeiNISxt+FmMwEnUwmINaI=;
-        b=b7jSF9ULjKTXPVq3TxAE23S/aFaX1jpvhTohYUDErXtvC8jXPz6PjuGHnEu69ePwXe
-         z9W+oizs1fAdxcA2+abYqHF0nkRJ6JwyypZEVwCTifC676LGoqlPxU+adakcNa/RiJjl
-         sg/znPpIk2kPcE7piDc+sCZhnCyRtOGu32vtwdfdR8v3fcDQJFvm0ev8oD+hcmntm7iT
-         QAMGe1+95Mlwmy9JlxtGUM9VT9M7aG27frV0q8E5GvF51cQYm/C7WmEU/UDs2XnpjaX1
-         iyBeERaoznISujMGygeby3agU8L95OUJD3J1giNhhsu6/6H20M7BKfjstFdxg4yOtuO+
-         u1IQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790884452; x=1791489252;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:cc
-         :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
+        d=gmail.com; s=20251104; t=1790897542; x=1791502342; darn=lists.openembedded.org;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=SI3FxsZQUtugO7PAIumJXyeiNISxt+FmMwEnUwmINaI=;
-        b=bAVNeJeoDDbV1hO7ithhVe0IR/uz19J/1LRmEDhN/baa2glJMgL03Qz1htbIFvVmu8
-         oC+n5lNeWHbkHJdampI3wqfTZ2nGMKfZDnYqz+C+M8wjSGx/okDiSq6jreiD72Bd6Qmn
-         7ZADbNlWuFI3qi2xwSm9yseuU41yWHljxNbGxOH87bhSnkmiELrlRDCmaoaowXCOwcjF
-         +tgYtU1dVMmxsdolNv3jiBkNI1pp9Sw2l4DqOvTKfjO+euWcZDfgFU2RYDSRQ7FIsw4f
-         fM02cI/SvxtDJA/v/yC1PirrXHPcpWUENgp7sacM4uE/eAltZP5j1RN/pEaOnHVN7Ofc
-         VFGw==
-X-Gm-Message-State: AFuF++lrshoHdM35jStzkiIfwu8974EmlpWVRk1d3Iit0ihkGksGJ0EJ
-	GwNkih2nJnwYLhEuvMaMqJQjwcrY7B79ElM6fx6fnK1rvugU727sfG9Aqc+cgn/FniFLHPNxDQT
-	0Nxxl
-X-Gm-Gg: AYBFou2OZZhBmbJgHucQ8FHhHk5PCJremVtY0JGiJuJG5R+KtdZm6WStpESuhGtWI8D
-	KJ66nWnLRhuoBWdF/tw4AthHw8bWJurR9zE1zxMW4SOYDOTjh3lqevUjl11xArtajIp4MjkbYw1
-	wmM1NgAR2tWm60KRtYfSBrSB1/b10FzdLDZ/79zDXT92z7+imvGXdyi2qo/+VmOP6aeHrw44NJU
-	IiOWWEamUm3iQLUQzTc2duB9Ibsl3HfHVm7v0hL4gcVkPteQeBStRIkqGe7F/fKGbCOH/8DwpUg
-	rMvhDtjgYJPQGTxVn9d+AFx8jycpwDwLpIBVjZSj+q7G81zn2Fy2POBjFcguYFd5lgZrWy07bp8
-	GS59rQLweyV9/q3JjF0ojIWeR353hl7eDmXhu5S8C2E//b4ru5PPGIIvMEJq07N+TcbOzPiCqBv
-	2+FCjlTXvJvgLTMrJ1a42fwb0K7ws04z5o0Js82hRYwTk0Lw/ZUQ1E2U9c46QRC2WNk3Gtk3TQy
-	4z1fl7AWIGOGcixgAbLhtEW7alqU+AEbgiVuzCO
-X-Received: by 2002:a05:7022:150a:b0:144:eab0:9cbf with SMTP id a92af1059eb24-14f5c2ee28cmr294880c88.19.1790884450303;
-        Thu, 01 Oct 2026 12:54:10 -0700 (PDT)
-Received: from centrium.lab.ossystems ([177.22.171.68])
-        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14f43eba13bsm768934c88.2.2026.10.01.12.54.08
+        bh=gdO26SS3axKM5w7L6+phO6OcjjXl9cPxa9A2LDSVyWw=;
+        b=eTIWflTR/hPx6Oopi6Rb+E+rF2cGQuSxiQjhRzC8L4fwz0uK80vRyJ8ozkngX8SbrB
+         6nfbS7XcZLvFdHuTgD9CM2e4OwfOkK2DvEP+UrUIpgA1fftuu0dr3h+ZeW1zal8dSMsD
+         aYfSDSM/2hT+u9vXl8sKc9fquFk1tbWrSEAp6NjhgHK8M7l/qESLpR5VRyf2Yyu0H5zn
+         8XrRYBnUPDRN+NY8d76KicVWVceSO2350zgacoV9hg/WZTlqqJIpsEJ91pp/yXMGSxSl
+         SC4WydFyHoR7sV0nmb61VkpsKRhcNnBd1yIDYJ9xL/uRQ9XTFFCrbHnUbh/Byd+nFWhK
+         l/dg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790897542; x=1791502342;
+        h=content-transfer-encoding:mime-version:references:in-reply-to
+         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
+         :to:cc:subject:date:message-id:reply-to:content-type;
+        bh=gdO26SS3axKM5w7L6+phO6OcjjXl9cPxa9A2LDSVyWw=;
+        b=XfDEGrRoG5Bhttwc8SrsAQjT0udQAR2QnO24QSlF7bEeS10g8fX/gFFQJzCcnxJIx8
+         P6w8CPXmq2YNePej9uS4xNx4TXQVND1adEXZTUKwYvBAdCgDkKYxvVBUcBUxe1u6UnF8
+         /SvdVRN6E2dQ4938FWDzfnZ+bGaV/1blpTl+o/anRcUR3I6dI0DukcPtAhkeRvHvZ1xt
+         I7hJjsJmUGYJaJcT1EOWThptG3s32mav3lTGucaAMXfX4rKOXBkFH3YrRkjo/shCMzk6
+         L8dR6Nsu4P0VA1WZasGRVmATken7xRPZm6h7QTDm4xjTJJHLZEBHEnHvgcPXlGgz69/q
+         IhHA==
+X-Forwarded-Encrypted: i=1; AKwUvBxh9Vm1C2f4cZSfhGTNFIywjkmXSIsXvz1RnojUEpulq8/9g2idiyJ5jUlUQ7Q33fYWPPI5d9ChYvd2+dOtMT0Kcg==@lists.openembedded.org
+X-Gm-Message-State: AFuF++mJdRbjUC8ZGklqBQqT6jKoc+XdLDV80hx/ihbk/8ulGmTA76Fl
+	WWxDbsBBVXpx4oVG0Iwh+MOVGFHoheaZxKFs50BXjTPDwF+3oNXpuR5G
+X-Gm-Gg: AYBFou3qXIDwJsCcUH0syCJNLmBuQh5MNxx/tT7J5uRW40JiFhjjU0EtT9MpbAUCYe1
+	BEWaYFYbnIqQGfRhsRlmkDGA/WczSqdWXa9cmyTWjPRCFTWcrX3xYBnCRf7kEVeHSj7iLGPp9/s
+	P+mV1BE/hqARQiem10XOTyeSnxSDVLEfs0QsSKXpZreUDWfxL73iVWOXp5lxFlQv6qKSa1ebwhO
+	W7xXcH7j2Lb5FP/wIc/nw0/s3SQQCiZnApqVN4rXMEd8/qaq+roNM26XiqQrhVhMst5kcSQf151
+	4RaxaU5wJGEttC2vjj4E6W6qakDvergTECDIQx5pSWmhAAUexJPj3tSn/UspJGi1linkl9TmlTQ
+	ro2SJT4VGap3pebBD+36Y/mk9Np0sgeRs7egbvojTEWSV5IPpbqFWYWzKpjT6w8OnQqUmPZN9zj
+	yy4zr/SHdVbGswyTiAIl9wQYSZ7l2HePGOLNAw1mID/e1Ir1qQQeuNipzvZgyYD7HW6z4wsGdwx
+	fkr1Zmf
+X-Received: by 2002:a17:90b:4b11:b0:3a4:fe48:d410 with SMTP id 98e67ed59e1d1-3a6ce97b2ffmr910781a91.30.1790897541792;
+        Thu, 01 Oct 2026 16:32:21 -0700 (PDT)
+Received: from ydev.. ([108.180.130.139])
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a6dd4bd483sm270055a91.4.2026.10.01.16.32.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 12:54:09 -0700 (PDT)
-From: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
-To: openembedded-core@lists.openembedded.org
-Cc: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
-Subject: [PATCH] gstreamer1.0-python: Skip when GI data is not available
-Date: Thu,  1 Oct 2026 16:53:45 -0300
-Message-ID: <20261001195345.487817-1-luciano.dittgen@ossystems.com.br>
-X-Mailer: git-send-email 2.54.0
+        Thu, 01 Oct 2026 16:32:20 -0700 (PDT)
+From: Babanpreet Singh <bbnpreetsingh@gmail.com>
+To: Yoann Congal <yoann.congal@smile.fr>,
+	openembedded-core@lists.openembedded.org
+Cc: Richard Purdie <richard.purdie@linuxfoundation.org>,
+	"Daniel R . Slater" <daniel.slater@thermofisher.com>,
+	Randy MacLeod <randy.macleod@windriver.com>,
+	Babanpreet Singh <bbnpreetsingh@gmail.com>
+Subject: Re: [scarthgap][PATCH] qemu: restore 64-bit file lock handling for 32-bit guests
+Date: Thu,  1 Oct 2026 23:32:20 +0000
+Message-ID: <20261001233220.7-1-bbnpreetsingh@gmail.com>
+X-Mailer: git-send-email 2.43.0
+In-Reply-To: <DL2XY8C5ZSTE.3K2H4I5KEF75F@smile.fr>
+References: <DL2XY8C5ZSTE.3K2H4I5KEF75F@smile.fr>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 19:54:17 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247053
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 23:32:31 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247054
 
-python3-pygobject skips itself unless GI_DATA_ENABLED, which also needs
-qemu-usermode in MACHINE_FEATURES, so on e5500/e6500 machines world has
-no provider for this recipe's DEPENDS. Skip on the same condition.
-Checked with bitbake -k -S none world for an e5500 machine; task
-signatures are unchanged where GI data is available.
+On Mon, 2026-08-31 at 09:12 +0200, Yoann Congal wrote:
+> I don't understand how you can modify a 0002 by backporting 0001... Was
+> Khem patch reverted? In that case, I think we better remove it and re-do
+> the backport with non-reverted patches.
 
-Signed-off-by: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
----
- .../gstreamer/gstreamer1.0-python_1.28.7.bb              | 9 ++++++++-
- 1 file changed, 8 insertions(+), 1 deletion(-)
+Fair, the trimmed 0002 is confusing. Nothing was reverted: Khem's patch
+was never merged as such. What qemu took instead is two commits from
+Michael Tokarev on 2024-08-29, both in 9.2.0:
 
-diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb
-index 1b17accd41..a33bc0f057 100644
---- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb
-+++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb
-@@ -23,8 +23,15 @@ EXTRA_OEMESON += "\
-     -Dlibpython-dir=${libdir} \
- "
- 
--inherit meson pkgconfig setuptools3-base upstream-version-is-even features_check
-+inherit meson pkgconfig setuptools3-base upstream-version-is-even features_check gobject-introspection-data
- 
- FILES:${PN} += "${libdir}/gstreamer-1.0"
- 
- REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
-+
-+# python3-pygobject is skipped without GI data, which also depends on
-+# qemu-usermode in MACHINE_FEATURES, so skip along with it.
-+python() {
-+    if not bb.utils.to_boolean(d.getVar("GI_DATA_ENABLED")):
-+        raise bb.parse.SkipRecipe("GI not available")
-+}
--- 
-2.54.0
+  ac1bbe8ca46c linux-user/syscall.c: drop 64 suffix from flock64 &Co
+  99174ce39e86 linux-user/syscall.c: eliminate other explicit LFS usages
 
+The first covers the fcntl side without dropping the guest F_*LK64
+cases the way the local patch does, which is the bug. The second is
+line for line what was left of 0002 after my trim (truncate64, lseek64,
+pread64, pwrite64). I only backported the first because it was enough
+to fix the locks, and I agree that carrying half a local patch on top
+of it is the wrong shape.
+
+> Also, Khem's patch is merged now, can you fix the Upstream-status if we
+> end up keeping it?
+
+The Submitted link in 0002 points at a series that never landed, so I'd
+rather not keep it. v2 follows in this thread: it drops 0002 and carries
+both upstream commits as Backports. With both applied, syscall.c comes
+out byte for byte the same as with the v1 stack, so the lock test
+results from v1 still hold. qemu-native builds clean with it.
+
+Thanks,
+Baban
 
