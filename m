@@ -1,304 +1,149 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <benhur.tessele@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 32CE0CA5FD4
-	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 15:37:11 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.14339.1790869029944142539
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 5525ACA5FD4
+	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 15:48:01 +0000 (UTC)
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.58])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.14408.1790869677611393400
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2026 08:37:10 -0700
+ Thu, 01 Oct 2026 08:47:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=UQJ98eqZ;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.225.141, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-4a024e16179so3223895e9.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 08:37:09 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790869028; x=1791473828; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=BxCEE1ZX4qzGDvo/aXKRkToEo8vBUi7TxFVfAMmBx1U=;
-        b=UQJ98eqZMVsnKF51a/4+KvAY2JM8Mmfq0ivCCVRWxYai2jfEtgVVq9CU8ORmsllXyq
-         cHDkpZnR6FUA+/1oU9wIEKnvBMKB07pwHNnzVxL2uDt3ahOhhChB1D08EHbDtFUHfXZa
-         yq16FgMjD83mPnPzjOGUuSslQY2wds7IwJtVg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790869028; x=1791473828;
-        h=content-transfer-encoding:mime-version:message-id:date:subject:to
-         :from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date:message-id
-         :reply-to:content-type;
-        bh=BxCEE1ZX4qzGDvo/aXKRkToEo8vBUi7TxFVfAMmBx1U=;
-        b=23MkT8qhYq10tFa6M5pq6li11NRsnk//fdXO+/HENFlY9SwMBza/tOf8JOvdHhooJy
-         DDDNBQ2fjJT+HxCNahjCWapLyKzX7/ZuohfoO8G0RT1nuZpUgOAiLtElic9m64hL/J6J
-         NyyqfY92JMJMy+Y2R/wTO6Ldg2x5Th53AXtKGpF+GQ5tHLMyUL8CuOI9x224cGZXSOSB
-         PjlLb2mfDPTsPC661GdC+H9ZdIVgoFqFh6tp7Gb8aRNTbPhuqVRJEdiEF9/KKZksB70B
-         jll2JvK2ksiDlHIeRimWLjU90ELEWHKtbdvEIjsEykY3pND1dgJDw0FMl3VCv1LDALn8
-         DrwQ==
-X-Gm-Message-State: AFuF++lQ+ulyT+Fibb/IAdscjRw03dJ3qkAfGRLvQtNQFMdPo0IBNtDG
-	TfNrgiReQy3Ia3ZAJFkpdUMYw0GBxrMyjK/4dG7+0bmN+bxB/DI5m2Q00HXOtag76v+yrk4kdU4
-	5N7m9TG4=
-X-Gm-Gg: AYBFou3vOH8zwW3iR5h938spJ4g70kUYNJfqX715zm+hUIDAENS6Gw/9DlD5IgpiHkB
-	tkqahwAeRwlD+770nKUN3at7n9tz2CbSetOyxWAcn1WH4hRXcUqrtgW05UGVaFj10XjjezSKSNj
-	WFQ4EqU52yu+25bXrl2LiB4qfEl2bgF8uK6Io/awDOfVZ3ilb5TFiEVoTSedKJmgdgcDXpm+7sA
-	Q39iFNCp6GcHNWrZZhuV9iQ0spDUTmeygpzbGj1D5dfXvEBOSArmc8mP+3cuJPOum4gEGZLAK3r
-	J77mnef0r2L7Ts2rvlWUQ3m5ghYCruYEbhvebXOETYiqTY0Oek4A40EiygtQOwb51iLTU92K467
-	/ILXIm0rwkAyyLrJvSgFxAXaRY+lkb315VeCiVl5bWc1p3ziWZHp4l+PgXAiF+E2sQHd/BGvOxH
-	P4JHn0+Sk6sjT7JaG63/cGwI5YzfFUSgKVOJVKLvmjwEhieV2mFFQXZLp1wT4VO9L/2ebn137+K
-	KCbmqNVeOlr+jlF8k9Sp/sNxFU=
-X-Received: by 2002:a05:600c:4f81:b0:4a0:1ebb:bd0b with SMTP id 5b1f17b1804b1-4a02755f840mr117355e9.8.1790869027714;
-        Thu, 01 Oct 2026 08:37:07 -0700 (PDT)
-Received: from max.int.rpsys.net ([2001:8b0:aba:5f3c:97e5:70fa:8dd4:c479])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a01f900c23sm46951995e9.1.2026.10.01.08.37.05
-        for <openembedded-core@lists.openembedded.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 08:37:05 -0700 (PDT)
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: openembedded-core@lists.openembedded.org
-Subject: [PATCH] coreutils: Backport printenv fix
-Date: Thu,  1 Oct 2026 16:37:04 +0100
-Message-ID: <20261001153704.2633029-1-richard.purdie@linuxfoundation.org>
-X-Mailer: git-send-email 2.53.0
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=L5OuzlfM;
+ spf=pass (domain: est.tech, ip: 40.107.130.58, mailfrom: benhur.tessele@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=xgj+vJXrNc6HfOGYJb2uL9Yk1DL1ZjLoiqFttGRIovi2Izx+nRp+63p9znMDXscrTIJMEbKVxr1T+CpZ54BgCyZIQ/btWUIwHrhoyzB7PfbRtLDnpLUR0LHtePy0fjeIj2kx4c2gqiTVtlfWQj1SlwsY6q2vk/8XI764O43SjmLdkYMFtZ1uXfXFkcaQ1npcRV/nXPhA6UZfd11oWnTGY2uV092ofsq6YgdRCxx3OlwWTRIeUvXSzewn+/dLL7XoVu7a9PEm/kBUF4CUdc96dekNhL7YvYRWJ5x16A43KxTIErPZW9SvmCrUFi+Isu9Xb5lOLZ5eDczf5+MuGkTpAw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=ir8xgK0FmDs7Ilmr75S8DeIER9uzL1Emtw747+VkYy0=;
+ b=I61eIP/AJtjQoX/uNeFYk+tqoVKOu04A77m1ZODEYgXHaKm6k/PwWa7dd1BSTp9elL7Kz4DXuD3fKOM5A6IzJJOFjC4BLd+YrmFUvU27OECQi4bOBvLrTPisA9bv3V6gS6HOtu9kdnsZWlJ2WShFADcO3MSSElWrdTdYxXTJrERxXifgQrK9sLMsZE67gqvEaT7m8MdPPzRnFup9brVowtF/BhSpWC5DQUNCwoJl/s0k9BAEunbXjm9QvFkh/BFTn/YpjaKATKwEUgKwU6W9gXma4OsGNdAskGyervY1RV0xN/rP1wpLK3p+DaDvI0W1TvWilR0QupQVi42tZmy0Hw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=ir8xgK0FmDs7Ilmr75S8DeIER9uzL1Emtw747+VkYy0=;
+ b=L5OuzlfMPYWjvgtHEenmHS5YFqqJNR1VcVqwUTuZvo8eZgJ1peLcDFC9EBACuazBSWPOMLZnIjlRdUUFm9kVB2CqzZODFNKOZNNUc2XpVIE2Hpm8QmjSnWznXBx97ktC/R0gGOom7nzv93WzRGClq6MckCnix+cpKL45JLnX4ATIW/ocYLBxdcT4kwZDh1RWStirvwWv34bqkvkwU5vPZPLWirHwwLHwXe877MPk1cbm7t4WF72C1AwagaDYU+Ewil9obUQn+xXnZ+dm7H7v7rjWEBcyBqgoeerIt4SAx4Y9JTgJo+ReERU4nmfDQIPO2bAr7EZJgngUL864Mq9KRQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from PAWP189MB2572.EURP189.PROD.OUTLOOK.COM (2603:10a6:102:35a::16)
+ by GVXP189MB2008.EURP189.PROD.OUTLOOK.COM (2603:10a6:150:6e::12) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Thu, 1 Oct
+ 2026 15:47:50 +0000
+Received: from PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5da2:7509:7be5:d74f]) by PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
+ ([fe80::5da2:7509:7be5:d74f%6]) with mapi id 15.21.0472.016; Thu, 1 Oct 2026
+ 15:47:50 +0000
+Message-ID: <693a4702-0920-4cb2-8669-1aae65b5e07d@est.tech>
+Date: Thu, 1 Oct 2026 17:47:48 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [PATCH 0/2] rust: add rust-analyzer support
+To: Paul Barker <paul@pbarker.dev>, openembedded-core@lists.openembedded.org
+Cc: Randy MacLeod <Randy.MacLeod@windriver.com>
+References: <20261001125630.760962-1-benhur.tessele@est.tech>
+ <6ded5087cc73adf490441e55b296d3130da129f6.camel@pbarker.dev>
+Content-Language: en-US
+From: Benhur T <benhur.tessele@est.tech>
+In-Reply-To: <6ded5087cc73adf490441e55b296d3130da129f6.camel@pbarker.dev>
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 7bit
+X-ClientProxiedBy: LO3P265CA0020.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:387::14) To PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:102:35a::16)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: PAWP189MB2572:EE_|GVXP189MB2008:EE_
+X-MS-Office365-Filtering-Correlation-Id: 4b65a931-b9d5-4554-756a-08df1fd358fd
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|366016|1800799024|376014|4143699003|6133799003|10067099003|56012099006|11063799006|22082099003|18002099003;
+X-Microsoft-Antispam-Message-Info: 
+	9NgyfOKiU0bUlz34oEPie7I32KEtvkkp4ojck3ec8ntYiOQ0ytBe4DpAsUbr7JmVeuC+eUxTEFWNiv+zTinaqtuFnYp9eNydc6mRj77VlH//+ghGy/e57EBv56LuanFoB7Al4O/uJNoBahEwAttbUY8qXdz8Mra+pJ5G6ACDXotRt0HHtpnf3pyma/AHT4K2TbROTTn4BSe0j32d9jshWW+eltUCnAfqVkHh2drdqIdpx1rIGLvqYfRI4+WqcgM9pjmmNSG42a5wmmXjmfHrxRCxZD15fWSjlYLq9FtTjg9TrzBKRWHp67Ha2CJ29o4vEWU5p5svWSijT0nvjziq3ih3xtIRC3s+vTAOXST7JqXNZe8XoI6eG/I5n9T1dY0D4enoAs1C7eoRHY6zI8XXK/0BZk9hEhoY6XNWwgG7LfwPrlc4nsgJlcSXpCa1HohSJrBfI0IRxGreMAPAry+cwnFlJXYBM57iRI+kFH8Oeq6ATddzppyj/h3uD7xU16btUqBpkxWpDy6lJLukpj6YjFtqqRgHNqbhm+3WBAs1wZsF9eWkJ4+Zx5JI3FJoW/mth9uU0TA1YNrmbq6kU06KjiE9t8ZVpApVr7uqZ00m0eLhffZhoH0QLVMMs8ehwG+8QQQ1CP8+BmSjWHTJShjjdjpTcqpEO9s9hM5AYqRkzp4=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:PAWP189MB2572.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(1800799024)(376014)(4143699003)(6133799003)(10067099003)(56012099006)(11063799006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?utf-8?B?Wk04bHBaRXVuTDMzdCtIMDk5akRGM1h6bFVnTjN4NmFST1kyWGt5U2xXd2Rh?=
+ =?utf-8?B?dUh0V0tPNGZKQXJJKy9JU084NjZ3Z0p4bTJ4Tzh0U1VnYTBld2x1dUVsNndW?=
+ =?utf-8?B?R0ZvRkJBOGc2S01yNEY2NmM1bXhkNU5yTjRDbjFDbWpNQjBYdFdOUkZrckdt?=
+ =?utf-8?B?ZmZkUXAxTlFWU3lDYzBxdS8vR2hhOW9SQnBSUHAyYTk4OEhvV1R4YUhoUTdr?=
+ =?utf-8?B?dVprRnhkQVJvTEhuclFVL0Zrb3RwazVRN2p3dUZpdVdieU1kTFpVdVVWZThh?=
+ =?utf-8?B?VFBKM3orUGJlcW8vNDhqS3pESDNTOWJaWGZUSzlTNmQvT0I5Rk5uamNqeHBk?=
+ =?utf-8?B?eDVLN2NMbE96SFRaNDI1ZFRzSXk3WXNHOUEwaFo3ZXF5M2ZuNXpRaTBYcElq?=
+ =?utf-8?B?cTFKNDFRT3lRbE8yaEpkMDZIc2FaNXJLeGhkZGFQbGtMRkN4Wms0N3N6VUs1?=
+ =?utf-8?B?eVFENmVDdi9OS3VSWG9WaU9LMnBvc1hUS0xxekRMcUNzWWMwTm1HbVVRKzBI?=
+ =?utf-8?B?V2lzTDd0bDZBV3c3WkNTdXB5UnFzemQ2eHVQMno1MjRlVHE0MkhDTVVucnJs?=
+ =?utf-8?B?dnh2U3hTSmJydW8xenRpNTJNUDRlbFAwdG1DSWlYNVhFWnpQakVKSEl5NlJm?=
+ =?utf-8?B?Z0p6SElyTTJteVoySmR0ZXJBOHZlblB6MlZ2V3lsOUVVSy9sT3VkaGNTZ3U3?=
+ =?utf-8?B?NU1CV3F2WWg0eUJRajZhNEJzR1ZyWjZsZ1ZNWjcxOGNuY3lUS3BKelRPRzB0?=
+ =?utf-8?B?b043SGNkSUhqWklDeUY5WHlzMUZEclZhQndoelcwY1ArMmsrZWVrRkMyaGhW?=
+ =?utf-8?B?TUpZc0hWTkZlS3hqYk42SlFxZnJwYXdsRFRROWUxQklnQTdQbWUwMkhqR2p2?=
+ =?utf-8?B?VHlmRzQyU00wb25INXlKcExlN0duUGNvRVEzZVY1cHZLcGdYWVhmbEdZY0R4?=
+ =?utf-8?B?R2Z4c3hPRFBQNmVaS1A5ZmdlQjZkRm1xN2RDS2xFRVVXRjQyRUhXOFY2MUQr?=
+ =?utf-8?B?NS9LbmI1SzFhQU4rQyt4WERFb0ZJLzA1MUNORjl1a0V0bWw0dm9WTU96Nm9G?=
+ =?utf-8?B?dmljVDFYZ3BNNHNTcmFOUWUvNU9haTJEYnN5ZzRVd3h5SXFkOCtwcWUvNWoz?=
+ =?utf-8?B?dVBhOW9HbDd6U29aVktvcWhNTGcvc2VpVjlSNEh3ZDQ2b2xKck1DVE9VVlUz?=
+ =?utf-8?B?QXRkcTRYbTFRSnBqbGhlNG43azRhbjdJdjR4Sk85anIyQ2Vack1Fd0xjdE1l?=
+ =?utf-8?B?MWRSS1RreFUzdkYzRW1OMW4yNkwra3RhVHAvb0NnWU9nV1FiUGlpaDNvTUhi?=
+ =?utf-8?B?SlNaVklUSFVVSDBwVXBTZ2VtclhqYUl4bTl1ajZTYkdkSDlxMTNZL3czUkdK?=
+ =?utf-8?B?U0lqRzZnbCtGUmtFSzF0cndrWEhvd0xsSTYwOW42TWUrZ2c0Yk5mbWoxc1NN?=
+ =?utf-8?B?MGd5b0lOVTBlNUNWRmhWaktFTHExSEY2dEg4RjYwaUsrbEIyaTFYbE9Bbk0v?=
+ =?utf-8?B?UHJWN1QvRE1jVDA2UHlBSnhZTmoyODBwVUlJRlMyWFVrSVFPbXkwV1BSYmM0?=
+ =?utf-8?B?aWZtNmFhSGEyUXg3UVdHR2lRWjlSemsvTjMyVUl4T09UdXJhY3RxbmJBeGV5?=
+ =?utf-8?B?SG40cHlXYnRCZ3JYTWxjTjlrcU9BTWkyd3Q0V0E1dEVKOXRCQWZKYmI5b1Nr?=
+ =?utf-8?B?SDRrZ2RUb244SnpMR0dDMFZpOStwZlJDOTUzY1NRTDd4Tm0wZ2tkbDUzMjE1?=
+ =?utf-8?B?SE53a2xnRmZiSEZ2emVySUxqMjUwaFdiL1JzUFFPQThGd21Qd3FYY1F0UGJU?=
+ =?utf-8?B?QytsZEhZNUJ4SmdneVFsODdsY1dWZmlOUUNqaW93bDRXM3AzaDM1elNGUnZz?=
+ =?utf-8?B?MnlWb3kwZ3NtbU0yVDlZQVJOS2JRUFVLTlZzSCt6ZFI0d0hxekVkWkdLdndN?=
+ =?utf-8?B?L1ZGemJ0bE1RNXRKUms5d3RTbUxKVDdJZTdidGhNWjBQOXUzR05Zc3dsOElB?=
+ =?utf-8?B?WG5BQmxlcDRCOE5KQ3N1anZaWXhQMmpTRC9INDlodDhWWWZoL0xuc2ladWpW?=
+ =?utf-8?B?MmwvQmJiM21rSGFSZnRZTTRlbGZDN1RONXVIV3NTaTRrMVZhQzBhR2pFNVdI?=
+ =?utf-8?B?M1cyOERpVGhvQ21aRHBVR0M3U2FYYkdFZ1RnaGpuOTFvaDhSVVdHMHNDWXBi?=
+ =?utf-8?B?bG9nNHQ2NEVTU1dmYzdGZmFRaW52UlBjMFBFSkRrQWMrQnROVGlodVNsRlps?=
+ =?utf-8?B?dmxwZ3plQ1Y4dEpMVEY2K00wM29XR0FZYmlmUDYwVEVnODhod211bVMydEhP?=
+ =?utf-8?B?MXQ1K0ZVUlZoaGluWWpqUldzTGQycUoxZllOZlRFWTUzMkdhY3JEQT09?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: 4b65a931-b9d5-4554-756a-08df1fd358fd
+X-MS-Exchange-CrossTenant-AuthSource: PAWP189MB2572.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 15:47:50.2415
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: oXcNATY7d+lXeF9BYvlETMLefO3a6MNBayZh4jS25j31sSwtBE/UVUhNJtFEO7mHPbpqbKVLrhhwrp/NvoRwiQ==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: GVXP189MB2008
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 15:37:11 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247041
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 15:48:01 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247042
 
-This fix was recommended by upstream and committed just after release,
-backport it.
+> 1) What's the intended use case for rust-analyzer, particularly on the
+>     target? I think we need at least a brief reason why it's worth
+>     enabling this.
+> 
+> 2) What impact does this have on the build and package creation time for
+>     rust?
+Hi Paul, thanks for the relevant comments.
 
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
----
- ...1e5bc2090212273bb731dceee2cc2a071e54.patch | 208 ++++++++++++++++++
- meta/recipes-core/coreutils/coreutils_9.12.bb |   1 +
- 2 files changed, 209 insertions(+)
- create mode 100644 meta/recipes-core/coreutils/coreutils/782a1e5bc2090212273bb731dceee2cc2a071e54.patch
+1) Short answer: I don't know. I agree with you seems odd, but I just 
+followed what's already done for the other tools (clippy, rustfmt). I'm 
+more than happy to remove it from target is that's the right approach.
 
-diff --git a/meta/recipes-core/coreutils/coreutils/782a1e5bc2090212273bb731dceee2cc2a071e54.patch b/meta/recipes-core/coreutils/coreutils/782a1e5bc2090212273bb731dceee2cc2a071e54.patch
-new file mode 100644
-index 00000000000..06d8e62b11d
---- /dev/null
-+++ b/meta/recipes-core/coreutils/coreutils/782a1e5bc2090212273bb731dceee2cc2a071e54.patch
-@@ -0,0 +1,208 @@
-+From 782a1e5bc2090212273bb731dceee2cc2a071e54 Mon Sep 17 00:00:00 2001
-+From: =?UTF-8?q?P=C3=A1draig=20Brady?= <P@draigBrady.com>
-+Date: Tue, 15 Sep 2026 20:26:28 +0100
-+Subject: [PATCH] env,printenv: only quote when outputting to terminals
-+
-+To support albeit non-robust but existing use cases like:
-+
-+  env | grep SPARK_JAVA_OPT_ | sort -t_ -k4 -n |
-+   sed 's/[^=]*=\(.*\)/\1/g' > java_opts.txt
-+  readarray -t SPARK_EXECUTOR_JAVA_OPTS < java_opts.txt
-+  ...
-+  CMD=("${JAVA_HOME}/bin/java" "${SPARK_EXECUTOR_JAVA_OPTS[@]}" ...)
-+
-+* src/env.c (main): Restrict quoting to terminals.
-+* src/printenv.c (main): Likewise.
-+* tests/env/env.sh: Adjust accordingly.
-+* tests/misc/printenv.sh: Likewise.
-+* doc/coreutils.texi: Likewise.
-+
-+Link: https://github.com/coreutils/coreutils/issues/355
-+
-+Upstream-Status: Backport [https://github.com/coreutils/coreutils/commit/782a1e5bc2090212273bb731dceee2cc2a071e54.patch]
-+---
-+ doc/coreutils.texi     | 16 ++++++----------
-+ src/env.c              |  2 +-
-+ src/printenv.c         |  2 +-
-+ tests/env/env.sh       | 31 +++++++------------------------
-+ tests/misc/printenv.sh | 40 ++++------------------------------------
-+ 5 files changed, 19 insertions(+), 72 deletions(-)
-+
-+diff --git a/doc/coreutils.texi b/doc/coreutils.texi
-+index b769e64c17..9d78885112 100644
-+--- a/doc/coreutils.texi
-++++ b/doc/coreutils.texi
-+@@ -15519,13 +15519,9 @@ The program accepts the following option.  Also see @ref{Common options}.
-+ 
-+ @end table
-+ 
-+-If no @var{variable}s are specified, @command{printenv} quotes
-++If standard output is a terminal @command{printenv} quotes
-+ environment variables and their values using the @samp{shell-escape}
-+-style.  If @var{variable}s are specified, @command{printenv} only quotes
-+-their values using the @samp{shell-escape} style if standard output is a
-+-terminal.
-+-
-+-The environment variable @env{QUOTING_STYLE}
-++style by default. The environment variable @env{QUOTING_STYLE}
-+ specifies the quoting style.  Valid quoting styles are:
-+ @quotingStyles
-+ 
-+@@ -17497,10 +17493,10 @@ If no command name is specified following the environment
-+ specifications, the resulting environment is printed.  This is like
-+ specifying the @command{printenv} program.
-+ 
-+-The printed environment variables and their values are quoted using the
-+-@samp{shell-escape} style.   The environment variable
-+-@env{QUOTING_STYLE} specifies the quoting style.  Valid quoting styles
-+-are:
-++If standard output is a terminal, the printed environment variables
-++and their values are quoted using the @samp{shell-escape} style by default.
-++The environment variable @env{QUOTING_STYLE} specifies the quoting style.
-++Valid quoting styles are:
-+ @quotingStyles
-+ 
-+ For some examples, suppose the environment passed to @command{env}
-+diff --git a/src/env.c b/src/env.c
-+index e646cba96d..8fff89e72f 100644
-+--- a/src/env.c
-++++ b/src/env.c
-+@@ -1113,7 +1113,7 @@ main (int argc, char **argv)
-+ 
-+   /* Get the value from QUOTING_STYLE before unsetting environment
-+      variables.  */
-+-  if (!opt_nul_terminate_output)
-++  if (!opt_nul_terminate_output && isatty (STDOUT_FILENO))
-+     {
-+       int qs = getenv_quoting_style ();
-+       if (qs < 0)
-+diff --git a/src/printenv.c b/src/printenv.c
-+index dba87f373f..00ca29f55b 100644
-+--- a/src/printenv.c
-++++ b/src/printenv.c
-+@@ -113,7 +113,7 @@ main (int argc, char **argv)
-+   bool quote_output = false;
-+   idx_t const n_args = argc - optind;
-+ 
-+-  if (!opt_nul_terminate_output && (n_args <= 0 || isatty (STDOUT_FILENO)))
-++  if (!opt_nul_terminate_output && isatty (STDOUT_FILENO))
-+     {
-+       int qs = getenv_quoting_style ();
-+       if (qs < 0)
-+diff --git a/tests/env/env.sh b/tests/env/env.sh
-+index be822e3460..8853e01633 100755
-+--- a/tests/env/env.sh
-++++ b/tests/env/env.sh
-+@@ -91,18 +91,14 @@ EOF
-+ compare exp out || fail=1
-+ 
-+ # env shouldn't care what encoding name or value is
-+-cat <<\EOF >exp || framework_failure_
-+-NON_UTF8_TEST=''$'\240'
-+-EOF
-++printf 'NON_UTF8_TEST=\240\n' > exp || framework_failure_
-+ env $(printf 'NON_UTF8_TEST=\240') env > all || fail=1
-+ grep '^NON_UTF8_TEST' all | LC_ALL=C sort > out || framework_failure_
-+ compare exp out || fail=1
-+ 
-+-cat <<\EOF >exp || framework_failure_
-+-'NON_UTF8_TEST'$'\240'=1
-+-EOF
-++printf 'NON_UTF8_TEST\240=1\n' > exp || framework_failure_
-+ env $(printf 'NON_UTF8_TEST\240=1') env > all || fail=1
-+-grep "^'NON_UTF8_TEST" all | LC_ALL=C sort > out || framework_failure_
-++grep "^NON_UTF8_TEST" all | LC_ALL=C sort > out || framework_failure_
-+ compare exp out || fail=1
-+ 
-+ # PATH modifications affect exec.
-+@@ -193,29 +189,16 @@ EOF
-+ compare err_exp err || fail=1
-+ done
-+ 
-+-# QUOTING_STYLE affects redirected output.
-+-cat <<\EOF >exp-noargs-literal || framework_failure_
-+-a b=c d
-+-EOF
-+-cat <<\EOF >exp-noargs-shell || framework_failure_
-+-'a b'='c d'
-+-EOF
-+-tr "'" '"' <exp-noargs-shell >exp-noargs-c || framework_failure_
-+-for qs in literal shell c; do
-++# QUOTING_STYLE does not affect redirected output.
-++printf '%s\n' 'a b=c d' > exp || framework_failure_
-++for qs in literal shell-always invalid; do
-+   env -i PATH="$PATH" QUOTING_STYLE=$qs 'a b'='c d' \
-+     env >out-t 2>err || fail=1
-+   grep -vE '^["'"'"']?'\
-+ '(__CF_USER_TEXT_ENCODING|QUOTING_STYLE|(LD_ORIGIN_)?PATH)["'"'"']?=' \
-+     out-t >out || framework_failure_
-+-  compare exp-noargs-$qs out || fail=1
-++  compare exp out || fail=1
-+   compare /dev/null err || fail=1
-+ done
-+ 
-+-# Check the behavior with an invalid value for QUOTING_STYLE.
-+-printf 'env: ignoring invalid value of environment variable %s\n' \
-+-  "QUOTING_STYLE: 'invalid'" >exp || framework_failure_
-+-env QUOTING_STYLE=invalid env >out 2>err || fail=1
-+-grep '^QUOTING_STYLE=invalid$' out || fail=1
-+-compare exp err || fail=1
-+-
-+ Exit $fail
-+diff --git a/tests/misc/printenv.sh b/tests/misc/printenv.sh
-+index b8c3696c40..33ad6cc51f 100755
-+--- a/tests/misc/printenv.sh
-++++ b/tests/misc/printenv.sh
-+@@ -80,48 +80,16 @@ compare exp out || fail=1
-+ returns_ 1 env a=b=c printenv a=b > out || fail=1
-+ compare /dev/null out || fail=1
-+ 
-+-# QUOTING_STYLE affects redirected output.
-+-cat <<\EOF >exp-noargs-literal || framework_failure_
-+-a b=c d
-+-EOF
-+-cat <<\EOF >exp-arg-literal || framework_failure_
-+-c d
-+-EOF
-+-cat <<\EOF >exp-args-literal || framework_failure_
-+-c d
-+-c d
-+-EOF
-+-cat <<\EOF >exp-noargs-shell || framework_failure_
-+-'a b'='c d'
-+-EOF
-+-cp exp-arg-literal exp-arg-shell &&
-+-cp exp-args-literal exp-args-shell || framework_failure_
-+-for t in noargs arg args; do
-+-  tr "'" '"' <exp-$t-shell >exp-$t-c || framework_failure_
-+-done
-+-for qs in literal shell c; do
-++# QUOTING_STYLE does not affect redirected output.
-++printf '%s\n' 'a b=c d' > exp || framework_failure_
-++for qs in literal shell-always invalid; do
-+   env -i PATH="$PATH" QUOTING_STYLE=$qs 'a b'='c d' \
-+     printenv >out-t 2>err || fail=1
-+   grep -vE '^["'"'"']?'\
-+ '(__CF_USER_TEXT_ENCODING|QUOTING_STYLE|(LD_ORIGIN_)?PATH)["'"'"']?=' \
-+     out-t >out || framework_failure_
-+-  compare exp-noargs-$qs out || fail=1
-+-  compare /dev/null err || fail=1
-+-  env -i PATH="$PATH" QUOTING_STYLE=$qs 'a b'='c d' \
-+-    printenv 'a b' >out 2>err || fail=1
-+-  compare exp-arg-$qs out || fail=1
-+-  compare /dev/null err || fail=1
-+-  env -i PATH="$PATH" QUOTING_STYLE=$qs 'a b'='c d' \
-+-    printenv 'a b' 'a b' >out 2>err || fail=1
-+-  compare exp-args-$qs out || fail=1
-++  compare exp out || fail=1
-+   compare /dev/null err || fail=1
-+ done
-+ 
-+-# Check the behavior with an invalid value for QUOTING_STYLE.
-+-printf 'printenv: ignoring invalid value of environment variable %s\n' \
-+-  "QUOTING_STYLE: 'invalid'" >exp || framework_failure_
-+-env QUOTING_STYLE=invalid printenv >out 2>err || fail=1
-+-grep '^QUOTING_STYLE=invalid$' out || fail=1
-+-compare exp err || fail=1
-+-
-+ Exit $fail
-diff --git a/meta/recipes-core/coreutils/coreutils_9.12.bb b/meta/recipes-core/coreutils/coreutils_9.12.bb
-index bdad62c455c..6686021341e 100644
---- a/meta/recipes-core/coreutils/coreutils_9.12.bb
-+++ b/meta/recipes-core/coreutils/coreutils_9.12.bb
-@@ -14,6 +14,7 @@ DEPENDS:class-native = ""
- inherit autotools gettext texinfo
- 
- SRC_URI = "${GNU_MIRROR}/coreutils/${BP}.tar.xz \
-+           file://782a1e5bc2090212273bb731dceee2cc2a071e54.patch \
-            file://remove-usr-local-lib-from-m4.patch \
-            file://run-ptest \
-            "
+2) On my build environment (poky/qemux86-64) there's a build time increase.
+
+master
+|- do_install: Elapsed time: 524.36 seconds
+`- do_package: Elapsed time: 16.49 seconds
+
+with my patches
+|- do_install: Elapsed time: 619.82 seconds
+`- do_package: Elapsed time: 17.16 seconds
+
+Best regards,
+Ben
 
