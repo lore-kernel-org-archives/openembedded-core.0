@@ -1,150 +1,129 @@
-Return-Path: <paul@pbarker.dev>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id B2A98CA5FCB
-	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 14:13:30 +0000 (UTC)
-Received: from fhigh-b8-smtp.messagingengine.com (fhigh-b8-smtp.messagingengine.com [202.12.124.159])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.12126.1790864004919506521
+	by smtp.lore.kernel.org (Postfix) with ESMTP id C2115CA5FD2
+	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 14:24:50 +0000 (UTC)
+Received: from AM0PR83CU005.outbound.protection.outlook.com (AM0PR83CU005.outbound.protection.outlook.com [52.101.69.1])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12385.1790864687255354577
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2026 07:13:25 -0700
+ Thu, 01 Oct 2026 07:24:47 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@pbarker.dev header.s=fm3 header.b=bxaqhcpH;
- dkim=pass header.i=@messagingengine.com header.s=fm1 header.b=ASWxRUUW;
- spf=pass (domain: pbarker.dev, ip: 202.12.124.159, mailfrom: paul@pbarker.dev)
-Received: from phl-compute-02.internal (phl-compute-02.internal [10.202.2.42])
-	by mailfhigh.stl.internal (Postfix) with ESMTP id 1CEA77A00E2
-	for <openembedded-core@lists.openembedded.org>; Thu,  1 Oct 2026 10:13:24 -0400 (EDT)
-Received: from phl-frontend-04 ([10.202.2.163])
-  by phl-compute-02.internal (MEProxy); Thu, 01 Oct 2026 10:13:24 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=pbarker.dev; h=
-	cc:cc:content-transfer-encoding:content-type:content-type:date
-	:date:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to; s=fm3; t=1790864003;
-	 x=1790950403; bh=uJ/Ywx0kDMzglXz6CJKvFUelmH/ImDOopDISBtrT9Dc=; b=
-	bxaqhcpHaGog0Uohfsbydyzob5zJpYx+3lN1V40pb6dg5Ry3nwubG6F4UUeIzjp8
-	cySK7QP3sDpYyx0bUY6HCeaY23JGP2f5onoJ5mr1yuvXZhpayXcKNvTq7Oj0ZP6+
-	PPebUtCmN0ERaB4LZGtAsFzL00XPeH63NBFbDaeBgnI7o4r102FLlmNbZL08nHck
-	T8UFuky0+UKSh2Phk58hR0/4DbxDDDmDa+HFb782SjTxeBo/8Uy+v3rpjd+tLeiA
-	gJOD0uRQ2TgR2hbZng2arTae5+kTURrTLIGOGfEkW3AwelIEndoSKYifZYPcSx4o
-	DnUvzp1IdQT4wm12tFIB6A==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-	messagingengine.com; h=cc:cc:content-transfer-encoding
-	:content-type:content-type:date:date:feedback-id:feedback-id
-	:from:from:in-reply-to:in-reply-to:message-id:mime-version
-	:references:reply-to:subject:subject:to:to:x-me-proxy
-	:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; t=1790864003; x=
-	1790950403; bh=uJ/Ywx0kDMzglXz6CJKvFUelmH/ImDOopDISBtrT9Dc=; b=A
-	SWxRUUWyHfUpnlCiW+eYqipyFemYcG9nLaXFQp1eYDVqIqLrfQGxi05z2Q2bvSSB
-	J5TkIy3swXDABLBkpZToU4ZGlNox4xEMUgLwKiCCKKy1AUqATE1f1ri+fjxWyHC3
-	ogZJOIv+xU5O2LoLvJFnLaZuDcdgJ4zfm1/z2Hd0AZCmX5swDZDfza6Svyy1oMTV
-	ANSuVN0x/dar4ZX2S654JMpwOd1mY4JXkr9mmNjYxQh282PwZX6OcvAX8epPHWH3
-	rRs6EW7oPSB37ol778WuoR2mBG05oj+aiw1Fhpv0KQWEZXrtr7/dYbGE8qmc6ESL
-	bja5O7LES0ec+x2oNznuw==
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
-	action=sign d=pbarker.dev a=rsa-sha256;
-DKIM2-Signature: i=1; m=1; t=1790864003; d=pbarker.dev;
-	mf=PHBhdWxAcGJhcmtlci5kZXY+;
-	rt=PG9wZW5lbWJlZGRlZC1jb3JlQGxpc3RzLm9wZW5lbWJlZGRlZC5vcmc+;
-	s=fm3:rsa-sha256:IKHiHLY2gwSDrNZeTdVKWbdxredlXpqtR6IF7NdcOUBBUNw
-	Tv/296RwrZT1E9wZf7MV38S1ol/XSKA5r6cdX46iWeZW/iE+HAdtCAXDmw9Djqw6
-	COKQBT6fgdx3mfF14yN+R0gnbVDzFl1GaX9vT78V4mC/uPWObw6ihEUuXVvtz3pS
-	CFh5HgE5sLY62k1Owt7RkuhPzAy29Bd+xfmLnHtuGpy5BQmmnl5PRUPQjUAwD8Ff
-	Si0YSpaAIUWREpGdlk/BA2nHxJwFlDRK+MnQsr4B8u1ZLeHpgcwEhkW1hr9Dz/pB
-	SwCBjKqgfwPXEY+KQlZoSXCEdX9mEFID/lvouXw==;
-X-DKIM2-Info: draft=ietf-dkim-dkim2-spec-06;
-	repo=github.com/dkim2wg/interop; date=2026-09-30; sw=lmtpprox;
-	action=mi-m=1; hc=13;
-	hn=cc,content-transfer-encoding,content-type,date,feedback-id,
-	from,in-reply-to,message-id,mime-version,references,subject,to,
-	user-agent;
-Message-Instance: m=1; h=sha256:2vdL/Q8ag9nTMk3Z1NulzwoEe/Q2DAj7glCCiyOYBgg=:vF33IuJA7f+L2oG5CNPsks+/ExzWuM6BaG8YDE6G5Zw=;
-X-ME-Sender: <xms:g2q-al5zk_STjv581ReZ3VxFm2GgVdxf_7gvmQlI2UoHOK6zg26b6Q>
-    <xme:g2q-aqWK6CwyCJrzNRCxPYyK69toV1AsznrOZiSzldFOW9ezSavxx6WidWBn1x68e
-    BnQ7hsDS1N16DvezBoJJaLdDgZl7fUET7hQSb20XqEiWLmt4teRSG0E>
-X-ME-Received: <xmr:g2q-ap1OLSZ3UqgB4wbujXMMImvBQbJRsUbk-xRXC_C3wWsxU259w24c9lnW_GLhXHLoUXxq5F98qYgViCuutbOz6PLCq9o9Jeur>
-X-ME-Proxy-Cause: dmFkZTE2XYPurllPLyT6IaQTdnZs0HAKPIGpfF4dHX9Wt3825SV/lq81qke11+vH/rrYcw
-    sg3i6Ox8a6iIODJbAhwbztUwaRSCnqb/OEg/vNvGKUCPgrW11JOGIPquQAwdT3UudDDcWj
-    4DoaDK3yfKI0wMrHzvNho6ufW8IN+Bhm9UpanNtolfHiO2fJj41KINQOzYf4ZgntHfOFSv
-    qGI3u+9Axl2R7USoIHR5Tv/pZ3d6L2eRoMoZVjOgkNx2yL8vEYKXGw5Iiz47zS/uE91XwO
-    9jr/BlPJOfRwv29gZsON72QJvq4NhSaCDq+hWK5iTPvM/rUQ9K2XTFPHTlhKftNdyuwijB
-    GevrC74pkF4RU6CaTtnFB8SigtxIkKfFZLdTc72B1VAVmsSqWLIovWGLlKiSlacapIssTW
-    LfoLEP1kj/ToZjIygHhmA+M7PMDYaHbDTrqKnleQdUoxbSiuhDqSrfZYaizm7T356EMNwJ
-    i9hhgLgf5MxDffRQf+YSuENa2ylbeBTDIGUzLiZs5Gap6Bvgop/LUCh4mRhoviT2A/bZ1j
-    zczdpY7+cqWWpkLyJaSwO7SXG+HF1V8e1aZ428YBinw2PA8KnwVo9qoMDVo33zvC0B3RB5
-    MXHhle5n7Ke3lW152ypb95efSCLAbK4dBuQ5jmPOsAIkd9ePDPhLqMB9szGA
-X-ME-Proxy: <xmx:g2q-an0Kcn3HKOw0w6vc2QMzsX4EoeDxV_Z1-I9Ib08GMXtekkf-PQ>
-    <xmx:g2q-as9AmFr0yzEaCSsSe2tSugMKmz7YeOChGnrgXQbX_ZcLt0Pdvg>
-    <xmx:g2q-ak0Tc6i7GgT34tJW6Gl5qWLUw5DDcD_wfJWeuBCAP7ppreVIaQ>
-    <xmx:g2q-ap9vJRsQOnojVjaFWCENT_x9SuQar5b-xsEeslcqZ0VQYHWD5Q>
-    <xmx:g2q-arEO36Bzs_W2Zz9aiGzJ98MxIExHkce3H1RUSTp9ay2kwt9QggPW>
-Feedback-ID: i51494658:Fastmail
-Received: by mail.messagingengine.com (Postfix) with ESMTPA; Thu,
- 1 Oct 2026 10:13:23 -0400 (EDT)
-Message-ID: <6ded5087cc73adf490441e55b296d3130da129f6.camel@pbarker.dev>
-Subject: Re: [PATCH 0/2] rust: add rust-analyzer support
-From: Paul Barker <paul@pbarker.dev>
-To: Benhur Tessele <benhur.tessele@est.tech>, 
-	openembedded-core@lists.openembedded.org
-Cc: Randy MacLeod <Randy.MacLeod@windriver.com>
-Date: Thu, 01 Oct 2026 15:13:21 +0100
-In-Reply-To: <20261001125630.760962-1-benhur.tessele@est.tech>
-References: <20261001125630.760962-1-benhur.tessele@est.tech>
-Content-Type: text/plain; charset="UTF-8"
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=zY/As9bd;
+ spf=pass (domain: est.tech, ip: 52.101.69.1, mailfrom: jaipaul.cheernam@est.tech)
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
+ b=P34LkzeAvgDNoUvPgloUilIhYUj4X5dM16gaU7XM+NDCYr+sAdmXpuA3epAgBJimah79a+t4FFV+IkE+66ekt9dKc0rjQuMZVAyelCkATd8Q6OxjeepqbG3+4UOPmym4fV6+8K17OaHt8Bhj06OvnjSE71NyKkYorGvMtIg9CnLEpO0WLIq1kOE1I6upVIFdRARumVYOrCuLcNubkZxhNreWlrlCy6umnSU1vvCNgp/4Y+iCRRf3uTr8gaBvpxAyk388c45Dv57t3in59VG1JFk/Fk/8xCdhkG9nfT11QmT/gbzwaXUva5VvoZnzp7TDuX5r5rfyJjHOk9wmqWaBjg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=voYU+pjJpL1wTEulc0CALazFoxEM7x1+ehid+K7mL3A=;
+ b=GTN9w6kBQnc+7pgo4+CUU3K0QL9Yt6LVFYvkflwzMzGMS7sxqap4ACe/6N/Q3FDSxrACNfXLi3yydBffFWCyc5PIYjF0Aluh3IWsEihe5n9MBiAig16fizO45Hqr5/GeCSwLqBFofzGqlJKApsNNFTLJ0VJHQlgDAobjbarREXUVrgF/feJzokzfhvyUHO3yuNovO3HggeDypt1T6Yp9iTvTkEXN3x6unlGbcu5r0/4++0YVxMARRdyFiSwOTfgOf9f6rgjXjneu1XKMaXh2UHzVG2oy1ebq2QEQ4rvnMqbAAayf7XAheTBA2HQEwjgnv8iopdCovSKF/ur7UjPFiw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=voYU+pjJpL1wTEulc0CALazFoxEM7x1+ehid+K7mL3A=;
+ b=zY/As9bdqaIZEpOkbaquuIU8+MIUed7oSeZ1IQmJ/jrQsVjtPVGDoXqcbWddzxa3a+AYI8dfKNmW9+RxgO+PD2RkvyyyaffRcgvpWrtYtXhkhg12BdT/+LYG2+qVV/qcjsVAxCErOD+3U+h+Kl/ywo8f8ZV94jitBNG70qkf37iEW/o1yBHUK7QIN4Ni2XfOx8cS4c81jcIWmgaXiCFf7kqI8CpJaAZ8PqNudL/uTl4QeLxTM2pLcTXHv1sDIdtbYesDpx0ti9kHvWvtyOAHCeRao/85/9W7Cot6gYJY5XDQ8tuv9+4G+7Jb/tfKEhEVB6pfDdTRzYrr2iL4y6hZ8A==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by AS4P189MB2062.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:512::17) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Thu, 1 Oct
+ 2026 14:24:42 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0472.016; Thu, 1 Oct 2026
+ 14:24:41 +0000
+Message-ID: <875b3384-30e7-4574-92f3-3f9756d3cbeb@est.tech>
+Date: Thu, 1 Oct 2026 16:24:40 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [PATCH] kea: Upgrade 3.2.0 -> 3.2.1
+To: Richard Purdie <richard.purdie@linuxfoundation.org>,
+ openembedded-core@lists.openembedded.org
+References: <20261001100444.9447-1-jaipaul.cheernam@est.tech>
+ <2eadde72ab7e004277476db8e7867483795ac4cd.camel@linuxfoundation.org>
+Content-Language: en-US
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+In-Reply-To: <2eadde72ab7e004277476db8e7867483795ac4cd.camel@linuxfoundation.org>
+Content-Type: text/plain; charset=UTF-8; format=flowed
 Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.52.3-0ubuntu1.1 
+X-ClientProxiedBy: GV3PEPF0001DBD3.SWEP280.PROD.OUTLOOK.COM
+ (2603:10a6:158:401::6a5) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AS4P189MB2062:EE_
+X-MS-Office365-Filtering-Correlation-Id: a1f7ec60-4579-4daf-379c-08df1fc7bb98
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|366016|376014|1800799024|22082099003|18002099003|4143699003|10067099003|56012099006|11063799006;
+X-Microsoft-Antispam-Message-Info: 
+	3CWGlw1+2nMBiXpcsl8n4tzO1fi36gQKOc2hkVnlBqk+1iDayxWhNMZoOxXQvotRp02qCNee321yzqsQ2JLLyYb1+NJjvmP1E9147WL+/oWDK5SSylAJrBWV1ju9o0P2GaUzBE4ZWZGBntsJLZna/30HUnaOIN1eiuxDy/XQk/zabTYk/D3AmtpHFl0pd0VO/wuYL3QWGdUvtFHLrvHQeCh6xxy+FzKq/wLkGrOIIT/ZSsTJZHrfplWjetROGpx/hhDScjngf6Y1V0OSAxmedmf6UylaRd/Qlvq4Wq+BQAMNdNnU+VGwNk1rtgQjFSglOZuydPdPK0WAcjZKC/a3QN2N8K3CdnTC0W/7hgjgtu6TVxYcMvuCHoAfLoi6TmSXdF7hXtSmRiIWfzeQyJBBEMFSpcLq7FI9f46MZNWNt0YD/OoigsNH7nH61CgADWUngbLcrr+wy0aIiOLrys2XuGHOckYK8SZQ+0yQCwEILx9uAMxJF0Z3afu/jfr95sE6GkLgZso7o5AwSpG7+lrcwZTyRVE8eX/6w8H7G994E831S9q+gd509HpTeEY+PjJTblm2mnFsF4DZxcvYyBDjb0CMix/DLuxLKMUvDQJWI0Hq2xeR/BPvr2HcDMeHqcvL9REB3ApCHh6kGpjQxdxfPrWf8+24ZmeFhoxUp66pnAc=
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(366016)(376014)(1800799024)(22082099003)(18002099003)(4143699003)(10067099003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?1Efbvki4EBLA1kHwqfbvozyvi0fj+5AOUz+IT6NZZxh2cWzTBT5FINQ45mkd?=
+ =?us-ascii?Q?Q3J3bWmTLSmJCV+FPLLDaH6Vvvo7qMjEX6TrrMUImK8kERsV1cGRgryawARx?=
+ =?us-ascii?Q?2tq4rpGls4f4hbB2rTnReUqrEj0Yd6/oQTIeeZ6wFS/cunF+35m7nptHfMcE?=
+ =?us-ascii?Q?C5LQGZxFxGgWPL3hr7s2UF+aeaTo8BpyaEvX5fX9st1cO6zb7bFoOfyyQ+nu?=
+ =?us-ascii?Q?ZA2IMwo9a9vBPSUl3gXMdShCfbPV5WEORuo0uXQCRga7ibye0Zt3tXiM07+7?=
+ =?us-ascii?Q?7W8CFOyffeplCG6RfjZrT0fV7AAEpXB/Yx7vyr+sz6PWyNWK7K9ZNzd7yuWq?=
+ =?us-ascii?Q?xKaCCYtIdzuUag9XuykRHgFmWkuo6LY/CssMD7B3bC0WpU/pZMo2eKNqYqL+?=
+ =?us-ascii?Q?CxEdVeyqZjNvPO+/Rkqa4crE6Dd+PUFJhAtAL7td9YSJLqUiDokmnSeYWYHc?=
+ =?us-ascii?Q?eMLN8z0CTJRvJbvrasiZxSoje1uTlDhVBxsKg5277EHKQqJFVCtbuBpnu3vN?=
+ =?us-ascii?Q?hxWoOT0GuSbCzKfDszfWcuhk8bVosnhQ3HHkUHfJkmAa6iCG+DgsHmYzIbS0?=
+ =?us-ascii?Q?8VmeOsKS8OxYdzoMWfExl1+BC8EYkfcVL/asHL9I34a8P1CsABYW9YDQhlsm?=
+ =?us-ascii?Q?vrQFxSLeXlONScoRR7F4CEG0nehWUAW9TItAv71I0l+hj40we4E1UfqoklM6?=
+ =?us-ascii?Q?0Jxx22pz5fGKJ6MwtktiyAAcNO3xZnqayYzrzATCnAuNERC0gG1thduPR02k?=
+ =?us-ascii?Q?x3CWAEcBgunnR+ENR+IteidZ9kVLQsrHV5bnrneHUiZErWulCnqlzvHMuwaR?=
+ =?us-ascii?Q?FzO/MBoOO54Vj0c1zV69XQLnsDMjjsb9J80QgUmAD82gFt6wCya4z3UTFtHw?=
+ =?us-ascii?Q?EElkzASc8uKvlJkecaVeewJdJuUriLoruPKyn2BUoHPgOgewvQGxTFImnsPI?=
+ =?us-ascii?Q?8fEH9UsMxNHC+Xv62bmDDemVn42aDzQLMHaDpX0rnAewGmoWgDHsIywtF9cx?=
+ =?us-ascii?Q?iG0dIWlwFEp+2NrpsJ7MAWUjddatsSHHbFoomC65eZzT+1F5OdxEx0UWgYqM?=
+ =?us-ascii?Q?4Np9yrLbd4gB2Q7ZsIrVRfJGyQCY2tu+1U31O8qHy89LgFKQWhZTlWg/LtbH?=
+ =?us-ascii?Q?28kMDnYqM3VhgwgmpYtayIX6Pb7csrP2685rgyjoR8MQ70jk1KSX5Q4apzdj?=
+ =?us-ascii?Q?JB8lCaGCO46/z6IyoSzqACWD3N0Mrg+adqBAnkNRaBW5CQFsiCMT0GZJzEdY?=
+ =?us-ascii?Q?Fk63KFPiwZ3E1HB3R+jK+LhaWhQYlxsyHFhr+QNMVNq5FKwNCe+zWE9D1mVw?=
+ =?us-ascii?Q?QGGDTVPxEZz4J6tADXkrHKrOtAFg4YKbKhUGvw/xplmPA8vstxL0eOEK6uWQ?=
+ =?us-ascii?Q?SMUvU0v6RUgkTd5mYo6KFmuKcnZ+NmhnJAlm0cnRtSWUxz73b30oE3kvDqQ+?=
+ =?us-ascii?Q?HAry/AVDoCpHjkP2hu4yXiTuEAlPysqLCTJc8vbqOaU9eaonKPqRm5fFXHH/?=
+ =?us-ascii?Q?S42jofSAcE4AFRZhH4LpkNxZOTKzAYvUsUUSEoKYDHNi24W1edymnjnKbBMa?=
+ =?us-ascii?Q?K28peDbtw1kA3QoK89F1Z0xPq0XNUs/T5JAkQEg7aKPOCb1inLT+U29lWNsS?=
+ =?us-ascii?Q?MEI2jzrdagY/MeIvPrixpLjAusM561Pkm6PnrUJP9CEUhM+vRCgkBLKRwOVL?=
+ =?us-ascii?Q?YiVP9Ivh/wbBWam53h+j11Vjq/krYGJcPP2iVL7sl3vXiRJvIRDI/dec3g5Z?=
+ =?us-ascii?Q?jag4rVdW3A=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: a1f7ec60-4579-4daf-379c-08df1fc7bb98
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 14:24:41.7888
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: tiJHALIXIOfk3zk/q3DxGtwDzab1WvGiQkUs0PMiagrTGy5vOg3Q6AtBP/gqt4FPIbY4QX5xMmkZTNQjmj6mvP6dkbjKM42c/6kkEyTXdjw=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB2062
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 14:13:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247038
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 14:24:50 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247039
 
-On Thu, 2026-10-01 at 14:56 +0200, Benhur Tessele wrote:
-> rust-analyzer is built as part of the Rust tools but was neither
-> installed nor packaged. This series packages it and wires it into the
-> Rust SDK next to clippy and rustfmt.
->=20
-> Patch 1 adds a rust-tools-analyzer package for the target and nativesdk
-> variants. Beyond the frontend binary it also ships the proc-macro server
-> and depends on the standard library sources, both of which are required
-> for rust-analyzer to actually function.
->=20
-> Patch 2 adds it to the cross-canadian toolchain so that an SDK built with
-> SDK_FEATURES =3D "rust" provides rust-analyzer out of the box.
->=20
-> Testing:
->  - Patches validated with patchset.
->  - Built an SDK with SDK_FEATURES =3D "rust", installed it in a container=
-,
->    and confirmed rust-analyzer resolves the standard library and expands
->    proc-macros end to end: diagnostics/analysis-stats on a crate using a
->    derive macro succeed, with the proc-macro server started from
->    <sysroot>/libexec.
->  - Built core-image-minimal with rust-tools-analyzer installed, booted it
->    under qemu, and confirmed the rust-analyzer frontend and the
->    rust-analyzer-proc-macro-srv binary are present with their libraries
->    resolving.
->=20
-> Benhur Tessele (2):
->   rust: package rust-analyzer as rust-tools-analyzer
->   packagegroup-rust-cross-canadian: add rust-analyzer to the SDK
 
-Hi,
+On 2026-10-01 14:51, Richard Purdie wrote:
+> One thing I've noticed is your emails keep having a locale encoding of
+> "y" instead of utf-8. I suspect this is a prompt when you run git send-
+> email and you're answering "y" instead of hitting enter to accept "utf-
+> 8".
+>
+> Could you try and fix that please! =F0=9F=99=82
 
-Two quick questions here:
+Yes, I will fix my alias :).
 
-1) What's the intended use case for rust-analyzer, particularly on the
-   target? I think we need at least a brief reason why it's worth
-   enabling this.
-
-2) What impact does this have on the build and package creation time for
-   rust?
-
-Best regards,
-
---=20
-Paul Barker
+Thanks for letting me know.
 
 
