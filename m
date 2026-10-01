@@ -1,111 +1,106 @@
-Return-Path: <david.partain@est.tech>
+Return-Path: <luciano.dittgen@ossystems.com.br>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F24CACA5FCE
-	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 19:52:56 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.13504.1790867448958556496
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 1E5C7CA5FCE
+	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 19:54:17 +0000 (UTC)
+Received: from mail-dl2-f40.google.com (mail-dl2-f40.google.com [74.125.229.168])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.20162.1790884452266278540
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2026 08:10:49 -0700
+ Thu, 01 Oct 2026 12:54:12 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@amarulasolutions.com header.s=google header.b=mxNyF61t;
- spf=pass (domain: amarulasolutions.com, ip: 74.125.225.140, mailfrom: jennifer.chukwu@amarulasolutions.com)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49e69b9e16aso68524175e9.1
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 08:10:48 -0700 (PDT)
+ dkim=pass header.i=@ossystems.com.br header.s=os header.b=b7jSF9UL;
+ spf=pass (domain: ossystems.com.br, ip: 74.125.229.168, mailfrom: luciano.dittgen@ossystems.com.br)
+Received: by mail-dl2-f40.google.com with SMTP id a92af1059eb24-14f381f0424so141255c88.0
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 12:54:12 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=amarulasolutions.com; s=google; t=1790867447; x=1791472247; darn=lists.openembedded.org;
+        d=ossystems.com.br; s=os; t=1790884452; x=1791489252; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=ZMgwK6G7ZMWy5t3cBUokQzWwRwXi6+riP/IiFmmGHeo=;
-        b=mxNyF61ttSE3gdVztkgGcFG2ZbeEtYZrgaQrqYlK+KGMhonA8zgTlVtkLTfuJgMlwT
-         wt6z9+QSxiySH9DySFJRPx7o7hKDzBPkMM82cKJf0XCtCXXPbWbSq3YZfrksa929d1WC
-         iDl2M+GfQm13yt2vHcDxwyJY/EoXJt/Y98g0I=
+        bh=SI3FxsZQUtugO7PAIumJXyeiNISxt+FmMwEnUwmINaI=;
+        b=b7jSF9ULjKTXPVq3TxAE23S/aFaX1jpvhTohYUDErXtvC8jXPz6PjuGHnEu69ePwXe
+         z9W+oizs1fAdxcA2+abYqHF0nkRJ6JwyypZEVwCTifC676LGoqlPxU+adakcNa/RiJjl
+         sg/znPpIk2kPcE7piDc+sCZhnCyRtOGu32vtwdfdR8v3fcDQJFvm0ev8oD+hcmntm7iT
+         QAMGe1+95Mlwmy9JlxtGUM9VT9M7aG27frV0q8E5GvF51cQYm/C7WmEU/UDs2XnpjaX1
+         iyBeERaoznISujMGygeby3agU8L95OUJD3J1giNhhsu6/6H20M7BKfjstFdxg4yOtuO+
+         u1IQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790867447; x=1791472247;
+        d=1e100.net; s=20260707; t=1790884452; x=1791489252;
         h=content-transfer-encoding:mime-version:message-id:date:subject:cc
          :to:from:x-gm-gg:x-gm-message-state:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=ZMgwK6G7ZMWy5t3cBUokQzWwRwXi6+riP/IiFmmGHeo=;
-        b=dCCm53CgIwwWMBKutxMLc0mRGRMvuAUi7+Z8v7xpHGO9JtM7q9vu2zNwf5ZdhGS6Pj
-         K3E95NycSce+r8nGIRcSFVteX7n0eypdYdMpZIc5lrmz9mRaqCxXLSHo3eV0WXPQK4jD
-         XtyIi3OJp3YsM5XJOC/SCJYZxSZ17WmGlRKWxCy2P8iWdaQGYksPh52rAZudEqa5b53Y
-         vCG0E5uBcEthy/xUnjD/gzYmuZE80wYPX1J4/b6pzjwhtcniqQkawCrBbPEjcL/I/wW7
-         H+kDVEHrduWIDDmRM1Y2r5sJ2TJkJOYk3hdAE3abmfqFYj4lIVSzyytn72CufRVnM9l+
-         yjmA==
-X-Gm-Message-State: AFuF++mXTIzjQqN6b0jRTBKatwPeNxBZ0qL/T/jrDl3XpLztEtSoAjlF
-	7VSeJBI2XtNZSZlmlLLGnA9urt5dHVlSPJCLdppuq1NwAQb+dOa9jWeIyH1sTEOrep0LXoLRkqO
-	OBeR+xg4=
-X-Gm-Gg: AYBFou0kZPaqQTtnCsVT7gecfQFYY3sd3/SsVU1RS1xfDYSssMi6X7mkq5QAu5/C27z
-	UCxUsuDmE2+Aj3Pqxk6UuUqoqTVU542tmSe6XLbEd6k9XAzWtcIACH5CHFzl2n813/jnVHkjZA1
-	0zq9m+Y+zpShYpbMq+PtSbChlGmGPKZtJcvm2p1Fz4UWYLvdGa6/MkLsXYwANz804flvOpAoO8Z
-	AmXx1+BlFSuagqf1Hcs9XOcDVvj9O/hYuZSbUWsewFjY8BOuZbzUp7RObINmQSMCmG6aOXFRWPL
-	XMLOabm84jrEV1ytTSd4C+0x6vwgwmQtxHk9FxANdU1AaZen4EIdaKk4X3WT/Z8hmq2+X4Ku7XO
-	gqUQF+Rb6ISbCmlGC21DxAK5va6VaF95RiT5hGVAjy6cQoQOCCDFOSGJwO2t0HynHu9JJqNqIib
-	0zzxiutM+Nts3BZJJKlJm1clvBvT7trF5r8y5EUlfSBMsTecHcQ4982Bx4eiS1Bc2rmkUaNPHLG
-	ebblIDgYhZbcK5Aam5KJ7FXJqD34D1RvgzkF5tIH6cGxlIzrATlAyn9/FZswPs=
-X-Received: by 2002:a05:600c:45d3:b0:49f:f922:1dc1 with SMTP id 5b1f17b1804b1-4a01b004bbemr76361235e9.28.1790867447038;
-        Thu, 01 Oct 2026 08:10:47 -0700 (PDT)
-Received: from jennifer-chukwu.amarulasolutions.com ([93.90.163.238])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a02726513asm2538655e9.5.2026.10.01.08.10.46
+        bh=SI3FxsZQUtugO7PAIumJXyeiNISxt+FmMwEnUwmINaI=;
+        b=bAVNeJeoDDbV1hO7ithhVe0IR/uz19J/1LRmEDhN/baa2glJMgL03Qz1htbIFvVmu8
+         oC+n5lNeWHbkHJdampI3wqfTZ2nGMKfZDnYqz+C+M8wjSGx/okDiSq6jreiD72Bd6Qmn
+         7ZADbNlWuFI3qi2xwSm9yseuU41yWHljxNbGxOH87bhSnkmiELrlRDCmaoaowXCOwcjF
+         +tgYtU1dVMmxsdolNv3jiBkNI1pp9Sw2l4DqOvTKfjO+euWcZDfgFU2RYDSRQ7FIsw4f
+         fM02cI/SvxtDJA/v/yC1PirrXHPcpWUENgp7sacM4uE/eAltZP5j1RN/pEaOnHVN7Ofc
+         VFGw==
+X-Gm-Message-State: AFuF++lrshoHdM35jStzkiIfwu8974EmlpWVRk1d3Iit0ihkGksGJ0EJ
+	GwNkih2nJnwYLhEuvMaMqJQjwcrY7B79ElM6fx6fnK1rvugU727sfG9Aqc+cgn/FniFLHPNxDQT
+	0Nxxl
+X-Gm-Gg: AYBFou2OZZhBmbJgHucQ8FHhHk5PCJremVtY0JGiJuJG5R+KtdZm6WStpESuhGtWI8D
+	KJ66nWnLRhuoBWdF/tw4AthHw8bWJurR9zE1zxMW4SOYDOTjh3lqevUjl11xArtajIp4MjkbYw1
+	wmM1NgAR2tWm60KRtYfSBrSB1/b10FzdLDZ/79zDXT92z7+imvGXdyi2qo/+VmOP6aeHrw44NJU
+	IiOWWEamUm3iQLUQzTc2duB9Ibsl3HfHVm7v0hL4gcVkPteQeBStRIkqGe7F/fKGbCOH/8DwpUg
+	rMvhDtjgYJPQGTxVn9d+AFx8jycpwDwLpIBVjZSj+q7G81zn2Fy2POBjFcguYFd5lgZrWy07bp8
+	GS59rQLweyV9/q3JjF0ojIWeR353hl7eDmXhu5S8C2E//b4ru5PPGIIvMEJq07N+TcbOzPiCqBv
+	2+FCjlTXvJvgLTMrJ1a42fwb0K7ws04z5o0Js82hRYwTk0Lw/ZUQ1E2U9c46QRC2WNk3Gtk3TQy
+	4z1fl7AWIGOGcixgAbLhtEW7alqU+AEbgiVuzCO
+X-Received: by 2002:a05:7022:150a:b0:144:eab0:9cbf with SMTP id a92af1059eb24-14f5c2ee28cmr294880c88.19.1790884450303;
+        Thu, 01 Oct 2026 12:54:10 -0700 (PDT)
+Received: from centrium.lab.ossystems ([177.22.171.68])
+        by smtp.gmail.com with ESMTPSA id a92af1059eb24-14f43eba13bsm768934c88.2.2026.10.01.12.54.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 08:10:46 -0700 (PDT)
-From: Jennifer Chukwu <jennifer.chukwu@amarulasolutions.com>
+        Thu, 01 Oct 2026 12:54:09 -0700 (PDT)
+From: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
 To: openembedded-core@lists.openembedded.org
-Cc: Jennifer Chukwu <jennifer.chukwu@amarulasolutions.com>
-Subject: [PATCH] acpica: upgrade 20260408 -> 20260930
-Date: Thu,  1 Oct 2026 17:10:29 +0200
-Message-ID: <20261001151029.3446046-1-jennifer.chukwu@amarulasolutions.com>
-X-Mailer: git-send-email 2.43.0
+Cc: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
+Subject: [PATCH] gstreamer1.0-python: Skip when GI data is not available
+Date: Thu,  1 Oct 2026 16:53:45 -0300
+Message-ID: <20261001195345.487817-1-luciano.dittgen@ossystems.com.br>
+X-Mailer: git-send-email 2.54.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 19:52:56 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247052
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 19:54:17 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247053
 
-release: Update version to 20260930
+python3-pygobject skips itself unless GI_DATA_ENABLED, which also needs
+qemu-usermode in MACHINE_FEATURES, so on e5500/e6500 machines world has
+no provider for this recipe's DEPENDS. Skip on the same condition.
+Checked with bitbake -k -S none world for an e5500 machine; task
+signatures are unchanged where GI data is available.
 
-Update license information. License information was duplicated in many sources files.
-It' s now available in two separate files in the sources.
-Intel License is no longer mentioned in the sources.
-
-Signed-off-by: Jennifer Chukwu <jennifer.chukwu@amarulasolutions.com>
+Signed-off-by: Luciano Dittgen <luciano.dittgen@ossystems.com.br>
 ---
- .../acpica/{acpica_20260408.bb => acpica_20260930.bb}     | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
- rename meta/recipes-extended/acpica/{acpica_20260408.bb => acpica_20260930.bb} (84%)
+ .../gstreamer/gstreamer1.0-python_1.28.7.bb              | 9 ++++++++-
+ 1 file changed, 8 insertions(+), 1 deletion(-)
 
-diff --git a/meta/recipes-extended/acpica/acpica_20260408.bb b/meta/recipes-extended/acpica/acpica_20260930.bb
-similarity index 84%
-rename from meta/recipes-extended/acpica/acpica_20260408.bb
-rename to meta/recipes-extended/acpica/acpica_20260930.bb
-index 1e6326720f..374f4ce3bc 100644
---- a/meta/recipes-extended/acpica/acpica_20260408.bb
-+++ b/meta/recipes-extended/acpica/acpica_20260930.bb
-@@ -9,15 +9,17 @@ ACPI tables."
- HOMEPAGE = "https://www.intel.com/content/www/us/en/developer/topic-technology/open/acpica/overview.html"
- SECTION = "console/tools"
+diff --git a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb
+index 1b17accd41..a33bc0f057 100644
+--- a/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb
++++ b/meta/recipes-multimedia/gstreamer/gstreamer1.0-python_1.28.7.bb
+@@ -23,8 +23,15 @@ EXTRA_OEMESON += "\
+     -Dlibpython-dir=${libdir} \
+ "
  
--LICENSE = "BSD-3-Clause OR GPL-2.0-only OR Intel"
--LIC_FILES_CHKSUM = "file://source/compiler/aslcompile.c;beginline=7;endline=150;md5=4877caee45a613e9706946c3205a6fb9"
-+LICENSE = "BSD-3-Clause OR GPL-2.0-only"
-+LIC_FILES_CHKSUM = "file://LICENSE.GPL-2.0-only;md5=570a9b3749dd0463a1778803b12a6dce \
-+		    file://LICENSE.BSD-3-Clause;md5=8896f63a9dcbf96114f60d32d38e9169 \
-+		    "
+-inherit meson pkgconfig setuptools3-base upstream-version-is-even features_check
++inherit meson pkgconfig setuptools3-base upstream-version-is-even features_check gobject-introspection-data
  
- COMPATIBLE_HOST = "(i.86|x86_64|arm|aarch64).*-linux"
+ FILES:${PN} += "${libdir}/gstreamer-1.0"
  
- DEPENDS = "m4-native flex-native bison-native"
- 
- SRC_URI = "git://github.com/acpica/acpica;protocol=https;branch=master;tag=${PV}"
--SRCREV = "232ff3f8ae1a4da11c709f61d9154482cfe8e6df"
-+SRCREV = "e85aa3bebaae81ed1e6d163511ac7e1eafe732cf"
- 
- inherit update-alternatives
- 
+ REQUIRED_DISTRO_FEATURES = "gobject-introspection-data"
++
++# python3-pygobject is skipped without GI data, which also depends on
++# qemu-usermode in MACHINE_FEATURES, so skip along with it.
++python() {
++    if not bb.utils.to_boolean(d.getVar("GI_DATA_ENABLED")):
++        raise bb.parse.SkipRecipe("GI not available")
++}
 -- 
-2.43.0
+2.54.0
 
 
