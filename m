@@ -1,235 +1,446 @@
-Return-Path: <debal.ghosh@intel.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD03ACA5FC5
-	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 07:46:13 +0000 (UTC)
-Received: from mgamail.intel.com (mgamail.intel.com [198.175.65.13])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6122.1790840772535602263
+	by smtp.lore.kernel.org (Postfix) with ESMTP id DC8F1CA5FC5
+	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 07:50:53 +0000 (UTC)
+Received: from DB3PR0202CU003.outbound.protection.outlook.com (DB3PR0202CU003.outbound.protection.outlook.com [52.101.84.5])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6175.1790841048643880662
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2026 00:46:12 -0700
+ Thu, 01 Oct 2026 00:50:49 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@intel.com header.s=Intel header.b=IfP0NDLh;
- spf=pass (domain: intel.com, ip: 198.175.65.13, mailfrom: debal.ghosh@intel.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple;
-  d=intel.com; i=@intel.com; q=dns/txt; s=Intel;
-  t=1790840772; x=1822376772;
-  h=from:to:subject:date:message-id:references:in-reply-to:
-   content-transfer-encoding:mime-version;
-  bh=tnWmKpWsgbP1RvPBdvA0gr0BNKV6i0SPoGDaeqeKp0A=;
-  b=IfP0NDLhDKl9voESAxZNFPCyA9h/hLAuVGeIDmPn6imM8wCJp276iHU3
-   C7bkXYt8xLEU822R40Y2tg7EJVBOwPCeU09jMXbPXrN38h+Qz3DLM1aIc
-   cfJ9srEXCyAWNyCSgEobWr9Ym08pVd3FP9ZsaZfExROCl2c/TwHr7jPRR
-   D0K2yYV/g3Ru5dsL/N9z+OyOo8frBFEcycborbmqi2ohUMLsIXI2seV4P
-   6bd3fRX5qS41eh/3XhLEXESN0x2z7uOwfQXU4kFTJVcDl9aZ/WqP9Lsi/
-   cTSUiCFUrPlEFDay0S8Z/l3Qo7TbBqCQjvR1Cz/R0+V3D7HK0SJMrqGJY
-   Q==;
-X-CSE-ConnectionGUID: MBJavs3VSE27kPUTdCFAQg==
-X-CSE-MsgGUID: IKgwqsTPSvWvYnATrW2R6g==
-X-IronPort-AV: E=McAfee;i="6800,10657,11921"; a="101750548"
-X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
-   d="scan'208";a="101750548"
-Received: from orviesa009.jf.intel.com ([10.64.159.149])
-  by orvoesa105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 00:46:12 -0700
-X-CSE-ConnectionGUID: P+wxXuBpR16IrtPK3VhYkQ==
-X-CSE-MsgGUID: VbcGtLeZT8Om966Fx4PK3A==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="6.27,134,1787036400"; 
-   d="scan'208";a="275963909"
-Received: from fmsmsx901.amr.corp.intel.com ([10.18.126.90])
-  by orviesa009.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2026 00:46:12 -0700
-Received: from FMSMSX902.amr.corp.intel.com (10.18.126.91) by
- fmsmsx901.amr.corp.intel.com (10.18.126.90) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 1 Oct 2026 00:46:11 -0700
-Received: from fmsedg901.ED.cps.intel.com (10.1.192.143) by
- FMSMSX902.amr.corp.intel.com (10.18.126.91) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49 via Frontend Transport; Thu, 1 Oct 2026 00:46:11 -0700
-Received: from SA9PR02CU001.outbound.protection.outlook.com (40.93.196.10) by
- edgegateway.intel.com (192.55.55.81) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.49; Thu, 1 Oct 2026 00:46:11 -0700
+ dkim=fail reason="dkim: body hash did not verify" header.i=@est.tech header.s=selector1 header.b=moxLh+Wy;
+ spf=pass (domain: est.tech, ip: 52.101.84.5, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=n5crw1yZwSd/zTxVuNcRUa//rCiXV/MDS/+Qru+7XB42X2jr1w7KL1B67OLA0NaFuu78ld3k6+xyQTYBbjH0ZmjBJINUJn3Hbej7tOL6F9s0cwRbBn1YVJ4kohBHyK8/IpbN21/JTPHH+dAh2nnR1Nm9vSLbK3qtRvTwKt6SpaEkKIcOlRCPIFvPDqfn1mVLtDMEi+ExhtpUPzT1MfaxilGA6h+cQyRCgmJMrAzRJ/0M9x0LYv+UVfJyNSncW1R+WxA8GPHkgx0r9sJzGG7LOS2XRsCL6AR3vewYP2OG6Ct6OTqTVUp02ozSuF7YiDZlvFebqgg9u9D5KfF1uu/TMg==
+ b=FQzjuiQ7kPe90LsIEmfEmetAiabxOMGbd2gaHqehcsj9J8+gLBAuqTVLTG5fxitstzLC1bTEHtGu3RU65mcqXAJhs0XNTvQAAnI1jOr/xwtVC8n4gvPLQa1gEIRoA+/c2HeKrzaYyv6ZMEHjyrp17TXy6295wpobD8VA+N7PMgUe43DH3Ep6WxL+UeCSlaeZcpepxISLuys/jNpknZ/NfD2u+PMY6f4+o4mCSDttemdk3zwygIVPhUwnfA6jM2QOvNApfDO5+DqTX8bFrhF0MaVgidaxgsk7pdNlVRS1Ve4ZlNN42fbdY+HutBDJYlqEF9z1hEAPMfmmSAJY6PWIAA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=5HcphjLsQet0OKdGGQ00bs7MYXWFzdzJdi+J9m288Cw=;
- b=WyBS0qRkHv4sc0ygs4/YW1KAvOR1JnHv7fQyd8Bddm1xg9Vu6mCOfSYJDKN+YCETv75OiW6SASPd8DN4q2p4grRGFDkE4bEeHC5ncoEd9W4Br/weur8QmY1Jnr9Tp1NTZthx3HDBfg2rAed6nOvOVuGtyGYO8p9zRlKYq5Qj6KEDQYRb+Ery1SqR8S8QF0b6iTyfZarQ2uee+/S2E6J9Uh9lqso5JL2uoUB/aU6fQchczKxNVb2QumMi7CObi3UEWKbPab+lVcv/wIb8uHG/CFyVV7hVfvwRsjeFpRGBSEGUWuGkEmymCgyqp3CJ+imVV1ZRDZEQp+ajnOUdHliWOQ==
+ bh=hjNKb2UOneL5fKtMlsuric+wZm0HSRdJPc46QckLre8=;
+ b=reJcK6eMmMGg+nQcd/7OzvvHwGKjZxLWL3lBQbcjV2EXV2oKy4r6vkOHJEUZ3HdaDH2CWKmxPLNRxtCjV3+orbkNkt0U/LnD/nj4CbLVFQx5Clnhh0WIhqbyKBmH4h2j7WH27GKZnkLhSNBiZQLzdezkpRXoB5XcvRbjRA6klcbdiTZWEt02VvF27xfbS0vERzx3b8CYMYYOfHefB2umX9yaaW6cD6CQwKoe6kh5hl6GA4LbVUO8wizi6ETZTU3mJVFbb5fIGhfpgCjJIZW2qp5+5bbVdCZ4ybjRar4Ou8m8z8kyVxgk1gUHXhUksP47H5IvsYk13Nth+kdu7N7E2w==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-Received: from SN7PR11MB7018.namprd11.prod.outlook.com (2603:10b6:806:2ad::14)
- by DSVPR11MB938433.namprd11.prod.outlook.com (2603:10b6:8:37a::11) with
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=hjNKb2UOneL5fKtMlsuric+wZm0HSRdJPc46QckLre8=;
+ b=moxLh+Wy70/3gIiSvmpKmNtyWARVOASueLLr/IqdMyN4h+732QOiiSj0y02IhMAZUgbDh4HV58sNTlXW1AjympjvVNsgMQxi6cz/qdVKNz2EQmAsaYTuSewJsmC+/B7Agx8uhiE16EaX6VAwSeFnIbdWkUdkJd6rhkKEGt9NOsUeWWPEMlvMvIaNJhdkPVE+zAzvjtXklhbSqKgQvj6Wmp6uoEc+zW2+aMFwWBFzp6CTUsJ8oEjasQKpJMdt7sr6Aq/PdrJyBWt5QOgoBzhNHs07b7aHtwtRTVOTfFUATPLwFqwwAzDFL+5w/k0I2Ccv0MN6O5ry2Ble5FtdjgltkQ==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by MIWP189MB305102.EURP189.PROD.OUTLOOK.COM (2603:10a6:290:d5::23) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.26; Thu, 1 Oct
- 2026 07:46:09 +0000
-Received: from SN7PR11MB7018.namprd11.prod.outlook.com
- ([fe80::bc48:bc16:39d:b43]) by SN7PR11MB7018.namprd11.prod.outlook.com
- ([fe80::bc48:bc16:39d:b43%2]) with mapi id 15.21.0451.026; Thu, 1 Oct 2026
- 07:46:09 +0000
-From: "Ghosh, Debal" <debal.ghosh@intel.com>
-To: "qa-build-notification@lists.yoctoproject.org"
-	<qa-build-notification@lists.yoctoproject.org>, Yocto-mailing-list
-	<yocto@lists.yoctoproject.org>, openembedded-core
-	<openembedded-core@lists.openembedded.org>, Pokybuild User
-	<pokybuild@yoctoproject.org>
-Subject: RE: [qa-build-notification] QA notification for completed autobuilder
- build (yocto-6.1.rc2)
-Thread-Topic: [qa-build-notification] QA notification for completed
- autobuilder build (yocto-6.1.rc2)
-Thread-Index: AQHdULbozLBli/so80OJ2k4SBzXywLboTqVg
-Date: Thu, 1 Oct 2026 07:46:09 +0000
-Message-ID: <SN7PR11MB70183FA6CDBF2C483F424013F48A2@SN7PR11MB7018.namprd11.prod.outlook.com>
-References: <010101a0f175ca54-53721ace-bf65-423f-80a1-d3571be35508-000000@us-west-2.amazonses.com>
-In-Reply-To: <010101a0f175ca54-53721ace-bf65-423f-80a1-d3571be35508-000000@us-west-2.amazonses.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-authentication-results: mx.microsoft.com 1; dkim=none (message not signed)
- header.d=none;dmarc=none action=none header.from=intel.com;
-x-ms-publictraffictype: Email
-x-ms-traffictypediagnostic: SN7PR11MB7018:EE_|DSVPR11MB938433:EE_
-x-ms-office365-filtering-correlation-id: c8207881-b51b-4ef9-17df-08df1f900ec7
-x-ms-exchange-senderadcheck: 1
-x-ms-exchange-antispam-relay: 0
-x-microsoft-antispam: BCL:0;ARA:13230040|376014|1800799024|23010399003|366016|4022899009|38070700021|260925022911599003|260925021911599003|260925021311599003|11063799006|56012099006|10067099003|22082099003|18002099003|6133799003;
-x-microsoft-antispam-message-info: 7N3ZnleNTkR6C6ibqUdpjii4WbysSjDrsaYn8embV5y+m3h8xNuuxWA+6G0U4snBecw2q5GzjEgeMED69vw0bAORqYLRqLcDkZ+XmQOnKzshAGBVZnXQPdUsRM5ikYM5QZbDWGIM8oHioI1+8OmR8rR8Il3B8o8r50VccI8MCsWr80TqvTcoGSUB/OgYgDiZhCDz5BRkmqC8SBKjeLYTnU8FoMmBG1U7leRdu5Pw3ocqKcBHrLpTpo7h4BHXBWrZOZgEoFOFROhyMcywbpzWyVP/cHHjVnCc+0ND/ylNphHLCo1sN0+q0bHKN0I3VSt8M6oVhj3l5f5dxIQaYNV7eFntwp4ID2rz1Rd8PWic+6HKmOm6LQ4MkZqcDCqLsmoWAR9fix+enB03rTu8wIOPGjICihYH3MgafIeH9ZCgIFGEjHNwEervdwooCTpJJLFJGYUiKnP7tMZ07/nRIEQInjpmJ8KpXjKoYcmxoDFBREQ8RvZMPLEJFQP6lYBezZhilX95iFEb0Wtor6AtiF1hI7+b0oetFJUMJhE39PfejiamteYD4UAAIJssjByP6oFLdMvuZKeSk5oRD6BGs7F2snEn4Iy1FhWYXN0H0whbdIAXLtrCc98wxcBS/wAo7gbQSJCtDjlUUoXZ2gnJK2ceyKvD/eR14slvMwjhBjloj7s=
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:SN7PR11MB7018.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(13230040)(376014)(1800799024)(23010399003)(366016)(4022899009)(38070700021)(260925022911599003)(260925021911599003)(260925021311599003)(11063799006)(56012099006)(10067099003)(22082099003)(18002099003)(6133799003);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata-chunkcount: 1
-x-ms-exchange-antispam-messagedata-0: =?us-ascii?Q?8Sck2+KY6lYJCgQLmMxjJuhiMgYL4DJsDykfUWYNuhcmm5j3Z5Fv2BUwudQn?=
- =?us-ascii?Q?L4xGjX1m/80EfXstdOosjiDZB5zP6h6jVJ7cZ053a0jYDMXbJ8AsfRhpsEWj?=
- =?us-ascii?Q?Gz4wSSp8ryf1PwNGliuOGIRQqFq6Nok/nEUOz63Vwi3zH0E4m9zIqD5dk8ve?=
- =?us-ascii?Q?39hEzFsGBupOjMqxrZ5SuEasocAmJHGUBrKIzhRhPNT0cUxHhM3pAqeAfTLL?=
- =?us-ascii?Q?1aOJjoxp5qSJSghjKqhbV7+wH4MhXVBbM5d9qwmHBFzZVdcs4gsgsW2JhfyA?=
- =?us-ascii?Q?T90pIMesu5okXYI9Ul2L/V+5H8poZD/f6G/QgmYmAg1zoLsCna1kyoPHTWWl?=
- =?us-ascii?Q?8gZJuhj7NQMf55CO5TSwq9UCXy4J7HkLV4ivQFob0tPr66B54xQ7eH3gdwfe?=
- =?us-ascii?Q?U/kh0B+2dpfDtgGEMx2RnPNnUc1Vgil/3q3B4rppjeDYjoYJ7rqZ3yY01bQT?=
- =?us-ascii?Q?8f7cPeMvzqFocntEmOowDTD+rcmo8TOPO3l6LlfSq17Ev3DWtg8VqKrnt5Mb?=
- =?us-ascii?Q?0vcHJThksu5ZCF2sajXxpkqoUF5NTVN/faVXegvk6NrtYZ9+BK82vHukAquQ?=
- =?us-ascii?Q?vVlL0wCxS/xIJ3iy6L6TVyd4TavYu9tNMyLuWztzxFnPizhtS2KKv9HWDcFv?=
- =?us-ascii?Q?TPJyBRkbcB26zBix1igCzY5iQuv91lT5/vKfcJsd8ljm5eBi1bjdqnxBX3iw?=
- =?us-ascii?Q?cYF7foKzBLKVVzwpHPqHE+SViTm9CEHY0sZhsSjQlUPJa5PdERTs7EtPZ+DG?=
- =?us-ascii?Q?PEnobg3kYe1CLIjsEmDlN9fY8sU6HH8ONslD3s1gEJutM3sd1ebTeEFjXC9C?=
- =?us-ascii?Q?/KCbcCu50vUYvhUgeppUilDWN28qKUjTg4lnI/cM9L1Z3Js7dzUSTdUyPESZ?=
- =?us-ascii?Q?An4caXsRWGodeMaG+uiv8ojYdITsDYAWGcffRXIT03fyPlNTwWtKtvdq3g2Q?=
- =?us-ascii?Q?KreMvDdnsOYNSDwKpHXviD+bLwDK2D5pNeQ74eFmh7nd7/vjJp7hU6i4RSUe?=
- =?us-ascii?Q?cAfXv72qAAJkCkZmcCYu3bVvnQrZnNu4O65XivIDCk4ZsdLyhFwmWhkJeCHR?=
- =?us-ascii?Q?/J4mBkieUbekvBMsjpHk2NgMqMXDDuZAD5p2vbyuqm8lm/odlkqYwsLJs5U7?=
- =?us-ascii?Q?YHU38XQ8C1cqYx88xC1aPzsMeL7IewJZ16uvZcbPDNUJeHKW7K8O2iWl3K8A?=
- =?us-ascii?Q?hxfnxm22ZSFoV5hX+v5Cf0rTruZV5T+33Q9V1VveXUF5SHEXAnFCGxPWTdkd?=
- =?us-ascii?Q?8kDpjwcRlOcnqjQ4BGPWt8sIyWMmFsf4jijFOpzlvgvcCqvltZ09WoZVI9yV?=
- =?us-ascii?Q?8K15LfO96MdxxCpsWKtQPRFGtb60/EzNf/FveSqYLEOfzICEWKzgK/R6WJa3?=
- =?us-ascii?Q?y3rXwm/17yYn8g1PyKmGL3qutjVLZ9oKQiqFlNzJ+LnHDOUwbANmTmoDqolu?=
- =?us-ascii?Q?OgOOnt6NomWMXD7v6xe7JrAP9+s37Al85pQ0wUGzqJdKOK/rhETRbYg2sZhu?=
- =?us-ascii?Q?+sqz+lCACCLOM1Phb1Q1qR//pGO34BQu6HTmUbe0sgmfY7iJ16uXOUThJWkJ?=
- =?us-ascii?Q?5WXQp72BHv66jdJWAy22CVjbZ5FX4YYoH6i+0q9Dr7ogiLO9gw8/U+rXfa67?=
- =?us-ascii?Q?THob1DMhq2yw2NDS114gy79Aq8C2ksVnXHK0KWcr3Hxt9lDGPHpJgsqfsXgx?=
- =?us-ascii?Q?W8r3pzAq5plGQXMW4g5hHndscaP//2AV8XHSnCqpsnjKZSEv?=
-Content-Type: text/plain; charset="us-ascii"
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Thu, 1 Oct
+ 2026 07:50:43 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0472.015; Thu, 1 Oct 2026
+ 07:50:41 +0000
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH v3] systemd: Upgrade 261.3 -> 262
+Date: Thu,  1 Oct 2026 09:50:39 +0200
+Message-ID: <20261001075039.4339-1-jaipaul.cheernam@est.tech>
+X-Mailer: git-send-email 2.39.5 (Apple Git-154)
+In-Reply-To: <20260928113956.42485-2-jaipaul.cheernam@est.tech>
+References: <20260928113956.42485-2-jaipaul.cheernam@est.tech>
 Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: LO4P123CA0469.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:1a8::6) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
-X-Exchange-RoutingPolicyChecked: vuK3NomllRlLH/Eyh+jomSh8vLh6Tpv/40yplgQ1PKas3ixx7F/lyCBigDax4aMnqsyCPfHxXQ+htw5JPOeEKoLnNo5paISn/m3/retDkFfuC+ij3ICsq0TgO0Q/+wVXZ0zQBkR8t8DLHK3h25a3ohnMClnHB2Lm8g66DDCEL9P16uxPIVpeSrVkYIvyKVreszbuzFq89RGcFclza4FLA8KKnUH696/+G8JjGNRoprTE5H/N5pF+m1s9YTOl7clJ+HpvU7hm+/kDwsaRbLfPTl+ton/9P9ablfBCut8QTwqZMSJT6vQ445zGvHNlnltNyL6kmrR2ctdZTtTjCyYQlg==
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|MIWP189MB305102:EE_
+X-MS-Office365-Filtering-Correlation-Id: bebeae19-10f5-4eb2-e247-08df1f90b0bf
+X-MS-Exchange-SenderADCheck: 1
+X-MS-Exchange-AntiSpam-Relay: 0
+X-Microsoft-Antispam: 
+	BCL:0;ARA:13230040|23010399003|1800799024|366016|376014|260925021911599003|260925021311599003|260925022911599003|10067099003|56012099006|6133799003|3023799007|11063799006|22082099003|18002099003|13003099007;
+X-Microsoft-Antispam-Message-Info: 
+	v23e+nefm6lQQyauunlpAawllgAGngekka98prlFc9UPDx2DvF4czrTJ1Q5xFCNWPg7XF+9QsSKfNVChZqW8Cilz0E9vEbKxr6yudJmFJku8/hysFczGEgWabnOzTTxyQOds9M2yfrDnv6M9tuVz2HY+HB0AS6EH8gycRXNeOLlx+pcA1pwMchUuzIvThBJlFnozlkbwzmESK1rzt4JnPzJV+qS98jDkeP8VaHieLOAYjdY1wAnzgsRj+pYVnqPPg0IbHEjPLTWE2lPDS/8/cYdC2tY8P/T6oCNITkp5bPC0KDDYkiF6zfvb03f/iL9R0LWBnC0vSiqVETr96epZuEcYC8YrVGDnhvxInN+xTBFwmqLl2ZEPhIPqPgPY7cCGlTEy19GmEGzrduwkDzcAc853G0nrvdnLkRSY+VU1dzKrMKiUJDx8FLpafuiPAskCepCqKLRWfCXu3aoUIdkT+F/MKmbckA6CbvJcb1/TCsbyf3GnTt4PkPp5+1q8iirSw7S4Fn9/J/VmO6oX7hntwaWk/AqLi6q1e7Y2lM28myr1CtX5o7+YWETzIT3rmGR1bcfyYSF9jME4pnXZSMQ3vu7L/EyiyPJuaB/JEF6DjNKxCpRP08u8PVLV7+74K5xf
+X-Forefront-Antispam-Report: 
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(366016)(376014)(260925021911599003)(260925021311599003)(260925022911599003)(10067099003)(56012099006)(6133799003)(3023799007)(11063799006)(22082099003)(18002099003)(13003099007);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
+X-MS-Exchange-AntiSpam-MessageData-0: 
+	=?us-ascii?Q?1YuqFetGn8D/yJS5HqueI2Lh8qHE+nVvnJYg3Q85PCCuINzCewfLsxxshAnN?=
+ =?us-ascii?Q?yT7l1NlqciA8p1/rZKiuAAEH7batr8a6qAglo8F8nreXqGCC5vOzN50ggrVQ?=
+ =?us-ascii?Q?oaWlJxxDleU0qjtvKFh/nEcdvcvv0eD1RDFinDvf9D9BukoMENbGhDuGvNlt?=
+ =?us-ascii?Q?x0lm7xkbWaCy9qneGHxfJqGofrXt0DDb4lm7F+KP46QYhWtDyt4E7KuMxKhg?=
+ =?us-ascii?Q?8eBrSIpI8qn6RAtWQaIDHEay5dpY9pyXEwUR8sTQMjajpKnsziHPpZRJqt7W?=
+ =?us-ascii?Q?2XDrnfUxiIvF8m3tkjuxCuGW4IvX2I6hEPrsVmwAnuNAOfg9yickm0iE80OY?=
+ =?us-ascii?Q?RbNO1DJ1r7jW1gM5e/acV51BqGHQ7ujaG6mfg9GenOF97TDjVzaRLz289PoB?=
+ =?us-ascii?Q?5ltwCUJIvpbEjoqR+sjXvUK4lzj7kILUJ5ctIhNhTDFuG62H2K9e2wdkr+1I?=
+ =?us-ascii?Q?pmzofmV/vjlbnH+SuqS8Ccx364MJzKmrHdIdwHLTlhTSOaTWfCBYgIDXFZJ8?=
+ =?us-ascii?Q?urPXHwqaLw3Azn7qhVhYv0XlE2JoKLNUj1Qg99pSbHgDX2vE/XKqTDsjDivo?=
+ =?us-ascii?Q?9OH0fZjBWjOsiYQK3z1/Cl3+xNZH00JwyNkiE/k5RHOKoSVt/Exlzt4FckGQ?=
+ =?us-ascii?Q?Rn1M0I79aShyU9JnaYK6ZNiQ8ybnmx5wNmdKY4e/eAkUOdt4h4kPEMRFTHTE?=
+ =?us-ascii?Q?bOTm7gR/g6PnLCVbufkX11wJp7/i6eny1V/n0FObKhXNS5ljrBwKkiROVADo?=
+ =?us-ascii?Q?JbY1SxZnYRccY1Oyd+BB41RUbGTsthj4auwof1Rorhgvp98HgsM5MoAv/dec?=
+ =?us-ascii?Q?3Mo2hnjtzuczmsubJc3rXy5tE88yK2tP2KCiEEo/dD0avrC9fX+f/tWpLY0d?=
+ =?us-ascii?Q?NdzF8SkEEMfAFrYlH+BbEkfMs2M44/iYXtegePhZKFrtM2OJEFcD3icOu8fe?=
+ =?us-ascii?Q?FCSZsLNPIgCvTU/3B0NZfKJvHJw38IXOVPydUVcCGr1gdIA+e5I7tBObxaUl?=
+ =?us-ascii?Q?tqM52pQMZtyClxplHOL/86oucqS157FBoOGbLSJExGZXDVmtqwSlf0UKZH66?=
+ =?us-ascii?Q?BbnSK46+t/IdLqoLQC3heZX90aW+zge3OQJ1XDEeYsfnnhBoP4VLiGVOm0Sg?=
+ =?us-ascii?Q?bt+d1c3YdROfwabbLsYLxYqDgLHWfUhpK+BEuYGvTPhW+RUOO+PMnWjhfJem?=
+ =?us-ascii?Q?0V7pOjjd4EI/9i8R0EXrRAm2KK9Zmfaej4mDFCPYw0pMnZTlnDpPvneT9FKE?=
+ =?us-ascii?Q?80pjUSrvTkDznUgqctIYjdaneixIeidU+ZKI7RXZqJcbIxBHW+Mvm2g6C44K?=
+ =?us-ascii?Q?949GdGz9sppnlXMhjyVAle2phT1oHrcURrD/F6K/DRNM2M0pob5nRtueXfpk?=
+ =?us-ascii?Q?9ADPVyMmtGraP+CJDikJO98+CgvJWYUPMTOKt1oXzwPLsI9ehZAn4HvmA0WF?=
+ =?us-ascii?Q?bRXlVPZJ8daY1A9gEESx2T77dBbVGKNKyHOv8BXFlmIa/hrH+4+0yqb2RwzA?=
+ =?us-ascii?Q?Tg/C1j4LchIfTf/e/kLMdu0v3i6TZoDAQ8/rJ0gb5xRhZxal+nHqbIfeD9g3?=
+ =?us-ascii?Q?e3BBhTS0VjbHYhuSPU4noAzajOWo00lPTn/sEiZv47cpyKDGZnStC8ezWIIt?=
+ =?us-ascii?Q?Kl0lwpa0UuX4O9atgrdzH6nKFDbWAuTUf1bwYaFdLd5nfGkNXBuai01RN9JI?=
+ =?us-ascii?Q?Me5uWGJBlQKi1OVjJSXzz+nUvhiP5fsDf97frK9k9qXcDPVj4HAYz7ykB1uU?=
+ =?us-ascii?Q?83NLSrQ37w=3D=3D?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: bebeae19-10f5-4eb2-e247-08df1f90b0bf
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: SN7PR11MB7018.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: c8207881-b51b-4ef9-17df-08df1f900ec7
-X-MS-Exchange-CrossTenant-originalarrivaltime: 01 Oct 2026 07:46:09.3426
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 01 Oct 2026 07:50:41.2495
  (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: jQWTw5bdo9OhiQO5tu4Ntwp7y0Xe2lhAEfhaUqPX0vry4KDsggXathU9srxOXg8AIBTDkKdSMEpMY/GDi8ivCA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DSVPR11MB938433
-X-OriginatorOrg: intel.com
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: N6ipo04vByw8c4li2fbJV/3WAhU047Ak48BBSaHeN2BuzIpyA/u4mJqZkIZriG/h593tSOD3Fxd95SnEJJnmyN3x29Qe0R0ATs4PCtVfI4Q=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MIWP189MB305102
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 07:46:13 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247014
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 07:50:53 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247015
 
-Hi all,
+NEWS: https://github.com/systemd/systemd/blob/v262-stable/NEWS#L3-L877
 
-Intel YP QA is planning for QA execution for YP build yocto-6.1.rc2. We are=
- planning to execute the following tests for this cycle:
+- Refresh patches for v262
+- Drop deprecated meson build options [1]
+- Drop 0001-include-fix-limits.h-override.patch [2]
+- Add rules: install 60-persistent-media-controller.rules [3]
+- Gate systemd-coredumpd.service on kernel >=3D 6.19
 
-OEQA-manual tests for following module:
+  262's systemd-coredumpd.service needs PIDFD_INFO_COREDUMP_SIGNAL (Linux
+  6.19); on older kernels its ExecCondition fails and the unit flaps into
+  start-limit-hit, failing test_systemd_failed on qemu*-alt (6.18). Add a
+  ConditionKernelVersion=3D>=3D6.19 drop-in so it is skipped on 6.18 and ac=
+tive
+  on 7.2. Upstream report: [4]
 
-OE-Core
-BSP-hw
+[1] https://github.com/systemd/systemd/blob/v262-stable/NEWS#L41
+[2] https://github.com/systemd/systemd/commit/6a131b32e0fe948e845ae4bf41f8f=
+ed003ec30ce
+[3] https://github.com/systemd/systemd/commit/d153b49473
+[4] https://github.com/systemd/systemd/issues/43963
 
-Runtime auto test for following platforms:
+Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+---
+Changes since v2:
+   - Add conditional kernel version for systemd-coredumpd.service
 
-1. Alder Lake-S
-2. Meteor Lake-P
-3. Raptor Lake
-4. Bartlett lake-S
-5. Amston lake
-6. Twin lake
+Changes since v1:
+   - Drop 0001-include-fix-limits.h-override.patch
 
-ETA for completion: 05/10/2026.
+ ...ve_261.3.bb =3D> systemd-boot-native_262.bb} |  0
+ ...temd-boot_261.3.bb =3D> systemd-boot_262.bb} |  0
+ ...e_261.3.bb =3D> systemd-tools-native_262.bb} |  3 -
+ meta/recipes-core/systemd/systemd.inc         |  4 +-
+ ...tall-dependency-links-at-install-tim.patch |  8 +-
+ .../0001-include-fix-limits.h-override.patch  | 74 -------------------
+ .../0003-Do-not-create-var-log-README.patch   |  2 +-
+ .../systemd/coredumpd-kernel-version.conf     | 14 ++++
+ .../{systemd_261.3.bb =3D> systemd_262.bb}      | 13 +++-
+ 9 files changed, 32 insertions(+), 86 deletions(-)
+ rename meta/recipes-core/systemd/{systemd-boot-native_261.3.bb =3D> system=
+d-boot-native_262.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-boot_261.3.bb =3D> systemd-boot_=
+262.bb} (100%)
+ rename meta/recipes-core/systemd/{systemd-tools-native_261.3.bb =3D> syste=
+md-tools-native_262.bb} (93%)
+ delete mode 100644 meta/recipes-core/systemd/systemd/0001-include-fix-limi=
+ts.h-override.patch
+ create mode 100644 meta/recipes-core/systemd/systemd/coredumpd-kernel-vers=
+ion.conf
+ rename meta/recipes-core/systemd/{systemd_261.3.bb =3D> systemd_262.bb} (9=
+8%)
 
-Best regards,
-Debal Ghosh
-
------Original Message-----
-From: qa-build-notification@lists.yoctoproject.org <qa-build-notification@l=
-ists.yoctoproject.org> On Behalf Of Pokybuild User via lists.yoctoproject.o=
-rg
-Sent: 30 September 2026 14:07
-To: yocto@lists.yoctoproject.org
-Cc: qa-build-notification@lists.yoctoproject.org
-Subject: [qa-build-notification] QA notification for completed autobuilder =
-build (yocto-6.1.rc2)
-
-
-    A build flagged for QA (yocto-6.1.rc2) was completed on the autobuilder=
- and is available at:
-
-
-        https://valkyrie.yocto.io/pub/releases/yocto-6.1.rc2
-
-
-    Build URL: https://autobuilder.yoctoproject.org/valkyrie/#/builders/29/=
-builds/4836
-
-    Build hash information:=20
-
-    bitbake: 634f8dede6b9d71b5a6691499fd05a8678b46eae
-meta-agl: c36f0e0bbed6000f28cfd10417c280c9fdca37cd
-meta-arm: 02a2fa96623cf2559580d9695cdd57528503788d
-meta-aws: 815c340ce256d0935281e07f0c4162d92fe5a6d6
-meta-clang: a2c51ce7e4b582a358b707e5c144c05690d2cf71
-meta-intel: 8877caca6b1fe6efe33c756698ce6ecdcaea2238
-meta-mingw: 2697806adf824708e86d57ad68e0978a0af812fb
-meta-openembedded: 4ec8afbfcf4ce50d8a5273065214c9a8d5eca27a
-meta-qcom: d4cccd3c7729250d69cdb2318e2df26635d9c630
-meta-virtualization: 847867aa6be383eb2fe745aa3b74a432b81ecec4
-meta-yocto: 43946d08974e61361f6313ae348c5d87c12be934
-mixin-wrynose-linux-firmware: 71dfb81bd98f59ca2127d39b100ecbb8ce1e0ba3
-oecore: 419c1b0f1ed0e3ce22b1022061f763d007883121
-yocto-docs: f26faba8568a3c8fc81d81d3650cc419847a4e17
-
-
-   =20
-This is an automated message from the Yocto Project Autobuilder
-Git: git://git.yoctoproject.org/yocto-autobuilder2
-Email: richard.purdie@linuxfoundation.org
-
-
-    =20
-
-
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-Links: You receive all messages sent to this group.
-View/Reply Online (#751): https://lists.yoctoproject.org/g/qa-build-notific=
-ation/message/751
-Mute This Topic: https://lists.yoctoproject.org/mt/121505173/9976127
-Group Owner: qa-build-notification+owner@lists.yoctoproject.org
-Unsubscribe: https://lists.yoctoproject.org/g/qa-build-notification/leave/1=
-4426999/9976127/44033455/xyzzy [debal.ghosh@intel.com]
--=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-=3D-
-
-
+diff --git a/meta/recipes-core/systemd/systemd-boot-native_261.3.bb b/meta/=
+recipes-core/systemd/systemd-boot-native_262.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot-native_261.3.bb
+rename to meta/recipes-core/systemd/systemd-boot-native_262.bb
+diff --git a/meta/recipes-core/systemd/systemd-boot_261.3.bb b/meta/recipes=
+-core/systemd/systemd-boot_262.bb
+similarity index 100%
+rename from meta/recipes-core/systemd/systemd-boot_261.3.bb
+rename to meta/recipes-core/systemd/systemd-boot_262.bb
+diff --git a/meta/recipes-core/systemd/systemd-tools-native_261.3.bb b/meta=
+/recipes-core/systemd/systemd-tools-native_262.bb
+similarity index 93%
+rename from meta/recipes-core/systemd/systemd-tools-native_261.3.bb
+rename to meta/recipes-core/systemd/systemd-tools-native_262.bb
+index bffaf5a2f08..359bc972ccf 100644
+--- a/meta/recipes-core/systemd/systemd-tools-native_261.3.bb
++++ b/meta/recipes-core/systemd/systemd-tools-native_262.bb
+@@ -18,9 +18,6 @@ EXTRA_OEMESON +=3D "--auto-features disabled"
+ # Link the binaries statically as we don't install libsystemd-shared.so
+ EXTRA_OEMESON +=3D "-Dlink-systemctl-shared=3Dfalse -Dlink-udev-shared=3Df=
+alse"
+=20
+-# Ensure unused build paths are not in the binary
+-EXTRA_OEMESON +=3D "-Dsysvinit-path=3D -Dsysvrcnd-path=3D"
+-
+ # Target-absolute paths that satisfy both tools from one meson configure:
+ #  - systemd-hwdb needs prefix=3D/usr so the compiled-in UDEVLIBEXECDIR
+ #    (/usr/lib/udev) matches the target rootfs layout, letting
+diff --git a/meta/recipes-core/systemd/systemd.inc b/meta/recipes-core/syst=
+emd/systemd.inc
+index 3ee898958fd..5ea45a78b2d 100644
+--- a/meta/recipes-core/systemd/systemd.inc
++++ b/meta/recipes-core/systemd/systemd.inc
+@@ -15,8 +15,8 @@ LICENSE:libsystemd =3D "LGPL-2.1-or-later"
+ LIC_FILES_CHKSUM =3D "file://LICENSE.GPL2;md5=3Dc09786363500a9acc29b147e6e=
+72d2c6 \
+                     file://LICENSE.LGPL2.1;md5=3Dbe0aaf4a380f73f7e00b420a0=
+07368f2"
+=20
+-SRCREV =3D "3255daee1572366b74fe92f002a3d60ecbb27103"
+-SRCBRANCH =3D "v261-stable"
++SRCREV =3D "8cc40e0c5e9234bf45084751ac53b1fbfe70b492"
++SRCBRANCH =3D "v262-stable"
+ SRC_URI =3D "git://github.com/systemd/systemd.git;protocol=3Dhttps;branch=
+=3D${SRCBRANCH};tag=3Dv${PV}"
+=20
+ CVE_PRODUCT =3D "systemd"
+diff --git a/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-de=
+pendency-links-at-install-tim.patch b/meta/recipes-core/systemd/systemd/000=
+1-binfmt-Don-t-install-dependency-links-at-install-tim.patch
+index b83803aa08e..0b9eb4ac3cc 100644
+--- a/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependenc=
+y-links-at-install-tim.patch
++++ b/meta/recipes-core/systemd/systemd/0001-binfmt-Don-t-install-dependenc=
+y-links-at-install-tim.patch
+@@ -1,4 +1,4 @@
+-From 451af4755f0c1da552498682d910f4f4c5209639 Mon Sep 17 00:00:00 2001
++From 4793a67d3d738520f0193a9edff491989e8d77bc Mon Sep 17 00:00:00 2001
+ From: Chen Qi <Qi.Chen@windriver.com>
+ Date: Thu, 21 Feb 2019 16:23:24 +0800
+ Subject: [PATCH] binfmt: Don't install dependency links at install time fo=
+r
+@@ -25,10 +25,10 @@ Signed-off-by: Scott Murray <scott.murray@konsulko.com>
+  3 files changed, 7 insertions(+), 2 deletions(-)
+=20
+ diff --git a/units/meson.build b/units/meson.build
+-index 27d8ef2f72..864caa44bb 100644
++index 9f8f8d0e41..9a74236690 100644
+ --- a/units/meson.build
+ +++ b/units/meson.build
+-@@ -168,7 +168,6 @@ units =3D [
++@@ -172,7 +172,6 @@ units =3D [
+          {
+            'file' : 'proc-sys-fs-binfmt_misc.automount',
+            'conditions' : ['ENABLE_BINFMT'],
+@@ -36,7 +36,7 @@ index 27d8ef2f72..864caa44bb 100644
+          },
+          {
+            'file' : 'proc-sys-fs-binfmt_misc.mount',
+-@@ -279,7 +278,6 @@ units =3D [
++@@ -283,7 +282,6 @@ units =3D [
+          {
+            'file' : 'systemd-binfmt.service.in',
+            'conditions' : ['ENABLE_BINFMT'],
+diff --git a/meta/recipes-core/systemd/systemd/0001-include-fix-limits.h-ov=
+erride.patch b/meta/recipes-core/systemd/systemd/0001-include-fix-limits.h-=
+override.patch
+deleted file mode 100644
+index d11a5fe3f82..00000000000
+--- a/meta/recipes-core/systemd/systemd/0001-include-fix-limits.h-override.=
+patch
++++ /dev/null
+@@ -1,74 +0,0 @@
+-From 6a131b32e0fe948e845ae4bf41f8fed003ec30ce Mon Sep 17 00:00:00 2001
+-From: Yu Watanabe <watanabe.yu+github@gmail.com>
+-Date: Tue, 22 Sep 2026 01:55:01 +0900
+-Subject: [PATCH] include: fix limits.h override
+-
+-This is especially necessary since GCC 16.x.
+-
+-=3D=3D=3D=3D=3D
+-$ gcc --version
+-gcc (GCC) 16.2.1 20260819 (Red Hat 16.2.1-2)
+-Copyright (C) 2026 Free Software Foundation, Inc.
+-This is free software; see the source for copying conditions.  There is NO
+-warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE=
+.
+-=3D=3D=3D=3D=3D
+-
+-Without this change, /usr/include/limits.h is not included, hence POSIX
+-constants are not defined:
+-=3D=3D=3D=3D=3D
+-$ echo '#include <limits.h>' | gcc -E -H -isystem ~/git/systemd/src/includ=
+e/musl - 2>&1 >/dev/null | grep '^\..*limit'
+-. /home/watanabe/git/systemd/src/include/musl/limits.h
+-.. /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h
+-... /usr/lib/gcc/x86_64-redhat-linux/16/include/syslimits.h
+-=3D=3D=3D=3D=3D
+-
+-With this change, /usr/include/limits.h is included, thus POSIX
+-constants are defined:
+-=3D=3D=3D=3D=3D
+-$ echo '#include <limits.h>' | gcc -E -H -isystem ~/git/systemd/src/includ=
+e/musl - 2>&1 >/dev/null | grep '^\..*limit'
+-. /home/watanabe/git/systemd/src/include/musl/limits.h
+-.. /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h
+-... /usr/include/limits.h
+-...... /usr/include/linux/limits.h
+-.. /usr/lib/gcc/x86_64-redhat-linux/16/include/limits.h
+-=3D=3D=3D=3D=3D
+-
+-Replaces #43824.
+-
+-Upstream-Status: Backport [https://github.com/systemd/systemd/pull/43831]
+-Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+----
+- src/include/musl/limits.h | 20 ++++++++++++++++++++
+- 1 file changed, 20 insertions(+)
+-
+-diff --git a/src/include/musl/limits.h b/src/include/musl/limits.h
+-index 9620a3b0ac..bcc585be2c 100644
+---- a/src/include/musl/limits.h
+-+++ b/src/include/musl/limits.h
+-@@ -1,6 +1,26 @@
+- /* SPDX-License-Identifier: LGPL-2.1-or-later */
+- #pragma once
+-=20
+-+/* GCC introduces a spurious, tricky inclusion cycle:
+-+ *    GCC's limits.h
+-+ *      -> GCC's syslimits.h
+-+ *         -> GCC's limits.h (again!!!)
+-+ *            -> glibc/musl's limits.h
+-+ *               -> define POSIX defines
+-+ *      -> define ISO C defines
+-+ * This works only when GCC's limits.h is included first, but a user over=
+ride breaks the cycle. Hence, we
+-+ * need to manually achieve the cycle here. If GCC is not used (e.g., Cla=
+ng), then including the compiler's
+-+ * limits.h twice should be redundant but harmless. */
+-+
+-+/* First, get the POSIX defines from glibc/musl's limits.h. When the two =
+macros below are defined, GCC's
+-+ * limits.h includes the next limits.h, that is, one from glibc/musl. */
+-+#define _GCC_LIMITS_H_
+-+#define _GCC_NEXT_LIMITS_H
+-+#include_next <limits.h>        /* IWYU pragma: export */
+-+#undef _GCC_NEXT_LIMITS_H
+-+#undef _GCC_LIMITS_H_
+-+
+-+/* Next, get the ISO C defines from GCC's limits.h. */
+- #include_next <limits.h>        /* IWYU pragma: export */
+-=20
+- #include <assert.h>
+diff --git a/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-R=
+EADME.patch b/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-=
+README.patch
+index 175ec7955bd..c64bfa82491 100644
+--- a/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-README.p=
+atch
++++ b/meta/recipes-core/systemd/systemd/0003-Do-not-create-var-log-README.p=
+atch
+@@ -1,4 +1,4 @@
+-From 0d4a5976056387ff3801fdb7f53e6d0760df0475 Mon Sep 17 00:00:00 2001
++From e36f6fc852f8331791f391a216885b9bea543aff Mon Sep 17 00:00:00 2001
+ From: Peter Kjellerstedt <pkj@axis.com>
+ Date: Tue, 21 Jan 2025 05:02:00 +0100
+ Subject: [PATCH] Do not create /var/log/README
+diff --git a/meta/recipes-core/systemd/systemd/coredumpd-kernel-version.con=
+f b/meta/recipes-core/systemd/systemd/coredumpd-kernel-version.conf
+new file mode 100644
+index 00000000000..dcc23825f42
+--- /dev/null
++++ b/meta/recipes-core/systemd/systemd/coredumpd-kernel-version.conf
+@@ -0,0 +1,14 @@
++# systemd 262's kernel coredump socket manager (systemd-coredumpd.service)
++# requires the PIDFD_INFO_COREDUMP_SIGNAL pidfd flag, added in Linux 6.19
++# (PIDFD_INFO_COREDUMP itself is from 6.16). Its ExecCondition
++# (systemd-coredump --check-requirements) fails on older kernels, and comb=
+ined
++# with Restart=3Don-failure and the Upholds=3D relationship the unit flaps=
+ into
++# start-limit-hit instead of being skipped, which fails the systemd runtim=
+e
++# tests. OE-Core ships both linux-yocto 6.18 (< 6.19) and 7.2 (>=3D 6.19),=
+ so
++# gate activation on the kernel version at runtime: this keeps coredumpd a=
+ctive
++# on 7.2 while cleanly skipping it on 6.18. A ConditionKernelVersion=3D fa=
+ilure is
++# a clean skip and does not trigger the restart/start-limit escalation.
++# The per-coredump systemd-coredump@.service path remains available on all=
+ kernels.
++# Upstream report: https://github.com/systemd/systemd/issues/43963
++[Unit]
++ConditionKernelVersion=3D>=3D6.19
+diff --git a/meta/recipes-core/systemd/systemd_261.3.bb b/meta/recipes-core=
+/systemd/systemd_262.bb
+similarity index 98%
+rename from meta/recipes-core/systemd/systemd_261.3.bb
+rename to meta/recipes-core/systemd/systemd_262.bb
+index 0901736e7c9..d613f01c582 100644
+--- a/meta/recipes-core/systemd/systemd_261.3.bb
++++ b/meta/recipes-core/systemd/systemd_262.bb
+@@ -34,9 +34,9 @@ SRC_URI +=3D "file://touchscreen.rules \
+            file://init \
+            file://99-default.preset \
+            file://systemd-pager.sh \
++           file://coredumpd-kernel-version.conf \
+            file://0001-binfmt-Don-t-install-dependency-links-at-install-ti=
+m.patch \
+            file://0003-Do-not-create-var-log-README.patch \
+-           file://0001-include-fix-limits.h-override.patch \
+            "
+=20
+ PAM_PLUGINS =3D " \
+@@ -144,7 +144,6 @@ PACKAGECONFIG[journal-color] =3D ",,,less"
+ PACKAGECONFIG[journal-upload] =3D "-Dlibcurl=3Denabled,-Dlibcurl=3Ddisable=
+d,curl"
+ PACKAGECONFIG[kmod] =3D "-Dkmod=3Denabled,-Dkmod=3Ddisabled,kmod,libkmod"
+ PACKAGECONFIG[ldconfig] =3D "-Dldconfig=3Dtrue,-Dldconfig=3Dfalse,,ldconfi=
+g"
+-PACKAGECONFIG[libidn] =3D "-Dlibidn=3Denabled,-Dlibidn=3Ddisabled,libidn"
+ PACKAGECONFIG[libidn2] =3D "-Dlibidn2=3Denabled,-Dlibidn2=3Ddisabled,libid=
+n2"
+ # Link udev shared with systemd helper library.
+ # If enabled the udev package depends on the systemd package (which has th=
+e needed shared library).
+@@ -355,6 +354,15 @@ do_install() {
+ 	# https://www.freedesktop.org/wiki/Software/systemd/Preset/#howto
+ 	install -Dm 0644 ${UNPACKDIR}/99-default.preset ${D}${systemd_unitdir}/sy=
+stem-preset/99-default.preset
+=20
++	# Gate the new (v262) kernel coredump socket manager on a kernel
++	# that actually supports it (>=3D 6.19). See the drop-in for the full rat=
+ionale.
++	if [ -e ${D}${systemd_system_unitdir}/systemd-coredumpd.service ]; then
++		install -Dm 0644 ${UNPACKDIR}/coredumpd-kernel-version.conf \
++			${D}${systemd_system_unitdir}/systemd-coredumpd.service.d/99-kernel-ver=
+sion.conf
++		install -Dm 0644 ${UNPACKDIR}/coredumpd-kernel-version.conf \
++			${D}${systemd_system_unitdir}/systemd-coredump-register.service.d/99-ke=
+rnel-version.conf
++	fi
++
+ 	# add a profile fragment to disable systemd pager with busybox less
+ 	install -Dm 0644 ${UNPACKDIR}/systemd-pager.sh ${D}${sysconfdir}/profile.=
+d/systemd-pager.sh
+=20
+@@ -799,6 +807,7 @@ FILES:udev +=3D "${base_sbindir}/udevd \
+                ${nonarch_libdir}/udev/rules.d/60-persistent-alsa.rules \
+                ${nonarch_libdir}/udev/rules.d/60-persistent-hidraw.rules \
+                ${nonarch_libdir}/udev/rules.d/60-persistent-input.rules \
++               ${nonarch_libdir}/udev/rules.d/60-persistent-media-controll=
+er.rules \
+                ${nonarch_libdir}/udev/rules.d/60-persistent-storage.rules =
+\
+                ${nonarch_libdir}/udev/rules.d/60-persistent-storage-mtd.ru=
+les \
+                ${nonarch_libdir}/udev/rules.d/60-persistent-storage-tape.r=
+ules \
 
