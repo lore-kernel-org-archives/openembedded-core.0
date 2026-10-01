@@ -1,116 +1,142 @@
-Return-Path: <richard.purdie@linuxfoundation.org>
+Return-Path: <ross.burton@arm.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E5D2DCA5FB3
-	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 11:27:41 +0000 (UTC)
-Received: from mail-ed2-f33.google.com (mail-ed2-f33.google.com [74.125.228.97])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.8892.1790854054603709015
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 075D8CA5FCB
+	for <webhook@archiver.kernel.org>; Thu,  1 Oct 2026 11:54:52 +0000 (UTC)
+Received: from foss.arm.com (foss.arm.com [217.140.110.172])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9387.1790855684756374160
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2026 04:27:35 -0700
+ Thu, 01 Oct 2026 04:54:45 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@linuxfoundation.org header.s=google header.b=DpGUmypN;
- spf=pass (domain: linuxfoundation.org, ip: 74.125.228.97, mailfrom: richard.purdie@linuxfoundation.org)
-Received: by mail-ed2-f33.google.com with SMTP id 4fb4d7f45d1cf-6ab0d9260baso7365061a12.0
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 04:27:34 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linuxfoundation.org; s=google; t=1790854053; x=1791458853; darn=lists.openembedded.org;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:from:to
-         :cc:subject:date:message-id:reply-to:content-type;
-        bh=0eYv6ln+bQw29FRiA8X9Jc4UFrELB26e8K+0YGkQRsw=;
-        b=DpGUmypN4Gm+I6pplji3f4FBzcppG1PTFYJ0O3kb6z74jCT9ZFFuQUXaBvAJofyuMf
-         oV3Q8TdJk3jY/0hRITZTIUzhF2h/9+o1LdwcQ2hs1XgvxYAyy2YEbYx88GzljdRw49SF
-         S4ezhEL7ao6uiiI9SDvEVtB6s41N/die3ecu0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790854053; x=1791458853;
-        h=mime-version:user-agent:content-transfer-encoding:content-type
-         :references:in-reply-to:date:cc:to:from:subject:message-id:x-gm-gg
-         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to
-         :content-type;
-        bh=0eYv6ln+bQw29FRiA8X9Jc4UFrELB26e8K+0YGkQRsw=;
-        b=zxLakccCBNpOaxR/pTqbovRItf1BKVCL7KYPrGK5D6CSCaX/wqNBZXiydP+3Ze/219
-         KavNHsTydUiNXQu4xv/00UCwYMBUUrAeO1Jeh4jRaP7q29HP6G66rj5/8tr7lppWO32x
-         gLiGfYop4rzk+ndUyhpbmaMrcqykvYP/prpsPVDMMMbkT4oiV0VYl6R2ZZ1IbhWXrrHh
-         OEvA+RozIS2W+0hm1magcm2k5gM6hdKOxzvc7TJWCrtCDA2Lte9uHb5gqRFQoykf0P8V
-         FfWU7s01CZkVG0mIAvEBl7v/V/lYnORQby3k3FM/bCksTFWJVOiYPPHJFe1SQMQOIjh9
-         E1Hw==
-X-Forwarded-Encrypted: i=1; AKwUvBw+iWKutBRodFSIfp9ED3Ud1CeFvyWmpMC+n59vDwQjgm0KY0jHo9SwdaiS67iT/3Nckn4sk7KrRK9VXutb8nCwsw==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYJRqCocO3ND4qS/ZN3SjMhdUW8gPn+0qE754/IsoGYsWhkMOJsT
-	LaEZfR9YOHjf5j1++mMloM6Q79DYCsbcpMXDm56Fwgdx39aEcFBggcTpOIhhKcdJGME=
-X-Gm-Gg: AYBFou3LQ+YqjNOydiwAOr+QD/Acdxp8Ao5LLUuBHTRtuE6UIFunzydLKfTtj+6w2lY
-	jv3C8mmep1C9q9J5JDqD2sKKQPX6nUl4qKboKaKy654WXJwghlAGCG+whDajZwUn3hHXXz8nlIQ
-	mDfEgJSFLyfULj0imrM1avOCPfb8VAYgSWQuZCZJtfSis0l7FxAz8bj3Yuo47Ue3PF/B8JxtlBQ
-	y6vdiMebKbfO5dIHdSNuppd/VGxISOVHs0KXbcwQqYYmjGD6T82cdLCDC7Fy1NTSW0mDRvof3GG
-	+uSD2ZMxulGpwwMEhIqnyMo4OMd5eeaXgevXHqn1QGFBP2a3khceYuNHUpmBKeVwzNnGwlzjOGh
-	3JE/U4D1klbaaUzg5Np7sDqerGX4i+2Y8/A/STWGm3n1xSWId90/VgqpdSzd73q79HopPZr4epj
-	PG+GSElKaTu2bmu32dn4jvcSBaLc6JLlsWLkH+U/R2ghGys++Y5EPnyVLCnt2VJ16ODZr/abBVC
-	v7TGt1u9xwJvESVNg/oN+apsgTHeYksibXzUQmqHD55by9XwezibX5mlb0RLrbrLav85vqG3A==
-X-Received: by 2002:a05:6402:23d2:b0:6aa:f809:ef41 with SMTP id 4fb4d7f45d1cf-6ae198631fdmr2934550a12.3.1790854052781;
-        Thu, 01 Oct 2026 04:27:32 -0700 (PDT)
-Received: from ?IPv6:2001:8b0:aba:5f3c:97e5:70fa:8dd4:c479? ([2001:8b0:aba:5f3c:97e5:70fa:8dd4:c479])
-        by smtp.gmail.com with ESMTPSA id 4fb4d7f45d1cf-6ae5ca53713sm951364a12.16.2026.10.01.04.27.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 04:27:32 -0700 (PDT)
-Message-ID: <34e67117d3a6fa876092f3736d3ecfa3f2b8fbc1.camel@linuxfoundation.org>
-Subject: Re: [OE-core] [PATCH] xorgproto: Set ALLOW_EMPTY for the main
- package
-From: Richard Purdie <richard.purdie@linuxfoundation.org>
-To: mark.jonas@de.bosch.com, Paul Barker <paul@pbarker.dev>, 
- "openembedded-core@lists.openembedded.org"
-	 <openembedded-core@lists.openembedded.org>
-Cc: "wangmy@fujitsu.com" <wangmy@fujitsu.com>, 
- "mathieu.dubois-briand@bootlin.com"
-	 <mathieu.dubois-briand@bootlin.com>, "Simoes Ricardo (BT-EL/ESW2)"
-	 <Ricardo.Simoes@pt.bosch.com>
-Date: Thu, 01 Oct 2026 12:27:30 +0100
-In-Reply-To: <DB9PR10MB53549FAC3975BDDD2B057243AD8A2@DB9PR10MB5354.EURPRD10.PROD.OUTLOOK.COM>
-References: <20260918141849.1875-1-mark.jonas@de.bosch.com>
-	 <f2101f97616baa3cee4c5733846dc6b64dd944c2.camel@pbarker.dev>
-	 <DB9PR10MB53549FAC3975BDDD2B057243AD8A2@DB9PR10MB5354.EURPRD10.PROD.OUTLOOK.COM>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
-User-Agent: Evolution 3.56.2-9 
+ dkim=fail reason="dkim: body hash did not verify" header.i=@arm.com header.s=foss header.b=vK2lGpuO;
+ spf=pass (domain: arm.com, ip: 217.140.110.172, mailfrom: ross.burton@arm.com)
+Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
+	by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id B7A42497
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Oct 2026 04:54:40 -0700 (PDT)
+Received: from cesw-amp-gbt-1s-m12830-04.lab.cambridge.arm.com (usa-sjc-imap-foss1.foss.arm.com [10.121.207.14])
+	by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPA id CF01F3F86F
+	for <openembedded-core@lists.openembedded.org>; Thu,  1 Oct 2026 04:54:43 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=arm.com; s=foss;
+	t=1790855684; bh=fliBF1wODK30zU1mExKXSnZWjXqNnYpcXzspX9+2GiI=;
+	h=From:To:Subject:Date:From;
+	b=vK2lGpuOwu5oGxejHgTXdYQEU9ap9KAWy8t8BEF3dJeQRMLbqd/H3WqKjnUrV+jEo
+	 CRFK8UyOrNHJjmVVbuebh/g+h0uug4gT1RiWa4rEZwh6+7m3+19fclW/I9leJnsf38
+	 5QduyqyyX8ux3dOUWbM0KxCtNuUoxieTnal7VXW0=
+From: Ross Burton <ross.burton@arm.com>
+To: openembedded-core@lists.openembedded.org
+Subject: [PATCH] gtk4: upgrade 4.22.5 -> 4.24.0
+Date: Thu,  1 Oct 2026 12:54:40 +0100
+Message-ID: <20261001115440.669670-1-ross.burton@arm.com>
+X-Mailer: git-send-email 2.43.0
 MIME-Version: 1.0
+X-ARM-No-Footer: NoDisclaimer
+Content-Transfer-Encoding: quoted-printable
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 11:27:41 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247029
+ <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 11:54:52 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247030
 
-On Thu, 2026-10-01 at 09:00 +0000, Mark Jonas via lists.openembedded.org wr=
-ote:
->=20
-> We were a little brief on our explanations in the commit message. So
-> we sat down to create a hopefully reproducible demo of the problem.
->=20
-> For reproducing with used core-image-base and local.conf containing
-> the following:
->=20
-> MACHINE ??=3D "qemuarm"
-> USER_CLASSES ?=3D "buildstats"
-> PATCHRESOLVE =3D "noop"
-> BB_DISKMON_DIRS ??=3D "\
-> =C2=A0=C2=A0=C2=A0 STOPTASKS,${TMPDIR},1G,100K \
-> =C2=A0=C2=A0=C2=A0 STOPTASKS,${DL_DIR},1G,100K \
-> =C2=A0=C2=A0=C2=A0 STOPTASKS,${SSTATE_DIR},1G,100K \
-> =C2=A0=C2=A0=C2=A0 STOPTASKS,/tmp,100M,100K \
-> =C2=A0=C2=A0=C2=A0 HALT,${TMPDIR},100M,1K \
-> =C2=A0=C2=A0=C2=A0 HALT,${DL_DIR},100M,1K \
-> =C2=A0=C2=A0=C2=A0 HALT,${SSTATE_DIR},100M,1K \
-> =C2=A0=C2=A0=C2=A0 HALT,/tmp,10M,1K"
-> CONF_VERSION =3D "2"
-> DEPENDS:append:pn-base-files =3D " xorgproto"
-> RDEPENDS:base-files:append =3D " xorgproto"
-> DISTRO_FEATURES:forcevariable =3D "systemd usrmerge ext2 ipv4 vfat
-> gobject-instrospection-data ldconfig multiarch"
-> DISTRO_FEATURES_OPTED_OUT =3D "*"
+Hightlights from the upstream release notes:
 
-You're setting RDEPENDS:base-files:append =3D " xorgproto" and xorgproto
-doesn't exist so it isn't surprising the image generation fails as
-such. Did you over simplify the reproducer?
+* GtkSvgWidget is a widget to display SVG, with some support for
+  interactive aspects of SVG
 
-Cheers,
+* Wayland:
+ - Version 3.2 of the text protocol is supported
+ - xdg-session-management-v1 is used
 
-Richard
+* GSK:
+ - A number of 10bit image formats are supported
+ - We are now using clip masks to reduce the number of offscreens
+
+* The gtk4-encode-symbolic tool for producing symbolic png icons has
+  been dropped.
+
+* Snapping: GTK can now snap contents to device pixel boundaries,
+  for better control of rendering with fractional scales
+
+* GTK now respects the reduced motion setting in various places
+  and avoids animations (GtkSpinner, GtkStack, GtkRevealer)
+
+* New GtkShortcutTrigger functions it easier to handle synonymous
+  keys (in particular keypad keys).
+
+* Type-to-search (in particular interaction with input methods)
+  has been redone, switching from a "pull" to a "push" approach.
+
+* The first part of ongoing frameclock work has landed, improving
+  our ability to deliver frames on time
+
+* GTK supports the ext-background-effect Wayland protocol to allow
+  blurred background behind windows
+
+* The visible focus timeout can be changed with the new
+  gtk-keyboard-focus-visible-timeout setting
+
+* The GDK frameclock has been reworked to improve precision and reduce
+  frame drops
+
+Add a hook to rewrite the content of the meson-generated unity sources,
+as these contain absolute build paths.  Manipulate the file during the
+packaging process so that the actual build tree isn't altered, meaning
+rebuilds are not affected.
+
+Based on work by Markus Volk <f_l_k@t-online.de>.
+
+Signed-off-by: Ross Burton <ross.burton@arm.com>
+---
+ .../gtk+/{gtk4_4.22.5.bb =3D> gtk4_4.24.0.bb}          | 12 +++++++++++-
+ 1 file changed, 11 insertions(+), 1 deletion(-)
+ rename meta/recipes-gnome/gtk+/{gtk4_4.22.5.bb =3D> gtk4_4.24.0.bb} (85%=
+)
+
+diff --git a/meta/recipes-gnome/gtk+/gtk4_4.22.5.bb b/meta/recipes-gnome/=
+gtk+/gtk4_4.24.0.bb
+similarity index 85%
+rename from meta/recipes-gnome/gtk+/gtk4_4.22.5.bb
+rename to meta/recipes-gnome/gtk+/gtk4_4.24.0.bb
+index cf0ea114e08..6437cc6d921 100644
+--- a/meta/recipes-gnome/gtk+/gtk4_4.22.5.bb
++++ b/meta/recipes-gnome/gtk+/gtk4_4.24.0.bb
+@@ -33,7 +33,7 @@ LIC_FILES_CHKSUM =3D " \
+     file://tests/testgtk.c;endline=3D25;md5=3D49d06770681b8322466b52ed19=
+d29fb2 \
+ "
+=20
+-SRC_URI[archive.sha256sum] =3D "7fd725deb2cb3f8dc218ad862c5056ff8548f49d=
+3b0e4081796e444c22d19686"
++SRC_URI[archive.sha256sum] =3D "28ba4ac1c04f86eac09b79a163cb163a4c2b5444=
+2d9f7eccc04679062a581044"
+=20
+ S =3D "${UNPACKDIR}/${GNOMEBN}-${PV}"
+=20
+@@ -76,6 +76,16 @@ PACKAGECONFIG[vulkan] =3D "-Dvulkan=3Denabled,-Dvulkan=
+=3Ddisabled, vulkan-loader vulka
+=20
+ LIBV =3D "4.0.0"
+=20
++# gtk/svg is built as a unity target, and meson implements that by gener=
+ating a
++# source file that #includes the real sources by absolute path. That gen=
+erated
++# file is part of the debug information and lands in the -src package, s=
+o give
++# it the same rewriting that -ffile-prefix-map does for the compiler. Ot=
+herwise
++# the build directory leaks into the package and buildpaths QA rejects i=
+t.
++gtk4_rewrite_unity_sources() {
++	find ${PKGDEST}/${PN}-src -name '*-unity*.c' -exec sed -i -e 's|${B}|${=
+TARGET_DBGSRC_DIR}|g' -e 's|${S}|${TARGET_DBGSRC_DIR}|g' {} +
++}
++PACKAGEFUNCS +=3D "gtk4_rewrite_unity_sources"
++
+ FILES:${PN}:append =3D " \
+     ${datadir}/bash-completion \
+     ${datadir}/gtk-4.0/emoji/ \
+--=20
+2.43.0
+
 
