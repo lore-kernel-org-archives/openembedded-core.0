@@ -1,158 +1,108 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 571B1CA5FD9
-	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 08:30:30 +0000 (UTC)
-Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6767.1790929827509214940
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 7627FCA5FD9
+	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 08:52:30 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6995.1790931125214364130
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Oct 2026 01:30:27 -0700
+ Fri, 02 Oct 2026 01:52:06 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=LmOjJI2/;
- spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ce364488dso13203205e9.0
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 01:30:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790929826; x=1791534626; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=LtUDVLNpFf4oDMUKSLCGfZUmfvpiHN0w4OiqkMI+9Us=;
-        b=LmOjJI2/QaBDcnHOaWnC6kWlctFgpmxSti96YT74rIK0yD7HXcP1BF6bfjCuNlHoBw
-         c/7wSfWEZnn91qzdAMHq+sCyohKJJpVpqDQkk3bSfsxHRVuIKtxvWVhyyOUkKui8alg9
-         3Mad335StVmvpI5If+N7FtlQG2Aa9gHFaASqo=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790929826; x=1791534626;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=LtUDVLNpFf4oDMUKSLCGfZUmfvpiHN0w4OiqkMI+9Us=;
-        b=Us7bABLIp7C9gc9WgUUrS5G57wae47ckL0J1NeaCxUu4LFSK5EuffbYa2I3TqRvrLy
-         nETV/gx4L4JYgWJfjJraphlzeZB/C+IJdjXsQFbKP7CI6pXwQKkb4LlphzbG80d22sWb
-         BxXADQm3CDZYJc4dd0Vr/QrWSHX9eJzwlltsdlznWyfC7RkQgxmn4v/XZU2MJUCQjM1J
-         SzLlAkPHtmSRCnV2U+VIJPFosTPhgHgWctpIXsvr50Uwoe40rWxj+TZIIa3WLCPafZT2
-         vNqD03cryd7XwpTDVFsxx4ZIMtMXX4ODZ975bUXXzE1OQrAPu8rybHcbkRZmhxlHKZ9l
-         Bgww==
-X-Forwarded-Encrypted: i=1; AKwUvBwniAE/WePv7MXKA9oR4O0WJIIrBsaODceCyLjLTKdv3yyCzlbpBWYCOjGFkNqGFFOGn1wfNPO6rKGC3BV2nME+Kw==@lists.openembedded.org
-X-Gm-Message-State: AFuF++nLAjaCVTeAJflEZUyoxvgeCEn88hrvlH163OULgV0Komb375aA
-	MDY9rKeUe+QIU0Cu/zKZBaI0XUpXbhvEsh0v+zMPQOouB40IwThCN+qpOSjTWWXX1zlUT3xjCp4
-	0tJQMgLI=
-X-Gm-Gg: AYBFou1B8abx8bh1OoADMrt4TLr3f0XVQZNJi+tV6EHLDbcKmNJYi/v2IEvB6Pj1fJ7
-	00x30dgvcyYm9LAaKk6VjEYUBvx5+T+ycyiFKKftIzStdoFKBocA2OzhQeEEDln1nXIpvOKMopG
-	Tbb1/LqM2zuOpwCsPPlmJQrEnU+Mz/9U5hEeJ9mdrfTl5d1noecNlIj5kcJrWsV6QHnVXDo0Agn
-	1nmmhNqdLY0GoAB8ERiZTs8ykfytD4RuupN2EK4jH63rarwWKqJWaOUujjzboPz16qdEApoqoy+
-	3j6SihnSUlvmYS6pQudBA74/cOqD9PlVZzqfWeRKIHnvZblLLC+yHmQcf2RwrKj+LSlgG28seXM
-	Gma0XGYPiAvfmCpuqYHmB6mCHJT5eZjPXewpv9P/uZQIVSh90yKtBjxXtBOK9KYLZ4VZRXJyk+S
-	nN4FZgO0IeUjdWtY386F6Gl53eG6n8R6xxVecZi5Khw7BAoqHD6g17x2Lf/gWqqkq6M9UhtRFAZ
-	0g7nRoIUSWjYxMPSRFD6LFX8lzYsYeGz13Rp2e5PvI0x220S+9AaJBTtEANnFADS0xRAapn
-X-Received: by 2002:a05:600c:8b77:b0:49e:6581:7baf with SMTP id 5b1f17b1804b1-4a0274bcb29mr33608675e9.2.1790929821033;
-        Fri, 02 Oct 2026 01:30:21 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0280d1e38sm50939015e9.13.2026.10.02.01.30.20
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2026 01:30:20 -0700 (PDT)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=RIZ1PInu;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
+Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 129544E41100
+	for <openembedded-core@lists.openembedded.org>; Fri,  2 Oct 2026 08:52:03 +0000 (UTC)
+Received: from mail.galae.net (mail.galae.net [212.83.136.155])
+	by smtpout-01.galae.net (Postfix) with ESMTPS id D39CF603DC;
+	Fri,  2 Oct 2026 08:52:02 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 78CD410328295;
+	Fri,  2 Oct 2026 10:52:01 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
+	t=1790931122; h=from:subject:date:message-id:to:mime-version:content-type:
+	 content-transfer-encoding:in-reply-to:references;
+	bh=gvMK7qdFrvJmYpx38KY0fWHWE47ou3Bv3eOy/7XO4d4=;
+	b=RIZ1PInujr+q+fv+469M995ZF0WxiiPa8mTdZeMHJaWCiNJZkM4mQpTOKxVHsoTfhC8jpx
+	CqtWSDosSyCYEAblr+dYrFXksrX97RcmBK9MUUeMTACkMn87KjdG3u3VFaj+5CPen8J1+p
+	xH5eOktpC+dwky4ducFqf2DkZWB/LeFH20IF5TbkKsfcjfCW3ooX88UGOOj9RBv26shXtn
+	WeEzeSLc5+xUIcG/GhKxIjbOiOEse3QWn9a8EHKVevLY2eYbU99/e1A9WrvXQskD8LaFCX
+	JMjxpl7ijnFi8FhzYxN637wJmib1MWiIha7fsfSY6IIOd/oz9T5K6D2yFAY1Wg==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 02 Oct 2026 10:30:20 +0200
-Message-Id: <DLU7MXCRDG6L.3GEYY13WESLNP@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH v2 2/7] libpcap: Fix CVE-2026-31912
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <jaipaul.cheernam@est.tech>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260915194520.45847-1-jaipaul.cheernam@est.tech>
- <20260921201715.79085-1-jaipaul.cheernam@est.tech>
- <20260921201715.79085-3-jaipaul.cheernam@est.tech>
-In-Reply-To: <20260921201715.79085-3-jaipaul.cheernam@est.tech>
+Date: Fri, 02 Oct 2026 10:52:00 +0200
+Message-Id: <DLU83IUWHFP0.2IU6H1IY0JSAW@bootlin.com>
+From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
+To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 1/4] libjitterentropy: upgrade 3.6.3 -> 3.7.0
+X-Mailer: aerc 0.21.0-0-g5549850facc2
+References: <20261002071557.74249-1-jaipaul.cheernam@est.tech>
+ <20261002071557.74249-2-jaipaul.cheernam@est.tech>
+In-Reply-To: <20261002071557.74249-2-jaipaul.cheernam@est.tech>
+X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 08:30:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247090
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 08:52:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247091
 
-On Mon Sep 21, 2026 at 10:17 PM CEST, Jaipaul Cheernam via lists.openembedd=
-ed.org wrote:
-> NVD: https://nvd.nist.gov/vuln/detail/CVE-2026-31912
-> Upstream-commit: https://github.com/the-tcpdump-group/libpcap/commit/d3f3=
-58d3cffbe1ecb94d5284b3e81f052a0adcb9
+On Fri Oct 2, 2026 at 9:15 AM CEST, Jaipaul Cheernam wrote:
+> Source: CHANGES.md
+>
+> 3.7.0
+>  * Add secure memory implementation for Linux and {Net,Open,Free}BSD, Mac=
+OS and Windows
+>  * Update supported CMake version to 3.10
+>  * doc: use Doxygen-style comments
+>  * NTG.1 compliance: Modify startup such that the memory access and SHA-3=
+ loop are treated as independent noise sources which are sampled to collect=
+ at least 240 bits each before first block of random numbers is released
+>  * Remove all code when JENT_CONF_DISABLE_LOOP_SHUFFLE is unset. This cod=
+e is already discouraged for a long time. Now it is taken out for good.
+>  * If cache size cannot be detected from base system (e.g. virtualization=
+), use the requested memory size.
+>  * Change the stuck test to always calculate the absolute values of the 2=
+nd and 3rd discrete derivation of time.
+>  * Replace SHA3-256 output generation with XDRBG-256
+>  * Prune the jitterentropy.h header file of internal definitions and delc=
+arations which are moved to src/jitterentropy-internal.h. With that, jitter=
+entropy.h only contains the API. This modification does not alter the Jitte=
+r RNG behavior at all.
+>  * Update secure storage memory implementation for libgcrypt and OpenSSL
+>  * Add API jent_status
+>
+> License-Update: copyright years updated.
 >
 > Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 > ---
->  .../libpcap/libpcap/02-CVE-2026-31912.patch   | 525 ++++++++++++++++++
->  .../libpcap/libpcap_1.10.4.bb                 |   1 +
->  2 files changed, 526 insertions(+)
->  create mode 100644 meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026=
--31912.patch
->
-> diff --git a/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.=
-patch b/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch
-> new file mode 100644
-> index 0000000000..d9fda1ec48
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch
-> @@ -0,0 +1,525 @@
-> +From d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9 Mon Sep 17 00:00:00 2001
-> +From: Denis Ovsienko <denis@ovsienko.info>
-> +Date: Thu, 30 Jul 2026 13:33:55 +0100
-> +Subject: [PATCH] CVE-2026-31912: Mind the program bounds in pcap_offline=
-_filter().
-> +
-> +The current revision of pcapint_filter_with_aux_data() does not know the
-> +number of instructions in the filter program, it assumes the program
-> +counter always remains within the bounds of the provided filter program
-> +and always reaches a return instruction.  This holds for programs that
-> +have been generated or validated by libpcap.
-> +
-> +However, this does not necessarily hold for programs that come from an
-> +external source via pcap_offline_filter() or [deprecated] bpf_filter()
-> +and have not been explicitly validated.  If the interpreter executes
-> +such a program and advances the program counter beyond the last
-> +instruction, it will be interpreting memory space after the filter
-> +program as BPF instructions, which in the current implementation will
-> +eventually cause either abort() (another commit addresses that) or
-> +SIGSEGV.
-> +
-> +To fix the latter problem, in pcapint_filter_with_aux_data() add a
-> +parameter for the number of instructions in the program and reject the
-> +packet as soon as (or just before) the program counter goes out of
-> +bounds.  Update all incoming code paths to specify the length; also in
-> +pcap_offline_filter(3PCAP) make it clear the function now requires the
-> +'bf_len' member to be set correctly and uses it.
-> +
-> +(backported from commit d1209988c74dd9330659898d3b676ee6bbe1c551)
-> +
-> +(cherry picked from commit d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9)
-> +
 
-Hello,
+Hi Jaipaul,
 
-> +Notes on backporting to 1.10.4:
-> + - Adapted to the 1.10.4 pcap_filter*() names (renamed to pcapint_*()
-> +   after 1.10.4).
-> + - The upstream CHANGES/changelog hunk is not backported.
->=20
-> +Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/=
-commit/d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9]
+Thanks for the upgrade.
 
-This also drop a pcap-haiku.c hunk. Should'nt we patch pcap-haiku.cpp?
-This was before it was rewriten in C.
+It looks like this is breaking rng-tools:
 
-I may have missed it for the wrynose patch but if a patch is needed, could
-you send a fix for wrynose as well?
+ERROR: lib32-rng-tools-6.17-r0 do_compile: oe_runmake failed
+...
+| ../sources/rng-tools-6.17/rngd_jitter.c: In function 'rngd_notime_start':
+| ../sources/rng-tools-6.17/rngd_jitter.c:56:45: error: invalid use of unde=
+fined type 'struct jent_notime_ctx'
+|    56 |         ret =3D -pthread_attr_init(&thread_ctx->notime_pthread_at=
+tr);
 
-Also, please check that the backport notes are exhaustive (e.g. there is
-also a missing man patch for which a note would have been appreciated)
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/4614
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/4816
 
-> +CVE: CVE-2026-31912
-> +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+Can you have a look at the issue?
 
-I'll hold the series for now. Can you check the above issues for the
-whole series?
+Thanks,
+Mathieu
 
-Regards,
 --=20
-Yoann Congal
-Smile ECS
+Mathieu Dubois-Briand, Bootlin
+Embedded Linux and Kernel engineering
+https://bootlin.com
 
 
