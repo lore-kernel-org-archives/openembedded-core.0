@@ -2,22 +2,22 @@ Return-Path: <daniel.turull@ericsson.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id E72C7CA5FD9
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F2845CA5FE2
 	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 07:54:29 +0000 (UTC)
-Received: from DUZPR83CU001.outbound.protection.outlook.com (DUZPR83CU001.outbound.protection.outlook.com [52.101.66.28])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.6367.1790927666054962728
+Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.33])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6380.1790927667504991524
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Oct 2026 00:54:26 -0700
+ Fri, 02 Oct 2026 00:54:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=hwzB4QUI;
- spf=none, err=SPF record not found (domain: ericsson.com, ip: 52.101.66.28, mailfrom: edaturu@ericsson.com)
+ dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=EsJVrl0m;
+ spf=pass (domain: ericsson.com, ip: 40.107.130.33, mailfrom: edaturu@ericsson.com)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=uVLNNdw1IHxlL7QIKHvT+qE8lR2Qt6zoXrg1uK44k2CQFh8xUKMTLq8I0mXEY1x6C82GhFN5hd9ezSmYCNxJ+sXhg8Z4YQRxwJFGwuip//YC1Rj57CdVSjH832KUPcruIl8expX3zatmG71TNGguBkS0Q5WummGQhfEpla86qJ2wR+8uiBk5rWtUV5hXd8lXaczA2pBRWm0P1SNrP+Lmm08Pc0c7FKKQUDQe1RYNDV49G3bOX+INMa2OuwmmGlHE0HlYUKooN+6Bp7WG92zqB7SWsUDQoYSiwJKl34rS2Oie4Zd99dOX+toZhp+uYD1hfs5UZNlejfPeKHtr6O/uHQ==
+ b=BPUjUZdKxm1Ts/tjtIKCe2Bm+LhpeDILr9VEX0Jih2FMkIzPfB1ALehH9iegP9FElmFO1hRA59BUbhXBwfGO0r7zUkbuReoBfPCn7aLkz6rcyK5ZhLNqEmN8wBgnB9Gn0sbsqCbLDaX/P3DwzJcNSXZVQmRLgtuG2iEEem7+xugEho7eTDCU/OpYLJnKiykjGHoYAqccHbMFidtFVj7Eu/cUxiigrXwjNxNXrjp7B1BaliazqKn/LajStQziL91R5gEVSJ2+v6xuqhhqUdaGBsc7f1aBqQlbmoG2K3fwyJRUQjbUk7+Au83U2Ki9QLfc3cK15E2G84HJiqM2a8Tfqg==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=Z0dRw32rwVf2K8zq99Lnbhy/OTsa5ckPlkxubwXZqHA=;
- b=WqonG05k8HPZBRGLL3VBsr+sY3EatnRJdoYJ1jyfTq6QHLi9mXi11O2X1YmQdrSbXkLpLak2orojpnzlnO83cea7E/QbIBmgjwF9N55LYromtEbAuYLPfDwDdHFh9Y1vNKFCR+5n+f+NsinsTD0WfzfoqbD7ZW70ZRZwgk6ijvOCAcZa86fkP8NAcHd6boKevqVmfQrdxRo6l9NkO8ZgcoKenajOlwSHq5qTEjOgUcS02IJuq1cj5r1Q7GpKx6ZN60AKonkAXindRkqacSsY8DHcChqylIevQpAZORSJa66mfh6TNIJ/6s6wuroLamZr92OM4k5f+71BugidQ7+HIg==
+ bh=pDiEzGmtUMnxd5YcH54BXLbcZLTPIq1az+b02OWveE8=;
+ b=sXMTH/Y+pTI3x7iXOiV7o9FaRaz+Fpnc4fNGTbnLjC8AucyjcrVUNn7zfCNUc5Op/VTZNeL8Ob9DkrC+AHmbXpd5oxgppeUwkBdSLnOACtqyRz8cPKil785ugY9juoqh6pAVutHDY2vKZavLyQ9lEEOUZLIbCt/wfByESN3dviOSEMp/ssUnHSsQi3zkXpFqHgI1ToLhYPArH+9fw+MXdYtHvxPHSO4mBGK3GKUc40Ade6Qig+g+FZy610Dsk1Y/dgaXXiNPURH/vc/sB/bnH5sAXt5SgQ7LA06wx/mvlx6ofGiX7gQjCFQTjyPsEPQfyIl53LhlgQSo9Ouz9ZFwjw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
  dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
@@ -25,17 +25,17 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
  s=selector2;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Z0dRw32rwVf2K8zq99Lnbhy/OTsa5ckPlkxubwXZqHA=;
- b=hwzB4QUIK4DcxjGi2BBMrN3KlS+ritRFGnIb7SQBggEkoDdNMTa13QryvZro7GkSwY1vD/XQjyd+YvFqNbHWREZL5yzEAwQnO8YHFPA8YScZCeorqbdpC0SjOq0I66r/UxuD1udXQ3IoSAjLB1X2zmXIFa9SYODWCJcpfk8J8+NrZBX5pWvJ0RG2pszfiJXcu6H7ukNcWwscr8HMrrJ92YC2bZv2m2/8Pr9WSP+NurJbLb22plumOCHvMGhYEpdy4fqPfaIXau+ow6A0zmNrF4z+5JqkW76Ec6VxBSjjhReWcgP9ACw/O4ZDVCgXPoXitZ+a4paneWRXDtaD5KJarA==
-Received: from DU2PR04CA0228.eurprd04.prod.outlook.com (2603:10a6:10:2b1::23)
- by DU2PR07MB9436.eurprd07.prod.outlook.com (2603:10a6:10:497::8) with
+ bh=pDiEzGmtUMnxd5YcH54BXLbcZLTPIq1az+b02OWveE8=;
+ b=EsJVrl0mOaktBmzM3EWZFvXSfvxy970yuzeBhBKoX6bdHaZkRmfSJCmGW62YaeKYmcI6oieZWVeKhU8/5v5gaScWUNHwYzuJA9bUJVOpOkJimvpCXihKLWWbvRA1enQg7GHlyHr2IQfwWqNz38I+dmUOYXIgJd8XuuvJ3FVYq06sPe6AcgK97ORLa/aZHccygRn/uYWP/gG+zH9ln3Zj18B86NHa6OAdXAbEcIJ72K1LqleH6MvBXfK/i1jSVp9cjmqoBanxLVWxkvi9BP4WZcp85z9WVmRAhqTuteMsVQJB3ISGUvUvjSnnjf1buiixgKfcX5yOQNnE0zTt2O0NoQ==
+Received: from ZRAP278CA0012.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::22)
+ by AS1PR07MB8710.eurprd07.prod.outlook.com (2603:10a6:20b:479::9) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.451.24; Fri, 2 Oct
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Fri, 2 Oct
  2026 07:54:19 +0000
-Received: from MAD0EPF000008B4.eurprd04.prod.outlook.com
- (2603:10a6:10:2b1:cafe::8e) by DU2PR04CA0228.outlook.office365.com
- (2603:10a6:10:2b1::23) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.18 via Frontend Transport; Fri, 2
+Received: from ZR1PEPF0000E6B3.eurprd05.prod.outlook.com
+ (2603:10a6:910:10:cafe::40) by ZRAP278CA0012.outlook.office365.com
+ (2603:10a6:910:10::22) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.19 via Frontend Transport; Fri, 2
  Oct 2026 07:54:19 +0000
 X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
  is 192.176.1.74) smtp.mailfrom=ericsson.com; dkim=none (message not signed)
@@ -44,24 +44,24 @@ Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
  192.176.1.74 as permitted sender) receiver=protection.outlook.com;
  client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
 Received: from oa.msg.ericsson.com (192.176.1.74) by
- MAD0EPF000008B4.mail.protection.outlook.com (10.167.241.136) with Microsoft
+ ZR1PEPF0000E6B3.mail.protection.outlook.com (10.167.241.90) with Microsoft
  SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.21.472.14 via Frontend Transport; Fri, 2 Oct 2026 07:54:19 +0000
-Received: from seroius18814.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.63) with Microsoft SMTP Server
+Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
+ smtp-central.internal.ericsson.com (100.87.178.62) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
  15.2.2562.43; Fri, 2 Oct 2026 09:54:18 +0200
 Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18814.sero.gic.ericsson.se (Postfix) with ESMTP id 6FB1C4020C3B;
+	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 6C3174020B40;
 	Fri,  2 Oct 2026 09:54:18 +0200 (CEST)
 Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 43FC3700CF29; Fri,  2 Oct 2026 09:54:18 +0200 (CEST)
+	id 3FB1E700CF28; Fri,  2 Oct 2026 09:54:18 +0200 (CEST)
 From: <daniel.turull@ericsson.com>
 To: <openembedded-core@lists.openembedded.org>
 CC: <JPEWhacker@gmail.com>, Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH v4 3/3] scripts/contrib: add spdx-release-date-report.py
-Date: Fri, 2 Oct 2026 09:54:14 +0200
-Message-ID: <20261002075414.2311840-4-daniel.turull@ericsson.com>
+Subject: [PATCH v4 2/3] create-spdx-3.0: record component release date in SPDX output
+Date: Fri, 2 Oct 2026 09:54:13 +0200
+Message-ID: <20261002075414.2311840-3-daniel.turull@ericsson.com>
 X-Mailer: git-send-email 2.55.0
 In-Reply-To: <20261002075414.2311840-1-daniel.turull@ericsson.com>
 References: <20261002075414.2311840-1-daniel.turull@ericsson.com>
@@ -70,264 +70,192 @@ Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain
 X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: MAD0EPF000008B4:EE_|DU2PR07MB9436:EE_
-X-MS-Office365-Filtering-Correlation-Id: 81774e75-66a3-47ff-d29a-08df205a5d7a
+X-MS-TrafficTypeDiagnostic: ZR1PEPF0000E6B3:EE_|AS1PR07MB8710:EE_
+X-MS-Office365-Filtering-Correlation-Id: 2cf6f1dc-6f4b-464b-7b47-08df205a5d45
 X-SMTP-Server: smtp-central.internal.ericsson.com
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|23010399003|1800799024|82310400026|36860700016|376014|260925021911599003|3023799007|11063799006|6133799003|10067099003|260925022911599003|260925021311599003|56012099006|22082099003|18002099003;
+	BCL:0;ARA:13230040|1800799024|82310400026|376014|23010399003|36860700016|18002099003|22082099003|3023799007|260925022911599003|260925021311599003|10067099003|260925021911599003|56012099006|11063799006;
 X-Microsoft-Antispam-Message-Info: 
-	ptgsAaId/FvXKPu1XquILQQE1lHo+ikD2n8LlGJ4Lm3ruMvMwZdxGmwYEhwtqpFpz1w4qw3nr/3OatYzisSG/te6oIYj40UcwBhOjDEngfs5ug65FMGtl1kSeZNF9q664hePRmlBSYTnTLm2e2Lg5eO8b1NO6NU2mXTbSbdJ9QyZgS7HzM0gFegLe9HsxBrNLbVtySO2SJtMfBE3Rd3fKZXt2kKVSOLe5O/ubSV0CqkvPDbBcg9UnXmU5UsoHL2Zv5p/hn41V+6RPs4Ze3jlLVx0pJrivRBgDKf9XxKJR2DKNVX+fsrmSieARpRKuM0zqmYtQUnXLF7JcE3pn+9ZjDQ7MURpKuW/0oGWNjOt1QEdwZqnI4ZBjW1jRPu90VDI0nCsrReR9pM53O1MN9drgVSZa9bvSUErxZx6C9ZDfpSwZ6iRPbR4uFbujA/lR/KjHrPCa5kWE+drmfzFeR1akpOQ5eIziTF4r5WqSGgtalp1MjcGumwyrwb/S2jpYpRSXSSWPwnKH6MT4iXgM1S1Yecjeg1mDMKDPNUhWlK5WolYmH1C49D+CfNn5Dh4aFhSuTbRYV3jDYVVu0uNdfDsWEF1QFnTZsw4G1d1mQOlSfBYs+Nfc1cjiEWANDFzNdJY+KzMn3IJkcQUk2lsgwi5Sw5kwIfK3A7hepbdwCXhLY8ledpYgrRjFpvF1prdY2Ybo81vSsYYyBavGJ7vUqhMHA==
+	0LqmshLCKUTnTYiJxjhb81UX0PidJqPNG4zYm0t43u9NnH5zetzZMJ+QHmoqRCssR3SK5EcQ90HYJoAPiOUKhtcRirfRDIMCNNihunygPXu1olbewLf/SgwRIJzufRMSMWZ21BQyQfKsnExptTYcHbETkywkBIVQj9jomG0dbYYqAUws7UE3KQNLjUPZdQ8V2mnsWWElve/W5jYga3IqVvYNydqhedCV4tXzEFkQ6lqI2Ndc4kJjgKVblahqXilwUG5Pn70T2ODC948SKuQVrX0HE1+PFQTssyyO0WpbMv3YhczD9ptCTU+Iao/g2D7Ll10n0H2MuM1Dtmdp56aYjpYZjJr63pPSktgdbqAsDH2DF9cR+n3nX6LPjpC7a3G4cZ6P8+v1vo36zz8OUUxWx7t8orVCPgX7yFXM/EPW7OZ5lXoYZETVhEnxbej9CTpHgTotsKIRWjWifji/KWM+MNRcqquaaW9wflMVQEXjVt6CSuQ80GNyh7OHHIShcYJrtC9QpEeKimW6Ijl2VUTzF4tTYkN6F1GeRYiBYRnsmUzAbe3NguVqg5K4CiOFvhILgeNXSi+BhmylVFiowP3ca3UgtUFlcDdNGBebY28c7b0KBqJlAvbShs6xgYEGB0lMZ5JSiaLg0MiXG2r8YHrVDzTGNKxPVYVbk62RzXkxShSGv0r2pIPxiWMMDx8ysQ00BzZE5HBbMibhAUripuKGUg==
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(23010399003)(1800799024)(82310400026)(36860700016)(376014)(260925021911599003)(3023799007)(11063799006)(6133799003)(10067099003)(260925022911599003)(260925021311599003)(56012099006)(22082099003)(18002099003);DIR:OUT;SFP:1101;
+	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(23010399003)(36860700016)(18002099003)(22082099003)(3023799007)(260925022911599003)(260925021311599003)(10067099003)(260925021911599003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	yrbVGAZNec3hUoC2cSp2kOu/eHTzm6ERwV22i2OTtiP4gduefKfeo2j4r6UL/Kjt1mFBiapc3gZ0ByyhH9/CsgGlQNzrV3vleZG/ihIOlo6J8xipDQt3bV5rSKHNybVh1yeDzMPFTuHN8Z+xj8ZWBVFwmIL/4HiBGcifpAoI+zjU3/8RFV3H18v2DljNcY8u3zAUNJMpLcgeai9sVpHwbeUXmyiwm6XeNqzj2lUWxqlx2FbOwUS8ubuEMVay9CJufs/95Dmmb+3LeSC+B2u4oondQr3gtJ2qWYLYO87fuUMoNu1gxyX+Gv47zMD/5+DYWsSeZIbvU3/+Ld0GRbhLkh7aEnQwzRu60X0XeZVzWIgpgU0jdRJXHq5j8FTvzF5hSI6tLJn24/BGuHley4+scV5rVgSRINijlXlsDFJBwuUrCMwnJKGQ92xiOqW0Y6Id
+	hhRyOQJQ1vd8GOo1/oJXBkSgFy90rT2HJDMM3RCfJ4gV8dX95LnwQJwOiW4MHkAPYWgu045mULhfp2QKSuWiNh5kBsgJL5Zpa919gfYE5UJzlnPy2s9cVgJdqbJzi2vMVjzY11EYrhlAH17nSes43Y8dHRUwG4GAaGYmCdbY6OBv+VummW4VXGPOa8CD2yCWsxBg2/3lDF47/sm+N1TF2wwyOzKmT/JaI55KuQDSiQiOZCkpiKHW5T9wWspUXYLjd9U8nB1wcVcAwpupUxO7YfEtDXnui855i9ilDOys7C0sJhhVY3zR3r6kPoEd3NMS+nFyINnlcm8IwZHi37Nq+pa9xzMsl1AWe0MdXg97Bk/metoruK4tgjOeWwU6hhyaUISLFHnD6Vs4cLv4zhjuFA0SEPhqguzl/ogNPxUThzST1DLJajqxKoYNKBCwzHlJ
 X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2026 07:54:19.6111
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2026 07:54:19.3166
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 81774e75-66a3-47ff-d29a-08df205a5d7a
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2cf6f1dc-6f4b-464b-7b47-08df205a5d45
 X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
 X-MS-Exchange-CrossTenant-AuthSource: 
-	MAD0EPF000008B4.eurprd04.prod.outlook.com
+	ZR1PEPF0000E6B3.eurprd05.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DU2PR07MB9436
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR07MB8710
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 07:54:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247086
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247087
 
 From: Daniel Turull <daniel.turull@ericsson.com>
 
-Reports each recipe's releaseTime (added by the create-spdx-3.0 patch)
-from either a DEPLOY_DIR_SPDX tree or a single merged image SBOM. Used
-to spot-check release dates across a build and surface recipes missing
-one; helped find the SOURCE_DATE_EPOCH_FALLBACK leak fixed by the
-preceding patch.
+Record each package's release date in the releaseTime property of its
+software_Package object, using the SOURCE_DATE_EPOCH already computed
+for reproducible builds.
+
+Accuracy depends on how SOURCE_DATE_EPOCH was derived: exact for
+git-tagged recipes, best-effort for tarball/http(s) sources. Some
+Python sdists (e.g. cryptography, hypothesis, maturin) normalize all
+file mtimes to a fixed placeholder, so their releaseTime reflects
+packaging-tool behavior, not the real release date.
 
 AI-Generated: Uses Kiro with Claude Sonnet 5
 Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
 ---
+v2:
+- Dropped all options per Joshua's feedback; read SDE_FILE directly.
+- Dropped the redundant else: delattr(recipe, "releaseTime") branch.
+- Selftest compares against SDE_FILE content directly instead of
+  SOURCE_DATE_EPOCH, which can diverge from it.
+- Fixed a leak: recipes with no git checkout and no fetched source
+  had SDE_FILE holding only SOURCE_DATE_EPOCH_FALLBACK, showing a
+  bogus 2011-04-05T23:00:00Z releaseTime instead of none.
+v3:
+- Also run after do_unpack: do_deploy_source_date_epoch's setscene
+  shortcut can skip it, leaving SOURCE_DATE_EPOCH unset.
+- get_release_date() reads SOURCE_DATE_EPOCH again instead of
+  SDE_FILE, now that they're guaranteed equivalent.
+- test_release_date_source_date_epoch: switched to tar (base-files
+  has S =3D=3D UNPACKDIR and never gets a real SOURCE_DATE_EPOCH).
+- Added test_release_date_omitted_for_fallback_value.
 v4:
-- Rework to match the new placement of the releaseTime.
+- Per Richard's feedback, moved releaseTime from do_create_recipe_spdx
+  to do_create_spdx to keep the recipe-only task fetch-free.
+- Per Joshua's suggestion added into each downloaded source software_Packag=
+e
+- Updated selftests accordingly.
 ---
- scripts/contrib/spdx-release-date-report.py | 191 ++++++++++++++++++++
- 1 file changed, 191 insertions(+)
- create mode 100755 scripts/contrib/spdx-release-date-report.py
+ meta/lib/oe/spdx30_tasks.py          | 22 +++++++++++++++
+ meta/lib/oeqa/selftest/cases/spdx.py | 41 ++++++++++++++++++++++++++++
+ 2 files changed, 63 insertions(+)
 
-diff --git a/scripts/contrib/spdx-release-date-report.py b/scripts/contrib/=
-spdx-release-date-report.py
-new file mode 100755
-index 0000000000..71420d0e24
---- /dev/null
-+++ b/scripts/contrib/spdx-release-date-report.py
-@@ -0,0 +1,191 @@
-+#! /usr/bin/env python3
-+#
-+# Copyright OpenEmbedded Contributors
-+#
-+# SPDX-License-Identifier: GPL-2.0-only
-+#
-+# Author: Daniel Turull <daniel.turull@ericsson.com>
-+#
-+# Reports, per recipe, whether a valid releaseTime was recorded in SPDX
-+# 3.0.1 output.
-+#
-+# AI-Generated: Uses Kiro (Claude)
+diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
+index b6456a214a..dc82f21fb0 100644
+--- a/meta/lib/oe/spdx30_tasks.py
++++ b/meta/lib/oe/spdx30_tasks.py
+@@ -36,6 +36,24 @@ def set_timestamp_now(d, o, prop):
+         delattr(o, prop)
+=20
+=20
++def get_release_date(d):
++    """Resolve the release date to record in a package's releaseTime prope=
+rty.
 +
-+import argparse
-+import csv
-+import glob
-+import json
-+import logging
-+import os
-+import re
-+import sys
++    Uses SOURCE_DATE_EPOCH, which by this point (do_create_spdx runs after
++    do_unpack and do_deploy_source_date_epoch) reflects the source mtimes.
++    Omits the fallback value since it is not a meaningful release date.
++
++    Returns a datetime, or None if no release date should be recorded.
++    """
++    source_date_epoch =3D d.getVar("SOURCE_DATE_EPOCH")
++    if not source_date_epoch or source_date_epoch =3D=3D d.getVar(
++        "SOURCE_DATE_EPOCH_FALLBACK"
++    ):
++        return None
++
++    return datetime.fromtimestamp(int(source_date_epoch), tz=3Dtimezone.ut=
+c)
 +
 +
-+# Each do_create_spdx software_Package's spdxId is
-+# "<SPDX_NAMESPACE_PREFIX>/<PN>-<uuid5>/<unihash>/...", so the recipe name
-+# can be recovered directly from the id without walking relationships.
-+RECIPE_FROM_SPDX_ID_RE =3D re.compile(
-+    r"^.*/([^/]+)-[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]=
-{12}/"
-+)
+ def add_license_expression(
+     d, objset, license_expression, license_data, search_objsets=3D[]
+ ):
+@@ -441,6 +459,7 @@ def _enrich_source_package(d, dl, fd, file_name, primar=
+y_purpose):
+=20
+ def add_download_files(d, objset):
+     inputs =3D set()
++    release_date =3D get_release_date(d)
+=20
+     urls =3D d.getVar("SRC_URI").split()
+     fetch =3D bb.fetch.Fetch(urls, d)
+@@ -504,6 +523,9 @@ def add_download_files(d, objset):
+=20
+             _enrich_source_package(d, dl, fd, file_name, primary_purpose)
+=20
++            if release_date is not None:
++                dl.releaseTime =3D release_date
 +
+             if fd.method.supports_checksum(fd):
+                 for checksum_id in bb.fetch.CHECKSUM_LIST:
+                     if checksum_id not in oe.spdx30.HashAlgorithm.NAMED_IN=
+DIVIDUALS:
+diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/=
+cases/spdx.py
+index 8285189382..88c3eb6b15 100644
+--- a/meta/lib/oeqa/selftest/cases/spdx.py
++++ b/meta/lib/oeqa/selftest/cases/spdx.py
+@@ -6,6 +6,7 @@
+=20
+ import textwrap
+ import hashlib
++from datetime import datetime, timezone
+ from oeqa.selftest.case import OESelftestTestCase
+ from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
+ import oe.spdx30
+@@ -443,3 +444,43 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
+                 r'\d',
+                 f"Version '{version}' for package '{name}' should contain =
+digits"
+             )
 +
-+def recipe_name_from_spdx_id(spdx_id):
-+    """Extract the PN that generated an element, from its spdxId, or None.=
++    def test_release_date_source_date_epoch(self):
++        """releaseTime should be derived from SOURCE_DATE_EPOCH.
++
++        This is recorded on the downloaded source software_Package objects
++        produced by do_create_spdx (not the recipe-only do_create_recipe_s=
+pdx
++        task), since the release date can only be known once sources are
++        available and SOURCE_DATE_EPOCH has been computed.
++        """
++        # base-files has S =3D=3D UNPACKDIR and never gets a real
++        # SOURCE_DATE_EPOCH, so use tar, which unpacks a real tarball.
++        objset =3D self.check_recipe_spdx(
++            "tar",
++            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-tar.spdx.json=
+",
++        )
++
++        source_date_epoch =3D get_bb_var("SOURCE_DATE_EPOCH", "tar")
++        expected =3D datetime.fromtimestamp(int(source_date_epoch), tz=3Dt=
+imezone.utc)
++
++        pkg =3D None
++        for candidate in objset.foreach_type(oe.spdx30.software_Package):
++            if candidate.software_downloadLocation:
++                pkg =3D candidate
++                break
++
++        self.assertIsNotNone(pkg, "Unable to find downloaded source softwa=
+re_Package")
++        self.assertEqual(pkg.releaseTime, expected)
++
++    def test_release_date_omitted_without_downloaded_source(self):
++        """releaseTime only applies to downloaded source packages; recipes
++        with only local file:// sources have none, and get no releaseTime.=
 """
-+    match =3D RECIPE_FROM_SPDX_ID_RE.match(spdx_id or "")
-+    return match.group(1) if match else None
++        # base-files only has file:// sources, so it has no downloaded
++        # source software_Package and thus no releaseTime anywhere.
++        objset =3D self.check_recipe_spdx(
++            "base-files",
++            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/builds/build-base-files.spdx=
+.json",
++        )
 +
-+
-+def load_jsonld_graph(path):
-+    """Return the @graph list of a SPDX 3.0.1 JSON-LD document, or [] on e=
-rror."""
-+    try:
-+        with open(path, "r", encoding=3D"utf-8") as f:
-+            data =3D json.load(f)
-+    except (OSError, json.JSONDecodeError) as e:
-+        logging.warning("Skipping %s: %s", path, e)
-+        return []
-+    return data.get("@graph", [])
-+
-+
-+def extract_release_dates(elements):
-+    """
-+    Map recipe name -> releaseTime (or None), for each downloaded source
-+    software_Package found in elements. The recipe name is recovered from
-+    each package's own spdxId (see recipe_name_from_spdx_id). For a given
-+    name, the first package with a releaseTime wins; if none have one, the
-+    name still appears, mapped to None.
-+    """
-+    release_dates =3D {}
-+    for element in elements:
-+        if element.get("type") !=3D "software_Package":
-+            continue
-+        if not element.get("software_downloadLocation"):
-+            continue
-+        name =3D recipe_name_from_spdx_id(element.get("spdxId"))
-+        if not name:
-+            continue
-+        release_dates.setdefault(name, None)
-+        release_time =3D element.get("releaseTime")
-+        if release_time and not release_dates[name]:
-+            release_dates[name] =3D release_time
-+    return release_dates
-+
-+
-+def iter_spdx_elements(path):
-+    """Yield @graph elements from path: every build-*.spdx.json under path
-+    if it's a DEPLOY_DIR_SPDX tree, or path's own @graph if it's a single
-+    SPDX JSON-LD file (e.g. a merged image SBOM).
-+
-+    Only build-*.spdx.json is read for a DEPLOY_DIR_SPDX tree: it's the
-+    output of do_create_spdx, the only recipe task that calls
-+    add_download_files and so the only one that can carry
-+    software_downloadLocation/releaseTime. The other per-recipe documents
-+    (static-*.spdx.json from the fetch-free do_create_recipe_spdx, and
-+    package-*.spdx.json for binary packages) never have that data.
-+    """
-+    if os.path.isdir(path):
-+        build_pattern =3D os.path.join(path, "**", "builds", "build-*.spdx=
-.json")
-+        for build_path in sorted(glob.glob(build_pattern, recursive=3DTrue=
-)):
-+            yield from load_jsonld_graph(build_path)
-+    else:
-+        yield from load_jsonld_graph(path)
-+
-+
-+def _to_row(name, release_date):
-+    return {
-+        "recipe": name,
-+        "release_date": release_date or "",
-+    }
-+
-+
-+def build_report(path):
-+    """
-+    Build the report: [{"recipe": ..., "release_date": ...}], from either =
-a
-+    DEPLOY_DIR_SPDX tree or a single merged image SBOM file.
-+    """
-+    release_dates =3D extract_release_dates(iter_spdx_elements(path))
-+    return [_to_row(name, release_dates[name]) for name in sorted(release_=
-dates)]
-+
-+
-+def drop_redundant_native(report):
-+    """Drop foo-native rows when foo is also present in the report."""
-+    names =3D {r["recipe"] for r in report}
-+    return [
-+        r
-+        for r in report
-+        if not (r["recipe"].endswith("-native") and r["recipe"][:-len("-na=
-tive")] in names)
-+    ]
-+
-+
-+def filter_rows(report, sort_by_date=3DFalse):
-+    rows =3D list(report)
-+    if sort_by_date:
-+        rows.sort(key=3Dlambda r: (not r["release_date"], r["release_date"=
-], r["recipe"]))
-+    return rows
-+
-+
-+def print_table(rows):
-+    if not rows:
-+        print("No matching recipes found.")
-+        return
-+
-+    name_width =3D max(len("recipe"), *(len(r["recipe"]) for r in rows))
-+    print(f"{'recipe':<{name_width}}  release_date")
-+    for r in rows:
-+        print(f"{r['recipe']:<{name_width}}  {r['release_date']}")
-+
-+
-+def write_csv(rows, path):
-+    with open(path, "w", newline=3D"", encoding=3D"utf-8") as f:
-+        writer =3D csv.writer(f)
-+        writer.writerow(["recipe", "release_date"])
-+        for r in rows:
-+            writer.writerow([r["recipe"], r["release_date"]])
-+
-+
-+def main():
-+    parser =3D argparse.ArgumentParser(
-+        description=3D"Report recipe release dates from SPDX 3.0.1 output"
-+    )
-+    parser.add_argument(
-+        "path",
-+        help=3D"Path to DEPLOY_DIR_SPDX (e.g. tmp/deploy/spdx/3.0.1) or to=
- a "
-+             "single merged image SBOM file (e.g. "
-+             "tmp/deploy/images/<machine>/<image>.rootfs.spdx.json)",
-+    )
-+    parser.add_argument(
-+        "--csv",
-+        help=3D"Write the report to a CSV file instead of only printing a =
-table",
-+    )
-+    parser.add_argument(
-+        "--sort-by-date",
-+        action=3D"store_true",
-+        help=3D"Sort output by release date instead of recipe name (missin=
-g dates last)",
-+    )
-+    args =3D parser.parse_args()
-+
-+    logging.basicConfig(format=3D"[%(filename)s:%(lineno)d] %(message)s", =
-level=3Dlogging.INFO)
-+
-+    if not os.path.isdir(args.path) and not os.path.isfile(args.path):
-+        parser.error(f"{args.path} does not exist")
-+
-+    report =3D build_report(args.path)
-+    report =3D drop_redundant_native(report)
-+
-+    total =3D len(report)
-+    found =3D sum(1 for r in report if r["release_date"])
-+    logging.info("Recipes with SPDX package data: %d", total)
-+    logging.info("Recipes with a release date: %d", found)
-+    logging.info("Recipes missing a release date: %d", total - found)
-+
-+    rows =3D filter_rows(report, args.sort_by_date)
-+    print_table(rows)
-+
-+    if args.csv:
-+        write_csv(rows, args.csv)
-+        logging.info("CSV report written to %s", args.csv)
-+
-+    return 0
-+
-+
-+if __name__ =3D=3D "__main__":
-+    sys.exit(main())
++        for candidate in objset.foreach_type(oe.spdx30.software_Package):
++            self.assertIsNone(candidate.releaseTime)
 
