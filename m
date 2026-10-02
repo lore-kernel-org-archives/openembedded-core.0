@@ -1,146 +1,230 @@
-Return-Path: <yoann.congal@smile.fr>
+Return-Path: <alex.kanavin@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 767E7CA5FC4
-	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 09:07:40 +0000 (UTC)
-Received: from mail-wr2-f35.google.com (mail-wr2-f35.google.com [74.125.225.99])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.7099.1790932050021030851
+	by smtp.lore.kernel.org (Postfix) with ESMTP id EF375CA5FC4
+	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 09:35:43 +0000 (UTC)
+Received: from mail-qk2-f39.google.com (mail-qk2-f39.google.com [74.125.230.231])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.7478.1790933730985267067
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Oct 2026 02:07:30 -0700
+ Fri, 02 Oct 2026 02:35:31 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=AufZe7Rn;
- spf=pass (domain: smile.fr, ip: 74.125.225.99, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wr2-f35.google.com with SMTP id ffacd0b85a97d-48b09f6bbe8so977613f8f.1
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 02:07:29 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=qQlKocPC;
+ spf=pass (domain: gmail.com, ip: 74.125.230.231, mailfrom: alex.kanavin@gmail.com)
+Received: by mail-qk2-f39.google.com with SMTP id d75a77b69052e-5338b9a146dso13048481cf.1
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 02:35:30 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1790933730; cv=none;
+        d=google.com; s=arc-20260327;
+        b=RhAIcEOHoKUOCfArYjYjKHawZowepVd47GrSMEyHEamft2OIxnAJXIjVOjVF7zg5nR
+         88/b7WICQQCXcpJkprubfLOU5eehxa4BTM/jwInHVYUKKSCDfBfwpJo+9pE9jhdX6m4E
+         zbulgHQZXumwoZwtTEBsXBWAQRCR5Lei49PM0S1ckupV4KFiaV/8MVUonYhcTudFk0pQ
+         3jTOiGud+4XUdkrmSmC9TmY+gH4bakIsWL/z0TFI6uGwK+0vFl0NWqs4/3PL3avwaCkX
+         nC7or/rMjBAV8DxfzsVVTWFv5CM6iqBTFmb+JGYVMTgLAtX/gXOhjC62zU5z1NHn8ZXc
+         diRQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20260327;
+        h=cc:to:subject:message-id:date:from:in-reply-to:references
+         :mime-version:dkim-signature;
+        bh=x+2DK2UHMBGtLn1OgOnmeM45p74YQqlaq+cwqLXNY5E=;
+        fh=CaKl3nTvzE2YIuFRnqq40iBFgIGpQ3v+g5GjbTQPVfs=;
+        b=XQvoBE1oM/Pf7L6V5WsID4BSC7i8xSiDq+2w6APvS1oIJHckmG8buKYV/zIDXYtE/j
+         z1015zUoTr2nFzdMD2oRLS6rbJMgruHGwC8xdb5OsIlBcgtAW1djTsqhbVun0Y6CpHzj
+         mw4KteY+aKSdMt+3WOl0mywMniws3uO3ke+gE8MqhKALz8NG616p+qvr1cWKSCzagqDJ
+         YXJNtcxv6n7vzc8BJmzZN6b5XqZOFwjadsWkQP7W8L0HifDm3Sd6N1JJkOW02nlbmkJQ
+         RFcO/tSVZHIINeB3SnMociRq6OXm6fA7bWJMybC+3psjelO12QJqCa5CtzKrHhA0EDT7
+         BhDA==;
+        darn=lists.openembedded.org
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790932048; x=1791536848; darn=lists.openembedded.org;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=Xy7iIq8fLp5Cg2Pzrxqp86orDT5qlcPAzLQqp4CZv2U=;
-        b=AufZe7RnxX5sOIRKjzE3zHVVZX0+p9wRdFIjj3YrY0PbBmYlIQm5q/xGf+IH0rqFYG
-         JkmSVlTd5WlV0fHZBVDAuh4nmBH1r80UfGeS8qlxGT4LksMS5NlLmvShZGcXkjG2ey3t
-         cSbWa+zdfzyK4PGFyqav/L4Tm8AaSuynh5exU=
+        d=gmail.com; s=20251104; t=1790933730; x=1791538530; darn=lists.openembedded.org;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:from:to:cc:subject:date:message-id:reply-to
+         :content-type;
+        bh=x+2DK2UHMBGtLn1OgOnmeM45p74YQqlaq+cwqLXNY5E=;
+        b=qQlKocPCWn4YO2FAT3APLi3d5Bw0IgZuPTE6UO/42ow5GVP8BGURfJizDAOMQn3TVS
+         AjgAmlMHqAtvM8qKuqwq00ehqQwaTW2gv2uVSUsGTXo5u6A2JtM0UGe8ykTIxiwFBaQs
+         iHF9kjD17eglDb129oQiqnrPvXM+vpnk4l+kUqTUhx6yty6I36q0rhZMrU5ev9n5mrrO
+         YxJtiO0yQnlWhsG91yYw+66BdJgALqCt4AH/klWxTbidwb1d55rVJSoV5eVzY3v/eTWS
+         yoymtKpgTcKIy9FLjBeIr8LZTXbfRVPIYR0zZAySYgLYhlbiPrcmuP/nlSNCAsaXI1qe
+         Oayw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790932048; x=1791536848;
-        h=in-reply-to:references:to:from:subject:message-id:date:content-type
-         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
-         :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=Xy7iIq8fLp5Cg2Pzrxqp86orDT5qlcPAzLQqp4CZv2U=;
-        b=vRaeIrM7EGiOsRe7m8/gu2G8aTGSYV/uaJK1LntgVWgbRk3tPVQoF2D4cozH3a4VLe
-         Q10soC3fRPzoJHs8VTukypZdXMpb/N9p1JgrYf++gzz3FvLHx66S1LdfzwEpQBpCEk/9
-         pqSY6wrkOlwPM6DQ2pbiFl5XcvcCXjqNto8Ob+Kv27MFgkaNk2/fMnyyjvFg35gojiUi
-         jRzPZTRSwC+yQQo7X1nOPx31h00sHpASe+GxPi8C2EvmluE1d/NUUv2D2XjRSJDyzirE
-         47exNCxvfljXA1gjPDYiC+qwH6+j8Y1bvCCjvwx9681PR3hA+zkWh0mx0BguHxdOZvCL
-         AK/A==
-X-Forwarded-Encrypted: i=1; AKwUvBzTgV+Vl5zdwHcUC8eIq+3hHvYXv6R2VveVX1/LsJRB5SzzDhwu39CKISOp5N6rhLhJcU1+DghwfNy+p1PQ8VRC2w==@lists.openembedded.org
-X-Gm-Message-State: AFq9FYKSJtJniZiCgZZua4ZSUeNUY9VPpTGc31IkIP+aXIqMr52nfMsb
-	lTZrlepUZ520ylZ2wOv20tW5feel0e1v3H/o+0dsersZjA6c1f0fm87QndSEzP+TmmRf6PGR04m
-	k2OqwjvQ=
-X-Gm-Gg: AYBFou0V0dyNCkiRyw/FnpzbCNMcFkT/afQLF+se5hp9UZj7V8zpa7lrl8OOzwwElQW
-	wT/T1aPRKmwPNiUdk1JtRZ1fFcArhQuFd1x/VQKm4T3lq5vA8+yJUWEZknDNk/OKVD7TSD8JKVD
-	0Sv72z/gmnV+xVOj2d3vPw+dexyQgmn2BCx9Y2YFM0lUa5sq9RBbdzyAP0ZnzBytevWNQz3iMGX
-	nu7QEDxus5oRUdhQPmSSmZdNZ5GLglPzqyjd5lLLh0kVydLcOHh/myTGLRTjSf/jHgWwWgEu4LO
-	E/Mqfd3BwM7MWjRmQ10Dt1jYioW4Puibb3rKbW0GInuRCT79N3PVLIr3ei1vDuMEWYhBSKXxcKX
-	rY+/RlN2co46CyF7lsMnPNmV24Tx8ApV/kL0vdN0a9PfwwsCh96HEuQCcX8oZqq1Ubik5Iki9YU
-	7i/EZtDzxS62phyyym7h+j/A0t42pZ5Fk46y9KjfRAnkCOypqYJTPGlVC9/MJfvPAX0Up1N6Gb/
-	c8R3rLXibFEM1nD4FaRnJYsjsMfqX290kOYVB4qrz5eJPjkSHohWFgSiVTFvA==
-X-Received: by 2002:a05:6000:38c:b0:48a:fbd2:c2b6 with SMTP id ffacd0b85a97d-48b12734e06mr3838916f8f.55.1790932048012;
-        Fri, 02 Oct 2026 02:07:28 -0700 (PDT)
-Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b382f9bc0sm4322902f8f.41.2026.10.02.02.07.27
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2026 02:07:27 -0700 (PDT)
-Mime-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain; charset=UTF-8
-Date: Fri, 02 Oct 2026 11:07:27 +0200
-Message-Id: <DLU8FCHIHDV4.IM2I01UE56W8@smile.fr>
-Subject: Re: [OE-core][scarthgap][PATCH v2] python3-click: fix CVE-2026-7246
-From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <dkelaiya@cisco.com>, <openembedded-core@lists.openembedded.org>
-X-Mailer: aerc 0.20.0
-References: <20260923063627.2741697-1-dkelaiya@cisco.com>
-In-Reply-To: <20260923063627.2741697-1-dkelaiya@cisco.com>
+        d=1e100.net; s=20260707; t=1790933730; x=1791538530;
+        h=content-type:cc:to:subject:message-id:date:from:in-reply-to
+         :references:mime-version:x-gm-gg:x-gm-message-state:from:to:cc
+         :subject:date:message-id:reply-to:content-type;
+        bh=x+2DK2UHMBGtLn1OgOnmeM45p74YQqlaq+cwqLXNY5E=;
+        b=eSVromIUAByUODA5sEYhgbtiivNYOS7LuYMmJxE6aNeHd+2PvcWNk0mjHVNvxkf9zg
+         kaHRYQMgyeh7fZpC3bS+i1eZCPqDLySlDA7rOQUSaetDVYhwPuI1T9ydMTiyH55txjH9
+         ciGTK+IxZX6qQs0BfPbmaKn089EGlq1Fis28f9aLWHnKWJr0W5mmWimzwjU0Pqw6kpiA
+         ptXzes8TMR3GUYEwLXLw1lKD8f1NFEeahnrNNBp6eIKfL14RO5EsY3jAT7B4EZW/QRVN
+         G8vKHxg9Rz/PR6COkXoqEYIg7HqhIiu4bXHKS0MFZgDYcwUzzM7CB+Z7wWS4ieEGKO8N
+         JOMw==
+X-Forwarded-Encrypted: i=1; AKwUvBxJFpA9yf1vTQOeRjs+tOqsmLrnp7neEePv3kOsZw/nOLi6ouR/ftYePuPzr1GwKu6RyP0TPH2LUdbGts0zTMaY3g==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nXN+qYtOZdyRvNuAmPLcuIY3Z0eHoMkPAoWnwHVbDlLDV+uc5X
+	mkxZdos49l6NigNdRvD5F9r2BDiT1aLoKZfjp+ZwRP92IE1GeUIbIyZxZdjPXvNruGJphU4duZv
+	frubrUXkzyNn7ifbaYtiRukcVfb/GSmg=
+X-Gm-Gg: AYBFou3XkE0eqkFFw747XjnyJuz+AUgJK6o0nZWKk4irWH5cWcDI2e0wCtmgrSMSqVv
+	fa4rNDQUAHvShLtzhjkKpYDfUw92PU5DNql4gTdKTeGCjdfxFlFbTAPYCehRtBQvU1V7rJ51Gta
+	cvuc+dB2bac3kQ031ydL0//iRRwzvbLxDBJ9kQjaPOjzAxMdUGZagHR2nyi5KF8g/GtFROpwIRw
+	3t+6Qk4vi04F9ogxW2yqMs4PWIM/gZjFvdhiXUHE69AtGlMoRjLRBUthaioseO5vvrTk9CaGc/Y
+	6FDwOa7H963d+RvjWaSE3ljpEQx62S5d5LrhG+j/AEmSnSl84+9skjamvEPYYilhJwMJ4bGC5PQ
+	0pZY1qCOL6qJfV4WZ8XWf0Fk8
+X-Received: by 2002:a05:622a:1211:b0:530:f729:d7af with SMTP id
+ d75a77b69052e-533d989f344mr31717371cf.54.1790933729789; Fri, 02 Oct 2026
+ 02:35:29 -0700 (PDT)
+MIME-Version: 1.0
+References: <20261002071557.74249-1-jaipaul.cheernam@est.tech>
+ <20261002071557.74249-2-jaipaul.cheernam@est.tech> <DLU83IUWHFP0.2IU6H1IY0JSAW@bootlin.com>
+In-Reply-To: <DLU83IUWHFP0.2IU6H1IY0JSAW@bootlin.com>
+From: Alexander Kanavin <alex.kanavin@gmail.com>
+Date: Fri, 2 Oct 2026 11:35:18 +0200
+X-Gm-Features: AclHuK_49rkVt_rAdIwTxAFW4grQhEyVBt7R3q_BdAbU3EMYI7vHCzQ_PKDT_QA
+Message-ID: <CANNYZj-gd90Ls3UOXrQsSmfmNqiJXRunO2xC1btwpDSAUxCHrw@mail.gmail.com>
+Subject: Re: [OE-core] [PATCH 1/4] libjitterentropy: upgrade 3.6.3 -> 3.7.0
+To: mathieu.dubois-briand@bootlin.com
+Cc: Jaipaul Cheernam <jaipaul.cheernam@est.tech>, openembedded-core@lists.openembedded.org
+Content-Type: multipart/alternative; boundary="000000000000c7c9da065cd84065"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 09:07:40 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247094
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 09:35:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247095
 
-On Wed Sep 23, 2026 at 8:36 AM CEST, Darsh Kelaiya -X (dkelaiya - E INFOCHI=
-PS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
-> From: Darsh Kelaiya <dkelaiya@cisco.com>
+--000000000000c7c9da065cd84065
+Content-Type: text/plain; charset="UTF-8"
+
+On Fri, 2 Oct 2026 at 10:52, Mathieu Dubois-Briand via
+lists.openembedded.org <mathieu.dubois-briand=
+bootlin.com@lists.openembedded.org> wrote:
+
+> On Fri Oct 2, 2026 at 9:15 AM CEST, Jaipaul Cheernam wrote:
+> > Source: CHANGES.md
+> >
+> > 3.7.0
+> >  * Add secure memory implementation for Linux and {Net,Open,Free}BSD,
+> MacOS and Windows
+> >  * Update supported CMake version to 3.10
+> >  * doc: use Doxygen-style comments
+> >  * NTG.1 compliance: Modify startup such that the memory access and
+> SHA-3 loop are treated as independent noise sources which are sampled to
+> collect at least 240 bits each before first block of random numbers is
+> released
+> >  * Remove all code when JENT_CONF_DISABLE_LOOP_SHUFFLE is unset. This
+> code is already discouraged for a long time. Now it is taken out for good.
+> >  * If cache size cannot be detected from base system (e.g.
+> virtualization), use the requested memory size.
+> >  * Change the stuck test to always calculate the absolute values of the
+> 2nd and 3rd discrete derivation of time.
+> >  * Replace SHA3-256 output generation with XDRBG-256
+> >  * Prune the jitterentropy.h header file of internal definitions and
+> delcarations which are moved to src/jitterentropy-internal.h. With that,
+> jitterentropy.h only contains the API. This modification does not alter the
+> Jitter RNG behavior at all.
+> >  * Update secure storage memory implementation for libgcrypt and OpenSSL
+> >  * Add API jent_status
+> >
+> > License-Update: copyright years updated.
+> >
+> > Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+> > ---
 >
-> This backports the click.edit() hardening identified as the fix in
-> the public advisory [2], using upstream commit [1].
+> Hi Jaipaul,
 >
-> Upstream follow-up commit [3] adds regression-test coverage for editor
-> command parsing and clarifies the related source comments. It does not
-> change runtime behavior or provide an additional security fix. Carry it
-> as a separate patch to preserve the upstream commit boundaries.
+> Thanks for the upgrade.
 >
-> [1] https://github.com/pallets/click/commit/b96c2601af4e01341b4d2c0db494e=
-bee4aef8f42
-> [2] https://github.com/tsigouris007/security-advisories/security/advisori=
-es/GHSA-47fr-3ffg-hgmw
-> [3] https://github.com/pallets/click/commit/b55294797ef32e22eb41e7d9657ed=
-b8faefa4976
+> It looks like this is breaking rng-tools:
 >
-> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
-> ---
->  .../CVE-2026-7246-regression.patch            | 124 +++++++++++
->  .../python/python3-click/CVE-2026-7246.patch  | 201 ++++++++++++++++++
->  .../python/python3-click_8.1.7.bb             |   6 +-
->  3 files changed, 330 insertions(+), 1 deletion(-)
->  create mode 100644 meta/recipes-devtools/python/python3-click/CVE-2026-7=
-246-regression.patch
->  create mode 100644 meta/recipes-devtools/python/python3-click/CVE-2026-7=
-246.patch
+> ERROR: lib32-rng-tools-6.17-r0 do_compile: oe_runmake failed
+> ...
+> | ../sources/rng-tools-6.17/rngd_jitter.c: In function 'rngd_notime_start':
+> | ../sources/rng-tools-6.17/rngd_jitter.c:56:45: error: invalid use of
+> undefined type 'struct jent_notime_ctx'
+> |    56 |         ret =
+> -pthread_attr_init(&thread_ctx->notime_pthread_attr);
 >
-> [...]
-> diff --git a/meta/recipes-devtools/python/python3-click_8.1.7.bb b/meta/r=
-ecipes-devtools/python/python3-click_8.1.7.bb
-> index b75d9108893..8a077f48c7c 100644
-> --- a/meta/recipes-devtools/python/python3-click_8.1.7.bb
-> +++ b/meta/recipes-devtools/python/python3-click_8.1.7.bb
-> @@ -12,7 +12,10 @@ SRC_URI[sha256sum] =3D "ca9853ad459e787e2192211578cc90=
-7e7594e294c7ccc834310722b41b
-> =20
->  inherit pypi setuptools3 ptest
-> =20
-> -SRC_URI +=3D "file://run-ptest"
-> +SRC_URI +=3D "file://run-ptest \
-> +            file://CVE-2026-7246.patch \
-> +            file://CVE-2026-7246-regression.patch \
-> +           "
-> =20
->  CVE_PRODUCT =3D "palletsprojects:click"
-> =20
-> @@ -36,6 +39,7 @@ CLEANBROKEN =3D "1"
->  RDEPENDS:${PN} +=3D "\
->      python3-io \
->      python3-threading \
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/builds/4614
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/builds/4816
+>
+> Can you have a look at the issue?
+>
 
-Hello,
+I think
+https://github.com/smuellerDD/jitterentropy-library/commit/a038d0c372f83aba10f3850c5b122dc5ff8cdc8c
+needs to be backported.
 
-> +    python3-shell \
+Alex
 
-Why was this added? master does not have this RDEPENDS. If that is an
-issue to fix, then it should go through master (and other stables)
-first.
+--000000000000c7c9da065cd84065
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 
->      "
-> =20
->  BBCLASSEXTEND =3D "native nativesdk"
+<div dir=3D"ltr"><div class=3D"gmail_quote gmail_quote_container"><div dir=
+=3D"ltr" class=3D"gmail_attr">On Fri, 2 Oct 2026 at 10:52, Mathieu Dubois-B=
+riand via <a href=3D"http://lists.openembedded.org">lists.openembedded.org<=
+/a> &lt;mathieu.dubois-briand=3D<a href=3D"mailto:bootlin.com@lists.openemb=
+edded.org">bootlin.com@lists.openembedded.org</a>&gt; wrote:<br></div><bloc=
+kquote class=3D"gmail_quote" style=3D"margin:0px 0px 0px 0.8ex;border-left:=
+1px solid rgb(204,204,204);padding-left:1ex">On Fri Oct 2, 2026 at 9:15 AM =
+CEST, Jaipaul Cheernam wrote:<br>
+&gt; Source: CHANGES.md<br>
+&gt;<br>
+&gt; 3.7.0<br>
+&gt;=C2=A0 * Add secure memory implementation for Linux and {Net,Open,Free}=
+BSD, MacOS and Windows<br>
+&gt;=C2=A0 * Update supported CMake version to 3.10<br>
+&gt;=C2=A0 * doc: use Doxygen-style comments<br>
+&gt;=C2=A0 * NTG.1 compliance: Modify startup such that the memory access a=
+nd SHA-3 loop are treated as independent noise sources which are sampled to=
+ collect at least 240 bits each before first block of random numbers is rel=
+eased<br>
+&gt;=C2=A0 * Remove all code when JENT_CONF_DISABLE_LOOP_SHUFFLE is unset. =
+This code is already discouraged for a long time. Now it is taken out for g=
+ood.<br>
+&gt;=C2=A0 * If cache size cannot be detected from base system (e.g. virtua=
+lization), use the requested memory size.<br>
+&gt;=C2=A0 * Change the stuck test to always calculate the absolute values =
+of the 2nd and 3rd discrete derivation of time.<br>
+&gt;=C2=A0 * Replace SHA3-256 output generation with XDRBG-256<br>
+&gt;=C2=A0 * Prune the jitterentropy.h header file of internal definitions =
+and delcarations which are moved to src/jitterentropy-internal.h. With that=
+, jitterentropy.h only contains the API. This modification does not alter t=
+he Jitter RNG behavior at all.<br>
+&gt;=C2=A0 * Update secure storage memory implementation for libgcrypt and =
+OpenSSL<br>
+&gt;=C2=A0 * Add API jent_status<br>
+&gt;<br>
+&gt; License-Update: copyright years updated.<br>
+&gt;<br>
+&gt; Signed-off-by: Jaipaul Cheernam &lt;jaipaul.cheernam@est.tech&gt;<br>
+&gt; ---<br>
+<br>
+Hi Jaipaul,<br>
+<br>
+Thanks for the upgrade.<br>
+<br>
+It looks like this is breaking rng-tools:<br>
+<br>
+ERROR: lib32-rng-tools-6.17-r0 do_compile: oe_runmake failed<br>
+...<br>
+| ../sources/rng-tools-6.17/rngd_jitter.c: In function &#39;rngd_notime_sta=
+rt&#39;:<br>
+| ../sources/rng-tools-6.17/rngd_jitter.c:56:45: error: invalid use of unde=
+fined type &#39;struct jent_notime_ctx&#39;<br>
+|=C2=A0 =C2=A0 56 |=C2=A0 =C2=A0 =C2=A0 =C2=A0 =C2=A0ret =3D -pthread_attr_=
+init(&amp;thread_ctx-&gt;notime_pthread_attr);<br>
+<br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/17/buil=
+ds/4614" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproj=
+ect.org/valkyrie/#/builders/17/builds/4614</a><br>
+<a href=3D"https://autobuilder.yoctoproject.org/valkyrie/#/builders/3/build=
+s/4816" rel=3D"noreferrer" target=3D"_blank">https://autobuilder.yoctoproje=
+ct.org/valkyrie/#/builders/3/builds/4816</a><br>
+<br>
+Can you have a look at the issue?<br></blockquote><div><br></div><div>I thi=
+nk=C2=A0<a href=3D"https://github.com/smuellerDD/jitterentropy-library/comm=
+it/a038d0c372f83aba10f3850c5b122dc5ff8cdc8c">https://github.com/smuellerDD/=
+jitterentropy-library/commit/a038d0c372f83aba10f3850c5b122dc5ff8cdc8c</a> n=
+eeds to be backported.</div><div><br></div><div>Alex=C2=A0</div></div></div=
+>
 
-FYI, the rest of the patch looks good to me. I've not found convincing
-reason to ignore the CVE. So the fix is the way forward.
-
-Regards,
---=20
-Yoann Congal
-Smile ECS
-
+--000000000000c7c9da065cd84065--
 
