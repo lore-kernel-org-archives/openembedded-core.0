@@ -1,139 +1,174 @@
-Return-Path: <bbnpreetsingh@gmail.com>
+Return-Path: <auh@yoctoproject.org>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 82484CA5FD4
-	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 01:09:02 +0000 (UTC)
-Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2089.1790903342151391016
+	by smtp.lore.kernel.org (Postfix) with ESMTP id D9CC4CA5FC4
+	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 06:00:43 +0000 (UTC)
+Received: from a27-45.smtp-out.us-west-2.amazonses.com (a27-45.smtp-out.us-west-2.amazonses.com [54.240.27.45])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.5283.1790920842662012913
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2026 18:09:02 -0700
+ Thu, 01 Oct 2026 23:00:42 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=T7tbXVnb;
- spf=pass (domain: gmail.com, ip: 74.125.227.171, mailfrom: bbnpreetsingh@gmail.com)
-Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a4c8262465so2653055a91.2
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 18:09:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790903341; x=1791508141; darn=lists.openembedded.org;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:from:to:cc:subject:date
-         :message-id:reply-to:content-type;
-        bh=16jAeDJ4SKFJpGPl5J+4JU8J8YhrIDBUNC+Rz00Hn7U=;
-        b=T7tbXVnb6TQppG+7RVRREQH6XIRB4M4Gm92cW9rKOeS4XuA2/TXmXIhvHhGkKKfprt
-         6dzwsjmjzcgMcbCac7paYtOtRL5WtpsDBTVwjgk3pQeoCB9g0tv2wccex/CLeC/Zx6AL
-         x55p06W4/bAjtWz20QZxyMnMvJFhvpZ5k9tXWZDKh/o9GLzyb7JatTio6DV980j5Rt1q
-         GZpfwp74+DMwAuW3DSM/nihTa6zNb7RqNwE6CJnXkdQWAKYiOKcFd12p1n4JyxFz55Ik
-         gxtxPHqe8hk8QfleFq71C5IpvRitzy7LmAoRYDP3NmXQ5ZYi/tLS5xs3FPMRpNpqo5sL
-         Twiw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790903341; x=1791508141;
-        h=content-transfer-encoding:mime-version:references:in-reply-to
-         :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
-         :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=16jAeDJ4SKFJpGPl5J+4JU8J8YhrIDBUNC+Rz00Hn7U=;
-        b=Op203i58oQO7TyPUpKlA5F7LmKDzG8qL+R3uM1XbhuzIxBt0IJ3XdWaqZOCR269KyO
-         RQJhS4JUqt+wHRohpOdwSpdy/nSTMc/K8sUBPDiV3/9ZES5XCpqpCS+HdJ+iTDRwOFh9
-         PsUhi99JgyN6x+A8BhWcSVjrYVsk8vq7rQRbYMPdYda0hkv2OrE50sSw1GofM7COdumO
-         yRVkGdZqR0JACe93JUq4hi/hq/bjKgRvcPXzYy48Vr+H/4uG3qKoYgmx1a7ouBfqPZc8
-         qDyHiZXz2udYBPAit2nBa8XemJqcerPcbSC+UTHkhVen4DXlb2QWu/bU8ZOt5aSJ+o2l
-         CD1w==
-X-Gm-Message-State: AFq9FYIzKRpfYz0kmecN+1Nugn3NtZypsw0bgSK0FOn03uhkqo4uczzu
-	JdjHHgab6pqo/8BpeWhiH2DUHcQt3RcX/vgxJG4EC4WMUmQluVBug//TDPVLAwqdTmmbQ4AS
-X-Gm-Gg: AYBFou31cMbKLmVzBsnu5NdkSVlnEqYO/p1UqEBGQxiX7hQODkWGH9FzZLhNRI1ElVE
-	A+ggwrUBH1L4R6SPaUD0JgEUL7WZ6LRutl95hukMeyYiYx8C+ToiTqfzeDTGdkXkm2B6y5y5sit
-	YP34pxOx+kCJsJMj3MYfmBcdjfqFmQAdwbK+JmZ28dqZSySN7usKjjZ78LB4VrsPUmyu8h4oWf1
-	6+Z88wBmyThRvC9qioJ6Q0q8Hd553bXc5C/7hI8siFEXiLyPUmqQDMnC2AnZ9bijcUAKL8c53oo
-	tkCVTeCz2cqsp7RO1QVpKhX+ZA9FZ3ukBj4ieyujJtZbd2zwjBCzm+Gf4WYcARHZTBDszksKceh
-	SRJd2k+JxmO3fPnOvZ6T+NIG6MB9mgGeLHizkSUhDdfNXxPfYjFfwt4f4vQZ2Yb1+XbkVChTy3K
-	ASIal6ImeX/G0CGbcwu4cWIAkivahFefiisqTlEQzGJ1CPBrqNdWfAzLZ43sTqTFvA5ucTMQ==
-X-Received: by 2002:a17:90b:4a92:b0:3a4:e635:a8b9 with SMTP id 98e67ed59e1d1-3a6ce7aaab7mr1092454a91.32.1790903341054;
-        Thu, 01 Oct 2026 18:09:01 -0700 (PDT)
-Received: from ydev.. ([108.180.130.139])
-        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a6dcdac9f7sm431636a91.1.2026.10.01.18.09.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 18:09:00 -0700 (PDT)
-From: Babanpreet Singh <bbnpreetsingh@gmail.com>
-To: openembedded-core@lists.openembedded.org
-Cc: Yoann Congal <yoann.congal@smile.fr>,
-	Julien Stephan <jstephan@baylibre.com>,
-	Babanpreet Singh <bbnpreetsingh@gmail.com>
-Subject: [scarthgap][PATCH 2/2] oeqa/selftest/devtool: cover update-recipe --initial-rev
-Date: Fri,  2 Oct 2026 01:08:59 +0000
-Message-ID: <20261002010859.7-2-bbnpreetsingh@gmail.com>
-X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261002010859.7-1-bbnpreetsingh@gmail.com>
-References: <20261002010859.7-1-bbnpreetsingh@gmail.com>
+ dkim=pass header.i=@yoctoproject.org header.s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky header.b=iqY4R1AC;
+ dkim=pass header.i=@amazonses.com header.s=hsbnp7p3ensaochzwyq5wwmceodymuwv header.b=SJnFcI1w;
+ spf=pass (domain: us-west-2.amazonses.com, ip: 54.240.27.45, mailfrom: 010101a0fb3359ea-47834dfd-395f-4a19-b2c0-ca8300c79a54-000000@us-west-2.amazonses.com)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=lvjh2tk576v2ro5mi6k4dt3mc6wpqbky; d=yoctoproject.org;
+	t=1790920841;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date;
+	bh=qknjaCQ0m9y/1wEZ+ArOe54BeVwNNIdHkAMmKpivFDk=;
+	b=iqY4R1ACbRvRjCBI21SGtJjjE1pmw0fGhGf5tZLQbwlzmnXWLMKot1CVpPrDTC7O
+	P42hR2F+g6sZYtbmBZqINmnrxBI0F3QMeePkRTLoejKQtll+kEMwfvhLj4cLhAI75Md
+	yRb7G6G34op8eZvRFIhueEi1Rs2f6gtkWEcOTyCc=
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/simple;
+	s=hsbnp7p3ensaochzwyq5wwmceodymuwv; d=amazonses.com; t=1790920841;
+	h=Content-Type:MIME-Version:From:To:Cc:Subject:Message-Id:Date:Feedback-ID;
+	bh=qknjaCQ0m9y/1wEZ+ArOe54BeVwNNIdHkAMmKpivFDk=;
+	b=SJnFcI1wPVrHB9x0oD29BfUe9FECnnQii4g1662F6SN+D0Ay/9XOnmorfLnoJ8Y4
+	BJ0ziuZ/LjyzCipYdB3Op1/Rwsbdu8FQq48FqefyzhtprRO7vlAZnV6Zal2J+bLXf/r
+	YgDyastully99HnfkfMym9YFRJgDmUCSo4+VlX/w=
+Content-Type: multipart/mixed; boundary="===============1078421666001441984=="
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+From: auh@yoctoproject.org
+To: Richard Purdie <richard.purdie@linuxfoundation.org>
+Cc: openembedded-core@lists.openembedded.org
+Subject: [AUH] patchelf: upgrading to 0.19.2 SUCCEEDED
+Message-ID: <010101a0fb3359ea-47834dfd-395f-4a19-b2c0-ca8300c79a54-000000@us-west-2.amazonses.com>
+Date: Fri, 2 Oct 2026 06:00:41 +0000
+Feedback-ID: ::1.us-west-2.9np3MYPs3fEaOBysGKSlUD4KtcmPijcmS9Az2Hwf7iQ=:AmazonSES
+X-SES-Outgoing: 2026.10.02-54.240.27.45
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 01:09:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247059
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 06:00:43 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247060
 
-The --initial-rev option had no selftest coverage. Extend
-test_devtool_update_recipe to run update-recipe with --initial-rev
-set to the recorded initial revision, which should match the default
-output, and to a revision partway through the local commits, which
-should export only the commits after it.
+--===============1078421666001441984==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 
-AI-Generated: Uses Claude (claude-fable-5)
-Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
-Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
-Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
-(cherry picked from commit 171af3b2915dd076c8d1b205ff75eac1ebd5a586)
-[Adjusted for scarthgap: also takes the cleanup_cmd change to this test
-from de635a9bc0 ("mdadm: fetch from git"), which the new steps rely on]
-Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
+Hello,
+
+this email is a notification from the Auto Upgrade Helper
+that the automatic attempt to upgrade the recipe(s) *patchelf* to *0.19.2* has Succeeded.
+
+Next steps:
+    - apply the patch: git am 0001-patchelf-upgrade-0.19.1-0.19.2.patch
+    - check the changes to upstream patches and summarize them in the commit message,
+    - compile an image that contains the package
+    - perform some basic sanity tests
+    - amend the patch and sign it off: git commit -s --reset-author --amend
+    - send it to the appropriate mailing list
+
+Alternatively, if you believe the recipe should not be upgraded at this time,
+you can fill RECIPE_NO_UPDATE_REASON in respective recipe file so that
+automatic upgrades would no longer be attempted.
+
+Please review the attached files for further information and build/update failures.
+Any problem please file a bug at https://bugzilla.yoctoproject.org/enter_bug.cgi?product=Automated%20Update%20Handler
+
+Regards,
+The Upgrade Helper
+
+-- >8 --
+From 4064a6dc024f61bbc665e306159fb184cb7e4e2c Mon Sep 17 00:00:00 2001
+From: Upgrade Helper <auh@yoctoproject.org>
+Date: Fri, 2 Oct 2026 05:33:30 +0000
+Subject: [PATCH] patchelf: upgrade 0.19.1 -> 0.19.2
+
+## 0.19.2 (October 1, 2026)
+A bug fix release for rewriting executables after stripping.
+### Bug fixes
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 27 ++++++++++++++++++++++++-
- 1 file changed, 26 insertions(+), 1 deletion(-)
+ meta/recipes-devtools/patchelf/patchelf_git.bb | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 6af3e2417a..cace9d26bd 100644
---- a/meta/lib/oeqa/selftest/cases/devtool.py
-+++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -1186,13 +1186,38 @@ class DevtoolUpdateTests(DevtoolBase):
-         result = runCmd('echo "A new file" > devtool-new-file', cwd=tempdir)
-         result = runCmd('git add devtool-new-file', cwd=tempdir)
-         result = runCmd('git commit -m "Add a new file"', cwd=tempdir)
--        self.add_command_to_tearDown('cd %s; rm %s/*.patch; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
-+        cleanup_cmd = 'cd %s; rm %s/*.patch; git add %s; git checkout %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile))
-+        self.add_command_to_tearDown(cleanup_cmd)
-         result = runCmd('devtool update-recipe %s' % testrecipe)
-         result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
-         expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
-                            ('A ', '.*/0001-Change-the-README.patch$'),
-                            ('A ', '.*/0002-Add-a-new-file.patch$')]
-         self._check_repo_status(os.path.dirname(recipefile), expected_status)
-+        result = runCmd(cleanup_cmd)
-+        self._check_repo_status(os.path.dirname(recipefile), [])
-+        # Now try the same passing --initial-rev: the recorded initial
-+        # revision must give the same result as not passing the option, and a
-+        # later revision must export only the commits after it
-+        result = runCmd('git rev-parse devtool-base', cwd=tempdir)
-+        initial_rev = result.output.strip()
-+        result = runCmd('devtool update-recipe --initial-rev %s %s' % (initial_rev, testrecipe))
-+        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
-+        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
-+                           ('A ', '.*/0001-Change-the-README.patch$'),
-+                           ('A ', '.*/0002-Add-a-new-file.patch$')]
-+        self._check_repo_status(os.path.dirname(recipefile), expected_status)
-+        result = runCmd(cleanup_cmd)
-+        self._check_repo_status(os.path.dirname(recipefile), [])
-+        result = runCmd('git rev-parse HEAD~1', cwd=tempdir)
-+        midpoint_rev = result.output.strip()
-+        result = runCmd('devtool update-recipe --initial-rev %s %s' % (midpoint_rev, testrecipe))
-+        result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
-+        expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
-+                           ('A ', '.*/0001-Add-a-new-file.patch$')]
-+        self._check_repo_status(os.path.dirname(recipefile), expected_status)
-+        result = runCmd(cleanup_cmd)
-+        self._check_repo_status(os.path.dirname(recipefile), [])
+diff --git a/meta/recipes-devtools/patchelf/patchelf_git.bb b/meta/recipes-devtools/patchelf/patchelf_git.bb
+index 741c1e6612..a69f3b9d75 100644
+--- a/meta/recipes-devtools/patchelf/patchelf_git.bb
++++ b/meta/recipes-devtools/patchelf/patchelf_git.bb
+@@ -5,9 +5,9 @@ HOMEPAGE = "https://github.com/NixOS/patchelf"
+ LICENSE = "GPL-3.0-only"
  
-     def test_devtool_update_recipe_git(self):
-         # Check preconditions
+ SRC_URI = "git://github.com/NixOS/patchelf;protocol=https;branch=master;tag=${PV}"
+-SRCREV = "7688b17c18d16f67fa8d5a82a2404c2e3a18648d"
++SRCREV = "382d8bc12db9e720515da49d9c272ef4a622c3c0"
+ 
+-PV = "0.19.1"
++PV = "0.19.2"
+ 
+ LIC_FILES_CHKSUM = "file://COPYING;md5=c678957b0c8e964aa6c70fd77641a71e"
+ 
 -- 
-2.43.0
+2.47.1
 
+
+--===============1078421666001441984==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="patchelf-changelog.txt"
+
+## 0.19.2 (October 1, 2026)
+A bug fix release for rewriting executables after stripping.
+### Bug fixes
+
+--===============1078421666001441984==
+Content-Type: text/plain; charset="us-ascii"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
+Content-Disposition: attachment; filename="buildhistory-diff-full.txt"
+
+packages/x86-64-v3-poky-linux/patchelf: SRC_URI changed from "git://github.com/NixOS/patchelf;protocol=https;branch=master;tag=0.19.1" to "git://github.com/NixOS/patchelf;protocol=https;branch=master;tag=0.19.2"
+packages/x86-64-v3-poky-linux/patchelf: PKGV changed from 0.19.1 [default] to 0.19.2 [default]
+packages/x86-64-v3-poky-linux/patchelf: PV changed from "0.19.1" to "0.19.2"
+packages/x86-64-v3-poky-linux/patchelf/patchelf-dbg: PKGV changed from 0.19.1 [default] to 0.19.2 [default]
+packages/x86-64-v3-poky-linux/patchelf/patchelf-dbg: PKGSIZE changed from 4033128 to 4033832 (+0%)
+packages/x86-64-v3-poky-linux/patchelf/patchelf-dbg: PV changed from "0.19.1" to "0.19.2"
+packages/x86-64-v3-poky-linux/patchelf/patchelf-dev: PKGV changed from 0.19.1 [default] to 0.19.2 [default]
+packages/x86-64-v3-poky-linux/patchelf/patchelf-dev: PV changed from "0.19.1" to "0.19.2"
+packages/x86-64-v3-poky-linux/patchelf/patchelf-doc: PKGV changed from 0.19.1 [default] to 0.19.2 [default]
+packages/x86-64-v3-poky-linux/patchelf/patchelf-doc: PV changed from "0.19.1" to "0.19.2"
+packages/x86-64-v3-poky-linux/patchelf/patchelf-locale: PKGV changed from 0.19.1 [default] to 0.19.2 [default]
+packages/x86-64-v3-poky-linux/patchelf/patchelf-locale: PV changed from "0.19.1" to "0.19.2"
+packages/x86-64-v3-poky-linux/patchelf/patchelf-src: PKGV changed from 0.19.1 [default] to 0.19.2 [default]
+packages/x86-64-v3-poky-linux/patchelf/patchelf-src: PKGSIZE changed from 321453 to 321838 (+0%)
+packages/x86-64-v3-poky-linux/patchelf/patchelf-src: PV changed from "0.19.1" to "0.19.2"
+packages/x86-64-v3-poky-linux/patchelf/patchelf-src: FILELIST: directory renamed /usr/src/debug/patchelf/0.19.1/src -> /usr/src/debug/patchelf/0.19.2/src
+packages/x86-64-v3-poky-linux/patchelf/patchelf-staticdev: PKGV changed from 0.19.1 [default] to 0.19.2 [default]
+packages/x86-64-v3-poky-linux/patchelf/patchelf-staticdev: PV changed from "0.19.1" to "0.19.2"
+packages/x86-64-v3-poky-linux/patchelf/patchelf-zsh-completion: PKGV changed from 0.19.1 [default] to 0.19.2 [default]
+packages/x86-64-v3-poky-linux/patchelf/patchelf-zsh-completion: PV changed from "0.19.1" to "0.19.2"
+packages/x86-64-v3-poky-linux/patchelf/patchelf: PKGV changed from 0.19.1 [default] to 0.19.2 [default]
+packages/x86-64-v3-poky-linux/patchelf/patchelf: PV changed from "0.19.1" to "0.19.2"
+
+--===============1078421666001441984==
+Content-Type: application/octet-stream
+MIME-Version: 1.0
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="0001-patchelf-upgrade-0.19.1-0.19.2.patch"
+
+RnJvbSA0MDY0YTZkYzAyNGY2MWJiYzY2NWUzMDYxNTlmYjE4NGNiN2U0ZTJjIE1vbiBTZXAgMTcg
+MDA6MDA6MDAgMjAwMQpGcm9tOiBVcGdyYWRlIEhlbHBlciA8YXVoQHlvY3RvcHJvamVjdC5vcmc+
+CkRhdGU6IEZyaSwgMiBPY3QgMjAyNiAwNTozMzozMCArMDAwMApTdWJqZWN0OiBbUEFUQ0hdIHBh
+dGNoZWxmOiB1cGdyYWRlIDAuMTkuMSAtPiAwLjE5LjIKCiMjIDAuMTkuMiAoT2N0b2JlciAxLCAy
+MDI2KQpBIGJ1ZyBmaXggcmVsZWFzZSBmb3IgcmV3cml0aW5nIGV4ZWN1dGFibGVzIGFmdGVyIHN0
+cmlwcGluZy4KIyMjIEJ1ZyBmaXhlcwotLS0KIG1ldGEvcmVjaXBlcy1kZXZ0b29scy9wYXRjaGVs
+Zi9wYXRjaGVsZl9naXQuYmIgfCA0ICsrLS0KIDEgZmlsZSBjaGFuZ2VkLCAyIGluc2VydGlvbnMo
+KyksIDIgZGVsZXRpb25zKC0pCgpkaWZmIC0tZ2l0IGEvbWV0YS9yZWNpcGVzLWRldnRvb2xzL3Bh
+dGNoZWxmL3BhdGNoZWxmX2dpdC5iYiBiL21ldGEvcmVjaXBlcy1kZXZ0b29scy9wYXRjaGVsZi9w
+YXRjaGVsZl9naXQuYmIKaW5kZXggNzQxYzFlNjYxMi4uYTY5ZjNiOWQ3NSAxMDA2NDQKLS0tIGEv
+bWV0YS9yZWNpcGVzLWRldnRvb2xzL3BhdGNoZWxmL3BhdGNoZWxmX2dpdC5iYgorKysgYi9tZXRh
+L3JlY2lwZXMtZGV2dG9vbHMvcGF0Y2hlbGYvcGF0Y2hlbGZfZ2l0LmJiCkBAIC01LDkgKzUsOSBA
+QCBIT01FUEFHRSA9ICJodHRwczovL2dpdGh1Yi5jb20vTml4T1MvcGF0Y2hlbGYiCiBMSUNFTlNF
+ID0gIkdQTC0zLjAtb25seSIKIAogU1JDX1VSSSA9ICJnaXQ6Ly9naXRodWIuY29tL05peE9TL3Bh
+dGNoZWxmO3Byb3RvY29sPWh0dHBzO2JyYW5jaD1tYXN0ZXI7dGFnPSR7UFZ9IgotU1JDUkVWID0g
+Ijc2ODhiMTdjMThkMTZmNjdmYThkNWE4MmEyNDA0YzJlM2ExODY0OGQiCitTUkNSRVYgPSAiMzgy
+ZDhiYzEyZGI5ZTcyMDUxNWRhNDlkOWMyNzJlZjRhNjIyYzNjMCIKIAotUFYgPSAiMC4xOS4xIgor
+UFYgPSAiMC4xOS4yIgogCiBMSUNfRklMRVNfQ0hLU1VNID0gImZpbGU6Ly9DT1BZSU5HO21kNT1j
+Njc4OTU3YjBjOGU5NjRhYTZjNzBmZDc3NjQxYTcxZSIKIAotLSAKMi40Ny4xCgo=
+
+--===============1078421666001441984==--
 
