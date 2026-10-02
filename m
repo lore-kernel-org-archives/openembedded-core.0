@@ -1,261 +1,238 @@
-Return-Path: <daniel.turull@ericsson.com>
+Return-Path: <jaipaul.cheernam@est.tech>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2845CA5FE2
-	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 07:54:29 +0000 (UTC)
-Received: from MRWPR03CU001.outbound.protection.outlook.com (MRWPR03CU001.outbound.protection.outlook.com [40.107.130.33])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6380.1790927667504991524
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CABDCA5FD9
+	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 08:22:20 +0000 (UTC)
+Received: from AM0PR02CU008.outbound.protection.outlook.com (AM0PR02CU008.outbound.protection.outlook.com [52.101.72.13])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.6638.1790929337934930551
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Oct 2026 00:54:27 -0700
+ Fri, 02 Oct 2026 01:22:18 -0700
 Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: body hash did not verify" header.i=@ericsson.com header.s=selector2 header.b=EsJVrl0m;
- spf=pass (domain: ericsson.com, ip: 40.107.130.33, mailfrom: edaturu@ericsson.com)
+ dkim=pass header.i=@est.tech header.s=selector1 header.b=ITu53F+H;
+ spf=pass (domain: est.tech, ip: 52.101.72.13, mailfrom: jaipaul.cheernam@est.tech)
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=none;
- b=BPUjUZdKxm1Ts/tjtIKCe2Bm+LhpeDILr9VEX0Jih2FMkIzPfB1ALehH9iegP9FElmFO1hRA59BUbhXBwfGO0r7zUkbuReoBfPCn7aLkz6rcyK5ZhLNqEmN8wBgnB9Gn0sbsqCbLDaX/P3DwzJcNSXZVQmRLgtuG2iEEem7+xugEho7eTDCU/OpYLJnKiykjGHoYAqccHbMFidtFVj7Eu/cUxiigrXwjNxNXrjp7B1BaliazqKn/LajStQziL91R5gEVSJ2+v6xuqhhqUdaGBsc7f1aBqQlbmoG2K3fwyJRUQjbUk7+Au83U2Ki9QLfc3cK15E2G84HJiqM2a8Tfqg==
+ b=RoIJA/IS1tQKe4kGkUxDwuX99eaV8YqkjU7VCqdfthttHbbmpP2AAMWZH78vIzpDt4kCwOiR4ee7HKykBgCAredJG9CLapMazJNOUwj5OMn0UjMHveUrM5iFCzLrAmVwxe6yIwjLz8gOQ/SVhRCwtDBapcWqdX/Y1huTVxWTd8GNJL++izQ6tlQS/2FNul8w68gSTyPbVzfACRs4C+7Kav6VSNx+x0M+YyGEyUn97HRzpctmC/FIkagA6IKM/sTOPU8P27waTLKVeEed/C1D1p4/HGMY8mU/44mnlaiF+2NBtsGqxCkrG5+clyHUqjY0AzDLOorQGCF71DsABTkMMA==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector10001;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
- bh=pDiEzGmtUMnxd5YcH54BXLbcZLTPIq1az+b02OWveE8=;
- b=sXMTH/Y+pTI3x7iXOiV7o9FaRaz+Fpnc4fNGTbnLjC8AucyjcrVUNn7zfCNUc5Op/VTZNeL8Ob9DkrC+AHmbXpd5oxgppeUwkBdSLnOACtqyRz8cPKil785ugY9juoqh6pAVutHDY2vKZavLyQ9lEEOUZLIbCt/wfByESN3dviOSEMp/ssUnHSsQi3zkXpFqHgI1ToLhYPArH+9fw+MXdYtHvxPHSO4mBGK3GKUc40Ade6Qig+g+FZy610Dsk1Y/dgaXXiNPURH/vc/sB/bnH5sAXt5SgQ7LA06wx/mvlx6ofGiX7gQjCFQTjyPsEPQfyIl53LhlgQSo9Ouz9ZFwjw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 192.176.1.74) smtp.rcpttodomain=gmail.com smtp.mailfrom=ericsson.com;
- dmarc=pass (p=reject sp=reject pct=100) action=none header.from=ericsson.com;
- dkim=none (message not signed); arc=none (0)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ericsson.com;
- s=selector2;
+ bh=HRexIu201r9mwS73NDwbtzzSz2FLGasckRfK7iS4kkw=;
+ b=Zu0AgzOi6w4O57vHcGge0sL6DK3HQsufoMzKpGUq0Y1DpKJ5L91kzmMsR8qblA3BhgQonCSTF6EFia+1FImq8v1GV2lnwpH6SSiW4R2DXwoQZ1YC4tGzFR1FSYb/iQ22YxkEaS19nYVHgHG1Dp1tvIxz+88s9YKKKYrYQvwKhF83PDWnpQolI6Za6L/o4mv0YrOAYols/3Xt74nYQIHMeqcMdj0zkJ996HWwmTb1CLTRdTJopTEjXGAC3wnJxtuSMV3MjTQP01T6jswzmRvO43wLBmntARALbhO8aQQhy0+z/WexL6W/54GZ0CH/s0xfoXD2+74QfyEljAobt82dpQ==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=est.tech; dmarc=pass action=none header.from=est.tech;
+ dkim=pass header.d=est.tech; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=est.tech; s=selector1;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=pDiEzGmtUMnxd5YcH54BXLbcZLTPIq1az+b02OWveE8=;
- b=EsJVrl0mOaktBmzM3EWZFvXSfvxy970yuzeBhBKoX6bdHaZkRmfSJCmGW62YaeKYmcI6oieZWVeKhU8/5v5gaScWUNHwYzuJA9bUJVOpOkJimvpCXihKLWWbvRA1enQg7GHlyHr2IQfwWqNz38I+dmUOYXIgJd8XuuvJ3FVYq06sPe6AcgK97ORLa/aZHccygRn/uYWP/gG+zH9ln3Zj18B86NHa6OAdXAbEcIJ72K1LqleH6MvBXfK/i1jSVp9cjmqoBanxLVWxkvi9BP4WZcp85z9WVmRAhqTuteMsVQJB3ISGUvUvjSnnjf1buiixgKfcX5yOQNnE0zTt2O0NoQ==
-Received: from ZRAP278CA0012.CHEP278.PROD.OUTLOOK.COM (2603:10a6:910:10::22)
- by AS1PR07MB8710.eurprd07.prod.outlook.com (2603:10a6:20b:479::9) with
+ bh=HRexIu201r9mwS73NDwbtzzSz2FLGasckRfK7iS4kkw=;
+ b=ITu53F+Hrm59iejmQ4WJqY2NokXg1JhrUSxjWu06KgTFVFJ/wzTKzQyu6c5aj4l8J3J3r0E/kks7Xc+xaqfvs3l5rXPsPcFOCn/+AFQr2e5qLRJeyci4jNgRYgfwfKHVOnJlw6IpPnYN6lSopFQWT2cuDqrRxxJCbuGasj/Z2HSyxQVksUzh7ZffAWITADj5fdb4FmoNfz8jgannpz0v/hh+DzJqzuA/RGRoBLmme7xdXGM4WMaqXTjOAxN/OfGifxP/9PIHnZNnHpwEUuau2pCuuVq5mYdBYpBlDfS/L6m7nh1bOwPM1zQOaPTpba7EvtTbthDWRYf0pFCbj6KSjA==
+Authentication-Results: mx.microsoft.com 1; dkim=none (message not signed)
+ header.d=none;dmarc=none action=none header.from=est.tech;
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:6c0::19)
+ by AS4P189MB2159.EURP189.PROD.OUTLOOK.COM (2603:10a6:20b:576::13) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.21.472.15; Fri, 2 Oct
- 2026 07:54:19 +0000
-Received: from ZR1PEPF0000E6B3.eurprd05.prod.outlook.com
- (2603:10a6:910:10:cafe::40) by ZRAP278CA0012.outlook.office365.com
- (2603:10a6:910:10::22) with Microsoft SMTP Server (version=TLS1_3,
- cipher=TLS_AES_256_GCM_SHA384) id 15.21.472.19 via Frontend Transport; Fri, 2
- Oct 2026 07:54:19 +0000
-X-MS-Exchange-Authentication-Results: mx.microsoft.com 1; spf=pass (sender IP
- is 192.176.1.74) smtp.mailfrom=ericsson.com; dkim=none (message not signed)
- header.d=none;dmarc=pass action=none header.from=ericsson.com;
-Received-SPF: Pass (protection.outlook.com: domain of ericsson.com designates
- 192.176.1.74 as permitted sender) receiver=protection.outlook.com;
- client-ip=192.176.1.74; helo=oa.msg.ericsson.com; pr=C
-Received: from oa.msg.ericsson.com (192.176.1.74) by
- ZR1PEPF0000E6B3.mail.protection.outlook.com (10.167.241.90) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.21.472.14 via Frontend Transport; Fri, 2 Oct 2026 07:54:19 +0000
-Received: from seroius18815.sero.gic.ericsson.se (153.88.142.248) by
- smtp-central.internal.ericsson.com (100.87.178.62) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.2.2562.43; Fri, 2 Oct 2026 09:54:18 +0200
-Received: from seroius08462.sero.gic.ericsson.se (seroius08462.sero.gic.ericsson.se [10.63.237.245])
-	by seroius18815.sero.gic.ericsson.se (Postfix) with ESMTP id 6C3174020B40;
-	Fri,  2 Oct 2026 09:54:18 +0200 (CEST)
-Received: by seroius08462.sero.gic.ericsson.se (Postfix, from userid 160155)
-	id 3FB1E700CF28; Fri,  2 Oct 2026 09:54:18 +0200 (CEST)
-From: <daniel.turull@ericsson.com>
-To: <openembedded-core@lists.openembedded.org>
-CC: <JPEWhacker@gmail.com>, Daniel Turull <daniel.turull@ericsson.com>
-Subject: [PATCH v4 2/3] create-spdx-3.0: record component release date in SPDX output
-Date: Fri, 2 Oct 2026 09:54:13 +0200
-Message-ID: <20261002075414.2311840-3-daniel.turull@ericsson.com>
-X-Mailer: git-send-email 2.55.0
-In-Reply-To: <20261002075414.2311840-1-daniel.turull@ericsson.com>
-References: <20261002075414.2311840-1-daniel.turull@ericsson.com>
+ 2026 08:22:12 +0000
+Received: from AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb]) by AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ ([fe80::bc97:3847:8f02:acb%6]) with mapi id 15.21.0472.016; Fri, 2 Oct 2026
+ 08:22:11 +0000
+Content-Type: multipart/alternative;
+ boundary="------------0PRJcLmcnMe7Zo7WkYfmxGbS"
+Message-ID: <8d16f142-505a-4806-a419-b237773e5374@est.tech>
+Date: Fri, 2 Oct 2026 10:22:10 +0200
+User-Agent: Mozilla Thunderbird
+Subject: Re: [OE-core] [AUH] python3: upgrading to 3.14.8 SUCCEEDED
+To: mathieu.dubois-briand@bootlin.com, auh@yoctoproject.org,
+ Trevor Gamblin <tgamblin@baylibre.com>
+Cc: openembedded-core@lists.openembedded.org
+References: <010101a0f6296539-d5cd290b-b68d-4632-a774-5263fa10249e-000000@us-west-2.amazonses.com>
+ <DLTOIG3SFIS9.38K7K9E7WCA4H@bootlin.com>
+Content-Language: en-US
+From: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+In-Reply-To: <DLTOIG3SFIS9.38K7K9E7WCA4H@bootlin.com>
+X-ClientProxiedBy: LO4P123CA0371.GBRP123.PROD.OUTLOOK.COM
+ (2603:10a6:600:18e::16) To AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+ (2603:10a6:20b:6c0::19)
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain
-X-EOPAttributedMessage: 0
 X-MS-PublicTrafficType: Email
-X-MS-TrafficTypeDiagnostic: ZR1PEPF0000E6B3:EE_|AS1PR07MB8710:EE_
-X-MS-Office365-Filtering-Correlation-Id: 2cf6f1dc-6f4b-464b-7b47-08df205a5d45
-X-SMTP-Server: smtp-central.internal.ericsson.com
+X-MS-TrafficTypeDiagnostic: AM6P189MB3107:EE_|AS4P189MB2159:EE_
+X-MS-Office365-Filtering-Correlation-Id: d7482e0f-b458-476e-73a6-08df205e4211
 X-MS-Exchange-SenderADCheck: 1
 X-MS-Exchange-AntiSpam-Relay: 0
 X-Microsoft-Antispam: 
-	BCL:0;ARA:13230040|1800799024|82310400026|376014|23010399003|36860700016|18002099003|22082099003|3023799007|260925022911599003|260925021311599003|10067099003|260925021911599003|56012099006|11063799006;
+	BCL:0;ARA:13230040|366016|1800799024|376014|23010399003|18002099003|22082099003|10067099003|11063799006|4143699003|13003099007|8096899003|56012099006;
 X-Microsoft-Antispam-Message-Info: 
-	0LqmshLCKUTnTYiJxjhb81UX0PidJqPNG4zYm0t43u9NnH5zetzZMJ+QHmoqRCssR3SK5EcQ90HYJoAPiOUKhtcRirfRDIMCNNihunygPXu1olbewLf/SgwRIJzufRMSMWZ21BQyQfKsnExptTYcHbETkywkBIVQj9jomG0dbYYqAUws7UE3KQNLjUPZdQ8V2mnsWWElve/W5jYga3IqVvYNydqhedCV4tXzEFkQ6lqI2Ndc4kJjgKVblahqXilwUG5Pn70T2ODC948SKuQVrX0HE1+PFQTssyyO0WpbMv3YhczD9ptCTU+Iao/g2D7Ll10n0H2MuM1Dtmdp56aYjpYZjJr63pPSktgdbqAsDH2DF9cR+n3nX6LPjpC7a3G4cZ6P8+v1vo36zz8OUUxWx7t8orVCPgX7yFXM/EPW7OZ5lXoYZETVhEnxbej9CTpHgTotsKIRWjWifji/KWM+MNRcqquaaW9wflMVQEXjVt6CSuQ80GNyh7OHHIShcYJrtC9QpEeKimW6Ijl2VUTzF4tTYkN6F1GeRYiBYRnsmUzAbe3NguVqg5K4CiOFvhILgeNXSi+BhmylVFiowP3ca3UgtUFlcDdNGBebY28c7b0KBqJlAvbShs6xgYEGB0lMZ5JSiaLg0MiXG2r8YHrVDzTGNKxPVYVbk62RzXkxShSGv0r2pIPxiWMMDx8ysQ00BzZE5HBbMibhAUripuKGUg==
+	fw6oS530EE0F+SrWyQa/KulJa0jpR3E8W3MiCVsKFxx2BVSGRxmXlGkccO/DaNH50v7KAge4k/8KuZ6XI3mI9VQ4zmQ7NMWz66Z4hFmw4D296pdGZrG7cE0HFJIPX25HOJTTNZZs+1EZO3+tl9pqoIiobco7GPRFoR6CVnsnYFXjORlQb3QKUjTKjWBgszUvUADRNms2UyRfLVzz/vJrdYVajiXzPT1njwdNN51fzGV2tdUk78Qy3EVw0BJNJS0PWqjutUcxacCGYFwDjRTMjd2xraQHSrzZlCX/+ronogc+ZJ7JeGMJ8eSUuybMvNQv8OPCydtM9GJ0t5fOmqfccVxK0FdfABUoKxhz0lpdcl12YY0elPpMlJjbfRma4rf+aZ+lWIaG0WH4u/2ERUntkihkQ2cRw1JbXm5l6Zu4qRMIZsH/g7Zk6aV94vKPDNk/x1Mvnae9b5ZYrmUQPIJue+13WQ3mpYIni+XZ09tyaIJLJw1hYGGkz0HMRqJWHNDjUdfIfgG2CkqV7GsCBWrtIYDhLZAsuU2vWGdFurdzj2CF2tp3R6I/n8o+y2faCpLrG/ahawvNHuffwGwOuDTdXqvV7AJ1lRHsmezKO+zsWGjo72drtvgYYGDDvEonHvp/
 X-Forefront-Antispam-Report: 
-	CIP:192.176.1.74;CTRY:SE;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:oa.msg.ericsson.com;PTR:office365.se.ericsson.net;CAT:NONE;SFS:(13230040)(1800799024)(82310400026)(376014)(23010399003)(36860700016)(18002099003)(22082099003)(3023799007)(260925022911599003)(260925021311599003)(10067099003)(260925021911599003)(56012099006)(11063799006);DIR:OUT;SFP:1101;
+	CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM6P189MB3107.EURP189.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(13230040)(366016)(1800799024)(376014)(23010399003)(18002099003)(22082099003)(10067099003)(11063799006)(4143699003)(13003099007)(8096899003)(56012099006);DIR:OUT;SFP:1101;
 X-MS-Exchange-AntiSpam-MessageData-ChunkCount: 1
 X-MS-Exchange-AntiSpam-MessageData-0: 
-	hhRyOQJQ1vd8GOo1/oJXBkSgFy90rT2HJDMM3RCfJ4gV8dX95LnwQJwOiW4MHkAPYWgu045mULhfp2QKSuWiNh5kBsgJL5Zpa919gfYE5UJzlnPy2s9cVgJdqbJzi2vMVjzY11EYrhlAH17nSes43Y8dHRUwG4GAaGYmCdbY6OBv+VummW4VXGPOa8CD2yCWsxBg2/3lDF47/sm+N1TF2wwyOzKmT/JaI55KuQDSiQiOZCkpiKHW5T9wWspUXYLjd9U8nB1wcVcAwpupUxO7YfEtDXnui855i9ilDOys7C0sJhhVY3zR3r6kPoEd3NMS+nFyINnlcm8IwZHi37Nq+pa9xzMsl1AWe0MdXg97Bk/metoruK4tgjOeWwU6hhyaUISLFHnD6Vs4cLv4zhjuFA0SEPhqguzl/ogNPxUThzST1DLJajqxKoYNKBCwzHlJ
-X-OriginatorOrg: ericsson.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2026 07:54:19.3166
+	=?utf-8?B?enpRenVGN29mZUEvWURzdXpLQzBYOWhJdnlGcjlaeVZvNVdsNTBaWnJqY2hE?=
+ =?utf-8?B?Y1RRRFZkMHFvNDBraU9kbDRmZUlLNm96WGNIV3ZzeDdSMTV1YU1TTllmazhY?=
+ =?utf-8?B?VXRZQWJsa3FIWFlCWndZalRxN2tYbzVNY3M5aU5xZWludnp2bUhJTXZEeHcr?=
+ =?utf-8?B?aHp4UndhODhPRStPVVdwdzJhUmhDZXJGSjFmajBFNXh4ODBBUlpBTUR3S0xv?=
+ =?utf-8?B?c2VLeXFReml4UE9nZTdjNERZL292Yk9ENmZiWXhtMG96SmFIdUtWQ0Z6MXBj?=
+ =?utf-8?B?cjFtL2RpWEFRUXk0L1QrQU5DVk9RMXEwZyt3TEt1ajJjbHdoSDc1TnFOUkRT?=
+ =?utf-8?B?eW1MeXZoMy9xWXBjWmFsMFN5YU4ySTRIMGg5andIQnNDNWNjZGJSNGhPNlJp?=
+ =?utf-8?B?T2ZyTm55QVBQUXdidHk0RWt0cUc2eit1ZmUxZ2ZJYW9qcDZIYzBqVXU2eGph?=
+ =?utf-8?B?dHdCanpaTkt2YUhkK3paRTNvRVU2RktWUW1OSmVVL3phdzlmSytEOVdMdEJ0?=
+ =?utf-8?B?ZHBIWlEvTjZmSHhVU1M5bHpoeDdDNDlZa2crZkJpU2tXbTJWSEJ6aFhBbEJO?=
+ =?utf-8?B?V3N3cm90WDh1M1VKUVNUeDh1MEpJU2E4azhjNlFPVFV2WGZoRHpqR05vY2gv?=
+ =?utf-8?B?b2h3K2t2ZE5ScWl0Ujl0UDRTN1RXckdHT3NjelNwVElzWW15N2F2UVgxb3NI?=
+ =?utf-8?B?UkxZZnFIVENUakpjeHJ1TjhkMlFHRHRPTldlNDJVZStkemhJTlRCM01xZzhJ?=
+ =?utf-8?B?N1ZGNzd5OTJOYllNaThRK2RRYUpyR1Uzak9QUEFRczg1aEtWMG9UTXNRdkZL?=
+ =?utf-8?B?cSt6Q3BKb2c1OWZMa1M0KzJpbTRkRVhkVkE3bWFsaEZ0UDJLb1BLckxKY2pw?=
+ =?utf-8?B?citRZjRPdkxKcEZ2T0ZMazhOcW5qMytobjJxaXJZRTBJN0JyaGpReUlJWGxU?=
+ =?utf-8?B?OVgxVEtvWG96Q0JUTGIrYkNYU2RNRXB1TDB4cUxaUUVKZHBSSFlNUDNOd1Fs?=
+ =?utf-8?B?aDZ0WWxCb3RBZVlGMnl2Z0VHdmFSWVJIYXAxNjU3Q0JLV25vUFRrRy9zcGJT?=
+ =?utf-8?B?RjkyVEZGb0greHJHclVoNFV1bVJYaVdRRW1hOTcvd2hiL2UyQUxqS3U4QkNu?=
+ =?utf-8?B?WU1SSm4zY25pMzZ3UEYwdWM3TlREMGphNjVKUm5jallNcGtkeHNkcmowMXlk?=
+ =?utf-8?B?ZE5xVGRyeHBGREFIc2ZCNURLNitPTGZSdElpWjBuQVJtSWNxa1J4WTZLbStC?=
+ =?utf-8?B?RnZPZ2RCNkZ5MXpqY2gzRlVCZEtoU3lVeXRtZGgvYWY4NGMydnJzRlRZbXJt?=
+ =?utf-8?B?UzByVlByY0JUcGR4bDVHME9CSGpmcWl1SmhueXpBdktaMUIyTCtML2FLeVZj?=
+ =?utf-8?B?TGJDdGFKb245L0dUSXUzUWdiWlQvcDVzQzFWLzNJT3V5MXM4MzR5d1FIbFJ2?=
+ =?utf-8?B?bkJ6Wkw0SzRyY0pzVjZnZlpYV2JXdE1YT1BHc0JjbERVdTFRNkVjdk1LNmpw?=
+ =?utf-8?B?V2szckxjczJVQ210bkFwYlBaRnZLMUY0bTRmOVJoTVJTeXc5Z1VWL3ZHeXZ5?=
+ =?utf-8?B?dDl5ZTZlanJrVGp2M3VjSStpUURMZ1FWMXkybmp4UHB3UkVlVU9kRlBSWGRi?=
+ =?utf-8?B?aFM0dHF5VDlYNThmOThPNERBZThqd3h0c0tqUXdISXJYQ2FJYmUyWXN1SWU4?=
+ =?utf-8?B?ckpMVGJEVU95YlNoUXJEQWtaVUZmRWNaQklJd3VsRUxoRnpYVWIvN09HN0Jh?=
+ =?utf-8?B?dDBoTTVyUTIwWStsaDFZbHg2U0RETllDczRHaDdZUHpMdm5NVklWR0l4dWh3?=
+ =?utf-8?B?Q1B3L3UyVUJPUldDS212c0JhMHpkdDNOaThrcTdYeFpaQ2drU01jaUVIdWNL?=
+ =?utf-8?B?SzFuUFlxd0xqQ0l5M2g5bllrSXhrdWNvOUFRQlJ0WkhXeWlLTUpWbE1VVTRm?=
+ =?utf-8?B?Vy9iQzN4VTRBc09vdWFKelMxc2E4TkFnbHZmd2pIelpUTHhMQTViVDdRc1ov?=
+ =?utf-8?B?dGdLdDVoR0lzR2V2UTFlZytDSk83K1dYT0VmbzVRLzc5TUlBcFN2TEZ1MC9v?=
+ =?utf-8?B?UUpyQWpXMHAwS1lEbEQrbUJHY1hWWmNsY2pwdjRkRFlWZ0U1MnM2SWFqd1JX?=
+ =?utf-8?B?WWVQTERYVWdoaXZTTCtJdWE3ZHl1c05ybFdocDRLVE5QeWlQUXQ3VmFVa1lM?=
+ =?utf-8?B?dVRLaWdOL3o1c1FrRmlOSmtoaXcyMDQ1S3RYK0Z2Vk9vdlVYVGFwNVZMaEVj?=
+ =?utf-8?B?STJ5L0kzL3lJK3AzaG1uOFZYMW0wUlBVSEZGSDZzUmt2Q3pLU3phTkF3cVZr?=
+ =?utf-8?B?NXIwUlpESlA2Q0NkSnFTWUtQeGNSMERCTlYwUFpoMUtwbkZVdDU3dz09?=
+X-OriginatorOrg: est.tech
+X-MS-Exchange-CrossTenant-Network-Message-Id: d7482e0f-b458-476e-73a6-08df205e4211
+X-MS-Exchange-CrossTenant-AuthSource: AM6P189MB3107.EURP189.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 02 Oct 2026 08:22:11.8496
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2cf6f1dc-6f4b-464b-7b47-08df205a5d45
-X-MS-Exchange-CrossTenant-Id: 92e84ceb-fbfd-47ab-be52-080c6b87953f
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=92e84ceb-fbfd-47ab-be52-080c6b87953f;Ip=[192.176.1.74];Helo=[oa.msg.ericsson.com]
-X-MS-Exchange-CrossTenant-AuthSource: 
-	ZR1PEPF0000E6B3.eurprd05.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS1PR07MB8710
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: d2585e63-66b9-44b6-a76e-4f4b217d97fd
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: ZXCp2afohvzkaBAbUjr53cLztaO1pqTpBr5R0kyHP8cHnAkcfyAaqEYs3B6Ir3Vuw+5eBHy4v08mC1VOlipMk8FpG5b9EoLynJozSqMUtKc=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AS4P189MB2159
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 07:54:29 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247087
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 08:22:20 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247088
 
-From: Daniel Turull <daniel.turull@ericsson.com>
+--------------0PRJcLmcnMe7Zo7WkYfmxGbS
+Content-Type: text/plain; charset=UTF-8; format=flowed
+Content-Transfer-Encoding: 8bit
 
-Record each package's release date in the releaseTime property of its
-software_Package object, using the SOURCE_DATE_EPOCH already computed
-for reproducible builds.
 
-Accuracy depends on how SOURCE_DATE_EPOCH was derived: exact for
-git-tagged recipes, best-effort for tarball/http(s) sources. Some
-Python sdists (e.g. cryptography, hypothesis, maturin) normalize all
-file mtimes to a fixed placeholder, so their releaseTime reflects
-packaging-tool behavior, not the real release date.
+On 2026-10-01 19:31, Mathieu Dubois-Briand via lists.openembedded.org wrote:
+> Ptests are failing on this one, when built with musl.
+>
+> Failed ptests:
+> {'python3': ['test_append_limited_history', 'python3']}
+>
+>
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/1308
+> https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1297
+>
+> If anybody wants to have a look. Otherwise I will try to find a bit of
+> time.
 
-AI-Generated: Uses Kiro with Claude Sonnet 5
-Signed-off-by: Daniel Turull <daniel.turull@ericsson.com>
----
-v2:
-- Dropped all options per Joshua's feedback; read SDE_FILE directly.
-- Dropped the redundant else: delattr(recipe, "releaseTime") branch.
-- Selftest compares against SDE_FILE content directly instead of
-  SOURCE_DATE_EPOCH, which can diverge from it.
-- Fixed a leak: recipes with no git checkout and no fetched source
-  had SDE_FILE holding only SOURCE_DATE_EPOCH_FALLBACK, showing a
-  bogus 2011-04-05T23:00:00Z releaseTime instead of none.
-v3:
-- Also run after do_unpack: do_deploy_source_date_epoch's setscene
-  shortcut can skip it, leaving SOURCE_DATE_EPOCH unset.
-- get_release_date() reads SOURCE_DATE_EPOCH again instead of
-  SDE_FILE, now that they're guaranteed equivalent.
-- test_release_date_source_date_epoch: switched to tar (base-files
-  has S =3D=3D UNPACKDIR and never gets a real SOURCE_DATE_EPOCH).
-- Added test_release_date_omitted_for_fallback_value.
-v4:
-- Per Richard's feedback, moved releaseTime from do_create_recipe_spdx
-  to do_create_spdx to keep the recipe-only task fetch-free.
-- Per Joshua's suggestion added into each downloaded source software_Packag=
-e
-- Updated selftests accordingly.
----
- meta/lib/oe/spdx30_tasks.py          | 22 +++++++++++++++
- meta/lib/oeqa/selftest/cases/spdx.py | 41 ++++++++++++++++++++++++++++
- 2 files changed, 63 insertions(+)
+Hi Mathieu,
 
-diff --git a/meta/lib/oe/spdx30_tasks.py b/meta/lib/oe/spdx30_tasks.py
-index b6456a214a..dc82f21fb0 100644
---- a/meta/lib/oe/spdx30_tasks.py
-+++ b/meta/lib/oe/spdx30_tasks.py
-@@ -36,6 +36,24 @@ def set_timestamp_now(d, o, prop):
-         delattr(o, prop)
-=20
-=20
-+def get_release_date(d):
-+    """Resolve the release date to record in a package's releaseTime prope=
-rty.
-+
-+    Uses SOURCE_DATE_EPOCH, which by this point (do_create_spdx runs after
-+    do_unpack and do_deploy_source_date_epoch) reflects the source mtimes.
-+    Omits the fallback value since it is not a meaningful release date.
-+
-+    Returns a datetime, or None if no release date should be recorded.
-+    """
-+    source_date_epoch =3D d.getVar("SOURCE_DATE_EPOCH")
-+    if not source_date_epoch or source_date_epoch =3D=3D d.getVar(
-+        "SOURCE_DATE_EPOCH_FALLBACK"
-+    ):
-+        return None
-+
-+    return datetime.fromtimestamp(int(source_date_epoch), tz=3Dtimezone.ut=
-c)
-+
-+
- def add_license_expression(
-     d, objset, license_expression, license_data, search_objsets=3D[]
- ):
-@@ -441,6 +459,7 @@ def _enrich_source_package(d, dl, fd, file_name, primar=
-y_purpose):
-=20
- def add_download_files(d, objset):
-     inputs =3D set()
-+    release_date =3D get_release_date(d)
-=20
-     urls =3D d.getVar("SRC_URI").split()
-     fetch =3D bb.fetch.Fetch(urls, d)
-@@ -504,6 +523,9 @@ def add_download_files(d, objset):
-=20
-             _enrich_source_package(d, dl, fd, file_name, primary_purpose)
-=20
-+            if release_date is not None:
-+                dl.releaseTime =3D release_date
-+
-             if fd.method.supports_checksum(fd):
-                 for checksum_id in bb.fetch.CHECKSUM_LIST:
-                     if checksum_id not in oe.spdx30.HashAlgorithm.NAMED_IN=
-DIVIDUALS:
-diff --git a/meta/lib/oeqa/selftest/cases/spdx.py b/meta/lib/oeqa/selftest/=
-cases/spdx.py
-index 8285189382..88c3eb6b15 100644
---- a/meta/lib/oeqa/selftest/cases/spdx.py
-+++ b/meta/lib/oeqa/selftest/cases/spdx.py
-@@ -6,6 +6,7 @@
-=20
- import textwrap
- import hashlib
-+from datetime import datetime, timezone
- from oeqa.selftest.case import OESelftestTestCase
- from oeqa.utils.commands import bitbake, get_bb_var, get_bb_vars
- import oe.spdx30
-@@ -443,3 +444,43 @@ class SPDX30Check(SPDX3CheckBase, OESelftestTestCase):
-                 r'\d',
-                 f"Version '{version}' for package '{name}' should contain =
-digits"
-             )
-+
-+    def test_release_date_source_date_epoch(self):
-+        """releaseTime should be derived from SOURCE_DATE_EPOCH.
-+
-+        This is recorded on the downloaded source software_Package objects
-+        produced by do_create_spdx (not the recipe-only do_create_recipe_s=
-pdx
-+        task), since the release date can only be known once sources are
-+        available and SOURCE_DATE_EPOCH has been computed.
-+        """
-+        # base-files has S =3D=3D UNPACKDIR and never gets a real
-+        # SOURCE_DATE_EPOCH, so use tar, which unpacks a real tarball.
-+        objset =3D self.check_recipe_spdx(
-+            "tar",
-+            "{DEPLOY_DIR_SPDX}/{SSTATE_PKGARCH}/builds/build-tar.spdx.json=
-",
-+        )
-+
-+        source_date_epoch =3D get_bb_var("SOURCE_DATE_EPOCH", "tar")
-+        expected =3D datetime.fromtimestamp(int(source_date_epoch), tz=3Dt=
-imezone.utc)
-+
-+        pkg =3D None
-+        for candidate in objset.foreach_type(oe.spdx30.software_Package):
-+            if candidate.software_downloadLocation:
-+                pkg =3D candidate
-+                break
-+
-+        self.assertIsNotNone(pkg, "Unable to find downloaded source softwa=
-re_Package")
-+        self.assertEqual(pkg.releaseTime, expected)
-+
-+    def test_release_date_omitted_without_downloaded_source(self):
-+        """releaseTime only applies to downloaded source packages; recipes
-+        with only local file:// sources have none, and get no releaseTime.=
-"""
-+        # base-files only has file:// sources, so it has no downloaded
-+        # source software_Package and thus no releaseTime anywhere.
-+        objset =3D self.check_recipe_spdx(
-+            "base-files",
-+            "{DEPLOY_DIR_SPDX}/{MACHINE_ARCH}/builds/build-base-files.spdx=
-.json",
-+        )
-+
-+        for candidate in objset.foreach_type(oe.spdx30.software_Package):
-+            self.assertIsNone(candidate.releaseTime)
+Failure looks related to new testcase (test_append_limited_history) 
+added  this release .
+
+https://docs.python.org/release/3.14.8/whatsnew/changelog.html
+
+gh-123018 <https://github.com/python/cpython/issues/123018>: Fix 
+|readline.write_history_file()| 
+<https://docs.python.org/release/3.14.8/library/readline.html#readline.write_history_file> 
+and |readline.append_history_file()| 
+<https://docs.python.org/release/3.14.8/library/readline.html#readline.append_history_file> 
+producing a history file that |readline.read_history_file()| 
+<https://docs.python.org/release/3.14.8/library/readline.html#readline.read_history_file> 
+could not load when a limit was set with |readline.set_history_length()| 
+<https://docs.python.org/release/3.14.8/library/readline.html#readline.set_history_length> 
+and Python was built against |libedit|. This works around NetBSD PR 
+60322 <https://gnats.netbsd.org/60322>.
+
+Change: 
+https://github.com/python/cpython/commit/e87da800b6103fd890841688da48e41e211be7b9 
+
+
+I think we need to skip newly added test case in above commit like we 
+did for test_write_read_limited_history in recipe.
+
+# Also fails with editline instead of readline. See:
+# https://github.com/python/cpython/issues/123018
+SKIPPED_TESTS += " \
+     --ignore test_write_read_limited_history \
+"
+
+Regards,
+
+Jaipaul
+
+--------------0PRJcLmcnMe7Zo7WkYfmxGbS
+Content-Type: text/html; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+<!DOCTYPE html><html><head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  </head>
+  <body>
+    <p><br>
+    </p>
+    <div class="moz-cite-prefix">On 2026-10-01 19:31, Mathieu
+      Dubois-Briand via lists.openembedded.org wrote:<br>
+    </div>
+    <blockquote type="cite" cite="mid:DLTOIG3SFIS9.38K7K9E7WCA4H@bootlin.com">
+      <pre class="moz-quote-pre" wrap="">Ptests are failing on this one, when built with musl.
+
+Failed ptests:
+{'python3': ['test_append_limited_history', 'python3']}
+
+
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/1308" moz-do-not-send="true">https://autobuilder.yoctoproject.org/valkyrie/#/builders/109/builds/1308</a>
+<a class="moz-txt-link-freetext" href="https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1297" moz-do-not-send="true">https://autobuilder.yoctoproject.org/valkyrie/#/builders/110/builds/1297</a>
+
+If anybody wants to have a look. Otherwise I will try to find a bit of
+time.</pre>
+    </blockquote>
+    <p>Hi Mathieu,&nbsp;</p>
+    <p>Failure looks related to new testcase
+      (test_append_limited_history) added&nbsp; this release .&nbsp;</p>
+    <p><a class="moz-txt-link-freetext" href="https://docs.python.org/release/3.14.8/whatsnew/changelog.html">https://docs.python.org/release/3.14.8/whatsnew/changelog.html</a></p>
+    <p><a class="reference external" href="https://github.com/python/cpython/issues/123018">gh-123018</a>:
+      Fix <a class="reference internal" href="https://docs.python.org/release/3.14.8/library/readline.html#readline.write_history_file" title="readline.write_history_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">readline.write_history_file()</span></code></a>
+      and
+      <a class="reference internal" href="https://docs.python.org/release/3.14.8/library/readline.html#readline.append_history_file" title="readline.append_history_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">readline.append_history_file()</span></code></a>
+      producing a history file that
+      <a class="reference internal" href="https://docs.python.org/release/3.14.8/library/readline.html#readline.read_history_file" title="readline.read_history_file"><code class="xref py py-func docutils literal notranslate"><span class="pre">readline.read_history_file()</span></code></a>
+      could not load when a limit was set
+      with <a class="reference internal" href="https://docs.python.org/release/3.14.8/library/readline.html#readline.set_history_length" title="readline.set_history_length"><code class="xref py py-func docutils literal notranslate"><span class="pre">readline.set_history_length()</span></code></a>
+      and Python was built against
+      <code class="docutils literal notranslate"><span class="pre">libedit</span></code>.
+      This works around <a class="reference external" href="https://gnats.netbsd.org/60322">NetBSD PR 60322</a>.</p>
+    <p>Change:
+<a class="moz-txt-link-freetext" href="https://github.com/python/cpython/commit/e87da800b6103fd890841688da48e41e211be7b9">https://github.com/python/cpython/commit/e87da800b6103fd890841688da48e41e211be7b9</a>&nbsp;</p>
+    <p>I think we need to skip newly added test case in above commit
+      like we did for&nbsp;test_write_read_limited_history in recipe.&nbsp;</p>
+    <p># Also fails with editline instead of readline. See:<br>
+      # <a class="moz-txt-link-freetext" href="https://github.com/python/cpython/issues/123018">https://github.com/python/cpython/issues/123018</a><br>
+      SKIPPED_TESTS += &quot; \<br>
+      &nbsp; &nbsp; --ignore test_write_read_limited_history \<br>
+      &quot;</p>
+    <p>Regards,</p>
+    <p>Jaipaul<br>
+      <br>
+    </p>
+  </body>
+</html>
+
+--------------0PRJcLmcnMe7Zo7WkYfmxGbS--
 
