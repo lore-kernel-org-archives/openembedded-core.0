@@ -2,135 +2,103 @@ Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 423F3CA5FD4
-	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 10:22:14 +0000 (UTC)
-Received: from mail-wm2-f13.google.com (mail-wm2-f13.google.com [74.125.225.141])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.8053.1790936529689250474
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2B699CA5FD4
+	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 10:29:04 +0000 (UTC)
+Received: from mail-wr2-f18.google.com (mail-wr2-f18.google.com [74.125.225.82])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.8199.1790936942920041768
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Oct 2026 03:22:10 -0700
+ Fri, 02 Oct 2026 03:29:03 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@smile.fr header.s=google header.b=2OXW/CbL;
- spf=pass (domain: smile.fr, ip: 74.125.225.141, mailfrom: yoann.congal@smile.fr)
-Received: by mail-wm2-f13.google.com with SMTP id 5b1f17b1804b1-49fe8bf173aso39798915e9.3
-        for <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 03:22:09 -0700 (PDT)
+ dkim=pass header.i=@smile.fr header.s=google header.b=p18623rV;
+ spf=pass (domain: smile.fr, ip: 74.125.225.82, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wr2-f18.google.com with SMTP id ffacd0b85a97d-48b0fc598f8so915246f8f.2
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 03:29:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=smile.fr; s=google; t=1790936528; x=1791541328; darn=lists.openembedded.org;
+        d=smile.fr; s=google; t=1790936941; x=1791541741; darn=lists.openembedded.org;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=IoxobYiROAyE0hgc/9fXWrrFXkRxK33vePVYe96WI4o=;
-        b=2OXW/CbLGfnXKVkObiwIJTtn5bUJOzaR0Z1sF5+DiTXRdHpGS/B4YgkoJgd0x+NA+V
-         MCAqZC56EBiMNnu2+GXLkRbE5MElB1gVDNCUmGwL6CQoNMv8pajzxA9R0EQ3k0G21Kdw
-         v8pmTG4M+2NUAK7G4fEaJ6duXF+FibHrRcv/4=
+        bh=ZD1jwC/jZAVt5Vdz+DT6t4KliCNIfZD2gzMhSM3BH7Y=;
+        b=p18623rVnGsV/Q5JsegaFhMXZ+3ftZGtQ5CF95RztsnwRSRWexY7AlYYkeA/fjTRnl
+         iaGZkRZgrnWuj0ykZE1a/x3s05u+MEzY++E7hjlfGx0R1PyihcpcjiQ6GKX5XfgO85LG
+         7eGOqsWO1MD9igJbOQvmSH6F3TlKS5j3LDZFs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790936528; x=1791541328;
+        d=1e100.net; s=20260707; t=1790936941; x=1791541741;
         h=in-reply-to:references:to:from:subject:message-id:date:content-type
          :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
          :from:to:cc:subject:date:message-id:reply-to:content-type;
-        bh=IoxobYiROAyE0hgc/9fXWrrFXkRxK33vePVYe96WI4o=;
-        b=RZ6QbsyMxYjK/75exQlQHUIK/7PQHnVubgw7AS6rwZ1Vh9KjAXG5iXCM2GUgxBt64X
-         XF1ODfDvked6xdREJFCmXIGutlFxKPgAXgSvItVyBIL+KiKvv7f1a6aFJshl5EzxuWm3
-         JeIMU8rU5bEYRELnhi7eGYCDFMt5yBx+49dan6+EaghQktcmWUXwhOyqftCJGFDVyRTn
-         LA2tL1T0XNJSMC6rf2ld6GLU1uIM7Tnt7uDaXHuby4bVkDnkAutbKjcXexcnoqvr6+SS
-         j28Ksnbolyk/TdAc4LoxecKFaCPIg8hRAKZ3dXf9WLUTGr+Z0R2sYpq3WLgmzTBN6yDw
-         635w==
-X-Forwarded-Encrypted: i=1; AKwUvBzQHv6xMF9aGE2Ic0KP8OKVDh4ofPO63+iQcLNzygL2uFMcq/Ag9VygZJHyFjBKXGPyf/lAB8/L/pBFeeMVtaCVXw==@lists.openembedded.org
-X-Gm-Message-State: AFuF++kwXHDXXof5SbJ6FPdxibLeXHOCcd41mQ9Jaq1ChvyZl8FmvMkh
-	oWKWGLZR5HbXXp3MGYuoKOBrH8LMPedxHzXi46Yac4tO/bsRW3pkinLyyVfBfqOI9zc=
-X-Gm-Gg: AYBFou1O5L2JyTZaP1b+c1vyqN012ieKWKc+D9dTfgfakG1oRh22B8sSD1QJmqSvlvM
-	gn6LoYNZkCZvwyC43BQT7OTApBfssY5+Mg1HIqUB4iE4RkGU/QfyV8iqN1clOecQMBr+nC9pnnl
-	2qF0wl7NoGr+0dYJbD3+O6BWFZZK+bWgwUIUTd4ZWuE2Htqa/WSK+EVY4TzerKGg91QzwMtA1gU
-	TSbPeEGGFZQXzSzJkZ8l7td2Js1gmZJ2tqEthVIgV5N7ynAYWD982W0HRsbGrj5aAl01NhKzqlB
-	EfuU2SqU1jBawImd7Z3I9EY508gmShqd0JRmYZrKzNHb/7O/D2EXD3b0A7m1/STEGb2k7lpCNIK
-	1A77oQcui00yawVq5AshXRjHL4vA8fIeSPy6VsNSiG78IMbFLjODrcMZxQPULV8LwiSZYPZLWcX
-	NRD46JMYUdpGmoMYE1RbJL0ZVHh7mX0O+ZZDPjFXWwKTYnZf13vYq8Qb2DVPFg9rbRlppXTB4nr
-	EVgqvI6NB76MUN7XinzcbTDHWu26jJ5ddjs/4LojG/Q9Sr0vJWHC9Rt6W4AsA==
-X-Received: by 2002:a05:600c:4e93:b0:49f:cbf3:551c with SMTP id 5b1f17b1804b1-4a02756efa5mr43117105e9.12.1790936527845;
-        Fri, 02 Oct 2026 03:22:07 -0700 (PDT)
+        bh=ZD1jwC/jZAVt5Vdz+DT6t4KliCNIfZD2gzMhSM3BH7Y=;
+        b=rEgpm1794HcA4Oj9r3CQtUbR0SrJT4CTiNsa6zfDEACMjkHhmpS5VZyRT4MlD7Va3R
+         9Mu3B6FyCxovTSQTfV5b7qWgQPVtpcI9xIUbrGJzp5VEMjAFX001fAO7iTi4+nR7ydSa
+         cBYYYgaZJ3Aa2izR5a+k4r1OO6idNABIoSql4w01zbr5rdXYvDjBIVV2nEmvlKTAMq7E
+         FATT1uOQ0kRz/vPrpnxFxmGBuopculUKu963T3KOBM2BKpeg1ap9uBMn822epnNckmyb
+         OkopLO0lv+nOVOAQwNPaWaBffdzVqpFyYmlwzH+Xuu3wzzU+nRI48F7Xy2KXxrGcVCTN
+         WkPw==
+X-Forwarded-Encrypted: i=1; AKwUvBz94VbjRe2kXV37SLT2fD6aC34nY06SCKAwCOC85dxePADMzI4pScW+skXcLkW9bSkB4N5gcjdQq/RCauT5EQxaDg==@lists.openembedded.org
+X-Gm-Message-State: AFq9FYKPJmPSwV3/Xl/F4D3EOdJJY8SibACqZ8XR57rBXox1aisy4VKi
+	U9wpX9tMDUclSGjr0z7WugfjlWqDCXKUqsvPw5I3piIfOpUFO9SmgwDJt4u3XbRkuyU=
+X-Gm-Gg: AYBFou2fcWNxayPfQCONooMjT2/6t6kGo96ptExUe1uzPsJFkg+tMgtI0VXEqs7XRxd
+	F6NIFrHa5cslLvv4KMOZEguH/IIzbAEqNicyTLY9BS8toy6u9oUfpq1M2pwegZHSxM2YvZjyWS2
+	yKBCyMe/ADndILa39y1D0VtZ8O8Wb8ezHpyUD4yY3fftMi+e9vAGHUxxFi68q9+nnMjdeDJzrSA
+	+zkyaliIg6LwxOZJPndgPZ6d2YIn8RZdoGVNbIivSOZc0plulfofQSBnNCY7heIhFVx5wp0odKT
+	hz68OQCzSHa2YxX2bjbqq5dZxP1wNU8h0wbAcohTvay4e/gysMaOGQkyEyExdjYeugEHISt2ymu
+	osX8/MJ1wl9wrpaVEOKMNJJI+cUzgpVUrSOz+yw/cAywaAoWD0pm86yV76Y1OU/92dIup/clkBG
+	Sn8v8wojhgcEFiBZ6Jt5f2TMKLG1V597Ipg2tX+8K8oETqb3tW0c6fKl3eIfOrFMonv1DVCa80b
+	6wHtPxhTt9ktRst9HBIJ846b5Pz/UzRSwNX6US8+cV6Tm5Zww+7BzumAotm8m+kXAJ8DmuV
+X-Received: by 2002:a5d:5e84:0:b0:48a:f52d:ca47 with SMTP id ffacd0b85a97d-48b1275c366mr3795887f8f.22.1790936940930;
+        Fri, 02 Oct 2026 03:29:00 -0700 (PDT)
 Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
-        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a027698f13sm69650095e9.1.2026.10.02.03.22.07
+        by smtp.gmail.com with ESMTPSA id ffacd0b85a97d-48b82253e7esm4167771f8f.0.2026.10.02.03.29.00
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 02 Oct 2026 03:22:07 -0700 (PDT)
+        Fri, 02 Oct 2026 03:29:00 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 02 Oct 2026 12:22:06 +0200
-Message-Id: <DLUA0IDDMIN2.1WN7ILFAZNFQY@smile.fr>
-Subject: Re: [OE-core] [scarthgap][PATCH 1/6] bind: fix for CVE-2026-10723
+Date: Fri, 02 Oct 2026 12:28:59 +0200
+Message-Id: <DLUA5S2BP8SG.3M190Q21H66YW@smile.fr>
+Subject: Re: [OE-core][scarthgap][patch v2 1/4] libxfont: Drop obsolete
+ md5sum checksum
 From: "Yoann Congal" <yoann.congal@smile.fr>
-To: <hprajapati@mvista.com>, <openembedded-core@lists.openembedded.org>
+To: <vanusuri@mvista.com>, <openembedded-core@lists.openembedded.org>
 X-Mailer: aerc 0.20.0
-References: <20260928071115.304055-1-hprajapati@mvista.com>
-In-Reply-To: <20260928071115.304055-1-hprajapati@mvista.com>
+References: <20260912114431.357816-1-vanusuri@mvista.com>
+In-Reply-To: <20260912114431.357816-1-vanusuri@mvista.com>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 10:22:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247099
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 10:29:04 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247100
 
-On Mon Sep 28, 2026 at 9:11 AM CEST, Hitendra Prajapati via lists.openembed=
-ded.org wrote:
-> Pick patch from [1], [2] & [3] also mentioned at Debian report in [4]
->
-> [1] https://gitlab.isc.org/isc-projects/bind9/-/commit/c9cb6a5e24e43489cf=
-3fd4d4cc2193b6a74499cb
-> [2] https://gitlab.isc.org/isc-projects/bind9/-/commit/35e3d49d2222c13786=
-a06021c7ed583d2a656e51
-> [3] https://gitlab.isc.org/isc-projects/bind9/-/commit/833dd3b230b9259607=
-4e8da15b12298f46c939f2
-> [4] https://security-tracker.debian.org/tracker/CVE-2026-10723
->
-> Signed-off-by: Hitendra Prajapati <hprajapati@mvista.com>
+On Sat Sep 12, 2026 at 1:44 PM CEST, Vijay Anusuri via lists.openembedded.o=
+rg wrote:
+> Signed-off-by: Vijay Anusuri <vanusuri@mvista.com>
 > ---
->  .../bind/bind/CVE-2026-10723-01.patch         |  70 +++
->  .../bind/bind/CVE-2026-10723-02.patch         | 496 ++++++++++++++++++
->  .../bind/bind/CVE-2026-10723-03.patch         | 310 +++++++++++
->  .../recipes-connectivity/bind/bind_9.18.49.bb |   3 +
->  4 files changed, 879 insertions(+)
->  create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10723-01=
-.patch
->  create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10723-02=
-.patch
->  create mode 100644 meta/recipes-connectivity/bind/bind/CVE-2026-10723-03=
-.patch
-> [...]
-> diff --git a/meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch =
-b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch
-> new file mode 100644
-> index 0000000000..a3ff47b8bf
-> --- /dev/null
-> +++ b/meta/recipes-connectivity/bind/bind/CVE-2026-10723-02.patch
-> @@ -0,0 +1,496 @@
-> +From: Alessio Podda <alessio@isc.org>
-> +Date: Wed, 3 Jun 2026 10:42:43 +0200
-> +Subject: Reproducer for #5874 NSEC3 impersonation
-> +
-> +LLM generated.
-> +
-> +(cherry picked from commit f3e2eb333be3ac636f745aa13cfb8d9ee8af87d8)
-> +
-> +Origin: https://gitlab.isc.org/isc-projects/bind9/-/commit/35e3d49d2222c=
-13786a06021c7ed583d2a656e51
-> +Bug-Debian-Security: https://security-tracker.debian.org/tracker/CVE-202=
-6-10723
-> +Bug-Freexian-Security: https://deb.freexian.com/extended-lts/tracker/CVE=
--2026-10723
-> +
-> +CVE: CVE-2026-10723
-> +Upstream-Status: Backport [https://gitlab.isc.org/isc-projects/bind9/-/c=
-ommit/35e3d49d2222c13786a06021c7ed583d2a656e51b]
+>  meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb | 1 -
+>  1 file changed, 1 deletion(-)
+>
+> diff --git a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb b/meta/reci=
+pes-graphics/xorg-lib/libxfont_1.5.4.bb
+> index fa6585d6dc..9ec7cc30f5 100644
+> --- a/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+> +++ b/meta/recipes-graphics/xorg-lib/libxfont_1.5.4.bb
+> @@ -19,7 +19,6 @@ XORG_EXT =3D "tar.bz2"
+> =20
+>  BBCLASSEXTEND =3D "native"
+> =20
+> -SRC_URI[md5sum] =3D "16eaf156edd79b68038b6a7c44aa9e9b"
+>  SRC_URI[sha256sum] =3D "1a7f7490774c87f2052d146d1e0e64518d32e6848184a186=
+54e8d0bb57883242"
+> =20
+>  PACKAGECONFIG ??=3D "${@bb.utils.filter('DISTRO_FEATURES', 'ipv6', d)}"
 
 Hello,
 
-That URL is wrong and return a 404 (an extra 'b'?)
+This is a cleanup and this is not usually accepted under stable policy.
+Unless this fixes a real problem, I have to reject it.
 
-Can you check please?
-Can you also check the other URLs of this series?
-FYI this gitlab instance seem to be under load of bot pressure and I
-can't reach it right now. I'll also accept
-https://github.com/isc-projects/bind9/ URLs (official mirror).
+FYI, I merged patches 2-4/4 of this series.
 
-Regards,
+Thanks!
 --=20
 Yoann Congal
 Smile ECS
