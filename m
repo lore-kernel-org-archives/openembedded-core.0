@@ -1,85 +1,158 @@
-Return-Path: <mathieu.dubois-briand@bootlin.com>
+Return-Path: <yoann.congal@smile.fr>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 43836CA5FD9
-	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 08:25:30 +0000 (UTC)
-Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.6713.1790929528224022405
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 571B1CA5FD9
+	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 08:30:30 +0000 (UTC)
+Received: from mail-wm2-f12.google.com (mail-wm2-f12.google.com [74.125.225.140])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.6767.1790929827509214940
  for <openembedded-core@lists.openembedded.org>;
- Fri, 02 Oct 2026 01:25:29 -0700
+ Fri, 02 Oct 2026 01:30:27 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=x0uOvgz3;
- spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
-Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-03.galae.net (Postfix) with ESMTPS id 1A0204E41110;
-	Fri,  2 Oct 2026 08:25:26 +0000 (UTC)
-Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id E139C603DC;
-	Fri,  2 Oct 2026 08:25:25 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 91A7F103281E8;
-	Fri,  2 Oct 2026 10:25:24 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1790929525; h=from:subject:date:message-id:to:mime-version:content-type:
-	 content-transfer-encoding:in-reply-to:references;
-	bh=8R2CxG2IgRGCkg/u004BO6SvRp1MrFc0o872BecBrNk=;
-	b=x0uOvgz3RLyidy81cxYmrwJb8uFnZJaK7yxSIFopo+4zbAkYR7qgXuAfhYQbLBcYw6w7a/
-	lWoTX5VqahjBFcGaJPRLDzicnhebKAMQIM20GwgZNFWEqTyLg6KV8AZt3aFvjpSofnrDCS
-	wQcZ1GdgdkmrDsW9SznxmKQrvYu1l+5Fjp2vCrm/x75pWseOIsPHSXgQRC/0JMzq0dFEO1
-	3NPcaadc/htbxURg6vUd+BmuuuRVXr4LLrrJADaFFks7q82OwbCcwAjikU3BBS22r5HfmE
-	Sa7toyZaLACnx2JYMROqoexYBrDDM/ZA0EQmaXjgHIAfhxIcXoDTuVC0kP7/aw==
+ dkim=pass header.i=@smile.fr header.s=google header.b=LmOjJI2/;
+ spf=pass (domain: smile.fr, ip: 74.125.225.140, mailfrom: yoann.congal@smile.fr)
+Received: by mail-wm2-f12.google.com with SMTP id 5b1f17b1804b1-49ce364488dso13203205e9.0
+        for <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 01:30:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=smile.fr; s=google; t=1790929826; x=1791534626; darn=lists.openembedded.org;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:from:to:cc:subject:date
+         :message-id:reply-to:content-type;
+        bh=LtUDVLNpFf4oDMUKSLCGfZUmfvpiHN0w4OiqkMI+9Us=;
+        b=LmOjJI2/QaBDcnHOaWnC6kWlctFgpmxSti96YT74rIK0yD7HXcP1BF6bfjCuNlHoBw
+         c/7wSfWEZnn91qzdAMHq+sCyohKJJpVpqDQkk3bSfsxHRVuIKtxvWVhyyOUkKui8alg9
+         3Mad335StVmvpI5If+N7FtlQG2Aa9gHFaASqo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20260707; t=1790929826; x=1791534626;
+        h=in-reply-to:references:to:from:subject:message-id:date:content-type
+         :content-transfer-encoding:mime-version:x-gm-gg:x-gm-message-state
+         :from:to:cc:subject:date:message-id:reply-to:content-type;
+        bh=LtUDVLNpFf4oDMUKSLCGfZUmfvpiHN0w4OiqkMI+9Us=;
+        b=Us7bABLIp7C9gc9WgUUrS5G57wae47ckL0J1NeaCxUu4LFSK5EuffbYa2I3TqRvrLy
+         nETV/gx4L4JYgWJfjJraphlzeZB/C+IJdjXsQFbKP7CI6pXwQKkb4LlphzbG80d22sWb
+         BxXADQm3CDZYJc4dd0Vr/QrWSHX9eJzwlltsdlznWyfC7RkQgxmn4v/XZU2MJUCQjM1J
+         SzLlAkPHtmSRCnV2U+VIJPFosTPhgHgWctpIXsvr50Uwoe40rWxj+TZIIa3WLCPafZT2
+         vNqD03cryd7XwpTDVFsxx4ZIMtMXX4ODZ975bUXXzE1OQrAPu8rybHcbkRZmhxlHKZ9l
+         Bgww==
+X-Forwarded-Encrypted: i=1; AKwUvBwniAE/WePv7MXKA9oR4O0WJIIrBsaODceCyLjLTKdv3yyCzlbpBWYCOjGFkNqGFFOGn1wfNPO6rKGC3BV2nME+Kw==@lists.openembedded.org
+X-Gm-Message-State: AFuF++nLAjaCVTeAJflEZUyoxvgeCEn88hrvlH163OULgV0Komb375aA
+	MDY9rKeUe+QIU0Cu/zKZBaI0XUpXbhvEsh0v+zMPQOouB40IwThCN+qpOSjTWWXX1zlUT3xjCp4
+	0tJQMgLI=
+X-Gm-Gg: AYBFou1B8abx8bh1OoADMrt4TLr3f0XVQZNJi+tV6EHLDbcKmNJYi/v2IEvB6Pj1fJ7
+	00x30dgvcyYm9LAaKk6VjEYUBvx5+T+ycyiFKKftIzStdoFKBocA2OzhQeEEDln1nXIpvOKMopG
+	Tbb1/LqM2zuOpwCsPPlmJQrEnU+Mz/9U5hEeJ9mdrfTl5d1noecNlIj5kcJrWsV6QHnVXDo0Agn
+	1nmmhNqdLY0GoAB8ERiZTs8ykfytD4RuupN2EK4jH63rarwWKqJWaOUujjzboPz16qdEApoqoy+
+	3j6SihnSUlvmYS6pQudBA74/cOqD9PlVZzqfWeRKIHnvZblLLC+yHmQcf2RwrKj+LSlgG28seXM
+	Gma0XGYPiAvfmCpuqYHmB6mCHJT5eZjPXewpv9P/uZQIVSh90yKtBjxXtBOK9KYLZ4VZRXJyk+S
+	nN4FZgO0IeUjdWtY386F6Gl53eG6n8R6xxVecZi5Khw7BAoqHD6g17x2Lf/gWqqkq6M9UhtRFAZ
+	0g7nRoIUSWjYxMPSRFD6LFX8lzYsYeGz13Rp2e5PvI0x220S+9AaJBTtEANnFADS0xRAapn
+X-Received: by 2002:a05:600c:8b77:b0:49e:6581:7baf with SMTP id 5b1f17b1804b1-4a0274bcb29mr33608675e9.2.1790929821033;
+        Fri, 02 Oct 2026 01:30:21 -0700 (PDT)
+Received: from localhost (2a01cb001331aa00a2e4fb7b0d887544.ipv6.abo.wanadoo.fr. [2a01:cb00:1331:aa00:a2e4:fb7b:d88:7544])
+        by smtp.gmail.com with ESMTPSA id 5b1f17b1804b1-4a0280d1e38sm50939015e9.13.2026.10.02.01.30.20
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Oct 2026 01:30:20 -0700 (PDT)
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Fri, 02 Oct 2026 10:25:23 +0200
-Message-Id: <DLU7J55HJ9YV.14WKSNSKCXDSM@bootlin.com>
-To: "Jaipaul Cheernam" <jaipaul.cheernam@est.tech>,
- <openembedded-core@lists.openembedded.org>
-Subject: Re: [OE-core] [PATCH 3/4] shadow: upgrade 4.20.2 -> 4.20.3
-From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261002071557.74249-1-jaipaul.cheernam@est.tech>
- <20261002071557.74249-4-jaipaul.cheernam@est.tech>
-In-Reply-To: <20261002071557.74249-4-jaipaul.cheernam@est.tech>
-X-Last-TLS-Session-Version: TLSv1.3
+Date: Fri, 02 Oct 2026 10:30:20 +0200
+Message-Id: <DLU7MXCRDG6L.3GEYY13WESLNP@smile.fr>
+Subject: Re: [OE-core] [scarthgap][PATCH v2 2/7] libpcap: Fix CVE-2026-31912
+From: "Yoann Congal" <yoann.congal@smile.fr>
+To: <jaipaul.cheernam@est.tech>, <openembedded-core@lists.openembedded.org>
+X-Mailer: aerc 0.20.0
+References: <20260915194520.45847-1-jaipaul.cheernam@est.tech>
+ <20260921201715.79085-1-jaipaul.cheernam@est.tech>
+ <20260921201715.79085-3-jaipaul.cheernam@est.tech>
+In-Reply-To: <20260921201715.79085-3-jaipaul.cheernam@est.tech>
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 08:25:30 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247089
+ <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 08:30:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247090
 
-On Fri Oct 2, 2026 at 9:15 AM CEST, Jaipaul Cheernam wrote:
-> ChangeLog:
-> https://github.com/shadow-maint/shadow/releases/tag/4.20.3
->
-> Compare log: https://github.com/shadow-maint/shadow/compare/4.20.2...4.20=
-.3
+On Mon Sep 21, 2026 at 10:17 PM CEST, Jaipaul Cheernam via lists.openembedd=
+ed.org wrote:
+> NVD: https://nvd.nist.gov/vuln/detail/CVE-2026-31912
+> Upstream-commit: https://github.com/the-tcpdump-group/libpcap/commit/d3f3=
+58d3cffbe1ecb94d5284b3e81f052a0adcb9
 >
 > Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
 > ---
+>  .../libpcap/libpcap/02-CVE-2026-31912.patch   | 525 ++++++++++++++++++
+>  .../libpcap/libpcap_1.10.4.bb                 |   1 +
+>  2 files changed, 526 insertions(+)
+>  create mode 100644 meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026=
+-31912.patch
+>
+> diff --git a/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.=
+patch b/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch
+> new file mode 100644
+> index 0000000000..d9fda1ec48
+> --- /dev/null
+> +++ b/meta/recipes-connectivity/libpcap/libpcap/02-CVE-2026-31912.patch
+> @@ -0,0 +1,525 @@
+> +From d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9 Mon Sep 17 00:00:00 2001
+> +From: Denis Ovsienko <denis@ovsienko.info>
+> +Date: Thu, 30 Jul 2026 13:33:55 +0100
+> +Subject: [PATCH] CVE-2026-31912: Mind the program bounds in pcap_offline=
+_filter().
+> +
+> +The current revision of pcapint_filter_with_aux_data() does not know the
+> +number of instructions in the filter program, it assumes the program
+> +counter always remains within the bounds of the provided filter program
+> +and always reaches a return instruction.  This holds for programs that
+> +have been generated or validated by libpcap.
+> +
+> +However, this does not necessarily hold for programs that come from an
+> +external source via pcap_offline_filter() or [deprecated] bpf_filter()
+> +and have not been explicitly validated.  If the interpreter executes
+> +such a program and advances the program counter beyond the last
+> +instruction, it will be interpreting memory space after the filter
+> +program as BPF instructions, which in the current implementation will
+> +eventually cause either abort() (another commit addresses that) or
+> +SIGSEGV.
+> +
+> +To fix the latter problem, in pcapint_filter_with_aux_data() add a
+> +parameter for the number of instructions in the program and reject the
+> +packet as soon as (or just before) the program counter goes out of
+> +bounds.  Update all incoming code paths to specify the length; also in
+> +pcap_offline_filter(3PCAP) make it clear the function now requires the
+> +'bf_len' member to be set correctly and uses it.
+> +
+> +(backported from commit d1209988c74dd9330659898d3b676ee6bbe1c551)
+> +
+> +(cherry picked from commit d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9)
+> +
 
-Hi Jaipaul,
+Hello,
 
-Does it build on your side? Here I get this error:
+> +Notes on backporting to 1.10.4:
+> + - Adapted to the 1.10.4 pcap_filter*() names (renamed to pcapint_*()
+> +   after 1.10.4).
+> + - The upstream CHANGES/changelog hunk is not backported.
+>=20
+> +Upstream-Status: Backport [https://github.com/the-tcpdump-group/libpcap/=
+commit/d3f358d3cffbe1ecb94d5284b3e81f052a0adcb9]
 
-| ../../sources/shadow-4.20.3/lib/commonio.c: In function =E2=80=98dec_lock=
-_count=E2=80=99:
-| ../../sources/shadow-4.20.3/lib/commonio.c:425:51: error: passing argumen=
-t 1 of =E2=80=98nscd_flush_cache=E2=80=99 makes integer from pointer withou=
-t a cast [-Wint-conversion]
-|   425 |                                 nscd_flush_cache ("passwd");
-|       |                                                   ^~~~~~~~
-|       |                                                   |
-|       |                                                   char *
+This also drop a pcap-haiku.c hunk. Should'nt we patch pcap-haiku.cpp?
+This was before it was rewriten in C.
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/19/builds/4753
+I may have missed it for the wrynose patch but if a patch is needed, could
+you send a fix for wrynose as well?
 
-Thanks,
-Mathieu
+Also, please check that the backport notes are exhaustive (e.g. there is
+also a missing man patch for which a note would have been appreciated)
 
+> +CVE: CVE-2026-31912
+> +Signed-off-by: Jaipaul Cheernam <jaipaul.cheernam@est.tech>
+
+I'll hold the series for now. Can you check the above issues for the
+whole series?
+
+Regards,
 --=20
-Mathieu Dubois-Briand, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Yoann Congal
+Smile ECS
 
 
