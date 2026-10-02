@@ -2,74 +2,74 @@ Return-Path: <bbnpreetsingh@gmail.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 56ABACA5FCE
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 82484CA5FD4
 	for <webhook@archiver.kernel.org>; Fri,  2 Oct 2026 01:09:02 +0000 (UTC)
-Received: from mail-pj2-f13.google.com (mail-pj2-f13.google.com [74.125.227.141])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2083.1790903332199750880
+Received: from mail-pj2-f43.google.com (mail-pj2-f43.google.com [74.125.227.171])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2089.1790903342151391016
  for <openembedded-core@lists.openembedded.org>;
- Thu, 01 Oct 2026 18:08:52 -0700
+ Thu, 01 Oct 2026 18:09:02 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@gmail.com header.s=20251104 header.b=D46AOYpI;
- spf=pass (domain: gmail.com, ip: 74.125.227.141, mailfrom: bbnpreetsingh@gmail.com)
-Received: by mail-pj2-f13.google.com with SMTP id d9443c01a7336-2d91ede8035so61000055ad.3
-        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 18:08:52 -0700 (PDT)
+ dkim=pass header.i=@gmail.com header.s=20251104 header.b=T7tbXVnb;
+ spf=pass (domain: gmail.com, ip: 74.125.227.171, mailfrom: bbnpreetsingh@gmail.com)
+Received: by mail-pj2-f43.google.com with SMTP id 98e67ed59e1d1-3a4c8262465so2653055a91.2
+        for <openembedded-core@lists.openembedded.org>; Thu, 01 Oct 2026 18:09:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20251104; t=1790903331; x=1791508131; darn=lists.openembedded.org;
+        d=gmail.com; s=20251104; t=1790903341; x=1791508141; darn=lists.openembedded.org;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:from:to:cc:subject:date
          :message-id:reply-to:content-type;
-        bh=EzkncOSeGPAUbNPFLzntewBUdqYWJZjGago7GboX2dE=;
-        b=D46AOYpIHZKeRhq1ThGxZFhhhLNAXcsgxYduylLwhWfFnoTC4SY2FDEvLpe3MrkX51
-         r3wDH+z9kMVctJ7Vqq9FHRvse8rxhe1xECv7c55j1eej19fl3KodurkYrs+dhftz6i+p
-         9d0GwyIU2q5bUn+JFdL0J0aMbsXcxJ6loyajXAEKKmogN1xU6Z69eRXn4ZFA12WM7dhR
-         O20OGXv+Fstpb5KUng9y5AFMni1YwCA6sXyQHNftUca4Hr17wIfRQfHrN/p2d9ka+7u6
-         rmPS4YVPeBX4hYV62sGOu5wkwtKaJbOHt4JACDUqeKxEfvOwz10tIyiXM5/4g7nEex7E
-         v1KA==
+        bh=16jAeDJ4SKFJpGPl5J+4JU8J8YhrIDBUNC+Rz00Hn7U=;
+        b=T7tbXVnb6TQppG+7RVRREQH6XIRB4M4Gm92cW9rKOeS4XuA2/TXmXIhvHhGkKKfprt
+         6dzwsjmjzcgMcbCac7paYtOtRL5WtpsDBTVwjgk3pQeoCB9g0tv2wccex/CLeC/Zx6AL
+         x55p06W4/bAjtWz20QZxyMnMvJFhvpZ5k9tXWZDKh/o9GLzyb7JatTio6DV980j5Rt1q
+         GZpfwp74+DMwAuW3DSM/nihTa6zNb7RqNwE6CJnXkdQWAKYiOKcFd12p1n4JyxFz55Ik
+         gxtxPHqe8hk8QfleFq71C5IpvRitzy7LmAoRYDP3NmXQ5ZYi/tLS5xs3FPMRpNpqo5sL
+         Twiw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20260707; t=1790903331; x=1791508131;
+        d=1e100.net; s=20260707; t=1790903341; x=1791508141;
         h=content-transfer-encoding:mime-version:references:in-reply-to
          :message-id:date:subject:cc:to:from:x-gm-gg:x-gm-message-state:from
          :to:cc:subject:date:message-id:reply-to:content-type;
-        bh=EzkncOSeGPAUbNPFLzntewBUdqYWJZjGago7GboX2dE=;
-        b=ycVXepR81yydmkb1RjHNBt5j2fGFIkN8O96AnjhPL7fpBcXNe1H8n8PTqI3hTu0z/I
-         PtWCDD1zlXthtrlEkxGagOnlBn9md6u3k72i++PP9b01BaXLDv1JINOOzVhfMHP9fVmx
-         cq6TcadczPcsN24EmFqQMOHBDXhy49pM+I1xgfaWloD04olxU9LxeUo6LTm28fUygzn6
-         0kopkZ2NWQQ49cq4SCxTRoO0LdgGlvXcswR2a40I7I1wIb93YYx5OLAi/ZY6pA3TADIR
-         G5BUGhFyiHFP3FbhzprVHoH+jUbRQ0BorGJeB9ZF9kboCv2E/6k7PFSDwiKLcoQIrAEk
-         jqTQ==
-X-Gm-Message-State: AFq9FYIXYdj6LoRwZaIPlnugInWucgIFPr5rHPG3N/GzG7xk4l3vWVDS
-	k0M9FpvkMoACRGDi6Wdg5tfGqwsxoYxSFxXTfLOekD2grFAeL2CBsQLo4tFAIAKyK3pTnvMS
-X-Gm-Gg: AYBFou2yy9QtunS3Ru4CAPRSMQnIqokAbPI1gxTNL5VjH5CBK0y7HOGumyG3xPGdxA5
-	HTPnduryVawkRCue29HNQ0n3b38TqdG+CD75Mgxzen8/LJRPRQcLn98gfIxUZBt7kExh4VDpuSf
-	1F7Zrpi7CCRSFbPr9WyuKaOYoK8x2VcqgW06DxXA8OT7WitntJou3nv1/aEhSRRhwQXLJZVFM4n
-	byTKxXW86NtWVQ6CNfodtj7Q9WJsb2ZCh72hDVXwOAbgPMqJ8uk5SeeHMVMEzQwKuObXI0LSV4Q
-	TfYQ1/FE1EFvk4XwQgN10Yu8t1lS9qrVHLEN7SD2qmnZo4sn2pdDa2y1DjsO2Vuwp2OE+K1hwyT
-	grtcOoaKWoDALR3KqtU7j1xDCP3a0qBevAFoZ8u9jVK3DM+ubd9MBhnk+Nu9jWUxmKDUjcY5iDX
-	1lA9aakHQZRz+rkGss+ZX4Gg+6ntOG9l0xD9jIwbVcWWGgD3UJn5QOzDtiNnOg8zghrBIhvw==
-X-Received: by 2002:a17:90b:1f86:b0:3a4:adea:50c1 with SMTP id 98e67ed59e1d1-3a6ced92fe9mr1091735a91.62.1790903331277;
-        Thu, 01 Oct 2026 18:08:51 -0700 (PDT)
+        bh=16jAeDJ4SKFJpGPl5J+4JU8J8YhrIDBUNC+Rz00Hn7U=;
+        b=Op203i58oQO7TyPUpKlA5F7LmKDzG8qL+R3uM1XbhuzIxBt0IJ3XdWaqZOCR269KyO
+         RQJhS4JUqt+wHRohpOdwSpdy/nSTMc/K8sUBPDiV3/9ZES5XCpqpCS+HdJ+iTDRwOFh9
+         PsUhi99JgyN6x+A8BhWcSVjrYVsk8vq7rQRbYMPdYda0hkv2OrE50sSw1GofM7COdumO
+         yRVkGdZqR0JACe93JUq4hi/hq/bjKgRvcPXzYy48Vr+H/4uG3qKoYgmx1a7ouBfqPZc8
+         qDyHiZXz2udYBPAit2nBa8XemJqcerPcbSC+UTHkhVen4DXlb2QWu/bU8ZOt5aSJ+o2l
+         CD1w==
+X-Gm-Message-State: AFq9FYIzKRpfYz0kmecN+1Nugn3NtZypsw0bgSK0FOn03uhkqo4uczzu
+	JdjHHgab6pqo/8BpeWhiH2DUHcQt3RcX/vgxJG4EC4WMUmQluVBug//TDPVLAwqdTmmbQ4AS
+X-Gm-Gg: AYBFou31cMbKLmVzBsnu5NdkSVlnEqYO/p1UqEBGQxiX7hQODkWGH9FzZLhNRI1ElVE
+	A+ggwrUBH1L4R6SPaUD0JgEUL7WZ6LRutl95hukMeyYiYx8C+ToiTqfzeDTGdkXkm2B6y5y5sit
+	YP34pxOx+kCJsJMj3MYfmBcdjfqFmQAdwbK+JmZ28dqZSySN7usKjjZ78LB4VrsPUmyu8h4oWf1
+	6+Z88wBmyThRvC9qioJ6Q0q8Hd553bXc5C/7hI8siFEXiLyPUmqQDMnC2AnZ9bijcUAKL8c53oo
+	tkCVTeCz2cqsp7RO1QVpKhX+ZA9FZ3ukBj4ieyujJtZbd2zwjBCzm+Gf4WYcARHZTBDszksKceh
+	SRJd2k+JxmO3fPnOvZ6T+NIG6MB9mgGeLHizkSUhDdfNXxPfYjFfwt4f4vQZ2Yb1+XbkVChTy3K
+	ASIal6ImeX/G0CGbcwu4cWIAkivahFefiisqTlEQzGJ1CPBrqNdWfAzLZ43sTqTFvA5ucTMQ==
+X-Received: by 2002:a17:90b:4a92:b0:3a4:e635:a8b9 with SMTP id 98e67ed59e1d1-3a6ce7aaab7mr1092454a91.32.1790903341054;
+        Thu, 01 Oct 2026 18:09:01 -0700 (PDT)
 Received: from ydev.. ([108.180.130.139])
-        by smtp.gmail.com with ESMTPSA id d9443c01a7336-2e49f6fe249sm2375965ad.61.2026.10.01.18.08.50
+        by smtp.gmail.com with ESMTPSA id 98e67ed59e1d1-3a6dcdac9f7sm431636a91.1.2026.10.01.18.09.00
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 01 Oct 2026 18:08:50 -0700 (PDT)
+        Thu, 01 Oct 2026 18:09:00 -0700 (PDT)
 From: Babanpreet Singh <bbnpreetsingh@gmail.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Yoann Congal <yoann.congal@smile.fr>,
 	Julien Stephan <jstephan@baylibre.com>,
 	Babanpreet Singh <bbnpreetsingh@gmail.com>
-Subject: [wrynose][PATCH 2/2] oeqa/selftest/devtool: cover update-recipe --initial-rev
-Date: Fri,  2 Oct 2026 01:08:49 +0000
-Message-ID: <20261002010849.7-2-bbnpreetsingh@gmail.com>
+Subject: [scarthgap][PATCH 2/2] oeqa/selftest/devtool: cover update-recipe --initial-rev
+Date: Fri,  2 Oct 2026 01:08:59 +0000
+Message-ID: <20261002010859.7-2-bbnpreetsingh@gmail.com>
 X-Mailer: git-send-email 2.43.0
-In-Reply-To: <20261002010849.7-1-bbnpreetsingh@gmail.com>
-References: <20261002010849.7-1-bbnpreetsingh@gmail.com>
+In-Reply-To: <20261002010859.7-1-bbnpreetsingh@gmail.com>
+References: <20261002010859.7-1-bbnpreetsingh@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
  <openembedded-core@lists.openembedded.org>; Fri, 02 Oct 2026 01:09:02 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247057
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247059
 
 The --initial-rev option had no selftest coverage. Extend
 test_devtool_update_recipe to run update-recipe with --initial-rev
@@ -82,19 +82,32 @@ Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
 Signed-off-by: Mathieu Dubois-Briand <mathieu.dubois-briand@bootlin.com>
 Signed-off-by: Richard Purdie <richard.purdie@linuxfoundation.org>
 (cherry picked from commit 171af3b2915dd076c8d1b205ff75eac1ebd5a586)
+[Adjusted for scarthgap: also takes the cleanup_cmd change to this test
+from de635a9bc0 ("mdadm: fetch from git"), which the new steps rely on]
 Signed-off-by: Babanpreet Singh <bbnpreetsingh@gmail.com>
 ---
- meta/lib/oeqa/selftest/cases/devtool.py | 22 ++++++++++++++++++++++
- 1 file changed, 22 insertions(+)
+ meta/lib/oeqa/selftest/cases/devtool.py | 27 ++++++++++++++++++++++++-
+ 1 file changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/meta/lib/oeqa/selftest/cases/devtool.py b/meta/lib/oeqa/selftest/cases/devtool.py
-index 5ed69aee1b..b485d752e7 100644
+index 6af3e2417a..cace9d26bd 100644
 --- a/meta/lib/oeqa/selftest/cases/devtool.py
 +++ b/meta/lib/oeqa/selftest/cases/devtool.py
-@@ -1219,6 +1219,28 @@ class DevtoolUpdateTests(DevtoolBase):
+@@ -1186,13 +1186,38 @@ class DevtoolUpdateTests(DevtoolBase):
+         result = runCmd('echo "A new file" > devtool-new-file', cwd=tempdir)
+         result = runCmd('git add devtool-new-file', cwd=tempdir)
+         result = runCmd('git commit -m "Add a new file"', cwd=tempdir)
+-        self.add_command_to_tearDown('cd %s; rm %s/*.patch; git checkout %s %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile)))
++        cleanup_cmd = 'cd %s; rm %s/*.patch; git add %s; git checkout %s' % (os.path.dirname(recipefile), testrecipe, testrecipe, os.path.basename(recipefile))
++        self.add_command_to_tearDown(cleanup_cmd)
+         result = runCmd('devtool update-recipe %s' % testrecipe)
+         result = runCmd('git add minicom', cwd=os.path.dirname(recipefile))
+         expected_status = [(' M', '.*/%s$' % os.path.basename(recipefile)),
+                            ('A ', '.*/0001-Change-the-README.patch$'),
+                            ('A ', '.*/0002-Add-a-new-file.patch$')]
          self._check_repo_status(os.path.dirname(recipefile), expected_status)
-         result = runCmd(cleanup_cmd)
-         self._check_repo_status(os.path.dirname(recipefile), [])
++        result = runCmd(cleanup_cmd)
++        self._check_repo_status(os.path.dirname(recipefile), [])
 +        # Now try the same passing --initial-rev: the recorded initial
 +        # revision must give the same result as not passing the option, and a
 +        # later revision must export only the commits after it
