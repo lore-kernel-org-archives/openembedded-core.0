@@ -2,33 +2,35 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id F2A1ECA5FDD
-	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 10:01:14 +0000 (UTC)
-Received: from mta-65-228.siemens.flowmailer.net (mta-65-228.siemens.flowmailer.net [185.136.65.228])
- by mx.groups.io with SMTP id smtpd.msgproc02-g2.2977.1791021666221333554
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 038BACA5FE3
+	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 10:01:25 +0000 (UTC)
+Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.2945.1791021684166147455
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Oct 2026 03:01:06 -0700
+ Sat, 03 Oct 2026 03:01:24 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=DQ50th7U;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.228, mailfrom: fm-256628-2026100310010425d7d48fa900020762-5v9qwj@rts-flowmailer.siemens.com)
-Received: by mta-65-228.siemens.flowmailer.net with ESMTPSA id 2026100310010425d7d48fa900020762
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=M+aU4l0U;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-202610031001218c3590776900020736-sdrnfo@rts-flowmailer.siemens.com)
+Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 202610031001218c3590776900020736
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 03 Oct 2026 12:01:04 +0200
+        Sat, 03 Oct 2026 12:01:21 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
- h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=q3BvBWkrgNFZyUrKDT9ZyswYux6rv3LOUKbPHmu2rRo=;
- b=DQ50th7UbimExw1Gg8DqdARykVYjsQeS/fDoOlmFK/WDnVWOfT2IsBFnLbOC9eVBcKlaO7
- SAgZTI+QTmBcs9qulWm7xfi9kXVcOdEIX0t3ovIHWcLZ0/heIgENcFQD8Q/SRnnXftCYgt31
- O4vX3G8BifZlwA2BOrraHzJ374zOc3nfjvWt0P2+uh4Ml5odPhjXkA3nFXAFODn6oFLM+6tf
- +w1ILqAdpTs/tY89YL9bSaCu3Sxc4U9J6HpzxMQd1Q/QbGpiGHxdcV1UL1pUnFdlb6wUB2tT
- LjEK5XIxbht9jIWRlSa7I2G3CGrGEW4iPcSlSk5A9+/9UA/FfWmT538g==;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc:References:In-Reply-To;
+ bh=HrQCVk290MbCLl7xrBoC3qmw4iFAFxVaT+bir+XfLyA=;
+ b=M+aU4l0UytcnjR42tvKcpY4U7V4VeUBHPaTNFXMzJsYJV19fTgzX3P1zaM3LJCnx0qWpBA
+ 3qJW0dpd92ElvR1yMQCPFd3IZLHLEOeAHWvOeMDKSP4CAYJhH8ZbVqvsLJFpfeX9ppNEJMB0
+ 2h24B1s2Gy8cqIA7A9jLWfWd6fgKST+gIJfuCYs24bP4qLpIRpjCzISHztCNSqWWhSglGMqL
+ fTtWwfZzjFcugnbHrt63E2+A4agpZEelu3mpPBhSBFxWixNZN1eFjghT/ReqAIGeYBmJ9DKd
+ iQ5tRPFRuxwO+7nhLVHd1On4Mnv1DCsSCpWXxeuaruRI7Ubn5erY8lFQ==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH 1/2] libpng: patch CVE-2026-33416 regression
-Date: Sat,  3 Oct 2026 12:00:43 +0200
-Message-ID: <20261003100044.3979222-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH 2/2] libpng: patch CVE-2026-46675
+Date: Sat,  3 Oct 2026 12:00:44 +0200
+Message-ID: <20261003100044.3979222-2-peter.marko@siemens.com>
+In-Reply-To: <20261003100044.3979222-1-peter.marko@siemens.com>
+References: <20261003100044.3979222-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,95 +38,152 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 10:01:14 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247155
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 10:01:24 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247156
 
 From: Peter Marko <peter.marko@siemens.com>
 
 Pick patch per [1].
 
-[1] https://security-tracker.debian.org/tracker/CVE-2026-33416
+[1] https://security-tracker.debian.org/tracker/CVE-2026-46675
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- .../libpng/files/CVE-2026-33416-05.patch      | 58 +++++++++++++++++++
- .../libpng/libpng_1.6.42.bb                   |  1 +
- 2 files changed, 59 insertions(+)
- create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-33416-05.patch
+ .../libpng/files/CVE-2026-46675.patch         | 115 ++++++++++++++++++
+ .../libpng/libpng_1.6.42.bb                   |   1 +
+ 2 files changed, 116 insertions(+)
+ create mode 100644 meta/recipes-multimedia/libpng/files/CVE-2026-46675.patch
 
-diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-33416-05.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-05.patch
+diff --git a/meta/recipes-multimedia/libpng/files/CVE-2026-46675.patch b/meta/recipes-multimedia/libpng/files/CVE-2026-46675.patch
 new file mode 100644
-index 00000000000..c42f2213b35
+index 00000000000..3af0251c553
 --- /dev/null
-+++ b/meta/recipes-multimedia/libpng/files/CVE-2026-33416-05.patch
-@@ -0,0 +1,58 @@
-+From d4c4e49eb5c8981075ec2cd946428758c0cda6ac Mon Sep 17 00:00:00 2001
++++ b/meta/recipes-multimedia/libpng/files/CVE-2026-46675.patch
+@@ -0,0 +1,115 @@
++From aa77ef38c17ab2fc1b41bec09fb973c6a386641d Mon Sep 17 00:00:00 2001
 +From: Cosmin Truta <ctruta@gmail.com>
-+Date: Wed, 15 Apr 2026 14:58:35 +0300
-+Subject: [PATCH] fix: Sync `info_ptr->palette` unconditionally after in-place
-+ transforms
++Date: Wed, 23 Sep 2026 18:30:11 +0300
++Subject: [PATCH] fix: Clear stale zstream pointers when releasing the inflate
++ stream
 +
-+The palette sync in `png_read_transform_info` was guarded by
-+`if (transformations != 0)`, but the palette-modifying transforms clear
-+their own bits before this function gets to run. When one of these was
-+the sole transform, the guard was false and the sync was skipped, which
-+caused `png_get_PLTE` to return stale palette data.
++The zstream buffer pointers and counters are all cleared on acquisition
++in `png_inflate_claim`, but only `next_in` and `avail_in` were cleared
++on release in `png_read_finish_IDAT`, and none were cleared on release
++in the chunk decompression paths.
 +
-+Drop this guard.
++If `png_read_end` is called before row reading starts, the IDAT stream
++is never claimed. Previously, a leftover non-zero `avail_in` caused the
++refill in `png_read_IDAT_data` to be skipped, and inflation continued
++through a stale `next_in` into an input buffer that may since have been
++deallocated.
 +
-+This was a regression from commit c1b0318b39 (version 1.6.56).
++Introduce the function `png_inflate_detach_buffers` to clear the
++pointers and the counters of zstream input and output buffers on both
++acquisition and release. Although clearing `next_out` and `avail_out`
++is not currently necessary at any call site, it makes release mirror
++acquisition at a negligible cost paid once for each zlib stream.
 +
-+Reported-by: ralfjunker <ralfjunker@users.noreply.github.com>
-+Resolves: https://github.com/pnggroup/libpng/issues/848
++This is a cherry-pick of commit 6c7783b151377f591c83955e23da50991ad1a600
++from branch 'libpng18'.
 +
-+CVE: CVE-2026-33416
-+Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/d4c4e49eb5c8981075ec2cd946428758c0cda6ac]
++Reported-by: Ze Sheng <OwenSanzas@users.noreply.github.com>
++Reported-by: JasonHonKL <JasonHonKL@users.noreply.github.com>
++
++CVE: CVE-2026-46675
++Upstream-Status: Backport [https://github.com/pnggroup/libpng/commit/aa77ef38c17ab2fc1b41bec09fb973c6a386641d]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
-+ pngrtran.c | 20 ++++++++------------
-+ 1 file changed, 8 insertions(+), 12 deletions(-)
++ pngrutil.c | 33 +++++++++++++++++++--------------
++ 1 file changed, 19 insertions(+), 14 deletions(-)
 +
-+diff --git a/pngrtran.c b/pngrtran.c
-+index 1b04cafa5..0ac8df749 100644
-+--- a/pngrtran.c
-++++ b/pngrtran.c
-+@@ -1984,19 +1984,15 @@ png_read_transform_info(png_structrp png_ptr, png_inforp info_ptr)
-+ {
-+    png_debug(1, "in png_read_transform_info");
++diff --git a/pngrutil.c b/pngrutil.c
++index 551395168..482f0ae8d 100644
++--- a/pngrutil.c
+++++ b/pngrutil.c
++@@ -332,6 +332,18 @@ png_read_buffer(png_structrp png_ptr, png_alloc_size_t new_size, int warn)
++ }
++ #endif /* READ_iCCP|iTXt|pCAL|sCAL|sPLT|tEXt|zTXt|SEQUENTIAL_READ */
 + 
-+-   if (png_ptr->transformations != 0)
-++   if (info_ptr->color_type == PNG_COLOR_TYPE_PALETTE &&
-++       info_ptr->palette != NULL && png_ptr->palette != NULL)
+++/* Detach the zstream from the input and output buffers left by
+++ * the current or a previous owner, and possibly deallocated since.
+++ */
+++static void
+++png_inflate_detach_buffers(png_structrp png_ptr)
+++{
+++   png_ptr->zstream.next_in = NULL;
+++   png_ptr->zstream.avail_in = 0;
+++   png_ptr->zstream.next_out = NULL;
+++   png_ptr->zstream.avail_out = 0;
+++}
+++
++ /* png_inflate_claim: claim the zstream for some nefarious purpose that involves
++  * decompression.  Returns Z_OK on success, else a zlib error code.  It checks
++  * the owner but, in final release builds, just issues a warning if some other
++@@ -392,13 +404,7 @@ png_inflate_claim(png_structrp png_ptr, png_uint_32 owner)
++ 
++ #endif /* ZLIB_VERNUM >= 0x1240 */
++ 
++-      /* Set this for safety, just in case the previous owner left pointers to
++-       * memory allocations.
++-       */
++-      png_ptr->zstream.next_in = NULL;
++-      png_ptr->zstream.avail_in = 0;
++-      png_ptr->zstream.next_out = NULL;
++-      png_ptr->zstream.avail_out = 0;
+++      png_inflate_detach_buffers(png_ptr);
++ 
++       if ((png_ptr->flags & PNG_FLAG_ZSTREAM_INITIALIZED) != 0)
++       {
++@@ -744,7 +750,8 @@ png_decompress_chunk(png_structrp png_ptr,
++          else if (ret == Z_OK)
++             ret = PNG_UNEXPECTED_ZLIB_RETURN;
++ 
++-         /* Release the claimed stream */
+++         /* Release the claimed stream. */
+++         png_inflate_detach_buffers(png_ptr);
++          png_ptr->zowner = 0;
++       }
++ 
++@@ -1569,6 +1576,7 @@ png_handle_iCCP(png_structrp png_ptr, png_inforp info_ptr, png_uint_32 length)
++ 
++                                     if (errmsg == NULL)
++                                     {
+++                                       png_inflate_detach_buffers(png_ptr);
++                                        png_ptr->zowner = 0;
++                                        return;
++                                     }
++@@ -1595,7 +1603,8 @@ png_handle_iCCP(png_structrp png_ptr, png_inforp info_ptr, png_uint_32 length)
++                else /* profile truncated */
++                   errmsg = png_ptr->zstream.msg;
++ 
++-               /* Release the stream */
+++               /* Release the claimed stream. */
+++               png_inflate_detach_buffers(png_ptr);
++                png_ptr->zowner = 0;
++             }
++ 
++@@ -4294,11 +4303,7 @@ png_read_finish_IDAT(png_structrp png_ptr)
++     */
++    if (png_ptr->zowner == png_IDAT)
 +    {
-+-      if (info_ptr->color_type == PNG_COLOR_TYPE_PALETTE &&
-+-          info_ptr->palette != NULL && png_ptr->palette != NULL)
-+-      {
-+-         /* Sync info_ptr->palette with png_ptr->palette.
-+-          * The function png_init_read_transformations may have modified
-+-          * png_ptr->palette in place (e.g. for gamma correction or for
-+-          * background compositing).
-+-          */
-+-         memcpy(info_ptr->palette, png_ptr->palette,
-+-             PNG_MAX_PALETTE_LENGTH * (sizeof (png_color)));
-+-      }
-++      /* Sync info_ptr->palette with png_ptr->palette, which may
-++       * have been modified by png_init_read_transformations
-++       * (e.g. for gamma correction or background compositing).
-++       */
-++      memcpy(info_ptr->palette, png_ptr->palette,
-++          PNG_MAX_PALETTE_LENGTH * (sizeof (png_color)));
-+    }
++-      /* Always do this; the pointers otherwise point into the read buffer. */
++-      png_ptr->zstream.next_in = NULL;
++-      png_ptr->zstream.avail_in = 0;
++-
++-      /* Now we no longer own the zstream. */
+++      png_inflate_detach_buffers(png_ptr);
++       png_ptr->zowner = 0;
 + 
-+ #ifdef PNG_READ_EXPAND_SUPPORTED
++       /* The slightly weird semantics of the sequential IDAT reading is that we
 diff --git a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-index b226e327b64..f375aa5f4e9 100644
+index f375aa5f4e9..8e7f9d8f8ec 100644
 --- a/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
 +++ b/meta/recipes-multimedia/libpng/libpng_1.6.42.bb
-@@ -31,6 +31,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz
-            file://CVE-2026-33416-04.patch \
+@@ -32,6 +32,7 @@ SRC_URI = "${SOURCEFORGE_MIRROR}/project/${BPN}/${BPN}${LIBV}/${PV}/${BP}.tar.xz
             file://CVE-2026-34757_p1.patch \
             file://CVE-2026-34757_p2.patch \
-+           file://CVE-2026-33416-05.patch \
+            file://CVE-2026-33416-05.patch \
++           file://CVE-2026-46675.patch \
  "
  
  SRC_URI[sha256sum] = "c919dbc11f4c03b05aba3f8884d8eb7adfe3572ad228af972bb60057bdb48450"
