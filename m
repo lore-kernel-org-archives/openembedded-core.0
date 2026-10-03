@@ -2,33 +2,33 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id D1437CA5FE4
-	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 19:49:57 +0000 (UTC)
-Received: from mta-65-226.siemens.flowmailer.net (mta-65-226.siemens.flowmailer.net [185.136.65.226])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.11927.1791056995356202106
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2906ACA5FE4
+	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 20:41:48 +0000 (UTC)
+Received: from mta-64-225.siemens.flowmailer.net (mta-64-225.siemens.flowmailer.net [185.136.64.225])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.12763.1791060102253678906
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Oct 2026 12:49:55 -0700
+ Sat, 03 Oct 2026 13:41:43 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=L7yItRGH;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.65.226, mailfrom: fm-256628-2026100319495323030e8ef400020726-quygae@rts-flowmailer.siemens.com)
-Received: by mta-65-226.siemens.flowmailer.net with ESMTPSA id 2026100319495323030e8ef400020726
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=inmpHNHe;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.225, mailfrom: fm-256628-20261003204138b2d3211f9e00020738-4hktfq@rts-flowmailer.siemens.com)
+Received: by mta-64-225.siemens.flowmailer.net with ESMTPSA id 20261003204138b2d3211f9e00020738
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 03 Oct 2026 21:49:53 +0200
+        Sat, 03 Oct 2026 22:41:39 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=klB4iq83/03Lo9SWw/iBQUtFCG4lsCj+xvN6BX+tLqg=;
- b=L7yItRGHzRiC1NQ3QEZXHmK1dWTbB4BCldULQEDL2bGwoRDh2q+/RlheWN4wkl+L1m31K2
- ZtmqIQWLPthoWFkJOoW6aT40SiYjYVAcUgBGJDVe/DT5AxU6VKVF3nKRYuBUhGQwDGmucl0p
- ZxloBhlcSaOST9Sh4Nt0donlY9EL5mRXAvXa6hX6I4Z3BwqM42j8koCVTiceTvzY79z8Dm3D
- EVv4fQnwQk6/8Q0PP1sjtSOUtFw/Jgy56EVhRBxUOgy5MxJ+4AsZpQ20CbexQqL6ck9w9rk0
- Ugbhjq0ogT/+5V5PBs5PVpRdo+ebBRyFXa0/d2pWBuKDMsbxAEdnCoCg==;
+ bh=QEh3ncata28ilI/wU9UIpJbLn6jo/1kwlai43Hu4dN0=;
+ b=inmpHNHeCJs4dbHZ3GiME54Uyvk9jTAebfsUS4UHETBjA5zS+6gDYsH1K0RVvfjb7qf4g6
+ L2C0WfodWllbban6lpAN71ze+PuxPwduSz0y9j9lqulVz/jc4bAtGZZ5ezQxARkJGcMZW448
+ ktFng+Ag+3xP7N5kKLYtOpyXhbRyuE7z/2Lbnbrt9SC0lLj1LL7eChotufErZEbXJ3Aib7GE
+ eL3Y6zeyekeWtDhK8FDjTbiaPZJlEgdZIUTZD3JTUz6AtYvzlOIPJaS2w5s3WVFYRqRlIlsG
+ jFYqkALeUybuNjnihNpYRTlxPZMstmVmn1/4dwRNau7/bhSaPrq4rcQw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [wrynose][PATCH] util-linux(-uuid): upgrade 2.41.5 -> 2.41.6
-Date: Sat,  3 Oct 2026 21:49:36 +0200
-Message-ID: <20261003194936.1818610-1-peter.marko@siemens.com>
+Subject: [wrynose][PATCH v2] util-linux(-uuid): upgrade 2.41.5 -> 2.41.6
+Date: Sat,  3 Oct 2026 22:41:18 +0200
+Message-ID: <20261003204118.1827359-1-peter.marko@siemens.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
@@ -36,13 +36,13 @@ Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 19:49:57 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247174
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 20:41:48 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247175
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Backported two patches from v2.41 to fix builds.
-Also backported patch to fix regression of CVE-2026-78408 fix.
+Backported a patche from v2.41 branch to fix build.
+Also backported patch to fix CVE fixes regressions.
 
 Release notes [1]:
 
@@ -104,17 +104,19 @@ wall, write:
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
+v2: renamed patch fixing CVE regression
+
  ...2.41.5.bb => util-linux-libuuid_2.41.6.bb} |   0
  meta/recipes-core/util-linux/util-linux.inc   |   5 +-
  ...sing-fileutils.h-include-to-hook_idm.patch |  38 ++++++
- ..._LIBMOUNT_MOUNTFD_SUPPORT-for-idmap-.patch | 114 ++++++++++++++++++
  .../util-linux/CVE-2026-78408.patch           |  75 ++++++++++++
+ .../util-linux/CVE-2026-78410.patch           | 115 ++++++++++++++++++
  ...l-linux_2.41.5.bb => util-linux_2.41.6.bb} |   0
- 6 files changed, 231 insertions(+), 1 deletion(-)
+ 6 files changed, 232 insertions(+), 1 deletion(-)
  rename meta/recipes-core/util-linux/{util-linux-libuuid_2.41.5.bb => util-linux-libuuid_2.41.6.bb} (100%)
  create mode 100644 meta/recipes-core/util-linux/util-linux/0001-libmount-add-missing-fileutils.h-include-to-hook_idm.patch
- create mode 100644 meta/recipes-core/util-linux/util-linux/0001-libmount-use-USE_LIBMOUNT_MOUNTFD_SUPPORT-for-idmap-.patch
  create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch
+ create mode 100644 meta/recipes-core/util-linux/util-linux/CVE-2026-78410.patch
  rename meta/recipes-core/util-linux/{util-linux_2.41.5.bb => util-linux_2.41.6.bb} (100%)
 
 diff --git a/meta/recipes-core/util-linux/util-linux-libuuid_2.41.5.bb b/meta/recipes-core/util-linux/util-linux-libuuid_2.41.6.bb
@@ -122,7 +124,7 @@ similarity index 100%
 rename from meta/recipes-core/util-linux/util-linux-libuuid_2.41.5.bb
 rename to meta/recipes-core/util-linux/util-linux-libuuid_2.41.6.bb
 diff --git a/meta/recipes-core/util-linux/util-linux.inc b/meta/recipes-core/util-linux/util-linux.inc
-index be49160eac..fc7722f267 100644
+index be49160eac..5b9762e24d 100644
 --- a/meta/recipes-core/util-linux/util-linux.inc
 +++ b/meta/recipes-core/util-linux/util-linux.inc
 @@ -21,9 +21,12 @@ SRC_URI = "${KERNELORG_MIRROR}/linux/utils/util-linux/v${MAJOR_VERSION}/util-lin
@@ -131,7 +133,7 @@ index be49160eac..fc7722f267 100644
             file://CVE-2026-3184.patch \
 +           file://0001-libmount-add-missing-fileutils.h-include-to-hook_idm.patch \
 +           file://CVE-2026-78408.patch \
-+           file://0001-libmount-use-USE_LIBMOUNT_MOUNTFD_SUPPORT-for-idmap-.patch \
++           file://CVE-2026-78410.patch \
             "
  
 -SRC_URI[sha256sum] = "f586e35d320ff537aab3ffeca37e9ecd482ccbe013590db4429a414d8aa6a728"
@@ -183,12 +185,93 @@ index 0000000000..2beb9963c8
 + #include "namespace.h"
 + 
 + #include "mountP.h"
-diff --git a/meta/recipes-core/util-linux/util-linux/0001-libmount-use-USE_LIBMOUNT_MOUNTFD_SUPPORT-for-idmap-.patch b/meta/recipes-core/util-linux/util-linux/0001-libmount-use-USE_LIBMOUNT_MOUNTFD_SUPPORT-for-idmap-.patch
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch
 new file mode 100644
-index 0000000000..bff963a010
+index 0000000000..676e4a6fea
 --- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/0001-libmount-use-USE_LIBMOUNT_MOUNTFD_SUPPORT-for-idmap-.patch
-@@ -0,0 +1,114 @@
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch
+@@ -0,0 +1,75 @@
++From 485dbb67f1b6bb18e08b1b77f4aa2373ff3a705b Mon Sep 17 00:00:00 2001
++From: Karel Zak <kzak@redhat.com>
++Date: Thu, 3 Sep 2026 12:17:14 +0200
++Subject: [PATCH] nsenter: close cgroup.procs fd after join to prevent
++ authority leak [CVE-2026-78408]
++
++The --join-cgroup option opens the target's cgroup.procs while running
++as root and writes nsenter's own PID to migrate itself. The descriptor
++was left open across subsequent namespace transitions, credential drops
++(setgroups/setgid/setuid) and execve().
++
++The kernel performs cgroup migration permission checks using the
++credentials captured at open time (file->f_cred). An open cgroup.procs
++descriptor therefore carries the opener's migration authority regardless
++of later privilege changes. A program executed inside the target
++namespace inherits root's cgroup migration capability even when running
++as an unprivileged user with no capabilities.
++
++Fix this by:
++
++ - closing the temporary /proc/PID/cgroup fd after reading the path
++ - adding O_CLOEXEC to the cgroup.procs open as defense in depth
++ - closing cgroup_procs_fd immediately after the self-migration write
++ - initializing the temporary cgroup fd to -1 instead of 0 to avoid
++   accidentally closing stdin via open_target_fd()
++
++The descriptor has no legitimate use after the single migration write.
++
++Introduced-by: b40650b71a74 ("nsenter: add option -c to join the cgroup of target process")
++References: b0cf1cf0d255 ("nsenter: close cgroup.procs fd after join to prevent authority leak")
++Signed-off-by: Karel Zak <kzak@redhat.com>
++(cherry picked from commit afe067c979b9ba2cbe856f7c6411210120ea62aa)
++
++CVE: CVE-2026-78408
++Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/485dbb67f1b6bb18e08b1b77f4aa2373ff3a705b]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ sys-utils/nsenter.c | 9 +++++++--
++ 1 file changed, 7 insertions(+), 2 deletions(-)
++
++diff --git a/sys-utils/nsenter.c b/sys-utils/nsenter.c
++index 9d9d90a48..99f1da3a0 100644
++--- a/sys-utils/nsenter.c
+++++ b/sys-utils/nsenter.c
++@@ -379,7 +379,7 @@ static int get_ns_ino(const char *path, ino_t *ino)
++ static void open_cgroup_procs(void)
++ {
++ 	char *buf = NULL, *path = NULL, *p;
++-	int cgroup_fd = 0;
+++	int cgroup_fd = -1;
++ 	char fdpath[PATH_MAX];
++ 
++ 	open_target_fd(&cgroup_fd, "cgroup", optarg);
++@@ -387,6 +387,8 @@ static void open_cgroup_procs(void)
++ 	if (read_all_alloc(cgroup_fd, &buf) < 1)
++ 		err(EXIT_FAILURE, _("failed to get cgroup path"));
++ 
+++	close(cgroup_fd);
+++
++ 	p = strtok(buf, "\n");
++ 	if (p)
++ 		path = strrchr(p, ':');
++@@ -816,8 +818,11 @@ int main(int argc, char *argv[])
++ 	}
++ 
++ 	// Join into the target cgroup
++-	if (cgroup_procs_fd >= 0)
+++	if (cgroup_procs_fd >= 0) {
++ 		join_into_cgroup();
+++		close(cgroup_procs_fd);
+++		cgroup_procs_fd = -1;
+++	}
++ 
++ 	if (uid_gid_fd >= 0) {
++ 		struct stat st;
+diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-78410.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-78410.patch
+new file mode 100644
+index 0000000000..1bacdf6dc9
+--- /dev/null
++++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-78410.patch
+@@ -0,0 +1,115 @@
 +From 233cf7321e9d0fd2cea901d0a97e565c725640ad Mon Sep 17 00:00:00 2001
 +From: Karel Zak <kzak@redhat.com>
 +Date: Thu, 3 Sep 2026 10:01:29 +0200
@@ -221,6 +304,7 @@ index 0000000000..bff963a010
 +Signed-off-by: Karel Zak <kzak@redhat.com>
 +(cherry picked from commit e06799ac325a881a297d2ffd6fe568cacdcd00ab)
 +
++CVE: CVE-2026-78410
 +Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/233cf7321e9d0fd2cea901d0a97e565c725640ad]
 +Signed-off-by: Peter Marko <peter.marko@siemens.com>
 +---
@@ -303,87 +387,6 @@ index 0000000000..bff963a010
 + An idmapped mount allows to change ownership of all files located under a mount according to the ID-mapping associated with a user namespace.
 + The ownership change is tied to the lifetime and localized to the relevant mount.
 + The relevant ID-mapping can be specified in two ways:
-diff --git a/meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch b/meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch
-new file mode 100644
-index 0000000000..676e4a6fea
---- /dev/null
-+++ b/meta/recipes-core/util-linux/util-linux/CVE-2026-78408.patch
-@@ -0,0 +1,75 @@
-+From 485dbb67f1b6bb18e08b1b77f4aa2373ff3a705b Mon Sep 17 00:00:00 2001
-+From: Karel Zak <kzak@redhat.com>
-+Date: Thu, 3 Sep 2026 12:17:14 +0200
-+Subject: [PATCH] nsenter: close cgroup.procs fd after join to prevent
-+ authority leak [CVE-2026-78408]
-+
-+The --join-cgroup option opens the target's cgroup.procs while running
-+as root and writes nsenter's own PID to migrate itself. The descriptor
-+was left open across subsequent namespace transitions, credential drops
-+(setgroups/setgid/setuid) and execve().
-+
-+The kernel performs cgroup migration permission checks using the
-+credentials captured at open time (file->f_cred). An open cgroup.procs
-+descriptor therefore carries the opener's migration authority regardless
-+of later privilege changes. A program executed inside the target
-+namespace inherits root's cgroup migration capability even when running
-+as an unprivileged user with no capabilities.
-+
-+Fix this by:
-+
-+ - closing the temporary /proc/PID/cgroup fd after reading the path
-+ - adding O_CLOEXEC to the cgroup.procs open as defense in depth
-+ - closing cgroup_procs_fd immediately after the self-migration write
-+ - initializing the temporary cgroup fd to -1 instead of 0 to avoid
-+   accidentally closing stdin via open_target_fd()
-+
-+The descriptor has no legitimate use after the single migration write.
-+
-+Introduced-by: b40650b71a74 ("nsenter: add option -c to join the cgroup of target process")
-+References: b0cf1cf0d255 ("nsenter: close cgroup.procs fd after join to prevent authority leak")
-+Signed-off-by: Karel Zak <kzak@redhat.com>
-+(cherry picked from commit afe067c979b9ba2cbe856f7c6411210120ea62aa)
-+
-+CVE: CVE-2026-78408
-+Upstream-Status: Backport [https://github.com/util-linux/util-linux/commit/485dbb67f1b6bb18e08b1b77f4aa2373ff3a705b]
-+Signed-off-by: Peter Marko <peter.marko@siemens.com>
-+---
-+ sys-utils/nsenter.c | 9 +++++++--
-+ 1 file changed, 7 insertions(+), 2 deletions(-)
-+
-+diff --git a/sys-utils/nsenter.c b/sys-utils/nsenter.c
-+index 9d9d90a48..99f1da3a0 100644
-+--- a/sys-utils/nsenter.c
-++++ b/sys-utils/nsenter.c
-+@@ -379,7 +379,7 @@ static int get_ns_ino(const char *path, ino_t *ino)
-+ static void open_cgroup_procs(void)
-+ {
-+ 	char *buf = NULL, *path = NULL, *p;
-+-	int cgroup_fd = 0;
-++	int cgroup_fd = -1;
-+ 	char fdpath[PATH_MAX];
-+ 
-+ 	open_target_fd(&cgroup_fd, "cgroup", optarg);
-+@@ -387,6 +387,8 @@ static void open_cgroup_procs(void)
-+ 	if (read_all_alloc(cgroup_fd, &buf) < 1)
-+ 		err(EXIT_FAILURE, _("failed to get cgroup path"));
-+ 
-++	close(cgroup_fd);
-++
-+ 	p = strtok(buf, "\n");
-+ 	if (p)
-+ 		path = strrchr(p, ':');
-+@@ -816,8 +818,11 @@ int main(int argc, char *argv[])
-+ 	}
-+ 
-+ 	// Join into the target cgroup
-+-	if (cgroup_procs_fd >= 0)
-++	if (cgroup_procs_fd >= 0) {
-+ 		join_into_cgroup();
-++		close(cgroup_procs_fd);
-++		cgroup_procs_fd = -1;
-++	}
-+ 
-+ 	if (uid_gid_fd >= 0) {
-+ 		struct stat st;
 diff --git a/meta/recipes-core/util-linux/util-linux_2.41.5.bb b/meta/recipes-core/util-linux/util-linux_2.41.6.bb
 similarity index 100%
 rename from meta/recipes-core/util-linux/util-linux_2.41.5.bb
