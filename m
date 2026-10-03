@@ -2,110 +2,98 @@ Return-Path: <mathieu.dubois-briand@bootlin.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 322D8CA5FED
-	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 16:50:37 +0000 (UTC)
-Received: from smtpout-02.galae.net (smtpout-02.galae.net [185.246.84.56])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.9052.1791046230866561609
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 3CBFBCA5FED
+	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 16:54:07 +0000 (UTC)
+Received: from smtpout-03.galae.net (smtpout-03.galae.net [185.246.85.4])
+ by mx.groups.io with SMTP id smtpd.msgproc01-g2.9097.1791046438012109396
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Oct 2026 09:50:32 -0700
+ Sat, 03 Oct 2026 09:53:58 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=@bootlin.com header.s=dkim header.b=d5G1W4/I;
- spf=pass (domain: bootlin.com, ip: 185.246.84.56, mailfrom: mathieu.dubois-briand@bootlin.com)
+ dkim=pass header.i=@bootlin.com header.s=dkim header.b=v+Cnh7a5;
+ spf=pass (domain: bootlin.com, ip: 185.246.85.4, mailfrom: mathieu.dubois-briand@bootlin.com)
 Received: from smtpout-01.galae.net (smtpout-01.galae.net [212.83.139.233])
-	by smtpout-02.galae.net (Postfix) with ESMTPS id 8C12E1A1108;
-	Sat,  3 Oct 2026 16:50:28 +0000 (UTC)
+	by smtpout-03.galae.net (Postfix) with ESMTPS id 160394E41136;
+	Sat,  3 Oct 2026 16:53:56 +0000 (UTC)
 Received: from mail.galae.net (mail.galae.net [212.83.136.155])
-	by smtpout-01.galae.net (Postfix) with ESMTPS id 60753604FF;
-	Sat,  3 Oct 2026 16:50:28 +0000 (UTC)
-Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id B307C10328170;
-	Sat,  3 Oct 2026 18:50:26 +0200 (CEST)
+	by smtpout-01.galae.net (Postfix) with ESMTPS id C757E604FF;
+	Sat,  3 Oct 2026 16:53:55 +0000 (UTC)
+Received: from [127.0.0.1] (localhost [127.0.0.1]) by localhost (Mailerdaemon) with ESMTPSA id 74D1B1032827F;
+	Sat,  3 Oct 2026 18:53:53 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=bootlin.com; s=dkim;
-	t=1791046227; h=from:subject:date:message-id:to:cc:mime-version:content-type:
+	t=1791046434; h=from:subject:date:message-id:to:mime-version:content-type:
 	 content-transfer-encoding:in-reply-to:references;
-	bh=RbDmOHzGiPKqRGc1V9eLtdIJexzevVV7+tTYcX+l86A=;
-	b=d5G1W4/InnAkEENfnF6oQRsH8HiLk6+IYyd5/zpizgQhgokqEE+XgNb3wMYPZKnswhgqlR
-	OudsK1r0zmaaQX2C/2GrtbGGkAWsK/TuLAS+AzeI07cvWaezpFI1NfR85A0ndy+xXyL2T1
-	VsSqD4RzDUG/0P2i57EgWhtb+DOF4NHlpLxeLqRbvwkdIQLGDrVRxbL1T4Ysw5CeXtFaRg
-	5ucvnVUoZgXAqGBYT+oO+VZqShoBtSlDBBCQ4JjcfRiaQMPfnIUcadRXrbHquZDkiVVc9z
-	r7reLYBBaczgFdIvu5edLX3KhNRK8kvfyeLFXLObCB4WwG/o2q1DbJ1VNmL23g==
+	bh=fu6mqGLXjuePvaNKjAp3YAsopvm6ogudv8mGoX8KMYc=;
+	b=v+Cnh7a5yyhgal0iJ07mKbLH6Cs5YIBVWzF4QKNEQ6ub6lJ7rwHfk/I8B0X+vR+6ADJEQW
+	+CxYciguNoYmm284TVRsKS6JXkxcK433sYNkPtJ7kf1qRqBWDv/FcKQH78l78YAu4SeaHu
+	ZqMcdNLJzA2AM6AmohCUbrjP9Siy3UjUKcP0Kub4fLYnE8zfhyBeoGwmf1r5idR/lRqQTU
+	VPN5RorsVe68sXHSNsmAV4GR0Ke1MggabTN9pwAazdgBNc7BOALTGPu0GCSuY3hwp54dMs
+	3vfvh61heMPaTcNmLNMaW+nu1HV1gOpX4xSrydD8a3kPoddFGbXN4bbJO/Q/nQ==
 Mime-Version: 1.0
 Content-Transfer-Encoding: quoted-printable
 Content-Type: text/plain; charset=UTF-8
-Date: Sat, 03 Oct 2026 18:50:25 +0200
-Message-Id: <DLVCWCY4UQ9E.3307IXG39F4B@bootlin.com>
-Subject: Re: [OE-core] [PATCH v4 0/3] spdx: add support to include
- releaseTime
-Cc: <JPEWhacker@gmail.com>
+Date: Sat, 03 Oct 2026 18:53:52 +0200
+Message-Id: <DLVCZ02OB7VU.1BT53QY17WM3K@bootlin.com>
 From: "Mathieu Dubois-Briand" <mathieu.dubois-briand@bootlin.com>
-To: <daniel.turull@ericsson.com>, <openembedded-core@lists.openembedded.org>
+To: <andrej.kozemcak@siemens.com>,
+ <openembedded-core@lists.openembedded.org>
+Subject: Re: [OE-core] [PATCH 2/3] runqemu: support rootfs-dbg flag in
+ QB_FSINFO
 X-Mailer: aerc 0.21.0-0-g5549850facc2
-References: <20261002075414.2311840-1-daniel.turull@ericsson.com>
-In-Reply-To: <20261002075414.2311840-1-daniel.turull@ericsson.com>
+References: <20261002114848.1126256-1-andrej.kozemcak@siemens.com>
+ <20261002114848.1126256-2-andrej.kozemcak@siemens.com>
+In-Reply-To: <20261002114848.1126256-2-andrej.kozemcak@siemens.com>
 X-Last-TLS-Session-Version: TLSv1.3
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 16:50:37 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247170
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 16:54:07 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247171
 
-On Fri Oct 2, 2026 at 9:54 AM CEST, Daniel Turull via lists.openembedded.or=
-g wrote:
-> From: Daniel Turull <daniel.turull@ericsson.com>
+On Fri Oct 2, 2026 at 1:48 PM CEST, Andrej Kozemcak via lists.openembedded.=
+org wrote:
+> Add parsing for a new 'rootfs-dbg' flag on tar-based filesystem
+> types in QB_FSINFO. When set, runqemu appends '-dbg' to the
+> IMAGE_LINK_NAME used to locate the rootfs tarball for NFS
+> extraction, allowing use of the debug rootfs variant.
 >
-> We have a requirements to include release time of open source components
-> in the SBOM. There is a field specific for that in spdx 3 spec.
+> QB_FSINFO: additional filesystem metadata, as a space-separated list of
+> "fstype:flag" entries, e.g., "wic:no-kernel-in-fs tar:rootfs-dbg"
+> Supported flags include "wic:no-kernel-in-fs" or "wic:kernel-in-fs"
+> to select whether a WIC image contains the kernel in the filesystem,
+> and "tar:rootfs-dbg" to tell runqemu to use the debug rootfs image.
 >
-> https://spdx.github.io/spdx-spec/v3.0.1/model/Core/Properties/releaseTime=
-/
->
-> This can also be used to evaluate how old are some of the core
-> components and decide if they need replacement.
->
-> The previous 2 versions did not have cover letter.
->
-> In v4 I kept the simpler logic to just check for the epoch date, even if
-> we have multiple sources with different release dates. It was getting
-> complicated and adding more code for git and tarfiles. I can do a follow
-> up patch after this simpler version gets in, so we can fine tune it.
->
-> Tested with oe-selftest -r spdx
->
-> Daniel Turull (3):
->   classes/base: exclude __CACHED_SOURCE_DATE_EPOCH from task hash
->   create-spdx-3.0: record component release date in SPDX output
->   scripts/contrib: add spdx-release-date-report.py
->
->  meta/classes-global/base.bbclass            |   4 +
->  meta/lib/oe/spdx30_tasks.py                 |  22 +++
->  meta/lib/oeqa/selftest/cases/spdx.py        |  41 +++++
->  scripts/contrib/spdx-release-date-report.py | 191 ++++++++++++++++++++
->  4 files changed, 258 insertions(+)
->  create mode 100755 scripts/contrib/spdx-release-date-report.py
+> Signed-off-by: Andrej Kozemcak <andrej.kozemcak@siemens.com>
+> ---
 
-Hi Daniel,
+Hi Andrej,
 
-It looks like one of the added tests is failing here:
+It looks like one of the tests is failing:
 
-2026-10-03 15:26:28,760 - oe-selftest - INFO - spdx.SPDX30Check.test_releas=
-e_date_source_date_epoch (subunit.RemotedTestCase)
-2026-10-03 15:26:28,761 - oe-selftest - INFO -  ... FAIL
+2026-10-03 14:58:26,482 - oe-selftest - INFO - runtime_test.TestImage.test_=
+testimage_nfs (subunit.RemotedTestCase)
+2026-10-03 14:58:26,483 - oe-selftest - INFO -  ... FAIL
 ...
-2026-10-03 15:26:28,761 - oe-selftest - INFO - testtools.testresult.real._S=
-tringException: Traceback (most recent call last):
+Traceback (most recent call last):
   File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
-edded-core/meta/lib/oeqa/selftest/cases/spdx.py", line 473, in test_release=
-_date_source_date_epoch
-    self.assertEqual(pkg.releaseTime, expected)
-  File "/usr/lib/python3.11/unittest/case.py", line 873, in assertEqual
-    assertion_func(first, second, msg=3Dmsg)
-  File "/usr/lib/python3.11/unittest/case.py", line 866, in _baseAssertEqua=
-l
-    raise self.failureException(msg)
-AssertionError: datetime.datetime(2023, 7, 18, 6, 55, 23, tzinfo=3Ddatetime=
-.timezone.utc) !=3D datetime.datetime(2011, 4, 5, 23, 0, tzinfo=3Ddatetime.=
-timezone.utc)
+edded-core/scripts/runqemu", line 1810, in main
+    config.setup_rootfs()
+    ~~~~~~~~~~~~~~~~~~~^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/layers/openemb=
+edded-core/scripts/runqemu", line 1306, in setup_rootfs
+    shutil.copyfile(self.rootfs, newrootfs)
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/srv/pokybuild/yocto-worker/oe-selftest-debian/build/build-st-33360=
+67/tmp/work/qemux86_64-poky-linux/oe-selftest-image/1.0/recipe-sysroot-nati=
+ve/usr/lib/python3.14/shutil.py", line 313, in copyfile
+    with open(src, 'rb') as fsrc:
+         ~~~~^^^^^^^^^^^
+IsADirectoryError: [Errno 21] Is a directory: '/srv/pokybuild/yocto-worker/=
+oe-selftest-debian/build/build-st-3336067/tmp/deploy/images/qemux86-64/oe-s=
+elftest-image-qemux86-64.rootfs-dbg-nfsroot'
 
-https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4997
+https://autobuilder.yoctoproject.org/valkyrie/#/builders/35/builds/4994
+
+Can you have a look at the issue?
 
 Thanks,
 Mathieu
