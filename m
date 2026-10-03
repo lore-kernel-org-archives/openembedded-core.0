@@ -2,110 +2,196 @@ Return-Path: <dkelaiya@cisco.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id 47921CA5FE3
-	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 09:04:10 +0000 (UTC)
-Received: from rcdn-iport-7.cisco.com (rcdn-iport-7.cisco.com [173.37.86.78])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.2423.1791018247458661956
- for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Oct 2026 02:04:07 -0700
-Authentication-Results: mx.groups.io;
- dkim=fail reason="dkim: message contains an insecure body length tag" header.i=@cisco.com header.s=iport01 header.b=QjWcEIKa;
- spf=pass (domain: cisco.com, ip: 173.37.86.78, mailfrom: dkelaiya@cisco.com)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-  d=cisco.com; i=@cisco.com; l=850; q=dns/txt;
-  s=iport01; t=1791018247; x=1792227847;
-  h=from:to:cc:subject:date:message-id:mime-version:
-   content-transfer-encoding;
-  bh=WNl8ddxH0XXbpC+JlDSa2935zT/e7TtZ6Ndoai2lCcU=;
-  b=QjWcEIKa8BXSSf0zSieMjNvekA/uApLzf7k/K5LRQA/kp3IccujSRTx9
-   2I4QtnAyX9RGl3/aWS9SK/835iAzrwPyKzlTXDat2B2SUUgGLPxyZScLu
-   uaiFfTvBPUHFmf/Ffr2BpJmHqn+e7/rrUwz/vURU+oVxNmu35U9UVunNO
-   j+hVn9M8eEyCDvpGilvh3vPqpZTOAqQpGyJA9IqroopviA41eMCodIcFL
-   cPxQvqpRCjdfVZ5Tq410CgHnGFizSNrN4fNu4vVVExwYWyAcNJaY31LGT
-   +8UgPtwQvHq6g+V7cQ3H+jPdkTm1QRKIdMvB+BRVT0Cqd2/FAF9aAzyY5
-   Q==;
-X-CSE-ConnectionGUID: dZA/kHRER8W7nuV+gkQgjA==
-X-CSE-MsgGUID: AurM29exT6a1Lq0aQ0Y2MQ==
-X-IPAS-Result: =?us-ascii?q?A0DEAgBOxMBq/5X/Ja1aglmCV3VgQ0mTWQGhDRSBag8BA?=
- =?us-ascii?q?QEPNxoEAQGFBY4LAiY1CA4BAgQDAgMBAQEBAQEBAQEBAQEKAQEFAQEBAgEHB?=
- =?us-ascii?q?YEOE4ZPDZAVNgEYAS0wXESDAgGCdAO5ZDeBWVOBAYMpAYFU2zIBCxQBgTiFQ?=
- =?us-ascii?q?IgjdoR8JxsbgXKEfoQEgQyFeASCInoSgXiTTkiBHgNZLAFVEw0KCwcFgWYDN?=
- =?us-ascii?q?RIqFW4yHYEjPheBBxsGBYEdgSCCFiMZNnqBCV6BKylgARAXgQmCBwKCVIIAA?=
- =?us-ascii?q?gFJQQ4HRVMJJUUSRyYiCBIJARMaMAuBGzg8CShEFwwQGA1IESw3FRkEPm4Hk?=
- =?us-ascii?q?FAegmAfb4FGAacHoQ8KKIN2jCKVOhozhVulFJkIpFqEaYFpATqBWXAVgyIJS?=
- =?us-ascii?q?hkPmAjGVScyAjsCBwIHDgMLkWqBH10BAQ?=
-IronPort-Data: A9a23:PBYHza6B+h9EnDbLfNzUeQxRtGnGchMFZxGqfqrLsTDasY5as4F+v
- mZLDGqBOKzbM2rxftpwYIzloUhQv8eBzdIwHAA+/yhgZn8b8sCt6fZ1gavT04J+CuWZESqLO
- u1HMoGowPgcFyGa+1H1dOex9RGQ7InQLpLkEunIJyttcgFtTSYlmHpLlvUw6mJSqYDR7zil5
- 5Wo/KUzBHf/g2QqazpMsPrawP9SlK2aVA0w7wRWic9j5Dcyp1FNZLoDKKe4KWfPQ4U8NoaSW
- +bZwbilyXjS9hErB8nNuu6TnpoiG+O60aCm0xK6aoD66vRwjnVaPpUTaJLwXXxqZwChxLid/
- jniWauYEm/FNoWU8AgUvoIx/ytWZcWq85efSZSzXFD6I0DuKxPRL/tS4E4eMb8xveVXO0x0p
- cNHLi0zLR+Avu206efuIgVsrpxLwMjDJogTvDRkiDreF/tjGMqFSKTR7tge1zA17ixMNa+BP
- IxCNnw1MUmGOkEeUrsUIMpWcOOAinrydzRZuVu9rqss6G+Vxwt0uFToGIeOIoXQG5oKwS50o
- Erv4n7cWEAXJODBwGOh6yqlv7f+xwbCDdd6+LqQs6QCbEeo7msLBRsbUFG2rfW0hgu1XMhSA
- 0gV4TY1668q+UqmS9PwUxG1rDiDpBF0ZjZLO/cx5AfIzu/f5ByUQzFeCDVAc9ch8sQxQFTGy
- 2O0oj8gPhQ32JX9dJ5X3u78Qe+aUcTNEVI/WA==
-IronPort-HdrOrdr: A9a23:RethuKla80Qjd2xajTvjM4vvKsnpDfIa3DAbv31ZSRFFG/FwWf
- rAoB19726QtN9/YhAdcLy7VZVoIkmsl6Kdn7NwAV7KZmCP0wGVxepZg7cKrQeNJ8SHzJ8/6Y
- 5QN45jFdb3EV92yez+4AW+DpIc5ePvytHNuQ8bpE0dKz2DrMpbnmBENjo=
-X-Talos-CUID: 9a23:Pchig2w4NlFuzza5fYO1BgUYKOlicV3n4U2AHBC+FFgqR76sRl25rfY=
-X-Talos-MUID: 9a23:RfE21Qg+FQFpmWnEx4SBKsMpHdpyxv7/BVAxz5xfn9DcPBUoCm24tWHi
-X-IronPort-Anti-Spam-Filtered: true
-X-IronPort-AV: E=Sophos;i="6.27,138,1787011200"; 
-   d="scan'208";a="530126777"
-Received: from rcdn-l-core-12.cisco.com ([173.37.255.149])
-  by rcdn-iport-7.cisco.com with ESMTP/TLS/TLS_AES_256_GCM_SHA384; 03 Oct 2026 09:04:06 +0000
-Received: from sjc-ads-5675.cisco.com (sjc-ads-5675.cisco.com [10.28.88.189])
-	(using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-	 key-exchange X25519 server-signature RSA-PSS (2048 bits) server-digest SHA256)
-	(No client certificate requested)
-	by rcdn-l-core-12.cisco.com (Postfix) with ESMTPS id 27DD0180001DF;
-	Sat,  3 Oct 2026 09:04:06 +0000 (GMT)
-Received: by sjc-ads-5675.cisco.com (Postfix, from userid 1887444)
-	id C3DDBCC1611; Sat,  3 Oct 2026 02:04:05 -0700 (PDT)
-From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 49136CA5FDD
+	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 09:05:30 +0000 (UTC)
+Subject: Re: [scarthgap][PATCH v2] python3-click: fix CVE-2026-7246
 To: openembedded-core@lists.openembedded.org
-Cc: Darsh Kelaiya <dkelaiya@cisco.com>
-Subject: [OE-core][wrynose][PATCH] python3-click: depend on python3-shell for shlex
-Date: Sat,  3 Oct 2026 02:03:17 -0700
-Message-Id: <20261003090317.3051838-1-dkelaiya@cisco.com>
-X-Mailer: git-send-email 2.35.6
+From: "Darsh Kelaiya -X (dkelaiya - E INFOCHIPS PRIVATE LIMITED at Cisco)" <dkelaiya@cisco.com>
+X-Originating-Location: Mumbai, Maharashtra, IN (151.186.177.83)
+X-Originating-Platform: Windows Edge 154
+User-Agent: GROUPS.IO Web Poster
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-Outbound-Client-TLS: ANONYMOUS;sjc-ads-5675.cisco.com [10.28.88.189];TLSv1.3;TLS_AES_256_GCM_SHA384;256
-X-Outbound-SMTP-Client: 10.28.88.189, sjc-ads-5675.cisco.com
-X-Outbound-Node: rcdn-l-core-12.cisco.com
+Date: Sat, 03 Oct 2026 02:05:27 -0700
+References: <20260923063627.2741697-1-dkelaiya@cisco.com> <DLU8FCHIHDV4.IM2I01UE56W8@smile.fr>
+In-Reply-To: <DLU8FCHIHDV4.IM2I01UE56W8@smile.fr>
+Message-ID: <1265106.1791018327706370564@lists.openembedded.org>
+Content-Type: multipart/alternative; boundary="87CufiPiVTtIlKyph7qK"
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 09:04:10 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247149
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 09:05:30 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247150
 
-From: Darsh Kelaiya <dkelaiya@cisco.com>
+--87CufiPiVTtIlKyph7qK
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
 
-Click 8.3.3 imports shlex when loading _termui_impl.
-OE packages shlex.py in python3-shell, so add it to the main
-package runtime dependencies. Confirmed module ownership in
-python3-manifest.json.
+Hi Yoann,
 
-Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
----
- meta/recipes-devtools/python/python3-click_8.3.3.bb | 1 +
- 1 file changed, 1 insertion(+)
+Thanks for the review. I added python3-shell because the backported click.e=
+dit() fix imports shlex to split the editor command, and OE packages shlex.=
+py in python3-shell.
+Without that runtime dependency, the fixed path can fail on a minimal image=
+.
 
-diff --git a/meta/recipes-devtools/python/python3-click_8.3.3.bb b/meta/recipes-devtools/python/python3-click_8.3.3.bb
-index 9e80f8aff0..44612cb8f3 100644
---- a/meta/recipes-devtools/python/python3-click_8.3.3.bb
-+++ b/meta/recipes-devtools/python/python3-click_8.3.3.bb
-@@ -30,6 +30,7 @@ CLEANBROKEN = "1"
- RDEPENDS:${PN} += "\
-     python3-io \
-     python3-threading \
-+    python3-shell \
-     "
- RDEPENDS:${PN}-ptest += "coreutils less"
- 
--- 
-2.35.6
+Click also imports shlex in master (8.5.0) and Wrynose (8.3.3). I=E2=80=99v=
+e sent separate dependency patches for master [1] and Wrynose [2].
 
+[1] https://lists.openembedded.org/g/openembedded-core/message/247148
+[2] https://lists.openembedded.org/g/openembedded-core/message/247149
+
+Best Regards,
+Darsh
+
+On Fri, Oct 2, 2026 at 02:37 PM, Yoann Congal wrote:
+
+>=20
+> On Wed Sep 23, 2026 at 8:36 AM CEST, Darsh Kelaiya -X (dkelaiya - E
+> INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:
+>=20
+>> From: Darsh Kelaiya <dkelaiya@cisco.com>
+>>=20
+>> This backports the click.edit() hardening identified as the fix in
+>> the public advisory [2], using upstream commit [1].
+>>=20
+>> Upstream follow-up commit [3] adds regression-test coverage for editor
+>> command parsing and clarifies the related source comments. It does not
+>> change runtime behavior or provide an additional security fix. Carry it
+>> as a separate patch to preserve the upstream commit boundaries.
+>>=20
+>> [1] https://github.com/pallets/click/commit/b96c2601af4e01341b4d2c0db494=
+ebee4aef8f42
+>>=20
+>> [2] https://github.com/tsigouris007/security-advisories/security/advisor=
+ies/GHSA-47fr-3ffg-hgmw
+>>=20
+>> [3] https://github.com/pallets/click/commit/b55294797ef32e22eb41e7d9657e=
+db8faefa4976
+>>=20
+>>=20
+>> Signed-off-by: Darsh Kelaiya <dkelaiya@cisco.com>
+>> ---
+>> .../CVE-2026-7246-regression.patch | 124 +++++++++++
+>> .../python/python3-click/CVE-2026-7246.patch | 201 ++++++++++++++++++
+>> .../python/python3-click_8.1.7.bb | 6 +-
+>> 3 files changed, 330 insertions(+), 1 deletion(-)
+>> create mode 100644
+>> meta/recipes-devtools/python/python3-click/CVE-2026-7246-regression.patc=
+h
+>> create mode 100644
+>> meta/recipes-devtools/python/python3-click/CVE-2026-7246.patch
+>>=20
+>> [...]
+>> diff --git a/meta/recipes-devtools/python/python3-click_8.1.7.bb
+>> b/meta/recipes-devtools/python/python3-click_8.1.7.bb
+>> index b75d9108893..8a077f48c7c 100644
+>> --- a/meta/recipes-devtools/python/python3-click_8.1.7.bb
+>> +++ b/meta/recipes-devtools/python/python3-click_8.1.7.bb
+>> @@ -12,7 +12,10 @@ SRC_URI[sha256sum] =3D
+>> "ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b41b
+>>=20
+>> inherit pypi setuptools3 ptest
+>>=20
+>> -SRC_URI +=3D "file://run-ptest"
+>> +SRC_URI +=3D "file://run-ptest \
+>> + file://CVE-2026-7246.patch \
+>> + file://CVE-2026-7246-regression.patch \
+>> + "
+>>=20
+>> CVE_PRODUCT =3D "palletsprojects:click"
+>>=20
+>> @@ -36,6 +39,7 @@ CLEANBROKEN =3D "1"
+>> RDEPENDS:${PN} +=3D "\
+>> python3-io \
+>> python3-threading \
+>=20
+> Hello,
+>=20
+>=20
+>> + python3-shell \
+>=20
+> Why was this added? master does not have this RDEPENDS. If that is an
+> issue to fix, then it should go through master (and other stables)
+> first.
+>=20
+>=20
+>> "
+>>=20
+>> BBCLASSEXTEND =3D "native nativesdk"
+>=20
+> FYI, the rest of the patch looks good to me. I've not found convincing
+> reason to ignore the CVE. So the fix is the way forward.
+>=20
+> Regards,
+> --
+> Yoann Congal
+> Smile ECS
+
+--87CufiPiVTtIlKyph7qK
+Content-Type: text/html; charset="utf-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div>Hi Yoann,<br /><br />Thanks for the review. I added python3-shell beca=
+use the backported click.edit() fix imports shlex to split the editor comma=
+nd, and OE packages shlex.py in python3-shell.<br />Without that runtime de=
+pendency, the fixed path can fail on a minimal image.</div>
+<div><br />Click also imports shlex in master (8.5.0) and Wrynose (8.3.3). =
+I&rsquo;ve sent separate dependency patches for master [1] and Wrynose [2].=
+<br /><br />[1] <a href=3D"https://lists.openembedded.org/g/openembedded-co=
+re/message/247148" target=3D"_blank" rel=3D"noopener">https://lists.openemb=
+edded.org/g/openembedded-core/message/247148</a><br />[2] <a href=3D"https:=
+//lists.openembedded.org/g/openembedded-core/message/247149" target=3D"_bla=
+nk" rel=3D"noopener">https://lists.openembedded.org/g/openembedded-core/mes=
+sage/247149</a><br /><br />Best Regards,<br />Darsh<br /><br />On Fri, Oct =
+2, 2026 at 02:37 PM, Yoann Congal wrote:</div>
+<div>
+<blockquote>On Wed Sep 23, 2026 at 8:36 AM CEST, Darsh Kelaiya -X (dkelaiya=
+ - E INFOCHIPS PRIVATE LIMITED at Cisco) via lists.openembedded.org wrote:<=
+br />
+<blockquote>From: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br /><br />This =
+backports the click.edit() hardening identified as the fix in<br />the publ=
+ic advisory [2], using upstream commit [1].<br /><br />Upstream follow-up c=
+ommit [3] adds regression-test coverage for editor<br />command parsing and=
+ clarifies the related source comments. It does not<br />change runtime beh=
+avior or provide an additional security fix. Carry it<br />as a separate pa=
+tch to preserve the upstream commit boundaries.<br /><br />[1] <a href=3D"h=
+ttps://github.com/pallets/click/commit/b96c2601af4e01341b4d2c0db494ebee4aef=
+8f42" target=3D"_blank" rel=3D"noopener">https://github.com/pallets/click/c=
+ommit/b96c2601af4e01341b4d2c0db494ebee4aef8f42</a><br />[2] <a href=3D"http=
+s://github.com/tsigouris007/security-advisories/security/advisories/GHSA-47=
+fr-3ffg-hgmw" target=3D"_blank" rel=3D"noopener">https://github.com/tsigour=
+is007/security-advisories/security/advisories/GHSA-47fr-3ffg-hgmw</a><br />=
+[3] <a href=3D"https://github.com/pallets/click/commit/b55294797ef32e22eb41=
+e7d9657edb8faefa4976" target=3D"_blank" rel=3D"noopener">https://github.com=
+/pallets/click/commit/b55294797ef32e22eb41e7d9657edb8faefa4976</a><br /><br=
+ />Signed-off-by: Darsh Kelaiya &lt;dkelaiya@cisco.com&gt;<br />---<br />..=
+./CVE-2026-7246-regression.patch | 124 +++++++++++<br />.../python/python3-=
+click/CVE-2026-7246.patch | 201 ++++++++++++++++++<br />.../python/python3-=
+click_8.1.7.bb | 6 +-<br />3 files changed, 330 insertions(+), 1 deletion(-=
+)<br />create mode 100644 meta/recipes-devtools/python/python3-click/CVE-20=
+26-7246-regression.patch<br />create mode 100644 meta/recipes-devtools/pyth=
+on/python3-click/CVE-2026-7246.patch<br /><br />[...]<br />diff --git a/met=
+a/recipes-devtools/python/python3-click_8.1.7.bb b/meta/recipes-devtools/py=
+thon/python3-click_8.1.7.bb<br />index b75d9108893..8a077f48c7c 100644<br /=
+>--- a/meta/recipes-devtools/python/python3-click_8.1.7.bb<br />+++ b/meta/=
+recipes-devtools/python/python3-click_8.1.7.bb<br />@@ -12,7 +12,10 @@ SRC_=
+URI[sha256sum] =3D "ca9853ad459e787e2192211578cc907e7594e294c7ccc834310722b=
+41b<br /><br />inherit pypi setuptools3 ptest<br /><br />-SRC_URI +=3D "fil=
+e://run-ptest"<br />+SRC_URI +=3D "file://run-ptest \<br />+ file://CVE-202=
+6-7246.patch \<br />+ file://CVE-2026-7246-regression.patch \<br />+ "<br /=
+><br />CVE_PRODUCT =3D "palletsprojects:click"<br /><br />@@ -36,6 +39,7 @@=
+ CLEANBROKEN =3D "1"<br />RDEPENDS:${PN} +=3D "\<br />python3-io \<br />pyt=
+hon3-threading \</blockquote>
+Hello,<br /><br />
+<blockquote>+ python3-shell \</blockquote>
+Why was this added? master does not have this RDEPENDS. If that is an<br />=
+issue to fix, then it should go through master (and other stables)<br />fir=
+st.<br /><br />
+<blockquote>"<br /><br />BBCLASSEXTEND =3D "native nativesdk"</blockquote>
+FYI, the rest of the patch looks good to me. I've not found convincing<br /=
+>reason to ignore the CVE. So the fix is the way forward.<br /><br />Regard=
+s,<br />-- <br />Yoann Congal<br />Smile ECS</blockquote>
+</div>
+
+--87CufiPiVTtIlKyph7qK--
 
