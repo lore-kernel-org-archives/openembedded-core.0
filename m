@@ -1,56 +1,168 @@
-Return-Path: <workjagadeesh@gmail.com>
+Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id C1EC7CA5FDD
-	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 15:25:26 +0000 (UTC)
-Subject: Re: [PATCH 1/2] meta-extsdk-toolchain: Install multilib toolchain files in the eSDK if multilib is enabled
+	by smtp.lore.kernel.org (Postfix) with ESMTP id 2F3B3CA5FED
+	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 16:46:47 +0000 (UTC)
+Received: from mta-64-227.siemens.flowmailer.net (mta-64-227.siemens.flowmailer.net [185.136.64.227])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.8992.1791045996666032684
+ for <openembedded-core@lists.openembedded.org>;
+ Sat, 03 Oct 2026 09:46:38 -0700
+Authentication-Results: mx.groups.io;
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=T5inAlzL;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.227, mailfrom: fm-256628-202610031646321dde9071c2000207f9-z1aald@rts-flowmailer.siemens.com)
+Received: by mta-64-227.siemens.flowmailer.net with ESMTPSA id 202610031646321dde9071c2000207f9
+        for <openembedded-core@lists.openembedded.org>;
+        Sat, 03 Oct 2026 18:46:33 +0200
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
+ d=siemens.com; i=peter.marko@siemens.com;
+ h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
+ bh=W5l++zFQmoL5xjUs+b3I0Z51JhRV4OLSRVazhbuDGqY=;
+ b=T5inAlzLYyzJ3feGsIReXGTg2cALWruEmVenzkg3j5B7RxMZuUfkDNxDks96vpJkM9SmxC
+ +Pq5jVA3Tgml44Gu9s7NIfwIs6DIOuwcrhKuBIcomAvKH/G/yYmHlfSiX4tYW05dPQMvqDPY
+ MZAwBoC4JaC7p7B1JpkbBNfRbVL2wDQJTdgYXg4DOvm7q5h9uIuHxcVc9gLAO6kWzUJB2gC9
+ dcYtlh7Q7+CZszUWx2EJ0I5nZHcOBMn0ZKXNPGEe0tqItsc2U2OvGWL2vzZoZR2dkI62f3Gu
+ g9w7ZUlqKjLiuS7sesuCbXj1XEiYkw3/AwXMIe72YWgl+VFDdqzmZfzA==;
+From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
-From: "Jagadeesh Krishnanjanappa" <workjagadeesh@gmail.com>
-X-Originating-Location: Bengaluru, Karnataka, IN (223.186.59.154)
-X-Originating-Platform: Windows Chrome 154
-User-Agent: GROUPS.IO Web Poster
+Cc: Peter Marko <peter.marko@siemens.com>
+Subject: [PATCH 1/2] popt: patch CVE-2026-18743
+Date: Sat,  3 Oct 2026 18:45:28 +0200
+Message-ID: <20261003164529.1905596-1-peter.marko@siemens.com>
 MIME-Version: 1.0
-Date: Sat, 03 Oct 2026 08:25:18 -0700
-References: <20261001174220.3492439-1-workjagadeesh@gmail.com> <20261001174220.3492439-2-workjagadeesh@gmail.com> <DLU9HE0BMZOU.1Q9F128NAY6NH@bootlin.com> <1458778.1790994217381042169@lists.openembedded.org>
-In-Reply-To: <1458778.1790994217381042169@lists.openembedded.org>
-Message-ID: <1466663.1791041118848735924@lists.openembedded.org>
-Content-Type: multipart/alternative; boundary="GD8wrbdwm1rzQtIE8EX2"
+Content-Transfer-Encoding: 8bit
+X-Flowmailer-Platform: Siemens
+Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 15:25:26 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247163
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 16:46:47 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247164
 
---GD8wrbdwm1rzQtIE8EX2
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
+From: Peter Marko <peter.marko@siemens.com>
 
-I have submitted updated patches (v2) to fix the above errors.
-The functions from utils.bbclass have been moved to utils.py, hence
-reference of multilib_tune_values() should be replaced with oe.utils.all_mu=
-ltilib_tune_values().
+Pick patch referencing this CVE.
 
-Sorry, I could not catch this error as I was at a older code base.
+Signed-off-by: Peter Marko <peter.marko@siemens.com>
+---
+ .../popt/popt/CVE-2026-18743.patch            | 97 +++++++++++++++++++
+ meta/recipes-support/popt/popt_1.19.bb        |  1 +
+ 2 files changed, 98 insertions(+)
+ create mode 100644 meta/recipes-support/popt/popt/CVE-2026-18743.patch
 
-Regards,
-Jagadeesh
-
---GD8wrbdwm1rzQtIE8EX2
-Content-Type: text/html; charset="utf-8"
-Content-Transfer-Encoding: quoted-printable
-
-<div>I have submitted updated patches (v2) to fix the above errors.</div>
-<div>The functions from utils.bbclass have been moved to utils.py, hence</d=
-iv>
-<div>reference of multilib_tune_values() should be replaced with oe.utils.a=
-ll_multilib_tune_values().</div>
-<div>&nbsp;</div>
-<div>Sorry, I could not catch this error as I was at a older code base.</di=
-v>
-<div>&nbsp;</div>
-<div>Regards,</div>
-<div>Jagadeesh</div>
-
---GD8wrbdwm1rzQtIE8EX2--
+diff --git a/meta/recipes-support/popt/popt/CVE-2026-18743.patch b/meta/recipes-support/popt/popt/CVE-2026-18743.patch
+new file mode 100644
+index 0000000000..d57a39b470
+--- /dev/null
++++ b/meta/recipes-support/popt/popt/CVE-2026-18743.patch
+@@ -0,0 +1,97 @@
++From ea2092edba8d6c1a9acd60d9fd7a587c624d6ffe Mon Sep 17 00:00:00 2001
++From: Panu Matilainen <pmatilai@redhat.com>
++Date: Tue, 11 Aug 2026 11:45:44 +0300
++Subject: [PATCH] Fix CVE-2026-18743: buffer overflow(s) in
++ poptConfigFileToString()
++
++Fix the reallocation logic thinko, repeated twice in the function:
++if we need to reallocate, the current maximum value is not interesting
++in any way. Just allocate double the required size instead.
++
++The reproducer test is obviously closely tied to the initial buffer
++size of 480 and wouldn't work with other sizes, but with the current
++default this reliably crashes popt under ASAN prior to this fix.
++Also , the reproducer only exercises the first of these flaws.
++
++Fixes: CVE-2026-18743
++
++CVE: CVE-2026-18743
++Upstream-Status: Backport [https://github.com/rpm-software-management/popt/commit/ea2092edba8d6c1a9acd60d9fd7a587c624d6ffe]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ src/poptparse.c            | 10 ++++------
++ tests/test3-data/05.answer |  5 +++++
++ tests/test3-data/05.input  |  2 ++
++ tests/testit.sh            |  1 +
++ 4 files changed, 12 insertions(+), 6 deletions(-)
++ create mode 100644 tests/test3-data/05.answer
++ create mode 100644 tests/test3-data/05.input
++
++diff --git a/src/poptparse.c b/src/poptparse.c
++index f405081..c2a5435 100644
++--- a/src/poptparse.c
+++++ b/src/poptparse.c
++@@ -139,7 +139,6 @@ int poptConfigFileToString(FILE *fp, char ** argstrp,
++     char * p;
++     char * q;
++     char * x;
++-    size_t t;
++     size_t argvlen = 0;
++     size_t maxlinelen = sizeof(line);
++     size_t linelen;
++@@ -186,9 +185,9 @@ int poptConfigFileToString(FILE *fp, char ** argstrp,
++ 	if (*q == '\0') {
++ 	    /* single command line option (ie, no name=val, just name) */
++ 	    q[-1] = '\0';		/* kill off newline from fgets() call */
++-	    argvlen += (t = (size_t)(q - p)) + (sizeof(" --")-1);
+++	    argvlen += ((size_t)(q - p)) + (sizeof(" --")-1);
++ 	    if (argvlen >= maxargvlen) {
++-		maxargvlen = (t > maxargvlen) ? t*2 : maxargvlen*2;
+++		maxargvlen = argvlen * 2;
++ 		argstr_tmp = realloc(argstr, maxargvlen);
++ 		if (argstr_tmp == NULL) {
++ 		    free(argstr);
++@@ -218,10 +217,9 @@ int poptConfigFileToString(FILE *fp, char ** argstrp,
++ 	    *x = '\0';	/* null out last char if space (including fgets() NL) */
++ 
++ 	/* rest of line accept */
++-	t = (size_t)(x - p);
++-	argvlen += t + (sizeof("' --='")-1);
+++	argvlen += ((size_t)(x - p) + sizeof("' --='")-1);
++ 	if (argvlen >= maxargvlen) {
++-	    maxargvlen = (t > maxargvlen) ? t*2 : maxargvlen*2;
+++	    maxargvlen = argvlen * 2;
++ 	    argstr_tmp = realloc(argstr, maxargvlen);
++ 	    if (argstr_tmp == NULL) {
++ 		free(argstr);
++diff --git a/tests/test3-data/05.answer b/tests/test3-data/05.answer
++new file mode 100644
++index 0000000..37b7fb8
++--- /dev/null
+++++ b/tests/test3-data/05.answer
++@@ -0,0 +1,5 @@
+++single string: ' --aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa --bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+++popt array: size=2
+++'--aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa'
+++'--bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb'
+++
++diff --git a/tests/test3-data/05.input b/tests/test3-data/05.input
++new file mode 100644
++index 0000000..2508292
++--- /dev/null
+++++ b/tests/test3-data/05.input
++@@ -0,0 +1,2 @@
+++aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+++bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb
++diff --git a/tests/testit.sh b/tests/testit.sh
++index 26724d6..4078f51 100755
++--- a/tests/testit.sh
+++++ b/tests/testit.sh
++@@ -179,6 +179,7 @@ fi
++ run_diff test3 "test3 - 1" test3-data/01.input test3-data/01.answer
++ run_diff test3 "test3 - 2" test3-data/02.input test3-data/02.answer
++ run_diff test3 "test3 - 3" test3-data/03.input test3-data/03.answer
+++run_diff test3 "test3 - 5" test3-data/05.input test3-data/05.answer
++ 
++ echo ""
++ echo "Passed."
+diff --git a/meta/recipes-support/popt/popt_1.19.bb b/meta/recipes-support/popt/popt_1.19.bb
+index 525bf553b1..3e9137c156 100644
+--- a/meta/recipes-support/popt/popt_1.19.bb
++++ b/meta/recipes-support/popt/popt_1.19.bb
+@@ -10,6 +10,7 @@ DEPENDS = "virtual/libiconv"
+ 
+ SRC_URI = "http://ftp.rpm.org/popt/releases/popt-1.x/${BP}.tar.gz \
+            file://run-ptest \
++           file://CVE-2026-18743.patch \
+            "
+ SRC_URI[sha256sum] = "c25a4838fc8e4c1c8aacb8bd620edb3084a3d63bf8987fdad3ca2758c63240f9"
+ 
 
