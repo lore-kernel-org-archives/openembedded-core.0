@@ -2,66 +2,340 @@ Return-Path: <peter.marko@siemens.com>
 X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
 	aws-us-west-2-korg-lkml-1.web.codeaurora.org
 Received: from aws-us-west-2-korg-lkml-1.web.codeaurora.org (localhost.localdomain [127.0.0.1])
-	by smtp.lore.kernel.org (Postfix) with ESMTP id AD037CA5FDD
-	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 11:39:05 +0000 (UTC)
-Received: from mta-64-228.siemens.flowmailer.net (mta-64-228.siemens.flowmailer.net [185.136.64.228])
- by mx.groups.io with SMTP id smtpd.msgproc01-g2.4175.1791027537317239377
+	by smtp.lore.kernel.org (Postfix) with ESMTP id F3289CA5FC1
+	for <webhook@archiver.kernel.org>; Sat,  3 Oct 2026 12:34:25 +0000 (UTC)
+Received: from mta-64-226.siemens.flowmailer.net (mta-64-226.siemens.flowmailer.net [185.136.64.226])
+ by mx.groups.io with SMTP id smtpd.msgproc02-g2.4945.1791030858699686245
  for <openembedded-core@lists.openembedded.org>;
- Sat, 03 Oct 2026 04:38:58 -0700
+ Sat, 03 Oct 2026 05:34:20 -0700
 Authentication-Results: mx.groups.io;
- dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=P8jWG/HR;
- spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.228, mailfrom: fm-256628-20261003113854ce330e344b0002073d-coxvvb@rts-flowmailer.siemens.com)
-Received: by mta-64-228.siemens.flowmailer.net with ESMTPSA id 20261003113854ce330e344b0002073d
+ dkim=pass header.i=peter.marko@siemens.com header.s=fm1 header.b=JWm9GfMU;
+ spf=pass (domain: rts-flowmailer.siemens.com, ip: 185.136.64.226, mailfrom: fm-256628-20261003123414611412f352000207a9-8ivpib@rts-flowmailer.siemens.com)
+Received: by mta-64-226.siemens.flowmailer.net with ESMTPSA id 20261003123414611412f352000207a9
         for <openembedded-core@lists.openembedded.org>;
-        Sat, 03 Oct 2026 13:38:54 +0200
+        Sat, 03 Oct 2026 14:34:15 +0200
 DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; s=fm1;
  d=siemens.com; i=peter.marko@siemens.com;
  h=Date:From:Subject:To:Message-ID:MIME-Version:Content-Type:Content-Transfer-Encoding:Cc;
- bh=O0V4052v1TzW0KsMBLdLpOqzf+MQPiFYjmU2FGEekzM=;
- b=P8jWG/HRh8N5TWfoc8HM0Iz1NdJNtf+G6D8Df66cZCWSCNnnC1y1yBqYNht8HZLXfGU/sn
- IQ/xaCuuM70/ZnhI+1N7ilj3rwC5wvs5iPy4qahCYsQOmpF5nHpIf2cfyBTHn1bgi1isICjb
- FzllSaAA6+V6n/6U65jMfjhkPjIiy4ojgq5Lz/xz4JZXmn2AcbLt/nuqdmm1hX8d5ZdR2TwG
- cv7LhmS3foWwEI788YeYrIH19h2v83wJvrXq/OvkQTyJ39OIFnR8JCZfoC/7OWcN+dxv05R2
- joUWWCj48wM04hR4UrTz4fj5lceTqmwyqXpinHX+zGMLsEFfXnuu0HOA==;
+ bh=PE9ZoDw9iYn0R2jkBApIi+7wr1gSnO3m3pTIGmkFTcQ=;
+ b=JWm9GfMUXFxJk1IkwvsWD5HziOfhRzLfoy7BxPw4Ym9iYs77YmCUiZabA+JZBTNE0JjzCN
+ GoOmbjt5uw2HlVFjUJ5yVaB9hL7ggfvBqxzsP3jszXmsSaT+OzEii64pmg8bsRuaEMnX922K
+ VoxynmlHgm4QD0WuWgMZjMEla0ZtQrHq1ZoHXnVrzwmGBdC8vKjUlbyV7Fnn3ccW2kDZ+rXS
+ C4sqVETYI8GUlLgn+JkX4rMLTpWYLIFYBu/cpBvJAfeh424n+elJZPDcELaGKUic9XHaj8nJ
+ khrTX2TCNQPZ/BF6d/wqKwHg1BlqTbwcnNcMb3aTdOi2LtcdAyLSaiBw==;
 From: Peter Marko <peter.marko@siemens.com>
 To: openembedded-core@lists.openembedded.org
 Cc: Peter Marko <peter.marko@siemens.com>
-Subject: [scarthgap][PATCH] dhcpcd: set status for CVE-2026-56116
-Date: Sat,  3 Oct 2026 13:38:37 +0200
-Message-ID: <20261003113837.4008405-1-peter.marko@siemens.com>
+Subject: [scarthgap][PATCH] glib-2.0: patch CVE-2026-15588
+Date: Sat,  3 Oct 2026 14:33:59 +0200
+Message-ID: <20261003123400.235082-1-peter.marko@siemens.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 X-Flowmailer-Platform: Siemens
 Feedback-ID: 519:519-256628:519-21489:flowmailer
 List-Id: <openembedded-core.lists.openembedded.org>
 X-Webhook-Received: from 45-33-107-173.ip.linodeusercontent.com [45.33.107.173] by
  aws-us-west-2-korg-lkml-1.web.codeaurora.org with HTTPS for
- <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 11:39:05 -0000
-X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247157
+ <openembedded-core@lists.openembedded.org>; Sat, 03 Oct 2026 12:34:25 -0000
+X-Groupsio-URL: https://lists.openembedded.org/g/openembedded-core/message/247158
 
 From: Peter Marko <peter.marko@siemens.com>
 
-Patch [1] mentioned as commit fixing this CVE in NVD or Debian reports
-is fixing code adding new feature (route advertisment processing) which
-is also mentioned in the CVE descripiton.
-That was introduced in commit [2] which is v10.0.7 (>10.0.6)
+Pick patch per [1].
 
-[1] https://github.com/NetworkConfiguration/dhcpcd/commit/708b4a56bae080a5b18c2e0c4c6fbe103131a2b0
-[2] https://github.com/NetworkConfiguration/dhcpcd/commit/f1cf924ad691bc1e6bf33013407fbf838fa40fbe
+[1] https://security-tracker.debian.org/tracker/CVE-2026-15588
 
 Signed-off-by: Peter Marko <peter.marko@siemens.com>
 ---
- meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb | 2 ++
- 1 file changed, 2 insertions(+)
+ .../glib-2.0/glib-2.0/CVE-2026-15588.patch    | 267 ++++++++++++++++++
+ meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb |   1 +
+ 2 files changed, 268 insertions(+)
+ create mode 100644 meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch
 
-diff --git a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb
-index e6854e1c7f2..c32db0adf5d 100644
---- a/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb
-+++ b/meta/recipes-connectivity/dhcpcd/dhcpcd_10.0.6.bb
-@@ -62,3 +62,5 @@ do_install:append () {
- }
- 
- FILES:${PN}-dbg += "${libdir}/dhcpcd/dev/.debug"
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch
+new file mode 100644
+index 00000000000..e5ff0e87d36
+--- /dev/null
++++ b/meta/recipes-core/glib-2.0/glib-2.0/CVE-2026-15588.patch
+@@ -0,0 +1,267 @@
++From 4235f7b42ba51d6fdb4abd7c4276031802f39834 Mon Sep 17 00:00:00 2001
++From: Philip Withnall <pwithnall@gnome.org>
++Date: Sat, 4 Jul 2026 18:13:08 +0100
++Subject: [PATCH] gdbusauth: Limit length of lines read from client
++MIME-Version: 1.0
++Content-Type: text/plain; charset=UTF-8
++Content-Transfer-Encoding: 8bit
 +
-+CVE_STATUS[CVE-2026-56116] = "fixed-version: vulnerability was only introduced in v10.0.7"
++The client isn’t trusted at this point, and there was previously nothing
++limiting how long a line `GDBusAuth` would read. So an untrusted client
++could exhaust the server’s memory by sending anything except `\r\n`.
++
++Fix that by applying a reasonably length limit when reading a line, and
++add a unit test.
++
++Spotted by Gitee Codepecker Lab.
++
++Signed-off-by: Philip Withnall <pwithnall@gnome.org>
++Fixes: #3985
++
++CVE: CVE-2026-15588
++Upstream-Status: Backport [https://gitlab.gnome.org/GNOME/glib/-/commit/4235f7b42ba51d6fdb4abd7c4276031802f39834]
++Signed-off-by: Peter Marko <peter.marko@siemens.com>
++---
++ gio/gdbusauth.c        |  44 +++++++++++++++
++ gio/tests/gdbus-auth.c | 119 +++++++++++++++++++++++++++++++++++++++++
++ 2 files changed, 163 insertions(+)
++
++diff --git a/gio/gdbusauth.c b/gio/gdbusauth.c
++index 9e31c8318..a5938c969 100644
++--- a/gio/gdbusauth.c
+++++ b/gio/gdbusauth.c
++@@ -262,6 +262,21 @@ find_mech_by_name (GDBusAuth *auth,
++   return ret;
++ }
++ 
+++static size_t
+++get_longest_mechanism_name_length (GDBusAuth *auth)
+++{
+++  size_t len = 0;
+++
+++  for (GList *l = auth->priv->available_mechanisms; l != NULL; l = l->next)
+++    {
+++      Mechanism *m = l->data;
+++
+++      len = MAX (len, strlen (m->name));
+++    }
+++
+++  return len;
+++}
+++
++ GDBusAuth  *
++ _g_dbus_auth_new (GIOStream *stream)
++ {
++@@ -270,6 +285,20 @@ _g_dbus_auth_new (GIOStream *stream)
++                        NULL);
++ }
++ 
+++/* Arbitrarily chosen limit on the length of a DATA command payload, to prevent
+++ * unbounded reads from malicious clients.
+++ *
+++ *  - The ANONYMOUS mechanism doesn’t use DATA.
+++ *  - The EXTERNAL mechanism just uses it to transfer a decimal-encoded UID.
+++ *  - The DBUS_COOKIE_SHA1 mechanism transfers a challenge and a SHA1 hash. The
+++ *    hash is bounded in length, but the challenge is not, so could potentially
+++ *    hit this limit. It doesn’t seem unreasonable to bound the challenge to
+++ *    ~4KB though. GDBus itself generates a 16 byte challenge.
+++ *
+++ * See https://dbus.freedesktop.org/doc/dbus-specification.html#auth-command-data
+++ */
+++#define MAX_DATA_PAYLOAD_LENGTH_BYTES 4096
+++
++ /* ---------------------------------------------------------------------------------------------------- */
++ /* like g_data_input_stream_read_line() but sets error if there's no content to read */
++ static gchar *
++@@ -307,6 +336,7 @@ _my_g_data_input_stream_read_line (GDataInputStream  *dis,
++  */
++ static gchar *
++ _my_g_input_stream_read_line_safe (GInputStream  *i,
+++                                   size_t         max_line_length,
++                                    gsize         *out_line_length,
++                                    GCancellable  *cancellable,
++                                    GError       **error)
++@@ -316,11 +346,22 @@ _my_g_input_stream_read_line_safe (GInputStream  *i,
++   gssize num_read;
++   gboolean last_was_cr;
++ 
+++  g_assert (max_line_length <= SIZE_MAX - 2);
+++
++   str = g_string_new (NULL);
++ 
++   last_was_cr = FALSE;
++   while (TRUE)
++     {
+++      if (str->len >= max_line_length + 2  /* allow for \r\n */)
+++        {
+++          g_set_error_literal (error,
+++                               G_IO_ERROR,
+++                               G_IO_ERROR_FAILED,
+++                               _("Malformed D-Bus authentication line"));
+++          goto fail;
+++        }
+++
++       num_read = g_input_stream_read (i,
++                                       &c,
++                                       1,
++@@ -1073,6 +1114,7 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
++         case SERVER_STATE_WAITING_FOR_AUTH:
++           debug_print ("SERVER: WaitingForAuth");
++           line = _my_g_input_stream_read_line_safe (g_io_stream_get_input_stream (auth->priv->stream),
+++                                                    strlen ("AUTH ") + get_longest_mechanism_name_length (auth) + strlen (" ") + MAX_DATA_PAYLOAD_LENGTH_BYTES,
++                                                     &line_length,
++                                                     cancellable,
++                                                     error);
++@@ -1294,6 +1336,7 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
++         case SERVER_STATE_WAITING_FOR_DATA:
++           debug_print ("SERVER: WaitingForData");
++           line = _my_g_input_stream_read_line_safe (g_io_stream_get_input_stream (auth->priv->stream),
+++                                                    strlen ("DATA ") + MAX_DATA_PAYLOAD_LENGTH_BYTES,
++                                                     &line_length,
++                                                     cancellable,
++                                                     error);
++@@ -1336,6 +1379,7 @@ _g_dbus_auth_run_server (GDBusAuth              *auth,
++         case SERVER_STATE_WAITING_FOR_BEGIN:
++           debug_print ("SERVER: WaitingForBegin");
++           line = _my_g_input_stream_read_line_safe (g_io_stream_get_input_stream (auth->priv->stream),
+++                                                    MAX (strlen ("BEGIN"), strlen ("NEGOTIATE_UNIX_FD")),
++                                                     &line_length,
++                                                     cancellable,
++                                                     error);
++diff --git a/gio/tests/gdbus-auth.c b/gio/tests/gdbus-auth.c
++index 657571be3..3323d6eeb 100644
++--- a/gio/tests/gdbus-auth.c
+++++ b/gio/tests/gdbus-auth.c
++@@ -263,6 +263,124 @@ temp_dbus_keyrings_teardown (void)
++   g_unsetenv ("G_DBUS_COOKIE_SHA1_KEYRING_DIR_IGNORE_PERMISSION");
++ }
++ 
+++static void
+++async_result_cb (GObject      *obj,
+++                 GAsyncResult *result,
+++                 void         *user_data)
+++{
+++  GAsyncResult **result_out = user_data;
+++
+++  g_assert (result_out != NULL);
+++  g_assert (*result_out == NULL);
+++
+++  *result_out = g_object_ref (result);
+++  g_main_context_wakeup (g_main_context_get_thread_default ());
+++}
+++
+++static gboolean
+++server_new_connection_unexpected_cb (GDBusServer     *server,
+++                                     GDBusConnection *connection,
+++                                     void            *user_data)
+++{
+++  g_assert_not_reached ();
+++  return FALSE;
+++}
+++
+++static void
+++test_auth_server_read_limit (void)
+++{
+++  GDBusServer *server = NULL;
+++  unsigned long new_connection_id = 0;
+++  const char *server_address;
+++  GIOStream *client_stream = NULL;
+++  GOutputStream *client_output_stream;
+++  GInputStream *client_input_stream;
+++  GAsyncResult *result = NULL;
+++  char *write_buffer = NULL;
+++  char read_buffer[100];
+++  ssize_t read_len;
+++  size_t bytes_written;
+++  GError *local_error = NULL;
+++
+++  g_test_summary ("Test that GDBusServer limits the lengths of reads it does during auth from a client");
+++  g_test_bug ("https://gitlab.gnome.org/GNOME/glib/-/issues/3985");
+++
+++  server = server_new_for_mechanism (NULL);
+++
+++  new_connection_id = g_signal_connect (server,
+++                                        "new-connection",
+++                                        G_CALLBACK (server_new_connection_unexpected_cb),
+++                                        NULL);
+++  server_address = g_dbus_server_get_client_address (server);
+++  g_dbus_server_start (server);
+++
+++  /* Start connecting as a client */
+++  g_dbus_address_get_stream (server_address, NULL, async_result_cb, &result);
+++
+++  while (result == NULL)
+++    g_main_context_iteration (NULL, TRUE);
+++
+++  client_stream = g_dbus_address_get_stream_finish (result, NULL, &local_error);
+++  g_assert_no_error (local_error);
+++  g_clear_object (&result);
+++
+++  /* Send an over-long AUTH line, maliciously */
+++  client_output_stream = g_io_stream_get_output_stream (client_stream);
+++  client_input_stream = g_io_stream_get_input_stream (client_stream);
+++
+++  write_buffer = g_strdup_printf ("AUTH DBUS_COOKIE_SHA1 context%0*d 123 456\r\n", 5000, 0);
+++
+++  g_output_stream_write_all_async (client_output_stream,
+++                                   write_buffer,
+++                                   strlen (write_buffer),
+++                                   G_PRIORITY_DEFAULT,
+++                                   NULL,
+++                                   async_result_cb,
+++                                   &result);
+++
+++  while (result == NULL)
+++    g_main_context_iteration (NULL, TRUE);
+++
+++  g_output_stream_write_all_finish (client_output_stream, result, &bytes_written, &local_error);
+++  g_assert_no_error (local_error);
+++  g_assert_cmpuint (bytes_written, ==, strlen (write_buffer));
+++  g_clear_object (&result);
+++
+++  g_clear_pointer (&write_buffer, g_free);
+++
+++  /* Authentication should have been rejected, so reading or writing the stream
+++   * should now fail. */
+++  read_len = g_input_stream_read (client_input_stream,
+++                                  read_buffer,
+++                                  sizeof (read_buffer),
+++                                  NULL,
+++                                  &local_error);
+++  g_assert_error (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_CLOSED);
+++  g_assert_cmpint (read_len, <, 0);
+++  g_clear_error (&local_error);
+++
+++  write_buffer = g_strdup_printf ("AUTH\r\n");
+++
+++  g_output_stream_write_all (client_output_stream,
+++                             write_buffer,
+++                             strlen (write_buffer),
+++                             &bytes_written,
+++                             NULL,
+++                             &local_error);
+++  g_assert_error (local_error, G_IO_ERROR, G_IO_ERROR_CONNECTION_CLOSED);
+++  g_assert_cmpuint (bytes_written, ==, 0);
+++  g_clear_error (&local_error);
+++
+++  g_clear_pointer (&write_buffer, g_free);
+++
+++  /* Cleanup */
+++  g_clear_object (&client_stream);
+++  g_dbus_server_stop (server);
+++
+++  g_clear_signal_handler (&new_connection_id, server);
+++  g_clear_object (&server);
+++}
+++
++ /* ---------------------------------------------------------------------------------------------------- */
++ 
++ int
++@@ -282,6 +400,7 @@ main (int   argc,
++   g_test_add_func ("/gdbus/auth/server/ANONYMOUS",        auth_server_anonymous);
++   g_test_add_func ("/gdbus/auth/server/EXTERNAL",         auth_server_external);
++   g_test_add_func ("/gdbus/auth/server/DBUS_COOKIE_SHA1", auth_server_dbus_cookie_sha1);
+++  g_test_add_func ("/gdbus/auth/server/read-limit", test_auth_server_read_limit);
++ 
++   /* TODO: we currently don't have tests for
++    *
+diff --git a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+index 70b0b74e881..62f173739cf 100644
+--- a/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
++++ b/meta/recipes-core/glib-2.0/glib-2.0_2.78.6.bb
+@@ -58,6 +58,7 @@ SRC_URI = "${GNOME_MIRROR}/glib/${SHRT_VER}/glib-${PV}.tar.xz \
+            file://CVE-2026-58015_p2.patch \
+            file://CVE-2026-58015_p3.patch \
+            file://CVE-2026-58015_p4.patch \
++           file://CVE-2026-15588.patch \
+            "
+ SRC_URI:append:class-native = " file://relocate-modules.patch \
+                                 file://0001-meson.build-do-not-enable-pidfd-features-on-native-g.patch \
 
